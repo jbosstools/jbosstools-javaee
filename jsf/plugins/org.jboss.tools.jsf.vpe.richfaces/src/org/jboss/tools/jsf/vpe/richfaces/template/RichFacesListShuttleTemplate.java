@@ -361,8 +361,8 @@ public class RichFacesListShuttleTemplate extends VpeAbstractTemplate {
 		// ComponentUtil.copyAttributes(sourceNode, basicTable);
 
 		basicTable.setAttribute(HTML.ATTR_CLASS, styleClasses.get("style")); //$NON-NLS-1$
-		basicTable.setAttribute(HTML.ATTR_STYLE, sourceElement
-				.getAttribute(RichFaces.ATTR_STYLE));
+		String styleAttr = sourceElement.hasAttribute(RichFaces.ATTR_STYLE) ? sourceElement.getAttribute(RichFaces.ATTR_STYLE) : null;
+		basicTable.setAttribute(HTML.ATTR_STYLE, styleAttr);
 
 		VpeCreationData creationData = new VpeCreationData(basicTable);
 		creationData.addChildrenInfo(new VpeChildrenInfo(null));
@@ -699,11 +699,10 @@ public class RichFacesListShuttleTemplate extends VpeAbstractTemplate {
 				.getAttribute(RichFaces.ATTR_SHOW_BUTTON_LABELS));
 
 		for (String key : labelsKeys) {
-
-			String label = sourceElement.getAttribute(key + "Label"); //$NON-NLS-1$
-
-			if (label != null)
+			if (sourceElement.hasAttribute(key + "Label")) {
+				String label = sourceElement.getAttribute(key + "Label"); //$NON-NLS-1$
 				labels.put(key, label);
+			}
 			else
 				labels.put(key, defaultLabels.get(key));
 		}
@@ -711,11 +710,11 @@ public class RichFacesListShuttleTemplate extends VpeAbstractTemplate {
 		// prepare style classes
 		Set<String> styleClassesKeys = defaultStyleClasses.keySet();
 		for (String key : styleClassesKeys) {
-
-			String styleClass = sourceElement.getAttribute(key + "Class"); //$NON-NLS-1$
-			if (styleClass != null)
+			if (sourceElement.hasAttribute(key + "Class")) {
+				String styleClass = sourceElement.getAttribute(key + "Class"); //$NON-NLS-1$
 				styleClasses.put(key, defaultStyleClasses.get(key) + " " //$NON-NLS-1$
 						+ styleClass);
+			}
 			else
 				styleClasses.put(key, defaultStyleClasses.get(key));
 		}
@@ -737,20 +736,18 @@ public class RichFacesListShuttleTemplate extends VpeAbstractTemplate {
 			}
 
 		}
-
-		// get rowClass
-		String rowClasses = sourceElement
-				.getAttribute(RichFaces.ATTR_ROW_CLASSES);
-
-		// if this attribue exist then
-		if (rowClasses != null) {
+		
+		// if attribue exist then
+		if (sourceElement.hasAttribute(RichFaces.ATTR_ROW_CLASSES)) {
+			// get rowClass
+			String rowClasses = sourceElement.getAttribute(RichFaces.ATTR_ROW_CLASSES);
 			rowClass = rowClasses.split("[,;]")[0]; //$NON-NLS-1$
 		}
-
-		String columnClassesAtribute = sourceElement
-				.getAttribute(RichFaces.ATTR_COLUMN_CLASSES);
-		if (columnClassesAtribute != null)
+		
+		if (sourceElement.hasAttribute(RichFaces.ATTR_COLUMN_CLASSES)) {
+			String columnClassesAtribute = sourceElement.getAttribute(RichFaces.ATTR_COLUMN_CLASSES);
 			columnClasses = Arrays.asList(columnClassesAtribute.split("[,;]")); //$NON-NLS-1$
+		}
 		else
 			columnClasses = new ArrayList<String>();
 
@@ -780,36 +777,36 @@ public class RichFacesListShuttleTemplate extends VpeAbstractTemplate {
 
 		// prepare buttons attributes
 		sourceButtonsAlign = sourceElement
-				.getAttribute(ATTR_MOVE_CONTROLS_VERTICAL_ALIGN) != null ? sourceElement
+				.hasAttribute(ATTR_MOVE_CONTROLS_VERTICAL_ALIGN) ? sourceElement
 				.getAttribute(ATTR_MOVE_CONTROLS_VERTICAL_ALIGN)
 				: DEFAULT_BUTTON_ALIGN;
 
 		targetButtonsAlign = sourceElement
-				.getAttribute(ATTR_ORDER_CONTROLS_VERTICAL_ALIGN) != null ? sourceElement
+				.hasAttribute(ATTR_ORDER_CONTROLS_VERTICAL_ALIGN) ? sourceElement
 				.getAttribute(ATTR_ORDER_CONTROLS_VERTICAL_ALIGN)
 				: DEFAULT_BUTTON_ALIGN;
 
 		// prepare lists attributes
 
-		listsHeight = sourceElement.getAttribute(ATTR_LISTS_HEIGHT);
-		if (listsHeight == null) {
-			listsHeight = DEFAULT_LIST_HEIGHT;
+		if (sourceElement.hasAttribute(ATTR_LISTS_HEIGHT)) {
+			String listsHeightVal = sourceElement.getAttribute(ATTR_LISTS_HEIGHT);
+			listsHeight = VpeStyleUtil.addPxIfNecessary(listsHeightVal);			
 		} else {
-			listsHeight = VpeStyleUtil.addPxIfNecessary(listsHeight);
+			listsHeight = DEFAULT_LIST_HEIGHT;
 		}
 
-		sourceListsWidth = sourceElement.getAttribute(ATTR_SOURCE_LIST_WIDTH);
-		if (sourceListsWidth == null) {
-			sourceListsWidth = DEFAULT_LIST_WIDTH;
+		if (sourceElement.hasAttribute(ATTR_SOURCE_LIST_WIDTH)) {
+			String listWidthVal = sourceElement.getAttribute(ATTR_SOURCE_LIST_WIDTH);
+			sourceListsWidth = VpeStyleUtil.addPxIfNecessary(listWidthVal);			
 		} else {
-			sourceListsWidth = VpeStyleUtil.addPxIfNecessary(sourceListsWidth);
+			sourceListsWidth = DEFAULT_LIST_WIDTH;			
 		}
-		
-		targetListsWidth = sourceElement.getAttribute(ATTR_TARGET_LIST_WIDTH);		
-		if (targetListsWidth == null) {
-			targetListsWidth = DEFAULT_LIST_WIDTH;
+						
+		if (sourceElement.hasAttribute(ATTR_TARGET_LIST_WIDTH)) {
+			String listWidthVal = sourceElement.getAttribute(ATTR_TARGET_LIST_WIDTH);
+			targetListsWidth = VpeStyleUtil.addPxIfNecessary(listWidthVal);
 		} else {
-			targetListsWidth = VpeStyleUtil.addPxIfNecessary(targetListsWidth);
+			targetListsWidth = DEFAULT_LIST_WIDTH;			
 		}
 	}
 
@@ -904,7 +901,7 @@ public class RichFacesListShuttleTemplate extends VpeAbstractTemplate {
 				String headerClass = styleClasses.get("headerCell"); //$NON-NLS-1$
 
 				if ((child instanceof Element)
-						&& (((Element) child).getAttribute("headerClass")) != null) { //$NON-NLS-1$
+						&& ((Element) child).hasAttribute("headerClass")) { //$NON-NLS-1$
 					headerClass += " " //$NON-NLS-1$
 							+ ((Element) child).getAttribute("headerClass"); //$NON-NLS-1$
 				}

@@ -108,9 +108,9 @@ public class RichFacesColumnTemplate extends VpeAbstractTemplate {
 		} else {
 			columnClass = "dr-table-cell rich-table-cell"; //$NON-NLS-1$
 		}
-		
-		String styleClass = sourceElement.getAttribute(RichFaces.ATTR_STYLE_CLASS);
-		if (styleClass != null) {
+				
+		if (sourceElement.hasAttribute(RichFaces.ATTR_STYLE_CLASS)) {
+			String styleClass = sourceElement.getAttribute(RichFaces.ATTR_STYLE_CLASS);
 			columnClass += " " + styleClass; //$NON-NLS-1$
 		}
 		return columnClass;
@@ -172,11 +172,10 @@ public class RichFacesColumnTemplate extends VpeAbstractTemplate {
 	 * @return <code>IMG</code> tag if it is necessary, <code>null</code> otherwise */
 	public static nsIDOMElement getHeaderIcon(VpePageContext pageContext, Element column, nsIDOMDocument visualDocument) {
 	    String sortable = ComponentUtil.getAttribute(column, RichFaces.ATTR_SORTABLE);
-	    String sortBy = column.getAttribute(RichFaces.ATTR_SORT_BY);
-	    if (RichFaces.VALUE_TRUE.equals(sortable) || sortBy != null) {
-			nsIDOMElement img = visualDocument.createElement(HTML.TAG_IMG);
-			String sortIcon = column.getAttribute(RichFaces.ATTR_SORT_ICON);
-			if (sortIcon != null) {
+	    if (RichFaces.VALUE_TRUE.equals(sortable) || column.hasAttribute(RichFaces.ATTR_SORT_BY)) {
+			nsIDOMElement img = visualDocument.createElement(HTML.TAG_IMG);			
+			if (column.hasAttribute(RichFaces.ATTR_SORT_ICON)) {
+				String sortIcon = column.getAttribute(RichFaces.ATTR_SORT_ICON);
 				sortIcon = VpeStyleUtil.addFullPathToImgSrc(sortIcon, pageContext, true);
 				sortIcon = sortIcon.replace('\\', '/');
 	    		img.setAttribute(HTML.ATTR_SRC, sortIcon);            

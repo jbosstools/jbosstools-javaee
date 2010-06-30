@@ -618,9 +618,9 @@ public class RichFacesCalendarTemplate extends VpeAbstractTemplate implements
 		inputStyle = DEFAULT_INPUT_STYLE + Constants.SEMICOLON
 				+ sourceElement.getAttribute(RichFaces.ATTR_INPUT_STYLE);
 
+		String inputClassAttrVal = sourceElement.hasAttribute(RichFaces.ATTR_INPUT_CLASS) ? sourceElement.getAttribute(RichFaces.ATTR_INPUT_CLASS) : null;
 		// inputClass
-		inputClass = CSS_R_C_INPUT + Constants.WHITE_SPACE
-				+ sourceElement.getAttribute(RichFaces.ATTR_INPUT_CLASS);
+		inputClass = CSS_R_C_INPUT + Constants.WHITE_SPACE + inputClassAttrVal;
 
 		// inputSize
 		inputSize = sourceElement.hasAttribute(RichFaces.ATTR_INPUT_SIZE) ? sourceElement
@@ -662,7 +662,7 @@ public class RichFacesCalendarTemplate extends VpeAbstractTemplate implements
 		buttonIcon = buttonIcon.replace('\\', '/');
 
 		// buttonClass
-		buttonClass = sourceElement.getAttribute(RichFaces.ATTR_BUTTON_CLASS);
+		buttonClass = sourceElement.hasAttribute(RichFaces.ATTR_BUTTON_CLASS) ? sourceElement.getAttribute(RichFaces.ATTR_BUTTON_CLASS) : null;
 
 		// showWeekDaysBar
 		showWeekDaysBar = (!sourceElement

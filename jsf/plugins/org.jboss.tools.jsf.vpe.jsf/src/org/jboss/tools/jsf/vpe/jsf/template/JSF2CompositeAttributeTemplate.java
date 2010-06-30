@@ -30,14 +30,14 @@ public class JSF2CompositeAttributeTemplate extends VpeAbstractTemplate{
 			nsIDOMDocument visualDocument) {
 		Element sourceElement = (Element) sourceNode;
 		String name = sourceElement.getAttribute(JSF.ATTR_NAME);
-		String defaultValue = sourceElement.getAttribute(JSF.ATTR_DEFAULT);
 		//we should register attributes only if we process this as custom component, but not when we open component definition page
 		if(!pageContext.getVisualBuilder().isCurrentMainDocument()){
 			String compositionCustomElementAttributeKey = Jsf2CustomComponentTemplate.JSF2_CUSTOM_COMPONENT_PARAMETR_KEY +name;
 			if(pageContext.getCustomElementsAttributes().containsKey(compositionCustomElementAttributeKey)){				
 				pageContext.addAttributeInCustomElementsMap(JSF.CUSTOM_COMPONENT_ATTR_PREFIX+name,
 						pageContext.getCustomElementsAttributes().get(compositionCustomElementAttributeKey));
-			}else if(defaultValue!=null) {
+			}else if(sourceElement.hasAttribute(JSF.ATTR_DEFAULT)) {
+				String defaultValue = sourceElement.getAttribute(JSF.ATTR_DEFAULT);
 				pageContext.addAttributeInCustomElementsMap(JSF.CUSTOM_COMPONENT_ATTR_PREFIX+name, defaultValue);
 			}
 		}

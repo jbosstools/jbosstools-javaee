@@ -493,11 +493,7 @@ public class ComponentUtil {
      * @return the attribute
      */
     public static String getAttribute(Element sourceElement, String attributeName, String defaultValue) {
-        String attribute = sourceElement.getAttribute(attributeName);
-        if (attribute == null) {
-            attribute = defaultValue;
-        }
-        return attribute;
+        return sourceElement.hasAttribute(attributeName) ? sourceElement.getAttribute(attributeName) : defaultValue;
     }
 
     /**
@@ -651,7 +647,7 @@ public class ComponentUtil {
     public static void correctAttribute(Element sourceNode, nsIDOMElement targetNode,
     		String sourceAttrName, String targetAttrName,
             String prefValue, String defValue) {
-        String attrValue = ((Element) sourceNode).getAttribute(sourceAttrName);
+        String attrValue = sourceNode.hasAttribute(sourceAttrName) ? sourceNode.getAttribute(sourceAttrName) : null;
         if (prefValue != null && prefValue.trim().length() > 0 && attrValue != null) {
             attrValue = prefValue.trim() + Constants.WHITE_SPACE + attrValue;
         }

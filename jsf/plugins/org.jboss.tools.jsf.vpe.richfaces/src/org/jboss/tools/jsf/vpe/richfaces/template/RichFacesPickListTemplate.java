@@ -299,7 +299,8 @@ public class RichFacesPickListTemplate extends VpeAbstractTemplate {
         creationData.addChildrenInfo(new VpeChildrenInfo(null));
         
         rootTable.setAttribute(HTML.ATTR_CLASS, styleClasses.get(RichFaces.ATTR_STYLE));
-        rootTable.setAttribute(HTML.ATTR_STYLE, sourceElement.getAttribute(RichFaces.ATTR_STYLE));
+        String attrStyleVal = sourceElement.hasAttribute(RichFaces.ATTR_STYLE) ? sourceElement.getAttribute(RichFaces.ATTR_STYLE) : null;
+        rootTable.setAttribute(HTML.ATTR_STYLE, attrStyleVal);
 
         // create source box
         final nsIDOMElement sourceBoxTd = visualDocument.createElement(HTML.TAG_TD);
@@ -588,10 +589,8 @@ public class RichFacesPickListTemplate extends VpeAbstractTemplate {
         // prepare labels
 
         for (LabelKey key : LabelKey.values()) {
-
-            String label = sourceElement.getAttribute(key.getValue() + LABEL_SUFFIX); 
-
-            if (label != null) {
+            if (sourceElement.hasAttribute(key.getValue() + LABEL_SUFFIX)) {
+            	String label = sourceElement.getAttribute(key.getValue() + LABEL_SUFFIX);
                 labels.put(key.getValue(), label);
             } else {
                 labels.put(key.getValue(), defaultLabels.get(key));
@@ -609,7 +608,7 @@ public class RichFacesPickListTemplate extends VpeAbstractTemplate {
         isShowButtonLabels = !Boolean.FALSE.toString().equalsIgnoreCase(sourceElement 
                 .getAttribute(ATTR_SHOW_BUTTON_LABELS));
         // prepare buttons attributes
-        moveControlsAlign = sourceElement.getAttribute(ATTR_MOVE_CONTROLS_VERTICAL_ALIGN) != null ? sourceElement
+        moveControlsAlign = sourceElement.hasAttribute(ATTR_MOVE_CONTROLS_VERTICAL_ALIGN) ? sourceElement
                 .getAttribute(ATTR_MOVE_CONTROLS_VERTICAL_ALIGN) : DEFAULT_BUTTON_ALIGN;
 
         // prepare lists attributes
@@ -644,10 +643,9 @@ public class RichFacesPickListTemplate extends VpeAbstractTemplate {
     private void prepareStyleClasses(Element sourceElement) {
         // prepare style classes
         Set<String> styleClassesKeys = defaultStyleClasses.keySet();
-        for (String key : styleClassesKeys) {
-
-            String styleClass = sourceElement.getAttribute(key + CLASS_SUFFIX); 
-            if (styleClass != null) {
+        for (String key : styleClassesKeys) {             
+            if (sourceElement.hasAttribute(key + CLASS_SUFFIX)) {
+            	String styleClass = sourceElement.getAttribute(key + CLASS_SUFFIX);
                 styleClasses.put(key, defaultStyleClasses.get(key) + " " //$NON-NLS-1$
                         + styleClass);
             } else {

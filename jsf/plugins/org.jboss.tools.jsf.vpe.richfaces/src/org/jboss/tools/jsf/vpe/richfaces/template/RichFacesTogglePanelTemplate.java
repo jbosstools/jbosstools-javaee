@@ -77,9 +77,9 @@ public class RichFacesTogglePanelTemplate extends VpeAbstractTemplate {
 			Node child = children.item(i);
 			
 			if (child instanceof Element && child.getNodeName().endsWith(":facet")) { //$NON-NLS-1$
-				Element facet = (Element)child;
-				String name = ((Element)facet).getAttribute("name"); //$NON-NLS-1$
-				if (name != null) {
+				Element facet = (Element)child;				
+				if (facet.hasAttribute("name")) {
+					String name = facet.getAttribute("name"); //$NON-NLS-1$
 					states.put(name, facet);
 				}
 			}
@@ -88,10 +88,10 @@ public class RichFacesTogglePanelTemplate extends VpeAbstractTemplate {
 	}
 	
 	private String getInitialState(Element sourceElement) {
-		String initialState = sourceElement.getAttribute("initialState"); //$NON-NLS-1$
-		
-		String stateOrder = sourceElement.getAttribute("stateOrder"); //$NON-NLS-1$
-		if(stateOrder!=null) {
+		String initialState = sourceElement.hasAttribute("initialState") ? sourceElement.getAttribute("initialState") : null; //$NON-NLS-1$
+				
+		if(sourceElement.hasAttribute("stateOrder")) {
+			String stateOrder = sourceElement.getAttribute("stateOrder"); //$NON-NLS-1$
 			StringTokenizer st = new StringTokenizer(stateOrder.trim(), ",", false); //$NON-NLS-1$
 			String firstState = null;
 			while(st.hasMoreElements()) {
@@ -119,8 +119,7 @@ public class RichFacesTogglePanelTemplate extends VpeAbstractTemplate {
 	
 	private String getActiveState(Element sourceElement) {
 		String activeStateStr;
-		String stateOrder = sourceElement.getAttribute("stateOrder"); //$NON-NLS-1$
-		if(null == stateOrder)  return null;
+		if(!sourceElement.hasAttribute("stateOrder"))  return null;
 
 		activeStateStr = (String)toggleMap.get(sourceElement);
 
@@ -131,9 +130,9 @@ public class RichFacesTogglePanelTemplate extends VpeAbstractTemplate {
 		return activeStateStr;
 	}
 
-	private String getNextState(Element sourceElement, String toggleId) {
+	private String getNextState(Element sourceElement, String toggleId) {		
+		if(!sourceElement.hasAttribute("stateOrder"))  return null;
 		String stateOrder = sourceElement.getAttribute("stateOrder"); //$NON-NLS-1$
-		if(null == stateOrder)  return null;
 		String activeState = getActiveState(sourceElement);
 		
 		StringTokenizer st = new StringTokenizer(stateOrder.trim(), ",", false); //$NON-NLS-1$
