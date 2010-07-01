@@ -334,7 +334,7 @@ public class JBIDE788Test extends VpeTest {
 			part.getSourceEditor().getTextViewer().getTextWidget()
 			        .replaceTextRange(position, partOfString.length(), ""); //$NON-NLS-1$
 			assertNotNull(results);
-			assertTrue("Number of ca proposals shouldn't be a null",results.length>0); //$NON-NLS-1$
+			assertTrue("Number of ca proposals shouldn't be a 0",results.length>0); //$NON-NLS-1$
 			if (isCheck) {
 			    for (int i = 0; i < results.length; i++) {
 			    	if(results[i] instanceof AutoContentAssistantProposal ) {
