@@ -12,10 +12,6 @@ import junit.framework.TestSuite;
 
 public class InjectedPointHyperlinkDetectorTest extends HyperlinkDetectorTest {
 
-	public static Test suite() {
-		return new TestSuite(InjectedPointHyperlinkDetectorTest.class);
-	}
-
 	public void testInjectedPointHyperlinkDetector() throws Exception {
 		ArrayList<Region> regionList = new ArrayList<Region>();
 		regionList.add(new Region(115, 6)); // Inject

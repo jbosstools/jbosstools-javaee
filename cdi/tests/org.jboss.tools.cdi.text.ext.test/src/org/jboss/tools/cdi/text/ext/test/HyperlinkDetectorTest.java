@@ -6,6 +6,7 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.jdt.internal.ui.javaeditor.JavaEditor;
 import org.eclipse.jdt.internal.ui.text.JavaWordFinder;
+import org.eclipse.jface.text.FindReplaceDocumentAdapter;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.Region;
@@ -55,7 +56,7 @@ public class HyperlinkDetectorTest  extends TCKTest {
 		}
 
 		IDocument document = documentProvider.getDocument(editorInput);
-
+		
 		assertNotNull("The document for the file \"" + fileName + "\" is not loaded", document);
 
 		int expected = 0;
@@ -84,8 +85,10 @@ public class HyperlinkDetectorTest  extends TCKTest {
 				}
 			} else {
 				for(Region region : regionList){
-					if(i >= region.getOffset() && i <= region.getOffset()+region.getLength())
+					if(i >= region.getOffset() && i <= region.getOffset()+region.getLength()) {
+						int line = document.getLineOfOffset(region.getOffset());
 						fail("Wrong detection for region - "+region.getOffset()+" : "+region.getLength()+" region - "+i);
+					}
 				}
 			}
 		}

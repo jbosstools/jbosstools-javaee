@@ -13,7 +13,7 @@ public class CdiTextExtAllTests {
 		JavaModelManager.getIndexManager().disable();
 		
 		TestSuite suite = new TestSuite(CdiTextExtAllTests.class.getName());
-		suite.addTest(new CDICoreTestSetup(CDITextExtTestSuite.suite()));
+		suite.addTest(new CDICoreTestSetup(new TestSuite(InjectedPointHyperlinkDetectorTest.class)));
 		return suite;
 	}
 }
