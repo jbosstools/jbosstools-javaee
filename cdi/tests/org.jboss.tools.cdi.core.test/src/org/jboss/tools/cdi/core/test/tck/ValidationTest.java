@@ -1207,6 +1207,74 @@ public class ValidationTest extends TCKTest {
 	}
 
 	/**
+	 * 9.3. Binding an interceptor to a bean
+	 *  - managed bean has a class level interceptor binding and has a non-static, non-private, final method
+	 * 
+	 * @throws Exception
+	 */
+	public void testClassLevelInterceptorBindingWithFinalMethodBroken() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/interceptors/ClassLevelInterceptorBindingWithFinalMethodBroken.java");
+		assertMarkerIsCreated(file, CDIValidationMessages.ILLEGAL_INTERCEPTOR_BINDING_METHOD, 6);
+	}
+
+	/**
+	 * 9.3. Binding an interceptor to a bean
+	 *  - managed bean has a method level interceptor binding and this method is declared as non-static, non-private, final
+	 * 
+	 * @throws Exception
+	 */
+	public void testClassWithMethodLevelInterceptorBindingWithFinalMethodBroken() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/interceptors/ClassWithMethodLevelInterceptorBindingWithFinalMethodBroken.java");
+		assertMarkerIsCreated(file, CDIValidationMessages.ILLEGAL_INTERCEPTOR_BINDING_METHOD, 6);
+	}
+
+	/**
+	 * 9.3. Binding an interceptor to a bean
+	 *  - managed bean has a class level interceptor binding and is declared final
+	 * 
+	 * @throws Exception
+	 */
+	public void testFinalClassWithClassLevelInterceptorBindingBroken() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/interceptors/FinalClassWithClassLevelInterceptorBindingBroken.java");
+		assertMarkerIsCreated(file, CDIValidationMessages.ILLEGAL_INTERCEPTOR_BINDING_CLASS, 4);
+	}
+
+	/**
+	 * 9.3. Binding an interceptor to a bean
+	 *  - managed bean has a method level interceptor binding and is declared final
+	 * 
+	 * @throws Exception
+	 */
+	public void testFinalClassWithMethodLevelInterceptorBindingBroken() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/interceptors/FinalClassWithMethodLevelInterceptorBindingBroken.java");
+		assertMarkerIsCreated(file, CDIValidationMessages.ILLEGAL_INTERCEPTOR_BINDING_CLASS, 3);
+	}
+
+	/**
+	 * 9.3. Binding an interceptor to a bean
+	 *  - managed bean has a class level interceptor binding and is declared final or has a non-static, non-private, final method
+	 * 
+	 * @throws Exception
+	 */
+	public void testClassLevelInterceptorBindingOk() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/interceptors/ClassLevelInterceptorBindingOk.java");
+		assertMarkerIsNotCreated(file, CDIValidationMessages.ILLEGAL_INTERCEPTOR_BINDING_CLASS);
+		assertMarkerIsNotCreated(file, CDIValidationMessages.ILLEGAL_INTERCEPTOR_BINDING_METHOD);
+	}
+
+	/**
+	 * 9.3. Binding an interceptor to a bean
+	 *  - managed bean has a method level interceptor binding and is declared final or has a non-static, non-private, final method
+	 * 
+	 * @throws Exception
+	 */
+	public void testClassWithMethodLevelInterceptorBindingOk() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/interceptors/ClassWithMethodLevelInterceptorBindingOk.java");
+		assertMarkerIsNotCreated(file, CDIValidationMessages.ILLEGAL_INTERCEPTOR_BINDING_CLASS);
+		assertMarkerIsNotCreated(file, CDIValidationMessages.ILLEGAL_INTERCEPTOR_BINDING_METHOD);
+	}
+
+	/**
 	 * 10.4.2. Declaring an observer method
 	 *  - method has more than one parameter annotated @Observes
 	 *  

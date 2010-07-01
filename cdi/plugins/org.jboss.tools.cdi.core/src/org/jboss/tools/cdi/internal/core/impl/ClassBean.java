@@ -40,6 +40,7 @@ import org.jboss.tools.cdi.core.IScopeDeclaration;
 import org.jboss.tools.cdi.core.IStereotype;
 import org.jboss.tools.cdi.core.IStereotypeDeclaration;
 import org.jboss.tools.cdi.core.ITypeDeclaration;
+import org.jboss.tools.cdi.internal.core.impl.definition.AbstractMemberDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.FieldDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.MethodDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.TypeDefinition;
@@ -179,6 +180,10 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 	 * @see org.jboss.tools.cdi.core.IClassBean#getInterceptorBindingDeclarations()
 	 */
 	public Set<IInterceptorBindingDeclaration> getInterceptorBindingDeclarations() {
+		return getInterceptorBindingDeclarations(definition);
+	}
+
+	public static Set<IInterceptorBindingDeclaration> getInterceptorBindingDeclarations(AbstractMemberDefinition definition) {
 		Set<IInterceptorBindingDeclaration> result = new HashSet<IInterceptorBindingDeclaration>();
 		List<IAnnotationDeclaration> as = definition.getAnnotations();
 		for (IAnnotationDeclaration a: as) {
@@ -189,18 +194,22 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 		return result;
 	}
 
+	public static Set<IInterceptorBinding> getInterceptorBindings(AbstractMemberDefinition definition) {
+		// TODO collect bindings from stereotypes. See https://jira.jboss.org/browse/JBIDE-6550 
+		Set<IInterceptorBinding> result = new HashSet<IInterceptorBinding>();
+		Set<IInterceptorBindingDeclaration> declarations = getInterceptorBindingDeclarations(definition);
+		for (IInterceptorBindingDeclaration declaration: declarations) {
+			result.add(declaration.getInterceptorBinding());
+		}
+		return result;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * @see org.jboss.tools.cdi.core.IClassBean#getInterceptorBindings()
 	 */
 	public Set<IInterceptorBinding> getInterceptorBindings() {
-		// TODO collect bindings from stereotypes. See https://jira.jboss.org/browse/JBIDE-6550 
-		Set<IInterceptorBinding> result = new HashSet<IInterceptorBinding>();
-		Set<IInterceptorBindingDeclaration> declarations = getInterceptorBindingDeclarations();
-		for (IInterceptorBindingDeclaration declaration: declarations) {
-			result.add(declaration.getInterceptorBinding());
-		}
-		return result;
+		return getInterceptorBindings(definition);
 	}
 
 	public Set<IBeanMethod> getObserverMethods() {

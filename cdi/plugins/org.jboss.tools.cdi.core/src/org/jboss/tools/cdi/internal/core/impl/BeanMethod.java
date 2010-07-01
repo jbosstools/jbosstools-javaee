@@ -12,11 +12,14 @@ package org.jboss.tools.cdi.internal.core.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.IMethod;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.IBeanMethod;
+import org.jboss.tools.cdi.core.IInterceptorBinding;
+import org.jboss.tools.cdi.core.IInterceptorBindingDeclaration;
 import org.jboss.tools.cdi.core.IParameter;
 import org.jboss.tools.cdi.internal.core.impl.definition.MethodDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.ParameterDefinition;
@@ -69,6 +72,7 @@ public class BeanMethod extends BeanMember implements IBeanMethod {
 		return parameters;
 	}
 
+	@Override
 	public MethodDefinition getDefinition() {
 		return (MethodDefinition)definition;
 	}
@@ -93,5 +97,21 @@ public class BeanMethod extends BeanMember implements IBeanMethod {
 	 */
 	public boolean isLifeCycleCallbackMethod() {
 		return definition.getAnnotation(CDIConstants.PRE_DESTROY_TYPE_NAME)!=null || definition.getAnnotation(CDIConstants.POST_CONSTRUCTOR_TYPE_NAME)!=null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.cdi.core.IInterceptorBinded#getInterceptorBindingDeclarations()
+	 */
+	public Set<IInterceptorBindingDeclaration> getInterceptorBindingDeclarations() {
+		return ClassBean.getInterceptorBindingDeclarations(definition);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.cdi.core.IInterceptorBinded#getInterceptorBindings()
+	 */
+	public Set<IInterceptorBinding> getInterceptorBindings() {
+		return ClassBean.getInterceptorBindings(definition);
 	}
 }

@@ -17,7 +17,7 @@ import java.util.Set;
  * 
  * @author Alexey Kazakov
  */
-public interface IClassBean extends IBean {
+public interface IClassBean extends IBean, IInterceptorBinded {
 
 	/**
 	 * Returns a set of producers that are declared in this bean class.
@@ -46,22 +46,6 @@ public interface IClassBean extends IBean {
 	 * @return a set of the methods that are declared in this bean class.
 	 */
 	Set<IBeanMethod> getAllMethods();
-
-	/**
-	 * Obtains the interceptor binding declarations of the class bean.
-	 * This set includes bindings declared in this java class.
-	 * Use getInterceptorBindings() to get all bindings (i.g. from Stereotypes)   
-	 * 
-	 * @return the set of interceptor binding declarations
-	 */
-	Set<IInterceptorBindingDeclaration> getInterceptorBindingDeclarations();
-
-	/**
-	 * Obtains the interceptor bindings of the bean.
-	 * 
-	 * @return the set of interceptor bindings
-	 */
-	Set<IInterceptorBinding> getInterceptorBindings();
 
 	/**
 	 * Returns a set of observer methods of the bean.

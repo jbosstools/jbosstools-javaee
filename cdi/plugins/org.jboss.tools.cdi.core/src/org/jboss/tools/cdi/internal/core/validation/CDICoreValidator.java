@@ -54,6 +54,7 @@ import org.jboss.tools.cdi.core.IInjectionPointField;
 import org.jboss.tools.cdi.core.IInjectionPointMethod;
 import org.jboss.tools.cdi.core.IInjectionPointParameter;
 import org.jboss.tools.cdi.core.IInterceptor;
+import org.jboss.tools.cdi.core.IInterceptorBinded;
 import org.jboss.tools.cdi.core.IInterceptorBinding;
 import org.jboss.tools.cdi.core.IInterceptorBindingDeclaration;
 import org.jboss.tools.cdi.core.IParametedType;
@@ -68,6 +69,7 @@ import org.jboss.tools.cdi.core.IScopeDeclaration;
 import org.jboss.tools.cdi.core.ISessionBean;
 import org.jboss.tools.cdi.core.IStereotype;
 import org.jboss.tools.cdi.core.IStereotypeDeclaration;
+import org.jboss.tools.cdi.core.IStereotyped;
 import org.jboss.tools.cdi.core.ITypeDeclaration;
 import org.jboss.tools.cdi.core.preferences.CDIPreferences;
 import org.jboss.tools.cdi.internal.core.impl.Parameter;
@@ -310,13 +312,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 				validationContext.addLinkedCoreResource(beanPath, scope.getResource().getFullPath(), false);
 			}
 		}
-		Set<IStereotypeDeclaration> stereotypeDeclarations = bean.getStereotypeDeclarations();
-		for (IStereotypeDeclaration stereotypeDeclaration : stereotypeDeclarations) {
-			IStereotype stereotype = stereotypeDeclaration.getStereotype();
-			if (!stereotype.getSourceType().isReadOnly()) {
-				validationContext.addLinkedCoreResource(beanPath, stereotype.getResource().getFullPath(), false);
-			}
-		}
+		addLinkedStereotypes(beanPath, bean);
 		Set<IQualifierDeclaration> qualifierDeclarations = bean.getQualifierDeclarations();
 		for (IQualifierDeclaration qualifierDeclaration : qualifierDeclarations) {
 			IQualifier qualifier = qualifierDeclaration.getQualifier();
@@ -347,18 +343,37 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 		}
 
 		if (bean instanceof IClassBean) {
-			Set<IInterceptorBindingDeclaration> bindingDeclarations = ((IClassBean) bean).getInterceptorBindingDeclarations();
-			for (IInterceptorBindingDeclaration bindingDeclaration : bindingDeclarations) {
-				IInterceptorBinding binding = bindingDeclaration.getInterceptorBinding();
-				if (!binding.getSourceType().isReadOnly()) {
-					validationContext.addLinkedCoreResource(beanPath, binding.getResource().getFullPath(), false);
-				}
+			IClassBean classBean = (IClassBean)bean;
+			addLinkedInterceptorBindings(beanPath, classBean);
+			Set<IBeanMethod> methods = classBean.getAllMethods();
+			for (IBeanMethod method : methods) {
+				addLinkedStereotypes(beanPath, method);
+				addLinkedInterceptorBindings(beanPath, method);
 			}
-
-			validateClassBean((IClassBean) bean);
+			validateClassBean(classBean);
 		}
 
 		validateSpecializingBean(bean);
+	}
+
+	private void addLinkedStereotypes(String beanPath, IStereotyped stereotyped) {
+		Set<IStereotypeDeclaration> stereotypeDeclarations = stereotyped.getStereotypeDeclarations();
+		for (IStereotypeDeclaration stereotypeDeclaration : stereotypeDeclarations) {
+			IStereotype stereotype = stereotypeDeclaration.getStereotype();
+			if (!stereotype.getSourceType().isReadOnly()) {
+				validationContext.addLinkedCoreResource(beanPath, stereotype.getResource().getFullPath(), false);
+			}
+		}
+	}
+
+	private void addLinkedInterceptorBindings(String beanPath, IInterceptorBinded binded) {
+		Set<IInterceptorBindingDeclaration> bindingDeclarations = binded.getInterceptorBindingDeclarations();
+		for (IInterceptorBindingDeclaration bindingDeclaration : bindingDeclarations) {
+			IInterceptorBinding binding = bindingDeclaration.getInterceptorBinding();
+			if (!binding.getSourceType().isReadOnly()) {
+				validationContext.addLinkedCoreResource(beanPath, binding.getResource().getFullPath(), false);
+			}
+		}
 	}
 
 	private void validateClassBean(IClassBean bean) {
@@ -1220,6 +1235,48 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 			} catch (JavaModelException e) {
 				CDICorePlugin.getDefault().logError(e);
 			}
+		}
+		/*
+		 * 9.3. Binding an interceptor to a bean
+		 *  - managed bean has a class level interceptor binding and is declared final or has a non-static, non-private, final method
+		 *  - non-static, non-private, final method of a managed bean has a method level interceptor binding
+		 */
+		try {
+			Set<IInterceptorBinding> bindings = bean.getInterceptorBindings();
+			if(!bindings.isEmpty()) {
+				if(Flags.isFinal(bean.getBeanClass().getFlags())) {
+					ITextSourceReference reference = CDIUtil.convertToSourceReference(bean.getBeanClass().getNameRange());
+					addError(CDIValidationMessages.ILLEGAL_INTERCEPTOR_BINDING_CLASS, CDIPreferences.ILLEGAL_INTERCEPTOR_BINDING_METHOD, reference, bean.getResource());
+				} else {
+					IMethod[] methods = bean.getBeanClass().getMethods();
+					for (int i = 0; i < methods.length; i++) {
+						int flags = methods[i].getFlags();
+						if(Flags.isFinal(flags) && !Flags.isStatic(flags) && !Flags.isPrivate(flags)) {
+							ITextSourceReference reference = CDIUtil.convertToSourceReference(methods[i].getNameRange());
+							addError(CDIValidationMessages.ILLEGAL_INTERCEPTOR_BINDING_METHOD, CDIPreferences.ILLEGAL_INTERCEPTOR_BINDING_METHOD, reference, bean.getResource());
+						}
+					}
+				}
+			} else {
+				Set<IBeanMethod> beanMethods = bean.getAllMethods();
+				for (IBeanMethod method : beanMethods) {
+					if(!method.getInterceptorBindings().isEmpty()) {
+						if(Flags.isFinal(bean.getBeanClass().getFlags())) {
+							ITextSourceReference reference = CDIUtil.convertToSourceReference(bean.getBeanClass().getNameRange());
+							addError(CDIValidationMessages.ILLEGAL_INTERCEPTOR_BINDING_CLASS, CDIPreferences.ILLEGAL_INTERCEPTOR_BINDING_METHOD, reference, bean.getResource());
+						} else {
+							IMethod sourceMethod = method.getMethod();
+							int flags = sourceMethod.getFlags();
+							if(Flags.isFinal(flags) && !Flags.isStatic(flags) && !Flags.isPrivate(flags)) {
+								ITextSourceReference reference = CDIUtil.convertToSourceReference(sourceMethod.getNameRange());
+								addError(CDIValidationMessages.ILLEGAL_INTERCEPTOR_BINDING_METHOD, CDIPreferences.ILLEGAL_INTERCEPTOR_BINDING_METHOD, reference, bean.getResource());
+							}
+						}
+					}
+				}
+			}
+		} catch (JavaModelException e) {
+			CDICorePlugin.getDefault().logError(e);
 		}
 	}
 

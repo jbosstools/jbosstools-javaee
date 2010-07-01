@@ -91,6 +91,7 @@ public class CDIValidationMessages {
 	public static String ILLEGAL_BEAN_DECLARING_DELEGATE;
 	public static String DELEGATE_HAS_ILLEGAL_TYPE;
 	public static String ILLEGAL_LIFECYCLE_CALLBACK_INTERCEPTOR_BINDING;
+	public static String ILLEGAL_INTERCEPTOR_BINDING_CLASS;
 	public static String ILLEGAL_INTERCEPTOR_BINDING_METHOD;
 	public static String CONFLICTING_INTERCEPTOR_BINDINGS;
 	public static String OBSERVER_IN_INTERCEPTOR;

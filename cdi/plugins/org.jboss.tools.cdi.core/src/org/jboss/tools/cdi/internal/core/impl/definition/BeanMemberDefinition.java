@@ -28,19 +28,11 @@ public class BeanMemberDefinition extends AbstractMemberDefinition {
 	}
 
 	public boolean isCDIAnnotated() {
-		return getInjectAnnotation() != null || getProducesAnnotation() != null || getPreDestroyMethod() != null || getPostConstructorMethod() != null;
+		return getInjectAnnotation() != null || getProducesAnnotation() != null;
 	}
 
 	public AnnotationDeclaration getProducesAnnotation() {
 		return annotationsByType.get(CDIConstants.PRODUCES_ANNOTATION_TYPE_NAME);
-	}
-
-	public AnnotationDeclaration getPreDestroyMethod() {
-		return annotationsByType.get(CDIConstants.PRE_DESTROY_TYPE_NAME);
-	}
-
-	public AnnotationDeclaration getPostConstructorMethod() {
-		return annotationsByType.get(CDIConstants.POST_CONSTRUCTOR_TYPE_NAME);
 	}
 
 	public AnnotationDeclaration getInjectAnnotation() {

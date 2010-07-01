@@ -12,13 +12,16 @@ package org.jboss.tools.cdi.internal.core.impl.definition;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.ISourceRange;
 import org.eclipse.jdt.core.IType;
 import org.jboss.tools.cdi.core.CDIConstants;
-import org.jboss.tools.cdi.core.CDICorePlugin;
+import org.jboss.tools.cdi.core.IInterceptorBinding;
+import org.jboss.tools.cdi.internal.core.impl.AnnotationDeclaration;
+import org.jboss.tools.cdi.internal.core.impl.ClassBean;
 import org.jboss.tools.cdi.internal.core.impl.ParametedType;
 import org.jboss.tools.common.model.project.ext.impl.ValueInfo;
 import org.jboss.tools.common.model.util.EclipseJavaUtil;
@@ -54,7 +57,6 @@ public class MethodDefinition extends BeanMemberDefinition {
 		isConstructor = method.isConstructor();
 		//TODO process parameters for disposers and observers
 		loadParamDefinitions(contextType, context);
-		
 	}
 
 	public boolean parametersAreInjectionPoints() {
@@ -130,13 +132,17 @@ public class MethodDefinition extends BeanMemberDefinition {
 
 			start += params[i].length() + 1;			
 		}
-		
 	}
 
+	@Override
 	public boolean isCDIAnnotated() {
-		return super.isCDIAnnotated() || isDisposer() || isObserver();
+		return super.isCDIAnnotated() || isDisposer() || isObserver() || getPreDestroyMethod() != null || getPostConstructorMethod() != null || !getInterceptorBindings().isEmpty();
 	}
 
+	public Set<IInterceptorBinding> getInterceptorBindings() {
+		return ClassBean.getInterceptorBindings(this);
+	}
+ 
 	public List<ParameterDefinition> getParameters() {
 		return parameters;
 	}
@@ -153,6 +159,14 @@ public class MethodDefinition extends BeanMemberDefinition {
 			if(p.isAnnotationPresent(CDIConstants.OBSERVERS_ANNOTATION_TYPE_NAME)) return true;
 		}
 		return false;
+	}
+
+	public AnnotationDeclaration getPreDestroyMethod() {
+		return annotationsByType.get(CDIConstants.PRE_DESTROY_TYPE_NAME);
+	}
+
+	public AnnotationDeclaration getPostConstructorMethod() {
+		return annotationsByType.get(CDIConstants.POST_CONSTRUCTOR_TYPE_NAME);
 	}
 
 	static String[] getParams(String paramsString) {

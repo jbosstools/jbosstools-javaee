@@ -19,7 +19,7 @@ import org.eclipse.jdt.core.IMethod;
  * 
  * @author Alexey Kazakov
  */
-public interface IBeanMethod extends IBeanMember {
+public interface IBeanMethod extends IBeanMember, IStereotyped, IInterceptorBinded {
 
 	/**
 	 * Returns the method.
