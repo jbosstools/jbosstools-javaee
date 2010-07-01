@@ -7,8 +7,14 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 		<artifactId>jsf.generic.test</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	<groupId>org.jboss.tools</groupId>
+	<groupId>org.jboss.tools.jsf.tests</groupId>
 	<artifactId>org.jboss.tools.jsf.vpe.facelets.test</artifactId> 
 	<version>3.1.0-SNAPSHOT</version>
 	<packaging>eclipse-test-plugin</packaging>
+
+	<properties>
+		<emma.filter>org.jboss.tools.jsf.vpe.facelets*</emma.filter>
+		<emma.instrument.bundles>org.jboss.tools.jsf.vpe.facelets</emma.instrument.bundles>
+	</properties>
+
 </project>
