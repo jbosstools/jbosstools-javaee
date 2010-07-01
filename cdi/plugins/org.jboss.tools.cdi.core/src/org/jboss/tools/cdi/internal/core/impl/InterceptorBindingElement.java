@@ -10,12 +10,8 @@
  ******************************************************************************/ 
 package org.jboss.tools.cdi.internal.core.impl;
 
-import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
-import org.eclipse.jdt.core.IType;
-import org.jboss.tools.cdi.core.IAnnotationDeclaration;
 import org.jboss.tools.cdi.core.IInterceptorBinding;
 import org.jboss.tools.cdi.core.IInterceptorBindingDeclaration;
 
@@ -28,19 +24,19 @@ public class InterceptorBindingElement extends CDIAnnotationElement implements I
 
 	public InterceptorBindingElement() {}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.cdi.core.IInterceptorBinded#getInterceptorBindingDeclarations()
+	 */
 	public Set<IInterceptorBindingDeclaration> getInterceptorBindingDeclarations() {
-		Set<IInterceptorBindingDeclaration> result = new HashSet<IInterceptorBindingDeclaration>();
-		List<IAnnotationDeclaration> as = definition.getAnnotations();
-		for (IAnnotationDeclaration a: as) {
-			if(a instanceof InterceptorBindingDeclaration) {
-				result.add((InterceptorBindingDeclaration)a);
-			}
-		}
-		return result;
+		return ClassBean.getInterceptorBindingDeclarations(definition);
 	}
 
-	public IType getSourceType() {
-		return definition.getType();
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.cdi.core.IInterceptorBinded#getInterceptorBindings()
+	 */
+	public Set<IInterceptorBinding> getInterceptorBindings() {
+		return ClassBean.getInterceptorBindings(definition);
 	}
-
 }

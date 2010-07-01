@@ -72,6 +72,7 @@ import org.jboss.tools.cdi.core.IStereotypeDeclaration;
 import org.jboss.tools.cdi.core.IStereotyped;
 import org.jboss.tools.cdi.core.ITypeDeclaration;
 import org.jboss.tools.cdi.core.preferences.CDIPreferences;
+import org.jboss.tools.cdi.internal.core.impl.CDIProject;
 import org.jboss.tools.cdi.internal.core.impl.Parameter;
 import org.jboss.tools.cdi.internal.core.impl.SessionBean;
 import org.jboss.tools.common.model.util.EclipseJavaUtil;
@@ -367,7 +368,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 	}
 
 	private void addLinkedInterceptorBindings(String beanPath, IInterceptorBinded binded) {
-		Set<IInterceptorBindingDeclaration> bindingDeclarations = binded.getInterceptorBindingDeclarations();
+		Set<IInterceptorBindingDeclaration> bindingDeclarations = CDIUtil.getAllInterceptorBindingDeclaratios(binded);
 		for (IInterceptorBindingDeclaration bindingDeclaration : bindingDeclarations) {
 			IInterceptorBinding binding = bindingDeclaration.getInterceptorBinding();
 			if (!binding.getSourceType().isReadOnly()) {
@@ -386,6 +387,57 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 		}
 		validateMixedClassBean(bean);
 		validateConstructors(bean);
+		validateInterceptorBindings(bean);
+	}
+
+	private void validateInterceptorBindings(IClassBean bean) {
+		/*
+		 * 9.5.2. Interceptor binding types with members
+		 *  - the set of interceptor bindings of a bean or interceptor, including bindings
+		 *    inherited from stereotypes and other interceptor bindings, has two instances
+		 *    of a certain interceptor binding type and the instances have different values
+		 *    of some annotation member
+		 */
+		try {
+			if(hasConflictedInterceptorBindings(bean)) {
+				ITextSourceReference reference = CDIUtil.convertToSourceReference(bean.getBeanClass().getNameRange());
+				addError(CDIValidationMessages.CONFLICTING_INTERCEPTOR_BINDINGS, CDIPreferences.CONFLICTING_INTERCEPTOR_BINDINGS, reference, bean.getResource());
+			}
+			Set<IBeanMethod> methods = bean.getAllMethods();
+			for (IBeanMethod method : methods) {
+				if(hasConflictedInterceptorBindings(method)) {
+					ITextSourceReference reference = CDIUtil.convertToSourceReference(method.getMethod().getNameRange());
+					addError(CDIValidationMessages.CONFLICTING_INTERCEPTOR_BINDINGS, CDIPreferences.CONFLICTING_INTERCEPTOR_BINDINGS, reference, bean.getResource());
+				}
+			}
+		} catch (JavaModelException e) {
+			CDICorePlugin.getDefault().logError(e);
+		} catch (CoreException e) {
+			CDICorePlugin.getDefault().logError(e);
+		}
+	}
+
+	private boolean hasConflictedInterceptorBindings(IInterceptorBinded binded) throws CoreException {
+		Set<IInterceptorBindingDeclaration> declarations = CDIUtil.getAllInterceptorBindingDeclaratios(binded);
+		if(declarations.size()>1) {
+			Map<String, String> keys = new HashMap<String, String>();
+			for (IInterceptorBindingDeclaration declaration : declarations) {
+				IType type = declaration.getInterceptorBinding().getSourceType();
+				if(type!=null) {
+					String name = type.getFullyQualifiedName();
+					String key = CDIProject.getAnnotationDeclarationKey(declaration);
+					String anotherKey = keys.get(name);
+					if(anotherKey!=null) {
+						if(!anotherKey.equals(key)) {
+							return true;
+						}
+					} else {
+						keys.put(name, key);
+					}
+				}
+			}
+		}
+		return false;
 	}
 
 	private void validateSpecializingBean(IBean bean) {
@@ -414,7 +466,6 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 		String beanName = bean instanceof IBeanMethod?beanClassName + "." + ((IBeanMethod)bean).getSourceMember().getElementName() + "()":beanClassName;
 		String specializingBeanClassName = specializingBean.getBeanClass().getElementName();
 		String specializingBeanName = specializingBean instanceof IBeanMethod?specializingBeanClassName + "." + ((IBeanMethod)specializingBean).getSourceMember().getElementName() + "()":specializingBeanClassName;
-
 		/*
 		 * 4.3.1. Direct and indirect specialization
 		 *  - X specializes Y but does not have some bean type of Y

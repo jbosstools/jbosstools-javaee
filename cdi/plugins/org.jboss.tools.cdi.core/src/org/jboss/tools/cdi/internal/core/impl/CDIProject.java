@@ -36,6 +36,7 @@ import org.jboss.tools.cdi.core.IAnnotationDeclaration;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IBeanMember;
 import org.jboss.tools.cdi.core.IBeanMethod;
+import org.jboss.tools.cdi.core.ICDIAnnotation;
 import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.IClassBean;
 import org.jboss.tools.cdi.core.IInjectionPoint;
@@ -355,7 +356,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 
 		TreeSet<String> injectionKeys = new TreeSet<String>();
 		if(injectionQualifiers != null) for (IQualifierDeclaration d: injectionQualifiers) {
-			injectionKeys.add(getQualifierDeclarationKey(d));
+			injectionKeys.add(getAnnotationDeclarationKey(d));
 		}
 
 		if(injectionKeys.contains(CDIConstants.ANY_QUALIFIER_TYPE_NAME)) {
@@ -369,7 +370,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		if(beanQualifiers == null || beanQualifiers.isEmpty()) {
 			beanKeys.add(CDIConstants.DEFAULT_QUALIFIER_TYPE_NAME);
 		} else for (IQualifierDeclaration d: beanQualifiers) {
-			beanKeys.add(getQualifierDeclarationKey(d));
+			beanKeys.add(getAnnotationDeclarationKey(d));
 		}
 		if(beanKeys.size() == 1 && beanKeys.iterator().next().startsWith(CDIConstants.NAMED_QUALIFIER_TYPE_NAME)) {
 			beanKeys.add(CDIConstants.DEFAULT_QUALIFIER_TYPE_NAME);
@@ -423,17 +424,13 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		return true;
 	}
 
-	public static String getQualifierDeclarationKey(IQualifierDeclaration d) throws CoreException {
-		IQualifier q = d.getQualifier();
-		Set<IMethod> nb = q == null ? new HashSet<IMethod>() : q.getNonBindingMethods();
+	public static String getAnnotationDeclarationKey(IAnnotationDeclaration d) throws CoreException {
+		ICDIAnnotation annotation = d.getAnnotation();
+		Set<IMethod> nb = annotation == null ? new HashSet<IMethod>() : annotation.getNonBindingMethods();
 		return getAnnotationDeclarationKey(d, nb);
 	}
 
-	public static String getAnnotationDeclarationKey(IAnnotationDeclaration d) throws CoreException {
-		return getAnnotationDeclarationKey(d, null);
-	}
-
-	public static String getAnnotationDeclarationKey(IAnnotationDeclaration d, Set<IMethod> ignoredMembers) throws CoreException {
+	private static String getAnnotationDeclarationKey(IAnnotationDeclaration d, Set<IMethod> ignoredMembers) throws CoreException {
 		Set<IMethod> nb = ignoredMembers == null ? new HashSet<IMethod>() : ignoredMembers;
 		IType type = d.getType();
 		IMethod[] ms = type.getMethods();

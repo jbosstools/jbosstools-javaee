@@ -10,8 +10,6 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.core;
 
-import java.util.Set;
-
 import org.eclipse.jdt.core.IAnnotation;
 
 /**
@@ -19,7 +17,7 @@ import org.eclipse.jdt.core.IAnnotation;
  * 
  * @author Alexey Kazakov
  */
-public interface IStereotype extends IScoped, IStereotyped, ICDINamedAnnotation, IAnnotated {
+public interface IStereotype extends IScoped, IStereotyped, ICDINamedAnnotation, IAnnotated, IInterceptorBinded {
 
 	/**
 	 * Returns the location of @Name declaration of this stereotype. If the bean
@@ -28,13 +26,6 @@ public interface IStereotype extends IScoped, IStereotyped, ICDINamedAnnotation,
 	 * @return the location of @Name declaration of this bean.
 	 */
 	IAnnotation getNameLocation();
-
-	/**
-	 * Returns the interceptor binding declarations of the stereotype.
-	 * 
-	 * @return the interceptor binding declarations.
-	 */
-	Set<IInterceptorBindingDeclaration> getInterceptorBindingDeclarations();
 
 	/**
 	 * Determines if the stereotype is an alternative.

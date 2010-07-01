@@ -11,12 +11,16 @@
 package org.jboss.tools.cdi.internal.core.impl;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IType;
 import org.jboss.tools.cdi.core.IAnnotationDeclaration;
 import org.jboss.tools.cdi.core.ICDIAnnotation;
 import org.jboss.tools.cdi.internal.core.impl.definition.AnnotationDefinition;
+import org.jboss.tools.cdi.internal.core.impl.definition.AnnotationMemberDefinition;
 
 /**
  * 
@@ -24,13 +28,31 @@ import org.jboss.tools.cdi.internal.core.impl.definition.AnnotationDefinition;
  *
  */
 public class CDIAnnotationElement extends CDIElement implements ICDIAnnotation {
+
 	protected AnnotationDefinition definition;
+
+	Set<IMethod> nonbindingMethods = null;
 
 	public CDIAnnotationElement() {}
 
 	public void setDefinition(AnnotationDefinition definition) {
 		this.definition = definition;
 	}	
+
+	public Set<IMethod> getNonBindingMethods() {
+		if(nonbindingMethods == null) {
+			Set<IMethod> result = new HashSet<IMethod>();
+			List<AnnotationMemberDefinition> ms = definition.getMethods();
+			for (AnnotationMemberDefinition m: ms) {
+				if(m.getNonbindingAnnotation() != null) {
+					result.add(m.getMethod());
+				}
+			}
+			nonbindingMethods = result;
+		}
+		return nonbindingMethods;
+		
+	}
 
 	/*
 	 * (non-Javadoc)

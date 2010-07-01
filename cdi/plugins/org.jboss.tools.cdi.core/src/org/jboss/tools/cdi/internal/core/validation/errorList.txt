@@ -163,15 +163,14 @@ Definition Errors
   that is defined @Target({TYPE, METHOD})
 - interceptor declared using @Interceptor does not declare any interceptor binding (Non-Portable behavior)
 
-
-
-
-
 9.3. Binding an interceptor to a bean
 - managed bean has a class level interceptor binding and is declared final 
   or has a non-static, non-private, final method
 - non-static, non-private, final method of a managed bean has a method level 
   interceptor binding
+
+
+
 
 9.5.2. Interceptor binding types with members
 - the set of interceptor bindings of a bean or interceptor, including bindings 
@@ -180,6 +179,8 @@ Definition Errors
   of some annotation member
 - array-valued or annotation-valued member of an interceptor binding type 
   is not annotated @Nonbinding (Non-Portable behavior)
+
+
 
 10.4.2. Declaring an observer method
 - method has more than one parameter annotated @Observes

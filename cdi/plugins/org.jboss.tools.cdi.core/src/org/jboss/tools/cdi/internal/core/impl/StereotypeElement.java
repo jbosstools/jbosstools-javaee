@@ -17,6 +17,7 @@ import java.util.Set;
 
 import org.eclipse.jdt.core.IAnnotation;
 import org.jboss.tools.cdi.core.IAnnotationDeclaration;
+import org.jboss.tools.cdi.core.IInterceptorBinding;
 import org.jboss.tools.cdi.core.IInterceptorBindingDeclaration;
 import org.jboss.tools.cdi.core.IScope;
 import org.jboss.tools.cdi.core.IScopeDeclaration;
@@ -51,17 +52,18 @@ public class StereotypeElement extends CDIAnnotationElement implements IStereoty
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.jboss.tools.cdi.core.IStereotype#getInterceptorBindingDeclarations()
+	 * @see org.jboss.tools.cdi.core.IInterceptorBinded#getInterceptorBindingDeclarations()
 	 */
 	public Set<IInterceptorBindingDeclaration> getInterceptorBindingDeclarations() {
-		Set<IInterceptorBindingDeclaration> result = new HashSet<IInterceptorBindingDeclaration>();
-		List<IAnnotationDeclaration> as = definition.getAnnotations();
-		for (IAnnotationDeclaration a: as) {
-			if(a instanceof InterceptorBindingDeclaration) {
-				result.add((InterceptorBindingDeclaration)a);
-			}
-		}
-		return result;
+		return ClassBean.getInterceptorBindingDeclarations(definition);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.cdi.core.IInterceptorBinded#getInterceptorBindings()
+	 */
+	public Set<IInterceptorBinding> getInterceptorBindings() {
+		return ClassBean.getInterceptorBindings(definition);
 	}
 
 	/*

@@ -1275,6 +1275,20 @@ public class ValidationTest extends TCKTest {
 	}
 
 	/**
+	 * 9.5.2. Interceptor binding types with members
+	 *  - the set of interceptor bindings of a bean or interceptor, including bindings
+	 *    inherited from stereotypes and other interceptor bindings, has two instances
+	 *    of a certain interceptor binding type and the instances have different values
+	 *    of some annotation member
+	 * 
+	 * @throws Exception
+	 */
+	public void testInterceptorBindingsWithConflictingAnnotationMembersNotOk() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/interceptors/definition/broken/invalidBindingAnnotations/Foo.java");
+		assertMarkerIsCreated(file, CDIValidationMessages.CONFLICTING_INTERCEPTOR_BINDINGS, 19, 20);
+	}
+
+	/**
 	 * 10.4.2. Declaring an observer method
 	 *  - method has more than one parameter annotated @Observes
 	 *  

@@ -20,8 +20,8 @@ import java.util.Set;
 public interface IInterceptorBinded {
 
 	/**
-	 * Obtains the interceptor binding declarations of the class bean or the method of a class bean.
-	 * This set includes bindings declared in this java class/method.
+	 * Obtains the interceptor binding declarations of the class bean or method or stereotype or interceptor binding type.
+	 * This set includes bindings declared in this java class bean or method or stereotype or interceptor binding type.
 	 * Use getInterceptorBindings() to get all bindings (i.g. from Stereotypes)   
 	 * 
 	 * @return the set of interceptor binding declarations
@@ -29,7 +29,7 @@ public interface IInterceptorBinded {
 	Set<IInterceptorBindingDeclaration> getInterceptorBindingDeclarations();
 
 	/**
-	 * Obtains the interceptor bindings of the bean class or the method of a class bean.
+	 * Obtains the interceptor bindings of the bean class or method or stereotype or interceptor binding type.
 	 * 
 	 * @return the set of interceptor bindings
 	 */

@@ -39,6 +39,7 @@ import org.jboss.tools.cdi.core.IScope;
 import org.jboss.tools.cdi.core.IScopeDeclaration;
 import org.jboss.tools.cdi.core.IStereotype;
 import org.jboss.tools.cdi.core.IStereotypeDeclaration;
+import org.jboss.tools.cdi.core.IStereotyped;
 import org.jboss.tools.cdi.core.ITypeDeclaration;
 import org.jboss.tools.cdi.internal.core.impl.definition.AbstractMemberDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.FieldDefinition;
@@ -469,6 +470,20 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 		Set<IQualifierDeclaration> ds = superClassBean.getQualifierDeclarations(true);
 		for (IQualifierDeclaration d: ds) {
 			if(d.getQualifier() != null && d.getQualifier().getInheritedDeclaration() != null) {
+				result.add(d);
+			} else if(isSpecializing()) {
+				result.add(d);
+			}
+		}
+		return result;
+	}
+
+	public Set<IStereotypeDeclaration> getInheritedStereotypDeclarations() {
+		if(superClassBean == null) return Collections.emptySet();
+		Set<IStereotypeDeclaration> result = new HashSet<IStereotypeDeclaration>();
+		Set<IStereotypeDeclaration> ds = superClassBean.getStereotypeDeclarations(true);
+		for (IStereotypeDeclaration d: ds) {
+			if(d.getStereotype() != null && d.getStereotype().getInheritedDeclaration() != null) {
 				result.add(d);
 			} else if(isSpecializing()) {
 				result.add(d);

@@ -1,7 +1,9 @@
 package org.jboss.tools.cdi.core;
 
 import java.util.List;
+import java.util.Set;
 
+import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IType;
 
 /**
@@ -44,4 +46,11 @@ public interface ICDIAnnotation extends ICDIElement {
 	 * @return the annotations with given type name
 	 */
 	IAnnotationDeclaration getAnnotationDeclaration(String typeName);
+
+	/**
+	 * Returns set of members annotated with @Nonbinding
+	 * 
+	 * @return set of members annotated with @Nonbinding
+	 */
+	Set<IMethod> getNonBindingMethods();
 }

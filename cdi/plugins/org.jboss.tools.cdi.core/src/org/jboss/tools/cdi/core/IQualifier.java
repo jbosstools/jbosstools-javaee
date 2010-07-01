@@ -10,10 +10,6 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.core;
 
-import java.util.Set;
-
-import org.eclipse.jdt.core.IMethod;
-
 /**
  * Represents a qualifier.
  * 
@@ -21,10 +17,4 @@ import org.eclipse.jdt.core.IMethod;
  */
 public interface IQualifier extends ICDIAnnotation {
 	
-	/**
-	 * Returns set of members annotated with @Nonbinding
-	 * 
-	 * @return set of members annotated with @Nonbinding
-	 */
-	public Set<IMethod> getNonBindingMethods();
 }

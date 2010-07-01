@@ -363,7 +363,7 @@ public class TCKTest extends TestCase {
 		assertTrue(bean.getResource().getFullPath() + " bean (qualifiers - " + allTypes.toString() + ") should have the qualifier with " + typeName + " type.", found);
 		Set<IQualifierDeclaration> declarations = bean.getQualifierDeclarations(true);
 		for (IQualifierDeclaration d : declarations) {
-			if(CDIProject.getQualifierDeclarationKey(d).equals(CDIProject.getQualifierDeclarationKey(declaration)) ) {
+			if(CDIProject.getAnnotationDeclarationKey(d).equals(CDIProject.getAnnotationDeclarationKey(declaration)) ) {
 				return;
 			}
 		}
