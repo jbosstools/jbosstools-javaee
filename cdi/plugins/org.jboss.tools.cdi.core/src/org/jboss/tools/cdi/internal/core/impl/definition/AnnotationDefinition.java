@@ -86,8 +86,8 @@ public class AnnotationDefinition extends AbstractTypeDefinition {
 		} else if(AnnotationHelper.CDI_ANNOTATION_TYPES.contains(qualifiedName)) {
 			kind = AnnotationDefinition.CDI;
 		}
-		
-		if(kind == QUALIFIER) {
+
+		if(kind == QUALIFIER || kind == INTERCEPTOR_BINDING) {
 			initMemberDefinitions(contextType, context);
 		}
 	}

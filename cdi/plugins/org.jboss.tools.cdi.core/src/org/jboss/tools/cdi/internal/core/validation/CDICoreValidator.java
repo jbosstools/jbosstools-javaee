@@ -46,6 +46,7 @@ import org.jboss.tools.cdi.core.CDIUtil;
 import org.jboss.tools.cdi.core.IAnnotationDeclaration;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IBeanMethod;
+import org.jboss.tools.cdi.core.ICDIAnnotation;
 import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.IClassBean;
 import org.jboss.tools.cdi.core.IDecorator;
@@ -264,6 +265,11 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 		for (IQualifier qualifier : qualifiers) {
 			validateQualifier(qualifier);
 		}
+
+		IInterceptorBinding[] bindings = cdiProject.getInterceptorBindings();
+		for (IInterceptorBinding binding : bindings) {
+			validateInterceptorBinding(binding);
+		}
 		return OK_STATUS;
 	}
 
@@ -286,6 +292,9 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 
 		IQualifier qualifier = cdiProject.getQualifier(file.getFullPath());
 		validateQualifier(qualifier);
+
+		IInterceptorBinding binding = cdiProject.getInterceptorBinding(file.getFullPath());
+		validateInterceptorBinding(binding);
 	}
 
 	/**
@@ -1759,16 +1768,36 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 		 * 5.2.5. Qualifier annotations with members
 		 *  - array-valued or annotation-valued member of a qualifier type is not annotated @Nonbinding (Non-Portable behavior)
 		 */
-		IType type = qualifier.getSourceType();
+		validateAnnotationMembers(qualifier, CDIValidationMessages.MISSING_NONBINDING_FOR_ARRAY_VALUE_IN_QUALIFIER_TYPE_MEMBER, CDIValidationMessages.MISSING_NONBINDING_FOR_ANNOTATION_VALUE_IN_QUALIFIER_TYPE_MEMBER, CDIPreferences.MISSING_NONBINDING_IN_QUALIFIER_TYPE_MEMBER);
+	}
+
+	private void validateInterceptorBinding(IInterceptorBinding binding) {
+		if(binding==null) {
+			return;
+		}
+		IResource resource = binding.getResource();
+		if (resource == null || !resource.getName().toLowerCase().endsWith(".java")) {
+			// validate sources only
+			return;
+		}
+		/*
+		 * 9.5.2. Interceptor binding types with members
+		 *  array-valued or annotation-valued member of an interceptor binding type is not annotated @Nonbinding (Non-Portable behavior)
+		 */
+		validateAnnotationMembers(binding, CDIValidationMessages.MISSING_NONBINDING_FOR_ARRAY_VALUE_IN_INTERCEPTOR_BINDING_TYPE_MEMBER, CDIValidationMessages.MISSING_NONBINDING_FOR_ANNOTATION_VALUE_IN_INTERCEPTOR_BINDING_TYPE_MEMBER, CDIPreferences.MISSING_NONBINDING_IN_INTERCEPTOR_BINDING_TYPE_MEMBER);
+	}
+
+	private void validateAnnotationMembers(ICDIAnnotation annotation, String arrayMessageErrorKey, String annotationValueErrorKey, String preferencesKey) {
+		IType type = annotation.getSourceType();
 		try {
 			IMethod[] methods = type.getMethods();
 			for (IMethod method : methods) {
 				String returnTypeSignature = method.getReturnType();
 				int kind = Signature.getTypeSignatureKind(returnTypeSignature);
 				if(kind == Signature.ARRAY_TYPE_SIGNATURE) {
-					if(!qualifier.getNonBindingMethods().contains(method)) {
+					if(!annotation.getNonBindingMethods().contains(method)) {
 						ITextSourceReference reference = CDIUtil.convertToSourceReference(method.getNameRange());
-						addError(CDIValidationMessages.MISSING_NONBINDING_FOR_ARRAY_VALUE_IN_QUALIFIER_TYPE_MEMBER, CDIPreferences.MISSING_NONBINDING_IN_QUALIFIER_TYPE_MEMBER, reference, qualifier.getResource());
+						addError(arrayMessageErrorKey, preferencesKey, reference, annotation.getResource());
 					}
 				} else if(kind == Signature.CLASS_TYPE_SIGNATURE) {
 					String typeName = Signature.getSignatureSimpleName(returnTypeSignature);
@@ -1781,9 +1810,9 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 					if(typeName!=null) {
 						IType memberType = type.getJavaProject().findType(typeName);
 						if(memberType!=null && memberType.isAnnotation()) {
-							if(!qualifier.getNonBindingMethods().contains(method)) {
+							if(!annotation.getNonBindingMethods().contains(method)) {
 								ITextSourceReference reference = CDIUtil.convertToSourceReference(method.getNameRange());
-								addError(CDIValidationMessages.MISSING_NONBINDING_FOR_ANNOTATION_VALUE_IN_QUALIFIER_TYPE_MEMBER, CDIPreferences.MISSING_NONBINDING_IN_QUALIFIER_TYPE_MEMBER, reference, qualifier.getResource());
+								addError(annotationValueErrorKey, preferencesKey, reference, annotation.getResource());
 							}
 						}
 					}

@@ -1289,6 +1289,30 @@ public class ValidationTest extends TCKTest {
 	}
 
 	/**
+	 * 9.5.2. Interceptor binding types with members
+	 *  - annotation-valued member of an interceptor binding type is not annotated @Nonbinding (Non-Portable behavior)
+	 * 
+	 * @throws Exception
+	 */
+	public void testAnnotationTypeMemberWithoutNonBindingInInterceptorByndingType() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/interceptors/members/InterceptorBindingMemberBroken.java");
+		assertMarkerIsCreated(file, CDIValidationMessages.MISSING_NONBINDING_FOR_ANNOTATION_VALUE_IN_INTERCEPTOR_BINDING_TYPE_MEMBER, 19);
+		assertMarkerIsNotCreated(file, CDIValidationMessages.MISSING_NONBINDING_FOR_ANNOTATION_VALUE_IN_INTERCEPTOR_BINDING_TYPE_MEMBER, 20);
+	}
+
+	/**
+	 * 9.5.2. Interceptor binding types with members
+	 *  - array-valued member of an interceptor binding type is not annotated @Nonbinding (Non-Portable behavior)
+	 * 
+	 * @throws Exception
+	 */
+	public void testArrayTypeMemberWithoutNonBindingInInterceptorByndingType() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/interceptors/members/InterceptorBindingMemberBroken.java");
+		assertMarkerIsCreated(file, CDIValidationMessages.MISSING_NONBINDING_FOR_ARRAY_VALUE_IN_INTERCEPTOR_BINDING_TYPE_MEMBER, 21);
+		assertMarkerIsNotCreated(file, CDIValidationMessages.MISSING_NONBINDING_FOR_ANNOTATION_VALUE_IN_INTERCEPTOR_BINDING_TYPE_MEMBER, 22);
+	}
+
+	/**
 	 * 10.4.2. Declaring an observer method
 	 *  - method has more than one parameter annotated @Observes
 	 *  

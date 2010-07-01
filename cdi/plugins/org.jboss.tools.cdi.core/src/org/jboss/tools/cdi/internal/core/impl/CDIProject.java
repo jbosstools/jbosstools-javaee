@@ -67,6 +67,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 	private Map<String, StereotypeElement> stereotypes = new HashMap<String, StereotypeElement>();
 	private Map<IPath, StereotypeElement> stereotypesByPath = new HashMap<IPath, StereotypeElement>();
 	private Map<String, InterceptorBindingElement> interceptorBindings = new HashMap<String, InterceptorBindingElement>();
+	private Map<IPath, InterceptorBindingElement> interceptorBindingsByPath = new HashMap<IPath, InterceptorBindingElement>();
 	private Map<String, QualifierElement> qualifiers = new HashMap<String, QualifierElement>();
 	private Map<IPath, QualifierElement> qualifiersByPath = new HashMap<IPath, QualifierElement>();
 	private Map<String, ScopeElement> scopes = new HashMap<String, ScopeElement>();
@@ -728,14 +729,17 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		return result;
 	}
 
+	@Override
 	public CDIProject getCDIProject() {
 		return this;
 	}
 
+	@Override
 	public IResource getResource() {
 		return n.getProject();
 	}
 
+	@Override
 	public IPath getSourcePath() {
 		return n.getProject().getFullPath();
 	}
@@ -762,6 +766,14 @@ public class CDIProject extends CDIElement implements ICDIProject {
 
 	public InterceptorBindingElement getInterceptorBinding(String qualifiedName) {
 		return interceptorBindings.get(qualifiedName);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.cdi.core.IBeanManager#getInterceptorBinding(org.eclipse.core.runtime.IPath)
+	 */
+	public IInterceptorBinding getInterceptorBinding(IPath path) {
+		return interceptorBindingsByPath.get(path);
 	}
 
 	public QualifierElement getQualifier(String qualifiedName) {
@@ -794,6 +806,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		interceptorBindings.clear();
 		qualifiers.clear();
 		qualifiersByPath.clear();
+		interceptorBindingsByPath.clear();
 		scopes.clear();
 		List<AnnotationDefinition> ds = n.getDefinitions().getAllAnnotations();
 		for (AnnotationDefinition d: ds) {
@@ -808,6 +821,9 @@ public class CDIProject extends CDIElement implements ICDIProject {
 				InterceptorBindingElement s = new InterceptorBindingElement();
 				initAnnotationElement(s, d);
 				interceptorBindings.put(d.getQualifiedName(), s);
+				if(d.getResource() != null && d.getResource().getFullPath() != null) {
+					interceptorBindingsByPath.put(d.getResource().getFullPath(), s);
+				}
 			} else if(d.getKind() == AnnotationDefinition.QUALIFIER) {
 				QualifierElement s = new QualifierElement();
 				initAnnotationElement(s, d);
@@ -1024,7 +1040,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		try {
 			type = EclipseJavaUtil.findType(EclipseUtil.getJavaProject(getNature().getProject()), fullyQualifiedBeanType);
 		} catch (JavaModelException e) {
-			//ignore
+			CDICorePlugin.getDefault().logError(e);
 		}
 		if(type == null) {
 			return Collections.emptySet();
@@ -1035,7 +1051,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 			try {
 				type = EclipseJavaUtil.findType(EclipseUtil.getJavaProject(getNature().getProject()), s);
 			} catch (JavaModelException e) {
-				//ignore
+				CDICorePlugin.getDefault().logError(e);
 			}
 			if(type != null) qualifiers.add(type);
 		}

@@ -209,6 +209,14 @@ public interface IBeanManager {
 	IInterceptorBinding getInterceptorBinding(String qualifiedName);
 
 	/**
+	 * Returns the interceptor binding type by resource path.
+	 * 
+	 * @param resource path
+	 * @return interceptor binding type by resource path
+	 */
+	IInterceptorBinding getInterceptorBinding(IPath path);
+
+	/**
 	 * Returns qualifier model element for fully qualified name 
 	 * of qualifier annotation type
 	 * @param qualifiedName

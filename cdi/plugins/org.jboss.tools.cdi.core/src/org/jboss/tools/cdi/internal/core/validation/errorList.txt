@@ -169,9 +169,6 @@ Definition Errors
 - non-static, non-private, final method of a managed bean has a method level 
   interceptor binding
 
-
-
-
 9.5.2. Interceptor binding types with members
 - the set of interceptor bindings of a bean or interceptor, including bindings 
   inherited from stereotypes and other interceptor bindings, has two instances 
@@ -180,14 +177,14 @@ Definition Errors
 - array-valued or annotation-valued member of an interceptor binding type 
   is not annotated @Nonbinding (Non-Portable behavior)
 
-
-
 10.4.2. Declaring an observer method
 - method has more than one parameter annotated @Observes
 - observer method is annotated @Produces or @Inject or has a parameter annotated @Disposes
 - non-static method of a session bean class has a parameter annotated @Observes, 
   and the method is not a business method of the EJB
 - interceptor or decorator has a method with a parameter annotated @Observes
+
+
 
 10.4.3. Conditional observer methods
 - bean with scope @Dependent has an observer method declared receive=IF_EXISTS

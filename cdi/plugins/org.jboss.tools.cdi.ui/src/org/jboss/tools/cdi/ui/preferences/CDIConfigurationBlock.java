@@ -54,7 +54,7 @@ public class CDIConfigurationBlock extends SeverityConfigurationBlock {
 			{CDIPreferences.INJECTION_TYPE_IS_VARIABLE, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_injectionTypeIsVariable_label},
 			{CDIPreferences.STEREOTYPE_IS_ANNOTATED_TYPED, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_stereotypeIsAnnotatedTyped_label},
 			{CDIPreferences.MISSING_NONBINDING_IN_QUALIFIER_TYPE_MEMBER, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_missingNonbindingInQualifierTypeMember_label},
-//			{CDIPreferences.MISSING_NONBINDING_IN_INTERCEPTOR_BINDING_TYPE_MEMBER, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_missingNonbindingInInterceptorBindingTypeMember_label},
+			{CDIPreferences.MISSING_NONBINDING_IN_INTERCEPTOR_BINDING_TYPE_MEMBER, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_missingNonbindingInInterceptorBindingTypeMember_label},
 		},
 		CDICorePlugin.PLUGIN_ID
 	);
