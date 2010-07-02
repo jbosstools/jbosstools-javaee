@@ -121,8 +121,7 @@ public class RichFacesTabPanelTemplate extends VpeAbstractTemplate implements Vp
 		img.setAttribute(HTML.ATTR_WIDTH, TWO);
 		img.setAttribute(HTML.ATTR_HEIGHT, ONE);
 		img.setAttribute(HTML.ATTR_BORDER, ZERO);
-
-		String headerSpacing = sourceElement.getAttribute(HEADER_SPACING);
+		
 		List<Node> children = ComponentUtil.getChildren(sourceElement);
 		int activeId = getActiveId(sourceElement, children);
 		int i = 0;
@@ -136,6 +135,7 @@ public class RichFacesTabPanelTemplate extends VpeAbstractTemplate implements Vp
 			}
 			
 			if(child.getNodeName().endsWith(TAB)) {
+				String headerSpacing = sourceElement.hasAttribute(HEADER_SPACING) ? sourceElement.getAttribute(HEADER_SPACING) : ONE;
 				/*
 				 * Adds spacer before first tab
 				 */
@@ -218,9 +218,6 @@ public class RichFacesTabPanelTemplate extends VpeAbstractTemplate implements Vp
 		ComponentUtil.setImg(spaceImg, SPACER_FILE_PATH);
 		spaceImg.setAttribute(HTML.ATTR_HEIGHT, ONE);
 		spaceImg.setAttribute(HTML.ATTR_BORDER, ZERO);
-		if(headerSpacing==null) {
-			headerSpacing = ONE;
-		}
 		spaceImg.setAttribute(HTML.ATTR_STYLE, "width: " + headerSpacing + Constants.PIXEL); //$NON-NLS-1$
 	}
 	
@@ -233,7 +230,9 @@ public class RichFacesTabPanelTemplate extends VpeAbstractTemplate implements Vp
 		}
 
 		if (activeId == -1) {
-			activeId = getTabId(children, sourceElement.getAttribute(SELECTED_TAB));
+			if (sourceElement.hasAttribute(SELECTED_TAB)) {
+				activeId = getTabId(children, sourceElement.getAttribute(SELECTED_TAB));
+			}
 		}
 		
 		if (activeId == -1) 
@@ -258,7 +257,6 @@ public class RichFacesTabPanelTemplate extends VpeAbstractTemplate implements Vp
 	}
 
 	private int getTabId(List<Node> children, String tabName) {
-		if (tabName == null) return -1;
 		int count = 0;
 		for (Node child : children) {
 			if (child.getNodeName().endsWith(TAB)) {
@@ -276,19 +274,17 @@ public class RichFacesTabPanelTemplate extends VpeAbstractTemplate implements Vp
 	}
 
 	private String getStyle(Element sourceElement) {
-	     
-		String widthAttrValue = sourceElement.getAttribute(HTML.ATTR_WIDTH);
-		String heightAttrValue = sourceElement.getAttribute(HTML.ATTR_HEIGHT);
+		
 		String styleAttrValue = sourceElement.getAttribute(HTML.ATTR_STYLE);
-		String style = styleAttrValue != null ? styleAttrValue : EMPTY;
+		String style = sourceElement.hasAttribute(HTML.ATTR_STYLE) ? styleAttrValue : EMPTY;
 
 		if (!ComponentUtil.parameterPresent(styleAttrValue, HTML.ATTR_WIDTH)) {
-			String width = (widthAttrValue != null && widthAttrValue.length() > 0) ? widthAttrValue : "100%"; //$NON-NLS-1$
+			String width = sourceElement.hasAttribute(HTML.ATTR_WIDTH) ? sourceElement.getAttribute(HTML.ATTR_WIDTH) : "100%"; //$NON-NLS-1$
 			style = ComponentUtil.addParameter(style, "width:" + width); //$NON-NLS-1$
 		}
 
 		if (!ComponentUtil.parameterPresent(styleAttrValue, HTML.ATTR_HEIGHT)) {
-			String height = (heightAttrValue != null && heightAttrValue.length() > 0) ? heightAttrValue : EMPTY;
+			String height = sourceElement.hasAttribute(HTML.ATTR_HEIGHT) ? sourceElement.getAttribute(HTML.ATTR_HEIGHT) : EMPTY;
 			if (height.length() > 0) {
 				style =ComponentUtil.addParameter(style, "height:" + height); //$NON-NLS-1$
 			}
@@ -314,11 +310,7 @@ public class RichFacesTabPanelTemplate extends VpeAbstractTemplate implements Vp
 	}
 
 	private String getHeaderAlignment(Element sourceElement) {
-		String headerAlignment = sourceElement.getAttribute(HEADER_ALINGMENT);
-		if(headerAlignment==null) {
-			headerAlignment = HTML.VALUE_ALIGN_LEFT; 
-		}
-		return headerAlignment;
+		return sourceElement.hasAttribute(HEADER_ALINGMENT) ? sourceElement.getAttribute(HEADER_ALINGMENT) : HTML.VALUE_ALIGN_LEFT;
 	}
 
 	public void toggle(VpeVisualDomBuilder builder, Node sourceNode, String toggleId) {
