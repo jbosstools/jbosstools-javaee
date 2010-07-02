@@ -37,7 +37,6 @@ public class MessagesFileRenameParticipant extends RenameParticipant {
 
 	@Override
 	protected boolean initialize(Object element) {
-		System.out.println("MessagesFileRenameParticipant - initialize, element - "+element.getClass());
 		if(element instanceof IFile){
 			rootChange = new CompositeChange(JsfUIMessages.MESSAGES_FILE_RENAME_PARTICIPANT_UPDATE_MESSAGE_BUNDLE_REFERENCES);
 			file = (IFile)element;
