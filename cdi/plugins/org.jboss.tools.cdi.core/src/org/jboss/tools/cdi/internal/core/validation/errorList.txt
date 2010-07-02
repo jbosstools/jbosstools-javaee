@@ -95,12 +95,12 @@ Definition Errors
 - producer field declaration specifies an EL name (together with one of 
   @Resource, @PersistenceContext, @PersistenceUnit, @EJB, @WebServiceRef)
 - matching object in the Java EE component environment is not of the same type 
-  as the producer field declaration
+  as the producer field declaration (JBT: let's ignore this rule so far since we don't have any good tool to recognize such components)
 
 3.6. Additional built-in beans
 - Java EE component class has an injection point of type UserTransaction 
   and qualifier @Default, and may not validly make use of the JTA UserTransaction 
-  according to the Java EE platform specification
+  according to the Java EE platform specification (JBT: let's ignore this rule so far since we don't have any good tool to recognize such components)
 
 3.7.1. Declaring a bean constructor
 - bean class has more than one constructor annotated @Inject
@@ -184,10 +184,8 @@ Definition Errors
   and the method is not a business method of the EJB
 - interceptor or decorator has a method with a parameter annotated @Observes
 
-
-
 10.4.3. Conditional observer methods
 - bean with scope @Dependent has an observer method declared notifyObserver=IF_EXISTS
 
 12.1. Bean archives
-- bean class is deployed in two different bean archives (Non-Portable behavior)
+- bean class is deployed in two different bean archives (Non-Portable behavior) - (JBT: let's ignore this rule so far since we don't have any good tool to recognize such components)
