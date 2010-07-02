@@ -209,11 +209,9 @@ public class RichFacesFileUploadTemplate extends VpeAbstractTemplate {
             listWidth = DEFAULT_LIST_WIDTH;
         }
 
-        addControlLabel = sourceElement.getAttribute("addControlLabel"); //$NON-NLS-1$
-        if (addControlLabel == null) {
-            addControlLabel = DEFAULT_CONTROL_LABEL_VALUE;
-        }
-
+        String addControlLabelAttrName = "addControlLabel"; //$NON-NLS-1$
+        addControlLabel = sourceElement.hasAttribute(addControlLabelAttrName) ? sourceElement.getAttribute(addControlLabelAttrName) : DEFAULT_CONTROL_LABEL_VALUE;
+        
         this.uploadControlLabel = ComponentUtil.getAttribute(sourceElement, "uploadControlLabel"); //$NON-NLS-1$
         
         if (ComponentUtil.isBlank(this.uploadControlLabel)) {
