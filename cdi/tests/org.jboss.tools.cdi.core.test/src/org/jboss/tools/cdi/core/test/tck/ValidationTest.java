@@ -1389,6 +1389,17 @@ public class ValidationTest extends TCKTest {
 		assertMarkerIsCreated(file, CDIValidationMessages.OBSERVER_IN_DECORATOR, 14);
 	}
 
+	/**
+	 * 10.4.3. Conditional observer methods
+	 *  - bean with scope @Dependent has an observer method declared notifyObserver=IF_EXISTS
+	 *  
+	 * @throws Exception
+	 */
+	public void testDependentBeanWithConditionalObserverMethodIsDefinitionError() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/event/broken/observer/dependentIsConditionalObserver/AlarmSystem.java");
+		assertMarkerIsCreated(file, CDIValidationMessages.ILLEGAL_CONDITIONAL_OBSERVER, 24);
+	}
+
 	public static int getMarkersNumber(IResource resource) {
 		return AbstractResourceMarkerTest.getMarkersNumberByGroupName(resource, null);
 	}

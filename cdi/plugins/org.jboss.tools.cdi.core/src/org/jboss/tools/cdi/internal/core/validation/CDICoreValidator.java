@@ -30,9 +30,11 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.jdt.core.Flags;
 import org.eclipse.jdt.core.IAnnotation;
+import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IField;
 import org.eclipse.jdt.core.IMemberValuePair;
 import org.eclipse.jdt.core.IMethod;
+import org.eclipse.jdt.core.ISourceRange;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.ITypeParameter;
 import org.eclipse.jdt.core.JavaModelException;
@@ -543,6 +545,29 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 				ITextSourceReference declaration = param.getAnnotationPosition(CDIConstants.OBSERVERS_ANNOTATION_TYPE_NAME);
 				if (declaration != null) {
 					declarations.add(declaration);
+
+					/*
+					 * 10.4.2. Declaring an observer method
+					 *  - bean with scope @Dependent has an observer method declared notifyObserver=IF_EXISTS
+					 */
+					if(CDIConstants.DEPENDENT_ANNOTATION_TYPE_NAME.equals(bean.getScope().getSourceType().getFullyQualifiedName())) {
+						ICompilationUnit unit = observer.getMethod().getCompilationUnit();
+						if(unit!=null) {
+							try {
+								String source = unit.getSource();
+								ISourceRange unitRange = unit.getSourceRange();
+								int start = declaration.getStartPosition() - unitRange.getOffset();
+								int end = start + declaration.getLength();
+								int position = source.substring(start, end).indexOf("IF_EXISTS");
+								// TODO Shecks if IF_EXISTS as a string. But this string may be in a comment then we will show incorrect error message. 
+								if(position>11) {
+									addError(CDIValidationMessages.ILLEGAL_CONDITIONAL_OBSERVER, CDIPreferences.ILLEGAL_CONDITIONAL_OBSERVER, declaration, bean.getResource());									
+								}
+							} catch (JavaModelException e) {
+								CDICorePlugin.getDefault().logError(e);
+							}
+						}
+					}
 				}
 			}
 			/*

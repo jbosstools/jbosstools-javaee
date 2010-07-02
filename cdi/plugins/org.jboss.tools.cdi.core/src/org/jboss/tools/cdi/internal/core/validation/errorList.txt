@@ -187,7 +187,7 @@ Definition Errors
 
 
 10.4.3. Conditional observer methods
-- bean with scope @Dependent has an observer method declared receive=IF_EXISTS
+- bean with scope @Dependent has an observer method declared notifyObserver=IF_EXISTS
 
 12.1. Bean archives
 - bean class is deployed in two different bean archives (Non-Portable behavior)
