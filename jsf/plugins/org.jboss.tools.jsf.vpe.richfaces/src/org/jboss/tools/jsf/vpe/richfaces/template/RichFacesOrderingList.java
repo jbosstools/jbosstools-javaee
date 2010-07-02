@@ -126,15 +126,10 @@ public class RichFacesOrderingList extends VpeAbstractTemplate {
 		 */
 		Element sourceElement = (Element) sourceNode;
 
-		String width = sourceElement.getAttribute(WIDTH);
-		String height = sourceElement.getAttribute(HEIGHT);
-		String listWidth = sourceElement.getAttribute(LIST_WIDTH);
-		String listHeight = sourceElement.getAttribute(LIST_HEIGHT);
-
-		String controlsType = sourceElement.getAttribute(CONTROLS_TYPE);
-		String controlsHorizontalAlign = sourceElement.getAttribute(CONTROLS_HORIZONTAL_ALIGN);
-		String controlsVerticalAlign = sourceElement.getAttribute(CONTROLS_VERTICAL_ALIGN);
-		String captionLabel = sourceElement.getAttribute(CAPTION_LABEL);
+		String width = sourceElement.hasAttribute(WIDTH) ? sourceElement.getAttribute(WIDTH) : DEFAULT_WIDTH;
+		String height = sourceElement.hasAttribute(HEIGHT) ? sourceElement.getAttribute(HEIGHT) : DEFAULT_HEIGHT;
+//		String listWidth = sourceElement.getAttribute(LIST_WIDTH);
+//		String listHeight = sourceElement.getAttribute(LIST_HEIGHT);
 
 		/*
 		 * Crating tags structure
@@ -160,6 +155,7 @@ public class RichFacesOrderingList extends VpeAbstractTemplate {
 		/*
 		 * Set correct controls position
 		 */
+		String controlsHorizontalAlign = sourceElement.getAttribute(CONTROLS_HORIZONTAL_ALIGN);
 		if ("left".equalsIgnoreCase(controlsHorizontalAlign)) { //$NON-NLS-1$
 			tableButtonsCell = leftCell;
 			tableListCell = rightCell;
@@ -177,8 +173,8 @@ public class RichFacesOrderingList extends VpeAbstractTemplate {
 		/*
 		 * Setting required attributes 
 		 */
-		tableCommon.setAttribute(HTML.ATTR_WIDTH, (width == null ? DEFAULT_WIDTH : width));
-		tableCommon.setAttribute(HTML.ATTR_HEIGHT, (height == null ? DEFAULT_HEIGHT : height));
+		tableCommon.setAttribute(HTML.ATTR_WIDTH, width);
+		tableCommon.setAttribute(HTML.ATTR_HEIGHT, height);
 		tableCommon.setAttribute(HTML.ATTR_CLASS, CSS_LIST_BODY_CLASS);
 		tableCaptionCell.setAttribute(HTML.ATTR_CLASS, CSS_CAPTION_CLASS);
 		
@@ -197,22 +193,24 @@ public class RichFacesOrderingList extends VpeAbstractTemplate {
 			/*
 			 * Get value from caption label
 			 */
+			String captionLabel = sourceElement.getAttribute(CAPTION_LABEL);
 			tableCaptionCell.appendChild(visualDocument.createTextNode(captionLabel));
 		}
 		
 		/*
 		 * Encode controls
 		 */
+		String controlsType = sourceElement.getAttribute(CONTROLS_TYPE);
 		if (!"none".equalsIgnoreCase(controlsType)) { //$NON-NLS-1$
 			nsIDOMElement controlsDiv = createControlsDiv(pageContext, creationData, visualDocument, sourceElement);
 			tableButtonsCell.setAttribute(HTML.ATTR_CLASS,
 					CSS_BUTTON_VALIGN_CLASS);
-			tableButtonsCell.setAttribute(HTML.ATTR_ALIGN, "center"); //$NON-NLS-1$
+			tableButtonsCell.setAttribute(HTML.ATTR_ALIGN, "center"); //$NON-NLS-1$			
 			
-			if ((null != controlsVerticalAlign) && ("".equals(controlsVerticalAlign))){ //$NON-NLS-1$
-				tableButtonsCell.setAttribute(HTML.ATTR_VALIGN, ("center" //$NON-NLS-1$
-						.equalsIgnoreCase(controlsVerticalAlign) ? "middle" //$NON-NLS-1$
-								: controlsVerticalAlign));
+			if (sourceElement.hasAttribute(CONTROLS_VERTICAL_ALIGN)){
+				String controlsVerticalAlign = sourceElement.getAttribute(CONTROLS_VERTICAL_ALIGN);
+				String valign = "center".equalsIgnoreCase(controlsVerticalAlign) ? "middle" : controlsVerticalAlign; //$NON-NLS-1$ //$NON-NLS-2$
+				tableButtonsCell.setAttribute(HTML.ATTR_VALIGN, valign);
 			}
 			
 			tableButtonsCell.appendChild(controlsDiv);
@@ -243,23 +241,20 @@ public class RichFacesOrderingList extends VpeAbstractTemplate {
 		String downControlClass = sourceElement.getAttribute(DOWN_CONTROL_CLASS);
 		String bottomControlClass = sourceElement.getAttribute(BOTTOM_CONTROL_CLASS);
 		
-		String topControlLabel = sourceElement.getAttribute(TOP_CONTROL_LABEL);
-		String upControlLabel = sourceElement.getAttribute(UP_CONTROL_LABEL);
-		String downControlLabel = sourceElement.getAttribute(DOWN_CONTROL_LABEL);
-		String bottomControlLabel = sourceElement.getAttribute(BOTTOM_CONTROL_LABEL);
-
 		String showButtonLabelsStr = sourceElement.getAttribute(SHOW_BUTTON_LABELS);
 		String fastOrderControlsVisibleStr = sourceElement.getAttribute(FAST_ORDER_CONTROL_VISIBLE);
 		String orderControlsVisibleStr = sourceElement.getAttribute(ORDER_CONTROL_VISIBLE);
 		boolean showButtonLabels = ComponentUtil.string2boolean(showButtonLabelsStr);
 		boolean fastOrderControlsVisible = ComponentUtil.string2boolean(fastOrderControlsVisibleStr);
 		boolean orderControlsVisible = ComponentUtil.string2boolean(orderControlsVisibleStr);
-		String controlsClass = sourceElement.getAttribute(CONTROLS_CLASS);
 		
 		nsIDOMElement buttonsDiv = visualDocument.createElement(HTML.TAG_DIV);
-		buttonsDiv.setAttribute(HTML.ATTR_CLASS,
-				CSS_CONTROLS_CLASS + " " + (null != controlsClass ? controlsClass + " " : "") //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-						+ CSS_BUTTON_LAYOUT_CLASS);
+		
+		String controlsClass = CSS_CONTROLS_CLASS + " "; //$NON-NLS-1$
+		if (sourceElement.hasAttribute(CONTROLS_CLASS)) {
+			controlsClass += sourceElement.getAttribute(CONTROLS_CLASS) + " "; //$NON-NLS-1$
+		}
+		buttonsDiv.setAttribute(HTML.ATTR_CLASS, controlsClass + CSS_BUTTON_LAYOUT_CLASS);
 
 		Element top_control_facet = ComponentUtil.getFacet(sourceElement, TOP_CONTROL_FACET);
 		Element up_control_facet = ComponentUtil.getFacet(sourceElement, UP_CONTROL_FACET);
@@ -267,34 +262,43 @@ public class RichFacesOrderingList extends VpeAbstractTemplate {
 		Element bottom_control_facet = ComponentUtil.getFacet(sourceElement, BOTTOM_CONTROL_FACET);
 		
 		if (fastOrderControlsVisible) {
+			
+			String topControlLabel = sourceElement.hasAttribute(TOP_CONTROL_LABEL) ? sourceElement.getAttribute(TOP_CONTROL_LABEL) : TOP_CONTROL_LABEL_DEFAULT;
+			
 			nsIDOMElement btnTopDiv = createSingleButtonDiv(pageContext, creationData, visualDocument,
-					(null == topControlLabel ? TOP_CONTROL_LABEL_DEFAULT
-							: topControlLabel), TOP_CONTROL_IMG, 
-							showButtonLabels, top_control_facet, CSS_TOP_CONTROL_CLASS, topControlClass);
+					topControlLabel, TOP_CONTROL_IMG, showButtonLabels, top_control_facet, 
+							CSS_TOP_CONTROL_CLASS, topControlClass);
+			
 			buttonsDiv.appendChild(btnTopDiv);
 		}
 
 		if (orderControlsVisible) {
+			
+			String upControlLabel = sourceElement.hasAttribute(UP_CONTROL_LABEL)? sourceElement.getAttribute(UP_CONTROL_LABEL) : UP_CONTROL_LABEL_DEFAULT;
+			String downControlLabel = sourceElement.hasAttribute(DOWN_CONTROL_LABEL) ? sourceElement.getAttribute(DOWN_CONTROL_LABEL) : DOWN_CONTROL_LABEL_DEFAULT;
+			
 			nsIDOMElement btnUpDiv = createSingleButtonDiv(pageContext, creationData, visualDocument,
-					(null == upControlLabel ? UP_CONTROL_LABEL_DEFAULT
-							: upControlLabel), UP_CONTROL_IMG,
-							showButtonLabels, up_control_facet, CSS_UP_CONTROL_CLASS, upControlClass);
+					upControlLabel, UP_CONTROL_IMG, showButtonLabels, up_control_facet,
+							CSS_UP_CONTROL_CLASS, upControlClass);			
 			nsIDOMElement btnDownDiv = createSingleButtonDiv(pageContext, creationData, visualDocument,
-					(null == downControlLabel ? DOWN_CONTROL_LABEL_DEFAULT
-							: downControlLabel), DOWN_CONTROL_IMG, 
-							showButtonLabels, down_control_facet, CSS_DOWN_CONTROL_CLASS, downControlClass);
+					downControlLabel, DOWN_CONTROL_IMG, showButtonLabels, down_control_facet, 
+							CSS_DOWN_CONTROL_CLASS, downControlClass);
+			
 			buttonsDiv.appendChild(btnUpDiv);
 			buttonsDiv.appendChild(btnDownDiv);
 		}
-
+		
 		if (fastOrderControlsVisible) {
+			
+			String bottomControlLabel = sourceElement.hasAttribute(BOTTOM_CONTROL_LABEL) ? sourceElement.getAttribute(BOTTOM_CONTROL_LABEL) : BOTTOM_CONTROL_LABEL_DEFAULT;
+						
 			nsIDOMElement btnBottomDiv = createSingleButtonDiv(pageContext, creationData, visualDocument,
-					(null == bottomControlLabel ? BOTTOM_CONTROL_LABEL_DEFAULT
-							: bottomControlLabel), BOTTOM_CONTROL_IMG,
-					showButtonLabels, bottom_control_facet, CSS_BOTTOM_CONTROL_CLASS, bottomControlClass);
+					bottomControlLabel, BOTTOM_CONTROL_IMG, showButtonLabels, bottom_control_facet, 
+							CSS_BOTTOM_CONTROL_CLASS, bottomControlClass);
+			
 			buttonsDiv.appendChild(btnBottomDiv);
-
 		}
+		
 		return buttonsDiv;
 	}
 
@@ -391,7 +395,7 @@ public class RichFacesOrderingList extends VpeAbstractTemplate {
 		 */
 		ArrayList<Element> columnsHeaders = ComponentUtil.getColumnsWithFacet(columns, HEADER);
 		if (!columnsHeaders.isEmpty()) {
-			String headerClass = (String) sourceElement.getAttribute(HEADER_CLASS);
+			String headerClass = sourceElement.hasAttribute(HEADER_CLASS) ? sourceElement.getAttribute(HEADER_CLASS) : null;
 			nsIDOMElement tr = visualDocument.createElement(HTML.TAG_TR);
 			thead.appendChild(tr);
 			String styleClass = ComponentUtil.encodeStyleClass(null,
@@ -405,17 +409,17 @@ public class RichFacesOrderingList extends VpeAbstractTemplate {
 			 * Encoding columns headers
 			 */
 			for (Element column : columnsHeaders) {
-				String columnHeaderClass = column.getAttribute(RichFaces.ATTR_HEADER_CLASS);
+				String columnHeaderClass = column.hasAttribute(RichFaces.ATTR_HEADER_CLASS) ? column.getAttribute(RichFaces.ATTR_HEADER_CLASS) : null;
 				nsIDOMElement td = visualDocument.createElement(HTML.TAG_TD);
 				tr.appendChild(td);
 				td.setAttribute(HTML.ATTR_BACKGROUND, "file:///" //$NON-NLS-1$
 						+ ComponentUtil.getAbsoluteResourcePath(HEADER_CELL_BG).replace('\\', '/'));
 				styleClass = ComponentUtil.encodeStyleClass(null, CSS_TABLE_HEADER_CELL_CLASS,
 						headerClass, columnHeaderClass);
-				td.setAttribute(HTML.ATTR_CLASS, styleClass);
+				td.setAttribute(HTML.ATTR_CLASS, styleClass);				
 				
-				String colspan = column.getAttribute(HTML.ATTR_COLSPAN);
-				if (colspan != null && colspan.length() > 0) {
+				if (column.hasAttribute(HTML.ATTR_COLSPAN)) {
+					String colspan = column.getAttribute(HTML.ATTR_COLSPAN);
 					td.setAttribute(HTML.ATTR_COLSPAN, colspan);
 				}
 				Element facetBody = ComponentUtil.getFacet(column, RichFaces.NAME_FACET_HEADER);
@@ -428,9 +432,6 @@ public class RichFacesOrderingList extends VpeAbstractTemplate {
 		/*
 		 * Encode content 
 		 */
-		String listWidth = sourceElement.getAttribute(LIST_WIDTH);
-		String listHeight = sourceElement.getAttribute(LIST_HEIGHT);
-		String listClass = sourceElement.getAttribute(LIST_CLASS);
 		
 		/*
 		 * TODO: implement support of rowClasses
@@ -439,19 +440,23 @@ public class RichFacesOrderingList extends VpeAbstractTemplate {
 		 */
 //		String rowClasses = sourceElement.getAttribute(ROW_CLASSES);
 		
-		String divStyle = HTML.ATTR_WIDTH + " : " //$NON-NLS-1$
-		+ (listWidth == null ? DEFAULT_LIST_WIDTH : listWidth) + ";" //$NON-NLS-1$
-		+ HTML.ATTR_HEIGHT + " : " //$NON-NLS-1$
-		+ (listHeight == null ? DEFAULT_LIST_HEIGHT : listHeight) + ";" //$NON-NLS-1$
-		+ "overflow: scroll;"; //$NON-NLS-1$
-
-		contentDiv.setAttribute(HTML.ATTR_STYLE, divStyle);
+		String listWidth = sourceElement.hasAttribute(LIST_WIDTH) ? sourceElement.getAttribute(LIST_WIDTH) : DEFAULT_LIST_WIDTH;
+		String listHeight = sourceElement.hasAttribute(LIST_HEIGHT) ? sourceElement.getAttribute(LIST_HEIGHT) : DEFAULT_LIST_HEIGHT;
 		
+		String divStyle = HTML.ATTR_WIDTH + " : " //$NON-NLS-1$
+			+ listWidth + ";" //$NON-NLS-1$
+				+ HTML.ATTR_HEIGHT + " : " //$NON-NLS-1$
+					+ listHeight + ";" //$NON-NLS-1$
+						+ "overflow: scroll;"; //$NON-NLS-1$
+		contentDiv.setAttribute(HTML.ATTR_STYLE, divStyle);		
 		contentDiv.setAttribute(HTML.ATTR_CLASS,
 				CSS_LIST_OUTPUT_CLASS + " " + CSS_LIST_CONTENT_CLASS); //$NON-NLS-1$
-		contentTable.setAttribute(HTML.ATTR_CLASS,
-				CSS_LIST_ITEMS_CLASS + " " + (null == listClass ? "" : listClass)); //$NON-NLS-1$ //$NON-NLS-2$
-
+		
+		String listClass = CSS_LIST_ITEMS_CLASS;
+		if (sourceElement.hasAttribute(LIST_CLASS)) {
+			listClass += " " + sourceElement.getAttribute(LIST_CLASS); //$NON-NLS-1$
+		}
+		contentTable.setAttribute(HTML.ATTR_CLASS, listClass);
 		contentTable.setAttribute(HTML.ATTR_CELLSPACING, "1"); //$NON-NLS-1$
 		
 		VisualDomUtil.copyAttributes(sourceElement, contentTable);
