@@ -41,6 +41,8 @@ public class JsfUIMessages extends NLS {
 	public static String MISSING_NATURES_INFO_MESSAGE_TITLE;
 	public static String SKIP_BUTTON_LABEL;
 	
+	public static String MESSAGES_FILE_RENAME_PARTICIPANT_UPDATE_MESSAGE_BUNDLE_REFERENCES;
+	
 	static {
 		// initialize resource bundle
 		NLS.initializeMessages(BUNDLE_NAME, JsfUIMessages.class);
