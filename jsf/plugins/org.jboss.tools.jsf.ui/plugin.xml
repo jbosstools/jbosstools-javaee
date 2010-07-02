@@ -441,7 +441,24 @@
             </with>
          </enablement>
       </renameParticipant>
+          <renameParticipant
+            class="org.jboss.tools.jsf.ui.el.refactoring.MessagesFileRenameParticipant"
+            id="org.jboss.tools.jsf.ui.el.refactoring.MessagesFileRenameParticipant"
+            name="jsf-MessagesFileRenameParticipant">
+         <enablement>
+            <!--with variable="affectedNatures">
+               <iterate operator="or">
+                  <equals value="org.eclipse.wst.common.modulecore.ModuleCoreNature"/>
+               </iterate>
+            </with-->
+            <with variable="element">
+                   <instanceof value="org.eclipse.core.resources.IFile"/>
+            </with>
+         </enablement>
+      </renameParticipant>
+      
     </extension>
+    
     
     <!-- Refactorng -->
 	<extension
