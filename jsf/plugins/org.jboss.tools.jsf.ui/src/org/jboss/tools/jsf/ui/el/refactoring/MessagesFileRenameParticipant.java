@@ -11,10 +11,12 @@
 package org.jboss.tools.jsf.ui.el.refactoring;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.OperationCanceledException;
+import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.ltk.core.refactoring.Change;
 import org.eclipse.ltk.core.refactoring.CompositeChange;
 import org.eclipse.ltk.core.refactoring.RefactoringStatus;
@@ -24,6 +26,7 @@ import org.eclipse.ltk.core.refactoring.participants.RenameParticipant;
 import org.eclipse.text.edits.MultiTextEdit;
 import org.eclipse.text.edits.ReplaceEdit;
 import org.eclipse.text.edits.TextEdit;
+import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.jsf.ui.JsfUIMessages;
 import org.jboss.tools.jst.web.kb.refactoring.SearchUtil;
 import org.jboss.tools.jst.web.kb.refactoring.SearchUtil.FileResult;
@@ -44,8 +47,15 @@ public class MessagesFileRenameParticipant extends RenameParticipant {
 			if(PROPERTIES_EXT.equals(ext)){
 				
 				IPath path = file.getFullPath();
+				
 				String newName = getArguments().getNewName();
-				String oldName = "\"demo.Messages\"";
+				newName = newName.replace(".properties","");
+				String oldName = getQualifiedName(path);
+				String fileName = file.getName().replace(".properties","");
+				newName = "\""+oldName.replace(fileName,newName)+"\"";
+				
+				System.out.println("newName - <"+newName+">");
+				System.out.println("oldName - <"+oldName+">");
 				
 				SearchUtil su = new SearchUtil(SearchUtil.XML_FILES, oldName);
 				SearchResult result = su.searchInNodeAttribute(file.getProject(), ":loadBundle", "basename");
@@ -55,7 +65,7 @@ public class MessagesFileRenameParticipant extends RenameParticipant {
 					fileChange.setEdit(root);
 					rootChange.add(fileChange);
 					for(int position : fr.getPositions()){
-						TextEdit edit = new ReplaceEdit(position, oldName.length(), "\""+newName+"\"");
+						TextEdit edit = new ReplaceEdit(position, oldName.length(), newName);
 						fileChange.addEdit(edit);
 					}
 				}
@@ -63,6 +73,25 @@ public class MessagesFileRenameParticipant extends RenameParticipant {
 			}
 		}
 		return false;
+	}
+	
+	private String getQualifiedName(IPath path){
+		IJavaProject javaProject = EclipseResourceUtil.getJavaProject(file.getProject());
+		
+		// searching java, xml and property files in source folders
+		if(javaProject != null){
+			for(IResource resource : EclipseResourceUtil.getJavaSourceRoots(file.getProject())){
+				IPath javaSource = resource.getFullPath();
+				if(javaSource.segmentCount() == javaSource.matchingFirstSegments(path)){
+					IPath relativePath = path.removeFirstSegments(javaSource.segmentCount());
+					String pathString = relativePath.toString();
+					pathString = pathString.replace(".properties","");
+					pathString = pathString.replace("/",".");
+					return "\""+pathString+"\"";
+				}
+			}
+		}
+		return "";
 	}
 
 	@Override
