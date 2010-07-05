@@ -45,8 +45,11 @@ public class RichFacesDataTableTemplate extends VpeAbstractTemplate {
 		VpeCreationData creationData = new VpeCreationData(table);
 
 		ComponentUtil.setCSSLink(pageContext, "dataTable/dataTable.css", "richFacesDataTable"); //$NON-NLS-1$ //$NON-NLS-2$
-		String tableClass = sourceElement.getAttribute(RichFaces.ATTR_STYLE_CLASS);
-		table.setAttribute(HTML.ATTR_CLASS, "dr-table rich-table " + (tableClass==null?Constants.EMPTY:tableClass)); //$NON-NLS-1$
+		String tableClass = "dr-table rich-table"; //$NON-NLS-1$
+		if (sourceElement.hasAttribute(RichFaces.ATTR_STYLE_CLASS)) {
+			tableClass += " " + sourceElement.getAttribute(RichFaces.ATTR_STYLE_CLASS); //$NON-NLS-1$
+		}
+		table.setAttribute(HTML.ATTR_CLASS, tableClass);
 
 		// Encode colgroup definition.
 		ArrayList<Element> columns = getColumns(sourceElement);
@@ -54,9 +57,9 @@ public class RichFacesDataTableTemplate extends VpeAbstractTemplate {
 		nsIDOMElement colgroup = visualDocument.createElement(HTML.TAG_COLGROUP);
 		colgroup.setAttribute(HTML.ATTR_SPAN, String.valueOf(columnsLength));
 		table.appendChild(colgroup);
-
-		String columnsWidth = sourceElement.getAttribute(RichFaces.ATTR_COLUMNS_WIDTH);
-		if (null != columnsWidth) {
+		
+		if (sourceElement.hasAttribute(RichFaces.ATTR_COLUMNS_WIDTH)) {
+			String columnsWidth = sourceElement.getAttribute(RichFaces.ATTR_COLUMNS_WIDTH);
 			String[] widths = columnsWidth.split(Constants.COMMA);
 			for (int i = 0; i < widths.length; i++) {
 				nsIDOMElement col = visualDocument.createElement(HTML.TAG_COL);
@@ -86,7 +89,7 @@ public class RichFacesDataTableTemplate extends VpeAbstractTemplate {
 		if(headerJsfElementPresents || hasColumnWithHeader) {
 			nsIDOMElement thead = visualDocument.createElement(HTML.TAG_THEAD);
 			table.appendChild(thead);
-			String headerClass = (String) sourceElement.getAttribute(RichFaces.ATTR_HEADER_CLASS);
+			String headerClass = sourceElement.hasAttribute(RichFaces.ATTR_HEADER_CLASS) ? sourceElement.getAttribute(RichFaces.ATTR_HEADER_CLASS) : null;
 			if(headerJsfElementPresents) {
 				Node node = headerFacetChildren.get(VisualDomUtil.FACET_JSF_TAG).get(0);
 				encodeTableHeaderOrFooterFacet(pageContext, creationData,
@@ -120,7 +123,7 @@ public class RichFacesDataTableTemplate extends VpeAbstractTemplate {
 		if (footerJsfElementPresents || hasColumnWithFooter) {
 			nsIDOMElement tfoot = visualDocument.createElement(HTML.TAG_TFOOT);
 			table.appendChild(tfoot);
-			String footerClass = (String) sourceElement.getAttribute(RichFaces.ATTR_FOOTER_CLASS);
+			String footerClass = sourceElement.hasAttribute(RichFaces.ATTR_FOOTER_CLASS) ? sourceElement.getAttribute(RichFaces.ATTR_FOOTER_CLASS) : null;
 			if(hasColumnWithFooter) {
 				nsIDOMElement tr = visualDocument.createElement(HTML.TAG_TR);
 				tfoot.appendChild(tr);
@@ -199,7 +202,7 @@ public class RichFacesDataTableTemplate extends VpeAbstractTemplate {
 		    if (null != facet) {
 		    	String classAttribute = facetName + "Class"; //$NON-NLS-1$
 		    	
-		    	String columnHeaderClass = column.getAttribute(classAttribute);
+		    	String columnHeaderClass = column.hasAttribute(classAttribute) ? column.getAttribute(classAttribute) : null;
 		    	nsIDOMElement td = visualDocument.createElement(element);
 		    	parentTr.appendChild(td);
 		    	String styleClass = ComponentUtil.encodeStyleClass(null, skinCellClass, headerClass, columnHeaderClass);
@@ -208,9 +211,9 @@ public class RichFacesDataTableTemplate extends VpeAbstractTemplate {
 		    				HTML.STYLE_PARAMETER_DISPLAY, HTML.STYLE_VALUE_NONE);
 		    	}
 		    	td.setAttribute(HTML.ATTR_CLASS, styleClass);
-		    	td.setAttribute(HTML.ATTR_SCOPE, "col"); //$NON-NLS-1$
-		    	String colspan = column.getAttribute("colspan"); //$NON-NLS-1$
-		    	if(colspan!=null && colspan.length()>0) {
+		    	td.setAttribute(HTML.ATTR_SCOPE, "col"); //$NON-NLS-1$		    	
+		    	if(column.hasAttribute("colspan")) { //$NON-NLS-1$
+		    		String colspan = column.getAttribute("colspan"); //$NON-NLS-1$
 		    		td.setAttribute(HTML.ATTR_COLSPAN, colspan);
 		    	}
 		    	if (RichFaces.NAME_FACET_HEADER.equals(facetName)) {

@@ -56,8 +56,11 @@ public class RichFacesDataGridTemplate extends RichFacesDataTableTemplate {
 		creationData.addChildrenInfo(new VpeChildrenInfo(null));
 
 		ComponentUtil.setCSSLink(pageContext, "dataTable/dataTable.css", "richFacesDataGrid"); //$NON-NLS-1$ //$NON-NLS-2$
-		String tableClass = sourceElement.getAttribute(RichFaces.ATTR_STYLE_CLASS);
-		table.setAttribute(HTML.ATTR_CLASS, "dr-table rich-table " + (tableClass==null?Constants.EMPTY:tableClass)); //$NON-NLS-1$
+		String tableClass = "dr-table rich-table"; //$NON-NLS-1$
+		if(sourceElement.hasAttribute(RichFaces.ATTR_STYLE_CLASS)) {
+			tableClass += " " + sourceElement.getAttribute(RichFaces.ATTR_STYLE_CLASS); //$NON-NLS-1$
+		}
+		table.setAttribute(HTML.ATTR_CLASS, tableClass);
 
 		/*
 		 * Encode colgroup definition.
@@ -84,7 +87,7 @@ public class RichFacesDataGridTemplate extends RichFacesDataTableTemplate {
 		if (headerBody != null) {
 			nsIDOMElement thead = visualDocument.createElement(HTML.TAG_THEAD);
 			table.appendChild(thead);
-			String headerClass = (String) sourceElement.getAttribute(RichFaces.ATTR_HEADER_CLASS);
+			String headerClass = sourceElement.hasAttribute(RichFaces.ATTR_HEADER_CLASS) ? sourceElement.getAttribute(RichFaces.ATTR_HEADER_CLASS) : null;
 			encodeTableHeaderOrFooterFacet(pageContext, creationData, thead, columnsLength, visualDocument, headerBody,
 					"dr-table-header rich-table-header", //$NON-NLS-1$
 					"dr-table-header-continue rich-table-header-continue", //$NON-NLS-1$
@@ -101,7 +104,7 @@ public class RichFacesDataGridTemplate extends RichFacesDataTableTemplate {
 		if (footerBody != null) {
 			nsIDOMElement tfoot = visualDocument.createElement(HTML.TAG_TFOOT);
 			table.appendChild(tfoot);
-			String footerClass = (String) sourceElement.getAttribute(RichFaces.ATTR_FOOTER_CLASS);
+			String footerClass = sourceElement.hasAttribute(RichFaces.ATTR_FOOTER_CLASS) ? sourceElement.getAttribute(RichFaces.ATTR_FOOTER_CLASS) : null;
 			encodeTableHeaderOrFooterFacet(pageContext, creationData, tfoot, columnsLength, visualDocument, footerBody,
 					"dr-table-footer rich-table-footer", //$NON-NLS-1$
 					"dr-table-footer-continue rich-table-footer-continue", //$NON-NLS-1$

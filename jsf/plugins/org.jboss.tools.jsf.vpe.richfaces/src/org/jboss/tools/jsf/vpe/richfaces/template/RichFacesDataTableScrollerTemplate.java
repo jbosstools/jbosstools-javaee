@@ -123,11 +123,11 @@ public class RichFacesDataTableScrollerTemplate extends VpeAbstractTemplate {
 	/*
 	 * Adding fake children info to avoid creating pseudo element.
 	 */
-	creationData.addChildrenInfo(new VpeChildrenInfo(div));
+	creationData.addChildrenInfo(new VpeChildrenInfo(div));	
 	
-	String align = sourceElement.getAttribute(RichFaces.ATTR_ALIGN);
-	if (align == null) {
-		align = HTML.VALUE_ALIGN_CENTER;
+	String align = HTML.VALUE_ALIGN_CENTER;
+	if (sourceElement.hasAttribute(RichFaces.ATTR_ALIGN)) {
+		align = sourceElement.getAttribute(RichFaces.ATTR_ALIGN);		
 	}
 	div.setAttribute(HTML.ATTR_ALIGN, align);
 
@@ -265,7 +265,6 @@ public class RichFacesDataTableScrollerTemplate extends VpeAbstractTemplate {
     private void readAttributes(Node sourceNode) {
 
 	Element sourceElement = (Element) sourceNode;
-	String attrValue = null;
 
 	showBoundaryControls = (!sourceElement
 		.hasAttribute(ATTR_BOUNDARY_CONTROLS) || ATTR_VALUE_SHOW
@@ -288,33 +287,29 @@ public class RichFacesDataTableScrollerTemplate extends VpeAbstractTemplate {
 	inactiveStyle = sourceElement.getAttribute(ATTR_INACTIVE_STYLE);
 
 	inactiveStyleClass = CSS_RICH_DATASCR_INACT;
-	attrValue = sourceElement.getAttribute(ATTR_INACTIVE_STYLE_CLASS);
-	if (ComponentUtil.isNotBlank(attrValue)) {
-	    inactiveStyleClass += Constants.WHITE_SPACE + attrValue;
+	if (sourceElement.hasAttribute(ATTR_INACTIVE_STYLE_CLASS)) {
+	    inactiveStyleClass += Constants.WHITE_SPACE + sourceElement.getAttribute(ATTR_INACTIVE_STYLE_CLASS);
 	}
 
 	selectedStyle = sourceElement.getAttribute(ATTR_SELECTED_STYLE);
 
 	selectedStyleClass = CSS_RICH_DATASCR_ACT;
-	attrValue = sourceElement.getAttribute(ATTR_SELECTED_STYLE_CLASS);
-	if (ComponentUtil.isNotBlank(attrValue)) {
-	    selectedStyleClass += Constants.WHITE_SPACE + attrValue;
+	if (sourceElement.hasAttribute(ATTR_SELECTED_STYLE_CLASS)) {
+	    selectedStyleClass += Constants.WHITE_SPACE + sourceElement.getAttribute(ATTR_SELECTED_STYLE_CLASS);
 	}
 
 	tableStyle = sourceElement.getAttribute(ATTR_TABLE_STYLE);
 
 	tableStyleClass = CSS_RICH_DATASCROLLER_TABLE;
-	attrValue = sourceElement.getAttribute(ATTR_TABLE_STYLE_CLASS);
-	if (ComponentUtil.isNotBlank(attrValue)) {
-	    tableStyleClass += Constants.WHITE_SPACE + attrValue;
+	if (sourceElement.hasAttribute(ATTR_TABLE_STYLE_CLASS)) {
+	    tableStyleClass += Constants.WHITE_SPACE + sourceElement.getAttribute(ATTR_TABLE_STYLE_CLASS);
 	}
 
 	style = sourceElement.getAttribute(HTML.ATTR_STYLE);
 
 	styleClass = CSS_RICH_DATASCR;
-	attrValue = sourceElement.getAttribute(RichFaces.ATTR_STYLE_CLASS);
-	if (ComponentUtil.isNotBlank(attrValue)) {
-	    styleClass += Constants.WHITE_SPACE + attrValue;
+	if (sourceElement.hasAttribute(RichFaces.ATTR_STYLE_CLASS)) {
+	    styleClass += Constants.WHITE_SPACE + sourceElement.getAttribute(RichFaces.ATTR_STYLE_CLASS);
 	}
 
     }
