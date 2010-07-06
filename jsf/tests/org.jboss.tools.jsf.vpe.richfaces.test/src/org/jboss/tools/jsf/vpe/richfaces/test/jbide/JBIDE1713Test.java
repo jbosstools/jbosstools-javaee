@@ -34,9 +34,9 @@ import org.mozilla.interfaces.nsIDOMNode;
  */
 public class JBIDE1713Test extends VpeTest {
 
-	public static final String IMPORT_PROJECT_NAME = "richFacesTest";
+	public static final String IMPORT_PROJECT_NAME = "richFacesTest"; //$NON-NLS-1$
 
-	private static final String TEST_PAGE_NAME = "JBIDE/1713/JBIDE-1713.xhtml";
+	private static final String TEST_PAGE_NAME = "JBIDE/1713/JBIDE-1713.xhtml"; //$NON-NLS-1$
 
 	public JBIDE1713Test(String name) {
 		super(name);
@@ -58,7 +58,7 @@ public class JBIDE1713Test extends VpeTest {
 
 		IEditorInput input = new FileEditorInput(file);
 
-		assertNotNull("Editor input is null", input);
+		assertNotNull("Editor input is null", input); //$NON-NLS-1$
 		// open and get editor
 		JSPMultiPageEditor part = openEditor(input);
 		// get dom document
@@ -84,14 +84,14 @@ public class JBIDE1713Test extends VpeTest {
 
 		// Check applying styleClass
 		String styleClass = table.getAttribute(HTML.ATTR_CLASS);
-		assertNotNull("styleClass attribute not apply", styleClass);
-		assertEquals("dr-pnlbar rich-panelbar dr-pnlbar-b myClass", styleClass);
+		assertNotNull("styleClass attribute not apply", styleClass); //$NON-NLS-1$
+		assertEquals("dr-pnlbar rich-panelbar dr-pnlbar-b myClass", styleClass); //$NON-NLS-1$
 
 		// Check applying style
 		String stylePanel = table.getAttribute(HTML.ATTR_STYLE);
-		assertNotNull("style attribute not apply", stylePanel);
+		assertNotNull("style attribute not apply", stylePanel); //$NON-NLS-1$
 		assertEquals(
-				"padding: 0px; height: 207px; width: 453px; font-weight: bold;",
+				"padding: 0px; height: 207px; width: 453px; font-weight: bold;", //$NON-NLS-1$
 				stylePanel);
 
 		elements.clear();
@@ -100,21 +100,41 @@ public class JBIDE1713Test extends VpeTest {
 
 		assertEquals(10, elements.size());
 
+		/*
+		 * Get the fifth DIV with text "nice"
+		 */
 		nsIDOMElement activeToggle = queryInterface(elements.get(5), nsIDOMElement.class);
 
 		assertNotNull(activeToggle);
 		String activeToggleClass = activeToggle.getAttribute(HTML.ATTR_CLASS);
 		assertNotNull(activeToggleClass);
 		assertEquals(
-				"dr-pnlbar-h rich-panelbar-header myHeaderStyle1 myHeaderStyle myHeaderStyleActive1 myHeaderStyleActive",
+				"dr-pnlbar-h rich-panelbar-header myHeaderStyle1 myHeaderStyle myHeaderStyleActive1 myHeaderStyleActive", //$NON-NLS-1$
 				activeToggleClass);
 
 		String activeToggleStyle = activeToggle.getAttribute(HTML.ATTR_STYLE);
 		assertNotNull(activeToggleStyle);
-		assertEquals(
-				"background: red none repeat scroll 0% 0%; color: blue; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous;",
-				activeToggleStyle);
 
+		/*
+		 * Fix for -- https://jira.jboss.org/browse/JBIDE-6539
+		 * Due to differences in XulRunner 1.9.2 and 1.9.1
+		 * style attribute is compared by its splitted values.
+		 * After migration to XR 1.9.2 is finished style value should be equals
+		 * "background: red none repeat scroll 0% 0%; color: blue;"
+		 */
+//		assertEquals(
+//		"background: red none repeat scroll 0% 0%; color: blue; -moz-background-clip: border; -moz-background-origin: padding; -moz-background-inline-policy: continuous;",
+//		activeToggleStyle);
+		assertTrue("Style is incorrect: [color: blue] should present.", //$NON-NLS-1$
+				activeToggleStyle.contains("color: blue")); //$NON-NLS-1$
+		assertTrue("Style is incorrect: [background:] should present.", //$NON-NLS-1$
+				activeToggleStyle.contains("background:")); //$NON-NLS-1$
+		assertTrue("Style is incorrect: [red] should present.", //$NON-NLS-1$
+				activeToggleStyle.contains("red")); //$NON-NLS-1$
+		assertTrue(
+				"Style is incorrect: [none repeat scroll 0% 0%] should present.", //$NON-NLS-1$
+				activeToggleStyle.contains("none repeat scroll 0% 0%")); //$NON-NLS-1$
+		
 		// check active content
 		List<nsIDOMNode> contentElements = new ArrayList<nsIDOMNode>();
 		TestUtil.findAllElementsByName(node, contentElements, HTML.TAG_TD);
@@ -128,13 +148,13 @@ public class JBIDE1713Test extends VpeTest {
 		String activeContentStyle = contentElement
 				.getAttribute(HTML.ATTR_STYLE);
 		assertNotNull(activeContentStyle);
-		assertEquals("color: green;", activeContentStyle);
+		assertEquals("color: green;", activeContentStyle); //$NON-NLS-1$
 
 		String activeContentClass = contentElement
 				.getAttribute(HTML.ATTR_CLASS);
 		assertNotNull(activeContentClass);
 		assertEquals(
-				"dr-pnlbar-c rich-panelbar-content myContentStyle1 myContentStyle",
+				"dr-pnlbar-c rich-panelbar-content myContentStyle1 myContentStyle", //$NON-NLS-1$
 				activeContentClass);
 
 		// check facet
@@ -145,12 +165,12 @@ public class JBIDE1713Test extends VpeTest {
 		String disabledContentStyle = disabledToggle
 				.getAttribute(HTML.ATTR_STYLE);
 		assertNotNull(disabledContentStyle);
-		assertEquals("color: green;", disabledContentStyle);
+		assertEquals("color: green;", disabledContentStyle); //$NON-NLS-1$
 
 		String disabledContentClass = disabledToggle
 				.getAttribute(HTML.ATTR_CLASS);
 		assertNotNull(disabledContentClass);
-		assertEquals("dr-pnlbar-h rich-panelbar-header myHeaderStyle1",
+		assertEquals("dr-pnlbar-h rich-panelbar-header myHeaderStyle1", //$NON-NLS-1$
 				disabledContentClass);
 
 		contentElements.clear();
@@ -164,11 +184,11 @@ public class JBIDE1713Test extends VpeTest {
 
 		disabledContentStyle = disabledToggle.getAttribute(HTML.ATTR_STYLE);
 		assertNotNull(disabledContentStyle);
-		assertEquals("color: green;", disabledContentStyle);
+		assertEquals("color: green;", disabledContentStyle); //$NON-NLS-1$
 
 		disabledContentClass = disabledToggle.getAttribute(HTML.ATTR_CLASS);
 		assertNotNull(disabledContentClass);
-		assertEquals("dr-pnlbar-h rich-panelbar-header myHeaderStyle1",
+		assertEquals("dr-pnlbar-h rich-panelbar-header myHeaderStyle1", //$NON-NLS-1$
 				disabledContentClass);
 
 		if (getException() != null) {
