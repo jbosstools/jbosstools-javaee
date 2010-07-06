@@ -485,19 +485,19 @@ VpeToggableTemplate {
 		String pathIconCollapsed = attrs.getPmg_iconCollapsed();
 		String pathIconDisabled = attrs.getPmg_iconDisabled();
 			
-			if (pathIconExpanded == null) {
+			if (ComponentUtil.isBlank(pathIconExpanded)) {
 			    if (childOfPanelMenu) {
 				pathIconExpanded = attrs.getPm_iconExpandedTopGroup();
 			    } 
 			    pathIconExpanded = attrs.getPm_iconExpandedGroup();
 			}
-			if (pathIconCollapsed == null) {
+			if (ComponentUtil.isBlank(pathIconCollapsed)) {
 			    if (childOfPanelMenu) {
 				pathIconCollapsed = attrs.getPm_iconCollapsedTopGroup();
 			    } 
 			    pathIconCollapsed = attrs.getPm_iconCollapsedGroup();
 			}
-			if (pathIconDisabled == null) {
+			if (ComponentUtil.isBlank(pathIconDisabled)) {
 			    if (childOfPanelMenu) {
 				pathIconDisabled = attrs.getPm_iconTopDisabledGroup();
 			    } 
@@ -523,7 +523,7 @@ VpeToggableTemplate {
 				if (ComponentUtil.isNotBlank(pathIconExpanded)) {
 					if (DEFAULT_ICON_MAP.containsKey(pathIconExpanded)) {
 						pathIconExpanded = DEFAULT_ICON_MAP
-						.get(pathIconExpanded);
+							.get(pathIconExpanded);
 						ComponentUtil.setImg(imgIcon, pathIconExpanded);
 					} else {
 						String imgFullPath = VpeStyleUtil.addFullPathToImgSrc(
