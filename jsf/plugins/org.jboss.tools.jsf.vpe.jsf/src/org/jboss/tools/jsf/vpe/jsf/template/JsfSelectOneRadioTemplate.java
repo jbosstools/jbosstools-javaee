@@ -73,9 +73,11 @@ public class JsfSelectOneRadioTemplate extends VpeAbstractTemplate {
 		sourceElement, ATTR_STYLE_CLASS));
 	visualTable.setAttribute(HTML.ATTR_STYLE, ComponentUtil.getAttribute(
 		sourceElement, HTML.ATTR_STYLE));
-	String border = sourceElement.getAttribute(ATTR_BORDER);
-	if (border != null)
+	
+	if (sourceElement.hasAttribute(ATTR_BORDER)) {
+		String border = sourceElement.getAttribute(ATTR_BORDER);
 	    visualTable.setAttribute(ATTR_BORDER, border);
+	}
 
 	NodeList children = sourceNode.getChildNodes();
 	int count = children != null ? children.getLength() : 0;

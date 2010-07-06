@@ -186,7 +186,7 @@ public class JsfOutputFormatTemplate extends AbstractOutputJsfTemplate {
 				// decode
 				int num = Integer.decode(paramNumber);
 
-				if (num < paramList.size()) {
+				if (num < paramList.size() && paramList.get(num).hasAttribute(JSF.ATTR_VALUE)) {
 					// get param's value
 					value = paramList.get(num).getAttribute(JSF.ATTR_VALUE);
 				}

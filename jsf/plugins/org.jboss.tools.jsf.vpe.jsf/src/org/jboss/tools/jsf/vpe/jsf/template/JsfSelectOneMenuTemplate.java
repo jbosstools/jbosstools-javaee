@@ -88,13 +88,11 @@ public class JsfSelectOneMenuTemplate extends VpeAbstractTemplate {
 		// import attributes from source
 		Set<String> jsfAttributes = ATTR_LIST_COPY.keySet();
 
-		for (String attributeName : jsfAttributes) {
-
-			// get attribute
-			String attr = element.getAttribute(attributeName);
-
+		for (String attributeName : jsfAttributes) {			
 			// add attribute to "select"
-			if (attr != null) {
+			if (element.hasAttribute(attributeName)) {
+				// get attribute
+				String attr = element.getAttribute(attributeName);
 				if (attributeName.equalsIgnoreCase(HTML.ATTR_DISABLED)) {
 					if (attr.equalsIgnoreCase(Constants.TRUE)) {
 						select.setAttribute(ATTR_LIST_COPY.get(attributeName),
