@@ -1,101 +1,92 @@
 <tests>
 	<test id="pickList">
 		<TABLE CLASS="rich-list-picklist" STYLE="">
-<TBODY>
-	<TR>
-		<TD>
-			<DIV CLASS="rich-picklist-source-items" STYLE="width: 140px; height: 140px;">
-				<TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
-					CLASS="rich-picklist-body">
-					<TR>
-						<TD STYLE="border: 0px none ; padding: 0px;">
-							<DIV CLASS="rich-picklist-list">
-								<DIV CLASS="rich-picklist-list-content" STYLE="width: 140px; height: 140px;">
-									<TABLE CELLPADDING="0" CLASS="rich-picklist-internal-tab">
-										<TBODY>
-											<OPTION >
-												Option 1
-</OPTION>
-											<OPTION>
-												Option 2
-</OPTION>
-											<OPTION>
-												Option 3
-</OPTION>
-										</TBODY>
-									</TABLE>
+			<TBODY>
+				<TR>
+					<TD>
+						<DIV CLASS="rich-picklist-source-items" STYLE="width: 140px; height: 140px;">
+							<TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+								CLASS="rich-picklist-body">
+								<TR>
+									<TD STYLE="border: 0px none ; padding: 0px;">
+										<DIV CLASS="rich-picklist-list">
+											<DIV CLASS="rich-picklist-list-content" STYLE="width: 140px; height: 140px;">
+												<TABLE CELLPADDING="0" CLASS="rich-picklist-internal-tab">
+													<TBODY>
+														<OPTION>
+															Option 1
+														</OPTION>
+														<OPTION>
+															Option 2
+														</OPTION>
+														<OPTION>
+															Option 3
+														</OPTION>
+													</TBODY>
+												</TABLE>
+											</DIV>
+										</DIV>
+									</TD>
+								</TR>
+							</TABLE>
+						</DIV>
+					</TD>
+					<TD STYLE="vertical-align: middle;">
+						<DIV CLASS="rich-picklist-controls">
+							<DIV CLASS="rich-picklist-control-button-class">
+								<DIV STYLE="/.*/resources/pickList/button.gif/" CLASS="rich-list-picklist-button">
+									<DIV CLASS="rich-list-picklist-button-content">
+										<IMG WIDTH="15" HEIGHT="15" SRC="/.*/pickList/arrow_copy_all.gif/" />
+
+										Copy all
+									</DIV>
 								</DIV>
 							</DIV>
-						</TD>
-					</TR>
-				</TABLE>
-			</DIV>
-		</TD>
-		<TD STYLE="vertical-align: middle;">
-			<DIV CLASS="rich-picklist-controls">
-				<DIV CLASS="rich-picklist-control-button-class">
-					<DIV
-						STYLE="/.*/resources/pickList/button.gif\);/"
-						CLASS="rich-list-picklist-button">
-						<DIV CLASS="rich-list-picklist-button-content">
-							<IMG WIDTH="15" HEIGHT="15"
-								SRC="/.*/pickList/arrow_copy_all.gif/" />
+							<DIV CLASS="rich-picklist-control-button-class">
+								<DIV STYLE="/.*/resources/pickList/button.gif/" CLASS="rich-list-picklist-button">
+									<DIV CLASS="rich-list-picklist-button-content">
+										<IMG WIDTH="15" HEIGHT="15"
+											SRC="/.*/resources/pickList/arrow_copy.gif/" />
 
-							Copy all
-						</DIV>
-					</DIV>
-				</DIV>
-				<DIV CLASS="rich-picklist-control-button-class">
-					<DIV
-						STYLE="/.*/resources/pickList/button.gif\);/"
-						CLASS="rich-list-picklist-button">
-						<DIV CLASS="rich-list-picklist-button-content">
-							<IMG WIDTH="15" HEIGHT="15"
-								SRC="/.*/resources/pickList/arrow_copy.gif/" />
+										Copy
+									</DIV>
+								</DIV>
+							</DIV>
+							<DIV CLASS="rich-picklist-control-button-class">
+								<DIV STYLE="/.*/resources/pickList/button.gif/" CLASS="rich-list-picklist-button">
+									<DIV CLASS="rich-list-picklist-button-content">
+										<IMG WIDTH="15" HEIGHT="15"
+											SRC="/.*/resources/pickList/arrow_remove.gif/" />
 
-							Copy
-						</DIV>
-					</DIV>
-				</DIV>
-				<DIV CLASS="rich-picklist-control-button-class">
-					<DIV
-						STYLE="/.*/resources/pickList/button.gif\);/"
-						CLASS="rich-list-picklist-button">
-						<DIV CLASS="rich-list-picklist-button-content">
-							<IMG WIDTH="15" HEIGHT="15"
-								SRC="/.*/resources/pickList/arrow_remove.gif/" />
+										Remove
+									</DIV>
+								</DIV>
+							</DIV>
+							<DIV CLASS="rich-picklist-control-button-class">
+								<DIV STYLE="/.*/resources/pickList/button.gif/" CLASS="rich-list-picklist-button">
+									<DIV CLASS="rich-list-picklist-button-content">
+										<IMG WIDTH="15" HEIGHT="15"
+											SRC="/.*/resources/pickList/arrow_remove_all.gif/" />
 
-							Remove
+										Remove All
+									</DIV>
+								</DIV>
+							</DIV>
 						</DIV>
-					</DIV>
-				</DIV>
-				<DIV CLASS="rich-picklist-control-button-class">
-					<DIV
-						STYLE="/.*/resources/pickList/button.gif\);/"
-						CLASS="rich-list-picklist-button">
-						<DIV CLASS="rich-list-picklist-button-content">
-							<IMG WIDTH="15" HEIGHT="15"
-								SRC="/.*/resources/pickList/arrow_remove_all.gif/" />
-
-							Remove All
+					</TD>
+					<TD>
+						<DIV CLASS="rich-picklist-target-items" STYLE="width: 140px; height: 140px;">
+							<TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
+								CLASS="rich-picklist-body">
+								<TR>
+									<TD STYLE="border: 0px none ; padding: 0px;">
+									</TD>
+								</TR>
+							</TABLE>
 						</DIV>
-					</DIV>
-				</DIV>
-			</DIV>
-		</TD>
-		<TD>
-			<DIV CLASS="rich-picklist-target-items" STYLE="width: 140px; height: 140px;">
-				<TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0"
-					CLASS="rich-picklist-body">
-					<TR>
-						<TD STYLE="border: 0px none ; padding: 0px;">
-						</TD>
-					</TR>
-				</TABLE>
-			</DIV>
-		</TD>
-	</TR>
-</TBODY>
-</TABLE>
+					</TD>
+				</TR>
+			</TBODY>
+		</TABLE>
 	</test>
 </tests>
