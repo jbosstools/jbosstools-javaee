@@ -6,8 +6,9 @@
 		<artifactId>org.jboss.tools.parent.pom</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	<groupId>org.jboss.tools</groupId>
-	<artifactId>struts.site</artifactId> 
+	<groupId>org.jboss.tools.struts</groupId>
+	<artifactId>site</artifactId>
+	<name>struts.site</name>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>eclipse-update-site</packaging>
 </project>

@@ -13,7 +13,9 @@ Require-Bundle: org.eclipse.ui,
  org.junit,
  org.jboss.tools.struts.vpe.struts;bundle-version="3.1.0",
  org.jboss.tools.vpe.jsp;bundle-version="3.1.0",
- org.jboss.tools.vpe.html;bundle-version="3.1.0"
+ org.jboss.tools.vpe.html;bundle-version="3.1.0",
+ org.jboss.tools.struts;bundle-version="3.1.0",
+ org.jboss.tools.struts.text.ext;bundle-version="3.1.0"
 Bundle-ActivationPolicy: lazy
 Export-Package: org.jboss.tools.struts.vpe.struts.test
 Bundle-Vendor: %Bundle-Vendor.0
