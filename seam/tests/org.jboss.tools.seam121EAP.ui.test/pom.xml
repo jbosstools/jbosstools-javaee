@@ -1,22 +1,22 @@
 <project
-xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-	<modelVersion>4.0.0</modelVersion> 
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
 	<parent>
-	  <relativePath>../../../parent-pom.xml</relativePath>
-	  <groupId>org.jboss.tools</groupId>
-	  <artifactId>org.jboss.tools.parent.pom</artifactId>
-	  <version>0.0.1-SNAPSHOT</version>
+		<relativePath>../../../parent-pom.xml</relativePath>
+		<groupId>org.jboss.tools</groupId>
+		<artifactId>org.jboss.tools.parent.pom</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 	<groupId>org.jboss.tools.seam.tests</groupId>
-	<artifactId>org.jboss.tools.seam121EAP.ui.test</artifactId> 
+	<artifactId>org.jboss.tools.seam121EAP.ui.test</artifactId>
 	<version>3.1.0-SNAPSHOT</version>
 	<packaging>eclipse-test-plugin</packaging>
-	
+
 	<properties>
-		<requirements>jbeap,eapseamgen</requirements>
-		<projectRoot>${basedir}/../../..</projectRoot>
-		<requirements.build>${projectRoot}/requirements/target</requirements.build>
-		<systemProperties>-Djbosstools.test.seam.1.2.1.eap.home=${projectRoot}/requirements/target/jboss-eap-4.3/seam</systemProperties>
+		<systemProperties>-Djbosstools.test.seam.1.2.1.eap.home=${requirement.build.root}/jboss-eap-4.3/seam</systemProperties>
+		<emma.filter>org.jboss.tools.seam*</emma.filter>
+		<emma.instrument.bundles>org.jboss.tools.seam.ui,org.jboss.tools.seam.core</emma.instrument.bundles>
 	</properties>
 
 	<build>
@@ -35,9 +35,6 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 						<include>org/jboss/tools/seam/ui/test/wizard/Seam12XOperationsTestSuite121EAP.class</include>
 					</includes>
 				</configuration>
-			</plugin>
-			<plugin>
-				<artifactId>maven-antrun-plugin</artifactId>
 			</plugin>
 		</plugins>
 	</build>

@@ -14,10 +14,9 @@
 	<packaging>eclipse-test-plugin</packaging>
 
 	<properties>
-		<requirements>seam-2.0.2.SP1</requirements>
-		<projectRoot>${basedir}/../../..</projectRoot>
-		<requirements.build>${projectRoot}/requirements/target</requirements.build>
-		<systemProperties>-Djbosstools.test.seam.2.0.1.GA.home=${projectRoot}/requirements/target/jboss-seam-2.0.2.SP1</systemProperties>
+		<systemProperties>-Djbosstools.test.seam.2.0.1.GA.home=${requirement.build.root}/jboss-seam-2.0.2.SP1</systemProperties>
+		<emma.filter>org.jboss.tools.seam*</emma.filter>
+		<emma.instrument.bundles>org.jboss.tools.seam.core</emma.instrument.bundles>
 	</properties>
 
 	<build>
@@ -34,9 +33,6 @@
 						<include>org/jboss/tools/seam/core/test/project/facet/Seam20XFacetTestSuite202SP1.class</include>
 					</includes>
 				</configuration>
-			</plugin>
-			<plugin>
-				<artifactId>maven-antrun-plugin</artifactId>
 			</plugin>
 		</plugins>
 	</build>
