@@ -144,12 +144,12 @@ public class RichFacesToolBarGroupTemplate extends VpeAbstractTemplate {
 		VpeCreationData creationData = null;
 		
 		Element sourceElement = (Element)sourceNode;
-		String itemSeparator = sourceElement.getAttribute(ATTR_ITEMSEPARATOR_NAME);
 		
 		if (!sourceNode.getParentNode().getNodeName().endsWith(":" + RichFacesToolBarTemplate.TAG_NAME)) { //$NON-NLS-1$
 			visualNode = RichFacesToolBarTemplate.createExceptionNode(visualDocument, TOOLBAR_PARENT_WARNING);
 			creationData = new VpeCreationData(visualNode);
 		}  else {
+			String itemSeparator = sourceElement.getAttribute(ATTR_ITEMSEPARATOR_NAME);
 			itemSeparator = RichFacesToolBarTemplate.checkAndUpdateItemSeparatorName(itemSeparator);
 			SourceToolBarGroupItems sourceToolBarGroupItems = new SourceToolBarGroupItems(sourceNode,
 					ATTR_LOCATION_RIGHT_VALUE.equals(sourceElement.getAttribute(ATTR_LOCATION_NAME)),
@@ -171,23 +171,20 @@ public class RichFacesToolBarGroupTemplate extends VpeAbstractTemplate {
 				nsIDOMElement cell = visualDocument.createElement(HtmlComponentUtil.HTML_TAG_TD);
 				if (toolBarGroupItem.isItem()) {
 					
-					Node parentNode = sourceElement.getParentNode();
-					
-					String styleClass = sourceElement.getAttribute(HtmlComponentUtil.HTML_STYLECLASS_ATTR);
-					String style = sourceElement.getAttribute(HtmlComponentUtil.HTML_STYLE_ATTR);
-					if (null == styleClass) {
-						styleClass = EMPTY;
-					}
-					if (null == style) {
-						style = EMPTY;
-					}
+					String styleClass = sourceElement.hasAttribute(HtmlComponentUtil.HTML_STYLECLASS_ATTR) ?
+							sourceElement.getAttribute(HtmlComponentUtil.HTML_STYLECLASS_ATTR) : EMPTY;
+					String style = sourceElement.hasAttribute(HtmlComponentUtil.HTML_STYLE_ATTR) ?
+							sourceElement.getAttribute(HtmlComponentUtil.HTML_STYLE_ATTR) : EMPTY;
+							
+					Node parentNode = sourceElement.getParentNode();							
 					if ((null != parentNode) && (parentNode instanceof Element)) {
-						String contentClass = ((Element)parentNode).getAttribute(RichFacesToolBarTemplate.CONTENTCLASS_ATTR_NAME);
-						String contentStyle = ((Element)parentNode).getAttribute(RichFacesToolBarTemplate.CONTENTSTYLE_ATTR_NAME);
-						if (null != contentClass) {
+						Element parentElement = (Element)parentNode;
+						if (parentElement.hasAttribute(RichFacesToolBarTemplate.CONTENTCLASS_ATTR_NAME)) {
+							String contentClass = parentElement.getAttribute(RichFacesToolBarTemplate.CONTENTCLASS_ATTR_NAME);
 							styleClass += SPACE + contentClass;
 						}
-						if (null != contentStyle) {
+						if (parentElement.hasAttribute(RichFacesToolBarTemplate.CONTENTSTYLE_ATTR_NAME)) {
+							String contentStyle = parentElement.getAttribute(RichFacesToolBarTemplate.CONTENTSTYLE_ATTR_NAME);
 							style += SPACE + contentStyle;
 						}
 					}

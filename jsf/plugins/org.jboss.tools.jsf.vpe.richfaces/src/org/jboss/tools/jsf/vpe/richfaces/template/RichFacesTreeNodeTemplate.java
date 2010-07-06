@@ -113,58 +113,59 @@ public class RichFacesTreeNodeTemplate extends RichFacesAbstractTreeTemplate {
 	 * in model
 	 */
 
+    Element parentElement = (Element) sourceElement.getParentNode();
 	boolean showLinesValue = getShowLinesAttr(sourceElement);
 	if (NODE_ICON_EXPANDED_ATTR_NAME.equalsIgnoreCase(name)) {
-	    nsIDOMElement expandedIconCell = queryInterface(visualNode
+	    
+		nsIDOMElement expandedIconCell = queryInterface(visualNode
 	    		.getChildNodes().item(0), nsIDOMElement.class);
 	    nsIDOMElement img = queryInterface(expandedIconCell.getChildNodes().item(0),
-			    nsIDOMElement.class);
-	    String parentAttrName = ((Element) sourceElement.getParentNode())
-		    .getAttribute(NODE_ICON_EXPANDED_ATTR_NAME);
-	    if (parentAttrName == null || parentAttrName.length() == 0) {
-		ComponentUtil.setImg(img,
-			showLinesValue == true ? ICON_EXPANDED_WITH_LINES
-				: ICON_EXPANDED_WITHOUT_LINES);
+			    nsIDOMElement.class);	    
+	    
+	    if (parentElement.hasAttribute(NODE_ICON_EXPANDED_ATTR_NAME)) {
+	    	String parentAttrName = parentElement.getAttribute(NODE_ICON_EXPANDED_ATTR_NAME);
+	    	ComponentUtil.setImgFromResources(pageContext, img,
+					parentAttrName, UNDEFINED_ICON);
 	    } else {
-		ComponentUtil.setImgFromResources(pageContext, img,
-			parentAttrName, UNDEFINED_ICON);
+	    	ComponentUtil.setImg(img,
+					showLinesValue == true ? ICON_EXPANDED_WITH_LINES
+						: ICON_EXPANDED_WITHOUT_LINES);
 	    }
-	    img
-		    .setAttribute(ICON_PARAM_NAME,
-			    DEFAULT_ICON_EXPANDED_PARAM_VALUE);
+	    img.setAttribute(ICON_PARAM_NAME, DEFAULT_ICON_EXPANDED_PARAM_VALUE);
 	} else if (NODE_ICON_ATTR_NAME.equalsIgnoreCase(name)
 		&& !isLastElement(sourceElement)) {
-	    nsIDOMElement iconCell = queryInterface(visualNode.getChildNodes().item(1),
+	    
+		nsIDOMElement iconCell = queryInterface(visualNode.getChildNodes().item(1),
 	    		nsIDOMElement.class);
-
 	    nsIDOMElement img = queryInterface(iconCell.getChildNodes().item(0),
 	    		nsIDOMElement.class);
-	    String parentAttrName = ((Element) sourceElement.getParentNode())
-		    .getAttribute(NODE_ICON_ATTR_NAME);
-	    if (parentAttrName == null || parentAttrName.length() == 0) {
-		ComponentUtil.setImg(img,
-			showLinesValue == true ? ICON_NODE_WITH_LINES
-				: ICON_NODE_WITHOUT_LINES);
+	    
+	    if (parentElement.hasAttribute(NODE_ICON_ATTR_NAME)) {
+	    	String parentAttrName = parentElement.getAttribute(NODE_ICON_ATTR_NAME);
+	    	ComponentUtil.setImgFromResources(pageContext, img,
+					parentAttrName, UNDEFINED_ICON);
 	    } else {
-		ComponentUtil.setImgFromResources(pageContext, img,
-			parentAttrName, UNDEFINED_ICON);
+	    	ComponentUtil.setImg(img,
+					showLinesValue == true ? ICON_NODE_WITH_LINES
+						: ICON_NODE_WITHOUT_LINES);
 	    }
 	    img.setAttribute(ICON_PARAM_NAME, DEFAULT_ICON_PARAM_VALUE);
 
 	} else if (NODE_ICON_LEAF_ATTR_NAME.equalsIgnoreCase(name)
 		&& isLastElement(sourceElement)) {
+		
 	    nsIDOMElement iconCell = queryInterface(visualNode.getChildNodes().item(1),
 	    		nsIDOMElement.class);
 	    nsIDOMElement img = queryInterface(iconCell.getChildNodes().item(0), nsIDOMElement.class);
-	    String parentAttrName = ((Element) sourceElement.getParentNode())
-		    .getAttribute(NODE_ICON_LEAF_ATTR_NAME);
-	    if (parentAttrName == null || parentAttrName.length() == 0) {
-		ComponentUtil.setImg(img,
-			showLinesValue == true ? ICON_LEAF_WITH_LINES
-				: ICON_LEAF_WITHOUT_LINES);
+	    
+	    if (parentElement.hasAttribute(NODE_ICON_LEAF_ATTR_NAME)) {
+	    	String parentAttrName = parentElement.getAttribute(NODE_ICON_LEAF_ATTR_NAME);
+	    	ComponentUtil.setImgFromResources(pageContext, img,
+					parentAttrName, UNDEFINED_ICON);
 	    } else {
-		ComponentUtil.setImgFromResources(pageContext, img,
-			parentAttrName, UNDEFINED_ICON);
+	    	ComponentUtil.setImg(img,
+					showLinesValue == true ? ICON_LEAF_WITH_LINES
+						: ICON_LEAF_WITHOUT_LINES);
 	    }
 	    img.setAttribute(ICON_PARAM_NAME, NODE_ICON_LEAF_ATTR_NAME);
 	}

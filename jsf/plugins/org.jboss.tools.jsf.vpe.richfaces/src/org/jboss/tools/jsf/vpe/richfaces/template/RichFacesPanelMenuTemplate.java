@@ -108,9 +108,7 @@ public class RichFacesPanelMenuTemplate extends VpeAbstractTemplate {
 		ComponentUtil.setCSSLink(pageContext, CSS_STYLE_PATH, COMPONENT_NAME);
 	    
 		Element sourceElement = (Element) sourceNode;
-		String widthAttr = sourceElement.getAttribute(HTML.ATTR_WIDTH);
-		String styleAttr = sourceElement.getAttribute(RichFaces.ATTR_STYLE);
-		String styleClassAttr = sourceElement.getAttribute(RichFaces.ATTR_STYLE_CLASS);
+		
 		String style = Constants.EMPTY;
 		String styleClass = CSS_PMENU;
 		
@@ -118,16 +116,19 @@ public class RichFacesPanelMenuTemplate extends VpeAbstractTemplate {
 		VpeCreationData vpeCreationData = new VpeCreationData(div);
 		div.setAttribute(HTML.ATTR_BORDER, Constants.ZERO_STRING);
 
-		if (widthAttr != null) {
-		    style += "width:" + widthAttr + "; "; //$NON-NLS-1$ //$NON-NLS-2$
+		if (sourceElement.hasAttribute(HTML.ATTR_WIDTH)) {
+			String widthAttr = sourceElement.getAttribute(HTML.ATTR_WIDTH);
+			style += "width:" + widthAttr + "; "; //$NON-NLS-1$ //$NON-NLS-2$
 		}
-		if (styleAttr != null) {
-		    style += styleAttr;
+		if (sourceElement.hasAttribute(RichFaces.ATTR_STYLE)) {
+			String styleAttr = sourceElement.getAttribute(RichFaces.ATTR_STYLE);
+			style += styleAttr;
 		}
 		div.setAttribute(HTML.ATTR_STYLE, style);
 
-		if (styleClassAttr != null) {
-		    styleClass += Constants.WHITE_SPACE + styleClassAttr;
+		if (sourceElement.hasAttribute(RichFaces.ATTR_STYLE_CLASS)) {
+			String styleClassAttr = sourceElement.getAttribute(RichFaces.ATTR_STYLE_CLASS);
+			styleClass += Constants.WHITE_SPACE + styleClassAttr;
 		}
 		div.setAttribute(HTML.ATTR_CLASS, styleClass);
 		

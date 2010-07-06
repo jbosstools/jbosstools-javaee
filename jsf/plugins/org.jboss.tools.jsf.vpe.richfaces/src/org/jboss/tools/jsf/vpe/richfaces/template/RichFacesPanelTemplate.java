@@ -31,21 +31,25 @@ import org.w3c.dom.Node;
 public class RichFacesPanelTemplate extends VpeAbstractTemplate {
 
 	public VpeCreationData create(VpePageContext pageContext, Node sourceNode, nsIDOMDocument visualDocument) {
-
 	   
 		Element sourceElement = (Element)sourceNode;
 
 		nsIDOMElement div = visualDocument.createElement("div"); //$NON-NLS-1$
-
 		
-		VpeCreationData creationData = new VpeCreationData(div);
-		
+		VpeCreationData creationData = new VpeCreationData(div);		
 
 		ComponentUtil.setCSSLink(pageContext, "panel/panel.css", "richFacesPanel"); //$NON-NLS-1$ //$NON-NLS-2$
-		String styleClass = sourceElement.getAttribute("styleClass"); //$NON-NLS-1$
-		div.setAttribute("class", "dr-pnl rich-panel " + (styleClass==null?"":styleClass)); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		String style = sourceElement.getAttribute("style"); //$NON-NLS-1$
-		if(style!=null && style.length()>0) {
+		
+		String styleClass = "dr-pnl rich-panel"; //$NON-NLS-1$
+		String styleClassAttrName = "styleClass"; //$NON-NLS-1$
+		if (sourceElement.hasAttribute(styleClassAttrName)) {
+			styleClass += " " + sourceElement.getAttribute(styleClassAttrName); //$NON-NLS-1$
+		}
+		div.setAttribute("class", styleClass); //$NON-NLS-1$
+		
+		String styleAttrName = "style"; //$NON-NLS-1$
+		if(sourceElement.hasAttribute(styleAttrName)) {
+			String style = sourceElement.getAttribute(styleAttrName);
 			div.setAttribute("style", style); //$NON-NLS-1$
 		}
 
@@ -64,9 +68,11 @@ public class RichFacesPanelTemplate extends VpeAbstractTemplate {
 			 */
 			headerDiv.setAttribute(VpeVisualDomBuilder.VPE_FACET, RichFaces.NAME_FACET_HEADER);
 			div.appendChild(headerDiv);
-			String headerClass = sourceElement.getAttribute(RichFaces.ATTR_HEADER_CLASS);
-			headerDiv.setAttribute(HTML.ATTR_CLASS,
-							"dr-pnl-h rich-panel-header " + (headerClass == null ? "" : headerClass)); //$NON-NLS-1$ //$NON-NLS-2$
+			String headerClass = "dr-pnl-h rich-panel-header"; //$NON-NLS-1$
+			if (sourceElement.hasAttribute(RichFaces.ATTR_HEADER_CLASS)) {
+				headerClass += " " + sourceElement.getAttribute(RichFaces.ATTR_HEADER_CLASS); //$NON-NLS-1$
+			}
+			headerDiv.setAttribute(HTML.ATTR_CLASS, headerClass);
 			headerDiv.setAttribute(HTML.ATTR_STYLE, 
 					ComponentUtil.getHeaderBackgoundImgStyle());
 
@@ -80,9 +86,11 @@ public class RichFacesPanelTemplate extends VpeAbstractTemplate {
 		 */
 		nsIDOMElement bodyDiv = visualDocument.createElement(HTML.TAG_DIV);
 		div.appendChild(bodyDiv);
-		String bodyClass = sourceElement.getAttribute(RichFaces.ATTR_BODY_CLASS);
-		bodyDiv.setAttribute(HTML.ATTR_CLASS,
-						"dr-pnl-b rich-panel-body " + (bodyClass == null ? "" : bodyClass)); //$NON-NLS-1$ //$NON-NLS-2$
+		String bodyClass = "dr-pnl-b rich-panel-body"; //$NON-NLS-1$
+		if (sourceElement.hasAttribute(RichFaces.ATTR_BODY_CLASS)) {
+			bodyClass += " " + sourceElement.getAttribute(RichFaces.ATTR_BODY_CLASS); //$NON-NLS-1$
+		}
+		bodyDiv.setAttribute(HTML.ATTR_CLASS, bodyClass);
 		/*
 		 * If there are some odd HTML elements from facet
 		 * add them to the panel body first.

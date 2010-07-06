@@ -79,18 +79,16 @@ public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 
 		Element sourceElement = (Element) sourceNode;
 
-		String width = sourceElement.getAttribute(HTML.ATTR_WIDTH);		
-		if (width == null) {
-			width = DEFAULT_WIDTH;
-		} else {
-			width = VpeStyleUtil.addPxIfNecessary(width);
+		String width = DEFAULT_WIDTH;	
+		if (sourceElement.hasAttribute(HTML.ATTR_WIDTH)) {
+			String widthAttrVal = sourceElement.getAttribute(HTML.ATTR_WIDTH);
+			width = VpeStyleUtil.addPxIfNecessary(widthAttrVal);
 		}
 		
-		String height = sourceElement.getAttribute(HTML.ATTR_HEIGHT);
-		if (height == null) {
-			height = DEFAULT_HEIGHT;
-		} else {
-			height = VpeStyleUtil.addPxIfNecessary(height);
+		String height = DEFAULT_HEIGHT;
+		if (sourceElement.hasAttribute(HTML.ATTR_HEIGHT)) {
+			String heightAttrVal = sourceElement.getAttribute(HTML.ATTR_HEIGHT);
+			height = VpeStyleUtil.addPxIfNecessary(heightAttrVal);
 		}
 		
 			
@@ -117,11 +115,11 @@ public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 		div.appendChild(mainTableWrapper);
 
 		ComponentUtil.setCSSLink(pageContext, CSS_STYLE_PATH, COMPONENT_NAME);
-		String tableClass = sourceElement
-				.getAttribute(RichFaces.ATTR_STYLE_CLASS);
-		mainTable.setAttribute(HTML.ATTR_CLASS, CSS_DR_TABLE
-			+ Constants.WHITE_SPACE + CSS_RICH_SDT
-			+ (tableClass == null ? Constants.EMPTY : tableClass));
+		String tableClass = CSS_DR_TABLE + Constants.WHITE_SPACE + CSS_RICH_SDT;
+		if (sourceElement.hasAttribute(RichFaces.ATTR_STYLE_CLASS)) {
+			tableClass += Constants.WHITE_SPACE + sourceElement.getAttribute(RichFaces.ATTR_STYLE_CLASS);
+		}
+		mainTable.setAttribute(HTML.ATTR_CLASS, tableClass);
 
 		// Encode colgroup definition.
 		ArrayList<Element> columns = getColumns(sourceElement);
@@ -142,8 +140,8 @@ public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 			nsIDOMElement thead = visualDocument
 					.createElement(HTML.TAG_THEAD);
 			mainTable.appendChild(thead);
-			String headerClass = (String) sourceElement
-					.getAttribute(RichFaces.ATTR_HEADER_CLASS);
+			String headerClass = sourceElement.hasAttribute(RichFaces.ATTR_HEADER_CLASS) ? 
+					sourceElement.getAttribute(RichFaces.ATTR_HEADER_CLASS) : null;
 			if (header != null) {
 			    /*
 			     * JBIDE-3204 #2:No one style or styleClass should be applyed
@@ -178,8 +176,8 @@ public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 			nsIDOMElement tfoot = visualDocument
 					.createElement(HTML.TAG_TFOOT);
 			mainTable.appendChild(tfoot);
-			String footerClass = (String) sourceElement
-					.getAttribute(RichFaces.ATTR_FOOTER_CLASS);
+			String footerClass = sourceElement.hasAttribute(RichFaces.ATTR_FOOTER_CLASS) ?
+					sourceElement.getAttribute(RichFaces.ATTR_FOOTER_CLASS) : null;
 			if (!columnsFooters.isEmpty()) {
 				nsIDOMElement tr = visualDocument
 						.createElement(HTML.TAG_TR);
@@ -234,24 +232,21 @@ public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 		// Encode caption
 		Element captionFromFacet = ComponentUtil.getFacet(sourceElement,
 				HTML.TAG_CAPTION);
-		if (captionFromFacet != null) {
-			String captionClass = (String) table.getAttribute(RichFaces.ATTR_CAPTION_CLASS);
-			String captionStyle = (String) table.getAttribute(RichFaces.ATTR_CAPTION_STYLE);
+		if (captionFromFacet != null) {						
 
 			nsIDOMElement caption = visualDocument
 					.createElement(HTML.TAG_CAPTION);
 			table.appendChild(caption);
-			if (captionClass != null && captionClass.length() > 0) {
-				captionClass = "dr-table-caption rich-table-caption " //$NON-NLS-1$
-						+ captionClass;
-			} else {
-				captionClass = "dr-table-caption rich-table-caption"; //$NON-NLS-1$
-			}
-			caption.setAttribute(HTML.ATTR_CLASS,
-					captionClass);
-			if (captionStyle != null && captionStyle.length() > 0) {
-				caption.setAttribute(HTML.ATTR_STYLE,
-						captionStyle);
+			
+			String captionClass = "dr-table-caption rich-table-caption";  //$NON-NLS-1$
+			if (table.hasAttribute(RichFaces.ATTR_CAPTION_CLASS)) {
+				captionClass += Constants.WHITE_SPACE + table.getAttribute(RichFaces.ATTR_CAPTION_CLASS);
+			}			
+			caption.setAttribute(HTML.ATTR_CLASS, captionClass);
+						
+			if (table.hasAttribute(RichFaces.ATTR_CAPTION_STYLE)) {
+				String captionStyle = table.getAttribute(RichFaces.ATTR_CAPTION_STYLE);
+				caption.setAttribute(HTML.ATTR_STYLE, captionStyle);
 			}
 
 			VpeChildrenInfo cap = new VpeChildrenInfo(caption);
@@ -278,7 +273,7 @@ public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 			String headerClass, String facetName, String element) {
 		for (Element column : headersOrFooters) {
 			String classAttribute = facetName + "Class"; //$NON-NLS-1$
-			String columnHeaderClass = column.getAttribute(classAttribute);
+			String columnHeaderClass = column.hasAttribute(classAttribute) ? column.getAttribute(classAttribute) : null;
 			nsIDOMElement td = visualDocument.createElement(element);
 			parentTr.appendChild(td);
 			String styleClass = ComponentUtil.encodeStyleClass(null, skinCellClass,
@@ -291,9 +286,9 @@ public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 
 			td.setAttribute(HTML.ATTR_CLASS, styleClass);
 			td.setAttribute("scop", "col"); //$NON-NLS-1$ //$NON-NLS-2$
-			String colspan = column
-					.getAttribute(HTML.ATTR_COLSPAN);
-			if (colspan != null && colspan.length() > 0) {
+			
+			if (column.hasAttribute(HTML.ATTR_COLSPAN)) {
+				String colspan = column.getAttribute(HTML.ATTR_COLSPAN);
 				td.setAttribute(HTML.ATTR_COLSPAN, colspan);
 			}
 			Element facetBody = ComponentUtil.getFacet(column, facetName);

@@ -72,24 +72,24 @@ class RichFacesEditorTemplateHelper {
 	}
 
 	public nsIDOMElement create() {
+		
 		ComponentUtil.setCSSLink(pageContext, STYLE_PATH, "editor"); //$NON-NLS-1$
-
-		String style = sourceElement.getAttribute(RichFaces.ATTR_STYLE);
-		if (style == null) {
-			style = ""; //$NON-NLS-1$
-		}
-		String styleClass = sourceElement.getAttribute(RichFaces.ATTR_STYLE_CLASS);
-		if (styleClass == null) {
-			styleClass = ""; //$NON-NLS-1$
-		}
-
 		// create nodes
 		nsIDOMElement mainSpan = visualDocument.createElement(HTML.TAG_SPAN); {
-			mainSpan.setAttribute(HTML.ATTR_CLASS, "richfacesSimpleSkin " + styleClass); //$NON-NLS-1$
+			
+			String styleClass = "richfacesSimpleSkin"; //$NON-NLS-1$
+			if (sourceElement.hasAttribute(RichFaces.ATTR_STYLE_CLASS)) {
+				styleClass += " " + sourceElement.getAttribute(RichFaces.ATTR_STYLE_CLASS); //$NON-NLS-1$
+			}
+			mainSpan.setAttribute(HTML.ATTR_CLASS, styleClass);
 
 			// Yahor Radtsevich: Fix of JBIDE-3653: inFlasher doesn't shows for rich:editor component
 			// (style "display: table;" has been added)
-			mainSpan.setAttribute(HTML.ATTR_STYLE, "display: table;" + style); //$NON-NLS-1$
+			String style = "display: table;"; //$NON-NLS-1$
+			if (sourceElement.hasAttribute(RichFaces.ATTR_STYLE)) {
+				style += sourceElement.getAttribute(RichFaces.ATTR_STYLE);
+			}
+			mainSpan.setAttribute(HTML.ATTR_STYLE, style);
 		}
 		nsIDOMElement mainTable = createMainTable();
 		nsIDOMElement textContainer = createTextContainer();
@@ -112,14 +112,14 @@ class RichFacesEditorTemplateHelper {
 	 */
 	private nsIDOMElement createMainTable() {
 		// evaluate width and height
-		String style = "width: 183px; height: 100px;"; //$NON-NLS-1$
-		String width = sourceElement.getAttribute(RichFaces.ATTR_WIDTH);
-		if (width != null) {
+		String style = "width: 183px; height: 100px;"; //$NON-NLS-1$		
+		if (sourceElement.hasAttribute(RichFaces.ATTR_WIDTH)) {
+			String width = sourceElement.getAttribute(RichFaces.ATTR_WIDTH);
 			width = VpeStyleUtil.addPxIfNecessary(width);
 			style = VpeStyleUtil.setParameterInStyle(style, HTML.STYLE_PARAMETER_WIDTH, width);
-		}
-		String height = sourceElement.getAttribute(RichFaces.ATTR_HEIGHT);
-		if (height != null) {
+		}		
+		if (sourceElement.hasAttribute(RichFaces.ATTR_HEIGHT)) {
+			String height = sourceElement.getAttribute(RichFaces.ATTR_HEIGHT);
 			height = VpeStyleUtil.addPxIfNecessary(height);
 			style = VpeStyleUtil.setParameterInStyle(style, HTML.STYLE_PARAMETER_HEIGHT, height);
 		}

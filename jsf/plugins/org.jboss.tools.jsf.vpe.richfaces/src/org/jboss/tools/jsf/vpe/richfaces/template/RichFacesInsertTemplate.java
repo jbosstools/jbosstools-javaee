@@ -94,14 +94,13 @@ public class RichFacesInsertTemplate extends VpeAbstractTemplate {
 		.createElement(HtmlComponentUtil.HTML_TAG_DIV);
 	VpeCreationData vpeCreationData = new VpeCreationData(div);
 
-	String srcValue = ((Element) sourceNode).getAttribute(SRC_ATTR_NAME);
-	String highlightValue = ((Element) sourceNode)
-		.getAttribute(HIGHTLIGHT_ATTR_NAME);
+	Element sourceElement = (Element)sourceNode;
+	String srcValue = sourceElement.getAttribute(SRC_ATTR_NAME);	
 	String finalStr = ""; //$NON-NLS-1$
 	String buf = ""; //$NON-NLS-1$
 
 	// if there is no source show error message 
-	if ((null == srcValue) || ("".equalsIgnoreCase(srcValue))) { //$NON-NLS-1$
+	if (!sourceElement.hasAttribute(SRC_ATTR_NAME) || "".equalsIgnoreCase(srcValue)) { //$NON-NLS-1$
 	    div.setAttribute(HtmlComponentUtil.HTML_STYLE_ATTR, ERROR_MESSAGE_STYLE);
 	    nsIDOMText text = visualDocument.createTextNode(RESOURCE_NOT_FOUND_MESSAGE);
 	    div.appendChild(text);
@@ -141,7 +140,8 @@ public class RichFacesInsertTemplate extends VpeAbstractTemplate {
 		}
 	}
 
-	if ((highlightValue == null) || (!searchInSupportedTypes(highlightValue))){
+	String highlightValue = sourceElement.getAttribute(HIGHTLIGHT_ATTR_NAME);
+	if (!sourceElement.hasAttribute(HIGHTLIGHT_ATTR_NAME) || !searchInSupportedTypes(highlightValue)) {
 	   // finalStr = finalStr.replace('\n', ' ');
 	    nsIDOMText text = visualDocument.createTextNode(finalStr);
 	    div.appendChild(text);
@@ -282,11 +282,11 @@ public class RichFacesInsertTemplate extends VpeAbstractTemplate {
 	    el.appendChild(elem);
 
 	    for (int i = 0; i < node.getAttributes().getLength(); i++)
-		elem.setAttribute(node.getAttributes().item(i).getNodeName(),
-			node.getAttributes().item(i).getNodeValue());
+			elem.setAttribute(node.getAttributes().item(i).getNodeName(),
+				node.getAttributes().item(i).getNodeValue());
 
 	    for (int i = 0; i < node.getChildNodes().getLength(); i++)
-		buildVisualNode(node.getChildNodes().item(i), elem);
+	    	buildVisualNode(node.getChildNodes().item(i), elem);
 	}
     }
 

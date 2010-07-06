@@ -68,17 +68,15 @@ public class RichFacesTreeTemplate extends VpeAbstractTemplate {
 	nsIDOMElement visualElement = visualDocument
 		.createElement(HTML.TAG_DIV);
 	Element sourceElement = (Element) sourceNode;
-	String style = sourceElement
-		.getAttribute(HTML.ATTR_STYLE);
-	if (style != null) {
-	    visualElement
-		    .setAttribute(HTML.ATTR_STYLE, style);
+	
+	if (sourceElement.hasAttribute(HTML.ATTR_STYLE)) {
+		String style = sourceElement.getAttribute(HTML.ATTR_STYLE);
+	    visualElement.setAttribute(HTML.ATTR_STYLE, style);
 	}
-	String styleClass = sourceElement
-		.getAttribute(HTML.ATTR_CLASS);
-	if (styleClass != null) {
-	    visualElement.setAttribute(HTML.ATTR_CLASS,
-		    styleClass);
+	
+	if (sourceElement.hasAttribute(HTML.ATTR_CLASS)) {
+		String styleClass = sourceElement.getAttribute(HTML.ATTR_CLASS);
+	    visualElement.setAttribute(HTML.ATTR_CLASS, styleClass);
 	}
 	VpeCreationData vpeCreationData = new VpeCreationData(visualElement);
 	vpeCreationData.addChildrenInfo(new VpeChildrenInfo(null));
@@ -97,20 +95,20 @@ public class RichFacesTreeTemplate extends VpeAbstractTemplate {
      */
     private void setStylesAttributesToTree(nsIDOMElement treeTable,
 	    Element sourceNode) {
-	String styleAttr = sourceNode
-		.getAttribute(HTML.ATTR_STYLE);
-	if (styleAttr != null && styleAttr.length() != 0) {
-	    setAttributeToTree(treeTable, HTML.ATTR_STYLE,
-		    removeFromStyleWithAndHeight(styleAttr));
-	    treeTable
-		    .setAttribute(HTML.ATTR_STYLE, styleAttr);
-	}
-	String styleClassAttr = sourceNode
-		.getAttribute(TREE_STYLE_CLASS_ATR_NAME);
-	if ((styleClassAttr != null) && (styleClassAttr.length() != 0)) {
-	    setAttributeToTree(treeTable, HTML.ATTR_CLASS,
-		    styleClassAttr);
-	}
+	
+		if (sourceNode.hasAttribute(HTML.ATTR_STYLE)) {
+			String styleAttr = sourceNode.getAttribute(HTML.ATTR_STYLE);
+		    setAttributeToTree(treeTable, HTML.ATTR_STYLE,
+			    removeFromStyleWithAndHeight(styleAttr));
+		    treeTable
+			    .setAttribute(HTML.ATTR_STYLE, styleAttr);
+		}
+		
+		if (sourceNode.hasAttribute(TREE_STYLE_CLASS_ATR_NAME)) {
+			String styleClassAttr = sourceNode.getAttribute(TREE_STYLE_CLASS_ATR_NAME);
+		    setAttributeToTree(treeTable, HTML.ATTR_CLASS,
+			    styleClassAttr);
+		}
     }
 
     /**
@@ -188,10 +186,9 @@ public class RichFacesTreeTemplate extends VpeAbstractTemplate {
 	try {
 	    nsIDOMNodeList list = node.getChildNodes();
 	    nsIDOMElement element = queryInterface(node, nsIDOMElement.class);
-	    String id = element
-		    .getAttribute(RichFacesTreeNodesAdaptorTemplate.ID_ATTR_NAME);
-	    if (id == null)
-		id = Constants.EMPTY;
+	    String id = element.hasAttribute(RichFacesTreeNodesAdaptorTemplate.ID_ATTR_NAME) ? 
+	    		element.getAttribute(RichFacesTreeNodesAdaptorTemplate.ID_ATTR_NAME) : 
+	    			Constants.EMPTY;
 	    if (node.getNodeName().equalsIgnoreCase(
 		    HTML.TAG_DIV)
 		    && list.getLength() == 2

@@ -93,12 +93,12 @@ public class RichFacesProgressBarTemplate extends VpeAbstractTemplate /*Abstract
     	 * or supplementary HTML tags from facets 
     	 * then progress bar has more divs than usual.
     	 */
-    	Element initialFacet = SourceDomUtil.getFacetByName(sourceElement, "initial");
+    	Element initialFacet = SourceDomUtil.getFacetByName(sourceElement, "initial"); //$NON-NLS-1$
     	Map<String, List<Node>> initialFacetChildren = VisualDomUtil.findFacetElements(initialFacet, pageContext);
     	boolean initialFacetHtmlChildrenPresent = initialFacetChildren
 				.get(VisualDomUtil.FACET_HTML_TAGS).size() > 0;
 
-		Element completeFacet = SourceDomUtil.getFacetByName(sourceElement, "complete");
+		Element completeFacet = SourceDomUtil.getFacetByName(sourceElement, "complete"); //$NON-NLS-1$
     	Map<String, List<Node>> completeFacetChildren = VisualDomUtil.findFacetElements(completeFacet, pageContext);
     	boolean completeFacetHtmlChildrenPresent = completeFacetChildren
     	.get(VisualDomUtil.FACET_HTML_TAGS).size() > 0;
@@ -203,8 +203,8 @@ public class RichFacesProgressBarTemplate extends VpeAbstractTemplate /*Abstract
     	 * Adding common styles 
     	 */
     	remainDiv.setAttribute(HTML.ATTR_STYLE, style);
-		uploadDiv.setAttribute(HTML.ATTR_STYLE, "width: "
-				+ DEFAULT_UPLOADED_STATUS + "; " + style);
+		uploadDiv.setAttribute(HTML.ATTR_STYLE, "width: " //$NON-NLS-1$
+				+ DEFAULT_UPLOADED_STATUS + "; " + style); //$NON-NLS-1$
 		completeDiv.setAttribute(HTML.ATTR_STYLE, style);
 		vpeTextDiv.setAttribute(HTML.ATTR_STYLE, style);
         

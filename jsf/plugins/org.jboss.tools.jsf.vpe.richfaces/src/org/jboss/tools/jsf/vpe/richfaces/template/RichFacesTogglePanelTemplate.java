@@ -78,7 +78,7 @@ public class RichFacesTogglePanelTemplate extends VpeAbstractTemplate {
 			
 			if (child instanceof Element && child.getNodeName().endsWith(":facet")) { //$NON-NLS-1$
 				Element facet = (Element)child;				
-				if (facet.hasAttribute("name")) {
+				if (facet.hasAttribute("name")) { //$NON-NLS-1$
 					String name = facet.getAttribute("name"); //$NON-NLS-1$
 					states.put(name, facet);
 				}
@@ -88,9 +88,9 @@ public class RichFacesTogglePanelTemplate extends VpeAbstractTemplate {
 	}
 	
 	private String getInitialState(Element sourceElement) {
-		String initialState = sourceElement.hasAttribute("initialState") ? sourceElement.getAttribute("initialState") : null; //$NON-NLS-1$
+		String initialState = sourceElement.hasAttribute("initialState") ? sourceElement.getAttribute("initialState") : null; //$NON-NLS-1$ //$NON-NLS-2$
 				
-		if(sourceElement.hasAttribute("stateOrder")) {
+		if(sourceElement.hasAttribute("stateOrder")) { //$NON-NLS-1$
 			String stateOrder = sourceElement.getAttribute("stateOrder"); //$NON-NLS-1$
 			StringTokenizer st = new StringTokenizer(stateOrder.trim(), ",", false); //$NON-NLS-1$
 			String firstState = null;
@@ -119,7 +119,7 @@ public class RichFacesTogglePanelTemplate extends VpeAbstractTemplate {
 	
 	private String getActiveState(Element sourceElement) {
 		String activeStateStr;
-		if(!sourceElement.hasAttribute("stateOrder"))  return null;
+		if(!sourceElement.hasAttribute("stateOrder"))  return null; //$NON-NLS-1$
 
 		activeStateStr = (String)toggleMap.get(sourceElement);
 
@@ -131,7 +131,7 @@ public class RichFacesTogglePanelTemplate extends VpeAbstractTemplate {
 	}
 
 	private String getNextState(Element sourceElement, String toggleId) {		
-		if(!sourceElement.hasAttribute("stateOrder"))  return null;
+		if(!sourceElement.hasAttribute("stateOrder"))  return null; //$NON-NLS-1$
 		String stateOrder = sourceElement.getAttribute("stateOrder"); //$NON-NLS-1$
 		String activeState = getActiveState(sourceElement);
 		

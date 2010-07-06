@@ -569,8 +569,8 @@ VpeToggableTemplate {
 		/*
 		 * Do nothing when panel menu or panel group are disabled.
 		 */
-		if ((TRUE.equalsIgnoreCase(pm_disabled))
-				|| (TRUE.equalsIgnoreCase(pmg_disabled))) {
+		if (TRUE.equalsIgnoreCase(pm_disabled)
+				|| TRUE.equalsIgnoreCase(pmg_disabled)) {
 			return;
 		}
 		
@@ -581,7 +581,7 @@ VpeToggableTemplate {
 		/*
 		 * Expand only one group.
 		 */
-		if ((null != pm_expandSingle) && (TRUE.equalsIgnoreCase(pm_expandSingle))) {
+		if (TRUE.equalsIgnoreCase(pm_expandSingle)) {
 			if (expandedIds.contains(toggleId)) {
 				/*
 				 * Close group and its children

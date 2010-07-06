@@ -17,6 +17,7 @@ import org.jboss.tools.jsf.vpe.richfaces.HtmlComponentUtil;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
+import org.jboss.tools.vpe.editor.util.Constants;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.mozilla.interfaces.nsIDOMNode;
@@ -70,6 +71,7 @@ public class RichFacesSeparatorTemplate extends VpeAbstractTemplate {
 	 * @return The information on the created node of the visual tree.
 	 */
 	public VpeCreationData create(VpePageContext pageContext, Node sourceNode, nsIDOMDocument visualDocument) {
+		
 		ComponentUtil.setCSSLink(pageContext, STYLE_PATH, "richFacesSeparator"); //$NON-NLS-1$
 		Element sourceElement = (Element) sourceNode;
 		/* Create new html element table */
@@ -83,15 +85,20 @@ public class RichFacesSeparatorTemplate extends VpeAbstractTemplate {
 		/* Set align for separator */
 		separator.setAttribute(HtmlComponentUtil.HTML_ALIGN_ATTR,
 				sourceElement.hasAttribute(HtmlComponentUtil.HTML_ALIGN_ATTR) ? sourceElement.getAttribute(HtmlComponentUtil.HTML_ALIGN_ATTR) : DEFAULT_ALIGN);
-		separator.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
-				"td-parentdiv"); //$NON-NLS-1$
-		String lineClass = sourceElement.getAttribute("styleClass"); //$NON-NLS-1$
+		separator.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, "td-parentdiv"); //$NON-NLS-1$
+		
+		String styleClassAttrName = "styleClass"; //$NON-NLS-1$
+		String lineClass = sourceElement.getAttribute(styleClassAttrName);
 		/* Apply class for separator */
-		String lineType = sourceElement.getAttribute(LINE_TYPE_ATTR);
-		String style = sourceElement.getAttribute("style"); //$NON-NLS-1$
+		String styleAttrName = "style"; //$NON-NLS-1$
+		String style = sourceElement.hasAttribute(styleAttrName) ? sourceElement.getAttribute(styleAttrName) : null;
+		String lineType = sourceElement.hasAttribute(LINE_TYPE_ATTR) ? sourceElement.getAttribute(LINE_TYPE_ATTR) : null;
 		if (!sourceElement.hasAttribute(LINE_TYPE_ATTR) || lineType.equalsIgnoreCase(LINE_BEVELED)) {
-			line.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
-					"dr-table-header rich-table-header-continue" + lineClass); //$NON-NLS-1$
+			String className = "dr-table-header rich-table-header-continue"; //$NON-NLS-1$
+			if (sourceElement.hasAttribute(styleClassAttrName)) {
+				className += Constants.WHITE_SPACE + lineClass;
+			}
+			line.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR, className);
 			style = setBeveledStyle(width, height, ComponentUtil
 					.getHeaderBackgoundImgStyle() + ";" + style); //$NON-NLS-1$
 		} else {
@@ -113,7 +120,7 @@ public class RichFacesSeparatorTemplate extends VpeAbstractTemplate {
 		super.removeAttribute(pageContext, sourceElement, visualDocument, visualNode, data, name);
 		nsIDOMElement element = queryInterface(visualNode, nsIDOMElement.class);
 		nsIDOMElement line = getLineElement(element);
-		String style = sourceElement.getAttribute(HtmlComponentUtil.HTML_STYLE_ATTR);
+		String style = sourceElement.hasAttribute(HtmlComponentUtil.HTML_STYLE_ATTR) ? sourceElement.getAttribute(HtmlComponentUtil.HTML_STYLE_ATTR) : null;
 		String width = sourceElement.hasAttribute(HtmlComponentUtil.HTML_ATR_WIDTH) ? sourceElement.getAttribute(HtmlComponentUtil.HTML_ATR_WIDTH) : null;
 		String height = sourceElement.hasAttribute(HtmlComponentUtil.HTML_ATR_HEIGHT) ? sourceElement.getAttribute(HtmlComponentUtil.HTML_ATR_HEIGHT) : null;
 		String newStyle;
@@ -123,7 +130,7 @@ public class RichFacesSeparatorTemplate extends VpeAbstractTemplate {
 		if (name.equalsIgnoreCase(HtmlComponentUtil.HTML_ATR_HEIGHT)
 				|| name.equalsIgnoreCase(LINE_TYPE_ATTR)
 				|| name.equalsIgnoreCase(HtmlComponentUtil.HTML_ATR_WIDTH)) {
-			if (lineType != null && lineType.equalsIgnoreCase(LINE_BEVELED)) {
+			if (LINE_BEVELED.equalsIgnoreCase(lineType)) {
 				newStyle = setBeveledStyle(width, height, ComponentUtil
 						.getHeaderBackgoundImgStyle() + ";" + style); //$NON-NLS-1$
 			} else {
@@ -136,7 +143,7 @@ public class RichFacesSeparatorTemplate extends VpeAbstractTemplate {
 		} else if (name.equalsIgnoreCase(HtmlComponentUtil.HTML_ALIGN_ATTR)) {
 			element.removeAttribute(name);
 		} else if (name.equalsIgnoreCase(HtmlComponentUtil.HTML_STYLE_ATTR)) {
-			if (lineType != null && lineType.equalsIgnoreCase(LINE_BEVELED)) {
+			if (LINE_BEVELED.equalsIgnoreCase(lineType)) {
 				newStyle = setBeveledStyle(width, height, ComponentUtil
 						.getHeaderBackgoundImgStyle());
 			} else {
@@ -163,7 +170,7 @@ public class RichFacesSeparatorTemplate extends VpeAbstractTemplate {
 				visualNode, data, name, value);
 		nsIDOMElement element = queryInterface(visualNode, nsIDOMElement.class);
 		nsIDOMElement line = getLineElement(element);
-		String style = sourceElement.getAttribute(HtmlComponentUtil.HTML_STYLE_ATTR);
+		String style = sourceElement.hasAttribute(HtmlComponentUtil.HTML_STYLE_ATTR) ? sourceElement.getAttribute(HtmlComponentUtil.HTML_STYLE_ATTR) : null;
 		String width = sourceElement.hasAttribute(HtmlComponentUtil.HTML_ATR_WIDTH) ? sourceElement.getAttribute(HtmlComponentUtil.HTML_ATR_WIDTH) : null;
 		String height = sourceElement.hasAttribute(HtmlComponentUtil.HTML_ATR_HEIGHT) ? sourceElement.getAttribute(HtmlComponentUtil.HTML_ATR_HEIGHT) : null;
 		String lineType = sourceElement.hasAttribute(LINE_TYPE_ATTR) ? sourceElement.getAttribute(LINE_TYPE_ATTR) : LINE_BEVELED;
@@ -172,7 +179,7 @@ public class RichFacesSeparatorTemplate extends VpeAbstractTemplate {
 			if (!isNumber(value) && (value.indexOf(PIXEL_PREFIX)) == -1) {
 				return;
 			}
-			if (lineType.equalsIgnoreCase(LINE_BEVELED)) {
+			if (LINE_BEVELED.equalsIgnoreCase(lineType)) {
 				newStyle = setBeveledStyle(width, value, ComponentUtil
 						.getHeaderBackgoundImgStyle() + ";" + style); //$NON-NLS-1$
 			} else {

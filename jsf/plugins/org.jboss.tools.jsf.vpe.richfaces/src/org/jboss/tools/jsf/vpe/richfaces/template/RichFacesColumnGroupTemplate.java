@@ -96,7 +96,7 @@ public class RichFacesColumnGroupTemplate extends RichFacesSubTableTemplate {
 	@Override
 	protected String getRowClass(int row) {
 		String rowClass = super.getRowClass(row);
-		if (styleClass != null) {
+		if (styleClass != null && styleClass.length() > 0) {
 			rowClass += ' ' + styleClass;
 		}
 		return rowClass;

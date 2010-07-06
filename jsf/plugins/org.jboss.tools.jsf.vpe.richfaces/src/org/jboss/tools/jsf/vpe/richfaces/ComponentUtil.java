@@ -476,9 +476,9 @@ public class ComponentUtil {
      * @return the attribute
      */
     public static String getAttribute(Element sourceElement, String attributeName) {
-        String attribute = sourceElement.getAttribute(attributeName);
-        if (attribute == null) {
-            attribute = Constants.EMPTY;
+        String attribute = Constants.EMPTY;
+        if (sourceElement.hasAttribute(attributeName)) {
+            attribute = sourceElement.getAttribute(attributeName);
         }
         return attribute;
     }

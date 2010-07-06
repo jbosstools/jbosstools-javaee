@@ -44,13 +44,12 @@ public class RichFacesVirtualEarthTemplate extends VpeAbstractTemplate {
 	public VpeCreationData create(VpePageContext pageContext, Node sourceNode,
 			nsIDOMDocument visualDocument) {
 
+		Element sourceElement = (Element) sourceNode;
 		nsIDOMElement img = visualDocument
 				.createElement(HtmlComponentUtil.HTML_TAG_IMG);
-
-		String mapStyleValue = ((Element) sourceNode)
-				.getAttribute(MAP_STYLE_ATTRIBUTE_NAME);
-
-		if (mapStyleValue != null && searchInMapStyleValues(mapStyleValue)) {
+		
+		if (sourceElement.hasAttribute(MAP_STYLE_ATTRIBUTE_NAME)) {
+			String mapStyleValue = sourceElement.getAttribute(MAP_STYLE_ATTRIBUTE_NAME);
 			if (mapStyleValue.equalsIgnoreCase(MAP_STYLE_VALUES[0]))
 				ComponentUtil.setImg(img, EARTH_ROAD);
 			else if (mapStyleValue.equalsIgnoreCase(MAP_STYLE_VALUES[1]))
@@ -62,9 +61,9 @@ public class RichFacesVirtualEarthTemplate extends VpeAbstractTemplate {
 
 		copyStyleAttribute(img, sourceNode);
 
-		if (((Element) sourceNode).getAttribute(STYLE_CLASS_ATTR_NAME) != null)
+		if (sourceElement.hasAttribute(STYLE_CLASS_ATTR_NAME))
 			img.setAttribute(HtmlComponentUtil.HTML_CLASS_ATTR,
-					((Element) sourceNode).getAttribute(STYLE_CLASS_ATTR_NAME));
+					sourceElement.getAttribute(STYLE_CLASS_ATTR_NAME));
 
 		return new VpeCreationData(img);
 	}

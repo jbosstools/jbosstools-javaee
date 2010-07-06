@@ -132,12 +132,7 @@ public class RichFacesDataTableStyleClassesApplier {
 		int classesSize = classes.size();
 		if (classesSize > 0) {
 			final String clazz = classes.get(elementIndex % classesSize);
-			String actualClass = element.getAttribute(HTML.ATTR_CLASS);
-			if (actualClass == null) {
-				actualClass = clazz;
-			} else {
-				actualClass+= HTML.VALUE_CLASS_DELIMITER + clazz;
-			}
+			String actualClass = element.hasAttribute(HTML.ATTR_CLASS) ? element.getAttribute(HTML.ATTR_CLASS) + HTML.VALUE_CLASS_DELIMITER + clazz : clazz;
 			element.setAttribute(HTML.ATTR_CLASS, actualClass);
 		}
 	}

@@ -405,12 +405,11 @@ public abstract class RichFacesAbstractTreeTemplate extends VpeAbstractTemplate 
 		+ Constants.COLON + RECURSIVE_TREE_NODES_ADAPTOR;
 	if (sourceNode.getNodeName().equals(treeRecursiveNodesAdaptorName)) {
 	    Element sourceElement = (Element) sourceNode;
-	    String nodes = sourceElement
-		    .getAttribute(RichFacesRecursiveTreeNodesAdaptorTemplate.NODES_NAME);
+	    String nodes = sourceElement.hasAttribute(RichFacesRecursiveTreeNodesAdaptorTemplate.NODES_NAME) ? 
+	    		sourceElement.getAttribute(RichFacesRecursiveTreeNodesAdaptorTemplate.NODES_NAME) : Constants.EMPTY;
 	    nsIDOMElement textContainer = VisualDomUtil
 	    		.createBorderlessContainer(visualDocument);
-	    nsIDOMText text = visualDocument
-		    .createTextNode((nodes == null) ? Constants.EMPTY : nodes);
+	    nsIDOMText text = visualDocument.createTextNode(nodes);
 	    textContainer.appendChild(text);
 	    nodeTitle.appendChild(textContainer);
 	} else {
@@ -565,7 +564,7 @@ public abstract class RichFacesAbstractTreeTemplate extends VpeAbstractTemplate 
 	if (imgName == null || imgName.length() == 0) {
 	    Node parentElement = sourceNode.getParentNode();
 	    if (parentElement instanceof Element) {
-		imgName = ((Element) parentElement).getAttribute(nodeAttrName);
+	    	imgName = ((Element) parentElement).getAttribute(nodeAttrName);
 	    }
 	} else {
 	    img.setAttribute(ICON_PARAM_NAME, Constants.EMPTY);
@@ -681,11 +680,9 @@ public abstract class RichFacesAbstractTreeTemplate extends VpeAbstractTemplate 
     protected void addAttributeToTableNode(Element sourceNode,
 	    nsIDOMElement tableRow) {
 
-	String attrValue = sourceNode
-		.getAttribute(NODE_TITLE_STYLE_CLASS_ATTR_NAME);
-	if ((attrValue != null) && (attrValue.length() > 0)) {
-	    tableRow.setAttribute(HTML.ATTR_CLASS, attrValue);
-	}
+    	if (sourceNode.hasAttribute(NODE_TITLE_STYLE_CLASS_ATTR_NAME)) {
+    		tableRow.setAttribute(HTML.ATTR_CLASS, sourceNode.getAttribute(NODE_TITLE_STYLE_CLASS_ATTR_NAME));
+    	}
     }
 
 }

@@ -36,7 +36,7 @@ public class RichFacesPanelBarTemplate extends VpeAbstractTemplate implements Vp
     VpeTemplate {
     private static final String PERCENT_100 = "100%"; //$NON-NLS-1$
     private static final String PANEL_BAR_ITEM = ":panelBarItem"; //$NON-NLS-1$
-    private static final String DR_PNLBAR_RICH_PANELBAR_DR_PNLBAR_B = "dr-pnlbar rich-panelbar dr-pnlbar-b "; //$NON-NLS-1$
+    private static final String DR_PNLBAR_RICH_PANELBAR_DR_PNLBAR_B = "dr-pnlbar rich-panelbar dr-pnlbar-b"; //$NON-NLS-1$
     private static final String PANEL_BAR_PANEL_BAR_CSS = "panelBar/panelBar.css"; //$NON-NLS-1$
     private static Map<Node, String> toggleMap = new HashMap<Node, String>();
 
@@ -50,9 +50,11 @@ public class RichFacesPanelBarTemplate extends VpeAbstractTemplate implements Vp
 
         ComponentUtil.setCSSLink(pageContext, PANEL_BAR_PANEL_BAR_CSS, "richFacesPanelBar"); //$NON-NLS-1$
 
-        String styleClass = sourceElement.getAttribute(RichFaces.ATTR_STYLE_CLASS);
-        table.setAttribute(HTML.ATTR_CLASS,
-            DR_PNLBAR_RICH_PANELBAR_DR_PNLBAR_B + ((styleClass == null) ? Constants.EMPTY : styleClass));
+        String styleClass = DR_PNLBAR_RICH_PANELBAR_DR_PNLBAR_B;
+        if (sourceElement.hasAttribute(RichFaces.ATTR_STYLE_CLASS)) {
+        	styleClass += " " + sourceElement.getAttribute(RichFaces.ATTR_STYLE_CLASS); //$NON-NLS-1$
+        }
+        table.setAttribute(HTML.ATTR_CLASS, styleClass);
 
         // Set style attribute
         StringBuffer styleValue = new StringBuffer("padding: 0px; "); //$NON-NLS-1$
@@ -104,10 +106,10 @@ public class RichFacesPanelBarTemplate extends VpeAbstractTemplate implements Vp
      * @return
      */
     private String height(Element sourceElement) {
-        String height = sourceElement.getAttribute(HTML.ATTR_HEIGHT);
+        String height = PERCENT_100;
 
-        if ((height == null) || (height.length() == 0)) {
-            height = PERCENT_100;
+        if (sourceElement.hasAttribute(HTML.ATTR_HEIGHT)) {
+            height = sourceElement.getAttribute(HTML.ATTR_HEIGHT);
         }
 
         // added by estherbin fix not worked junit JBIDE1713Test
@@ -130,10 +132,10 @@ public class RichFacesPanelBarTemplate extends VpeAbstractTemplate implements Vp
      * @return
      */
     public String width(Element sourceElement) {
-        String width = sourceElement.getAttribute(HTML.ATTR_WIDTH);
+        String width = PERCENT_100;
 
-        if ((width == null) || (width.length() == 0)) {
-            width = PERCENT_100;
+        if (sourceElement.hasAttribute(HTML.ATTR_WIDTH)) {
+            width = sourceElement.getAttribute(HTML.ATTR_WIDTH);
         }
 
         // added by estherbin fix not worked junit JBIDE1713Test

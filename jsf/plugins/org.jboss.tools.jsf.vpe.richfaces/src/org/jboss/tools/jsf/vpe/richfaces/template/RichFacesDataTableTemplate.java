@@ -162,18 +162,16 @@ public class RichFacesDataTableTemplate extends VpeAbstractTemplate {
 		 * Encode caption
 		 */
 		if (null != captionBody) {
-			String captionClass = (String) table.getAttribute(RichFaces.ATTR_CAPTION_CLASS);
-			String captionStyle = (String) table.getAttribute(RichFaces.ATTR_CAPTION_STYLE);
-
+			
 			nsIDOMElement caption = visualDocument.createElement(HTML.TAG_CAPTION);
 			table.appendChild(caption);
-			if (captionClass != null && captionClass.length()>0) {
-				captionClass = "dr-table-caption rich-table-caption " + captionClass; //$NON-NLS-1$
-			} else {
-				captionClass = "dr-table-caption rich-table-caption"; //$NON-NLS-1$
-			}
+			
+			String defaultCaptionClass = "dr-table-caption rich-table-caption"; //$NON-NLS-1$
+			String captionClass = table.hasAttribute(RichFaces.ATTR_CAPTION_CLASS) ? defaultCaptionClass + " " + table.getAttribute(RichFaces.ATTR_CAPTION_CLASS) : defaultCaptionClass; //$NON-NLS-1$
 			caption.setAttribute(HTML.ATTR_CLASS, captionClass);
-			if (captionStyle != null && captionStyle.length()>0) {
+			
+			if (table.hasAttribute(RichFaces.ATTR_CAPTION_STYLE)) {
+				String captionStyle = table.getAttribute(RichFaces.ATTR_CAPTION_STYLE);
 				caption.setAttribute(HTML.ATTR_STYLE, captionStyle);
 			}
 			
@@ -349,7 +347,6 @@ public class RichFacesDataTableTemplate extends VpeAbstractTemplate {
 						currentLength = 0;
 					}
 					String colspanStr = column.getAttribute("colspan"); //$NON-NLS-1$
-					Integer colspan = null;
 					try {
 						currentLength += Integer.parseInt(colspanStr);
 					} catch (NumberFormatException e) {
