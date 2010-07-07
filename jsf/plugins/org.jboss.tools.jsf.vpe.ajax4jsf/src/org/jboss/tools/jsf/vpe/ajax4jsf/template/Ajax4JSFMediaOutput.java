@@ -53,17 +53,15 @@ public class Ajax4JSFMediaOutput extends VpeAbstractTemplate {
 		Element sourceElement = (Element) sourceNode;
 		nsIDOMElement mainTag = createMainTag(visualDocument, sourceElement);
 
-		String uriAttribute = sourceElement.getAttribute(Ajax4JSF.ATTR_URI_ATTRIBUTE);
-		if (uriAttribute == null || "".equals(uriAttribute)) { //$NON-NLS-1$
-			uriAttribute = HTML.ATTR_SRC;
-		}
-
+		String uriAttribute = sourceElement.hasAttribute(Ajax4JSF.ATTR_URI_ATTRIBUTE) ? 
+				sourceElement.getAttribute(Ajax4JSF.ATTR_URI_ATTRIBUTE) : HTML.ATTR_SRC;
+		
 		mainTag.setAttribute(uriAttribute, "file:///" + getAbsoluteResourcePath(IMG_PATH).replace('\\', '/')); //$NON-NLS-1$
 
 		VisualDomUtil.copyAttributes(sourceElement, SAME_ATTRIBUTES_LIST, mainTag);
-
-		String styleClass = sourceElement.getAttribute(Ajax4JSF.ATTR_STYLE_CLASS);
-		if (styleClass != null) {
+		
+		if (sourceElement.hasAttribute(Ajax4JSF.ATTR_STYLE_CLASS)) {
+			String styleClass = sourceElement.getAttribute(Ajax4JSF.ATTR_STYLE_CLASS);
 			mainTag.setAttribute(HTML.ATTR_CLASS, styleClass);
 		}
 
@@ -87,11 +85,9 @@ public class Ajax4JSFMediaOutput extends VpeAbstractTemplate {
 	 */
 	private static nsIDOMElement createMainTag(nsIDOMDocument visualDocument,
 			Element sourceElement) {
-		String element = sourceElement.getAttribute(Ajax4JSF.ATTR_ELEMENT);
-
-		if (element == null || "".equals(element)) { //$NON-NLS-1$
-			element = HTML.TAG_IMG;
-		}
+		
+		String element = sourceElement.hasAttribute(Ajax4JSF.ATTR_ELEMENT) ? 
+				sourceElement.getAttribute(Ajax4JSF.ATTR_ELEMENT) : HTML.TAG_IMG;
 
 		nsIDOMElement mainTag = visualDocument.createElement(element);
 		return mainTag;

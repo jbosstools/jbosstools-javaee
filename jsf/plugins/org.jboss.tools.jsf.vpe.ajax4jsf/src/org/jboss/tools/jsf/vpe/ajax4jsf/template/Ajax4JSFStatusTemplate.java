@@ -93,13 +93,13 @@ public class Ajax4JSFStatusTemplate extends VpeAbstractTemplate {
 			
 			// set class of the span to "{@styleClass} {@stopStyleClass}"
 			{
-				String styleClass = sourceElement.getAttribute(RichFaces.ATTR_STYLE_CLASS);
-				String stopStyleClass = sourceElement.getAttribute(ATTR_STOP_STYLE_CLASS);
 				StringBuffer spanClass = new StringBuffer();
-				if (styleClass != null) {
+				if (sourceElement.hasAttribute(RichFaces.ATTR_STYLE_CLASS)) {
+					String styleClass = sourceElement.getAttribute(RichFaces.ATTR_STYLE_CLASS);
 					spanClass.append(styleClass);
 				}
-				if (stopStyleClass != null) {
+				if (sourceElement.hasAttribute(ATTR_STOP_STYLE_CLASS)) {
+					String stopStyleClass = sourceElement.getAttribute(ATTR_STOP_STYLE_CLASS);
 					spanClass.append(HTML.VALUE_CLASS_DELIMITER).append(stopStyleClass);
 				}
 				span.setAttribute(HTML.ATTR_CLASS, spanClass.toString());
@@ -107,13 +107,13 @@ public class Ajax4JSFStatusTemplate extends VpeAbstractTemplate {
 
 			// set style of the span to "{@style};{@stopStyle}"
 			{
-				String style = sourceElement.getAttribute(RichFaces.ATTR_STYLE);
-				String stopStyle = sourceElement.getAttribute(ATTR_STOP_STYLE);
 				StringBuffer spanStyle = new StringBuffer();
-				if (style != null) {
+				if (sourceElement.hasAttribute(RichFaces.ATTR_STYLE)) {
+					String style = sourceElement.getAttribute(RichFaces.ATTR_STYLE);
 					spanStyle.append(style).append(HTML.VALUE_STYLE_DELIMITER); 
 				}
-				if (stopStyle != null) {
+				if (sourceElement.hasAttribute(ATTR_STOP_STYLE)) {
+					String stopStyle = sourceElement.getAttribute(ATTR_STOP_STYLE);
 					spanStyle.append(stopStyle).append(HTML.VALUE_STYLE_DELIMITER);
 				}
 				span.setAttribute(HTML.ATTR_STYLE, spanStyle.toString());
