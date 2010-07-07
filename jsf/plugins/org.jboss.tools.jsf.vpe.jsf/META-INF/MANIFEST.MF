@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-SymbolicName: org.jboss.tools.jsf.vpe.jsf;singleton:=true
-Bundle-Version: 3.1.0.qualifier
+Bundle-Version: 3.2.0.qualifier
 Bundle-Activator: org.jboss.tools.jsf.vpe.jsf.JsfTemplatePlugin
 Bundle-Vendor: %providerName
 Require-Bundle: org.eclipse.ui,

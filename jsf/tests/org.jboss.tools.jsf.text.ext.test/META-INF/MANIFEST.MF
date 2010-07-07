@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name.0
 Bundle-SymbolicName: org.jboss.tools.jsf.text.ext.test
-Bundle-Version: 3.1.0.qualifier
+Bundle-Version: 3.2.0.qualifier
 Require-Bundle: org.junit,
  org.jboss.tools.jsf.text.ext,
  org.eclipse.ui.workbench.texteditor,
