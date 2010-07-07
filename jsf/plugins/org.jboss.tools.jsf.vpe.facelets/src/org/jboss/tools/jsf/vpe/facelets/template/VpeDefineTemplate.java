@@ -62,10 +62,10 @@ public class VpeDefineTemplate extends VpeAbstractTemplate {
 	private VpeCreationData createStub(Element sourceElement, nsIDOMDocument visualDocument) {
 		nsIDOMElement container = visualDocument.createElement(HTML.TAG_DIV);
 		container.setAttribute(HTML.ATTR_STYLE, "border: 1px solid gray"); //$NON-NLS-1$
-
-		String name = sourceElement.getAttribute(Facelets.ATTR_NAME);
+		
 		final String message;
-		if (name != null) {
+		if (sourceElement.hasAttribute(Facelets.ATTR_NAME)) {
+			String name = sourceElement.getAttribute(Facelets.ATTR_NAME);
 			message = NLS.bind(Messages.UNKNOWN_NAME, name);
 		} else {
 			message = Messages.NAME_NOT_SPECIFIED;

@@ -20,6 +20,7 @@ import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
+import org.jboss.tools.vpe.editor.util.Constants;
 import org.jboss.tools.vpe.editor.util.HTML;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
@@ -38,20 +39,19 @@ public class VpeInsertTemplate extends VpeAbstractTemplate {
 	protected void init(Element templateElement) {
 		children = true;
 		modify = false;
-		this.defineElementName = templateElement.getAttribute(DEFINE_ELEMENT_NAME_PARAM)!=null?templateElement.getAttribute(DEFINE_ELEMENT_NAME_PARAM):Facelets.TAG_DEFINE;
+		this.defineElementName = templateElement.hasAttribute(DEFINE_ELEMENT_NAME_PARAM) ? 
+				templateElement.getAttribute(DEFINE_ELEMENT_NAME_PARAM) : Facelets.TAG_DEFINE;
 		initTemplateSections(templateElement, false, true, false, false, false);
 	}
 
 	public VpeCreationData create(VpePageContext pageContext, Node sourceNode, nsIDOMDocument visualDocument) {
 		VpeVisualDomBuilder visualBuilder = pageContext.getVisualBuilder();
 		VpeIncludeInfo includeInfo = visualBuilder.getCurrentIncludeInfo();
+		Element sourceElement = (Element)sourceNode;
 		if (includeInfo != null && includeInfo.getElement() != null) {
-			String name = ((Element)sourceNode).getAttribute(Facelets.ATTR_NAME);
-			if (name != null) {
-				name = name.trim();
-				if (name.length() <= 0) name = null;
-			}
-			if (name != null) {
+			String name = sourceElement.hasAttribute(Facelets.ATTR_NAME) ? 
+					sourceElement.getAttribute(Facelets.ATTR_NAME).trim() : Constants.EMPTY;
+			if (name.length() > 0) {
 				Element defineElement = findDefineElement(includeInfo.getElement(), name);
 				if (defineElement != null) {
 					VpeCreationData creationData = createInsert(defineElement, visualDocument);
@@ -72,7 +72,7 @@ public class VpeInsertTemplate extends VpeAbstractTemplate {
 				return creationData;
 			}
 		}
-		VpeCreationData creationData = createStub((Element)sourceNode, visualDocument);
+		VpeCreationData creationData = createStub(sourceElement, visualDocument);
 		creationData.setData(null);
 		return creationData;
 	}
