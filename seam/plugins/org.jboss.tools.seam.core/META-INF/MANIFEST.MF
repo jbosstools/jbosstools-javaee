@@ -37,7 +37,7 @@ Require-Bundle: org.eclipse.ui,
  org.jboss.tools.jsf,
  org.eclipse.jem.util,
  org.eclipse.debug.core;bundle-version="3.4.0"
-Bundle-Version: 3.1.0.qualifier
+Bundle-Version: 3.2.0.qualifier
 Export-Package: 
  org.jboss.tools.seam.core,
  org.jboss.tools.seam.core.event,

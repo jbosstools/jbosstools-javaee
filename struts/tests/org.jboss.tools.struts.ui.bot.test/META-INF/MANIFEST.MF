@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Struts UI SWTBot Tests
 Bundle-SymbolicName: org.jboss.tools.struts.ui.bot.test
-Bundle-Version: 3.1.0.qualifier
+Bundle-Version: 3.2.0.qualifier
 Bundle-Activator: org.jboss.tools.struts.ui.bot.test.Activator
 Require-Bundle: org.apache.log4j;bundle-version="1.2.13",
  org.eclipse.core.runtime,
