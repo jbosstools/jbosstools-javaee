@@ -12,6 +12,7 @@ package org.jboss.tools.cdi.core;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 
 import org.eclipse.core.resources.ICommand;
@@ -120,7 +121,7 @@ public class CDICoreNature implements IProjectNature {
 		if(isStorageResolved) return;
 		isStorageResolved = true;
 		try {
-			getProject().build(IncrementalProjectBuilder.FULL_BUILD, new NullProgressMonitor());
+			getProject().build(IncrementalProjectBuilder.FULL_BUILD, CDICoreBuilder.BUILDER_ID, new HashMap(), new NullProgressMonitor());
 		} catch (CoreException e) {
 			CDICorePlugin.getDefault().logError(e);
 		}
