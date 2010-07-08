@@ -40,15 +40,14 @@ public class SeamPdfChapterTemplate extends SeamPdfAbstractChapterTemplate {
 		sourceElement = (Element) sourceNode;
 		visualElement = VisualDomUtil.createBorderlessContainer(visualDocument);
 		nsIDOMNode headNode = visualDocument.createElement(HTML.TAG_H1);
-		String chapterNumber = sourceElement.getAttribute(NUMBER);
-		if (chapterNumber != null) {
+		String chapterNumber = "1"; //$NON-NLS-1$
+		if (sourceElement.hasAttribute(NUMBER)) {
 			try {
+				chapterNumber = sourceElement.getAttribute(NUMBER);
 				Integer.parseInt(chapterNumber);
 			} catch (NumberFormatException e) {
 				chapterNumber = "1"; //$NON-NLS-1$
 			}
-		} else {
-			chapterNumber = "1"; //$NON-NLS-1$
 		}
 		nsIDOMText chapterNumberNode = visualDocument
 				.createTextNode(chapterNumber + ". "); //$NON-NLS-1$

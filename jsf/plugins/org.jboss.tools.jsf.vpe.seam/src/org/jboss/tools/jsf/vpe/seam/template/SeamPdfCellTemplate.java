@@ -54,23 +54,25 @@ public class SeamPdfCellTemplate extends SeamPdfAbstractTemplate {
 	}
 
 	private void copyAttrs(nsIDOMElement visualElement, Element sourceElement) {
-		String attr = sourceElement.getAttribute(HTML.ATTR_COLSPAN);
-		if (attr != null) {
-			visualElement.setAttribute(HTML.ATTR_COLSPAN, attr);
+		
+		if (sourceElement.hasAttribute(HTML.ATTR_COLSPAN)) {
+			String colspanAttr = sourceElement.getAttribute(HTML.ATTR_COLSPAN);
+			visualElement.setAttribute(HTML.ATTR_COLSPAN, colspanAttr);
 		}
-		attr = sourceElement
-				.getAttribute(SeamUtil.SEAM_ATTR_HORIZONAL_ALIGNMENT);
-		if (attr != null) {
-			visualElement.setAttribute(HTML.ATTR_ALIGN, attr);
+		
+		if (sourceElement.hasAttribute(SeamUtil.SEAM_ATTR_HORIZONAL_ALIGNMENT)) {
+			String horAlAttr = sourceElement.getAttribute(SeamUtil.SEAM_ATTR_HORIZONAL_ALIGNMENT);
+			visualElement.setAttribute(HTML.ATTR_ALIGN, horAlAttr);
 		}
-		attr = sourceElement
-				.getAttribute(SeamUtil.SEAM_ATTR_VERTICAL_ALIGNMENT);
-		if (attr != null) {
-			visualElement.setAttribute(HTML.ATTR_VALIGN, attr);
+		
+		if (sourceElement.hasAttribute(SeamUtil.SEAM_ATTR_VERTICAL_ALIGNMENT)) {
+			String vertAlAttr = sourceElement.getAttribute(SeamUtil.SEAM_ATTR_VERTICAL_ALIGNMENT);
+			visualElement.setAttribute(HTML.ATTR_VALIGN, vertAlAttr);
 		}
-		attr = sourceElement.getAttribute("noWrap"); //$NON-NLS-1$
-		if (attr != null) {
-			visualElement.setAttribute("nowrap", attr); //$NON-NLS-1$
+		
+		if (sourceElement.hasAttribute("noWrap")) {
+			String noWrapAttr = sourceElement.getAttribute("noWrap"); //$NON-NLS-1$
+			visualElement.setAttribute("nowrap", noWrapAttr); //$NON-NLS-1$
 		}
 	}
 

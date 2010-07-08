@@ -43,24 +43,24 @@ public abstract class SeamPdfAbstractTemplate extends VpeAbstractTemplate {
 
 	protected final void copySizeAttrs(nsIDOMElement visualElement,
 			Element sourceElement) {
-		String width = sourceElement.getAttribute(HTML.ATTR_WIDTH);
-		String height = sourceElement.getAttribute(HTML.ATTR_HEIGHT);
-		if (width != null) {
-			String styleAttrValue = visualElement.getAttribute(HTML.ATTR_STYLE);
-			if (styleAttrValue == null) {
-				visualElement.setAttribute(HTML.ATTR_STYLE, "width:" + width); //$NON-NLS-1$
-			} else {
+		if (sourceElement.hasAttribute(HTML.ATTR_WIDTH)) {
+			String width = sourceElement.getAttribute(HTML.ATTR_WIDTH);			
+			if (visualElement.hasAttribute(HTML.ATTR_STYLE)) {
+				String styleAttrValue = visualElement.getAttribute(HTML.ATTR_STYLE);
 				visualElement.setAttribute(HTML.ATTR_STYLE, styleAttrValue
-						+ "; width:" + width); //$NON-NLS-1$
+						+ "; width:" + width); //$NON-NLS-1$				
+			} else {
+				visualElement.setAttribute(HTML.ATTR_STYLE, "width:" + width); //$NON-NLS-1$
 			}
 		}
-		if (height != null) {
-			String styleAttrValue = visualElement.getAttribute(HTML.ATTR_STYLE);
-			if (styleAttrValue == null) {
-				visualElement.setAttribute(HTML.ATTR_STYLE, "height:" + height); //$NON-NLS-1$
-			} else {
+		if (sourceElement.hasAttribute(HTML.ATTR_HEIGHT)) {
+			String height = sourceElement.getAttribute(HTML.ATTR_HEIGHT);			
+			if (visualElement.hasAttribute(HTML.ATTR_STYLE)) {
+				String styleAttrValue = visualElement.getAttribute(HTML.ATTR_STYLE);
 				visualElement.setAttribute(HTML.ATTR_STYLE, styleAttrValue
 						+ "; height:" + height); //$NON-NLS-1$
+			} else {
+				visualElement.setAttribute(HTML.ATTR_STYLE, "height:" + height); //$NON-NLS-1$
 			}
 		}
 	}

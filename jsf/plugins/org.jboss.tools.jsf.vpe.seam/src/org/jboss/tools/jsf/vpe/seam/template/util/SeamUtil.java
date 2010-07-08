@@ -69,8 +69,9 @@ public class SeamUtil {
 
 	public static void setAlignment(Element sourceElement,
 			nsIDOMElement visualElement) {
-		String align = sourceElement.getAttribute(SeamUtil.SEAM_ATTR_ALIGNMENT);
-		if (align != null) {
+		
+		if (sourceElement.hasAttribute(SeamUtil.SEAM_ATTR_ALIGNMENT)) {
+			String align = sourceElement.getAttribute(SeamUtil.SEAM_ATTR_ALIGNMENT);
 			visualElement.setAttribute(HTML.ATTR_ALIGN, HTML.VALUE_ALIGN_LEFT);
 			for (int i = 0; i < SeamUtil.POSSIBLE_ALIGNS.length; i++) {
 				if (SeamUtil.POSSIBLE_ALIGNS[i].equalsIgnoreCase(align)) {
@@ -143,9 +144,9 @@ public class SeamUtil {
 
 	private static String parseFontStyleValue(Node sourceFontNode) {
 		StringBuffer styleAttrValue = new StringBuffer(""); //$NON-NLS-1$
-		String stringValueToParse = ((Element) sourceFontNode)
-				.getAttribute(HTML.ATTR_STYLE);
-		if (stringValueToParse != null) {
+		Element sourceFontElement = (Element) sourceFontNode;		
+		if (sourceFontElement.hasAttribute(HTML.ATTR_STYLE)) {
+			String stringValueToParse = sourceFontElement.getAttribute(HTML.ATTR_STYLE);
 			int boldPos = stringValueToParse.indexOf("bold"); //$NON-NLS-1$
 			if (boldPos != -1) {
 				styleAttrValue.append(" font-weight : bold;"); //$NON-NLS-1$
@@ -168,30 +169,30 @@ public class SeamUtil {
 
 	private static String getFontFamily(Node sourceFontNode) {
 		String fontFamily = "unknown"; //$NON-NLS-1$
-		String stringName = ((Element) sourceFontNode)
-				.getAttribute(HTML.ATTR_NAME);
-		if (stringName != null) {
+		Element sourceFontElement = (Element) sourceFontNode;		
+		if (sourceFontElement.hasAttribute(HTML.ATTR_NAME)) {
+			String stringName = sourceFontElement.getAttribute(HTML.ATTR_NAME);
 			fontFamily = stringName;
 		}
 		return " font-family : " + fontFamily + ";"; //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	private static String getSize(Node sourceFontNode) {
-		String stringSizeAttr = ((Element) sourceFontNode)
-				.getAttribute(HTML.ATTR_SIZE);
-		if (stringSizeAttr != null) {
+		Element sourceFontElement = (Element) sourceFontNode;		
+		if (sourceFontElement.hasAttribute(HTML.ATTR_SIZE)) {
 			try {
+				String stringSizeAttr = sourceFontElement.getAttribute(HTML.ATTR_SIZE);
 				int intSize = Integer.parseInt(stringSizeAttr);
 				if (intSize < 0) {
 					return ""; //$NON-NLS-1$
 				}
+				return " font-size : " + stringSizeAttr + "pt;"; //$NON-NLS-1$ //$NON-NLS-2$
 			} catch (NumberFormatException e) {
 				return ""; //$NON-NLS-1$
 			}
 		} else {
 			return ""; //$NON-NLS-1$
-		}
-		return " font-size : " + stringSizeAttr + "pt;"; //$NON-NLS-1$ //$NON-NLS-2$
+		}		
 	}
 
 	public static String getAbsoluteResourcePath(String resourcePathInPlugin) {

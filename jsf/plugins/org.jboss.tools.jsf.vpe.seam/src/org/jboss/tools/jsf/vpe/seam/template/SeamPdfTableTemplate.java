@@ -71,10 +71,11 @@ public class SeamPdfTableTemplate extends SeamPdfAbstractTemplate {
 
 	private int getNumberOfColumns(Node sourceTableNode) {
 		int columnsNumber = 1;
-		String columnsNumberString = ((Element) sourceTableNode)
-				.getAttribute("columns"); //$NON-NLS-1$
-		if (columnsNumberString != null) {
+		Element sourceTableElement = (Element) sourceTableNode;
+		String columnsAttrName = "columns"; //$NON-NLS-1$		
+		if (sourceTableElement.hasAttribute(columnsAttrName)) {
 			try {
+				String columnsNumberString = sourceTableElement.getAttribute(columnsAttrName);
 				columnsNumber = Integer.parseInt(columnsNumberString);
 				if (columnsNumber < 1) {
 					columnsNumber = 1;

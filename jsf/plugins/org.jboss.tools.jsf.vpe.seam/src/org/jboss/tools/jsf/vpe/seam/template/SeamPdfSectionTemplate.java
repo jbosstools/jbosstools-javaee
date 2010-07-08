@@ -121,9 +121,10 @@ public class SeamPdfSectionTemplate extends SeamPdfAbstractChapterTemplate {
 
 	private int getChapterNumber(Node chapterNode) {
 		int chapterNumber = 1;
-		String chapterNumberString = ((Element) chapterNode)
-				.getAttribute("number"); //$NON-NLS-1$
-		if (chapterNumberString != null) {
+		Element chapterElement = (Element) chapterNode;
+		String numberAttrName = "number"; //$NON-NLS-1$
+		if (chapterElement.hasAttribute(numberAttrName)) {
+			String chapterNumberString = chapterElement.getAttribute(numberAttrName);
 			try {
 				chapterNumber = Integer.parseInt(chapterNumberString);
 			} catch (NumberFormatException e) {
