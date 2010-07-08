@@ -35,14 +35,18 @@ public class JstlUrlTemplate extends VpeAbstractTemplate {
 
     public VpeCreationData create(VpePageContext pageContext, Node sourceNode,
 	    nsIDOMDocument visualDocument) {
-	Element sourceElement = (Element) sourceNode;
-	String value = sourceElement.getAttribute(HTML.ATTR_VALUE);
-	nsIDOMElement span = VisualDomUtil.createBorderlessContainer(visualDocument);
-	nsIDOMText urlText = visualDocument.createTextNode(value);
-	span.appendChild(urlText);
-	VpeCreationData creationData = new VpeCreationData(span);
-	
-	return creationData;
+		
+    	Element sourceElement = (Element) sourceNode;		
+		nsIDOMElement span = VisualDomUtil.createBorderlessContainer(visualDocument);
+		
+		if (sourceElement.hasAttribute(HTML.ATTR_VALUE)) {
+			String value = sourceElement.getAttribute(HTML.ATTR_VALUE);
+			nsIDOMText urlText = visualDocument.createTextNode(value);
+			span.appendChild(urlText);
+		}
+		
+		VpeCreationData creationData = new VpeCreationData(span);		
+		return creationData;
     }
 
 }

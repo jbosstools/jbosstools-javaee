@@ -17,6 +17,7 @@ import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
+import org.jboss.tools.vpe.editor.util.Constants;
 import org.jboss.tools.vpe.editor.util.HTML;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
@@ -40,11 +41,10 @@ public class JBPMDataForm extends VpeAbstractTemplate {
 			nsIDOMDocument visualDocument) {
 		nsIDOMElement element = visualDocument.createElement(HTML.TAG_TABLE);
 		Element sourceElement = (Element) sourceNode;
-		element
-				.setAttribute(
-						HTML.ATTR_STYLE,
-						computeBaseTableStyleValue()
-								+ (sourceElement.getAttribute(HTML.ATTR_STYLE) == null ? "" : sourceElement.getAttribute(HTML.ATTR_STYLE))); //$NON-NLS-1$
+		element.setAttribute(HTML.ATTR_STYLE, 
+				computeBaseTableStyleValue() + 
+				(sourceElement.hasAttribute(HTML.ATTR_STYLE) ? 
+						sourceElement.getAttribute(HTML.ATTR_STYLE) : Constants.EMPTY));
 		VpeCreationData creationData = new VpeCreationData(element);
 		VpeChildrenInfo childrenInfo = new VpeChildrenInfo(element);
 		NodeList children = sourceNode.getChildNodes();

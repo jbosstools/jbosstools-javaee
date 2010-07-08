@@ -31,11 +31,7 @@ public class ComponentUtil {
      * @return the attribute
      */
     public static String getAttribute(Element sourceElement, String attributeName) {
-        String attribute = sourceElement.getAttribute(attributeName);
-        if (attribute == null) {
-            attribute = Constants.EMPTY;
-        }
-        return attribute;
+        return getAttribute(sourceElement, attributeName, Constants.EMPTY);
     }
 
     /**
@@ -48,11 +44,8 @@ public class ComponentUtil {
      * @return the attribute
      */
     public static String getAttribute(Element sourceElement, String attributeName, String defaultValue) {
-        String attribute = sourceElement.getAttribute(attributeName);
-        if (attribute == null) {
-            attribute = defaultValue;
-        }
-        return attribute;
+    	return sourceElement.hasAttribute(attributeName) ? 
+        		sourceElement.getAttribute(attributeName) : defaultValue;
     }
 
     /**
@@ -64,10 +57,7 @@ public class ComponentUtil {
      * @return the attribute
      */
     public static String getAttribute(nsIDOMElement sourceElement, String attributeName) {
-        String attribute = sourceElement.getAttribute(attributeName);
-        if (attribute == null) {
-            attribute = Constants.EMPTY;
-        }
-        return attribute;
+        return sourceElement.hasAttribute(attributeName) ? 
+        		sourceElement.getAttribute(attributeName) : Constants.EMPTY;
     }
 }

@@ -14,7 +14,6 @@ import org.jboss.tools.jsf.vpe.jstl.template.util.Jstl;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
-import org.jboss.tools.vpe.editor.util.HTML;
 import org.jboss.tools.vpe.editor.util.VisualDomUtil;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
@@ -36,15 +35,19 @@ public class JstlXOutTemplate extends VpeAbstractTemplate {
 
     public VpeCreationData create(VpePageContext pageContext, Node sourceNode,
 	    nsIDOMDocument visualDocument) {
-	Element sourceElement = (Element) sourceNode;
-	String select = sourceElement.getAttribute(Jstl.ATTR_SELECT);
-	nsIDOMElement span = VisualDomUtil
-		.createBorderlessContainer(visualDocument);
-	nsIDOMText text = visualDocument.createTextNode(select);
-	span.appendChild(text);
-	VpeCreationData creationData = new VpeCreationData(span);
-
-	return creationData;
+		
+    	Element sourceElement = (Element) sourceNode;	
+		nsIDOMElement span = VisualDomUtil
+			.createBorderlessContainer(visualDocument);
+		
+		if (sourceElement.hasAttribute(Jstl.ATTR_SELECT)) {
+			String select = sourceElement.getAttribute(Jstl.ATTR_SELECT);
+			nsIDOMText text = visualDocument.createTextNode(select);
+			span.appendChild(text);
+		}
+		
+		VpeCreationData creationData = new VpeCreationData(span);	
+		return creationData;
     }
 
 }
