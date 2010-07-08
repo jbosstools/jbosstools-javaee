@@ -10,18 +10,21 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.ui.wizard;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jdt.core.IBuffer;
+import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.ISourceRange;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.internal.corext.codemanipulation.StubUtility;
 import org.eclipse.jdt.internal.ui.IJavaHelpContextIds;
 import org.eclipse.jdt.ui.wizards.NewAnnotationWizardPage;
-import org.eclipse.jdt.ui.wizards.NewTypeWizardPage.ImportsManager;
 import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -30,7 +33,10 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.PlatformUI;
 import org.jboss.tools.cdi.core.CDIConstants;
-import org.jboss.tools.cdi.core.ICDIAnnotation;
+import org.jboss.tools.cdi.core.CDICoreMessages;
+import org.jboss.tools.cdi.core.CDICoreNature;
+import org.jboss.tools.cdi.core.CDICorePlugin;
+import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
 import org.jboss.tools.common.ui.widget.editor.CheckBoxFieldEditor;
 import org.jboss.tools.common.ui.widget.editor.CompositeEditor;
@@ -187,5 +193,35 @@ public abstract class NewCDIAnnotationWizardPage extends NewAnnotationWizardPage
 			((CompositeEditor)target).setValue(s);
 		}
 	}
+
+	protected ICDIProject getCDIProject(IJavaProject jp) {
+		CDICoreNature n = getCDINatureWithProgress(jp.getProject());
+		return n == null ? null : n.getDelegate();
+	}
+
+	public static CDICoreNature getCDINatureWithProgress(final IProject project){
+		final CDICoreNature cdiNature = CDICorePlugin.getCDI(project, false);
+		if(cdiNature != null && !cdiNature.isStorageResolved()){
+			try{
+				PlatformUI.getWorkbench().getProgressService().run(false, false, new IRunnableWithProgress(){
+					public void run(IProgressMonitor monitor)
+							throws InvocationTargetException, InterruptedException {
+						monitor.beginTask(CDICoreMessages.CDI_UTIL_BUILD_CDI_MODEL, 10);
+						monitor.worked(3);
+						cdiNature.resolve();
+						monitor.worked(7);
+					}
+					
+				});
+			}catch(InterruptedException ie){
+				CDICorePlugin.getDefault().logError(ie);
+			}catch(InvocationTargetException ite){
+				CDICorePlugin.getDefault().logError(ite);
+			}
+		}
+		
+		return cdiNature;
+	}
+
 
 }

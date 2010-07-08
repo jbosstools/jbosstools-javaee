@@ -95,7 +95,7 @@ public class NewInterceptorBindingWizardPage extends NewCDIAnnotationWizardPage 
 		interceptorBindingsProvider.setProject(null);
 		if(root != null) {
 			IJavaProject jp = root.getJavaProject();
-			ICDIProject cdi = CDICorePlugin.getCDIProject(jp.getProject(), true);
+			ICDIProject cdi = getCDIProject(jp);
 			if(cdi != null) {
 				interceptorBindingsProvider.setProject(cdi);
 			}

@@ -186,7 +186,7 @@ public class NewStereotypeWizardPage extends NewCDIAnnotationWizardPage {
 	void setScopes(IPackageFragmentRoot root) {
 		if(root != null) {
 			IJavaProject jp = root.getJavaProject();
-			ICDIProject cdi = CDICorePlugin.getCDIProject(jp.getProject(), true);
+			ICDIProject cdi = getCDIProject(jp);
 			if(cdi != null) {
 				Set<String> scopes = cdi.getScopeNames();
 				String[] tags = scopes.toArray(new String[0]);
@@ -203,7 +203,7 @@ public class NewStereotypeWizardPage extends NewCDIAnnotationWizardPage {
 		interceptorBindingsProvider.setProject(null);
 		if(root != null) {
 			IJavaProject jp = root.getJavaProject();
-			ICDIProject cdi = CDICorePlugin.getCDIProject(jp.getProject(), true);
+			ICDIProject cdi = getCDIProject(jp);
 			if(cdi != null) {
 				interceptorBindingsProvider.setProject(cdi);
 			}
