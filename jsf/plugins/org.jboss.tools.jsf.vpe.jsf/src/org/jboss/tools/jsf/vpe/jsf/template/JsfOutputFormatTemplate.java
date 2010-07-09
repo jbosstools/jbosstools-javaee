@@ -188,7 +188,9 @@ public class JsfOutputFormatTemplate extends AbstractOutputJsfTemplate {
 
 				if (num < paramList.size() && paramList.get(num).hasAttribute(JSF.ATTR_VALUE)) {
 					// get param's value
-					value = paramList.get(num).getAttribute(JSF.ATTR_VALUE);
+					Element paramElement = paramList.get(num);
+					value = paramElement.hasAttribute(JSF.ATTR_VALUE) ? 
+								paramElement.getAttribute(JSF.ATTR_VALUE) : null;
 				}
 			} catch (NumberFormatException e) {
 				// illegal param value

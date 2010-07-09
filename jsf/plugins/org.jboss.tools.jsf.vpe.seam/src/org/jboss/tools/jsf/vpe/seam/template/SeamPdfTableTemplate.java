@@ -149,10 +149,10 @@ public class SeamPdfTableTemplate extends SeamPdfAbstractTemplate {
 	}
 
 	private String getWidthPerc(Element sourceElement) {
-		String width = sourceElement
-				.getAttribute(SeamUtil.SEAM_ATTR_WIDTH_PERCENTAGE);
-		if (width != null) {
+		String width = "100%"; //$NON-NLS-1$
+		if (sourceElement.hasAttribute(SeamUtil.SEAM_ATTR_WIDTH_PERCENTAGE)) {
 			try {
+				width = sourceElement.getAttribute(SeamUtil.SEAM_ATTR_WIDTH_PERCENTAGE);
 				int intWidth = Integer.parseInt(width);
 				if (intWidth < 1 || intWidth > 100) {
 					width = "100%"; //$NON-NLS-1$
@@ -162,16 +162,14 @@ public class SeamPdfTableTemplate extends SeamPdfAbstractTemplate {
 			} catch (NumberFormatException e) {
 				width = "100%"; //$NON-NLS-1$
 			}
-		} else {
-			width = "100%"; //$NON-NLS-1$
 		}
 		return width;
 	}
 
-	private String getAlignment(Element sourceElement) {
-		String align = sourceElement
+	private String getAlignment(Element sourceElement) {		
+		if (sourceElement.hasAttribute(SeamUtil.SEAM_ATTR_HORIZONAL_ALIGNMENT)) {
+			String align = sourceElement
 				.getAttribute(SeamUtil.SEAM_ATTR_HORIZONAL_ALIGNMENT);
-		if (align != null) {
 			for (int i = 0; i < SeamUtil.POSSIBLE_ALIGNS.length; i++) {
 				if (SeamUtil.POSSIBLE_ALIGNS[i].equalsIgnoreCase(align)) {
 					if (SeamUtil.POSSIBLE_ALIGNS[i]
@@ -187,10 +185,10 @@ public class SeamPdfTableTemplate extends SeamPdfAbstractTemplate {
 
 	private int getColspanValue(nsIDOMNode visualNode) {
 		int colspan = 1;
-		nsIDOMElement visualElement = queryInterface(visualNode, nsIDOMElement.class);
-		String colspanString = visualElement.getAttribute(HTML.ATTR_COLSPAN);
-		if (colspanString != null) {
+		nsIDOMElement visualElement = queryInterface(visualNode, nsIDOMElement.class);		
+		if (visualElement.hasAttribute(HTML.ATTR_COLSPAN)) {
 			try {
+				String colspanString = visualElement.getAttribute(HTML.ATTR_COLSPAN);
 				colspan = Integer.parseInt(colspanString);
 				if (colspan < 1) {
 					colspan = 1;
