@@ -32,6 +32,6 @@ public class InterceptorDefinitionTest extends TCKTest {
 		IBean bean = beans.iterator().next();
 		assertTrue("The bean should be an interceptor", bean instanceof IClassBean);
 		IClassBean interceptor = (IClassBean)bean;
-		assertFalse("The intercpetor should inherites interceptor bindings", interceptor.getInterceptorBindingDeclarations().isEmpty());
+		assertFalse("The interceptor should inherites interceptor bindings", interceptor.getInterceptorBindings().isEmpty());
 	}
 }
