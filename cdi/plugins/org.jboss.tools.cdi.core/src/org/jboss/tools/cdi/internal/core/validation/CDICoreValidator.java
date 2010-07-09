@@ -411,12 +411,14 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 		 */
 		try {
 			if(hasConflictedInterceptorBindings(bean)) {
+				//TODO consider putting markers to interceptor bindings/stereotype declarations.
 				ITextSourceReference reference = CDIUtil.convertToSourceReference(bean.getBeanClass().getNameRange());
 				addError(CDIValidationMessages.CONFLICTING_INTERCEPTOR_BINDINGS, CDIPreferences.CONFLICTING_INTERCEPTOR_BINDINGS, reference, bean.getResource());
 			}
 			Set<IBeanMethod> methods = bean.getAllMethods();
 			for (IBeanMethod method : methods) {
 				if(hasConflictedInterceptorBindings(method)) {
+					//TODO consider putting markers to interceptor bindings/stereotype declarations.
 					ITextSourceReference reference = CDIUtil.convertToSourceReference(method.getMethod().getNameRange());
 					addError(CDIValidationMessages.CONFLICTING_INTERCEPTOR_BINDINGS, CDIPreferences.CONFLICTING_INTERCEPTOR_BINDINGS, reference, bean.getResource());
 				}

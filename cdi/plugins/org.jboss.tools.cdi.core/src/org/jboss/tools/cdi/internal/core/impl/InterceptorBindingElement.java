@@ -12,6 +12,7 @@ package org.jboss.tools.cdi.internal.core.impl;
 
 import java.util.Set;
 
+import org.jboss.tools.cdi.core.CDIUtil;
 import org.jboss.tools.cdi.core.IInterceptorBinding;
 import org.jboss.tools.cdi.core.IInterceptorBindingDeclaration;
 
@@ -37,6 +38,6 @@ public class InterceptorBindingElement extends CDIAnnotationElement implements I
 	 * @see org.jboss.tools.cdi.core.IInterceptorBinded#getInterceptorBindings()
 	 */
 	public Set<IInterceptorBinding> getInterceptorBindings() {
-		return ClassBean.getInterceptorBindings(definition);
+		return CDIUtil.getAllInterceptorBindings(this);
 	}
 }

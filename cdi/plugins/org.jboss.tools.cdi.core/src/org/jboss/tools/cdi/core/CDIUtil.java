@@ -260,7 +260,9 @@ public class CDIUtil {
 		if(annotated instanceof IStereotyped) {
 			Set<IStereotypeDeclaration> stereoTypeDeclarations = ((IStereotyped)annotated).getStereotypeDeclarations();
 			for (IStereotypeDeclaration stereotypeDeclaration : stereoTypeDeclarations) {
-				getAnnotationDeclaration(stereotypeDeclaration.getStereotype(), annotation);
+				if(getAnnotationDeclaration(stereotypeDeclaration.getStereotype(), annotation) != null) {
+					return stereotypeDeclaration;
+				}
 			}
 		}
 		return null;
@@ -776,6 +778,17 @@ public class CDIUtil {
 		
 		return cdiNature;
 	}
+
+	public static Set<IInterceptorBinding> getAllInterceptorBindings(IInterceptorBinded binded) {
+		Set<IInterceptorBindingDeclaration> ds = collectInheritedInterceptorBindingDeclaratios(binded, new HashSet<IInterceptorBindingDeclaration>());
+		Set<IInterceptorBinding> result = new HashSet<IInterceptorBinding>();
+		for (IInterceptorBindingDeclaration d: ds) {
+			IInterceptorBinding b = d.getInterceptorBinding();
+			if(b != null) result.add(b);
+		}
+		return result;
+	}
+
 
 	/**
 	 * Collect all the interceptor binding declarations from the bean class or method including all the inherited bindings.

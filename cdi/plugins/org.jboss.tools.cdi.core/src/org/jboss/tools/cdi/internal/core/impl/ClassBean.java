@@ -25,6 +25,7 @@ import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.CDICorePlugin;
+import org.jboss.tools.cdi.core.CDIUtil;
 import org.jboss.tools.cdi.core.IAnnotationDeclaration;
 import org.jboss.tools.cdi.core.IBeanMethod;
 import org.jboss.tools.cdi.core.IClassBean;
@@ -39,7 +40,6 @@ import org.jboss.tools.cdi.core.IScope;
 import org.jboss.tools.cdi.core.IScopeDeclaration;
 import org.jboss.tools.cdi.core.IStereotype;
 import org.jboss.tools.cdi.core.IStereotypeDeclaration;
-import org.jboss.tools.cdi.core.IStereotyped;
 import org.jboss.tools.cdi.core.ITypeDeclaration;
 import org.jboss.tools.cdi.internal.core.impl.definition.AbstractMemberDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.FieldDefinition;
@@ -195,22 +195,12 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 		return result;
 	}
 
-	public static Set<IInterceptorBinding> getInterceptorBindings(AbstractMemberDefinition definition) {
-		// TODO collect bindings from stereotypes. See https://jira.jboss.org/browse/JBIDE-6550 
-		Set<IInterceptorBinding> result = new HashSet<IInterceptorBinding>();
-		Set<IInterceptorBindingDeclaration> declarations = getInterceptorBindingDeclarations(definition);
-		for (IInterceptorBindingDeclaration declaration: declarations) {
-			result.add(declaration.getInterceptorBinding());
-		}
-		return result;
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * @see org.jboss.tools.cdi.core.IClassBean#getInterceptorBindings()
 	 */
 	public Set<IInterceptorBinding> getInterceptorBindings() {
-		return getInterceptorBindings(definition);
+		return CDIUtil.getAllInterceptorBindings(this);
 	}
 
 	public Set<IBeanMethod> getObserverMethods() {
