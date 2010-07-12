@@ -32,6 +32,8 @@ import org.jboss.tools.cdi.core.IAnnotated;
 import org.jboss.tools.cdi.core.IAnnotationDeclaration;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IInjectionPoint;
+import org.jboss.tools.cdi.core.IInterceptorBinding;
+import org.jboss.tools.cdi.core.IInterceptorBindingDeclaration;
 import org.jboss.tools.cdi.core.IParametedType;
 import org.jboss.tools.cdi.core.IQualifier;
 import org.jboss.tools.cdi.core.IQualifierDeclaration;
@@ -189,6 +191,10 @@ public class AbstractBeanElement extends CDIElement implements IAnnotated {
 		return Collections.emptySet();
 	}
 
+	protected Set<IInterceptorBindingDeclaration> getInheritedInterceptorBindingDeclarations() {
+		return Collections.emptySet();
+	}
+
 	public Set<IQualifier> getQualifiers() {
 		IQualifier any = getCDIProject().getQualifier(CDIConstants.ANY_QUALIFIER_TYPE_NAME);
 		IQualifier def = getCDIProject().getQualifier(CDIConstants.DEFAULT_QUALIFIER_TYPE_NAME);
@@ -211,6 +217,27 @@ public class AbstractBeanElement extends CDIElement implements IAnnotated {
 				}
 			}			
 			if(any != null) result.add(any);
+		}
+		return result;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.cdi.core.IClassBean#getInterceptorBindingDeclarations()
+	 */
+	public Set<IInterceptorBindingDeclaration> getInterceptorBindingDeclarations(boolean includeInherited) {
+		Set<IInterceptorBindingDeclaration> result = ClassBean.getInterceptorBindingDeclarations(definition);
+		if(includeInherited) {
+			Set<IInterceptorBinding> qs = new HashSet<IInterceptorBinding>();
+			for (IInterceptorBindingDeclaration d: result) {
+				if(d.getInterceptorBinding() != null) qs.add(d.getInterceptorBinding());
+			}
+			Set<IInterceptorBindingDeclaration> ds = getInheritedInterceptorBindingDeclarations();
+			for (IInterceptorBindingDeclaration d : ds) {
+				if (d.getInterceptorBinding() != null && !qs.contains(d.getInterceptorBinding())) {
+					result.add(d);
+				}
+			}
 		}
 		return result;
 	}

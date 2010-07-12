@@ -176,14 +176,6 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 		return result;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.jboss.tools.cdi.core.IClassBean#getInterceptorBindingDeclarations()
-	 */
-	public Set<IInterceptorBindingDeclaration> getInterceptorBindingDeclarations() {
-		return getInterceptorBindingDeclarations(definition);
-	}
-
 	public static Set<IInterceptorBindingDeclaration> getInterceptorBindingDeclarations(AbstractMemberDefinition definition) {
 		Set<IInterceptorBindingDeclaration> result = new HashSet<IInterceptorBindingDeclaration>();
 		List<IAnnotationDeclaration> as = definition.getAnnotations();
@@ -460,6 +452,20 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 		Set<IQualifierDeclaration> ds = superClassBean.getQualifierDeclarations(true);
 		for (IQualifierDeclaration d: ds) {
 			if(d.getQualifier() != null && d.getQualifier().getInheritedDeclaration() != null) {
+				result.add(d);
+			} else if(isSpecializing()) {
+				result.add(d);
+			}
+		}
+		return result;
+	}
+
+	protected Set<IInterceptorBindingDeclaration> getInheritedInterceptorBindingDeclarations() {
+		if(superClassBean == null) return Collections.emptySet();
+		Set<IInterceptorBindingDeclaration> result = new HashSet<IInterceptorBindingDeclaration>();
+		Set<IInterceptorBindingDeclaration> ds = superClassBean.getInterceptorBindingDeclarations(true);
+		for (IInterceptorBindingDeclaration d: ds) {
+			if(d.getInterceptorBinding() != null && d.getInterceptorBinding().getInheritedDeclaration() != null) {
 				result.add(d);
 			} else if(isSpecializing()) {
 				result.add(d);

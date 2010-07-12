@@ -780,7 +780,7 @@ public class CDIUtil {
 	}
 
 	public static Set<IInterceptorBinding> getAllInterceptorBindings(IInterceptorBinded binded) {
-		Set<IInterceptorBindingDeclaration> ds = collectInheritedInterceptorBindingDeclaratios(binded, new HashSet<IInterceptorBindingDeclaration>());
+		Set<IInterceptorBindingDeclaration> ds = collectAdditionalInterceptorBindingDeclaratios(binded, new HashSet<IInterceptorBindingDeclaration>());
 		Set<IInterceptorBinding> result = new HashSet<IInterceptorBinding>();
 		for (IInterceptorBindingDeclaration d: ds) {
 			IInterceptorBinding b = d.getInterceptorBinding();
@@ -797,34 +797,34 @@ public class CDIUtil {
 	 * @return
 	 */
 	public static Set<IInterceptorBindingDeclaration> getAllInterceptorBindingDeclaratios(IInterceptorBinded binded) {
-		return collectInheritedInterceptorBindingDeclaratios(binded, new HashSet<IInterceptorBindingDeclaration>());
+		return collectAdditionalInterceptorBindingDeclaratios(binded, new HashSet<IInterceptorBindingDeclaration>());
 	}
 
-	private static Set<IInterceptorBindingDeclaration> collectInheritedInterceptorBindingDeclaratios(IInterceptorBinded binded, Set<IInterceptorBindingDeclaration> result) {
-		Set<IInterceptorBindingDeclaration> declarations = binded.getInterceptorBindingDeclarations();
+	private static Set<IInterceptorBindingDeclaration> collectAdditionalInterceptorBindingDeclaratios(IInterceptorBinded binded, Set<IInterceptorBindingDeclaration> result) {
+		Set<IInterceptorBindingDeclaration> declarations = binded.getInterceptorBindingDeclarations(true);
 		for (IInterceptorBindingDeclaration declaration : declarations) {
 			if(!result.contains(declaration)) {
 				result.add(declaration);
 				IInterceptorBinding binding = declaration.getInterceptorBinding();
-				collectInheritedInterceptorBindingDeclaratios(binding, result);
+				collectAdditionalInterceptorBindingDeclaratios(binding, result);
 				if(binding instanceof IStereotyped) {
-					collectInheritedInterceptorBindingDeclaratiosFromStereotyps((IStereotyped)binding, result);
+					collectAdditionalInterceptorBindingDeclaratiosFromStereotyps((IStereotyped)binding, result);
 				}
 			}
 		}
 		if(binded instanceof IStereotyped) {
-			collectInheritedInterceptorBindingDeclaratiosFromStereotyps((IStereotyped)binded, result);
+			collectAdditionalInterceptorBindingDeclaratiosFromStereotyps((IStereotyped)binded, result);
 		}
 		return result;
 	}
 
-	private static Set<IInterceptorBindingDeclaration> collectInheritedInterceptorBindingDeclaratiosFromStereotyps(IStereotyped stereotyped, Set<IInterceptorBindingDeclaration> result) {
+	private static Set<IInterceptorBindingDeclaration> collectAdditionalInterceptorBindingDeclaratiosFromStereotyps(IStereotyped stereotyped, Set<IInterceptorBindingDeclaration> result) {
 		Set<IStereotypeDeclaration> stereotypeDeclarations = collectInheritedStereotypDeclarations(stereotyped, new HashSet<IStereotypeDeclaration>());
 		if(stereotyped instanceof ClassBean) {
 			stereotypeDeclarations.addAll(((ClassBean)stereotyped).getInheritedStereotypDeclarations());
 		}
 		for (IStereotypeDeclaration stereotypeDeclaration : stereotypeDeclarations) {
-			collectInheritedInterceptorBindingDeclaratios(stereotypeDeclaration.getStereotype(), result);
+			collectAdditionalInterceptorBindingDeclaratios(stereotypeDeclaration.getStereotype(), result);
 		}
 		return result;
 	}

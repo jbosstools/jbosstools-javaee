@@ -27,17 +27,13 @@ public class InterceptorBindingElement extends CDIAnnotationElement implements I
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.jboss.tools.cdi.core.IInterceptorBinded#getInterceptorBindingDeclarations()
-	 */
-	public Set<IInterceptorBindingDeclaration> getInterceptorBindingDeclarations() {
-		return ClassBean.getInterceptorBindingDeclarations(definition);
-	}
-
-	/*
-	 * (non-Javadoc)
 	 * @see org.jboss.tools.cdi.core.IInterceptorBinded#getInterceptorBindings()
 	 */
 	public Set<IInterceptorBinding> getInterceptorBindings() {
 		return CDIUtil.getAllInterceptorBindings(this);
+	}
+
+	public Set<IInterceptorBindingDeclaration> getInterceptorBindingDeclarations(boolean includeInherited) {
+		return ClassBean.getInterceptorBindingDeclarations(definition);
 	}
 }

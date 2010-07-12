@@ -26,7 +26,7 @@ public interface IInterceptorBinded {
 	 * 
 	 * @return the set of interceptor binding declarations
 	 */
-	Set<IInterceptorBindingDeclaration> getInterceptorBindingDeclarations();
+	Set<IInterceptorBindingDeclaration> getInterceptorBindingDeclarations(boolean includeInherited);
 
 	/**
 	 * Obtains the interceptor bindings of the bean class or method or stereotype or interceptor binding type.

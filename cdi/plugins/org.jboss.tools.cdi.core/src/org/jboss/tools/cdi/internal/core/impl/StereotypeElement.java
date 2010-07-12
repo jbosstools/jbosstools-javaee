@@ -55,7 +55,7 @@ public class StereotypeElement extends CDIAnnotationElement implements IStereoty
 	 * (non-Javadoc)
 	 * @see org.jboss.tools.cdi.core.IInterceptorBinded#getInterceptorBindingDeclarations()
 	 */
-	public Set<IInterceptorBindingDeclaration> getInterceptorBindingDeclarations() {
+	public Set<IInterceptorBindingDeclaration> getInterceptorBindingDeclarations(boolean includeInherited) {
 		return ClassBean.getInterceptorBindingDeclarations(definition);
 	}
 
