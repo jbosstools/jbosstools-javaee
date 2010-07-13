@@ -11,8 +11,6 @@
 
 package org.jboss.tools.jsf.ui.bot.test.smoke;
 
-import static org.jboss.tools.ui.bot.ext.SWTTestExt.eclipse;
-
 import java.io.File;
 
 import org.eclipse.swtbot.swt.finder.SWTBot;
@@ -84,7 +82,7 @@ public class AddRemoveJSFCapabilitiesTest extends JSFAutoTestCase {
       
       bot.textWithLabel("web.xml Location*").setText(webXmlFileLocation);
       bot.button(WidgetVariables.NEXT_BUTTON).click();
-      SWTJBTExt.addServerToServerViewOnWizardPage(bot, IDELabel.ServerGroup.JBOSS_EAP_4_3, IDELabel.ServerType.JBOSS_EAP_4_3);
+      SWTJBTExt.addServerToServerViewOnWizardPage(bot, JBOSS_SERVER_GROUP, JBOSS_SERVER_TYPE);
       bot.sleep(1000L);
       bot.button(IDELabel.Button.FINISH).click();
       eclipse.closeWarningWindowIfOpened(true);
