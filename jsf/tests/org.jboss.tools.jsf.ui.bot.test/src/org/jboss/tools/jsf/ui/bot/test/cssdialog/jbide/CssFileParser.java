@@ -19,6 +19,7 @@ import java.util.Properties;
  */
 public class CssFileParser {
   private LinkedList<Properties> cssClasses =  new LinkedList<Properties>();
+  private Properties atKeywords =  new Properties();
   
   private LinkedList<String> fileLines = new LinkedList<String>();
   private boolean parsed = false;
@@ -40,6 +41,11 @@ public class CssFileParser {
   public LinkedList<Properties> getCssClasses() {
     return cssClasses;
   }
+  
+  public Properties getAtKeywords() {
+    return atKeywords;
+  }
+
   /**
    * Adds only non empty lines. Do not change it because parser doesn't
    * check for empy lines 
@@ -72,10 +78,14 @@ public class CssFileParser {
       line = line.trim();
       // inside Css Class Definition
       if (parserStatus.equals(ParserStatus.IN_CLASS_DEFINTION)){
-        if (line.equals("}")){
+        if (line.startsWith("}")){
           parserStatus = ParserStatus.OUT_OF_CLASS_DEFINITION;
           cssClasses.add(classProperties);
           classProperties = null;
+          // parse atKeywords
+          if (line.length() > 1){
+            parseAtKeywords(line.substring(1).trim());
+          }
         }
         else{
           String[] styleLineParts = line.split(":");
@@ -101,8 +111,12 @@ public class CssFileParser {
                + line);   
            }
          }
-         else{
-           throw new CssFileParserException("Line should starts with 'cssclass' string but is: "
+         else if (line.startsWith("@")){
+           parseAtKeywords(line);
+         }
+         // This is exception for this issue https://jira.jboss.org/browse/JBIDE-6604
+         else if (!line.trim().equals("}")){
+           throw new CssFileParserException("Line should starts with 'cssclass' or '@' string but is: "
              + line);   
          }
       }
@@ -122,34 +136,75 @@ public class CssFileParser {
       }
       // Compare CSS Files Contents
       boolean propertiesAreEqual = true;
+      boolean atKeywordsAreEqual = true;
       if (this.getCssClasses().size() == cssFileParser.getCssClasses().size()){
         Iterator<Properties> itThisProperties = this.getCssClasses().iterator();
         Iterator<Properties> cssFileProperties = cssFileParser.getCssClasses().iterator();
         while (propertiesAreEqual && itThisProperties.hasNext()){
-          Properties propsThis = (Properties)itThisProperties.next().clone();
-          Properties propsCssFile = (Properties)cssFileProperties.next().clone();
-          boolean styleAttributesAreEqual = true;
-          Iterator<Object> itThisPropertyName = propsThis.keySet().iterator();
-          while (styleAttributesAreEqual && itThisPropertyName.hasNext()){
-            String propertyName = (String)itThisPropertyName.next();
-            if (propsCssFile.containsKey(propertyName)){
-              styleAttributesAreEqual = propsThis.getProperty(propertyName).trim()
-              .equals(propsCssFile.getProperty(propertyName).trim());
-            // Remove checked property from CSS file properties
-            propsCssFile.remove(propertyName);
-            }
-            else{
-              styleAttributesAreEqual = false;
-            }
-          }
-          // If there are left properties in CSS file then files are not equal
-          propertiesAreEqual = styleAttributesAreEqual && propsCssFile.size() == 0;
+          propertiesAreEqual = compareProperties(itThisProperties.next(), cssFileProperties.next());
         }
-        result = propertiesAreEqual;
+        // Compare At Keywords
+        if (propertiesAreEqual){
+          atKeywordsAreEqual = compareProperties(getAtKeywords(),cssFileParser.getAtKeywords());
+        }
+        result = propertiesAreEqual && atKeywordsAreEqual;
       }
     }
     
     return result;
+  }
+  /**
+   * Parse At Keywords
+   * @param line
+   */
+  private void parseAtKeywords(String line) {
+    if (line.length() > 0) {
+      if (line.startsWith("@")) {
+        if (line.length() > 1) {
+          String[] splitLine = line.split(" ");
+          atKeywords
+              .put(splitLine[0], splitLine.length > 1 ? splitLine[1] : "");
+        } else {
+          throw new CssFileParserException(
+              "Style Definition Line within CSS File has wrong format. At Keyword is empty. Line: "
+                  + line);
+        }
+      } else {
+        throw new CssFileParserException(
+            "Style Definition Line within CSS File has wrong format. At Keyword is expected but line content is "
+                + line);
+      }
+    }
+  }
+  /**
+   * Compare two sets of properties
+   * @param props1
+   * @param props2
+   * @return
+   */
+  private boolean compareProperties (Properties props1 , Properties props2){
+    boolean propertiesAreEqual = true;
+    Properties props2Clone = (Properties)props2.clone();
+    Iterator<Object> itProps1Name = props1.keySet().iterator();
+    while (propertiesAreEqual && itProps1Name.hasNext()){
+      String propertyName = (String)itProps1Name.next();
+      if (props2Clone.containsKey(propertyName)){
+        propertiesAreEqual = props1.getProperty(propertyName).trim()
+          .equals(props2Clone.getProperty(propertyName).trim());
+        // Remove checked property from props2Clone properties
+        props2Clone.remove(propertyName);
+      }
+      else{
+        propertiesAreEqual = false;
+      }
+    }
+    // If there are left properties in CSS file then files are not equal
+    if (props2Clone.size() > 0){
+      propertiesAreEqual = false;
+    }
+    
+    return propertiesAreEqual;
+    
   }
   // TODO: Remove It
   public static void main (String[] args){
@@ -165,7 +220,7 @@ public class CssFileParser {
         "background-color: red;",
         "font-weight: lighter;",
         "text-decoration: overline",
-        "}");
+        "}@CHARSET \"UTF-8\"");
 
     CssFileParser parser2 = new CssFileParser(
         "cssclass{",
@@ -179,6 +234,7 @@ public class CssFileParser {
         "background-color: red;",
         "text-decoration: overline",
         "font-weight: lighter;",
+        "}@CHARSET \"UTF-8\";",
         "}");
     
     System.out.println(parser1.compare(parser2));

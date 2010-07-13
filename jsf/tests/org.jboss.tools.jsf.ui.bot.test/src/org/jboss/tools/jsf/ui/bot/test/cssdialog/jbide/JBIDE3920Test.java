@@ -5,6 +5,7 @@ import org.eclipse.swtbot.swt.finder.SWTBot;
 import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTree;
 import org.jboss.tools.jsf.ui.bot.test.JSFAutoTestCase;
+import org.jboss.tools.ui.bot.ext.gen.ActionItem;
 import org.jboss.tools.ui.bot.test.WidgetVariables;
 
 public class JBIDE3920Test extends JSFAutoTestCase{
@@ -23,9 +24,9 @@ public class JBIDE3920Test extends JSFAutoTestCase{
 			bot.menu("Edit").menu("Delete").click(); //$NON-NLS-1$ //$NON-NLS-2$
 		} catch (WidgetNotFoundException e) {
 			tree.getTreeItem(projectProperties.getProperty("JSFProjectName")).select(); //$NON-NLS-1$
-			bot.menu("File").menu("New").menu("CSS File").click();  //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$
+			open.newObject(ActionItem.NewObject.WebCSS.LABEL);  //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$
 			bot.shell("New CSS File").activate(); //$NON-NLS-1$
-			bot.textWithLabel("Name*").setText(CSS_FILE_NAME); //$NON-NLS-1$
+			bot.textWithLabel("File name:").setText(CSS_FILE_NAME); //$NON-NLS-1$
 			bot.button("Finish").click(); //$NON-NLS-1$
 		}
 		SWTBotEclipseEditor eclipseEditor =	bot.editorByTitle(CSS_FILE_NAME+".css").toTextEditor(); //$NON-NLS-1$

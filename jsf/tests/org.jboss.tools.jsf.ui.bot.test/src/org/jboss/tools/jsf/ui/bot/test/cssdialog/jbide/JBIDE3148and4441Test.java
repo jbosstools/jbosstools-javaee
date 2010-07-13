@@ -5,6 +5,7 @@ import org.eclipse.swtbot.swt.finder.SWTBot;
 import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTree;
 import org.jboss.tools.jsf.ui.bot.test.JSFAutoTestCase;
+import org.jboss.tools.ui.bot.ext.gen.ActionItem;
 import org.jboss.tools.ui.bot.test.WidgetVariables;
 
 public class JBIDE3148and4441Test extends JSFAutoTestCase{
@@ -26,9 +27,9 @@ public class JBIDE3148and4441Test extends JSFAutoTestCase{
 			bot.menu("Edit").menu("Delete").click(); //$NON-NLS-1$ //$NON-NLS-2$
 		} catch (WidgetNotFoundException e) {
 			tree.getTreeItem(projectProperties.getProperty("JSFProjectName")).select(); //$NON-NLS-1$
-			bot.menu("File").menu("New").menu("CSS File").click(); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			open.newObject(ActionItem.NewObject.WebCSS.LABEL);
 			bot.shell("New CSS File").activate(); //$NON-NLS-1$
-			bot.textWithLabel("Name*").setText(CSS_FILE_NAME); //$NON-NLS-1$
+			bot.textWithLabel("File name:").setText(CSS_FILE_NAME); //$NON-NLS-1$
 			bot.button("Finish").click(); //$NON-NLS-1$
 		}
 		SWTBotEclipseEditor eclipseEditor =	bot.editorByTitle(CSS_FILE_NAME+".css").toTextEditor(); //$NON-NLS-1$
@@ -71,7 +72,7 @@ public class JBIDE3148and4441Test extends JSFAutoTestCase{
         "background-color: red;", //$NON-NLS-1$
         "font-weight: lighter;", //$NON-NLS-1$
         "text-decoration: overline", //$NON-NLS-1$
-        "}")); //$NON-NLS-1$
+        "}@CHARSET \"UTF-8\";")); //$NON-NLS-1$
 		bot.editorByTitle(CSS_FILE_NAME+".css").close(); //$NON-NLS-1$
 		
 	}

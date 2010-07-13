@@ -46,9 +46,9 @@ public abstract class JSF2AbstractRefactorTest extends JSFAutoTestCase {
 			bot.menu("File").menu("New").menu("Other...").click(); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			bot.shell("New").activate(); //$NON-NLS-1$
 			tree = bot.tree();
-			tree.expandNode("JBoss Tools Web").select("XHTML File"); //$NON-NLS-1$ //$NON-NLS-2$
+			tree.expandNode("JBoss Tools Web").select("XHTML Page"); //$NON-NLS-1$ //$NON-NLS-2$
 			bot.button("Next >").click(); //$NON-NLS-1$
-			bot.textWithLabel("Name*").setText("echo"); //$NON-NLS-1$ //$NON-NLS-2$
+			bot.textWithLabel("File name:").setText("echo"); //$NON-NLS-1$ //$NON-NLS-2$
 			bot.button("Finish").click(); //$NON-NLS-1$
 			bot.sleep(2000);
 			SWTBotEclipseEditor editor = bot
@@ -74,9 +74,9 @@ public abstract class JSF2AbstractRefactorTest extends JSFAutoTestCase {
 			bot.menu("File").menu("New").menu("Other...").click(); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			bot.shell("New").activate(); //$NON-NLS-1$
 			tree = bot.tree();
-			tree.expandNode("JBoss Tools Web").select("XHTML File"); //$NON-NLS-1$ //$NON-NLS-2$
+			tree.expandNode("JBoss Tools Web").select("XHTML Page"); //$NON-NLS-1$ //$NON-NLS-2$
 			bot.button("Next >").click(); //$NON-NLS-1$
-			bot.textWithLabel("Name*").setText(JSF2_Test_Page_Name); //$NON-NLS-1$
+			bot.textWithLabel("File name:").setText(JSF2_Test_Page_Name); //$NON-NLS-1$
 			bot.button("Finish").click(); //$NON-NLS-1$
 		}
 		SWTBotEclipseEditor editor = bot.editorByTitle(
