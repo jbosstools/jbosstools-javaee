@@ -36,6 +36,7 @@ import org.jboss.tools.vpe.ui.test.VpeTest;
  */
 public class JBIDE788Test extends VpeTest {
 	private static final String CA_NAME = "org.eclipse.wst.html.HTML_DEFAULT"; //$NON-NLS-1$
+	private static final String JSP_CA_NAME = "org.eclipse.jst.jsp.JSP_DIRECTIVE"; //$NON-NLS-1$
 	private static final String REQUIRED_PROPOSAL = "prompt_message"; //$NON-NLS-1$
 
 	public JBIDE788Test(String name) {
@@ -80,7 +81,7 @@ public class JBIDE788Test extends VpeTest {
 				break;
 			} 
 		}
-		assertTrue("Common " + " should be in proposals", proposalExists);
+		assertTrue("Common " + " should be in proposals", proposalExists); //$NON-NLS-1$ //$NON-NLS-2$
 
 		// check exception
 		if (getException() != null) {
@@ -109,17 +110,17 @@ public class JBIDE788Test extends VpeTest {
 				break;
 			} 
 		}
-		assertTrue(REQUIRED_PROPOSAL + " should be in proposals", proposalExists);
+		assertTrue(REQUIRED_PROPOSAL + " should be in proposals", proposalExists); //$NON-NLS-1$
 		proposalExists=false;
 		results = checkOfCAByStartString(CA_NAME, "JBIDE/788/testCAPathProposals.xhtml","",11,41,false);  //$NON-NLS-1$//$NON-NLS-2$
 		assertNotNull(results);
 		for(ICompletionProposal completionProposal : results) {
 			String displayString = ((ICompletionProposal) completionProposal).getDisplayString();
-			if(displayString.contains("templates")) { //$NON-NLS-1$ //$NON-NLS-2$
+			if(displayString.contains("templates")) { //$NON-NLS-1$
 				proposalExists=true;
 			}  
 		}
-		assertEquals("path proposala should be in proposals",true, proposalExists);
+		assertEquals("path proposala should be in proposals",true, proposalExists); //$NON-NLS-1$
 		// check exception
 		if (getException() != null) {
 
@@ -205,7 +206,7 @@ public class JBIDE788Test extends VpeTest {
 		// Tests CA
 
 		// cursor will set after "outputText" tag
-		ICompletionProposal[] results = checkOfCAByStartString(CA_NAME, "JBIDE/788/testCAforJSP.jsp", "h:outp",26,14,false); //$NON-NLS-1$ //$NON-NLS-2$
+		ICompletionProposal[] results = checkOfCAByStartString(JSP_CA_NAME, "JBIDE/788/testCAforJSP.jsp", "h:outp",26,14,false); //$NON-NLS-1$ //$NON-NLS-2$
 
 		for (ICompletionProposal completionProposal : results) {
 
@@ -284,7 +285,7 @@ public class JBIDE788Test extends VpeTest {
         // get test page path
         IFile file = (IFile) TestUtil.getComponentPath(testPagePath,
         		JsfAllTests.IMPORT_PROJECT_NAME);
-		assertNotNull("Could not open specified file. componentPage = " + testPagePath
+		assertNotNull("Could not open specified file. componentPage = " + testPagePath //$NON-NLS-1$
 				+ ";projectName = " + JsfAllTests.IMPORT_PROJECT_NAME, file);//$NON-NLS-1$
 
         IEditorInput input = new FileEditorInput(file);
@@ -343,9 +344,9 @@ public class JBIDE788Test extends VpeTest {
 			        // The proposal is valid if:
 			        //	- the display string starts with the mask specified
 			        //  - the tag name part (without a prefix and ":"-character) starts with the mask specified
-			        String tagNamePart = displayString.indexOf(":") == -1 ? 
+			        String tagNamePart = displayString.indexOf(":") == -1 ?  //$NON-NLS-1$
 			        		displayString : 
-			        		displayString.substring(displayString.indexOf(":") + 1);
+			        		displayString.substring(displayString.indexOf(":") + 1); //$NON-NLS-1$
 			        assertNotNull(displayString);
 			        assertEquals(true, displayString.startsWith(partOfString) || tagNamePart.startsWith(partOfString));
 			    	}
