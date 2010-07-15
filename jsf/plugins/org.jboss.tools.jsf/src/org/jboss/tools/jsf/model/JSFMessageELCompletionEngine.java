@@ -19,9 +19,12 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.swt.graphics.Image;
+import org.jboss.tools.common.el.core.ELCorePlugin;
 import org.jboss.tools.common.el.core.ca.AbstractELCompletionEngine;
 import org.jboss.tools.common.el.core.model.ELExpression;
 import org.jboss.tools.common.el.core.model.ELInstance;
@@ -37,11 +40,15 @@ import org.jboss.tools.common.el.core.resolver.ELResolution;
 import org.jboss.tools.common.el.core.resolver.ELResolutionImpl;
 import org.jboss.tools.common.el.core.resolver.ELSegmentImpl;
 import org.jboss.tools.common.el.core.resolver.IVariable;
+import org.jboss.tools.common.el.core.resolver.MessagePropertyELSegmentImpl;
 import org.jboss.tools.common.el.core.resolver.TypeInfoCollector.MemberInfo;
 import org.jboss.tools.common.model.XModel;
+import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.project.IModelNature;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.text.TextProposal;
+import org.jboss.tools.common.text.ext.util.Utils;
+import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.jsf.JSFModelPlugin;
 import org.jboss.tools.jst.web.kb.IPageContext;
 import org.jboss.tools.jst.web.kb.IResourceBundle;
@@ -334,7 +341,9 @@ public class JSFMessageELCompletionEngine extends AbstractELCompletionEngine<IVa
 		ELSegmentImpl segment = new ELSegmentImpl();
 		resolution.setProposals(kbProposals);
 		if(expr instanceof ELPropertyInvocation) {
-			segment.setToken(((ELPropertyInvocation)expr).getName());			
+			segment = new MessagePropertyELSegmentImpl();
+			segment.setToken(((ELPropertyInvocation)expr).getName());
+			processMessagePropertySegment(expr, (MessagePropertyELSegmentImpl)segment, members);
 		} else {
 			segment.setToken(expr.getFirstToken());			
 		}
@@ -444,7 +453,50 @@ public class JSFMessageELCompletionEngine extends AbstractELCompletionEngine<IVa
 			resolution.setLastResolvedToken(expr);
 		}
 	}
-
+	
+	private void processMessagePropertySegment(ELInvocationExpression expr, MessagePropertyELSegmentImpl segment, List<Variable> variables){
+		for(Variable variable : variables){
+			if(expr.getFirstToken().getText().equals(variable.name)){
+				
+				IModelNature n = EclipseResourceUtil.getModelNature(variable.f.getProject());
+				if(n == null)
+					return;
+				XModel model = n.getModel();
+				if(model == null)
+					return;
+				XModelObject properties = model.getByPath("/" + variable.basename.replace('.', '/') + ".properties");
+				if(properties == null)
+					return;
+				IFile propFile = (IFile)properties.getAdapter(IFile.class);
+				if(propFile == null)
+					return;
+				segment.setMessageBundleResource(propFile);
+				XModelObject property = properties.getChildByPath(expr.getText());
+				if(property != null){
+					try {
+						String content = FileUtil.readStream(propFile);
+						if(findPropertyLocation(property, content, segment)){
+							segment.setBaseName(variable.basename);
+						}
+					} catch (CoreException e) {
+						log(e);
+					}
+				}
+			}
+		}
+	}
+	
+	public boolean findPropertyLocation(XModelObject property, String content, MessagePropertyELSegmentImpl segment) {
+		String name = property.getAttributeValue("name"); //$NON-NLS-1$
+		String nvs = property.getAttributeValue("name-value-separator"); //$NON-NLS-1$
+		int i = content.indexOf(name + nvs);
+		if(i < 0) return false;
+		int j = content.indexOf('\n', i);
+		if(j < 0) j = content.length();
+		segment.setMessagePropertySourceReference(i, j - i);
+		return true;
+	}
+	
 	protected void processSingularMember(Variable mbr, Set<TextProposal> kbProposals) {
 		// Surround the "long" keys containing the dots with [' '] 
 		TreeSet<String> keys = new TreeSet<String>(String.CASE_INSENSITIVE_ORDER);

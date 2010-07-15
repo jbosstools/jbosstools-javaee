@@ -55,7 +55,11 @@ public class MessagesFileRenameParticipant extends RenameParticipant {
 				newName = "\""+oldName.replace(fileName,newName)+"\"";
 				
 				SearchUtil su = new SearchUtil(SearchUtil.XML_FILES, oldName);
+				
 				SearchResult result = su.searchInNodeAttribute(file.getProject(), ":loadBundle", "basename");
+				if(result.getEntries().size() == 0)
+					return false;
+				
 				for(FileResult fr : result.getEntries()){
 					TextFileChange fileChange = new TextFileChange(fr.getFile().getName(), fr.getFile());
 					MultiTextEdit root = new MultiTextEdit();
