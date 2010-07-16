@@ -455,6 +455,8 @@ public class JSFMessageELCompletionEngine extends AbstractELCompletionEngine<IVa
 	}
 	
 	private void processMessagePropertySegment(ELInvocationExpression expr, MessagePropertyELSegmentImpl segment, List<Variable> variables){
+		if(segment.getToken() == null)
+			return;
 		for(Variable variable : variables){
 			if(expr.getFirstToken().getText().equals(variable.name)){
 				
@@ -471,7 +473,7 @@ public class JSFMessageELCompletionEngine extends AbstractELCompletionEngine<IVa
 				if(propFile == null)
 					return;
 				segment.setMessageBundleResource(propFile);
-				XModelObject property = properties.getChildByPath(expr.getText());
+				XModelObject property = properties.getChildByPath(segment.getToken().getText());
 				if(property != null){
 					try {
 						String content = FileUtil.readStream(propFile);
@@ -491,9 +493,7 @@ public class JSFMessageELCompletionEngine extends AbstractELCompletionEngine<IVa
 		String nvs = property.getAttributeValue("name-value-separator"); //$NON-NLS-1$
 		int i = content.indexOf(name + nvs);
 		if(i < 0) return false;
-		int j = content.indexOf('\n', i);
-		if(j < 0) j = content.length();
-		segment.setMessagePropertySourceReference(i, j - i);
+		segment.setMessagePropertySourceReference(i, name.length());
 		return true;
 	}
 	

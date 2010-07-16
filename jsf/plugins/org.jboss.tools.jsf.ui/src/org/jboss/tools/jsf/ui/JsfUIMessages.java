@@ -27,8 +27,10 @@ public class JsfUIMessages extends NLS {
 	
 	public static String REFACTOR_CONTRIBUTOR_MAIN_MENU;
 	public static String REFACTOR_CONTRIBUTOR_RENAME_EL_VARIABLE;
+	public static String REFACTOR_CONTRIBUTOR_RENAME_MESSAGE_PROPERTY;
 	public static String EL_REFACTOR_RENAME_HANDLER_ERROR;
 	public static String RENAME_EL_VARIABLE_WIZARD_EL_VARIABLE_NAME;
+	public static String RENAME_MESSAGE_PROPERTY_WIZARD_PROPERTY_NAME;
 	
 	public static String IS_JSF_CHECK_NEED;
 	public static String IS_KB_NATURE_CHECK_NEED;

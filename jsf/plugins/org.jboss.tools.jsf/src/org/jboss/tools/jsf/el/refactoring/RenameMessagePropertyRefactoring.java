@@ -16,9 +16,9 @@ import org.eclipse.ltk.core.refactoring.participants.RenameRefactoring;
 /**
  * @author Alexey Kazakov
  */
-public class RenameELVariableRefactoring extends RenameRefactoring {
+public class RenameMessagePropertyRefactoring extends RenameRefactoring {
 
-	public RenameELVariableRefactoring(RenameProcessor processor) {
+	public RenameMessagePropertyRefactoring(RenameProcessor processor) {
 		super(processor);
 	}
 }

@@ -11,6 +11,7 @@
 package org.jboss.tools.jsf.ui.el.refactoring;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -29,6 +30,7 @@ import org.eclipse.jface.text.rules.IToken;
 import org.eclipse.jface.text.rules.Token;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.ltk.core.refactoring.participants.RenameRefactoring;
 import org.eclipse.ltk.ui.refactoring.RefactoringWizardOpenOperation;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorPart;
@@ -47,19 +49,30 @@ import org.eclipse.wst.xml.core.internal.provisional.document.IDOMDocument;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMModel;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMNode;
 import org.eclipse.wst.xml.core.internal.regions.DOMRegionContext;
+import org.jboss.tools.common.el.core.ELReference;
+import org.jboss.tools.common.el.core.model.ELExpression;
 import org.jboss.tools.common.el.core.model.ELInstance;
 import org.jboss.tools.common.el.core.model.ELInvocationExpression;
 import org.jboss.tools.common.el.core.model.ELModel;
 import org.jboss.tools.common.el.core.model.ELPropertyInvocation;
 import org.jboss.tools.common.el.core.parser.ELParser;
 import org.jboss.tools.common.el.core.parser.ELParserUtil;
+import org.jboss.tools.common.el.core.resolver.ELCompletionEngine;
+import org.jboss.tools.common.el.core.resolver.ELContext;
+import org.jboss.tools.common.el.core.resolver.ELResolution;
+import org.jboss.tools.common.el.core.resolver.ELResolver;
+import org.jboss.tools.common.el.core.resolver.ELSegment;
+import org.jboss.tools.common.el.core.resolver.ELSegmentImpl;
+import org.jboss.tools.common.el.core.resolver.JavaMemberELSegmentImpl;
+import org.jboss.tools.common.el.core.resolver.MessagePropertyELSegment;
 import org.jboss.tools.common.model.ui.editor.EditorPartWrapper;
 import org.jboss.tools.common.propertieseditor.PropertiesCompoundEditor;
 import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.jsf.el.refactoring.RenameELVariableProcessor;
-import org.jboss.tools.jsf.el.refactoring.RenameELVariableRefactoring;
+import org.jboss.tools.jsf.el.refactoring.RenameMessagePropertyProcessor;
 import org.jboss.tools.jsf.ui.JsfUIMessages;
 import org.jboss.tools.jsf.ui.JsfUiPlugin;
+import org.jboss.tools.jst.web.kb.PageContextFactory;
 import org.jboss.tools.jst.web.ui.editors.WebCompoundEditor;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -158,16 +171,69 @@ public class ELRefactorContributionFactory extends AbstractContributionFactory {
 					status = checkContextVariableInDOM(editorFile, fileContent, selection);
 				else if(PROPERTIES_EXT.equalsIgnoreCase(ext))
 					status = checkContextVariableInProperties(editorFile, fileContent, selection);
+				
+				MessagePropertyELSegment messageSegment = checkMessageProperty(editorFile, selection);
+				if(messageSegment != null){
+					mm.add(new RenameMessagePropertyAction(messageSegment));
+
+					if(!separatorIsAdded){
+						additions.addContributionItem(new Separator(), null);
+						separatorIsAdded = true;
+					}
+				}
 
 				if(status){
 					mm.add(new RenameELVariableAction());
 
-					if(!separatorIsAdded)
+					if(!separatorIsAdded){
 						additions.addContributionItem(new Separator(), null);
+						separatorIsAdded = true;
+					}
+				}
+				if(mm.getSize() > 0)
 					additions.addContributionItem(mm, null);
+			}
+		}
+	}
+	
+	private MessagePropertyELSegment checkMessageProperty(IFile file, TextSelection selection){
+		ELContext context = PageContextFactory.createPageContext(file);
+		
+		if(context == null)
+			return null;
+		
+		ELReference[] references = context.getELReferences();
+		ELResolver[] resolvers = context.getElResolvers();
+		
+		for(ELReference reference : references){
+			for(ELExpression operand : reference.getEl()){
+				for (ELResolver resolver : resolvers) {
+					if (!(resolver instanceof ELCompletionEngine))
+						continue;
+					
+					ELResolution resolution = resolver.resolve(context, operand, selection.getOffset());
+					
+					if(resolution == null)
+						continue;
+					
+					List<ELSegment> segments = resolution.getSegments();
+					
+					for(ELSegment segment : segments){
+						if(!segment.isResolved())
+							continue;
+						
+						if(segment instanceof MessagePropertyELSegment &&
+								selection.getOffset() <= reference.getStartPosition()+segment.getSourceReference().getStartPosition() &&
+								selection.getOffset()+selection.getLength() >= reference.getStartPosition()+segment.getSourceReference().getStartPosition()+segment.getSourceReference().getLength()){
+							MessagePropertyELSegment messageSegment = (MessagePropertyELSegment)segment;
+							return messageSegment;
+						}
+					}
+
 				}
 			}
 		}
+		return null;
 	}
 	
 	private boolean checkContextVariableInJava(IFile file, String content, TextSelection selection){
@@ -302,18 +368,6 @@ public class ELRefactorContributionFactory extends AbstractContributionFactory {
 		return scanString(file, content, 0, selection);
 	}
 	
-	private String getPropertyName(IMethod method){
-		String name = method.getElementName();
-		
-		if(name.startsWith(GET) || name.startsWith(SET))
-			return name.substring(3).toLowerCase();
-		
-		if(name.startsWith(IS))
-			return name.substring(2).toLowerCase();
-		
-		return name.toLowerCase();
-	}
-	
 	private static void saveAndBuild(){
 		if(!JsfUiPlugin.getDefault().getWorkbench().getActiveWorkbenchWindow().getActivePage().saveAllEditors(true))
 			return;
@@ -329,8 +383,23 @@ public class ELRefactorContributionFactory extends AbstractContributionFactory {
 		saveAndBuild();
 		
 		RenameELVariableProcessor processor = new RenameELVariableProcessor(editorFile, selectedText);
-		RenameELVariableRefactoring refactoring = new RenameELVariableRefactoring(processor);
+		RenameRefactoring refactoring = new RenameRefactoring(processor);
 		RenameELVariableWizard wizard = new RenameELVariableWizard(refactoring, editorFile);
+		RefactoringWizardOpenOperation op = new RefactoringWizardOpenOperation(wizard);
+		try {
+			String titleForFailedChecks = JsfUIMessages.EL_REFACTOR_RENAME_HANDLER_ERROR;
+			op.run(activeShell, titleForFailedChecks);
+		} catch (final InterruptedException irex) {
+			// operation was canceled
+		}
+	}
+
+	public static void invokeRenameMessagePropertyWizard(MessagePropertyELSegment segment, Shell activeShell) {
+		saveAndBuild();
+		
+		RenameMessagePropertyProcessor processor = new RenameMessagePropertyProcessor(editorFile, segment);
+		RenameRefactoring refactoring = new RenameRefactoring(processor);
+		RenameMessagePropertyWizard wizard = new RenameMessagePropertyWizard(refactoring, editorFile);
 		RefactoringWizardOpenOperation op = new RefactoringWizardOpenOperation(wizard);
 		try {
 			String titleForFailedChecks = JsfUIMessages.EL_REFACTOR_RENAME_HANDLER_ERROR;
@@ -348,6 +417,19 @@ public class ELRefactorContributionFactory extends AbstractContributionFactory {
 			saveAndBuild();
 			
 			invokeRenameELVariableWizard(selectedText, shell);
+		}
+	}
+
+	class RenameMessagePropertyAction extends Action{
+		MessagePropertyELSegment segment;
+		public RenameMessagePropertyAction(MessagePropertyELSegment segment){
+			super(JsfUIMessages.REFACTOR_CONTRIBUTOR_RENAME_MESSAGE_PROPERTY);
+			this.segment = segment;
+		}
+		public void run(){
+			saveAndBuild();
+			
+			invokeRenameMessagePropertyWizard(segment, shell);
 		}
 	}
 	
