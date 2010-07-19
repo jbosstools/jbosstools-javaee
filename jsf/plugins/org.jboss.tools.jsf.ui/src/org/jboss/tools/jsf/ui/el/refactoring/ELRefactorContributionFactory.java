@@ -10,24 +10,15 @@
  ******************************************************************************/
 package org.jboss.tools.jsf.ui.el.refactoring;
 
-import java.io.IOException;
 import java.util.List;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.jobs.Job;
-import org.eclipse.jdt.core.IMethod;
-import org.eclipse.jdt.internal.ui.text.FastJavaPartitionScanner;
-import org.eclipse.jdt.ui.text.IJavaPartitions;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
-import org.eclipse.jface.text.BadLocationException;
-import org.eclipse.jface.text.Document;
 import org.eclipse.jface.text.TextSelection;
-import org.eclipse.jface.text.rules.IToken;
-import org.eclipse.jface.text.rules.Token;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.ltk.core.refactoring.participants.RenameRefactoring;
@@ -39,43 +30,23 @@ import org.eclipse.ui.menus.AbstractContributionFactory;
 import org.eclipse.ui.menus.IContributionRoot;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.services.IServiceLocator;
-import org.eclipse.wst.sse.core.StructuredModelManager;
-import org.eclipse.wst.sse.core.internal.provisional.IModelManager;
-import org.eclipse.wst.sse.core.internal.provisional.IStructuredModel;
-import org.eclipse.wst.sse.core.internal.provisional.text.IStructuredDocumentRegion;
-import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegion;
-import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegionList;
-import org.eclipse.wst.xml.core.internal.provisional.document.IDOMDocument;
-import org.eclipse.wst.xml.core.internal.provisional.document.IDOMModel;
-import org.eclipse.wst.xml.core.internal.provisional.document.IDOMNode;
-import org.eclipse.wst.xml.core.internal.regions.DOMRegionContext;
 import org.jboss.tools.common.el.core.ELReference;
 import org.jboss.tools.common.el.core.model.ELExpression;
-import org.jboss.tools.common.el.core.model.ELInstance;
-import org.jboss.tools.common.el.core.model.ELInvocationExpression;
-import org.jboss.tools.common.el.core.model.ELModel;
-import org.jboss.tools.common.el.core.model.ELPropertyInvocation;
-import org.jboss.tools.common.el.core.parser.ELParser;
-import org.jboss.tools.common.el.core.parser.ELParserUtil;
 import org.jboss.tools.common.el.core.resolver.ELCompletionEngine;
 import org.jboss.tools.common.el.core.resolver.ELContext;
 import org.jboss.tools.common.el.core.resolver.ELResolution;
 import org.jboss.tools.common.el.core.resolver.ELResolver;
 import org.jboss.tools.common.el.core.resolver.ELSegment;
-import org.jboss.tools.common.el.core.resolver.ELSegmentImpl;
-import org.jboss.tools.common.el.core.resolver.JavaMemberELSegmentImpl;
+import org.jboss.tools.common.el.core.resolver.JavaMemberELSegment;
 import org.jboss.tools.common.el.core.resolver.MessagePropertyELSegment;
 import org.jboss.tools.common.model.ui.editor.EditorPartWrapper;
 import org.jboss.tools.common.propertieseditor.PropertiesCompoundEditor;
-import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.jsf.el.refactoring.RenameELVariableProcessor;
 import org.jboss.tools.jsf.el.refactoring.RenameMessagePropertyProcessor;
 import org.jboss.tools.jsf.ui.JsfUIMessages;
 import org.jboss.tools.jsf.ui.JsfUiPlugin;
 import org.jboss.tools.jst.web.kb.PageContextFactory;
 import org.jboss.tools.jst.web.ui.editors.WebCompoundEditor;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 /**
  * @author Daniel Azarov
@@ -87,13 +58,10 @@ public class ELRefactorContributionFactory extends AbstractContributionFactory {
 	private static final String XHTML_EXT = "xhtml"; //$NON-NLS-1$
 	private static final String JSP_EXT = "jsp"; //$NON-NLS-1$
 	private static final String PROPERTIES_EXT = "properties"; //$NON-NLS-1$
-	private static final String GET = "get"; //$NON-NLS-1$
-	private static final String SET = "set"; //$NON-NLS-1$
-	private static final String IS = "is"; //$NON-NLS-1$
 	
-	static private String selectedText;
+	//static private String selectedText;
 	static private IFile editorFile;
-	private String fileContent;
+	//private String fileContent;
 	private IEditorPart editor;
 	private Shell shell;
 	
@@ -155,26 +123,11 @@ public class ELRefactorContributionFactory extends AbstractContributionFactory {
 			if(sel instanceof TextSelection){
 				TextSelection selection = (TextSelection)sel;
 
-				selectedText = selection.getText();
-
-				try {
-					fileContent = FileUtil.readStream(editorFile);
-				} catch (CoreException e) {
-					JsfUiPlugin.getDefault().logError(e);
-				}
-
-				boolean status = false;
-
-				if(JAVA_EXT.equalsIgnoreCase(ext)){
-					status = checkContextVariableInJava(editorFile, fileContent, selection);
-				} else if(XML_EXT.equalsIgnoreCase(ext) || XHTML_EXT.equalsIgnoreCase(ext) || JSP_EXT.equalsIgnoreCase(ext))
-					status = checkContextVariableInDOM(editorFile, fileContent, selection);
-				else if(PROPERTIES_EXT.equalsIgnoreCase(ext))
-					status = checkContextVariableInProperties(editorFile, fileContent, selection);
-				
-				MessagePropertyELSegment messageSegment = checkMessageProperty(editorFile, selection);
-				if(messageSegment != null){
-					mm.add(new RenameMessagePropertyAction(messageSegment));
+				ELSegment segment = findELSegment(editorFile, selection);
+				if(segment == null)
+					return;
+				if(segment instanceof MessagePropertyELSegment){
+					mm.add(new RenameMessagePropertyAction((MessagePropertyELSegment)segment));
 
 					if(!separatorIsAdded){
 						additions.addContributionItem(new Separator(), null);
@@ -182,8 +135,8 @@ public class ELRefactorContributionFactory extends AbstractContributionFactory {
 					}
 				}
 
-				if(status){
-					mm.add(new RenameELVariableAction());
+				if(segment instanceof JavaMemberELSegment){
+					mm.add(new RenameELVariableAction((JavaMemberELSegment)segment));
 
 					if(!separatorIsAdded){
 						additions.addContributionItem(new Separator(), null);
@@ -196,7 +149,8 @@ public class ELRefactorContributionFactory extends AbstractContributionFactory {
 		}
 	}
 	
-	private MessagePropertyELSegment checkMessageProperty(IFile file, TextSelection selection){
+	
+	private ELSegment findELSegment(IFile file, TextSelection selection){
 		ELContext context = PageContextFactory.createPageContext(file);
 		
 		if(context == null)
@@ -222,11 +176,10 @@ public class ELRefactorContributionFactory extends AbstractContributionFactory {
 						if(!segment.isResolved())
 							continue;
 						
-						if(segment instanceof MessagePropertyELSegment &&
-								selection.getOffset() <= reference.getStartPosition()+segment.getSourceReference().getStartPosition() &&
+						if(selection.getOffset() <= reference.getStartPosition()+segment.getSourceReference().getStartPosition() &&
 								selection.getOffset()+selection.getLength() >= reference.getStartPosition()+segment.getSourceReference().getStartPosition()+segment.getSourceReference().getLength()){
-							MessagePropertyELSegment messageSegment = (MessagePropertyELSegment)segment;
-							return messageSegment;
+							if(segment instanceof MessagePropertyELSegment || segment instanceof JavaMemberELSegment)
+								return segment;
 						}
 					}
 
@@ -234,138 +187,6 @@ public class ELRefactorContributionFactory extends AbstractContributionFactory {
 			}
 		}
 		return null;
-	}
-	
-	private boolean checkContextVariableInJava(IFile file, String content, TextSelection selection){
-		try {
-			FastJavaPartitionScanner scaner = new FastJavaPartitionScanner();
-			Document document = new Document(content);
-			scaner.setRange(document, 0, document.getLength());
-			IToken token = scaner.nextToken();
-			while(token!=null && token!=Token.EOF) {
-				if(IJavaPartitions.JAVA_STRING.equals(token.getData())) {
-					int length = scaner.getTokenLength();
-					int offset = scaner.getTokenOffset();
-					if(offset <= selection.getOffset() && (offset+length) >= (selection.getOffset()+selection.getLength())){
-						String value = document.get(offset, length);
-						if(value.indexOf('{')>-1) {
-							return scanString(file, value, offset, selection);
-						}
-					}
-				}
-				token = scaner.nextToken();
-			}
-		} catch (BadLocationException e) {
-			JsfUiPlugin.getDefault().logError(e);
-		}
-		return false;
-	}
-	
-	private boolean scanString(IFile file, String string, int offset, TextSelection selection) {
-		int startEl = string.indexOf("#{"); //$NON-NLS-1$
-		if(startEl>-1) {
-			ELParser parser = ELParserUtil.getJbossFactory().createParser();
-			ELModel model = parser.parse(string);
-			for (ELInstance instance : model.getInstances()) {
-				for(ELInvocationExpression ie : instance.getExpression().getInvocations()){
-					ELPropertyInvocation pi = findELVariable(ie);
-					if(pi != null){
-						if(offset+pi.getStartPosition() == selection.getOffset() && pi.getLength() == selection.getLength()){
-							String beanName = RenameELVariableProcessor.getManagedBeanName(file, pi.getText());
-							if(beanName != null){
-								selectedText = beanName;
-								return true;
-							}
-						}
-					}
-				}
-			}
-		}
-		return false;
-	}
-	
-	private ELPropertyInvocation findELVariable(ELInvocationExpression invocationExpression){
-		ELInvocationExpression invExp = invocationExpression;
-		while(invExp != null){
-			if(invExp instanceof ELPropertyInvocation){
-				if(((ELPropertyInvocation)invExp).getQualifiedName() != null && ((ELPropertyInvocation)invExp).getQualifiedName().equals(selectedText))
-					return (ELPropertyInvocation)invExp;
-				else
-					invExp = invExp.getLeft();
-				
-			}else{
-				invExp = invExp.getLeft();
-			}
-		}
-		return null;
-	}
-	
-	private boolean checkContextVariableInDOM(IFile file, String content, TextSelection selection){
-		IModelManager manager = StructuredModelManager.getModelManager();
-		if(manager == null) {
-			return false;
-		}
-		IStructuredModel model = null;		
-		try {
-			model = manager.getModelForRead(file);
-			if (model instanceof IDOMModel) {
-				IDOMModel domModel = (IDOMModel) model;
-				IDOMDocument document = domModel.getDocument();
-				return scanChildNodes(file, document, selection);
-			}
-		} catch (CoreException e) {
-			JsfUiPlugin.getDefault().logError(e);
-        } catch (IOException e) {
-        	JsfUiPlugin.getDefault().logError(e);
-		} finally {
-			if (model != null) {
-				model.releaseFromRead();
-			}
-		}
-		return false;
-	}
-	
-	private boolean scanChildNodes(IFile file, Node parent, TextSelection selection) {
-		boolean status = false;
-		NodeList children = parent.getChildNodes();
-		for(int i=0; i<children.getLength(); i++) {
-			Node curentValidatedNode = children.item(i);
-			if(Node.ELEMENT_NODE == curentValidatedNode.getNodeType()) {
-				status = scanNodeContent(file, ((IDOMNode)curentValidatedNode).getFirstStructuredDocumentRegion(), DOMRegionContext.XML_TAG_ATTRIBUTE_VALUE, selection);
-				if(status)
-					return status;
-			} else if(Node.TEXT_NODE == curentValidatedNode.getNodeType()) {
-				status = scanNodeContent(file, ((IDOMNode)curentValidatedNode).getFirstStructuredDocumentRegion(), DOMRegionContext.XML_CONTENT, selection);
-				if(status)
-					return status;
-			}
-			status = scanChildNodes(file, curentValidatedNode, selection);
-			if(status)
-				return status;
-		}
-		return false;
-	}
-
-	private boolean scanNodeContent(IFile file, IStructuredDocumentRegion node, String regionType, TextSelection selection) {
-		boolean status = false;
-		ITextRegionList regions = node.getRegions();
-		for(int i=0; i<regions.size(); i++) {
-			ITextRegion region = regions.get(i);
-			if(region.getType() == regionType) {
-				String text = node.getFullText(region);
-				if(text.indexOf("{")>-1) { //$NON-NLS-1$
-					int offset = node.getStartOffset() + region.getStart();
-					status = scanString(file, text, offset, selection);
-					if(status)
-						return status;
-				}
-			}
-		}
-		return false;
-	}
-
-	private boolean checkContextVariableInProperties(IFile file, String content, TextSelection selection){
-		return scanString(file, content, 0, selection);
 	}
 	
 	private static void saveAndBuild(){
@@ -382,7 +203,7 @@ public class ELRefactorContributionFactory extends AbstractContributionFactory {
 	public static void invokeRenameELVariableWizard(String oldName, Shell activeShell) {
 		saveAndBuild();
 		
-		RenameELVariableProcessor processor = new RenameELVariableProcessor(editorFile, selectedText);
+		RenameELVariableProcessor processor = new RenameELVariableProcessor(editorFile, oldName);
 		RenameRefactoring refactoring = new RenameRefactoring(processor);
 		RenameELVariableWizard wizard = new RenameELVariableWizard(refactoring, editorFile);
 		RefactoringWizardOpenOperation op = new RefactoringWizardOpenOperation(wizard);
@@ -410,13 +231,15 @@ public class ELRefactorContributionFactory extends AbstractContributionFactory {
 	}
 	
 	class RenameELVariableAction extends Action{
-		public RenameELVariableAction(){
+		JavaMemberELSegment segment;
+		public RenameELVariableAction(JavaMemberELSegment segment){
 			super(JsfUIMessages.REFACTOR_CONTRIBUTOR_RENAME_EL_VARIABLE);
+			this.segment = segment;
 		}
 		public void run(){
 			saveAndBuild();
 			
-			invokeRenameELVariableWizard(selectedText, shell);
+			invokeRenameELVariableWizard(segment.getToken().getText(), shell);
 		}
 	}
 
