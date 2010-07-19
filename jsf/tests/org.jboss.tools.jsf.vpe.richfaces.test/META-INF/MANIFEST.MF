@@ -9,17 +9,17 @@ Require-Bundle: org.eclipse.ui,
  org.junit,
  org.eclipse.ui.ide,
  org.jboss.tools.jst.jsp,
- org.mozilla.xpcom;bundle-version="1.9.1",
+ org.mozilla.xpcom,
  org.jboss.tools.vpe.ui.test,
  org.jboss.tools.common.el.core;bundle-version="2.0.0",
- org.jboss.tools.jsf.vpe.richfaces;bundle-version="3.1.0",
- org.jboss.tools.jsf.vpe.ajax4jsf;bundle-version="3.1.0",
- org.jboss.tools.jsf.vpe.facelets;bundle-version="3.1.0",
- org.jboss.tools.jsf.vpe.jsf;bundle-version="3.1.0",
- org.jboss.tools.vpe.html;bundle-version="3.1.0",
- org.jboss.tools.vpe.jsp;bundle-version="3.1.0",
- org.jboss.tools.vpe.resref;bundle-version="3.1.0",
- org.jboss.tools.vpe.xulrunner;bundle-version="3.1.0"
+ org.jboss.tools.jsf.vpe.richfaces,
+ org.jboss.tools.jsf.vpe.ajax4jsf,
+ org.jboss.tools.jsf.vpe.facelets,
+ org.jboss.tools.jsf.vpe.jsf,
+ org.jboss.tools.vpe.html,
+ org.jboss.tools.vpe.jsp,
+ org.jboss.tools.vpe.resref,
+ org.jboss.tools.vpe.xulrunner
 Bundle-ActivationPolicy: lazy
 Export-Package: org.jboss.tools.jsf.vpe.richfaces.test
 Bundle-Vendor: %Bundle-Vendor.0

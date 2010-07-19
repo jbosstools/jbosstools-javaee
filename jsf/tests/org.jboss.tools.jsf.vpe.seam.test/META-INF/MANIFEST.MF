@@ -14,11 +14,11 @@ Require-Bundle: org.eclipse.ui,
  org.jboss.tools.vpe.ui.test,
  org.jboss.tools.jst.jsp,
  org.jboss.tools.vpe.xulrunner,
- org.mozilla.xpcom;bundle-version="1.9.1",
- org.jboss.tools.jsf.vpe.facelets;bundle-version="3.1.0",
- org.jboss.tools.jsf.vpe.richfaces;bundle-version="3.1.0",
- org.jboss.tools.jsf.vpe.seam;bundle-version="3.1.0",
- org.jboss.tools.vpe.html;bundle-version="3.1.0"
+ org.mozilla.xpcom,
+ org.jboss.tools.jsf.vpe.facelets,
+ org.jboss.tools.jsf.vpe.richfaces,
+ org.jboss.tools.jsf.vpe.seam,
+ org.jboss.tools.vpe.html
 Bundle-ActivationPolicy: lazy
 Export-Package: org.jboss.tools.jsf.vpe.seam.test
 Bundle-Vendor: %Bundle-Vendor.0

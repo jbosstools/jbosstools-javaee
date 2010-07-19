@@ -7,7 +7,7 @@ Bundle-Activator: org.jboss.tools.jsf.vpe.jbpm.JBPMTemplatePlugin
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.jboss.tools.vpe.html,
- org.mozilla.xpcom;bundle-version="1.9.1",
+ org.mozilla.xpcom,
  org.jboss.tools.vpe,
  org.jboss.tools.jsf.vpe.jsf,
  org.jboss.tools.common,
