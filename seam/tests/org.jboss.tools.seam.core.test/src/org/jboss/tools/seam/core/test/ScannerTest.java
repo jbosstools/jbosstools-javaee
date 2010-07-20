@@ -465,6 +465,10 @@ public class ScannerTest extends TestCase {
 		assertNotNull(myUser);
 		Set<ISeamXmlComponentDeclaration> xml = myUser.getXmlDeclarations();
 		assertEquals(1, xml.size());
+		
+		//6 XYZ.component.xml declares component xyz.
+		ISeamComponent xyz = seamProject.getComponent("xyz");
+		assertNotNull(xyz);
 	}
 	
 	/**
