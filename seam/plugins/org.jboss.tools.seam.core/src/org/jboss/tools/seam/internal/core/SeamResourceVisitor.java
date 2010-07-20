@@ -54,11 +54,8 @@ public class SeamResourceVisitor implements IResourceVisitor, IResourceDeltaVisi
 	IPath webinf = null;
 	
 	public IPath[] getPathsToVisit() {
-		IPath[] dest = new IPath[srcs.length + (webinf==null?0:1)];
-		System.arraycopy(srcs, 0, dest, 0, srcs.length);
-		if(webinf!=null) {
-			dest[srcs.length] = webinf;
-		}
+		IPath[] dest = new IPath[1];
+		dest[0] = p.getProject().getFullPath();
 		return dest;
 	}
 	
@@ -84,6 +81,7 @@ public class SeamResourceVisitor implements IResourceVisitor, IResourceDeltaVisi
 	public boolean visit(IResource resource) {
 		if(resource instanceof IFile) {
 			IFile f = (IFile)resource;
+			if(!shouldVisitFile(f)) return false;
 			for (int i = 0; i < FILE_SCANNERS.length; i++) {
 				IFileScanner scanner = FILE_SCANNERS[i];
 				if(scanner.isRelevant(f)) {
@@ -104,8 +102,9 @@ public class SeamResourceVisitor implements IResourceVisitor, IResourceDeltaVisi
 //					System.out.println("Time=" + timeUsed);
 				}
 			}
+			return true;
 		}
-		return true;
+		return shouldVisitFolder(resource);
 	}
 	
 	static long timeUsed = 0;
@@ -150,11 +149,7 @@ public class SeamResourceVisitor implements IResourceVisitor, IResourceDeltaVisi
 		case IResourceDelta.CHANGED:
 			if(resource instanceof IFile) {
 				IFile f = (IFile)resource;
-				for (int i = 0; i < outs.length; i++) {
-					if(outs[i].isPrefixOf(resource.getFullPath())) {
-						return false;
-					}
-				}
+				if(!shouldVisitFile(f)) return false;
 				for (int i = 0; i < FILE_SCANNERS.length; i++) {
 					IFileScanner scanner = FILE_SCANNERS[i];
 					if(scanner.isRelevant(f)) {
@@ -177,26 +172,7 @@ public class SeamResourceVisitor implements IResourceVisitor, IResourceDeltaVisi
 				}
 			}
 			if(resource instanceof IFolder) {
-				IPath path = resource.getFullPath();
-				for (int i = 0; i < outs.length; i++) {
-					if(outs[i].isPrefixOf(path)) {
-						return false;
-					}
-				}
-				for (int i = 0; i < srcs.length; i++) {
-					if(srcs[i].isPrefixOf(path) || path.isPrefixOf(srcs[i])) {
-						return true;
-					}
-				}
-				if(webinf != null) {
-					if(webinf.isPrefixOf(path) || path.isPrefixOf(webinf)) {
-						return true;
-					}
-				}
-				if(resource == resource.getProject()) {
-					return true;
-				}
-				return false;
+				return shouldVisitFolder(resource);
 			}
 			//return true to continue visiting children.
 			return true;
@@ -205,6 +181,38 @@ public class SeamResourceVisitor implements IResourceVisitor, IResourceDeltaVisi
 			break;
 		}
 		return true;
+	}
+
+	boolean shouldVisitFile(IResource resource) {
+		for (int i = 0; i < outs.length; i++) {
+			if(outs[i].isPrefixOf(resource.getFullPath())) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	boolean shouldVisitFolder(IResource resource) {
+		IPath path = resource.getFullPath();
+		for (int i = 0; i < outs.length; i++) {
+			if(outs[i].isPrefixOf(path)) {
+				return false;
+			}
+		}
+		for (int i = 0; i < srcs.length; i++) {
+			if(srcs[i].isPrefixOf(path) || path.isPrefixOf(srcs[i])) {
+				return true;
+			}
+		}
+		if(webinf != null) {
+			if(webinf.isPrefixOf(path) || path.isPrefixOf(webinf)) {
+				return true;
+			}
+		}
+		if(resource == resource.getProject()) {
+			return true;
+		}
+		return false;
 	}
 
 }
