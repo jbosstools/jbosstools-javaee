@@ -40,7 +40,8 @@ public class SeamComponentsEntityRecognizer implements EntityRecognizer, SeamCom
 			if(PUBLIC_ID_11.equals(publicId)) return ENT_SEAM_COMPONENTS_11;
 			return null;
 		}
-    	if(!isComponentsSchema(body)) {
+    	boolean isSingleComponent = isSingleComponent(body);
+    	if(!isComponentsSchema(body) && !isSingleComponent) {
     		return null;
     	}
     	
@@ -51,7 +52,6 @@ public class SeamComponentsEntityRecognizer implements EntityRecognizer, SeamCom
     	int k = body.indexOf("\"", j + 1); //$NON-NLS-1$
     	if(k < 0) return null;
     	String schemaLocation = body.substring(j + 1, k);
-    	boolean isSingleComponent = isSingleComponent(body);
     	
     	int i12 = schemaLocation.indexOf("1.2"); //$NON-NLS-1$
     	if(i12 >= 0) {
