@@ -1391,6 +1391,21 @@ public class ValidationTest extends TCKTest {
 		assertMarkerIsCreated(file, CDIValidationMessages.OBSERVER_IN_DECORATOR, 14);
 	}
 
+	public void testQualifierWithMissingTarget() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/annotations/qualifier/broken/Hairy_MissingTarget.java");
+		assertMarkerIsCreated(file, CDIValidationMessages.MISSING_TARGET_ANNOTATION_IN_QUALIFIER_TYPE.substring(0, 56) + ".*", 36);
+	}
+
+	public void testQualifierWithMissingRetention() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/annotations/qualifier/broken/Hairy_MissingRetention.java");
+		assertMarkerIsCreated(file, CDIValidationMessages.MISSING_RETENTION_ANNOTATION_IN_QUALIFIER_TYPE, 36);
+	}
+
+	public void testQualifierWithWrongTarget() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/annotations/qualifier/broken/Hairy_WrongTarget.java");
+		assertMarkerIsCreated(file, CDIValidationMessages.MISSING_TARGET_ANNOTATION_IN_QUALIFIER_TYPE.substring(0, 56) + ".*", 32);
+	}
+
 	/**
 	 * 10.4.3. Conditional observer methods
 	 *  - bean with scope @Dependent has an observer method declared notifyObserver=IF_EXISTS
@@ -1423,6 +1438,7 @@ public class ValidationTest extends TCKTest {
 	}
 
 	private static String convertMessageToPatern(String message) {
-		return message.replace("[", "\\[").replace("]", "\\]").replace("<", "\\<").replace(">", "\\>").replace("(", "\\(").replace(")", "\\)");
+		return message.replace("[", "\\[").replace("]", "\\]").replace("<", "\\<").replace(">", "\\>").replace("(", "\\(").replace(")", "\\)")
+				.replace("{", "\\{").replace("}", "\\}").replace("'", "\\'");
 	}
 }
