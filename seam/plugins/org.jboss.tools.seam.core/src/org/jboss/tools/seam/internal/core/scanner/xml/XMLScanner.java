@@ -154,7 +154,8 @@ public class XMLScanner implements IFileScanner {
 		}
 		
 		LoadedDeclarations ds = new LoadedDeclarations();
-		if(o.getModelEntity().getName().equals("FileSeamComponent12")) { //$NON-NLS-1$
+		String fileEntity = o.getModelEntity().getName();
+		if(fileEntity.startsWith("FileSeamComponent") && !fileEntity.startsWith("FileSeamComponents")) { //$NON-NLS-1$
 			parseComponent(o, source, nm, sp, ds);
 			return ds;
 		}
