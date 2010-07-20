@@ -1796,6 +1796,75 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 		 *  - array-valued or annotation-valued member of a qualifier type is not annotated @Nonbinding (Non-Portable behavior)
 		 */
 		validateAnnotationMembers(qualifier, CDIValidationMessages.MISSING_NONBINDING_FOR_ARRAY_VALUE_IN_QUALIFIER_TYPE_MEMBER, CDIValidationMessages.MISSING_NONBINDING_FOR_ANNOTATION_VALUE_IN_QUALIFIER_TYPE_MEMBER, CDIPreferences.MISSING_NONBINDING_IN_QUALIFIER_TYPE_MEMBER);
+
+		/*
+		 * Qualifier annotation type should be annotated with @Target({METHOD, FIELD, PARAMETER, TYPE})
+		 */
+		try {
+			validateQualifierAnnotationTypeAnnotations(qualifier, resource);
+		} catch (JavaModelException e) {
+			CDICorePlugin.getDefault().logError(e);
+		}
+	}
+
+	private void validateQualifierAnnotationTypeAnnotations(IQualifier qualifier, IResource resource) throws JavaModelException {
+		/*
+		 * Qualifier annotation type should be annotated with @Target({METHOD, FIELD, PARAMETER, TYPE})
+		 * Qualifier annotation type should be annotated with @Retention(RUNTIME)
+		 */
+		IAnnotationDeclaration target = qualifier.getAnnotationDeclaration(CDIConstants.TARGET_ANNOTATION_TYPE_NAME);
+		if(target == null) {
+			addError(CDIValidationMessages.MISSING_TARGET_ANNOTATION_IN_QUALIFIER_TYPE, CDIPreferences.MISSING_TARGET_ANNOTATION_IN_QUALIFIER_TYPE, CDIUtil.convertToSourceReference(qualifier.getSourceType().getNameRange()), resource);
+		} else {
+			IMemberValuePair[] ps = target.getDeclaration().getMemberValuePairs();
+			boolean ok = false;
+			for (IMemberValuePair p: ps) {
+				if(!"value".equals(p.getMemberName())) continue;
+				Object o = p.getValue();
+				if(o instanceof Object[]) {
+					ok = true;
+					Object[] os = (Object[])o;
+					Set<String> vs = new HashSet<String>();
+					for (Object q: os) {
+						String s = q.toString();
+						int i = s.lastIndexOf('.');
+						if(i >= 0) s = s.substring(i + 1);
+						vs.add(s);
+					}
+					for (String s: new String[]{"TYPE", "METHOD", "FIELD", "PARAMETER"}) {
+						if(!vs.contains(s)) ok = false;
+					}
+				}
+			}
+			if(!ok) {
+				addError(CDIValidationMessages.MISSING_TARGET_ANNOTATION_IN_QUALIFIER_TYPE, CDIPreferences.MISSING_TARGET_ANNOTATION_IN_QUALIFIER_TYPE, target, resource);
+			}
+		}
+		
+		/*
+		 * Qualifier annotation type should be annotated with @Retention(RUNTIME)
+		 */
+		IAnnotationDeclaration retention = qualifier.getAnnotationDeclaration(CDIConstants.RETENTION_ANNOTATION_TYPE_NAME);
+		if(retention == null) {
+			addError(CDIValidationMessages.MISSING_RETENTION_ANNOTATION_IN_QUALIFIER_TYPE, CDIPreferences.MISSING_RETENTION_ANNOTATION_IN_QUALIFIER_TYPE, CDIUtil.convertToSourceReference(qualifier.getSourceType().getNameRange()), resource);
+		} else {
+			IMemberValuePair[] ps = retention.getDeclaration().getMemberValuePairs();
+			boolean ok = false;
+			for (IMemberValuePair p: ps) {
+				if(!"value".equals(p.getMemberName())) continue;
+				Object o = p.getValue();
+				if(o != null) {
+					ok = true;
+					String s = o.toString();
+					int i = s.lastIndexOf('.');
+					if(i >= 0) s = s.substring(i + 1);
+					if(!"RUNTIME".equals(s)) ok = false;
+				}
+			}
+			if(!ok) {
+				addError(CDIValidationMessages.MISSING_RETENTION_ANNOTATION_IN_QUALIFIER_TYPE, CDIPreferences.MISSING_RETENTION_ANNOTATION_IN_QUALIFIER_TYPE, retention, resource);
+			}
+		}
 	}
 
 	private void validateInterceptorBinding(IInterceptorBinding binding) {
