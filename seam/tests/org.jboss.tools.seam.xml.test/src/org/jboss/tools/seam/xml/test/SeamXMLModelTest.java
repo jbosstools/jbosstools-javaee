@@ -64,10 +64,25 @@ public class SeamXMLModelTest extends TestCase {
 
 		//TODO continue test
 	}
+	
+	public void testComponentFile() {
+		XModelObject fileObject = getComponent22Object();
+		String entity = fileObject.getModelEntity().getName();
+		assertEquals("File XYZ.component.xml is incorrectly parsed by XModel.", SeamComponentConstants.ENT_SEAM_COMPONENT_FILE_22, entity);
+	}
 
 	protected XModelObject getComponents22Object() {
 		assertNotNull(getTestProject());
 		IFile f = project.getFile(new Path("components22.xml"));
+		assertNotNull(f);
+		assertTrue(f.exists());
+		return EclipseResourceUtil.createObjectForResource(f);
+		
+	}
+
+	protected XModelObject getComponent22Object() {
+		assertNotNull(getTestProject());
+		IFile f = project.getFile(new Path("XYZ.component.xml"));
 		assertNotNull(f);
 		assertTrue(f.exists());
 		return EclipseResourceUtil.createObjectForResource(f);
