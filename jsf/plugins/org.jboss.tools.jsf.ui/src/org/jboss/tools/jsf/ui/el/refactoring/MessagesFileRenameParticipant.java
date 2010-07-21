@@ -34,9 +34,10 @@ import org.jboss.tools.jst.web.kb.refactoring.SearchUtil.SearchResult;
 
 public class MessagesFileRenameParticipant extends RenameParticipant {
 	private static final String PROPERTIES_EXT = "properties";
-	private RefactoringStatus status;
+	//private RefactoringStatus status;
 	private CompositeChange rootChange;
 	private IFile file;
+	private String newName=null;
 
 	@Override
 	protected boolean initialize(Object element) {
@@ -45,31 +46,7 @@ public class MessagesFileRenameParticipant extends RenameParticipant {
 			file = (IFile)element;
 			String ext = file.getFileExtension();
 			if(PROPERTIES_EXT.equals(ext)){
-				
-				IPath path = file.getFullPath();
-				
-				String newName = getArguments().getNewName();
-				newName = newName.replace(".properties","");
-				String oldName = getQualifiedName(path);
-				String fileName = file.getName().replace(".properties","");
-				newName = "\""+oldName.replace(fileName,newName)+"\"";
-				
-				SearchUtil su = new SearchUtil(SearchUtil.XML_FILES, oldName);
-				
-				SearchResult result = su.searchInNodeAttribute(file.getProject(), ":loadBundle", "basename");
-				if(result.getEntries().size() == 0)
-					return false;
-				
-				for(FileResult fr : result.getEntries()){
-					TextFileChange fileChange = new TextFileChange(fr.getFile().getName(), fr.getFile());
-					MultiTextEdit root = new MultiTextEdit();
-					fileChange.setEdit(root);
-					rootChange.add(fileChange);
-					for(int position : fr.getPositions()){
-						TextEdit edit = new ReplaceEdit(position, oldName.length(), newName);
-						fileChange.addEdit(edit);
-					}
-				}
+				newName = getArguments().getNewName();
 				return true;
 			}
 		}
@@ -88,7 +65,7 @@ public class MessagesFileRenameParticipant extends RenameParticipant {
 					String pathString = relativePath.toString();
 					pathString = pathString.replace(".properties","");
 					pathString = pathString.replace("/",".");
-					return "\""+pathString+"\"";
+					return pathString;
 				}
 			}
 		}
@@ -98,7 +75,38 @@ public class MessagesFileRenameParticipant extends RenameParticipant {
 	@Override
 	public RefactoringStatus checkConditions(IProgressMonitor pm,
 			CheckConditionsContext context) throws OperationCanceledException {
-		
+		RefactoringStatus status = new RefactoringStatus();
+		if(newName != null){
+			if(!newName.endsWith(".properties")){
+				status.addFatalError(JsfUIMessages.MESSAGES_FILE_RENAME_PARTICIPANT_FILE_NAME_SHOULD_BE_WITH_THE_SAME_EXTENSION);
+				return status;
+			}
+			
+			IPath path = file.getFullPath();
+			
+			newName = newName.replace(".properties","");
+			String oldName = getQualifiedName(path);
+			String fileName = file.getName().replace(".properties","");
+			newName = oldName.replace(fileName,newName);
+			
+			SearchUtil su = new SearchUtil(SearchUtil.XML_FILES, oldName);
+			
+			SearchResult result = su.searchInNodeAttribute(file.getProject(), ":loadBundle", "basename");
+			if(result.getEntries().size() == 0)
+				return status;
+			
+			for(FileResult fr : result.getEntries()){
+				TextFileChange fileChange = new TextFileChange(fr.getFile().getName(), fr.getFile());
+				MultiTextEdit root = new MultiTextEdit();
+				fileChange.setEdit(root);
+				rootChange.add(fileChange);
+				for(int position : fr.getPositions()){
+					TextEdit edit = new ReplaceEdit(position, oldName.length(), newName);
+					fileChange.addEdit(edit);
+				}
+			}
+
+		}
 		return status;
 	}
 

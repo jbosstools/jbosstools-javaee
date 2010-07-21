@@ -44,6 +44,7 @@ public class JsfUIMessages extends NLS {
 	public static String SKIP_BUTTON_LABEL;
 	
 	public static String MESSAGES_FILE_RENAME_PARTICIPANT_UPDATE_MESSAGE_BUNDLE_REFERENCES;
+	public static String MESSAGES_FILE_RENAME_PARTICIPANT_FILE_NAME_SHOULD_BE_WITH_THE_SAME_EXTENSION;
 	
 	static {
 		// initialize resource bundle
