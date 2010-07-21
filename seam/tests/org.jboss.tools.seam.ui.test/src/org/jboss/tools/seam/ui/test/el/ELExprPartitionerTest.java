@@ -50,7 +50,7 @@ public class ELExprPartitionerTest extends TestCase {
 	}
 
 	public void setUp() throws Exception {
-		provider = new TestProjectProvider("org.jboss.tools.jsf.text.ext.test", "projects/" + PROJECT_NAME, PROJECT_NAME, makeCopy); 
+		provider = new TestProjectProvider("org.jboss.tools.seam.ui.test", "projects/" + PROJECT_NAME, PROJECT_NAME, makeCopy); 
 		project = provider.getProject();
 		Throwable exception = null;
 		
