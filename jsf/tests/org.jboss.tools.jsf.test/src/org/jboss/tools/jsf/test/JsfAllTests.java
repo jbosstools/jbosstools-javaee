@@ -19,6 +19,7 @@ import org.jboss.tools.jsf.ca.test.WebContentAssistProviderTest;
 import org.jboss.tools.jsf.kb.test.FaceletsKbModelTest;
 import org.jboss.tools.jsf.model.pv.test.JSFPromptingProviderTest;
 import org.jboss.tools.jsf.test.refactoring.ELVariableRefactoringTest;
+import org.jboss.tools.jsf.test.refactoring.MessagePropertyRefactoringTest;
 import org.jboss.tools.jsf.test.validation.JSF2ComponentsValidatorTest;
 import org.jboss.tools.test.util.ProjectImportTestSetup;
 
@@ -46,6 +47,10 @@ public class JsfAllTests {
 
 		suite.addTest(new ProjectImportTestSetup(new TestSuite(
 				ELVariableRefactoringTest.class), "org.jboss.tools.jsf.test", //$NON-NLS-1$
+				new String[] { "projects/JSFKickStartOldFormat" }, //$NON-NLS-1$
+				new String[] { "JSFKickStartOldFormat" })); //$NON-NLS-1$
+		suite.addTest(new ProjectImportTestSetup(new TestSuite(
+				MessagePropertyRefactoringTest.class), "org.jboss.tools.jsf.test", //$NON-NLS-1$
 				new String[] { "projects/JSFKickStartOldFormat" }, //$NON-NLS-1$
 				new String[] { "JSFKickStartOldFormat" })); //$NON-NLS-1$
 		suite.addTest(new ProjectImportTestSetup(new TestSuite(
