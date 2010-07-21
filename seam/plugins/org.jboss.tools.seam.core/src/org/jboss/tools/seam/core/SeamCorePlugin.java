@@ -70,7 +70,7 @@ public class SeamCorePlugin extends BaseUIPlugin {
 		cleanCachedProjects();
 		ResourcesPlugin.getWorkspace().addResourceChangeListener(resourceChangeListener);
 		ISavedState lastState =
-			ResourcesPlugin.getWorkspace().addSaveParticipant(this, new ISaveParticipant() {
+			ResourcesPlugin.getWorkspace().addSaveParticipant(PLUGIN_ID, new ISaveParticipant() {
 					
 					public void saving(ISaveContext context)
 							throws CoreException {
@@ -81,7 +81,10 @@ public class SeamCorePlugin extends BaseUIPlugin {
 							case ISaveContext.PROJECT_SAVE:
 								SeamProject sp = (SeamProject)SeamCorePlugin.getSeamProject(context.getProject(), false);
 								try {
-									sp.store();
+									if(sp != null) {
+										//Not any project is a seam project
+										sp.store();
+									}
 								} catch (IOException e) {
 									SeamCorePlugin.getPluginLog().logError(e);
 								}

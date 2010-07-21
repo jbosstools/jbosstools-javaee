@@ -53,12 +53,6 @@ public class SeamResourceVisitor implements IResourceVisitor, IResourceDeltaVisi
 	IPath[] srcs = new IPath[0];
 	IPath webinf = null;
 	
-	public IPath[] getPathsToVisit() {
-		IPath[] dest = new IPath[1];
-		dest[0] = p.getProject().getFullPath();
-		return dest;
-	}
-	
 	public SeamResourceVisitor(SeamProject p) {
 		this.p = p;
 

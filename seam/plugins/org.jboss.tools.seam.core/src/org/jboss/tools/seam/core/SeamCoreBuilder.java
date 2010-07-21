@@ -13,6 +13,7 @@ package org.jboss.tools.seam.core;
 import java.util.Map;
 
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceDelta;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.CoreException;
@@ -51,10 +52,8 @@ public class SeamCoreBuilder extends IncrementalProjectBuilder {
 			IResourceDelta delta = getDelta(getProject());
 
 			if (seamProject.hasNoStorage() || delta == null ) {
-				IPath[] paths = resourceVisitor.getPathsToVisit();
-				for (IPath iPath : paths) {
-					getProject().findMember(iPath.removeFirstSegments(1)).accept(resourceVisitor);
-				}
+				//Resource visitor filters project members to be processed
+				getProject().accept(resourceVisitor);
 			} else {
 				delta.accept(resourceVisitor);
 			}
