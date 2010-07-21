@@ -1651,7 +1651,14 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 						}
 					}
 					if (!typeWasFound) {
-						addError(CDIValidationMessages.ILLEGAL_TYPE_IN_TYPED_DECLARATION, CDIPreferences.ILLEGAL_TYPE_IN_TYPED_DECLARATION, typedDeclaration, bean.getResource());
+						String message = bean instanceof IClassBean
+							? CDIValidationMessages.ILLEGAL_TYPE_IN_TYPED_DECLARATION_IN_BEAN_CLASS
+							: bean instanceof IProducerField
+							? CDIValidationMessages.ILLEGAL_TYPE_IN_TYPED_DECLARATION_IN_PRODUCER_FIELD
+							: bean instanceof IProducerMethod
+							? CDIValidationMessages.ILLEGAL_TYPE_IN_TYPED_DECLARATION_IN_PRODUCER_METHOD
+							: CDIValidationMessages.ILLEGAL_TYPE_IN_TYPED_DECLARATION;
+						addError(message, CDIPreferences.ILLEGAL_TYPE_IN_TYPED_DECLARATION, typedDeclaration, bean.getResource());
 					}
 				}
 			}
