@@ -1789,7 +1789,94 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 				addError(CDIValidationMessages.STEREOTYPE_DECLARES_MORE_THAN_ONE_SCOPE, CDIPreferences.STEREOTYPE_DECLARES_MORE_THAN_ONE_SCOPE, scope, stereotype.getResource());
 			}
 		}
+
+		try {
+			validateStereotypeAnnotationTypeAnnotations(stereotype, resource);
+		} catch (JavaModelException e) {
+			CDICorePlugin.getDefault().logError(e);
+		}
 	}
+
+	private void validateStereotypeAnnotationTypeAnnotations(IStereotype stereotype, IResource resource) throws JavaModelException {
+		/*
+		 * Stereotype annotation type should be annotated with @Target with correct targets [JSR-299 §2.7.1]
+		 * Stereotype annotation type should be annotated with @Retention(RUNTIME)
+		 */
+		IAnnotationDeclaration target = stereotype.getAnnotationDeclaration(CDIConstants.TARGET_ANNOTATION_TYPE_NAME);
+		if(target == null) {
+			addError(CDIValidationMessages.MISSING_TARGET_ANNOTATION_IN_STEREOTYPE_TYPE, CDIPreferences.MISSING_TARGET_ANNOTATION_IN_STEREOTYPE_TYPE, CDIUtil.convertToSourceReference(stereotype.getSourceType().getNameRange()), resource);
+		} else {
+			boolean ok = false;
+			Set<String> vs = getTargetAnnotationValues(target);
+			boolean hasType = vs.contains("TYPE");
+			boolean hasMethod = vs.contains("METHOD");
+			boolean hasField = vs.contains("FIELD");
+			if(vs.size() == 3) {
+				ok = hasType && hasMethod && hasField;
+			} else if(vs.size() == 2) {
+				ok = hasMethod && hasField;
+			} else if(vs.size() == 1) {
+				ok = hasType || hasMethod || hasField;
+			}
+			if(!ok) {
+				addError(CDIValidationMessages.MISSING_TARGET_ANNOTATION_IN_STEREOTYPE_TYPE, CDIPreferences.MISSING_TARGET_ANNOTATION_IN_STEREOTYPE_TYPE, target, resource);
+			}
+		}
+		
+		/*
+		 * Stereotype annotation type should be annotated with @Retention(RUNTIME)
+		 */
+		validateRetentionAnnotation(stereotype, CDIValidationMessages.MISSING_RETENTION_ANNOTATION_IN_STEREOTYPE_TYPE, CDIPreferences.MISSING_RETENTION_ANNOTATION_IN_STEREOTYPE_TYPE, resource);
+	}
+
+	void validateRetentionAnnotation(ICDIAnnotation type, String message, String preference, IResource resource) throws JavaModelException {
+		IAnnotationDeclaration retention = type.getAnnotationDeclaration(CDIConstants.RETENTION_ANNOTATION_TYPE_NAME);
+		if(retention == null) {
+			addError(message, preference, CDIUtil.convertToSourceReference(type.getSourceType().getNameRange()), resource);
+		} else {
+			IMemberValuePair[] ps = retention.getDeclaration().getMemberValuePairs();
+			boolean ok = false;
+			for (IMemberValuePair p: ps) {
+				if(!"value".equals(p.getMemberName())) continue;
+				Object o = p.getValue();
+				if(o != null) {
+					ok = true;
+					String s = o.toString();
+					int i = s.lastIndexOf('.');
+					if(i >= 0) s = s.substring(i + 1);
+					if(!"RUNTIME".equals(s)) ok = false;
+				}
+			}
+			if(!ok) {
+				addError(message, preference, retention, resource);
+			}
+		}
+	}
+	
+	Set<String> getTargetAnnotationValues(IAnnotationDeclaration target) throws JavaModelException {
+		Set<String> result = new HashSet<String>();
+		IMemberValuePair[] ps = target.getDeclaration().getMemberValuePairs();
+		for (IMemberValuePair p: ps) {
+			if(!"value".equals(p.getMemberName())) continue;
+			Object o = p.getValue();
+			if(o instanceof Object[]) {
+				Object[] os = (Object[])o;
+				for (Object q: os) {
+					String s = q.toString();
+					int i = s.lastIndexOf('.');
+					if(i >= 0) s = s.substring(i + 1);
+					result.add(s);
+				}
+			} else if(o != null) {
+				String s = o.toString();
+				int i = s.lastIndexOf('.');
+				if(i >= 0) s = s.substring(i + 1);
+				result.add(s);
+			}
+		}
+		return result;
+	}
+
 
 	/**
 	 * Validates a qualifier.
@@ -1830,25 +1917,10 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 		if(target == null) {
 			addError(CDIValidationMessages.MISSING_TARGET_ANNOTATION_IN_QUALIFIER_TYPE, CDIPreferences.MISSING_TARGET_ANNOTATION_IN_QUALIFIER_TYPE, CDIUtil.convertToSourceReference(qualifier.getSourceType().getNameRange()), resource);
 		} else {
-			IMemberValuePair[] ps = target.getDeclaration().getMemberValuePairs();
-			boolean ok = false;
-			for (IMemberValuePair p: ps) {
-				if(!"value".equals(p.getMemberName())) continue;
-				Object o = p.getValue();
-				if(o instanceof Object[]) {
-					ok = true;
-					Object[] os = (Object[])o;
-					Set<String> vs = new HashSet<String>();
-					for (Object q: os) {
-						String s = q.toString();
-						int i = s.lastIndexOf('.');
-						if(i >= 0) s = s.substring(i + 1);
-						vs.add(s);
-					}
-					for (String s: new String[]{"TYPE", "METHOD", "FIELD", "PARAMETER"}) {
-						if(!vs.contains(s)) ok = false;
-					}
-				}
+			Set<String> vs = getTargetAnnotationValues(target);
+			boolean ok = vs.size() == 4;
+			if(ok) for (String s: new String[]{"TYPE", "METHOD", "FIELD", "PARAMETER"}) {
+				if(!vs.contains(s)) ok = false;
 			}
 			if(!ok) {
 				addError(CDIValidationMessages.MISSING_TARGET_ANNOTATION_IN_QUALIFIER_TYPE, CDIPreferences.MISSING_TARGET_ANNOTATION_IN_QUALIFIER_TYPE, target, resource);
@@ -1858,27 +1930,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 		/*
 		 * Qualifier annotation type should be annotated with @Retention(RUNTIME)
 		 */
-		IAnnotationDeclaration retention = qualifier.getAnnotationDeclaration(CDIConstants.RETENTION_ANNOTATION_TYPE_NAME);
-		if(retention == null) {
-			addError(CDIValidationMessages.MISSING_RETENTION_ANNOTATION_IN_QUALIFIER_TYPE, CDIPreferences.MISSING_RETENTION_ANNOTATION_IN_QUALIFIER_TYPE, CDIUtil.convertToSourceReference(qualifier.getSourceType().getNameRange()), resource);
-		} else {
-			IMemberValuePair[] ps = retention.getDeclaration().getMemberValuePairs();
-			boolean ok = false;
-			for (IMemberValuePair p: ps) {
-				if(!"value".equals(p.getMemberName())) continue;
-				Object o = p.getValue();
-				if(o != null) {
-					ok = true;
-					String s = o.toString();
-					int i = s.lastIndexOf('.');
-					if(i >= 0) s = s.substring(i + 1);
-					if(!"RUNTIME".equals(s)) ok = false;
-				}
-			}
-			if(!ok) {
-				addError(CDIValidationMessages.MISSING_RETENTION_ANNOTATION_IN_QUALIFIER_TYPE, CDIPreferences.MISSING_RETENTION_ANNOTATION_IN_QUALIFIER_TYPE, retention, resource);
-			}
-		}
+		validateRetentionAnnotation(qualifier, CDIValidationMessages.MISSING_RETENTION_ANNOTATION_IN_QUALIFIER_TYPE, CDIPreferences.MISSING_RETENTION_ANNOTATION_IN_QUALIFIER_TYPE, resource);
 	}
 
 	private void validateInterceptorBinding(IInterceptorBinding binding) {

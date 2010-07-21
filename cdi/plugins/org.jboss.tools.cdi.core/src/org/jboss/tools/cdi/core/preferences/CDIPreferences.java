@@ -80,7 +80,10 @@ public class CDIPreferences extends SeverityPreferences {
 
 	public static final String MISSING_TARGET_ANNOTATION_IN_QUALIFIER_TYPE = INSTANCE.createSeverityOption("missingTargetAnnotationInQualifierType"); //$NON-NLS-1$
 	public static final String MISSING_RETENTION_ANNOTATION_IN_QUALIFIER_TYPE = INSTANCE.createSeverityOption("missingRetentionAnnotationInQualifierType"); //$NON-NLS-1$
-	
+
+	public static final String MISSING_TARGET_ANNOTATION_IN_STEREOTYPE_TYPE = INSTANCE.createSeverityOption("missingTargetAnnotationInStereotypeType"); //$NON-NLS-1$
+	public static final String MISSING_RETENTION_ANNOTATION_IN_STEREOTYPE_TYPE = INSTANCE.createSeverityOption("missingRetentionAnnotationInStereotypeType"); //$NON-NLS-1$
+
 	//Scope group
 
 //	- bean class or producer method or field specifies multiple scope type annotations (2.4.3)
