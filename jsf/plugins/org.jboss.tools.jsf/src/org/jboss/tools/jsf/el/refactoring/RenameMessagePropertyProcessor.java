@@ -26,6 +26,7 @@ import org.eclipse.ltk.core.refactoring.participants.SharableParticipants;
 import org.eclipse.text.edits.ReplaceEdit;
 import org.eclipse.text.edits.TextEdit;
 import org.jboss.tools.common.el.core.ELReference;
+import org.eclipse.ltk.internal.core.refactoring.Messages;
 import org.jboss.tools.common.el.core.ElCoreMessages;
 import org.jboss.tools.common.el.core.model.ELExpression;
 import org.jboss.tools.common.el.core.resolver.ELCompletionEngine;
@@ -87,9 +88,20 @@ public class RenameMessagePropertyProcessor extends ELRenameProcessor {
 			throws CoreException, OperationCanceledException {
 		RefactoringStatus result = new RefactoringStatus();
 		
-		//if(findManagedBean(file, getOldName()) == null)
-			//result.addFatalError(Messages.format(ElCoreMessages.RENAME_EL_VARIABLE_PROCESSOR_CAN_NOT_FIND_EL_VARIABLE, getOldName()));
+		if(!validateSegment())
+			result.addFatalError(Messages.format(ElCoreMessages.RENAME_MESSAGE_PROPERTY_PROCESSOR_CAN_NOT_FIND_MESSAGE_PROPERTY, getOldName()));
 		return result;
+	}
+	
+	private boolean validateSegment(){
+		if(segment.getMessageBundleResource() == null)
+			return false;
+		if(segment.getToken() == null)
+			return false;
+		if(segment.getBaseName() == null || segment.getBaseName().isEmpty())
+			return false;
+			
+		return true;
 	}
 	
 	/*
