@@ -1664,8 +1664,15 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 		//   - bean class or producer method or field specifies multiple scope type annotations
 		//
 		if (scopes.size() > 1) {
+			String message = bean instanceof IClassBean
+				? CDIValidationMessages.MULTIPLE_SCOPE_TYPE_ANNOTATIONS_IN_BEAN_CLASS
+				: bean instanceof IProducerField
+				? CDIValidationMessages.MULTIPLE_SCOPE_TYPE_ANNOTATIONS_IN_PRODUCER_FIELD
+				: bean instanceof IProducerMethod
+				? CDIValidationMessages.MULTIPLE_SCOPE_TYPE_ANNOTATIONS_IN_PRODUCER_METHOD
+				: CDIValidationMessages.MULTIPLE_SCOPE_TYPE_ANNOTATIONS;
 			for (IScopeDeclaration scope : scopes) {
-				addError(CDIValidationMessages.MULTIPLE_SCOPE_TYPE_ANNOTATIONS, CDIPreferences.MULTIPLE_SCOPE_TYPE_ANNOTATIONS, scope, bean.getResource());
+				addError(message, CDIPreferences.MULTIPLE_SCOPE_TYPE_ANNOTATIONS, scope, bean.getResource());
 			}
 		}
 
