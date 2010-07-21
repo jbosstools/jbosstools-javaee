@@ -10,6 +10,7 @@
  ******************************************************************************/ 
 package org.jboss.tools.seam.core;
 
+import java.io.IOException;
 import java.util.Map;
 
 import org.eclipse.core.resources.IProject;
@@ -60,6 +61,13 @@ public class SeamCoreBuilder extends IncrementalProjectBuilder {
 
 			long end = System.currentTimeMillis();
 			seamProject.fullBuildTime += end - begin;
+			try {
+				//It is important to save results of build right after the build is done.
+				//Otherwise, at Eclipse restart, the results can be lost.
+				seamProject.store();
+			} catch (IOException e) {
+				SeamCorePlugin.getDefault().logError(e);
+			}
 			seamProject.postBuild();
 
 		} finally {
