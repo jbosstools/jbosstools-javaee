@@ -1406,6 +1406,21 @@ public class ValidationTest extends TCKTest {
 		assertMarkerIsCreated(file, CDIValidationMessages.MISSING_TARGET_ANNOTATION_IN_QUALIFIER_TYPE.substring(0, 56) + ".*", 32);
 	}
 
+	public void testStereotypeWithMissingTarget() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/annotations/stereotype/broken/FishStereotype_MissingTarget.java");
+		assertMarkerIsCreated(file, CDIValidationMessages.MISSING_TARGET_ANNOTATION_IN_STEREOTYPE_TYPE, 19);
+	}
+
+	public void testStereotypeWithMissingRetention() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/annotations/stereotype/broken/FishStereotype_MissingRetention.java");
+		assertMarkerIsCreated(file, CDIValidationMessages.MISSING_RETENTION_ANNOTATION_IN_STEREOTYPE_TYPE, 19);
+	}
+
+	public void testStereotypeWithWrongTarget() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/annotations/stereotype/broken/FishStereotype_WrongTarget.java");
+		assertMarkerIsCreated(file, CDIValidationMessages.MISSING_TARGET_ANNOTATION_IN_STEREOTYPE_TYPE, 15);
+	}
+
 	/**
 	 * 10.4.3. Conditional observer methods
 	 *  - bean with scope @Dependent has an observer method declared notifyObserver=IF_EXISTS
