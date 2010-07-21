@@ -68,7 +68,7 @@ public class ValidationTest extends TCKTest {
 	 */
 	public void testMultipleBeanScope() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/definition/scope/broken/tooManyScopes/BeanWithTooManyScopeTypes_Broken.java");
-		assertMarkerIsCreated(file, CDIValidationMessages.MULTIPLE_SCOPE_TYPE_ANNOTATIONS, 22, 23);
+		assertMarkerIsCreated(file, CDIValidationMessages.MULTIPLE_SCOPE_TYPE_ANNOTATIONS_IN_BEAN_CLASS, 22, 23);
 		int markerNumbers = getMarkersNumber(file);
 		assertEquals("StereotypeWithTyped_Broken.java should has two error markers.", markerNumbers, 2);
 	}
