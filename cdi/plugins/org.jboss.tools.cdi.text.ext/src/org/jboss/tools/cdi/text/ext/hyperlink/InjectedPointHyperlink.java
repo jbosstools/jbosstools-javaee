@@ -18,6 +18,8 @@ import org.eclipse.jface.text.IRegion;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PartInitException;
 import org.jboss.tools.cdi.core.IBean;
+import org.jboss.tools.cdi.core.IDecorator;
+import org.jboss.tools.cdi.core.IInterceptor;
 import org.jboss.tools.cdi.core.IProducerField;
 import org.jboss.tools.cdi.core.IProducerMethod;
 import org.jboss.tools.cdi.text.ext.CDIExtensionsMessages;
@@ -63,8 +65,15 @@ public class InjectedPointHyperlink extends AbstractHyperlink{
 
 	@Override
 	public String getHyperlinkText() {
-		String text = CDIExtensionsMessages.CDI_INJECTED_POINT_HYPERLINK_OPEN_BEAN+" ";
+		String text="";
 		if(bean != null){
+			if(bean instanceof IDecorator)
+				text = CDIExtensionsMessages.CDI_INJECTED_POINT_HYPERLINK_OPEN_DECORATOR+" ";
+			else if(bean instanceof IInterceptor)
+				text = CDIExtensionsMessages.CDI_INJECTED_POINT_HYPERLINK_OPEN_INTERCEPTOR+" ";
+			else
+				text = CDIExtensionsMessages.CDI_INJECTED_POINT_HYPERLINK_OPEN_BEAN+" ";
+			
 			text += bean.getBeanClass().getElementName();
 			
 			if(bean instanceof IProducerField){
