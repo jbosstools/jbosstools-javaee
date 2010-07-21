@@ -17,4 +17,16 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 		<emma.instrument.bundles>org.jboss.tools.jsf.ui</emma.instrument.bundles>
 	</properties>
 
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.sonatype.tycho</groupId>
+				<artifactId>maven-osgi-test-plugin</artifactId>
+				<configuration>
+					<product>org.jboss.tools.tests.product</product>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
 </project>
