@@ -33,34 +33,34 @@ public class JsfUiAllTests {
 
 	public static Test suite() {
 		TestSuite suite = new TestSuite("JSF UI tests"); //$NON-NLS-1$
-//		suite.addTestSuite(CAForUnclosedELTest.class);
-//		suite.addTestSuite(CAForCompositeComponentTest.class);
-////		suite.addTestSuite(MissingKBBuilderTest.class);
-//		suite.addTestSuite(CAForInputTagSrcAttributeSuggestsFilePathsJBIDE1807Test.class);
-//		suite.addTestSuite(CAForIDTest.class);
-//		suite.addTestSuite(CAForELinStyleTest.class);
-//		suite.addTestSuite(CANotEmptyWhenThereIsNoSpaceBetweenInvertedCommandsInAttributeJBIDE1759Test.class);
-//		suite.addTestSuite(CASuggestsNotOnlyELProposalsJBIDE2437Test.class);
-//		suite.addTestSuite(CAUnnecessaryElementsForDirAttributeInXHTMLPageJBIDE1813Test.class);
-//		suite.addTestSuite(CAVarAttributeForDataTableTagJBIDE2016.class);
-//		suite.addTestSuite(CssClassNewWizardTest.class);
-//		suite.addTestSuite(CSSStyleDialogTest.class);
-//		suite.addTestSuite(FacesConfigNewWizardTest.class);
-//		suite.addTestSuite(FasesConfigEditorTest.class);
-//		suite.addTestSuite(PropertiesNewWizardTest.class);
-//		suite.addTestSuite(JsfUiPreferencesPagesTest.class);
-//		suite.addTest(new ProjectImportTestSetup(new TestSuite(
-//				ELReferencesRenameTest.class), "org.jboss.tools.jsf.ui.test", //$NON-NLS-1$
-//				new String[] { "projects/testJSFProject", }, //$NON-NLS-1$
-//				new String[] { "testJSFProject" })); //$NON-NLS-1$
-//		suite.addTest(new ProjectImportTestSetup(new TestSuite(
-//				JSFNaturesInfoDialog_JBIDE5701.class),
-//				"org.jboss.tools.jsf.ui.test", "projects/naturesCheckTest", //$NON-NLS-1$ //$NON-NLS-2$
-//				"naturesCheckTest")); //$NON-NLS-1$
-//		suite.addTest(new ProjectImportTestSetup(new TestSuite(
-//				KbNaturesInfoDialog_JBIDE6125.class),
-//				"org.jboss.tools.jsf.ui.test", "projects/naturesCheckKBTest", //$NON-NLS-1$ //$NON-NLS-2$
-//				"naturesCheckKBTest")); //$NON-NLS-1$
+		suite.addTestSuite(CAForUnclosedELTest.class);
+		suite.addTestSuite(CAForCompositeComponentTest.class);
+//		suite.addTestSuite(MissingKBBuilderTest.class);
+		suite.addTestSuite(CAForInputTagSrcAttributeSuggestsFilePathsJBIDE1807Test.class);
+		suite.addTestSuite(CAForIDTest.class);
+		suite.addTestSuite(CAForELinStyleTest.class);
+		suite.addTestSuite(CANotEmptyWhenThereIsNoSpaceBetweenInvertedCommandsInAttributeJBIDE1759Test.class);
+		suite.addTestSuite(CASuggestsNotOnlyELProposalsJBIDE2437Test.class);
+		suite.addTestSuite(CAUnnecessaryElementsForDirAttributeInXHTMLPageJBIDE1813Test.class);
+		suite.addTestSuite(CAVarAttributeForDataTableTagJBIDE2016.class);
+		suite.addTestSuite(CssClassNewWizardTest.class);
+		suite.addTestSuite(CSSStyleDialogTest.class);
+		suite.addTestSuite(FacesConfigNewWizardTest.class);
+		suite.addTestSuite(FasesConfigEditorTest.class);
+		suite.addTestSuite(PropertiesNewWizardTest.class);
+		suite.addTestSuite(JsfUiPreferencesPagesTest.class);
+		suite.addTest(new ProjectImportTestSetup(new TestSuite(
+				ELReferencesRenameTest.class), "org.jboss.tools.jsf.ui.test", //$NON-NLS-1$
+				new String[] { "projects/testJSFProject", }, //$NON-NLS-1$
+				new String[] { "testJSFProject" })); //$NON-NLS-1$
+		suite.addTest(new ProjectImportTestSetup(new TestSuite(
+				JSFNaturesInfoDialog_JBIDE5701.class),
+				"org.jboss.tools.jsf.ui.test", "projects/naturesCheckTest", //$NON-NLS-1$ //$NON-NLS-2$
+				"naturesCheckTest")); //$NON-NLS-1$
+		suite.addTest(new ProjectImportTestSetup(new TestSuite(
+				KbNaturesInfoDialog_JBIDE6125.class),
+				"org.jboss.tools.jsf.ui.test", "projects/naturesCheckKBTest", //$NON-NLS-1$ //$NON-NLS-2$
+				"naturesCheckKBTest")); //$NON-NLS-1$
 		suite.addTest(new ProjectImportTestSetup(new TestSuite(AddJSFCapabilitiesTest.class),
 				"org.jboss.tools.jsf.ui.test",
 				new String[]{"projects/test_add_jsf_capabilities"},
