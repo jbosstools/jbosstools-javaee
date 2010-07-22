@@ -98,7 +98,7 @@ public class RenameMessagePropertyProcessor extends ELRenameProcessor {
 			return false;
 		if(segment.getToken() == null)
 			return false;
-		if(segment.getBaseName() == null || segment.getBaseName().isEmpty())
+		if(segment.getBaseName() == null || segment.getBaseName().length()==0)
 			return false;
 			
 		return true;
