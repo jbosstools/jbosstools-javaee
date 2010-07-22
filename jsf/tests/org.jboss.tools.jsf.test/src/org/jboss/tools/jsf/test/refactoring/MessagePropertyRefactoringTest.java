@@ -27,27 +27,24 @@ public class MessagePropertyRefactoringTest extends AbstractRefactorTest{
 		project.build(IncrementalProjectBuilder.FULL_BUILD, new NullProgressMonitor());
 	}
 	
-	public void testELVariableRename() throws CoreException {
+	public void testMessagePropertyRename() throws CoreException {
 		ArrayList<TestChangeStructure> list = new ArrayList<TestChangeStructure>();
 
 		IFile sourceFile = project.getProject().getFile("/WebContent/pages/hello.jsp");
 		
 		String sourceFileContent = FileUtil.getContentFromEditorOrFile(sourceFile);
 		
-		int position = sourceFileContent.indexOf("Messages.hello_message");
+		int position = sourceFileContent.indexOf("Message.hello_message");
 		
 		TestChangeStructure structure = new TestChangeStructure(project.getProject(), "/WebContent/pages/hello.jsp");
-		TestTextChange change = new TestTextChange(position+9, 8, "good_bye");
+		TestTextChange change = new TestTextChange(position+8, 8, "good_bye");
 		structure.addTextChange(change);
 		list.add(structure);
 		
-		IFile propertyFile = project.getProject().getFile("/JavaSource/demo/bundle/Messages.properties");
-		String propertyFileContent = FileUtil.getContentFromEditorOrFile(propertyFile);
+		IFile propertyFile = project.getProject().getFile("/JavaSource/demo/Messages.properties");
 		
-		position = propertyFileContent.indexOf("hello_message");
-		
-		structure = new TestChangeStructure(project.getProject(), "/JavaSource/demo/bundle/Messages.properties");
-		change = new TestTextChange(position, 8, "good_bye");
+		structure = new TestChangeStructure(project.getProject(), "/JavaSource/demo/Messages.properties");
+		change = new TestTextChange(0, 8, "good_bye");
 		structure.addTextChange(change);
 		list.add(structure);
 		
