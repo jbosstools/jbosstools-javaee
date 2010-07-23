@@ -33,7 +33,6 @@ import org.eclipse.jface.text.hyperlink.AbstractHyperlinkDetector;
 import org.eclipse.jface.text.hyperlink.IHyperlink;
 import org.eclipse.ui.texteditor.ITextEditor;
 import org.jboss.tools.cdi.core.CDICoreNature;
-import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.CDIUtil;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.ICDIProject;
@@ -101,9 +100,7 @@ public class EventHyperlinkDetector extends AbstractHyperlinkDetector{
 					}
 				}
 				Set<IObserverMethod> observerMethods = findEvents(cdiNature, element, position, file);
-				for(IObserverMethod observerMethod : observerMethods){
-					hyperlinks.add(new EventHyperlink(region, observerMethod, document));
-				}
+				hyperlinks.add(new EventListHyperlink(textViewer, region, observerMethods, document));
 			}
 			
 			if (hyperlinks != null && !hyperlinks.isEmpty()) {
