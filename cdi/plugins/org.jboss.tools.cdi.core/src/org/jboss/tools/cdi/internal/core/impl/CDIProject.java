@@ -28,6 +28,7 @@ import org.eclipse.jdt.core.IAnnotation;
 import org.eclipse.jdt.core.IMemberValuePair;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IType;
+import org.eclipse.jdt.core.ITypeParameter;
 import org.eclipse.jdt.core.JavaModelException;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.CDICoreNature;
@@ -40,6 +41,7 @@ import org.jboss.tools.cdi.core.ICDIAnnotation;
 import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.IClassBean;
 import org.jboss.tools.cdi.core.IInjectionPoint;
+import org.jboss.tools.cdi.core.IInjectionPointField;
 import org.jboss.tools.cdi.core.IInjectionPointParameter;
 import org.jboss.tools.cdi.core.IInterceptorBinding;
 import org.jboss.tools.cdi.core.IObserverMethod;
@@ -713,16 +715,11 @@ public class CDIProject extends CDIElement implements ICDIProject {
 	public Set<IObserverMethod> resolveObserverMethods(IInjectionPoint injectionPoint) {
 		Set<IObserverMethod> result = new HashSet<IObserverMethod>();
 
-		IParametedType t = injectionPoint.getType();
-		if(t == null || t.getType() == null || !CDIConstants.EVENT_TYPE_NAME.equals(t.getType().getFullyQualifiedName())) {
-			return result;
-		}
-		List<? extends IParametedType> ps = t.getParameters();
-		if(ps.isEmpty()) {
-			return result;
-		}
+		IParametedType eventType = getEventType(injectionPoint.getType());
 		
-		IParametedType eventType = ps.get(0);
+		if(eventType == null) {
+			return result;
+		}
 
 		for (IClassBean b: classBeans.values()) {
 			Set<IBeanMethod> ms = b.getObserverMethods();
@@ -736,22 +733,67 @@ public class CDIProject extends CDIElement implements ICDIProject {
 					if(!((ParametedType)eventType).isAssignableTo((ParametedType)paramType, true)) {
 						continue;
 					}
-					Set<IQualifier> qs = ((InjectionPointParameter)param).getQualifiers();
-					List<IType> paramQualifiers = new ArrayList<IType>();
-					for (IQualifier q: qs) {
-						if(q.getSourceType() != null) paramQualifiers.add(q.getSourceType());
-					}
-					try {
-						if(areMatchingEventQualifiers(injectionPoint.getQualifierDeclarations(), paramQualifiers.toArray(new IType[0]))) {
-							result.add(om);
-						}
-					} catch (CoreException err) {
-						CDICorePlugin.getDefault().logError(err);
+					if(areMatchingEventQualifiers((InjectionPointParameter)param, injectionPoint)) {
+						result.add(om);
 					}
 				}
 			}			
 		}
 
+		return result;
+	}
+
+	/**
+	 * Returns type parameter of type javax.enterprise.event.Event<T>
+	 * In all other cases returns null.
+	 * 
+	 * @param t
+	 * @return
+	 */
+	private IParametedType getEventType(IParametedType t) {
+		if(t == null || t.getType() == null || !CDIConstants.EVENT_TYPE_NAME.equals(t.getType().getFullyQualifiedName())) {
+			return null;
+		}
+		List<? extends IParametedType> ps = t.getParameters();
+		return ps.isEmpty() ? null : ps.get(0);
+	}
+
+	private boolean areMatchingEventQualifiers(IInjectionPointParameter observerParam, IInjectionPoint event) {
+		Set<IQualifier> qs = ((InjectionPointParameter)observerParam).getQualifiers();
+		List<IType> paramQualifiers = new ArrayList<IType>();
+		for (IQualifier q: qs) {
+			if(q.getSourceType() != null) paramQualifiers.add(q.getSourceType());
+		}
+		try {
+			if(areMatchingEventQualifiers(event.getQualifierDeclarations(), paramQualifiers.toArray(new IType[0]))) {
+				return true;
+			}
+		} catch (CoreException err) {
+			CDICorePlugin.getDefault().logError(err);
+		}
+		return false;
+	}
+
+	public Set<IInjectionPoint> findObservedEvents(IInjectionPointParameter observedEventParameter) {
+		Set<IInjectionPoint> result = new HashSet<IInjectionPoint>();
+
+		if(observedEventParameter.getBeanMethod() instanceof IObserverMethod) {
+			IParametedType paramType = observedEventParameter.getType();
+			for (IClassBean b: classBeans.values()) {
+				Set<IInjectionPoint> ps = b.getInjectionPoints();
+				for (IInjectionPoint p: ps) {
+					if(p instanceof IInjectionPointField) {
+						IParametedType eventType = getEventType(p.getType());
+						if(eventType != null && ((ParametedType)eventType).isAssignableTo((ParametedType)paramType, true)) {
+							if(areMatchingEventQualifiers(observedEventParameter, p)) {
+								 result.add(p);
+							 }
+						}
+					}
+				}
+			}			
+		}
+		
 		return result;
 	}
 
@@ -895,6 +937,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 				QualifierElement s = new QualifierElement();
 				initAnnotationElement(s, d);
 				qualifiers.put(d.getQualifiedName(), s);
+				System.out.println(d.getQualifiedName());
 				if(d.getResource() != null && d.getResource().getFullPath() != null) {
 					qualifiersByPath.put(d.getResource().getFullPath(), s);
 				}

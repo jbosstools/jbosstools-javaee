@@ -1910,7 +1910,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 
 	private void validateQualifierAnnotationTypeAnnotations(IQualifier qualifier, IResource resource) throws JavaModelException {
 		/*
-		 * Qualifier annotation type should be annotated with @Target({METHOD, FIELD, PARAMETER, TYPE})
+		 * Qualifier annotation type should be annotated with @Target({METHOD, FIELD, PARAMETER, TYPE}) or  @Target({"FIELD", "PARAMETER"})
 		 * Qualifier annotation type should be annotated with @Retention(RUNTIME)
 		 */
 		IAnnotationDeclaration target = qualifier.getAnnotationDeclaration(CDIConstants.TARGET_ANNOTATION_TYPE_NAME);
@@ -1918,9 +1918,14 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 			addError(CDIValidationMessages.MISSING_TARGET_ANNOTATION_IN_QUALIFIER_TYPE, CDIPreferences.MISSING_TARGET_ANNOTATION_IN_QUALIFIER_TYPE, CDIUtil.convertToSourceReference(qualifier.getSourceType().getNameRange()), resource);
 		} else {
 			Set<String> vs = getTargetAnnotationValues(target);
-			boolean ok = vs.size() == 4;
-			if(ok) for (String s: new String[]{"TYPE", "METHOD", "FIELD", "PARAMETER"}) {
-				if(!vs.contains(s)) ok = false;
+			boolean ok = vs.size() == 4 || vs.size() == 2;
+			if(ok) {
+				String[] values = (vs.size() == 4) 
+					? new String[]{"TYPE", "METHOD", "FIELD", "PARAMETER"} 
+					: new String[]{"FIELD", "PARAMETER"};
+				for (String s: values) {
+					if(!vs.contains(s)) ok = false;
+				}
 			}
 			if(!ok) {
 				addError(CDIValidationMessages.MISSING_TARGET_ANNOTATION_IN_QUALIFIER_TYPE, CDIPreferences.MISSING_TARGET_ANNOTATION_IN_QUALIFIER_TYPE, target, resource);
