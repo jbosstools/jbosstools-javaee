@@ -22,4 +22,14 @@
       </hyperlinkDetector>
    </extension>
    
+	<extension
+         point="org.eclipse.ui.workbench.texteditor.hyperlinkDetectors">
+      <hyperlinkDetector
+            class="org.jboss.tools.cdi.text.ext.hyperlink.EventHyperlinkDetector"
+            id="org.jboss.tools.cdi.text.ext.hyperlink.EventHyperlinkDetector"
+            name="%EventHyperlinkDetector"
+            targetId="org.eclipse.jdt.ui.javaCode">
+      </hyperlinkDetector>
+   </extension>
+   
 </plugin>
