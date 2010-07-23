@@ -20,9 +20,9 @@ import java.util.Set;
 public interface IObserverMethod extends IBeanMethod {
 
 	/**
-	 * Returns the set of @Observes annotations of parameters of this method.
+	 * Returns the set of parameters of this method with @Observes annotation.
 	 * 
-	 * @return the set of @Observes annotations of parameters of this method
+	 * @return the set of parameters of this method with @Observes annotation
 	 */
-	Set<IAnnotationDeclaration> getObservesAnnotationDeclarations();
+	Set<IParameter> getObservedParameters();
 }

@@ -40,6 +40,7 @@ import org.jboss.tools.cdi.core.ICDIAnnotation;
 import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.IClassBean;
 import org.jboss.tools.cdi.core.IInjectionPoint;
+import org.jboss.tools.cdi.core.IInjectionPointParameter;
 import org.jboss.tools.cdi.core.IInterceptorBinding;
 import org.jboss.tools.cdi.core.IObserverMethod;
 import org.jboss.tools.cdi.core.IParametedType;
@@ -425,6 +426,33 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		return true;
 	}
 
+	public static boolean areMatchingEventQualifiers(Set<IQualifierDeclaration> eventQualifiers, IType... paramQualifiers) throws CoreException {
+		if(eventQualifiers == null || eventQualifiers.isEmpty()) {
+			if(paramQualifiers == null || paramQualifiers.length == 0) {
+				return true;
+			}
+		}
+
+		TreeSet<String> paramKeys = new TreeSet<String>();
+		if(paramQualifiers != null) for (IType d: paramQualifiers) {
+			paramKeys.add(d.getFullyQualifiedName());
+		}
+
+		TreeSet<String> eventKeys = new TreeSet<String>();
+		if(eventQualifiers != null) for (IAnnotationDeclaration d: eventQualifiers) {
+			eventKeys.add(d.getType().getFullyQualifiedName());
+		}
+
+		if(!eventKeys.contains(CDIConstants.ANY_QUALIFIER_TYPE_NAME)) {
+			eventKeys.add(CDIConstants.ANY_QUALIFIER_TYPE_NAME);
+		}
+
+		for(String k: paramKeys) {
+			if(!eventKeys.contains(k)) return false;
+		}		
+		return true;
+	}
+
 	public static String getAnnotationDeclarationKey(IAnnotationDeclaration d) throws CoreException {
 		ICDIAnnotation annotation = d.getAnnotation();
 		Set<IMethod> nb = annotation == null ? new HashSet<IMethod>() : annotation.getNonBindingMethods();
@@ -682,10 +710,49 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		return result;
 	}
 
-	public Set<IObserverMethod> resolveObserverMethods(
-			IInjectionPoint injectionPoint) {
-		// TODO 
-		return new HashSet<IObserverMethod>();
+	public Set<IObserverMethod> resolveObserverMethods(IInjectionPoint injectionPoint) {
+		Set<IObserverMethod> result = new HashSet<IObserverMethod>();
+
+		IParametedType t = injectionPoint.getType();
+		if(t == null || t.getType() == null || !CDIConstants.EVENT_TYPE_NAME.equals(t.getType().getFullyQualifiedName())) {
+			return result;
+		}
+		List<? extends IParametedType> ps = t.getParameters();
+		if(ps.isEmpty()) {
+			return result;
+		}
+		
+		IParametedType eventType = ps.get(0);
+
+		for (IClassBean b: classBeans.values()) {
+			Set<IBeanMethod> ms = b.getObserverMethods();
+			for (IBeanMethod m: ms) {
+				if(m instanceof IObserverMethod) {
+					IObserverMethod om = (IObserverMethod)m;
+					Set<IParameter> params = om.getObservedParameters();
+					if(params.isEmpty()) continue;
+					IParameter param = params.iterator().next();
+					IParametedType paramType = param.getType();
+					if(!((ParametedType)eventType).isAssignableTo((ParametedType)paramType, true)) {
+						continue;
+					}
+					Set<IQualifier> qs = ((InjectionPointParameter)param).getQualifiers();
+					List<IType> paramQualifiers = new ArrayList<IType>();
+					for (IQualifier q: qs) {
+						if(q.getSourceType() != null) paramQualifiers.add(q.getSourceType());
+					}
+					try {
+						if(areMatchingEventQualifiers(injectionPoint.getQualifierDeclarations(), paramQualifiers.toArray(new IType[0]))) {
+							result.add(om);
+						}
+					} catch (CoreException err) {
+						CDICorePlugin.getDefault().logError(err);
+					}
+				}
+			}			
+		}
+
+		return result;
 	}
 
 	public Set<IBeanMethod> resolveDisposers(IProducerMethod producer) {

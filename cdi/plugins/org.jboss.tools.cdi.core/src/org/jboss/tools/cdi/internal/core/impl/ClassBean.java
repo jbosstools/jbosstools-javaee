@@ -74,8 +74,10 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 				bm = new ProducerMethod();
 			} else if(m.getInjectAnnotation() != null) {
 				bm = new InjectionPointMethod();
+			} else if(m.isObserver()) {
+				bm = new ObserverMethod();
 			} else {
-				//add observer case
+				//add other cases
 				bm = new BeanMethod();
 			}
 			bm.setClassBean(this);

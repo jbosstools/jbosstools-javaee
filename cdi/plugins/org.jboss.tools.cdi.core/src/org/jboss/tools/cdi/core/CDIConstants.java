@@ -73,4 +73,6 @@ public interface CDIConstants {
 
 	public String PRE_DESTROY_TYPE_NAME = "javax.annotation.PreDestroy";
 	public String POST_CONSTRUCTOR_TYPE_NAME = "javax.annotation.PostConstruct";
+
+	public String EVENT_TYPE_NAME = "javax.enterprise.event.Event";
 }
