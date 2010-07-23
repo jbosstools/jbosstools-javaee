@@ -100,7 +100,8 @@ public class EventHyperlinkDetector extends AbstractHyperlinkDetector{
 					}
 				}
 				Set<IObserverMethod> observerMethods = findEvents(cdiNature, element, position, file);
-				hyperlinks.add(new EventListHyperlink(textViewer, region, observerMethods, document));
+				if(observerMethods.size() > 0)
+					hyperlinks.add(new EventListHyperlink(textViewer, region, observerMethods, document));
 			}
 			
 			if (hyperlinks != null && !hyperlinks.isEmpty()) {

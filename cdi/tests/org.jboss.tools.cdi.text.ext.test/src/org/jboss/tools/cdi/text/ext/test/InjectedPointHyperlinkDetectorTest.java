@@ -33,15 +33,6 @@ public class InjectedPointHyperlinkDetectorTest extends HyperlinkDetectorTest {
 		checkRegions("JavaSource/org/jboss/jsr299/tck/tests/jbt/openon/CustomProducerImpl.java", regionList, new InjectedPointHyperlinkDetector());
 	}
 	
-	public void testProducerDisposerHyperlinkDetector() throws Exception {
-		ArrayList<Region> regionList = new ArrayList<Region>();
-		regionList.add(new Region(1199, 8)); // @Produces
-		regionList.add(new Region(1222, 7)); // producer
-		regionList.add(new Region(1291, 7)); // disposer
-
-		checkRegions("JavaSource/org/jboss/jsr299/tck/tests/decorators/invocation/producer/method/ProducerImpl.java", regionList, new ProducerDisposerHyperlinkDetector());
-	}
-
 	public void testInjectedConstructorParametersHyperlinkDetector() throws Exception {
 		ArrayList<Region> regionList = new ArrayList<Region>();
 		regionList.add(new Region(880, 6));
