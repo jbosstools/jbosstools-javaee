@@ -37,10 +37,11 @@ import org.jboss.tools.cdi.core.CDIUtil;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.IInjectionPoint;
+import org.jboss.tools.cdi.core.IInjectionPointParameter;
 import org.jboss.tools.cdi.core.IObserverMethod;
 import org.jboss.tools.cdi.text.ext.CDIExtensionsPlugin;
 
-public class EventHyperlinkDetector extends AbstractHyperlinkDetector{
+public class EventAndObserverMethodHyperlinkDetector extends AbstractHyperlinkDetector{
 	
 
 	public IHyperlink[] detectHyperlinks(ITextViewer textViewer,
@@ -99,9 +100,23 @@ public class EventHyperlinkDetector extends AbstractHyperlinkDetector{
 						position = offset;
 					}
 				}
-				Set<IObserverMethod> observerMethods = findEvents(cdiNature, element, position, file);
-				if(observerMethods.size() > 0)
-					hyperlinks.add(new EventListHyperlink(textViewer, region, observerMethods, document));
+				ICDIProject cdiProject = cdiNature.getDelegate();
+				if(cdiProject != null){
+					IInjectionPoint injectionPoint = findInjectedPoint(cdiProject, element, position, file);
+					if(injectionPoint != null){
+						Set<IObserverMethod> observerMethods = cdiProject.resolveObserverMethods(injectionPoint);
+
+						if(observerMethods.size() > 0)
+							hyperlinks.add(new ObserverMethodListHyperlink(textViewer, region, observerMethods, document));
+						
+						if(injectionPoint instanceof IInjectionPointParameter){
+							Set<IInjectionPoint> events = cdiProject.findObservedEvents((IInjectionPointParameter)injectionPoint);
+							
+							if(events.size() > 0)
+								hyperlinks.add(new EventListHyperlink(textViewer, region, events, document));
+						}
+					}
+				}
 			}
 			
 			if (hyperlinks != null && !hyperlinks.isEmpty()) {
@@ -113,22 +128,10 @@ public class EventHyperlinkDetector extends AbstractHyperlinkDetector{
 		return null;
 	}
 	
-	private Set<IObserverMethod> findEvents(CDICoreNature nature, IJavaElement element, int offset, IFile file){
-		ICDIProject cdiProject = nature.getDelegate();
-		
-		if(cdiProject == null){
-			return (Set<IObserverMethod>)Collections.EMPTY_SET;
-		}
-		
+	private IInjectionPoint findInjectedPoint(ICDIProject cdiProject, IJavaElement element, int offset, IFile file){
 		Set<IBean> beans = cdiProject.getBeans(file.getFullPath());
 		
-		IInjectionPoint injectionPoint = CDIUtil.findInjectionPoint(beans, element, offset);
-		if(injectionPoint == null){
-			return (Set<IObserverMethod>)Collections.EMPTY_SET;
-		}
-		
-		Set<IObserverMethod> resultObserverSet = cdiProject.resolveObserverMethods(injectionPoint);
-		
-		return resultObserverSet;
+		return CDIUtil.findInjectionPoint(beans, element, offset);
 	}
+	
 }

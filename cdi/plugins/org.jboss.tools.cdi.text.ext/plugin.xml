@@ -25,9 +25,9 @@
 	<extension
          point="org.eclipse.ui.workbench.texteditor.hyperlinkDetectors">
       <hyperlinkDetector
-            class="org.jboss.tools.cdi.text.ext.hyperlink.EventHyperlinkDetector"
-            id="org.jboss.tools.cdi.text.ext.hyperlink.EventHyperlinkDetector"
-            name="%EventHyperlinkDetector"
+            class="org.jboss.tools.cdi.text.ext.hyperlink.EventAndObserverMethodHyperlinkDetector"
+            id="org.jboss.tools.cdi.text.ext.hyperlink.EventAndObserverMethodHyperlinkDetector"
+            name="%EventAndObserverMethodHyperlinkDetector"
             targetId="org.eclipse.jdt.ui.javaCode">
       </hyperlinkDetector>
    </extension>

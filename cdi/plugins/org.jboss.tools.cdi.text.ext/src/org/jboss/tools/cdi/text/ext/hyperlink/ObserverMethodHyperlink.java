@@ -17,20 +17,17 @@ import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PartInitException;
-import org.jboss.tools.cdi.core.IInjectionPoint;
-import org.jboss.tools.cdi.core.IInjectionPointField;
-import org.jboss.tools.cdi.core.IInjectionPointMethod;
 import org.jboss.tools.cdi.core.IObserverMethod;
 import org.jboss.tools.cdi.text.ext.CDIExtensionsMessages;
 import org.jboss.tools.cdi.text.ext.CDIExtensionsPlugin;
 import org.jboss.tools.common.text.ext.hyperlink.AbstractHyperlink;
 
-public class EventHyperlink extends AbstractHyperlink{
-	IInjectionPoint event;
+public class ObserverMethodHyperlink extends AbstractHyperlink{
+	IObserverMethod observerMethod;
 	IRegion region;
 	
-	public EventHyperlink(IRegion region, IInjectionPoint event, IDocument document){
-		this.event = event;
+	public ObserverMethodHyperlink(IRegion region, IObserverMethod observerMethod, IDocument document){
+		this.observerMethod = observerMethod;
 		this.region = region;
 		setDocument(document);
 	}
@@ -44,21 +41,16 @@ public class EventHyperlink extends AbstractHyperlink{
 	protected void doHyperlink(IRegion region) {
 		IEditorPart part = null;
 		
-		if(event != null && event.getClassBean() != null){
+		if(observerMethod != null && observerMethod.getClassBean() != null){
 			try{
-				part = JavaUI.openInEditor(event.getClassBean().getBeanClass());
+				part = JavaUI.openInEditor(observerMethod.getClassBean().getBeanClass());
 			}catch(JavaModelException ex){
 				CDIExtensionsPlugin.log(ex);
 			}catch(PartInitException ex){
 				CDIExtensionsPlugin.log(ex);
 			}
 			
-			IJavaElement element = event.getClassBean().getBeanClass();
-			if(event instanceof IInjectionPointField)
-				element = ((IInjectionPointField)event).getField();
-			else if(event instanceof IInjectionPointMethod)
-				element = ((IInjectionPointMethod)event).getMethod();
-			
+			IJavaElement element = observerMethod.getMethod();
 			if (part != null) {
 				JavaUI.revealInEditor(part, element);
 			} 
@@ -69,14 +61,7 @@ public class EventHyperlink extends AbstractHyperlink{
 
 	@Override
 	public String getHyperlinkText() {
-		String text = CDIExtensionsMessages.CDI_EVENT_HYPERLINK_OPEN_EVENT+" "+event.getClassBean().getBeanClass().getElementName();
-		
-		if(event instanceof IInjectionPointField)
-			text += "."+((IInjectionPointField)event).getField().getElementName();
-		else if(event instanceof IInjectionPointMethod)
-			text += "."+((IInjectionPointMethod)event).getMethod().getElementName();
-		
-		return text;
+		return CDIExtensionsMessages.CDI_EVENT_HYPERLINK_OPEN_OBSERVER_METHOD+" "+observerMethod.getMethod().getElementName();
 	}
 
 }

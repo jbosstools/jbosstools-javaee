@@ -21,22 +21,21 @@ import org.eclipse.swt.graphics.RGB;
 import org.eclipse.ui.IPartListener;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
-import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.core.IObserverMethod;
 import org.jboss.tools.cdi.text.ext.CDIExtensionsMessages;
 import org.jboss.tools.common.text.ext.hyperlink.AbstractHyperlink;
 
-public class EventListHyperlink extends AbstractHyperlink{
+public class ObserverMethodListHyperlink extends AbstractHyperlink{
 	private ITextViewer viewer;
-	private Set<IInjectionPoint> events;
+	private Set<IObserverMethod> observerMethods;
 	private IRegion region;
 	
 	private static MultipleHyperlinkPresenter mhp = new MultipleHyperlinkPresenter(new RGB(0, 0, 255));
 	private static boolean installed = false;
 	
-	public EventListHyperlink(ITextViewer viewer, IRegion region, Set<IInjectionPoint> events, IDocument document){
+	public ObserverMethodListHyperlink(ITextViewer viewer, IRegion region, Set<IObserverMethod> observerMethods, IDocument document){
 		this.viewer = viewer;
-		this.events = events;
+		this.observerMethods = observerMethods;
 		this.region = region;
 		setDocument(document);
 	}
@@ -48,11 +47,11 @@ public class EventListHyperlink extends AbstractHyperlink{
 	}
 
 	protected void doHyperlink(IRegion region) {
-		IHyperlink[] hyperlinks = new IHyperlink[events.size()];
+		IHyperlink[] hyperlinks = new IHyperlink[observerMethods.size()];
 		
 		int index=0;
-		for(IInjectionPoint event : events){
-			hyperlinks[index++] = new EventHyperlink(region, event, getDocument());
+		for(IObserverMethod observerMethod : observerMethods){
+			hyperlinks[index++] = new ObserverMethodHyperlink(region, observerMethod, getDocument());
 		}
 		
 		if(hyperlinks.length == 0){
@@ -66,7 +65,7 @@ public class EventListHyperlink extends AbstractHyperlink{
 		}
 		
 		if(hyperlinks.length == 1){
-			((EventHyperlink)hyperlinks[0]).doHyperlink(region);
+			((ObserverMethodHyperlink)hyperlinks[0]).doHyperlink(region);
 		}else{
 			installed = true;
 			
@@ -98,7 +97,7 @@ public class EventListHyperlink extends AbstractHyperlink{
 
 	@Override
 	public String getHyperlinkText() {
-		return CDIExtensionsMessages.CDI_EVENT_LIST_HYPERLINK_OPEN_EVENTS;
+		return CDIExtensionsMessages.CDI_EVENT_LIST_HYPERLINK_OPEN_OBSERVER_METHODS;
 	}
 
 }
