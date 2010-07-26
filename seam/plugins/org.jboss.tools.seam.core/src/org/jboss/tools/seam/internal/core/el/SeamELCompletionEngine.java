@@ -149,7 +149,7 @@ public final class SeamELCompletionEngine extends AbstractELCompletionEngine<ISe
 
 	@Override
 	public List<ISeamContextVariable> resolveVariables(IFile file, ELInvocationExpression expr, boolean isFinal, boolean onlyEqualNames) {
-		ISeamProject project = SeamCorePlugin.getSeamProject(file.getProject(), false);
+		ISeamProject project = SeamCorePlugin.getSeamProject(file.getProject(), true);
 		ScopeType scope = getScope(project, file);
 		return resolveVariables(project, scope, expr, isFinal, onlyEqualNames);
 	}
