@@ -15,7 +15,7 @@ public class CdiTextExtAllTests {
 		TestSuite suite = new TestSuite(CdiTextExtAllTests.class.getName());
 		suite.addTest(new CDICoreTestSetup(new TestSuite(InjectedPointHyperlinkDetectorTest.class)));
 		suite.addTest(new CDICoreTestSetup(new TestSuite(ProducerDisposerHyperlinkDetectorTest.class)));
-		suite.addTest(new CDICoreTestSetup(new TestSuite(EventHyperlinkDetectorTest.class)));
+		suite.addTest(new CDICoreTestSetup(new TestSuite(EventAndObserverMethodHyperlinkDetectorTest.class)));
 		return suite;
 	}
 }

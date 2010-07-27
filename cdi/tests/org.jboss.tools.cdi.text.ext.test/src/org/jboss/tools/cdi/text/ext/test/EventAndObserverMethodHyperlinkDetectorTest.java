@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import org.eclipse.jface.text.Region;
 import org.jboss.tools.cdi.text.ext.hyperlink.EventAndObserverMethodHyperlinkDetector;
 
-public class EventHyperlinkDetectorTest extends HyperlinkDetectorTest {
+public class EventAndObserverMethodHyperlinkDetectorTest extends HyperlinkDetectorTest {
 
 	public void testEventHyperlinkDetector() throws Exception {
 		ArrayList<Region> regionList = new ArrayList<Region>();
@@ -24,6 +24,13 @@ public class EventHyperlinkDetectorTest extends HyperlinkDetectorTest {
 		regionList.add(new Region(1334, 42));
 
 		checkRegions("JavaSource/org/jboss/jsr299/tck/tests/event/bindingTypes/EventEmitter.java", regionList, new EventAndObserverMethodHyperlinkDetector());
+	}
+
+	public void testObserverMethodHyperlinkDetector() throws Exception {
+		ArrayList<Region> regionList = new ArrayList<Region>();
+		regionList.add(new Region(1216, 15));
+
+		checkRegions("JavaSource/org/jboss/jsr299/tck/tests/event/observer/checkedException/TeaCupPomeranian.java", regionList, new EventAndObserverMethodHyperlinkDetector());
 	}
 
 }
