@@ -29,7 +29,7 @@ public class CustomProducerImpl implements Producer
    }
    
    @Produces
-   public Foo produce2(@New(Foo.class) Foo order)
+   public Foo produce2(Foo order)
    {
       return new Foo("foo!");
    }

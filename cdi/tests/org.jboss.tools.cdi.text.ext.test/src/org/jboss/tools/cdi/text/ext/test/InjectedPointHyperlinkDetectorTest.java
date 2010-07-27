@@ -25,10 +25,7 @@ public class InjectedPointHyperlinkDetectorTest extends HyperlinkDetectorTest {
 
 	public void testInjectedProducerMethodParametersHyperlinkDetector() throws Exception {
 		ArrayList<Region> regionList = new ArrayList<Region>();
-		regionList.add(new Region(552, 3)); // Foo
-		regionList.add(new Region(556, 3)); // Foo
-		regionList.add(new Region(567, 3)); // Foo
-		regionList.add(new Region(571, 5)); // order
+		regionList.add(new Region(551, 9)); // order
 		
 		checkRegions("JavaSource/org/jboss/jsr299/tck/tests/jbt/openon/CustomProducerImpl.java", regionList, new InjectedPointHyperlinkDetector());
 	}
