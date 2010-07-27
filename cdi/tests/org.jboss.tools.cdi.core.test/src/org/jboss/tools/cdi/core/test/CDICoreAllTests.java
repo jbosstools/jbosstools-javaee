@@ -26,6 +26,7 @@ import org.jboss.tools.cdi.core.test.tck.EnterpriseStereotypeDefinitionTest;
 import org.jboss.tools.cdi.core.test.tck.InjectionPointTest;
 import org.jboss.tools.cdi.core.test.tck.InterceptorDefinitionTest;
 import org.jboss.tools.cdi.core.test.tck.NameDefinitionTest;
+import org.jboss.tools.cdi.core.test.tck.ObserverMethodResolutionTest;
 import org.jboss.tools.cdi.core.test.tck.ProducerMethodDefinitionTest;
 import org.jboss.tools.cdi.core.test.tck.QualifierDefinitionTest;
 import org.jboss.tools.cdi.core.test.tck.QualifierWithMembersTest;
@@ -65,6 +66,7 @@ public class CDICoreAllTests {
 		suite.addTestSuite(DynamicLookupTest.class);
 		suite.addTestSuite(InterceptorDefinitionTest.class);
 		suite.addTestSuite(ValidationTest.class);
+		suite.addTestSuite(ObserverMethodResolutionTest.class);
 		return new CDICoreTestSetup(suite);
 	}
 }
