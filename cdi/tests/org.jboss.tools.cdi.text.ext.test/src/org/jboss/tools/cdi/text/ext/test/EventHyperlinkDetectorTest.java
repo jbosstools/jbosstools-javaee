@@ -3,7 +3,7 @@ package org.jboss.tools.cdi.text.ext.test;
 import java.util.ArrayList;
 
 import org.eclipse.jface.text.Region;
-import org.jboss.tools.cdi.text.ext.hyperlink.EventHyperlinkDetector;
+import org.jboss.tools.cdi.text.ext.hyperlink.EventAndObserverMethodHyperlinkDetector;
 
 public class EventHyperlinkDetectorTest extends HyperlinkDetectorTest {
 
@@ -23,7 +23,7 @@ public class EventHyperlinkDetectorTest extends HyperlinkDetectorTest {
 		regionList.add(new Region(1235, 11));
 		regionList.add(new Region(1334, 42));
 
-		checkRegions("JavaSource/org/jboss/jsr299/tck/tests/event/bindingTypes/EventEmitter.java", regionList, new EventHyperlinkDetector());
+		checkRegions("JavaSource/org/jboss/jsr299/tck/tests/event/bindingTypes/EventEmitter.java", regionList, new EventAndObserverMethodHyperlinkDetector());
 	}
 
 }
