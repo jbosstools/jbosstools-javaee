@@ -259,6 +259,17 @@ public class CDIProject extends CDIElement implements ICDIProject {
 			return result;
 		}
 		
+		if(type.getType() != null && CDIConstants.EVENT_TYPE_NAME.equals(type.getType().getFullyQualifiedName())) {
+			List<? extends IParametedType> ps = type.getParameters();
+			if(ps != null && ps.size() == 1) {
+				EventBean eventBean = new EventBean(type, injectionPoint);
+				eventBean.setParent(this);
+				eventBean.setSourcePath(injectionPoint.getSourcePath());
+				result.add(eventBean);
+				return result;
+			}
+		}
+		
 		if(type.getType() != null && CDIConstants.INSTANCE_TYPE_NAME.equals(type.getType().getFullyQualifiedName())) {
 			List<? extends IParametedType> ps = type.getParameters();
 			if(ps != null && ps.size() == 1) {
