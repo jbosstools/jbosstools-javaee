@@ -4,7 +4,7 @@
  * This program is made available under the terms of the
  * Eclipse Public License v1.0 which accompanies this distribution,
  * and is available at http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors:
  * Red Hat, Inc. - initial API and implementation
  ******************************************************************************/
@@ -16,6 +16,7 @@ import java.util.List;
 import org.eclipse.swtbot.swt.finder.SWTBot;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotCheckBox;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotCombo;
+import org.eclipse.swtbot.swt.finder.widgets.SWTBotShell;
 
 public class CDIWizard extends Wizard {
 
@@ -165,6 +166,44 @@ public class CDIWizard extends Wizard {
 	public List<String> getScopes() {
 		return Arrays.asList(bot().comboBoxWithLabel("Scope:").items());
 	}
+
+	public CDIWizard addIBinding(String ib) {
+		switch (type) {
+		case INTERCEPTOR_BINDING:
+		case STEREOTYPE:
+			bot().button("Add", 0).click();
+			SWTBotShell sh = bot().activeShell();
+			sh.bot().text().setText(ib);
+			sh.bot().button("OK").click();
+			break;
+		default:
+			throw new UnsupportedOperationException();
+		}
+		return this;
+	}
+
+	public List<String> getIBindings() {
+		return Arrays.asList(bot().listWithLabel("Interceptor Bindings:").getItems());
+	}
+
+	public CDIWizard addStereotype(String stereotype) {
+		switch (type) {
+		case STEREOTYPE:
+			bot().button("Add", 1).click();
+			SWTBotShell sh = bot().activeShell();
+			sh.bot().text().setText(stereotype);
+			sh.bot().button("OK").click();
+			break;
+		default:
+			throw new UnsupportedOperationException();
+		}
+		return this;
+	}
+
+	public List<String> getStereotypes() {
+		return Arrays.asList(bot().listWithLabel("Stereotypes:").getItems());
+	}
+
 
 	private void setCheckbox(String label, boolean set) {
 		SWTBotCheckBox c = bot().checkBox(label);

@@ -4,7 +4,7 @@
  * This program is made available under the terms of the
  * Eclipse Public License v1.0 which accompanies this distribution,
  * and is available at http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors:
  * Red Hat, Inc. - initial API and implementation
  ******************************************************************************/
@@ -108,18 +108,21 @@ public class CdiATWizardTest extends SWTTestExt {
 		String code = ed.toTextEditor().getText();
 		L.fine(code);
 		assertTrue(code.contains("@NormalScope"));
+		assertFalse(code.contains("@Scope"));
+		assertFalse(code.contains("passivating"));
 		assertTrue(code.contains("@Retention(RUNTIME)"));
 		assertTrue(code.contains("@Target({ TYPE, METHOD, FIELD })"));
 		assertTrue(code.contains("@Inherited"));
 		assertFalse(code.startsWith("/**"));
 
-		scope("cdi", "Scope2", false, true, true, false).finish();
+		scope("cdi", "Scope2", false, true, true, true).finish();
 		util.waitForNonIgnoredJobs();
 		ed = new SWTWorkbenchBot().activeEditor();
 		assertTrue(("Scope2.java").equals(ed.getTitle()));
 		code = ed.toTextEditor().getText();
 		L.fine(code);
-		assertTrue(code.contains("@NormalScope"));
+		assertTrue(code.contains("@NormalScope(passivating = true)"));
+		assertFalse(code.contains("@Scope"));
 		assertTrue(code.contains("@Retention(RUNTIME)"));
 		assertTrue(code.contains("@Target({ TYPE, METHOD, FIELD })"));
 		assertFalse(code.contains("@Inherited"));
@@ -132,6 +135,7 @@ public class CdiATWizardTest extends SWTTestExt {
 		code = ed.toTextEditor().getText();
 		L.fine(code);
 		assertTrue(code.contains("@Scope"));
+		assertFalse(code.contains("@NormalScope"));
 		assertTrue(code.contains("@Retention(RUNTIME)"));
 		assertTrue(code.contains("@Target({ TYPE, METHOD, FIELD })"));
 		assertFalse(code.contains("@Inherited"));
@@ -165,6 +169,33 @@ public class CdiATWizardTest extends SWTTestExt {
 		assertTrue(code.contains("@Target({ TYPE })"));
 		assertFalse(code.contains("@Inherited"));
 		assertTrue(code.startsWith("/**"));
+
+		binding("cdi", "B3", "TYPE", false, true).finish();
+		util.waitForNonIgnoredJobs();
+		ed = new SWTWorkbenchBot().activeEditor();
+		assertTrue(("B3.java").equals(ed.getTitle()));
+		code = ed.toTextEditor().getText();
+		L.fine(code);
+		assertTrue(code.contains("@InterceptorBinding"));
+		assertTrue(code.contains("@Retention(RUNTIME)"));
+		assertTrue(code.contains("@Target({ TYPE })"));
+		assertFalse(code.contains("@Inherited"));
+		assertTrue(code.startsWith("/**"));
+
+		w = binding("cdi", "B4", "TYPE", true, false);
+		w.addIBinding("cdi.B2");
+		w.finish();
+		util.waitForNonIgnoredJobs();
+		ed = new SWTWorkbenchBot().activeEditor();
+		assertTrue(("B4.java").equals(ed.getTitle()));
+		code = ed.toTextEditor().getText();
+		L.info(code);
+		assertTrue(code.contains("@InterceptorBinding"));
+		assertTrue(code.contains("@Retention(RUNTIME)"));
+		assertTrue(code.contains("@Target({ TYPE })"));
+		assertTrue(code.contains("@Inherited"));
+		assertFalse(code.startsWith("/**"));
+		assertTrue(code.contains("@B2"));
 	}
 
 	@Test
@@ -182,6 +213,8 @@ public class CdiATWizardTest extends SWTTestExt {
 		assertTrue(code.contains("@Stereotype"));
 		assertTrue(code.contains("@Retention(RUNTIME)"));
 		assertTrue(code.contains("@Target({ TYPE, METHOD, FIELD })"));
+		assertFalse(code.contains("@Named"));
+		assertFalse(code.contains("@Alternative"));
 		assertFalse(code.contains("@Inherited"));
 		assertFalse(code.startsWith("/**"));
 
@@ -191,12 +224,35 @@ public class CdiATWizardTest extends SWTTestExt {
 		ed = new SWTWorkbenchBot().activeEditor();
 		assertTrue(("S2.java").equals(ed.getTitle()));
 		code = ed.toTextEditor().getText();
-		L.fine(code);
+		L.info(code);
 		assertTrue(code.contains("@Stereotype"));
+		assertTrue(code.contains("@Scope3"));
+		assertTrue(code.contains("@Named"));
+		assertTrue(code.contains("@Alternative"));
+		assertTrue(code.contains("@Inherited"));
 		assertTrue(code.contains("@Retention(RUNTIME)"));
 		assertTrue(code.contains("@Target({ FIELD })"));
-		assertTrue(code.contains("@Inherited"));
 		assertTrue(code.startsWith("/**"));
+
+		w = stereotype("cdi", "S3", null, null, false, false, true, false);
+		w.addIBinding("cdi.B1");
+		w.addStereotype("cdi.S1");
+		w.finish();
+		util.waitForNonIgnoredJobs();
+		ed = new SWTWorkbenchBot().activeEditor();
+		assertTrue(("S3.java").equals(ed.getTitle()));
+		code = ed.toTextEditor().getText();
+		L.info(code);
+		assertTrue(code.contains("@Stereotype"));
+		assertFalse(code.contains("@Scope3"));
+		assertFalse(code.contains("@Named"));
+		assertTrue(code.contains("@Alternative"));
+		assertTrue(code.contains("@B1"));
+		assertTrue(code.contains("@S1"));
+		assertTrue(code.contains("@Retention(RUNTIME)"));
+		assertTrue(code.contains("@Target({ TYPE })"));
+		assertFalse(code.contains("@Inherited"));
+		assertFalse(code.startsWith("/**"));
 	}
 
 	private static SWTBotMenu nodeContextMenu(final SWTBotTree tree,
