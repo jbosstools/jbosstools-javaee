@@ -189,7 +189,7 @@ public class CdiATWizardTest extends SWTTestExt {
 		ed = new SWTWorkbenchBot().activeEditor();
 		assertTrue(("B4.java").equals(ed.getTitle()));
 		code = ed.toTextEditor().getText();
-		L.info(code);
+		L.fine(code);
 		assertTrue(code.contains("@InterceptorBinding"));
 		assertTrue(code.contains("@Retention(RUNTIME)"));
 		assertTrue(code.contains("@Target({ TYPE })"));
@@ -224,7 +224,7 @@ public class CdiATWizardTest extends SWTTestExt {
 		ed = new SWTWorkbenchBot().activeEditor();
 		assertTrue(("S2.java").equals(ed.getTitle()));
 		code = ed.toTextEditor().getText();
-		L.info(code);
+		L.fine(code);
 		assertTrue(code.contains("@Stereotype"));
 		assertTrue(code.contains("@Scope3"));
 		assertTrue(code.contains("@Named"));
@@ -242,7 +242,7 @@ public class CdiATWizardTest extends SWTTestExt {
 		ed = new SWTWorkbenchBot().activeEditor();
 		assertTrue(("S3.java").equals(ed.getTitle()));
 		code = ed.toTextEditor().getText();
-		L.info(code);
+		L.fine(code);
 		assertTrue(code.contains("@Stereotype"));
 		assertFalse(code.contains("@Scope3"));
 		assertFalse(code.contains("@Named"));
