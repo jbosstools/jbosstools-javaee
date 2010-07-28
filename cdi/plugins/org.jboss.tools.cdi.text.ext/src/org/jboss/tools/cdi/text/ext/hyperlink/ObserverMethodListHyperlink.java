@@ -16,11 +16,6 @@ import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.ITextViewer;
 import org.eclipse.jface.text.hyperlink.IHyperlink;
-import org.eclipse.jface.text.hyperlink.MultipleHyperlinkPresenter;
-import org.eclipse.swt.graphics.RGB;
-import org.eclipse.ui.IPartListener;
-import org.eclipse.ui.IWorkbenchPart;
-import org.eclipse.ui.PlatformUI;
 import org.jboss.tools.cdi.core.IObserverMethod;
 import org.jboss.tools.cdi.text.ext.CDIExtensionsMessages;
 import org.jboss.tools.common.text.ext.hyperlink.AbstractHyperlink;
@@ -30,16 +25,12 @@ public class ObserverMethodListHyperlink extends AbstractHyperlink{
 	private Set<IObserverMethod> observerMethods;
 	private IRegion region;
 	
-	private static MultipleHyperlinkPresenter mhp = new MultipleHyperlinkPresenter(new RGB(0, 0, 255));
-	private static boolean installed = false;
-	
 	public ObserverMethodListHyperlink(ITextViewer viewer, IRegion region, Set<IObserverMethod> observerMethods, IDocument document){
 		this.viewer = viewer;
 		this.observerMethods = observerMethods;
 		this.region = region;
 		setDocument(document);
 	}
-	
 
 	@Override
 	protected IRegion doGetHyperlinkRegion(int offset) {
@@ -59,39 +50,10 @@ public class ObserverMethodListHyperlink extends AbstractHyperlink{
 			return;
 		}
 		
-		if(installed){
-			installed = false;
-			mhp.uninstall();
-		}
-		
 		if(hyperlinks.length == 1){
 			((ObserverMethodHyperlink)hyperlinks[0]).doHyperlink(region);
 		}else{
-			installed = true;
-			
-			mhp.install(viewer);
-			mhp.showHyperlinks(hyperlinks);
-			PlatformUI.getWorkbench().getActiveWorkbenchWindow().getPartService().addPartListener(new IPartListener(){
-				public void partActivated(IWorkbenchPart arg0) {
-				}
-
-				public void partBroughtToTop(IWorkbenchPart arg0) {
-				}
-
-				public void partClosed(IWorkbenchPart arg0) {
-					if(installed){
-						installed = false;
-						mhp.uninstall();
-					}
-				}
-
-				public void partDeactivated(IWorkbenchPart arg0) {
-					
-				}
-
-				public void partOpened(IWorkbenchPart arg0) {
-				}
-			});
+			MultipleHyperlinkPresenterManager.installAndShow(viewer, hyperlinks);
 		}
 	}
 
