@@ -30,7 +30,9 @@ import org.eclipse.jst.jsf.facesconfig.emf.ViewHandlerType;
 import org.eclipse.jst.jsf.facesconfig.util.FacesConfigArtifactEdit;
 import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
 import org.eclipse.wst.common.project.facet.core.IProjectFacetVersion;
+import org.eclipse.wst.xml.core.internal.provisional.document.IDOMModel;
 import org.jboss.tools.seam.core.SeamCorePlugin;
+import org.w3c.dom.Element;
 
 // TODO: why not just *one* global filter set to avoid any missing names ? (assert for it in our unittests!
 public class Seam2FacetInstallDelegate extends SeamFacetAbstractInstallDelegate{
@@ -210,17 +212,29 @@ public class Seam2FacetInstallDelegate extends SeamFacetAbstractInstallDelegate{
 				applicationType.getLocaleConfig().add(locale);
 			}
 			boolean viewHandlerExists = false;
-			for (Iterator iterator = applications.iterator(); iterator.hasNext();) {
-				ApplicationType application = (ApplicationType) iterator.next();
-				EList viewHandlers = application.getViewHandler();
-				for (Iterator iterator2 = viewHandlers.iterator(); iterator2.hasNext();) {
-					ViewHandlerType viewHandlerType = (ViewHandlerType)iterator2.next();
-					if ("com.sun.facelets.FaceletViewHandler".equals(viewHandlerType.getTextContent().trim())) {
+			IDOMModel domModel = facesConfigEdit.getIDOMModel();
+			if(domModel!=null) {
+				Element facesConfigElement = domModel.getDocument().getDocumentElement();
+				if(facesConfigElement!=null) {
+					if(facesConfigElement.getAttribute("version").startsWith("1")) {
+						for (Iterator iterator = applications.iterator(); iterator.hasNext();) {
+							ApplicationType application = (ApplicationType) iterator.next();
+							EList viewHandlers = application.getViewHandler();
+							for (Iterator iterator2 = viewHandlers.iterator(); iterator2.hasNext();) {
+								ViewHandlerType viewHandlerType = (ViewHandlerType)iterator2.next();
+								if ("com.sun.facelets.FaceletViewHandler".equals(viewHandlerType.getTextContent().trim())) {
+									viewHandlerExists = true;
+									break;
+								}
+							}
+						}
+					} else {
+						// Don't add facelet view handler for JSF 2
 						viewHandlerExists = true;
-						break;
 					}
 				}
 			}
+
 			if (!viewHandlerExists) {
 				ViewHandlerType viewHandler = FacesConfigFactory.eINSTANCE.createViewHandlerType();
 				viewHandler.setTextContent("com.sun.facelets.FaceletViewHandler");
