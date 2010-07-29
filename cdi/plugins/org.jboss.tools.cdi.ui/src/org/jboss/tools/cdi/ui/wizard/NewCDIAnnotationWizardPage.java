@@ -38,6 +38,7 @@ import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
+import org.jboss.tools.cdi.ui.CDIUiImages;
 import org.jboss.tools.common.ui.widget.editor.CheckBoxFieldEditor;
 import org.jboss.tools.common.ui.widget.editor.CompositeEditor;
 import org.jboss.tools.common.ui.widget.editor.IFieldEditor;
@@ -54,6 +55,10 @@ public abstract class NewCDIAnnotationWizardPage extends NewAnnotationWizardPage
 	protected CheckBoxEditorWrapper inherited = null;
 	
 	protected IFieldEditor target = null;
+	
+	public NewCDIAnnotationWizardPage() {
+		setImageDescriptor(CDIUiImages.getImageDescriptor(CDIUiImages.WELD_WIZARD_IMAGE_PATH));
+	}
 
 	protected void createTypeMembers(IType newType, final ImportsManager imports, IProgressMonitor monitor) throws CoreException {
 		ISourceRange range = newType.getSourceRange();
