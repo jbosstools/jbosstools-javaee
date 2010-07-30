@@ -54,6 +54,9 @@ public class ELReferencesQueryParticipant implements IQueryParticipant{
 			ElementQuerySpecification qs = (ElementQuerySpecification)querySpecification;
 			if(qs.getElement() instanceof IMethod || qs.getElement() instanceof IType){
 				IFile file = (IFile)qs.getElement().getResource();
+				if(file == null)
+					return;
+				
 				String name = qs.getElement().getElementName();
 				
 				searcher = new ELSearcher(requestor, qs.getElement(), file, name);
