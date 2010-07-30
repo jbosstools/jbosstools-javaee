@@ -19,8 +19,6 @@ public class CDIValidationMessages {
 
 	private static final String BUNDLE_NAME = "org.jboss.tools.cdi.internal.core.validation.messages"; //$NON-NLS-1$
 
-	public static String testKey;
-
 	public static String STEREOTYPE_DECLARES_NON_EMPTY_NAME;
 	public static String RESOURCE_PRODUCER_FIELD_SETS_EL_NAME;
 	public static String PARAM_INJECTION_DECLARES_EMPTY_NAME;
