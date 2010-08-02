@@ -14,6 +14,17 @@
 				</adapt>
          </enabledWhen>
       </page>
+       <page
+            name="%PreferencePage_Validator"
+            class="org.jboss.tools.cdi.ui.preferences.CDIValidatorPreferencePage"
+            id="org.jboss.tools.cdi.ui.propertyPages.CDIValidatorPreferencePage"
+            category="org.jboss.tools.cdi.ui.propertyPages.CDISettingsPreferencePage">
+         <enabledWhen>
+		     	<adapt type="org.eclipse.core.resources.IProject">
+		     		<test property="org.eclipse.core.resources.projectNature" value="org.jboss.tools.cdi.core.cdinature"/>
+				</adapt>
+         </enabledWhen>
+      </page>
    </extension>
 
    <extension point="org.eclipse.ui.preferencePages">
