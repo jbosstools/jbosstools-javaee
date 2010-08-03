@@ -77,6 +77,10 @@ public class JSFSeverityPreferences extends SeverityPreferences {
 		return SEVERITY_OPTION_NAMES;
 	}
 
+	public static boolean isValidationEnabled(IProject project) {
+		return INSTANCE.isEnabled(project);
+	}
+
 	public static boolean shouldValidateEL(IProject project) {
 		return !(SeverityPreferences.IGNORE.equals(INSTANCE.getProjectPreference(project, UNKNOWN_EL_VARIABLE_NAME)) &&
 				SeverityPreferences.IGNORE.equals(INSTANCE.getProjectPreference(project, UNKNOWN_EL_VARIABLE_PROPERTY_NAME)) && 

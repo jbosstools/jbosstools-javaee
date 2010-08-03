@@ -14,6 +14,7 @@ import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
 import org.eclipse.core.runtime.preferences.DefaultScope;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.core.runtime.preferences.IScopeContext;
+import org.jboss.tools.common.preferences.SeverityPreferences;
 import org.jboss.tools.jsf.JSFModelPlugin;
 
 /**
@@ -27,6 +28,7 @@ public class JSFPreferenceInitializer extends AbstractPreferenceInitializer {
 	public void initializeDefaultPreferences() {
 
 		IEclipsePreferences defaultPreferences = ((IScopeContext) new DefaultScope()).getNode(JSFModelPlugin.PLUGIN_ID);
+		defaultPreferences.putBoolean(SeverityPreferences.ENABLE_BLOCK_PREFERENCE_NAME, true);
 		for (String name : JSFSeverityPreferences.SEVERITY_OPTION_NAMES) {
 			defaultPreferences.put(name, JSFSeverityPreferences.ERROR);
 		}

@@ -88,8 +88,12 @@ public class ELValidator extends ValidationErrorManager implements IValidator {
 	public ELValidator() {
 	}
 
-	private boolean isEnabled(IProject project) {
-		return JSFSeverityPreferences.shouldValidateEL(project);
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.jst.web.kb.validation.IValidator#isEnabled(org.eclipse.core.resources.IProject)
+	 */
+	public boolean isEnabled(IProject project) {
+		return JSFSeverityPreferences.isValidationEnabled(project) && JSFSeverityPreferences.shouldValidateEL(project);
 	}
 
 	/*

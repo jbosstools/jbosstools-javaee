@@ -170,4 +170,8 @@ public class SeamPreferences extends SeverityPreferences {
 	public static boolean shouldValidateSettings(IProject project) {
 		return !SeamPreferences.IGNORE.equals(INSTANCE.getProjectPreference(project, INVALID_PROJECT_SETTINGS));
 	}
+
+	public static boolean isValidationEnabled(IProject project) {
+		return INSTANCE.isEnabled(project);
+	}
 }

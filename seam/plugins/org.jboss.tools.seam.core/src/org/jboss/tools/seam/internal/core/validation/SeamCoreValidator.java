@@ -136,12 +136,20 @@ public class SeamCoreValidator extends SeamValidationErrorManager implements IVa
 
 	/*
 	 * (non-Javadoc)
+	 * @see org.jboss.tools.jst.web.kb.validation.IValidator#isEnabled(org.eclipse.core.resources.IProject)
+	 */
+	public boolean isEnabled(IProject project) {
+		return SeamPreferences.isValidationEnabled(project);
+	}
+
+	/*
+	 * (non-Javadoc)
 	 * @see org.jboss.tools.jst.web.kb.validation.IValidator#shouldValidate(org.eclipse.core.resources.IProject)
 	 */
 	public boolean shouldValidate(IProject project) {
 		try {
-			// TODO check preferences
-			return project!=null && project.isAccessible() && project.hasNature(ISeamProject.NATURE_ID);
+			// TODO check preferences for root web project only
+			return project!=null && project.isAccessible() && project.hasNature(ISeamProject.NATURE_ID) && isPreferencesEnabled(project);
 		} catch (CoreException e) {
 			SeamCorePlugin.getDefault().logError(e);
 		}
@@ -165,7 +173,7 @@ public class SeamCoreValidator extends SeamValidationErrorManager implements IVa
 	}
 
 	private boolean isPreferencesEnabled(IProject project) {
-		return SeamPreferences.shouldValidateCore(project);
+		return isEnabled(project) && SeamPreferences.shouldValidateCore(project);
 	}
 
 	/*
