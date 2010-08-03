@@ -26,10 +26,6 @@ public class CDIPreferences extends SeverityPreferences {
 
 	private static CDIPreferences INSTANCE = new CDIPreferences();
 
-	// Test group
-
-	// Test
-	public static final String TEST = INSTANCE.createSeverityOption("testKey"); //$NON-NLS-1$
 	//Name group
 	
 //	- stereotype declares a non-empty @Named annotation (2.7.1.3)
@@ -276,5 +272,9 @@ public class CDIPreferences extends SeverityPreferences {
 
 	public static boolean shouldValidateCore(IProject project) {
 		return true;
+	}
+
+	public static boolean isValidationEnabled(IProject project) {
+		return INSTANCE.isEnabled(project);
 	}
 }

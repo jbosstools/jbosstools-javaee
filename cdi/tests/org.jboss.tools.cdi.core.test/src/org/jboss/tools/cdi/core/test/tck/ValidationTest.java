@@ -11,11 +11,19 @@
 package org.jboss.tools.cdi.core.test.tck;
 
 import java.text.MessageFormat;
+import java.util.List;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.jface.preference.IPersistentPreferenceStore;
+import org.eclipse.jface.preference.IPreferenceStore;
+import org.jboss.tools.cdi.core.CDICorePlugin;
+import org.jboss.tools.cdi.internal.core.validation.CDICoreValidator;
 import org.jboss.tools.cdi.internal.core.validation.CDIValidationMessages;
+import org.jboss.tools.common.preferences.SeverityPreferences;
+import org.jboss.tools.jst.web.kb.internal.validation.ValidationContext;
+import org.jboss.tools.jst.web.kb.validation.IValidator;
 import org.jboss.tools.tests.AbstractResourceMarkerTest;
 
 /**
@@ -1391,6 +1399,19 @@ public class ValidationTest extends TCKTest {
 		assertMarkerIsCreated(file, CDIValidationMessages.OBSERVER_IN_DECORATOR, 14);
 	}
 
+	/**
+	 * 10.4.3. Conditional observer methods
+	 *  - bean with scope @Dependent has an observer method declared notifyObserver=IF_EXISTS
+	 *  
+	 * @throws Exception
+	 */
+	public void testDependentBeanWithConditionalObserverMethodIsDefinitionError() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/event/broken/observer/dependentIsConditionalObserver/AlarmSystem.java");
+		assertMarkerIsCreated(file, CDIValidationMessages.ILLEGAL_CONDITIONAL_OBSERVER, 24);
+	}
+
+	// Wrong targets in CDI annotation types.
+
 	public void testQualifierWithMissingTarget() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/annotations/qualifier/broken/Hairy_MissingTarget.java");
 		assertMarkerIsCreated(file, CDIValidationMessages.MISSING_TARGET_ANNOTATION_IN_QUALIFIER_TYPE.substring(0, 56) + ".*", 36);
@@ -1422,14 +1443,32 @@ public class ValidationTest extends TCKTest {
 	}
 
 	/**
-	 * 10.4.3. Conditional observer methods
-	 *  - bean with scope @Dependent has an observer method declared notifyObserver=IF_EXISTS
+	 * https://jira.jboss.org/browse/JBIDE-6507
 	 *  
 	 * @throws Exception
 	 */
-	public void testDependentBeanWithConditionalObserverMethodIsDefinitionError() throws Exception {
-		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/event/broken/observer/dependentIsConditionalObserver/AlarmSystem.java");
-		assertMarkerIsCreated(file, CDIValidationMessages.ILLEGAL_CONDITIONAL_OBSERVER, 24);
+	public void testDisabledValidator() throws Exception {
+		IPreferenceStore preferenceStore = CDICorePlugin.getDefault().getPreferenceStore();
+		preferenceStore.setValue(SeverityPreferences.ENABLE_BLOCK_PREFERENCE_NAME, false);
+		((IPersistentPreferenceStore)preferenceStore).save();
+
+		assertNull("CDICoreValidator is not be disabled.", getCDIValidator());
+
+		preferenceStore.setValue(SeverityPreferences.ENABLE_BLOCK_PREFERENCE_NAME, true);
+		((IPersistentPreferenceStore)preferenceStore).save();
+
+		assertNotNull("CDICoreValidator is disabled.", getCDIValidator());
+	}
+
+	private CDICoreValidator getCDIValidator() {
+		ValidationContext context = new ValidationContext(tckProject);
+		List<IValidator> validators = context.getValidators();
+		for (IValidator validator : validators) {
+			if(validator instanceof CDICoreValidator) {
+				return (CDICoreValidator)validator;
+			}
+		}
+		return null;
 	}
 
 	public static int getMarkersNumber(IResource resource) {

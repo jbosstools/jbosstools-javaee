@@ -142,6 +142,14 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 
 	/*
 	 * (non-Javadoc)
+	 * @see org.jboss.tools.jst.web.kb.validation.IValidator#isEnabled(org.eclipse.core.resources.IProject)
+	 */
+	public boolean isEnabled(IProject project) {
+		return CDIPreferences.isValidationEnabled(project);
+	}
+
+	/*
+	 * (non-Javadoc)
 	 * 
 	 * @see
 	 * org.jboss.tools.jst.web.kb.validation.IValidator#shouldValidate(org.eclipse
@@ -149,8 +157,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 	 */
 	public boolean shouldValidate(IProject project) {
 		try {
-			// TODO check preferences
-			return project != null && project.isAccessible() && project.hasNature(CDICoreNature.NATURE_ID);
+			return project != null && project.isAccessible() && project.hasNature(CDICoreNature.NATURE_ID) && isEnabled(project);
 		} catch (CoreException e) {
 			CDICorePlugin.getDefault().logError(e);
 		}
