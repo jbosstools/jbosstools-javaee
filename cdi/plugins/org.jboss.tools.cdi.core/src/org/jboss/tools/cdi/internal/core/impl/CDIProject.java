@@ -51,6 +51,7 @@ import org.jboss.tools.cdi.core.IProducer;
 import org.jboss.tools.cdi.core.IProducerMethod;
 import org.jboss.tools.cdi.core.IQualifier;
 import org.jboss.tools.cdi.core.IQualifierDeclaration;
+import org.jboss.tools.cdi.core.IScope;
 import org.jboss.tools.cdi.core.IStereotype;
 import org.jboss.tools.cdi.internal.core.impl.definition.AnnotationDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.BeansXMLDefinition;
@@ -74,6 +75,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 	private Map<String, QualifierElement> qualifiers = new HashMap<String, QualifierElement>();
 	private Map<IPath, QualifierElement> qualifiersByPath = new HashMap<IPath, QualifierElement>();
 	private Map<String, ScopeElement> scopes = new HashMap<String, ScopeElement>();
+	private Map<IPath, ScopeElement> scopesByPath = new HashMap<IPath, ScopeElement>();
 
 	private Set<IBean> allBeans = new HashSet<IBean>();
 	private Map<IPath, Set<IBean>> beansByPath = new HashMap<IPath, Set<IBean>>();
@@ -914,6 +916,10 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		return scopes.get(qualifiedName);
 	}
 
+	public IScope getScope(IPath path) {
+		return scopesByPath.get(path);
+	}
+
 	public void update() {
 		rebuildXML();
 		rebuildAnnotationTypes();
@@ -928,6 +934,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		qualifiersByPath.clear();
 		interceptorBindingsByPath.clear();
 		scopes.clear();
+		scopesByPath.clear();
 		List<AnnotationDefinition> ds = n.getDefinitions().getAllAnnotations();
 		for (AnnotationDefinition d: ds) {
 			if(d.getKind() == AnnotationDefinition.STEREOTYPE) {
@@ -948,7 +955,6 @@ public class CDIProject extends CDIElement implements ICDIProject {
 				QualifierElement s = new QualifierElement();
 				initAnnotationElement(s, d);
 				qualifiers.put(d.getQualifiedName(), s);
-				System.out.println(d.getQualifiedName());
 				if(d.getResource() != null && d.getResource().getFullPath() != null) {
 					qualifiersByPath.put(d.getResource().getFullPath(), s);
 				}
@@ -956,6 +962,9 @@ public class CDIProject extends CDIElement implements ICDIProject {
 				ScopeElement s = new ScopeElement();
 				initAnnotationElement(s, d);
 				scopes.put(d.getQualifiedName(), s);
+				if(d.getResource() != null && d.getResource().getFullPath() != null) {
+					scopesByPath.put(d.getResource().getFullPath(), s);
+				}
 			}
 		}
 	}

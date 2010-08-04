@@ -251,6 +251,13 @@ public interface IBeanManager {
 	IScope getScope(String qualifiedName);
 
 	/**
+	 * Returns the scope by resource path.
+	 * 
+	 * @param resource path
+	 * @return the scope by resource path
+	 */
+	IScope getScope(IPath path);
+	/**
 	 * Returns the set of observers for an event which is injected by given
 	 * injection point.
 	 * 

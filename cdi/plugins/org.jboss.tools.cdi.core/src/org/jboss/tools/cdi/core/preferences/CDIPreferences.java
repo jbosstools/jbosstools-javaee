@@ -74,11 +74,7 @@ public class CDIPreferences extends SeverityPreferences {
 //	  is not annotated @Nonbinding (9.5.2 non-portable)
 	public static final String MISSING_NONBINDING_IN_INTERCEPTOR_BINDING_TYPE_MEMBER = INSTANCE.createSeverityOption("missingNonbindingInInterceptorBindingTypeMember"); //$NON-NLS-1$
 
-	public static final String MISSING_TARGET_ANNOTATION_IN_QUALIFIER_TYPE = INSTANCE.createSeverityOption("missingTargetAnnotationInQualifierType"); //$NON-NLS-1$
-	public static final String MISSING_RETENTION_ANNOTATION_IN_QUALIFIER_TYPE = INSTANCE.createSeverityOption("missingRetentionAnnotationInQualifierType"); //$NON-NLS-1$
-
-	public static final String MISSING_TARGET_ANNOTATION_IN_STEREOTYPE_TYPE = INSTANCE.createSeverityOption("missingTargetAnnotationInStereotypeType"); //$NON-NLS-1$
-	public static final String MISSING_RETENTION_ANNOTATION_IN_STEREOTYPE_TYPE = INSTANCE.createSeverityOption("missingRetentionAnnotationInStereotypeType"); //$NON-NLS-1$
+	public static final String MISSING_OR_INCORRECT_TARGET_OR_RETENTION_IN_ANNOTATION_TYPE = INSTANCE.createSeverityOption("missingOrIncorrectTargetOrRetentionInAnnotationType"); //$NON-NLS-1$
 
 	//Scope group
 
