@@ -1442,6 +1442,21 @@ public class ValidationTest extends TCKTest {
 		assertMarkerIsCreated(file, CDIValidationMessages.MISSING_TARGET_ANNOTATION_IN_STEREOTYPE_TYPE, 15);
 	}
 
+	public void testScopeWithMissingTarget() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/annotations/scope/broken/FooScoped_MissingTarget.java");
+		assertMarkerIsCreated(file, CDIValidationMessages.MISSING_TARGET_ANNOTATION_IN_SCOPE_TYPE, 33);
+	}
+
+	public void testScopeWithMissingRetention() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/annotations/scope/broken/FooScoped_MissingRetention.java");
+		assertMarkerIsCreated(file, CDIValidationMessages.MISSING_RETENTION_ANNOTATION_IN_SCOPE_TYPE, 33);
+	}
+
+	public void testScopeWithWrongTarget() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/annotations/scope/broken/FooScoped_WrongTarget.java");
+		assertMarkerIsCreated(file, CDIValidationMessages.MISSING_TARGET_ANNOTATION_IN_SCOPE_TYPE, 30);
+	}
+
 	/**
 	 * https://jira.jboss.org/browse/JBIDE-6507
 	 *  
