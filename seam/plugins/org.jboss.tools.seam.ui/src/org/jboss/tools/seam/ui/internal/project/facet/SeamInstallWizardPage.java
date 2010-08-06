@@ -965,6 +965,7 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 	 * 
 	 */
 	public void finishPressed() {
+		setCodeGenerationProperties();
 		model.removeListener(validatorDelegate);
 	};
 
