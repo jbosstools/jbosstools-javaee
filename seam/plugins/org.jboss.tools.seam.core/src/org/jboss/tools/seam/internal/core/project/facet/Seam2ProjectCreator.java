@@ -89,9 +89,11 @@ public class Seam2ProjectCreator extends SeamProjectCreator {
 	@Override
 	protected void createEarProject() {
 		super.createEarProject();
-		File earContentsFolder = new File(earProjectFolder, "EarContent"); //$NON-NLS-1$
-		File earLibFolder = new File(earContentsFolder, "lib"); //$NON-NLS-1$
-		AntCopyUtils.copyFiles(seamLibFolder, earLibFolder, new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(Seam2FacetInstallDelegate.JBOSS_EAR_LIB).dir(seamLibFolder)));
+		if (!SeamCorePlugin.getDefault().hasM2Facet(seamWebProject)) {
+			File earContentsFolder = new File(earProjectFolder, "EarContent"); //$NON-NLS-1$
+			File earLibFolder = new File(earContentsFolder, "lib"); //$NON-NLS-1$
+			AntCopyUtils.copyFiles(seamLibFolder, earLibFolder, new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(Seam2FacetInstallDelegate.JBOSS_EAR_LIB).dir(seamLibFolder)));
+		}
 	}
 
 	@Override

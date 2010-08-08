@@ -566,7 +566,7 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 			SeamCorePlugin.getPluginLog().logError(e);
 		}
 
-		fillEarContents();
+		fillEarContents(project);
 
 		File resources = new File(earProjectFolder, "resources"); //$NON-NLS-1$
 		AntCopyUtils.copyFileToFile(
@@ -610,7 +610,7 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 	/**
 	 * Fill ear contents
 	 */
-	abstract protected void fillEarContents();
+	abstract protected void fillEarContents(IProject project);
 
 	protected IResource getSrcFolder(IProject project) throws JavaModelException {
 		IJavaProject javaProject = EclipseResourceUtil.getJavaProject(project);
