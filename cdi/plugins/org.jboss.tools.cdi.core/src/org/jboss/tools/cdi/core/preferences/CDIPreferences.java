@@ -51,14 +51,10 @@ public class CDIPreferences extends SeverityPreferences {
 //	  and the value member specifies a class which does not correspond to a type 
 //	  in the unrestricted set of bean types of a bean (2.2.2)
 	public static final String ILLEGAL_TYPE_IN_TYPED_DECLARATION = INSTANCE.createSeverityOption("illegalTypeInTypedDeclaration"); //$NON-NLS-1$
-//	- producer method return type contains a wildcard type parameter (3.3)
+//	- producer field/method return type contains a wildcard type parameter (3.3, 3.4)
 	public static final String PRODUCER_METHOD_RETURN_TYPE_HAS_WILDCARD = INSTANCE.createSeverityOption("producerMethodReturnTypeHasWildcard"); //$NON-NLS-1$
-//	- producer method return type is a type variable (3.3)
+//	- producer field/method return type is a type variable (3.3, 3.4)
 	public static final String PRODUCER_METHOD_RETURN_TYPE_IS_VARIABLE = INSTANCE.createSeverityOption("producerMethodReturnTypeIsVariable"); //$NON-NLS-1$
-//	- producer field type contains a wildcard type parameter (3.4)
-	public static final String PRODUCER_FIELD_TYPE_HAS_WILDCARD = INSTANCE.createSeverityOption("producerFieldTypeHasWildcard"); //$NON-NLS-1$
-//	- producer field type is a type variable
-	public static final String PRODUCER_FIELD_TYPE_IS_VARIABLE = INSTANCE.createSeverityOption("producerFieldTypeIsVariable"); //$NON-NLS-1$
 //  - an injection point of primitive type resolves to a bean that may have null values, such as a producer method	with a non-primitive return type or a producer field with a non-primitive type	
 	public static final String INJECT_RESOLVES_TO_NULLABLE_BEAN = INSTANCE.createSeverityOption("injectResolvesToNullableBean"); //$NON-NLS-1$
 //	- matching object in the Java EE component environment is not of the same type
@@ -96,10 +92,9 @@ public class CDIPreferences extends SeverityPreferences {
 	public static final String ILLEGAL_SCOPE_FOR_SESSION_BEAN = INSTANCE.createSeverityOption("illegalScopeForSessionBean"); //$NON-NLS-1$
 //	- producer method with a parameterized return type with a type variable declares 
 //	  any scope other than @Dependent (3.3)
-	public static final String ILLEGAL_SCOPE_FOR_PRODUCER_METHOD = INSTANCE.createSeverityOption("illegalScopeForProducerMethod"); //$NON-NLS-1$
 //	- producer field with a parameterized type with a type variable declares any 
 //	  scope other than @Dependent (3.4)
-	public static final String ILLEGAL_SCOPE_FOR_PRODUCER_FIELD = INSTANCE.createSeverityOption("illegalScopeForProducerField"); //$NON-NLS-1$
+	public static final String ILLEGAL_SCOPE_FOR_PRODUCER_METHOD = INSTANCE.createSeverityOption("illegalScopeForProducerMethod"); //$NON-NLS-1$
 //	- bean that declares any scope other than @Dependent has an injection point of type 
 //	  InjectionPoint and qualifier @Default (5.5.7)
 	public static final String ILLEGAL_SCOPE_WHEN_TYPE_INJECTIONPOINT_IS_INJECTED = INSTANCE.createSeverityOption("illegalScopeWhenTypeInjectionPointIsInjected"); //$NON-NLS-1$
@@ -120,6 +115,7 @@ public class CDIPreferences extends SeverityPreferences {
 	public static final String OBSERVER_PARAMETER_ILLEGALLY_ANNOTATED = INSTANCE.createSeverityOption("observerParameterIllegallyAnnotated"); //$NON-NLS-1$
 //	- non-static method of a session bean class is annotated @Produces, and the method 
 //	  is not a business method of the session bean (3.3.2)
+//	- non-static field of a session bean class is annotated @Produces (3.4.2)
 	public static final String ILLEGAL_PRODUCER_METHOD_IN_SESSION_BEAN = INSTANCE.createSeverityOption("illegalProducerMethodInSessionBean"); //$NON-NLS-1$
 //	- method has more than one parameter annotated @Disposes (3.3.6)
 	public static final String MULTIPLE_DISPOSING_PARAMETERS = INSTANCE.createSeverityOption("multipleDisposingParameters"); //$NON-NLS-1$
@@ -133,8 +129,6 @@ public class CDIPreferences extends SeverityPreferences {
 	public static final String NO_PRODUCER_MATCHING_DISPOSER = INSTANCE.createSeverityOption("noProducerMatchingDisposer"); //$NON-NLS-1$
 //	- there are multiple disposer methods for a single producer method (3.3.7)
 	public static final String MULTIPLE_DISPOSERS_FOR_PRODUCER = INSTANCE.createSeverityOption("multipleDisposersForProducer"); //$NON-NLS-1$
-//	- non-static field of a session bean class is annotated @Produces (3.4.2)
-	public static final String ILLEGAL_PRODUCER_FIELD_IN_SESSION_BEAN = INSTANCE.createSeverityOption("illegalProducerFieldInSessionBean"); //$NON-NLS-1$
 //	- bean class has more than one constructor annotated @Inject (3.7.1)
 	public static final String MULTIPLE_INJECTION_CONSTRUCTORS = INSTANCE.createSeverityOption("multipleInjectionConstructors"); //$NON-NLS-1$
 //	- bean constructor has a parameter annotated @Disposes, or @Observes (3.7.1)
@@ -213,9 +207,8 @@ public class CDIPreferences extends SeverityPreferences {
 //	- X specializes Y and Y has a name and X declares a name explicitly, using @Named (4.3.1)
 	public static final String CONFLICTING_NAME_IN_SPECIALIZING_BEAN = INSTANCE.createSeverityOption("conflictingNameInSpecializingBean"); //$NON-NLS-1$
 //	- interceptor is annotated @Specializes (4.3.1 non-portable)
-	public static final String INTERCEPTOR_ANNOTATED_SPECIALIZES = INSTANCE.createSeverityOption("interceptorAnnotatedSpecializes"); //$NON-NLS-1$
 //	- decorator is annotated @Specializes (4.3.1 non-portable)
-	public static final String DECORATOR_ANNOTATED_SPECIALIZES = INSTANCE.createSeverityOption("decoratorAnnotatedSpecializes"); //$NON-NLS-1$
+	public static final String INTERCEPTOR_ANNOTATED_SPECIALIZES = INSTANCE.createSeverityOption("interceptorAnnotatedSpecializes"); //$NON-NLS-1$
 
 	//Miscellaneous
 

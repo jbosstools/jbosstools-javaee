@@ -476,7 +476,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 		IAnnotationDeclaration specializesDeclaration = bean.getSpecializesAnnotationDeclaration();
 		if(specializesDeclaration!=null) {
 			if(bean instanceof IDecorator) {
-				addError(CDIValidationMessages.DECORATOR_ANNOTATED_SPECIALIZES, CDIPreferences.DECORATOR_ANNOTATED_SPECIALIZES, specializesDeclaration, bean.getResource());
+				addError(CDIValidationMessages.DECORATOR_ANNOTATED_SPECIALIZES, CDIPreferences.INTERCEPTOR_ANNOTATED_SPECIALIZES, specializesDeclaration, bean.getResource());
 			} else if(bean instanceof IInterceptor) {
 				addError(CDIValidationMessages.INTERCEPTOR_ANNOTATED_SPECIALIZES, CDIPreferences.INTERCEPTOR_ANNOTATED_SPECIALIZES, specializesDeclaration, bean.getResource());
 			}
@@ -822,7 +822,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 				for (String paramType : paramTypes) {
 					if (Signature.getTypeSignatureKind(paramType) == Signature.WILDCARD_TYPE_SIGNATURE) {
 						if (producer instanceof IProducerField) {
-							addError(CDIValidationMessages.PRODUCER_FIELD_TYPE_HAS_WILDCARD, CDIPreferences.PRODUCER_FIELD_TYPE_HAS_WILDCARD, typeDeclaration,
+							addError(CDIValidationMessages.PRODUCER_FIELD_TYPE_HAS_WILDCARD, CDIPreferences.PRODUCER_METHOD_RETURN_TYPE_HAS_WILDCARD, typeDeclaration,
 									producer.getResource());
 						} else {
 							addError(CDIValidationMessages.PRODUCER_METHOD_RETURN_TYPE_HAS_WILDCARD, CDIPreferences.PRODUCER_METHOD_RETURN_TYPE_HAS_WILDCARD,
@@ -843,7 +843,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 					if (scopeOrStereotypeDeclaration != null) {
 						boolean field = producer instanceof IProducerField;
 						addError(field ? CDIValidationMessages.ILLEGAL_SCOPE_FOR_PRODUCER_FIELD : CDIValidationMessages.ILLEGAL_SCOPE_FOR_PRODUCER_METHOD,
-								field ? CDIPreferences.ILLEGAL_SCOPE_FOR_PRODUCER_FIELD : CDIPreferences.ILLEGAL_SCOPE_FOR_PRODUCER_METHOD,
+								field ? CDIPreferences.ILLEGAL_SCOPE_FOR_PRODUCER_METHOD : CDIPreferences.ILLEGAL_SCOPE_FOR_PRODUCER_METHOD,
 								scopeOrStereotypeDeclaration, producer.getResource());
 					}
 				}
@@ -889,7 +889,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 					for (String variableSig : typeVariables) {
 						String variableName = Signature.getTypeVariable(variableSig);
 						if (typeString.equals(variableName)) {
-							addError(CDIValidationMessages.PRODUCER_FIELD_TYPE_IS_VARIABLE, CDIPreferences.PRODUCER_FIELD_TYPE_IS_VARIABLE,	typeDeclaration != null ? typeDeclaration : producer, producer.getResource());
+							addError(CDIValidationMessages.PRODUCER_FIELD_TYPE_IS_VARIABLE, CDIPreferences.PRODUCER_METHOD_RETURN_TYPE_IS_VARIABLE,	typeDeclaration != null ? typeDeclaration : producer, producer.getResource());
 						}
 					}
 				}
@@ -898,7 +898,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 				 *  - non-static field of a session bean class is annotated @Produces
 				 */
 				if(producer.getClassBean() instanceof ISessionBean && !Flags.isStatic(producerField.getField().getFlags())) {
-					addError(CDIValidationMessages.ILLEGAL_PRODUCER_FIELD_IN_SESSION_BEAN, CDIPreferences.ILLEGAL_PRODUCER_FIELD_IN_SESSION_BEAN, producer.getProducesAnnotation(), producer.getResource());
+					addError(CDIValidationMessages.ILLEGAL_PRODUCER_FIELD_IN_SESSION_BEAN, CDIPreferences.ILLEGAL_PRODUCER_METHOD_IN_SESSION_BEAN, producer.getProducesAnnotation(), producer.getResource());
 				}
 			} else {
 				IProducerMethod producerMethod = (IProducerMethod) producer;
