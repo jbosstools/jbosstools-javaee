@@ -16,6 +16,7 @@ import junit.framework.TestSuite;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.ChangeMessageBundleTest_JBIDE5818;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.ContextMenuDoubleInsertionTest_JBIDE3888;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.DnD_JBIDE5042_JBIDE6229_Test;
+import org.jboss.tools.jsf.vpe.jsf.test.jbide.DocBookTemplatesTest;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.EditFontFamilyTest_JBIDE5872;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.ExceptionInVPEComments_JBIDE5143;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.FacetProcessingTest;
@@ -125,6 +126,7 @@ public class JsfAllTests {
 
 		TestSuite suite = new TestSuite("Tests for Vpe Jsf components"); //$NON-NLS-1$
 		// $JUnit-BEGIN$
+		suite.addTestSuite(DocBookTemplatesTest.class);
 		suite.addTestSuite(DnD_JBIDE5042_JBIDE6229_Test.class);
 		suite.addTestSuite(UnclosedELExpressionTest.class);
 		suite.addTestSuite(TestContextPathResolution.class);
