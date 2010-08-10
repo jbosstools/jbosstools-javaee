@@ -1,0 +1,7 @@
+<tests>
+	<test id="title">
+	<H1 STYLE="-moz-user-modify: read-write;">
+		A Top Level Section
+	</H1>
+	</test>
+</tests>
