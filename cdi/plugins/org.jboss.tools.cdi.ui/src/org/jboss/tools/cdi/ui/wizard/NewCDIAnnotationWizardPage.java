@@ -82,7 +82,7 @@ public abstract class NewCDIAnnotationWizardPage extends NewAnnotationWizardPage
 		sb.append("@Target( {" + list.toString() + "} )").append(lineDelimiter);
 	}
 	
-	protected void addAnnotation(String typeName, ImportsManager imports, StringBuffer sb, String lineDelimiter) {
+	static void addAnnotation(String typeName, ImportsManager imports, StringBuffer sb, String lineDelimiter) {
 		int i = typeName.lastIndexOf('.');
 		String name = typeName.substring(i + 1);
 		imports.addImport(typeName);
@@ -199,7 +199,7 @@ public abstract class NewCDIAnnotationWizardPage extends NewAnnotationWizardPage
 		}
 	}
 
-	protected ICDIProject getCDIProject(IJavaProject jp) {
+	static ICDIProject getCDIProject(IJavaProject jp) {
 		CDICoreNature n = getCDINatureWithProgress(jp.getProject());
 		return n == null ? null : n.getDelegate();
 	}

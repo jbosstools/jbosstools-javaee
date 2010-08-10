@@ -178,6 +178,19 @@
             Create a Interceptor Binding Java File
          </description>
       </wizard>
+
+      <wizard 
+         category="org.jboss.tools.cdi.ui" 
+         class="org.jboss.tools.cdi.ui.wizard.NewInterceptorCreationWizard" 
+         icon="icons/cdi16.png"
+         id="org.jboss.tools.cdi.ui.wizard.NewInterceptorCreationWizard" 
+         name="Interceptor Type" 
+         project="false">
+         <description>
+            Create an Interceptor Java File
+         </description>
+      </wizard>
+
    </extension>
 
 </plugin>
