@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 20010 Red Hat, Inc.
+ * Copyright (c) 2007 Red Hat, Inc.
  * Distributed under license by Red Hat, Inc. All rights reserved.
  * This program is made available under the terms of the
  * Eclipse Public License v1.0 which accompanies this distribution,
@@ -14,25 +14,32 @@ import junit.framework.TestCase;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
+import org.eclipse.jdt.internal.ui.wizards.NewElementWizard;
+import org.eclipse.jdt.ui.wizards.NewTypeWizardPage;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.ui.PlatformUI;
+import org.jboss.tools.cdi.core.CDICorePlugin;
+import org.jboss.tools.cdi.core.ICDIAnnotation;
+import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.ui.CDIUIPlugin;
-import org.jboss.tools.cdi.ui.wizard.NewCDIAnnotationCreationWizard;
-import org.jboss.tools.cdi.ui.wizard.NewCDIAnnotationWizardPage;
+//import org.jboss.tools.cdi.ui.wizard.NewCDIAnnotationWizardPage;
 import org.jboss.tools.cdi.ui.wizard.NewInterceptorBindingWizardPage;
+import org.jboss.tools.cdi.ui.wizard.NewInterceptorWizardPage;
 import org.jboss.tools.cdi.ui.wizard.NewQualifierWizardPage;
 import org.jboss.tools.cdi.ui.wizard.NewScopeWizardPage;
 import org.jboss.tools.cdi.ui.wizard.NewStereotypeWizardPage;
 import org.jboss.tools.common.EclipseUtil;
 import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.test.util.JUnitUtils;
+import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.WorkbenchUtils;
 
 /**
@@ -46,13 +53,14 @@ public class NewCDIWizardTest extends TestCase {
 	static String STEREOTYPE_NAME = "MyStereotype";
 	static String SCOPE_NAME = "MyScope";
 	static String INTERCEPTOR_BINDING_NAME = "MyInterceptorBinding";
+	static String INTERCEPTOR_NAME = "MyInterceptor";
 	
 	static class WizardContext {
-		NewCDIAnnotationCreationWizard wizard;
+		NewElementWizard wizard;
 		IProject tck;
 		IJavaProject jp;
 		WizardDialog dialog;
-		NewCDIAnnotationWizardPage page;
+		NewTypeWizardPage page;
 		String packName;
 		String typeName;
 		
@@ -60,7 +68,7 @@ public class NewCDIWizardTest extends TestCase {
 		public void init(String wizardId, String packName, String typeName) {
 			this.packName = packName;
 			this.typeName = typeName;
-			wizard = (NewCDIAnnotationCreationWizard)WorkbenchUtils.findWizardByDefId(wizardId);
+			wizard = (NewElementWizard)WorkbenchUtils.findWizardByDefId(wizardId);
 			tck = ResourcesPlugin.getWorkspace().getRoot().getProject("tck");
 			jp = EclipseUtil.getJavaProject(tck);
 			wizard.init(CDIUIPlugin.getDefault().getWorkbench(), new StructuredSelection(jp));
@@ -70,7 +78,7 @@ public class NewCDIWizardTest extends TestCase {
 			dialog.setBlockOnOpen(false);
 			dialog.open();
 
-			page = (NewCDIAnnotationWizardPage)dialog.getSelectedPage();
+			page = (NewTypeWizardPage)dialog.getSelectedPage();
 
 			page.setTypeName(typeName, true);
 			IPackageFragment pack = page.getPackageFragmentRoot().getPackageFragment(PACK_NAME);
@@ -117,7 +125,7 @@ public class NewCDIWizardTest extends TestCase {
 			
 			assertTrue(text.contains("@Qualifier"));
 			assertTrue(text.contains("@Inherited"));
-			assertTrue(text.contains("@Target( { TYPE, METHOD, PARAMETER, FIELD })"));
+			assertTrue(text.contains("@Target({ TYPE, METHOD, PARAMETER, FIELD })"));
 			assertTrue(text.contains("@Retention(RUNTIME)"));
 			
 		} finally {
@@ -143,7 +151,7 @@ public class NewCDIWizardTest extends TestCase {
 			assertTrue(text.contains("@Stereotype"));
 			assertTrue(text.contains("@Inherited"));
 			assertTrue(text.contains("@Named"));
-			assertTrue(text.contains("@Target( { METHOD, FIELD })"));
+			assertTrue(text.contains("@Target({ METHOD, FIELD })"));
 			assertTrue(text.contains("@Retention(RUNTIME)"));
 			
 		} finally {
@@ -166,7 +174,7 @@ public class NewCDIWizardTest extends TestCase {
 			
 			assertTrue(text.contains("@NormalScope"));
 			assertTrue(text.contains("@Inherited"));
-			assertTrue(text.contains("@Target( { TYPE, METHOD, FIELD })"));
+			assertTrue(text.contains("@Target({ TYPE, METHOD, FIELD })"));
 			assertTrue(text.contains("@Retention(RUNTIME)"));
 			
 		} finally {
@@ -188,8 +196,33 @@ public class NewCDIWizardTest extends TestCase {
 			
 			assertTrue(text.contains("@InterceptorBinding"));
 			assertTrue(text.contains("@Inherited"));
-			assertTrue(text.contains("@Target( { TYPE, METHOD })"));
+			assertTrue(text.contains("@Target({ TYPE, METHOD })"));
 			assertTrue(text.contains("@Retention(RUNTIME)"));
+			
+		} finally {
+			context.close();
+		}
+	}
+
+	public void testNewInterceptorWizard() {
+		WizardContext context = new WizardContext();
+		context.init("org.jboss.tools.cdi.ui.wizard.NewInterceptorCreationWizard",
+				PACK_NAME, INTERCEPTOR_NAME);JobUtils.waitForIdle(2000);
+		JobUtils.waitForIdle(2000);
+		ICDIProject cdi = CDICorePlugin.getCDIProject(context.tck, true);
+		ICDIAnnotation a = cdi.getInterceptorBinding(PACK_NAME + "." + INTERCEPTOR_BINDING_NAME);
+		
+		try {
+			NewInterceptorWizardPage page = (NewInterceptorWizardPage)context.page;
+			
+			page.addInterceptorBinding(a);
+			
+			context.wizard.performFinish();
+			
+			String text = context.getNewTypeContent();
+			
+			assertTrue(text.contains("@Interceptor"));
+			assertTrue(text.contains("@" + INTERCEPTOR_BINDING_NAME));
 			
 		} finally {
 			context.close();
