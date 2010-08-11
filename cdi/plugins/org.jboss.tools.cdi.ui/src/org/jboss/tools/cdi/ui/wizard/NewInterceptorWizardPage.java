@@ -90,6 +90,14 @@ public class NewInterceptorWizardPage extends NewClassWizardPage {
 		super.init(selection);
 	}
 
+	public void addInterceptorBinding(ICDIAnnotation a) {
+		Object o = interceptorBindings.getValue();
+		List list = o instanceof List ? (List)o : new ArrayList();
+		if(list.contains(a)) return;
+		list.add(a);
+		interceptorBindings.setValue(new ArrayList(list));
+	}
+
 	public void createControl(Composite parent) {
 		initializeDialogUnits(parent);
 
