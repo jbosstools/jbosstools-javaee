@@ -52,14 +52,13 @@ public class JSF2ComponentsValidatorTest extends TestCase {
 		IMarker[] markers = resource.findMarkers(
 				"org.jboss.tools.jsf.jsf2problemmarker", false, 1); //$NON-NLS-1$
 		assertNotNull(markers);
-		assertTrue(markers.length == 4);
 		assertTrue(isMarkerExist(markers,
 				"Composite component \"echo\" was not found in a project resources directory")); //$NON-NLS-1$
 		assertTrue(isMarkerExist(markers,
 				"Attribute \"anknownAttr\" is not defined for \"echo\" composite component")); //$NON-NLS-1$
 		assertTrue(isMarkerExist(
 				markers,
-				"Resources folder \"/resources/jarPage1\" is missing in a project root directory")); //$NON-NLS-1$
+				"JSF 2 Resources folder \"/resources/jarPage1\" is missing in a project root directory")); //$NON-NLS-1$
 		assertTrue(isMarkerExist(markers,
 				"Composite component \"echo1\" was not found in a project resources directory")); //$NON-NLS-1$
 	}

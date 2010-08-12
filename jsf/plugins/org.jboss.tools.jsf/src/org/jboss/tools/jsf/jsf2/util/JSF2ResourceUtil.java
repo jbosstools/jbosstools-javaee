@@ -51,6 +51,8 @@ public class JSF2ResourceUtil {
 
 	public static final String COMPONENT_RESOURCE_PATH_KEY = "component_resource_path_key"; //$NON-NLS-1$
 
+	public static final String JSF2_COMPONENT_NAME = "jsf2_resource_name"; //$NON-NLS-1$
+	
 	public static final int JAR_FILE_RESOURCE_TYPE = 1;
 
 	public static final int JAR_DIRECTORY_RESOURCE_TYPE = JAR_FILE_RESOURCE_TYPE << 1;

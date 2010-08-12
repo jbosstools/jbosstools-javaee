@@ -110,6 +110,7 @@ public class JSF2ComponentsValidator extends Validator {
 					component.getType());
 			message.setAttribute(JSF2ResourceUtil.COMPONENT_RESOURCE_PATH_KEY,
 					component.getComponentResourceLocation());
+			message.setAttribute(JSF2ResourceUtil.JSF2_COMPONENT_NAME, component.getElement().getLocalName());
 			String[] attrNames = component.getAttrNames();
 			if (attrNames != null) {
 				for (int i = 0; i < attrNames.length; i++) {

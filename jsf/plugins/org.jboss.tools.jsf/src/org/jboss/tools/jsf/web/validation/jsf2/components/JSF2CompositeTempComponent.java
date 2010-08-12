@@ -79,4 +79,11 @@ public class JSF2CompositeTempComponent extends JSF2AbstractValidationComponent 
 		return componentResLoc;
 	}
 
+	/**
+	 * @return the element
+	 */
+	public ElementImpl getElement() {
+		return element;
+	}
+
 }

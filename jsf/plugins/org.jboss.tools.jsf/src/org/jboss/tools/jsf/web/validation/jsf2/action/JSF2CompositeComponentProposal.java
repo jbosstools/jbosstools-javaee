@@ -11,17 +11,25 @@
 
 package org.jboss.tools.jsf.web.validation.jsf2.action;
 
+import java.io.File;
+import java.text.MessageFormat;
 import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 import java.util.Map.Entry;
+import java.util.Set;
+import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
+import org.eclipse.wst.common.componentcore.ComponentCore;
+import org.eclipse.wst.common.componentcore.resources.IVirtualComponent;
+import org.eclipse.wst.common.componentcore.resources.IVirtualFolder;
 import org.jboss.tools.jsf.jsf2.util.JSF2ResourceUtil;
 import org.jboss.tools.jsf.messages.JSFUIMessages;
 import org.jboss.tools.jsf.web.validation.jsf2.JSF2XMLValidator;
@@ -37,9 +45,12 @@ public class JSF2CompositeComponentProposal extends JSF2AbstractProposal {
 
 	private String componentPath = null;
 	private String[] attrs = null;
+	private String elementName;
 
-	public JSF2CompositeComponentProposal() {
-		super();
+	public JSF2CompositeComponentProposal(IResource validateResource, String elementName,String componentPath) {
+		super(validateResource);
+		this.elementName=elementName;
+		this.componentPath=componentPath;
 	}
 
 	public JSF2CompositeComponentProposal(IResource validateResource,
@@ -67,7 +78,20 @@ public class JSF2CompositeComponentProposal extends JSF2AbstractProposal {
 	}
 
 	public String getDisplayString() {
-		return JSFUIMessages.Create_JSF_2_Composite_Component;
+		IVirtualComponent component = ComponentCore.createComponent(validateResource.getProject());
+		String projectResourceRelativePath = componentPath;
+		if (component != null) {
+			IVirtualFolder webRootFolder = component.getRootFolder().getFolder(
+					new Path("/")); //$NON-NLS-1$
+			IContainer folder = webRootFolder.getUnderlyingFolder();
+			IFolder webFolder = ResourcesPlugin.getWorkspace().getRoot()
+					.getFolder(folder.getFullPath());
+			IFolder resourcesFolder = webFolder.getFolder("resources");
+			resourcesFolder.getProjectRelativePath().toString();
+			projectResourceRelativePath=validateResource.getProject().getName()+File.separator+resourcesFolder.getProjectRelativePath().toString()+componentPath;
+		}
+		return MessageFormat.format(JSFUIMessages.Create_JSF_2_Composite_Component,elementName,
+				 projectResourceRelativePath);
 	}
 
 	@SuppressWarnings("unchecked")
