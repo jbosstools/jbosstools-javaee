@@ -182,23 +182,19 @@ public class ParametedTypeFactory {
 		IType contextType = context instanceof IType ? (IType)context : context.getDeclaringType();
 		String key = context == null ? typeParameterSignature : contextType.getFullyQualifiedName() + "+" + typeParameterSignature;
 
-		String t = typeParameterSignature;
-		int q = t.indexOf(":");
-		if(q >= 0) {
-			t = t.substring(0, q);
-		}
+		String t = Signature.getTypeVariable(typeParameterSignature);
+		String[] bounds = Signature.getTypeParameterBounds(typeParameterSignature);
+		
 		t = "Q" + t + ";";
 		if(result == null || t.equals(result.getSignature())) {
-			if(q >= 0) {
-				String sts = typeParameterSignature.substring(q + 1);
-				if(sts.length() > 0) {
-					ParametedType st = getParametedType(contextType, sts);
-					if(st != null) {
-						result = new TypeDeclaration(st, 0, 0);
-					}
-				} else if(result != null) {
-					result.setSignature(t);
+			String sts = bounds.length > 0 ? bounds[0] : "";
+			if(sts.length() > 0) {
+				ParametedType st = getParametedType(contextType, sts);
+				if(st != null) {
+					result = new TypeDeclaration(st, 0, 0);
 				}
+			} else if(result != null) {
+				result.setSignature(t);
 			}
 			if(result == null) {
 				result = new ParametedType();
