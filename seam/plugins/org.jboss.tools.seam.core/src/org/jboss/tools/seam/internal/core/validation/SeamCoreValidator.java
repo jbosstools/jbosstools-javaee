@@ -822,9 +822,11 @@ public class SeamCoreValidator extends SeamValidationErrorManager implements IVa
 		if(dataModelName==null) {
 			// here must be the only one @DataModel in the component
 			Set<IBijectedAttribute> dataBinders = declaration.getBijectedAttributesByType(BijectedAttributeType.DATA_BINDER);
+			ITextSourceReference location = null;
 			if(dataBinders!=null && dataBinders.size()>1) {
 				for (IBijectedAttribute dataBinder : dataBinders) {
-					addError(SeamValidationMessages.MULTIPLE_DATA_BINDER, SeamPreferences.MULTIPLE_DATA_BINDER, dataBinder, declaration.getResource());
+					location = dataBinder.getLocationFor(SeamComponentDeclaration.PATH_OF_NAME);
+					addError(SeamValidationMessages.MULTIPLE_DATA_BINDER, SeamPreferences.MULTIPLE_DATA_BINDER, location, declaration.getResource());
 				}
 			}
 		} else {
