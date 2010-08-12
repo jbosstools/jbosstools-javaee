@@ -1429,7 +1429,7 @@ public class ValidationTest extends TCKTest {
 
 	public void testStereotypeWithMissingTarget() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/annotations/stereotype/broken/FishStereotype_MissingTarget.java");
-		assertMarkerIsCreated(file, CDIValidationMessages.MISSING_TARGET_ANNOTATION_IN_STEREOTYPE_TYPE, 19);
+		assertMarkerIsCreated(file, CDIValidationMessages.MISSING_TARGET_ANNOTATION_IN_STEREOTYPE_TYPE.substring(0, 56) + ".*", 19);
 	}
 
 	public void testStereotypeWithMissingRetention() throws Exception {
@@ -1439,12 +1439,12 @@ public class ValidationTest extends TCKTest {
 
 	public void testStereotypeWithWrongTarget() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/annotations/stereotype/broken/FishStereotype_WrongTarget.java");
-		assertMarkerIsCreated(file, CDIValidationMessages.MISSING_TARGET_ANNOTATION_IN_STEREOTYPE_TYPE, 15);
+		assertMarkerIsCreated(file, CDIValidationMessages.MISSING_TARGET_ANNOTATION_IN_STEREOTYPE_TYPE.substring(0, 56) + ".*", 15);
 	}
 
 	public void testScopeWithMissingTarget() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/annotations/scope/broken/FooScoped_MissingTarget.java");
-		assertMarkerIsCreated(file, CDIValidationMessages.MISSING_TARGET_ANNOTATION_IN_SCOPE_TYPE, 33);
+		assertMarkerIsCreated(file, CDIValidationMessages.MISSING_TARGET_ANNOTATION_IN_SCOPE_TYPE.substring(0, 52) + ".*", 33);
 	}
 
 	public void testScopeWithMissingRetention() throws Exception {
@@ -1454,7 +1454,7 @@ public class ValidationTest extends TCKTest {
 
 	public void testScopeWithWrongTarget() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/annotations/scope/broken/FooScoped_WrongTarget.java");
-		assertMarkerIsCreated(file, CDIValidationMessages.MISSING_TARGET_ANNOTATION_IN_SCOPE_TYPE, 30);
+		assertMarkerIsCreated(file, CDIValidationMessages.MISSING_TARGET_ANNOTATION_IN_SCOPE_TYPE.substring(0, 52) + ".*", 30);
 	}
 
 	/**
