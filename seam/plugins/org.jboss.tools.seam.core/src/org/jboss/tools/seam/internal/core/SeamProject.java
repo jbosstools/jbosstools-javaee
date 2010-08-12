@@ -13,7 +13,9 @@ package org.jboss.tools.seam.internal.core;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -1984,7 +1986,9 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 				sc = new HashSet<SeamComponentDeclaration>();
 				declarationsBySource.put(path, sc);
 			}
-			sc.add(d);
+			synchronized(sc) {
+				sc.add(d);
+			}
 			if(d instanceof ISeamJavaComponentDeclaration) {
 				SeamJavaComponentDeclaration jd = (SeamJavaComponentDeclaration)d;
 				for (ISeamContextVariable v: jd.getDeclaredVariables()) addVariable(v);
@@ -2006,14 +2010,24 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 			IPath path = d.getSourcePath();
 			Set<SeamComponentDeclaration> sc = declarationsBySource.get(path);
 			if(sc != null) {
-				sc.remove(d);
+				synchronized(sc) {
+					sc.remove(d);
+				}
 				if(sc.isEmpty()) declarationsBySource.remove(path);
 			}
 			removeDeclarationWithClass(d);
 		}
 		
 		public Set<SeamComponentDeclaration> getDeclarationsBySource(IPath path) {
-			return declarationsBySource.get(path);
+			Set<SeamComponentDeclaration> result = declarationsBySource.get(path);
+			if (result != null) {
+				Set<SeamComponentDeclaration> copy = new HashSet<SeamComponentDeclaration>();
+				synchronized(result) {
+					copy.addAll(result);
+				}
+				result = copy;
+			}
+			return result;
 		}
 
 		public SeamJavaComponentDeclaration getJavaDeclaration(String className) {
@@ -2029,8 +2043,10 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		public void removePath(IPath path) {
 			Set<SeamComponentDeclaration> sd = declarationsBySource.get(path);
 			if(sd == null) return;
-			for (SeamComponentDeclaration d: sd) {
-				removeDeclarationWithClass(d);
+			synchronized(sd) {
+				for (SeamComponentDeclaration d: sd) {
+					removeDeclarationWithClass(d);
+				}
 			}
 			declarationsBySource.remove(path);
 		}
