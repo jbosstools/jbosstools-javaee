@@ -10,6 +10,9 @@
  ******************************************************************************/ 
 package org.jboss.tools.cdi.ui.test.wizard;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import junit.framework.TestCase;
 
 import org.eclipse.core.resources.IFile;
@@ -31,6 +34,7 @@ import org.jboss.tools.cdi.core.ICDIAnnotation;
 import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.ui.CDIUIPlugin;
 //import org.jboss.tools.cdi.ui.wizard.NewCDIAnnotationWizardPage;
+import org.jboss.tools.cdi.ui.wizard.NewDecoratorWizardPage;
 import org.jboss.tools.cdi.ui.wizard.NewInterceptorBindingWizardPage;
 import org.jboss.tools.cdi.ui.wizard.NewInterceptorWizardPage;
 import org.jboss.tools.cdi.ui.wizard.NewQualifierWizardPage;
@@ -54,6 +58,7 @@ public class NewCDIWizardTest extends TestCase {
 	static String SCOPE_NAME = "MyScope";
 	static String INTERCEPTOR_BINDING_NAME = "MyInterceptorBinding";
 	static String INTERCEPTOR_NAME = "MyInterceptor";
+	static String DECORATOR_NAME = "MapDecorator<K,V>";
 	
 	static class WizardContext {
 		NewElementWizard wizard;
@@ -88,7 +93,10 @@ public class NewCDIWizardTest extends TestCase {
 		public String getNewTypeContent() {
 			IType type = null;
 			try {
-				type = jp.findType(packName + "." + typeName);
+				String tn = typeName;
+				int q = tn.indexOf("<");
+				if(q >= 0) tn = tn.substring(0, q);
+				type = jp.findType(packName + "." + tn);
 			} catch (JavaModelException e) {
 				JUnitUtils.fail("Cannot find type " + typeName, e);
 			}
@@ -224,6 +232,32 @@ public class NewCDIWizardTest extends TestCase {
 			assertTrue(text.contains("@Interceptor"));
 			assertTrue(text.contains("@" + INTERCEPTOR_BINDING_NAME));
 			
+		} finally {
+			context.close();
+		}
+	}
+
+	public void testNewDecoratorWizard() {
+		WizardContext context = new WizardContext();
+		context.init("org.jboss.tools.cdi.ui.wizard.NewDecoratorCreationWizard",
+				PACK_NAME, DECORATOR_NAME);JobUtils.waitForIdle(2000);
+		JobUtils.waitForIdle(2000);
+		ICDIProject cdi = CDICorePlugin.getCDIProject(context.tck, true);
+		
+		try {
+			NewDecoratorWizardPage page = (NewDecoratorWizardPage)context.page;
+			
+			List<String> interfacesNames = new ArrayList<String>();
+			interfacesNames.add("java.util.Map<K,V>");
+			page.setSuperInterfaces(interfacesNames, true);
+			
+			context.wizard.performFinish();
+			
+			String text = context.getNewTypeContent();
+			System.out.println(text);
+			
+			assertTrue(text.contains("@Decorator"));
+			assertTrue(text.contains("@Delegate"));
 		} finally {
 			context.close();
 		}
