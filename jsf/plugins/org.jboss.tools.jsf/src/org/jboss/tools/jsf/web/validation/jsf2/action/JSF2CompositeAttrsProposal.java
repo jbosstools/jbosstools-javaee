@@ -11,6 +11,7 @@
 
 package org.jboss.tools.jsf.web.validation.jsf2.action;
 
+import java.text.MessageFormat;
 import java.util.Map;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
@@ -19,6 +20,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
+import org.jboss.tools.jsf.JSFModelPlugin;
 import org.jboss.tools.jsf.jsf2.util.JSF2ResourceUtil;
 import org.jboss.tools.jsf.messages.JSFUIMessages;
 import org.jboss.tools.jsf.web.validation.jsf2.JSF2XMLValidator;
@@ -34,9 +36,18 @@ public class JSF2CompositeAttrsProposal extends JSF2AbstractProposal {
 
 	private String componentPath = null;
 	private String[] attrs = null;
+	private String elementName = null;
+	private String attrName="";
 
-	public JSF2CompositeAttrsProposal() {
-		super();
+	public JSF2CompositeAttrsProposal(IMarker marker) {
+		super(marker.getResource());
+		try {
+			this.elementName=(String) marker.getAttribute(JSF2ResourceUtil.JSF2_COMPONENT_NAME);
+			this.componentPath=(String) marker.getAttribute(JSF2ResourceUtil.COMPONENT_RESOURCE_PATH_KEY);
+			this.attrName=(String)marker.getAttribute(IJSF2ValidationComponent.JSF2_ATTR_NAME_KEY);
+		} catch (CoreException e) {
+			JSFModelPlugin.getPluginLog().logError(e);
+		}
 	}
 
 	public JSF2CompositeAttrsProposal(IResource validateResource,
@@ -47,7 +58,7 @@ public class JSF2CompositeAttrsProposal extends JSF2AbstractProposal {
 	}
 
 	public String getDisplayString() {
-		return JSFUIMessages.Create_JSF_2_Interface_Attr;
+		return MessageFormat.format(JSFUIMessages.Create_JSF_2_Interface_Attr,attrName,elementName,JSF2ResourceUtil.calculateProjectRelativeJSF2ResourceProposal(validateResource.getProject())+componentPath);
 	}
 
 	@Override

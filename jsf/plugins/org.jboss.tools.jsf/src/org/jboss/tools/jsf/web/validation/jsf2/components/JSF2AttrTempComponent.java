@@ -38,10 +38,13 @@ public class JSF2AttrTempComponent extends JSF2AbstractValidationComponent {
 	}
 
 	public void createValidationMessage() {
-		String nodeName = parentEl.getLocalName();
 		this.validationMessage = MessageFormat.format(
 				JSFUIMessages.Missing_JSF_2_Component_Attr, attr.getName(),
-				nodeName);
+				getElementName());
+	}
+	
+	public String getElementName(){
+		return parentEl.getLocalName();
 	}
 
 	public String getValidationMessage() {

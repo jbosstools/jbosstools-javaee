@@ -43,7 +43,7 @@ public class JSF2ComponentResolutionGenerator implements
 					return new IMarkerResolution[] { new JSF2CompositeComponentProposal(marker) };
 				}
 				if (IJSF2ValidationComponent.JSF2_FIXABLE_ATTR_TYPE.equals(fixType)) {
-					return new IMarkerResolution[] { new JSF2CompositeAttrsProposal() };
+					return new IMarkerResolution[] { new JSF2CompositeAttrsProposal(marker) };
 				}
 				if (IJSF2ValidationComponent.JSF2_URI_TYPE.equals(fixType)) {
 					return new IMarkerResolution[] { new JSF2ResourcesFolderProposal(marker) };

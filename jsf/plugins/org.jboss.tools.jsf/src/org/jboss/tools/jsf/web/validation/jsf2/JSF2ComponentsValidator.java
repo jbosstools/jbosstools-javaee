@@ -129,6 +129,7 @@ public class JSF2ComponentsValidator extends Validator {
 					component.getName());
 			message.setAttribute(JSF2ResourceUtil.COMPONENT_RESOURCE_PATH_KEY,
 					component.getComponentResourceLocation());
+			message.setAttribute(JSF2ResourceUtil.JSF2_COMPONENT_NAME, component.getElementName());
 			return;
 		}
 		if (args[0] instanceof JSF2URITempComponent) {
