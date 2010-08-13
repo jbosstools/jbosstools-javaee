@@ -136,7 +136,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		SeamCoreValidatorWrapper seamValidator = new SeamCoreValidatorWrapper(project);
 		seamValidator.validate(componentFile);
 		
-		assertTrue(seamValidator.isMessageCreated(SeamValidationMessages.UNKNOWN_FACTORY_NAME, new String[]{"somethings"}));
+		assertTrue("Error marker not found", seamValidator.isMessageCreated(SeamValidationMessages.UNKNOWN_FACTORY_NAME, new String[]{"somethings"}));
 		copyContentsFile(componentFile, "src/action/org/domain/SeamWebWarTestProject/session/FactoryTest.original");
 	}
 
@@ -184,7 +184,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		SeamCoreValidatorWrapper seamValidator = new SeamCoreValidatorWrapper(project);
 		seamValidator.validate(subclassComponentFile);
 
-		assertTrue(seamValidator.isMessageCreated(SeamValidationMessages.STATEFUL_COMPONENT_DOES_NOT_CONTAIN_REMOVE, new String[]{"testComponentJBIDE1696"}));	
+		assertTrue("Error marker not found", seamValidator.isMessageCreated(SeamValidationMessages.STATEFUL_COMPONENT_DOES_NOT_CONTAIN_REMOVE, new String[]{"testComponentJBIDE1696"}));	
 
 		IFile superclassComponentFile = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/SuperclassTestComponent.java");
 		copyContentsFile(superclassComponentFile, "src/action/org/domain/SeamWebWarTestProject/session/SuperclassTestComponent.withRemove");
@@ -206,8 +206,8 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		ELValidatorWrapper elValidator = new ELValidatorWrapper(project);
 		elValidator.validate(jbide1631XHTMLFile);
 		
-		assertTrue(elValidator.isMessageCreated(JSFValidationMessages.UNKNOWN_EL_VARIABLE_NAME, new Object[]{"foo1"}));
-		assertTrue(elValidator.isMessageCreated(JSFValidationMessages.UNKNOWN_EL_VARIABLE_NAME, new Object[]{"foo2"}));
+		assertTrue("Error marker not found", elValidator.isMessageCreated(JSFValidationMessages.UNKNOWN_EL_VARIABLE_NAME, new Object[]{"foo1"}));
+		assertTrue("Error marker not found", elValidator.isMessageCreated(JSFValidationMessages.UNKNOWN_EL_VARIABLE_NAME, new Object[]{"foo2"}));
 	}
 	
 	public void testDuplicateComponentNameValidator() throws CoreException, ValidationException {
@@ -219,7 +219,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		
 		SeamCoreValidatorWrapper seamValidator = new SeamCoreValidatorWrapper(project);
 		seamValidator.validate(bbcComponentFile);
-		assertTrue(!seamValidator.isMessageCreated(
+		assertFalse("Error marker was found", seamValidator.isMessageCreated(
 				SeamValidationMessages.NONUNIQUE_COMPONENT_NAME_MESSAGE, new Object[]{"abcComponent"}));
 		
 		// Duplicate component name
@@ -228,7 +228,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 				"src/action/org/domain/SeamWebWarTestProject/session/BbcComponent.2");
 		seamValidator = new SeamCoreValidatorWrapper(project);
 		seamValidator.validate(bbcComponentFile);		
-		assertTrue(seamValidator.isMessageCreated(
+		assertTrue("Error marker not found", seamValidator.isMessageCreated(
 				SeamValidationMessages.NONUNIQUE_COMPONENT_NAME_MESSAGE, new Object[]{"abcComponent"}));
 		
 		// restore file content
@@ -276,8 +276,8 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 			Object[] parameters,int lineNumber) throws CoreException, ValidationException {
 		IFile targetFile = project.getFile(target);
 		validator.validate(targetFile);
-		assertTrue(validator.isMessageCreated(markerTemplate, parameters));
-		assertTrue(validator.isMessageCreatedOnLine(markerTemplate, parameters,lineNumber));
+		assertTrue("Error marker not found", validator.isMessageCreated(markerTemplate, parameters));
+		assertTrue("Error marker has wrong line number", validator.isMessageCreatedOnLine(markerTemplate, parameters,lineNumber));
 	}
 
 	private void assertMarkerIsNotCreatedForFile(String target, String newContent, String markerTemplate,
@@ -304,7 +304,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		throws ValidationException, CoreException {
 		IFile targetFile = project.getFile(target);
 		validator.validate(targetFile);
-		assertTrue(!validator.isMessageCreated(markerTemplate, parameters));
+		assertFalse("Error marker was found", validator.isMessageCreated(markerTemplate, parameters));
 	}
 
 	public void testStatefulComponentWithoutDestroyMethodValidator() throws CoreException, ValidationException {
@@ -540,50 +540,43 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 			21);
 	}
 
-	public void testMultipleDataBinderValidator() throws CoreException {
-		IFile selectionTestFile = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/SelectionTest.java");
-		IFile selectionIndexTestFile = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/SelectionIndexTest.java");
+	public void testMultipleDataBinderValidator() throws CoreException, ValidationException {
 		
-		int number = getMarkersNumber(selectionTestFile);
-		assertEquals("Problem marker was found in SelectionIndexTest.java", 0, number);
+		assertMarkerIsNotCreatedForFile(
+				"src/action/org/domain/SeamWebWarTestProject/session/SelectionTest.java",
+				SeamValidationMessages.MULTIPLE_DATA_BINDER,
+				new Object[] {});
 		
-		number = getMarkersNumber(selectionIndexTestFile);
-		assertEquals("Problem marker was found in SelectionIndexTest.java", 0, number);
+		assertMarkerIsNotCreatedForFile(
+				"src/action/org/domain/SeamWebWarTestProject/session/SelectionIndexTest.java",
+				SeamValidationMessages.MULTIPLE_DATA_BINDER,
+				new Object[] {});
+		
+		assertMarkerIsCreatedForLine(
+				"src/action/org/domain/SeamWebWarTestProject/session/SelectionTest.java",
+				"src/action/org/domain/SeamWebWarTestProject/session/SelectionTest.2",
+				SeamValidationMessages.MULTIPLE_DATA_BINDER,
+				new Object[] {},
+				21);
+		
+		assertMarkerIsCreatedForLine(
+				"src/action/org/domain/SeamWebWarTestProject/session/SelectionTest.java",
+				SeamValidationMessages.MULTIPLE_DATA_BINDER,
+				new Object[] {},
+				24);
+		
+		assertMarkerIsCreatedForLine(
+				"src/action/org/domain/SeamWebWarTestProject/session/SelectionIndexTest.java",
+				"src/action/org/domain/SeamWebWarTestProject/session/SelectionIndexTest.2",
+				SeamValidationMessages.MULTIPLE_DATA_BINDER,
+				new Object[] {},
+				21);
 
-		// Multiple data binder
-		
-		copyContentsFile(selectionTestFile, "src/action/org/domain/SeamWebWarTestProject/session/SelectionTest.2");
-
-		copyContentsFile(selectionIndexTestFile, "src/action/org/domain/SeamWebWarTestProject/session/SelectionIndexTest.2");
-		
-		
-		number = getMarkersNumber(selectionTestFile);
-		assertFalse("Problem marker 'Multiple data binder' was not found", number == 0);
-
-		String[] messages = getMarkersMessage(selectionTestFile, SEAM_MARKER_FILTER);
-		assertTrue("Problem marker 'Multiple data binder", messages[0].startsWith("@DataModelSelection and @DataModelSelectionIndex without name of the DataModel requires the only one @DataModel in the component"));
-
-		Integer[] lineNumbers = getMarkersNumbersOfLine(selectionTestFile, SEAM_MARKER_FILTER);
-		
-		assertTrue("Wrong number of problem markers", lineNumbers.length == messages.length && messages.length == 2);
-		
-		assertTrue("Problem marker has wrong line number", lineNumbers[0] == 21 || lineNumbers[0] == 24);
-		assertTrue("Problem marker has wrong line number", lineNumbers[0] == 21 || lineNumbers[0] == 24);
-
-		number = getMarkersNumber(selectionIndexTestFile);
-		assertFalse("Problem marker 'Multiple data binder' was not found", number == 0);
-		
-		messages = getMarkersMessage(selectionIndexTestFile, SEAM_MARKER_FILTER);
-		assertTrue("Problem marker 'Multiple data binder", messages[0].startsWith("@DataModelSelection and @DataModelSelectionIndex without name of the DataModel requires the only one @DataModel in the component"));
-
-		lineNumbers = getMarkersNumbersOfLine(selectionIndexTestFile, SEAM_MARKER_FILTER);
-		
-		assertTrue("Wrong number of problem markers", lineNumbers.length == messages.length && messages.length == 2);
-		
-		assertTrue("Problem marker has wrong line number", lineNumbers[0] == 21 || lineNumbers[0] == 24);
-		assertTrue("Problem marker has wrong line number", lineNumbers[0] == 21 || lineNumbers[0] == 24);
-		
-		
+		assertMarkerIsCreatedForLine(
+				"src/action/org/domain/SeamWebWarTestProject/session/SelectionIndexTest.java",
+				SeamValidationMessages.MULTIPLE_DATA_BINDER,
+				new Object[] {},
+				24);
 	}
 	
 	public void testUnknownDataModelNameValidator() throws CoreException, ValidationException {
@@ -606,35 +599,26 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 				27);
 	}
 
-	public void testDuplicateVariableName_Validator() throws CoreException {
+	public void testDuplicateVariableName_Validator() throws CoreException, ValidationException {
 		modifyPreferences();
+		
+		assertMarkerIsNotCreatedForFile(
+				"src/action/org/domain/SeamWebWarTestProject/session/ContextVariableTest.java",
+				SeamValidationMessages.DUPLICATE_VARIABLE_NAME,
+				new Object[] {"messageList"});
+		
+		assertMarkerIsCreatedForLine(
+				"src/action/org/domain/SeamWebWarTestProject/session/ContextVariableTest.java",
+				"src/action/org/domain/SeamWebWarTestProject/session/ContextVariableTest.2",
+				SeamValidationMessages.DUPLICATE_VARIABLE_NAME,
+				new Object[] {"messageList"},
+				36);
 
-		IFile contextVariableTestFile = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/ContextVariableTest.java");
-		
-		refreshProject(project);
-		
-		int number = getMarkersNumber(contextVariableTestFile);
-		assertEquals("Problem marker was found in contextVariableTestFile.java", 0, number);
-		
-		// Duplicate variable name
-		
-		copyContentsFile(contextVariableTestFile, "src/action/org/domain/SeamWebWarTestProject/session/ContextVariableTest.2");
-		
-		refreshProject(project);
-		
-		String[] messages = getMarkersMessage(contextVariableTestFile, SEAM_MARKER_FILTER);
-		
-		assertEquals("Not all problem markers 'Duplicate variable name' was found", 2, messages.length);
-		
-		for(int i=0;i<2;i++)
-			assertEquals("Problem marker 'Duplicate factory name' not found", "Duplicate factory name: \"messageList\"", messages[i]);
-		
-		Integer[] lineNumbers = getMarkersNumbersOfLine(contextVariableTestFile, SEAM_MARKER_FILTER);
-		
-		for(int i=0;i<2;i++)
-			assertTrue("Problem marker has wrong line number", (lineNumbers[i] == 36)||(lineNumbers[i] == 41));
-		
-		
+		assertMarkerIsCreatedForLine(
+				"src/action/org/domain/SeamWebWarTestProject/session/ContextVariableTest.java",
+				SeamValidationMessages.DUPLICATE_VARIABLE_NAME,
+				new Object[] {"messageList"},
+				41);
 	}
 	
 	public void testUnknownVariableNameValidator() throws CoreException, ValidationException {
@@ -713,7 +697,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 	}
 	
 	public void testPropertyHasOnlyGetterValidator() throws CoreException, ValidationException {
-		project.build(IncrementalProjectBuilder.CLEAN_BUILD, null);
+		project.build(IncrementalProjectBuilder.FULL_BUILD, null);
 		try {
 			enableUnpairGetterOrSetterValidation(true);
 
@@ -766,48 +750,54 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 	}
 
 	// See https://jira.jboss.org/jira/browse/JBIDE-4393
-	public void testDuplicateComponents() throws CoreException {
-		refreshProject(project);
-		IFile duplicateJavaComponentFile = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/DuplicateComponent.java");
-		IFile componentsXmlFile = project.getFile("WebContent/WEB-INF/components.xml");
-
-		copyContentsFile(componentsXmlFile, "WebContent/WEB-INF/duplicateComponents.test");
+	public void testDuplicateComponents() throws CoreException, ValidationException {
 		
-		Integer[] lineNumbers = getMarkersNumbersOfLine(duplicateJavaComponentFile, SEAM_MARKER_FILTER);
-		assertEquals("There should be the only one error marker in DuplicateComponent.java.", 1, lineNumbers.length);
-		assertEquals("Problem marker has wrong line number", 5, lineNumbers[0].intValue());
+		assertMarkerIsCreatedForLine(
+				"WebContent/WEB-INF/components.xml",
+				"WebContent/WEB-INF/duplicateComponents.test",
+				SeamValidationMessages.NONUNIQUE_COMPONENT_NAME_MESSAGE,
+				new Object[] {"duplicateJavaAndXmlComponentName"},
+				5);
 
-		lineNumbers = getMarkersNumbersOfLine(componentsXmlFile, SEAM_MARKER_FILTER);
-		assertEquals("There should be two error marker in components.xml.", 2, lineNumbers.length);
-		assertTrue("Problem marker was not found on 8 line", findLine(lineNumbers, 8));
-		assertTrue("Problem marker was not found on 9 line", findLine(lineNumbers, 9));
+		assertMarkerIsCreatedForLine(
+				"WebContent/WEB-INF/components.xml",
+				SeamValidationMessages.NONUNIQUE_COMPONENT_NAME_MESSAGE,
+				new Object[] {"duplicateJavaAndXmlComponentName"},
+				8);
+
+		assertMarkerIsCreatedForLine(
+				"src/action/org/domain/SeamWebWarTestProject/session/DuplicateComponent.java",
+				SeamValidationMessages.NONUNIQUE_COMPONENT_NAME_MESSAGE,
+				new Object[] {"duplicateJavaAndXmlComponentName"},
+				5);
+		
 	}
 
 	// See https://jira.jboss.org/jira/browse/JBIDE-4515
-	public void testRevalidationUnresolvedELs() throws CoreException{
-		refreshProject(project);
+	public void testRevalidationUnresolvedELs() throws CoreException, ValidationException {
 		JSFModelPlugin.getDefault().getPreferenceStore().setValue(JSFSeverityPreferences.RE_VALIDATE_UNRESOLVED_EL, SeamPreferences.ENABLE);
 		JSFModelPlugin.getDefault().getPreferenceStore().setValue(JSFSeverityPreferences.UNKNOWN_EL_VARIABLE_NAME, SeamPreferences.ERROR);
-
-		IFile componentFile = project.getFile("src/action/org/domain/SeamWebWarTestProject/entity/TestElRevalidation.java");
-		IFile xhtmlFile = project.getFile("WebContent/testElRevalidation.xhtml");
-
-		copyContentsFile(componentFile, "src/action/org/domain/SeamWebWarTestProject/entity/TestElRevalidation.new");
-
-		refreshProject(project);
-
-		IMarker[] markers = findMarkers(xhtmlFile, IMarker.PROBLEM, "\"testElRevalidation\" cannot be resolved");
-		assertEquals("There should be an unresolved EL in testElRevalidation.xhtml.", 1, markers.length);
 		
+		copyContentsFile("src/action/org/domain/SeamWebWarTestProject/entity/TestElRevalidation.java", "src/action/org/domain/SeamWebWarTestProject/entity/TestElRevalidation.new");
+		
+		assertMarkerIsCreatedForLine(
+				new ELValidatorWrapper(project),
+				"WebContent/testElRevalidation.xhtml",
+				JSFValidationMessages.UNKNOWN_EL_VARIABLE_PROPERTY_NAME,
+				new Object[] {"testElRevalidation"},
+				6);
 
 		JSFModelPlugin.getDefault().getPreferenceStore().setValue(JSFSeverityPreferences.RE_VALIDATE_UNRESOLVED_EL, SeamPreferences.DISABLE);
+		
 		// Check if the validator was not invoked.
-		copyContentsFile(componentFile, "src/action/org/domain/SeamWebWarTestProject/entity/TestElRevalidation.original");
-
-		refreshProject(project);
-
-		markers = findMarkers(xhtmlFile, IMarker.PROBLEM, "\"testElRevalidation\" cannot be resolved");
-		assertEquals("There should be an unresolved EL in testElRevalidation.xhtml.", 1, markers.length);
+		copyContentsFile("src/action/org/domain/SeamWebWarTestProject/entity/TestElRevalidation.java", "src/action/org/domain/SeamWebWarTestProject/entity/TestElRevalidation.original");
+		
+		assertMarkerIsCreatedForLine(
+				new ELValidatorWrapper(project),
+				"WebContent/testElRevalidation.xhtml",
+				JSFValidationMessages.UNKNOWN_EL_VARIABLE_PROPERTY_NAME,
+				new Object[] {"testElRevalidation"},
+				6);
 
 		JSFModelPlugin.getDefault().getPreferenceStore().setValue(JSFSeverityPreferences.RE_VALIDATE_UNRESOLVED_EL, SeamPreferences.ENABLE);
 		JSFModelPlugin.getDefault().getPreferenceStore().setValue(JSFSeverityPreferences.UNKNOWN_EL_VARIABLE_NAME, SeamPreferences.IGNORE);
