@@ -11,9 +11,12 @@
 
 package org.jboss.tools.jsf.web.validation.jsf2.action;
 
+import java.text.MessageFormat;
+
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
+import org.jboss.tools.jsf.JSFModelPlugin;
 import org.jboss.tools.jsf.jsf2.util.JSF2ResourceUtil;
 import org.jboss.tools.jsf.messages.JSFUIMessages;
 import org.jboss.tools.jsf.web.validation.jsf2.JSF2XMLValidator;
@@ -28,9 +31,16 @@ import org.jboss.tools.jsf.web.validation.jsf2.components.IJSF2ValidationCompone
 public class JSF2ResourcesFolderProposal extends JSF2AbstractProposal {
 
 	private String componentPath = null;
+	private String URL=null;
 
-	public JSF2ResourcesFolderProposal() {
-		super();
+	public JSF2ResourcesFolderProposal(IMarker marker) {
+			super(marker.getResource());
+		try {
+			this.componentPath=(String) marker.getAttribute(JSF2ResourceUtil.COMPONENT_RESOURCE_PATH_KEY);
+			this.URL = (String) marker.getAttribute(IJSF2ValidationComponent.JSF2_URI_NAME_KEY);
+		} catch (CoreException e) {
+			JSFModelPlugin.getPluginLog().logError(e);
+		}
 	}
 
 	public JSF2ResourcesFolderProposal(IResource validateResource, String compPath) {
@@ -39,7 +49,8 @@ public class JSF2ResourcesFolderProposal extends JSF2AbstractProposal {
 	}
 
 	public String getDisplayString() {
-		return JSFUIMessages.Create_JSF_2_Resources_Folder;
+		return MessageFormat.format(JSFUIMessages.Create_JSF_2_Resources_Folder,
+				JSF2ResourceUtil.calculateProjectRelativeJSF2ResourceProposal(validateResource.getProject())+componentPath,URL);
 	}
 
 	@Override

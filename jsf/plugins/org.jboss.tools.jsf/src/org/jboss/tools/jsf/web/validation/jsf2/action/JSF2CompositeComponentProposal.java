@@ -30,6 +30,7 @@ import org.eclipse.ui.ide.IDE;
 import org.eclipse.wst.common.componentcore.ComponentCore;
 import org.eclipse.wst.common.componentcore.resources.IVirtualComponent;
 import org.eclipse.wst.common.componentcore.resources.IVirtualFolder;
+import org.jboss.tools.jsf.JSFModelPlugin;
 import org.jboss.tools.jsf.jsf2.util.JSF2ResourceUtil;
 import org.jboss.tools.jsf.messages.JSFUIMessages;
 import org.jboss.tools.jsf.web.validation.jsf2.JSF2XMLValidator;
@@ -47,10 +48,14 @@ public class JSF2CompositeComponentProposal extends JSF2AbstractProposal {
 	private String[] attrs = null;
 	private String elementName;
 
-	public JSF2CompositeComponentProposal(IResource validateResource, String elementName,String componentPath) {
-		super(validateResource);
-		this.elementName=elementName;
-		this.componentPath=componentPath;
+	public JSF2CompositeComponentProposal(IMarker marker) {
+		super(marker.getResource());
+		try {
+			this.elementName=(String) marker.getAttribute(JSF2ResourceUtil.JSF2_COMPONENT_NAME);
+			this.componentPath=(String) marker.getAttribute(JSF2ResourceUtil.COMPONENT_RESOURCE_PATH_KEY);
+		} catch (CoreException e) {
+			JSFModelPlugin.getPluginLog().logError(e);
+		}
 	}
 
 	public JSF2CompositeComponentProposal(IResource validateResource,
@@ -78,18 +83,8 @@ public class JSF2CompositeComponentProposal extends JSF2AbstractProposal {
 	}
 
 	public String getDisplayString() {
-		IVirtualComponent component = ComponentCore.createComponent(validateResource.getProject());
-		String projectResourceRelativePath = componentPath;
-		if (component != null) {
-			IVirtualFolder webRootFolder = component.getRootFolder().getFolder(
-					new Path("/")); //$NON-NLS-1$
-			IContainer folder = webRootFolder.getUnderlyingFolder();
-			IFolder webFolder = ResourcesPlugin.getWorkspace().getRoot()
-					.getFolder(folder.getFullPath());
-			IFolder resourcesFolder = webFolder.getFolder("resources");
-			resourcesFolder.getProjectRelativePath().toString();
-			projectResourceRelativePath=validateResource.getProject().getName()+File.separator+resourcesFolder.getProjectRelativePath().toString()+componentPath;
-		}
+		String projectResourceRelativePath = JSF2ResourceUtil.calculateProjectRelativeJSF2ResourceProposal(validateResource.getProject())
+		+componentPath;		
 		return MessageFormat.format(JSFUIMessages.Create_JSF_2_Composite_Component,elementName,
 				 projectResourceRelativePath);
 	}

@@ -32,9 +32,12 @@ public class JSF2URITempComponent extends JSF2AbstractValidationComponent {
 	}
 
 	public void createValidationMessage() {
-		String mesParam = "/resources" + URI.replaceAll(JSF2ResourceUtil.JSF2_URI_PREFIX, ""); //$NON-NLS-1$ //$NON-NLS-2$
 		this.validationMessage = MessageFormat.format(
-				JSFUIMessages.Missing_JSF_2_Resources_Folder, mesParam);
+				JSFUIMessages.Missing_JSF_2_Resources_Folder, getResourcesFolder());
+	}
+	
+	public String getResourcesFolder(){
+		return "/resources" + URI.replaceAll(JSF2ResourceUtil.JSF2_URI_PREFIX, ""); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	public String getValidationMessage() {

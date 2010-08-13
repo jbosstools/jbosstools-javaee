@@ -40,15 +40,13 @@ public class JSF2ComponentResolutionGenerator implements
 			String fixType = (String) marker
 					.getAttribute(IJSF2ValidationComponent.JSF2_TYPE_KEY);
 				if (IJSF2ValidationComponent.JSF2_COMPOSITE_COMPONENT_TYPE.equals(fixType)) {
-					return new IMarkerResolution[] { new JSF2CompositeComponentProposal(marker.getResource(),
-							(String) marker.getAttribute(JSF2ResourceUtil.JSF2_COMPONENT_NAME),
-							(String) marker.getAttribute(JSF2ResourceUtil.COMPONENT_RESOURCE_PATH_KEY)) };
+					return new IMarkerResolution[] { new JSF2CompositeComponentProposal(marker) };
 				}
 				if (IJSF2ValidationComponent.JSF2_FIXABLE_ATTR_TYPE.equals(fixType)) {
 					return new IMarkerResolution[] { new JSF2CompositeAttrsProposal() };
 				}
 				if (IJSF2ValidationComponent.JSF2_URI_TYPE.equals(fixType)) {
-					return new IMarkerResolution[] { new JSF2ResourcesFolderProposal() };
+					return new IMarkerResolution[] { new JSF2ResourcesFolderProposal(marker) };
 				}
 		} catch (CoreException e) {
 			JSFModelPlugin.getPluginLog().logError(e);

@@ -137,6 +137,8 @@ public class JSF2ComponentsValidator extends Validator {
 					IJSF2ValidationComponent.JSF2_URI_TYPE);
 			message.setAttribute(IJSF2ValidationComponent.JSF2_URI_NAME_KEY,
 					component.getURI());
+			message.setAttribute(JSF2ResourceUtil.COMPONENT_RESOURCE_PATH_KEY,
+					component.getResourcesFolder());
 		}
 	}
 

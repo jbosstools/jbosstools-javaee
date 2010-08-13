@@ -11,6 +11,7 @@
 
 package org.jboss.tools.jsf.jsf2.util;
 
+import java.io.File;
 import java.util.zip.ZipEntry;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
@@ -250,6 +251,27 @@ public class JSF2ResourceUtil {
 		}
 		return JSF2ComponentModelManager.getManager()
 				.updateJSF2CompositeComponentFile(jsf2ResFile, attrNames);
+	}
+	/**
+	 * Calculates workspace relative jsf2 resources string
+	 * @return workspace relative resource string
+	 * @author mareshkau
+	 */
+	
+	public static String calculateProjectRelativeJSF2ResourceProposal( IProject project){
+		IVirtualComponent component = ComponentCore.createComponent(project);
+		String projectResourceRelativePath = "";
+		if (component != null) {
+			IVirtualFolder webRootFolder = component.getRootFolder().getFolder(
+					new Path("/")); //$NON-NLS-1$
+			IContainer folder = webRootFolder.getUnderlyingFolder();
+			IFolder webFolder = ResourcesPlugin.getWorkspace().getRoot()
+					.getFolder(folder.getFullPath());
+			IFolder resourcesFolder = webFolder.getFolder("resources");
+			resourcesFolder.getProjectRelativePath().toString();
+			projectResourceRelativePath=project.getName()+File.separator+resourcesFolder.getProjectRelativePath().toString();
+		}
+		return projectResourceRelativePath;
 	}
 
 }
