@@ -191,6 +191,18 @@
          </description>
       </wizard>
 
-   </extension>
+      <wizard 
+         category="org.jboss.tools.cdi.ui" 
+         class="org.jboss.tools.cdi.ui.wizard.NewDecoratorCreationWizard" 
+         icon="icons/cdi16.png"
+         id="org.jboss.tools.cdi.ui.wizard.NewDecoratorCreationWizard" 
+         name="Decorator Type" 
+         project="false">
+         <description>
+            Create an Decorator Java File
+         </description>
+      </wizard>
 
+   </extension>
+  
 </plugin>
