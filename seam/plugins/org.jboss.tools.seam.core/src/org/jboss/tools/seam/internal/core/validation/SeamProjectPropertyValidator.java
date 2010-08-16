@@ -36,6 +36,7 @@ import org.eclipse.wst.validation.internal.provisional.core.IValidatorJob;
 import org.jboss.tools.jst.web.kb.internal.validation.ContextValidationHelper;
 import org.jboss.tools.jst.web.kb.internal.validation.ProblemMessage;
 import org.jboss.tools.jst.web.kb.internal.validation.ValidationErrorManager;
+import org.jboss.tools.jst.web.kb.validation.IValidationErrorManager;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.SeamPreferences;
@@ -49,7 +50,7 @@ import org.jboss.tools.seam.internal.core.refactoring.SeamProjectChange;
  */
 public class SeamProjectPropertyValidator implements IValidatorJob {
 
-	private ValidationErrorManager errorManager;
+	private IValidationErrorManager errorManager;
 	private Set<String> validatedProjects = new HashSet<String>();
 	private static Set<String> beingValidatedProjects = new HashSet<String>();
 	private IReporter reporter;
@@ -58,6 +59,10 @@ public class SeamProjectPropertyValidator implements IValidatorJob {
 	 * @see org.eclipse.wst.validation.internal.provisional.core.IValidatorJob#getSchedulingRule(org.eclipse.wst.validation.internal.provisional.core.IValidationContext)
 	 */
 	public ISchedulingRule getSchedulingRule(IValidationContext helper) {
+		return null;
+	}
+	
+	protected IValidationErrorManager getTestValidationErrorManager(){
 		return null;
 	}
 
@@ -73,8 +78,11 @@ public class SeamProjectPropertyValidator implements IValidatorJob {
 				return OK_STATUS;
 			}
 			ISeamProject seamProject = SeamCorePlugin.getSeamProject(project, false);
-	
-			errorManager = new SeamValidationErrorManager() {
+			
+			errorManager = getTestValidationErrorManager();
+			
+			if(errorManager == null)
+				errorManager = new SeamValidationErrorManager() {
 				/* (non-Javadoc)
 				 * @see org.jboss.tools.jst.web.kb.internal.validation.ValidationErrorManager#getMarkerOwner()
 				 */

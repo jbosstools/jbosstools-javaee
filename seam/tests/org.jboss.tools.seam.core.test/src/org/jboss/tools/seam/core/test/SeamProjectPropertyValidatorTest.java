@@ -10,12 +10,18 @@
   ******************************************************************************/
 package org.jboss.tools.seam.core.test;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
+import org.eclipse.wst.validation.internal.core.ValidationException;
 import org.jboss.tools.seam.core.SeamCorePlugin;
+import org.jboss.tools.seam.core.test.validation.IValidatorSupport;
+import org.jboss.tools.seam.core.test.validation.SeamProjectPropertyValidatorWrapper;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
+import org.jboss.tools.seam.internal.core.validation.SeamValidationMessages;
 import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.ProjectImportTestSetup;
 import org.jboss.tools.tests.AbstractResourceMarkerTest;
@@ -65,29 +71,36 @@ public class SeamProjectPropertyValidatorTest extends AbstractResourceMarkerTest
 			JobUtils.waitForIdle(2000);
 		}
 	}
-
-	public void testProjectNameValidation() throws CoreException {
-		assertMarkerIsCreated(ejbProject, null, ".*invalidParentProjectName.*");
-		assertMarkerIsCreated(testProject, null, ".*invalidParentProjectName.*");
-		assertMarkerIsCreated(warProject, null, ".*invalidEjbProjectName.*");
-		assertMarkerIsCreated(warProject, null, ".*invalidTestProjectName.*");
+	
+	protected void assertMarkerIsCreated(IProject project, String template, Object[] parameters) throws CoreException, ValidationException {
+		IValidatorSupport validator = new SeamProjectPropertyValidatorWrapper(project);
+		validator.validate();
+		assertTrue("Error marker not found", validator.isMessageCreated(template, parameters));
 	}
 
-	public void testFolderNameValidation() throws CoreException {
-		assertMarkerIsCreated(warProject, null, ".*invalidWebFolderPath.*");
-		assertMarkerIsCreated(warProject, null, ".*invalidModelSrcFolderPath.*");
-		assertMarkerIsCreated(warProject, null, ".*invalidSessionBeanSrcFolderPath.*");
-		assertMarkerIsCreated(warProject, null, ".*invalidTestSrcFolderPath.*");
+
+	public void testProjectNameValidation() throws CoreException, ValidationException {
+		assertMarkerIsCreated(ejbProject, SeamValidationMessages.INVALID_PARENT_PROJECT, new Object[]{"invalidParentProjectName","RefactoringTestProject-ejb"});
+		//assertMarkerIsCreated(testProject, SeamValidationMessages.INVALID_TEST_PROJECT, new Object[]{"invalidTestProjectName", "RefactoringTestProject-test"});
+		assertMarkerIsCreated(warProject, SeamValidationMessages.INVALID_EJB_PROJECT, new Object[]{"invalidEjbProjectName", "RefactoringTestProject-war"});
+		assertMarkerIsCreated(warProject, SeamValidationMessages.INVALID_TEST_PROJECT, new Object[]{"invalidTestProjectName", "RefactoringTestProject-war"});
 	}
 
-	public void testPackageNameValidation() throws CoreException {
-		assertMarkerIsCreated(warProject, null, ".*invalid model package name.*");
-		assertMarkerIsCreated(warProject, null, ".*invalid session bean package name.*");
-		assertMarkerIsCreated(warProject, null, ".*invalid test package name.*");
+	public void testFolderNameValidation() throws CoreException, ValidationException {
+		assertMarkerIsCreated(warProject, SeamValidationMessages.INVALID_WEBFOLDER, new Object[]{"invalidWebFolderPath", "RefactoringTestProject-war"});
+		assertMarkerIsCreated(warProject, SeamValidationMessages.INVALID_MODEL_SRC, new Object[]{"invalidModelSrcFolderPath", "RefactoringTestProject-war"});
+		assertMarkerIsCreated(warProject, SeamValidationMessages.INVALID_ACTION_SRC, new Object[]{"invalidSessionBeanSrcFolderPath", "RefactoringTestProject-war"});
+		assertMarkerIsCreated(warProject, SeamValidationMessages.INVALID_TEST_SRC, new Object[]{"invalidTestSrcFolderPath", "RefactoringTestProject-war"});
 	}
 
-	public void testRuntimeNameValidation() throws CoreException {
-		assertMarkerIsCreated(warProject, null, ".*invalidRuntimeName.*");
+	public void testPackageNameValidation() throws CoreException, ValidationException {
+		assertMarkerIsCreated(warProject, SeamValidationMessages.INVALID_MODEL_PACKAGE_NAME, new Object[]{"invalid model package name", "RefactoringTestProject-war"});
+		assertMarkerIsCreated(warProject, SeamValidationMessages.INVALID_ACTION_PACKAGE_NAME, new Object[]{"invalid session bean package name", "RefactoringTestProject-war"});
+		assertMarkerIsCreated(warProject, SeamValidationMessages.INVALID_TEST_PACKAGE_NAME, new Object[]{"invalid test package name", "RefactoringTestProject-war"});
+	}
+
+	public void testRuntimeNameValidation() throws CoreException, ValidationException {
+		assertMarkerIsCreated(warProject, SeamValidationMessages.INVALID_SEAM_RUNTIME, new Object[]{"invalidRuntimeName", "RefactoringTestProject-war"});
 	}
 
 }

@@ -57,7 +57,10 @@ public class ValidatorSupport implements IReporter, IValidatorSupport {
 		boolean result = false;
 		for (IMarker marker : markers) {
 			String message = marker.getAttribute(IMarker.MESSAGE,"").toString();
-			if(messagePattern.matches(message)) {
+			if(messagePattern.equals(message)){
+				result = true;
+				break;
+			}else if(messagePattern.matches(message)) {
 				result = true;
 				break;
 			}
