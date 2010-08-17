@@ -66,7 +66,6 @@ public class SeamProjectPropertyValidatorWrapper extends SeamProjectPropertyVali
 				lineNumber);
 	}
 
-	@Override
 	public IStatus validate(Set<IFile> changedFiles, IProject project,
 			ContextValidationHelper validationHelper, ValidatorManager manager,
 			IReporter reporter) throws ValidationException {
@@ -97,7 +96,6 @@ public class SeamProjectPropertyValidatorWrapper extends SeamProjectPropertyVali
 		return validateInJob(validationHelper, reporter);
 	}
 
-	@Override
 	public IStatus validateAll(IProject project,
 			ContextValidationHelper validationHelper, ValidatorManager manager,
 			IReporter reporter) throws ValidationException {
@@ -105,23 +103,19 @@ public class SeamProjectPropertyValidatorWrapper extends SeamProjectPropertyVali
 		return null;
 	}
 
-	@Override
 	public String getId() {
 		return "id";
 	}
 
-	@Override
 	public IValidatingProjectSet getValidatingProjects(IProject project) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
 	public boolean shouldValidate(IProject project) {
 		return true;
 	}
 
-	@Override
 	public boolean isEnabled(IProject project) {
 		return true;
 	}
@@ -130,7 +124,6 @@ public class SeamProjectPropertyValidatorWrapper extends SeamProjectPropertyVali
 		return this;
 	}
 
-	@Override
 	public void init(
 			IProject project,
 			ContextValidationHelper validationHelper,
@@ -141,7 +134,6 @@ public class SeamProjectPropertyValidatorWrapper extends SeamProjectPropertyVali
 		errorManager.init(project, vh, manager, reporter);
 	}
 
-	@Override
 	public IMarker addError(String message, String preferenceKey,
 			String[] messageArguments, ITextSourceReference location,
 			IResource target) {
@@ -150,7 +142,6 @@ public class SeamProjectPropertyValidatorWrapper extends SeamProjectPropertyVali
 		return marker;
 	}
 
-	@Override
 	public IMarker addError(String message, String preferenceKey,
 			String[] messageArguments, IResource target) {
 		IMarker marker = errorManager.addError(message, preferenceKey, messageArguments, target);
@@ -158,7 +149,6 @@ public class SeamProjectPropertyValidatorWrapper extends SeamProjectPropertyVali
 		return marker;
 	}
 
-	@Override
 	public IMarker addError(String message, String preferenceKey,
 			ITextSourceReference location, IResource target) {
 		IMarker marker = errorManager.addError(message, preferenceKey, location, target);
@@ -166,7 +156,6 @@ public class SeamProjectPropertyValidatorWrapper extends SeamProjectPropertyVali
 		return marker;
 	}
 
-	@Override
 	public IMarker addError(String message, String preferenceKey,
 			String[] messageArguments, int length, int offset, IResource target) {
 		IMarker marker = errorManager.addError(message, preferenceKey, messageArguments, length, offset, target);
@@ -174,7 +163,6 @@ public class SeamProjectPropertyValidatorWrapper extends SeamProjectPropertyVali
 		return marker;
 	}
 
-	@Override
 	public IMarker addError(String message, int severity,
 			String[] messageArguments, int length, int offset, IResource target) {
 		IMarker marker = errorManager.addError(message, severity, messageArguments, length, offset, target);
@@ -182,22 +170,18 @@ public class SeamProjectPropertyValidatorWrapper extends SeamProjectPropertyVali
 		return marker;
 	}
 
-	@Override
 	public void displaySubtask(String message) {
 		errorManager.displaySubtask(message);
 	}
 
-	@Override
 	public void displaySubtask(String message, String[] messageArguments) {
 		errorManager.displaySubtask(message, messageArguments);
 	}
 
-	@Override
 	public void removeMessagesFromResources(Set<IResource> resources) {
 		errorManager.removeMessagesFromResources(resources);
 	}
 
-	@Override
 	public void removeAllMessagesFromResource(IResource resource) {
 		errorManager.removeAllMessagesFromResource(resource);
 	}
