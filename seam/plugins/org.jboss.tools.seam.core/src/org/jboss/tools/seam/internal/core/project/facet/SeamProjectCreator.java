@@ -14,6 +14,9 @@ import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.tools.ant.types.FilterSet;
 import org.apache.tools.ant.types.FilterSetCollection;
@@ -31,8 +34,15 @@ import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.core.runtime.preferences.IScopeContext;
 import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.debug.core.ILaunchManager;
+import org.eclipse.jdt.core.IClasspathEntry;
+import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.JavaCore;
+import org.eclipse.jdt.launching.IVMInstall;
+import org.eclipse.jdt.launching.JavaRuntime;
 import org.eclipse.jst.common.project.facet.JavaFacetUtils;
 import org.eclipse.jst.common.project.facet.core.ClasspathHelper;
+import org.eclipse.jst.common.project.facet.core.JavaFacet;
+import org.eclipse.jst.common.project.facet.core.internal.JavaFacetUtil;
 import org.eclipse.wst.common.componentcore.ComponentCore;
 import org.eclipse.wst.common.componentcore.datamodel.properties.IFacetDataModelProperties;
 import org.eclipse.wst.common.componentcore.resources.IVirtualComponent;
@@ -110,6 +120,19 @@ public class SeamProjectCreator {
 	protected File ejbMetaInf;
 
 	protected File droolsLibFolder;
+	
+	private static final Map<String,String> COMPILER_LEVEL_TO_EXEC_ENV = new HashMap<String,String>();
+    
+    static
+    {
+        COMPILER_LEVEL_TO_EXEC_ENV.put( JavaCore.VERSION_1_3, "J2SE-1.3" ); //$NON-NLS-1$
+        COMPILER_LEVEL_TO_EXEC_ENV.put( JavaCore.VERSION_1_4, "J2SE-1.4" ); //$NON-NLS-1$
+        COMPILER_LEVEL_TO_EXEC_ENV.put( JavaCore.VERSION_1_5, "J2SE-1.5" ); //$NON-NLS-1$
+        COMPILER_LEVEL_TO_EXEC_ENV.put( JavaCore.VERSION_1_6, "JavaSE-1.6" ); //$NON-NLS-1$
+        COMPILER_LEVEL_TO_EXEC_ENV.put( JavaCore.VERSION_1_7, "JavaSE-1.7" ); //$NON-NLS-1$
+    }
+
+    private static final IPath CPE_PREFIX_FOR_EXEC_ENV = new Path( "org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType" ); //$NON-NLS-1$
 
 	/**
 	 * @param model Seam facet data model
@@ -277,6 +300,9 @@ public class SeamProjectCreator {
 			SeamFacetAbstractInstallDelegate.toggleHibernateOnProject(ejbProjectToBeImported, consoleName);
 			IProjectFacet sf = ProjectFacetsManager.getProjectFacet("jst.ejb");  
 			IProjectFacetVersion pfv = ProjectFacetsManager.create(ejbProjectToBeImported).getInstalledVersion(sf);
+			IProjectFacet jf = JavaFacet.FACET;
+			IProjectFacetVersion jfv = ProjectFacetsManager.create(ejbProjectToBeImported).getInstalledVersion(jf);
+			JavaFacetUtil.resetClasspath(ejbProjectToBeImported, null, jfv);
 			ClasspathHelper.addClasspathEntries(ejbProjectToBeImported, pfv);
 			WtpUtils.reconfigure(ejbProjectToBeImported,monitor);
 			IProject earProjectToBeImported = wsRoot.getProject(earProjectName);
@@ -293,12 +319,32 @@ public class SeamProjectCreator {
 	
 			ResourcesUtils.importExistingProject(testProjectToBeImported, wsPath + "/" + testProjectName, testProjectName, monitor, true);
 			// Set up compilation level for test project.
+			
 			String level = JavaFacetUtils.getCompilerLevel(seamWebProject);
 			String testLevel = JavaFacetUtils.getCompilerLevel(testProjectToBeImported);
 			if (!testLevel.equals(level)) {
 				JavaFacetUtils.setCompilerLevel(testProjectToBeImported, level);
 			}
 			testProjectToBeImported.refreshLocal(IResource.DEPTH_INFINITE, monitor);
+			
+			final IVMInstall vm = JavaRuntime.getDefaultVMInstall();
+			if (vm != null) {
+				int jreIndex = getJreContainer(testProjectToBeImported);
+				final IPath path = CPE_PREFIX_FOR_EXEC_ENV.append(getCorrespondingExecutionEnvironment(level));
+				final IClasspathEntry cpe = JavaCore.newContainerEntry(path);
+				IJavaProject javaProject = JavaCore.create(testProjectToBeImported);
+				IClasspathEntry[] entries = javaProject.getRawClasspath();
+				if (jreIndex == -1) {
+					IClasspathEntry[] newEntries = new IClasspathEntry[entries.length+1];
+					System.arraycopy( entries, 0, newEntries, 1, entries.length );
+					newEntries[0] = cpe;
+					javaProject.setRawClasspath(newEntries, null);
+				} else {
+					entries[jreIndex]=cpe;
+					javaProject.setRawClasspath(entries, null);
+				}
+			}
+			
 			SeamFacetAbstractInstallDelegate.toggleHibernateOnProject(testProjectToBeImported, consoleName);
 		}
 
@@ -308,6 +354,31 @@ public class SeamProjectCreator {
 			WtpUtils.reconfigure(testProjectToBeImported, monitor);
 	}
 
+	private static String getCorrespondingExecutionEnvironment( String compilerLevel )
+    {
+        final String res = COMPILER_LEVEL_TO_EXEC_ENV.get( compilerLevel );
+        
+        if( res == null )
+        {
+            throw new IllegalArgumentException( compilerLevel );
+        }
+        
+        return res;
+    }
+	
+	private static int getJreContainer(final IProject proj)
+			throws CoreException {
+		final IJavaProject jproj = JavaCore.create(proj);
+		final IClasspathEntry[] cp = jproj.getRawClasspath();
+		for (int i = 0; i < cp.length; i++) {
+			final IClasspathEntry cpe = cp[i];
+			if (cpe.getEntryKind() == IClasspathEntry.CPE_CONTAINER && cpe.getPath().segment(0) .equals(JavaRuntime.JRE_CONTAINER)) {
+				return i;
+			}
+		}
+		return -1;
+	}
+	
 	/**
 	 * Creates test project for given seam web project.
 	 */
