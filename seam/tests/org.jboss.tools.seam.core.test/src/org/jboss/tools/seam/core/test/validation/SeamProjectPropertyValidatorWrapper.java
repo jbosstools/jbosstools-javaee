@@ -73,7 +73,6 @@ public class SeamProjectPropertyValidatorWrapper extends SeamProjectPropertyVali
 			/* (non-Javadoc)
 			 * @see org.jboss.tools.jst.web.kb.internal.validation.ValidationErrorManager#getMarkerOwner()
 			 */
-			@Override
 			protected Class getMarkerOwner() {
 				return SeamProjectPropertyValidatorWrapper.this.getClass();
 			}
