@@ -10,9 +10,6 @@
 						<DIV VPE:INCLUDE-ELEMENT="yes" STYLE="-moz-user-modify: read-only;">
 							<DIV STYLE="-moz-user-modify: read-only;">
 								<DIV STYLE="display: none; -moz-user-modify: read-only;">
-									<H1 STYLE="-moz-user-modify: read-only;">
-										page
-</H1>
 								</DIV>
 								<DIV STYLE="-moz-user-modify: read-only;">
 									<DIV VPE:INCLUDE-ELEMENT="yes" STYLE="-moz-user-modify: read-only;">
@@ -20,9 +17,6 @@
 										</SPAN>
 										<DIV STYLE="-moz-user-modify: read-only;">
 											<DIV STYLE="display: none; -moz-user-modify: read-only;">
-												<H1 STYLE="-moz-user-modify: read-only;">
-													#{cc.attrs.pageTitle}
-</H1>
 												<DIV STYLE="-moz-user-modify: read-only;">
 												</DIV>
 											</DIV>
@@ -61,9 +55,6 @@
 																							<DIV STYLE="-moz-user-modify: read-only;">
 																								<DIV
 																									STYLE="display: none; -moz-user-modify: read-only;">
-																									<H1 STYLE="-moz-user-modify: read-only;">
-																										panel
-</H1>
 																								</DIV>
 																								<DIV STYLE="-moz-user-modify: read-only;">
 																									<DIV VPE:INCLUDE-ELEMENT="yes"
