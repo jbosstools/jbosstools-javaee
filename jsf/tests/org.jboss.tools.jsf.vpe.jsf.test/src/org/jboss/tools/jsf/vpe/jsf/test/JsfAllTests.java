@@ -126,6 +126,14 @@ public class JsfAllTests {
 
 		TestSuite suite = new TestSuite("Tests for Vpe Jsf components"); //$NON-NLS-1$
 		// $JUnit-BEGIN$
+		/*
+		 * Content tests
+		 */
+		suite.addTestSuite(JsfComponentContentTest.class);
+		suite.addTestSuite(Jsf20ComponentContentTest.class);
+		/*
+		 * Other tests
+		 */
 		suite.addTestSuite(DocBookTemplatesTest.class);
 		suite.addTestSuite(DnD_JBIDE5042_JBIDE6229_Test.class);
 		suite.addTestSuite(UnclosedELExpressionTest.class);
@@ -140,7 +148,6 @@ public class JsfAllTests {
 		suite.addTestSuite(MozDirtyTest_JBIDE5105.class);
 		suite.addTestSuite(VpeI18nTest_JBIDE4887.class);
 		suite.addTestSuite(JsfComponentTest.class);
-		suite.addTestSuite(Jsf20ComponentContentTest.class);
 		suite.addTestSuite(JBIDE3519Test.class);
 		suite.addTestSuite(ContextMenuDoubleInsertionTest_JBIDE3888.class);
 		suite.addTestSuite(SelectAllAndCut_JBIDE4853.class);
@@ -179,7 +186,6 @@ public class JsfAllTests {
 		suite.addTestSuite(JBIDE2526Test.class);
 		suite.addTestSuite(JBIDE2624Test.class);
 		suite.addTestSuite(JBIDE1805Test.class);
-		suite.addTestSuite(JsfComponentContentTest.class);
 		suite.addTestSuite(JBIDE2774Test.class);
 		suite.addTestSuite(JBIDE2828Test.class);
 		suite.addTestSuite(JBIDE3030Test.class);

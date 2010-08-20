@@ -1,7 +1,7 @@
 <tests>
 	<test id="head1">
-		<div>
-			<h1>JSF 2.0 Test</h1>
-		</div>
+		<DIV STYLE="display: none; -moz-user-modify: read-only;">
+			<BR VPE:PSEUDO-ELEMENT="yes" STYLE="font-style: italic; color: green; -moz-user-modify: read-only;"/>
+		</DIV>
 	</test>
 </tests>

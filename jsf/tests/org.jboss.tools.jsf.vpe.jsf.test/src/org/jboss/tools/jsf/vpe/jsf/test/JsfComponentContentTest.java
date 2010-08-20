@@ -123,10 +123,6 @@ public class JsfComponentContentTest extends ComponentContentTest {
 		performContentTest("components/selectOneRadio.jsp"); //$NON-NLS-1$
 	}
 
-	/*
-	 * JSF Core test cases
-	 */
-
 	public void testActionListener() throws Throwable {
 		performInvisibleTagTest(
 				"components/actionListener.jsp", "actionListener"); //$NON-NLS-1$ //$NON-NLS-2$
