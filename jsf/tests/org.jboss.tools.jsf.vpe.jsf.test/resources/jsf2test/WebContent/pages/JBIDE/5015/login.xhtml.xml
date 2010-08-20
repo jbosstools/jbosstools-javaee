@@ -4,9 +4,7 @@
 <DIV VPE:INCLUDE-ELEMENT="yes" STYLE="-moz-user-modify: read-only;">
 <DIV STYLE="-moz-user-modify: read-only;">
 <DIV STYLE="display: none; -moz-user-modify: read-only;">
-<H1 STYLE="-moz-user-modify: read-only;">
-Not present in rendered output
-</H1>
+<BR VPE:PSEUDO-ELEMENT="yes" STYLE="font-style: italic; color: green; -moz-user-modify: read-only;"/>
 </DIV>
 <DIV STYLE="-moz-user-modify: read-only;">
 <DIV VPE:INCLUDE-ELEMENT="yes" STYLE="-moz-user-modify: read-only;">
@@ -22,9 +20,6 @@ Hello, Custom Jsf 2.O Components
 <DIV VPE:INCLUDE-ELEMENT="yes" STYLE="-moz-user-modify: read-only;">
 <DIV STYLE="-moz-user-modify: read-only;">
 <DIV STYLE="display: none; -moz-user-modify: read-only;">
-<H1 STYLE="-moz-user-modify: read-only;">
-Not present in rendered output
-</H1>
 </DIV>
 <DIV STYLE="-moz-user-modify: read-only;">
 <DIV VPE:INCLUDE-ELEMENT="yes" STYLE="-moz-user-modify: read-only;">
