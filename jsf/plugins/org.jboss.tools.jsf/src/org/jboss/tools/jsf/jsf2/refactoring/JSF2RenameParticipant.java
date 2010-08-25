@@ -11,7 +11,10 @@
 
 package org.jboss.tools.jsf.jsf2.refactoring;
 
+import java.util.Map;
+
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
@@ -38,6 +41,9 @@ public class JSF2RenameParticipant extends RenameParticipant {
 	private IProject project;
 	private String URI;
 	private String oldFileName;
+	private Object element;
+	
+	private Map<String, String> urisMap;
 
 	@Override
 	public RefactoringStatus checkConditions(IProgressMonitor pm,
@@ -49,6 +55,15 @@ public class JSF2RenameParticipant extends RenameParticipant {
 	public Change createChange(IProgressMonitor pm) throws CoreException,
 			OperationCanceledException {
 		String newFileName = getArguments().getNewName();
+		if(element instanceof IFolder){
+			IFolder folder = (IFolder)element;
+			IPath newPath = folder.getFullPath().removeLastSegments(1).append(newFileName);
+			if (JSf2MoveParticipant.checkDistFolderPath(newPath)) {
+				urisMap = JSf2MoveParticipant.invokePossibleURIs(folder, newPath, false);
+				return RefactoringChangesFactory.createRenameURIChanges(project, urisMap);
+			}
+			return null;
+		}
 		if (project == null || newFileName == null || oldFileName == null) {
 			return null;
 		}
@@ -70,6 +85,7 @@ public class JSF2RenameParticipant extends RenameParticipant {
 
 	@Override
 	protected boolean initialize(Object element) {
+		this.element = element;
 		if (element instanceof IFile) {
 			IFile file = (IFile) element;
 			URI = calcURIFromPath(file.getFullPath());
@@ -78,6 +94,14 @@ public class JSF2RenameParticipant extends RenameParticipant {
 				oldFileName = file.getName();
 				return true;
 			}
+		}else if(element instanceof IFolder){
+			IFolder folder = (IFolder) element;
+			if (JSf2MoveParticipant.checkResourceFolderPath(folder.getFullPath())) {
+				project = folder.getProject();
+				oldFileName = folder.getName();
+				return true;
+			}
+			
 		}
 		return false;
 	}

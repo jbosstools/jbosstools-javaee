@@ -618,9 +618,10 @@
           </with>
           <with
                 variable="element">
-             <instanceof
-                   value="org.eclipse.core.resources.IFile">
-             </instanceof>
+             <or>
+	             <instanceof value="org.eclipse.core.resources.IFile" />
+	             <instanceof value="org.eclipse.core.resources.IFolder" />
+             </or>
           </with>
        </enablement>
     </renameParticipant>
@@ -643,9 +644,10 @@
           </with>
           <with
                 variable="element">
-             <instanceof
-                   value="org.eclipse.core.resources.IFolder">
-             </instanceof>
+             <or>
+	             <instanceof value="org.eclipse.core.resources.IFile" />
+	             <instanceof value="org.eclipse.core.resources.IFolder" />
+             </or>
           </with>
        </enablement>
     </moveParticipant>

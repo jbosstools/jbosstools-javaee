@@ -19,6 +19,7 @@ import org.jboss.tools.jsf.ca.test.WebContentAssistProviderTest;
 import org.jboss.tools.jsf.kb.test.FaceletsKbModelTest;
 import org.jboss.tools.jsf.model.pv.test.JSFPromptingProviderTest;
 import org.jboss.tools.jsf.test.refactoring.ELVariableRefactoringTest;
+import org.jboss.tools.jsf.test.refactoring.JSF2RefactoringTest;
 import org.jboss.tools.jsf.test.refactoring.MessagePropertyRefactoringTest;
 import org.jboss.tools.jsf.test.validation.JSF2ComponentsValidatorTest;
 import org.jboss.tools.test.util.ProjectImportTestSetup;
@@ -57,6 +58,11 @@ public class JsfAllTests {
 				JSF2ComponentsValidatorTest.class), "org.jboss.tools.jsf.test", //$NON-NLS-1$
 				new String[] { "projects/JSF2ComponentsValidator" }, //$NON-NLS-1$
 				new String[] { "JSF2ComponentsValidator" })); //$NON-NLS-1$
+		suite.addTest(new ProjectImportTestSetup(new TestSuite(
+				JSF2RefactoringTest.class), "org.jboss.tools.jsf.test", //$NON-NLS-1$
+				new String[] { "projects/JSF2ComponentsValidator" }, //$NON-NLS-1$
+				new String[] { "JSF2ComponentsValidator" })); //$NON-NLS-1$
+
 		return new DisableJavaIndexingSetup(suite);
 	}
 

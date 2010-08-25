@@ -214,6 +214,13 @@ public class RefactoringChangesFactory {
 		if (file == null) {
 			return false;
 		}
+		if(!file.isSynchronized(IResource.DEPTH_ZERO)){
+			return false;
+		}else if(file.isPhantom()){
+			return false;
+		}else if(file.isReadOnly()){
+			return false;
+		}
 		if (!"xhtml".equals(file.getFileExtension()) && !"jsp".equals(file.getFileExtension())) { //$NON-NLS-1$ //$NON-NLS-2$
 			IContentType contentType = IDE.getContentType(file);
 			if (contentType == null) {

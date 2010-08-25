@@ -3,7 +3,8 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:c="http://java.sun.com/jstl/core">
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:ez="http://java.sun.com/jsf/composite/demo">
 
 <f:loadBundle basename="resources" var="msg" />
 
@@ -16,7 +17,7 @@
 	<ui:define name="pageHeader">Facelets Hello Application</ui:define>
 
 	<ui:define name="body">
-
+		<ez:input id="inputname" label="${msgs.prompt}" value="#{user.name}" action="#{user.sayHello}" submitlabel="Say Hello"/>
 		<form>
 		<jar:echo1 echo="Hello" />
 		<jar:echo echo="Hello" />
