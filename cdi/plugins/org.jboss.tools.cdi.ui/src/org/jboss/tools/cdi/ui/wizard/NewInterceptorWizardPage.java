@@ -84,6 +84,7 @@ public class NewInterceptorWizardPage extends NewClassWizardPage {
 
 	public NewInterceptorWizardPage() {
 		setTitle(CDIUIMessages.NEW_INTERCEPTOR_WIZARD_PAGE_NAME);
+		setDescription("Create a new Interceptor Java class");
 	}
 
 	public void init(IStructuredSelection selection) {
@@ -197,7 +198,7 @@ public class NewInterceptorWizardPage extends NewClassWizardPage {
 	void onInterceptorBindingChange() {
 		interceptorBindingsStatus = new StatusInfo();
 		if(((List)interceptorBindings.getValue()).isEmpty()) {
-			interceptorBindingsStatus.setWarning("Interseptor Bindings list is empty.");
+			interceptorBindingsStatus.setWarning(CDIUIMessages.MESSAGE_INTERCEPTOR_BINDINGS_EMPTY);
 		}
 	}
 

@@ -57,4 +57,6 @@ public class CDIUIMessages extends NLS{
 	public static String MESSAGE_FIELD_NAME_EMPTY;
 	public static String MESSAGE_FIELD_NAME_NOT_VALID;
 	
+	public static String MESSAGE_INTERCEPTOR_BINDINGS_EMPTY;
+	
 }

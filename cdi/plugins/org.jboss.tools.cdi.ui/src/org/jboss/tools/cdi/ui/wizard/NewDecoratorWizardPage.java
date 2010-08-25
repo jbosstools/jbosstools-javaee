@@ -69,6 +69,7 @@ public class NewDecoratorWizardPage extends NewClassWizardPage {
 
 	public NewDecoratorWizardPage() {
 		setTitle(CDIUIMessages.NEW_DECORATOR_WIZARD_PAGE_NAME);
+		setDescription("Create a new Decorator Java class");
 	}
 
 	public void init(IStructuredSelection selection) {
