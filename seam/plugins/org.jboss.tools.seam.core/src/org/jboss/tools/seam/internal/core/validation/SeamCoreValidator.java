@@ -48,6 +48,7 @@ import org.jboss.tools.jst.web.kb.validation.IValidatingProjectSet;
 import org.jboss.tools.jst.web.kb.validation.IValidationContext;
 import org.jboss.tools.jst.web.kb.validation.IValidator;
 import org.jboss.tools.jst.web.kb.validation.ValidationUtil;
+import org.jboss.tools.jst.web.model.project.ext.store.XMLValueInfo;
 import org.jboss.tools.seam.core.BijectedAttributeType;
 import org.jboss.tools.seam.core.IBijectedAttribute;
 import org.jboss.tools.seam.core.ISeamAnnotatedFactory;
@@ -251,6 +252,7 @@ public class SeamCoreValidator extends SeamValidationErrorManager implements IVa
 		for (IPath linkedResource : resources) {
 			validateComponent(linkedResource, checkedComponents, newResources);
 			validateFactory(linkedResource, markedDuplicateFactoryNames);
+			validatePageXML(filesToValidate[i]);
 			validateXMLVersion(filesToValidate[i++]);
 		}
 
@@ -959,4 +961,41 @@ public class SeamCoreValidator extends SeamValidationErrorManager implements IVa
 		}
 		return true;
 	}
+
+	private void validatePageXML(IFile f) {
+		if(f.getName().equals("pages.xml")) {
+			XModelObject object = EclipseResourceUtil.createObjectForResource(f);
+			if(object == null) return;
+			if(object.getModelEntity().getName().startsWith("FileSeamPage")) {
+				validatePageRedirects(object, f);
+			}
+		}
+	}
+
+	private void validatePageRedirects(XModelObject o, IFile f) {
+		if(o.getModelEntity().getName().startsWith("SeamPageRedirect")) {
+			validatePageRedirect(o, f);
+		} else {
+			XModelObject[] cs = o.getChildren();
+			for (XModelObject c: cs) {
+				validatePageRedirects(c, f);
+			}
+		}
+	}
+
+	private void validatePageRedirect(XModelObject redirect, IFile f) {
+		String path = redirect.getAttributeValue("view id");
+		if(path == null || path.length() == 0 || path.indexOf('*') >= 0) return;
+		path = path.replace('\\', '/');
+		if(path.indexOf('?') >= 0) {
+			path = path.substring(0, path.indexOf('?'));
+		}
+		XModelObject target = redirect.getModel().getByPath(path);
+		if(target == null) {
+			XMLValueInfo i = new XMLValueInfo(redirect, "view id");
+			addError(NLS.bind(SeamValidationMessages.UNRESOLVED_VIEW_ID, path), SeamPreferences.UNRESOLVED_VIEW_ID, i, f);
+		}
+		
+	}
+
 }

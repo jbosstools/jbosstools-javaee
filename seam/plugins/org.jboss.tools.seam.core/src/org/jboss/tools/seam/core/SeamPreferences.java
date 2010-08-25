@@ -102,6 +102,10 @@ public class SeamPreferences extends SeverityPreferences {
 	// If @In uses a unknown context variable name then mark it.
 	public static final String UNKNOWN_VARIABLE_NAME = INSTANCE.createSeverityOption("unknownVariableName"); //$NON-NLS-1$
 
+	//pages.xml
+
+	public static final String UNRESOLVED_VIEW_ID = INSTANCE.createSeverityOption("unresolvedViewID"); //$NON-NLS-1$
+	
 	// Seam project settings
 
 	// Mark seam project if it has any invalid seam setting.

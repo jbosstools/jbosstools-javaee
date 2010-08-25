@@ -45,6 +45,8 @@ public class SeamValidationMessages {
 
 	public static String UNKNOWN_VARIABLE_NAME;
 
+	public static String UNRESOLVED_VIEW_ID;
+
 	public static String INVALID_PARENT_PROJECT;
 	public static String INVALID_SEAM_RUNTIME; 
 	public static String INVALID_WEBFOLDER;
