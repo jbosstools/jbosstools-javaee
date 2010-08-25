@@ -140,6 +140,10 @@ public class SeamPreferencesMessages extends NLS {
 	public static String SeamValidatorConfigurationBlock_section_variable;
 	public static String SeamValidatorConfigurationBlock_pb_unknownVariableName_label;
 
+	//Section pages.xml
+	public static String SeamValidatorConfigurationBlock_section_pages_xml;
+	public static String SeamValidatorConfigurationBlock_pb_unresolvedViewID_label;
+
 	//Invalid seam project settings
 	public static String SeamValidatorConfigurationBlock_section_settings;
 	public static String SeamValidatorConfigurationBlock_pb_invalidSeamProjectSettings_label;

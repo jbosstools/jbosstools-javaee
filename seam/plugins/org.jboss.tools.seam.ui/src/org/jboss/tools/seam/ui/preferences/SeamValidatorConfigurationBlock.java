@@ -115,6 +115,14 @@ public class SeamValidatorConfigurationBlock extends SeverityConfigurationBlock 
 		SeamCorePlugin.PLUGIN_ID
 	);
 
+	private static SectionDescription SECTION_PAGES_XML = new SectionDescription(
+		SeamPreferencesMessages.SeamValidatorConfigurationBlock_section_pages_xml,
+		new String[][]{
+			{SeamPreferences.UNRESOLVED_VIEW_ID, SeamPreferencesMessages.SeamValidatorConfigurationBlock_pb_unresolvedViewID_label},
+		},
+		SeamCorePlugin.PLUGIN_ID
+	);
+
 	private static SectionDescription[] ALL_SECTIONS = new SectionDescription[]{
 		SECTION_COMPONENT,
 		SECTION_ENTITY,
@@ -122,6 +130,7 @@ public class SeamValidatorConfigurationBlock extends SeverityConfigurationBlock 
 		SECTION_FACTORY,
 		SECTION_BIJECTION, 
 		SECTION_VARIABLE,
+		SECTION_PAGES_XML,
 		SECTION_SETTINGS
 	};
 
