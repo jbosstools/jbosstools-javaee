@@ -84,7 +84,7 @@ public class NewInterceptorWizardPage extends NewClassWizardPage {
 
 	public NewInterceptorWizardPage() {
 		setTitle(CDIUIMessages.NEW_INTERCEPTOR_WIZARD_PAGE_NAME);
-		setDescription("Create a new Interceptor Java class");
+		setDescription(CDIUIMessages.NEW_INTERCEPTOR_WIZARD_DESCRIPTION);
 	}
 
 	public void init(IStructuredSelection selection) {

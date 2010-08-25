@@ -39,9 +39,11 @@ public class CDIUIMessages extends NLS{
 	
 	public static String NEW_INTERCEPTOR_WIZARD_TITLE;
 	public static String NEW_INTERCEPTOR_WIZARD_PAGE_NAME;
+	public static String NEW_INTERCEPTOR_WIZARD_DESCRIPTION;
 	
 	public static String NEW_DECORATOR_WIZARD_TITLE;
 	public static String NEW_DECORATOR_WIZARD_PAGE_NAME;
+	public static String NEW_DECORATOR_WIZARD_DESCRIPTION;
 	
 	public static String SELECT_STEREOTYPE;
 	public static String SELECT_INTERCEPTOR_BINDING;
