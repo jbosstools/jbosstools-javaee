@@ -223,6 +223,15 @@ public class CDIPreferences extends SeverityPreferences {
 	public static final String ILLEGAL_QUALIFIER_IN_STEREOTYPE = INSTANCE.createSeverityOption("illegalQualifierInStereotype"); //$NON-NLS-1$
 //	- bean class is deployed in two different bean archives (12.1 non-portable)
 	// ? is it a definition problem
+
+// - Each child <class> element must specify the name of an alternative/decorator/interceptor bean class/stereotype annotation. If there is no class with the specified
+//	  name, or if the class with the specified name is not alternative/decorator/interceptor bean class/stereotype annotation, the container automatically detects the problem
+//	  and treats it as a deployment problem.
+	public static final String ILLEGAL_TYPE_NAME_IN_BEANS_XML = INSTANCE.createSeverityOption("illegalTypeInBeansXml"); //$NON-NLS-1$
+//	- If the same type is listed twice under the <alternatives>, <decorators> or <interceptors> element, the container automatically detects the problem and
+//	  treats it as a deployment problem.
+	public static final String DUPLICATE_TYPE_IN_BEANS_XML = INSTANCE.createSeverityOption("duplicateTypeInBeansXml"); //$NON-NLS-1$
+
 	/**
 	 * @return the only instance of CDIPreferences
 	 */
@@ -261,6 +270,10 @@ public class CDIPreferences extends SeverityPreferences {
 
 	public static boolean shouldValidateCore(IProject project) {
 		return true;
+	}
+
+	public static boolean shouldValidateBeansXml(IProject project) {
+		return !(CDIPreferences.IGNORE.equals(INSTANCE.getProjectPreference(project, ILLEGAL_TYPE_NAME_IN_BEANS_XML)) && CDIPreferences.IGNORE.equals(INSTANCE.getProjectPreference(project, DUPLICATE_TYPE_IN_BEANS_XML)));
 	}
 
 	public static boolean isValidationEnabled(IProject project) {

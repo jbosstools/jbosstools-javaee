@@ -122,21 +122,12 @@ Definition Errors
 - X specializes Y and Y has a name and X declares a name explicitly, using @Named
 - interceptor or decorator is annotated @Specializes (Non-Portable behavior)
 
-5.2.1. Unsatisfied and ambiguous dependencies
-- If an unsatisfied or unresolvable ambiguous dependency exists, the container automatically detects the problem and
-  treats it as a deployment problem.
-
-5.2.2. Legal injection point types
-- injection point type is a type variable
-
 5.1.4. Inter-module injection
 - a decorator can not be injected
 - an interceptor can not be injected
 
-5.2.4. Primitive types and null values
-- if an injection point of primitive type resolves to a bean that may have null values, such as a producer method
-  with a non-primitive return type or a producer field with a non-primitive type, the container automatically detects the problem
-  and treats it as a deployment problem.
+5.2.2. Legal injection point types
+- injection point type is a type variable
 
 5.2.5. Qualifier annotations with members
 - array-valued or annotation-valued member of a qualifier type is not annotated @Nonbinding (Non-Portable behavior)
@@ -189,3 +180,44 @@ Definition Errors
 
 12.1. Bean archives
 - bean class is deployed in two different bean archives (Non-Portable behavior) - (JBT: let's ignore this rule so far since we don't have any good tool to recognize such components)
+
+
+
+Deployment problems
+
+5.2.1. Unsatisfied and ambiguous dependencies
+- If an unsatisfied or unresolvable ambiguous dependency exists, the container automatically detects the problem and
+  treats it as a deployment problem.
+  
+5.2.4. Primitive types and null values
+- if an injection point of primitive type resolves to a bean that may have null values, such as a producer method
+  with a non-primitive return type or a producer field with a non-primitive type, the container automatically detects the problem
+  and treats it as a deployment problem.
+
+
+
+Beans.xml
+
+5.1.1. Declaring selected alternatives for a bean archive
+- Each child <class> element must specify the name of an alternative bean class. If there is no class with the specified
+  name, or if the class with the specified name is not an alternative bean class, the container automatically detects the problem
+  and treats it as a deployment problem.
+- Each child <stereotype> element must specify the name of an @Alternative stereotype annotation. If there is no annotation
+  with the specified name, or the annotation is not an @Alternative stereotype, the container automatically detects the
+  problem and treats it as a deployment problem.
+- If the same type is listed twice under the <alternatives> element, the container automatically detects the problem and
+  treats it as a deployment problem.
+
+8.2. Decorator enablement and ordering
+- Each child <class> element must specify the name of a decorator bean class. If there is no class with the specified name,
+  or if the class with the specified name is not a decorator bean class, the container automatically detects the problem and
+  treats it as a deployment problem.
+- If the same class is listed twice under the <decorators> element, the container automatically detects the problem and
+  treats it as a deployment problem.
+   
+9.4. Interceptor enablement and ordering
+- Each child <class> element must specify the name of an interceptor class. If there is no class with the specified name, or if
+  the class with the specified name is not an interceptor class, the container automatically detects the problem and treats it as
+  a deployment problem.
+- If the same class is listed twice under the <interceptors> element, the container automatically detects the problem and treats it as
+  a deployment problem.

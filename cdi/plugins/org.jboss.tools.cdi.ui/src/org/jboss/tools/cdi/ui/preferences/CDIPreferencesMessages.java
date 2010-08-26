@@ -126,6 +126,10 @@ public class CDIPreferencesMessages extends NLS {
 	public static String CDIValidatorConfigurationBlock_pb_illegalInjectingInjectionPointType_label;
 	public static String CDIValidatorConfigurationBlock_pb_illegalQualifierInStereotype_label;
 
+	// Beans.xml
+	public static String CDIValidatorConfigurationBlock_section_beansxml;
+	public static String CDIValidatorConfigurationBlock_pb_illegalTypeInBeansXml_label;
+	public static String CDIValidatorConfigurationBlock_pb_duplicateTypeInBeansXml_label;
 
 	public static String CDI_VALIDATOR_PREFERENCE_PAGE_CDI_VALIDATOR;
 

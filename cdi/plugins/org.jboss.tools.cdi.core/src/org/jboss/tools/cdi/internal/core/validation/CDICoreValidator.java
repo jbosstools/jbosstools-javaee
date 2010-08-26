@@ -1821,7 +1821,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 					           {TARGET_METHOD, TARGET_FIELD},
 					           {TARGET_TYPE}, {TARGET_METHOD}, {TARGET_FIELD}};
 		validateTargetAnnotation(stereotype, variants, CDIValidationMessages.MISSING_TARGET_ANNOTATION_IN_STEREOTYPE_TYPE, resource);
-		
+
 		/*
 		 * Stereotype annotation type should be annotated with @Retention(RUNTIME)
 		 */
@@ -1849,7 +1849,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 			CDICorePlugin.getDefault().logError(e);
 		}
 	}
-	
+
 	private void validateScopeAnnotationTypeAnnotations(IScope scope, IResource resource) throws JavaModelException {
 		/*
 		 * Scope annotation type should be annotated with @Target({TYPE, METHOD, FIELD})
@@ -1862,8 +1862,6 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 		 */
 		validateRetentionAnnotation(scope, CDIValidationMessages.MISSING_RETENTION_ANNOTATION_IN_SCOPE_TYPE, resource);
 	}
-
-
 
 	void validateRetentionAnnotation(ICDIAnnotation type, String message, IResource resource) throws JavaModelException {
 		IAnnotationDeclaration retention = type.getAnnotationDeclaration(CDIConstants.RETENTION_ANNOTATION_TYPE_NAME);
@@ -1888,7 +1886,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 			}
 		}
 	}
-	
+
 	Set<String> getTargetAnnotationValues(IAnnotationDeclaration target) throws JavaModelException {
 		Set<String> result = new HashSet<String>();
 		IMemberValuePair[] ps = target.getDeclaration().getMemberValuePairs();
@@ -1912,7 +1910,6 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 		}
 		return result;
 	}
-
 
 	/**
 	 * Validates a qualifier.
@@ -1943,7 +1940,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 			CDICorePlugin.getDefault().logError(e);
 		}
 	}
-	
+
 	static String TARGET_METHOD = "METHOD";
 	static String TARGET_FIELD = "FIELD";
 	static String TARGET_PARAMETER = "PARAMETER";
@@ -1957,7 +1954,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 		String[][] variants = {{TARGET_METHOD, TARGET_FIELD, TARGET_PARAMETER, TARGET_TYPE}, 
 				               {TARGET_FIELD, TARGET_PARAMETER}};
 		validateTargetAnnotation(qualifier, variants, CDIValidationMessages.MISSING_TARGET_ANNOTATION_IN_QUALIFIER_TYPE, resource);
-		
+
 		/*
 		 * Qualifier annotation type should be annotated with @Retention(RUNTIME)
 		 */
@@ -1991,7 +1988,6 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 				addError(message, CDIPreferences.MISSING_OR_INCORRECT_TARGET_OR_RETENTION_IN_ANNOTATION_TYPE, target, resource);
 			}
 		}
-		
 	}
 
 	private void validateInterceptorBinding(IInterceptorBinding binding) {

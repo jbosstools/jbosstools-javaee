@@ -124,10 +124,22 @@ public class CDIValidationMessages {
 	public static String ILLEGAL_INJECTING_USERTRANSACTION_TYPE;
 	public static String ILLEGAL_INJECTING_INJECTIONPOINT_TYPE;
 	public static String ILLEGAL_QUALIFIER_IN_STEREOTYPE;
+	public static String UNKNOWN_ALTERNATIVE_BEAN_CLASS_NAME;
+	public static String ILLEGAL_ALTERNATIVE_BEAN_CLASS;
+	public static String UNKNOWN_ALTERNATIVE_ANNOTATION_NAME;
+	public static String ILLEGAL_ALTERNATIVE_ANNOTATION;
+	public static String DUPLICATE_ALTERNATIVE_TYPE;
+	public static String UNKNOWN_DECORATOR_BEAN_CLASS_NAME;
+	public static String ILLEGAL_DECORATOR_BEAN_CLASS;
+	public static String DUPLICATE_DECORATOR_CLASS;
+	public static String UNKNOWN_INTERCEPTOR_CLASS_NAME;
+	public static String ILLEGAL_INTERCEPTOR_CLASS;
+	public static String DUPLICATE_INTERCEPTOR_CLASS;
 
 	public static String SEARCHING_RESOURCES;
 	public static String VALIDATING_RESOURCE;
 	public static String VALIDATING_PROJECT;
+	public static String VALIDATING_BEANS_XML;
 
 	static {
 		NLS.initializeMessages(BUNDLE_NAME, CDIValidationMessages.class);

@@ -144,6 +144,15 @@ public class CDIConfigurationBlock extends SeverityConfigurationBlock {
 		CDICorePlugin.PLUGIN_ID
 	);
 
+	private static SectionDescription SECTION_BEANSXML = new SectionDescription(
+			CDIPreferencesMessages.CDIValidatorConfigurationBlock_section_beansxml,
+			new String[][]{
+				{CDIPreferences.ILLEGAL_TYPE_NAME_IN_BEANS_XML, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_illegalTypeInBeansXml_label},
+				{CDIPreferences.DUPLICATE_TYPE_IN_BEANS_XML, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_duplicateTypeInBeansXml_label},
+			},
+			CDICorePlugin.PLUGIN_ID
+		);
+
 	private static SectionDescription[] ALL_SECTIONS = new SectionDescription[]{
 		SECTION_NAME,
 		SECTION_TYPE,
@@ -151,7 +160,8 @@ public class CDIConfigurationBlock extends SeverityConfigurationBlock {
 		SECTION_MEMBER,
 		SECTION_INTERCEPTOR,
 		SECTION_SPECIALIZATION,
-		SECTION_MISCELLANEOUS
+		SECTION_MISCELLANEOUS,
+		SECTION_BEANSXML
 	};
 
 	private static Key[] getKeys() {
