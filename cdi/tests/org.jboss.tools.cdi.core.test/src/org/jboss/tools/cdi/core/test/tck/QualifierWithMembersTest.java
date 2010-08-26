@@ -102,11 +102,11 @@ public class QualifierWithMembersTest extends TCKTest {
 		assertEquals("Wrong number of the beans", 0, beans.size());
 	}
 
+	// TODO This test fails because of https://jira.jboss.org/browse/JBIDE-6517
 	public void testQualifierCoincidingSimpleNameInInjectingBeanAndCoincidingSimpleNameInInjectedBeanResolved() throws CoreException {
 		IInjectionPointField injection = getInjectionPointField("JavaSource/org/jboss/jsr299/tck/tests/jbt/resolution/coincidence/ObtainsInstanceBean.java", "cashPaymentProcessor");
 		Set<IBean> beans = cdiProject.getBeans(true, injection);
 		assertEquals("Wrong number of the beans", 1, beans.size());
 		assertContainsBeanClass(beans, "org.jboss.jsr299.tck.tests.jbt.resolution.coincidence.FirstPaymentProcessor");
 	}
-
 }
