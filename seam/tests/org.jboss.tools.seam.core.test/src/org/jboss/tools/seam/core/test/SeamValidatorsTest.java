@@ -813,6 +813,23 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 			9);
 	}
 
+	public void testErrorMarkerInPagesXML() throws CoreException, ValidationException {
+		SeamCoreValidatorWrapper seamValidator = new SeamCoreValidatorWrapper(project);
+		
+		assertMarkerIsCreatedForLine(
+				seamValidator, 
+				"WebContent/WEB-INF/pages.xml", 
+				SeamValidationMessages.UNRESOLVED_VIEW_ID, 
+				new Object[] {"/home1.xhtml"}, 
+				14);
+		assertMarkerIsCreatedForLine(
+				seamValidator, 
+				"WebContent/WEB-INF/pages.xml", 
+				SeamValidationMessages.UNRESOLVED_VIEW_ID, 
+				new Object[] {"/home2.xhtml"}, 
+				17);
+	}
+
 	public static int getMarkersNumber(IResource resource) {
 		return getMarkersNumberByGroupName(resource, SeamValidationErrorManager.MARKED_SEAM_PROJECT_MESSAGE_GROUP);
 	}

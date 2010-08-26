@@ -10,6 +10,12 @@
             <rule if-outcome="home">
                 <redirect view-id="/home.xhtml"/>
             </rule>
+            <rule if-outcome="home1">
+                <redirect view-id="/home1.xhtml"/>
+            </rule>
+            <rule if-outcome="home2">
+                <render view-id="/home2.xhtml"/>
+            </rule>
         </navigation>
     </page>
 
