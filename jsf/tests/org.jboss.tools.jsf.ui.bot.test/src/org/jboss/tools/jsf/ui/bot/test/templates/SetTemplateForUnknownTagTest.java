@@ -6,6 +6,7 @@ import org.jboss.tools.jsf.ui.bot.test.CSSStyleDialogVariables;
 import org.jboss.tools.jsf.ui.bot.test.JSFAutoTestCase;
 import org.jboss.tools.jsf.ui.bot.test.UnknownTagDialogVariables;
 import org.jboss.tools.ui.bot.ext.CompareUtils;
+import org.jboss.tools.ui.bot.ext.types.IDELabel;
 import org.jboss.tools.ui.bot.test.WidgetVariables;
 
 public class SetTemplateForUnknownTagTest extends JSFAutoTestCase {
@@ -31,7 +32,7 @@ public class SetTemplateForUnknownTagTest extends JSFAutoTestCase {
 		bot.toolbarButtonWithTooltip(WidgetVariables.PREFERENCES).click();
 		bot.shell(WidgetVariables.PREF_FILTER_SHELL_TITLE).activate();
 		bot.tabItem(WidgetVariables.VPE_TEMPLATES_TAB).activate();
-		bot.button(WidgetVariables.ADD_BUTTON).click();
+		bot.button(IDELabel.Button.ADD).click();
 		bot.shell(UnknownTagDialogVariables.DIALOG_TITLE).activate();
 		bot.textWithLabel(UnknownTagDialogVariables.TAG_NAME_FIELD).setText(TAG_NAME);
 		bot.textWithLabel(UnknownTagDialogVariables.TAG_URI_FIELD).setText(TAG_URI);
@@ -58,7 +59,7 @@ public class SetTemplateForUnknownTagTest extends JSFAutoTestCase {
 		bot.table().select(0);
     try {
       checkTable(bot.table());
-      bot.button(WidgetVariables.EDIT_BUTTON).click();
+      bot.button(IDELabel.Button.EDIT).click();
       bot.shell(UnknownTagDialogVariables.DIALOG_TITLE).activate();
       bot.textWithLabel(UnknownTagDialogVariables.TAG_URI_FIELD).setText(""); //$NON-NLS-1$
       bot.checkBoxWithLabel(UnknownTagDialogVariables.ALLOW_CHILDREN_CHECKBOX)

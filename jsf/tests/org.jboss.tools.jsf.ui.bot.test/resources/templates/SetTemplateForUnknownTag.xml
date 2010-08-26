@@ -1,41 +1,39 @@
-<BODY ID="__content__area__">
-<DIV STYLE="-moz-user-modify: read-write;">
-<DIV STYLE="display: none; -moz-user-modify: read-only;">
-<H1 STYLE="-moz-user-modify: read-write;">
-Input User Name Page
-</H1>
+<BODY id="__content__area__" >
+<DIV style="-moz-user-modify: read-write;" >
+<DIV style="display: none; -moz-user-modify: read-only;" title="head" >
 </DIV>
-<DIV>
-<TABLE STYLE="border: 1px dotted rgb(255, 102, 0); padding: 5px; width: 100%;">
-<TR>
-<TD>
-<DIV>
-<H1 STYLE="-moz-user-modify: read-write;">
-<SPAN CLASS="vpe-text">
+<DIV title="body" >
+<TABLE style="border: 1px dotted rgb(255, 102, 0); padding: 5px; width: 100%;" title="f:view" >
+<TR title="f:view" >
+<TD title="f:view" >
+<DIV title="f:view" >
+<H1 style="-moz-user-modify: read-write;" title="h1" >
+<SPAN class="vpe-text" title="h:outputText value: #{Message.header}" >
 Hello Demo Application
 </SPAN>
 </H1>
-<B CLASS="__any__tag__caption" STYLE="border: 1px solid green; font-family: Arial; color: black; -moz-user-modify: read-only;">
-myValue<BR STYLE="font-style: italic; color: green; -moz-user-modify: read-only;"/>
-
+<B class="__any__tag__caption" style="border: 1px solid green; color: black; font-family: Arial; -moz-user-modify: read-only;" title="h:unknowntag" >
+myValue
+<BR style="font-style: italic; color: green; -moz-user-modify: read-only;" >
+</BR>
 </B>
-<UL STYLE="color: red; -moz-user-modify: read-only;">
-<LI>
+<UL style="color: red; -moz-user-modify: read-only;" title="h:messages style: color: red" >
+<LI title="h:messages style: color: red" >
 Error Messages
 </LI>
 </UL>
-<FORM STYLE="border: 1px dotted rgb(255, 102, 0); padding: 5px;">
-<SPAN CLASS="vpe-text">
+<FORM style="border: 1px dotted rgb(255, 102, 0); padding: 5px;" title="h:form id: greetingForm" >
+<SPAN class="vpe-text" title="h:outputText value: #{Message.prompt_message}" >
 Name:
 </SPAN>
-<SPAN CLASS="vpe-text">
-<SPAN CLASS="vpe-text">
+<SPAN class="vpe-text" title="h:inputText value: #{user.name} required: true" >
+<SPAN class="vpe-text" title="h:inputText value: #{user.name} required: true" >
 </SPAN>
-<INPUT VALUE="#{user.name}"/>
-
+<INPUT value="#{user.name}" title="h:inputText value: #{user.name} required: true" >
+</INPUT>
 </SPAN>
-<INPUT TYPE="button" VALUE="Say Hello!" STYLE="-moz-user-modify: read-only;"/>
-
+<INPUT type="button" title="h:commandButton action: hello value: Say Hello!" value="Say Hello!" style="-moz-user-modify: read-only;" >
+</INPUT>
 </FORM>
 </DIV>
 </TD>
