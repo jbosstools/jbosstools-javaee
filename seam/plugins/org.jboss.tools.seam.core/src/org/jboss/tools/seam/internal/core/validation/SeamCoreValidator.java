@@ -17,6 +17,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -25,6 +26,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.jdt.core.Flags;
 import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.IMethod;
@@ -74,6 +76,7 @@ import org.jboss.tools.seam.internal.core.DataModelSelectionAttribute;
 import org.jboss.tools.seam.internal.core.SeamComponentDeclaration;
 import org.jboss.tools.seam.internal.core.SeamProject;
 import org.jboss.tools.seam.internal.core.SeamTextSourceReference;
+import org.jboss.tools.seam.pages.xml.model.SeamPagesConstants;
 
 /**
  * Validator for Java and XML files.
@@ -316,8 +319,29 @@ public class SeamCoreValidator extends SeamValidationErrorManager implements IVa
 			displaySubtask(SeamValidationMessages.VALIDATING_CLASS, new String[]{projectName, d.getClassName()});
 			validateMethodsOfUnknownComponent(d);
 		}
-
+		IResource webContent = EclipseResourceUtil.getFirstWebContentResource(project);
+		if(webContent instanceof IContainer) {
+			validateAllPageXMLFiles((IContainer)webContent);
+		}
+		
 		return OK_STATUS;
+	}
+	
+	void validateAllPageXMLFiles(IContainer c) {
+		IResource[] rs = null;
+		try {
+			rs = ((IContainer)c).members();
+		} catch (CoreException e) {
+			SeamCorePlugin.getDefault().logError(e);
+		}
+		for (int i = 0; i < rs.length; i++) {
+			if(rs[i] instanceof IContainer) {
+				 validateAllPageXMLFiles((IContainer)rs[i]);
+			} else if(rs[i] instanceof IFile) {
+				validatePageXML((IFile)rs[i]);
+			}
+		}
+		
 	}
 
 	private void validateFactory(IPath sourceFilePath, Set<String> markedDuplicateFactoryNames) {
@@ -963,17 +987,18 @@ public class SeamCoreValidator extends SeamValidationErrorManager implements IVa
 	}
 
 	private void validatePageXML(IFile f) {
-		if(f.getName().equals("pages.xml")) {
+		if(f.getName().equals("pages.xml") || f.getName().endsWith(".page.xml")) {
 			XModelObject object = EclipseResourceUtil.createObjectForResource(f);
 			if(object == null) return;
-			if(object.getModelEntity().getName().startsWith("FileSeamPage")) {
+			if(object.getModelEntity().getName().startsWith(SeamPagesConstants.ENT_FILE_SEAM_PAGE)) {
 				validatePageRedirects(object, f);
 			}
 		}
 	}
 
 	private void validatePageRedirects(XModelObject o, IFile f) {
-		if(o.getModelEntity().getName().startsWith("SeamPageRedirect")) {
+		String entity = o.getModelEntity().getName();
+		if(entity.startsWith(SeamPagesConstants.ENT_REDIRECT) || entity.startsWith(SeamPagesConstants.ENT_RENDER)) {
 			validatePageRedirect(o, f);
 		} else {
 			XModelObject[] cs = o.getChildren();
@@ -984,7 +1009,7 @@ public class SeamCoreValidator extends SeamValidationErrorManager implements IVa
 	}
 
 	private void validatePageRedirect(XModelObject redirect, IFile f) {
-		String path = redirect.getAttributeValue("view id");
+		String path = redirect.getAttributeValue(SeamPagesConstants.ATTR_VIEW_ID);
 		if(path == null || path.length() == 0 || path.indexOf('*') >= 0) return;
 		path = path.replace('\\', '/');
 		if(path.indexOf('?') >= 0) {
@@ -992,7 +1017,7 @@ public class SeamCoreValidator extends SeamValidationErrorManager implements IVa
 		}
 		XModelObject target = redirect.getModel().getByPath(path);
 		if(target == null) {
-			XMLValueInfo i = new XMLValueInfo(redirect, "view id");
+			XMLValueInfo i = new XMLValueInfo(redirect, SeamPagesConstants.ATTR_VIEW_ID);
 			addError(NLS.bind(SeamValidationMessages.UNRESOLVED_VIEW_ID, path), SeamPreferences.UNRESOLVED_VIEW_ID, i, f);
 		}
 		
