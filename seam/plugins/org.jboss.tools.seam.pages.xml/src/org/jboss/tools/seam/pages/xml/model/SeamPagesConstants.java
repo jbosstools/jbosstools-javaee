@@ -37,11 +37,14 @@ public interface SeamPagesConstants {
 	public String ENT_NAVIGATION = "SeamPageNavigation"; //$NON-NLS-1$
 	public String ENT_NAVIGATION_RULE = "SeamPageNavigationRule"; //$NON-NLS-1$
 
-	public String ENT_EXCEPTION = "SeamPageException";
+	public String ENT_EXCEPTION = "SeamPageException"; //$NON-NLS-1$
 
-	public String ENT_RULE = "SeamPageRule";
+	public String ENT_RULE = "SeamPageRule"; //$NON-NLS-1$
 	public String ENT_RULE_12 = "SeamPageRule" + SUFF_12;
 	public String ENT_RULE_20 = "SeamPageRule" + SUFF_20;
+	
+	public String ENT_REDIRECT = "SeamPageRedirect"; //$NON-NLS-1$
+	public String ENT_RENDER = "SeamPageRender"; //$NON-NLS-1$
 
 	public String ENT_PARAM = "SeamPageParam";
 	public String ENT_PARAM_12 = ENT_PARAM + SUFF_12;
