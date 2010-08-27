@@ -27,7 +27,6 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Path;
 import org.eclipse.jdt.core.Flags;
 import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.IMethod;
@@ -87,8 +86,17 @@ public class SeamCoreValidator extends SeamValidationErrorManager implements IVa
 	public static final String ID = "org.jboss.tools.seam.core.CoreValidator";
 	
 	public static final String MESSAGE_ID_ATTRIBUTE_NAME = "Seam_message_id"; //$NON-NLS-1$
+	
 	public static final int NONUNIQUE_COMPONENT_NAME_MESSAGE_ID = 1;
-
+	public static final int DUPLICATE_REMOVE_MESSAGE_ID = 2;
+	public static final int DUPLICATE_DESTROY_MESSAGE_ID = 3;
+	public static final int DUPLICATE_CREATE_MESSAGE_ID = 4;
+	public static final int DUPLICATE_UNWRAP_MESSAGE_ID = 5;
+	public static final int DESTROY_METHOD_BELONGS_TO_STATELESS_SESSION_BEAN_MESSAGE_ID = 6;
+	public static final int CREATE_DOESNT_BELONG_TO_COMPONENT_MESSAGE_ID = 7;
+	public static final int UNWRAP_DOESNT_BELONG_TO_COMPONENT_MESSAGE_ID = 8;
+	public static final int OBSERVER_DOESNT_BELONG_TO_COMPONENT_MESSAGE_ID = 9;
+	
 	private ISeamProject seamProject;
 	private String projectName;
 
@@ -755,7 +763,7 @@ public class SeamCoreValidator extends SeamValidationErrorManager implements IVa
 				ITextSourceReference location = getScopeLocation(component);
 				addError(SeamValidationMessages.STATEFUL_COMPONENT_WRONG_SCOPE, SeamPreferences.STATEFUL_COMPONENT_WRONG_SCOPE, new String[]{component.getName()}, location, javaDeclaration.getResource());
 			}
-			validateDuplicateComponentMethod(SeamComponentMethodType.REMOVE, component, SeamValidationMessages.DUPLICATE_REMOVE, SeamPreferences.DUPLICATE_REMOVE);
+			validateDuplicateComponentMethod(SeamComponentMethodType.REMOVE, component, SeamValidationMessages.DUPLICATE_REMOVE, SeamPreferences.DUPLICATE_REMOVE, DUPLICATE_REMOVE_MESSAGE_ID);
 		}
 	}
 
@@ -769,12 +777,12 @@ public class SeamCoreValidator extends SeamValidationErrorManager implements IVa
 	}
 
 	private void validateDuplicateComponentMethods(ISeamComponent component) {
-		validateDuplicateComponentMethod(SeamComponentMethodType.DESTROY, component, SeamValidationMessages.DUPLICATE_DESTROY, SeamPreferences.DUPLICATE_DESTROY);
-		validateDuplicateComponentMethod(SeamComponentMethodType.CREATE, component, SeamValidationMessages.DUPLICATE_CREATE, SeamPreferences.DUPLICATE_CREATE);
-		validateDuplicateComponentMethod(SeamComponentMethodType.UNWRAP, component, SeamValidationMessages.DUPLICATE_UNWRAP, SeamPreferences.DUPLICATE_UNWRAP);
+		validateDuplicateComponentMethod(SeamComponentMethodType.DESTROY, component, SeamValidationMessages.DUPLICATE_DESTROY, SeamPreferences.DUPLICATE_DESTROY, DUPLICATE_DESTROY_MESSAGE_ID);
+		validateDuplicateComponentMethod(SeamComponentMethodType.CREATE, component, SeamValidationMessages.DUPLICATE_CREATE, SeamPreferences.DUPLICATE_CREATE, DUPLICATE_CREATE_MESSAGE_ID);
+		validateDuplicateComponentMethod(SeamComponentMethodType.UNWRAP, component, SeamValidationMessages.DUPLICATE_UNWRAP, SeamPreferences.DUPLICATE_UNWRAP, DUPLICATE_UNWRAP_MESSAGE_ID);
 	}
 
-	private void validateDuplicateComponentMethod(SeamComponentMethodType methodType, ISeamComponent component, String message, String preferenceKey) {
+	private void validateDuplicateComponentMethod(SeamComponentMethodType methodType, ISeamComponent component, String message, String preferenceKey, int message_id) {
 		ISeamJavaComponentDeclaration javaDeclaration = component.getJavaDeclaration();
 		Set<ISeamComponentMethod> methods = javaDeclaration.getMethodsByType(methodType);
 		if(methods!=null && methods.size()>1) {
@@ -783,7 +791,7 @@ public class SeamCoreValidator extends SeamValidationErrorManager implements IVa
 					IMethod javaMethod = (IMethod)method.getSourceMember();
 					String methodName = javaMethod.getElementName();
 					ITextSourceReference methodNameLocation = getNameLocation(method);
-					addError(message, preferenceKey, new String[]{methodName}, methodNameLocation, javaDeclaration.getResource());
+					addError(message, preferenceKey, new String[]{methodName}, methodNameLocation, javaDeclaration.getResource(), message_id);
 				}
 			}
 		}
@@ -881,9 +889,9 @@ public class SeamCoreValidator extends SeamValidationErrorManager implements IVa
 			IMember member = declaration.getSourceMember();
 			try {
 				if(member!=null && !Flags.isAbstract(member.getFlags())) {
-					validateMethodOfUnknownComponent(SeamComponentMethodType.CREATE, declaration, SeamValidationMessages.CREATE_DOESNT_BELONG_TO_COMPONENT, SeamPreferences.CREATE_DOESNT_BELONG_TO_COMPONENT);
-					validateMethodOfUnknownComponent(SeamComponentMethodType.UNWRAP, declaration, SeamValidationMessages.UNWRAP_DOESNT_BELONG_TO_COMPONENT, SeamPreferences.UNWRAP_DOESNT_BELONG_TO_COMPONENT);
-					validateMethodOfUnknownComponent(SeamComponentMethodType.OBSERVER, declaration, SeamValidationMessages.OBSERVER_DOESNT_BELONG_TO_COMPONENT, SeamPreferences.OBSERVER_DOESNT_BELONG_TO_COMPONENT);
+					validateMethodOfUnknownComponent(SeamComponentMethodType.CREATE, declaration, SeamValidationMessages.CREATE_DOESNT_BELONG_TO_COMPONENT, SeamPreferences.CREATE_DOESNT_BELONG_TO_COMPONENT, CREATE_DOESNT_BELONG_TO_COMPONENT_MESSAGE_ID);
+					validateMethodOfUnknownComponent(SeamComponentMethodType.UNWRAP, declaration, SeamValidationMessages.UNWRAP_DOESNT_BELONG_TO_COMPONENT, SeamPreferences.UNWRAP_DOESNT_BELONG_TO_COMPONENT, UNWRAP_DOESNT_BELONG_TO_COMPONENT_MESSAGE_ID);
+					validateMethodOfUnknownComponent(SeamComponentMethodType.OBSERVER, declaration, SeamValidationMessages.OBSERVER_DOESNT_BELONG_TO_COMPONENT, SeamPreferences.OBSERVER_DOESNT_BELONG_TO_COMPONENT, OBSERVER_DOESNT_BELONG_TO_COMPONENT_MESSAGE_ID);
 				}
 			} catch (JavaModelException e) {
 				SeamCorePlugin.getPluginLog().logError(e);
@@ -905,13 +913,13 @@ public class SeamCoreValidator extends SeamValidationErrorManager implements IVa
 				if(javaDeclaration.getSourcePath().equals(javaMethod.getPath())) {
 					validationContext.addLinkedCoreResource(component.getName(), javaDeclaration.getSourcePath(), true);
 					ITextSourceReference methodNameLocation = getNameLocation(method);
-					addError(SeamValidationMessages.DESTROY_METHOD_BELONGS_TO_STATELESS_SESSION_BEAN, SeamPreferences.DESTROY_METHOD_BELONGS_TO_STATELESS_SESSION_BEAN, new String[]{methodName}, methodNameLocation, method.getResource());
+					addError(SeamValidationMessages.DESTROY_METHOD_BELONGS_TO_STATELESS_SESSION_BEAN, SeamPreferences.DESTROY_METHOD_BELONGS_TO_STATELESS_SESSION_BEAN, new String[]{methodName}, methodNameLocation, method.getResource(), DESTROY_METHOD_BELONGS_TO_STATELESS_SESSION_BEAN_MESSAGE_ID);
 				}
 			}
 		}
 	}
 
-	private void validateMethodOfUnknownComponent(SeamComponentMethodType methodType, ISeamJavaComponentDeclaration declaration, String message, String preferenceKey) {
+	private void validateMethodOfUnknownComponent(SeamComponentMethodType methodType, ISeamJavaComponentDeclaration declaration, String message, String preferenceKey, int message_id) {
 		Set<ISeamComponentMethod> methods = declaration.getMethodsByType(methodType);
 		if(methods!=null && !methods.isEmpty()) {
 			for (ISeamComponentMethod method : methods) {
@@ -919,7 +927,7 @@ public class SeamCoreValidator extends SeamValidationErrorManager implements IVa
 				String methodName = javaMethod.getElementName();
 				if(declaration.getSourcePath().equals(javaMethod.getPath())) {
 					ITextSourceReference methodNameLocation = getNameLocation(method);
-					addError(message, preferenceKey, new String[]{methodName}, methodNameLocation, method.getResource());
+					addError(message, preferenceKey, new String[]{methodName}, methodNameLocation, method.getResource(), message_id);
 					validationContext.addUnnamedCoreResource(declaration.getSourcePath());
 				}
 			}

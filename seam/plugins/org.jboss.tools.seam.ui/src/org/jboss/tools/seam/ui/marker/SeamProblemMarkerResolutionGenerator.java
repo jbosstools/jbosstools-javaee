@@ -17,6 +17,7 @@ import org.eclipse.ui.IMarkerResolution;
 import org.eclipse.ui.IMarkerResolutionGenerator2;
 import org.jboss.tools.seam.internal.core.validation.SeamCoreValidator;
 import org.jboss.tools.seam.ui.SeamGuiPlugin;
+import org.jboss.tools.seam.ui.SeamUIMessages;
 
 /**
  * @author Daniel Azarov
@@ -25,20 +26,17 @@ public class SeamProblemMarkerResolutionGenerator  implements IMarkerResolutionG
 
 	public IMarkerResolution[] getResolutions(IMarker marker) {
 		try{
-			IMarkerResolution resolution = isOurCase(marker); 
-			if(resolution != null){
-				return new IMarkerResolution[] {resolution};
-			}
+			return findResolutions(marker);
 		}catch(CoreException ex){
 			SeamGuiPlugin.getPluginLog().logError(ex);
 		}
 		return new IMarkerResolution[]{};
 	}
 	
-	private IMarkerResolution isOurCase(IMarker marker) throws CoreException{
+	private IMarkerResolution[] findResolutions(IMarker marker) throws CoreException{
 		Integer attribute = ((Integer)marker.getAttribute(SeamCoreValidator.MESSAGE_ID_ATTRIBUTE_NAME));
 		if(attribute == null)
-			return null;
+			return new IMarkerResolution[]{};
 		
 		int messageId = attribute.intValue();
 		
@@ -46,24 +44,49 @@ public class SeamProblemMarkerResolutionGenerator  implements IMarkerResolutionG
 		
 		attribute =  ((Integer)marker.getAttribute(IMarker.CHAR_START));
 		if(attribute == null)
-			return null;
+			return new IMarkerResolution[]{};
 		int start = attribute.intValue();
 		
 		attribute = ((Integer)marker.getAttribute(IMarker.CHAR_END));
 		if(attribute == null)
-			return null;
+			return new IMarkerResolution[]{};
 		int end = attribute.intValue();
 		
 		if(messageId == SeamCoreValidator.NONUNIQUE_COMPONENT_NAME_MESSAGE_ID)
-			return new DeleteNameAnnotaionMarkerResolution(file, start, end);
-		
-		return null;
+			return new IMarkerResolution[]{new DeleteAnnotaionMarkerResolution(SeamUIMessages.DELETE_NAME_ANNOTATION_MARKER_RESOLUTION_TITLE, "org.jboss.seam.annotations.Name",file, start, end)};
+		else if(messageId == SeamCoreValidator.DUPLICATE_REMOVE_MESSAGE_ID)
+			return new IMarkerResolution[]{new DeleteAnnotaionMarkerResolution(SeamUIMessages.DELETE_REMOVE_ANNOTATION_MARKER_RESOLUTION_TITLE, "org.jboss.seam.annotations.Remove", file, start, end)};
+		else if(messageId == SeamCoreValidator.DUPLICATE_DESTROY_MESSAGE_ID)
+			return new IMarkerResolution[]{new DeleteAnnotaionMarkerResolution(SeamUIMessages.DELETE_DESTROY_ANNOTATION_MARKER_RESOLUTION_TITLE, "org.jboss.seam.annotations.Destroy", file, start, end)};
+		else if(messageId == SeamCoreValidator.DUPLICATE_CREATE_MESSAGE_ID)
+			return new IMarkerResolution[]{new DeleteAnnotaionMarkerResolution(SeamUIMessages.DELETE_CREATE_ANNOTATION_MARKER_RESOLUTION_TITLE, "org.jboss.seam.annotations.Create", file, start, end)};
+		else if(messageId == SeamCoreValidator.DUPLICATE_UNWRAP_MESSAGE_ID)
+			return new IMarkerResolution[]{new DeleteAnnotaionMarkerResolution(SeamUIMessages.DELETE_UNWRAP_ANNOTATION_MARKER_RESOLUTION_TITLE, "org.jboss.seam.annotations.Unwrap", file, start, end)};
+		else if(messageId == SeamCoreValidator.DESTROY_METHOD_BELONGS_TO_STATELESS_SESSION_BEAN_MESSAGE_ID)
+			return new IMarkerResolution[]{new DeleteAnnotaionMarkerResolution(SeamUIMessages.DELETE_DESTROY_ANNOTATION_MARKER_RESOLUTION_TITLE, "org.jboss.seam.annotations.Destroy", file, start, end)};
+		else if(messageId == SeamCoreValidator.CREATE_DOESNT_BELONG_TO_COMPONENT_MESSAGE_ID)
+			return new IMarkerResolution[]{
+				new AddAnnotaionMarkerResolution(SeamUIMessages.ADD_NAME_ANNOTATION_MARKER_RESOLUTION_TITLE, "org.jboss.seam.annotations.Name", file, start, end),
+				new DeleteAnnotaionMarkerResolution(SeamUIMessages.DELETE_CREATE_ANNOTATION_MARKER_RESOLUTION_TITLE, "org.jboss.seam.annotations.Create", file, start, end)
+			};
+		else if(messageId == SeamCoreValidator.UNWRAP_DOESNT_BELONG_TO_COMPONENT_MESSAGE_ID)
+			return new IMarkerResolution[]{
+				new AddAnnotaionMarkerResolution(SeamUIMessages.ADD_NAME_ANNOTATION_MARKER_RESOLUTION_TITLE, "org.jboss.seam.annotations.Name", file, start, end),
+				new DeleteAnnotaionMarkerResolution(SeamUIMessages.DELETE_UNWRAP_ANNOTATION_MARKER_RESOLUTION_TITLE, "org.jboss.seam.annotations.Unwrap", file, start, end)
+			};
+		else if(messageId == SeamCoreValidator.OBSERVER_DOESNT_BELONG_TO_COMPONENT_MESSAGE_ID)
+			return new IMarkerResolution[]{
+				new AddAnnotaionMarkerResolution(SeamUIMessages.ADD_NAME_ANNOTATION_MARKER_RESOLUTION_TITLE, "org.jboss.seam.annotations.Name", file, start, end),
+				new DeleteAnnotaionMarkerResolution(SeamUIMessages.DELETE_OBSERVER_ANNOTATION_MARKER_RESOLUTION_TITLE, "org.jboss.seam.annotations.Observer", file, start, end)
+			};
+				
+		return new IMarkerResolution[]{};
 	}
 	
 
 	public boolean hasResolutions(IMarker marker) {
 		try{
-			if(isOurCase(marker) != null)
+			if(findResolutions(marker).length != 0)
 				return true;
 		}catch(CoreException ex){
 			SeamGuiPlugin.getPluginLog().logError(ex);

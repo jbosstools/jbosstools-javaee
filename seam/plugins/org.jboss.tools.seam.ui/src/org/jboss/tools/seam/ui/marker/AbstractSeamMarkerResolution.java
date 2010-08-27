@@ -82,16 +82,21 @@ public abstract class AbstractSeamMarkerResolution implements
 	}
 	
 	private boolean checkImport(String text, String qualifiedName){
+		String name = getShortName(qualifiedName);
+		
+		Pattern p = Pattern.compile(".*\\W"+name+"\\W.*",Pattern.DOTALL); //$NON-NLS-1$ //$NON-NLS-2$
+		Matcher m = p.matcher(text);
+		return !m.matches();
+	}
+	
+	protected String getShortName(String qualifiedName){
 		int lastDot = qualifiedName.lastIndexOf('.');
 		String name;
 		if(lastDot < 0)
 			name = qualifiedName;
 		else
 			name = qualifiedName.substring(lastDot+1);
-		
-		Pattern p = Pattern.compile(".*\\W"+name+"\\W.*",Pattern.DOTALL); //$NON-NLS-1$ //$NON-NLS-2$
-		Matcher m = p.matcher(text);
-		return !m.matches();
+		return name;
 	}
 	
 	protected void addAnnotation(String annotationTypeName, String annotationString){

@@ -12,23 +12,27 @@ package org.jboss.tools.seam.ui.marker;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
-import org.jboss.tools.seam.ui.SeamUIMessages;
 
 /**
  * @author Daniel Azarov
  */
-public class DeleteNameAnnotaionMarkerResolution extends
+public class AddAnnotaionMarkerResolution extends
 		AbstractSeamMarkerResolution {
-	public DeleteNameAnnotaionMarkerResolution(IFile file, int start, int end){
+	private String label;
+	private String qualifiedName;
+	
+	public AddAnnotaionMarkerResolution(String label, String qualifiedName, IFile file, int start, int end){
 		super(file, start, end);
+		this.label = label;
+		this.qualifiedName = qualifiedName;
 	}
 	
 	public String getLabel() {
-		return SeamUIMessages.DELETE_NAME_ANNOTATION_MARKER_RESOLUTION_TITLE;
+		return label;
 	}
 	
 	public void run(IMarker marker) {
-		deleteAnnotation("org.jboss.seam.annotations.Name"); //$NON-NLS-1$
+		addAnnotation(qualifiedName,"@"+getShortName(qualifiedName)); //$NON-NLS-1$
 	}
 
 }

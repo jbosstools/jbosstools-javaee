@@ -361,6 +361,18 @@ public class SeamUIMessages extends NLS {
 	public static String SEAM_COMPONENT_RENAME_HANDLER_ERROR;
 	
 	public static String DELETE_NAME_ANNOTATION_MARKER_RESOLUTION_TITLE;
+
+	public static String DELETE_REMOVE_ANNOTATION_MARKER_RESOLUTION_TITLE;
+
+	public static String DELETE_DESTROY_ANNOTATION_MARKER_RESOLUTION_TITLE;
+	
+	public static String DELETE_CREATE_ANNOTATION_MARKER_RESOLUTION_TITLE;
+	
+	public static String DELETE_UNWRAP_ANNOTATION_MARKER_RESOLUTION_TITLE;
+
+	public static String DELETE_OBSERVER_ANNOTATION_MARKER_RESOLUTION_TITLE;
+	
+	public static String ADD_NAME_ANNOTATION_MARKER_RESOLUTION_TITLE;
 	
 	static {
 		// load message values from bundle file
