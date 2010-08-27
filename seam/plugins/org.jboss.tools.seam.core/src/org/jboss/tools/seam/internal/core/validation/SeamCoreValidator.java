@@ -19,6 +19,7 @@ import java.util.Set;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
@@ -83,8 +84,10 @@ import org.jboss.tools.seam.pages.xml.model.SeamPagesConstants;
  * @author Alexey Kazakov
  */
 public class SeamCoreValidator extends SeamValidationErrorManager implements IValidator {
-
 	public static final String ID = "org.jboss.tools.seam.core.CoreValidator";
+	
+	public static final String MESSAGE_ID_ATTRIBUTE_NAME = "Seam_message_id"; //$NON-NLS-1$
+	public static final int NONUNIQUE_COMPONENT_NAME_MESSAGE_ID = 1;
 
 	private ISeamProject seamProject;
 	private String projectName;
@@ -552,7 +555,7 @@ public class SeamCoreValidator extends SeamValidationErrorManager implements IVa
 								IResource checkedDeclarationResource = checkedDeclaration.getResource();
 								ITextSourceReference location = ((SeamComponentDeclaration)checkedDeclaration).getLocationFor(SeamComponentDeclaration.PATH_OF_NAME);
 								if(!SeamUtil.isEmptyLocation(location)) {
-									addError(SeamValidationMessages.NONUNIQUE_COMPONENT_NAME_MESSAGE, SeamPreferences.NONUNIQUE_COMPONENT_NAME, new String[]{componentName}, location, checkedDeclarationResource);
+									addError(SeamValidationMessages.NONUNIQUE_COMPONENT_NAME_MESSAGE, SeamPreferences.NONUNIQUE_COMPONENT_NAME, new String[]{componentName}, location, checkedDeclarationResource, NONUNIQUE_COMPONENT_NAME_MESSAGE_ID);
 								}
 								markedDeclarations.add(checkedDeclaration);
 							}
@@ -560,7 +563,7 @@ public class SeamCoreValidator extends SeamValidationErrorManager implements IVa
 							markedDeclarations.add(javaDeclaration);
 							ITextSourceReference location = ((SeamComponentDeclaration)javaDeclaration).getLocationFor(SeamComponentDeclaration.PATH_OF_NAME);
 							if(!SeamUtil.isEmptyLocation(location)) {
-								addError(SeamValidationMessages.NONUNIQUE_COMPONENT_NAME_MESSAGE, SeamPreferences.NONUNIQUE_COMPONENT_NAME, new String[]{componentName}, location, javaDeclarationResource);
+								addError(SeamValidationMessages.NONUNIQUE_COMPONENT_NAME_MESSAGE, SeamPreferences.NONUNIQUE_COMPONENT_NAME, new String[]{componentName}, location, javaDeclarationResource, NONUNIQUE_COMPONENT_NAME_MESSAGE_ID);
 							}
 						}
 					}
@@ -609,7 +612,7 @@ public class SeamCoreValidator extends SeamValidationErrorManager implements IVa
 							IResource checkedDeclarationResource = checkedDeclaration.getResource();
 							ITextSourceReference location = ((SeamComponentDeclaration)checkedDeclaration).getLocationFor(SeamComponentDeclaration.PATH_OF_NAME);
 							if(!SeamUtil.isEmptyLocation(location)) {
-								addError(SeamValidationMessages.NONUNIQUE_COMPONENT_NAME_MESSAGE, SeamPreferences.NONUNIQUE_COMPONENT_NAME, new String[]{componentName}, location, checkedDeclarationResource);
+								addError(SeamValidationMessages.NONUNIQUE_COMPONENT_NAME_MESSAGE, SeamPreferences.NONUNIQUE_COMPONENT_NAME, new String[]{componentName}, location, checkedDeclarationResource, NONUNIQUE_COMPONENT_NAME_MESSAGE_ID);
 							}
 							markedDeclarations.add(checkedDeclaration);
 						}
@@ -617,7 +620,7 @@ public class SeamCoreValidator extends SeamValidationErrorManager implements IVa
 						markedDeclarations.add(declaration);
 						ITextSourceReference location = ((SeamComponentDeclaration)declaration).getLocationFor(SeamComponentDeclaration.PATH_OF_NAME);
 						if(!SeamUtil.isEmptyLocation(location)) {
-							addError(SeamValidationMessages.NONUNIQUE_COMPONENT_NAME_MESSAGE, SeamPreferences.NONUNIQUE_COMPONENT_NAME, new String[]{componentName}, location, declaration.getResource());
+							addError(SeamValidationMessages.NONUNIQUE_COMPONENT_NAME_MESSAGE, SeamPreferences.NONUNIQUE_COMPONENT_NAME, new String[]{componentName}, location, declaration.getResource(), NONUNIQUE_COMPONENT_NAME_MESSAGE_ID);
 						}
 					}
 				}
@@ -639,12 +642,12 @@ public class SeamCoreValidator extends SeamValidationErrorManager implements IVa
 										if(!markedJavaDeclarations.contains(javaDec)) {
 											markedJavaDeclarations.add(javaDec);
 											ITextSourceReference location = ((SeamComponentDeclaration)javaDec).getLocationFor(SeamComponentDeclaration.PATH_OF_NAME);
-											addError(SeamValidationMessages.NONUNIQUE_COMPONENT_NAME_MESSAGE, SeamPreferences.NONUNIQUE_COMPONENT_NAME, new String[]{componentName}, location, javaDec.getResource());
+											addError(SeamValidationMessages.NONUNIQUE_COMPONENT_NAME_MESSAGE, SeamPreferences.NONUNIQUE_COMPONENT_NAME, new String[]{componentName}, location, javaDec.getResource(), NONUNIQUE_COMPONENT_NAME_MESSAGE_ID);
 										}
 										if(!markedDeclarations.contains(declaration)) {
 											markedDeclarations.add(declaration);
 											ITextSourceReference location = ((SeamComponentDeclaration)declaration).getLocationFor(SeamComponentDeclaration.PATH_OF_NAME);
-											addError(SeamValidationMessages.NONUNIQUE_COMPONENT_NAME_MESSAGE, SeamPreferences.NONUNIQUE_COMPONENT_NAME, new String[]{componentName}, location, declaration.getResource());
+											addError(SeamValidationMessages.NONUNIQUE_COMPONENT_NAME_MESSAGE, SeamPreferences.NONUNIQUE_COMPONENT_NAME, new String[]{componentName}, location, declaration.getResource(), NONUNIQUE_COMPONENT_NAME_MESSAGE_ID);
 										}
 									}
 								}
@@ -1021,6 +1024,18 @@ public class SeamCoreValidator extends SeamValidationErrorManager implements IVa
 			addError(NLS.bind(SeamValidationMessages.UNRESOLVED_VIEW_ID, path), SeamPreferences.UNRESOLVED_VIEW_ID, i, f);
 		}
 		
+	}
+	
+	public IMarker addError(String message, String preferenceKey,
+			String[] messageArguments, ITextSourceReference location,
+			IResource target, int messageId) {
+		IMarker marker = addError(message, preferenceKey, messageArguments, location, target);
+		try{
+			marker.setAttribute(MESSAGE_ID_ATTRIBUTE_NAME, new Integer(messageId));
+		}catch(CoreException ex){
+			SeamCorePlugin.getDefault().logError(ex);
+		}
+		return marker;
 	}
 
 }

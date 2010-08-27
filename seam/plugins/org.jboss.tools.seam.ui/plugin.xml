@@ -708,5 +708,10 @@
 
 		</objectContribution>
 	</extension>
-
+	<extension point="org.eclipse.ui.ide.markerResolution">
+		<markerResolutionGenerator
+			markerType="org.eclipse.wst.validation.problemmarker"
+			class="org.jboss.tools.seam.ui.marker.SeamProblemMarkerResolutionGenerator">
+		</markerResolutionGenerator>
+	</extension>
 </plugin>

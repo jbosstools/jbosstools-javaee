@@ -360,6 +360,8 @@ public class SeamUIMessages extends NLS {
 	
 	public static String SEAM_COMPONENT_RENAME_HANDLER_ERROR;
 	
+	public static String DELETE_NAME_ANNOTATION_MARKER_RESOLUTION_TITLE;
+	
 	static {
 		// load message values from bundle file
 		NLS.initializeMessages(BUNDLE_NAME, SeamUIMessages.class);		
