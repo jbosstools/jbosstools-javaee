@@ -1462,6 +1462,118 @@ public class ValidationTest extends TCKTest {
 		assertMarkerIsCreated(file, CDIValidationMessages.MISSING_TARGET_ANNOTATION_IN_SCOPE_TYPE.substring(0, 52) + ".*", 30);
 	}
 
+	// beans.xml
+
+	/**
+	 * 5.1.1. Declaring selected alternatives for a bean archive
+	 *  - Each child <class> element must specify the name of an alternative bean class. If there is no class with the specified
+	 *    name the container automatically detects the problem
+	 *    and treats it as a deployment problem.
+	 */
+	public void testNoAlternativeClassWithSpecifiedName() throws Exception {
+		//TODO
+	}
+
+	/**
+	 * 5.1.1. Declaring selected alternatives for a bean archive
+	 *  - Each child <class> element must specify the name of an alternative bean class. If the class with the specified name is not an alternative bean class,
+	 *    the container automatically detects the problem and treats it as a deployment problem.
+	 */
+	public void testIllegalAlternativeClassWithSpecifiedName() throws Exception {
+		//TODO
+	}
+
+	/**
+	 * 5.1.1. Declaring selected alternatives for a bean archive
+	 * - Each child <stereotype> element must specify the name of an @Alternative stereotype annotation. If there is no annotation
+	 *   with the specified name the container automatically detects the
+	 *   problem and treats it as a deployment problem.
+	 */
+	public void testNoAlternativeAnnotationWithSpecifiedName() throws Exception {
+		//TODO
+	}
+
+	/**
+	 * 5.1.1. Declaring selected alternatives for a bean archive
+	 * - Each child <stereotype> element must specify the name of an @Alternative stereotype annotation. If the annotation is not an @Alternative stereotype,
+	 *   the container automatically detects the problem and treats it as a deployment problem.
+	 */
+	public void testIllegalAlternativeAnnotationWithSpecifiedName() throws Exception {
+		//TODO
+	}
+
+	/**
+	 * 5.1.1. Declaring selected alternatives for a bean archive
+	 * - If the same type is listed twice under the <alternatives> element, the container automatically detects the problem and
+	 *   treats it as a deployment problem.
+	 */
+	public void testSameAlternativeClassListedTwice() throws Exception {
+		//TODO
+	}
+
+	/**
+	 * 5.1.1. Declaring selected alternatives for a bean archive
+	 * - If the same type is listed twice under the <alternatives> element, the container automatically detects the problem and
+	 *   treats it as a deployment problem.
+	 */
+	public void testSameAlternativeAnnotationListedTwice() throws Exception {
+		//TODO
+	}
+
+	/**
+	 * 8.2. Decorator enablement and ordering
+	 * - Each child <class> element must specify the name of a decorator bean class. If there is no class with the specified name,
+	 *   the container automatically detects the problem and treats it as a deployment problem.
+	 */
+	public void testNonExistantDecoratorClassInBeansXmlNotOK() throws Exception {
+		//TODO
+	}
+
+	/**
+	 * 8.2. Decorator enablement and ordering
+	 * - Each child <class> element must specify the name of a decorator bean class. If the class with the specified name is not a decorator bean class,
+	 *   the container automatically detects the problem and treats it as a deployment problem.
+	 */
+	public void testEnabledDecoratorNotADecorator() throws Exception {
+		//TODO
+	}
+
+	/**
+	 * 8.2. Decorator enablement and ordering
+	 * - If the same class is listed twice under the <decorators> element, the container automatically detects the problem and
+	 *   treats it as a deployment problem.
+	 */
+	public void testDecoratorListedTwiceInBeansXmlNotOK() throws Exception {
+		//TODO
+	}
+
+	/**
+	 * 9.4. Interceptor enablement and ordering
+	 * - Each child <class> element must specify the name of an interceptor class. If there is no class with the specified name
+	 *   the container automatically detects the problem and treats it as a deployment problem.
+	 */
+	public void testNonExistantClassInBeansXmlNotOk() throws Exception {
+		//TODO
+	}
+
+	/**
+	 * 9.4. Interceptor enablement and ordering
+	 * - Each child <class> element must specify the name of an interceptor class. If the class with the specified name is not an interceptor class,
+	 *   the container automatically detects the problem and treats it as a deployment problem.
+	 */
+	public void testNonInterceptorClassInBeansXmlNotOk() throws Exception {
+		//TODO
+	}
+
+	/**
+	 * 9.4. Interceptor enablement and ordering
+	 * - If the same class is listed twice under the <interceptors> element, the container automatically detects the problem and treats it as
+	 *   a deployment problem.
+	 */
+	public void testSameInterceptorClassListedTwiceInBeansXmlNotOk() throws Exception {
+		//TODO
+	}
+
 	/**
 	 * https://jira.jboss.org/browse/JBIDE-6507
 	 *  
