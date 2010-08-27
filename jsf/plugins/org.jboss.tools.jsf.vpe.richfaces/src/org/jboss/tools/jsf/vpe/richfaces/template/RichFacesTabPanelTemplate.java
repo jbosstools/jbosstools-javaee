@@ -82,9 +82,7 @@ public class RichFacesTabPanelTemplate extends VpeAbstractTemplate implements Vp
 		Element sourceElement = (Element)sourceNode;
 
 		nsIDOMElement table = visualDocument.createElement(HTML.TAG_TABLE);
-		nsIDOMElement div = visualDocument.createElement(HTML.TAG_DIV);
-		div.appendChild(table);
-		VpeCreationData creationData = new VpeCreationData(div);
+		VpeCreationData creationData = new VpeCreationData(table);
 		ComponentUtil.setCSSLink(pageContext, CSS_FILE_PATH, RICH_FACES_TAB_PANEL);
 		setDirAttr(table, sourceElement);
 		table.setAttribute(HTML.ATTR_CLASS, 

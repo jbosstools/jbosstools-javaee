@@ -60,10 +60,8 @@ public class RichFacesToolBarTemplate extends VpeAbstractTemplate {
 	private static final String SPACE = " "; //$NON-NLS-1$
 
 	public VpeCreationData create(VpePageContext pageContext, Node sourceNode,  nsIDOMDocument visualDocument) {
-		nsIDOMElement div = visualDocument.createElement(HTML.TAG_DIV);
 		nsIDOMElement visualNode = visualDocument.createElement(HTML.TAG_TABLE);
-		div.appendChild(visualNode);
-		VpeCreationData creationData = new VpeCreationData(div);
+		VpeCreationData creationData = new VpeCreationData(visualNode);
 		Element sourceElement = (Element) sourceNode;
 		String itemSeparator = sourceElement.getAttribute(ITEMSEPARATOR_ATTR_NAME); 
 
