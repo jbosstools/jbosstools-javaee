@@ -10,6 +10,7 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.internal.core.validation;
 
+import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,6 +21,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
@@ -32,15 +34,26 @@ import org.eclipse.jdt.core.Flags;
 import org.eclipse.jdt.core.IAnnotation;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IField;
+import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IMemberValuePair;
 import org.eclipse.jdt.core.IMethod;
+import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.ISourceRange;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.ITypeParameter;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.core.Signature;
+import org.eclipse.wst.common.componentcore.ComponentCore;
+import org.eclipse.wst.common.componentcore.resources.IVirtualComponent;
+import org.eclipse.wst.common.componentcore.resources.IVirtualFile;
+import org.eclipse.wst.sse.core.StructuredModelManager;
+import org.eclipse.wst.sse.core.internal.provisional.IModelManager;
+import org.eclipse.wst.sse.core.internal.provisional.IStructuredModel;
+import org.eclipse.wst.sse.core.internal.provisional.IndexedRegion;
 import org.eclipse.wst.validation.internal.core.ValidationException;
 import org.eclipse.wst.validation.internal.provisional.core.IReporter;
+import org.eclipse.wst.xml.core.internal.provisional.document.IDOMDocument;
+import org.eclipse.wst.xml.core.internal.provisional.document.IDOMModel;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.CDICorePlugin;
@@ -78,6 +91,7 @@ import org.jboss.tools.cdi.core.preferences.CDIPreferences;
 import org.jboss.tools.cdi.internal.core.impl.CDIProject;
 import org.jboss.tools.cdi.internal.core.impl.Parameter;
 import org.jboss.tools.cdi.internal.core.impl.SessionBean;
+import org.jboss.tools.common.EclipseUtil;
 import org.jboss.tools.common.model.util.EclipseJavaUtil;
 import org.jboss.tools.common.text.ITextSourceReference;
 import org.jboss.tools.jst.web.kb.internal.validation.ContextValidationHelper;
@@ -87,6 +101,9 @@ import org.jboss.tools.jst.web.kb.validation.IValidatingProjectSet;
 import org.jboss.tools.jst.web.kb.validation.IValidationContext;
 import org.jboss.tools.jst.web.kb.validation.IValidator;
 import org.jboss.tools.jst.web.kb.validation.ValidationUtil;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 /**
  * @author Alexey Kazakov
@@ -96,6 +113,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 
 	ICDIProject cdiProject;
 	String projectName;
+	IJavaProject javaProject;
 
 	/*
 	 * (non-Javadoc)
@@ -181,6 +199,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 		super.init(project, validationHelper, manager, reporter);
 		cdiProject = CDICorePlugin.getCDIProject(project, false);
 		projectName = project.getName();
+		javaProject = EclipseUtil.getJavaProject(project);
 	}
 
 	/*
@@ -284,6 +303,12 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 		for (String scope: scopes) {
 			validateScopeType(cdiProject.getScope(scope));
 		}
+
+		List<IFile> beansXmls = getAllBeansXmls();
+		for (IFile beansXml : beansXmls) {
+			validateBeansXml(beansXml);
+		}
+
 		return OK_STATUS;
 	}
 
@@ -297,21 +322,63 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 			return;
 		}
 		displaySubtask(CDIValidationMessages.VALIDATING_RESOURCE, new String[] {file.getProject().getName(), file.getName()});
-		Set<IBean> beans = cdiProject.getBeans(file.getFullPath());
-		for (IBean bean : beans) {
-			validateBean(bean);
+
+		if("beans.xml".equalsIgnoreCase(file.getName()) && CDIPreferences.shouldValidateBeansXml(file.getProject())) {
+			// TODO should we check the path of the beans.xml? Or it's better to check the every beans.xml even if it is not in META-INF or WEB-INF.
+			validateBeansXml(file);
+		} else {
+			Set<IBean> beans = cdiProject.getBeans(file.getFullPath());
+			for (IBean bean : beans) {
+				validateBean(bean);
+			}
+			IStereotype stereotype = cdiProject.getStereotype(file.getFullPath());
+			validateStereotype(stereotype);
+	
+			IQualifier qualifier = cdiProject.getQualifier(file.getFullPath());
+			validateQualifier(qualifier);
+			
+			IScope scope = cdiProject.getScope(file.getFullPath());
+			validateScopeType(scope);
+	
+			IInterceptorBinding binding = cdiProject.getInterceptorBinding(file.getFullPath());
+			validateInterceptorBinding(binding);
 		}
-		IStereotype stereotype = cdiProject.getStereotype(file.getFullPath());
-		validateStereotype(stereotype);
+	}
 
-		IQualifier qualifier = cdiProject.getQualifier(file.getFullPath());
-		validateQualifier(qualifier);
-		
-		IScope scope = cdiProject.getScope(file.getFullPath());
-		validateScopeType(scope);
-
-		IInterceptorBinding binding = cdiProject.getInterceptorBinding(file.getFullPath());
-		validateInterceptorBinding(binding);
+	/**
+	 * Returns all the beans.xml from META-INF and WEB-INF folders
+	 * 
+	 * @return
+	 */
+	private List<IFile> getAllBeansXmls() {
+		List<IFile> beansXmls = new ArrayList<IFile>();
+		IPackageFragmentRoot[] roots;
+		try {
+			// From source folders
+			roots = javaProject.getPackageFragmentRoots();
+			for (int i = 0; i < roots.length; i++) {
+				if (roots[i].getKind() == IPackageFragmentRoot.K_SOURCE) {
+					IResource source = roots[i].getCorrespondingResource();
+					if(source instanceof IFolder) {
+						IResource beansXml = ((IFolder)source).findMember(new Path("/META-INF/beans.xml")); //$NON-NLS-1$
+						if(beansXml!=null && beansXml instanceof IFile) {
+							beansXmls.add((IFile)beansXml);
+						}
+					}
+				}
+			}
+			// From WEB-INF folder
+			IVirtualComponent com = ComponentCore.createComponent(rootProject);
+			if(com!=null) {
+				IVirtualFile beansXml = com.getRootFolder().getFile(new Path("/WEB-INF/beans.xml")); //$NON-NLS-1$
+				if(beansXml!=null && beansXml.getUnderlyingFile().isAccessible()) {
+					beansXmls.add(beansXml.getUnderlyingFile());
+				}
+			}
+		} catch (JavaModelException e) {
+			CDICorePlugin.getDefault().logError(e);
+		}
+		return beansXmls;
 	}
 
 	/**
@@ -2039,6 +2106,242 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 			}
 		} catch (JavaModelException e) {
 			CDICorePlugin.getDefault().logError(e);
+		}
+	}
+
+	private void validateBeansXml(IFile beansXml) {
+		IModelManager manager = StructuredModelManager.getModelManager();
+		if(manager == null) {
+			// this may happen if plug-in org.eclipse.wst.sse.core 
+			// is stopping or un-installed, that is Eclipse is shutting down.
+			// there is no need to report it, just stop validation.
+			return;
+		}
+
+		IStructuredModel model = null;
+		try {
+			model = manager.getModelForRead(beansXml);
+			if (model instanceof IDOMModel) {
+				IDOMModel domModel = (IDOMModel) model;
+				IDOMDocument document = domModel.getDocument();
+
+				/*
+				 * 5.1.1. Declaring selected alternatives for a bean archive
+				 *  - Each child <class> element must specify the name of an alternative bean class. If there is no class with the specified
+				 *    name, or if the class with the specified name is not an alternative bean class, the container automatically detects the problem
+				 *    and treats it as a deployment problem.
+				 *  - If the same type is listed twice under the <alternatives> element, the container automatically detects the problem and
+				 *    treats it as a deployment problem.
+				 */
+				validateTypeBeanForBeansXml(document, beansXml, "class", false, "alternatives", CDIValidationMessages.UNKNOWN_ALTERNATIVE_BEAN_CLASS_NAME, CDIValidationMessages.ILLEGAL_ALTERNATIVE_BEAN_CLASS, CDIValidationMessages.DUPLICATE_ALTERNATIVE_TYPE, CDIConstants.ALTERNATIVE_ANNOTATION_TYPE_NAME); //$NON-NLS-1$
+
+				/*
+				 * 5.1.1. Declaring selected alternatives for a bean archive
+				 *  - Each child <stereotype> element must specify the name of an @Alternative stereotype annotation. If there is no annotation
+				 *    with the specified name, or the annotation is not an @Alternative stereotype, the container automatically detects the
+				 *    problem and treats it as a deployment problem.
+				 *  - If the same type is listed twice under the <alternatives> element, the container automatically detects the problem and
+				 *    treats it as a deployment problem. 
+				 */
+				validateTypeBeanForBeansXml(document, beansXml, "stereotype", true, "alternatives", CDIValidationMessages.UNKNOWN_ALTERNATIVE_ANNOTATION_NAME, CDIValidationMessages.ILLEGAL_ALTERNATIVE_ANNOTATION, CDIValidationMessages.DUPLICATE_ALTERNATIVE_TYPE, CDIConstants.ALTERNATIVE_ANNOTATION_TYPE_NAME); //$NON-NLS-1$
+
+				/*
+				 * 8.2. Decorator enablement and ordering
+				 *  - Each child <class> element must specify the name of a decorator bean class. If there is no class with the specified name,
+				 *    or if the class with the specified name is not a decorator bean class, the container automatically detects the problem and
+				 *    treats it as a deployment problem.
+				 *  - If the same class is listed twice under the <decorators> element, the container automatically detects the problem and
+				 *    treats it as a deployment problem.
+				 */
+				validateTypeBeanForBeansXml(document, beansXml, "class", false, "decorators", CDIValidationMessages.UNKNOWN_DECORATOR_BEAN_CLASS_NAME, CDIValidationMessages.ILLEGAL_DECORATOR_BEAN_CLASS, CDIValidationMessages.DUPLICATE_DECORATOR_CLASS, CDIConstants.DECORATOR_STEREOTYPE_TYPE_NAME); //$NON-NLS-1$
+
+				/*
+				 * 9.4. Interceptor enablement and ordering
+				 * 	- Each child <class> element must specify the name of an interceptor class. If there is no class with the specified name, or if
+				 * 	  the class with the specified name is not an interceptor class, the container automatically detects the problem and treats it as
+				 * 	  a deployment problem.
+				 *  - If the same class is listed twice under the <interceptors> element, the container automatically detects the problem and treats it as
+				 *    a deployment problem.
+				 */
+				validateTypeBeanForBeansXml(document, beansXml, "class", false, "interceptors", CDIValidationMessages.UNKNOWN_INTERCEPTOR_CLASS_NAME, CDIValidationMessages.ILLEGAL_INTERCEPTOR_CLASS, CDIValidationMessages.DUPLICATE_INTERCEPTOR_CLASS, CDIConstants.INTERCEPTOR_ANNOTATION_TYPE_NAME); //$NON-NLS-1$
+			}
+		} catch (CoreException e) {
+			CDICorePlugin.getDefault().logError(e);
+        } catch (IOException e) {
+        	CDICorePlugin.getDefault().logError(e);
+		} finally {
+			if (model != null) {
+				model.releaseFromRead();
+			}
+		}
+	}
+
+	private void validateTypeBeanForBeansXml(IDOMDocument document, IFile beansXml, String typeElementName, boolean annotationType, String parentElementName, String unknownTypeErrorMessage, String illegalTypeErrorMessage, String duplicateTypeErrorMessage, String annotationName) {
+		try {
+			NodeList parentNodeList = document.getElementsByTagName(parentElementName);
+			for (int i = 0; i < parentNodeList.getLength(); i++) {
+				Node parentNode = parentNodeList.item(i);
+				if(parentNode instanceof Element) {
+					List<TypeNode> typeNodes = getTypeElements((Element)parentNode, typeElementName);
+					Map<String, TypeNode> uniqueTypes = new HashMap<String, TypeNode>();
+					for (TypeNode typeNode : typeNodes) {
+						IType type = getType(beansXml, typeNode, unknownTypeErrorMessage);
+						if(type!=null) {
+							if(!type.isBinary()) {
+								validationContext.addLinkedCoreResource(beansXml.getFullPath().toOSString(), type.getPath(), false);
+							}
+							if(!(annotationType?type.isAnnotation():type.isClass())) {
+								addError(illegalTypeErrorMessage, CDIPreferences.ILLEGAL_TYPE_NAME_IN_BEANS_XML,
+										new String[]{}, typeNode.getLength(), typeNode.getStartOffset(), beansXml);
+							} else if(type.isBinary()) {
+								IAnnotation[] annotations = type.getAnnotations();
+								boolean found = false;
+								for (IAnnotation annotation : annotations) {
+									if(annotation.getElementName().equals(annotationName)) {
+										found = true;
+										break;
+									}
+								}
+								if(!found) {
+									addError(illegalTypeErrorMessage, CDIPreferences.ILLEGAL_TYPE_NAME_IN_BEANS_XML,
+											new String[]{}, typeNode.getLength(), typeNode.getStartOffset(), beansXml);
+								}
+								continue;
+							} else {
+								IClassBean classBean = getClassBean(type);
+								if(classBean==null || !classBean.isAlternative()) {
+									addError(illegalTypeErrorMessage, CDIPreferences.ILLEGAL_TYPE_NAME_IN_BEANS_XML,
+											new String[]{}, typeNode.getLength(), typeNode.getStartOffset(), beansXml);
+								}
+							}
+							TypeNode node = uniqueTypes.get(typeNode.getTypeName());
+							if(node!=null) {
+								if(!node.isMarkedAsDuplicated()) {
+									addError(duplicateTypeErrorMessage, CDIPreferences.DUPLICATE_TYPE_IN_BEANS_XML,
+											new String[]{}, node.getLength(), node.getStartOffset(), beansXml);
+								}
+								node.setMarkedAsDuplicated(true);
+								addError(duplicateTypeErrorMessage, CDIPreferences.DUPLICATE_TYPE_IN_BEANS_XML,
+										new String[]{}, typeNode.getLength(), typeNode.getStartOffset(), beansXml);
+							}
+							uniqueTypes.put(typeNode.getTypeName(), typeNode);
+						}
+					}
+				}
+			}
+		} catch (JavaModelException e) {
+			CDICorePlugin.getDefault().logError(e);
+        }
+	}
+
+	private IClassBean getClassBean(IType type) {
+		IPath path = type.getPath();
+		Set<IBean> beans = cdiProject.getBeans(path);
+		for (IBean bean : beans) {
+			if(bean instanceof IClassBean) {
+				return (IClassBean)bean;
+			}
+		}
+		return null;
+	}
+
+	private IType getType(IFile beansXml, TypeNode node, String errorMessage) {
+		IType type = null;
+		if(node.getTypeName()!=null) {
+			try {
+				type = EclipseJavaUtil.findType(javaProject, node.getTypeName());
+			} catch (JavaModelException e) {
+				CDICorePlugin.getDefault().logError(e);
+				return null;
+			}
+		}
+		if(type==null) {
+			addError(errorMessage, CDIPreferences.ILLEGAL_TYPE_NAME_IN_BEANS_XML,
+					new String[]{}, node.getLength(), node.getStartOffset(), beansXml);
+		}
+		return type;
+	}
+
+	private List<TypeNode> getTypeElements(Element parentElement, String typeElementName) {
+		List<TypeNode> result = new ArrayList<TypeNode>();
+		NodeList list = parentElement.getElementsByTagName(typeElementName);
+		for (int i = 0; i < list.getLength(); i++) {
+			Node classNode = list.item(i);
+			NodeList children = classNode.getChildNodes();
+
+			boolean empty = true;
+			for (int j = 0; j < children.getLength(); j++) {
+				Node node = children.item(j);
+				if(node.getNodeType() == Node.TEXT_NODE) {
+					String value = node.getNodeValue();
+					if(value!=null) {
+						String className = value.trim();
+						if(className.length()==0) {
+							continue;
+						}
+						empty = false;
+						if(node instanceof IndexedRegion) {
+							int start = ((IndexedRegion)node).getStartOffset() + value.indexOf(className);
+							int length = className.length();
+							result.add(new TypeNode(start, length, className));
+							break;
+						}
+					}
+				}
+			}
+
+			if(empty && classNode instanceof IndexedRegion) {
+				int start = ((IndexedRegion)classNode).getStartOffset();
+				int end = ((IndexedRegion)classNode).getEndOffset();
+				int length = end - start;
+				result.add(new TypeNode(start, length, null));
+			}
+		}
+		return result;
+	}
+
+	private static class TypeNode {
+		private int startOffset;
+		private int length;
+		private String typeName;
+		private boolean markedAsDuplicated;
+
+		public TypeNode(int startOffset, int length, String typeName) {
+			this.startOffset = startOffset;
+			this.length = length;
+			this.typeName = typeName;
+		}
+
+		public int getStartOffset() {
+			return startOffset;
+		}
+
+		public void setStartOffset(int startOffset) {
+			this.startOffset = startOffset;
+		}
+
+		public int getLength() {
+			return length;
+		}
+
+		public void setLength(int length) {
+			this.length = length;
+		}
+
+		public String getTypeName() {
+			return typeName;
+		}
+
+		public void setTypeName(String typeName) {
+			this.typeName = typeName;
+		}
+
+		public boolean isMarkedAsDuplicated() {
+			return markedAsDuplicated;
+		}
+
+		public void setMarkedAsDuplicated(boolean markedAsDuplicated) {
+			this.markedAsDuplicated = markedAsDuplicated;
 		}
 	}
 }

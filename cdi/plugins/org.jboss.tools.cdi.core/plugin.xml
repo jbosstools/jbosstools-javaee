@@ -102,10 +102,6 @@
                class="org.jboss.tools.cdi.internal.core.validation.CDICoreValidator"
                id="org.jboss.tools.cdi.core.CoreValidator">
          </validator>
-         <!--validator
-               class="org.jboss.tools.cdi.internal.core.validation.BeansXmlValidator"
-               id="org.jboss.tools.cdi.core.BeansXmlValidator">
-         </validator-->
    </extension>
 
 <!-- Workaround for https://bugs.eclipse.org/bugs/show_bug.cgi?id=315390 -->
