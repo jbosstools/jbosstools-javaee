@@ -1471,7 +1471,9 @@ public class ValidationTest extends TCKTest {
 	 *    and treats it as a deployment problem.
 	 */
 	public void testNoAlternativeClassWithSpecifiedName() throws Exception {
-		//TODO
+		IFile file = tckProject.getFile("WebContent/WEB-INF/beans.xml");
+		assertMarkerIsCreated(file, CDIValidationMessages.UNKNOWN_ALTERNATIVE_BEAN_CLASS_NAME, 4);
+		assertMarkerIsNotCreated(file, CDIValidationMessages.UNKNOWN_ALTERNATIVE_BEAN_CLASS_NAME, 19);
 	}
 
 	/**
@@ -1480,7 +1482,9 @@ public class ValidationTest extends TCKTest {
 	 *    the container automatically detects the problem and treats it as a deployment problem.
 	 */
 	public void testIllegalAlternativeClassWithSpecifiedName() throws Exception {
-		//TODO
+		IFile file = tckProject.getFile("WebContent/WEB-INF/beans.xml");
+		assertMarkerIsCreated(file, CDIValidationMessages.ILLEGAL_ALTERNATIVE_BEAN_CLASS, 7);
+		assertMarkerIsNotCreated(file, CDIValidationMessages.ILLEGAL_ALTERNATIVE_BEAN_CLASS, 19);
 	}
 
 	/**
@@ -1490,7 +1494,9 @@ public class ValidationTest extends TCKTest {
 	 *   problem and treats it as a deployment problem.
 	 */
 	public void testNoAlternativeAnnotationWithSpecifiedName() throws Exception {
-		//TODO
+		IFile file = tckProject.getFile("WebContent/WEB-INF/beans.xml");
+		assertMarkerIsCreated(file, CDIValidationMessages.UNKNOWN_ALTERNATIVE_ANNOTATION_NAME, 12);
+		assertMarkerIsNotCreated(file, CDIValidationMessages.UNKNOWN_ALTERNATIVE_ANNOTATION_NAME, 17);
 	}
 
 	/**
@@ -1499,7 +1505,9 @@ public class ValidationTest extends TCKTest {
 	 *   the container automatically detects the problem and treats it as a deployment problem.
 	 */
 	public void testIllegalAlternativeAnnotationWithSpecifiedName() throws Exception {
-		//TODO
+		IFile file = tckProject.getFile("WebContent/WEB-INF/beans.xml");
+		assertMarkerIsCreated(file, CDIValidationMessages.ILLEGAL_ALTERNATIVE_ANNOTATION, 15);
+		assertMarkerIsNotCreated(file, CDIValidationMessages.ILLEGAL_ALTERNATIVE_ANNOTATION, 17);
 	}
 
 	/**
@@ -1508,7 +1516,9 @@ public class ValidationTest extends TCKTest {
 	 *   treats it as a deployment problem.
 	 */
 	public void testSameAlternativeClassListedTwice() throws Exception {
-		//TODO
+		IFile file = tckProject.getFile("WebContent/WEB-INF/beans.xml");
+		assertMarkerIsCreated(file, CDIValidationMessages.DUPLICATE_ALTERNATIVE_TYPE, 20, 22);
+		assertMarkerIsNotCreated(file, CDIValidationMessages.DUPLICATE_ALTERNATIVE_TYPE, 19);
 	}
 
 	/**
@@ -1517,7 +1527,9 @@ public class ValidationTest extends TCKTest {
 	 *   treats it as a deployment problem.
 	 */
 	public void testSameAlternativeAnnotationListedTwice() throws Exception {
-		//TODO
+		IFile file = tckProject.getFile("WebContent/WEB-INF/beans.xml");
+		assertMarkerIsCreated(file, CDIValidationMessages.DUPLICATE_ALTERNATIVE_TYPE, 26, 27);
+		assertMarkerIsNotCreated(file, CDIValidationMessages.DUPLICATE_ALTERNATIVE_TYPE, 17);
 	}
 
 	/**
@@ -1526,7 +1538,9 @@ public class ValidationTest extends TCKTest {
 	 *   the container automatically detects the problem and treats it as a deployment problem.
 	 */
 	public void testNonExistantDecoratorClassInBeansXmlNotOK() throws Exception {
-		//TODO
+		IFile file = tckProject.getFile("WebContent/WEB-INF/beans.xml");
+		assertMarkerIsCreated(file, CDIValidationMessages.UNKNOWN_DECORATOR_BEAN_CLASS_NAME, 32);
+		assertMarkerIsNotCreated(file, CDIValidationMessages.UNKNOWN_DECORATOR_BEAN_CLASS_NAME, 33);
 	}
 
 	/**
@@ -1535,7 +1549,9 @@ public class ValidationTest extends TCKTest {
 	 *   the container automatically detects the problem and treats it as a deployment problem.
 	 */
 	public void testEnabledDecoratorNotADecorator() throws Exception {
-		//TODO
+		IFile file = tckProject.getFile("WebContent/WEB-INF/beans.xml");
+		assertMarkerIsCreated(file, CDIValidationMessages.ILLEGAL_DECORATOR_BEAN_CLASS, 35);
+		assertMarkerIsNotCreated(file, CDIValidationMessages.ILLEGAL_DECORATOR_BEAN_CLASS, 33);
 	}
 
 	/**
@@ -1544,7 +1560,9 @@ public class ValidationTest extends TCKTest {
 	 *   treats it as a deployment problem.
 	 */
 	public void testDecoratorListedTwiceInBeansXmlNotOK() throws Exception {
-		//TODO
+		IFile file = tckProject.getFile("WebContent/WEB-INF/beans.xml");
+		assertMarkerIsCreated(file, CDIValidationMessages.DUPLICATE_DECORATOR_CLASS, 37, 38);
+		assertMarkerIsNotCreated(file, CDIValidationMessages.DUPLICATE_DECORATOR_CLASS, 33);
 	}
 
 	/**
@@ -1553,7 +1571,9 @@ public class ValidationTest extends TCKTest {
 	 *   the container automatically detects the problem and treats it as a deployment problem.
 	 */
 	public void testNonExistantClassInBeansXmlNotOk() throws Exception {
-		//TODO
+		IFile file = tckProject.getFile("WebContent/WEB-INF/beans.xml");
+		assertMarkerIsCreated(file, CDIValidationMessages.UNKNOWN_INTERCEPTOR_CLASS_NAME, 42);
+		assertMarkerIsNotCreated(file, CDIValidationMessages.UNKNOWN_INTERCEPTOR_CLASS_NAME, 43);
 	}
 
 	/**
@@ -1562,7 +1582,9 @@ public class ValidationTest extends TCKTest {
 	 *   the container automatically detects the problem and treats it as a deployment problem.
 	 */
 	public void testNonInterceptorClassInBeansXmlNotOk() throws Exception {
-		//TODO
+		IFile file = tckProject.getFile("WebContent/WEB-INF/beans.xml");
+		assertMarkerIsCreated(file, CDIValidationMessages.ILLEGAL_INTERCEPTOR_CLASS, 44);
+		assertMarkerIsNotCreated(file, CDIValidationMessages.ILLEGAL_INTERCEPTOR_CLASS, 43);
 	}
 
 	/**
@@ -1571,7 +1593,9 @@ public class ValidationTest extends TCKTest {
 	 *   a deployment problem.
 	 */
 	public void testSameInterceptorClassListedTwiceInBeansXmlNotOk() throws Exception {
-		//TODO
+		IFile file = tckProject.getFile("WebContent/WEB-INF/beans.xml");
+		assertMarkerIsCreated(file, CDIValidationMessages.DUPLICATE_INTERCEPTOR_CLASS, 46, 47);
+		assertMarkerIsNotCreated(file, CDIValidationMessages.DUPLICATE_INTERCEPTOR_CLASS, 43);
 	}
 
 	/**

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans>
+	<alternatives>
+		<class>org.jboss.jsr299.tck.tests.policy.broken.not.policy.Cat</class>
+
+		<class>
+			org.jboss.jsr299.tck.tests.policy.broken.incorrect.name.NonExistingClass
+		</class>
+
+		<stereotype>
+			<!-- Some comment -->
+			org.jboss.jsr299.tck.tests.policy.broken.not.policy.stereotype.NotExistingStereotype
+		</stereotype>
+
+		<stereotype>org.jboss.jsr299.tck.tests.policy.broken.not.policy.stereotype.Mock</stereotype>
+
+		<stereotype>org.jboss.jsr299.tck.tests.jbt.validation.beansxml.AlternativeStereotype</stereotype>
+
+		<class>org.jboss.jsr299.tck.tests.policy.broken.same.type.twice.Dog</class>
+		<class>org.jboss.jsr299.tck.tests.policy.broken.same.type.twice.Cat</class>
+		<class>
+			org.jboss.jsr299.tck.tests.policy.broken.same.type.twice.Cat
+			<!-- Some comment -->
+		</class>
+
+		<stereotype>org.jboss.jsr299.tck.tests.jbt.validation.beansxml.DuplicatedAlternativeStereotype</stereotype>
+		<stereotype>org.jboss.jsr299.tck.tests.jbt.validation.beansxml.DuplicatedAlternativeStereotype</stereotype>
+
+	</alternatives>
+
+	<decorators>
+		<class>com.acme.NonExistantDecoratorClass</class>
+		<class>org.jboss.jsr299.tck.tests.decorators.resolution.BarDecorator</class>
+
+		<class>org.jboss.jsr299.tck.tests.decorators.definition.broken.enabledDecoratorIsNotDecorator.TimestampLogger</class>
+
+      	<class>org.jboss.jsr299.tck.tests.decorators.definition.broken.decoratorListedTwiceInBeansXml.PresentDecorator</decorator>
+      	<class>org.jboss.jsr299.tck.tests.decorators.definition.broken.decoratorListedTwiceInBeansXml.PresentDecorator</decorator>
+	</decorators>
+
+	<interceptors>
+		<class>com.acme.Foo</class>
+		<class>org.jboss.jsr299.tck.tests.jbt.validation.interceptors.CatInterceptor</class>
+		<class>org.jboss.jsr299.tck.tests.interceptors.definition.broken.nonInterceptorClassInBeansXml.Foo</class>
+
+		<class>org.jboss.jsr299.tck.tests.interceptors.definition.broken.sameClassListedTwiceInBeansXml.FordInterceptor</class>
+		<class>org.jboss.jsr299.tck.tests.interceptors.definition.broken.sameClassListedTwiceInBeansXml.FordInterceptor</class>
+	</interceptors>
+
+</beans>

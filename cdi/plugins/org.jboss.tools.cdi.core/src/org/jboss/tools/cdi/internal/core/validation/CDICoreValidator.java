@@ -2208,6 +2208,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 								}
 								continue;
 							} else {
+								// TODO we should check Decorators/Interceptors as well as Alternatives (classes/stereotypes)!
 								IClassBean classBean = getClassBean(type);
 								if(classBean==null || !classBean.isAlternative()) {
 									addError(illegalTypeErrorMessage, CDIPreferences.ILLEGAL_TYPE_NAME_IN_BEANS_XML,
