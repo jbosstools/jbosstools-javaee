@@ -1472,7 +1472,7 @@ public class ValidationTest extends TCKTest {
 	 */
 	public void testNoAlternativeClassWithSpecifiedName() throws Exception {
 		IFile file = tckProject.getFile("WebContent/WEB-INF/beans.xml");
-		assertMarkerIsCreated(file, CDIValidationMessages.UNKNOWN_ALTERNATIVE_BEAN_CLASS_NAME, 4);
+		assertMarkerIsCreated(file, CDIValidationMessages.UNKNOWN_ALTERNATIVE_BEAN_CLASS_NAME, false, 7);
 		assertMarkerIsNotCreated(file, CDIValidationMessages.UNKNOWN_ALTERNATIVE_BEAN_CLASS_NAME, 19);
 	}
 
@@ -1483,7 +1483,7 @@ public class ValidationTest extends TCKTest {
 	 */
 	public void testIllegalAlternativeClassWithSpecifiedName() throws Exception {
 		IFile file = tckProject.getFile("WebContent/WEB-INF/beans.xml");
-		assertMarkerIsCreated(file, CDIValidationMessages.ILLEGAL_ALTERNATIVE_BEAN_CLASS, 7);
+		assertMarkerIsCreated(file, CDIValidationMessages.ILLEGAL_ALTERNATIVE_BEAN_CLASS, 4);
 		assertMarkerIsNotCreated(file, CDIValidationMessages.ILLEGAL_ALTERNATIVE_BEAN_CLASS, 19);
 	}
 
@@ -1517,19 +1517,9 @@ public class ValidationTest extends TCKTest {
 	 */
 	public void testSameAlternativeClassListedTwice() throws Exception {
 		IFile file = tckProject.getFile("WebContent/WEB-INF/beans.xml");
-		assertMarkerIsCreated(file, CDIValidationMessages.DUPLICATE_ALTERNATIVE_TYPE, 20, 22);
-		assertMarkerIsNotCreated(file, CDIValidationMessages.DUPLICATE_ALTERNATIVE_TYPE, 19);
-	}
-
-	/**
-	 * 5.1.1. Declaring selected alternatives for a bean archive
-	 * - If the same type is listed twice under the <alternatives> element, the container automatically detects the problem and
-	 *   treats it as a deployment problem.
-	 */
-	public void testSameAlternativeAnnotationListedTwice() throws Exception {
-		IFile file = tckProject.getFile("WebContent/WEB-INF/beans.xml");
-		assertMarkerIsCreated(file, CDIValidationMessages.DUPLICATE_ALTERNATIVE_TYPE, 26, 27);
+		assertMarkerIsCreated(file, CDIValidationMessages.DUPLICATE_ALTERNATIVE_TYPE, 20, 22, 26, 27);
 		assertMarkerIsNotCreated(file, CDIValidationMessages.DUPLICATE_ALTERNATIVE_TYPE, 17);
+		assertMarkerIsNotCreated(file, CDIValidationMessages.DUPLICATE_ALTERNATIVE_TYPE, 19);
 	}
 
 	/**
@@ -1631,8 +1621,12 @@ public class ValidationTest extends TCKTest {
 		return AbstractResourceMarkerTest.getMarkersNumberByGroupName(resource, null);
 	}
 
-	private static void assertMarkerIsCreated(IResource resource, String message, int... expectedLines) throws CoreException {
-		AbstractResourceMarkerTest.assertMarkerIsCreated(resource, AbstractResourceMarkerTest.MARKER_TYPE, convertMessageToPatern(message), expectedLines);
+	private static void assertMarkerIsCreated(IResource resource, String pattern, int... expectedLines) throws CoreException {
+		assertMarkerIsCreated(resource, pattern, true, expectedLines);
+	}
+
+	private static void assertMarkerIsCreated(IResource resource, String message, boolean pattern, int... expectedLines) throws CoreException {
+		AbstractResourceMarkerTest.assertMarkerIsCreated(resource, AbstractResourceMarkerTest.MARKER_TYPE, pattern?convertMessageToPatern(message):message, pattern, expectedLines);
 	}
 
 	private static void assertMarkerIsNotCreated(IResource resource, String message) throws CoreException {

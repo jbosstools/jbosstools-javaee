@@ -192,6 +192,14 @@ public interface IBeanManager {
 	IStereotype getStereotype(IPath path);
 
 	/**
+	 * Returns the stereotype which is declared in the given IType.
+	 * 
+	 * @param type
+	 * @return the stereotype which is declared in the given IType
+	 */
+	IStereotype getStereotype(IType type);
+
+	/**
 	 * Returns all the available intercepter binding types.
 	 * 
 	 * @return all the available intercepter binding types

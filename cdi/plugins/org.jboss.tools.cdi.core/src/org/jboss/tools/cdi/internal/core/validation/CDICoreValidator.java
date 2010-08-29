@@ -10,7 +10,6 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.internal.core.validation;
 
-import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -46,14 +45,8 @@ import org.eclipse.jdt.core.Signature;
 import org.eclipse.wst.common.componentcore.ComponentCore;
 import org.eclipse.wst.common.componentcore.resources.IVirtualComponent;
 import org.eclipse.wst.common.componentcore.resources.IVirtualFile;
-import org.eclipse.wst.sse.core.StructuredModelManager;
-import org.eclipse.wst.sse.core.internal.provisional.IModelManager;
-import org.eclipse.wst.sse.core.internal.provisional.IStructuredModel;
-import org.eclipse.wst.sse.core.internal.provisional.IndexedRegion;
 import org.eclipse.wst.validation.internal.core.ValidationException;
 import org.eclipse.wst.validation.internal.provisional.core.IReporter;
-import org.eclipse.wst.xml.core.internal.provisional.document.IDOMDocument;
-import org.eclipse.wst.xml.core.internal.provisional.document.IDOMModel;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.CDICorePlugin;
@@ -101,9 +94,6 @@ import org.jboss.tools.jst.web.kb.validation.IValidatingProjectSet;
 import org.jboss.tools.jst.web.kb.validation.IValidationContext;
 import org.jboss.tools.jst.web.kb.validation.IValidator;
 import org.jboss.tools.jst.web.kb.validation.ValidationUtil;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 /**
  * @author Alexey Kazakov
@@ -114,6 +104,9 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 	ICDIProject cdiProject;
 	String projectName;
 	IJavaProject javaProject;
+
+	private BeansXmlValidationDelegate beansXmlValidator = new BeansXmlValidationDelegate(this);
+	private AnnotationValidationDelegate annptationValidator = new AnnotationValidationDelegate(this);
 
 	/*
 	 * (non-Javadoc)
@@ -232,7 +225,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 
 				// Get all the paths of related resources for given file. These
 				// links were saved in previous validation process.
-				Set<String> oldReletedResources = validationContext.getVariableNamesByCoreResource(currentFile.getFullPath(), false);
+				Set<String> oldReletedResources = getValidationContext().getVariableNamesByCoreResource(currentFile.getFullPath(), false);
 				if (oldReletedResources != null) {
 					for (String resourcePath : oldReletedResources) {
 						resources.add(Path.fromOSString(resourcePath));
@@ -243,14 +236,16 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 		// Validate all collected linked resources.
 		// Remove all links between collected resources because they will be
 		// linked again during validation.
-		validationContext.removeLinkedCoreResources(resources);
+		getValidationContext().removeLinkedCoreResources(resources);
 
 		IFile[] filesToValidate = new IFile[resources.size()];
 		int i = 0;
 		// We have to remove markers from all collected source files first
 		for (IPath linkedResource : resources) {
 			filesToValidate[i] = root.getFile(linkedResource);
-			removeAllMessagesFromResource(filesToValidate[i++]);
+			if(filesToValidate[i].isAccessible()) {
+				removeAllMessagesFromResource(filesToValidate[i++]);
+			}
 		}
 		i = 0;
 		// Then we can validate them
@@ -301,12 +296,12 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 		
 		Set<String> scopes = cdiProject.getScopeNames();
 		for (String scope: scopes) {
-			validateScopeType(cdiProject.getScope(scope));
+			annptationValidator.validateScopeType(cdiProject.getScope(scope));
 		}
 
 		List<IFile> beansXmls = getAllBeansXmls();
 		for (IFile beansXml : beansXmls) {
-			validateBeansXml(beansXml);
+			beansXmlValidator.validateBeansXml(beansXml);
 		}
 
 		return OK_STATUS;
@@ -325,7 +320,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 
 		if("beans.xml".equalsIgnoreCase(file.getName()) && CDIPreferences.shouldValidateBeansXml(file.getProject())) {
 			// TODO should we check the path of the beans.xml? Or it's better to check the every beans.xml even if it is not in META-INF or WEB-INF.
-			validateBeansXml(file);
+			beansXmlValidator.validateBeansXml(file);
 		} else {
 			Set<IBean> beans = cdiProject.getBeans(file.getFullPath());
 			for (IBean bean : beans) {
@@ -338,11 +333,35 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 			validateQualifier(qualifier);
 			
 			IScope scope = cdiProject.getScope(file.getFullPath());
-			validateScopeType(scope);
+			annptationValidator.validateScopeType(scope);
 	
 			IInterceptorBinding binding = cdiProject.getInterceptorBinding(file.getFullPath());
 			validateInterceptorBinding(binding);
 		}
+	}
+
+	Set<IFolder> sourceFolders = null;
+
+	Set<IFolder> getSourceFolders() {
+		if(sourceFolders==null) {
+			sourceFolders = new HashSet<IFolder>();
+			IPackageFragmentRoot[] roots;
+			try {
+				// From source folders
+				roots = javaProject.getPackageFragmentRoots();
+				for (int i = 0; i < roots.length; i++) {
+					if (roots[i].getKind() == IPackageFragmentRoot.K_SOURCE) {
+						IResource source = roots[i].getCorrespondingResource();
+						if(source instanceof IFolder) {
+							sourceFolders.add((IFolder)source);
+						}
+					}
+				}
+			} catch (JavaModelException e) {
+				CDICorePlugin.getDefault().logError(e);
+			}
+		}
+		return sourceFolders;
 	}
 
 	/**
@@ -352,31 +371,21 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 	 */
 	private List<IFile> getAllBeansXmls() {
 		List<IFile> beansXmls = new ArrayList<IFile>();
-		IPackageFragmentRoot[] roots;
-		try {
-			// From source folders
-			roots = javaProject.getPackageFragmentRoots();
-			for (int i = 0; i < roots.length; i++) {
-				if (roots[i].getKind() == IPackageFragmentRoot.K_SOURCE) {
-					IResource source = roots[i].getCorrespondingResource();
-					if(source instanceof IFolder) {
-						IResource beansXml = ((IFolder)source).findMember(new Path("/META-INF/beans.xml")); //$NON-NLS-1$
-						if(beansXml!=null && beansXml instanceof IFile) {
-							beansXmls.add((IFile)beansXml);
-						}
-					}
-				}
+		// From source folders
+		Set<IFolder> sourceFolders = getSourceFolders();
+		for (IFolder source : sourceFolders) {
+			IResource beansXml = source.findMember(new Path("/META-INF/beans.xml")); //$NON-NLS-1$
+			if(beansXml!=null && beansXml instanceof IFile) {
+				beansXmls.add((IFile)beansXml);
 			}
-			// From WEB-INF folder
-			IVirtualComponent com = ComponentCore.createComponent(rootProject);
-			if(com!=null) {
-				IVirtualFile beansXml = com.getRootFolder().getFile(new Path("/WEB-INF/beans.xml")); //$NON-NLS-1$
-				if(beansXml!=null && beansXml.getUnderlyingFile().isAccessible()) {
-					beansXmls.add(beansXml.getUnderlyingFile());
-				}
+		}
+		// From WEB-INF folder
+		IVirtualComponent com = ComponentCore.createComponent(rootProject);
+		if(com!=null) {
+			IVirtualFile beansXml = com.getRootFolder().getFile(new Path("/WEB-INF/beans.xml")); //$NON-NLS-1$
+			if(beansXml!=null && beansXml.getUnderlyingFile().isAccessible()) {
+				beansXmls.add(beansXml.getUnderlyingFile());
 			}
-		} catch (JavaModelException e) {
-			CDICorePlugin.getDefault().logError(e);
 		}
 		return beansXmls;
 	}
@@ -396,14 +405,14 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 		// Collect all relations between the bean and other CDI elements.
 		String name = bean.getName();
 		if (name != null) {
-			validationContext.addVariableNameForELValidation(name);
+			getValidationContext().addVariableNameForELValidation(name);
 		}
 		String beanPath = bean.getResource().getFullPath().toOSString();
 		Set<IScopeDeclaration> scopeDeclarations = bean.getScopeDeclarations();
 		for (IScopeDeclaration scopeDeclaration : scopeDeclarations) {
 			IScope scope = scopeDeclaration.getScope();
 			if (!scope.getSourceType().isReadOnly()) {
-				validationContext.addLinkedCoreResource(beanPath, scope.getResource().getFullPath(), false);
+				getValidationContext().addLinkedCoreResource(beanPath, scope.getResource().getFullPath(), false);
 			}
 		}
 		addLinkedStereotypes(beanPath, bean);
@@ -411,7 +420,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 		for (IQualifierDeclaration qualifierDeclaration : qualifierDeclarations) {
 			IQualifier qualifier = qualifierDeclaration.getQualifier();
 			if (!qualifier.getSourceType().isReadOnly()) {
-				validationContext.addLinkedCoreResource(beanPath, qualifier.getResource().getFullPath(), false);
+				getValidationContext().addLinkedCoreResource(beanPath, qualifier.getResource().getFullPath(), false);
 			}
 		}
 
@@ -455,7 +464,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 		for (IStereotypeDeclaration stereotypeDeclaration : stereotypeDeclarations) {
 			IStereotype stereotype = stereotypeDeclaration.getStereotype();
 			if (!stereotype.getSourceType().isReadOnly()) {
-				validationContext.addLinkedCoreResource(beanPath, stereotype.getResource().getFullPath(), false);
+				getValidationContext().addLinkedCoreResource(beanPath, stereotype.getResource().getFullPath(), false);
 			}
 		}
 	}
@@ -465,7 +474,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 		for (IInterceptorBindingDeclaration bindingDeclaration : bindingDeclarations) {
 			IInterceptorBinding binding = bindingDeclaration.getInterceptorBinding();
 			if (!binding.getSourceType().isReadOnly()) {
-				validationContext.addLinkedCoreResource(beanPath, binding.getResource().getFullPath(), false);
+				getValidationContext().addLinkedCoreResource(beanPath, binding.getResource().getFullPath(), false);
 			}
 		}
 	}
@@ -554,7 +563,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 			return;
 		}
 		if(!specializingBean.getBeanClass().isReadOnly()) {
-			validationContext.addLinkedCoreResource(bean.getSourcePath().toOSString(), specializingBean.getResource().getFullPath(), false);
+			getValidationContext().addLinkedCoreResource(bean.getSourcePath().toOSString(), specializingBean.getResource().getFullPath(), false);
 		}
 
 		String beanClassName = bean.getBeanClass().getElementName();
@@ -862,7 +871,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 					addError(errorMessageKey, preferencesKey, declaration, bean.getResource());
 				}
 			} else {
-				validationContext.addLinkedCoreResource(bean.getSourcePath().toOSString(), iMethod.getResource().getFullPath(), false);
+				getValidationContext().addLinkedCoreResource(bean.getSourcePath().toOSString(), iMethod.getResource().getFullPath(), false);
 			}
 		}
 	}
@@ -1050,7 +1059,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 						addError(CDIValidationMessages.ILLEGAL_PRODUCER_METHOD_IN_SESSION_BEAN, CDIPreferences.ILLEGAL_PRODUCER_METHOD_IN_SESSION_BEAN, producer.getProducesAnnotation(), producer.getResource());
 						saveAllSuperTypesAsLinkedResources(classBean);
 					} else {
-						validationContext.addLinkedCoreResource(classBean.getSourcePath().toOSString(), method.getResource().getFullPath(), false);
+						getValidationContext().addLinkedCoreResource(classBean.getSourcePath().toOSString(), method.getResource().getFullPath(), false);
 					}
 				}
 
@@ -1107,7 +1116,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 		for (IParametedType type : types) {
 			IType superType = type.getType();
 			if(superType!=null && !superType.isBinary() && superType.getResource()!=null && superType!=bean.getBeanClass()) {
-				validationContext.addLinkedCoreResource(bean.getSourcePath().toOSString(), superType.getResource().getFullPath(), false);
+				getValidationContext().addLinkedCoreResource(bean.getSourcePath().toOSString(), superType.getResource().getFullPath(), false);
 			}
 		}
 	}
@@ -1635,7 +1644,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 						Set<IParametedType> decoratedParametedTypes = decorator.getDecoratedTypes();
 						List<String> supers = null;
 						if(!delegateType.isReadOnly()) {
-							validationContext.addLinkedCoreResource(decorator.getResource().getFullPath().toOSString(), delegateType.getResource().getFullPath(), false);
+							getValidationContext().addLinkedCoreResource(decorator.getResource().getFullPath().toOSString(), delegateType.getResource().getFullPath(), false);
 						}
 						for (IParametedType decoratedParametedType : decoratedParametedTypes) {
 							IType decoratedType = decoratedParametedType.getType();
@@ -1643,7 +1652,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 								continue;
 							}
 							if(!decoratedType.isReadOnly()) {
-								validationContext.addLinkedCoreResource(decorator.getResource().getFullPath().toOSString(), decoratedType.getResource().getFullPath(), false);
+								getValidationContext().addLinkedCoreResource(decorator.getResource().getFullPath().toOSString(), decoratedType.getResource().getFullPath(), false);
 							}
 							String decoratedTypeName = decoratedType.getFullyQualifiedName();
 							// Ignore the type of the decorator class bean
@@ -1873,109 +1882,26 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 		}
 
 		try {
-			validateStereotypeAnnotationTypeAnnotations(stereotype, resource);
+			annptationValidator.validateStereotypeAnnotationTypeAnnotations(stereotype, resource);
 		} catch (JavaModelException e) {
 			CDICorePlugin.getDefault().logError(e);
 		}
 	}
 
-	private void validateStereotypeAnnotationTypeAnnotations(IStereotype stereotype, IResource resource) throws JavaModelException {
-		/*
-		 * Stereotype annotation type should be annotated with @Target with correct targets [JSR-299 §2.7.1]
-		 * Stereotype annotation type should be annotated with @Retention(RUNTIME)
-		 */
-		String[][] variants = {{TARGET_METHOD, TARGET_FIELD, TARGET_TYPE}, 
-					           {TARGET_METHOD, TARGET_FIELD},
-					           {TARGET_TYPE}, {TARGET_METHOD}, {TARGET_FIELD}};
-		validateTargetAnnotation(stereotype, variants, CDIValidationMessages.MISSING_TARGET_ANNOTATION_IN_STEREOTYPE_TYPE, resource);
-
-		/*
-		 * Stereotype annotation type should be annotated with @Retention(RUNTIME)
-		 */
-		validateRetentionAnnotation(stereotype, CDIValidationMessages.MISSING_RETENTION_ANNOTATION_IN_STEREOTYPE_TYPE, resource);
-	}
-
-	/**
-	 * Validates a qualifier.
-	 * 
-	 * @param qualifier
-	 */
-	private void validateScopeType(IScope scope) {
-		if(scope == null) {
+	private void validateInterceptorBinding(IInterceptorBinding binding) {
+		if(binding==null) {
 			return;
 		}
-		IResource resource = scope.getResource();
+		IResource resource = binding.getResource();
 		if (resource == null || !resource.getName().toLowerCase().endsWith(".java")) {
 			// validate sources only
 			return;
 		}
-
-		try {
-			validateScopeAnnotationTypeAnnotations(scope, resource);
-		} catch (JavaModelException e) {
-			CDICorePlugin.getDefault().logError(e);
-		}
-	}
-
-	private void validateScopeAnnotationTypeAnnotations(IScope scope, IResource resource) throws JavaModelException {
 		/*
-		 * Scope annotation type should be annotated with @Target({TYPE, METHOD, FIELD})
+		 * 9.5.2. Interceptor binding types with members
+		 *  array-valued or annotation-valued member of an interceptor binding type is not annotated @Nonbinding (Non-Portable behavior)
 		 */
-		String[][] variants = {{TARGET_TYPE, TARGET_METHOD, TARGET_FIELD}};
-		validateTargetAnnotation(scope, variants, CDIValidationMessages.MISSING_TARGET_ANNOTATION_IN_SCOPE_TYPE, resource);
-		
-		/*
-		 * Scope annotation type should be annotated with @Retention(RUNTIME)
-		 */
-		validateRetentionAnnotation(scope, CDIValidationMessages.MISSING_RETENTION_ANNOTATION_IN_SCOPE_TYPE, resource);
-	}
-
-	void validateRetentionAnnotation(ICDIAnnotation type, String message, IResource resource) throws JavaModelException {
-		IAnnotationDeclaration retention = type.getAnnotationDeclaration(CDIConstants.RETENTION_ANNOTATION_TYPE_NAME);
-		if(retention == null) {
-			addError(message, CDIPreferences.MISSING_OR_INCORRECT_TARGET_OR_RETENTION_IN_ANNOTATION_TYPE, CDIUtil.convertToSourceReference(type.getSourceType().getNameRange()), resource);
-		} else {
-			IMemberValuePair[] ps = retention.getDeclaration().getMemberValuePairs();
-			boolean ok = false;
-			for (IMemberValuePair p: ps) {
-				if(!"value".equals(p.getMemberName())) continue;
-				Object o = p.getValue();
-				if(o != null) {
-					ok = true;
-					String s = o.toString();
-					int i = s.lastIndexOf('.');
-					if(i >= 0) s = s.substring(i + 1);
-					if(!"RUNTIME".equals(s)) ok = false;
-				}
-			}
-			if(!ok) {
-				addError(message, CDIPreferences.MISSING_OR_INCORRECT_TARGET_OR_RETENTION_IN_ANNOTATION_TYPE, retention, resource);
-			}
-		}
-	}
-
-	Set<String> getTargetAnnotationValues(IAnnotationDeclaration target) throws JavaModelException {
-		Set<String> result = new HashSet<String>();
-		IMemberValuePair[] ps = target.getDeclaration().getMemberValuePairs();
-		for (IMemberValuePair p: ps) {
-			if(!"value".equals(p.getMemberName())) continue;
-			Object o = p.getValue();
-			if(o instanceof Object[]) {
-				Object[] os = (Object[])o;
-				for (Object q: os) {
-					String s = q.toString();
-					int i = s.lastIndexOf('.');
-					if(i >= 0) s = s.substring(i + 1);
-					result.add(s);
-				}
-			} else if(o != null) {
-				String s = o.toString();
-				int i = s.lastIndexOf('.');
-				if(i >= 0) s = s.substring(i + 1);
-				result.add(s);
-			}
-		}
-		return result;
+		validateAnnotationMembers(binding, CDIValidationMessages.MISSING_NONBINDING_FOR_ARRAY_VALUE_IN_INTERCEPTOR_BINDING_TYPE_MEMBER, CDIValidationMessages.MISSING_NONBINDING_FOR_ANNOTATION_VALUE_IN_INTERCEPTOR_BINDING_TYPE_MEMBER, CDIPreferences.MISSING_NONBINDING_IN_INTERCEPTOR_BINDING_TYPE_MEMBER);
 	}
 
 	/**
@@ -2002,78 +1928,13 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 		 * Qualifier annotation type should be annotated with @Target({METHOD, FIELD, PARAMETER, TYPE})
 		 */
 		try {
-			validateQualifierAnnotationTypeAnnotations(qualifier, resource);
+			annptationValidator.validateQualifierAnnotationTypeAnnotations(qualifier, resource);
 		} catch (JavaModelException e) {
 			CDICorePlugin.getDefault().logError(e);
 		}
 	}
 
-	static String TARGET_METHOD = "METHOD";
-	static String TARGET_FIELD = "FIELD";
-	static String TARGET_PARAMETER = "PARAMETER";
-	static String TARGET_TYPE = "TYPE";
-
-	private void validateQualifierAnnotationTypeAnnotations(IQualifier qualifier, IResource resource) throws JavaModelException {
-		/*
-		 * Qualifier annotation type should be annotated with @Target({METHOD, FIELD, PARAMETER, TYPE}) or  @Target({"FIELD", "PARAMETER"})
-		 * Qualifier annotation type should be annotated with @Retention(RUNTIME)
-		 */
-		String[][] variants = {{TARGET_METHOD, TARGET_FIELD, TARGET_PARAMETER, TARGET_TYPE}, 
-				               {TARGET_FIELD, TARGET_PARAMETER}};
-		validateTargetAnnotation(qualifier, variants, CDIValidationMessages.MISSING_TARGET_ANNOTATION_IN_QUALIFIER_TYPE, resource);
-
-		/*
-		 * Qualifier annotation type should be annotated with @Retention(RUNTIME)
-		 */
-		validateRetentionAnnotation(qualifier, CDIValidationMessages.MISSING_RETENTION_ANNOTATION_IN_QUALIFIER_TYPE, resource);
-	}
-
-	private void validateTargetAnnotation(ICDIAnnotation annotationType, String[][] variants, String message, IResource resource) throws JavaModelException {
-		IAnnotationDeclaration target = annotationType.getAnnotationDeclaration(CDIConstants.TARGET_ANNOTATION_TYPE_NAME);
-		if(target == null) {
-			addError(message, CDIPreferences.MISSING_OR_INCORRECT_TARGET_OR_RETENTION_IN_ANNOTATION_TYPE, CDIUtil.convertToSourceReference(annotationType.getSourceType().getNameRange()), resource);
-		} else {
-			Set<String> vs = getTargetAnnotationValues(target);
-			boolean ok = false;
-			for (int i = 0; i < variants.length; i++) {
-				if(vs.size() == variants[i].length) {
-					boolean ok2 = true;
-					String[] values = variants[i];
-					for (String s: values) {
-						if(!vs.contains(s)) {
-							ok2 = false;
-							break;
-						}
-					}
-					if(ok2) {
-						ok = true;
-						break;
-					}
-				}
-			}
-			if(!ok) {
-				addError(message, CDIPreferences.MISSING_OR_INCORRECT_TARGET_OR_RETENTION_IN_ANNOTATION_TYPE, target, resource);
-			}
-		}
-	}
-
-	private void validateInterceptorBinding(IInterceptorBinding binding) {
-		if(binding==null) {
-			return;
-		}
-		IResource resource = binding.getResource();
-		if (resource == null || !resource.getName().toLowerCase().endsWith(".java")) {
-			// validate sources only
-			return;
-		}
-		/*
-		 * 9.5.2. Interceptor binding types with members
-		 *  array-valued or annotation-valued member of an interceptor binding type is not annotated @Nonbinding (Non-Portable behavior)
-		 */
-		validateAnnotationMembers(binding, CDIValidationMessages.MISSING_NONBINDING_FOR_ARRAY_VALUE_IN_INTERCEPTOR_BINDING_TYPE_MEMBER, CDIValidationMessages.MISSING_NONBINDING_FOR_ANNOTATION_VALUE_IN_INTERCEPTOR_BINDING_TYPE_MEMBER, CDIPreferences.MISSING_NONBINDING_IN_INTERCEPTOR_BINDING_TYPE_MEMBER);
-	}
-
-	private void validateAnnotationMembers(ICDIAnnotation annotation, String arrayMessageErrorKey, String annotationValueErrorKey, String preferencesKey) {
+	void validateAnnotationMembers(ICDIAnnotation annotation, String arrayMessageErrorKey, String annotationValueErrorKey, String preferencesKey) {
 		IType type = annotation.getSourceType();
 		try {
 			IMethod[] methods = type.getMethods();
@@ -2106,243 +1967,6 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 			}
 		} catch (JavaModelException e) {
 			CDICorePlugin.getDefault().logError(e);
-		}
-	}
-
-	private void validateBeansXml(IFile beansXml) {
-		IModelManager manager = StructuredModelManager.getModelManager();
-		if(manager == null) {
-			// this may happen if plug-in org.eclipse.wst.sse.core 
-			// is stopping or un-installed, that is Eclipse is shutting down.
-			// there is no need to report it, just stop validation.
-			return;
-		}
-
-		IStructuredModel model = null;
-		try {
-			model = manager.getModelForRead(beansXml);
-			if (model instanceof IDOMModel) {
-				IDOMModel domModel = (IDOMModel) model;
-				IDOMDocument document = domModel.getDocument();
-
-				/*
-				 * 5.1.1. Declaring selected alternatives for a bean archive
-				 *  - Each child <class> element must specify the name of an alternative bean class. If there is no class with the specified
-				 *    name, or if the class with the specified name is not an alternative bean class, the container automatically detects the problem
-				 *    and treats it as a deployment problem.
-				 *  - If the same type is listed twice under the <alternatives> element, the container automatically detects the problem and
-				 *    treats it as a deployment problem.
-				 */
-				validateTypeBeanForBeansXml(document, beansXml, "class", false, "alternatives", CDIValidationMessages.UNKNOWN_ALTERNATIVE_BEAN_CLASS_NAME, CDIValidationMessages.ILLEGAL_ALTERNATIVE_BEAN_CLASS, CDIValidationMessages.DUPLICATE_ALTERNATIVE_TYPE, CDIConstants.ALTERNATIVE_ANNOTATION_TYPE_NAME); //$NON-NLS-1$
-
-				/*
-				 * 5.1.1. Declaring selected alternatives for a bean archive
-				 *  - Each child <stereotype> element must specify the name of an @Alternative stereotype annotation. If there is no annotation
-				 *    with the specified name, or the annotation is not an @Alternative stereotype, the container automatically detects the
-				 *    problem and treats it as a deployment problem.
-				 *  - If the same type is listed twice under the <alternatives> element, the container automatically detects the problem and
-				 *    treats it as a deployment problem. 
-				 */
-				validateTypeBeanForBeansXml(document, beansXml, "stereotype", true, "alternatives", CDIValidationMessages.UNKNOWN_ALTERNATIVE_ANNOTATION_NAME, CDIValidationMessages.ILLEGAL_ALTERNATIVE_ANNOTATION, CDIValidationMessages.DUPLICATE_ALTERNATIVE_TYPE, CDIConstants.ALTERNATIVE_ANNOTATION_TYPE_NAME); //$NON-NLS-1$
-
-				/*
-				 * 8.2. Decorator enablement and ordering
-				 *  - Each child <class> element must specify the name of a decorator bean class. If there is no class with the specified name,
-				 *    or if the class with the specified name is not a decorator bean class, the container automatically detects the problem and
-				 *    treats it as a deployment problem.
-				 *  - If the same class is listed twice under the <decorators> element, the container automatically detects the problem and
-				 *    treats it as a deployment problem.
-				 */
-				validateTypeBeanForBeansXml(document, beansXml, "class", false, "decorators", CDIValidationMessages.UNKNOWN_DECORATOR_BEAN_CLASS_NAME, CDIValidationMessages.ILLEGAL_DECORATOR_BEAN_CLASS, CDIValidationMessages.DUPLICATE_DECORATOR_CLASS, CDIConstants.DECORATOR_STEREOTYPE_TYPE_NAME); //$NON-NLS-1$
-
-				/*
-				 * 9.4. Interceptor enablement and ordering
-				 * 	- Each child <class> element must specify the name of an interceptor class. If there is no class with the specified name, or if
-				 * 	  the class with the specified name is not an interceptor class, the container automatically detects the problem and treats it as
-				 * 	  a deployment problem.
-				 *  - If the same class is listed twice under the <interceptors> element, the container automatically detects the problem and treats it as
-				 *    a deployment problem.
-				 */
-				validateTypeBeanForBeansXml(document, beansXml, "class", false, "interceptors", CDIValidationMessages.UNKNOWN_INTERCEPTOR_CLASS_NAME, CDIValidationMessages.ILLEGAL_INTERCEPTOR_CLASS, CDIValidationMessages.DUPLICATE_INTERCEPTOR_CLASS, CDIConstants.INTERCEPTOR_ANNOTATION_TYPE_NAME); //$NON-NLS-1$
-			}
-		} catch (CoreException e) {
-			CDICorePlugin.getDefault().logError(e);
-        } catch (IOException e) {
-        	CDICorePlugin.getDefault().logError(e);
-		} finally {
-			if (model != null) {
-				model.releaseFromRead();
-			}
-		}
-	}
-
-	private void validateTypeBeanForBeansXml(IDOMDocument document, IFile beansXml, String typeElementName, boolean annotationType, String parentElementName, String unknownTypeErrorMessage, String illegalTypeErrorMessage, String duplicateTypeErrorMessage, String annotationName) {
-		try {
-			NodeList parentNodeList = document.getElementsByTagName(parentElementName);
-			for (int i = 0; i < parentNodeList.getLength(); i++) {
-				Node parentNode = parentNodeList.item(i);
-				if(parentNode instanceof Element) {
-					List<TypeNode> typeNodes = getTypeElements((Element)parentNode, typeElementName);
-					Map<String, TypeNode> uniqueTypes = new HashMap<String, TypeNode>();
-					for (TypeNode typeNode : typeNodes) {
-						IType type = getType(beansXml, typeNode, unknownTypeErrorMessage);
-						if(type!=null) {
-							if(!type.isBinary()) {
-								validationContext.addLinkedCoreResource(beansXml.getFullPath().toOSString(), type.getPath(), false);
-							}
-							if(!(annotationType?type.isAnnotation():type.isClass())) {
-								addError(illegalTypeErrorMessage, CDIPreferences.ILLEGAL_TYPE_NAME_IN_BEANS_XML,
-										new String[]{}, typeNode.getLength(), typeNode.getStartOffset(), beansXml);
-							} else if(type.isBinary()) {
-								IAnnotation[] annotations = type.getAnnotations();
-								boolean found = false;
-								for (IAnnotation annotation : annotations) {
-									if(annotation.getElementName().equals(annotationName)) {
-										found = true;
-										break;
-									}
-								}
-								if(!found) {
-									addError(illegalTypeErrorMessage, CDIPreferences.ILLEGAL_TYPE_NAME_IN_BEANS_XML,
-											new String[]{}, typeNode.getLength(), typeNode.getStartOffset(), beansXml);
-								}
-								continue;
-							} else {
-								// TODO we should check Decorators/Interceptors as well as Alternatives (classes/stereotypes)!
-								IClassBean classBean = getClassBean(type);
-								if(classBean==null || !classBean.isAlternative()) {
-									addError(illegalTypeErrorMessage, CDIPreferences.ILLEGAL_TYPE_NAME_IN_BEANS_XML,
-											new String[]{}, typeNode.getLength(), typeNode.getStartOffset(), beansXml);
-								}
-							}
-							TypeNode node = uniqueTypes.get(typeNode.getTypeName());
-							if(node!=null) {
-								if(!node.isMarkedAsDuplicated()) {
-									addError(duplicateTypeErrorMessage, CDIPreferences.DUPLICATE_TYPE_IN_BEANS_XML,
-											new String[]{}, node.getLength(), node.getStartOffset(), beansXml);
-								}
-								node.setMarkedAsDuplicated(true);
-								addError(duplicateTypeErrorMessage, CDIPreferences.DUPLICATE_TYPE_IN_BEANS_XML,
-										new String[]{}, typeNode.getLength(), typeNode.getStartOffset(), beansXml);
-							}
-							uniqueTypes.put(typeNode.getTypeName(), typeNode);
-						}
-					}
-				}
-			}
-		} catch (JavaModelException e) {
-			CDICorePlugin.getDefault().logError(e);
-        }
-	}
-
-	private IClassBean getClassBean(IType type) {
-		IPath path = type.getPath();
-		Set<IBean> beans = cdiProject.getBeans(path);
-		for (IBean bean : beans) {
-			if(bean instanceof IClassBean) {
-				return (IClassBean)bean;
-			}
-		}
-		return null;
-	}
-
-	private IType getType(IFile beansXml, TypeNode node, String errorMessage) {
-		IType type = null;
-		if(node.getTypeName()!=null) {
-			try {
-				type = EclipseJavaUtil.findType(javaProject, node.getTypeName());
-			} catch (JavaModelException e) {
-				CDICorePlugin.getDefault().logError(e);
-				return null;
-			}
-		}
-		if(type==null) {
-			addError(errorMessage, CDIPreferences.ILLEGAL_TYPE_NAME_IN_BEANS_XML,
-					new String[]{}, node.getLength(), node.getStartOffset(), beansXml);
-		}
-		return type;
-	}
-
-	private List<TypeNode> getTypeElements(Element parentElement, String typeElementName) {
-		List<TypeNode> result = new ArrayList<TypeNode>();
-		NodeList list = parentElement.getElementsByTagName(typeElementName);
-		for (int i = 0; i < list.getLength(); i++) {
-			Node classNode = list.item(i);
-			NodeList children = classNode.getChildNodes();
-
-			boolean empty = true;
-			for (int j = 0; j < children.getLength(); j++) {
-				Node node = children.item(j);
-				if(node.getNodeType() == Node.TEXT_NODE) {
-					String value = node.getNodeValue();
-					if(value!=null) {
-						String className = value.trim();
-						if(className.length()==0) {
-							continue;
-						}
-						empty = false;
-						if(node instanceof IndexedRegion) {
-							int start = ((IndexedRegion)node).getStartOffset() + value.indexOf(className);
-							int length = className.length();
-							result.add(new TypeNode(start, length, className));
-							break;
-						}
-					}
-				}
-			}
-
-			if(empty && classNode instanceof IndexedRegion) {
-				int start = ((IndexedRegion)classNode).getStartOffset();
-				int end = ((IndexedRegion)classNode).getEndOffset();
-				int length = end - start;
-				result.add(new TypeNode(start, length, null));
-			}
-		}
-		return result;
-	}
-
-	private static class TypeNode {
-		private int startOffset;
-		private int length;
-		private String typeName;
-		private boolean markedAsDuplicated;
-
-		public TypeNode(int startOffset, int length, String typeName) {
-			this.startOffset = startOffset;
-			this.length = length;
-			this.typeName = typeName;
-		}
-
-		public int getStartOffset() {
-			return startOffset;
-		}
-
-		public void setStartOffset(int startOffset) {
-			this.startOffset = startOffset;
-		}
-
-		public int getLength() {
-			return length;
-		}
-
-		public void setLength(int length) {
-			this.length = length;
-		}
-
-		public String getTypeName() {
-			return typeName;
-		}
-
-		public void setTypeName(String typeName) {
-			this.typeName = typeName;
-		}
-
-		public boolean isMarkedAsDuplicated() {
-			return markedAsDuplicated;
-		}
-
-		public void setMarkedAsDuplicated(boolean markedAsDuplicated) {
-			this.markedAsDuplicated = markedAsDuplicated;
 		}
 	}
 }

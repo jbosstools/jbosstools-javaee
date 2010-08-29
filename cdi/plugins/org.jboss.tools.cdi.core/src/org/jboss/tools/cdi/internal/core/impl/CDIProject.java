@@ -28,7 +28,6 @@ import org.eclipse.jdt.core.IAnnotation;
 import org.eclipse.jdt.core.IMemberValuePair;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IType;
-import org.eclipse.jdt.core.ITypeParameter;
 import org.eclipse.jdt.core.JavaModelException;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.CDICoreNature;
@@ -866,14 +865,35 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		return n.getProject().getFullPath();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.cdi.core.IBeanManager#getStereotype(java.lang.String)
+	 */
 	public StereotypeElement getStereotype(String qualifiedName) {
 		return stereotypes.get(qualifiedName);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.cdi.core.IBeanManager#getStereotype(org.eclipse.core.runtime.IPath)
+	 */
 	public StereotypeElement getStereotype(IPath path) {
 		return stereotypesByPath.get(path);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.cdi.core.IBeanManager#getStereotype(org.eclipse.jdt.core.IType)
+	 */
+	public StereotypeElement getStereotype(IType type) {
+		IPath path = type.getPath();
+		return stereotypesByPath.get(path);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.cdi.core.IBeanManager#getInterceptorBindings()
+	 */
 	public IInterceptorBinding[] getInterceptorBindings() {
 		IInterceptorBinding[] result = new IInterceptorBinding[interceptorBindings.size()];
 		synchronized (interceptorBindings) {
@@ -886,6 +906,10 @@ public class CDIProject extends CDIElement implements ICDIProject {
 	
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.cdi.core.IBeanManager#getInterceptorBinding(java.lang.String)
+	 */
 	public InterceptorBindingElement getInterceptorBinding(String qualifiedName) {
 		return interceptorBindings.get(qualifiedName);
 	}
