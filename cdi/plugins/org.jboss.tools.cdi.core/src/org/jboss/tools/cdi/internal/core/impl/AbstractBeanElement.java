@@ -170,7 +170,7 @@ public class AbstractBeanElement extends CDIElement implements IAnnotated {
 		Set<IQualifier> qs = new HashSet<IQualifier>();
 		for(IAnnotationDeclaration a: definition.getAnnotations()) {
 			int k = getCDIProject().getNature().getDefinitions().getAnnotationKind(a.getType());
-			if((k & AnnotationDefinition.QUALIFIER) > 0) {
+			if(k > 0 && (k & AnnotationDefinition.QUALIFIER) > 0) {
 				IQualifierDeclaration q = (IQualifierDeclaration)a;
 				result.add(q);
 				if(q.getQualifier() != null) qs.add(q.getQualifier());				
@@ -250,7 +250,7 @@ public class AbstractBeanElement extends CDIElement implements IAnnotated {
 		Set<IScopeDeclaration> result = new HashSet<IScopeDeclaration>();
 		for (IAnnotationDeclaration d: ds) {
 			int k = n.getDefinitions().getAnnotationKind(d.getType());
-			if((k & AnnotationDefinition.SCOPE) > 0) {
+			if(k > 0 && (k & AnnotationDefinition.SCOPE) > 0) {
 				result.add((IScopeDeclaration)d);
 			}
 		}
@@ -344,5 +344,5 @@ public class AbstractBeanElement extends CDIElement implements IAnnotated {
 		}
 		return result;
 	}
-
+	
 }

@@ -683,7 +683,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		}
 		int k = n.getDefinitions().getAnnotationKind(annotationType);
 		
-		return (k & AnnotationDefinition.QUALIFIER) > 0;
+		return k > 0 && (k & AnnotationDefinition.QUALIFIER) > 0;
 	}
 
 	public boolean isScope(IType annotationType) {
@@ -695,7 +695,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		}
 		int k = n.getDefinitions().getAnnotationKind(annotationType);
 		
-		return (k & AnnotationDefinition.SCOPE) > 0;
+		return k > 0 && (k & AnnotationDefinition.SCOPE) > 0;
 	}
 
 	public boolean isStereotype(IType annotationType) {
@@ -707,7 +707,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		}
 		int k = n.getDefinitions().getAnnotationKind(annotationType);
 		
-		return (k & AnnotationDefinition.STEREOTYPE) > 0;
+		return k > 0 && (k & AnnotationDefinition.STEREOTYPE) > 0;
 	}
 
 	public Set<IBean> resolve(Set<IBean> beans) {
