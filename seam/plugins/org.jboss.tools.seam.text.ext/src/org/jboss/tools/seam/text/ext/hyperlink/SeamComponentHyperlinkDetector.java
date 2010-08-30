@@ -111,7 +111,7 @@ public class SeamComponentHyperlinkDetector extends AbstractHyperlinkDetector {
 					IAnnotatable annotatable = (IAnnotatable)element;
 					
 					IAnnotation annotation = annotatable.getAnnotation("In");
-					if (annotation == null)
+					if (annotation == null || !annotation.exists())
 						continue;
 					
 					String nameToSearch = element.getElementName();
