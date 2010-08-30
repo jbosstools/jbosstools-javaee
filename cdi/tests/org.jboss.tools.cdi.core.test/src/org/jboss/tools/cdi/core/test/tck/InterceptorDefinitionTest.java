@@ -13,6 +13,7 @@ package org.jboss.tools.cdi.core.test.tck;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.jdt.core.IAnnotation;
 import org.eclipse.jdt.core.IMemberValuePair;
 import org.eclipse.jdt.core.JavaModelException;
@@ -20,6 +21,7 @@ import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IClassBean;
 import org.jboss.tools.cdi.core.IInterceptorBinding;
 import org.jboss.tools.cdi.core.IInterceptorBindingDeclaration;
+import org.jboss.tools.cdi.core.IStereotype;
 
 /**
  * @author Alexey Kazakov
@@ -80,7 +82,24 @@ public class InterceptorDefinitionTest extends TCKTest {
 		assertEquals("Wrong number of interceptor binding declarations", 2, ds.size());
 		assertContainsBindingDeclarationWithValue(ds, "org.jboss.jsr299.tck.tests.interceptors.definition.inheritance.BindingC", "c1");
 	}
-	
+
+	public void testStereotypeCanBeInterceptorBinding() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/interceptors/StereotypeAndBinding.java");
+		IStereotype s = cdiProject.getStereotype("org.jboss.jsr299.tck.tests.jbt.validation.interceptors.StereotypeAndBinding");
+		assertNotNull(s);
+		IInterceptorBinding b = cdiProject.getInterceptorBinding("org.jboss.jsr299.tck.tests.jbt.validation.interceptors.StereotypeAndBinding");
+		assertNotNull(b);
+		
+		Set<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.jbt.validation.interceptors.InterceptorWithStereotypeThatIsBinding");
+		assertEquals("Wrong number of the beans", 1, beans.size());
+		IBean bean = beans.iterator().next();
+		assertTrue("The bean should be an interceptor", bean instanceof IClassBean);
+		IClassBean interceptor = (IClassBean)bean;
+		assertFalse("The interceptor should inherites interceptor bindings", interceptor.getInterceptorBindings().isEmpty());
+		
+	}
+
+
 	void assertContainsBindings(Set<IInterceptorBinding> bs, String... classNames) {
 		Set<String> bsn = new HashSet<String>();
 		for (IInterceptorBinding b: bs) {
