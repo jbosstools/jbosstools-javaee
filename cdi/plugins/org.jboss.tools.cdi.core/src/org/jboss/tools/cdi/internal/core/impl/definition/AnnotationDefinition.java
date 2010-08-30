@@ -31,10 +31,10 @@ public class AnnotationDefinition extends AbstractTypeDefinition {
 	public static final int NON_RELEVANT = 0;
 	public static final int BASIC = 1; //has Inherited, Target, Retention
 	public static final int CDI = 2; //has Model, Named, Typed, *Scoped, New
-	public static final int QUALIFIER = 3; //has Qualifier
-	public static final int STEREOTYPE = 4;	//has Stereotype
-	public static final int INTERCEPTOR_BINDING = 5; //has InterceptorBinding
-	public static final int SCOPE = 6; //has Scope or NormalScope
+	public static final int QUALIFIER = 4; //has Qualifier
+	public static final int STEREOTYPE = 8;	//has Stereotype
+	public static final int INTERCEPTOR_BINDING = 16; //has InterceptorBinding
+	public static final int SCOPE = 32; //has Scope or NormalScope
 	//TODO add other definition kinds of interest
 
 	protected int kind = NON_RELEVANT;
@@ -75,19 +75,25 @@ public class AnnotationDefinition extends AbstractTypeDefinition {
 		if(ds.containsKey(CDIConstants.SCOPE_ANNOTATION_TYPE_NAME) 
 				|| ds.containsKey(CDIConstants.NORMAL_SCOPE_ANNOTATION_TYPE_NAME)) {
 			kind = SCOPE;
-		} else if(ds.containsKey(CDIConstants.STEREOTYPE_ANNOTATION_TYPE_NAME)) {
-			kind = STEREOTYPE;
-		} else if(ds.containsKey(CDIConstants.QUALIFIER_ANNOTATION_TYPE_NAME)) {
-			kind = QUALIFIER;
-		} else if(ds.containsKey(CDIConstants.INTERCEPTOR_BINDING_ANNOTATION_TYPE_NAME)) {
-			kind = INTERCEPTOR_BINDING;
-		} else if(AnnotationHelper.BASIC_ANNOTATION_TYPES.contains(qualifiedName)) {
-			kind = AnnotationDefinition.BASIC;
-		} else if(AnnotationHelper.CDI_ANNOTATION_TYPES.contains(qualifiedName)) {
-			kind = AnnotationDefinition.CDI;
+		}
+		if(ds.containsKey(CDIConstants.STEREOTYPE_ANNOTATION_TYPE_NAME)) {
+			kind |= STEREOTYPE;
+		}
+		if(ds.containsKey(CDIConstants.QUALIFIER_ANNOTATION_TYPE_NAME)) {
+			kind |= QUALIFIER;
+		}
+		if(ds.containsKey(CDIConstants.INTERCEPTOR_BINDING_ANNOTATION_TYPE_NAME)) {
+			kind |= INTERCEPTOR_BINDING;
+		}
+		if(kind == NON_RELEVANT) {
+			if(AnnotationHelper.BASIC_ANNOTATION_TYPES.contains(qualifiedName)) {
+				kind = AnnotationDefinition.BASIC;
+			} else if(AnnotationHelper.CDI_ANNOTATION_TYPES.contains(qualifiedName)) {
+				kind = AnnotationDefinition.CDI;
+			}
 		}
 
-		if(kind == QUALIFIER || kind == INTERCEPTOR_BINDING) {
+		if((kind & QUALIFIER) > 0 || (kind & INTERCEPTOR_BINDING) > 0) {
 			initMemberDefinitions(contextType, context);
 		}
 	}

@@ -68,17 +68,30 @@ public abstract class AbstractMemberDefinition implements IAnnotated {
 			AnnotationDeclaration a = new AnnotationDeclaration();
 			a.setProject(context.getProject());
 			a.setDeclaration(ts[i], contextType);
+			AnnotationDeclaration b = null;
 			int kind = context.getAnnotationKind(a.getType());
-			if(kind == AnnotationDefinition.STEREOTYPE) {
-				a = new StereotypeDeclaration(a);
-			} else if(kind == AnnotationDefinition.INTERCEPTOR_BINDING) {
-				a = new InterceptorBindingDeclaration(a);
-			} else if(kind == AnnotationDefinition.QUALIFIER) {
-				a = new QualifierDeclaration(a);
-			} else if(kind == AnnotationDefinition.SCOPE) {
-				a = new ScopeDeclaration(a);
+			if((kind & AnnotationDefinition.STEREOTYPE) > 0) {
+				b = new StereotypeDeclaration(a);
+				annotations.add(b);
 			}
-			annotations.add(a);
+			if((kind & AnnotationDefinition.INTERCEPTOR_BINDING) > 0) {
+				b = new InterceptorBindingDeclaration(a);
+				annotations.add(b);
+			}
+			if((kind & AnnotationDefinition.QUALIFIER) > 0) {
+				b = new QualifierDeclaration(a);
+				annotations.add(b);
+			}
+			if((kind & AnnotationDefinition.SCOPE) > 0) {
+				b = new ScopeDeclaration(a);
+				annotations.add(b);
+			}
+			if(b == null) {
+				annotations.add(a);
+			} else {
+				a = b;
+			}
+			
 			if(a.getTypeName() != null) {
 				annotationsByType.put(a.getTypeName(), a);
 			}

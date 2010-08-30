@@ -585,7 +585,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		Set<IType> result = new HashSet<IType>();
 		List<AnnotationDefinition> ds = n.getDefinitions().getAllAnnotations();
 		for (AnnotationDefinition d: ds) {
-			if(d.getKind() == AnnotationDefinition.QUALIFIER) {
+			if((d.getKind() & AnnotationDefinition.QUALIFIER) > 0) {
 				result.add(d.getType());
 			}
 		}
@@ -683,7 +683,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		}
 		int k = n.getDefinitions().getAnnotationKind(annotationType);
 		
-		return k == AnnotationDefinition.QUALIFIER;
+		return (k & AnnotationDefinition.QUALIFIER) > 0;
 	}
 
 	public boolean isScope(IType annotationType) {
@@ -695,7 +695,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		}
 		int k = n.getDefinitions().getAnnotationKind(annotationType);
 		
-		return k == AnnotationDefinition.SCOPE;
+		return (k & AnnotationDefinition.SCOPE) > 0;
 	}
 
 	public boolean isStereotype(IType annotationType) {
@@ -707,7 +707,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		}
 		int k = n.getDefinitions().getAnnotationKind(annotationType);
 		
-		return k == AnnotationDefinition.STEREOTYPE;
+		return (k & AnnotationDefinition.STEREOTYPE) > 0;
 	}
 
 	public Set<IBean> resolve(Set<IBean> beans) {
@@ -961,28 +961,31 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		scopesByPath.clear();
 		List<AnnotationDefinition> ds = n.getDefinitions().getAllAnnotations();
 		for (AnnotationDefinition d: ds) {
-			if(d.getKind() == AnnotationDefinition.STEREOTYPE) {
+			if((d.getKind() & AnnotationDefinition.STEREOTYPE) > 0) {
 				StereotypeElement s = new StereotypeElement();
 				initAnnotationElement(s, d);
 				stereotypes.put(d.getQualifiedName(), s);
 				if(d.getResource() != null && d.getResource().getFullPath() != null) {
 					stereotypesByPath.put(d.getResource().getFullPath(), s);
 				}
-			} else if(d.getKind() == AnnotationDefinition.INTERCEPTOR_BINDING) {
+			}
+			if((d.getKind() & AnnotationDefinition.INTERCEPTOR_BINDING) > 0) {
 				InterceptorBindingElement s = new InterceptorBindingElement();
 				initAnnotationElement(s, d);
 				interceptorBindings.put(d.getQualifiedName(), s);
 				if(d.getResource() != null && d.getResource().getFullPath() != null) {
 					interceptorBindingsByPath.put(d.getResource().getFullPath(), s);
 				}
-			} else if(d.getKind() == AnnotationDefinition.QUALIFIER) {
+			}
+			if((d.getKind() & AnnotationDefinition.QUALIFIER) > 0) {
 				QualifierElement s = new QualifierElement();
 				initAnnotationElement(s, d);
 				qualifiers.put(d.getQualifiedName(), s);
 				if(d.getResource() != null && d.getResource().getFullPath() != null) {
 					qualifiersByPath.put(d.getResource().getFullPath(), s);
 				}
-			} else if(d.getKind() == AnnotationDefinition.SCOPE) {
+			}
+			if((d.getKind() & AnnotationDefinition.SCOPE) > 0) {
 				ScopeElement s = new ScopeElement();
 				initAnnotationElement(s, d);
 				scopes.put(d.getQualifiedName(), s);
