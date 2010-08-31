@@ -14,12 +14,23 @@ package org.jboss.tools.seam.ui.test;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IProjectNature;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IncrementalProjectBuilder;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.wst.validation.ValidationFramework;
+import org.eclipse.wst.validation.internal.operations.ValidatorManager;
+import org.jboss.tools.seam.core.ISeamProject;
+import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.ui.test.ca.SeamELContentAssistJbide1645Test;
 import org.jboss.tools.seam.ui.test.ca.SeamELContentAssistJbide1676Test;
 import org.jboss.tools.seam.ui.test.ca.SeamELContentAssistTest;
 import org.jboss.tools.seam.ui.test.el.ELExprPartitionerTest;
 import org.jboss.tools.seam.ui.test.hyperlink.SeamViewHyperlinkPartitionerTest;
 import org.jboss.tools.seam.ui.test.jbide.JBide3989Test;
+import org.jboss.tools.seam.ui.test.marker.SeamMarkerResolutionTest;
 import org.jboss.tools.seam.ui.test.preferences.SeamPreferencesPageTest;
 import org.jboss.tools.seam.ui.test.preferences.SeamSettingsPreferencesPageTest;
 import org.jboss.tools.seam.ui.test.view.SeamComponentsViewAllTests;
@@ -32,7 +43,10 @@ import org.jboss.tools.seam.ui.test.wizard.SeamCreateTestProjectTest;
 import org.jboss.tools.seam.ui.test.wizard.SeamFormNewWizardTest;
 import org.jboss.tools.seam.ui.test.wizard.SeamProjectNamesTest;
 import org.jboss.tools.seam.ui.test.wizard.SeamProjectNewWizardTest;
+import org.jboss.tools.test.util.JUnitUtils;
+import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.ProjectImportTestSetup;
+import org.jboss.tools.test.util.ResourcesUtils;
 
 /**
  * @author eskimo
@@ -61,7 +75,23 @@ public class SeamUiAllTests {
 		suite.addTestSuite(SeamCreateTestProjectTest.class);
 		suite.addTestSuite(Seam20XCreateTestProjectTest.class);		
 		suite.addTestSuite(SeamProjectNamesTest.class);
-		suite.addTestSuite(Seam20XProjectNamesTest.class);		
+		suite.addTestSuite(Seam20XProjectNamesTest.class);
+		suite.addTest(new ProjectImportTestSetup(new TestSuite(SeamMarkerResolutionTest.class),"org.jboss.tools.seam.core.test","projects/SeamWebWarTestProject","SeamWebWarTestProject") {
+			@Override
+			protected void setUp() throws Exception {
+				super.setUp();
+				IProject project = (IProject)ResourcesPlugin.getWorkspace().getRoot().findMember("SeamWebWarTestProject");
+				project.refreshLocal(IResource.DEPTH_INFINITE, null);
+				JobUtils.waitForIdle();
+				ISeamProject seamProject = SeamCorePlugin.getSeamProject(project, true);
+				seamProject.setRuntimeName("UNKNOWN");
+				ValidatorManager.addProjectBuildValidationSupport(project);
+				project.build(IncrementalProjectBuilder.FULL_BUILD,
+						new NullProgressMonitor());
+				
+				JobUtils.waitForIdle();
+			}
+		} );
 		return suite;
 	}
 }

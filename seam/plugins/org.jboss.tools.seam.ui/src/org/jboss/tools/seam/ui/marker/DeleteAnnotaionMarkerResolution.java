@@ -34,5 +34,13 @@ public class DeleteAnnotaionMarkerResolution extends
 	public void run(IMarker marker) {
 		deleteAnnotation(qualifiedName);
 	}
+	
+	/**
+	 * Returns qualified name for test purpose
+	 * @return
+	 */
+	public String getQualifiedName(){
+		return qualifiedName;
+	}
 
 }
