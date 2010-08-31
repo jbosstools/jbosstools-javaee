@@ -15,12 +15,10 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IProjectNature;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.wst.validation.ValidationFramework;
 import org.eclipse.wst.validation.internal.operations.ValidatorManager;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
@@ -43,10 +41,8 @@ import org.jboss.tools.seam.ui.test.wizard.SeamCreateTestProjectTest;
 import org.jboss.tools.seam.ui.test.wizard.SeamFormNewWizardTest;
 import org.jboss.tools.seam.ui.test.wizard.SeamProjectNamesTest;
 import org.jboss.tools.seam.ui.test.wizard.SeamProjectNewWizardTest;
-import org.jboss.tools.test.util.JUnitUtils;
 import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.ProjectImportTestSetup;
-import org.jboss.tools.test.util.ResourcesUtils;
 
 /**
  * @author eskimo

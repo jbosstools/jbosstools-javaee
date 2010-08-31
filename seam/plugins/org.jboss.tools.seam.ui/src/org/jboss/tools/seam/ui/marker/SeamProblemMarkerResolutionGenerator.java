@@ -55,7 +55,7 @@ public class SeamProblemMarkerResolutionGenerator  implements IMarkerResolutionG
 		if(messageId == SeamCoreValidator.NONUNIQUE_COMPONENT_NAME_MESSAGE_ID)
 			return new IMarkerResolution[]{new DeleteAnnotaionMarkerResolution(SeamUIMessages.DELETE_NAME_ANNOTATION_MARKER_RESOLUTION_TITLE, "org.jboss.seam.annotations.Name",file, start, end)};
 		else if(messageId == SeamCoreValidator.DUPLICATE_REMOVE_MESSAGE_ID)
-			return new IMarkerResolution[]{new DeleteAnnotaionMarkerResolution(SeamUIMessages.DELETE_REMOVE_ANNOTATION_MARKER_RESOLUTION_TITLE, "org.jboss.seam.annotations.Remove", file, start, end)};
+			return new IMarkerResolution[]{new DeleteAnnotaionMarkerResolution(SeamUIMessages.DELETE_REMOVE_ANNOTATION_MARKER_RESOLUTION_TITLE, "javax.ejb.Remove", file, start, end)};
 		else if(messageId == SeamCoreValidator.DUPLICATE_DESTROY_MESSAGE_ID)
 			return new IMarkerResolution[]{new DeleteAnnotaionMarkerResolution(SeamUIMessages.DELETE_DESTROY_ANNOTATION_MARKER_RESOLUTION_TITLE, "org.jboss.seam.annotations.Destroy", file, start, end)};
 		else if(messageId == SeamCoreValidator.DUPLICATE_CREATE_MESSAGE_ID)

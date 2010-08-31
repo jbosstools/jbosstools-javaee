@@ -52,8 +52,6 @@ public class SeamMarkerResolutionTest extends TestCase {
 		
 		IMarker[] markers = file.findMarkers(MARKER_TYPE, true,	IResource.DEPTH_INFINITE);
 		
-		System.out.println("Markers - "+markers.length);
-		
 		boolean found = false;
 		for (int i = 0; i < markers.length; i++) {
 			IMarker marker = markers[i];
@@ -62,7 +60,7 @@ public class SeamMarkerResolutionTest extends TestCase {
 			for (int j = 0; j < resolutions.length; j++) {
 				IMarkerResolution resolution = resolutions[j];
 				if (resolution instanceof DeleteAnnotaionMarkerResolution) {
-					assertEquals("org.jboss.seam.annotations.Remove", ((DeleteAnnotaionMarkerResolution)resolution).getQualifiedName());
+					assertEquals("javax.ejb.Remove", ((DeleteAnnotaionMarkerResolution)resolution).getQualifiedName());
 					found = true;
 					break;
 				}
@@ -81,8 +79,6 @@ public class SeamMarkerResolutionTest extends TestCase {
 		assertTrue("File - "+TARGET_FILE_NAME+" must be exists",file.exists());
 		
 		IMarker[] markers = file.findMarkers(MARKER_TYPE, true,	IResource.DEPTH_INFINITE);
-		
-		System.out.println("Markers - "+markers.length);
 		
 		boolean found = false;
 		for (int i = 0; i < markers.length; i++) {
@@ -112,8 +108,6 @@ public class SeamMarkerResolutionTest extends TestCase {
 		
 		IMarker[] markers = file.findMarkers(MARKER_TYPE, true,	IResource.DEPTH_INFINITE);
 		
-		System.out.println("Markers - "+markers.length);
-		
 		boolean found = false;
 		for (int i = 0; i < markers.length; i++) {
 			IMarker marker = markers[i];
@@ -141,8 +135,6 @@ public class SeamMarkerResolutionTest extends TestCase {
 		assertTrue("File - "+TARGET_FILE_NAME+" must be exists",file.exists());
 		
 		IMarker[] markers = file.findMarkers(MARKER_TYPE, true,	IResource.DEPTH_INFINITE);
-		
-		System.out.println("Markers - "+markers.length);
 		
 		boolean found = false;
 		for (int i = 0; i < markers.length; i++) {
