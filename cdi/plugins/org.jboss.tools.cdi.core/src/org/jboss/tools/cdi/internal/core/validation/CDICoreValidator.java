@@ -434,6 +434,10 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 
 		Set<IInjectionPoint> points = bean.getInjectionPoints();
 		for (IInjectionPoint point : points) {
+			IType type = getTypeOfInjection(point);
+			if(type!=null && !type.isBinary()) {
+				getValidationContext().addLinkedCoreResource(beanPath, type.getPath(), false);
+			}
 			validateInjectionPoint(point);
 		}
 
@@ -457,6 +461,11 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 		}
 
 		validateSpecializingBean(bean);
+	}
+
+	private IType getTypeOfInjection(IInjectionPoint injection) {
+		IParametedType parametedType = injection.getType();
+		return parametedType==null?null:parametedType.getType();
 	}
 
 	private void addLinkedStereotypes(String beanPath, IStereotyped stereotyped) {
@@ -1192,7 +1201,8 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 			 * 5.2.1. Unsatisfied and ambiguous dependencies
 			 *  - If an unsatisfied or unresolvable ambiguous dependency exists, the container automatically detects the problem and treats it as a deployment problem.
 			 */
-			if(beans.isEmpty()) {
+			IType type = getTypeOfInjection(injection);
+			if(type!=null && beans.isEmpty()) {
 				addError(CDIValidationMessages.UNSATISFIED_INJECTION_POINTS, CDIPreferences.UNSATISFIED_INJECTION_POINTS, reference, injection.getResource());
 			} else if(beans.size()>1) {
 				addError(CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS, CDIPreferences.AMBIGUOUS_INJECTION_POINTS, reference, injection.getResource());
@@ -1220,7 +1230,6 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 			 * 5.5.7. Injection point metadata
 			 *  - bean that declares any scope other than @Dependent has an injection point of type InjectionPoint and qualifier @Default
 			 */
-			IType type = injection.getType() == null ? null : injection.getType().getType();
 			if(type!=null && CDIConstants.INJECTIONPOINT_TYPE_NAME.equals(type.getFullyQualifiedName())) {
 				IScope beanScope = injection.getClassBean().getScope();
 				if(injection.hasDefaultQualifier() && beanScope!=null && !CDIConstants.DEPENDENT_ANNOTATION_TYPE_NAME.equals(beanScope.getSourceType().getFullyQualifiedName())) {
