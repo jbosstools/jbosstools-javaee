@@ -19,6 +19,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.preference.IPersistentPreferenceStore;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.jboss.tools.cdi.core.CDICorePlugin;
+import org.jboss.tools.cdi.core.IClassBean;
 import org.jboss.tools.cdi.internal.core.validation.CDICoreValidator;
 import org.jboss.tools.cdi.internal.core.validation.CDIValidationMessages;
 import org.jboss.tools.common.preferences.SeverityPreferences;
@@ -1069,8 +1070,16 @@ public class ValidationTest extends TCKTest {
 	public void testNotAllDecoratedTypesImplemented() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/decorators/definition/broken/notAllDecoratedTypesImplemented/TimestampLogger.java");
 		assertMarkerIsCreated(file, MessageFormat.format(CDIValidationMessages.DELEGATE_HAS_ILLEGAL_TYPE, "EnhancedLogger"), 31);
+	}
 
-		file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/decorators/delegates/TimestampLogger.java");
+	/**
+	 * 8.1. Decorator delegate injection points
+	 *  See https://jira.jboss.org/browse/JBIDE-6957
+	 * 
+	 * @throws Exception
+	 */
+	public void testAllDecoratedTypesImplemented() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/decorators/delegates/TimestampLogger.java");
 		assertMarkerIsNotCreated(file, MessageFormat.format(CDIValidationMessages.DELEGATE_HAS_ILLEGAL_TYPE, "Logger"));
 		assertMarkerIsNotCreated(file, MessageFormat.format(CDIValidationMessages.DELEGATE_HAS_ILLEGAL_TYPE, "EnhancedLogger"));
 		assertMarkerIsNotCreated(file, MessageFormat.format(CDIValidationMessages.DELEGATE_HAS_ILLEGAL_TYPE, "TimestampLogger"));
@@ -1083,6 +1092,9 @@ public class ValidationTest extends TCKTest {
 		assertMarkerIsNotCreated(file, MessageFormat.format(CDIValidationMessages.DELEGATE_HAS_ILLEGAL_TYPE, "TimestampLogger"));
 		assertMarkerIsNotCreated(file, MessageFormat.format(CDIValidationMessages.DELEGATE_HAS_ILLEGAL_TYPE, "Object"));
 		assertMarkerIsNotCreated(file, MessageFormat.format(CDIValidationMessages.DELEGATE_HAS_ILLEGAL_TYPE, "MockLogger"));
+
+		file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/decorators/definition/FooDecorator.java");
+		assertMarkerIsNotCreated(file, CDIValidationMessages.DELEGATE_HAS_ILLEGAL_TYPE.substring(0, 60) + ".*");
 	}
 
 	/**
