@@ -14,6 +14,7 @@ package org.jboss.tools.cdi.core.test.tck.validation;
 import java.text.MessageFormat;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.osgi.util.NLS;
 import org.jboss.tools.cdi.internal.core.validation.CDIValidationMessages;
 
 /**
@@ -502,7 +503,8 @@ public class DefenitionErrorsValidationTest extends ValidationTest {
 	 */
 	public void testProducerMethodOnSessionBeanMustBeBusinessMethod() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/implementation/producer/method/broken/enterprise/nonbusiness/FooProducer.java");
-		assertMarkerIsCreated(file, CDIValidationMessages.ILLEGAL_PRODUCER_METHOD_IN_SESSION_BEAN, 25);
+		String bindedErrorMessage = NLS.bind(CDIValidationMessages.ILLEGAL_PRODUCER_METHOD_IN_SESSION_BEAN, new String[]{"createFoo", "FooProducer"});
+		assertMarkerIsCreated(file, bindedErrorMessage, 25);
 	}
 
 	/**
@@ -601,9 +603,11 @@ public class DefenitionErrorsValidationTest extends ValidationTest {
 	 */
 	public void testDisposalMethodNotBusinessOrStatic() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/implementation/disposal/method/definition/broken/methodOnSessionBean/AppleTree.java");
-		assertMarkerIsCreated(file, CDIValidationMessages.ILLEGAL_DISPOSER_IN_SESSION_BEAN, 31);
+		String bindedErrorMessage = NLS.bind(CDIValidationMessages.ILLEGAL_DISPOSER_IN_SESSION_BEAN, new String[]{"recycle", "AppleTree"});
+		assertMarkerIsCreated(file, bindedErrorMessage, 31);
 		file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/implementation/enterprise/newBean/Fox.java");
-		assertMarkerIsNotCreated(file, CDIValidationMessages.ILLEGAL_DISPOSER_IN_SESSION_BEAN, 73);
+		bindedErrorMessage = NLS.bind(CDIValidationMessages.ILLEGAL_DISPOSER_IN_SESSION_BEAN, new String[]{"disposeLitter", "Fox"});
+		assertMarkerIsNotCreated(file, bindedErrorMessage, 73);
 	}
 
 	/**
@@ -1332,7 +1336,21 @@ public class DefenitionErrorsValidationTest extends ValidationTest {
 	 */
 	public void testObserverMethodOnEnterpriseBeanNotBusinessMethodOrStaticFails() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/event/broken/observer/notBusinessMethod/TibetanTerrier_Broken.java");
-		assertMarkerIsCreated(file, CDIValidationMessages.ILLEGAL_OBSERVER_IN_SESSION_BEAN, 25);
+		String bindedErrorMessage = NLS.bind(CDIValidationMessages.ILLEGAL_OBSERVER_IN_SESSION_BEAN, new String[]{"observeSomeEvent", "TibetanTerrier_Broken"});
+		assertMarkerIsCreated(file, bindedErrorMessage, 25);
+	}
+
+	/**
+	 * 10.4.2. Declaring an observer method
+	 *  - non-static method of a session bean class has a parameter annotated @Observes, and the method is not a business method of the EJB
+	 *  See https://jira.jboss.org/browse/JBIDE-6955
+	 *  
+	 * @throws Exception
+	 */
+	public void testObserverMethodOnSingletonBeanIsBusinessMethodOk() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/observers/ClassFragmentLogger.java");
+		String bindedErrorMessage = NLS.bind(CDIValidationMessages.ILLEGAL_OBSERVER_IN_SESSION_BEAN, new String[]{"addEntry", "ClassFragmentLogger"});
+		assertMarkerIsNotCreated(file, bindedErrorMessage, 21);
 	}
 
 	/**

@@ -42,6 +42,7 @@ import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.ITypeParameter;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.core.Signature;
+import org.eclipse.osgi.util.NLS;
 import org.eclipse.wst.common.componentcore.ComponentCore;
 import org.eclipse.wst.common.componentcore.resources.IVirtualComponent;
 import org.eclipse.wst.common.componentcore.resources.IVirtualFile;
@@ -872,13 +873,14 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 	 * @param annotatedParams
 	 * @param errorKey
 	 */
-	private void validateSessionBeanMethod(IClassBean bean, IBeanMethod method, Set<ITextSourceReference> annotatedParams, String errorMessageKey, String preferencesKey) {
+	private void validateSessionBeanMethod(IClassBean bean, IBeanMethod method, Set<ITextSourceReference> annotatedParams, String errorMessage, String preferencesKey) {
 		if (bean instanceof ISessionBean && annotatedParams != null) {
 			IMethod iMethod = CDIUtil.getBusinessMethodDeclaration((SessionBean)bean, method);
 			if(iMethod==null) {
 				saveAllSuperTypesAsLinkedResources(bean);
 				for (ITextSourceReference declaration : annotatedParams) {
-					addError(errorMessageKey, preferencesKey, declaration, bean.getResource());
+					String bindedErrorMessage = NLS.bind(errorMessage, new String[]{method.getMethod().getElementName(), bean.getBeanClass().getElementName()});
+					addError(bindedErrorMessage, preferencesKey, declaration, bean.getResource());
 				}
 			} else {
 				getValidationContext().addLinkedCoreResource(bean.getSourcePath().toOSString(), iMethod.getResource().getFullPath(), false);
@@ -1066,7 +1068,8 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 				if(classBean instanceof ISessionBean) {
 					IMethod method = CDIUtil.getBusinessMethodDeclaration((SessionBean)classBean, producerMethod);
 					if(method==null) {
-						addError(CDIValidationMessages.ILLEGAL_PRODUCER_METHOD_IN_SESSION_BEAN, CDIPreferences.ILLEGAL_PRODUCER_METHOD_IN_SESSION_BEAN, producer.getProducesAnnotation(), producer.getResource());
+						String bindedErrorMessage = NLS.bind(CDIValidationMessages.ILLEGAL_PRODUCER_METHOD_IN_SESSION_BEAN, new String[]{producerMethod.getMethod().getElementName(), producer.getBeanClass().getElementName()});
+						addError(bindedErrorMessage, CDIPreferences.ILLEGAL_PRODUCER_METHOD_IN_SESSION_BEAN, producer.getProducesAnnotation(), producer.getResource());
 						saveAllSuperTypesAsLinkedResources(classBean);
 					} else {
 						getValidationContext().addLinkedCoreResource(classBean.getSourcePath().toOSString(), method.getResource().getFullPath(), false);

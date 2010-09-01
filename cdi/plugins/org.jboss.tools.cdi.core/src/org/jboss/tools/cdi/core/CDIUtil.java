@@ -425,6 +425,9 @@ public class CDIUtil {
 	public static IMethod getBusinessMethodDeclaration(ISessionBean bean, IBeanMethod method) {
 		try {
 			if (!Flags.isStatic(method.getMethod().getFlags())) {
+				if(bean.getAnnotation(CDIConstants.SINGLETON_ANNOTATION_TYPE_NAME)!=null) {
+					return method.getMethod();
+				}
 				Set<IParametedType> types = bean.getLegalTypes();
 				for (IParametedType type : types) {
 					IType sourceType = type.getType();
