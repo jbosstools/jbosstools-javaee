@@ -14,12 +14,8 @@ import java.util.List;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.jface.preference.IPersistentPreferenceStore;
-import org.eclipse.jface.preference.IPreferenceStore;
-import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.test.tck.TCKTest;
 import org.jboss.tools.cdi.internal.core.validation.CDICoreValidator;
-import org.jboss.tools.common.preferences.SeverityPreferences;
 import org.jboss.tools.jst.web.kb.internal.validation.ValidationContext;
 import org.jboss.tools.jst.web.kb.validation.IValidator;
 import org.jboss.tools.tests.AbstractResourceMarkerTest;
@@ -29,25 +25,7 @@ import org.jboss.tools.tests.AbstractResourceMarkerTest;
  */
 public class ValidationTest extends TCKTest {
 
-	/**
-	 * https://jira.jboss.org/browse/JBIDE-6507
-	 *  
-	 * @throws Exception
-	 */
-	public void testDisabledValidator() throws Exception {
-		IPreferenceStore preferenceStore = CDICorePlugin.getDefault().getPreferenceStore();
-		preferenceStore.setValue(SeverityPreferences.ENABLE_BLOCK_PREFERENCE_NAME, false);
-		((IPersistentPreferenceStore)preferenceStore).save();
-
-		assertNull("CDICoreValidator is not be disabled.", getCDIValidator());
-
-		preferenceStore.setValue(SeverityPreferences.ENABLE_BLOCK_PREFERENCE_NAME, true);
-		((IPersistentPreferenceStore)preferenceStore).save();
-
-		assertNotNull("CDICoreValidator is disabled.", getCDIValidator());
-	}
-
-	private CDICoreValidator getCDIValidator() {
+	protected CDICoreValidator getCDIValidator() {
 		ValidationContext context = new ValidationContext(tckProject);
 		List<IValidator> validators = context.getValidators();
 		for (IValidator validator : validators) {

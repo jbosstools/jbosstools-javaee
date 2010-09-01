@@ -37,9 +37,9 @@ import org.jboss.tools.cdi.core.test.tck.StereotypeDefinitionTest;
 import org.jboss.tools.cdi.core.test.tck.StereotypeInheritenceTest;
 import org.jboss.tools.cdi.core.test.tck.validation.AnnotationsValidationTest;
 import org.jboss.tools.cdi.core.test.tck.validation.BeansXmlValidationTest;
+import org.jboss.tools.cdi.core.test.tck.validation.CoreValidationTest;
 import org.jboss.tools.cdi.core.test.tck.validation.DefenitionErrorsValidationTest;
 import org.jboss.tools.cdi.core.test.tck.validation.DeploymentProblemsValidationTests;
-import org.jboss.tools.cdi.core.test.tck.validation.ValidationTest;
 
 /**
  * @author Alexey Kazakov
@@ -73,11 +73,11 @@ public class CDICoreAllTests {
 		suite.addTestSuite(DecoratorDefinitionTest.class);
 		suite.addTestSuite(ObserverMethodResolutionTest.class);
 
-		suite.addTestSuite(ValidationTest.class);
 		suite.addTestSuite(DefenitionErrorsValidationTest.class);
 		suite.addTestSuite(DeploymentProblemsValidationTests.class);
 		suite.addTestSuite(BeansXmlValidationTest.class);
 		suite.addTestSuite(AnnotationsValidationTest.class);
+		suite.addTestSuite(CoreValidationTest.class);
 
 		return new CDICoreTestSetup(suite);
 	}
