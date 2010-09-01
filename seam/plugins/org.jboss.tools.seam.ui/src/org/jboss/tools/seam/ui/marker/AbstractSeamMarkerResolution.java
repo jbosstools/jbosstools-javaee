@@ -81,6 +81,16 @@ public abstract class AbstractSeamMarkerResolution implements
 		}
 	}
 	
+	private IType getType(IJavaElement element){
+		IJavaElement elem = element;
+		while(elem != null){
+			if(elem instanceof IType)
+				return (IType)elem;
+			elem = elem.getParent();
+		}
+		return null;
+	}
+	
 	private boolean checkImport(String text, String qualifiedName){
 		String name = getShortName(qualifiedName);
 		
@@ -104,14 +114,18 @@ public abstract class AbstractSeamMarkerResolution implements
 			ICompilationUnit original = EclipseUtil.getCompilationUnit(file);
 			ICompilationUnit compilationUnit = original.getWorkingCopy(new NullProgressMonitor());
 			
-			if(compilationUnit.getImport(annotationTypeName) == null){
-				compilationUnit.createImport(annotationTypeName, null, new NullProgressMonitor());
+			IJavaElement javaElement = compilationUnit.getElementAt(start);
+			IType type = getType(javaElement);
+			if(type != null){
+				if(compilationUnit.getImport(annotationTypeName) == null){
+					compilationUnit.createImport(annotationTypeName, null, new NullProgressMonitor());
+				}
+				
+				IBuffer buffer = compilationUnit.getBuffer();
+				
+				buffer.replace(type.getSourceRange().getOffset(), 0, annotationString+'\n');
+				compilationUnit.commitWorkingCopy(false, new NullProgressMonitor());
 			}
-			
-			IBuffer buffer = compilationUnit.getBuffer();
-			
-			buffer.replace(start, 0, annotationString+' ');
-			compilationUnit.commitWorkingCopy(false, new NullProgressMonitor());
 		}catch(CoreException ex){
 			SeamGuiPlugin.getPluginLog().logError(ex);
 		}

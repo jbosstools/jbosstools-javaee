@@ -100,6 +100,34 @@ public class SeamMarkerResolutionTest extends TestCase {
 		assertTrue("The quickfix \"Delete @Destroy annotation\" doesn't exist.", found);
 	}
 
+	public void testDuplicateDestroyAnnotationResolution2() throws CoreException {
+		String TARGET_FILE_NAME = "src/action/org/domain/SeamWebWarTestProject/session/StatelessClass.java";
+		IFile file = project.getFile(TARGET_FILE_NAME);
+		
+		assertTrue("File - "+TARGET_FILE_NAME+" must be exists",file.exists());
+		
+		IMarker[] markers = file.findMarkers(MARKER_TYPE, true,	IResource.DEPTH_INFINITE);
+		
+		boolean found = false;
+		for (int i = 0; i < markers.length; i++) {
+			IMarker marker = markers[i];
+			IMarkerResolution[] resolutions = IDE.getMarkerHelpRegistry()
+					.getResolutions(marker);
+			for (int j = 0; j < resolutions.length; j++) {
+				IMarkerResolution resolution = resolutions[j];
+				if (resolution instanceof DeleteAnnotaionMarkerResolution) {
+					assertEquals("org.jboss.seam.annotations.Destroy", ((DeleteAnnotaionMarkerResolution)resolution).getQualifiedName());
+					found = true;
+					break;
+				}
+			}
+			if (found) {
+				break;
+			}
+		}
+		assertTrue("The quickfix \"Delete @Destroy annotation\" doesn't exist.", found);
+	}
+
 	public void testDuplicateCreateAnnotationResolution() throws CoreException {
 		String TARGET_FILE_NAME = "src/action/org/domain/SeamWebWarTestProject/session/StatefulDuplicateCreateComponent.java";
 		IFile file = project.getFile(TARGET_FILE_NAME);
