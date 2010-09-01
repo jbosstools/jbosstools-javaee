@@ -17,6 +17,7 @@ import org.eclipse.jdt.internal.core.JavaModelManager;
 import org.jboss.tools.cdi.core.test.tck.AssignabilityOfRawAndParameterizedTypesTest;
 import org.jboss.tools.cdi.core.test.tck.BeanDefinitionTest;
 import org.jboss.tools.cdi.core.test.tck.BeanSpecializationTest;
+import org.jboss.tools.cdi.core.test.tck.DecoratorDefinitionTest;
 import org.jboss.tools.cdi.core.test.tck.DefaultNamedTest;
 import org.jboss.tools.cdi.core.test.tck.DynamicLookupTest;
 import org.jboss.tools.cdi.core.test.tck.EnterpriseQualifierDefinitionTest;
@@ -65,6 +66,7 @@ public class CDICoreAllTests {
 		suite.addTestSuite(QualifierWithMembersTest.class);
 		suite.addTestSuite(DynamicLookupTest.class);
 		suite.addTestSuite(InterceptorDefinitionTest.class);
+		suite.addTestSuite(DecoratorDefinitionTest.class);
 		suite.addTestSuite(ValidationTest.class);
 		suite.addTestSuite(ObserverMethodResolutionTest.class);
 		return new CDICoreTestSetup(suite);

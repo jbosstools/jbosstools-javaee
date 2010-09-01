@@ -347,6 +347,40 @@ public class TCKTest extends TestCase {
 		return false;
 	}
 
+	public static void assertContainsTypes(Set<IParametedType> types, String... typeNames) throws CoreException {
+		assertContainsTypes(true, types, typeNames);
+	}
+
+	public static void assertContainsTypes(boolean checkTheNumberOfTypes, Set<IParametedType> types, String... typeNames) throws CoreException {
+		if(checkTheNumberOfTypes) {
+			assertEquals("The number of types should be the same", typeNames.length, types.size());
+		}
+		for (String typeName : typeNames) {
+			assertContainsType(types, typeName);
+		}
+	}
+
+	public static void assertContainsType(Set<IParametedType> types, String typeName) throws CoreException {
+		StringBuffer allTheTypes = new StringBuffer("[ ");
+		for (IParametedType type : types) {
+			allTheTypes.append(type.getType().getFullyQualifiedName()).append(" ,");
+		}
+		allTheTypes.append(" ]");
+
+		for (IParametedType type : types) {
+			assertTrue("The set of types " + allTheTypes.toString() + " doesn't contain " + type.getType().getFullyQualifiedName() + " type.", containsType(types, typeName));
+		}
+	}
+
+	private static boolean containsType(Set<IParametedType> types, String typeName) throws CoreException {
+		for (IParametedType type : types) {
+			if(typeName.equals(type.getType().getFullyQualifiedName())) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	public static void assertContainsQualifier(IBean bean, IQualifierDeclaration declaration) throws CoreException {
 		String typeName = declaration.getQualifier().getSourceType().getFullyQualifiedName();
 		Set<IQualifier> qualifiers = bean.getQualifiers();
