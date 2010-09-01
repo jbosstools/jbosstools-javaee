@@ -82,6 +82,7 @@ import org.jboss.tools.cdi.core.IStereotyped;
 import org.jboss.tools.cdi.core.ITypeDeclaration;
 import org.jboss.tools.cdi.core.preferences.CDIPreferences;
 import org.jboss.tools.cdi.internal.core.impl.CDIProject;
+import org.jboss.tools.cdi.internal.core.impl.ParametedType;
 import org.jboss.tools.cdi.internal.core.impl.Parameter;
 import org.jboss.tools.cdi.internal.core.impl.SessionBean;
 import org.jboss.tools.common.EclipseUtil;
@@ -1717,19 +1718,13 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 	}
 
 	private List<String> getSuppers(IParametedType type) {
-		try {
-			List<IType> types = EclipseJavaUtil.getSupperTypes(type.getType());
-			List<String> signatures = new ArrayList<String>();
-			for (IType iType : types) {
-				IParametedType superType = cdiProject.getNature().getTypeFactory().newParametedType(iType);
-				signatures.add(superType.getSignature());
-			}
-			signatures.add(type.getSignature());
-			return signatures;
-		} catch (JavaModelException e) {
-			CDICorePlugin.getDefault().logError(e);
+		Set<IParametedType> types = ((ParametedType)type).getAllTypes();
+		List<String> signatures = new ArrayList<String>();
+		for (IParametedType superType : types) {
+			signatures.add(superType.getSignature());
 		}
-		return Collections.emptyList();
+		signatures.add(type.getSignature());
+		return signatures;
 	}
 
 	/*

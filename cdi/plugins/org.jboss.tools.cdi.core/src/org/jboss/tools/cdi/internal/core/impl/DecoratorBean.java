@@ -10,8 +10,12 @@
  ******************************************************************************/ 
 package org.jboss.tools.cdi.internal.core.impl;
 
+import java.util.HashSet;
 import java.util.Set;
 
+import org.eclipse.jdt.core.IType;
+import org.eclipse.jdt.core.JavaModelException;
+import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.IAnnotationDeclaration;
 import org.jboss.tools.cdi.core.IDecorator;
 import org.jboss.tools.cdi.core.IParametedType;
@@ -30,8 +34,22 @@ public class DecoratorBean extends ClassBean implements IDecorator {
 	 * @see org.jboss.tools.cdi.core.IDecorator#getDecoratedTypes()
 	 */
 	public Set<IParametedType> getDecoratedTypes() {
-		return getLegalTypes();
-//		return ((TypeDefinition)definition).getInheritedTypes();
+		Set<IParametedType> result = new HashSet<IParametedType>();
+
+		Set<IParametedType> legalTypes = getLegalTypes();
+		for (IParametedType pt: legalTypes) {
+			IType t = pt.getType();
+			try {
+				if(!t.isInterface()) continue;
+			} catch (JavaModelException e) {
+				CDICorePlugin.getDefault().logError(e);
+				continue;
+			}
+			if(!"java.io.Serializable".equals(t.getFullyQualifiedName())) {
+				result.add(pt);
+			}			
+		}
+		return result;
 	}
 
 	/*
