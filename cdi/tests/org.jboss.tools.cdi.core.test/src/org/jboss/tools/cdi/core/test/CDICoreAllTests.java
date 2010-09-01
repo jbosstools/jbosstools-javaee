@@ -35,7 +35,11 @@ import org.jboss.tools.cdi.core.test.tck.ResolutionByTypeTest;
 import org.jboss.tools.cdi.core.test.tck.ScopeDefinitionTest;
 import org.jboss.tools.cdi.core.test.tck.StereotypeDefinitionTest;
 import org.jboss.tools.cdi.core.test.tck.StereotypeInheritenceTest;
-import org.jboss.tools.cdi.core.test.tck.ValidationTest;
+import org.jboss.tools.cdi.core.test.tck.validation.AnnotationsValidationTest;
+import org.jboss.tools.cdi.core.test.tck.validation.BeansXmlValidationTest;
+import org.jboss.tools.cdi.core.test.tck.validation.DefenitionErrorsValidationTest;
+import org.jboss.tools.cdi.core.test.tck.validation.DeploymentProblemsValidationTests;
+import org.jboss.tools.cdi.core.test.tck.validation.ValidationTest;
 
 /**
  * @author Alexey Kazakov
@@ -67,8 +71,14 @@ public class CDICoreAllTests {
 		suite.addTestSuite(DynamicLookupTest.class);
 		suite.addTestSuite(InterceptorDefinitionTest.class);
 		suite.addTestSuite(DecoratorDefinitionTest.class);
-		suite.addTestSuite(ValidationTest.class);
 		suite.addTestSuite(ObserverMethodResolutionTest.class);
+
+		suite.addTestSuite(ValidationTest.class);
+		suite.addTestSuite(DefenitionErrorsValidationTest.class);
+		suite.addTestSuite(DeploymentProblemsValidationTests.class);
+		suite.addTestSuite(BeansXmlValidationTest.class);
+		suite.addTestSuite(AnnotationsValidationTest.class);
+
 		return new CDICoreTestSetup(suite);
 	}
 }

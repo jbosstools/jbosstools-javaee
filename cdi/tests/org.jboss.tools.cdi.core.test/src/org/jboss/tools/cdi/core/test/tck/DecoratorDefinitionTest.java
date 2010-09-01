@@ -18,6 +18,7 @@ import org.eclipse.jdt.core.JavaModelException;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IClassBean;
 import org.jboss.tools.cdi.core.IDecorator;
+import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.core.IParametedType;
 
 /**
@@ -35,16 +36,25 @@ public class DecoratorDefinitionTest extends TCKTest {
 	 * @throws JavaModelException
 	 */
 	public void testDecoratedTypes() throws JavaModelException, CoreException {
-		IClassBean bean = getClassBean("JavaSource/org/jboss/jsr299/tck/tests/decorators/definition/FooDecorator.java");
-		assertNotNull("Can't find the bean.", bean);
-		if(!(bean instanceof IDecorator)) {
-			fail("The bean is not a decorator.");
-		}
-		IDecorator decorator = (IDecorator)bean;
+		IDecorator decorator = getDecorator("JavaSource/org/jboss/jsr299/tck/tests/decorators/definition/FooDecorator.java");
 		Set<IParametedType> types = decorator.getDecoratedTypes();
 		assertContainsTypes(types,
 				"org.jboss.jsr299.tck.tests.decorators.definition.Foo",
 				"org.jboss.jsr299.tck.tests.decorators.definition.Bar",
 				"org.jboss.jsr299.tck.tests.decorators.definition.Baz");
 	}
+
+	/**
+	 * section 8.1.2 a)
+	 * section 11.1.1 c)
+	 */
+	public void testDelegateInjectionPoint() throws JavaModelException, CoreException {
+		IDecorator decorator = getDecorator("JavaSource/org/jboss/jsr299/tck/tests/decorators/definition/TimestampLogger.java");
+		assertEquals("Wrong number of injection points.", 1, decorator.getInjectionPoints().size());
+		IInjectionPoint injection = decorator.getInjectionPoints().iterator().next();
+		assertEquals("Wrong type of the injection point.", "org.jboss.jsr299.tck.tests.decorators.definition.Logger", injection.getType().getType().getFullyQualifiedName());
+		assertNotNull("Can't find @Delegate annotation.", injection.getDelegateAnnotation());
+	}
+
+	// TODO continue implementing tests
 }

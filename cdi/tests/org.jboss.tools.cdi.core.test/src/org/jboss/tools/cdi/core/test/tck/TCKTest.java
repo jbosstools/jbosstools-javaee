@@ -25,6 +25,7 @@ import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.ICDIAnnotation;
 import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.IClassBean;
+import org.jboss.tools.cdi.core.IDecorator;
 import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.core.IInjectionPointField;
 import org.jboss.tools.cdi.core.IParametedType;
@@ -136,6 +137,15 @@ public class TCKTest extends TestCase {
 		}
 		fail("Can't find a class bean in " + path);
 		return null;
+	}
+
+	protected IDecorator getDecorator(String path) {
+		IClassBean bean = getClassBean("JavaSource/org/jboss/jsr299/tck/tests/decorators/definition/TimestampLogger.java");
+		assertNotNull("Can't find the bean.", bean);
+		if(!(bean instanceof IDecorator)) {
+			fail("The bean is not a decorator.");
+		}
+		return (IDecorator)bean;
 	}
 
 	protected IQualifierDeclaration getQualifierDeclarationFromClass(String beanFilePath, String annotationTypeName) throws JavaModelException {
