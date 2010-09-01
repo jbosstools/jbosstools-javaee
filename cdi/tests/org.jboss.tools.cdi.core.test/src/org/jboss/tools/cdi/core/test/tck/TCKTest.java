@@ -140,7 +140,7 @@ public class TCKTest extends TestCase {
 	}
 
 	protected IDecorator getDecorator(String path) {
-		IClassBean bean = getClassBean("JavaSource/org/jboss/jsr299/tck/tests/decorators/definition/TimestampLogger.java");
+		IClassBean bean = getClassBean(path);
 		assertNotNull("Can't find the bean.", bean);
 		if(!(bean instanceof IDecorator)) {
 			fail("The bean is not a decorator.");
