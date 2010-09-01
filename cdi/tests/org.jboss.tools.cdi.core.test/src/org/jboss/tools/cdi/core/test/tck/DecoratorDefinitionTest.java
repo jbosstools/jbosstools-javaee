@@ -40,7 +40,7 @@ public class DecoratorDefinitionTest extends TCKTest {
 				"org.jboss.jsr299.tck.tests.decorators.definition.Foo",
 				"org.jboss.jsr299.tck.tests.decorators.definition.Bar",
 				"org.jboss.jsr299.tck.tests.decorators.definition.Baz",
-				"org.jboss.jsr299.tck.tests.decorators.definition.Baz");
+				"org.jboss.jsr299.tck.tests.decorators.definition.Boo");
 	}
 
 	/**
