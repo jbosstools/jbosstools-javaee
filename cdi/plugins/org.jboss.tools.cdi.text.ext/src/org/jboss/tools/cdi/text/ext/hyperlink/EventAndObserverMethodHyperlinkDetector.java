@@ -20,6 +20,7 @@ import org.eclipse.jdt.core.ICodeAssist;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IMethod;
+import org.eclipse.jdt.core.ISourceRange;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.internal.core.ResolvedBinaryType;
 import org.eclipse.jdt.internal.core.ResolvedSourceType;
@@ -35,10 +36,13 @@ import org.eclipse.ui.texteditor.ITextEditor;
 import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.CDIUtil;
 import org.jboss.tools.cdi.core.IBean;
+import org.jboss.tools.cdi.core.IBeanMethod;
 import org.jboss.tools.cdi.core.ICDIProject;
+import org.jboss.tools.cdi.core.IClassBean;
 import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.core.IInjectionPointParameter;
 import org.jboss.tools.cdi.core.IObserverMethod;
+import org.jboss.tools.cdi.core.IParameter;
 import org.jboss.tools.cdi.text.ext.CDIExtensionsPlugin;
 
 public class EventAndObserverMethodHyperlinkDetector extends AbstractHyperlinkDetector{
@@ -103,18 +107,18 @@ public class EventAndObserverMethodHyperlinkDetector extends AbstractHyperlinkDe
 				ICDIProject cdiProject = cdiNature.getDelegate();
 				if(cdiProject != null){
 					IInjectionPoint injectionPoint = findInjectedPoint(cdiProject, element, position, file);
+					IParameter param = findObserverParameter(cdiProject, element, offset, file);
 					if(injectionPoint != null){
 						Set<IObserverMethod> observerMethods = cdiProject.resolveObserverMethods(injectionPoint);
 
 						if(observerMethods.size() > 0)
 							hyperlinks.add(new ObserverMethodListHyperlink(textViewer, region, observerMethods, document));
 						
-						if(injectionPoint instanceof IInjectionPointParameter){
-							Set<IInjectionPoint> events = cdiProject.findObservedEvents((IInjectionPointParameter)injectionPoint);
-							
-							if(events.size() > 0)
-								hyperlinks.add(new EventListHyperlink(textViewer, region, events, document));
-						}
+					} else if(param != null) {
+						Set<IInjectionPoint> events = cdiProject.findObservedEvents(param);
+						
+						if(events.size() > 0)
+							hyperlinks.add(new EventListHyperlink(textViewer, region, events, document));
 					}
 				}
 			}
@@ -132,6 +136,29 @@ public class EventAndObserverMethodHyperlinkDetector extends AbstractHyperlinkDe
 		Set<IBean> beans = cdiProject.getBeans(file.getFullPath());
 		
 		return CDIUtil.findInjectionPoint(beans, element, offset);
+	}
+	
+	private IParameter findObserverParameter(ICDIProject cdiProject, IJavaElement element, int offset, IFile file) throws JavaModelException {
+		Set<IBean> beans = cdiProject.getBeans(file.getFullPath());
+		for (IBean bean: beans) {
+			if(bean instanceof IClassBean) {
+				Set<IBeanMethod> observers = ((IClassBean)bean).getObserverMethods();
+				for (IBeanMethod bm: observers) {
+					if(bm instanceof IObserverMethod) {
+						ISourceRange sr = bm.getMethod().getSourceRange();
+						if(sr.getOffset() <= offset && sr.getOffset() + sr.getLength() >= offset) {
+							IObserverMethod obs = (IObserverMethod)bm;
+							Set<IParameter> ps = obs.getObservedParameters();
+							if(!ps.isEmpty()) {
+								return ps.iterator().next();
+							}
+						}
+					}
+				}
+			}
+		}
+		
+		return null;
 	}
 	
 }
