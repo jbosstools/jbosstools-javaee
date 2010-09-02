@@ -58,4 +58,12 @@ public class InjectionPointTest extends TCKTest {
 			}
 		}
 	}
+
+	public void testObserverMethodParameters() {
+		IClassBean bean = getClassBean("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/inject/AnimalObserver.java");
+		assertNotNull("Can't find the bean.", bean);
+		Set<IInjectionPoint> injections = bean.getInjectionPoints();
+		assertEquals(1, injections.size());
+	}
+
 }

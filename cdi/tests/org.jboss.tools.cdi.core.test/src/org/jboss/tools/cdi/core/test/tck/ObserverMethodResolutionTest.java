@@ -46,9 +46,9 @@ public class ObserverMethodResolutionTest extends TCKTest {
 		assertTrue(p.size() == 1);
 
 		IParameter observerParameter = p.iterator().next();
-		assertTrue(observerParameter instanceof IInjectionPointParameter);
+		assertFalse(observerParameter instanceof IInjectionPointParameter);
 
-		Set<IInjectionPoint> points = tamedObserver.getClassBean().getCDIProject().findObservedEvents((IInjectionPointParameter)observerParameter);
+		Set<IInjectionPoint> points = tamedObserver.getClassBean().getCDIProject().findObservedEvents(observerParameter);
 		assertTrue(points.size() == 1);
 		assertTrue(points.contains(tamingEvent));
 	}
