@@ -45,14 +45,17 @@ public class BeanMethod extends BeanMember implements IBeanMethod {
 		
 		List<ParameterDefinition> ps = definition.getParameters();
 		for (ParameterDefinition p: ps) {
-			Parameter parameter = newParameter();
+//			if(p.isAnnotationPresent(CDIConstants.OBSERVERS_ANNOTATION_TYPE_NAME)) {
+//				continue;
+//			}
+			Parameter parameter = newParameter(p);
 			parameter.setBeanMethod(this);
 			parameter.setDefinition(p);
 			parameters.add(parameter);
 		}
 	}
 
-	protected Parameter newParameter() {
+	protected Parameter newParameter(ParameterDefinition p) {
 		return ((MethodDefinition)definition).parametersAreInjectionPoints() ? new InjectionPointParameter() : new Parameter();
 	}
 

@@ -30,6 +30,7 @@ import org.jboss.tools.cdi.core.IStereotype;
 import org.jboss.tools.cdi.core.IStereotypeDeclaration;
 import org.jboss.tools.cdi.core.ITypeDeclaration;
 import org.jboss.tools.cdi.internal.core.impl.definition.MethodDefinition;
+import org.jboss.tools.cdi.internal.core.impl.definition.ParameterDefinition;
 import org.jboss.tools.common.model.project.ext.impl.ValueInfo;
 import org.jboss.tools.common.text.ITextSourceReference;
 
@@ -53,7 +54,7 @@ public class ProducerMethod extends BeanMethod implements IProducerMethod {
 	}
 
 	@Override
-	protected Parameter newParameter() {
+	protected Parameter newParameter(ParameterDefinition p) {
 		return new InjectionPointParameter();
 	}
 

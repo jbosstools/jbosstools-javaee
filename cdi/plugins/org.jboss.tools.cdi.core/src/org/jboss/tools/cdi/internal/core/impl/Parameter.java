@@ -1,5 +1,6 @@
 package org.jboss.tools.cdi.internal.core.impl;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -9,6 +10,7 @@ import org.jboss.tools.cdi.core.IBeanMethod;
 import org.jboss.tools.cdi.core.IClassBean;
 import org.jboss.tools.cdi.core.IParametedType;
 import org.jboss.tools.cdi.core.IParameter;
+import org.jboss.tools.cdi.core.IQualifier;
 import org.jboss.tools.cdi.internal.core.impl.definition.ParameterDefinition;
 import org.jboss.tools.common.text.ITextSourceReference;
 
@@ -101,4 +103,15 @@ public class Parameter extends CDIElement implements IParameter {
 	public IBeanMethod getBeanMethod() {
 		return beanMethod;
 	}
+
+	public Set<IQualifier> getQualifiers() {
+		Set<IQualifier> result = new HashSet<IQualifier>();
+		Set<String> as = getAnnotationTypes();
+		for (String s: as) {
+			IQualifier q = getCDIProject().getQualifier(s);
+			if (q != null) result.add(q);
+		}
+		return result;
+	}
+
 }

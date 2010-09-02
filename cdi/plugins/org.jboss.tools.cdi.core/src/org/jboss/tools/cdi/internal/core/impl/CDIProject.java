@@ -745,7 +745,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 					if(!((ParametedType)eventType).isAssignableTo((ParametedType)paramType, true)) {
 						continue;
 					}
-					if(areMatchingEventQualifiers((InjectionPointParameter)param, injectionPoint)) {
+					if(areMatchingEventQualifiers(param, injectionPoint)) {
 						result.add(om);
 					}
 				}
@@ -770,8 +770,8 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		return ps.isEmpty() ? null : ps.get(0);
 	}
 
-	private boolean areMatchingEventQualifiers(IInjectionPointParameter observerParam, IInjectionPoint event) {
-		Set<IQualifier> qs = ((InjectionPointParameter)observerParam).getQualifiers();
+	private boolean areMatchingEventQualifiers(IParameter observerParam, IInjectionPoint event) {
+		Set<IQualifier> qs = ((Parameter)observerParam).getQualifiers();
 		List<IType> paramQualifiers = new ArrayList<IType>();
 		for (IQualifier q: qs) {
 			if(q.getSourceType() != null) paramQualifiers.add(q.getSourceType());
@@ -786,7 +786,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		return false;
 	}
 
-	public Set<IInjectionPoint> findObservedEvents(IInjectionPointParameter observedEventParameter) {
+	public Set<IInjectionPoint> findObservedEvents(IParameter observedEventParameter) {
 		Set<IInjectionPoint> result = new HashSet<IInjectionPoint>();
 
 		if(observedEventParameter.getBeanMethod() instanceof IObserverMethod) {
@@ -948,6 +948,11 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		rebuildXML();
 		rebuildAnnotationTypes();
 		rebuildBeans();
+		
+		CDICoreNature[] ps = n.getDependentProjects().toArray(new CDICoreNature[0]);
+		for (CDICoreNature p: ps) {
+			p.getDelegate().update();
+		}		
 	}
 
 	void rebuildAnnotationTypes() {
@@ -959,7 +964,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		interceptorBindingsByPath.clear();
 		scopes.clear();
 		scopesByPath.clear();
-		List<AnnotationDefinition> ds = n.getDefinitions().getAllAnnotations();
+		List<AnnotationDefinition> ds = getAllAnnotations();
 		for (AnnotationDefinition d: ds) {
 			if((d.getKind() & AnnotationDefinition.STEREOTYPE) > 0) {
 				StereotypeElement s = new StereotypeElement();
@@ -1005,8 +1010,60 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		}
 	}
 
+	List<AnnotationDefinition> getAllAnnotations() {
+		Set<CDICoreNature> ps = n.getCDIProjects();
+		if(ps == null || ps.isEmpty()) {
+			return n.getDefinitions().getAllAnnotations();
+		}
+		List<AnnotationDefinition> ds = n.getDefinitions().getAllAnnotations();
+		List<AnnotationDefinition> result = new ArrayList<AnnotationDefinition>();
+		result.addAll(ds);
+		Set<IType> types = new HashSet<IType>();
+		for (AnnotationDefinition d: ds) {
+			IType t = d.getType();
+			if(t != null) types.add(t);
+		}
+		for (CDICoreNature p: ps) {
+			List<AnnotationDefinition> ds2 = p.getDefinitions().getAllAnnotations();
+			for (AnnotationDefinition d: ds2) {
+				IType t = d.getType();
+				if(t != null && !types.contains(t)) {
+					types.add(t);
+					result.add(d);
+				}
+			}
+		}
+		return result;
+	}
+
+	List<TypeDefinition> getAllTypeDefinitions() {
+		Set<CDICoreNature> ps = n.getCDIProjects();
+		if(ps == null || ps.isEmpty()) {
+			return n.getDefinitions().getTypeDefinitions();
+		}
+		List<TypeDefinition> ds = n.getDefinitions().getTypeDefinitions();
+		List<TypeDefinition> result = new ArrayList<TypeDefinition>();
+		result.addAll(ds);
+		Set<IType> types = new HashSet<IType>();
+		for (TypeDefinition d: ds) {
+			IType t = d.getType();
+			if(t != null) types.add(t);
+		}
+		for (CDICoreNature p: ps) {
+			List<TypeDefinition> ds2 = p.getDefinitions().getTypeDefinitions();
+			for (TypeDefinition d: ds2) {
+				IType t = d.getType();
+				if(t != null && !types.contains(t)) {
+					types.add(t);
+					result.add(d);
+				}
+			}
+		}
+		return result;
+	}
+
 	void rebuildBeans() {
-		List<TypeDefinition> typeDefinitions = n.getDefinitions().getTypeDefinitions();
+		List<TypeDefinition> typeDefinitions = getAllTypeDefinitions();
 		List<IBean> beans = new ArrayList<IBean>();
 		Map<IType, ClassBean> newClassBeans = new HashMap<IType, ClassBean>();
 

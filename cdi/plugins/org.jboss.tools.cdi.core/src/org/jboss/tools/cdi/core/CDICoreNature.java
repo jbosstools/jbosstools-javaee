@@ -13,7 +13,9 @@ package org.jboss.tools.cdi.core;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.core.resources.ICommand;
 import org.eclipse.core.resources.IProject;
@@ -48,6 +50,10 @@ public class CDICoreNature implements IProjectNature {
 
 	private boolean isStorageResolved = false;
 
+	Set<CDICoreNature> dependsOn = new HashSet<CDICoreNature>();
+	
+	Set<CDICoreNature> usedBy = new HashSet<CDICoreNature>();
+	
 	public CDICoreNature() {
 		definitions.setProject(this);
 	}
@@ -72,6 +78,36 @@ public class CDICoreNature implements IProjectNature {
 	public void setCDIProject(ICDIProject cdiProject) {
 		this.cdiProjectDelegate = cdiProject;
 		cdiProject.setNature(this);
+	}
+
+	public Set<CDICoreNature> getCDIProjects() {
+		return dependsOn;
+	}
+
+	public Set<CDICoreNature> getDependentProjects() {
+		return usedBy;
+	}
+
+	public void addCDIProject(CDICoreNature p) {
+		if(dependsOn.contains(p)) return;
+		dependsOn.add(p);
+		p.addDependentCDIProject(this);
+		//TODO
+		p.resolve();
+		if(p.getDelegate() != null) {
+			p.getDelegate().update();
+		}
+	}
+
+	public void removeCDIProject(CDICoreNature p) {
+		if(!dependsOn.contains(p)) return;
+		p.usedBy.remove(this);
+		dependsOn.remove(p);
+		//TODO
+	}
+
+	public void addDependentCDIProject(CDICoreNature p) {
+		usedBy.add(p);
 	}
 
 	public DefinitionContext getDefinitions() {

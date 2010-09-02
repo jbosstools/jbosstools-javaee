@@ -6,11 +6,15 @@ import java.util.Set;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.IObserverMethod;
 import org.jboss.tools.cdi.core.IParameter;
+import org.jboss.tools.cdi.internal.core.impl.definition.ParameterDefinition;
 
 public class ObserverMethod extends BeanMethod implements IObserverMethod {
 
 	@Override
-	protected Parameter newParameter() {
+	protected Parameter newParameter(ParameterDefinition p) {
+		if(p.isAnnotationPresent(CDIConstants.OBSERVERS_ANNOTATION_TYPE_NAME)) {
+			return new Parameter();
+		}
 		return new InjectionPointParameter();
 	}
 

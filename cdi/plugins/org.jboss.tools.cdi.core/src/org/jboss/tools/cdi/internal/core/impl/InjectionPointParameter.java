@@ -47,16 +47,6 @@ public class InjectionPointParameter extends Parameter implements
 		return result;
 	}
 
-	public Set<IQualifier> getQualifiers() {
-		Set<IQualifier> result = new HashSet<IQualifier>();
-		Set<String> as = getAnnotationTypes();
-		for (String s: as) {
-			IQualifier q = getCDIProject().getQualifier(s);
-			if (q != null) result.add(q);
-		}
-		return result;
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * @see org.jboss.tools.cdi.core.IInjectionPoint#isDelegate()

@@ -86,6 +86,9 @@ public class MethodDefinition extends BeanMemberDefinition {
 		int paramEnd = content.lastIndexOf(')', declEnd);
 		if(paramEnd < 0) return;
 		String paramsString = content.substring(paramStart + 1, paramEnd);
+		if(!parametersAreInjectionPoints && paramsString.indexOf("@Observes") >= 0) {
+			parametersAreInjectionPoints = true;
+		}
 		if(!parametersAreInjectionPoints && paramsString.indexOf('@') < 0) return;
 		String[] params = getParams(paramsString);
 		String[] ps = method.getParameterTypes();

@@ -13,6 +13,7 @@ package org.jboss.tools.cdi.internal.core.impl;
 import org.jboss.tools.cdi.core.CDIUtil;
 import org.jboss.tools.cdi.core.IAnnotationDeclaration;
 import org.jboss.tools.cdi.core.IInjectionPointMethod;
+import org.jboss.tools.cdi.internal.core.impl.definition.ParameterDefinition;
 
 /**
  * 
@@ -31,7 +32,7 @@ public class InjectionPointMethod extends BeanMethod implements
 	}
 
 	@Override
-	protected Parameter newParameter() {
+	protected Parameter newParameter(ParameterDefinition p) {
 		return new InjectionPointParameter();
 	}
 

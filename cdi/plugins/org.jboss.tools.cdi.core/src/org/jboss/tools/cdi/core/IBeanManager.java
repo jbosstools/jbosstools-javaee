@@ -283,7 +283,7 @@ public interface IBeanManager {
 	 * @return the set of injection points with event type observed by given 
 	 *         parameter of an observer method
 	 */
-	public Set<IInjectionPoint> findObservedEvents(IInjectionPointParameter observedEventParameter);
+	public Set<IInjectionPoint> findObservedEvents(IParameter observedEventParameter);
 
 	/**
 	 * Applies the ambiguous dependency resolution rules to a set of beans.
