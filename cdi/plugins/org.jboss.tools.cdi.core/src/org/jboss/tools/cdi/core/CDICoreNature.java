@@ -28,6 +28,8 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.jboss.tools.cdi.internal.core.impl.definition.DefinitionContext;
 import org.jboss.tools.cdi.internal.core.impl.definition.ParametedTypeFactory;
 import org.jboss.tools.cdi.internal.core.scanner.lib.ClassPathMonitor;
+import org.jboss.tools.common.model.XJob;
+import org.jboss.tools.common.model.XJob.XRunnable;
 import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.jst.web.kb.internal.validation.ProjectValidationContext;
 
@@ -88,14 +90,24 @@ public class CDICoreNature implements IProjectNature {
 		return usedBy;
 	}
 
-	public void addCDIProject(CDICoreNature p) {
+	public void addCDIProject(final CDICoreNature p) {
 		if(dependsOn.contains(p)) return;
 		dependsOn.add(p);
 		p.addDependentCDIProject(this);
 		//TODO
-		p.resolve();
-		if(p.getDelegate() != null) {
-			p.getDelegate().update();
+		if(!p.isStorageResolved()) {
+			XJob.addRunnableWithPriority(new XRunnable() {
+				public void run() {
+					p.resolve();
+					if(p.getDelegate() != null) {
+						p.getDelegate().update();
+					}
+				}
+				
+				public String getId() {
+					return "Build CDI Project " + p.getProject().getName();
+				}
+			});
 		}
 	}
 
