@@ -51,10 +51,12 @@ public class JSF2CompositeAttrsProposal extends JSF2AbstractProposal {
 	}
 
 	public JSF2CompositeAttrsProposal(IResource validateResource,
-			String compPath, String[] attrs) {
+			String compPath, String[] attrs,String attrName,String elementName) {
 		super(validateResource);
 		this.componentPath = compPath;
 		this.attrs = attrs;
+		this.attrName = attrName;
+		this.elementName=elementName;
 	}
 
 	public String getDisplayString() {

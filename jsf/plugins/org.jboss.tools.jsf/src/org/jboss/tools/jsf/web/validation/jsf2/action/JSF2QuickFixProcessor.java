@@ -57,18 +57,19 @@ public class JSF2QuickFixProcessor implements IQuickAssistProcessor {
 				String[] attrs = new String[] { (String) context
 						.getAttribute(IJSF2ValidationComponent.JSF2_ATTR_NAME_KEY) };
 				ICompletionProposal proposal = new JSF2CompositeAttrsProposal(
-						resource, compPath, attrs);
+						resource, compPath, attrs,(String)context.getAttribute(IJSF2ValidationComponent.JSF2_ATTR_NAME_KEY),
+						(String)context.getAttribute(JSF2ResourceUtil.JSF2_COMPONENT_NAME));
 				return new ICompletionProposal[] { proposal };
 			} else if (type
 					.equals(IJSF2ValidationComponent.JSF2_COMPOSITE_COMPONENT_TYPE)) {
 				ICompletionProposal proposal = new JSF2CompositeComponentProposal(
-						resource, compPath, retriveAttrsFromContext(context));
+						resource, compPath, retriveAttrsFromContext(context),(String)context.getAttribute(JSF2ResourceUtil.JSF2_COMPONENT_NAME));
 				return new ICompletionProposal[] { proposal };
 			} else if (type.equals(IJSF2ValidationComponent.JSF2_URI_TYPE)) {
 				String uriPath = (String) context
 						.getAttribute(IJSF2ValidationComponent.JSF2_URI_NAME_KEY);
 				ICompletionProposal proposal = new JSF2ResourcesFolderProposal(
-						resource, uriPath);
+						resource, uriPath,(String)context.getAttribute(IJSF2ValidationComponent.JSF2_URI_NAME_KEY));
 				return new ICompletionProposal[] { proposal };
 			}
 		}

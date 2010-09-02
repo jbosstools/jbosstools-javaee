@@ -11,25 +11,18 @@
 
 package org.jboss.tools.jsf.web.validation.jsf2.action;
 
-import java.io.File;
 import java.text.MessageFormat;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
-import org.eclipse.wst.common.componentcore.ComponentCore;
-import org.eclipse.wst.common.componentcore.resources.IVirtualComponent;
-import org.eclipse.wst.common.componentcore.resources.IVirtualFolder;
 import org.jboss.tools.jsf.JSFModelPlugin;
 import org.jboss.tools.jsf.jsf2.util.JSF2ResourceUtil;
 import org.jboss.tools.jsf.messages.JSFUIMessages;
@@ -59,10 +52,11 @@ public class JSF2CompositeComponentProposal extends JSF2AbstractProposal {
 	}
 
 	public JSF2CompositeComponentProposal(IResource validateResource,
-			String compPath, String[] attrs) {
+			String compPath, String[] attrs, String elementName) {
 		super(validateResource);
 		this.componentPath = compPath;
 		this.attrs = attrs;
+		this.elementName=elementName;
 	}
 
 	@SuppressWarnings("unchecked")

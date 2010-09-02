@@ -43,9 +43,10 @@ public class JSF2ResourcesFolderProposal extends JSF2AbstractProposal {
 		}
 	}
 
-	public JSF2ResourcesFolderProposal(IResource validateResource, String compPath) {
+	public JSF2ResourcesFolderProposal(IResource validateResource, String compPath,String URL) {
 		super(validateResource);
 		this.componentPath = compPath;
+		this.URL = URL;
 	}
 
 	public String getDisplayString() {

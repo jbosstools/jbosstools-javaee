@@ -37,6 +37,7 @@ import org.jboss.tools.jst.web.kb.KbProjectFactory;
 /**
  * 
  * @author yzhishko
+ * @author mareshkau
  * 
  */
 
