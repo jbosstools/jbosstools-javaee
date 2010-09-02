@@ -28,7 +28,11 @@ public class EventAndObserverMethodHyperlinkDetectorTest extends HyperlinkDetect
 
 	public void testObserverMethodHyperlinkDetector() throws Exception {
 		ArrayList<Region> regionList = new ArrayList<Region>();
+		regionList.add(new Region(1196, 4));
+		regionList.add(new Region(1201, 13));
 		regionList.add(new Region(1216, 15));
+		regionList.add(new Region(1232, 9));
+		regionList.add(new Region(1264, 18));
 
 		checkRegions("JavaSource/org/jboss/jsr299/tck/tests/event/observer/checkedException/TeaCupPomeranian.java", regionList, new EventAndObserverMethodHyperlinkDetector());
 	}
