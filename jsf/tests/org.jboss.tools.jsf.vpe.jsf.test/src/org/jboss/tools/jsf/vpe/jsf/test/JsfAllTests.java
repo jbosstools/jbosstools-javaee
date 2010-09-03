@@ -73,6 +73,7 @@ import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE5920Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE675Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE788Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE924Test;
+import org.jboss.tools.jsf.vpe.jsf.test.jbide.JSF2ValidatorTest;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JsfJbide1467Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JsfJbide1501Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JsfJbide1568Test;
@@ -134,6 +135,7 @@ public class JsfAllTests {
 		/*
 		 * Other tests
 		 */
+		suite.addTestSuite(JSF2ValidatorTest.class);
 		suite.addTestSuite(DocBookTemplatesTest.class);
 		suite.addTestSuite(DnD_JBIDE5042_JBIDE6229_Test.class);
 		suite.addTestSuite(UnclosedELExpressionTest.class);
