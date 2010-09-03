@@ -101,12 +101,20 @@ public class CDINamespaces {
 		if(namespaceMapping == null) namespaceMapping = new NamespaceMapping();
 		StringBuffer loc = new StringBuffer();
 		loc.append(object.getAttributeValue("xsi:schemaLocation")); //$NON-NLS-1$
+		
+		doValidateNamespaces(object, element, namespaceMapping, loc);
+
+		object.setAttributeValue("xsi:schemaLocation", loc.toString()); //$NON-NLS-1$
+	}
+
+	void doValidateNamespaces(XModelObject object, Element element, NamespaceMapping namespaceMapping, StringBuffer loc) {
 		XModelObject[] cs = object.getChildren();
 		Set<String> ns = new HashSet<String>();
 		for (int i = 0; i < cs.length; i++) {
 			String n = null;
 			if(cs[i].getModelEntity().getName().equals(XModelObjectLoaderUtil.ENT_ANY_ELEMENT)) {
 				n = cs[i].getAttributeValue("tag");
+				doValidateNamespaces(cs[i], element, namespaceMapping, loc);
 			} else {
 				n = cs[i].getModelEntity().getXMLSubPath();
 			}
@@ -124,12 +132,11 @@ public class CDINamespaces {
 			if(actualNamespace == null) actualNamespace = defaultNamespace;
 			element.setAttribute(XMLNS_PREFIX + actualNamespace, uri);
 			String schema = getSchema(defaultNamespace);
-			if(loc.indexOf(uri) < 0) {
+			if(loc.indexOf(uri) < 0 && schema != null) {
 				loc.append(' ').append(uri).append(' ').append(schema);
 			}
 			
 		}
-		object.setAttributeValue("xsi:schemaLocation", loc.toString()); //$NON-NLS-1$
 	}
 
 }
