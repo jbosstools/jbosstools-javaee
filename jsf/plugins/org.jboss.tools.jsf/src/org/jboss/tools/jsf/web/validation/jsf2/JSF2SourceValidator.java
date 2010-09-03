@@ -120,16 +120,16 @@ public class JSF2SourceValidator implements IValidator, ISourceValidator {
 		public LocalizedMessage(IJSF2ValidationComponent component,
 				IFile validateFile) {
 			this.component = component;
-			setAttribute("problemType", JSF2XMLValidator.JSF2_PROBLEM_ID); //$NON-NLS-1$ //$NON-NLS-2$
+			setAttribute("problemType", JSF2XMLValidator.JSF2_PROBLEM_ID); //$NON-NLS-1$
 			setAttribute(IJSF2ValidationComponent.JSF2_TYPE_KEY, component
 					.getType());
 			setAttribute(
 					"validateResourcePath", validateFile == null ? "" : validateFile.getFullPath().toString()); //$NON-NLS-1$//$NON-NLS-2$
 			setAttribute(JSF2ResourceUtil.COMPONENT_RESOURCE_PATH_KEY,
 					component.getComponentResourceLocation());
-			setAttribute("lineNumber", getLineNumber());
-			setAttribute("severity", 1);
-			setAttribute(ValidatorMessage.ValidationId, "org.jboss.tools.jsf.jsf2.source");
+			setAttribute(IMarker.LINE_NUMBER, getLineNumber());
+			setAttribute(IMarker.SEVERITY, 1);
+			setAttribute(ValidatorMessage.ValidationId, "org.jboss.tools.jsf.jsf2.source"); //$NON-NLS-1$
 			if (component instanceof JSF2URITempComponent) {
 				setAttribute(IJSF2ValidationComponent.JSF2_URI_NAME_KEY,
 						((JSF2URITempComponent) component).getURI());
@@ -149,7 +149,7 @@ public class JSF2SourceValidator implements IValidator, ISourceValidator {
 					setAttribute(JSF2ResourceUtil.JSF2_COMPONENT_NAME, ((JSF2CompositeTempComponent) component).getElement().getLocalName());
 				}
 			}
-			setAttribute("message",getText());
+			setAttribute(IMarker.MESSAGE,getText());
 		}
 
 		@Override
