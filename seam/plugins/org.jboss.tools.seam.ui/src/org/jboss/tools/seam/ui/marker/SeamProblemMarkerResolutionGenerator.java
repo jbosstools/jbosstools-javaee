@@ -66,17 +66,17 @@ public class SeamProblemMarkerResolutionGenerator  implements IMarkerResolutionG
 			return new IMarkerResolution[]{new DeleteAnnotaionMarkerResolution(SeamUIMessages.DELETE_DESTROY_ANNOTATION_MARKER_RESOLUTION_TITLE, "org.jboss.seam.annotations.Destroy", file, start, end)};
 		else if(messageId == SeamCoreValidator.CREATE_DOESNT_BELONG_TO_COMPONENT_MESSAGE_ID)
 			return new IMarkerResolution[]{
-				new AddAnnotaionMarkerResolution(SeamUIMessages.ADD_NAME_ANNOTATION_MARKER_RESOLUTION_TITLE, "org.jboss.seam.annotations.Name", file, start, end),
+				new AddAnnotaionMarkerResolution(SeamUIMessages.ADD_NAME_ANNOTATION_MARKER_RESOLUTION_TITLE, "org.jboss.seam.annotations.Name", file, start, end, true),
 				new DeleteAnnotaionMarkerResolution(SeamUIMessages.DELETE_CREATE_ANNOTATION_MARKER_RESOLUTION_TITLE, "org.jboss.seam.annotations.Create", file, start, end)
 			};
 		else if(messageId == SeamCoreValidator.UNWRAP_DOESNT_BELONG_TO_COMPONENT_MESSAGE_ID)
 			return new IMarkerResolution[]{
-				new AddAnnotaionMarkerResolution(SeamUIMessages.ADD_NAME_ANNOTATION_MARKER_RESOLUTION_TITLE, "org.jboss.seam.annotations.Name", file, start, end),
+				new AddAnnotaionMarkerResolution(SeamUIMessages.ADD_NAME_ANNOTATION_MARKER_RESOLUTION_TITLE, "org.jboss.seam.annotations.Name", file, start, end, true),
 				new DeleteAnnotaionMarkerResolution(SeamUIMessages.DELETE_UNWRAP_ANNOTATION_MARKER_RESOLUTION_TITLE, "org.jboss.seam.annotations.Unwrap", file, start, end)
 			};
 		else if(messageId == SeamCoreValidator.OBSERVER_DOESNT_BELONG_TO_COMPONENT_MESSAGE_ID)
 			return new IMarkerResolution[]{
-				new AddAnnotaionMarkerResolution(SeamUIMessages.ADD_NAME_ANNOTATION_MARKER_RESOLUTION_TITLE, "org.jboss.seam.annotations.Name", file, start, end),
+				new AddAnnotaionMarkerResolution(SeamUIMessages.ADD_NAME_ANNOTATION_MARKER_RESOLUTION_TITLE, "org.jboss.seam.annotations.Name", file, start, end, true),
 				new DeleteAnnotaionMarkerResolution(SeamUIMessages.DELETE_OBSERVER_ANNOTATION_MARKER_RESOLUTION_TITLE, "org.jboss.seam.annotations.Observer", file, start, end)
 			};
 				

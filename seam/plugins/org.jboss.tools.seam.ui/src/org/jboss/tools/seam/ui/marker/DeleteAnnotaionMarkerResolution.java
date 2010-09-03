@@ -18,13 +18,9 @@ import org.eclipse.core.resources.IMarker;
  */
 public class DeleteAnnotaionMarkerResolution extends
 		AbstractSeamMarkerResolution {
-	private String label;
-	private String qualifiedName;
 	
 	public DeleteAnnotaionMarkerResolution(String label, String qualifiedName, IFile file, int start, int end){
-		super(file, start, end);
-		this.label = label;
-		this.qualifiedName = qualifiedName;
+		super(label, qualifiedName, file, start, end);
 	}
 	
 	public String getLabel() {
@@ -34,13 +30,4 @@ public class DeleteAnnotaionMarkerResolution extends
 	public void run(IMarker marker) {
 		deleteAnnotation(qualifiedName);
 	}
-	
-	/**
-	 * Returns qualified name for test purpose
-	 * @return
-	 */
-	public String getQualifiedName(){
-		return qualifiedName;
-	}
-
 }

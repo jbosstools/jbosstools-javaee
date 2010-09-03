@@ -10,12 +10,14 @@
  ******************************************************************************/ 
 package org.jboss.tools.seam.ui.marker;
 
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jdt.core.IAnnotatable;
 import org.eclipse.jdt.core.IAnnotation;
@@ -30,17 +32,25 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.IMarkerResolution2;
 import org.jboss.tools.common.EclipseUtil;
 import org.jboss.tools.common.model.util.EclipseJavaUtil;
+import org.jboss.tools.seam.core.ISeamProject;
+import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.ui.SeamGuiPlugin;
+import org.jboss.tools.seam.ui.internal.project.facet.SeamValidatorFactory;
 
 /**
  * @author Daniel Azarov
  */
 public abstract class AbstractSeamMarkerResolution implements
 		IMarkerResolution2 {
+	protected String label;
+	protected String qualifiedName;
+
 	protected IFile file;
 	protected int start, end;
 	
-	public AbstractSeamMarkerResolution(IFile file, int start, int end){
+	public AbstractSeamMarkerResolution(String label, String qualifiedName, IFile file, int start, int end){
+		this.label = label;
+		this.qualifiedName = qualifiedName;
 		this.file = file;
 		this.start = start;
 		this.end = end;
@@ -109,7 +119,33 @@ public abstract class AbstractSeamMarkerResolution implements
 		return name;
 	}
 	
-	protected void addAnnotation(String annotationTypeName, String annotationString){
+	protected boolean validateComponentName(String value){
+		ISeamProject seamProject = getSeamProject();
+		Map<String, IStatus> errors = SeamValidatorFactory.SEAM_COMPONENT_NAME_VALIDATOR.validate(value, seamProject);
+		if(errors.isEmpty())
+			return true;
+		
+		return false;
+	}
+	
+	protected ISeamProject getSeamProject(){
+		return SeamCorePlugin.getSeamProject(file.getProject(), true);
+	}
+	
+	protected String generateComponentName(String className){
+		String componentName = className.toLowerCase();
+		if(validateComponentName(componentName))
+			return componentName;
+		int index = 2;
+		String name = componentName;
+		while(!validateComponentName(componentName) && index < 100){
+			name = componentName+index;
+			index++;
+		}
+		return name;
+	}
+	
+	protected void addAnnotation(String annotationTypeName, String annotationString, boolean insertName){
 		try{
 			ICompilationUnit original = EclipseUtil.getCompilationUnit(file);
 			ICompilationUnit compilationUnit = original.getWorkingCopy(new NullProgressMonitor());
@@ -117,13 +153,18 @@ public abstract class AbstractSeamMarkerResolution implements
 			IJavaElement javaElement = compilationUnit.getElementAt(start);
 			IType type = getType(javaElement);
 			if(type != null){
-				if(compilationUnit.getImport(annotationTypeName) == null){
+				IImportDeclaration importDeclaration = compilationUnit.getImport(annotationTypeName); 
+				if(importDeclaration == null || !importDeclaration.exists())
 					compilationUnit.createImport(annotationTypeName, null, new NullProgressMonitor());
-				}
 				
 				IBuffer buffer = compilationUnit.getBuffer();
 				
-				buffer.replace(type.getSourceRange().getOffset(), 0, annotationString+'\n');
+				String name="";
+				if(insertName){
+					name="(\""+generateComponentName(compilationUnit.findPrimaryType().getElementName())+"\")";
+				}
+				
+				buffer.replace(type.getSourceRange().getOffset(), 0, annotationString+name+'\n');
 				compilationUnit.commitWorkingCopy(false, new NullProgressMonitor());
 			}
 		}catch(CoreException ex){
@@ -161,7 +202,7 @@ public abstract class AbstractSeamMarkerResolution implements
 	}
 
 	public String getLabel() {
-		return null;
+		return label;
 	}
 
 	public void run(IMarker marker) {
@@ -174,4 +215,13 @@ public abstract class AbstractSeamMarkerResolution implements
 	public Image getImage() {
 		return null;
 	}
+	
+	/**
+	 * Returns qualified name for test purpose
+	 * @return
+	 */
+	public String getQualifiedName(){
+		return qualifiedName;
+	}
+
 }

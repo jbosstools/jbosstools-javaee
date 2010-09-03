@@ -21,6 +21,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.ui.IMarkerResolution;
 import org.eclipse.ui.ide.IDE;
+import org.jboss.tools.seam.ui.marker.AddAnnotaionMarkerResolution;
 import org.jboss.tools.seam.ui.marker.DeleteAnnotaionMarkerResolution;
 import org.jboss.tools.test.util.JobUtils;
 
@@ -182,6 +183,105 @@ public class SeamMarkerResolutionTest extends TestCase {
 			}
 		}
 		assertTrue("The quickfix \"Delete @Unwrap annotation\" doesn't exist.", found);
+	}
+	
+	public void testOnlyComponentClassCanHaveCreateMethodResolution() throws CoreException {
+		String TARGET_FILE_NAME = "src/action/org/domain/SeamWebWarTestProject/session/NonComponentWithCreateMethod.java";
+		IFile file = project.getFile(TARGET_FILE_NAME);
+		
+		assertTrue("File - "+TARGET_FILE_NAME+" must be exists",file.exists());
+		
+		IMarker[] markers = file.findMarkers(MARKER_TYPE, true,	IResource.DEPTH_INFINITE);
+		
+		boolean dFound = false;
+		boolean cFound = false;
+		for (int i = 0; i < markers.length; i++) {
+			IMarker marker = markers[i];
+			IMarkerResolution[] resolutions = IDE.getMarkerHelpRegistry()
+					.getResolutions(marker);
+			for (int j = 0; j < resolutions.length; j++) {
+				IMarkerResolution resolution = resolutions[j];
+				if (resolution instanceof DeleteAnnotaionMarkerResolution) {
+					assertEquals("org.jboss.seam.annotations.Create", ((DeleteAnnotaionMarkerResolution)resolution).getQualifiedName());
+					dFound = true;
+				}
+				if (resolution instanceof AddAnnotaionMarkerResolution) {
+					assertEquals("org.jboss.seam.annotations.Name", ((AddAnnotaionMarkerResolution)resolution).getQualifiedName());
+					cFound = true;
+				}
+			}
+			if (dFound && cFound) {
+				break;
+			}
+		}
+		assertTrue("The quickfix \"Delete @Create annotation\" doesn't exist.", dFound);
+		assertTrue("The quickfix \"Add @Name annotation\" doesn't exist.", cFound);
+	}
+	
+	public void testOnlyComponentClassCanHaveUnwrapMethodResolution() throws CoreException {
+		String TARGET_FILE_NAME = "src/action/org/domain/SeamWebWarTestProject/session/NonComponentWithUnwrapMethod.java";
+		IFile file = project.getFile(TARGET_FILE_NAME);
+		
+		assertTrue("File - "+TARGET_FILE_NAME+" must be exists",file.exists());
+		
+		IMarker[] markers = file.findMarkers(MARKER_TYPE, true,	IResource.DEPTH_INFINITE);
+		
+		boolean dFound = false;
+		boolean cFound = false;
+		for (int i = 0; i < markers.length; i++) {
+			IMarker marker = markers[i];
+			IMarkerResolution[] resolutions = IDE.getMarkerHelpRegistry()
+					.getResolutions(marker);
+			for (int j = 0; j < resolutions.length; j++) {
+				IMarkerResolution resolution = resolutions[j];
+				if (resolution instanceof DeleteAnnotaionMarkerResolution) {
+					assertEquals("org.jboss.seam.annotations.Unwrap", ((DeleteAnnotaionMarkerResolution)resolution).getQualifiedName());
+					dFound = true;
+				}
+				if (resolution instanceof AddAnnotaionMarkerResolution) {
+					assertEquals("org.jboss.seam.annotations.Name", ((AddAnnotaionMarkerResolution)resolution).getQualifiedName());
+					cFound = true;
+				}
+			}
+			if (dFound && cFound) {
+				break;
+			}
+		}
+		assertTrue("The quickfix \"Delete @Unwrap annotation\" doesn't exist.", dFound);
+		assertTrue("The quickfix \"Add @Name annotation\" doesn't exist.", cFound);
+	}
+	
+	public void testOnlyComponentClassCanHaveObserverMethodResolution() throws CoreException {
+		String TARGET_FILE_NAME = "src/action/org/domain/SeamWebWarTestProject/session/NonComponentWithObserverMethod.java";
+		IFile file = project.getFile(TARGET_FILE_NAME);
+		
+		assertTrue("File - "+TARGET_FILE_NAME+" must be exists",file.exists());
+		
+		IMarker[] markers = file.findMarkers(MARKER_TYPE, true,	IResource.DEPTH_INFINITE);
+		
+		boolean dFound = false;
+		boolean cFound = false;
+		for (int i = 0; i < markers.length; i++) {
+			IMarker marker = markers[i];
+			IMarkerResolution[] resolutions = IDE.getMarkerHelpRegistry()
+					.getResolutions(marker);
+			for (int j = 0; j < resolutions.length; j++) {
+				IMarkerResolution resolution = resolutions[j];
+				if (resolution instanceof DeleteAnnotaionMarkerResolution) {
+					assertEquals("org.jboss.seam.annotations.Observer", ((DeleteAnnotaionMarkerResolution)resolution).getQualifiedName());
+					dFound = true;
+				}
+				if (resolution instanceof AddAnnotaionMarkerResolution) {
+					assertEquals("org.jboss.seam.annotations.Name", ((AddAnnotaionMarkerResolution)resolution).getQualifiedName());
+					cFound = true;
+				}
+			}
+			if (dFound && cFound) {
+				break;
+			}
+		}
+		assertTrue("The quickfix \"Delete @Observer annotation\" doesn't exist.", dFound);
+		assertTrue("The quickfix \"Add @Name annotation\" doesn't exist.", cFound);
 	}
 
 }
