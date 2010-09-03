@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<beans xmlns="http://java.sun.com/xml/ns/javaee"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xmlns:s="urn:java:ee" 
+   xmlns:drools="urn:java:org.jboss.seam.drools:org.jboss.seam.drools.config"   
+   xmlns:security="urn:java:org.jboss.seam.security.permission"
+   xmlns:plidm="urn:java:org.jboss.seam.security.management.picketlink"
+   xsi:schemaLocation=" 
+      http://java.sun.com/xml/ns/javaee 
+      http://jboss.org/schema/cdi/beans_1_0.xsd"> 
+        
+   <drools:RuleResources> 
+     <s:replaces/> 
+     <security:SecurityRulesConfig/> 
+     <drools:resources> 
+       <s:value>classpath;security-rules.drl;DRL</s:value> 
+     </drools:resources> 
+   </drools:RuleResources> 
+   
+   <drools:DroolsConfig> 
+   		<s:modifies/> 
+   		<security:SecurityRulesConfig/> 
+   		<drools:ruleResources> 
+ 		    <s:Inject/> 
+ 		    <security:SecurityRulesConfig/> 
+   		</drools:ruleResources> 
+   </drools:DroolsConfig> 
+   
+   <!--security:RuleBasedPermissionResolver>
+      <s:modifies/>     
+      <security:securityRules>
+        <s:Inject/>
+        <security:SecurityRulesConfig/>
+        <s:Default/>
+      </security:securityRules>
+   </security:RuleBasedPermissionResolver--> 
+   
+   <plidm:JpaIdentityStoreConfiguration> 
+      <s:replaces/> 
+      <plidm:identityClass>org.jboss.seam.example.ticketmonster.model.IdentityObject</plidm:identityClass> 
+      <plidm:credentialClass>org.jboss.seam.example.ticketmonster.model.IdentityObjectCredential</plidm:credentialClass> 
+      <plidm:relationshipClass>org.jboss.seam.example.ticketmonster.model.IdentityObjectRelationship</plidm:relationshipClass> 
+      <plidm:roleTypeClass>org.jboss.seam.example.ticketmonster.model.IdentityRoleName</plidm:roleTypeClass> 
+   </plidm:JpaIdentityStoreConfiguration> 
+   
+</beans> 

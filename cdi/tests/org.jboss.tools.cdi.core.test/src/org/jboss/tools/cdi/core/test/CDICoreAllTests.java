@@ -49,8 +49,11 @@ public class CDICoreAllTests {
 	public static Test suite() {
 		// it could be done here because it is not needed to be enabled back
 		JavaModelManager.getIndexManager().disable();
+		
+		
+		TestSuite suiteAll = new TestSuite("CDI Core Tests");
 
-		TestSuite suite = new TestSuite("CDI Core Tests");
+		TestSuite suite = new TestSuite("TCK Tests");
 		suite.addTestSuite(BeanDefinitionTest.class);
 		suite.addTestSuite(NameDefinitionTest.class);
 		suite.addTestSuite(QualifierDefinitionTest.class);
@@ -78,7 +81,10 @@ public class CDICoreAllTests {
 		suite.addTestSuite(BeansXmlValidationTest.class);
 		suite.addTestSuite(AnnotationsValidationTest.class);
 		suite.addTestSuite(CoreValidationTest.class);
+		
+		suiteAll.addTestSuite(DependentProjectTest.class);
+		suiteAll.addTest(new CDICoreTestSetup(suite));
 
-		return new CDICoreTestSetup(suite);
+		return suiteAll;
 	}
 }
