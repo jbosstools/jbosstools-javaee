@@ -43,10 +43,13 @@ public class DependentProjectTest extends TestCase {
 		IClassBean cb = null;
 		for (IBean b: beans) {
 			if(b instanceof IClassBean) {
-				cb = (IClassBean)b;
-				System.out.println(cb.getBeanClass().getFullyQualifiedName());
+				IClassBean cb1 = (IClassBean)b;
+				if("cdi.test.MyBean".equals(cb1.getBeanClass().getFullyQualifiedName())) {
+					cb = cb1;
+				}
 			}
 		}
+		assertNotNull(cb);
 	}
 
 	public void tearDown() throws Exception {

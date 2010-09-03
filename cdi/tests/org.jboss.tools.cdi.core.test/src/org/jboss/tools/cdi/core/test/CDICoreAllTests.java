@@ -82,6 +82,7 @@ public class CDICoreAllTests {
 		suite.addTestSuite(AnnotationsValidationTest.class);
 		suite.addTestSuite(CoreValidationTest.class);
 		
+		suiteAll.addTestSuite(BeansXMLTest.class);
 		suiteAll.addTestSuite(DependentProjectTest.class);
 		suiteAll.addTest(new CDICoreTestSetup(suite));
 
