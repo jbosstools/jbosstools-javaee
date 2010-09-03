@@ -263,6 +263,7 @@
    <XChildEntity maxCount="1" name="CDIInterceptors" required="yes"/>
    <XChildEntity maxCount="1" name="CDIDecorators" required="yes"/>
    <XChildEntity maxCount="1" name="CDIAlternatives" required="yes"/>
+   <XChildEntity name="AnyElement"/>
   </XChildrenEntities>
   <XEntityRenderer>
    <ICONS>
@@ -298,6 +299,7 @@
    <XModelAttribute PROPERTIES="save=always"
     default="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/beans.xsd"
     name="xsi:schemaLocation" xmlname="xsi:schemaLocation"/>
+   <XModelAttribute name="namespaceMapping"/>
    <XModelAttribute name="encoding">
     <Constraint loader="ListString">
      <value name="ISO-8859-1"/>
@@ -344,8 +346,7 @@
      ICON="action.paste" displayName="Paste" kind="action" name="Paste"/>
    </XActionItem>
    <XActionItem ICON="action.delete" displayName="Delete" kind="list" name="DeleteActions">
-    <XActionItem BaseActionName="Delete"
-     HandlerClassName="%DeleteFile%"
+    <XActionItem BaseActionName="Delete" HandlerClassName="%DeleteFile%"
      ICON="action.delete" displayName="Delete" kind="action" name="Delete"/>
    </XActionItem>
    <XActionItem ICON="action.empty" kind="list" name="Properties">
@@ -367,8 +368,7 @@
   <XEntityRenderer/>
   <XModelAttributes/>
   <XActionItem kind="list">
-   <XActionItemReference entity="FileCDIBeans"
-    name="CreateActions" path="CreateActions"/>
+   <XActionItemReference entity="FileCDIBeans" name="CreateActions" path="CreateActions"/>
    <XActionItemReference entity="FileCDIBeans" name="Properties" path="Properties"/>
    <XActionItem kind="list" name="VerifyActions">
     <XActionItem kind="list" name="StaticActions"/>

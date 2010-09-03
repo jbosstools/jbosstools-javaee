@@ -10,8 +10,11 @@
  ******************************************************************************/ 
 package org.jboss.tools.cdi.xml.beans.model;
 
+import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.loaders.impl.SimpleWebFileLoader;
+import org.jboss.tools.common.model.util.NamespaceMapping;
 import org.jboss.tools.common.model.util.XModelObjectLoaderUtil;
+import org.w3c.dom.Element;
 
 public class CDIBeansFileLoader extends SimpleWebFileLoader {
     
@@ -29,4 +32,26 @@ public class CDIBeansFileLoader extends SimpleWebFileLoader {
     	return false;
     }
 
+    protected String loadNamespace(Element element, XModelObject object) {
+    	NamespaceMapping namespaceMapping = CDINamespaces.getInstance(object.getModel().getMetaData(), getVersionSuffix(object)).getNamespaceMapping(element);
+    	object.set(NamespaceMapping.ATTR_NAMESPACE_MAPPING, namespaceMapping.toString()); //$NON-NLS-1$
+    	util.setNamespaceMapping(namespaceMapping);
+    	
+    	return super.loadNamespace(element, object);
+    }
+
+    public String serializeObject(XModelObject object) {
+    	String rootName = getRootName(object);
+        Element element = createRootElement(rootName, null, null);
+        CDINamespaces.getInstance(object.getModel().getMetaData(), getVersionSuffix(object)).validateNamespaces(object, element);
+		NamespaceMapping namespaceMapping = NamespaceMapping.load(object);
+    	util.setNamespaceMapping(namespaceMapping);
+        return serializeToElement(element, object);
+    }
+    
+    private String getVersionSuffix(XModelObject o) {
+//    	String entity = o.getModelEntity().getName();
+    	return ""; //$NON-NLS-1$
+    }
+    
 }
