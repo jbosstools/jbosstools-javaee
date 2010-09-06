@@ -108,7 +108,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 	IJavaProject javaProject;
 
 	private BeansXmlValidationDelegate beansXmlValidator = new BeansXmlValidationDelegate(this);
-	private AnnotationValidationDelegate annptationValidator = new AnnotationValidationDelegate(this);
+	private AnnotationValidationDelegate annotationValidator = new AnnotationValidationDelegate(this);
 
 	/*
 	 * (non-Javadoc)
@@ -298,11 +298,18 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 		
 		Set<String> scopes = cdiProject.getScopeNames();
 		for (String scope: scopes) {
-			annptationValidator.validateScopeType(cdiProject.getScope(scope));
+			IScope s = cdiProject.getScope(scope);
+			if(s == null || isResourceFromAnotherProject(s.getResource())) {
+				continue;
+			}
+			annotationValidator.validateScopeType(s);
 		}
 
 		List<IFile> beansXmls = getAllBeansXmls();
 		for (IFile beansXml : beansXmls) {
+			if(isResourceFromAnotherProject(beansXml)) {
+				continue;
+			}
 			beansXmlValidator.validateBeansXml(beansXml);
 		}
 
@@ -316,6 +323,9 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 	 */
 	private void validateResource(IFile file) {
 		if (reporter.isCancelled() || file == null || !file.isAccessible()) {
+			return;
+		}
+		if(isResourceFromAnotherProject(file)) {
 			return;
 		}
 		displaySubtask(CDIValidationMessages.VALIDATING_RESOURCE, new String[] {file.getProject().getName(), file.getName()});
@@ -335,7 +345,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 			validateQualifier(qualifier);
 			
 			IScope scope = cdiProject.getScope(file.getFullPath());
-			annptationValidator.validateScopeType(scope);
+			annotationValidator.validateScopeType(scope);
 	
 			IInterceptorBinding binding = cdiProject.getInterceptorBinding(file.getFullPath());
 			validateInterceptorBinding(binding);
@@ -392,6 +402,10 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 		return beansXmls;
 	}
 
+	private boolean isResourceFromAnotherProject(IResource resource) {
+		return resource != null && !resource.getProject().getName().equals(projectName);
+	}
+
 	/**
 	 * Validates a bean.
 	 * 
@@ -402,6 +416,9 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 			return;
 		}
 		if(bean.getBeanClass().isReadOnly()) {
+			return;
+		}
+		if(isResourceFromAnotherProject(bean.getResource())) {
 			return;
 		}
 		// Collect all relations between the bean and other CDI elements.
@@ -1844,6 +1861,9 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 			// validate sources only
 			return;
 		}
+		if(isResourceFromAnotherProject(resource)) {
+			return;
+		}
 		List<IAnnotationDeclaration> as = stereotype.getAnnotationDeclarations();
 
 		// 1. non-empty name
@@ -1889,7 +1909,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 		}
 
 		try {
-			annptationValidator.validateStereotypeAnnotationTypeAnnotations(stereotype, resource);
+			annotationValidator.validateStereotypeAnnotationTypeAnnotations(stereotype, resource);
 		} catch (JavaModelException e) {
 			CDICorePlugin.getDefault().logError(e);
 		}
@@ -1902,6 +1922,9 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 		IResource resource = binding.getResource();
 		if (resource == null || !resource.getName().toLowerCase().endsWith(".java")) {
 			// validate sources only
+			return;
+		}
+		if(isResourceFromAnotherProject(resource)) {
 			return;
 		}
 		/*
@@ -1925,6 +1948,9 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 			// validate sources only
 			return;
 		}
+		if(isResourceFromAnotherProject(resource)) {
+			return;
+		}
 		/*
 		 * 5.2.5. Qualifier annotations with members
 		 *  - array-valued or annotation-valued member of a qualifier type is not annotated @Nonbinding (Non-Portable behavior)
@@ -1935,7 +1961,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 		 * Qualifier annotation type should be annotated with @Target({METHOD, FIELD, PARAMETER, TYPE})
 		 */
 		try {
-			annptationValidator.validateQualifierAnnotationTypeAnnotations(qualifier, resource);
+			annotationValidator.validateQualifierAnnotationTypeAnnotations(qualifier, resource);
 		} catch (JavaModelException e) {
 			CDICorePlugin.getDefault().logError(e);
 		}
