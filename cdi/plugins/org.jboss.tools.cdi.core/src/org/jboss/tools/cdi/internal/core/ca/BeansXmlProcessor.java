@@ -60,7 +60,7 @@ public class BeansXmlProcessor {
 	 */
 	public TextProposal[] getProposals(KbQuery query, IProject project) {
 		String[] parents = query.getParentTags();
-		if(parents.length>2) {
+		if(parents.length>1) {
 			CDICoreNature nature = CDICorePlugin.getCDI(project, false);
 			if(nature!=null) {
 				ICDIProject cdiProject = nature.getDelegate();
@@ -82,7 +82,7 @@ public class BeansXmlProcessor {
 
 	private TextProposal[] getAlternativeBeans(KbQuery query, ICDIProject cdiProject) {
 		List<TextProposal> proposals = new ArrayList<TextProposal>();
-		String value = query.getValue().trim();
+		String value = removeLeadingWhitespace(query.getValue());
 		IBean[] alternatives = cdiProject.getAlternatives();
 		for (IBean bean : alternatives) {
 			if(bean instanceof IClassBean) {
@@ -95,7 +95,7 @@ public class BeansXmlProcessor {
 
 	private TextProposal[] getAlternativeStereotypes(KbQuery query, ICDIProject cdiProject) {
 		List<TextProposal> proposals = new ArrayList<TextProposal>();
-		String value = query.getValue().trim();
+		String value = removeLeadingWhitespace(query.getValue());
 		IStereotype[] alternatives = cdiProject.getStereotypes();
 		for (IStereotype stereotype : alternatives) {
 			if(stereotype.isAlternative()) {
@@ -108,7 +108,7 @@ public class BeansXmlProcessor {
 
 	private TextProposal[] getDecorators(KbQuery query, ICDIProject cdiProject) {
 		List<TextProposal> proposals = new ArrayList<TextProposal>();
-		String value = query.getValue().trim();
+		String value = removeLeadingWhitespace(query.getValue());
 		IDecorator[] decorators = cdiProject.getDecorators();
 		for (IDecorator bean : decorators) {
 			IType type = bean.getBeanClass();
@@ -119,13 +119,23 @@ public class BeansXmlProcessor {
 
 	private TextProposal[] getInterceptors(KbQuery query, ICDIProject cdiProject) {
 		List<TextProposal> proposals = new ArrayList<TextProposal>();
-		String value = query.getValue().trim();
+		String value = removeLeadingWhitespace(query.getValue());
 		IInterceptor[] interceptors = cdiProject.getInterceptors();
 		for (IInterceptor bean : interceptors) {
 			IType type = bean.getBeanClass();
 			addMatchedType(type, value, proposals);
 		}
 		return proposals.toArray(new TextProposal[0]);
+	}
+
+	private String removeLeadingWhitespace(String value) {
+		int len = value.length();
+		int st = 0;
+		char[] val = value.toCharArray();
+		while ((st < len) && (val[st] <= ' ')) {
+		    st++;
+		}
+		return (st > 0) ? value.substring(st) : value;
 	}
 
 	private void addMatchedType(IType type, String value, List<TextProposal> proposals) {
