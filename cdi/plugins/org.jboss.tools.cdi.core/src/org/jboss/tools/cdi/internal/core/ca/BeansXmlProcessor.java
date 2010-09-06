@@ -64,15 +64,15 @@ public class BeansXmlProcessor {
 			CDICoreNature nature = CDICorePlugin.getCDI(project, false);
 			if(nature!=null) {
 				ICDIProject cdiProject = nature.getDelegate();
-				if(CLASS_ELEMENT.equals(parents[0])) {
-					if(ALTERNATIVES_ELEMENT.equals(parents[1])) {
+				if(CLASS_ELEMENT.equals(parents[1])) {
+					if(ALTERNATIVES_ELEMENT.equals(parents[0])) {
 						return getAlternativeBeans(query, cdiProject);
-					} else if(DECORATORS_ELEMENT.equals(parents[1])) {
+					} else if(DECORATORS_ELEMENT.equals(parents[0])) {
 						return getDecorators(query, cdiProject);
-					} else if(INTERCEPTOR_ELEMENT.equals(parents[1])) {
+					} else if(INTERCEPTOR_ELEMENT.equals(parents[0])) {
 						return getInterceptors(query, cdiProject);
 					}
-				} else if(STEREOTYPE_ELEMENT.equals(parents[0]) && ALTERNATIVES_ELEMENT.equals(parents[1])) {
+				} else if(STEREOTYPE_ELEMENT.equals(parents[1]) && ALTERNATIVES_ELEMENT.equals(parents[0])) {
 					return getAlternativeStereotypes(query, cdiProject);
 				}
 			}
@@ -87,7 +87,7 @@ public class BeansXmlProcessor {
 		for (IBean bean : alternatives) {
 			if(bean instanceof IClassBean) {
 				IType type = bean.getBeanClass();
-				addMutchedType(type, value, proposals);
+				addMatchedType(type, value, proposals);
 			}
 		}
 		return proposals.toArray(new TextProposal[0]);
@@ -100,7 +100,7 @@ public class BeansXmlProcessor {
 		for (IStereotype stereotype : alternatives) {
 			if(stereotype.isAlternative()) {
 				IType type = stereotype.getSourceType();
-				addMutchedType(type, value, proposals);
+				addMatchedType(type, value, proposals);
 			}
 		}
 		return proposals.toArray(new TextProposal[0]);
@@ -112,7 +112,7 @@ public class BeansXmlProcessor {
 		IDecorator[] decorators = cdiProject.getDecorators();
 		for (IDecorator bean : decorators) {
 			IType type = bean.getBeanClass();
-			addMutchedType(type, value, proposals);
+			addMatchedType(type, value, proposals);
 		}
 		return proposals.toArray(new TextProposal[0]);
 	}
@@ -123,12 +123,12 @@ public class BeansXmlProcessor {
 		IInterceptor[] interceptors = cdiProject.getInterceptors();
 		for (IInterceptor bean : interceptors) {
 			IType type = bean.getBeanClass();
-			addMutchedType(type, value, proposals);
+			addMatchedType(type, value, proposals);
 		}
 		return proposals.toArray(new TextProposal[0]);
 	}
 
-	private void addMutchedType(IType type, String value, List<TextProposal> proposals) {
+	private void addMatchedType(IType type, String value, List<TextProposal> proposals) {
 		String fullTypeName = type.getFullyQualifiedName();
 		if(fullTypeName.startsWith(value)) {
 			TextProposal proposal = new TextProposal();

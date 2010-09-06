@@ -14,6 +14,7 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 
 import org.eclipse.jdt.internal.core.JavaModelManager;
+import org.jboss.tools.cdi.core.test.ca.BeansXmlCATest;
 import org.jboss.tools.cdi.core.test.tck.AssignabilityOfRawAndParameterizedTypesTest;
 import org.jboss.tools.cdi.core.test.tck.BeanDefinitionTest;
 import org.jboss.tools.cdi.core.test.tck.BeanSpecializationTest;
@@ -75,6 +76,7 @@ public class CDICoreAllTests {
 		suite.addTestSuite(InterceptorDefinitionTest.class);
 		suite.addTestSuite(DecoratorDefinitionTest.class);
 		suite.addTestSuite(ObserverMethodResolutionTest.class);
+		suite.addTestSuite(BeansXmlCATest.class);
 
 		suite.addTestSuite(DefenitionErrorsValidationTest.class);
 		suite.addTestSuite(DeploymentProblemsValidationTests.class);
