@@ -323,15 +323,10 @@ public class CDICoreNature implements IProjectNature {
 		//TODO
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.jboss.tools.seam.core.ISeamProject#getValidationContext()
-	 */
 	public ProjectValidationContext getValidationContext() {
 		if(validationContext==null) {
 			validationContext = new ProjectValidationContext();
 		}
 		return validationContext;
 	}
-
 }

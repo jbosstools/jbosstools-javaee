@@ -98,7 +98,7 @@ public class SeamProjectPropertyValidator implements IValidatorJob {
 				public void init(IProject project,
 						ContextValidationHelper validationHelper,
 						IValidator manager, IReporter reporter) {
-					setRootProject(project);
+					setProject(project);
 					setValidationManager(manager);
 					setReporter(reporter);
 					setMarkerId(SeamValidationErrorManager.MARKED_SEAM_PROJECT_MESSAGE_GROUP);

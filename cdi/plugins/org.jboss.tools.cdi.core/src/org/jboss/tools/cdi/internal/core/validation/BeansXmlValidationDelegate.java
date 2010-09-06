@@ -20,10 +20,13 @@ import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jdt.core.IAnnotation;
+import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaConventions;
 import org.eclipse.jdt.core.JavaModelException;
@@ -42,6 +45,7 @@ import org.jboss.tools.cdi.core.IDecorator;
 import org.jboss.tools.cdi.core.IInterceptor;
 import org.jboss.tools.cdi.core.IStereotype;
 import org.jboss.tools.cdi.core.preferences.CDIPreferences;
+import org.jboss.tools.common.EclipseUtil;
 import org.jboss.tools.common.model.util.EclipseJavaUtil;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -219,11 +223,34 @@ public class BeansXmlValidationDelegate extends CDICoreValidationDelegate {
         }
 	}
 
+	private Map<IProject, IJavaProject> javaProjects;
+
+	private IJavaProject getJavaProject(IResource resource) {
+		if(javaProjects == null) {
+			javaProjects = new HashMap<IProject, IJavaProject>();
+		}
+		IProject project = resource.getProject();
+		if(project.isAccessible()) {
+			IJavaProject javaProject = javaProjects.get(project);
+			if(javaProject==null) {
+				javaProject = EclipseUtil.getJavaProject(project);
+				if(javaProject!=null) {
+					javaProjects.put(project, javaProject);
+				}
+			}
+			return javaProject;
+		}
+		return null;
+	}
+
 	private IType getType(IFile beansXml, TypeNode node, String errorMessage) {
 		IType type = null;
 		if(node.getTypeName()!=null) {
 			try {
-				type = EclipseJavaUtil.findType(validator.javaProject, node.getTypeName());
+				IJavaProject javaProject = getJavaProject(beansXml);
+				if(javaProject!=null) {
+					type = EclipseJavaUtil.findType(javaProject, node.getTypeName());
+				}
 			} catch (JavaModelException e) {
 				CDICorePlugin.getDefault().logError(e);
 				return null;
@@ -242,7 +269,7 @@ public class BeansXmlValidationDelegate extends CDICoreValidationDelegate {
 			IStatus status = JavaConventions.validateJavaTypeName(typeName, CompilerOptions.VERSION_1_7, CompilerOptions.VERSION_1_7);
 			if(status.getSeverity()!=IStatus.ERROR) {
 				String packagePath = typeName.replace('.', '/');
-				Set<IFolder> sources = validator.getSourceFolders();
+				Set<IFolder> sources = validator.getSourceFolders(beansXml.getProject());
 				for (IFolder source : sources) {
 					IPath path = source.getFullPath().append(packagePath + ".java"); //$NON-NLS-1$
 					validator.getValidationContext().addLinkedCoreResource(beansXml.getFullPath().toOSString(), path, false);

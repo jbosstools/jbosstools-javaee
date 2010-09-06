@@ -136,7 +136,7 @@ public class ClassPathMonitor extends AbstractClassPathMonitor<CDICoreNature>{
 		return false;
 	}
 
-	List<CDICoreNature> getProjects(IProject project) throws CoreException {
+	public static List<CDICoreNature> getProjects(IProject project) throws CoreException {
 		List<CDICoreNature> list = new ArrayList<CDICoreNature>();
 		IJavaProject javaProject = JavaCore.create(project);
 		IClasspathEntry[] es = javaProject.getResolvedClasspath(true);
@@ -150,5 +150,4 @@ public class ClassPathMonitor extends AbstractClassPathMonitor<CDICoreNature>{
 		}
 		return list;
 	}
-	
 }

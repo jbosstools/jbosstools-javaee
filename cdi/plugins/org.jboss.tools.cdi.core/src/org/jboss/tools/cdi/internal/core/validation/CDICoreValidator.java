@@ -12,7 +12,6 @@ package org.jboss.tools.cdi.internal.core.validation;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -90,10 +89,8 @@ import org.jboss.tools.common.EclipseUtil;
 import org.jboss.tools.common.model.util.EclipseJavaUtil;
 import org.jboss.tools.common.text.ITextSourceReference;
 import org.jboss.tools.jst.web.kb.internal.validation.ContextValidationHelper;
-import org.jboss.tools.jst.web.kb.internal.validation.ValidatingProjectSet;
 import org.jboss.tools.jst.web.kb.internal.validation.ValidatorManager;
 import org.jboss.tools.jst.web.kb.validation.IValidatingProjectSet;
-import org.jboss.tools.jst.web.kb.validation.IValidationContext;
 import org.jboss.tools.jst.web.kb.validation.IValidator;
 import org.jboss.tools.jst.web.kb.validation.ValidationUtil;
 
@@ -105,10 +102,10 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 
 	ICDIProject cdiProject;
 	String projectName;
-	IJavaProject javaProject;
+	CDIProjectSet projectSet;
 
 	private BeansXmlValidationDelegate beansXmlValidator = new BeansXmlValidationDelegate(this);
-	private AnnotationValidationDelegate annotationValidator = new AnnotationValidationDelegate(this);
+	private AnnotationValidationDelegate annptationValidator = new AnnotationValidationDelegate(this);
 
 	/*
 	 * (non-Javadoc)
@@ -127,30 +124,8 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 	 * (org.eclipse.core.resources.IProject)
 	 */
 	public IValidatingProjectSet getValidatingProjects(IProject project) {
-		IValidationContext rootContext = null;
-//		IProject war = null; // TODO get war ?
-//		if (war != null && war.isAccessible()) {
-//			IKbProject kbProject = KbProjectFactory.getKbProject(war, false);
-//			if (kbProject != null) {
-//				rootContext = kbProject.getValidationContext();
-//			} else {
-//				KbProject.checkKBBuilderInstalled(war);
-//				CDICoreNature cdiProject = CDICorePlugin.getCDI(project, false);
-//				if (cdiProject != null) {
-//					rootContext = null; // cdiProject.getDelegate().getValidationContext();
-//				}
-//			}
-//		}
-		if (rootContext == null) {
-			CDICoreNature cdiProject = CDICorePlugin.getCDI(project, false);
-			if (cdiProject != null) {
-				rootContext = cdiProject.getValidationContext();
-			}
-		}
-
-		List<IProject> projects = new ArrayList<IProject>();
-		projects.add(project);
-		return new ValidatingProjectSet(project, projects, rootContext);
+		projectSet = new CDIProjectSet(project);
+		return projectSet;
 	}
 
 	/*
@@ -192,9 +167,11 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 	public void init(IProject project, ContextValidationHelper validationHelper, org.eclipse.wst.validation.internal.provisional.core.IValidator manager,
 			IReporter reporter) {
 		super.init(project, validationHelper, manager, reporter);
-		cdiProject = CDICorePlugin.getCDIProject(project, false);
-		projectName = project.getName();
-		javaProject = EclipseUtil.getJavaProject(project);
+		if(projectSet==null) {
+			getValidatingProjects(project);
+		}
+		cdiProject = projectSet.getRootCdiProject();
+		projectName = projectSet.getRootProject().getName();
 	}
 
 	/*
@@ -298,18 +275,11 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 		
 		Set<String> scopes = cdiProject.getScopeNames();
 		for (String scope: scopes) {
-			IScope s = cdiProject.getScope(scope);
-			if(s == null || isResourceFromAnotherProject(s.getResource())) {
-				continue;
-			}
-			annotationValidator.validateScopeType(s);
+			annptationValidator.validateScopeType(cdiProject.getScope(scope));
 		}
 
 		List<IFile> beansXmls = getAllBeansXmls();
 		for (IFile beansXml : beansXmls) {
-			if(isResourceFromAnotherProject(beansXml)) {
-				continue;
-			}
 			beansXmlValidator.validateBeansXml(beansXml);
 		}
 
@@ -323,9 +293,6 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 	 */
 	private void validateResource(IFile file) {
 		if (reporter.isCancelled() || file == null || !file.isAccessible()) {
-			return;
-		}
-		if(isResourceFromAnotherProject(file)) {
 			return;
 		}
 		displaySubtask(CDIValidationMessages.VALIDATING_RESOURCE, new String[] {file.getProject().getName(), file.getName()});
@@ -345,7 +312,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 			validateQualifier(qualifier);
 			
 			IScope scope = cdiProject.getScope(file.getFullPath());
-			annotationValidator.validateScopeType(scope);
+			annptationValidator.validateScopeType(scope);
 	
 			IInterceptorBinding binding = cdiProject.getInterceptorBinding(file.getFullPath());
 			validateInterceptorBinding(binding);
@@ -354,23 +321,33 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 
 	Set<IFolder> sourceFolders = null;
 
-	Set<IFolder> getSourceFolders() {
-		if(sourceFolders==null) {
-			sourceFolders = new HashSet<IFolder>();
-			IPackageFragmentRoot[] roots;
-			try {
-				// From source folders
-				roots = javaProject.getPackageFragmentRoots();
-				for (int i = 0; i < roots.length; i++) {
-					if (roots[i].getKind() == IPackageFragmentRoot.K_SOURCE) {
-						IResource source = roots[i].getCorrespondingResource();
-						if(source instanceof IFolder) {
-							sourceFolders.add((IFolder)source);
-						}
+	static Set<IFolder> getSourceFolders(IProject project) {
+		Set<IFolder> folders = new HashSet<IFolder>();
+		IPackageFragmentRoot[] roots;
+		try {
+			// From source folders
+			IJavaProject javaProject = EclipseUtil.getJavaProject(project);
+			roots = javaProject.getPackageFragmentRoots();
+			for (int i = 0; i < roots.length; i++) {
+				if (roots[i].getKind() == IPackageFragmentRoot.K_SOURCE) {
+					IResource source = roots[i].getCorrespondingResource();
+					if(source instanceof IFolder) {
+						folders.add((IFolder)source);
 					}
 				}
-			} catch (JavaModelException e) {
-				CDICorePlugin.getDefault().logError(e);
+			}
+		} catch (JavaModelException e) {
+			CDICorePlugin.getDefault().logError(e);
+		}
+		return folders;
+	}
+
+	Set<IFolder> getSourceFoldersForProjectsSet() {
+		if(sourceFolders==null) {
+			sourceFolders = new HashSet<IFolder>();
+			List<IProject> projects = projectSet.getAllProjests();
+			for (IProject project : projects) {
+				sourceFolders.addAll(getSourceFolders(project));
 			}
 		}
 		return sourceFolders;
@@ -384,7 +361,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 	private List<IFile> getAllBeansXmls() {
 		List<IFile> beansXmls = new ArrayList<IFile>();
 		// From source folders
-		Set<IFolder> sourceFolders = getSourceFolders();
+		Set<IFolder> sourceFolders = getSourceFoldersForProjectsSet();
 		for (IFolder source : sourceFolders) {
 			IResource beansXml = source.findMember(new Path("/META-INF/beans.xml")); //$NON-NLS-1$
 			if(beansXml!=null && beansXml instanceof IFile) {
@@ -392,7 +369,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 			}
 		}
 		// From WEB-INF folder
-		IVirtualComponent com = ComponentCore.createComponent(rootProject);
+		IVirtualComponent com = ComponentCore.createComponent(validatingProject);
 		if(com!=null) {
 			IVirtualFile beansXml = com.getRootFolder().getFile(new Path("/WEB-INF/beans.xml")); //$NON-NLS-1$
 			if(beansXml!=null && beansXml.getUnderlyingFile().isAccessible()) {
@@ -400,10 +377,6 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 			}
 		}
 		return beansXmls;
-	}
-
-	private boolean isResourceFromAnotherProject(IResource resource) {
-		return resource != null && !resource.getProject().getName().equals(projectName);
 	}
 
 	/**
@@ -416,9 +389,6 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 			return;
 		}
 		if(bean.getBeanClass().isReadOnly()) {
-			return;
-		}
-		if(isResourceFromAnotherProject(bean.getResource())) {
 			return;
 		}
 		// Collect all relations between the bean and other CDI elements.
@@ -1861,9 +1831,6 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 			// validate sources only
 			return;
 		}
-		if(isResourceFromAnotherProject(resource)) {
-			return;
-		}
 		List<IAnnotationDeclaration> as = stereotype.getAnnotationDeclarations();
 
 		// 1. non-empty name
@@ -1909,7 +1876,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 		}
 
 		try {
-			annotationValidator.validateStereotypeAnnotationTypeAnnotations(stereotype, resource);
+			annptationValidator.validateStereotypeAnnotationTypeAnnotations(stereotype, resource);
 		} catch (JavaModelException e) {
 			CDICorePlugin.getDefault().logError(e);
 		}
@@ -1922,9 +1889,6 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 		IResource resource = binding.getResource();
 		if (resource == null || !resource.getName().toLowerCase().endsWith(".java")) {
 			// validate sources only
-			return;
-		}
-		if(isResourceFromAnotherProject(resource)) {
 			return;
 		}
 		/*
@@ -1948,9 +1912,6 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 			// validate sources only
 			return;
 		}
-		if(isResourceFromAnotherProject(resource)) {
-			return;
-		}
 		/*
 		 * 5.2.5. Qualifier annotations with members
 		 *  - array-valued or annotation-valued member of a qualifier type is not annotated @Nonbinding (Non-Portable behavior)
@@ -1961,7 +1922,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 		 * Qualifier annotation type should be annotated with @Target({METHOD, FIELD, PARAMETER, TYPE})
 		 */
 		try {
-			annotationValidator.validateQualifierAnnotationTypeAnnotations(qualifier, resource);
+			annptationValidator.validateQualifierAnnotationTypeAnnotations(qualifier, resource);
 		} catch (JavaModelException e) {
 			CDICorePlugin.getDefault().logError(e);
 		}

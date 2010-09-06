@@ -84,7 +84,7 @@ public class SeamProjectPropertyValidatorWrapper extends SeamProjectPropertyVali
 			public void init(IProject project,
 					ContextValidationHelper validationHelper,
 					org.eclipse.wst.validation.internal.provisional.core.IValidator manager, IReporter reporter) {
-				setRootProject(project);
+				setProject(project);
 				setValidationManager(manager);
 				setReporter(reporter);
 				setMarkerId(SeamValidationErrorManager.MARKED_SEAM_PROJECT_MESSAGE_GROUP);

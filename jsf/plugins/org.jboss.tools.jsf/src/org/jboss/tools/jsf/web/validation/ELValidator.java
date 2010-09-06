@@ -105,7 +105,7 @@ public class ELValidator extends ValidationErrorManager implements IValidator {
 		super.init(project, validationHelper, manager, reporter);
 		resolvers = ELResolverFactoryManager.getInstance().getResolvers(project);
 		mainFactory = ELParserUtil.getDefaultFactory();
-		validateVars = JSFSeverityPreferences.ENABLE.equals(JSFSeverityPreferences.getInstance().getProjectPreference(rootProject, JSFSeverityPreferences.CHECK_VARS));
+		validateVars = JSFSeverityPreferences.ENABLE.equals(JSFSeverityPreferences.getInstance().getProjectPreference(validatingProject, JSFSeverityPreferences.CHECK_VARS));
 	}
 
 	/*
@@ -160,7 +160,7 @@ public class ELValidator extends ValidationErrorManager implements IValidator {
 	}
 
 	private void initRevalidationFlag() {
-		String revalidateUnresolvedELsString = JSFSeverityPreferences.getInstance().getProjectPreference(rootProject, JSFSeverityPreferences.RE_VALIDATE_UNRESOLVED_EL);
+		String revalidateUnresolvedELsString = JSFSeverityPreferences.getInstance().getProjectPreference(validatingProject, JSFSeverityPreferences.RE_VALIDATE_UNRESOLVED_EL);
 		revalidateUnresolvedELs = JSFSeverityPreferences.ENABLE.equals(revalidateUnresolvedELsString);
 	}
 
