@@ -39,9 +39,10 @@ import org.jboss.tools.cdi.core.IBeanMethod;
 import org.jboss.tools.cdi.core.ICDIAnnotation;
 import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.IClassBean;
+import org.jboss.tools.cdi.core.IDecorator;
 import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.core.IInjectionPointField;
-import org.jboss.tools.cdi.core.IInjectionPointParameter;
+import org.jboss.tools.cdi.core.IInterceptor;
 import org.jboss.tools.cdi.core.IInterceptorBinding;
 import org.jboss.tools.cdi.core.IObserverMethod;
 import org.jboss.tools.cdi.core.IParametedType;
@@ -81,6 +82,9 @@ public class CDIProject extends CDIElement implements ICDIProject {
 	private Map<String, Set<IBean>> beansByName = new HashMap<String, Set<IBean>>();
 	private Set<IBean> namedBeans = new HashSet<IBean>();
 	private Map<IType, ClassBean> classBeans = new HashMap<IType, ClassBean>();
+	private Set<IBean> alternatives = new HashSet<IBean>();
+	private Set<IDecorator> decorators = new HashSet<IDecorator>();
+	private Set<IInterceptor> interceptors = new HashSet<IInterceptor>();
 
 	BeansXMLData beansXMLData = new BeansXMLData();
 
@@ -622,6 +626,48 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		return result;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.jboss.tools.cdi.core.IBeanManager#getAlternatives()
+	 */
+	public IBean[] getAlternatives() {
+		IBean[] result = new IBean[alternatives.size()];
+		synchronized (alternatives) {
+			int i=0;
+			for (IBean bean: alternatives) {
+				result[i++] = bean;
+			}
+		}
+		return result;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.jboss.tools.cdi.core.IBeanManager#getDecorators()
+	 */
+	public IDecorator[] getDecorators() {
+		IDecorator[] result = new IDecorator[decorators.size()];
+		synchronized (decorators) {
+			int i=0;
+			for (IDecorator bean: decorators) {
+				result[i++] = bean;
+			}
+		}
+		return result;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.jboss.tools.cdi.core.IBeanManager#getInterceptors()
+	 */
+	public IInterceptor[] getInterceptors() {
+		IInterceptor[] result = new IInterceptor[interceptors.size()];
+		synchronized (interceptors) {
+			int i=0;
+			for (IInterceptor bean: interceptors) {
+				result[i++] = bean;
+			}
+		}
+		return result;
+	}
+
 	public boolean isNormalScope(IType annotationType) {
 		if(annotationType == null) return false;
 		try {
@@ -1112,6 +1158,15 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		synchronized (namedBeans) {
 			namedBeans.clear();
 		}
+		synchronized (alternatives) {
+			alternatives.clear();
+		}
+		synchronized (decorators) {
+			decorators.clear();
+		}
+		synchronized (interceptors) {
+			interceptors.clear();
+		}
 		synchronized (allBeans) {
 			allBeans.clear();
 		}
@@ -1156,6 +1211,21 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		}
 		synchronized (bs) {
 			bs.add(bean);
+		}
+		if(bean.isAlternative()) {
+			synchronized (alternatives) {
+				alternatives.add(bean);
+			}
+		}
+		if(bean instanceof IDecorator) {
+			synchronized (decorators) {
+				decorators.add((IDecorator)bean);
+			}
+		}
+		if(bean instanceof IInterceptor) {
+			synchronized (interceptors) {
+				interceptors.add((IInterceptor)bean);
+			}
 		}
 		synchronized (allBeans) {
 			allBeans.add(bean);

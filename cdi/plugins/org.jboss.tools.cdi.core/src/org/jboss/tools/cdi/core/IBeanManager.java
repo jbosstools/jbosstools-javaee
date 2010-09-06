@@ -174,6 +174,30 @@ public interface IBeanManager {
 	IStereotype[] getStereotypes();
 
 	/**
+	 * Returns all the available alternative beans.
+	 * The alternative may be selected or not selected.
+	 * 
+	 * @return all the available alternatives.
+	 */
+	IBean[] getAlternatives();
+
+	/**
+	 * Returns all the available decorators.
+	 * The decorator may be enabled or disabled.
+	 * 
+	 * @return all the available decorators.
+	 */
+	IDecorator[] getDecorators();
+
+	/**
+	 * Returns all the available interceptors.
+	 * The interceptor may be selected or not selected.
+	 * 
+	 * @return all the available interceptors.
+	 */
+	IInterceptor[] getInterceptors();
+
+	/**
 	 * Returns stereotype model element for fully qualified name of stereotype
 	 * annotation type
 	 * 
