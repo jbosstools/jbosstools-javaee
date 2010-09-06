@@ -14,9 +14,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.eclipse.core.resources.IContainer;
+import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.jobs.ISchedulingRule;
@@ -33,6 +35,7 @@ import org.eclipse.wst.validation.internal.provisional.core.IReporter;
 import org.eclipse.wst.validation.internal.provisional.core.IValidationContext;
 import org.eclipse.wst.validation.internal.provisional.core.IValidator;
 import org.eclipse.wst.validation.internal.provisional.core.IValidatorJob;
+import org.jboss.tools.common.text.ITextSourceReference;
 import org.jboss.tools.jst.web.kb.internal.validation.ContextValidationHelper;
 import org.jboss.tools.jst.web.kb.internal.validation.ProblemMessage;
 import org.jboss.tools.jst.web.kb.internal.validation.ValidationErrorManager;
@@ -49,6 +52,10 @@ import org.jboss.tools.seam.internal.core.refactoring.SeamProjectChange;
  * @author Alexey Kazakov
  */
 public class SeamProjectPropertyValidator implements IValidatorJob {
+	
+	public static final String MESSAGE_ID_ATTRIBUTE_NAME = "Seam_proerty_message_id"; //$NON-NLS-1$
+	
+	public static final int INVALID_SEAM_RUNTIME_ID = 1;
 
 	private IValidationErrorManager errorManager;
 	private Set<String> validatedProjects = new HashSet<String>();
@@ -234,18 +241,18 @@ public class SeamProjectPropertyValidator implements IValidatorJob {
 	private void validateProjectName(IProject targetProject, String projectName, boolean canBeEmpty, String messageId) {
 		if(!isProjectNameValid(projectName, canBeEmpty)) {
 			// Mark invalid project name
-			errorManager.addError(messageId, SeamPreferences.INVALID_PROJECT_SETTINGS, new String[]{projectName!=null?projectName:"", targetProject.getName()}, targetProject);
+			addError(messageId, SeamPreferences.INVALID_PROJECT_SETTINGS, new String[]{projectName!=null?projectName:"", targetProject.getName()}, targetProject);
 		}
 	}
 
 	private void validateSorceFolder(IProject targetProject, String folderPath, String packageName, String srcFolderMessageID, String packageMessageId) {
 		if(!isFolderPathValid(folderPath, true)) {
 			// Mark invalid source folder path
-			errorManager.addError(srcFolderMessageID, SeamPreferences.INVALID_PROJECT_SETTINGS, new String[]{folderPath!=null?folderPath:"", targetProject.getName()}, targetProject);
+			addError(srcFolderMessageID, SeamPreferences.INVALID_PROJECT_SETTINGS, new String[]{folderPath!=null?folderPath:"", targetProject.getName()}, targetProject);
 		}
 		if(!isPackageNameValid(packageName, true)) {
 			// Mark invalid source folder path
-			errorManager.addError(packageMessageId, SeamPreferences.INVALID_PROJECT_SETTINGS, new String[]{packageName!=null?packageName:"", targetProject.getName()}, targetProject);
+			addError(packageMessageId, SeamPreferences.INVALID_PROJECT_SETTINGS, new String[]{packageName!=null?packageName:"", targetProject.getName()}, targetProject);
 		}
 	}
 
@@ -277,7 +284,7 @@ public class SeamProjectPropertyValidator implements IValidatorJob {
 			String seamRuntimeName = pref.get(ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME, null);
 			if(seamRuntimeName!=null && seamRuntimeName.length()>0 && (SeamRuntimeManager.getInstance().findRuntimeByName(seamRuntimeName) == null)) {
 				// Mark unknown runtime
-				errorManager.addError(SeamValidationMessages.INVALID_SEAM_RUNTIME, SeamPreferences.INVALID_PROJECT_SETTINGS, new String[]{seamRuntimeName!=null?seamRuntimeName:"", project.getName()}, project);
+				addError(SeamValidationMessages.INVALID_SEAM_RUNTIME, SeamPreferences.INVALID_PROJECT_SETTINGS, new String[]{seamRuntimeName!=null?seamRuntimeName:"", project.getName()}, project, INVALID_SEAM_RUNTIME_ID);
 			}
 
 			if(ISeamFacetDataModelProperties.DEPLOY_AS_EAR.equals(pref.get(ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS, null))) {
@@ -286,7 +293,7 @@ public class SeamProjectPropertyValidator implements IValidatorJob {
 			String viewFolder = pref.get(ISeamFacetDataModelProperties.WEB_CONTENTS_FOLDER, null);
 			if(!isFolderPathValid(viewFolder, true)) {
 				// Mark unknown View folder
-				errorManager.addError(SeamValidationMessages.INVALID_WEBFOLDER, SeamPreferences.INVALID_PROJECT_SETTINGS, new String[]{viewFolder!=null?viewFolder:"", project.getName()}, project);
+				addError(SeamValidationMessages.INVALID_WEBFOLDER, SeamPreferences.INVALID_PROJECT_SETTINGS, new String[]{viewFolder!=null?viewFolder:"", project.getName()}, project);
 			}
 			validateSorceFolder(project, pref.get(ISeamFacetDataModelProperties.ENTITY_BEAN_SOURCE_FOLDER, null),
 					pref.get(ISeamFacetDataModelProperties.ENTITY_BEAN_PACKAGE_NAME, null),
@@ -309,7 +316,7 @@ public class SeamProjectPropertyValidator implements IValidatorJob {
 			}
 //			String connectionProfile = pref.get(ISeamFacetDataModelProperties.SEAM_CONNECTION_PROFILE, null);
 //			if(!isConnectionProfileValid(connectionProfile, true)) {
-//				errorManager.addError(INVALID_CONNECTION_NAME, SeamPreferences.INVALID_PROJECT_SETTINGS, new String[]{connectionProfile!=null?connectionProfile:"", project.getName()}, project);
+//				addError(INVALID_CONNECTION_NAME, SeamPreferences.INVALID_PROJECT_SETTINGS, new String[]{connectionProfile!=null?connectionProfile:"", project.getName()}, project);
 //			}
 		}
 
@@ -329,4 +336,21 @@ public class SeamProjectPropertyValidator implements IValidatorJob {
 	public void validate(IValidationContext helper, IReporter reporter) throws ValidationException {
 		validateInJob(helper, reporter);
 	}
+	
+	public IMarker addError(String message, String preferenceKey,
+			String[] messageArguments, IResource target, int messageId) {
+		IMarker marker = errorManager.addError(message, preferenceKey, messageArguments, target);
+		try{
+			marker.setAttribute(MESSAGE_ID_ATTRIBUTE_NAME, new Integer(messageId));
+		}catch(CoreException ex){
+			SeamCorePlugin.getDefault().logError(ex);
+		}
+		return marker;
+	}
+
+	public IMarker addError(String message, String preferenceKey,
+			String[] messageArguments, IResource target) {
+		return errorManager.addError(message, preferenceKey, messageArguments, target);
+	}
+
 }
