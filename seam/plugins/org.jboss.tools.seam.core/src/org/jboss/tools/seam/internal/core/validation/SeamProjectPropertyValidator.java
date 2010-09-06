@@ -35,10 +35,8 @@ import org.eclipse.wst.validation.internal.provisional.core.IReporter;
 import org.eclipse.wst.validation.internal.provisional.core.IValidationContext;
 import org.eclipse.wst.validation.internal.provisional.core.IValidator;
 import org.eclipse.wst.validation.internal.provisional.core.IValidatorJob;
-import org.jboss.tools.common.text.ITextSourceReference;
 import org.jboss.tools.jst.web.kb.internal.validation.ContextValidationHelper;
 import org.jboss.tools.jst.web.kb.internal.validation.ProblemMessage;
-import org.jboss.tools.jst.web.kb.internal.validation.ValidationErrorManager;
 import org.jboss.tools.jst.web.kb.validation.IValidationErrorManager;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
@@ -53,7 +51,7 @@ import org.jboss.tools.seam.internal.core.refactoring.SeamProjectChange;
  */
 public class SeamProjectPropertyValidator implements IValidatorJob {
 	
-	public static final String MESSAGE_ID_ATTRIBUTE_NAME = "Seam_proerty_message_id"; //$NON-NLS-1$
+	public static final String MESSAGE_ID_ATTRIBUTE_NAME = "Seam_property_message_id"; //$NON-NLS-1$
 	
 	public static final int INVALID_SEAM_RUNTIME_ID = 1;
 
