@@ -1706,7 +1706,7 @@
   </XActionItem>
   <XDependencies/>
  </XModelEntity>
- <XModelEntity ImplementingClass="%Custom%"
+ <XModelEntity ImplementingClass="org.jboss.tools.jsf.model.impl.SystemEventListenerObjectImpl"
   PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData"
   XMLSUBPATH="system-event-listener" name="JSFSystemEventListener">
   <XChildrenEntities/>

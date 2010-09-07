@@ -172,6 +172,8 @@
 			class="org.jboss.tools.jsf.model.ReferenceObjectImpl"/>
 		<xclass id="org.jboss.tools.jsf.model.impl.OrderingObjectImpl"
 			class="org.jboss.tools.jsf.model.impl.OrderingObjectImpl"/>
+		<xclass id="org.jboss.tools.jsf.model.impl.SystemEventListenerObjectImpl"
+			class="org.jboss.tools.jsf.model.impl.SystemEventListenerObjectImpl"/>
 
 		<xclass id="org.jboss.tools.jsf.model.handlers.AddCaseToGroupHandler"
 			class="org.jboss.tools.jsf.model.handlers.AddCaseToGroupHandler"/>
