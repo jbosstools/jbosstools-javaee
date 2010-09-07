@@ -11,6 +11,7 @@
 
 package org.jboss.tools.cdi.ui.wizard;
 
+import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.dialogs.FilteredItemsSelectionDialog;
@@ -24,6 +25,8 @@ import org.jboss.tools.common.ui.widget.editor.ListFieldEditor.ListFieldEditorPr
 public abstract class CDIAnnotationSelectionProvider implements ListFieldEditorProvider<ICDIAnnotation> {
 	protected ICDIProject project;
 	protected IFieldEditor editor;
+
+	protected IPackageFragment packageFragment = null;
 	
 	public CDIAnnotationSelectionProvider() {}
 	
@@ -37,6 +40,10 @@ public abstract class CDIAnnotationSelectionProvider implements ListFieldEditorP
 
 	public ICDIProject getProject() {
 		return project;
+	}
+
+	public void setPackageFragment(IPackageFragment f) {
+		packageFragment = f;
 	}
 
 	public FilteredItemsSelectionDialog createSelectionDialog() {

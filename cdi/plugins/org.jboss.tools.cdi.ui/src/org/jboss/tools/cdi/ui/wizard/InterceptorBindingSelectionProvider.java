@@ -14,6 +14,11 @@ package org.jboss.tools.cdi.ui.wizard;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.jdt.core.Flags;
+import org.eclipse.jdt.core.IPackageFragment;
+import org.eclipse.jdt.core.IType;
+import org.eclipse.jdt.core.JavaModelException;
+import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.ICDIAnnotation;
 import org.jboss.tools.cdi.core.IInterceptorBinding;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
@@ -29,6 +34,21 @@ public class InterceptorBindingSelectionProvider extends CDIAnnotationSelectionP
 		List c = (List)editor.getValue();
 		for (IInterceptorBinding s: ss) {
 			if(c.contains(s)) continue;
+			IType t = s.getSourceType();
+			if(t != null) {
+				int kind = 0;
+				try {
+					kind = t.getFlags();
+				} catch (JavaModelException e) {
+					CDICorePlugin.getDefault().logError(e);
+				}
+				if(!Flags.isPublic(kind)) {
+					IPackageFragment p = t.getPackageFragment();
+					if(packageFragment != null && !packageFragment.equals(p)) {
+						continue;
+					}
+				}
+			}
 			as.add(s);
 		}
 		return as.toArray(new ICDIAnnotation[0]);

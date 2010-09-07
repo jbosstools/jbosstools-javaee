@@ -224,6 +224,7 @@ public class NewInterceptorWizardPage extends NewClassWizardPage {
 				interceptorBindingsProvider.setProject(cdi);
 			}
 		}
+		interceptorBindingsProvider.setPackageFragment(getPackageFragment());
 	}
 
 	void onMethodNameChange() {
@@ -313,6 +314,14 @@ public class NewInterceptorWizardPage extends NewClassWizardPage {
 		ns[status.length + 1] = interceptorBindingsStatus;
 		status = ns;
 		updateStatus(StatusUtil.getMostSevere(status));
+	}
+
+	protected IStatus packageChanged() {
+		IStatus result = super.packageChanged();
+		if(result != null && result.isOK()) {
+			interceptorBindingsProvider.setPackageFragment(getPackageFragment());
+		}
+		return result;
 	}
 
 }
