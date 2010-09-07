@@ -880,6 +880,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 	private void validateProducer(IProducer producer) {
 		try {
 			Set<ITypeDeclaration> typeDeclarations = producer.getAllTypeDeclarations();
+			String[] typeVariables = producer.getBeanClass().getTypeParameterSignatures();
 			ITypeDeclaration typeDeclaration = null;
 			if (!typeDeclarations.isEmpty()) {
 				/*
@@ -894,6 +895,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 				 */
 				typeDeclaration = typeDeclarations.iterator().next();
 				String[] paramTypes = Signature.getTypeArguments(typeDeclaration.getSignature());
+				boolean variable = false;
 				for (String paramType : paramTypes) {
 					if (Signature.getTypeSignatureKind(paramType) == Signature.WILDCARD_TYPE_SIGNATURE) {
 						if (producer instanceof IProducerField) {
@@ -903,23 +905,23 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 							addError(CDIValidationMessages.PRODUCER_METHOD_RETURN_TYPE_HAS_WILDCARD, CDIPreferences.PRODUCER_METHOD_RETURN_TYPE_HAS_WILDCARD,
 									typeDeclaration, producer.getResource());
 						}
-					}
-				}
-
-				/*
-				 * 3.3. Producer methods
-				 *  - producer method with a parameterized return type with a type variable declares any scope other than @Dependent
-				 * 
-				 * 3.4. Producer fields
-				 *  - producer field with a parameterized type with a type variable declares any scope other than @Dependent
-				 */  
-				if (paramTypes.length > 0) {
-					IAnnotationDeclaration scopeOrStereotypeDeclaration = CDIUtil.getDifferentScopeDeclarationThanDepentend(producer);
-					if (scopeOrStereotypeDeclaration != null) {
-						boolean field = producer instanceof IProducerField;
-						addError(field ? CDIValidationMessages.ILLEGAL_SCOPE_FOR_PRODUCER_FIELD : CDIValidationMessages.ILLEGAL_SCOPE_FOR_PRODUCER_METHOD,
-								field ? CDIPreferences.ILLEGAL_SCOPE_FOR_PRODUCER_METHOD : CDIPreferences.ILLEGAL_SCOPE_FOR_PRODUCER_METHOD,
-								scopeOrStereotypeDeclaration, producer.getResource());
+					} else if(!variable && isTypeVariable(producer, Signature.toString(paramType), typeVariables)) {
+						/*
+						 * 3.3. Producer methods
+						 *  - producer method with a parameterized return type with a type variable declares any scope other than @Dependent
+						 * 
+						 * 3.4. Producer fields
+						 *  - producer field with a parameterized type with a type variable declares any scope other than @Dependent
+						 */
+						variable = true;
+						IAnnotationDeclaration scopeOrStereotypeDeclaration = CDIUtil.getDifferentScopeDeclarationThanDepentend(producer);
+						if (scopeOrStereotypeDeclaration != null) {
+							boolean field = producer instanceof IProducerField;
+							addError(field ? CDIValidationMessages.ILLEGAL_SCOPE_FOR_PRODUCER_FIELD : CDIValidationMessages.ILLEGAL_SCOPE_FOR_PRODUCER_METHOD,
+									field ? CDIPreferences.ILLEGAL_SCOPE_FOR_PRODUCER_METHOD : CDIPreferences.ILLEGAL_SCOPE_FOR_PRODUCER_METHOD,
+									scopeOrStereotypeDeclaration, producer.getResource());
+						}
+						break;
 					}
 				}
 			}
@@ -932,8 +934,6 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 			if (inject != null) {
 				addError(CDIValidationMessages.PRODUCER_ANNOTATED_INJECT, CDIPreferences.PRODUCER_ANNOTATED_INJECT, inject, producer.getResource());
 			}
-
-			String[] typeVariables = producer.getBeanClass().getTypeParameterSignatures();
 
 			if (producer instanceof IProducerField) {
 				/*
@@ -1028,24 +1028,9 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 				 */
 				String typeSign = producerMethod.getMethod().getReturnType();
 				String typeString = Signature.toString(typeSign);
-				ITypeParameter[] paramTypes = producerMethod.getMethod().getTypeParameters();
-				boolean marked = false;
-				for (ITypeParameter param : paramTypes) {
-					String variableName = param.getElementName();
-					if (variableName.equals(typeString)) {
-						addError(CDIValidationMessages.PRODUCER_METHOD_RETURN_TYPE_IS_VARIABLE, CDIPreferences.PRODUCER_METHOD_RETURN_TYPE_IS_VARIABLE,
-								typeDeclaration != null ? typeDeclaration : producer, producer.getResource());
-						marked = true;
-					}
-				}
-				if (!marked && typeVariables.length > 0) {
-					for (String variableSig : typeVariables) {
-						String variableName = Signature.getTypeVariable(variableSig);
-						if (typeString.equals(variableName)) {
-							addError(CDIValidationMessages.PRODUCER_METHOD_RETURN_TYPE_IS_VARIABLE, CDIPreferences.PRODUCER_METHOD_RETURN_TYPE_IS_VARIABLE,
-									typeDeclaration != null ? typeDeclaration : producer, producer.getResource());
-						}
-					}
+				if(isTypeVariable(producerMethod, typeString, typeVariables)) {
+					addError(CDIValidationMessages.PRODUCER_METHOD_RETURN_TYPE_IS_VARIABLE, CDIPreferences.PRODUCER_METHOD_RETURN_TYPE_IS_VARIABLE,
+							typeDeclaration != null ? typeDeclaration : producer, producer.getResource());
 				}
 				/*
 				 * 3.3.2. Declaring a producer method
@@ -1109,6 +1094,27 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 		} catch (JavaModelException e) {
 			CDICorePlugin.getDefault().logError(e);
 		}
+	}
+
+	private boolean isTypeVariable(IProducer producer, String type, String[] typeVariables) throws JavaModelException {
+		if(producer instanceof IProducerMethod) {
+			ITypeParameter[] paramTypes = ((IProducerMethod)producer).getMethod().getTypeParameters();
+			for (ITypeParameter param : paramTypes) {
+				String variableName = param.getElementName();
+				if (variableName.equals(type)) {
+					return true;
+				}
+			}
+		}
+		if (typeVariables.length > 0) {
+			for (String variableSig : typeVariables) {
+				String variableName = Signature.getTypeVariable(variableSig);
+				if (type.equals(variableName)) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 	private void saveAllSuperTypesAsLinkedResources(IClassBean bean) {

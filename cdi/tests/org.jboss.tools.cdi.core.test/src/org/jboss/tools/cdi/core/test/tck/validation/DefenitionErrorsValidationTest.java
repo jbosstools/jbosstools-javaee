@@ -456,10 +456,21 @@ public class DefenitionErrorsValidationTest extends ValidationTest {
 	 */
 	public void testParameterizedReturnTypeWithWrongScope() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/producers/ParameterizedTypeWithWrongScope_Broken.java");
-		assertMarkerIsCreated(file, CDIValidationMessages.ILLEGAL_SCOPE_FOR_PRODUCER_METHOD, 25, 39);
-		assertMarkerIsNotCreated(file, CDIValidationMessages.ILLEGAL_SCOPE_FOR_PRODUCER_METHOD, 21);
+		assertMarkerIsCreated(file, CDIValidationMessages.ILLEGAL_SCOPE_FOR_PRODUCER_METHOD, 29, 43);
+		assertMarkerIsNotCreated(file, CDIValidationMessages.ILLEGAL_SCOPE_FOR_PRODUCER_METHOD, 25);
 		assertMarkerIsNotCreated(file, CDIValidationMessages.ILLEGAL_SCOPE_FOR_PRODUCER_METHOD, 35);
-		assertMarkerIsNotCreated(file, CDIValidationMessages.ILLEGAL_SCOPE_FOR_PRODUCER_METHOD, 31);
+		assertMarkerIsNotCreated(file, CDIValidationMessages.ILLEGAL_SCOPE_FOR_PRODUCER_METHOD, 39);
+	}
+
+	/**
+	 * https://jira.jboss.org/browse/JBIDE-7013
+	 *  
+	 * @throws Exception
+	 */
+	public void testParameterizedReturnTypeWithoutTypeVariableOk() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/producers/ParameterizedTypeWithWrongScope_Broken.java");
+		assertMarkerIsNotCreated(file, CDIValidationMessages.ILLEGAL_SCOPE_FOR_PRODUCER_METHOD, 52);
+		assertMarkerIsNotCreated(file, CDIValidationMessages.ILLEGAL_SCOPE_FOR_PRODUCER_METHOD, 57);
 	}
 
 	/**
@@ -686,10 +697,10 @@ public class DefenitionErrorsValidationTest extends ValidationTest {
 	 */
 	public void testParameterizedTypeWithWrongScope() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/producers/ParameterizedTypeWithWrongScope_Broken.java");
-		assertMarkerIsCreated(file, CDIValidationMessages.ILLEGAL_SCOPE_FOR_PRODUCER_FIELD, 11, 18);
-		assertMarkerIsNotCreated(file, CDIValidationMessages.ILLEGAL_SCOPE_FOR_PRODUCER_FIELD, 9);
-		assertMarkerIsNotCreated(file, CDIValidationMessages.ILLEGAL_SCOPE_FOR_PRODUCER_FIELD, 14);
-		assertMarkerIsNotCreated(file, CDIValidationMessages.ILLEGAL_SCOPE_FOR_PRODUCER_FIELD, 16);
+		assertMarkerIsCreated(file, CDIValidationMessages.ILLEGAL_SCOPE_FOR_PRODUCER_FIELD, 15, 22);
+		assertMarkerIsNotCreated(file, CDIValidationMessages.ILLEGAL_SCOPE_FOR_PRODUCER_FIELD, 13);
+		assertMarkerIsNotCreated(file, CDIValidationMessages.ILLEGAL_SCOPE_FOR_PRODUCER_FIELD, 18);
+		assertMarkerIsNotCreated(file, CDIValidationMessages.ILLEGAL_SCOPE_FOR_PRODUCER_FIELD, 20);
 	}
 
 	/**
