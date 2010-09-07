@@ -16,17 +16,17 @@ import org.eclipse.core.resources.IMarker;
 /**
  * @author Daniel Azarov
  */
-public class AddAnnotaionMarkerResolution extends
+public class AddAnnotationMarkerResolution extends
 		AbstractSeamMarkerResolution {
 	boolean insertName;
 	
-	public AddAnnotaionMarkerResolution(String label, String qualifiedName, IFile file, int start, int end, boolean insertName){
+	public AddAnnotationMarkerResolution(String label, String qualifiedName, IFile file, int start, int end, boolean insertName){
 		super(label, qualifiedName, file, start, end);
 		this.insertName = insertName;
 	}
 	
 	public void run(IMarker marker) {
-		addAnnotation(qualifiedName,"@"+getShortName(qualifiedName), insertName); //$NON-NLS-1$
+		addAnnotation("@"+getShortName(qualifiedName), insertName); //$NON-NLS-1$
 	}
 
 }

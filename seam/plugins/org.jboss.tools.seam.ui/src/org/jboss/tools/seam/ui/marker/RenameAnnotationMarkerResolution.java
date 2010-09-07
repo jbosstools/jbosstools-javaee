@@ -16,18 +16,15 @@ import org.eclipse.core.resources.IMarker;
 /**
  * @author Daniel Azarov
  */
-public class DeleteAnnotaionMarkerResolution extends
+public class RenameAnnotationMarkerResolution extends
 		AbstractSeamMarkerResolution {
-	
-	public DeleteAnnotaionMarkerResolution(String label, String qualifiedName, IFile file, int start, int end){
+
+	public RenameAnnotationMarkerResolution(String label, String qualifiedName,
+			IFile file, int start, int end) {
 		super(label, qualifiedName, file, start, end);
 	}
 	
-	public String getLabel() {
-		return label;
-	}
-	
 	public void run(IMarker marker) {
-		deleteAnnotation(qualifiedName);
+		renameAnnotation("@"+getShortName(qualifiedName)); //$NON-NLS-1$
 	}
 }

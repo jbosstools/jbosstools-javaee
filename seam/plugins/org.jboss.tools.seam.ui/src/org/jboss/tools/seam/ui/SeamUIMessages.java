@@ -374,6 +374,8 @@ public class SeamUIMessages extends NLS {
 	
 	public static String ADD_NAME_ANNOTATION_MARKER_RESOLUTION_TITLE;
 	
+	public static String RENAME_NAME_ANNOTATION_MARKER_RESOLUTION_TITLE;
+	
 	static {
 		// load message values from bundle file
 		NLS.initializeMessages(BUNDLE_NAME, SeamUIMessages.class);		

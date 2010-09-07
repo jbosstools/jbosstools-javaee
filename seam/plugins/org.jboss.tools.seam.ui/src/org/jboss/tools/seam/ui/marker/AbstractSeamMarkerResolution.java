@@ -56,7 +56,7 @@ public abstract class AbstractSeamMarkerResolution implements
 		this.end = end;
 	}
 	
-	protected void deleteAnnotation(String annotationTypeName){
+	protected void deleteAnnotation(){
 		try{
 			ICompilationUnit original = EclipseUtil.getCompilationUnit(file);
 			ICompilationUnit compilationUnit = original.getWorkingCopy(new NullProgressMonitor());
@@ -65,7 +65,7 @@ public abstract class AbstractSeamMarkerResolution implements
 			IType type = compilationUnit.findPrimaryType();
 			if(javaElement != null && type != null){
 				if(javaElement instanceof IAnnotatable){
-					IAnnotation annotation = findAnnotation(type, (IAnnotatable)javaElement, annotationTypeName);
+					IAnnotation annotation = findAnnotation(type, (IAnnotatable)javaElement);
 					if(annotation != null){
 						IBuffer buffer = compilationUnit.getBuffer();
 						
@@ -73,12 +73,12 @@ public abstract class AbstractSeamMarkerResolution implements
 						buffer.replace(annotation.getSourceRange().getOffset(), annotation.getSourceRange().getLength(), "");
 						
 						// check and delete import
-						IImportDeclaration importDeclaration = compilationUnit.getImport(annotationTypeName);
+						IImportDeclaration importDeclaration = compilationUnit.getImport(qualifiedName);
 						IImportContainer importContainer = compilationUnit.getImportContainer();
 						if(importDeclaration != null && importContainer != null){
 							int importSize = importContainer.getSourceRange().getOffset()+importContainer.getSourceRange().getLength();
 							String text = buffer.getText(importSize, buffer.getLength()-importSize);
-							if(checkImport(text, annotationTypeName))
+							if(checkImport(text, qualifiedName))
 								importDeclaration.delete(false, new NullProgressMonitor());
 						}
 						compilationUnit.commitWorkingCopy(false, new NullProgressMonitor());
@@ -145,7 +145,7 @@ public abstract class AbstractSeamMarkerResolution implements
 		return name;
 	}
 	
-	protected void addAnnotation(String annotationTypeName, String annotationString, boolean insertName){
+	protected void addAnnotation(String annotationString, boolean insertName){
 		try{
 			ICompilationUnit original = EclipseUtil.getCompilationUnit(file);
 			ICompilationUnit compilationUnit = original.getWorkingCopy(new NullProgressMonitor());
@@ -153,9 +153,9 @@ public abstract class AbstractSeamMarkerResolution implements
 			IJavaElement javaElement = compilationUnit.getElementAt(start);
 			IType type = getType(javaElement);
 			if(type != null){
-				IImportDeclaration importDeclaration = compilationUnit.getImport(annotationTypeName); 
+				IImportDeclaration importDeclaration = compilationUnit.getImport(qualifiedName); 
 				if(importDeclaration == null || !importDeclaration.exists())
-					compilationUnit.createImport(annotationTypeName, null, new NullProgressMonitor());
+					compilationUnit.createImport(qualifiedName, null, new NullProgressMonitor());
 				
 				IBuffer buffer = compilationUnit.getBuffer();
 				
@@ -172,24 +172,51 @@ public abstract class AbstractSeamMarkerResolution implements
 		}
 	}
 	
+	protected void renameAnnotation(String annotationString){
+		try{
+			ICompilationUnit original = EclipseUtil.getCompilationUnit(file);
+			ICompilationUnit compilationUnit = original.getWorkingCopy(new NullProgressMonitor());
+			
+			IJavaElement javaElement = compilationUnit.getElementAt(start);
+			IType type = getType(javaElement);
+			if(type != null){
+				IAnnotation annotation = findAnnotation(type, type);
+				if(annotation != null){
+					IImportDeclaration importDeclaration = compilationUnit.getImport(qualifiedName); 
+					if(importDeclaration == null || !importDeclaration.exists())
+						compilationUnit.createImport(qualifiedName, null, new NullProgressMonitor());
+				
+					IBuffer buffer = compilationUnit.getBuffer();
+					
+					String name= "(\""+generateComponentName(compilationUnit.findPrimaryType().getElementName())+"\")";
+					
+					buffer.replace(annotation.getSourceRange().getOffset(), annotation.getSourceRange().getLength(), annotationString+name);
+					compilationUnit.commitWorkingCopy(false, new NullProgressMonitor());
+				}
+			}
+		}catch(CoreException ex){
+			SeamGuiPlugin.getPluginLog().logError(ex);
+		}
+	}
 	
-	private IAnnotation findAnnotation(IType sourceType, IAnnotatable member, String annotationTypeName) {
+	
+	private IAnnotation findAnnotation(IType sourceType, IAnnotatable member) {
 		try {
 			IAnnotation[] annotations = member.getAnnotations();
-			String simpleAnnotationTypeName = annotationTypeName;
-			int lastDot = annotationTypeName.lastIndexOf('.');
+			String simpleAnnotationTypeName = qualifiedName;
+			int lastDot = qualifiedName.lastIndexOf('.');
 			if(lastDot>-1) {
 				simpleAnnotationTypeName = simpleAnnotationTypeName.substring(lastDot + 1);
 			}
 			for (IAnnotation annotation : annotations) {
-				if(annotationTypeName.equals(annotation.getElementName())) {
+				if(qualifiedName.equals(annotation.getElementName())) {
 					return annotation;
 				}
 				if(simpleAnnotationTypeName.equals(annotation.getElementName())) {
 					String fullAnnotationclassName = EclipseJavaUtil.resolveType(sourceType, simpleAnnotationTypeName);
 					if(fullAnnotationclassName!=null) {
 						IType annotationType = sourceType.getJavaProject().findType(fullAnnotationclassName);
-						if(annotationType!=null && annotationType.getFullyQualifiedName().equals(annotationTypeName)) {
+						if(annotationType!=null && annotationType.getFullyQualifiedName().equals(qualifiedName)) {
 							return annotation;
 						}
 					}

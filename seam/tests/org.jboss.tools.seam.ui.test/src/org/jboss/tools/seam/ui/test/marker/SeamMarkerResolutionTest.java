@@ -21,8 +21,9 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.ui.IMarkerResolution;
 import org.eclipse.ui.ide.IDE;
-import org.jboss.tools.seam.ui.marker.AddAnnotaionMarkerResolution;
-import org.jboss.tools.seam.ui.marker.DeleteAnnotaionMarkerResolution;
+import org.jboss.tools.seam.ui.marker.AddAnnotationMarkerResolution;
+import org.jboss.tools.seam.ui.marker.DeleteAnnotationMarkerResolution;
+import org.jboss.tools.seam.ui.marker.RenameAnnotationMarkerResolution;
 import org.jboss.tools.test.util.JobUtils;
 
 /**
@@ -60,8 +61,8 @@ public class SeamMarkerResolutionTest extends TestCase {
 					.getResolutions(marker);
 			for (int j = 0; j < resolutions.length; j++) {
 				IMarkerResolution resolution = resolutions[j];
-				if (resolution instanceof DeleteAnnotaionMarkerResolution) {
-					assertEquals("javax.ejb.Remove", ((DeleteAnnotaionMarkerResolution)resolution).getQualifiedName());
+				if (resolution instanceof DeleteAnnotationMarkerResolution) {
+					assertEquals("javax.ejb.Remove", ((DeleteAnnotationMarkerResolution)resolution).getQualifiedName());
 					found = true;
 					break;
 				}
@@ -88,8 +89,8 @@ public class SeamMarkerResolutionTest extends TestCase {
 					.getResolutions(marker);
 			for (int j = 0; j < resolutions.length; j++) {
 				IMarkerResolution resolution = resolutions[j];
-				if (resolution instanceof DeleteAnnotaionMarkerResolution) {
-					assertEquals("org.jboss.seam.annotations.Destroy", ((DeleteAnnotaionMarkerResolution)resolution).getQualifiedName());
+				if (resolution instanceof DeleteAnnotationMarkerResolution) {
+					assertEquals("org.jboss.seam.annotations.Destroy", ((DeleteAnnotationMarkerResolution)resolution).getQualifiedName());
 					found = true;
 					break;
 				}
@@ -116,8 +117,8 @@ public class SeamMarkerResolutionTest extends TestCase {
 					.getResolutions(marker);
 			for (int j = 0; j < resolutions.length; j++) {
 				IMarkerResolution resolution = resolutions[j];
-				if (resolution instanceof DeleteAnnotaionMarkerResolution) {
-					assertEquals("org.jboss.seam.annotations.Destroy", ((DeleteAnnotaionMarkerResolution)resolution).getQualifiedName());
+				if (resolution instanceof DeleteAnnotationMarkerResolution) {
+					assertEquals("org.jboss.seam.annotations.Destroy", ((DeleteAnnotationMarkerResolution)resolution).getQualifiedName());
 					found = true;
 					break;
 				}
@@ -144,8 +145,8 @@ public class SeamMarkerResolutionTest extends TestCase {
 					.getResolutions(marker);
 			for (int j = 0; j < resolutions.length; j++) {
 				IMarkerResolution resolution = resolutions[j];
-				if (resolution instanceof DeleteAnnotaionMarkerResolution) {
-					assertEquals("org.jboss.seam.annotations.Create", ((DeleteAnnotaionMarkerResolution)resolution).getQualifiedName());
+				if (resolution instanceof DeleteAnnotationMarkerResolution) {
+					assertEquals("org.jboss.seam.annotations.Create", ((DeleteAnnotationMarkerResolution)resolution).getQualifiedName());
 					found = true;
 					break;
 				}
@@ -172,8 +173,8 @@ public class SeamMarkerResolutionTest extends TestCase {
 					.getResolutions(marker);
 			for (int j = 0; j < resolutions.length; j++) {
 				IMarkerResolution resolution = resolutions[j];
-				if (resolution instanceof DeleteAnnotaionMarkerResolution) {
-					assertEquals("org.jboss.seam.annotations.Unwrap", ((DeleteAnnotaionMarkerResolution)resolution).getQualifiedName());
+				if (resolution instanceof DeleteAnnotationMarkerResolution) {
+					assertEquals("org.jboss.seam.annotations.Unwrap", ((DeleteAnnotationMarkerResolution)resolution).getQualifiedName());
 					found = true;
 					break;
 				}
@@ -201,12 +202,12 @@ public class SeamMarkerResolutionTest extends TestCase {
 					.getResolutions(marker);
 			for (int j = 0; j < resolutions.length; j++) {
 				IMarkerResolution resolution = resolutions[j];
-				if (resolution instanceof DeleteAnnotaionMarkerResolution) {
-					assertEquals("org.jboss.seam.annotations.Create", ((DeleteAnnotaionMarkerResolution)resolution).getQualifiedName());
+				if (resolution instanceof DeleteAnnotationMarkerResolution) {
+					assertEquals("org.jboss.seam.annotations.Create", ((DeleteAnnotationMarkerResolution)resolution).getQualifiedName());
 					dFound = true;
 				}
-				if (resolution instanceof AddAnnotaionMarkerResolution) {
-					assertEquals("org.jboss.seam.annotations.Name", ((AddAnnotaionMarkerResolution)resolution).getQualifiedName());
+				if (resolution instanceof AddAnnotationMarkerResolution) {
+					assertEquals("org.jboss.seam.annotations.Name", ((AddAnnotationMarkerResolution)resolution).getQualifiedName());
 					cFound = true;
 				}
 			}
@@ -234,12 +235,12 @@ public class SeamMarkerResolutionTest extends TestCase {
 					.getResolutions(marker);
 			for (int j = 0; j < resolutions.length; j++) {
 				IMarkerResolution resolution = resolutions[j];
-				if (resolution instanceof DeleteAnnotaionMarkerResolution) {
-					assertEquals("org.jboss.seam.annotations.Unwrap", ((DeleteAnnotaionMarkerResolution)resolution).getQualifiedName());
+				if (resolution instanceof DeleteAnnotationMarkerResolution) {
+					assertEquals("org.jboss.seam.annotations.Unwrap", ((DeleteAnnotationMarkerResolution)resolution).getQualifiedName());
 					dFound = true;
 				}
-				if (resolution instanceof AddAnnotaionMarkerResolution) {
-					assertEquals("org.jboss.seam.annotations.Name", ((AddAnnotaionMarkerResolution)resolution).getQualifiedName());
+				if (resolution instanceof AddAnnotationMarkerResolution) {
+					assertEquals("org.jboss.seam.annotations.Name", ((AddAnnotationMarkerResolution)resolution).getQualifiedName());
 					cFound = true;
 				}
 			}
@@ -267,12 +268,12 @@ public class SeamMarkerResolutionTest extends TestCase {
 					.getResolutions(marker);
 			for (int j = 0; j < resolutions.length; j++) {
 				IMarkerResolution resolution = resolutions[j];
-				if (resolution instanceof DeleteAnnotaionMarkerResolution) {
-					assertEquals("org.jboss.seam.annotations.Observer", ((DeleteAnnotaionMarkerResolution)resolution).getQualifiedName());
+				if (resolution instanceof DeleteAnnotationMarkerResolution) {
+					assertEquals("org.jboss.seam.annotations.Observer", ((DeleteAnnotationMarkerResolution)resolution).getQualifiedName());
 					dFound = true;
 				}
-				if (resolution instanceof AddAnnotaionMarkerResolution) {
-					assertEquals("org.jboss.seam.annotations.Name", ((AddAnnotaionMarkerResolution)resolution).getQualifiedName());
+				if (resolution instanceof AddAnnotationMarkerResolution) {
+					assertEquals("org.jboss.seam.annotations.Name", ((AddAnnotationMarkerResolution)resolution).getQualifiedName());
 					cFound = true;
 				}
 			}
@@ -283,5 +284,39 @@ public class SeamMarkerResolutionTest extends TestCase {
 		assertTrue("The quickfix \"Delete @Observer annotation\" doesn't exist.", dFound);
 		assertTrue("The quickfix \"Add @Name annotation\" doesn't exist.", cFound);
 	}
+	
+	public void testDuplicateComponentNameResolution() throws CoreException {
+		String TARGET_FILE_NAME = "src/action/org/domain/SeamWebWarTestProject/session/DuplicateComponent1.java";
+		IFile file = project.getFile(TARGET_FILE_NAME);
+		
+		assertTrue("File - "+TARGET_FILE_NAME+" must be exists",file.exists());
+		
+		IMarker[] markers = file.findMarkers(MARKER_TYPE, true,	IResource.DEPTH_INFINITE);
+		
+		boolean dFound = false;
+		boolean cFound = false;
+		for (int i = 0; i < markers.length; i++) {
+			IMarker marker = markers[i];
+			IMarkerResolution[] resolutions = IDE.getMarkerHelpRegistry()
+					.getResolutions(marker);
+			for (int j = 0; j < resolutions.length; j++) {
+				IMarkerResolution resolution = resolutions[j];
+				if (resolution instanceof DeleteAnnotationMarkerResolution) {
+					assertEquals("org.jboss.seam.annotations.Name", ((DeleteAnnotationMarkerResolution)resolution).getQualifiedName());
+					dFound = true;
+				}
+				if (resolution instanceof RenameAnnotationMarkerResolution) {
+					assertEquals("org.jboss.seam.annotations.Name", ((RenameAnnotationMarkerResolution)resolution).getQualifiedName());
+					cFound = true;
+				}
+			}
+			if (dFound && cFound) {
+				break;
+			}
+		}
+		assertTrue("The quickfix \"Delete @Name annotation\" doesn't exist.", dFound);
+		assertTrue("The quickfix \"Rename @Name annotation\" doesn't exist.", cFound);
+	}
+
 
 }
