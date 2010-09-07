@@ -39,7 +39,7 @@ public class JSF2ValidatorTest extends VpeTest{
 		int caretOffcet = TestUtil.getLinePositionOffcet(multiPageEditor.getSourceEditor().getTextViewer(), 4, 5);
 		styledText.setCaretOffset(caretOffcet);
 		styledText.insert("xmlns:test=\"http://java.sun.com/jsf/composite/test\""); //$NON-NLS-1$
-		TestUtil.delay(200);
+		TestUtil.delay(1200);
 		TestUtil.waitForJobs();
 		problemMarkers = file.findMarkers(MARKER_TYPE, true, IResource.DEPTH_INFINITE);
 		assertEquals("res folder marker is expected", 1, problemMarkers.length); //$NON-NLS-1$
