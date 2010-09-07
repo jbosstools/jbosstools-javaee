@@ -543,12 +543,12 @@
 
 	<!-- <system-event-listener> -->
 	<test name="JSFModelTest:testPaths:attribute">
-		<property name="path" value="/faces-config-2.xml/application/MySystemEventListener"/>
+		<property name="path" value="/faces-config-2.xml/application/MySystemEvent:MySystemEventListener"/>
 		<property name="attributeName" value="system-event-class"/>
 		<property name="attributeValue" value="MySystemEvent"/>
 	</test>
 	<test name="JSFModelTest:testPaths:attribute">
-		<property name="path" value="/faces-config-2.xml/application/MySystemEventListener"/>
+		<property name="path" value="/faces-config-2.xml/application/MySystemEvent:MySystemEventListener"/>
 		<property name="attributeName" value="source-class"/>
 		<property name="attributeValue" value="MySource"/>
 	</test>
