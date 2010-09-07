@@ -205,4 +205,28 @@
 
    </extension>
   
+      <extension
+       point="org.eclipse.wst.sse.ui.completionProposal">
+	<proposalCategory
+          icon="icons/cdi16.png"
+          id="org.jboss.tools.cdi.ui.proposalCategory.cdiClass"
+          name="%proposalCategory.cdiClass">
+    </proposalCategory>
+    <proposalComputer
+          activate="true"
+          categoryId="org.jboss.tools.cdi.ui.proposalCategory.cdiClass"
+          class="org.jboss.tools.cdi.ui.ca.BeansXmlCompletionProposalComputer"
+          id="org.jboss.tools.cdi.ui.proposalComputer.cdiClass">
+			<contentType id="org.eclipse.core.runtime.xml">
+				<partitionType id="org.eclipse.wst.xml.XML_DEFAULT" />
+			</contentType>
+			<contentType id="org.eclipse.wst.xml.core.xmlsource">
+				<partitionType id="org.eclipse.wst.xml.XML_DEFAULT" />
+			</contentType>
+			<contentType id="org.jboss.tools.common.model.ui.xml">
+				<partitionType id="org.eclipse.wst.xml.XML_DEFAULT" />
+			</contentType>
+    </proposalComputer>
+   </extension>
+  
 </plugin>
