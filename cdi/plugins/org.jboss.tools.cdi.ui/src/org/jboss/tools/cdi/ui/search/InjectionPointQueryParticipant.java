@@ -61,6 +61,8 @@ public class InjectionPointQueryParticipant implements IQueryParticipant{
 			IJavaElement element = qs.getElement();
 			if(element instanceof IMethod || element instanceof IField){
 				IFile file = (IFile)element.getResource();
+				if(file == null)
+					return;
 				
 				CDICoreNature cdiNature = CDICorePlugin.getCDI(file.getProject(), true);
 				
