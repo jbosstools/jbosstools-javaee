@@ -33,7 +33,7 @@ public class BeansXmlCATest extends TCKTest {
 
 	public void testEmptyList() {
 		KbQuery query = new KbQuery();
-		query.setParentTags(new String[]{"alternatives", "class"});
+		query.setParentTags(new String[]{"beans", "alternatives", "class"});
 		query.setValue(" test ");
 		TextProposal[] proposals = BeansXmlProcessor.getInstance().getProposals(query, tckProject);
 		assertEquals("The list of proposals should be empty.", 0, proposals.length);
@@ -41,7 +41,7 @@ public class BeansXmlCATest extends TCKTest {
 
 	public void testAllAlternativeBeans() {
 		KbQuery query = new KbQuery();
-		query.setParentTags(new String[]{"alternatives", "class"});
+		query.setParentTags(new String[]{"beans", "alternatives", "class"});
 		query.setValue("");
 
 		TextProposal[] proposals = BeansXmlProcessor.getInstance().getProposals(query, tckProject);
@@ -61,7 +61,7 @@ public class BeansXmlCATest extends TCKTest {
 
 	public void testSomeAlternativeBeans() {
 		KbQuery query = new KbQuery();
-		query.setParentTags(new String[]{"alternatives", "class"});
+		query.setParentTags(new String[]{"beans", "alternatives", "class"});
 		query.setValue("org.jboss.jsr299.tck.tests.jbt.ca.");
 
 		TextProposal[] proposals = BeansXmlProcessor.getInstance().getProposals(query, tckProject);
@@ -71,7 +71,7 @@ public class BeansXmlCATest extends TCKTest {
 
 	public void testAllAlternativeStereotypes() {
 		KbQuery query = new KbQuery();
-		query.setParentTags(new String[]{"alternatives", "stereotype"});
+		query.setParentTags(new String[]{"beans", "alternatives", "stereotype"});
 		query.setValue(" ");
 
 		TextProposal[] proposals = BeansXmlProcessor.getInstance().getProposals(query, tckProject);
@@ -91,7 +91,7 @@ public class BeansXmlCATest extends TCKTest {
 
 	public void testSomeAlternativeStereotypes() {
 		KbQuery query = new KbQuery();
-		query.setParentTags(new String[]{"alternatives", "stereotype"});
+		query.setParentTags(new String[]{"beans", "alternatives", "stereotype"});
 		query.setValue("  org.jboss.jsr299.tck.tests.jbt.ca.");
 
 		TextProposal[] proposals = BeansXmlProcessor.getInstance().getProposals(query, tckProject);
@@ -101,7 +101,7 @@ public class BeansXmlCATest extends TCKTest {
 
 	public void testAllDecorators() {
 		KbQuery query = new KbQuery();
-		query.setParentTags(new String[]{"decorators", "class"});
+		query.setParentTags(new String[]{"beans", "decorators", "class"});
 		query.setValue("");
 
 		TextProposal[] proposals = BeansXmlProcessor.getInstance().getProposals(query, tckProject);
@@ -117,7 +117,7 @@ public class BeansXmlCATest extends TCKTest {
 
 	public void testSomeDecorators() {
 		KbQuery query = new KbQuery();
-		query.setParentTags(new String[]{"decorators", "class"});
+		query.setParentTags(new String[]{"beans", "decorators", "class"});
 		query.setValue("org.jboss.jsr299.tck.tests.jbt.ca.");
 
 		TextProposal[] proposals = BeansXmlProcessor.getInstance().getProposals(query, tckProject);
@@ -127,7 +127,7 @@ public class BeansXmlCATest extends TCKTest {
 
 	public void testAllInterceptors() {
 		KbQuery query = new KbQuery();
-		query.setParentTags(new String[]{"interceptors", "class"});
+		query.setParentTags(new String[]{"beans", "interceptors", "class"});
 		query.setValue("");
 
 		TextProposal[] proposals = BeansXmlProcessor.getInstance().getProposals(query, tckProject);
@@ -143,7 +143,7 @@ public class BeansXmlCATest extends TCKTest {
 
 	public void testSomeInterceptors() {
 		KbQuery query = new KbQuery();
-		query.setParentTags(new String[]{"interceptors", "class"});
+		query.setParentTags(new String[]{"beans", "interceptors", "class"});
 		query.setValue("org.jboss.jsr299.tck.tests.jbt.ca.");
 
 		TextProposal[] proposals = BeansXmlProcessor.getInstance().getProposals(query, tckProject);

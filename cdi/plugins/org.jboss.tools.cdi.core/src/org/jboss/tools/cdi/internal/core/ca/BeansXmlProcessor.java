@@ -64,15 +64,17 @@ public class BeansXmlProcessor {
 			CDICoreNature nature = CDICorePlugin.getCDI(project, false);
 			if(nature!=null) {
 				ICDIProject cdiProject = nature.getDelegate();
-				if(CLASS_ELEMENT.equals(parents[1])) {
-					if(ALTERNATIVES_ELEMENT.equals(parents[0])) {
+				int lastIndex = parents.length-1;
+				int firstIndex = parents.length-2;
+				if(CLASS_ELEMENT.equals(parents[lastIndex])) {
+					if(ALTERNATIVES_ELEMENT.equals(parents[firstIndex])) {
 						return getAlternativeBeans(query, cdiProject);
-					} else if(DECORATORS_ELEMENT.equals(parents[0])) {
+					} else if(DECORATORS_ELEMENT.equals(parents[firstIndex])) {
 						return getDecorators(query, cdiProject);
-					} else if(INTERCEPTOR_ELEMENT.equals(parents[0])) {
+					} else if(INTERCEPTOR_ELEMENT.equals(parents[firstIndex])) {
 						return getInterceptors(query, cdiProject);
 					}
-				} else if(STEREOTYPE_ELEMENT.equals(parents[1]) && ALTERNATIVES_ELEMENT.equals(parents[0])) {
+				} else if(STEREOTYPE_ELEMENT.equals(parents[lastIndex]) && ALTERNATIVES_ELEMENT.equals(parents[firstIndex])) {
 					return getAlternativeStereotypes(query, cdiProject);
 				}
 			}
