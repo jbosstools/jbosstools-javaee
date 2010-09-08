@@ -26,6 +26,7 @@ import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IImportContainer;
 import org.eclipse.jdt.core.IImportDeclaration;
 import org.eclipse.jdt.core.IJavaElement;
+import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.swt.graphics.Image;
@@ -78,7 +79,7 @@ public abstract class AbstractSeamMarkerResolution implements
 						if(importDeclaration != null && importContainer != null){
 							int importSize = importContainer.getSourceRange().getOffset()+importContainer.getSourceRange().getLength();
 							String text = buffer.getText(importSize, buffer.getLength()-importSize);
-							if(checkImport(text, qualifiedName))
+							if(checkImport(text))
 								importDeclaration.delete(false, new NullProgressMonitor());
 						}
 						compilationUnit.commitWorkingCopy(false, new NullProgressMonitor());
@@ -101,15 +102,15 @@ public abstract class AbstractSeamMarkerResolution implements
 		return null;
 	}
 	
-	private boolean checkImport(String text, String qualifiedName){
-		String name = getShortName(qualifiedName);
+	private boolean checkImport(String text){
+		String name = getShortName();
 		
 		Pattern p = Pattern.compile(".*\\W"+name+"\\W.*",Pattern.DOTALL); //$NON-NLS-1$ //$NON-NLS-2$
 		Matcher m = p.matcher(text);
 		return !m.matches();
 	}
 	
-	protected String getShortName(String qualifiedName){
+	protected String getShortName(){
 		int lastDot = qualifiedName.lastIndexOf('.');
 		String name;
 		if(lastDot < 0)
@@ -150,6 +151,8 @@ public abstract class AbstractSeamMarkerResolution implements
 			ICompilationUnit original = EclipseUtil.getCompilationUnit(file);
 			ICompilationUnit compilationUnit = original.getWorkingCopy(new NullProgressMonitor());
 			
+			final String lineDelim= compilationUnit.findRecommendedLineSeparator();
+			
 			IJavaElement javaElement = compilationUnit.getElementAt(start);
 			IType type = getType(javaElement);
 			if(type != null){
@@ -164,7 +167,45 @@ public abstract class AbstractSeamMarkerResolution implements
 					name="(\""+generateComponentName(compilationUnit.findPrimaryType().getElementName())+"\")";
 				}
 				
-				buffer.replace(type.getSourceRange().getOffset(), 0, annotationString+name+'\n');
+				buffer.replace(type.getSourceRange().getOffset(), 0, annotationString+name+lineDelim);
+				compilationUnit.commitWorkingCopy(false, new NullProgressMonitor());
+			}
+		}catch(CoreException ex){
+			SeamGuiPlugin.getPluginLog().logError(ex);
+		}
+	}
+	
+	protected void addAnnotatedMethod(){
+		try{
+			ICompilationUnit original = EclipseUtil.getCompilationUnit(file);
+			ICompilationUnit compilationUnit = original.getWorkingCopy(new NullProgressMonitor());
+			
+			final String lineDelim= compilationUnit.findRecommendedLineSeparator();
+			
+			IType type = compilationUnit.findPrimaryType();
+			if(type != null){
+				IImportDeclaration importDeclaration = compilationUnit.getImport(qualifiedName); 
+				if(importDeclaration == null || !importDeclaration.exists())
+					compilationUnit.createImport(qualifiedName, null, new NullProgressMonitor());
+				
+				String annotation = getShortName();
+				String methodName = annotation.toLowerCase();
+				
+				IMethod oldMethod = type.getMethod(methodName, new String[]{});
+				if(oldMethod == null || !oldMethod.exists()){
+					StringBuffer buf= new StringBuffer();
+					
+					buf.append("@"+annotation); //$NON-NLS-1$
+					buf.append(lineDelim);
+					buf.append("public void "+methodName+"() {"); //$NON-NLS-1$ //$NON-NLS-2$
+					buf.append(lineDelim);
+					buf.append("}"); //$NON-NLS-1$
+					type.createMethod(buf.toString(), null, false, null);
+				}else{
+					IBuffer buffer = compilationUnit.getBuffer();
+					buffer.replace(oldMethod.getSourceRange().getOffset(), 0, "@"+annotation+lineDelim);
+				}
+
 				compilationUnit.commitWorkingCopy(false, new NullProgressMonitor());
 			}
 		}catch(CoreException ex){

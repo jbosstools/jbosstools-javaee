@@ -96,6 +96,9 @@ public class SeamCoreValidator extends SeamValidationErrorManager implements IVa
 	public static final int CREATE_DOESNT_BELONG_TO_COMPONENT_MESSAGE_ID = 7;
 	public static final int UNWRAP_DOESNT_BELONG_TO_COMPONENT_MESSAGE_ID = 8;
 	public static final int OBSERVER_DOESNT_BELONG_TO_COMPONENT_MESSAGE_ID = 9;
+	public static final int STATEFUL_COMPONENT_DOES_NOT_CONTAIN_REMOVE_ID = 10;
+	public static final int STATEFUL_COMPONENT_DOES_NOT_CONTAIN_DESTROY_ID = 11;
+	
 	
 	private ISeamProject seamProject;
 	private String projectName;
@@ -756,8 +759,8 @@ public class SeamCoreValidator extends SeamValidationErrorManager implements IVa
 	private void validateStatefulComponent(ISeamComponent component) {
 		if(component.isStateful()) {
 			ISeamJavaComponentDeclaration javaDeclaration = component.getJavaDeclaration();
-			validateStatefulComponentMethods(SeamComponentMethodType.DESTROY, component, SeamValidationMessages.STATEFUL_COMPONENT_DOES_NOT_CONTAIN_DESTROY, SeamPreferences.STATEFUL_COMPONENT_DOES_NOT_CONTENT_DESTROY);
-			validateStatefulComponentMethods(SeamComponentMethodType.REMOVE, component, SeamValidationMessages.STATEFUL_COMPONENT_DOES_NOT_CONTAIN_REMOVE, SeamPreferences.STATEFUL_COMPONENT_DOES_NOT_CONTENT_REMOVE);
+			validateStatefulComponentMethods(SeamComponentMethodType.DESTROY, component, SeamValidationMessages.STATEFUL_COMPONENT_DOES_NOT_CONTAIN_DESTROY, SeamPreferences.STATEFUL_COMPONENT_DOES_NOT_CONTENT_DESTROY, STATEFUL_COMPONENT_DOES_NOT_CONTAIN_DESTROY_ID);
+			validateStatefulComponentMethods(SeamComponentMethodType.REMOVE, component, SeamValidationMessages.STATEFUL_COMPONENT_DOES_NOT_CONTAIN_REMOVE, SeamPreferences.STATEFUL_COMPONENT_DOES_NOT_CONTENT_REMOVE, STATEFUL_COMPONENT_DOES_NOT_CONTAIN_REMOVE_ID);
 			ScopeType scope = component.getScope();
 			if(scope == ScopeType.PAGE || scope == ScopeType.STATELESS) {
 				ITextSourceReference location = getScopeLocation(component);
@@ -767,12 +770,12 @@ public class SeamCoreValidator extends SeamValidationErrorManager implements IVa
 		}
 	}
 
-	private void validateStatefulComponentMethods(SeamComponentMethodType methodType, ISeamComponent component, String message, String preferenceKey) {
+	private void validateStatefulComponentMethods(SeamComponentMethodType methodType, ISeamComponent component, String message, String preferenceKey, int id) {
 		ISeamJavaComponentDeclaration javaDeclaration = component.getJavaDeclaration();
 		ITextSourceReference classNameLocation = getNameLocation(javaDeclaration);
 		Set<ISeamComponentMethod> methods = javaDeclaration.getMethodsByType(methodType);
 		if(methods==null || methods.isEmpty()) {
-			addError(message, preferenceKey, new String[]{component.getName()}, classNameLocation, javaDeclaration.getResource());
+			addError(message, preferenceKey, new String[]{component.getName()}, classNameLocation, javaDeclaration.getResource(), id);
 		}
 	}
 

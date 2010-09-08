@@ -86,6 +86,11 @@ public class SeamProblemMarkerResolutionGenerator  implements IMarkerResolutionG
 				new AddAnnotationMarkerResolution(SeamUIMessages.ADD_NAME_ANNOTATION_MARKER_RESOLUTION_TITLE, "org.jboss.seam.annotations.Name", file, start, end, true),
 				new DeleteAnnotationMarkerResolution(SeamUIMessages.DELETE_OBSERVER_ANNOTATION_MARKER_RESOLUTION_TITLE, "org.jboss.seam.annotations.Observer", file, start, end)
 			};
+		else if(messageId == SeamCoreValidator.STATEFUL_COMPONENT_DOES_NOT_CONTAIN_REMOVE_ID)
+			return new IMarkerResolution[]{new AddAnnotatedMethodMarkerResolution(SeamUIMessages.ADD_ANNOTATED_REMOVE_METHOD_MARKER_RESOLUTION_TITLE, "javax.ejb.Remove", file, start, end)};
+		else if(messageId == SeamCoreValidator.STATEFUL_COMPONENT_DOES_NOT_CONTAIN_DESTROY_ID)
+			return new IMarkerResolution[]{new AddAnnotatedMethodMarkerResolution(SeamUIMessages.ADD_ANNOTATED_DESTROY_METHOD_MARKER_RESOLUTION_TITLE, "org.jboss.seam.annotations.Destroy", file, start, end)};
+
 				
 		return new IMarkerResolution[]{};
 	}

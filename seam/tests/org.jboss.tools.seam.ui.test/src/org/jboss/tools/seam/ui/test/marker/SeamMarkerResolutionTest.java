@@ -10,17 +10,23 @@
  ************************************************************************************/
 package org.jboss.tools.seam.ui.test.marker;
 
+import java.io.IOException;
+
 import junit.framework.TestCase;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.jface.preference.IPersistentPreferenceStore;
+import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.ui.IMarkerResolution;
 import org.eclipse.ui.ide.IDE;
+import org.jboss.tools.seam.core.SeamCorePlugin;
+import org.jboss.tools.seam.core.SeamPreferences;
+import org.jboss.tools.seam.ui.marker.AddAnnotatedMethodMarkerResolution;
 import org.jboss.tools.seam.ui.marker.AddAnnotationMarkerResolution;
 import org.jboss.tools.seam.ui.marker.DeleteAnnotationMarkerResolution;
 import org.jboss.tools.seam.ui.marker.RenameAnnotationMarkerResolution;
@@ -32,6 +38,7 @@ import org.jboss.tools.test.util.JobUtils;
  */
 public class SeamMarkerResolutionTest extends TestCase {
 	public static final String MARKER_TYPE = "org.eclipse.wst.validation.problemmarker";
+	//public static final String TEXT_MARKER_TYPE = "org.eclipse.wst.validation.textmarker";
 
 	private IProject project;
 
@@ -40,6 +47,18 @@ public class SeamMarkerResolutionTest extends TestCase {
 		JobUtils.waitForIdle();
 		IResource project = ResourcesPlugin.getWorkspace().getRoot().findMember("SeamWebWarTestProject");
 		this.project = project.getProject();
+		
+		IPreferenceStore store = SeamCorePlugin.getDefault().getPreferenceStore();
+		store.putValue(SeamPreferences.STATEFUL_COMPONENT_DOES_NOT_CONTENT_REMOVE, SeamPreferences.ERROR);
+		store.putValue(SeamPreferences.STATEFUL_COMPONENT_DOES_NOT_CONTENT_DESTROY, SeamPreferences.ERROR);
+
+		if(store instanceof IPersistentPreferenceStore) {
+			try {
+				((IPersistentPreferenceStore)store).save();
+			} catch (IOException e) {
+				SeamCorePlugin.getPluginLog().logError(e);
+			}
+		}
 	}
 
 	@Override
@@ -318,5 +337,60 @@ public class SeamMarkerResolutionTest extends TestCase {
 		assertTrue("The quickfix \"Rename @Name annotation\" doesn't exist.", cFound);
 	}
 
+	public void testAddRemoveMethodResolution() throws CoreException {
+		String TARGET_FILE_NAME = "src/action/org/domain/SeamWebWarTestProject/session/StatefulComponentWithoutRemove.java";
+		IFile file = project.getFile(TARGET_FILE_NAME);
+		
+		assertTrue("File - "+TARGET_FILE_NAME+" must be exists",file.exists());
+		
+		IMarker[] markers = file.findMarkers(MARKER_TYPE, true,	IResource.DEPTH_INFINITE);
+		
+		boolean found = false;
+		for (int i = 0; i < markers.length; i++) {
+			IMarker marker = markers[i];
+			IMarkerResolution[] resolutions = IDE.getMarkerHelpRegistry()
+					.getResolutions(marker);
+			for (int j = 0; j < resolutions.length; j++) {
+				IMarkerResolution resolution = resolutions[j];
+				if (resolution instanceof AddAnnotatedMethodMarkerResolution) {
+					assertEquals("javax.ejb.Remove", ((AddAnnotatedMethodMarkerResolution)resolution).getQualifiedName());
+					found = true;
+					break;
+				}
+			}
+			if (found) {
+				break;
+			}
+		}
+		assertTrue("The quickfix \"Add @Remove annotated method\" doesn't exist.", found);
+	}
+
+	public void testAddDestroyMethodResolution() throws CoreException {
+		String TARGET_FILE_NAME = "src/action/org/domain/SeamWebWarTestProject/session/StatefulComponentWithoutDestroy.java";
+		IFile file = project.getFile(TARGET_FILE_NAME);
+		
+		assertTrue("File - "+TARGET_FILE_NAME+" must be exists",file.exists());
+		
+		IMarker[] markers = file.findMarkers(MARKER_TYPE, true, IResource.DEPTH_INFINITE);
+		
+		boolean found = false;
+		for (int i = 0; i < markers.length; i++) {
+			IMarker marker = markers[i];
+			IMarkerResolution[] resolutions = IDE.getMarkerHelpRegistry()
+					.getResolutions(marker);
+			for (int j = 0; j < resolutions.length; j++) {
+				IMarkerResolution resolution = resolutions[j];
+				if (resolution instanceof AddAnnotatedMethodMarkerResolution) {
+					assertEquals("org.jboss.seam.annotations.Destroy", ((AddAnnotatedMethodMarkerResolution)resolution).getQualifiedName());
+					found = true;
+					break;
+				}
+			}
+			if (found) {
+				break;
+			}
+		}
+		assertTrue("The quickfix \"Add @Destroy annotated method\" doesn't exist.", found);
+	}
 
 }

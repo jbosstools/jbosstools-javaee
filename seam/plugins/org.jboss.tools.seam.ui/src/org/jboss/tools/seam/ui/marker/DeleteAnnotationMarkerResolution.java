@@ -23,10 +23,6 @@ public class DeleteAnnotationMarkerResolution extends
 		super(label, qualifiedName, file, start, end);
 	}
 	
-	public String getLabel() {
-		return label;
-	}
-	
 	public void run(IMarker marker) {
 		deleteAnnotation();
 	}

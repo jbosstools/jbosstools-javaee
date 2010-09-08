@@ -25,6 +25,6 @@ public class RenameAnnotationMarkerResolution extends
 	}
 	
 	public void run(IMarker marker) {
-		renameAnnotation("@"+getShortName(qualifiedName)); //$NON-NLS-1$
+		renameAnnotation("@"+getShortName()); //$NON-NLS-1$
 	}
 }
