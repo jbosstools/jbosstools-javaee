@@ -3,7 +3,9 @@ package org.jboss.tools.cdi.ui.ca;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.jface.text.contentassist.IContextInformation;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.wst.sse.core.internal.provisional.IndexedRegion;
 import org.eclipse.wst.sse.ui.contentassist.CompletionProposalInvocationContext;
+import org.eclipse.wst.sse.ui.internal.contentassist.ContentAssistUtils;
 import org.eclipse.wst.xml.ui.internal.contentassist.ContentAssistRequest;
 import org.eclipse.wst.xml.ui.internal.editor.XMLEditorPluginImageHelper;
 import org.eclipse.wst.xml.ui.internal.editor.XMLEditorPluginImages;
@@ -13,24 +15,30 @@ import org.jboss.tools.common.text.TextProposal;
 import org.jboss.tools.jst.jsp.contentassist.AutoContentAssistantProposal;
 import org.jboss.tools.jst.jsp.contentassist.computers.XmlTagCompletionProposalComputer;
 import org.jboss.tools.jst.web.kb.KbQuery;
-import org.jboss.tools.jst.web.kb.PageProcessor;
 import org.jboss.tools.jst.web.kb.KbQuery.Type;
+import org.w3c.dom.Text;
 
 
+@SuppressWarnings("restriction")
 public class BeansXmlCompletionProposalComputer extends XmlTagCompletionProposalComputer {
 
 	@Override
 	protected void addTagInsertionProposals(
 			ContentAssistRequest contentAssistRequest, int childPosition,
 			CompletionProposalInvocationContext context) {
-		// TODO Auto-generated method stub
-		System.out.println("addTagInsertionProposals: CDI Beans.xml proposals are to be placed here!");
-		
 		String prefix = getTagPrefix();
 		String uri = getTagUri();
 		
-		String query = contentAssistRequest.getMatchString();
+		String query = null;
 
+		IndexedRegion treeNode = ContentAssistUtils.getNodeAt(context.getViewer(), context.getInvocationOffset());
+		int nodeStartOffset = treeNode == null ? -1 : treeNode.getStartOffset();
+		int localInvocationOffset = nodeStartOffset == -1 ? -1 : context.getInvocationOffset() - nodeStartOffset;
+		String nodeText = treeNode instanceof Text ? ((Text)treeNode).getData() : "";
+		if (localInvocationOffset > 0 && localInvocationOffset <= nodeText.length()) {
+			query = nodeText.substring(0, localInvocationOffset);
+		}
+		
 		if (query == null)
 			query = ""; //$NON-NLS-1$
 		String stringQuery = query; //$NON-NLS-1$
@@ -47,23 +55,8 @@ public class BeansXmlCompletionProposalComputer extends XmlTagCompletionProposal
 		
 		for (int i = 0; proposals != null && i < proposals.length; i++) {
 			TextProposal textProposal = proposals[i];
-			boolean useAutoActivation = true;
 	
 			String replacementString = textProposal.getReplacementString();
-			String closingTag = textProposal.getLabel();
-//			if (closingTag != null && closingTag.startsWith("<")) { //$NON-NLS-1$
-//				closingTag = closingTag.substring(1);
-//			}
-			
-//			if (!insertTagOpenningCharacter && replacementString.startsWith("<")) { //$NON-NLS-1$
-				// Because the tag starting char is already in the text
-//				replacementString = replacementString.substring(1);
-//			}
-//			if (!replacementString.endsWith("/>")) { //$NON-NLS-1$
-//				replacementString += "</" + closingTag + ">"; //$NON-NLS-1$ //$NON-NLS-2$
-//				useAutoActivation = false;	// JBIDE-6285: Don't invoke code assist automaticly if user inserts <tag></tag>.
-//			}
-
 		
 			int replacementOffset = contentAssistRequest.getReplacementBeginPosition();
 			int replacementLength = contentAssistRequest.getReplacementLength();
@@ -73,15 +66,15 @@ public class BeansXmlCompletionProposalComputer extends XmlTagCompletionProposal
 				image = XMLEditorPluginImageHelper.getInstance().getImage(XMLEditorPluginImages.IMG_OBJ_TAG_GENERIC);
 			}
 
-			String displayString = closingTag;
+			String displayString = textProposal.getLabel();
 			IContextInformation contextInformation = null;
 			String additionalProposalInfo = textProposal.getContextInfo();
 			int relevance = textProposal.getRelevance();
 			if (relevance == TextProposal.R_NONE) {
-//				relevance = defaultRelevance == TextProposal.R_NONE? TextProposal.R_TAG_INSERTION : defaultRelevance;
+				relevance = TextProposal.R_TAG_INSERTION;
 			}
 
-			AutoContentAssistantProposal proposal = new AutoContentAssistantProposal(useAutoActivation, replacementString, 
+			AutoContentAssistantProposal proposal = new AutoContentAssistantProposal(false, replacementString, 
 					replacementOffset, replacementLength, cursorPosition, image, displayString, 
 					contextInformation, additionalProposalInfo, relevance);
 
