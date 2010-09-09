@@ -14,6 +14,8 @@ import org.eclipse.wst.xml.core.internal.regions.DOMRegionContext;
 import org.eclipse.wst.xml.ui.internal.contentassist.ContentAssistRequest;
 import org.eclipse.wst.xml.ui.internal.editor.XMLEditorPluginImageHelper;
 import org.eclipse.wst.xml.ui.internal.editor.XMLEditorPluginImages;
+import org.jboss.tools.cdi.core.CDICoreNature;
+import org.jboss.tools.cdi.core.CDIUtil;
 import org.jboss.tools.cdi.internal.core.ca.BeansXmlProcessor;
 import org.jboss.tools.common.el.core.resolver.ELContext;
 import org.jboss.tools.common.text.TextProposal;
@@ -75,6 +77,11 @@ public class BeansXmlCompletionProposalComputer extends XmlTagCompletionProposal
 			elContext.getResource().getProject();
 		
 		if (project == null)
+			return;
+		
+		// The following code is made due to make sure that the CDI Model and Project is up-to-date
+		CDICoreNature nature = CDIUtil.getCDINatureWithProgress(project);
+		if (nature == null)
 			return;
 
 		KbQuery kbQuery = createKbQuery(Type.TAG_BODY, query, query, prefix, uri);
