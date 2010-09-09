@@ -1,11 +1,16 @@
 package org.jboss.tools.cdi.ui.ca;
 
 import org.eclipse.core.resources.IProject;
+import org.eclipse.jdt.core.jdom.IDOMNode;
+import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.contentassist.IContextInformation;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.wst.sse.core.internal.provisional.IndexedRegion;
+import org.eclipse.wst.sse.core.internal.provisional.text.IStructuredDocumentRegion;
+import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegion;
 import org.eclipse.wst.sse.ui.contentassist.CompletionProposalInvocationContext;
 import org.eclipse.wst.sse.ui.internal.contentassist.ContentAssistUtils;
+import org.eclipse.wst.xml.core.internal.regions.DOMRegionContext;
 import org.eclipse.wst.xml.ui.internal.contentassist.ContentAssistRequest;
 import org.eclipse.wst.xml.ui.internal.editor.XMLEditorPluginImageHelper;
 import org.eclipse.wst.xml.ui.internal.editor.XMLEditorPluginImages;
@@ -16,6 +21,7 @@ import org.jboss.tools.jst.jsp.contentassist.AutoContentAssistantProposal;
 import org.jboss.tools.jst.jsp.contentassist.computers.XmlTagCompletionProposalComputer;
 import org.jboss.tools.jst.web.kb.KbQuery;
 import org.jboss.tools.jst.web.kb.KbQuery.Type;
+import org.w3c.dom.Element;
 import org.w3c.dom.Text;
 
 
@@ -30,18 +36,39 @@ public class BeansXmlCompletionProposalComputer extends XmlTagCompletionProposal
 		String uri = getTagUri();
 		
 		String query = null;
-
+		String nodeText = null;
+		
 		IndexedRegion treeNode = ContentAssistUtils.getNodeAt(context.getViewer(), context.getInvocationOffset());
 		int nodeStartOffset = treeNode == null ? -1 : treeNode.getStartOffset();
 		int localInvocationOffset = nodeStartOffset == -1 ? -1 : context.getInvocationOffset() - nodeStartOffset;
-		String nodeText = treeNode instanceof Text ? ((Text)treeNode).getData() : "";
+		if (treeNode instanceof Element) {
+			IStructuredDocumentRegion reg = getStructuredDocumentRegion(context.getInvocationOffset());
+			ITextRegion firstRegion = reg == null ? null : reg.getFirstRegion();
+			
+			if (firstRegion == null)
+				return;
+			
+			if (firstRegion.getType() != DOMRegionContext.XML_END_TAG_OPEN ) {
+				return;
+			}
+			
+			IndexedRegion prevTreeNode = context.getInvocationOffset() <= 0 ? null : ContentAssistUtils.getNodeAt(context.getViewer(), context.getInvocationOffset() - 1);
+			if (prevTreeNode instanceof Text) {
+				treeNode = prevTreeNode;
+				localInvocationOffset = ((Text)treeNode).getData() == null ? 0 : ((Text)treeNode).getData().length();
+			}
+		} else if (!(treeNode instanceof Text)) {
+			return;
+		}
+		
+
+		nodeText = treeNode instanceof Text ? ((Text)treeNode).getData() : "";
 		if (localInvocationOffset > 0 && localInvocationOffset <= nodeText.length()) {
 			query = nodeText.substring(0, localInvocationOffset);
 		}
 		
 		if (query == null)
 			query = ""; //$NON-NLS-1$
-		String stringQuery = query; //$NON-NLS-1$
 				
 		ELContext elContext = getContext();
 		IProject project = elContext == null || elContext.getResource() == null ? null :
@@ -49,17 +76,18 @@ public class BeansXmlCompletionProposalComputer extends XmlTagCompletionProposal
 		
 		if (project == null)
 			return;
-		
-		KbQuery kbQuery = createKbQuery(Type.TAG_BODY, query, stringQuery, prefix, uri);
+
+		KbQuery kbQuery = createKbQuery(Type.TAG_BODY, query, query, prefix, uri);
 		TextProposal[] proposals = BeansXmlProcessor.getInstance().getProposals(kbQuery, project);
-		
+
+		String matchString = leftTrim(query);
 		for (int i = 0; proposals != null && i < proposals.length; i++) {
 			TextProposal textProposal = proposals[i];
 	
 			String replacementString = textProposal.getReplacementString();
 		
-			int replacementOffset = contentAssistRequest.getReplacementBeginPosition();
-			int replacementLength = contentAssistRequest.getReplacementLength();
+			int replacementOffset = contentAssistRequest.getReplacementBeginPosition() - matchString.length();
+			int replacementLength = matchString.length();
 			int cursorPosition = getCursorPositionForProposedText(replacementString);
 			Image image = textProposal.getImage();
 			if (image == null) {
@@ -124,6 +152,16 @@ public class BeansXmlCompletionProposalComputer extends XmlTagCompletionProposal
 			ContentAssistRequest contentAssistRequest,
 			CompletionProposalInvocationContext context) {
 		// No actions required
+	}
+	
+	private String leftTrim(String value) {
+		int len = value.length();
+		int st = 0;
+		char[] val = value.toCharArray();
+		while ((st < len) && (val[st] <= ' ')) {
+		    st++;
+		}
+		return (st > 0) ? value.substring(st) : value;
 	}
 }
 
