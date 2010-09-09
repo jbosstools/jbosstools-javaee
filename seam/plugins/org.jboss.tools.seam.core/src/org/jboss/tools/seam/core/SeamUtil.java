@@ -128,7 +128,8 @@ public class SeamUtil {
 		if(!jarFile.isFile()) {
 			jarFile = new File(seamHome, seamJarName);
 			if(!jarFile.isFile()) {
-				SeamCorePlugin.getPluginLog().logWarning(jarFile.getAbsolutePath() + " as well as " + new File(seamHome, "lib/" + seamJarName).getAbsolutePath() + " don't exist.");
+				// Don't log this. See https://jira.jboss.org/browse/JBIDE-7038
+//				SeamCorePlugin.getPluginLog().logWarning(jarFile.getAbsolutePath() + " as well as " + new File(seamHome, "lib/" + seamJarName).getAbsolutePath() + " don't exist.");
 				return null;
 			}
 		}
