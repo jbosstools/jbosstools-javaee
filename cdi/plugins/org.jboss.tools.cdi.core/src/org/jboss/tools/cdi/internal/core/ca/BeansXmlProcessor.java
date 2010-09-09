@@ -16,6 +16,9 @@ import java.util.List;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.jdt.core.IType;
+import org.eclipse.jdt.core.JavaModelException;
+import org.eclipse.jdt.internal.ui.JavaPluginImages;
+import org.eclipse.swt.graphics.Image;
 import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.IBean;
@@ -24,7 +27,6 @@ import org.jboss.tools.cdi.core.IClassBean;
 import org.jboss.tools.cdi.core.IDecorator;
 import org.jboss.tools.cdi.core.IInterceptor;
 import org.jboss.tools.cdi.core.IStereotype;
-import org.jboss.tools.cdi.internal.core.el.CdiElResolver;
 import org.jboss.tools.common.text.TextProposal;
 import org.jboss.tools.jst.web.kb.KbQuery;
 
@@ -34,6 +36,9 @@ import org.jboss.tools.jst.web.kb.KbQuery;
 public class BeansXmlProcessor {
 
 	private static final BeansXmlProcessor INSTANCE = new BeansXmlProcessor();
+
+	public static final Image CLASS_PROPOSAL_IMAGE = JavaPluginImages.DESC_OBJS_CLASS.createImage();
+	public static final Image ANNOTATION_PROPOSAL_IMAGE = JavaPluginImages.DESC_OBJS_ANNOTATION.createImage();
 
 	/**
 	 * @return instance of PageProcessor
@@ -144,11 +149,21 @@ public class BeansXmlProcessor {
 		String fullTypeName = type.getFullyQualifiedName();
 		if(fullTypeName.startsWith(value)) {
 			TextProposal proposal = new TextProposal();
-			proposal.setLabel(fullTypeName);
+			proposal.setContextInfo(fullTypeName);
+			proposal.setLabel(type.getElementName() + " - " + type.getPackageFragment().getElementName());
+//			proposal.setLabel(fullTypeName);
 			proposal.setReplacementString(fullTypeName);
 			proposal.setPosition(fullTypeName.length());
-			proposal.setImage(CdiElResolver.CDI_EL_PROPOSAL_IMAGE);
-
+//			proposal.setImage(CdiElResolver.CDI_EL_PROPOSAL_IMAGE);
+			try {
+				if(type.isClass()) {
+					proposal.setImage(CLASS_PROPOSAL_IMAGE);
+				} else {
+					proposal.setImage(ANNOTATION_PROPOSAL_IMAGE);
+				}
+			} catch (JavaModelException e) {
+				CDICorePlugin.getDefault().logError(e);
+			}
 			proposals.add(proposal);
 		}
 	}
