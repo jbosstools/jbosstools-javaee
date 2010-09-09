@@ -755,11 +755,14 @@ public class CDIUtil {
 		return false;
 	}
 
-	private static CDICoreNature cdiNature;
-
+	/**
+	 * Build a CDI model for the project if it hasn't built yet and show a Progress dialog.
+	 * 
+	 * @param project
+	 * @return the CDI nature for the project
+	 */
 	public static CDICoreNature getCDINatureWithProgress(final IProject project){
-		cdiNature = null;
-		cdiNature = CDICorePlugin.getCDI(project, false);
+		final CDICoreNature cdiNature = CDICorePlugin.getCDI(project, false);
 		if(cdiNature != null && !cdiNature.isStorageResolved()){
 			try{
 				PlatformUI.getWorkbench().getProgressService().busyCursorWhile(new IRunnableWithProgress(){
@@ -770,7 +773,6 @@ public class CDIUtil {
 						cdiNature.resolve();
 						monitor.worked(7);
 					}
-					
 				});
 			}catch(InterruptedException ie){
 				CDICorePlugin.getDefault().logError(ie);
@@ -778,7 +780,7 @@ public class CDIUtil {
 				CDICorePlugin.getDefault().logError(ite);
 			}
 		}
-		
+
 		return cdiNature;
 	}
 
@@ -791,7 +793,6 @@ public class CDIUtil {
 		}
 		return result;
 	}
-
 
 	/**
 	 * Collect all the interceptor binding declarations from the bean class or method including all the inherited bindings.

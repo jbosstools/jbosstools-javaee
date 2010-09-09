@@ -18,7 +18,9 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.jdt.core.IMember;
 import org.eclipse.swt.graphics.Image;
+import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.CDICorePlugin;
+import org.jboss.tools.cdi.core.CDIUtil;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IBeanManager;
 import org.jboss.tools.cdi.core.IBeanMember;
@@ -90,20 +92,29 @@ public class CdiElResolver extends AbstractELCompletionEngine<IBean> {
 
 		Set<IBean> resolvedBeans = null;
 		if (varName != null) {
-			IBeanManager manager = CDICorePlugin.getCDI(project, false).getDelegate();
-			if (manager != null) {
-				if(onlyEqualNames) {
-					resolvedBeans = manager.getBeans(varName, true);
-					beans.addAll(resolvedBeans);
-				} else {
-					resolvedBeans = manager.getNamedBeans(true);
-					for (IBean bean : resolvedBeans) {
-						if(bean.getName().startsWith(varName)) {
-							beans.add(bean);
+			CDICoreNature nature = CDIUtil.getCDINatureWithProgress(project);
+			if(nature!=null) {
+				IBeanManager manager = nature.getDelegate();
+				if (manager != null) {
+					if(onlyEqualNames) {
+						resolvedBeans = manager.getBeans(varName, true);
+						if(resolvedBeans.isEmpty()) {
+							resolvedBeans = manager.getBeans(varName, false);
 						}
+						beans.addAll(resolvedBeans);
+					} else {
+						resolvedBeans = manager.getNamedBeans(true);
+						if(resolvedBeans.isEmpty()) {
+							resolvedBeans = manager.getBeans(varName, false);
+						}
+						for (IBean bean : resolvedBeans) {
+							if(bean.getName().startsWith(varName)) {
+								beans.add(bean);
+							}
+						}
+						resolvedBeans.clear();
+						resolvedBeans.addAll(beans);
 					}
-					resolvedBeans.clear();
-					resolvedBeans.addAll(beans);
 				}
 			}
 		}
