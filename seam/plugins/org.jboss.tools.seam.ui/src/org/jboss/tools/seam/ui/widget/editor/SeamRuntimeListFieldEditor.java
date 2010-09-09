@@ -549,18 +549,18 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor {
 			if ("homeDir".equals(evt.getPropertyName())) { //$NON-NLS-1$
 				if (name.getValueAsString() == null
 						|| "".equals(name.getValueAsString().trim())) { //$NON-NLS-1$
-					String homeDirName = homeDir.getValueAsString();
-					if (homeDirName != null && !"".equals(homeDirName.trim())) { //$NON-NLS-1$
-						File folder = new File(homeDirName);
-						homeDirName = folder.getName();
-					}
-					name.setValue(homeDirName);
-
 					String seamVersion = SeamUtil.getSeamVersionFromManifest(homeDir.getValueAsString());
 					if (seamVersion == null) {
 						setErrorMessage(SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_CANNOT_FIND_JBOSS_SEAM_JAR);
 						setPageComplete(false);
 						return;
+					} else {
+						String homeDirName = homeDir.getValueAsString();
+						if (homeDirName != null && !"".equals(homeDirName.trim())) { //$NON-NLS-1$
+							File folder = new File(homeDirName);
+							homeDirName = folder.getName();
+						}
+						name.setValue(homeDirName);
 					}
 					if (validSeamVersions != null) {
 						for (SeamVersion ver : validSeamVersions) {
