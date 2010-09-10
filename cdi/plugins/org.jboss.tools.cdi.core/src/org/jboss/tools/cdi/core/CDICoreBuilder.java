@@ -329,19 +329,15 @@ public class CDICoreBuilder extends IncrementalProjectBuilder {
 								fileSet.add(f.getFullPath(), ts);
 							}
 						}
+						else if(path.segmentCount() == srcs[i].segmentCount() + 2
+							&& "META-INF".equals(path.segments()[path.segmentCount() - 2])) {
+							addBeansXML(f, fileSet);
+						}
 						return false;
 					}
 				}
 				if(webinf != null && webinf.isPrefixOf(path)) {
-					if(f.getName().equals("beans.xml")) {
-						XModelObject beansXML = EclipseResourceUtil.getObjectByResource(f);
-						if(beansXML == null) {
-							beansXML = EclipseResourceUtil.createObjectForResource(f);
-						}
-						if(beansXML != null) {
-							fileSet.setBeanXML(f.getFullPath(), beansXML);
-						}
-					}
+					addBeansXML(f, fileSet);
 				}
 			}
 			
@@ -370,6 +366,18 @@ public class CDICoreBuilder extends IncrementalProjectBuilder {
 			return true;
 		}
 		
+	}
+	
+	private void addBeansXML(IFile f, FileSet fileSet) {
+		if(f.getName().equals("beans.xml")) {
+			XModelObject beansXML = EclipseResourceUtil.getObjectByResource(f);
+			if(beansXML == null) {
+				beansXML = EclipseResourceUtil.createObjectForResource(f);
+			}
+			if(beansXML != null) {
+				fileSet.setBeanXML(f.getFullPath(), beansXML);
+			}
+		}
 	}
 
 }

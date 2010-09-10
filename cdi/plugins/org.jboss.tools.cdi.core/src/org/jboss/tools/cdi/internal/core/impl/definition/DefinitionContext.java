@@ -271,6 +271,7 @@ public class DefinitionContext {
 		childPaths = workingCopy.childPaths;
 		typeDefinitions = workingCopy.typeDefinitions;
 		annotations = workingCopy.annotations;
+		beanXMLs = workingCopy.beanXMLs;
 	
 		project.getDelegate().update();
 

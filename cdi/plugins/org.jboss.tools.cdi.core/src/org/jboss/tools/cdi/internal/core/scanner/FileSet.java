@@ -84,6 +84,7 @@ public class FileSet {
 
 	public void setBeanXML(IPath f, XModelObject o) {
 		beanXMLs.put(f, o);
+		allpaths.add(f);
 	}
 
 }
