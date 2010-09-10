@@ -22,6 +22,12 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.jst.jsf.core.internal.project.facet.JSFFacetInstallDataModelProvider;
+import org.eclipse.wst.common.componentcore.datamodel.properties.IFacetDataModelProperties;
+import org.eclipse.wst.common.componentcore.datamodel.properties.IFacetProjectCreationDataModelProperties;
+import org.eclipse.wst.common.componentcore.datamodel.properties.IFacetProjectCreationDataModelProperties.FacetDataModelMap;
+import org.eclipse.wst.common.frameworks.datamodel.DataModelFactory;
+import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
 
 import org.jboss.tools.common.model.XModelConstants;
 import org.jboss.tools.common.model.filesystems.FileSystemsHelper;
@@ -54,6 +60,28 @@ public class JSFProjectCreationOperation extends WebProjectCreationOperation {
 		return JSFNature.NATURE_ID;
 	}
 
+	protected void configFacets(IDataModel dataModel, String projectLocation) {
+		super.configFacets(dataModel, projectLocation);
+
+		FacetDataModelMap map = (FacetDataModelMap) dataModel.getProperty(IFacetProjectCreationDataModelProperties.FACET_DM_MAP);
+		IDataModel configJSF = (IDataModel) map.get("jst.jsf"); //$NON-NLS-1$
+		if(configJSF == null) {
+			configJSF = DataModelFactory.createDataModel(new JSFFacetInstallDataModelProvider());
+			map.add(configJSF);
+		}
+		configJSF = (IDataModel) map.get("jst.jsf"); //$NON-NLS-1$
+		if(configJSF != null) {
+			String template = getProperty(TEMPLATE_VERSION_ID);
+			String version = template.indexOf("1.1") >= 0 ? "1.1"
+					: template.indexOf("1.2") >= 0 ? "1.2"
+					: template.indexOf("2.0") >= 0 ? "2.0"
+					: null;
+			if(version != null) {
+				configJSF.setProperty(IFacetDataModelProperties.FACET_VERSION_STR, version);
+			}
+		}
+
+	}
 	protected IWebProjectTemplate createTemplate() {
 		return new JSFTemplate();
 	}
