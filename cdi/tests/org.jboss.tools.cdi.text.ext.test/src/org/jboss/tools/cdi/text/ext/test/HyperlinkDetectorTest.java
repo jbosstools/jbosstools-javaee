@@ -1,12 +1,11 @@
 package org.jboss.tools.cdi.text.ext.test;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.jdt.internal.ui.javaeditor.JavaEditor;
 import org.eclipse.jdt.internal.ui.text.JavaWordFinder;
-import org.eclipse.jface.text.FindReplaceDocumentAdapter;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.Region;
@@ -25,18 +24,21 @@ import org.eclipse.ui.texteditor.ITextEditor;
 import org.eclipse.wst.sse.core.StructuredModelManager;
 import org.eclipse.wst.sse.core.internal.provisional.IModelManager;
 import org.eclipse.wst.sse.core.internal.provisional.IStructuredModel;
+import org.eclipse.wst.sse.ui.StructuredTextEditor;
+import org.eclipse.wst.xml.ui.internal.tabletree.XMLMultiPageEditorPart;
 import org.jboss.tools.cdi.core.test.tck.TCKTest;
+import org.jboss.tools.common.text.ext.hyperlink.HyperlinkDetector;
 import org.jboss.tools.common.text.ext.hyperlink.IHyperlinkRegion;
 import org.jboss.tools.common.text.ext.util.AxisUtil;
 
 public class HyperlinkDetectorTest  extends TCKTest {
-	protected void checkRegions(String fileName, ArrayList<Region> regionList, AbstractHyperlinkDetector elPartitioner) throws Exception {
-		IFile javaFile = tckProject.getFile(fileName);
+	protected void checkRegions(String fileName, List<Region> regionList, AbstractHyperlinkDetector elPartitioner) throws Exception {
+		IFile file = tckProject.getFile(fileName);
 
-		TCKTest.assertTrue("The file \"" + fileName + "\" is not found", (javaFile != null));
-		TCKTest.assertTrue("The file \"" + fileName + "\" is not found", (javaFile.exists()));
+		assertNotNull("The file \"" + fileName + "\" is not found", file);
+		assertTrue("The file \"" + fileName + "\" is not found", file.isAccessible());
 
-		FileEditorInput editorInput = new FileEditorInput(javaFile);
+		FileEditorInput editorInput = new FileEditorInput(file);
 
 		IDocumentProvider documentProvider = null;
 		try {
@@ -63,13 +65,13 @@ public class HyperlinkDetectorTest  extends TCKTest {
 		for(Region region : regionList)
 			expected += region.getLength()+1;
 		
-		IEditorPart part = openFileInEditor(javaFile);
+		IEditorPart part = openFileInEditor(file);
 		ISourceViewer viewer = null;
 		if(part instanceof JavaEditor){
 			viewer = ((JavaEditor)part).getViewer();
 		}
 
-		elPartitioner.setContext(new TestContext((ITextEditor)part));
+		elPartitioner.setContext(new TestContext((ITextEditor)part));			
 
 		int counter = 0;
 		for (int i = 0; i < document.getLength(); i++) {
@@ -98,8 +100,36 @@ public class HyperlinkDetectorTest  extends TCKTest {
 		documentProvider.disconnect(editorInput);
 	}
 
-	
-	protected boolean findOffsetInRegions(int offset, ArrayList<Region> regionList){
+	protected void checkHyperLinkInXml(String fileName, int offset, String hyperlinkClassName) throws Exception {
+		Region region = new Region(offset, 0);
+		IFile file = tckProject.getFile(fileName);
+
+		assertNotNull("The file \"" + fileName + "\" is not found", file);
+		assertTrue("The file \"" + fileName + "\" is not found", file.isAccessible());
+
+		FileEditorInput editorInput = new FileEditorInput(file);
+
+		IEditorPart part = openFileInEditor(file);
+		ISourceViewer viewer = null;
+		if (part instanceof XMLMultiPageEditorPart) {
+			IEditorPart[] parts = ((XMLMultiPageEditorPart)part).findEditors(editorInput);
+			if(parts.length>0) {
+				viewer = ((StructuredTextEditor)parts[0]).getTextViewer();
+			}
+		}
+
+		IHyperlink[] links = HyperlinkDetector.getInstance().detectHyperlinks(viewer, region, true);
+		if(links!=null) {
+			for (IHyperlink hyperlink : links) {
+				if(hyperlink.getClass().getName().equals(hyperlinkClassName)) {
+					return;
+				}
+			}
+		}
+		fail("Can't find HyperLink");
+	}
+
+	protected boolean findOffsetInRegions(int offset, List<Region> regionList){
 		for(Region region : regionList){
 			if(offset >= region.getOffset() && offset <= region.getOffset()+region.getLength())
 				return true;
@@ -108,11 +138,21 @@ public class HyperlinkDetectorTest  extends TCKTest {
 	}
 
 	protected IEditorPart openFileInEditor(IFile input) {
+		return openFileInEditor(input, null);
+	}
+
+	protected IEditorPart openFileInEditor(IFile input, String id) {
 		if (input != null && input.exists()) {
 			try {
-				IWorkbenchPage page = PlatformUI.getWorkbench()
-						.getActiveWorkbenchWindow().getActivePage();
-				return IDE.openEditor(page, input, true);
+				if(id==null) {
+					IWorkbenchPage page = PlatformUI.getWorkbench()
+					.getActiveWorkbenchWindow().getActivePage();
+					return IDE.openEditor(page, input, true);
+				} else {
+					IWorkbenchPage page = PlatformUI.getWorkbench()
+					.getActiveWorkbenchWindow().getActivePage();
+					return IDE.openEditor(page, input, id, true);
+				}
 			} catch (PartInitException pie) {
 				pie.printStackTrace();
 				fail(pie.getMessage());
@@ -148,7 +188,7 @@ public class HyperlinkDetectorTest  extends TCKTest {
 				x.printStackTrace();
 				fail(x.getMessage());
 			}
-			
+
 			return region;
 		}
 

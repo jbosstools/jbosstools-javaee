@@ -17,7 +17,7 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
 public class CDIXMLUiPlugin extends AbstractUIPlugin {
-	public static String PLUGIN_ID = "org.jboss.tools.seam.xml.ui"; //$NON-NLS-1$
+	public static String PLUGIN_ID = "org.jboss.tools.cdi.xml.ui"; //$NON-NLS-1$
 	static CDIXMLUiPlugin INSTANCE = null;
 
 	public CDIXMLUiPlugin() {

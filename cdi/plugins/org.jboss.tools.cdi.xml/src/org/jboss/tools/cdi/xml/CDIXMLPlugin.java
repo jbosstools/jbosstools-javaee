@@ -17,7 +17,7 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 /**
  */
 public class CDIXMLPlugin extends AbstractUIPlugin {
-	public static final String PLUGIN_ID = "org.jboss.tools.seam.xml"; //$NON-NLS-1$
+	public static final String PLUGIN_ID = "org.jboss.tools.cdi.xml"; //$NON-NLS-1$
 
 	public CDIXMLPlugin() {
 		super();

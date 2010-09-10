@@ -31,5 +31,35 @@
             targetId="org.eclipse.jdt.ui.javaCode">
       </hyperlinkDetector>
    </extension>
-   
+
+   	<extension 
+		point="org.jboss.tools.common.text.ext.hyperlinkPartitioner"
+		id="org.jboss.tools.cdi.text.ext.hyperlinkPartitioner"
+		name="org.jboss.tools.cdi.text.ext.hyperlinkPartitioner">
+		<hyperlinkPartitioner 
+         	id="org.jboss.tools.cdi.text.ext.hyperlink.TypeNameHyperlinkPartitioner"
+         	class="org.jboss.tools.common.text.ext.hyperlink.xml.XMLClassHyperlinkPartitioner">
+         	<contentType id="org.jboss.tools.common.model.ui.xml">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ROOT">
+         			<axis path="/beans/*/class/" />
+         		</partitionType>
+         	</contentType>
+         	<contentType id="org.eclipse.core.runtime.xml">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ROOT">
+         			<axis path="/beans/*/class/" />
+         		</partitionType>
+         	</contentType>
+         	<contentType id="org.jboss.tools.common.model.ui.xml">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ROOT">
+         			<axis path="/beans/alternatives/stereotype/" />
+         		</partitionType>
+         	</contentType>
+         	<contentType id="org.eclipse.core.runtime.xml">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ROOT">
+         			<axis path="/beans/alternatives/stereotype/" />
+         		</partitionType>
+         	</contentType>
+		</hyperlinkPartitioner>
+   </extension>
+
 </plugin>
