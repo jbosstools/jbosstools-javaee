@@ -190,7 +190,7 @@ public class ProducerField extends BeanField implements IProducerField {
 	 * @see org.jboss.tools.cdi.core.IBean#isSelectedAlternative()
 	 */
 	public boolean isSelectedAlternative() {
-		if(getDefinition().getAlternativeAnnotation() != null && getCDIProject().isTypeAlternative(getBeanClass().getFullyQualifiedName())) {
+		if(getCDIProject().isTypeAlternative(getBeanClass().getFullyQualifiedName())) {
 			return true;
 		}
 		Set<IStereotypeDeclaration> ds = getStereotypeDeclarations();
@@ -198,7 +198,11 @@ public class ProducerField extends BeanField implements IProducerField {
 			IStereotype s = d.getStereotype();
 			if(s != null && s.isAlternative() && 
 					getCDIProject().isStereotypeAlternative(s.getSourceType().getFullyQualifiedName())	) return true;
-		}		
+		}
+// TODO how it can be selected in this case?
+//		if(getDefinition().getAlternativeAnnotation() == null) {
+//			return false;
+//		}
 		return false;
 	}
 
