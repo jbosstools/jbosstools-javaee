@@ -10,21 +10,26 @@
  ******************************************************************************/
 package org.jboss.tools.seam.ui.marker;
 
+import java.text.MessageFormat;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 
 /**
  * @author Daniel Azarov
  */
-public class RenameAnnotationMarkerResolution extends
+public class ChangeScopeMarkerResolution extends
 		AbstractSeamMarkerResolution {
+	private String scopeName;
 
-	public RenameAnnotationMarkerResolution(String label, String qualifiedName,
+	public ChangeScopeMarkerResolution(String label, String scopeName,
 			IFile file, int start, int end) {
-		super(label, qualifiedName, file, start, end);
+		super(label, "org.jboss.seam.annotations.Scope", file, start, end); //$NON-NLS-1$
+		this.label = MessageFormat.format(label, new Object[]{scopeName});
+		this.scopeName = scopeName;
 	}
 	
 	public void run(IMarker marker) {
-		renameAnnotation("@"+getShortName(), null, true); //$NON-NLS-1$
+		renameAnnotation("@Scope("+scopeName+")", "org.jboss.seam.ScopeType", false); //$NON-NLS-1$
 	}
 }

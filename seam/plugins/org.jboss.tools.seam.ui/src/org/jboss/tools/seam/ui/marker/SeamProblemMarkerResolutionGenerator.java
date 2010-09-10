@@ -90,6 +90,27 @@ public class SeamProblemMarkerResolutionGenerator  implements IMarkerResolutionG
 			return new IMarkerResolution[]{new AddAnnotatedMethodMarkerResolution(SeamUIMessages.ADD_ANNOTATED_REMOVE_METHOD_MARKER_RESOLUTION_TITLE, "javax.ejb.Remove", file, start, end)};
 		else if(messageId == SeamCoreValidator.STATEFUL_COMPONENT_DOES_NOT_CONTAIN_DESTROY_ID)
 			return new IMarkerResolution[]{new AddAnnotatedMethodMarkerResolution(SeamUIMessages.ADD_ANNOTATED_DESTROY_METHOD_MARKER_RESOLUTION_TITLE, "org.jboss.seam.annotations.Destroy", file, start, end)};
+		else if(messageId == SeamCoreValidator.STATEFUL_COMPONENT_WRONG_SCOPE_ID)
+			return new IMarkerResolution[]{
+				new ChangeScopeMarkerResolution(SeamUIMessages.CHANGE_SCOPETYPE_MARKER_RESOLUTION_TITLE, "ScopeType.APPLICATION", file, start, end),
+				new ChangeScopeMarkerResolution(SeamUIMessages.CHANGE_SCOPETYPE_MARKER_RESOLUTION_TITLE, "ScopeType.BUSINESS_PROCESS", file, start, end),
+				new ChangeScopeMarkerResolution(SeamUIMessages.CHANGE_SCOPETYPE_MARKER_RESOLUTION_TITLE, "ScopeType.CONVERSATION", file, start, end),
+				new ChangeScopeMarkerResolution(SeamUIMessages.CHANGE_SCOPETYPE_MARKER_RESOLUTION_TITLE, "ScopeType.EVENT", file, start, end),
+				new ChangeScopeMarkerResolution(SeamUIMessages.CHANGE_SCOPETYPE_MARKER_RESOLUTION_TITLE, "ScopeType.METHOD", file, start, end),
+				new ChangeScopeMarkerResolution(SeamUIMessages.CHANGE_SCOPETYPE_MARKER_RESOLUTION_TITLE, "ScopeType.SESSION", file, start, end),
+				new ChangeScopeMarkerResolution(SeamUIMessages.CHANGE_SCOPETYPE_MARKER_RESOLUTION_TITLE, "ScopeType.UNSPECIFIED", file, start, end)
+			};
+		else if(messageId == SeamCoreValidator.ENTITY_COMPONENT_WRONG_SCOPE_ID)
+			return new IMarkerResolution[]{
+				new ChangeScopeMarkerResolution(SeamUIMessages.CHANGE_SCOPETYPE_MARKER_RESOLUTION_TITLE, "ScopeType.APPLICATION", file, start, end),
+				new ChangeScopeMarkerResolution(SeamUIMessages.CHANGE_SCOPETYPE_MARKER_RESOLUTION_TITLE, "ScopeType.BUSINESS_PROCESS", file, start, end),
+				new ChangeScopeMarkerResolution(SeamUIMessages.CHANGE_SCOPETYPE_MARKER_RESOLUTION_TITLE, "ScopeType.CONVERSATION", file, start, end),
+				new ChangeScopeMarkerResolution(SeamUIMessages.CHANGE_SCOPETYPE_MARKER_RESOLUTION_TITLE, "ScopeType.EVENT", file, start, end),
+				new ChangeScopeMarkerResolution(SeamUIMessages.CHANGE_SCOPETYPE_MARKER_RESOLUTION_TITLE, "ScopeType.METHOD", file, start, end),
+				new ChangeScopeMarkerResolution(SeamUIMessages.CHANGE_SCOPETYPE_MARKER_RESOLUTION_TITLE, "ScopeType.PAGE", file, start, end),
+				new ChangeScopeMarkerResolution(SeamUIMessages.CHANGE_SCOPETYPE_MARKER_RESOLUTION_TITLE, "ScopeType.SESSION", file, start, end),
+				new ChangeScopeMarkerResolution(SeamUIMessages.CHANGE_SCOPETYPE_MARKER_RESOLUTION_TITLE, "ScopeType.UNSPECIFIED", file, start, end)
+			};
 
 				
 		return new IMarkerResolution[]{};

@@ -98,6 +98,9 @@ public class SeamCoreValidator extends SeamValidationErrorManager implements IVa
 	public static final int OBSERVER_DOESNT_BELONG_TO_COMPONENT_MESSAGE_ID = 9;
 	public static final int STATEFUL_COMPONENT_DOES_NOT_CONTAIN_REMOVE_ID = 10;
 	public static final int STATEFUL_COMPONENT_DOES_NOT_CONTAIN_DESTROY_ID = 11;
+	public static final int STATEFUL_COMPONENT_WRONG_SCOPE_ID = 12;
+	public static final int ENTITY_COMPONENT_WRONG_SCOPE_ID = 13;
+	public static final int UNKNOWN_COMPONENT_PROPERTY_ID = 14;
 	
 	
 	private ISeamProject seamProject;
@@ -716,7 +719,7 @@ public class SeamCoreValidator extends SeamValidationErrorManager implements IVa
 					if(type!=null) {
 						boolean ok = type.isBinary() || SeamUtil.findProperty(type, name)!=null;
 						if(!ok) {
-							addError(SeamValidationMessages.UNKNOWN_COMPONENT_PROPERTY, SeamPreferences.UNKNOWN_COMPONENT_PROPERTY, new String[]{type.getElementName(), componentName, name}, property, declaration.getResource());
+							addError(SeamValidationMessages.UNKNOWN_COMPONENT_PROPERTY, SeamPreferences.UNKNOWN_COMPONENT_PROPERTY, new String[]{type.getElementName(), componentName, name}, property, declaration.getResource(), UNKNOWN_COMPONENT_PROPERTY_ID);
 						}
 					}
 				}
@@ -730,7 +733,7 @@ public class SeamCoreValidator extends SeamValidationErrorManager implements IVa
 			ScopeType scope = component.getScope();
 			if(scope == ScopeType.STATELESS) {
 				ITextSourceReference location = getScopeLocation(component);
-				addError(SeamValidationMessages.ENTITY_COMPONENT_WRONG_SCOPE, SeamPreferences.ENTITY_COMPONENT_WRONG_SCOPE, new String[]{component.getName()}, location, javaDeclaration.getResource());
+				addError(SeamValidationMessages.ENTITY_COMPONENT_WRONG_SCOPE, SeamPreferences.ENTITY_COMPONENT_WRONG_SCOPE, new String[]{component.getName()}, location, javaDeclaration.getResource(), ENTITY_COMPONENT_WRONG_SCOPE_ID);
 			}
 		}
 	}
@@ -764,7 +767,7 @@ public class SeamCoreValidator extends SeamValidationErrorManager implements IVa
 			ScopeType scope = component.getScope();
 			if(scope == ScopeType.PAGE || scope == ScopeType.STATELESS) {
 				ITextSourceReference location = getScopeLocation(component);
-				addError(SeamValidationMessages.STATEFUL_COMPONENT_WRONG_SCOPE, SeamPreferences.STATEFUL_COMPONENT_WRONG_SCOPE, new String[]{component.getName()}, location, javaDeclaration.getResource());
+				addError(SeamValidationMessages.STATEFUL_COMPONENT_WRONG_SCOPE, SeamPreferences.STATEFUL_COMPONENT_WRONG_SCOPE, new String[]{component.getName()}, location, javaDeclaration.getResource(), STATEFUL_COMPONENT_WRONG_SCOPE_ID);
 			}
 			validateDuplicateComponentMethod(SeamComponentMethodType.REMOVE, component, SeamValidationMessages.DUPLICATE_REMOVE, SeamPreferences.DUPLICATE_REMOVE, DUPLICATE_REMOVE_MESSAGE_ID);
 		}

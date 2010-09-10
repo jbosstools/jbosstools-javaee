@@ -380,6 +380,8 @@ public class SeamUIMessages extends NLS {
 	
 	public static String ADD_ANNOTATED_DESTROY_METHOD_MARKER_RESOLUTION_TITLE;
 	
+	public static String CHANGE_SCOPETYPE_MARKER_RESOLUTION_TITLE;
+	
 	static {
 		// load message values from bundle file
 		NLS.initializeMessages(BUNDLE_NAME, SeamUIMessages.class);		

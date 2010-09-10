@@ -213,7 +213,7 @@ public abstract class AbstractSeamMarkerResolution implements
 		}
 	}
 	
-	protected void renameAnnotation(String annotationString){
+	protected void renameAnnotation(String annotationString, String importName, boolean generate){
 		try{
 			ICompilationUnit original = EclipseUtil.getCompilationUnit(file);
 			ICompilationUnit compilationUnit = original.getWorkingCopy(new NullProgressMonitor());
@@ -226,10 +226,18 @@ public abstract class AbstractSeamMarkerResolution implements
 					IImportDeclaration importDeclaration = compilationUnit.getImport(qualifiedName); 
 					if(importDeclaration == null || !importDeclaration.exists())
 						compilationUnit.createImport(qualifiedName, null, new NullProgressMonitor());
+					if(importName != null){
+						importDeclaration = compilationUnit.getImport(importName); 
+						if(importDeclaration == null || !importDeclaration.exists())
+							compilationUnit.createImport(importName, null, new NullProgressMonitor());
+						
+					}
 				
 					IBuffer buffer = compilationUnit.getBuffer();
 					
-					String name= "(\""+generateComponentName(compilationUnit.findPrimaryType().getElementName())+"\")";
+					String name = "";
+					if(generate)
+						name= "(\""+generateComponentName(compilationUnit.findPrimaryType().getElementName())+"\")";
 					
 					buffer.replace(annotation.getSourceRange().getOffset(), annotation.getSourceRange().getLength(), annotationString+name);
 					compilationUnit.commitWorkingCopy(false, new NullProgressMonitor());

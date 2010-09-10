@@ -28,6 +28,7 @@ import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.SeamPreferences;
 import org.jboss.tools.seam.ui.marker.AddAnnotatedMethodMarkerResolution;
 import org.jboss.tools.seam.ui.marker.AddAnnotationMarkerResolution;
+import org.jboss.tools.seam.ui.marker.ChangeScopeMarkerResolution;
 import org.jboss.tools.seam.ui.marker.DeleteAnnotationMarkerResolution;
 import org.jboss.tools.seam.ui.marker.RenameAnnotationMarkerResolution;
 import org.jboss.tools.test.util.JobUtils;
@@ -391,6 +392,54 @@ public class SeamMarkerResolutionTest extends TestCase {
 			}
 		}
 		assertTrue("The quickfix \"Add @Destroy annotated method\" doesn't exist.", found);
+	}
+
+	public void testChangeScopeResolution() throws CoreException {
+		String TARGET_FILE_NAME = "src/action/org/domain/SeamWebWarTestProject/session/StatefulComponentWithWrongScope.java";
+		IFile file = project.getFile(TARGET_FILE_NAME);
+		
+		assertTrue("File - "+TARGET_FILE_NAME+" must be exists",file.exists());
+		
+		IMarker[] markers = file.findMarkers(MARKER_TYPE, true, IResource.DEPTH_INFINITE);
+		
+		int found = 0;
+		for (int i = 0; i < markers.length; i++) {
+			IMarker marker = markers[i];
+			IMarkerResolution[] resolutions = IDE.getMarkerHelpRegistry()
+					.getResolutions(marker);
+			for (int j = 0; j < resolutions.length; j++) {
+				IMarkerResolution resolution = resolutions[j];
+				if (resolution instanceof ChangeScopeMarkerResolution) {
+					assertEquals("org.jboss.seam.annotations.Scope", ((ChangeScopeMarkerResolution)resolution).getQualifiedName());
+					found++;
+				}
+			}
+		}
+		assertEquals("Not all quickfixes \"Change scope to...\" found.", 7, found);
+	}
+	
+	public void testChangeScopeResolution2() throws CoreException {
+		String TARGET_FILE_NAME = "src/action/org/domain/SeamWebWarTestProject/entity/EntityComponentWithWrongScope.java";
+		IFile file = project.getFile(TARGET_FILE_NAME);
+		
+		assertTrue("File - "+TARGET_FILE_NAME+" must be exists",file.exists());
+		
+		IMarker[] markers = file.findMarkers(MARKER_TYPE, true, IResource.DEPTH_INFINITE);
+		
+		int found = 0;
+		for (int i = 0; i < markers.length; i++) {
+			IMarker marker = markers[i];
+			IMarkerResolution[] resolutions = IDE.getMarkerHelpRegistry()
+					.getResolutions(marker);
+			for (int j = 0; j < resolutions.length; j++) {
+				IMarkerResolution resolution = resolutions[j];
+				if (resolution instanceof ChangeScopeMarkerResolution) {
+					assertEquals("org.jboss.seam.annotations.Scope", ((ChangeScopeMarkerResolution)resolution).getQualifiedName());
+					found++;
+				}
+			}
+		}
+		assertEquals("Not all quickfixes \"Change scope to...\" found.", 8, found);
 	}
 
 }
