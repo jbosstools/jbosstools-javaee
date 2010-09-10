@@ -11,13 +11,19 @@
 
 package org.jboss.tools.jsf.test.validation;
 
+import java.io.IOException;
+import java.io.InputStream;
+
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.wst.validation.ValidationFramework;
+import org.jboss.tools.jsf.jsf2.util.JSF2ResourceUtil;
 import org.jboss.tools.test.util.ProjectImportTestSetup;
 
 import junit.framework.TestCase;
@@ -42,7 +48,16 @@ public class JSF2ComponentsValidatorTest extends TestCase {
 		project.build(IncrementalProjectBuilder.FULL_BUILD,
 				new NullProgressMonitor());
 	}
-
+	//junit test add to check JBIDE-7016 by Maksim Areshkau
+	public void testCreatingFile() throws CoreException, IOException{
+		final IFile createdFile = JSF2ResourceUtil
+		.createCompositeComponentFile(project,
+				new Path("/jbide7016/jbide7016test.xhtml"), new String[0]); //$NON-NLS-1$
+		//this method throw exception if file isn't accessible for some reasons
+		InputStream is = createdFile.getContents();
+		is.close();
+	}
+	
 	public void testJSF2ComponentsValidator() throws Exception {
 		ValidationFramework.getDefault().validate(new IProject[] { project },
 				false, false, new NullProgressMonitor());
