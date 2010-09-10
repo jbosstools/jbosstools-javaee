@@ -18,6 +18,13 @@ import org.jboss.tools.cdi.internal.core.validation.CDIValidationMessages;
  * @author Alexey Kazakov
  */
 public class BeansXmlValidationTest extends ValidationTest {
+	static int BAR_DECORATOR_LINE = 35; // <class>org.jboss.jsr299.tck.tests.decorators.resolution.BarDecorator</class>
+
+	static int FOO_LINE = 44; // <class>com.acme.Foo</class>
+	static int CAT_INTERCEPTOR_LINE = FOO_LINE + 1; // <class>org.jboss.jsr299.tck.tests.jbt.validation.interceptors.CatInterceptor</class>
+	static int NON_INTERCEPTOR_LINE = CAT_INTERCEPTOR_LINE + 1; // <class>org.jboss.jsr299.tck.tests.interceptors.definition.broken.nonInterceptorClassInBeansXml.Foo</class>
+	static int FORD_INTERCEPTOR_1_LINE = CAT_INTERCEPTOR_LINE + 3; // <class>org.jboss.jsr299.tck.tests.interceptors.definition.broken.sameClassListedTwiceInBeansXml.FordInterceptor</class>
+	static int FORD_INTERCEPTOR_2_LINE = FORD_INTERCEPTOR_1_LINE + 1; // 
 
 	/**
 	 * 5.1.1. Declaring selected alternatives for a bean archive
@@ -84,8 +91,8 @@ public class BeansXmlValidationTest extends ValidationTest {
 	 */
 	public void testNonExistantDecoratorClassInBeansXmlNotOK() throws Exception {
 		IFile file = tckProject.getFile("WebContent/WEB-INF/beans.xml");
-		assertMarkerIsCreated(file, CDIValidationMessages.UNKNOWN_DECORATOR_BEAN_CLASS_NAME, 32);
-		assertMarkerIsNotCreated(file, CDIValidationMessages.UNKNOWN_DECORATOR_BEAN_CLASS_NAME, 33);
+		assertMarkerIsCreated(file, CDIValidationMessages.UNKNOWN_DECORATOR_BEAN_CLASS_NAME, 34);
+		assertMarkerIsNotCreated(file, CDIValidationMessages.UNKNOWN_DECORATOR_BEAN_CLASS_NAME, BAR_DECORATOR_LINE);
 	}
 
 	/**
@@ -95,8 +102,8 @@ public class BeansXmlValidationTest extends ValidationTest {
 	 */
 	public void testEnabledDecoratorNotADecorator() throws Exception {
 		IFile file = tckProject.getFile("WebContent/WEB-INF/beans.xml");
-		assertMarkerIsCreated(file, CDIValidationMessages.ILLEGAL_DECORATOR_BEAN_CLASS, 35);
-		assertMarkerIsNotCreated(file, CDIValidationMessages.ILLEGAL_DECORATOR_BEAN_CLASS, 33);
+		assertMarkerIsCreated(file, CDIValidationMessages.ILLEGAL_DECORATOR_BEAN_CLASS, 37);
+		assertMarkerIsNotCreated(file, CDIValidationMessages.ILLEGAL_DECORATOR_BEAN_CLASS, BAR_DECORATOR_LINE);
 	}
 
 	/**
@@ -106,8 +113,8 @@ public class BeansXmlValidationTest extends ValidationTest {
 	 */
 	public void testDecoratorListedTwiceInBeansXmlNotOK() throws Exception {
 		IFile file = tckProject.getFile("WebContent/WEB-INF/beans.xml");
-		assertMarkerIsCreated(file, CDIValidationMessages.DUPLICATE_DECORATOR_CLASS, 37, 38);
-		assertMarkerIsNotCreated(file, CDIValidationMessages.DUPLICATE_DECORATOR_CLASS, 33);
+		assertMarkerIsCreated(file, CDIValidationMessages.DUPLICATE_DECORATOR_CLASS, 39, 40);
+		assertMarkerIsNotCreated(file, CDIValidationMessages.DUPLICATE_DECORATOR_CLASS, BAR_DECORATOR_LINE);
 	}
 
 	/**
@@ -117,8 +124,8 @@ public class BeansXmlValidationTest extends ValidationTest {
 	 */
 	public void testNonExistantClassInBeansXmlNotOk() throws Exception {
 		IFile file = tckProject.getFile("WebContent/WEB-INF/beans.xml");
-		assertMarkerIsCreated(file, CDIValidationMessages.UNKNOWN_INTERCEPTOR_CLASS_NAME, 42);
-		assertMarkerIsNotCreated(file, CDIValidationMessages.UNKNOWN_INTERCEPTOR_CLASS_NAME, 43);
+		assertMarkerIsCreated(file, CDIValidationMessages.UNKNOWN_INTERCEPTOR_CLASS_NAME, FOO_LINE);
+		assertMarkerIsNotCreated(file, CDIValidationMessages.UNKNOWN_INTERCEPTOR_CLASS_NAME, CAT_INTERCEPTOR_LINE);
 	}
 
 	/**
@@ -128,8 +135,8 @@ public class BeansXmlValidationTest extends ValidationTest {
 	 */
 	public void testNonInterceptorClassInBeansXmlNotOk() throws Exception {
 		IFile file = tckProject.getFile("WebContent/WEB-INF/beans.xml");
-		assertMarkerIsCreated(file, CDIValidationMessages.ILLEGAL_INTERCEPTOR_CLASS, 44);
-		assertMarkerIsNotCreated(file, CDIValidationMessages.ILLEGAL_INTERCEPTOR_CLASS, 43);
+		assertMarkerIsCreated(file, CDIValidationMessages.ILLEGAL_INTERCEPTOR_CLASS, NON_INTERCEPTOR_LINE);
+		assertMarkerIsNotCreated(file, CDIValidationMessages.ILLEGAL_INTERCEPTOR_CLASS, CAT_INTERCEPTOR_LINE);
 	}
 
 	/**
@@ -139,7 +146,7 @@ public class BeansXmlValidationTest extends ValidationTest {
 	 */
 	public void testSameInterceptorClassListedTwiceInBeansXmlNotOk() throws Exception {
 		IFile file = tckProject.getFile("WebContent/WEB-INF/beans.xml");
-		assertMarkerIsCreated(file, CDIValidationMessages.DUPLICATE_INTERCEPTOR_CLASS, 46, 47);
-		assertMarkerIsNotCreated(file, CDIValidationMessages.DUPLICATE_INTERCEPTOR_CLASS, 43);
+		assertMarkerIsCreated(file, CDIValidationMessages.DUPLICATE_INTERCEPTOR_CLASS, FORD_INTERCEPTOR_1_LINE, FORD_INTERCEPTOR_2_LINE);
+		assertMarkerIsNotCreated(file, CDIValidationMessages.DUPLICATE_INTERCEPTOR_CLASS, CAT_INTERCEPTOR_LINE);
 	}
 }

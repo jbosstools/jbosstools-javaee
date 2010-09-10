@@ -26,6 +26,8 @@
 		<stereotype>org.jboss.jsr299.tck.tests.jbt.validation.beansxml.DuplicatedAlternativeStereotype</stereotype>
 		<stereotype>org.jboss.jsr299.tck.tests.jbt.validation.beansxml.DuplicatedAlternativeStereotype</stereotype>
 
+		<class>org.jboss.jsr299.tck.tests.policy.EnabledSheepProducer</class>
+		<stereotype>org.jboss.jsr299.tck.tests.policy.EnabledPolicyStereotype</stereotype>
 	</alternatives>
 
 	<decorators>

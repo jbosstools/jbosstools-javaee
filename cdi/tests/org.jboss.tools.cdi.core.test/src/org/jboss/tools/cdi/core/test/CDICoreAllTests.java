@@ -34,6 +34,7 @@ import org.jboss.tools.cdi.core.test.tck.QualifierDefinitionTest;
 import org.jboss.tools.cdi.core.test.tck.QualifierWithMembersTest;
 import org.jboss.tools.cdi.core.test.tck.ResolutionByTypeTest;
 import org.jboss.tools.cdi.core.test.tck.ScopeDefinitionTest;
+import org.jboss.tools.cdi.core.test.tck.SelectedAlternativeTest;
 import org.jboss.tools.cdi.core.test.tck.StereotypeDefinitionTest;
 import org.jboss.tools.cdi.core.test.tck.StereotypeInheritenceTest;
 import org.jboss.tools.cdi.core.test.tck.validation.AnnotationsValidationTest;
@@ -83,6 +84,7 @@ public class CDICoreAllTests {
 		suite.addTestSuite(BeansXmlValidationTest.class);
 		suite.addTestSuite(AnnotationsValidationTest.class);
 		suite.addTestSuite(CoreValidationTest.class);
+		suite.addTestSuite(SelectedAlternativeTest.class);
 		
 		suiteAll.addTestSuite(BeansXMLTest.class);
 		suiteAll.addTestSuite(DependentProjectTest.class);
