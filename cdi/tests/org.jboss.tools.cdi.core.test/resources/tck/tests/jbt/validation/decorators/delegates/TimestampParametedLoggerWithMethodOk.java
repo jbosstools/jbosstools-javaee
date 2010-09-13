@@ -5,8 +5,8 @@ import javax.decorator.Delegate;
 import javax.inject.Inject;
 
 @Decorator
-public abstract class TimestampParametedLoggerBroken extends Clazz<String> {
+public abstract class TimestampParametedLoggerWithMethodOk extends Clazz<Logger> {
 
-   @Inject @Delegate private Clazz<Logger> logger;
-
+   @Inject void setInt(@Delegate Clazz<String> logger) {
+   }
 }

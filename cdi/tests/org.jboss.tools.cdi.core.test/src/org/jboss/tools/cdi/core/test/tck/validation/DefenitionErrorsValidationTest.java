@@ -1084,33 +1084,42 @@ public class DefenitionErrorsValidationTest extends ValidationTest {
 	 * 8.1.3. Decorator delegate injection points
 	 *  - delegate type specifies different type parameters
 	 * 
+	 * However, if type parameter does not affect decorated types  
+	 * (that is implemented interfaces), there is no error.
+	 * 
 	 * @throws Exception
 	 */
 	public void testDelegateSpecifiesDifferentTypeParameterWithInterfaceInFiled() throws Exception {
-		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/decorators/delegates/TimestampLoggerBroken.java");
-		assertMarkerIsCreated(file, MessageFormat.format(CDIValidationMessages.DELEGATE_HAS_ILLEGAL_TYPE, "Clazz<org.jboss.jsr299.tck.tests.jbt.validation.decorators.delegates.Logger>"), 10);
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/decorators/delegates/TimestampLoggerOk.java");
+		assertMarkerIsNotCreated(file, MessageFormat.format(CDIValidationMessages.DELEGATE_HAS_ILLEGAL_TYPE, "Clazz<org.jboss.jsr299.tck.tests.jbt.validation.decorators.delegates.Logger>"), 10);
 	}
 
 	/**
 	 * 8.1.3. Decorator delegate injection points
 	 *  - delegate type specifies different type parameters
+	 * 
+	 * However, if type parameter does not affect decorated types  
+	 * (that is implemented interfaces), there is no error.
 	 * 
 	 * @throws Exception
 	 */
 	public void testDelegateSpecifiesDifferentTypeParameterWithInterfaceInMethod() throws Exception {
-		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/decorators/delegates/TimestampLoggerWithMethodBroken.java");
-		assertMarkerIsCreated(file, MessageFormat.format(CDIValidationMessages.DELEGATE_HAS_ILLEGAL_TYPE, "Clazz<java.lang.String>"), 10);
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/decorators/delegates/TimestampLoggerWithMethodOk.java");
+		assertMarkerIsNotCreated(file, MessageFormat.format(CDIValidationMessages.DELEGATE_HAS_ILLEGAL_TYPE, "Clazz<java.lang.String>"), 10);
 	}
 
 	/**
 	 * 8.1.3. Decorator delegate injection points
 	 *  - delegate type specifies different type parameters
 	 * 
+	 * However, if type parameter does not affect decorated types  
+	 * (that is implemented interfaces), there is no error.
+	 * 
 	 * @throws Exception
 	 */
 	public void testDelegateSpecifiesDifferentTypeParameterInFiled() throws Exception {
-		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/decorators/delegates/TimestampParametedLoggerBroken.java");
-		assertMarkerIsCreated(file, MessageFormat.format(CDIValidationMessages.DELEGATE_HAS_ILLEGAL_TYPE, "Clazz<java.lang.String>"), 10);
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/decorators/delegates/TimestampParametedLoggerOk.java");
+		assertMarkerIsNotCreated(file, MessageFormat.format(CDIValidationMessages.DELEGATE_HAS_ILLEGAL_TYPE, "Clazz<java.lang.String>"), 10);
 
 		file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/decorators/delegates/TimestampParametedLogger.java");
 		assertMarkerIsNotCreated(file, MessageFormat.format(CDIValidationMessages.DELEGATE_HAS_ILLEGAL_TYPE, "Logger"));
@@ -1123,11 +1132,13 @@ public class DefenitionErrorsValidationTest extends ValidationTest {
 	 * 8.1.3. Decorator delegate injection points
 	 *  - delegate type specifies different type parameters
 	 * 
+	 * However, if type parameter does not affect decorated types  
+	 * (that is implemented interfaces), there is no error.
 	 * @throws Exception
 	 */
 	public void testDelegateSpecifiesDifferentTypeParameterInMethod() throws Exception {
-		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/decorators/delegates/TimestampParametedLoggerWithMethodBroken.java");
-		assertMarkerIsCreated(file, MessageFormat.format(CDIValidationMessages.DELEGATE_HAS_ILLEGAL_TYPE, "Clazz<org.jboss.jsr299.tck.tests.jbt.validation.decorators.delegates.Logger>"), 10);
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/decorators/delegates/TimestampParametedLoggerWithMethodOk.java");
+		assertMarkerIsNotCreated(file, MessageFormat.format(CDIValidationMessages.DELEGATE_HAS_ILLEGAL_TYPE, "Clazz<org.jboss.jsr299.tck.tests.jbt.validation.decorators.delegates.Logger>"), 10);
 
 		file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/decorators/delegates/TimestampParametedLoggerWithMethod.java");
 		assertMarkerIsNotCreated(file, MessageFormat.format(CDIValidationMessages.DELEGATE_HAS_ILLEGAL_TYPE, "Logger"));

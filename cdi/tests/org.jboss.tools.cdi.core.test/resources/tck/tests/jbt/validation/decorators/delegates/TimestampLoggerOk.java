@@ -5,7 +5,7 @@ import javax.decorator.Delegate;
 import javax.inject.Inject;
 
 @Decorator
-public abstract class TimestampLoggerBroken extends Clazz<Logger> implements Logger {
+public abstract class TimestampLoggerOk extends Clazz<Logger> implements Logger {
 
    @Inject @Delegate private Clazz<String> logger;
 
