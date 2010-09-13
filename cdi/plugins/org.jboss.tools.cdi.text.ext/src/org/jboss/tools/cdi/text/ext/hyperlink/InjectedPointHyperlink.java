@@ -29,11 +29,17 @@ import org.jboss.tools.common.text.ext.hyperlink.AbstractHyperlink;
 public class InjectedPointHyperlink extends AbstractHyperlink{
 	IBean bean;
 	IRegion region;
+	boolean first = false;
 	
 	public InjectedPointHyperlink(IRegion region, IBean bean, IDocument document){
 		this.bean = bean;
 		this.region = region;
 		setDocument(document);
+	}
+
+	public InjectedPointHyperlink(IRegion region, IBean bean, IDocument document, boolean first){
+		this(region, bean, document);
+		this.first = first;
 	}
 	
 
@@ -67,20 +73,34 @@ public class InjectedPointHyperlink extends AbstractHyperlink{
 	public String getHyperlinkText() {
 		String text="";
 		if(bean != null){
-			if(bean instanceof IDecorator)
-				text = CDIExtensionsMessages.CDI_INJECTED_POINT_HYPERLINK_OPEN_DECORATOR+" ";
-			else if(bean instanceof IInterceptor)
-				text = CDIExtensionsMessages.CDI_INJECTED_POINT_HYPERLINK_OPEN_INTERCEPTOR+" ";
-			else
-				text = CDIExtensionsMessages.CDI_INJECTED_POINT_HYPERLINK_OPEN_BEAN+" ";
+			if(first){
+				text = CDIExtensionsMessages.CDI_INJECTED_POINT_HYPERLINK_OPEN_INJECT_BEAN+" ";
+			}else{
+				if(bean.isSelectedAlternative())
+					text = CDIExtensionsMessages.CDI_INJECTED_POINT_HYPERLINK_OPEN_SELECTED_ALTERNATIVE+" ";
+				else if(bean.isAlternative())
+					text = CDIExtensionsMessages.CDI_INJECTED_POINT_HYPERLINK_OPEN_ALTERNATIVE+" ";
+				else if(bean instanceof IProducerField || bean instanceof IProducerMethod)
+					text = CDIExtensionsMessages.CDI_INJECTED_POINT_HYPERLINK_OPEN_PRODUCER+" ";
+				else if(bean instanceof IDecorator)
+					text = CDIExtensionsMessages.CDI_INJECTED_POINT_HYPERLINK_OPEN_DECORATOR+" ";
+				else if(bean instanceof IInterceptor)
+					text = CDIExtensionsMessages.CDI_INJECTED_POINT_HYPERLINK_OPEN_INTERCEPTOR+" ";
+				else
+					text = CDIExtensionsMessages.CDI_INJECTED_POINT_HYPERLINK_OPEN_BEAN+" ";
+
+			}
+			
 			
 			text += bean.getBeanClass().getElementName();
 			
 			if(bean instanceof IProducerField){
 				text += "."+((IProducerField)bean).getField().getElementName();
 			}else if(bean instanceof IProducerMethod){
-				text += "."+((IProducerMethod)bean).getMethod().getElementName();
+				text += "."+((IProducerMethod)bean).getMethod().getElementName()+"()";
 			}
+			
+
 		}
 		return text;
 	}

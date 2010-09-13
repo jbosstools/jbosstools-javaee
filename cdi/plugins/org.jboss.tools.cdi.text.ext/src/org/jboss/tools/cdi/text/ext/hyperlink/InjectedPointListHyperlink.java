@@ -10,6 +10,7 @@
  ******************************************************************************/ 
 package org.jboss.tools.cdi.text.ext.hyperlink;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -73,25 +74,37 @@ public class InjectedPointListHyperlink extends AbstractHyperlink{
 			return;
 		}
 		
-		Set<IBean> resultBeanSet = cdiProject.getBeans(false, injectionPoint);
+		Set<IBean> resultBeanSet = cdiProject.getBeans(true, injectionPoint);
 		List<IBean> resultBeanList = CDIUtil.sortBeans(resultBeanSet);
-			
-		IHyperlink[] hyperlinks = new IHyperlink[resultBeanList.size()];
 		
-		int index=0;
-		for(IBean bean : resultBeanList){
-			hyperlinks[index++] = new InjectedPointHyperlink(region, bean, getDocument());
+		Set<IBean> alternativeBeanSet = cdiProject.getBeans(false, injectionPoint);
+		List<IBean> alternativeBeanList = CDIUtil.sortBeans(alternativeBeanSet);
+			
+		ArrayList<IHyperlink> hyperlinks = new ArrayList<IHyperlink>();
+		
+		if(resultBeanList.size() > 0){
+			hyperlinks.add(new InjectedPointHyperlink(region, resultBeanList.get(0), getDocument(), true));
+			//alternativeBeanList.remove(resultBeanList.get(0));
+			if(alternativeBeanList.size() > 0)
+				hyperlinks.add(new AlternativeInjectedPointListHyperlink(region, alternativeBeanList, viewer, getDocument()));
+		}else if(alternativeBeanList.size() > 0){
+			hyperlinks.add(new InjectedPointHyperlink(region, alternativeBeanList.get(0), getDocument(), true));
+			//alternativeBeanList.remove(0);
+			if(alternativeBeanList.size() > 0)
+				hyperlinks.add(new AlternativeInjectedPointListHyperlink(region, alternativeBeanList, viewer, getDocument()));
 		}
 		
-		if(hyperlinks.length == 0){
+		IHyperlink[] result = hyperlinks.toArray(new IHyperlink[hyperlinks.size()]);
+		
+		if(result.length == 0){
 			openFileFailed();
 			return;
 		}
 		
-		if(hyperlinks.length == 1){
-			((InjectedPointHyperlink)hyperlinks[0]).doHyperlink(region);
+		if(result.length == 1){
+			((InjectedPointHyperlink)result[0]).doHyperlink(region);
 		}else{
-			MultipleHyperlinkPresenterManager.installAndShow(viewer, hyperlinks);
+			MultipleHyperlinkPresenterManager.installAndShow(viewer, result);
 		}
 	}
 
