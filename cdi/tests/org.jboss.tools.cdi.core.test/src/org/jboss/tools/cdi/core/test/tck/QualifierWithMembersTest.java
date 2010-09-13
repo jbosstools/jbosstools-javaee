@@ -102,8 +102,21 @@ public class QualifierWithMembersTest extends TCKTest {
 		assertEquals("Wrong number of the beans", 0, beans.size());
 	}
 
-	// TODO This test fails because of https://jira.jboss.org/browse/JBIDE-6517
-	public void testQualifierCoincidingSimpleNameInInjectingBeanAndCoincidingSimpleNameInInjectedBeanResolved() throws CoreException {
+	/**
+	 * This test is created to check fixes for issue https://jira.jboss.org/browse/JBIDE-6517
+	 * 
+	 * However, the fix is postponed until JDT includes method parameters into Java model 
+	 * as detailed Java element objects instead of providing limited string data 
+	 * (getParameterNames(), getParameterTypes()).
+	 * 
+	 * We refrain from getting necessary data by building AST, because it would affect performance.
+	 * 
+	 * TODO The prefix '_' disabling this test must be removed as soon as JBIDE-6517 is assigned 
+	 * to be fixed for a concrete version.
+	 * 
+	 * @throws CoreException
+	 */
+	public void _testQualifierCoincidingSimpleNameInInjectingBeanAndCoincidingSimpleNameInInjectedBeanResolved() throws CoreException {
 		IInjectionPointField injection = getInjectionPointField("JavaSource/org/jboss/jsr299/tck/tests/jbt/resolution/coincidence/ObtainsInstanceBean.java", "cashPaymentProcessor");
 		Set<IBean> beans = cdiProject.getBeans(true, injection);
 		assertEquals("Wrong number of the beans", 1, beans.size());
