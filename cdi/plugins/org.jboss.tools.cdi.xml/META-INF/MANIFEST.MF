@@ -7,7 +7,8 @@ Bundle-Vendor: %providerName
 Bundle-SymbolicName: org.jboss.tools.cdi.xml;singleton:=true
 Bundle-Localization: plugin
 Export-Package: org.jboss.tools.cdi.xml,
- org.jboss.tools.cdi.xml.beans.model
+ org.jboss.tools.cdi.xml.beans.model,
+ org.jboss.tools.cdi.xml.beans.model.handlers
 Require-Bundle: org.jboss.tools.jst.web;visibility:=reexport,
  org.eclipse.ui.ide,
  org.eclipse.ui.views,
