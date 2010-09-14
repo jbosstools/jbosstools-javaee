@@ -106,6 +106,7 @@ public class ELValidator extends ValidationErrorManager implements IValidator {
 		resolvers = ELResolverFactoryManager.getInstance().getResolvers(project);
 		mainFactory = ELParserUtil.getDefaultFactory();
 		validateVars = JSFSeverityPreferences.ENABLE.equals(JSFSeverityPreferences.getInstance().getProjectPreference(validatingProject, JSFSeverityPreferences.CHECK_VARS));
+		currentProject = null;
 	}
 
 	/*
@@ -196,6 +197,7 @@ public class ELValidator extends ValidationErrorManager implements IValidator {
 		IProject project = file.getProject();
 		if(currentProject==null || !project.equals(currentProject)) {
 			enabled = isEnabled(project);	
+			currentProject = project;
 		}
 		if(!enabled) {
 			return false;
