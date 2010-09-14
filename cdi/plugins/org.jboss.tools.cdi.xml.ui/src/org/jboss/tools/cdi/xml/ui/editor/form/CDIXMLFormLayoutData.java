@@ -25,7 +25,9 @@ public class CDIXMLFormLayoutData implements IFormLayoutData {
 		CDIBeansFileFormLayoutData.FILE_20_FORM_DEFINITION,
 		CDIBeansFileFormLayoutData.DECORATORS_DEFINITION,
 		CDIBeansFileFormLayoutData.INTERCEPTORS_DEFINITION,
-		CDIBeansFileFormLayoutData.ALTERNATIVES_DEFINITION
+		CDIBeansFileFormLayoutData.ALTERNATIVES_DEFINITION,
+		
+		CDIBeansFileFormLayoutData.WELD_SCAN_DEFINITION
 	};
 
 	private static Map<String,IFormData> FORM_LAYOUT_DEFINITION_MAP = Collections.synchronizedMap(new ArrayToMap(FORM_LAYOUT_DEFINITIONS));
