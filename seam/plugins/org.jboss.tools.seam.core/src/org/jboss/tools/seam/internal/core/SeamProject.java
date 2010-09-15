@@ -428,6 +428,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		for (int i = 0; i < ps.length; i++) {
 			pathRemoved(ps[i]);
 		}
+		dependsOn.clear();
 		packages.clear();
 		createScopes();
 		fireChanges();
