@@ -84,6 +84,12 @@ public class SeamEARTest extends TestCase {
 		assertNotNull("War project must see component 'authenticator' declared in ejb project", c);
 	}
 
+	/**
+	 * See https://jira.jboss.org/browse/JBIDE-7066
+	 * Seam model is not loaded if there are two dependent Seam projects and one of them has been cleaned.
+	 * 
+	 * @throws CoreException
+	 */
 	public void testCleanEarProject() throws CoreException {
 		ISeamProject seamProject = getSeamProject(projectWAR);
 		ISeamComponent c = seamProject.getComponent("authenticator");
