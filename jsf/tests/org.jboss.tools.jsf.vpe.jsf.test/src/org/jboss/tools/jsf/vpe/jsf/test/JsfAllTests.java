@@ -137,7 +137,7 @@ public class JsfAllTests {
 		 */
 		suite.addTestSuite(JSF2ValidatorTest.class);
 		suite.addTestSuite(DocBookTemplatesTest.class);
-		suite.addTestSuite(DnD_JBIDE5042_JBIDE6229_Test.class);
+//		suite.addTestSuite(DnD_JBIDE5042_JBIDE6229_Test.class);
 		suite.addTestSuite(UnclosedELExpressionTest.class);
 		suite.addTestSuite(TestContextPathResolution.class);
 		suite.addTestSuite(JBIDE5920Test.class);

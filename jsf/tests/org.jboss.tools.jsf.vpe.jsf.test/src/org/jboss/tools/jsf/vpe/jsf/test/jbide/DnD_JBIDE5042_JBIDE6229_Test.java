@@ -44,7 +44,6 @@ import org.mozilla.interfaces.nsIDragSession;
 import org.mozilla.interfaces.nsIScriptableRegion;
 import org.mozilla.interfaces.nsISupportsArray;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Text;
 
@@ -53,6 +52,11 @@ import org.w3c.dom.Text;
  * 
  * @see JIRA Issue JBIDE-5042 ( https://jira.jboss.org/jira/browse/JBIDE-5042 ):
  * "Enhance DnD support in VPE"
+ * @see JIRA Issue JBIDE-6439 ( https://jira.jboss.org/jira/browse/JBIDE-6439 ):
+ * "Refactor and partially reimpement VpeDnD class"
+ * 
+ * @deprecated This test is obsolete. These jMock tests for D&D require too
+ * many efforts and changes in non-test plug-ins to be in actual state.
  * 
  * @author yradtsevich
  */
