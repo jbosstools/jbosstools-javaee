@@ -63,7 +63,7 @@ public class CDIBeansFileFormLayoutData implements CDIBeansConstants {
 		return new FormData(
 			title,
 			CDIXMLFormLayoutData.EMPTY_DESCRIPTION,
-			new FormAttributeData[]{new FormAttributeData("element type", 20, "Kind"), new FormAttributeData("name/pattern", 80)}, //$NON-NLS-1$
+			new FormAttributeData[]{new FormAttributeData("element type", 20, "Kind"), new FormAttributeData("name", 70), new FormAttributeData("is regular expression", 10, "RegEx")}, //$NON-NLS-1$
 			new String[]{"CDIWeldInclude", "CDIWeldExclude"},
 			FormLayoutDataUtil.createDefaultFormActionData("CreateActions.AddItem") //$NON-NLS-1$
 		);
