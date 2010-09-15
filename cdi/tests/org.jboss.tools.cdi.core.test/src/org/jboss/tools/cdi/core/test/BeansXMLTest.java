@@ -62,26 +62,30 @@ public class BeansXMLTest extends TestCase {
 		XModelObject include1 = scan.getChildByPath("cls1");
 		assertNotNull(include1);
 		assertEquals("CDIWeldInclude", include1.getModelEntity().getName());
-		String pattern1 = include1.getAttributeValue("pattern");
+		String pattern1 = include1.getAttributeValue("name");
 		assertEquals("cls1", pattern1);
+		assertEquals("true", include1.getAttributeValue("is regular expression"));
 
 		XModelObject include2 = scan.getChildByPath("cls2");
 		assertNotNull(include2);
 		assertEquals("CDIWeldInclude", include2.getModelEntity().getName());
 		String name2 = include2.getAttributeValue("name");
 		assertEquals("cls2", name2);
+		assertEquals("false", include2.getAttributeValue("is regular expression"));
 
 		XModelObject exclude3 = scan.getChildByPath("cls3");
 		assertNotNull(exclude3);
 		assertEquals("CDIWeldExclude", exclude3.getModelEntity().getName());
 		String name3 = exclude3.getAttributeValue("name");
 		assertEquals("cls3", name3);
+		assertEquals("false", exclude3.getAttributeValue("is regular expression"));
 
 		XModelObject exclude4 = scan.getChildByPath("cls4");
 		assertNotNull(exclude4);
 		assertEquals("CDIWeldExclude", exclude4.getModelEntity().getName());
-		String pattern4 = exclude4.getAttributeValue("pattern");
+		String pattern4 = exclude4.getAttributeValue("name");
 		assertEquals("cls4", pattern4);
+		assertEquals("true", exclude4.getAttributeValue("is regular expression"));
 
 	}
 
