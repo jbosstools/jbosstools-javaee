@@ -3,7 +3,9 @@ package org.jboss.tools.cdi.xml.beans.model.handlers;
 import java.util.Properties;
 
 import org.jboss.tools.common.meta.XChild;
+import org.jboss.tools.common.meta.action.impl.DefaultWizardDataValidator;
 import org.jboss.tools.common.meta.action.impl.SpecialWizardSupport;
+import org.jboss.tools.common.meta.action.impl.WizardDataValidator;
 import org.jboss.tools.common.meta.action.impl.handlers.DefaultCreateHandler;
 import org.jboss.tools.common.model.XModelException;
 import org.jboss.tools.common.model.XModelObject;
@@ -51,4 +53,21 @@ public class AddIncludeSupport extends SpecialWizardSupport {
 		return null;
 	}
 
+	protected DefaultWizardDataValidator validator = new Validator();
+    
+	public WizardDataValidator getValidator(int step) {
+		validator.setSupport(this, step);
+		return validator;    	
+	}
+
+	class Validator extends DefaultWizardDataValidator {
+		public void validate(Properties data) {
+			boolean isRegEx = "true".equals(data.getProperty("is regular expression"));
+			String nameValue = data.getProperty("name/pattern");
+			String nameAttr = isRegEx ? "pattern" : "name";
+			data.setProperty(nameAttr, nameValue);
+			super.validate(data);			
+		}
+		
+	}
 }
