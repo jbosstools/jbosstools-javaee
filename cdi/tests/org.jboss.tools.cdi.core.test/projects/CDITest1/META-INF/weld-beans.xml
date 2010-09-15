@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<beans xmlns="http://java.sun.com/xml/ns/javaee"
+ xmlns:weld="http://jboss.org/schema/weld/beans"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="        http://java.sun.com/xml/ns/javaee        http://jboss.org/schema/cdi/beans_1_0.xsd http://jboss.org/schema/weld/beans http://jboss.org/schema/weld/beans_1_1.xsd">
+ <weld:scan>
+  <weld:include pattern="cls1"/>
+  <weld:include name="cls2"/>
+  <weld:exclude name="cls3"/>
+  <weld:exclude pattern="cls4"/>
+ </weld:scan>
+ <alternatives>
+  <class>test.MyS2</class>
+ </alternatives>
+</beans>

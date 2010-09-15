@@ -48,6 +48,43 @@ public class BeansXMLTest extends TestCase {
 		assertNotNull(o);
 	}
 
+	public void testWeldBeansXML() throws CoreException, IOException {
+		IFile file = project.getFile(new Path("META-INF/weld-beans.xml"));
+		assertNotNull(file);
+		XModelObject beansXML = EclipseResourceUtil.createObjectForResource(file);
+		assertNotNull(beansXML);
+
+		assertEquals("FileCDIBeans", beansXML.getModelEntity().getName());
+		
+		XModelObject scan = beansXML.getChildByPath("Scan");
+		assertNotNull(scan);
+		
+		XModelObject include1 = scan.getChildByPath("cls1");
+		assertNotNull(include1);
+		assertEquals("CDIWeldInclude", include1.getModelEntity().getName());
+		String pattern1 = include1.getAttributeValue("pattern");
+		assertEquals("cls1", pattern1);
+
+		XModelObject include2 = scan.getChildByPath("cls2");
+		assertNotNull(include2);
+		assertEquals("CDIWeldInclude", include2.getModelEntity().getName());
+		String name2 = include2.getAttributeValue("name");
+		assertEquals("cls2", name2);
+
+		XModelObject exclude3 = scan.getChildByPath("cls3");
+		assertNotNull(exclude3);
+		assertEquals("CDIWeldExclude", exclude3.getModelEntity().getName());
+		String name3 = exclude3.getAttributeValue("name");
+		assertEquals("cls3", name3);
+
+		XModelObject exclude4 = scan.getChildByPath("cls4");
+		assertNotNull(exclude4);
+		assertEquals("CDIWeldExclude", exclude4.getModelEntity().getName());
+		String pattern4 = exclude4.getAttributeValue("pattern");
+		assertEquals("cls4", pattern4);
+
+	}
+
 	public void tearDown() throws Exception {
 		boolean saveAutoBuild = ResourcesUtils.setBuildAutomatically(false);
 		JobUtils.waitForIdle();
