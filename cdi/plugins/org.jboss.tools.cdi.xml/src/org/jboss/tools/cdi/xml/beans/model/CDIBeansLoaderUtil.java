@@ -57,4 +57,40 @@ public class CDIBeansLoaderUtil extends XModelObjectLoaderUtil implements CDIBea
     	return false;
     }
 
+    public void loadAttributes(Element element, XModelObject o) {
+    	super.loadAttributes(element, o);
+    	String entity = o.getModelEntity().getName();
+    	if("CDIWeldInclude".equals(entity) || "CDIWeldExclude".equals(entity)) {
+    		String namePattern = "";
+    		String name = element.getAttribute("name");
+    		if(name != null && name.length() > 0) {
+    			namePattern = name;
+    			o.setAttributeValue("is regular expression", "false");
+    		}
+    		String pattern = element.getAttribute("pattern");
+    		if(pattern != null && pattern.length() > 0) {
+    			namePattern = pattern;
+    			o.setAttributeValue("is regular expression", "true");
+    		}
+    		o.setAttributeValue("name", namePattern);
+    	}
+    }
+   
+    public void saveAttribute(Element element, String xmlname, String value) {
+        int i = xmlname.indexOf('|');
+        if(i >= 0) return;
+        super.saveAttribute(element, xmlname, value);
+    }
+
+    public void saveAttributes(Element element, XModelObject o) {
+    	super.saveAttributes(element, o);
+    	String entity = o.getModelEntity().getName();
+    	if("CDIWeldInclude".equals(entity) || "CDIWeldExclude".equals(entity)) {
+    		boolean isRegEx = "true".equals(o.getAttributeValue("is regular expression"));
+    		String attr = isRegEx ? "pattern" : "name";
+    		String name = o.getAttributeValue("name");
+    		element.setAttribute(attr, name);
+    	}
+    }
+   
 }

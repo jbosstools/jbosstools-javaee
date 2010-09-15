@@ -31,13 +31,8 @@ public class AddIncludeSupport extends SpecialWizardSupport {
 		boolean include = "include".equals(p0.getProperty("kind"));
 		String entity = getObjectEntity(include);
 		
-		XModelObject object = XModelObjectLoaderUtil.createValidObject(getTarget().getModel(), entity, null);
+		XModelObject object = XModelObjectLoaderUtil.createValidObject(getTarget().getModel(), entity, p0);
 	
-		boolean isRegEx = "true".equals(p0.getProperty("is regular expression"));
-		String nameValue = p0.getProperty("name/pattern");
-		String nameAttr = isRegEx ? "pattern" : "name";
-		object.setAttributeValue(nameAttr, nameValue);
-
 		DefaultCreateHandler.addCreatedObject(getTarget(), object, FindObjectHelper.EVERY_WHERE);
 	}
 
@@ -53,21 +48,21 @@ public class AddIncludeSupport extends SpecialWizardSupport {
 		return null;
 	}
 
-	protected DefaultWizardDataValidator validator = new Validator();
-    
-	public WizardDataValidator getValidator(int step) {
-		validator.setSupport(this, step);
-		return validator;    	
-	}
-
-	class Validator extends DefaultWizardDataValidator {
-		public void validate(Properties data) {
-			boolean isRegEx = "true".equals(data.getProperty("is regular expression"));
-			String nameValue = data.getProperty("name/pattern");
-			String nameAttr = isRegEx ? "pattern" : "name";
-			data.setProperty(nameAttr, nameValue);
-			super.validate(data);			
-		}
-		
-	}
+//	protected DefaultWizardDataValidator validator = new Validator();
+//    
+//	public WizardDataValidator getValidator(int step) {
+//		validator.setSupport(this, step);
+//		return validator;    	
+//	}
+//
+//	class Validator extends DefaultWizardDataValidator {
+//		public void validate(Properties data) {
+//			boolean isRegEx = "true".equals(data.getProperty("is regular expression"));
+//			String nameValue = data.getProperty("name/pattern");
+//			String nameAttr = isRegEx ? "pattern" : "name";
+//			data.setProperty(nameAttr, nameValue);
+//			super.validate(data);			
+//		}
+//		
+//	}
 }

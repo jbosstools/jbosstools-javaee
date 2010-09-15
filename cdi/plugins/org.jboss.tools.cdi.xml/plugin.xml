@@ -20,8 +20,6 @@
 			class="org.jboss.tools.cdi.xml.beans.model.CDIBeansFileLoader"/>
 		<xclass id="org.jboss.tools.cdi.xml.beans.model.CDIBeansEntityRecognizer"
 			class="org.jboss.tools.cdi.xml.beans.model.CDIBeansEntityRecognizer"/>
-		<xclass id="org.jboss.tools.cdi.xml.beans.model.WeldIncludeObjectImpl"
-			class="org.jboss.tools.cdi.xml.beans.model.WeldIncludeObjectImpl"/>
 
 		<xclass id="org.jboss.tools.cdi.xml.beans.model.handlers.AddIncludeSupport"
 			class="org.jboss.tools.cdi.xml.beans.model.handlers.AddIncludeSupport"/>
