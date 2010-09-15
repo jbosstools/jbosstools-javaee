@@ -83,6 +83,32 @@ public class SeamEARTest extends TestCase {
 
 		assertNotNull("War project must see component 'authenticator' declared in ejb project", c);
 	}
+
+	public void testCleanEarProject() throws CoreException {
+		ISeamProject seamProject = getSeamProject(projectWAR);
+		ISeamComponent c = seamProject.getComponent("authenticator");
+
+		assertNotNull("War project must see component 'authenticator' declared in ejb project", c);
+		
+		boolean saveAutoBuild = ResourcesUtils.setBuildAutomatically(false);
+		
+		JobUtils.waitForIdle();
+
+		projectWAR.build(IncrementalProjectBuilder.CLEAN_BUILD, new NullProgressMonitor());
+		JobUtils.waitForIdle();
+		
+		c = seamProject.getComponent("authenticator");
+		assertNull("War project must see component 'authenticator' declared in ejb project", c);
+
+		projectWAR.build(IncrementalProjectBuilder.FULL_BUILD, new NullProgressMonitor());
+		JobUtils.waitForIdle();
+		c = seamProject.getComponent("authenticator");
+		assertNotNull("War project must see component 'authenticator' declared in ejb project", c);
+
+		ResourcesUtils.setBuildAutomatically(saveAutoBuild);
+		
+	}
+
 	
 	protected void tearDown() throws Exception {
 		setup.deleteProjects();
