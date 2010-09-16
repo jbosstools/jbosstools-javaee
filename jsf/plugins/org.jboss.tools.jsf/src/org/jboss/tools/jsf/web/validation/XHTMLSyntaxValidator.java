@@ -228,10 +228,10 @@ public class XHTMLSyntaxValidator extends Validator {
 			{     
 				XMLReader reader = super.createXMLReader(uri);
 	
-				reader.setFeature("http://xml.org/sax/features/namespaces", true);
+				reader.setFeature("http://xml.org/sax/features/namespaces", false);
 				reader.setFeature("http://xml.org/sax/features/namespace-prefixes", false);
-				reader.setFeature("http://xml.org/sax/features/validation", true);
-				reader.setFeature("http://apache.org/xml/features/validation/schema", true);
+				reader.setFeature("http://xml.org/sax/features/validation", false);
+				reader.setFeature("http://apache.org/xml/features/validation/schema", false);
 				reader.setFeature("http://apache.org/xml/features/validation/schema-full-checking", false);
 				reader.setFeature("http://apache.org/xml/features/validation/dynamic", false);
 				reader.setFeature("http://apache.org/xml/features/continue-after-fatal-error", false);
