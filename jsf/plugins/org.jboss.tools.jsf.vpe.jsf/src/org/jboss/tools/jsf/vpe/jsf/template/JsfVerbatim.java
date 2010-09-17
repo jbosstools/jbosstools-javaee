@@ -13,12 +13,12 @@ package org.jboss.tools.jsf.vpe.jsf.template;
 import java.util.ArrayList;
 
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMNode;
+import org.jboss.tools.jst.jsp.util.NodesManagingUtil;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.jboss.tools.vpe.editor.util.HTML;
-import org.jboss.tools.vpe.editor.util.NodesManagingUtil;
 import org.jboss.tools.vpe.editor.util.VisualDomUtil;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
