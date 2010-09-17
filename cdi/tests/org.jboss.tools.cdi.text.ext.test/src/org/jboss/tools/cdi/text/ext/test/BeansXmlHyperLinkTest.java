@@ -10,7 +10,6 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.text.ext.test;
 
-
 /**
  * beans.xml OpenOns test
  * 
@@ -31,6 +30,6 @@ public class BeansXmlHyperLinkTest extends HyperlinkDetectorTest {
 	}
 
 	public void testInterceptorClassOpenOns() throws Exception {
-		checkHyperLinkInXml("WebContent/WEB-INF/beans.xml", 1761, "org.jboss.tools.common.text.ext.hyperlink.ClassHyperlink");
+		checkHyperLinkInXml("WebContent/WEB-INF/beans.xml", 1841, "org.jboss.tools.common.text.ext.hyperlink.ClassHyperlink");
 	}
 }
