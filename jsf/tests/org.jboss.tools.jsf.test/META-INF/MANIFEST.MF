@@ -13,8 +13,10 @@ Require-Bundle:
  org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.core.resources,
+ org.eclipse.jface.text,
  org.jboss.tools.tests,
  org.jboss.tools.common.test,
+ org.jboss.tools.jst.jsp.test,
  org.jboss.tools.common.model,
  org.jboss.tools.jsf,
  org.jboss.tools.jsf.ui,
@@ -23,8 +25,10 @@ Require-Bundle:
  org.eclipse.ui.ide,
  org.eclipse.ltk.core.refactoring,
  org.eclipse.wst.validation,
- org.jboss.tools.common.el.core;bundle-version="3.2.0"
+ org.jboss.tools.common.el.core;bundle-version="3.2.0",
+ org.jboss.tools.jst.jsp;bundle-version="3.2.0"
 Bundle-Activator: org.jboss.tools.jsf.plugin.JsfTestPlugin
 Bundle-ActivationPolicy: lazy
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Import-Package: org.jboss.tools.jst.jsp.contentassist
