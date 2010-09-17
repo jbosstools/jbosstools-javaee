@@ -16,6 +16,7 @@ Require-Bundle: org.jboss.tools.tests,
  org.jboss.tools.common.el.core,
  org.jboss.tools.common.model.ui,
  org.eclipse.ltk.core.refactoring,
- org.jboss.tools.jst.web.kb
+ org.jboss.tools.jst.web.kb,
+ org.jboss.tools.cdi.xml
 Export-Package: org.jboss.tools.cdi.core.test,
  org.jboss.tools.cdi.core.test.tck
