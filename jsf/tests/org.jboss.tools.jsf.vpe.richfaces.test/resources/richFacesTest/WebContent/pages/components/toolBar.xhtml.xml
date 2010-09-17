@@ -1,6 +1,5 @@
 <tests>
 	<test id="toolBar">
-		<DIV>
 			<TABLE WIDTH="100%" CLASS="dr-toolbar-ext rich-toolbar"
 				STYLE="/background-image: url\(.*resources/common/background.gif\);/">
 				<TBODY>
@@ -68,7 +67,6 @@
 					</TR>
 				</TBODY>
 			</TABLE>
-		</DIV>
 	</test>
 	<test id="toolBar2">
 		<DIV CLASS="dr-pnl rich-panel">
@@ -79,7 +77,6 @@
 				</SPAN>
 			</DIV>
 			<DIV CLASS="dr-pnl-b rich-panel-body">
-				<DIV>
 					<TABLE WIDTH="100%" HEIGHT="26" CLASS="dr-toolbar-ext rich-toolbar btn"
 						STYLE="/background-image: url\(.*resources/common/background.gif\);/">
 						<TBODY>
@@ -172,9 +169,7 @@
 							</TR>
 						</TBODY>
 					</TABLE>
-				</DIV>
 				<FORM STYLE="border: 1px dotted rgb(255, 102, 0); padding: 5px;">
-					<DIV>
 						<TABLE WIDTH="100%" HEIGHT="34"
 							CLASS="dr-toolbar-ext rich-toolbar evenRow"
 							STYLE="/background-image: url\(.*resources/common/background.gif\);/">
@@ -290,7 +285,6 @@
 								</TR>
 							</TBODY>
 						</TABLE>
-					</DIV>
 				</FORM>
 				<FORM STYLE="border: 1px dotted rgb(255, 102, 0); padding: 5px;">
 					<TABLE WIDTH="100%" CELLSPACING="0" CELLPADDING="0" BORDER="0"
@@ -391,7 +385,6 @@
 						</TBODY>
 					</TABLE>
 				</FORM>
-				<DIV>
 					<TABLE WIDTH="100%" HEIGHT="30" CLASS="dr-toolbar-ext rich-toolbar"
 						STYLE="/background-image: url\(.*resources/common/background.gif\); color: Cornsilk; font-style: italic; background-color: Orchid; text-decoration: underline; font-family: Arial Narrow,Bodoni MT; font-weight: bold;/">
 						<TBODY>
@@ -475,7 +468,6 @@
 							</TR>
 						</TBODY>
 					</TABLE>
-				</DIV>
 			</DIV>
 		</DIV>
 	</test>
