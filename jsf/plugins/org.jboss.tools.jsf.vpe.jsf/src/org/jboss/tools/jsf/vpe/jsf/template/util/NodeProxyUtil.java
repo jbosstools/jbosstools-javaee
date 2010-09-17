@@ -22,6 +22,7 @@ import org.jboss.tools.jsf.vpe.jsf.template.util.proxy.JsfTemplateInvocationHand
 import org.jboss.tools.jst.jsp.util.NodesManagingUtil;
 import org.jboss.tools.vpe.editor.mapping.VpeDomMapping;
 import org.jboss.tools.vpe.editor.mapping.VpeNodeMapping;
+import org.jboss.tools.vpe.editor.util.VpeNodesManagingUtil;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -96,7 +97,7 @@ public class NodeProxyUtil {
 					&& (anchorPosition <= (NodesManagingUtil
 							.getEndOffsetNode(child)))) {
 
-				return NodesManagingUtil.getNodeMapping(domMapping, child);
+				return VpeNodesManagingUtil.getNodeMapping(domMapping, child);
 			}
 		}
 

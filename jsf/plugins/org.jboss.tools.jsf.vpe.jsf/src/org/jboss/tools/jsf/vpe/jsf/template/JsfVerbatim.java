@@ -20,6 +20,7 @@ import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.jboss.tools.vpe.editor.util.HTML;
 import org.jboss.tools.vpe.editor.util.VisualDomUtil;
+import org.jboss.tools.vpe.editor.util.VpeNodesManagingUtil;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.w3c.dom.Element;
@@ -74,7 +75,7 @@ public class JsfVerbatim extends VpeAbstractTemplate {
 				creationData.addChildrenInfo(childSpanInfo);
 			} else {
 				// get text by positions and add to span
-				String text = NodesManagingUtil.getSourceText(pageContext,
+				String text = VpeNodesManagingUtil.getSourceText(pageContext,
 						((IDOMNode) child).getStartOffset(), ((IDOMNode) child)
 								.getEndOffset() - 1);
 				mainContainer.appendChild(visualDocument.createTextNode(text));
