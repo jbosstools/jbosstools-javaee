@@ -23,18 +23,12 @@ import org.jboss.tools.seam.xml.components.model.SeamComponentConstants;
 public class SeamXMLModelTest extends TestCase {
 	IProject project = null;
 
-	public SeamXMLModelTest() {
-		super("Seam Scanner test");
-		project = getTestProject();
-	}
-	
 	public IProject getTestProject() {
 		if(project==null) {
 			try {
 				project = findTestProject();
-				if(project==null || !project.exists()) {
-//					project = importPreparedProject("/");
-				}
+				assertNotNull("Project Test is not found.", project);
+				assertTrue("Project Test is not accessible.", project.isAccessible());
 			} catch (Exception e) {
 				e.printStackTrace();
 				fail("Can't import Seam XML test project: " + e.getMessage());
@@ -47,14 +41,14 @@ public class SeamXMLModelTest extends TestCase {
 		return ResourcesPlugin.getWorkspace().getRoot().getProject("Test");
 	}
 
-
 	/**
 	 * This test is to check different cases of declaring components in xml.
 	 * It does not check interaction of xml declaration with other declarations.
 	 */
 	public void testXMLModel() {
-		IFile f = project.getFile(new Path("components22.xml"));
+		IFile f = getTestProject().getFile(new Path("components22.xml"));
 		assertNotNull("File components22.xml is not found in Test project.", f);
+		assertTrue("File components22.xml is not accessible in Test project.", f.isAccessible());
 
 		XModelObject fileObject = EclipseResourceUtil.createObjectForResource(f);
 		assertNotNull("Cannot create XModel object for file components22.xml.", fileObject);
@@ -64,7 +58,7 @@ public class SeamXMLModelTest extends TestCase {
 
 		//TODO continue test
 	}
-	
+
 	public void testComponentFile() {
 		XModelObject fileObject = getComponent22Object();
 		String entity = fileObject.getModelEntity().getName();
@@ -73,45 +67,41 @@ public class SeamXMLModelTest extends TestCase {
 
 	protected XModelObject getComponents22Object() {
 		assertNotNull(getTestProject());
-		IFile f = project.getFile(new Path("components22.xml"));
+		IFile f = getTestProject().getFile(new Path("components22.xml"));
 		assertNotNull(f);
 		assertTrue(f.exists());
 		return EclipseResourceUtil.createObjectForResource(f);
-		
 	}
 
 	protected XModelObject getComponent22Object() {
 		assertNotNull(getTestProject());
-		IFile f = project.getFile(new Path("XYZ.component.xml"));
+		IFile f = getTestProject().getFile(new Path("XYZ.component.xml"));
 		assertNotNull(f);
 		assertTrue(f.exists());
 		return EclipseResourceUtil.createObjectForResource(f);
-		
 	}
 
 	public void testNavigationPagesComponent() {
 		XModelObject fileObject = getComponents22Object();
 		assertNotNull("Cannot create XModel object for file components22.xml.", fileObject);
-		
+
 		XModelObject navigationPages = fileObject.getChildByPath("org.jboss.seam.navigation.pages");
 		assertNotNull("Cannot find org.jboss.seam.navigation.pages", navigationPages);
-		
+
 		XModelObject resources = navigationPages.getChildByPath("resources");
 		assertNotNull("Cannot find resources in org.jboss.seam.navigation.pages", resources);
-		
+
 		XModelObject[] resourcesList = resources.getChildren();
 		assertEquals(1, resourcesList.length);
-		
+
 		assertAttribute(navigationPages, "no-conversation-view-id", "a.xhtml");
 		assertAttribute(navigationPages, "login-view-id", "b.xhtml");
 		assertAttribute(navigationPages, "http-port", "1111");
 		assertAttribute(navigationPages, "https-port", "1112");
-
 	}
 
 	protected void assertAttribute(XModelObject object, String name, String value) {
 		String actual = object.getAttributeValue(name);
 		assertEquals("Attribute " + name + " in " + object.getPresentationString() + " is incorrect.", value, actual);
 	}
-	
 }

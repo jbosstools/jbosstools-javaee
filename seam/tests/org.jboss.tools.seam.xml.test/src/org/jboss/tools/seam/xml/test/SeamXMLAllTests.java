@@ -24,7 +24,11 @@ public class SeamXMLAllTests {
 	public static Test suite() {
 		TestSuite suite = new TestSuite();
 		suite.setName("All tests for " + PLUGIN_ID);
-		suite.addTest(new SeamXMLTestSetup(SeamXMLTestSuite.suite()));
+
+		TestSuite xmlSuite = new TestSuite("Seam XML Tests");
+		xmlSuite.addTestSuite(SeamXMLModelTest.class);
+
+		suite.addTest(new SeamXMLTestSetup(xmlSuite));
 
 		return suite;
 	}

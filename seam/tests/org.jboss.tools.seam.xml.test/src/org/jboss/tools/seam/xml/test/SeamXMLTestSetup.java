@@ -14,11 +14,9 @@ import junit.extensions.TestSetup;
 import junit.framework.Test;
 
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.ResourcesUtils;
-import org.jboss.tools.test.util.xpl.EditorTestHelper;
 
 /**
  * @author Viacheslav Kabanovich
@@ -35,8 +33,9 @@ public class SeamXMLTestSetup extends TestSetup {
 	protected void setUp() throws Exception {
 		project = ResourcesUtils.importProject(
 				"org.jboss.tools.seam.xml.test","/projects/Test" , new NullProgressMonitor());
-		project.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
-		EditorTestHelper.joinBackgroundActivities();
+//		project.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
+//		EditorTestHelper.joinBackgroundActivities();
+		JobUtils.waitForIdle();
 	}
 
 	@Override
