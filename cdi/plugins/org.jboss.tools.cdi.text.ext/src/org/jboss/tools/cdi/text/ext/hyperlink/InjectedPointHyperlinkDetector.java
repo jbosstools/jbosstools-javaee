@@ -11,6 +11,7 @@
 package org.jboss.tools.cdi.text.ext.hyperlink;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
@@ -32,7 +33,6 @@ import org.eclipse.jface.text.hyperlink.AbstractHyperlinkDetector;
 import org.eclipse.jface.text.hyperlink.IHyperlink;
 import org.eclipse.ui.texteditor.ITextEditor;
 import org.jboss.tools.cdi.core.CDICoreNature;
-import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.CDIUtil;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.ICDIProject;
@@ -40,10 +40,15 @@ import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.text.ext.CDIExtensionsPlugin;
 
 public class InjectedPointHyperlinkDetector extends AbstractHyperlinkDetector{
-	
+	private IRegion region;
+	private IDocument document;
+	private ITextViewer viewer;
 
 	public IHyperlink[] detectHyperlinks(ITextViewer textViewer,
 			IRegion region, boolean canShowMultipleHyperlinks) {
+		this.region = region;
+		this.viewer = textViewer;
+		
 		ITextEditor textEditor= (ITextEditor)getAdapter(ITextEditor.class);
 		if (region == null || !canShowMultipleHyperlinks || !(textEditor instanceof JavaEditor))
 			return null;
@@ -57,7 +62,7 @@ public class InjectedPointHyperlinkDetector extends AbstractHyperlinkDetector{
 		if (input.getResource() == null || input.getResource().getProject() == null)
 			return null;
 
-		IDocument document= textEditor.getDocumentProvider().getDocument(textEditor.getEditorInput());
+		document= textEditor.getDocumentProvider().getDocument(textEditor.getEditorInput());
 		IRegion wordRegion= JavaWordFinder.findWord(document, offset);
 		if (wordRegion == null)
 			return null;
@@ -99,9 +104,7 @@ public class InjectedPointHyperlinkDetector extends AbstractHyperlinkDetector{
 					}
 				}
 
-				if(findInjectedBeans(cdiNature, element, position, file)){
-					hyperlinks.add(new InjectedPointListHyperlink(file, textViewer, wordRegion, element, position, document));
-				}
+				findInjectedBeans(cdiNature, element, position, file, hyperlinks);
 			}
 			
 			if (hyperlinks != null && !hyperlinks.isEmpty()) {
@@ -113,24 +116,30 @@ public class InjectedPointHyperlinkDetector extends AbstractHyperlinkDetector{
 		return null;
 	}
 	
-	private boolean findInjectedBeans(CDICoreNature nature, IJavaElement element, int offset, IFile file){
+	private void findInjectedBeans(CDICoreNature nature, IJavaElement element, int offset, IFile file, ArrayList<IHyperlink> hyperlinks){
 		ICDIProject cdiProject = nature.getDelegate();
 		
 		if(cdiProject == null){
-			return false;
+			return;
 		}
 		
 		Set<IBean> beans = cdiProject.getBeans(file.getFullPath());
 		
 		IInjectionPoint injectionPoint = CDIUtil.findInjectionPoint(beans, element, offset);
 		if(injectionPoint == null){
-			return false;
+			return;
 		}
 		
-		Set<IBean> resultBeanSet = cdiProject.getBeans(false, injectionPoint);
-		if(resultBeanSet.size() > 0)
-			return true;
+		Set<IBean> resultBeanSet = cdiProject.getBeans(true, injectionPoint);
+		List<IBean> resultBeanList = CDIUtil.sortBeans(resultBeanSet);
 		
-		return false;
+		Set<IBean> alternativeBeanSet = cdiProject.getBeans(false, injectionPoint);
+		List<IBean> alternativeBeanList = CDIUtil.sortBeans(alternativeBeanSet);
+			
+		if(resultBeanList.size() > 0){
+			hyperlinks.add(new InjectedPointHyperlink(region, resultBeanList.get(0), document, true));
+			if(alternativeBeanList.size() > 1)
+				hyperlinks.add(new AlternativeInjectedPointListHyperlink(region, alternativeBeanList, viewer, document));
+		}
 	}
 }
