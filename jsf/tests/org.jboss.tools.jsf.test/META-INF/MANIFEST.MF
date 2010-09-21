@@ -25,8 +25,9 @@ Require-Bundle:
  org.eclipse.ui.ide,
  org.eclipse.ltk.core.refactoring,
  org.eclipse.wst.validation,
- org.jboss.tools.common.el.core;bundle-version="3.2.0",
- org.jboss.tools.jst.jsp;bundle-version="3.2.0"
+ org.jboss.tools.common.el.core,
+ org.jboss.tools.jst.jsp,
+ org.jboss.tools.common.model.test
 Bundle-Activator: org.jboss.tools.jsf.plugin.JsfTestPlugin
 Bundle-ActivationPolicy: lazy
 Bundle-Localization: plugin
