@@ -688,12 +688,22 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 	private void setCodeGenerationProperties() {
 		String p = (String) model
 				.getProperty(ISeamFacetDataModelProperties.SEAM_PROJECT_NAME);
-		sessionBeanPkgNameditor.setValue(getSessionPkgName(p));
-		entityBeanPkgNameditor.setValue(getEntityPkgName(p));
-		testsPkgNameditor.setValue(getTestPkgName(p));
-		ejbProjectNameditor.setValue(getEJBProjectName(p));
-		earProjectNameditor.setValue(getEARProjectName(p));
-		testProjectNameditor.setValue(getTestProjectName(p));
+		
+		if(p == null)
+			return;
+		
+		if(sessionBeanPkgNameditor.getValueAsString() == null || "".equals(sessionBeanPkgNameditor.getValueAsString().trim()))
+			sessionBeanPkgNameditor.setValue(getSessionPkgName(p));
+		if(entityBeanPkgNameditor.getValueAsString() == null || "".equals(entityBeanPkgNameditor.getValueAsString().trim()))
+			entityBeanPkgNameditor.setValue(getEntityPkgName(p));
+		if(testsPkgNameditor.getValueAsString() == null || "".equals(testsPkgNameditor.getValueAsString().trim()))
+			testsPkgNameditor.setValue(getTestPkgName(p));
+		if(ejbProjectNameditor.getValueAsString() == null || "".equals(ejbProjectNameditor.getValueAsString().trim()))
+			ejbProjectNameditor.setValue(getEJBProjectName(p));
+		if(earProjectNameditor.getValueAsString() == null || "".equals(earProjectNameditor.getValueAsString().trim()))
+			earProjectNameditor.setValue(getEARProjectName(p));
+		if(testProjectNameditor.getValueAsString() == null || "".equals(testProjectNameditor.getValueAsString().trim()))
+			testProjectNameditor.setValue(getTestProjectName(p));
 	}
 
 	private String getSessionPkgName(String projectName) {
