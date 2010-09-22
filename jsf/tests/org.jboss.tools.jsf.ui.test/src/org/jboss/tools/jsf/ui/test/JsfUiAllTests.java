@@ -23,6 +23,9 @@ import org.jboss.tools.jsf.jsp.ca.test.CANotEmptyWhenThereIsNoSpaceBetweenInvert
 import org.jboss.tools.jsf.jsp.ca.test.CASuggestsNotOnlyELProposalsJBIDE2437Test;
 import org.jboss.tools.jsf.jsp.ca.test.CAUnnecessaryElementsForDirAttributeInXHTMLPageJBIDE1813Test;
 import org.jboss.tools.jsf.jsp.ca.test.CAVarAttributeForDataTableTagJBIDE2016;
+import org.jboss.tools.jsf.jsp.ca.test.JsfJspJbide1704Test;
+import org.jboss.tools.jsf.jsp.ca.test.JsfJspJbide1717Test;
+import org.jboss.tools.jsf.jsp.ca.test.JsfJspJbide6259Test;
 import org.jboss.tools.jsf.jsp.ca.test.MissingKBBuilderTest;
 import org.jboss.tools.jsf.ui.test.refactoring.ELReferencesRenameTest;
 import org.jboss.tools.jsf.ui.test.AddJSFCapabilitiesTest;
@@ -49,7 +52,11 @@ public class JsfUiAllTests {
 		suite.addTestSuite(FasesConfigEditorTest.class);
 		suite.addTestSuite(PropertiesNewWizardTest.class);
 		suite.addTestSuite(JsfUiPreferencesPagesTest.class);
-		suite.addTest(new ProjectImportTestSetup(new TestSuite(
+		suite.addTestSuite(JsfJspJbide6259Test.class);
+		suite.addTestSuite(JsfJspJbide1704Test.class);
+ 		suite.addTestSuite(JsfJspJbide1717Test.class);
+
+ 		suite.addTest(new ProjectImportTestSetup(new TestSuite(
 				ELReferencesRenameTest.class), "org.jboss.tools.jsf.ui.test", //$NON-NLS-1$
 				new String[] { "projects/testJSFProject", }, //$NON-NLS-1$
 				new String[] { "testJSFProject" })); //$NON-NLS-1$
@@ -69,6 +76,7 @@ public class JsfUiAllTests {
 				"org.jboss.tools.jsf.ui.test",
 				new String[]{"projects/test_jsf_project"},
 				new String[]{"test_jsf_project"}));
+
 		return new TestWizardsProject(suite);
 	}
 }
