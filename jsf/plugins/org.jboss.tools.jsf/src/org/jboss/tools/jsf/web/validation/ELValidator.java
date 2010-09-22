@@ -17,8 +17,10 @@ import java.util.Set;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
@@ -195,19 +197,17 @@ public class ELValidator extends ValidationErrorManager implements IValidator {
 			return false;
 		}
 		IProject project = file.getProject();
-		if(currentProject==null || !project.equals(currentProject)) {
-			enabled = isEnabled(project);	
-			currentProject = project;
-		}
-		if(!enabled) {
-			return false;
-		}
 		if(!file.isSynchronized(IResource.DEPTH_ZERO)) {
 			// The resource is out of sync with the file system
 			// Just ignore this resource.
 			return false;
 		}
 		if(!project.equals(currentProject)) {
+			currentProject = project;
+			enabled = isEnabled(project);	
+			if(!enabled) {
+				return false;
+			}
 			if(webRootFolder!=null && !project.equals(webRootFolder.getProject())) {
 				webRootFolder = null;
 			}
@@ -367,9 +367,9 @@ public class ELValidator extends ValidationErrorManager implements IValidator {
 							startPosition = startPosition + startPr;
 							length = propertyName.length();
 						}
-						addError(JSFValidationMessages.UNPAIRED_GETTER_OR_SETTER, JSFSeverityPreferences.UNPAIRED_GETTER_OR_SETTER, new String[]{propertyName, existedMethodName, missingMethodName}, length, startPosition, file);
-//						IMarker marker = addError(JSFValidationMessages.UNPAIRED_GETTER_OR_SETTER, JSFSeverityPreferences.UNPAIRED_GETTER_OR_SETTER, new String[]{propertyName, existedMethodName, missingMethodName}, length, startPosition, file);
-//						elReference.addMarker(marker);
+//						addError(JSFValidationMessages.UNPAIRED_GETTER_OR_SETTER, JSFSeverityPreferences.UNPAIRED_GETTER_OR_SETTER, new String[]{propertyName, existedMethodName, missingMethodName}, length, startPosition, file);
+						IMarker marker = addError(JSFValidationMessages.UNPAIRED_GETTER_OR_SETTER, JSFSeverityPreferences.UNPAIRED_GETTER_OR_SETTER, new String[]{propertyName, existedMethodName, missingMethodName}, length, startPosition, file);
+						elReference.addMarker(marker);
 					}
 				}
 			}
@@ -403,13 +403,13 @@ public class ELValidator extends ValidationErrorManager implements IValidator {
 		}
 		// Mark invalid EL
 		if(unresolvedTokenIsVariable) {
-			addError(JSFValidationMessages.UNKNOWN_EL_VARIABLE_NAME, JSFSeverityPreferences.UNKNOWN_EL_VARIABLE_NAME, new String[]{varName}, lengthOfVarName, offsetOfVarName, file);
-//			IMarker marker = addError(JSFValidationMessages.UNKNOWN_EL_VARIABLE_NAME, JSFSeverityPreferences.UNKNOWN_EL_VARIABLE_NAME, new String[]{varName}, lengthOfVarName, offsetOfVarName, file);
-//			elReference.addMarker(marker);
+//			addError(JSFValidationMessages.UNKNOWN_EL_VARIABLE_NAME, JSFSeverityPreferences.UNKNOWN_EL_VARIABLE_NAME, new String[]{varName}, lengthOfVarName, offsetOfVarName, file);
+			IMarker marker = addError(JSFValidationMessages.UNKNOWN_EL_VARIABLE_NAME, JSFSeverityPreferences.UNKNOWN_EL_VARIABLE_NAME, new String[]{varName}, lengthOfVarName, offsetOfVarName, file);
+			elReference.addMarker(marker);
 		} else {
-			addError(JSFValidationMessages.UNKNOWN_EL_VARIABLE_PROPERTY_NAME, JSFSeverityPreferences.UNKNOWN_EL_VARIABLE_PROPERTY_NAME, new String[]{varName}, lengthOfVarName, offsetOfVarName, file);
-//			IMarker marker = addError(JSFValidationMessages.UNKNOWN_EL_VARIABLE_PROPERTY_NAME, JSFSeverityPreferences.UNKNOWN_EL_VARIABLE_PROPERTY_NAME, new String[]{varName}, lengthOfVarName, offsetOfVarName, file);
-//			elReference.addMarker(marker);
+//			addError(JSFValidationMessages.UNKNOWN_EL_VARIABLE_PROPERTY_NAME, JSFSeverityPreferences.UNKNOWN_EL_VARIABLE_PROPERTY_NAME, new String[]{varName}, lengthOfVarName, offsetOfVarName, file);
+			IMarker marker = addError(JSFValidationMessages.UNKNOWN_EL_VARIABLE_PROPERTY_NAME, JSFSeverityPreferences.UNKNOWN_EL_VARIABLE_PROPERTY_NAME, new String[]{varName}, lengthOfVarName, offsetOfVarName, file);
+			elReference.addMarker(marker);
 		}
 	}
 
