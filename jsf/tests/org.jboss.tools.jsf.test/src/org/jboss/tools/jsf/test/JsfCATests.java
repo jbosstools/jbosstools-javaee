@@ -12,6 +12,7 @@ package org.jboss.tools.jsf.test;
 
 import org.jboss.tools.jsf.ca.test.JsfJspJbide1704Test;
 import org.jboss.tools.jsf.ca.test.JsfJspJbide1717Test;
+import org.jboss.tools.jsf.ca.test.JsfJspJbide6259Test;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
@@ -20,6 +21,7 @@ public class JsfCATests {
 	public static Test suite() {
 		TestSuite suite = new TestSuite("Test for org.jboss.tools.jsf.test");
 
+		suite.addTestSuite(JsfJspJbide6259Test.class);
 		suite.addTestSuite(JsfJspJbide1704Test.class);
  		suite.addTestSuite(JsfJspJbide1717Test.class);
 	
