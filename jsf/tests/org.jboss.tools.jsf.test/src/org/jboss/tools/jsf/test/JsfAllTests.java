@@ -33,7 +33,6 @@ public class JsfAllTests {
 		old.addTestSuite(JSFModelTest.class);
 		old.addTestSuite(ModelFormat_2_0_0_Test.class);
 		old.addTestSuite(JSFBeansTest.class);
-		old.addTestSuite(FaceletsKbModelTest.class);
 		old.addTest(
 				new ProjectImportTestSetup(WebContentAssistProviderTest.suite(), 
 						"org.jboss.tools.jst.web.test", "projects/TestsWebArtefacts","TestsWebArtefacts"));
