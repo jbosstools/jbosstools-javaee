@@ -11,7 +11,6 @@
 package org.jboss.tools.seam.internal.core.scanner.lib;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -30,9 +29,9 @@ import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
 import org.jboss.tools.common.model.XModel;
 import org.jboss.tools.common.model.XModelObject;
-import org.jboss.tools.common.model.filesystems.impl.FileSystemsLoader;
-import org.jboss.tools.common.model.util.EclipseResourceUtil;
-import org.jboss.tools.common.model.util.XModelObjectUtil;
+import org.jboss.tools.common.model.filesystems.FileSystemsHelper;
+import org.jboss.tools.common.model.filesystems.impl.Libs;
+import org.jboss.tools.common.model.filesystems.impl.LibsListener;
 import org.jboss.tools.jst.web.model.helpers.InnerModelHelper;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
@@ -45,12 +44,13 @@ import org.jboss.tools.seam.internal.core.scanner.ScannerException;
  *  
  * @author Viacheslav Kabanovich
  */
-public class ClassPath {
+public class ClassPath implements LibsListener {
 	SeamProject project;
 	XModel model = null;
 	
 	List<String> paths = null;
 	Map<IPath, String> paths2 = new HashMap<IPath, String>();
+	boolean libsModified = false;
 	
 	Set<String> processedPaths = new HashSet<String>();
 	
@@ -75,6 +75,9 @@ public class ClassPath {
 	 */
 	public void init() {
 		model = InnerModelHelper.createXModel(project.getProject());
+		if(model == null) return;
+		Libs libs = FileSystemsHelper.getLibs(model);
+		if(libs != null) libs.addListener(this);
 	}
 	
 	static String[] SYSTEM_JARS = {"rt.jar", "jsse.jar", "jce.jar", "charsets.jar"}; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
@@ -90,72 +93,17 @@ public class ClassPath {
 	 * @return
 	 */
 	public boolean update() {
-		List<String> newPaths = null;
-		try {
-			newPaths = EclipseResourceUtil.getClassPath(project.getProject());
-			List<String> jre = EclipseResourceUtil.getJREClassPath(project.getProject());
-			if(jre != null) newPaths.removeAll(jre);
-		} catch (CoreException e) {
-			//TODO
-			SeamCorePlugin.getDefault().logError(e);
-		} catch(IOException e) {
-			SeamCorePlugin.getDefault().logError(e);			
+		Libs libs = FileSystemsHelper.getLibs(model);
+		libs.update();
+		List<String> newPaths = libs.getPaths();
+		boolean result = libsModified || paths == null;
+		paths = newPaths;
+		if(result) {
+			paths2.clear();
+			paths2.putAll(libs.getPathsAsMap());
 		}
-		if(paths == null && newPaths == null) return false;
-		if((newPaths == null || paths == null) || (paths.size() != newPaths.size())) {
-			paths = newPaths;
-		} else { 
-			boolean b = false;
-			for (int i = 0; i < paths.size() && !b; i++) {
-				if(!paths.get(i).equals(newPaths.get(i))) b = true;
-			}
-			if(!b) return false;
-			paths = newPaths;
-		}
-		createMap();
-		XModelObject object = model.getByPath("FileSystems"); //$NON-NLS-1$
-		XModelObject[] fs = object.getChildren("FileSystemJar"); //$NON-NLS-1$
-		Set<XModelObject> fss = new HashSet<XModelObject>();
-		for (int i = 0; i < fs.length; i++) fss.add(fs[i]);
-		
-		for (int i = 0; i < paths.size(); i++) {
-			String path = paths.get(i);
-			if(!EclipseResourceUtil.isJar(path)) continue;
-			String fileName = new File(path).getName();
-			if(SYSTEM_JAR_SET.contains(fileName)) continue;
-			String jsname = "lib-" + fileName; //$NON-NLS-1$
-			XModelObject o = model.getByPath("FileSystems").getChildByPath(jsname); //$NON-NLS-1$
-			if(o != null) {
-				fss.remove(o);
-			} else {
-				o = object.getModel().createModelObject("FileSystemJar", null); //$NON-NLS-1$
-				o.setAttributeValue("name", jsname); //$NON-NLS-1$
-				o.setAttributeValue("location", path); //$NON-NLS-1$
-				o.set(FileSystemsLoader.IS_ADDED_TO_CLASSPATH, "true"); //$NON-NLS-1$
-				object.addChild(o);
-//				object.setModified(true);
-			}			
-		}
-		
-		for (XModelObject o: fss) {
-			String path = XModelObjectUtil.expand(o.getAttributeValue("location"), o.getModel(), null); //$NON-NLS-1$
-			if("true".equals(o.get(FileSystemsLoader.IS_ADDED_TO_CLASSPATH))) { //$NON-NLS-1$
-				o.removeFromParent(); 
-			} else if(!new File(path).exists()) {
-				o.removeFromParent();
-			}			
-		}
-		
-		return true;
-	}
-	
-	private void createMap() {
-		paths2.clear();
-		if(paths != null) {
-			for (String p : paths) {
-				paths2.put(new Path(p), p);
-			}
-		}
+		libsModified = false;
+		return result;
 	}
 	
 	/**
@@ -292,5 +240,9 @@ public class ClassPath {
 		} else if(hasToUpdateProjectDependencies()) {
 			validateProjectDependencies();
 		}
+	}
+
+	public void pathsChanged(List<String> paths) {
+		libsModified = true;		
 	}
 }
