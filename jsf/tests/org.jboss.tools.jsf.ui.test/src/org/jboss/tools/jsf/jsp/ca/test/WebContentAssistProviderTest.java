@@ -8,7 +8,7 @@
  * Contributors:
  *     Exadel, Inc. and Red Hat, Inc. - initial API and implementation
  ******************************************************************************/ 
-package org.jboss.tools.jsf.ca.test;
+package org.jboss.tools.jsf.jsp.ca.test;
 
 import java.util.List;
 import java.util.Properties;

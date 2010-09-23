@@ -26,10 +26,8 @@ import org.jboss.tools.jsf.jsp.ca.test.CAVarAttributeForDataTableTagJBIDE2016;
 import org.jboss.tools.jsf.jsp.ca.test.JsfJspJbide1704Test;
 import org.jboss.tools.jsf.jsp.ca.test.JsfJspJbide1717Test;
 import org.jboss.tools.jsf.jsp.ca.test.JsfJspJbide6259Test;
-import org.jboss.tools.jsf.jsp.ca.test.MissingKBBuilderTest;
+import org.jboss.tools.jsf.jsp.ca.test.WebContentAssistProviderTest;
 import org.jboss.tools.jsf.ui.test.refactoring.ELReferencesRenameTest;
-import org.jboss.tools.jsf.ui.test.AddJSFCapabilitiesTest;
-import org.jboss.tools.jsf.ui.test.JSPProblemMarkerResolutionTest;
 import org.jboss.tools.test.util.ProjectImportTestSetup;
 
 public class JsfUiAllTests {
@@ -56,6 +54,9 @@ public class JsfUiAllTests {
 		suite.addTestSuite(JsfJspJbide1704Test.class);
  		suite.addTestSuite(JsfJspJbide1717Test.class);
 
+ 		suite.addTest(
+				new ProjectImportTestSetup(WebContentAssistProviderTest.suite(), 
+						"org.jboss.tools.jst.web.test", "projects/TestsWebArtefacts","TestsWebArtefacts"));
  		suite.addTest(new ProjectImportTestSetup(new TestSuite(
 				ELReferencesRenameTest.class), "org.jboss.tools.jsf.ui.test", //$NON-NLS-1$
 				new String[] { "projects/testJSFProject", }, //$NON-NLS-1$

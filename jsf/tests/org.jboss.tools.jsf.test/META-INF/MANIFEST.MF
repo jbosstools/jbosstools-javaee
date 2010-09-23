@@ -7,7 +7,6 @@ Bundle-ClassPath: lib/xmlunit1.0.jar,
  .
 Bundle-Vendor: %Bundle-Vendor.0
 Export-Package: org.custommonkey.xmlunit,
- org.jboss.tools.jsf.ca.test,
  org.jboss.tools.jsf.kb.test,
  org.jboss.tools.jsf.model.pv.test,
  org.jboss.tools.jsf.plugin,
