@@ -42,6 +42,7 @@ public class ClassPathMonitor extends AbstractClassPathMonitor<CDICoreNature>{
 
 	public void init() {
 		model = EclipseResourceUtil.createObjectForResource(getProjectResource()).getModel();
+		super.init();
 	}
 
 	public Map<String, XModelObject> process() {
