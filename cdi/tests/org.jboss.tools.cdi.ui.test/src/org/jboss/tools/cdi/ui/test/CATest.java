@@ -25,7 +25,7 @@ public class CATest extends TestCase {
 	private ContentAssistantTestCase caTest = new ContentAssistantTestCase();
 	private static final String PAGE_NAME = "WebContent/test.jsp";
 	private String[] beanProposals = new String[] {"example", "example.com", "fish", "game", "haddock", "salmon", "sheep", "tunaFarm", "whitefish", "wolf"};
-	private String[] propertyProposals = new String[] {"game.value", "game.initialize"};
+	private String[] propertyProposals = new String[] {"game.value", "game.initialize()"};
 
 	public CATest() {
 		super();
