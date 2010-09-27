@@ -229,6 +229,9 @@ public class ELValidator extends ValidationErrorManager implements IValidator {
 			currentProject = project;
 			currentSources = EclipseResourceUtil.getJavaSourceRoots(project);
 		}
+		if(!enabled) {
+			return false;
+		}
 		// Validate all files from java source folders.
 		for (int i = 0; currentSources!=null && i < currentSources.length; i++) {
 			if(currentSources[i].getLocation().isPrefixOf(file.getLocation())) {
