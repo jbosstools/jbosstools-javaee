@@ -201,6 +201,9 @@ public class JSFMessageELCompletionEngine extends AbstractELCompletionEngine<IVa
 					ELSegmentImpl segment = new ELSegmentImpl();
 					segment.setToken(left.getFirstToken());
 					segment.setResolved(true);
+					for (Variable variable : resolvedVars) {
+						segment.getVariables().add(variable);						
+					}
 					resolution.addSegment(segment);
 
 					break;

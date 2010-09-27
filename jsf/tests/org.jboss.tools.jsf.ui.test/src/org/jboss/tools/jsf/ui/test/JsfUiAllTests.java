@@ -28,6 +28,7 @@ import org.jboss.tools.jsf.jsp.ca.test.JsfJspJbide1717Test;
 import org.jboss.tools.jsf.jsp.ca.test.JsfJspJbide6259Test;
 import org.jboss.tools.jsf.jsp.ca.test.WebContentAssistProviderTest;
 import org.jboss.tools.jsf.ui.test.refactoring.ELReferencesRenameTest;
+import org.jboss.tools.jsf.ui.test.validation.ELValidationTest;
 import org.jboss.tools.test.util.ProjectImportTestSetup;
 
 public class JsfUiAllTests {
@@ -55,8 +56,10 @@ public class JsfUiAllTests {
  		suite.addTestSuite(JsfJspJbide1717Test.class);
 
  		suite.addTest(
-				new ProjectImportTestSetup(WebContentAssistProviderTest.suite(), 
-						"org.jboss.tools.jst.web.test", "projects/TestsWebArtefacts","TestsWebArtefacts"));
+				new ProjectImportTestSetup(WebContentAssistProviderTest.suite(),
+				"org.jboss.tools.jsf.ui.test",
+				new String[] { "projects/TestsWebArtefacts", }, //$NON-NLS-1$
+				new String[] { "TestsWebArtefacts" })); //$NON-NLS-1$
  		suite.addTest(new ProjectImportTestSetup(new TestSuite(
 				ELReferencesRenameTest.class), "org.jboss.tools.jsf.ui.test", //$NON-NLS-1$
 				new String[] { "projects/testJSFProject", }, //$NON-NLS-1$
@@ -77,6 +80,10 @@ public class JsfUiAllTests {
 				"org.jboss.tools.jsf.ui.test",
 				new String[]{"projects/test_jsf_project"},
 				new String[]{"test_jsf_project"}));
+ 		suite.addTest(new ProjectImportTestSetup(new TestSuite(
+ 				ELValidationTest.class), "org.jboss.tools.jsf.ui.test", //$NON-NLS-1$
+				new String[] { "projects/testJSFProject", }, //$NON-NLS-1$
+				new String[] { "testJSFProject" })); //$NON-NLS-1$
 
 		return new TestWizardsProject(suite);
 	}
