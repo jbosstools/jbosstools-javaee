@@ -45,9 +45,8 @@ public class WebFlowTabbedPreferencesPage extends TabbedPreferencesPage implemen
 
 	void initTemplateList(XModelObject addView) {
 		try {
-			StrutsUtils templates = new StrutsUtils();
 			XAttributeConstraintAList l = (XAttributeConstraintAList)addView.getModelEntity().getAttribute("Page Template").getConstraint();
-			l.setValues(templates.getPageTemplateList());
+			l.setValues(new String[0]); //TODO compute !
 		} catch (Exception e) {
 			StrutsUIPlugin.getPluginLog().logError(e);
 		}
