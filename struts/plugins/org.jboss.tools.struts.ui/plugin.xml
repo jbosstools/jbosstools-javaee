@@ -135,8 +135,6 @@
       </page>
       <page category="org.jboss.tools.common.xstudio" class="org.jboss.tools.struts.ui.preferences.StrutsImplementationsPreferencesPage" id="org.jboss.tools.struts.ui.environments" 
             name="%PreferencePage_StrutsEnvironment"/>
-      <page category="org.jboss.tools.common.xstudio" class="org.jboss.tools.struts.ui.preferences.StrutsPagesPreferencesPage" id="org.jboss.tools.jsf.ui.jsfpages" 
-            name="%PreferencePage_StrutsPages"/>
       <page category="org.jboss.tools.common.xstudio" class="org.jboss.tools.struts.ui.preferences.ProjectPreferencesPage" id="org.jboss.tools.common.xstudio.project" 
             name="%PreferencePage_Project">
       </page>
