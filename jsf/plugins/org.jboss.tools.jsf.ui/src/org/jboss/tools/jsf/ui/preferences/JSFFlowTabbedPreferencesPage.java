@@ -10,8 +10,15 @@
  ******************************************************************************/ 
 package org.jboss.tools.jsf.ui.preferences;
 
+import java.util.Map;
+import java.util.TreeMap;
+
 import org.jboss.tools.common.model.options.Preference;
 import org.jboss.tools.common.model.ui.preferences.*;
+import org.eclipse.jface.text.templates.Template;
+import org.eclipse.jface.text.templates.persistence.TemplateStore;
+import org.eclipse.jst.jsp.ui.internal.JSPUIPlugin;
+import org.eclipse.jst.jsp.ui.internal.templates.TemplateContextTypeIdsJSP;
 import org.eclipse.ui.*;
 import org.jboss.tools.common.meta.constraint.impl.XAttributeConstraintAList;
 import org.jboss.tools.common.model.*;
@@ -37,9 +44,14 @@ public class JSFFlowTabbedPreferencesPage extends TabbedPreferencesPage implemen
 	
 	void initTemplateList(XModelObject addView) {
 		if(addView == null) return;
-		JSFTemplate templates = new JSFTemplate();
+		TemplateStore store = JSPUIPlugin.getInstance().getTemplateStore();
+		Map<String, Template> templates = new TreeMap<String, Template>();
+		Template[] ts = store.getTemplates(TemplateContextTypeIdsJSP.NEW);
+		for (Template t: ts) {
+			templates.put(t.getName(), t);
+		}		
 		XAttributeConstraintAList l = (XAttributeConstraintAList)addView.getModelEntity().getAttribute("Page Template").getConstraint(); //$NON-NLS-1$
-//		l.setValues(templates.getPageTemplateList());
+		l.setValues(templates.keySet().toArray(new String[0]));
 	}
 
 }
