@@ -17,10 +17,6 @@
             class="org.jboss.tools.jsf.ui.preferences.JSFImplementationsPreferencesPage" 
             id="org.jboss.tools.jsf.ui.jsfimplementations" 
             name="%PreferencePage_JSFImplementations"/>
-      <page category="org.jboss.tools.jsf.ui" 
-            class="org.jboss.tools.jsf.ui.preferences.JSFPagesPreferencesPage" 
-            id="org.jboss.tools.jsf.ui.jsfpages" 
-            name="%PreferencePage_JSFPages"/>
       <page category="org.jboss.tools.common.model.ui" 
             class="org.jboss.tools.jsf.ui.preferences.JSFCapabilitiesPreferencesPage" 
             id="org.jboss.tools.jsf.ui.capabilities" 
