@@ -10,10 +10,21 @@
  ******************************************************************************/ 
 package org.jboss.tools.struts.model.handlers.page.create;
 
-import java.io.File;
+import java.util.Map;
 import java.util.Properties;
 import java.util.StringTokenizer;
+import java.util.TreeMap;
 
+import org.eclipse.jface.text.Document;
+import org.eclipse.jface.text.IDocument;
+import org.eclipse.jface.text.templates.DocumentTemplateContext;
+import org.eclipse.jface.text.templates.Template;
+import org.eclipse.jface.text.templates.TemplateBuffer;
+import org.eclipse.jface.text.templates.TemplateContext;
+import org.eclipse.jface.text.templates.TemplateContextType;
+import org.eclipse.jface.text.templates.persistence.TemplateStore;
+import org.eclipse.jst.jsp.ui.internal.JSPUIPlugin;
+import org.eclipse.jst.jsp.ui.internal.templates.TemplateContextTypeIdsJSP;
 import org.eclipse.osgi.util.NLS;
 
 import org.jboss.tools.common.meta.action.XActionInvoker;
@@ -29,10 +40,8 @@ import org.jboss.tools.common.model.options.PreferenceModelUtilities;
 import org.jboss.tools.common.model.undo.XTransactionUndo;
 import org.jboss.tools.common.model.undo.XUndoManager;
 import org.jboss.tools.common.model.util.XModelObjectLoaderUtil;
-import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.struts.StrutsModelPlugin;
 import org.jboss.tools.struts.StrutsPreference;
-import org.jboss.tools.struts.StrutsUtils;
 import org.jboss.tools.struts.messages.StrutsUIMessages;
 import org.jboss.tools.struts.model.helpers.StrutsProcessHelper;
 import org.jboss.tools.struts.model.helpers.page.PageUpdateManager;
@@ -41,9 +50,11 @@ public class CreatePageSupport extends SpecialWizardSupport {
 	static String LAST_CREATE_FILE_PREFERENCE = "org.jboss.tools.struts.lastCreateFileValue";
     static String ATTR_FILE_SYSTEM = "file system";
     protected CreatePageContext context = new CreatePageContext();
-	protected StrutsUtils templates = new StrutsUtils();
+
 	String lastCreateFileValue = "true";
 
+	Map<String, Template> templates = null;
+	
     public CreatePageSupport() {
         context.setSupport(this);
     }
@@ -67,8 +78,9 @@ public class CreatePageSupport extends SpecialWizardSupport {
 	        	StrutsModelPlugin.getPluginLog().logError("Exception caught in CreatePageSupport:reset " + e.getMessage(), e);
 	        }
         } else {
-			templates.updatePageTemplates();
-			String[] s = templates.getPageTemplateList();
+    		loadTemplates();
+
+			String[] s = templates.keySet().toArray(new String[0]);
 			setValueList(getStepId(), "template", s);
 			if(s.length > 0) {
 				setAttributeValue(getStepId(), "template", getDefaultTemplate(s));
@@ -84,6 +96,39 @@ public class CreatePageSupport extends SpecialWizardSupport {
         }
     }
 
+	TemplateStore getTemplateStore() {
+		return JSPUIPlugin.getInstance().getTemplateStore();
+	}
+	
+	String getTemplateString(String templateName) {
+		if(templateName == null) return null;
+		String templateString = null;
+
+		Template template = templates.get(templateName);
+		if (template != null) {
+			TemplateContextType contextType =JSPUIPlugin.getInstance().getTemplateContextRegistry().getContextType(TemplateContextTypeIdsJSP.NEW);
+			IDocument document = new Document();
+			TemplateContext context = new DocumentTemplateContext(contextType, document, 0, 0);
+			try {
+				TemplateBuffer buffer = context.evaluate(template);
+				templateString = buffer.getString();
+			}
+			catch (Exception e) {
+				StrutsModelPlugin.getDefault().logWarning("Could not create template for new html", e); //$NON-NLS-1$
+			}
+		}
+
+		return templateString;
+	}
+
+	void loadTemplates() {
+		templates = new TreeMap<String, Template>();
+		Template[] ts = getTemplateStore().getTemplates(TemplateContextTypeIdsJSP.NEW);
+		for (Template t: ts) {
+			templates.put(t.getName(), t);
+		}
+	}
+	
     public void action(String name) throws XModelException {
         if(FINISH.equals(name)) {
             finish();
@@ -245,14 +290,8 @@ public class CreatePageSupport extends SpecialWizardSupport {
 //		StrutsModelPlugin.getDefault().getPluginPreferences().setDefault(LAST_CREATE_FILE_PREFERENCE, lastCreateFileValue);
 		if(!"true".equals(lastCreateFileValue)) return;
 
-		File templateFile = null;
 		String template = getAttributeValue(getStepId(), "template").trim();
-		if(template.length() > 0) {
-			templateFile = (File)templates.getPageTemplates().get(template);
-			if(templateFile == null || !templateFile.isFile()) throw new Exception("Template " + template + " is not found.");
-		}
-		
-		String body = (templateFile == null) ? "" : FileUtil.readFile(templateFile);
+		String body = (template == null) ? "" : getTemplateString(template);;
 
         XModelObject fs = context.getSelectedFileSystem();
         if(fs == null) return;
@@ -347,8 +386,8 @@ public class CreatePageSupport extends SpecialWizardSupport {
 					message = StrutsUIMessages.TEMPLATE_ISNOT_SPECIFIED;
 					return;
 				}
-				File templateFile = (File)templates.getPageTemplates().get(template.trim());
-				if(templateFile == null || !templateFile.isFile()) {
+				String t = getTemplateString(template.trim());
+				if(t == null) {
 					message = StrutsUIMessages.TEMPLATE_DOESNT_EXIST;
 				}
 			}
