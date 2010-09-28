@@ -11,9 +11,23 @@
 package org.jboss.tools.seam.pages.xml.model.handlers;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.Map;
 import java.util.Properties;
+import java.util.TreeMap;
+
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.jface.text.Document;
+import org.eclipse.jface.text.IDocument;
+import org.eclipse.jface.text.templates.DocumentTemplateContext;
+import org.eclipse.jface.text.templates.Template;
+import org.eclipse.jface.text.templates.TemplateBuffer;
+import org.eclipse.jface.text.templates.TemplateContext;
+import org.eclipse.jface.text.templates.TemplateContextType;
+import org.eclipse.jface.text.templates.persistence.TemplateStore;
+import org.eclipse.jst.jsp.ui.internal.JSPUIPlugin;
+import org.eclipse.jst.jsp.ui.internal.templates.TemplateContextTypeIdsJSP;
 import org.eclipse.osgi.util.NLS;
 import org.jboss.tools.common.meta.action.impl.DefaultWizardDataValidator;
 import org.jboss.tools.common.meta.action.impl.SpecialWizardSupport;
@@ -26,10 +40,8 @@ import org.jboss.tools.common.model.filesystems.impl.FileSystemImpl;
 import org.jboss.tools.common.model.options.PreferenceModelUtilities;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.model.util.FindObjectHelper;
-import org.jboss.tools.common.model.util.ModelFeatureFactory;
 import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.jst.web.model.ReferenceObject;
-import org.jboss.tools.jst.web.project.helpers.AbstractWebProjectTemplate;
 import org.jboss.tools.seam.pages.xml.SeamPagesXMLMessages;
 import org.jboss.tools.seam.pages.xml.SeamPagesXMLPlugin;
 import org.jboss.tools.seam.pages.xml.model.SeamPagesConstants;
@@ -37,23 +49,25 @@ import org.jboss.tools.seam.pages.xml.model.helpers.SeamPagesDiagramHelper;
 
 public class AddViewSupport extends SpecialWizardSupport implements SeamPagesConstants {
 	public static String JSF_ADD_VIEW_PATH = ""; //preference name
-	AbstractWebProjectTemplate templates = (AbstractWebProjectTemplate)ModelFeatureFactory.getInstance().createFeatureInstance("org.jboss.tools.jsf.web.JSFTemplate");
 	static String LAST_CREATE_FILE_PREFERENCE = "org.jboss.tools.jsf.lastCreateFileValue";
 	XModelObject sample;
 	
+	Map<String, Template> templates = null;
+	
+	public AddViewSupport() {}
+
 	public void reset() {
 		sample = (XModelObject)getProperties().get("sample");
 		if(sample != null) {
 			setAttributeValue(0, ATTR_VIEW_ID, sample.getAttributeValue(ATTR_PATH));
 		}
-		if(templates != null) {
-			templates.updatePageTemplates();
-			String[] s = templates.getPageTemplateList();
-			setValueList(0, "template", s);
-			//take from preferences
-			setAttributeValue(0, "template", getDefaultTemplate(s));
-		}
-		//TODO combine this feature with jsf
+			
+		String[] s = templates.keySet().toArray(new String[0]);
+		setValueList(0, "template", s);
+		//take from preferences
+		setAttributeValue(0, "template", getDefaultTemplate(s));
+
+			//TODO combine this feature with jsf
 		String last = SeamPagesXMLPlugin.getDefault().getPluginPreferences().getString(LAST_CREATE_FILE_PREFERENCE);
 		if(last == null || last.length() == 0) {
 			last = "true";
@@ -61,6 +75,39 @@ public class AddViewSupport extends SpecialWizardSupport implements SeamPagesCon
 			last = "false"; 
 		}
 		setAttributeValue(0, "create file", last);
+	}
+	
+	TemplateStore getTemplateStore() {
+		return JSPUIPlugin.getInstance().getTemplateStore();
+	}
+	
+	String getTemplateString(String templateName) {
+		if(templateName == null) return null;
+		String templateString = null;
+
+		Template template = templates.get(templateName);
+		if (template != null) {
+			TemplateContextType contextType =JSPUIPlugin.getInstance().getTemplateContextRegistry().getContextType(TemplateContextTypeIdsJSP.NEW);
+			IDocument document = new Document();
+			TemplateContext context = new DocumentTemplateContext(contextType, document, 0, 0);
+			try {
+				TemplateBuffer buffer = context.evaluate(template);
+				templateString = buffer.getString();
+			}
+			catch (Exception e) {
+				SeamPagesXMLPlugin.log("Could not create template for new html", e); //$NON-NLS-1$
+			}
+		}
+
+		return templateString;
+	}
+
+	void loadTemplates() {
+		templates = new TreeMap<String, Template>();
+		Template[] ts = getTemplateStore().getTemplates(TemplateContextTypeIdsJSP.NEW);
+		for (Template t: ts) {
+			templates.put(t.getName(), t);
+		}
 	}
 	
 	static XModelObject getPreferenceObject() {
@@ -277,16 +324,19 @@ public class AddViewSupport extends SpecialWizardSupport implements SeamPagesCon
 		if(!"true".equals(lastCreateFileValue)) return;
 		String template = getAttributeValue(0, "template");
 		if(template != null) template = template.trim();
-		File fs = null;
-		if(templates != null) {
-			fs = (File)templates.getPageTemplates().get(template);
-			if(fs == null || !fs.isFile()) throw new XModelException(NLS.bind(SeamPagesXMLMessages.TEMPLATE_IS_NOT_FOUND, template));
-		}
+
 		String location = ((FileSystemImpl)getTarget().getModel().getByPath("FileSystems/WEB-ROOT")).getAbsoluteLocation();
 		location += path;
 		File ft = new File(location);
-		ft.getParentFile().mkdirs();
-		if(fs != null) FileUtil.copyFile(fs, ft);
+
+		String templateString = getTemplateString(template);
+		try {
+			ft.createNewFile();
+		} catch (IOException e) {
+		}
+		if(templateString != null) {
+			FileUtil.writeFile(ft, templateString);
+		}
 		getTarget().getModel().update();
 		try {
 			EclipseResourceUtil.getResource(getTarget()).getProject().refreshLocal(IProject.DEPTH_INFINITE, null);
@@ -318,12 +368,9 @@ public class AddViewSupport extends SpecialWizardSupport implements SeamPagesCon
 					message = SeamPagesXMLMessages.TEMPLATE_IS_NOT_SPECIFIED;
 					return;
 				}
-				if (templates != null) {
-					File templateFile = (File) templates.getPageTemplates()
-							.get(template.trim());
-					if (templateFile == null || !templateFile.isFile()) {
-						message = SeamPagesXMLMessages.TEMPLATE_DOES_NOT_EXIST;
-					}
+				String t =  getTemplateString(template.trim());
+				if(t == null) {
+					message = SeamPagesXMLMessages.TEMPLATE_DOES_NOT_EXIST;
 				}
 			}
 			if(message != null) return;

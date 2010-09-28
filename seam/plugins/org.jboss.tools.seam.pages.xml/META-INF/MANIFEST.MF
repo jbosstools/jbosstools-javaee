@@ -9,7 +9,9 @@ Bundle-Localization: plugin
 Require-Bundle: org.jboss.tools.jst.web;visibility:=reexport,
  org.eclipse.ui,
  org.eclipse.wst.common.modulecore,
- org.eclipse.ltk.core.refactoring
+ org.eclipse.ltk.core.refactoring,
+ org.eclipse.jst.jsp.ui,
+ org.eclipse.jface.text
 Bundle-Version: 3.1.0.qualifier
 Export-Package: org.jboss.tools.seam.pages.xml,
  org.jboss.tools.seam.pages.xml.model,
