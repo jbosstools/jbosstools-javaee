@@ -21,7 +21,6 @@ public class StrutsPreference extends WebPreference {
 	public static final Preference USE_DEFAULT_PROJECT_ROOT = new StrutsPreference(OPTIONS_NEW_PROJECT_PATH, "Use Default Path"); //$NON-NLS-1$
 	public static final Preference DEFAULT_STRUTS_VERSION   = new StrutsPreference(OPTIONS_NEW_PROJECT_PATH, "Struts Version"); //$NON-NLS-1$
 	public static final Preference DEFAULT_PROJECT_TEMPLATE = new StrutsPreference(OPTIONS_NEW_PROJECT_PATH, "Project Template"); //$NON-NLS-1$
-	public static final Preference DEFAULT_PAGE_TEMPLATE = new StrutsPreference(OPTIONS_NEW_PROJECT_PATH, "Page Template"); //$NON-NLS-1$
 	public static final Preference DEFAULT_PROJECT_ROOT_DIR = new StrutsPreference(OPTIONS_NEW_PROJECT_PATH, "Projects Root"); //$NON-NLS-1$
 	public static final Preference DEFAULT_TLD_SET          = new StrutsPreference(OPTIONS_NEW_PROJECT_PATH, "Default TLDs"); //$NON-NLS-1$
 	

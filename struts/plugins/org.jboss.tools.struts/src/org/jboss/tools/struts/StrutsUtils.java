@@ -94,19 +94,6 @@ public class StrutsUtils extends AbstractWebProjectTemplate {
 		}
 	}
 
-	public String getDefaultPageTemplate() {
-		String preference = StrutsPreference.DEFAULT_PAGE_TEMPLATE.getValue();
-		return getDefaultPageTemplate(preference);	
-	}
-
-	public void setDefaultPageTemplate(String template) {
-		try {
-			StrutsPreference.DEFAULT_PAGE_TEMPLATE.setValue(template);
-		} catch (XModelException e) {
-			throw new IllegalArgumentException(e);
-		}
-	}
-
 	protected String getWizardEntitySuffix() {
 		return "Struts";
 	}
