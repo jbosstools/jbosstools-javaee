@@ -39,7 +39,7 @@ public class JSFFlowTabbedPreferencesPage extends TabbedPreferencesPage implemen
 		if(addView == null) return;
 		JSFTemplate templates = new JSFTemplate();
 		XAttributeConstraintAList l = (XAttributeConstraintAList)addView.getModelEntity().getAttribute("Page Template").getConstraint(); //$NON-NLS-1$
-		l.setValues(templates.getPageTemplateList());
+//		l.setValues(templates.getPageTemplateList());
 	}
 
 }
