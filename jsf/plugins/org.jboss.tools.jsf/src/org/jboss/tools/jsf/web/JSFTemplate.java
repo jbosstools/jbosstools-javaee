@@ -53,19 +53,6 @@ public class JSFTemplate extends AbstractWebProjectTemplate {
 		}
 	}
 
-	public String getDefaultPageTemplate() {
-		String preference = JSFPreference.DEFAULT_JSF_PAGE_TEMPLATE.getValue();
-		return getDefaultPageTemplate(preference);	
-	}
-
-	public void setDefaultPageTemplate(String template) {
-		try {
-			JSFPreference.DEFAULT_JSF_PAGE_TEMPLATE.setValue(template);
-		} catch (XModelException e) {
-			ModelPlugin.getPluginLog().logError(e);
-		}
-	}
-
 	protected String getWizardEntitySuffix() {
 		return "JSF";
 	}

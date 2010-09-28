@@ -24,7 +24,6 @@ public class JSFPreference extends WebPreference {
 	public static final Preference USE_DEFAULT_JSF_PROJECT_ROOT = new JSFPreference(OPTIONS_JSF_NEW_PROJECT_PATH, "Use Default Path"); //$NON-NLS-1$
 	public static final Preference DEFAULT_JSF_VERSION   = new JSFPreference(OPTIONS_JSF_NEW_PROJECT_PATH, "Version"); //$NON-NLS-1$
 	public static final Preference DEFAULT_JSF_PROJECT_TEMPLATE = new JSFPreference(OPTIONS_JSF_NEW_PROJECT_PATH, "Project Template"); //$NON-NLS-1$
-	public static final Preference DEFAULT_JSF_PAGE_TEMPLATE = new JSFPreference(OPTIONS_JSF_NEW_PROJECT_PATH, "Page Template"); //$NON-NLS-1$
 	public static final Preference DEFAULT_JSF_PROJECT_ROOT_DIR = new JSFPreference(OPTIONS_JSF_NEW_PROJECT_PATH, "Projects Root"); //$NON-NLS-1$
 	public static final Preference DEFAULT_JSF_SERVLET_VERSION  = new JSFPreference(OPTIONS_JSF_NEW_PROJECT_PATH, "Servlet Version"); //$NON-NLS-1$
 	public static final Preference DEFAULT_JSF_IMPORT_SERVLET_VERSION  = new JSFPreference(OPTIONS_JSF_IMPORT_PROJECT_PATH, "Servlet Version"); //$NON-NLS-1$
