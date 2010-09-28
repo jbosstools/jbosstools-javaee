@@ -13,7 +13,6 @@ package org.jboss.tools.jsf.ui.test;
 import org.jboss.tools.jsf.ui.preferences.JSFCapabilitiesPreferencesPage;
 import org.jboss.tools.jsf.ui.preferences.JSFFlowTabbedPreferencesPage;
 import org.jboss.tools.jsf.ui.preferences.JSFImplementationsPreferencesPage;
-import org.jboss.tools.jsf.ui.preferences.JSFPagesPreferencesPage;
 import org.jboss.tools.jsf.ui.preferences.JSFProjectPreferencesPage;
 import org.jboss.tools.jsf.ui.preferences.JSFStudioPreferencesPage;
 import org.jboss.tools.tests.PreferencePageTest;
@@ -34,10 +33,6 @@ public class JsfUiPreferencesPagesTest extends PreferencePageTest {
 	
 	public void testJsfImplementationsPreferencesPage() {
 		doDefaultTest(JSFImplementationsPreferencesPage.ID,JSFImplementationsPreferencesPage.class);
-	}
-	
-	public void testJSFPagesPreferencesPage() {
-		doDefaultTest(JSFPagesPreferencesPage.ID,JSFPagesPreferencesPage.class);
 	}
 	
 	public void testJsfProjectPreferencesPage() {
