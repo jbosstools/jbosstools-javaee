@@ -11,9 +11,23 @@
 package org.jboss.tools.jsf.model.handlers;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.Map;
 import java.util.Properties;
+import java.util.TreeMap;
+
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.jface.text.Document;
+import org.eclipse.jface.text.IDocument;
+import org.eclipse.jface.text.templates.DocumentTemplateContext;
+import org.eclipse.jface.text.templates.Template;
+import org.eclipse.jface.text.templates.TemplateBuffer;
+import org.eclipse.jface.text.templates.TemplateContext;
+import org.eclipse.jface.text.templates.TemplateContextType;
+import org.eclipse.jface.text.templates.persistence.TemplateStore;
+import org.eclipse.jst.jsp.ui.internal.JSPUIPlugin;
+import org.eclipse.jst.jsp.ui.internal.templates.TemplateContextTypeIdsJSP;
 import org.eclipse.osgi.util.NLS;
 import org.jboss.tools.common.meta.action.impl.DefaultWizardDataValidator;
 import org.jboss.tools.common.meta.action.impl.SpecialWizardSupport;
@@ -35,22 +49,26 @@ import org.jboss.tools.jsf.model.JSFNavigationModel;
 import org.jboss.tools.jsf.model.ReferenceGroupImpl;
 import org.jboss.tools.jsf.model.helpers.JSFProcessHelper;
 import org.jboss.tools.jsf.model.impl.NavigationRuleObjectImpl;
-import org.jboss.tools.jsf.web.JSFTemplate;
 import org.jboss.tools.jsf.messages.JSFUIMessages;
 
 public class AddViewSupport extends SpecialWizardSupport implements JSFConstants {
+	
 	public static String JSF_ADD_VIEW_PATH = JSFPreference.JSF_ADD_VIEW_PATH;
-	JSFTemplate templates = new JSFTemplate();
+//	JSFTemplate templates = new JSFTemplate();
 	static String LAST_CREATE_FILE_PREFERENCE = "org.jboss.tools.jsf.lastCreateFileValue"; //$NON-NLS-1$
 	XModelObject sample;
+
+	Map<String, Template> templates = null;
 	
 	public void reset() {
 		sample = (XModelObject)getProperties().get("sample"); //$NON-NLS-1$
 		if(sample != null) {
 			setAttributeValue(0, ATT_FROM_VIEW_ID, sample.getAttributeValue(ATT_PATH));
 		}
-		templates.updatePageTemplates();
-		String[] s = templates.getPageTemplateList();
+
+		loadTemplates();
+
+		String[] s = templates.keySet().toArray(new String[0]);
 		setValueList(0, "template", s); //$NON-NLS-1$
 		//take from preferences
 		setAttributeValue(0, "template", getDefaultTemplate(s)); //$NON-NLS-1$
@@ -61,6 +79,39 @@ public class AddViewSupport extends SpecialWizardSupport implements JSFConstants
 			last = "false";  //$NON-NLS-1$
 		}
 		setAttributeValue(0, "create file", last); //$NON-NLS-1$
+	}
+
+	TemplateStore getTemplateStore() {
+		return JSPUIPlugin.getInstance().getTemplateStore();
+	}
+	
+	String getTemplateString(String templateName) {
+		if(templateName == null) return null;
+		String templateString = null;
+
+		Template template = templates.get(templateName);
+		if (template != null) {
+			TemplateContextType contextType =JSPUIPlugin.getInstance().getTemplateContextRegistry().getContextType(TemplateContextTypeIdsJSP.NEW);
+			IDocument document = new Document();
+			TemplateContext context = new DocumentTemplateContext(contextType, document, 0, 0);
+			try {
+				TemplateBuffer buffer = context.evaluate(template);
+				templateString = buffer.getString();
+			}
+			catch (Exception e) {
+				JSFModelPlugin.getDefault().logWarning("Could not create template for new html", e); //$NON-NLS-1$
+			}
+		}
+
+		return templateString;
+	}
+
+	void loadTemplates() {
+		templates = new TreeMap<String, Template>();
+		Template[] ts = getTemplateStore().getTemplates(TemplateContextTypeIdsJSP.NEW);
+		for (Template t: ts) {
+			templates.put(t.getName(), t);
+		}
 	}
 	
 	static XModelObject getPreferenceObject() {
@@ -257,13 +308,19 @@ public class AddViewSupport extends SpecialWizardSupport implements JSFConstants
 		if(!"true".equals(lastCreateFileValue)) return; //$NON-NLS-1$
 		String template = getAttributeValue(0, "template"); //$NON-NLS-1$
 		if(template != null) template = template.trim();
-		File fs = (File)templates.getPageTemplates().get(template);
-		if(fs == null || !fs.isFile()) throw new XModelException(NLS.bind(JSFUIMessages.TEMPLATE_IS_NOT_FOUND, template));
+
 		String location = ((FileSystemImpl)getTarget().getModel().getByPath("FileSystems/WEB-ROOT")).getAbsoluteLocation(); //$NON-NLS-1$
 		location += path;
 		File ft = new File(location);
-		ft.getParentFile().mkdirs();
-		FileUtil.copyFile(fs, ft);
+
+		String templateString = getTemplateString(template);
+		try {
+			ft.createNewFile();
+		} catch (IOException e) {				
+		}
+		if(templateString != null) {
+			FileUtil.writeFile(ft, templateString);
+		}
 		getTarget().getModel().update();
 		try {
 			EclipseResourceUtil.getResource(getTarget()).getProject().refreshLocal(IProject.DEPTH_INFINITE, null);
@@ -295,8 +352,8 @@ public class AddViewSupport extends SpecialWizardSupport implements JSFConstants
 					message = JSFUIMessages.TEMPLATE_IS_NOT_SPECIFIED;
 					return;
 				}
-				File templateFile = (File)templates.getPageTemplates().get(template.trim());
-				if(templateFile == null || !templateFile.isFile()) {
+				String t = getTemplateString(template.trim());
+				if(t == null) {
 					message = JSFUIMessages.TEMPLATE_DOES_NOT_EXIST;
 				}
 			}
