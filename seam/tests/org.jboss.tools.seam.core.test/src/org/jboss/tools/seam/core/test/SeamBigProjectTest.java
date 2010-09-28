@@ -33,6 +33,7 @@ import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.internal.core.SeamProject;
 import org.jboss.tools.test.util.JUnitUtils;
 import org.jboss.tools.test.util.JobUtils;
+import org.jboss.tools.test.util.ResourcesUtils;
 import org.jboss.tools.test.util.TestProjectProvider;
 import org.osgi.framework.Bundle;
 
@@ -59,12 +60,17 @@ public class SeamBigProjectTest extends TestCase {
 		project = provider.getProject();
 		IFolder folder = project.getFolder(new Path("src/action/p"));
 		File template = getTemplateFile();
+
+		boolean saveAutoBuild = ResourcesUtils.setBuildAutomatically(false);
+		JobUtils.waitForIdle();
+
 		SeamBigProjectGenerator g = new SeamBigProjectGenerator();
 		g.generate(folder, template);
-		JobUtils.waitForIdle();
 		//To ensure that the project is built.
 		project.build(IncrementalProjectBuilder.CLEAN_BUILD, new NullProgressMonitor());
-		JobUtils.waitForIdle();
+		project.build(IncrementalProjectBuilder.FULL_BUILD, new NullProgressMonitor());
+
+		ResourcesUtils.setBuildAutomatically(saveAutoBuild);
 	}
 	
 	private File getTemplateFile() {
