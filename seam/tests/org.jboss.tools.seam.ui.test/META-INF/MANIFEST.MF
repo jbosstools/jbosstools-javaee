@@ -30,7 +30,8 @@ Require-Bundle: org.junit,
  org.jboss.tools.common.el.core,
  org.jboss.tools.common.ui,
  org.jboss.tools.common.el.ui,
- org.jboss.tools.jsf.text.ext;bundle-version="3.1.0"
+ org.jboss.tools.jsf.text.ext,
+ org.eclipse.datatools.enablement.hsqldb
 Export-Package: org.jboss.tools.seam.ui.test,
  org.jboss.tools.seam.ui.test.ca,
  org.jboss.tools.seam.ui.test.hyperlink,
