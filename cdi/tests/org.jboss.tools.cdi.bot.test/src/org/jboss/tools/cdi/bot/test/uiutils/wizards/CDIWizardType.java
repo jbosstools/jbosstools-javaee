@@ -11,7 +11,7 @@
 package org.jboss.tools.cdi.bot.test.uiutils.wizards;
 
 public enum CDIWizardType {
-	INTERCEPTOR_BINDING, QUALIFIER, SCOPE, STEREOTYPE;
+	INTERCEPTOR_BINDING, QUALIFIER, SCOPE, STEREOTYPE, DECORATOR, INTERCEPTOR;
 
 	String getName() {
 		switch (this) {
@@ -23,12 +23,20 @@ public enum CDIWizardType {
 			return "Scope";
 		case STEREOTYPE:
 			return "Stereotype";
+		case DECORATOR:
+			return "Decorator";
+		case INTERCEPTOR:
+			return "Interceptor";
 		default:
 			throw new AssertionError("Unknown type");
 		}
 	}
 
 	public String getAnnotationType() {
-		return getName() + " Annotation Type";
+		return isAnnotation() ? getName() + " Annotation Type" : getName() + " Type";
+	}
+	
+	private boolean isAnnotation() {
+		return this.ordinal() < DECORATOR.ordinal();
 	}
 }

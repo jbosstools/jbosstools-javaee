@@ -12,11 +12,18 @@ package org.jboss.tools.cdi.bot.test.uiutils.wizards;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Logger;
 
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swtbot.swt.finder.SWTBot;
+import org.eclipse.swtbot.swt.finder.finders.UIThreadRunnable;
+import org.eclipse.swtbot.swt.finder.results.BoolResult;
+import org.eclipse.swtbot.swt.finder.results.VoidResult;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotCheckBox;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotCombo;
+import org.eclipse.swtbot.swt.finder.widgets.SWTBotRadio;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotShell;
+import org.eclipse.swtbot.swt.finder.widgets.SWTBotText;
 
 public class CDIWizard extends Wizard {
 
@@ -171,6 +178,7 @@ public class CDIWizard extends Wizard {
 		switch (type) {
 		case INTERCEPTOR_BINDING:
 		case STEREOTYPE:
+		case INTERCEPTOR:
 			bot().button("Add", 0).click();
 			SWTBotShell sh = bot().activeShell();
 			sh.bot().text().setText(ib);
@@ -204,7 +212,106 @@ public class CDIWizard extends Wizard {
 		return Arrays.asList(bot().listWithLabel("Stereotypes:").getItems());
 	}
 
+	public CDIWizard setPublic(boolean isPublic) {
+		switch (type) {
+		case DECORATOR:
+			if (isPublic) {
+				bot().radio("public").click();
+			} else {
+				class Radio2 extends SWTBotRadio {
+					Radio2(Button b) {
+						super(b);
+					}
+					
+					@Override
+					public SWTBotRadio click() {
+						return (SWTBotRadio) click(true);
+					}
+				}
+				final Button b = bot().radio("default").widget;
+				new Radio2(b).click();
+			}
+			break;
+		default:
+			throw new UnsupportedOperationException();
+		}
+		return this;
+	}
 
+	public CDIWizard setFieldName(String name) {
+		switch (type) {
+		case DECORATOR:
+			setText("Delegate Field Name:", name);
+			break;
+		default:
+			throw new UnsupportedOperationException();
+		}
+		return this;
+	}
+	
+	public CDIWizard addInterface(String intf) {
+		switch (type) {
+		case DECORATOR:
+			bot().button("Add...", 0).click();
+			SWTBotShell sh = bot().activeShell();
+			sh.bot().text().setText(intf);
+			sh.bot().table().getTableItem(0).select();
+			sh.bot().button("OK").click();
+			break;
+		default:
+			throw new UnsupportedOperationException();
+		}
+		return this;
+	}
+
+	public CDIWizard setAbstract(boolean isAbstract) {
+		switch (type) {
+		case DECORATOR:
+			setCheckbox("abstract", isAbstract);
+			break;
+		default:
+			throw new UnsupportedOperationException();
+		}
+		return this;
+	}
+
+	public CDIWizard setFinal(boolean isFinal) {
+		switch (type) {
+		case DECORATOR:
+			setCheckbox("final", isFinal);
+			break;
+		default:
+			throw new UnsupportedOperationException();
+		}
+		return this;
+	}
+
+	public CDIWizard setSuperclass(String name) {
+		switch (type) {
+		case INTERCEPTOR:
+			bot().button("Browse...", 2).click();
+			SWTBotShell sh = bot().activeShell();
+			sh.bot().text().setText(name);
+			sh.bot().table().getTableItem(0).select();
+			sh.bot().button("OK").click();
+			break;
+		default:
+			throw new UnsupportedOperationException();
+		}
+		return this;
+	}
+	
+	public CDIWizard setMethodName(String name) {
+		switch (type) {
+		case INTERCEPTOR:
+			setText("Around Invoke Method Name:", name);
+			break;
+		default:
+			throw new UnsupportedOperationException();
+		}
+		return this;
+	}
+	
 	private void setCheckbox(String label, boolean set) {
 		SWTBotCheckBox c = bot().checkBox(label);
 		if (c.isChecked() != set) {
@@ -225,4 +332,5 @@ public class CDIWizard extends Wizard {
 		SWTBotCombo c = bot().comboBoxWithLabel(label);
 		c.setSelection(value);
 	}
+
 }

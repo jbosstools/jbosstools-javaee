@@ -62,6 +62,7 @@ public class Wizard extends SWTBotShell {
 
 	protected void setText(String label, String text) {
 		SWTBotText t = bot().textWithLabel(label);
+		t.setFocus();
 		t.setText(text);
 	}
 }

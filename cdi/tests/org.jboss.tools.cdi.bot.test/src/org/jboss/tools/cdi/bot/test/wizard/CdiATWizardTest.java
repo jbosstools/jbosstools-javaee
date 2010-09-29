@@ -255,6 +255,74 @@ public class CdiATWizardTest extends SWTTestExt {
 		assertFalse(code.startsWith("/**"));
 	}
 
+	@Test
+	public void testDecorator() {
+		CDIWizard w = decorator("cdi", "", "java.lang.Comparable", null, true, true, false, false);
+		w.finish();
+		util.waitForNonIgnoredJobs();
+		SWTBotEditor ed = new SWTWorkbenchBot().activeEditor();
+		assertTrue(("ComparableDecorator.java").equals(ed.getTitle()));
+		String code = ed.toTextEditor().getText();
+		L.fine(code);
+		assertTrue(code.contains("@Decorator"));
+		assertTrue(code.contains("abstract class"));
+		assertTrue(code.contains("@Delegate"));
+		assertTrue(code.contains("@Inject"));
+		assertTrue(code.contains("@Any"));
+		assertTrue(code.contains("private Comparable<T> comparable;"));
+		assertFalse(code.contains("final"));
+		assertFalse(code.startsWith("/**"));
+
+		w = decorator("cdi", "", "java.util.Map", "field", false, false, true, true);
+		w.finish();
+		util.waitForNonIgnoredJobs();
+		ed = new SWTWorkbenchBot().activeEditor();
+		assertTrue(("MapDecorator.java").equals(ed.getTitle()));
+		code = ed.toTextEditor().getText();
+		L.fine(code);
+		assertTrue(code.contains("@Decorator"));
+		assertFalse(code.contains("abstract"));
+		assertTrue(code.contains("@Delegate"));
+		assertTrue(code.contains("@Inject"));
+		assertTrue(code.contains("@Any"));
+		assertTrue(code.contains("private Map<K, V> field;"));
+		assertTrue(code.contains("final class"));
+		assertFalse(code.contains("public final"));
+		assertTrue(code.startsWith("/**"));
+	}
+	
+	@Test
+	public void testInterceptor() {
+		CDIWizard w = interceptor("cdi", "I1", "B2", null, null, false);
+		w.finish();
+		util.waitForNonIgnoredJobs();
+		SWTBotEditor ed = new SWTWorkbenchBot().activeEditor();
+		assertTrue(("I1.java").equals(ed.getTitle()));
+		String code = ed.toTextEditor().getText();
+		L.fine(code);
+		assertTrue(code.contains("@B2"));
+		assertTrue(code.contains("@Interceptor"));
+		assertTrue(code.contains("@AroundInvoke"));
+		assertTrue(code.contains("public Object manage(InvocationContext ic) throws Exception {"));
+		assertFalse(code.contains("final"));
+		assertFalse(code.startsWith("/**"));
+		
+		w = interceptor("cdi", "I2", "B4", "java.util.Date", "sample", true);
+		w.finish();
+		util.waitForNonIgnoredJobs();
+		ed = new SWTWorkbenchBot().activeEditor();
+		assertTrue(("I2.java").equals(ed.getTitle()));
+		code = ed.toTextEditor().getText();
+		L.fine(code);
+		assertTrue(code.contains("@B4"));
+		assertTrue(code.contains("@Interceptor"));
+		assertTrue(code.contains("@AroundInvoke"));
+		assertTrue(code.contains("public Object sample(InvocationContext ic) throws Exception {"));
+		assertFalse(code.contains("final"));
+		assertTrue(code.startsWith("/**"));
+		assertTrue(code.contains("extends Date"));
+	}
+	
 	private static SWTBotMenu nodeContextMenu(final SWTBotTree tree,
 			SWTBotTreeItem item, final String... menu) {
 		assert menu.length > 0;
@@ -303,11 +371,33 @@ public class CdiATWizardTest extends SWTTestExt {
 		return target != null ? w.setTarget(target) : w;
 	}
 
+	private CDIWizard decorator(String pkg, String name, String intf, String fieldName,
+			boolean isPublic, boolean isAbstract, boolean isFinal, boolean comments) {
+		CDIWizard w = create(CDIWizardType.DECORATOR, pkg, name, comments);
+		w = w.addInterface(intf).setPublic(isPublic).setFinal(isFinal).setAbstract(isAbstract);
+		return fieldName != null ? w.setFieldName(fieldName) : w;
+	}
+	
+	private CDIWizard interceptor(String pkg, String name, String ibinding,
+			String superclass, String method, boolean comments) {
+		CDIWizard w = create(CDIWizardType.INTERCEPTOR, pkg, name, comments);
+		if (superclass != null) {
+			w = w.setSuperclass(superclass);
+		}
+		if (method != null) {
+			w = w.setMethodName(method);
+		}
+		return w.addIBinding(ibinding);
+	}
+	
 	private CDIWizard create(CDIWizardType type, String pkg, String name,
 			boolean inherited, boolean comments) {
+		return create(type, pkg, name, comments).setInherited(inherited);
+	}
+
+	private CDIWizard create(CDIWizardType type, String pkg, String name, boolean comments) {
 		CDIWizard p = new NewCDIFileWizard(type).run();
-		return p.setPackage(pkg).setName(name).setInherited(inherited)
-				.setGenerateComments(comments);
+		return p.setPackage(pkg).setName(name).setGenerateComments(comments);
 	}
 
 }
