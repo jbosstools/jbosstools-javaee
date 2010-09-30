@@ -8,7 +8,7 @@
             path="templates/vpe-templates-jsf.xml"/>
    </extension>
    <extension
-         point="org.jboss.tools.vpe.localeProvider">
+         point="org.jboss.tools.jst.jsp.localeProvider">
       <localeProvider
             class="org.jboss.tools.jsf.vpe.jsf.i18n.JsfLocaleProvider">
       </localeProvider>

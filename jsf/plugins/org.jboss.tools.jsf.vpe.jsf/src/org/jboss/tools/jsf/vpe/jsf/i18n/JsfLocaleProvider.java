@@ -20,7 +20,7 @@ import org.jboss.tools.common.model.XModel;
 import org.jboss.tools.common.model.project.IModelNature;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.jsf.model.helpers.converter.OpenKeyHelper;
-import org.jboss.tools.vpe.editor.i18n.ILocaleProvider;
+import org.jboss.tools.jst.jsp.i18n.ILocaleProvider;
 
 /**
  * Implementation of {@link ILocaleProvider} for JSF projects.

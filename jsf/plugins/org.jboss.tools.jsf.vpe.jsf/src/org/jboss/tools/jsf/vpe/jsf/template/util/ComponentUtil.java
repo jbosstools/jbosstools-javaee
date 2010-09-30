@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import org.jboss.tools.vpe.editor.bundle.BundleMap;
+import org.jboss.tools.jst.jsp.bundle.BundleMap;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.util.Constants;
 import org.jboss.tools.vpe.editor.util.HTML;
