@@ -19,6 +19,7 @@ import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.internal.core.SeamProject;
 import org.jboss.tools.test.util.JUnitUtils;
 import org.jboss.tools.test.util.JobUtils;
+import org.jboss.tools.test.util.ResourcesUtils;
 import org.jboss.tools.test.util.TestProjectProvider;
 
 /**
@@ -40,23 +41,29 @@ public class CyclicDependingProjectsTest extends TestCase {
 		provider2 = new TestProjectProvider(BUNDLE,"/projects/CycleTest2" , "CycleTest2", true);
 		project2 = provider1.getProject();
 
+		boolean saveAutoBuild = ResourcesUtils.setBuildAutomatically(false);
 		JobUtils.waitForIdle();
+
 		//To ensure that the project is built.
 		project1.build(IncrementalProjectBuilder.CLEAN_BUILD, new NullProgressMonitor());
 		project2.build(IncrementalProjectBuilder.CLEAN_BUILD, new NullProgressMonitor());
-		JobUtils.waitForIdle();
+
+		project1.build(IncrementalProjectBuilder.FULL_BUILD, new NullProgressMonitor());
+		project2.build(IncrementalProjectBuilder.FULL_BUILD, new NullProgressMonitor());
+
+		ResourcesUtils.setBuildAutomatically(saveAutoBuild);
 	}
 	
 	public void testCyclicDependingProjects() {
 		ISeamProject sp1 = getSeamProject1();
 		
-		assertNotNull(sp1.getComponent("test.bean1"));
-		assertNotNull(sp1.getComponent("test.bean1"));
+		assertNotNull("Bean test.bean1 is not found in project CycleTest1", sp1.getComponent("test.bean1"));
+		assertNotNull("Bean test.bean2 is not found in project CycleTest1", sp1.getComponent("test.bean2"));
 
 		ISeamProject sp2 = getSeamProject2();
 
-		assertNotNull(sp2.getComponent("test.bean1"));
-		assertNotNull(sp2.getComponent("test.bean1"));
+		assertNotNull("Bean test.bean1 is not found in project CycleTest2", sp2.getComponent("test.bean1"));
+		assertNotNull("Bean test.bean2 is not found in project CycleTest2", sp2.getComponent("test.bean2"));
 	}
 
 
