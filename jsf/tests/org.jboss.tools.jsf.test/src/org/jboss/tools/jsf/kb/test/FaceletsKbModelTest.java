@@ -101,6 +101,7 @@ public class FaceletsKbModelTest extends TestCase {
 
 	/**
 	 * https://jira.jboss.org/jira/browse/JBIDE-6284
+	 * https://jira.jboss.org/browse/JBIDE-7210
 	 */
 	public void testFFacet() {
 		IFile file = testProject.getFile("WebContent/pages/inputUserName.xhtml");
@@ -113,13 +114,44 @@ public class FaceletsKbModelTest extends TestCase {
 		query.setUri("http://java.sun.com/jsf/core");
 		query.setValue("f:facet");
 
-		TextProposal[] proposals = PageProcessor.getInstance().getProposals(query, context);
+		TextProposal[] proposals = PageProcessor.getInstance().getProposals(query, context, true);
+		boolean ok = false;
 		for (TextProposal proposal : proposals) {
 			if("<f:facet name=\"\">".equals(proposal.getReplacementString())) {
-				return;
+				ok = true;
+			}
+			if(proposal.getReplacementString().endsWith("/>")) {
+				fail("<f:facet /> proposal found.");
 			}
 		}
-		fail("Can't find <f:facet name=\"\"> proposal.");
+		assertTrue("Can't find <f:facet name=\"\"> proposal.", ok);
+	}
+
+	/**
+	 * https://jira.jboss.org/browse/JBIDE-7210
+	 */
+	public void testActionparam() {
+		IFile file = testProject.getFile("WebContent/pages/actionparam.xhtml");
+		ELContext context = PageContextFactory.createPageContext(file);
+		KbQuery query = new KbQuery();
+		query.setMask(true);
+		query.setOffset(400);
+		query.setType(Type.TAG_NAME);
+		query.setPrefix("a4j");
+		query.setUri("http://richfaces.org/a4j");
+		query.setValue("a4j:actionpara");
+
+		TextProposal[] proposals = PageProcessor.getInstance().getProposals(query, context, true);
+		boolean ok = false;
+		for (TextProposal proposal : proposals) {
+			if("<a4j:actionparam name=\"\" value=\"\" />".equals(proposal.getReplacementString())) {
+				ok = true;
+			}
+			if(proposal.getReplacementString().endsWith(" >")) {
+				fail("Not closed <a4j:actionparam > proposal found.");
+			}
+		}
+		assertTrue("Can't find <a4j:actionparam name=\"\" value=\"\" /> proposal.", ok);
 	}
 
 	/**
