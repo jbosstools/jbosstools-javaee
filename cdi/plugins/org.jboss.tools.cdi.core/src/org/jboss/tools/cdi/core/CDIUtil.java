@@ -34,6 +34,7 @@ import org.eclipse.jdt.core.ITypeParameter;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.core.Signature;
 import org.eclipse.jface.operation.IRunnableWithProgress;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.wst.validation.internal.plugin.ValidationPlugin;
 import org.jboss.tools.cdi.internal.core.impl.ClassBean;
@@ -764,20 +765,24 @@ public class CDIUtil {
 	public static CDICoreNature getCDINatureWithProgress(final IProject project){
 		final CDICoreNature cdiNature = CDICorePlugin.getCDI(project, false);
 		if(cdiNature != null && !cdiNature.isStorageResolved()){
-			try{
-				PlatformUI.getWorkbench().getProgressService().busyCursorWhile(new IRunnableWithProgress(){
-					public void run(IProgressMonitor monitor)
-							throws InvocationTargetException, InterruptedException {
-						monitor.beginTask(CDICoreMessages.CDI_UTIL_BUILD_CDI_MODEL, 10);
-						monitor.worked(3);
-						cdiNature.resolve();
-						monitor.worked(7);
-					}
-				});
-			}catch(InterruptedException ie){
-				CDICorePlugin.getDefault().logError(ie);
-			}catch(InvocationTargetException ite){
-				CDICorePlugin.getDefault().logError(ite);
+			if (Display.getCurrent() != null) {
+				try{
+					PlatformUI.getWorkbench().getProgressService().busyCursorWhile(new IRunnableWithProgress(){
+						public void run(IProgressMonitor monitor)
+								throws InvocationTargetException, InterruptedException {
+							monitor.beginTask(CDICoreMessages.CDI_UTIL_BUILD_CDI_MODEL, 10);
+							monitor.worked(3);
+							cdiNature.resolve();
+							monitor.worked(7);
+						}
+					});
+				}catch(InterruptedException ie){
+					CDICorePlugin.getDefault().logError(ie);
+				}catch(InvocationTargetException ite){
+					CDICorePlugin.getDefault().logError(ite);
+				}
+			} else {
+				cdiNature.resolve();
 			}
 		}
 
