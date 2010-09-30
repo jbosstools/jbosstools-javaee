@@ -212,7 +212,7 @@ public final class SeamELCompletionEngine extends AbstractELCompletionEngine<ISe
 	protected void filterSingularMember(TypeInfoCollector.MemberInfo mbr, Set<TypeInfoCollector.MemberPresentation> proposalsToFilter) {
 		Collection<String> keys = ((MessagesInfo)mbr).getKeys();
 		for (String key : keys) {
-			proposalsToFilter.add(new TypeInfoCollector.MemberPresentation(key, mbr));
+			proposalsToFilter.add(new TypeInfoCollector.MemberPresentation(key, key, mbr));
 		}
 	}
 
