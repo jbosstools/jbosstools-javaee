@@ -39,7 +39,7 @@ public class CyclicDependingProjectsTest extends TestCase {
 		provider1 = new TestProjectProvider(BUNDLE,"/projects/CycleTest1" , "CycleTest1", true);
 		project1 = provider1.getProject();
 		provider2 = new TestProjectProvider(BUNDLE,"/projects/CycleTest2" , "CycleTest2", true);
-		project2 = provider1.getProject();
+		project2 = provider2.getProject();
 
 		boolean saveAutoBuild = ResourcesUtils.setBuildAutomatically(false);
 		JobUtils.waitForIdle();
