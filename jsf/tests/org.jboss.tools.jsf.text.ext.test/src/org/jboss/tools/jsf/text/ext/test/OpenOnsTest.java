@@ -197,7 +197,7 @@ public class OpenOnsTest extends TestCase {
 		String fileName = editor.getEditorInput().getName();
 		assertTrue("style1.css".equals(fileName));		
 	}
-	
+	private static final int DELAY_FOR_LINK_OPEN = 750;
 	public void testStyleClassOpenOns() throws CoreException, BadLocationException {
 		IEditorPart editor = WorkbenchUtils.openEditor(STYLE_TEST_FILE);
 		assertTrue(editor instanceof JSPMultiPageEditor);
@@ -213,7 +213,7 @@ public class OpenOnsTest extends TestCase {
 		//assertNotNull(links[0].getHyperlinkText());
 		assertNotNull(links[0].toString());
 		links[0].open();
-		JobUtils.waitForIdle();
+		JobUtils.waitForIdle(DELAY_FOR_LINK_OPEN);
 		editor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
 		
 		String fileName = editor.getEditorInput().getName();
@@ -227,7 +227,7 @@ public class OpenOnsTest extends TestCase {
 		//assertNotNull(links[0].getHyperlinkText());
 		assertNotNull(links[0].toString());
 		links[0].open();
-		JobUtils.waitForIdle();
+		JobUtils.waitForIdle(DELAY_FOR_LINK_OPEN);
 		editor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
 		
 		fileName = editor.getEditorInput().getName();
@@ -236,14 +236,12 @@ public class OpenOnsTest extends TestCase {
 		reg = new FindReplaceDocumentAdapter(document).find(0,
 				"style-class6", true, true, false, false);
 		links = HyperlinkDetector.getInstance().detectHyperlinks(viewer, reg, false);
-		links[0].open();
-		JobUtils.waitForIdle();
 		assertNotNull(links);
 		assertTrue(links.length!=0);
 		//assertNotNull(links[0].getHyperlinkText());
 		assertNotNull(links[0].toString());
 		links[0].open();
-		JobUtils.waitForIdle();
+		JobUtils.waitForIdle(DELAY_FOR_LINK_OPEN);
 		editor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
 		
 		fileName = editor.getEditorInput().getName();
