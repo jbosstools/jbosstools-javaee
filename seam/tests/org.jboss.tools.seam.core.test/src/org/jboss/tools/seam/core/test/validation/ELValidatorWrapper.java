@@ -20,10 +20,10 @@ public class ELValidatorWrapper extends ELValidator implements IValidatorSupport
 	}
 	@Override
 	public IMarker addError(String message, int severity,
-			String[] messageArguments, int length, int offset,
+			String[] messageArguments, int lineNumber, int length, int offset,
 			IResource target) {
 		
-		IMarker marker=  super.addError(message, severity, messageArguments, length, offset,
+		IMarker marker=  super.addError(message, severity, messageArguments, lineNumber, length, offset,
 				target);
 		validatorSupport.add(marker);
 		return marker;

@@ -12,7 +12,6 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.wst.validation.internal.core.ValidationException;
 import org.eclipse.wst.validation.internal.provisional.core.IMessage;
 import org.eclipse.wst.validation.internal.provisional.core.IReporter;
-import org.eclipse.wst.validation.internal.provisional.core.IValidationContext;
 import org.jboss.tools.common.text.ITextSourceReference;
 import org.jboss.tools.jst.web.kb.internal.validation.ContextValidationHelper;
 import org.jboss.tools.jst.web.kb.internal.validation.ValidatorManager;
@@ -163,8 +162,8 @@ public class SeamProjectPropertyValidatorWrapper extends SeamProjectPropertyVali
 	}
 
 	public IMarker addError(String message, int severity,
-			String[] messageArguments, int length, int offset, IResource target) {
-		IMarker marker = errorManager.addError(message, severity, messageArguments, length, offset, target);
+			String[] messageArguments, int lineNumber, int length, int offset, IResource target) {
+		IMarker marker = errorManager.addError(message, severity, messageArguments, lineNumber, length, offset, target);
 		support.add(marker);
 		return marker;
 	}
@@ -183,5 +182,13 @@ public class SeamProjectPropertyValidatorWrapper extends SeamProjectPropertyVali
 
 	public void removeAllMessagesFromResource(IResource resource) {
 		errorManager.removeAllMessagesFromResource(resource);
+	}
+
+	public IMarker addError(String message, String preferenceKey,
+			String[] messageArguments, int lineNumber, int length, int offset,
+			IResource target) {
+		IMarker marker = errorManager.addError(message, preferenceKey, messageArguments, lineNumber, length, offset, target);
+		support.add(marker);
+		return marker;
 	}
 }

@@ -334,13 +334,15 @@ public class SeamProjectPropertyValidator implements IValidatorJob {
 	public void validate(IValidationContext helper, IReporter reporter) throws ValidationException {
 		validateInJob(helper, reporter);
 	}
-	
+
 	public IMarker addError(String message, String preferenceKey,
 			String[] messageArguments, IResource target, int messageId) {
 		IMarker marker = errorManager.addError(message, preferenceKey, messageArguments, target);
-		try{
-			marker.setAttribute(MESSAGE_ID_ATTRIBUTE_NAME, new Integer(messageId));
-		}catch(CoreException ex){
+		try {
+			if(marker!=null) {
+				marker.setAttribute(MESSAGE_ID_ATTRIBUTE_NAME, new Integer(messageId));
+			}
+		} catch(CoreException ex) {
 			SeamCorePlugin.getDefault().logError(ex);
 		}
 		return marker;

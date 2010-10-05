@@ -142,6 +142,7 @@ public class SeamCoreValidator extends SeamValidationErrorManager implements IVa
 			ISeamProject seamProject = SeamCorePlugin.getSeamProject(project, false);
 			if(seamProject!=null) {
 				rootContext = seamProject.getValidationContext();
+				war = project;
 			}
 		}
 
@@ -152,7 +153,7 @@ public class SeamCoreValidator extends SeamValidationErrorManager implements IVa
 				projects.add(array[i]);
 			}
 		}
-		return new ValidatingProjectSet(project, projects, rootContext);
+		return new ValidatingProjectSet(war, projects, rootContext);
 	}
 
 	/*
@@ -1045,7 +1046,9 @@ public class SeamCoreValidator extends SeamValidationErrorManager implements IVa
 			IResource target, int messageId) {
 		IMarker marker = addError(message, preferenceKey, messageArguments, location, target);
 		try{
-			marker.setAttribute(MESSAGE_ID_ATTRIBUTE_NAME, new Integer(messageId));
+			if(marker!=null) {
+				marker.setAttribute(MESSAGE_ID_ATTRIBUTE_NAME, new Integer(messageId));
+			}
 		}catch(CoreException ex){
 			SeamCorePlugin.getDefault().logError(ex);
 		}

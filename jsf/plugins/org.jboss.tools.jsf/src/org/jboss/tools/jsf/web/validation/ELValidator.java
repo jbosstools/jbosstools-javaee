@@ -151,8 +151,13 @@ public class ELValidator extends ValidationErrorManager implements IValidator {
 			}
 		}
 		if(revalidateUnresolvedELs) {
+			int i=0;
 			for (ELReference el : elsToValidate) {
+				// Don't re-validate more than 1000 ELs. 
 				if(!filesToValidate.contains(el.getResource())) {
+					if(i++>1000) {
+						break;
+					}
 					validateEL(el);
 				}
 			}
@@ -261,7 +266,7 @@ public class ELValidator extends ValidationErrorManager implements IValidator {
 			for (int i = 0; i < references.length; i++) {
 				if(!references[i].getSyntaxErrors().isEmpty()) {
 					for (SyntaxError error: references[i].getSyntaxErrors()) {
-						addError(JSFValidationMessages.EL_SYNTAX_ERROR, JSFSeverityPreferences.EL_SYNTAX_ERROR, new String[]{"" + error.getProblem()}, 1, references[i].getStartPosition() + error.getPosition(), context.getResource());
+						addError(JSFValidationMessages.EL_SYNTAX_ERROR, JSFSeverityPreferences.EL_SYNTAX_ERROR, new String[]{"" + error.getProblem()}, references[i].getLineNumber(), 1, references[i].getStartPosition() + error.getPosition(), context.getResource());
 //						IMarker marker = addError(JSFValidationMessages.EL_SYNTAX_ERROR, JSFSeverityPreferences.EL_SYNTAX_ERROR, new String[]{"" + error.getProblem()}, 1, references[i].getStartPosition() + error.getPosition(), context.getResource());
 //						references[i].addMarker(marker);
 					}
@@ -371,7 +376,7 @@ public class ELValidator extends ValidationErrorManager implements IValidator {
 							length = propertyName.length();
 						}
 //						addError(JSFValidationMessages.UNPAIRED_GETTER_OR_SETTER, JSFSeverityPreferences.UNPAIRED_GETTER_OR_SETTER, new String[]{propertyName, existedMethodName, missingMethodName}, length, startPosition, file);
-						IMarker marker = addError(JSFValidationMessages.UNPAIRED_GETTER_OR_SETTER, JSFSeverityPreferences.UNPAIRED_GETTER_OR_SETTER, new String[]{propertyName, existedMethodName, missingMethodName}, length, startPosition, file);
+						IMarker marker = addError(JSFValidationMessages.UNPAIRED_GETTER_OR_SETTER, JSFSeverityPreferences.UNPAIRED_GETTER_OR_SETTER, new String[]{propertyName, existedMethodName, missingMethodName}, elReference.getLineNumber(), length, startPosition, file);
 						elReference.addMarker(marker);
 					}
 				}
@@ -407,11 +412,11 @@ public class ELValidator extends ValidationErrorManager implements IValidator {
 		// Mark invalid EL
 		if(unresolvedTokenIsVariable) {
 //			addError(JSFValidationMessages.UNKNOWN_EL_VARIABLE_NAME, JSFSeverityPreferences.UNKNOWN_EL_VARIABLE_NAME, new String[]{varName}, lengthOfVarName, offsetOfVarName, file);
-			IMarker marker = addError(JSFValidationMessages.UNKNOWN_EL_VARIABLE_NAME, JSFSeverityPreferences.UNKNOWN_EL_VARIABLE_NAME, new String[]{varName}, lengthOfVarName, offsetOfVarName, file);
+			IMarker marker = addError(JSFValidationMessages.UNKNOWN_EL_VARIABLE_NAME, JSFSeverityPreferences.UNKNOWN_EL_VARIABLE_NAME, new String[]{varName}, elReference.getLineNumber(), lengthOfVarName, offsetOfVarName, file);
 			elReference.addMarker(marker);
 		} else {
 //			addError(JSFValidationMessages.UNKNOWN_EL_VARIABLE_PROPERTY_NAME, JSFSeverityPreferences.UNKNOWN_EL_VARIABLE_PROPERTY_NAME, new String[]{varName}, lengthOfVarName, offsetOfVarName, file);
-			IMarker marker = addError(JSFValidationMessages.UNKNOWN_EL_VARIABLE_PROPERTY_NAME, JSFSeverityPreferences.UNKNOWN_EL_VARIABLE_PROPERTY_NAME, new String[]{varName}, lengthOfVarName, offsetOfVarName, file);
+			IMarker marker = addError(JSFValidationMessages.UNKNOWN_EL_VARIABLE_PROPERTY_NAME, JSFSeverityPreferences.UNKNOWN_EL_VARIABLE_PROPERTY_NAME, new String[]{varName}, elReference.getLineNumber(), lengthOfVarName, offsetOfVarName, file);
 			elReference.addMarker(marker);
 		}
 	}

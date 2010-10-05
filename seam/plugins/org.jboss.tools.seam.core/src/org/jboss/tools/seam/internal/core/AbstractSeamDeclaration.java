@@ -37,7 +37,7 @@ public abstract class AbstractSeamDeclaration extends SeamObject implements ISea
 	protected String name;
 	
 	protected Map<String,IValueInfo> attributes = new HashMap<String, IValueInfo>();
-	
+
 	public AbstractSeamDeclaration() {}
 
 	public String getName() {
@@ -47,7 +47,7 @@ public abstract class AbstractSeamDeclaration extends SeamObject implements ISea
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 	public void open() {}
 
 	public int getLength() {

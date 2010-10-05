@@ -1,7 +1,5 @@
 package org.jboss.tools.seam.core.test.validation;
 
-import java.text.MessageFormat;
-import java.util.HashSet;
 import java.util.List;
 
 import org.eclipse.core.resources.IFile;
@@ -10,10 +8,6 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.wst.validation.internal.core.ValidationException;
-import org.eclipse.wst.validation.internal.provisional.core.IMessage;
-import org.eclipse.wst.validation.internal.provisional.core.IReporter;
-import org.jboss.tools.jst.web.kb.internal.validation.ContextValidationHelper;
-import org.jboss.tools.jst.web.kb.internal.validation.ValidatorManager;
 import org.jboss.tools.seam.internal.core.validation.SeamCoreValidator;
 
 public class SeamCoreValidatorWrapper extends SeamCoreValidator implements IValidatorSupport{
@@ -25,9 +19,9 @@ public class SeamCoreValidatorWrapper extends SeamCoreValidator implements IVali
 	}
 	@Override
 	public IMarker addError(String message, int severity,
-			String[] messageArguments, int length, int offset,
+			String[] messageArguments, int lineNumber, int length, int offset,
 			IResource target) {
-		IMarker marker = super.addError(message, severity, messageArguments, length, offset,
+		IMarker marker = super.addError(message, severity, messageArguments, lineNumber, length, offset,
 				target);
 		validatorSupport.add(marker);
 		return marker;
