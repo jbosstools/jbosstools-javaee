@@ -93,6 +93,7 @@ import org.jboss.tools.jsf.vpe.jsf.test.jbide.RefreshBundles_JBIDE5460;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.RenderFacetAndInsertChildrenTest;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.SelectAllAndCut_JBIDE4853;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.SelectWholeElement_JBIDE4713;
+import org.jboss.tools.jsf.vpe.jsf.test.jbide.SourceDomUtilTest;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.TaglibXMLUnformatedDTD_JBIDE5642;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.TestContextPathResolution;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.TestFViewLocaleAttribute_JBIDE5218;
@@ -102,6 +103,7 @@ import org.jboss.tools.jsf.vpe.jsf.test.jbide.TestOpenOnForXhtmlFiles_JBIDE5577;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.VPERefreshTest;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.VisualRefreshComment_JBIDE6067;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.VpeI18nTest_JBIDE4887;
+import org.jboss.tools.jsf.vpe.jsf.test.jbide.XulRunnerVpeUtilsTest;
 import org.jboss.tools.vpe.ui.test.VpeTestSetup;
 
 /**
@@ -135,6 +137,8 @@ public class JsfAllTests {
 		/*
 		 * Other tests
 		 */
+		suite.addTestSuite(SourceDomUtilTest.class);
+		suite.addTestSuite(XulRunnerVpeUtilsTest.class);
 		suite.addTestSuite(JSF2ValidatorTest.class);
 		suite.addTestSuite(DocBookTemplatesTest.class);
 //		suite.addTestSuite(DnD_JBIDE5042_JBIDE6229_Test.class);
