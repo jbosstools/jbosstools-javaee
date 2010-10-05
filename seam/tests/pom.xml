@@ -8,22 +8,33 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 	<packaging>pom</packaging>
 	<modules>
 		<module>org.jboss.tools.seam.core.test</module>
-		<module>org.jboss.tools.seam201GA.core.test</module>
-		<module>org.jboss.tools.seam202SP1.core.test</module>
-		<module>org.jboss.tools.seam203CR1.core.test</module>
+		<module>org.jboss.tools.seam.ui.test</module>
+
 		<module>org.jboss.tools.seam121EAP.core.test</module>
+		<module>org.jboss.tools.seam121EAP.ui.test</module>
+		<module>org.jboss.tools.seam201GA.core.test</module>
+		<module>org.jboss.tools.seam201GA.ui.test</module>
+		<module>org.jboss.tools.seam202SP1.core.test</module>
+		<module>org.jboss.tools.seam202SP1.ui.test</module>
+		<module>org.jboss.tools.seam203CR1.core.test</module>
+		<module>org.jboss.tools.seam203CR1.ui.test</module>
+		<module>org.jboss.tools.seam211GA.core.test</module>
+		<module>org.jboss.tools.seam211GA.ui.test</module>
+		<module>org.jboss.tools.seam212GA.core.test</module>
+		<module>org.jboss.tools.seam212GA.ui.test</module>
+		<module>org.jboss.tools.seam220CR1.core.test</module>
+		<module>org.jboss.tools.seam220CR1.ui.test</module>
+		<module>org.jboss.tools.seam220GA.core.test</module>
+		<module>org.jboss.tools.seam220GA.ui.test</module>
+		<module>org.jboss.tools.seam221CR1.core.test</module>
+		<module>org.jboss.tools.seam221CR1.ui.test</module>
+		<module>org.jboss.tools.seam221CR2.core.test</module>
+		<module>org.jboss.tools.seam221CR2.ui.test</module>
+
 		<module>org.jboss.tools.seamfp.core.test</module>
+		<module>org.jboss.tools.seamfp.ui.test</module>
 		<module>org.jboss.tools.seam.pages.xml.test</module>
 		<module>org.jboss.tools.seam.ui.bot.test</module>
-		<module>org.jboss.tools.seam.ui.test</module>
-		<module>org.jboss.tools.seam201GA.ui.test</module>
-		<module>org.jboss.tools.seam202SP1.ui.test</module>
-		<module>org.jboss.tools.seam203CR1.ui.test</module>
-		<module>org.jboss.tools.seam211GA.ui.test</module>
-		<module>org.jboss.tools.seam220CR1.ui.test</module>
-		<module>org.jboss.tools.seam220GA.ui.test</module>
-		<module>org.jboss.tools.seam121EAP.ui.test</module>
-		<module>org.jboss.tools.seamfp.ui.test</module>
 		<module>org.jboss.tools.seam.xml.test</module>
 	</modules>
 </project>

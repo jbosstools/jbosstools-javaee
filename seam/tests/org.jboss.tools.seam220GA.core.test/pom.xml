@@ -1,0 +1,39 @@
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.jboss.tools</groupId>
+		<artifactId>org.jboss.tools.parent.pom</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<groupId>org.jboss.tools.seam.tests</groupId>
+	<artifactId>org.jboss.tools.seam220GA.core.test</artifactId>
+	<version>3.1.0-SNAPSHOT</version>
+	<packaging>eclipse-test-plugin</packaging>
+
+	<properties>
+		<systemProperties>-Djbosstools.test.seam.2.0.1.GA.home=${requirement.build.root}/jboss-seam-2.2.0.GA</systemProperties>
+		<emma.filter>org.jboss.tools.seam*</emma.filter>
+		<emma.instrument.bundles>org.jboss.tools.seam.core</emma.instrument.bundles>
+	</properties>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.sonatype.tycho</groupId>
+				<artifactId>maven-osgi-test-plugin</artifactId>
+				<configuration>
+					<explodedBundles>
+						<bundle>org.jboss.tools.seam.core.test</bundle>
+						<bundle>org.jboss.tools.seam.core</bundle>
+					</explodedBundles>
+					<product>org.jboss.tools.tests</product>
+					<includes>
+						<include>org/jboss/tools/seam/core/test/project/facet/Seam20XFacetTestSuite220GA.class</include>
+					</includes>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>
