@@ -15,7 +15,7 @@ import java.util.Locale;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IFileEditorInput;
-import org.eclipse.wst.sse.ui.StructuredTextEditor;
+import org.eclipse.ui.texteditor.ITextEditor;
 import org.jboss.tools.common.model.XModel;
 import org.jboss.tools.common.model.project.IModelNature;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
@@ -38,7 +38,7 @@ public class JsfLocaleProvider implements ILocaleProvider {
 	 * Returns the locale for given {@code editor}, or {@code null} if it
 	 * can not determine it.
 	 */
-	public Locale getLocale(StructuredTextEditor editor) {
+	public Locale getLocale(ITextEditor editor) {
 		IEditorInput editorInput = editor.getEditorInput();
 		if (editorInput instanceof IFileEditorInput) {
 			IProject project = ((IFileEditorInput)editorInput)
