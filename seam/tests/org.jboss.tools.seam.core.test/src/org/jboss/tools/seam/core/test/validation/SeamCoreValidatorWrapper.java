@@ -37,6 +37,17 @@ public class SeamCoreValidatorWrapper extends SeamCoreValidator implements IVali
 		return marker;
 	}
 	
+	@Override
+	public IMarker addError(String message, String preferenceKey,
+			String[] messageArguments, int lineNumber, int length, int offset,
+			IResource target) {
+
+		IMarker marker = super.addError(message, preferenceKey, messageArguments, lineNumber, length, offset,
+				target);
+		validatorSupport.add(marker);
+		return marker;
+	}
+	
 	public boolean isMessageCreated(String template, Object[] parameters) {
 		return validatorSupport.isMessageCreated(template,parameters);
 	}
