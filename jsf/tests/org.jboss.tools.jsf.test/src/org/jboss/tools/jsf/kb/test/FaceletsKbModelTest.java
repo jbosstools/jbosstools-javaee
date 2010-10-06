@@ -169,7 +169,7 @@ public class FaceletsKbModelTest extends TestCase {
 		query.setUri("http://jboss.com/products/seam/pdf");
 		query.setValue("ori");
 
-		TextProposal[] proposals = PageProcessor.getInstance().getProposals(query, context);
+		TextProposal[] proposals = PageProcessor.getInstance().getProposals(query, context, true);
 		for (TextProposal proposal : proposals) {
 			if("orientation".equals(proposal.getReplacementString())) {
 				return;
@@ -193,13 +193,55 @@ public class FaceletsKbModelTest extends TestCase {
 		query.setUri("http://jboss.com/products/seam/mail");
 		query.setValue("pre");
 
-		TextProposal[] proposals = PageProcessor.getInstance().getProposals(query, context);
+		TextProposal[] proposals = PageProcessor.getInstance().getProposals(query, context, true);
 		for (TextProposal proposal : proposals) {
 			if("precedence".equals(proposal.getReplacementString())) {
 				return;
 			}
 		}
 		fail("Can't find <m:message precedence=\"\"> proposal.");
+	}
+
+	/**
+	 * https://jira.jboss.org/browse/JBIDE-7261
+	 */
+	public void testFacelets() {
+		IFile file = testProject.getFile("WebContent/pages/inputUserName.xhtml");
+
+		ELContext context = PageContextFactory.createPageContext(file);
+		KbQuery query = new KbQuery();
+		query.setMask(true);
+		query.setOffset(310);
+		query.setType(Type.TAG_NAME);
+		query.setParentTags(new String[]{"html"});
+		query.setPrefix("ui");
+		query.setUri("http://java.sun.com/jsf/facelets");
+		query.setValue("ui:comp");
+
+		TextProposal[] proposals = PageProcessor.getInstance().getProposals(query, context, true);
+		boolean found = false;
+		for (TextProposal proposal : proposals) {
+			if(proposal.getReplacementString().startsWith("<ui:composition")) {
+				found = true;
+				break;
+			}
+		}
+		assertTrue("Can't find <ui:composition> proposal.", found);
+
+		query.setOffset(322);
+		query.setType(Type.ATTRIBUTE_NAME);
+		query.setParentTags(new String[]{"html", "ui:composition"});
+		query.setPrefix("ui");
+		query.setUri("http://java.sun.com/jsf/facelets");
+		query.setValue("temp");
+
+		proposals = PageProcessor.getInstance().getProposals(query, context, true);
+		for (TextProposal proposal : proposals) {
+			if("template".equals(proposal.getReplacementString())) {
+				return;
+			}
+		}
+		fail("Can't find <ui:composition template=\"> proposal.");
 	}
 
 	/**
@@ -219,7 +261,7 @@ public class FaceletsKbModelTest extends TestCase {
 		query.setParent("name");
 		query.setStringQuery("h");
 
-		TextProposal[] proposals = PageProcessor.getInstance().getProposals(query, context);
+		TextProposal[] proposals = PageProcessor.getInstance().getProposals(query, context, true);
 		for (TextProposal proposal : proposals) {
 			if("header".equals(proposal.getReplacementString())) {
 				return;
