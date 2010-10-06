@@ -14,12 +14,22 @@ import junit.extensions.TestSetup;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IncrementalProjectBuilder;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jdt.internal.core.JavaModelManager;
+import org.eclipse.wst.validation.ValidationFramework;
+import org.eclipse.wst.validation.Validator;
+import org.eclipse.wst.validation.internal.operations.ValidatorManager;
 import org.jboss.tools.jsf.model.pv.test.JSFPromptingProviderTest;
 import org.jboss.tools.jsf.test.refactoring.ELVariableRefactoringTest;
 import org.jboss.tools.jsf.test.refactoring.JSF2RefactoringTest;
 import org.jboss.tools.jsf.test.refactoring.MessagePropertyRefactoringTest;
+import org.jboss.tools.jsf.test.validation.ELValidatorTest;
 import org.jboss.tools.jsf.test.validation.JSF2ComponentsValidatorTest;
+import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.ProjectImportTestSetup;
 
 public class JsfAllTests {
@@ -56,6 +66,17 @@ public class JsfAllTests {
 				JSF2RefactoringTest.class), "org.jboss.tools.jsf.test", //$NON-NLS-1$
 				new String[] { "projects/JSF2ComponentsValidator" }, //$NON-NLS-1$
 				new String[] { "JSF2ComponentsValidator" })); //$NON-NLS-1$
+		suite.addTest(new ProjectImportTestSetup(new TestSuite(ELValidatorTest.class),"org.jboss.tools.jsf.test","projects/JSFKickStartOldFormat","JSFKickStartOldFormat") {
+			@Override
+			protected void setUp() throws Exception {
+				super.setUp();
+				IProject project = (IProject)ResourcesPlugin.getWorkspace().getRoot().findMember("JSFKickStartOldFormat");
+				project.refreshLocal(IResource.DEPTH_INFINITE, null);
+				JobUtils.waitForIdle();
+				
+				ValidatorManager.addProjectBuildValidationSupport(project);
+			}
+		} );
 
 		return new DisableJavaIndexingSetup(suite);
 	}

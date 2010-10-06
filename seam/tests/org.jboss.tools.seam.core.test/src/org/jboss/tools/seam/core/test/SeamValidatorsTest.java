@@ -51,8 +51,6 @@ import org.jboss.tools.tests.IMarkerFilter;
 
 public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 
-	IProject project = null;
-	
 	public static SeamMarkerFilter SEAM_MARKER_FILTER = new SeamMarkerFilter();
 
 	public SeamValidatorsTest() {
@@ -81,42 +79,6 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 	@Override
 	protected void tearDown() throws Exception {
 
-	}
-
-	private void copyContentsFile(String originalName, String newContentName) throws CoreException{
-		IFile originalFile = project.getFile(originalName);
-		IFile newContentFile = project.getFile(newContentName);
-		
-		copyContentsFile(originalFile, newContentFile);
-	}
-
-	private void copyContentsFile(IFile originalFile, String newContentName) throws CoreException{
-		IFile newContentFile = project.getFile(newContentName);
-		copyContentsFile(originalFile, newContentFile);
-	}
-
-	private void copyContentsFile(IFile originalFile, IFile newContentFile) throws CoreException{
-		PageContextFactory.getInstance().cleanUp(originalFile);
-		InputStream is = null;
-		try{
-			is = newContentFile.getContents();
-			originalFile.setContents(is, true, false, null);
-		} finally {
-			if(is!=null) {
-				try {
-					is.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-		project.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
-		JobUtils.waitForIdle();
-		originalFile.getProject().build(IncrementalProjectBuilder.INCREMENTAL_BUILD, "org.eclipse.jdt.internal.core.builder.JavaBuilder", null, null);
-		JobUtils.waitForIdle();
-		originalFile.getProject().build(IncrementalProjectBuilder.INCREMENTAL_BUILD, SeamCoreBuilder.BUILDER_ID, null, null);
-//		originalFile.getProject().build(IncrementalProjectBuilder.INCREMENTAL_BUILD, null);
-		JobUtils.waitForIdle();
 	}
 
 	private ISeamProject getSeamProject(IProject project) {
@@ -804,36 +766,6 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 				new Object[] {"duplicateJavaAndXmlComponentName"},
 				5);
 		
-	}
-
-	// See https://jira.jboss.org/jira/browse/JBIDE-4515
-	public void testRevalidationUnresolvedELs() throws CoreException, ValidationException {
-		JSFModelPlugin.getDefault().getPreferenceStore().setValue(JSFSeverityPreferences.RE_VALIDATE_UNRESOLVED_EL, SeamPreferences.ENABLE);
-		JSFModelPlugin.getDefault().getPreferenceStore().setValue(JSFSeverityPreferences.UNKNOWN_EL_VARIABLE_NAME, SeamPreferences.ERROR);
-		
-		copyContentsFile("src/action/org/domain/SeamWebWarTestProject/entity/TestElRevalidation.java", "src/action/org/domain/SeamWebWarTestProject/entity/TestElRevalidation.new");
-		
-		assertMarkerIsCreatedForLine(
-				new ELValidatorWrapper(project),
-				"WebContent/testElRevalidation.xhtml",
-				JSFValidationMessages.UNKNOWN_EL_VARIABLE_PROPERTY_NAME,
-				new Object[] {"testElRevalidation"},
-				6);
-
-		JSFModelPlugin.getDefault().getPreferenceStore().setValue(JSFSeverityPreferences.RE_VALIDATE_UNRESOLVED_EL, SeamPreferences.DISABLE);
-		
-		// Check if the validator was not invoked.
-		copyContentsFile("src/action/org/domain/SeamWebWarTestProject/entity/TestElRevalidation.java", "src/action/org/domain/SeamWebWarTestProject/entity/TestElRevalidation.original");
-		
-		assertMarkerIsCreatedForLine(
-				new ELValidatorWrapper(project),
-				"WebContent/testElRevalidation.xhtml",
-				JSFValidationMessages.UNKNOWN_EL_VARIABLE_PROPERTY_NAME,
-				new Object[] {"testElRevalidation"},
-				6);
-
-		JSFModelPlugin.getDefault().getPreferenceStore().setValue(JSFSeverityPreferences.RE_VALIDATE_UNRESOLVED_EL, SeamPreferences.ENABLE);
-		JSFModelPlugin.getDefault().getPreferenceStore().setValue(JSFSeverityPreferences.UNKNOWN_EL_VARIABLE_NAME, SeamPreferences.IGNORE);
 	}
 
 	// See https://jira.jboss.org/browse/JBIDE-6352

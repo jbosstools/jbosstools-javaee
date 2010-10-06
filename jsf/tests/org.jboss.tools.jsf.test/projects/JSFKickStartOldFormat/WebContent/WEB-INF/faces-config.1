@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE faces-config PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.1//EN"
+                              "http://java.sun.com/dtd/web-facesconfig_1_1.dtd">
+<faces-config>
+ <component>
+  <description>Component Example.</description>
+  <display-name>Component c1</display-name>
+  <component-type>c1</component-type>
+  <component-class>javax.faces.component.UICommand</component-class>
+  <facet>
+   <description>Facet Example.</description>
+   <display-name>Facet f1</display-name>
+   <facet-name>f1</facet-name>
+  </facet>
+  <attribute>
+   <description>Attribute Example.</description>
+   <display-name>Attribute a1</display-name>
+   <attribute-name>a1</attribute-name>
+   <attribute-class>java.lang.String</attribute-class>
+   <default-value>v1</default-value>
+   <suggested-value>v2</suggested-value>
+  </attribute>
+  <property>
+   <description>Property Example.</description>
+   <display-name>Property p1</display-name>
+   <property-name>p1</property-name>
+   <property-class>java.lang.Integer</property-class>
+   <default-value>1</default-value>
+   <suggested-value>2</suggested-value>
+  </property>
+ </component>
+ <converter>
+  <description>Converter Example.</description>
+  <converter-id>c1</converter-id>
+  <converter-class>javax.faces.convert.LongConverter</converter-class>
+  <attribute>
+   <attribute-name>a2</attribute-name>
+   <attribute-class/>
+  </attribute>
+  <property>
+   <property-name>p2</property-name>
+   <property-class/>
+  </property>
+ </converter>
+ <converter>
+  <converter-for-class>demo.B</converter-for-class>
+  <converter-class>javax.faces.convert.LongConverter</converter-class>
+ </converter>
+ <managed-bean>
+  <description>Input Value Holder</description>
+  <managed-bean-name>user2</managed-bean-name>
+  <managed-bean-class>demo.User</managed-bean-class>
+  <managed-bean-scope>session</managed-bean-scope>
+  <managed-property>
+   <property-name>name</property-name>
+   <property-class>java.lang.String</property-class>
+   <value/>
+  </managed-property>
+  <managed-property>
+   <property-name>aliases</property-name>
+   <property-class>java.util.List</property-class>
+   <list-entries>
+    <value-class>java.lang.String</value-class>
+    <null-value/>
+    <value>Red Hat</value>
+   </list-entries>
+  </managed-property>
+ </managed-bean>
+ <navigation-rule>
+  <from-view-id>/pages/inputname.jsp</from-view-id>
+  <navigation-case>
+   <from-outcome>greeting</from-outcome>
+   <to-view-id>/pages/greeting.jsp</to-view-id>
+  </navigation-case>
+ </navigation-rule>
+ <render-kit>
+  <description>Render Kit Example.</description>
+  <display-name>Render Kit myRenderKit</display-name>
+  <render-kit-id>myRenderKit</render-kit-id>
+  <render-kit-class>com.sun.faces.renderkit.RenderKitImpl</render-kit-class>
+  <renderer>
+   <description>Renderer Example.</description>
+   <display-name>Renderer r1</display-name>
+   <component-family>command</component-family>
+   <renderer-type>r1</renderer-type>
+   <renderer-class>com.sun.faces.renderkit.html_basic.ButtonRenderer</renderer-class>
+   <facet>
+    <facet-name>f3</facet-name>
+   </facet>
+   <attribute>
+    <attribute-name>a3</attribute-name>
+    <attribute-class>java.lang.String</attribute-class>
+   </attribute>
+  </renderer>
+ </render-kit>
+ <validator>
+  <description>Validator Example.</description>
+  <display-name>Validator v1</display-name>
+  <validator-id>v1</validator-id>
+  <validator-class>javax.faces.validator.LengthValidator</validator-class>
+  <attribute>
+   <attribute-name>a4</attribute-name>
+   <attribute-class>java.lang.String</attribute-class>
+  </attribute>
+  <property>
+   <property-name>p4</property-name>
+   <property-class>java.lang.String</property-class>
+  </property>
+ </validator>
+ <application>
+  <action-listener>demo.ActionListenerImpl</action-listener>
+  <default-render-kit-id>myRenderKit</default-render-kit-id>
+  <navigation-handler>com.sun.faces.application.NavigationHandlerImpl</navigation-handler>
+  <view-handler>com.sun.faces.application.ViewHandlerImpl</view-handler>
+  <state-manager>com.sun.faces.application.StateManagerImpl</state-manager>
+  <message-bundle>demo.bundle.Messages</message-bundle>
+  <property-resolver>com.sun.faces.el.PropertyResolverImpl</property-resolver>
+  <variable-resolver>com.sun.faces.el.VariableResolverImpl</variable-resolver>
+  <locale-config>
+   <default-locale>en_US</default-locale>
+   <supported-locale>ru</supported-locale>
+  </locale-config>
+ </application>
+</faces-config>
