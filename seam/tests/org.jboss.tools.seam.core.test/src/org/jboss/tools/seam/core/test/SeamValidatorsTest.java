@@ -28,6 +28,7 @@ import org.eclipse.wst.validation.internal.core.ValidationException;
 import org.jboss.tools.jsf.JSFModelPlugin;
 import org.jboss.tools.jsf.preferences.JSFSeverityPreferences;
 import org.jboss.tools.jsf.web.validation.JSFValidationMessages;
+import org.jboss.tools.jst.web.kb.PageContextFactory;
 import org.jboss.tools.jst.web.kb.validation.IValidator;
 import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamComponentMethod;
@@ -95,6 +96,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 	}
 
 	private void copyContentsFile(IFile originalFile, IFile newContentFile) throws CoreException{
+		PageContextFactory.getInstance().cleanUp(originalFile);
 		InputStream is = null;
 		try{
 			is = newContentFile.getContents();
