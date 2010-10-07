@@ -817,6 +817,18 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 				SeamValidationMessages.UNRESOLVED_VIEW_ID, 
 				new Object[] {"/home2.xhtml"}, 
 				17);
+		assertMarkerIsCreatedForLine(
+				seamValidator, 
+				"WebContent/WEB-INF/pages.xml", 
+				SeamValidationMessages.UNRESOLVED_VIEW_ID, 
+				new Object[] {"/home1.xhtml"}, 
+				22);
+		assertMarkerIsCreatedForLine(
+				seamValidator, 
+				"WebContent/WEB-INF/pages.xml", 
+				SeamValidationMessages.UNRESOLVED_VIEW_ID, 
+				new Object[] {"/home2.xhtml"}, 
+				23);
 	}
 
 	public static int getMarkersNumber(IResource resource) {

@@ -19,6 +19,10 @@
         </navigation>
     </page>
 
+ 	<page view-id="/home1.xhtml" 
+ 			no-conversation-view-id="/home2.xhtml">
+    </page>
+
     <exception class="org.jboss.seam.framework.EntityNotFoundException">
         <redirect view-id="/error.xhtml">
             <message>Not found</message>
