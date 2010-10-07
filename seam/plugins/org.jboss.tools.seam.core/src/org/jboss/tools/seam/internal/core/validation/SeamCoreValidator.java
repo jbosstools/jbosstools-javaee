@@ -1009,33 +1009,43 @@ public class SeamCoreValidator extends SeamValidationErrorManager implements IVa
 			XModelObject object = EclipseResourceUtil.createObjectForResource(f);
 			if(object == null) return;
 			if(object.getModelEntity().getName().startsWith(SeamPagesConstants.ENT_FILE_SEAM_PAGE)) {
-				validatePageRedirects(object, f);
+				validatePageViewIds(object, f);
 			}
 		}
 	}
 
-	private void validatePageRedirects(XModelObject o, IFile f) {
+	private void validatePageViewIds(XModelObject o, IFile f) {
 		String entity = o.getModelEntity().getName();
+		validatePageViewId(o, f);
 		if(entity.startsWith(SeamPagesConstants.ENT_REDIRECT) || entity.startsWith(SeamPagesConstants.ENT_RENDER)) {
-			validatePageRedirect(o, f);
 		} else {
 			XModelObject[] cs = o.getChildren();
 			for (XModelObject c: cs) {
-				validatePageRedirects(c, f);
+				validatePageViewIds(c, f);
 			}
 		}
 	}
 
-	private void validatePageRedirect(XModelObject redirect, IFile f) {
-		String path = redirect.getAttributeValue(SeamPagesConstants.ATTR_VIEW_ID);
+	static String ATTR_NO_CONVERSATION_VIEW_ID = "no conversation view id";
+	static String ATTR_LOGIN_VIEW_ID = "login view id";
+
+	private void validatePageViewId(XModelObject object, IFile f) {
+		validatePageViewId(object, f, SeamPagesConstants.ATTR_VIEW_ID);
+		validatePageViewId(object, f, ATTR_NO_CONVERSATION_VIEW_ID);
+		validatePageViewId(object, f, ATTR_LOGIN_VIEW_ID);
+	}
+
+	private void validatePageViewId(XModelObject object, IFile f, String attr) {
+		if(object.getModelEntity().getAttribute(attr) == null) return;
+		String path = object.getAttributeValue(attr);
 		if(path == null || path.length() == 0 || path.indexOf('*') >= 0) return;
 		path = path.replace('\\', '/');
 		if(path.indexOf('?') >= 0) {
 			path = path.substring(0, path.indexOf('?'));
 		}
-		XModelObject target = redirect.getModel().getByPath(path);
+		XModelObject target = object.getModel().getByPath(path);
 		if(target == null) {
-			XMLValueInfo i = new XMLValueInfo(redirect, SeamPagesConstants.ATTR_VIEW_ID);
+			XMLValueInfo i = new XMLValueInfo(object, attr);
 			addError(NLS.bind(SeamValidationMessages.UNRESOLVED_VIEW_ID, path), SeamPreferences.UNRESOLVED_VIEW_ID, i, f);
 		}
 		
