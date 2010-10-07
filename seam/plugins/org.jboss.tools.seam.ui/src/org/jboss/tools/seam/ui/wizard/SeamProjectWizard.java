@@ -414,8 +414,10 @@ public class SeamProjectWizard extends WebProjectWizard {
 			JBossServer jbs = (JBossServer) server.loadAdapter(JBossServer.class, new NullProgressMonitor());
 			if (jbs != null) {
 				String[] driverJars = (String[]) model.getProperty(ISeamFacetDataModelProperties.JDBC_DRIVER_JAR_PATH);
-				String configFolder = jbs.getConfigDirectory();
-				AntCopyUtils.copyFiles(driverJars, new File(configFolder, "lib"), false);
+				if(driverJars!=null) {
+					String configFolder = jbs.getConfigDirectory();
+					AntCopyUtils.copyFiles(driverJars, new File(configFolder, "lib"), false);
+				}
 			} 
 			
 			RegistrationHelper.runRegisterInServerJob(warProject, server);
