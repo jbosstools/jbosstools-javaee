@@ -39,7 +39,6 @@ import org.eclipse.wst.xml.core.internal.provisional.document.IDOMDocument;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMModel;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.CDICorePlugin;
-import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.IClassBean;
 import org.jboss.tools.cdi.core.IDecorator;
 import org.jboss.tools.cdi.core.IInterceptor;
@@ -69,28 +68,28 @@ public class BeansXmlValidationDelegate extends CDICoreValidationDelegate {
 
 	private AlternativeClassValidator getAlternativeClassValidator() {
 		if(alternativeClassValidator==null) {
-			alternativeClassValidator = new AlternativeClassValidator(validator.cdiProject);
+			alternativeClassValidator = new AlternativeClassValidator();
 		}
 		return alternativeClassValidator;
 	}
 
 	private AlternativeStereotypeValidator getAlternativeStereotypeValidator() {
 		if(alternativeStereotypeValidator==null) {
-			alternativeStereotypeValidator = new AlternativeStereotypeValidator(validator.cdiProject);
+			alternativeStereotypeValidator = new AlternativeStereotypeValidator();
 		}
 		return alternativeStereotypeValidator;
 	}
 
 	private DecoratorTypeValidator getDecoratorTypeValidator() {
 		if(decoratorTypeValidator==null) {
-			decoratorTypeValidator = new DecoratorTypeValidator(validator.cdiProject);
+			decoratorTypeValidator = new DecoratorTypeValidator();
 		}
 		return decoratorTypeValidator;
 	}
 
 	private InterceptorTypeValidator getInterceptorTypeValidator() {
 		if(interceptorTypeValidator==null) {
-			interceptorTypeValidator = new InterceptorTypeValidator(validator.cdiProject);
+			interceptorTypeValidator = new InterceptorTypeValidator();
 		}
 		return interceptorTypeValidator;
 	}
@@ -386,12 +385,7 @@ public class BeansXmlValidationDelegate extends CDICoreValidationDelegate {
 		String getDuplicateTypeErrorMessage();
 	}
 
-	private static abstract class AbstractTypeValidator implements TypeValidator {
-		ICDIProject cdiProject;
-
-		public AbstractTypeValidator(ICDIProject cdiProject) {
-			this.cdiProject = cdiProject;
-		}
+	private abstract class AbstractTypeValidator implements TypeValidator {
 
 		public String getTypeElementName() {
 			return "class"; //$NON-NLS-1$
@@ -414,14 +408,10 @@ public class BeansXmlValidationDelegate extends CDICoreValidationDelegate {
 		protected abstract String getAnnotationName();
 	}
 
-	private static class AlternativeClassValidator extends AbstractTypeValidator {
-
-		public AlternativeClassValidator(ICDIProject cdiProject) {
-			super(cdiProject);
-		}
+	private class AlternativeClassValidator extends AbstractTypeValidator {
 
 		public boolean validateSourceType(IType type) {
-			IClassBean classBean = cdiProject.getBeanClass(type);
+			IClassBean classBean = validator.cdiProject.getBeanClass(type);
 			return classBean!=null && classBean.isAlternative();
 		}
 
@@ -447,14 +437,10 @@ public class BeansXmlValidationDelegate extends CDICoreValidationDelegate {
 		}
 	}
 
-	private static class AlternativeStereotypeValidator extends AbstractTypeValidator {
-
-		public AlternativeStereotypeValidator(ICDIProject cdiProject) {
-			super(cdiProject);
-		}
+	private class AlternativeStereotypeValidator extends AbstractTypeValidator {
 
 		public boolean validateSourceType(IType type) {
-			IStereotype stereotype = cdiProject.getStereotype(type);
+			IStereotype stereotype = validator.cdiProject.getStereotype(type);
 			return stereotype!=null && stereotype.isAlternative();
 		}
 
@@ -490,14 +476,10 @@ public class BeansXmlValidationDelegate extends CDICoreValidationDelegate {
 		}
 	}
 
-	private static class DecoratorTypeValidator extends AbstractTypeValidator {
-
-		public DecoratorTypeValidator(ICDIProject cdiProject) {
-			super(cdiProject);
-		}
+	private class DecoratorTypeValidator extends AbstractTypeValidator {
 
 		public boolean validateSourceType(IType type) {
-			IClassBean classBean = cdiProject.getBeanClass(type);
+			IClassBean classBean = validator.cdiProject.getBeanClass(type);
 			return classBean instanceof IDecorator;
 		}
 
@@ -523,14 +505,10 @@ public class BeansXmlValidationDelegate extends CDICoreValidationDelegate {
 		}
 	}
 
-	private static class InterceptorTypeValidator extends AbstractTypeValidator {
-
-		public InterceptorTypeValidator(ICDIProject cdiProject) {
-			super(cdiProject);
-		}
+	private class InterceptorTypeValidator extends AbstractTypeValidator {
 
 		public boolean validateSourceType(IType type) {
-			IClassBean classBean = cdiProject.getBeanClass(type);
+			IClassBean classBean = validator.cdiProject.getBeanClass(type);
 			return classBean instanceof IInterceptor;
 		}
 
