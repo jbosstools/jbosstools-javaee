@@ -61,6 +61,30 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		super(name);
 	}
 
+	protected void copyContentsFile(IFile originalFile, IFile newContentFile) throws CoreException{
+		PageContextFactory.getInstance().cleanUp(originalFile);
+		InputStream is = null;
+		try{
+			is = newContentFile.getContents();
+			originalFile.setContents(is, true, false, null);
+		} finally {
+			if(is!=null) {
+				try {
+					is.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		project.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
+		JobUtils.waitForIdle();
+		originalFile.getProject().build(IncrementalProjectBuilder.INCREMENTAL_BUILD, "org.eclipse.jdt.internal.core.builder.JavaBuilder", null, null);
+		JobUtils.waitForIdle();
+		originalFile.getProject().build(IncrementalProjectBuilder.INCREMENTAL_BUILD, SeamCoreBuilder.BUILDER_ID, null, null);
+//		originalFile.getProject().build(IncrementalProjectBuilder.INCREMENTAL_BUILD, null);
+		JobUtils.waitForIdle();
+	}
+
 	protected void setUp() throws Exception {
 		JobUtils.waitForIdle();
 		IResource project = ResourcesPlugin.getWorkspace().getRoot().findMember("SeamWebWarTestProject");
