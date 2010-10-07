@@ -22,10 +22,10 @@ public class SeamRefactoringAllTests {
 
 	public static Test suite() {
 		TestSuite suite = new TestSuite();
-//		suite.addTest(new ProjectImportTestSetup(new TestSuite(SeamPropertyRefactoringTest.class),
-//				"org.jboss.tools.seam.core.test",
-//				new String[]{"projects/RefactoringTestProject-war", "projects/RefactoringTestProject-ejb", "projects/RefactoringTestProject-test"},
-//				new String[]{"RefactoringTestProject-war", "RefactoringTestProject-ejb", "RefactoringTestProject-test"}));
+		suite.addTest(new ProjectImportTestSetup(new TestSuite(SeamPropertyRefactoringTest.class),
+				"org.jboss.tools.seam.core.test",
+				new String[]{"projects/RefactoringTestProject-war", "projects/RefactoringTestProject-ejb", "projects/RefactoringTestProject-test"},
+				new String[]{"RefactoringTestProject-war", "RefactoringTestProject-ejb", "RefactoringTestProject-test"}));
 		
 		suite.addTest(new ProjectImportTestSetup(new TestSuite(SeamComponentRefactoringTest.class),
 				"org.jboss.tools.seam.core.test",

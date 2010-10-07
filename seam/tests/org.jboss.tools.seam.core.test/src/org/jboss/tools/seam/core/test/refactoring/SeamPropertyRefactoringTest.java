@@ -162,26 +162,29 @@ public class SeamPropertyRefactoringTest extends TestCase {
 		assertCorrectProperties();
 	}
 
-	public void testActionPackageRename() throws CoreException {
-		String oldName = actionPackageName;
-		actionPackageName = "newejbdemo";
-		renamePackage(actionSourceFolderPath, oldName, actionPackageName);
-		assertCorrectProperties();
-	}
+//	public void testActionPackageRename() throws CoreException {
+//		System.out.println("SeamPropertyRefactoringTest testActionPackageRename");
+//		String oldName = actionPackageName;
+//		actionPackageName = "newejbdemo";
+//		renamePackage(actionSourceFolderPath, oldName, actionPackageName);
+//		assertCorrectProperties();
+//	}
 
-	public void testModelPackageRename() throws CoreException {
-		String oldName = modelPackageName;
-		modelPackageName = "newwardemo";
-		renamePackage(modelSourceFolderPath, oldName, modelPackageName);
-		assertCorrectProperties();
-	}
+//	public void testModelPackageRename() throws CoreException {
+//		System.out.println("SeamPropertyRefactoringTest testModelPackageRename");
+//		String oldName = modelPackageName;
+//		modelPackageName = "newwardemo";
+//		renamePackage(modelSourceFolderPath, oldName, modelPackageName);
+//		assertCorrectProperties();
+//	}
 
-	public void testTestPackageRename() throws CoreException {
-		String oldName = testPackageName;
-		testPackageName = "newtestdemo";
-		renamePackage(testSourceFolderPath, oldName, testPackageName);
-		assertCorrectProperties();
-	}
+//	public void testTestPackageRename() throws CoreException {
+//		System.out.println("SeamPropertyRefactoringTest testTestPackageRename");
+//		String oldName = testPackageName;
+//		testPackageName = "newtestdemo";
+//		renamePackage(testSourceFolderPath, oldName, testPackageName);
+//		assertCorrectProperties();
+//	}
 
 	public void testViewFolderMove() throws CoreException {
 		viewFolderParentName = "testwebroot";
