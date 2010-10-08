@@ -38,6 +38,7 @@ import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.text.TextProposal;
 import org.jboss.tools.jsf.JSFModelPlugin;
+import org.jboss.tools.jst.web.kb.IXmlContext;
 
 /**
  * 
@@ -103,10 +104,15 @@ public class JSF2CCAttrsELCompletionEngine extends AbstractELCompletionEngine<IV
 	 * @see org.jboss.tools.common.el.core.resolver.ELResolver2#resolve(org.jboss.tools.common.el.core.resolver.ELContext, org.jboss.tools.common.el.core.model.ELExpression)
 	 */
 	public ELResolution resolve(ELContext context, ELExpression operand, int offset) {
-		ELResolutionImpl resolution = resolveELOperand(operand, context, true);
-		if(resolution != null)
-			resolution.setContext(context);
-		return resolution;
+		if(context instanceof IXmlContext) {
+			if(((IXmlContext)context).getURIs().contains("http://java.sun.com/jsf/composite")) {
+				ELResolutionImpl resolution = resolveELOperand(operand, context, true);
+				if(resolution != null)
+					resolution.setContext(context);
+				return resolution;
+			}
+		}
+		return null;
 	}
 
 	public ELResolutionImpl resolveELOperand(ELExpression operand,
