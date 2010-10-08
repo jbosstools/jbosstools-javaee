@@ -12,6 +12,7 @@ package org.jboss.tools.jsf.model;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -41,6 +42,7 @@ import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.text.TextProposal;
 import org.jboss.tools.jsf.JSFModelPlugin;
 import org.jboss.tools.jst.web.kb.IXmlContext;
+import org.jboss.tools.jst.web.kb.PageContextFactory;
 
 /**
  * 
@@ -312,15 +314,26 @@ public class JSF2CCAttrsELCompletionEngine extends AbstractELCompletionEngine<IV
 		return resolution;
 	}
 
+	static String[] vs = {"cc.attrs", "compositeComponent.attrs"};
+	private IFile currentFile;
+	private ELContext currentContext;
+	private XModelObject currentXModelObject;
+
 	public List<IVariable> resolveVariablesInternal(IFile file, ELInvocationExpression expr, boolean isFinal, boolean onlyEqualNames) {
+		ELContext context = null;
+		if(currentXModelObject==null || currentFile!=file || (context = PageContextFactory.createPageContext(file))!=currentContext) {
+			currentXModelObject = EclipseResourceUtil.createObjectForResource(file);
+			currentFile = file;
+			if(currentContext!=context) {
+				if(currentXModelObject == null) return Collections.emptyList();
+				if(!"FileJSF2Component".equals(currentXModelObject.getModelEntity().getName())) return Collections.emptyList();;
+			}
+			currentContext = context;
+		}
+
 		List<IVariable> result = new ArrayList<IVariable>();
 
-		XModelObject o = EclipseResourceUtil.createObjectForResource(file);
-		if(o == null) return result;
-		if(!"FileJSF2Component".equals(o.getModelEntity().getName())) return result;
-
 		String varName = expr.toString();
-		String[] vs = {"cc.attrs", "compositeComponent.attrs"};
 		for (int i = 0; i < vs.length; i++) {
 			String name = vs[i];
 			if(!isFinal || onlyEqualNames) {
