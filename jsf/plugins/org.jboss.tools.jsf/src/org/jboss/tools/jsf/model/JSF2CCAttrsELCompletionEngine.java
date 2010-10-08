@@ -18,6 +18,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.swt.graphics.Image;
@@ -31,6 +32,7 @@ import org.jboss.tools.common.el.core.parser.ELParserUtil;
 import org.jboss.tools.common.el.core.resolver.ELContext;
 import org.jboss.tools.common.el.core.resolver.ELResolution;
 import org.jboss.tools.common.el.core.resolver.ELResolutionImpl;
+import org.jboss.tools.common.el.core.resolver.ELSegment;
 import org.jboss.tools.common.el.core.resolver.ELSegmentImpl;
 import org.jboss.tools.common.el.core.resolver.IVariable;
 import org.jboss.tools.common.el.core.resolver.TypeInfoCollector.MemberInfo;
@@ -99,20 +101,61 @@ public class JSF2CCAttrsELCompletionEngine extends AbstractELCompletionEngine<IV
 		return proposals;
 	}
 
+	static String COMPOSITE_URI = "http://java.sun.com/jsf/composite";
+	static ELResolution EMPTY_RESOLUTION = new ELResolution() {
+		public List<ELSegment> getSegments() {
+			return null;
+		}
+		public ELExpression getSourceOperand() {
+			return null;
+		}
+		public ELContext getContext() {
+			return null;
+		}
+		public List<ELSegment> findSegmentsByVariable(IVariable variable) {
+			return null;
+		}
+		public List<ELSegment> findSegmentsByJavaElement(IJavaElement element) {
+			return null;
+		}
+		public List<ELSegment> findSegmentsByMessageProperty(String baseName,
+				String propertyName) {
+			return null;
+		}
+		public ELSegment findSegmentByOffset(int offcet) {
+			return null;
+		}
+		public ELSegment getUnresolvedSegment() {
+			return null;
+		}
+		public boolean isResolved() {
+			return false;
+		}
+		public ELSegment getLastSegment() {
+			return null;
+		}
+		public int getNumberOfResolvedSegments() {
+			return 0;
+		}
+		public String getValue() {
+			return null;
+		}
+	};
+
 	/*
 	 * (non-Javadoc)
 	 * @see org.jboss.tools.common.el.core.resolver.ELResolver2#resolve(org.jboss.tools.common.el.core.resolver.ELContext, org.jboss.tools.common.el.core.model.ELExpression)
 	 */
 	public ELResolution resolve(ELContext context, ELExpression operand, int offset) {
 		if(context instanceof IXmlContext) {
-			if(((IXmlContext)context).getURIs().contains("http://java.sun.com/jsf/composite")) {
+			if(((IXmlContext)context).getURIs().contains(COMPOSITE_URI)) {
 				ELResolutionImpl resolution = resolveELOperand(operand, context, true);
 				if(resolution != null)
 					resolution.setContext(context);
 				return resolution;
 			}
 		}
-		return null;
+		return EMPTY_RESOLUTION;
 	}
 
 	public ELResolutionImpl resolveELOperand(ELExpression operand,
