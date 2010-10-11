@@ -42,7 +42,7 @@ public class ExpressionHyperlink extends AbstractHyperlink{
 			for(ELResolver resolver : context.getElResolvers()){
 				ELResolution resolution = resolver.resolve(context, invocationExpression, offset);
 				if(resolution==null) {
-					return null;
+					continue;
 				}
 				ELSegment segment = resolution.findSegmentByOffset(offset-eStructure.reference.getStartPosition());
 				if(segment != null){
