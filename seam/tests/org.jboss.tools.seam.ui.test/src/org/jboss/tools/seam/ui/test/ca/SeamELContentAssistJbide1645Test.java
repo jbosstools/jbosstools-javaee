@@ -1,11 +1,15 @@
 package org.jboss.tools.seam.ui.test.ca;
 
+import java.util.List;
+
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.jface.text.contentassist.ICompletionProposal;
 import org.eclipse.jface.text.contentassist.IContentAssistProcessor;
+import org.jboss.tools.common.el.core.ELCorePlugin;
+import org.jboss.tools.common.el.core.ca.preferences.ELContentAssistPreferences;
 import org.jboss.tools.common.el.ui.ca.ELProposalProcessor;
 import org.jboss.tools.jst.jsp.test.TestUtil;
 import org.jboss.tools.jst.jsp.test.ca.ContentAssistantTestCase;
@@ -46,6 +50,7 @@ public class SeamELContentAssistJbide1645Test extends ContentAssistantTestCase {
 	}
 
 	public void testSeamELContentAssistJbide1645() {
+		ELCorePlugin.getDefault().getPreferenceStore().setValue(ELContentAssistPreferences.SHOW_METHODS_WITH_PARENTHESES_ONLY, false);
 		openEditor(PAGE_NAME);
 
 		// Find start of <rich:panel> tag
@@ -63,21 +68,12 @@ public class SeamELContentAssistJbide1645Test extends ContentAssistantTestCase {
 		ICompletionProposal[] result= null;
 		String errorMessage = null;
 
-		IContentAssistProcessor p= TestUtil.getProcessor(viewer, offsetToTest, contentAssistant);
-		if (p != null) {
-			try {
-				result= p.computeCompletionProposals(viewer, offsetToTest);
-			} catch (Throwable x) {
-				x.printStackTrace();
-			}
-			errorMessage= p.getErrorMessage();
-		}
+		List<ICompletionProposal> res = TestUtil.collectProposals(contentAssistant, viewer, offsetToTest);
+		assertTrue("Content Assistant peturned no proposals", (res != null && res.size() > 0));
 
-		assertTrue("Content Assistant peturned no proposals", (result != null && result.length > 0));
-
-		for (int i = 0; i < result.length; i++) {
+		for (ICompletionProposal proposal : res) {
 			// There should not be a proposal of type SeamELProposalProcessor.Proposal in the result
-			assertFalse("Content Assistant peturned proposals of type (" + result[i].getClass().getName() + ").", (result[i] instanceof ELProposalProcessor.Proposal));
+			assertFalse("Content Assistant peturned proposals of type (" + proposal.getClass().getName() + ").", (proposal instanceof ELProposalProcessor.Proposal));
 		}
 
 		try {
