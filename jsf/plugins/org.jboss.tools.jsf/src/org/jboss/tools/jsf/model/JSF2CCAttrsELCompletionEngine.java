@@ -104,45 +104,6 @@ public class JSF2CCAttrsELCompletionEngine extends AbstractELCompletionEngine<IV
 	}
 
 	static String COMPOSITE_URI = "http://java.sun.com/jsf/composite";
-	static ELResolution EMPTY_RESOLUTION = new ELResolution() {
-		public List<ELSegment> getSegments() {
-			return Collections.emptyList();
-		}
-		public ELExpression getSourceOperand() {
-			return null;
-		}
-		public ELContext getContext() {
-			return null;
-		}
-		public List<ELSegment> findSegmentsByVariable(IVariable variable) {
-			return null;
-		}
-		public List<ELSegment> findSegmentsByJavaElement(IJavaElement element) {
-			return null;
-		}
-		public List<ELSegment> findSegmentsByMessageProperty(String baseName,
-				String propertyName) {
-			return null;
-		}
-		public ELSegment findSegmentByOffset(int offcet) {
-			return null;
-		}
-		public ELSegment getUnresolvedSegment() {
-			return null;
-		}
-		public boolean isResolved() {
-			return false;
-		}
-		public ELSegment getLastSegment() {
-			return null;
-		}
-		public int getNumberOfResolvedSegments() {
-			return 0;
-		}
-		public String getValue() {
-			return null;
-		}
-	};
 
 	/*
 	 * (non-Javadoc)
@@ -157,7 +118,7 @@ public class JSF2CCAttrsELCompletionEngine extends AbstractELCompletionEngine<IV
 				return resolution;
 			}
 		}
-		return EMPTY_RESOLUTION;
+		return null;
 	}
 
 	public ELResolutionImpl resolveELOperand(ELExpression operand,
