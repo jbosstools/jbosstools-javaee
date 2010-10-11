@@ -45,7 +45,7 @@ public class ELValidatorTest extends AbstractResourceMarkerTest{
 				"WebContent/testElRevalidation.xhtml",
 				JSFValidationMessages.UNKNOWN_EL_VARIABLE_PROPERTY_NAME,
 				new Object[] {"user"},
-				13);
+				14);
 
 		// Check if the validator was not invoked.
 		copyContentsFile("WebContent/WEB-INF/faces-config.xml", "WebContent/WEB-INF/faces-config.original");
@@ -54,7 +54,7 @@ public class ELValidatorTest extends AbstractResourceMarkerTest{
 				"WebContent/testElRevalidation.xhtml",
 				JSFValidationMessages.UNKNOWN_EL_VARIABLE_PROPERTY_NAME,
 				new Object[] {"user"},
-				13);
+				14);
 		
 		store.setValue(JSFSeverityPreferences.RE_VALIDATE_UNRESOLVED_EL, JSFSeverityPreferences.ENABLE);
 		store.setValue(JSFSeverityPreferences.UNKNOWN_EL_VARIABLE_NAME, JSFSeverityPreferences.IGNORE);
@@ -71,7 +71,7 @@ public class ELValidatorTest extends AbstractResourceMarkerTest{
 				"WebContent/testElRevalidation.xhtml",
 				JSFValidationMessages.UNKNOWN_EL_VARIABLE_PROPERTY_NAME,
 				new Object[] {"user"},
-				13);
+				14);
 
 		// Check if the validator was not invoked.
 		copyContentsFile("WebContent/WEB-INF/faces-config.xml", "WebContent/WEB-INF/faces-config.original");
@@ -80,7 +80,7 @@ public class ELValidatorTest extends AbstractResourceMarkerTest{
 				"WebContent/testElRevalidation.xhtml",
 				JSFValidationMessages.UNKNOWN_EL_VARIABLE_PROPERTY_NAME,
 				new Object[] {"user"},
-				13);
+				14);
 
 		store.setValue(JSFSeverityPreferences.RE_VALIDATE_UNRESOLVED_EL, JSFSeverityPreferences.ENABLE);
 		store.setValue(JSFSeverityPreferences.UNKNOWN_EL_VARIABLE_NAME, JSFSeverityPreferences.IGNORE);
