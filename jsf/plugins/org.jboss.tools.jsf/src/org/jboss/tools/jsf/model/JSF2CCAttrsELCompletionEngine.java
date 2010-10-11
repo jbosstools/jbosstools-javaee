@@ -106,7 +106,7 @@ public class JSF2CCAttrsELCompletionEngine extends AbstractELCompletionEngine<IV
 	static String COMPOSITE_URI = "http://java.sun.com/jsf/composite";
 	static ELResolution EMPTY_RESOLUTION = new ELResolution() {
 		public List<ELSegment> getSegments() {
-			return null;
+			return Collections.emptyList();
 		}
 		public ELExpression getSourceOperand() {
 			return null;
