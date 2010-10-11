@@ -144,7 +144,7 @@ public class JSPExprHyperlinkPartitioner extends AbstractHyperlinkPartitioner im
 		for(ELResolver resolver : context.getElResolvers()){
 			ELResolution resolution = resolver.resolve(context, invocationExpression, globalOffset);
 			if(resolution==null) {
-				return false;
+				continue;
 			}
 			ELSegment segment = resolution.findSegmentByOffset(offset);
 			if(segment != null && segment.isResolved()){
