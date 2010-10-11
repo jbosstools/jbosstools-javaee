@@ -32,6 +32,8 @@ import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegion;
 import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegionList;
 import org.eclipse.wst.sse.ui.internal.contentassist.ContentAssistUtils;
 import org.eclipse.wst.xml.core.internal.regions.DOMRegionContext;
+import org.jboss.tools.common.el.core.ELCorePlugin;
+import org.jboss.tools.common.el.core.ca.preferences.ELContentAssistPreferences;
 import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.jst.jsp.contentassist.AutoContentAssistantProposal;
 import org.jboss.tools.jst.jsp.test.TestUtil;
@@ -268,6 +270,7 @@ public class SeamELContentAssistTestCase extends ContentAssistantTestCase {
 	 * Test for https://jira.jboss.org/jira/browse/JBIDE-3213
 	 */
 	public void testFrameworkComponents() {
+		ELCorePlugin.getDefault().getPreferenceStore().setValue(ELContentAssistPreferences.SHOW_METHODS_WITH_PARENTHESES_ONLY, false);
 		assertTrue("Test project \"" + PROJECT_NAME + "\" is not loaded", (project != null));
 		checkProposals("/WebContent/frameworkComponents.xhtml", 698, new String[]{"fullPostList.resultList", "fullPostList.next"}, false);
 	}
@@ -450,6 +453,7 @@ public class SeamELContentAssistTestCase extends ContentAssistantTestCase {
 	}
 
 	public void testSeamELContentAssist() {
+		ELCorePlugin.getDefault().getPreferenceStore().setValue(ELContentAssistPreferences.SHOW_METHODS_WITH_PARENTHESES_ONLY, false);
 		openEditor(PAGE_NAME);
 
 		List<IRegion> regionsToTest = getELRegionsToTest(document);
@@ -469,15 +473,7 @@ public class SeamELContentAssistTestCase extends ContentAssistantTestCase {
 						ICompletionProposal[] result= null;
 						String errorMessage = null;
 
-						IContentAssistProcessor p= TestUtil.getProcessor(viewer, offset, contentAssistant);
-						if (p != null) {
-							try {
-								result= p.computeCompletionProposals(viewer, offset);
-							} catch (Throwable x) {
-								x.printStackTrace();
-							}
-							errorMessage= p.getErrorMessage();
-						}
+						List<ICompletionProposal> res = TestUtil.collectProposals(contentAssistant, viewer, offset);
 						
 //						if (errorMessage != null && errorMessage.trim().length() > 0) {
 //							System.out.println("#" + offset + ": ERROR MESSAGE: " + errorMessage);
@@ -486,14 +482,14 @@ public class SeamELContentAssistTestCase extends ContentAssistantTestCase {
 						// compare SeamELCompletionProposals in the result to the filtered valid proposals
 						Set<String> existingProposals = new TreeSet<String>(String.CASE_INSENSITIVE_ORDER);
 						
-						if (result != null && result.length > 0) {
-							for (int j = 0; j < result.length; j++) {
+						if (res != null && res.size() > 0) {
+							for (ICompletionProposal p : res) {
 //								System.out.println("Result#" + i + "-" + j + " ==> " + result[j].getClass().getName());
 								// Cannot separate Seam EL proposals from all the others, 
 								// so check only the required proposals existance
 								//
-								if (result[j] instanceof AutoContentAssistantProposal) {
-									AutoContentAssistantProposal proposal = (AutoContentAssistantProposal)result[j];
+								if (p instanceof AutoContentAssistantProposal) {
+									AutoContentAssistantProposal proposal = (AutoContentAssistantProposal)p;
 									
 									String proposalString = proposal.getReplacementString();
 									if (filteredValidProposals.contains(proposalString)) {
@@ -575,16 +571,7 @@ public class SeamELContentAssistTestCase extends ContentAssistantTestCase {
 							ICompletionProposal[] result= null;
 							String errorMessage = null;
 	
-							IContentAssistProcessor p= TestUtil.getProcessor(viewer, offset, contentAssistant);
-							if (p != null) {
-								try {
-									result= p.computeCompletionProposals(viewer, offset);
-								} catch (Throwable x) {
-									x.printStackTrace();
-								}
-								errorMessage= p.getErrorMessage();
-							}
-							
+							List<ICompletionProposal> res = TestUtil.collectProposals(contentAssistant, viewer, offset);
 //							if (errorMessage != null && errorMessage.trim().length() > 0) {
 //								System.out.println("#" + offset + ": ERROR MESSAGE: " + errorMessage);
 //							}
@@ -592,14 +579,14 @@ public class SeamELContentAssistTestCase extends ContentAssistantTestCase {
 							// compare SeamELCompletionProposals in the result to the filtered valid proposals
 							Set<String> existingProposals = new TreeSet<String>(String.CASE_INSENSITIVE_ORDER);
 
-							if (result != null && result.length > 0) {
-								for (int j = 0; j < result.length; j++) {
+							if (res != null && res.size() > 0) {
+								for (ICompletionProposal p : res) {
 //									System.out.println("Result#" + i + "/" + j + " ==> " + result[j].getClass().getName());
 								// Cannot separate Seam EL proposals from all the others, 
 								// so check only the required proposals existance
 								//
-									if (result[j] instanceof AutoContentAssistantProposal) {
-										AutoContentAssistantProposal proposal = (AutoContentAssistantProposal)result[j];
+									if (p instanceof AutoContentAssistantProposal) {
+										AutoContentAssistantProposal proposal = (AutoContentAssistantProposal)p;
 										String proposalString = proposal.getReplacementString();
 										
 										if (filteredValidProposals.contains(proposalString)) {
@@ -654,20 +641,11 @@ public class SeamELContentAssistTestCase extends ContentAssistantTestCase {
 				int startOffset = region.getOffset() + 2;
 				int offset = startOffset + 10;
 
-				ICompletionProposal[] result= null;
 				String errorMessage = null;
 
-				IContentAssistProcessor p= TestUtil.getProcessor(viewer, offset, contentAssistant);
-				if (p != null) {
-					try {
-						result= p.computeCompletionProposals(viewer, offset);
-					} catch (Throwable x) {
-						x.printStackTrace();
-					}
-					errorMessage= p.getErrorMessage();
-				}
-				assertNotNull("Proposals were not created.", result);
-				assertEquals("Incorrect number of proposals for #{'aa'.subst|ring(1)}", 3, result.length);
+				List<ICompletionProposal> res = TestUtil.collectProposals(contentAssistant, viewer, offset);
+				assertNotNull("Proposals were not created.", res);
+				assertEquals("Incorrect number of proposals for #{'aa'.subst|ring(1)}", 3, res.size());
 			}
 		
 		}
