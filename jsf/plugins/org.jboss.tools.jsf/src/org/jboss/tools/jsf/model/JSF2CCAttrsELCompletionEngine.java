@@ -177,7 +177,9 @@ public class JSF2CCAttrsELCompletionEngine extends AbstractELCompletionEngine<IV
 		List<TextProposal> completions = new ArrayList<TextProposal>();
 
 		ELResolutionImpl status = resolveELOperand(file, parseOperand("" + prefix), returnEqualedVariablesOnly); //$NON-NLS-1$
-		completions.addAll(status.getProposals());
+		if(status!=null) {
+			completions.addAll(status.getProposals());
+		}
 
 		return completions;
 	}
