@@ -393,7 +393,6 @@ public class ELValidator extends ValidationErrorManager implements IValidator {
 
 			ELSegment segment = resolution.getUnresolvedSegment();
 			if(segment==null) {
-				JSFModelPlugin.getDefault().logError("No one segment was found in EL " + operand + " in " + file);
 				return;
 			}
 			LexicalToken token = segment.getToken();
