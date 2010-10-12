@@ -56,8 +56,8 @@ public class ELValidationTest extends AbstractResourceMarkerTest {
 
 		project.build(IncrementalProjectBuilder.CLEAN_BUILD, new NullProgressMonitor());
 		JobUtils.waitForIdle();
-//		project.build(IncrementalProjectBuilder.FULL_BUILD, new NullProgressMonitor());
-//		JobUtils.waitForIdle();
+		project.build(IncrementalProjectBuilder.FULL_BUILD, new NullProgressMonitor());
+		JobUtils.waitForIdle();
 
 		number = getMarkersNumberByGroupName(file, IValidator.MARKED_RESOURCE_MESSAGE_GROUP);
 		assertEquals("Problem marker was not found.", 1, number);
