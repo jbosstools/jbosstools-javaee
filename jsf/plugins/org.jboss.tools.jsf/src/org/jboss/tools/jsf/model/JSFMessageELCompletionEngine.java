@@ -147,7 +147,9 @@ public class JSFMessageELCompletionEngine extends AbstractELCompletionEngine<IVa
 		List<TextProposal> completions = new ArrayList<TextProposal>();
 
 		ELResolutionImpl status = resolveELOperand(file, parseOperand("" + prefix), returnEqualedVariablesOnly, bundles); //$NON-NLS-1$
-		completions.addAll(status.getProposals());
+		if(status!=null) {
+			completions.addAll(status.getProposals());
+		}
 
 		return completions;
 	}
