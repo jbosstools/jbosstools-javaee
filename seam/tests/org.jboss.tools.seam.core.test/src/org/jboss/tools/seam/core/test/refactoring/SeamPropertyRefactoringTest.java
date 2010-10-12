@@ -11,23 +11,25 @@
 package org.jboss.tools.seam.core.test.refactoring;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
 
 import junit.framework.TestCase;
 
-import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.Path;
-import org.eclipse.core.runtime.preferences.IEclipsePreferences;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
+import org.eclipse.jdt.internal.corext.refactoring.rename.JavaRenameProcessor;
+import org.eclipse.jdt.internal.corext.refactoring.rename.RenameJavaProjectProcessor;
+import org.eclipse.jdt.internal.corext.refactoring.rename.RenamePackageProcessor;
+import org.eclipse.jdt.internal.corext.refactoring.rename.RenameSourceFolderProcessor;
 import org.eclipse.jdt.internal.corext.refactoring.reorg.IConfirmQuery;
 import org.eclipse.jdt.internal.corext.refactoring.reorg.ICreateTargetQueries;
 import org.eclipse.jdt.internal.corext.refactoring.reorg.ICreateTargetQuery;
@@ -37,12 +39,15 @@ import org.eclipse.jdt.internal.corext.refactoring.reorg.ReorgDestinationFactory
 import org.eclipse.jdt.internal.corext.refactoring.reorg.ReorgPolicyFactory;
 import org.eclipse.jdt.internal.corext.refactoring.reorg.IReorgPolicy.IMovePolicy;
 import org.eclipse.jdt.internal.corext.refactoring.tagging.ITextUpdating;
-import org.eclipse.jdt.internal.ui.refactoring.RefactoringExecutionHelper;
-import org.eclipse.jdt.internal.ui.refactoring.reorg.RenameSelectionState;
-import org.eclipse.jdt.ui.refactoring.RefactoringSaveHelper;
 import org.eclipse.jdt.ui.refactoring.RenameSupport;
-import org.eclipse.ltk.core.refactoring.RefactoringCore;
+import org.eclipse.ltk.core.refactoring.Change;
+import org.eclipse.ltk.core.refactoring.CompositeChange;
+import org.eclipse.ltk.core.refactoring.participants.MoveArguments;
+import org.eclipse.ltk.core.refactoring.participants.MoveParticipant;
 import org.eclipse.ltk.core.refactoring.participants.MoveRefactoring;
+import org.eclipse.ltk.core.refactoring.participants.RefactoringProcessor;
+import org.eclipse.ltk.core.refactoring.participants.RenameArguments;
+import org.eclipse.ltk.core.refactoring.participants.RenameParticipant;
 import org.eclipse.ltk.core.refactoring.participants.RenameRefactoring;
 import org.eclipse.ltk.internal.core.refactoring.resource.RenameResourceProcessor;
 import org.eclipse.swt.widgets.Shell;
@@ -51,6 +56,10 @@ import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
+import org.jboss.tools.seam.internal.core.refactoring.SeamFolderMoveParticipant;
+import org.jboss.tools.seam.internal.core.refactoring.SeamFolderRenameParticipant;
+import org.jboss.tools.seam.internal.core.refactoring.SeamProjectChange;
+import org.jboss.tools.seam.internal.core.refactoring.SeamProjectRenameParticipant;
 import org.jboss.tools.test.util.JUnitUtils;
 import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.ProjectImportTestSetup;
@@ -81,7 +90,7 @@ public class SeamPropertyRefactoringTest extends TestCase {
 	static ISeamProject seamWarProject;
 	static ISeamProject seamEjbProject;
 	static ISeamProject seamTestProject;
-
+	
 	public SeamPropertyRefactoringTest() {
 		super("Seam Property Refactoring Tests");
 	}
@@ -113,122 +122,150 @@ public class SeamPropertyRefactoringTest extends TestCase {
 		JobUtils.waitForIdle();
 		return seamProject;
 	}
-
+	
 	public void testWarProjectRename() throws CoreException {
 		warProjectName = "NewWarProjectName";
-		updateFields();
-		warProject = renameProject(warProject, warProjectName);
-		seamWarProject = SeamCorePlugin.getSeamProject(warProject, true);
-		assertCorrectProperties();
+		HashMap<String, String> preferences = new HashMap<String, String>();
+		preferences.put(ISeamFacetDataModelProperties.SEAM_PARENT_PROJECT, warProjectName);
+		preferences.put(ISeamFacetDataModelProperties.ENTITY_BEAN_SOURCE_FOLDER, "/"+warProjectName+"/src");
+		preferences.put(ISeamFacetDataModelProperties.WEB_CONTENTS_FOLDER, "/"+warProjectName+"/webroot/WebContent");
+		
+		try{
+			renameProject(warProject, warProjectName, preferences);
+		}finally{
+			warProjectName = "RefactoringTestProject-war";
+			updateFields();
+		}
 	}
 
 	public void testEjbProjectRename() throws CoreException {
 		ejbProjectName = "NewEjbProjectName";
-		updateFields();
-		ejbProject = renameProject(ejbProject, ejbProjectName);
-		seamEjbProject = SeamCorePlugin.getSeamProject(ejbProject, true);
-		assertCorrectProperties();
+		HashMap<String, String> preferences = new HashMap<String, String>();
+		preferences.put(ISeamFacetDataModelProperties.SEAM_EJB_PROJECT, ejbProjectName);
+		preferences.put(ISeamFacetDataModelProperties.SESSION_BEAN_SOURCE_FOLDER, "/"+ejbProjectName+"/src");
+		
+		try{
+			renameProject(ejbProject, ejbProjectName, preferences);
+		}finally{
+			ejbProjectName = "RefactoringTestProject-ejb";
+			updateFields();
+		}
 	}
 
 	public void testTestProjectRename() throws CoreException {
 		testProjectName = "NewTestProjectName";
-		updateFields();
-		testProject = renameProject(testProject, testProjectName);
-		seamTestProject = SeamCorePlugin.getSeamProject(testProject, true);
-		assertCorrectProperties();
+		HashMap<String, String> preferences = new HashMap<String, String>();
+		preferences.put(ISeamFacetDataModelProperties.SEAM_TEST_PROJECT, testProjectName);
+		preferences.put(ISeamFacetDataModelProperties.TEST_SOURCE_FOLDER, "/"+testProjectName+"/src");
+		
+		try{
+			renameProject(testProject, testProjectName, preferences);
+		}finally{
+			testProjectName = "RefactoringTestProject-test";
+			updateFields();
+		}
 	}
 
 	public void testActionSourceFolderRename() throws CoreException {
 		actionSourceFolderName = "newActionSrc";
-		renameSourceFolder(actionSourceFolderPath, actionSourceFolderName);
-		assertCorrectProperties();
+		HashMap<String, String> preferences = new HashMap<String, String>();
+		preferences.put(ISeamFacetDataModelProperties.SESSION_BEAN_SOURCE_FOLDER, "/RefactoringTestProject-ejb/RefactoringTestProject-ejb/"+actionSourceFolderName);
+		
+		try{
+			renameSourceFolder(actionSourceFolderPath, actionSourceFolderName, preferences);
+		}finally{
+			actionSourceFolderName = "src";
+			updateFields();
+		}
 	}
 
 	public void testModelSourceFolderRename() throws CoreException {
 		modelSourceFolderName = "newModelSrc";
-		renameSourceFolder(modelSourceFolderPath, modelSourceFolderName);
-		assertCorrectProperties();
+		HashMap<String, String> preferences = new HashMap<String, String>();
+		preferences.put(ISeamFacetDataModelProperties.SESSION_BEAN_SOURCE_FOLDER, "/RefactoringTestProject-ejb/RefactoringTestProject-war/"+modelSourceFolderName);
+		
+		try{
+			renameSourceFolder(modelSourceFolderPath, modelSourceFolderName, preferences);
+		}finally{
+			modelSourceFolderName = "src";
+			updateFields();
+		}
 	}
 
 	public void testTestSourceFolderRename() throws CoreException {
 		testSourceFolderName = "newTestSrc";
-		renameSourceFolder(testSourceFolderPath, testSourceFolderName);
-		assertCorrectProperties();
+		HashMap<String, String> preferences = new HashMap<String, String>();
+		preferences.put(ISeamFacetDataModelProperties.SESSION_BEAN_SOURCE_FOLDER, "/RefactoringTestProject-ejb/RefactoringTestProject-test/"+testSourceFolderName);
+		
+		try{
+			renameSourceFolder(testSourceFolderPath, testSourceFolderName, preferences);
+		}finally{
+			testSourceFolderName = "src";
+			updateFields();
+		}
 	}
 
 	public void testViewFolderRename() throws CoreException {
 		viewFolderName = "newViewFolder";
-		renameFolder(viewFolderPath, viewFolderName);
-		assertCorrectProperties();
+		HashMap<String, String> preferences = new HashMap<String, String>();
+		preferences.put(ISeamFacetDataModelProperties.WEB_CONTENTS_FOLDER, "/RefactoringTestProject-war/webroot/"+viewFolderName);
+		
+		try{
+			renameFolder(viewFolderPath, viewFolderName, preferences);
+		}finally{
+			viewFolderName = "WebContent";
+			updateFields();
+		}
 	}
 
-//	public void testActionPackageRename() throws CoreException {
-//		System.out.println("SeamPropertyRefactoringTest testActionPackageRename");
-//		String oldName = actionPackageName;
-//		actionPackageName = "newejbdemo";
-//		renamePackage(actionSourceFolderPath, oldName, actionPackageName);
-//		assertCorrectProperties();
-//	}
+	public void testActionPackageRename() throws CoreException {
+		String oldName = actionPackageName;
+		actionPackageName = "newejbdemo";
+		HashMap<String, String> preferences = new HashMap<String, String>();
+		preferences.put(ISeamFacetDataModelProperties.SESSION_BEAN_SOURCE_FOLDER, "/RefactoringTestProject-ejb/"+actionPackageName);
+		
+		try{
+			renamePackage(actionSourceFolderPath, oldName, actionPackageName, preferences);
+		}finally{
+			actionPackageName = "ejbdemo";
+			updateFields();
+		}
+	}
 
-//	public void testModelPackageRename() throws CoreException {
-//		System.out.println("SeamPropertyRefactoringTest testModelPackageRename");
-//		String oldName = modelPackageName;
-//		modelPackageName = "newwardemo";
-//		renamePackage(modelSourceFolderPath, oldName, modelPackageName);
-//		assertCorrectProperties();
-//	}
+	public void testModelPackageRename() throws CoreException {
+		String oldName = modelPackageName;
+		modelPackageName = "newwardemo";
+		HashMap<String, String> preferences = new HashMap<String, String>();
+		preferences.put(ISeamFacetDataModelProperties.ENTITY_BEAN_SOURCE_FOLDER, "/RefactoringTestProject-war/"+modelPackageName);
+		
+		try{
+			renamePackage(modelSourceFolderPath, oldName, modelPackageName, preferences);
+		}finally{
+			modelPackageName = "wardemo";
+			updateFields();
+		}
+	}
 
-//	public void testTestPackageRename() throws CoreException {
-//		System.out.println("SeamPropertyRefactoringTest testTestPackageRename");
-//		String oldName = testPackageName;
-//		testPackageName = "newtestdemo";
-//		renamePackage(testSourceFolderPath, oldName, testPackageName);
-//		assertCorrectProperties();
-//	}
+	public void testTestPackageRename() throws CoreException {
+		String oldName = testPackageName;
+		testPackageName = "newtestdemo";
+		HashMap<String, String> preferences = new HashMap<String, String>();
+		preferences.put(ISeamFacetDataModelProperties.TEST_SOURCE_FOLDER, "/RefactoringTestProject-test/"+testPackageName);
+		
+		try{
+			renamePackage(testSourceFolderPath, oldName, testPackageName, preferences);
+		}finally{
+			testPackageName = "testdemo";
+			updateFields();
+		}
+	}
 
 	public void testViewFolderMove() throws CoreException {
 		viewFolderParentName = "testwebroot";
-		moveFolder(viewFolderPath, "/" + warProjectName + "/" + viewFolderParentName);
-		assertCorrectProperties();
-	}
-
-	private void assertCorrectProperties() {
-		updateFields();
-
-		IEclipsePreferences pref = SeamCorePlugin.getSeamPreferences(warProject);
-
-		String parentName = seamEjbProject.getParentProjectName();
-		assertEquals("Parent seam project property for EJB project was not updated.", warProjectName, parentName);
-
-		parentName = seamTestProject.getParentProjectName();
-		assertEquals("Parent seam project property for Test project was not updated.", warProjectName, parentName);
-
-		String ejbName = pref.get(ISeamFacetDataModelProperties.SEAM_EJB_PROJECT, "");
-		assertEquals("EJB project name property was not updated.", ejbProjectName, ejbName);
-
-		String testName = pref.get(ISeamFacetDataModelProperties.SEAM_TEST_PROJECT, "");
-		assertEquals("Test project name property was not updated.", testProjectName, testName);
-
-		String actionSources = pref.get(ISeamFacetDataModelProperties.SESSION_BEAN_SOURCE_FOLDER, "");
-		assertEquals("Action source folder property was not updated.", actionSourceFolderPath, actionSources);
-
-		String modelSources = pref.get(ISeamFacetDataModelProperties.ENTITY_BEAN_SOURCE_FOLDER, "");
-		assertEquals("Model source folder property was not.", modelSourceFolderPath, modelSources);
-
-		String testSources = pref.get(ISeamFacetDataModelProperties.TEST_SOURCE_FOLDER, "");
-		assertEquals("Test source folder property was not updated.", testSourceFolderPath, testSources);
-
-		String viewFolder = pref.get(ISeamFacetDataModelProperties.WEB_CONTENTS_FOLDER, "");
-		assertEquals("View folder property was not updated.", viewFolderPath, viewFolder);
-
-		String actionPackage = pref.get(ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_NAME, "");
-		assertEquals("Action package name property was not updated.", actionPackageName, actionPackage);
-
-		String modelPackage = pref.get(ISeamFacetDataModelProperties.ENTITY_BEAN_PACKAGE_NAME, "");
-		assertEquals("Model package name property was not updated.", modelPackageName, modelPackage);
-
-		String testPackage = pref.get(ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_NAME, "");
-		assertEquals("Test package name property was not updated.", testPackageName, testPackage);
+		HashMap<String, String> preferences = new HashMap<String, String>();
+		preferences.put(ISeamFacetDataModelProperties.WEB_CONTENTS_FOLDER, "/RefactoringTestProject-war/"+viewFolderParentName+"/WebContent");
+		
+		moveFolder(viewFolderPath, "/" + warProjectName + "/" + viewFolderParentName, preferences);
 	}
 
 	private void updateFields() {
@@ -238,14 +275,16 @@ public class SeamPropertyRefactoringTest extends TestCase {
 		viewFolderPath = "/" + warProjectName + "/" + viewFolderParentName + "/" + viewFolderName;
 	}
 
-	private IPackageFragmentRoot renameSourceFolder(String folderPath, String newFolderName) throws CoreException {
+	private void renameSourceFolder(String folderPath, String newFolderName, HashMap<String, String> preferences) throws CoreException {
 		IPackageFragmentRoot packageFragmentRoot = getSourceFolder(folderPath);
 		IProject project = packageFragmentRoot.getResource().getProject();
-		performRename(RenameSupport.create(packageFragmentRoot, newFolderName));
 		String newPath = project.getFullPath().toString() + "/" + newFolderName;
-		IPackageFragmentRoot newPackageFragmentRoot = getSourceFolder(newPath);
-		assertNotNull("Cannot find renamed source folder: " + newPath, newPackageFragmentRoot);
-		return newPackageFragmentRoot;
+		
+		JavaRenameProcessor processor= new RenameSourceFolderProcessor(packageFragmentRoot);
+		SeamFolderRenameParticipant participant = new SeamFolderRenameParticipant();
+		IResource folder = ResourcesPlugin.getWorkspace().getRoot().findMember(actionSourceFolderPath);
+		
+		checkRename(processor, folder, newPath, participant, preferences);
 	}
 
 	private IPackageFragmentRoot getSourceFolder(String folderPath) {
@@ -269,7 +308,7 @@ public class SeamPropertyRefactoringTest extends TestCase {
 		return packageFragmentRoot;
 	}
 
-	private IFolder renameFolder(String folderPath, String newFolderName) throws CoreException {
+	private void renameFolder(String folderPath, String newFolderName, HashMap<String, String> preferences) throws CoreException {
 		IResource resource = ResourcesPlugin.getWorkspace().getRoot().findMember(folderPath);
 		assertNotNull("Can't find folder: " + folderPath, resource);
 
@@ -283,33 +322,12 @@ public class SeamPropertyRefactoringTest extends TestCase {
 			text.setUpdateTextualMatches(true);
 		}
 
-		// perform
-		Object[] elements = processor.getElements();
-		RenameSelectionState state = elements.length==1?new RenameSelectionState(elements[0]):null;
-		RefactoringExecutionHelper helper= new RefactoringExecutionHelper(refactoring,
-				RefactoringCore.getConditionCheckingFailedSeverity(),
-				RefactoringSaveHelper.SAVE_ALL,
-				WorkbenchUtils.getActiveShell(),
-				WorkbenchUtils.getWorkbench().getActiveWorkbenchWindow());
-		try {
-			helper.perform(true, true);
-		} catch (InterruptedException e) {
-			JUnitUtils.fail("Exception during perform folder renaming: " + folderPath, e);
-		} catch (InvocationTargetException e) {
-			JUnitUtils.fail("Exception during perform folder renaming: " + folderPath, e);
-		}
-
-		JobUtils.waitForIdle();
-
-		IPath path = new Path(folderPath);
-		String newFolderPath = path.removeLastSegments(1).append(newFolderName).toString();
-		resource = ResourcesPlugin.getWorkspace().getRoot().findMember(newFolderPath);
-		assertNotNull("Can't find folder: " + newFolderPath, resource);
-
-		return (IFolder)resource;
+		SeamFolderRenameParticipant participant = new SeamFolderRenameParticipant();
+		
+		checkRename(processor, resource, newFolderName, participant, preferences);
 	}
 
-	private IPackageFragment renamePackage(String sourceFolderPath, String oldPackageName, String newPackageName) throws CoreException {
+	private void renamePackage(String sourceFolderPath, String oldPackageName, String newPackageName, HashMap<String, String> preferences) throws CoreException {
 		IResource resource = ResourcesPlugin.getWorkspace().getRoot().findMember(sourceFolderPath);
 		assertNotNull("Can't find source folder: " + sourceFolderPath, resource);
 		IProject project = resource.getProject();
@@ -332,12 +350,11 @@ public class SeamPropertyRefactoringTest extends TestCase {
 		IPackageFragment oldPackage = findPackage(root, oldPackageName);
 		assertNotNull("Can't find package \"" + oldPackageName + "\". So it's impossible to rename it.", oldPackage);
 
-		IJavaElement[] packages = root.getChildren();
-		performRename(RenameSupport.create(oldPackage, newPackageName, RenameSupport.UPDATE_REFERENCES));
-
-		IPackageFragment newPackage = findPackage(root, newPackageName);
-		assertNotNull("Can't find renamed package \"" + newPackageName + "\". It seems this package was not renamed.", newPackage);
-		return null;
+		JavaRenameProcessor processor= new RenamePackageProcessor(oldPackage);
+		
+		SeamFolderRenameParticipant participant = new SeamFolderRenameParticipant();
+		
+		checkRename(processor, resource, newPackageName, participant, preferences);
 	}
 
 	private IPackageFragment findPackage(IPackageFragmentRoot root, String packageName) {
@@ -354,13 +371,13 @@ public class SeamPropertyRefactoringTest extends TestCase {
 		}
 		return null;
 	}
-
-	private IProject renameProject(IProject project, String newProjectName) throws CoreException {
-		performRename(RenameSupport.create(JavaCore.create(project), newProjectName, RenameSupport.UPDATE_REFERENCES));
-
-		IProject renamedProject = (IProject)ResourcesPlugin.getWorkspace().getRoot().findMember(newProjectName);
-		assertNotNull("Can't load renamed project " + newProjectName, renamedProject);
-		return renamedProject;
+	
+	private void renameProject(IProject project, String newProjectName, HashMap<String, String> preferences) throws CoreException {
+		JavaRenameProcessor processor= new RenameJavaProjectProcessor(JavaCore.create(project));
+		
+		SeamProjectRenameParticipant participant = new SeamProjectRenameParticipant();
+		
+		checkRename(processor, project, newProjectName, participant, preferences);
 	}
 
 	private void performRename(RenameSupport support) throws CoreException {
@@ -376,7 +393,7 @@ public class SeamPropertyRefactoringTest extends TestCase {
 		JobUtils.waitForIdle();
 	}
 
-	private IFolder moveFolder(String folderPath, String destinationFolderPath) throws CoreException {
+	private void moveFolder(String folderPath, String destinationFolderPath, HashMap<String, String> preferences) throws CoreException {
 		IResource resource = ResourcesPlugin.getWorkspace().getRoot().findMember(folderPath);
 		assertNotNull("Can't find folder: " + folderPath, resource);
 		IResource destination = ResourcesPlugin.getWorkspace().getRoot().findMember(destinationFolderPath);
@@ -409,29 +426,56 @@ public class SeamPropertyRefactoringTest extends TestCase {
 				return null;
 			}
 		});
-
-		// perform
-		Object[] elements = processor.getElements();
-		RenameSelectionState state = elements.length==1?new RenameSelectionState(elements[0]):null;
-		RefactoringExecutionHelper helper= new RefactoringExecutionHelper(refactoring,
-				RefactoringCore.getConditionCheckingFailedSeverity(),
-				RefactoringSaveHelper.SAVE_ALL,
-				WorkbenchUtils.getActiveShell(),
-				WorkbenchUtils.getWorkbench().getActiveWorkbenchWindow());
-		try {
-			helper.perform(true, true);
-		} catch (InterruptedException e) {
-			JUnitUtils.fail("Exception during perform folder moving: " + folderPath, e);
-		} catch (InvocationTargetException e) {
-			JUnitUtils.fail("Exception during perform folder moving: " + folderPath, e);
-		}
-
-		JobUtils.waitForIdle();
-
-		String newFolderPath = destination.getFullPath().append(resource.getName()).toString();
-		resource = ResourcesPlugin.getWorkspace().getRoot().findMember(newFolderPath);
-		assertNotNull("Can't find folder: " + newFolderPath, resource);
-
-		return (IFolder)resource;
+		
+		SeamFolderMoveParticipant participant = new SeamFolderMoveParticipant();
+		
+		checkMove(processor, resource, destination, participant, preferences);
 	}
+
+	private void checkMove(RefactoringProcessor processor, Object oldObject, Object destinationObject, MoveParticipant participant, HashMap<String, String> preferences) throws CoreException {
+		// Move
+		MoveArguments arguments = new MoveArguments(destinationObject, true);
+		participant.initialize(processor, oldObject, arguments);
+		participant.checkConditions(new NullProgressMonitor(), null);
+		
+		CompositeChange rootChange = (CompositeChange)participant.createChange(new NullProgressMonitor());
+		
+		for(Change change : rootChange.getChildren()){
+			if(change instanceof SeamProjectChange){
+				SeamProjectChange seamChange = (SeamProjectChange)change;
+				HashMap<String, String> preferencesToCheck = seamChange.getPreferencesForTest();
+				
+				checkChanges(preferencesToCheck, preferences);
+			}
+		}
+	}
+
+	private void checkRename(RefactoringProcessor processor, Object oldObject, String newName, RenameParticipant participant, HashMap<String, String> preferences) throws CoreException {
+		// Rename
+		RenameArguments arguments = new RenameArguments(newName, true);
+		participant.initialize(processor, oldObject, arguments);
+		participant.checkConditions(new NullProgressMonitor(), null);
+		
+		CompositeChange rootChange = (CompositeChange)participant.createChange(new NullProgressMonitor());
+		
+		for(Change change : rootChange.getChildren()){
+			if(change instanceof SeamProjectChange){
+				SeamProjectChange seamChange = (SeamProjectChange)change;
+				HashMap<String, String> preferencesToCheck = seamChange.getPreferencesForTest();
+				
+				checkChanges(preferencesToCheck, preferences);
+			}
+		}
+	}
+	
+	private void checkChanges(HashMap<String, String> preferencesToCheck, HashMap<String, String> preferences){
+		for(String key : preferencesToCheck.keySet()){
+			String value = preferences.get(key);
+			assertNotNull("Unexpected preference "+key+" not found", value);
+			
+			String valueToCheck = preferencesToCheck.get(key);
+			assertEquals("Wrong preference value", value, valueToCheck);
+		}
+	}
+
 }
