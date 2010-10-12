@@ -77,11 +77,24 @@ public class SeamCorePlugin extends BaseUIPlugin {
 						switch (context.getKind()) {
 							case ISaveContext.SNAPSHOT:
 							case ISaveContext.FULL_SAVE:
+								IProject[] ps = ResourcesPlugin.getWorkspace().getRoot().getProjects();
+								for (IProject p: ps) {
+									SeamProject sp = (SeamProject)SeamCorePlugin.getSeamProject(p, false);
+									if(sp != null && sp.getModificationsSinceLastStore() > 0) {
+//										sp.printModifications();
+										try {
+											sp.store();
+										} catch (IOException e) {
+											SeamCorePlugin.getPluginLog().logError(e);
+										}
+									}
+								}
 								break;
 							case ISaveContext.PROJECT_SAVE:
 								SeamProject sp = (SeamProject)SeamCorePlugin.getSeamProject(context.getProject(), false);
 								try {
-									if(sp != null) {
+									if(sp != null && sp.getModificationsSinceLastStore() > 0) {
+										sp.printModifications();
 										//Not any project is a seam project
 										sp.store();
 									}

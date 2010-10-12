@@ -74,7 +74,7 @@ public class SeamScope extends SeamObject implements ISeamScope {
 
 	void revalidatePackages() {
 		List<Change> changes = SeamPackageUtil.revalidatePackages(this, componentMap, getComponents(), packages);
-		((SeamProject)getSeamProject()).fireChanges(changes);
+		((SeamProject)getSeamProject()).fireChanges(changes, false);
 	}
 	
 	public void validatePackage(SeamComponent c) {

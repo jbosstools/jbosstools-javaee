@@ -110,6 +110,8 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 
 	ProjectValidationContext validationContext;
 
+	protected int modifications = 0;
+
 	/**
 	 * 
 	 */
@@ -284,6 +286,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 	public void addSeamProject(SeamProject p) {
 		if(dependsOn.contains(p)) return;
 		dependsOn.add(p);
+		modifications++;
 		p.addDependentSeamProject(this);
 		if(!p.isStorageResolved) {
 			p.resolve();
@@ -314,7 +317,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 	 * @param p
 	 */
 	public void addDependentSeamProject(SeamProject p) {
-		usedBy.add(p);
+		if(usedBy.add(p)) modifications++;
 	}
 
 	public Map<String, Set<ISeamNamespace>> getNamespaces() {
@@ -329,6 +332,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		if(!dependsOn.contains(p)) return;
 		p.usedBy.remove(this);
 		dependsOn.remove(p);
+		modifications++;
 		IPath[] ps = sourcePaths2.keySet().toArray(new IPath[0]);
 		for (int i = 0; i < ps.length; i++) {
 			IPath pth = ps[i];
@@ -413,6 +417,11 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		
 		} finally {
 			fireChanges();
+
+			modifications = 0;
+			namespaces.modifications = 0;
+			components.modifications = 0;
+			factories.modifications = 0;
 		}
 
 	}
@@ -479,6 +488,25 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 			scopesMap.put(types[i], scopes[i]);
 		}
 	}
+
+	public int getModificationsSinceLastStore() {		
+		return modifications +
+			namespaces.modifications +
+			components.modifications +
+			factories.modifications +
+			((validationContext != null) ? validationContext.getModificationsSinceLastStore() : 0);
+	}
+
+	public void printModifications() {
+		System.out.println(project.getName());
+		System.out.println("" + modifications);
+		System.out.println("namespaces " + namespaces.modifications);
+		System.out.println("components " + components.modifications);
+		System.out.println("factories " + factories.modifications);
+		if(validationContext != null)
+			System.out.println("validationContext " + validationContext.getModificationsSinceLastStore());		
+	}
+	
 	/**
 	 * Stores results of last build, so that on exit/enter Eclipse
 	 * load them without rebuilding project
@@ -498,6 +526,11 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		if(validationContext != null) validationContext.store(root);
 		
 		XMLUtilities.serialize(root, file.getAbsolutePath());
+
+		modifications = 0;
+		namespaces.modifications = 0;
+		components.modifications = 0;
+		factories.modifications = 0;
 	}
 
 	/*
@@ -785,6 +818,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 	 * @param source
 	 */	
 	public void registerComponents(LoadedDeclarations ds, IPath source) {
+		boolean isThisProject = pathCheck.isThisProject(source);
 
 		ISeamNamespace[] ns = ds.getNamespaces().toArray(new ISeamNamespace[0]);
 		ISeamComponentDeclaration[] components = ds.getComponents().toArray(new ISeamComponentDeclaration[0]);
@@ -848,7 +882,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 					Change cc = new Change(c, null, null, null);
 					cc.addChildren(changes);
 					List<Change> cchanges = Change.addChange(null, cc);
-					fireChanges(cchanges);
+					fireChanges(cchanges, isThisProject);
 					//TODO if java, fire to others
 				}
 				if(nameChanged) {
@@ -897,7 +931,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 			} else if(c != null) {
 				c.addDeclaration(loaded);
 				List<Change> changes = Change.addChange(null, new Change(c, null, null, loaded));
-				fireChanges(changes);
+				fireChanges(changes, isThisProject);
 			}
 			
 			if(loaded instanceof ISeamJavaComponentDeclaration) {
@@ -908,7 +942,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 					SeamComponent cii = (SeamComponent)ci;
 					cii.addDeclaration(loaded);
 					List<Change> changes = Change.addChange(null, new Change(ci, null, null, loaded));
-					fireChanges(changes);
+					fireChanges(changes, isThisProject);
 					affectedComponents.add(cii);
 				}
 				SeamComponent empty = this.components.getByName("");
@@ -920,7 +954,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 							List<Change> changes = Change.addChange(null, new Change(empty, null, x, null));
 							c.addDeclaration(x);
 							changes = Change.addChange(changes, new Change(empty, null, null, x));
-							fireChanges(changes);
+							fireChanges(changes, isThisProject);
 						}
 					}
 				}
@@ -947,7 +981,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 							empty.addDeclaration(d);
 							changes = Change.addChange(changes, new Change(empty, null, null, d));
 						}
-						fireChanges(changes);
+						fireChanges(changes, isThisProject);
 					}
 				}
 			} else if(loaded instanceof ISeamXmlComponentDeclaration) {
@@ -961,7 +995,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 			addedComponents = sc.revalidate(addedComponents);
 		}
 		
-		fireChanges(addedComponents);
+		fireChanges(addedComponents, isThisProject);
 		
 		componentDeclarationsRemoved(currentComponents);
 
@@ -978,7 +1012,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 			}
 			if(current != null) {
 				List<Change> changes = current.merge(loaded);
-				fireChanges(changes);
+				fireChanges(changes, isThisProject);
 				continue;
 			}
 			if(factories[i].getParent() == null) {
@@ -987,7 +1021,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 			this.factories.addFactory(factories[i]);
 			addedFactories = Change.addChange(addedFactories, new Change(this, null, null, loaded));
 		}
-		fireChanges(addedFactories); 
+		fireChanges(addedFactories, isThisProject); 
 		
 		factoryDeclarationsRemoved(currentFactories);
 		
@@ -1116,7 +1150,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 			changes = Change.addChange(changes, new Change(c, null, null, j));
 		}
 		if(changes != null) c.revalidate(changes); 
-		fireChanges(changes);
+		fireChanges(changes, pathCheck.isThisProject(xml.getSourcePath()));
 	}
 
 	public boolean isPathLoaded(IPath source) {
@@ -1152,7 +1186,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		
 		components.removePath(source);
 
-		fireChanges(changes);
+		fireChanges(changes, false);
 
 //		revalidate();
 
@@ -1161,7 +1195,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		if(fs != null) for (ISeamFactory f: fs) {
 			changes = Change.addChange(changes, new Change(this, null, f, null));
 		}
-		fireChanges(changes);
+		fireChanges(changes, false);
 		
 		firePathRemovedToDependentProjects(source);
 	}
@@ -1221,7 +1255,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 				
 			}
 		}
-		fireChanges(changes);
+		fireChanges(changes, false);
 	}
 	
 	/*
@@ -1275,7 +1309,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 			removeVariable(c);
 			changes = Change.addChange(changes, new Change(this, null, c, null));
 		}
-		fireChanges(changes);
+		fireChanges(changes, false);
 	}
 
 	/**
@@ -1347,6 +1381,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 	
 	public void setImports(String source, List<String> paths) {
 		if(equalLists(imports.get(source), paths)) return;
+		modifications++;
 		synchronized(variables) {
 			variables.allVariablesPlusShort = null;
 			variables.byName = null;
@@ -1365,6 +1400,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 
 	public void removeImports(String source) {
 		if(!imports.containsKey(source)) return;
+		modifications++;
 		synchronized(variables) {
 			variables.allVariablesPlusShort = null;
 		}
@@ -1609,15 +1645,16 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		if(postponedChanges == null) return;
 		List<Change> changes = postponedChanges;
 		postponedChanges = null;
-		fireChanges(changes);
+		fireChanges(changes, false);
 	}
 	
 	/**
 	 * 
 	 * @param changes
 	 */
-	void fireChanges(List<Change> changes) {
+	void fireChanges(List<Change> changes, boolean increaseModification) {
 		if(changes == null || changes.isEmpty()) return;
+		if(increaseModification) modifications++;
 		if(postponedChanges != null) {
 			postponedChanges.addAll(changes);
 			return;
@@ -1842,10 +1879,19 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		p.getComponents().add(c);
 	}
 
-	class NamespaceStorage {
+	class Storage {
+		protected int modifications = 0;
+		
+		protected void increaseModification(IPath path) {
+			if(pathCheck.isThisProject(path)) modifications++;
+		}
+		
+	}
+
+	class NamespaceStorage extends Storage {
 		Map<IPath, Set<ISeamNamespace>> namespacesBySource = new HashMap<IPath, Set<ISeamNamespace>>();
 		Map<String, Set<ISeamNamespace>> namespacesByURI = new HashMap<String, Set<ISeamNamespace>>();
-		
+
 		public void clear() {
 			namespacesBySource.clear();
 			namespacesByURI.clear();
@@ -1877,7 +1923,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 					s = new HashSet<ISeamNamespace>();
 					namespacesByURI.put(n.getURI(), s);
 				}
-				s.add(n);
+				if(s.add(n)) increaseModification(n.getSourcePath());
 			}
 			IPath path = n.getSourcePath();
 			if(path != null) {
@@ -1886,7 +1932,9 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 					fs = new HashSet<ISeamNamespace>();
 					namespacesBySource.put(path, fs);
 				}
-				fs.add(n);
+				if(fs.add(n)) {
+					increaseModification(n.getSourcePath());
+				}
 			}
 		}
 
@@ -1894,19 +1942,24 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 			Set<ISeamNamespace> sd = namespacesBySource.get(path);
 			if(sd == null) return;
 			for (ISeamNamespace d: sd) {
-				if(d.getURI() != null)
-					namespacesByURI.remove(d.getURI());
+				if(d.getURI() != null) {
+					if(namespacesByURI.remove(d.getURI()) != null) {
+						increaseModification(d.getSourcePath());
+					}
+				}
 			}
 			namespacesBySource.remove(path);
 		}
 
 		public void removeNamespace(ISeamNamespace n) {
-			namespacesByURI.remove(n.getURI());
+			if(namespacesByURI.remove(n.getURI()) != null) {
+				increaseModification(n.getSourcePath());
+			}
 			IPath path = n.getSourcePath();
 			if(path != null) {
 				Set<ISeamNamespace> fs = namespacesBySource.get(path);
 				if(fs != null) {
-					fs.remove(n);
+					if(fs.remove(n)) increaseModification(n.getSourcePath());
 				}
 				if(fs.isEmpty()) {
 					namespacesBySource.remove(fs);
@@ -1916,16 +1969,15 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 
 	}
 
-	class ComponentStorage {
+	class ComponentStorage extends Storage {
 		private Set<ISeamComponent> allComponentsSet = new HashSet<ISeamComponent>();
 		Map<String, SeamComponent> allComponents = new HashMap<String, SeamComponent>();
 		Map<String, SeamJavaComponentDeclaration> javaDeclarations = new HashMap<String, SeamJavaComponentDeclaration>();
-		ISeamJavaComponentDeclaration[] javaDeclarationsArray = null;
-		
+		ISeamJavaComponentDeclaration[] javaDeclarationsArray = null;		
 		
 		Map<IPath, Set<SeamComponentDeclaration>> declarationsBySource = new HashMap<IPath, Set<SeamComponentDeclaration>>();
 		Map<String, Set<SeamComponentDeclaration>> declarationsByClassName = new HashMap<String, Set<SeamComponentDeclaration>>();
-		
+
 		public void clear() {
 			synchronized(allComponentsSet) {
 				allComponentsSet.clear();
@@ -1937,6 +1989,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 			}
 			declarationsBySource.clear();
 			declarationsByClassName.clear();
+			modifications = 1;
 		}
 
 		public ISeamComponent[] getAllComponentsArray() {
@@ -1988,13 +2041,13 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 				declarationsBySource.put(path, sc);
 			}
 			synchronized(sc) {
-				sc.add(d);
+				if(sc.add(d)) increaseModification(d.getSourcePath());
 			}
 			if(d instanceof ISeamJavaComponentDeclaration) {
 				SeamJavaComponentDeclaration jd = (SeamJavaComponentDeclaration)d;
 				for (ISeamContextVariable v: jd.getDeclaredVariables()) addVariable(v);
 				synchronized(javaDeclarations) {
-					javaDeclarations.put(jd.getClassName(), jd);
+					if(javaDeclarations.put(jd.getClassName(), jd) != jd) increaseModification(jd.getSourcePath());
 					javaDeclarationsArray = null;
 				}
 				addDeclaration(jd.getClassName(), jd);
@@ -2012,7 +2065,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 			Set<SeamComponentDeclaration> sc = declarationsBySource.get(path);
 			if(sc != null) {
 				synchronized(sc) {
-					sc.remove(d);
+					if(sc.remove(d)) increaseModification(d.getSourcePath());
 				}
 				if(sc.isEmpty()) declarationsBySource.remove(path);
 			}
@@ -2049,14 +2102,14 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 					removeDeclarationWithClass(d);
 				}
 			}
-			declarationsBySource.remove(path);
+			if(declarationsBySource.remove(path) != null) increaseModification(path);
 		}
 		
 		private void removeDeclarationWithClass(SeamComponentDeclaration d) {
 			if(d instanceof ISeamJavaComponentDeclaration) {
 				SeamJavaComponentDeclaration jd = (SeamJavaComponentDeclaration)d;
 				synchronized(javaDeclarations) {
-					javaDeclarations.remove(jd.getClassName());
+					if(javaDeclarations.remove(jd.getClassName()) != null) increaseModification(jd.getSourcePath());
 					javaDeclarationsArray = null;
 				}
 				for (ISeamContextVariable v: jd.getDeclaredVariables()) removeVariable(v);
@@ -2085,13 +2138,13 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 				sc = new HashSet<SeamComponentDeclaration>();
 				declarationsByClassName.put(className, sc);
 			}
-			sc.add(d);
+			if(sc.add(d)) increaseModification(d.getSourcePath());
 		}
 
 		private void removeDeclaration(String className, SeamComponentDeclaration d) {
 			Set<SeamComponentDeclaration> sc = declarationsByClassName.get(className);
 			if(sc != null) {
-				sc.remove(d);
+				if(sc.remove(d)) increaseModification(d.getSourcePath());
 				if(sc.isEmpty()) {
 					declarationsByClassName.remove(className);
 				}
@@ -2100,12 +2153,12 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 
 	}
 	
-	class FactoryStorage {
+	class FactoryStorage extends Storage {
 		private Set<ISeamFactory> allFactories = new HashSet<ISeamFactory>();
 		private ISeamFactory[] allFactoriesArray = null;
 		Map<IPath, Set<ISeamFactory>> factoriesBySource = new HashMap<IPath, Set<ISeamFactory>>();
 		SeamMessages messages = null;
-
+		
 		public void clear() {
 			synchronized(allFactories) {
 				allFactories.clear();
@@ -2113,6 +2166,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 			}
 			factoriesBySource.clear();
 			messages = null;
+			modifications = 1;
 		}
 
 		public ISeamFactory[] getAllFactoriesArray() {
@@ -2132,7 +2186,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		
 		public void addFactory(ISeamFactory f) {
 			synchronized(allFactories) {
-				allFactories.add(f);
+				if(allFactories.add(f)) increaseModification(f.getSourcePath());
 				allFactoriesArray = null;
 			}
 			IPath path = f.getSourcePath();
@@ -2142,32 +2196,34 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 					fs = new HashSet<ISeamFactory>();
 					factoriesBySource.put(path, fs);
 				}
-				fs.add(f);
+				if(fs.add(f)) increaseModification(f.getSourcePath());
 			}
 			addVariable(f);
-			if(f instanceof SeamMessages) {
+			if(f instanceof SeamMessages && f != messages) {
 				messages = (SeamMessages)f;
+				modifications++;
 			}
 		}
 		
 		public void removeFactory(ISeamFactory f) {
 			synchronized(allFactories) {
-				allFactories.remove(f);
+				if(allFactories.remove(f)) increaseModification(f.getSourcePath());
 				allFactoriesArray = null;
 			}
 			IPath path = f.getSourcePath();
 			if(path != null) {
 				Set<ISeamFactory> fs = factoriesBySource.get(path);
 				if(fs != null) {
-					fs.remove(f);
+					if(fs.remove(f)) increaseModification(f.getSourcePath());
 				}
 				if(fs.isEmpty()) {
 					factoriesBySource.remove(fs);
 				}
 			}
 			removeVariable(f);
-			if(f == messages) {
+			if(f == messages && f != null) {
 				messages = null;
+				increaseModification(f.getSourcePath());
 			}
 		}
 
@@ -2176,13 +2232,16 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 			if(fs == null) return null;
 			for (ISeamFactory f: fs) {
 				synchronized(allFactories) {
-					allFactories.remove(f);
+					if(allFactories.remove(f)) increaseModification(f.getSourcePath());
 					allFactoriesArray = null;
 				}
 				removeVariable(f);
-				if(f == messages) messages = null;
+				if(f == messages) {
+					messages = null;
+					modifications++;
+				}
 			}
-			factoriesBySource.remove(path);
+			if(factoriesBySource.remove(path) != null) increaseModification(path);
 			return fs;
 		}
 		
@@ -2198,6 +2257,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		public void clear() {
 			allVariables.clear();
 			clearCopies();
+			modifications = 1;
 		}
 		
 		synchronized void clearCopies() {
@@ -2308,6 +2368,31 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 			}
 			return byPath.get(p);
 		}
+	}
+
+	PathCheck pathCheck = new PathCheck();
+
+	class PathCheck {
+		Map<IPath, Boolean> paths = new HashMap<IPath, Boolean>();
+		
+		public boolean isThisProject(IPath path) {
+			if(path.toString().equals("/seam77")) {
+				System.out.println("hh");
+			}
+			Boolean b = paths.get(path);
+			if(b == null) {
+				IFile f = null;
+				try {
+					f = ResourcesPlugin.getWorkspace().getRoot().getFile(path);
+				} catch (Exception e) {
+					System.out.println("Bad path=" + path);
+				}
+				b = !(f != null && f.exists() && f.getProject() != project);
+				paths.put(path, b);
+			}
+			return b.booleanValue();
+		}
+		
 	}
 
 }
