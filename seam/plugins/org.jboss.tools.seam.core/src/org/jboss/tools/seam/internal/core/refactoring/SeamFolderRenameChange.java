@@ -49,6 +49,20 @@ public class SeamFolderRenameChange extends SeamProjectChange {
 				relevantProperties.add(FOLDER_PROPERTIES[i]);
 			} 
 		}
+		findPreferences(ps);
+	}
+	
+	private void findPreferences(IEclipsePreferences ps){
+		for (String propertyName: relevantProperties) {
+			String propertyValue = ps.get(propertyName, "");
+			String oldPathString = oldPath.toString();
+			if(propertyValue.equals(oldPathString)) {
+				preferences.put(propertyName, newPath.toString());
+			} else if(propertyValue.startsWith(oldPathString + "/")) {
+				String newPathString = newPath.toString() + propertyValue.substring(oldPathString.length());
+				preferences.put(propertyName, newPathString);
+			}
+		}
 	}
 
 	/*
@@ -70,17 +84,10 @@ public class SeamFolderRenameChange extends SeamProjectChange {
 		}
 		try {
 			pm.beginTask(getName(), 1);
-
 			IEclipsePreferences ps = getSeamPreferences();
-			for (String propertyName: relevantProperties) {
-				String propertyValue = ps.get(propertyName, "");
-				String oldPathString = oldPath.toString();
-				if(propertyValue.equals(oldPathString)) {
-					ps.put(propertyName, newPath.toString());
-				} else if(propertyValue.startsWith(oldPathString + "/")) {
-					String newPathString = newPath.toString() + propertyValue.substring(oldPathString.length());
-					ps.put(propertyName, newPathString);
-				}
+			
+			for(String key : preferences.keySet()){
+				ps.put(key, preferences.get(key));
 			}
 
 			try {

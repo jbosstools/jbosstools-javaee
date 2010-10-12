@@ -10,6 +10,8 @@
   ******************************************************************************/
 package org.jboss.tools.seam.internal.core.refactoring;
 
+import java.util.HashMap;
+
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ProjectScope;
 import org.eclipse.core.runtime.CoreException;
@@ -94,4 +96,16 @@ public abstract class SeamProjectChange extends Change {
 		IScopeContext projectScope = new ProjectScope(project);
 		return projectScope.getNode(SeamCorePlugin.PLUGIN_ID);
 	}
+	
+	protected HashMap<String, String> preferences = new HashMap<String, String>();
+	
+	/**
+	 * for test purpose
+	 * @return
+	 */
+	public HashMap<String, String> getPreferencesForTest(){
+		return preferences;
+	}
+	
+	
 }

@@ -59,6 +59,27 @@ public class SeamJavaPackageRenameChange extends SeamProjectChange {
 				relevantPropertyIndexes.add(new Integer(i));
 			}
 		}
+		findPreferences(ps);
+	}
+	
+	private void findPreferences(IEclipsePreferences ps){
+		for (Integer index: relevantPropertyIndexes) {
+			String sourceFolderProperty = ps.get(SOURCE_NAME_PROPERTIES[index], null);
+			if(!source.getResource().getFullPath().toString().equals(sourceFolderProperty)) {
+				continue;
+			}
+			String packageProperty = PACKAGE_NAME_PROPERTIES[index];
+			String name = ps.get(packageProperty, null);
+			if(name==null) {
+				continue;
+			}
+			if(oldName.equals(name)) {
+				preferences.put(packageProperty, newName);
+			} else if(name.startsWith(oldName + ".")) {
+				preferences.put(packageProperty, newName + name.substring(oldName.length()));
+			}
+		}
+
 	}
 
 	/* (non-Javadoc)
@@ -81,21 +102,9 @@ public class SeamJavaPackageRenameChange extends SeamProjectChange {
 			pm.beginTask(getName(), 1);
 
 			IEclipsePreferences ps = getSeamPreferences();
-			for (Integer index: relevantPropertyIndexes) {
-				String sourceFolderProperty = ps.get(SOURCE_NAME_PROPERTIES[index], null);
-				if(!source.getResource().getFullPath().toString().equals(sourceFolderProperty)) {
-					continue;
-				}
-				String packageProperty = PACKAGE_NAME_PROPERTIES[index];
-				String name = ps.get(packageProperty, null);
-				if(name==null) {
-					continue;
-				}
-				if(oldName.equals(name)) {
-					ps.put(packageProperty, newName);
-				} else if(name.startsWith(oldName + ".")) {
-					ps.put(packageProperty, newName + name.substring(oldName.length()));
-				}
+			
+			for(String key : preferences.keySet()){
+				ps.put(key, preferences.get(key));
 			}
 
 			try {

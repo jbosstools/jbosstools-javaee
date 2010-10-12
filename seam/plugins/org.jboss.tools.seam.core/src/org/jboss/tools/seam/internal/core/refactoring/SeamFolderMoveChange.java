@@ -54,6 +54,21 @@ public class SeamFolderMoveChange extends SeamProjectChange {
 					relevantProperties.add(FOLDER_PROPERTIES[i]);
 				} 
 			}
+			findPreferences(ps);
+		}
+	}
+	
+	private void findPreferences(IEclipsePreferences ps){
+		for (String propertyName: relevantProperties) {
+			String propertyValue = ps.get(propertyName, "");
+			String oldPathString = oldResource.getFullPath().toString();
+			String newPath  = destination.getFullPath().append(oldResource.getName()).toString();
+			if(propertyValue.equals(oldPathString)) {
+				preferences.put(propertyName, newPath);
+			} else if(propertyValue.startsWith(oldPathString + "/")) {
+				newPath = newPath + propertyValue.substring(oldPathString.length());
+				preferences.put(propertyName, newPath);
+			}
 		}
 	}
 
@@ -77,17 +92,11 @@ public class SeamFolderMoveChange extends SeamProjectChange {
 			pm.beginTask(getName(), 1);
 
 			IEclipsePreferences ps = getSeamPreferences();
-			for (String propertyName: relevantProperties) {
-				String propertyValue = ps.get(propertyName, "");
-				String oldPathString = oldResource.getFullPath().toString();
-				String newPath  = destination.getFullPath().append(oldResource.getName()).toString();
-				if(propertyValue.equals(oldPathString)) {
-					ps.put(propertyName, newPath);
-				} else if(propertyValue.startsWith(oldPathString + "/")) {
-					newPath = newPath + propertyValue.substring(oldPathString.length());
-					ps.put(propertyName, newPath);
-				}
+			
+			for(String key : preferences.keySet()){
+				ps.put(key, preferences.get(key));
 			}
+			
 			try {
 				ps.flush();
 			} catch (BackingStoreException e) {
