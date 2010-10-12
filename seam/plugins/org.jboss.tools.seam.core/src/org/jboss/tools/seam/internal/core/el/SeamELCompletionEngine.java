@@ -334,7 +334,7 @@ public final class SeamELCompletionEngine extends AbstractELCompletionEngine<ISe
 		List<Var> vars = varSearcher.findAllVars(file, expr.getStartPosition());
 
 		ELResolution resolution = resolveELOperand(file, expr, true, vars, varSearcher);
-		if (resolution.isResolved()) {
+		if (resolution!=null && resolution.isResolved()) {
 			ELSegment segment = resolution.getLastSegment();
 			if(segment instanceof JavaMemberELSegment) {
 				IJavaElement el = ((JavaMemberELSegment)segment).getJavaElement();

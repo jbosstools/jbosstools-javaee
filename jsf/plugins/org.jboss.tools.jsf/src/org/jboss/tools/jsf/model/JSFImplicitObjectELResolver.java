@@ -104,7 +104,7 @@ public class JSFImplicitObjectELResolver extends JSFELCompletionEngine {
 		for (String var : elVars) {
 			try {
 				ELResolution resolution = resolveEL(file, IMPLICT_OBJECTS_ELS.get(var), false);
-				if(resolution.isResolved()) {
+				if(resolution!=null && resolution.isResolved()) {
 					ELSegment segment = resolution.getLastSegment();
 					if(segment instanceof JavaMemberELSegment) {
 						TypeInfoCollector.MemberInfo info = ((JavaMemberELSegment)segment).getMemberInfo();
