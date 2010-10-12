@@ -62,7 +62,7 @@ public class ImportStrutsProjectTest extends SWTTestExt{
     bot.button("Next >").click();
     bot.shell(IDELabel.Shell.IMPORT_STRUTS_PROJECT).activate();
 
-    bot.textWithLabel("web.xml Location*").setText(webXmlFileLocation);
+    bot.textWithLabel("web.xml Location:*").setText(webXmlFileLocation);
 
     bot.button(WidgetVariables.NEXT_BUTTON).click();
     // Check if there is defined Application Server if not create one
