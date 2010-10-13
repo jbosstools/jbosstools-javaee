@@ -2376,18 +2376,14 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		Map<IPath, Boolean> paths = new HashMap<IPath, Boolean>();
 		
 		public boolean isThisProject(IPath path) {
-			if(path.toString().equals("/seam77")) {
-				System.out.println("hh");
-			}
 			Boolean b = paths.get(path);
 			if(b == null) {
-				IFile f = null;
-				try {
-					f = ResourcesPlugin.getWorkspace().getRoot().getFile(path);
-				} catch (Exception e) {
-					System.out.println("Bad path=" + path);
+				if(path != null && path.toString().endsWith(".jar")) { //$NON-NLS-1$
+					b = true;
+				} else {
+					IFile f = path.segmentCount() < 2 ? null : ResourcesPlugin.getWorkspace().getRoot().getFile(path);
+					b = !(f != null && f.exists() && f.getProject() != project);
 				}
-				b = !(f != null && f.exists() && f.getProject() != project);
 				paths.put(path, b);
 			}
 			return b.booleanValue();
