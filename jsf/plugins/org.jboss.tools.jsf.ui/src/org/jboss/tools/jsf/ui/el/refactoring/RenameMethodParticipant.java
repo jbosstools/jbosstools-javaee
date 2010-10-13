@@ -27,6 +27,8 @@ import org.eclipse.ltk.core.refactoring.CompositeChange;
 import org.eclipse.ltk.core.refactoring.RefactoringStatus;
 import org.eclipse.ltk.core.refactoring.TextFileChange;
 import org.eclipse.ltk.core.refactoring.participants.CheckConditionsContext;
+import org.eclipse.ltk.core.refactoring.participants.ISharableParticipant;
+import org.eclipse.ltk.core.refactoring.participants.RefactoringArguments;
 import org.eclipse.ltk.core.refactoring.participants.RenameParticipant;
 import org.eclipse.ltk.internal.core.refactoring.Messages;
 import org.eclipse.text.edits.MultiTextEdit;
@@ -38,18 +40,16 @@ import org.jboss.tools.jsf.el.refactoring.ProjectsSet;
 import org.jboss.tools.jsf.ui.JsfUIMessages;
 import org.jboss.tools.jst.web.kb.refactoring.RefactorSearcher;
 
-public class RenameMethodParticipant extends RenameParticipant{
+public class RenameMethodParticipant extends RenameParticipant implements ISharableParticipant{
 	private IJavaElement element;
 	private String oldName;
 	private String newName;
-	private SeamRenameMethodSearcher searcher;
+	private RenameMethodSearcher searcher;
 	private RefactoringStatus status;
 	private CompositeChange rootChange;
 	private TextFileChange lastChange;
 	private ArrayList<String> keys = new ArrayList<String>();
-	
-	private static boolean added = false;
-	
+	private ArrayList<Object> otherElements = new ArrayList<Object>();
 	
 	@Override
 	public RefactoringStatus checkConditions(IProgressMonitor pm,
@@ -58,24 +58,38 @@ public class RenameMethodParticipant extends RenameParticipant{
 			return status;
 		if(element instanceof IMethod){
 			IMethod method = (IMethod)element;
-			if(method != null && !added){
-				if(searcher.isGetter(method))
-					status.addWarning(JsfUIMessages.RENAME_METHOD_PARTICIPANT_GETTER_WARNING);
-				else if(searcher.isSetter(method))
-					status.addWarning(JsfUIMessages.RENAME_METHOD_PARTICIPANT_SETTER_WARNING);
-				added = true;
+			IMethod anotherMethod = getAnotherMethod();
+			if(method != null){
+				if(searcher.isGetter(method)){
+					if(anotherMethod == null || searcher.isGetter(anotherMethod))
+						status.addWarning(JsfUIMessages.RENAME_METHOD_PARTICIPANT_GETTER_WARNING);
+					
+				}else if(searcher.isSetter(method)){
+					if(anotherMethod == null || searcher.isSetter(anotherMethod))
+						status.addWarning(JsfUIMessages.RENAME_METHOD_PARTICIPANT_SETTER_WARNING);
+				}
+				
+				searcher.findELReferences();
 			}
 		}
 		
-		searcher.findELReferences();
-		
 		return status;
+	}
+	
+	private IMethod getAnotherMethod(){
+		for(Object object : otherElements)
+			if(object instanceof IMethod)
+				return (IMethod)object;
+		return null;
 	}
 
 	@Override
 	public Change createChange(IProgressMonitor pm) throws CoreException,
 			OperationCanceledException {
-		return rootChange;
+		if(rootChange.getChildren().length > 0)
+			return rootChange;
+		
+		return null;
 	}
 
 	@Override
@@ -85,6 +99,9 @@ public class RenameMethodParticipant extends RenameParticipant{
 
 	@Override
 	protected boolean initialize(Object element) {
+		if(!getArguments().getUpdateReferences())
+			return false;
+
 		if(element instanceof IMethod){
 			IMethod method = (IMethod)element;
 			status = new RefactoringStatus();
@@ -96,8 +113,7 @@ public class RenameMethodParticipant extends RenameParticipant{
 			oldName = method.getElementName();
 			
 			newName = RefactorSearcher.getPropertyName(method, getArguments().getNewName());
-			searcher = new SeamRenameMethodSearcher((IFile)method.getResource(), oldName);
-			added = false;
+			searcher = new RenameMethodSearcher((IFile)method.getResource(), oldName);
 			return true;
 		}
 		return false;
@@ -116,8 +132,7 @@ public class RenameMethodParticipant extends RenameParticipant{
 			oldName = method.getElementName();
 			
 			this.newName = newName;
-			searcher = new SeamRenameMethodSearcher((IFile)method.getResource(), oldName);
-			added = false;
+			searcher = new RenameMethodSearcher((IFile)method.getResource(), oldName);
 			return true;
 		}
 		return false;
@@ -152,9 +167,9 @@ public class RenameMethodParticipant extends RenameParticipant{
 		}
 	}
 	
-	class SeamRenameMethodSearcher extends RefactorSearcher{
+	class RenameMethodSearcher extends RefactorSearcher{
 		ProjectsSet projectSet=null;
-		public SeamRenameMethodSearcher(IFile file, String name){
+		public RenameMethodSearcher(IFile file, String name){
 			super(file, name, element);
 			ELProjectSetExtension[] extensions = 	ELProjectSetExtension.getInstances();
 			if(extensions.length > 0){
@@ -203,6 +218,10 @@ public class RenameMethodParticipant extends RenameParticipant{
 			
 			return null;
 		}
+	}
+
+	public void addElement(Object element, RefactoringArguments arguments) {
+		otherElements.add(element);
 	}
 
 }

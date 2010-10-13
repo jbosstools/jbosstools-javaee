@@ -431,9 +431,7 @@
             name="el-RenameMethodParticipant">
          <enablement>
             <with variable="element">
-               <or>
-                  <instanceof value="org.eclipse.jdt.core.IMethod"/>
-               </or>
+                 <instanceof value="org.eclipse.jdt.core.IMethod"/>
             </with>
          </enablement>
       </renameParticipant>
