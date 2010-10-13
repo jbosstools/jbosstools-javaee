@@ -13,6 +13,7 @@ package org.jboss.tools.jsf.model.handlers.bean;
 import java.util.ArrayList;
 import org.eclipse.core.runtime.*;
 import org.eclipse.jdt.core.IField;
+import org.eclipse.jdt.core.IMethod;
 import org.eclipse.ltk.core.refactoring.*;
 import org.eclipse.ltk.core.refactoring.participants.*;
 import org.jboss.tools.common.model.*;
@@ -20,9 +21,10 @@ import org.jboss.tools.jsf.messages.JSFUIMessages;
 import org.jboss.tools.common.model.refactoring.RenameModelObjectChange;
 import org.jboss.tools.common.model.refactoring.RenameProcessorRunner;
 
-public class JSFRenameFieldParticipant extends RenameParticipant {
+public class JSFRenameFieldParticipant extends RenameParticipant implements ISharableParticipant {
 	public static final String PARTICIPANT_NAME="jsf-RenameFieldParticipant"; //$NON-NLS-1$
 	private IField field;
+	private IMethod method;
 	private XModelObject object;
 
 	public JSFRenameFieldParticipant() {}
@@ -32,8 +34,15 @@ public class JSFRenameFieldParticipant extends RenameParticipant {
 			field = (IField)element;
 		} else if(element instanceof XModelObject) {
 			this.object = (XModelObject)element;
+		} else if(element instanceof IMethod) {
+			method = (IMethod)element;
 		}
-		return field != null || object != null;
+		return field != null || object != null || method != null;
+	}
+
+	public void addElement(Object element, RefactoringArguments arguments) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	public String getName() {
@@ -57,6 +66,8 @@ public class JSFRenameFieldParticipant extends RenameParticipant {
 				XModelObject[] os = JSFRenameFieldHelper.getBeanList(model, field);
 				os = getProperties(os, field.getElementName());
 				RenameModelObjectChange c1 = RenameModelObjectChange.createChange(os, newName, "property-name"); //$NON-NLS-1$
+				
+					c2 = null;
 
 				if(c1 == null) return c2;
 				if(c2 == null) return c1;
@@ -64,6 +75,16 @@ public class JSFRenameFieldParticipant extends RenameParticipant {
 				if(c1 != null) change.add(c1);
 				if(c2 != null) change.add(c2);
 				return change;
+			} else if(method != null) {
+				XModel model = JSFRenameFieldChange.getModel(method);
+				if(model == null) return null;
+				XModelObject[] os = JSFRenameFieldHelper.getBeanList(model, method);
+				String name = method.getElementName();
+				if(!name.startsWith("get") && !name.startsWith("set")) return null;
+				name = name.substring(3, 4).toLowerCase() + name.substring(4);
+				os = getProperties(os, name);
+				RenameModelObjectChange c1 = RenameModelObjectChange.createChange(os, newName, "property-name"); //$NON-NLS-1$
+				return c1;
 			} else if(object != null) {
 				RenameModelObjectChange c1 = RenameModelObjectChange.createChange(new XModelObject[]{object}, getArguments().getNewName(), "property-name"); //$NON-NLS-1$
 				

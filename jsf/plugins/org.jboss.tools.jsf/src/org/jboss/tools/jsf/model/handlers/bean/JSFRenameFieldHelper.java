@@ -13,6 +13,7 @@ package org.jboss.tools.jsf.model.handlers.bean;
 import java.util.Properties;
 
 import org.eclipse.jdt.core.IField;
+import org.eclipse.jdt.core.IMember;
 import org.jboss.tools.common.model.*;
 import org.jboss.tools.jsf.model.pv.*;
 
@@ -42,7 +43,7 @@ public class JSFRenameFieldHelper {
 		return p;
 	}
 	
-	public static XModelObject[] getBeanList(XModel model, IField field) {
+	public static XModelObject[] getBeanList(XModel model, IMember field) {
 		String clsname = field.getDeclaringType().getFullyQualifiedName();
 		JSFProjectsRoot root = JSFProjectsTree.getProjectsRoot(model);
 		JSFProjectBeans beans = (root == null) ? null : (JSFProjectBeans)root.getChildByPath(JSFProjectTreeConstants.BEANS);

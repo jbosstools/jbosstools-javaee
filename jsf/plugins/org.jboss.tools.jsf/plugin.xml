@@ -58,6 +58,7 @@
             <with variable="element">
                 <or>
                    <instanceof value="org.eclipse.jdt.core.IField"/>
+                   <instanceof value="org.eclipse.jdt.core.IMethod"/>
                    <instanceof value="org.jboss.tools.jsf.model.impl.ManagedPropertyObjectImpl"/>
                 </or>
             </with>

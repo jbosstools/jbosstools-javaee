@@ -12,6 +12,7 @@ package org.jboss.tools.jsf.model.handlers.bean;
 
 import org.eclipse.core.resources.*;
 import org.eclipse.jdt.core.IField;
+import org.eclipse.jdt.core.IMember;
 import org.jboss.tools.common.model.*;
 import org.jboss.tools.common.model.project.IModelNature;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
@@ -27,7 +28,7 @@ public class JSFRenameFieldChange extends JSFPagesRefactoringChange {
 		super(beanProperty.getModel(), newName, JSFRenameFieldHelper.getReplacements(beanProperty, newName));
 	}
 	
-	private static XModel getModel(IField field) {
+	static XModel getModel(IMember field) {
 		if(field == null || field.getJavaProject() == null) return null;
 		IProject project = field.getJavaProject().getProject();
 		if(!JSFNature.hasJSFNature(project)) return null;
