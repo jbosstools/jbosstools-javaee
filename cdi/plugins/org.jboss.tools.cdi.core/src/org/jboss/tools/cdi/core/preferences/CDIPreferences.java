@@ -279,4 +279,8 @@ public class CDIPreferences extends SeverityPreferences {
 	public static boolean isValidationEnabled(IProject project) {
 		return INSTANCE.isEnabled(project);
 	}
+
+	public static int getMaxNumberOfProblemMarkersPerFile(IProject project) {
+		return INSTANCE.getMaxNumberOfProblemMarkersPerResource(project);
+	}
 }

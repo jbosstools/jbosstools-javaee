@@ -41,5 +41,6 @@ public class SeamPreferenceInitializer extends AbstractPreferenceInitializer {
 		
 		//JBIDE-2958 temporary until JBIDE-2957 solved //TODO solve JBIDE-2957
 		defaultPreferences.put(SeamPreferences.UNKNOWN_COMPONENT_CLASS_NAME_GUESS, SeamPreferences.WARNING);
+		defaultPreferences.putInt(SeverityPreferences.MAX_NUMBER_OF_MARKERS_PREFERENCE_NAME, SeverityPreferences.DEFAULT_MAX_NUMBER_OF_MARKERS_PER_FILE);
 	}
 }

@@ -18,6 +18,7 @@ import org.eclipse.jface.dialogs.IDialogSettings;
 import org.eclipse.ui.preferences.IWorkbenchPreferenceContainer;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.preferences.CDIPreferences;
+import org.jboss.tools.common.preferences.SeverityPreferences;
 import org.jboss.tools.common.ui.preferences.SeverityConfigurationBlock;
 
 /**
@@ -171,7 +172,15 @@ public class CDIConfigurationBlock extends SeverityConfigurationBlock {
 				keys.add(ALL_SECTIONS[i].options[j].key);
 			}
 		}
+		keys.add(MAX_NUMBER_OF_PROBLEMS_KEY);
 		return keys.toArray(new Key[0]);
+	}
+
+	private static final Key MAX_NUMBER_OF_PROBLEMS_KEY = getKey(CDICorePlugin.PLUGIN_ID, SeverityPreferences.MAX_NUMBER_OF_MARKERS_PREFERENCE_NAME);
+
+	@Override
+	protected Key getMaxNumberOfProblemsKey() {
+		return MAX_NUMBER_OF_PROBLEMS_KEY;
 	}
 
 	public CDIConfigurationBlock(IStatusChangeListener context,

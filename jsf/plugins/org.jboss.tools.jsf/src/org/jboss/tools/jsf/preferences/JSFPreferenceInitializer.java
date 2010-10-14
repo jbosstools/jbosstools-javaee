@@ -38,5 +38,6 @@ public class JSFPreferenceInitializer extends AbstractPreferenceInitializer {
 		defaultPreferences.put(JSFSeverityPreferences.EL_SYNTAX_ERROR, JSFSeverityPreferences.WARNING);
 		defaultPreferences.put(JSFSeverityPreferences.CHECK_VARS, JSFSeverityPreferences.ENABLE);
 		defaultPreferences.put(JSFSeverityPreferences.RE_VALIDATE_UNRESOLVED_EL, JSFSeverityPreferences.ENABLE);
+		defaultPreferences.putInt(SeverityPreferences.MAX_NUMBER_OF_MARKERS_PREFERENCE_NAME, SeverityPreferences.DEFAULT_MAX_NUMBER_OF_MARKERS_PER_FILE);
 	}
 }

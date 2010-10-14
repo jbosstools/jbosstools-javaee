@@ -1,6 +1,5 @@
 package org.jboss.tools.jsf.test.validation;
 
-import java.io.IOException;
 import java.text.MessageFormat;
 
 import org.eclipse.core.resources.IFile;
@@ -13,6 +12,7 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.wst.validation.ValidationFramework;
 import org.eclipse.wst.validation.internal.core.ValidationException;
+import org.jboss.tools.common.preferences.SeverityPreferences;
 import org.jboss.tools.jsf.JSFModelPlugin;
 import org.jboss.tools.jsf.preferences.JSFSeverityPreferences;
 import org.jboss.tools.jsf.web.validation.JSFValidationMessages;
@@ -34,7 +34,6 @@ public class ELValidatorTest extends AbstractResourceMarkerTest{
 	}
 
 	public void testUnknownELVariable() throws CoreException, ValidationException {
-		
 		IPreferenceStore store = JSFModelPlugin.getDefault().getPreferenceStore();
 		store.setValue(JSFSeverityPreferences.RE_VALIDATE_UNRESOLVED_EL, JSFSeverityPreferences.ENABLE);
 		store.setValue(JSFSeverityPreferences.UNKNOWN_EL_VARIABLE_NAME, JSFSeverityPreferences.ERROR);
@@ -85,7 +84,44 @@ public class ELValidatorTest extends AbstractResourceMarkerTest{
 		store.setValue(JSFSeverityPreferences.RE_VALIDATE_UNRESOLVED_EL, JSFSeverityPreferences.ENABLE);
 		store.setValue(JSFSeverityPreferences.UNKNOWN_EL_VARIABLE_NAME, JSFSeverityPreferences.IGNORE);
 	}
+
+	public void testMaxNumberOfMarkersPerFile() throws CoreException {
+		IPreferenceStore store = JSFModelPlugin.getDefault().getPreferenceStore();
+		int max = store.getInt(SeverityPreferences.MAX_NUMBER_OF_MARKERS_PREFERENCE_NAME);
+		store.setValue(SeverityPreferences.MAX_NUMBER_OF_MARKERS_PREFERENCE_NAME, 1);
+		String errorSeverity = store.getString(JSFSeverityPreferences.UNKNOWN_EL_VARIABLE_NAME);
+		store.setValue(JSFSeverityPreferences.UNKNOWN_EL_VARIABLE_NAME, JSFSeverityPreferences.ERROR);
+
+		try {
+			assertMarkerIsCreatedForLine(
+					"WebContent/pages/maxNumberOfMarkers.jsp",
+					JSFValidationMessages.UNKNOWN_EL_VARIABLE_PROPERTY_NAME,
+					new Object[] {"wrongUserName"},
+					3);
+			assertMarkerIsNotCreatedForLine(
+					"WebContent/pages/maxNumberOfMarkers.jsp",
+					JSFValidationMessages.UNKNOWN_EL_VARIABLE_PROPERTY_NAME,
+					new Object[] {"wrongUserName2"},
+					4);
 	
+			store.setValue(SeverityPreferences.MAX_NUMBER_OF_MARKERS_PREFERENCE_NAME, max);
+	
+			assertMarkerIsCreatedForLine(
+					"WebContent/pages/maxNumberOfMarkers.jsp",
+					JSFValidationMessages.UNKNOWN_EL_VARIABLE_PROPERTY_NAME,
+					new Object[] {"wrongUserName"},
+					3);
+			assertMarkerIsCreatedForLine(
+					"WebContent/pages/maxNumberOfMarkers.jsp",
+					JSFValidationMessages.UNKNOWN_EL_VARIABLE_PROPERTY_NAME,
+					new Object[] {"wrongUserName2"},
+					4);
+		} finally {
+			store.setValue(SeverityPreferences.MAX_NUMBER_OF_MARKERS_PREFERENCE_NAME, max);
+			store.setValue(JSFSeverityPreferences.UNKNOWN_EL_VARIABLE_NAME, errorSeverity);
+		}
+	}
+
 	private void assertMarkerIsCreatedForLine(String fileName, String template, Object[] parameters, int lineNumber) throws CoreException{
 		String messagePattern = MessageFormat.format(template, parameters);
 		IFile file = project.getFile(fileName);
@@ -116,7 +152,5 @@ public class ELValidatorTest extends AbstractResourceMarkerTest{
 				fail("Marker "+messagePattern+" for line - "+lineNumber+" has been found");
 			}
 		}
-		
 	}
-
 }

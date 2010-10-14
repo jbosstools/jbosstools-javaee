@@ -81,6 +81,10 @@ public class JSFSeverityPreferences extends SeverityPreferences {
 		return INSTANCE.isEnabled(project);
 	}
 
+	public static int getMaxNumberOfProblemMarkersPerFile(IProject project) {
+		return INSTANCE.getMaxNumberOfProblemMarkersPerResource(project);
+	}
+
 	public static boolean shouldValidateEL(IProject project) {
 		return !(SeverityPreferences.IGNORE.equals(INSTANCE.getProjectPreference(project, UNKNOWN_EL_VARIABLE_NAME)) &&
 				SeverityPreferences.IGNORE.equals(INSTANCE.getProjectPreference(project, UNKNOWN_EL_VARIABLE_PROPERTY_NAME)) && 

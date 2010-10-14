@@ -188,11 +188,11 @@ public class SeamEarProjectValidator implements IValidatorJob {
 			int position = offset + text.indexOf(jarName);
 			int length = jarName.length();
 			if(SEAM_JAR_NAME.equals(jarName)) {
-				ValidationErrorManager.addError(SeamValidationMessages.INVALID_JAR_MODULE_IN_APPLICATION_XML, IMessage.HIGH_SEVERITY, new String[]{jarName}, 0, length, position, file, documentProvider, SeamValidationErrorManager.MARKED_SEAM_PROJECT_MESSAGE_GROUP, this.getClass());
+				ValidationErrorManager.addError(SeamValidationMessages.INVALID_JAR_MODULE_IN_APPLICATION_XML, IMessage.HIGH_SEVERITY, new String[]{jarName}, 0, length, position, file, documentProvider, SeamValidationErrorManager.MARKED_SEAM_PROJECT_MESSAGE_GROUP, this.getClass(), 0);
 				break;
 			}
 			if(jarName.startsWith(JARS[jarIndex])) {
-				ValidationErrorManager.addError(SeamValidationMessages.INVALID_JAR_MODULE_IN_APPLICATION_XML, IMessage.NORMAL_SEVERITY, new String[]{jarName}, 0, length, position, file, documentProvider, SeamValidationErrorManager.MARKED_SEAM_PROJECT_MESSAGE_GROUP, this.getClass());
+				ValidationErrorManager.addError(SeamValidationMessages.INVALID_JAR_MODULE_IN_APPLICATION_XML, IMessage.NORMAL_SEVERITY, new String[]{jarName}, 0, length, position, file, documentProvider, SeamValidationErrorManager.MARKED_SEAM_PROJECT_MESSAGE_GROUP, this.getClass(), 0);
 				break;
 			}
 		}

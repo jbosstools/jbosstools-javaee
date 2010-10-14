@@ -100,6 +100,15 @@ public class ELValidator extends ValidationErrorManager implements IValidator {
 
 	/*
 	 * (non-Javadoc)
+	 * @see org.jboss.tools.jst.web.kb.internal.validation.ValidationErrorManager#getMaxNumberOfMarkersPerFile(org.eclipse.core.resources.IProject)
+	 */
+	@Override
+	public int getMaxNumberOfMarkersPerFile(IProject project) {
+		return JSFSeverityPreferences.getMaxNumberOfProblemMarkersPerFile(project);
+	}
+
+	/*
+	 * (non-Javadoc)
 	 * @see org.jboss.tools.jst.web.kb.internal.validation.ValidationErrorManager#init(org.eclipse.core.resources.IProject, org.jboss.tools.jst.web.kb.internal.validation.ContextValidationHelper, org.jboss.tools.jst.web.kb.internal.validation.ValidatorManager, org.eclipse.wst.validation.internal.provisional.core.IReporter, org.jboss.tools.jst.web.kb.validation.IValidationContext)
 	 */
 	@Override
@@ -275,7 +284,7 @@ public class ELValidator extends ValidationErrorManager implements IValidator {
 //						references[i].addMarker(marker);
 					}
 				}
-				if(markers<MAX_NUMBER_OF_MARKERS_PER_RESOURCE) {
+				if(markers<getMaxNumberOfMarkersPerFile(file.getProject())) {
 					validateEL(references[i]);
 				}
 			}

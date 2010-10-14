@@ -28,6 +28,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.preferences.IWorkbenchPreferenceContainer;
+import org.jboss.tools.common.preferences.SeverityPreferences;
 import org.jboss.tools.common.ui.preferences.SeverityConfigurationBlock;
 import org.jboss.tools.jsf.JSFModelPlugin;
 import org.jboss.tools.jsf.preferences.JSFSeverityPreferences;
@@ -69,7 +70,15 @@ public class JSFValidatorConfigurationBlock extends SeverityConfigurationBlock {
 		}
 		keys.add(getKey(JSFModelPlugin.PLUGIN_ID, JSFSeverityPreferences.CHECK_VARS));
 		keys.add(getKey(JSFModelPlugin.PLUGIN_ID, JSFSeverityPreferences.RE_VALIDATE_UNRESOLVED_EL));
+		keys.add(MAX_NUMBER_OF_PROBLEMS_KEY);
 		return keys.toArray(new Key[0]);
+	}
+
+	private static final Key MAX_NUMBER_OF_PROBLEMS_KEY = getKey(JSFModelPlugin.PLUGIN_ID, SeverityPreferences.MAX_NUMBER_OF_MARKERS_PREFERENCE_NAME);
+
+	@Override
+	protected Key getMaxNumberOfProblemsKey() {
+		return MAX_NUMBER_OF_PROBLEMS_KEY;
 	}
 
 	public JSFValidatorConfigurationBlock(IStatusChangeListener context,
@@ -85,6 +94,9 @@ public class JSFValidatorConfigurationBlock extends SeverityConfigurationBlock {
 		final ScrolledPageContent sc1 = new ScrolledPageContent(folder);
 
 		Composite composite = sc1.getBody();
+
+		addMaxNumberOfMarkersField(composite);
+
 		GridLayout layout= new GridLayout(nColumns, false);
 		layout.marginHeight= 0;
 		layout.marginWidth= 0;

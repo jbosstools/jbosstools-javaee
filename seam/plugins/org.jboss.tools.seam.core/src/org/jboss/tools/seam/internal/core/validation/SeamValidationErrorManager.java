@@ -28,4 +28,13 @@ public class SeamValidationErrorManager extends ValidationErrorManager {
 	protected String getPreference(IProject project, String preferenceKey) {
 		return SeamPreferences.getInstance().getProjectPreference(project, preferenceKey);
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.jst.web.kb.internal.validation.ValidationErrorManager#getMaxNumberOfMarkersPerFile(org.eclipse.core.resources.IProject)
+	 */
+	@Override
+	public int getMaxNumberOfMarkersPerFile(IProject project) {
+		return SeamPreferences.getMaxNumberOfProblemMarkersPerFile(project);
+	}
 }
