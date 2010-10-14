@@ -5,7 +5,6 @@ import java.text.MessageFormat;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
@@ -16,7 +15,6 @@ import org.jboss.tools.common.preferences.SeverityPreferences;
 import org.jboss.tools.jsf.JSFModelPlugin;
 import org.jboss.tools.jsf.preferences.JSFSeverityPreferences;
 import org.jboss.tools.jsf.web.validation.JSFValidationMessages;
-import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.tests.AbstractResourceMarkerTest;
 
 public class ELValidatorTest extends AbstractResourceMarkerTest{
