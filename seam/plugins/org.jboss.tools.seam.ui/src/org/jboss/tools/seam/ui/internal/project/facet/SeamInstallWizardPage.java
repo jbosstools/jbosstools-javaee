@@ -147,7 +147,7 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 			.createTextEditor(
 					ISeamFacetDataModelProperties.ENTITY_BEAN_PACKAGE_NAME,
 					SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_ENTITY_BEAN_PACKAGE_NAME,
-					"com.mydomain.projectname.entity"); //$NON-NLS-1$
+					""); //$NON-NLS-1$
 
 	private IFieldEditor createTestProjectCheckboxeditor = IFieldEditorFactory.INSTANCE
 	.createCheckboxEditor(
@@ -165,7 +165,7 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 			.createTextEditor(
 					ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_NAME,
 					SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_TEST_PACKAGE_NAME,
-					"com.mydomain.projectname.test"); //$NON-NLS-1$
+					""); //$NON-NLS-1$
 	
 	private Group databaseGroup;
 
