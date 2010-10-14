@@ -23,14 +23,12 @@ public class ELValidatorTest extends AbstractResourceMarkerTest{
 	public static final String MARKER_TYPE = "org.eclipse.wst.validation.problemmarker";
 	
 	protected void setUp() throws Exception {
-		JobUtils.waitForIdle();
-		IResource project = ResourcesPlugin.getWorkspace().getRoot().findMember("JSFKickStartOldFormat");
-		this.project = project.getProject();
-		
-		this.project.build(IncrementalProjectBuilder.CLEAN_BUILD,
-				new NullProgressMonitor());
-		
-		JobUtils.waitForIdle();
+//		JobUtils.waitForIdle();
+		project = ResourcesPlugin.getWorkspace().getRoot().getProject("JSFKickStartOldFormat");
+//		this.project.build(IncrementalProjectBuilder.CLEAN_BUILD,
+//				new NullProgressMonitor());
+//		
+//		JobUtils.waitForIdle();
 	}
 
 	public void testUnknownELVariable() throws CoreException, ValidationException {
