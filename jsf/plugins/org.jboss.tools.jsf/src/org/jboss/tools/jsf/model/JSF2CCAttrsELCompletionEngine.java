@@ -35,6 +35,7 @@ import org.jboss.tools.common.el.core.resolver.ELResolution;
 import org.jboss.tools.common.el.core.resolver.ELResolutionImpl;
 import org.jboss.tools.common.el.core.resolver.ELSegment;
 import org.jboss.tools.common.el.core.resolver.ELSegmentImpl;
+import org.jboss.tools.common.el.core.resolver.IRelevanceCheck;
 import org.jboss.tools.common.el.core.resolver.IVariable;
 import org.jboss.tools.common.el.core.resolver.TypeInfoCollector.MemberInfo;
 import org.jboss.tools.common.model.XModelObject;
@@ -529,6 +530,15 @@ public class JSF2CCAttrsELCompletionEngine extends AbstractELCompletionEngine<IV
 	@Override
 	protected boolean isStaticMethodsCollectingEnabled() {
 		return false;
+	}
+
+
+	public IRelevanceCheck createRelevanceCheck(IJavaElement element) {
+		return new IRelevanceCheck() {
+			public boolean isRelevant(String content) {
+				return false;
+			}
+		};
 	}
 
 }

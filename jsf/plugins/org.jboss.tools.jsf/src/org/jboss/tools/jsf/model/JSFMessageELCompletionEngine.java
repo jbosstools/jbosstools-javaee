@@ -21,6 +21,7 @@ import java.util.TreeSet;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.swt.graphics.Image;
@@ -39,6 +40,7 @@ import org.jboss.tools.common.el.core.resolver.ELContext;
 import org.jboss.tools.common.el.core.resolver.ELResolution;
 import org.jboss.tools.common.el.core.resolver.ELResolutionImpl;
 import org.jboss.tools.common.el.core.resolver.ELSegmentImpl;
+import org.jboss.tools.common.el.core.resolver.IRelevanceCheck;
 import org.jboss.tools.common.el.core.resolver.IVariable;
 import org.jboss.tools.common.el.core.resolver.MessagePropertyELSegmentImpl;
 import org.jboss.tools.common.el.core.resolver.TypeInfoCollector.MemberInfo;
@@ -593,4 +595,13 @@ public class JSFMessageELCompletionEngine extends AbstractELCompletionEngine<IVa
 	protected boolean isStaticMethodsCollectingEnabled() {
 		return false;
 	}
+
+	public IRelevanceCheck createRelevanceCheck(IJavaElement element) {
+		return new IRelevanceCheck() {
+			public boolean isRelevant(String content) {
+				return false;
+			}
+		};
+	}
+
 }
