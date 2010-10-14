@@ -83,8 +83,9 @@ import org.jboss.tools.seam.pages.xml.model.SeamPagesConstants;
  * @author Alexey Kazakov
  */
 public class SeamCoreValidator extends SeamValidationErrorManager implements IValidator {
-	public static final String ID = "org.jboss.tools.seam.core.CoreValidator";
-	
+	public static final String ID = "org.jboss.tools.seam.core.CoreValidator"; //$NON-NLS-1$
+	public static final String PROBLEM_TYPE = "org.jboss.tools.seam.core.seamproblem"; //$NON-NLS-1$
+
 	public static final String MESSAGE_ID_ATTRIBUTE_NAME = "Seam_message_id"; //$NON-NLS-1$
 	
 	public static final int NONUNIQUE_COMPONENT_NAME_MESSAGE_ID = 1;
@@ -102,9 +103,17 @@ public class SeamCoreValidator extends SeamValidationErrorManager implements IVa
 	public static final int ENTITY_COMPONENT_WRONG_SCOPE_ID = 13;
 	public static final int UNKNOWN_COMPONENT_PROPERTY_ID = 14;
 	
-	
 	private ISeamProject seamProject;
 	private String projectName;
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.jst.web.kb.internal.validation.ValidationErrorManager#getMarkerType()
+	 */
+	@Override
+	public String getMarkerType() {
+		return PROBLEM_TYPE;
+	}
 
 	/*
 	 * (non-Javadoc)

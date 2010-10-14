@@ -37,6 +37,7 @@ import org.eclipse.wst.validation.internal.provisional.core.IValidator;
 import org.eclipse.wst.validation.internal.provisional.core.IValidatorJob;
 import org.jboss.tools.jst.web.kb.internal.validation.ContextValidationHelper;
 import org.jboss.tools.jst.web.kb.internal.validation.ProblemMessage;
+import org.jboss.tools.jst.web.kb.internal.validation.ValidationErrorManager;
 import org.jboss.tools.jst.web.kb.validation.IValidationErrorManager;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
@@ -107,6 +108,11 @@ public class SeamProjectPropertyValidator implements IValidatorJob {
 					setValidationManager(manager);
 					setReporter(reporter);
 					setMarkerId(SeamValidationErrorManager.MARKED_SEAM_PROJECT_MESSAGE_GROUP);
+				}
+
+				@Override
+				public String getMarkerType() {
+					return ValidationErrorManager.DEFAULT_VALIDATION_MARKER;
 				}
 			};
 			errorManager.init(project, null, this, reporter);
@@ -352,5 +358,4 @@ public class SeamProjectPropertyValidator implements IValidatorJob {
 			String[] messageArguments, IResource target) {
 		return errorManager.addError(message, preferenceKey, messageArguments, target);
 	}
-
 }

@@ -96,6 +96,13 @@
       <initializer class="org.jboss.tools.cdi.core.preferences.CDIPreferenceInitializer"/>
    </extension>
 
+   <extension id="cdiproblem" name="%KBProblemName" point="org.eclipse.core.resources.markers">
+      <super type="org.jboss.tools.jst.web.kb.kbproblemmarker">
+      </super>
+      <persistent value="true">
+      </persistent>
+   </extension>
+
    <extension
          point="org.jboss.tools.jst.web.kb.validator">
          <validator

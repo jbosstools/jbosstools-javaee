@@ -14,6 +14,7 @@ import org.eclipse.wst.validation.internal.provisional.core.IMessage;
 import org.eclipse.wst.validation.internal.provisional.core.IReporter;
 import org.jboss.tools.common.text.ITextSourceReference;
 import org.jboss.tools.jst.web.kb.internal.validation.ContextValidationHelper;
+import org.jboss.tools.jst.web.kb.internal.validation.ValidationErrorManager;
 import org.jboss.tools.jst.web.kb.internal.validation.ValidatorManager;
 import org.jboss.tools.jst.web.kb.validation.IValidatingProjectSet;
 import org.jboss.tools.jst.web.kb.validation.IValidationErrorManager;
@@ -87,6 +88,11 @@ public class SeamProjectPropertyValidatorWrapper extends SeamProjectPropertyVali
 				setValidationManager(manager);
 				setReporter(reporter);
 				setMarkerId(SeamValidationErrorManager.MARKED_SEAM_PROJECT_MESSAGE_GROUP);
+			}
+
+			@Override
+			public String getMarkerType() {
+				return ValidationErrorManager.DEFAULT_VALIDATION_MARKER;
 			}
 		};
 		//errorManager.init(project, null, this, reporter);

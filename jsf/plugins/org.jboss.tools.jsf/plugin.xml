@@ -488,6 +488,13 @@
       <initializer class="org.jboss.tools.jsf.preferences.JSFPreferenceInitializer"/>
    </extension>
 
+   <extension id="elproblem" name="%KBProblemName" point="org.eclipse.core.resources.markers">
+      <super type="org.jboss.tools.jst.web.kb.kbproblemmarker">
+      </super>
+      <persistent value="true">
+      </persistent>
+   </extension>
+
    <extension
          point="org.jboss.tools.jst.web.kb.validator">
          <validator

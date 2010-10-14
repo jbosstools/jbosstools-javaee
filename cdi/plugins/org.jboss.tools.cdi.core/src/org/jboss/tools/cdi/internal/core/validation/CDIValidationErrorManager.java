@@ -14,7 +14,7 @@ import org.eclipse.core.resources.IProject;
 import org.jboss.tools.cdi.core.preferences.CDIPreferences;
 import org.jboss.tools.jst.web.kb.internal.validation.ValidationErrorManager;
 
-public class CDIValidationErrorManager extends ValidationErrorManager {
+abstract public class CDIValidationErrorManager extends ValidationErrorManager {
 
 	/*
 	 * (non-Javadoc)

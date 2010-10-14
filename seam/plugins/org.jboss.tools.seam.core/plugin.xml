@@ -510,6 +510,13 @@
          <project-set id="seam.searcher" projectset-class="org.jboss.tools.seam.internal.core.refactoring.ELProjectSet" />
    </extension>
 
+   <extension id="seamproblem" name="%KBProblemName" point="org.eclipse.core.resources.markers">
+      <super type="org.jboss.tools.jst.web.kb.kbproblemmarker">
+      </super>
+      <persistent value="true">
+      </persistent>
+   </extension>
+
    <extension
          point="org.jboss.tools.jst.web.kb.validator">
          <validator

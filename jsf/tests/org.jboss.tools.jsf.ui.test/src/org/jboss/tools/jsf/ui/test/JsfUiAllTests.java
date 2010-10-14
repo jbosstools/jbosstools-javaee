@@ -28,7 +28,6 @@ import org.jboss.tools.jsf.jsp.ca.test.JsfJspJbide1717Test;
 import org.jboss.tools.jsf.jsp.ca.test.JsfJspJbide6259Test;
 import org.jboss.tools.jsf.jsp.ca.test.WebContentAssistProviderTest;
 import org.jboss.tools.jsf.ui.test.refactoring.ELReferencesRenameTest;
-import org.jboss.tools.jsf.ui.test.validation.ELValidationTest;
 import org.jboss.tools.test.util.ProjectImportTestSetup;
 
 public class JsfUiAllTests {
@@ -80,10 +79,6 @@ public class JsfUiAllTests {
 				"org.jboss.tools.jsf.ui.test",
 				new String[]{"projects/test_jsf_project"},
 				new String[]{"test_jsf_project"}));
- 		suite.addTest(new ProjectImportTestSetup(new TestSuite(
- 				ELValidationTest.class), "org.jboss.tools.jsf.ui.test", //$NON-NLS-1$
-				new String[] { "projects/testJSFProject", }, //$NON-NLS-1$
-				new String[] { "testJSFProject" })); //$NON-NLS-1$
 
 		return new TestWizardsProject(suite);
 	}

@@ -17,7 +17,7 @@ import org.jboss.tools.seam.core.SeamPreferences;
 /**
  * @author Alexey Kazakov
  */
-public class SeamValidationErrorManager extends ValidationErrorManager {
+abstract public class SeamValidationErrorManager extends ValidationErrorManager {
 
 	public static final String MARKED_SEAM_PROJECT_MESSAGE_GROUP = "markedSeamProject"; //$NON-NLS-1$
 

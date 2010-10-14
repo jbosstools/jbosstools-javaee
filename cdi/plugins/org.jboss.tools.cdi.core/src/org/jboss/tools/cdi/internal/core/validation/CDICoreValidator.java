@@ -98,7 +98,8 @@ import org.jboss.tools.jst.web.kb.validation.ValidationUtil;
  * @author Alexey Kazakov
  */
 public class CDICoreValidator extends CDIValidationErrorManager implements IValidator {
-	public static final String ID = "org.jboss.tools.cdi.core.CoreValidator";
+	public static final String ID = "org.jboss.tools.cdi.core.CoreValidator"; //$NON-NLS-1$
+	public static final String PROBLEM_TYPE = "org.jboss.tools.cdi.core.cdiproblem"; //$NON-NLS-1$
 
 	ICDIProject cdiProject;
 	String projectName;
@@ -106,6 +107,15 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 
 	private BeansXmlValidationDelegate beansXmlValidator = new BeansXmlValidationDelegate(this);
 	private AnnotationValidationDelegate annptationValidator = new AnnotationValidationDelegate(this);
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.jst.web.kb.internal.validation.ValidationErrorManager#getMarkerType()
+	 */
+	@Override
+	public String getMarkerType() {
+		return PROBLEM_TYPE;
+	}
 
 	/*
 	 * (non-Javadoc)

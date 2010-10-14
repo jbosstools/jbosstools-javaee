@@ -20,7 +20,6 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
@@ -77,6 +76,7 @@ import org.jboss.tools.jst.web.kb.validation.IValidator;
 public class ELValidator extends ValidationErrorManager implements IValidator {
 
 	public static final String ID = "org.jboss.tools.jsf.ELValidator"; //$NON-NLS-1$
+	public static final String PROBLEM_TYPE = "org.jboss.tools.jsf.elproblem"; //$NON-NLS-1$
 
 	private ELResolver[] resolvers;
 	protected ELParserFactory mainFactory;
@@ -88,6 +88,15 @@ public class ELValidator extends ValidationErrorManager implements IValidator {
 	private boolean validateVars = true;
 
 	public ELValidator() {
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.jst.web.kb.internal.validation.ValidationErrorManager#getMarkerType()
+	 */
+	@Override
+	public String getMarkerType() {
+		return PROBLEM_TYPE;
 	}
 
 	/*
