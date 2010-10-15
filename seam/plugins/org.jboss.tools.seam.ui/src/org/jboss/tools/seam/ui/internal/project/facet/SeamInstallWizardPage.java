@@ -624,6 +624,10 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 
 			model.setStringProperty(
 					ISeamFacetDataModelProperties.SEAM_PROJECT_NAME, p);
+			
+			if(!visible)
+				setCodeGenerationProperties();
+			
 			model.setStringProperty(
 					ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_NAME,
 					getSessionPkgName(p));
@@ -645,11 +649,12 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 			model.setStringProperty(
 					ISeamFacetDataModelProperties.SEAM_TEST_PROJECT,
 					testProjectNameditor.getValueAsString());
-			
 		}
 	}
 	
 	private boolean needToShowConnectionProfile = true;
+	
+	private boolean visible = false;
 
 	/**
 	 * It is overridden to fill Code Generation group with the default package
@@ -657,9 +662,8 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 	 */
 	@Override
 	public void setVisible(boolean visible) {
-
 		if (visible) {
-			setCodeGenerationProperties();
+			this.visible = true;
 			setDefaultSeamRuntime();
 			boolean jpaFacetAdded = getJpaFacetVersion() != null;
 			if (jpaFacetAdded == needToShowConnectionProfile){
@@ -677,11 +681,10 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 	};
 
 	private void initDefaultWizardProperties() {
-		setCodeGenerationProperties();
 		setDefaultSeamRuntime();
 		validate();
 	}
-
+	
 	/*
 	 * Fills Code Generation group with the default package names.
 	 */
@@ -691,19 +694,13 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 		
 		if(p == null)
 			return;
-		
-		if(sessionBeanPkgNameditor.getValueAsString() == null || "".equals(sessionBeanPkgNameditor.getValueAsString().trim()))
-			sessionBeanPkgNameditor.setValue(getSessionPkgName(p));
-		if(entityBeanPkgNameditor.getValueAsString() == null || "".equals(entityBeanPkgNameditor.getValueAsString().trim()))
-			entityBeanPkgNameditor.setValue(getEntityPkgName(p));
-		if(testsPkgNameditor.getValueAsString() == null || "".equals(testsPkgNameditor.getValueAsString().trim()))
-			testsPkgNameditor.setValue(getTestPkgName(p));
-		if(ejbProjectNameditor.getValueAsString() == null || "".equals(ejbProjectNameditor.getValueAsString().trim()))
-			ejbProjectNameditor.setValue(getEJBProjectName(p));
-		if(earProjectNameditor.getValueAsString() == null || "".equals(earProjectNameditor.getValueAsString().trim()))
-			earProjectNameditor.setValue(getEARProjectName(p));
-		if(testProjectNameditor.getValueAsString() == null || "".equals(testProjectNameditor.getValueAsString().trim()))
-			testProjectNameditor.setValue(getTestProjectName(p));
+
+		sessionBeanPkgNameditor.setValue(getSessionPkgName(p));
+		entityBeanPkgNameditor.setValue(getEntityPkgName(p));
+		testsPkgNameditor.setValue(getTestPkgName(p));
+		ejbProjectNameditor.setValue(getEJBProjectName(p));
+		earProjectNameditor.setValue(getEARProjectName(p));
+		testProjectNameditor.setValue(getTestProjectName(p));
 	}
 
 	private String getSessionPkgName(String projectName) {
@@ -975,7 +972,6 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 	 * 
 	 */
 	public void finishPressed() {
-		setCodeGenerationProperties();
 		model.removeListener(validatorDelegate);
 	};
 
@@ -983,21 +979,21 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 	 * test method
 	 */
 	public String getSessionBeanPkgName() {
-		return (String) sessionBeanPkgNameditor.getValue();
+		return sessionBeanPkgNameditor.getValueAsString();
 	}
 
 	/*
 	 * test method
 	 */
 	public String getEntityBeanPkgName() {
-		return (String) entityBeanPkgNameditor.getValue();
+		return entityBeanPkgNameditor.getValueAsString();
 	}
 
 	/*
 	 * test method
 	 */
 	public String getTestsPkgName() {
-		return (String) testsPkgNameditor.getValue();
+		return testsPkgNameditor.getValueAsString();
 	}
 	
 	private Map<String, IStatus> doPackStatus(IStatus status, String propertyName, String message){

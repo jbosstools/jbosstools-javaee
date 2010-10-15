@@ -49,9 +49,9 @@ public class PackageNamesTest extends TestCase{
 	}
 
 	public void testProjectNameWithSpaces() {
-		wizard.getDataModel().setStringProperty(IFacetDataModelProperties.FACET_PROJECT_NAME, "Seam Test Project");
-
 		showWizard();
+		
+		wizard.getDataModel().setStringProperty(IFacetDataModelProperties.FACET_PROJECT_NAME, "Seam Test Project");
 
 		String sessionBeanPkgName = seamWizPg.getSessionBeanPkgName();
 		String entityBeanPkgName = seamWizPg.getEntityBeanPkgName();
@@ -73,9 +73,9 @@ public class PackageNamesTest extends TestCase{
 	}
 
 	public void testProjectNameWithUnderlines() {
-		wizard.getDataModel().setStringProperty(IFacetDataModelProperties.FACET_PROJECT_NAME, "Seam_Test_Project");
-
 		showWizard();
+		
+		wizard.getDataModel().setStringProperty(IFacetDataModelProperties.FACET_PROJECT_NAME, "Seam_Test_Project");
 		
 		String sessionBeanPkgName = seamWizPg.getSessionBeanPkgName();
 		String entityBeanPkgName = seamWizPg.getEntityBeanPkgName();
@@ -87,9 +87,9 @@ public class PackageNamesTest extends TestCase{
 	}
 	
 	public void testProjectNameWithMinuses() {
-		wizard.getDataModel().setStringProperty(IFacetDataModelProperties.FACET_PROJECT_NAME, "Seam-Test-Project");
-
 		showWizard();
+		
+		wizard.getDataModel().setStringProperty(IFacetDataModelProperties.FACET_PROJECT_NAME, "Seam-Test-Project");
 		
 		String sessionBeanPkgName = seamWizPg.getSessionBeanPkgName();
 		String entityBeanPkgName = seamWizPg.getEntityBeanPkgName();
@@ -101,9 +101,9 @@ public class PackageNamesTest extends TestCase{
 	}
 	
 	public void testProjectNameWithMultipleDots() {
-		wizard.getDataModel().setStringProperty(IFacetDataModelProperties.FACET_PROJECT_NAME, "Seam...Test....Project");
-
 		showWizard();
+		
+		wizard.getDataModel().setStringProperty(IFacetDataModelProperties.FACET_PROJECT_NAME, "Seam...Test....Project");
 		
 		String sessionBeanPkgName = seamWizPg.getSessionBeanPkgName();
 		String entityBeanPkgName = seamWizPg.getEntityBeanPkgName();
