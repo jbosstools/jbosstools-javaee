@@ -457,8 +457,10 @@ public class SeamELContentAssistTestCase extends ContentAssistantTestCase {
 		openEditor(PAGE_NAME);
 
 		List<IRegion> regionsToTest = getELRegionsToTest(document);
-		if (regionsToTest != null) {
-			for (IRegion region : regionsToTest) {
+		
+		if (regionsToTest != null && regionsToTest.size() >= 1) {
+//			for (IRegion region : regionsToTest) {
+			IRegion region = regionsToTest.get(0);
 				try {
 //					System.out.println("Seam EL Region To Test: [" + region.getOffset() + "/" + region.getLength() + "] ==> [" + 
 //							document.get(region.getOffset(), region.getLength()) + "]");
@@ -474,7 +476,8 @@ public class SeamELContentAssistTestCase extends ContentAssistantTestCase {
 						String errorMessage = null;
 
 						List<ICompletionProposal> res = TestUtil.collectProposals(contentAssistant, viewer, offset);
-						
+						assertTrue("Content Assist returned no proposals: ", (res != null && res.size() > 0));
+
 //						if (errorMessage != null && errorMessage.trim().length() > 0) {
 //							System.out.println("#" + offset + ": ERROR MESSAGE: " + errorMessage);
 //						}
@@ -482,41 +485,39 @@ public class SeamELContentAssistTestCase extends ContentAssistantTestCase {
 						// compare SeamELCompletionProposals in the result to the filtered valid proposals
 						Set<String> existingProposals = new TreeSet<String>(String.CASE_INSENSITIVE_ORDER);
 						
-						if (res != null && res.size() > 0) {
-							for (ICompletionProposal p : res) {
+						for (ICompletionProposal p : res) {
 //								System.out.println("Result#" + i + "-" + j + " ==> " + result[j].getClass().getName());
-								// Cannot separate Seam EL proposals from all the others, 
-								// so check only the required proposals existance
-								//
-								if (p instanceof AutoContentAssistantProposal) {
-									AutoContentAssistantProposal proposal = (AutoContentAssistantProposal)p;
-									
-									String proposalString = proposal.getReplacementString();
-									if (filteredValidProposals.contains(proposalString)) {
-										existingProposals.add(proposalString);
-										filteredValidProposals.remove(proposalString);
-									} else {
-										String validProposal = null;
-										if (proposalString.indexOf("(") > -1) {
-											String methodName = proposalString.substring(0, proposalString.indexOf("(")).trim();
-											// Find method with the same name in filtered valid proposals
-											for (String valid : filteredValidProposals) {
-												if (valid.indexOf("(") > -1) {
-													String validName = valid.substring(0, valid.indexOf("(")).trim();
-													
-													if (methodName.equals(validName)) {
-														validProposal = valid;
-														break;
-													}
+							// Cannot separate Seam EL proposals from all the others, 
+							// so check only the required proposals existance
+							//
+							if (p instanceof AutoContentAssistantProposal) {
+								AutoContentAssistantProposal proposal = (AutoContentAssistantProposal)p;
+								
+								String proposalString = proposal.getReplacementString();
+								if (filteredValidProposals.contains(proposalString)) {
+									existingProposals.add(proposalString);
+									filteredValidProposals.remove(proposalString);
+								} else {
+									String validProposal = null;
+									if (proposalString.indexOf("(") > -1) {
+										String methodName = proposalString.substring(0, proposalString.indexOf("(")).trim();
+										// Find method with the same name in filtered valid proposals
+										for (String valid : filteredValidProposals) {
+											if (valid.indexOf("(") > -1) {
+												String validName = valid.substring(0, valid.indexOf("(")).trim();
+												
+												if (methodName.equals(validName)) {
+													validProposal = valid;
+													break;
 												}
 											}
-										}	
-										if (validProposal != null) {
-											existingProposals.add(validProposal);
-											filteredValidProposals.remove(validProposal);
 										}
-									
+									}	
+									if (validProposal != null) {
+										existingProposals.add(validProposal);
+										filteredValidProposals.remove(validProposal);
 									}
+								
 								}
 							}
 						}
@@ -526,11 +527,12 @@ public class SeamELContentAssistTestCase extends ContentAssistantTestCase {
 				} catch (BadLocationException e) {
 					assertNull("An exception caught: " + (e != null? e.getMessage() : ""), e);
 				}
-			}
+//			}
 		}
 		regionsToTest = getAttributeValueRegions(viewer);
-		if (regionsToTest != null) {
-			for (IRegion region : regionsToTest) {
+		if (regionsToTest != null && regionsToTest.size() >= 1) {
+//			for (IRegion region : regionsToTest) {
+			IRegion region = regionsToTest.get(0);
 				try {
 //					System.out.println("Attribute Region To Test: [" + region.getOffset() + "/" + region.getLength() + "] ==> [" + 
 //							document.get(region.getOffset(), region.getLength()) + "]");
@@ -572,6 +574,7 @@ public class SeamELContentAssistTestCase extends ContentAssistantTestCase {
 							String errorMessage = null;
 	
 							List<ICompletionProposal> res = TestUtil.collectProposals(contentAssistant, viewer, offset);
+							assertTrue("Content Assist returned no proposals: ", (res != null && res.size() > 0));
 //							if (errorMessage != null && errorMessage.trim().length() > 0) {
 //								System.out.println("#" + offset + ": ERROR MESSAGE: " + errorMessage);
 //							}
@@ -579,39 +582,37 @@ public class SeamELContentAssistTestCase extends ContentAssistantTestCase {
 							// compare SeamELCompletionProposals in the result to the filtered valid proposals
 							Set<String> existingProposals = new TreeSet<String>(String.CASE_INSENSITIVE_ORDER);
 
-							if (res != null && res.size() > 0) {
-								for (ICompletionProposal p : res) {
+							for (ICompletionProposal p : res) {
 //									System.out.println("Result#" + i + "/" + j + " ==> " + result[j].getClass().getName());
-								// Cannot separate Seam EL proposals from all the others, 
-								// so check only the required proposals existance
-								//
-									if (p instanceof AutoContentAssistantProposal) {
-										AutoContentAssistantProposal proposal = (AutoContentAssistantProposal)p;
-										String proposalString = proposal.getReplacementString();
-										
-										if (filteredValidProposals.contains(proposalString)) {
-											existingProposals.add(proposalString);
-											filteredValidProposals.remove(proposalString);
-										} else {
-											String validProposal = null;
-											if (proposalString.indexOf("(") > -1) {
-												String methodName = proposalString.substring(0, proposalString.indexOf("(")).trim();
-												// Find method with the same name in filtered valid proposals
-												for (String valid : filteredValidProposals) {
-													if (valid.indexOf("(") > -1) {
-														String validName = valid.substring(0, valid.indexOf("(")).trim();
-														
-														if (methodName.equals(validName)) {
-															validProposal = valid;
-															break;
-														}
+							// Cannot separate Seam EL proposals from all the others, 
+							// so check only the required proposals existance
+							//
+								if (p instanceof AutoContentAssistantProposal) {
+									AutoContentAssistantProposal proposal = (AutoContentAssistantProposal)p;
+									String proposalString = proposal.getReplacementString();
+									
+									if (filteredValidProposals.contains(proposalString)) {
+										existingProposals.add(proposalString);
+										filteredValidProposals.remove(proposalString);
+									} else {
+										String validProposal = null;
+										if (proposalString.indexOf("(") > -1) {
+											String methodName = proposalString.substring(0, proposalString.indexOf("(")).trim();
+											// Find method with the same name in filtered valid proposals
+											for (String valid : filteredValidProposals) {
+												if (valid.indexOf("(") > -1) {
+													String validName = valid.substring(0, valid.indexOf("(")).trim();
+													
+													if (methodName.equals(validName)) {
+														validProposal = valid;
+														break;
 													}
 												}
-											}	
-											if (validProposal != null) {
-												existingProposals.add(validProposal);
-												filteredValidProposals.remove(validProposal);
 											}
+										}	
+										if (validProposal != null) {
+											existingProposals.add(validProposal);
+											filteredValidProposals.remove(validProposal);
 										}
 									}
 								}
@@ -623,7 +624,7 @@ public class SeamELContentAssistTestCase extends ContentAssistantTestCase {
 					e.printStackTrace();
 					assertNull("An exception caught: " + (e != null? e.getMessage() : ""), e);
 				}
-			}
+//			}
 		}
 		
 		closeEditor();
