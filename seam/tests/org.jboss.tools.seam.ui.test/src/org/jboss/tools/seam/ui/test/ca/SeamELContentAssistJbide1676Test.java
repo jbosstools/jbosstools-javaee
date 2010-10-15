@@ -1,6 +1,5 @@
 package org.jboss.tools.seam.ui.test.ca;
 
-import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -283,24 +282,34 @@ public class SeamELContentAssistJbide1676Test extends TestCase {
 		
 		assertTrue("Cannot find the starting point in the test file  \"" + JAVA_FILENAME + "\"", (start != -1));
 
+		ICompletionProposal[] result= null;
 		String errorMessage = null;
 
-		List<ICompletionProposal> res = TestUtil.collectProposals(contentAssistant, viewer, offsetToTest);
-		assertTrue("Content Assistant peturned no proposals", (res != null && res.size() > 0));
-
+		IContentAssistProcessor p= TestUtil.getProcessor(viewer, offsetToTest, contentAssistant);
+		if (p != null) {
+			try {
+				result= p.computeCompletionProposals(viewer, offsetToTest);
+			} catch (Throwable x) {
+				x.printStackTrace();
+			}
+			errorMessage= p.getErrorMessage();
+		}
+		
 //		if (errorMessage != null && errorMessage.trim().length() > 0) {
 //			System.out.println("#" + offsetToTest + ": ERROR MESSAGE: " + errorMessage);
 //		}
+
+		assertTrue("Content Assistant peturned no proposals", (result != null && result.length > 0));
 		
 		// compare SeamELCompletionProposals in the result to the filtered valid proposals
 		Set<String> existingProposals = new TreeSet<String>(String.CASE_INSENSITIVE_ORDER);
 		Set<String> nonExistingProposals = new TreeSet<String>(String.CASE_INSENSITIVE_ORDER);
 		Set<String> filteredValidProposals = getJavaStringValidELProposals();
 
-		for (ICompletionProposal p : res) {
+		for (int j = 0; j < result.length; j++) {
 			// Look only for SeamELProposalProcessor proposals
-			if (p instanceof ELProposalProcessor.Proposal) {
-				ELProposalProcessor.Proposal proposal = (ELProposalProcessor.Proposal)p;
+			if (result[j] instanceof ELProposalProcessor.Proposal) {
+				ELProposalProcessor.Proposal proposal = (ELProposalProcessor.Proposal)result[j];
 				String proposalString = proposal.getPrefixCompletionText(document, offsetToTest).toString();
 				
 				if (filteredValidProposals.contains(proposalString)) {
