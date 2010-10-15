@@ -18,6 +18,7 @@ import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.ui.PlatformUI;
+import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.ui.wizard.OpenSeamComponentDialog;
 import org.jboss.tools.seam.ui.wizard.OpenSeamComponentDialog.SeamComponentWrapper;
 import org.jboss.tools.test.util.JobUtils;
@@ -67,7 +68,7 @@ public class OpenSeamComponentDialogTest extends TestCase{
 	}
 	
 	public void testOpenSeamComponentDialogSearch() {
-		find("m", "mockSecureEntity", true);
+		find("mock", "mockSecureEntity", true);
 		find("o", "org.jboss.seam.captcha.captcha", false);
 		find("p", "org.jboss.seam.core.pageContext", false);
 	}
@@ -98,13 +99,22 @@ public class OpenSeamComponentDialogTest extends TestCase{
 			
 			assertTrue("Component "+componentName+" not found", objects.length != 0);
 		
-			SeamComponentWrapper wrapper = (SeamComponentWrapper)objects[0];
-			assertNotNull(wrapper.getComponent());
+			ISeamComponent component = findComponent(objects, componentName);
 		
-			assertEquals("Component "+componentName+" not found with " + pattern, componentName, wrapper.getComponentName());
+			assertNotNull("Component "+componentName+" not found with " + pattern, component);
 		} finally {
 			dialog.okPressed();
 		}
 	}
 	
+	private ISeamComponent findComponent(Object[] objects, String componentName) {
+		for (Object o: objects) {
+			SeamComponentWrapper wrapper = (SeamComponentWrapper)o;
+			assertNotNull(wrapper.getComponent());
+			if(componentName.equals(wrapper.getComponentName())) {
+				return wrapper.getComponent();
+			}
+		}
+		return null;
+	}
 }

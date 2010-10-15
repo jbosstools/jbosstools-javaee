@@ -366,12 +366,21 @@ public class SeamComponentsViewTest extends TestCase {
 		}
 		
 		try{
+			boolean saveAutoBuild = ResourcesUtils.setBuildAutomatically(false);
+			JobUtils.waitForIdle();
 			classFile.delete(true, new NullProgressMonitor());
+			project.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
+			JobUtils.waitForIdle();
+			project.build(IncrementalProjectBuilder.INCREMENTAL_BUILD, new NullProgressMonitor());
+			JobUtils.waitForIdle();
+			ResourcesUtils.setBuildAutomatically(saveAutoBuild);
+			JobUtils.waitForIdle();
 		}catch(Exception ex){
 			JUnitUtils.fail("Cannot delete file JavaSource/demo/Person.java", ex);
 		}
 		
-		refreshProject(project);
+//		refreshProject(project);
+
 		navigator.getCommonViewer().refresh(true);
 		navigator.getCommonViewer().expandAll();
 		
