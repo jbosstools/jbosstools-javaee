@@ -8,23 +8,26 @@
  * Contributors:
  *     Exadel, Inc. and Red Hat, Inc. - initial API and implementation
  ******************************************************************************/ 
-package org.jboss.tools.jsf.verification.test;
+package demo;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
+/**
+ * Created by JBoss Developer Studio
+ */
+public class User {
 
-public class JsfVerificationAllTests {
-	public static final String PLUGIN_ID = "org.jboss.tools.jsf.verification";
+	private String name;
 
-	public static Test suite() {
-		TestSuite suite = new TestSuite("Test for default package");
-		//$JUnit-BEGIN$
-
-		suite.addTestSuite(JSFVerificationTest.class);
-		suite.addTestSuite(WebVerificationTest.class);
-		
-		//$JUnit-END$
-		return suite;
+	/**
+	 * @return User Name
+	 */
+	public String getName() {
+		return name;
 	}
 
+	/**
+	 * @param User Name
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
 }
