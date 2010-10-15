@@ -711,7 +711,12 @@
 	<extension point="org.eclipse.ui.ide.markerResolution">
 		<markerResolutionGenerator
 			markerType="org.eclipse.wst.validation.problemmarker"
-			class="org.jboss.tools.seam.ui.marker.SeamProblemMarkerResolutionGenerator">
-		</markerResolutionGenerator>
+			class="org.jboss.tools.seam.ui.marker.SeamProblemMarkerResolutionGenerator"/>
+  		<markerResolutionGenerator
+     		class="org.jboss.tools.seam.ui.marker.SeamProblemMarkerResolutionGenerator"
+     		markerType="org.jboss.tools.jst.web.kb.kbproblemmarker"/>
+  		<markerResolutionGenerator
+     		class="org.jboss.tools.seam.ui.marker.SeamProblemMarkerResolutionGenerator"
+     		markerType="org.jboss.tools.seam.core.seamproblem"/>
 	</extension>
 </plugin>
