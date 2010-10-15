@@ -57,6 +57,7 @@ public class JSFRenameFieldParticipant extends RenameParticipant implements ISha
 	public Change createChange(IProgressMonitor pm) throws CoreException,
 			OperationCanceledException {
 		if (!pm.isCanceled()) {
+			if(!updateReferences() && object == null) return null;
 			String newName = getArguments().getNewName();
 			if (field != null) {
 				JSFRenameFieldChange c2 = new JSFRenameFieldChange(field, newName);
