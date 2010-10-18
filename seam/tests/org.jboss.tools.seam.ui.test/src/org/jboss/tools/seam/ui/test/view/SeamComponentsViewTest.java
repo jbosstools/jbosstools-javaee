@@ -377,19 +377,10 @@ public class SeamComponentsViewTest extends TestCase {
 		}catch(Exception ex){
 			JUnitUtils.fail("Cannot delete file JavaSource/demo/Person.java", ex);
 		}
-//		refreshProject(project);
+
+		refreshProject(project);
+
 		component = sp.getComponent("beatles.Pall");
-		for (int i = 0; i < 100; i++) {
-			if(component == null) break;
-			System.out.println("beatles.Pall not removed yet " + i + " " + classFile.exists() + " " + component.getAllDeclarations().size() + " " + component.getJavaDeclaration());
-			try {
-				project.build(IncrementalProjectBuilder.INCREMENTAL_BUILD, new NullProgressMonitor());
-				JobUtils.waitForIdle();
-			} catch (CoreException e) {}
-			try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {}
-		}
 		assertNull(component);
 		
 		Collection<ISeamPackage> ps = sp.getPackages();
