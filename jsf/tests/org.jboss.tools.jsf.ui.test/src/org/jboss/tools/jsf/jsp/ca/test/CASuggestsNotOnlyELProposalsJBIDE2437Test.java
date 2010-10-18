@@ -50,7 +50,7 @@ public class CASuggestsNotOnlyELProposalsJBIDE2437Test extends ContentAssistantT
 
 		boolean bELProposalsFound = false;
 		boolean bTemplatePathProposalsFound = false;
-		for (int k = 0; 
+		for (int k = 0; k < res.size() && 
 				(!bELProposalsFound || !bTemplatePathProposalsFound); k++) {
 			if (res.get(k) instanceof AutoContentAssistantProposal) {
 				AutoContentAssistantProposal proposal = (AutoContentAssistantProposal)res.get(k);
