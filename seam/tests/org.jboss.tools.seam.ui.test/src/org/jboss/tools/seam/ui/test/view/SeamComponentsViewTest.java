@@ -13,6 +13,7 @@ package org.jboss.tools.seam.ui.test.view;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Collection;
 import java.util.Iterator;
 
 import junit.framework.TestCase;
@@ -42,6 +43,7 @@ import org.eclipse.ui.navigator.CommonNavigator;
 import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamPackage;
+import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.ui.ISeamUiConstants;
 import org.jboss.tools.seam.ui.SeamPerspectiveFactory;
@@ -351,6 +353,10 @@ public class SeamComponentsViewTest extends TestCase {
 	
 	public void testDeleteComponentInClass(){
 		classFile = project.getFile("JavaSource/demo/Person.java");
+		ISeamProject sp = SeamCorePlugin.getSeamProject(project, true);
+		
+		ISeamComponent component = sp.getComponent("beatles.Pall");
+		assertNotNull(component);
 		
 		CommonNavigator navigator = getSeamComponentsView();
 		navigator.getCommonViewer().expandAll();
@@ -361,7 +367,7 @@ public class SeamComponentsViewTest extends TestCase {
 		assertTrue("Package \"beatles\" not found!",seamPackage!=null);
 		
 		if(seamPackage != null){
-			ISeamComponent component = findSeamComponent(seamPackage, "beatles.Pall");
+			component = findSeamComponent(seamPackage, "beatles.Pall");
 			assertTrue("Component \"beatles.Pall\" not found!",component!=null);
 		}
 		
@@ -377,6 +383,15 @@ public class SeamComponentsViewTest extends TestCase {
 			JobUtils.waitForIdle();
 		}catch(Exception ex){
 			JUnitUtils.fail("Cannot delete file JavaSource/demo/Person.java", ex);
+		}
+
+		component = sp.getComponent("beatles.Pall");
+		assertNull(component);
+		
+		Collection<ISeamPackage> ps = sp.getPackages();
+		if(ps != null) for (ISeamPackage p: ps) {
+			System.out.println(p.getName());
+			assertFalse("beatles".equals(p.getName()));
 		}
 		
 //		refreshProject(project);
