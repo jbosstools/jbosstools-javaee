@@ -1,7 +1,9 @@
 package org.jboss.tools.jsf.test.validation;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
@@ -14,12 +16,14 @@ import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.wst.validation.ValidationFramework;
 import org.eclipse.wst.validation.internal.core.ValidationException;
 import org.eclipse.wst.validation.internal.operations.WorkbenchReporter;
+import org.eclipse.wst.validation.internal.provisional.core.IMessage;
 import org.jboss.tools.common.preferences.SeverityPreferences;
 import org.jboss.tools.jsf.JSFModelPlugin;
 import org.jboss.tools.jsf.preferences.JSFSeverityPreferences;
 import org.jboss.tools.jsf.web.validation.ELValidator;
 import org.jboss.tools.jsf.web.validation.JSFValidationMessages;
 import org.jboss.tools.jst.web.kb.internal.validation.ContextValidationHelper;
+import org.jboss.tools.jst.web.kb.internal.validation.ValidationErrorManager;
 import org.jboss.tools.jst.web.kb.internal.validation.ValidatorManager;
 import org.jboss.tools.jst.web.kb.validation.IValidator;
 import org.jboss.tools.tests.AbstractResourceMarkerTest;
@@ -126,7 +130,7 @@ public class ELValidatorTest extends AbstractResourceMarkerTest{
 	 * See https://jira.jboss.org/browse/JBIDE-7147
 	 * @throws CoreException
 	 */
-	public void testMaxNumberOfMarkersPerFile() throws CoreException {
+	public void testMaxNumberOfMarkersPerFileLesTehnDefault() throws CoreException {
 		IPreferenceStore store = JSFModelPlugin.getDefault().getPreferenceStore();
 		int max = store.getInt(SeverityPreferences.MAX_NUMBER_OF_MARKERS_PREFERENCE_NAME);
 		store.setValue(SeverityPreferences.MAX_NUMBER_OF_MARKERS_PREFERENCE_NAME, 1);
@@ -164,11 +168,10 @@ public class ELValidatorTest extends AbstractResourceMarkerTest{
 	}
 
 	/**
-	 * See https://jira.jboss.org/browse/JBIDE-7264
-	 * @throws CoreException 
-	 * @throws ValidationException 
+	 * See https://jira.jboss.org/browse/JBIDE-7147
+	 * @throws CoreException
 	 */
-	public void testPerformanceOfCalculatingLineNumbers() throws CoreException, ValidationException {
+	public void testMaxNumberOfMarkersPerFileMoreThenDefault() throws CoreException, ValidationException {
 		IPreferenceStore store = JSFModelPlugin.getDefault().getPreferenceStore();
 		store.setValue(JSFSeverityPreferences.UNKNOWN_EL_VARIABLE_NAME, JSFSeverityPreferences.ERROR);
 
@@ -177,14 +180,56 @@ public class ELValidatorTest extends AbstractResourceMarkerTest{
 			String messagePattern = MessageFormat.format(JSFValidationMessages.UNKNOWN_EL_VARIABLE_NAME, new Object[] {"wrongUserName"});
 
 			long time = validateFile("WebContent/pages/lineNumbers.xhtml", 100);
-			System.out.println("Time: " + time);
+			System.out.println("Validation time: " + time);
 			int[] lines = new int[100]; 
 			for (int i = 8; i < 108; i++) {
 				lines[i-8]=i;
 			}
 			assertMarkerIsCreated(file, ELValidator.PROBLEM_TYPE, messagePattern, lines);
 			time = validateFile("WebContent/pages/lineNumbers.xhtml", 100);
-			System.out.println("Time: " + time);
+			System.out.println("Validation time: " + time);
+		} finally {
+			store.setValue(JSFSeverityPreferences.UNKNOWN_EL_VARIABLE_NAME, JSFSeverityPreferences.IGNORE);
+		}
+	}
+
+	/**
+	 * See https://jira.jboss.org/browse/JBIDE-7264
+	 * @throws CoreException 
+	 * @throws ValidationException 
+	 */
+	public void testPerformanceOfCalculatingLineNumbers() throws CoreException, ValidationException {
+		IPreferenceStore store = JSFModelPlugin.getDefault().getPreferenceStore();
+		store.setValue(JSFSeverityPreferences.UNKNOWN_EL_VARIABLE_NAME, JSFSeverityPreferences.ERROR);
+		try {
+			IFile file = project.getFile("/pagesOutsideWebContent/lineCalculating.xhtml");
+			assertTrue("Test xhtml file is not accessible.", file.isAccessible());
+			ELValidator validator = getElValidator(file.getFullPath().toString());
+			List<IMarker> markers = new ArrayList<IMarker>();
+			long withoutLineNumber = System.currentTimeMillis();
+			for (int i = 8; i < 108; i++) {
+				IMarker marker = ValidationErrorManager.addError("test error", IMessage.HIGH_SEVERITY, new Object[0], -1, 1, 79397 + i, file, validator.getDocumentProvider(), "testMarkerId", this.getClass(), 100, "testMarkerType");
+				assertNotNull("Marker has not been created.", marker);
+				assertTrue("Wrong line number", marker.getAttribute(IMarker.LINE_NUMBER, -1)>1807);
+				markers.add(marker);
+			}
+			withoutLineNumber = System.currentTimeMillis() - withoutLineNumber;
+			for (IMarker marker : markers) {
+				marker.delete();
+			}
+
+			markers.clear();
+			long withLineNumber = System.currentTimeMillis();
+			for (int i = 8; i < 108; i++) {
+				IMarker marker = ValidationErrorManager.addError("test error", IMessage.HIGH_SEVERITY, new Object[0], i, 1, 79397 + i, file, validator.getDocumentProvider(), "testMarkerId", this.getClass(), 100, "testMarkerType");
+				assertNotNull("Marker has not been created.", marker);
+				assertEquals("Wrong line number", i, marker.getAttribute(IMarker.LINE_NUMBER, -1));
+				markers.add(marker);
+			}
+			withLineNumber = System.currentTimeMillis() - withLineNumber;
+			System.out.println("IMarker creation time with line calculating via IDocument: " + withoutLineNumber);
+			System.out.println("IMarker creation time without line calculating: " + withLineNumber);
+			assertTrue("", withLineNumber<withoutLineNumber);
 		} finally {
 			store.setValue(JSFSeverityPreferences.UNKNOWN_EL_VARIABLE_NAME, JSFSeverityPreferences.IGNORE);
 		}
@@ -228,6 +273,34 @@ public class ELValidatorTest extends AbstractResourceMarkerTest{
 			store.setValue(SeverityPreferences.MAX_NUMBER_OF_MARKERS_PREFERENCE_NAME, max);
 			store.setValue(JSFSeverityPreferences.UNKNOWN_EL_VARIABLE_NAME, errorSeverity);
 		}
+	}
+
+	private ELValidator getElValidator(String fileName) throws ValidationException {
+		Set<String> files = new HashSet<String>();
+		files.add(fileName);
+		return getElValidator(files);
+	}
+
+	private ELValidator getElValidator(Set<String> fileNames) {
+		ELValidator validator = new ELValidator();
+
+		ValidatorManager manager = new ValidatorManager();
+		WorkbenchReporter reporter = new WorkbenchReporter(project, new NullProgressMonitor());
+		validator.init(project, getHelper(fileNames), manager, reporter);
+		return validator;
+	}
+
+	private ContextValidationHelper getHelper(Set<String> fileNames) {
+		ContextValidationHelper helper = new ContextValidationHelper();
+		helper.setProject(project);
+		helper.initialize();
+		Set<IFile> files = new HashSet<IFile>();
+		for (String fileName : fileNames) {
+			IFile file = project.getFile(fileName);
+			helper.registerResource(file);
+			files.add(file);
+		}
+		return helper;
 	}
 
 	private void assertMarkerIsCreatedForLine(String fileName, String template, Object[] parameters, int lineNumber) throws CoreException{
