@@ -386,6 +386,13 @@ public class SeamComponentsViewTest extends TestCase {
 		}
 
 		component = sp.getComponent("beatles.Pall");
+		for (int i = 0; i < 100; i++) {
+			if(component == null) break;
+			System.out.println("beatles.Pall not removed yet " + i + " " + classFile.exists() + " " + component.getAllDeclarations().size() + " " + component.getJavaDeclaration());
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {}
+		}
 		assertNull(component);
 		
 		Collection<ISeamPackage> ps = sp.getPackages();
