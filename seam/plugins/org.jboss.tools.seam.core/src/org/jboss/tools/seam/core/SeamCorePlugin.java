@@ -94,7 +94,7 @@ public class SeamCorePlugin extends BaseUIPlugin {
 								SeamProject sp = (SeamProject)SeamCorePlugin.getSeamProject(context.getProject(), false);
 								try {
 									if(sp != null && sp.getModificationsSinceLastStore() > 0) {
-										sp.printModifications();
+//										sp.printModifications();
 										//Not any project is a seam project
 										sp.store();
 									}

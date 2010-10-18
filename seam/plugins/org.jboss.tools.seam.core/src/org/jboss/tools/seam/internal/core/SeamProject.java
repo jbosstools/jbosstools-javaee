@@ -111,6 +111,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 	ProjectValidationContext validationContext;
 
 	protected int modifications = 0;
+	protected boolean isBuilt = false;
 
 	/**
 	 * 
@@ -431,6 +432,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		if(file != null && file.isFile()) {
 			file.delete();
 		}
+		isBuilt = false;
 		classPath.clean();
 		postponeFiring();
 		IPath[] ps = sourcePaths2.keySet().toArray(new IPath[0]);
@@ -495,6 +497,14 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 			components.modifications +
 			factories.modifications +
 			((validationContext != null) ? validationContext.getModificationsSinceLastStore() : 0);
+	}
+
+	public void setBuilt(boolean b) {
+		isBuilt = b;
+	}
+
+	public boolean isBuilt() {
+		return isBuilt;
 	}
 
 	public void printModifications() {

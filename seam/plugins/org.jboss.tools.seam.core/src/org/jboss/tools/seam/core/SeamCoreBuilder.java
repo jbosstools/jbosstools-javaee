@@ -52,7 +52,7 @@ public class SeamCoreBuilder extends IncrementalProjectBuilder {
 
 			IResourceDelta delta = getDelta(getProject());
 
-			if (seamProject.hasNoStorage() || delta == null ) {
+			if ((seamProject.hasNoStorage() && !seamProject.isBuilt()) || delta == null ) {
 				//Resource visitor filters project members to be processed
 				getProject().accept(resourceVisitor);
 			} else {
@@ -68,6 +68,7 @@ public class SeamCoreBuilder extends IncrementalProjectBuilder {
 //			} catch (IOException e) {
 //				SeamCorePlugin.getDefault().logError(e);
 //			}
+			seamProject.setBuilt(true);
 			seamProject.postBuild();
 
 		} finally {
