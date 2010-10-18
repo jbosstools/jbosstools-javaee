@@ -86,22 +86,15 @@ public class CANotEmptyWhenThereIsNoSpaceBetweenInvertedCommandsInAttributeJBIDE
 		ICompletionProposal[] result= null;
 		String errorMessage = null;
 
-		IContentAssistProcessor p= TestUtil.getProcessor(viewer, offsetToTest, contentAssistant);
-		if (p != null) {
-			try {
-				result= p.computeCompletionProposals(viewer, offsetToTest);
-			} catch (Throwable x) {
-				x.printStackTrace();
-			}
-			errorMessage= p.getErrorMessage();
-		}
-		
+		List<ICompletionProposal> res = TestUtil.collectProposals(contentAssistant, viewer, offsetToTest);
+
+        assertTrue("Content Assistant returned no proposals", (res != null && res.size() > 0)); //$NON-NLS-1$
 
 		List<String> customCompletionProposals = new ArrayList<String>();
-		for (int i = 0; i < result.length; i++) {
+		for (ICompletionProposal p : res) {
 			// There should be at least one proposal of type CustomCompletionProposal in the result
-			if (result[i] instanceof CustomCompletionProposal) {
-				customCompletionProposals.add(((CustomCompletionProposal)result[i]).getReplacementString());
+			if (p instanceof CustomCompletionProposal) {
+				customCompletionProposals.add(((CustomCompletionProposal)p).getReplacementString());
 			}
 		}
 		assertFalse("Content Assistant returned no proposals of type CustomCompletionProposal.",customCompletionProposals.isEmpty());
@@ -124,22 +117,16 @@ public class CANotEmptyWhenThereIsNoSpaceBetweenInvertedCommandsInAttributeJBIDE
 	
 		jspTextEditor.setText(documentContentModified);
 		
-		p= TestUtil.getProcessor(viewer, offsetToTest, contentAssistant);
-		if (p != null) {
-			try {
-				result= p.computeCompletionProposals(viewer, offsetToTest);
-			} catch (Throwable x) {
-				x.printStackTrace();
-			}
-			errorMessage= p.getErrorMessage();
-		}
+		res = TestUtil.collectProposals(contentAssistant, viewer, offsetToTest);
 
-		for (int i = 0; i < result.length; i++) {
+        assertTrue("Content Assistant returned no proposals", (res != null && res.size() > 0)); //$NON-NLS-1$
+		
+		for (ICompletionProposal p : res) {
 			// There should be the same proposals as in the saved result
-			if (result[i] instanceof CustomCompletionProposal) {
+			if (p instanceof CustomCompletionProposal) {
 				assertTrue("Content Assistant returned additional proposal (proposal returned doesn't exist in the saved list).",
-						customCompletionProposals.contains(((CustomCompletionProposal)result[i]).getReplacementString()));
-				customCompletionProposals.remove(((CustomCompletionProposal)result[i]).getReplacementString());
+						customCompletionProposals.contains(((CustomCompletionProposal)p).getReplacementString()));
+				customCompletionProposals.remove(((CustomCompletionProposal)p).getReplacementString());
 			}
 		}
 		assertTrue("Content Assistant didn't return some of the required proposals.",customCompletionProposals.isEmpty());

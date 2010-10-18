@@ -1,5 +1,7 @@
 package org.jboss.tools.jsf.jsp.ca.test;
 
+import java.util.List;
+
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
@@ -42,16 +44,16 @@ public class CASuggestsNotOnlyELProposalsJBIDE2437Test extends ContentAssistantT
 		
 		IRegion reg = new FindReplaceDocumentAdapter(document).find(0, "/templates/common.xhtml", true, true, false, false);
 		
-		IContentAssistProcessor p= TestUtil.getProcessor(viewer, reg.getOffset(), contentAssistant);
-		assertNotNull("Cannot obtain IContentAssistProcessor instance",p);
-		result= p.computeCompletionProposals(viewer, reg.getOffset());
-		
+		List<ICompletionProposal> res = TestUtil.collectProposals(contentAssistant, viewer, reg.getOffset());
+
+        assertTrue("Content Assistant returned no proposals", (res != null && res.size() > 0)); //$NON-NLS-1$
+
 		boolean bELProposalsFound = false;
 		boolean bTemplatePathProposalsFound = false;
-		for (int k = 0; result != null && k < result.length &&
+		for (int k = 0; 
 				(!bELProposalsFound || !bTemplatePathProposalsFound); k++) {
-			if (result[k] instanceof AutoContentAssistantProposal) {
-				AutoContentAssistantProposal proposal = (AutoContentAssistantProposal)result[k];
+			if (res.get(k) instanceof AutoContentAssistantProposal) {
+				AutoContentAssistantProposal proposal = (AutoContentAssistantProposal)res.get(k);
 				
 				// Test the display string for the proposals - it has to shown the thmplate path beginning or EL-expression beginning
 				// because the CA is started the calculation from the very beginning of the attribute value.
