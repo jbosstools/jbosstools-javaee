@@ -130,7 +130,7 @@ public class ELValidatorTest extends AbstractResourceMarkerTest{
 	 * See https://jira.jboss.org/browse/JBIDE-7147
 	 * @throws CoreException
 	 */
-	public void testMaxNumberOfMarkersPerFileLesTehnDefault() throws CoreException {
+	public void testMaxNumberOfMarkersPerFileLesThanDefault() throws CoreException {
 		IPreferenceStore store = JSFModelPlugin.getDefault().getPreferenceStore();
 		int max = store.getInt(SeverityPreferences.MAX_NUMBER_OF_MARKERS_PREFERENCE_NAME);
 		store.setValue(SeverityPreferences.MAX_NUMBER_OF_MARKERS_PREFERENCE_NAME, 1);
@@ -171,7 +171,7 @@ public class ELValidatorTest extends AbstractResourceMarkerTest{
 	 * See https://jira.jboss.org/browse/JBIDE-7147
 	 * @throws CoreException
 	 */
-	public void testMaxNumberOfMarkersPerFileMoreThenDefault() throws CoreException, ValidationException {
+	public void testMaxNumberOfMarkersPerFileMoreThanDefault() throws CoreException, ValidationException {
 		IPreferenceStore store = JSFModelPlugin.getDefault().getPreferenceStore();
 		store.setValue(JSFSeverityPreferences.UNKNOWN_EL_VARIABLE_NAME, JSFSeverityPreferences.ERROR);
 
