@@ -27,8 +27,7 @@ public class CAForInputTagSrcAttributeSuggestsFilePathsJBIDE1807Test extends Con
 		//  - The "/pages" proposal is added as the main case to test 
 		String[] proposals={
 					"/pages/",
-					"/templates/",
-					"#{}"
+					"/templates/"
 		};
 
 		checkProposals(PAGE_NAME, "<input type=\"image\" src=\"", 25, proposals, true, true);
