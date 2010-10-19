@@ -27,8 +27,7 @@ public class CAUnnecessaryElementsForDirAttributeInXHTMLPageJBIDE1813Test extend
 		//
 		String[] proposals={
 					"ltr",
-					"rtl",
-					"#{}"
+					"rtl"
 		};
 
 		checkProposals(PAGE_NAME, "dir=\"\"", 5, proposals, true);
