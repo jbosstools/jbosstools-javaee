@@ -21,9 +21,8 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.QualifiedName;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.JavaCore;
-import org.eclipse.swt.events.DisposeEvent;
-import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.IWindowListener;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.jboss.tools.common.reporting.ProblemReportingHelper;
@@ -66,16 +65,12 @@ public class ProjectNaturesChecker implements IResourceChangeListener {
 		projectsCollection = new HashSet<IProject>(0);
 //		ResourcesPlugin.getWorkspace().addResourceChangeListener(this,
 //				IResourceChangeEvent.POST_CHANGE);
-		IWorkbenchWindow window = PlatformUI.getWorkbench()
-				.getActiveWorkbenchWindow();
-		window.getPartService().addPartListener(partListener);
-		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell()
-				.addDisposeListener(new DisposeListener() {
-
-					public void widgetDisposed(DisposeEvent e) {
-						dispose();
-					}
-				});
+		IWorkbenchWindow[] windows = PlatformUI.getWorkbench().getWorkbenchWindows();
+		if(windows != null) for (IWorkbenchWindow window: windows) {
+			window.getPartService().addPartListener(partListener);
+		}
+		
+		PlatformUI.getWorkbench().addWindowListener(new WindowListener());
 	}
 
 	public void resourceChanged(final IResourceChangeEvent event) {
@@ -192,9 +187,6 @@ public class ProjectNaturesChecker implements IResourceChangeListener {
 
 	public void dispose() {
 		if (partListener != null) {
-			IWorkbenchWindow window = PlatformUI.getWorkbench()
-					.getActiveWorkbenchWindow();
-			window.getPartService().removePartListener(partListener);
 			partListener = null;
 		}
 //		ResourcesPlugin.getWorkspace().removeResourceChangeListener(this);
@@ -247,6 +239,24 @@ public class ProjectNaturesChecker implements IResourceChangeListener {
 		} catch (CoreException e) {
 		}
 		return kbProblemMarker;
+	}
+
+	class WindowListener implements IWindowListener {
+
+		public void windowActivated(IWorkbenchWindow window) {
+		}
+
+		public void windowDeactivated(IWorkbenchWindow window) {
+		}
+
+		public void windowClosed(IWorkbenchWindow window) {
+			window.getPartService().removePartListener(partListener);
+		}
+
+		public void windowOpened(IWorkbenchWindow window) {
+			window.getPartService().addPartListener(partListener);
+		}
+	
 	}
 
 }
