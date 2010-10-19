@@ -16,7 +16,7 @@ import java.util.Set;
 /**
  * @author Alexey Kazakov
  */
-public class Seam220CR1FacetInstallDelegateTest extends Seam2FacetInstallDelegateTest {
+public class Seam220CR1FacetInstallDelegateTest extends Seam211GAFacetInstallDelegateTest {
 
 	public Seam220CR1FacetInstallDelegateTest(String name) {
 		super(name);

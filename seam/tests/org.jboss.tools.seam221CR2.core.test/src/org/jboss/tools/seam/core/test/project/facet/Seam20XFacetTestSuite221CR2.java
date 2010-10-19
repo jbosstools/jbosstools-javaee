@@ -10,10 +10,18 @@
  ******************************************************************************/
 package org.jboss.tools.seam.core.test.project.facet;
 
+import junit.framework.Test;
+import junit.framework.TestSuite;
+
 /**
  * @author eskimo
  *
  */
-public class Seam20XFacetTestSuite221CR2 extends Seam20XFacetTestSuite220CR1 {
+public class Seam20XFacetTestSuite221CR2 extends Seam20XFacetTestSuite201GA {
 
+	public static Test suite() {
+		TestSuite suite = new TestSuite("Seam 2.2.1.CR2 tests");
+		suite.addTest(new Seam2FacetInstallDelegateTestSetup(new TestSuite(Seam221CR2FacetInstallDelegateTest.class)));
+		return suite;
+	}
 }

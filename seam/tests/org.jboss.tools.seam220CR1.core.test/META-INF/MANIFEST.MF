@@ -12,6 +12,7 @@ Require-Bundle:
  org.eclipse.wst.validation,
  org.eclipse.wst.common.project.facet.core,
  org.eclipse.core.runtime,
- org.eclipse.wst.common.frameworks
+ org.eclipse.wst.common.frameworks,
+ org.jboss.tools.seam211GA.core.test
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
