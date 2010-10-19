@@ -32,7 +32,6 @@ import org.eclipse.wst.common.project.facet.core.IProjectFacetVersion;
 import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
 import org.eclipse.wst.validation.ValidationFramework;
 import org.eclipse.wst.validation.internal.EventManager;
-import org.jboss.tools.common.model.XJob;
 import org.jboss.tools.seam.core.SeamProjectsSet;
 import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
 import org.jboss.tools.seam.core.project.facet.SeamVersion;
@@ -47,7 +46,6 @@ public class Seam2FacetInstallDelegateTest extends AbstractSeamFacetTest {
 	private IProjectFacet seam2Facet;
 	private IProjectFacetVersion seam2FacetVersion;
 	private boolean suspendAllValidation;
-	private boolean suspendXJobs;
 
 	public Seam2FacetInstallDelegateTest(String name) {
 		super(name);
@@ -121,8 +119,7 @@ public class Seam2FacetInstallDelegateTest extends AbstractSeamFacetTest {
 		return dataModel;
 	}
 
-	public void testWarLibs() throws CoreException {
-
+	protected Set<String> getWarLibs() {
 		Set<String> seamgenlibs = new HashSet<String>();
 
 		seamgenlibs.add("antlr-runtime.jar");
@@ -149,6 +146,13 @@ public class Seam2FacetInstallDelegateTest extends AbstractSeamFacetTest {
 		seamgenlibs.add("jfreechart.jar");
 		seamgenlibs.add("jcommon.jar");
 
+		return seamgenlibs;
+	}
+
+	public void testWarLibs() throws CoreException {
+
+		Set<String> seamgenlibs = getWarLibs();
+
 		final IContainer warLibs = (IContainer) warProject.getProject()
 				.findMember("WebContent/WEB-INF/lib").getAdapter(
 						IContainer.class);
@@ -171,22 +175,8 @@ public class Seam2FacetInstallDelegateTest extends AbstractSeamFacetTest {
 		}
 	}
 
-	public void testEarLibs() throws CoreException {
-		IProject war = earProject.getProject();
-
-		SeamProjectsSet seamProjectsSet = new SeamProjectsSet(earProject
-				.getProject());
-
-		IProject ear = seamProjectsSet.getEarProject();
-
-		Set<String> onlyInWar = new HashSet<String>();
+	protected Set<String> getEarLibs() {
 		Set<String> onlyInEar = new HashSet<String>();
-		Set<String> onlyInEarSeam = new HashSet<String>();
-		Set<String> onlyInEjbSrc = new HashSet<String>();
-
-		onlyInEarSeam.add("jboss-seam.jar");
-		onlyInEarSeam.add("lib");
-		onlyInEarSeam.add("META-INF");
 
 		onlyInEar.add("commons-beanutils.jar");
 		onlyInEar.add("antlr-runtime.jar");
@@ -197,6 +187,12 @@ public class Seam2FacetInstallDelegateTest extends AbstractSeamFacetTest {
 		onlyInEar.add("mvel14.jar");
 		onlyInEar.add("richfaces-api.jar");
 		onlyInEar.add("jbpm-jpdl.jar");
+
+		return onlyInEar;
+	}
+
+	protected Set<String> getEarWarLibs() {
+		Set<String> onlyInWar = new HashSet<String>();
 
 		onlyInWar.add("commons-digester.jar");
 		onlyInWar.add("jboss-seam-debug.jar");
@@ -210,6 +206,26 @@ public class Seam2FacetInstallDelegateTest extends AbstractSeamFacetTest {
 		onlyInWar.add("itext.jar");
 		onlyInWar.add("jfreechart.jar");
 		onlyInWar.add("jcommon.jar");
+
+		return onlyInWar;
+	}
+
+	public void testEarLibs() throws CoreException {
+		IProject war = earProject.getProject();
+
+		SeamProjectsSet seamProjectsSet = new SeamProjectsSet(earProject
+				.getProject());
+
+		IProject ear = seamProjectsSet.getEarProject();
+
+		Set<String> onlyInWar = getEarWarLibs();
+		Set<String> onlyInEar = getEarLibs();
+		Set<String> onlyInEarSeam = new HashSet<String>();
+		Set<String> onlyInEjbSrc = new HashSet<String>();
+
+		onlyInEarSeam.add("jboss-seam.jar");
+		onlyInEarSeam.add("lib");
+		onlyInEarSeam.add("META-INF");
 
 		final IContainer earLibsSeam = (IContainer) ear.findMember(
 				new Path("EarContent")).getAdapter(IContainer.class);
@@ -225,7 +241,7 @@ public class Seam2FacetInstallDelegateTest extends AbstractSeamFacetTest {
 		final IContainer earMeta = (IContainer) ear.findMember(
 				"EarContent/META-INF").getAdapter(IContainer.class);
 
-		Set onlyInEarMeta = new HashSet();
+		Set<String> onlyInEarMeta = new HashSet<String>();
 
 		onlyInEarMeta.add("jboss-app.xml");
 		onlyInEarMeta.add("application.xml");
