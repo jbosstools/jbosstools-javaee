@@ -625,8 +625,7 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 			model.setStringProperty(
 					ISeamFacetDataModelProperties.SEAM_PROJECT_NAME, p);
 			
-			if(!visible)
-				setCodeGenerationProperties();
+			setCodeGenerationProperties(p);
 			
 			model.setStringProperty(
 					ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_NAME,
@@ -654,8 +653,6 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 	
 	private boolean needToShowConnectionProfile = true;
 	
-	private boolean visible = false;
-
 	/**
 	 * It is overridden to fill Code Generation group with the default package
 	 * names
@@ -663,7 +660,6 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 	@Override
 	public void setVisible(boolean visible) {
 		if (visible) {
-			this.visible = true;
 			setDefaultSeamRuntime();
 			boolean jpaFacetAdded = getJpaFacetVersion() != null;
 			if (jpaFacetAdded == needToShowConnectionProfile){
@@ -688,19 +684,13 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 	/*
 	 * Fills Code Generation group with the default package names.
 	 */
-	private void setCodeGenerationProperties() {
-		String p = (String) model
-				.getProperty(ISeamFacetDataModelProperties.SEAM_PROJECT_NAME);
-		
-		if(p == null)
-			return;
-
-		sessionBeanPkgNameditor.setValue(getSessionPkgName(p));
-		entityBeanPkgNameditor.setValue(getEntityPkgName(p));
-		testsPkgNameditor.setValue(getTestPkgName(p));
-		ejbProjectNameditor.setValue(getEJBProjectName(p));
-		earProjectNameditor.setValue(getEARProjectName(p));
-		testProjectNameditor.setValue(getTestProjectName(p));
+	private void setCodeGenerationProperties(String seamProjectName) {
+		sessionBeanPkgNameditor.setValue(getSessionPkgName(seamProjectName));
+		entityBeanPkgNameditor.setValue(getEntityPkgName(seamProjectName));
+		testsPkgNameditor.setValue(getTestPkgName(seamProjectName));
+		ejbProjectNameditor.setValue(getEJBProjectName(seamProjectName));
+		earProjectNameditor.setValue(getEARProjectName(seamProjectName));
+		testProjectNameditor.setValue(getTestProjectName(seamProjectName));
 	}
 
 	private String getSessionPkgName(String projectName) {
