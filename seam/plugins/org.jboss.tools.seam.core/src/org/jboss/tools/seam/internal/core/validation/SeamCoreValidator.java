@@ -28,6 +28,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jdt.core.Flags;
+import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IType;
@@ -687,7 +688,12 @@ public class SeamCoreValidator extends SeamValidationErrorManager implements IVa
 					try {
 						IProject p = seamProject.getProject();
 //						type = EclipseJavaUtil.findType(EclipseResourceUtil.getJavaProject(p), className);
-						type = EclipseResourceUtil.getJavaProject(p).findType(className);
+						IJavaProject javaProject = EclipseResourceUtil.getJavaProject(p);
+						if(javaProject==null) {
+							SeamCorePlugin.getDefault().logWarning("Can't get Java project for " + seamProject.getProject()!=null?seamProject.getProject().getName():"" + " Seam project.");
+							return;
+						}
+						type = javaProject.findType(className);
 						if(type==null) {
 							// Mark wrong class name
 							ITextSourceReference location = ((SeamComponentDeclaration)declaration).getLocationFor(ISeamXmlComponentDeclaration.CLASS);
