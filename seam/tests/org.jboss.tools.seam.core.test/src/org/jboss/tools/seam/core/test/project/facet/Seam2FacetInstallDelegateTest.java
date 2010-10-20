@@ -337,14 +337,9 @@ public class Seam2FacetInstallDelegateTest extends AbstractSeamFacetTest {
 				testProject.findMember("embedded-ejb"));
 	}
 
-	public void testTestLibs() throws CoreException, IOException {
-
-		SeamProjectsSet warPs = new SeamProjectsSet(warProject.getProject());
-
-		IProject testProject = warPs.getTestProject();
-		assertTrue(testProject.exists());
-
+	protected Set<String> getTestLibs() {
 		Set<String> libs = new HashSet<String>();
+
 		libs.add("testng.jar");
 		libs.add("hibernate-all.jar");
 		// libs.add("jboss-deployers.jar"); // JBIDE-2431: There is no such jar
@@ -353,6 +348,17 @@ public class Seam2FacetInstallDelegateTest extends AbstractSeamFacetTest {
 		libs.add("thirdparty-all.jar");
 		libs.add("jboss-embedded-api.jar");
 		libs.add("core.jar");
+
+		return libs;
+	}
+
+	public void testTestLibs() throws CoreException, IOException {
+		SeamProjectsSet warPs = new SeamProjectsSet(warProject.getProject());
+
+		IProject testProject = warPs.getTestProject();
+		assertTrue(testProject.exists());
+
+		Set<String> libs = getTestLibs();
 
 		assertOnlyContainsTheseFiles(libs, testProject.findMember("lib"));
 
