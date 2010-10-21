@@ -42,6 +42,16 @@ public class ELVariableRefactoringTest extends AbstractRefactorTest {
 		structure.addTextChange(change);
 		list.add(structure);
 		
+		structure = new TestChangeStructure(project, "/WebContent/pages/el.jsp");
+		change = new TestTextChange(83, 8, "customer");
+		structure.addTextChange(change);
+		list.add(structure);
+
+		structure = new TestChangeStructure(project, "/WebContent/testElRevalidation.xhtml");
+		change = new TestTextChange(601, 8, "customer");
+		structure.addTextChange(change);
+		list.add(structure);
+		
 		IFile sourceFile = project.getProject().getFile("/WebContent/pages/hello.jsp");
 		
 		RenameELVariableProcessor processor = new RenameELVariableProcessor(sourceFile, "user");
