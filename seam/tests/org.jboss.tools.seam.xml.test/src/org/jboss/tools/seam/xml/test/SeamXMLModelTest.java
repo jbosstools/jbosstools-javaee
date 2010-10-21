@@ -17,8 +17,10 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Path;
 import org.jboss.tools.common.model.XModelObject;
+import org.jboss.tools.common.model.markers.XMarkerManager;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.seam.xml.components.model.SeamComponentConstants;
+import org.jboss.tools.test.util.JobUtils;
 
 public class SeamXMLModelTest extends TestCase {
 	IProject project = null;
@@ -98,6 +100,26 @@ public class SeamXMLModelTest extends TestCase {
 		assertAttribute(navigationPages, "login-view-id", "b.xhtml");
 		assertAttribute(navigationPages, "http-port", "1111");
 		assertAttribute(navigationPages, "https-port", "1112");
+	}
+
+	public void testDebugAttribute() { //JBIDE-7362
+		XModelObject fileObject = getComponents22Object();
+		JobUtils.waitForIdle();
+		XMarkerManager.getInstance();
+		assertNotNull("Cannot create XModel object for file components22.xml.", fileObject);
+
+		XModelObject coreInit0 = fileObject.getChildByPath("org.jboss.seam.core.init");
+		assertNotNull("Cannot find component org.jboss.seam.core.init.", coreInit0);
+		assertFalse("Validator found wrong errors in component org.jboss.seam.core.init", XMarkerManager.getInstance().hasErrors(coreInit0));
+
+		XModelObject coreInit1 = fileObject.getChildByPath("org.jboss.seam.core.init1");
+		assertNotNull("Cannot find component org.jboss.seam.core.init1.", coreInit1);
+		assertTrue("Validator failed to report an error in component org.jboss.seam.core.init1", XMarkerManager.getInstance().hasErrors(coreInit1));
+
+		XModelObject coreInit2 = fileObject.getChildByPath("org.jboss.seam.core.init2");
+		assertNotNull("Cannot find component org.jboss.seam.core.init2.", coreInit2);
+		assertFalse("Validator found wrong errors in component org.jboss.seam.core.init2", XMarkerManager.getInstance().hasErrors(coreInit2));
+
 	}
 
 	protected void assertAttribute(XModelObject object, String name, String value) {
