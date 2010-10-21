@@ -640,7 +640,7 @@
     entity="SeamComponent" name="component"/>
    <XModelAttribute PROPERTIES="category=general" default="false"
     name="debug" xmlname="debug">
-    <Constraint loader="List">
+    <Constraint loader="%ListEL%">
      <value name="true"/>
      <value name="false"/>
     </Constraint>
@@ -717,7 +717,7 @@
     entity="SeamComponent20" name="component"/>
    <XModelAttribute PROPERTIES="category=general" default="false"
     name="debug" xmlname="debug">
-    <Constraint loader="List">
+    <Constraint loader="%ListEL%">
      <value name="true"/>
      <value name="false"/>
     </Constraint>
