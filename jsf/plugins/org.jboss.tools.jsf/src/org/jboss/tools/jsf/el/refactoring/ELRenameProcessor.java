@@ -17,6 +17,7 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.ltk.core.refactoring.CompositeChange;
 import org.eclipse.ltk.core.refactoring.RefactoringStatus;
 import org.eclipse.ltk.core.refactoring.TextFileChange;
@@ -29,6 +30,8 @@ import org.eclipse.text.edits.TextEdit;
 import org.jboss.tools.common.el.core.ElCoreMessages;
 import org.jboss.tools.common.el.core.model.ELInvocationExpression;
 import org.jboss.tools.common.el.core.model.ELPropertyInvocation;
+import org.jboss.tools.common.el.core.resolver.ELResolver;
+import org.jboss.tools.common.el.core.resolver.IRelevanceCheck;
 import org.jboss.tools.common.model.project.ProjectHome;
 import org.jboss.tools.common.text.ITextSourceReference;
 import org.jboss.tools.jst.web.kb.refactoring.RefactorSearcher;
@@ -149,7 +152,10 @@ public abstract class ELRenameProcessor extends RenameProcessor {
 		public ELSearcher(IFile file, String oldName){
 			super(file, oldName);
 		}
-		
+	
+		public void setJavaElement(IJavaElement javaElement) {
+			this.javaElement = javaElement;
+		}		
 		
 		ArrayList<String> keys = new ArrayList<String>();
 		
@@ -157,6 +163,21 @@ public abstract class ELRenameProcessor extends RenameProcessor {
 		protected IProject[] getProjects() {
 			return new IProject[]{baseFile.getProject()};
 		}
+
+		protected IRelevanceCheck[] getRelevanceChecks(ELResolver[] resolvers) {
+			if(resolvers == null) return new IRelevanceCheck[0];
+			IRelevanceCheck[] result = new IRelevanceCheck[resolvers.length];
+			IRelevanceCheck check = new IRelevanceCheck() {
+				public boolean isRelevant(String content) {
+					if(content == null) return true;
+					return content.indexOf(oldName) >= 0;
+				}
+				
+			};
+			for (int i = 0; i < result.length; i++) result[i] = check;
+			return result;
+		}
+
 		
 		@Override
 		protected IContainer getViewFolder(IProject project) {
