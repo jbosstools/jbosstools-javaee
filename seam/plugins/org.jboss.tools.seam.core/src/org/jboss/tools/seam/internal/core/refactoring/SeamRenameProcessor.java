@@ -30,6 +30,8 @@ import org.eclipse.text.edits.ReplaceEdit;
 import org.eclipse.text.edits.TextEdit;
 import org.jboss.tools.common.el.core.model.ELInvocationExpression;
 import org.jboss.tools.common.el.core.model.ELPropertyInvocation;
+import org.jboss.tools.common.el.core.resolver.ELResolver;
+import org.jboss.tools.common.el.core.resolver.IRelevanceCheck;
 import org.jboss.tools.common.text.ITextSourceReference;
 import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.seam.core.BijectedAttributeType;
@@ -453,6 +455,20 @@ public abstract class SeamRenameProcessor extends RenameProcessor {
 	class SeamSearcher extends SeamRefactorSearcher{
 		public SeamSearcher(IFile declarationFile, String oldName){
 			super(declarationFile, oldName/*, component*/);
+		}
+
+		protected IRelevanceCheck[] getRelevanceChecks(ELResolver[] resolvers) {
+			if(resolvers == null) return new IRelevanceCheck[0];
+			IRelevanceCheck[] result = new IRelevanceCheck[resolvers.length];
+			IRelevanceCheck check = new IRelevanceCheck() {
+				public boolean isRelevant(String content) {
+					if(content == null) return true;
+					return content.indexOf(oldName) >= 0;
+				}
+				
+			};
+			for (int i = 0; i < result.length; i++) result[i] = check;
+			return result;
 		}
 
 		@Override
