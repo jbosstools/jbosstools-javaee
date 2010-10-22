@@ -59,7 +59,7 @@
 						url_pattern="*.do" />
 				</StrutsSupport>
 				<NewProject model-entity="SharableNewProject" NAME="New Project"
-					SCOPE="project" directory="" template="Blank" version="Struts 1.1" />
+					SCOPE="project" directory="" template="Blank" version="Struts 1.2" />
 			</Project>
 			<Automation model-entity="SharableAutomation" NAME="Automation"
 				SCOPE="project">
