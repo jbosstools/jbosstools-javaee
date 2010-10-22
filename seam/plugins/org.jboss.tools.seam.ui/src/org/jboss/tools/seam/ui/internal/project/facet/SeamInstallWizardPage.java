@@ -851,6 +851,11 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 						.validateName(testProjectName);
 			
 				if (((IStatus.ERROR | IStatus.WARNING) & status.getSeverity() ) != 0 ){
+					if("".equals(testProjectName.trim()))
+						return doPackStatus(status,
+								propertyName,
+								SeamUIMessages.VALIDATOR_FACTORY_TEST_PROJECT_CANNOT_BE_EMPTY);
+					
 					return doPackStatus(status,
 							propertyName,
 							NLS.bind(SeamUIMessages.VALIDATOR_FACTORY_TEST_PROJECT_ALREADY_EXISTS,
@@ -864,6 +869,11 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 						.validateName(earProjectName);
 				
 				if (((IStatus.ERROR | IStatus.WARNING) & status.getSeverity() ) != 0 ){
+					if("".equals(earProjectName.trim()))
+						return doPackStatus(status,
+								propertyName,
+								SeamUIMessages.VALIDATOR_FACTORY_EAR_PROJECT_CANNOT_BE_EMPTY);
+					
 					return doPackStatus(status,
 							propertyName,
 							NLS.bind(SeamUIMessages.VALIDATOR_FACTORY_EAR_PROJECT_ALREADY_EXISTS,
@@ -875,6 +885,11 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 						.validateName(ejbProjectName);
 				
 				if (((IStatus.ERROR | IStatus.WARNING) & status.getSeverity() ) != 0 ){
+					if("".equals(ejbProjectName.trim()))
+						return doPackStatus(status,
+								propertyName,
+								SeamUIMessages.VALIDATOR_FACTORY_EJB_PROJECT_CANNOT_BE_EMPTY);
+
 					return doPackStatus(status,
 							propertyName,
 							NLS.bind(SeamUIMessages.VALIDATOR_FACTORY_EJB_PROJECT_ALREADY_EXISTS,

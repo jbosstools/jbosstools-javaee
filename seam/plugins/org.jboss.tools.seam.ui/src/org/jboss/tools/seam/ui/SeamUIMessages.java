@@ -293,9 +293,15 @@ public class SeamUIMessages extends NLS {
 	
 	public static String VALIDATOR_FACTORY_TEST_PROJECT_ALREADY_EXISTS;
 	
+	public static String VALIDATOR_FACTORY_TEST_PROJECT_CANNOT_BE_EMPTY;
+	
 	public static String VALIDATOR_FACTORY_EAR_PROJECT_ALREADY_EXISTS;
 	
+	public static String VALIDATOR_FACTORY_EAR_PROJECT_CANNOT_BE_EMPTY;
+	
 	public static String VALIDATOR_FACTORY_EJB_PROJECT_ALREADY_EXISTS;
+	
+	public static String VALIDATOR_FACTORY_EJB_PROJECT_CANNOT_BE_EMPTY;
 	
 	public static String VALIDATOR_INVALID_SETTINGS;
 
@@ -381,6 +387,7 @@ public class SeamUIMessages extends NLS {
 	public static String ADD_ANNOTATED_DESTROY_METHOD_MARKER_RESOLUTION_TITLE;
 	
 	public static String CHANGE_SCOPETYPE_MARKER_RESOLUTION_TITLE;
+	public static String ADD_SETTER_MARKER_RESOLUTION_TITLE;
 	
 	static {
 		// load message values from bundle file
