@@ -620,25 +620,30 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 							.getProperty().toString());
 		} else if (event.getPropertyName().equals(
 				IFacetDataModelProperties.FACET_PROJECT_NAME)) {
-			String p = event.getProperty().toString();
-
-			model.setStringProperty(
-					ISeamFacetDataModelProperties.SEAM_PROJECT_NAME, p);
+			String seamProjectName = event.getProperty().toString();
 			
-			setCodeGenerationProperties(p);
+			model.setStringProperty(
+					ISeamFacetDataModelProperties.SEAM_PROJECT_NAME, seamProjectName);
+			
+			sessionBeanPkgNameditor.setValue(getSessionPkgName(seamProjectName));
+			entityBeanPkgNameditor.setValue(getEntityPkgName(seamProjectName));
+			testsPkgNameditor.setValue(getTestPkgName(seamProjectName));
+			ejbProjectNameditor.setValue(getEJBProjectName(seamProjectName));
+			earProjectNameditor.setValue(getEARProjectName(seamProjectName));
+			testProjectNameditor.setValue(getTestProjectName(seamProjectName));
 			
 			model.setStringProperty(
 					ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_NAME,
-					getSessionPkgName(p));
+					getSessionPkgName(seamProjectName));
 			model.setStringProperty(
 					ISeamFacetDataModelProperties.ENTITY_BEAN_PACKAGE_NAME,
-					getEntityPkgName(p));
+					getEntityPkgName(seamProjectName));
 			model.setProperty(
 					ISeamFacetDataModelProperties.TEST_PROJECT_CREATING,
 					createTestProjectCheckboxeditor.getValue());
 			model.setStringProperty(
 					ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_NAME,
-					getTestPkgName(p));
+					getTestPkgName(seamProjectName));
 			model.setStringProperty(
 					ISeamFacetDataModelProperties.SEAM_EAR_PROJECT,
 					earProjectNameditor.getValueAsString());
@@ -660,6 +665,7 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 	@Override
 	public void setVisible(boolean visible) {
 		if (visible) {
+			setCodeGenerationProperties();
 			setDefaultSeamRuntime();
 			boolean jpaFacetAdded = getJpaFacetVersion() != null;
 			if (jpaFacetAdded == needToShowConnectionProfile){
@@ -677,6 +683,7 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 	};
 
 	private void initDefaultWizardProperties() {
+		setCodeGenerationProperties();
 		setDefaultSeamRuntime();
 		validate();
 	}
@@ -684,13 +691,30 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 	/*
 	 * Fills Code Generation group with the default package names.
 	 */
-	private void setCodeGenerationProperties(String seamProjectName) {
-		sessionBeanPkgNameditor.setValue(getSessionPkgName(seamProjectName));
-		entityBeanPkgNameditor.setValue(getEntityPkgName(seamProjectName));
-		testsPkgNameditor.setValue(getTestPkgName(seamProjectName));
-		ejbProjectNameditor.setValue(getEJBProjectName(seamProjectName));
-		earProjectNameditor.setValue(getEARProjectName(seamProjectName));
-		testProjectNameditor.setValue(getTestProjectName(seamProjectName));
+	private void setCodeGenerationProperties() {
+		String seamProjectName = model.getStringProperty(
+				ISeamFacetDataModelProperties.SEAM_PROJECT_NAME);
+		
+		if(seamProjectName == null)
+			return;
+		
+		if("".equals(sessionBeanPkgNameditor.getValueAsString()))
+			sessionBeanPkgNameditor.setValue(getSessionPkgName(seamProjectName));
+		
+		if("".equals(entityBeanPkgNameditor.getValueAsString()))
+			entityBeanPkgNameditor.setValue(getEntityPkgName(seamProjectName));
+		
+		if("".equals(testsPkgNameditor.getValueAsString()))
+			testsPkgNameditor.setValue(getTestPkgName(seamProjectName));
+		
+		if("".equals(ejbProjectNameditor.getValueAsString()))
+			ejbProjectNameditor.setValue(getEJBProjectName(seamProjectName));
+		
+		if("".equals(earProjectNameditor.getValueAsString()))
+			earProjectNameditor.setValue(getEARProjectName(seamProjectName));
+		
+		if("".equals(testProjectNameditor.getValueAsString()))
+			testProjectNameditor.setValue(getTestProjectName(seamProjectName));
 	}
 
 	private String getSessionPkgName(String projectName) {
