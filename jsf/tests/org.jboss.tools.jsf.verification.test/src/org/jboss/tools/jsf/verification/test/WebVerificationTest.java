@@ -18,6 +18,7 @@ import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Path;
+import org.jboss.tools.common.model.markers.ResourceMarkers;
 import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.ResourcesUtils;
 import org.jboss.tools.test.util.TestProjectProvider;
@@ -27,7 +28,7 @@ import junit.framework.TestCase;
 
 public class WebVerificationTest extends TestCase {
 	public static final String TEST_PROJECT_NAME = "Test";
-	static String MARKER_TYPE = "org.jboss.tools.jst.web.ui.strutsmarker";
+	static String MARKER_TYPE = ResourceMarkers.JST_WEB_PROBLEM;
 
 	public static final String TEST_PROJECT_PATH = "/projects/" + TEST_PROJECT_NAME;
 
