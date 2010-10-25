@@ -359,6 +359,15 @@ public class SeamGenerateEntitiesWizard extends SeamBaseWizard implements INewWi
 			// Return empty list; 
 			return new ArrayList<FileMapping>();
 		}
+
+		/*
+		 * (non-Javadoc)
+		 * @see org.jboss.tools.seam.ui.wizard.SeamBaseOperation#shouldCreateTestLaunch()
+		 */
+		@Override
+		protected boolean shouldCreateTestLaunch() {
+			return false;
+		}
 	};
 
 	static SeamRuntime getRuntime(IProject project) {

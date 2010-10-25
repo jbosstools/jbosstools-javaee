@@ -142,6 +142,15 @@ public class SeamEntityWizard extends SeamBaseWizard implements INewWizard {
 
 			/*
 			 * (non-Javadoc)
+			 * @see org.jboss.tools.seam.ui.wizard.SeamBaseOperation#shouldCreateTestLaunch()
+			 */
+			@Override
+			protected boolean shouldCreateTestLaunch() {
+				return false;
+			}
+
+			/*
+			 * (non-Javadoc)
 			 * @see org.jboss.tools.seam.ui.wizard.SeamBaseOperation#getEntityBeanPackageName(org.eclipse.core.runtime.preferences.IEclipsePreferences, java.util.Map)
 			 */
 			@Override

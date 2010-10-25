@@ -10,9 +10,17 @@
  ******************************************************************************/ 
 package org.jboss.tools.seam.ui.test.wizard;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.text.StringCharacterIterator;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -32,6 +40,10 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.core.runtime.preferences.IScopeContext;
+import org.eclipse.debug.core.DebugPlugin;
+import org.eclipse.debug.core.ILaunchConfiguration;
+import org.eclipse.debug.core.ILaunchManager;
+import org.eclipse.debug.internal.core.LaunchManager;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
@@ -39,6 +51,8 @@ import org.eclipse.wst.common.project.facet.core.IProjectFacet;
 import org.eclipse.wst.common.project.facet.core.IProjectFacetVersion;
 import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
 import org.eclipse.wst.validation.ValidationFramework;
+import org.jboss.tools.common.EclipseUtil;
+import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.ui.widget.editor.IFieldEditor;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
@@ -46,12 +60,13 @@ import org.jboss.tools.seam.core.project.facet.SeamVersion;
 import org.jboss.tools.seam.core.test.project.facet.AbstractSeamFacetTest;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
 import org.jboss.tools.seam.ui.wizard.ISeamParameter;
-import org.jboss.tools.seam.ui.wizard.SeamWizardFactory;
-import org.jboss.tools.seam.ui.wizard.SeamWizardUtils;
 import org.jboss.tools.seam.ui.wizard.SeamActionWizard.SeamActionCreateOperation;
+import org.jboss.tools.seam.ui.wizard.SeamBaseOperation;
 import org.jboss.tools.seam.ui.wizard.SeamConversationWizard.SeamConversationCreateOperation;
 import org.jboss.tools.seam.ui.wizard.SeamEntityWizard.SeamEntityCreateOperation;
 import org.jboss.tools.seam.ui.wizard.SeamFormWizard.SeamFormCreateOperation;
+import org.jboss.tools.seam.ui.wizard.SeamWizardFactory;
+import org.jboss.tools.seam.ui.wizard.SeamWizardUtils;
 import org.jboss.tools.test.util.JUnitUtils;
 import org.jboss.tools.test.util.JobUtils;
 import org.osgi.service.prefs.BackingStoreException;
@@ -82,16 +97,15 @@ abstract public class AbstractSeamNewOperationTest extends AbstractSeamFacetTest
 	
 	protected AbstractSeamNewOperationTest(String name) {
 		super(name);
-		// TODO Auto-generated constructor stub
 	}
-	
+
+	@Override
 	protected void setUp() throws Exception {
 		suspendAllValidation  = ValidationFramework.getDefault().isSuspended();
 		ValidationFramework.getDefault().suspendAllValidation(true);
 			JobUtils.waitForIdle();
 	}
 	
-
 	@Override
 	protected void tearDown() throws Exception {
 		// TODO Auto-generated method stub
@@ -109,6 +123,74 @@ abstract public class AbstractSeamNewOperationTest extends AbstractSeamFacetTest
 	abstract void assertNewFormFilesAreCreatedSuccessfully(AdaptableRegistry data);
 	abstract void assertNewConversationFilesAreCreatedSuccessfully(AdaptableRegistry data);
 	abstract void assertNewEntityFilesAreCreatedSuccessfully(AdaptableRegistry data);
+
+	protected ILaunchConfiguration getLaunchConfiguration(File file) {
+		ILaunchConfiguration[] configs = null;
+		try {
+			configs = DebugPlugin.getDefault().getLaunchManager().getLaunchConfigurations();
+		} catch (CoreException e) {
+			e.printStackTrace();
+			return null;
+		}
+		for (ILaunchConfiguration config : configs) {
+			if(config.getName().equals(file.getName().substring(0, file.getName().lastIndexOf('.')))) {
+				return config;
+			}
+		}
+		return null;
+	}
+
+	protected void assertLaunchCreated(String testProjectName, String seamLocalInterfaceName) {
+//		String namePrefix = seamLocalInterfaceName +"Test-JDK16.launch"; //$NON-NLS-1$
+		String namePrefix = seamLocalInterfaceName +"Test, ....launch"; //$NON-NLS-1$
+		String launchName = DebugPlugin.getDefault().getLaunchManager().generateLaunchConfigurationName(namePrefix);
+		File launchFile = new File(LaunchManager.LOCAL_LAUNCH_CONFIGURATION_CONTAINER_PATH.toFile(), launchName);
+		assertTrue("TestNG launch file doesn't exest.", launchFile.exists());
+
+		ILaunchManager manager = DebugPlugin.getDefault().getLaunchManager();
+		if(manager.getLaunchConfigurationType(SeamBaseOperation.TESTNG_LAUNCH_CONFIG_TYPE_ID)==null) {
+			// TestNG plug-in is not install. Don't verify attributes of the launch. Just verify it doesn't have any @...@ variables.
+			FileReader fr = null;
+			try {
+				fr = new FileReader(launchFile);
+				int ch;
+//				StringBuffer sb = new StringBuffer();
+				while((ch = fr.read())!=-1) {
+					assertFalse("Some template varibales were not initialized.", ch=='@');
+//					sb.append((char)ch);
+				}
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+				fail(e.getMessage());
+			} catch (IOException e) {
+				e.printStackTrace();
+				fail(e.getMessage());
+			} finally {
+				if(fr!=null) {
+					try {
+						fr.close();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+			return;
+		}
+
+		ILaunchConfiguration config = getLaunchConfiguration(launchFile);
+		assertNotNull("Can't find launch configuration for " + launchFile.toString() + " file.", config);
+		try {
+			String projectName = config.getAttribute("org.eclipse.jdt.launching.PROJECT_ATTR", "");
+			assertEquals("Test project name is not correct in " + launchFile.toString(), testProjectName, projectName);
+			List<String> classNames = config.getAttribute("org.testng.eclipse.CLASS_TEST_LIST", new ArrayList<String>());
+			assertEquals("Wrong number of test classes in " + launchFile.toString(), 1, classNames.size());
+			String className = classNames.get(0);
+			assertEquals("Wrong test calss name in " + launchFile.toString(), className, seamLocalInterfaceName + "Test");
+		} catch (CoreException e) {
+			e.printStackTrace();
+			fail(e.getMessage());
+		}
+	}
 
 	protected void assertResourceIsCreatedAndHasNoProblems(IResource resource, String path) {
 		assertNotNull("Resource isn't created: " + path, resource);

@@ -10,19 +10,25 @@
  ******************************************************************************/ 
 package org.jboss.tools.seam.ui.wizard;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import org.eclipse.core.commands.operations.IUndoableOperation;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
+import org.eclipse.debug.core.DebugPlugin;
+import org.eclipse.debug.internal.core.LaunchManager;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.PlatformUI;
 import org.jboss.tools.common.ui.widget.editor.INamedElement;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
+import org.jboss.tools.seam.internal.core.project.facet.SeamFacetInstallDataModelProvider;
 import org.jboss.tools.seam.ui.ISeamHelpContextIds;
+import org.jboss.tools.seam.ui.SeamGuiPlugin;
 import org.jboss.tools.seam.ui.SeamUIMessages;
 
 /**
@@ -136,6 +142,15 @@ public class SeamActionWizard extends SeamBaseWizard implements INewWizard {
 		@Override
 		protected String getSessionBeanPackageName(IEclipsePreferences seamFacetPrefs, Map<String, INamedElement> wizardParams) {
 			return wizardParams.get(ISeamParameter.SEAM_PACKAGE_NAME).getValue().toString();
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * @see org.jboss.tools.seam.ui.wizard.SeamBaseOperation#shouldCreateTestLaunch()
+		 */
+		@Override
+		protected boolean shouldCreateTestLaunch() {
+			return true;
 		}
 	};
 }

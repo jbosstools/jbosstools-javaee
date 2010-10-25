@@ -34,6 +34,9 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
+import org.eclipse.debug.core.DebugPlugin;
+import org.eclipse.debug.core.ILaunchManager;
+import org.eclipse.debug.internal.core.LaunchManager;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.ide.IDE;
@@ -47,6 +50,7 @@ import org.jboss.tools.seam.core.SeamProjectsSet;
 import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
 import org.jboss.tools.seam.internal.core.project.facet.SeamFacetFilterSetFactory;
+import org.jboss.tools.seam.internal.core.project.facet.SeamFacetInstallDataModelProvider;
 import org.jboss.tools.seam.ui.SeamGuiPlugin;
 import org.osgi.service.prefs.BackingStoreException;
 
@@ -55,6 +59,8 @@ import org.osgi.service.prefs.BackingStoreException;
  *
  */
 public abstract class SeamBaseOperation extends AbstractOperation {
+
+	public static final String TESTNG_LAUNCH_CONFIG_TYPE_ID = "org.testng.eclipse.launchconfig";
 
 	/**
 	 * @param label
@@ -98,12 +104,14 @@ public abstract class SeamBaseOperation extends AbstractOperation {
 		IStatus result = Status.OK_STATUS;
 		this.info = info;
 
+		launchFile = null;
+
 		final SeamProjectsSet seamPrjSet = new SeamProjectsSet(getProject(info));
 
 		try {
 			Map<String, Object> vars = loadParameters(info,	seamPrjSet);
 
-			List<FileMapping> fileMapping = getFileMappings(vars);	
+			List<FileMapping> fileMapping = shouldCreateTestLaunch()?getFileMappingsWithTestLaunch(vars):getFileMappings(vars);	
 			List<String[]> fileMappingCopy = applyVariables(fileMapping,vars);
 			FilterSetCollection filters = getFilterSetCollection(vars);
 			final File[] file = new File[fileMappingCopy.size()];
@@ -115,6 +123,13 @@ public abstract class SeamBaseOperation extends AbstractOperation {
 			}
 			if(shouldTouchServer(seamPrjSet)) {
 				WebUtils.changeTimeStamp(seamPrjSet.getWarProject());
+			}
+			if(launchFile!=null && launchFile.exists()) {
+				ILaunchManager manager = DebugPlugin.getDefault().getLaunchManager();
+				if(manager instanceof LaunchManager) {
+					((LaunchManager)manager).importConfigurations(new File[]{launchFile}, monitor);
+				}
+				launchFile.delete();
 			}
 		} catch (BackingStoreException e) {
 			result =  new Status(IStatus.ERROR,SeamGuiPlugin.PLUGIN_ID,e.getMessage(),e);
@@ -190,6 +205,7 @@ public abstract class SeamBaseOperation extends AbstractOperation {
 		putResourceLocationProperty(vars, ISeamParameter.TEST_CASES_PACKAGE_NAME, testFolder);
 		putPackageLocationProperty(vars, ISeamParameter.ENTITY_BEAN_PACKAGE_PATH, entityFolder);
 		putResourceLocationProperty(vars, ISeamParameter.ENTITY_BEAN_PACKAGE_NAME, entityFolder);
+
 		return vars;
 	}
 
@@ -289,6 +305,55 @@ public abstract class SeamBaseOperation extends AbstractOperation {
 	 * @return
 	 */
 	public abstract List<FileMapping> getFileMappings(Map<String, Object> vars);
+
+	protected abstract boolean shouldCreateTestLaunch();
+
+	private File launchFile = null;
+
+	private String launchTemplatePath;
+
+	protected List<FileMapping> getFileMappingsWithTestLaunch(Map<String, Object> vars) {
+		List<FileMapping> mapping = new ArrayList<FileMapping>();
+		mapping.addAll(getFileMappings(vars));
+
+		launchFile = null;
+// 		Uncomment following code if we shouldn't create TestNG launch in case TestNG plug-in is not installed.
+// 		See https://jira.jboss.org/browse/JBIDE-7359
+// ----------------->		
+//		ILaunchManager manager = DebugPlugin.getDefault().getLaunchManager();
+//		if(manager.getLaunchConfigurationType(SeamBaseOperation.TESTNG_LAUNCH_CONFIG_TYPE_ID)==null) {
+//			// TestNG plug-in is not install. Don't verify attributes of the launch.
+//			return mapping;
+//		}
+// <-----------------
+
+//		String namePrefix = vars.get(ISeamParameter.SEAM_LOCAL_INTERFACE_NAME) +"Test-JDK16.launch"; //$NON-NLS-1$
+		String namePrefix = vars.get(ISeamParameter.SEAM_LOCAL_INTERFACE_NAME) +"Test, ....launch"; //$NON-NLS-1$
+		String launchName = DebugPlugin.getDefault().getLaunchManager().generateLaunchConfigurationName(namePrefix);
+		try {
+			launchFile = new File(SeamCorePlugin.getDefault().getStateLocation().toFile(), ".testNGlaunches/" + launchName);
+			if(launchFile.exists()) {
+				launchFile.delete();
+			}
+			if(launchTemplatePath==null) {
+				launchTemplatePath = new File(SeamFacetInstallDataModelProvider.getTemplatesFolder(), "/testng/testng.launch").getAbsolutePath(); //$NON-NLS-1$
+			}
+			mapping.add(new FileMapping(
+					launchTemplatePath,
+					launchFile.getAbsolutePath(),
+					FileMapping.TYPE.EAR,
+					true));
+			mapping.add(new FileMapping(
+					launchTemplatePath,
+					launchFile.getAbsolutePath(),
+					FileMapping.TYPE.WAR,
+					true));
+		} catch (IOException e) {
+			SeamGuiPlugin.getDefault().logError(e);
+		}
+
+		return mapping;
+	}
 
 	/**
 	 * 

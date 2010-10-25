@@ -193,6 +193,8 @@ public class Seam12EARNewOperationTest extends AbstractSeamNewOperationTest {
 		assertResourceIsCreatedAndHasNoProblems(seamPageNameXhtml, 
 				seamProjectWebContentFolder.toString() + "/" +
 				seamPageName + ".xhtml");
+
+		assertLaunchCreated(seamPrjSet.getTestProject().getName(), seamLocalInterfaceName);
 	}
 
 	@Override

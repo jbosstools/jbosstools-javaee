@@ -8,7 +8,6 @@
  * Contributors:
  *     Red Hat, Inc. - initial API and implementation
  ******************************************************************************/ 
-
 package org.jboss.tools.seam.ui.test.wizard;
 
 import java.io.File;
@@ -37,7 +36,6 @@ public class Seam12WARNewOperationTest extends AbstractSeamNewOperationTest {
 	private ISeamProject seamWarProject = null;
 	private ISeamProject seamTestProject = null;
 
-	
 	public Seam12WARNewOperationTest(String name) {
 		super(name);
 	}
@@ -75,13 +73,12 @@ public class Seam12WARNewOperationTest extends AbstractSeamNewOperationTest {
 			seamTestProject = loadSeamProject(testProject);
 		}
 	}
-	
-	
+
 	protected void tearDown() throws Exception {
 		WorkbenchUtils.closeAllEditors();
-		
+
 		super.tearDown();
-		
+
 		warProject = null;
 		testProject = null;
 		seamWarProject = null;
@@ -109,7 +106,6 @@ public class Seam12WARNewOperationTest extends AbstractSeamNewOperationTest {
 		return AbstractSeamNewOperationTest.SEAM_1_2_0;
 	}
 	
-
 	@Override
 	void assertNewActionFilesAreCreatedSuccessfully(AdaptableRegistry data) {
 		IEclipsePreferences seamFacetPrefs = SeamCorePlugin.getSeamPreferences(warProject);
@@ -148,7 +144,8 @@ public class Seam12WARNewOperationTest extends AbstractSeamNewOperationTest {
 		assertResourceIsCreatedAndHasNoProblems(seamPageNameXhtml, 
 				seamProjectWebContentFolder.toString() + "/" +
 				seamPageName + ".xhtml");
-		
+
+		assertLaunchCreated(seamPrjSet.getTestProject().getName(), seamLocalInterfaceName);
 /*		
 		"${" + ISeamParameter.SEAM_PROJECT_SRC_ACTION + "}/
 			${" + ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_PATH + "}/

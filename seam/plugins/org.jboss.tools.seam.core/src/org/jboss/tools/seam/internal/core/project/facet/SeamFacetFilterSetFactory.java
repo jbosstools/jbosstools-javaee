@@ -61,6 +61,7 @@ public class SeamFacetFilterSetFactory {
 		FILTERS_TEMPLATE.addFilter("listName","${component.name}List"); //$NON-NLS-1$ //$NON-NLS-2$
 		FILTERS_TEMPLATE.addFilter("homeName","${component.name}Home"); //$NON-NLS-1$ //$NON-NLS-2$
 		FILTERS_TEMPLATE.addFilter("query","${query.text}"); //$NON-NLS-1$ //$NON-NLS-2$
+		FILTERS_TEMPLATE.addFilter("seamTestProject","${seam.test.project}"); //$NON-NLS-1$ //$NON-NLS-2$
 
 		HIBERNATE_DIALECT_TEMPLATE = new FilterSet();
 		HIBERNATE_DIALECT_TEMPLATE.addFilter("hibernate.dialect","${hibernate.dialect}"); //$NON-NLS-1$ //$NON-NLS-2$
