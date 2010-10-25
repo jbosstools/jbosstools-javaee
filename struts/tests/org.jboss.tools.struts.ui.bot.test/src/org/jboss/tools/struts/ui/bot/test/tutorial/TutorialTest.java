@@ -103,6 +103,7 @@ public class TutorialTest extends SWTTestExt {
         Assert.assertTrue("struts-logic.tld checked", ti[3].isChecked());
         Assert.assertTrue("struts-bean.tld checked", ti[4].isChecked());
         bot.button(IDELabel.Button.FINISH).click();
+        bot.sleep(3000);
         SWTBot v = eclipse.showView(ViewType.PACKAGE_EXPLORER);
         SWTBotTree tree = v.tree();
         tree.setFocus();
@@ -136,10 +137,10 @@ public class TutorialTest extends SWTTestExt {
         handleWizard("pages");
 
         nodeContextMenu(tree, webRootNode.getNode("pages"), "New", "File", "JSP...").click();
-        handleWizard("inputname", "StrutsForm");
+        handleStandardWizard("inputname");
 
         nodeContextMenu(tree, webRootNode.getNode("pages"), "New", "File", "JSP...").click();
-        handleWizard("greeting");
+        handleStandardWizard("greeting");
 
         //2.2.1.2. Placing the Page Placeholders
         nodeContextMenu(
@@ -149,7 +150,7 @@ public class TutorialTest extends SWTTestExt {
         StrutsUIEditorBot ge = new StrutsUIEditorBot(botEditor.getReference());
         Control c = ge.getControl();
 
-        SWTBotTreeItem s = webRootNode.getNode("pages").getNode("inputname.jsp");
+        SWTBotTreeItem s = webRootNode.expandNode("pages").getNode("inputname.jsp");
         Widget w1 = s.widget;
         s.select();
 
@@ -165,10 +166,10 @@ public class TutorialTest extends SWTTestExt {
         //2.2.2. Creating an Action Mappings
         new SWTBotGefContextMenu(c, "Action...").click();
         sh = bot.activeShell();
-        sh.bot().textWithLabel("Path*").setText("/greeting");
-        sh.bot().comboBoxWithLabel("Name").setText("GetNameForm");
-        sh.bot().comboBoxWithLabel("Scope").setSelection("request");
-        sh.bot().textWithLabel("Type").setText("sample.GreetingAction");
+        sh.bot().textWithLabel("Path:*").setText("/greeting");
+        sh.bot().comboBoxWithLabel("Name:").setText("GetNameForm");
+        sh.bot().comboBoxWithLabel("Scope:").setSelection("request");
+        sh.bot().textWithLabel("Type:").setText("sample.GreetingAction");
         sh.bot().button("Finish").click();
 
         //2.2.3. Creating a Link
@@ -189,13 +190,13 @@ public class TutorialTest extends SWTTestExt {
         ge.selectPage("Tree");
         SWTBotTreeItem item = botEditor.bot().tree().expandNode("struts-config.xml", "action-mappings", "/greeting");
         item.getNode("greeting").select();
-        bot.activeEditor().bot().textWithLabel("Name").setText("sayHello");
+        bot.activeEditor().bot().textWithLabel("Name:").setText("sayHello");
         ge.selectPage("Diagram");
 
         //2.2.5. Creating a Global Forward
         new SWTBotGefContextMenu(c, "Global Forward...").click();
         sh = bot.activeShell();
-        sh.bot().textWithLabel("Name*").setText("getName");
+        sh.bot().textWithLabel("Name:*").setText("getName");
         sh.bot().button(0).click();
         SWTBotShell sh2 = sh.bot().activeShell();
         sh2.bot().tabItem("Pages").activate();
@@ -210,8 +211,8 @@ public class TutorialTest extends SWTTestExt {
         item = tree.getTreeItem("struts-config.xml").getNode("form-beans");
         nodeContextMenu(tree, item, "Create Form Bean...").click();
         sh = bot.activeShell();
-        sh.bot().textWithLabel("Name*").setText("GetNameForm");
-        sh.bot().textWithLabel("Type*").setText("sample.GetNameForm");
+        sh.bot().textWithLabel("Name:*").setText("GetNameForm");
+        sh.bot().textWithLabel("Type:*").setText("sample.GetNameForm");
         sh.bot().button("Finish").click();
         botEditor.save();
         util.waitForNonIgnoredJobs();
@@ -272,7 +273,7 @@ public class TutorialTest extends SWTTestExt {
         editor.show();
         SWTBotJSPMultiPageEditor editorA = new SWTBotJSPMultiPageEditor(bot.editorByTitle("inputname.jsp").getReference(), new SWTWorkbenchBot());
         editorA.selectTab("Source");
-        SWTBotStyledText st = bot.styledText();
+        SWTBotStyledText st = editorA.bot().styledText();
         st.selectRange(0, 0, st.getText().length());
         st.setText(readResource(TutorialTest.class.getResourceAsStream("/resources/inputname.jsp.gf")));
         editor.saveAndClose();
@@ -298,7 +299,7 @@ public class TutorialTest extends SWTTestExt {
         editor.show();
         editorA = new SWTBotJSPMultiPageEditor(bot.editorByTitle("greeting.jsp").getReference(), new SWTWorkbenchBot());
         editorA.selectTab("Source");
-        st = bot.styledText();
+        st = editorA.bot().styledText();
         st.selectRange(0, 0, st.getText().length());
         st.setText(readResource(TutorialTest.class.getResourceAsStream("/resources/greeting.jsp.gf")));
         editor.saveAndClose();
@@ -331,6 +332,8 @@ public class TutorialTest extends SWTTestExt {
         util.waitForNonIgnoredJobs();
         new SWTBotGefContextMenu(gui.getControl(), "Run on Server").click();
         SWTBotBrowserExt browser = bot.browser();
+        bot.sleep(7500);
+        browser.refresh();
         bot.sleep(5000);
         L.info(browser.getText());
         Assert.assertTrue(browser.getText().contains("Input name:"));
@@ -357,7 +360,7 @@ public class TutorialTest extends SWTTestExt {
         SWTBotShell sh2 = sh.bot().activeShell();
         sh2.bot().tree().getTreeItem("StrutsHello").expandNode("JavaSource", "sample").select();
         sh2.bot().button("OK").click();
-        sh.bot().textWithLabel("Name*").setText("applResources");
+        sh.bot().textWithLabel("Name:*").setText("applResources");
         sh.bot().button("Finish").click();
         SWTBotTreeItem item = projectNode.getNode("Resource Bundles").getNode("sample.applResources");
         nodeContextMenu(tree, item, "New", "Default Error Messages").click();
@@ -382,7 +385,7 @@ public class TutorialTest extends SWTTestExt {
         ti = t.expandNode("formset (default)").getNode("GetNameForm").select();
         vb.toolbarButton("Create Field").click();
         sh = bot.activeShell();
-        sh.bot().textWithLabel("Property*").setText("name");
+        sh.bot().textWithLabel("Property:*").setText("name");
         sh.bot().button("Finish").click();
         ti = ti.expand().getNode("name").select();
         vb.toolbarButton("Edit").click();
@@ -401,8 +404,8 @@ public class TutorialTest extends SWTTestExt {
         sh2 = bot.activeShell();
         sh2.bot().button("Add").click();
         SWTBotShell sh3 = bot.activeShell();
-        sh3.bot().textWithLabel("Name*").setText("name.required");
-        sh3.bot().textWithLabel("Value").setText("Person's name");
+        sh3.bot().textWithLabel("Name:*").setText("name.required");
+        sh3.bot().textWithLabel("Value:").setText("Person's name");
         sh3.bot().button("Finish").click();
         sh2.bot().button("Ok").click();
         sh.bot().button("Finish").click();
@@ -421,10 +424,15 @@ public class TutorialTest extends SWTTestExt {
         jspEditor.save();
         bot.editorByTitle("struts-config.xml").save();
         util.waitForNonIgnoredJobs();
+        bot.sleep(2500);
         servers.show();
         SWTBotTree srvs = servers.tree();
         SWTBotTreeItem s = getProjectNodeFromServerView(srvs);
         nodeContextMenu(servers.tree(), s, "Full Publish").click();
+        bot.sleep(2500);
+        SWTBotToolbarButton tb = bot.activeShell().bot().toolbarButtonWithTooltip("Touch descriptors");
+       	tb.click();
+        bot.sleep(2500);
         SWTBotEditor ed = new SWTBotEditor(getBrowserReference(), new SWTWorkbenchBot());
         ed.show();
         Browser b = ed.bot().widget(WidgetOfType.widgetOfType(Browser.class));
@@ -463,13 +471,16 @@ public class TutorialTest extends SWTTestExt {
         bot.activeShell().bot().menu("File").menu("Save All").click();
         bot.sleep(1000);
         util.waitForNonIgnoredJobs();
-        SWTBotToolbarButton tb = bot.activeShell().bot().toolbarButtonWithTooltip("Touch descriptors");
+        tb = bot.activeShell().bot().toolbarButtonWithTooltip("Touch descriptors");
        	tb.click();
        	ed.show();
        	String out2 = refreshBrowser(browser);
         L.info(out2);
-        Assert.assertTrue(out1.contains("onsubmit=\"return validateGetNameForm(this)\""));
-        Assert.assertFalse(out2.contains("onsubmit=\"return validateGetNameForm(this)\""));
+        boolean b1 = out1.contains("onsubmit=\"return validateGetNameForm(this)\"");
+        boolean b2 = !out2.contains("onsubmit=\"return validateGetNameForm(this)\"");
+        Assert.assertTrue(b1 || b2);
+        Assert.assertTrue(b1);
+        Assert.assertTrue(b2);
     }
 
     private SWTBotMenu nodeContextMenu(final SWTBotTree tree,
@@ -503,6 +514,14 @@ public class TutorialTest extends SWTTestExt {
         sh.finish();
     }
 
+    private void handleStandardWizard(String itemName) {
+    	SWTBot sh = bot.activeShell().bot();
+    	sh.textWithLabel("File name:").setText(itemName);
+    	sh.button("Finish").click();
+    	bot.sleep(1500);
+    }
+    
+    
     private String readResource(InputStream is) {
         StringBuilder sb = new StringBuilder();
         BufferedReader br = null;
@@ -545,6 +564,8 @@ public class TutorialTest extends SWTTestExt {
     private String refreshBrowser(SWTBotBrowserExt b) {
         util.waitForNonIgnoredJobs();
         bot.sleep(10000);
+        b.refresh();
+        bot.sleep(5000);
         b.refresh();
         util.waitForNonIgnoredJobs();
         bot.sleep(1000);
