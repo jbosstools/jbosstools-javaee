@@ -73,7 +73,7 @@ public class JSF2ComponentsValidatorTest extends TestCase {
 				"Attribute \"anknownAttr\" is not defined for \"echo\" composite component")); //$NON-NLS-1$
 		assertTrue(isMarkerExist(
 				markers,
-				"JSF 2 Resources folder \"/resources/jarPage1\" is missing in a project root directory")); //$NON-NLS-1$
+				"JSF 2 Resources folder \"/resources/jarPage1\" is missing in a project web directory")); //$NON-NLS-1$
 		assertTrue(isMarkerExist(markers,
 				"Composite component \"echo1\" was not found in a project resources directory")); //$NON-NLS-1$
 	}
