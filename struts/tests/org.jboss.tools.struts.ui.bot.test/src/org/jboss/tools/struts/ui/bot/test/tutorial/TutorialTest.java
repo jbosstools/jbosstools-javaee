@@ -250,14 +250,14 @@ public class TutorialTest extends SWTTestExt {
         SWTBotEditor editor = packageExplorer.openFile(PROJECT_NAME, "JavaSource", "sample", "GetNameForm.java");
         SWTBotEclipseEditor eeditor = editor.toTextEditor();
         eeditor.selectRange(0, 0, eeditor.getText().length());
-        eeditor.setText(readResource(TutorialTest.class.getResourceAsStream("/resources/GetNameForm.java.gf")));
+        eeditor.setText(readResource(TutorialTest.class.getResourceAsStream("resources/GetNameForm.java.gf")));
         editor.saveAndClose();
 
         //4.1.2. GreetingAction.java
         editor = packageExplorer.openFile(PROJECT_NAME, "JavaSource", "sample", "GreetingAction.java");
         eeditor = editor.toTextEditor();
         eeditor.selectRange(0, 0, eeditor.getText().length());
-        eeditor.setText(readResource(TutorialTest.class.getResourceAsStream("/resources/GreetingAction.java.gf")));
+        eeditor.setText(readResource(TutorialTest.class.getResourceAsStream("resources/GreetingAction.java.gf")));
         editor.saveAndClose();
 
         //4.2.1. inputname.jsp
@@ -275,7 +275,7 @@ public class TutorialTest extends SWTTestExt {
         editorA.selectTab("Source");
         SWTBotStyledText st = editorA.bot().styledText();
         st.selectRange(0, 0, st.getText().length());
-        st.setText(readResource(TutorialTest.class.getResourceAsStream("/resources/inputname.jsp.gf")));
+        st.setText(readResource(TutorialTest.class.getResourceAsStream("resources/inputname.jsp.gf")));
         editor.saveAndClose();
 
 //		st.navigateTo(7, 24);
@@ -301,7 +301,7 @@ public class TutorialTest extends SWTTestExt {
         editorA.selectTab("Source");
         st = editorA.bot().styledText();
         st.selectRange(0, 0, st.getText().length());
-        st.setText(readResource(TutorialTest.class.getResourceAsStream("/resources/greeting.jsp.gf")));
+        st.setText(readResource(TutorialTest.class.getResourceAsStream("resources/greeting.jsp.gf")));
         editor.saveAndClose();
 
         //4.2.3. index.jsp
@@ -315,7 +315,7 @@ public class TutorialTest extends SWTTestExt {
         editorA.selectTab("Source");
         st = bot.styledText();
         st.selectRange(0, 0, st.getText().length());
-        st.setText(readResource(TutorialTest.class.getResourceAsStream("/resources/index.jsp.gf")));
+        st.setText(readResource(TutorialTest.class.getResourceAsStream("resources/index.jsp.gf")));
         editor.saveAndClose();
     }
 
@@ -420,7 +420,7 @@ public class TutorialTest extends SWTTestExt {
         jspEditor.selectTab("Source");
         SWTBotStyledText st = jspEditor.bot().styledText();
         st.selectRange(0, 0, st.getText().length());
-        st.setText(readResource(TutorialTest.class.getResourceAsStream("/resources/inputname63.jsp.gf")));
+        st.setText(readResource(TutorialTest.class.getResourceAsStream("resources/inputname63.jsp.gf")));
         jspEditor.save();
         bot.editorByTitle("struts-config.xml").save();
         util.waitForNonIgnoredJobs();
@@ -444,7 +444,7 @@ public class TutorialTest extends SWTTestExt {
         //6.5. Editing the JSP File
         jspEditor.show();
         st.selectRange(0, 0, st.getText().length());
-        st.setText(readResource(TutorialTest.class.getResourceAsStream("/resources/inputname65.jsp.gf")));
+        st.setText(readResource(TutorialTest.class.getResourceAsStream("resources/inputname65.jsp.gf")));
         jspEditor.saveAndClose();
 
         //6.6. Editing the Action
@@ -465,7 +465,7 @@ public class TutorialTest extends SWTTestExt {
         editor.show();
         st = editor.bot().styledText();
         st.selectRange(0, 0, st.getText().length());
-        st.setText(readResource(TutorialTest.class.getResourceAsStream("/resources/GetNameForm67.java.gf")));
+        st.setText(readResource(TutorialTest.class.getResourceAsStream("resources/GetNameForm67.java.gf")));
         editor.saveAndClose();
         new StrutsUIEditorBot(bot.editorByTitle("struts-config.xml").getReference()).show();
         bot.activeShell().bot().menu("File").menu("Save All").click();
