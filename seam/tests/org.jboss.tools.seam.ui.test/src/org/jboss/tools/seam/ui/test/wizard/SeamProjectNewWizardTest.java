@@ -11,6 +11,8 @@
 package org.jboss.tools.seam.ui.test.wizard;
 
 import java.io.File;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.text.MessageFormat;
 
 import junit.extensions.TestSetup;
@@ -23,9 +25,16 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.datatools.connectivity.ConnectionProfileException;
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.WizardDialog;
+import org.eclipse.jst.common.project.facet.core.libprov.LibraryInstallDelegate;
+import org.eclipse.jst.jsf.ui.internal.project.facet.JSFFacetInstallPage;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Combo;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Widget;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.wst.common.componentcore.datamodel.properties.IFacetDataModelProperties;
-import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
 import org.eclipse.wst.server.core.IServerWorkingCopy;
 import org.eclipse.wst.web.ui.internal.wizards.NewProjectDataModelFacetWizard;
 import org.jboss.tools.jst.firstrun.JBossASAdapterInitializer;
@@ -86,6 +95,10 @@ public class SeamProjectNewWizardTest extends TestCase{
 	}
 	
 	public void testSeamProjectNewWizardFinisDisableByDefaul() {
+		// Disable Library Configuration
+		disableLibraryConfiguration();
+		JobUtils.delay(1000);
+
 		boolean canFinish = wizard.canFinish();
 		assertFalse("Finish button is enabled at first wizard page before all requerd fileds are valid.", canFinish);
 	}
@@ -96,11 +109,63 @@ public class SeamProjectNewWizardTest extends TestCase{
 	 * See http://jira.jboss.com/jira/browse/JBIDE-1111
 	 */
 	public void testJiraJbide1111() {
-		// Set project name
-		IDataModel model = wizard.getDataModel();
-		model.setProperty(IFacetDataModelProperties.FACET_PROJECT_NAME, "testSeamProject");
+		// Disable Library Configuration
+		disableLibraryConfiguration();
 		JobUtils.delay(1000);
+		
+		// Set project name
+		wizard.getDataModel().setProperty(IFacetDataModelProperties.FACET_PROJECT_NAME, "testSeamProject");
+		JobUtils.delay(1000);
+		
 		assertTrue("Finish button is disabled at first wizard page in spite of created JBoss AS Runtime, Server, DB Connection and Seam Runtime and valid project name.", wizard.canFinish());
+	}
+	
+	private void disableLibraryConfiguration(){
+		for(IWizardPage page : wizard.getPages()){
+			if(page instanceof JSFFacetInstallPage){
+				JSFFacetInstallPage jsfPage = (JSFFacetInstallPage)page;
+				Control control = page.getControl();
+				if(control instanceof Composite){
+					processComposite((Composite)control);
+				}
+			}
+		}
+	}
+	
+	private void processComposite(Composite parent){
+		for(Control child : parent.getChildren()){
+			if(child instanceof Combo){
+				Combo combo = (Combo)child;
+				
+				int index = -1;
+				for(int i=0; i < combo.getItemCount();i++){
+					String item = combo.getItem(i);
+					if("Disable Library Configuration".equals(item)){
+						index = i;
+						break;
+					}
+				}
+				if(index >= 0){
+					combo.select(index);
+					try{
+						Method method = Widget.class.getDeclaredMethod("sendEvent",new Class[]{int.class});
+	                    if(method != null){
+	                    	method.setAccessible(true);
+	                    	method.invoke(combo, new Object[]{SWT.Selection});
+	                    }
+					}catch(NoSuchMethodException ex){
+						ex.printStackTrace();
+					}catch(InvocationTargetException ex){
+						ex.printStackTrace();
+					}catch(IllegalAccessException ex){
+						ex.printStackTrace();
+					}
+				}
+			}
+			
+			if(child instanceof Composite)
+				processComposite((Composite)child);
+		}
 	}
 
 	@Override
