@@ -51,7 +51,7 @@ public class JSF2ResourcesFolderProposal extends JSF2AbstractProposal {
 
 	public String getDisplayString() {
 		return MessageFormat.format(JSFUIMessages.Create_JSF_2_Resources_Folder,
-				JSF2ResourceUtil.calculateProjectRelativeJSF2ResourceProposal(validateResource.getProject())+componentPath,URL);
+				JSF2ResourceUtil.calculateProjectRelativeJSF2ResourceProposal(validateResource.getProject()),URL);
 	}
 
 	@Override
