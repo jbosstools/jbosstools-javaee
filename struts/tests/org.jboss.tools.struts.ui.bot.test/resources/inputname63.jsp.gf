@@ -13,7 +13,7 @@
 -->
 <html:html>
     <head>
-        <html:javascript formName="GetNameForm"/>
+        <html:javascript formName="GetNameForm" />
         <title></title>
     </head>
     <body>

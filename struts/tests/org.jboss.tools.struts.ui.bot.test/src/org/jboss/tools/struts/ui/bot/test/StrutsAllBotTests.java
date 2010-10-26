@@ -10,8 +10,6 @@
  ******************************************************************************/
 package org.jboss.tools.struts.ui.bot.test;
 
-import java.util.logging.Logger;
-
 import org.jboss.tools.struts.ui.bot.test.smoke.AddRemoveStrutsCapabilities;
 import org.jboss.tools.struts.ui.bot.test.smoke.CreateNewStrutsProjectTest;
 import org.jboss.tools.struts.ui.bot.test.smoke.ImportStrutsProjectTest;
@@ -20,8 +18,6 @@ import org.jboss.tools.struts.ui.bot.test.smoke.RenameTldFile;
 import org.jboss.tools.struts.ui.bot.test.smoke.RunStrutsProjectOnServer;
 import org.jboss.tools.struts.ui.bot.test.tutorial.TutorialTest;
 import org.jboss.tools.ui.bot.ext.RequirementAwareSuite;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite.SuiteClasses;
 
