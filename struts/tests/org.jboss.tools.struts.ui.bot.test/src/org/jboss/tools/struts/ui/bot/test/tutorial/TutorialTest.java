@@ -308,7 +308,7 @@ public class TutorialTest extends SWTTestExt {
         SWTBotTree tree = v.bot().tree();
         final SWTBotTreeItem projectNode = tree.getTreeItem(PROJECT_NAME);
         nodeContextMenu(tree, projectNode.getNode("WEB-ROOT (WebContent)"), "New", "File", "JSP...").click();
-        handleWizard("index");
+        handleStandardWizard("index");
         editor = bot.editorByTitle("index.jsp");
         editor.show();
         editorA = new SWTBotJSPMultiPageEditor(bot.editorByTitle("index.jsp").getReference(), new SWTWorkbenchBot());
@@ -501,16 +501,9 @@ public class TutorialTest extends SWTTestExt {
     }
 
     private void handleWizard(String itemName) {
-        handleWizard(itemName, null);
-    }
-
-    private void handleWizard(String itemName, String template) {
         assert itemName != null && itemName.trim().length() > 0;
         WizardBot sh = new WizardBot(bot.activeShell());
         sh.setName(itemName);
-        if (template != null) {
-            sh.setTemplate(template);
-        }
         sh.finish();
     }
 

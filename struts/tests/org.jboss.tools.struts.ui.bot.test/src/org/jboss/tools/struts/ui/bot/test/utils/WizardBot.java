@@ -24,7 +24,7 @@ public class WizardBot {
     }
 
     public void setName(String name) {
-        bot.textWithLabel("Name*").setText(name);
+        bot.textWithLabel("Name:*").setText(name);
     }
 
     public void setTemplate(String template) {
