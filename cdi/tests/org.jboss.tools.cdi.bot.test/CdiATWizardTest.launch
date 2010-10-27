@@ -32,7 +32,7 @@
 <stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-os ${target.os} -ws ${target.ws} -arch ${target.arch} -nl ${target.nl} -consoleLog"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="org.jboss.tools.cdi.bot.test"/>
 <stringAttribute key="org.eclipse.jdt.launching.SOURCE_PATH_PROVIDER" value="org.eclipse.pde.ui.workbenchClasspathProvider"/>
-<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Dosgi.requiredJavaVersion=1.5 -XX:MaxPermSize=256m -Djava.library.path=/space/java/sdk/jdk1.6.0_20/jre/lib/i386/client:/space/java/sdk/jdk1.6.0_20/jre/lib/i386:/usr/lib/xulrunner-addons:/usr/lib/xulrunner-addons:/usr/java/packages/lib/i386:/lib:/usr/lib:/usr/lib/jni -Xms512m -Xmx1024m -Dswtbot.test.properties.file=/home/lukas/swtbot.properties -Dusage_reporting_enabled=false"/>
+<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Dosgi.requiredJavaVersion=1.5 -XX:MaxPermSize=256m -Djava.library.path=${env_var:JAVA_HOME}/jre/lib/i386/client:${env_var:JAVA_HOME}/jre/lib/i386:/usr/lib/xulrunner-addons:/usr/lib/xulrunner-addons:/usr/java/packages/lib/i386:/lib:/usr/lib:/usr/lib/jni -Xms512m -Xmx1024m -Dswtbot.test.properties.file=${env_var:HOME}/swtbot.properties -Dusage_reporting_enabled=false"/>
 <stringAttribute key="pde.version" value="3.3"/>
 <stringAttribute key="product" value="org.eclipse.epp.package.jee.product"/>
 <booleanAttribute key="show_selected_only" value="false"/>

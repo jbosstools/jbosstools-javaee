@@ -12,18 +12,13 @@ package org.jboss.tools.cdi.bot.test.uiutils.wizards;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.logging.Logger;
 
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swtbot.swt.finder.SWTBot;
-import org.eclipse.swtbot.swt.finder.finders.UIThreadRunnable;
-import org.eclipse.swtbot.swt.finder.results.BoolResult;
-import org.eclipse.swtbot.swt.finder.results.VoidResult;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotCheckBox;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotCombo;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotRadio;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotShell;
-import org.eclipse.swtbot.swt.finder.widgets.SWTBotText;
 
 public class CDIWizard extends Wizard {
 
