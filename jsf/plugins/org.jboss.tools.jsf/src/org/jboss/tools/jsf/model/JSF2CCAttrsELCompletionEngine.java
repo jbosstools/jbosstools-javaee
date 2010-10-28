@@ -20,14 +20,19 @@ import java.util.TreeSet;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.jdt.core.IJavaElement;
+import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.IType;
+import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.swt.graphics.Image;
 import org.jboss.tools.common.el.core.ca.AbstractELCompletionEngine;
+import org.jboss.tools.common.el.core.model.ELArgumentInvocation;
 import org.jboss.tools.common.el.core.model.ELExpression;
 import org.jboss.tools.common.el.core.model.ELInvocationExpression;
 import org.jboss.tools.common.el.core.model.ELObjectType;
 import org.jboss.tools.common.el.core.model.ELPropertyInvocation;
+import org.jboss.tools.common.el.core.parser.ELParser;
 import org.jboss.tools.common.el.core.parser.ELParserFactory;
 import org.jboss.tools.common.el.core.parser.ELParserUtil;
 import org.jboss.tools.common.el.core.resolver.ELContext;
@@ -37,11 +42,15 @@ import org.jboss.tools.common.el.core.resolver.ELSegment;
 import org.jboss.tools.common.el.core.resolver.ELSegmentImpl;
 import org.jboss.tools.common.el.core.resolver.IRelevanceCheck;
 import org.jboss.tools.common.el.core.resolver.IVariable;
+import org.jboss.tools.common.el.core.resolver.JavaMemberELSegmentImpl;
+import org.jboss.tools.common.el.core.resolver.TypeInfoCollector;
 import org.jboss.tools.common.el.core.resolver.TypeInfoCollector.MemberInfo;
 import org.jboss.tools.common.model.XModelObject;
+import org.jboss.tools.common.model.util.EclipseJavaUtil;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.text.TextProposal;
 import org.jboss.tools.jsf.JSFModelPlugin;
+import org.jboss.tools.jsf.model.JSFELCompletionEngine.IJSFVariable;
 import org.jboss.tools.jst.web.kb.IXmlContext;
 import org.jboss.tools.jst.web.kb.PageContextFactory;
 
@@ -252,6 +261,10 @@ public class JSF2CCAttrsELCompletionEngine extends AbstractELCompletionEngine<IV
 			resolution.setProposals(proposals);
 			return resolution;
 		}
+		
+		if(!resolvedVariables.isEmpty() && resolvedVariables.iterator().next() instanceof IJSFVariable) {
+			return buildJavaResolution(resolution, left, expr, operand, resolvedVariables, returnEqualedVariablesOnly);
+		}
 
 		//process segments one by one
 		if(left != null) {
@@ -278,6 +291,64 @@ public class JSF2CCAttrsELCompletionEngine extends AbstractELCompletionEngine<IV
 		return resolution;
 	}
 
+	//Method content copies code from the end AbstractELCompletionEngine.resolveELOperand
+	ELResolutionImpl buildJavaResolution(ELResolutionImpl resolution, ELInvocationExpression left, ELInvocationExpression expr,
+			ELExpression operand, List<IVariable> resolvedVariables, boolean returnEqualedVariablesOnly) {
+		boolean varIsUsed = false;
+		// First segment is found - proceed with next tokens 
+		List<TypeInfoCollector.MemberInfo> members = new ArrayList<TypeInfoCollector.MemberInfo>();
+		JavaMemberELSegmentImpl segment = new JavaMemberELSegmentImpl();
+		segment.setToken(expr.getFirstToken());
+		for (IVariable var : resolvedVariables) {
+			TypeInfoCollector.MemberInfo member = getMemberInfoByVariable(var, returnEqualedVariablesOnly);
+			if (member != null && !members.contains(member)) { 
+				members.add(member);
+				segment.setMemberInfo(member);
+				segment.getVariables().add(var);
+				segment.setResolved(true);
+			}
+		}
+		resolution.addSegment(segment);
+		//process segments one by one
+		if(left != null) {
+			while(left != expr) {
+				left = (ELInvocationExpression)left.getParent();
+				if (left != expr) { // inside expression
+					segment = new JavaMemberELSegmentImpl();
+					if(left instanceof ELArgumentInvocation) {
+						String s = "#{" + left.getLeft().toString() + collectionAdditionForCollectionDataModel + "}"; //$NON-NLS-1$ //$NON-NLS-2$
+						ELParser p = getParserFactory().createParser();
+						ELInvocationExpression expr1 = (ELInvocationExpression)p.parse(s).getInstances().get(0).getExpression();
+						members = resolveSegment(expr1.getLeft(), members, resolution, returnEqualedVariablesOnly, varIsUsed, segment);
+						members = resolveSegment(expr1, members, resolution, returnEqualedVariablesOnly, varIsUsed, segment);
+						if(resolution.getLastResolvedToken() == expr1) {
+							resolution.setLastResolvedToken(left);
+						}
+					} else {
+						members = resolveSegment(left, members, resolution, returnEqualedVariablesOnly, varIsUsed, segment);
+					}
+					if(!members.isEmpty()) {
+						segment.setResolved(true);
+						segment.setMemberInfo(members.get(0));	// TODO: This is a buggy way to select a member to setup in a segment
+					}
+					resolution.addSegment(segment);
+				} else { // Last segment
+					resolveLastSegment((ELInvocationExpression)operand, members, resolution, returnEqualedVariablesOnly, varIsUsed);
+					break;
+				}
+			}
+		}
+
+		if(resolution.getProposals().isEmpty() && !resolution.getSegments().isEmpty()) {
+//			&& status.getUnpairedGettersOrSetters()!=null) {
+			ELSegment lastSegment = resolution.getSegments().get(resolution.getSegments().size()-1);
+			if(lastSegment instanceof JavaMemberELSegmentImpl) {
+				((JavaMemberELSegmentImpl)lastSegment).clearUnpairedGettersOrSetters();
+			}
+		}
+		return resolution;
+	}
+
 	static String[] vs = {"cc.attrs", "compositeComponent.attrs"};
 	private IFile currentFile;
 	private ELContext currentContext;
@@ -298,16 +369,47 @@ public class JSF2CCAttrsELCompletionEngine extends AbstractELCompletionEngine<IV
 		List<IVariable> result = new ArrayList<IVariable>();
 
 		String varName = expr.toString();
+
 		for (int i = 0; i < vs.length; i++) {
 			String name = vs[i];
 			if(!isFinal || onlyEqualNames) {
 				if(!name.equals(varName)) continue;
 			}
 			if(!name.startsWith(varName)) continue;
+			if(varName.lastIndexOf('.') > name.length()) continue; //It is the java variable case
 			Variable v = new Variable(name, file);
 			result.add(v);
 			break;
 		}
+
+		if(currentXModelObject != null && result.isEmpty()) {
+			IJavaProject javaProject = EclipseResourceUtil.getJavaProject(file.getProject());
+			XModelObject is = currentXModelObject.getChildByPath("Interface");
+			if(is != null && javaProject != null) {			
+				XModelObject[] cs = is.getChildren("JSF2ComponentAttribute");
+
+				for (int i = 0; i < cs.length; i++) {
+					String name = cs[i].getAttributeValue("name");
+					String type = cs[i].getAttributeValue("type");
+					if(type == null || type.length() == 0) continue;
+					String[] names = {vs[0] + "." + name, vs[1] + "." + name};
+					for (String n: names) {
+						boolean match = (!isFinal || onlyEqualNames) ? n.equals(varName) : false;
+						if(!match) continue;
+						IType javaType = null;
+						try {
+							javaType = EclipseJavaUtil.findType(javaProject, type);
+						} catch (JavaModelException e) {
+							
+						}
+						if(javaType == null) continue;
+						IVariable v = new JSFELCompletionEngine.Variable(n, javaType);
+						result.add(v);
+					}
+				}
+			}
+		}
+
 		return result;
 	}
 
@@ -514,6 +616,9 @@ public class JSF2CCAttrsELCompletionEngine extends AbstractELCompletionEngine<IV
 	@Override
 	protected MemberInfo getMemberInfoByVariable(IVariable var,
 			boolean onlyEqualNames) {
+		if(var instanceof IJSFVariable) {
+			return TypeInfoCollector.createMemberInfo(((IJSFVariable)var).getSourceMember());
+		}
 		return null;
 	}
 
@@ -524,7 +629,7 @@ public class JSF2CCAttrsELCompletionEngine extends AbstractELCompletionEngine<IV
 	@Override
 	public List<IVariable> resolveVariables(IFile file,
 			ELInvocationExpression expr, boolean isFinal, boolean onlyEqualNames) {
-		return null;
+		return resolveVariablesInternal(file, expr, isFinal, onlyEqualNames);
 	}
 
 	@Override

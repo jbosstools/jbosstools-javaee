@@ -200,6 +200,7 @@
     <Editor name="List"/>
    </XModelAttribute>
    <XModelAttribute PROPERTIES="category=general" name="applyTo" xmlname="applyTo"/>
+   <XModelAttribute PROPERTIES="category=general" name="type" xmlname="type"/>
    <XModelAttribute PROPERTIES="category=general" default="false"
     name="preferred" xmlname="preferred">
     <Constraint loader="List">
