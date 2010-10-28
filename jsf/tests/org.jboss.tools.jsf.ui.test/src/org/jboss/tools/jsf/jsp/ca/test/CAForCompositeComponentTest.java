@@ -45,4 +45,11 @@ public class CAForCompositeComponentTest extends ContentAssistantTestCase{
 		checkProposals(TAG_NAME, "#{cc.attrs.}", 11, proposals, false);
 
 	}
+
+	public void testCAForTypedAttr() {
+		String[] proposals = {
+			"cc.attrs.b3.toString()"
+		};
+		checkProposals(TAG_NAME, "#{cc.attrs.b3.}", 14, proposals, false);
+	}
 }
