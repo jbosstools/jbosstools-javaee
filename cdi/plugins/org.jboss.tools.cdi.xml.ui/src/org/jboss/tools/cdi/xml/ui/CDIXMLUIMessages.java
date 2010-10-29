@@ -1,22 +1,23 @@
 package org.jboss.tools.cdi.xml.ui;
 
-import java.util.MissingResourceException;
-import java.util.ResourceBundle;
+import org.eclipse.osgi.util.NLS;
 
-public class CDIXMLUIMessages {
-	private static final String BUNDLE_NAME = "org.jboss.tools.seam.xml.ui.messages"; //$NON-NLS-1$
+public class CDIXMLUIMessages extends NLS {
+	private static final String BUNDLE_NAME = "org.jboss.tools.cdi.xml.ui.messages"; //$NON-NLS-1$
 
-	private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle
-			.getBundle(BUNDLE_NAME);
+	public static String CDI_XML_UI_PLUGIN_NO_MESSAGES;
+	public static String STEREOTYPES;
+	public static String DECORATORS;
+	public static String INTERCEPTORS;
+	public static String ALTERNATIVES;
+	public static String CLASSES;
+	public static String INCLUDE_AND_EXCLUDE;
+	public static String CDI_BEANS_1_0_FILE;
 
 	private CDIXMLUIMessages() {
 	}
 
-	public static String getString(String key) {
-		try {
-			return RESOURCE_BUNDLE.getString(key);
-		} catch (MissingResourceException e) {
-			return '!' + key + '!';
-		}
+	static {
+		NLS.initializeMessages(BUNDLE_NAME, CDIXMLUIMessages.class);
 	}
 }

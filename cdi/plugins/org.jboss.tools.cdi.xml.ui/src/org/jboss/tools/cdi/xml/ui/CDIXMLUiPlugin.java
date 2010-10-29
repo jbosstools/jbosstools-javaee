@@ -49,7 +49,7 @@ public class CDIXMLUiPlugin extends AbstractUIPlugin {
 	}
 	
 	public static void log(Throwable ex) {
-		INSTANCE.getLog().log(new Status(Status.ERROR, PLUGIN_ID, Status.OK, CDIXMLUIMessages.getString("SEAM_XML_UI_PLUGIN_NO_MESSAGES"), ex)); //$NON-NLS-1$
+		INSTANCE.getLog().log(new Status(Status.ERROR, PLUGIN_ID, Status.OK, CDIXMLUIMessages.CDI_XML_UI_PLUGIN_NO_MESSAGES, ex)); //$NON-NLS-1$
 	}
 
 	public static Shell getShell() {
