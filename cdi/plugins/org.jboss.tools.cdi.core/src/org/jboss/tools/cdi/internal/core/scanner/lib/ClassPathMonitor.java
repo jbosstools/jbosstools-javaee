@@ -47,17 +47,12 @@ public class ClassPathMonitor extends AbstractClassPathMonitor<CDICoreNature>{
 
 	public Map<String, XModelObject> process() {
 		Map<String, XModelObject> newJars = new HashMap<String, XModelObject>();
-		Iterator<String> it = processedPaths.iterator();
-		while(it.hasNext()) {
-			String p = it.next();
-			if(paths.contains(p)) continue;
+		for (String p: syncProcessedPaths()) {
 			project.pathRemoved(new Path(p));
-			it.remove();
 		}
 		for (int i = 0; i < paths.size(); i++) {
 			String p = paths.get(i);
-			if(processedPaths.contains(p)) continue;
-			processedPaths.add(p);
+			if(!requestForLoad(p)) continue;
 
 			String fileName = new File(p).getName();
 			if(EclipseResourceUtil.SYSTEM_JAR_SET.contains(fileName)) continue;
