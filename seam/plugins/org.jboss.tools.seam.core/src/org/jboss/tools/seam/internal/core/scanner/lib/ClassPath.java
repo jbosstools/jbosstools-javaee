@@ -12,11 +12,9 @@ package org.jboss.tools.seam.internal.core.scanner.lib;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.core.resources.IProject;
@@ -27,11 +25,12 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
-import org.jboss.tools.common.model.XModel;
+import org.jboss.tools.common.model.XJob;
 import org.jboss.tools.common.model.XModelObject;
-import org.jboss.tools.common.model.filesystems.FileSystemsHelper;
-import org.jboss.tools.common.model.filesystems.impl.Libs;
+import org.jboss.tools.common.model.XJob.XRunnable;
 import org.jboss.tools.common.model.filesystems.impl.LibsListener;
+import org.jboss.tools.common.model.project.ext.AbstractClassPathMonitor;
+import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.jst.web.model.helpers.InnerModelHelper;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
@@ -44,15 +43,7 @@ import org.jboss.tools.seam.internal.core.scanner.ScannerException;
  *  
  * @author Viacheslav Kabanovich
  */
-public class ClassPath implements LibsListener {
-	SeamProject project;
-	XModel model = null;
-	
-	List<String> paths = null;
-	Map<IPath, String> paths2 = new HashMap<IPath, String>();
-	boolean libsModified = false;
-	
-	Set<String> processedPaths = new HashSet<String>();
+public class ClassPath extends AbstractClassPathMonitor<SeamProject> implements LibsListener {
 	
 	/**
 	 * Creates instance of class path for seam project
@@ -62,12 +53,8 @@ public class ClassPath implements LibsListener {
 		this.project = project;
 	}
 	
-	/**
-	 * Returns seam project
-	 * @return
-	 */
-	public SeamProject getProject() {
-		return project;
+	public IProject getProjectResource() {
+		return project.getProject();
 	}
 	
 	/**
@@ -75,65 +62,33 @@ public class ClassPath implements LibsListener {
 	 */
 	public void init() {
 		model = InnerModelHelper.createXModel(project.getProject());
-		if(model == null) return;
-		Libs libs = FileSystemsHelper.getLibs(model);
-		if(libs != null) libs.addListener(this);
-	}
-	
-	static String[] SYSTEM_JARS = {"rt.jar", "jsse.jar", "jce.jar", "charsets.jar"}; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-	static Set<String> SYSTEM_JAR_SET = new HashSet<String>();
-	
-	static {
-		for (int i = 0; i < SYSTEM_JARS.length; i++) SYSTEM_JAR_SET.add(SYSTEM_JARS[i]);
-	}
-	
-	/**
-	 * Returns true if class path was up-to-date.
-	 * Otherwise, updates inner model and disables class loader.
-	 * @return
-	 */
-	public boolean update() {
-		Libs libs = FileSystemsHelper.getLibs(model);
-		libs.update();
-		List<String> newPaths = libs.getPaths();
-		boolean result = libsModified || paths == null;
-		paths = newPaths;
-		if(result) {
-			paths2.clear();
-			paths2.putAll(libs.getPathsAsMap());
-		}
-		libsModified = false;
-		return result;
+		super.init();
 	}
 	
 	/**
 	 * Loads seam components from items recently added to class path. 
 	 */
 	public void process() {
-		Iterator<String> it = processedPaths.iterator();
-		while(it.hasNext()) {
-			String p = it.next();
-			if(paths.contains(p)) continue;
+		for (String p: syncProcessedPaths()) {
 			project.pathRemoved(new Path(p));
-			it.remove();
 		}
+
 		for (int i = 0; i < paths.size(); i++) {
 			String p = paths.get(i);
-			if(processedPaths.contains(p)) continue;
-			processedPaths.add(p);
+			if(!requestForLoad(p)) continue;
 
 			LibraryScanner scanner = new LibraryScanner();
 			scanner.setClassPath(this);
 
 			String fileName = new File(p).getName();
-			if(SYSTEM_JAR_SET.contains(fileName)) continue;
+			if(EclipseResourceUtil.SYSTEM_JAR_SET.contains(fileName)) continue;
 			String jsname = "lib-" + fileName; //$NON-NLS-1$
 			XModelObject o = model.getByPath("FileSystems").getChildByPath(jsname); //$NON-NLS-1$
 			if(o == null) continue;
 			
 			LoadedDeclarations c = null;
 			try {
-				if(scanner.isLikelyComponentSource(o)) {
+				if(LibraryScanner.isLikelyComponentSource(o)) {
 					c = scanner.parse(o, new Path(p), project);
 				}
 			} catch (ScannerException e) {
@@ -217,23 +172,6 @@ public class ClassPath implements LibsListener {
 		return list;
 	}
 	
-	public void pathLoaded(IPath path) {
-		String p = paths2.get(path);
-		if(p != null) {
-			processedPaths.add(p);
-		}
-	}
-	
-	public boolean hasPath(IPath path) {
-		return paths2.get(path) != null;
-	}
-
-	public void clean() {
-		paths = null;
-		if(paths2 != null) paths2.clear();
-		processedPaths.clear();
-	}
-
 	public void build() {
 		if(update()) {
 			process();
@@ -243,6 +181,22 @@ public class ClassPath implements LibsListener {
 	}
 
 	public void pathsChanged(List<String> paths) {
-		libsModified = true;		
+		super.pathsChanged(paths);
+		if(project.isStorageResolved()) {
+			XJob.addRunnableWithPriority(new XRunnable() {
+				
+				public void run() {
+					if(update()) {
+						System.out.println("Running " + getId());
+						process();
+					}					
+				}
+				
+				public String getId() {
+					return "Update class path of Seam project " + project.getProject().getName(); //$NON-NLS-1$
+				}
+			});
+		}
 	}
+
 }

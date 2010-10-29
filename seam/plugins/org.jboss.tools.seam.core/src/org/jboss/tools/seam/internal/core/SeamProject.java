@@ -369,6 +369,10 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		getClassPath().build();
 	}
 	
+	public boolean isStorageResolved() {
+		return isStorageResolved;
+	}
+
 	/**
 	 * 
 	 */
