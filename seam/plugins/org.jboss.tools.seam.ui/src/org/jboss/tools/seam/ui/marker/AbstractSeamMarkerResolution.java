@@ -83,6 +83,7 @@ public abstract class AbstractSeamMarkerResolution implements
 								importDeclaration.delete(false, new NullProgressMonitor());
 						}
 						compilationUnit.commitWorkingCopy(false, new NullProgressMonitor());
+						compilationUnit.discardWorkingCopy();
 					}
 				}
 			}
@@ -169,6 +170,7 @@ public abstract class AbstractSeamMarkerResolution implements
 				
 				buffer.replace(type.getSourceRange().getOffset(), 0, annotationString+name+lineDelim);
 				compilationUnit.commitWorkingCopy(false, new NullProgressMonitor());
+				compilationUnit.discardWorkingCopy();
 			}
 		}catch(CoreException ex){
 			SeamGuiPlugin.getPluginLog().logError(ex);
@@ -200,13 +202,14 @@ public abstract class AbstractSeamMarkerResolution implements
 					buf.append("public void "+methodName+"() {"); //$NON-NLS-1$ //$NON-NLS-2$
 					buf.append(lineDelim);
 					buf.append("}"); //$NON-NLS-1$
-					type.createMethod(buf.toString(), null, false, null);
+					type.createMethod(buf.toString(), null, false, new NullProgressMonitor());
 				}else{
 					IBuffer buffer = compilationUnit.getBuffer();
 					buffer.replace(oldMethod.getSourceRange().getOffset(), 0, "@"+annotation+lineDelim);
 				}
 
 				compilationUnit.commitWorkingCopy(false, new NullProgressMonitor());
+				compilationUnit.discardWorkingCopy();
 			}
 		}catch(CoreException ex){
 			SeamGuiPlugin.getPluginLog().logError(ex);
@@ -223,7 +226,7 @@ public abstract class AbstractSeamMarkerResolution implements
 			if(type != null){
 				IAnnotation annotation = findAnnotation(type, type);
 				if(annotation != null){
-					IImportDeclaration importDeclaration = compilationUnit.getImport(qualifiedName); 
+					IImportDeclaration importDeclaration = compilationUnit.getImport(qualifiedName);
 					if(importDeclaration == null || !importDeclaration.exists())
 						compilationUnit.createImport(qualifiedName, null, new NullProgressMonitor());
 					if(importName != null){
@@ -241,6 +244,7 @@ public abstract class AbstractSeamMarkerResolution implements
 					
 					buffer.replace(annotation.getSourceRange().getOffset(), annotation.getSourceRange().getLength(), annotationString+name);
 					compilationUnit.commitWorkingCopy(false, new NullProgressMonitor());
+					compilationUnit.discardWorkingCopy();
 				}
 			}
 		}catch(CoreException ex){

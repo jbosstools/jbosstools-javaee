@@ -12,9 +12,11 @@ package org.jboss.tools.seam.ui.marker;
 
 import java.text.MessageFormat;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.jdt.core.Flags;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IField;
 import org.eclipse.jdt.core.IMethod;
@@ -22,6 +24,7 @@ import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.internal.corext.codemanipulation.GetterSetterUtil;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.IMarkerResolution2;
+import org.jboss.tools.common.EclipseUtil;
 import org.jboss.tools.seam.core.ISeamJavaComponentDeclaration;
 import org.jboss.tools.seam.core.ISeamProperty;
 import org.jboss.tools.seam.ui.SeamGuiPlugin;
@@ -47,47 +50,46 @@ public class AddSetterMarkerResolution implements IMarkerResolution2{
 	}
 
 	public void run(IMarker marker) {
-		IType type = (IType)javaDeclaration.getSourceMember();
+		IFile file = (IFile)javaDeclaration.getResource();
 		try{
-			ICompilationUnit original = type.getCompilationUnit();
+			ICompilationUnit original = EclipseUtil.getCompilationUnit(file);
 			ICompilationUnit compilationUnit = original.getWorkingCopy(new NullProgressMonitor());
-			IType createdType = compilationUnit.getType(type.getElementName());
 			
-			final String lineDelim= compilationUnit.findRecommendedLineSeparator();
+			String lineDelim= compilationUnit.findRecommendedLineSeparator();
 			
-			IField field = createdType.getField(property.getName());
+			IType type = compilationUnit.findPrimaryType();
+			
+			IField field = type.getField(property.getName());
+			
 			String propertyType="";
 			if(field != null && field.exists()){
 				propertyType = field.getTypeSignature();
 			}else{
-				propertyType = "String";
-				field = createdType.createField(lineDelim+"private "+propertyType+" "+property.getName()+";", null, false, null);
-//				synchronized(compilationUnit) {
-//					compilationUnit.reconcile(ICompilationUnit.NO_AST, false, null, null);
-//				}
+				propertyType = "String"; //$NON-NLS-1$
+				
+				StringBuffer buf= new StringBuffer();
+				
+				buf.append("private "+propertyType+" "+property.getName()+";"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				buf.append(lineDelim);
+				
+				field = type.createField(buf.toString(), null, false, new NullProgressMonitor());
 			}
+			
 			String setterName = GetterSetterUtil.getSetterName(field, null);
+			IMethod oldMethod = GetterSetterUtil.getSetter(field);
+			if(oldMethod == null || !oldMethod.exists()){
+				String stub = GetterSetterUtil.getSetterStub(field, setterName, true, Flags.AccPublic);
+				type.createMethod(stub, null, false, new NullProgressMonitor());
+			}
 			
-			createMethod(createdType, propertyType, setterName, lineDelim);
-			
-			compilationUnit.commitWorkingCopy(true, new NullProgressMonitor());
+			compilationUnit.commitWorkingCopy(false, new NullProgressMonitor());
+			compilationUnit.discardWorkingCopy();
+
 		}catch(CoreException ex){
 			SeamGuiPlugin.getPluginLog().logError(ex);
 		}
 	}
 	
-	private IMethod createMethod(IType type, String typeName, String methodName, String lineDelim) throws CoreException{
-		StringBuffer buf= new StringBuffer();
-		
-		buf.append(lineDelim);
-		buf.append("public void "+methodName+"("+typeName+" "+property.getName()+") {"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		buf.append(lineDelim);
-		buf.append("this."+property.getName()+" = "+property.getName()+";"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		buf.append(lineDelim);
-		buf.append("}"); //$NON-NLS-1$
-		return type.createMethod(buf.toString(), null, false, null);
-	}
-
 	public String getDescription() {
 		return null;
 	}
