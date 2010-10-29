@@ -33,6 +33,7 @@
  </ICONS>
  <GlobalActions kind="list"/>
  <XModelEntity
+  AdoptManagerClass="org.jboss.tools.jst.web.model.handlers.JSPCompoundAdopt"
   ImplementationLoadingClass="org.jboss.tools.jsf.jsf2.model.FileCompositeComponentLoader"
   ImplementingClass="org.jboss.tools.common.model.filesystems.impl.SimpleFileImpl"
   ObjectEditorClass="org.jboss.tools.jst.jsp.jspeditor.HTMLTextEditor"
