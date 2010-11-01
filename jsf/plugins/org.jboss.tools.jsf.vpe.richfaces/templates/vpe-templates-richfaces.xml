@@ -735,6 +735,10 @@
 		<vpe:template children="yes" modify="no"/>
 	</vpe:tag>
 	
+	<vpe:tag name="rich:clientValidator" case-sensitive="yes">
+		<vpe:template children="no" modify="no"/>
+	</vpe:tag>
+	
 	<vpe:tag name="rich:hotKey" case-sensitive="yes">
 		<vpe:template children="yes" modify="no"/>
 	</vpe:tag>

@@ -135,6 +135,10 @@ public class RichFacesComponentContentTest extends ComponentContentTest {
 	public void testDragListener() throws Throwable {
 		performInvisibleTagTest("components/dragListener.xhtml", "dragListener"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
+	
+	public void testClientValidator() throws Throwable {
+		performInvisibleTagTest("components/clientValidator.xhtml", "clientValidator"); //$NON-NLS-1$ //$NON-NLS-2$
+	}
 
 	public void testDropListener() throws Throwable {
 		performInvisibleTagTest("components/dropListener.xhtml", "dropListener"); //$NON-NLS-1$ //$NON-NLS-2$
