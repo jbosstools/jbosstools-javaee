@@ -50,8 +50,12 @@ public class JSF2ResourcesFolderProposal extends JSF2AbstractProposal {
 	}
 
 	public String getDisplayString() {
+		String folderName="";
+		if(componentPath!=null){
+			folderName=componentPath.replaceFirst(JSF2ResourceUtil.JSF2_URI_PREFIX, "").trim();
+		}
 		return MessageFormat.format(JSFUIMessages.Create_JSF_2_Resources_Folder,
-				JSF2ResourceUtil.calculateProjectRelativeJSF2ResourceProposal(validateResource.getProject()),URL);
+				JSF2ResourceUtil.calculateProjectRelativeJSF2ResourceProposal(validateResource.getProject())+folderName,URL);
 	}
 
 	@Override
