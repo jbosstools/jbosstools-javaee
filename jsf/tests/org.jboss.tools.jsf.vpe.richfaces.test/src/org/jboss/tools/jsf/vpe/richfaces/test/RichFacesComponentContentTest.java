@@ -368,6 +368,10 @@ public class RichFacesComponentContentTest extends ComponentContentTest {
 		performContentTest("components/colorPicker.xhtml");//$NON-NLS-1$
 	}
 	
+	public void testAutocomplete() throws Throwable {
+		performContentTest("components/autocomplete.xhtml");//$NON-NLS-1$
+	}
+	
 	@Override
 	protected String getTestProjectName() {
 		return RichFacesAllTests.IMPORT_PROJECT_NAME;

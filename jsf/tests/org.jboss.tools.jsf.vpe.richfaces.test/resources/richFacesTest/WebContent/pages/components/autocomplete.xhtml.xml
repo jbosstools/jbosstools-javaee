@@ -1,0 +1,17 @@
+<tests>
+	<test id="autocomplete1">
+		<SPAN>
+			<INPUT />
+		</SPAN>
+	</test>
+	<test id="autocomplete2">
+		<SPAN>
+			<INPUT DISABLED="disabled" />
+		</SPAN>
+	</test>
+	<test id="autocomplete3">
+		<SPAN>
+			<SELECT />
+		</SPAN>
+	</test>
+</tests>

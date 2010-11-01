@@ -781,4 +781,15 @@
 		</vpe:template>
 	</vpe:tag>
 	
+	<!-- Since RichFaces 4.0 -->
+	<vpe:tag name="rich:autocomplete" case-sensitive="yes">
+		<vpe:template children="yes" modify="no"
+			class="org.jboss.tools.jsf.vpe.richfaces.template.RichFacesAutocompleteTemplate">
+			<vpe:dnd>
+				<vpe:drag start-enable="yes" />
+				<vpe:drop container="no" />
+			</vpe:dnd>
+		</vpe:template>
+	</vpe:tag>
+	
 </vpe:templates>

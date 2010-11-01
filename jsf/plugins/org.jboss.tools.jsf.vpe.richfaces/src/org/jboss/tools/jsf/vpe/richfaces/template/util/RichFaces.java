@@ -60,7 +60,8 @@ public class RichFaces {
 	public static final String ATTR_ROWS = "rows"; //$NON-NLS-1$
 	public static final String ATTR_ROW_CLASSES = "rowClasses"; //$NON-NLS-1$
 	public static final String ATTR_SELECT_ITEM_LABEL = "itemLabel"; //$NON-NLS-1$
-	public static final String ATTR_SELECT_ITEM_VALUE = "itemValue"; //$NON-NLS-1$
+	public static final String ATTR_SELECT_ITEM_VALUE = "itemValue"; //$NON-NLS-1$showButton
+	public static final String ATTR_SHOW_BUTTON = "showButton"; //$NON-NLS-1$
 	public static final String ATTR_SHOW_BUTTON_LABELS = "showButtonLabels"; //$NON-NLS-1$
 	public static final String ATTR_SORT_BY = "sortBy"; //$NON-NLS-1$
 	public static final String ATTR_SORT_ICON = "sortIcon"; //$NON-NLS-1$
