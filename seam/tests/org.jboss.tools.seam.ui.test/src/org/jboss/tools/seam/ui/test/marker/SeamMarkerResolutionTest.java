@@ -11,6 +11,7 @@
 package org.jboss.tools.seam.ui.test.marker;
 
 import java.io.IOException;
+import java.io.InputStream;
 
 import junit.framework.TestCase;
 
@@ -18,16 +19,21 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jface.preference.IPersistentPreferenceStore;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.ui.IMarkerResolution;
 import org.eclipse.ui.ide.IDE;
+import org.jboss.tools.jst.web.kb.PageContextFactory;
+import org.jboss.tools.seam.core.SeamCoreBuilder;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.SeamPreferences;
 import org.jboss.tools.seam.ui.marker.AddAnnotatedMethodMarkerResolution;
 import org.jboss.tools.seam.ui.marker.AddAnnotationMarkerResolution;
+import org.jboss.tools.seam.ui.marker.AddSetterMarkerResolution;
 import org.jboss.tools.seam.ui.marker.ChangeScopeMarkerResolution;
 import org.jboss.tools.seam.ui.marker.DeleteAnnotationMarkerResolution;
 import org.jboss.tools.seam.ui.marker.RenameAnnotationMarkerResolution;
@@ -440,6 +446,73 @@ public class SeamMarkerResolutionTest extends TestCase {
 			}
 		}
 		assertEquals("Not all quickfixes \"Change scope to...\" found.", 8, found);
+	}
+	
+	public void testAddSetterForProperty() throws CoreException {
+		String TARGET_FILE_NAME = "WebContent/WEB-INF/components.xml";
+		copyContentsFile(TARGET_FILE_NAME, "WebContent/WEB-INF/components.3");
+		
+		project.build(IncrementalProjectBuilder.INCREMENTAL_BUILD, SeamCoreBuilder.BUILDER_ID, null, null);
+		
+		JobUtils.waitForIdle();
+		
+		IFile file = project.getFile(TARGET_FILE_NAME);
+		
+		assertTrue("File - "+TARGET_FILE_NAME+" must be exists",file.exists());
+		
+		IMarker[] markers = file.findMarkers(MARKER_TYPE, true,	IResource.DEPTH_INFINITE);
+		
+		assertTrue("Problem marker not found", markers.length > 0);
+		
+		boolean found = false;
+		for (int i = 0; i < markers.length; i++) {
+			IMarker marker = markers[i];
+			IMarkerResolution[] resolutions = IDE.getMarkerHelpRegistry()
+					.getResolutions(marker);
+			for (int j = 0; j < resolutions.length; j++) {
+				IMarkerResolution resolution = resolutions[j];
+				if (resolution instanceof AddSetterMarkerResolution) {
+					found = true;
+					break;
+				}
+			}
+			if (found) {
+				break;
+			}
+		}
+		assertTrue("The quickfix \"Add setter for 'abc' property in 'org.domain.SeamWebWarTestProject.session.StatefulComponentWithAbcField' class\" doesn't exist.", found);
+	}
+	
+	protected void copyContentsFile(String originalName, String newContentName) throws CoreException{
+		IFile originalFile = project.getFile(originalName);
+		IFile newContentFile = project.getFile(newContentName);
+		
+		copyContentsFile(originalFile, newContentFile);
+	}
+
+	
+	protected void copyContentsFile(IFile originalFile, IFile newContentFile) throws CoreException{
+		PageContextFactory.getInstance().cleanUp(originalFile);
+		InputStream is = null;
+		try{
+			is = newContentFile.getContents();
+			originalFile.setContents(is, true, false, null);
+		} finally {
+			if(is!=null) {
+				try {
+					is.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		project.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
+		JobUtils.waitForIdle();
+		originalFile.getProject().build(IncrementalProjectBuilder.INCREMENTAL_BUILD, "org.eclipse.jdt.internal.core.builder.JavaBuilder", null, null);
+		JobUtils.waitForIdle();
+		originalFile.getProject().build(IncrementalProjectBuilder.INCREMENTAL_BUILD, SeamCoreBuilder.BUILDER_ID, null, null);
+//		originalFile.getProject().build(IncrementalProjectBuilder.INCREMENTAL_BUILD, null);
+		JobUtils.waitForIdle();
 	}
 
 }
