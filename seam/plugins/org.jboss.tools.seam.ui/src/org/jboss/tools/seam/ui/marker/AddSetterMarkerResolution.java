@@ -11,20 +11,24 @@
 package org.jboss.tools.seam.ui.marker;
 
 import java.text.MessageFormat;
+import java.util.Hashtable;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jdt.core.Flags;
+import org.eclipse.jdt.core.IBuffer;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IField;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IType;
+import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.internal.corext.codemanipulation.GetterSetterUtil;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.IMarkerResolution2;
 import org.jboss.tools.common.EclipseUtil;
+import org.jboss.tools.common.java.generation.JavaPropertyGenerator;
 import org.jboss.tools.seam.core.ISeamJavaComponentDeclaration;
 import org.jboss.tools.seam.core.ISeamProperty;
 import org.jboss.tools.seam.ui.SeamGuiPlugin;
@@ -55,7 +59,18 @@ public class AddSetterMarkerResolution implements IMarkerResolution2{
 			ICompilationUnit original = EclipseUtil.getCompilationUnit(file);
 			ICompilationUnit compilationUnit = original.getWorkingCopy(new NullProgressMonitor());
 			
-			String lineDelim= compilationUnit.findRecommendedLineSeparator();
+			String lineDelim= JavaPropertyGenerator.getLineDelimiterUsed(compilationUnit);
+			
+			Hashtable<String, String> options = JavaCore.getOptions();
+			
+			int tabSize = new Integer(options.get("org.eclipse.jdt.core.formatter.tabulation.size"));
+			
+			StringBuffer tabBuf = new StringBuffer();
+			
+			for(int i = 0;i<tabSize;i++)
+				tabBuf.append(" ");
+			
+			String tab = tabBuf.toString();
 			
 			IType type = compilationUnit.findPrimaryType();
 			
@@ -69,17 +84,42 @@ public class AddSetterMarkerResolution implements IMarkerResolution2{
 				
 				StringBuffer buf= new StringBuffer();
 				
-				buf.append("private "+propertyType+" "+property.getName()+";"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				buf.append(tab+"private "+propertyType+" "+property.getName()+";"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 				buf.append(lineDelim);
 				
 				field = type.createField(buf.toString(), null, false, new NullProgressMonitor());
+				if(field != null){
+					IBuffer buffer = compilationUnit.getBuffer();
+					
+					buffer.replace(field.getSourceRange().getOffset(), field.getSourceRange().getLength(), buf.toString());
+					synchronized(compilationUnit) {
+						compilationUnit.reconcile(ICompilationUnit.NO_AST, true, null, null);
+					}
+				}
 			}
 			
-			String setterName = GetterSetterUtil.getSetterName(field, null);
 			IMethod oldMethod = GetterSetterUtil.getSetter(field);
 			if(oldMethod == null || !oldMethod.exists()){
+				String setterName = GetterSetterUtil.getSetterName(field, null);
+				//JavaPropertyGenerator.createSetter(compilationUnit, type, "public", field.getTypeSignature(), setterName, lineDelim);
+				
 				String stub = GetterSetterUtil.getSetterStub(field, setterName, true, Flags.AccPublic);
-				type.createMethod(stub, null, false, new NullProgressMonitor());
+				IMethod newMethod = type.createMethod(stub, null, false, new NullProgressMonitor());
+				if(newMethod != null){
+					IBuffer buffer = compilationUnit.getBuffer();
+					// format
+					StringBuffer buf= new StringBuffer();
+					
+					buf.append(lineDelim);
+					buf.append(tab+"public void "+setterName+"("+propertyType+" "+property.getName()+"){"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+					buf.append(lineDelim);
+					buf.append(tab+tab+"this."+property.getName()+" = "+property.getName()+";");
+					buf.append(lineDelim);
+					buf.append(tab+"}");
+					buf.append(lineDelim);
+					
+					buffer.replace(newMethod.getSourceRange().getOffset(), newMethod.getSourceRange().getLength(), buf.toString());
+				}
 			}
 			
 			compilationUnit.commitWorkingCopy(false, new NullProgressMonitor());

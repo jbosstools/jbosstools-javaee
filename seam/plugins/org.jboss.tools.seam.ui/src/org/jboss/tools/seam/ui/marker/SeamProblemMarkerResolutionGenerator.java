@@ -217,7 +217,7 @@ public class SeamProblemMarkerResolutionGenerator implements
 		if(project == null)
 			return null;
 		
-		ISeamProject seamProject = SeamCorePlugin.getSeamProject(project, false);
+		ISeamProject seamProject = SeamCorePlugin.getSeamProject(project, true);
 		if(seamProject == null)
 			return null;
 		
