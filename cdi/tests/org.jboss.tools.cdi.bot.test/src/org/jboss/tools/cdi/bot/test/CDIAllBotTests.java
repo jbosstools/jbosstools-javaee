@@ -10,8 +10,6 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.bot.test;
 
-import java.util.logging.Logger;
-
 import org.jboss.tools.cdi.bot.test.editor.BeansEditorTest;
 import org.jboss.tools.cdi.bot.test.wizard.CdiATWizardTest;
 import org.jboss.tools.ui.bot.ext.RequirementAwareSuite;
