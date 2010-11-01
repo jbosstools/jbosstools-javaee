@@ -250,6 +250,7 @@ public class CDIWizard extends Wizard {
 			bot().button("Add...", 0).click();
 			SWTBotShell sh = bot().activeShell();
 			sh.bot().text().setText(intf);
+			sh.bot().sleep(1000);
 			sh.bot().table().getTableItem(0).select();
 			sh.bot().button("OK").click();
 			break;

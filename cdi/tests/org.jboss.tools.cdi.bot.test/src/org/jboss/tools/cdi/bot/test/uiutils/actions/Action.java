@@ -15,40 +15,48 @@ import org.eclipse.swtbot.swt.finder.finders.UIThreadRunnable;
 import org.eclipse.swtbot.swt.finder.results.Result;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotMenu;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTree;
-import org.eclipse.swtbot.swt.finder.widgets.SWTBotTreeItem;
 import org.jboss.tools.ui.bot.ext.SWTBotExt;
 import org.jboss.tools.ui.bot.ext.helper.ContextMenuHelper;
 
 public abstract class Action<T> {
 
 	private final SWTBotExt bot = new SWTBotExt();
-	private final String[] path;
+	private final String[] actionPath;
+	private final String[] nodePath;
+	private final SWTBotTree tree;
 
 	public Action(String... path) {
-		assert path.length > 0;
-		this.path = path;
+		this(null, null, path);
+	}
+	
+	public Action(SWTBotTree tree, String[] nodePath, String... actionPath) {
+		assert actionPath.length > 0;
+		this.tree = tree;
+		this.nodePath = nodePath;
+		this.actionPath = actionPath;
 	}
 
 	public abstract T run();
 
 	protected SWTBot performMenu() {
-		SWTBotMenu m = bot.menu(path[0]);
-		for (int i = 1; i < path.length; i++) {
-			m = m.menu(path[i]);
+		SWTBotMenu m = bot.menu(actionPath[0]);
+		for (int i = 1; i < actionPath.length; i++) {
+			m = m.menu(actionPath[i]);
 		}
 		m.click();
 		return new SWTBot();
 	}
 	
-	protected SWTBot pepformPopup(final SWTBotTree tree, SWTBotTreeItem item) {
-		ContextMenuHelper.prepareTreeItemForContextMenu(tree, item);
+	protected SWTBot pepformPopup() {
+		assert tree != null : "Tree cannot be null!";
+		ContextMenuHelper.prepareTreeItemForContextMenu(tree, tree.expandNode(nodePath));
 		UIThreadRunnable.syncExec(new Result<SWTBotMenu>() {
 
 			public SWTBotMenu run() {
 				SWTBotMenu m = new SWTBotMenu(ContextMenuHelper.getContextMenu(
-						tree, path[0], false));
-				for (int i = 1; i < path.length; i++) {
-					m = m.menu(path[i]);
+						tree, actionPath[0], false));
+				for (int i = 1; i < actionPath.length; i++) {
+					m = m.menu(actionPath[i]);
 				}
 				return m;
 			}
