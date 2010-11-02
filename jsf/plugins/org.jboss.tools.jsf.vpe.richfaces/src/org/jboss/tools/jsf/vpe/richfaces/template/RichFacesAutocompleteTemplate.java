@@ -32,7 +32,6 @@ public class RichFacesAutocompleteTemplate extends
 	private boolean disabled;
 	private boolean showButton;
 
-	@Override
 	public VpeCreationData create(VpePageContext pageContext, Node sourceNode,
 			nsIDOMDocument visualDocument) {
 
