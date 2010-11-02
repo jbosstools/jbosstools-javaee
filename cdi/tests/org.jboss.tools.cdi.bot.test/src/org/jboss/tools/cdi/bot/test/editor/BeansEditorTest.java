@@ -131,6 +131,7 @@ public class BeansEditorTest extends SWTTestExt {
 		try {
 			be.add(item, name);
 			Assert.assertTrue(be.isDirty());
+			Assert.assertEquals(name, be.getSelectedItem());
 			be.activatePage("Source");
 			String text = be.toTextEditor().getText();
 			List<Node> nl = getItems(text, item);
@@ -197,14 +198,8 @@ public class BeansEditorTest extends SWTTestExt {
 		List<Node> list = new ArrayList<Node>();
 		for (int i = 0; i < nl.getLength(); i++) {
 			Node n = nl.item(i);
-			if (item == Item.STEREOTYPE) {
-				if ("stereotype".equals(n.getNodeName())) {
-					list.add(n);
-				}
-			} else {
-				if ("class".equals(n.getNodeName())) {
-					list.add(n);
-				}
+			if (item.getElementName().equals(n.getNodeName())) {
+				list.add(n);
 			}
 		}
 		return list;

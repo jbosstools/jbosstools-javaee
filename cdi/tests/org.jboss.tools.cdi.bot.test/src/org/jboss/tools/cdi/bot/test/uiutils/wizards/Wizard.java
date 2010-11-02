@@ -58,6 +58,7 @@ public class Wizard extends SWTBotShell {
 
 	protected void clickButton(String text) {
 		bot().button(text).click();
+		bot().sleep(500);
 	}
 
 	protected void setText(String label, String text) {

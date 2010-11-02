@@ -39,6 +39,15 @@ public class BeansEditor extends SWTBotMultiPageEditor {
 		private String getNode() {
 			return node;
 		}
+		
+		public String getElementName() {
+			switch (this) {
+			case STEREOTYPE:
+				return "stereotype";
+			default:
+				return "class";
+			}
+		}
 	}
 	
 	private SWTBotExt bot = new SWTBotExt();
@@ -54,6 +63,10 @@ public class BeansEditor extends SWTBotMultiPageEditor {
 	
 	public BeansEditor remove(Item item, String name) {
 		return modify(item, name, "Remove...", new DeleteDialogHandler());
+	}
+	
+	public String getSelectedItem() {
+		return bot().tree().selection().get(0, 0);
 	}
 	
 	private BeansEditor modify(Item item, String name, String actionLabel, DialogHandler h) {
