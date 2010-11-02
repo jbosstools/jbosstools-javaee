@@ -804,5 +804,25 @@
 			</vpe:dnd>
 		</vpe:template>
 	</vpe:tag>
+	<vpe:tag name="rich:clientId" case-sensitive="yes">
+	    <vpe:template children="no" modify="no">
+	    </vpe:template>
+    </vpe:tag>
+	<vpe:tag name="rich:component" case-sensitive="yes">
+	    <vpe:template children="no" modify="no">
+	    </vpe:template>
+    </vpe:tag>
+	<vpe:tag name="rich:element" case-sensitive="yes">
+	    <vpe:template children="no" modify="no">
+	    </vpe:template>
+    </vpe:tag>
+	<vpe:tag name="rich:findComponent" case-sensitive="yes">
+	    <vpe:template children="no" modify="no">
+	    </vpe:template>
+    </vpe:tag>
+	<vpe:tag name="rich:isUserInRole" case-sensitive="yes">
+	    <vpe:template children="no" modify="no">
+	    </vpe:template>
+    </vpe:tag>
 	
 </vpe:templates>
