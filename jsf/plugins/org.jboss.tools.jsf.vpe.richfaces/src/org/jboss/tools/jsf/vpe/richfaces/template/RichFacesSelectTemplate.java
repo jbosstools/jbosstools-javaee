@@ -18,18 +18,18 @@ import org.jboss.tools.vpe.editor.util.Constants;
 import org.jboss.tools.vpe.editor.util.HTML;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
+import org.mozilla.interfaces.nsIDOMText;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 /**
- * Template for the <rich:autocomplete> component.
+ * Template for the <rich:select> component.
  * 
  * @author dvinnichek
  */
-public class RichFacesAutocompleteTemplate extends
-		AbstractEditableRichFacesTemplate {
+public class RichFacesSelectTemplate extends AbstractEditableRichFacesTemplate {
 
-	private boolean disabled;
+	private String defaultLabel;
 	private boolean showButton;
 
 	public VpeCreationData create(VpePageContext pageContext, Node sourceNode,
@@ -40,9 +40,16 @@ public class RichFacesAutocompleteTemplate extends
 		nsIDOMElement wrapper = visualDocument.createElement(HTML.TAG_SPAN);
 		String elementName = showButton ? HTML.TAG_SELECT : HTML.TAG_INPUT;
 		nsIDOMElement element = visualDocument.createElement(elementName);
-		if (disabled) {
-			element.setAttribute(RichFaces.ATTR_DISABLED,
-					RichFaces.ATTR_DISABLED);
+		if (defaultLabel != null) {
+			if (HTML.TAG_INPUT.equals(elementName)) {
+				element.setAttribute(RichFaces.ATTR_VALUE, defaultLabel);
+			}
+			if (HTML.TAG_SELECT.equals(elementName)) {
+				nsIDOMElement option = visualDocument.createElement(HTML.TAG_OPTION);
+				nsIDOMText text = visualDocument.createTextNode(defaultLabel);
+				option.appendChild(text);
+				element.appendChild(option);
+			}
 		}
 		wrapper.appendChild(element);
 		VpeCreationData creationData = new VpeCreationData(wrapper);
@@ -60,11 +67,13 @@ public class RichFacesAutocompleteTemplate extends
 
 		Element sourceElement = (Element) sourceNode;
 
-		// disabled
-		disabled = Constants.TRUE.equalsIgnoreCase(sourceElement
-				.getAttribute(RichFaces.ATTR_DISABLED));
+		// defaultLabel
+		defaultLabel = sourceElement.hasAttribute(RichFaces.ATTR_DEFAULT_LABEL) ? sourceElement
+				.getAttribute(RichFaces.ATTR_DEFAULT_LABEL) : null;
+
 		// showButton
-		showButton = Constants.TRUE.equalsIgnoreCase(sourceElement
-				.getAttribute(RichFaces.ATTR_SHOW_BUTTON));
+		showButton = sourceElement.hasAttribute(RichFaces.ATTR_SHOW_BUTTON) ? Constants.TRUE
+				.equalsIgnoreCase(sourceElement
+						.getAttribute(RichFaces.ATTR_SHOW_BUTTON)) : true;
 	}
 }

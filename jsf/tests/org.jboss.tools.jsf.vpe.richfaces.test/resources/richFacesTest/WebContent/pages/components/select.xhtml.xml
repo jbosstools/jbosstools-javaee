@@ -1,0 +1,22 @@
+<tests>
+	<test id="select1">
+		<SPAN>
+			<SELECT>
+			</SELECT>
+		</SPAN>
+	</test>
+	<test id="select2">
+		<SPAN>
+			<SELECT>
+				<OPTION>
+					start typing for select
+				</OPTION>
+			</SELECT>
+		</SPAN>
+	</test>
+	<test id="select3">
+		<SPAN>
+			<INPUT VALUE="please select" />
+		</SPAN>
+	</test>
+</tests>

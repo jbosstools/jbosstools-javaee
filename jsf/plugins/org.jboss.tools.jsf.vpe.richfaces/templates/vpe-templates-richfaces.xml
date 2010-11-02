@@ -795,5 +795,14 @@
 			</vpe:dnd>
 		</vpe:template>
 	</vpe:tag>
+	<vpe:tag name="rich:select" case-sensitive="yes">
+		<vpe:template children="yes" modify="no"
+			class="org.jboss.tools.jsf.vpe.richfaces.template.RichFacesSelectTemplate">
+			<vpe:dnd>
+				<vpe:drag start-enable="yes" />
+				<vpe:drop container="no" />
+			</vpe:dnd>
+		</vpe:template>
+	</vpe:tag>
 	
 </vpe:templates>
