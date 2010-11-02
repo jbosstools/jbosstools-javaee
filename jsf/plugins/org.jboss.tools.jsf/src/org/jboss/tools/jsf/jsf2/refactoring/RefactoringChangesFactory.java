@@ -97,6 +97,9 @@ public class RefactoringChangesFactory {
 				}
 			}
 		} else if (resource instanceof IFolder) {
+			if(resource.getName().startsWith(".")) //$NON-NLS-1$
+				return;
+			
 			IResource[] children = ((IFolder) resource).members();
 			if (children != null) {
 				for (int i = 0; i < children.length; i++) {
@@ -173,6 +176,9 @@ public class RefactoringChangesFactory {
 				}
 			}
 		} else if (resource instanceof IFolder) {
+			if(resource.getName().startsWith(".")) //$NON-NLS-1$
+				return;
+
 			IResource[] children = ((IFolder) resource).members();
 			if (children != null) {
 				for (int i = 0; i < children.length; i++) {
