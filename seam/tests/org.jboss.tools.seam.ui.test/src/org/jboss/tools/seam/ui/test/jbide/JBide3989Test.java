@@ -25,6 +25,7 @@ import org.eclipse.ui.ide.IDE;
 import org.eclipse.wst.validation.internal.operations.ValidatorManager;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
+import org.jboss.tools.seam.ui.marker.AddNewSeamRuntimeMarkerResolution;
 import org.jboss.tools.seam.ui.marker.SeamRuntimeMarkerResolution;
 import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.ResourcesUtils;
@@ -76,7 +77,8 @@ public class JBide3989Test extends TestCase {
 	public void testJBide3989() throws CoreException {
 		IMarker[] markers = project.findMarkers(IMarker.PROBLEM, true,
 				IResource.DEPTH_INFINITE);
-		boolean found = false;
+		boolean found1 = false;
+		boolean found2 = false;
 		for (int i = 0; i < markers.length; i++) {
 			IMarker marker = markers[i];
 			IMarkerResolution[] resolutions = IDE.getMarkerHelpRegistry()
@@ -84,15 +86,18 @@ public class JBide3989Test extends TestCase {
 			for (int j = 0; j < resolutions.length; j++) {
 				IMarkerResolution resolution = resolutions[j];
 				if (resolution instanceof SeamRuntimeMarkerResolution) {
-					found = true;
-					break;
+					found1 = true;
+				}
+				if (resolution instanceof AddNewSeamRuntimeMarkerResolution) {
+					found2 = true;
 				}
 			}
-			if (found) {
+			if (found1 && found2) {
 				break;
 			}
 		}
-		assertTrue("The quickfix \"Set Seam Properties\" doesn't exist.", found);
+		assertTrue("The quickfix \"Set Seam Properties\" doesn't exist.", found1);
+		assertTrue("The quickfix \"Add New Seam Runtime\" doesn't exist.", found2);
 	}
 
 }
