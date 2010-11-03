@@ -292,4 +292,22 @@
 			</vpe:template>
 		</vpe:if>
     </vpe:tag>
+    
+    <!-- Since RichFaces 4.0 -->
+	<vpe:tag name="a4j:actionListener" case-sensitive="yes">
+	    <vpe:template children="no" modify="no">
+	    </vpe:template>
+    </vpe:tag>
+	<vpe:tag name="a4j:ajax" case-sensitive="yes">
+	    <vpe:template children="no" modify="no">
+	    </vpe:template>
+    </vpe:tag>
+	<vpe:tag name="a4j:attachQueue" case-sensitive="yes">
+	    <vpe:template children="no" modify="no">
+	    </vpe:template>
+    </vpe:tag>
+	<vpe:tag name="a4j:param" case-sensitive="yes">
+	    <vpe:template children="no" modify="no">
+	    </vpe:template>
+    </vpe:tag>
 </vpe:templates>
