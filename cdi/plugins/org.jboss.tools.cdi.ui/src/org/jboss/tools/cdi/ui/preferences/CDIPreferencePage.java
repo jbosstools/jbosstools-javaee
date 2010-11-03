@@ -22,6 +22,11 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
  * @author Alexey Kazakov
  */
 public class CDIPreferencePage extends PreferencePage implements IWorkbenchPreferencePage {
+	
+	/**
+	 * @see plugin.xml descriptor for ID
+	 */
+	public static final String ID = "org.jboss.tools.common.model.ui.cdi";
 
 	@Override
 	protected Control createContents(Composite parent) {
