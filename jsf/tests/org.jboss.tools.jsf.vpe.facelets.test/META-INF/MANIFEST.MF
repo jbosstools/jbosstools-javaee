@@ -45,4 +45,4 @@ Bundle-ActivationPolicy: lazy
 Export-Package: org.jboss.tools.jsf.vpe.facelets.test
 Bundle-Vendor: %Bundle-Vendor.0
 Bundle-Localization: plugin
-Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
