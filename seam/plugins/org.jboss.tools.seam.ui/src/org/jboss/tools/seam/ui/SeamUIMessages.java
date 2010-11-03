@@ -387,7 +387,10 @@ public class SeamUIMessages extends NLS {
 	public static String ADD_ANNOTATED_DESTROY_METHOD_MARKER_RESOLUTION_TITLE;
 	
 	public static String CHANGE_SCOPETYPE_MARKER_RESOLUTION_TITLE;
+	
 	public static String ADD_SETTER_MARKER_RESOLUTION_TITLE;
+	
+	public static String ADD_NEW_SEAM_RUNTIME_MARKER_RESOLUTION_TITLE;
 	
 	static {
 		// load message values from bundle file

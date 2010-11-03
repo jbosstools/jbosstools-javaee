@@ -45,7 +45,7 @@ public class MarkerResolutionGenerator implements IMarkerResolutionGenerator2 {
 
 	public IMarkerResolution[] getResolutions(IMarker marker) {
 		if(findResolutions(marker))
-			return new IMarkerResolution[] { new SeamRuntimeMarkerResolution() };
+			return new IMarkerResolution[] { new SeamRuntimeMarkerResolution(), new AddNewSeamRuntimeMarkerResolution(marker) };
 		else
 			return new IMarkerResolution[]{};
 	}

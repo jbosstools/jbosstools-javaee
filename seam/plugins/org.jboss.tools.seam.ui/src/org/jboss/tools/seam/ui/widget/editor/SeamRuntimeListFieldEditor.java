@@ -108,6 +108,8 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor {
 	private List<SeamRuntime> added = new ArrayList<SeamRuntime>();
 
 	private List<SeamRuntime> removed = new ArrayList<SeamRuntime>();
+	
+	private AddAction addAction;
 
 	// ------------------------------------------------------------------------
 	// Constructors
@@ -126,6 +128,12 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor {
 	public SeamRuntimeListFieldEditor(String name, String label,
 			Object defaultValue) {
 		super(name, label, defaultValue);
+	}
+	
+	public AddAction getAddAction(){
+		if(addAction == null)
+			addAction = new AddAction();
+		return addAction;
 	}
 
 	/**
@@ -334,7 +342,7 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor {
 	
 	protected void createActionBar() {
 		actionPanel = new ActionPanel(root, new BaseAction[] {
-				new AddAction(), new EditAction(), new RemoveAction()});
+				getAddAction(), new EditAction(), new RemoveAction()});
 		tableView.addSelectionChangedListener(actionPanel);
 	}
 
@@ -1018,6 +1026,21 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor {
 		public void run() {
 			Wizard wiz = new SeamRuntimeNewWizard(
 					(List<SeamRuntime>) getValue(), added);
+			WizardDialog dialog = new WizardDialog(Display.getCurrent()
+					.getActiveShell(), wiz);
+			dialog.open();
+			tableView.refresh();
+			setDefaultRuntimes();
+		}
+		
+		public void run(String name, String version) {
+			SeamRuntimeNewWizard wiz = new SeamRuntimeNewWizard(
+					(List<SeamRuntime>) getValue(), added);
+			
+			wiz.page1.name.setValue(name);
+			
+			wiz.page1.version.setValue(version);
+			
 			WizardDialog dialog = new WizardDialog(Display.getCurrent()
 					.getActiveShell(), wiz);
 			dialog.open();
