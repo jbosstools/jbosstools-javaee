@@ -47,21 +47,12 @@ public class AddNewSeamRuntimeMarkerResolution implements IMarkerResolution2{
 	private String runtimeName;
 	private String label;
 	
-	private SeamRuntimeListFieldEditor seamRuntimes;
-	
 	public AddNewSeamRuntimeMarkerResolution(IMarker marker){
 		project = (IProject)marker.getResource();
 		
 		IEclipsePreferences preferences = SeamCorePlugin.getSeamPreferences(project);
-		
 		runtimeName = preferences.get(ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME,"");
 		this.label = MessageFormat.format(SeamUIMessages.ADD_NEW_SEAM_RUNTIME_MARKER_RESOLUTION_TITLE, new Object[]{runtimeName});
-		seamRuntimes = new SeamRuntimeListFieldEditor(
-				"rtlist", SeamPreferencesMessages.SEAM_PREFERENCE_PAGE_SEAM_RUNTIMES, new ArrayList<SeamRuntime>(Arrays.asList(SeamRuntimeManager.getInstance().getRuntimes()))); //$NON-NLS-1$
-		Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
-		Composite root = new Composite(shell, SWT.NONE);
-		root.setVisible(false);
-		seamRuntimes.getEditorControls(root);
 	}
 
 	public String getLabel() {
@@ -86,12 +77,21 @@ public class AddNewSeamRuntimeMarkerResolution implements IMarkerResolution2{
 				SeamGuiPlugin.getPluginLog().logError(ex);
 			}
 			
+			SeamRuntimeListFieldEditor seamRuntimes = new SeamRuntimeListFieldEditor(
+					"rtlist", SeamPreferencesMessages.SEAM_PREFERENCE_PAGE_SEAM_RUNTIMES, new ArrayList<SeamRuntime>(Arrays.asList(SeamRuntimeManager.getInstance().getRuntimes()))); //$NON-NLS-1$
+			Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+			Composite root = new Composite(shell, SWT.NONE);
+			root.setVisible(false);
+			seamRuntimes.getEditorControls(root);
+
+			
 			seamRuntimes.getAddAction().run(runtimeName, runtimeVersion);
 			
 			for (SeamRuntime rt : seamRuntimes.getAddedSeamRuntimes()) {
 				SeamRuntimeManager.getInstance().addRuntime(rt);
 			}
 			SeamRuntimeManager.getInstance().save();
+			seamRuntimes.dispose();
 		}
 	}
 	
