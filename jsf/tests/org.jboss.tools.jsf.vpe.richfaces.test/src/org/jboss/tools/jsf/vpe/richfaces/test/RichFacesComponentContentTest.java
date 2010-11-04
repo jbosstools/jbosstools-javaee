@@ -78,6 +78,11 @@ public class RichFacesComponentContentTest extends ComponentContentTest {
 
 		performContentTest("components/datascroller.xhtml");//$NON-NLS-1$
 	}
+	
+	public void testDataScrollerRF4() throws Throwable {
+		
+		performContentTest("components/dataScroller-RF4.xhtml");//$NON-NLS-1$
+	}
 
 	public void testColumns() throws Throwable {
 		performContentTest("components/columns.xhtml");//$NON-NLS-1$
@@ -283,7 +288,11 @@ public class RichFacesComponentContentTest extends ComponentContentTest {
 	public void testSpacer() throws Throwable {
 		performContentTest("components/spacer.xhtml");//$NON-NLS-1$
 	}
-
+	
+	public void testSubTableToggleControl() throws Throwable {
+		performContentTest("components/subTableToggleControl.xhtml");//$NON-NLS-1$
+	}
+	
 	public void testSuggestionbox() throws Throwable {
 		performInvisibleTagTest("components/suggestionbox.xhtml", "suggestionBox"); //$NON-NLS-1$ //$NON-NLS-2$
 	}

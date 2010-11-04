@@ -32,6 +32,8 @@ public class RichFaces {
 	public static final String ATTR_BREAK_BEFORE = "breakBefore"; //$NON-NLS-1$
 	public static final String ATTR_CAPTION_CLASS = "captionClass"; //$NON-NLS-1$
 	public static final String ATTR_CAPTION_STYLE = "captionStyle"; //$NON-NLS-1$
+	public static final String ATTR_COLLAPSE_ICON = "collapseIcon"; //$NON-NLS-1$
+	public static final String ATTR_COLLAPSE_LABEL = "collapseLabel"; //$NON-NLS-1$
 	public static final String ATTR_COLUMN_CLASSES = "columnClasses"; //$NON-NLS-1$
 	public static final String ATTR_COLUMNS = "columns"; //$NON-NLS-1$
 	public static final String ATTR_COLUMNS_WIDTH = "columnsWidth"; //$NON-NLS-1$

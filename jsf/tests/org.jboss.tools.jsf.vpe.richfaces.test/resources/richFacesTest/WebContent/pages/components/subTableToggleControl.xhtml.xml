@@ -1,0 +1,16 @@
+<tests>
+	<test id="control1">
+		<SPAN CLASS="vpe-text">
+			<IMG SRC="/.*/resources/subTableToggleControl/down_icon.gif/" />
+		</SPAN>
+	</test>
+	<test id="control2">
+		<SPAN CLASS="vpe-text"><A>collapse</A>
+		</SPAN>
+	</test>
+	<test id="control3">
+		<SPAN CLASS="vpe-text">
+			<IMG SRC="/.*pages/components/images/icons/copy.gif/" />
+		</SPAN>
+	</test>
+</tests>

@@ -1,0 +1,31 @@
+<tests>
+	<test id="dataScroller">
+		<DIV ALIGN="right" CLASS="rich-datascr">
+			<TABLE CELLSPACING="1" CELLPADDING="0" BORDER="0"
+				CLASS="rich-dtascroller-table">
+				<TBODY>
+					<TR>
+						<TD ALIGN="center" CLASS="rich-datascr-button rich-datascr-button-dsbld">&#171;&#171;</TD>
+						<TD ALIGN="center" CLASS="rich-datascr-button rich-datascr-button-dsbld">&#171;</TD>
+						<TD ALIGN="center" CLASS="rich-datascr-button rich-datascr-button-dsbld">
+						</TD>
+						<TD ALIGN="center" CLASS="rich-datascr-act"> 1</TD>
+						<TD ALIGN="center" CLASS="rich-datascr-inact"> 2</TD>
+						<TD ALIGN="center" CLASS="rich-datascr-inact"> 3</TD>
+						<TD ALIGN="center" CLASS="rich-datascr-inact"> 4</TD>
+						<TD ALIGN="center" CLASS="rich-datascr-inact"> 5</TD>
+						<TD ALIGN="center" CLASS="rich-datascr-inact"> 6</TD>
+						<TD ALIGN="center" CLASS="rich-datascr-inact"> 7</TD>
+						<TD ALIGN="center" CLASS="rich-datascr-inact"> 8</TD>
+						<TD ALIGN="center" CLASS="rich-datascr-inact"> 9</TD>
+						<TD ALIGN="center" CLASS="rich-datascr-inact"> 10</TD>
+						<TD ALIGN="center" CLASS="rich-datascr-button">
+						</TD>
+						<TD ALIGN="center" CLASS="rich-datascr-button">&#187;</TD>
+						<TD ALIGN="center" CLASS="rich-datascr-button">&#187;&#187;</TD>
+					</TR>
+				</TBODY>
+			</TABLE>
+		</DIV>
+	</test>
+</tests>

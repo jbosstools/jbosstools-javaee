@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:a4j="http://richfaces.org/a4j"
+		xmlns:rich="http://richfaces.org/rich">
+	<h:form>
+		<b>Table 1</b>
+		<rich:dataTable value="#{carsBean.inventoryVendorLists}" var="list">
+			<rich:column>
+				<rich:subTableToggleControl id="control1" for="sbtbl"/>
+				<h:outputText value="#{list.vendor}" />
+			</rich:column>
+			<rich:subTable value="#{list.vendorItems}" var="item" id="sbtbl"
+					expandMode="client">
+				<rich:column>
+					<h:outputText value="#{item.model}" />
+				</rich:column>
+			</rich:subTable>
+		</rich:dataTable>
+		
+		<b>Table 2</b>
+		<rich:dataTable value="#{carsBean.inventoryVendorLists}" var="list">
+			<rich:column>
+				<rich:subTableToggleControl id="control2" for="sbtbl" collapseLabel="collapse"/>
+				<h:outputText value="#{list.vendor}" />
+			</rich:column>
+			<rich:subTable value="#{list.vendorItems}" var="item" id="sbtbl"
+					expandMode="client">
+				<rich:column>
+					<h:outputText value="#{item.model}" />
+				</rich:column>
+			</rich:subTable>
+		</rich:dataTable>
+		
+		<b>Table 3</b>
+		<rich:dataTable value="#{carsBean.inventoryVendorLists}" var="list">
+			<rich:column>
+				<rich:subTableToggleControl id="control3" for="sbtbl" collapseIcon="images/icons/copy.gif"/>
+				<h:outputText value="#{list.vendor}" />
+			</rich:column>
+			<rich:subTable value="#{list.vendorItems}" var="item" id="sbtbl"
+					expandMode="client">
+				<rich:column>
+					<h:outputText value="#{item.model}" />
+				</rich:column>
+			</rich:subTable>
+		</rich:dataTable>
+	</h:form>
+</ui:composition>
