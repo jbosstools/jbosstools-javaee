@@ -1,0 +1,17 @@
+<tests>
+	<test id="togglePanelItem">
+<DIV>
+<SPAN CLASS="vpe-text">
+abcdef
+</SPAN>
+<DIV STYLE="-moz-user-modify: read-write;">
+<SPAN CLASS="vpe-text">
+111111111111
+</SPAN>
+</DIV>
+<SPAN CLASS="vpe-text">
+2222222222222
+</SPAN>
+</DIV>
+	</test>
+</tests>

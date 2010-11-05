@@ -28,12 +28,12 @@ public class RichFacesComponentTest extends VpeTest {
 	setCheckWarning(false);
     }
 
+    
     public void testAllComponentsOnSinglePage() throws PartInitException,
 	    Throwable {
 	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
 		"components/richFacesTest.xhtml", RichFacesAllTests.IMPORT_PROJECT_NAME)); //$NON-NLS-1$
     }
-
     public void testCalendar() throws PartInitException, Throwable {
 	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
 		"components/calendar.xhtml", RichFacesAllTests.IMPORT_PROJECT_NAME)); //$NON-NLS-1$
@@ -218,4 +218,19 @@ public class RichFacesComponentTest extends VpeTest {
 		performTestForVpeComponent((IFile) TestUtil.getComponentPath(
 				"components/subTable.xhtml", RichFacesAllTests.IMPORT_PROJECT_NAME)); //$NON-NLS-1$
 	}
+	
+    public void collapsiblePanel() throws PartInitException, Throwable {
+    	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
+    			"components/collapsiblePanel.xhtml", RichFacesAllTests.IMPORT_PROJECT_NAME)); //$NON-NLS-1$
+    }
+    
+    public void testAccordion() throws PartInitException, Throwable {
+	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
+		"components/accordion.xhtml", RichFacesAllTests.IMPORT_PROJECT_NAME)); //$NON-NLS-1$
+    }
+    
+    public void testAccordionItem() throws PartInitException, Throwable {
+    	performTestForVpeComponent((IFile) TestUtil.getComponentPath(
+    		"components/accordionItem.xhtml", RichFacesAllTests.IMPORT_PROJECT_NAME)); //$NON-NLS-1$
+        }
 }

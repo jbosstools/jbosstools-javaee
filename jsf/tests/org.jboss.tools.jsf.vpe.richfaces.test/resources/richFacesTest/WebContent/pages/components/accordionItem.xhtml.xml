@@ -1,0 +1,9 @@
+<tests>
+	<test id="accordionItem">
+		<DIV CLASS="dr-pnlbar rich-panelbar dr-pnlbar-ext" STYLE=""
+			VPE-USER-TOGGLE-ID="0">
+			<DIV CLASS="dr-pnlbar-h rich-panelbar-header" STYLE=""
+				VPE-USER-TOGGLE-ID="0"> Panel bar item 1</DIV>
+		</DIV>
+	</test>
+</tests>

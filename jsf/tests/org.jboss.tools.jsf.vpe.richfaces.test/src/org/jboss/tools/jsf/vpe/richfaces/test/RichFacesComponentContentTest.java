@@ -389,6 +389,30 @@ public class RichFacesComponentContentTest extends ComponentContentTest {
 		performContentTest("components/select.xhtml");//$NON-NLS-1$
 	}
 	
+	public void testCollapsiblePanel() throws Throwable {
+		performContentTest("components/collapsiblePanel.xhtml");//$NON-NLS-1$
+	}
+	
+	public void testToolBarSeparator() throws Throwable {
+		performInvisibleTagTest("components/toolBarSeparator.xhtml", "toolBarSeparator"); //$NON-NLS-1$ //$NON-NLS-2$
+	}
+	
+	public void testChangeExpandListener() throws Throwable {
+		performInvisibleTagTest("components/changeExpandListener.xhtml", "changeExpandListener"); //$NON-NLS-1$ //$NON-NLS-2$
+	}
+	
+	public void testPopupPanel() throws Throwable {
+		performInvisibleTagTest("components/popupPanel.xhtml", "popupPanel"); //$NON-NLS-1$ //$NON-NLS-2$
+	}
+	
+	public void testAccordion() throws Throwable {
+		performContentTest("components/accordion.xhtml");//$NON-NLS-1$
+	}
+	
+	public void testTogglePanelItem() throws Throwable {
+		performContentTest("components/togglePanelItem.xhtml");//$NON-NLS-1$
+	}
+	
 	@Override
 	protected String getTestProjectName() {
 		return RichFacesAllTests.IMPORT_PROJECT_NAME;

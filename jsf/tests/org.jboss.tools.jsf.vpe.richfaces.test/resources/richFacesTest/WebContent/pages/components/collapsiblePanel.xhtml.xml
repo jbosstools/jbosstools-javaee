@@ -1,0 +1,17 @@
+<tests>
+	<test id="panel">
+		<DIV CLASS="dr-pnl rich-panel ">
+			<DIV VPE-FACET="header" CLASS="dr-pnl-h rich-panel-header "
+				STYLE="display: none;">
+			</DIV>
+			<DIV CLASS="dr-pnl-b rich-panel-body ">
+				<SPAN CLASS="vpe-text">
+					Panel Header
+				</SPAN>
+				<SPAN CLASS="vpe-text">
+					Panel Content
+				</SPAN>
+			</DIV>
+		</DIV>
+	</test>
+</tests>

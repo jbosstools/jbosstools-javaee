@@ -36,6 +36,7 @@ public class RichFacesPanelBarTemplate extends VpeAbstractTemplate implements Vp
     VpeTemplate {
     private static final String PERCENT_100 = "100%"; //$NON-NLS-1$
     private static final String PANEL_BAR_ITEM = ":panelBarItem"; //$NON-NLS-1$
+    private static final String ACCORDION_BAR_ITEM = ":accordionItem"; //$NON-NLS-1$
     private static final String DR_PNLBAR_RICH_PANELBAR_DR_PNLBAR_B = "dr-pnlbar rich-panelbar dr-pnlbar-b"; //$NON-NLS-1$
     private static final String PANEL_BAR_PANEL_BAR_CSS = "panelBar/panelBar.css"; //$NON-NLS-1$
     private static Map<Node, String> toggleMap = new HashMap<Node, String>();
@@ -85,7 +86,8 @@ public class RichFacesPanelBarTemplate extends VpeAbstractTemplate implements Vp
         for (Node child : children) {
             boolean active = (i == activeId);
 
-            if (child.getNodeName().endsWith(PANEL_BAR_ITEM)) {
+            if (child.getNodeName().endsWith(PANEL_BAR_ITEM)
+            		|| child.getNodeName().endsWith(ACCORDION_BAR_ITEM)) {
                 RichFacesPanelItemTemplate.encode(creationData, pageContext, (Element) child,
                     visualDocument, table, active,
                     ComponentUtil.getAttribute(sourceElement, RichFaces.ATTR_STYLE_CLASS),
@@ -214,7 +216,8 @@ public class RichFacesPanelBarTemplate extends VpeAbstractTemplate implements Vp
         int count = 0;
 
         for (Node child : children) {
-            if (child.getNodeName().endsWith(PANEL_BAR_ITEM)) {
+            if (child.getNodeName().endsWith(PANEL_BAR_ITEM)
+            		|| child.getNodeName().endsWith(ACCORDION_BAR_ITEM)) {
                 count++;
             }
         }

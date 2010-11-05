@@ -1,0 +1,31 @@
+<tests>
+	<test id="accordion">
+		<DIV>
+			<TABLE CLASS="dr-pnlbar rich-panelbar dr-pnlbar-b" STYLE="padding: 0px; height: 50px; width: 500px;">
+				<DIV CLASS="dr-pnlbar rich-panelbar dr-pnlbar-ext" STYLE=""
+					VPE-USER-TOGGLE-ID="0">
+					<DIV CLASS="dr-pnlbar-h rich-panelbar-header" STYLE=""
+						VPE-USER-TOGGLE-ID="0"> Panel bar item 1</DIV>
+				</DIV>
+				<TR HEIGHT="100%" WIDTH="100%">
+					<TD>
+						<TABLE WIDTH="100%" HEIGHT="100%" CELLPADDING="0">
+							<TBODY>
+								<TR>
+									<TD CLASS="dr-pnlbar-c rich-panelbar-content" STYLE="">
+										<SPAN> Test panel bar item component 1</SPAN>
+									</TD>
+								</TR>
+							</TBODY>
+						</TABLE>
+					</TD>
+				</TR>
+				<DIV CLASS="dr-pnlbar rich-panelbar dr-pnlbar-ext" STYLE=""
+					VPE-USER-TOGGLE-ID="1">
+					<DIV CLASS="dr-pnlbar-h rich-panelbar-header" STYLE=""
+						VPE-USER-TOGGLE-ID="1"> Panel bar item 2</DIV>
+				</DIV>
+			</TABLE>
+		</DIV>
+	</test>
+</tests>
