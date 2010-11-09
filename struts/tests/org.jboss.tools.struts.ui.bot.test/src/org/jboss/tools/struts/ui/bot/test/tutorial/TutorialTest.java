@@ -36,6 +36,7 @@ import org.eclipse.swtbot.swt.finder.matchers.AbstractMatcher;
 import org.eclipse.swtbot.swt.finder.matchers.WidgetOfType;
 import org.eclipse.swtbot.swt.finder.results.Result;
 import org.eclipse.swtbot.swt.finder.results.VoidResult;
+import org.eclipse.swtbot.swt.finder.widgets.SWTBotBrowser;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotMenu;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotShell;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotStyledText;
@@ -331,7 +332,7 @@ public class TutorialTest extends SWTTestExt {
         gui.save();
         util.waitForNonIgnoredJobs();
         new SWTBotGefContextMenu(gui.getControl(), "Run on Server").click();
-        SWTBotBrowserExt browser = bot.browser();
+        SWTBotBrowser browser = bot.browser();
         bot.sleep(7500);
         browser.refresh();
         bot.sleep(5000);
