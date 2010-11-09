@@ -346,7 +346,7 @@ public class RichFacesDataTableTemplate extends VpeAbstractTemplate {
 				} else if (nodeName.equals(sourceElement.getPrefix() + Constants.COLON + RichFaces.TAG_COLUMN) ||
 						nodeName.equals(sourceElement.getPrefix() + Constants.COLON + RichFaces.TAG_COLUMNS)) {
 					// For new row, save length of previous.
-					if (Boolean.getBoolean(column.getAttribute(RichFaces.ATTR_BREAK_BEFORE))) {
+					if (RichFacesColumnTemplate.isBreakBefore(column)) {
 						count = Math.max(currentLength,count);
 						currentLength = 0;
 					}

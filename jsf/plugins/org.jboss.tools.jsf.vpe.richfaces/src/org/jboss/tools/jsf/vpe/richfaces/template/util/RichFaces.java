@@ -30,6 +30,7 @@ public class RichFaces {
 	public static final String ATTR_ADD_CONTROL_LABEL = "addControlLabel"; //$NON-NLS-1$
 	public static final String ATTR_ALIGN = "align"; //$NON-NLS-1$
 	public static final String ATTR_BREAK_BEFORE = "breakBefore"; //$NON-NLS-1$
+	public static final String ATTR_BREAK_ROW_BEFORE = "breakRowBefore"; // RichFaces 4.0 attribute //$NON-NLS-1$
 	public static final String ATTR_CAPTION_CLASS = "captionClass"; //$NON-NLS-1$
 	public static final String ATTR_CAPTION_STYLE = "captionStyle"; //$NON-NLS-1$
 	public static final String ATTR_COLLAPSE_ICON = "collapseIcon"; //$NON-NLS-1$

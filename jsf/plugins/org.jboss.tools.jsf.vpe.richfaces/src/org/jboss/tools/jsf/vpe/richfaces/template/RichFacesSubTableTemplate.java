@@ -100,8 +100,7 @@ public class RichFacesSubTableTemplate extends VpeAbstractTemplate {
 				String nodeName = child.getNodeName();
 				if (nodeName.endsWith(':' + RichFaces.TAG_COLUMN) ||
 						nodeName.endsWith(':' + RichFaces.TAG_COLUMNS)) {
-					final boolean breakBefore = RichFaces.VALUE_TRUE.equals( ((Element)child).getAttribute(RichFaces.ATTR_BREAK_BEFORE) );
-					if (breakBefore) {
+					if (RichFacesColumnTemplate.isBreakBefore(child)) {
 						curRow++;
 						curColumn = 0;
 						curTr = visualDocument.createElement(HTML.TAG_TR);

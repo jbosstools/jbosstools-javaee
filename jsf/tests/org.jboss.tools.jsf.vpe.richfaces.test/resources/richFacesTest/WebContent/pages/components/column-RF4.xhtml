@@ -1,0 +1,24 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich">
+
+<head>
+</head>
+<body>
+	<h1>column (RichFaces 4)</h1>
+	<h:form>
+		<rich:dataTable id="table1" value="#{bookList.bookList}" var="book" sortMode="multi">
+			<rich:column sortBy="#{book.price}" id="col1" >
+				<h:outputText value="#{book.price}" />
+			</rich:column>
+			<rich:column id="col2" sortBy="#{book.numOfCopies}" breakRowBefore="true">
+				<h:outputText value="#{book.numOfCopies}" />
+			</rich:column>
+		</rich:dataTable>
+	</h:form>
+</body>
+</html>

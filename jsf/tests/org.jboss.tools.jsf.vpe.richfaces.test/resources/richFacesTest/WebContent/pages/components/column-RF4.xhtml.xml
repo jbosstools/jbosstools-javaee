@@ -1,0 +1,18 @@
+<tests>
+	<test id="table1">	
+		<TABLE>
+			<COLGROUP SPAN="1">
+			</COLGROUP>
+			<TR>
+				<TD>
+					<SPAN CLASS="vpe-text">#{book.price}</SPAN>
+				</TD>
+			</TR>
+			<TR>
+				<TD>
+					<SPAN CLASS="vpe-text">#{book.numOfCopies}</SPAN>
+				</TD>
+			</TR>
+		</TABLE>
+	</test>
+</tests>

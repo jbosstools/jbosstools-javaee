@@ -189,10 +189,16 @@ public class RichFacesColumnTemplate extends VpeAbstractTemplate {
 	    }
 	}
 
-	public static boolean isBreakBefore(Node child) {
-		String breakBeforeVal = ((Element)child).getAttribute(RichFaces.ATTR_BREAK_BEFORE);
-		boolean breakBefore = breakBeforeVal != null && breakBeforeVal.equalsIgnoreCase(RichFaces.VALUE_TRUE);
-		return breakBefore;
+	public static boolean isBreakBefore(Node node) {
+		if (node instanceof Element) {
+			Element element = (Element) node;
+			String breakBeforeVal = element.getAttribute(RichFaces.ATTR_BREAK_BEFORE);
+			String brealRowBeforeVal = element.getAttribute(RichFaces.ATTR_BREAK_ROW_BEFORE);
+			return RichFaces.VALUE_TRUE.equals(breakBeforeVal)
+					|| RichFaces.VALUE_TRUE.equals(brealRowBeforeVal);
+		} else {
+			return false;
+		}
 	}
 	
 	/**

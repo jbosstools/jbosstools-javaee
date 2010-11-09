@@ -422,9 +422,8 @@ public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 					currentLength = 0;
 				} else if (nodeName.equals(sourceElement.getPrefix() + COLUMN) ||
 						nodeName.equals(sourceElement.getPrefix() + COLUMNS)) {
-					String breakBeforeStr = column.getAttribute("breakBefore"); //$NON-NLS-1$
 					// For new row, save length of previsous.
-					if (Boolean.getBoolean(breakBeforeStr)) {
+					if (RichFacesColumnTemplate.isBreakBefore(column)) {
 						if (currentLength > count) {
 							count = currentLength;
 						}

@@ -95,6 +95,9 @@ public class RichFacesComponentContentTest extends ComponentContentTest {
 	public void testColumn() throws Throwable {
 		performContentTest("components/column.xhtml");//$NON-NLS-1$
 	}
+	public void testColumnRF4() throws Throwable {
+		performContentTest("components/column-RF4.xhtml");//$NON-NLS-1$
+	}
 
 	public void testDataGrid() throws Throwable {
 		performContentTest("components/dataGrid.xhtml");//$NON-NLS-1$
