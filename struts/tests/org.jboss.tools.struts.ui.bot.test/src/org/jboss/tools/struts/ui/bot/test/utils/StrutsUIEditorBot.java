@@ -42,50 +42,50 @@ public class StrutsUIEditorBot extends SWTBotGefEditor {
         super(reference, new SWTWorkbenchBot());
     }
 
-    @Override
-    protected void init() throws WidgetNotFoundException {
-        UIThreadRunnable.syncExec(new VoidResult() {
-
-            public void run() {
-                final IEditorPart/*EditorPartWrapper*/ editor = partReference.getEditor(true);
-                EditorPart/*StrutsEditor*/ ep = null;
-                try {
-                    Field f = editor.getClass().getDeclaredField("editor");
-                    f.setAccessible(true);
-                    Object/*StrutsConfigEditor*/ o = f.get(editor);
-                    f.setAccessible(false);
-                    f = o.getClass().getDeclaredField("guiEditor");
-                    f.setAccessible(true);
-                    Object/*StrutsConfigGuiEditor*/ o2 = f.get(o);
-                    f.setAccessible(false);
-                    Method m = o2.getClass().getMethod("getGUI");
-                    ep = (EditorPart) m.invoke(o2);
-                } catch (SecurityException e) {
-                    L.log(Level.WARNING, e.getMessage(), e);
-                } catch (NoSuchFieldException e) {
-                    L.log(Level.WARNING, e.getMessage(), e);
-                } catch (IllegalArgumentException e) {
-                    L.log(Level.WARNING, e.getMessage(), e);
-                } catch (IllegalAccessException e) {
-                    L.log(Level.WARNING, e.getMessage(), e);
-                } catch (NoSuchMethodException e) {
-                    L.log(Level.WARNING, e.getMessage(), e);
-                } catch (InvocationTargetException e) {
-                    L.log(Level.WARNING, e.getMessage(), e);
-                }
-                graphicalViewer = (GraphicalViewer) ep.getAdapter(GraphicalViewer.class);
-                final Control control = graphicalViewer.getControl();
-                if (control instanceof FigureCanvas) {
-                    canvas = new SWTBotGefFigureCanvas((FigureCanvas) control);
-                }
-                editDomain = graphicalViewer.getEditDomain();
-            }
-        });
-
-        if (graphicalViewer == null) {
-            throw new WidgetNotFoundException("Editor does not adapt to a GraphicalViewer");
-        }
-    }
+//    @Override
+//    protected void init() throws WidgetNotFoundException {
+//        UIThreadRunnable.syncExec(new VoidResult() {
+//
+//            public void run() {
+//                final IEditorPart/*EditorPartWrapper*/ editor = partReference.getEditor(true);
+//                EditorPart/*StrutsEditor*/ ep = null;
+//                try {
+//                    Field f = editor.getClass().getDeclaredField("editor");
+//                    f.setAccessible(true);
+//                    Object/*StrutsConfigEditor*/ o = f.get(editor);
+//                    f.setAccessible(false);
+//                    f = o.getClass().getDeclaredField("guiEditor");
+//                    f.setAccessible(true);
+//                    Object/*StrutsConfigGuiEditor*/ o2 = f.get(o);
+//                    f.setAccessible(false);
+//                    Method m = o2.getClass().getMethod("getGUI");
+//                    ep = (EditorPart) m.invoke(o2);
+//                } catch (SecurityException e) {
+//                    L.log(Level.WARNING, e.getMessage(), e);
+//                } catch (NoSuchFieldException e) {
+//                    L.log(Level.WARNING, e.getMessage(), e);
+//                } catch (IllegalArgumentException e) {
+//                    L.log(Level.WARNING, e.getMessage(), e);
+//                } catch (IllegalAccessException e) {
+//                    L.log(Level.WARNING, e.getMessage(), e);
+//                } catch (NoSuchMethodException e) {
+//                    L.log(Level.WARNING, e.getMessage(), e);
+//                } catch (InvocationTargetException e) {
+//                    L.log(Level.WARNING, e.getMessage(), e);
+//                }
+//                graphicalViewer = (GraphicalViewer) ep.getAdapter(GraphicalViewer.class);
+//                final Control control = graphicalViewer.getControl();
+//                if (control instanceof FigureCanvas) {
+//                    canvas = new SWTBotGefFigureCanvas((FigureCanvas) control);
+//                }
+//                editDomain = graphicalViewer.getEditDomain();
+//            }
+//        });
+//
+//        if (graphicalViewer == null) {
+//            throw new WidgetNotFoundException("Editor does not adapt to a GraphicalViewer");
+//        }
+//    }
 
     public void selectPage(final String page) {
         IWorkbenchPart p = ((EditorPartWrapper) (getReference().getPart(true))).getEditor();
@@ -101,11 +101,12 @@ public class StrutsUIEditorBot extends SWTBotGefEditor {
     }
 
     public Control/*FigureCanvas*/ getControl() {
-        return UIThreadRunnable.syncExec(new Result<Control>() {
-
-            public Control run() {
-                return graphicalViewer.getControl();
-            }
-        });
+    	return null;
+//        return UIThreadRunnable.syncExec(new Result<Control>() {
+//
+//            public Control run() {
+//                return graphicalViewer.getControl();
+//            }
+//        });
     }
 }
