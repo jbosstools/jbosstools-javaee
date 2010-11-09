@@ -131,12 +131,15 @@ public class SerializationTest extends TestCase {
 		try {
 			boolean auto = ResourcesUtils.setBuildAutomatically(false);
 			sp.getProject().build(IncrementalProjectBuilder.FULL_BUILD, null);
+			JobUtils.waitForIdle();
 			int components_1 = sp.getComponents().length;
 			assertFalse(components_1 == 0);
 			sp.getProject().build(IncrementalProjectBuilder.CLEAN_BUILD, null);
+			JobUtils.waitForIdle();
 			int components_2 = sp.getComponents().length;
 			assertEquals(components_2, 0);
 			sp.getProject().build(IncrementalProjectBuilder.FULL_BUILD, null);
+			JobUtils.waitForIdle();
 			int components_3 = sp.getComponents().length;
 			assertEquals(components_1, components_3);
 
