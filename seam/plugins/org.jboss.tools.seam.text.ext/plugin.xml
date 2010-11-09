@@ -74,6 +74,12 @@
          			<axis path="*/[http://jboss.com/products/seam/taglib]:link/action/" />
          		</partitionType>
          	</contentType>
+         	<contentType id="jsf.facelet.composite">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
+         			<axis path="*/[http://jboss.com/products/seam/taglib]:button/action/" />
+         			<axis path="*/[http://jboss.com/products/seam/taglib]:link/action/" />
+         		</partitionType>
+         	</contentType>
 		</hyperlinkPartitioner>
 
 
@@ -133,6 +139,9 @@
          		<partitionType id="org.jboss.tools.common.text.ext.jsp.JSP_EXPRESSION" />
          	</contentType>
          	<contentType id="jsf.facelet">
+         		<partitionType id="org.jboss.tools.common.text.ext.jsp.JSP_EXPRESSION" />
+         	</contentType>
+         	<contentType id="jsf.facelet.composite">
          		<partitionType id="org.jboss.tools.common.text.ext.jsp.JSP_EXPRESSION" />
          	</contentType>
          	<contentType id="org.eclipse.core.runtime.xml">
@@ -220,7 +229,12 @@
          			<axis path="*/[http://jboss.com/products/seam/taglib]:link/view/" />
          		</partitionType>
          	</contentType>
-         	
+         	<contentType id="jsf.facelet.composite">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
+         			<axis path="*/[http://jboss.com/products/seam/taglib]:button/view/" />
+         			<axis path="*/[http://jboss.com/products/seam/taglib]:link/view/" />
+         		</partitionType>
+         	</contentType>
          	<contentType id="org.eclipse.core.runtime.xml">
          		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
 					<axis path="*/view-id/" />
@@ -249,6 +263,11 @@
          		</partitionType>
          	</contentType>
          	<contentType id="jsf.facelet">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
+         			<axis path="*/[http://jboss.com/products/seam/taglib]:graphicImage/value/" />
+         		</partitionType>
+         	</contentType>
+         	<contentType id="jsf.facelet.composite">
          		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
          			<axis path="*/[http://jboss.com/products/seam/taglib]:graphicImage/value/" />
          		</partitionType>
@@ -313,6 +332,9 @@
 			<contenttypeidentifier id="jsf.facelet">
 				<partitiontype id="org.jboss.tools.seam.text.ext.SEAM_MESSAGES_BEAN" />
 			</contenttypeidentifier>
+			<contenttypeidentifier id="jsf.facelet.composite">
+				<partitiontype id="org.jboss.tools.seam.text.ext.SEAM_MESSAGES_BEAN" />
+			</contenttypeidentifier>
 			<contenttypeidentifier id="org.eclipse.core.runtime.xml">
 				<partitiontype id="org.jboss.tools.seam.text.ext.SEAM_MESSAGES_BEAN" />
 			</contenttypeidentifier>
@@ -351,7 +373,9 @@
 			<contenttypeidentifier id="jsf.facelet">
 				<partitiontype id="org.jboss.tools.seam.text.ext.SEAM_VIEW_LINK" />
 			</contenttypeidentifier>
-			
+			<contenttypeidentifier id="jsf.facelet.composite">
+				<partitiontype id="org.jboss.tools.seam.text.ext.SEAM_VIEW_LINK" />
+			</contenttypeidentifier>
 			<contenttypeidentifier id="org.eclipse.core.runtime.xml">
 				<partitiontype id="org.jboss.tools.seam.text.ext.SEAM_VIEW_LINK" />
          	</contenttypeidentifier>

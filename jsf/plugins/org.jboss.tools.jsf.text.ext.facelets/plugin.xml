@@ -19,6 +19,9 @@
          	<contentType id="jsf.facelet">
          		<partitionType id="org.jboss.tools.common.text.ext.jsp.JSP_ROOT" />
          	</contentType>
+         	<contentType id="jsf.facelet.composite">
+         		<partitionType id="org.jboss.tools.common.text.ext.jsp.JSP_ROOT" />
+         	</contentType>
 		</hyperlinkPartitioner>
 
 		<hyperlinkPartitioner 
@@ -31,6 +34,9 @@
          		<partitionType id="org.jboss.tools.common.text.ext.jsp.FACELETS_ATTRIBUTE_VALUE_WITH_EXPR" />
          	</contentType>
          	<contentType id="jsf.facelet">
+         		<partitionType id="org.jboss.tools.common.text.ext.jsp.FACELETS_ATTRIBUTE_VALUE_WITH_EXPR" />
+         	</contentType>
+         	<contentType id="jsf.facelet.composite">
          		<partitionType id="org.jboss.tools.common.text.ext.jsp.FACELETS_ATTRIBUTE_VALUE_WITH_EXPR" />
          	</contentType>
 		</hyperlinkPartitioner>
@@ -55,6 +61,14 @@
          		</partitionType>
          	</contentType>
          	<contentType id="jsf.facelet">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
+         			<axis path="*/[http://java.sun.com/jsf/facelets]:composition/template/" />
+         			<axis path="*/[http://java.sun.com/jsf/facelets]:decorate/template/" />
+         			<axis path="*/[http://jboss.com/products/seam/taglib]:decorate/template/" />
+         			<axis path="*/[http://java.sun.com/jsf/facelets]:include/src/" />
+         		</partitionType>
+         	</contentType>
+         	<contentType id="jsf.facelet.composite">
          		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
          			<axis path="*/[http://java.sun.com/jsf/facelets]:composition/template/" />
          			<axis path="*/[http://java.sun.com/jsf/facelets]:decorate/template/" />
@@ -109,6 +123,20 @@
          			<axis path="*/[http://java.sun.com/jsf/facelets]:param/value/" />
          		</partitionType>
          	</contentType>
+         	<contentType id="jsf.facelet.composite">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_TEXT" />
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
+         			<axis path="*/[http://java.sun.com/jsf/facelets]:component/id/" />
+         			<axis path="*/[http://java.sun.com/jsf/facelets]:component/binding/" />
+         			<axis path="*/[http://java.sun.com/jsf/facelets]:component/rendered/" />
+         			<axis path="*/[http://java.sun.com/jsf/facelets]:define/name/" />
+         			<axis path="*/[http://java.sun.com/jsf/facelets]:fragment/id/" /> 
+         			<axis path="*/[http://java.sun.com/jsf/facelets]:fragment/binding/" />
+         			<axis path="*/[http://java.sun.com/jsf/facelets]:insert/name/" />
+        			<axis path="*/[http://java.sun.com/jsf/facelets]:param/name/" /> 
+         			<axis path="*/[http://java.sun.com/jsf/facelets]:param/value/" />
+         		</partitionType>
+         	</contentType>
 		</hyperlinkPartitioner>
 
 		<hyperlinkPartitioner 
@@ -125,6 +153,11 @@
          		</partitionType>
          	</contentType>
          	<contentType id="jsf.facelet">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
+         			<axis path="*/[http://java.sun.com/jsf/facelets]:component/hotkey/" />
+         		</partitionType>
+         	</contentType>
+         	<contentType id="jsf.facelet.composite">
          		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
          			<axis path="*/[http://java.sun.com/jsf/facelets]:component/hotkey/" />
          		</partitionType>
@@ -183,6 +216,22 @@
          			<axis path="*/[http://java.sun.com/jsf/html]:*/enabledClass/" />
          		</partitionType>
          	</contentType>
+         	<contentType id="jsf.facelet.composite">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
+         			<axis path="*/[http://java.sun.com/jsf/html]:*/columnClasses/" />
+         			<axis path="*/[http://java.sun.com/jsf/html]:*/footerClass/" />
+         			<axis path="*/[http://java.sun.com/jsf/html]:*/headerClass/" />
+         			<axis path="*/[http://java.sun.com/jsf/html]:*/rowClasses/" />
+         			<axis path="*/[http://java.sun.com/jsf/html]:*/captionClass/" />
+         			<axis path="*/[http://java.sun.com/jsf/html]:*/styleClass/" />
+         			<axis path="*/[http://java.sun.com/jsf/html]:*/errorClass/" />
+         			<axis path="*/[http://java.sun.com/jsf/html]:*/fatalClass/" />
+         			<axis path="*/[http://java.sun.com/jsf/html]:*/infoClass/" />
+         			<axis path="*/[http://java.sun.com/jsf/html]:*/warnClass/" />
+         			<axis path="*/[http://java.sun.com/jsf/html]:*/disabledClass/" />
+         			<axis path="*/[http://java.sun.com/jsf/html]:*/enabledClass/" />
+         		</partitionType>
+         	</contentType>
 		</hyperlinkPartitioner>
 		
 	</extension>
@@ -202,6 +251,9 @@
 				<partitiontype id="org.jboss.tools.common.text.ext.FACELETS_CSS_CLASS" />
 			</contenttypeidentifier>
    			<contenttypeidentifier id="jsf.facelet">
+				<partitiontype id="org.jboss.tools.common.text.ext.FACELETS_CSS_CLASS" />
+			</contenttypeidentifier>
+   			<contenttypeidentifier id="jsf.facelet.composite">
 				<partitiontype id="org.jboss.tools.common.text.ext.FACELETS_CSS_CLASS" />
 			</contenttypeidentifier>
 		</hyperlink>
