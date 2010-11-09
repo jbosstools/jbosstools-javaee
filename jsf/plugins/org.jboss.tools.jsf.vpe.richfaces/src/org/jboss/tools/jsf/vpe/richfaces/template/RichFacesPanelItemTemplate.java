@@ -172,7 +172,8 @@ public class RichFacesPanelItemTemplate extends VpeAbstractTemplate {
 	    td.setAttribute(HTML.ATTR_CLASS, tdClass);
 	    td.setAttribute(HTML.ATTR_STYLE, tdStyle);
 
-	    Element labelFacet = SourceDomUtil.getFacetByName(sourceElement, RichFaces.NAME_FACET_LABEL);
+	    Element labelFacet = SourceDomUtil.getFacetByName(pageContext,
+	    		sourceElement, RichFaces.NAME_FACET_LABEL);
 		Map<String, List<Node>> labelFacetChildren = VisualDomUtil.findFacetElements(labelFacet, pageContext);
 		boolean labelFacetHtmlChildrenPresent = labelFacetChildren
 			.get(VisualDomUtil.FACET_HTML_TAGS).size() > 0;

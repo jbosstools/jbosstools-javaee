@@ -121,7 +121,8 @@ public class RichFacesTabTemplate extends VpeAbstractTemplate {
 				+ STYLE_SEMICOLUMN +  contentStyle);
 		
 		Map<String, List<Node>> labelFacetChildren = null;
-		Element labelFacet = SourceDomUtil.getFacetByName(sourceElement, RichFaces.NAME_FACET_LABEL);
+		Element labelFacet = SourceDomUtil.getFacetByName(pageContext,
+				sourceElement, RichFaces.NAME_FACET_LABEL);
 		if (null != labelFacet) {
 			labelFacetChildren = VisualDomUtil.findFacetElements(labelFacet, pageContext);
 		}
@@ -290,7 +291,8 @@ public class RichFacesTabTemplate extends VpeAbstractTemplate {
 		 * Encode the Label Facet
 		 * Find elements from the f:facet 
 		 */
-		Element labelFacet = SourceDomUtil.getFacetByName(sourceElement, RichFaces.NAME_FACET_LABEL);
+		Element labelFacet = SourceDomUtil.getFacetByName(pageContext,
+				sourceElement, RichFaces.NAME_FACET_LABEL);
 		if (null != labelFacet) {
 			/*
 			 * By adding attribute VPE-FACET to this visual node 

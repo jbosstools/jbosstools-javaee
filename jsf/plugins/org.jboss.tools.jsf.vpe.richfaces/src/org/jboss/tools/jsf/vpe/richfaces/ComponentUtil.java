@@ -974,7 +974,7 @@ public class ComponentUtil {
 	 */
 	public static Node getFacetBody(VpePageContext pageContext,
 			Element sourceElement, String facetName) {
-		Element facet = SourceDomUtil.getFacetByName(sourceElement, facetName);
+		Element facet = SourceDomUtil.getFacetByName(pageContext, sourceElement, facetName);
 		Map<String, List<Node>> facetChildren = VisualDomUtil
 			.findFacetElements(facet, pageContext);
 		return getFacetBody(facetChildren);

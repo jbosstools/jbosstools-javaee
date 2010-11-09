@@ -1,0 +1,68 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:h="http://java.sun.com/jsf/html"
+		xmlns:f="http://java.sun.com/jsf/core"
+		xmlns:ui="http://java.sun.com/jsf/facelets"
+		xmlns:rich="http://richfaces.org/rich">
+	<style>
+		.gray-background {
+			background-color: gray;
+		}
+		.red-background {
+			background-color: red;
+			border: 5px solid red;
+		}
+		.bold-weight {
+			font-weight: bold;
+		}
+		.italic-style {
+			font-style: italic;
+		}
+	</style>
+
+	<p><b>rich:list, default type:</b></p>
+	<rich:list id="default" value="#{carsBean.inventoryVendorLists}" id="list"
+		var="vendorList" styleClass="red-background" style="background-color:white"
+			rowClass="gray-background" rowClasses="italic-style, bold-weight">
+		<h:outputText value="#{vendorList.vendor}" />
+	</rich:list>
+	
+	<p><b>rich:list type="ordered"</b></p>
+	<rich:list id="ordered" value="#{carsBean.inventoryVendorLists}" id="list"
+		var="vendorList" type="ordered" styleClass="red-background" style="background-color:white"
+			rowClass="gray-background" rowClasses="italic-style, bold-weight">
+		<f:facet name="term">
+			<h:panelGroup layout="block">
+				<h:outputText value="In stock: #{vendorList.count}"
+					style="font-weight:bold" />
+			</h:panelGroup>
+		</f:facet>
+		<h:outputText value="#{vendorList.vendor}" />
+	</rich:list>
+	
+	<p><b>rich:list type="unordered"</b></p>
+	<rich:list id="unordered" value="#{carsBean.inventoryVendorLists}" id="list"
+		var="vendorList" type="unordered" styleClass="red-background" style="background-color:white"
+			rowClass="gray-background" rowClasses="italic-style, bold-weight">
+		<f:facet name="term">
+			<h:panelGroup layout="block">
+				<h:outputText value="In stock: #{vendorList.count}"
+					style="font-weight:bold" />
+			</h:panelGroup>
+		</f:facet>
+		<h:outputText value="#{vendorList.vendor}" />
+	</rich:list>
+	
+	<p><b>rich:list type="definitions"</b></p>
+	<rich:list id="definitions" value="#{carsBean.inventoryVendorLists}" id="list"
+		var="vendorList" type="definitions" styleClass="red-background" style="background-color:white"
+			rowClass="gray-background" rowClasses="italic-style, bold-weight">
+		<f:facet name="term">
+			<h:panelGroup layout="block">
+				<h:outputText value="In stock: #{vendorList.count}"
+					style="font-weight:bold" />
+			</h:panelGroup>
+		</f:facet>
+		<h:outputText value="#{vendorList.vendor}" />
+	</rich:list>
+</ui:composition>

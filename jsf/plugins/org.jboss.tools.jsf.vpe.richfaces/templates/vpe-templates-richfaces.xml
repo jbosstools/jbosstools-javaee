@@ -883,7 +883,16 @@
 				<vpe:drop container="no"/>
 			</vpe:dnd>
 		</vpe:template>
-	</vpe:tag>	
+	</vpe:tag>
+	<vpe:tag name="rich:list" case-sensitive="yes">
+		<vpe:template children="yes" modify="yes"
+				class="org.jboss.tools.jsf.vpe.richfaces.template.RichFacesListTemplate">
+			<vpe:dnd>
+				<vpe:drag start-enable="yes" />
+				<vpe:drop container="yes"/>
+			</vpe:dnd>
+		</vpe:template>
+	</vpe:tag>
 	<vpe:tag name="rich:clientId" case-sensitive="yes">
 	    <vpe:template children="no" modify="no">
 	    </vpe:template>

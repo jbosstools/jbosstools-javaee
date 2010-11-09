@@ -71,7 +71,8 @@ public class RichFacesDataTableTemplate extends VpeAbstractTemplate {
 		/*
 		 * Encode Caption
 		 */
-		Element caption = SourceDomUtil.getFacetByName(sourceElement, RichFaces.NAME_FACET_CAPTION);
+		Element caption = SourceDomUtil.getFacetByName(pageContext,
+				sourceElement, RichFaces.NAME_FACET_CAPTION);
 		Map<String, List<Node>> captionFacetChildren = VisualDomUtil.findFacetElements(caption, pageContext);
 		Node captionNode= null;
 		if (captionFacetChildren.get(VisualDomUtil.FACET_JSF_TAG).size() > 0) {
@@ -82,7 +83,8 @@ public class RichFacesDataTableTemplate extends VpeAbstractTemplate {
 		/*
 		 * Encode Header
 		 */
-		Element header = SourceDomUtil.getFacetByName(sourceElement, RichFaces.NAME_FACET_HEADER);
+		Element header = SourceDomUtil.getFacetByName(pageContext,
+				sourceElement, RichFaces.NAME_FACET_HEADER);
 		Map<String, List<Node>> headerFacetChildren = VisualDomUtil.findFacetElements(header, pageContext);
 		boolean headerJsfElementPresents = headerFacetChildren.get(VisualDomUtil.FACET_JSF_TAG).size() > 0;
 		boolean hasColumnWithHeader = hasColumnWithFacet(columns, RichFaces.NAME_FACET_HEADER);
@@ -116,7 +118,8 @@ public class RichFacesDataTableTemplate extends VpeAbstractTemplate {
 		/*
 		 * Encode Footer
 		 */
-		Element footer = SourceDomUtil.getFacetByName(sourceElement, RichFaces.NAME_FACET_FOOTER);
+		Element footer = SourceDomUtil.getFacetByName(pageContext,
+				sourceElement, RichFaces.NAME_FACET_FOOTER);
 		Map<String, List<Node>> footerFacetChildren = VisualDomUtil.findFacetElements(footer, pageContext);
 		boolean footerJsfElementPresents = footerFacetChildren.get(VisualDomUtil.FACET_JSF_TAG).size() > 0;
 		boolean hasColumnWithFooter = hasColumnWithFacet(columns, RichFaces.NAME_FACET_FOOTER);
@@ -192,7 +195,8 @@ public class RichFacesDataTableTemplate extends VpeAbstractTemplate {
 			String element) {
 		
 		for (Element column : headersOrFooters) {
-		    Element facet = SourceDomUtil.getFacetByName(column, facetName);
+		    Element facet = SourceDomUtil.getFacetByName(pageContext,
+		    		column, facetName);
 		    /*
 		     * If facet is null unwanted cells might be added.
 		     * Thus do not add TD for such facets.

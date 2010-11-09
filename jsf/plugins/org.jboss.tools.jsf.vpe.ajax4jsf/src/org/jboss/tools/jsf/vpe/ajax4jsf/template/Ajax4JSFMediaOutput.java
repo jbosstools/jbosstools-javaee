@@ -58,7 +58,7 @@ public class Ajax4JSFMediaOutput extends VpeAbstractTemplate {
 		
 		mainTag.setAttribute(uriAttribute, "file:///" + getAbsoluteResourcePath(IMG_PATH).replace('\\', '/')); //$NON-NLS-1$
 
-		VisualDomUtil.copyAttributes(sourceElement, SAME_ATTRIBUTES_LIST, mainTag);
+		VisualDomUtil.copyAttributes(sourceElement, mainTag, SAME_ATTRIBUTES_LIST);
 		
 		if (sourceElement.hasAttribute(Ajax4JSF.ATTR_STYLE_CLASS)) {
 			String styleClass = sourceElement.getAttribute(Ajax4JSF.ATTR_STYLE_CLASS);

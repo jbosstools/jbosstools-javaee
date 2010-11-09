@@ -58,7 +58,8 @@ public class RichFacesPanelTemplate extends VpeAbstractTemplate {
 		 * Find elements from the f:facet 
 		 */
 		Map<String, List<Node>> headerFacetChildren = null;
-		Element headerFacet = SourceDomUtil.getFacetByName(sourceElement, RichFaces.NAME_FACET_HEADER);
+		Element headerFacet = SourceDomUtil.getFacetByName(pageContext,
+				sourceElement, RichFaces.NAME_FACET_HEADER);
 		if (headerFacet != null) {
 			headerFacetChildren = VisualDomUtil.findFacetElements(headerFacet, pageContext);
 			nsIDOMElement headerDiv = visualDocument.createElement(HTML.TAG_DIV);

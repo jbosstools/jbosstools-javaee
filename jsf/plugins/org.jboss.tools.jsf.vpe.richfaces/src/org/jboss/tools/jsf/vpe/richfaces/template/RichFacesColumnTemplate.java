@@ -52,10 +52,10 @@ public class RichFacesColumnTemplate extends VpeAbstractTemplate {
 		td.setAttribute(HTML.ATTR_CLASS, columnClass);
 		final VpeCreationData creationData = new VpeCreationData(td);
 
-		Element headerFacet = SourceDomUtil.getFacetByName(sourceElement,
-				RichFaces.NAME_FACET_HEADER);
-		Element footerFacet = SourceDomUtil.getFacetByName(sourceElement,
-				RichFaces.NAME_FACET_FOOTER);
+		Element headerFacet = SourceDomUtil.getFacetByName(pageContext,
+				sourceElement, RichFaces.NAME_FACET_HEADER);
+		Element footerFacet = SourceDomUtil.getFacetByName(pageContext,
+				sourceElement, RichFaces.NAME_FACET_FOOTER);
 		Map<String, List<Node>> headerFacetChildren = VisualDomUtil
 				.findFacetElements(headerFacet, pageContext);
 		Map<String, List<Node>> footerFacetChildren = VisualDomUtil

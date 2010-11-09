@@ -1,0 +1,47 @@
+<tests>
+	<test id="default">
+		<UL STYLE="background-color: white;" CLASS="red-background">
+			<LI CLASS="italic-style gray-background">
+				<SPAN CLASS="vpe-text">
+					#{vendorList.vendor}
+				</SPAN>
+			</LI>
+		</UL>
+	</test>
+	<test id="ordered">
+		<OL STYLE="background-color: white;" CLASS="red-background">
+			<LI CLASS="italic-style gray-background">
+				<SPAN CLASS="vpe-text">
+					#{vendorList.vendor}
+				</SPAN>
+			</LI>
+		</OL>
+	</test>
+	<test id="unordered">
+		<UL STYLE="background-color: white;" CLASS="red-background">
+			<LI CLASS="italic-style gray-background">
+				<SPAN CLASS="vpe-text">
+					#{vendorList.vendor}
+				</SPAN>
+			</LI>
+		</UL>
+	</test>
+	<test id="definitions">
+		<DL STYLE="background-color: white;" CLASS="red-background">
+			<DT CLASS="italic-style gray-background">
+				<SPAN>
+					<DIV STYLE="-moz-user-modify: read-write;">
+						<SPAN STYLE="font-weight: bold;">
+							In stock: #{vendorList.count}
+						</SPAN>
+					</DIV>
+				</SPAN>
+			</DT>
+			<DD CLASS="italic-style gray-background">
+				<SPAN CLASS="vpe-text">
+					#{vendorList.vendor}
+				</SPAN>
+			</DD>
+		</DL>
+	</test>
+</tests>

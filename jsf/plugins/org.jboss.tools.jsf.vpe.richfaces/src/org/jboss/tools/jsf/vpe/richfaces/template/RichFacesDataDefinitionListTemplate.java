@@ -75,8 +75,8 @@ public class RichFacesDataDefinitionListTemplate extends VpeAbstractTemplate {
 		
 		ComponentUtil.correctAttribute((Element)sourceNode, listElement, 
 				RichFaces.ATTR_STYLE_CLASS, HTML.ATTR_CLASS, null, "listClass"); //$NON-NLS-1$
-		Element termFacet = SourceDomUtil.getFacetByName(sourceElement,
-				RichFaces.NAME_FACET_TERM);
+		Element termFacet = SourceDomUtil.getFacetByName(pageContext,
+				sourceElement, RichFaces.NAME_FACET_TERM);
 		Map<String, List<Node>> termFacetChildren = VisualDomUtil
 				.findFacetElements(termFacet, pageContext);
 		Node termNode= ComponentUtil.getFacetBody(termFacetChildren);

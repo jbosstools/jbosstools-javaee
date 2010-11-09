@@ -60,6 +60,7 @@ public class RichFaces {
 	public static final String ATTR_NAME = "name"; //$NON-NLS-1$
 	public static final String ATTR_POPUP = "popup";//$NON-NLS-1$
 	public static final String ATTR_ROWS = "rows"; //$NON-NLS-1$
+	public static final String ATTR_ROW_CLASS = "rowClass"; //$NON-NLS-1$
 	public static final String ATTR_ROW_CLASSES = "rowClasses"; //$NON-NLS-1$
 	public static final String ATTR_SELECT_ITEM_LABEL = "itemLabel"; //$NON-NLS-1$
 	public static final String ATTR_SELECT_ITEM_VALUE = "itemValue"; //$NON-NLS-1$showButton
@@ -70,6 +71,7 @@ public class RichFaces {
 	public static final String ATTR_SORTABLE = "sortable"; //$NON-NLS-1$
 	public static final String ATTR_STYLE = "style"; //$NON-NLS-1$
 	public static final String ATTR_STYLE_CLASS = "styleClass"; //$NON-NLS-1$
+	public static final String ATTR_TYPE = "type"; //$NON-NLS-1$
 	public static final String ATTR_VALUE = "value"; //$NON-NLS-1$
 	public static final String ATTR_VISIBLE = "visible"; //$NON-NLS-1$
 	public static final String ATTR_WIDTH = "width"; //$NON-NLS-1$

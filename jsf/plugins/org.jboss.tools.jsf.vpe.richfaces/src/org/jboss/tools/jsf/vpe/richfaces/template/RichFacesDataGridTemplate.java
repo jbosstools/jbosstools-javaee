@@ -73,7 +73,8 @@ public class RichFacesDataGridTemplate extends RichFacesDataTableTemplate {
 		/*
 		 * Encode Caption
 		 */
-		Element caption = SourceDomUtil.getFacetByName(sourceElement, RichFaces.NAME_FACET_CAPTION);
+		Element caption = SourceDomUtil.getFacetByName(pageContext,
+				sourceElement, RichFaces.NAME_FACET_CAPTION);
 		Map<String, List<Node>> captionFacetChildren = VisualDomUtil.findFacetElements(caption, pageContext);
 		Node captionBody = ComponentUtil.getFacetBody(captionFacetChildren);
 		encodeCaption(pageContext, creationData, sourceElement, visualDocument, table, captionBody);
@@ -81,7 +82,8 @@ public class RichFacesDataGridTemplate extends RichFacesDataTableTemplate {
 		/*
 		 * Encode Header
 		 */
-		Element header = SourceDomUtil.getFacetByName(sourceElement, RichFaces.NAME_FACET_HEADER);
+		Element header = SourceDomUtil.getFacetByName(pageContext,
+				sourceElement, RichFaces.NAME_FACET_HEADER);
 		Map<String, List<Node>> headerFacetChildren = VisualDomUtil.findFacetElements(header, pageContext);
 		Node headerBody = ComponentUtil.getFacetBody(headerFacetChildren);
 		if (headerBody != null) {
@@ -98,7 +100,8 @@ public class RichFacesDataGridTemplate extends RichFacesDataTableTemplate {
 		/*
 		 * Encode Footer
 		 */
-		Element footer = SourceDomUtil.getFacetByName(sourceElement, RichFaces.NAME_FACET_FOOTER);
+		Element footer = SourceDomUtil.getFacetByName(pageContext,
+				sourceElement, RichFaces.NAME_FACET_FOOTER);
 		Map<String, List<Node>> footerFacetChildren = VisualDomUtil.findFacetElements(footer, pageContext);
 		Node footerBody = ComponentUtil.getFacetBody(footerFacetChildren);
 		if (footerBody != null) {

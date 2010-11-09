@@ -213,6 +213,10 @@ public class RichFacesComponentContentTest extends ComponentContentTest {
 		performInvisibleTagTest("components/jQuery.xhtml", "jQuery"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
+	public void testList() throws Throwable {
+		performContentTest("components/list.xhtml");//$NON-NLS-1$
+	}
+	
 	public void testListShuttle() throws Throwable {
 		performContentTest("components/listShuttle.xhtml");//$NON-NLS-1$
 	}
