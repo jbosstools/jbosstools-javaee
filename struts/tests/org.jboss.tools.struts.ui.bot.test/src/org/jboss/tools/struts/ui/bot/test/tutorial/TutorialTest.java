@@ -160,9 +160,11 @@ public class TutorialTest extends SWTTestExt {
         s.select();
         w1 = s.widget;
         DndSupport.dnd((TreeItem) w1, (FigureCanvas) c);
+        bot.sleep(500);
         ge.clickContextMenu("Auto-Layout");
         SWTBotShell sh = bot.activeShell();
         sh.bot().button("OK").click();
+        bot.sleep(500);
 
         //2.2.2. Creating an Action Mappings
         new SWTBotGefContextMenu(c, "Action...").click();
@@ -177,15 +179,20 @@ public class TutorialTest extends SWTTestExt {
         ge.activateTool("Create New Connection");
         SWTBotGefEditPart part = ge.mainEditPart();
         part.descendants(new PartMatcher("inputname.jsp")).get(0).click();
+        bot.sleep(500);
         part.descendants(new PartMatcher("GetNameForm")).get(0).click();
+        bot.sleep(500);
 
         //2.2.4. Creating a Forward
         ge.activateTool("Create New Connection");
         part.descendants(new PartMatcher("GetNameForm")).get(0).click();
+        bot.sleep(500);
         part.descendants(new PartMatcher("greeting.jsp")).get(0).click();
+        bot.sleep(500);
         ge.clickContextMenu("Auto-Layout");
         sh = bot.activeShell();
         sh.bot().button("OK").click();
+        bot.sleep(500);
         botEditor.save();
 
         ge.selectPage("Tree");
