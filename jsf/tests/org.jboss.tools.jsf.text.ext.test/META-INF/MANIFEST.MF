@@ -22,7 +22,8 @@ Require-Bundle: org.junit,
  org.jboss.tools.jst.text.ext;bundle-version="3.1.0",
  org.jboss.tools.jsf.text.ext.facelets;bundle-version="3.1.0",
  org.jboss.tools.jsf.text.ext.richfaces;bundle-version="3.1.0",
- org.jboss.tools.jsf.ui;bundle-version="3.1.0"
+ org.jboss.tools.jsf.ui;bundle-version="3.1.0",
+ org.eclipse.jst.standard.schemas
 Bundle-ActivationPolicy: lazy
 Bundle-Vendor: %Bundle-Vendor.0
 Export-Package: org.jboss.tools.jsf.text.ext.test

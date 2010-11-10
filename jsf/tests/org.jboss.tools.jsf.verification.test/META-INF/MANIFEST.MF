@@ -17,6 +17,7 @@ Require-Bundle:
  org.jboss.tools.jst.web.verification,
  org.jboss.tools.common.model.ui,
  org.jboss.tools.common.test,
- org.jboss.tools.common.verification.test
+ org.jboss.tools.common.verification.test,
+ org.eclipse.jst.standard.schemas
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: J2SE-1.5

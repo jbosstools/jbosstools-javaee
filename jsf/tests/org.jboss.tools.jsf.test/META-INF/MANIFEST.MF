@@ -32,7 +32,8 @@ Require-Bundle:
  org.eclipse.wst.validation,
  org.jboss.tools.common.el.core,
  org.jboss.tools.jst.jsp,
- org.jboss.tools.common.model.test
+ org.jboss.tools.common.model.test,
+ org.eclipse.jst.standard.schemas
 Bundle-Activator: org.jboss.tools.jsf.plugin.JsfTestPlugin
 Bundle-ActivationPolicy: lazy
 Bundle-Localization: plugin

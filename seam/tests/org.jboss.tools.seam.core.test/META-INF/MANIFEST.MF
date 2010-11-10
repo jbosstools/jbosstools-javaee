@@ -35,6 +35,7 @@ Require-Bundle:
  org.jboss.tools.jst.jsp;bundle-version="3.1.0",
  org.jboss.tools.jsf.text.ext.richfaces;bundle-version="3.1.0",
  org.jboss.tools.seam.pages.xml,
- org.jboss.tools.seam.xml
+ org.jboss.tools.seam.xml,
+ org.eclipse.jst.standard.schemas
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
