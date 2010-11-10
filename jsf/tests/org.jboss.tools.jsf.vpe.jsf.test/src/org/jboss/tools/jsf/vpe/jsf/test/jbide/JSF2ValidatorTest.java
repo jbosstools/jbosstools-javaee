@@ -44,7 +44,7 @@ public class JSF2ValidatorTest extends VpeTest{
 		problemMarkers = file.findMarkers(MARKER_TYPE, true, IResource.DEPTH_INFINITE);
 		assertEquals("res folder marker is expected", 1, problemMarkers.length); //$NON-NLS-1$
 		String message = (String) problemMarkers[0].getAttribute(IMarker.MESSAGE);
-		assertEquals("Error messages should be","JSF 2 Resources folder \"/resources/test\" is missing in a project root directory",message); //$NON-NLS-1$ //$NON-NLS-2$
+		assertEquals("Error messages should be","JSF 2 Resources folder \"/resources/test\" is missing in a project web directory",message); //$NON-NLS-1$ //$NON-NLS-2$
 		caretOffcet =  TestUtil.getLinePositionOffcet(multiPageEditor.getSourceEditor().getTextViewer(), 6, 1);
 		styledText.setCaretOffset(caretOffcet);
 		styledText.insert("<test:testElement />"); //$NON-NLS-1$
