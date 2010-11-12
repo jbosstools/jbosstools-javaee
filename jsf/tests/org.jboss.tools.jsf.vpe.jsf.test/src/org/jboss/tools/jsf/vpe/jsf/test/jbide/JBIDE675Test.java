@@ -146,9 +146,10 @@ public class JBIDE675Test extends VpeTest {
 
 			nsIDOMNode div = nodeMapping.getVisualNode();
 
-			nsIDOMNode textNode = div.getFirstChild();
+			nsIDOMNode textNode = div.getFirstChild().getFirstChild();
 
-			assertEquals(textNode.getNodeType(), nsIDOMNode.TEXT_NODE);
+			assertEquals("Incorrect node types", //$NON-NLS-1$
+					textNode.getNodeType(), nsIDOMNode.TEXT_NODE);
 
 			assertNotNull(textNode.getNodeValue());
 			assertNotNull(node.getNodeName());
@@ -204,9 +205,10 @@ public class JBIDE675Test extends VpeTest {
 
 			nsIDOMNode div = nodeMapping.getVisualNode();
 
-			nsIDOMNode textNode = div.getFirstChild();
+			nsIDOMNode textNode = div.getFirstChild().getFirstChild();
 			
-			assertEquals(textNode.getNodeType(), nsIDOMNode.TEXT_NODE);
+			assertEquals("Incorrect node types", //$NON-NLS-1$
+					textNode.getNodeType(), nsIDOMNode.TEXT_NODE);
 
 			assertNotNull(textNode.getNodeValue());
 			assertNotNull(node.getNodeName());

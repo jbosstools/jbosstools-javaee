@@ -5,26 +5,34 @@
 		</SPAN>
 	</test>
 	<test id="id3">
-<DIV CLASS="__any__tag__caption" STYLE="border: 1px solid green; -moz-user-modify: read-only;">
-ui:composition
-<DIV CLASS="__any__tag__caption" STYLE="border: 1px solid green; -moz-user-modify: read-only;">
-ui:define
-<SPAN CLASS="vpe-text">
-Greeting to User
-</SPAN>
+<DIV STYLE="border: 1px solid green; -moz-user-modify: read-only;">
+	<DIV CLASS="__any__tag__caption" STYLE="">
+		ui:composition
 </DIV>
-<DIV CLASS="__any__tag__caption" STYLE="border: 1px solid green; -moz-user-modify: read-only;">
-ui:define
-<SPAN CLASS="vpe-text">
-Greeting Page
-</SPAN>
+	<DIV STYLE="border: 1px solid green; -moz-user-modify: read-only;">
+		<DIV CLASS="__any__tag__caption" STYLE="">
+			ui:define
 </DIV>
-<DIV CLASS="__any__tag__caption" STYLE="border: 1px solid green; -moz-user-modify: read-only;">
-ui:define
-<SPAN CLASS="vpe-text">
-Hello #{person.name}!
+		<SPAN CLASS="vpe-text">
+			Greeting to User
 </SPAN>
+	</DIV>
+	<DIV STYLE="border: 1px solid green; -moz-user-modify: read-only;">
+		<DIV CLASS="__any__tag__caption" STYLE="">
+			ui:define
 </DIV>
+		<SPAN CLASS="vpe-text">
+			Greeting Page
+</SPAN>
+	</DIV>
+	<DIV STYLE="border: 1px solid green; -moz-user-modify: read-only;">
+		<DIV CLASS="__any__tag__caption" STYLE="">
+			ui:define
+</DIV>
+		<SPAN CLASS="vpe-text">
+			Hello #{person.name}!
+</SPAN>
+	</DIV>
 </DIV>
 	</test>
 </tests>

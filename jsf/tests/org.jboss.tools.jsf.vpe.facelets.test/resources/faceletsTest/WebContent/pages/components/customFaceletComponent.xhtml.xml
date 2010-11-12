@@ -5,9 +5,11 @@
 		</SPAN>
 	</test>
 	<test id="id2">
-		<DIV CLASS="__any__tag__caption" STYLE="border: 1px solid green; -moz-user-modify: read-only;">
-			component
-		</DIV>
+<DIV STYLE="border: 1px solid green; -moz-user-modify: read-only;">
+	<DIV CLASS="__any__tag__caption" STYLE="">
+		component
+</DIV>
+</DIV>
 	</test>
 	<test id="id3">
 		<SPAN>
