@@ -12,6 +12,7 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.wizard.IWizard;
 import org.eclipse.jface.wizard.WizardDialog;
+import org.eclipse.ui.IPerspectiveDescriptor;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.wst.server.core.IRuntime;
 import org.eclipse.wst.server.core.IRuntimeType;
@@ -65,6 +66,9 @@ public class AddJSFCapabilitiesTest extends TestCase {
 	}
 
 	public void testAddJSFCapabilities() {
+		IPerspectiveDescriptor p = PlatformUI.getWorkbench().getPerspectiveRegistry().findPerspectiveWithId("org.jboss.tools.jst.web.ui.WebDevelopmentPerspective");
+		if(p != null) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().setPerspective(p);
+
 		ImportWebProjectWizard wizard = (ImportWebProjectWizard)new Act().getWizard(project);
 		WizardDialog dialog = new WizardDialog(
 				PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
@@ -90,6 +94,8 @@ public class AddJSFCapabilitiesTest extends TestCase {
 		IFile f = project.getFile(new Path(".settings/org.eclipse.wst.common.project.facet.core.xml"));
 		assertNotNull(f);
 		assertTrue(f.exists());
+
+		dialog.close();
 	}
 
 	static String RUNTIME = "org.eclipse.jst.server.tomcat.runtime.60";
