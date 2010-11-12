@@ -5,7 +5,6 @@ import java.util.ArrayList;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.jface.viewers.StructuredSelection;
-import org.eclipse.jface.wizard.IWizard;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IEditorPart;
@@ -25,21 +24,19 @@ public class CssClassNewWizardTest extends WizardTest {
 	}
 	
 	public void testCssClassNewWizardTestIsCreated() {
-		needClose = false;
 		wizardIsCreated();
 	}
 	
 	public void testCssClassNewWizardValidation() {
-		IWizard wizard = getWizard();
+		wizard = getWizard();
 		
 		boolean canFinish = wizard.canFinish();
 		
 		assertFalse("Finish button is enabled at first wizard page.", canFinish); //$NON-NLS-1$
-		wizard.performCancel();
 	}
 	
 	public void testCssClassNewWizardValidation2() {
-		IWizard wizard = getWizardOnProject();
+		wizard = getWizardOnProject();
 		
 		boolean canFinish = wizard.canFinish();
 		
@@ -65,17 +62,15 @@ public class CssClassNewWizardTest extends WizardTest {
 		// Assert Finish button is disabled and error is present if
 		//		Folder field is correct
 		//		Name field contains file name that already exists
-		wizard.performCancel();		
 	}
 	
 	public void testCssClassEditing() {
-
 		ArrayList<IResource> list = new ArrayList<IResource>();
 		IResource cssFile = project.findMember(CSS_FILE_PATH);
 		assertNotNull(cssFile);
 		list.add(cssFile);
 		StructuredSelection selection = new StructuredSelection(list);
-		IWizard wizard = WorkbenchUtils.findWizardByDefId(id);
+		wizard = WorkbenchUtils.findWizardByDefId(id);
 
 		((IWorkbenchWizard) wizard).init(PlatformUI.getWorkbench(), selection);
 
@@ -122,7 +117,6 @@ public class CssClassNewWizardTest extends WizardTest {
 		assertFalse("Finish button is not disabled.", wizard.canFinish()); //$NON-NLS-1$
 		wizard.getContainer().showPage(wizard.getNextPage(wizard.getContainer().getCurrentPage()));
 		assertTrue("Finish button is  disabled.", wizard.canFinish()); //$NON-NLS-1$
-		wizard.performCancel();
 	}
 	
 	public void testCssClassWithEditor() {
@@ -139,7 +133,7 @@ public class CssClassNewWizardTest extends WizardTest {
 //		assertNotNull(cssFile);
 //		list.add(cssFile);
 //		StructuredSelection selection = new StructuredSelection(list);
-		IWizard wizard = WorkbenchUtils.findWizardByDefId(id);
+		wizard = WorkbenchUtils.findWizardByDefId(id);
 //
 //		((IWorkbenchWizard) wizard).init(PlatformUI.getWorkbench(), selection);
 
@@ -147,9 +141,6 @@ public class CssClassNewWizardTest extends WizardTest {
 				.getActiveWorkbenchWindow().getShell(), wizard);
 		dialog.setBlockOnOpen(false);
 		dialog.open();
-
-		wizard.performCancel();
-
 	}
 
 }

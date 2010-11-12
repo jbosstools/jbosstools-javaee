@@ -7,7 +7,6 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.jface.viewers.StructuredSelection;
-import org.eclipse.jface.wizard.IWizard;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.ui.IWorkbenchWizard;
 import org.eclipse.ui.PlatformUI;
@@ -29,12 +28,11 @@ public class FacesConfigNewWizardTest extends WizardTest {
 	}
 	
 	public void _testFacesConfigNewWizardValidation() {
-		IWizard wizard = getWizard();
+		wizard = getWizard();
 		
 		boolean canFinish = wizard.canFinish();
 		
 		assertFalse("Finish button is enabled at first wizard page.", canFinish);
-		wizard.performCancel();
 	}
 	
 	public void testFacesConfigNewWizardValidation2() {
@@ -46,7 +44,7 @@ public class FacesConfigNewWizardTest extends WizardTest {
 		
 		StructuredSelection selection = new StructuredSelection(list);
 		
-		IWizard wizard = WorkbenchUtils.findWizardByDefId(id);
+		wizard = WorkbenchUtils.findWizardByDefId(id);
 		
 		NewFileWizardEx wiz = (NewFileWizardEx)wizard;
 		
@@ -68,13 +66,11 @@ public class FacesConfigNewWizardTest extends WizardTest {
 		
 		// Assert file with name from Name field created in folder with name form Folder field
 		
-		
 		boolean canFinish = wizard.canFinish();
 		
 		assertTrue("Finish button is disabled.", canFinish);
 		
 		wizard.performFinish();
-		dialog.close();
 		
 		JobUtils.waitForIdle();
 		
@@ -103,7 +99,7 @@ public class FacesConfigNewWizardTest extends WizardTest {
 		
 		StructuredSelection selection = new StructuredSelection(list);
 		
-		IWizard wizard = WorkbenchUtils.findWizardByDefId(id);
+		wizard = WorkbenchUtils.findWizardByDefId(id);
 		
 		NewFileWizardEx wiz = (NewFileWizardEx)wizard;
 		
@@ -148,6 +144,5 @@ public class FacesConfigNewWizardTest extends WizardTest {
 		int p = webXmlContent.indexOf("faces-config22.xml");
 		
 		assertTrue("File faces-config22.xml is not registered in web.xml", p >= 0);
-		dialog.close();
 	}
 }
