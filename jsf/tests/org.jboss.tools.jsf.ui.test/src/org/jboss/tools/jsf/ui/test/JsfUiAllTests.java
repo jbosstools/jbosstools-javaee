@@ -49,7 +49,6 @@ public class JsfUiAllTests {
 		suite.addTestSuite(FacesConfigNewWizardTest.class);
 		suite.addTestSuite(FasesConfigEditorTest.class);
 		suite.addTestSuite(PropertiesNewWizardTest.class);
-		suite.addTestSuite(JsfUiPreferencesPagesTest.class);
 		suite.addTestSuite(JsfJspJbide6259Test.class);
 		suite.addTestSuite(JsfJspJbide1704Test.class);
  		suite.addTestSuite(JsfJspJbide1717Test.class);
@@ -79,6 +78,8 @@ public class JsfUiAllTests {
 				"org.jboss.tools.jsf.ui.test",
 				new String[]{"projects/test_jsf_project"},
 				new String[]{"test_jsf_project"}));
+
+		suite.addTestSuite(JsfUiPreferencesPagesTest.class);
 
 		return new TestWizardsProject(suite);
 	}
