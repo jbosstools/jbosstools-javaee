@@ -15,9 +15,12 @@ import org.jboss.tools.jst.web.kb.taglib.ITagLibrary;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.internal.core.SeamProject;
 import org.jboss.tools.test.util.JobUtils;
+import org.jboss.tools.test.util.TestProjectProvider;
 
 public class SeamModelStorageTest extends TestCase {
 	IProject project = null;
+	TestProjectProvider provider = null;
+	boolean makeCopy = true;
 
 	public SeamModelStorageTest() {
 		super("Seam Model Storage Test");
@@ -26,6 +29,13 @@ public class SeamModelStorageTest extends TestCase {
 	public void setUp() throws Exception {
 		project = ResourcesPlugin.getWorkspace().getRoot().getProject("TestStorage");
 		assertNotNull("Can't load TestStorage", project); //$NON-NLS-1$
+		if(!project.exists()) {
+			provider = new TestProjectProvider("org.jboss.tools.seam.core.test",
+					null,"TestScanner" ,true);
+			project = provider.getProject();
+		}
+		project.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
+		this.project.build(IncrementalProjectBuilder.FULL_BUILD, null);
 	}
 
 	public void testStorage() throws Exception {
@@ -63,6 +73,13 @@ public class SeamModelStorageTest extends TestCase {
 		mod = seam.getModificationsSinceLastStore();
 		System.out.println("-->" + mod);
 		assertTrue("Modification index after adding new library must be greater than 0", mod > 0);
+	}
+
+	@Override
+	protected void tearDown() throws Exception {
+		if(provider!=null) {
+			provider.dispose();
+		}
 	}
 
 }
