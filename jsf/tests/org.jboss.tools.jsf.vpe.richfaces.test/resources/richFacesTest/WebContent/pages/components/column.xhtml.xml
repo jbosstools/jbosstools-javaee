@@ -32,7 +32,7 @@
 				<TABLE ID="table1" VALUE="#{bookList.bookList}" VAR="book"
 					STYLE="border: thick dotted Orchid; text-align: center; color: Orchid; font-style: italic; font-size: small; background-color: Turquoise; text-decoration: underline; font-family: Arial; font-weight: bolder;"
 					COLUMNCLASSES="evenRow, oddRow" SORTMODE="multi" CLASS="dr-table rich-table">
-					<COLGROUP SPAN="4">
+					<COLGROUP SPAN="3">
 					</COLGROUP>
 					<THEAD>
 						<TR CLASS="dr-table-header rich-table-header"
