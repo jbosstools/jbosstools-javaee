@@ -23,6 +23,8 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.jface.preference.IPersistentPreferenceStore;
 import org.eclipse.jface.preference.IPreferenceStore;
+import org.eclipse.jface.util.IPropertyChangeListener;
+import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.wst.common.project.facet.core.IFacetedProject;
 import org.eclipse.wst.common.project.facet.core.IProjectFacet;
 import org.eclipse.wst.common.project.facet.core.IProjectFacetVersion;
@@ -55,6 +57,27 @@ public class SeamRuntimeManager {
 				.getStringPreference(SeamProjectPreferences.RUNTIME_LIST);
 
 		runtimes = converter.getMap(runtimeListString);
+		SeamCorePlugin.getDefault().getPreferenceStore().addPropertyChangeListener(new IPropertyChangeListener() {
+
+			public void propertyChange(PropertyChangeEvent event) {
+				String property = event.getProperty();
+				if (SeamProjectPreferences.RUNTIME_LIST.equals(property)) {
+					String runtimeListString = SeamProjectPreferences
+						.getStringPreference(SeamProjectPreferences.RUNTIME_LIST);
+					Map<String, SeamRuntime> newRuntimes = converter.getMap(runtimeListString);
+					for (SeamRuntime seamRuntime : newRuntimes.values()) {
+						String name = seamRuntime.getName();
+						if (name == null) {
+							continue;
+						}
+						SeamRuntime runtime = runtimes.get(name);
+						if (runtime == null) {
+							addRuntime(seamRuntime);
+						}
+					}
+				}
+			}
+		});
 	}
 
 	/**
