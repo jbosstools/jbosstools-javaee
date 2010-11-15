@@ -15,6 +15,7 @@ import org.jboss.tools.common.model.ui.objecteditor.XChildrenEditor;
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.jface.viewers.*;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.SWTException;
 import org.eclipse.swt.layout.*;
 import org.eclipse.swt.widgets.*;
 import org.eclipse.ui.*;
@@ -85,6 +86,9 @@ public class JSFCapabilitiesPreferencesPage extends PreferencePage implements IW
 		if(copy == null || copy.getChildren().length == 0) return;
 		Display.getDefault().asyncExec(new Runnable() {
 			public void run() {
+				if(capabilityList.getControl() == null || capabilityList.getControl().isDisposed()) {
+					return;
+				}
 				capabilityList.getSelectionProvider().setSelection(new StructuredSelection(copy.getChildren()[0]));
 				capabilityList.update();
 				capabilitySelectionChanged();
