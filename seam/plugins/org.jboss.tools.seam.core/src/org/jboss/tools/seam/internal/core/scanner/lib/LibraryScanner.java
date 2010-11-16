@@ -155,10 +155,10 @@ public class LibraryScanner implements IFileScanner {
 			}
 			if(root == null) {
 				root = javaProject.findPackageFragmentRoot(new Path(location));
-				if(root != null) {
-					process(root, ds);
-				}				
 			}
+			if(root != null) {
+				process(root, ds);
+			}				
 		} 
 	}
 	
