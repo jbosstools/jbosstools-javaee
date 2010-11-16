@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Seam Tests Base Classes
+Bundle-SymbolicName: org.jboss.tools.seam.base.test
+Bundle-Version: 1.0.0.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Require-Bundle: org.eclipse.core.resources;bundle-version="3.6.0",
+ org.eclipse.core.runtime;bundle-version="3.6.0",
+ org.eclipse.jst.common.project.facet.core;bundle-version="1.4.100",
+ org.eclipse.wst.common.project.facet.core;bundle-version="1.4.100",
+ org.eclipse.wst.common.modulecore;bundle-version="1.2.0",
+ org.eclipse.wst.common.frameworks;bundle-version="1.2.0",
+ org.jboss.tools.seam.core;bundle-version="3.2.0",
+ org.jboss.tools.tests;bundle-version="3.1.0",
+ org.junit
+Export-Package: org.jboss.tools.seam.core.test.project.facet
