@@ -14,6 +14,7 @@ package org.jboss.tools.seam.ui.test.jbide;
 
 
 import junit.framework.Test;
+import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 import org.eclipse.core.resources.IFile;
@@ -26,19 +27,21 @@ import org.eclipse.jface.text.contentassist.IContentAssistant;
 import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.jface.text.source.SourceViewerConfiguration;
 import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.wst.sse.ui.StructuredTextViewerConfiguration;
 import org.jboss.tools.jst.jsp.jspeditor.JSPMultiPageEditor;
+import org.jboss.tools.jst.jsp.jspeditor.JSPMultiPageEditorPart;
 import org.jboss.tools.jst.jsp.jspeditor.JSPTextEditor;
+import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.TestProjectProvider;
-import org.jboss.tools.vpe.ui.test.TestUtil;
-import org.jboss.tools.vpe.ui.test.VpeTest;
+import org.jboss.tools.test.util.WorkbenchUtils;
 
 
 /**
  * The Class JBide2227TestCase.
  */
-public class JBide2227TestCase extends VpeTest {
+public class JBide2227TestCase extends TestCase {
 
     /** The Constant CA_NAME. */
     private static final String CA_NAME = "org.eclipse.wst.html.HTML_DEFAULT";
@@ -51,6 +54,8 @@ public class JBide2227TestCase extends VpeTest {
 
     /** The Constant PAGE_2. */
     private static final String PAGE_2 = "/WebContent/jbide2227/withoutEl.xhtml";
+
+    protected final static String JSP_EDITOR_ID = "org.jboss.tools.jst.jsp.jspeditor.JSPTextEditor"; //$NON-NLS-1$
 
     /**
      * Suite.
@@ -112,17 +117,21 @@ public class JBide2227TestCase extends VpeTest {
         assertNotNull("Editor input is null", input);
 
         // open and get editor
-        JSPMultiPageEditor part = openEditor(input);
+        // get editor
+		JSPMultiPageEditor part = (JSPMultiPageEditor) PlatformUI
+				.getWorkbench().getActiveWorkbenchWindow().getActivePage()
+				.openEditor(input, JSP_EDITOR_ID, true);
+
 
         // sets cursor position
         part.getSourceEditor().getTextViewer().getTextWidget().setCaretOffset(position);
-        TestUtil.waitForJobs();
-        TestUtil.delay(2000);
+        JobUtils.waitForIdle();
+        JobUtils.delay(2000);
         SourceViewerConfiguration sourceViewerConfiguration = ((JSPTextEditor) part.getSourceEditor())
                 .getSourceViewerConfigurationForTest();
         // errase errors which can be on start of editor(for example xuklunner
         // not found)
-        setException(null);
+
         StructuredTextViewerConfiguration stvc = (StructuredTextViewerConfiguration) sourceViewerConfiguration;
         IContentAssistant iContentAssistant = stvc.getContentAssistant((ISourceViewer) part.getSourceEditor().getAdapter(
                 ISourceViewer.class));
@@ -134,8 +143,8 @@ public class JBide2227TestCase extends VpeTest {
         assertNotNull(results);
         assertEquals(numberOfProposals, results.length);
 
-        closeEditors();
-        TestUtil.delay(1000L);
+        WorkbenchUtils.closeAllEditors();
+        JobUtils.delay(1000L);
     }
 
     /**
@@ -176,19 +185,7 @@ public class JBide2227TestCase extends VpeTest {
      *      the throwable
      */
     public void testContentAssistWithEl() throws Throwable {
-        // wait
-        TestUtil.waitForJobs();
-        // set exception
-        setException(null);
-        // Tests CA
-
         check(CA_NAME, PAGE_1, 576, 114);
-
-        // check exception
-        if (getException() != null) {
-
-            throw getException();
-        }
     }
 
     /**
@@ -198,8 +195,6 @@ public class JBide2227TestCase extends VpeTest {
      *      the throwable
      */
     public void testContentAssistWithoutEl() throws Throwable {
-        TestUtil.waitForJobs();
-
         check(CA_NAME, PAGE_2, 580, 11);
     }
 
