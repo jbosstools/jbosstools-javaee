@@ -86,8 +86,6 @@ public class SeamEARTest extends TestCase {
 		c = seamProject.getComponent("org.jboss.seam.core.interpolator");
 		assertNotNull("War project must see component 'org.jboss.seam.core.interpolator' declared in ejb project", c);
 		
-		c = seamProject.getComponent("org.jboss.seam.security.credentials");
-		assertNotNull("War project must see component 'org.jboss.seam.security.credentials' declared in ejb project", c);
 	}
 
 	/**
