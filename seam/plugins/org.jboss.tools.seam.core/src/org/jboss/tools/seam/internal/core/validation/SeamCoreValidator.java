@@ -198,6 +198,12 @@ public class SeamCoreValidator extends SeamValidationErrorManager implements IVa
 
 		SeamProjectsSet set = new SeamProjectsSet(project);
 		IProject warProject = set.getWarProject();
+		
+		// Fix for JBIDE-7622: set these variables to null due to prevent wrong project validations --->>>
+		seamProject = null;
+		projectName = null;
+		// <<<---
+		
 		if(warProject.isAccessible()) {
 			seamProject = SeamCorePlugin.getSeamProject(warProject, false);
 			projectName = seamProject.getProject().getName();
