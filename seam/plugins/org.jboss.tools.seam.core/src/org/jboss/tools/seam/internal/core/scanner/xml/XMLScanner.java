@@ -42,6 +42,7 @@ import org.jboss.tools.seam.core.ISeamXmlComponentDeclaration;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.event.ISeamValue;
 import org.jboss.tools.seam.core.event.ISeamValueString;
+import org.jboss.tools.seam.internal.core.SeamImport;
 import org.jboss.tools.seam.internal.core.SeamProperty;
 import org.jboss.tools.seam.internal.core.SeamValueList;
 import org.jboss.tools.seam.internal.core.SeamValueMap;
@@ -175,8 +176,10 @@ public class XMLScanner implements IFileScanner {
 				ds.getFactories().add(factory);
 			} else if(os[i].getModelEntity().getName().startsWith("SeamImport")) { //$NON-NLS-1$
 				String v = os[i].getAttributeValue("import");
-				if(v != null && v.length() > 0 && !ds.getImports().contains(v)) {
-					ds.getImports().add(v);
+				if(v != null && v.length() > 0) {
+					SeamImport s = new SeamImport();
+					s.setSeamPackage(v);
+					ds.getImports().add(s);
 				}
 			}
 		}

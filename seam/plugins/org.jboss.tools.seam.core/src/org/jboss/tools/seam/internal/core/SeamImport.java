@@ -1,9 +1,6 @@
 package org.jboss.tools.seam.internal.core;
 
-import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.Path;
 import org.jboss.tools.common.xml.XMLUtilities;
-import org.jboss.tools.seam.core.ISeamNamespace;
 import org.w3c.dom.Element;
 
 public class SeamImport {
@@ -31,7 +28,7 @@ public class SeamImport {
 	}
 
 	public Element toXML(Element parent) {
-		Element element = XMLUtilities.createElement(parent, "import");
+		Element element = XMLUtilities.createElement(parent, SeamXMLConstants.TAG_IMPORT);
 		if(seamPackage != null) {
 			element.setAttribute(SeamXMLConstants.ATTR_VALUE, seamPackage);
 		}

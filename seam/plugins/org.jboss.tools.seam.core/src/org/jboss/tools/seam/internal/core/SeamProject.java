@@ -13,9 +13,7 @@ package org.jboss.tools.seam.internal.core;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -37,6 +35,8 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.core.runtime.preferences.IScopeContext;
+import org.eclipse.jdt.core.IMember;
+import org.eclipse.jdt.core.IType;
 import org.eclipse.jst.jsf.designtime.DesignTimeApplicationManager;
 import org.jboss.tools.common.model.project.ext.event.Change;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
@@ -93,7 +93,8 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 	
 	Set<SeamProject> usedBy = new HashSet<SeamProject>();
 	
-	Map<String,List<String>> imports = new HashMap<String, List<String>>();
+	
+	ImportStorage imports = new ImportStorage();
 	
 	{
 		createScopes();
@@ -596,12 +597,11 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 					o.toXML(cse, context);
 				}
 			}
-			List<String> imports = ds.getImports();
+			List<SeamImport> imports = ds.getImports();
 			if(imports != null && !imports.isEmpty()) {
 				Element cse = XMLUtilities.createElement(pathElement, "imports"); //$NON-NLS-1$
-				for (String d: imports) {
-					Element e = XMLUtilities.createElement(cse, SeamXMLConstants.TAG_IMPORT); //$NON-NLS-1$
-					e.setAttribute(SeamXMLConstants.ATTR_VALUE, d);
+				for (SeamImport d: imports) {
+					d.toXML(cse);
 				}
 			}
 			
@@ -717,9 +717,10 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 			if(imports != null) {
 				Element[] cs = XMLUtilities.getChildren(imports, SeamXMLConstants.TAG_IMPORT);
 				for (int j = 0; j < cs.length; j++) {
-					String v = cs[j].getAttribute(SeamXMLConstants.ATTR_VALUE);
-					if(v != null && v.length() > 0) {
-						ds.getImports().add(v);
+					SeamImport s = new SeamImport();
+					s.loadXML(cs[j]);
+					if(s.getSeamPackage() != null && s.getSeamPackage().length() > 0) {
+						ds.getImports().add(s);
 					}
 				}
 				
@@ -854,9 +855,9 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		}
 		
 		if(!ds.getImports().isEmpty()) {
-			setImports(source.toString(), ds.getImports());
+			setImports(source, ds.getImports());
 		} else {
-			removeImports(source.toString());
+			removeImports(source);
 		}
 
 		Map<Object,ISeamComponentDeclaration> currentComponents = findComponentDeclarations(source);
@@ -1181,7 +1182,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		sourcePaths2.remove(source);
 		
 		namespaces.removePath(source);
-		removeImports(source.toString());
+		removeImports(source);
 
 		List<Change> changes = null;
 
@@ -1393,32 +1394,32 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		variables.remove(v);
 	}
 	
-	public void setImports(String source, List<String> paths) {
-		if(equalLists(imports.get(source), paths)) return;
+	public void setImports(IPath source, List<SeamImport> paths) {
+		if(equalLists(imports.importsBySource.get(source), paths)) return;
 		modifications++;
 		synchronized(variables) {
 			variables.allVariablesPlusShort = null;
 			variables.byName = null;
 		}
-		imports.put(source, paths);
+		imports.setPath(source, paths);
 	}
 	
-	private boolean equalLists(List<String> s1, List<String> s2) {
+	private boolean equalLists(List<SeamImport> s1, List<SeamImport> s2) {
 		if(s1 == null || s2 == null) return s1 == s2;
 		if(s1.size() != s2.size()) return false;
 		for (int i = 0; i < s1.size(); i++) {
-			if(!s1.get(i).equals(s2.get(i))) return false;
+			if(!s1.get(i).getSeamPackage().equals(s2.get(i).getSeamPackage())) return false;
 		}
 		return true;
 	}
 
-	public void removeImports(String source) {
-		if(!imports.containsKey(source)) return;
+	public void removeImports(IPath source) {
+		if(!imports.importsBySource.containsKey(source)) return;
 		modifications++;
 		synchronized(variables) {
 			variables.allVariablesPlusShort = null;
 		}
-		imports.remove(source);
+		imports.removePath(source);
 	}
 
 	/**
@@ -1433,11 +1434,26 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 	}
 	
 	public boolean isImportedPackage(String packageName) {
-		for (String s: imports.keySet()) {
-			List<String> list = imports.get(s);
-			if(list.contains(packageName)) return true;
+		for (IPath s: imports.importsBySource.keySet()) {
+			List<SeamImport> list = imports.importsBySource.get(s);
+			for (SeamImport i: list) {
+				if(i.getJavaPackage() == null) {
+					if(i.getSeamPackage().equals(packageName)) return true;
+				}
+			}
 		}
 		return false;
+	}
+
+	public List<SeamImport> getPackageImports(ISeamJavaComponentDeclaration declaration) {
+		IMember m = declaration.getSourceMember();
+		IType type = null;
+		if(m instanceof IType) type = (IType)m;
+		if(type != null && type.getPackageFragment() != null) {
+			String n = type.getPackageFragment().getElementName();
+			return imports.importsByJavaPackage.get(n);
+		}		
+		return new ArrayList<SeamImport>();
 	}
 
 	/**
@@ -1805,15 +1821,14 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 			}
 			ds.getFactories().add(f.clone());
 		}
-		for (String s: imports.keySet()) {
-			IPath p = new Path(s);
+		for (IPath p: imports.importsBySource.keySet()) {
 			if(p == null || EclipseResourceUtil.isJar(p.toString())) continue;
 			LoadedDeclarations ds = map.get(p);
 			if(ds == null) {
 				ds = new LoadedDeclarations();
 				map.put(p, ds);
 			}
-			ds.getImports().addAll(imports.get(s));
+			ds.getImports().addAll(imports.importsBySource.get(p));
 		}
 		return map;
 	}
@@ -1983,6 +1998,49 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 
 	}
 
+	
+	
+	class ImportStorage extends Storage {
+		Map<IPath, List<SeamImport>> importsBySource = new HashMap<IPath, List<SeamImport>>();
+		Map<String, List<SeamImport>> importsByJavaPackage = new HashMap<String, List<SeamImport>>();
+
+		public void clear() {
+			importsBySource.clear();
+			importsByJavaPackage.clear();
+		}
+
+		public List<SeamImport> getImportsBySource(IPath path) {
+			return importsBySource.get(path);
+		}
+
+		public void setPath(IPath source, List<SeamImport> ns) {
+			List<SeamImport> sd = importsBySource.get(source);
+			if(sd == null && ns.isEmpty()) return;
+			if(ns.isEmpty()) {
+				removePath(source);
+			} else {
+				if(!equalLists(sd, ns)) {
+					removePath(source);
+					importsBySource.put(source, ns);
+					if(ns.get(0).getJavaPackage() != null) {
+						importsByJavaPackage.put(ns.get(0).getJavaPackage(), ns);
+					}
+				}
+			}
+		}
+
+		public void removePath(IPath path) {
+			List<SeamImport> sd = importsBySource.get(path);
+			if(sd == null) return;
+			for (SeamImport d: sd) {
+				String jp = d.getJavaPackage();
+				importsByJavaPackage.remove(jp);
+			}
+			importsBySource.remove(path);
+		}
+
+	}	
+	
 	class ComponentStorage extends Storage {
 		private Set<ISeamComponent> allComponentsSet = new HashSet<ISeamComponent>();
 		Map<String, SeamComponent> allComponents = new HashMap<String, SeamComponent>();
