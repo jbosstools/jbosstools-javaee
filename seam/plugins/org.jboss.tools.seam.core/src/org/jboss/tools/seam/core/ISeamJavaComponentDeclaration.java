@@ -137,4 +137,12 @@ public interface ISeamJavaComponentDeclaration extends ISeamComponentDeclaration
 
 	public ISeamJavaComponentDeclaration clone() throws CloneNotSupportedException;
 
+	/**
+	 * Returns only variables resolved with @Import annotation
+	 * 
+	 * @param name
+	 * @return
+	 */
+	public Set<ISeamContextVariable> getVariablesByName(String name);
+
 }

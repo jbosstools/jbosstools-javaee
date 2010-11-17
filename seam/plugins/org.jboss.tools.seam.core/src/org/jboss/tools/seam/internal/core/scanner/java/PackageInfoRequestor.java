@@ -22,6 +22,7 @@ import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.IAnnotationBinding;
 import org.eclipse.jdt.core.dom.NormalAnnotation;
 import org.eclipse.jdt.core.dom.PackageDeclaration;
+import org.eclipse.jdt.core.dom.SingleMemberAnnotation;
 import org.jboss.tools.common.model.project.ext.impl.ValueInfo;
 import org.jboss.tools.seam.internal.core.SeamNamespace;
 import org.jboss.tools.seam.internal.core.scanner.LoadedDeclarations;
@@ -75,7 +76,6 @@ class PackageInfoVisitor extends ASTVisitor implements SeamAnnotations {
 		if(b != null) {
 			String type = b.getAnnotationType().getQualifiedName();
 			if(NAMESPACE_ANNOTATION_TYPE.equals(type)) {
-				System.out.println("!!!\n" + node);
 				ValueInfo value = ValueInfo.getValueInfo(node, "value");
 				ValueInfo prefix = ValueInfo.getValueInfo(node, "prefix");
 				SeamNamespace ns = new SeamNamespace();
@@ -86,9 +86,23 @@ class PackageInfoVisitor extends ASTVisitor implements SeamAnnotations {
 					//
 				}
 				namespaces.add(ns);
+			} else if(IMPORT_ANNOTATION_TYPE.equals(type)) {
+				List<String> imports = ComponentBuilder.getArrayValue(node);
+				for (String s: imports) System.out.println("NormalAnnotation " +  s);
 			}
 		}
 		return true;
 	}
 
+	public boolean visit(SingleMemberAnnotation node) {
+		IAnnotationBinding b = node.resolveAnnotationBinding();
+		if(b != null) {
+			String type = b.getAnnotationType().getQualifiedName();
+			if(IMPORT_ANNOTATION_TYPE.equals(type)) {
+				List<String> imports = ComponentBuilder.getArrayValue(node);
+				for (String s: imports) System.out.println("SingleMemberAnnotation " +  s);
+			}
+		}
+		return true;
+	}
 }

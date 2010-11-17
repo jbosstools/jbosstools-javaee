@@ -24,10 +24,13 @@ import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.core.dom.ASTVisitor;
 import org.eclipse.jdt.core.dom.Annotation;
 import org.eclipse.jdt.core.dom.ArrayInitializer;
+import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.FieldDeclaration;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.NormalAnnotation;
+import org.eclipse.jdt.core.dom.QualifiedName;
 import org.eclipse.jdt.core.dom.SingleMemberAnnotation;
+import org.eclipse.jdt.core.dom.StringLiteral;
 import org.eclipse.jdt.core.dom.VariableDeclaration;
 import org.jboss.tools.common.model.project.ext.IValueInfo;
 import org.jboss.tools.common.model.project.ext.impl.ValueInfo;
@@ -90,6 +93,8 @@ public class ComponentBuilder implements SeamAnnotations {
 				component.setScope(scope);
 			} else if(INSTALL_ANNOTATION_TYPE.equals(type)) {
 				component.setPrecedence(ValueInfo.getValueInfo(as[i].getAnnotation(), "precedence")); //$NON-NLS-1$
+			} else if(IMPORT_ANNOTATION_TYPE.equals(type)) {
+				processImport(as[i].getAnnotation());
 			}
 		}
 		
@@ -340,6 +345,11 @@ public class ComponentBuilder implements SeamAnnotations {
 		component.addRole(r);
 	}
 
+	private void processImport(Annotation a) {
+		List<String> vs = getArrayValue(a);
+		for (String v: vs) component.addImport(v);
+	}
+
 	private Annotation findAnnotation(AnnotatedASTNode<?> n, String type) {
 		ResolvedAnnotation[] as = n.getAnnotations();
 		if(as == null) return null;
@@ -422,6 +432,31 @@ public class ComponentBuilder implements SeamAnnotations {
 			return name;
 		}
 		return null;
+	}
+	
+	static List<String> getArrayValue(Annotation a) {
+		List<String> result = new ArrayList<String>();
+		if(a instanceof SingleMemberAnnotation) {
+			SingleMemberAnnotation s = (SingleMemberAnnotation)a;
+			Expression exp = s.getValue();
+			if(exp instanceof StringLiteral) {
+				result.add(((StringLiteral)exp).getLiteralValue());
+			} else if(exp instanceof QualifiedName) {
+				Object o = exp.resolveConstantExpressionValue();
+				if(o != null) result.add(o.toString());
+				result.add(exp.toString());
+			} else if(exp instanceof ArrayInitializer) {
+				ArrayInitializer arr = (ArrayInitializer)exp;
+				List<?> es = arr.expressions();
+				if(es != null) for (Object e: es) {
+					Expression exp1 = (Expression)e;
+					if(exp1 instanceof StringLiteral) {
+						result.add(((StringLiteral)exp1).getLiteralValue());
+					}
+				}
+			}
+		}
+		return result;
 	}
 
 }

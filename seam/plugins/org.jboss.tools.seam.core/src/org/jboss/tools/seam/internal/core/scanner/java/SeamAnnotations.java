@@ -22,6 +22,7 @@ public interface SeamAnnotations {
 	public static final String NAME_ANNOTATION_TYPE = SEAM_ANNOTATION_TYPE_PREFIX + "Name"; //$NON-NLS-1$
 	public static final String SCOPE_ANNOTATION_TYPE = SEAM_ANNOTATION_TYPE_PREFIX + "Scope"; //$NON-NLS-1$
 	public static final String INSTALL_ANNOTATION_TYPE = SEAM_ANNOTATION_TYPE_PREFIX + "Install"; //$NON-NLS-1$
+	public static final String IMPORT_ANNOTATION_TYPE = SEAM_ANNOTATION_TYPE_PREFIX + "Import"; //$NON-NLS-1$
 	
 	public static final String NAMESPACE_ANNOTATION_TYPE = SEAM_ANNOTATION_TYPE_PREFIX + "Namespace"; //$NON-NLS-1$
 	

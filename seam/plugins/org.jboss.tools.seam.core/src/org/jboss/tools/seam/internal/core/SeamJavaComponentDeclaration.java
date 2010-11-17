@@ -62,6 +62,19 @@ public class SeamJavaComponentDeclaration extends SeamComponentDeclaration
 	protected Set<IBijectedAttribute> bijectedAttributes = new HashSet<IBijectedAttribute>();
 	protected Set<ISeamComponentMethod> componentMethods = new HashSet<ISeamComponentMethod>();
 	protected Set<IRole> roles = new HashSet<IRole>();
+
+	protected Set<String> imports = new HashSet<String>();
+
+	public Set<ISeamContextVariable> getVariablesByName(String name) {
+		Set<ISeamContextVariable> result = new HashSet<ISeamContextVariable>();
+		for (String s: imports) {
+			String qname = s + "." + name;
+			Set<ISeamContextVariable> c = getSeamProject().getVariablesByName(qname);
+			if((c == null || c.isEmpty()) && getSeamProject().getParentProject() != null) c =  getSeamProject().getParentProject().getVariablesByName(qname);
+			if(c != null && !c.isEmpty()) result.addAll(c);
+		}
+		return result;
+	}
 	
 	public void setType(IType type) {
 		this.type = type;
@@ -113,6 +126,10 @@ public class SeamJavaComponentDeclaration extends SeamComponentDeclaration
 	public void addRole(IRole role) {
 		roles.add(role);
 		adopt(role);
+	}
+
+	public void addImport(String value) {
+		imports.add(value);
 	}
 
 	public Set<IBijectedAttribute> getBijectedAttributes() {
@@ -208,6 +225,10 @@ public class SeamJavaComponentDeclaration extends SeamComponentDeclaration
 	public Set<IRole> getRoles() {
 		return roles;
 	}
+
+	public Set<String> getImports() {
+		return imports;
+	}
 	
 	public boolean isOfType(BeanType type) {
 		return types != null && types.containsKey(type);
@@ -235,6 +256,10 @@ public class SeamJavaComponentDeclaration extends SeamComponentDeclaration
 
 	public void removeRole(IRole role) {
 		roles.remove(role);
+	}
+
+	public void removeImport(String value) {
+		imports.remove(value);
 	}
 
 	public IMember getSourceMember() {
@@ -275,6 +300,7 @@ public class SeamJavaComponentDeclaration extends SeamComponentDeclaration
 		mergeComponentMethods(jd, children);
 		mergeBijected(jd, children);
 		mergeRoles(jd, children);
+		mergeImports(jd, children);
 
 		changes = Change.addChange(changes, children);
 		
@@ -348,6 +374,30 @@ public class SeamJavaComponentDeclaration extends SeamComponentDeclaration
 			roles.remove(r);
 			ISeamProject p = getSeamProject();
 			if(p != null) p.removeVariable(r);
+			Change change = new Change(this, null, r, null);
+			children.addChildren(Change.addChange(null, change));
+		}
+
+	}
+
+	public void mergeImports(SeamJavaComponentDeclaration jd, Change children) {
+		Map<Object, String> importMap = new HashMap<Object, String>();
+		for (String r: imports) importMap.put(r, r);
+		
+		for (String r: jd.imports) {
+			String loaded = r;
+			String current = importMap.remove(loaded);
+			if(current == null) {
+				imports.add(loaded);
+				Change change = new Change(this, null, null, loaded);
+				children.addChildren(Change.addChange(null, change));
+			} else {
+				//nothing to merge as long as import is a String
+			}
+		}
+		
+		for (String r: importMap.values()) {
+			imports.remove(r);
 			Change change = new Change(this, null, r, null);
 			children.addChildren(Change.addChange(null, change));
 		}
@@ -481,6 +531,8 @@ public class SeamJavaComponentDeclaration extends SeamComponentDeclaration
 		for (IRole r : roles) {
 			c.addRole(r.clone());
 		}
+		c.imports = new HashSet<String>();
+		c.imports.addAll(imports);
 		return c;
 	}
 
@@ -542,6 +594,14 @@ public class SeamJavaComponentDeclaration extends SeamComponentDeclaration
 				o.toXML(b, context);
 			}
 		}
+	
+		if(!imports.isEmpty()) {
+			Element b = XMLUtilities.createElement(element, "imports");
+			for (String s: imports) {
+				Element i = XMLUtilities.createElement(b, "import");
+				i.setAttribute(SeamXMLConstants.ATTR_VALUE, s);
+			}
+		}
 		
 		context.remove(SeamXMLConstants.ATTR_TYPE);
 
@@ -552,6 +612,15 @@ public class SeamJavaComponentDeclaration extends SeamComponentDeclaration
 		super.loadXML(element, context);
 		
 		setScope(element.getAttribute(SeamXMLConstants.ATTR_SCOPE));
+
+		Element e_imports = XMLUtilities.getUniqueChild(element, "imports");
+		if(e_imports != null) {
+			Element[] cs = XMLUtilities.getChildren(e_imports, "import");
+			for (Element c: cs) {
+				String v = c.getAttribute(SeamXMLConstants.ATTR_VALUE);
+				if(v != null && v.length() > 0) imports.add(v);
+			}
+		}
 
 		Element e_types = XMLUtilities.getUniqueChild(element, "bean-types");
 		if(e_types != null) {

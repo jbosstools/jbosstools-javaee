@@ -857,8 +857,9 @@ public class SeamCoreValidator extends SeamValidationErrorManager implements IVa
 			// save link between java source and variable name
 			validationContext.addLinkedCoreResource(name, declaration.getSourcePath(), false);
 
-			Set<ISeamContextVariable> variables = seamProject.getVariablesByName(name);
-			if(variables==null || variables.size()<1) {
+			Set<ISeamContextVariable> variables = declaration.getVariablesByName(name);
+			if(variables == null || variables.isEmpty()) variables = seamProject.getVariablesByName(name);
+			if(variables == null || variables.isEmpty()) {
 				ISeamProject parentProject = seamProject.getParentProject();
 				if(parentProject != null) {
 					variables = parentProject.getVariablesByName(name);
