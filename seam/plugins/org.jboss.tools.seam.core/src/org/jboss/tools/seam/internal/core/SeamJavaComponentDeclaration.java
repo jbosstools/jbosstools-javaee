@@ -36,6 +36,7 @@ import org.jboss.tools.seam.core.BijectedAttributeType;
 import org.jboss.tools.seam.core.IBijectedAttribute;
 import org.jboss.tools.seam.core.IRole;
 import org.jboss.tools.seam.core.ISeamComponentMethod;
+import org.jboss.tools.seam.core.ISeamContextShortVariable;
 import org.jboss.tools.seam.core.ISeamContextVariable;
 import org.jboss.tools.seam.core.ISeamElement;
 import org.jboss.tools.seam.core.ISeamJavaComponentDeclaration;
@@ -68,28 +69,30 @@ public class SeamJavaComponentDeclaration extends SeamComponentDeclaration
 	public Set<ISeamContextVariable> getVariablesByName(String name) {
 		Set<ISeamContextVariable> result = new HashSet<ISeamContextVariable>();
 		for (String s: imports) {
-			String qname = s + "." + name;
-			Set<ISeamContextVariable> c = getSeamProject().getVariablesByName(qname);
-			if((c == null || c.isEmpty()) && getSeamProject().getParentProject() != null) c =  getSeamProject().getParentProject().getVariablesByName(qname);
-			if(c != null && !c.isEmpty()) {
-				result.addAll(c);
-				for (ISeamContextVariable v: c) {
-					result.add(new SeamContextShortVariable(v));
-				}
-			}
+			lookUpForVariable(s, name, result);
 		}
 		if(result.isEmpty()) {
 			List<SeamImport> is = ((SeamProject)getSeamProject()).getPackageImports(this);
 			if(is != null && !is.isEmpty()) {
 				for (SeamImport i: is) {
-					String qname = i.getSeamPackage() + "." + name;
-					Set<ISeamContextVariable> c = getSeamProject().getVariablesByName(qname);
-					if((c == null || c.isEmpty()) && getSeamProject().getParentProject() != null) c =  getSeamProject().getParentProject().getVariablesByName(qname);
-					if(c != null && !c.isEmpty()) result.addAll(c);
+					lookUpForVariable(i.getSeamPackage(), name, result);
 				}
 			}
 		}
 		return result;
+	}
+
+	private void lookUpForVariable(String importname, String name, Set<ISeamContextVariable> result) {
+		String qname = importname + "." + name;
+		Set<ISeamContextVariable> c = getSeamProject().getVariablesByName(qname);
+		if((c == null || c.isEmpty()) && getSeamProject().getParentProject() != null) c =  getSeamProject().getParentProject().getVariablesByName(qname);
+		if(c != null && !c.isEmpty()) {
+			result.addAll(c);
+			for (ISeamContextVariable v: c) {
+				if(v instanceof ISeamContextShortVariable) continue;
+				result.add(new SeamContextShortVariable(v, importname + "."));
+			}
+		}
 	}
 	
 	public void setType(IType type) {

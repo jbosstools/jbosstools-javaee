@@ -1438,7 +1438,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		Set<ISeamContextVariable> result = getVariables(true);
 		Set<String> imports = new HashSet<String>();
 		if(context != null) {
-			imports = ((SeamJavaComponentDeclaration)context).getImports();
+			imports.addAll(((SeamJavaComponentDeclaration)context).getImports());
 			List<SeamImport> is = getPackageImports(context);
 			if(is != null) {
 				for (SeamImport i: is) imports.add(i.getSeamPackage());
@@ -1452,8 +1452,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 				if(v instanceof ISeamContextShortVariable) continue;
 				for (String q: imports) {
 					if(v.getName().startsWith(q + ".")) {
-						result.add(new SeamContextShortVariable(v));
-						break;
+						result.add(new SeamContextShortVariable(v, q + "."));
 					}
 				}
 			}

@@ -7,9 +7,15 @@ import org.jboss.tools.seam.core.ScopeType;
 
 public class SeamContextShortVariable extends SeamObject implements ISeamContextShortVariable {
 	ISeamContextVariable original;
+	String prefix = null;
 	
 	public SeamContextShortVariable(ISeamContextVariable original) {
 		this.original = original;
+	}
+	
+	public SeamContextShortVariable(ISeamContextVariable original, String prefix) {
+		this.original = original;
+		this.prefix = prefix;
 	}
 	
 	public ISeamContextVariable getOriginal() {
@@ -18,6 +24,9 @@ public class SeamContextShortVariable extends SeamObject implements ISeamContext
 
 	public String getName() {
 		String n = original.getName();
+		if(prefix != null && n.startsWith(prefix)) {
+			return n.substring(prefix.length());
+		}
 		int i = n.lastIndexOf('.');
 		return n.substring(i + 1);
 	}
