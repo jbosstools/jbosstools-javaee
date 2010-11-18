@@ -12,5 +12,21 @@ Require-Bundle: org.eclipse.core.resources;bundle-version="3.6.0",
  org.eclipse.wst.common.frameworks;bundle-version="1.2.0",
  org.jboss.tools.seam.core;bundle-version="3.2.0",
  org.jboss.tools.tests;bundle-version="3.1.0",
- org.junit
-Export-Package: org.jboss.tools.seam.core.test.project.facet
+ org.junit,
+ org.jboss.tools.seam.ui;bundle-version="3.2.0",
+ org.eclipse.ui;bundle-version="3.6.0",
+ org.jboss.tools.common;bundle-version="3.2.0",
+ org.eclipse.debug.core;bundle-version="3.6.0",
+ org.eclipse.ui.ide;bundle-version="3.6.0",
+ org.jboss.tools.common.ui;bundle-version="3.2.0",
+ org.jboss.tools.common.model;bundle-version="3.2.0",
+ org.eclipse.jst.j2ee;bundle-version="1.1.400",
+ org.eclipse.jst.j2ee.core;bundle-version="1.2.2",
+ org.eclipse.jst.j2ee.ejb;bundle-version="1.1.400",
+ org.eclipse.jst.j2ee.web;bundle-version="1.1.400",
+ org.eclipse.jst.jee;bundle-version="1.0.300",
+ org.eclipse.jst.jee.ejb;bundle-version="1.0.300",
+ org.eclipse.jst.jee.ui;bundle-version="1.0.300",
+ org.eclipse.jst.jee.web;bundle-version="1.0.300"
+Export-Package: org.jboss.tools.seam.core.test.project.facet,
+ org.jboss.tools.seam.ui.test.wizard

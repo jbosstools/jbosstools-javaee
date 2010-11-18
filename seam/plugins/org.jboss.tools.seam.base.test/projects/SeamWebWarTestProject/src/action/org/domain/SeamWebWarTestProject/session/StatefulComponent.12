@@ -1,0 +1,38 @@
+package org.domain.SeamWebWarTestProject.session;
+
+
+import org.jboss.seam.annotations.Observer;
+import org.jboss.seam.annotations.Logger;
+import org.jboss.seam.log.Log;
+
+public class StatefulComponent {
+
+	private String abc;
+	
+    @Logger private Log log;
+	
+    
+    //seam-gen method
+    public String statefulComponent()
+    {
+        //implement your business logic here
+        log.info("statefulComponent.statefulComponent() action called");
+        return "success";
+    }
+	
+   //add additional action methods
+   
+    @Observer
+	public void observerMethod(){
+		
+	}
+
+	public String getAbc() {
+		return abc;
+	}
+
+	public void setAbc(String abc) {
+		this.abc = abc;
+	}
+    
+}

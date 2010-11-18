@@ -1,0 +1,47 @@
+package %p%;
+
+import org.jboss.seam.annotations.Factory;
+import org.jboss.seam.annotations.In;
+import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.Out;
+
+@Name("%x#%.%T%")
+public class %T% {
+	
+	@In @Out
+	private String %s%;
+
+	@In @Out
+	private String %t%;
+
+	@Factory("%s%")
+	public String s() {
+		return "a";
+	}
+
+	@Factory("%t%")
+	public String t() {
+		return "a";
+	}
+
+	public String get%S%() {
+		return %s%;
+	}
+	
+	public void set%S%(String s) {
+		this.%s% = s;
+	}
+
+	public String get%T%() {
+		return %t%;
+	}
+	
+	public void set%T%(String t) {
+		this.%t% = t;
+	}
+
+	public %T% getValue() {
+		return this;
+	}
+
+}

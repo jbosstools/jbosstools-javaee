@@ -1,0 +1,48 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                template="layout/template.xhtml">
+<ui:define name="body">
+
+	<h:dataTable value="#{mapItems}" var="mapItem">
+		<h:dataTable value="#{mapItem.value.items}" var="test">
+			<h:outputText value="#{test.name}"/>
+		</h:dataTable>
+
+		<h:dataTable value="#{setItems}" var="value">
+			<h:outputText value="#{value.name}"/>
+		</h:dataTable>
+
+		<h:dataTable value="#{listItems}" var="value">
+			<h:outputText value="#{value.name}"/>
+		</h:dataTable>
+
+		<h:dataTable value="#{arrayItems}" var="item">
+			<h:outputText value="#{item.name}"/>
+		</h:dataTable>
+
+		<h:dataTable value="#{testComponentForVars.list}" var="item">
+			<h:outputText value="#{item.name}"/>
+		</h:dataTable>
+
+		<h:dataTable value="#{tipos}" var="itemNew" label="#{itemNew}">
+			<h:outputText value="#{itemNew.name}"/>
+		</h:dataTable>
+
+		<h:dataTable value="#{tiposs}" var="secondItem">
+			<h:outputText value="#{secondItem.name}"/>
+		</h:dataTable>
+
+		<h:dataTable value="#{testComponentForVars.array}" var="thrItem">
+			<h:outputText value="#{thrItem.name}"/>
+		</h:dataTable>
+
+		<h:dataTable value="#{testComponentForVars.test}" var="singleValue">
+			<h:outputText value="#{singleValue.items}"/>
+		</h:dataTable>
+	</h:dataTable>
+
+</ui:define>
+</ui:composition>

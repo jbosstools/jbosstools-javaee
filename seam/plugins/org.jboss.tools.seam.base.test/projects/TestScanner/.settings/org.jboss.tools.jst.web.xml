@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<file-systems VERSION="2.0.0" application-name="TestScanner"
+ model-entity="FileSystems" workspace-home="./WebContent/WEB-INF">
+ <file-system NAME="WEB-INF" location="%workspace.home%" model-entity="FileSystemFolder"/>
+ <file-system NAME="WEB-ROOT" info="Content-Type=Web"
+  location="%workspace.home%/.." model-entity="FileSystemFolder"/>
+ <file-system NAME="src" location="%workspace.home%/../../JavaSource" model-entity="FileSystemFolder"/>
+ <file-system NAME="lib" location="%workspace.home%/lib" model-entity="FileSystemFolder"/>
+ <file-system NAME="classes" location="%workspace.home%/classes" model-entity="FileSystemFolder"/>
+ <file-system NAME="build" location="%workspace.home%/../../ant" model-entity="FileSystemFolder"/>
+ <file-system NAME="lib-common-annotations.jar" info="hidden=yes"
+  location="%workspace.home%/lib/common-annotations.jar" model-entity="FileSystemJar"/>
+ <file-system NAME="lib-commons-beanutils.jar" info="hidden=yes"
+  location="%workspace.home%/lib/commons-beanutils.jar" model-entity="FileSystemJar"/>
+ <file-system NAME="lib-commons-collections.jar" info="hidden=yes"
+  location="%workspace.home%/lib/commons-collections.jar" model-entity="FileSystemJar"/>
+ <file-system NAME="lib-commons-digester.jar" info="hidden=yes"
+  location="%workspace.home%/lib/commons-digester.jar" model-entity="FileSystemJar"/>
+ <file-system NAME="lib-commons-logging.jar" info="hidden=yes"
+  location="%workspace.home%/lib/commons-logging.jar" model-entity="FileSystemJar"/>
+ <file-system NAME="lib-jsf-api.jar" info="hidden=yes"
+  location="%workspace.home%/lib/jsf-api.jar" model-entity="FileSystemJar"/>
+ <file-system NAME="lib-jsf-impl.jar" info="hidden=yes"
+  location="%workspace.home%/lib/jsf-impl.jar" model-entity="FileSystemJar"/>
+ <file-system NAME="lib-jstl.jar" info="hidden=yes"
+  location="%workspace.home%/lib/jstl.jar" model-entity="FileSystemJar"/>
+ <file-system NAME="lib-standard.jar" info="hidden=yes"
+  location="%workspace.home%/lib/standard.jar" model-entity="FileSystemJar"/>
+ <file-system NAME="TestScanner" location="%eclipse.project%" model-entity="FileSystemFolder"/>
+ <file-system NAME="lib-jboss-seam.jar"
+  location="%workspace.home%/lib/jboss-seam.jar" model-entity="FileSystemJar"/>
+ <file-system NAME="lib-ejb3-persistence.jar"
+  location="%workspace.home%/lib/ejb3-persistence.jar" model-entity="FileSystemJar"/>
+ <file-system NAME="lib-jboss-ejb3x.jar"
+  location="%workspace.home%/lib/jboss-ejb3x.jar" model-entity="FileSystemJar"/>
+ <web SERVLET_VERSION="2.4" model-entity="JstWeb" model-path="/web.xml">
+  <module URI="/WEB-INF/faces-config.xml" model-entity="WebJSFModule"
+   model-path="/faces-config.xml" src="src" web-root="WEB-ROOT"/>
+ </web>
+</file-systems>

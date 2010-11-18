@@ -14,6 +14,6 @@ package org.jboss.tools.seam.core.test.project.facet;
  * @author eskimo
  *
  */
-public class Seam20XFacetTestSuite221CR1 extends Seam20XFacetTestSuite220CR1 {
+public class Seam20XFacetTestSuite221CR1 extends Seam20XFacetTestSuite220CR1Base {
 
 }

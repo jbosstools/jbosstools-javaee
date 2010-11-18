@@ -1,0 +1,14 @@
+<!DOCTYPE page PUBLIC
+          "-//JBoss/Seam Pages Configuration DTD 1.2//EN"
+          "http://jboss.com/products/seam/pages-1.2.dtd">
+
+<page>
+   <navigation from-action="#{identity.login}">
+      <rule if="#{identity.loggedIn}">
+         <redirect view-id="/home.xhtml"/>
+      </rule>
+      <rule if-outcome="ok">
+         <redirect view-id="/home1.xhtml"/>
+      </rule>
+   </navigation>
+</page>

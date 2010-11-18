@@ -57,7 +57,7 @@ public class SeamUiAllTests {
 		suite.addTest(SeamComponentsViewAllTests.suite());
 		suite.addTest(SeamProjectNewWizardTest.suite());
 
-		suite.addTest(new ProjectImportTestSetup(new TestSuite(SeamActionNewWizardTest.class), "org.jboss.tools.seam.core.test", new String[]{"projects/Test1-ear", "projects/Test1-ejb", "projects/Test1"}, new String[]{"Test1-ear", "Test1-ejb", "Test1"}));
+		suite.addTest(new ProjectImportTestSetup(new TestSuite(SeamActionNewWizardTest.class), "org.jboss.tools.seam.base.test", new String[]{"projects/Test1-ear", "projects/Test1-ejb", "projects/Test1"}, new String[]{"Test1-ear", "Test1-ejb", "Test1"}));
 
 		suite.addTestSuite(SeamFormNewWizardTest.class);
 		suite.addTestSuite(SeamPreferencesPageTest.class);		
@@ -72,7 +72,7 @@ public class SeamUiAllTests {
 		suite.addTestSuite(Seam20XCreateTestProjectTest.class);		
 		suite.addTestSuite(SeamProjectNamesTest.class);
 		suite.addTestSuite(Seam20XProjectNamesTest.class);
-		suite.addTest(new ProjectImportTestSetup(new TestSuite(SeamMarkerResolutionTest.class),"org.jboss.tools.seam.core.test","projects/SeamWebWarTestProject","SeamWebWarTestProject") {
+		suite.addTest(new ProjectImportTestSetup(new TestSuite(SeamMarkerResolutionTest.class),"org.jboss.tools.seam.base.test","projects/SeamWebWarTestProject","SeamWebWarTestProject") {
 			@Override
 			protected void setUp() throws Exception {
 				super.setUp();

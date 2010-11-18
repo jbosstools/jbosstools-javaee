@@ -14,7 +14,6 @@ package org.jboss.tools.seam.ui.test.wizard;
  * @author eskimo
  *
  */
-public class Seam20XOperationsTestSuite211GA extends
-		Seam20XOperationsTestSuite201GA {
+public class Seam20XOperationsTestSuite211GA extends Seam20XOperationsTestSuite201GABase {
 
 }
