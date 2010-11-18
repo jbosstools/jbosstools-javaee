@@ -172,7 +172,7 @@ public class SeamELInJavaStringHyperlinkDetector extends
 		if (propertyName == null)
 			return null;
 		
-		ScopeType scope = SeamELCompletionEngine.getScope(seamProject, file);
+//		ScopeType scope = SeamELCompletionEngine.getScope(seamProject, file);
 
 		ELInvocationExpression expr = (ELInvocationExpression)exp;
 		
@@ -181,7 +181,7 @@ public class SeamELInJavaStringHyperlinkDetector extends
 		if (expr.getLeft() != null) {
 			while (left != null) {
 				List<ISeamContextVariable> resolvedVars = new ArrayList<ISeamContextVariable>();
-				resolvedVars = engine.resolveVariables(seamProject, scope, left,
+				resolvedVars = engine.resolveVariables(seamProject, file, left,
 						left == expr, true);
 				if (resolvedVars != null && !resolvedVars.isEmpty()) {
 					map.put(left, resolvedVars);

@@ -38,9 +38,11 @@ import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamComponentDeclaration;
 import org.jboss.tools.seam.core.ISeamContextShortVariable;
 import org.jboss.tools.seam.core.ISeamContextVariable;
+import org.jboss.tools.seam.core.ISeamJavaComponentDeclaration;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.ISeamXmlFactory;
 import org.jboss.tools.seam.core.SeamCorePlugin;
+import org.jboss.tools.seam.internal.core.SeamJavaComponentDeclaration;
 import org.jboss.tools.seam.internal.core.el.SeamELCompletionEngine;
 import org.jboss.tools.seam.text.ext.SeamExtPlugin;
 
@@ -133,7 +135,19 @@ public class SeamComponentHyperlinkDetector extends AbstractHyperlinkDetector {
 					if (nameToSearch == null && nameToSearch.trim().length() == 0)
 						continue;
 					
-					Set<ISeamContextVariable> vars = seamProject.getVariables(true);
+					ISeamJavaComponentDeclaration declaration = null;
+					
+					if(file != null) {
+						Set<ISeamComponent> cs = seamProject.getComponentsByPath(file.getFullPath());
+						for (ISeamComponent c: cs) {
+							ISeamJavaComponentDeclaration d = c.getJavaDeclaration();
+							if(d != null && file.getFullPath().equals(d.getSourcePath()) && !((SeamJavaComponentDeclaration)d).getImports().isEmpty()) {
+								declaration = d;
+							}
+						}
+					
+					}
+					Set<ISeamContextVariable> vars = seamProject.getVariables(declaration);
 					if (vars != null) {
 						for (ISeamContextVariable var : vars) {
 							if (nameToSearch.equals(var.getName())){
