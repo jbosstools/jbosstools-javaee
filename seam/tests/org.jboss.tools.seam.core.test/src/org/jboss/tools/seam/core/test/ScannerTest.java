@@ -29,6 +29,7 @@ import org.jboss.tools.seam.core.ISeamAnnotatedFactory;
 import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamComponentDeclaration;
 import org.jboss.tools.seam.core.ISeamComponentMethod;
+import org.jboss.tools.seam.core.ISeamContextVariable;
 import org.jboss.tools.seam.core.ISeamFactory;
 import org.jboss.tools.seam.core.ISeamJavaComponentDeclaration;
 import org.jboss.tools.seam.core.ISeamProject;
@@ -535,6 +536,25 @@ public class ScannerTest extends TestCase {
 		ITextSourceReference location = xml.getLocationFor(ISeamXmlComponentDeclaration.NAME);
 		assertNotNull("Location of declaration of component " + MY_COMPONENT + " in components.xml is not found.", location);
 		assertTrue("Location should not point to 0", location.getStartPosition() > 0 && location.getLength() > 0);
+	}
+
+	public void testImportAnnotatation() throws Exception {
+		ISeamProject seamProject = getSeamProject();
+
+		ISeamComponent c = seamProject.getComponent("animals.all");
+		ISeamJavaComponentDeclaration d = c.getJavaDeclaration();
+		Set<ISeamContextVariable> vs = d.getVariablesByName("Hare");
+		assertTrue("Cannot find Hare among all animals, import 'animal.wild' is ignored", vs != null && !vs.isEmpty());
+		
+		vs = d.getVariablesByName("Rabbit");
+		assertTrue("Cannot find Rabbit among all animals, import 'animal.tame' is ignored", vs != null && !vs.isEmpty());
+		
+		c = seamProject.getComponent("animals.wild");
+		vs = d.getVariablesByName("Hare");
+		assertTrue("Cannot find Hare among wild animals, import 'animal.wild' is ignored", vs != null && !vs.isEmpty());
+		
+		vs = d.getVariablesByName("Rabbit");
+		assertFalse("Foundd Rabbit among wild animals, import 'animal.tame' is illegally added", vs != null && !vs.isEmpty());
 	}
 
 	@Override
