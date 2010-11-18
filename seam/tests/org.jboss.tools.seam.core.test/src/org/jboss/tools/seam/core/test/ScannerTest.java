@@ -49,6 +49,7 @@ import org.jboss.tools.seam.internal.core.scanner.LoadedDeclarations;
 import org.jboss.tools.seam.internal.core.scanner.lib.ClassPath;
 import org.jboss.tools.seam.internal.core.scanner.lib.LibraryScanner;
 import org.jboss.tools.test.util.JUnitUtils;
+import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.TestProjectProvider;
 
 public class ScannerTest extends TestCase {
@@ -68,7 +69,9 @@ public class ScannerTest extends TestCase {
 			project = provider.getProject();
 		}
 		project.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
+		JobUtils.waitForIdle();
 		this.project.build(IncrementalProjectBuilder.FULL_BUILD, null);
+		JobUtils.waitForIdle();
 	}
 
 	private ISeamProject getSeamProject() {
