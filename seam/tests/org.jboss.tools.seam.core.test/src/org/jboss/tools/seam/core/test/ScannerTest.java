@@ -553,6 +553,7 @@ public class ScannerTest extends TestCase {
 		assertTrue("Cannot find Rabbit among all animals, import 'animal.tame' is ignored", vs != null && !vs.isEmpty());
 		
 		c = seamProject.getComponent("animals.wild");
+		d = c.getJavaDeclaration();
 		vs = d.getVariablesByName("Hare");
 		assertTrue("Cannot find Hare among wild animals, import 'animal.wild' is ignored", vs != null && !vs.isEmpty());
 		
