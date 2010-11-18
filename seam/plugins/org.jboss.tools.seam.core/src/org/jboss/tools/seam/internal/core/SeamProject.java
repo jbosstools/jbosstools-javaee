@@ -45,6 +45,7 @@ import org.jboss.tools.seam.core.BijectedAttributeType;
 import org.jboss.tools.seam.core.IBijectedAttribute;
 import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamComponentDeclaration;
+import org.jboss.tools.seam.core.ISeamContextShortVariable;
 import org.jboss.tools.seam.core.ISeamContextVariable;
 import org.jboss.tools.seam.core.ISeamFactory;
 import org.jboss.tools.seam.core.ISeamJavaComponentDeclaration;
@@ -1432,7 +1433,35 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 			return variables.getVariablesPlusShort();
 		}
 	}
-	
+
+	public Set<ISeamContextVariable> getVariables(ISeamJavaComponentDeclaration context) {
+		Set<ISeamContextVariable> result = getVariables(true);
+		Set<String> imports = new HashSet<String>();
+		if(context != null) {
+			imports = ((SeamJavaComponentDeclaration)context).getImports();
+			List<SeamImport> is = getPackageImports(context);
+			if(is != null) {
+				for (SeamImport i: is) imports.add(i.getSeamPackage());
+			}
+		}
+		if(!imports.isEmpty()) {
+			Set<ISeamContextVariable> vs = result;
+			result = new HashSet<ISeamContextVariable>();
+			result.addAll(vs);
+			for (ISeamContextVariable v: vs) {
+				if(v instanceof ISeamContextShortVariable) continue;
+				for (String q: imports) {
+					if(v.getName().startsWith(q + ".")) {
+						result.add(new SeamContextShortVariable(v));
+						break;
+					}
+				}
+			}
+		}
+		
+		return result;
+	}
+
 	public boolean isImportedPackage(String packageName) {
 		for (IPath s: imports.importsBySource.keySet()) {
 			List<SeamImport> list = imports.importsBySource.get(s);

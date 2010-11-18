@@ -13,9 +13,11 @@ package org.jboss.tools.seam.internal.core.el;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IMember;
@@ -52,6 +54,7 @@ import org.jboss.tools.seam.core.ISeamXmlFactory;
 import org.jboss.tools.seam.core.ScopeType;
 import org.jboss.tools.seam.core.SeamComponentMethodType;
 import org.jboss.tools.seam.core.SeamCorePlugin;
+import org.jboss.tools.seam.internal.core.SeamJavaComponentDeclaration;
 
 /**
  * Utility class used to resolve Seam project variables and to get the methods/properties and their presentation strings from type
@@ -68,19 +71,32 @@ public class SeamExpressionResolver {
 	 * @param name
 	 * @return
 	 */
-	public static List<ISeamContextVariable> resolveVariables(ISeamProject project, ScopeType scope, String name, boolean onlyEqualNames) {
+	public static List<ISeamContextVariable> resolveVariables(ISeamProject project, IFile context, String name, boolean onlyEqualNames) {
 		if (project == null || name == null) return null;
 		
 		ISeamProject parent = project.getParentProject();
 		if(parent != null) {
 			project = parent;
 		}
+		
+		ISeamJavaComponentDeclaration declaration = null;
+		
+		if(context != null) {
+			Set<ISeamComponent> cs = project.getComponentsByPath(context.getFullPath());
+			for (ISeamComponent c: cs) {
+				ISeamJavaComponentDeclaration d = c.getJavaDeclaration();
+				if(d != null && context.getFullPath().equals(d.getSourcePath())) {
+					declaration = d;
+				}
+			}
+		
+		}
 /*  
  * JBIDE-670 scope isn't used anymore
  */		
 //		return (scope == null ? internalResolveVariables(project, name, onlyEqualNames) :
 //				internalResolveVariablesByScope(project, scope, name, onlyEqualNames));
-		return internalResolveVariables(project, name, onlyEqualNames);
+		return internalResolveVariables(project, declaration, name, onlyEqualNames);
 	}
 	
 	/**
@@ -91,15 +107,21 @@ public class SeamExpressionResolver {
 	 * @param name
 	 * @return
 	 */
-	private static List<ISeamContextVariable> internalResolveVariables(ISeamProject project, String name, boolean onlyEqualNames) {
-		Set<ISeamContextVariable> variables = project.getVariables(true);
-		return internalResolveVariables(project, name, onlyEqualNames, variables);
+	private static List<ISeamContextVariable> internalResolveVariables(ISeamProject project, ISeamJavaComponentDeclaration context, String name, boolean onlyEqualNames) {
+		//TODO add variables from imported packages
+		Set<ISeamContextVariable> variables = project.getVariables(context);
+		return internalResolveVariables(project, context, name, onlyEqualNames, variables);
 	}
 
-	private static List<ISeamContextVariable> internalResolveVariables(ISeamProject project, String name, boolean onlyEqualNames, Set<ISeamContextVariable> variables) {
+	private static List<ISeamContextVariable> internalResolveVariables(ISeamProject project, ISeamJavaComponentDeclaration context, String name, boolean onlyEqualNames, Set<ISeamContextVariable> variables) {
 		List<ISeamContextVariable> resolvedVariables = new ArrayList<ISeamContextVariable>();
 		if(onlyEqualNames) {
-			variables = project.getVariablesByName(name);
+			if(context != null) {
+				variables = context.getVariablesByName(name);
+			} else variables = new HashSet<ISeamContextVariable>();
+			if(variables.isEmpty()) {
+				variables = project.getVariablesByName(name);
+			}
 			if(variables != null) resolvedVariables.addAll(variables);
 			return resolvedVariables;
 		}

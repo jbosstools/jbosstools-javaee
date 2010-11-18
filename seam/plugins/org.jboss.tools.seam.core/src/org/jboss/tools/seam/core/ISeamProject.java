@@ -167,10 +167,20 @@ public interface ISeamProject extends ISeamElement {
 
 	/**
 	 * Adds references to variables that provide short name if
-	 * seam package including the original variable is imported.
+	 * seam package including the original variable is imported by components.xml.
 	 * @return all seam context variables of project
 	 */
 	public Set<ISeamContextVariable> getVariables(boolean includeShortNames);
+
+	/**
+	 * Adds references to variables that provide short name if
+	 * seam package including the original variable is imported
+	 * 1) by components.xml;
+	 * 2) by Java type presented by context;
+	 * 3) by Java package that contains Java type presented by context.
+	 * @return all seam context variables of project
+	 */
+	public Set<ISeamContextVariable> getVariables(ISeamJavaComponentDeclaration context);
 
 	public void addVariable(ISeamContextVariable v);
 

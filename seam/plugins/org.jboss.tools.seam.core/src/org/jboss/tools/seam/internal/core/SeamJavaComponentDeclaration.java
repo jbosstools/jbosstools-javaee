@@ -71,7 +71,12 @@ public class SeamJavaComponentDeclaration extends SeamComponentDeclaration
 			String qname = s + "." + name;
 			Set<ISeamContextVariable> c = getSeamProject().getVariablesByName(qname);
 			if((c == null || c.isEmpty()) && getSeamProject().getParentProject() != null) c =  getSeamProject().getParentProject().getVariablesByName(qname);
-			if(c != null && !c.isEmpty()) result.addAll(c);
+			if(c != null && !c.isEmpty()) {
+				result.addAll(c);
+				for (ISeamContextVariable v: c) {
+					result.add(new SeamContextShortVariable(v));
+				}
+			}
 		}
 		if(result.isEmpty()) {
 			List<SeamImport> is = ((SeamProject)getSeamProject()).getPackageImports(this);

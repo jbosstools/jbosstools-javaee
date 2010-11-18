@@ -123,14 +123,14 @@ public final class SeamELCompletionEngine extends AbstractELCompletionEngine<ISe
 
 		ELInvocationExpression left = expr;
 
-		ScopeType scope = getScope(project, file);
+//		ScopeType scope = getScope(project, file);
 
 		if (expr.getLeft() == null && isIncomplete) {
-			resolvedVariables = resolveVariables(project, scope, expr, true, true);
+			resolvedVariables = resolveVariables(project, file, expr, true, true);
 		} else {
 			while (left != null) {
 				List<ISeamContextVariable> resolvedVars = new ArrayList<ISeamContextVariable>();
-				resolvedVars = resolveVariables(project, scope, left,
+				resolvedVars = resolveVariables(project, file, left,
 						left == expr, true);
 				if (resolvedVars != null && !resolvedVars.isEmpty()) {
 					resolvedVariables = resolvedVars;
@@ -150,8 +150,8 @@ public final class SeamELCompletionEngine extends AbstractELCompletionEngine<ISe
 	@Override
 	public List<ISeamContextVariable> resolveVariables(IFile file, ELInvocationExpression expr, boolean isFinal, boolean onlyEqualNames) {
 		ISeamProject project = SeamCorePlugin.getSeamProject(file.getProject(), true);
-		ScopeType scope = getScope(project, file);
-		return resolveVariables(project, scope, expr, isFinal, onlyEqualNames);
+//		ScopeType scope = getScope(project, file);
+		return resolveVariables(project, file, expr, isFinal, onlyEqualNames);
 	}
 
 	protected TypeInfoCollector.MemberInfo getMemberInfoByVariable(ISeamContextVariable var, boolean onlyEqualNames) {
@@ -238,7 +238,7 @@ public final class SeamELCompletionEngine extends AbstractELCompletionEngine<ISe
 		return null;
 	}
 
-	public List<ISeamContextVariable> resolveVariables(ISeamProject project, ScopeType scope, ELInvocationExpression expr, boolean isFinal, boolean onlyEqualNames) {
+	public List<ISeamContextVariable> resolveVariables(ISeamProject project, IFile file, ELInvocationExpression expr, boolean isFinal, boolean onlyEqualNames) {
 		List<ISeamContextVariable>resolvedVars = new ArrayList<ISeamContextVariable>();
 		
 		if (project == null)
@@ -247,7 +247,7 @@ public final class SeamELCompletionEngine extends AbstractELCompletionEngine<ISe
 		String varName = expr.toString();
 
 		if (varName != null) {
-			resolvedVars = SeamExpressionResolver.resolveVariables(project, scope, varName, onlyEqualNames);
+			resolvedVars = SeamExpressionResolver.resolveVariables(project, file, varName, onlyEqualNames);
 		}
 		if (resolvedVars != null && !resolvedVars.isEmpty()) {
 			List<ISeamContextVariable> newResolvedVars = new ArrayList<ISeamContextVariable>();
