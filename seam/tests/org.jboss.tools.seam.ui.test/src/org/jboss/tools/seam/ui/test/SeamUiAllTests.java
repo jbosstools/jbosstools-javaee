@@ -77,6 +77,8 @@ public class SeamUiAllTests {
 			protected void setUp() throws Exception {
 				super.setUp();
 				IProject project = (IProject)ResourcesPlugin.getWorkspace().getRoot().findMember("SeamWebWarTestProject");
+				if (project == null)
+					return;
 				project.refreshLocal(IResource.DEPTH_INFINITE, null);
 				JobUtils.waitForIdle();
 				ISeamProject seamProject = SeamCorePlugin.getSeamProject(project, true);
