@@ -61,6 +61,10 @@ public class SeamViewHyperlinkPartitionerTest  extends TestCase {
 		}
 	}
 
+	FileEditorInput editorInput = null;
+	IDocumentProvider documentProvider = null;
+	IStructuredModel model = null;
+	
 	public void testSeamViewPartitioner() throws CoreException {
 
 		JobUtils.waitForIdle();
@@ -72,103 +76,106 @@ public class SeamViewHyperlinkPartitionerTest  extends TestCase {
 		assertTrue("The file \"" + PAGE_NAME + "\" is not found", (jspFile != null));
 		assertTrue("The file \"" + PAGE_NAME + "\" is not found", (jspFile.exists()));
 
-		FileEditorInput editorInput = new FileEditorInput(jspFile);
+		editorInput = new FileEditorInput(jspFile);
 		
-		IDocumentProvider documentProvider = null;
 		Throwable exception = null;
-
-		documentProvider = DocumentProviderRegistry.getDefault().getDocumentProvider(editorInput);
-		assertNotNull("The document provider for the file \"" + PAGE_NAME + "\" is not loaded", documentProvider);
-
-
-		documentProvider.connect(editorInput);
 		
-		IDocument document = documentProvider.getDocument(editorInput);
-
-		assertTrue("The document for the file \"" + PAGE_NAME + "\" is not loaded", (document != null));
-		
-		assertTrue("Document should be instance of IStructuredDocument",document instanceof IStructuredDocument);
-		IStructuredModel model = StructuredModelManager.getModelManager().getModelForEdit((IStructuredDocument) document);
-		assertTrue("The document model for the file \"" + PAGE_NAME + "\" is not loaded", (model != null));
-		
-		EditorModelUtil.addFactoriesTo(model);
-		
-		SeamViewHyperlinkPartitioner seamViewPartitioner = new SeamViewHyperlinkPartitioner();
-
-		TestHyperlinkDetector detector = new TestHyperlinkDetector();
-		HashMap<Object, ArrayList> recognitionTest = new HashMap<Object, ArrayList>();
-		
-		ArrayList<Region> regionList = new ArrayList<Region>();
-		regionList.add(new Region(1888, 11));
-		regionList.add(new Region(1943, 11));
-		recognitionTest.put("org.jboss.tools.seam.text.ext.SEAM_VIEW_LINK", regionList);
-		
-		int counter = 0;
-		for (int i = 0; i < document.getLength(); i++) {
-			TestData testData = new TestData(document, i);
+		try {
+			documentProvider = DocumentProviderRegistry.getDefault().getDocumentProvider(editorInput);
+			assertNotNull("The document provider for the file \"" + PAGE_NAME + "\" is not loaded", documentProvider);
+	
+	
+			documentProvider.connect(editorInput);
 			
-			String[] partitionTypes = detector.getPartitionTypes(document, i);
-
-			boolean recognized = false;
+			IDocument document = documentProvider.getDocument(editorInput);
+	
+			assertTrue("The document for the file \"" + PAGE_NAME + "\" is not loaded", (document != null));
 			
-			if (partitionTypes != null && partitionTypes.length > 0) {
-				recognized = ("org.jboss.tools.seam.text.ext.SEAM_VIEW_LINK".equals(partitionTypes[0]));
-			}
-
-			if (recognized) {
-				recognized &= seamViewPartitioner.recognize(testData.document, testData.getHyperlinkRegion());
-			}
+			assertTrue("Document should be instance of IStructuredDocument",document instanceof IStructuredDocument);
+			model = StructuredModelManager.getModelManager().getModelForEdit((IStructuredDocument) document);
+			assertTrue("The document model for the file \"" + PAGE_NAME + "\" is not loaded", (model != null));
 			
-			if (recognized) {
-				String childPartitionType = seamViewPartitioner.getChildPartitionType(testData.document, testData.getHyperlinkRegion());
-//				if (childPartitionType != null)
-//					System.out.println("position #" + i + " partitionType: " + childPartitionType);
-
-				if (childPartitionType != null) {
-					ArrayList test = (ArrayList)recognitionTest.get(childPartitionType);
+			EditorModelUtil.addFactoriesTo(model);
+			
+			SeamViewHyperlinkPartitioner seamViewPartitioner = new SeamViewHyperlinkPartitioner();
+	
+			TestHyperlinkDetector detector = new TestHyperlinkDetector();
+			HashMap<Object, ArrayList> recognitionTest = new HashMap<Object, ArrayList>();
+			
+			ArrayList<Region> regionList = new ArrayList<Region>();
+			regionList.add(new Region(1888, 11));
+			regionList.add(new Region(1943, 11));
+			recognitionTest.put("org.jboss.tools.seam.text.ext.SEAM_VIEW_LINK", regionList);
+			
+			int counter = 0;
+			for (int i = 0; i < document.getLength(); i++) {
+				TestData testData = new TestData(document, i);
+				
+				String[] partitionTypes = detector.getPartitionTypes(document, i);
+	
+				boolean recognized = false;
+				
+				if (partitionTypes != null && partitionTypes.length > 0) {
+					recognized = ("org.jboss.tools.seam.text.ext.SEAM_VIEW_LINK".equals(partitionTypes[0]));
+				}
+	
+				if (recognized) {
+					recognized &= seamViewPartitioner.recognize(testData.document, testData.getHyperlinkRegion());
+				}
+				
+				if (recognized) {
+					String childPartitionType = seamViewPartitioner.getChildPartitionType(testData.document, testData.getHyperlinkRegion());
+	//				if (childPartitionType != null)
+	//					System.out.println("position #" + i + " partitionType: " + childPartitionType);
+	
+					if (childPartitionType != null) {
+						ArrayList test = (ArrayList)recognitionTest.get(childPartitionType);
+						boolean testResult = false;
+						Iterator regions = test.iterator();
+						Region r = null;
+						while (!testResult && regions.hasNext()) {
+							r = (Region)regions.next();
+							if (r.getOffset() <= testData.offset && testData.offset < (r.getOffset() + r.getLength()))
+								testResult = true;
+						}
+						assertTrue("Wrong recognition for the region: " + testData.getHyperlinkRegion().toString() 
+								+ " doesn't matches the region [" + r.getOffset() + "-" + (r.getOffset() + r.getLength()) + "]" , testResult);
+						counter++;
+					} else {
+						recognized = false;
+					}
+	
+				}
+	
+				if (!recognized) {
+	
 					boolean testResult = false;
-					Iterator regions = test.iterator();
+					Iterator keys = recognitionTest.keySet().iterator();
 					Region r = null;
-					while (!testResult && regions.hasNext()) {
-						r = (Region)regions.next();
-						if (r.getOffset() <= testData.offset && testData.offset < (r.getOffset() + r.getLength()))
-							testResult = true;
+					while (keys != null && keys.hasNext()) {
+						Object key = keys.next();
+						ArrayList test = (ArrayList)recognitionTest.get(key);
+						Iterator regions = test.iterator();
+						while (!testResult && regions.hasNext()) {
+							r = (Region)regions.next();
+							if (r.getOffset() <= testData.offset && testData.offset < (r.getOffset() + r.getLength()))
+								testResult = true;
+	//						System.out.println(testData.getHyperlinkRegion().toString());
+						}
 					}
 					assertTrue("Wrong recognition for the region: " + testData.getHyperlinkRegion().toString() 
-							+ " doesn't matches the region [" + r.getOffset() + "-" + (r.getOffset() + r.getLength()) + "]" , testResult);
-					counter++;
-				} else {
-					recognized = false;
+							+ " matches the wrong region [" + r.getOffset() + "-" + (r.getOffset() + r.getLength()) + "] in file \"" + PAGE_NAME + "\"" , (testResult == false));
 				}
-
 			}
+			
+			assertEquals("Wrong recognized region count", 22 , counter);
+		} finally {
+			if (model != null)
+				model.releaseFromEdit();
 
-			if (!recognized) {
-
-				boolean testResult = false;
-				Iterator keys = recognitionTest.keySet().iterator();
-				Region r = null;
-				while (keys != null && keys.hasNext()) {
-					Object key = keys.next();
-					ArrayList test = (ArrayList)recognitionTest.get(key);
-					Iterator regions = test.iterator();
-					while (!testResult && regions.hasNext()) {
-						r = (Region)regions.next();
-						if (r.getOffset() <= testData.offset && testData.offset < (r.getOffset() + r.getLength()))
-							testResult = true;
-//						System.out.println(testData.getHyperlinkRegion().toString());
-					}
-				}
-				assertTrue("Wrong recognition for the region: " + testData.getHyperlinkRegion().toString() 
-						+ " matches the wrong region [" + r.getOffset() + "-" + (r.getOffset() + r.getLength()) + "] in file \"" + PAGE_NAME + "\"" , (testResult == false));
-			}
+			if (editorInput != null && documentProvider != null)
+				documentProvider.disconnect(editorInput);
 		}
-		
-		assertEquals("Wrong recognized region count", 22 , counter);
-
-		model.releaseFromEdit();
-
-		documentProvider.disconnect(editorInput);
 	}
 	
 	class TestData {

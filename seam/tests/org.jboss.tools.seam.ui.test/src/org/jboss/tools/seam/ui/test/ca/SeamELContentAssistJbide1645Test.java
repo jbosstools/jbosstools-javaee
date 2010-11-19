@@ -53,36 +53,38 @@ public class SeamELContentAssistJbide1645Test extends ContentAssistantTestCase {
 		ELCorePlugin.getDefault().getPreferenceStore().setValue(ELContentAssistPreferences.SHOW_METHODS_WITH_PARENTHESES_ONLY, false);
 		openEditor(PAGE_NAME);
 
-		// Find start of <rich:panel> tag
-		String documentContent = document.get();
-		int start = (documentContent == null ? -1 : documentContent.indexOf(INSERT_BEFORE_STRING));
-		int offsetToTest = start + PREFIX_STRING.length();
-
-		assertTrue("Cannot find the starting point in the test file  \"" + PAGE_NAME + "\"", (start != -1));
-
-		String documentContentModified = documentContent.substring(0, start) +
-			INSERTION_STRING + documentContent.substring(start);
-
-		jspTextEditor.setText(documentContentModified);
-
-		ICompletionProposal[] result= null;
-		String errorMessage = null;
-
-		List<ICompletionProposal> res = TestUtil.collectProposals(contentAssistant, viewer, offsetToTest);
-		assertTrue("Content Assistant peturned no proposals", (res != null && res.size() > 0));
-
-		for (ICompletionProposal proposal : res) {
-			// There should not be a proposal of type SeamELProposalProcessor.Proposal in the result
-			assertFalse("Content Assistant peturned proposals of type (" + proposal.getClass().getName() + ").", (proposal instanceof ELProposalProcessor.Proposal));
-		}
-
 		try {
-			JobUtils.waitForIdle();
-		} catch (Exception e) {
-			e.printStackTrace();
-			assertTrue("Waiting for the jobs to complete has failed.", false);
-		} 
-
-		closeEditor();
+			// Find start of <rich:panel> tag
+			String documentContent = document.get();
+			int start = (documentContent == null ? -1 : documentContent.indexOf(INSERT_BEFORE_STRING));
+			int offsetToTest = start + PREFIX_STRING.length();
+	
+			assertTrue("Cannot find the starting point in the test file  \"" + PAGE_NAME + "\"", (start != -1));
+	
+			String documentContentModified = documentContent.substring(0, start) +
+				INSERTION_STRING + documentContent.substring(start);
+	
+			jspTextEditor.setText(documentContentModified);
+	
+			ICompletionProposal[] result= null;
+			String errorMessage = null;
+	
+			List<ICompletionProposal> res = TestUtil.collectProposals(contentAssistant, viewer, offsetToTest);
+			assertTrue("Content Assistant peturned no proposals", (res != null && res.size() > 0));
+	
+			for (ICompletionProposal proposal : res) {
+				// There should not be a proposal of type SeamELProposalProcessor.Proposal in the result
+				assertFalse("Content Assistant peturned proposals of type (" + proposal.getClass().getName() + ").", (proposal instanceof ELProposalProcessor.Proposal));
+			}
+	
+			try {
+				JobUtils.waitForIdle();
+			} catch (Exception e) {
+				e.printStackTrace();
+				assertTrue("Waiting for the jobs to complete has failed.", false);
+			} 
+		} finally {
+			closeEditor();
+		}
 	}
 }

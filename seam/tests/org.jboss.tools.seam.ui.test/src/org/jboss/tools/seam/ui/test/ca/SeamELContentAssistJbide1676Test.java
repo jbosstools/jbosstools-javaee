@@ -254,77 +254,79 @@ public class SeamELContentAssistJbide1676Test extends TestCase {
 			assertTrue("The Java Editor couldn't be initialized.", false);
 		}
 
-		CompilationUnitEditor javaEditor = null;
-		
-		if (editorPart instanceof CompilationUnitEditor)
-			javaEditor = (CompilationUnitEditor)editorPart;
-		
-		// Delay for 3 seconds so that
-		// the Favorites view can be seen.
 		try {
-			JobUtils.waitForIdle();
-		} catch (Exception e) {
-			e.printStackTrace();
-			assertTrue("Waiting for the jobs to complete has failed.", false);
-		} 
-		TestUtil.delay(3000);
+			CompilationUnitEditor javaEditor = null;
+			
+			if (editorPart instanceof CompilationUnitEditor)
+				javaEditor = (CompilationUnitEditor)editorPart;
 		
-		ISourceViewer viewer = javaEditor.getViewer();
-		IDocument document = viewer.getDocument();
-		SourceViewerConfiguration config = TestUtil.getSourceViewerConfiguration(javaEditor);
-		IContentAssistant contentAssistant = (config == null ? null : config.getContentAssistant(viewer));
-
-		assertTrue("Cannot get the Content Assistant instance for the editor for file  \"" + JAVA_FILENAME + "\"", (contentAssistant != null));
-		
-		String documentContent = document.get();
-		int start = (documentContent == null ? -1 : documentContent.indexOf(EL_START_TEMPLATE));
-		int offsetToTest = start + EL_START_TEMPLATE.length();
-		
-		assertTrue("Cannot find the starting point in the test file  \"" + JAVA_FILENAME + "\"", (start != -1));
-
-		ICompletionProposal[] result= null;
-		String errorMessage = null;
-
-		IContentAssistProcessor p= TestUtil.getProcessor(viewer, offsetToTest, contentAssistant);
-		if (p != null) {
+			// Delay for 3 seconds so that
+			// the Favorites view can be seen.
 			try {
-				result= p.computeCompletionProposals(viewer, offsetToTest);
-			} catch (Throwable x) {
-				x.printStackTrace();
+				JobUtils.waitForIdle();
+			} catch (Exception e) {
+				e.printStackTrace();
+				assertTrue("Waiting for the jobs to complete has failed.", false);
+			} 
+			TestUtil.delay(3000);
+			
+			ISourceViewer viewer = javaEditor.getViewer();
+			IDocument document = viewer.getDocument();
+			SourceViewerConfiguration config = TestUtil.getSourceViewerConfiguration(javaEditor);
+			IContentAssistant contentAssistant = (config == null ? null : config.getContentAssistant(viewer));
+	
+			assertTrue("Cannot get the Content Assistant instance for the editor for file  \"" + JAVA_FILENAME + "\"", (contentAssistant != null));
+			
+			String documentContent = document.get();
+			int start = (documentContent == null ? -1 : documentContent.indexOf(EL_START_TEMPLATE));
+			int offsetToTest = start + EL_START_TEMPLATE.length();
+			
+			assertTrue("Cannot find the starting point in the test file  \"" + JAVA_FILENAME + "\"", (start != -1));
+	
+			ICompletionProposal[] result= null;
+			String errorMessage = null;
+	
+			IContentAssistProcessor p= TestUtil.getProcessor(viewer, offsetToTest, contentAssistant);
+			if (p != null) {
+				try {
+					result= p.computeCompletionProposals(viewer, offsetToTest);
+				} catch (Throwable x) {
+					x.printStackTrace();
+				}
+				errorMessage= p.getErrorMessage();
 			}
-			errorMessage= p.getErrorMessage();
-		}
-		
-//		if (errorMessage != null && errorMessage.trim().length() > 0) {
-//			System.out.println("#" + offsetToTest + ": ERROR MESSAGE: " + errorMessage);
-//		}
-
-		assertTrue("Content Assistant peturned no proposals", (result != null && result.length > 0));
-		
-		// compare SeamELCompletionProposals in the result to the filtered valid proposals
-		Set<String> existingProposals = new TreeSet<String>(String.CASE_INSENSITIVE_ORDER);
-		Set<String> nonExistingProposals = new TreeSet<String>(String.CASE_INSENSITIVE_ORDER);
-		Set<String> filteredValidProposals = getJavaStringValidELProposals();
-
-		for (int j = 0; j < result.length; j++) {
-			// Look only for SeamELProposalProcessor proposals
-			if (result[j] instanceof ELProposalProcessor.Proposal) {
-				ELProposalProcessor.Proposal proposal = (ELProposalProcessor.Proposal)result[j];
-				String proposalString = proposal.getPrefixCompletionText(document, offsetToTest).toString();
-				
-				if (filteredValidProposals.contains(proposalString)) {
-					existingProposals.add(proposalString);
-					filteredValidProposals.remove(proposalString);
-				} else {
-					nonExistingProposals.add(proposalString);
+			
+	//		if (errorMessage != null && errorMessage.trim().length() > 0) {
+	//			System.out.println("#" + offsetToTest + ": ERROR MESSAGE: " + errorMessage);
+	//		}
+	
+			assertTrue("Content Assistant peturned no proposals", (result != null && result.length > 0));
+			
+			// compare SeamELCompletionProposals in the result to the filtered valid proposals
+			Set<String> existingProposals = new TreeSet<String>(String.CASE_INSENSITIVE_ORDER);
+			Set<String> nonExistingProposals = new TreeSet<String>(String.CASE_INSENSITIVE_ORDER);
+			Set<String> filteredValidProposals = getJavaStringValidELProposals();
+	
+			for (int j = 0; j < result.length; j++) {
+				// Look only for SeamELProposalProcessor proposals
+				if (result[j] instanceof ELProposalProcessor.Proposal) {
+					ELProposalProcessor.Proposal proposal = (ELProposalProcessor.Proposal)result[j];
+					String proposalString = proposal.getPrefixCompletionText(document, offsetToTest).toString();
+					
+					if (filteredValidProposals.contains(proposalString)) {
+						existingProposals.add(proposalString);
+						filteredValidProposals.remove(proposalString);
+					} else {
+						nonExistingProposals.add(proposalString);
+					}
 				}
 			}
+			assertTrue("Some Seam EL proposals werent\'t shown in the Content Assistant", filteredValidProposals.isEmpty());
+			assertTrue("Some Seam EL proposals were shown in the Content Assistant but they shouldn\'t", nonExistingProposals.isEmpty());
+		} finally {
+			PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
+			.closeEditor(editorPart, false);
 		}
-		assertTrue("Some Seam EL proposals werent\'t shown in the Content Assistant", filteredValidProposals.isEmpty());
-		assertTrue("Some Seam EL proposals were shown in the Content Assistant but they shouldn\'t", nonExistingProposals.isEmpty());
-
-		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
-		.closeEditor(editorPart, false);
 	}
 
 }

@@ -448,148 +448,55 @@ public class SeamELContentAssistTestCase extends ContentAssistantTestCase {
 	 *  Test for https://jira.jboss.org/jira/browse/JBIDE-3528
 	 */
 	public void testInterface() {
-		checkProposals("/WebContent/interfaceTest.xhtml", 359, new String[]{"interfaceTest.test.text"}, false);
+		try {
+			checkProposals("/WebContent/interfaceTest.xhtml", 359, new String[]{"interfaceTest.test.text"}, false);
+		} finally {
+			closeEditor();
+		}
 	}
 
 	public void testSeamELContentAssist() {
 		ELCorePlugin.getDefault().getPreferenceStore().setValue(ELContentAssistPreferences.SHOW_METHODS_WITH_PARENTHESES_ONLY, false);
 		openEditor(PAGE_NAME);
-
-		List<IRegion> regionsToTest = getELRegionsToTest(document);
-		
-		if (regionsToTest != null && regionsToTest.size() >= 1) {
-//			for (IRegion region : regionsToTest) {
-			IRegion region = regionsToTest.get(0);
-				try {
-//					System.out.println("Seam EL Region To Test: [" + region.getOffset() + "/" + region.getLength() + "] ==> [" + 
-//							document.get(region.getOffset(), region.getLength()) + "]");
-					
-					int startOffset = region.getOffset() + 2;
-					for (int i = 2; i < region.getLength(); i++) {
-						int offset = region.getOffset() + i;
+		try {
+			List<IRegion> regionsToTest = getELRegionsToTest(document);
+			
+			if (regionsToTest != null && regionsToTest.size() >= 1) {
+	//			for (IRegion region : regionsToTest) {
+				IRegion region = regionsToTest.get(0);
+					try {
+	//					System.out.println("Seam EL Region To Test: [" + region.getOffset() + "/" + region.getLength() + "] ==> [" + 
+	//							document.get(region.getOffset(), region.getLength()) + "]");
 						
-						String filter = document.get(startOffset, offset - startOffset);
-						Set<String> filteredValidProposals = getFilteredProposals(getPageValidProposals(), filter);
-						
-						ICompletionProposal[] result= null;
-						String errorMessage = null;
-
-						List<ICompletionProposal> res = TestUtil.collectProposals(contentAssistant, viewer, offset);
-						assertTrue("Content Assist returned no proposals: ", (res != null && res.size() > 0));
-
-//						if (errorMessage != null && errorMessage.trim().length() > 0) {
-//							System.out.println("#" + offset + ": ERROR MESSAGE: " + errorMessage);
-//						}
-						
-						// compare SeamELCompletionProposals in the result to the filtered valid proposals
-						Set<String> existingProposals = new TreeSet<String>(String.CASE_INSENSITIVE_ORDER);
-						
-						for (ICompletionProposal p : res) {
-//								System.out.println("Result#" + i + "-" + j + " ==> " + result[j].getClass().getName());
-							// Cannot separate Seam EL proposals from all the others, 
-							// so check only the required proposals existance
-							//
-							if (p instanceof AutoContentAssistantProposal) {
-								AutoContentAssistantProposal proposal = (AutoContentAssistantProposal)p;
-								
-								String proposalString = proposal.getReplacementString();
-								if (filteredValidProposals.contains(proposalString)) {
-									existingProposals.add(proposalString);
-									filteredValidProposals.remove(proposalString);
-								} else {
-									String validProposal = null;
-									if (proposalString.indexOf("(") > -1) {
-										String methodName = proposalString.substring(0, proposalString.indexOf("(")).trim();
-										// Find method with the same name in filtered valid proposals
-										for (String valid : filteredValidProposals) {
-											if (valid.indexOf("(") > -1) {
-												String validName = valid.substring(0, valid.indexOf("(")).trim();
-												
-												if (methodName.equals(validName)) {
-													validProposal = valid;
-													break;
-												}
-											}
-										}
-									}	
-									if (validProposal != null) {
-										existingProposals.add(validProposal);
-										filteredValidProposals.remove(validProposal);
-									}
-								
-								}
-							}
-						}
-						assertTrue("Some Seam EL proposals werent\'t shown in the Content Assistant", filteredValidProposals.isEmpty());
-					}
-					
-				} catch (BadLocationException e) {
-					assertNull("An exception caught: " + (e != null? e.getMessage() : ""), e);
-				}
-//			}
-		}
-		regionsToTest = getAttributeValueRegions(viewer);
-		if (regionsToTest != null && regionsToTest.size() >= 1) {
-//			for (IRegion region : regionsToTest) {
-			IRegion region = regionsToTest.get(0);
-				try {
-//					System.out.println("Attribute Region To Test: [" + region.getOffset() + "/" + region.getLength() + "] ==> [" + 
-//							document.get(region.getOffset(), region.getLength()) + "]");
-
-					String attributeText = document.get(region.getOffset(), region.getLength());
-					int openQuoteIndex = attributeText.indexOf('"');
-					if (openQuoteIndex == -1)
-						openQuoteIndex = attributeText.indexOf('\'');
-					else {
-						int openQuoteIndex2 = attributeText.indexOf('\'');
-						if (openQuoteIndex2 != -1) {
-							openQuoteIndex = (openQuoteIndex < openQuoteIndex2 ? openQuoteIndex : openQuoteIndex2);
-						}
-					}
-					
-					int closeQuoteIndex = (openQuoteIndex == -1 ? -1 : attributeText.lastIndexOf(attributeText.charAt(openQuoteIndex)));
-					
-					int startOffset = region.getOffset();
-					for (int i = 0; i < region.getLength(); i++) {
-						int offset = startOffset + i;
-						if ((openQuoteIndex != -1 && i <= openQuoteIndex) ||
-								(closeQuoteIndex != -1 && i >= closeQuoteIndex)) {
-							// - Before and at opening quotation mark (single or double quote)
-							// - or at and after closing quotation mark (single or double quote)
-							// There is no prompting acceptable
-						} else {
-							String filter = document.get(startOffset + openQuoteIndex + 1, offset - startOffset - openQuoteIndex - 1);
+						int startOffset = region.getOffset() + 2;
+						for (int i = 2; i < region.getLength(); i++) {
+							int offset = region.getOffset() + i;
 							
-							String clearedFilter = filter;
-							if (filter.startsWith("#{")) {
-								clearedFilter = filter.substring(2);
-							} else {
-								clearedFilter = null;
-							}
-								
-							Set<String> filteredValidProposals = getFilteredProposals(getPageValidProposals(), clearedFilter);
+							String filter = document.get(startOffset, offset - startOffset);
+							Set<String> filteredValidProposals = getFilteredProposals(getPageValidProposals(), filter);
 							
 							ICompletionProposal[] result= null;
 							String errorMessage = null;
 	
 							List<ICompletionProposal> res = TestUtil.collectProposals(contentAssistant, viewer, offset);
 							assertTrue("Content Assist returned no proposals: ", (res != null && res.size() > 0));
-//							if (errorMessage != null && errorMessage.trim().length() > 0) {
-//								System.out.println("#" + offset + ": ERROR MESSAGE: " + errorMessage);
-//							}
+	
+	//						if (errorMessage != null && errorMessage.trim().length() > 0) {
+	//							System.out.println("#" + offset + ": ERROR MESSAGE: " + errorMessage);
+	//						}
 							
 							// compare SeamELCompletionProposals in the result to the filtered valid proposals
 							Set<String> existingProposals = new TreeSet<String>(String.CASE_INSENSITIVE_ORDER);
-
+							
 							for (ICompletionProposal p : res) {
-//									System.out.println("Result#" + i + "/" + j + " ==> " + result[j].getClass().getName());
-							// Cannot separate Seam EL proposals from all the others, 
-							// so check only the required proposals existance
-							//
+	//								System.out.println("Result#" + i + "-" + j + " ==> " + result[j].getClass().getName());
+								// Cannot separate Seam EL proposals from all the others, 
+								// so check only the required proposals existance
+								//
 								if (p instanceof AutoContentAssistantProposal) {
 									AutoContentAssistantProposal proposal = (AutoContentAssistantProposal)p;
-									String proposalString = proposal.getReplacementString();
 									
+									String proposalString = proposal.getReplacementString();
 									if (filteredValidProposals.contains(proposalString)) {
 										existingProposals.add(proposalString);
 										filteredValidProposals.remove(proposalString);
@@ -613,20 +520,118 @@ public class SeamELContentAssistTestCase extends ContentAssistantTestCase {
 											existingProposals.add(validProposal);
 											filteredValidProposals.remove(validProposal);
 										}
+									
 									}
 								}
 							}
-							assertTrue("Some in-attribute Seam EL proposals werent\'t shown in the Content Assistant", filteredValidProposals.isEmpty());
+							assertTrue("Some Seam EL proposals werent\'t shown in the Content Assistant", filteredValidProposals.isEmpty());
 						}
+						
+					} catch (BadLocationException e) {
+						assertNull("An exception caught: " + (e != null? e.getMessage() : ""), e);
 					}
-				} catch (BadLocationException e) {
-					e.printStackTrace();
-					assertNull("An exception caught: " + (e != null? e.getMessage() : ""), e);
-				}
-//			}
-		}
+	//			}
+			}
+			regionsToTest = getAttributeValueRegions(viewer);
+			if (regionsToTest != null && regionsToTest.size() >= 1) {
+	//			for (IRegion region : regionsToTest) {
+				IRegion region = regionsToTest.get(0);
+					try {
+	//					System.out.println("Attribute Region To Test: [" + region.getOffset() + "/" + region.getLength() + "] ==> [" + 
+	//							document.get(region.getOffset(), region.getLength()) + "]");
+	
+						String attributeText = document.get(region.getOffset(), region.getLength());
+						int openQuoteIndex = attributeText.indexOf('"');
+						if (openQuoteIndex == -1)
+							openQuoteIndex = attributeText.indexOf('\'');
+						else {
+							int openQuoteIndex2 = attributeText.indexOf('\'');
+							if (openQuoteIndex2 != -1) {
+								openQuoteIndex = (openQuoteIndex < openQuoteIndex2 ? openQuoteIndex : openQuoteIndex2);
+							}
+						}
+						
+						int closeQuoteIndex = (openQuoteIndex == -1 ? -1 : attributeText.lastIndexOf(attributeText.charAt(openQuoteIndex)));
+						
+						int startOffset = region.getOffset();
+						for (int i = 0; i < region.getLength(); i++) {
+							int offset = startOffset + i;
+							if ((openQuoteIndex != -1 && i <= openQuoteIndex) ||
+									(closeQuoteIndex != -1 && i >= closeQuoteIndex)) {
+								// - Before and at opening quotation mark (single or double quote)
+								// - or at and after closing quotation mark (single or double quote)
+								// There is no prompting acceptable
+							} else {
+								String filter = document.get(startOffset + openQuoteIndex + 1, offset - startOffset - openQuoteIndex - 1);
+								
+								String clearedFilter = filter;
+								if (filter.startsWith("#{")) {
+									clearedFilter = filter.substring(2);
+								} else {
+									clearedFilter = null;
+								}
+									
+								Set<String> filteredValidProposals = getFilteredProposals(getPageValidProposals(), clearedFilter);
+								
+								ICompletionProposal[] result= null;
+								String errorMessage = null;
 		
-		closeEditor();
+								List<ICompletionProposal> res = TestUtil.collectProposals(contentAssistant, viewer, offset);
+								assertTrue("Content Assist returned no proposals: ", (res != null && res.size() > 0));
+	//							if (errorMessage != null && errorMessage.trim().length() > 0) {
+	//								System.out.println("#" + offset + ": ERROR MESSAGE: " + errorMessage);
+	//							}
+								
+								// compare SeamELCompletionProposals in the result to the filtered valid proposals
+								Set<String> existingProposals = new TreeSet<String>(String.CASE_INSENSITIVE_ORDER);
+	
+								for (ICompletionProposal p : res) {
+	//									System.out.println("Result#" + i + "/" + j + " ==> " + result[j].getClass().getName());
+								// Cannot separate Seam EL proposals from all the others, 
+								// so check only the required proposals existance
+								//
+									if (p instanceof AutoContentAssistantProposal) {
+										AutoContentAssistantProposal proposal = (AutoContentAssistantProposal)p;
+										String proposalString = proposal.getReplacementString();
+										
+										if (filteredValidProposals.contains(proposalString)) {
+											existingProposals.add(proposalString);
+											filteredValidProposals.remove(proposalString);
+										} else {
+											String validProposal = null;
+											if (proposalString.indexOf("(") > -1) {
+												String methodName = proposalString.substring(0, proposalString.indexOf("(")).trim();
+												// Find method with the same name in filtered valid proposals
+												for (String valid : filteredValidProposals) {
+													if (valid.indexOf("(") > -1) {
+														String validName = valid.substring(0, valid.indexOf("(")).trim();
+														
+														if (methodName.equals(validName)) {
+															validProposal = valid;
+															break;
+														}
+													}
+												}
+											}	
+											if (validProposal != null) {
+												existingProposals.add(validProposal);
+												filteredValidProposals.remove(validProposal);
+											}
+										}
+									}
+								}
+								assertTrue("Some in-attribute Seam EL proposals werent\'t shown in the Content Assistant", filteredValidProposals.isEmpty());
+							}
+						}
+					} catch (BadLocationException e) {
+						e.printStackTrace();
+						assertNull("An exception caught: " + (e != null? e.getMessage() : ""), e);
+					}
+	//			}
+			}
+		} finally {
+			closeEditor();
+		}
 
 	}
 
@@ -634,21 +639,22 @@ public class SeamELContentAssistTestCase extends ContentAssistantTestCase {
 
 	public void testContentAssistForInvocationOnString() {
 		openEditor(PAGE_HOME_NAME);
-
-		List<IRegion> regionsToTest = getELRegionsToTest(document);
-		if (regionsToTest != null) {
-			for (IRegion region : regionsToTest) {
-				int startOffset = region.getOffset() + 2;
-				int offset = startOffset + 10;
-
-				String errorMessage = null;
-
-				List<ICompletionProposal> res = TestUtil.collectProposals(contentAssistant, viewer, offset);
-				assertNotNull("Proposals were not created.", res);
-				assertEquals("Incorrect number of proposals for #{'aa'.subst|ring(1)}", 3, res.size());
+		try {
+			List<IRegion> regionsToTest = getELRegionsToTest(document);
+			if (regionsToTest != null) {
+				for (IRegion region : regionsToTest) {
+					int startOffset = region.getOffset() + 2;
+					int offset = startOffset + 10;
+	
+					String errorMessage = null;
+	
+					List<ICompletionProposal> res = TestUtil.collectProposals(contentAssistant, viewer, offset);
+					assertNotNull("Proposals were not created.", res);
+					assertEquals("Incorrect number of proposals for #{'aa'.subst|ring(1)}", 3, res.size());
+				}
 			}
-		
+		} finally {
+			closeEditor();
 		}
-		closeEditor();
 	}
 }

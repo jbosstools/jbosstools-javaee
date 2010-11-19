@@ -82,25 +82,34 @@ public class SeamProjectNewWizardTest extends TestCase{
 	 * 
 	 */
 	public void testSeamProjectNewWizardInstanceIsCreated() {
-		IWizardPage startSeamPrjWzPg = wizard.getStartingPage();
-		wizard.getDataModel().setStringProperty("IProjectCreationPropertiesNew.PROJECT_NAME","testName");
-		assertNotNull("Cannot create seam start wizard page", startSeamPrjWzPg);
-		IWizardPage webModuleWizPg = wizard.getNextPage(startSeamPrjWzPg);
-		assertNotNull("Cannot create dynamic web project wizard page",webModuleWizPg);
-		IWizardPage jsfCapabilitiesWizPg = wizard.getNextPage(webModuleWizPg);
-		assertNotNull("Cannot create JSF capabilities wizard page",jsfCapabilitiesWizPg);
-		IWizardPage seamWizPg = wizard.getNextPage(jsfCapabilitiesWizPg);
-		assertNotNull("Cannot create seam facet wizard page",seamWizPg);
-		wizard.performCancel();
+		try {
+			IWizardPage startSeamPrjWzPg = wizard.getStartingPage();
+			wizard.getDataModel().setStringProperty("IProjectCreationPropertiesNew.PROJECT_NAME","testName");
+			assertNotNull("Cannot create seam start wizard page", startSeamPrjWzPg);
+			IWizardPage webModuleWizPg = wizard.getNextPage(startSeamPrjWzPg);
+			assertNotNull("Cannot create dynamic web project wizard page",webModuleWizPg);
+			IWizardPage jsfCapabilitiesWizPg = wizard.getNextPage(webModuleWizPg);
+			assertNotNull("Cannot create JSF capabilities wizard page",jsfCapabilitiesWizPg);
+			IWizardPage seamWizPg = wizard.getNextPage(jsfCapabilitiesWizPg);
+			assertNotNull("Cannot create seam facet wizard page",seamWizPg);
+		} finally {
+			wizard.performCancel();
+			dialog.close();
+		}
 	}
 	
 	public void testSeamProjectNewWizardFinisDisableByDefaul() {
-		// Disable Library Configuration
-		disableLibraryConfiguration();
-		JobUtils.delay(1000);
-
-		boolean canFinish = wizard.canFinish();
-		assertFalse("Finish button is enabled at first wizard page before all requerd fileds are valid.", canFinish);
+		try {
+			// Disable Library Configuration
+			disableLibraryConfiguration();
+			JobUtils.delay(1000);
+	
+			boolean canFinish = wizard.canFinish();
+			assertFalse("Finish button is enabled at first wizard page before all requerd fileds are valid.", canFinish);
+		} finally {
+			wizard.performCancel();
+			dialog.close();
+		}
 	}
 
 	/**
@@ -109,15 +118,20 @@ public class SeamProjectNewWizardTest extends TestCase{
 	 * See http://jira.jboss.com/jira/browse/JBIDE-1111
 	 */
 	public void testJiraJbide1111() {
-		// Disable Library Configuration
-		disableLibraryConfiguration();
-		JobUtils.delay(1000);
-		
-		// Set project name
-		wizard.getDataModel().setProperty(IFacetDataModelProperties.FACET_PROJECT_NAME, "testSeamProject");
-		JobUtils.delay(1000);
-		
-		assertTrue("Finish button is disabled at first wizard page in spite of created JBoss AS Runtime, Server, DB Connection and Seam Runtime and valid project name.", wizard.canFinish());
+		try {
+			// Disable Library Configuration
+			disableLibraryConfiguration();
+			JobUtils.delay(2000);
+			
+			// Set project name
+			wizard.getDataModel().setProperty(IFacetDataModelProperties.FACET_PROJECT_NAME, "testSeamProject");
+			JobUtils.delay(2000);
+			
+			assertTrue("Finish button is disabled at first wizard page in spite of created JBoss AS Runtime, Server, DB Connection and Seam Runtime and valid project name.", wizard.canFinish());
+		} finally {
+			wizard.performCancel();
+			dialog.close();
+		}
 	}
 	
 	private void disableLibraryConfiguration(){
@@ -170,8 +184,7 @@ public class SeamProjectNewWizardTest extends TestCase{
 
 	@Override
 	protected void tearDown() throws Exception {
-		wizard.performCancel();
-		dialog.close();
+
 	}
 	
 	public static final String INIT_ERROR_MESSAGE = "System property ''{0}'' must be configured with -D to run these tests";
