@@ -152,11 +152,15 @@ public abstract class AbstractSeamFacetTest extends TestCase {
 		if(resource==null) throw new IllegalArgumentException();
 		if(resourcesToCleanup.contains(resource))  throw new IllegalArgumentException();
 		this.resourcesToCleanup.add(resource);
+//		System.out.println("Resource is added to clean up list: " + resource);
 	}
 
 	protected final void addResourcesToCleanup(final IResource[] resource) {
 		if(resource==null) throw new IllegalArgumentException();
 		this.resourcesToCleanup.addAll(Arrays.asList(resource));
+//		for (IResource r : resource) {
+//			System.out.println("Resource is added to clean up list: " + r);
+//		}
 	}
 	
 	protected final void addTearDownOperation(final Runnable runnable) {
@@ -244,9 +248,11 @@ public abstract class AbstractSeamFacetTest extends TestCase {
 			}
 			
 		},new NullProgressMonitor());
-		
 
-			this.addResourcesToCleanup(seamProjectsSet.getAllProjects());
+		// Fix for JBIDE-JBIDE-7690: Let all the project to be created before we'll add them to the clean up list
+		JobUtils.waitForIdle();
+		SeamProjectsSet seamAllProjectsSet = new SeamProjectsSet(fproj.getProject());
+		this.addResourcesToCleanup(seamAllProjectsSet.getAllProjects());
 
 		return fproj;
 	}
