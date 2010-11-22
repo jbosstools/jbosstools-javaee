@@ -55,5 +55,11 @@ public class DecoratorDefinitionTest extends TCKTest {
 		assertNotNull("Can't find @Delegate annotation.", injection.getDelegateAnnotation());
 	}
 
-	// TODO continue implementing tests
+	/**
+	 * section 8.2 a)
+	 */
+	public void testNonEnabledDecoratorNotResolved() throws JavaModelException, CoreException {
+		IDecorator decorator = getDecorator("JavaSource/org/jboss/jsr299/tck/tests/decorators/definition/FieldDecorator.java");
+		assertFalse("Decorator is enabled.", decorator.isEnabled());
+	}
 }
