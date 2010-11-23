@@ -30,7 +30,7 @@ import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.WorkbenchUtils;
 
 public class JSF2CompositeOpenOnTest extends TestCase {
-	private static final String PROJECT_NAME = "JSF2ComponentsValidator";
+	private static final String PROJECT_NAME = "JSF2CompositeOpenOn";
 	private static final String PAGE_NAME = PROJECT_NAME+"/WebContent/resources/demo/input.xhtml";
 	public IProject project = null;
 
