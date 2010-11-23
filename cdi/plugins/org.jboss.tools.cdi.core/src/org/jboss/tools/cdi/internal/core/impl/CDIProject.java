@@ -21,7 +21,9 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.IAnnotation;
@@ -55,9 +57,12 @@ import org.jboss.tools.cdi.core.IScope;
 import org.jboss.tools.cdi.core.IStereotype;
 import org.jboss.tools.cdi.internal.core.impl.definition.AnnotationDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.BeansXMLDefinition;
+import org.jboss.tools.cdi.internal.core.impl.definition.DefinitionContext;
 import org.jboss.tools.cdi.internal.core.impl.definition.TypeDefinition;
 import org.jboss.tools.common.EclipseUtil;
+import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.util.EclipseJavaUtil;
+import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.text.INodeReference;
 
 /**
@@ -1342,4 +1347,41 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		
 		return getBeans(attemptToResolveAmbiguousDependency, beanType, qualifiers.toArray(new IType[0]));
 	}
+
+	/**
+	 * For usage in TCK tests which contain many versions of beans.xml in packages.
+	 * @param path
+	 */
+	public IPath replaceBeanXML(IPath path) {
+		getNature().getDefinitions().newWorkingCopy(false);
+		DefinitionContext context = getNature().getDefinitions().getWorkingCopy();
+		
+		Set<BeansXMLDefinition> beanXMLs = context.getBeansXMLDefinitions();
+		Set<IPath> old = new HashSet<IPath>();
+		for (BeansXMLDefinition d: beanXMLs) {
+			IPath p = d.getPath();
+			if(p != null && "beans.xml".equals(p.lastSegment())) {
+				old.add(p);
+			}
+		}
+		for (IPath p: old) context.clean(p);
+		IFile f = ResourcesPlugin.getWorkspace().getRoot().getFile(path);
+		if(f != null && f.exists()) {
+			XModelObject beansXML = EclipseResourceUtil.getObjectByResource(f);
+			if(beansXML == null) {
+				beansXML = EclipseResourceUtil.createObjectForResource(f);
+			}
+			if(beansXML != null) {
+				BeansXMLDefinition def = new BeansXMLDefinition();
+				def.setPath(f.getFullPath());
+				def.setBeansXML(beansXML);
+				context.addBeanXML(f.getFullPath(), def);
+			}
+		}
+		
+		
+		context.applyWorkingCopy();
+		return old.isEmpty() ? null : old.iterator().next();
+	}
+
 }
