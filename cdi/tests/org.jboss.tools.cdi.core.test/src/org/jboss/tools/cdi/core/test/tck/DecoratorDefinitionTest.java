@@ -13,11 +13,14 @@ package org.jboss.tools.cdi.core.test.tck;
 
 import java.util.Set;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.JavaModelException;
 import org.jboss.tools.cdi.core.IDecorator;
 import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.core.IParametedType;
+import org.jboss.tools.cdi.internal.core.impl.CDIProject;
 
 /**
  * @author Alexey Kazakov
@@ -61,5 +64,24 @@ public class DecoratorDefinitionTest extends TCKTest {
 	public void testNonEnabledDecoratorNotResolved() throws JavaModelException, CoreException {
 		IDecorator decorator = getDecorator("JavaSource/org/jboss/jsr299/tck/tests/decorators/definition/FieldDecorator.java");
 		assertFalse("Decorator is enabled.", decorator.isEnabled());
+	}
+
+	public void testEnabledDecoratorResolved() throws JavaModelException, CoreException {
+		IDecorator decorator = getDecorator("JavaSource/org/jboss/jsr299/tck/tests/decorators/resolution/QuxDecorator.java");
+		assertFalse("Decorator QuxDecorator is enabled.", decorator.isEnabled());
+		
+		IFile f = tckProject.getFile("/WebContent/WEB-INF/tests/decorators/resolution/beans.xml");
+		assertTrue("File /WebContent/WEB-INF/tests/decorators/resolution/beans.xml not found", f != null && f.exists());
+
+		IPath old = ((CDIProject)cdiProject).replaceBeanXML(f.getFullPath());
+		
+		assertTrue("Old beans.xml is not found", old != null);
+
+		try {
+			decorator = getDecorator("JavaSource/org/jboss/jsr299/tck/tests/decorators/resolution/QuxDecorator.java");
+			assertTrue("Decorator QuxDecorator is not enabled.", decorator.isEnabled());
+		} finally {
+			old = ((CDIProject)cdiProject).replaceBeanXML(old);
+		}
 	}
 }
