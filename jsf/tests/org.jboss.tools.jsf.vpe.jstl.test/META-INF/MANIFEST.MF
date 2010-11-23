@@ -8,7 +8,6 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.junit;bundle-version="3.8.2",
  org.jboss.tools.jsf.vpe.jstl;bundle-version="3.1.0",
- org.jboss.tools.jsf.test;bundle-version="2.0.0",
  org.jboss.tools.jsf.vpe.facelets;bundle-version="3.1.0",
  org.jboss.tools.jsf.vpe.richfaces;bundle-version="3.1.0",
  org.jboss.tools.vpe.jsp;bundle-version="3.1.0"
