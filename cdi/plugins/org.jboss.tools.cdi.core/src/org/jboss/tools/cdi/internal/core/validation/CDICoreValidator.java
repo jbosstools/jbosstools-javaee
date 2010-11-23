@@ -879,7 +879,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 					String bindedErrorMessage = NLS.bind(errorMessage, new String[]{method.getMethod().getElementName(), bean.getBeanClass().getElementName()});
 					addError(bindedErrorMessage, preferencesKey, declaration, bean.getResource());
 				}
-			} else {
+			} else if (iMethod != method.getMethod()) {
 				getValidationContext().addLinkedCoreResource(bean.getSourcePath().toOSString(), iMethod.getResource().getFullPath(), false);
 			}
 		}
@@ -1053,7 +1053,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 						String bindedErrorMessage = NLS.bind(CDIValidationMessages.ILLEGAL_PRODUCER_METHOD_IN_SESSION_BEAN, new String[]{producerMethod.getMethod().getElementName(), producer.getBeanClass().getElementName()});
 						addError(bindedErrorMessage, CDIPreferences.ILLEGAL_PRODUCER_METHOD_IN_SESSION_BEAN, producer.getProducesAnnotation(), producer.getResource());
 						saveAllSuperTypesAsLinkedResources(classBean);
-					} else {
+					} else if (method != producerMethod.getMethod()) {
 						getValidationContext().addLinkedCoreResource(classBean.getSourcePath().toOSString(), method.getResource().getFullPath(), false);
 					}
 				}

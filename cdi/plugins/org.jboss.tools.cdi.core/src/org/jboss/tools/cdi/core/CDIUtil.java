@@ -410,14 +410,46 @@ public class CDIUtil {
 	 * @param method
 	 * @return
 	 */
-	public static boolean isBusinessMethod(ISessionBean bean, IBeanMethod method) {
+	public static boolean isBusinessOrStaticMethod(ISessionBean bean, IBeanMethod method) {
 		return getBusinessMethodDeclaration(bean, method)!=null;
 	}
 
 	/**
-	 * Returns IMethod of @Local interface which is implemented by given business method.
-	 * Returns null if the method is a non-static method of the session bean class, and the method is not a business method of the session bean.
-	 * If the method is a static one then returns this method.
+	 * Returns the @Local interface for the session bean if it is defined.
+	 * 
+	 * @param bean
+	 * @return
+	 */
+	public static IType getLocalInterfaceForBean(ISessionBean bean) {
+		try {
+			Set<IParametedType> types = bean.getLegalTypes();
+			for (IParametedType type : types) {
+				IType sourceType = type.getType();
+				if (sourceType == null) {
+					continue;
+				}
+				if(!sourceType.isInterface()) {
+					continue;
+				}
+				IAnnotation annotation = sourceType.getAnnotation(CDIConstants.LOCAL_ANNOTATION_TYPE_NAME);
+				if (annotation == null) {
+					annotation = sourceType.getAnnotation("Local"); //$NON-NLS-N1
+				}
+				if (annotation != null && CDIConstants.LOCAL_ANNOTATION_TYPE_NAME.equals(EclipseJavaUtil.resolveType(sourceType, "Local"))) { //$NON-NLS-N1
+					return sourceType;
+				}
+			}
+			return null;
+		} catch (JavaModelException e) {
+			CDICorePlugin.getDefault().logError(e);
+		}
+		return null;
+	}
+
+	/**
+	 * Returns IMethod of @Local interface which is implemented by given business method if such an interface is defined.
+	 * If such an interface is not define then return then check if the method is static or public, not final and doesn't start with "ejb".
+	 * If so then return this method, otherwise return null.
 	 * 
 	 * @param bean
 	 * @param method
@@ -425,39 +457,29 @@ public class CDIUtil {
 	 */
 	public static IMethod getBusinessMethodDeclaration(ISessionBean bean, IBeanMethod method) {
 		try {
-			if (!Flags.isStatic(method.getMethod().getFlags())) {
+			int flags = method.getMethod().getFlags();
+			if(Flags.isStatic(flags)) {
+				return method.getMethod();
+			} else if (!Flags.isFinal(flags) && Flags.isPublic(flags) && !method.getMethod().getElementName().startsWith("ejb")) {
 				if(bean.getAnnotation(CDIConstants.SINGLETON_ANNOTATION_TYPE_NAME)!=null) {
 					return method.getMethod();
 				}
-				Set<IParametedType> types = bean.getLegalTypes();
-				for (IParametedType type : types) {
-					IType sourceType = type.getType();
-					if (sourceType == null) {
-						continue;
-					}
-					if(!sourceType.isInterface()) {
-						continue;
-					}
-					IAnnotation annotation = sourceType.getAnnotation(CDIConstants.LOCAL_ANNOTATION_TYPE_NAME);
-					if (annotation == null) {
-						annotation = sourceType.getAnnotation("Local"); //$NON-NLS-N1
-					}
-					if (annotation != null && CDIConstants.LOCAL_ANNOTATION_TYPE_NAME.equals(EclipseJavaUtil.resolveType(sourceType, "Local"))) { //$NON-NLS-N1
-						IMethod[] methods = sourceType.getMethods();
-						for (IMethod iMethod : methods) {
-							if (method.getMethod().isSimilar(iMethod)) {
-								return iMethod;
-							}
+				IType sourceType = getLocalInterfaceForBean(bean);
+				if(sourceType!=null) {
+					IMethod[] methods = sourceType.getMethods();
+					for (IMethod iMethod : methods) {
+						if (method.getMethod().isSimilar(iMethod)) {
+							return iMethod;
 						}
-						break;
 					}
+					return null;
 				}
-				return null;
+				return method.getMethod();
 			}
 		} catch (JavaModelException e) {
 			CDICorePlugin.getDefault().logError(e);
 		}
-		return method.getMethod();
+		return null;
 	}
 
 	/**

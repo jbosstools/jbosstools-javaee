@@ -520,6 +520,19 @@ public class DefenitionErrorsValidationTest extends ValidationTest {
 
 	/**
 	 * 3.3.2. Declaring a producer method
+	 *  - non-static method of a session bean class is annotated @Produces, and the method is not a business method of the session bean
+	 * See https://jira.jboss.org/browse/JBIDE-7710
+	 *  
+	 * @throws Exception
+	 */
+	public void testProducerMethodOnSessionBeanMustBeBusinessMethodWithoutLocalInterface() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/disposers/WidgetRepositoryProducerOk.java");
+		String bindedErrorMessage = NLS.bind(CDIValidationMessages.ILLEGAL_PRODUCER_METHOD_IN_SESSION_BEAN, new String[]{"retrieveEntityManager", "WidgetRepositoryProducerOk"});
+		assertMarkerIsNotCreated(file, bindedErrorMessage, 14);
+	}
+
+	/**
+	 * 3.3.2. Declaring a producer method
 	 *  - decorator has a method annotated @Produces
 	 *  
 	 * @throws Exception
@@ -619,6 +632,19 @@ public class DefenitionErrorsValidationTest extends ValidationTest {
 		file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/implementation/enterprise/newBean/Fox.java");
 		bindedErrorMessage = NLS.bind(CDIValidationMessages.ILLEGAL_DISPOSER_IN_SESSION_BEAN, new String[]{"disposeLitter", "Fox"});
 		assertMarkerIsNotCreated(file, bindedErrorMessage, 73);
+	}
+
+	/**
+	 * 3.3.6. Declaring a disposer method
+	 *  - a non-static method of a session bean class has a parameter annotated @Disposes, and the method is not a business method of the session bean
+	 * See https://jira.jboss.org/browse/JBIDE-7710
+	 *  
+	 * @throws Exception
+	 */
+	public void testDisposalMethodNotBusinessOrStaticWithoutLocalInterface() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/disposers/WidgetRepositoryProducerOk.java");
+		String bindedErrorMessage = NLS.bind(CDIValidationMessages.ILLEGAL_DISPOSER_IN_SESSION_BEAN, new String[]{"disposeEntityManager", "WidgetRepositoryProducerOk"});
+		assertMarkerIsNotCreated(file, bindedErrorMessage, 18);
 	}
 
 	/**
