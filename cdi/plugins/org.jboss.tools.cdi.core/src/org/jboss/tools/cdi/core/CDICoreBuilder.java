@@ -336,7 +336,7 @@ public class CDICoreBuilder extends IncrementalProjectBuilder {
 						return false;
 					}
 				}
-				if(webinf != null && webinf.isPrefixOf(path)) {
+				if(webinf != null && webinf.isPrefixOf(path) && webinf.segmentCount() == path.segmentCount() - 1) {
 					addBeansXML(f, fileSet);
 				}
 			}
