@@ -28,9 +28,11 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Preferences;
+import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jdt.core.IClasspathContainer;
 import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IJavaProject;
@@ -60,19 +62,20 @@ import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
 import org.eclipse.wst.common.frameworks.internal.datamodel.ui.DataModelSynchHelper;
 import org.eclipse.wst.common.project.facet.core.FacetedProjectFramework;
 import org.eclipse.wst.common.project.facet.core.IFacetedProject;
+import org.eclipse.wst.common.project.facet.core.IFacetedProject.Action;
 import org.eclipse.wst.common.project.facet.core.IFacetedProjectTemplate;
 import org.eclipse.wst.common.project.facet.core.IFacetedProjectWorkingCopy;
 import org.eclipse.wst.common.project.facet.core.IPreset;
 import org.eclipse.wst.common.project.facet.core.IProjectFacet;
 import org.eclipse.wst.common.project.facet.core.IProjectFacetVersion;
 import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
-import org.eclipse.wst.common.project.facet.core.IFacetedProject.Action;
 import org.eclipse.wst.common.project.facet.core.events.IFacetedProjectEvent;
 import org.eclipse.wst.common.project.facet.core.events.IFacetedProjectListener;
 import org.eclipse.wst.common.project.facet.core.runtime.IRuntime;
 import org.eclipse.wst.server.core.IServer;
 import org.eclipse.wst.server.core.IServerLifecycleListener;
 import org.eclipse.wst.server.core.ServerCore;
+import org.eclipse.wst.server.core.internal.ChainedJob;
 import org.eclipse.wst.server.ui.ServerUIUtil;
 import org.jboss.ide.eclipse.as.core.server.internal.JBossServer;
 import org.jboss.tools.jst.web.server.RegistrationHelper;
@@ -321,7 +324,6 @@ public class SeamProjectWizard extends WebProjectWizard {
 		IFacetedProjectWorkingCopy fpwc = getFacetedProjectWorkingCopy();
 		IProjectFacet jpaFacet = ProjectFacetsManager.getProjectFacet("jpt.jpa");
 		IProjectFacetVersion pfv = fpwc.getProjectFacetVersion(jpaFacet);
-		
 		if (isEAR && pfv != null){
 			//remove jpa facet from <project>
 			// and add it to <project>-ejb with the same model			
@@ -420,15 +422,15 @@ public class SeamProjectWizard extends WebProjectWizard {
 				}
 			} 
 			
-			RegistrationHelper.runRegisterInServerJob(warProject, server);
-
 			IPath filePath = new Path("resources").append(warProject.getName() + "-ds.xml");
-
+			ChainedJob dsJob = null;
 			if (deployAsEar) {
-				new DataSourceXmlDeployer(earProject, server, filePath).schedule();
+				dsJob = new DataSourceXmlDeployer(earProject, server, filePath);
 			} else {
-				new DataSourceXmlDeployer(warProject, server, filePath).schedule();
-			}			
+				dsJob = new DataSourceXmlDeployer(warProject, server, filePath);
+			}
+			dsJob.setNextJob(RegistrationHelper.getRegisterInServerJob(warProject, new IServer[]{server}, null));
+			dsJob.schedule();
 		}
 	}
 

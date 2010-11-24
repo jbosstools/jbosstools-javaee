@@ -10,8 +10,6 @@
  ******************************************************************************/
 package org.jboss.tools.seam.internal.core.project.facet;
 
-import java.util.ArrayList;
-
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
@@ -21,11 +19,10 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.wst.server.core.IModule;
 import org.eclipse.wst.server.core.IServer;
 import org.eclipse.wst.server.core.IServerWorkingCopy;
-import org.eclipse.wst.server.core.IServer.IOperationListener;
+import org.eclipse.wst.server.core.internal.ChainedJob;
 import org.jboss.ide.eclipse.as.core.modules.SingleDeployableFactory;
 import org.jboss.ide.eclipse.as.core.server.internal.DeployableServerBehavior;
 import org.jboss.tools.seam.core.SeamCoreMessages;
@@ -38,12 +35,12 @@ import org.jboss.tools.seam.core.SeamCorePlugin;
  * @author eskimo
  * 
  */
-public class DataSourceXmlDeployer extends Job {
+public class DataSourceXmlDeployer extends ChainedJob {
 	IProject project = null;
 	IServer s = null;
 	IPath deploy = null;
 	public DataSourceXmlDeployer(IProject project, IServer s, IPath deploy) {
-		super(SeamCoreMessages.DATA_SOURCE_XML_DEPLOYER_DEPLOYING_DATASOURCE_TO_SERVER);
+		super(SeamCoreMessages.DATA_SOURCE_XML_DEPLOYER_DEPLOYING_DATASOURCE_TO_SERVER, s);
 		this.project = project;
 		// is must be user since ds.xml has the same behaviour for EAR
 		// deployment. It should run after ear project created and imported into 
