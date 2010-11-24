@@ -24,7 +24,7 @@ public class TestForUsingComponentsLibrariesWithDefaultNamespace extends Compone
 	}
 	
 	public void testCheckContetnForDefaultNamespace() throws Throwable{
-		performContentTest("JBIDE/5352/table.xhtml"); //$NON-NLS-1$
+		performContentTest("JBIDE/5352/jsf-core-as-default-tags.xhtml"); //$NON-NLS-1$
 		performContentTest("JBIDE/5352/jbide5352.xhtml"); //$NON-NLS-1$
 		
 	}
