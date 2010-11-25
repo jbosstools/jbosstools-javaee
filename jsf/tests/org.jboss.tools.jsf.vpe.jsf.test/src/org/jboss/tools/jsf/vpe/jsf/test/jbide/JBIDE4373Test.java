@@ -13,6 +13,7 @@ package org.jboss.tools.jsf.vpe.jsf.test.jbide;
 import java.io.IOException;
 
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PlatformUI;
@@ -53,11 +54,13 @@ public class JBIDE4373Test extends VpeTest{
 		vpeController.getSourceBuilder().openOn(domNode);
 		IEditorPart  activeEditor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
 		assertEquals("facelets.taglib.xml file should be opened","facelets.taglib.xml", activeEditor.getEditorInput().getName());  //$NON-NLS-1$//$NON-NLS-2$
-		StructuredSelection selection = (StructuredSelection) activeEditor.getEditorSite().getSelectionProvider().getSelection();
-		CustomizedObjectImpl customizedObjectImpl = (CustomizedObjectImpl) selection.getFirstElement();
-		//cheak if selection on right line, how? 
-		assertEquals("Children lenght should be ","FileSystems/WEB-ROOT/tags/facelets.taglib.xml/paginator",customizedObjectImpl.getLongPath()); //$NON-NLS-1$ //$NON-NLS-2$
-	
+		IStructuredSelection selection = (IStructuredSelection) activeEditor.getEditorSite().getSelectionProvider().getSelection();
+		//check pass only if we have been opened in our xml editor
+		if(selection.getFirstElement() instanceof CustomizedObjectImpl) {
+			CustomizedObjectImpl customizedObjectImpl = (CustomizedObjectImpl) selection.getFirstElement();
+			//Check if selection on right line, how? 
+			assertEquals("Children lenght should be ","FileSystems/WEB-ROOT/tags/facelets.taglib.xml/paginator",customizedObjectImpl.getLongPath()); //$NON-NLS-1$ //$NON-NLS-2$
+		}
 	}
 	
 	/**
@@ -74,11 +77,13 @@ public class JBIDE4373Test extends VpeTest{
 		vpeController.getSourceBuilder().openOn(domNode);
 		IEditorPart  activeEditor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
 		assertEquals("facelets.taglib.xml file should be opened","facelets.taglib.xml", activeEditor.getEditorInput().getName());  //$NON-NLS-1$//$NON-NLS-2$
-		StructuredSelection selection = (StructuredSelection) activeEditor.getEditorSite().getSelectionProvider().getSelection();
-		SimpleFileImpl customizedObjectImpl = (SimpleFileImpl) selection.getFirstElement();
-		//cheak if selection on right line, how? 
-		assertEquals("Children lenght should be","FileSystems/WEB-ROOT/tags/facelets.taglib.xml",customizedObjectImpl.getLongPath()); //$NON-NLS-1$ //$NON-NLS-2$
-
+		IStructuredSelection selection = (IStructuredSelection) activeEditor.getEditorSite().getSelectionProvider().getSelection();
+		//check pass only if we have been opened in our xml editor
+		if(selection.getFirstElement() instanceof SimpleFileImpl){
+			SimpleFileImpl customizedObjectImpl = (SimpleFileImpl) selection.getFirstElement();
+			//check if selection on right line, how? 
+			assertEquals("Children lenght should be","FileSystems/WEB-ROOT/tags/facelets.taglib.xml",customizedObjectImpl.getLongPath()); //$NON-NLS-1$ //$NON-NLS-2$
+		}
 	}
 	/**
 	 * test open on for following case <h:outputText value="#{msg.greeting}" />
