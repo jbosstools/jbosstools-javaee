@@ -52,8 +52,6 @@ public class JsfUiAllTests {
 		suite.addTestSuite(JsfJspJbide6259Test.class);
 		suite.addTestSuite(JsfJspJbide1704Test.class);
  		suite.addTestSuite(JsfJspJbide1717Test.class);
- 		suite.addTestSuite(TaglibXMLUnformatedDTD_JBIDE5642.class);
-
  		suite.addTest(
 				new ProjectImportTestSetup(WebContentAssistProviderTest.suite(),
 				"org.jboss.tools.jsf.ui.test",
@@ -79,7 +77,10 @@ public class JsfUiAllTests {
 				"org.jboss.tools.jsf.ui.test",
 				new String[]{"projects/test_jsf_project"},
 				new String[]{"test_jsf_project"}));
-
+		suite.addTest(new ProjectImportTestSetup(new TestSuite(TaglibXMLUnformatedDTD_JBIDE5642.class),
+				"org.jboss.tools.jsf.ui.test",
+				new String[]{"projects/ShowJarLibrariesTest"},
+				new String[]{"ShowJarLibrariesTest"}));
 		suite.addTestSuite(JsfUiPreferencesPagesTest.class);
 
 		return new TestWizardsProject(suite);

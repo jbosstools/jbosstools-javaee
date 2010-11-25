@@ -15,6 +15,10 @@ import java.util.StringTokenizer;
 
 import junit.framework.TestCase;
 
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IncrementalProjectBuilder;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
@@ -22,6 +26,8 @@ import org.eclipse.swt.widgets.Widget;
 import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.PlatformUI;
 import org.jboss.tools.jst.web.ui.navigator.WebProjectsNavigator;
+import org.jboss.tools.test.util.JobUtils;
+import org.jboss.tools.test.util.ProjectImportTestSetup;
 
 /**
  * 
@@ -30,15 +36,17 @@ import org.jboss.tools.jst.web.ui.navigator.WebProjectsNavigator;
  */
 
 public class TaglibXMLUnformatedDTD_JBIDE5642 extends TestCase {
-
+	
+	private static final String PROJECT_NAME = "ShowJarLibrariesTest"; //$NON-NLS-1$
 	private static final String WEB_PROJECTS_VIEW_ID = "org.jboss.tools.jst.web.ui.navigator.WebProjectsView"; //$NON-NLS-1$
 	private static final String PACKAGE_EXPLORER_VIEW_ID = "org.eclipse.jdt.ui.PackageExplorer"; //$NON-NLS-1$
-	private static final String LIB_PATH = "jsfTest/Tag Libraries/"; //$NON-NLS-1$
+	private static final String LIB_PATH = "/Tag Libraries/"; //$NON-NLS-1$
 	private static final String LIB_NAME_I = "primefaces-i.taglib.xml - primefaces-2.0.0.RC.jar"; //$NON-NLS-1$
 	private static final String LIB_NAME_P = "primefaces-p.taglib.xml - primefaces-2.0.0.RC.jar"; //$NON-NLS-1$
 
 	private IViewPart webProjectsView;
-
+	private IProject project = null;
+	
 	public TaglibXMLUnformatedDTD_JBIDE5642(String name) {
 		super(name);
 	}
@@ -49,17 +57,17 @@ public class TaglibXMLUnformatedDTD_JBIDE5642 extends TestCase {
 		assertNotNull("Web Projects view is not available", webProjectsView); //$NON-NLS-1$
 		TestUtil.delay(2000);
 		TestUtil.waitForIdle();
-
+		
 		WebProjectsNavigator projectsNavigator = (WebProjectsNavigator) webProjectsView;
 		TreeViewer treeViewer = projectsNavigator.getViewer();
 		assertNotNull(treeViewer);
-
-		Object testLibI = findElementByPath(LIB_PATH + LIB_NAME_I, treeViewer);
-		assertNotNull("The tag library " + LIB_NAME_I + " was not found", //$NON-NLS-1$ //$NON-NLS-2$
+		String taglibName = PROJECT_NAME + LIB_PATH + LIB_NAME_I; 
+		Object testLibI = findElementByPath(taglibName, treeViewer);
+		assertNotNull("The tag library [" + taglibName + "] was not found", //$NON-NLS-1$ //$NON-NLS-2$
 				testLibI);
-
-		Object testLibP = findElementByPath(LIB_PATH + LIB_NAME_P, treeViewer);
-		assertNotNull("The tag library " + LIB_NAME_P + " was not found", //$NON-NLS-1$ //$NON-NLS-2$
+		taglibName = PROJECT_NAME + LIB_PATH + LIB_NAME_P;
+		Object testLibP = findElementByPath(taglibName, treeViewer);
+		assertNotNull("The tag library [" + LIB_NAME_P + "] was not found", //$NON-NLS-1$ //$NON-NLS-2$
 				testLibP);
 	}
 
@@ -108,12 +116,21 @@ public class TaglibXMLUnformatedDTD_JBIDE5642 extends TestCase {
 	}
 
 	@Override
-	protected void tearDown() throws Exception {
-		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
-				.hideView(webProjectsView);
-		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
-				.showView(PACKAGE_EXPLORER_VIEW_ID);
-		super.tearDown();
+	protected void setUp() throws Exception {
+		super.setUp();
+		JobUtils.waitForIdle();
+		IResource project = ResourcesPlugin.getWorkspace().getRoot().findMember(PROJECT_NAME);
+		if(project == null) {
+			ProjectImportTestSetup setup = new ProjectImportTestSetup(
+					this,
+					"org.jboss.tools.jsf.ui.test", //$NON-NLS-1$
+					"projects/" + PROJECT_NAME, //$NON-NLS-1$
+					PROJECT_NAME);
+			project = setup.importProject();
+		}
+		this.project = project.getProject();
+		this.project.build(IncrementalProjectBuilder.FULL_BUILD, null);
+		JobUtils.waitForIdle();
 	}
 
 }
