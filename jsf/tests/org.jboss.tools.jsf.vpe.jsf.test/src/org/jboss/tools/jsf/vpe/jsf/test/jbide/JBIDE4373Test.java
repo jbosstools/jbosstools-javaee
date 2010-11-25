@@ -180,23 +180,6 @@ public class JBIDE4373Test extends VpeTest{
 	}
 	
 	/**
-	 * Test openOn mechanism for VpeDefineContainerTemplate 
-	 * in Seam's s:decorate template (SeamDecorateTemplate). 
-	 * 
-	 * @throws CoreException
-	 * @throws IOException 
-	 */
-	public void testOpenOnForSDecorate() throws CoreException, IOException {
-		VpeController vpeController = openInVpe(JsfAllTests.IMPORT_CUSTOM_FACELETS_PROJECT, "s-decorate.xhtml"); //$NON-NLS-1$
-		int position = TestUtil.getLinePositionOffcet(vpeController.getSourceEditor().getTextViewer(), 11, 33);
-		Node sourceNode = SelectionUtil.getNodeBySourcePosition(vpeController.getSourceEditor(), position);
-		nsIDOMNode domNode = vpeController.getDomMapping().getNearVisualNode(sourceNode);
-		vpeController.getSourceBuilder().openOn(domNode);
-		IEditorPart  activeEditor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
-		assertEquals("/templates/insert.xhtml file should be opened","insert.xhtml", activeEditor.getEditorInput().getName()); //$NON-NLS-1$ //$NON-NLS-2$
-	}
-	
-	/**
 	 * Test openOn mechanism for VpeIncludeTemplate in ajax4jsf a4j:include. 
 	 * 
 	 * @throws CoreException

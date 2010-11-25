@@ -32,6 +32,7 @@ public class SeamAllTests {
 		suite.addTestSuite(SeamComponentTest.class);
 		suite.addTestSuite(SeamComponentContentTest.class);
 		suite.addTestSuite(JBIDE1484Test.class);
+		suite.addTestSuite(OpenOnForDecorateTest.class);
 		// $JUnit-END$
 		return new VpeTestSetup(suite);
     }
