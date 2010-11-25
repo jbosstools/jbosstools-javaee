@@ -11,6 +11,8 @@
 
 package org.jboss.tools.cdi.core.test.tck.validation;
 
+import java.text.MessageFormat;
+
 import org.eclipse.core.resources.IFile;
 import org.jboss.tools.cdi.internal.core.validation.CDIValidationMessages;
 
@@ -60,5 +62,75 @@ public class DeploymentProblemsValidationTests extends ValidationTest {
 		assertMarkerIsNotCreated(file, CDIValidationMessages.INJECT_RESOLVES_TO_NULLABLE_BEAN, 20);
 		assertMarkerIsNotCreated(file, CDIValidationMessages.INJECT_RESOLVES_TO_NULLABLE_BEAN, 21);
 		assertMarkerIsNotCreated(file, CDIValidationMessages.INJECT_RESOLVES_TO_NULLABLE_BEAN, 22);
+	}
+
+	/**
+	 * 	5.4.1. Unproxyable bean types
+	 *  - Array types cannot be proxied by the container.
+	 * 	- If an injection point whose declared type cannot be proxied by the container resolves to a bean with a normal scope,
+	 * 	  the container automatically detects the problem and treats it as a deployment problem.
+	 * 
+	 * @throws Exception
+	 */
+	public void _testInjectionPointWithArrayType() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/unproxyable/InjectionPointBean_Broken.java");
+		assertMarkerIsCreated(file, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_TYPE, "TestType[]", "ArrayProducer.produce()"), 6);
+		assertMarkerIsCreated(file, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_TYPE, "TestType[]", "ArrayProducer.produce2()"), 8);
+		assertMarkerIsNotCreated(file, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_TYPE, "TestType", "TestType"), 7);
+	}
+
+	/**
+	 * 	5.4.1. Unproxyable bean types
+	 *  - Primitive types cannot be proxied by the container.
+	 * 	- If an injection point whose declared type cannot be proxied by the container resolves to a bean with a normal scope,
+	 * 	  the container automatically detects the problem and treats it as a deployment problem.
+	 * 
+	 * @throws Exception
+	 */
+	public void _testInjectionPointWithUnproxyableTypeWhichResolvesToNormalScopedBean() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/unproxyable/Number_Broken.java");
+		assertMarkerIsCreated(file, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_TYPE, "int", "NumberProducer.produce()"), 9);
+		assertMarkerIsCreated(file, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_TYPE, "long", "NumberProducer.foo"), 13);
+		assertMarkerIsNotCreated(file, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_TYPE, "Short", "NumberProducer.foo2"), 17);
+		assertMarkerIsNotCreated(file, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_TYPE, "boolean", "NumberProducer.foo3"), 21);
+	}
+
+	/**
+	 * 	5.4.1. Unproxyable bean types
+	 *  - Classes which don't have a non-private constructor with no parameters cannot be proxied by the container.
+	 * 	- If an injection point whose declared type cannot be proxied by the container resolves to a bean with a normal scope,
+	 * 	  the container automatically detects the problem and treats it as a deployment problem.
+	 * 
+	 * @throws Exception
+	 */
+	public void _testClassWithPrivateConstructor() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/lookup/clientProxy/unproxyable/privateConstructor/InjectionPointBean.java");
+		assertMarkerIsCreated(file, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_TYPE, "Unproxyable_Broken", "Unproxyable_Broken"), 23);
+	}
+
+	/**
+	 * 	5.4.1. Unproxyable bean types
+	 *  - Classes which are declared final cannot be proxied by the container.
+	 * 	- If an injection point whose declared type cannot be proxied by the container resolves to a bean with a normal scope,
+	 * 	  the container automatically detects the problem and treats it as a deployment problem.
+	 * 
+	 * @throws Exception
+	 */
+	public void _testInjectionPointWhichResolvesToNormalScopedFinalBean() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/lookup/clientProxy/unproxyable/finalClass/FishFarm.java");
+		assertMarkerIsCreated(file, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_TYPE, "Tuna_Broken", "Tuna_Broken"), 24);
+	}
+
+	/**
+	 * 	5.4.1. Unproxyable bean types
+	 *  - Classes which have final methods cannot be proxied by the container.
+	 * 	- If an injection point whose declared type cannot be proxied by the container resolves to a bean with a normal scope,
+	 * 	  the container automatically detects the problem and treats it as a deployment problem.
+	 * 
+	 * @throws Exception
+	 */
+	public void _testClassWithFinalMethodCannotBeProxied() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/lookup/clientProxy/unproxyable/finalMethod/FishFarm.java");
+		assertMarkerIsCreated(file, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_TYPE, "Tuna_Broken", "Tuna_Broken"), 23);
 	}
 }

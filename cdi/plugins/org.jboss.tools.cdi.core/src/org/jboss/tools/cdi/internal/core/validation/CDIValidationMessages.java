@@ -27,6 +27,8 @@ public class CDIValidationMessages {
 
 	public static String UNSATISFIED_INJECTION_POINTS;
 	public static String AMBIGUOUS_INJECTION_POINTS;
+	public static String UNPROXYABLE_BEAN_TYPE;
+
 	public static String ILLEGAL_TYPE_IN_TYPED_DECLARATION;
 	public static String ILLEGAL_TYPE_IN_TYPED_DECLARATION_IN_BEAN_CLASS;
 	public static String ILLEGAL_TYPE_IN_TYPED_DECLARATION_IN_PRODUCER_METHOD;

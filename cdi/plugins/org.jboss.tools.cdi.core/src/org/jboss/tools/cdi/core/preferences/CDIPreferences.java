@@ -47,6 +47,10 @@ public class CDIPreferences extends SeverityPreferences {
 //	  treats it as a deployment problem.
 	public static final String UNSATISFIED_INJECTION_POINTS = INSTANCE.createSeverityOption("unsatisfiedInjectionPoints"); //$NON-NLS-1$
 	public static final String AMBIGUOUS_INJECTION_POINTS = INSTANCE.createSeverityOption("ambiguousInjectionPoints"); //$NON-NLS-1$
+// 5.4.1. Unproxyable bean types
+//	-  If an injection point whose declared type cannot be proxied by the container resolves to a bean with a normal scope,
+//	   the container automatically detects the problem and treats it as a deployment problem.
+	public static final String UNPROXYABLE_BEAN_TYPE = INSTANCE.createSeverityOption("unproxyableBeanType"); //$NON-NLS-1$
 //	- bean class or producer method or field specifies a @Typed annotation, 
 //	  and the value member specifies a class which does not correspond to a type 
 //	  in the unrestricted set of bean types of a bean (2.2.2)
