@@ -92,7 +92,6 @@ import org.jboss.tools.jsf.vpe.jsf.test.jbide.RenderFacetAndInsertChildrenTest;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.SelectAllAndCut_JBIDE4853;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.SelectWholeElement_JBIDE4713;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.SourceDomUtilTest;
-import org.jboss.tools.jsf.vpe.jsf.test.jbide.TaglibXMLUnformatedDTD_JBIDE5642;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.TestContextPathResolution;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.TestFViewLocaleAttribute_JBIDE5218;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.UnclosedELExpressionTest;
@@ -130,7 +129,7 @@ public class JsfAllTests {
 		/*
 		 * Content tests
 		 */
-		suite.addTestSuite(JsfComponentContentTest.class);
+		suite.addTestSuite(JsfComponentContentTest.class) ;
 		suite.addTestSuite(Jsf20ComponentContentTest.class);
 		/*
 		 * Other tests
@@ -218,7 +217,6 @@ public class JsfAllTests {
 		suite.addTestSuite(NullPointerWithStyleProperty_JBIDE5193.class);
 		suite.addTestSuite(TestFViewLocaleAttribute_JBIDE5218.class);
 		suite.addTestSuite(TestOpenOnForXhtmlFiles_JBIDE5577.class);
-		suite.addTestSuite(TaglibXMLUnformatedDTD_JBIDE5642.class);
 		suite.addTestSuite(OpenOnInJarPackageFragment_JBIDE5682.class);
 		suite.addTestSuite(MessageResolutionInPreviewTabTest.class);
 		suite.addTestSuite(OpenOnTLDPackedInJar_JBIDE5693.class);

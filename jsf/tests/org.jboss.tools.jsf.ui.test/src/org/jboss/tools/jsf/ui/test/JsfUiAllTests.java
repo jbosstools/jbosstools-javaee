@@ -52,6 +52,7 @@ public class JsfUiAllTests {
 		suite.addTestSuite(JsfJspJbide6259Test.class);
 		suite.addTestSuite(JsfJspJbide1704Test.class);
  		suite.addTestSuite(JsfJspJbide1717Test.class);
+ 		suite.addTestSuite(TaglibXMLUnformatedDTD_JBIDE5642.class);
 
  		suite.addTest(
 				new ProjectImportTestSetup(WebContentAssistProviderTest.suite(),

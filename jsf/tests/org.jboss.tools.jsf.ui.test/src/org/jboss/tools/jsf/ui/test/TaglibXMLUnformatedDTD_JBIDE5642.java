@@ -9,9 +9,12 @@
  *     Red Hat, Inc. - initial API and implementation
  ******************************************************************************/
 
-package org.jboss.tools.jsf.vpe.jsf.test.jbide;
+package org.jboss.tools.jsf.ui.test;
 
 import java.util.StringTokenizer;
+
+import junit.framework.TestCase;
+
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
@@ -19,8 +22,6 @@ import org.eclipse.swt.widgets.Widget;
 import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.PlatformUI;
 import org.jboss.tools.jst.web.ui.navigator.WebProjectsNavigator;
-import org.jboss.tools.vpe.ui.test.TestUtil;
-import org.jboss.tools.vpe.ui.test.VpeTest;
 
 /**
  * 
@@ -28,7 +29,7 @@ import org.jboss.tools.vpe.ui.test.VpeTest;
  *
  */
 
-public class TaglibXMLUnformatedDTD_JBIDE5642 extends VpeTest {
+public class TaglibXMLUnformatedDTD_JBIDE5642 extends TestCase {
 
 	private static final String WEB_PROJECTS_VIEW_ID = "org.jboss.tools.jst.web.ui.navigator.WebProjectsView"; //$NON-NLS-1$
 	private static final String PACKAGE_EXPLORER_VIEW_ID = "org.eclipse.jdt.ui.PackageExplorer"; //$NON-NLS-1$
@@ -47,7 +48,7 @@ public class TaglibXMLUnformatedDTD_JBIDE5642 extends VpeTest {
 				.getActivePage().showView(WEB_PROJECTS_VIEW_ID);
 		assertNotNull("Web Projects view is not available", webProjectsView); //$NON-NLS-1$
 		TestUtil.delay(2000);
-		TestUtil.waitForJobs();
+		TestUtil.waitForIdle();
 
 		WebProjectsNavigator projectsNavigator = (WebProjectsNavigator) webProjectsView;
 		TreeViewer treeViewer = projectsNavigator.getViewer();
