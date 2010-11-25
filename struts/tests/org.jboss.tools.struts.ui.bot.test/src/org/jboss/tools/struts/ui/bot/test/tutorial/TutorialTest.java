@@ -52,6 +52,7 @@ import org.jboss.tools.struts.ui.bot.test.utils.StrutsUIEditorBot;
 import org.jboss.tools.struts.ui.bot.test.utils.ValidationUIEditorBot;
 import org.jboss.tools.struts.ui.bot.test.utils.WizardBot;
 import org.jboss.tools.ui.bot.ext.RequirementAwareSuite;
+import org.jboss.tools.ui.bot.ext.SWTBotExt;
 import org.jboss.tools.ui.bot.ext.SWTEclipseExt;
 import org.jboss.tools.ui.bot.ext.SWTTestExt;
 import org.jboss.tools.ui.bot.ext.config.Annotations.SWTBotTestRequires;
@@ -339,7 +340,7 @@ public class TutorialTest extends SWTTestExt {
         gui.save();
         util.waitForNonIgnoredJobs();
         new SWTBotGefContextMenu(gui.getControl(), "Run on Server").click();
-        SWTBotBrowser browser = bot.browser();
+        SWTBotBrowserExt browser = new SWTBotExt().browserExt();
         bot.sleep(7500);
         browser.refresh();
         bot.sleep(5000);
@@ -479,7 +480,7 @@ public class TutorialTest extends SWTTestExt {
         bot.activeShell().bot().menu("File").menu("Save All").click();
         bot.sleep(1000);
         util.waitForNonIgnoredJobs();
-        tb = bot.activeShell().bot().toolbarButtonWithTooltip("Touch descriptors");
+        tb = bot.activeShell().bot().toolbarButtonWithTooltip("Change Timestamp of " + PROJECT_NAME);
        	tb.click();
        	ed.show();
        	String out2 = refreshBrowser(browser);
