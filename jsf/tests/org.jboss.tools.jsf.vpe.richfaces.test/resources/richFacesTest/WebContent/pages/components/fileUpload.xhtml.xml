@@ -33,249 +33,41 @@
 		</DIV>
 	</test>
 	<test id="fileUpload1">
-		<DIV CLASS="dr-pnl rich-panel">
-			<DIV CLASS="dr-pnl-h rich-panel-header"
-				STYLE="/background-image: url\(.*resources/common/background.gif\);/">
-				<SPAN CLASS="vpe-text">
-					File Upload
-				</SPAN>
-			</DIV>
-			<DIV CLASS="dr-pnl-b rich-panel-body">
-				<FORM STYLE="border: 1px dotted rgb(255, 102, 0); padding: 5px;">
-					<TABLE BORDER="0" STYLE="-moz-user-modify: read-write;">
-						<TBODY>
-							<TR>
-								<TD CLASS="top">
-									<DIV CLASS="rich-fileupload-list-decor" STYLE="width: 400px;">
-										<TABLE CLASS="rich-fileupload-toolbar-decor">
-											<TR>
-												<TD>
-													<DIV CLASS="rich-fileupload-button-border" STYLE="float: left;">
-														<DIV CLASS="rich-fileupload-button rich-fileupload-font btn"
-															STYLE="position: relative;">
-															<DIV
-																CLASS="rich-fileupload-button-content rich-fileupload-font rich-fileupload-ico rich-fileupload-ico-add btn">
-																Add...
-															</DIV>
-														</DIV>
-													</DIV>
-													<DIV CLASS="rich-fileupload-button-border" STYLE="float: left;">
-														<DIV CLASS="rich-fileupload-button rich-fileupload-font btn">
-															<DIV
-																CLASS="rich-fileupload-button-content rich-fileupload-font rich-fileupload-ico rich-fileupload-ico-start btn">
-																<B>
-																	Upload
-																</B>
-															</DIV>
-														</DIV>
-													</DIV>
-													<DIV CLASS="rich-fileupload-button-border" STYLE="float: right;">
-														<DIV CLASS="rich-fileupload-button rich-fileupload-font btn">
-															<DIV
-																CLASS="rich-fileupload-button-content rich-fileupload-font rich-fileupload-ico rich-fileupload-ico-clear btn">
-																Clear All
-															</DIV>
-														</DIV>
-													</DIV>
-												</TD>
-											</TR>
-										</TABLE>
-										<DIV CLASS="rich-fileupload-list-overflow" STYLE="width: 100%; height: 210px;">
-										</DIV>
-									</DIV>
-								</TD>
-								<TD CLASS="top">
-									<SPAN STYLE="-moz-user-modify: read-write;">
-										<DIV CLASS="dr-pnl rich-panel">
-											<DIV CLASS="dr-pnl-h rich-panel-header"
-												STYLE="/background-image: url\(.*resources/common/background.gif\);/">
-												<SPAN CLASS="vpe-text">
-													Uploaded Files Info
-												</SPAN>
-											</DIV>
-											<DIV CLASS="dr-pnl-b rich-panel-body info">
-												<SPAN CLASS="vpe-text">
-													No files currently uploaded
-												</SPAN>
-												<TABLE COLUMNS="1" VALUE="#{fileUploadBean.files}"
-													VAR="file" ROWKEYVAR="row" CLASS="dr-table rich-table">
-													<COLGROUP SPAN="1">
-													</COLGROUP>
-													<TBODY>
-														<TR CLASS="dr-table-row rich-table-row">
-															<TD CLASS="dr-table-cell rich-table-cell">
-																<DIV CLASS="dr-pnl rich-panel">
-																	<DIV
-																		CLASS="dr-pnl-b rich-panel-body rich-laguna-panel-no-header">
-																		<TABLE BORDER="0" STYLE="-moz-user-modify: read-write;">
-																			<TBODY>
-																				<TR>
-																					<TD>
-																						<IMG
-																							SRC="/.*resources/mediaOutput/mediaOutput.jpg/"
-																							STYLE="width: 50px; height: 50px;" />
-
-																					</TD>
-																					<TD>
-																						<TABLE BORDER="0"
-																							STYLE="-moz-user-modify: read-write;">
-																							<TBODY>
-																								<TR>
-																									<TD>
-																										<SPAN CLASS="vpe-text">
-																											File Name:
-																										</SPAN>
-																									</TD>
-																									<TD>
-																										<SPAN CLASS="vpe-text">
-																											#{file.name}
-																										</SPAN>
-																									</TD>
-																								</TR>
-																								<TR>
-																									<TD>
-																										<SPAN CLASS="vpe-text">
-																											File Length(bytes):
-																										</SPAN>
-																									</TD>
-																									<TD>
-																										<SPAN CLASS="vpe-text">
-																											#{file.length}
-																										</SPAN>
-																									</TD>
-																								</TR>
-																							</TBODY>
-																						</TABLE>
-																					</TD>
-																				</TR>
-																			</TBODY>
-																		</TABLE>
-																	</DIV>
-																</DIV>
-															</TD>
-														</TR>
-														<TR CLASS="dr-table-row rich-table-row">
-															<TD CLASS="dr-table-cell rich-table-cell">
-																<DIV CLASS="dr-pnl rich-panel">
-																	<DIV
-																		CLASS="dr-pnl-b rich-panel-body rich-laguna-panel-no-header">
-																		<TABLE BORDER="0" STYLE="-moz-user-modify: read-write;">
-																			<TBODY>
-																				<TR>
-																					<TD>
-																						<IMG
-																							SRC="/.*resources/mediaOutput/mediaOutput.jpg/"
-																							STYLE="width: 50px; height: 50px;" />
-
-																					</TD>
-																					<TD>
-																						<TABLE BORDER="0"
-																							STYLE="-moz-user-modify: read-write;">
-																							<TBODY>
-																								<TR>
-																									<TD>
-																										<SPAN CLASS="vpe-text">
-																											File Name:
-																										</SPAN>
-																									</TD>
-																									<TD>
-																										<SPAN CLASS="vpe-text">
-																											#{file.name}
-																										</SPAN>
-																									</TD>
-																								</TR>
-																								<TR>
-																									<TD>
-																										<SPAN CLASS="vpe-text">
-																											File Length(bytes):
-																										</SPAN>
-																									</TD>
-																									<TD>
-																										<SPAN CLASS="vpe-text">
-																											#{file.length}
-																										</SPAN>
-																									</TD>
-																								</TR>
-																							</TBODY>
-																						</TABLE>
-																					</TD>
-																				</TR>
-																			</TBODY>
-																		</TABLE>
-																	</DIV>
-																</DIV>
-															</TD>
-														</TR>
-														<TR CLASS="dr-table-row rich-table-row">
-															<TD CLASS="dr-table-cell rich-table-cell">
-																<DIV CLASS="dr-pnl rich-panel">
-																	<DIV
-																		CLASS="dr-pnl-b rich-panel-body rich-laguna-panel-no-header">
-																		<TABLE BORDER="0" STYLE="-moz-user-modify: read-write;">
-																			<TBODY>
-																				<TR>
-																					<TD>
-																						<IMG
-																							SRC="/.*resources/mediaOutput/mediaOutput.jpg/"
-																							STYLE="width: 50px; height: 50px;" />
-
-																					</TD>
-																					<TD>
-																						<TABLE BORDER="0"
-																							STYLE="-moz-user-modify: read-write;">
-																							<TBODY>
-																								<TR>
-																									<TD>
-																										<SPAN CLASS="vpe-text">
-																											File Name:
-																										</SPAN>
-																									</TD>
-																									<TD>
-																										<SPAN CLASS="vpe-text">
-																											#{file.name}
-																										</SPAN>
-																									</TD>
-																								</TR>
-																								<TR>
-																									<TD>
-																										<SPAN CLASS="vpe-text">
-																											File Length(bytes):
-																										</SPAN>
-																									</TD>
-																									<TD>
-																										<SPAN CLASS="vpe-text">
-																											#{file.length}
-																										</SPAN>
-																									</TD>
-																								</TR>
-																							</TBODY>
-																						</TABLE>
-																					</TD>
-																				</TR>
-																			</TBODY>
-																		</TABLE>
-																	</DIV>
-																</DIV>
-															</TD>
-														</TR>
-													</TBODY>
-												</TABLE>
-											</DIV>
-										</DIV>
-										<IMG WIDTH="1px" HEIGHT="3"
-											SRC="/.*resources/spacer/spacer.gif/"
-											CLASS="rich-spacer" />
-										<BR STYLE="-moz-user-modify: read-write;" />
-
-										<INPUT TYPE="button" VALUE="Clear Uploaded Data"
-											STYLE="-moz-user-modify: read-only;" />
-
-									</SPAN>
-								</TD>
-							</TR>
-						</TBODY>
-					</TABLE>
-				</FORM>
+		<DIV CLASS="rich-fileupload-list-decor" STYLE="width: 400px;">
+			<TABLE CLASS="rich-fileupload-toolbar-decor">
+				<TR>
+					<TD>
+						<DIV CLASS="rich-fileupload-button-border" STYLE="float: left;">
+							<DIV CLASS="rich-fileupload-button rich-fileupload-font btn"
+								STYLE="position: relative;">
+								<DIV
+									CLASS=" rich-fileupload-button-content rich-fileupload-font rich-fileupload-ico rich-fileupload-ico-add btn">
+									Add...
+</DIV>
+							</DIV>
+						</DIV>
+						<DIV CLASS="rich-fileupload-button-border" STYLE="float: left;">
+							<DIV CLASS="rich-fileupload-button rich-fileupload-font btn">
+								<DIV
+									CLASS="rich-fileupload-button-content rich-fileupload-font rich-fileupload-ico rich-fileupload-ico-start btn">
+									<B>
+										Upload
+</B>
+								</DIV>
+							</DIV>
+						</DIV>
+						<DIV CLASS="rich-fileupload-button-border" STYLE="float: right;">
+							<DIV CLASS="rich-fileupload-button rich-fileupload-font btn">
+								<DIV
+									CLASS="rich-fileupload-button-content rich-fileupload-font rich-fileupload-ico rich-fileupload-ico-clear btn">
+									Clear All
+</DIV>
+							</DIV>
+						</DIV>
+					</TD>
+				</TR>
+			</TABLE>
+			<DIV CLASS="rich-fileupload-list-overflow" STYLE="width: 100%; height: 210px;">
 			</DIV>
 		</DIV>
 	</test>
