@@ -41,6 +41,7 @@ public class JsfAllTests {
 		old.addTestSuite(JSFModelTest.class);
 		old.addTestSuite(ModelFormat_2_0_0_Test.class);
 		old.addTestSuite(JSFBeansTest.class);
+		suite.addTestSuite(JSFPaletteTest.class);
 		suite.addTest(new ProjectImportTestSetup(old,
 				"org.jboss.tools.jsf.test", "projects/JSFKickStartOldFormat", //$NON-NLS-1$ //$NON-NLS-2$
 				"JSFKickStartOldFormat")); //$NON-NLS-1$
