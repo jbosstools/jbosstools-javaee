@@ -37,9 +37,8 @@ import org.jboss.tools.test.util.ProjectImportTestSetup;
 
 public class TaglibXMLUnformatedDTD_JBIDE5642 extends TestCase {
 	
-	private static final String PROJECT_NAME = "ShowJarLibrariesTest"; //$NON-NLS-1$
+	private static final String PROJECT_NAME = "TestWizards"; //$NON-NLS-1$
 	private static final String WEB_PROJECTS_VIEW_ID = "org.jboss.tools.jst.web.ui.navigator.WebProjectsView"; //$NON-NLS-1$
-	private static final String PACKAGE_EXPLORER_VIEW_ID = "org.eclipse.jdt.ui.PackageExplorer"; //$NON-NLS-1$
 	private static final String LIB_PATH = "/Tag Libraries/"; //$NON-NLS-1$
 	private static final String LIB_NAME_I = "primefaces-i.taglib.xml - primefaces-2.0.0.RC.jar"; //$NON-NLS-1$
 	private static final String LIB_NAME_P = "primefaces-p.taglib.xml - primefaces-2.0.0.RC.jar"; //$NON-NLS-1$
@@ -57,7 +56,6 @@ public class TaglibXMLUnformatedDTD_JBIDE5642 extends TestCase {
 		assertNotNull("Web Projects view is not available", webProjectsView); //$NON-NLS-1$
 		TestUtil.delay(2000);
 		TestUtil.waitForIdle();
-		
 		WebProjectsNavigator projectsNavigator = (WebProjectsNavigator) webProjectsView;
 		TreeViewer treeViewer = projectsNavigator.getViewer();
 		assertNotNull(treeViewer);

@@ -77,11 +77,8 @@ public class JsfUiAllTests {
 				"org.jboss.tools.jsf.ui.test",
 				new String[]{"projects/test_jsf_project"},
 				new String[]{"test_jsf_project"}));
-		suite.addTest(new ProjectImportTestSetup(new TestSuite(TaglibXMLUnformatedDTD_JBIDE5642.class),
-				"org.jboss.tools.jsf.ui.test",
-				new String[]{"projects/ShowJarLibrariesTest"},
-				new String[]{"ShowJarLibrariesTest"}));
 		suite.addTestSuite(JsfUiPreferencesPagesTest.class);
+		suite.addTestSuite(TaglibXMLUnformatedDTD_JBIDE5642.class);
 
 		return new TestWizardsProject(suite);
 	}
