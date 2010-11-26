@@ -12,11 +12,9 @@ package org.jboss.tools.seam.ui.test.wizard;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.text.StringCharacterIterator;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -51,8 +49,6 @@ import org.eclipse.wst.common.project.facet.core.IProjectFacet;
 import org.eclipse.wst.common.project.facet.core.IProjectFacetVersion;
 import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
 import org.eclipse.wst.validation.ValidationFramework;
-import org.jboss.tools.common.EclipseUtil;
-import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.ui.widget.editor.IFieldEditor;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
@@ -140,9 +136,7 @@ abstract public class AbstractSeamNewOperationTest extends AbstractSeamFacetTest
 		return null;
 	}
 
-	protected void assertLaunchCreated(String testProjectName, String seamLocalInterfaceName) {
-//		String namePrefix = seamLocalInterfaceName +"Test-JDK16.launch"; //$NON-NLS-1$
-		String namePrefix = seamLocalInterfaceName +"Test, ....launch"; //$NON-NLS-1$
+	protected void assertLaunchCreated(String testProjectName, String seamLocalInterfaceName, String namePrefix) {
 		String launchName = DebugPlugin.getDefault().getLaunchManager().generateLaunchConfigurationName(namePrefix);
 		File launchFile = new File(LaunchManager.LOCAL_LAUNCH_CONFIGURATION_CONTAINER_PATH.toFile(), launchName);
 		assertTrue("TestNG launch file doesn't exest.", launchFile.exists());
@@ -189,6 +183,13 @@ abstract public class AbstractSeamNewOperationTest extends AbstractSeamFacetTest
 		} catch (CoreException e) {
 			e.printStackTrace();
 			fail(e.getMessage());
+		}
+	}
+
+	protected void assertLaunchesCreated(String testProjectName, String seamLocalInterfaceName) {
+		for (String prefix : SeamBaseOperation.TEST_NAME_PREFIXES) {
+			String namePrefix = seamLocalInterfaceName + prefix;
+			assertLaunchCreated(testProjectName, seamLocalInterfaceName, namePrefix);
 		}
 	}
 

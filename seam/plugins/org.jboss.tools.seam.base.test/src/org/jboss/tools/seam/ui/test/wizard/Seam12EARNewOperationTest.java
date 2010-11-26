@@ -194,7 +194,7 @@ public class Seam12EARNewOperationTest extends AbstractSeamNewOperationTest {
 				seamProjectWebContentFolder.toString() + "/" +
 				seamPageName + ".xhtml");
 
-		assertLaunchCreated(seamPrjSet.getTestProject().getName(), seamLocalInterfaceName);
+		assertLaunchesCreated(seamPrjSet.getTestProject().getName(), seamLocalInterfaceName);
 	}
 
 	@Override

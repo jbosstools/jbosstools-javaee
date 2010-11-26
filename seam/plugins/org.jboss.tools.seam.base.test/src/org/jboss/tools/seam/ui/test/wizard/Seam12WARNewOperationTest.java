@@ -145,7 +145,7 @@ public class Seam12WARNewOperationTest extends AbstractSeamNewOperationTest {
 				seamProjectWebContentFolder.toString() + "/" +
 				seamPageName + ".xhtml");
 
-		assertLaunchCreated(seamPrjSet.getTestProject().getName(), seamLocalInterfaceName);
+		assertLaunchesCreated(seamPrjSet.getTestProject().getName(), seamLocalInterfaceName);
 /*		
 		"${" + ISeamParameter.SEAM_PROJECT_SRC_ACTION + "}/
 			${" + ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_PATH + "}/

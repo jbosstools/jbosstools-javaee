@@ -15,8 +15,10 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.tools.ant.types.FilterSetCollection;
 import org.apache.tools.ant.util.FileUtils;
@@ -104,7 +106,7 @@ public abstract class SeamBaseOperation extends AbstractOperation {
 		IStatus result = Status.OK_STATUS;
 		this.info = info;
 
-		launchFile = null;
+		launchFiles = null;
 
 		final SeamProjectsSet seamPrjSet = new SeamProjectsSet(getProject(info));
 
@@ -124,12 +126,16 @@ public abstract class SeamBaseOperation extends AbstractOperation {
 			if(shouldTouchServer(seamPrjSet)) {
 				WebUtils.changeTimeStamp(seamPrjSet.getWarProject());
 			}
-			if(launchFile!=null && launchFile.exists()) {
-				ILaunchManager manager = DebugPlugin.getDefault().getLaunchManager();
-				if(manager instanceof LaunchManager) {
-					((LaunchManager)manager).importConfigurations(new File[]{launchFile}, monitor);
+			if(launchFiles!=null) {
+				for (File launchFile : launchFiles) {
+					if(launchFile.exists()) {
+						ILaunchManager manager = DebugPlugin.getDefault().getLaunchManager();
+						if(manager instanceof LaunchManager) {
+							((LaunchManager)manager).importConfigurations(new File[]{launchFile}, monitor);
+						}
+						launchFile.delete();
+					}
 				}
-				launchFile.delete();
 			}
 		} catch (BackingStoreException e) {
 			result =  new Status(IStatus.ERROR,SeamGuiPlugin.PLUGIN_ID,e.getMessage(),e);
@@ -308,15 +314,17 @@ public abstract class SeamBaseOperation extends AbstractOperation {
 
 	protected abstract boolean shouldCreateTestLaunch();
 
-	private File launchFile = null;
+	private Set<File> launchFiles;
 
 	private String launchTemplatePath;
+
+	public static final String[] TEST_NAME_PREFIXES = {"Test, ....launch", "Test.launch"};
 
 	protected List<FileMapping> getFileMappingsWithTestLaunch(Map<String, Object> vars) {
 		List<FileMapping> mapping = new ArrayList<FileMapping>();
 		mapping.addAll(getFileMappings(vars));
 
-		launchFile = null;
+		launchFiles = new HashSet<File>();
 // 		Uncomment following code if we shouldn't create TestNG launch in case TestNG plug-in is not installed.
 // 		See https://jira.jboss.org/browse/JBIDE-7359
 // ----------------->		
@@ -327,11 +335,21 @@ public abstract class SeamBaseOperation extends AbstractOperation {
 //		}
 // <-----------------
 
-//		String namePrefix = vars.get(ISeamParameter.SEAM_LOCAL_INTERFACE_NAME) +"Test-JDK16.launch"; //$NON-NLS-1$
-		String namePrefix = vars.get(ISeamParameter.SEAM_LOCAL_INTERFACE_NAME) +"Test, ....launch"; //$NON-NLS-1$
+//		String namePrefix = vars.get(ISeamParameter.SEAM_LOCAL_INTERFACE_NAME) + "Test-JDK16.launch"; //$NON-NLS-1$
+		// Different versions of TestNG plugins use different default names for launches. So we have to create two launches with different names.
+		for (String prefix : TEST_NAME_PREFIXES) {
+			String namePrefix = vars.get(ISeamParameter.SEAM_LOCAL_INTERFACE_NAME) + prefix; //$NON-NLS-1$
+			addTestLaunchToFileMapping(mapping, namePrefix);
+		}
+
+		return mapping;
+	}
+
+	protected List<FileMapping> addTestLaunchToFileMapping(List<FileMapping> mapping, String namePrefix) {
 		String launchName = DebugPlugin.getDefault().getLaunchManager().generateLaunchConfigurationName(namePrefix);
 		try {
-			launchFile = new File(SeamCorePlugin.getDefault().getStateLocation().toFile(), ".testNGlaunches/" + launchName);
+			File launchFile = new File(SeamCorePlugin.getDefault().getStateLocation().toFile(), ".testNGlaunches/" + launchName);
+			launchFiles.add(launchFile);
 			if(launchFile.exists()) {
 				launchFile.delete();
 			}
