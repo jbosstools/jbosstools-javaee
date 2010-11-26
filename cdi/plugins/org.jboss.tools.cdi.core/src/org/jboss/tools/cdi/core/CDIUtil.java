@@ -12,6 +12,7 @@ package org.jboss.tools.cdi.core;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -415,12 +416,14 @@ public class CDIUtil {
 	}
 
 	/**
-	 * Returns the @Local interface for the session bean if it is defined.
+	 * Returns the set of interfaces annotated @Local for the session bean.
+	 * Returns an empty set if there is no such interfaces or if the bean class (or any supper class) annotated @LocalBean.   
 	 * 
 	 * @param bean
 	 * @return
 	 */
-	public static IType getLocalInterfaceForBean(ISessionBean bean) {
+	public static Set<IType> getLocalInterfaces(ISessionBean bean) {
+		Set<IType> sourceTypes = new HashSet<IType>();
 		try {
 			Set<IParametedType> types = bean.getLegalTypes();
 			for (IParametedType type : types) {
@@ -428,22 +431,27 @@ public class CDIUtil {
 				if (sourceType == null) {
 					continue;
 				}
-				if(!sourceType.isInterface()) {
-					continue;
+				// Check if the class annotated @LocalBean
+				IAnnotation[] annotations = sourceType.getAnnotations();
+				for (IAnnotation annotation : annotations) {
+					if(CDIConstants.LOCAL_BEAN_ANNOTATION_TYPE_NAME.equals(annotation.getElementName()) || "LocalBean".equals(annotation.getElementName())) {
+						return Collections.emptySet();
+					}
 				}
-				IAnnotation annotation = sourceType.getAnnotation(CDIConstants.LOCAL_ANNOTATION_TYPE_NAME);
-				if (annotation == null) {
-					annotation = sourceType.getAnnotation("Local"); //$NON-NLS-N1
-				}
-				if (annotation != null && CDIConstants.LOCAL_ANNOTATION_TYPE_NAME.equals(EclipseJavaUtil.resolveType(sourceType, "Local"))) { //$NON-NLS-N1
-					return sourceType;
+				if(sourceType.isInterface()) {
+					IAnnotation annotation = sourceType.getAnnotation(CDIConstants.LOCAL_ANNOTATION_TYPE_NAME);
+					if (annotation == null) {
+						annotation = sourceType.getAnnotation("Local"); //$NON-NLS-N1
+					}
+					if (annotation != null && CDIConstants.LOCAL_ANNOTATION_TYPE_NAME.equals(EclipseJavaUtil.resolveType(sourceType, "Local"))) { //$NON-NLS-N1
+						sourceTypes.add(sourceType);
+					}
 				}
 			}
-			return null;
 		} catch (JavaModelException e) {
 			CDICorePlugin.getDefault().logError(e);
 		}
-		return null;
+		return sourceTypes;
 	}
 
 	/**
@@ -460,21 +468,23 @@ public class CDIUtil {
 			int flags = method.getMethod().getFlags();
 			if(Flags.isStatic(flags)) {
 				return method.getMethod();
-			} else if (!Flags.isFinal(flags) && Flags.isPublic(flags) && !method.getMethod().getElementName().startsWith("ejb")) {
+			} else if (!Flags.isFinal(flags) && Flags.isPublic(flags)) {
 				if(bean.getAnnotation(CDIConstants.SINGLETON_ANNOTATION_TYPE_NAME)!=null) {
 					return method.getMethod();
 				}
-				IType sourceType = getLocalInterfaceForBean(bean);
-				if(sourceType!=null) {
+				Set<IType> sourceTypes = getLocalInterfaces(bean);
+				if(sourceTypes.isEmpty()) {
+					return method.getMethod();
+				}
+				for (IType sourceType : sourceTypes) {
 					IMethod[] methods = sourceType.getMethods();
 					for (IMethod iMethod : methods) {
 						if (method.getMethod().isSimilar(iMethod)) {
 							return iMethod;
 						}
 					}
-					return null;
 				}
-				return method.getMethod();
+				return null;
 			}
 		} catch (JavaModelException e) {
 			CDICorePlugin.getDefault().logError(e);

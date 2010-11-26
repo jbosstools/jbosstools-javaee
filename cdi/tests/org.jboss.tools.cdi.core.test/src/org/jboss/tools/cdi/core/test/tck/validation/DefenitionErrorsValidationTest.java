@@ -533,6 +533,33 @@ public class DefenitionErrorsValidationTest extends ValidationTest {
 
 	/**
 	 * 3.3.2. Declaring a producer method
+	 *  - non-static method of a session bean class is annotated @Produces, and the method is not a business method of the session bean
+	 * See https://jira.jboss.org/browse/JBIDE-7733
+	 *  
+	 * @throws Exception
+	 */
+	public void testProducerMethodOnLocalBeanMustBeBusinessMethodBroken() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/disposers/NotBusinessMethod_Broken.java");
+		String bindedErrorMessage = NLS.bind(CDIValidationMessages.ILLEGAL_PRODUCER_METHOD_IN_SESSION_BEAN, new String[]{"retrieveEntityManager", "NotBusinessMethod_Broken"});
+		assertMarkerIsCreated(file, bindedErrorMessage, 13);
+	}
+
+	/**
+	 * 3.3.2. Declaring a producer method
+	 *  - non-static method of a session bean class is annotated @Produces, and the method is not a business method of the session bean
+	 * Checking @LocalBean
+	 * See https://jira.jboss.org/browse/JBIDE-7733
+	 *  
+	 * @throws Exception
+	 */
+	public void testProducerMethodOnLocalBeanMustBeBusinessMethodOk() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/disposers/DisposerOk.java");
+		String bindedErrorMessage = NLS.bind(CDIValidationMessages.ILLEGAL_PRODUCER_METHOD_IN_SESSION_BEAN, new String[]{"retrieveEntityManager", "DisposerOk"});
+		assertMarkerIsNotCreated(file, bindedErrorMessage, 15);
+	}
+
+	/**
+	 * 3.3.2. Declaring a producer method
 	 *  - decorator has a method annotated @Produces
 	 *  
 	 * @throws Exception
@@ -645,6 +672,33 @@ public class DefenitionErrorsValidationTest extends ValidationTest {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/disposers/WidgetRepositoryProducerOk.java");
 		String bindedErrorMessage = NLS.bind(CDIValidationMessages.ILLEGAL_DISPOSER_IN_SESSION_BEAN, new String[]{"disposeEntityManager", "WidgetRepositoryProducerOk"});
 		assertMarkerIsNotCreated(file, bindedErrorMessage, 18);
+	}
+
+	/**
+	 * 3.3.6. Declaring a disposer method
+	 *  - a non-static method of a session bean class has a parameter annotated @Disposes, and the method is not a business method of the session bean
+	 * See https://jira.jboss.org/browse/JBIDE-7733
+	 *  
+	 * @throws Exception
+	 */
+	public void testDisposalMethodOnLocalBeanMustBeBusinessMethodBroken() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/disposers/NotBusinessMethod_Broken.java");
+		String bindedErrorMessage = NLS.bind(CDIValidationMessages.ILLEGAL_DISPOSER_IN_SESSION_BEAN, new String[]{"disposeEntityManager", "NotBusinessMethod_Broken"});
+		assertMarkerIsCreated(file, bindedErrorMessage, 18);
+	}
+
+	/**
+	 * 3.3.6. Declaring a disposer method
+	 *  - a non-static method of a session bean class has a parameter annotated @Disposes, and the method is not a business method of the session bean
+	 * Checking @LocalBean
+	 * See https://jira.jboss.org/browse/JBIDE-7733
+	 *  
+	 * @throws Exception
+	 */
+	public void testDisposalMethodOnLocalBeanMustBeBusinessMethodOk() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/disposers/DisposerOk.java");
+		String bindedErrorMessage = NLS.bind(CDIValidationMessages.ILLEGAL_DISPOSER_IN_SESSION_BEAN, new String[]{"disposeEntityManager", "DisposerOk"});
+		assertMarkerIsNotCreated(file, bindedErrorMessage, 20);
 	}
 
 	/**
