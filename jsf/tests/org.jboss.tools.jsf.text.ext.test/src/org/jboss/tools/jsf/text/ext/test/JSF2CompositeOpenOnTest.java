@@ -21,7 +21,6 @@ import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.hyperlink.IHyperlink;
 import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.ui.IEditorPart;
-import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.jboss.tools.common.text.ext.hyperlink.HyperlinkDetector;
@@ -39,7 +38,6 @@ public class JSF2CompositeOpenOnTest extends TestCase {
 				PROJECT_NAME);
 		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().closeAllEditors(false);
 		JobUtils.waitForIdle();
-		IWorkbench workbench = PlatformUI.getWorkbench();
 	}
 	
 	protected void tearDown() {
@@ -51,23 +49,38 @@ public class JSF2CompositeOpenOnTest extends TestCase {
 	}
 	
 	private void testTag(String tagName, String editorName) throws PartInitException, BadLocationException {
-		JSPMultiPageEditor editor = (JSPMultiPageEditor)WorkbenchUtils.openEditor(PAGE_NAME);
+		IEditorPart editor = WorkbenchUtils.openEditor(PAGE_NAME);
+		assertTrue(editor instanceof JSPMultiPageEditor);
 		JobUtils.waitForIdle();
-		ISourceViewer viewer = editor.getSourceEditor().getTextViewer(); 
+		JSPMultiPageEditor jspMultyPageEditor = (JSPMultiPageEditor) editor;
+		ISourceViewer viewer = jspMultyPageEditor.getSourceEditor().getTextViewer(); 
 			
 		IDocument document = viewer.getDocument();
 		IRegion reg = new FindReplaceDocumentAdapter(document).find(0,
 				tagName, true, true, false, false);
-		IHyperlink[] links = HyperlinkDetector.getInstance().detectHyperlinks(viewer, reg, false);
-		assertNotNull(links);
-		assertTrue(links.length!=0);
-		assertNotNull(links[0].toString());
 		
-		links[0].open();
-		JobUtils.waitForIdle();
+		assertNotNull("Tag:"+tagName+" not found",reg);
 		
-		IEditorPart resultEdotor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
-		assertEquals(editorName, resultEdotor.getTitle());
+		IHyperlink[] links = HyperlinkDetector.getInstance().detectHyperlinks(viewer, reg, true);
+		
+		assertNotNull("Hyperlinks for tag:"+tagName+" are not found",links);
+		
+		assertTrue("Hyperlinks for tag:"+tagName+" are not found",links.length!=0);
+		
+		boolean found = false;
+		for(IHyperlink link : links){
+			assertNotNull(link.toString());
+			
+			link.open();
+			JobUtils.waitForIdle(2000);
+			
+			IEditorPart resultEdotor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
+			if(editorName.equals(resultEdotor.getTitle())){
+				found = true;
+				return;
+			}
+		}
+		assertTrue("OpenOn have not opened "+editorName+" editor",found);
 	}
 	
 	public void testFormOpenOn() throws PartInitException, BadLocationException {
