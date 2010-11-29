@@ -5,5 +5,5 @@ import javax.inject.Inject;
 public class InjectionPointBean_Broken { 
    @Inject TestType[] arrayBroken;
    @Inject TestType arrayOk;
-   @Inject @TestQualifier TestType[] arrayBroken2;
+   @Inject @TestQualifier TestType[] arrayOk2;
 }

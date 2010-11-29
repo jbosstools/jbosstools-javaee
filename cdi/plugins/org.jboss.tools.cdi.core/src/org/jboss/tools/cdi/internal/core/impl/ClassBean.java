@@ -524,4 +524,12 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 		result.addAll(methods);
 		return result;
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.cdi.core.IBean#getSimpleJavaName()
+	 */
+	public String getSimpleJavaName() {
+		return this.getBeanClass().getElementName();
+	}
 }

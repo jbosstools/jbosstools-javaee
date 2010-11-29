@@ -11,10 +11,11 @@
 package org.jboss.tools.cdi.internal.core.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
-import java.util.StringTokenizer;
 
 import org.eclipse.jdt.core.ISourceRange;
 import org.eclipse.jdt.core.IType;
@@ -356,4 +357,25 @@ public class ParametedType implements IParametedType {
 		return true;
 	}
 
+	static Map<String, String> primitives = new HashMap<String, String>();
+	static {
+		primitives.put("Integer", "int");
+		primitives.put("Short", "short");
+		primitives.put("Long", "long");
+		primitives.put("Character", "char");
+		primitives.put("Float", "float");
+		primitives.put("Double", "double");
+		primitives.put("Boolean", "boolean");
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.cdi.core.IParametedType#getSimpleName()
+	 */
+	public String getSimpleName() {
+		if(getSignature()!=null) {
+			return isPrimitive()?primitives.get(Signature.getSignatureSimpleName(getSignature())):Signature.getSignatureSimpleName(getSignature());
+		}
+		return "";
+	}
 }

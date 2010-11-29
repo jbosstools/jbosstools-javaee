@@ -72,11 +72,11 @@ public class DeploymentProblemsValidationTests extends ValidationTest {
 	 * 
 	 * @throws Exception
 	 */
-	public void _testInjectionPointWithArrayType() throws Exception {
+	public void testInjectionPointWithArrayType() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/unproxyable/InjectionPointBean_Broken.java");
-		assertMarkerIsCreated(file, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_TYPE, "TestType[]", "ArrayProducer.produce()"), 6);
-		assertMarkerIsCreated(file, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_TYPE, "TestType[]", "ArrayProducer.produce2()"), 8);
-		assertMarkerIsNotCreated(file, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_TYPE, "TestType", "TestType"), 7);
+		assertMarkerIsCreated(file, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_ARRAY_TYPE, "TestType[]", "ArrayProducer.produce()"), 6);
+		assertMarkerIsNotCreated(file, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_ARRAY_TYPE, "TestType", "TestType"), 7);
+		assertMarkerIsNotCreated(file, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_ARRAY_TYPE, "TestType[]", "ArrayProducer.produce2()"), 8);
 	}
 
 	/**
@@ -87,12 +87,12 @@ public class DeploymentProblemsValidationTests extends ValidationTest {
 	 * 
 	 * @throws Exception
 	 */
-	public void _testInjectionPointWithUnproxyableTypeWhichResolvesToNormalScopedBean() throws Exception {
+	public void testInjectionPointWithUnproxyableTypeWhichResolvesToNormalScopedBean() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/unproxyable/Number_Broken.java");
-		assertMarkerIsCreated(file, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_TYPE, "int", "NumberProducer.produce()"), 9);
-		assertMarkerIsCreated(file, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_TYPE, "long", "NumberProducer.foo"), 13);
-		assertMarkerIsNotCreated(file, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_TYPE, "Short", "NumberProducer.foo2"), 17);
-		assertMarkerIsNotCreated(file, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_TYPE, "boolean", "NumberProducer.foo3"), 21);
+		assertMarkerIsCreated(file, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_PRIMITIVE_TYPE, "int", "NumberProducer.produce()"), 9);
+		assertMarkerIsCreated(file, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_PRIMITIVE_TYPE, "long", "NumberProducer.foo"), 13);
+		assertMarkerIsNotCreated(file, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_PRIMITIVE_TYPE, "Short", "NumberProducer.foo2"), 17);
+		assertMarkerIsNotCreated(file, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_PRIMITIVE_TYPE, "boolean", "NumberProducer.foo3"), 21);
 	}
 
 	/**
@@ -103,9 +103,9 @@ public class DeploymentProblemsValidationTests extends ValidationTest {
 	 * 
 	 * @throws Exception
 	 */
-	public void _testClassWithPrivateConstructor() throws Exception {
+	public void testClassWithPrivateConstructor() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/lookup/clientProxy/unproxyable/privateConstructor/InjectionPointBean.java");
-		assertMarkerIsCreated(file, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_TYPE, "Unproxyable_Broken", "Unproxyable_Broken"), 23);
+		assertMarkerIsCreated(file, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_TYPE_WITH_NPC, "Unproxyable_Broken", "Unproxyable_Broken"), 23);
 	}
 
 	/**
@@ -116,9 +116,9 @@ public class DeploymentProblemsValidationTests extends ValidationTest {
 	 * 
 	 * @throws Exception
 	 */
-	public void _testInjectionPointWhichResolvesToNormalScopedFinalBean() throws Exception {
+	public void testInjectionPointWhichResolvesToNormalScopedFinalBean() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/lookup/clientProxy/unproxyable/finalClass/FishFarm.java");
-		assertMarkerIsCreated(file, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_TYPE, "Tuna_Broken", "Tuna_Broken"), 24);
+		assertMarkerIsCreated(file, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_FINAL_TYPE, "Tuna_Broken", "Tuna_Broken"), 24);
 	}
 
 	/**
@@ -129,8 +129,8 @@ public class DeploymentProblemsValidationTests extends ValidationTest {
 	 * 
 	 * @throws Exception
 	 */
-	public void _testClassWithFinalMethodCannotBeProxied() throws Exception {
+	public void testClassWithFinalMethodCannotBeProxied() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/lookup/clientProxy/unproxyable/finalMethod/FishFarm.java");
-		assertMarkerIsCreated(file, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_TYPE, "Tuna_Broken", "Tuna_Broken"), 23);
+		assertMarkerIsCreated(file, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_TYPE_WITH_FM, "Tuna_Broken", "Tuna_Broken"), 23);
 	}
 }

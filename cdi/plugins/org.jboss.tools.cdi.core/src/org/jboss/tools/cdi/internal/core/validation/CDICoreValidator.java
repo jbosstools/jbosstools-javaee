@@ -1232,6 +1232,47 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 				} else if(bean instanceof IInterceptor) {
 					addError(CDIValidationMessages.INJECTED_INTERCEPTOR, CDIPreferences.INJECTED_INTERCEPTOR, reference, injection.getResource());
 				}
+				/*
+				 * 	5.4.1. Unproxyable bean types
+				 * 	- If an injection point whose declared type cannot be proxied by the container resolves to a bean with a normal scope,
+				 * 	  the container automatically detects the problem and treats it as a deployment problem.
+				 */
+				if(bean.getScope().isNorlmalScope() && injection.getType()!=null) {
+					 // - Array types cannot be proxied by the container.
+					String typeSignature = injection.getType().getSignature();
+					int kind = Signature.getTypeSignatureKind(typeSignature);
+					if(kind == Signature.ARRAY_TYPE_SIGNATURE) {
+						addError(MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_ARRAY_TYPE, injection.getType().getSimpleName(), bean.getSimpleJavaName()), CDIPreferences.UNPROXYABLE_BEAN_TYPE, reference, injection.getResource());
+					} else if(injection.getType().isPrimitive()) {
+						// - Primitive types cannot be proxied by the container.
+						addError(MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_PRIMITIVE_TYPE, injection.getType().getSimpleName(), bean.getSimpleJavaName()), CDIPreferences.UNPROXYABLE_BEAN_TYPE, reference, injection.getResource());
+					} else if(bean instanceof IClassBean) {
+						try {
+							if(Flags.isFinal(bean.getBeanClass().getFlags())) {
+								// - Classes which are declared final cannot be proxied by the container.
+								addError(MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_FINAL_TYPE, injection.getType().getSimpleName(), bean.getSimpleJavaName()), CDIPreferences.UNPROXYABLE_BEAN_TYPE, reference, injection.getResource());
+							} else {
+								IMethod[] methods = bean.getBeanClass().getMethods();
+								boolean hasDefaultConstructor = false;
+								for (IMethod method : methods) {
+									hasDefaultConstructor = hasDefaultConstructor || (method.isConstructor() && !Flags.isPrivate(method.getFlags()) && method.getParameterNames().length==0);
+									if(Flags.isFinal(method.getFlags())) {
+										// - Classes which have final methods cannot be proxied by the container.
+										addError(MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_TYPE_WITH_FM, injection.getType().getSimpleName(), bean.getSimpleJavaName()), CDIPreferences.UNPROXYABLE_BEAN_TYPE, reference, injection.getResource());
+										hasDefaultConstructor = true;
+										break;
+									}
+								}
+								if(!hasDefaultConstructor) {
+									// - Classes which don't have a non-private constructor with no parameters cannot be proxied by the container.
+									addError(MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_TYPE_WITH_NPC, injection.getType().getSimpleName(), bean.getSimpleJavaName()), CDIPreferences.UNPROXYABLE_BEAN_TYPE, reference, injection.getResource());
+								}
+							}
+						} catch (JavaModelException e) {
+							CDICorePlugin.getDefault().logError(e);
+						}
+					}
+				}
 			}
 			/*
 			 * 5.5.7. Injection point metadata

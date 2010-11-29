@@ -64,6 +64,15 @@ public interface IBean extends IScoped, IStereotyped, ICDIElement, IVariable, IA
 	Set<IParametedType> getAllTypes();
 
 	/**
+	 * Returns the text representation of this bean.
+	 * If the bean is IClassBean then the method will return the simple name of the class of the bean.
+	 * If the bean is IProducerField then the method will return the simple name of the type of the field.
+	 * If the bean is IProducerMethod then the method will return the simple name of the return type of the producer method.
+	 * @return the text representation of this bean.
+	 */
+	String getSimpleJavaName();
+
+	/**
 	 * Obtains all the type declarations of the bean class or producer method or
 	 * field (legal types as well as illegal ones).
 	 * 

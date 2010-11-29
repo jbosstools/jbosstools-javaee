@@ -10,6 +10,7 @@
  ******************************************************************************/ 
 package org.jboss.tools.cdi.internal.core.impl;
 
+import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.IScope;
 
 /**
@@ -21,4 +22,11 @@ public class ScopeElement extends CDIAnnotationElement implements IScope {
 
 	public ScopeElement() {}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.cdi.core.IScope#isNorlmalScope()
+	 */
+	public boolean isNorlmalScope() {
+		return getAnnotationDeclaration(CDIConstants.NORMAL_SCOPE_ANNOTATION_TYPE_NAME)!=null;
+	}
 }

@@ -259,4 +259,11 @@ public class ProducerMethod extends BeanMethod implements IProducerMethod {
 		return false;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.cdi.core.IBean#getSimpleJavaName()
+	 */
+	public String getSimpleJavaName() {
+		return getBeanClass().getElementName() + "." + getMethod().getElementName() + "()"; //$NON-NLS-1$
+	}
 }

@@ -206,4 +206,11 @@ public class ProducerField extends BeanField implements IProducerField {
 		return false;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.cdi.core.IBean#getSimpleJavaName()
+	 */
+	public String getSimpleJavaName() {
+		return getBeanClass().getElementName() + "." + getField().getElementName();
+	}
 }

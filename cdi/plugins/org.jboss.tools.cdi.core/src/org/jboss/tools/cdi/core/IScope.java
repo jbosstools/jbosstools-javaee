@@ -11,10 +11,16 @@
 package org.jboss.tools.cdi.core;
 
 /**
- * Represents an interceptor binding type.
+ * Represents a scope type.
  * 
  * @author Viacheslav Kabanovich
  */
 public interface IScope extends ICDIAnnotation {
 
+	/**
+	 * Returns true if the scope is a normal scope.
+	 * 
+	 * @return
+	 */
+	boolean isNorlmalScope();
 }
