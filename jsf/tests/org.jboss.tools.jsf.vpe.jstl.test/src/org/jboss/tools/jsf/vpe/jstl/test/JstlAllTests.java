@@ -13,7 +13,7 @@ package org.jboss.tools.jsf.vpe.jstl.test;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-import org.jboss.tools.vpe.ui.test.VpeTestSetup;
+import org.jboss.tools.vpe.base.test.VpeTestSetup;
 
 public class JstlAllTests {
     

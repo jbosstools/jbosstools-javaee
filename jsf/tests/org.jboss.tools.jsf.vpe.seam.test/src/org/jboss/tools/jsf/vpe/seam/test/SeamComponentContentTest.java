@@ -1,6 +1,6 @@
 package org.jboss.tools.jsf.vpe.seam.test;
 
-import org.jboss.tools.vpe.ui.test.ComponentContentTest;
+import org.jboss.tools.vpe.base.test.ComponentContentTest;
 
 public class SeamComponentContentTest extends ComponentContentTest {
 

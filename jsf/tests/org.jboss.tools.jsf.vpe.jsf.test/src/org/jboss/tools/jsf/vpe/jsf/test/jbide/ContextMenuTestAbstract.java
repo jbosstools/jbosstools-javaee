@@ -17,8 +17,8 @@ import org.eclipse.wst.sse.ui.internal.StructuredTextViewer;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.ui.util.ModelUtilities;
 import org.jboss.tools.jsf.vpe.jsf.test.JsfAllTests;
+import org.jboss.tools.vpe.base.test.VpeTest;
 import org.jboss.tools.vpe.editor.VpeController;
-import org.jboss.tools.vpe.ui.test.VpeTest;
 
 /**
  * @author yradtsevich

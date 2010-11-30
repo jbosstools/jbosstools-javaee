@@ -15,7 +15,6 @@ import junit.framework.TestSuite;
 
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.ChangeMessageBundleTest_JBIDE5818;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.ContextMenuDoubleInsertionTest_JBIDE3888;
-import org.jboss.tools.jsf.vpe.jsf.test.jbide.DnD_JBIDE5042_JBIDE6229_Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.EditFontFamilyTest_JBIDE5872;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.ExceptionInVPEComments_JBIDE5143;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.FacetProcessingTest;
@@ -101,7 +100,7 @@ import org.jboss.tools.jsf.vpe.jsf.test.jbide.VPERefreshTest;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.VisualRefreshComment_JBIDE6067;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.VpeI18nTest_JBIDE4887;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.XulRunnerVpeUtilsTest;
-import org.jboss.tools.vpe.ui.test.VpeTestSetup;
+import org.jboss.tools.vpe.base.test.VpeTestSetup;
 
 /**
  * Class for testing all RichFaces components
@@ -137,7 +136,6 @@ public class JsfAllTests {
 		suite.addTestSuite(SourceDomUtilTest.class);
 		suite.addTestSuite(XulRunnerVpeUtilsTest.class);
 		suite.addTestSuite(JSF2ValidatorTest.class);
-//		suite.addTestSuite(DnD_JBIDE5042_JBIDE6229_Test.class);
 		suite.addTestSuite(UnclosedELExpressionTest.class);
 		suite.addTestSuite(TestContextPathResolution.class);
 		suite.addTestSuite(JBIDE5920Test.class);

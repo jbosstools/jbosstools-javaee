@@ -19,9 +19,9 @@ import org.jboss.tools.jst.web.model.helpers.WebAppHelper;
 import org.jboss.tools.jst.web.project.WebProject;
 import org.jboss.tools.jst.web.tld.ITaglibMapping;
 import org.jboss.tools.jst.web.tld.TaglibMapping;
-import org.jboss.tools.vpe.ui.test.ProjectsLoader;
-import org.jboss.tools.vpe.ui.test.TestUtil;
-import org.jboss.tools.vpe.ui.test.VpeTest;
+import org.jboss.tools.vpe.base.test.ProjectsLoader;
+import org.jboss.tools.vpe.base.test.TestUtil;
+import org.jboss.tools.vpe.base.test.VpeTest;
 
 /**
  * @author V.Kabanovich

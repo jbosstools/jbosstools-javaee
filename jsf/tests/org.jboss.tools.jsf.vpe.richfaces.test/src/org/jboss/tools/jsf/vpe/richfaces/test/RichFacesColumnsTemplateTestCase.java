@@ -13,7 +13,7 @@
 package org.jboss.tools.jsf.vpe.richfaces.test;
 
 
-import static org.jboss.tools.vpe.ui.test.TestUtil.performTestForRichFacesComponent;
+import static org.jboss.tools.vpe.base.test.TestUtil.performTestForRichFacesComponent;
 import static org.jboss.tools.vpe.xulrunner.util.XPCOM.queryInterface;
 
 import java.util.ArrayList;
@@ -21,9 +21,9 @@ import java.util.List;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
+import org.jboss.tools.vpe.base.test.TestUtil;
+import org.jboss.tools.vpe.base.test.VpeTest;
 import org.jboss.tools.vpe.editor.util.HTML;
-import org.jboss.tools.vpe.ui.test.TestUtil;
-import org.jboss.tools.vpe.ui.test.VpeTest;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.mozilla.interfaces.nsIDOMNode;
 

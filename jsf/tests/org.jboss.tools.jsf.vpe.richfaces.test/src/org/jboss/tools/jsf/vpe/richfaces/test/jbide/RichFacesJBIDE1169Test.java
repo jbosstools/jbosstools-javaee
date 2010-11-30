@@ -14,9 +14,9 @@ import org.eclipse.core.resources.IFile;
 import org.jboss.tools.common.el.core.ELReferenceList;
 import org.jboss.tools.common.resref.core.ResourceReference;
 import org.jboss.tools.jsf.vpe.richfaces.test.RichFacesAllTests;
+import org.jboss.tools.vpe.base.test.TestUtil;
+import org.jboss.tools.vpe.base.test.VpeTest;
 import org.jboss.tools.vpe.editor.util.ElService;
-import org.jboss.tools.vpe.ui.test.TestUtil;
-import org.jboss.tools.vpe.ui.test.VpeTest;
 
 /**
  * @author mareshkau

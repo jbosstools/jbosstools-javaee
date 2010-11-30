@@ -3,7 +3,7 @@ package org.jboss.tools.jsf.vpe.myfaces.test;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-import org.jboss.tools.vpe.ui.test.VpeTestSetup;
+import org.jboss.tools.vpe.base.test.VpeTestSetup;
 
 /**
  * The Class MyFacesAllTests.

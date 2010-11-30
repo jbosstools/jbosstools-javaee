@@ -20,10 +20,10 @@ import org.eclipse.ui.PlatformUI;
 import org.jboss.tools.common.model.filesystems.impl.SimpleFileImpl;
 import org.jboss.tools.common.model.impl.CustomizedObjectImpl;
 import org.jboss.tools.jsf.vpe.jsf.test.JsfAllTests;
+import org.jboss.tools.vpe.base.test.TestUtil;
+import org.jboss.tools.vpe.base.test.VpeTest;
 import org.jboss.tools.vpe.editor.VpeController;
 import org.jboss.tools.vpe.editor.util.SelectionUtil;
-import org.jboss.tools.vpe.ui.test.TestUtil;
-import org.jboss.tools.vpe.ui.test.VpeTest;
 import org.mozilla.interfaces.nsIDOMNode;
 import org.w3c.dom.Node;
 

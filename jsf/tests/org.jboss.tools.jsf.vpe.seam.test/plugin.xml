@@ -2,7 +2,7 @@
 <?eclipse version="3.2"?>
 <plugin>
    <extension
-         point="org.jboss.tools.vpe.ui.tests">
+         point="org.jboss.tools.vpe.ui.test">
       <tests
             name="Vpe test&apos;s for seam ui components"
             testSuite="org.jboss.tools.jsf.vpe.seam.test.SeamAllTests"/>

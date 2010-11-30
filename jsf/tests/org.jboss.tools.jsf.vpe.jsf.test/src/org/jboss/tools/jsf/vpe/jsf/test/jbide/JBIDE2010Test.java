@@ -20,8 +20,8 @@ import java.util.List;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.jboss.tools.jsf.vpe.jsf.test.CommonJBIDE2010Test;
+import org.jboss.tools.vpe.base.test.TestUtil;
 import org.jboss.tools.vpe.editor.util.HTML;
-import org.jboss.tools.vpe.ui.test.TestUtil;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.mozilla.interfaces.nsIDOMNode;
 

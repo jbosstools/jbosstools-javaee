@@ -5,8 +5,8 @@ package org.jboss.tools.jsf.vpe.richfaces.test;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.ui.PartInitException;
-import org.jboss.tools.vpe.ui.test.TestUtil;
-import org.jboss.tools.vpe.ui.test.VpeTest;
+import org.jboss.tools.vpe.base.test.TestUtil;
+import org.jboss.tools.vpe.base.test.VpeTest;
 
 
 /**

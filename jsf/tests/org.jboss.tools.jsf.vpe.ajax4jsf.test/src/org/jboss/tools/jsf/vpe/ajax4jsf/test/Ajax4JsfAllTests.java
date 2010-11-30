@@ -10,7 +10,7 @@
  ******************************************************************************/
 package org.jboss.tools.jsf.vpe.ajax4jsf.test;
 
-import org.jboss.tools.vpe.ui.test.VpeTestSetup;
+import org.jboss.tools.vpe.base.test.VpeTestSetup;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;

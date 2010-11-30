@@ -11,7 +11,7 @@
 package org.jboss.tools.jsf.vpe.jsf.test.jbide;
 
 import org.jboss.tools.jsf.vpe.jsf.test.JsfAllTests;
-import org.jboss.tools.vpe.ui.test.ComponentContentTest;
+import org.jboss.tools.vpe.base.test.ComponentContentTest;
 
 /**
  * Tests for JIRA issue JBIDE-4887: Internationalization does not work in VPE 

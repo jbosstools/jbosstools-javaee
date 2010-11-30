@@ -14,7 +14,7 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 
 import org.jboss.tools.jsf.vpe.facelets.test.jbide.JBIDE3416Test;
-import org.jboss.tools.vpe.ui.test.VpeTestSetup;
+import org.jboss.tools.vpe.base.test.VpeTestSetup;
 
 public class FaceletsAllTests {
 

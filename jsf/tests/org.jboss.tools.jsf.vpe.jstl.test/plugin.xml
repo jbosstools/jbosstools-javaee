@@ -1,6 +1,6 @@
 <plugin>
    <extension
-         point="org.jboss.tools.vpe.ui.tests">
+         point="org.jboss.tools.vpe.ui.test">
             <tests testSuite="org.jboss.tools.jsf.vpe.jstl.test.JstlAllTests" name="Tests For Jstl Components"/>
             <testProject
                   name="jstlTests"

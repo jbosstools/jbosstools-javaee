@@ -10,9 +10,9 @@
  ******************************************************************************/
 package org.jboss.tools.jsf.vpe.jsf.test.jbide;
 
+import org.jboss.tools.vpe.base.test.TestUtil;
 import org.jboss.tools.vpe.editor.menu.InsertType;
 import org.jboss.tools.vpe.editor.menu.action.InsertAction2;
-import org.jboss.tools.vpe.ui.test.TestUtil;
 
 
 /**

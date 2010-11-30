@@ -25,9 +25,9 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.editors.text.EditorsUI;
 import org.jboss.tools.jsf.vpe.jsf.test.JsfAllTests;
-import org.jboss.tools.vpe.ui.test.OpenOnUtil;
-import org.jboss.tools.vpe.ui.test.ProjectsLoader;
-import org.jboss.tools.vpe.ui.test.VpeTest;
+import org.jboss.tools.vpe.base.test.OpenOnUtil;
+import org.jboss.tools.vpe.base.test.ProjectsLoader;
+import org.jboss.tools.vpe.base.test.VpeTest;
 
 /**
  * 

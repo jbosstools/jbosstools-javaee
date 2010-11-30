@@ -2,7 +2,7 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension
-         point="org.jboss.tools.vpe.ui.tests">
+         point="org.jboss.tools.vpe.ui.test">
       <tests
             name="JbpmVisualAllTests"
             testSuite="org.jboss.tools.jsf.vpe.jbpm.test.JbpmVisualAllTests">

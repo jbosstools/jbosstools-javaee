@@ -21,8 +21,8 @@ import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.wst.xml.core.internal.provisional.format.FormatProcessorXML;
 import org.jboss.tools.jsf.vpe.jsf.test.JsfAllTests;
 import org.jboss.tools.jst.jsp.jspeditor.JSPMultiPageEditor;
-import org.jboss.tools.vpe.ui.test.TestUtil;
-import org.jboss.tools.vpe.ui.test.VpeTest;
+import org.jboss.tools.vpe.base.test.TestUtil;
+import org.jboss.tools.vpe.base.test.VpeTest;
 
 /**
  * @author Max Areshkau

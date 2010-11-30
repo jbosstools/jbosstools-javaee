@@ -14,8 +14,8 @@ import java.text.MessageFormat;
 
 import org.eclipse.swt.graphics.Rectangle;
 import org.jboss.tools.jsf.vpe.jsf.test.JsfAllTests;
+import org.jboss.tools.vpe.base.test.VpeTest;
 import org.jboss.tools.vpe.editor.VpeController;
-import org.jboss.tools.vpe.ui.test.VpeTest;
 import org.jboss.tools.vpe.xulrunner.util.XulRunnerVpeUtils;
 import org.mozilla.interfaces.nsIDOMElement;
 

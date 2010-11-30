@@ -7,7 +7,7 @@ Bundle-Activator: org.jboss.tools.jsf.vpe.jbpm.test.JBPMTestPlugin
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.jboss.tools.common,
- org.jboss.tools.vpe.ui.test,
+ org.jboss.tools.vpe.base.test,
  org.junit,
  org.jboss.tools.jsf.vpe.ajax4jsf;bundle-version="3.1.0",
  org.jboss.tools.jsf.vpe.facelets;bundle-version="3.1.0",

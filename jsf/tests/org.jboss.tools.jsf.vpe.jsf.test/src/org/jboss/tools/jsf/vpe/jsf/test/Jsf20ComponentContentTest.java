@@ -15,7 +15,7 @@ import java.io.File;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.jboss.tools.test.util.ResourcesUtils;
-import org.jboss.tools.vpe.ui.test.ComponentContentTest;
+import org.jboss.tools.vpe.base.test.ComponentContentTest;
 
 /**
  * Performs tests for JavaServer Faces 2.0

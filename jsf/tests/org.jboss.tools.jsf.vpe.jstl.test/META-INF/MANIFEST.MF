@@ -13,6 +13,6 @@ Require-Bundle: org.eclipse.ui,
  org.jboss.tools.vpe.jsp;bundle-version="3.1.0"
 Bundle-ActivationPolicy: lazy
 Import-Package: org.jboss.tools.tests,
- org.jboss.tools.vpe.ui.test
+ org.jboss.tools.vpe.base.test
 Export-Package: org.jboss.tools.jsf.vpe.jstl.test
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

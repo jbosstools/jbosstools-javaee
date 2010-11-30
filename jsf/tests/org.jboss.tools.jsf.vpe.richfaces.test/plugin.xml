@@ -2,7 +2,7 @@
 <?eclipse version="3.2"?>
 <plugin>
    <extension
-         point="org.jboss.tools.vpe.ui.tests">
+         point="org.jboss.tools.vpe.ui.test">
 			<tests
 					testSuite="org.jboss.tools.jsf.vpe.richfaces.test.RichFacesAllTests"
 					name="Tests For Rich Faces Components"/>

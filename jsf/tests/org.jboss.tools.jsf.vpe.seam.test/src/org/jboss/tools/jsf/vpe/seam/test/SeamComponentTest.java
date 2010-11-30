@@ -11,8 +11,8 @@
 package org.jboss.tools.jsf.vpe.seam.test;
 
 import org.eclipse.core.resources.IFile;
-import org.jboss.tools.vpe.ui.test.TestUtil;
-import org.jboss.tools.vpe.ui.test.VpeTest;
+import org.jboss.tools.vpe.base.test.TestUtil;
+import org.jboss.tools.vpe.base.test.VpeTest;
 
 /**
  * Class for testing all Seam components

@@ -11,7 +11,7 @@
 package org.jboss.tools.jsf.vpe.facelets.test.jbide;
 
 import org.jboss.tools.jsf.vpe.facelets.test.FaceletsAllTests;
-import org.jboss.tools.vpe.ui.test.ComponentContentTest;
+import org.jboss.tools.vpe.base.test.ComponentContentTest;
 
 public class JBIDE3416Test extends ComponentContentTest {
 

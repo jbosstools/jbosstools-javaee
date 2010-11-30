@@ -20,8 +20,8 @@ import org.jboss.tools.common.el.core.ELReferenceList;
 import org.jboss.tools.common.resref.core.ResourceReference;
 import org.jboss.tools.jsf.vpe.jsf.test.JsfAllTests;
 import org.jboss.tools.jst.jsp.jspeditor.JSPMultiPageEditor;
-import org.jboss.tools.vpe.ui.test.ComponentContentTest;
-import org.jboss.tools.vpe.ui.test.TestUtil;
+import org.jboss.tools.vpe.base.test.ComponentContentTest;
+import org.jboss.tools.vpe.base.test.TestUtil;
 
 /**
  * @author mareshkau

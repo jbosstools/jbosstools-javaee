@@ -13,9 +13,9 @@ package org.jboss.tools.jsf.vpe.jsf.test.jbide;
 import java.text.MessageFormat;
 
 import org.jboss.tools.jsf.vpe.jsf.test.JsfAllTests;
+import org.jboss.tools.vpe.base.test.VpeTest;
 import org.jboss.tools.vpe.editor.VpeController;
 import org.jboss.tools.vpe.editor.util.SourceDomUtil;
-import org.jboss.tools.vpe.ui.test.VpeTest;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;

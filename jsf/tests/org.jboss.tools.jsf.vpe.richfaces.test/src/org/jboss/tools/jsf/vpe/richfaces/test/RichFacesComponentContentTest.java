@@ -10,7 +10,7 @@
  ******************************************************************************/
 package org.jboss.tools.jsf.vpe.richfaces.test;
 
-import org.jboss.tools.vpe.ui.test.ComponentContentTest;
+import org.jboss.tools.vpe.base.test.ComponentContentTest;
 
 /**
  * Class for testing all richfaces components
