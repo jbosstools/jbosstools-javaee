@@ -2,7 +2,7 @@
 <?eclipse version="3.3"?>
 <plugin>
    <extension
-         point="org.jboss.tools.vpe.ui.tests">
+         point="org.jboss.tools.vpe.ui.test">
       <tests
             description="Unit tests for Struts support in VPE"
             name="Struts Tests"
