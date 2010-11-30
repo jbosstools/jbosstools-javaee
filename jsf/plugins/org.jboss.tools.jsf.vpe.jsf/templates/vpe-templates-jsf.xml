@@ -690,12 +690,6 @@
 	</vpe:tag>
 
 	<vpe:tag name="h:column" case-sensitive="yes">
-		<vpe:if test="parentname()='h:dataTable'|parentname()='h:panelGrid'">
-			<!-- Gavr --><!-- added x: 8.02.05 -->
-			<vpe:template children="yes" modify="yes">
-				<vpe:column title="{tagstring()}" />
-			</vpe:template>
-		</vpe:if>
 		<vpe:if
 			test="parentname()='rich:columnGroup'|parentname()='rich:dataTable'|parentname()='rich:orderingList'|parentname()='rich:listShuttle'|parentname()='rich:scrollableDataTable'">
 			<vpe:template children="yes" modify="yes"
@@ -703,6 +697,11 @@
 				class="org.jboss.tools.jsf.vpe.richfaces.template.RichFacesColumnTemplate">
 			</vpe:template>
 		</vpe:if>
+
+		<!-- parentname()='h:dataTable'|parentname()='h:panelGrid' or any other-->
+		<vpe:template children="yes" modify="yes">
+			<vpe:column title="{tagstring()}" />
+		</vpe:template>
 	</vpe:tag>
 
 	<vpe:tag name="f:facet" case-sensitive="yes">
