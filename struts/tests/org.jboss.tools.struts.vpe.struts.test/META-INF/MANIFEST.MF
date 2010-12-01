@@ -6,7 +6,7 @@ Bundle-Version: 3.2.0.qualifier
 Bundle-Activator: org.jboss.tools.struts.vpe.struts.test.StrutsTestPlugin
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
- org.jboss.tools.vpe.ui.test;visibility:=reexport,
+ org.jboss.tools.vpe.base.test;visibility:=reexport,
  org.jboss.tools.common.text.ext,
  org.jboss.tools.common.model,
  org.jboss.tools.vpe.xulrunner,
