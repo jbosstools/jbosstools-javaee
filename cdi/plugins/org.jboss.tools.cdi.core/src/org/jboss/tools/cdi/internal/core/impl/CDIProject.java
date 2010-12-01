@@ -200,6 +200,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		
 		boolean containsAlternatives = false;
 		Iterator<IBean> it = result.iterator();
+		Set<IBean> disabled = null;
 		while(it.hasNext()) {
 			IBean b = it.next();
 			if(b.isAlternative()) {
@@ -209,8 +210,19 @@ public class CDIProject extends CDIElement implements ICDIProject {
 					it.remove();
 				}
 			}
+			IBean bean = b.getSpecializedBean();
+			if(bean!=null && b.isEnabled()) {
+				if(disabled==null) {
+					disabled = new HashSet<IBean>();
+				}
+				disabled.add(bean);
+			}
 		}
-		
+
+		if(disabled!=null) {
+			result.removeAll(disabled);
+		}
+
 		if(!containsAlternatives) return result;
 
 		it = result.iterator();
