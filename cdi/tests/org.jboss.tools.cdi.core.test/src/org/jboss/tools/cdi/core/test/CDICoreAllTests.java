@@ -32,6 +32,7 @@ import org.jboss.tools.cdi.core.test.tck.ObserverMethodResolutionTest;
 import org.jboss.tools.cdi.core.test.tck.ProducerMethodDefinitionTest;
 import org.jboss.tools.cdi.core.test.tck.QualifierDefinitionTest;
 import org.jboss.tools.cdi.core.test.tck.QualifierWithMembersTest;
+import org.jboss.tools.cdi.core.test.tck.ResolutionByNameTest;
 import org.jboss.tools.cdi.core.test.tck.ResolutionByTypeTest;
 import org.jboss.tools.cdi.core.test.tck.ScopeDefinitionTest;
 import org.jboss.tools.cdi.core.test.tck.SelectedAlternativeTest;
@@ -56,6 +57,7 @@ public class CDICoreAllTests {
 		TestSuite suiteAll = new TestSuite("CDI Core Tests");
 
 		TestSuite suite = new TestSuite("TCK Tests");
+		suite.addTestSuite(ResolutionByNameTest.class);
 		suite.addTestSuite(BeanDefinitionTest.class);
 		suite.addTestSuite(NameDefinitionTest.class);
 		suite.addTestSuite(QualifierDefinitionTest.class);

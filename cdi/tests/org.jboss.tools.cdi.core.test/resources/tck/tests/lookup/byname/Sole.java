@@ -19,7 +19,7 @@ package org.jboss.jsr299.tck.tests.lookup.byname;
 import javax.enterprise.inject.Alternative;
 import javax.inject.Named;
 
-@Named("fish")
+@Named("fishJBT") // Original tck name was "fish". modified for JBT tests to "fishJBT"
 @Alternative
 class Sole implements Animal
 {

@@ -18,7 +18,7 @@ package org.jboss.jsr299.tck.tests.lookup.byname;
 
 import javax.inject.Named;
 
-@Named("whitefish")
+@Named("whitefishJBT") // Original tck name was "whitefish". modified for JBT tests to "whitefishJBT"
 @Whitefish
 class Plaice implements Animal
 {
