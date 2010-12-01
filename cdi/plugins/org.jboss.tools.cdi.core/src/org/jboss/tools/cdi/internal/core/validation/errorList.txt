@@ -202,6 +202,12 @@ b) Classes which are declared final or have final methods cannot be proxied by t
 c) Primitive types cannot be proxied by the container. 
 d) Array types cannot be proxied by the container. 
 
+8.3. Decorator resolution 
+- If a decorator matches a managed bean, and the managed bean class is declared final, the container automatically detects 
+  the problem and treats it as a deployment problem. 
+- If a decorator matches a managed bean with a non-static, non-private, final method, and the decorator also implements that method,
+  the container automatically detects the problem and treats it as a deployment problem.
+
 
   Beans.xml (all of them are deployment problems)
 
@@ -242,10 +248,4 @@ d) Array types cannot be proxied by the container.
 - All unresolvable ambiguous EL names are detected by the container when the application is initialized. Suppose two beans are both available for injection in a certain war, and either: 
   • the two beans have the same EL name and the name is not resolvable, or 
   • the EL name of one bean is of the form x.y, where y is a valid bean EL name, and x is the EL name of the other bean, 
-    the container automatically detects the problem and treats it as a deployment problem. 
-     
-8.3. Decorator resolution 
-- If a decorator matches a managed bean, and the managed bean class is declared final, the container automatically detects 
-  the problem and treats it as a deployment problem. 
-- If a decorator matches a managed bean with a non-static, non-private, final method, and the decorator also implements that method,
-  the container automatically detects the problem and treats it as a deployment problem.
+    the container automatically detects the problem and treats it as a deployment problem.
