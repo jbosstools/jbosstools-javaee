@@ -49,6 +49,7 @@ public class CDIPreferenceInitializer extends AbstractPreferenceInitializer {
 		defaultPreferences.put(CDIPreferences.MISSING_NONBINDING_IN_INTERCEPTOR_BINDING_TYPE_MEMBER, CDIPreferences.WARNING);
 		defaultPreferences.put(CDIPreferences.ILLEGAL_CONDITIONAL_OBSERVER, CDIPreferences.WARNING);
 		defaultPreferences.put(CDIPreferences.MISSING_OR_INCORRECT_TARGET_OR_RETENTION_IN_ANNOTATION_TYPE, CDIPreferences.WARNING);
+		defaultPreferences.put(CDIPreferences.DECORATOR_RESOLVES_TO_FINAL_BEAN, CDIPreferences.WARNING);
 		defaultPreferences.putInt(SeverityPreferences.MAX_NUMBER_OF_MARKERS_PREFERENCE_NAME, SeverityPreferences.DEFAULT_MAX_NUMBER_OF_MARKERS_PER_FILE);
 	}
 }

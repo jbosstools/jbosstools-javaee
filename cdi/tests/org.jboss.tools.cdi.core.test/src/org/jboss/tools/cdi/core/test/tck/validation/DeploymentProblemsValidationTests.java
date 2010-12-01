@@ -133,4 +133,28 @@ public class DeploymentProblemsValidationTests extends ValidationTest {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/lookup/clientProxy/unproxyable/finalMethod/FishFarm.java");
 		assertMarkerIsCreated(file, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_TYPE_WITH_FM, "Tuna_Broken", "Tuna_Broken"), 23);
 	}
+
+	/**
+	 * 	8.3 - Decorator resolution
+	 *  - If a decorator matches a managed bean, and the managed bean class is declared final, the container automatically detects
+	 *    the problem and treats it as a deployment problem.
+	 * 
+	 * @throws Exception
+	 */
+	public void testAppliesToFinalManagedBeanClass() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/decorators/definition/broken/finalBeanClass/TimestampLogger.java");
+		assertMarkerIsCreated(file, MessageFormat.format(CDIValidationMessages.DECORATOR_RESOLVES_TO_FINAL_CLASS, "MockLogger"), 31);
+	}
+
+	/**
+	 * 	8.3 - Decorator resolution
+	 *  - If a decorator matches a managed bean with a non-static, non-private, final method, and the decorator also implements that method,
+	 *    the container automatically detects the problem and treats it as a deployment problem.
+	 * 
+	 * @throws Exception
+	 */
+	public void testAppliesToFinalMethodOnManagedBeanClass() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/decorators/definition/broken/finalBeanMethod/TimestampLogger.java");
+		assertMarkerIsCreated(file, MessageFormat.format(CDIValidationMessages.DECORATOR_RESOLVES_TO_FINAL_METHOD, "MockLogger", "log(String string)"), 31);
+	}
 }

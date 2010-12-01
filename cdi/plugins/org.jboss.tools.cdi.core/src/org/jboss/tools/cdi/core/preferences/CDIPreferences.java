@@ -195,6 +195,11 @@ public class CDIPreferences extends SeverityPreferences {
 	public static final String INJECTED_DECORATOR = INSTANCE.createSeverityOption("injectedDecorator"); //$NON-NLS-1$
 //  - an interceptor can not be injected
 	public static final String INJECTED_INTERCEPTOR = INSTANCE.createSeverityOption("injectedInterceptor"); //$NON-NLS-1$
+//	8.3. Decorator resolution 
+//	- If a decorator matches a managed bean, and the managed bean class is declared final, the container automatically detects 
+//	  the problem and treats it as a deployment problem. 
+//	- If a decorator matches a managed bean with a non-static, non-private, final method, and the decorator also implements that method, the container automatically detects the problem and treats it as a deployment problem.
+	public static final String DECORATOR_RESOLVES_TO_FINAL_BEAN = INSTANCE.createSeverityOption("decoratorResolvesToFinalBean"); //$NON-NLS-1$
 
 	//Specialization
 

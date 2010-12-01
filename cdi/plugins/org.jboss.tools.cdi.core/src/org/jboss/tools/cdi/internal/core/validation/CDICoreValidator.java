@@ -1215,6 +1215,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 				addError(CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS, CDIPreferences.AMBIGUOUS_INJECTION_POINTS, reference, injection.getResource());
 			} else if(beans.size()==1) {
 				IBean bean = beans.iterator().next();
+				getValidationContext().addLinkedCoreResource(injection.getSourcePath().toOSString(), bean.getResource().getFullPath(), false);
 				/*
 				 * 5.2.4. Primitive types and null values
 				 *  - injection point of primitive type resolves to a bean that may have null values, such as a producer method with a non-primitive return type or a producer field with a non-primitive type
@@ -1271,6 +1272,47 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 						} catch (JavaModelException e) {
 							CDICorePlugin.getDefault().logError(e);
 						}
+					}
+				}
+				if(injection.getClassBean() instanceof IDecorator && injection.isDelegate() && bean instanceof IClassBean) {
+					try {
+						IType beanClass = bean.getBeanClass();
+						if(Flags.isFinal(beanClass.getFlags())) {
+							//	8.3. Decorator resolution 
+							//	- If a decorator matches a managed bean, and the managed bean class is declared final, the container automatically detects 
+							//	  the problem and treats it as a deployment problem.
+							addError(MessageFormat.format(CDIValidationMessages.DECORATOR_RESOLVES_TO_FINAL_CLASS, bean.getSimpleJavaName()), CDIPreferences.DECORATOR_RESOLVES_TO_FINAL_BEAN, reference, injection.getResource());
+						} else {
+							//	8.3. Decorator resolution 
+							//	- If a decorator matches a managed bean with a non-static, non-private, final method, and the decorator also implements that method,
+							//    the container automatically detects  the problem and treats it as a deployment problem. 
+							IType decoratorClass = injection.getClassBean().getBeanClass();
+							IMethod[] methods = decoratorClass.getMethods();
+							boolean reported = false;
+							if(methods!=null) {
+								for (IMethod method : methods) {
+									if(!Flags.isPrivate(method.getFlags()) && !Flags.isStatic(method.getFlags())) {
+										IMethod[] beanMethods = beanClass.findMethods(method);
+										if(beanMethods!=null) {
+											for (IMethod beanMethod : beanMethods) {
+												int flags = beanMethod.getFlags();
+												if(!Flags.isPrivate(flags) && !Flags.isStatic(flags) && Flags.isFinal(flags)) {
+													String methodName = Signature.toString(beanMethod.getSignature(), beanMethod.getElementName(), beanMethod.getParameterNames(), false, false);
+													addError(MessageFormat.format(CDIValidationMessages.DECORATOR_RESOLVES_TO_FINAL_METHOD, bean.getSimpleJavaName(), methodName), CDIPreferences.DECORATOR_RESOLVES_TO_FINAL_BEAN, reference, injection.getResource());
+													reported = true;
+													break;
+												}
+											}
+											if(reported) {
+												break;
+											}
+										}
+									}
+								}
+							}
+						}
+					} catch (JavaModelException e) {
+						CDICorePlugin.getDefault().logError(e);
 					}
 				}
 			}

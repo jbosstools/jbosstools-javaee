@@ -106,6 +106,7 @@ public class CDIPreferencesMessages extends NLS {
 	public static String CDIValidatorConfigurationBlock_pb_missingInterceptorBinding_label;
 	public static String CDIValidatorConfigurationBlock_pb_injectedDecorator_label;
 	public static String CDIValidatorConfigurationBlock_pb_injectedInterceptor_label;
+	public static String CDIValidatorConfigurationBlock_pb_decoratorResolvesToFinalBean_label;
 
 	// Specializing
 	public static String CDIValidatorConfigurationBlock_section_specializing;

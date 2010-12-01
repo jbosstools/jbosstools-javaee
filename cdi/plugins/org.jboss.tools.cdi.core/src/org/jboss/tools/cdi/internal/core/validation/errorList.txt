@@ -190,9 +190,17 @@ Deployment problems
   treats it as a deployment problem.
   
 5.2.4. Primitive types and null values
-- if an injection point of primitive type resolves to a bean that may have null values, such as a producer method
+- If an injection point of primitive type resolves to a bean that may have null values, such as a producer method
   with a non-primitive return type or a producer field with a non-primitive type, the container automatically detects the problem
   and treats it as a deployment problem.
+
+5.4.1. Unproxyable bean types 
+- If an injection point whose declared type cannot be proxied by the container resolves to a bean with a normal scope, 
+   the container automatically detects the problem and treats it as a deployment problem: 
+a) Classes which don't have a non-private constructor with no parameters cannot be proxied by the container. 
+b) Classes which are declared final or have final methods cannot be proxied by the container. 
+c) Primitive types cannot be proxied by the container. 
+d) Array types cannot be proxied by the container. 
 
 
   Beans.xml (all of them are deployment problems)
@@ -226,21 +234,18 @@ Deployment problems
 
   Unimplemented:
 
-5.1.3. Inconsistent specialization
-- Suppose an enabled bean X specializes a second bean Y. If there is another enabled bean that specializes Y we say that inconsistent
-  specialization exists. The container automatically detects inconsistent specialization and treats it as a deployment problem.
+5.1.3. Inconsistent specialization 
+- Suppose an enabled bean X specializes a second bean Y. If there is another enabled bean that specializes Y we say that inconsistent 
+  specialization exists. The container automatically detects inconsistent specialization and treats it as a deployment problem. 
 
-5.3.1. Ambiguous EL names
-- All unresolvable ambiguous EL names are detected by the container when the application is initialized. Suppose two beans are both available for injection in a certain war, and either:
-  • the two beans have the same EL name and the name is not resolvable, or
-  • the EL name of one bean is of the form x.y, where y is a valid bean EL name, and x is the EL name of the other bean,
-    the container automatically detects the problem and treats it as a deployment problem.
-    
-5.4.1. Unproxyable bean types
--  If an injection point whose declared type cannot be proxied by the container resolves to a bean with a normal scope,
-   the container automatically detects the problem and treats it as a deployment problem.
-
-8.3. Decorator resolution
--  If a decorator matches a managed bean, and the managed bean class is declared final, the container automatically detects
-   the problem and treats it as a deployment problem.
-
+5.3.1. Ambiguous EL names 
+- All unresolvable ambiguous EL names are detected by the container when the application is initialized. Suppose two beans are both available for injection in a certain war, and either: 
+  • the two beans have the same EL name and the name is not resolvable, or 
+  • the EL name of one bean is of the form x.y, where y is a valid bean EL name, and x is the EL name of the other bean, 
+    the container automatically detects the problem and treats it as a deployment problem. 
+     
+8.3. Decorator resolution 
+- If a decorator matches a managed bean, and the managed bean class is declared final, the container automatically detects 
+  the problem and treats it as a deployment problem. 
+- If a decorator matches a managed bean with a non-static, non-private, final method, and the decorator also implements that method,
+  the container automatically detects the problem and treats it as a deployment problem.
