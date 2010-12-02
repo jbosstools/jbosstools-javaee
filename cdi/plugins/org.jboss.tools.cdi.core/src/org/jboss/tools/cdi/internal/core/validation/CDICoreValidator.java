@@ -180,7 +180,8 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 	@Override
 	public void init(IProject project, ContextValidationHelper validationHelper, org.eclipse.wst.validation.internal.provisional.core.IValidator manager,
 			IReporter reporter) {
-		super.init(project, validationHelper, manager, reporter, MESSAGE_ID_ATTRIBUTE_NAME);
+		super.init(project, validationHelper, manager, reporter);
+		setMessageIdQuickFixAttributeName(MESSAGE_ID_ATTRIBUTE_NAME);
 		if(projectSet==null) {
 			getValidatingProjects(project);
 		}
