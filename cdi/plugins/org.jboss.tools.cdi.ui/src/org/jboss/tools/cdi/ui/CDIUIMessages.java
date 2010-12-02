@@ -61,4 +61,6 @@ public class CDIUIMessages extends NLS{
 	
 	public static String MESSAGE_INTERCEPTOR_BINDINGS_EMPTY;
 	
+	public static String MAKE_FIELD_STATIC_MARKER_RESOLUTION_TITLE;
+	
 }

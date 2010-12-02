@@ -228,5 +228,10 @@
 			</contentType>
     </proposalComputer>
    </extension>
+  	<extension point="org.eclipse.ui.ide.markerResolution">
+		<markerResolutionGenerator
+			markerType="org.jboss.tools.cdi.core.cdiproblem"
+			class="org.jboss.tools.cdi.ui.marker.CDIProblemMarkerResolutionGenerator"/>
+	</extension>
   
 </plugin>

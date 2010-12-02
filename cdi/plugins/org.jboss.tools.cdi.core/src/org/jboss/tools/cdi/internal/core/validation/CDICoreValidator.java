@@ -22,6 +22,7 @@ import java.util.StringTokenizer;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
+import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
@@ -104,6 +105,11 @@ import org.jboss.tools.jst.web.kb.validation.ValidationUtil;
 public class CDICoreValidator extends CDIValidationErrorManager implements IValidator {
 	public static final String ID = "org.jboss.tools.cdi.core.CoreValidator"; //$NON-NLS-1$
 	public static final String PROBLEM_TYPE = "org.jboss.tools.cdi.core.cdiproblem"; //$NON-NLS-1$
+	
+	public static final String MESSAGE_ID_ATTRIBUTE_NAME = "CDI_message_id"; //$NON-NLS-1$
+	
+	public static final int ILLEGAL_PRODUCER_FIELD_IN_SESSION_BEAN_ID = 1;
+
 
 	ICDIProject cdiProject;
 	String projectName;
@@ -1090,7 +1096,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 				 *  - non-static field of a session bean class is annotated @Produces
 				 */
 				if(producer.getClassBean() instanceof ISessionBean && !Flags.isStatic(producerField.getField().getFlags())) {
-					addError(CDIValidationMessages.ILLEGAL_PRODUCER_FIELD_IN_SESSION_BEAN, CDIPreferences.ILLEGAL_PRODUCER_METHOD_IN_SESSION_BEAN, producer.getProducesAnnotation(), producer.getResource());
+					addError(CDIValidationMessages.ILLEGAL_PRODUCER_FIELD_IN_SESSION_BEAN, CDIPreferences.ILLEGAL_PRODUCER_METHOD_IN_SESSION_BEAN, producer.getProducesAnnotation(), producer.getResource(), ILLEGAL_PRODUCER_FIELD_IN_SESSION_BEAN_ID);
 				}
 			} else {
 				IProducerMethod producerMethod = (IProducerMethod) producer;
@@ -2169,4 +2175,18 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 			CDICorePlugin.getDefault().logError(e);
 		}
 	}
+	
+	public IMarker addError(String message, String preferenceKey,
+			ITextSourceReference location, IResource target, int messageId) {
+		IMarker marker = addError(message, preferenceKey, location, target);
+		try{
+			if(marker!=null) {
+				marker.setAttribute(MESSAGE_ID_ATTRIBUTE_NAME, new Integer(messageId));
+			}
+		}catch(CoreException ex){
+			CDICorePlugin.getDefault().logError(ex);
+		}
+		return marker;
+	}
+
 }
