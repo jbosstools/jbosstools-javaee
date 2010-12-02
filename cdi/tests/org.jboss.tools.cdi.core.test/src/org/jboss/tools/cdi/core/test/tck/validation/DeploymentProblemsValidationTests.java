@@ -135,6 +135,32 @@ public class DeploymentProblemsValidationTests extends ValidationTest {
 	}
 
 	/**
+	 *  5.3.1. Ambiguous EL names
+	 *  - All unresolvable ambiguous EL names are detected by the container when the application is initialized.
+	 *    Suppose two beans are both available for injection in a certain war, and either:
+	 *    • the two beans have the same EL name and the name is not resolvable, or
+	 * 
+	 * @throws Exception
+	 */
+	public void testDuplicateNamedBeans() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/lookup/byname/duplicateNameResolution/Cod.java");
+		assertMarkerIsCreated(file, MessageFormat.format(CDIValidationMessages.DUPLCICATE_EL_NAME, "Cod, Sole"), 21);
+		file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/lookup/byname/duplicateNameResolution/Sole.java");
+		assertMarkerIsCreated(file, MessageFormat.format(CDIValidationMessages.DUPLCICATE_EL_NAME, "Sole, Cod"), 21);
+	}
+
+	/**
+	 * 	  • the EL name of one bean is of the form x.y, where y is a valid bean EL name, and x is the EL name of the other bean,
+	 *      the container automatically detects the problem and treats it as a deployment problem.
+	 * 
+	 * @throws Exception
+	 */
+	public void testDuplicateBeanNamePrefix() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/lookup/byname/duplicatePrefixResolution/ExampleWebsite_Broken.java");
+		assertMarkerIsCreated(file, MessageFormat.format(CDIValidationMessages.UNRESOLVABLE_EL_NAME, "example.com", "com", "example", "Example"), 22);
+	}
+
+	/**
 	 * 	8.3 - Decorator resolution
 	 *  - If a decorator matches a managed bean, and the managed bean class is declared final, the container automatically detects
 	 *    the problem and treats it as a deployment problem.

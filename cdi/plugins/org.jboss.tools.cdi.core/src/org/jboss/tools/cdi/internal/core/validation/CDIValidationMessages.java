@@ -34,6 +34,8 @@ public class CDIValidationMessages {
 	public static String UNPROXYABLE_BEAN_TYPE_WITH_FM;
 	public static String DECORATOR_RESOLVES_TO_FINAL_CLASS;
 	public static String DECORATOR_RESOLVES_TO_FINAL_METHOD;
+	public static String DUPLCICATE_EL_NAME;
+	public static String UNRESOLVABLE_EL_NAME;
 
 	public static String ILLEGAL_TYPE_IN_TYPED_DECLARATION;
 	public static String ILLEGAL_TYPE_IN_TYPED_DECLARATION_IN_BEAN_CLASS;

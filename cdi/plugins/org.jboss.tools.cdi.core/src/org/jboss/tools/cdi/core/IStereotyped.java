@@ -17,7 +17,7 @@ import java.util.Set;
  * 
  * @author Alexey Kazakov
  */
-public interface IStereotyped {
+public interface IStereotyped extends IAnnotated {
 
 	/**
 	 * Obtains the stereotype declarations of the element (bean class or

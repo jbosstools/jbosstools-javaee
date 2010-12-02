@@ -306,7 +306,7 @@ public class CDIUtil {
 	 */
 	public static IAnnotationDeclaration getQualifiedSpecializesDeclaration(IBean bean, String qualifierTypeName) {
 		IBean specializedBean = bean.getSpecializedBean();
-		return specializedBean!=null?getQualifierDeclaration(bean, qualifierTypeName):null;
+		return specializedBean!=null?getQualifierDeclaration(specializedBean, qualifierTypeName):null;
 	}
 
 	/**
@@ -316,10 +316,13 @@ public class CDIUtil {
 	 * @return
 	 */
 	public static IAnnotationDeclaration getQualifiedStereotypeDeclaration(IStereotyped stereotyped, String qualifierTypeName) {
-		Set<IStereotypeDeclaration> declarations = stereotyped.getStereotypeDeclarations();
-		for (IStereotypeDeclaration declaration : declarations) {
-			if (qualifierTypeName.equals(declaration.getType().getFullyQualifiedName())
-					|| getQualifiedStereotypeDeclaration(declaration.getStereotype(), qualifierTypeName) != null) {
+		IAnnotationDeclaration qualifierDeclaration = stereotyped.getAnnotation(qualifierTypeName);
+		if (qualifierDeclaration != null) {
+			return qualifierDeclaration;
+		}
+		Set<IStereotypeDeclaration> stereotypeDeclarations = stereotyped.getStereotypeDeclarations();
+		for (IStereotypeDeclaration declaration : stereotypeDeclarations) {
+			if (getQualifiedStereotypeDeclaration(declaration.getStereotype(), qualifierTypeName) != null) {
 				return declaration;
 			}
 		}

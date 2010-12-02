@@ -12,11 +12,13 @@ package org.jboss.tools.cdi.internal.core.validation;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.StringTokenizer;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
@@ -39,8 +41,10 @@ import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.ISourceRange;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.ITypeParameter;
+import org.eclipse.jdt.core.JavaConventions;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.core.Signature;
+import org.eclipse.jdt.internal.compiler.impl.CompilerOptions;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.wst.common.componentcore.ComponentCore;
 import org.eclipse.wst.common.componentcore.resources.IVirtualComponent;
@@ -212,12 +216,35 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 			if (ValidationUtil.checkFileExtensionForJavaAndXml(currentFile)) {
 				resources.add(currentFile.getFullPath());
 
+				Set<String> newElNamesOfChangedFile = getELNamesByResource(currentFile.getFullPath());
+				for (String newElName : newElNamesOfChangedFile) {
+					// Collect resources that had EL names (in previous validation session) declared in this changed resource.
+					Set<IPath> linkedResources = validationContext.getCoreResourcesByVariableName(newElName, true);
+					if(linkedResources!=null) {
+						resources.addAll(linkedResources);
+					}
+				}
+				// Get old EL names which were linked with this resource in previous validation session.
+				Set<String> oldElNamesOfChangedFile = validationContext.getVariableNamesByCoreResource(currentFile.getFullPath(), true);
+				if(oldElNamesOfChangedFile!=null) {
+					for (String name : oldElNamesOfChangedFile) {
+						Set<IPath> linkedResources = validationContext.getCoreResourcesByVariableName(name, true);
+						if(linkedResources!=null) {
+							resources.addAll(linkedResources);
+						}
+						// Save old (from previous validation session) EL names. We need to validate all the resources which use this old EL name in case the name has been changed.
+						validationContext.addVariableNameForELValidation(name);
+					}
+				}
+				
 				// Get all the paths of related resources for given file. These
 				// links were saved in previous validation process.
 				Set<String> oldReletedResources = getValidationContext().getVariableNamesByCoreResource(currentFile.getFullPath(), false);
 				if (oldReletedResources != null) {
 					for (String resourcePath : oldReletedResources) {
-						resources.add(Path.fromOSString(resourcePath));
+						if(resourcePath.startsWith("/")) {
+							resources.add(Path.fromOSString(resourcePath));
+						}
 					}
 				}
 			}
@@ -401,11 +428,6 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 		if(bean.getBeanClass().isReadOnly()) {
 			return;
 		}
-		// Collect all relations between the bean and other CDI elements.
-		String name = bean.getName();
-		if (name != null) {
-			getValidationContext().addVariableNameForELValidation(name);
-		}
 		String beanPath = bean.getResource().getFullPath().toOSString();
 		Set<IScopeDeclaration> scopeDeclarations = bean.getScopeDeclarations();
 		for (IScopeDeclaration scopeDeclaration : scopeDeclarations) {
@@ -460,6 +482,91 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 		}
 
 		validateSpecializingBean(bean);
+
+		validateBeanName(bean);
+	}
+
+	/**
+	 * Validates a bean EL name.
+	 * 
+	 * @param bean
+	 */
+	private void validateBeanName(IBean bean) {
+		String name = bean.getName();
+		if(name!=null && !name.startsWith("/")) {
+			// Collect all relations between the bean and other CDI elements.
+			getValidationContext().addVariableNameForELValidation(name);
+			getValidationContext().addLinkedCoreResource(name, bean.getSourcePath(), true);
+			/*
+			 *	5.3.1. Ambiguous EL names
+			 *	- All unresolvable ambiguous EL names are detected by the container when the application is initialized.
+			 *    Suppose two beans are both available for injection in a certain war, and either:
+			 *     • the two beans have the same EL name and the name is not resolvable, or
+			 */
+			Set<IBean> beans = cdiProject.getBeans(name, true);
+			if(beans.size()>1 && beans.contains(bean)) {
+				ITextSourceReference reference = bean.getNameLocation();
+				if(reference==null) {
+					reference = CDIUtil.getNamedDeclaration(bean);
+				}
+				StringBuffer sb = new StringBuffer(bean.getSimpleJavaName());
+				for (IBean iBean : beans) {
+					if(bean!=iBean) {
+						sb.append(", ").append(iBean.getSimpleJavaName());
+					}
+				}
+				addError(MessageFormat.format(CDIValidationMessages.DUPLCICATE_EL_NAME, sb.toString()), CDIPreferences.AMBIGUOUS_EL_NAMES, reference, bean.getResource());
+			} else {
+				/*
+				 *     • the EL name of one bean is of the form x.y, where y is a valid bean EL name, and x is the EL name of the other bean,
+				 *       the container automatically detects the problem and treats it as a deployment problem. 
+				 */
+				if(name.indexOf('.')>0) {
+					StringTokenizer st = new StringTokenizer(name, ".", false);
+					StringBuffer xName = new StringBuffer();
+					while(st.hasMoreTokens()) {
+						if(xName.length()>0) {
+							xName.append('.');
+						}
+						xName.append(st.nextToken());
+						if(st.hasMoreTokens()) {
+							String xNameAsString = xName.toString();
+							Set<IBean> xBeans = cdiProject.getBeans(xNameAsString, true);
+							if(!xBeans.isEmpty()) {
+								String yName = name.substring(xNameAsString.length()+1);
+								IStatus status = JavaConventions.validateJavaTypeName(yName, CompilerOptions.VERSION_1_6, CompilerOptions.VERSION_1_6);
+								if (status.getSeverity() != IStatus.ERROR) {
+									ITextSourceReference reference = bean.getNameLocation();
+									if(reference==null) {
+										reference = CDIUtil.getNamedDeclaration(bean);
+									}
+									addError(MessageFormat.format(CDIValidationMessages.UNRESOLVABLE_EL_NAME, name, yName, xNameAsString, xBeans.iterator().next().getSimpleJavaName()), CDIPreferences.AMBIGUOUS_EL_NAMES, reference, bean.getResource());
+									break;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	/*
+	 * Returns set of EL names which are declared in the resource
+	 */
+	private Set<String> getELNamesByResource(IPath resourcePath) {
+		Set<IBean> beans = cdiProject.getBeans(resourcePath);
+		if(beans.isEmpty()) {
+			return Collections.emptySet();
+		}
+		Set<String> result = new HashSet<String>();
+		for (IBean bean : beans) {
+			String name = bean.getName();
+			if(name!=null) {
+				result.add(name);
+			}
+		}
+		return result;
 	}
 
 	private IType getTypeOfInjection(IInjectionPoint injection) {

@@ -39,6 +39,7 @@ public class CDIPreferencesMessages extends NLS {
 	public static String CDIValidatorConfigurationBlock_pb_paramInjectionDeclaresEmptyName_label;
 	public static String CDIValidatorConfigurationBlock_pb_interceptorHasName_label;
 	public static String CDIValidatorConfigurationBlock_pb_decoratorHasName_label;
+	public static String CDIValidatorConfigurationBlock_pb_ambiguousElNames_label;
 
 	// Section Type
 	public static String CDIValidatorConfigurationBlock_section_type;

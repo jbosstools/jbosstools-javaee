@@ -39,6 +39,12 @@ public class CDIPreferences extends SeverityPreferences {
 //	- interceptor or decorator has a name (2.5.3 non-portable)
 	public static final String INTERCEPTOR_HAS_NAME = INSTANCE.createSeverityOption("interceptorHasName"); //$NON-NLS-1$
 	public static final String DECORATOR_HAS_NAME = INSTANCE.createSeverityOption("decoratorHasName"); //$NON-NLS-1$
+// 5.3.1. Ambiguous EL names 
+//	- All unresolvable ambiguous EL names are detected by the container when the application is initialized. Suppose two beans are both available for injection in a certain war, and either: 
+//		  • the two beans have the same EL name and the name is not resolvable, or 
+//		  • the EL name of one bean is of the form x.y, where y is a valid bean EL name, and x is the EL name of the other bean, 
+//		    the container automatically detects the problem and treats it as a deployment problem.
+	public static final String AMBIGUOUS_EL_NAMES = INSTANCE.createSeverityOption("ambiguousElNames"); //$NON-NLS-1$
 
 	//Type group
 

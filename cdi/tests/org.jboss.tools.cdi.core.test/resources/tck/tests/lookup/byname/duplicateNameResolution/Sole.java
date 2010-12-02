@@ -18,7 +18,7 @@ package org.jboss.jsr299.tck.tests.lookup.byname.duplicateNameResolution;
 
 import javax.inject.Named;
 
-@Named("whitefish")
+@Named("whitefishJBTDup") // Original tck name was "whitefish". modified for JBT tests to "whitefishJBTDup"
 class Sole
 {
 

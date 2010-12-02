@@ -36,6 +36,7 @@ public class CDIConfigurationBlock extends SeverityConfigurationBlock {
 			{CDIPreferences.PARAM_INJECTION_DECLARES_EMPTY_NAME, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_paramInjectionDeclaresEmptyName_label},
 			{CDIPreferences.INTERCEPTOR_HAS_NAME, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_interceptorHasName_label},
 			{CDIPreferences.DECORATOR_HAS_NAME, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_decoratorHasName_label},
+			{CDIPreferences.AMBIGUOUS_EL_NAMES, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_ambiguousElNames_label},
 		},
 		CDICorePlugin.PLUGIN_ID
 	);
