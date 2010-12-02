@@ -20,10 +20,9 @@ import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.gef.EditPart;
-import org.eclipse.gef.internal.ui.palette.editparts.ToolEntryEditPart;
 import org.eclipse.gef.palette.PaletteContainer;
 import org.eclipse.gef.palette.PaletteEntry;
-import org.eclipse.gef.palette.ToolEntry;
+import org.eclipse.gef.ui.palette.editparts.PaletteEditPart;
 import org.eclipse.gef.ui.views.palette.PalettePage;
 import org.eclipse.gef.ui.views.palette.PaletteView;
 import org.eclipse.jst.j2ee.internal.common.classpath.J2EEComponentClasspathUpdater;
@@ -39,9 +38,9 @@ import org.jboss.tools.jst.jsp.jspeditor.JSPMultiPageEditor;
 import org.jboss.tools.jst.jsp.jspeditor.PalettePageImpl;
 import org.jboss.tools.jst.web.ui.WebDevelopmentPerspectiveFactory;
 import org.jboss.tools.test.util.ProjectImportTestSetup;
-import org.jboss.tools.vpe.ui.palette.CustomDrawerEditPart;
 import org.jboss.tools.vpe.ui.palette.PaletteAdapter;
 import org.jboss.tools.vpe.ui.palette.PaletteViewer;
+import org.jboss.tools.vpe.ui.palette.model.PaletteItem;
 import org.jboss.tools.vpe.ui.palette.model.PaletteModel;
 import org.jboss.tools.vpe.ui.palette.model.PaletteRoot;
 
@@ -86,11 +85,11 @@ public class TestPalette  extends TestCase {
 		for (Object tab: tabs) {
 			assertTrue(tab instanceof PaletteContainer);
 			PaletteContainer c = (PaletteContainer)tab;
+			System.out.println(c);
 			List<?> macros = c.getChildren();
 			assertTrue(!macros.isEmpty());
 			for (Object m: macros) {
-				PaletteEntry e = (PaletteEntry)m;
-				//
+				assertTrue(m instanceof PaletteEntry);
 			}
 		}
 
@@ -111,7 +110,7 @@ public class TestPalette  extends TestCase {
 		PalettePageImpl palettePage = (PalettePageImpl)page;
 		IPaletteAdapter adapter = palettePage.getAdapter();
 		assertTrue(adapter instanceof PaletteAdapter);
-
+		
 		//check edit parts
 		PaletteViewer viewer = ((PaletteAdapter)adapter).getViewer();
 		List<?> parts = viewer.getRootEditPart().getChildren();
@@ -120,7 +119,11 @@ public class TestPalette  extends TestCase {
 			for (Object p1: parts1) {
 				List<?> parts2 = ((EditPart)p1).getChildren();
 				for (Object p2: parts2) {
-					assertTrue(p2 instanceof ToolEntryEditPart);
+					assertTrue(p2 instanceof PaletteEditPart);
+					PaletteEditPart entry = (PaletteEditPart)p2;
+					Object o = entry.getModel();
+					assertTrue(o instanceof PaletteItem);
+//					viewer.setActiveTool((PaletteItem)o);
 				}
 			}
 		}
