@@ -11,6 +11,7 @@
 package org.jboss.tools.cdi.ui.test;
 
 import org.eclipse.jdt.internal.core.JavaModelManager;
+import org.jboss.tools.cdi.ui.test.marker.CDIMarkerResolutionTest;
 import org.jboss.tools.cdi.ui.test.references.CDIPreferencePageTest;
 import org.jboss.tools.cdi.ui.test.wizard.NewCDIWizardTest;
 
@@ -27,9 +28,11 @@ public class CDIUIAllTests {
 		JavaModelManager.getIndexManager().disable();
 		
 		TestSuite suite = new TestSuite("CDI UI Tests");
+		suite.addTestSuite(CDIMarkerResolutionTest.class);
 		suite.addTestSuite(CATest.class);
 		suite.addTestSuite(NewCDIWizardTest.class);
 		suite.addTestSuite(CDIPreferencePageTest.class);
+		
 		return suite;
 	}
 }
