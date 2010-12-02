@@ -16,6 +16,10 @@ import org.jboss.tools.jst.web.kb.internal.validation.ValidationErrorManager;
 
 abstract public class CDIValidationErrorManager extends ValidationErrorManager {
 
+	public static final String MESSAGE_ID_ATTRIBUTE_NAME = "CDI_message_id"; //$NON-NLS-1$
+
+	public static final int ILLEGAL_PRODUCER_FIELD_IN_SESSION_BEAN_ID = 1;
+
 	/*
 	 * (non-Javadoc)
 	 * @see org.jboss.tools.jst.web.kb.internal.validation.ValidationErrorManager#getPreference(org.eclipse.core.resources.IProject, java.lang.String)

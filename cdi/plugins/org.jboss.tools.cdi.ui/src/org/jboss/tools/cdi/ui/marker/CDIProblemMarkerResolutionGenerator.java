@@ -21,7 +21,7 @@ import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.ui.IMarkerResolution;
 import org.eclipse.ui.IMarkerResolutionGenerator2;
-import org.jboss.tools.cdi.internal.core.validation.CDICoreValidator;
+import org.jboss.tools.cdi.internal.core.validation.CDIValidationErrorManager;
 import org.jboss.tools.cdi.ui.CDIUIPlugin;
 import org.jboss.tools.common.EclipseUtil;
 
@@ -44,7 +44,7 @@ public class CDIProblemMarkerResolutionGenerator implements
 	private IMarkerResolution[] findResolutions(IMarker marker)
 			throws CoreException {
 		Integer attribute = ((Integer) marker
-				.getAttribute(CDICoreValidator.MESSAGE_ID_ATTRIBUTE_NAME));
+				.getAttribute(CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME));
 		if (attribute == null)
 			return new IMarkerResolution[] {};
 
@@ -63,7 +63,7 @@ public class CDIProblemMarkerResolutionGenerator implements
 		int end = attribute.intValue();
 
 		if (JAVA_EXTENSION.equals(file.getFileExtension())) {
-			if (messageId == CDICoreValidator.ILLEGAL_PRODUCER_FIELD_IN_SESSION_BEAN_ID) {
+			if (messageId == CDIValidationErrorManager.ILLEGAL_PRODUCER_FIELD_IN_SESSION_BEAN_ID) {
 				IField field = findNonStaticField(file, start);
 				if(field != null){
 					return new IMarkerResolution[] {

@@ -22,7 +22,6 @@ import java.util.StringTokenizer;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
-import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
@@ -105,11 +104,6 @@ import org.jboss.tools.jst.web.kb.validation.ValidationUtil;
 public class CDICoreValidator extends CDIValidationErrorManager implements IValidator {
 	public static final String ID = "org.jboss.tools.cdi.core.CoreValidator"; //$NON-NLS-1$
 	public static final String PROBLEM_TYPE = "org.jboss.tools.cdi.core.cdiproblem"; //$NON-NLS-1$
-	
-	public static final String MESSAGE_ID_ATTRIBUTE_NAME = "CDI_message_id"; //$NON-NLS-1$
-	
-	public static final int ILLEGAL_PRODUCER_FIELD_IN_SESSION_BEAN_ID = 1;
-
 
 	ICDIProject cdiProject;
 	String projectName;
@@ -186,7 +180,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 	@Override
 	public void init(IProject project, ContextValidationHelper validationHelper, org.eclipse.wst.validation.internal.provisional.core.IValidator manager,
 			IReporter reporter) {
-		super.init(project, validationHelper, manager, reporter);
+		super.init(project, validationHelper, manager, reporter, MESSAGE_ID_ATTRIBUTE_NAME);
 		if(projectSet==null) {
 			getValidatingProjects(project);
 		}
@@ -2191,18 +2185,4 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 			CDICorePlugin.getDefault().logError(e);
 		}
 	}
-	
-	public IMarker addError(String message, String preferenceKey,
-			ITextSourceReference location, IResource target, int messageId) {
-		IMarker marker = addError(message, preferenceKey, location, target);
-		try{
-			if(marker!=null) {
-				marker.setAttribute(MESSAGE_ID_ATTRIBUTE_NAME, new Integer(messageId));
-			}
-		}catch(CoreException ex){
-			CDICorePlugin.getDefault().logError(ex);
-		}
-		return marker;
-	}
-
 }
