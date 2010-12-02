@@ -70,6 +70,11 @@ public interface CDIConstants {
 
 	public String INJECTIONPOINT_TYPE_NAME = "javax.enterprise.inject.spi.InjectionPoint";
 
+	public String DECORATOR_SIMPLE_NAME = "Decorator";
+	public String DECORATOR_TYPE_NAME = "javax.enterprise.inject.spi.Decorator";
+	public String INTERCEPTOR_SIMPLE_NAME = "Interceptor";
+	public String INTERCEPTOR_TYPE_NAME = "javax.enterprise.inject.spi.Interceptor";
+
 	public String INSTANCE_TYPE_NAME = "javax.enterprise.inject.Instance";
 
 	public String PRE_DESTROY_TYPE_NAME = "javax.annotation.PreDestroy";

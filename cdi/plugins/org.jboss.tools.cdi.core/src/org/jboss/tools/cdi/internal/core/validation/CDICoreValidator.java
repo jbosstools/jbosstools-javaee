@@ -939,7 +939,11 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 			 */
 			if (bean instanceof IDecorator) {
 				IDecorator decorator = (IDecorator) bean;
-				IAnnotationDeclaration decoratorDeclaration = decorator.getDecoratorAnnotation();
+				ITextSourceReference decoratorDeclaration = decorator.getDecoratorAnnotation();
+				if(decoratorDeclaration == null) {
+					//for custom implementations
+					decoratorDeclaration = decorator.getNameLocation();
+				}
 				addError(CDIValidationMessages.DISPOSER_IN_DECORATOR, CDIPreferences.DISPOSER_IN_INTERCEPTOR_OR_DECORATOR, decoratorDeclaration, bean
 						.getResource());
 				for (ITextSourceReference declaration : disposerDeclarations) {
@@ -953,7 +957,11 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 			 */
 			if (bean instanceof IInterceptor) {
 				IInterceptor interceptor = (IInterceptor) bean;
-				IAnnotationDeclaration interceptorDeclaration = interceptor.getInterceptorAnnotation();
+				ITextSourceReference interceptorDeclaration = interceptor.getInterceptorAnnotation();
+				if(interceptorDeclaration == null) {
+					//for custom implementations
+					interceptorDeclaration = interceptor.getNameLocation();
+				}
 				addError(CDIValidationMessages.DISPOSER_IN_INTERCEPTOR, CDIPreferences.DISPOSER_IN_INTERCEPTOR_OR_DECORATOR, interceptorDeclaration, bean
 						.getResource());
 				for (ITextSourceReference declaration : disposerDeclarations) {
@@ -1695,6 +1703,10 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 			if (declaration == null) {
 				declaration = interceptor.getInterceptorAnnotation();
 			}
+			if(declaration == null) {
+				//for custom implementations
+				declaration = interceptor.getNameLocation();
+			}
 			addError(CDIValidationMessages.INTERCEPTOR_IS_ALTERNATIVE, CDIPreferences.INTERCEPTOR_OR_DECORATOR_IS_ALTERNATIVE, declaration, interceptor
 					.getResource());
 		}
@@ -1786,6 +1798,10 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 			ITextSourceReference declaration = decorator.getAlternativeDeclaration();
 			if (declaration == null) {
 				declaration = decorator.getDecoratorAnnotation();
+			}
+			if(declaration == null) {
+				//for custom implementations
+				declaration = decorator.getNameLocation();
 			}
 			addError(CDIValidationMessages.DECORATOR_IS_ALTERNATIVE, CDIPreferences.INTERCEPTOR_OR_DECORATOR_IS_ALTERNATIVE, declaration, decorator.getResource());
 		}

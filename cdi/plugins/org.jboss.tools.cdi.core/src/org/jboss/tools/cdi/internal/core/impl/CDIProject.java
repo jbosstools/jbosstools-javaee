@@ -59,6 +59,7 @@ import org.jboss.tools.cdi.internal.core.impl.definition.AnnotationDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.BeansXMLDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.DefinitionContext;
 import org.jboss.tools.cdi.internal.core.impl.definition.TypeDefinition;
+import org.jboss.tools.cdi.internal.core.scanner.ImplementationCollector;
 import org.jboss.tools.common.EclipseUtil;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.util.EclipseJavaUtil;
@@ -1129,12 +1130,14 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		List<TypeDefinition> typeDefinitions = getAllTypeDefinitions();
 		List<IBean> beans = new ArrayList<IBean>();
 		Map<IType, ClassBean> newClassBeans = new HashMap<IType, ClassBean>();
+	
+		ImplementationCollector ic = new ImplementationCollector(typeDefinitions);
 
 		for (TypeDefinition typeDefinition : typeDefinitions) {
 			ClassBean bean = null;
-			if(typeDefinition.getInterceptorAnnotation() != null) {
+			if(typeDefinition.getInterceptorAnnotation() != null || ic.isInterceptor(typeDefinition.getType())) {
 				bean = new InterceptorBean();
-			} else if(typeDefinition.getDecoratorAnnotation() != null) {
+			} else if(typeDefinition.getDecoratorAnnotation() != null || ic.isDecorator(typeDefinition.getType())) {
 				bean = new DecoratorBean();
 			} else if(typeDefinition.getStatefulAnnotation() != null || typeDefinition.getStatelessAnnotation() != null || typeDefinition.getSingletonAnnotation() != null) {
 				bean = new SessionBean();
