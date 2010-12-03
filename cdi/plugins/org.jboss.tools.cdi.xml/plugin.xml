@@ -28,6 +28,14 @@
 
  <extension point="org.eclipse.wst.xml.core.catalogContributions">
       <catalogContribution id="default">
+         <uri 
+            name="http://jboss.org/schema/weld/beans_1_1.xsd" 
+            uri="platform:/plugin/org.jboss.tools.cdi.xml/schemas/beans_1_1.xsd"/>
+
+         <uri 
+            name="http://jboss.org/schema/cdi/beans_1_0.xsd" 
+            uri="platform:/plugin/org.jboss.tools.cdi.xml/schemas/beans.xsd"/>
+
 
       </catalogContribution>
    </extension>
