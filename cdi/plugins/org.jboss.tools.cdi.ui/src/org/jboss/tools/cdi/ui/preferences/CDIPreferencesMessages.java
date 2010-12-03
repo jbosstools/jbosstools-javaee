@@ -117,6 +117,7 @@ public class CDIPreferencesMessages extends NLS {
 	public static String CDIValidatorConfigurationBlock_pb_missingTypeInSpecializingBean_label;
 	public static String CDIValidatorConfigurationBlock_pb_conflictingNameInSpecializingBean_label;
 	public static String CDIValidatorConfigurationBlock_pb_interceptorAnnotatedSpecializes_label;
+	public static String CDIValidatorConfigurationBlock_pb_inconsistentSpecialization_label;
 
 	// Miscellaneous
 	public static String CDIValidatorConfigurationBlock_section_miscellaneous;

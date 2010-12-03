@@ -22,6 +22,20 @@ import org.jboss.tools.cdi.internal.core.validation.CDIValidationMessages;
 public class DeploymentProblemsValidationTests extends ValidationTest {
 
 	/**
+	 * 5.1.3. Inconsistent specialization
+	 *  - Suppose an enabled bean X specializes a second bean Y. If there is another enabled bean that specializes Y we say that inconsistent
+	 *    specialization exists. The container automatically detects inconsistent specialization and treats it as a deployment problem.
+	 * 
+	 * @throws Exception
+	 */
+	public void testInconsistentSpecialization() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/inheritance/specialization/simple/broken/inconsistent/Maid.java");
+		assertMarkerIsCreated(file, MessageFormat.format(CDIValidationMessages.INCONSISTENT_SPECIALIZATION, "Maid, Manager", "Employee"), 21);
+		file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/inheritance/specialization/simple/broken/inconsistent/Manager.java");
+		assertMarkerIsCreated(file, MessageFormat.format(CDIValidationMessages.INCONSISTENT_SPECIALIZATION, "Manager, Maid", "Employee"), 21);
+	}
+
+	/**
 	 * 5.2.1. Unsatisfied and ambiguous dependencies
 	 *  - If an unresolvable ambiguous dependency exists, the container automatically detects the problem and treats it as a deployment problem.
 	 * 

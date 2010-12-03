@@ -224,6 +224,10 @@ public class CDIPreferences extends SeverityPreferences {
 //	- interceptor is annotated @Specializes (4.3.1 non-portable)
 //	- decorator is annotated @Specializes (4.3.1 non-portable)
 	public static final String INTERCEPTOR_ANNOTATED_SPECIALIZES = INSTANCE.createSeverityOption("interceptorAnnotatedSpecializes"); //$NON-NLS-1$
+//  5.1.3. Inconsistent specialization 
+//	- Suppose an enabled bean X specializes a second bean Y. If there is another enabled bean that specializes Y we say that inconsistent 
+//	  specialization exists. The container automatically detects inconsistent specialization and treats it as a deployment problem.
+	public static final String INCONSISTENT_SPECIALIZATION = INSTANCE.createSeverityOption("inconsistentSpecialization"); //$NON-NLS-1$
 
 	//Miscellaneous
 

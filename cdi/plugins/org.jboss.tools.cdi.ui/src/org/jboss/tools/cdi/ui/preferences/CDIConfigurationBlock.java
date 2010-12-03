@@ -134,6 +134,7 @@ public class CDIConfigurationBlock extends SeverityConfigurationBlock {
 				{CDIPreferences.MISSING_TYPE_IN_SPECIALIZING_BEAN, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_missingTypeInSpecializingBean_label},
 				{CDIPreferences.CONFLICTING_NAME_IN_SPECIALIZING_BEAN, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_conflictingNameInSpecializingBean_label},
 				{CDIPreferences.INTERCEPTOR_ANNOTATED_SPECIALIZES, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_interceptorAnnotatedSpecializes_label},
+				{CDIPreferences.INCONSISTENT_SPECIALIZATION, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_inconsistentSpecialization_label},
 			},
 			CDICorePlugin.PLUGIN_ID
 		);

@@ -110,7 +110,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 	CDIProjectSet projectSet;
 
 	private BeansXmlValidationDelegate beansXmlValidator = new BeansXmlValidationDelegate(this);
-	private AnnotationValidationDelegate annptationValidator = new AnnotationValidationDelegate(this);
+	private AnnotationValidationDelegate annotationValidator = new AnnotationValidationDelegate(this);
 
 	/*
 	 * (non-Javadoc)
@@ -313,7 +313,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 		
 		Set<String> scopes = cdiProject.getScopeNames();
 		for (String scope: scopes) {
-			annptationValidator.validateScopeType(cdiProject.getScope(scope));
+			annotationValidator.validateScopeType(cdiProject.getScope(scope));
 		}
 
 		List<IFile> beansXmls = getAllBeansXmls();
@@ -350,7 +350,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 			validateQualifier(qualifier);
 			
 			IScope scope = cdiProject.getScope(file.getFullPath());
-			annptationValidator.validateScopeType(scope);
+			annotationValidator.validateScopeType(scope);
 	
 			IInterceptorBinding binding = cdiProject.getInterceptorBinding(file.getFullPath());
 			validateInterceptorBinding(binding);
@@ -673,49 +673,75 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 				addError(CDIValidationMessages.INTERCEPTOR_ANNOTATED_SPECIALIZES, CDIPreferences.INTERCEPTOR_ANNOTATED_SPECIALIZES, specializesDeclaration, bean.getResource());
 			}
 		}
+		IBean specializedBean = bean.getSpecializedBean();
+		if(specializedBean!=null) {
+			if(!specializedBean.getBeanClass().isReadOnly()) {
+				getValidationContext().addLinkedCoreResource(bean.getSourcePath().toOSString(), specializedBean.getResource().getFullPath(), false);
+			}
 
-		IBean specializingBean = bean.getSpecializedBean();
-		if(specializingBean==null) {
-			return;
-		}
-		if(!specializingBean.getBeanClass().isReadOnly()) {
-			getValidationContext().addLinkedCoreResource(bean.getSourcePath().toOSString(), specializingBean.getResource().getFullPath(), false);
-		}
-
-		String beanClassName = bean.getBeanClass().getElementName();
-		String beanName = bean instanceof IBeanMethod?beanClassName + "." + ((IBeanMethod)bean).getSourceMember().getElementName() + "()":beanClassName;
-		String specializingBeanClassName = specializingBean.getBeanClass().getElementName();
-		String specializingBeanName = specializingBean instanceof IBeanMethod?specializingBeanClassName + "." + ((IBeanMethod)specializingBean).getSourceMember().getElementName() + "()":specializingBeanClassName;
-		/*
-		 * 4.3.1. Direct and indirect specialization
-		 *  - X specializes Y but does not have some bean type of Y
-		 */
-		Set<IParametedType> beanTypes = bean.getLegalTypes();
-		Set<IParametedType> specializingBeanTypes = specializingBean.getLegalTypes();
-		for (IParametedType specializingType : specializingBeanTypes) {
-			boolean found = false;
-			for (IParametedType type : beanTypes) {
-				if(specializingType.getType().getFullyQualifiedName().equals(type.getType().getFullyQualifiedName())) {
-					found = true;
-					break;
+			String beanClassName = bean.getBeanClass().getElementName();
+			String beanName = bean instanceof IBeanMethod?beanClassName + "." + ((IBeanMethod)bean).getSourceMember().getElementName() + "()":beanClassName;
+			String specializingBeanClassName = specializedBean.getBeanClass().getElementName();
+			String specializingBeanName = specializedBean instanceof IBeanMethod?specializingBeanClassName + "." + ((IBeanMethod)specializedBean).getSourceMember().getElementName() + "()":specializingBeanClassName;
+			/*
+			 * 4.3.1. Direct and indirect specialization
+			 *  - X specializes Y but does not have some bean type of Y
+			 */
+			Set<IParametedType> beanTypes = bean.getLegalTypes();
+			Set<IParametedType> specializingBeanTypes = specializedBean.getLegalTypes();
+			for (IParametedType specializingType : specializingBeanTypes) {
+				boolean found = false;
+				for (IParametedType type : beanTypes) {
+					if(specializingType.getType().getFullyQualifiedName().equals(type.getType().getFullyQualifiedName())) {
+						found = true;
+						break;
+					}
+				}
+				if(!found) {
+					addError(CDIValidationMessages.MISSING_TYPE_IN_SPECIALIZING_BEAN, CDIPreferences.MISSING_TYPE_IN_SPECIALIZING_BEAN,
+							new String[]{beanName, specializingBeanName, specializingType.getType().getElementName()},
+							bean.getSpecializesAnnotationDeclaration(), bean.getResource());
 				}
 			}
-			if(!found) {
-				addError(CDIValidationMessages.MISSING_TYPE_IN_SPECIALIZING_BEAN, CDIPreferences.MISSING_TYPE_IN_SPECIALIZING_BEAN,
-						new String[]{beanName, specializingBeanName, specializingType.getType().getElementName()},
-						bean.getSpecializesAnnotationDeclaration(), bean.getResource());
+			/*
+			 * 4.3.1. Direct and indirect specialization
+			 *  - X specializes Y and Y has a name and X declares a name explicitly, using @Named
+			 */
+			if(specializedBean.getName()!=null) {
+				IAnnotationDeclaration nameDeclaration = bean.getAnnotation(CDIConstants.NAMED_QUALIFIER_TYPE_NAME);
+				if(nameDeclaration!=null) {
+					addError(CDIValidationMessages.CONFLICTING_NAME_IN_SPECIALIZING_BEAN, CDIPreferences.CONFLICTING_NAME_IN_SPECIALIZING_BEAN,
+							new String[]{beanName, specializingBeanName},
+							nameDeclaration, bean.getResource());
+				}
 			}
-		}
-		/*
-		 * 4.3.1. Direct and indirect specialization
-		 *  - X specializes Y and Y has a name and X declares a name explicitly, using @Named
-		 */
-		if(specializingBean.getName()!=null) {
-			IAnnotationDeclaration nameDeclaration = bean.getAnnotation(CDIConstants.NAMED_QUALIFIER_TYPE_NAME);
-			if(nameDeclaration!=null) {
-				addError(CDIValidationMessages.CONFLICTING_NAME_IN_SPECIALIZING_BEAN, CDIPreferences.CONFLICTING_NAME_IN_SPECIALIZING_BEAN,
-						new String[]{beanName, specializingBeanName},
-						nameDeclaration, bean.getResource());
+			/*
+			 * 5.1.3. Inconsistent specialization
+			 *  - Suppose an enabled bean X specializes a second bean Y. If there is another enabled bean that specializes Y we say that inconsistent
+			 *    specialization exists. The container automatically detects inconsistent specialization and treats it as a deployment problem.
+			 */
+			if(bean.isEnabled() && specializedBean instanceof IClassBean) {
+				IClassBean supperClassBean = (IClassBean)specializedBean;
+				Set<? extends IClassBean> allSpecializingBeans = supperClassBean.getSpecializingBeans();
+				if(allSpecializingBeans.size()>1) {
+					StringBuffer sb = new StringBuffer(bean.getSimpleJavaName());
+					boolean moreThanTwo = false;
+					for (IClassBean specializingBean : allSpecializingBeans) {
+						if(specializingBean!=bean && specializingBean.isEnabled()) {
+							sb.append(", ").append(specializingBean.getSimpleJavaName());
+							moreThanTwo = true;
+							if(!specializingBean.getBeanClass().isReadOnly()) {
+								getValidationContext().addLinkedCoreResource(specializingBean.getResource().getFullPath().toOSString(), bean.getSourcePath(), false);
+								getValidationContext().addLinkedCoreResource(bean.getSourcePath().toOSString(), specializingBean.getResource().getFullPath(), false);
+							}
+						}
+					}
+					if(moreThanTwo && specializesDeclaration!=null) {
+						addError(CDIValidationMessages.INCONSISTENT_SPECIALIZATION, CDIPreferences.INCONSISTENT_SPECIALIZATION,
+								new String[]{sb.toString(), supperClassBean.getSimpleJavaName()},
+								specializesDeclaration, bean.getResource());
+					}
+				}
 			}
 		}
 	}
@@ -2099,7 +2125,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 		}
 
 		try {
-			annptationValidator.validateStereotypeAnnotationTypeAnnotations(stereotype, resource);
+			annotationValidator.validateStereotypeAnnotationTypeAnnotations(stereotype, resource);
 		} catch (JavaModelException e) {
 			CDICorePlugin.getDefault().logError(e);
 		}
@@ -2145,7 +2171,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 		 * Qualifier annotation type should be annotated with @Target({METHOD, FIELD, PARAMETER, TYPE})
 		 */
 		try {
-			annptationValidator.validateQualifierAnnotationTypeAnnotations(qualifier, resource);
+			annotationValidator.validateQualifierAnnotationTypeAnnotations(qualifier, resource);
 		} catch (JavaModelException e) {
 			CDICorePlugin.getDefault().logError(e);
 		}
