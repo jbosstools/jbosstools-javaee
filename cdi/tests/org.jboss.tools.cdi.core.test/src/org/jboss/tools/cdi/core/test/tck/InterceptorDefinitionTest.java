@@ -10,15 +10,18 @@
  ******************************************************************************/ 
 package org.jboss.tools.cdi.core.test.tck;
 
+
 import java.util.HashSet;
 import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.IAnnotation;
 import org.eclipse.jdt.core.IMemberValuePair;
 import org.eclipse.jdt.core.JavaModelException;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IClassBean;
+import org.jboss.tools.cdi.core.IInterceptor;
 import org.jboss.tools.cdi.core.IInterceptorBinding;
 import org.jboss.tools.cdi.core.IInterceptorBindingDeclaration;
 import org.jboss.tools.cdi.core.IStereotype;
@@ -136,6 +139,13 @@ public class InterceptorDefinitionTest extends TCKTest {
 		}
 		fail("Set of interceptor bindings should include " + className);
 		
+	}
+
+	public void testCustomInterceptor() throws CoreException {
+		String path = "JavaSource/org/jboss/jsr299/tck/tests/interceptors/definition/custom/SimpleInterceptorWithoutAnnotations.java";
+		IClassBean bean = getClassBean(path);
+		assertNotNull("Can't find the bean.", bean);
+		assertTrue("The bean is not a decorator.", bean instanceof IInterceptor);
 	}
 
 }

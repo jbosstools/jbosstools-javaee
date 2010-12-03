@@ -84,4 +84,8 @@ public class DecoratorDefinitionTest extends TCKTest {
 			old = ((CDIProject)cdiProject).replaceBeanXML(old);
 		}
 	}
+
+	public void testCustomDecorator() throws CoreException {
+		getDecorator("JavaSource/org/jboss/jsr299/tck/tests/decorators/custom/VehicleDecorator.java");
+	}
 }
