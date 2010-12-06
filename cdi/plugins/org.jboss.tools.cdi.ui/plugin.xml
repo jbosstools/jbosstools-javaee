@@ -141,6 +141,9 @@
          <description>
             Create a Qualifier Java File
          </description>
+         <keywordReference
+               id="org.jboss.tools.cdi.ui.newJava">
+         </keywordReference>
       </wizard>
 
       <wizard 
@@ -153,6 +156,9 @@
          <description>
             Create a Stereotype Java File
          </description>
+         <keywordReference
+               id="org.jboss.tools.cdi.ui.newJava">
+         </keywordReference>
       </wizard>
 
       <wizard 
@@ -165,6 +171,9 @@
          <description>
             Create a Scope Java File
          </description>
+         <keywordReference
+               id="org.jboss.tools.cdi.ui.newJava">
+         </keywordReference>
       </wizard>
 
       <wizard 
@@ -177,6 +186,9 @@
          <description>
             Create a Interceptor Binding Java File
          </description>
+         <keywordReference
+               id="org.jboss.tools.cdi.ui.newJava">
+         </keywordReference>
       </wizard>
 
       <wizard 
@@ -189,6 +201,9 @@
          <description>
             Create an Interceptor Java File
          </description>
+         <keywordReference
+               id="org.jboss.tools.cdi.ui.newJava">
+         </keywordReference>
       </wizard>
 
       <wizard 
@@ -201,10 +216,21 @@
          <description>
             Create an Decorator Java File
          </description>
+         <keywordReference
+               id="org.jboss.tools.cdi.ui.newJava">
+         </keywordReference>
       </wizard>
 
    </extension>
   
+   <extension
+   		point="org.eclipse.ui.keywords">
+      <keyword
+            label="%preferenceKeywords.newJava"
+            id="org.jboss.tools.cdi.ui.newJava"/>
+            
+    </extension>
+
       <extension
        point="org.eclipse.wst.sse.ui.completionProposal">
 	<proposalCategory
