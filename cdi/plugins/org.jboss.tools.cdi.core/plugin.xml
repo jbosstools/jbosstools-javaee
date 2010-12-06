@@ -4,7 +4,7 @@
 
    <extension
          id="cdibuilder"
-         name="CDI Builder"
+         name="CDI (Context and Dependency Injection) Builder"
          point="org.eclipse.core.resources.builders">
       <builder
             hasNature="false">
@@ -15,7 +15,7 @@
    </extension>
    <extension
          id="cdinature"
-         name="CDI Project Nature"
+         name="CDI (Context and Dependency Injection) Project Nature"
          point="org.eclipse.core.resources.natures">
       <runtime>
          <run
@@ -32,10 +32,10 @@
       <project-facet
             id="jst.cdi">
          <label>
-            Contexts and Dependency Injection
+            CDI (Contexts and Dependency Injection)
          </label>
          <description>
-            Enables the project to work with CDI           
+            Enables the project to work with Context and Dependency Injection (CDI)           
          </description>
       </project-facet>
       <project-facet-version
@@ -70,6 +70,21 @@
          </delegate>
       </action>
    </extension>
+
+  <extension
+        point="org.eclipse.wst.common.project.facet.core.presets">
+     <static-preset
+           id="jboss.jst.cdi.preset">
+	    <label>Dynamic Web Project with CDI (Context and Dependency Injection)</label>
+	    <facet id="jst.java" version="6.0"/>
+	    <facet id="jst.web" version="3.0"/>
+	    <facet id="jst.jsf" version="2.0"/>
+	    <facet id="jst.cdi" version="1.0"/>
+     	<description>
+        	Configures a Dynamic Web application to use Context and Dependency Injection (CDI)
+     	</description>
+     </static-preset>
+  </extension>
 
    <extension
          point="org.eclipse.wst.common.project.facet.core.runtimes">
