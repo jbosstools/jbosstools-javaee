@@ -20,6 +20,7 @@ import org.eclipse.jdt.core.Flags;
 import org.eclipse.jdt.core.IBuffer;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IField;
+import org.eclipse.jdt.core.Signature;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.IMarkerResolution2;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
@@ -33,7 +34,8 @@ public class MakeFieldStaticMarkerResolution implements IMarkerResolution2 {
 	private static final String PUBLIC = "public";  //$NON-NLS-1$
 	private static final String PRIVATE = "private";  //$NON-NLS-1$
 	private static final String PROTECTED = "protected";  //$NON-NLS-1$
-	private static final String STATIC = " static";  //$NON-NLS-1$
+	private static final String STATIC = "static";  //$NON-NLS-1$
+	private static final String SPACE = " ";  //$NON-NLS-1$
 	
 	private String label;
 	private IField field;
@@ -63,13 +65,17 @@ public class MakeFieldStaticMarkerResolution implements IMarkerResolution2 {
 			int position = field.getSourceRange().getOffset();
 			if((flag & Flags.AccPublic) != 0){
 				position += text.indexOf(PUBLIC)+PUBLIC.length();
-				buffer.replace(position, 0, STATIC);
+				buffer.replace(position, 0, SPACE+STATIC);
 			}else if((flag & Flags.AccPrivate) != 0){
 				position += text.indexOf(PRIVATE)+PRIVATE.length();
-				buffer.replace(position, 0, STATIC);
+				buffer.replace(position, 0, SPACE+STATIC);
 			}else if((flag & Flags.AccProtected) != 0){
 				position += text.indexOf(PROTECTED)+PROTECTED.length();
-				buffer.replace(position, 0, STATIC);
+				buffer.replace(position, 0, SPACE+STATIC);
+			}else{
+				String type = Signature.getSignatureSimpleName(field.getTypeSignature());
+				position += text.indexOf(type);
+				buffer.replace(position, 0, STATIC+SPACE);
 			}
 			
 			compilationUnit.commitWorkingCopy(false, new NullProgressMonitor());
