@@ -128,7 +128,7 @@
   
    <extension point="org.eclipse.ui.newWizards">
       <category
-            name="CDI"
+            name="CDI (Context and Dependency Injection)"
             id="org.jboss.tools.cdi.ui">
       </category>
       <wizard 
