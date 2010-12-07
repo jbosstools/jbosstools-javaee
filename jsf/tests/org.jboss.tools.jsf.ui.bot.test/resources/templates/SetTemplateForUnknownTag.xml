@@ -12,9 +12,11 @@
 Hello Demo Application
 </SPAN>
 </H1>
-<B class="__any__tag__caption" style="border: 1px solid green; color: black; font-family: Arial; -moz-user-modify: read-only;" title="h:unknowntag" >
+<B style="border: 1px solid green; -moz-user-modify: read-only;" title="h:unknowntag" >
+<B class="__any__tag__caption" style="color: black; font-family: Arial;" title="h:unknowntag" >
 myValue
-<BR style="font-style: italic; color: green; -moz-user-modify: read-only;" >
+</B>
+<BR vpe:pseudo-element="yes" style="font-style: italic; color: green; -moz-user-modify: read-only;" >
 </BR>
 </B>
 <UL style="color: red; -moz-user-modify: read-only;" title="h:messages style: color: red" >
@@ -41,4 +43,6 @@ Name:
 </TABLE>
 </DIV>
 </DIV>
+<IMG vpetemporarydndelement="true" id="dragIcon" src="file:////opt/jbdevstudio4.0.0.Beta2/studio/eclipse/plugins/org.jboss.tools.vpe_3.2.0.v201012050623R-H30-Beta2/ve/dragIcon.gif" style="position: absolute; cursor: move; left: 16px ! important; top: 77px ! important;" >
+</IMG>
 </BODY>

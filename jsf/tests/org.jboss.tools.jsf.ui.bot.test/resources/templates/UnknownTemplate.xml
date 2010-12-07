@@ -13,27 +13,29 @@ value: #{Message.header}">
 Hello Demo Application
 </SPAN>
 </H1>
-<DIV class="__any__tag__caption" style="border: 1px solid green; -moz-user-modify: read-only;" title="h:unknowntag">
+<DIV style="border: 1px solid green; -moz-user-modify: read-only;" title="h:unknowntag" >
+<DIV class="__any__tag__caption" style="" title="h:unknowntag" >
 h:unknowntag
-<BR style="font-style: italic; color: green; -moz-user-modify: read-only;">
+</DIV>
+<BR vpe:pseudo-element="yes" style="font-style: italic; color: green; -moz-user-modify: read-only;" >
 </BR>
 </DIV>
-<UL style="color: red; -moz-user-modify: read-only;" title="h:messages style: color: red">
-<LI title="h:messages style: color: red">
+<UL style="color: red; -moz-user-modify: read-only;" title="h:messages style: color: red" >
+<LI title="h:messages style: color: red" >
 Error Messages
 </LI>
 </UL>
-<FORM style="border: 1px dotted rgb(255, 102, 0); padding: 5px;" title="h:form id: greetingForm">
-<SPAN class="vpe-text" title="h:outputText value: #{Message.prompt_message}">
+<FORM style="border: 1px dotted rgb(255, 102, 0); padding: 5px;" title="h:form id: greetingForm" >
+<SPAN class="vpe-text" title="h:outputText value: #{Message.prompt_message}" >
 Name:
 </SPAN>
-<SPAN class="vpe-text" title="h:inputText value: #{user.name} required: true">
-<SPAN class="vpe-text" title="h:inputText value: #{user.name} required: true">
+<SPAN class="vpe-text" title="h:inputText value: #{user.name} required: true" >
+<SPAN class="vpe-text" title="h:inputText value: #{user.name} required: true" >
 </SPAN>
-<INPUT value="#{user.name}" title="h:inputText value: #{user.name} required: true">
+<INPUT value="#{user.name}" title="h:inputText value: #{user.name} required: true" >
 </INPUT>
 </SPAN>
-<INPUT type="button" title="h:commandButton action: hello value: Say Hello!" value="Say Hello!" style="-moz-user-modify: read-only;">
+<INPUT type="button" title="h:commandButton action: hello value: Say Hello!" value="Say Hello!" style="-moz-user-modify: read-only;" >
 </INPUT>
 </FORM>
 </DIV>
@@ -42,4 +44,6 @@ Name:
 </TABLE>
 </DIV>
 </DIV>
+<IMG vpetemporarydndelement="true" id="dragIcon" src="file:////opt/jbdevstudio4.0.0.Beta2/studio/eclipse/plugins/org.jboss.tools.vpe_3.2.0.v201012050623R-H30-Beta2/ve/dragIcon.gif" style="position: absolute; cursor: move; left: 16px ! important; top: 17px ! important;" >
+</IMG>
 </BODY>
