@@ -44,8 +44,6 @@ public class JsfUiAllTests {
 		suite.addTestSuite(CASuggestsNotOnlyELProposalsJBIDE2437Test.class);
 		suite.addTestSuite(CAUnnecessaryElementsForDirAttributeInXHTMLPageJBIDE1813Test.class);
 		suite.addTestSuite(CAVarAttributeForDataTableTagJBIDE2016.class);
-		suite.addTestSuite(CssClassNewWizardTest.class);
-		suite.addTestSuite(CSSStyleDialogTest.class);
 		suite.addTestSuite(FacesConfigNewWizardTest.class);
 		suite.addTestSuite(FasesConfigEditorTest.class);
 		suite.addTestSuite(PropertiesNewWizardTest.class);
