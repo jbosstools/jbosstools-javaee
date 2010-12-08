@@ -10,6 +10,8 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.internal.core.project.facet;
 
+import java.util.Set;
+
 import org.eclipse.wst.common.componentcore.datamodel.FacetInstallDataModelProvider;
 
 /**
@@ -19,6 +21,13 @@ import org.eclipse.wst.common.componentcore.datamodel.FacetInstallDataModelProvi
  * 
  */
 public class CDIFacetInstallDataModelProvider extends FacetInstallDataModelProvider implements ICDIFacetDataModelProperties {
+
+	public Set getPropertyNames() {
+		Set<String> names = super.getPropertyNames();//super.getPropertyNames();
+		names.add(GENERATE_BEANS_XML);
+		return names;
+	}
+
 	/**
 	 * Returns default value for a given property
 	 * 
@@ -28,6 +37,8 @@ public class CDIFacetInstallDataModelProvider extends FacetInstallDataModelProvi
 	public Object getDefaultProperty(String propertyName) {
 		if (propertyName.equals(FACET_ID)) {
 			return ICDIFacetDataModelProperties.CDI_FACET_ID;
+		} else if (GENERATE_BEANS_XML.equals(propertyName)) {
+			return Boolean.TRUE;
 		}
 		return super.getDefaultProperty(propertyName);
 	}

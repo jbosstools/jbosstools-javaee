@@ -42,10 +42,22 @@
             facet="jst.cdi"
             version="1.0">
          <constraint>
-           <requires
-    	         facet="jst.java"
-	             version="[5.0">
-           </requires>
+         	<or>
+                <requires soft="true"
+           	         facet="jst.ejb"
+       	             version="[3.0">
+   	            </requires>
+                <and>
+	               <requires soft="true"
+            	         facet="jst.web"
+        	             version="[2.5">
+    	           </requires>
+	               <requires
+            	         facet="jst.java"
+        	             version="[5.0">
+    	           </requires>
+	            </and>
+         	</or>
          </constraint>
       </project-facet-version>
       <action

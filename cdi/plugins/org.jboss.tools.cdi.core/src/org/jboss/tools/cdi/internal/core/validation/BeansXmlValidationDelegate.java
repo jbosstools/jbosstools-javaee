@@ -46,6 +46,7 @@ import org.jboss.tools.cdi.core.IStereotype;
 import org.jboss.tools.cdi.core.preferences.CDIPreferences;
 import org.jboss.tools.common.EclipseUtil;
 import org.jboss.tools.common.model.util.EclipseJavaUtil;
+import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -268,7 +269,7 @@ public class BeansXmlValidationDelegate extends CDICoreValidationDelegate {
 			IStatus status = JavaConventions.validateJavaTypeName(typeName, CompilerOptions.VERSION_1_7, CompilerOptions.VERSION_1_7);
 			if(status.getSeverity()!=IStatus.ERROR) {
 				String packagePath = typeName.replace('.', '/');
-				Set<IFolder> sources = validator.getSourceFolders(beansXml.getProject());
+				Set<IFolder> sources = EclipseResourceUtil.getSourceFolders(beansXml.getProject());
 				for (IFolder source : sources) {
 					IPath path = source.getFullPath().append(packagePath + ".java"); //$NON-NLS-1$
 					validator.getValidationContext().addLinkedCoreResource(beansXml.getFullPath().toOSString(), path, false);

@@ -34,10 +34,8 @@ import org.eclipse.jdt.core.Flags;
 import org.eclipse.jdt.core.IAnnotation;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IField;
-import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IMemberValuePair;
 import org.eclipse.jdt.core.IMethod;
-import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.ISourceRange;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.ITypeParameter;
@@ -89,8 +87,8 @@ import org.jboss.tools.cdi.internal.core.impl.CDIProject;
 import org.jboss.tools.cdi.internal.core.impl.ParametedType;
 import org.jboss.tools.cdi.internal.core.impl.Parameter;
 import org.jboss.tools.cdi.internal.core.impl.SessionBean;
-import org.jboss.tools.common.EclipseUtil;
 import org.jboss.tools.common.model.util.EclipseJavaUtil;
+import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.text.ITextSourceReference;
 import org.jboss.tools.jst.web.kb.internal.validation.ContextValidationHelper;
 import org.jboss.tools.jst.web.kb.internal.validation.ValidatorManager;
@@ -359,33 +357,12 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 
 	Set<IFolder> sourceFolders = null;
 
-	static Set<IFolder> getSourceFolders(IProject project) {
-		Set<IFolder> folders = new HashSet<IFolder>();
-		IPackageFragmentRoot[] roots;
-		try {
-			// From source folders
-			IJavaProject javaProject = EclipseUtil.getJavaProject(project);
-			roots = javaProject.getPackageFragmentRoots();
-			for (int i = 0; i < roots.length; i++) {
-				if (roots[i].getKind() == IPackageFragmentRoot.K_SOURCE) {
-					IResource source = roots[i].getCorrespondingResource();
-					if(source instanceof IFolder) {
-						folders.add((IFolder)source);
-					}
-				}
-			}
-		} catch (JavaModelException e) {
-			CDICorePlugin.getDefault().logError(e);
-		}
-		return folders;
-	}
-
 	Set<IFolder> getSourceFoldersForProjectsSet() {
 		if(sourceFolders==null) {
 			sourceFolders = new HashSet<IFolder>();
 			List<IProject> projects = projectSet.getAllProjests();
 			for (IProject project : projects) {
-				sourceFolders.addAll(getSourceFolders(project));
+				sourceFolders.addAll(EclipseResourceUtil.getSourceFolders(project));
 			}
 		}
 		return sourceFolders;

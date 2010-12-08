@@ -10,6 +10,8 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.core;
 
+import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -19,9 +21,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.tools.ant.util.FileUtils;
+import org.eclipse.core.resources.IContainer;
+import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.jdt.core.Flags;
 import org.eclipse.jdt.core.IAnnotatable;
 import org.eclipse.jdt.core.IAnnotation;
@@ -35,33 +45,58 @@ import org.eclipse.jdt.core.ITypeParameter;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.core.Signature;
 import org.eclipse.jface.operation.IRunnableWithProgress;
+import org.eclipse.jst.j2ee.project.facet.IJ2EEFacetConstants;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.wst.common.componentcore.ComponentCore;
+import org.eclipse.wst.common.componentcore.resources.IVirtualComponent;
+import org.eclipse.wst.common.componentcore.resources.IVirtualFolder;
+import org.eclipse.wst.common.project.facet.core.IFacetedProject;
+import org.eclipse.wst.common.project.facet.core.IProjectFacetVersion;
+import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
 import org.eclipse.wst.validation.internal.plugin.ValidationPlugin;
 import org.jboss.tools.cdi.internal.core.impl.ClassBean;
 import org.jboss.tools.common.EclipseUtil;
 import org.jboss.tools.common.model.util.EclipseJavaUtil;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.text.ITextSourceReference;
+import org.jboss.tools.common.zip.UnzipOperation;
 import org.jboss.tools.jst.web.kb.IKbProject;
+import org.osgi.framework.Bundle;
 
 /**
  * @author Alexey Kazakov
  */
 public class CDIUtil {
 
+	private static File TEMPLATE_FOLDER;
+
 	/**
 	 * Adds CDI and KB builders to the project.
 	 * 
 	 * @param project
+	 * @param genearteBeansXml
 	 */
-	public static void enableCDI(IProject project) {
+	public static void enableCDI(IProject project, boolean genearteBeansXml, IProgressMonitor monitor) {
 		try {
-			EclipseUtil.addNatureToProject(project, CDICoreNature.NATURE_ID);
 			if (!project.hasNature(IKbProject.NATURE_ID)) {
 				EclipseResourceUtil.addNatureToProject(project, IKbProject.NATURE_ID);
 			}
+			EclipseUtil.addNatureToProject(project, CDICoreNature.NATURE_ID);
 			EclipseResourceUtil.addBuilderToProject(project, ValidationPlugin.VALIDATION_BUILDER_ID);
+			if(genearteBeansXml) {
+				File beansXml = getBeansXml(project);
+				if(beansXml!=null && !beansXml.exists()) {
+					// Create an empty beans.xml
+					beansXml.getParentFile().mkdir();
+					try {
+						FileUtils.getFileUtils().copyFile(new File(getTemplatesFolder(), "beans.xml"), beansXml, null, false, false);
+					} catch (IOException e) {
+						CDICorePlugin.getDefault().logError(e);
+					}
+				}
+				project.refreshLocal(IResource.DEPTH_INFINITE, monitor);
+			}
 		} catch (CoreException e) {
 			CDICorePlugin.getDefault().logError(e);
 		}
@@ -78,6 +113,80 @@ public class CDIUtil {
 		} catch (CoreException e) {
 			CDICorePlugin.getDefault().logError(e);
 		}
+	}
+
+	/**
+	 * Calculate path to templates folder
+	 *  
+	 * @return path to templates
+	 * @throws IOException if templates folder not found
+	 */
+	public static File getTemplatesFolder() throws IOException {
+		if(TEMPLATE_FOLDER==null) {
+			Bundle bundle = CDICorePlugin.getDefault().getBundle();
+			String version = bundle.getVersion().toString();
+			IPath stateLocation = Platform.getStateLocation(bundle);
+			File templatesDir = FileLocator.getBundleFile(bundle);
+			if(templatesDir.isFile()) {
+				File toCopy = new File(stateLocation.toFile(),version);
+				if(!toCopy.exists()) {
+					toCopy.mkdirs();
+					UnzipOperation unZip = new UnzipOperation(templatesDir.getAbsolutePath());
+					unZip.execute(toCopy,"templates.*");
+				}
+				templatesDir = toCopy;
+			}
+			TEMPLATE_FOLDER = new File(templatesDir,"templates");
+		}
+		return TEMPLATE_FOLDER;
+	}
+
+	private static final String BEANS_XML_FILE_NAME = "beans.xml"; //$NON-NLS-1$
+
+	/**
+	 * Returns java.io.File which represents beans.xml for the project.
+	 * If the project is a faceted Java project then <src>/META-INF/beans.xml will be return.
+	 * If there are a few source folders then the folder which contains META-INF folder will be return.
+	 * If there are a few source folders but no any META-INF in them then null will be return.
+	 * If the project is a faceted WAR then /<WebContent>/WEB-INF/beans.xml will be return.
+	 * The beans.xml may or may not exist.
+	 * @param project the project
+	 * @return java.io.File which represents beans.xml for the project.
+	 * @throws CoreException 
+	 */
+	public static File getBeansXml(IProject project) throws CoreException {
+		IFacetedProject facetedProject = ProjectFacetsManager.create(project);
+		if(facetedProject!=null) {
+			IProjectFacetVersion webVersion = facetedProject.getProjectFacetVersion(IJ2EEFacetConstants.DYNAMIC_WEB_FACET);
+			if(webVersion!=null) {
+				// WAR
+				IVirtualComponent com = ComponentCore.createComponent(project);
+				if(com!=null && com.getRootFolder()!=null) {
+					IVirtualFolder webInf = com.getRootFolder().getFolder(new Path("/WEB-INF")); //$NON-NLS-1$
+					if(webInf!=null) {
+						IContainer webInfFolder = webInf.getUnderlyingFolder();
+						if(webInfFolder.isAccessible()) {
+							File file = new File(webInfFolder.getLocation().toFile(), BEANS_XML_FILE_NAME);
+							return file;
+						}
+					}
+				}
+			} else if(facetedProject.getProjectFacetVersion(ProjectFacetsManager.getProjectFacet(IJ2EEFacetConstants.JAVA))!=null) {
+				// JAR
+				Set<IFolder> sources = EclipseResourceUtil.getSourceFolders(project);
+				if(sources.size()==1) {
+					return new File(sources.iterator().next().getLocation().toFile(), "META-INF/beans.xml"); //$NON-NLS-1$
+				} else {
+					for (IFolder src : sources) {
+						IFolder metaInf = src.getFolder("META-INF");
+						if(metaInf!=null && metaInf.isAccessible()) {
+							return new File(metaInf.getLocation().toFile(), BEANS_XML_FILE_NAME);
+						}
+					}
+				}
+			}
+		}
+		return null;
 	}
 
 	/**

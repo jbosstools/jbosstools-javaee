@@ -18,6 +18,7 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
 import org.eclipse.wst.common.project.facet.core.IDelegate;
 import org.eclipse.wst.common.project.facet.core.IProjectFacetVersion;
 import org.jboss.tools.cdi.core.CDICoreMessages;
@@ -48,7 +49,9 @@ public class CDIFacetInstallDelegate implements ILogListener, IDelegate,
 	 */
 	public void execute(IProject project, IProjectFacetVersion fv,
 			Object config, IProgressMonitor monitor) throws CoreException {
-		CDIUtil.enableCDI(project);
+		IDataModel model = (IDataModel) config;
+		boolean generateBeansXml = model.getBooleanProperty(GENERATE_BEANS_XML);
+		CDIUtil.enableCDI(project, generateBeansXml, monitor);
 		if(errorOccurs) {
 			errorOccurs = false;
 			Display.getDefault().syncExec(
