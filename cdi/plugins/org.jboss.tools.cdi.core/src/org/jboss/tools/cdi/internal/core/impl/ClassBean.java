@@ -125,6 +125,17 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 	}
 
 	public void setSuperClassBean(ClassBean bean) {
+		HashSet<ClassBean> beans = new HashSet<ClassBean>();
+		beans.add(this);
+		ClassBean b = bean;
+		while(b != null) {
+			if(beans.contains(b)) {
+				bean = null;
+				break;
+			}
+			b = b.getSuperClassBean();
+		}		
+		
 		superClassBean = bean;
 		if(superClassBean != null && isSpecializing()) {
 			superClassBean.addSpecializingClassBean(this);
