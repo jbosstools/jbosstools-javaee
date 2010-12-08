@@ -19,6 +19,7 @@ abstract public class CDIValidationErrorManager extends ValidationErrorManager {
 	public static final String MESSAGE_ID_ATTRIBUTE_NAME = "CDI_message_id"; //$NON-NLS-1$
 
 	public static final int ILLEGAL_PRODUCER_FIELD_IN_SESSION_BEAN_ID = 1;
+	public static final int ILLEGAL_PRODUCER_METHOD_IN_SESSION_BEAN_ID = 2;
 
 	/*
 	 * (non-Javadoc)

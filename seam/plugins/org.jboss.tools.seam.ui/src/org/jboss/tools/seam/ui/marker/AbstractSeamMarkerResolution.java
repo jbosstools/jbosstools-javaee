@@ -28,7 +28,6 @@ import org.eclipse.jdt.core.IImportDeclaration;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IType;
-import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.IMarkerResolution2;
 import org.jboss.tools.common.EclipseUtil;
@@ -66,7 +65,7 @@ public abstract class AbstractSeamMarkerResolution implements
 			IType type = compilationUnit.findPrimaryType();
 			if(javaElement != null && type != null){
 				if(javaElement instanceof IAnnotatable){
-					IAnnotation annotation = findAnnotation(type, (IAnnotatable)javaElement);
+					IAnnotation annotation = EclipseJavaUtil.findAnnotation(type, (IAnnotatable)javaElement, qualifiedName);
 					if(annotation != null){
 						IBuffer buffer = compilationUnit.getBuffer();
 						
@@ -224,7 +223,7 @@ public abstract class AbstractSeamMarkerResolution implements
 			IJavaElement javaElement = compilationUnit.getElementAt(start);
 			IType type = getType(javaElement);
 			if(type != null){
-				IAnnotation annotation = findAnnotation(type, type);
+				IAnnotation annotation = EclipseJavaUtil.findAnnotation(type, type, qualifiedName);
 				if(annotation != null){
 					IImportDeclaration importDeclaration = compilationUnit.getImport(qualifiedName);
 					if(importDeclaration == null || !importDeclaration.exists())
@@ -253,33 +252,6 @@ public abstract class AbstractSeamMarkerResolution implements
 	}
 	
 	
-	private IAnnotation findAnnotation(IType sourceType, IAnnotatable member) {
-		try {
-			IAnnotation[] annotations = member.getAnnotations();
-			String simpleAnnotationTypeName = qualifiedName;
-			int lastDot = qualifiedName.lastIndexOf('.');
-			if(lastDot>-1) {
-				simpleAnnotationTypeName = simpleAnnotationTypeName.substring(lastDot + 1);
-			}
-			for (IAnnotation annotation : annotations) {
-				if(qualifiedName.equals(annotation.getElementName())) {
-					return annotation;
-				}
-				if(simpleAnnotationTypeName.equals(annotation.getElementName())) {
-					String fullAnnotationclassName = EclipseJavaUtil.resolveType(sourceType, simpleAnnotationTypeName);
-					if(fullAnnotationclassName!=null) {
-						IType annotationType = sourceType.getJavaProject().findType(fullAnnotationclassName);
-						if(annotationType!=null && annotationType.getFullyQualifiedName().equals(qualifiedName)) {
-							return annotation;
-						}
-					}
-				}
-			}
-		} catch (JavaModelException e) {
-			SeamGuiPlugin.getDefault().logError(e);
-		}
-		return null;
-	}
 
 	public String getLabel() {
 		return label;

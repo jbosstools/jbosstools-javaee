@@ -19,6 +19,7 @@ import org.eclipse.ui.IMarkerResolution;
 import org.eclipse.ui.ide.IDE;
 import org.jboss.tools.cdi.core.test.tck.validation.ValidationTest;
 import org.jboss.tools.cdi.ui.marker.MakeFieldStaticMarkerResolution;
+import org.jboss.tools.cdi.ui.marker.MakeMethodBusinessMarkerResolution;
 
 /**
  * @author Daniel Azarov
@@ -53,5 +54,30 @@ public class CDIMarkerResolutionTest  extends ValidationTest {
 		assertTrue("Quick fix: \"Make field static\" doesn't exist.", found);
 	}
 	
+	public void testMakeMethodBusinessResolution() throws CoreException {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/implementation/producer/method/broken/enterprise/nonbusiness/FooProducer.java");
+		
+		assertTrue("File - "+file.getFullPath()+" must be exist",file.exists());
+		
+		IMarker[] markers = file.findMarkers(MARKER_TYPE, true,	IResource.DEPTH_INFINITE);
+		
+		boolean found = false;
+		for (int i = 0; i < markers.length; i++) {
+			IMarker marker = markers[i];
+			IMarkerResolution[] resolutions = IDE.getMarkerHelpRegistry()
+					.getResolutions(marker);
+			for (int j = 0; j < resolutions.length; j++) {
+				IMarkerResolution resolution = resolutions[j];
+				if (resolution instanceof MakeMethodBusinessMarkerResolution) {
+					found = true;
+					break;
+				}
+			}
+			if (found) {
+				break;
+			}
+		}
+		assertTrue("Quick fix: \"Make method business\" doesn't exist.", found);
+	}
 
 }

@@ -1170,7 +1170,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 					IMethod method = CDIUtil.getBusinessMethodDeclaration((SessionBean)classBean, producerMethod);
 					if(method==null) {
 						String bindedErrorMessage = NLS.bind(CDIValidationMessages.ILLEGAL_PRODUCER_METHOD_IN_SESSION_BEAN, new String[]{producerMethod.getMethod().getElementName(), producer.getBeanClass().getElementName()});
-						addError(bindedErrorMessage, CDIPreferences.ILLEGAL_PRODUCER_METHOD_IN_SESSION_BEAN, producer.getProducesAnnotation(), producer.getResource());
+						addError(bindedErrorMessage, CDIPreferences.ILLEGAL_PRODUCER_METHOD_IN_SESSION_BEAN, producer.getProducesAnnotation(), producer.getResource(), ILLEGAL_PRODUCER_METHOD_IN_SESSION_BEAN_ID);
 						saveAllSuperTypesAsLinkedResources(classBean);
 					} else if (method != producerMethod.getMethod()) {
 						getValidationContext().addLinkedCoreResource(classBean.getSourcePath().toOSString(), method.getResource().getFullPath(), false);

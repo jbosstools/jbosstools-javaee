@@ -10,20 +10,29 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.ui.marker;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jdt.core.Flags;
+import org.eclipse.jdt.core.IAnnotation;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IField;
 import org.eclipse.jdt.core.IJavaElement;
+import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IType;
+import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.ui.IMarkerResolution;
 import org.eclipse.ui.IMarkerResolutionGenerator2;
+import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.internal.core.validation.CDIValidationErrorManager;
 import org.jboss.tools.cdi.ui.CDIUIPlugin;
 import org.jboss.tools.common.EclipseUtil;
+import org.jboss.tools.common.model.util.EclipseJavaUtil;
+import org.jboss.tools.common.model.util.EclipseResourceUtil;
 
 /**
  * @author Daniel Azarov
@@ -70,25 +79,72 @@ public class CDIProblemMarkerResolutionGenerator implements
 						new MakeFieldStaticMarkerResolution(field, file)
 					};
 				}
+			}else if (messageId == CDIValidationErrorManager.ILLEGAL_PRODUCER_METHOD_IN_SESSION_BEAN_ID) {
+				IMethod method = findMethod(file, start);
+				if(method != null){
+					List<IType> types = findLocalAnnotattedInterfaces(method);
+					if(types.size() == 0){
+						return new IMarkerResolution[] {
+							new MakeMethodPublicMarkerResolution(method, file)
+						};
+					}else{
+						IMarkerResolution[] resolutions = new IMarkerResolution[types.size()];
+						for(int i = 0; i < types.size(); i++){
+							resolutions[i] = new MakeMethodBusinessMarkerResolution(method, types.get(i), file);
+						}
+						return resolutions;
+					}
+				}
 			}
 		}
 		return new IMarkerResolution[] {};
 	}
 	
-	private IField findNonStaticField(IFile file, int start){
+	private IMethod findMethod(IFile file, int start){
 		try{
-		ICompilationUnit original = EclipseUtil.getCompilationUnit(file);
-		ICompilationUnit compilationUnit = original.getWorkingCopy(new NullProgressMonitor());
-		
-		IJavaElement javaElement = compilationUnit.getElementAt(start);
-		IType type = compilationUnit.findPrimaryType();
-		if(javaElement != null && type != null){
-			if(javaElement instanceof IField){
-				IField field = (IField)javaElement;
-				if((field.getFlags() & Flags.AccStatic) == 0)
-					return field;
+			ICompilationUnit original = EclipseUtil.getCompilationUnit(file);
+			ICompilationUnit compilationUnit = original.getWorkingCopy(new NullProgressMonitor());
+			
+			IJavaElement javaElement = compilationUnit.getElementAt(start);
+			if(javaElement != null && javaElement instanceof IMethod){
+				IMethod method = (IMethod)javaElement;
+				if(!method.isBinary())
+					return method;
+			}
+		}catch(CoreException ex){
+			CDIUIPlugin.getDefault().logError(ex);
+		}
+		return null;
+	}
+	
+	private List<IType> findLocalAnnotattedInterfaces(IMethod method) throws JavaModelException{
+		ArrayList<IType> types = new ArrayList<IType>();
+		IType type = method.getDeclaringType();
+		String[] is = type.getSuperInterfaceNames();
+		for(int i = 0; i < is.length; i++){
+			String f = EclipseJavaUtil.resolveType(type, is[i]);
+			IType t = EclipseResourceUtil.getValidType(type.getJavaProject().getProject(), f);
+			if(t != null && t.isInterface()){
+				IAnnotation localAnnotation = EclipseJavaUtil.findAnnotation(t, t, CDIConstants.LOCAL_ANNOTATION_TYPE_NAME);
+				if(localAnnotation != null)
+					types.add(t);
 			}
 		}
+		return types;
+	}
+	
+	private IField findNonStaticField(IFile file, int start){
+		try{
+			ICompilationUnit original = EclipseUtil.getCompilationUnit(file);
+			ICompilationUnit compilationUnit = original.getWorkingCopy(new NullProgressMonitor());
+			
+			IJavaElement javaElement = compilationUnit.getElementAt(start);
+			
+			if(javaElement != null && javaElement instanceof IField){
+				IField field = (IField)javaElement;
+				if((field.getFlags() & Flags.AccStatic) == 0 && !field.isBinary())
+					return field;
+			}
 		}catch(CoreException ex){
 			CDIUIPlugin.getDefault().logError(ex);
 		}
