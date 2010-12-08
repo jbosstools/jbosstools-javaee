@@ -1,4 +1,4 @@
-package org.jboss.tools.cdi.ui.test.references;
+package org.jboss.tools.cdi.ui.test.preferences;
 
 import junit.framework.TestCase;
 

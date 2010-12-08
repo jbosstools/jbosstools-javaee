@@ -62,5 +62,8 @@ public class CDIUIMessages extends NLS{
 	public static String MESSAGE_INTERCEPTOR_BINDINGS_EMPTY;
 	
 	public static String MAKE_FIELD_STATIC_MARKER_RESOLUTION_TITLE;
-	
+
+	public static String CDI_GENERATE_BEANS_XML;
+	public static String CDI_INSTALL_WIZARD_PAGE_FACET;
+	public static String CDI_INSTALL_WIZARD_PAGE_CONFIGURE;
 }

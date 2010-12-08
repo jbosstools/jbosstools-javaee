@@ -15,6 +15,7 @@ import java.beans.PropertyChangeListener;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -22,6 +23,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.CDIUtil;
+import org.jboss.tools.cdi.ui.CDIUIMessages;
 import org.jboss.tools.common.ui.preferences.SettingsPage;
 import org.jboss.tools.common.ui.widget.editor.IFieldEditor;
 import org.jboss.tools.common.ui.widget.editor.IFieldEditorFactory;
@@ -35,6 +37,8 @@ public class CDISettingsPreferencePage extends SettingsPage {
 
 	private IProject project;
 	private boolean cdiEnabled;
+	private boolean initialState;
+	private boolean generateBeansXml;
 
 	/*
 	 * (non-Javadoc)
@@ -69,8 +73,9 @@ public class CDISettingsPreferencePage extends SettingsPage {
 
 		generalGroup.setLayout(gridLayout);
 
+		initialState = isCDIEnabled(project);
 		IFieldEditor cdiSupportCheckBox = IFieldEditorFactory.INSTANCE.createCheckboxEditor(
-				CDIPreferencesMessages.CDI_SETTINGS_PREFERENCE_PAGE_CDI_SUPPORT, CDIPreferencesMessages.CDI_SETTINGS_PREFERENCE_PAGE_CDI_SUPPORT, isCDIEnabled(project));
+				CDIPreferencesMessages.CDI_SETTINGS_PREFERENCE_PAGE_CDI_SUPPORT, CDIPreferencesMessages.CDI_SETTINGS_PREFERENCE_PAGE_CDI_SUPPORT, initialState);
 		cdiSupportCheckBox.addPropertyChangeListener(new PropertyChangeListener() {
 			public void propertyChange(PropertyChangeEvent evt) {
 				Object value = evt.getNewValue();
@@ -83,9 +88,30 @@ public class CDISettingsPreferencePage extends SettingsPage {
 		cdiEnabled = isCDIEnabled(project);
 		registerEditor(cdiSupportCheckBox, generalGroup);
 
+		generateBeansXml = false;
+
+//		IFieldEditor generateBeansXmlCheckBox = IFieldEditorFactory.INSTANCE.createCheckboxEditor(
+//				CDIUIMessages.CDI_GENERATE_BEANS_XML, CDIUIMessages.CDI_GENERATE_BEANS_XML, generateBeansXml);
+//		generateBeansXmlCheckBox.addPropertyChangeListener(new PropertyChangeListener() {
+//			public void propertyChange(PropertyChangeEvent evt) {
+//				Object value = evt.getNewValue();
+//				if (value instanceof Boolean) {
+//					boolean v = ((Boolean) value).booleanValue();
+//					generateBeansXml = v;
+//				}
+//			}
+//		});
+
+//		registerEditor(generateBeansXmlCheckBox, generalGroup);
+
 		validate();
+		checkGenerateBeansXml();
 
 		return root;
+	}
+
+	private void checkGenerateBeansXml() {
+//		getEditor(CDIUIMessages.CDI_GENERATE_BEANS_XML).setEnabled(!initialState && cdiEnabled);
 	}
 
 	/*
@@ -95,6 +121,7 @@ public class CDISettingsPreferencePage extends SettingsPage {
 	@Override
 	protected void performDefaults() {
 		getEditor(CDIPreferencesMessages.CDI_SETTINGS_PREFERENCE_PAGE_CDI_SUPPORT).setValue(isCDIEnabled(project));
+		getEditor(CDIUIMessages.CDI_GENERATE_BEANS_XML).setValue(true);
 		validate();
 	}
 
@@ -104,10 +131,12 @@ public class CDISettingsPreferencePage extends SettingsPage {
 	 */
 	@Override
 	public boolean performOk() {
-		if(isCDIEnabled()) {
-			addCDISupport(project);
-		} else {
-			removeCDISupport(project);
+		if(isCDIEnabled()!=initialState) {
+			if(isCDIEnabled()) {
+				addCDISupport(project);
+			} else {
+				removeCDISupport(project);
+			}
 		}
 		return true;
 	}
@@ -116,7 +145,7 @@ public class CDISettingsPreferencePage extends SettingsPage {
 		if(project==null) {
 			return;
 		}
-		CDIUtil.enableCDI(project);
+		CDIUtil.enableCDI(project, generateBeansXml, new NullProgressMonitor());
 	}
 
 	private void removeCDISupport(IProject project) {
@@ -134,6 +163,7 @@ public class CDISettingsPreferencePage extends SettingsPage {
 	public void setEnabledCDISuport(boolean enabled) {
 		cdiEnabled = enabled;
 		editorRegistry.get(CDIPreferencesMessages.CDI_SETTINGS_PREFERENCE_PAGE_CDI_SUPPORT).setValue(enabled);
+		checkGenerateBeansXml();
 	}
 
 	/*
