@@ -15,6 +15,8 @@ import junit.framework.TestSuite;
 
 import org.eclipse.jdt.internal.core.JavaModelManager;
 import org.jboss.tools.cdi.core.test.ca.BeansXmlCATest;
+import org.jboss.tools.cdi.core.test.project.EnableCDISupportForJarTest;
+import org.jboss.tools.cdi.core.test.project.EnableCDISupportForWarTest;
 import org.jboss.tools.cdi.core.test.tck.AssignabilityOfRawAndParameterizedTypesTest;
 import org.jboss.tools.cdi.core.test.tck.BeanDefinitionTest;
 import org.jboss.tools.cdi.core.test.tck.BeanSpecializationTest;
@@ -52,8 +54,7 @@ public class CDICoreAllTests {
 	public static Test suite() {
 		// it could be done here because it is not needed to be enabled back
 		JavaModelManager.getIndexManager().disable();
-		
-		
+
 		TestSuite suiteAll = new TestSuite("CDI Core Tests");
 
 		TestSuite suite = new TestSuite("TCK Tests");
@@ -87,9 +88,11 @@ public class CDICoreAllTests {
 		suite.addTestSuite(AnnotationsValidationTest.class);
 		suite.addTestSuite(CoreValidationTest.class);
 		suite.addTestSuite(SelectedAlternativeTest.class);
-		
+
 		suiteAll.addTestSuite(BeansXMLTest.class);
 		suiteAll.addTestSuite(DependentProjectTest.class);
+		suiteAll.addTestSuite(EnableCDISupportForWarTest.class);
+		suiteAll.addTestSuite(EnableCDISupportForJarTest.class);
 		suiteAll.addTest(new CDICoreTestSetup(suite));
 
 		return suiteAll;
