@@ -66,11 +66,6 @@ public class CDIProblemMarkerResolutionGenerator implements
 			return new IMarkerResolution[] {};
 		int start = attribute.intValue();
 
-		attribute = ((Integer) marker.getAttribute(IMarker.CHAR_END));
-		if (attribute == null)
-			return new IMarkerResolution[] {};
-		int end = attribute.intValue();
-
 		if (JAVA_EXTENSION.equals(file.getFileExtension())) {
 			if (messageId == CDIValidationErrorManager.ILLEGAL_PRODUCER_FIELD_IN_SESSION_BEAN_ID) {
 				IField field = findNonStaticField(file, start);
@@ -88,10 +83,11 @@ public class CDIProblemMarkerResolutionGenerator implements
 							new MakeMethodPublicMarkerResolution(method, file)
 						};
 					}else{
-						IMarkerResolution[] resolutions = new IMarkerResolution[types.size()];
+						IMarkerResolution[] resolutions = new IMarkerResolution[types.size()+1];
 						for(int i = 0; i < types.size(); i++){
 							resolutions[i] = new MakeMethodBusinessMarkerResolution(method, types.get(i), file);
 						}
+						resolutions[types.size()] = new AddLocalBeanMarkerResolution(method, file);
 						return resolutions;
 					}
 				}

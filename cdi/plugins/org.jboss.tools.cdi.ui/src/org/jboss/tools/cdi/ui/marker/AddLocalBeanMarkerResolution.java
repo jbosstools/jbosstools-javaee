@@ -11,23 +11,23 @@
 package org.jboss.tools.cdi.ui.marker;
 
 import java.text.MessageFormat;
-import java.util.HashSet;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jdt.core.Flags;
+import org.eclipse.jdt.core.IAnnotation;
 import org.eclipse.jdt.core.IBuffer;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IImportDeclaration;
 import org.eclipse.jdt.core.IMethod;
-import org.eclipse.jdt.core.IPackageDeclaration;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.core.Signature;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.IMarkerResolution2;
+import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
 import org.jboss.tools.cdi.ui.CDIUIPlugin;
 import org.jboss.tools.common.EclipseUtil;
@@ -36,43 +36,19 @@ import org.jboss.tools.common.model.util.EclipseJavaUtil;
 /**
  * @author Daniel Azarov
  */
-public class MakeMethodBusinessMarkerResolution implements IMarkerResolution2 {
+public class AddLocalBeanMarkerResolution implements IMarkerResolution2 {
 	private static final String PUBLIC = "public";  //$NON-NLS-1$
 	private static final String PRIVATE = "private";  //$NON-NLS-1$
 	private static final String PROTECTED = "protected";  //$NON-NLS-1$
 	private static final String SPACE = " ";  //$NON-NLS-1$
-	private static final String DOT = ".";  //$NON-NLS-1$
-	
-	static final HashSet<String> primitives = new HashSet<String>();
-	static{
-		primitives.add("int");  //$NON-NLS-1$
-		primitives.add("java.lang.Integer");  //$NON-NLS-1$
-		primitives.add("char");  //$NON-NLS-1$
-		primitives.add("java.lang.Character");  //$NON-NLS-1$
-		primitives.add("boolean");  //$NON-NLS-1$
-		primitives.add("java.lang.Boolean");  //$NON-NLS-1$
-		primitives.add("short");  //$NON-NLS-1$
-		primitives.add("java.lang.Short");  //$NON-NLS-1$
-		primitives.add("long");  //$NON-NLS-1$
-		primitives.add("java.lang.Long");  //$NON-NLS-1$
-		primitives.add("float");  //$NON-NLS-1$
-		primitives.add("java.lang.Float");  //$NON-NLS-1$
-		primitives.add("double");  //$NON-NLS-1$
-		primitives.add("java.lang.Double");  //$NON-NLS-1$
-		primitives.add("byte");  //$NON-NLS-1$
-		primitives.add("java.lang.Byte");  //$NON-NLS-1$
-		primitives.add("java.lang.String");  //$NON-NLS-1$
-	}
 	
 	private String label;
 	private IMethod method;
-	private IType localInterface;
 	private IFile file;
 	
-	public MakeMethodBusinessMarkerResolution(IMethod method, IType localInterface, IFile file){
-		this.label = MessageFormat.format(CDIUIMessages.MAKE_METHOD_BUSINESS_MARKER_RESOLUTION_TITLE, new Object[]{method.getElementName(), localInterface.getElementName()});
+	public AddLocalBeanMarkerResolution(IMethod method, IFile file){
+		this.label = MessageFormat.format(CDIUIMessages.ADD_LOCAL_BEAN_MARKER_RESOLUTION_TITLE, new Object[]{method.getDeclaringType().getElementName()});
 		this.method = method;
-		this.localInterface = localInterface;
 		this.file = file;
 	}
 
@@ -107,77 +83,35 @@ public class MakeMethodBusinessMarkerResolution implements IMarkerResolution2 {
 				buffer.replace(position, 0, PUBLIC+SPACE);
 			}
 			
-			compilationUnit.commitWorkingCopy(false, new NullProgressMonitor());
-			compilationUnit.discardWorkingCopy();
+			synchronized(compilationUnit) {
+				compilationUnit.reconcile(ICompilationUnit.NO_AST, true, null, null);
+			}
+			
+			// add @LocalBean annotation
+			IType type = compilationUnit.getType(method.getDeclaringType().getElementName());
+			
+			IAnnotation localAnnotation = EclipseJavaUtil.findAnnotation(type, type, CDIConstants.LOCAL_BEAN_ANNOTATION_TYPE_NAME);
+			if(localAnnotation == null){
+				addImport(CDIConstants.LOCAL_BEAN_ANNOTATION_TYPE_NAME, compilationUnit);
+				
+				final String lineDelim= compilationUnit.findRecommendedLineSeparator();
+				
+				buffer = compilationUnit.getBuffer();
+				
+				buffer.replace(type.getSourceRange().getOffset(), 0, "@"+CDIConstants.LOCAL_BEAN_SIMPLE_NAME+lineDelim);
+			}
 			
 			// add method to interface
 			
-			original = localInterface.getCompilationUnit();
-			compilationUnit = original.getWorkingCopy(new NullProgressMonitor());
-			
-			IType interfaceType = compilationUnit.getType(localInterface.getElementName());
-			
-			StringBuffer content = new StringBuffer();
-			
-			content.append(PUBLIC+SPACE);
-			
-			String simpleType = Signature.getSignatureSimpleName(method.getReturnType()); 
-			content.append(simpleType);
-			content.append(SPACE);
-			content.append(method.getElementName());
-			content.append("("); //$NON-NLS-1$
-			
-			IType originalType = method.getDeclaringType();
-			
-			addImport(originalType, simpleType, compilationUnit);
-			
-			String[] types = method.getParameterTypes();
-			String[] names = method.getParameterNames();
-			
-			for(int i = 0; i < method.getNumberOfParameters(); i++){
-				if(i > 0)
-					content.append(", "); //$NON-NLS-1$
-				
-				simpleType = Signature.getSignatureSimpleName(types[i]);
-				
-				addImport(originalType, simpleType, compilationUnit);
-				
-				content.append(simpleType);
-				content.append(SPACE);
-				content.append(names[i]);
-			}
-			
-			content.append(");"); //$NON-NLS-1$
-			
-			interfaceType.createMethod(content.toString(), null, false, new NullProgressMonitor());
-			
 			compilationUnit.commitWorkingCopy(false, new NullProgressMonitor());
 			compilationUnit.discardWorkingCopy();
+			
 		}catch(CoreException ex){
 			CDIUIPlugin.getDefault().logError(ex);
 		}
 	}
 	
-	private void addImport(IType originalType, String simpleName, ICompilationUnit compilationUnit) throws JavaModelException{
-		String qualifiedName = EclipseJavaUtil.resolveType(originalType, simpleName);
-		addImport(qualifiedName, compilationUnit);
-	}
-	
 	private void addImport(String qualifiedName, ICompilationUnit compilationUnit) throws JavaModelException{
-		if(primitives.contains(qualifiedName))
-			return;
-		
-		IPackageDeclaration[] packages = compilationUnit.getPackageDeclarations();
-		
-		if(qualifiedName.indexOf(DOT) >= 0){
-			String typePackage = qualifiedName.substring(0,qualifiedName.lastIndexOf(DOT));
-			
-			for(IPackageDeclaration packageDeclaration : packages){
-				if(packageDeclaration.getElementName().equals(typePackage))
-					return;
-			}
-		}
-		
 		if(qualifiedName != null){
 			IImportDeclaration importDeclaration = compilationUnit.getImport(qualifiedName); 
 			if(importDeclaration == null || !importDeclaration.exists())
