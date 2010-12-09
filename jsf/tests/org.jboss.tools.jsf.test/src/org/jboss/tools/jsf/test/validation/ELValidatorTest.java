@@ -83,16 +83,25 @@ public class ELValidatorTest extends AbstractResourceMarkerTest{
 					14);
 
 			IFile file = project.getFile("WebContent/testElRevalidation.xhtml");
-			file.deleteMarkers(IValidator.KB_PROBLEM_MARKER_TYPE, true, IResource.DEPTH_ZERO);
-
-			// Check if the validator was not invoked.
-			copyContentsFile("WebContent/WEB-INF/faces-config.xml", "WebContent/WEB-INF/faces-config.original");
+			file.deleteMarkers(ELValidator.PROBLEM_TYPE, true, IResource.DEPTH_ZERO);
 
 			assertMarkerIsNotCreatedForLine(
 					"WebContent/testElRevalidation.xhtml",
 					JSFValidationMessages.UNKNOWN_EL_VARIABLE_PROPERTY_NAME,
 					new Object[] {"user"},
-					14);
+					14, false);
+
+			// Check if the validator was not invoked.
+			copyContentsFile("WebContent/WEB-INF/faces-config.xml", "WebContent/WEB-INF/faces-config.original");
+
+			file = project.getFile("WebContent/WEB-INF/faces-config.xml");
+			ValidationFramework.getDefault().validate(file, new NullProgressMonitor());
+
+			assertMarkerIsNotCreatedForLine(
+					"WebContent/testElRevalidation.xhtml",
+					JSFValidationMessages.UNKNOWN_EL_VARIABLE_PROPERTY_NAME,
+					new Object[] {"user"},
+					14, false);
 		} finally {
 			store.setValue(JSFSeverityPreferences.RE_VALIDATE_UNRESOLVED_EL, JSFSeverityPreferences.ENABLE);
 			store.setValue(JSFSeverityPreferences.UNKNOWN_EL_VARIABLE_NAME, JSFSeverityPreferences.IGNORE);
@@ -304,10 +313,16 @@ public class ELValidatorTest extends AbstractResourceMarkerTest{
 	}
 
 	private void assertMarkerIsCreatedForLine(String fileName, String template, Object[] parameters, int lineNumber) throws CoreException{
+		assertMarkerIsCreatedForLine(fileName, template, parameters, lineNumber, true);
+	}
+
+	private void assertMarkerIsCreatedForLine(String fileName, String template, Object[] parameters, int lineNumber, boolean validate) throws CoreException{
 		String messagePattern = MessageFormat.format(template, parameters);
 		IFile file = project.getFile(fileName);
 
-		ValidationFramework.getDefault().validate(file, new NullProgressMonitor());
+		if(validate) {
+			ValidationFramework.getDefault().validate(file, new NullProgressMonitor());
+		}
 
 		IMarker[] markers = file.findMarkers(null, true, IResource.DEPTH_INFINITE);
 		for (int i = 0; i < markers.length; i++) {
@@ -320,10 +335,16 @@ public class ELValidatorTest extends AbstractResourceMarkerTest{
 	}
 
 	private void assertMarkerIsNotCreatedForLine(String fileName, String template, Object[] parameters, int lineNumber) throws CoreException{
+		assertMarkerIsNotCreatedForLine(fileName, template, parameters, lineNumber, true);
+	}
+
+	private void assertMarkerIsNotCreatedForLine(String fileName, String template, Object[] parameters, int lineNumber, boolean validate) throws CoreException{
 		String messagePattern = MessageFormat.format(template, parameters);
 		IFile file = project.getFile(fileName);
 
-		ValidationFramework.getDefault().validate(file, new NullProgressMonitor());
+		if(validate) {
+			ValidationFramework.getDefault().validate(file, new NullProgressMonitor());
+		}
 
 		IMarker[] markers = file.findMarkers(null, true, IResource.DEPTH_INFINITE);
 		for (int i = 0; i < markers.length; i++) {
