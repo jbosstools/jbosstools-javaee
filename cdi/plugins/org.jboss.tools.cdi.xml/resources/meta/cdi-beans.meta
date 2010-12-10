@@ -297,7 +297,7 @@
    <XModelAttribute PROPERTIES="save=always"
     default="http://www.w3.org/2001/XMLSchema-instance" name="xmlns:xsi" xmlname="xmlns:xsi"/>
    <XModelAttribute PROPERTIES="save=always"
-    default="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/beans.xsd"
+    default="http://java.sun.com/xml/ns/javaee http://jboss.org/schema/cdi/beans_1_0.xsd"
     name="xsi:schemaLocation" xmlname="xsi:schemaLocation"/>
    <XModelAttribute name="namespaceMapping"/>
    <XModelAttribute name="encoding">
