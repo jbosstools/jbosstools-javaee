@@ -1,4 +1,5 @@
 /******************************************************************************* 
+
  * Copyright (c) 2010 Red Hat, Inc. 
  * Distributed under license by Red Hat, Inc. All rights reserved. 
  * This program is made available under the terms of the 
@@ -44,6 +45,10 @@ public class CDIUIMessages extends NLS{
 	public static String NEW_DECORATOR_WIZARD_TITLE;
 	public static String NEW_DECORATOR_WIZARD_PAGE_NAME;
 	public static String NEW_DECORATOR_WIZARD_DESCRIPTION;
+	
+	public static String NEW_BEANS_XML_WIZARD_TITLE;
+	public static String NEW_BEANS_XML_WIZARD_PAGE_NAME;
+	public static String NEW_BEANS_XML_WIZARD_DESCRIPTION;
 	
 	public static String SELECT_STEREOTYPE;
 	public static String SELECT_INTERCEPTOR_BINDING;

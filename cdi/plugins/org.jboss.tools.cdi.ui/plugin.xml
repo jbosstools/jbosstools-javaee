@@ -221,6 +221,23 @@
          </keywordReference>
       </wizard>
 
+      <wizard
+            name="%NewWizards.file"
+            icon="icons/cdi16.png"
+            category="org.jboss.tools.cdi.ui"
+            class="org.jboss.tools.cdi.ui.wizard.NewBeansXMLCreationWizard"
+            id="org.jboss.tools.cdi.ui.wizard.NewBeansXMLCreationWizard">
+         <description>
+            %NewWizards.file.description
+         </description>
+         <selection
+               class="org.eclipse.core.resources.IResource">
+         </selection>
+         <keywordReference
+               id="org.jboss.tools.cdi.ui.newBeansXML">
+         </keywordReference>
+      </wizard>
+
    </extension>
   
    <extension
@@ -228,6 +245,9 @@
       <keyword
             label="%preferenceKeywords.newJava"
             id="org.jboss.tools.cdi.ui.newJava"/>
+      <keyword
+            label="%preferenceKeywords.newBeansXML"
+            id="org.jboss.tools.cdi.ui.newBeansXML"/>
             
     </extension>
 
