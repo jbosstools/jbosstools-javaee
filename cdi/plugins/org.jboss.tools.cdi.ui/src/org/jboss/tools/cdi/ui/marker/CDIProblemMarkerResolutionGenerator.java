@@ -115,6 +115,10 @@ public class CDIProblemMarkerResolutionGenerator implements
 	
 	private List<IType> findLocalAnnotattedInterfaces(IMethod method) throws JavaModelException{
 		ArrayList<IType> types = new ArrayList<IType>();
+		
+		if(method.getTypeParameters().length > 0)
+			return types;
+		
 		IType type = method.getDeclaringType();
 		String[] is = type.getSuperInterfaceNames();
 		for(int i = 0; i < is.length; i++){
@@ -122,11 +126,23 @@ public class CDIProblemMarkerResolutionGenerator implements
 			IType t = EclipseResourceUtil.getValidType(type.getJavaProject().getProject(), f);
 			if(t != null && t.isInterface()){
 				IAnnotation localAnnotation = EclipseJavaUtil.findAnnotation(t, t, CDIConstants.LOCAL_ANNOTATION_TYPE_NAME);
-				if(localAnnotation != null)
+				if(localAnnotation != null){
+					if(isMethodExists(t, method)){
+						types.clear();
+						return types;
+					}
 					types.add(t);
+				}
 			}
 		}
 		return types;
+	}
+	
+	private boolean isMethodExists(IType interfaceType, IMethod method){
+		IMethod existingMethod = interfaceType.getMethod(method.getElementName(), method.getParameterTypes());
+		if(existingMethod != null && existingMethod.exists())
+			return true;
+		return false;
 	}
 	
 	private IField findNonStaticField(IFile file, int start){
