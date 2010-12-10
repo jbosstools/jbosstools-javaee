@@ -27,13 +27,16 @@ import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.internal.ui.wizards.NewElementWizard;
 import org.eclipse.jdt.ui.wizards.NewTypeWizardPage;
 import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.jface.wizard.IWizard;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.dialogs.WizardNewFileCreationPage;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.ICDIAnnotation;
 import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.ui.CDIUIPlugin;
 //import org.jboss.tools.cdi.ui.wizard.NewCDIAnnotationWizardPage;
+import org.jboss.tools.cdi.ui.wizard.NewBeansXMLCreationWizard;
 import org.jboss.tools.cdi.ui.wizard.NewDecoratorWizardPage;
 import org.jboss.tools.cdi.ui.wizard.NewInterceptorBindingWizardPage;
 import org.jboss.tools.cdi.ui.wizard.NewInterceptorWizardPage;
@@ -116,6 +119,30 @@ public class NewCDIWizardTest extends TestCase {
 			dialog.close();
 		}
 		
+	}
+
+	static class NewBeansXMLWizardContext {
+		NewBeansXMLCreationWizard wizard;
+		IProject tck;
+		IJavaProject jp;
+		WizardDialog dialog;
+		
+
+		public void init(String wizardId) {
+			wizard = (NewBeansXMLCreationWizard)WorkbenchUtils.findWizardByDefId(wizardId);
+			tck = ResourcesPlugin.getWorkspace().getRoot().getProject("tck");
+			jp = EclipseUtil.getJavaProject(tck);
+			wizard.init(CDIUIPlugin.getDefault().getWorkbench(), new StructuredSelection(jp));
+			dialog = new WizardDialog(
+					PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
+					wizard);
+			dialog.setBlockOnOpen(false);
+			dialog.open();
+		}
+
+		public void close() {
+			dialog.close();
+		}
 	}
 
 	public void testNewQualifierWizard() {
@@ -258,6 +285,35 @@ public class NewCDIWizardTest extends TestCase {
 			
 			assertTrue(text.contains("@Decorator"));
 			assertTrue(text.contains("@Delegate"));
+		} finally {
+			context.close();
+		}
+	}
+
+	public void testNewBeansXMLWizard() throws CoreException {
+		NewBeansXMLWizardContext context = new NewBeansXMLWizardContext();
+		context.init("org.jboss.tools.cdi.ui.wizard.NewBeansXMLCreationWizard");
+		JobUtils.waitForIdle(2000);
+		
+		try {
+			
+			WizardNewFileCreationPage page = (WizardNewFileCreationPage)context.wizard.getPage("newFilePage1");
+			String s = page.getFileName();
+			assertEquals("beans.xml", s);
+			assertFalse(context.wizard.canFinish());
+			page.setFileName("beans2.xml");
+			assertTrue(context.wizard.canFinish());
+			String c = page.getContainerFullPath().toString();
+			assertEquals("/tck/WebContent/WEB-INF", c);
+			
+			context.wizard.performFinish();
+		
+			IFile f = context.tck.getParent().getFile(page.getContainerFullPath().append(page.getFileName()));
+			assertTrue(f.exists());
+			
+			String text = FileUtil.readStream(f.getContents());
+			assertTrue(text.indexOf("http://java.sun.com/xml/ns/javaee") > 0);
+
 		} finally {
 			context.close();
 		}
