@@ -825,7 +825,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 				}
 			}
 
-			validateSessionBeanMethod(bean, observer, declarations, CDIValidationMessages.ILLEGAL_OBSERVER_IN_SESSION_BEAN,	CDIPreferences.ILLEGAL_OBSERVER_IN_SESSION_BEAN);
+			validateSessionBeanMethod(bean, observer, declarations, CDIValidationMessages.ILLEGAL_OBSERVER_IN_SESSION_BEAN,	CDIPreferences.ILLEGAL_OBSERVER_IN_SESSION_BEAN, ILLEGAL_OBSERVER_IN_SESSION_BEAN_ID);
 		}
 	}
 
@@ -929,7 +929,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 			 *  - a non-static method of a session bean class has a parameter annotated @Disposes, and the method is not a business method of the session bean
 			 */
 			validateSessionBeanMethod(bean, disposer, disposerDeclarations, CDIValidationMessages.ILLEGAL_DISPOSER_IN_SESSION_BEAN,
-					CDIPreferences.ILLEGAL_DISPOSER_IN_SESSION_BEAN);
+					CDIPreferences.ILLEGAL_DISPOSER_IN_SESSION_BEAN, ILLEGAL_DISPOSER_IN_SESSION_BEAN_ID);
 
 			/*
 			 * 3.3.6. Declaring a disposer method
@@ -989,14 +989,14 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 	 * @param annotatedParams
 	 * @param errorKey
 	 */
-	private void validateSessionBeanMethod(IClassBean bean, IBeanMethod method, Set<ITextSourceReference> annotatedParams, String errorMessage, String preferencesKey) {
+	private void validateSessionBeanMethod(IClassBean bean, IBeanMethod method, Set<ITextSourceReference> annotatedParams, String errorMessage, String preferencesKey, int id) {
 		if (bean instanceof ISessionBean && annotatedParams != null) {
 			IMethod iMethod = CDIUtil.getBusinessMethodDeclaration((SessionBean)bean, method);
 			if(iMethod==null) {
 				saveAllSuperTypesAsLinkedResources(bean);
 				for (ITextSourceReference declaration : annotatedParams) {
 					String bindedErrorMessage = NLS.bind(errorMessage, new String[]{method.getMethod().getElementName(), bean.getBeanClass().getElementName()});
-					addError(bindedErrorMessage, preferencesKey, declaration, bean.getResource());
+					addError(bindedErrorMessage, preferencesKey, declaration, bean.getResource(), id);
 				}
 			} else if (iMethod != method.getMethod()) {
 				getValidationContext().addLinkedCoreResource(bean.getSourcePath().toOSString(), iMethod.getResource().getFullPath(), false);
