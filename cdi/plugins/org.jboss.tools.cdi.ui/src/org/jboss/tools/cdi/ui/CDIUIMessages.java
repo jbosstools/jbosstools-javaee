@@ -49,14 +49,20 @@ public class CDIUIMessages extends NLS{
 	public static String NEW_BEANS_XML_WIZARD_TITLE;
 	public static String NEW_BEANS_XML_WIZARD_PAGE_NAME;
 	public static String NEW_BEANS_XML_WIZARD_DESCRIPTION;
-	
+
+	public static String NEW_ANNOTATION_LITERAL_WIZARD_TITLE;
+	public static String NEW_ANNOTATION_LITERAL_WIZARD_PAGE_NAME;
+	public static String NEW_ANNOTATION_LITERAL_WIZARD_DESCRIPTION;
+
 	public static String SELECT_STEREOTYPE;
 	public static String SELECT_INTERCEPTOR_BINDING;
+	public static String SELECT_QUALIFIER;
 
 	public static String FIELD_EDITOR_SCOPE_LABEL;
 	public static String FIELD_EDITOR_TARGET_LABEL;
 	public static String FIELD_EDITOR_INTERCEPTOR_BINDINGS_LABEL;
 	public static String FIELD_EDITOR_STEREOTYPES_LABEL;
+	public static String FIELD_EDITOR_QUALIFIER_LABEL;
 	
 	public static String MESSAGE_METHOD_NAME_EMPTY;
 	public static String MESSAGE_METHOD_NAME_NOT_VALID;
@@ -65,6 +71,8 @@ public class CDIUIMessages extends NLS{
 	public static String MESSAGE_FIELD_NAME_NOT_VALID;
 	
 	public static String MESSAGE_INTERCEPTOR_BINDINGS_EMPTY;
+	
+	public static String MESSAGE_QUALIFIER_NOT_SET;
 	
 	public static String MAKE_FIELD_STATIC_MARKER_RESOLUTION_TITLE;
 	public static String MAKE_METHOD_PUBLIC_MARKER_RESOLUTION_TITLE;

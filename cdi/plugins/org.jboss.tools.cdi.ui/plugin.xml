@@ -221,6 +221,21 @@
          </keywordReference>
       </wizard>
 
+      <wizard 
+         category="org.jboss.tools.cdi.ui" 
+         class="org.jboss.tools.cdi.ui.wizard.NewAnnotationLiteralCreationWizard" 
+         icon="icons/cdi16.png"
+         id="org.jboss.tools.cdi.ui.wizard.NewAnnotationLiteralCreationWizard" 
+         name="Annotation Literal Type" 
+         project="false">
+         <description>
+            Create an Annotation Literal Java File
+         </description>
+         <keywordReference
+               id="org.jboss.tools.cdi.ui.newJava">
+         </keywordReference>
+      </wizard>
+
       <wizard
             name="%NewWizards.file"
             icon="icons/cdi16.png"
