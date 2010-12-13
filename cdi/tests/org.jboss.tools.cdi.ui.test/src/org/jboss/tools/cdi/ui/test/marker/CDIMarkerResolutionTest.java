@@ -29,7 +29,7 @@ import org.jboss.tools.cdi.ui.marker.MakeMethodPublicMarkerResolution;
  */
 public class CDIMarkerResolutionTest  extends ValidationTest {
 	public static final String MARKER_TYPE = "org.jboss.tools.cdi.core.cdiproblem";
-
+	
 	public void testMakeFieldStaticResolution() throws CoreException {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/NonStaticProducerOfSessionBeanBroken.java");
 		
@@ -107,6 +107,60 @@ public class CDIMarkerResolutionTest  extends ValidationTest {
 			}
 		}
 		assertTrue("Quick fix: \"Make method public\" doesn't exist.", found);
+	}
+	
+	public void testMakeMethodBusinessResolution2() throws CoreException {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/event/broken/observer/notBusinessMethod/TibetanTerrier_Broken.java");
+		
+		assertTrue("File - "+file.getFullPath()+" must be exist",file.exists());
+		
+		IMarker[] markers = file.findMarkers(MARKER_TYPE, true,	IResource.DEPTH_INFINITE);
+		
+		boolean found1 = false;
+		boolean found2 = false;
+		for (int i = 0; i < markers.length; i++) {
+			IMarker marker = markers[i];
+			IMarkerResolution[] resolutions = IDE.getMarkerHelpRegistry()
+					.getResolutions(marker);
+			for (int j = 0; j < resolutions.length; j++) {
+				IMarkerResolution resolution = resolutions[j];
+				if (resolution instanceof MakeMethodBusinessMarkerResolution) {
+					found1 = true;
+				}
+				if (resolution instanceof AddLocalBeanMarkerResolution) {
+					found2 = true;
+				}
+			}
+		}
+		assertTrue("Quick fix: \"Make method business\" doesn't exist.", found1);
+		assertTrue("Quick fix: \"Add @LocalBean annotation\" doesn't exist.", found2);
+	}
+
+	public void testMakeMethodBusinessResolution3() throws CoreException {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/disposers/NotBusinessMethod_Broken.java");
+		
+		assertTrue("File - "+file.getFullPath()+" must be exist",file.exists());
+		
+		IMarker[] markers = file.findMarkers(MARKER_TYPE, true,	IResource.DEPTH_INFINITE);
+		
+		boolean found1 = false;
+		boolean found2 = false;
+		for (int i = 0; i < markers.length; i++) {
+			IMarker marker = markers[i];
+			IMarkerResolution[] resolutions = IDE.getMarkerHelpRegistry()
+					.getResolutions(marker);
+			for (int j = 0; j < resolutions.length; j++) {
+				IMarkerResolution resolution = resolutions[j];
+				if (resolution instanceof MakeMethodBusinessMarkerResolution) {
+					found1 = true;
+				}
+				if (resolution instanceof AddLocalBeanMarkerResolution) {
+					found2 = true;
+				}
+			}
+		}
+		assertTrue("Quick fix: \"Make method business\" doesn't exist.", found1);
+		assertTrue("Quick fix: \"Add @LocalBean annotation\" doesn't exist.", found2);
 	}
 
 }
