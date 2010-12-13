@@ -82,4 +82,7 @@ public interface CDIConstants {
 	public String POST_CONSTRUCTOR_TYPE_NAME = "javax.annotation.PostConstruct";
 
 	public String EVENT_TYPE_NAME = "javax.enterprise.event.Event";
+
+	public String ANNOTATION_LITERAL_TYPE_NAME = "javax.enterprise.util.AnnotationLiteral";
+
 }
