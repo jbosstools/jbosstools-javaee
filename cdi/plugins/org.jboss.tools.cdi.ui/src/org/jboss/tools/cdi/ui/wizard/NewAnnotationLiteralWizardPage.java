@@ -118,7 +118,7 @@ public class NewAnnotationLiteralWizardPage extends NewClassWizardPage {
 						interfacesNames.add(name);
 						setSuperInterfaces(interfacesNames, true);
 						superInterfacesChanged();
-						setSuperClass("javax.enterprise.util.AnnotationLiteral<" + type.getElementName() + ">", false);
+						setSuperClass(CDIConstants.ANNOTATION_LITERAL_TYPE_NAME + "<" + type.getElementName() + ">", false);
 						setDefaultTypeName(name);
 					}
 				}
@@ -228,7 +228,7 @@ public class NewAnnotationLiteralWizardPage extends NewClassWizardPage {
 					interfacesNames.add(name);
 					setSuperInterfaces(interfacesNames, true);
 					superInterfacesChanged();
-					setSuperClass("javax.enterprise.util.AnnotationLiteral<" + selected.getSourceType().getElementName() + ">", false);
+					setSuperClass(CDIConstants.ANNOTATION_LITERAL_TYPE_NAME + "<" + selected.getSourceType().getElementName() + ">", false);
 					setDefaultTypeName(name);
 					done = true;
 				}
@@ -265,7 +265,7 @@ public class NewAnnotationLiteralWizardPage extends NewClassWizardPage {
 			IProgressMonitor monitor, String lineDelimiter)
 			throws CoreException {
 
-		imports.addImport("javax.enterprise.util.AnnotationLiteral");
+		imports.addImport(CDIConstants.ANNOTATION_LITERAL_TYPE_NAME);
 		
 		IType fieldType = fieldType = selected.getSourceType();
 
@@ -394,6 +394,10 @@ public class NewAnnotationLiteralWizardPage extends NewClassWizardPage {
 			}
 		}
 		return null;
+	}
+
+	public void setQualifier(String type) {
+		qualifiers.setValue(type);
 	}
 
 }
