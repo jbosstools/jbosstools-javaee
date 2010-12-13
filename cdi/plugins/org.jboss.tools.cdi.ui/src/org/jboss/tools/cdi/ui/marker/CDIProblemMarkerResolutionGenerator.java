@@ -80,7 +80,7 @@ public class CDIProblemMarkerResolutionGenerator implements
 				IMethod method = findMethod(file, start);
 				if(method != null){
 					List<IType> types = findLocalAnnotattedInterfaces(method);
-					if(types.size() == 0 && !isMethodPublic(method)){
+					if(types.size() == 0 && !Flags.isPublic(method.getFlags())){
 						return new IMarkerResolution[] {
 							new MakeMethodPublicMarkerResolution(method, file)
 						};
@@ -163,12 +163,6 @@ public class CDIProblemMarkerResolutionGenerator implements
 			CDIUIPlugin.getDefault().logError(ex);
 		}
 		return null;
-	}
-	
-	private boolean isMethodPublic(IMethod method) throws JavaModelException{
-		if(Flags.isPublic(method.getFlags()))
-			return true;
-		return false;
 	}
 	
 	public boolean hasResolutions(IMarker marker) {
