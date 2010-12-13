@@ -74,7 +74,9 @@ public class CDIProblemMarkerResolutionGenerator implements
 						new MakeFieldStaticMarkerResolution(field, file)
 					};
 				}
-			}else if (messageId == CDIValidationErrorManager.ILLEGAL_PRODUCER_METHOD_IN_SESSION_BEAN_ID) {
+			}else if (messageId == CDIValidationErrorManager.ILLEGAL_PRODUCER_METHOD_IN_SESSION_BEAN_ID || 
+					messageId == CDIValidationErrorManager.ILLEGAL_DISPOSER_IN_SESSION_BEAN_ID ||
+					messageId == CDIValidationErrorManager.ILLEGAL_OBSERVER_IN_SESSION_BEAN_ID) {
 				IMethod method = findMethod(file, start);
 				if(method != null){
 					List<IType> types = findLocalAnnotattedInterfaces(method);

@@ -45,6 +45,7 @@ public class MakeMethodBusinessMarkerResolution implements IMarkerResolution2 {
 	
 	static final HashSet<String> primitives = new HashSet<String>();
 	static{
+		primitives.add("void");  //$NON-NLS-1$
 		primitives.add("int");  //$NON-NLS-1$
 		primitives.add("java.lang.Integer");  //$NON-NLS-1$
 		primitives.add("char");  //$NON-NLS-1$
