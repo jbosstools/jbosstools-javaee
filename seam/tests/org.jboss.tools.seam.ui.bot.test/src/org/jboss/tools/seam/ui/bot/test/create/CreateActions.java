@@ -1,33 +1,44 @@
 package org.jboss.tools.seam.ui.bot.test.create;
 
-import org.jboss.tools.seam.ui.bot.test.TestControl;
+import java.util.Properties;
 
-public class CreateActions extends TestControl{
+import org.jboss.tools.seam.ui.bot.test.AbstractSeamTestBase;
+import org.jboss.tools.seam.ui.bot.test.EARTests;
+import org.jboss.tools.seam.ui.bot.test.TestControl;
+import org.jboss.tools.seam.ui.bot.test.WARTests;
+import org.junit.Test;
+import org.junit.experimental.categories.Category;
+
+public class CreateActions extends AbstractSeamTestBase {
 	
 	private static String TEST_TYPE = "Action";
 	
-	public void testCreateActionFor12war(){
-		createSeamUnit(TEST_TYPE, seam12Settings, TYPE_WAR);		
-	}
+	  public CreateActions() {
+		}	
 	
-	public void testCreateActionFor12ear(){
-		createSeamUnit(TEST_TYPE, seam12Settings, TYPE_EAR);		
+	@Test
+	@Category(WARTests.class)
+	public void testCreateActionForWar(){
+		createSeamUnit(TEST_TYPE, TestControl.TYPE_WAR);		
 	}
 
-	public void testCreateActionFor2fpwar(){
-		createSeamUnit(TEST_TYPE, seam2fpSettings, TYPE_WAR);		
+	@Test
+	@Category(WARTests.class)
+	public void checkCreateActionForWar(){
+		checkSeamUnit(TEST_TYPE, TestControl.TYPE_WAR);		
 	}
 	
-	public void testCreateActionFor2fpear(){
-		createSeamUnit(TEST_TYPE, seam2fpSettings, TYPE_EAR);		
-	}
-	
-	public void testCreateActionFor22war(){
-		createSeamUnit(TEST_TYPE, seam22Settings, TYPE_WAR);		
+	@Test
+	@Category(EARTests.class)
+	public void testCreateActionForEar(){
+		createSeamUnit(TEST_TYPE, TestControl.TYPE_EAR);		
 	}
 
-	public void testCreateActionFor22ear(){
-		createSeamUnit(TEST_TYPE, seam22Settings, TYPE_EAR);		
+	@Test
+	@Category(EARTests.class)
+	public void checkCreateActionForEar(){
+		checkSeamUnit(TEST_TYPE, TestControl.TYPE_EAR);		
 	}
+	
 }
 	

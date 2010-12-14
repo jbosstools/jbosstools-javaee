@@ -1,34 +1,33 @@
 package org.jboss.tools.seam.ui.bot.test.create;
 
-import org.jboss.tools.seam.ui.bot.test.TestControl;
+import java.util.Properties;
 
-public class CreateEntities extends TestControl{
+import org.jboss.tools.seam.ui.bot.test.AbstractSeamTestBase;
+import org.jboss.tools.seam.ui.bot.test.EARTests;
+import org.jboss.tools.seam.ui.bot.test.TestControl;
+import org.jboss.tools.seam.ui.bot.test.WARTests;
+import org.junit.Test;
+import org.junit.experimental.categories.Category;
+
+public class CreateEntities extends AbstractSeamTestBase {
 	
 	private static String TEST_TYPE = "Entity";
 	
+	public CreateEntities() {
+	}
+	
+	@Test
+	@Category(WARTests.class)	
 	public void testCreateEntityFor12war(){
-		createSeamUnit(TEST_TYPE, seam12Settings, TYPE_WAR);		
+		createSeamUnit(TEST_TYPE, TestControl.TYPE_WAR);		
 	}
 	
+	@Test
+	@Category(EARTests.class)
 	public void testCreateEntityFor12ear(){
-		createSeamUnit(TEST_TYPE, seam12Settings, TYPE_EAR);		
+		createSeamUnit(TEST_TYPE, TestControl.TYPE_EAR);		
 	}
 
-	public void testCreateEntityFor2fpwar(){
-		createSeamUnit(TEST_TYPE, seam2fpSettings, TYPE_WAR);		
-	}
-	
-	public void testCreateEntityFor2fpear(){
-		createSeamUnit(TEST_TYPE, seam2fpSettings, TYPE_EAR);		
-	}
-	
-	public void testCreateEntityFor22war(){
-		createSeamUnit(TEST_TYPE, seam22Settings, TYPE_WAR);		
-	}
-
-	public void testCreateEntityFor22ear(){
-		createSeamUnit(TEST_TYPE, seam22Settings, TYPE_EAR);
-	}
 	
 }
 	

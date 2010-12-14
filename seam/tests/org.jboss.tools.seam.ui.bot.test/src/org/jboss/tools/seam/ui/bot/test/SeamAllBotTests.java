@@ -1,33 +1,51 @@
 package org.jboss.tools.seam.ui.bot.test;
 
-import org.jboss.tools.seam.ui.bot.test.create.CreateSeamRuntimes;
-import org.jboss.tools.seam.ui.bot.test.create.CreateSeamProjects;
-import org.jboss.tools.seam.ui.bot.test.create.CreateForms;
 import org.jboss.tools.seam.ui.bot.test.create.CreateActions;
 import org.jboss.tools.seam.ui.bot.test.create.CreateConversations;
 import org.jboss.tools.seam.ui.bot.test.create.CreateEntities;
-import org.jboss.tools.seam.ui.bot.test.create.CreateServerRuntimes;
+import org.jboss.tools.seam.ui.bot.test.create.CreateSeamProjects;
+import org.jboss.tools.seam.ui.bot.test.create.CreateForms;
+import org.jboss.tools.seam.ui.bot.test.create.DeleteSeamProjects;
+import org.jboss.tools.seam.ui.bot.test.misc.GotoComponent;
+import org.jboss.tools.seam.ui.bot.test.misc.ReverseEngineering;
+import org.jboss.tools.seam.ui.bot.test.validate.ComponentsValidator;
+import org.jboss.tools.seam.ui.bot.test.validate.ELExprValidator;
+import org.junit.experimental.categories.Categories.ExcludeCategory;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
-
-
+import org.jboss.tools.ui.bot.ext.RequirementAwareSuite;
 
 /**
  * 
  * This is a swtbot testcase for an eclipse application.
  * 
  */
+
+@RunWith(RequirementAwareSuite.class)
+@ExcludeCategory(WARTests.class)
+@Suite.SuiteClasses({
+	//CreateServerRuntimes.class,
+	//CreateSeamRuntimes.class,
+	CreateSeamProjects.class,
+	//ReverseEngineering.class,	
+	//ComponentsValidator.class,
+	//ELExprValidator.class,
+	CreateForms.class,
+	CreateActions.class,
+	CreateConversations.class,
+	CreateEntities.class,
+	GotoComponent.class,
+	DeleteSeamProjects.class
+	})
 public class SeamAllBotTests {
-	public static Test suite(){
-		TestSuite suite = new TestSuite("Seam tests");
-		suite.addTestSuite(CreateServerRuntimes.class);
-		suite.addTestSuite(CreateSeamRuntimes.class);
-		suite.addTestSuite(CreateSeamProjects.class);
-		suite.addTestSuite(CreateForms.class);
-		suite.addTestSuite(CreateActions.class);
-		suite.addTestSuite(CreateConversations.class);
-		suite.addTestSuite(CreateEntities.class);
-		return suite;
-	}
+
+	/*
+    @Parameters
+    public static List<Properties[]> data() {
+            return TestControl.getParameters();
+
+    }
+    */
+	
 }

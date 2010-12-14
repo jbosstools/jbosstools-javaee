@@ -3,7 +3,9 @@ package org.jboss.tools.seam.ui.bot.test;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 import java.util.Properties;
+import java.util.Vector;
 
 import org.eclipse.datatools.connectivity.ConnectionProfileException;
 import org.eclipse.swtbot.swt.finder.SWTBot;
@@ -29,14 +31,16 @@ public abstract class TestControl extends JBTSWTBotTestCase{
 	protected static Properties seam2fpSettings;
 	protected static Properties seam22Settings;
 	
+	protected static List<Properties[]> parameters = new Vector<Properties[]>();
+
+	protected SWTUtilExt util = new SWTUtilExt(bot);
+	
 	private static final String PROJECT_PROPERTIES = "projectProperties.properties";
 	private static final String EAP_RUNTIME = "jbossEAPRuntime.properties";
 	private static final String SEAM_SET_12 = "seam12Settings.properties";
 	private static final String SEAM_SET_2FP = "seam2fpSettings.properties";
 	private static final String SEAM_SET_22 = "seam22Settings.properties";
-	protected static final String VALIDATION = "Validation";
-	protected static final String DEPLOY_SOURCE = "Deploying datasource to server";
-	protected static final String REG_IN_SERVER = "Register in server";
+
 	
 	public static String JBOSS_EAP_HOME;
 	public static String SEAM_12_SETTINGS_HOME;
@@ -106,6 +110,11 @@ public abstract class TestControl extends JBTSWTBotTestCase{
 		SEAM_22_SETTINGS_HOME = seam22Settings.getProperty("seamRuntimePath");
 		SEAM_2FP_SETTINGS_HOME = seam2fpSettings.getProperty("seamRuntimePath");
 		createConnectionProfile(seam22Settings.getProperty("seamRuntimePath"),"DefaultDS");
+		
+		//parameters.add(new Properties[] {seam12Settings});
+		parameters.add(new Properties[] {seam22Settings});
+		//parameters.add(new Properties[] {seam2fpSettings});
+				
 	}
 /*Pre-launch operations here:*/
 
@@ -134,44 +143,6 @@ public abstract class TestControl extends JBTSWTBotTestCase{
 public static String TYPE_WAR = "WAR";
 public static String TYPE_EAR = "EAR";	
 
-/**Creates any Server Runtime + Server. */
-	protected void createServerRuntime(Properties serverType){
-	  
-	  if (!SWTJBTExt.isServerRuntimeDefined(bot,serverType.getProperty("runtimeName"))){
-	    bot.menu("File").menu("New").menu("Other...").click();
-	    bot.shell(IDELabel.Shell.NEW).activate();
-	    SWTBotTree tree = bot.tree();
-	    delay();
-	    tree.expandNode("Server").select("Server");
-	    bot.button("Next >").click();
-	    SWTBotTree tree2 = bot.tree();
-	    tree2.expandNode(serverType.getProperty("runtimeGroup")).select(serverType.getProperty("runtimeItem"));
-	    bot.textWithLabel("Server name:").setText(serverType.getProperty("serverName"));
-	    bot.button("Next >").click();
-	    bot.textWithLabel("Name").setText(serverType.getProperty("runtimeName"));
-	    bot.textWithLabel("Home Directory").setText(serverType.getProperty("runtimePath"));
-	    bot.button("Finish").click();
-	  }
-	  
-	}
-
-/** Creates any Seam runtime.	*/
-	protected void createSeamRuntime(Properties runtimeSet, String homeFolder){
-		bot.menu("Window").menu("Preferences").click();
-		bot.shell(IDELabel.Shell.PREFERENCES).activate();
-		SWTBotTree tree = bot.tree();
-		delay();
-		tree.expandNode("JBoss Tools")
-			.expandNode("Web")
-			.expandNode("Seam")
-			.select();
-		
-		bot.button("Add").click();
-		bot.textWithLabel("Home Folder:").setText(homeFolder);
-		bot.textWithLabel("Name:").setText(runtimeSet.getProperty("seamRuntimeName"));
-		bot.button("Finish").click();
-		bot.button("OK").click();
-	}
 
 /**Creates any Seam project.	*/
 	protected void createSeamProject(Properties runtimeSet, Properties serverType, 
@@ -191,20 +162,6 @@ public static String TYPE_EAR = "EAR";
 		bot.button("Finish").click();
 	}
 	
-/**Creates any Seam Action, Form etc.	*/
-	protected void createSeamUnit(String unitType, 
-			Properties runtimeSet, String type){
-		bot.menu("File").menu("New").menu("Seam " +unitType).click();
-		SWTBotShell shell = bot.activeShell();
-		bot.textWithLabel("Seam Project:").setText(runtimeSet.getProperty("testProjectName")+ type);
-		if ("Entity".equals(unitType)) {
-			bot.textWithLabel("Seam entity class name:").setText("seam"+unitType);	
-		} else {
-			bot.textWithLabel("Seam component name:").setText("seam"+unitType);
-		}
-		bot.button("Finish").click();
-		bot.waitUntil(Conditions.shellCloses(shell),15000);
-	}
 
 /**Deletes any Seam project.	*/
 	protected void deleteSeamProject(Properties runtimeSet, String type){
@@ -233,6 +190,18 @@ public static String TYPE_EAR = "EAR";
 		}
 	}
 
+	public static List<Properties[]> getParameters() {
+		return parameters;
+	}
+
+	public static Properties getJbossEAPRuntime() {
+		return jbossEAPRuntime;
+	}
+
+	public static Properties getProjectProperties() {
+		return projectProperties;
+	}
+	
 	/**
 	 * Creates connection profile in case it's not defined yet
 	 * @param pathToSeamRuntime

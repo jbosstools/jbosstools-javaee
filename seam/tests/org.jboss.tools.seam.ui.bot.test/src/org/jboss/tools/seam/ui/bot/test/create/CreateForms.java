@@ -1,33 +1,44 @@
 package org.jboss.tools.seam.ui.bot.test.create;
 
-import org.jboss.tools.seam.ui.bot.test.TestControl;
+import java.util.Properties;
 
-public class CreateForms extends TestControl{
+import org.jboss.tools.seam.ui.bot.test.AbstractSeamTestBase;
+import org.jboss.tools.seam.ui.bot.test.EARTests;
+import org.jboss.tools.seam.ui.bot.test.TestControl;
+import org.jboss.tools.seam.ui.bot.test.WARTests;
+import org.junit.Test;
+import org.junit.experimental.categories.Category;
+
+public class CreateForms extends AbstractSeamTestBase {
 	
 	private static String TEST_TYPE = "Form";
 	
-	public void testCreateFormFor12war(){
-		createSeamUnit(TEST_TYPE, seam12Settings, TYPE_WAR);		
+	  public CreateForms() {
+		}
+	
+	@Test
+	@Category(WARTests.class)
+	public void testCreateFormForWar(){
+		createSeamUnit(TEST_TYPE, TestControl.TYPE_WAR);		
 	}
 	
-	public void testCreateFormFor12ear(){
-		createSeamUnit(TEST_TYPE, seam12Settings, TYPE_EAR);		
+	@Test
+	@Category(WARTests.class)
+	public void checkCreateFormForWar(){
+		checkSeamUnit(TEST_TYPE, TestControl.TYPE_WAR);		
+	}
+	
+	@Test
+	@Category(EARTests.class)
+	public void testCreateFormForEar(){
+		createSeamUnit(TEST_TYPE, TestControl.TYPE_EAR);		
 	}
 
-	public void testCreateFormFor2fpwar(){
-		createSeamUnit(TEST_TYPE, seam2fpSettings, TYPE_WAR);		
+	@Test
+	@Category(EARTests.class)
+	public void checkCreateFormForEar(){
+		checkSeamUnit(TEST_TYPE, TestControl.TYPE_EAR);		
 	}
 	
-	public void testCreateFormFor2fpear(){
-		createSeamUnit(TEST_TYPE, seam2fpSettings, TYPE_EAR);		
-	}
-	
-	public void testCreateFormFor22war(){
-		createSeamUnit(TEST_TYPE, seam22Settings, TYPE_WAR);		
-	}
-
-	public void testCreateFormFor22ear(){
-		createSeamUnit(TEST_TYPE, seam22Settings, TYPE_EAR);		
-	}
 }
 	
