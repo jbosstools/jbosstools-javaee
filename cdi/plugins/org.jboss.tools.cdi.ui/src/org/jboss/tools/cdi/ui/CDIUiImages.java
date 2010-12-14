@@ -33,7 +33,7 @@ public class CDIUiImages {
 	public static final Image CDI_BEAN_IMAGE = getImage("search/cdi_bean.gif"); //$NON-NLS-1$
 	public static final Image WELD_IMAGE = getImage("search/weld_icon_16x.gif"); //$NON-NLS-1$
 	
-	public static final String WELD_WIZARD_IMAGE_PATH = "wizard/weld_icon_64x.gif"; //$NON-NLS-1$
+	public static final String WELD_WIZARD_IMAGE_PATH = "wizard/WeldWizBan.gif"; //$NON-NLS-1$
 	
 	public static Image getImage(String key) {
 		return INSTANCE.createImageDescriptor(key).createImage();
