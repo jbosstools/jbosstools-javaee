@@ -62,6 +62,7 @@ import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.ICDIAnnotation;
 import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
+import org.jboss.tools.cdi.ui.CDIUiImages;
 import org.jboss.tools.common.java.generation.JavaBeanGenerator;
 import org.jboss.tools.common.ui.widget.editor.CompositeEditor;
 import org.jboss.tools.common.ui.widget.editor.IFieldEditor;
@@ -85,6 +86,7 @@ public class NewInterceptorWizardPage extends NewClassWizardPage {
 	public NewInterceptorWizardPage() {
 		setTitle(CDIUIMessages.NEW_INTERCEPTOR_WIZARD_PAGE_NAME);
 		setDescription(CDIUIMessages.NEW_INTERCEPTOR_WIZARD_DESCRIPTION);
+		setImageDescriptor(CDIUiImages.getImageDescriptor(CDIUiImages.WELD_WIZARD_IMAGE_PATH));
 	}
 
 	public void init(IStructuredSelection selection) {

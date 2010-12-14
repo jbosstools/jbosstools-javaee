@@ -40,6 +40,7 @@ import org.eclipse.ui.internal.wizards.newresource.ResourceMessages;
 import org.eclipse.ui.wizards.newresource.BasicNewResourceWizard;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
 import org.jboss.tools.cdi.ui.CDIUIPlugin;
+import org.jboss.tools.cdi.ui.CDIUiImages;
 import org.jboss.tools.common.model.filesystems.impl.FileAnyImpl;
 import org.jboss.tools.common.model.options.PreferenceModelUtilities;
 import org.jboss.tools.common.model.project.ProjectHome;
@@ -70,7 +71,8 @@ public class NewBeansXMLCreationWizard extends BasicNewResourceWizard {
         mainPage = new WizardNewBeansXMLFileCreationPage("newFilePage1", getSelection());//$NON-NLS-1$
         mainPage.setTitle(CDIUIMessages.NEW_BEANS_XML_WIZARD_PAGE_NAME);
         mainPage.setDescription(CDIUIMessages.NEW_BEANS_XML_WIZARD_DESCRIPTION);
-        
+        mainPage.setImageDescriptor(CDIUiImages.getImageDescriptor(CDIUiImages.WELD_WIZARD_IMAGE_PATH));
+
         mainPage.setFileName("beans.xml");
 
         addPage(mainPage);

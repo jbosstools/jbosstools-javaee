@@ -53,6 +53,7 @@ import org.jboss.tools.cdi.core.ICDIAnnotation;
 import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.IQualifier;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
+import org.jboss.tools.cdi.ui.CDIUiImages;
 import org.jboss.tools.common.java.generation.JavaBeanGenerator;
 import org.jboss.tools.common.ui.widget.editor.ButtonFieldEditor;
 import org.jboss.tools.common.ui.widget.editor.ButtonFieldEditor.ButtonPressedAction;
@@ -75,6 +76,7 @@ public class NewAnnotationLiteralWizardPage extends NewClassWizardPage {
 	public NewAnnotationLiteralWizardPage() {
 		setTitle(CDIUIMessages.NEW_ANNOTATION_LITERAL_WIZARD_PAGE_NAME);
 		setDescription(CDIUIMessages.NEW_ANNOTATION_LITERAL_WIZARD_DESCRIPTION);
+		setImageDescriptor(CDIUiImages.getImageDescriptor(CDIUiImages.WELD_WIZARD_IMAGE_PATH));
 	}
 
 	public void init(IStructuredSelection selection) {

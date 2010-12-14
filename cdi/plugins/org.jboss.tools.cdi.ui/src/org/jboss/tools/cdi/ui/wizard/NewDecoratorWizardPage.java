@@ -50,6 +50,7 @@ import org.eclipse.ui.PlatformUI;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
+import org.jboss.tools.cdi.ui.CDIUiImages;
 import org.jboss.tools.common.java.generation.JavaBeanGenerator;
 import org.jboss.tools.common.ui.widget.editor.CompositeEditor;
 import org.jboss.tools.common.ui.widget.editor.IFieldEditor;
@@ -70,6 +71,7 @@ public class NewDecoratorWizardPage extends NewClassWizardPage {
 	public NewDecoratorWizardPage() {
 		setTitle(CDIUIMessages.NEW_DECORATOR_WIZARD_PAGE_NAME);
 		setDescription(CDIUIMessages.NEW_DECORATOR_WIZARD_DESCRIPTION);
+		setImageDescriptor(CDIUiImages.getImageDescriptor(CDIUiImages.WELD_WIZARD_IMAGE_PATH));
 	}
 
 	public void init(IStructuredSelection selection) {
