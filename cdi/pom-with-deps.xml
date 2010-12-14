@@ -1,0 +1,20 @@
+<project
+xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.jboss.tools</groupId>
+	<artifactId>cdi</artifactId>
+	<name>cdi.all</name>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<modules>
+		<!-- check out deps into folder parallel to this one in Hudson workspace -->
+		<module>../org.jboss.tools.jst.jsp.test</module>
+		<module>../org.jboss.tools.jst.jsp.base.test</module>
+
+		<module>plugins</module>
+		<module>features</module>
+		<module>tests</module>
+		<module>site</module>
+	</modules>
+</project>
+	
