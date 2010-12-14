@@ -8,7 +8,6 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 	<packaging>pom</packaging>
 	<modules>
 		<!-- check out deps into folder parallel to this one in Hudson workspace -->
-		<module>../org.jboss.tools.jst.jsp.test</module>
 		<module>../org.jboss.tools.jst.jsp.base.test</module>
 
 		<module>plugins</module>
