@@ -38,6 +38,7 @@ import org.eclipse.jdt.core.IAnnotation;
 import org.eclipse.jdt.core.IField;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.ILocalVariable;
+import org.eclipse.jdt.core.IMemberValuePair;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.ISourceRange;
 import org.eclipse.jdt.core.IType;
@@ -988,6 +989,81 @@ public class CDIUtil {
 			if(!result.contains(declaration)) {
 				result.add(declaration);
 				collectInheritedStereotypDeclarations(declaration.getStereotype(), result);
+			}
+		}
+		return result;
+	}
+
+	/**
+	 * Check all the values of @Target declaration of the annotation.
+	 * Returns null if there is no @Target at all. Returns true if any of the variants presents.
+	 * For example this method will return true for {{TYPE, FIELD, METHOD}, {TYPE}} for @Target(TYPE)
+	 * @param annotationType
+	 * @param variants
+	 * @return
+	 * @throws JavaModelException
+	 */
+	public static Boolean checkTargetAnnotation(ICDIAnnotation annotationType, String[][] variants) throws JavaModelException {
+		IAnnotationDeclaration target = annotationType.getAnnotationDeclaration(CDIConstants.TARGET_ANNOTATION_TYPE_NAME);
+		return target == null?null:checkTargetAnnotation(target, variants);
+	}
+
+	/**
+	 * Check all the values of @Target declaration
+	 * Returns true if any of the variants presents.
+	 * For example this method will return true for {{TYPE, FIELD, METHOD}, {TYPE}} for @Target(TYPE)
+	 * @param target
+	 * @param variants
+	 * @return
+	 * @throws JavaModelException
+	 */
+	public static boolean checkTargetAnnotation(IAnnotationDeclaration target, String[][] variants) throws JavaModelException {
+		Set<String> vs = getTargetAnnotationValues(target);
+		boolean ok = false;
+		for (int i = 0; i < variants.length; i++) {
+			if(vs.size() == variants[i].length) {
+				boolean ok2 = true;
+				String[] values = variants[i];
+				for (String s: values) {
+					if(!vs.contains(s)) {
+						ok2 = false;
+						break;
+					}
+				}
+				if(ok2) {
+					ok = true;
+					break;
+				}
+			}
+		}
+		return ok;
+	}
+
+	/**
+	 * Returns values of @Tagret declaration of the annotation type.
+	 * @param target
+	 * @return
+	 * @throws JavaModelException
+	 */
+	public static Set<String> getTargetAnnotationValues(IAnnotationDeclaration target) throws JavaModelException {
+		Set<String> result = new HashSet<String>();
+		IMemberValuePair[] ps = target.getDeclaration().getMemberValuePairs();
+		for (IMemberValuePair p: ps) {
+			if(!"value".equals(p.getMemberName())) continue;
+			Object o = p.getValue();
+			if(o instanceof Object[]) {
+				Object[] os = (Object[])o;
+				for (Object q: os) {
+					String s = q.toString();
+					int i = s.lastIndexOf('.');
+					if(i >= 0) s = s.substring(i + 1);
+					result.add(s);
+				}
+			} else if(o != null) {
+				String s = o.toString();
+				int i = s.lastIndexOf('.');
+				if(i >= 0) s = s.substring(i + 1);
+				result.add(s);
 			}
 		}
 		return result;
