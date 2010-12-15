@@ -209,7 +209,7 @@ public class TCKTest extends TestCase {
 	static class JavaFileFilter implements FileFilter {
 		public boolean accept(File pathname) {
 			String name = pathname.getName();
-			return (pathname.isDirectory() && !name.endsWith(".svn")) || ((name.endsWith(".java") || name.equals("beans.xml")) && !name.endsWith("Test.java"));
+			return (pathname.isDirectory() && !name.endsWith(".svn")) || ((name.endsWith(".java") || name.endsWith(".qfxresult") || name.equals("beans.xml")) && !name.endsWith("Test.java"));
 		}
 	}
 

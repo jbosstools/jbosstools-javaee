@@ -29,6 +29,7 @@ import org.jboss.tools.cdi.ui.marker.AddLocalBeanMarkerResolution;
 import org.jboss.tools.cdi.ui.marker.MakeFieldStaticMarkerResolution;
 import org.jboss.tools.cdi.ui.marker.MakeMethodBusinessMarkerResolution;
 import org.jboss.tools.cdi.ui.marker.MakeMethodPublicMarkerResolution;
+import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.test.util.JobUtils;
 
 /**
@@ -39,6 +40,10 @@ public class CDIMarkerResolutionTest  extends ValidationTest {
 	public static final String MARKER_TYPE = "org.jboss.tools.cdi.core.cdiproblem";
 	
 	private void checkResolution(IProject project, String[] fileNames, String markerType, String idName, int id, Class<? extends IMarkerResolution> resolutionClass) throws CoreException {
+		checkResolution(project, fileNames, new String[]{}, markerType, idName, id, resolutionClass);
+	}
+	
+	private void checkResolution(IProject project, String[] fileNames, String[] results, String markerType, String idName, int id, Class<? extends IMarkerResolution> resolutionClass) throws CoreException {
 		IFile file = project.getFile(fileNames[0]);
 		
 		assertTrue("File - "+file.getFullPath()+" must be exist",file.exists());
@@ -68,6 +73,8 @@ public class CDIMarkerResolutionTest  extends ValidationTest {
 								IMarker[] newMarkers = file.findMarkers(markerType, true,	IResource.DEPTH_INFINITE);
 								
 								assertTrue("Marker resolution did not decrease number of problems. was: "+markers.length+" now: "+newMarkers.length, newMarkers.length < markers.length);
+								
+								checkResults(project, fileNames, results);
 								
 								return;
 							}
@@ -137,6 +144,19 @@ public class CDIMarkerResolutionTest  extends ValidationTest {
 		}
 	}
 	
+	private void checkResults(IProject project, String[] fileNames, String[] results) throws CoreException{
+		for(int i = 0; i < results.length; i++){
+			IFile file = project.getFile(fileNames[i]);
+			IFile resultFile = project.getFile(results[i]);
+			
+			String fileContent = FileUtil.readStream(file);
+			String resultContent = FileUtil.readStream(resultFile);
+			
+			assertEquals("Wrong result of resolution", resultContent, fileContent);
+		}
+		
+	}
+	
 	public void testMakeProducerFieldStaticResolution() throws CoreException {
 		checkResolution(tckProject, 
 				new String[]{
@@ -179,6 +199,9 @@ public class CDIMarkerResolutionTest  extends ValidationTest {
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/FooProducerNoInterface.java"
 				},
+				new String[]{
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/FooProducerNoInterface.qfxresult"
+				},
 				MARKER_TYPE,
 				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
 				CDIValidationErrorManager.ILLEGAL_PRODUCER_METHOD_IN_SESSION_BEAN_ID,
@@ -213,6 +236,9 @@ public class CDIMarkerResolutionTest  extends ValidationTest {
 		checkResolution(tckProject,
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TibetanTerrier_BrokenNoInterface.java"
+				},
+				new String[]{
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TibetanTerrier_BrokenNoInterface.qfxresult"
 				},
 				MARKER_TYPE,
 				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
