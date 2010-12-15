@@ -113,11 +113,11 @@ public class AnnotationsValidationTest extends ValidationTest {
 
 	public void testInterceptorBindingsForStereotypes() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/target/StereotypeWithInterceptorBindingBroken.java");
-		assertMarkerIsCreated(file, MessageFormat.format(CDIValidationMessages.ILLEGAL_TARGET_IN_INTERCEPTOR_BINDING_TYPE_FOR_STEREOTYPE, "StereotypeWithInterceptorBindingBroken", "InterceptorBindingWTypeTarget"), 15);
+		assertMarkerIsCreated(file, MessageFormat.format(CDIValidationMessages.ILLEGAL_TARGET_IN_INTERCEPTOR_BINDING_TYPE_FOR_STEREOTYPE, "StereotypeWithInterceptorBindingBroken", "InterceptorBindingWTypeTarget"), 16);
 	}
 
 	public void testInterceptorBindingsForStereotypesOk() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/target/StereotypeOk.java");
-		assertMarkerIsNotCreated(file, MessageFormat.format(CDIValidationMessages.ILLEGAL_TARGET_IN_INTERCEPTOR_BINDING_TYPE_FOR_STEREOTYPE, "StereotypeOk", "InterceptorBindingWTypeTarget"), 14);
+		assertMarkerIsNotCreated(file, MessageFormat.format(CDIValidationMessages.ILLEGAL_TARGET_IN_INTERCEPTOR_BINDING_TYPE_FOR_STEREOTYPE, "StereotypeOk", "InterceptorBindingWTypeTarget"), 15);
 	}
 }

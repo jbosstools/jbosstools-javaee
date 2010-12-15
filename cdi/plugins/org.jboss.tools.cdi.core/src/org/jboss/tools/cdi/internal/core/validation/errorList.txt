@@ -257,5 +257,5 @@ Other errors.
 - Interceptor binding types declared @Target(TYPE) may not be applied to interceptor binding types declared 
   @Target({TYPE, METHOD}).
 
-9.1.2. Interceptor bindings for stereotypes 
+9.1.2. Interceptor bindings for stereotypes
 - If a stereotype declares interceptor bindings, it must be defined as @Target(TYPE).

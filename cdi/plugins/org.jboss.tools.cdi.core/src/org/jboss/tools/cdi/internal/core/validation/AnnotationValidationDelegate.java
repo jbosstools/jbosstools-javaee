@@ -22,6 +22,7 @@ import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.CDIUtil;
 import org.jboss.tools.cdi.core.IAnnotationDeclaration;
 import org.jboss.tools.cdi.core.ICDIAnnotation;
+import org.jboss.tools.cdi.core.IInterceptorBindingDeclaration;
 import org.jboss.tools.cdi.core.IQualifier;
 import org.jboss.tools.cdi.core.IScope;
 import org.jboss.tools.cdi.core.IStereotype;
@@ -70,19 +71,19 @@ public class AnnotationValidationDelegate extends CDICoreValidationDelegate {
 		 */
 		validateRetentionAnnotation(stereotype, CDIValidationMessages.MISSING_RETENTION_ANNOTATION_IN_STEREOTYPE_TYPE, resource);
 
-		/*
-		 * 2.7.1.5. Stereotypes with additional stereotypes
-		 * - Stereotypes declared @Target(TYPE) may not be applied to stereotypes declared @Target({TYPE, METHOD, FIELD}),
-		 *   @Target(METHOD), @Target(FIELD) or @Target({METHOD, FIELD}).
-		 */
-		Set<IStereotypeDeclaration> stereotypes = stereotype.getStereotypeDeclarations();
-		for (IStereotypeDeclaration stereotypeDeclaration : stereotypes) {
-			IStereotype superStereotype = stereotypeDeclaration.getStereotype();
-			if(superStereotype!=null) {
-				Boolean result = CDIUtil.checkTargetAnnotation(superStereotype, TYPE_VARIANTS);
-				if(result!=null && result) {
-					IAnnotationDeclaration target = stereotype.getAnnotationDeclaration(CDIConstants.TARGET_ANNOTATION_TYPE_NAME);
-					if(target!=null) {
+		IAnnotationDeclaration target = stereotype.getAnnotationDeclaration(CDIConstants.TARGET_ANNOTATION_TYPE_NAME);
+		if(target!=null) {
+			/*
+			 * 2.7.1.5. Stereotypes with additional stereotypes
+			 * - Stereotypes declared @Target(TYPE) may not be applied to stereotypes declared @Target({TYPE, METHOD, FIELD}),
+			 *   @Target(METHOD), @Target(FIELD) or @Target({METHOD, FIELD}).
+			 */
+			Set<IStereotypeDeclaration> stereotypes = stereotype.getStereotypeDeclarations();
+			for (IStereotypeDeclaration stereotypeDeclaration : stereotypes) {
+				IStereotype superStereotype = stereotypeDeclaration.getStereotype();
+				if(superStereotype!=null) {
+					Boolean result = CDIUtil.checkTargetAnnotation(superStereotype, TYPE_VARIANTS);
+					if(result!=null && result) {
 						result = CDIUtil.checkTargetAnnotation(target, STEREOTYPE_TMF_VARIANTS);
 						String stName = stereotype.getSourceType().getElementName();
 						String superStName = superStereotype.getSourceType().getElementName();
@@ -106,6 +107,24 @@ public class AnnotationValidationDelegate extends CDICoreValidationDelegate {
 						}
 					}
 				}
+			}
+			/*
+			 * 9.1.2. Interceptor bindings for stereotypes
+			 * - If a stereotype declares interceptor bindings, it must be defined as @Target(TYPE).
+			 */
+			Set<IInterceptorBindingDeclaration> interceptorBindingDeclarations = stereotype.getInterceptorBindingDeclarations(false);
+			if(!interceptorBindingDeclarations.isEmpty() && !CDIUtil.checkTargetAnnotation(target, TYPE_VARIANTS)) {
+				StringBuffer bindings = new StringBuffer();
+				boolean first = true;
+				for (IInterceptorBindingDeclaration binding : interceptorBindingDeclarations) {
+					if(!first) {
+						bindings.append(", ");
+					}
+					bindings.append(binding.getType().getElementName());
+					first = false;
+				}
+				String stName = stereotype.getSourceType().getElementName();
+				validator.addError(CDIValidationMessages.ILLEGAL_TARGET_IN_INTERCEPTOR_BINDING_TYPE_FOR_STEREOTYPE, CDIPreferences.MISSING_OR_INCORRECT_TARGET_OR_RETENTION_IN_ANNOTATION_TYPE, new String[]{stName, bindings.toString()}, target, resource);
 			}
 		}
 	}
