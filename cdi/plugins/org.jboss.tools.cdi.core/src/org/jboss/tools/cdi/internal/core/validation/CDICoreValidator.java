@@ -2057,6 +2057,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 			// validate sources only
 			return;
 		}
+		addLinkedStereotypes(stereotype.getResource().getFullPath().toOSString(), stereotype);
 		List<IAnnotationDeclaration> as = stereotype.getAnnotationDeclarations();
 
 		// 1. non-empty name

@@ -11,6 +11,8 @@
 
 package org.jboss.tools.cdi.core.test.tck.validation;
 
+import java.text.MessageFormat;
+
 import org.eclipse.core.resources.IFile;
 import org.jboss.tools.cdi.internal.core.validation.CDIValidationMessages;
 
@@ -69,5 +71,53 @@ public class AnnotationsValidationTest extends ValidationTest {
 	public void testScopeWithWrongTarget() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/annotations/scope/broken/FooScoped_WrongTarget.java");
 		assertMarkerIsCreated(file, CDIValidationMessages.MISSING_TARGET_ANNOTATION_IN_SCOPE_TYPE.substring(0, 52) + ".*", 30);
+	}
+
+	public void testStereotypesWithAdditionalStereotypesWithTMFTarget() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/target/StereotypeTMFBroken.java");
+		assertMarkerIsCreated(file, MessageFormat.format(CDIValidationMessages.ILLEGAL_TARGET_IN_STEREOTYPE_TYPE_TMF, "StereotypeWTypeTarget", "StereotypeTMFBroken"), 15);
+	}
+
+	public void testStereotypesWithAdditionalStereotypesWithMTarget() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/target/StereotypeMBroken.java");
+		assertMarkerIsCreated(file, MessageFormat.format(CDIValidationMessages.ILLEGAL_TARGET_IN_STEREOTYPE_TYPE_M, "StereotypeWTypeTarget", "StereotypeMBroken"), 13);
+	}
+
+	public void testStereotypesWithAdditionalStereotypesWithFTarget() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/target/StereotypeFBroken.java");
+		assertMarkerIsCreated(file, MessageFormat.format(CDIValidationMessages.ILLEGAL_TARGET_IN_STEREOTYPE_TYPE_F, "StereotypeWTypeTarget", "StereotypeFBroken"), 13);
+	}
+
+	public void testStereotypesWithAdditionalStereotypesWithMFTarget() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/target/StereotypeMFBroken.java");
+		assertMarkerIsCreated(file, MessageFormat.format(CDIValidationMessages.ILLEGAL_TARGET_IN_STEREOTYPE_TYPE_MF, "StereotypeWTypeTarget", "StereotypeMFBroken"), 14);
+	}
+
+	public void testStereotypesWithAdditionalStereotypesOk() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/target/StereotypeOk.java");
+		assertMarkerIsNotCreated(file, MessageFormat.format(CDIValidationMessages.ILLEGAL_TARGET_IN_STEREOTYPE_TYPE_TMF, "StereotypeWTypeTarget", "StereotypeOk"), 13);
+		assertMarkerIsNotCreated(file, MessageFormat.format(CDIValidationMessages.ILLEGAL_TARGET_IN_STEREOTYPE_TYPE_M, "StereotypeWTypeTarget", "StereotypeOk"), 13);
+		assertMarkerIsNotCreated(file, MessageFormat.format(CDIValidationMessages.ILLEGAL_TARGET_IN_STEREOTYPE_TYPE_F, "StereotypeWTypeTarget", "StereotypeOk"), 13);
+		assertMarkerIsNotCreated(file, MessageFormat.format(CDIValidationMessages.ILLEGAL_TARGET_IN_STEREOTYPE_TYPE_MF, "StereotypeWTypeTarget", "StereotypeOk"), 13);
+	}
+
+	public void testInterceptorBindingWithAdditionalInterceptorBindings() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/target/InterceptorBindingBroken.java");
+		assertMarkerIsCreated(file, MessageFormat.format(CDIValidationMessages.ILLEGAL_TARGET_IN_INTERCEPTOR_BINDING_TYPE, "InterceptorBindingWTypeTarget", "InterceptorBindingBroken"), 16);
+	}
+
+	public void testInterceptorBindingWithAdditionalInterceptorBindingsOk() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/target/InterceptorBindingOk.java");
+		assertMarkerIsNotCreated(file, MessageFormat.format(CDIValidationMessages.ILLEGAL_TARGET_IN_INTERCEPTOR_BINDING_TYPE, "InterceptorBindingWTypeTarget", "InterceptorBindingOk"), 15);
+	}
+
+	public void testInterceptorBindingsForStereotypes() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/target/StereotypeWithInterceptorBindingBroken.java");
+		assertMarkerIsCreated(file, MessageFormat.format(CDIValidationMessages.ILLEGAL_TARGET_IN_INTERCEPTOR_BINDING_TYPE_FOR_STEREOTYPE, "StereotypeWithInterceptorBindingBroken", "InterceptorBindingWTypeTarget"), 15);
+	}
+
+	public void testInterceptorBindingsForStereotypesOk() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/target/StereotypeOk.java");
+		assertMarkerIsNotCreated(file, MessageFormat.format(CDIValidationMessages.ILLEGAL_TARGET_IN_INTERCEPTOR_BINDING_TYPE_FOR_STEREOTYPE, "StereotypeOk", "InterceptorBindingWTypeTarget"), 14);
 	}
 }
