@@ -15,6 +15,6 @@ public class NotBusinessMethod_BrokenNoInterface{
 		return em;
 	}
 
-	void disposeEntityManager(@Disposes EntityManager em) {
+	public void disposeEntityManager(@Disposes EntityManager em) {
 	}
 }
