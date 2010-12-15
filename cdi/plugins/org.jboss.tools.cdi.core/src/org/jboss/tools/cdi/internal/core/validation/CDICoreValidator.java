@@ -2110,19 +2110,23 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 	}
 
 	private void validateInterceptorBinding(IInterceptorBinding binding) {
-		if(binding==null) {
+		if(binding==null || (binding.getSourceType() == null && binding.getSourceType().isReadOnly())) {
 			return;
 		}
-		IResource resource = binding.getResource();
-		if (resource == null || !resource.getName().toLowerCase().endsWith(".java")) {
-			// validate sources only
-			return;
-		}
+
+		addLinkedInterceptorBindings(binding.getSourcePath().toOSString(), binding);
+
 		/*
 		 * 9.5.2. Interceptor binding types with members
 		 *  array-valued or annotation-valued member of an interceptor binding type is not annotated @Nonbinding (Non-Portable behavior)
 		 */
 		validateAnnotationMembers(binding, CDIValidationMessages.MISSING_NONBINDING_FOR_ARRAY_VALUE_IN_INTERCEPTOR_BINDING_TYPE_MEMBER, CDIValidationMessages.MISSING_NONBINDING_FOR_ANNOTATION_VALUE_IN_INTERCEPTOR_BINDING_TYPE_MEMBER, CDIPreferences.MISSING_NONBINDING_IN_INTERCEPTOR_BINDING_TYPE_MEMBER);
+
+		try {
+			annotationValidator.validateInterceptorBindingAnnotationTypeAnnotations(binding);
+		} catch (JavaModelException e) {
+			CDICorePlugin.getDefault().logError(e);
+		}
 	}
 
 	/**

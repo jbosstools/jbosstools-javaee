@@ -22,6 +22,7 @@ import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.CDIUtil;
 import org.jboss.tools.cdi.core.IAnnotationDeclaration;
 import org.jboss.tools.cdi.core.ICDIAnnotation;
+import org.jboss.tools.cdi.core.IInterceptorBinding;
 import org.jboss.tools.cdi.core.IInterceptorBindingDeclaration;
 import org.jboss.tools.cdi.core.IQualifier;
 import org.jboss.tools.cdi.core.IScope;
@@ -54,6 +55,7 @@ public class AnnotationValidationDelegate extends CDICoreValidationDelegate {
 	static final String[][] STEREOTYPE_F_VARIANTS = {{TARGET_FIELD}};
 
 	static final String[][] TYPE_VARIANTS = {{TARGET_TYPE}};
+	static final String[][] TYPE__METHOD_VARIANTS = {{TARGET_TYPE, TARGET_METHOD}};
 
 	public AnnotationValidationDelegate(CDICoreValidator validator) {
 		super(validator);
@@ -125,6 +127,29 @@ public class AnnotationValidationDelegate extends CDICoreValidationDelegate {
 				}
 				String stName = stereotype.getSourceType().getElementName();
 				validator.addError(CDIValidationMessages.ILLEGAL_TARGET_IN_INTERCEPTOR_BINDING_TYPE_FOR_STEREOTYPE, CDIPreferences.MISSING_OR_INCORRECT_TARGET_OR_RETENTION_IN_ANNOTATION_TYPE, new String[]{stName, bindings.toString()}, target, resource);
+			}
+		}
+	}
+
+	public void validateInterceptorBindingAnnotationTypeAnnotations(IInterceptorBinding binding) throws JavaModelException {
+		/*
+		 * 9.1.1. Interceptor binding types with additional interceptor bindings
+		 * - Interceptor binding types declared @Target(TYPE) may not be applied to interceptor binding types declared
+		 *   @Target({TYPE, METHOD}).
+		 */
+		Set<IInterceptorBindingDeclaration> declarations = binding.getInterceptorBindingDeclarations(false);
+		if(!declarations.isEmpty()) {
+			IAnnotationDeclaration target = binding.getAnnotationDeclaration(CDIConstants.TARGET_ANNOTATION_TYPE_NAME);
+			if(target!=null) {
+				if(CDIUtil.checkTargetAnnotation(target, TYPE__METHOD_VARIANTS)) {
+					for (IInterceptorBindingDeclaration declaration : declarations) {
+						ICDIAnnotation superBinding = declaration.getAnnotation();
+						Boolean result = CDIUtil.checkTargetAnnotation(superBinding, TYPE_VARIANTS);
+						if(result!=null && result) {
+							validator.addError(CDIValidationMessages.ILLEGAL_TARGET_IN_INTERCEPTOR_BINDING_TYPE, CDIPreferences.MISSING_OR_INCORRECT_TARGET_OR_RETENTION_IN_ANNOTATION_TYPE, new String[]{superBinding.getSourceType().getElementName(), binding.getSourceType().getElementName()}, declaration, binding.getResource());
+						}
+					}
+				}
 			}
 		}
 	}
