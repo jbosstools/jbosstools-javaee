@@ -11,17 +11,25 @@
 package org.jboss.tools.cdi.ui.test.marker;
 
 
+import java.io.IOException;
+import java.io.InputStream;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.ui.IMarkerResolution;
 import org.eclipse.ui.ide.IDE;
 import org.jboss.tools.cdi.core.test.tck.validation.ValidationTest;
+import org.jboss.tools.cdi.internal.core.validation.CDIValidationErrorManager;
 import org.jboss.tools.cdi.ui.marker.AddLocalBeanMarkerResolution;
 import org.jboss.tools.cdi.ui.marker.MakeFieldStaticMarkerResolution;
 import org.jboss.tools.cdi.ui.marker.MakeMethodBusinessMarkerResolution;
 import org.jboss.tools.cdi.ui.marker.MakeMethodPublicMarkerResolution;
+import org.jboss.tools.test.util.JobUtils;
 
 /**
  * @author Daniel Azarov
@@ -30,137 +38,221 @@ import org.jboss.tools.cdi.ui.marker.MakeMethodPublicMarkerResolution;
 public class CDIMarkerResolutionTest  extends ValidationTest {
 	public static final String MARKER_TYPE = "org.jboss.tools.cdi.core.cdiproblem";
 	
-	public void testMakeFieldStaticResolution() throws CoreException {
-		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/NonStaticProducerOfSessionBeanBroken.java");
+	private void checkResolution(IProject project, String[] fileNames, String markerType, String idName, int id, Class<? extends IMarkerResolution> resolutionClass) throws CoreException {
+		IFile file = project.getFile(fileNames[0]);
 		
 		assertTrue("File - "+file.getFullPath()+" must be exist",file.exists());
 		
-		IMarker[] markers = file.findMarkers(MARKER_TYPE, true,	IResource.DEPTH_INFINITE);
+		copyFiles(project, fileNames);
 		
-		boolean found = false;
-		for (int i = 0; i < markers.length; i++) {
-			IMarker marker = markers[i];
-			IMarkerResolution[] resolutions = IDE.getMarkerHelpRegistry()
-					.getResolutions(marker);
-			for (int j = 0; j < resolutions.length; j++) {
-				IMarkerResolution resolution = resolutions[j];
-				if (resolution instanceof MakeFieldStaticMarkerResolution) {
-					found = true;
-					break;
+		try{
+			IMarker[] markers = file.findMarkers(markerType, true,	IResource.DEPTH_INFINITE);
+			
+			for (int i = 0; i < markers.length; i++) {
+				IMarker marker = markers[i];
+				Integer attribute = ((Integer) marker
+						.getAttribute(CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME));
+				if (attribute != null){
+					int messageId = attribute.intValue();
+					if(messageId == id){
+						IMarkerResolution[] resolutions = IDE.getMarkerHelpRegistry()
+								.getResolutions(marker);
+						for (int j = 0; j < resolutions.length; j++) {
+							IMarkerResolution resolution = resolutions[j];
+							if (resolution.getClass().equals(resolutionClass)) {
+								
+								resolution.run(marker);
+								
+								refresh(project);
+								
+								IMarker[] newMarkers = file.findMarkers(markerType, true,	IResource.DEPTH_INFINITE);
+								
+								assertTrue("Marker resolution did not decrease number of problems. was: "+markers.length+" now: "+newMarkers.length, newMarkers.length < markers.length);
+								
+								return;
+							}
+						}
+						fail("Marker resolution: "+resolutionClass+" not found");
+					}
 				}
 			}
-			if (found) {
-				break;
-			}
+			fail("Problem marker with id: "+id+" not found");
+		}finally{
+			restoreFiles(project, fileNames);
+			
+			refresh(project);
 		}
-		assertTrue("Quick fix: \"Make field static\" doesn't exist.", found);
 	}
 	
-	public void testMakeMethodBusinessResolution() throws CoreException {
-		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/FooProducer.java");
+	private void refresh(IProject project) throws CoreException{
+		project.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
+		JobUtils.waitForIdle();
+		project.build(IncrementalProjectBuilder.INCREMENTAL_BUILD, null);
+		JobUtils.waitForIdle();
 		
-		assertTrue("File - "+file.getFullPath()+" must be exist",file.exists());
-		
-		IMarker[] markers = file.findMarkers(MARKER_TYPE, true,	IResource.DEPTH_INFINITE);
-		
-		boolean found1 = false;
-		boolean found2 = false;
-		for (int i = 0; i < markers.length; i++) {
-			IMarker marker = markers[i];
-			IMarkerResolution[] resolutions = IDE.getMarkerHelpRegistry()
-					.getResolutions(marker);
-			for (int j = 0; j < resolutions.length; j++) {
-				IMarkerResolution resolution = resolutions[j];
-				if (resolution instanceof MakeMethodBusinessMarkerResolution) {
-					found1 = true;
-				}
-				if (resolution instanceof AddLocalBeanMarkerResolution) {
-					found2 = true;
-				}
-			}
-		}
-		assertTrue("Quick fix: \"Make method business\" doesn't exist.", found1);
-		assertTrue("Quick fix: \"Add @LocalBean annotation\" doesn't exist.", found2);
-	}
-
-	public void testMakeMethodPublicResolution() throws CoreException {
-		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/FooProducerNoInterface.java");
-		
-		assertTrue("File - "+file.getFullPath()+" must be exist",file.exists());
-		
-		IMarker[] markers = file.findMarkers(MARKER_TYPE, true,	IResource.DEPTH_INFINITE);
-		
-		boolean found = false;
-		for (int i = 0; i < markers.length; i++) {
-			IMarker marker = markers[i];
-			IMarkerResolution[] resolutions = IDE.getMarkerHelpRegistry()
-					.getResolutions(marker);
-			for (int j = 0; j < resolutions.length; j++) {
-				IMarkerResolution resolution = resolutions[j];
-				if (resolution instanceof MakeMethodPublicMarkerResolution) {
-					found = true;
-					break;
-				}
-			}
-			if (found) {
-				break;
-			}
-		}
-		assertTrue("Quick fix: \"Make method public\" doesn't exist.", found);
 	}
 	
-	public void testMakeMethodBusinessResolution2() throws CoreException {
-		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/event/broken/observer/notBusinessMethod/TibetanTerrier_Broken.java");
-		
-		assertTrue("File - "+file.getFullPath()+" must be exist",file.exists());
-		
-		IMarker[] markers = file.findMarkers(MARKER_TYPE, true,	IResource.DEPTH_INFINITE);
-		
-		boolean found1 = false;
-		boolean found2 = false;
-		for (int i = 0; i < markers.length; i++) {
-			IMarker marker = markers[i];
-			IMarkerResolution[] resolutions = IDE.getMarkerHelpRegistry()
-					.getResolutions(marker);
-			for (int j = 0; j < resolutions.length; j++) {
-				IMarkerResolution resolution = resolutions[j];
-				if (resolution instanceof MakeMethodBusinessMarkerResolution) {
-					found1 = true;
-				}
-				if (resolution instanceof AddLocalBeanMarkerResolution) {
-					found2 = true;
+	private void copyFiles(IProject project, String[] fileNames) throws CoreException{
+		for(String fileName : fileNames){
+			IFile file = project.getFile(fileName);
+			IFile copyFile = project.getFile(fileName+".copy");
+			
+			if(copyFile.exists())
+				copyFile.delete(true, null);
+			
+			InputStream is = null;
+			try{
+				is = file.getContents();
+				copyFile.create(is, true, null);
+			} finally {
+				if(is!=null) {
+					try {
+						is.close();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
 				}
 			}
 		}
-		assertTrue("Quick fix: \"Make method business\" doesn't exist.", found1);
-		assertTrue("Quick fix: \"Add @LocalBean annotation\" doesn't exist.", found2);
+	}
+	
+	private void restoreFiles(IProject project, String[] fileNames) throws CoreException {
+		for(String fileName : fileNames){
+			IFile file = project.getFile(fileName);
+			IFile copyFile = project.getFile(fileName+".copy");
+			InputStream is = null;
+			try{
+				is = copyFile.getContents();
+				file.setContents(is, true, false, null);
+			} finally {
+				if(is!=null) {
+					try {
+						is.close();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+			copyFile.delete(true, null);
+		}
+	}
+	
+	public void testMakeProducerFieldStaticResolution() throws CoreException {
+		checkResolution(tckProject, 
+				new String[]{
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/NonStaticProducerOfSessionBeanBroken.java"
+				},
+				MARKER_TYPE,
+				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
+				CDIValidationErrorManager.ILLEGAL_PRODUCER_FIELD_IN_SESSION_BEAN_ID,
+				MakeFieldStaticMarkerResolution.class);
+	}
+	
+	public void testMakeProducerMethodBusinessResolution() throws CoreException {
+		checkResolution(
+				tckProject,
+				new String[]{
+						"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/FooProducer.java",
+						"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/FooProducerLocal.java"
+				},
+				MARKER_TYPE,
+				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
+				CDIValidationErrorManager.ILLEGAL_PRODUCER_METHOD_IN_SESSION_BEAN_ID,
+				MakeMethodBusinessMarkerResolution.class);
+	}
+	
+	public void testAddLocalBeanResolution() throws CoreException {
+		checkResolution(
+				tckProject,
+				new String[]{
+						"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/FooProducer.java",
+						"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/FooProducerLocal.java"
+				},
+				MARKER_TYPE,
+				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
+				CDIValidationErrorManager.ILLEGAL_PRODUCER_METHOD_IN_SESSION_BEAN_ID,
+				AddLocalBeanMarkerResolution.class);
 	}
 
-	public void testMakeMethodBusinessResolution3() throws CoreException {
-		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/disposers/NotBusinessMethod_Broken.java");
-		
-		assertTrue("File - "+file.getFullPath()+" must be exist",file.exists());
-		
-		IMarker[] markers = file.findMarkers(MARKER_TYPE, true,	IResource.DEPTH_INFINITE);
-		
-		boolean found1 = false;
-		boolean found2 = false;
-		for (int i = 0; i < markers.length; i++) {
-			IMarker marker = markers[i];
-			IMarkerResolution[] resolutions = IDE.getMarkerHelpRegistry()
-					.getResolutions(marker);
-			for (int j = 0; j < resolutions.length; j++) {
-				IMarkerResolution resolution = resolutions[j];
-				if (resolution instanceof MakeMethodBusinessMarkerResolution) {
-					found1 = true;
-				}
-				if (resolution instanceof AddLocalBeanMarkerResolution) {
-					found2 = true;
-				}
-			}
-		}
-		assertTrue("Quick fix: \"Make method business\" doesn't exist.", found1);
-		assertTrue("Quick fix: \"Add @LocalBean annotation\" doesn't exist.", found2);
+	public void testMakeProducerMethodPublicResolution() throws CoreException {
+		checkResolution(tckProject,
+				new String[]{
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/FooProducerNoInterface.java"
+				},
+				MARKER_TYPE,
+				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
+				CDIValidationErrorManager.ILLEGAL_PRODUCER_METHOD_IN_SESSION_BEAN_ID,
+				MakeMethodPublicMarkerResolution.class);
+	}
+	
+	public void testMakeObserverParamMethodBusinessResolution() throws CoreException {
+		checkResolution(tckProject,
+				new String[]{
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TibetanTerrier_Broken.java",
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Terrier.java"
+				},
+				MARKER_TYPE,
+				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
+				CDIValidationErrorManager.ILLEGAL_OBSERVER_IN_SESSION_BEAN_ID,
+				MakeMethodBusinessMarkerResolution.class);
+	}
+
+	public void testAddLocalBeanResolution2() throws CoreException {
+		checkResolution(tckProject,
+				new String[]{
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TibetanTerrier_Broken.java",
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Terrier.java"
+				},
+				MARKER_TYPE,
+				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
+				CDIValidationErrorManager.ILLEGAL_OBSERVER_IN_SESSION_BEAN_ID,
+				AddLocalBeanMarkerResolution.class);
+	}
+
+	public void testMakeObserverParamMethodPublicResolution() throws CoreException {
+		checkResolution(tckProject,
+				new String[]{
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TibetanTerrier_BrokenNoInterface.java"
+				},
+				MARKER_TYPE,
+				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
+				CDIValidationErrorManager.ILLEGAL_OBSERVER_IN_SESSION_BEAN_ID,
+				MakeMethodPublicMarkerResolution.class);
+	}
+
+	public void testMakeDisposerParamMethodBusinessResolution() throws CoreException {
+		checkResolution(tckProject,
+				new String[]{
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/NotBusinessMethod_Broken.java",
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/LocalInt.java"
+				},
+				MARKER_TYPE,
+				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
+				CDIValidationErrorManager.ILLEGAL_DISPOSER_IN_SESSION_BEAN_ID,
+				MakeMethodBusinessMarkerResolution.class);
+	}
+
+	public void testAddLocalBeanResolution3() throws CoreException {
+		checkResolution(tckProject,
+				new String[]{
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/NotBusinessMethod_Broken.java",
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/LocalInt.java"
+				},
+				MARKER_TYPE,
+				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
+				CDIValidationErrorManager.ILLEGAL_DISPOSER_IN_SESSION_BEAN_ID,
+				AddLocalBeanMarkerResolution.class);
+	}
+
+	public void testMakeDisposerParamMethodPublicResolution() throws CoreException {
+		checkResolution(tckProject,
+				new String[]{
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/NotBusinessMethod_BrokenNoInterface.java"
+				},
+				MARKER_TYPE,
+				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
+				CDIValidationErrorManager.ILLEGAL_DISPOSER_IN_SESSION_BEAN_ID,
+				MakeMethodPublicMarkerResolution.class);
 	}
 
 }
