@@ -25,6 +25,8 @@ import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IField;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.IMember;
+import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.ISourceRange;
 import org.eclipse.jdt.core.IType;
@@ -40,6 +42,7 @@ import org.eclipse.jdt.internal.ui.dialogs.StatusUtil;
 import org.eclipse.jdt.internal.ui.preferences.JavaPreferencesSettings;
 import org.eclipse.jdt.ui.CodeGeneration;
 import org.eclipse.jdt.ui.wizards.NewClassWizardPage;
+import org.eclipse.jdt.ui.wizards.NewTypeWizardPage.ImportsManager;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.SWT;
@@ -51,6 +54,7 @@ import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.ICDIAnnotation;
 import org.jboss.tools.cdi.core.ICDIProject;
+import org.jboss.tools.cdi.core.IParametedType;
 import org.jboss.tools.cdi.core.IQualifier;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
 import org.jboss.tools.cdi.ui.CDIUiImages;
@@ -197,7 +201,10 @@ public class NewAnnotationLiteralWizardPage extends NewClassWizardPage {
 				.getJavaProject());
 		StringBuffer sb = new StringBuffer();
 		buf.replace(range.getOffset(), 0, sb.toString());
-		createInstanceField(newType, imports, monitor, lineDelimiter);
+		boolean isDefault = modifyMethodContent(newType, imports, monitor, lineDelimiter);
+		if(isDefault) {
+			createInstanceField(newType, imports, monitor, lineDelimiter);
+		}
 	}
 
 	protected void createCustomFields(Composite composite) {
@@ -266,27 +273,37 @@ public class NewAnnotationLiteralWizardPage extends NewClassWizardPage {
 	protected IField createInstanceField(IType type, ImportsManager imports,
 			IProgressMonitor monitor, String lineDelimiter)
 			throws CoreException {
-
-		imports.addImport(CDIConstants.ANNOTATION_LITERAL_TYPE_NAME);
-		
-		IType fieldType = fieldType = selected.getSourceType();
-
+		imports.addImport(CDIConstants.ANNOTATION_LITERAL_TYPE_NAME);		
+		IType fieldType = selected.getSourceType();
 		imports.addImport(fieldType.getFullyQualifiedName());
+		String access = "public static final ";
+		String initialization = "new " + type.getElementName() + "()";
+		IJavaElement[] cs = type.getChildren();
+		IJavaElement sibling = cs == null || cs.length == 0 ? null : cs[0];
+
+		IField m = createField(type, sibling, imports, "INSTANCE", fieldType.getElementName(), access, initialization, monitor, lineDelimiter);
+		return m;
+	}
+
+	protected IField createField(IType type, IJavaElement sibling, ImportsManager imports, String name, String fieldType, String access, String initialization, 
+			IProgressMonitor monitor, String lineDelimiter)
+			throws CoreException {
 
 		ICompilationUnit cu = type.getCompilationUnit();
 		JavaModelUtil.reconcile(cu);
 		CodeGenerationSettings settings = JavaPreferencesSettings
 				.getCodeGenerationSettings(type.getJavaProject());
 		settings.createComments = isAddComments();
-		String access = "public static final ";
 
-		String fieldHeader = access + " " + fieldType.getElementName() + " " + "INSTANCE" + 
-			"= new " + type.getElementName() + "()" + ";" + lineDelimiter; //$NON-NLS-1$ //$NON-NLS-2$
-		IJavaElement[] cs = type.getChildren();
-		IJavaElement sibling = cs == null || cs.length == 0 ? null : cs[0];
+		String fieldHeader = access + " " + fieldType + " " + name;
+		if(initialization != null) {
+			fieldHeader += "= " + initialization;
+		}
+		fieldHeader += ";" + lineDelimiter; //$NON-NLS-1$ //$NON-NLS-2$
+	
 		IField m = type.createField(fieldHeader, sibling, true, null);
 
-		editField(cu, m, fieldType.getElementName(), fieldHeader, lineDelimiter);
+		editField(cu, m, fieldType, fieldHeader, lineDelimiter);
 		return m;
 	}
 
@@ -400,6 +417,95 @@ public class NewAnnotationLiteralWizardPage extends NewClassWizardPage {
 
 	public void setQualifier(String type) {
 		qualifiers.setValue(type);
+	}
+
+	protected boolean modifyMethodContent(IType type, ImportsManager imports,
+			IProgressMonitor monitor, String lineDelimiter) throws CoreException {
+		IMethod[] ms = type.getMethods();
+		IMethod sibling = null;
+		List<String[]> fields = new ArrayList<String[]>();
+		IMethod constructor = null;
+		for (int i = 0; i < ms.length; i++) {
+			if(ms[i].isConstructor()) {
+				constructor = ms[i];
+				continue;
+			}
+			if(sibling == null) {
+				sibling = ms[i];
+			}
+			ICompilationUnit cu = type.getCompilationUnit();
+			synchronized (cu) {
+				cu.reconcile(ICompilationUnit.NO_AST, true, null, null);
+			}
+			IBuffer buf = cu.getBuffer();
+			ISourceRange range = ms[i].getSourceRange();
+
+			int start = -1;
+			int end = -1;
+			StringBuffer sb = new StringBuffer();
+			if("void".equals(ms[i].getReturnType()) || "V".equals(ms[i].getReturnType())) {
+				end = buf.getContents().indexOf("}", range.getOffset());
+				if(end < 0) continue;
+				end = buf.getContents().lastIndexOf(lineDelimiter, end);
+				if(end < 0 || end < range.getOffset()) continue;
+//				end += lineDelimiter.length();
+				start = end;
+			} else {			
+				start = buf.getContents().indexOf("return", range.getOffset());
+				if(start < 0 || start > range.getOffset() + range.getLength()) continue;
+				start += 7;
+				end =  buf.getContents().indexOf(";", start);
+				if(end < 0) continue;
+				end++;
+			}
+			String methodName = ms[i].getElementName();
+			String fieldName = "" + methodName;
+			sb.append(fieldName).append(";");
+			buf.replace(start, end - start, sb.toString());
+			fields.add(new String[]{ms[i].getReturnType(), fieldName});
+		}
+		
+		for (int i = 0; i < fields.size(); i++) {
+			String[] data = fields.get(i);
+			String fieldType = data[0];
+			String fieldName = data[1];
+			IParametedType t = NewCDIAnnotationWizardPage.getCDIProject(getPackageFragmentRoot().getJavaProject()).getNature().getTypeFactory().getParametedType(type, fieldType);
+			if(t != null) {
+				data[0] = t.getSimpleName();
+				createField(type, constructor, imports, fieldName, t.getSimpleName(), "private final", null, monitor, lineDelimiter);
+			}
+		}
+	
+		if(constructor != null) {
+			constructor.delete(true, monitor);
+		}
+		
+		if(!fields.isEmpty()) {
+			String constructorContents = "public " + type.getElementName() + "(";
+			String comments = "/**" + lineDelimiter;
+			for (int i = 0; i < fields.size(); i++) {
+				String[] data = fields.get(i);
+				String fieldType = data[0];
+				String fieldName = data[1];
+				comments += " * @param " + fieldName + lineDelimiter;
+				if(i > 0) constructorContents += ", ";
+				constructorContents += fieldType + " " + fieldName;
+			}
+			comments += "*/" + lineDelimiter;
+			constructorContents += ") {" + lineDelimiter;
+			for (int i = 0; i < fields.size(); i++) {
+				String[] data = fields.get(i);
+				String fieldName = data[1];
+				constructorContents += "this." + fieldName + " = " + fieldName + ";" + lineDelimiter;
+			}
+			constructorContents += "}" + lineDelimiter;
+			if(isAddComments()) {
+				constructorContents = comments + constructorContents;
+			}
+			IMethod m = type.createMethod(constructorContents, sibling, true, monitor);
+		}
+		
+		return fields.isEmpty();		
 	}
 
 }
