@@ -29,11 +29,14 @@ import org.eclipse.jdt.ui.wizards.NewTypeWizardPage;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.wizard.IWizard;
 import org.eclipse.jface.wizard.WizardDialog;
+import org.eclipse.osgi.util.NLS;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.WizardNewFileCreationPage;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.ICDIAnnotation;
 import org.jboss.tools.cdi.core.ICDIProject;
+import org.jboss.tools.cdi.core.IStereotype;
+import org.jboss.tools.cdi.ui.CDIUIMessages;
 import org.jboss.tools.cdi.ui.CDIUIPlugin;
 //import org.jboss.tools.cdi.ui.wizard.NewCDIAnnotationWizardPage;
 import org.jboss.tools.cdi.ui.wizard.NewAnnotationLiteralWizardPage;
@@ -59,6 +62,7 @@ public class NewCDIWizardTest extends TestCase {
 	static String PACK_NAME = "test";
 	static String QUALIFIER_NAME = "MyQualifier";
 	static String STEREOTYPE_NAME = "MyStereotype";
+	static String STEREOTYPE2_NAME = "MyStereotype2";
 	static String SCOPE_NAME = "MyScope";
 	static String INTERCEPTOR_BINDING_NAME = "MyInterceptorBinding";
 	static String INTERCEPTOR_NAME = "MyInterceptor";
@@ -190,6 +194,30 @@ public class NewCDIWizardTest extends TestCase {
 			assertTrue(text.contains("@Target({ METHOD, FIELD })"));
 			assertTrue(text.contains("@Retention(RUNTIME)"));
 			
+		} finally {
+			context.close();
+		}
+
+	}
+
+	public void testNewStereotypeWizardWithStereotype() {
+		WizardContext context = new WizardContext();
+		context.init("org.jboss.tools.cdi.ui.wizard.NewStereotypeCreationWizard",
+				PACK_NAME, STEREOTYPE2_NAME);
+		ICDIProject cdi = CDICorePlugin.getCDIProject(context.tck, true);
+		IStereotype s = cdi.getStereotype(PACK_NAME + "." + STEREOTYPE_NAME);
+		assertNotNull(s);
+		
+		try {
+			NewStereotypeWizardPage page = (NewStereotypeWizardPage)context.page;
+			page.setInherited(true);
+			page.setTarget("METHOD,FIELD");
+			page.setNamed(true);
+			page.addStereotype(s);
+			
+			String message = page.getErrorMessage();
+			String testmessage = NLS.bind(CDIUIMessages.MESSAGE_STEREOTYPE_CANNOT_BE_APPLIED_TO_TYPE, s.getSourceType().getElementName());
+			assertEquals(testmessage, message);
 		} finally {
 			context.close();
 		}
