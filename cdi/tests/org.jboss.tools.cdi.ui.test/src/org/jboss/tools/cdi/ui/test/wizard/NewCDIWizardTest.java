@@ -37,6 +37,7 @@ import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.ICDIAnnotation;
 import org.jboss.tools.cdi.core.ICDIProject;
+import org.jboss.tools.cdi.core.IInterceptorBinding;
 import org.jboss.tools.cdi.core.IStereotype;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
 import org.jboss.tools.cdi.ui.CDIUIPlugin;
@@ -67,6 +68,7 @@ public class NewCDIWizardTest extends TestCase {
 	static String STEREOTYPE2_NAME = "MyStereotype2";
 	static String SCOPE_NAME = "MyScope";
 	static String INTERCEPTOR_BINDING_NAME = "MyInterceptorBinding";
+	static String INTERCEPTOR_BINDING2_NAME = "MyInterceptorBinding2";
 	static String INTERCEPTOR_NAME = "MyInterceptor";
 	static String DECORATOR_NAME = "MapDecorator<K,V>";
 	
@@ -206,6 +208,7 @@ public class NewCDIWizardTest extends TestCase {
 		WizardContext context = new WizardContext();
 		context.init("org.jboss.tools.cdi.ui.wizard.NewStereotypeCreationWizard",
 				PACK_NAME, STEREOTYPE2_NAME);
+		JobUtils.waitForIdle(2000);
 		ICDIProject cdi = CDICorePlugin.getCDIProject(context.tck, true);
 		IStereotype s = cdi.getStereotype(PACK_NAME + "." + STEREOTYPE_NAME);
 		IStereotype d = cdi.getStereotype(CDIConstants.DECORATOR_STEREOTYPE_TYPE_NAME);
@@ -267,6 +270,7 @@ public class NewCDIWizardTest extends TestCase {
 
 		try {
 			NewInterceptorBindingWizardPage page = (NewInterceptorBindingWizardPage)context.page;
+			page.setTarget("TYPE");
 			
 			context.wizard.performFinish();
 			
@@ -274,8 +278,42 @@ public class NewCDIWizardTest extends TestCase {
 			
 			assertTrue(text.contains("@InterceptorBinding"));
 			assertTrue(text.contains("@Inherited"));
-			assertTrue(text.contains("@Target({ TYPE, METHOD })"));
+			assertTrue(text.contains("@Target({ TYPE })"));
 			assertTrue(text.contains("@Retention(RUNTIME)"));
+			
+		} finally {
+			context.close();
+		}
+	}
+
+	public void testNewInterceptorBindingWizardWithBinding() {
+		WizardContext context = new WizardContext();
+		context.init("org.jboss.tools.cdi.ui.wizard.NewInterceptorBindingCreationWizard",
+				PACK_NAME, INTERCEPTOR_BINDING2_NAME);
+		JobUtils.waitForIdle(2000);
+
+		try {
+			NewInterceptorBindingWizardPage page = (NewInterceptorBindingWizardPage)context.page;
+			ICDIProject cdi = CDICorePlugin.getCDIProject(context.tck, true);
+			IInterceptorBinding s = cdi.getInterceptorBinding(PACK_NAME + "." + INTERCEPTOR_BINDING_NAME);
+			assertNotNull(s);
+			
+			page.addInterceptorBinding(s);
+			String message = page.getErrorMessage();
+			assertNull(message);
+			message = page.getMessage();
+			assertNotNull(message);
+			int messageType = page.getMessageType();
+			assertEquals(IMessageProvider.WARNING, messageType);
+			String testmessage = NLS.bind(CDIUIMessages.MESSAGE_INTERCEPTOR_BINDING_IS_NOT_COMPATIBLE, s.getSourceType().getElementName());
+			assertEquals(testmessage, message);
+			
+			page.setTarget("TYPE");
+			
+			message = page.getErrorMessage();
+			assertNull(message);
+			message = page.getMessage();
+			assertNull(message);
 			
 		} finally {
 			context.close();
