@@ -18,14 +18,24 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
+import org.eclipse.jdt.core.JavaModelException;
+import org.eclipse.jdt.internal.ui.dialogs.StatusInfo;
+import org.eclipse.jdt.internal.ui.dialogs.StatusUtil;
+import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.widgets.Composite;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.CDICorePlugin;
+import org.jboss.tools.cdi.core.CDIUtil;
+import org.jboss.tools.cdi.core.IAnnotationDeclaration;
 import org.jboss.tools.cdi.core.ICDIAnnotation;
 import org.jboss.tools.cdi.core.ICDIProject;
+import org.jboss.tools.cdi.core.IStereotype;
+import org.jboss.tools.cdi.internal.core.validation.AnnotationValidationDelegate;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
+import org.jboss.tools.cdi.ui.CDIUIPlugin;
 import org.jboss.tools.common.ui.widget.editor.ITaggedFieldEditor;
 import org.jboss.tools.common.ui.widget.editor.ListFieldEditor;
 
@@ -44,6 +54,7 @@ public class NewStereotypeWizardPage extends NewCDIAnnotationWizardPage {
 	protected ListFieldEditor stereotypes = null;
 	protected ListFieldEditor interceptorBindings = null;
 	
+	protected StatusInfo targetStatus = new StatusInfo();
 
 	public NewStereotypeWizardPage() {
 		setTitle(CDIUIMessages.NEW_STEREOTYPE_WIZARD_PAGE_NAME);
@@ -150,6 +161,10 @@ public class NewStereotypeWizardPage extends NewCDIAnnotationWizardPage {
 		targetOptions.add("METHOD");
 		targetOptions.add("FIELD");
 		createTargetField(composite, targetOptions);
+		target.addPropertyChangeListener(new PropertyChangeListener() {
+			public void propertyChange(PropertyChangeEvent evt) {
+				validateTargetAndStereotype();
+			}});
 	}
 
 	protected void createInterceptorBindingField(Composite composite) {
@@ -176,6 +191,10 @@ public class NewStereotypeWizardPage extends NewCDIAnnotationWizardPage {
 		stereotypesProvider.setEditorField(stereotypes);
 		stereotypes.doFillIntoGrid(composite);
 		setStereotypes(getPackageFragmentRoot());
+		stereotypes.addPropertyChangeListener(new PropertyChangeListener() {
+			public void propertyChange(PropertyChangeEvent evt) {
+				validateTargetAndStereotype();
+			}});
 	}
 
 	public void setPackageFragmentRoot(IPackageFragmentRoot root, boolean canBeModified) {
@@ -237,5 +256,72 @@ public class NewStereotypeWizardPage extends NewCDIAnnotationWizardPage {
 	public void setNamed(boolean b) {
 		if(named != null) named.composite.setValue(b);
 	}
+
+	void validateTargetAndStereotype() {
+		try {
+			getTargetAndStereotypeError();
+		} catch (JavaModelException e) {
+			CDIUIPlugin.getDefault().logError(e);
+		}
+		doStatusUpdate();
+	}
 	
+	private void doStatusUpdate() {
+		// status of all used components
+		IStatus[] status= new IStatus[] {
+			fContainerStatus,
+			isEnclosingTypeSelected() ? fEnclosingTypeStatus : fPackageStatus,
+			fTypeNameStatus,
+			fModifierStatus,
+			fSuperClassStatus,
+			fSuperInterfacesStatus
+		};
+
+		// the mode severe status will be displayed and the OK button enabled/disabled.
+		updateStatus(status);
+	}
+
+	protected void updateStatus(IStatus[] status) {
+		IStatus[] ns = new IStatus[status.length + 1];
+		System.arraycopy(status, 0, ns, 0, status.length);
+		ns[status.length] = targetStatus;
+		status = ns;
+		updateStatus(StatusUtil.getMostSevere(status));
+	}	
+
+	void getTargetAndStereotypeError() throws JavaModelException {
+		targetStatus = new StatusInfo();
+		if(stereotypes != null && target != null) {
+			String value = (String)target.getValue();
+			boolean hasMethodOrField = value != null && (value.indexOf("METHOD") >= 0 || value.indexOf("FIELD") >= 0);
+			List list = (List)stereotypes.getValue();
+			for (Object o: list) {
+				if(o instanceof IStereotype) {
+					IStereotype a = (IStereotype)o;
+					IAnnotationDeclaration target = a.getAnnotationDeclaration(CDIConstants.TARGET_ANNOTATION_TYPE_NAME);
+					if(target != null) {
+						Set<String> targets = CDIUtil.getTargetAnnotationValues(target);
+						if(targets != null && targets.size() == 1 && targets.contains("TYPE") && hasMethodOrField) {
+							String message = a.getSourceType().getElementName() + " annotated with @Target({TYPE}) is not compatible with target";
+							targetStatus.setWarning(message);
+						}
+						if(targets != null && !targets.contains("TYPE")) {
+							String message = NLS.bind(CDIUIMessages.MESSAGE_STEREOTYPE_CANNOT_BE_APPLIED_TO_TYPE, a.getSourceType().getElementName());
+							targetStatus.setError(message);
+							return;
+						}
+					}
+				}
+			}
+		}
+	}
+
+	public void addStereotype(IStereotype s) {
+		List vs = (List)stereotypes.getValue();
+		List nvs = new ArrayList();
+		if(vs != null) nvs.addAll(vs);
+		nvs.add(s);
+		stereotypes.setValue(nvs);
+	}
+
 }
