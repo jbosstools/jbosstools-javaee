@@ -1,0 +1,11 @@
+package org.jboss.jsr299.tck.tests.jbt.quickfixes;
+
+import javax.ejb.Local;
+import javax.persistence.EntityManager;
+
+@Local
+public interface LocalInt {
+
+	public void disposeEntityManager(EntityManager em);
+
+}

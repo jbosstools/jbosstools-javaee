@@ -178,6 +178,10 @@ public class CDIMarkerResolutionTest  extends ValidationTest {
 						"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/FooProducer.java",
 						"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/FooProducerLocal.java"
 				},
+				new String[]{
+						"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/FooProducer1.qfxresult",
+						"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/FooProducerLocal.qfxresult"
+				},
 				MARKER_TYPE,
 				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
 				CDIValidationErrorManager.ILLEGAL_PRODUCER_METHOD_IN_SESSION_BEAN_ID,
@@ -188,8 +192,10 @@ public class CDIMarkerResolutionTest  extends ValidationTest {
 		checkResolution(
 				tckProject,
 				new String[]{
-						"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/FooProducer.java",
-						"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/FooProducerLocal.java"
+						"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/FooProducer.java"
+				},
+				new String[]{
+						"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/FooProducer2.qfxresult",
 				},
 				MARKER_TYPE,
 				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
@@ -217,6 +223,10 @@ public class CDIMarkerResolutionTest  extends ValidationTest {
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TibetanTerrier_Broken.java",
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Terrier.java"
 				},
+				new String[]{
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TibetanTerrier_Broken1.qfxresult",
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Terrier.qfxresult"
+				},
 				MARKER_TYPE,
 				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
 				CDIValidationErrorManager.ILLEGAL_OBSERVER_IN_SESSION_BEAN_ID,
@@ -226,8 +236,10 @@ public class CDIMarkerResolutionTest  extends ValidationTest {
 	public void testAddLocalBeanResolution2() throws CoreException {
 		checkResolution(tckProject,
 				new String[]{
-					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TibetanTerrier_Broken.java",
-					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Terrier.java"
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TibetanTerrier_Broken.java"
+				},
+				new String[]{
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TibetanTerrier_Broken2.qfxresult"
 				},
 				MARKER_TYPE,
 				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
@@ -255,6 +267,10 @@ public class CDIMarkerResolutionTest  extends ValidationTest {
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/NotBusinessMethod_Broken.java",
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/LocalInt.java"
 				},
+				new String[]{
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/NotBusinessMethod_Broken1.qfxresult",
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/LocalInt.qfxresult"
+				},
 				MARKER_TYPE,
 				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
 				CDIValidationErrorManager.ILLEGAL_DISPOSER_IN_SESSION_BEAN_ID,
@@ -264,8 +280,10 @@ public class CDIMarkerResolutionTest  extends ValidationTest {
 	public void testAddLocalBeanResolution3() throws CoreException {
 		checkResolution(tckProject,
 				new String[]{
-					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/NotBusinessMethod_Broken.java",
-					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/LocalInt.java"
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/NotBusinessMethod_Broken.java"
+				},
+				new String[]{
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/NotBusinessMethod_Broken2.qfxresult"
 				},
 				MARKER_TYPE,
 				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
