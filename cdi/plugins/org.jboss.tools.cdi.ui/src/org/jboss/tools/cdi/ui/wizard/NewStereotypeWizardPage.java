@@ -302,7 +302,8 @@ public class NewStereotypeWizardPage extends NewCDIAnnotationWizardPage {
 					if(target != null) {
 						Set<String> targets = CDIUtil.getTargetAnnotationValues(target);
 						if(targets != null && targets.size() == 1 && targets.contains("TYPE") && hasMethodOrField) {
-							String message = a.getSourceType().getElementName() + " annotated with @Target({TYPE}) is not compatible with target";
+							String message = NLS.bind(CDIUIMessages.MESSAGE_STEREOTYPE_IS_NOT_COMPATIBLE, a.getSourceType().getElementName());
+//							String message = a.getSourceType().getElementName() + " annotated with @Target({TYPE}) is not compatible with target";
 							targetStatus.setWarning(message);
 						}
 						if(targets != null && !targets.contains("TYPE")) {
