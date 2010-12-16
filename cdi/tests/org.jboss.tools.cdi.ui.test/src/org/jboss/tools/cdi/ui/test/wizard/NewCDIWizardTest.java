@@ -26,12 +26,14 @@ import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.internal.ui.wizards.NewElementWizard;
 import org.eclipse.jdt.ui.wizards.NewTypeWizardPage;
+import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.wizard.IWizard;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.WizardNewFileCreationPage;
+import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.ICDIAnnotation;
 import org.jboss.tools.cdi.core.ICDIProject;
@@ -206,17 +208,29 @@ public class NewCDIWizardTest extends TestCase {
 				PACK_NAME, STEREOTYPE2_NAME);
 		ICDIProject cdi = CDICorePlugin.getCDIProject(context.tck, true);
 		IStereotype s = cdi.getStereotype(PACK_NAME + "." + STEREOTYPE_NAME);
+		IStereotype d = cdi.getStereotype(CDIConstants.DECORATOR_STEREOTYPE_TYPE_NAME);
 		assertNotNull(s);
+		assertNotNull(d);
 		
 		try {
 			NewStereotypeWizardPage page = (NewStereotypeWizardPage)context.page;
 			page.setInherited(true);
 			page.setTarget("METHOD,FIELD");
 			page.setNamed(true);
-			page.addStereotype(s);
 			
+			page.addStereotype(d);
 			String message = page.getErrorMessage();
-			String testmessage = NLS.bind(CDIUIMessages.MESSAGE_STEREOTYPE_CANNOT_BE_APPLIED_TO_TYPE, s.getSourceType().getElementName());
+			assertNull(message);
+			message = page.getMessage();
+			assertNotNull(message);
+			int messageType = page.getMessageType();
+			assertEquals(IMessageProvider.WARNING, messageType);
+			String testmessage = NLS.bind(CDIUIMessages.MESSAGE_STEREOTYPE_IS_NOT_COMPATIBLE, d.getSourceType().getElementName());
+			assertEquals(testmessage, message);
+
+			page.addStereotype(s);
+			message = page.getErrorMessage();
+			testmessage = NLS.bind(CDIUIMessages.MESSAGE_STEREOTYPE_CANNOT_BE_APPLIED_TO_TYPE, s.getSourceType().getElementName());
 			assertEquals(testmessage, message);
 		} finally {
 			context.close();
