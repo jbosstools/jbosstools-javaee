@@ -74,6 +74,7 @@ public class CDIUIMessages extends NLS{
 	
 	public static String MESSAGE_STEREOTYPE_CANNOT_BE_APPLIED_TO_TYPE;
 	public static String MESSAGE_STEREOTYPE_IS_NOT_COMPATIBLE;
+	public static String MESSAGE_INTERCEPTOR_BINDING_IS_NOT_COMPATIBLE;
 	
 	public static String MESSAGE_QUALIFIER_NOT_SET;
 	
