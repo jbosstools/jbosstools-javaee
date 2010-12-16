@@ -31,11 +31,13 @@ import org.jboss.tools.cdi.core.IInjectionPointField;
 import org.jboss.tools.cdi.core.IParametedType;
 import org.jboss.tools.cdi.core.IQualifier;
 import org.jboss.tools.cdi.core.IQualifierDeclaration;
+import org.jboss.tools.cdi.core.test.tck.validation.CoreValidationTest;
 import org.jboss.tools.cdi.internal.core.impl.CDIProject;
 import org.jboss.tools.common.EclipseUtil;
 import org.jboss.tools.common.model.util.EclipseJavaUtil;
 import org.jboss.tools.common.text.ITextSourceReference;
 import org.jboss.tools.common.util.FileUtil;
+import org.jboss.tools.jst.web.kb.internal.validation.ValidatorManager;
 import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.ResourcesUtils;
 import org.osgi.framework.Bundle;
@@ -69,6 +71,7 @@ public class TCKTest extends TestCase {
 			try {
 				tckProject = findTestProject();
 				if(tckProject==null || !tckProject.exists()) {
+					ValidatorManager.setStatus(CoreValidationTest.VALIDATION_STATUS);
 					tckProject = importPreparedProject("/");
 				}
 			} catch (Exception e) {

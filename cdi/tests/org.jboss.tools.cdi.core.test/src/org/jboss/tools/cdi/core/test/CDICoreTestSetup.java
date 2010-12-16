@@ -14,9 +14,6 @@ import junit.extensions.TestSetup;
 import junit.framework.Test;
 
 import org.eclipse.core.resources.IProject;
-import org.eclipse.jdt.core.JavaCore;
-import org.eclipse.jdt.internal.core.JavaModelManager;
-import org.eclipse.jdt.internal.core.search.indexing.IndexManager;
 import org.jboss.tools.cdi.core.test.tck.TCKTest;
 import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.ResourcesUtils;
@@ -26,7 +23,7 @@ import org.jboss.tools.test.util.ResourcesUtils;
  */
 public class CDICoreTestSetup extends TestSetup {
 
-	protected IProject tckProject; 
+	protected IProject tckProject;
 
 	public CDICoreTestSetup(Test test) {
 		super(test);
@@ -34,7 +31,7 @@ public class CDICoreTestSetup extends TestSetup {
 
 	@Override
 	protected void setUp() throws Exception {
-		tckProject = TCKTest .importPreparedProject("/");
+		tckProject = TCKTest.importPreparedProject("/");
 	}
 
 	@Override
