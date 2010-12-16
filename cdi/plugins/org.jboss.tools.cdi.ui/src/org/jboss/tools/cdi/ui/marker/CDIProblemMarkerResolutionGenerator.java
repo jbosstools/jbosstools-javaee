@@ -93,6 +93,13 @@ public class CDIProblemMarkerResolutionGenerator implements
 						return resolutions;
 					}
 				}
+			}else if (messageId == CDIValidationErrorManager.MULTIPLE_DISPOSERS_FOR_PRODUCER_ID) {
+				IMethod method = findMethod(file, start);
+				if(method != null){
+					return new IMarkerResolution[] {
+							new DeleteAllDisposerDuplicantMarkerResolution(method, file)
+						};
+				}
 			}
 		}
 		return new IMarkerResolution[] {};
