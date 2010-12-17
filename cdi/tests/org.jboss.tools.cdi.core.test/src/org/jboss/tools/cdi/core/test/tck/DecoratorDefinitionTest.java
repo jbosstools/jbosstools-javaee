@@ -21,6 +21,7 @@ import org.jboss.tools.cdi.core.IDecorator;
 import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.core.IParametedType;
 import org.jboss.tools.cdi.internal.core.impl.CDIProject;
+import org.jboss.tools.cdi.internal.core.impl.ClassBean;
 
 /**
  * @author Alexey Kazakov
@@ -88,4 +89,38 @@ public class DecoratorDefinitionTest extends TCKTest {
 	public void testCustomDecorator() throws CoreException {
 		getDecorator("JavaSource/org/jboss/jsr299/tck/tests/decorators/custom/VehicleDecorator.java");
 	}
+
+	/**
+	 * class XDecorator extends XDecorator
+	 * class YDecorator extends ZDecorator
+	 * class ZDecorator extends YDecorator
+	 * class WDecorator extends YDecorator
+	 * 
+	 * When cyclic (erroneous) java hierarchy takes place, cdi should avoid cyclic dependency
+	 * in components. Loader, when detects that setting super bean is going to create the cyclic 
+	 * dependency, sets null instead.
+	 * For the example above that means:
+	 * a) XDecorator will have super set to null;
+	 * b) Of YDecorator, ZDecorator exactly one will have super set to null, and the other will
+	 *    have the correct super, which one being depended on random order or loaded resources;
+	 * c) WDecorator will have super set to YDecorator, since it is outside of the loop.
+	 * 
+	 * @throws CoreException
+	 */
+	public void testCyclicDependencies() throws CoreException {
+		IDecorator xdecorator = getDecorator("JavaSource/org/jboss/jsr299/tck/tests/decorators/definition/broken/cycle/XDecorator.java");
+		assertNotNull(xdecorator);
+		ClassBean xs = ((ClassBean)xdecorator).getSuperClassBean();
+		assertNull(xs);
+		IDecorator ydecorator = getDecorator("JavaSource/org/jboss/jsr299/tck/tests/decorators/definition/broken/cycle/YDecorator.java");
+		ClassBean ys = ((ClassBean)ydecorator).getSuperClassBean();
+		IDecorator zdecorator = getDecorator("JavaSource/org/jboss/jsr299/tck/tests/decorators/definition/broken/cycle/ZDecorator.java");
+		ClassBean zs = ((ClassBean)zdecorator).getSuperClassBean();
+		IDecorator wdecorator = getDecorator("JavaSource/org/jboss/jsr299/tck/tests/decorators/definition/broken/cycle/WDecorator.java");
+		ClassBean ws = ((ClassBean)wdecorator).getSuperClassBean();
+		assertTrue((ys == null) != (zs == null));
+		assertTrue((ys == zdecorator) || (zs == ydecorator));
+		assertTrue(ws == ydecorator);
+	}
+
 }
