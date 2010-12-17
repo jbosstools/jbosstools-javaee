@@ -21,14 +21,20 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.ltk.core.refactoring.CompositeChange;
+import org.eclipse.ltk.core.refactoring.RefactoringStatus;
+import org.eclipse.ltk.core.refactoring.RefactoringStatusEntry;
+import org.eclipse.ltk.core.refactoring.participants.RefactoringProcessor;
 import org.eclipse.ui.IMarkerResolution;
 import org.eclipse.ui.ide.IDE;
 import org.jboss.tools.cdi.core.test.tck.validation.ValidationTest;
 import org.jboss.tools.cdi.internal.core.validation.CDIValidationErrorManager;
 import org.jboss.tools.cdi.ui.marker.AddLocalBeanMarkerResolution;
+import org.jboss.tools.cdi.ui.marker.DeleteAllDisposerDuplicantMarkerResolution;
 import org.jboss.tools.cdi.ui.marker.MakeFieldStaticMarkerResolution;
 import org.jboss.tools.cdi.ui.marker.MakeMethodBusinessMarkerResolution;
 import org.jboss.tools.cdi.ui.marker.MakeMethodPublicMarkerResolution;
+import org.jboss.tools.cdi.ui.marker.TestableResolutionWithRefactoringProcessor;
 import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.test.util.JobUtils;
 
@@ -65,8 +71,34 @@ public class CDIMarkerResolutionTest  extends ValidationTest {
 						for (int j = 0; j < resolutions.length; j++) {
 							IMarkerResolution resolution = resolutions[j];
 							if (resolution.getClass().equals(resolutionClass)) {
-								
-								resolution.run(marker);
+								if(resolution instanceof TestableResolutionWithRefactoringProcessor){
+									RefactoringProcessor processor = ((TestableResolutionWithRefactoringProcessor)resolution).getRefactoringProcessor();
+									
+									RefactoringStatus status = processor.checkInitialConditions(new NullProgressMonitor());
+									
+//									RefactoringStatusEntry[] entries = status.getEntries();
+//									for(RefactoringStatusEntry entry : entries){
+//										System.out.println("Refactor status - "+entry.getMessage());
+//									}
+									
+									assertNull("Rename processor returns fatal error", status.getEntryMatchingSeverity(RefactoringStatus.FATAL));
+									
+									status = processor.checkFinalConditions(new NullProgressMonitor(), null);
+									
+//									entries = status.getEntries();
+//									for(RefactoringStatusEntry entry : entries){
+//										System.out.println("Refactor status - "+entry.getMessage());
+//									}
+									
+									assertNull("Rename processor returns fatal error", status.getEntryMatchingSeverity(RefactoringStatus.FATAL));
+									
+									
+									CompositeChange rootChange = (CompositeChange)processor.createChange(new NullProgressMonitor());
+									
+									rootChange.perform(new NullProgressMonitor());
+								}else{
+									resolution.run(marker);
+								}
 								
 								refresh(project);
 								
@@ -75,6 +107,7 @@ public class CDIMarkerResolutionTest  extends ValidationTest {
 								assertTrue("Marker resolution did not decrease number of problems. was: "+markers.length+" now: "+newMarkers.length, newMarkers.length < markers.length);
 								
 								checkResults(project, fileNames, results);
+								
 								
 								return;
 							}
@@ -303,6 +336,20 @@ public class CDIMarkerResolutionTest  extends ValidationTest {
 				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
 				CDIValidationErrorManager.ILLEGAL_DISPOSER_IN_SESSION_BEAN_ID,
 				MakeMethodPublicMarkerResolution.class);
+	}
+
+	public void testDeleteAllDisposerDuplicantsResolution() throws CoreException {
+		checkResolution(tckProject,
+				new String[]{
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TimestampLogger_Broken.java"
+				},
+//				new String[]{
+//					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TimestampLogger_Broken.qfxresult"
+//				},
+				MARKER_TYPE,
+				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
+				CDIValidationErrorManager.MULTIPLE_DISPOSERS_FOR_PRODUCER_ID,
+				DeleteAllDisposerDuplicantMarkerResolution.class);
 	}
 
 }

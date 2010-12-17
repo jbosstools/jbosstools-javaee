@@ -19,5 +19,6 @@ Require-Bundle: org.junit,
  org.eclipse.jdt.core,
  org.eclipse.jdt.ui,
  org.eclipse.ui.ide,
- org.jboss.tools.jst.jsp.base.test
+ org.jboss.tools.jst.jsp.base.test,
+ org.eclipse.ltk.core.refactoring;bundle-version="3.5.100"
 Export-Package: org.jboss.tools.cdi.ui.test

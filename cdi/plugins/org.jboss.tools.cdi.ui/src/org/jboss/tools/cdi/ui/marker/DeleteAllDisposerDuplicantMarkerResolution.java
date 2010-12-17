@@ -11,32 +11,24 @@
 package org.jboss.tools.cdi.ui.marker;
 
 import java.text.MessageFormat;
-import java.util.HashSet;
-import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.ltk.core.refactoring.participants.ProcessorBasedRefactoring;
+import org.eclipse.ltk.core.refactoring.participants.RefactoringProcessor;
 import org.eclipse.ltk.ui.refactoring.RefactoringWizard;
 import org.eclipse.ltk.ui.refactoring.RefactoringWizardOpenOperation;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IMarkerResolution2;
 import org.eclipse.ui.internal.Workbench;
-import org.jboss.tools.cdi.core.CDIConstants;
-import org.jboss.tools.cdi.core.CDIUtil;
-import org.jboss.tools.cdi.core.IBeanMethod;
-import org.jboss.tools.cdi.core.IClassBean;
-import org.jboss.tools.cdi.core.IProducer;
-import org.jboss.tools.cdi.core.IProducerMethod;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
-import org.jboss.tools.common.text.ITextSourceReference;
 
 /**
  * @author Daniel Azarov
  */
-public class DeleteAllDisposerDuplicantMarkerResolution implements IMarkerResolution2 {
+public class DeleteAllDisposerDuplicantMarkerResolution implements IMarkerResolution2, TestableResolutionWithRefactoringProcessor {
 	private String label;
 	private IMethod method;
 	private IFile file;
@@ -65,6 +57,10 @@ public class DeleteAllDisposerDuplicantMarkerResolution implements IMarkerResolu
 			// operation was canceled
 		}
 
+	}
+	
+	public RefactoringProcessor getRefactoringProcessor(){
+		return new DeleteAllDisposerAnnotationsProcessor(file, method);
 	}
 	
 	public String getDescription() {
