@@ -15,6 +15,7 @@ import java.text.MessageFormat;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.jdt.core.IMethod;
+import org.eclipse.jdt.core.Signature;
 import org.eclipse.ltk.core.refactoring.participants.ProcessorBasedRefactoring;
 import org.eclipse.ltk.core.refactoring.participants.RefactoringProcessor;
 import org.eclipse.ltk.ui.refactoring.RefactoringWizard;
@@ -28,13 +29,22 @@ import org.jboss.tools.cdi.ui.CDIUIMessages;
 /**
  * @author Daniel Azarov
  */
-public class DeleteAllDisposerDuplicantMarkerResolution implements IMarkerResolution2, TestableResolutionWithRefactoringProcessor {
+public class DeleteAllInjectedConstructorsMarkerResolution implements IMarkerResolution2, TestableResolutionWithRefactoringProcessor {
 	private String label;
 	private IMethod method;
 	private IFile file;
 	
-	public DeleteAllDisposerDuplicantMarkerResolution(IMethod method, IFile file){
-		this.label = MessageFormat.format(CDIUIMessages.DELETE_ALL_DISPOSER_DUPLICANT_MARKER_RESOLUTION_TITLE, new Object[]{method.getElementName()});
+	public DeleteAllInjectedConstructorsMarkerResolution(IMethod method, IFile file){
+		StringBuffer buffer = new StringBuffer();
+		buffer.append(method.getElementName()+"(");
+		String[] types = method.getParameterTypes();
+		for(int i = 0; i < types.length; i++){
+			if(i > 0)
+				buffer.append(", ");
+			buffer.append(Signature.getSignatureSimpleName(types[i]));
+		}
+		buffer.append(")");
+		this.label = MessageFormat.format(CDIUIMessages.DELETE_ALL_INJECTED_CONSTRUCTORS_MARKER_RESOLUTION_TITLE, new Object[]{buffer.toString()});
 		this.method = method;
 		this.file = file;
 	}
@@ -45,7 +55,7 @@ public class DeleteAllDisposerDuplicantMarkerResolution implements IMarkerResolu
 	
 
 	public void run(IMarker marker) {
-		DeleteAllDisposerAnnotationsProcessor processor = new DeleteAllDisposerAnnotationsProcessor(file, method, label);
+		DeleteAllInjectedConstructorsProcessor processor = new DeleteAllInjectedConstructorsProcessor(file, method, label);
 		ProcessorBasedRefactoring refactoring = new ProcessorBasedRefactoring(processor);
 		DeletePreviewWizard wizard = new DeletePreviewWizard(refactoring, RefactoringWizard.WIZARD_BASED_USER_INTERFACE);
 		RefactoringWizardOpenOperation op = new RefactoringWizardOpenOperation(wizard);
@@ -60,7 +70,7 @@ public class DeleteAllDisposerDuplicantMarkerResolution implements IMarkerResolu
 	}
 	
 	public RefactoringProcessor getRefactoringProcessor(){
-		return new DeleteAllDisposerAnnotationsProcessor(file, method, label);
+		return new DeleteAllInjectedConstructorsProcessor(file, method, label);
 	}
 	
 	public String getDescription() {

@@ -100,6 +100,13 @@ public class CDIProblemMarkerResolutionGenerator implements
 							new DeleteAllDisposerDuplicantMarkerResolution(method, file)
 						};
 				}
+			}else if (messageId == CDIValidationErrorManager.MULTIPLE_INJECTION_CONSTRUCTORS_ID) {
+				IMethod method = findMethod(file, start);
+				if(method != null){
+					return new IMarkerResolution[] {
+							new DeleteAllInjectedConstructorsMarkerResolution(method, file)
+						};
+				}
 			}
 		}
 		return new IMarkerResolution[] {};

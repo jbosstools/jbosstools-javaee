@@ -739,7 +739,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 			 */
 			if(injects.size()>1) {
 				for (IAnnotationDeclaration inject : injects) {
-					addError(CDIValidationMessages.MULTIPLE_INJECTION_CONSTRUCTORS, CDIPreferences.MULTIPLE_INJECTION_CONSTRUCTORS, inject, bean.getResource());
+					addError(CDIValidationMessages.MULTIPLE_INJECTION_CONSTRUCTORS, CDIPreferences.MULTIPLE_INJECTION_CONSTRUCTORS, inject, bean.getResource(), MULTIPLE_INJECTION_CONSTRUCTORS_ID);
 				}
 			}
 		}

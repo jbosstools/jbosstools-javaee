@@ -23,6 +23,7 @@ abstract public class CDIValidationErrorManager extends ValidationErrorManager {
 	public static final int ILLEGAL_DISPOSER_IN_SESSION_BEAN_ID = 3;
 	public static final int ILLEGAL_OBSERVER_IN_SESSION_BEAN_ID = 4;
 	public static final int MULTIPLE_DISPOSERS_FOR_PRODUCER_ID = 5;
+	public static final int MULTIPLE_INJECTION_CONSTRUCTORS_ID = 6;
 
 	/*
 	 * (non-Javadoc)

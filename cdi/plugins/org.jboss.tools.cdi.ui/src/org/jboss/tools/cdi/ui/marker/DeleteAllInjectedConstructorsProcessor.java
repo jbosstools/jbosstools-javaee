@@ -10,6 +10,7 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.ui.marker;
 
+import java.text.MessageFormat;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -26,45 +27,36 @@ import org.eclipse.text.edits.MultiTextEdit;
 import org.eclipse.text.edits.ReplaceEdit;
 import org.eclipse.text.edits.TextEdit;
 import org.jboss.tools.cdi.core.CDIConstants;
-import org.jboss.tools.cdi.core.CDIUtil;
+import org.jboss.tools.cdi.core.IAnnotationDeclaration;
 import org.jboss.tools.cdi.core.IBeanMethod;
 import org.jboss.tools.cdi.core.IClassBean;
-import org.jboss.tools.cdi.core.IProducer;
-import org.jboss.tools.cdi.core.IProducerMethod;
-import org.jboss.tools.common.text.ITextSourceReference;
 
-public class DeleteAllDisposerAnnotationsProcessor extends MarkerResolutionRefactoringProcessor {
+public class DeleteAllInjectedConstructorsProcessor extends MarkerResolutionRefactoringProcessor {
 
 	
-	public DeleteAllDisposerAnnotationsProcessor(IFile file, IMethod method, String label){
+	public DeleteAllInjectedConstructorsProcessor(IFile file, IMethod method, String label){
 		super(file, method, label);
 	}
 	
-	private void changeDisposers(IClassBean bean) {
-		Set<IBeanMethod> disposers = bean.getDisposers();
-		if (disposers.isEmpty()) {
-			return;
-		}
-
-		Set<IBeanMethod> boundDisposers = new HashSet<IBeanMethod>();
-		Set<IProducer> producers = bean.getProducers();
-		for (IProducer producer : producers) {
-			if (producer instanceof IProducerMethod) {
-				IProducerMethod producerMethod = (IProducerMethod) producer;
-				Set<IBeanMethod> disposerMethods = producer.getCDIProject().resolveDisposers(producerMethod);
-				boundDisposers.addAll(disposerMethods);
-				for (IBeanMethod disposerMethod : disposerMethods) {
-					if(!disposerMethod.getMethod().isSimilar(method)){
-						Set<ITextSourceReference> disposerDeclarations = CDIUtil.getAnnotationPossitions(disposerMethod, CDIConstants.DISPOSES_ANNOTATION_TYPE_NAME);
-						for (ITextSourceReference declaration : disposerDeclarations) {
-							TextEdit edit = new ReplaceEdit(declaration.getStartPosition(), declaration.getLength(), "");
-							change.addEdit(edit);
-						}
+	private void changeConstructors(IClassBean bean) {
+		Set<IBeanMethod> constructors = bean.getBeanConstructors();
+		if(constructors.size()>1) {
+			Set<IAnnotationDeclaration> injects = new HashSet<IAnnotationDeclaration>();
+			for (IBeanMethod constructor : constructors) {
+				if(!constructor.getMethod().isSimilar(method)){
+					IAnnotationDeclaration inject = constructor.getAnnotation(CDIConstants.INJECT_ANNOTATION_TYPE_NAME);
+					if(inject!=null) {
+						injects.add(inject);
 					}
 				}
 			}
+			for (IAnnotationDeclaration inject : injects) {
+				TextEdit edit = new ReplaceEdit(inject.getStartPosition(), inject.getLength(), "");
+				change.addEdit(edit);
+			}
 		}
 	}
+
 	
 	@Override
 	public RefactoringStatus checkFinalConditions(IProgressMonitor pm,
@@ -78,7 +70,7 @@ public class DeleteAllDisposerAnnotationsProcessor extends MarkerResolutionRefac
 		rootChange.add(change);
 		
 		if(bean != null)
-			changeDisposers(bean);
+			changeConstructors(bean);
 		
 		return status;
 	}
