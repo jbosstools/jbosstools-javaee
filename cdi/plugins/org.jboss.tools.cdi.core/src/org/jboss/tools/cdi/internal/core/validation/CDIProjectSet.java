@@ -35,6 +35,7 @@ public class CDIProjectSet extends ValidatingProjectSet {
 	 */
 	public CDIProjectSet(IProject project) {
 		allProjects = new ArrayList<IProject>();
+		allProjects.add(project);
 		CDICoreNature sp = CDICorePlugin.getCDI(project, false);
 		if(sp!=null) {
 			addIncludedProjects(sp);
