@@ -10,6 +10,7 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.core.test.tck;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import org.eclipse.core.runtime.CoreException;
@@ -114,6 +115,23 @@ public class ResolutionByTypeTest extends TCKTest {
 			beans = cdiProject.getBeans(true, injectionPoint);
 			assertEquals("Wrong number of the beans", 1, beans.size());
 		}
+	}
+
+	public void testAbstractClassIsNotEligibleForInjection() throws CoreException {
+		IClassBean bean = getClassBean("JavaSource/org/jboss/jsr299/tck/tests/jbt/resolution/chain/CurrentProject.java");
+		Set<IInjectionPoint> injections = bean.getInjectionPoints();
+		assertEquals("Wrong number of the injection points", 1, injections.size());
+		IInjectionPoint injectionPoint = injections.iterator().next();
+		assertNotNull(injectionPoint);
+		Set<IBean> bs = cdiProject.getBeans(true, injectionPoint);
+		assertEquals(2, bs.size());
+		Set<String> names = new HashSet<String>();
+		System.out.println(bs.size());
+		for (IBean b: bs) {
+			names.add(b.getSimpleJavaName());
+		}
+		names.contains("CurrentProject.getCurrent()");
+		names.contains("ProjectImpl");		
 	}
 
 	/**
