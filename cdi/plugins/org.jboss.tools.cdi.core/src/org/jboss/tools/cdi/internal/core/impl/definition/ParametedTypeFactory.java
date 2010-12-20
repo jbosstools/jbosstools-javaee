@@ -147,6 +147,7 @@ public class ParametedTypeFactory {
 			IType type = EclipseJavaUtil.findType(context.getJavaProject(), resovedTypeName);
 			if(type != null) {
 				result.setType(type);
+				cache.put(key, result);
 				StringBuffer newParams = new StringBuffer();
 				String[] paramSignatures = null;
 				try {
@@ -171,7 +172,6 @@ public class ParametedTypeFactory {
 					ns.append('Q').append(resovedTypeName).append('<').append(newParams).append(">;");
 					result.setSignature(ns.toString());
 				}
-				cache.put(key, result);
 				return result;
 			}
 		}
@@ -189,11 +189,9 @@ public class ParametedTypeFactory {
 		if(result == null || t.equals(result.getSignature())) {
 			String sts = bounds.length > 0 ? bounds[0] : "";
 			if(sts.length() > 0) {
-				if(context!=contextType) {
-					ParametedType st = getParametedType(contextType, sts);
-					if(st != null) {
-						result = new TypeDeclaration(st, 0, 0);
-					}
+				ParametedType st = getParametedType(contextType, sts);
+				if(st != null) {
+					result = new TypeDeclaration(st, 0, 0);
 				}
 			} else if(result != null) {
 				result.setSignature(t);
