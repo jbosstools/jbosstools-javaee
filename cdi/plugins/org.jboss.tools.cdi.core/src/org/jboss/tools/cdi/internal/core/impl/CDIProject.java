@@ -26,6 +26,7 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.jdt.core.Flags;
 import org.eclipse.jdt.core.IAnnotation;
 import org.eclipse.jdt.core.IMemberValuePair;
 import org.eclipse.jdt.core.IMethod;
@@ -334,6 +335,16 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		boolean delegateInjectionPoint = injectionPoint.isDelegate();
 
 		for (IBean b: beans) {
+			if(b instanceof ClassBean) {
+				IType bType = b.getBeanClass();
+				try {
+					if(bType != null && Flags.isAbstract(bType.getFlags())) {
+						continue;
+					}
+				} catch (JavaModelException e) {
+					CDICorePlugin.getDefault().logError(e);
+				}
+			}
 			if(isNew) {
 				//TODO improve
 				IType bType = b.getBeanClass();
@@ -1015,7 +1026,9 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		
 		CDICoreNature[] ps = n.getDependentProjects().toArray(new CDICoreNature[0]);
 		for (CDICoreNature p: ps) {
-			p.getDelegate().update();
+			if(p.getProject() != null && p.getProject().isAccessible()) {
+				p.getDelegate().update();
+			}
 		}		
 	}
 
