@@ -13,6 +13,7 @@ package org.jboss.tools.cdi.core.test.tck.validation;
 import org.eclipse.jface.preference.IPersistentPreferenceStore;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.jboss.tools.cdi.core.CDICorePlugin;
+import org.jboss.tools.cdi.internal.core.validation.CDIProjectSet;
 import org.jboss.tools.common.preferences.SeverityPreferences;
 import org.jboss.tools.jst.web.kb.internal.validation.ValidatorManager;
 
@@ -50,5 +51,13 @@ public class CoreValidationTest extends ValidationTest {
 	public void testValidatorInvoked() throws Exception {
 		String status = ValidatorManager.getStatus();
 		assertNotSame("Validation job has not been run (validation status: " + status + ")", VALIDATION_STATUS, status);
+	}
+
+	/**
+	 * https://issues.jboss.org/browse/JBIDE-7946
+	 */
+	public void testAllRelatedProjectsIncluded() {
+		CDIProjectSet set = new CDIProjectSet(tckProject);
+		assertTrue("TCKProject is not included in the set of CDI projects", set.getAllProjests().contains(tckProject));
 	}
 }
