@@ -1329,9 +1329,9 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 			 */
 			IType type = getTypeOfInjection(injection);
 			if(type!=null && beans.isEmpty()) {
-				addError(CDIValidationMessages.UNSATISFIED_INJECTION_POINTS, CDIPreferences.UNSATISFIED_INJECTION_POINTS, reference, injection.getResource());
+				addError(CDIValidationMessages.UNSATISFIED_INJECTION_POINTS, CDIPreferences.UNSATISFIED_INJECTION_POINTS, reference, injection.getResource(), UNSATISFIED_INJECTION_POINTS_ID);
 			} else if(beans.size()>1) {
-				addError(CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS, CDIPreferences.AMBIGUOUS_INJECTION_POINTS, reference, injection.getResource());
+				addError(CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS, CDIPreferences.AMBIGUOUS_INJECTION_POINTS, reference, injection.getResource(), AMBIGUOUS_INJECTION_POINTS_ID);
 			} else if(beans.size()==1) {
 				IBean bean = beans.iterator().next();
 				if(!bean.getBeanClass().isReadOnly()) {
