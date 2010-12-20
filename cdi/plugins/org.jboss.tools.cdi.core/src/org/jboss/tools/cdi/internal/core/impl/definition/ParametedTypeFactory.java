@@ -189,9 +189,11 @@ public class ParametedTypeFactory {
 		if(result == null || t.equals(result.getSignature())) {
 			String sts = bounds.length > 0 ? bounds[0] : "";
 			if(sts.length() > 0) {
-				ParametedType st = getParametedType(contextType, sts);
-				if(st != null) {
-					result = new TypeDeclaration(st, 0, 0);
+				if(context!=contextType) {
+					ParametedType st = getParametedType(contextType, sts);
+					if(st != null) {
+						result = new TypeDeclaration(st, 0, 0);
+					}
 				}
 			} else if(result != null) {
 				result.setSignature(t);
