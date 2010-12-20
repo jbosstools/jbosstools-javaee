@@ -1576,9 +1576,9 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 				IField[] fields = type.getFields();
 				for (IField field : fields) {
 					if (Flags.isPublic(field.getFlags()) && !Flags.isStatic(field.getFlags())) {
+						ITextSourceReference fieldReference = CDIUtil.convertToSourceReference(field.getNameRange());
 						addError(CDIValidationMessages.ILLEGAL_SCOPE_FOR_MANAGED_BEAN_WITH_PUBLIC_FIELD, CDIPreferences.ILLEGAL_SCOPE_FOR_MANAGED_BEAN,
-								declaration, bean.getResource());
-						break;
+								fieldReference, bean.getResource());
 					}
 				}
 				/*

@@ -205,7 +205,7 @@ public class DefenitionErrorsValidationTest extends ValidationTest {
 	 */
 	public void testNonDependentScopedBeanCanNotHavePublicField() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/implementation/simple/definition/dependentWithPublicField/Leopard_Broken.java");
-		assertMarkerIsCreated(file, CDIValidationMessages.ILLEGAL_SCOPE_FOR_MANAGED_BEAN_WITH_PUBLIC_FIELD, 21);
+		assertMarkerIsCreated(file, CDIValidationMessages.ILLEGAL_SCOPE_FOR_MANAGED_BEAN_WITH_PUBLIC_FIELD, 25);
 	}
 
 	/**
