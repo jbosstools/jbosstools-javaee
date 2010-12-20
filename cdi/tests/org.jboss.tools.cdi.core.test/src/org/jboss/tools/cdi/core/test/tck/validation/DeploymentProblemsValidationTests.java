@@ -62,6 +62,30 @@ public class DeploymentProblemsValidationTests extends ValidationTest {
 	}
 
 	/**
+	 * CDI validator should not complain if there ambiguous dependencies for @Inject Instance<[type]>
+	 * See https://issues.jboss.org/browse/JBIDE-7949
+	 * 
+	 * @throws Exception
+	 */
+	public void testAmbiguousDependencyForInstance() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/resolution/InjectionInstance.java");
+		assertMarkerIsNotCreated(file, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS, 8);
+		assertMarkerIsCreated(file, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS, 11);
+	}
+
+	/**
+	 * CDI validator should not complain if there unsatisfied dependencies for @Inject Instance<[type]>
+	 * See https://issues.jboss.org/browse/JBIDE-7949
+	 * 
+	 * @throws Exception
+	 */
+	public void testUnsatisfiedDependencyForInstance() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/resolution/InjectionInstance.java");
+		assertMarkerIsNotCreated(file, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS, 9);
+		assertMarkerIsCreated(file, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS, 12);
+	}
+
+	/**
 	 * 5.2.4. Primitive types and null values
 	 *  - injection point of primitive type resolves to a bean that may have null values, such as a producer method with a non-primitive return type or a producer field with a non-primitive type
 	 * 
