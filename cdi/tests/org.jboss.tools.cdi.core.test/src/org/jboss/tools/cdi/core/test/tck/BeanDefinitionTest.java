@@ -10,15 +10,18 @@
  ******************************************************************************/ 
 package org.jboss.tools.cdi.core.test.tck;
 
+import java.util.List;
 import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IParametedType;
 import org.jboss.tools.cdi.core.IQualifier;
 import org.jboss.tools.cdi.core.IScope;
 import org.jboss.tools.cdi.core.ITypeDeclaration;
+import org.jboss.tools.cdi.internal.core.impl.ClassBean;
 
 /**
  * @author Alexey Kazakov
@@ -205,5 +208,25 @@ public class BeanDefinitionTest extends TCKTest {
 		assertEquals("There should be the only bean with org.jboss.jsr299.tck.tests.definition.bean.Horse type", 1, beans.size());
 		IBean bean = beans.iterator().next();
 		assertEquals("Wrong Bean Class type of org.jboss.jsr299.tck.tests.definition.bean.Horse bean", "org.jboss.jsr299.tck.tests.definition.bean.Horse", bean.getBeanClass().getFullyQualifiedName());
+	}
+
+	public void testCyclicParametedType() throws JavaModelException {
+		Set<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.bean.AbstractJavaSource");
+		assertFalse(beans.isEmpty());
+		IBean bean = beans.iterator().next();
+		IParametedType t = ((ClassBean)bean).getDefinition().getParametedType();
+		assertNotNull(t);
+		List<? extends IParametedType> ps = t.getParameters();
+		assertFalse(ps.isEmpty());
+		IParametedType p = ps.get(0);
+		ps = p.getParameters();
+		assertFalse(ps.isEmpty());
+		IParametedType p1 = ps.get(0);
+		ps = p1.getParameters();
+		assertFalse(ps.isEmpty());
+		IParametedType p2 = ps.get(0);
+		IType type = p2.getType();
+		assertEquals("org.jboss.jsr299.tck.tests.definition.bean.JavaSource", type.getFullyQualifiedName());
+		assertTrue(p1 == p2);
 	}
 }
