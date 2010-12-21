@@ -282,7 +282,7 @@ public class DefinitionContext {
 		String name = type.getFullyQualifiedName();
 		AnnotationDefinition result = annotations.get(name);
 		if(result == null) {
-			Set<CDICoreNature> ns = project.getCDIProjects();
+			Set<CDICoreNature> ns = project.getCDIProjects(true);
 			for (CDICoreNature n: ns) {
 				result = n.getDefinitions().getAnnotation(type);
 				if(result != null) {

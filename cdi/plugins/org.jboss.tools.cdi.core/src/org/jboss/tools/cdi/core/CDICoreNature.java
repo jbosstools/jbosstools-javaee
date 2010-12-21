@@ -12,6 +12,7 @@ package org.jboss.tools.cdi.core;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -25,8 +26,11 @@ import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.jdt.core.IType;
+import org.jboss.tools.cdi.internal.core.impl.definition.AnnotationDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.DefinitionContext;
 import org.jboss.tools.cdi.internal.core.impl.definition.ParametedTypeFactory;
+import org.jboss.tools.cdi.internal.core.impl.definition.TypeDefinition;
 import org.jboss.tools.cdi.internal.core.scanner.lib.ClassPathMonitor;
 import org.jboss.tools.common.model.XJob;
 import org.jboss.tools.common.model.XJob.XRunnable;
@@ -85,6 +89,77 @@ public class CDICoreNature implements IProjectNature, IKBBuilderRequiredNature {
 
 	public Set<CDICoreNature> getCDIProjects() {
 		return dependsOn;
+	}
+
+	public Set<CDICoreNature> getCDIProjects(boolean hierarchy) {
+		if(hierarchy) {
+			if(dependsOn.isEmpty()) return dependsOn;
+			Set<CDICoreNature> result = new HashSet<CDICoreNature>();
+			getAllCDIProjects(result);
+			return result;
+		} else {
+			return dependsOn;
+		}
+	}
+
+	void getAllCDIProjects(Set<CDICoreNature> result) {
+		for (CDICoreNature n:dependsOn) {
+			if(result.contains(n)) continue;
+			result.add(n);
+			n.getAllCDIProjects(result);
+		}
+	}
+
+	public List<TypeDefinition> getAllTypeDefinitions() {
+		Set<CDICoreNature> ps = getCDIProjects(true);
+		if(ps == null || ps.isEmpty()) {
+			return getDefinitions().getTypeDefinitions();
+		}
+		List<TypeDefinition> ds = getDefinitions().getTypeDefinitions();
+		List<TypeDefinition> result = new ArrayList<TypeDefinition>();
+		result.addAll(ds);
+		Set<IType> types = new HashSet<IType>();
+		for (TypeDefinition d: ds) {
+			IType t = d.getType();
+			if(t != null) types.add(t);
+		}
+		for (CDICoreNature p: ps) {
+			List<TypeDefinition> ds2 = p.getDefinitions().getTypeDefinitions();
+			for (TypeDefinition d: ds2) {
+				IType t = d.getType();
+				if(t != null && !types.contains(t)) {
+					types.add(t);
+					result.add(d);
+				}
+			}
+		}
+		return result;
+	}
+
+	public List<AnnotationDefinition> getAllAnnotations() {
+		Set<CDICoreNature> ps = getCDIProjects(true);
+		if(ps == null || ps.isEmpty()) {
+			return getDefinitions().getAllAnnotations();
+		}
+		List<AnnotationDefinition> ds = getDefinitions().getAllAnnotations();
+		List<AnnotationDefinition> result = new ArrayList<AnnotationDefinition>();
+		result.addAll(ds);
+		Set<IType> types = new HashSet<IType>();
+		for (AnnotationDefinition d: ds) {
+			IType t = d.getType();
+			if(t != null) types.add(t);
+		}
+		for (CDICoreNature p: ps) {
+			List<AnnotationDefinition> ds2 = p.getDefinitions().getAllAnnotations();
+			for (AnnotationDefinition d: ds2) {
+				IType t = d.getType();
+				if(t != null && !types.contains(t)) {
+					types.add(t);
+					result.add(d);
+				}
+			}
+		}
+		return result;
 	}
 
 	public Set<CDICoreNature> getDependentProjects() {

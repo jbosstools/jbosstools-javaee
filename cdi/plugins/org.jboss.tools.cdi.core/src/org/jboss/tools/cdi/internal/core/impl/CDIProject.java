@@ -1041,7 +1041,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		interceptorBindingsByPath.clear();
 		scopes.clear();
 		scopesByPath.clear();
-		List<AnnotationDefinition> ds = getAllAnnotations();
+		List<AnnotationDefinition> ds = n.getAllAnnotations();
 		for (AnnotationDefinition d: ds) {
 			if((d.getKind() & AnnotationDefinition.STEREOTYPE) > 0) {
 				StereotypeElement s = new StereotypeElement();
@@ -1087,60 +1087,8 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		}
 	}
 
-	List<AnnotationDefinition> getAllAnnotations() {
-		Set<CDICoreNature> ps = n.getCDIProjects();
-		if(ps == null || ps.isEmpty()) {
-			return n.getDefinitions().getAllAnnotations();
-		}
-		List<AnnotationDefinition> ds = n.getDefinitions().getAllAnnotations();
-		List<AnnotationDefinition> result = new ArrayList<AnnotationDefinition>();
-		result.addAll(ds);
-		Set<IType> types = new HashSet<IType>();
-		for (AnnotationDefinition d: ds) {
-			IType t = d.getType();
-			if(t != null) types.add(t);
-		}
-		for (CDICoreNature p: ps) {
-			List<AnnotationDefinition> ds2 = p.getDefinitions().getAllAnnotations();
-			for (AnnotationDefinition d: ds2) {
-				IType t = d.getType();
-				if(t != null && !types.contains(t)) {
-					types.add(t);
-					result.add(d);
-				}
-			}
-		}
-		return result;
-	}
-
-	List<TypeDefinition> getAllTypeDefinitions() {
-		Set<CDICoreNature> ps = n.getCDIProjects();
-		if(ps == null || ps.isEmpty()) {
-			return n.getDefinitions().getTypeDefinitions();
-		}
-		List<TypeDefinition> ds = n.getDefinitions().getTypeDefinitions();
-		List<TypeDefinition> result = new ArrayList<TypeDefinition>();
-		result.addAll(ds);
-		Set<IType> types = new HashSet<IType>();
-		for (TypeDefinition d: ds) {
-			IType t = d.getType();
-			if(t != null) types.add(t);
-		}
-		for (CDICoreNature p: ps) {
-			List<TypeDefinition> ds2 = p.getDefinitions().getTypeDefinitions();
-			for (TypeDefinition d: ds2) {
-				IType t = d.getType();
-				if(t != null && !types.contains(t)) {
-					types.add(t);
-					result.add(d);
-				}
-			}
-		}
-		return result;
-	}
-
 	void rebuildBeans() {
-		List<TypeDefinition> typeDefinitions = getAllTypeDefinitions();
+		List<TypeDefinition> typeDefinitions = n.getAllTypeDefinitions();
 		List<IBean> beans = new ArrayList<IBean>();
 		Map<IType, ClassBean> newClassBeans = new HashMap<IType, ClassBean>();
 	
