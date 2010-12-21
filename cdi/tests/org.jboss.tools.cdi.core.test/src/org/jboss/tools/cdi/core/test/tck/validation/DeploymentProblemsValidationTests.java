@@ -86,6 +86,18 @@ public class DeploymentProblemsValidationTests extends ValidationTest {
 	}
 
 	/**
+	 * https://issues.jboss.org/browse/JBIDE-7967
+	 *  
+	 * @throws Exception
+	 */
+	public void testBeansWithDefaultCounstructor() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/resolution/defaultconstructors/CurrentProject.java");
+		assertMarkerIsNotCreated(file, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS, 12);
+		assertMarkerIsNotCreated(file, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS, 12);
+		assertMarkerIsCreated(file, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS, 15);
+	}
+
+	/**
 	 * 5.2.4. Primitive types and null values
 	 *  - injection point of primitive type resolves to a bean that may have null values, such as a producer method with a non-primitive return type or a producer field with a non-primitive type
 	 * 

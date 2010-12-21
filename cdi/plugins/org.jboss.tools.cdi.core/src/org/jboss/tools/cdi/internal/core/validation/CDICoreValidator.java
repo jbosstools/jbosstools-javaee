@@ -1329,6 +1329,11 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 			 */
 			IType type = getTypeOfInjection(injection);
 			boolean instance = type!=null && CDIConstants.INSTANCE_TYPE_NAME.equals(type.getFullyQualifiedName());
+			for (IBean bean : beans) {
+				if(!bean.getBeanClass().isReadOnly()) {
+					getValidationContext().addLinkedCoreResource(injection.getSourcePath().toOSString(), bean.getResource().getFullPath(), false);
+				}
+			}
 			if(type!=null && beans.isEmpty() && !instance) {
 				addError(CDIValidationMessages.UNSATISFIED_INJECTION_POINTS, CDIPreferences.UNSATISFIED_INJECTION_POINTS, reference, injection.getResource(), UNSATISFIED_INJECTION_POINTS_ID);
 			} else if(beans.size()>1  && !instance) {
@@ -1336,9 +1341,6 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 			} else if(beans.size()==1) {
 				IBean bean = beans.iterator().next();
 				if(!bean.getBeanClass().isReadOnly()) {
-					if(!injection.getResource().equals(bean.getResource())) {
-						getValidationContext().addLinkedCoreResource(injection.getSourcePath().toOSString(), bean.getResource().getFullPath(), false);
-					}
 					/*
 					 * 5.2.4. Primitive types and null values
 					 *  - injection point of primitive type resolves to a bean that may have null values, such as a producer method with a non-primitive return type or a producer field with a non-primitive type
