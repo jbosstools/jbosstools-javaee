@@ -1329,7 +1329,8 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 			 */
 			IType type = getTypeOfInjection(injection);
 			boolean instance = type!=null && CDIConstants.INSTANCE_TYPE_NAME.equals(type.getFullyQualifiedName());
-			for (IBean bean : beans) {
+			Set<IBean> allBeans = cdiProject.getBeans(false, injection);
+			for (IBean bean : allBeans) {
 				if(!bean.getBeanClass().isReadOnly()) {
 					getValidationContext().addLinkedCoreResource(injection.getSourcePath().toOSString(), bean.getResource().getFullPath(), false);
 				}
