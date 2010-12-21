@@ -280,7 +280,17 @@ public class DefinitionContext {
 
 	public AnnotationDefinition getAnnotation(IType type) {
 		String name = type.getFullyQualifiedName();
-		return annotations.get(name);
+		AnnotationDefinition result = annotations.get(name);
+		if(result == null) {
+			Set<CDICoreNature> ns = project.getCDIProjects();
+			for (CDICoreNature n: ns) {
+				result = n.getDefinitions().getAnnotation(type);
+				if(result != null) {
+					break;
+				}
+			}
+		}
+		return result;
 	}
 
 	public List<AnnotationDefinition> getAllAnnotations() {
