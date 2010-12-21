@@ -31,9 +31,10 @@ import org.jboss.tools.cdi.internal.core.scanner.lib.ClassPathMonitor;
 import org.jboss.tools.common.model.XJob;
 import org.jboss.tools.common.model.XJob.XRunnable;
 import org.jboss.tools.common.util.FileUtil;
+import org.jboss.tools.jst.web.kb.internal.IKBBuilderRequiredNature;
 import org.jboss.tools.jst.web.kb.internal.validation.ProjectValidationContext;
 
-public class CDICoreNature implements IProjectNature {
+public class CDICoreNature implements IProjectNature, IKBBuilderRequiredNature {
 	public static String NATURE_ID = "org.jboss.tools.cdi.core.cdinature";
 
 	IProject project = null;
@@ -328,5 +329,13 @@ public class CDICoreNature implements IProjectNature {
 			validationContext = new ProjectValidationContext();
 		}
 		return validationContext;
+	}
+
+	public boolean isKBBuilderRequired() {
+		return true;
+	}
+
+	public String getNatureDescription() {
+		return CDICoreMessages.CDI_NATURE_DESCRIPTION;
 	}
 }
