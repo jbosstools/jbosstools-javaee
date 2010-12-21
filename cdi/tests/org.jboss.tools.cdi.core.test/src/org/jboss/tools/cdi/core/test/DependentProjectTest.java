@@ -20,6 +20,7 @@ import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.IClassBean;
 import org.jboss.tools.cdi.core.IProducer;
+import org.jboss.tools.cdi.core.IQualifier;
 import org.jboss.tools.cdi.core.IScope;
 import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.ResourcesUtils;
@@ -33,6 +34,7 @@ public class DependentProjectTest extends TestCase {
 	protected static String PLUGIN_ID = "org.jboss.tools.cdi.core.test";
 	IProject project1 = null;
 	IProject project2 = null;
+	IProject project3 = null;
 
 	public DependentProjectTest() {}
 
@@ -43,6 +45,10 @@ public class DependentProjectTest extends TestCase {
 
 		project2 = ResourcesUtils.importProject(PLUGIN_ID, "/projects/CDITest2");
 		project2.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
+		JobUtils.waitForIdle();		
+
+		project3 = ResourcesUtils.importProject(PLUGIN_ID, "/projects/CDITest3");
+		project3.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
 		JobUtils.waitForIdle();		
 	}
 
@@ -94,9 +100,15 @@ public class DependentProjectTest extends TestCase {
 		assertNotNull(ns);
 		assertNull(sd);
 
+		boolean saveAutoBuild = ResourcesUtils.setBuildAutomatically(false);
+		JobUtils.waitForIdle();
 		IFile scope2File = project1.getFile(new Path("src/cdi/test/Scope2.java"));
 		IFile scope21File = project1.getFile(new Path("src/cdi/test/Scope2.1"));
 		scope2File.setContents(scope21File.getContents(), IFile.FORCE, new NullProgressMonitor());
+		JobUtils.waitForIdle();
+		project1.build(IncrementalProjectBuilder.INCREMENTAL_BUILD, new NullProgressMonitor());
+		JobUtils.waitForIdle();
+		ResourcesUtils.setBuildAutomatically(saveAutoBuild);
 		JobUtils.waitForIdle();
 		
 		producer = getProducer("/CDITest2/src/test/Test1.java");
@@ -121,11 +133,20 @@ public class DependentProjectTest extends TestCase {
 		return producer;
 	}
 
+	public void testIndirectDependency() throws CoreException, IOException {
+		ICDIProject cdi3 = CDICorePlugin.getCDIProject(project3, true);
+		Set<IBean> beans = cdi3.getBeans(new Path("/CDITest1/src/cdi/test/MyBean.java"));
+		assertFalse(beans.isEmpty());
+		IQualifier q = cdi3.getQualifier("cdi.test.MyQualifier");
+		assertNotNull(q);		
+	}
+
 	public void tearDown() throws Exception {
 		boolean saveAutoBuild = ResourcesUtils.setBuildAutomatically(false);
 		JobUtils.waitForIdle();
 		project1.delete(true, true, null);
 		project2.delete(true, true, null);
+		project3.delete(true, true, null);
 		JobUtils.waitForIdle();
 		ResourcesUtils.setBuildAutomatically(saveAutoBuild);
 	}
