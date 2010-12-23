@@ -88,7 +88,7 @@ public abstract class MarkerResolutionRefactoringProcessor extends RefactoringPr
 
 	@Override
 	public Object[] getElements() {
-		return null;
+		return new Object[]{file};
 	}
 
 	@Override

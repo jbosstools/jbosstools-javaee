@@ -17,7 +17,6 @@ import org.eclipse.core.resources.IMarker;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.ltk.core.refactoring.participants.ProcessorBasedRefactoring;
 import org.eclipse.ltk.core.refactoring.participants.RefactoringProcessor;
-import org.eclipse.ltk.ui.refactoring.RefactoringWizard;
 import org.eclipse.ltk.ui.refactoring.RefactoringWizardOpenOperation;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Shell;
@@ -47,16 +46,10 @@ public class DeleteAllDisposerDuplicantMarkerResolution implements IMarkerResolu
 	public void run(IMarker marker) {
 		DeleteAllDisposerAnnotationsProcessor processor = new DeleteAllDisposerAnnotationsProcessor(file, method, label);
 		ProcessorBasedRefactoring refactoring = new ProcessorBasedRefactoring(processor);
-		DeletePreviewWizard wizard = new DeletePreviewWizard(refactoring, RefactoringWizard.WIZARD_BASED_USER_INTERFACE);
+		DeletePreviewWizard wizard = new DeletePreviewWizard(refactoring);
 		RefactoringWizardOpenOperation op = new RefactoringWizardOpenOperation(wizard);
 		Shell shell = Workbench.getInstance().getActiveWorkbenchWindow().getShell();
-		try {
-			String titleForFailedChecks = CDIUIMessages.CDI_REFACTOR_CONTRIBUTOR_ERROR;
-			op.run(shell, titleForFailedChecks);
-		} catch (final InterruptedException irex) {
-			// operation was canceled
-		}
-
+		wizard.showWizard();
 	}
 	
 	public RefactoringProcessor getRefactoringProcessor(){

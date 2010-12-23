@@ -73,6 +73,7 @@ public class DeleteAllDisposerAnnotationsProcessor extends MarkerResolutionRefac
 		
 		rootChange = new CompositeChange(label);
 		change = new TextFileChange(file.getName(), file);
+		change.setSaveMode(TextFileChange.LEAVE_DIRTY);
 		MultiTextEdit root = new MultiTextEdit();
 		change.setEdit(root);
 		rootChange.add(change);

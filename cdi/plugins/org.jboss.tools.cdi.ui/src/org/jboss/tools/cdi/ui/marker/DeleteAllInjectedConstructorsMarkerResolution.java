@@ -57,16 +57,9 @@ public class DeleteAllInjectedConstructorsMarkerResolution implements IMarkerRes
 	public void run(IMarker marker) {
 		DeleteAllInjectedConstructorsProcessor processor = new DeleteAllInjectedConstructorsProcessor(file, method, label);
 		ProcessorBasedRefactoring refactoring = new ProcessorBasedRefactoring(processor);
-		DeletePreviewWizard wizard = new DeletePreviewWizard(refactoring, RefactoringWizard.WIZARD_BASED_USER_INTERFACE);
+		DeletePreviewWizard wizard = new DeletePreviewWizard(refactoring);
 		RefactoringWizardOpenOperation op = new RefactoringWizardOpenOperation(wizard);
-		Shell shell = Workbench.getInstance().getActiveWorkbenchWindow().getShell();
-		try {
-			String titleForFailedChecks = CDIUIMessages.CDI_REFACTOR_CONTRIBUTOR_ERROR;
-			op.run(shell, titleForFailedChecks);
-		} catch (final InterruptedException irex) {
-			// operation was canceled
-		}
-
+		wizard.showWizard();
 	}
 	
 	public RefactoringProcessor getRefactoringProcessor(){
