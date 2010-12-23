@@ -18,6 +18,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.jdt.core.IMethod;
+import org.eclipse.jdt.internal.ui.javaeditor.EditorUtility;
 import org.eclipse.ltk.core.refactoring.Change;
 import org.eclipse.ltk.core.refactoring.CompositeChange;
 import org.eclipse.ltk.core.refactoring.RefactoringStatus;
@@ -26,12 +27,17 @@ import org.eclipse.ltk.core.refactoring.participants.RefactoringParticipant;
 import org.eclipse.ltk.core.refactoring.participants.RefactoringProcessor;
 import org.eclipse.ltk.core.refactoring.participants.SharableParticipants;
 import org.eclipse.ltk.internal.core.refactoring.Messages;
+import org.eclipse.text.edits.MultiTextEdit;
+import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IWorkbenchWindow;
 import org.jboss.tools.cdi.core.CDICoreMessages;
 import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.IClassBean;
+import org.jboss.tools.cdi.ui.CDIUIPlugin;
 
 public abstract class MarkerResolutionRefactoringProcessor extends RefactoringProcessor {
 	protected static final RefactoringParticipant[] EMPTY_REF_PARTICIPANT = new  RefactoringParticipant[0];	
@@ -49,6 +55,33 @@ public abstract class MarkerResolutionRefactoringProcessor extends RefactoringPr
 		this.file = file;
 		this.method = method;
 		this.label = label;
+	}
+	
+	protected void createRootChange(){
+		rootChange = new CompositeChange(label);
+		change = new TextFileChange(file.getName(), file);
+		
+		if(isEditorOpened())
+			change.setSaveMode(TextFileChange.LEAVE_DIRTY);
+		else
+			change.setSaveMode(TextFileChange.FORCE_SAVE);
+		
+		MultiTextEdit root = new MultiTextEdit();
+		change.setEdit(root);
+		rootChange.add(change);
+		rootChange.markAsSynthetic();
+	}
+	
+	private boolean isEditorOpened(){
+		IEditorInput ii = EditorUtility.getEditorInput(file);
+		
+		IWorkbenchWindow[] windows = CDIUIPlugin.getDefault().getWorkbench().getWorkbenchWindows();
+		for(IWorkbenchWindow window : windows){
+			IEditorPart editor = window.getActivePage().findEditor(ii);
+			if(editor != null)
+				return true;
+		}
+		return false;
 	}
 	
 	private IClassBean findClassBean(){

@@ -10,7 +10,6 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.ui.marker;
 
-import java.text.MessageFormat;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -19,11 +18,8 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.jdt.core.IMethod;
-import org.eclipse.ltk.core.refactoring.CompositeChange;
 import org.eclipse.ltk.core.refactoring.RefactoringStatus;
-import org.eclipse.ltk.core.refactoring.TextFileChange;
 import org.eclipse.ltk.core.refactoring.participants.CheckConditionsContext;
-import org.eclipse.text.edits.MultiTextEdit;
 import org.eclipse.text.edits.ReplaceEdit;
 import org.eclipse.text.edits.TextEdit;
 import org.jboss.tools.cdi.core.CDIConstants;
@@ -63,12 +59,7 @@ public class DeleteAllInjectedConstructorsProcessor extends MarkerResolutionRefa
 			CheckConditionsContext context) throws CoreException,
 			OperationCanceledException {
 		
-		rootChange = new CompositeChange(label);
-		change = new TextFileChange(file.getName(), file);
-		change.setSaveMode(TextFileChange.LEAVE_DIRTY);
-		MultiTextEdit root = new MultiTextEdit();
-		change.setEdit(root);
-		rootChange.add(change);
+		createRootChange();
 		
 		if(bean != null)
 			changeConstructors(bean);
