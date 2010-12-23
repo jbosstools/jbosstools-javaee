@@ -62,6 +62,7 @@ public class JSFPromptingProvider implements IWebPromptingProvider {
 		SUPPORTED_IDS.add(JSF_GET_TAGLIBS);
 		SUPPORTED_IDS.add(JSF_CONVERTER_IDS);
 		SUPPORTED_IDS.add(JSF_VALIDATOR_IDS);
+		SUPPORTED_IDS.add(JSF_FACES_CONFIG);
 	}
 	public final static String PROVIDER_ID = "jsf"; //$NON-NLS-1$
 
@@ -172,6 +173,12 @@ public class JSFPromptingProvider implements IWebPromptingProvider {
 			return new OpenConverterHelper().getConverterIDs(model);
 		} else if(JSF_VALIDATOR_IDS.equals(id)) {
 			return new OpenValidatorHelper().getValidatorIDs(model);
+		} else if(JSF_FACES_CONFIG.equals(id)) {
+			XModelObject fc = findFacesConfig(model);
+			if(fc == null) return EMPTY_LIST;
+			ArrayList<Object> list = new ArrayList<Object>();
+			list.add(fc);
+			return list;
 		}
 		if(error != null) throw new XModelException(error);
 		return EMPTY_LIST;
@@ -496,6 +503,36 @@ public class JSFPromptingProvider implements IWebPromptingProvider {
 		}
 		JSFUrlPattern pattern = p.getUrlPattern();
 		return (pattern == null) ? url : pattern.getJSFPath(url);
+	}
+
+	public static XModelObject findFacesConfig(XModel model) {
+		XModelObject facesConfig = null;
+		JSFProjectsRoot root = JSFProjectsTree.getProjectsRoot(model);
+		if (root != null) {
+			WebProjectNode n = (WebProjectNode) root
+					.getChildByPath(JSFProjectTreeConstants.CONFIGURATION);
+			if (n != null) {
+				/*
+				 * The array contains the all configuration files in the project
+				 * including files from jar archives.
+				 * Only editable object is be the necessary faces-config file.
+				 */
+				XModelObject[] os = n.getTreeChildren();
+				for (XModelObject o : os) {
+					if (o.isObjectEditable()) {
+						facesConfig = o;
+						break;
+					}
+				}
+			}
+		}
+		/*
+		 * When nothing has been found try the last straight-forward way.
+		 */
+		if (facesConfig == null) {
+			facesConfig = model.getByPath("/faces-config.xml"); //$NON-NLS-1$
+		}
+		return facesConfig;
 	}
 
 }
