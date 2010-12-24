@@ -150,5 +150,4 @@ public class DependentProjectTest extends TestCase {
 		JobUtils.waitForIdle();
 		ResourcesUtils.setBuildAutomatically(saveAutoBuild);
 	}
-
 }

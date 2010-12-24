@@ -44,6 +44,7 @@ import org.jboss.tools.cdi.core.test.tck.validation.AnnotationsValidationTest;
 import org.jboss.tools.cdi.core.test.tck.validation.BeansXmlValidationTest;
 import org.jboss.tools.cdi.core.test.tck.validation.CoreValidationTest;
 import org.jboss.tools.cdi.core.test.tck.validation.DefenitionErrorsValidationTest;
+import org.jboss.tools.cdi.core.test.tck.validation.DependentProjectValidationTest;
 import org.jboss.tools.cdi.core.test.tck.validation.DeploymentProblemsValidationTests;
 
 /**
@@ -93,6 +94,7 @@ public class CDICoreAllTests {
 		suiteAll.addTestSuite(DependentProjectTest.class);
 		suiteAll.addTestSuite(EnableCDISupportForWarTest.class);
 		suiteAll.addTestSuite(EnableCDISupportForJarTest.class);
+		suiteAll.addTestSuite(DependentProjectValidationTest.class);
 		suiteAll.addTest(new CDICoreTestSetup(suite));
 
 		return suiteAll;
