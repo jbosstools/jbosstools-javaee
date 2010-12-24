@@ -52,6 +52,7 @@ import org.jboss.tools.common.text.TextProposal;
 import org.jboss.tools.common.text.ext.util.Utils;
 import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.jsf.JSFModelPlugin;
+import org.jboss.tools.jsf.model.helpers.converter.OpenKeyHelper;
 import org.jboss.tools.jst.web.kb.IPageContext;
 import org.jboss.tools.jst.web.kb.IResourceBundle;
 import org.jboss.tools.jst.web.project.list.WebPromptingProvider;
@@ -473,22 +474,28 @@ public class JSFMessageELCompletionEngine extends AbstractELCompletionEngine<IVa
 				XModel model = n.getModel();
 				if(model == null)
 					return;
-				XModelObject properties = model.getByPath("/" + variable.basename.replace('.', '/') + ".properties");
+				
+				OpenKeyHelper keyHelper = new OpenKeyHelper();
+				XModelObject[] properties = keyHelper.findBundles(model, variable.basename, null);
+//				XModelObject properties = model.getByPath("/" + variable.basename.replace('.', '/') + ".properties");
 				if(properties == null)
 					return;
-				IFile propFile = (IFile)properties.getAdapter(IFile.class);
-				if(propFile == null)
-					return;
-				segment.setMessageBundleResource(propFile);
-				XModelObject property = properties.getChildByPath(segment.getToken().getText());
-				if(property != null){
-					try {
-						String content = FileUtil.readStream(propFile);
-						if(findPropertyLocation(property, content, segment)){
-							segment.setBaseName(variable.basename);
+				
+				for (XModelObject p : properties) {
+					IFile propFile = (IFile)p.getAdapter(IFile.class);
+					if(propFile == null)
+						continue;
+					segment.setMessageBundleResource(propFile);
+					XModelObject property = p.getChildByPath(segment.getToken().getText());
+					if(property != null){
+						try {
+							String content = FileUtil.readStream(propFile);
+							if(findPropertyLocation(property, content, segment)){
+								segment.setBaseName(variable.basename);
+							}
+						} catch (CoreException e) {
+							log(e);
 						}
-					} catch (CoreException e) {
-						log(e);
 					}
 				}
 			}
