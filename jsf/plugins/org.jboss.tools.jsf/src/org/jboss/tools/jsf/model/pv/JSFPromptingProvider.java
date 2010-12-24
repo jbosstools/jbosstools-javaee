@@ -202,13 +202,24 @@ public class JSFPromptingProvider implements IWebPromptingProvider {
 	
 	public List<Object> getBundleProperties(XModel model, String bundle) {
 		if(bundle == null || bundle.length() == 0) return EMPTY_LIST;
-		XModelObject b = model.getByPath("/" + bundle.replace('.', '/') + ".properties");
-		if(b == null) return EMPTY_LIST;
-		XModelObject[] os = b.getChildren();
-		List<Object> list = new ArrayList<Object>();
-		for (int i = 0; i < os.length; i++) {
-			list.add(os[i].getAttributeValue("name"));
+		
+		OpenKeyHelper helper = new OpenKeyHelper();
+		XModelObject[] bundleObjects = helper.findBundles(model, bundle, null);
+		if (bundleObjects == null) 
+			return EMPTY_LIST;
+//			XModelObject b = model.getByPath("/" + bundle.replace('.', '/') + ".properties");
+		Set properties = new TreeSet(String.CASE_INSENSITIVE_ORDER);
+		for (XModelObject b : bundleObjects) {
+			if(b == null) continue;
+			XModelObject[] os = b.getChildren();
+			for (int i = 0; i < os.length; i++) {
+//				list.add(os[i].getAttributeValue("name"));
+				properties.add(os[i].getAttributeValue("name"));
+			}
 		}
+		List<Object> list = new ArrayList<Object>();
+		list.addAll(properties);
+		
 		return list;
 	}
 	
