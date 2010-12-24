@@ -11,7 +11,7 @@
 
 package org.jboss.tools.cdi.internal.core.validation;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Set;
 
 import org.eclipse.core.resources.IProject;
@@ -34,7 +34,7 @@ public class CDIProjectSet extends ValidatingProjectSet {
 	 * @param project
 	 */
 	public CDIProjectSet(IProject project) {
-		allProjects = new ArrayList<IProject>();
+		allProjects = new HashSet<IProject>();
 		allProjects.add(project);
 		CDICoreNature sp = CDICorePlugin.getCDI(project, false);
 		if(sp!=null) {
@@ -65,6 +65,23 @@ public class CDIProjectSet extends ValidatingProjectSet {
 			return addIncludingProjects(nature);
 		}
 		return project;
+	}
+
+	private Set<CDICoreNature> getRootProjects(CDICoreNature project) {
+		Set<CDICoreNature> result = new HashSet<CDICoreNature>();
+		Set<CDICoreNature> dependentProjects = project.getDependentProjects();
+		if(dependentProjects.isEmpty()) {
+			result.add(project);
+		} else if(dependentProjects.size()==1) {
+			result = getRootProjects(dependentProjects.iterator().next());
+		} else {
+			for (CDICoreNature nature : dependentProjects) {
+				if(!result.contains(nature)) {
+					result.addAll(getRootProjects(nature));
+				}
+			}
+		}
+		return result;
 	}
 
 	private void addIncludedProjects(CDICoreNature project) {

@@ -58,6 +58,6 @@ public class CoreValidationTest extends ValidationTest {
 	 */
 	public void testAllRelatedProjectsIncluded() {
 		CDIProjectSet set = new CDIProjectSet(tckProject);
-		assertTrue("TCKProject is not included in the set of CDI projects", set.getAllProjests().contains(tckProject));
+		assertTrue("TCKProject is not included in the set of CDI projects", set.getAllProjects().contains(tckProject));
 	}
 }

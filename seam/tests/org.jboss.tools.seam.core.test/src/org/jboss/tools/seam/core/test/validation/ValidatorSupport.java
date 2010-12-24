@@ -9,14 +9,16 @@ import java.util.Set;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.wst.validation.internal.core.ValidationException;
 import org.eclipse.wst.validation.internal.provisional.core.IMessage;
 import org.eclipse.wst.validation.internal.provisional.core.IReporter;
 import org.jboss.tools.jst.web.kb.internal.validation.ContextValidationHelper;
 import org.jboss.tools.jst.web.kb.internal.validation.ValidatorManager;
+import org.jboss.tools.jst.web.kb.validation.IProjectValidationContext;
 import org.jboss.tools.jst.web.kb.validation.IValidator;
+import org.jboss.tools.seam.core.SeamProjectsSet;
+import org.jboss.tools.seam.internal.core.validation.SeamCoreValidator;
 
 public class ValidatorSupport implements IReporter, IValidatorSupport {
 
@@ -30,14 +32,15 @@ public class ValidatorSupport implements IReporter, IValidatorSupport {
 		this.validator = validator;
 	}
 	
-
 	/* (non-Javadoc)
 	 * @see org.jboss.tools.seam.core.test.validation.IValidatorSupport#validate()
 	 */
 	public void validate() throws ValidationException {
 		ContextValidationHelper helper = new ContextValidationHelper();
 		helper.setProject(this.project);
-		validator.validate(files, project, helper, new ValidatorManager(), this);	
+		IProjectValidationContext context = SeamCoreValidator.getSeamValidatingProjects(project).getBrunches().values().iterator().next().getRootContext();
+		SeamProjectsSet set = new SeamProjectsSet(project);
+		validator.validate(files, project, helper, context, new ValidatorManager(), this);	
 	}
 
 	/* (non-Javadoc)

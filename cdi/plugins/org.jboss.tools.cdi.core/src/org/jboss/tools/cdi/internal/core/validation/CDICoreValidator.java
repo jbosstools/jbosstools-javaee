@@ -92,7 +92,9 @@ import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.text.ITextSourceReference;
 import org.jboss.tools.jst.web.kb.internal.validation.ContextValidationHelper;
 import org.jboss.tools.jst.web.kb.internal.validation.ValidatorManager;
+import org.jboss.tools.jst.web.kb.validation.IProjectValidationContext;
 import org.jboss.tools.jst.web.kb.validation.IValidatingProjectSet;
+import org.jboss.tools.jst.web.kb.validation.IValidatingProjectTree;
 import org.jboss.tools.jst.web.kb.validation.IValidator;
 import org.jboss.tools.jst.web.kb.validation.ValidationUtil;
 
@@ -105,10 +107,14 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 
 	ICDIProject cdiProject;
 	String projectName;
-	CDIProjectSet projectSet;
+	IValidatingProjectTree projectTree;
+	IValidatingProjectSet projectSet;
+	Set<IFolder> sourceFolders = null;
 
 	private BeansXmlValidationDelegate beansXmlValidator = new BeansXmlValidationDelegate(this);
 	private AnnotationValidationDelegate annotationValidator = new AnnotationValidationDelegate(this);
+
+	static final String SHORT_ID = "jboss.cdi.core"; //$NON-NLS-1$
 
 	/*
 	 * (non-Javadoc)
@@ -135,9 +141,9 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 	 * org.jboss.tools.jst.web.kb.validation.IValidator#getValidatingProjects
 	 * (org.eclipse.core.resources.IProject)
 	 */
-	public IValidatingProjectSet getValidatingProjects(IProject project) {
-		projectSet = new CDIProjectSet(project);
-		return projectSet;
+	public IValidatingProjectTree getValidatingProjects(IProject project) {
+		projectTree = new CDIProjectTree(project);
+		return projectTree;
 	}
 
 	/*
@@ -166,40 +172,30 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.jboss.tools.jst.web.kb.internal.validation.ValidationErrorManager
-	 * #init(org.eclipse.core.resources.IProject,
-	 * org.jboss.tools.jst.web.kb.internal.validation.ContextValidationHelper,
-	 * org.jboss.tools.jst.web.kb.internal.validation.ValidatorManager,
-	 * org.eclipse.wst.validation.internal.provisional.core.IReporter,
-	 * org.jboss.tools.jst.web.kb.validation.IValidationContext)
+	 * @see org.jboss.tools.jst.web.kb.internal.validation.ValidationErrorManager#init(org.eclipse.core.resources.IProject, org.jboss.tools.jst.web.kb.internal.validation.ContextValidationHelper, org.jboss.tools.jst.web.kb.validation.IProjectValidationContext, org.eclipse.wst.validation.internal.provisional.core.IValidator, org.eclipse.wst.validation.internal.provisional.core.IReporter)
 	 */
 	@Override
-	public void init(IProject project, ContextValidationHelper validationHelper, org.eclipse.wst.validation.internal.provisional.core.IValidator manager,
+	public void init(IProject rootProject, ContextValidationHelper validationHelper, IProjectValidationContext context, org.eclipse.wst.validation.internal.provisional.core.IValidator manager,
 			IReporter reporter) {
-		super.init(project, validationHelper, manager, reporter);
+		super.init(rootProject, validationHelper, context, manager, reporter);
 		setMessageIdQuickFixAttributeName(MESSAGE_ID_ATTRIBUTE_NAME);
-		if(projectSet==null) {
-			getValidatingProjects(project);
+		projectTree = validationHelper.getValidationContextManager().getValidatingProjectTree(this);
+		projectSet = projectTree.getBrunches().get(rootProject);
+		CDICoreNature nature = CDICorePlugin.getCDI(projectSet.getRootProject(), false);
+		if(nature!=null) {
+			cdiProject =  nature.getDelegate();
 		}
-		cdiProject = projectSet.getRootCdiProject();
 		projectName = projectSet.getRootProject().getName();
+		sourceFolders = null;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.jboss.tools.jst.web.kb.validation.IValidator#validate(java.util.Set,
-	 * org.eclipse.core.resources.IProject,
-	 * org.jboss.tools.jst.web.kb.internal.validation.ContextValidationHelper,
-	 * org.jboss.tools.jst.web.kb.internal.validation.ValidatorManager,
-	 * org.eclipse.wst.validation.internal.provisional.core.IReporter)
+	 * @see org.jboss.tools.jst.web.kb.validation.IValidator#validate(java.util.Set, org.eclipse.core.resources.IProject, org.jboss.tools.jst.web.kb.internal.validation.ContextValidationHelper, org.jboss.tools.jst.web.kb.validation.IProjectValidationContext, org.jboss.tools.jst.web.kb.internal.validation.ValidatorManager, org.eclipse.wst.validation.internal.provisional.core.IReporter)
 	 */
-	public IStatus validate(Set<IFile> changedFiles, IProject project, ContextValidationHelper validationHelper, ValidatorManager manager, IReporter reporter)
+	public IStatus validate(Set<IFile> changedFiles, IProject project, ContextValidationHelper validationHelper, IProjectValidationContext context, ValidatorManager manager, IReporter reporter)
 			throws ValidationException {
-		init(project, validationHelper, manager, reporter);
+		init(project, validationHelper, context, manager, reporter);
 		displaySubtask(CDIValidationMessages.SEARCHING_RESOURCES);
 
 		if (cdiProject == null) {
@@ -218,27 +214,27 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 				Set<String> newElNamesOfChangedFile = getELNamesByResource(currentFile.getFullPath());
 				for (String newElName : newElNamesOfChangedFile) {
 					// Collect resources that had EL names (in previous validation session) declared in this changed resource.
-					Set<IPath> linkedResources = validationContext.getCoreResourcesByVariableName(newElName, true);
+					Set<IPath> linkedResources = validationContext.getCoreResourcesByVariableName(SHORT_ID, newElName, true);
 					if(linkedResources!=null) {
 						resources.addAll(linkedResources);
 					}
 				}
 				// Get old EL names which were linked with this resource in previous validation session.
-				Set<String> oldElNamesOfChangedFile = validationContext.getVariableNamesByCoreResource(currentFile.getFullPath(), true);
+				Set<String> oldElNamesOfChangedFile = validationContext.getVariableNamesByCoreResource(SHORT_ID, currentFile.getFullPath(), true);
 				if(oldElNamesOfChangedFile!=null) {
 					for (String name : oldElNamesOfChangedFile) {
-						Set<IPath> linkedResources = validationContext.getCoreResourcesByVariableName(name, true);
+						Set<IPath> linkedResources = validationContext.getCoreResourcesByVariableName(SHORT_ID, name, true);
 						if(linkedResources!=null) {
 							resources.addAll(linkedResources);
 						}
 						// Save old (from previous validation session) EL names. We need to validate all the resources which use this old EL name in case the name has been changed.
-						validationContext.addVariableNameForELValidation(name);
+						validationContext.addVariableNameForELValidation(SHORT_ID, name);
 					}
 				}
 				
 				// Get all the paths of related resources for given file. These
 				// links were saved in previous validation process.
-				Set<String> oldReletedResources = getValidationContext().getVariableNamesByCoreResource(currentFile.getFullPath(), false);
+				Set<String> oldReletedResources = getValidationContext().getVariableNamesByCoreResource(SHORT_ID, currentFile.getFullPath(), false);
 				if (oldReletedResources != null) {
 					for (String resourcePath : oldReletedResources) {
 						if(resourcePath.startsWith("/")) {
@@ -248,21 +244,24 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 				}
 			}
 		}
+
+		Set<IFile> filesToValidate = new HashSet<IFile>();
+		for (IPath linkedResource : resources) {
+			IFile file = root.getFile(linkedResource);
+			if(file!=null && file.isAccessible()) {
+				IProject pr = file.getProject();
+				if(pr!=null && !validationHelper.getValidationContextManager().projectHasBeenValidated(this, pr)) {
+					filesToValidate.add(file);
+//					removeAllMessagesFromResource(file);
+				}
+			}
+		}
+
 		// Validate all collected linked resources.
 		// Remove all links between collected resources because they will be
 		// linked again during validation.
-		getValidationContext().removeLinkedCoreResources(resources);
+		getValidationContext().removeLinkedCoreResources(SHORT_ID, resources);
 
-		IFile[] filesToValidate = new IFile[resources.size()];
-		int i = 0;
-		// We have to remove markers from all collected source files first
-		for (IPath linkedResource : resources) {
-			filesToValidate[i] = root.getFile(linkedResource);
-			if(filesToValidate[i].isAccessible()) {
-				removeAllMessagesFromResource(filesToValidate[i++]);
-			}
-		}
-		i = 0;
 		// Then we can validate them
 		for (IFile file : filesToValidate) {
 			validateResource(file);
@@ -273,53 +272,79 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.jboss.tools.jst.web.kb.validation.IValidator#validateAll(org.eclipse
-	 * .core.resources.IProject,
-	 * org.jboss.tools.jst.web.kb.internal.validation.ContextValidationHelper,
-	 * org.jboss.tools.jst.web.kb.internal.validation.ValidatorManager,
-	 * org.eclipse.wst.validation.internal.provisional.core.IReporter)
+	 * @see org.jboss.tools.jst.web.kb.validation.IValidator#validateAll(org.eclipse.core.resources.IProject, org.jboss.tools.jst.web.kb.internal.validation.ContextValidationHelper, org.jboss.tools.jst.web.kb.validation.IProjectValidationContext, org.jboss.tools.jst.web.kb.internal.validation.ValidatorManager, org.eclipse.wst.validation.internal.provisional.core.IReporter)
 	 */
-	public IStatus validateAll(IProject project, ContextValidationHelper validationHelper, ValidatorManager manager, IReporter reporter)
+	public IStatus validateAll(IProject project, ContextValidationHelper validationHelper, IProjectValidationContext context, ValidatorManager manager, IReporter reporter)
 			throws ValidationException {
-		init(project, validationHelper, manager, reporter);
+		init(project, validationHelper, context, manager, reporter);
 		if (cdiProject == null) {
 			return OK_STATUS;
 		}
 		displaySubtask(CDIValidationMessages.VALIDATING_PROJECT, new String[] { projectName });
-		removeAllMessagesFromResource(cdiProject.getNature().getProject());
+
+		Set<IFile> filesToValidate = new HashSet<IFile>();
+
 		IBean[] beans = cdiProject.getBeans();
 		for (IBean bean : beans) {
-			validateBean(bean);
+			IResource resource = bean.getResource();
+			if(resource!=null && !bean.getBeanClass().isReadOnly() && notValidatedYet(resource)) {
+				filesToValidate.add((IFile)resource);
+			}
 		}
 
 		IStereotype[] stereotypes = cdiProject.getStereotypes();
 		for (IStereotype stereotype : stereotypes) {
-			validateStereotype(stereotype);
+			IResource resource = stereotype.getResource();
+			if(shouldValidateResourceOfElement(resource) && notValidatedYet(resource)) {
+				filesToValidate.add((IFile)resource);
+			}
 		}
 
 		IQualifier[] qualifiers = cdiProject.getQualifiers();
 		for (IQualifier qualifier : qualifiers) {
-			validateQualifier(qualifier);
+			IResource resource = qualifier.getResource();
+			if(shouldValidateResourceOfElement(resource) && notValidatedYet(resource)) {
+				filesToValidate.add((IFile)resource);
+			}
 		}
 
 		IInterceptorBinding[] bindings = cdiProject.getInterceptorBindings();
 		for (IInterceptorBinding binding : bindings) {
-			validateInterceptorBinding(binding);
+			IResource resource = binding.getResource();
+			if(shouldValidateResourceOfElement(resource) && notValidatedYet(resource)) {
+				filesToValidate.add((IFile)resource);
+			}
 		}
 		
 		Set<String> scopes = cdiProject.getScopeNames();
-		for (String scope: scopes) {
-			annotationValidator.validateScopeType(cdiProject.getScope(scope));
+		for (String scopeName: scopes) {
+			IScope scope = cdiProject.getScope(scopeName);
+			IResource resource = scope.getResource();
+			if(shouldValidateResourceOfElement(resource) && notValidatedYet(resource)) {
+				filesToValidate.add((IFile)resource);
+			}
 		}
 
 		List<IFile> beansXmls = getAllBeansXmls();
 		for (IFile beansXml : beansXmls) {
-			beansXmlValidator.validateBeansXml(beansXml);
+			if(notValidatedYet(beansXml)) {
+				filesToValidate.add(beansXml);
+			}
+		}
+
+		for (IFile file : filesToValidate) {
+			validateResource(file);
 		}
 
 		return OK_STATUS;
+	}
+
+	private boolean notValidatedYet(IResource resource) {
+		if(resource==null) {
+			System.out.println("!!!");
+		}
+		IProject pr = resource.getProject();
+		return !coreHelper.getValidationContextManager().projectHasBeenValidated(this, pr);
 	}
 
 	/**
@@ -332,6 +357,10 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 			return;
 		}
 		displaySubtask(CDIValidationMessages.VALIDATING_RESOURCE, new String[] {file.getProject().getName(), file.getName()});
+		coreHelper.getValidationContextManager().addValidatedProject(this, file.getProject());
+
+		// We should remove markers from the source file at first
+		removeAllMessagesFromResource(file);
 
 		if("beans.xml".equalsIgnoreCase(file.getName()) && CDIPreferences.shouldValidateBeansXml(file.getProject())) {
 			// TODO should we check the path of the beans.xml? Or it's better to check the every beans.xml even if it is not in META-INF or WEB-INF.
@@ -355,12 +384,10 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 		}
 	}
 
-	Set<IFolder> sourceFolders = null;
-
 	Set<IFolder> getSourceFoldersForProjectsSet() {
 		if(sourceFolders==null) {
 			sourceFolders = new HashSet<IFolder>();
-			List<IProject> projects = projectSet.getAllProjests();
+			Set<IProject> projects = projectSet.getAllProjects();
 			for (IProject project : projects) {
 				sourceFolders.addAll(EclipseResourceUtil.getSourceFolders(project));
 			}
@@ -383,12 +410,15 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 				beansXmls.add((IFile)beansXml);
 			}
 		}
-		// From WEB-INF folder
-		IVirtualComponent com = ComponentCore.createComponent(validatingProject);
-		if(com!=null) {
-			IVirtualFile beansXml = com.getRootFolder().getFile(new Path("/WEB-INF/beans.xml")); //$NON-NLS-1$
-			if(beansXml!=null && beansXml.getUnderlyingFile().isAccessible()) {
-				beansXmls.add(beansXml.getUnderlyingFile());
+		Set<IProject> allProjects = projectSet.getAllProjects();
+		for (IProject project : allProjects) {
+			// From WEB-INF folder
+			IVirtualComponent com = ComponentCore.createComponent(project);
+			if(com!=null) {
+				IVirtualFile beansXml = com.getRootFolder().getFile(new Path("/WEB-INF/beans.xml")); //$NON-NLS-1$
+				if(beansXml!=null && beansXml.getUnderlyingFile().isAccessible()) {
+					beansXmls.add(beansXml.getUnderlyingFile());
+				}
 			}
 		}
 		return beansXmls;
@@ -411,7 +441,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 		for (IScopeDeclaration scopeDeclaration : scopeDeclarations) {
 			IScope scope = scopeDeclaration.getScope();
 			if (!scope.getSourceType().isReadOnly()) {
-				getValidationContext().addLinkedCoreResource(beanPath, scope.getResource().getFullPath(), false);
+				getValidationContext().addLinkedCoreResource(SHORT_ID, beanPath, scope.getResource().getFullPath(), false);
 			}
 		}
 		addLinkedStereotypes(beanPath, bean);
@@ -419,7 +449,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 		for (IQualifierDeclaration qualifierDeclaration : qualifierDeclarations) {
 			IQualifier qualifier = qualifierDeclaration.getQualifier();
 			if (!qualifier.getSourceType().isReadOnly()) {
-				getValidationContext().addLinkedCoreResource(beanPath, qualifier.getResource().getFullPath(), false);
+				getValidationContext().addLinkedCoreResource(SHORT_ID, beanPath, qualifier.getResource().getFullPath(), false);
 			}
 		}
 
@@ -435,7 +465,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 		for (IInjectionPoint point : points) {
 			IType type = getTypeOfInjection(point);
 			if(type!=null && !type.isBinary()) {
-				getValidationContext().addLinkedCoreResource(beanPath, type.getPath(), false);
+				getValidationContext().addLinkedCoreResource(SHORT_ID, beanPath, type.getPath(), false);
 			}
 			validateInjectionPoint(point);
 		}
@@ -473,8 +503,8 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 		String name = bean.getName();
 		if(name!=null && !name.startsWith("/")) {
 			// Collect all relations between the bean and other CDI elements.
-			getValidationContext().addVariableNameForELValidation(name);
-			getValidationContext().addLinkedCoreResource(name, bean.getSourcePath(), true);
+			getValidationContext().addVariableNameForELValidation(SHORT_ID, name);
+			getValidationContext().addLinkedCoreResource(SHORT_ID, name, bean.getSourcePath(), true);
 			/*
 			 *	5.3.1. Ambiguous EL names
 			 *	- All unresolvable ambiguous EL names are detected by the container when the application is initialized.
@@ -557,7 +587,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 		for (IStereotypeDeclaration stereotypeDeclaration : stereotypeDeclarations) {
 			IStereotype stereotype = stereotypeDeclaration.getStereotype();
 			if (!stereotype.getSourceType().isReadOnly()) {
-				getValidationContext().addLinkedCoreResource(beanPath, stereotype.getResource().getFullPath(), false);
+				getValidationContext().addLinkedCoreResource(SHORT_ID, beanPath, stereotype.getResource().getFullPath(), false);
 			}
 		}
 	}
@@ -567,7 +597,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 		for (IInterceptorBindingDeclaration bindingDeclaration : bindingDeclarations) {
 			IInterceptorBinding binding = bindingDeclaration.getInterceptorBinding();
 			if (!binding.getSourceType().isReadOnly()) {
-				getValidationContext().addLinkedCoreResource(beanPath, binding.getResource().getFullPath(), false);
+				getValidationContext().addLinkedCoreResource(SHORT_ID, beanPath, binding.getResource().getFullPath(), false);
 			}
 		}
 	}
@@ -653,7 +683,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 		IBean specializedBean = bean.getSpecializedBean();
 		if(specializedBean!=null) {
 			if(!specializedBean.getBeanClass().isReadOnly()) {
-				getValidationContext().addLinkedCoreResource(bean.getSourcePath().toOSString(), specializedBean.getResource().getFullPath(), false);
+				getValidationContext().addLinkedCoreResource(SHORT_ID, bean.getSourcePath().toOSString(), specializedBean.getResource().getFullPath(), false);
 			}
 
 			String beanClassName = bean.getBeanClass().getElementName();
@@ -708,8 +738,8 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 							sb.append(", ").append(specializingBean.getSimpleJavaName());
 							moreThanTwo = true;
 							if(!specializingBean.getBeanClass().isReadOnly()) {
-								getValidationContext().addLinkedCoreResource(specializingBean.getResource().getFullPath().toOSString(), bean.getSourcePath(), false);
-								getValidationContext().addLinkedCoreResource(bean.getSourcePath().toOSString(), specializingBean.getResource().getFullPath(), false);
+								getValidationContext().addLinkedCoreResource(SHORT_ID, specializingBean.getResource().getFullPath().toOSString(), bean.getSourcePath(), false);
+								getValidationContext().addLinkedCoreResource(SHORT_ID, bean.getSourcePath().toOSString(), specializingBean.getResource().getFullPath(), false);
 							}
 						}
 					}
@@ -999,7 +1029,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 					addError(bindedErrorMessage, preferencesKey, declaration, bean.getResource(), id);
 				}
 			} else if (iMethod != method.getMethod() && !iMethod.isBinary()) {
-				getValidationContext().addLinkedCoreResource(bean.getSourcePath().toOSString(), iMethod.getResource().getFullPath(), false);
+				getValidationContext().addLinkedCoreResource(SHORT_ID, bean.getSourcePath().toOSString(), iMethod.getResource().getFullPath(), false);
 			}
 		}
 	}
@@ -1173,7 +1203,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 						addError(bindedErrorMessage, CDIPreferences.ILLEGAL_PRODUCER_METHOD_IN_SESSION_BEAN, producer.getProducesAnnotation(), producer.getResource(), ILLEGAL_PRODUCER_METHOD_IN_SESSION_BEAN_ID);
 						saveAllSuperTypesAsLinkedResources(classBean);
 					} else if (method != producerMethod.getMethod() && !method.isReadOnly()) {
-						getValidationContext().addLinkedCoreResource(classBean.getSourcePath().toOSString(), method.getResource().getFullPath(), false);
+						getValidationContext().addLinkedCoreResource(SHORT_ID, classBean.getSourcePath().toOSString(), method.getResource().getFullPath(), false);
 					}
 				}
 
@@ -1251,7 +1281,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 		for (IParametedType type : types) {
 			IType superType = type.getType();
 			if(superType!=null && !superType.isBinary() && superType.getResource()!=null && superType!=bean.getBeanClass()) {
-				getValidationContext().addLinkedCoreResource(bean.getSourcePath().toOSString(), superType.getResource().getFullPath(), false);
+				getValidationContext().addLinkedCoreResource(SHORT_ID, bean.getSourcePath().toOSString(), superType.getResource().getFullPath(), false);
 			}
 		}
 	}
@@ -1332,7 +1362,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 			Set<IBean> allBeans = cdiProject.getBeans(false, injection);
 			for (IBean bean : allBeans) {
 				if(!bean.getBeanClass().isReadOnly()) {
-					getValidationContext().addLinkedCoreResource(injection.getSourcePath().toOSString(), bean.getResource().getFullPath(), false);
+					getValidationContext().addLinkedCoreResource(SHORT_ID, injection.getSourcePath().toOSString(), bean.getResource().getFullPath(), false);
 				}
 			}
 			if(type!=null && beans.isEmpty() && !instance) {
@@ -1878,7 +1908,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 						Set<IParametedType> decoratedParametedTypes = decorator.getDecoratedTypes();
 						List<String> supers = null;
 						if(!delegateType.isReadOnly()) {
-							getValidationContext().addLinkedCoreResource(decorator.getResource().getFullPath().toOSString(), delegateType.getResource().getFullPath(), false);
+							getValidationContext().addLinkedCoreResource(SHORT_ID, decorator.getResource().getFullPath().toOSString(), delegateType.getResource().getFullPath(), false);
 						}
 						for (IParametedType decoratedParametedType : decoratedParametedTypes) {
 							IType decoratedType = decoratedParametedType.getType();
@@ -1886,7 +1916,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 								continue;
 							}
 							if(!decoratedType.isReadOnly()) {
-								getValidationContext().addLinkedCoreResource(decorator.getResource().getFullPath().toOSString(), decoratedType.getResource().getFullPath(), false);
+								getValidationContext().addLinkedCoreResource(SHORT_ID, decorator.getResource().getFullPath().toOSString(), decoratedType.getResource().getFullPath(), false);
 							}
 							String decoratedTypeName = decoratedType.getFullyQualifiedName();
 							// Ignore the type of the decorator class bean
@@ -2045,6 +2075,17 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 		}
 	}
 
+	boolean shouldValidateResourceOfElement(IResource resource) {
+		if (resource == null) {
+			return false;
+		}
+		if (resource == null || !resource.getName().toLowerCase().endsWith(".java")) {
+			// validate sources only
+			return false;
+		}
+		return true;
+	}
+
 	/**
 	 * Validates a stereotype.
 	 * 
@@ -2056,13 +2097,11 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 		// behavior)
 		// - stereotype declares any other qualifier annotation
 		// - stereotype is annotated @Typed
-
-		if (stereotype == null) {
+		if(stereotype==null) {
 			return;
 		}
 		IResource resource = stereotype.getResource();
-		if (resource == null || !resource.getName().toLowerCase().endsWith(".java")) {
-			// validate sources only
+		if(!shouldValidateResourceOfElement(resource)) {
 			return;
 		}
 		addLinkedStereotypes(stereotype.getResource().getFullPath().toOSString(), stereotype);
@@ -2117,8 +2156,12 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 		}
 	}
 
+	boolean shouldValidateAnnotation(ICDIAnnotation annotation) {
+		return annotation!=null && annotation.getSourceType() != null && !annotation.getSourceType().isReadOnly();
+	}
+
 	private void validateInterceptorBinding(IInterceptorBinding binding) {
-		if(binding==null || (binding.getSourceType() == null && binding.getSourceType().isReadOnly())) {
+		if(binding==null || !shouldValidateAnnotation(binding)) {
 			return;
 		}
 
@@ -2147,8 +2190,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 			return;
 		}
 		IResource resource = qualifier.getResource();
-		if (resource == null || !resource.getName().toLowerCase().endsWith(".java")) {
-			// validate sources only
+		if(!shouldValidateResourceOfElement(resource)) {
 			return;
 		}
 		/*

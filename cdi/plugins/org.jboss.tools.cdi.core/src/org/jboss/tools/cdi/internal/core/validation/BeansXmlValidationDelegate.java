@@ -186,7 +186,7 @@ public class BeansXmlValidationDelegate extends CDICoreValidationDelegate {
 						IType type = getType(beansXml, typeNode, typeValidator.getUnknownTypeErrorMessage());
 						if(type!=null) {
 							if(!type.isBinary()) {
-								validator.getValidationContext().addLinkedCoreResource(beansXml.getFullPath().toOSString(), type.getPath(), false);
+								validator.getValidationContext().addLinkedCoreResource(CDICoreValidator.SHORT_ID, beansXml.getFullPath().toOSString(), type.getPath(), false);
 							}
 							if(!typeValidator.validateKindOfType(type)) {
 								validator.addError(typeValidator.getIllegalTypeErrorMessage(), CDIPreferences.ILLEGAL_TYPE_NAME_IN_BEANS_XML,
@@ -272,7 +272,7 @@ public class BeansXmlValidationDelegate extends CDICoreValidationDelegate {
 				Set<IFolder> sources = EclipseResourceUtil.getSourceFolders(beansXml.getProject());
 				for (IFolder source : sources) {
 					IPath path = source.getFullPath().append(packagePath + ".java"); //$NON-NLS-1$
-					validator.getValidationContext().addLinkedCoreResource(beansXml.getFullPath().toOSString(), path, false);
+					validator.getValidationContext().addLinkedCoreResource(CDICoreValidator.SHORT_ID, beansXml.getFullPath().toOSString(), path, false);
 				}
 			}
 		}

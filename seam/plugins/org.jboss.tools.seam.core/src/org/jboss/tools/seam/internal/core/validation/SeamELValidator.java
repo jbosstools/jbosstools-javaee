@@ -17,7 +17,8 @@ import org.eclipse.wst.validation.internal.provisional.core.IValidator;
 import org.jboss.tools.common.el.core.parser.ELParserUtil;
 import org.jboss.tools.jsf.web.validation.ELValidator;
 import org.jboss.tools.jst.web.kb.internal.validation.ContextValidationHelper;
-import org.jboss.tools.jst.web.kb.validation.IValidatingProjectSet;
+import org.jboss.tools.jst.web.kb.validation.IProjectValidationContext;
+import org.jboss.tools.jst.web.kb.validation.IValidatingProjectTree;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 
@@ -40,7 +41,7 @@ public class SeamELValidator extends ELValidator {
 	 * @see org.jboss.tools.jsf.web.validation.ELValidator#getValidatingProjects(org.eclipse.core.resources.IProject)
 	 */
 	@Override
-	public IValidatingProjectSet getValidatingProjects(IProject project) {
+	public IValidatingProjectTree getValidatingProjects(IProject project) {
 		try {
 			if(!project.hasNature(ISeamProject.NATURE_ID)) {
 				return super.getValidatingProjects(project);
@@ -65,14 +66,15 @@ public class SeamELValidator extends ELValidator {
 		return false;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.jboss.tools.jsf.web.validation.ELValidator#init(org.eclipse.core.resources.IProject, org.jboss.tools.jst.web.kb.internal.validation.ContextValidationHelper, org.eclipse.wst.validation.internal.provisional.core.IValidator, org.eclipse.wst.validation.internal.provisional.core.IReporter)
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.jsf.web.validation.ELValidator#init(org.eclipse.core.resources.IProject, org.jboss.tools.jst.web.kb.internal.validation.ContextValidationHelper, org.jboss.tools.jst.web.kb.validation.IProjectValidationContext, org.eclipse.wst.validation.internal.provisional.core.IValidator, org.eclipse.wst.validation.internal.provisional.core.IReporter)
 	 */
 	@Override
 	public void init(IProject project,
-			ContextValidationHelper validationHelper, IValidator manager,
+			ContextValidationHelper validationHelper, IProjectValidationContext context, IValidator manager,
 			IReporter reporter) {
-		super.init(project, validationHelper, manager, reporter);
+		super.init(project, validationHelper, context, manager, reporter);
 		mainFactory = ELParserUtil.getJbossFactory();
 	}
 }

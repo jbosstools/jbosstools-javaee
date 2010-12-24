@@ -1,6 +1,5 @@
 package org.jboss.tools.seam.core.test.validation;
 
-import java.text.MessageFormat;
 import java.util.List;
 
 import org.eclipse.core.resources.IFile;

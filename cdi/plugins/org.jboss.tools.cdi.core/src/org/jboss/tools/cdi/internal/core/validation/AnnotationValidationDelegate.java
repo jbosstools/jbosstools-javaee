@@ -11,7 +11,6 @@
 
 package org.jboss.tools.cdi.internal.core.validation;
 
-import java.text.MessageFormat;
 import java.util.Set;
 
 import org.eclipse.core.resources.IResource;
@@ -160,15 +159,13 @@ public class AnnotationValidationDelegate extends CDICoreValidationDelegate {
 	 * @param qualifier
 	 */
 	public void validateScopeType(IScope scope) {
-		if(scope == null) {
+		if(scope==null) {
 			return;
 		}
 		IResource resource = scope.getResource();
-		if (resource == null || !resource.getName().toLowerCase().endsWith(".java")) {
-			// validate sources only
+		if(!validator.shouldValidateResourceOfElement(resource)) {
 			return;
 		}
-
 		try {
 			validateScopeAnnotationTypeAnnotations(scope, resource);
 		} catch (JavaModelException e) {

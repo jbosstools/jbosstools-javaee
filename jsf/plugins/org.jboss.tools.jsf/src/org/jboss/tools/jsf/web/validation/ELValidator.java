@@ -62,11 +62,13 @@ import org.jboss.tools.jst.web.kb.KbProjectFactory;
 import org.jboss.tools.jst.web.kb.PageContextFactory;
 import org.jboss.tools.jst.web.kb.internal.KbProject;
 import org.jboss.tools.jst.web.kb.internal.validation.ContextValidationHelper;
+import org.jboss.tools.jst.web.kb.internal.validation.SimpleValidatingProjectTree;
 import org.jboss.tools.jst.web.kb.internal.validation.ValidatingProjectSet;
 import org.jboss.tools.jst.web.kb.internal.validation.ValidationErrorManager;
 import org.jboss.tools.jst.web.kb.internal.validation.ValidatorManager;
+import org.jboss.tools.jst.web.kb.validation.IProjectValidationContext;
 import org.jboss.tools.jst.web.kb.validation.IValidatingProjectSet;
-import org.jboss.tools.jst.web.kb.validation.IValidationContext;
+import org.jboss.tools.jst.web.kb.validation.IValidatingProjectTree;
 import org.jboss.tools.jst.web.kb.validation.IValidator;
 
 /**
@@ -118,11 +120,11 @@ public class ELValidator extends ValidationErrorManager implements IValidator {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.jboss.tools.jst.web.kb.internal.validation.ValidationErrorManager#init(org.eclipse.core.resources.IProject, org.jboss.tools.jst.web.kb.internal.validation.ContextValidationHelper, org.jboss.tools.jst.web.kb.internal.validation.ValidatorManager, org.eclipse.wst.validation.internal.provisional.core.IReporter, org.jboss.tools.jst.web.kb.validation.IValidationContext)
+	 * @see org.jboss.tools.jst.web.kb.internal.validation.ValidationErrorManager#init(org.eclipse.core.resources.IProject, org.jboss.tools.jst.web.kb.internal.validation.ContextValidationHelper, org.jboss.tools.jst.web.kb.validation.IProjectValidationContext, org.eclipse.wst.validation.internal.provisional.core.IValidator, org.eclipse.wst.validation.internal.provisional.core.IReporter)
 	 */
 	@Override
-	public void init(IProject project, ContextValidationHelper validationHelper, org.eclipse.wst.validation.internal.provisional.core.IValidator manager, IReporter reporter) {
-		super.init(project, validationHelper, manager, reporter);
+	public void init(IProject project, ContextValidationHelper validationHelper, IProjectValidationContext context, org.eclipse.wst.validation.internal.provisional.core.IValidator manager, IReporter reporter) {
+		super.init(project, validationHelper, context, manager, reporter);
 		resolvers = ELResolverFactoryManager.getInstance().getResolvers(project);
 		mainFactory = ELParserUtil.getDefaultFactory();
 		validateVars = JSFSeverityPreferences.ENABLE.equals(JSFSeverityPreferences.getInstance().getProjectPreference(validatingProject, JSFSeverityPreferences.CHECK_VARS));
@@ -131,10 +133,10 @@ public class ELValidator extends ValidationErrorManager implements IValidator {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.jboss.tools.jst.web.kb.validation.IValidator#validate(java.util.Set, org.eclipse.core.resources.IProject, org.jboss.tools.jst.web.kb.internal.validation.ContextValidationHelper, org.jboss.tools.jst.web.kb.internal.validation.ValidatorManager, org.eclipse.wst.validation.internal.provisional.core.IReporter, org.jboss.tools.jst.web.kb.validation.IValidationContext)
+	 * @see org.jboss.tools.jst.web.kb.validation.IValidator#validate(java.util.Set, org.eclipse.core.resources.IProject, org.jboss.tools.jst.web.kb.internal.validation.ContextValidationHelper, org.jboss.tools.jst.web.kb.validation.IProjectValidationContext, org.jboss.tools.jst.web.kb.internal.validation.ValidatorManager, org.eclipse.wst.validation.internal.provisional.core.IReporter)
 	 */
-	public IStatus validate(Set<IFile> changedFiles, IProject project, ContextValidationHelper validationHelper, ValidatorManager manager, IReporter reporter) throws ValidationException {
-		init(project, validationHelper, manager, reporter);
+	public IStatus validate(Set<IFile> changedFiles, IProject project, ContextValidationHelper validationHelper, IProjectValidationContext context, ValidatorManager manager, IReporter reporter) throws ValidationException {
+		init(project, validationHelper, context, manager, reporter);
 		webRootFolder = null;
 		initRevalidationFlag();
 		IWorkspaceRoot wsRoot = ResourcesPlugin.getWorkspace().getRoot();
@@ -192,10 +194,10 @@ public class ELValidator extends ValidationErrorManager implements IValidator {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.jboss.tools.seam.internal.core.validation.ISeamValidator#validateAll()
+	 * @see org.jboss.tools.jst.web.kb.validation.IValidator#validateAll(org.eclipse.core.resources.IProject, org.jboss.tools.jst.web.kb.internal.validation.ContextValidationHelper, org.jboss.tools.jst.web.kb.validation.IProjectValidationContext, org.jboss.tools.jst.web.kb.internal.validation.ValidatorManager, org.eclipse.wst.validation.internal.provisional.core.IReporter)
 	 */
-	public IStatus validateAll(IProject project, ContextValidationHelper validationHelper, ValidatorManager manager, IReporter reporter) throws ValidationException {
-		init(project, validationHelper, manager, reporter);
+	public IStatus validateAll(IProject project, ContextValidationHelper validationHelper, IProjectValidationContext context, ValidatorManager manager, IReporter reporter) throws ValidationException {
+		init(project, validationHelper, context, manager, reporter);
 		webRootFolder = null;
 		initRevalidationFlag();
 		Set<IFile> files = validationHelper.getProjectSetRegisteredFiles();
@@ -481,15 +483,16 @@ public class ELValidator extends ValidationErrorManager implements IValidator {
 	 * (non-Javadoc)
 	 * @see org.jboss.tools.jst.web.kb.validation.IValidator#getValidatingProjects(org.eclipse.core.resources.IProject)
 	 */
-	public IValidatingProjectSet getValidatingProjects(IProject project) {
-		List<IProject> projects = new ArrayList<IProject>();
+	public IValidatingProjectTree getValidatingProjects(IProject project) {
+		Set<IProject> projects = new HashSet<IProject>();
 		projects.add(project);
 		IKbProject kbProject = KbProjectFactory.getKbProject(project, false);
 		if(kbProject!=null) {
-			IValidationContext rootContext = kbProject.getValidationContext();
-			return new ValidatingProjectSet(project, projects, rootContext);
+			IProjectValidationContext rootContext = kbProject.getValidationContext();
+			IValidatingProjectSet projectSet = new ValidatingProjectSet(project, projects, rootContext);
+			return new SimpleValidatingProjectTree(projectSet);
 		}
-		return null;
+		return new SimpleValidatingProjectTree(project);
 	}
 
 	/*

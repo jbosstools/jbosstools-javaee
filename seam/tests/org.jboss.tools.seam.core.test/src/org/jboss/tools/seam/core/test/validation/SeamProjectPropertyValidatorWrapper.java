@@ -16,7 +16,8 @@ import org.jboss.tools.common.text.ITextSourceReference;
 import org.jboss.tools.jst.web.kb.internal.validation.ContextValidationHelper;
 import org.jboss.tools.jst.web.kb.internal.validation.ValidationErrorManager;
 import org.jboss.tools.jst.web.kb.internal.validation.ValidatorManager;
-import org.jboss.tools.jst.web.kb.validation.IValidatingProjectSet;
+import org.jboss.tools.jst.web.kb.validation.IProjectValidationContext;
+import org.jboss.tools.jst.web.kb.validation.IValidatingProjectTree;
 import org.jboss.tools.jst.web.kb.validation.IValidationErrorManager;
 import org.jboss.tools.jst.web.kb.validation.IValidator;
 import org.jboss.tools.seam.internal.core.validation.SeamProjectPropertyValidator;
@@ -67,7 +68,7 @@ public class SeamProjectPropertyValidatorWrapper extends SeamProjectPropertyVali
 	}
 
 	public IStatus validate(Set<IFile> changedFiles, IProject project,
-			ContextValidationHelper validationHelper, ValidatorManager manager,
+			ContextValidationHelper validationHelper, IProjectValidationContext context, ValidatorManager manager,
 			IReporter reporter) throws ValidationException {
 		errorManager = new SeamValidationErrorManager() {
 			/* (non-Javadoc)
@@ -80,11 +81,12 @@ public class SeamProjectPropertyValidatorWrapper extends SeamProjectPropertyVali
 			/* (non-Javadoc)
 			 * @see org.jboss.tools.jst.web.kb.internal.validation.ValidationErrorManager#init(org.eclipse.core.resources.IProject, org.jboss.tools.jst.web.kb.internal.validation.ContextValidationHelper, org.eclipse.wst.validation.internal.provisional.core.IValidator, org.eclipse.wst.validation.internal.provisional.core.IReporter)
 			 */
-			
 			public void init(IProject project,
 					ContextValidationHelper validationHelper,
+					IProjectValidationContext validationContext,
 					org.eclipse.wst.validation.internal.provisional.core.IValidator manager, IReporter reporter) {
 				setProject(project);
+				setValidationContext(validationContext);
 				setValidationManager(manager);
 				setReporter(reporter);
 				setMarkerId(SeamValidationErrorManager.MARKED_SEAM_PROJECT_MESSAGE_GROUP);
@@ -101,9 +103,8 @@ public class SeamProjectPropertyValidatorWrapper extends SeamProjectPropertyVali
 	}
 
 	public IStatus validateAll(IProject project,
-			ContextValidationHelper validationHelper, ValidatorManager manager,
+			ContextValidationHelper validationHelper, IProjectValidationContext context, ValidatorManager manager,
 			IReporter reporter) throws ValidationException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -111,8 +112,7 @@ public class SeamProjectPropertyValidatorWrapper extends SeamProjectPropertyVali
 		return "id";
 	}
 
-	public IValidatingProjectSet getValidatingProjects(IProject project) {
-		// TODO Auto-generated method stub
+	public IValidatingProjectTree getValidatingProjects(IProject project) {
 		return null;
 	}
 
@@ -128,14 +128,19 @@ public class SeamProjectPropertyValidatorWrapper extends SeamProjectPropertyVali
 		return this;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.jst.web.kb.validation.IValidationErrorManager#init(org.eclipse.core.resources.IProject, org.jboss.tools.jst.web.kb.internal.validation.ContextValidationHelper, org.jboss.tools.jst.web.kb.validation.IProjectValidationContext, org.eclipse.wst.validation.internal.provisional.core.IValidator, org.eclipse.wst.validation.internal.provisional.core.IReporter)
+	 */
 	public void init(
 			IProject project,
 			ContextValidationHelper validationHelper,
+			IProjectValidationContext validationContext,
 			org.eclipse.wst.validation.internal.provisional.core.IValidator manager,
 			IReporter reporter) {
 		ContextValidationHelper vh = new ContextValidationHelper();
 		vh.initialize();
-		errorManager.init(project, vh, manager, reporter);
+		errorManager.init(project, vh, validationContext, manager, reporter);
 	}
 
 	public IMarker addError(String message, String preferenceKey,

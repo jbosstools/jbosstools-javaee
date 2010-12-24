@@ -38,6 +38,7 @@ import org.eclipse.wst.validation.internal.provisional.core.IValidatorJob;
 import org.jboss.tools.jst.web.kb.internal.validation.ContextValidationHelper;
 import org.jboss.tools.jst.web.kb.internal.validation.ProblemMessage;
 import org.jboss.tools.jst.web.kb.internal.validation.ValidationErrorManager;
+import org.jboss.tools.jst.web.kb.validation.IProjectValidationContext;
 import org.jboss.tools.jst.web.kb.validation.IValidationErrorManager;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
@@ -96,18 +97,21 @@ public class SeamProjectPropertyValidator implements IValidatorJob {
 				protected Class getMarkerOwner() {
 					return SeamProjectPropertyValidator.this.getClass();
 				}
-	
-				/* (non-Javadoc)
-				 * @see org.jboss.tools.jst.web.kb.internal.validation.ValidationErrorManager#init(org.eclipse.core.resources.IProject, org.jboss.tools.jst.web.kb.internal.validation.ContextValidationHelper, org.eclipse.wst.validation.internal.provisional.core.IValidator, org.eclipse.wst.validation.internal.provisional.core.IReporter)
+
+				/*
+				 * (non-Javadoc)
+				 * @see org.jboss.tools.jst.web.kb.internal.validation.ValidationErrorManager#init(org.eclipse.core.resources.IProject, org.jboss.tools.jst.web.kb.internal.validation.ContextValidationHelper, org.jboss.tools.jst.web.kb.validation.IProjectValidationContext, org.eclipse.wst.validation.internal.provisional.core.IValidator, org.eclipse.wst.validation.internal.provisional.core.IReporter)
 				 */
 				@Override
 				public void init(IProject project,
 						ContextValidationHelper validationHelper,
+						IProjectValidationContext context,
 						IValidator manager, IReporter reporter) {
 					setProject(project);
 					setValidationManager(manager);
 					setReporter(reporter);
 					setMarkerId(SeamValidationErrorManager.MARKED_SEAM_PROJECT_MESSAGE_GROUP);
+					setValidationContext(context);
 				}
 
 				@Override
@@ -115,7 +119,7 @@ public class SeamProjectPropertyValidator implements IValidatorJob {
 					return ValidationErrorManager.DEFAULT_VALIDATION_MARKER;
 				}
 			};
-			errorManager.init(project, null, this, reporter);
+			errorManager.init(project, null, null, this, reporter);
 
 			if(seamProject!=null) {
 				validateSeamProject(seamProject);

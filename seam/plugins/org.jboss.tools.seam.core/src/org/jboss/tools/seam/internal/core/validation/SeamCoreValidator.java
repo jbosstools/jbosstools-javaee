@@ -10,11 +10,9 @@
  ******************************************************************************/ 
 package org.jboss.tools.seam.internal.core.validation;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import org.eclipse.core.resources.IContainer;
@@ -45,10 +43,12 @@ import org.jboss.tools.jst.web.kb.IKbProject;
 import org.jboss.tools.jst.web.kb.KbProjectFactory;
 import org.jboss.tools.jst.web.kb.internal.KbProject;
 import org.jboss.tools.jst.web.kb.internal.validation.ContextValidationHelper;
+import org.jboss.tools.jst.web.kb.internal.validation.SimpleValidatingProjectTree;
 import org.jboss.tools.jst.web.kb.internal.validation.ValidatingProjectSet;
 import org.jboss.tools.jst.web.kb.internal.validation.ValidatorManager;
+import org.jboss.tools.jst.web.kb.validation.IProjectValidationContext;
 import org.jboss.tools.jst.web.kb.validation.IValidatingProjectSet;
-import org.jboss.tools.jst.web.kb.validation.IValidationContext;
+import org.jboss.tools.jst.web.kb.validation.IValidatingProjectTree;
 import org.jboss.tools.jst.web.kb.validation.IValidator;
 import org.jboss.tools.jst.web.kb.validation.ValidationUtil;
 import org.jboss.tools.jst.web.model.project.ext.store.XMLValueInfo;
@@ -105,6 +105,7 @@ public class SeamCoreValidator extends SeamValidationErrorManager implements IVa
 	public static final int UNKNOWN_COMPONENT_PROPERTY_ID = 14;
 	
 	private ISeamProject seamProject;
+	private SeamProjectsSet set;
 	private String projectName;
 
 	/*
@@ -128,14 +129,16 @@ public class SeamCoreValidator extends SeamValidationErrorManager implements IVa
 	 * (non-Javadoc)
 	 * @see org.jboss.tools.jst.web.kb.validation.IValidator#getValidatingProjects(org.eclipse.core.resources.IProject)
 	 */
-	public IValidatingProjectSet getValidatingProjects(IProject project) {
+	public IValidatingProjectTree getValidatingProjects(IProject project) {
 		return getSeamValidatingProjects(project);
 	}
 
-	public static IValidatingProjectSet getSeamValidatingProjects(IProject project) {
+	private static final String SHORT_ID = "jboss.seam.core"; //$NON-NLS-1$
+
+	public static IValidatingProjectTree getSeamValidatingProjects(IProject project) {
 		SeamProjectsSet set = new SeamProjectsSet(project);
 		IProject war = set.getWarProject();
-		IValidationContext rootContext = null;
+		IProjectValidationContext rootContext = null;
 		if(war!=null && war.isAccessible()) {
 			IKbProject kbProject = KbProjectFactory.getKbProject(war, false);
 			if(kbProject!=null) {
@@ -156,14 +159,15 @@ public class SeamCoreValidator extends SeamValidationErrorManager implements IVa
 			}
 		}
 
-		List<IProject> projects = new ArrayList<IProject>();
+		Set<IProject> projects = new HashSet<IProject>();
 		IProject[] array = set.getAllProjects();
 		for (int i = 0; i < array.length; i++) {
 			if(array[i].isAccessible()) {
 				projects.add(array[i]);
 			}
 		}
-		return new ValidatingProjectSet(war, projects, rootContext);
+		IValidatingProjectSet projectSet = new ValidatingProjectSet(war, projects, rootContext);
+		return new SimpleValidatingProjectTree(projectSet);
 	}
 
 	/*
@@ -193,10 +197,10 @@ public class SeamCoreValidator extends SeamValidationErrorManager implements IVa
 	 * @see org.jboss.tools.jst.web.kb.internal.validation.ValidationErrorManager#init(org.eclipse.core.resources.IProject, org.jboss.tools.jst.web.kb.internal.validation.ContextValidationHelper, org.jboss.tools.jst.web.kb.internal.validation.ValidatorManager, org.eclipse.wst.validation.internal.provisional.core.IReporter, org.jboss.tools.jst.web.kb.validation.IValidationContext)
 	 */
 	@Override
-	public void init(IProject project, ContextValidationHelper validationHelper, org.eclipse.wst.validation.internal.provisional.core.IValidator manager, IReporter reporter) {
-		super.init(project, validationHelper, manager, reporter);
+	public void init(IProject project, ContextValidationHelper validationHelper, IProjectValidationContext validationContext, org.eclipse.wst.validation.internal.provisional.core.IValidator manager, IReporter reporter) {
+		super.init(project, validationHelper, validationContext, manager, reporter);
 
-		SeamProjectsSet set = new SeamProjectsSet(project);
+		set = new SeamProjectsSet(project);
 		IProject warProject = set.getWarProject();
 		
 		// Fix for JBIDE-7622: set these variables to null due to prevent wrong project validations --->>>
@@ -216,10 +220,10 @@ public class SeamCoreValidator extends SeamValidationErrorManager implements IVa
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.jboss.tools.jst.web.kb.validation.IValidator#validate(java.util.Set, org.eclipse.core.resources.IProject, org.jboss.tools.jst.web.kb.internal.validation.ContextValidationHelper, org.jboss.tools.jst.web.kb.internal.validation.ValidatorManager, org.eclipse.wst.validation.internal.provisional.core.IReporter, org.jboss.tools.jst.web.kb.validation.IValidationContext)
+	 * @see org.jboss.tools.jst.web.kb.validation.IValidator#validate(java.util.Set, org.eclipse.core.resources.IProject, org.jboss.tools.jst.web.kb.internal.validation.ContextValidationHelper, org.jboss.tools.jst.web.kb.validation.IProjectValidationContext, org.jboss.tools.jst.web.kb.internal.validation.ValidatorManager, org.eclipse.wst.validation.internal.provisional.core.IReporter)
 	 */
-	public IStatus validate(Set<IFile> changedFiles, IProject project, ContextValidationHelper validationHelper, ValidatorManager manager, IReporter reporter) throws ValidationException {
-		init(project, validationHelper, manager, reporter);
+	public IStatus validate(Set<IFile> changedFiles, IProject project, ContextValidationHelper validationHelper, IProjectValidationContext context, ValidatorManager manager, IReporter reporter) throws ValidationException {
+		init(project, validationHelper, context, manager, reporter);
 		if(seamProject==null) {
 			return OK_STATUS;
 		}
@@ -245,20 +249,20 @@ public class SeamCoreValidator extends SeamValidationErrorManager implements IVa
 				resources.add(currentFile.getFullPath());
 				// Get new variable names from model
 				Set<String> newVariableNamesOfChangedFile = getVariablesNameByResource(currentFile.getFullPath());
-				Set<String> oldDeclarationsOfChangedFile = validationContext.getVariableNamesByCoreResource(currentFile.getFullPath(), true);
+				Set<String> oldDeclarationsOfChangedFile = validationContext.getVariableNamesByCoreResource(SHORT_ID, currentFile.getFullPath(), true);
 				for (String newVariableName : newVariableNamesOfChangedFile) {
 					// Collect resources with new variable name.
-					Set<IPath> linkedResources = validationContext.getCoreResourcesByVariableName(newVariableName, false);
+					Set<IPath> linkedResources = validationContext.getCoreResourcesByVariableName(SHORT_ID, newVariableName, false);
 					if(linkedResources!=null) {
 						resources.addAll(linkedResources);
 					}
 					resources.addAll(getAllResourceOfComponent(currentFile.getFullPath()));
 				}
 				// Get old variable names which were linked with this resource.
-				Set<String> oldVariablesNamesOfChangedFile = validationContext.getVariableNamesByCoreResource(currentFile.getFullPath(), false);
+				Set<String> oldVariablesNamesOfChangedFile = validationContext.getVariableNamesByCoreResource(SHORT_ID, currentFile.getFullPath(), false);
 				if(oldVariablesNamesOfChangedFile!=null) {
 					for (String name : oldVariablesNamesOfChangedFile) {
-						Set<IPath> linkedResources = validationContext.getCoreResourcesByVariableName(name, false);
+						Set<IPath> linkedResources = validationContext.getCoreResourcesByVariableName(SHORT_ID, name, false);
 						if(linkedResources!=null) {
 							resources.addAll(linkedResources);
 						}
@@ -267,7 +271,7 @@ public class SeamCoreValidator extends SeamValidationErrorManager implements IVa
 				// Save old declarations for EL validation. We need to validate all EL resources which use this variable name but only if the variable has been changed.
 				if(oldDeclarationsOfChangedFile!=null) {
 					for (String name : oldDeclarationsOfChangedFile) {
-						validationContext.addVariableNameForELValidation(name);
+						validationContext.addVariableNameForELValidation(SHORT_ID, name);
 					}
 				}
 				newResources.add(currentFile.getFullPath());
@@ -275,7 +279,7 @@ public class SeamCoreValidator extends SeamValidationErrorManager implements IVa
 		}
 		// Validate all collected linked resources.
 		// Remove all links between collected resources and variables names because they will be linked again during validation.
-		validationContext.removeLinkedCoreResources(resources);
+		validationContext.removeLinkedCoreResources(SHORT_ID, resources);
 
 		IFile[] filesToValidate = new IFile[resources.size()];
 		int i = 0;
@@ -295,7 +299,7 @@ public class SeamCoreValidator extends SeamValidationErrorManager implements IVa
 
 		// If changed files are *.java or component.xml then re-validate all unnamed resources.
 		if(validateUnnamedResources) {
-			Set<IPath> unnamedResources = validationContext.getUnnamedCoreResources();
+			Set<IPath> unnamedResources = validationContext.getUnnamedCoreResources(SHORT_ID);
 			newResources.addAll(unnamedResources);
 			for (IPath path : newResources) {
 				IFile file = root.getFile(path);
@@ -317,14 +321,18 @@ public class SeamCoreValidator extends SeamValidationErrorManager implements IVa
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.jboss.tools.seam.internal.core.validation.ISeamValidator#validateAll()
+	 * @see org.jboss.tools.jst.web.kb.validation.IValidator#validateAll(org.eclipse.core.resources.IProject, org.jboss.tools.jst.web.kb.internal.validation.ContextValidationHelper, org.jboss.tools.jst.web.kb.validation.IProjectValidationContext, org.jboss.tools.jst.web.kb.internal.validation.ValidatorManager, org.eclipse.wst.validation.internal.provisional.core.IReporter)
 	 */
-	public IStatus validateAll(IProject project, ContextValidationHelper validationHelper, ValidatorManager manager, IReporter reporter) throws ValidationException {
-		init(project, validationHelper, manager, reporter);
+	public IStatus validateAll(IProject project, ContextValidationHelper validationHelper, IProjectValidationContext context, ValidatorManager manager, IReporter reporter) throws ValidationException {
+		init(project, validationHelper, context, manager, reporter);
 		if(seamProject==null) {
 			return OK_STATUS;
 		}
-		removeAllMessagesFromResource(seamProject.getProject());
+
+		for (IProject iProject : set.getAllProjects()) {
+			removeAllMessagesFromResource(iProject);
+		}
+
 		ISeamComponent[] components = seamProject.getComponents();
 		for (ISeamComponent component : components) {
 			if(reporter.isCancelled()) {
@@ -440,14 +448,14 @@ public class SeamCoreValidator extends SeamValidationErrorManager implements IVa
 					if(!firstDuplicateVariableWasMarked) {
 						firstDuplicateVariableWasMarked = true;
 						// mark original factory
-						validationContext.addLinkedCoreResource(factoryName, factory.getSourcePath(), true);
+						validationContext.addLinkedCoreResource(SHORT_ID, factoryName, factory.getSourcePath(), true);
 						location = SeamUtil.getLocationOfName(factory);
 						this.addError(SeamValidationMessages.DUPLICATE_VARIABLE_NAME, SeamPreferences.DUPLICATE_VARIABLE_NAME, new String[]{factoryName}, location, factory.getResource());
 					}
 					// Mark duplicate variable.
 					if(!SeamUtil.isJar(variable.getSourcePath())) {
 						IResource resource = SeamUtil.getComponentResourceWithName(variable);
-						validationContext.addLinkedCoreResource(factoryName, resource.getFullPath(), true);
+						validationContext.addLinkedCoreResource(SHORT_ID, factoryName, resource.getFullPath(), true);
 						location = SeamUtil.getLocationOfName(variable);
 						this.addError(SeamValidationMessages.DUPLICATE_VARIABLE_NAME, SeamPreferences.DUPLICATE_VARIABLE_NAME, new String[]{factoryName}, location, resource);
 					}
@@ -479,7 +487,7 @@ public class SeamCoreValidator extends SeamValidationErrorManager implements IVa
 		if(unknownVariable && validateUnknownName && voidReturnType) {
 			// mark unknown factory name
 			// save link to factory resource
-			validationContext.addLinkedCoreResource(factoryName, factory.getSourcePath(), true);
+			validationContext.addLinkedCoreResource(SHORT_ID, factoryName, factory.getSourcePath(), true);
 			this.addError(SeamValidationMessages.UNKNOWN_FACTORY_NAME, SeamPreferences.UNKNOWN_FACTORY_NAME, new String[]{factoryName}, SeamUtil.getLocationOfName(factory), factory.getResource());
 		}
 	}
@@ -555,14 +563,14 @@ public class SeamCoreValidator extends SeamValidationErrorManager implements IVa
 					boolean sourceJavaDeclaration = !type.isBinary();
 					if(sourceJavaDeclaration) {
 						// Save link between component name and java source file.
-						validationContext.addLinkedCoreResource(componentName, declaration.getSourcePath(), true);
+						validationContext.addLinkedCoreResource(SHORT_ID, componentName, declaration.getSourcePath(), true);
 						// Save link between component name and all supers of java declaration.
 						try {
 							IType[] superTypes = TypeInfoCollector.getSuperTypes(type).getSuperTypes();
 							for (int i = 0; superTypes != null && i < superTypes.length; i++) {
 								if(!superTypes[i].isBinary()) {
 									IPath path = superTypes[i].getResource().getFullPath();
-									validationContext.addLinkedCoreResource(componentName, path, true);
+									validationContext.addLinkedCoreResource(SHORT_ID, componentName, path, true);
 								}
 							}
 						} catch (JavaModelException e) {
@@ -624,7 +632,7 @@ public class SeamCoreValidator extends SeamValidationErrorManager implements IVa
 				//do not check files declared in another project
 //				if(declaration.getSeamProject() != seamProject) continue;
 
-				validationContext.addLinkedCoreResource(componentName, declaration.getSourcePath(), true);
+				validationContext.addLinkedCoreResource(SHORT_ID, componentName, declaration.getSourcePath(), true);
 
 				String precedence = declaration.getPrecedence();
 				if(firstNamedDeclaration == null && declaration.getName()!=null) {
@@ -716,7 +724,7 @@ public class SeamCoreValidator extends SeamValidationErrorManager implements IVa
 							}
 							return;
 						} else if(!type.isBinary()) {
-							validationContext.addLinkedCoreResource(componentName, type.getResource().getFullPath(), true);
+							validationContext.addLinkedCoreResource(SHORT_ID, componentName, type.getResource().getFullPath(), true);
 						}
 					} catch (JavaModelException e) {
 						SeamCorePlugin.getDefault().logError(SeamCoreMessages.SEAM_CORE_VALIDATOR_ERROR_VALIDATING_SEAM_CORE, e);
@@ -855,7 +863,7 @@ public class SeamCoreValidator extends SeamValidationErrorManager implements IVa
 		// Validate @In
 		if(bijection.isOfType(BijectedAttributeType.IN)) {
 			// save link between java source and variable name
-			validationContext.addLinkedCoreResource(name, declaration.getSourcePath(), false);
+			validationContext.addLinkedCoreResource(SHORT_ID, name, declaration.getSourcePath(), false);
 
 			Set<ISeamContextVariable> variables = declaration.getVariablesByName(name);
 			if(variables == null || variables.isEmpty()) variables = seamProject.getVariablesByName(name);
@@ -876,7 +884,7 @@ public class SeamCoreValidator extends SeamValidationErrorManager implements IVa
 			}
 		} else {
 			// save link between java source and variable name
-			validationContext.addLinkedCoreResource(name, declaration.getSourcePath(), true);
+			validationContext.addLinkedCoreResource(SHORT_ID, name, declaration.getSourcePath(), true);
 		}
 	}
 
@@ -884,7 +892,7 @@ public class SeamCoreValidator extends SeamValidationErrorManager implements IVa
 		String dataModelName = bijection.getValue();
 		String selectionName = bijection.getName();
 		// save link between java source and variable name
-		validationContext.addLinkedCoreResource(selectionName, declaration.getSourcePath(), false);
+		validationContext.addLinkedCoreResource(SHORT_ID, selectionName, declaration.getSourcePath(), false);
 		if(dataModelName==null) {
 			// here must be the only one @DataModel in the component
 			Set<IBijectedAttribute> dataBinders = declaration.getBijectedAttributesByType(BijectedAttributeType.DATA_BINDER);
@@ -897,7 +905,7 @@ public class SeamCoreValidator extends SeamValidationErrorManager implements IVa
 			}
 		} else {
 			// save link between java source and Data Model name
-			validationContext.addLinkedCoreResource(dataModelName, declaration.getSourcePath(), true);
+			validationContext.addLinkedCoreResource(SHORT_ID, dataModelName, declaration.getSourcePath(), true);
 			Set<IBijectedAttribute> dataBinders = declaration.getBijectedAttributesByName(dataModelName);
 			if(dataBinders!=null) {
 				for (IBijectedAttribute dataBinder : dataBinders) {
@@ -926,7 +934,7 @@ public class SeamCoreValidator extends SeamValidationErrorManager implements IVa
 				SeamCorePlugin.getPluginLog().logError(e);
 			}
 		}
-		validationContext.removeUnnamedCoreResource(declaration.getSourcePath());
+		validationContext.removeUnnamedCoreResource(SHORT_ID, declaration.getSourcePath());
 	}
 
 	private void validateDestroyMethod(ISeamComponent component) {
@@ -940,7 +948,7 @@ public class SeamCoreValidator extends SeamValidationErrorManager implements IVa
 				IMethod javaMethod = (IMethod)method.getSourceMember();
 				String methodName = javaMethod.getElementName();
 				if(javaDeclaration.getSourcePath().equals(javaMethod.getPath())) {
-					validationContext.addLinkedCoreResource(component.getName(), javaDeclaration.getSourcePath(), true);
+					validationContext.addLinkedCoreResource(SHORT_ID, component.getName(), javaDeclaration.getSourcePath(), true);
 					ITextSourceReference methodNameLocation = getNameLocation(method);
 					addError(SeamValidationMessages.DESTROY_METHOD_BELONGS_TO_STATELESS_SESSION_BEAN, SeamPreferences.DESTROY_METHOD_BELONGS_TO_STATELESS_SESSION_BEAN, new String[]{methodName}, methodNameLocation, method.getResource(), DESTROY_METHOD_BELONGS_TO_STATELESS_SESSION_BEAN_MESSAGE_ID);
 				}
@@ -957,11 +965,11 @@ public class SeamCoreValidator extends SeamValidationErrorManager implements IVa
 				if(declaration.getSourcePath().equals(javaMethod.getPath())) {
 					ITextSourceReference methodNameLocation = getNameLocation(method);
 					addError(message, preferenceKey, new String[]{methodName}, methodNameLocation, method.getResource(), message_id);
-					validationContext.addUnnamedCoreResource(declaration.getSourcePath());
+					validationContext.addUnnamedCoreResource(SHORT_ID, declaration.getSourcePath());
 				}
 			}
 		} else {
-			validationContext.removeUnnamedCoreResource(declaration.getSourcePath());
+			validationContext.removeUnnamedCoreResource(SHORT_ID, declaration.getSourcePath());
 		}
 	}
 

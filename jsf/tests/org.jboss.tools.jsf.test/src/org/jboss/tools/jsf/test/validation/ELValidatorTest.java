@@ -23,8 +23,10 @@ import org.jboss.tools.jsf.preferences.JSFSeverityPreferences;
 import org.jboss.tools.jsf.web.validation.ELValidator;
 import org.jboss.tools.jsf.web.validation.JSFValidationMessages;
 import org.jboss.tools.jst.web.kb.internal.validation.ContextValidationHelper;
+import org.jboss.tools.jst.web.kb.internal.validation.SimpleValidatingProjectTree;
 import org.jboss.tools.jst.web.kb.internal.validation.ValidationErrorManager;
 import org.jboss.tools.jst.web.kb.internal.validation.ValidatorManager;
+import org.jboss.tools.jst.web.kb.validation.IProjectValidationContext;
 import org.jboss.tools.jst.web.kb.validation.IValidator;
 import org.jboss.tools.tests.AbstractResourceMarkerTest;
 
@@ -275,7 +277,8 @@ public class ELValidatorTest extends AbstractResourceMarkerTest{
 			WorkbenchReporter reporter = new WorkbenchReporter(project, new NullProgressMonitor());
 
 			long current = System.currentTimeMillis();
-			validator.validate(files, project, helper, manager, reporter);
+			IProjectValidationContext context = new SimpleValidatingProjectTree(project).getBrunches().values().iterator().next().getRootContext();
+			validator.validate(files, project, helper, context, manager, reporter);
 			long result = System.currentTimeMillis() - current;
 			return result;
 		} finally {
@@ -295,7 +298,8 @@ public class ELValidatorTest extends AbstractResourceMarkerTest{
 
 		ValidatorManager manager = new ValidatorManager();
 		WorkbenchReporter reporter = new WorkbenchReporter(project, new NullProgressMonitor());
-		validator.init(project, getHelper(fileNames), manager, reporter);
+		IProjectValidationContext context = new SimpleValidatingProjectTree(project).getBrunches().values().iterator().next().getRootContext();
+		validator.init(project, getHelper(fileNames), context, manager, reporter);
 		return validator;
 	}
 
