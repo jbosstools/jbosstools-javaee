@@ -59,6 +59,9 @@ public class DependentProjectValidationTest extends ValidationTest {
 		JobUtils.waitForIdle();		
 	}
 
+	/**
+	 * https://issues.jboss.org/browse/JBIDE-7946
+	 */
 	public void testDependentProjects() throws CoreException, IOException {
 		boolean saveAutoBuild = ResourcesUtils.setBuildAutomatically(false);
 		JobUtils.waitForIdle();

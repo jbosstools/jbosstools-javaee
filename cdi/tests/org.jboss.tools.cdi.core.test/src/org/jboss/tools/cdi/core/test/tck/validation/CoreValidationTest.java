@@ -10,12 +10,20 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.core.test.tck.validation;
 
+import java.util.List;
+
+import org.eclipse.core.resources.IProject;
 import org.eclipse.jface.preference.IPersistentPreferenceStore;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.jboss.tools.cdi.core.CDICorePlugin;
+import org.jboss.tools.cdi.internal.core.validation.CDICoreValidator;
 import org.jboss.tools.cdi.internal.core.validation.CDIProjectSet;
 import org.jboss.tools.common.preferences.SeverityPreferences;
+import org.jboss.tools.jst.web.kb.internal.validation.LinkCollection;
+import org.jboss.tools.jst.web.kb.internal.validation.ProjectValidationContext;
+import org.jboss.tools.jst.web.kb.internal.validation.ValidationContext;
 import org.jboss.tools.jst.web.kb.internal.validation.ValidatorManager;
+import org.jboss.tools.jst.web.kb.validation.IValidator;
 
 /**
  * @author Alexey Kazakov
@@ -59,5 +67,34 @@ public class CoreValidationTest extends ValidationTest {
 	public void testAllRelatedProjectsIncluded() {
 		CDIProjectSet set = new CDIProjectSet(tckProject);
 		assertTrue("TCKProject is not included in the set of CDI projects", set.getAllProjects().contains(tckProject));
+	}
+
+	/**
+	 * https://issues.jboss.org/browse/JBIDE-7961
+	 */
+	public void testValidationContext() {
+		LinkCollection collection = getCoreLinks(tckProject);
+		assertFalse("Validation context for CDIproject is empty", collection.isEmpty());
+		collection = getCoreLinks(tckProject, "jboss.seam");
+		assertTrue("Validation context for CDIproject with wrong ID is not empty", collection.isEmpty());
+	}
+
+	private LinkCollection getCoreLinks(IProject project) {
+		return getCoreLinks(project, CDICoreValidator.SHORT_ID);
+	}
+
+	private LinkCollection getCoreLinks(IProject project, String validatorId) {
+		ValidationContext context = new ValidationContext(project);
+		List<IValidator> validators = context.getValidators();
+		IValidator cdiValidator = null;
+		for (IValidator validator : validators) {
+			if(validator instanceof CDICoreValidator) {
+				cdiValidator = validator;
+			}
+		}
+		if(cdiValidator!=null) {
+			return ((ProjectValidationContext)context.getValidatingProjectTree(cdiValidator).getBrunches().get(project).getRootContext()).getCoreLinks(validatorId);
+		}
+		return null;
 	}
 }

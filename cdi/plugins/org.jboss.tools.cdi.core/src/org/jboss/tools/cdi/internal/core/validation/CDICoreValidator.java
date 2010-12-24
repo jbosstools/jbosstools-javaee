@@ -114,7 +114,7 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 	private BeansXmlValidationDelegate beansXmlValidator = new BeansXmlValidationDelegate(this);
 	private AnnotationValidationDelegate annotationValidator = new AnnotationValidationDelegate(this);
 
-	static final String SHORT_ID = "jboss.cdi.core"; //$NON-NLS-1$
+	public static final String SHORT_ID = "jboss.cdi.core"; //$NON-NLS-1$
 
 	/*
 	 * (non-Javadoc)
