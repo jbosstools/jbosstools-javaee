@@ -12,11 +12,11 @@ package org.jboss.tools.cdi.ui.marker;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jdt.core.Flags;
 import org.eclipse.jdt.core.IAnnotation;
 import org.eclipse.jdt.core.ICompilationUnit;
@@ -28,6 +28,11 @@ import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.ui.IMarkerResolution;
 import org.eclipse.ui.IMarkerResolutionGenerator2;
 import org.jboss.tools.cdi.core.CDIConstants;
+import org.jboss.tools.cdi.core.CDICoreNature;
+import org.jboss.tools.cdi.core.CDIUtil;
+import org.jboss.tools.cdi.core.IBean;
+import org.jboss.tools.cdi.core.ICDIProject;
+import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.internal.core.validation.CDIValidationErrorManager;
 import org.jboss.tools.cdi.ui.CDIUIPlugin;
 import org.jboss.tools.common.EclipseUtil;
@@ -107,26 +112,74 @@ public class CDIProblemMarkerResolutionGenerator implements
 							new DeleteAllInjectedConstructorsMarkerResolution(method, file)
 						};
 				}
-			}
+			}/*else if(messageId == CDIValidationErrorManager.UNSATISFIED_INJECTION_POINTS_ID ||
+					messageId == CDIValidationErrorManager.AMBIGUOUS_INJECTION_POINTS_ID){
+				List<IBean> beans = findBeans(file, start);
+				IMarkerResolution[] resolutions = new IMarkerResolution[beans.size()];
+				for(int i = 0; i < beans.size(); i++){
+					resolutions[i] = new MakeInjectedPointUnambiguousMarkerResolution(beans, file, i);
+				}
+				return resolutions;
+			}*/
 		}
 		return new IMarkerResolution[] {};
 	}
 	
+	private List<IBean> findBeans(IFile file, int start){
+		IJavaElement element = findJavaElement(file, start);
+		if(element == null)
+			return null;
+		
+		CDICoreNature cdiNature = CDIUtil.getCDINatureWithProgress(file.getProject());
+		if(cdiNature == null)
+			return null;
+
+		
+		ICDIProject cdiProject = cdiNature.getDelegate();
+		
+		if(cdiProject == null){
+			return null;
+		}
+		
+		Set<IBean> allBeans = cdiProject.getBeans(file.getFullPath());
+		
+		//System.out.println("All beans - "+allBeans.size());
+		//System.out.println("java element - "+element.getClass());
+		
+		IInjectionPoint injectionPoint = CDIUtil.findInjectionPoint(allBeans, element, start);
+		if(injectionPoint == null){
+			return null;
+		}
+		
+		Set<IBean> beanSet = cdiProject.getBeans(false, injectionPoint);
+		
+		//System.out.println("Beans on injected point - "+beanSet.size());
+		
+		List<IBean> beanList = CDIUtil.sortBeans(beanSet);
+		
+		return beanList;
+	}
+	
 	private IMethod findMethod(IFile file, int start){
+		IJavaElement javaElement = findJavaElement(file, start);
+		if(javaElement != null && javaElement instanceof IMethod){
+			IMethod method = (IMethod)javaElement;
+			if(!method.isBinary())
+				return method;
+		}
+		return null;
+	}
+	
+	private IJavaElement findJavaElement(IFile file, int start){
 		try{
-			ICompilationUnit original = EclipseUtil.getCompilationUnit(file);
-			ICompilationUnit compilationUnit = original.getWorkingCopy(new NullProgressMonitor());
+			ICompilationUnit compilationUnit = EclipseUtil.getCompilationUnit(file);
 			
-			IJavaElement javaElement = compilationUnit.getElementAt(start);
-			if(javaElement != null && javaElement instanceof IMethod){
-				IMethod method = (IMethod)javaElement;
-				if(!method.isBinary())
-					return method;
-			}
+			return compilationUnit.getElementAt(start);
 		}catch(CoreException ex){
 			CDIUIPlugin.getDefault().logError(ex);
 		}
 		return null;
+		
 	}
 	
 	private List<IType> findLocalAnnotattedInterfaces(IMethod method) throws JavaModelException{
@@ -163,17 +216,14 @@ public class CDIProblemMarkerResolutionGenerator implements
 	
 	private IField findNonStaticField(IFile file, int start){
 		try{
-			ICompilationUnit original = EclipseUtil.getCompilationUnit(file);
-			ICompilationUnit compilationUnit = original.getWorkingCopy(new NullProgressMonitor());
-			
-			IJavaElement javaElement = compilationUnit.getElementAt(start);
+			IJavaElement javaElement = findJavaElement(file, start);
 			
 			if(javaElement != null && javaElement instanceof IField){
 				IField field = (IField)javaElement;
 				if(!Flags.isStatic(field.getFlags()) && !field.isBinary())
 					return field;
 			}
-		}catch(CoreException ex){
+		}catch(JavaModelException ex){
 			CDIUIPlugin.getDefault().logError(ex);
 		}
 		return null;
