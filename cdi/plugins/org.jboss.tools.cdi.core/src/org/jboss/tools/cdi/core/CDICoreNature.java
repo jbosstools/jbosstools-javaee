@@ -145,14 +145,8 @@ public class CDICoreNature implements IProjectNature, IKBBuilderRequiredNature {
 		if(ps == null || ps.isEmpty()) {
 			return getDefinitions().getAllAnnotations();
 		}
-		List<AnnotationDefinition> ds = getDefinitions().getAllAnnotations();
 		List<AnnotationDefinition> result = new ArrayList<AnnotationDefinition>();
-		result.addAll(ds);
 		Set<IType> types = new HashSet<IType>();
-		for (AnnotationDefinition d: ds) {
-			IType t = d.getType();
-			if(t != null) types.add(t);
-		}
 		for (CDICoreNature p: ps) {
 			List<AnnotationDefinition> ds2 = p.getDefinitions().getAllAnnotations();
 			for (AnnotationDefinition d: ds2) {
@@ -163,6 +157,16 @@ public class CDICoreNature implements IProjectNature, IKBBuilderRequiredNature {
 				}
 			}
 		}
+
+		List<AnnotationDefinition> ds = getDefinitions().getAllAnnotations();
+		for (AnnotationDefinition d: ds) {
+			IType t = d.getType();
+			if(t != null && !types.contains(t)) {
+				types.add(t);
+				result.add(d);
+			}
+		}
+
 		return result;
 	}
 
