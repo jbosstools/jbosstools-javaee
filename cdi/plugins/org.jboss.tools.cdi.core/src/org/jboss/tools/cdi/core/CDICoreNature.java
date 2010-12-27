@@ -481,7 +481,6 @@ public class CDICoreNature implements IProjectNature, IKBBuilderRequiredNature {
 				if(project == null || !project.isAccessible()) continue;
 				CDICoreNature sp = CDICorePlugin.getCDI(project, false);
 				if(sp != null) {
-					System.out.println("-2->Add " + getProject() + " to " + sp.getProject());
 					addDependentCDIProject(sp);
 				}
 			}
