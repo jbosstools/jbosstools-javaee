@@ -1,9 +1,17 @@
 package org.jboss.tools.cdi.ui.wizard;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Set;
 
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.jdt.core.Flags;
+import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IContentProvider;
 import org.eclipse.jface.viewers.IDoubleClickListener;
@@ -14,8 +22,11 @@ import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ListViewer;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerComparator;
+import org.eclipse.jface.wizard.WizardDialog;
+import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
@@ -31,12 +42,21 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.List;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.internal.Workbench;
 import org.jboss.tools.cdi.core.IBean;
+import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.core.IQualifier;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
+import org.jboss.tools.cdi.ui.CDIUIPlugin;
+import org.jboss.tools.cdi.ui.marker.MarkerResolutionUtils;
 
 public class AddQualifiersToBeanComposite extends Composite {
 	private static Font font;
+	private IInjectionPoint injectionPoint;
+	private IBean bean;
+	private java.util.List<IBean> beans;
+	private WizardPage wizard;
 
 	// original qualifiers on the bean
 	private ArrayList<IQualifier> originalQualifiers;
@@ -46,6 +66,9 @@ public class AddQualifiersToBeanComposite extends Composite {
 
 	// current qualifiers on the bean
 	private ArrayList<IQualifier> deployed = new ArrayList<IQualifier>();
+	
+	// original + deployed
+	ArrayList<IQualifier> total = new ArrayList<IQualifier>();
 
 	private ListViewer availableListViewer;
 	private ListViewer deployedListViewer;
@@ -55,20 +78,47 @@ public class AddQualifiersToBeanComposite extends Composite {
 
 	protected boolean isComplete = true;
 
-	public AddQualifiersToBeanComposite(Composite parent, IBean bean) {
+	public AddQualifiersToBeanComposite(Composite parent, WizardPage wizard) {
 		super(parent, SWT.NONE);
+		this.wizard = wizard;
+		this.injectionPoint = ((AddQualifiersToBeanWizard)wizard.getWizard()).getInjectionPoint();
+		this.bean = ((AddQualifiersToBeanWizard)wizard.getWizard()).getBean();
+		this.beans = ((AddQualifiersToBeanWizard)wizard.getWizard()).getBeans();
 		
 		originalQualifiers = new ArrayList<IQualifier>(bean.getQualifiers());
+		
+		loadAvailableQualifiers();
+		
+		createControl();
+	}
+	
+	private void loadAvailableQualifiers(){
+		String beanTypeName = bean.getBeanClass().getFullyQualifiedName();
+		String beanPackage = beanTypeName.substring(0,beanTypeName.lastIndexOf(MarkerResolutionUtils.DOT));
+		
+		String injectionPointTypeName = injectionPoint.getClassBean().getBeanClass().getFullyQualifiedName();
+		String injectionPointPackage = injectionPointTypeName.substring(0,injectionPointTypeName.lastIndexOf(MarkerResolutionUtils.DOT));
+		
+		boolean samePackage = beanPackage.equals(injectionPointPackage);
 		
 		IQualifier[] qs = bean.getCDIProject().getQualifiers();
 		qualifiers = new ArrayList<IQualifier>();
 		
 		for(IQualifier q : qs){
-			if(!originalQualifiers.contains(q))
-				qualifiers.add(q);
+			if(!originalQualifiers.contains(q)){
+				boolean isPublic = true;
+				try{
+					isPublic = Flags.isPublic(q.getSourceType().getFlags());
+				}catch(JavaModelException ex){
+					CDIUIPlugin.getDefault().logError(ex);
+				}
+				String qualifierTypeName = q.getSourceType().getFullyQualifiedName();
+				String qualifierPackage = qualifierTypeName.substring(0,qualifierTypeName.lastIndexOf(MarkerResolutionUtils.DOT));
+				if(isPublic || (samePackage && injectionPointPackage.equals(qualifierPackage)))
+					qualifiers.add(q);
+			}
 		}
 		
-		createControl();
 	}
 
 	public void setVisible(boolean visible) {
@@ -89,6 +139,42 @@ public class AddQualifiersToBeanComposite extends Composite {
 			}
 		});
 	}
+	
+	private boolean checkBeans(){
+		total.clear();
+		total.addAll(originalQualifiers);
+		total.addAll(deployed);
+		HashSet<IQualifier> qfs = new HashSet<IQualifier>(total);
+		
+		for(IBean b: beans){
+			if(b.equals(bean))
+				continue;
+			if(checkBeanQualifiers(b, qfs))
+				return false;
+				
+		}
+		return true;
+	}
+	
+	public static boolean checkBeanQualifiers(IBean bean, Set<IQualifier> qualifiers){
+		for(IQualifier qualifier : qualifiers){
+			if(!isBeanContainQualifier(bean.getQualifiers(), qualifier)){
+				return false;
+			}
+		}
+		if(bean.getQualifiers().size() == qualifiers.size())
+			return true;
+		return false;
+	}
+	
+	public static boolean isBeanContainQualifier(Set<IQualifier> qualifiers, IQualifier qualifier){
+		for(IQualifier q : qualifiers){
+			if(q.getSourceType().getFullyQualifiedName().equals(qualifier.getSourceType().getFullyQualifiedName()))
+				return true;
+		}
+		return false;
+	}
+
 	
 	protected void createControl() {
 		GridLayout layout = new GridLayout();
@@ -111,6 +197,13 @@ public class AddQualifiersToBeanComposite extends Composite {
 		});
 		
 		Label label = new Label(this, SWT.NONE);
+		GridData data = new GridData(GridData.FILL_HORIZONTAL | GridData.VERTICAL_ALIGN_BEGINNING);
+		data.horizontalSpan = 3;
+		label.setLayoutData(data);
+		label.setText(MessageFormat.format(CDIUIMessages.ADD_QUALIFIERS_TO_BEAN_WIZARD_MESSAGE,
+				new Object[]{bean.getBeanClass().getElementName()}));
+		
+		label = new Label(this, SWT.NONE);
 		label.setText(CDIUIMessages.ADD_QUALIFIERS_TO_BEAN_WIZARD_AVAILABLE);
 		
 		label = new Label(this, SWT.NONE);
@@ -120,7 +213,7 @@ public class AddQualifiersToBeanComposite extends Composite {
 		label.setText(CDIUIMessages.ADD_QUALIFIERS_TO_BEAN_WIZARD_IN_BEAN);
 		
 		List availableList = new List(this, SWT.BORDER | SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
-		GridData data = new GridData(GridData.FILL_BOTH);
+		data = new GridData(GridData.FILL_BOTH);
 		data.heightHint = 200;
 		data.widthHint = 150;
 		availableList.setLayoutData(data);
@@ -135,7 +228,7 @@ public class AddQualifiersToBeanComposite extends Composite {
 				if (o1 instanceof IQualifier && o2 instanceof IQualifier) {
 					IQualifier q1 = (IQualifier) o1;
 					IQualifier q2 = (IQualifier) o2;
-					return (q1.getSourceType().getFullyQualifiedName().compareToIgnoreCase(q2.getSourceType().getFullyQualifiedName()));
+					return (q1.getSourceType().getElementName().compareToIgnoreCase(q2.getSourceType().getElementName()));
 				}
 				
 				return super.compare(viewer, o1, o2);
@@ -219,7 +312,7 @@ public class AddQualifiersToBeanComposite extends Composite {
 			if (o1 instanceof IQualifier && o2 instanceof IQualifier) {
 				IQualifier q1 = (IQualifier) o1;
 				IQualifier q2 = (IQualifier) o2;
-				return (q1.getSourceType().getFullyQualifiedName().compareToIgnoreCase(q2.getSourceType().getFullyQualifiedName()));
+				return (q1.getSourceType().getElementName().compareToIgnoreCase(q2.getSourceType().getElementName()));
 			}
 			
 			return super.compare(viewer, o1, o2);
@@ -245,7 +338,27 @@ public class AddQualifiersToBeanComposite extends Composite {
 		
 		createQualifier.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent event) {
-				// TODO
+				Shell shell = Workbench.getInstance().getActiveWorkbenchWindow().getShell();
+				NewQualifierCreationWizard wizard = new NewQualifierCreationWizard();
+				StructuredSelection selection = new StructuredSelection(new Object[]{bean.getBeanClass()});
+				
+				wizard.init(Workbench.getInstance(), selection);
+				WizardDialog dialog = new WizardDialog(shell, wizard);
+				int status = dialog.open();
+				if(status == WizardDialog.OK){
+					// reload qualifiers
+					try {
+						Job.getJobManager().join(ResourcesPlugin.FAMILY_AUTO_BUILD, null);
+					} catch (InterruptedException e) {
+						// do nothing
+					}
+					
+					qualifiers.clear();
+					
+					loadAvailableQualifiers();
+					
+					refresh();
+				}
 			}
 		});
 		
@@ -317,6 +430,15 @@ public class AddQualifiersToBeanComposite extends Composite {
 		}
 	
 		removeAll.setEnabled(deployed.size() > 0);
+		
+		// check uniqueness of qualifiers
+		isComplete = checkBeans();
+		if(isComplete)
+			wizard.setMessage("");
+		else
+			wizard.setMessage(CDIUIMessages.ADD_QUALIFIERS_TO_BEAN_WIZARD_SET_IS_NOT_UNIQUE, IMessageProvider.ERROR);
+		
+		wizard.setPageComplete(isComplete);
 	}
 
 	protected void add(boolean all) {
@@ -394,6 +516,10 @@ public class AddQualifiersToBeanComposite extends Composite {
 	public boolean isComplete() {
 		return isComplete;
 	}
+	
+	public ArrayList<IQualifier> getDeployedQualifiers(){
+		return deployed;
+	}
 
 	class QualifiersListLabelProvider implements ILabelProvider{
 
@@ -417,7 +543,11 @@ public class AddQualifiersToBeanComposite extends Composite {
 		public String getText(Object element) {
 			if(element instanceof IQualifier){
 				IQualifier qualifier = (IQualifier)element;
-				return qualifier.getSourceType().getFullyQualifiedName();
+				String qualifierTypeName = qualifier.getSourceType().getFullyQualifiedName();
+				String qualifierPackage = qualifierTypeName.substring(0,qualifierTypeName.lastIndexOf(MarkerResolutionUtils.DOT));
+				String name = qualifier.getSourceType().getElementName();
+
+				return name+" - "+qualifierPackage;
 			}
 			return "";
 		}

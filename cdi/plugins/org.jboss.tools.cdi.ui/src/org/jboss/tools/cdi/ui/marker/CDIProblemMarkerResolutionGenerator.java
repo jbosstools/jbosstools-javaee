@@ -112,20 +112,23 @@ public class CDIProblemMarkerResolutionGenerator implements
 							new DeleteAllInjectedConstructorsMarkerResolution(method, file)
 						};
 				}
-			}/*else if(messageId == CDIValidationErrorManager.UNSATISFIED_INJECTION_POINTS_ID ||
+			}else if(messageId == CDIValidationErrorManager.UNSATISFIED_INJECTION_POINTS_ID ||
 					messageId == CDIValidationErrorManager.AMBIGUOUS_INJECTION_POINTS_ID){
-				List<IBean> beans = findBeans(file, start);
-				IMarkerResolution[] resolutions = new IMarkerResolution[beans.size()];
-				for(int i = 0; i < beans.size(); i++){
-					resolutions[i] = new MakeInjectedPointUnambiguousMarkerResolution(beans, file, i);
+				IInjectionPoint injectionPoint = findInjectionPoint(file, start);
+				if(injectionPoint != null){
+					List<IBean> beans = findBeans(injectionPoint);
+					IMarkerResolution[] resolutions = new IMarkerResolution[beans.size()];
+					for(int i = 0; i < beans.size(); i++){
+						resolutions[i] = new MakeInjectedPointUnambiguousMarkerResolution(injectionPoint, beans, file, i);
+					}
+					return resolutions;
 				}
-				return resolutions;
-			}*/
+			}
 		}
 		return new IMarkerResolution[] {};
 	}
 	
-	private List<IBean> findBeans(IFile file, int start){
+	private IInjectionPoint findInjectionPoint(IFile file, int start){
 		IJavaElement element = findJavaElement(file, start);
 		if(element == null)
 			return null;
@@ -143,17 +146,12 @@ public class CDIProblemMarkerResolutionGenerator implements
 		
 		Set<IBean> allBeans = cdiProject.getBeans(file.getFullPath());
 		
-		//System.out.println("All beans - "+allBeans.size());
-		//System.out.println("java element - "+element.getClass());
-		
-		IInjectionPoint injectionPoint = CDIUtil.findInjectionPoint(allBeans, element, start);
-		if(injectionPoint == null){
-			return null;
-		}
-		
+		return CDIUtil.findInjectionPoint(allBeans, element, start);
+	}
+	
+	private List<IBean> findBeans(IInjectionPoint injectionPoint){
+		ICDIProject cdiProject = injectionPoint.getCDIProject();
 		Set<IBean> beanSet = cdiProject.getBeans(false, injectionPoint);
-		
-		//System.out.println("Beans on injected point - "+beanSet.size());
 		
 		List<IBean> beanList = CDIUtil.sortBeans(beanSet);
 		

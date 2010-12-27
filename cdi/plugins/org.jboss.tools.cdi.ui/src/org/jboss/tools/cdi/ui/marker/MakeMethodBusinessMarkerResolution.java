@@ -41,29 +41,7 @@ public class MakeMethodBusinessMarkerResolution implements IMarkerResolution2 {
 	private static final String PRIVATE = "private";  //$NON-NLS-1$
 	private static final String PROTECTED = "protected";  //$NON-NLS-1$
 	private static final String SPACE = " ";  //$NON-NLS-1$
-	private static final String DOT = ".";  //$NON-NLS-1$
 	
-	static final HashSet<String> primitives = new HashSet<String>();
-	static{
-		primitives.add("void");  //$NON-NLS-1$
-		primitives.add("int");  //$NON-NLS-1$
-		primitives.add("java.lang.Integer");  //$NON-NLS-1$
-		primitives.add("char");  //$NON-NLS-1$
-		primitives.add("java.lang.Character");  //$NON-NLS-1$
-		primitives.add("boolean");  //$NON-NLS-1$
-		primitives.add("java.lang.Boolean");  //$NON-NLS-1$
-		primitives.add("short");  //$NON-NLS-1$
-		primitives.add("java.lang.Short");  //$NON-NLS-1$
-		primitives.add("long");  //$NON-NLS-1$
-		primitives.add("java.lang.Long");  //$NON-NLS-1$
-		primitives.add("float");  //$NON-NLS-1$
-		primitives.add("java.lang.Float");  //$NON-NLS-1$
-		primitives.add("double");  //$NON-NLS-1$
-		primitives.add("java.lang.Double");  //$NON-NLS-1$
-		primitives.add("byte");  //$NON-NLS-1$
-		primitives.add("java.lang.Byte");  //$NON-NLS-1$
-		primitives.add("java.lang.String");  //$NON-NLS-1$
-	}
 	
 	private String label;
 	private IMethod method;
@@ -161,31 +139,9 @@ public class MakeMethodBusinessMarkerResolution implements IMarkerResolution2 {
 	
 	private void addImport(IType originalType, String simpleName, ICompilationUnit compilationUnit) throws JavaModelException{
 		String qualifiedName = EclipseJavaUtil.resolveType(originalType, simpleName);
-		addImport(qualifiedName, compilationUnit);
+		MarkerResolutionUtils.addImport(qualifiedName, compilationUnit);
 	}
 	
-	private void addImport(String qualifiedName, ICompilationUnit compilationUnit) throws JavaModelException{
-		if(primitives.contains(qualifiedName))
-			return;
-		
-		IPackageDeclaration[] packages = compilationUnit.getPackageDeclarations();
-		
-		if(qualifiedName.indexOf(DOT) >= 0){
-			String typePackage = qualifiedName.substring(0,qualifiedName.lastIndexOf(DOT));
-			
-			for(IPackageDeclaration packageDeclaration : packages){
-				if(packageDeclaration.getElementName().equals(typePackage))
-					return;
-			}
-		}
-		
-		if(qualifiedName != null){
-			IImportDeclaration importDeclaration = compilationUnit.getImport(qualifiedName); 
-			if(importDeclaration == null || !importDeclaration.exists())
-				compilationUnit.createImport(qualifiedName, null, new NullProgressMonitor());
-		}
-		
-	}
 
 	public String getDescription() {
 		return null;

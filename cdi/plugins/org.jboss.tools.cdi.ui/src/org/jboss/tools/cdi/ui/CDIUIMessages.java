@@ -95,6 +95,7 @@ public class CDIUIMessages extends NLS{
 	public static String ADD_QUALIFIERS_TO_BEAN_WIZARD_REMOVE;
 	public static String ADD_QUALIFIERS_TO_BEAN_WIZARD_REMOVE_ALL;
 	public static String ADD_QUALIFIERS_TO_BEAN_WIZARD_CREATE_NEW_QUALIFIER;
+	public static String ADD_QUALIFIERS_TO_BEAN_WIZARD_SET_IS_NOT_UNIQUE;
 	
 	public static String CDI_GENERATE_BEANS_XML;
 	public static String CDI_INSTALL_WIZARD_PAGE_FACET;

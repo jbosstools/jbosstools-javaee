@@ -11,12 +11,16 @@
 package org.jboss.tools.cdi.ui.wizard;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
 
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.widgets.Composite;
+import org.jboss.tools.cdi.core.IQualifier;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
 
 public class AddQualifiersToBeanWizardPage extends WizardPage{
+
+	private AddQualifiersToBeanComposite composite;
 
 	protected AddQualifiersToBeanWizardPage(String pageName) {
 		super(pageName);
@@ -24,9 +28,12 @@ public class AddQualifiersToBeanWizardPage extends WizardPage{
 	}
 
 	public void createControl(Composite parent) {
-		setControl(new AddQualifiersToBeanComposite(parent, ((AddQualifiersToBeanWizard)getWizard()).getBean()));
-		setMessage(MessageFormat.format(CDIUIMessages.ADD_QUALIFIERS_TO_BEAN_WIZARD_MESSAGE,
-				new Object[]{((AddQualifiersToBeanWizard)getWizard()).getBean().getBeanClass().getElementName()}));
+		composite = new AddQualifiersToBeanComposite(parent, this);
+		setControl(composite);
 	}
-
+	
+	public ArrayList<IQualifier> getDeployedQualifiers(){
+		return composite.getDeployedQualifiers();
+	}
+	
 }
