@@ -14,6 +14,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.jboss.tools.cdi.core.CDIConstants;
+import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.IAnnotationDeclaration;
 import org.jboss.tools.cdi.core.IBean;
@@ -22,6 +23,10 @@ import org.jboss.tools.cdi.core.IClassBean;
 import org.jboss.tools.cdi.core.IProducer;
 import org.jboss.tools.cdi.core.IQualifier;
 import org.jboss.tools.cdi.core.IScope;
+import org.jboss.tools.jst.web.kb.IKbProject;
+import org.jboss.tools.jst.web.kb.KbProjectFactory;
+import org.jboss.tools.jst.web.kb.WebKbPlugin;
+import org.jboss.tools.jst.web.kb.internal.KbProject;
 import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.ResourcesUtils;
 
@@ -139,6 +144,21 @@ public class DependentProjectTest extends TestCase {
 		assertFalse(beans.isEmpty());
 		IQualifier q = cdi3.getQualifier("cdi.test.MyQualifier");
 		assertNotNull(q);		
+	}
+
+	public void testProjectDependencyLoading() throws CoreException, IOException {
+		IKbProject kb2 = KbProjectFactory.getKbProject(project2, true);
+		((KbProject)kb2).store();
+		CDICoreNature cdi2 = CDICorePlugin.getCDI(project2, true);
+		Set<CDICoreNature> dependsOn = cdi2.getCDIProjects();
+		Set<CDICoreNature> usedBy = cdi2.getDependentProjects();
+		assertEquals(1, dependsOn.size());
+		assertEquals(1, usedBy.size());
+		cdi2.reloadProjectDependencies();
+		dependsOn = cdi2.getCDIProjects();
+		usedBy = cdi2.getDependentProjects();
+		assertEquals(1, dependsOn.size());
+		assertEquals(1, usedBy.size());
 	}
 
 	public void tearDown() throws Exception {
