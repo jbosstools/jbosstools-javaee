@@ -1026,7 +1026,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		
 		CDICoreNature[] ps = n.getDependentProjects().toArray(new CDICoreNature[0]);
 		for (CDICoreNature p: ps) {
-			if(p.getProject() != null && p.getProject().isAccessible()) {
+			if(p.getProject() != null && p.getProject().isAccessible() && p.getDelegate() != null) {
 				p.getDelegate().update();
 			}
 		}		
