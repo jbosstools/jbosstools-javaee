@@ -23,6 +23,7 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.resources.IProjectNature;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.NullProgressMonitor;
@@ -35,8 +36,11 @@ import org.jboss.tools.cdi.internal.core.scanner.lib.ClassPathMonitor;
 import org.jboss.tools.common.model.XJob;
 import org.jboss.tools.common.model.XJob.XRunnable;
 import org.jboss.tools.common.util.FileUtil;
+import org.jboss.tools.common.xml.XMLUtilities;
+import org.jboss.tools.jst.web.kb.WebKbPlugin;
 import org.jboss.tools.jst.web.kb.internal.IKBBuilderRequiredNature;
 import org.jboss.tools.jst.web.kb.internal.validation.ProjectValidationContext;
+import org.w3c.dom.Element;
 
 public class CDICoreNature implements IProjectNature, IKBBuilderRequiredNature {
 	public static String NATURE_ID = "org.jboss.tools.cdi.core.cdinature";
@@ -168,7 +172,7 @@ public class CDICoreNature implements IProjectNature, IKBBuilderRequiredNature {
 
 	public void addCDIProject(final CDICoreNature p) {
 		if(dependsOn.contains(p)) return;
-		dependsOn.add(p);
+		addUsedCDIProject(p);
 		p.addDependentCDIProject(this);
 		//TODO
 		if(!p.isStorageResolved()) {
@@ -190,8 +194,16 @@ public class CDICoreNature implements IProjectNature, IKBBuilderRequiredNature {
 	public void removeCDIProject(CDICoreNature p) {
 		if(!dependsOn.contains(p)) return;
 		p.usedBy.remove(this);
-		dependsOn.remove(p);
+		synchronized (dependsOn) {
+			dependsOn.remove(p);
+		}
 		//TODO
+	}
+
+	void addUsedCDIProject(CDICoreNature p) {
+		synchronized (dependsOn) {
+			dependsOn.add(p);
+		}
 	}
 
 	public void addDependentCDIProject(CDICoreNature p) {
@@ -250,24 +262,26 @@ public class CDICoreNature implements IProjectNature, IKBBuilderRequiredNature {
 			CDICorePlugin.getDefault().logError(e);
 		}
 		
-//		postponeFiring();
-//		
-//		try {		
+		postponeFiring();
+		
+		try {		
 //			boolean b = getClassPath().update();
 //			if(b) {
 //				getClassPath().validateProjectDependencies();
 //			}
 //			File file = getStorageFile();
-//
-//			//TODO
-//
+
+			//Use kb storage for dependent projects since cdi is not stored.
+			loadProjectDependenciesFromKBProject();
+			//TODO
+
 //			if(b) {
 //				getClassPath().process();
 //			}
-//
-//		} finally {
-//			fireChanges();
-//		}
+
+		} finally {
+			fireChanges();
+		}
 	}
 
 	public void clean() {
@@ -413,4 +427,66 @@ public class CDICoreNature implements IProjectNature, IKBBuilderRequiredNature {
 	public String getNatureDescription() {
 		return CDICoreMessages.CDI_NATURE_DESCRIPTION;
 	}
+
+	/**
+	 * Test method.
+	 */
+	public void reloadProjectDependencies() {
+		dependsOn.clear();
+		usedBy.clear();
+		loadProjectDependenciesFromKBProject();
+	}
+
+	private void loadProjectDependenciesFromKBProject() {
+		Element root = null;
+		File file = getKBStorageFile();
+		if(file != null && file.isFile()) {
+			root = XMLUtilities.getElement(file, null);
+			if(root != null) {
+				loadProjectDependencies(root);
+			}
+		}		
+	}
+	
+	private File getKBStorageFile() {
+		IPath path = WebKbPlugin.getDefault().getStateLocation();
+		File file = new File(path.toFile(), "projects/" + project.getName() + ".xml"); //$NON-NLS-1$ //$NON-NLS-2$
+		return file;
+	}
+	
+	private void loadProjectDependencies(Element root) {
+		Element dependsOnElement = XMLUtilities.getUniqueChild(root, "depends-on-projects"); //$NON-NLS-1$
+		if(dependsOnElement != null) {
+			Element[] paths = XMLUtilities.getChildren(dependsOnElement, "project"); //$NON-NLS-1$
+			for (int i = 0; i < paths.length; i++) {
+				String p = paths[i].getAttribute("name"); //$NON-NLS-1$
+				if(p == null || p.trim().length() == 0) continue;
+				IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(p);
+				if(project == null || !project.isAccessible()) continue;
+				CDICoreNature sp = CDICorePlugin.getCDI(project, false);
+				if(sp != null) {
+					addUsedCDIProject(sp);
+					sp.addDependentCDIProject(this);
+				}
+			}
+		}
+
+		Element usedElement = XMLUtilities.getUniqueChild(root, "used-by-projects"); //$NON-NLS-1$
+		if(usedElement != null) {
+			Element[] paths = XMLUtilities.getChildren(usedElement, "project"); //$NON-NLS-1$
+			for (int i = 0; i < paths.length; i++) {
+				String p = paths[i].getAttribute("name"); //$NON-NLS-1$
+				if(p == null || p.trim().length() == 0) continue;
+				IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(p);
+				if(project == null || !project.isAccessible()) continue;
+				CDICoreNature sp = CDICorePlugin.getCDI(project, false);
+				if(sp != null) {
+					System.out.println("-2->Add " + getProject() + " to " + sp.getProject());
+					addDependentCDIProject(sp);
+				}
+			}
+		}
+	
+	}
+
 }
