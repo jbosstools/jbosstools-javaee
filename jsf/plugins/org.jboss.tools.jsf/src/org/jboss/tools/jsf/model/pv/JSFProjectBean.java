@@ -16,6 +16,7 @@ import org.eclipse.jdt.core.*;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.impl.RegularObjectImpl;
 import org.jboss.tools.common.model.util.EclipseJavaUtil;
+import org.jboss.tools.common.util.BeanUtil;
 import org.jboss.tools.jsf.JSFModelPlugin;
 
 public class JSFProjectBean extends RegularObjectImpl {
@@ -129,13 +130,10 @@ public class JSFProjectBean extends RegularObjectImpl {
 				if(!Flags.isPublic(ms[i].getFlags()) && !_type.isInterface()) continue;				
 				String n = ms[i].getElementName();
 				boolean isProperty = false;
-				if((isGetter(ms[i], "get") || isSetter(ms[i])) && n.length() > 3) {
-					n = n.substring(3, 4).toLowerCase() + n.substring(4);
-					isProperty = true;
-				} else if(isGetter(ms[i], "is")) {
-					String typeName = EclipseJavaUtil.getMemberTypeAsString(ms[i]);
-					if("boolean".equals(typeName) || "java.lang.Boolean".equals(typeName)) {
-						n = n.substring(2, 3).toLowerCase() + n.substring(3);
+				if(BeanUtil.isGetter(ms[i]) || BeanUtil.isSetter(ms[i])) {
+					String propertyName = BeanUtil.getPropertyName(n);
+					if(propertyName != null && checkPropertyReturnType(ms[i])) {
+						n = propertyName;
 						isProperty = true;
 					}
 				}
@@ -274,18 +272,20 @@ public class JSFProjectBean extends RegularObjectImpl {
 		return true;
 	}
 
-	private boolean isSetter(IMethod method) {
-		if(method == null) return false;
-		String name = method.getElementName();
-		if(!name.startsWith("set") || name.length() <= 3) return false;
-		try {
-			String[] ps = method.getParameterNames();
-			if(ps == null || ps.length != 1) return false;
-		} catch (JavaModelException e) {
+	//TODO move this to BeanUtil.isGetter and isSetter
+	private boolean checkPropertyReturnType(IMethod method) {
+		if(method == null) {
 			return false;
 		}
-		
+		String typeName = EclipseJavaUtil.getMemberTypeAsString(method);
+		if(typeName == null || typeName.equals("void")) {
+			return false;
+		}
+		if(method.getElementName().startsWith(BeanUtil.IS)) {
+			if(!"boolean".equals(typeName) && !"java.lang.Boolean".equals(typeName)) {
+				return false;
+			}			
+		}
 		return true;
 	}
-
 }
