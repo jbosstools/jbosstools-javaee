@@ -464,6 +464,14 @@
          		resolver-class="org.jboss.tools.jsf.model.JSF2CCAttrsELCompletionEngine"/>
          </el-resolver>
    </extension>
+
+   <extension
+         point="org.jboss.tools.jst.web.kb.elValidationDelegate">
+         <delegate
+               class="org.jboss.tools.jsf.web.validation.JSFELValidationDelegate">
+         </delegate>
+   </extension>
+
    <extension
          point="org.jboss.tools.common.model.modelnatures">
       <modelnature 
@@ -483,25 +491,6 @@
           resource="meta/jsf-palette.xml" priority="4">
     </contribution>
  </extension>
-
-   <extension point="org.eclipse.core.runtime.preferences">
-      <initializer class="org.jboss.tools.jsf.preferences.JSFPreferenceInitializer"/>
-   </extension>
-
-   <extension id="elproblem" name="%KBProblemName" point="org.eclipse.core.resources.markers">
-      <super type="org.jboss.tools.jst.web.kb.kbproblemmarker">
-      </super>
-      <persistent value="true">
-      </persistent>
-   </extension>
-
-   <extension
-         point="org.jboss.tools.jst.web.kb.validator">
-         <validator
-               class="org.jboss.tools.jsf.web.validation.ELValidator"
-               id="org.jboss.tools.jsf.ELValidator">
-         </validator>
-   </extension>
 
 	<extension point="org.eclipse.core.runtime.adapters">
 	  <factory 
