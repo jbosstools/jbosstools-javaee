@@ -20,6 +20,7 @@ import org.jboss.tools.common.model.*;
 import org.jboss.tools.jsf.messages.JSFUIMessages;
 import org.jboss.tools.common.model.refactoring.RenameModelObjectChange;
 import org.jboss.tools.common.model.refactoring.RenameProcessorRunner;
+import org.jboss.tools.common.util.BeanUtil;
 
 public class JSFRenameFieldParticipant extends RenameParticipant implements ISharableParticipant {
 	public static final String PARTICIPANT_NAME="jsf-RenameFieldParticipant"; //$NON-NLS-1$
@@ -80,10 +81,9 @@ public class JSFRenameFieldParticipant extends RenameParticipant implements ISha
 				XModel model = JSFRenameFieldChange.getModel(method);
 				if(model == null) return null;
 				XModelObject[] os = JSFRenameFieldHelper.getBeanList(model, method);
-				String name = method.getElementName();
-				if(!name.startsWith("get") && !name.startsWith("set")) return null;
-				name = name.substring(3, 4).toLowerCase() + name.substring(4);
-				os = getProperties(os, name);
+				String propertyName = BeanUtil.getPropertyName(method.getElementName());
+				if(propertyName == null) return null;
+				os = getProperties(os, propertyName);
 				RenameModelObjectChange c1 = RenameModelObjectChange.createChange(os, newName, "property-name"); //$NON-NLS-1$
 				return c1;
 			} else if(object != null) {
