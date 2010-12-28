@@ -20,9 +20,7 @@ import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IImportDeclaration;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IMember;
-import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IPackageDeclaration;
-import org.eclipse.jdt.core.ISourceReference;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.ITypeParameter;
 import org.eclipse.jdt.core.JavaModelException;
@@ -82,7 +80,11 @@ public class MarkerResolutionUtils {
 		
 	}
 	
-	public static void addAnnotation(String qualifiedName, ICompilationUnit compilationUnit, ISourceReference element) throws JavaModelException{
+	public static void addAnnotation(String qualifiedName, ICompilationUnit compilationUnit, IType element) throws JavaModelException{
+		IAnnotation annotation = getAnnotation(element, qualifiedName);
+		if(annotation != null && annotation.exists())
+			return;
+		
 		addImport(qualifiedName, compilationUnit);
 		
 		String lineDelim = compilationUnit.findRecommendedLineSeparator();
@@ -98,6 +100,10 @@ public class MarkerResolutionUtils {
 	}
 
 	public static void addQualifier(String qualifiedName, ICompilationUnit compilationUnit, IJavaElement element) throws JavaModelException{
+		IAnnotation annotation = getAnnotation(element, qualifiedName);
+		if(annotation != null && annotation.exists())
+			return;
+		
 		addImport(qualifiedName, compilationUnit);
 		
 		String lineDelim = SPACE;
@@ -105,7 +111,7 @@ public class MarkerResolutionUtils {
 		IBuffer buffer = compilationUnit.getBuffer();
 		String shortName = getShortName(qualifiedName);
 		
-		IAnnotation annotation = getAnnotation(element, CDIConstants.INJECT_ANNOTATION_TYPE_NAME);
+		annotation = getAnnotation(element, CDIConstants.INJECT_ANNOTATION_TYPE_NAME);
 		
 		buffer.replace(annotation.getSourceRange().getOffset()+annotation.getSourceRange().getLength(), 0, lineDelim+AT+shortName);
 		

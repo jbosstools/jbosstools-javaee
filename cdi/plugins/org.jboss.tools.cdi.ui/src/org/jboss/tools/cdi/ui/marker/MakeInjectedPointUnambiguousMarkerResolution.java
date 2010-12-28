@@ -33,6 +33,7 @@ import org.eclipse.ui.IMarkerResolution2;
 import org.eclipse.ui.internal.Workbench;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.IBean;
+import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.core.IInjectionPointField;
 import org.jboss.tools.cdi.core.IInjectionPointMethod;
@@ -49,13 +50,11 @@ import org.jboss.tools.common.EclipseUtil;
  */
 public class MakeInjectedPointUnambiguousMarkerResolution implements IMarkerResolution2 {
 	private String label;
-	private IFile file;
 	private IInjectionPoint injectionPoint;
 	private List<IBean> beans;
 	private IBean selectedBean;
 	
-	public MakeInjectedPointUnambiguousMarkerResolution(IInjectionPoint injectionPoint, List<IBean> beans, IFile file, int index){
-		this.file = file;
+	public MakeInjectedPointUnambiguousMarkerResolution(IInjectionPoint injectionPoint, List<IBean> beans, int index){
 		this.injectionPoint = injectionPoint;
 		this.beans = beans;
 		this.selectedBean = beans.get(index);
@@ -78,11 +77,20 @@ public class MakeInjectedPointUnambiguousMarkerResolution implements IMarkerReso
 			List<IQualifier> deployed = wizard.getDeployedQualifiers();
 			addQualifiersToBean(deployed);
 			try {
-				Thread.sleep(3000);
 				Job.getJobManager().join(ResourcesPlugin.FAMILY_AUTO_BUILD, null);
 			} catch (InterruptedException e) {
 				// do nothing
 			}
+			// reload selectedBean
+			ICDIProject cdiProject = selectedBean.getCDIProject();
+			IBean[] beans = cdiProject.getBeans();
+			for(IBean bean : beans){
+				if(bean.getBeanClass().getFullyQualifiedName().equals(selectedBean.getBeanClass().getFullyQualifiedName())){
+					selectedBean = bean;
+					break;
+				}
+			}
+			
 		}
 		addQualifiersToInjectedPoint();
 	}
@@ -96,7 +104,11 @@ public class MakeInjectedPointUnambiguousMarkerResolution implements IMarkerReso
 			IType type = compilationUnit.findPrimaryType();
 			if(type != null){
 				for(IQualifier qualifier : deployed){
-					MarkerResolutionUtils.addAnnotation(qualifier.getSourceType().getFullyQualifiedName(), compilationUnit, type);
+					String qualifierName = qualifier.getSourceType().getFullyQualifiedName();
+					if(!qualifierName.equals(CDIConstants.ANY_QUALIFIER_TYPE_NAME) && !qualifierName.equals(CDIConstants.DEFAULT_QUALIFIER_TYPE_NAME)){
+						MarkerResolutionUtils.addAnnotation(qualifier.getSourceType().getFullyQualifiedName(), compilationUnit, type);
+					}
+					
 				}
 			}
 			

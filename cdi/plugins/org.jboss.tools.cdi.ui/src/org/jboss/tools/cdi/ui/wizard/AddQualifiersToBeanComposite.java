@@ -518,7 +518,11 @@ public class AddQualifiersToBeanComposite extends Composite {
 	}
 	
 	public ArrayList<IQualifier> getDeployedQualifiers(){
-		return deployed;
+		total.clear();
+		total.addAll(originalQualifiers);
+		total.addAll(deployed);
+
+		return total;
 	}
 
 	class QualifiersListLabelProvider implements ILabelProvider{

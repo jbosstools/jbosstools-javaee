@@ -10,6 +10,7 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.ui.marker;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -17,6 +18,7 @@ import java.util.Set;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jdt.core.Flags;
 import org.eclipse.jdt.core.IAnnotation;
 import org.eclipse.jdt.core.ICompilationUnit;
@@ -25,8 +27,11 @@ import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
+import org.eclipse.jface.operation.IRunnableWithProgress;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IMarkerResolution;
 import org.eclipse.ui.IMarkerResolutionGenerator2;
+import org.eclipse.ui.PlatformUI;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.CDIUtil;
@@ -34,6 +39,7 @@ import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.internal.core.validation.CDIValidationErrorManager;
+import org.jboss.tools.cdi.ui.CDIUIMessages;
 import org.jboss.tools.cdi.ui.CDIUIPlugin;
 import org.jboss.tools.common.EclipseUtil;
 import org.jboss.tools.common.model.util.EclipseJavaUtil;
@@ -45,6 +51,7 @@ import org.jboss.tools.common.model.util.EclipseResourceUtil;
 public class CDIProblemMarkerResolutionGenerator implements
 		IMarkerResolutionGenerator2 {
 	private static final String JAVA_EXTENSION = "java"; //$NON-NLS-1$
+	IMarkerResolution[] resolutions;
 
 	public IMarkerResolution[] getResolutions(IMarker marker) {
 		try {
@@ -64,12 +71,12 @@ public class CDIProblemMarkerResolutionGenerator implements
 
 		int messageId = attribute.intValue();
 
-		IFile file = (IFile) marker.getResource();
+		final IFile file = (IFile) marker.getResource();
 
 		attribute = ((Integer) marker.getAttribute(IMarker.CHAR_START));
 		if (attribute == null)
 			return new IMarkerResolution[] {};
-		int start = attribute.intValue();
+		final int start = attribute.intValue();
 
 		if (JAVA_EXTENSION.equals(file.getFileExtension())) {
 			if (messageId == CDIValidationErrorManager.ILLEGAL_PRODUCER_FIELD_IN_SESSION_BEAN_ID) {
@@ -112,20 +119,74 @@ public class CDIProblemMarkerResolutionGenerator implements
 							new DeleteAllInjectedConstructorsMarkerResolution(method, file)
 						};
 				}
-			}else if(messageId == CDIValidationErrorManager.UNSATISFIED_INJECTION_POINTS_ID ||
-					messageId == CDIValidationErrorManager.AMBIGUOUS_INJECTION_POINTS_ID){
+			}else if(messageId == CDIValidationErrorManager.AMBIGUOUS_INJECTION_POINTS_ID){
 				IInjectionPoint injectionPoint = findInjectionPoint(file, start);
 				if(injectionPoint != null){
 					List<IBean> beans = findBeans(injectionPoint);
 					IMarkerResolution[] resolutions = new IMarkerResolution[beans.size()];
 					for(int i = 0; i < beans.size(); i++){
-						resolutions[i] = new MakeInjectedPointUnambiguousMarkerResolution(injectionPoint, beans, file, i);
+						resolutions[i] = new MakeInjectedPointUnambiguousMarkerResolution(injectionPoint, beans, i);
 					}
 					return resolutions;
 				}
+			}else if(messageId == CDIValidationErrorManager.UNSATISFIED_INJECTION_POINTS_ID){
+				
+				if (Display.getCurrent() != null) {
+					try{
+						PlatformUI.getWorkbench().getProgressService().busyCursorWhile(new IRunnableWithProgress(){
+							public void run(IProgressMonitor monitor)
+									throws InvocationTargetException, InterruptedException {
+								monitor.beginTask(CDIUIMessages.COLLECTING_MARKER_RESOLUTIONS, 10);
+								monitor.worked(3);
+								resolutions = collectMarkerResolutions(file, start);
+								monitor.worked(7);
+							}
+						});
+					}catch(InterruptedException ie){
+						CDIUIPlugin.getDefault().logError(ie);
+					}catch(InvocationTargetException ite){
+						CDIUIPlugin.getDefault().logError(ite);
+					}
+				} else {
+					resolutions = collectMarkerResolutions(file, start);
+				}
+				return resolutions;
 			}
 		}
 		return new IMarkerResolution[] {};
+	}
+	
+	private IMarkerResolution[] collectMarkerResolutions(IFile file, int start){
+		IJavaElement element = findJavaElement(file, start);
+		if(element != null){
+			CDICoreNature cdiNature = CDIUtil.getCDINatureWithProgress(file.getProject());
+			if(cdiNature != null){
+				ICDIProject cdiProject = cdiNature.getDelegate();
+				if(cdiProject != null){
+					Set<IBean> allBeans = cdiProject.getBeans(file.getFullPath());
+					
+					IInjectionPoint injectionPoint = CDIUtil.findInjectionPoint(allBeans, element, start);
+
+					IBean[] bs = cdiProject.getBeans();
+					ArrayList<IBean> beans = new ArrayList<IBean>();
+					try{
+						for(IBean b : bs){
+							if(Flags.isPublic(b.getBeanClass().getFlags()))
+								beans.add(b);
+						}
+						
+						IMarkerResolution[] resolutions = new IMarkerResolution[beans.size()];
+						for(int i = 0; i < beans.size(); i++){
+							resolutions[i] = new MakeInjectedPointUnambiguousMarkerResolution(injectionPoint, beans, i);
+						}
+						return resolutions;
+					}catch(CoreException ex){
+						CDIUIPlugin.getDefault().logError(ex);
+					}
+				}
+			}
+		}
+		return new IMarkerResolution[]{};
 	}
 	
 	private IInjectionPoint findInjectionPoint(IFile file, int start){
