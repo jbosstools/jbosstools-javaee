@@ -19,17 +19,13 @@ import org.jboss.tools.jsf.ui.el.refactoring.RenameMethodParticipant;
 import org.jboss.tools.test.util.JobUtils;
 
 public class ELReferencesRenameTest extends ELRefactoringTest {
-	
 
 	public ELReferencesRenameTest(){
 		super("Rename Method Refactoring Test");
 	}
 
-	
-
 	public void testRenameMethod() throws CoreException {
 		ArrayList<TestChangeStructure> list = new ArrayList<TestChangeStructure>();
-
 
 		TestChangeStructure structure = new TestChangeStructure(jsfProject, "/WebContent/pages/hello.jsp");
 		TestTextChange change = new TestTextChange(353, 4, "name");
@@ -40,34 +36,33 @@ public class ELReferencesRenameTest extends ELRefactoringTest {
 		change = new TestTextChange(499, 4, "name");
 		structure.addTextChange(change);
 		list.add(structure);
-		
+
 		IMethod method = getJavaMethod(jsfProject, "demo.User", "getName");
 
 		renameELReferences(method, "alias", list);
 	}
-	
+
 	private void renameELReferences(IJavaElement element, String newName, List<TestChangeStructure> changeList) throws CoreException{
 		JobUtils.waitForIdle();
-
 
 		// Rename EL references
 		RenameMethodParticipant participant = new RenameMethodParticipant();
 		participant.initialize(element, newName);
 		RefactoringStatus status = participant.checkConditions(new NullProgressMonitor(), null);
-		
+
 		assertNotNull("Rename participant returned null status", status);
-		
+
 		assertFalse("There is fatal errors in rename participant", status.hasFatalError());
-		
+
 		CompositeChange rootChange = (CompositeChange)participant.createChange(new NullProgressMonitor());
-		
+
 		assertEquals("There is unexpected number of changes",changeList.size(), rootChange.getChildren().length);
 
 		for(int i = 0; i < rootChange.getChildren().length;i++){
 			TextFileChange fileChange = (TextFileChange)rootChange.getChildren()[i];
 
 			MultiTextEdit edit = (MultiTextEdit)fileChange.getEdit();
-			
+
 			TestChangeStructure change = findChange(changeList, fileChange.getFile());
 			if(change != null){
 				assertEquals(change.size(), edit.getChildrenSize());
