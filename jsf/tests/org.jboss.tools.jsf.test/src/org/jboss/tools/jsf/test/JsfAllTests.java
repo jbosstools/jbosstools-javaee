@@ -24,6 +24,7 @@ import org.eclipse.wst.validation.ValidationFramework;
 import org.eclipse.wst.validation.Validator;
 import org.eclipse.wst.validation.internal.operations.ValidatorManager;
 import org.jboss.tools.jsf.model.pv.test.JSFPromptingProviderTest;
+import org.jboss.tools.jsf.model.pv.test.JsfJbide7975Test;
 import org.jboss.tools.jsf.test.refactoring.ELVariableRefactoringTest;
 import org.jboss.tools.jsf.test.refactoring.JSF2RefactoringTest;
 import org.jboss.tools.jsf.test.refactoring.MessagePropertyRefactoringTest;
@@ -50,6 +51,12 @@ public class JsfAllTests {
 				"org.jboss.tools.jsf.test", //$NON-NLS-1$
 				JSFPromptingProviderTest.TEST_PROJECT_PATH,
 				JSFPromptingProviderTest.TEST_PROJECT_NAME));
+		suite.addTest(new ProjectImportTestSetup(new TestSuite(
+				JsfJbide7975Test.class),
+				"org.jboss.tools.jsf.test", //$NON-NLS-1$
+				JsfJbide7975Test.TEST_PROJECT_PATH,
+				JsfJbide7975Test.TEST_PROJECT_NAME));
+
 
 		suite.addTest(new ProjectImportTestSetup(new TestSuite(
 				ELVariableRefactoringTest.class), "org.jboss.tools.jsf.test", //$NON-NLS-1$
