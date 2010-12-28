@@ -46,6 +46,7 @@ import org.jboss.tools.cdi.core.test.tck.validation.CoreValidationTest;
 import org.jboss.tools.cdi.core.test.tck.validation.DefenitionErrorsValidationTest;
 import org.jboss.tools.cdi.core.test.tck.validation.DependentProjectValidationTest;
 import org.jboss.tools.cdi.core.test.tck.validation.DeploymentProblemsValidationTests;
+import org.jboss.tools.cdi.core.test.tck.validation.ELValidationTest;
 
 /**
  * @author Alexey Kazakov
@@ -82,13 +83,15 @@ public class CDICoreAllTests {
 		suite.addTestSuite(DecoratorDefinitionTest.class);
 		suite.addTestSuite(ObserverMethodResolutionTest.class);
 		suite.addTestSuite(BeansXmlCATest.class);
+		suite.addTestSuite(SelectedAlternativeTest.class);
 
+		// Validation tests
 		suite.addTestSuite(DefenitionErrorsValidationTest.class);
 		suite.addTestSuite(DeploymentProblemsValidationTests.class);
 		suite.addTestSuite(BeansXmlValidationTest.class);
 		suite.addTestSuite(AnnotationsValidationTest.class);
 		suite.addTestSuite(CoreValidationTest.class);
-		suite.addTestSuite(SelectedAlternativeTest.class);
+		suite.addTestSuite(ELValidationTest.class);
 
 		suiteAll.addTestSuite(BeansXMLTest.class);
 		suiteAll.addTestSuite(DependentProjectTest.class);

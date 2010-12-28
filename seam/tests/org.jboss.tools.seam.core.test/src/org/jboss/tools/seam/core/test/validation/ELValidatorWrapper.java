@@ -8,7 +8,7 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.wst.validation.internal.core.ValidationException;
-import org.jboss.tools.jsf.web.validation.ELValidator;
+import org.jboss.tools.jst.web.kb.internal.validation.ELValidator;
 
 public class ELValidatorWrapper extends ELValidator implements IValidatorSupport{
 	
@@ -63,14 +63,17 @@ public class ELValidatorWrapper extends ELValidator implements IValidatorSupport
 	public void validate() throws ValidationException {
 		validatorSupport.validate();	
 	}
+
 	public void validate(IFile file) throws ValidationException {
 		validatorSupport.addFile(file);
 		validatorSupport.validate();
 	}
+
 	public void add(IMarker message) {
 		validatorSupport.add(message);
 		
 	}
+
 	public boolean isMessageCreatedOnLine(String markerTemplate,
 			Object[] parameters, int lineNumber) throws CoreException {
 		return validatorSupport.isMessageCreatedOnLine(markerTemplate, parameters, lineNumber);

@@ -19,13 +19,14 @@ import org.eclipse.wst.validation.internal.operations.WorkbenchReporter;
 import org.eclipse.wst.validation.internal.provisional.core.IMessage;
 import org.jboss.tools.common.preferences.SeverityPreferences;
 import org.jboss.tools.jsf.JSFModelPlugin;
-import org.jboss.tools.jsf.preferences.JSFSeverityPreferences;
-import org.jboss.tools.jsf.web.validation.ELValidator;
-import org.jboss.tools.jsf.web.validation.JSFValidationMessages;
+import org.jboss.tools.jst.web.kb.WebKbPlugin;
 import org.jboss.tools.jst.web.kb.internal.validation.ContextValidationHelper;
+import org.jboss.tools.jst.web.kb.internal.validation.ELValidationMessages;
+import org.jboss.tools.jst.web.kb.internal.validation.ELValidator;
 import org.jboss.tools.jst.web.kb.internal.validation.SimpleValidatingProjectTree;
 import org.jboss.tools.jst.web.kb.internal.validation.ValidationErrorManager;
 import org.jboss.tools.jst.web.kb.internal.validation.ValidatorManager;
+import org.jboss.tools.jst.web.kb.preferences.ELSeverityPreferences;
 import org.jboss.tools.jst.web.kb.validation.IProjectValidationContext;
 import org.jboss.tools.jst.web.kb.validation.IValidator;
 import org.jboss.tools.tests.AbstractResourceMarkerTest;
@@ -43,16 +44,16 @@ public class ELValidatorTest extends AbstractResourceMarkerTest{
 	}
 
 	public void testUnknownELVariable() throws CoreException, ValidationException {
-		IPreferenceStore store = JSFModelPlugin.getDefault().getPreferenceStore();
-		store.setValue(JSFSeverityPreferences.RE_VALIDATE_UNRESOLVED_EL, JSFSeverityPreferences.ENABLE);
-		store.setValue(JSFSeverityPreferences.UNKNOWN_EL_VARIABLE_NAME, JSFSeverityPreferences.ERROR);
+		IPreferenceStore store = WebKbPlugin.getDefault().getPreferenceStore();
+		store.setValue(ELSeverityPreferences.RE_VALIDATE_UNRESOLVED_EL, ELSeverityPreferences.ENABLE);
+		store.setValue(ELSeverityPreferences.UNKNOWN_EL_VARIABLE_NAME, ELSeverityPreferences.ERROR);
 
 		try {
 			copyContentsFile("WebContent/WEB-INF/faces-config.xml", "WebContent/WEB-INF/faces-config.1");
 
 			assertMarkerIsCreatedForLine(
 					"WebContent/testElRevalidation.xhtml",
-					JSFValidationMessages.UNKNOWN_EL_VARIABLE_PROPERTY_NAME,
+					ELValidationMessages.UNKNOWN_EL_VARIABLE_PROPERTY_NAME,
 					new Object[] {"user"},
 					14);
 
@@ -61,26 +62,26 @@ public class ELValidatorTest extends AbstractResourceMarkerTest{
 
 			assertMarkerIsNotCreatedForLine(
 					"WebContent/testElRevalidation.xhtml",
-					JSFValidationMessages.UNKNOWN_EL_VARIABLE_PROPERTY_NAME,
+					ELValidationMessages.UNKNOWN_EL_VARIABLE_PROPERTY_NAME,
 					new Object[] {"user"},
 					14);
 		} finally {
-			store.setValue(JSFSeverityPreferences.RE_VALIDATE_UNRESOLVED_EL, JSFSeverityPreferences.ENABLE);
-			store.setValue(JSFSeverityPreferences.UNKNOWN_EL_VARIABLE_NAME, JSFSeverityPreferences.IGNORE);
+			store.setValue(ELSeverityPreferences.RE_VALIDATE_UNRESOLVED_EL, ELSeverityPreferences.ENABLE);
+			store.setValue(ELSeverityPreferences.UNKNOWN_EL_VARIABLE_NAME, ELSeverityPreferences.IGNORE);
 		}
 	}
 
 	public void testRevalidationUnresolvedELs() throws CoreException, ValidationException{
-		IPreferenceStore store = JSFModelPlugin.getDefault().getPreferenceStore();
-		store.setValue(JSFSeverityPreferences.RE_VALIDATE_UNRESOLVED_EL, JSFSeverityPreferences.DISABLE);
-		store.setValue(JSFSeverityPreferences.UNKNOWN_EL_VARIABLE_NAME, JSFSeverityPreferences.ERROR);
+		IPreferenceStore store = WebKbPlugin.getDefault().getPreferenceStore();
+		store.setValue(ELSeverityPreferences.RE_VALIDATE_UNRESOLVED_EL, ELSeverityPreferences.DISABLE);
+		store.setValue(ELSeverityPreferences.UNKNOWN_EL_VARIABLE_NAME, ELSeverityPreferences.ERROR);
 
 		try {
 			copyContentsFile("WebContent/WEB-INF/faces-config.xml", "WebContent/WEB-INF/faces-config.1");
 
 			assertMarkerIsCreatedForLine(
 					"WebContent/testElRevalidation.xhtml",
-					JSFValidationMessages.UNKNOWN_EL_VARIABLE_PROPERTY_NAME,
+					ELValidationMessages.UNKNOWN_EL_VARIABLE_PROPERTY_NAME,
 					new Object[] {"user"},
 					14);
 
@@ -89,7 +90,7 @@ public class ELValidatorTest extends AbstractResourceMarkerTest{
 
 			assertMarkerIsNotCreatedForLine(
 					"WebContent/testElRevalidation.xhtml",
-					JSFValidationMessages.UNKNOWN_EL_VARIABLE_PROPERTY_NAME,
+					ELValidationMessages.UNKNOWN_EL_VARIABLE_PROPERTY_NAME,
 					new Object[] {"user"},
 					14, false);
 
@@ -101,12 +102,12 @@ public class ELValidatorTest extends AbstractResourceMarkerTest{
 
 			assertMarkerIsNotCreatedForLine(
 					"WebContent/testElRevalidation.xhtml",
-					JSFValidationMessages.UNKNOWN_EL_VARIABLE_PROPERTY_NAME,
+					ELValidationMessages.UNKNOWN_EL_VARIABLE_PROPERTY_NAME,
 					new Object[] {"user"},
 					14, false);
 		} finally {
-			store.setValue(JSFSeverityPreferences.RE_VALIDATE_UNRESOLVED_EL, JSFSeverityPreferences.ENABLE);
-			store.setValue(JSFSeverityPreferences.UNKNOWN_EL_VARIABLE_NAME, JSFSeverityPreferences.IGNORE);
+			store.setValue(ELSeverityPreferences.RE_VALIDATE_UNRESOLVED_EL, ELSeverityPreferences.ENABLE);
+			store.setValue(ELSeverityPreferences.UNKNOWN_EL_VARIABLE_NAME, ELSeverityPreferences.IGNORE);
 		}
 	}
 
@@ -116,7 +117,7 @@ public class ELValidatorTest extends AbstractResourceMarkerTest{
 	 * @throws ValidationException 
 	 */
 	public void testELValidationEnablement() throws CoreException, ValidationException {
-		JSFModelPlugin.getDefault().getPreferenceStore().setValue(JSFSeverityPreferences.ENABLE_BLOCK_PREFERENCE_NAME, false);
+		WebKbPlugin.getDefault().getPreferenceStore().setValue(ELSeverityPreferences.ENABLE_BLOCK_PREFERENCE_NAME, false);
 
 		try {
 			IFile file = project.getFile("WebContent/pages/el.jsp");
@@ -127,13 +128,13 @@ public class ELValidatorTest extends AbstractResourceMarkerTest{
 			int number = getMarkersNumberByGroupName(IValidator.KB_PROBLEM_MARKER_TYPE, file, IValidator.MARKED_RESOURCE_MESSAGE_GROUP);
 			assertEquals("Problem marker was found.", 0, number);
 
-			JSFModelPlugin.getDefault().getPreferenceStore().setValue(JSFSeverityPreferences.ENABLE_BLOCK_PREFERENCE_NAME, true);
+			WebKbPlugin.getDefault().getPreferenceStore().setValue(ELSeverityPreferences.ENABLE_BLOCK_PREFERENCE_NAME, true);
 			validateFile("WebContent/pages/el.jsp", 0);
 
 			number = getMarkersNumberByGroupName(IValidator.KB_PROBLEM_MARKER_TYPE, file, IValidator.MARKED_RESOURCE_MESSAGE_GROUP);
 			assertEquals("Problem marker was not found.", 1, number);
 		} finally {
-			JSFModelPlugin.getDefault().getPreferenceStore().setValue(JSFSeverityPreferences.ENABLE_BLOCK_PREFERENCE_NAME, true);
+			WebKbPlugin.getDefault().getPreferenceStore().setValue(ELSeverityPreferences.ENABLE_BLOCK_PREFERENCE_NAME, true);
 		}
 	}
 
@@ -142,21 +143,21 @@ public class ELValidatorTest extends AbstractResourceMarkerTest{
 	 * @throws CoreException
 	 */
 	public void testMaxNumberOfMarkersPerFileLesThanDefault() throws CoreException {
-		IPreferenceStore store = JSFModelPlugin.getDefault().getPreferenceStore();
+		IPreferenceStore store = WebKbPlugin.getDefault().getPreferenceStore();
 		int max = store.getInt(SeverityPreferences.MAX_NUMBER_OF_MARKERS_PREFERENCE_NAME);
 		store.setValue(SeverityPreferences.MAX_NUMBER_OF_MARKERS_PREFERENCE_NAME, 1);
-		String errorSeverity = store.getString(JSFSeverityPreferences.UNKNOWN_EL_VARIABLE_NAME);
-		store.setValue(JSFSeverityPreferences.UNKNOWN_EL_VARIABLE_NAME, JSFSeverityPreferences.ERROR);
+		String errorSeverity = store.getString(ELSeverityPreferences.UNKNOWN_EL_VARIABLE_NAME);
+		store.setValue(ELSeverityPreferences.UNKNOWN_EL_VARIABLE_NAME, ELSeverityPreferences.ERROR);
 
 		try {
 			assertMarkerIsCreatedForLine(
 					"WebContent/pages/maxNumberOfMarkers.jsp",
-					JSFValidationMessages.UNKNOWN_EL_VARIABLE_NAME,
+					ELValidationMessages.UNKNOWN_EL_VARIABLE_NAME,
 					new Object[] {"wrongUserName"},
 					3);
 			assertMarkerIsNotCreatedForLine(
 					"WebContent/pages/maxNumberOfMarkers.jsp",
-					JSFValidationMessages.UNKNOWN_EL_VARIABLE_NAME,
+					ELValidationMessages.UNKNOWN_EL_VARIABLE_NAME,
 					new Object[] {"wrongUserName2"},
 					4);
 
@@ -164,17 +165,17 @@ public class ELValidatorTest extends AbstractResourceMarkerTest{
 
 			assertMarkerIsCreatedForLine(
 					"WebContent/pages/maxNumberOfMarkers.jsp",
-					JSFValidationMessages.UNKNOWN_EL_VARIABLE_NAME,
+					ELValidationMessages.UNKNOWN_EL_VARIABLE_NAME,
 					new Object[] {"wrongUserName"},
 					3);
 			assertMarkerIsCreatedForLine(
 					"WebContent/pages/maxNumberOfMarkers.jsp",
-					JSFValidationMessages.UNKNOWN_EL_VARIABLE_NAME,
+					ELValidationMessages.UNKNOWN_EL_VARIABLE_NAME,
 					new Object[] {"wrongUserName2"},
 					4);
 		} finally {
 			store.setValue(SeverityPreferences.MAX_NUMBER_OF_MARKERS_PREFERENCE_NAME, max);
-			store.setValue(JSFSeverityPreferences.UNKNOWN_EL_VARIABLE_NAME, errorSeverity);
+			store.setValue(ELSeverityPreferences.UNKNOWN_EL_VARIABLE_NAME, errorSeverity);
 		}
 	}
 
@@ -183,12 +184,12 @@ public class ELValidatorTest extends AbstractResourceMarkerTest{
 	 * @throws CoreException
 	 */
 	public void testMaxNumberOfMarkersPerFileMoreThanDefault() throws CoreException, ValidationException {
-		IPreferenceStore store = JSFModelPlugin.getDefault().getPreferenceStore();
-		store.setValue(JSFSeverityPreferences.UNKNOWN_EL_VARIABLE_NAME, JSFSeverityPreferences.ERROR);
+		IPreferenceStore store = WebKbPlugin.getDefault().getPreferenceStore();
+		store.setValue(ELSeverityPreferences.UNKNOWN_EL_VARIABLE_NAME, ELSeverityPreferences.ERROR);
 
 		try {
 			IFile file = project.getFile("WebContent/pages/lineNumbers.xhtml");
-			String messagePattern = MessageFormat.format(JSFValidationMessages.UNKNOWN_EL_VARIABLE_NAME, new Object[] {"wrongUserName"});
+			String messagePattern = MessageFormat.format(ELValidationMessages.UNKNOWN_EL_VARIABLE_NAME, new Object[] {"wrongUserName"});
 
 			long time = validateFile("WebContent/pages/lineNumbers.xhtml", 100);
 			System.out.println("Validation time: " + time);
@@ -200,7 +201,7 @@ public class ELValidatorTest extends AbstractResourceMarkerTest{
 			time = validateFile("WebContent/pages/lineNumbers.xhtml", 100);
 			System.out.println("Validation time: " + time);
 		} finally {
-			store.setValue(JSFSeverityPreferences.UNKNOWN_EL_VARIABLE_NAME, JSFSeverityPreferences.IGNORE);
+			store.setValue(ELSeverityPreferences.UNKNOWN_EL_VARIABLE_NAME, ELSeverityPreferences.IGNORE);
 		}
 	}
 
@@ -210,8 +211,8 @@ public class ELValidatorTest extends AbstractResourceMarkerTest{
 	 * @throws ValidationException 
 	 */
 	public void testPerformanceOfCalculatingLineNumbers() throws CoreException, ValidationException {
-		IPreferenceStore store = JSFModelPlugin.getDefault().getPreferenceStore();
-		store.setValue(JSFSeverityPreferences.UNKNOWN_EL_VARIABLE_NAME, JSFSeverityPreferences.ERROR);
+		IPreferenceStore store = WebKbPlugin.getDefault().getPreferenceStore();
+		store.setValue(ELSeverityPreferences.UNKNOWN_EL_VARIABLE_NAME, ELSeverityPreferences.ERROR);
 		try {
 			IFile file = project.getFile("/pagesOutsideWebContent/lineCalculating.xhtml");
 			assertTrue("Test xhtml file is not accessible.", file.isAccessible());
@@ -242,7 +243,7 @@ public class ELValidatorTest extends AbstractResourceMarkerTest{
 			System.out.println("IMarker creation time without line calculating: " + withLineNumber);
 			assertTrue("", withLineNumber<withoutLineNumber);
 		} finally {
-			store.setValue(JSFSeverityPreferences.UNKNOWN_EL_VARIABLE_NAME, JSFSeverityPreferences.IGNORE);
+			store.setValue(ELSeverityPreferences.UNKNOWN_EL_VARIABLE_NAME, ELSeverityPreferences.IGNORE);
 		}
 	}
 
@@ -253,13 +254,13 @@ public class ELValidatorTest extends AbstractResourceMarkerTest{
 	}
 
 	private long validateFile(Set<String> fileNames, int numberOfMarkers) throws ValidationException {
-		IPreferenceStore store = JSFModelPlugin.getDefault().getPreferenceStore();
+		IPreferenceStore store = WebKbPlugin.getDefault().getPreferenceStore();
 		int max = store.getInt(SeverityPreferences.MAX_NUMBER_OF_MARKERS_PREFERENCE_NAME);
 		if(numberOfMarkers>0) {
 			store.setValue(SeverityPreferences.MAX_NUMBER_OF_MARKERS_PREFERENCE_NAME, numberOfMarkers);
 		}
-		String errorSeverity = store.getString(JSFSeverityPreferences.UNKNOWN_EL_VARIABLE_NAME);
-		store.setValue(JSFSeverityPreferences.UNKNOWN_EL_VARIABLE_NAME, JSFSeverityPreferences.ERROR);
+		String errorSeverity = store.getString(ELSeverityPreferences.UNKNOWN_EL_VARIABLE_NAME);
+		store.setValue(ELSeverityPreferences.UNKNOWN_EL_VARIABLE_NAME, ELSeverityPreferences.ERROR);
 
 		try {
 			ELValidator validator = new ELValidator();
@@ -283,7 +284,7 @@ public class ELValidatorTest extends AbstractResourceMarkerTest{
 			return result;
 		} finally {
 			store.setValue(SeverityPreferences.MAX_NUMBER_OF_MARKERS_PREFERENCE_NAME, max);
-			store.setValue(JSFSeverityPreferences.UNKNOWN_EL_VARIABLE_NAME, errorSeverity);
+			store.setValue(ELSeverityPreferences.UNKNOWN_EL_VARIABLE_NAME, errorSeverity);
 		}
 	}
 

@@ -25,11 +25,9 @@ import org.jboss.tools.seam.internal.core.validation.SeamValidationErrorManager;
 
 public class SeamProjectPropertyValidatorWrapper extends SeamProjectPropertyValidator implements IValidatorSupport, IValidator, IValidationErrorManager{
 	ValidatorSupport support;
-	private IProject project;
 	SeamValidationErrorManager errorManager;
 	
 	public SeamProjectPropertyValidatorWrapper(IProject project) {
-		this.project = project;
 		this.support = new ValidatorSupport(project,(IValidator)this);
 	}
 

@@ -184,7 +184,6 @@ public class SeamCoreValidator extends SeamValidationErrorManager implements IVa
 	 */
 	public boolean shouldValidate(IProject project) {
 		try {
-			// TODO check preferences for root web project only
 			return project!=null && project.isAccessible() && project.hasNature(ISeamProject.NATURE_ID) && isPreferencesEnabled(project);
 		} catch (CoreException e) {
 			SeamCorePlugin.getDefault().logError(e);
@@ -281,20 +280,21 @@ public class SeamCoreValidator extends SeamValidationErrorManager implements IVa
 		// Remove all links between collected resources and variables names because they will be linked again during validation.
 		validationContext.removeLinkedCoreResources(SHORT_ID, resources);
 
-		IFile[] filesToValidate = new IFile[resources.size()];
-		int i = 0;
+		Set<IFile> filesToValidate = new HashSet<IFile>();
 		// We have to remove markers from all collected source files first
 		for (IPath linkedResource : resources) {
-			filesToValidate[i] = root.getFile(linkedResource);
-			removeAllMessagesFromResource(filesToValidate[i++]);
+			IFile file = root.getFile(linkedResource);
+			if(file!=null && file.isAccessible()) {
+				filesToValidate.add(file);
+				removeAllMessagesFromResource(file);
+			}
 		}
-		i = 0;
 		// Then we can validate them
-		for (IPath linkedResource : resources) {
-			validateComponent(linkedResource, checkedComponents, newResources);
-			validateFactory(linkedResource, markedDuplicateFactoryNames);
-			validatePageXML(filesToValidate[i]);
-			validateXMLVersion(filesToValidate[i++]);
+		for (IFile file : filesToValidate) {
+			validateComponent(file.getFullPath(), checkedComponents, newResources);
+			validateFactory(file.getFullPath(), markedDuplicateFactoryNames);
+			validatePageXML(file);
+			validateXMLVersion(file);
 		}
 
 		// If changed files are *.java or component.xml then re-validate all unnamed resources.
@@ -303,7 +303,7 @@ public class SeamCoreValidator extends SeamValidationErrorManager implements IVa
 			newResources.addAll(unnamedResources);
 			for (IPath path : newResources) {
 				IFile file = root.getFile(path);
-				if(file!=null && file.exists()) {
+				if(file!=null && file.isAccessible()) {
 					if(!resources.contains(path)) {
 						removeAllMessagesFromResource(file);
 					}

@@ -138,6 +138,13 @@
          </validator>
    </extension>
 
+   <extension
+         point="org.jboss.tools.jst.web.kb.elValidationDelegate">
+         <delegate
+               class="org.jboss.tools.cdi.internal.core.validation.CDIELValidationDelegate">
+         </delegate>
+   </extension>
+
 <!-- Workaround for https://bugs.eclipse.org/bugs/show_bug.cgi?id=315390 -->
 	<extension
 	      id="excludeEJBValidation"

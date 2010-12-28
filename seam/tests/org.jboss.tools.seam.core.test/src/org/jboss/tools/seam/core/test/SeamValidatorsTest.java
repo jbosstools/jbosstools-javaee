@@ -25,10 +25,10 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jface.preference.IPersistentPreferenceStore;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.wst.validation.internal.core.ValidationException;
-import org.jboss.tools.jsf.JSFModelPlugin;
-import org.jboss.tools.jsf.preferences.JSFSeverityPreferences;
-import org.jboss.tools.jsf.web.validation.JSFValidationMessages;
 import org.jboss.tools.jst.web.kb.PageContextFactory;
+import org.jboss.tools.jst.web.kb.WebKbPlugin;
+import org.jboss.tools.jst.web.kb.internal.validation.ELValidationMessages;
+import org.jboss.tools.jst.web.kb.preferences.ELSeverityPreferences;
 import org.jboss.tools.jst.web.kb.validation.IValidator;
 import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamComponentMethod;
@@ -200,8 +200,8 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		ELValidatorWrapper elValidator = new ELValidatorWrapper(project);
 		elValidator.validate(jbide1631XHTMLFile);
 		
-		assertTrue("Error marker not found", elValidator.isMessageCreated(JSFValidationMessages.UNKNOWN_EL_VARIABLE_NAME, new Object[]{"foo1"}));
-		assertTrue("Error marker not found", elValidator.isMessageCreated(JSFValidationMessages.UNKNOWN_EL_VARIABLE_NAME, new Object[]{"foo2"}));
+		assertTrue("Error marker not found", elValidator.isMessageCreated(ELValidationMessages.UNKNOWN_EL_VARIABLE_NAME, new Object[]{"foo1"}));
+		assertTrue("Error marker not found", elValidator.isMessageCreated(ELValidationMessages.UNKNOWN_EL_VARIABLE_NAME, new Object[]{"foo2"}));
 	}
 	
 	public void testDuplicateComponentNameValidator() throws CoreException, ValidationException {
@@ -636,7 +636,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 
 		assertMarkerIsNotCreatedForFile(new ELValidatorWrapper(project),
 				"WebContent/abcComponent.xhtml",
-				JSFValidationMessages.UNKNOWN_EL_VARIABLE_NAME,
+				ELValidationMessages.UNKNOWN_EL_VARIABLE_NAME,
 				new Object[]{"bcComponent"});
 		
 		// Context variable cannot be resolved
@@ -644,7 +644,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		assertMarkerIsCreatedForLine(new ELValidatorWrapper(project),
 				"WebContent/abcComponent.xhtml",
 				"WebContent/abcComponent.2",
-				JSFValidationMessages.UNKNOWN_EL_VARIABLE_NAME,
+				ELValidationMessages.UNKNOWN_EL_VARIABLE_NAME,
 				new Object[]{"bcComponent"}, 22);
 	}
 	
@@ -653,7 +653,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		assertMarkerIsNotCreatedForFile(
 			new ELValidatorWrapper(project),
 			"WebContent/abcComponent.xhtml",
-			JSFValidationMessages.UNKNOWN_EL_VARIABLE_PROPERTY_NAME,
+			ELValidationMessages.UNKNOWN_EL_VARIABLE_PROPERTY_NAME,
 			new Object[]{"actionType2"});
 		
 		// Property cannot be resolved
@@ -661,7 +661,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 			new ELValidatorWrapper(project),
 			"WebContent/abcComponent.xhtml",
 			"WebContent/abcComponent.3",
-			JSFValidationMessages.UNKNOWN_EL_VARIABLE_PROPERTY_NAME,
+			ELValidationMessages.UNKNOWN_EL_VARIABLE_PROPERTY_NAME,
 			new Object[]{"actionType2"},
 			22);
 	}
@@ -689,7 +689,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 //					new ELValidatorWrapper(project),
 //					"src/action/org/domain/SeamWebWarTestProject/session/AbcComponent.java",
 //					"src/action/org/domain/SeamWebWarTestProject/session/AbcComponent.2",
-//					JSFValidationMessages.UNPAIRED_GETTER_OR_SETTER,
+//					ELValidationMessages.UNPAIRED_GETTER_OR_SETTER,
 //					new Object[] {"actionType","Setter","Getter"},
 //					true);
 	
@@ -697,7 +697,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 					wrapper,
 					"WebContent/abcComponent.xhtml",
 					"WebContent/abcComponent.4",
-					JSFValidationMessages.UNPAIRED_GETTER_OR_SETTER,
+					ELValidationMessages.UNPAIRED_GETTER_OR_SETTER,
 					new Object[] {"actionType","Setter","Getter"},
 					22);
 		} finally {
@@ -723,7 +723,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 //					new ELValidatorWrapper(project),
 //					"src/action/org/domain/SeamWebWarTestProject/session/AbcComponent.java",
 //					"src/action/org/domain/SeamWebWarTestProject/session/AbcComponent.3",
-//					JSFValidationMessages.UNPAIRED_GETTER_OR_SETTER,
+//					ELValidationMessages.UNPAIRED_GETTER_OR_SETTER,
 //					new Object[] {"actionType", "Getter", "Setter"}, 
 //					true);
 	
@@ -731,7 +731,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 					wrapper,
 					"WebContent/abcComponent.xhtml",
 					"WebContent/abcComponent.original",
-					JSFValidationMessages.UNPAIRED_GETTER_OR_SETTER,
+					ELValidationMessages.UNPAIRED_GETTER_OR_SETTER,
 					new Object[] {"actionType", "Getter", "Setter"},
 					22);
 		} finally {
@@ -740,8 +740,8 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 	}
 
 	private void enableUnpairGetterOrSetterValidation(boolean enable) {
-		IPreferenceStore store = JSFModelPlugin.getDefault().getPreferenceStore();
-		store.putValue(JSFSeverityPreferences.UNPAIRED_GETTER_OR_SETTER, enable?SeamPreferences.ERROR:SeamPreferences.IGNORE);
+		IPreferenceStore store = WebKbPlugin.getDefault().getPreferenceStore();
+		store.putValue(ELSeverityPreferences.UNPAIRED_GETTER_OR_SETTER, enable?SeamPreferences.ERROR:SeamPreferences.IGNORE);
 		if(store instanceof IPersistentPreferenceStore) {
 			try {
 				((IPersistentPreferenceStore)store).save();
@@ -797,7 +797,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		assertMarkerIsCreatedForLine(
 			new ELValidatorWrapper(project),
 			"WebContent/markerTest.xhtml",
-			JSFValidationMessages.UNKNOWN_EL_VARIABLE_NAME,
+			ELValidationMessages.UNKNOWN_EL_VARIABLE_NAME,
 			new Object[] {"testtt"},
 			9);
 	}
@@ -856,11 +856,11 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 			}
 		}
 
-		store = JSFModelPlugin.getDefault().getPreferenceStore();
-		store.putValue(JSFSeverityPreferences.UNKNOWN_EL_VARIABLE_NAME, SeamPreferences.ERROR);
-		store.putValue(JSFSeverityPreferences.UNKNOWN_EL_VARIABLE_PROPERTY_NAME, SeamPreferences.ERROR);
-		//store.putValue(JSFSeverityPreferences.UNPAIRED_GETTER_OR_SETTER, SeamPreferences.ERROR);
-		store.putValue(JSFSeverityPreferences.RE_VALIDATE_UNRESOLVED_EL, SeamPreferences.ENABLE);
+		store = WebKbPlugin.getDefault().getPreferenceStore();
+		store.putValue(ELSeverityPreferences.UNKNOWN_EL_VARIABLE_NAME, SeamPreferences.ERROR);
+		store.putValue(ELSeverityPreferences.UNKNOWN_EL_VARIABLE_PROPERTY_NAME, SeamPreferences.ERROR);
+		//store.putValue(ELSeverityPreferences.UNPAIRED_GETTER_OR_SETTER, SeamPreferences.ERROR);
+		store.putValue(ELSeverityPreferences.RE_VALIDATE_UNRESOLVED_EL, SeamPreferences.ENABLE);
 
 		if(store instanceof IPersistentPreferenceStore) {
 			try {
@@ -882,7 +882,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 			}
 		}
 
-		store = JSFModelPlugin.getDefault().getPreferenceStore();
+		store = WebKbPlugin.getDefault().getPreferenceStore();
 		store.putValue(name, value);
 
 		if(store instanceof IPersistentPreferenceStore) {
@@ -892,8 +892,8 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 				SeamCorePlugin.getPluginLog().logError(e);
 			}
 		}
-	}	
-	
+	}
+
 	private void refreshProject(IProject project){
 		JobUtils.waitForIdle();
 	}

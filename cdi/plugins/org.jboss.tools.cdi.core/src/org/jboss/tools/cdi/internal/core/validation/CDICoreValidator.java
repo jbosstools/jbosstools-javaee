@@ -95,13 +95,12 @@ import org.jboss.tools.jst.web.kb.internal.validation.ValidatorManager;
 import org.jboss.tools.jst.web.kb.validation.IProjectValidationContext;
 import org.jboss.tools.jst.web.kb.validation.IValidatingProjectSet;
 import org.jboss.tools.jst.web.kb.validation.IValidatingProjectTree;
-import org.jboss.tools.jst.web.kb.validation.IValidator;
 import org.jboss.tools.jst.web.kb.validation.ValidationUtil;
 
 /**
  * @author Alexey Kazakov
  */
-public class CDICoreValidator extends CDIValidationErrorManager implements IValidator {
+public class CDICoreValidator extends CDIValidationErrorManager {
 	public static final String ID = "org.jboss.tools.cdi.core.CoreValidator"; //$NON-NLS-1$
 	public static final String PROBLEM_TYPE = "org.jboss.tools.cdi.core.cdiproblem"; //$NON-NLS-1$
 
@@ -142,8 +141,12 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 	 * (org.eclipse.core.resources.IProject)
 	 */
 	public IValidatingProjectTree getValidatingProjects(IProject project) {
-		projectTree = new CDIProjectTree(project);
+		projectTree = getProjectTree(project);
 		return projectTree;
+	}
+
+	public static IValidatingProjectTree getProjectTree(IProject project) {
+		return new CDIProjectTree(project);
 	}
 
 	/*
@@ -337,14 +340,6 @@ public class CDICoreValidator extends CDIValidationErrorManager implements IVali
 		}
 
 		return OK_STATUS;
-	}
-
-	private boolean notValidatedYet(IResource resource) {
-		if(resource==null) {
-			System.out.println("!!!");
-		}
-		IProject pr = resource.getProject();
-		return !coreHelper.getValidationContextManager().projectHasBeenValidated(this, pr);
 	}
 
 	/**
