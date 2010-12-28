@@ -107,10 +107,9 @@ public class CDIProjectTree implements IValidatingProjectTree {
 		Set<CDICoreNature> dependentProjects = project.getDependentProjects();
 		if(dependentProjects.isEmpty()) {
 			result.add(project);
-		} else if(dependentProjects.size()==1) {
-			result = getRootProjects(dependentProjects.iterator().next());
 		} else {
 			for (CDICoreNature nature : dependentProjects) {
+				if(!nature.getProject().isAccessible()) continue;
 				if(!result.contains(nature)) {
 					result.addAll(getRootProjects(nature));
 				}

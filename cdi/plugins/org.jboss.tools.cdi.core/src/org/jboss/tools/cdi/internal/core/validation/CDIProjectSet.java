@@ -61,27 +61,11 @@ public class CDIProjectSet extends ValidatingProjectSet {
 			if(allProjects.contains(nature.getProject())) {
 				return project;
 			}
+			if(!nature.getProject().isAccessible()) continue;
 			allProjects.add(nature.getProject());
 			return addIncludingProjects(nature);
 		}
 		return project;
-	}
-
-	private Set<CDICoreNature> getRootProjects(CDICoreNature project) {
-		Set<CDICoreNature> result = new HashSet<CDICoreNature>();
-		Set<CDICoreNature> dependentProjects = project.getDependentProjects();
-		if(dependentProjects.isEmpty()) {
-			result.add(project);
-		} else if(dependentProjects.size()==1) {
-			result = getRootProjects(dependentProjects.iterator().next());
-		} else {
-			for (CDICoreNature nature : dependentProjects) {
-				if(!result.contains(nature)) {
-					result.addAll(getRootProjects(nature));
-				}
-			}
-		}
-		return result;
 	}
 
 	private void addIncludedProjects(CDICoreNature project) {
