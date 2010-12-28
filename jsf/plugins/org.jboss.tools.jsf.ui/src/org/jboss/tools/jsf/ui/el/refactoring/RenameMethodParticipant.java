@@ -35,6 +35,7 @@ import org.eclipse.text.edits.MultiTextEdit;
 import org.eclipse.text.edits.ReplaceEdit;
 import org.eclipse.text.edits.TextEdit;
 import org.jboss.tools.common.model.project.ProjectHome;
+import org.jboss.tools.common.util.BeanUtil;
 import org.jboss.tools.jsf.el.refactoring.ELProjectSetExtension;
 import org.jboss.tools.jsf.el.refactoring.ProjectsSet;
 import org.jboss.tools.jsf.ui.JsfUIMessages;
@@ -56,16 +57,16 @@ public class RenameMethodParticipant extends RenameParticipant implements IShara
 			CheckConditionsContext context) throws OperationCanceledException {
 		if(searcher == null)
 			return status;
-		if(element instanceof IMethod){
+		if(element instanceof IMethod) {
 			IMethod method = (IMethod)element;
 			IMethod anotherMethod = getAnotherMethod();
 			if(method != null){
-				if(searcher.isGetter(method)){
-					if(anotherMethod == null || searcher.isGetter(anotherMethod))
+				if(BeanUtil.isGetter(method)){
+					if(anotherMethod == null || BeanUtil.isGetter(anotherMethod))
 						status.addWarning(JsfUIMessages.RENAME_METHOD_PARTICIPANT_GETTER_WARNING);
 					
-				}else if(searcher.isSetter(method)){
-					if(anotherMethod == null || searcher.isSetter(anotherMethod))
+				}else if(BeanUtil.isSetter(method)){
+					if(anotherMethod == null || BeanUtil.isSetter(anotherMethod))
 						status.addWarning(JsfUIMessages.RENAME_METHOD_PARTICIPANT_SETTER_WARNING);
 				}
 				
