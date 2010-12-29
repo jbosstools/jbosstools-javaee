@@ -38,8 +38,8 @@ import org.jboss.tools.cdi.core.CDIUtil;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.IInjectionPoint;
+import org.jboss.tools.cdi.internal.core.impl.CDIProject;
 import org.jboss.tools.cdi.internal.core.validation.CDIValidationErrorManager;
-import org.jboss.tools.cdi.ui.CDIUIMessages;
 import org.jboss.tools.cdi.ui.CDIUIPlugin;
 import org.jboss.tools.common.EclipseUtil;
 import org.jboss.tools.common.model.util.EclipseJavaUtil;
@@ -51,7 +51,7 @@ import org.jboss.tools.common.model.util.EclipseResourceUtil;
 public class CDIProblemMarkerResolutionGenerator implements
 		IMarkerResolutionGenerator2 {
 	private static final String JAVA_EXTENSION = "java"; //$NON-NLS-1$
-	IMarkerResolution[] resolutions;
+	private static final int MARKER_RESULUTION_NUMBER_LIMIT = 7;
 
 	public IMarkerResolution[] getResolutions(IMarker marker) {
 		try {
@@ -123,71 +123,64 @@ public class CDIProblemMarkerResolutionGenerator implements
 				IInjectionPoint injectionPoint = findInjectionPoint(file, start);
 				if(injectionPoint != null){
 					List<IBean> beans = findBeans(injectionPoint);
-					IMarkerResolution[] resolutions = new IMarkerResolution[beans.size()];
-					for(int i = 0; i < beans.size(); i++){
-						resolutions[i] = new MakeInjectedPointUnambiguousMarkerResolution(injectionPoint, beans, i);
-					}
-					return resolutions;
-				}
-			}else if(messageId == CDIValidationErrorManager.UNSATISFIED_INJECTION_POINTS_ID){
-				
-				if (Display.getCurrent() != null) {
-					try{
-						PlatformUI.getWorkbench().getProgressService().busyCursorWhile(new IRunnableWithProgress(){
-							public void run(IProgressMonitor monitor)
-									throws InvocationTargetException, InterruptedException {
-								monitor.beginTask(CDIUIMessages.COLLECTING_MARKER_RESOLUTIONS, 10);
-								monitor.worked(3);
-								resolutions = collectMarkerResolutions(file, start);
-								monitor.worked(7);
-							}
-						});
-					}catch(InterruptedException ie){
-						CDIUIPlugin.getDefault().logError(ie);
-					}catch(InvocationTargetException ite){
-						CDIUIPlugin.getDefault().logError(ite);
-					}
-				} else {
-					resolutions = collectMarkerResolutions(file, start);
-				}
-				return resolutions;
-			}
-		}
-		return new IMarkerResolution[] {};
-	}
-	
-	private IMarkerResolution[] collectMarkerResolutions(IFile file, int start){
-		IJavaElement element = findJavaElement(file, start);
-		if(element != null){
-			CDICoreNature cdiNature = CDIUtil.getCDINatureWithProgress(file.getProject());
-			if(cdiNature != null){
-				ICDIProject cdiProject = cdiNature.getDelegate();
-				if(cdiProject != null){
-					Set<IBean> allBeans = cdiProject.getBeans(file.getFullPath());
-					
-					IInjectionPoint injectionPoint = CDIUtil.findInjectionPoint(allBeans, element, start);
-
-					IBean[] bs = cdiProject.getBeans();
-					ArrayList<IBean> beans = new ArrayList<IBean>();
-					try{
-						for(IBean b : bs){
-							if(Flags.isPublic(b.getBeanClass().getFlags()))
-								beans.add(b);
-						}
-						
+					if(beans.size() < MARKER_RESULUTION_NUMBER_LIMIT){
 						IMarkerResolution[] resolutions = new IMarkerResolution[beans.size()];
 						for(int i = 0; i < beans.size(); i++){
 							resolutions[i] = new MakeInjectedPointUnambiguousMarkerResolution(injectionPoint, beans, i);
 						}
 						return resolutions;
-					}catch(CoreException ex){
-						CDIUIPlugin.getDefault().logError(ex);
+					}else{
+						IMarkerResolution[] resolutions = new IMarkerResolution[1];
+						resolutions[0] = new SelectBeanMarkerResolution(injectionPoint, beans);
+						return resolutions;
+					}
+				}
+			}else if(messageId == CDIValidationErrorManager.UNSATISFIED_INJECTION_POINTS_ID){
+				IInjectionPoint injectionPoint = findInjectionPoint(file, start);
+				if(injectionPoint != null){
+					
+					List<IBean> beans = findLegalBeans(injectionPoint);
+			    	if(beans.size() < MARKER_RESULUTION_NUMBER_LIMIT){
+						IMarkerResolution[] resolutions = new IMarkerResolution[beans.size()];
+						for(int i = 0; i < beans.size(); i++){
+							resolutions[i] = new MakeInjectedPointUnambiguousMarkerResolution(injectionPoint, beans, i);
+						}
+						return resolutions;
+					}else{
+						IMarkerResolution[] resolutions = new IMarkerResolution[1];
+						resolutions[0] = new SelectBeanMarkerResolution(injectionPoint, beans);
+						return resolutions;
 					}
 				}
 			}
 		}
-		return new IMarkerResolution[]{};
+		return new IMarkerResolution[] {};
 	}
+	
+	private List<IBean> findLegalBeans(IInjectionPoint injectionPoint){
+		IBean[] bs = injectionPoint.getCDIProject().getBeans();
+		
+		String injectionPointTypeName = injectionPoint.getClassBean().getBeanClass().getFullyQualifiedName();
+		String injectionPointPackage = injectionPointTypeName.substring(0,injectionPointTypeName.lastIndexOf(MarkerResolutionUtils.DOT));
+
+		ArrayList<IBean> beans = new ArrayList<IBean>();
+    	for(IBean bean : bs){
+    		if(CDIProject.containsType(bean.getLegalTypes(), injectionPoint.getType())){
+    			boolean isPublic = true;
+				try{
+					isPublic = Flags.isPublic(bean.getBeanClass().getFlags());
+				}catch(JavaModelException ex){
+					CDIUIPlugin.getDefault().logError(ex);
+				}
+    			String beanTypeName = bean.getBeanClass().getFullyQualifiedName();
+    			String beanPackage = beanTypeName.substring(0,beanTypeName.lastIndexOf(MarkerResolutionUtils.DOT));
+    			if(isPublic || injectionPointPackage.equals(beanPackage))
+    				beans.add(bean);
+    		}
+    	}
+    	return beans;
+	}
+	
 	
 	private IInjectionPoint findInjectionPoint(IFile file, int start){
 		IJavaElement element = findJavaElement(file, start);

@@ -10,11 +10,11 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.ui.wizard;
 
-import java.text.MessageFormat;
 import java.util.ArrayList;
 
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.widgets.Composite;
+import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IQualifier;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
 
@@ -34,6 +34,10 @@ public class AddQualifiersToBeanWizardPage extends WizardPage{
 	
 	public ArrayList<IQualifier> getDeployedQualifiers(){
 		return composite.getDeployedQualifiers();
+	}
+	
+	public void init(IBean bean){
+		composite.init(bean);
 	}
 	
 }

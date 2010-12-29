@@ -59,10 +59,10 @@ public class AddQualifiersToBeanComposite extends Composite {
 	private WizardPage wizard;
 
 	// original qualifiers on the bean
-	private ArrayList<IQualifier> originalQualifiers;
+	private ArrayList<IQualifier> originalQualifiers = new ArrayList<IQualifier>();
 
 	// qualifiers available to be added to the bean
-	private ArrayList<IQualifier> qualifiers;
+	private ArrayList<IQualifier> qualifiers = new ArrayList<IQualifier>();
 
 	// current qualifiers on the bean
 	private ArrayList<IQualifier> deployed = new ArrayList<IQualifier>();
@@ -75,21 +75,35 @@ public class AddQualifiersToBeanComposite extends Composite {
 
 	private Button add, addAll;
 	private Button remove, removeAll;
+	
+	private Label nLabel;
 
 	protected boolean isComplete = true;
 
 	public AddQualifiersToBeanComposite(Composite parent, WizardPage wizard) {
 		super(parent, SWT.NONE);
 		this.wizard = wizard;
-		this.injectionPoint = ((AddQualifiersToBeanWizard)wizard.getWizard()).getInjectionPoint();
-		this.bean = ((AddQualifiersToBeanWizard)wizard.getWizard()).getBean();
-		this.beans = ((AddQualifiersToBeanWizard)wizard.getWizard()).getBeans();
-		
-		originalQualifiers = new ArrayList<IQualifier>(bean.getQualifiers());
-		
-		loadAvailableQualifiers();
+		this.injectionPoint = ((AbstractModifyInjectionPointWizard)wizard.getWizard()).getInjectionPoint();
+		this.bean = ((AbstractModifyInjectionPointWizard)wizard.getWizard()).getBean();
+		this.beans = ((AbstractModifyInjectionPointWizard)wizard.getWizard()).getBeans();
 		
 		createControl();
+		if(bean != null)
+			init(bean);
+	}
+	
+	public void init(IBean bean){
+		this.bean = bean;
+		originalQualifiers = new ArrayList<IQualifier>(bean.getQualifiers());
+		deployedListViewer.setInput(originalQualifiers);
+		
+		qualifiers.clear();
+		
+		loadAvailableQualifiers();
+		if(nLabel != null)
+			nLabel.setText(MessageFormat.format(CDIUIMessages.ADD_QUALIFIERS_TO_BEAN_WIZARD_MESSAGE,
+					new Object[]{bean.getBeanClass().getElementName()}));
+		refresh();
 	}
 	
 	private void loadAvailableQualifiers(){
@@ -118,6 +132,7 @@ public class AddQualifiersToBeanComposite extends Composite {
 					qualifiers.add(q);
 			}
 		}
+		availableListViewer.setInput(qualifiers);
 		
 	}
 
@@ -196,14 +211,15 @@ public class AddQualifiersToBeanComposite extends Composite {
 			}
 		});
 		
-		Label label = new Label(this, SWT.NONE);
+		nLabel = new Label(this, SWT.NONE);
 		GridData data = new GridData(GridData.FILL_HORIZONTAL | GridData.VERTICAL_ALIGN_BEGINNING);
 		data.horizontalSpan = 3;
-		label.setLayoutData(data);
-		label.setText(MessageFormat.format(CDIUIMessages.ADD_QUALIFIERS_TO_BEAN_WIZARD_MESSAGE,
+		nLabel.setLayoutData(data);
+		if(bean != null)
+			nLabel.setText(MessageFormat.format(CDIUIMessages.ADD_QUALIFIERS_TO_BEAN_WIZARD_MESSAGE,
 				new Object[]{bean.getBeanClass().getElementName()}));
 		
-		label = new Label(this, SWT.NONE);
+		Label label = new Label(this, SWT.NONE);
 		label.setText(CDIUIMessages.ADD_QUALIFIERS_TO_BEAN_WIZARD_AVAILABLE);
 		
 		label = new Label(this, SWT.NONE);

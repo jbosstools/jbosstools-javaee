@@ -12,23 +12,17 @@ package org.jboss.tools.cdi.ui.wizard;
 
 import java.util.List;
 
-import org.eclipse.jface.wizard.Wizard;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.core.IQualifier;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
 import org.jboss.tools.common.model.ui.ModelUIImages;
 
-public class AddQualifiersToBeanWizard extends Wizard{
-	private IInjectionPoint injectionPoint;
-	private List<IBean> beans;
-	private IBean bean;
+public class AddQualifiersToBeanWizard extends AbstractModifyInjectionPointWizard{
 	private AddQualifiersToBeanWizardPage page;
 	
 	public AddQualifiersToBeanWizard(IInjectionPoint injectionPoint, List<IBean> beans, IBean bean){
-		this.injectionPoint = injectionPoint;
-		this.beans = beans;
-		this.bean = bean;
+		super(injectionPoint, beans, bean);
 		setWindowTitle(CDIUIMessages.ADD_QUALIFIERS_TO_BEAN_WIZARD_TITLE);
 		
 		setDefaultPageImageDescriptor(ModelUIImages.getImageDescriptor(ModelUIImages.WIZARD_DEFAULT));
@@ -48,15 +42,4 @@ public class AddQualifiersToBeanWizard extends Wizard{
 		return page.getDeployedQualifiers();
 	}
 	
-	public IInjectionPoint getInjectionPoint(){
-		return injectionPoint;
-	}
-	
-	public List<IBean> getBeans(){
-		return beans;
-	}
-	
-	public IBean getBean(){
-		return bean;
-	}
 }
