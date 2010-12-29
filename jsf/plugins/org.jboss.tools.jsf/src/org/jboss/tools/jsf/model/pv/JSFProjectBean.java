@@ -132,7 +132,7 @@ public class JSFProjectBean extends RegularObjectImpl {
 				boolean isProperty = false;
 				if(BeanUtil.isGetter(ms[i]) || BeanUtil.isSetter(ms[i])) {
 					String propertyName = BeanUtil.getPropertyName(n);
-					if(propertyName != null && checkPropertyReturnType(ms[i])) {
+					if(propertyName != null) {
 						n = propertyName;
 						isProperty = true;
 					}
@@ -256,36 +256,4 @@ public class JSFProjectBean extends RegularObjectImpl {
 		return c;
 	}
 	
-	private boolean isGetter(IMethod method, String pref) {
-		if(method == null) return false;
-		String name = method.getElementName();
-		if(!name.startsWith(pref) || name.length() <= pref.length()) return false;
-		try {
-			String[] ps = method.getParameterNames();
-			if(ps == null || ps.length != 0) return false;
-			String t = EclipseJavaUtil.getMemberTypeAsString(method);
-			if(t == null || t.equals("void")) return false;
-		} catch (JavaModelException e) {
-			return false;
-		}
-		
-		return true;
-	}
-
-	//TODO move this to BeanUtil.isGetter and isSetter
-	private boolean checkPropertyReturnType(IMethod method) {
-		if(method == null) {
-			return false;
-		}
-		String typeName = EclipseJavaUtil.getMemberTypeAsString(method);
-		if(typeName == null || typeName.equals("void")) {
-			return false;
-		}
-		if(method.getElementName().startsWith(BeanUtil.IS)) {
-			if(!"boolean".equals(typeName) && !"java.lang.Boolean".equals(typeName)) {
-				return false;
-			}			
-		}
-		return true;
-	}
 }
