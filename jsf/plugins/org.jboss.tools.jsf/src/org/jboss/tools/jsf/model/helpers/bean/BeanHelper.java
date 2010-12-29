@@ -17,8 +17,8 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.jdt.core.*;
 
 import org.jboss.tools.common.model.XModelObject;
-import org.jboss.tools.common.model.util.EclipseJavaUtil;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
+import org.jboss.tools.common.util.BeanUtil;
 
 public class BeanHelper {
 	
@@ -31,20 +31,15 @@ public class BeanHelper {
 		}
 		IMethod[] ms = type.getMethods();
 		for (int i = 0; i < ms.length; i++) {
-			String n = ms[i].getElementName();
-			if(!n.startsWith("get") || n.length() < 4) continue; //$NON-NLS-1$
-			n = toPropertyName(n.substring(3));
-			if(!map.containsKey(n)) map.put(n, ms[i]);
+			if(!BeanUtil.isGetter(ms[i])) continue;
+			String n = BeanUtil.getPropertyName(ms[i].getElementName());
+			if(n != null && !map.containsKey(n)) map.put(n, ms[i]);
 		}
 		Map<String,IJavaElement> smap = getSuperTypeJavaProperties(type);
 		if(smap != null) map.putAll(smap);
 		return map;
 	}
 	
-	private static String toPropertyName(String rootName) {
-		return (rootName.toUpperCase().equals(rootName)) ? rootName : rootName.substring(0, 1).toLowerCase() + rootName.substring(1);
-	}
-
 	static Map<String,IJavaElement> getSuperTypeJavaProperties(IType type) throws JavaModelException {
 		String scn = type.getSuperclassName();
 		if(scn == null || scn.length() == 0 || scn.equals("java.lang.Object")) return null; //$NON-NLS-1$
@@ -72,16 +67,9 @@ public class BeanHelper {
 	public static IMethod findGetter(IType type, String property) throws JavaModelException {
 		IMethod[] ms = type.getMethods();
 		for (int i = 0; i < ms.length; i++) {
-			String n = ms[i].getElementName();
-			if(n.startsWith("get") && n.length() > 3) { //$NON-NLS-1$
-				String gn = toPropertyName(n.substring(3));
-				if(gn.equals(property)) return ms[i];
-			}
-			String t = EclipseJavaUtil.resolveTypeAsString(type, ms[i].getReturnType());
-			if(n.startsWith("is") && n.length() > 2 && t != null && (t.equals("boolean") || t.equals("java.lang.Boolean"))) {  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-				String gn = toPropertyName(n.substring(2));
-				if(gn.equals(property)) return ms[i];
-			}
+			if(!BeanUtil.isGetter(ms[i])) continue;
+			String n = BeanUtil.getPropertyName(ms[i].getElementName());
+			if(n != null && n.equals(property)) return ms[i];
 		}
 		return null;
 	}
@@ -89,10 +77,9 @@ public class BeanHelper {
 	public static IMethod findSetter(IType type, String property) throws JavaModelException {
 		IMethod[] ms = type.getMethods();
 		for (int i = 0; i < ms.length; i++) {
-			String n = ms[i].getElementName();
-			if(!n.startsWith("set") || n.length() < 4) continue; //$NON-NLS-1$
-			n = toPropertyName(n.substring(3));
-			if(n.equals(property)) return ms[i];
+			if(!BeanUtil.isSetter(ms[i])) continue;
+			String n = BeanUtil.getPropertyName(ms[i].getElementName());
+			if(n != null && n.equals(property)) return ms[i];
 		}
 		return null;
 	}

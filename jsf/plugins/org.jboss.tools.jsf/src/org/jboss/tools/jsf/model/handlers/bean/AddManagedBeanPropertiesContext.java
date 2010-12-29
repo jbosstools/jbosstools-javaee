@@ -137,12 +137,12 @@ public class AddManagedBeanPropertiesContext {
 	private String getMessage(boolean getter, boolean setter, String name){
 				
 		if(!getter && !setter) {
-			return NLS.bind(JSFUIMessages.ADD_GETTER_SETTER_FOR_PROPERTY, names);
+			return NLS.bind(JSFUIMessages.ADD_GETTER_SETTER_FOR_PROPERTY, name);
 		}
 		if (!getter && setter){
-			return NLS.bind(JSFUIMessages.ADD_GETTER_FOR_PROPERTY, names);
+			return NLS.bind(JSFUIMessages.ADD_GETTER_FOR_PROPERTY, name);
 		}
-		return NLS.bind(JSFUIMessages.ADD_SETTER_FOR_PROPERTY, names);
+		return NLS.bind(JSFUIMessages.ADD_SETTER_FOR_PROPERTY, name);
 	}
 	
 	class PropertyData {
