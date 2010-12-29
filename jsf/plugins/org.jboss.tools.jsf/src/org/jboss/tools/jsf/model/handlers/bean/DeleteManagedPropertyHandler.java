@@ -19,6 +19,7 @@ import org.jboss.tools.common.meta.action.impl.*;
 import org.jboss.tools.common.meta.action.impl.handlers.DefaultCreateHandler;
 import org.jboss.tools.common.meta.action.impl.handlers.DefaultRemoveHandler;
 import org.jboss.tools.common.model.*;
+import org.jboss.tools.common.util.BeanUtil;
 import org.jboss.tools.jsf.messages.JSFUIMessages;
 import org.jboss.tools.jsf.model.helpers.bean.ManagedBeanHelper;
 
@@ -63,14 +64,19 @@ public class DeleteManagedPropertyHandler extends AbstractHandler {
 		IType type = member.getDeclaringType();
 		IMethod[] ms = type.getMethods();
 		String n = member.getElementName();
-		if(member instanceof IMethod && n.startsWith("get") && n.length() > 3) { //$NON-NLS-1$
-			n = n.substring(3, 4).toLowerCase() + n.substring(4);
+		if(member instanceof IMethod) {
+			n = BeanUtil.getPropertyName(n);
 		}
-		String getter = "get" + n.substring(0, 1).toUpperCase() + n.substring(1); //$NON-NLS-1$
-		String setter = "set" + n.substring(0, 1).toUpperCase() + n.substring(1); //$NON-NLS-1$
-		for (int i = 0; i < ms.length; i++) {
-			String ni = ms[i].getElementName();
-			if(ni.equals(getter) || ni.equals(setter)) list.add(ms[i]);
+		if(n != null) {
+			for (int i = 0; i < ms.length; i++) {
+				if(ms[i] == member) continue;
+				if(BeanUtil.isGetter(ms[i]) || BeanUtil.isSetter(ms[i])) {
+					String ni = BeanUtil.getPropertyName(ms[i].getElementName());
+					if(n.equals(ni)) {
+						list.add(ms[i]);
+					}
+				}
+			}
 		}
 		return list.toArray(new IMember[0]);
 	}
