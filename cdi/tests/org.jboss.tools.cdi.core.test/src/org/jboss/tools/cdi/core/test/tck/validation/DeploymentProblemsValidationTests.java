@@ -159,6 +159,15 @@ public class DeploymentProblemsValidationTests extends ValidationTest {
 	}
 
 	/**
+	 * https://issues.jboss.org/browse/JBIDE-8018
+	 * @throws Exception
+	 */
+	public void testClassWithDefaultConstructor() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/unproxyable/Number_Broken.java");
+		assertMarkerIsNotCreated(file, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_TYPE_WITH_NPC, "BeanWithDefaultConsturctor", "BeanWithDefaultConsturctor"), 24);
+	}
+
+	/**
 	 * 	5.4.1. Unproxyable bean types
 	 *  - Classes which are declared final cannot be proxied by the container.
 	 * 	- If an injection point whose declared type cannot be proxied by the container resolves to a bean with a normal scope,

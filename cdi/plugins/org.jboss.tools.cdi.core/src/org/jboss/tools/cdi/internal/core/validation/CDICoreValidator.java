@@ -1406,7 +1406,9 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 								} else {
 									IMethod[] methods = bean.getBeanClass().getMethods();
 									boolean hasDefaultConstructor = false;
+									boolean hasConstructor = false;
 									for (IMethod method : methods) {
+										hasConstructor = hasConstructor || method.isConstructor();
 										hasDefaultConstructor = hasDefaultConstructor || (method.isConstructor() && !Flags.isPrivate(method.getFlags()) && method.getParameterNames().length==0);
 										if(Flags.isFinal(method.getFlags())) {
 											// - Classes which have final methods cannot be proxied by the container.
@@ -1415,7 +1417,7 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 											break;
 										}
 									}
-									if(!hasDefaultConstructor) {
+									if(!hasDefaultConstructor && hasConstructor) {
 										// - Classes which don't have a non-private constructor with no parameters cannot be proxied by the container.
 										addError(MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_TYPE_WITH_NPC, injection.getType().getSimpleName(), bean.getSimpleJavaName()), CDIPreferences.UNPROXYABLE_BEAN_TYPE, reference, injection.getResource());
 									}

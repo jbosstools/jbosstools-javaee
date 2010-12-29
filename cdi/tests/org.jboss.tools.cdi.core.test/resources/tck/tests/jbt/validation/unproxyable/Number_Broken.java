@@ -19,4 +19,7 @@ class Number_Broken {
    @SuppressWarnings("unused")
    @TestQualifier
    @Inject private boolean numberOk1;
+
+   @SuppressWarnings("unused")
+   @Inject private BeanWithDefaultConsturctor numberOk2;
 }
