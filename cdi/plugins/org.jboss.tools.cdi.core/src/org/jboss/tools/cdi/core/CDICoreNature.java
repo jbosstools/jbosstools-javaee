@@ -38,11 +38,10 @@ import org.jboss.tools.common.model.XJob.XRunnable;
 import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.common.xml.XMLUtilities;
 import org.jboss.tools.jst.web.kb.WebKbPlugin;
-import org.jboss.tools.jst.web.kb.internal.IKBBuilderRequiredNature;
 import org.jboss.tools.jst.web.kb.internal.validation.ProjectValidationContext;
 import org.w3c.dom.Element;
 
-public class CDICoreNature implements IProjectNature, IKBBuilderRequiredNature {
+public class CDICoreNature implements IProjectNature {
 	public static String NATURE_ID = "org.jboss.tools.cdi.core.cdinature";
 
 	IProject project = null;
@@ -422,14 +421,6 @@ public class CDICoreNature implements IProjectNature, IKBBuilderRequiredNature {
 			validationContext = new ProjectValidationContext();
 		}
 		return validationContext;
-	}
-
-	public boolean isKBBuilderRequired() {
-		return true;
-	}
-
-	public String getNatureDescription() {
-		return CDICoreMessages.CDI_NATURE_DESCRIPTION;
 	}
 
 	/**

@@ -34,5 +34,4 @@ public class CDICoreMessages {
 	public static String CDI_RENAME_PROCESSOR_BEAN_HAS_NO_FILE;
 	public static String CDI_RENAME_PROCESSOR_BEAN_HAS_NO_NAME_LOCATION;
 	public static String CDI_UTIL_BUILD_CDI_MODEL;
-	public static String CDI_NATURE_DESCRIPTION;
 }

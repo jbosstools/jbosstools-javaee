@@ -145,6 +145,15 @@
          </delegate>
    </extension>
 
+    <extension
+       		id="org.jboss.tools.cdi.core.KbRequire"
+	       	point="org.jboss.tools.jst.web.kb.KbRequire">
+       <require
+             description="%KB_REQUIRED_FOR_CDI"
+             forNature="org.jboss.tools.cdi.core.cdinature">
+       </require>
+ 	</extension>
+
 <!-- Workaround for https://bugs.eclipse.org/bugs/show_bug.cgi?id=315390 -->
 	<extension
 	      id="excludeEJBValidation"
