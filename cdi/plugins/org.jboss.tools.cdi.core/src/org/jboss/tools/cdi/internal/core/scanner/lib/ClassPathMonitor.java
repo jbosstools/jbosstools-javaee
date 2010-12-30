@@ -60,12 +60,21 @@ public class ClassPathMonitor extends AbstractClassPathMonitor<CDICoreNature>{
 			XModelObject o = model.getByPath("FileSystems").getChildByPath(jsname); //$NON-NLS-1$
 			if(o == null) continue;
 			XModelObject b = o.getChildByPath("META-INF/beans.xml");
-			if(b == null) continue;
+			if(b == null && !isWeldJar(fileName)) {
+				continue;
+			}
 			newJars.put(p, b);
 		}
 		
 		validateProjectDependencies();
 		return newJars;
+	}
+
+	private boolean isWeldJar(String fileName) {
+		if(!fileName.startsWith("weld-")) return false;
+		if(fileName.indexOf("-javadoc") > 0) return false;
+		if(fileName.indexOf("-sources") > 0) return false;
+		return true;
 	}
 
 	public IProject getProjectResource() {
