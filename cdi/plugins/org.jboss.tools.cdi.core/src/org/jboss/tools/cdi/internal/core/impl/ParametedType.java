@@ -144,7 +144,7 @@ public class ParametedType implements IParametedType {
 		if(signature != null && signature.equals(other.signature)) {
 			return true;
 		}
-		if(type == null || !type.equals(other.type)) {
+		if(type == null || other.type == null || !type.getFullyQualifiedName().equals(other.type.getFullyQualifiedName())) {
 			return false;
 		}
 		if(parameterTypes.size() != other.parameterTypes.size()) {
