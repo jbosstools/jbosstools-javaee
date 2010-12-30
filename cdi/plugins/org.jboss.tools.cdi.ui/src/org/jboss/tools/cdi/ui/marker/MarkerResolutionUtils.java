@@ -10,21 +10,37 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.ui.marker;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jdt.core.IAnnotatable;
 import org.eclipse.jdt.core.IAnnotation;
 import org.eclipse.jdt.core.IBuffer;
 import org.eclipse.jdt.core.ICompilationUnit;
+import org.eclipse.jdt.core.IField;
 import org.eclipse.jdt.core.IImportDeclaration;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IMember;
+import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IPackageDeclaration;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.ITypeParameter;
 import org.eclipse.jdt.core.JavaModelException;
 import org.jboss.tools.cdi.core.CDIConstants;
+import org.jboss.tools.cdi.core.IBean;
+import org.jboss.tools.cdi.core.IInjectionPoint;
+import org.jboss.tools.cdi.core.IInjectionPointField;
+import org.jboss.tools.cdi.core.IInjectionPointMethod;
+import org.jboss.tools.cdi.core.IInjectionPointParameter;
+import org.jboss.tools.cdi.core.IQualifier;
+import org.jboss.tools.cdi.core.IQualifierDeclaration;
+import org.jboss.tools.cdi.ui.CDIUIPlugin;
+import org.jboss.tools.common.EclipseUtil;
 import org.jboss.tools.common.model.util.EclipseJavaUtil;
 
 /**
@@ -103,7 +119,7 @@ public class MarkerResolutionUtils {
 		IAnnotation annotation = getAnnotation(element, qualifiedName);
 		if(annotation != null && annotation.exists())
 			return;
-		
+
 		addImport(qualifiedName, compilationUnit);
 		
 		String lineDelim = SPACE;
@@ -149,5 +165,125 @@ public class MarkerResolutionUtils {
 		}
 		return null;
 	}
+	
+	private static boolean contains(IQualifierDeclaration declaration, Set<IQualifier> qualifiers){
+		for(IQualifier qualifier : qualifiers){
+			if(declaration.getQualifier().getSourceType().getFullyQualifiedName().equals(qualifier.getSourceType().getFullyQualifiedName()))
+				return true;
+		}
+		return false;
+	}
+	
+	public static void deleteQualifierAnnotation(ICompilationUnit compilationUnit, IJavaElement element, IQualifier qualifier) throws JavaModelException{
+		if(element instanceof IAnnotatable){
+			String fullName = qualifier.getSourceType().getFullyQualifiedName();
+			String shortName = getShortName(fullName);
+			IAnnotation annotation = ((IAnnotatable)element).getAnnotation(fullName);
+			if(annotation == null || !annotation.exists()){
+				annotation = ((IAnnotatable)element).getAnnotation(shortName);
+			}
+			if(annotation != null && annotation.exists()){
+				IBuffer buffer = compilationUnit.getBuffer();
+				
+				buffer.replace(annotation.getSourceRange().getOffset(), annotation.getSourceRange().getLength(), "");
+				
+				synchronized(compilationUnit) {
+					compilationUnit.reconcile(ICompilationUnit.NO_AST, true, null, null);
+				}
+			}
+		}
+	}
+
+	private static List<IQualifier> findQualifiersToDelete(IInjectionPoint injectionPoint, Set<IQualifier> qualifiers){
+		ArrayList<IQualifier> list = new ArrayList<IQualifier>();
+		Set<IQualifierDeclaration> declarations = injectionPoint.getQualifierDeclarations();
+		for(IQualifierDeclaration declaration : declarations){
+			if(!contains(declaration, qualifiers))
+				list.add(declaration.getQualifier());
+		}
+		return list;
+	}
+	
+	public static void addQualifiersToInjectedPoint(IInjectionPoint injectionPoint, IBean bean){
+		try{
+			ICompilationUnit original = injectionPoint.getClassBean().getBeanClass().getCompilationUnit();
+			ICompilationUnit compilationUnit = original.getWorkingCopy(new NullProgressMonitor());
+			IJavaElement element = getInjectedJavaElement(compilationUnit, injectionPoint);
+			Set<IQualifier> qualifiers = bean.getQualifiers();
+			
+			// delete unneeded qualifiers
+			
+			List<IQualifier> toDelete = findQualifiersToDelete(injectionPoint, qualifiers);
+			
+			for(IQualifier qualifier : toDelete){
+					deleteQualifierAnnotation(compilationUnit, element, qualifier);
+			}
+			
+			for(IQualifier qualifier : qualifiers){
+				String qualifierName = qualifier.getSourceType().getFullyQualifiedName();
+				if(!qualifierName.equals(CDIConstants.ANY_QUALIFIER_TYPE_NAME) && !qualifierName.equals(CDIConstants.DEFAULT_QUALIFIER_TYPE_NAME)){
+					MarkerResolutionUtils.addQualifier(qualifierName, compilationUnit, element);
+				}
+			}
+
+			compilationUnit.commitWorkingCopy(false, new NullProgressMonitor());
+			compilationUnit.discardWorkingCopy();
+		}catch(CoreException ex){
+			CDIUIPlugin.getDefault().logError(ex);
+		}
+	}
+	
+	public static void addQualifiersToBean(List<IQualifier> deployed, IBean bean){
+		IFile file = (IFile)bean.getBeanClass().getResource();
+		try{
+			ICompilationUnit original = EclipseUtil.getCompilationUnit(file);
+			ICompilationUnit compilationUnit = original.getWorkingCopy(new NullProgressMonitor());
+			
+			IType type = compilationUnit.findPrimaryType();
+			if(type != null){
+				for(IQualifier qualifier : deployed){
+					String qualifierName = qualifier.getSourceType().getFullyQualifiedName();
+					if(!qualifierName.equals(CDIConstants.ANY_QUALIFIER_TYPE_NAME) && !qualifierName.equals(CDIConstants.DEFAULT_QUALIFIER_TYPE_NAME)){
+						MarkerResolutionUtils.addAnnotation(qualifier.getSourceType().getFullyQualifiedName(), compilationUnit, type);
+					}
+					
+				}
+			}
+			
+			compilationUnit.commitWorkingCopy(false, new NullProgressMonitor());
+			compilationUnit.discardWorkingCopy();
+		}catch(CoreException ex){
+			CDIUIPlugin.getDefault().logError(ex);
+		}
+	}
+	
+	public static IJavaElement getInjectedJavaElement(ICompilationUnit compolationUnit, IInjectionPoint injectionPoint){
+		if(injectionPoint instanceof IInjectionPointField){
+			IField field = ((IInjectionPointField)injectionPoint).getField();
+			IType type = field.getDeclaringType();
+			IType t = compolationUnit.getType(type.getElementName());
+			IField f = t.getField(field.getElementName());
+			
+			return f;
+		}else if(injectionPoint instanceof IInjectionPointMethod){
+			IMethod method = ((IInjectionPointMethod)injectionPoint).getMethod();
+			IType type = method.getDeclaringType();
+			IType t = compolationUnit.getType(type.getElementName());
+			IMethod m = t.getMethod(method.getElementName(), method.getParameterTypes());
+			
+			return m;
+		}else if(injectionPoint instanceof IInjectionPointParameter){
+			String paramName = ((IInjectionPointParameter)injectionPoint).getName();
+			IMethod method =  ((IInjectionPointParameter)injectionPoint).getBeanMethod().getMethod();
+			IType type = method.getDeclaringType();
+			IType t = compolationUnit.getType(type.getElementName());
+			IMethod m = t.getMethod(method.getElementName(), method.getParameterTypes());
+			ITypeParameter p = m.getTypeParameter(paramName);
+			
+			return p;
+		}
+		return null;
+	}
+
 
 }

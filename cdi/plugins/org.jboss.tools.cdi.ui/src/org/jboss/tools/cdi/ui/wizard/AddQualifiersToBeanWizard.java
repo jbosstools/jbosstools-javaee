@@ -23,7 +23,7 @@ public class AddQualifiersToBeanWizard extends AbstractModifyInjectionPointWizar
 	
 	public AddQualifiersToBeanWizard(IInjectionPoint injectionPoint, List<IBean> beans, IBean bean){
 		super(injectionPoint, beans, bean);
-		setWindowTitle(CDIUIMessages.ADD_QUALIFIERS_TO_BEAN_WIZARD_TITLE);
+		setWindowTitle(CDIUIMessages.SELECT_BEAN_WIZARD_TITLE);
 		
 		setDefaultPageImageDescriptor(ModelUIImages.getImageDescriptor(ModelUIImages.WIZARD_DEFAULT));
 	}

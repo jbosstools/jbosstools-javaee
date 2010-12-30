@@ -13,13 +13,17 @@ package org.jboss.tools.cdi.ui.marker;
 import java.util.List;
 
 import org.eclipse.core.resources.IMarker;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IMarkerResolution2;
 import org.eclipse.ui.internal.Workbench;
 import org.jboss.tools.cdi.core.IBean;
+import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.IInjectionPoint;
+import org.jboss.tools.cdi.core.IQualifier;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
 import org.jboss.tools.cdi.ui.wizard.SelectBeanWizard;
 
@@ -48,7 +52,26 @@ public class SelectBeanMarkerResolution implements IMarkerResolution2 {
 		int status = dialog.open();
 		if(status != WizardDialog.OK)
 			return;
-			
+		
+		IBean selectedBean = wizard.getBean();
+		
+		List<IQualifier> deployed = wizard.getDeployedQualifiers();
+		MarkerResolutionUtils.addQualifiersToBean(deployed, selectedBean);
+		try {
+			Job.getJobManager().join(ResourcesPlugin.FAMILY_AUTO_BUILD, null);
+		} catch (InterruptedException e) {
+			// do nothing
+		}
+		// reload selectedBean
+		ICDIProject cdiProject = selectedBean.getCDIProject();
+		IBean[] beans = cdiProject.getBeans();
+		for(IBean bean : beans){
+			if(bean.getBeanClass().getFullyQualifiedName().equals(selectedBean.getBeanClass().getFullyQualifiedName())){
+				selectedBean = bean;
+				break;
+			}
+		}
+		MarkerResolutionUtils.addQualifiersToInjectedPoint(injectionPoint, selectedBean);
 	}
 	
 	public String getDescription() {

@@ -46,7 +46,7 @@ public class SelectBeanWizard extends AbstractModifyInjectionPointWizard{
 	
 	public SelectBeanWizard(IInjectionPoint injectionPoint, java.util.List<IBean> beans){
 		super(injectionPoint, beans);
-		setWindowTitle(CDIUIMessages.SELECT_BEAN_TITLE);
+		setWindowTitle(CDIUIMessages.SELECT_BEAN_WIZARD_TITLE);
 		
 		setDefaultPageImageDescriptor(ModelUIImages.getImageDescriptor(ModelUIImages.WIZARD_DEFAULT));
 	}
