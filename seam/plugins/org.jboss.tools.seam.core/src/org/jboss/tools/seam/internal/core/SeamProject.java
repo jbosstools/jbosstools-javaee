@@ -41,7 +41,6 @@ import org.eclipse.jst.jsf.designtime.DesignTimeApplicationManager;
 import org.jboss.tools.common.model.project.ext.event.Change;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.xml.XMLUtilities;
-import org.jboss.tools.jst.web.kb.internal.IKBBuilderRequiredNature;
 import org.jboss.tools.jst.web.kb.internal.validation.ProjectValidationContext;
 import org.jboss.tools.seam.core.BijectedAttributeType;
 import org.jboss.tools.seam.core.IBijectedAttribute;
@@ -74,7 +73,7 @@ import org.w3c.dom.Element;
 /**
  * @author Viacheslav Kabanovich
  */
-public class SeamProject extends SeamObject implements ISeamProject, IProjectNature, IKBBuilderRequiredNature {
+public class SeamProject extends SeamObject implements ISeamProject, IProjectNature {
 	
 	IProject project;
 	
@@ -2506,13 +2505,4 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		}
 		
 	}
-
-	public boolean isKBBuilderRequired() {
-		return true;
-	}
-
-	public String getNatureDescription() {
-		return SeamCoreMessages.SEAM_NATURE_DESCRIPTION;
-	}
-
 }
