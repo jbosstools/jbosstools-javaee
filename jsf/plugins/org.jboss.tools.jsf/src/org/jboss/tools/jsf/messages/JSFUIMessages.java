@@ -148,7 +148,6 @@ public class JSFUIMessages extends NLS {
 	public static String Refactoring_JSF_2_Changes_Rename_Composite_Component;
 	public static String Refactoring_JSF_2_Rename_Composite_Component;
 	public static String Refactoring_JSF_2_Rename_Attr_Ref_Decl;
-	public static String JSFNatureDescription;
 	
 	static {
 		// load message values from bundle file

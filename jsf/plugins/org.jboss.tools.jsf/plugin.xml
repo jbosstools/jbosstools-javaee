@@ -726,4 +726,13 @@
        </enablement>
     </changePreviewViewer>
  </extension>
+  <extension
+       id="org.jboss.tools.jsf.KbRequire"
+       point="org.jboss.tools.jst.web.kb.KbRequire">
+       <require
+             description="%KB_REQUIRED_FOR_JSF"
+             forNature="org.jboss.tools.jsf.jsfnature">
+       </require>
+ </extension>
+ 
 </plugin>

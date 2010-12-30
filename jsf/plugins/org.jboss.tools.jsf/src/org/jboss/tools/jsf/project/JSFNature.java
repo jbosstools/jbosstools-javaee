@@ -12,14 +12,11 @@ package org.jboss.tools.jsf.project;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
-
 import org.jboss.tools.common.model.project.IAutoLoad;
 import org.jboss.tools.common.model.project.ModelNature;
 import org.jboss.tools.jsf.JSFModelPlugin;
-import org.jboss.tools.jsf.messages.JSFUIMessages;
-import org.jboss.tools.jst.web.kb.internal.IKBBuilderRequiredNature;
 
-public class JSFNature extends ModelNature implements IKBBuilderRequiredNature {
+public class JSFNature extends ModelNature {
 	public static final String NATURE_ID = JSFModelPlugin.PLUGIN_ID + ".jsfnature";
 	public static final String NATURE_NICK = "org.jboss.tools.struts.strutsnature";	
 	static String BUILDER_ID = "org.jboss.tools.common.verification.verifybuilder";
@@ -51,13 +48,5 @@ public class JSFNature extends ModelNature implements IKBBuilderRequiredNature {
 	public void deconfigure() throws CoreException {
 		removeFromBuildSpec(BUILDER_ID);
 		super.deconfigure();
-	}
-
-	public boolean isKBBuilderRequired() {
-		return true;
-	}
-
-	public String getNatureDescription() {
-		return JSFUIMessages.JSFNatureDescription;
 	}
 }
