@@ -93,6 +93,7 @@ public class CDICoreAllTests {
 		suite.addTestSuite(CoreValidationTest.class);
 		suite.addTestSuite(ELValidationTest.class);
 
+		suiteAll.addTestSuite(WeldJarTest.class);
 		suiteAll.addTestSuite(BeansXMLTest.class);
 		suiteAll.addTestSuite(DependentProjectTest.class);
 		suiteAll.addTestSuite(EnableCDISupportForWarTest.class);
