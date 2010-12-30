@@ -735,6 +735,17 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 				//we need that, or registering will remove them
 				ds.getNamespaces().addAll(ns);
 			}
+		
+			Iterator<ISeamComponentDeclaration> it = ds.getComponents().iterator();
+			while(it.hasNext()) {
+				ISeamComponentDeclaration d = it.next();
+				if(d instanceof ISeamJavaComponentDeclaration) {
+					ISeamJavaComponentDeclaration sd = (ISeamJavaComponentDeclaration)d;
+					if(sd.getClassName() == null) {
+						it.remove();
+					}
+				}
+			}
 
 			registerComponents(ds, path);
 			long t2 = System.currentTimeMillis();
@@ -1335,6 +1346,9 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 	 */
 	public Set<ISeamComponent> getComponentsByClass(String className) {
 		Set<ISeamComponent> result = new HashSet<ISeamComponent>();
+		if(className == null) {
+			return result;
+		}
 		Set<SeamComponentDeclaration> ds = components.getDeclarationsByClasName(className);
 		if(ds == null) return result;
 		for (SeamComponentDeclaration d: ds) {

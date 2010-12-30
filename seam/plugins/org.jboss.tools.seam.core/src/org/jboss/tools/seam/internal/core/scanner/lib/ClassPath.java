@@ -13,7 +13,6 @@ package org.jboss.tools.seam.internal.core.scanner.lib;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -159,14 +158,16 @@ public class ClassPath extends AbstractClassPathMonitor<SeamProject> implements 
 
 	List<SeamProject> getSeamProjects(IProject project) throws CoreException {
 		List<SeamProject> list = new ArrayList<SeamProject>();
-		IJavaProject javaProject = JavaCore.create(project);
-		IClasspathEntry[] es = javaProject.getResolvedClasspath(true);
-		for (int i = 0; i < es.length; i++) {
-			if(es[i].getEntryKind() == IClasspathEntry.CPE_PROJECT) {
-				IProject p = ResourcesPlugin.getWorkspace().getRoot().getProject(es[i].getPath().lastSegment());
-				if(p == null || !p.isAccessible()) continue;
-				ISeamProject sp = SeamCorePlugin.getSeamProject(p, false);
-				if(sp != null) list.add((SeamProject)sp);
+		if(project.isAccessible() && project.hasNature(JavaCore.NATURE_ID)) {
+			IJavaProject javaProject = JavaCore.create(project);
+			IClasspathEntry[] es = javaProject.getResolvedClasspath(true);
+			for (int i = 0; i < es.length; i++) {
+				if(es[i].getEntryKind() == IClasspathEntry.CPE_PROJECT) {
+					IProject p = ResourcesPlugin.getWorkspace().getRoot().getProject(es[i].getPath().lastSegment());
+					if(p == null || !p.isAccessible()) continue;
+					ISeamProject sp = SeamCorePlugin.getSeamProject(p, false);
+					if(sp != null) list.add((SeamProject)sp);
+				}
 			}
 		}
 		return list;
