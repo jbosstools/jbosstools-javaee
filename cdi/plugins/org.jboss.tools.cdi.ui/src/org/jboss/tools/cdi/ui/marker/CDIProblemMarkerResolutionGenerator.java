@@ -38,6 +38,7 @@ import org.jboss.tools.cdi.core.CDIUtil;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.IInjectionPoint;
+import org.jboss.tools.cdi.core.IInjectionPointField;
 import org.jboss.tools.cdi.internal.core.impl.CDIProject;
 import org.jboss.tools.cdi.internal.core.validation.CDIValidationErrorManager;
 import org.jboss.tools.cdi.ui.CDIUIPlugin;
@@ -200,7 +201,11 @@ public class CDIProblemMarkerResolutionGenerator implements
 		
 		Set<IBean> allBeans = cdiProject.getBeans(file.getFullPath());
 		
-		return CDIUtil.findInjectionPoint(allBeans, element, start);
+		IInjectionPoint ip = CDIUtil.findInjectionPoint(allBeans, element, start);
+		
+		if(ip instanceof IInjectionPointField)
+			return ip;
+		return null;
 	}
 	
 	private List<IBean> findBeans(IInjectionPoint injectionPoint){
