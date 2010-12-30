@@ -85,4 +85,6 @@ public interface CDIConstants {
 
 	public String ANNOTATION_LITERAL_TYPE_NAME = "javax.enterprise.util.AnnotationLiteral";
 
+	public String WELD_BEAN_MANAGER_TYPE_NAME = "org.jboss.weld.manager.BeanManagerImpl";
+
 }
