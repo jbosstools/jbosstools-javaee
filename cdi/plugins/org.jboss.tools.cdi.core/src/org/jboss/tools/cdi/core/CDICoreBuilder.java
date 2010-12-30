@@ -210,8 +210,15 @@ public class CDICoreBuilder extends IncrementalProjectBuilder {
 		for (String jar: newJars.keySet()) {
 			Path path = new Path(jar);
 			IPackageFragmentRoot root = jp.getPackageFragmentRoot(jar);
+			if(root == null) continue;
+			if(!root.exists()) {
+				IFile f = EclipseResourceUtil.getFile(jar);
+				if(f != null && f.exists()) {
+					root = jp.getPackageFragmentRoot(f);
+				}
+			}
 			if (root == null || !root.exists())
-				return;
+				continue;
 			IJavaElement[] es = root.getChildren();
 			for (IJavaElement e : es) {
 				if (e instanceof IPackageFragment) {
