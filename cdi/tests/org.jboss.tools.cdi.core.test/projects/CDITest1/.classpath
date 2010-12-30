@@ -7,5 +7,6 @@
 	<classpathentry kind="lib" path="lib/weld-api.jar"/>
 	<classpathentry kind="lib" path="lib/weld-core.jar"/>
 	<classpathentry kind="lib" path="lib/weld-se.jar"/>
+	<classpathentry kind="lib" path="lib/weld-servlet.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -9,6 +9,7 @@ import junit.framework.TestCase;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
@@ -31,7 +32,9 @@ public class WeldJarTest extends TestCase {
 	public WeldJarTest() {}
 
 	public void setUp() throws Exception {
+		System.out.println("setUUUUUUUUUUUp");
 		project1 = ResourcesUtils.importProject(PLUGIN_ID, "/projects/CDITest1");
+		JobUtils.waitForIdle();
 		project1.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
 		JobUtils.waitForIdle();
 	}
@@ -45,6 +48,14 @@ public class WeldJarTest extends TestCase {
 		IInjectionPoint p = ps.iterator().next();
 		Set<IBean> inbs = cdi.getBeans(false, p);
 		assertFalse(inbs.isEmpty());
+
+		bs = cdi.getBeans(new Path("/CDITest1/src/cdi/test/MyBeanManager.java"));
+		assertFalse(bs.isEmpty());
+		b = bs.iterator().next();
+		ps = b.getInjectionPoints();
+		p = ps.iterator().next();
+		inbs = cdi.getBeans(false, p);
+		assertFalse(inbs.isEmpty());
 	}
 
 	public void tearDown() throws Exception {
@@ -53,5 +64,6 @@ public class WeldJarTest extends TestCase {
 		project1.delete(true, true, null);
 		JobUtils.waitForIdle();
 		ResourcesUtils.setBuildAutomatically(saveAutoBuild);
+		JobUtils.waitForIdle();
 	}
 }
