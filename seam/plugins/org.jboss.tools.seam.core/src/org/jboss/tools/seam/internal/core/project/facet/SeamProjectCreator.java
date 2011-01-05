@@ -15,12 +15,13 @@ import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import org.apache.tools.ant.types.FilterSet;
 import org.apache.tools.ant.types.FilterSetCollection;
 import org.eclipse.core.resources.IContainer;
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
@@ -49,10 +50,10 @@ import org.eclipse.wst.common.componentcore.resources.IVirtualComponent;
 import org.eclipse.wst.common.componentcore.resources.IVirtualFolder;
 import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
 import org.eclipse.wst.common.project.facet.core.IFacetedProject;
+import org.eclipse.wst.common.project.facet.core.IFacetedProject.Action;
 import org.eclipse.wst.common.project.facet.core.IProjectFacet;
 import org.eclipse.wst.common.project.facet.core.IProjectFacetVersion;
 import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
-import org.eclipse.wst.common.project.facet.core.IFacetedProject.Action;
 import org.jboss.tools.common.util.ResourcesUtils;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.project.facet.SeamRuntime;
@@ -120,7 +121,9 @@ public class SeamProjectCreator {
 	protected File ejbMetaInf;
 
 	protected File droolsLibFolder;
-	
+
+	private String jbossSeamPath;
+
 	private static final Map<String,String> COMPILER_LEVEL_TO_EXEC_ENV = new HashMap<String,String>();
     
     static
@@ -262,17 +265,31 @@ public class SeamProjectCreator {
 						return name.lastIndexOf(".jar") > 0; //$NON-NLS-1$
 					}
 				});
-				String earJarsStr = ""; //$NON-NLS-1$
+				StringBuffer earJarsStrWar = new StringBuffer();
+				StringBuffer earJarsStrEjb = new StringBuffer();
 				for (File file : earJars) {
-					earJarsStr += " " + file.getName() + " \n"; //$NON-NLS-1$ //$NON-NLS-2$
+					earJarsStrWar.append(" ").append(file.getName()).append(" \n");
+					if (isJBossSeamJar(file)) {
+						jbossSeamPath = file.getAbsolutePath();
+					} else {
+						earJarsStrEjb.append(" ").append(file.getName()).append(" \n");
+					}
 				}
 
-				FilterSetCollection manifestFilterCol = new FilterSetCollection(projectFilterSet);
-				FilterSet manifestFilter = new FilterSet();
-				manifestFilter.addFilter("earLibs", earJarsStr); //$NON-NLS-1$
-				manifestFilterCol.addFilterSet(manifestFilter);
-				AntCopyUtils.copyFileToFolder(new File(SeamFacetInstallDataModelProvider.getTemplatesFolder(), "war/META-INF/MANIFEST.MF"), webMetaInf, manifestFilterCol, true); //$NON-NLS-1$
-				AntCopyUtils.copyFileToFolder(new File(SeamFacetInstallDataModelProvider.getTemplatesFolder(), "ejb/ejbModule/META-INF/MANIFEST.MF"), ejbMetaInf, manifestFilterCol, true); //$NON-NLS-1$
+				if(earJarsStrEjb.length()>0) {
+					earJarsStrEjb.insert(0, "Class-Path: "); //$NON-NLS-1$
+				}
+				FilterSetCollection manifestFilterColWar = new FilterSetCollection(projectFilterSet);
+				FilterSet manifestFilterWar = new FilterSet();
+				manifestFilterWar.addFilter("earLibs", earJarsStrWar.toString()); //$NON-NLS-1$
+				manifestFilterColWar.addFilterSet(manifestFilterWar);
+				AntCopyUtils.copyFileToFolder(new File(SeamFacetInstallDataModelProvider.getTemplatesFolder(), "war/META-INF/MANIFEST.MF"), webMetaInf, manifestFilterColWar, true); //$NON-NLS-1$
+
+				FilterSetCollection manifestFilterColEjb = new FilterSetCollection(projectFilterSet);
+				FilterSet manifestFilterEjb = new FilterSet();
+				manifestFilterEjb.addFilter("earClasspath", earJarsStrEjb.toString()); //$NON-NLS-1$
+				manifestFilterColEjb.addFilterSet(manifestFilterEjb);
+				AntCopyUtils.copyFileToFolder(new File(SeamFacetInstallDataModelProvider.getTemplatesFolder(), "ejb/ejbModule/META-INF/MANIFEST.MF"), ejbMetaInf, manifestFilterColEjb, true); //$NON-NLS-1$
 			} catch (IOException e) {
 				SeamCorePlugin.getPluginLog().logError(e);
 			}
@@ -304,29 +321,56 @@ public class SeamProjectCreator {
 			IProjectFacetVersion jfv = ProjectFacetsManager.create(ejbProjectToBeImported).getInstalledVersion(jf);
 			JavaFacetUtil.resetClasspath(ejbProjectToBeImported, null, jfv);
 			ClasspathHelper.addClasspathEntries(ejbProjectToBeImported, pfv);
-			WtpUtils.reconfigure(ejbProjectToBeImported,monitor);
+//			WtpUtils.reconfigure(ejbProjectToBeImported,monitor);
 			IProject earProjectToBeImported = wsRoot.getProject(earProjectName);
 			ResourcesUtils.importExistingProject(earProjectToBeImported, wsPath + "/" + earProjectName, earProjectName, monitor, false);
-			
+			if (jbossSeamPath != null && jbossSeamPath.trim().length() > 0 && new File(jbossSeamPath).exists()) {
+				IJavaProject ejbJavaProject = JavaCore.create(ejbProjectToBeImported);
+				if (ejbJavaProject != null) {
+					if (!ejbJavaProject.isOpen()) {
+						ejbJavaProject.open(monitor);
+					}
+					IClasspathEntry[] cps = ejbJavaProject.getRawClasspath();
+					IClasspathEntry[] entries = new IClasspathEntry[cps.length + 1];
+					for (int i = 0; i < cps.length; i++) {
+						entries[i] = cps[i];
+					}
+					IPath path = new Path(jbossSeamPath);
+					IFile[] files = wsRoot.findFilesForLocation(path);
+					IFile f = null;
+					if (files != null && files.length > 0) {
+						f = files[0];
+					} else {
+						f = wsRoot.getFile(path);
+					}
+					if (f.exists()) {
+						path = f.getFullPath();
+					}
+					entries[cps.length] = JavaCore.newLibraryEntry(path, null,
+							null);
+					ejbJavaProject.setRawClasspath(entries, monitor);
+				}
+			}
+			WtpUtils.reconfigure(ejbProjectToBeImported, monitor);
 			configureJBossAppXml();
-			
+
 			WtpUtils.reconfigure(earProjectToBeImported, monitor);
 		}
 
 		IProject testProjectToBeImported = null;
 		if(testProjectCreated){
 			testProjectToBeImported = wsRoot.getProject(testProjectName);
-	
+
 			ResourcesUtils.importExistingProject(testProjectToBeImported, wsPath + "/" + testProjectName, testProjectName, monitor, true);
 			// Set up compilation level for test project.
-			
+
 			String level = JavaFacetUtils.getCompilerLevel(seamWebProject);
 			String testLevel = JavaFacetUtils.getCompilerLevel(testProjectToBeImported);
 			if (!testLevel.equals(level)) {
 				JavaFacetUtils.setCompilerLevel(testProjectToBeImported, level);
 			}
 			testProjectToBeImported.refreshLocal(IResource.DEPTH_INFINITE, monitor);
-			
+
 			final IVMInstall vm = JavaRuntime.getDefaultVMInstall();
 			if (vm != null) {
 				int jreIndex = getJreContainer(testProjectToBeImported);
@@ -344,7 +388,7 @@ public class SeamProjectCreator {
 					javaProject.setRawClasspath(entries, null);
 				}
 			}
-			
+
 			SeamFacetAbstractInstallDelegate.toggleHibernateOnProject(testProjectToBeImported, consoleName);
 		}
 
@@ -354,18 +398,21 @@ public class SeamProjectCreator {
 			WtpUtils.reconfigure(testProjectToBeImported, monitor);
 	}
 
-	private static String getCorrespondingExecutionEnvironment( String compilerLevel )
-    {
+	private boolean isJBossSeamJar(File file) {
+		String regex = "(jboss-seam){1}(-[0-9][0-9\\.]+){0,1}(.jar){1}";
+		return Pattern.matches(regex, file.getName());
+	}
+
+	private static String getCorrespondingExecutionEnvironment( String compilerLevel ) {
         final String res = COMPILER_LEVEL_TO_EXEC_ENV.get( compilerLevel );
-        
-        if( res == null )
-        {
+
+        if( res == null ) {
             throw new IllegalArgumentException( compilerLevel );
         }
-        
+
         return res;
     }
-	
+
 	private static int getJreContainer(final IProject proj)
 			throws CoreException {
 		final IJavaProject jproj = JavaCore.create(proj);

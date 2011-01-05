@@ -12,6 +12,7 @@ package org.jboss.tools.seam.core.test.project.facet;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -264,6 +265,43 @@ public class Seam2FacetInstallDelegateTest extends AbstractSeamFacetTest {
 
 		assertOnlyContainsTheseFiles(onlyInEjbSrc, (IContainer) ejb.findMember(
 				"ejbModule").getAdapter(IContainer.class));
+	}
+
+	/**
+	 * https://issues.jboss.org/browse/JBIDE-7932
+	 * @throws CoreException
+	 * @throws IOException
+	 */
+	public void testEarManifestFiles() throws CoreException, IOException {
+		IProject war = earProject.getProject();
+
+		SeamProjectsSet seamProjectsSet = new SeamProjectsSet(earProject
+				.getProject());
+
+		IProject ejb = seamProjectsSet.getEjbProject();
+
+		IFile ejbManifest = (IFile)ejb.findMember(new Path("ejbModule/META-INF/MANIFEST.MF"));
+		assertNotNull("Can't find ejbModule/META-INF/MANIFEST.MF", ejbManifest);
+		assertTrue("ejbModule/META-INF/MANIFEST.MF is not accessible.", ejbManifest.isAccessible());
+		String content = getContents(ejbManifest);
+		assertEquals("Found jboss-seam.jar in ejbModule/META-INF/MANIFEST.MF", -1, content.indexOf("jboss-seam.jar"));
+
+		IFile warManifest = (IFile)war.findMember(new Path("WebContent/META-INF/MANIFEST.MF"));
+		assertNotNull("Can't find WebContent/META-INF/MANIFEST.MF", warManifest);
+		assertTrue("WebContent/META-INF/MANIFEST.MF is not accessible.", warManifest.isAccessible());
+		content = getContents(warManifest);
+		assertFalse("Didn't find jboss-seam.jar in WebContent/META-INF/MANIFEST.MF", content.indexOf("jboss-seam.jar")==-1);
+	}
+
+	private String getContents(IFile file) throws IOException, CoreException {
+		StringBuffer sb = new StringBuffer();
+		InputStream is = file.getContents();
+		int i = 0;
+		while(i!=-1) {
+			i = is.read();
+			sb.append((char)i);
+		}
+		return sb.toString();
 	}
 
 	public void testMvelEarJars() {
