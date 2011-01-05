@@ -260,11 +260,11 @@
         <para>Now, we will design the application by creating the individual components as
             placeholders first. (We don't have to complete all of the details inside the components
             until afterwards.)</para>
-        <section id="CreatingJSPPagePlaceholders">
+       <section id="CreatingJSPPagePlaceholders">
             <title>Creating JSP Page Placeholders</title>
-            <para>Next, let's create and place two JSP pages. We will not write any code
-                for the files, but only create them as placeholders so that we can create links to
-                them in the diagram. We will write the code a little bit later.</para>
+            <para>Next, let's create and place two JSP pages. We will not write anything more than basic template code
+                for the files; they will serve only as placeholders so that we can create links to
+                them in the diagram. We will write some custom code a little bit later.</para>
             <section id="CreatingthePagePlaceholders">
                 <title>Creating the Page Placeholders</title>
                 <itemizedlist>
@@ -303,13 +303,16 @@
                     <listitem>
                         <para>For Name type in <emphasis>
                                 <property moreinfo="none">inputname</property>
-                            </emphasis> (the JSP extension will be automatically added to the file),
-                            for Template select <emphasis>
-                                <property moreinfo="none">StrutsForm</property>
-                            </emphasis> and then click on the <emphasis>
-                                <property moreinfo="none">Finish</property>
+                            </emphasis> (the JSP extension will be automatically added to the file), and then click on the <emphasis>
+                                <property moreinfo="none">Next</property>
                             </emphasis> button</para>
                     </listitem>
+										<listitem>
+											<para>
+												Untick the <emphasis><property moreinfo="none">use JSP Template</property></emphasis> checkbox, and then click on the 
+												<emphasis><property moreinfo="none">Finish</property></emphasis> button
+											</para>
+										</listitem>
                     <listitem>
                         <para>Right-click the <emphasis>
                             <property moreinfo="none">pages</property></emphasis> folder again and select <emphasis>
@@ -319,14 +322,38 @@
                     <listitem>
                         <para>For Name type in <emphasis>
                                 <property moreinfo="none">greeting</property>
-                        </emphasis>, for Template leave as <emphasis>
-                            <property moreinfo="none">Blank</property>,</emphasis> and then click on the <emphasis>
-                                <property moreinfo="none">Finish</property>
+                        </emphasis>, and then click on the <emphasis>
+                                <property moreinfo="none">Next</property>
                             </emphasis> button</para>
                     </listitem>
+										<listitem>
+											<para>
+												Untick the <emphasis><property moreinfo="none">use JSP Template</property></emphasis> checkbox, and then click on the 
+												<emphasis><property moreinfo="none">Finish</property></emphasis> button
+											</para>
+										</listitem>
                 </itemizedlist>
-                <para>Just leave these files as is for now.</para>
             </section>
+
+						<section id="UpdatingInputnameJSP">
+							<title>Adding Template Code to the inputname.jsp File</title>
+							<para>
+								The inputname.jsp file needs to be populated with some template code. Click on the <emphasis>
+                <property moreinfo="none">inputname.jsp</property>
+                </emphasis> page in the <property moreinfo="none">Web Projects view</property>, and then modify the file so it looks like this:
+								<programlisting><![CDATA[&lt;%@ taglib uri=&quot;/WEB-INF/struts-html&quot; prefix=&quot;html&quot; %&gt;
+&lt;html:html&gt;
+&lt;head&gt;
+	&lt;title&gt;&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;html:form action=&quot;&quot;&gt;
+    &lt;/html:form&gt;
+&lt;/body&gt;
+&lt;/html:html&gt;]]></programlisting>
+							</para>
+						</section>
+
             <section id="PlacingthePagePlaceholders">
                 <title>Placing the Page Placeholders</title>
                 <para>Lets now place the two pages just created on the diagram.</para>
