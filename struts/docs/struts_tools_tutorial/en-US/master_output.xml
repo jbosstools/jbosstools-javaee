@@ -338,9 +338,8 @@
 						<section id="UpdatingInputnameJSP">
 							<title>Adding Template Code to the inputname.jsp File</title>
 							<para>
-								The <property moreinfo="none">inputname.jsp</property> file needs to be populated with some template code. Click on the <emphasis>
-                <property moreinfo="none">inputname.jsp</property>
-                </emphasis> page in the <property moreinfo="none">Web Projects view</property>, and then modify the file so it looks like this:
+								The <emphasis><property moreinfo="none">inputname.jsp</property></emphasis> file needs to be populated with some template code. Click on the 
+								<emphasis><property moreinfo="none">inputname.jsp</property></emphasis> page in the <property moreinfo="none">Web Projects view</property>, and then modify the file so it looks like this:
 								<programlisting><![CDATA[&lt;%@ taglib uri=&quot;/WEB-INF/struts-html&quot; prefix=&quot;html&quot; %&gt;
 &lt;html:html&gt;
 &lt;head&gt;
