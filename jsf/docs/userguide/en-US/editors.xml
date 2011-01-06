@@ -1085,21 +1085,21 @@
                 </mediaobject>
             </figure>
             <para>The view is designed in the form of a split pane with toggle buttons for quickly
-                moving between Source, Visual or Source/Visual modes as shown on the figure
+                moving between Source, Visual or Source/Visual modes, as shown on the figure
                 above.</para>
             <para>One more way to toggle between the various states of the split pane is using the
                 shortcuts <emphasis>
                     <property>Shift + F6</property>
                 </emphasis> for maximizing/restoring the Source part and <emphasis>
                     <property>Shift + Alt + F6</property>
-                </emphasis> for maximizing/restoring the Visual part.</para>
+                </emphasis> for maximizing or restoring the Visual part.</para>
             <note>
                 <title>Tip:</title>
                 <para>When editing large documents hiding the Visual part will speed up the
                     editing.</para>
             </note>
-            <para>It should be pointed out that, no matter in what mode you are working, you get a
-                full integration with <property>Properties</property> and <property>Outline
+            <para>It should be pointed out that, no matter what mode you are working in, you get a
+                full integration with the <property>Properties</property> and <property>Outline
                     views</property>:</para>
             <figure>
                 <title>Integration with Properties and Outline Views</title>
@@ -1110,13 +1110,13 @@
                 </mediaobject>
             </figure>
             <para>The Outline view displays a specific outline of a structured file that is
-                currently open in the editor area, and lists its structural elements. Right-click on
-                the elements will open additional options that allow adding other specific elements
-                in necessary positions.</para>
-            <para>The Properties view shows property names and their values for a selected item. The
-                values are editable, just select any and click on the button that appeared to choose
-                a new value. Key combination <property>Ctrl+Z</property> will return the previous
-                value, <property>Ctrl+Y</property> will return the new value again. The Properties
+                currently open in the editor area, and lists its structural elements. Right-clicking on
+                these elements will open additional options that allow other specific elements to be added 
+                in their appropriate positions.</para>
+            <para>The Properties view shows the property names and their values for a selected item. The
+                values are editable; just select any value and click on the button that will appear to choose
+                a new value. The key combination <property>Ctrl+Z</property> will return the previous
+                value, while <property>Ctrl+Y</property> will return the new value again. The Properties
                 view has additional options and can be set up to display categories and advanced
                 properties. </para>
             <para>It&apos;s also possible to use the <link linkend="palette">JBoss Tools
@@ -1130,8 +1130,8 @@
                     </imageobject>
                 </mediaobject>
             </figure>
-            <para> You can insert a tag/component from the palette into either the Source or the
-                Visual part by calling a context menu and selecting <property>Insert
+            <para> You can insert a tag or component from the palette into either the Source or the
+                Visual part by displaying the context menu and selecting <property>Insert
                     around</property>, <property>Insert before</property>, <property>Insert
                     after</property> or <property>Replace With</property>, pointing to <property
                     >From Palette</property>, picking the type of the tag and finally choosing the
@@ -1154,8 +1154,8 @@
                     </imageobject>
                 </mediaobject>
             </figure>
-            <para>Visual Page Editor also displays custom tags correctly if they are configured
-                properly. The picture below shows an example how custom tags <emphasis><property
+            <para>The Visual Page Editor also displays custom tags correctly if they are configured
+                properly. The picture below shows an example how the custom tags <emphasis><property
                         >&quot;pagination&quot;</property></emphasis> and <emphasis><property
                         >&quot;echo&quot;</property></emphasis> will be displayed in VPE. </para>
             <figure>
@@ -1166,7 +1166,7 @@
                     </imageobject>
                 </mediaobject>
             </figure>
-            <para> The listings of the custom tags implementations will help to clear how VPE works. </para>
+            <para> The listings of the custom tag implementations will help to demonstrate how VPE works. </para>
             <itemizedlist>
                 <listitem>
                     <para>echo.xhtml: </para>
@@ -1221,7 +1221,7 @@ two elements with equal id has been used, but should be used only one -->
             </figure>
             <section id="comments">
                 <title>Commenting out Code</title>
-                <para><property>VPE</property> supports possibility to add comments in files you are
+                <para><property>VPE</property> supports the ability to add comments in files you are
                     working with (JSP, XHTML, etc.):</para>
                 <itemizedlist>
                     <listitem>
