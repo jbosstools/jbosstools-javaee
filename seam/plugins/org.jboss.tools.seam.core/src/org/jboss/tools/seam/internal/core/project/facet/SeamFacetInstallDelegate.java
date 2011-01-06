@@ -21,6 +21,7 @@ import org.eclipse.jst.javaee.core.DisplayName;
 import org.eclipse.jst.javaee.core.JavaeeFactory;
 import org.eclipse.jst.javaee.web.Filter;
 import org.eclipse.jst.javaee.web.WebApp;
+import org.eclipse.jst.jsf.core.JSFVersion;
 import org.eclipse.jst.jsf.facesconfig.emf.ApplicationType;
 import org.eclipse.jst.jsf.facesconfig.emf.FacesConfigFactory;
 import org.eclipse.jst.jsf.facesconfig.emf.FacesConfigType;
@@ -239,7 +240,7 @@ public class SeamFacetInstallDelegate extends SeamFacetAbstractInstallDelegate {
 	 * @see org.jboss.tools.seam.internal.core.project.facet.SeamFacetAbstractInstallDelegate#configure(org.eclipse.jst.javaee.web.WebApp)
 	 */
 	@Override
-	protected void configure(WebApp webApp) {
+	protected void configure(WebApp webApp, IProject project) {
 		// Ajax4jsf (must come first!)
 		// FIXME supposing that the Ajax4jsf filter must come before the Seam filter
 		createOrUpdateFilter(webApp,
@@ -251,6 +252,12 @@ public class SeamFacetInstallDelegate extends SeamFacetAbstractInstallDelegate {
 				ORG_AJAX4JSF_FILTER_NAME,
 				ORG_AJAX4JSF_FILTER_MAPPING);
 		
+		JSFVersion jsfVersion = JSFVersion.valueOfProject(project);
+		
+		if (JSFVersion.V2_0.compareTo(jsfVersion) > 0) {
+			createOrUpdateContextParam(webApp, ORG_JBOSS_JBOSSFACES_JSF_CONFIG_NAME,
+					MOJARRA_1_2);
+		}
 		createOrUpdateContextParam(webApp, ORG_AJAX4JSF_VIEW_HANDLERS,
 				ORG_JBOSS_SEAM_UI_SEAMFACELETVIEWHANDLER);
 		createOrUpdateContextParam(webApp, ORG_AJAX4JSF_SKIN,

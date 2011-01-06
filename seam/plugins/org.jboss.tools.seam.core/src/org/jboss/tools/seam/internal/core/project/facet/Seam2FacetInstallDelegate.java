@@ -20,6 +20,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.jst.javaee.web.WebApp;
+import org.eclipse.jst.jsf.core.JSFVersion;
 import org.eclipse.jst.jsf.facesconfig.emf.ApplicationType;
 import org.eclipse.jst.jsf.facesconfig.emf.DefaultLocaleType;
 import org.eclipse.jst.jsf.facesconfig.emf.FacesConfigFactory;
@@ -258,7 +259,13 @@ public class Seam2FacetInstallDelegate extends SeamFacetAbstractInstallDelegate{
 	 * @see org.jboss.tools.seam.internal.core.project.facet.SeamFacetAbstractInstallDelegate#configure(org.eclipse.jst.javaee.web.WebApp)
 	 */
 	@Override
-	protected void configure(WebApp webApp) {
+	protected void configure(WebApp webApp, IProject project) {
+		JSFVersion jsfVersion = JSFVersion.valueOfProject(project);
+		
+		if (JSFVersion.V2_0.compareTo(jsfVersion) > 0) {
+			createOrUpdateContextParam(webApp, ORG_JBOSS_JBOSSFACES_JSF_CONFIG_NAME,
+					MOJARRA_1_2);
+		}
 		// Ajax4jsf
 		createOrUpdateContextParam(webApp, ORG_RICHFACES_SKIN,
 				ORG_RICHFACES_SKIN_VALUE);

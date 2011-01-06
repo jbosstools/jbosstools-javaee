@@ -106,6 +106,8 @@ import org.osgi.service.prefs.Preferences;
 public abstract class SeamFacetAbstractInstallDelegate implements ILogListener, 
 										IDelegate,ISeamFacetDataModelProperties {
 
+	public static final String MOJARRA_1_2 = "Mojarra-1.2"; //$NON-NLS-1$
+	public static final String ORG_JBOSS_JBOSSFACES_JSF_CONFIG_NAME = "org.jboss.jbossfaces.JSF_CONFIG_NAME"; //$NON-NLS-1$
 	public static String ORG_RICHFACES_SKIN = "org.richfaces.SKIN"; //$NON-NLS-1$
 	public static String ORG_RICHFACES_SKIN_VALUE = "blueSky"; //$NON-NLS-1$
 	public static String ORG_JBOSS_SEAM_SERVLET_SEAMLISTENER = "org.jboss.seam.servlet.SeamListener"; //$NON-NLS-1$
@@ -1231,7 +1233,7 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 	 */
 	abstract protected void configureFacesConfigXml(final IProject project, IProgressMonitor monitor, String webConfigName);
 
-	protected abstract void configure(WebApp webApp);
+	protected abstract void configure(WebApp webApp, IProject project);
 
 	protected WebApp configureWebXml(final IProject project) {
 		IModelProvider modelProvider = ModelProviderManager
@@ -1258,7 +1260,7 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 					return;
 				}
 				WebApp webApp = (WebApp) modelObject;
-				configure(webApp);
+				configure(webApp, project);
 			}
 
 		}, modelPath);
