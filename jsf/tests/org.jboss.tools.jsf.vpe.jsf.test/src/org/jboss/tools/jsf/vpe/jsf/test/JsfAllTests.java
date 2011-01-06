@@ -13,6 +13,7 @@ package org.jboss.tools.jsf.vpe.jsf.test;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
+import org.eclipse.jst.jsp.core.internal.java.search.JSPIndexManager;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.ChangeMessageBundleTest_JBIDE5818;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.ContextMenuDoubleInsertionTest_JBIDE3888;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.EditFontFamilyTest_JBIDE5872;
@@ -122,7 +123,7 @@ public class JsfAllTests {
 	public static final String IMPORT_TEST_WITH_2_URL_PATTERNS_PROJECT_NAME = "TestWith2URLPatterns"; //$NON-NLS-1$
 
 	public static Test suite() {
-
+		JSPIndexManager.getInstance().shutdown();
 		TestSuite suite = new TestSuite("Tests for Vpe Jsf components"); //$NON-NLS-1$
 		// $JUnit-BEGIN$
 		/*
