@@ -9,17 +9,15 @@
         </keywordset>
     </chapterinfo>
     <title>Editors</title>
-    <para>In the JSF Tools Reference Guide and Struts Tools Reference Guide you had possibility to
-        read about Graphical Editor for JSF and Struts configuration files, Graphical Editor for
-        Tiles Files, Graphical Editor for Struts Validation Files. All these editors have <link
-            linkend="OpenOnSelection4Hyperlinknavigation">
-            <property>OpenOn</property>
-        </link> and <link linkend="CodeAssistAndDynamicCodeAssist42BasedOnProjectData">
-            <property>Content Assist</property>
-        </link> features, which are described in more details in this document. In addition you get
-        to know a <link linkend="visual_page">Visual Page Editor</link> for combined visual and
-        source editing of Web pages and many <link linkend="more_editors">other editors</link> for
-        different types of files.</para>
+    <para>
+    	In the JSF Tools Reference Guide and Struts Tools Reference Guide you may have read about the Graphical Editors for JSF and Struts configuration files, Tiles Files, and Struts Validation Files. All these editors have 
+    	<link linkend="OpenOnSelection4Hyperlinknavigation"><property>OpenOn</property></link> and 
+    	<link linkend="CodeAssistAndDynamicCodeAssist42BasedOnProjectData"><property>Content Assist</property></link> 
+    	features, which are described in more details in this document. In addition this document will cover the
+      <link linkend="visual_page">Visual Page Editor</link>, which provides combined visual and
+      source editing of Web pages, as well as many <link linkend="more_editors">other editors</link> for
+      different types of files.
+    </para>
     <section id="editors_features">
         <title>Editors Features</title>
         <para><property>JBoss Developer Studio</property> has powerful editor features that help you
@@ -78,10 +76,7 @@
             </itemizedlist>
             <section id="XMLFiles232">
                 <title>XML Files</title>
-                <para>Press and hold down the <emphasis><property>Ctrl</property></emphasis> key. As
-                    you move the mouse cursor over different file references in the file, they
-                    display an underline. When you hover the name of the file you want to open,
-                    click and the file will open in its own editor.</para>
+                <para>Press and hold down the <emphasis><property>Ctrl</property></emphasis> key. As you move the mouse cursor over different file references in the file, they display an underline. In this state these file references effectively become links, and when they are clicked the appropriate file will open in its own editor.</para>
                 <para>Use the OpenOn functionality for the next entries defined in XML file:</para>
                 <orderedlist>
                     <listitem>
@@ -250,7 +245,7 @@
         </section>
         <section id="CodeAssistAndDynamicCodeAssist42BasedOnProjectData">
             <title>Content Assist</title>
-            <para><property>Content assist</property> is available when working with</para>
+            <para><property>Content assist</property> is available when working with:</para>
             <itemizedlist>
                 <listitem>
                     <para>
@@ -300,7 +295,7 @@
                     </para>
                 </listitem>
             </itemizedlist>
-            <para>Notice, that code completion for EL variables has icons illustrating what they are
+            <para>Notice that code completion for EL variables has icons illustrating what they are
                 from. The most of this icons are described in the table below.</para>
             <table>
                 <title>Content assist icons</title>
@@ -604,7 +599,7 @@
                         </mediaobject>
                     </figure>
                     <para>Moreover <property>Code Assist</property> is able to define <property
-                            >Resource Bundles</property> on template page and gives the proposals on
+                            >Resource Bundles</property> on template pages and gives the proposals on
                         the client page. </para>
                     <figure>
                         <title>Code Assist: Message Bundles proposals from template page</title>
@@ -721,7 +716,7 @@
                     projects.</para>
                 <section id="ContentAssistForStrutsConfigurationFile75">
                     <title>Content Assist for Struts Configuration File</title>
-                    <para>Content Assist helps you in Struts Configuration file.</para>
+                    <para>Content Assist helps you edit Struts Configuration files.</para>
                     <figure>
                         <title>Struts Content Assist</title>
                         <mediaobject>
@@ -734,7 +729,7 @@
                 </section>
                 <section id="ContentAssistForStrutsJSPFile07">
                     <title>Content Assist for Struts JSP File</title>
-                    <para>Using Code Assist in Struts JSP file is shown below.</para>
+                    <para>The image below shows Code Assist being used in a Struts JSP file.</para>
                     <figure>
                         <title>Struts JSP Content Assist</title>
                         <mediaobject>
@@ -760,7 +755,7 @@
                             </imageobject>
                         </mediaobject>
                     </figure>
-                    <para>When the tag is selected the required attributes, if there any, are
+                    <para>When the tag is selected, the required attributes, if there any, are
                         already inserted and the cursor is located to the first attribute. At this
                         point you can ask for attribute proposals.</para>
                     <figure>
@@ -787,8 +782,7 @@
                 </section>
                 <section id="ContentAssistForHTMLTags7454">
                     <title>Content Assist for HTML Tags</title>
-                    <para>Content assist for HTML tags has the same mechanism as for JSF
-                        tags:</para>
+                    <para>Content assist for HTML tags works in the same manner as the JSF tags:</para>
                     <figure>
                         <title>HTML Tags Content Assist</title>
                         <mediaobject>
@@ -798,7 +792,7 @@
                             </imageobject>
                         </mediaobject>
                     </figure>
-                    <para>You can use as well attributes proposals for HTML tags:</para>
+                    <para>Content Assist can also be used for HTML tag attributes:</para>
                     <figure>
                         <title>HTML Tags Content Assist</title>
                         <mediaobject>
@@ -823,7 +817,7 @@
                 </section>
                 <section id="ContentAssistForEL">
                     <title>Content Assist for EL expressions</title>
-                    <para><property>Content Assist</property> also provides an expression language
+                    <para><property>Content Assist</property> also provides expression language
                         (JSF EL) support. It is used in web application pages to access the
                             <property>JavaBeans</property> components in the page bean and in other
                         beans associated with the web application, such as the session bean and the
@@ -858,9 +852,9 @@
             </section>
             <section id="ContentAssistForJavaFiles">
                 <title>Content Assist for Java Files</title>
-                <para>Various tools tips provide you additional information about java elements
+                <para>Various tools tips provide you additional information about Java elements
                     (JavaDocs, source classes, return types, method names, params, and etc.) when
-                    working with java files</para>
+                    working with java files.</para>
                 <figure>
                     <title>Content assist for JavaDoc</title>
                     <mediaobject>
@@ -872,8 +866,7 @@
             </section>
             <section id="ContentAssistForInsertTag">
                 <title>Content Assist for Insert Tag Wizard</title>
-                <para>Content Assist is also available for any attribute value of <emphasis>Insert
-                        Tag wizard</emphasis>.</para>
+                <para>Content Assist is also available for any attribute value in the <emphasis>Insert Tag</emphasis> wizard.</para>
                 <figure>
                     <title>Content Assist for Insert Tag Wizard</title>
                     <mediaobject>
@@ -912,7 +905,7 @@
 ]]></programlisting>
                 <itemizedlist>
                     <listitem>
-                        <para>Add bundle resource (property file) <property>code
+                        <para>Add a bundle resource (property file) <property>code
                             assist</property>:</para>
                     </listitem>
                 </itemizedlist>
@@ -922,7 +915,7 @@
 ]]></programlisting>
                 <itemizedlist>
                     <listitem>
-                        <para>Add managed bean property <property>code assist</property>:</para>
+                        <para>Add a managed bean property <property>code assist</property>:</para>
                     </listitem>
                 </itemizedlist>
                 <programlisting role="XML"><![CDATA[<AttributeType ...>
@@ -931,7 +924,7 @@
 ]]></programlisting>
                 <itemizedlist>
                     <listitem>
-                        <para>Add managed bean property but of a specified type:</para>
+                        <para>Add a managed bean property, specifying a type:</para>
                     </listitem>
                 </itemizedlist>
                 <programlisting role="XML"><![CDATA[<AttributeType ...>
@@ -942,7 +935,7 @@
 ]]></programlisting>
                 <itemizedlist>
                     <listitem>
-                        <para>Add managed bean method with a signature:</para>
+                        <para>Add a managed bean method with a signature:</para>
                     </listitem>
                 </itemizedlist>
                 <programlisting role="XML"><![CDATA[<AttributeType ...>
@@ -973,10 +966,9 @@
                     </listitem>
                 </orderedlist>
                 <para>From <emphasis>JBoss Developer Studio 3.0.0.M1</emphasis> you should not do
-                    any of the steps described before,dynamic code assist to custom components is
+                    any of the steps described before, as dynamic code assist to custom components is
                     added automatically.</para>
-                <para>If you open projects that were created in older studio versions such message
-                    could appear:</para>
+                <para>If you open projects that were created in older studio versions you may see the following message:</para>
                 <figure>
                     <title>Missing Natures Message</title>
                     <mediaobject>
@@ -993,8 +985,12 @@
                         <para>Right click the project in Package Explorer.</para>
                     </listitem>
                     <listitem>
-                        <para>Select <property>Configure -> Add JSF Capabilities</property> from the
-                            context menu.</para>
+                        <para>Select 
+                        <menuchoice>
+                            <guimenuitem>Configure</guimenuitem>
+                            <guimenuitem>Add JSF Capabilities</guimenuitem>
+                        </menuchoice>
+                        from the context menu.</para>
                     </listitem>
                     <listitem>
                         <para>Configure your project using Add JSF Capabilities wizard and press
@@ -1005,16 +1001,11 @@
         </section>
         <section id="FullControlOverSourceFiles-SynchronizedSourcAndVisualEditing74">
             <title>Synchronized Source and Visual Editing</title>
-            <para><property>JBoss Developer Studio</property> offers the flexibility to edit any
-                files in either source or extra visual modes at the same time.</para>
-            <para>The project is yours and so is the source. <property>JBoss Developer
-                    Studio</property> provides you many different graphical editors to speed your
-                application development. At the same time, you always have a full control over all
-                project source files. Any changes you make in the source view immediately appear in
-                the graphical view.</para>
+            <para><property>JBoss Developer Studio</property> offers the ability to edit the source code of a file, as well as providing visual editors for many file types. The source code and visual editors can be viewed and edited at the same time in a split screen view, and any changes you make in the source code editor will immediately appear in the visual editor.</para>
+ 
             <para>The JSF configuration file editor has three views: <property>Diagram</property>,
                     <property>Tree</property> and <property>Source</property>. All views are
-                synchronized, you can edit the file in any view.</para>
+                synchronized, and you can edit the file in any view.</para>
             <figure>
                 <title>Three Views are Synchronized</title>
                 <mediaobject>
@@ -1024,7 +1015,7 @@
                     </imageobject>
                 </mediaobject>
             </figure>
-            <para>The same is relevant to all other <property>JBoss Developer Studio</property>
+            <para>The same is true of all other <property>JBoss Developer Studio</property>
                 editors.</para>
             <para>Web XML editor is shown. Web XML editor has a graphical view (Tree) and source
                 (Source).</para>
@@ -1037,8 +1028,8 @@
                     </imageobject>
                 </mediaobject>
             </figure>
-            <para><property>JBoss Developer Studio</property> TLD file editor is shown in Tree view.
-                At any point you can edit the source by switching to Source view.</para>
+            <para>The <property>JBoss Developer Studio</property> TLD file editor is shown below in Tree view.
+                At any point you can edit the source by switching to the Source view.</para>
             <figure>
                 <title>Two Views are Synchronized</title>
                 <mediaobject>
@@ -1054,24 +1045,23 @@
         <title>Visual Page Editor</title>
         <para><property>JBoss Developer Studio</property> comes with a powerful and customizable
                 <property>Visual Page Editor</property> (VPE). You can use the Visual Page Editor to
-            develop an application using any technology: JSF, Struts, JSP, HTML and others.
-            Double-click on the necessary file in the Package Explorer view to open it in the Visual
-            Editor or just drag-and-drop it into perspective (the drag-and-drop feature can be also
+            develop an application using any technology such as JSF, Struts, JSP, HTML and more.
+            Double-click on a file in the Package Explorer view to open it in the Visual
+            Editor, or just drag-and-drop it into perspective (the drag-and-drop feature can be also
             applied to JSP, XHTML or HTML files created locally).</para>
         <para>As a new JSF 2.0 specification has been released, support of new features is now
             implemented in the <property>Visual Page Editor</property>. The JSF 2.0 tags like
                 <literal>&lt;h:body&gt;</literal>, <literal>&lt;h:head&gt;</literal>, <literal
                 >&lt;h:outputscript&gt;</literal>, <literal>&lt;h:outputstyle&gt;</literal> are
-            supported in the editor as well as the composite components and the resource handling
-            from the expression language. (See the <ulink
+            supported in the editor as well as the composite components and expression language resource handling. (See the <ulink
                 url="http://www.ibm.com/developerworks/java/library/j-jsf2fu2/index.html">following
                 link</ulink> on how to use composite components and <ulink
                 url="http://blogs.sun.com/rlubke/entry/jsf_2_0_new_feature3">following blog
-                post</ulink> on how to handle the resources form the EL). </para>
-        <para>Current VPE version has three tabs: <property>Visual/Source</property>, <property
+                post</ulink> on how to handle EL resources). </para>
+        <para>The current VPE version has three tabs: <property>Visual/Source</property>, <property
                 >Source</property> and <property>Preview</property>. To switch between the views you
-            can use tabs at the bottom of the VPE or the shortcuts <emphasis>
-                <property>Ctrl + PageUp/Ctrl + PageDown</property>
+            can use tabs at the bottom of the VPE or the shortcut keys <emphasis>
+                <property>Ctrl + PageUp</property> and <property>Ctrl + PageDown</property>
             </emphasis>.</para>
         <figure>
             <title>Visual Page Editor</title>
@@ -1084,7 +1074,7 @@
         <section id="visual_source">
             <title>Visual/Source View</title>
             <para>Using the <property>Visual/Source view</property> you can edit your pages in the
-                Source and Visual modes simultaneously having an instant synchronization between
+                Source and Visual modes simultaneously, with instant synchronization between
                 them:</para>
             <figure>
                 <title>Visual/Source View</title>

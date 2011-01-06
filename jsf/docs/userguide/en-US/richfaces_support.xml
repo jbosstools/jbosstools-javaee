@@ -72,7 +72,7 @@
         <para>For example, <property>Richfaces</property> tags 
             <code>&lt;rich:insert&gt;</code>
          and <code>
-            &lt;a4j:include&gt;></code>
+            &lt;a4j:include&gt;</code>
         has <property>OpenOn</property> support.</para>
         
         <figure>
