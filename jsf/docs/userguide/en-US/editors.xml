@@ -1103,11 +1103,11 @@
                 </emphasis> for maximizing/restoring the Source part and <emphasis>
                     <property>Shift + Alt + F6</property>
                 </emphasis> for maximizing/restoring the Visual part.</para>
-            <tip>
+            <note>
                 <title>Tip:</title>
                 <para>When editing large documents hiding the Visual part will speed up the
                     editing.</para>
-            </tip>
+            </note>
             <para>It should be pointed out that, no matter in what mode you are working, you get a
                 full integration with <property>Properties</property> and <property>Outline
                     views</property>:</para>
@@ -2050,12 +2050,12 @@ two elements with equal id has been used, but should be used only one -->
                 declared in the <literal>web.xml</literal> file (for details, see <ulink
                     url="http://www.ibm.com/developerworks/java/library/j-facelets/#N10294">Creating
                     a component</ulink>) and packed into the JAR file.</para>
-            <tip>
+            <note>
                 <title>Tip:</title>
                 <para>In case of Facelets tag library packed in <literal>.jar</literal>, remember to
                     put <literal>*.taglib.xml</literal> in right place: <literal
                         >[filename].jar/META-INF/*.taglib.xml</literal></para>
-            </tip>
+            </note>
             <para><property>Visual Page Editor</property> recognizes the tags from the custom
                 Facelets tag library and correctly renders them both in source and visual view of
                 the editor.</para>

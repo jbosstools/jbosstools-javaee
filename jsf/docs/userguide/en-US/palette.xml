@@ -430,13 +430,13 @@
                 </mediaobject>
             </figure>
 
-            <tip>
+            <note>
                 <title>Tip:</title>
                 <para>if you place the cursor over any tag, a balloon hint is shown with all the
                         <emphasis role="italic">
                         <property>&quot;tag&quot;</property>
                     </emphasis> attributes.</para>
-            </tip>
+            </note>
             <para>The cursor position after adding a tag into a file is specified by
                 &quot;|&quot; symbol in the tag template on the right in the Palette Editor
                 window. </para>

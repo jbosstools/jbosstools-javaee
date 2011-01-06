@@ -44,11 +44,11 @@
             url="http://www.jboss.org/jbossrichfaces">RichFaces</ulink> framework
             components.</para>
         
-        <tip>
+        <note>
             <title>Tip:</title>
             
             <para>RichFaces 3.3.X is now fully supported in code completion.</para>
-        </tip>
+        </note>
         
         <figure>
             <title>Content Assist for RichFaces Components</title>
