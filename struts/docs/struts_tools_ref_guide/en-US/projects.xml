@@ -77,11 +77,11 @@
             </mediaobject>
         </figure>
 
-        <tip>
+        <note>
             <title>Tip:</title>
             <para>Don&apos;t put spaces in project names since some OS could experience problems
                 with their processing and searching these files.</para>
-        </tip>
+        </note>
 
         <para>You can select the KickStart template, then the project created will include a simple
             Hello World type application that is ready to run.</para>
@@ -143,14 +143,14 @@
             </mediaobject>
         </figure>
 
-        <tip>
+        <note>
             <title>Tip:</title>
             <para>If you want to hide the jar files from Web App Libraries in view, select the
                 down-pointing arrow in the upper right corner, select
                 <emphasis>Filters...</emphasis>, check the box next to Name filter patterns
                 (matching names will be hidden), and type *.jar into the field. Then, click OK.
             </para>
-        </tip>
+        </note>
     </section>
     <section id="ImportingAnExistingStrutsProjectWithAnyStructure9653">
 

@@ -54,7 +54,7 @@
                             of predefined templates, importing existing ones and adding struts
                             capabilities to non-struts web projects.</para></entry>
                         <entry>
-                            <link linkend="projects">struts support</link>
+                            <xref linkend="projects"/>
                         </entry>
                     </row>
 
@@ -67,8 +67,8 @@
                             configuration file debugger allowing to set break points on struts
                             diagram and then launch the server in debug mode.</para></entry>
                         <entry>
-                            <link linkend="struts_config_editor">graphical editor for struts</link>
-                            <link linkend="config_file_debugger">configuration file debugger</link>
+                            <xref linkend="struts_config_editor"/>
+                            <xref linkend="config_file_debugger"/>
                         </entry>
                     </row>
 
@@ -78,7 +78,7 @@
                             creating a new project. There is also possibility to add new ones or edit
                             already existing modules in your existing project or while importing Struts project.</para></entry>
                         <entry>
-                            <link linkend="modules">modules</link>
+                            <xref linkend="modules"/>
                         </entry>
                     </row>
 
@@ -89,7 +89,7 @@
                             errors checking allows to catch many of the errors during development
                             process that significantly reduces development time.</para></entry>
                         <entry>
-                            <link linkend="project_verification">verification and validation</link>
+                            <xref linkend="project_verification"/>
                         </entry>
 
                     </row>

@@ -50,10 +50,10 @@
         </mediaobject>
     </figure>
     
-    <tip>
+    <note>
         <title>Tip:</title>
         <para>Please be careful not to override your existing files.</para>
-    </tip>
+    </note>
     
     <para>When generation is complete, a result window will appear letting you know how
         many classes were generated:</para>
