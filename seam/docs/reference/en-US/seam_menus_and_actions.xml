@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<chapter id="menus_and_actions" xreflabel="menus_and_actions">
+<chapter id="menus_and_actions">
     <?dbhtml filename="seam_menus_and_actions.html"?>
     <chapterinfo>
         <keywordset>
@@ -66,7 +66,7 @@
                         </entry>
 
                         <entry>
-                            <para>Runs <link linkend="standaloneSeam">New Seam Project</link> wizard
+                            <para>Runs <xref linkend="standaloneSeam"/> wizard
                                 for creating a new Seam project </para>
                         </entry>
 
@@ -83,7 +83,7 @@
                         </entry>
 
                         <entry>
-                            <para>Runs <link linkend="seam_action">New Seam Action</link> wizard for
+                            <para>Runs <xref linkend="seam_action"/> wizard for
                                 creating a new Seam action </para>
                         </entry>
 
@@ -101,7 +101,7 @@
                         </entry>
 
                         <entry>
-                            <para>Runs <link linkend="seam_form">New Seam Form</link> wizard for
+                            <para>Runs <xref linkend="seam_form"/> wizard for
                                 creating a new Seam form </para>
                         </entry>
 
@@ -118,7 +118,7 @@
                         </entry>
 
                         <entry>
-                            <para>Runs <link linkend="seam_entity">New Seam Entity</link> wizard for
+                            <para>Runs <xref linkend="seam_entity"/> wizard for
                                 creating a new Seam entity </para>
                         </entry>
 
@@ -134,8 +134,7 @@
                         </entry>
 
                         <entry>
-                            <para>Runs <link linkend="seam_conversation">New Seam
-                                Conversation</link> wizard for creating a new Seam conversation
+                            <para>Runs <xref linkend="seam_conversation"/> wizard for creating a new Seam conversation
                             </para>
                         </entry>
 
@@ -152,8 +151,7 @@
                         </entry>
 
                         <entry>
-                            <para>Runs <link linkend="generate_entities">Generate Seam
-                                Entities</link> wizard</para>
+                            <para>Runs <xref linkend="generate_entities"/> wizard</para>
                         </entry>
 
 
@@ -355,7 +353,7 @@
                 </mediaobject>
             </figure>
             <para>You can also open Seam Component from the other component where the required one is declared in <code>@In </code> by using
-                <link linkend="OpenOn">OpenOn</link> (<property>Ctrl + left click</property> and select <property>Open Declaration of Seam Component for seam_component in Seam_class.java</property> ).</para>
+                <xref linkend="OpenOn"/> (<property>Ctrl + left click</property> and select <property>Open Declaration of Seam Component for seam_component in Seam_class.java</property> ).</para>
         </section>
 
     </section>

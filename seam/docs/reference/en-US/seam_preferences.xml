@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<chapter id="seam_preferences" xreflabel="seam_preferences">
+<chapter id="seam_preferences">
     <!-- mark as new -->
     <?dbhtml filename="seam_preferences.html"?>
     <chapterinfo>
@@ -47,12 +47,12 @@
                 </imageobject>
             </mediaobject>
         </figure>
-        <tip>
+        <note>
             <title>Tip:</title>
             <para>If you try to delete the Seam Runtime that is already in use by some project in the current workspace, then a warning message will appear. To confirm the removal press <property>OK</property>
             </para>
             <para>Besides, when you right-click on your Seam project with deleted runtime in Project Explorer and select<property> Properties > Seam Settings</property> the error message "Runtime &lt;runtime_name&gt; does not exist" will appear. </para>
-        </tip>
+        </note>
         <section id="validator_pref">
 
             <title>Validator Preferences</title>
@@ -157,13 +157,12 @@
             </mediaobject>
         </figure>
 
-        <tip>
+        <note>
             <title>Tip:</title>
             <para>The wizard doesn&apos;t allow the renaming of the artifacts listed in the Seam
                 Settings. It&apos;s possible to do in the <property>Package Explorer</property>.
-                See <link linkend="renaming_projects_folders">Renaming the Projects and
-                    Folders</link>.</para>
-        </tip>
+                See <xref linkend="renaming_projects_folders"/>.</para>
+        </note>
 
         <para>Also notice, you are not required to use the <property>New Seam Project
                 wizard</property> to benefit from Seam artifact wizards. You can just enable Seam on
@@ -179,11 +178,11 @@
             </mediaobject>
         </figure>
 
-        <tip>
+        <note>
             <title>Tip:</title>
             <para>On the figure above fields for configuring Seam artifacts are unavailable because Seam
                 Runtime is not selected.</para>
-        </tip>
+        </note>
 
         <para>In Seam Wizards (New Action, Form, Entity, Conversation, Generate Entities) you can
             get a quick access to project settings using the <property>Settings</property> link in

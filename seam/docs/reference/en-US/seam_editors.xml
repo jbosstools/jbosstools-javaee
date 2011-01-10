@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<chapter id="seam_editors" xreflabel="seam_editors" role="updated">
+<chapter id="seam_editors" role="updated">
     <?dbhtml filename="seam_editors.html"?>
     <chapterinfo>
         <keywordset>
@@ -16,7 +16,7 @@
     
     <section>
         <title>Visual Page Editor</title>
-        <para>Visual Page Editor fits perfectly for authoring view Seam pages. The major features of VPE are listed in <link linkend="SeamEditors">Main Features of Seam Editors</link>  </para>
+        <para>Visual Page Editor fits perfectly for authoring view Seam pages. The major features of VPE are listed in <xref linkend="SeamEditors"/></para>
         <para>You can also read more about Visual Page Editor in <ulink url="http://download.jboss.org/jbosstools/nightly-docs/en/jsf/html/editors.html#visual_page">Visual Page Editor</ulink> chapter of &quot;Visual Web Tools Reference Guide&quot;.</para>
     </section>
     
@@ -427,7 +427,7 @@
             <title>Note:</title>
 
             <para>To get Code Assist available for an externally generated and imported project,
-                don&apos;t forget to enable Seam features and configure Seam Settings in <link linkend="project_pref">Project Preferences</link>.</para>
+                don&apos;t forget to enable Seam features and configure Seam Settings in <xref linkend="project_pref"/>.</para>
         </note>
 
         <section id="components_code_assist" role="new">
@@ -509,16 +509,16 @@
         <itemizedlist>
             <listitem>
                 <para>
-                    <link linkend="xmlFiles">XML files</link>
+                    <xref linkend="xmlFiles"/>
                 </para>
             </listitem>
             <listitem>
                 <para>
-                    <link linkend="xhtmlFiles">JSP/XHTML Pages</link>
+                    <xref linkend="xhtmlFiles"/>
                 </para>
             </listitem>
             <listitem>
-                <para> <link linkend="javaFiles">Java files</link></para>
+                <para> <xref linkend="javaFiles"/></para>
             </listitem>
         </itemizedlist>
         <note>

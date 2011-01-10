@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<chapter id="testNG" xreflabel="testNG">
+<chapter id="testNG">
     <?dbhtml filename="testNG.html"?>
     <chapterinfo>
         <keywordset>
@@ -161,7 +161,7 @@
                     Suite</property>.</emphasis></para>
             </listitem>
         </itemizedlist>
-        <tip><para>OpenOn is available in testNG XML files opened in JBoss XML Editor</para></tip>
+        <note><para>OpenOn is available in testNG XML files opened in JBoss XML Editor</para></note>
             <figure>
             <title>Running TestNG</title>
             <mediaobject>

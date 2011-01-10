@@ -1,5 +1,5 @@
 ﻿<?xml version='1.0' encoding='UTF-8'?>
-<chapter id="seam_refactoring" xreflabel="seam_refactoring">
+<chapter id="seam_refactoring">
     <?dbhtml filename="seam_refactoring.html"?>
     <chapterinfo>
         <keywordset>
@@ -17,12 +17,12 @@
     	Thus now Seam refactoring tools include the next refactoring operations:</para>
     	
     	<itemizedlist>
-    		<listitem><para><link linkend="renaming_seam_components">Renaming Seam components</link></para></listitem>
-    		<listitem><para><link linkend="renaming_seam_context_vars">Renaming Seam context variables in EL</link></para></listitem>
+    		<listitem><para><xref linkend="renaming_seam_components"/></para></listitem>
+    		<listitem><para><xref linkend="renaming_seam_context_vars"/></para></listitem>
     	</itemizedlist>
  
 		<para>Refactoring commands are available from the context menus of several views and editors and use a standard Eclipse refactoring wizard.
-			For details, see <link linkend="RefactornigWizard">&quot;Using the Refactoring Wizard&quot;</link> later in this chapter.</para> 
+			For details, see <xref linkend="RefactornigWizard"/> later in this chapter.</para> 
 	
 	<note>
 		<title>Note:</title>
@@ -112,15 +112,15 @@
 		<para>Renaming a Seam component could be performed in the:</para>
 		
 		<itemizedlist>
-			<listitem><para><link linkend="JavaEditor">Java editor</link></para></listitem>
-			<listitem><para><link linkend="SeamComponents">Seam Components view</link></para></listitem>
-			<listitem><para><link linkend="components_xml_editor">Tree view of the components.xml editor</link></para></listitem>
+			<listitem><para><xref linkend="JavaEditor"/></para></listitem>
+			<listitem><para><xref linkend="SeamComponents"/></para></listitem>
+			<listitem><para><xref linkend="components_xml_editor"/></para></listitem>
 		</itemizedlist>
 		
 		<section id="JavaEditor">
 			<title>Renaming Seam Components in the Java Editor</title>
 			<para>If you want to rename certain seam component using Java editor, first of all it&apos;s necessary to open it. 
-				If you don&apos;t know, where the seam component is declared, use <link linkend="open_seam_component">Open Seam Components</link> icon.</para>
+				If you don&apos;t know, where the seam component is declared, use <xref linkend="open_seam_component"/> icon.</para>
 			<para>To rename a Seam component  in the Java editor it's necessary to select the component, left click the file and then select
 				<emphasis><property>Seam Refactor &gt; Rename Seam Component</property>.</emphasis>
 			</para>

@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<chapter id="seam_faq" xreflabel="seam_faq">
+<chapter id="seam_faq">
     <?dbhtml filename="vwt_faq.html"?>
     <title>FAQ</title>
     
@@ -12,8 +12,7 @@
             navigate <emphasis>
                 <property>Properties > Seam Settings</property>.</emphasis> Check <emphasis>
                     <property>Seam support</property>
-                </emphasis> box to enable all available <link linkend="project_pref">Seam
-                    Settings</link>.</para>
+                </emphasis> box to enable all available <xref linkend="project_pref"/>.</para>
     </section>
     
     <section id="seam_question_2">

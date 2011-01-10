@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<chapter id="mavenized_seam" xreflabel="mavenized_seam">
+<chapter id="mavenized_seam">
 	<?dbhtml filename="create_mavenized_seam.html"?>
 	<chapterinfo>
 		<keywordset>
@@ -149,8 +149,8 @@
 		<para>If the Seam version from <emphasis>
 				<property>pom.xml</property></emphasis> matches a version of a Seam runtime
 			configured in the workspace, Seam configurator will set that runtime, otherwise no Seam
-			runtime will be set and you&apos;ll have to set it manually under <link
-				linkend="project_pref">Seam Settings in the project preferences</link>.</para>
+			runtime will be set and you&apos;ll have to set it manually under <xref
+				linkend="project_pref"/>.</para>
 		<para>Seam configurator recognizes the Seam artifacts in the following way: the view folder
 			is a web content folder from the WAR project, the source folder is the first Eclipse
 			source folder. If there is a folder containing &quot;hot&quot; in the name, it will be

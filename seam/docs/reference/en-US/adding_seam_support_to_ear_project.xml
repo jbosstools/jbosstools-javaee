@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<chapter id="adding_seam_support_to_ear_project" xreflabel="adding_seam_support_to _ear_project" role="new">
+<chapter id="adding_seam_support_to_ear_project" role="new">
     <?dbhtml filename="adding_seam_support_to _ear_project.html"?>
     <chapterinfo>
         <keywordset>
@@ -20,8 +20,8 @@
         <listitem><para> seamproject-war (You can create WTP WEB project using New -> Project -> Web -> Dynamic Web Project wizard)</para></listitem>
     </itemizedlist>
     
-    <tip><title>Tip</title>
-        <para>You can add as many EJBs modules as you want just doing the same for each EJB project.</para></tip>
+    <note><title>Tip</title>
+        <para>You can add as many EJBs modules as you want just doing the same for each EJB project.</para></note>
     
     <figure>
         <title>WTP Projects</title>

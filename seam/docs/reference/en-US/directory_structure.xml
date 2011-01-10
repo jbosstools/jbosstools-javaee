@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<chapter id="directory_str" xreflabel="directory_str">
+<chapter id="directory_str">
     <?dbhtml filename="directory_structure.html"?>
     <chapterinfo>
         <keywordset>
@@ -50,7 +50,7 @@
         </note>
 
         <para>Furthermore the Seam Project wizard generates a test project that is setup to run
-                <link linkend="testNG">TestNG</link> directly against the proper libraries and
+                <xref linkend="testNG"/> directly against the proper libraries and
             server runtime libraries. When the TestNG plugin is installed you can just run your
             tests via <emphasis><property>Run As > TestNG Test</property>.</emphasis></para>
         <para>In order to deploy WAR project on server, right-click on the project and select <emphasis>

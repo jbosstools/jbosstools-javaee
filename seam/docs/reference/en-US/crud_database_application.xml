@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<chapter id="crud_database_application" xreflabel="crud_database_application">
+<chapter id="crud_database_application">
     <?dbhtml filename="crud_database_application.html"?>
     <chapterinfo>
         <keywordset>
@@ -26,7 +26,7 @@
             functionality, and we can assume that every programmer had to deal with
                 <property>CRUD</property> at some point. A <property>CRUD</property> application is
             one that uses forms to get data into and out of a database. </para>
-        <para> In the next section we will create <link linkend="intro">Seam</link> Web application,
+        <para> In the next section we will create <xref linkend="intro"/> Web application,
             connect it to the <ulink url="http://www.hsqldb.org/">HSQL</ulink> database and add
                 <property>CRUD</property> support. </para>
     </section>
@@ -80,12 +80,12 @@
             </mediaobject>
         </figure>
 
-        <tip>
+        <note>
             <title>Tip:</title>
-            <para>Please have a look <link linkend="create_seam">here</link> how to create Target
+            <para>Please have a look at <xref linkend="create_seam"/> how to create Target
                 Runtime and Seam Runtime in order to get started creating, running, and debugging
                 J2EE applications.</para>
-        </tip>
+        </note>
 
         <itemizedlist>
             <listitem>
