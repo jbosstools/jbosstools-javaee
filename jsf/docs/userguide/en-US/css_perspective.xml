@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<chapter id="css_perspective" xreflabel="css_perspective">
+<chapter id="css_perspective">
     <?dbhtml filename="css_perspective.html"?>
     <chapterinfo>
         <keywordset>
@@ -11,7 +11,7 @@
     <title>CSS Editing Perspective</title>
     <para>In this chapter we will discuss CSS Editing Perspective views, 
           more information about style sheets can be found in 
-          <link linkend="pages_styling">Page Styling section</link> 
+          <xref linkend="pages_styling"/> 
           of Editor chapter.
     </para>
     <para>The CSS Editing Perspective combines a set of views which allow you to see the structure of
@@ -36,11 +36,11 @@
             </para>
         </listitem>
         <listitem>
-            <para>using <link linkend="CSSPropertiesView">CSS Properties view</link>
+            <para>using <xref linkend="CSSPropertiesView"/>
             </para>
         </listitem>
         <listitem>
-            <para>using <link linkend="PropertiesView">Properties view</link>
+            <para>using <xref linkend="PropertiesView"/>
             </para>
         </listitem>
     </itemizedlist>
@@ -119,20 +119,19 @@
          </para>
         <itemizedlist>
             <listitem>
-                <para><link linkend="text_font">Text/Font</link>
-                </para>
+                <para><xref linkend="text_font"/></para>
             </listitem>
             <listitem>
-                <para><link linkend="background">Background</link></para>
+                <para><xref linkend="background"/></para>
             </listitem>
             <listitem>
-                <para><link linkend="boxes">Boxes</link></para>
+                <para><xref linkend="boxes"/></para>
             </listitem>
             <listitem>
-                <para><link linkend="property_sheet">Property Sheet</link></para>
+                <para><xref linkend="property_sheet"/></para>
             </listitem>
             <listitem>
-                <para><link linkend="edited_properties">Edited Properties</link></para>
+                <para><xref linkend="edited_properties"/></para>
             </listitem>
         </itemizedlist>
 
@@ -203,7 +202,7 @@
                     </itemizedlist>
             </listitem>
             <listitem><para id="property_sheet"><emphasis><property>Property Sheet</property></emphasis> tab contains the categorized list of properties.
-                Like in <link linkend="PropertiesView">Properties view</link> it's possible to edit the properties values.</para>
+                Like in <xref linkend="PropertiesView"/> it's possible to edit the properties values.</para>
                 <figure>
                     <title>Property Sheet tab</title>
                     <mediaobject>

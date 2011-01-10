@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<chapter id="jbds_editors" xreflabel="jbds_editors" role="updated">
+<chapter id="jbds_editors" role="updated">
     <?dbhtml filename="editors.html"?>
     <chapterinfo>
         <keywordset>
@@ -11,11 +11,11 @@
     <title>Editors</title>
     <para>
     	In the JSF Tools Reference Guide and Struts Tools Reference Guide you may have read about the Graphical Editors for JSF and Struts configuration files, Tiles Files, and Struts Validation Files. All these editors have 
-    	<link linkend="OpenOnSelection4Hyperlinknavigation"><property>OpenOn</property></link> and 
-    	<link linkend="CodeAssistAndDynamicCodeAssist42BasedOnProjectData"><property>Content Assist</property></link> 
+    	<xref linkend="OpenOnSelection4Hyperlinknavigation"/> and 
+    	<xref linkend="CodeAssistAndDynamicCodeAssist42BasedOnProjectData"/> 
     	features, which are described in more details in this document. In addition this document will cover the
-      <link linkend="visual_page">Visual Page Editor</link>, which provides combined visual and
-      source editing of Web pages, as well as many <link linkend="more_editors">other editors</link> for
+      <xref linkend="visual_page"/>, which provides combined visual and
+      source editing of Web pages, as well as many <xref linkend="more_editors"/> for
       different types of files.
     </para>
     <section id="editors_features">
@@ -27,15 +27,13 @@
         <para>The mentioned features are the following:</para>
         <itemizedlist>
             <listitem>
-                <para><link linkend="OpenOnSelection4Hyperlinknavigation">OpenOn</link></para>
+                <para><xref linkend="OpenOnSelection4Hyperlinknavigation"/></para>
             </listitem>
             <listitem>
-                <para><link linkend="CodeAssistAndDynamicCodeAssist42BasedOnProjectData">Content
-                        Assist</link></para>
+                <para><xref linkend="CodeAssistAndDynamicCodeAssist42BasedOnProjectData"/></para>
             </listitem>
             <listitem>
-                <para><link linkend="FullControlOverSourceFiles-SynchronizedSourcAndVisualEditing74"
-                        >Synchronized Source and Visual Editing</link></para>
+                <para><xref linkend="FullControlOverSourceFiles-SynchronizedSourcAndVisualEditing74"/></para>
             </listitem>
         </itemizedlist>
         <section id="OpenOnSelection4Hyperlinknavigation">
@@ -51,12 +49,12 @@
             <itemizedlist>
                 <listitem>
                     <para>
-                        <link linkend="XMLFiles232">XML files</link>
+                        <xref linkend="XMLFiles232"/>
                     </para>
                 </listitem>
                 <listitem>
                     <para>
-                        <link linkend="JSPPages223">JSP/XHTML Pages</link>
+                        <xref linkend="JSPPages223"/>
                     </para>
                 </listitem>
                 <listitem>
@@ -64,13 +62,12 @@
                 </listitem>
                 <listitem>
                     <para>
-                        <link linkend="cssclasses">CSS classes</link>
+                        <xref linkend="cssclasses"/>
                     </para>
                 </listitem>
                 <listitem>
                     <para>
-                        <link linkend="openonelvariables">Paths to files set using EL
-                            variable</link>
+                        <xref linkend="openonelvariables"/>
                     </para>
                 </listitem>
             </itemizedlist>
@@ -189,8 +186,7 @@
                     </listitem>
                     <listitem>
                         <para>Custom Facelets tag libraries in XHTML pages</para>
-                        <para>For details, see <link linkend="openOnForCustomFacelets">&quot;OpenOn
-                                for Custom Facelets Tag Libraries&quot;</link> later in this
+                        <para>For details, see <xref linkend="openOnForCustomFacelets"/> later in this
                             guide.</para>
                     </listitem>
                     <listitem>
@@ -255,32 +251,32 @@
                 </listitem>
                 <listitem>
                     <para>
-                        <link linkend="JSFProjectFiles3087">JSF project files</link>
+                        <xref linkend="JSFProjectFiles3087"/>
                     </para>
                 </listitem>
                 <listitem>
                     <para>
-                        <link linkend="StrutsProjectFile46s3">Struts project files</link>
+                        <xref linkend="StrutsProjectFile46s3"/>
                     </para>
                 </listitem>
                 <listitem>
                     <para>
-                        <link linkend="JSPPages434">JSP files</link>
+                        <xref linkend="JSPPages434"/>
                     </para>
                 </listitem>
                 <listitem>
                     <para>
-                        <link linkend="ContentAssistForXHTMLPages">XHTML files</link>
+                        <xref linkend="ContentAssistForXHTMLPages"/>
                     </para>
                 </listitem>
                 <listitem>
                     <para>
-                        <link linkend="ContentAssistForJavaFiles">Java files</link>
+                        <xref linkend="ContentAssistForJavaFiles"/>
                     </para>
                 </listitem>
                 <listitem>
                     <para>
-                        <link linkend="ContentAssistForRF">RichFaces components</link>
+                        <xref linkend="ContentAssistForRF"/>
                     </para>
                 </listitem>
                 <listitem>
@@ -291,7 +287,7 @@
                 </listitem>
                 <listitem>
                     <para>
-                        <link linkend="ContentAssistForInsertTag">Insert Tag Wizard</link>
+                        <xref linkend="ContentAssistForInsertTag"/>
                     </para>
                 </listitem>
             </itemizedlist>
@@ -846,9 +842,8 @@
                     </mediaobject>
                 </figure>
                 <para>If XHTML file uses custom Facelets components, the Content Assist should also
-                    be available for them. For details, see <link
-                        linkend="contentAssistForCustomFacelets">&quot;Content Assist for Custom
-                        Facelets Components&quot;</link> later in this guide.</para>
+                    be available for them. For details, see <xref
+                        linkend="contentAssistForCustomFacelets"/> later in this guide.</para>
             </section>
             <section id="ContentAssistForJavaFiles">
                 <title>Content Assist for Java Files</title>
@@ -1119,8 +1114,7 @@
                 value, while <property>Ctrl+Y</property> will return the new value again. The Properties
                 view has additional options and can be set up to display categories and advanced
                 properties. </para>
-            <para>It&apos;s also possible to use the <link linkend="palette">JBoss Tools
-                    Palette</link> to insert any tag from the list of tag libraries to the page you
+            <para>It&apos;s also possible to use the <xref linkend="palette"/> to insert any tag from the list of tag libraries to the page you
                 are editing with just a click or drag-and-drop.</para>
             <figure>
                 <title>Inserting Tag From the Palette</title>
@@ -1305,8 +1299,7 @@ two elements with equal id has been used, but should be used only one -->
                 With <property>Visual Page Editor</property> you can easily stylize your pages. In
                 this section we are going to introduce you to a powerful mechanism that <property
                     >VPE</property> provides for a complete control over pages styling. More helpful
-                information on work with CSS files can be found in <link linkend="css_perspective"
-                    >CSS Perspective chapter</link>
+                information on work with CSS files can be found in <xref linkend="css_perspective"/>
             </para>
             <section id="inline_styling">
                 <title>Inline Style Editing</title>
@@ -1546,13 +1539,12 @@ two elements with equal id has been used, but should be used only one -->
             <para>As for the <emphasis>
                     <property>Style</property>
                 </emphasis> field, you can fill it out manually or make use of the button next to
-                the field to bring the <link linkend="css_dialog">CSS Dialog</link> for editing
+                the field to bring the <xref linkend="css_dialog"/> for editing
                 styles.</para>
-            <para>You can observe all defined templates in the <link linkend="VisualPageEditor2">VPE
-                    Preferences</link> on the <emphasis>
+            <para>You can observe all defined templates in the <xref linkend="VisualPageEditor2"/> on the <emphasis>
                     <property>Visual Templates</property>
-                </emphasis> tab which you can quickly access by pressing <link
-                    linkend="AdvancedSettings954">Preferences</link> ( <inlinemediaobject>
+                </emphasis> tab which you can quickly access by pressing <xref
+                    linkend="AdvancedSettings954"/> ( <inlinemediaobject>
                     <imageobject>
                         <imagedata fileref="images/visual_page/icon_1.png"/>
                     </imageobject>
@@ -1617,21 +1609,21 @@ two elements with equal id has been used, but should be used only one -->
             <para>The Visual Page Editor toolbar includes the next buttons: </para>
             <itemizedlist>
                 <listitem>
-                    <para><link linkend="vpe_preferences">Preferences</link> ( <inlinemediaobject>
+                    <para><xref linkend="vpe_preferences"/> ( <inlinemediaobject>
                             <imageobject>
                                 <imagedata fileref="images/visual_page/icon_1.png"/>
                             </imageobject>
                         </inlinemediaobject> )</para>
                 </listitem>
                 <listitem>
-                    <para><link linkend="vpe_refresh">Refresh</link> ( <inlinemediaobject>
+                    <para><xref linkend="vpe_refresh"/> ( <inlinemediaobject>
                             <imageobject>
                                 <imagedata fileref="images/visual_page/icon_2.png"/>
                             </imageobject>
                         </inlinemediaobject> )</para>
                 </listitem>
                 <listitem>
-                    <para><link linkend="vpe_page_design_options">Page Design Options</link> (
+                    <para><xref linkend="vpe_page_design_options"/> (
                             <inlinemediaobject>
                             <imageobject>
                                 <imagedata fileref="images/visual_page/icon_3.png"/>
@@ -1639,15 +1631,14 @@ two elements with equal id has been used, but should be used only one -->
                         </inlinemediaobject> ) </para>
                 </listitem>
                 <listitem>
-                    <para><link linkend="splitting_buttons">the button to switch the current
-                            Visual/Source layout</link> ( <inlinemediaobject>
+                    <para><xref linkend="splitting_buttons"/> ( <inlinemediaobject>
                             <imageobject>
                                 <imagedata fileref="images/visual_page/source_top.png"/>
                             </imageobject>
                         </inlinemediaobject>)</para>
                 </listitem>
                 <listitem>
-                    <para><link linkend="vpe_show_border">Show border for unknown tags</link> (
+                    <para><xref linkend="vpe_show_border"/> (
                             <inlinemediaobject>
                             <imageobject>
                                 <imagedata fileref="images/visual_page/show_border_button.png"/>
@@ -1655,7 +1646,7 @@ two elements with equal id has been used, but should be used only one -->
                         </inlinemediaobject>)</para>
                 </listitem>
                 <listitem>
-                    <para><link linkend="vpe_show_nonvisual_tags">Show non-visual tags</link> (
+                    <para><xref linkend="vpe_show_nonvisual_tags"/> (
                             <inlinemediaobject>
                             <imageobject>
                                 <imagedata fileref="images/visual_page/show_nonvisual.png"/>
@@ -1663,7 +1654,7 @@ two elements with equal id has been used, but should be used only one -->
                         </inlinemediaobject>)</para>
                 </listitem>
                 <listitem>
-                    <para><link linkend="vpe_show_selection_bar">Show selection bar</link> (
+                    <para><xref linkend="vpe_show_selection_bar"/> (
                             <inlinemediaobject>
                             <imageobject>
                                 <imagedata fileref="images/visual_page/show_selection_bar.png"/>
@@ -1671,7 +1662,7 @@ two elements with equal id has been used, but should be used only one -->
                         </inlinemediaobject>)</para>
                 </listitem>
                 <listitem>
-                    <para><link linkend="inline_styling">Show text formatting bar</link> (
+                    <para><xref linkend="inline_styling"/> (
                             <inlinemediaobject>
                             <imageobject>
                                 <imagedata fileref="images/visual_page/formatting_bar_icon.png"/>
@@ -1715,8 +1706,8 @@ two elements with equal id has been used, but should be used only one -->
                 </figure>
                 <para>This page provides a number of options associated with the editor
                     representation. The more detailed description on each one you can find in the
-                        <property>&quot;JBoss Tools Preferences&quot;</property> chapter under <link
-                        linkend="VisualPageEditor2">Visual Page Editor</link>.</para>
+                        <property>&quot;JBoss Tools Preferences&quot;</property> chapter under <xref
+                        linkend="VisualPageEditor2"/>.</para>
             </section>
             <section id="vpe_refresh">
                 <title>Refresh</title>
@@ -2061,12 +2052,10 @@ two elements with equal id has been used, but should be used only one -->
                 make use of the following editor&apos;s features:</para>
             <itemizedlist>
                 <listitem>
-                    <para><link linkend="contentAssistForCustomFacelets">Content Assist for Custom
-                            Facelets Components</link></para>
+                    <para><xref linkend="contentAssistForCustomFacelets"/></para>
                 </listitem>
                 <listitem>
-                    <para><link linkend="openOnForCustomFacelets">OpenOn for Custom Facelets
-                            Components</link></para>
+                    <para><xref linkend="openOnForCustomFacelets"/></para>
                 </listitem>
             </itemizedlist>
             <section id="contentAssistForCustomFacelets">
@@ -2088,12 +2077,10 @@ two elements with equal id has been used, but should be used only one -->
                 <para>While developing using Facelets you can make use of:</para>
                 <itemizedlist>
                     <listitem>
-                        <para><link linkend="openOnInXHTML">OpenOn in XHTML Files That Use Custom
-                                Facelets Components</link></para>
+                        <para><xref linkend="openOnInXHTML"/></para>
                     </listitem>
                     <listitem>
-                        <para><link linkend="openOnInCustomFaceletsTaglibs">OpenOn in Custom
-                                Facelets Tag File (<literal>*.taglib.xml</literal>)</link></para>
+                        <para><xref linkend="openOnInCustomFaceletsTaglibs"/></para>
                     </listitem>
                 </itemizedlist>
                 <section id="openOnInXHTML">
@@ -2499,8 +2486,7 @@ two elements with equal id has been used, but should be used only one -->
                 </mediaobject>
             </figure>
             <para>To make you work on CSS files more comfortable, CSS perspective is available, read
-                more about it in <link linkend="css_perspective">CSS Editing Perspective
-                    chapter</link></para>
+                more about it in <xref linkend="css_perspective"/></para>
         </section>
         <section id="JavaScriptEditor">
             <title>JavaScript Editor</title>

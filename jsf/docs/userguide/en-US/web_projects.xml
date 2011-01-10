@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<chapter id="web_projects" xreflabel="web_projects">
+<chapter id="web_projects">
     <?dbhtml filename="web_projects.html"?>
 <title>Web Projects View</title>
 <para><property>Web Projects</property> is a special view that comes with JBoss Developer Studio.</para>
@@ -22,8 +22,7 @@
 <listitem><para>Use context menus to develop the application (all create and edit functions are available)</para></listitem>
 <listitem><para>Use icon shortcuts to create and import JSF and Struts projects</para></listitem>
 <listitem><para>Expand and inspect tag library files</para></listitem>
-<listitem><para><link linkend="AddingCustomJSFTagsToTheRedHatPalette7433">Select custom and third-party tag libraries to drag and drop onto 
-the JBoss Tools Palette</link></para></listitem>
+<listitem><para><xref linkend="AddingCustomJSFTagsToTheRedHatPalette7433"/></para></listitem>
 </itemizedlist>
 
 <section id="ProjectOrganization">
@@ -231,7 +230,7 @@ Simply right-click any node in the tree and select an appropriate action from th
 
 <title>Drag and Drop Tag Libraries on to JBoss Tools Palette</title>
 
-    <para>Read <link linkend="AddingCustomJSFTagsToTheRedHatPalette7433">Adding Tag Libraries</link> to learn about this.</para>
+    <para>Read <xref linkend="AddingCustomJSFTagsToTheRedHatPalette7433"/> to learn about this.</para>
 </section>
 <section id="CreateAndImportJSFAndStrutsProjects">
 <title>Create and Import JSF and Struts Projects</title>

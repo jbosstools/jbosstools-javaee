@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<chapter id="Visual_Web_Tools" xreflabel="Visual_Web_Tools">
+<chapter id="Visual_Web_Tools">
  <?dbhtml filename="Visual_Web_Tools.html"?>
  <chapterinfo>
   <keywordset>
@@ -73,7 +73,7 @@
        source and visual views. Integration with properties and outline views. Graphical toolbar to
        add inline styling to any tag.</entry>
       <entry>
-       <link linkend="visual_page">visual page editor</link>
+       <xref linkend="visual_page"/>
       </entry>
      </row>
 
@@ -83,7 +83,7 @@
       <entry>An extensive collection of specialized editors for different file types: properties, TLD, web.xml, tiles, and so on: Graphical Properties Editor,
        Graphical TLD Editor, Graphical Web Application File (web.xml) Editor, CSS Editor, JavaScript Editor, XSD Editor, Support for XML Schema.</entry>
       <entry>
-       <link linkend="more_editors">more editors</link>
+       <xref linkend="more_editors"/>
       </entry>
      </row>
 
@@ -95,7 +95,7 @@
        click, adding custom or 3rd party tag libraries into the palette, easy controlling the number
        of tag groups shown on the palette.</entry>
       <entry>
-       <link linkend="palette">jboss tools palette</link>
+       <xref linkend="palette"/>
       </entry>
      </row>
 
@@ -107,7 +107,7 @@
        library files. Selecting custom and third-party tag libraries to drag and drop onto the JBoss
        Tools Palette.</entry>
       <entry>
-       <link linkend="web_projects">web projects view</link>
+       <xref linkend="web_projects"/>
       </entry>
      </row>
 
@@ -115,7 +115,7 @@
       <entry>OpenOn</entry>
       <entry>Easy navigation between views and other parts of your projects.</entry>
       <entry>
-       <link linkend="OpenOnSelection4Hyperlinknavigation">openOn</link>
+       <xref linkend="OpenOnSelection4Hyperlinknavigation"/>
       </entry>
      </row>
 
@@ -126,7 +126,7 @@
        graphical editor. Code completion for values from property files, beans attributes and
        methods, navigation rule outcomes and jsf variables.</entry>
       <entry>
-       <link linkend="CodeAssistAndDynamicCodeAssist42BasedOnProjectData">content assist</link>
+       <xref linkend="CodeAssistAndDynamicCodeAssist42BasedOnProjectData"/>
       </entry>
      </row>
 
@@ -137,8 +137,8 @@
        rules, tag library file declarations, jsp files from web projects view by clicking them and
        dragging to source code.</entry>
       <entry>
-       <link linkend="visual_page">visual page editor</link>
-       <link linkend="DragAndDrop">drag-and-drop</link>
+       <xref linkend="visual_page"/>
+       <xref linkend="DragAndDrop"/>
       </entry>
      </row>
 
@@ -148,7 +148,7 @@
        components in any web application. Support for RichFaces and Ajax4jsf libraries in JBoss
        Tools Palette. Rendering RichFaces components in Visual Page Editor.</entry>
       <entry>
-      	<link linkend="richfaces_support">RichFaces support</link>
+      	<xref linkend="richfaces_support"/>
       </entry>
      </row>
    
@@ -156,7 +156,7 @@
       <entry>Flexible Configuration</entry>
       <entry>Various features of JBoss Developer Studio can be easily configured via the Preferences screen.</entry>
       <entry>
-       <link linkend="preferences">preferences</link>
+       <xref linkend="preferences"/>
       </entry>
      </row>
     

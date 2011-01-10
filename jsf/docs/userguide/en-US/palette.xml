@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<chapter id="palette" xreflabel="palette">
+<chapter id="palette">
     <?dbhtml filename="palette.html"?>
     <chapterinfo>
         <keywordset>
@@ -391,8 +391,8 @@
             <?dbhtml filename="Import.html"?>
             <title>Import</title>
             <para>The Import button lets you add a custom or 3rd party tag library to JBoss Tools
-                Palette. Find out more information on how to add particular tags see the <link
-                    linkend="ImportButton521">Adding Custom JSF Tags</link> section.
+                Palette. Find out more information on how to add particular tags see the <xref
+                    linkend="ImportButton521"/> section.
                 <!--<link linkend="CreatingAndWorkingCustomCapability">Learn how to import</link>. --></para>
         </section>
     </section>
@@ -545,8 +545,8 @@
               </para>
                 <para>By clicking on the <emphasis>
                         <property>Import button</property>
-                    </emphasis> you will see the Import Tag window a similar like in the <link
-                        linkend="Drag_and_Drop65332"> Drag-and-Drop</link> method. Set the name and
+                    </emphasis> you will see the Import Tag window a similar like in the <xref
+                        linkend="Drag_and_Drop65332"/> method. Set the name and
                     prefix of the library and Library URL. Also you need to set the Group name to
                     which you&apos;d like to add your tag library. And like in the previous
                     method you can add it to an existing Group or create a new one. On this Import

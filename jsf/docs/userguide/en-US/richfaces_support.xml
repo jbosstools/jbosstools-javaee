@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<chapter id="richfaces_support" xreflabel="richfaces_support" role="new">
+<chapter id="richfaces_support" role="new">
     <?dbhtml filename="richfaces_support.html"?>
     <chapterinfo>
         <keywordset>
@@ -23,9 +23,9 @@
     <para>The following features are implemented and fully supported for the current version of the RichFaces components:</para>
     
     <itemizedlist>
-        <listitem><para><link linkend="ContentAssistForRF">Content Assist</link></para></listitem>
-        <listitem><para><link linkend="RF_openOn">OpenOn</link></para></listitem>
-        <listitem><para><link linkend="RF_in_palette">Representing in JBoss Tools Palette</link></para></listitem>
+        <listitem><para><xref linkend="ContentAssistForRF"/></para></listitem>
+        <listitem><para><xref linkend="RF_openOn"/></para></listitem>
+        <listitem><para><xref linkend="RF_in_palette"/></para></listitem>
     </itemizedlist>
     
     <para>All you have to do is to <ulink url="http://www.jboss.org/jbossrichfaces/downloads/">download</ulink> and install RichFaces libraries into your
@@ -107,8 +107,7 @@
     <section id="RF_in_palette">
         <title>RichFaces in the JBoss Tools Palette</title>
         
-        <para>RichFaces and <link linkend="palette">JBoss Tools
-            Palette</link>.</para>
+        <para>RichFaces and <xref linkend="palette"/>.</para>
         
         <figure>
             <title>RichFaces Components</title>

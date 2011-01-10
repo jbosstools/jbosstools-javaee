@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<chapter id="preferences" xreflabel="preferences">
+<chapter id="preferences">
     <?dbhtml filename="preferences.html"?>
     <title>JBoss Tools Preferences</title>
 
@@ -22,133 +22,132 @@
     <itemizedlist>
         <listitem>
             <para>
-                <link linkend="ProjectArchives">Project Archives</link>
+                <xref linkend="ProjectArchives"/>
             </para>
         </listitem>
 
         <listitem>
             <para>
-                <link linkend="Editors">Editors</link>
+                <xref linkend="Editors"/>
             </para>
         </listitem>
 
         <listitem>
             <para>
-                <link linkend="VisualPageEditor2">Visual Page Editor</link>
+                <xref linkend="VisualPageEditor2"/>
             </para>
         </listitem>
 
         <listitem>
             <para>
-                <link linkend="el_variables">El Variables</link>
+                <xref linkend="el_variables"/>
             </para>
         </listitem>
 
         <listitem>
             <para>
-                <link linkend="JSF">JSF</link>
+                <xref linkend="JSF"/>
             </para>
         </listitem>
 
         <listitem>
             <para>
-                <link linkend="JSFPage">JSF Page</link>
+                <xref linkend="JSFPage"/>
             </para>
         </listitem>
 
         <listitem>
             <para>
-                <link linkend="JSFPropject">JSF Project</link>
+                <xref linkend="JSFPropject"/>
             </para>
         </listitem>
 
         <listitem>
             <para>
-                <link linkend="JSFFlowDiagram">JSF Flow Diagram</link>
+                <xref linkend="JSFFlowDiagram"/>
             </para>
         </listitem>
 
         <listitem>
             <para>
-                <link linkend="Seam">Seam</link>
+                <xref linkend="Seam"/>
             </para>
         </listitem>
         <listitem>
             <para>
-                <link linkend="SeamValidator">Seam Validator</link>
-            </para>
-        </listitem>
-
-        <listitem>
-            <para>
-                <link linkend="Struts">Struts</link>
-            </para>
-        </listitem>
-        <listitem>
-            <para>
-                <link linkend="struts_automation">Struts Automatic</link>
+                <xref linkend="SeamValidator"/>
             </para>
         </listitem>
 
         <listitem>
             <para>
-                <link linkend="Plug-inInsets">Plug-in Insets</link>
+                <xref linkend="Struts"/>
             </para>
         </listitem>
         <listitem>
             <para>
-                <link linkend="ResourceInsets">Resource Insets</link>
-            </para>
-        </listitem>
-
-        <listitem>
-            <para>
-                <link linkend="StrutsCustomization">Struts Customization</link>
-            </para>
-        </listitem>
-
-
-        <listitem>
-            <para>
-                <link linkend="StrutsProject">Struts Project</link>
+                <xref linkend="struts_automation"/>
             </para>
         </listitem>
 
         <listitem>
             <para>
-                <link linkend="StrutsSupport">Struts Support</link>
+                <xref linkend="Plug-inInsets"/>
+            </para>
+        </listitem>
+        <listitem>
+            <para>
+                <xref linkend="ResourceInsets"/>
             </para>
         </listitem>
 
         <listitem>
             <para>
-                <link linkend="StrutsPages">Struts Pages</link>
-            </para>
-        </listitem>
-
-        <listitem>
-            <para>
-                <link linkend="StrutsFlowDiagram">Struts Flow Diagram</link>
+                <xref linkend="StrutsCustomization"/>
             </para>
         </listitem>
 
 
         <listitem>
             <para>
-                <link linkend="tiles_diagram">Tiles Diagram</link>
+                <xref linkend="StrutsProject"/>
+            </para>
+        </listitem>
+
+        <listitem>
+            <para>
+                <xref linkend="StrutsSupport"/>
+            </para>
+        </listitem>
+
+        <listitem>
+            <para>
+                <xref linkend="StrutsPages"/>
+            </para>
+        </listitem>
+
+        <listitem>
+            <para>
+                <xref linkend="StrutsFlowDiagram"/>
+            </para>
+        </listitem>
+
+
+        <listitem>
+            <para>
+                <xref linkend="tiles_diagram"/>
             </para>
         </listitem>
         <listitem>
             <para>
-                <link linkend="Verification">Verification</link>
+                <xref linkend="Verification"/>
             </para>
         </listitem>
     </itemizedlist>
 
     <para>The <property>Preferences</property> dialog <emphasis>( <property>Window &gt;
-                Preferences</property>) </emphasis> also allows to adjust settings for <link
-            linkend="JBossServerPreferences">JBoss Server</link> and <link linkend="XDoclet"
-            >XDoclet</link> module.</para>
+                Preferences</property>) </emphasis> also allows to adjust settings for <xref
+            linkend="JBossServerPreferences"/> and <xref linkend="XDoclet"/> module.</para>
 
     <section id="ProjectArchives">
         <?dbhtml filename="ProjectArchives.html"?>
@@ -477,8 +476,8 @@
             </tgroup>
         </table>
 
-        <para>On the <property>Visual Templates</property> tab you can add, edit or remove <link
-                linkend="vpe_templating">VPE visual templates</link>.</para>
+        <para>On the <property>Visual Templates</property> tab you can add, edit or remove <xref
+                linkend="vpe_templating"/>.</para>
         <figure>
             <title>Visual Page Editor Templates</title>
             <mediaobject>
@@ -490,8 +489,7 @@
 
         <para>Select a template for editing from the available list and press <emphasis>
                 <property>Edit</property>
-            </emphasis> button. It will pick up the <link linkend="template_dialog">Template
-                dialog</link> where you can adjust new settings.</para>
+            </emphasis> button. It will pick up the <xref linkend="template_dialog"/> where you can adjust new settings.</para>
     </section>
     
     <section id="vpe_code_templates">
@@ -611,8 +609,7 @@
 
         <note>
             <title>Tip:</title>
-            <para>If you specify an equal variable in <link linkend="el_exp_para">Substitute EL
-                    expressions dialog</link> and in Preference EL dialog, variable from preference dialog will
+            <para>If you specify an equal variable in <xref linkend="el_exp_para"/> and in Preference EL dialog, variable from preference dialog will
                 have priority.</para>
         </note>
     </section>

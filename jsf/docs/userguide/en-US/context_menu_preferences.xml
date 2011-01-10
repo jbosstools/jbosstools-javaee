@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<chapter id="context_menu_preferences" xreflabel="context_menu_preferences">
+<chapter id="context_menu_preferences">
     <?dbhtml filename="context_menu_preferences.html"?>
     <title>Context Menu Preferences and Options</title>
 
@@ -7,8 +7,7 @@
         project and select the <emphasis>
             <property>Preferences</property>
         </emphasis> option. More details on what adjustments you can perform in the
-            <property>Preferences screen</property>, see in the <link linkend="preferences"
-            >&quot;JBoss Tools Preferences&quot;</link> chapter.</para>
+            <property>Preferences screen</property>, see in the <xref linkend="preferences"/> chapter.</para>
 
     <para>Under the <emphasis>
             <property>JBoss Tools</property>
