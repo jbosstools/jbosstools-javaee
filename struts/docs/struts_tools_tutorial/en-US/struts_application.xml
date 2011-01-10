@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<chapter id="struts_application" xreflabel="struts_application">
+<chapter id="struts_application">
     <?dbhtml filename="struts_application.html"?>
     <chapterinfo>
         <keywordset>
