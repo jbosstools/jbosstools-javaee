@@ -15,10 +15,8 @@
 
         <para>We don&apos;t lock you into any one <property>JavaServer
                         Faces</property> implementation. You can always select the one which is
-                necessary for you while <link linkend="new_jsf_project">creating a new JSF
-                project</link>, <link linkend="add_jsf_capability">adding JSF capability</link> to
-                any existing Eclipse project or <link linkend="ImportingExsJSFProjWithAnyStr74447"
-                        >importing existing JSF projects</link> as well.</para>
+                necessary for you while <xref linkend="new_jsf_project"/>, <xref linkend="add_jsf_capability"/> to
+                any existing Eclipse project or <xref linkend="ImportingExsJSFProjWithAnyStr74447"/> as well.</para>
         <para>At this point the special wizard will prompt you to specify a proper JSF environment.
                 It may be JSF 1.1.02 RI or JSF 1.2 which integrates a number of new features and
                 changes. The wizard also lets you select JSF implementation with a component

@@ -47,7 +47,7 @@
                     <row>
                         <entry>JSF and Facelets support</entry>
                         <entry>Step-by-step wizards for creating new JSF and Facelets projects with a number of predefined templates, importing existing ones and adding JSF capabilities to non-jsf web projects.</entry>
-                        <entry><link linkend="jsf_support">jsf support</link></entry>
+                        <entry><xref linkend="jsf_support"/></entry>
                     </row>
 
                     <row>
@@ -55,7 +55,7 @@
                         <entry>Jump-start development with out-of-the-box templates or easily
                             customized templates for re-use.</entry>
                         <entry>
-                            <link linkend="projects">projects</link>
+                            <xref linkend="projects"/></link>
                         </entry>
                     </row>
 
@@ -65,8 +65,7 @@
                             Synchronization between the modes and full control over the code. Easy
                             moving around the diagram using the Diagram Navigator.</entry>
                         <entry>
-                            <link linkend="jsf_config_file"
-                                >graphical editor for jsf</link>
+                            <xref linkend="jsf_config_file"/>
                         </entry>
                     </row>
 
@@ -75,7 +74,7 @@
                         <entry>Adding new managed beans, generating code for attributes, properties
                             and getter/setter methods.</entry>
                         <entry>
-                            <link linkend="managed_beans">managed beans</link>
+                            <xref linkend="managed_beans"/>
                         </entry>
                     </row>
 
@@ -84,7 +83,7 @@
                         <entry>Fast creating of custom converters and validators with tree view of
                             faces-config.xml file.</entry>
                         <entry>
-                            <link linkend="creation_and_registration">converters and validators</link>
+                            <xref linkend="creation_and_registration"/>
                         </entry>
                     </row>
 
@@ -95,8 +94,7 @@
                             errors checking allows to catch many of the errors during development
                             process that significantly reduces development time.</entry>
                         <entry>
-                            <link linkend="jsf_project_verification">verification and
-                            validation</link>
+                            <xref linkend="jsf_project_verification"/>
                         </entry>
 
                     </row>

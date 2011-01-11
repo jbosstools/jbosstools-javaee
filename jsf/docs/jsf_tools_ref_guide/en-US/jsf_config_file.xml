@@ -210,9 +210,7 @@
                 <para>Under the <emphasis>
                         <property>Converters</property>
                     </emphasis> node you can create a converter class for your JSF application
-                    either with id or for a proper class. How to do that see the <link
-                        linkend="CreateAndRegisterACustomConverter94230">Create and Register a
-                        Custom Converter</link> section.</para>
+                    either with id or for a proper class. How to do that see the <xref linkend="CreateAndRegisterACustomConverter94230"/> section.</para>
             </listitem>
         </itemizedlist>
 
@@ -230,8 +228,7 @@
                 <para>The <emphasis>
                         <property>Managed Bean</property>
                     </emphasis> node is meant for creating and registering Bean classes in your JSF
-                    application. Read more on the topic in the <link linkend="managed_beans">Managed
-                        Beans</link> chapter.</para>
+                    application. Read more on the topic in the <xref linkend="managed_beans"/> chapter.</para>
             </listitem>
         </itemizedlist>
 
@@ -253,11 +250,11 @@
                     in the right-hand area.</para>
             </listitem>
         </itemizedlist>
-        <tip>
+        <note>
             <title>Tip:</title>
-            <para>The same you can do in the <link linkend="Diagram9553">Diagram view</link> of the
+            <para>The same you can do in the <xref linkend="Diagram9553"/> of the
                 JSF Configuration file editor.</para>
-        </tip>
+        </note>
 
         <figure>
             <title>Configuring Navigation Rules</title>
@@ -273,8 +270,8 @@
                 <para>Under the <emphasis>
                         <property>Referenced Beans</property>
                     </emphasis> node you can add a new Referenced Bean and configure various
-                    properties for it. To learn more on this refer to the <link
-                        linkend="referenced_beans">Create and Register Referenced Beans</link>
+                    properties for it. To learn more on this refer to the <xref
+                        linkend="referenced_beans"/>
                     section.</para>
             </listitem>
         </itemizedlist>
@@ -293,9 +290,8 @@
                 <para>The <emphasis>
                         <property>Validators</property>
                     </emphasis> node is needed to create validator classes for organizing the
-                    validation of your application data. You can read more on the topic in the <link
-                        linkend="CreateAndRegisterACustomValidator5632">Create and Register a Custom
-                        Validator</link> section.</para>
+                    validation of your application data. You can read more on the topic in the <xref
+                        linkend="CreateAndRegisterACustomValidator5632"/> section.</para>
             </listitem>
         </itemizedlist>
 
@@ -409,8 +405,7 @@
             <para>When you are developing your project, error checking is constantly provided. This
                 greatly reduces your development time as it allows you to catch many of the errors
                 during development.</para>
-            <para>Errors will be reported by <link linkend="jsf_project_verification">
-                    verification</link> facility:</para>
+            <para>Errors will be reported by <xref linkend="jsf_project_verification"/> facility:</para>
             <figure>
                 <title>Error Reporting in Source View</title>
                 <mediaobject>

@@ -306,8 +306,7 @@
                         </mediaobject>
                 </figure>
 
-                <para>Once the file has been created, it should be opened in a special <link
-                                linkend="jsf_config_file">Faces Config Editor</link>.</para>
+                <para>Once the file has been created, it should be opened in a special <xref linkend="jsf_config_file"/>.</para>
         </section>
         <section id="AddingYourOwnProjectTemplates853">
 
