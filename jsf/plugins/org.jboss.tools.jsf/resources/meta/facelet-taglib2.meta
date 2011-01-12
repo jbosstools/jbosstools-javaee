@@ -822,7 +822,7 @@
      HandlerClassName="org.jboss.tools.jsf.model.handlers.RenameFacesConfigHandler"
      ICON="action.empty" PROPERTIES="validator.edit=true"
      WizardClassName="%Default%" displayName="Rename..." kind="action" name="Rename">
-     <EntityData EntityName="FileESB110">
+     <EntityData EntityName="FacesConfig">
       <AttributeData AttributeName="name"/>
      </EntityData>
     </XActionItem>
