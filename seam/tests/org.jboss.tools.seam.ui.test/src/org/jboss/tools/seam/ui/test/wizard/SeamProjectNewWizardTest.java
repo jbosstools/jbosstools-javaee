@@ -75,7 +75,13 @@ public class SeamProjectNewWizardTest extends TestCase{
 		dialog.create();
 		dialog.setBlockOnOpen(false);
 		dialog.open();
-		JobUtils.delay(2000);
+		// this is necessary to fix https://jira.jboss.org/jira/browse/JBIDE-4824
+		// wait until all defferedEvents are processed
+		cleanDefferedEvents();
+	}
+
+	private void cleanDefferedEvents() {
+		while (Display.getCurrent().readAndDispatch());
 	}
 
 	/**
@@ -102,7 +108,7 @@ public class SeamProjectNewWizardTest extends TestCase{
 		try {
 			// Disable Library Configuration
 			disableLibraryConfiguration();
-			JobUtils.delay(1000);
+			cleanDefferedEvents();
 	
 			boolean canFinish = wizard.canFinish();
 			assertFalse("Finish button is enabled at first wizard page before all requerd fileds are valid.", canFinish);
@@ -121,11 +127,11 @@ public class SeamProjectNewWizardTest extends TestCase{
 		try {
 			// Disable Library Configuration
 			disableLibraryConfiguration();
-			JobUtils.delay(2000);
+			cleanDefferedEvents();
 			
 			// Set project name
 			wizard.getDataModel().setProperty(IFacetDataModelProperties.FACET_PROJECT_NAME, "testSeamProject");
-			JobUtils.delay(2000);
+			cleanDefferedEvents();
 			
 			assertTrue("Finish button is disabled at first wizard page in spite of created JBoss AS Runtime, Server, DB Connection and Seam Runtime and valid project name.", wizard.canFinish());
 		} finally {
