@@ -11,6 +11,8 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IncrementalProjectBuilder;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.internal.ui.javaeditor.CompilationUnitEditor;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.contentassist.ICompletionProposal;
@@ -18,6 +20,7 @@ import org.eclipse.jface.text.contentassist.IContentAssistProcessor;
 import org.eclipse.jface.text.contentassist.IContentAssistant;
 import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.jface.text.source.SourceViewerConfiguration;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
@@ -26,12 +29,15 @@ import org.jboss.tools.common.el.ui.ca.ELProposalProcessor;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.jst.jsp.test.TestUtil;
 import org.jboss.tools.test.util.JobUtils;
+import org.jboss.tools.test.util.ResourcesUtils;
 import org.jboss.tools.test.util.TestProjectProvider;
+import org.jboss.tools.test.util.WorkbenchUtils;
 
 public class SeamELContentAssistJbide1676Test extends TestCase {
 	TestProjectProvider provider = null;
 	IProject project = null;
 	boolean makeCopy = false;
+	boolean autoBuild = true;
 	private static final String PROJECT_NAME = "TestSeamELContentAssist";
 	private static final String JAVA_FILENAME = "org/domain/TestSeamELContentAssist/session/Authenticator.java";
 	private static final String EL_START_TEMPLATE = "#{";
@@ -210,16 +216,15 @@ public class SeamELContentAssistJbide1676Test extends TestCase {
 	}
 
 	public void setUp() throws Exception {
-		provider = new TestProjectProvider("org.jboss.tools.seam.ui.test", null, PROJECT_NAME, makeCopy); 
-		project = provider.getProject();
-		Throwable exception = null;
 		try {
-			project.refreshLocal(IResource.DEPTH_INFINITE, null);
-		} catch (Exception x) {
-			exception = x;
-			x.printStackTrace();
+			autoBuild = ResourcesUtils.setBuildAutomatically(false);
+			provider = new TestProjectProvider("org.jboss.tools.seam.ui.test", null, PROJECT_NAME, makeCopy); 
+			project = provider.getProject();
+			project.build(IncrementalProjectBuilder.FULL_BUILD, null);
+			JobUtils.waitForIdle();
+		} finally {
+			ResourcesUtils.setBuildAutomatically(autoBuild);
 		}
-		assertNull("An exception caught: " + (exception != null? exception.getMessage() : ""), exception);
 	}
 
 	protected void tearDown() throws Exception {
@@ -228,17 +233,11 @@ public class SeamELContentAssistJbide1676Test extends TestCase {
 		}
 	}
 
-	public void testSeamELContentAssistJbide1676() {
-		try {
-			JobUtils.waitForIdle();
-		} catch (Exception e) {
-			e.printStackTrace();
-		} 
+	public void testSeamELContentAssistJbide1676() throws CoreException {
 		assertTrue("Test project \"" + PROJECT_NAME + "\" is not loaded", (project != null));
 		 
 		IFolder srcRoot = (IFolder)EclipseResourceUtil.getJavaSourceRoot(project);
 		IFile javaFile = (srcRoot == null ? null : (IFile)srcRoot.findMember(JAVA_FILENAME));  
-			
 
 		assertTrue("The file \"" + JAVA_FILENAME + "\" is not found", (javaFile != null));
 		assertTrue("The file \"" + JAVA_FILENAME + "\" is not found", (javaFile.exists()));
@@ -246,13 +245,11 @@ public class SeamELContentAssistJbide1676Test extends TestCase {
 		FileEditorInput editorInput = new FileEditorInput(javaFile);
 		Throwable exception = null;
 		IEditorPart editorPart = null;
-		try {
-			editorPart = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().openEditor(editorInput, "org.eclipse.jdt.ui.CompilationUnitEditor");
-		} catch (PartInitException ex) {
-			exception = ex;
-			ex.printStackTrace();
-			assertTrue("The Java Editor couldn't be initialized.", false);
-		}
+
+		editorPart = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().openEditor(editorInput, "org.eclipse.jdt.ui.CompilationUnitEditor");
+		
+		// clean deffered events 
+		while (Display.getCurrent().readAndDispatch());
 
 		try {
 			CompilationUnitEditor javaEditor = null;
@@ -262,13 +259,7 @@ public class SeamELContentAssistJbide1676Test extends TestCase {
 		
 			// Delay for 3 seconds so that
 			// the Favorites view can be seen.
-			try {
-				JobUtils.waitForIdle();
-			} catch (Exception e) {
-				e.printStackTrace();
-				assertTrue("Waiting for the jobs to complete has failed.", false);
-			} 
-			TestUtil.delay(3000);
+			JobUtils.waitForIdle();
 			
 			ISourceViewer viewer = javaEditor.getViewer();
 			IDocument document = viewer.getDocument();
@@ -288,12 +279,7 @@ public class SeamELContentAssistJbide1676Test extends TestCase {
 	
 			IContentAssistProcessor p= TestUtil.getProcessor(viewer, offsetToTest, contentAssistant);
 			if (p != null) {
-				try {
-					result= p.computeCompletionProposals(viewer, offsetToTest);
-				} catch (Throwable x) {
-					x.printStackTrace();
-				}
-				errorMessage= p.getErrorMessage();
+				result= p.computeCompletionProposals(viewer, offsetToTest);
 			}
 			
 	//		if (errorMessage != null && errorMessage.trim().length() > 0) {
@@ -326,7 +312,7 @@ public class SeamELContentAssistJbide1676Test extends TestCase {
 		} finally {
 			PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
 			.closeEditor(editorPart, false);
+
 		}
 	}
-
 }
