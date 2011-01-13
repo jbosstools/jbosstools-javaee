@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.ltk.core.refactoring.CompositeChange;
@@ -14,6 +15,7 @@ import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.internal.core.refactoring.RenameComponentProcessor;
 import org.jboss.tools.test.util.JobUtils;
+import org.jboss.tools.test.util.ResourcesUtils;
 
 public class SeamComponentRefactoringTest extends SeamRefactoringTest {
 	
@@ -25,6 +27,8 @@ public class SeamComponentRefactoringTest extends SeamRefactoringTest {
 	
 
 	public void testSeamComponentRename() throws CoreException {
+		ResourcesUtils.setBuildAutomatically(false);
+		try {
 		ArrayList<TestChangeStructure> list = new ArrayList<TestChangeStructure>();
 
 		TestChangeStructure structure = new TestChangeStructure(ejbProject.getProject(), "/ejbModule/org/domain/"+warProjectName+"/session/TestComponent.java");
@@ -79,6 +83,9 @@ public class SeamComponentRefactoringTest extends SeamRefactoringTest {
 		list.add(structure);
 
 		renameComponent(seamEjbProject, "test", "best", list, 0);
+		} finally {
+			ResourcesUtils.setBuildAutomatically(true);
+		}
 	}
 	
 	public void testRemaningMailSessionDeclarationInComponentsXml_JBIDE4447() throws CoreException {
@@ -94,7 +101,6 @@ public class SeamComponentRefactoringTest extends SeamRefactoringTest {
 	}
 
 	private void renameComponent(ISeamProject seamProject, String componentName, String newName, List<TestChangeStructure> changeList, long delay) throws CoreException{
-		JobUtils.waitForIdle();
 
 		// Test before renaming
 		ISeamComponent component = seamProject.getComponent(componentName);
@@ -123,12 +129,10 @@ public class SeamComponentRefactoringTest extends SeamRefactoringTest {
 		}
 
 		rootChange.perform(new NullProgressMonitor());
-		
-		if(delay > 0)
-			JobUtils.waitForIdle(delay);
-		else
-			JobUtils.waitForIdle();
-		
+		// do not relay on Auto build, build what you need and test results 
+		ejbProject.build(IncrementalProjectBuilder.FULL_BUILD, null);
+		warProject.build(IncrementalProjectBuilder.FULL_BUILD, null);
+
 		// Test results
 		assertNotNull("Can't load component " + newName, seamProject.getComponent(newName));
 		for(TestChangeStructure changeStructure : changeList){
