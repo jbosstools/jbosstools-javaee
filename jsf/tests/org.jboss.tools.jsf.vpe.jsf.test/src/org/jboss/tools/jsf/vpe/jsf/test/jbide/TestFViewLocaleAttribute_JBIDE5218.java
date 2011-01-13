@@ -19,12 +19,16 @@ import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.jface.text.FindReplaceDocumentAdapter;
+import org.eclipse.jface.text.IRegion;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.part.FileEditorInput;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.jsf.vpe.jsf.template.util.ComponentUtil;
 import org.jboss.tools.jsf.vpe.jsf.test.JsfAllTests;
 import org.jboss.tools.jst.jsp.jspeditor.JSPMultiPageEditor;
+import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.vpe.VpePlugin;
 import org.jboss.tools.vpe.base.test.TestUtil;
 import org.jboss.tools.vpe.base.test.VpeTest;
@@ -260,16 +264,25 @@ public class TestFViewLocaleAttribute_JBIDE5218 extends VpeTest {
 		 * Change the locale
 		 */
 		Element fViewElement = controller.getSourceBuilder().getSourceDocument().getElementById(FVIEW_ID);
+		int offset = controller.getSourceBuilder().getPosition(fViewElement,0,false);
 		assertTrue("Previous locale should be 'de'", "de".equalsIgnoreCase(fViewElement.getAttribute("locale"))); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		fViewElement.setAttribute("locale", "en_GB"); //$NON-NLS-1$ //$NON-NLS-2$
+
+		IRegion reg = new FindReplaceDocumentAdapter(
+				controller.getSourceBuilder().getStructuredTextViewer().getDocument())
+					.find(offset, "de", true, true, false, false);
+		controller.getSourceBuilder().getStructuredTextViewer().getDocument().replace(reg.getOffset(), reg.getLength(), "en_GB");
 		/*
 		 * Wait until new value is applied and children are refreshed.
 		 */
+		JobUtils.delay(VpeController.DEFAULT_UPDATE_DELAY_TIME*2);
 		TestUtil.waitForIdle();
+		fViewElement = controller.getSourceBuilder().getSourceDocument().getElementById(FVIEW_ID);
 		assertTrue("Current locale should be 'en_GB'", "en_GB".equalsIgnoreCase(fViewElement.getAttribute("locale"))); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+
 		doc = controller.getXulRunnerEditor().getDOMDocument();
 		localeText = doc.getElementById(LOCALE_TEXT_ID);
 		localizedText = getLocalizedText(localeText);
+
 		/*
 		 * Check the new localized message.
 		 */
