@@ -23,7 +23,7 @@ public class KbNaturesInfoDialog_JBIDE6125 extends NaturesInfoDialogTest {
 	private static final String TEST_STRING = "The project \"" //$NON-NLS-1$
 			+ testProjectName
 			+ "\" does not have JSF code completion and validation enabled completely.\n\n" + //$NON-NLS-1$
-			"Please use \"Enabale JSF Code Completion...\" fix button if " + //$NON-NLS-1$
+			"Please use \"Enable JSF Code Completion...\" fix button if " + //$NON-NLS-1$
 			"you want these features working."; //$NON-NLS-1$
 
 	public KbNaturesInfoDialog_JBIDE6125(String name) {
