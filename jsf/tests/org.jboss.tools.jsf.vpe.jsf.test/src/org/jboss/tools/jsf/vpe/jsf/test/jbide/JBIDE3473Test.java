@@ -4,6 +4,7 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.wst.sse.core.internal.provisional.IndexedRegion;
@@ -11,6 +12,7 @@ import org.eclipse.wst.sse.ui.internal.StructuredTextViewer;
 import org.eclipse.wst.sse.ui.internal.contentassist.ContentAssistUtils;
 import org.jboss.tools.jsf.vpe.jsf.test.JsfAllTests;
 import org.jboss.tools.jst.jsp.jspeditor.JSPMultiPageEditor;
+import org.jboss.tools.test.util.WorkbenchUtils;
 import org.jboss.tools.vpe.base.test.TestUtil;
 import org.jboss.tools.vpe.base.test.VpeTest;
 import org.jboss.tools.vpe.editor.VpeController;
@@ -75,7 +77,9 @@ public class JBIDE3473Test extends VpeTest {
 		assertNotNull("boundsBeforeInsert should be not null.", boundsBeforeInsert); //$NON-NLS-1$
 
 		styledText.insert(INSERTING_TEXT); //$NON-NLS-1$
-		TestUtil.delay(450);
+		// wait while all deferred events are processed
+		while(Display.getCurrent().readAndDispatch());
+		// wait while all jobs including started through deferred events are ended
 		TestUtil.waitForJobs();
 
 		Rectangle boundsAfterInsert = getBoundsOfElementById(vpeController.getXulRunnerEditor().getDOMDocument(), TABLE_ID);
