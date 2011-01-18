@@ -46,6 +46,10 @@ public class CDIUIMessages extends NLS{
 	public static String NEW_DECORATOR_WIZARD_PAGE_NAME;
 	public static String NEW_DECORATOR_WIZARD_DESCRIPTION;
 	
+	public static String NEW_BEAN_WIZARD_TITLE;
+	public static String NEW_BEAN_WIZARD_PAGE_NAME;
+	public static String NEW_BEAN_WIZARD_DESCRIPTION;
+	
 	public static String NEW_BEANS_XML_WIZARD_TITLE;
 	public static String NEW_BEANS_XML_WIZARD_PAGE_NAME;
 	public static String NEW_BEANS_XML_WIZARD_DESCRIPTION;
