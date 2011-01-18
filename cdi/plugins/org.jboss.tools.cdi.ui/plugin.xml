@@ -223,6 +223,21 @@
 
       <wizard 
          category="org.jboss.tools.cdi.ui" 
+         class="org.jboss.tools.cdi.ui.wizard.NewBeanCreationWizard" 
+         icon="icons/cdi16.png"
+         id="org.jboss.tools.cdi.ui.wizard.NewBeanCreationWizard" 
+         name="Bean" 
+         project="false">
+         <description>
+            Create a Bean Type
+         </description>
+         <keywordReference
+               id="org.jboss.tools.cdi.ui.newBean">
+         </keywordReference>
+      </wizard>
+
+      <wizard 
+         category="org.jboss.tools.cdi.ui" 
          class="org.jboss.tools.cdi.ui.wizard.NewAnnotationLiteralCreationWizard" 
          icon="icons/cdi16.png"
          id="org.jboss.tools.cdi.ui.wizard.NewAnnotationLiteralCreationWizard" 
