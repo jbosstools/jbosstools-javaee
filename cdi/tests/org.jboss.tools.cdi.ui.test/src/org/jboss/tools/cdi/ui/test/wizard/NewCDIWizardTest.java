@@ -43,6 +43,7 @@ import org.jboss.tools.cdi.ui.CDIUIMessages;
 import org.jboss.tools.cdi.ui.CDIUIPlugin;
 //import org.jboss.tools.cdi.ui.wizard.NewCDIAnnotationWizardPage;
 import org.jboss.tools.cdi.ui.wizard.NewAnnotationLiteralWizardPage;
+import org.jboss.tools.cdi.ui.wizard.NewBeanWizardPage;
 import org.jboss.tools.cdi.ui.wizard.NewBeansXMLCreationWizard;
 import org.jboss.tools.cdi.ui.wizard.NewDecoratorWizardPage;
 import org.jboss.tools.cdi.ui.wizard.NewInterceptorBindingWizardPage;
@@ -71,6 +72,7 @@ public class NewCDIWizardTest extends TestCase {
 	static String INTERCEPTOR_BINDING2_NAME = "MyInterceptorBinding2";
 	static String INTERCEPTOR_NAME = "MyInterceptor";
 	static String DECORATOR_NAME = "MapDecorator<K,V>";
+	static String BEAN_NAME = "MyBean";
 	
 	static class WizardContext {
 		NewElementWizard wizard;
@@ -366,6 +368,30 @@ public class NewCDIWizardTest extends TestCase {
 			
 			assertTrue(text.contains("@Decorator"));
 			assertTrue(text.contains("@Delegate"));
+		} finally {
+			context.close();
+		}
+	}
+
+	public void testNewBeanWizard() {
+		WizardContext context = new WizardContext();
+		context.init("org.jboss.tools.cdi.ui.wizard.NewBeanCreationWizard",
+				PACK_NAME, BEAN_NAME);JobUtils.waitForIdle(2000);
+		JobUtils.waitForIdle(2000);
+		ICDIProject cdi = CDICorePlugin.getCDIProject(context.tck, true);
+		
+		try {
+			NewBeanWizardPage page = (NewBeanWizardPage)context.page;
+			
+			page.setBeanName("myNewBean");
+
+			context.wizard.performFinish();
+			
+			String text = context.getNewTypeContent();
+			System.out.println(text);
+			
+			assertTrue(text.contains("@Named"));
+			assertTrue(text.contains("\"myNewBean\""));
 		} finally {
 			context.close();
 		}
