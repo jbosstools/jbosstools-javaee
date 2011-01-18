@@ -136,10 +136,10 @@
          class="org.jboss.tools.cdi.ui.wizard.NewQualifierCreationWizard" 
          icon="icons/cdi16.png"
          id="org.jboss.tools.cdi.ui.wizard.NewQualifierCreationWizard" 
-         name="Qualifier Annotation Type" 
+         name="Qualifier Annotation" 
          project="false">
          <description>
-            Create a Qualifier Java File
+            Create a Qualifier Annotation Type
          </description>
          <keywordReference
                id="org.jboss.tools.cdi.ui.newJava">
@@ -151,10 +151,10 @@
          class="org.jboss.tools.cdi.ui.wizard.NewStereotypeCreationWizard" 
          icon="icons/cdi16.png"
          id="org.jboss.tools.cdi.ui.wizard.NewStereotypeCreationWizard" 
-         name="Stereotype Annotation Type" 
+         name="Stereotype Annotation" 
          project="false">
          <description>
-            Create a Stereotype Java File
+            Create a Stereotype Annotation Type
          </description>
          <keywordReference
                id="org.jboss.tools.cdi.ui.newJava">
@@ -166,10 +166,10 @@
          class="org.jboss.tools.cdi.ui.wizard.NewScopeCreationWizard" 
          icon="icons/cdi16.png"
          id="org.jboss.tools.cdi.ui.wizard.NewScopeCreationWizard" 
-         name="Scope Annotation Type" 
+         name="Scope Annotation" 
          project="false">
          <description>
-            Create a Scope Java File
+            Create a Scope Annotation Type
          </description>
          <keywordReference
                id="org.jboss.tools.cdi.ui.newJava">
@@ -181,10 +181,10 @@
          class="org.jboss.tools.cdi.ui.wizard.NewInterceptorBindingCreationWizard" 
          icon="icons/cdi16.png"
          id="org.jboss.tools.cdi.ui.wizard.NewInterceptorBindingCreationWizard" 
-         name="Interceptor Binding Annotation Type" 
+         name="Interceptor Binding Annotation" 
          project="false">
          <description>
-            Create a Interceptor Binding Java File
+            Create a Interceptor Binding Annotation Type
          </description>
          <keywordReference
                id="org.jboss.tools.cdi.ui.newJava">
@@ -196,13 +196,13 @@
          class="org.jboss.tools.cdi.ui.wizard.NewInterceptorCreationWizard" 
          icon="icons/cdi16.png"
          id="org.jboss.tools.cdi.ui.wizard.NewInterceptorCreationWizard" 
-         name="Interceptor Type" 
+         name="Interceptor" 
          project="false">
          <description>
-            Create an Interceptor Java File
+            Create an Interceptor Type
          </description>
          <keywordReference
-               id="org.jboss.tools.cdi.ui.newJava">
+               id="org.jboss.tools.cdi.ui.newBean">
          </keywordReference>
       </wizard>
 
@@ -211,13 +211,13 @@
          class="org.jboss.tools.cdi.ui.wizard.NewDecoratorCreationWizard" 
          icon="icons/cdi16.png"
          id="org.jboss.tools.cdi.ui.wizard.NewDecoratorCreationWizard" 
-         name="Decorator Type" 
+         name="Decorator" 
          project="false">
          <description>
-            Create an Decorator Java File
+            Create a Decorator Type
          </description>
          <keywordReference
-               id="org.jboss.tools.cdi.ui.newJava">
+               id="org.jboss.tools.cdi.ui.newBean">
          </keywordReference>
       </wizard>
 
@@ -226,10 +226,10 @@
          class="org.jboss.tools.cdi.ui.wizard.NewAnnotationLiteralCreationWizard" 
          icon="icons/cdi16.png"
          id="org.jboss.tools.cdi.ui.wizard.NewAnnotationLiteralCreationWizard" 
-         name="Annotation Literal Type" 
+         name="Annotation Literal" 
          project="false">
          <description>
-            Create an Annotation Literal Java File
+            Create an Annotation Literal Type
          </description>
          <keywordReference
                id="org.jboss.tools.cdi.ui.newJava">
@@ -260,6 +260,9 @@
       <keyword
             label="%preferenceKeywords.newJava"
             id="org.jboss.tools.cdi.ui.newJava"/>
+      <keyword
+            label="%preferenceKeywords.newBean"
+            id="org.jboss.tools.cdi.ui.newBean"/>
       <keyword
             label="%preferenceKeywords.newBeansXML"
             id="org.jboss.tools.cdi.ui.newBeansXML"/>
