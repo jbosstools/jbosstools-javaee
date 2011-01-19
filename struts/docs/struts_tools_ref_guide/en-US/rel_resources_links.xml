@@ -1,33 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <chapter id="rel_resources_links">
-        <?dbhtml filename="rel_resources_links.html"?>
-        <chapterinfo>
-                <keywordset>
-                        <keyword>JBoss Developer Studio</keyword>
-                        <keyword>Eclipse</keyword>
-                        <keyword>Struts Tools</keyword>
-                        <keyword>Java</keyword>
-                        <keyword>JBoss</keyword>
-                </keywordset>
-        </chapterinfo>
+	<?dbhtml filename="rel_resources_links.html"?>
+	<chapterinfo>
+		<keywordset>
+			<keyword>JBoss Developer Studio</keyword>
+			<keyword>Eclipse</keyword>
+			<keyword>Struts Tools</keyword>
+			<keyword>Java</keyword>
+			<keyword>JBoss</keyword>
+		</keywordset>
+	</chapterinfo>
 
-        <title>Relevant Resources Links</title>
+	<title>Relevant Resources Links</title>
 
-        <para>Find out necessary information on <ulink url="http://struts.apache.org/">Struts
-                        technology</ulink> if you don&apos;t know enough.</para>
+	<para>More information on Struts can be found on the <ulink url="http://struts.apache.org/">Struts website</ulink>.</para>
 
-        <para>In summary, this reference should help you to get familiar with those parts of
-                        <property>JBoss Tools</property> which are meant for development with Struts
-                technology. If you&apos;ve carefully gone through the document, you should know
-                now how to create/import Struts project or enable Struts capabilities for an
-                existing web project as well as organize and edit all necessary staff for your
-                Struts application using a set of views and editors provided by <property>JBoss
-                Tools</property>.</para>
+	<para>
+		In summary, this reference should help you to get familiar with those parts of <property>JBoss Tools</property> which are meant for development with Struts technology. If you&apos;ve carefully gone through the document, you should know now how to create/import Struts project or enable Struts capabilities for an existing web project as well as organize and edit all necessary staff for your Struts application using a set of views and editors provided by <property>JBoss Tools</property>.
+	</para>
 
-        <para>If you&apos;d like to contribute your feedback is always appreciated. You can
-                leave your questions and suggestions on our <ulink
-                        url="http://www.jboss.com/index.html?module=bb&amp;op=viewforum&amp;f=201"
-                        >Forum</ulink>.</para>
-        <para>We hope, this guide helped you to get started with the JBoss Struts Tools. Besides, for additional information you are welcome on <ulink
-                url="http://www.jboss.com/index.html?module=bb&amp;op=viewforum&amp;f=201">JBoss forum</ulink>.</para>
+	<para>
+		Feedback is always appreciated. You can leave your questions and suggestions on our <ulink url="http://www.jboss.com/index.html?module=bb&amp;op=viewforum&amp;f=201">Forum</ulink>.
+	</para>
 </chapter>
