@@ -274,7 +274,14 @@ public class TestFViewLocaleAttribute_JBIDE5218 extends VpeTest {
 		/*
 		 * Wait until new value is applied and children are refreshed.
 		 */
-		JobUtils.delay(VpeController.DEFAULT_UPDATE_DELAY_TIME*2);
+		/*
+		 * Wait while all deferred events are processed
+		 */
+		while(Display.getCurrent().readAndDispatch());
+		/*
+		 * Wait while all jobs including started through deferred events are ended
+		 */
+		JobUtils.delay(VpeController.DEFAULT_UPDATE_DELAY_TIME*4);
 		TestUtil.waitForIdle();
 		fViewElement = controller.getSourceBuilder().getSourceDocument().getElementById(FVIEW_ID);
 		assertTrue("Current locale should be 'en_GB'", "en_GB".equalsIgnoreCase(fViewElement.getAttribute("locale"))); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
