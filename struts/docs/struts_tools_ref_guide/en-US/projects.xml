@@ -57,7 +57,7 @@
 		<itemizedlist>
 			<listitem>
 				<para>On this form, provide the <property>Project Name</property>. You can also select where to create the project, or use the default path.</para>
-				<para>The <property>Struts Environment</property> sets the Struts version to use.</para>
+				<para>The <property>Struts Environment</property> sets the Struts version that will be used.</para>
 			</listitem>
 		</itemizedlist>
 
