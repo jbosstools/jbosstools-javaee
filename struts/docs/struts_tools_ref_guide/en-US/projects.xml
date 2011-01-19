@@ -42,7 +42,7 @@
 		<itemizedlist>
 			<listitem>
 				<para>
-					Select <menuchoice><guimenuitem>File</guimenuitem><guimenuitem>New</guimenuitem><guimenuitem>Project...</guimenuitem></menuchoice> from the menu bar. Then, select <menuchoice><guimenuitem>JBoss Tools Web</guimenuitem><guimenuitem>Struts</guimenuitem><guimenuitem>Struts Project</guimenuitem></menuchoice> from the dialog box. Click the <guibutton>Next</guibutton>:
+					Select <menuchoice><guimenuitem>File</guimenuitem><guimenuitem>New</guimenuitem><guimenuitem>Project...</guimenuitem></menuchoice> from the menu bar. Then, select <menuchoice><guimenuitem>JBoss Tools Web</guimenuitem><guimenuitem>Struts</guimenuitem><guimenuitem>Struts Project</guimenuitem></menuchoice> from the dialog box. Click the <guibutton>Next</guibutton> button:
 				</para>
 			</listitem>
 		</itemizedlist>
