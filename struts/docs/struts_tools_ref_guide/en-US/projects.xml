@@ -1,275 +1,238 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <chapter id="projects">
-    <?dbhtml filename="projects.html"?>
+	<?dbhtml filename="projects.html"?>
 
-    <chapterinfo>
-        <keywordset>
-            <keyword>JBoss Developer Studio</keyword>
-            <keyword>Eclipse</keyword>
-            <keyword>Java</keyword>
-            <keyword>JBoss</keyword>
-        </keywordset>
-    </chapterinfo>
+	<chapterinfo>
+		<keywordset>
+			<keyword>JBoss Developer Studio</keyword>
+			<keyword>Eclipse</keyword>
+			<keyword>Java</keyword>
+			<keyword>JBoss</keyword>
+		</keywordset>
+	</chapterinfo>
 
-    <title>Projects</title>
+	<title>Projects</title>
 
-    <para>JBoss Tools provide the following functionality when working with Struts:</para>
+	<para>JBoss Tools provides the following functionality when working with Struts:</para>
 
-    <itemizedlist>
-        <listitem>
-            <para>Create new <property>Struts projects</property></para>
-        </listitem>
-        <listitem>
-            <para>Import (open) existing Struts projects. You can import any project
-            structure</para>
-        </listitem>
-        <listitem>
-            <para>Add <property>Struts capabilities</property> to any existing Eclipse
-            project</para>
-        </listitem>
-        <listitem>
-            <para>Import and add Struts capabilities to any existing project created outside
-                Eclipse.</para>
-        </listitem>
-    </itemizedlist>
-    <para>Now, we&apos;ll focus on all these points more fully.</para>
+	<itemizedlist>
+		<listitem>
+			<para>Create new <property>Struts projects</property></para>
+		</listitem>
+		<listitem>
+			<para>Import (open) existing Struts projects. You can import any project structure</para>
+		</listitem>
+		<listitem>
+			<para>Add <property>Struts capabilities</property> to any existing Eclipse project</para>
+		</listitem>
+		<listitem>
+			<para>Import and add Struts capabilities to any existing project created outside Eclipse.</para>
+		</listitem>
+	</itemizedlist>
+	<para>Now, we&apos;ll focus on all these points more fully.</para>
 
-    <section id="CreatingANewStrutsProjec745t">
+	<section id="CreatingANewStrutsProjec745t">
 
-        <title>Creating a New Struts Project</title>
+		<title>Creating a New Struts Project</title>
 
 
-        <para>JBoss Tools provides a New Struts Project Wizard that radically simplifies the process
-            for getting started with a new Struts project. You just need to follow these steps:</para>
-        <itemizedlist>
-            <listitem>
-                <para>Select<emphasis>
-                        <property>File > New > Project...</property>
-                    </emphasis> from the menu bar. Then, select <emphasis>
-                        <property>JBoss Tools Web > Struts > Struts Project</property>
-                    </emphasis> in this dialog box. Click <emphasis>
-                        <property>Next</property>: </emphasis></para>
-            </listitem>
-        </itemizedlist>
-        <figure>
-            <title>Selecting Struts Wizard</title>
-            <mediaobject>
-                <imageobject>
-                    <imagedata fileref="images/struts/struts_2.png"/>
-                </imageobject>
-            </mediaobject>
-        </figure>
-        <itemizedlist>
-            <listitem>
-                <para>On this form, provide the <property>Project Name</property>. You can also
-                    select where to create the project or use the default path.</para>
-                <para>Next to <property>Struts Environment</property> set which Struts version to
-                    use.</para>
-            </listitem>
-        </itemizedlist>
+		<para>
+			JBoss Tools provides a <guilable>New Struts Project</guilable> Wizard that significantly simplifies the process of creating a new Struts project. You just need to follow these steps:
+		</para>
+		<itemizedlist>
+			<listitem>
+				<para>
+					Select <menuchoice><guimenuitem>File</guimenuitem><guimenuitem>New</guimenuitem><guimenuitem>Project...</guimenuitem></menuchoice> from the menu bar. Then, select <menuchoice><guimenuitem>JBoss Tools Web</guimenuitem><guimenuitem>Struts</guimenuitem><guimenuitem>Struts Project</guimenuitem></menuchoice> from the dialog box. Click the <guibutton>Next</guibutton>:
+				</para>
+			</listitem>
+		</itemizedlist>
+		<figure>
+			<title>Selecting Struts Wizard</title>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="images/struts/struts_2.png"/>
+				</imageobject>
+			</mediaobject>
+		</figure>
+		<itemizedlist>
+			<listitem>
+				<para>On this form, provide the <property>Project Name</property>. You can also select where to create the project, or use the default path.</para>
+				<para>The <property>Struts Environment</property> sets the Struts version to use.</para>
+			</listitem>
+		</itemizedlist>
 
-        <figure>
-            <title>Creating Struts Project</title>
-            <mediaobject>
-                <imageobject>
-                    <imagedata fileref="images/struts/struts_3.png"/>
-                </imageobject>
-            </mediaobject>
-        </figure>
+		<figure>
+			<title>Creating Struts Project</title>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="images/struts/struts_3.png"/>
+				</imageobject>
+			</mediaobject>
+		</figure>
 
-        <note>
-            <title>Tip:</title>
-            <para>Don&apos;t put spaces in project names since some OS could experience problems
-                with their processing and searching these files.</para>
-        </note>
+		<note>
+			<title>Tip:</title>
+			<para>Don&apos;t put spaces in project names since some operating systems may experience problems processing and searching for these files.</para>
+		</note>
 
-        <para>You can select the KickStart template, then the project created will include a simple
-            Hello World type application that is ready to run.</para>
+		<para>You can select the KickStart template, which results in a project that includes a simple Hello World type application that is ready to run.</para>
 
-        <figure>
-            <title>Choosing Struts Template </title>
-            <mediaobject>
-                <imageobject>
-                    <imagedata fileref="images/struts/struts_3_1.png"/>
-                </imageobject>
-            </mediaobject>
-        </figure>
+		<figure>
+			<title>Choosing Struts Template </title>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="images/struts/struts_3_1.png"/>
+				</imageobject>
+			</mediaobject>
+		</figure>
 
-        <itemizedlist>
-            <listitem>
-                <para>Next, you register this application with the current servlet container defined
-                    for your workspace (JBoss AS, by default) in order to allow you to test your
-                    application more easily while still developing it. A new entry will be added in
-                    the servlet container configuration file to enable running the application
-                    in-place (called null deployment or link deployment). Uncheck the <emphasis
-                        role="italic">
-                        <property>&quot;Target Server&quot;</property>
-                    </emphasis> check box if for some reason you don&apos;t want to register
-                    your application at this point.</para>
-            </listitem>
-        </itemizedlist>
-        <figure>
-            <title>Registering The Project at Server</title>
-            <mediaobject>
-                <imageobject>
-                    <imagedata fileref="images/struts/struts_4.png"/>
-                </imageobject>
-            </mediaobject>
-        </figure>
-        <itemizedlist>
-            <listitem>
-                <para>On the next form, you can select the TLD files to include in this
-                project:</para>
-            </listitem>
-        </itemizedlist>
-        <figure>
-            <title>Selecting Tag Libraries</title>
-            <mediaobject>
-                <imageobject>
-                    <imagedata fileref="images/struts/struts_5.png"/>
-                </imageobject>
-            </mediaobject>
-        </figure>
+		<itemizedlist>
+			<listitem>
+				<para>Next, you register this application with the current servlet container defined for your workspace (JBoss AS, by default) in order to allow you to easily test your application while still developing it. A new entry will be added in the servlet container configuration file to enable the application to be run in-place (called null deployment or link deployment). Uncheck the <emphasis role="italic"> <property>&quot;Target Server&quot;</property></emphasis> check box if you prefer not to register your application at this point.</para>
+			</listitem>
+		</itemizedlist>
+		<figure>
+			<title>Registering The Project at Server</title>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="images/struts/struts_4.png"/>
+				</imageobject>
+			</mediaobject>
+		</figure>
+		<itemizedlist>
+			<listitem>
+				<para>On the next form, you can select the TLD files to include in this project:</para>
+			</listitem>
+		</itemizedlist>
+		<figure>
+			<title>Selecting Tag Libraries</title>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="images/struts/struts_5.png"/>
+				</imageobject>
+			</mediaobject>
+		</figure>
 
-        <para>After the project is created, you should have the following project structure (if you
-            used the KickStart template):</para>
+		<para>After the project is created, you should have the following project structure (if you used the KickStart template):</para>
 
-        <figure>
-            <title>Project Structure</title>
-            <mediaobject>
-                <imageobject>
-                    <imagedata fileref="images/struts/struts_6.png"/>
-                </imageobject>
-            </mediaobject>
-        </figure>
+		<figure>
+			<title>Project Structure</title>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="images/struts/struts_6.png"/>
+				</imageobject>
+			</mediaobject>
+		</figure>
 
-        <note>
-            <title>Tip:</title>
-            <para>If you want to hide the jar files from Web App Libraries in view, select the
-                down-pointing arrow in the upper right corner, select
-                <emphasis>Filters...</emphasis>, check the box next to Name filter patterns
-                (matching names will be hidden), and type *.jar into the field. Then, click OK.
-            </para>
-        </note>
-    </section>
-    <section id="ImportingAnExistingStrutsProjectWithAnyStructure9653">
+		<note>
+			<title>Tip:</title>
+			<para>
+				If you want to hide the JAR files from Web App Libraries in view, select the down-pointing arrow in the upper right corner, select <guimenuitem>Filters...</guimenuitem>, check the box next to Name filter patterns (matching names will be hidden), and type *.jar into the field. Then, click the <guibutton>OK</guibutton> button.
+      </para>
+		</note>
+	</section>
+	<section id="ImportingAnExistingStrutsProjectWithAnyStructure9653">
 
-        <title>Importing an Existing Struts Project with Any Structure</title>
+		<title>Importing an Existing Struts Project with Any Structure</title>
 
-        <para>For detailed information on migration projects to JBoss Developer Studio see the Migration Guide.</para>
+		<para>For detailed information on migration projects to JBoss Developer Studio see the Migration Guide.</para>
 
-    </section>
-    <section id="AddingStrutsCapabilityToAnExistingWebApplication532">
+	</section>
+	<section id="AddingStrutsCapabilityToAnExistingWebApplication532">
 
-        <title>Adding Struts Capability to an Existing Web Application</title>
+		<title>Adding Struts Capability to an Existing Web Application</title>
 
-        <para>Here, we&apos;ll consider how to add Struts functionality (Struts libraries, tag
-            libraries and a Struts configuration file) to any existing Web application project in
-            your Eclipse workspace.</para>
+		<para>
+			This section will describe how to add Struts functionality (Struts libraries, tag libraries and a Struts configuration file) to any existing Web application project in your Eclipse workspace.
+		</para>
 
-        <para>By adding a Struts Nature to your project, you can now edit files using JBoss Tools
-            editors, such as the <link linkend="struts_config_editor">Struts configuration
-            editor</link> and the JBoss Tools JSP editor. To take advantage of this just right-click
-            the project and select <emphasis>
-                <property>JBoss Tools > Add Struts Capabilities</property>
-            </emphasis> from the context menu. This will start the process of adding all necessary
-            libraries and files to make a Web Struts project from your one.</para>
+		<para>By adding a Struts Nature to your project, you can now edit files using JBoss Tools editors, such as the <link linkend="struts_config_editor">Struts configuration editor</link> and the JBoss Tools JSP editor. To take advantage of this just right-click the project and select <menuchoice><guimenuitem>JBoss Tools</guimenuitem><guimenuitem>Add Struts Capabilities</guimenuitem></menuchoice> from the context menu. This will start the process of adding all the necessary Struts libraries and files to your existing project.</para>
 
-        <figure>
-            <title>Adding Struts Capabilities</title>
-            <mediaobject>
-                <imageobject>
-                    <imagedata fileref="images/struts/struts_7.png"/>
-                </imageobject>
-            </mediaobject>
-        </figure>
+		<figure>
+			<title>Adding Struts Capabilities</title>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="images/struts/struts_7.png"/>
+				</imageobject>
+			</mediaobject>
+		</figure>
 
-        <para>In the wizard you should point to location of your deployment descriptor file web.xml
-            and name of the project.</para>
+		<para>In the wizard you should point to the location of your deployment descriptor file <filename>web.xml</filename> and name of the project.</para>
 
-        <figure>
-            <title>Choosing Project Location</title>
-            <mediaobject>
-                <imageobject>
-                    <imagedata fileref="images/struts/struts_8.png"/>
-                </imageobject>
-            </mediaobject>
-        </figure>
-        <para>After hitting <emphasis>
-                <property>Next</property>, </emphasis> you will see the following screen. This
-            screen simply means that you need to add at least one Struts module to your project to
-            make this project a Struts project. Adding a Struts module means that a new
-            struts-config.xml will be added to your project and registered in the web.xml file. In
-            addition, all required Struts libraries will be added. To add a Struts module, select
-            the <emphasis>
-                <property>Add Struts Support</property>
-            </emphasis> button.</para>
-        <figure>
-            <title>Project Modules</title>
-            <mediaobject>
-                <imageobject>
-                    <imagedata fileref="images/struts/struts_9.png"/>
-                </imageobject>
-            </mediaobject>
-        </figure>
+		<figure>
+			<title>Choosing Project Location</title>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="images/struts/struts_8.png"/>
+				</imageobject>
+			</mediaobject>
+		</figure>
+		<para>
+			After clicking the <guibutton>Next</guibutton> button you will see the following screen. This screen simply indicates that you need to add at least one Struts module to your project to make this project a Struts project. Adding a Struts module means that a new <filename>struts-config.xml</filename> will be added to your project and registered in the <filename>web.xml</filename> file. In addition, all required Struts libraries will be added. To add a Struts module, click the <guibutton>Add Struts Support</guibutton> button.
+		</para>
+		<figure>
+			<title>Project Modules</title>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="images/struts/struts_9.png"/>
+				</imageobject>
+			</mediaobject>
+		</figure>
 
-        <para>Here you can select what Struts <property>Version</property>, <property>Servlet
-            Class</property>, <property>URL Pattern</property> and <property>TLD</property>s to add
-            to this project.</para>
+		<para>
+			Here you can select which Struts <property>Version</property>, <property>Servlet Class</property>, <property>URL Pattern</property> and <property>TLD</property>s to add to this project.
+		</para>
 
-        <figure>
-            <title>Selecting Struts Support Options</title>
-            <mediaobject>
-                <imageobject>
-                    <imagedata fileref="images/struts/struts_10.png"/>
-                </imageobject>
-            </mediaobject>
-        </figure>
+		<figure>
+			<title>Selecting Struts Support Options</title>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="images/struts/struts_10.png"/>
+				</imageobject>
+			</mediaobject>
+		</figure>
 
-        <para>When done, you will see the default Struts module configuration information. See how
-            to Edit <link linkend="modules">Struts modules</link>.</para>
+		<para>When done, you will see the default Struts module configuration information. See how to Edit <link linkend="modules">Struts modules</link>.</para>
 
-        <figure>
-            <title>Project Configuration Information</title>
-            <mediaobject>
-                <imageobject>
-                    <imagedata fileref="images/struts/struts_11.png"/>
-                </imageobject>
-            </mediaobject>
-        </figure>
+		<figure>
+			<title>Project Configuration Information</title>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="images/struts/struts_11.png"/>
+				</imageobject>
+			</mediaobject>
+		</figure>
 
-        <para>On the last screen you can set the different folders for your project as well as
-            register this application with a servlet container. If you want the libraries (.jar
-            files) will be automatically added to your project, click on the checkbox <emphasis>
-                <property>Add Libraries</property>.</emphasis></para>
+		<para>
+			On the last screen you can set the different folders for your project as well as register this application with a servlet container. If you want the libraries (.jar files) to be automatically added to your project, tick the <guilabel>Add Libraries</guilabel> checkbox.
+		</para>
 
-        <figure>
-            <title>Registering the Project at Server</title>
-            <mediaobject>
-                <imageobject>
-                    <imagedata fileref="images/struts/struts_12.png"/>
-                </imageobject>
-            </mediaobject>
-        </figure>
+		<figure>
+			<title>Registering the Project at Server</title>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="images/struts/struts_12.png"/>
+				</imageobject>
+			</mediaobject>
+		</figure>
 
-        <para>When done, you can open and edit the struts-config.xml file using useful Struts
-            configuration file editor provided by JBDS. (The Struts configuration is shown below in
-            the Tree viewer).</para>
+		<para>When done, you can open and edit the <filename>struts-config.xml</filename> file using useful Struts configuration file editor provided by JBDS. (The Struts configuration is shown below in the Tree viewer).</para>
 
-        <figure>
-            <title>Struts-config.xml File</title>
-            <mediaobject>
-                <imageobject>
-                    <imagedata fileref="images/struts/struts_13.png" scale="75"/>
-                </imageobject>
-            </mediaobject>
-        </figure>
-    </section>
+		<figure>
+			<title>Struts-config.xml File</title>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="images/struts/struts_13.png" scale="75"/>
+				</imageobject>
+			</mediaobject>
+		</figure>
+	</section>
 
-    <section>
-        <title>Relevant Resources Links</title>
-        
-        <para>You can find more in-depth explanation on how to work with special wizards, editors and views that can
-            be used in various scenarios while developing Struts applications in our Visual Web Tools Guide.</para>
-    </section>
+	<section>
+		<title>Relevant Resources Links</title>
+
+		<para>
+			You can find more in-depth explanation on how to work with special wizards, editors and views that can be used in various scenarios while developing Struts applications in our Visual Web Tools Guide.
+		</para>
+	</section>
 </chapter>
