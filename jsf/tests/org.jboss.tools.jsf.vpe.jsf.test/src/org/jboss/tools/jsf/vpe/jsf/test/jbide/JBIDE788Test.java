@@ -336,7 +336,7 @@ public class JBIDE788Test extends VpeTest {
 				res.addAll(Arrays.asList(iContentAssistProcessor.computeCompletionProposals(viewer,newPosition))) ;
 			}
 			results = res.toArray(new ICompletionProposal[0]);
-
+			
 			// remove inserted string
 			viewer.getTextWidget()
 			        .replaceTextRange(position, partOfString.length(), ""); //$NON-NLS-1$
@@ -358,6 +358,8 @@ public class JBIDE788Test extends VpeTest {
 			    	}
 			    }
 			}
+			//fix for JBIDE-8153, added by Maksim Areshkau, released context assist resources
+			iContentAssistant.uninstall();
 		} finally {
 			closeEditors();
 	        TestUtil.delay(1000L);
