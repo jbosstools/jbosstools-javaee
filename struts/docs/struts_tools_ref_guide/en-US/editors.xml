@@ -20,7 +20,7 @@
 		<title>Web.xml Editor</title>
 		
 		<para>
-			The <filename>web.xml</filename> file inside the <filenamey>WEB-INF</filename> folder is a deployment descriptor file for a Web Application. It describes the servlets, other components and deployment properties that make up your application.
+			The <filename>web.xml</filename> file inside the <filename>WEB-INF</filename> folder is a deployment descriptor file for a Web Application. It describes the servlets, other components and deployment properties that make up your application.
 		</para>
 		
 		<para>

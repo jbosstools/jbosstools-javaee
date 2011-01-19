@@ -37,7 +37,7 @@
 
 
 		<para>
-			JBoss Tools provides a <guilable>New Struts Project</guilable> Wizard that significantly simplifies the process of creating a new Struts project. You just need to follow these steps:
+			JBoss Tools provides a <guilabel>New Struts Project</guilabel> Wizard that significantly simplifies the process of creating a new Struts project. You just need to follow these steps:
 		</para>
 		<itemizedlist>
 			<listitem>
