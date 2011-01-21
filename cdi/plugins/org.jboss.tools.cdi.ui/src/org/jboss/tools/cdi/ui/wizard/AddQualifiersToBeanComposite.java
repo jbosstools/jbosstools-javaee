@@ -77,7 +77,7 @@ public class AddQualifiersToBeanComposite extends Composite {
 	private Button remove, removeAll;
 	
 	private Label nLabel;
-
+	
 	protected boolean isComplete = true;
 
 	public AddQualifiersToBeanComposite(Composite parent, WizardPage wizard) {
@@ -155,7 +155,7 @@ public class AddQualifiersToBeanComposite extends Composite {
 		});
 	}
 	
-	private boolean checkBeans(){
+	public boolean checkBeans(){
 		total.clear();
 		total.addAll(originalQualifiers);
 		total.addAll(deployed);
@@ -539,6 +539,15 @@ public class AddQualifiersToBeanComposite extends Composite {
 		total.addAll(deployed);
 
 		return total;
+	}
+	
+	public void deploy(IQualifier qualifier){
+		IQualifier[] qualifiers = new IQualifier[]{qualifier};
+		moveAll(qualifiers, true);
+	}
+
+	public ArrayList<IQualifier> getAvailableQualifiers(){
+		return qualifiers;
 	}
 
 	class QualifiersListLabelProvider implements ILabelProvider{

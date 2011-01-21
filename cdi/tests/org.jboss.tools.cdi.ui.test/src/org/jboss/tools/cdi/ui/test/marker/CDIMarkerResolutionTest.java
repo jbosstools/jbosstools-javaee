@@ -33,9 +33,12 @@ import org.jboss.tools.cdi.ui.marker.AddLocalBeanMarkerResolution;
 import org.jboss.tools.cdi.ui.marker.DeleteAllDisposerDuplicantMarkerResolution;
 import org.jboss.tools.cdi.ui.marker.DeleteAllInjectedConstructorsMarkerResolution;
 import org.jboss.tools.cdi.ui.marker.MakeFieldStaticMarkerResolution;
+import org.jboss.tools.cdi.ui.marker.MakeInjectedPointUnambiguousMarkerResolution;
 import org.jboss.tools.cdi.ui.marker.MakeMethodBusinessMarkerResolution;
 import org.jboss.tools.cdi.ui.marker.MakeMethodPublicMarkerResolution;
+import org.jboss.tools.cdi.ui.marker.SelectBeanMarkerResolution;
 import org.jboss.tools.cdi.ui.marker.TestableResolutionWithRefactoringProcessor;
+import org.jboss.tools.cdi.ui.marker.TestableResolutionWithSelectionWizard;
 import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.test.util.JobUtils;
 
@@ -97,13 +100,22 @@ public class CDIMarkerResolutionTest  extends ValidationTest {
 									CompositeChange rootChange = (CompositeChange)processor.createChange(new NullProgressMonitor());
 									
 									rootChange.perform(new NullProgressMonitor());
+								}else if(resolution instanceof TestableResolutionWithSelectionWizard){
+									((TestableResolutionWithSelectionWizard)resolution).selectFirstElementAndRun(marker);
 								}else{
 									resolution.run(marker);
 								}
 								
 								refresh(project);
 								
-								IMarker[] newMarkers = file.findMarkers(markerType, true,	IResource.DEPTH_INFINITE);
+								IMarker[] newMarkers = file.findMarkers(markerType, true, IResource.DEPTH_INFINITE);
+								
+								System.out.println("Before: "+markers.length+" after: "+newMarkers.length);
+								
+								for(IMarker m : newMarkers){
+									String text = (String)m.getAttribute(IMarker.TEXT,"none");
+									System.out.println("After quick fix: "+text);
+								}
 								
 								assertTrue("Marker resolution did not decrease number of problems. was: "+markers.length+" now: "+newMarkers.length, newMarkers.length < markers.length);
 								
@@ -365,6 +377,50 @@ public class CDIMarkerResolutionTest  extends ValidationTest {
 				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
 				CDIValidationErrorManager.MULTIPLE_INJECTION_CONSTRUCTORS_ID,
 				DeleteAllInjectedConstructorsMarkerResolution.class);
+	}
+
+	public void testMakeInjectedPointUnambiguousResolution() throws CoreException {
+		checkResolution(tckProject,
+				new String[]{
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Farm_Broken1.java"
+				},
+				MARKER_TYPE,
+				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
+				CDIValidationErrorManager.AMBIGUOUS_INJECTION_POINTS_ID,
+				MakeInjectedPointUnambiguousMarkerResolution.class);
+	}
+
+	public void testSelectBeanResolution() throws CoreException {
+		checkResolution(tckProject,
+				new String[]{
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Office_Broken1.java"
+				},
+				MARKER_TYPE,
+				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
+				CDIValidationErrorManager.AMBIGUOUS_INJECTION_POINTS_ID,
+				SelectBeanMarkerResolution.class);
+	}
+
+	public void testMakeInjectedPointUnambiguousResolution2() throws CoreException {
+		checkResolution(tckProject,
+				new String[]{
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Farm_Broken2.java"
+				},
+				MARKER_TYPE,
+				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
+				CDIValidationErrorManager.UNSATISFIED_INJECTION_POINTS_ID,
+				MakeInjectedPointUnambiguousMarkerResolution.class);
+	}
+
+	public void testSelectBeanResolution2() throws CoreException {
+		checkResolution(tckProject,
+				new String[]{
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Office_Broken2.java"
+				},
+				MARKER_TYPE,
+				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
+				CDIValidationErrorManager.UNSATISFIED_INJECTION_POINTS_ID,
+				SelectBeanMarkerResolution.class);
 	}
 
 }

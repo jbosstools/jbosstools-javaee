@@ -10,6 +10,7 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.ui.marker;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.core.resources.IMarker;
@@ -30,7 +31,7 @@ import org.jboss.tools.cdi.ui.wizard.SelectBeanWizard;
 /**
  * @author Daniel Azarov
  */
-public class SelectBeanMarkerResolution implements IMarkerResolution2 {
+public class SelectBeanMarkerResolution implements IMarkerResolution2, TestableResolutionWithSelectionWizard {
 	private String label;
 	private IInjectionPoint injectionPoint;
 	private List<IBean> beans;
@@ -45,17 +46,55 @@ public class SelectBeanMarkerResolution implements IMarkerResolution2 {
 		return label;
 	}
 
+	public void selectFirstElementAndRun(IMarker marker){
+		internal_run(marker, true);
+	}
+	
 	public void run(IMarker marker) {
+		internal_run(marker, false);
+	}
+
+	private void internal_run(IMarker marker, boolean test) {
 		Shell shell = Workbench.getInstance().getActiveWorkbenchWindow().getShell();
 		SelectBeanWizard wizard = new SelectBeanWizard(injectionPoint, beans);
 		WizardDialog dialog = new WizardDialog(shell, wizard);
-		int status = dialog.open();
-		if(status != WizardDialog.OK)
-			return;
 		
-		IBean selectedBean = wizard.getBean();
+		IBean selectedBean = null;
+		List<IQualifier> deployed;
 		
-		List<IQualifier> deployed = wizard.getDeployedQualifiers();
+		if(test){
+			if(beans.isEmpty())
+				return;
+			
+			dialog.setBlockOnOpen(false);
+			dialog.open();
+			
+			selectedBean = beans.get(0);
+			
+			wizard.init(selectedBean);
+			
+			List<IQualifier> qualifiers = new ArrayList<IQualifier>();
+			qualifiers.addAll(wizard.getAvailableQualifiers());
+			if(qualifiers.isEmpty())
+				return;
+			for(IQualifier qualifier : qualifiers){
+				if(wizard.checkBeans())
+					break;
+				wizard.deploy(qualifier);
+			}
+			deployed = wizard.getDeployedQualifiers();
+			wizard.performCancel();
+			dialog.close();
+		}else{
+			int status = dialog.open();
+			
+			if(status != WizardDialog.OK)
+				return;
+		
+			selectedBean = wizard.getBean();
+			deployed = wizard.getDeployedQualifiers();
+		}
+		
 		MarkerResolutionUtils.addQualifiersToBean(deployed, selectedBean);
 		try {
 			Job.getJobManager().join(ResourcesPlugin.FAMILY_AUTO_BUILD, null);

@@ -42,4 +42,15 @@ public class AddQualifiersToBeanWizard extends AbstractModifyInjectionPointWizar
 		return page.getDeployedQualifiers();
 	}
 	
+	public List<IQualifier> getAvailableQualifiers(){
+		return page.getAvailableQualifiers();
+	}
+	
+	public void deploy(IQualifier qualifier){
+		page.deploy(qualifier);
+	}
+	
+	public boolean checkBeans(){
+		return page.checkBeans();
+	}
 }

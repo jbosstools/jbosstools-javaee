@@ -56,8 +56,25 @@ public class SelectBeanWizard extends AbstractModifyInjectionPointWizard{
     	page = new AddQualifiersToBeanWizardPage("");
     	addPage(page);
     }
+    
 	public java.util.List<IQualifier> getDeployedQualifiers(){
 		return page.getDeployedQualifiers();
+	}
+	
+	public java.util.List<IQualifier> getAvailableQualifiers(){
+		return page.getAvailableQualifiers();
+	}
+	
+	public void init(IBean bean){
+		page.init(bean);
+	}
+	
+	public void deploy(IQualifier qualifier){
+		page.deploy(qualifier);
+	}
+	
+	public boolean checkBeans(){
+		return page.checkBeans();
 	}
 	
 	@Override

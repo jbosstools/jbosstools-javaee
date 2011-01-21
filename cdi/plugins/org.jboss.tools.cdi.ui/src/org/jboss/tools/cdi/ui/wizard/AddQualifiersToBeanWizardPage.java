@@ -21,7 +21,7 @@ import org.jboss.tools.cdi.ui.CDIUIMessages;
 public class AddQualifiersToBeanWizardPage extends WizardPage{
 
 	private AddQualifiersToBeanComposite composite;
-
+	
 	protected AddQualifiersToBeanWizardPage(String pageName) {
 		super(pageName);
 		setTitle(CDIUIMessages.ADD_QUALIFIERS_TO_BEAN_WIZARD_TITLE);
@@ -35,9 +35,20 @@ public class AddQualifiersToBeanWizardPage extends WizardPage{
 	public ArrayList<IQualifier> getDeployedQualifiers(){
 		return composite.getDeployedQualifiers();
 	}
+
+	public ArrayList<IQualifier> getAvailableQualifiers(){
+		return composite.getAvailableQualifiers();
+	}
 	
 	public void init(IBean bean){
 		composite.init(bean);
 	}
 	
+	public void deploy(IQualifier qualifier){
+		composite.deploy(qualifier);
+	}
+	
+	public boolean checkBeans(){
+		return composite.checkBeans();
+	}
 }
