@@ -26,6 +26,7 @@ import org.eclipse.core.resources.IResourceProxyVisitor;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
 import org.eclipse.wst.common.project.facet.core.IFacetedProject;
 import org.eclipse.wst.common.project.facet.core.IProjectFacet;
@@ -37,6 +38,7 @@ import org.jboss.tools.seam.core.SeamProjectsSet;
 import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
 import org.jboss.tools.seam.core.project.facet.SeamVersion;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
+import org.jboss.tools.seam.internal.core.project.facet.SeamProjectCreator;
 
 public class Seam2FacetInstallDelegateTest extends AbstractSeamFacetTest {
 
@@ -412,6 +414,27 @@ public class Seam2FacetInstallDelegateTest extends AbstractSeamFacetTest {
 		 * assertNotNull(testProject.findMember("lib/core.jar")); // JBIDE-2431:
 		 * lib/core.jar file is always created by Seam 2.0 seamgen
 		 */
+	}
+
+	/**
+	 * See https://issues.jboss.org/browse/JBIDE-8076
+	 * 
+	 * @throws CoreException
+	 * @throws IOException
+	 */
+	public void testTestProjectClassPath() throws CoreException, IOException {
+		SeamProjectsSet warPs = new SeamProjectsSet(warProject.getProject());
+
+		IProject testProject = warPs.getTestProject();
+		assertTrue(testProject.exists());
+
+		IClasspathEntry warCpe = SeamProjectCreator.getJreContainer(warProject.getProject());
+		assertNotNull(warCpe);
+
+		IClasspathEntry testCpe = SeamProjectCreator.getJreContainer(testProject);
+		assertNotNull(testCpe);
+
+		assertEquals(warCpe.getPath(), testCpe.getPath());
 	}
 
 	public void testSeamProperties() {

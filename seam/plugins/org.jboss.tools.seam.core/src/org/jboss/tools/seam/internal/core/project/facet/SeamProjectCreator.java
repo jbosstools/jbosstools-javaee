@@ -373,11 +373,15 @@ public class SeamProjectCreator {
 
 			final IVMInstall vm = JavaRuntime.getDefaultVMInstall();
 			if (vm != null) {
-				int jreIndex = getJreContainer(testProjectToBeImported);
-				final IPath path = CPE_PREFIX_FOR_EXEC_ENV.append(getCorrespondingExecutionEnvironment(level));
-				final IClasspathEntry cpe = JavaCore.newContainerEntry(path);
+				// See https://issues.jboss.org/browse/JBIDE-8076
+				IClasspathEntry cpe = getJreContainer(seamWebProject);
+				if (cpe == null) {
+					final IPath path = CPE_PREFIX_FOR_EXEC_ENV.append(getCorrespondingExecutionEnvironment(level));
+					cpe = JavaCore.newContainerEntry(path);
+				}
 				IJavaProject javaProject = JavaCore.create(testProjectToBeImported);
 				IClasspathEntry[] entries = javaProject.getRawClasspath();
+				int jreIndex = getJreContainerIndex(testProjectToBeImported);
 				if (jreIndex == -1) {
 					IClasspathEntry[] newEntries = new IClasspathEntry[entries.length+1];
 					System.arraycopy( entries, 0, newEntries, 1, entries.length );
@@ -413,7 +417,7 @@ public class SeamProjectCreator {
         return res;
     }
 
-	private static int getJreContainer(final IProject proj)
+	public static int getJreContainerIndex(final IProject proj)
 			throws CoreException {
 		final IJavaProject jproj = JavaCore.create(proj);
 		final IClasspathEntry[] cp = jproj.getRawClasspath();
@@ -425,7 +429,22 @@ public class SeamProjectCreator {
 		}
 		return -1;
 	}
-	
+
+	public static IClasspathEntry getJreContainer(final IProject proj)
+			throws CoreException {
+		final IJavaProject jproj = JavaCore.create(proj);
+		final IClasspathEntry[] cp = jproj.getRawClasspath();
+		for (int i = 0; i < cp.length; i++) {
+			final IClasspathEntry cpe = cp[i];
+			if (cpe.getEntryKind() == IClasspathEntry.CPE_CONTAINER
+					&& cpe.getPath().segment(0)
+							.equals(JavaRuntime.JRE_CONTAINER)) {
+				return cpe;
+			}
+		}
+		return null;
+	}
+
 	/**
 	 * Creates test project for given seam web project.
 	 */
