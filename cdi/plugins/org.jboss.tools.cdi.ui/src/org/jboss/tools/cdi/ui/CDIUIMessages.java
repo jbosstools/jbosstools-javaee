@@ -92,6 +92,9 @@ public class CDIUIMessages extends NLS{
 	public static String SELECT_BEAN_TITLE;
 	
 	public static String SELECT_BEAN_WIZARD_TITLE;
+	public static String SELECT_BEAN_WIZARD_ENTER_BEAN_NAME;
+	public static String SELECT_BEAN_WIZARD_SELECT_BEAN;
+	
 	public static String ADD_QUALIFIERS_TO_BEAN_WIZARD_TITLE;
 	public static String ADD_QUALIFIERS_TO_BEAN_WIZARD_AVAILABLE;
 	public static String ADD_QUALIFIERS_TO_BEAN_WIZARD_IN_BEAN;

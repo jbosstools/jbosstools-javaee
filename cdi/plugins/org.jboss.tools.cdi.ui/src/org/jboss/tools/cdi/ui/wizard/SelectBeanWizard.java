@@ -11,7 +11,6 @@
 package org.jboss.tools.cdi.ui.wizard;
 
 import java.util.ArrayList;
-import java.util.Set;
 
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IContentProvider;
@@ -25,15 +24,20 @@ import org.eclipse.jface.viewers.ListViewer;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerComparator;
+import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.List;
+import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.dialogs.SearchPattern;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.core.IQualifier;
@@ -43,6 +47,7 @@ import org.jboss.tools.common.model.ui.ModelUIImages;
 
 public class SelectBeanWizard extends AbstractModifyInjectionPointWizard{
 	private AddQualifiersToBeanWizardPage page;
+	private Text pattern;
 	
 	public SelectBeanWizard(IInjectionPoint injectionPoint, java.util.List<IBean> beans){
 		super(injectionPoint, beans);
@@ -100,10 +105,22 @@ public class SelectBeanWizard extends AbstractModifyInjectionPointWizard{
 			composite.setFont(composite.getParent().getFont());
 			
 			Label label = new Label(composite, SWT.NONE);
-			label.setText("Select CDI Bean:");
+			label.setText(CDIUIMessages.SELECT_BEAN_WIZARD_ENTER_BEAN_NAME);
+			
+			pattern = new Text(composite, SWT.BORDER);
+			GridData data = new GridData(GridData.FILL_HORIZONTAL);
+			pattern.setLayoutData(data);
+			pattern.addModifyListener(new ModifyListener(){
+				public void modifyText(ModifyEvent e){
+					listViewer.refresh();
+				}
+			});
+			
+			label = new Label(composite, SWT.NONE);
+			label.setText(CDIUIMessages.SELECT_BEAN_WIZARD_SELECT_BEAN);
 			
 			List availableList = new List(composite, SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
-			GridData data = new GridData(GridData.FILL_BOTH);
+			data = new GridData(GridData.FILL_BOTH);
 			data.heightHint = 200;
 			data.widthHint = 150;
 			availableList.setLayoutData(data);
@@ -142,6 +159,7 @@ public class SelectBeanWizard extends AbstractModifyInjectionPointWizard{
 				public void doubleClick(DoubleClickEvent event) {
 				}
 			});
+			listViewer.addFilter(new BeanFilter());
 			
 			setControl(composite);
 		}
@@ -153,9 +171,39 @@ public class SelectBeanWizard extends AbstractModifyInjectionPointWizard{
 				
 			return (IBean)sel.getFirstElement();
 		}
-
-		
 	}
+	
+	public class BeanFilter extends ViewerFilter {
+		SearchPattern patternMatcher = new SearchPattern();
+		public boolean isConsistentItem(Object item) {
+			return true;
+		}
+
+		public boolean select(Viewer viewer, Object parentElement,
+	            Object element) {
+			
+			if (element instanceof IBean) {
+				String beanTypeName = ((IBean)element).getBeanClass().getFullyQualifiedName();
+				if(pattern.getText().isEmpty())
+					patternMatcher.setPattern("*");
+				else
+					patternMatcher.setPattern(pattern.getText());
+				boolean result = patternMatcher.matches(beanTypeName);
+				if (!result) {
+					String pattern = patternMatcher.getPattern();
+					if (pattern.indexOf(".") < 0) {
+						int lastIndex = beanTypeName.lastIndexOf(".");
+						if (lastIndex >= 0
+								&& (lastIndex + 1) < beanTypeName.length())
+							return patternMatcher.matches(beanTypeName.substring(lastIndex + 1));
+					}
+				}
+				return result;
+			}
+			return false;
+		}
+	}
+
 	
 	class BeanListLabelProvider implements ILabelProvider{
 
