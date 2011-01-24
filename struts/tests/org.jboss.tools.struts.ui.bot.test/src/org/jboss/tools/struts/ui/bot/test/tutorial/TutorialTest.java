@@ -36,7 +36,6 @@ import org.eclipse.swtbot.swt.finder.matchers.AbstractMatcher;
 import org.eclipse.swtbot.swt.finder.matchers.WidgetOfType;
 import org.eclipse.swtbot.swt.finder.results.Result;
 import org.eclipse.swtbot.swt.finder.results.VoidResult;
-import org.eclipse.swtbot.swt.finder.widgets.SWTBotBrowser;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotMenu;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotShell;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotStyledText;
@@ -100,11 +99,14 @@ public class TutorialTest extends SWTTestExt {
                 PROJECT_NAME);
         bot.button(IDELabel.Button.NEXT).click();
         bot.button(IDELabel.Button.NEXT).click();
-        SWTBotTreeItem[] ti = bot.tree().getAllItems();
-        Assert.assertTrue("struts-html.tld checked", ti[1].isChecked());
-        Assert.assertTrue("struts-logic.tld checked", ti[3].isChecked());
-        Assert.assertTrue("struts-bean.tld checked", ti[4].isChecked());
+        SWTBotTree tldTree =  bot.tree();
+        boolean htmlChecked = tldTree.getTreeItem("struts-html.tld").isChecked();
+        boolean logicChecked = tldTree.getTreeItem("struts-logic.tld").isChecked();
+        boolean beanCheck = tldTree.getTreeItem("struts-bean.tld").isChecked();
         bot.button(IDELabel.Button.FINISH).click();
+        Assert.assertTrue("struts-html.tld checked", htmlChecked);
+        Assert.assertTrue("struts-logic.tld checked", logicChecked);
+        Assert.assertTrue("struts-bean.tld checked", beanCheck);
         bot.sleep(3000);
         SWTBot v = eclipse.showView(ViewType.PACKAGE_EXPLORER);
         SWTBotTree tree = v.tree();
@@ -434,10 +436,9 @@ public class TutorialTest extends SWTTestExt {
         bot.editorByTitle("struts-config.xml").save();
         util.waitForNonIgnoredJobs();
         bot.sleep(2500);
-        servers.show();
-        SWTBotTree srvs = servers.tree();
+        SWTBotTree srvs = servers.show().bot().tree();
         SWTBotTreeItem s = getProjectNodeFromServerView(srvs);
-        nodeContextMenu(servers.tree(), s, "Full Publish").click();
+        nodeContextMenu(srvs, s, "Full Publish").click();
         bot.sleep(2500);
         SWTBotToolbarButton tb = bot.activeShell().bot().toolbarButtonWithTooltip("Touch descriptors");
        	tb.click();
@@ -575,20 +576,15 @@ public class TutorialTest extends SWTTestExt {
     }
 
     private SWTBotTreeItem getProjectNodeFromServerView(SWTBotTree serversTree) {
-    	SWTBotTreeItem s = null;
-        for (SWTBotTreeItem i: serversTree.getAllItems()) {
-			if (i.getText().startsWith(configuredState.getServer().name)) {
-				s = i;
-				break;
-			}
-		}
-        s.expand();
-        for (SWTBotTreeItem i: s.getItems()) {
-        	if (i.getText().contains(PROJECT_NAME)) {
-        		s = i;
-        		break;
-        	}
-        }
-        return s;
+    	SWTBotTreeItem s = servers.findServerByName(serversTree, 
+    	    configuredState.getServer().name);
+      s.expand();
+      for (SWTBotTreeItem i: s.getItems()) {
+      	if (i.getText().contains(PROJECT_NAME)) {
+      		s = i;
+      		break;
+      	}
+      }
+      return s;
     }
 }
