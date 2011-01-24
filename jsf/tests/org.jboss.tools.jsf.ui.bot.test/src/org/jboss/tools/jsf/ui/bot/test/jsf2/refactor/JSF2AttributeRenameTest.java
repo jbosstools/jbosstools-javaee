@@ -91,7 +91,6 @@ public class JSF2AttributeRenameTest extends JSF2AbstractRefactorTest {
 		SWTBotStyledText styledText = bot.styledText(0);
 		assertEquals(
 				loadFileContent("refactor/compositeComponent.html"), styledText.getText()); //$NON-NLS-1$
-		System.out.println(styledText.getText());
 	}
 
 }
