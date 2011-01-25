@@ -25,11 +25,14 @@ import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerComparator;
+import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Font;
@@ -43,7 +46,9 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.internal.Workbench;
+import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.dialogs.SearchPattern;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.core.IQualifier;
@@ -57,6 +62,7 @@ public class AddQualifiersToBeanComposite extends Composite {
 	private IBean bean;
 	private java.util.List<IBean> beans;
 	private WizardPage wizard;
+	private Text pattern;
 
 	// original qualifiers on the bean
 	private ArrayList<IQualifier> originalQualifiers = new ArrayList<IQualifier>();
@@ -220,6 +226,26 @@ public class AddQualifiersToBeanComposite extends Composite {
 				new Object[]{bean.getBeanClass().getElementName()}));
 		
 		Label label = new Label(this, SWT.NONE);
+		label.setText(CDIUIMessages.ADD_QUALIFIERS_TO_BEAN_WIZARD_ENTER_QUALIFIER_NAME);
+		label.setLayoutData(data);
+		
+		pattern = new Text(this, SWT.BORDER);
+		data = new GridData(GridData.FILL_HORIZONTAL);
+		pattern.setLayoutData(data);
+		pattern.addModifyListener(new ModifyListener(){
+			public void modifyText(ModifyEvent e){
+				availableListViewer.refresh();
+			}
+		});
+		pattern.setFocus();
+		
+		label = new Label(this, SWT.NONE);
+		label.setText("");
+		
+		label = new Label(this, SWT.NONE);
+		label.setText("");
+		
+		label = new Label(this, SWT.NONE);
 		label.setText(CDIUIMessages.ADD_QUALIFIERS_TO_BEAN_WIZARD_AVAILABLE);
 		
 		label = new Label(this, SWT.NONE);
@@ -264,6 +290,7 @@ public class AddQualifiersToBeanComposite extends Composite {
 					add(false);
 			}
 		});
+		availableListViewer.addFilter(new QualifierFilter());
 		
 		Composite comp = new Composite(this, SWT.NONE);
 		data = new GridData(GridData.FILL_VERTICAL | GridData.HORIZONTAL_ALIGN_FILL);
@@ -354,11 +381,11 @@ public class AddQualifiersToBeanComposite extends Composite {
 		
 		createQualifier.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent event) {
-				Shell shell = Workbench.getInstance().getActiveWorkbenchWindow().getShell();
+				Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
 				NewQualifierCreationWizard wizard = new NewQualifierCreationWizard();
 				StructuredSelection selection = new StructuredSelection(new Object[]{bean.getBeanClass()});
 				
-				wizard.init(Workbench.getInstance(), selection);
+				wizard.init(PlatformUI.getWorkbench(), selection);
 				WizardDialog dialog = new WizardDialog(shell, wizard);
 				int status = dialog.open();
 				if(status == WizardDialog.OK){
@@ -379,7 +406,7 @@ public class AddQualifiersToBeanComposite extends Composite {
 		});
 		
 		setEnablement();
-		availableList.setFocus();
+		//availableList.setFocus();
 		
 		Dialog.applyDialogFont(this);
 	}
@@ -599,4 +626,36 @@ public class AddQualifiersToBeanComposite extends Composite {
 		}
 		
 	}
+	
+	public class QualifierFilter extends ViewerFilter {
+		SearchPattern patternMatcher = new SearchPattern();
+		public boolean isConsistentItem(Object item) {
+			return true;
+		}
+
+		public boolean select(Viewer viewer, Object parentElement,
+	            Object element) {
+			
+			if (element instanceof IQualifier) {
+				String qualifierTypeName = ((IQualifier)element).getSourceType().getFullyQualifiedName();
+				if(pattern.getText().isEmpty())
+					patternMatcher.setPattern("*");
+				else
+					patternMatcher.setPattern(pattern.getText());
+				boolean result = patternMatcher.matches(qualifierTypeName);
+				if (!result) {
+					String pattern = patternMatcher.getPattern();
+					if (pattern.indexOf(".") < 0) {
+						int lastIndex = qualifierTypeName.lastIndexOf(".");
+						if (lastIndex >= 0
+								&& (lastIndex + 1) < qualifierTypeName.length())
+							return patternMatcher.matches(qualifierTypeName.substring(lastIndex + 1));
+					}
+				}
+				return result;
+			}
+			return false;
+		}
+	}
+
 }
