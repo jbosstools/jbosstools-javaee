@@ -18,8 +18,7 @@
 <body>
     <html:form action="/greeting.do">Input name:
         <html:text property="name" />
-        <html:submit value="Say Hello!">
-        </html:submit>
+        <html:submit value="Say Hello!" />
     </html:form>
 </body>
 </html:html>

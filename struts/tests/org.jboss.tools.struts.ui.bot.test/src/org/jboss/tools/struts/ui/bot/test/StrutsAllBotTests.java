@@ -29,6 +29,15 @@ import org.junit.runners.Suite.SuiteClasses;
  *  -Dswtbot.test.properties.file=$PATH
  *  -Dusage_reporting_enabled=$BOOLEAN
  *  
+ *  Format of swtbot.properties file:
+ *  SERVER=EAP|JBOSS_AS,<server version>,<jre version to run with>|default,<server home>
+ *  
+ *  Sample swtbot.properties file:
+ *
+ *  SERVER=JBOSS_AS,6.0,default,/home/lukas/latest/jboss-6.0.0.Final
+ *  JAVA=1.6,/space/java/sdk/jdk1.6.0_22
+ *  
+ *  
  *  Suite duration: aprox. 10min
  * 
  * @author Vladimir Pakan
