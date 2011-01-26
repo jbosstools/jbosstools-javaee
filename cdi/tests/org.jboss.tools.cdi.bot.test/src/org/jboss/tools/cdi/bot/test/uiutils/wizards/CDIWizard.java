@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2010 Red Hat, Inc.
+ * Copyright (c) 2010-2011 Red Hat, Inc.
  * Distributed under license by Red Hat, Inc. All rights reserved.
  * This program is made available under the terms of the
  * Eclipse Public License v1.0 which accompanies this distribution,
@@ -31,7 +31,11 @@ public class CDIWizard extends Wizard {
 	}
 
 	public CDIWizard setName(String name) {
-		setText("Name:", name);
+		if (CDIWizardType.BEANS_XML == type) {
+			setText("File name:", name);
+		} else {
+			setText("Name:", name);
+		}
 		return this;
 	}
 
@@ -40,6 +44,15 @@ public class CDIWizard extends Wizard {
 		return this;
 	}
 
+	public CDIWizard setSourceFolder(String src) {
+		if (CDIWizardType.BEANS_XML == type) {
+			setText("Enter or select the parent folder:", src);
+		} else {
+			setText("Source folder:", src);
+		}
+		return this;
+	}
+	
 	public CDIWizard setInherited(boolean set) {
 		setCheckbox("Add @Inherited", set);
 		return this;
@@ -121,11 +134,20 @@ public class CDIWizard extends Wizard {
 	public CDIWizard setNamed(boolean set) {
 		switch (type) {
 		case STEREOTYPE:
+		case BEAN:
 			setCheckbox("Add @Named", set);
 			break;
 		default:
 			throw new UnsupportedOperationException();
 		}
+		return this;
+	}
+
+	public CDIWizard setNamedName(String name) {
+		if (CDIWizardType.BEAN != type) {
+			throw new UnsupportedOperationException();
+		}
+		setText("Bean Name:", name);
 		return this;
 	}
 
@@ -157,6 +179,7 @@ public class CDIWizard extends Wizard {
 	public CDIWizard setScope(String scope) {
 		switch (type) {
 		case STEREOTYPE:
+		case BEAN:
 			setCombo("Scope:", scope);
 			break;
 		default:
@@ -210,6 +233,8 @@ public class CDIWizard extends Wizard {
 	public CDIWizard setPublic(boolean isPublic) {
 		switch (type) {
 		case DECORATOR:
+		case BEAN:
+		case ANNOTATION_LITERAL:
 			if (isPublic) {
 				bot().radio("public").click();
 			} else {
@@ -247,6 +272,7 @@ public class CDIWizard extends Wizard {
 	public CDIWizard addInterface(String intf) {
 		switch (type) {
 		case DECORATOR:
+		case BEAN:
 			bot().button("Add...", 0).click();
 			SWTBotShell sh = bot().activeShell();
 			sh.bot().text().setText(intf);
@@ -260,9 +286,30 @@ public class CDIWizard extends Wizard {
 		return this;
 	}
 
+	public CDIWizard addQualifier(String qualifier) {
+		switch (type) {
+		case BEAN:
+			bot().button("Add", 0).click();
+			break;
+		case ANNOTATION_LITERAL:
+			bot().button("Browse", 0).click();
+			break;
+		default:
+			throw new UnsupportedOperationException();
+		}
+		SWTBotShell sh = bot().activeShell();
+		sh.bot().text().setText(qualifier);
+		sh.bot().sleep(1000);
+		sh.bot().table().getTableItem(0).select();
+		sh.bot().button("OK").click();
+		return this;
+	}
+
 	public CDIWizard setAbstract(boolean isAbstract) {
 		switch (type) {
 		case DECORATOR:
+		case BEAN:
+		case ANNOTATION_LITERAL:
 			setCheckbox("abstract", isAbstract);
 			break;
 		default:
@@ -274,6 +321,8 @@ public class CDIWizard extends Wizard {
 	public CDIWizard setFinal(boolean isFinal) {
 		switch (type) {
 		case DECORATOR:
+		case BEAN:
+		case ANNOTATION_LITERAL:
 			setCheckbox("final", isFinal);
 			break;
 		default:

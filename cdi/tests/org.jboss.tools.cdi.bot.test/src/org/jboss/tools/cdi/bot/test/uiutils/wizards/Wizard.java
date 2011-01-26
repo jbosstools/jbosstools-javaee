@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2010 Red Hat, Inc.
+ * Copyright (c) 2010-2011 Red Hat, Inc.
  * Distributed under license by Red Hat, Inc. All rights reserved.
  * This program is made available under the terms of the
  * Eclipse Public License v1.0 which accompanies this distribution,
@@ -55,6 +55,10 @@ public class Wizard extends SWTBotShell {
 	public void finish() {
 		clickButton("Finish");
 	}
+	
+	public boolean canFinish() {
+		return canClick("Finish");
+	}
 
 	protected void clickButton(String text) {
 		bot().button(text).click();
@@ -65,5 +69,9 @@ public class Wizard extends SWTBotShell {
 		SWTBotText t = bot().textWithLabel(label);
 		t.setFocus();
 		t.setText(text);
+	}
+	
+	protected boolean canClick(String button) {
+		return bot().button(button).isEnabled();
 	}
 }

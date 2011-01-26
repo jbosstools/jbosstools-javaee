@@ -44,8 +44,7 @@ import org.junit.runners.Suite.SuiteClasses;
 public class CdiATWizardTest extends SWTTestExt {
 
 	private static final String PROJECT_NAME = "CDIProject";
-	private static final Logger L = Logger.getLogger(CdiATWizardTest.class
-			.getName());
+	private static final Logger L = Logger.getLogger(CdiATWizardTest.class.getName());
 
 	@After
 	public void waitForJobs() {
@@ -323,6 +322,96 @@ public class CdiATWizardTest extends SWTTestExt {
 		assertTrue(code.contains("extends Date"));
 	}
 	
+	@Test
+	public void testBeansXml() {
+		CDIWizard w = new NewCDIFileWizard(CDIWizardType.BEANS_XML).run();
+		w.setSourceFolder(PROJECT_NAME + "/WebContent/WEB-INF");
+		assertTrue(w.canFinish());
+		w.finish();
+		w = new NewCDIFileWizard(CDIWizardType.BEANS_XML).run();
+		assertFalse(w.canFinish());
+		w.cancel();
+	}
+	
+	@Test
+	public void testBean() {
+		CDIWizard w = bean("cdi", "Bean1", true, true, false, false, null, null, null, null);
+		w.finish();
+		util.waitForNonIgnoredJobs();
+		SWTBotEditor ed = new SWTWorkbenchBot().activeEditor();
+		assertTrue(("Bean1.java").equals(ed.getTitle()));
+		String code = ed.toTextEditor().getText();
+		L.fine(code);
+		assertTrue(code.contains("package cdi;"));
+		assertTrue(code.contains("public abstract class Bean1 {"));
+		assertFalse(code.contains("@Named"));
+		assertFalse(code.contains("final"));
+		assertFalse(code.startsWith("/**"));
+		
+		w = bean("cdi", "Bean2", false, false, true, true, "", null, "@Dependent", null);
+		w.finish();
+		util.waitForNonIgnoredJobs();
+		ed = new SWTWorkbenchBot().activeEditor();
+		assertTrue(("Bean2.java").equals(ed.getTitle()));
+		code = ed.toTextEditor().getText();
+		L.fine(code);
+		assertTrue(code.contains("package cdi;"));
+		assertTrue(code.contains("@Named"));
+		assertFalse(code.contains("@Named("));
+		assertTrue(code.contains("@Dependent"));
+		assertTrue(code.contains("final class Bean2 {"));
+		assertTrue(code.startsWith("/**"));
+
+		w = bean("cdi", "Bean3", true, false, false, true, "TestedBean", null, "@Scope2", "Q1");
+		w.finish();
+		util.waitForNonIgnoredJobs();
+		ed = new SWTWorkbenchBot().activeEditor();
+		assertTrue(("Bean3.java").equals(ed.getTitle()));
+		code = ed.toTextEditor().getText();
+		L.fine(code);
+		assertTrue(code.contains("package cdi;"));
+		assertTrue(code.contains("@Named(\"TestedBean\")"));
+		assertTrue(code.contains("@Scope2"));
+		assertTrue(code.contains("@Q1"));
+		assertTrue(code.contains("public class Bean3 {"));
+		assertFalse(code.contains("final"));
+		assertTrue(code.startsWith("/**"));
+	}
+	
+	@Test
+	public void testAnnLiteral() {
+		CDIWizard w = annLiteral("cdi", "AnnL1", true, false, true, false, "cdi.Q1");
+		w.finish();
+		util.waitForNonIgnoredJobs();
+		SWTBotEditor ed = new SWTWorkbenchBot().activeEditor();
+		//https://issues.jboss.org/browse/JBIDE-8244
+//		assertTrue(("AnnL1.java").equals(ed.getTitle()));
+		assertTrue(("Q1Literal.java").equals(ed.getTitle()));
+		String code = ed.toTextEditor().getText();
+		L.info(code);
+		assertTrue(code.contains("package cdi;"));
+		assertTrue(code.contains("public final class Q1Literal extends AnnotationLiteral<Q1> implements Q1"));
+		assertTrue(code.contains("public static final Q1 INSTANCE = new Q1Literal();"));
+		assertFalse(code.contains("abstract"));
+		assertFalse(code.startsWith("/**"));
+		
+		w = annLiteral("cdi", "AnnL2", false, true, false, true, "Q2");
+		//https://issues.jboss.org/browse/JBIDE-8244
+		w.setName("AnnL2");
+		w.finish();
+		util.waitForNonIgnoredJobs();
+		ed = new SWTWorkbenchBot().activeEditor();
+		assertTrue(("AnnL2.java").equals(ed.getTitle()));
+		code = ed.toTextEditor().getText();
+		L.info(code);
+		assertTrue(code.contains("package cdi;"));
+		assertTrue(code.contains("abstract class AnnL2 extends AnnotationLiteral<Q2> implements Q2 {"));
+		assertTrue(code.contains("public static final Q2 INSTANCE = new AnnL2();"));
+		assertFalse(code.substring(code.indexOf("final") + 5).contains("final"));
+		assertTrue(code.contains("abstract"));
+		assertTrue(code.startsWith("/**"));
+	}
+
 	private static SWTBotMenu nodeContextMenu(final SWTBotTree tree,
 			SWTBotTreeItem item, final String... menu) {
 		assert menu.length > 0;
@@ -344,6 +433,7 @@ public class CdiATWizardTest extends SWTTestExt {
 			boolean comments) {
 		return create(CDIWizardType.QUALIFIER, pkg, name, inherited, comments);
 	}
+	
 
 	private CDIWizard scope(String pkg, String name, boolean inherited,
 			boolean comments, boolean normalScope, boolean passivating) {
@@ -352,6 +442,7 @@ public class CdiATWizardTest extends SWTTestExt {
 		w = w.setNormalScope(normalScope);
 		return normalScope ? w.setPassivating(passivating) : w;
 	}
+	
 
 	private CDIWizard binding(String pkg, String name, String target,
 			boolean inherited, boolean comments) {
@@ -359,6 +450,7 @@ public class CdiATWizardTest extends SWTTestExt {
 				inherited, comments);
 		return target != null ? w.setTarget(target) : w;
 	}
+	
 
 	private CDIWizard stereotype(String pkg, String name, String scope,
 			String target, boolean inherited, boolean named,
@@ -370,6 +462,7 @@ public class CdiATWizardTest extends SWTTestExt {
 		}
 		return target != null ? w.setTarget(target) : w;
 	}
+	
 
 	private CDIWizard decorator(String pkg, String name, String intf, String fieldName,
 			boolean isPublic, boolean isAbstract, boolean isFinal, boolean comments) {
@@ -377,6 +470,7 @@ public class CdiATWizardTest extends SWTTestExt {
 		w = w.addInterface(intf).setPublic(isPublic).setFinal(isFinal).setAbstract(isAbstract);
 		return fieldName != null ? w.setFieldName(fieldName) : w;
 	}
+	
 	
 	private CDIWizard interceptor(String pkg, String name, String ibinding,
 			String superclass, String method, boolean comments) {
@@ -388,6 +482,37 @@ public class CdiATWizardTest extends SWTTestExt {
 			w = w.setMethodName(method);
 		}
 		return w.addIBinding(ibinding);
+	}
+	
+	
+	private CDIWizard bean(String pkg, String name, boolean isPublic, boolean isAbstract,
+			boolean isFinal, boolean comments, String named,
+			String interfaces, String scope, String qualifier) {
+		CDIWizard w = create(CDIWizardType.BEAN, pkg, name, comments);
+		if (named != null) {
+			w.setNamed(true);
+			if (!"".equals(named.trim())) {
+				w.setNamedName(named);
+			}
+		}
+		w = w.setPublic(isPublic).setFinal(isFinal).setAbstract(isAbstract);
+		if (interfaces != null && !"".equals(interfaces.trim())) {
+			w.addInterface(interfaces);
+		}
+		if (scope != null && !"".equals(scope.trim())) {
+			w.setScope(scope);
+		}
+		if (qualifier != null && !"".equals(qualifier.trim())) {
+			w.addQualifier(qualifier);
+		}
+		return w;
+	}
+	
+	private CDIWizard annLiteral(String pkg, String name, boolean isPublic, boolean isAbstract,
+			boolean isFinal, boolean comments, String qualifier) {
+		assert qualifier != null && !"".equals(qualifier.trim()) : "Qualifier has to be set"; 
+		CDIWizard w = create(CDIWizardType.ANNOTATION_LITERAL, pkg, name, comments);
+		return w.setPublic(isPublic).setFinal(isFinal).setAbstract(isAbstract).addQualifier(qualifier);
 	}
 	
 	private CDIWizard create(CDIWizardType type, String pkg, String name,
