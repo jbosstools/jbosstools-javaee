@@ -43,10 +43,16 @@
             version="1.0">
          <constraint>
          	<or>
-                <requires soft="true"
-           	         facet="jst.ejb"
-       	             version="[3.0">
-   	            </requires>
+                <and>
+	                <requires soft="true"
+	           	         facet="jst.ejb"
+	       	             version="[3.0">
+	   	            </requires>
+	               <requires
+            	         facet="jst.java"
+        	             version="[5.0">
+    	           </requires>
+	            </and>
                 <and>
 	               <requires soft="true"
             	         facet="jst.web"
