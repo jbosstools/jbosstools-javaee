@@ -1,169 +1,148 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <chapter id="jsf_support">
-        <?dbhtml filename="jsf_support.html"?>
-        <chapterinfo>
-                <keywordset>
-                        <keyword>JBoss Developer Studio</keyword>
-                        <keyword>Eclipse</keyword>
-                        <keyword>JSF Tools</keyword>
-                        <keyword>Java</keyword>
-                        <keyword>JBoss</keyword>
-                </keywordset>
-        </chapterinfo>
+	<?dbhtml filename="jsf_support.html"?>
+	<chapterinfo>
+		<keywordset>
+			<keyword>JBoss Developer Studio</keyword>
+			<keyword>Eclipse</keyword>
+			<keyword>JSF Tools</keyword>
+			<keyword>Java</keyword>
+			<keyword>JBoss</keyword>
+		</keywordset>
+	</chapterinfo>
 
-        <title>JavaServer Faces Support</title>
+	<title>JavaServer Faces Support</title>
 
-        <para>We don&apos;t lock you into any one <property>JavaServer
-                        Faces</property> implementation. You can always select the one which is
-                necessary for you while <xref linkend="new_jsf_project"/>, <xref linkend="add_jsf_capability"/> to
-                any existing Eclipse project or <xref linkend="ImportingExsJSFProjWithAnyStr74447"/> as well.</para>
-        <para>At this point the special wizard will prompt you to specify a proper JSF environment.
-                It may be JSF 1.1.02 RI or JSF 1.2 which integrates a number of new features and
-                changes. The wizard also lets you select JSF implementation with a component
-                orientation such as JSF 1.2 with Facelets or MyFaces 1.1.4.</para>
+	<para>
+		We don&apos;t lock you into any one <productname>JavaServer Faces</productname> implementation. You can always specify the desired <productname>JavaServer Faces</productname> implementation while creating a new JSF project (see <xref linkend="new_jsf_project"/>), adding JSF capability to any existing Eclipse project (see <xref linkend="add_jsf_capability"/>) or importing existing JSF projects (see <xref linkend="ImportingExsJSFProjWithAnyStr74447"/>).
+	</para>
+	<para>
+		At this point the special wizard will prompt you to specify an appropriate JSF environment. It may be JSF 1.1.02 RI, or JSF 1.2 which integrates a number of new features and changes. The wizard also lets you select JSF implementation with a component orientation such as JSF 1.2 with Facelets or MyFaces 1.1.4.
+	</para>
 
-        <figure>
-                <title>Choosing JSF Environment</title>
-                <mediaobject>
-                        <imageobject>
-                                <imagedata fileref="images/jsf_support/jsf_support_11.png"/>
-                        </imageobject>
-                </mediaobject>
-        </figure>
+	<figure>
+		<title>Choosing JSF Environment</title>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="images/jsf_support/jsf_support_11.png"/>
+			</imageobject>
+		</mediaobject>
+	</figure>
 
-        <para>After specifying a proper JSF environment all the required libraries for the selected
-                version will be added to your project.</para>
+	<para>
+		After specifying an appropriate JSF environment all the required libraries associated with the selected version will be added to your project.
+	</para>
 
-        <section id="FaceletsSupport865">
+	<section id="FaceletsSupport865">
 
-                <title>Facelets Support</title>
-                <para>In this section we will focus more on all concepts that are integrated for
-                        working with Facelets.</para>
+		<title>Facelets Support</title>
+		<para>In this section we will focus all the concepts that relate to working with Facelets.</para>
 
-                <para>The Facelets extends JavaServer Faces by providing a lightweight framework
-                        that radically simplifies the design of presentation pages for JSF. Facelets can be used in a variety of ways that we
-                        will consider further in this section.</para>
+		<para>
+			Facelets extend JavaServer Faces by providing a lightweight framework that radically simplifies the design of presentation pages for JSF. Facelets can be used in a variety of ways that we will consider further in this section.
+		</para>
 
-                <section>
-                        <title>Facelets templates</title>
-                        <para>If you want to build an application using Facelets, just create a
-                                project with Facelets based on version 1.2 of the JSF Reference
-                                Implementation, i. e. select the <emphasis>
-                                        <property>JSF 1.2 with Facelets</property>
-                                </emphasis> in the JSF Environment section of the New JSF Project
-                                wizard.</para>
+		<section>
+			<title>Facelets templates</title>
+			<para>
+				If you want to build an application using Facelets, create a project with Facelets based on version 1.2 of the JSF Reference Implementation, i. e. select the <guilabel>JSF 1.2 with Facelets</guilabel> option in the <guilabel>JSF Environment</guilabel> section of the <guilabel>New JSF Project</guilabel> wizard.
+			</para>
 
-                        <figure>
-                                <title>Choosing Facelets Environment</title>
-                                <mediaobject>
-                                        <imageobject>
-                                                <imagedata
-                                                  fileref="images/jsf_support/jsf_support_2.png"
-                                                />
-                                        </imageobject>
-                                </mediaobject>
-                        </figure>
+			<figure>
+				<title>Choosing Facelets Environment</title>
+				<mediaobject>
+					<imageobject>
+						<imagedata fileref="images/jsf_support/jsf_support_2.png"/>
+					</imageobject>
+				</mediaobject>
+			</figure>
 
-                        <para>Once you&apos;ve selected the environment, it&apos;s possible
-                                to specify the one of three available templates:</para>
-                        <figure>
-                                <title>Choosing Facelets Template</title>
-                                <mediaobject>
-                                        <imageobject>
-                                                <imagedata
-                                                  fileref="images/jsf_support/jsf_support_3.png"
-                                                />
-                                        </imageobject>
-                                </mediaobject>
-                        </figure>
-                        <para>The following table lists possible templates with Facelets for any JSF
-                                project and gives a proper description for each one.</para>
-                        <table>
-                                <title>Facelets Templates</title>
-                                <tgroup cols="2">
-                                        <colspec colnum="1" align="left" colwidth="2*"/>
-                                        <colspec colnum="2" colwidth="3*"/>
+			<para>Once you have selected the environment, it is possible to specify one of three available templates:</para>
+			<figure>
+				<title>Choosing Facelets Template</title>
+				<mediaobject>
+					<imageobject>
+						<imagedata fileref="images/jsf_support/jsf_support_3.png" />
+					</imageobject>
+				</mediaobject>
+			</figure>
+			<para>The following table lists the templates that can be used with Facelets for any JSF project, and gives a detailed description for each one.</para>
+			<table>
+				<title>Facelets Templates</title>
+				<tgroup cols="2">
+					<colspec colnum="1" align="left" colwidth="2*"/>
+					<colspec colnum="2" colwidth="3*"/>
 
 
-                                        <thead>
-                                                <row>
-                                                  <entry align="center">
-                                                  <para>Template</para>
-                                                  </entry>
+					<thead>
+						<row>
+							<entry align="center">
+								<para>Template</para>
+							</entry>
 
-                                                  <entry align="center">
-                                                  <para>Description</para>
-                                                  </entry>
-                                                </row>
-                                        </thead>
+							<entry align="center">
+								<para>Description</para>
+							</entry>
+						</row>
+					</thead>
 
-                                        <tbody>
+					<tbody>
 
-                                                <row>
-                                                  <entry>
-                                                  <para>
-                                                  <emphasis>
-                                                  <property>FaceletsBlankWithoutLibs</property>
-                                                  </emphasis>
-                                                  </para>
-                                                  </entry>
+						<row>
+							<entry>
+								<para>
+									<emphasis>
+										<property>FaceletsBlankWithoutLibs</property>
+									</emphasis>
+								</para>
+							</entry>
 
-                                                  <entry>
-                                                  <para>Some servers already provide
-                                                  jsf libs and you take risk
-                                                  of getting conflicting
-                                                  libraries while deploying
-                                                  your project. To avoid such
-                                                  conflicts, use a template
-                                                  without libs if you have a
-                                                  server with its own jsf
-                                                  libraries</para>
-                                                  </entry>
-                                                </row>
+							<entry>
+								<para>
+									Some servers already provide JSF libs and you risk library conflicts while deploying your project. To avoid such conflicts, use a template without libs if you have a server with its own JSF libraries.
+								</para>
+							</entry>
+						</row>
 
-                                                <row>
-                                                  <entry>
-                                                  <para>
-                                                  <emphasis>
-                                                  <property>FaceletsKickStartWithRILibs</property>
-                                                  </emphasis>
-                                                  </para>
-                                                  </entry>
+						<row>
+							<entry>
+								<para>
+									<emphasis>
+										<property>FaceletsKickStartWithRILibs</property>
+									</emphasis>
+								</para>
+							</entry>
 
-                                                  <entry>
-                                                  <para>A sample application with
-                                                  Facelets that is ready to
-                                                  run</para>
-                                                  </entry>
-                                                </row>
+							<entry>
+								<para>
+									A sample application with Facelets that is ready to run.</para>
+							</entry>
+						</row>
 
-                                                <row>
-                                                  <entry>
-                                                  <para>
-                                                  <emphasis>
-                                                  <property>FaceletsKickStartWithoutLibs</property>
-                                                  </emphasis>
-                                                  </para>
-                                                  </entry>
+						<row>
+							<entry>
+								<para>
+									<emphasis>
+										<property>FaceletsKickStartWithoutLibs</property>
+									</emphasis>
+								</para>
+							</entry>
 
-                                                  <entry>
-                                                  <para>A sample application without
-                                                  libraries</para>
-                                                  </entry>
-                                                </row>
+							<entry>
+								<para>A sample application without libraries.</para>
+							</entry>
+						</row>
 
-                                        </tbody>
-                                </tgroup>
-                        </table>
-                </section>
-                <section>
-                        <title>Facelets components</title>
+					</tbody>
+				</tgroup>
+			</table>
+		</section>
+		<section>
+			<title>Facelets components</title>
 
-                        <para>The JBoss Tools
-                                        Palette comes with the Facelets components ready to
-                                use. A useful tip appears when you hover the mouse cursor over the
-                                tag, the tip includes a detailed description of the tag component,
-                                the syntax and available attributes.</para>
+			<para>
+				The JBoss Tools Palette comes with the Facelets components ready to use. A useful tip appears when you hover the mouse cursor over the tag; this tip includes a detailed description of the tag component, the syntax and available attributes.
+			</para>
 
                         <!-- JBoss Developer Studio does not provide templates for MyFaces right out of the box, but you can easily do it 
    yourself with the &quot;Save As Template&quot; feature (available on the File submenu). Just create a small project 
@@ -172,105 +151,80 @@
     How can I add Facelets support to an existing project?</para>
     <para>A: Right-click on the folder of existing project and select <emphasis>JBoss Tools &gt; Add Custom Capabilities.. &gt; Facelets</emphasis>. </para>
 	-->
-                        <figure>
-                                <title>Facelets Components</title>
-                                <mediaobject>
-                                        <imageobject>
-                                                <imagedata
-                                                  fileref="images/jsf_support/jsf_support_4.png"
-                                                  scale="65"/>
-                                        </imageobject>
-                                </mediaobject>
-                        </figure>
-                </section>
-                <section>
-                        <title>Code assist for Facelets</title>
+			<figure>
+				<title>Facelets Components</title>
+				<mediaobject>
+					<imageobject>
+						<imagedata fileref="images/jsf_support/jsf_support_4.png" scale="65"/>
+					</imageobject>
+				</mediaobject>
+			</figure>
+		</section>
+		<section>
+			<title>Code assist for Facelets</title>
 
-                        <para>One more feature which comes with Facelets support is code assist
-                                (Ctrl + Space). It is available for <property>Facelets
-                                tags</property> while editing <emphasis>
-                                        <property>.xhtml</property>
-                                </emphasis> files.</para>
+			<para>
+				JSF Tools provides Facelets code assistance, which can be assessed by pressing <keycombo><keycap>Ctrl</keycap><keycap>Space</keycap></keycombo>. It is available for <property>Facelets tags</property> while editing <filename>.xhtml</filename> files.
+			</para>
 
-                        <figure>
-                                <title>XHTML File Code Assist</title>
-                                <mediaobject>
-                                        <imageobject>
-                                                <imagedata
-                                                  fileref="images/jsf_support/jsf_support_5.png"
-                                                  scale="60"/>
-                                        </imageobject>
-                                </mediaobject>
-                        </figure>
+			<figure>
+				<title>XHTML File Code Assist</title>
+				<mediaobject>
+					<imageobject>
+						<imagedata fileref="images/jsf_support/jsf_support_5.png" scale="60"/>
+					</imageobject>
+				</mediaobject>
+			</figure>
 
-                        <para>What&apos;s more, code assist is also available for <emphasis
-                                        role="italic">
-                                        <property>&quot;jsfc&quot;</property>
-                                </emphasis> attribute in any HTML tag.</para>
+			<para>
+				Code assist is also available for <code>jsfc</code> attributes in any HTML tag.
+			</para>
 
-                        <figure>
-                                <title>Code Assist for JSFC Attribute</title>
-                                <mediaobject>
-                                        <imageobject>
-                                                <imagedata
-                                                  fileref="images/jsf_support/jsf_support_6.png"
-                                                  scale="70"/>
-                                        </imageobject>
-                                </mediaobject>
-                        </figure>
+			<figure>
+				<title>Code Assist for JSFC Attribute</title>
+				<mediaobject>
+					<imageobject>
+						<imagedata fileref="images/jsf_support/jsf_support_6.png" scale="70"/>
+					</imageobject>
+				</mediaobject>
+			</figure>
 
-                        <para>After selecting <emphasis role="italic">
-                                        <property>&quot;jsfc&quot;</property>
-                                </emphasis> you get the code assist for JSF components available on
-                                a page.</para>
+			<para>After selecting an <code>jsfc</code> attribute, the code assist feature will list the JSF components available on a page.</para>
 
-                        <figure>
-                                <title>Code Assist for JSF Components</title>
-                                <mediaobject>
-                                        <imageobject>
-                                                <imagedata
-                                                  fileref="images/jsf_support/jsf_support_7.png"
-                                                  scale="80"/>
-                                        </imageobject>
-                                </mediaobject>
-                        </figure>
+			<figure>
+				<title>Code Assist for JSF Components</title>
+				<mediaobject>
+					<imageobject>
+						<imagedata fileref="images/jsf_support/jsf_support_7.png" scale="80"/>
+					</imageobject>
+				</mediaobject>
+			</figure>
 
-                        <para>When a component is chosen you will see all available attributes for
-                                it.</para>
+			<para>When a component is selected you will see all available attributes for it.</para>
 
-                        <figure>
-                                <title>Available Attributes for the Component</title>
-                                <mediaobject>
-                                        <imageobject>
-                                                <imagedata
-                                                  fileref="images/jsf_support/jsf_support_8.png"
-                                                  scale="80"/>
-                                        </imageobject>
-                                </mediaobject>
-                        </figure>
-                </section>
-                <section>
-                        <title>Open On feature</title>
-                        <para>Finally, Eclipse&apos;s <emphasis>
-                                        <property>OpenOn</property>
-                                </emphasis> feature for editing Facelets files is supported. Using this feature,
-                                you can easily navigate between the <property>Facelets
-                                templates</property> and other parts of your projects. Just by
-                                holding down the Control key while hovering the mouse cursor over a
-                                reference to a template, the reference becomes a hyperlink to open
-                                that template.</para>
+			<figure>
+				<title>Available Attributes for the Component</title>
+				<mediaobject>
+					<imageobject>
+						<imagedata fileref="images/jsf_support/jsf_support_8.png" scale="80"/>
+					</imageobject>
+				</mediaobject>
+			</figure>
+		</section>
+		<section>
+			<title>Open On feature</title>
+			<para>
+				Finally, JSF Tools supports Eclipse&apos;s <productname>OpenOn</productname> feature while editing Facelets files. Using this feature, you can easily navigate between the <property>Facelets templates</property> and other parts of your projects. By holding down the <keycap>Ctrl</keycap> key while hovering the mouse cursor over a reference to a template, the reference becomes a hyperlink to navigate to that template.
+			</para>
 
-
-                        <figure>
-                                <title>Template Hyperlink</title>
-                                <mediaobject>
-                                        <imageobject>
-                                                <imagedata
-                                                  fileref="images/jsf_support/jsf_support_9.png"
-                                                  scale="75"/>
-                                        </imageobject>
-                                </mediaobject>
-                        </figure>
+			<figure>
+				<title>Template Hyperlink</title>
+				<mediaobject>
+					<imageobject>
+						<imagedata fileref="images/jsf_support/jsf_support_9.png" scale="75"/>
+					</imageobject>
+				</mediaobject>
+			</figure>
 
                         <!--     <para>Additionally, when hovering the mouse cursor over <emphasis role="italic"><property>&quot;Facelets tag&quot;</property></emphasis> attributes, JBoss Developer Studio provides a pop-up help tip:</para>
  <figure>
@@ -286,7 +240,7 @@
                         <!--        <para>See <link linkend="faq_facelets">FAQ</link> concerning Facelets
                 support.</para>
                         -->
-                </section>
+		</section>
 
                 <!--section>
                                 <title>Relevant Resources Links</title>
@@ -294,7 +248,7 @@
                                                 url="https://facelets.dev.java.net/"
                                 >here</ulink>.</para>
                         </section-->
-        </section>
+	</section>
 
 
 
