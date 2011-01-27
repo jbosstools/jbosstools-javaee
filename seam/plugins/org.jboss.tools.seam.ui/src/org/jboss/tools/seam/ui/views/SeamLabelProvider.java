@@ -10,6 +10,7 @@
  ******************************************************************************/
 package org.jboss.tools.seam.ui.views;
 
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectNature;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
@@ -96,6 +97,8 @@ public class SeamLabelProvider extends LabelProvider implements ICommonLabelProv
 			return ""; //$NON-NLS-1$
 		} else if(element instanceof ISeamProject) {
 			return ((IProjectNature)element).getProject().getName();
+		} else if (element instanceof IProject) {
+			return ((IProject)element).getName();
 		} else if(element instanceof ISeamScope) {
 			return ((ISeamScope)element).getType().getLabel();
 		} else if(element instanceof ISeamPackage) {
@@ -144,6 +147,8 @@ public class SeamLabelProvider extends LabelProvider implements ICommonLabelProv
 	@Override
 	public Image getImage(Object obj) {
 		if (obj instanceof ISeamProject) {
+			return SeamUiImages.PROJECT_IMAGE;
+		} else if (obj instanceof IProject) {
 			return SeamUiImages.PROJECT_IMAGE;
 		} else if(obj instanceof ISeamScope) {
 			return SeamUiImages.SCOPE_IMAGE;
