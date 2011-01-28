@@ -25,10 +25,20 @@ import org.jboss.tools.common.ui.widget.editor.ListFieldEditor.ListFieldEditorPr
 public abstract class CDIAnnotationSelectionProvider implements ListFieldEditorProvider<ICDIAnnotation> {
 	protected ICDIProject project;
 	protected IFieldEditor editor;
+	protected boolean multi = true;
 
 	protected IPackageFragment packageFragment = null;
 	
 	public CDIAnnotationSelectionProvider() {}
+
+	/**
+	 * Defines if selection dialog allows multiselection.
+	 * By default set to true since cases when single choice is required are rare.
+	 * @param multi
+	 */
+	public void setMulti(boolean multi) {
+		this.multi = multi;
+	}
 	
 	public void setEditorField(IFieldEditor editor) {
 		this.editor = editor;
@@ -48,7 +58,7 @@ public abstract class CDIAnnotationSelectionProvider implements ListFieldEditorP
 
 	public FilteredItemsSelectionDialog createSelectionDialog() {
 		Shell shell = CDIUIPlugin.getDefault().getWorkbench().getActiveWorkbenchWindow().getShell();
-		SelectCDIAnnotationDialog dialog = new SelectCDIAnnotationDialog(shell);
+		SelectCDIAnnotationDialog dialog = new SelectCDIAnnotationDialog(shell, multi);
 		dialog.setTitle(getDialogTitle());
 		dialog.setProvider(this);
 		return dialog;

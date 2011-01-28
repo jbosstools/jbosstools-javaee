@@ -62,8 +62,8 @@ public class SelectCDIAnnotationDialog extends FilteredItemsSelectionDialog {
 	
 	ListFieldEditorProvider<ICDIAnnotation> provider = null;
 
-	public SelectCDIAnnotationDialog(Shell shell) {
-		super(shell);
+	public SelectCDIAnnotationDialog(Shell shell, boolean multi) {
+		super(shell, multi);
 
 		setSelectionHistory(new SeamComponentSelectionHistory());
 
