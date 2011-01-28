@@ -75,6 +75,7 @@ import org.jboss.tools.common.ui.widget.editor.TextFieldEditor;
  * 
  */
 public class NewBeanWizardPage extends NewClassWizardPage {
+	protected CheckBoxEditorWrapper alternative = null;
 
 	protected CheckBoxEditorWrapper isNamed;
 	protected BeanNameEditorWrapper beanName;
@@ -200,9 +201,16 @@ public class NewBeanWizardPage extends NewClassWizardPage {
 
 	void addAnnotations(ImportsManager imports, StringBuffer sb,
 			String lineDelimiter) {
+		addAlternativeAnnotation(imports, sb, lineDelimiter);
 		addNamedAnnotation(imports, sb, lineDelimiter);
 		addScopeAnnotation(imports, sb, lineDelimiter);
 		addQualifiersAnnotations(imports, sb, lineDelimiter);
+	}
+
+	protected void addAlternativeAnnotation(ImportsManager imports, StringBuffer sb, String lineDelimiter) {
+		if(alternative != null && alternative.composite.getValue() == Boolean.TRUE) {
+			NewCDIAnnotationWizardPage.addAnnotation(CDIConstants.ALTERNATIVE_ANNOTATION_TYPE_NAME, imports, sb, lineDelimiter);
+		}
 	}
 
 	protected void addNamedAnnotation(ImportsManager imports, StringBuffer sb, String lineDelimiter) {
@@ -245,6 +253,7 @@ public class NewBeanWizardPage extends NewClassWizardPage {
 
 	protected void createCustomFields(Composite composite) {
 		createBeanNameField(composite);
+		createAlternativeField(composite);
 		createScopeField(composite);
 		createQualifiersField(composite);
 	}
@@ -366,6 +375,11 @@ public class NewBeanWizardPage extends NewClassWizardPage {
 				boolean named = "true".equals(isNamed.checkBox.getValueAsString());
 				beanName.composite.setEnabled(named);				
 			}});
+	}
+
+	protected void createAlternativeField(Composite composite) {
+		String label = "Add @Alternative";
+		alternative = createCheckBoxField(composite, "isAlternative", label, false);
 	}
 
 	protected CheckBoxEditorWrapper createCheckBoxField(Composite composite, String name, String label, boolean defaultValue) {
