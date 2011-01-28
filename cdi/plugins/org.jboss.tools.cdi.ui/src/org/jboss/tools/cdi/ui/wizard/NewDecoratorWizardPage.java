@@ -65,6 +65,8 @@ import org.jboss.tools.common.ui.widget.editor.LabelFieldEditor;
 public class NewDecoratorWizardPage extends NewClassWizardPage {
 	protected InterceptorBindingSelectionProvider interceptorBindingsProvider = new InterceptorBindingSelectionProvider();
 	IFieldEditor fieldName = null;
+	String defaultTypeName = null;
+	String defaultFieldName = null;
 
 	protected StatusInfo fieldNameStatus = new StatusInfo();
 
@@ -76,6 +78,8 @@ public class NewDecoratorWizardPage extends NewClassWizardPage {
 
 	public void init(IStructuredSelection selection) {
 		super.init(selection);
+		defaultTypeName = null;
+		defaultFieldName = null;
 		if (!selection.isEmpty()) {
 			Object o = selection.iterator().next();
 			IType type = null;
@@ -125,13 +129,25 @@ public class NewDecoratorWizardPage extends NewClassWizardPage {
 		String elementName = interfaceName.substring(d + 1, b);
 		String typeName = elementName + "Decorator";
 		typeName += interfaceName.substring(b);
-		setTypeName(typeName, true);
-		typeNameChanged();
-		String defaultFieldName = elementName;
-		if(defaultFieldName.length() > 0) {
-			defaultFieldName = defaultFieldName.substring(0, 1).toLowerCase() + defaultFieldName.substring(1);
+
+		String currentTypeName = getTypeName();
+		boolean isDefault = currentTypeName == null || currentTypeName.length() == 0 || currentTypeName.equals(defaultTypeName);
+		if(isDefault)  {
+			setTypeName(typeName, true);
+			typeNameChanged();
+		}
+		defaultTypeName = typeName;
+	
+		String _defaultFieldName = elementName;
+		if(_defaultFieldName.length() > 0) {
+			_defaultFieldName = _defaultFieldName.substring(0, 1).toLowerCase() + _defaultFieldName.substring(1);
 			if(fieldName != null) {
-				fieldName.setValue(defaultFieldName);
+				String currentFieldName = fieldName.getValueAsString();
+				isDefault = currentFieldName == null || currentFieldName.length() == 0 || currentFieldName.equals(defaultFieldName);
+				if(isDefault)  {
+					fieldName.setValue(_defaultFieldName);
+				}
+				defaultFieldName = _defaultFieldName;
 			}
 		}
 		
