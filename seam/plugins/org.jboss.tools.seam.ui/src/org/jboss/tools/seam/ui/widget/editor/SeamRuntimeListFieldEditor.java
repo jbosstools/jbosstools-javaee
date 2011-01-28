@@ -806,7 +806,7 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor {
 			}
 			if (added.contains(source) || changed.containsKey(source)) {
 				source.setName(rt.getName());
-				source.setHomeDir(rt.getName());
+				source.setHomeDir(rt.getHomeDir());
 				source.setVersion(rt.getVersion());
 			} else {
 				changed.put(rt, source);
