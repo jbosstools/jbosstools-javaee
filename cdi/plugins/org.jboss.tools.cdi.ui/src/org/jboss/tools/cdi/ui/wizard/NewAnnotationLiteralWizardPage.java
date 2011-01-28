@@ -74,6 +74,7 @@ import org.jboss.tools.common.ui.widget.editor.TextFieldEditor;
 public class NewAnnotationLiteralWizardPage extends NewClassWizardPage {
 	protected QualifierSelectionProvider qualifiersProvider = new QualifierSelectionProvider();
 	CompositeEditor qualifiers = null;
+	String defaultTypeName = null;
 
 	protected StatusInfo qualifierStatus = new StatusInfo();
 
@@ -87,6 +88,7 @@ public class NewAnnotationLiteralWizardPage extends NewClassWizardPage {
 
 	public void init(IStructuredSelection selection) {
 		super.init(selection);
+		defaultTypeName = null;
 		if (!selection.isEmpty()) {
 			Object o = selection.iterator().next();
 			IType type = null;
@@ -144,8 +146,13 @@ public class NewAnnotationLiteralWizardPage extends NewClassWizardPage {
 		String elementName = interfaceName.substring(d + 1, b);
 		String typeName = elementName + "Literal";
 		typeName += interfaceName.substring(b);
-		setTypeName(typeName, true);
-		typeNameChanged();
+		String currentTypeName = getTypeName();
+		boolean isDefault = currentTypeName == null || currentTypeName.length() == 0 || currentTypeName.equals(defaultTypeName);
+		if(isDefault)  {
+			setTypeName(typeName, true);
+			typeNameChanged();
+		}
+		defaultTypeName = typeName;
 	}
 
 	public void createControl(Composite parent) {
