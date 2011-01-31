@@ -273,8 +273,6 @@ public class TestFViewLocaleAttribute_JBIDE5218 extends VpeTest {
 		controller.getSourceBuilder().getStructuredTextViewer().getDocument().replace(reg.getOffset(), reg.getLength(), "en_GB");
 		/*
 		 * Wait until new value is applied and children are refreshed.
-		 */
-		/*
 		 * Wait while all deferred events are processed
 		 */
 		while(Display.getCurrent().readAndDispatch());
