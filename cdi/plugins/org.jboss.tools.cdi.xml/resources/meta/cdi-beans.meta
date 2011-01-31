@@ -104,7 +104,7 @@
    <XModelAttribute default="class" loader="ElementType" name="element type">
     <Editor name="Uneditable"/>
    </XModelAttribute>
-   <XModelAttribute PROPERTIES="id=true;save=always;category=general"
+   <XModelAttribute PROPERTIES="id=true;save=always;category=general;newWizardClassFactory=org.jboss.tools.cdi.xml.ui.editor.form.CDINewClassWizardFactory"
     name="class" xmlname="#text">
     <Editor name="AccessibleJava"/>
    </XModelAttribute>
@@ -223,7 +223,7 @@
    <XModelAttribute default="stereotype" loader="ElementType" name="element type">
     <Editor name="Uneditable"/>
    </XModelAttribute>
-   <XModelAttribute PROPERTIES="id=true;save=always;category=general"
+   <XModelAttribute PROPERTIES="id=true;save=always;category=general;newWizardClassFactory=org.jboss.tools.cdi.xml.ui.editor.form.CDINewClassWizardFactory"
     name="stereotype" xmlname="#text">
     <Editor name="AccessibleJava"/>
    </XModelAttribute>
