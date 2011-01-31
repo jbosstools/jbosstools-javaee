@@ -15,6 +15,8 @@
 	<extension point="org.jboss.tools.common.model.classes">
 		<xclass id="org.jboss.tools.cdi.xml.ui.editor.form.CDIXMLFormLayoutData"
 			class="org.jboss.tools.cdi.xml.ui.editor.form.CDIXMLFormLayoutData"/>
+		<xclass id="org.jboss.tools.cdi.xml.ui.editor.form.CDINewClassWizardFactory"
+			class="org.jboss.tools.cdi.xml.ui.editor.form.CDINewClassWizardFactory"/>
 	</extension>
 
 
