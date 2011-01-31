@@ -203,7 +203,6 @@ public class SelectBeanWizard extends AbstractModifyInjectionPointWizard{
 			return false;
 		}
 	}
-
 	
 	class BeanListLabelProvider implements ILabelProvider{
 

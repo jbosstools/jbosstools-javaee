@@ -28,9 +28,12 @@ import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IPackageDeclaration;
+import org.eclipse.jdt.core.ISourceRange;
+import org.eclipse.jdt.core.ISourceReference;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.ITypeParameter;
 import org.eclipse.jdt.core.JavaModelException;
+import org.eclipse.jdt.core.Signature;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IInjectionPoint;
@@ -116,6 +119,8 @@ public class MarkerResolutionUtils {
 	}
 
 	public static void addQualifier(String qualifiedName, ICompilationUnit compilationUnit, IJavaElement element) throws JavaModelException{
+		if(!(element instanceof ISourceReference))
+			return;
 		IAnnotation annotation = getAnnotation(element, qualifiedName);
 		if(annotation != null && annotation.exists())
 			return;
@@ -128,8 +133,10 @@ public class MarkerResolutionUtils {
 		String shortName = getShortName(qualifiedName);
 		
 		annotation = getAnnotation(element, CDIConstants.INJECT_ANNOTATION_TYPE_NAME);
-		
-		buffer.replace(annotation.getSourceRange().getOffset()+annotation.getSourceRange().getLength(), 0, lineDelim+AT+shortName);
+		if(annotation != null && annotation.exists())
+			buffer.replace(annotation.getSourceRange().getOffset()+annotation.getSourceRange().getLength(), 0, lineDelim+AT+shortName);
+		else
+			buffer.replace(((ISourceReference)element).getSourceRange().getOffset(), 0, AT+shortName+lineDelim);
 		
 		synchronized(compilationUnit) {
 			compilationUnit.reconcile(ICompilationUnit.NO_AST, true, null, null);
@@ -204,28 +211,155 @@ public class MarkerResolutionUtils {
 		return list;
 	}
 	
+	private static void addQualifiersToParameter(ICompilationUnit compilationUnit, IInjectionPoint injectionPoint, Set<IQualifier> qualifiers){
+		if(!(injectionPoint instanceof IInjectionPointParameter))
+			return;
+		try{
+			for(IQualifier qualifier : qualifiers){
+				String qualifierName = qualifier.getSourceType().getFullyQualifiedName();
+				if(!qualifierName.equals(CDIConstants.ANY_QUALIFIER_TYPE_NAME) && !qualifierName.equals(CDIConstants.DEFAULT_QUALIFIER_TYPE_NAME))
+					addImport(qualifierName, compilationUnit);
+			}
+			
+			synchronized(compilationUnit) {
+				compilationUnit.reconcile(ICompilationUnit.NO_AST, true, null, null);
+			}
+			
+			String paramName = ((IInjectionPointParameter)injectionPoint).getName();
+			IMethod method =  ((IInjectionPointParameter)injectionPoint).getBeanMethod().getMethod();
+			IType type = method.getDeclaringType();
+			IType t = compilationUnit.getType(type.getElementName());
+			IMethod m = t.getMethod(method.getElementName(), method.getParameterTypes());
+		
+		
+			IBuffer buffer = compilationUnit.getBuffer();
+			
+			MethodStructure ms = parseMethod(m, buffer.getContents());
+			if(ms == null)
+				return;
+			
+			for(Parameter parameter : ms.getParameters()){
+				if(parameter.getName().equals(paramName)){
+					StringBuffer b = new StringBuffer();
+					if(parameter.getIndex() > 0)
+						b.append(SPACE);
+					for(IQualifier qualifier : qualifiers){
+						String qualifierName = qualifier.getSourceType().getFullyQualifiedName();
+						if(!qualifierName.equals(CDIConstants.ANY_QUALIFIER_TYPE_NAME) && !qualifierName.equals(CDIConstants.DEFAULT_QUALIFIER_TYPE_NAME)){
+							String annotation = getShortName(qualifierName);
+							b.append(AT+annotation+SPACE);
+						}
+					}
+					b.append(parameter.getType()+SPACE);
+					b.append(parameter.getName());
+					buffer.replace(parameter.getOffset(), parameter.getLength(), b.toString());
+				}
+			}
+			
+		}catch(JavaModelException ex){
+			CDIUIPlugin.getDefault().logError(ex);
+		}
+	}
+	
+	static void getParams(IMethod method, MethodStructure ms, String paramsString, int offset) throws JavaModelException{
+		String[] types = method.getParameterTypes();
+		String[] names = method.getParameterNames();
+		
+		int paramIndex = 0;
+		int paramPosition = 0;
+		int i = 0;
+		int c1 = 0;
+		int c2 = 0;
+		char quote = '\0';
+		StringBuffer sb = new StringBuffer();
+		while(i < paramsString.length()) {
+			char c = paramsString.charAt(i);
+			if(c == ',' && c1 == 0 && c2 == 0 && quote == '\0') {
+				if(sb.toString().trim().length() > 0) {
+					String param = sb.toString();
+					Parameter parameter = new Parameter(paramIndex, Signature.getSignatureSimpleName(types[paramIndex]), names[paramIndex], offset+paramPosition, param.length());
+					paramIndex++;
+					ms.addParameter(parameter);
+					paramPosition = i+1;
+				}
+				sb.setLength(0);
+				i++;
+				continue;
+			} else if(c == '(' && quote == '\0') {
+				c1++;
+			} else if(c == ')' && quote == '\0') {
+				c1--;
+			} else if(c == '<' && quote == '\0') {
+				c2++;
+			} else if(c == '>' && quote == '\0') {
+				c2--;
+			} else if((c == '\'' || c == '"') && quote == '\0') {
+				quote = c;
+			} else if(quote == c) {
+				quote = '\0';
+			}
+			sb.append(c);
+			i++;
+		}
+		if(sb.length() > 0) {
+			String param = sb.toString();
+			Parameter parameter = new Parameter(paramIndex, Signature.getSignatureSimpleName(types[paramIndex]), names[paramIndex], offset+paramPosition, param.length());
+			paramIndex++;
+			ms.addParameter(parameter);
+			paramPosition = i+1;
+		}
+	}
+
+	
+	private static MethodStructure parseMethod(IMethod method, String text){
+		try{
+			MethodStructure ms = new MethodStructure();
+			ISourceRange range = method.getSourceRange();
+			ISourceRange nameRange = method.getNameRange();
+			if(nameRange != null) range = nameRange;
+			int paramStart = text.indexOf('(', range.getOffset());
+			if(paramStart < 0) return null;
+			int declEnd = text.indexOf('{', paramStart);
+			if(declEnd < 0) return null;
+			int paramEnd = text.lastIndexOf(')', declEnd);
+			if(paramEnd < 0) return null;
+			String paramsString = text.substring(paramStart + 1, paramEnd);
+			getParams(method, ms, paramsString, paramStart+1);
+			
+			return ms;
+		}catch(JavaModelException ex){
+			CDIUIPlugin.getDefault().logError(ex);
+		}
+		return null;
+	}
+	
 	public static void addQualifiersToInjectedPoint(IInjectionPoint injectionPoint, IBean bean){
 		try{
 			ICompilationUnit original = injectionPoint.getClassBean().getBeanClass().getCompilationUnit();
 			ICompilationUnit compilationUnit = original.getWorkingCopy(new NullProgressMonitor());
-			IJavaElement element = getInjectedJavaElement(compilationUnit, injectionPoint);
 			Set<IQualifier> qualifiers = bean.getQualifiers();
-			
-			// delete unneeded qualifiers
-			
-			List<IQualifier> toDelete = findQualifiersToDelete(injectionPoint, qualifiers);
-			
-			for(IQualifier qualifier : toDelete){
-					deleteQualifierAnnotation(compilationUnit, element, qualifier);
-			}
-			
-			for(IQualifier qualifier : qualifiers){
-				String qualifierName = qualifier.getSourceType().getFullyQualifiedName();
-				if(!qualifierName.equals(CDIConstants.ANY_QUALIFIER_TYPE_NAME) && !qualifierName.equals(CDIConstants.DEFAULT_QUALIFIER_TYPE_NAME)){
-					MarkerResolutionUtils.addQualifier(qualifierName, compilationUnit, element);
+			if(injectionPoint instanceof IInjectionPointParameter){
+				addQualifiersToParameter(compilationUnit, injectionPoint, qualifiers);
+			}else{
+				IJavaElement element = getInjectedJavaElement(compilationUnit, injectionPoint);
+				if(element == null || !element.exists())
+					return;
+				
+				// delete unneeded qualifiers
+				
+				List<IQualifier> toDelete = findQualifiersToDelete(injectionPoint, qualifiers);
+				
+				for(IQualifier qualifier : toDelete){
+						deleteQualifierAnnotation(compilationUnit, element, qualifier);
+				}
+				
+				for(IQualifier qualifier : qualifiers){
+					String qualifierName = qualifier.getSourceType().getFullyQualifiedName();
+					if(!qualifierName.equals(CDIConstants.ANY_QUALIFIER_TYPE_NAME) && !qualifierName.equals(CDIConstants.DEFAULT_QUALIFIER_TYPE_NAME)){
+						MarkerResolutionUtils.addQualifier(qualifierName, compilationUnit, element);
+					}
 				}
 			}
-
 			compilationUnit.commitWorkingCopy(false, new NullProgressMonitor());
 			compilationUnit.discardWorkingCopy();
 		}catch(CoreException ex){
@@ -257,33 +391,70 @@ public class MarkerResolutionUtils {
 		}
 	}
 	
-	public static IJavaElement getInjectedJavaElement(ICompilationUnit compolationUnit, IInjectionPoint injectionPoint){
+	private static IJavaElement getInjectedJavaElement(ICompilationUnit compilationUnit, IInjectionPoint injectionPoint){
 		if(injectionPoint instanceof IInjectionPointField){
 			IField field = ((IInjectionPointField)injectionPoint).getField();
 			IType type = field.getDeclaringType();
-			IType t = compolationUnit.getType(type.getElementName());
+			IType t = compilationUnit.getType(type.getElementName());
 			IField f = t.getField(field.getElementName());
 			
 			return f;
 		}else if(injectionPoint instanceof IInjectionPointMethod){
 			IMethod method = ((IInjectionPointMethod)injectionPoint).getMethod();
 			IType type = method.getDeclaringType();
-			IType t = compolationUnit.getType(type.getElementName());
+			IType t = compilationUnit.getType(type.getElementName());
 			IMethod m = t.getMethod(method.getElementName(), method.getParameterTypes());
 			
 			return m;
-		}else if(injectionPoint instanceof IInjectionPointParameter){
-			String paramName = ((IInjectionPointParameter)injectionPoint).getName();
-			IMethod method =  ((IInjectionPointParameter)injectionPoint).getBeanMethod().getMethod();
-			IType type = method.getDeclaringType();
-			IType t = compolationUnit.getType(type.getElementName());
-			IMethod m = t.getMethod(method.getElementName(), method.getParameterTypes());
-			ITypeParameter p = m.getTypeParameter(paramName);
-			
-			return p;
 		}
 		return null;
 	}
+	
+	static class MethodStructure{
+		List<Parameter> parameters = new ArrayList<Parameter>();
+		
+		public List<Parameter> getParameters(){
+			return parameters;
+		}
+		
+		public void addParameter(Parameter parameter){
+			parameters.add(parameter);
+		}
+	}
+	
+	static class Parameter{
+		String type;
+		String name;
+		int offset, length;
+		int index;
+		
+		public Parameter(int index, String type, String name, int offset, int length){
+			this.index = index;
+			this.type = type;
+			this.name = name;
+			this.offset = offset;
+			this.length = length;
+		}
+		
+		public int getOffset(){
+			return offset;
+		}
+		
+		public int getLength(){
+			return length;
+		}
+		
+		public String getType(){
+			return type;
+		}
+		
+		public String getName(){
+			return name;
+		}
 
+		public int getIndex(){
+			return index;
+		}
+	}
 
 }
