@@ -28,4 +28,11 @@ public class NewStereotypeCreationWizard extends NewCDIAnnotationCreationWizard 
 		return new NewStereotypeWizardPage();
 	}
 
+	protected void initPageFromAdapter() {
+		super.initPageFromAdapter();
+		if(adapter != null) {
+			((NewStereotypeWizardPage)fPage).setAlternative(true);
+		}
+	}
+
 }

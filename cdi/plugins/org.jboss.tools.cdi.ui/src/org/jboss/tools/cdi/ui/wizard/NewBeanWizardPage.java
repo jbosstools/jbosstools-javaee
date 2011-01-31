@@ -88,6 +88,8 @@ public class NewBeanWizardPage extends NewClassWizardPage {
 	
 	protected StatusInfo fieldNameStatus = new StatusInfo();
 
+	boolean isAlternativeInitialValue = false;
+	
 	public NewBeanWizardPage() {
 		setTitle(CDIUIMessages.NEW_BEAN_WIZARD_PAGE_NAME);
 		setDescription(CDIUIMessages.NEW_BEAN_WIZARD_DESCRIPTION);
@@ -96,7 +98,7 @@ public class NewBeanWizardPage extends NewClassWizardPage {
 
 	public void init(IStructuredSelection selection) {
 		super.init(selection);
-		if (!selection.isEmpty()) {
+		if (selection != null && !selection.isEmpty()) {
 			Object o = selection.iterator().next();
 			IType type = null;
 			if (o instanceof IType) {
@@ -379,7 +381,7 @@ public class NewBeanWizardPage extends NewClassWizardPage {
 
 	protected void createAlternativeField(Composite composite) {
 		String label = "Add @Alternative";
-		alternative = createCheckBoxField(composite, "isAlternative", label, false);
+		alternative = createCheckBoxField(composite, "isAlternative", label, isAlternativeInitialValue);
 	}
 
 	protected CheckBoxEditorWrapper createCheckBoxField(Composite composite, String name, String label, boolean defaultValue) {
@@ -423,5 +425,12 @@ public class NewBeanWizardPage extends NewClassWizardPage {
 		return result;
 	}
 
+	public void setAlternative(boolean value) {
+		if(alternative != null) {
+			alternative.composite.setValue(Boolean.valueOf(value));
+		} else {
+			isAlternativeInitialValue = value;
+		}
+	}
 
 }

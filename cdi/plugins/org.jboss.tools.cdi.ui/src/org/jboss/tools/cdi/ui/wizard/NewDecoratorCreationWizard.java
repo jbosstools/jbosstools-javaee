@@ -11,12 +11,6 @@
 
 package org.jboss.tools.cdi.ui.wizard;
 
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.jdt.core.IJavaElement;
-import org.eclipse.jdt.internal.ui.wizards.NewElementWizard;
 import org.eclipse.jdt.ui.wizards.NewClassWizardPage;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
 
@@ -25,10 +19,7 @@ import org.jboss.tools.cdi.ui.CDIUIMessages;
  * @author Viacheslav Kabanovich
  *
  */
-public class NewDecoratorCreationWizard extends NewElementWizard {
-	private NewClassWizardPage fPage;
-    private boolean fOpenEditorOnFinish = true;
-
+public class NewDecoratorCreationWizard extends NewCDIElementWizard {
 
 	public NewDecoratorCreationWizard() {
 		setWindowTitle(CDIUIMessages.NEW_DECORATOR_WIZARD_TITLE);
@@ -41,7 +32,8 @@ public class NewDecoratorCreationWizard extends NewElementWizard {
 		super.addPages();
 		if (fPage == null) {
 			fPage = new  NewDecoratorWizardPage();
-			fPage.init(getSelection());
+			((NewClassWizardPage)fPage).init(getSelection());
+			initPageFromAdapter();
 		}
 		addPage(fPage);
 	}
@@ -52,38 +44,5 @@ public class NewDecoratorCreationWizard extends NewElementWizard {
 	protected boolean canRunForked() {
 		return !fPage.isEnclosingTypeSelected();
 	}
-
-	/* (non-Javadoc)
-	 * @see org.eclipse.jdt.internal.ui.wizards.NewElementWizard#finishPage(org.eclipse.core.runtime.IProgressMonitor)
-	 */
-	protected void finishPage(IProgressMonitor monitor) throws InterruptedException, CoreException {
-		fPage.createType(monitor); // use the full progress monitor
-	}
-
-	/* (non-Javadoc)
-	 * @see org.eclipse.jface.wizard.IWizard#performFinish()
-	 */
-	public boolean performFinish() {
-		warnAboutTypeCommentDeprecation();
-		boolean res= super.performFinish();
-		if (res) {
-			IResource resource= fPage.getModifiedResource();
-			if (resource != null) {
-				selectAndReveal(resource);
-				if (fOpenEditorOnFinish) {
-					openResource((IFile) resource);
-				}
-			}
-		}
-		return res;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.eclipse.jdt.internal.ui.wizards.NewElementWizard#getCreatedElement()
-	 */
-	public IJavaElement getCreatedElement() {
-		return fPage.getCreatedType();
-	}
-
 
 }

@@ -80,7 +80,7 @@ public class NewDecoratorWizardPage extends NewClassWizardPage {
 		super.init(selection);
 		defaultTypeName = null;
 		defaultFieldName = null;
-		if (!selection.isEmpty()) {
+		if (selection != null && !selection.isEmpty()) {
 			Object o = selection.iterator().next();
 			IType type = null;
 			if (o instanceof IType) {

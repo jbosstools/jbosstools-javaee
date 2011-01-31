@@ -10,22 +10,15 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.ui.wizard;
 
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.jdt.core.IJavaElement;
-import org.eclipse.jdt.internal.ui.wizards.NewElementWizard;
 import org.eclipse.jdt.ui.wizards.NewAnnotationWizardPage;
+import org.jboss.tools.common.model.ui.wizards.INewClassWizard;
 
 /**
  * 
  * @author Viacheslav Kabanovich
  *
  */
-public abstract class NewCDIAnnotationCreationWizard extends NewElementWizard {
-    protected NewAnnotationWizardPage fPage;
-    protected boolean fOpenEditorOnFinish = true;
+public abstract class NewCDIAnnotationCreationWizard extends NewCDIElementWizard implements INewClassWizard {
 
     public NewCDIAnnotationCreationWizard() {}
 
@@ -33,38 +26,13 @@ public abstract class NewCDIAnnotationCreationWizard extends NewElementWizard {
 		super.addPages();
 		if (fPage == null) {
 			fPage = createAnnotationWizardPage();
-			fPage.init(getSelection());
+			((NewAnnotationWizardPage)fPage).init(getSelection());
+			initPageFromAdapter();
 		}
 		addPage(fPage);
 
 	}
 
 	protected abstract NewAnnotationWizardPage createAnnotationWizardPage();
-
-	protected void finishPage(IProgressMonitor monitor) throws InterruptedException, CoreException {
-		fPage.createType(monitor); // use the full progress monitor
-	}
-
-	public IJavaElement getCreatedElement() {
-		return fPage.getCreatedType();
-	}
-
-	/* (non-Javadoc)
-	 * @see org.eclipse.jface.wizard.IWizard#performFinish()
-	 */
-	public boolean performFinish() {
-		warnAboutTypeCommentDeprecation();
-		boolean res= super.performFinish();
-		if (res) {
-			IResource resource= fPage.getModifiedResource();
-			if (resource != null) {
-				selectAndReveal(resource);
-				if (fOpenEditorOnFinish) {
-					openResource((IFile) resource);
-				}
-			}
-		}
-		return res;
-	}
 
 }

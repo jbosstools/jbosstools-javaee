@@ -54,6 +54,8 @@ public class NewStereotypeWizardPage extends NewCDIAnnotationWizardPage {
 	protected ListFieldEditor stereotypes = null;
 	protected ListFieldEditor interceptorBindings = null;
 	
+	boolean isAlternativeInitialValue = false;
+	
 	protected StatusInfo targetStatus = new StatusInfo();
 
 	public NewStereotypeWizardPage() {
@@ -138,7 +140,7 @@ public class NewStereotypeWizardPage extends NewCDIAnnotationWizardPage {
 
 	protected void createAlternativeField(Composite composite) {
 		String label = "Add @Alternative";
-		alternative = createCheckBoxField(composite, "isAlternative", label, false);
+		alternative = createCheckBoxField(composite, "isAlternative", label, isAlternativeInitialValue);
 	}
 
 	protected void createNamedField(Composite composite) {
@@ -323,6 +325,14 @@ public class NewStereotypeWizardPage extends NewCDIAnnotationWizardPage {
 		if(vs != null) nvs.addAll(vs);
 		nvs.add(s);
 		stereotypes.setValue(nvs);
+	}
+
+	public void setAlternative(boolean value) {
+		if(alternative != null) {
+			alternative.composite.setValue(Boolean.valueOf(value));
+		} else {
+			isAlternativeInitialValue = value;
+		}
 	}
 
 }
