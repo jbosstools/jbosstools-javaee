@@ -164,7 +164,7 @@
 			<title>Code assist for Facelets</title>
 
 			<para>
-				JSF Tools provides Facelets code assistance, which can be assessed by pressing <keycombo><keycap>Ctrl</keycap><keycap>Space</keycap></keycombo>. It is available for <property>Facelets tags</property> while editing <filename>.xhtml</filename> files.
+				JSF Tools provides Facelets code assistance, which can be accessed by pressing <keycombo><keycap>Ctrl</keycap><keycap>Space</keycap></keycombo>. It is available for <property>Facelets tags</property> while editing <filename>.xhtml</filename> files.
 			</para>
 
 			<figure>
