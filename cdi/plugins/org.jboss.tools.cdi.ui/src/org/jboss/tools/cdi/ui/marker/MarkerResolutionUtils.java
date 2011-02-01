@@ -11,6 +11,7 @@
 package org.jboss.tools.cdi.ui.marker;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -76,27 +77,62 @@ public class MarkerResolutionUtils {
 		primitives.add("java.lang.String");  //$NON-NLS-1$
 	}
 	
-	public static void addImport(String qualifiedName, ICompilationUnit compilationUnit) throws JavaModelException{
+	/**
+	 * 
+	 * @param qualifiedName
+	 * @param compilationUnit
+	 * @return true if there is import in compilation unit with the same short name
+	 * @throws JavaModelException
+	 */
+	public static boolean addImport(String qualifiedName, ICompilationUnit compilationUnit) throws JavaModelException{
 		if(primitives.contains(qualifiedName))
-			return;
-		
-		IPackageDeclaration[] packages = compilationUnit.getPackageDeclarations();
-		
-		if(qualifiedName.indexOf(DOT) >= 0){
-			String typePackage = qualifiedName.substring(0,qualifiedName.lastIndexOf(DOT));
-			
-			for(IPackageDeclaration packageDeclaration : packages){
-				if(packageDeclaration.getElementName().equals(typePackage))
-					return;
-			}
-		}
+			return false;
 		
 		if(qualifiedName != null){
-			IImportDeclaration importDeclaration = compilationUnit.getImport(qualifiedName); 
-			if(importDeclaration == null || !importDeclaration.exists())
-				compilationUnit.createImport(qualifiedName, null, new NullProgressMonitor());
-		}
+			String shortName = getShortName(qualifiedName);
+			
+			IPackageDeclaration[] packages = compilationUnit.getPackageDeclarations();
+			
+			// local classes do not need to be imported
+			if(qualifiedName.indexOf(DOT) >= 0){
+				String typePackage = qualifiedName.substring(0,qualifiedName.lastIndexOf(DOT));
+				
+				for(IPackageDeclaration packageDeclaration : packages){
+					if(packageDeclaration.getElementName().equals(typePackage))
+						return false;
+				}
+				
+				for(IPackageDeclaration packageDeclaration : packages){
+					IType type = compilationUnit.getJavaProject().findType(packageDeclaration.getElementName()+DOT+shortName);
+					if(type != null && type.exists())
+						return true;
+				}
+			}
 		
+			IImportDeclaration[] importDeclarations = compilationUnit.getImports(); 
+			
+			for(IImportDeclaration importDeclaration : importDeclarations){
+				String importName = importDeclaration.getElementName();
+				String elementShort = getShortName(importName);
+				if(importDeclaration.isOnDemand()){
+					int importLastDot = importName.lastIndexOf(DOT);
+					if(importLastDot == -1) return false; // invalid import declaration
+					int elementLastDot = qualifiedName.lastIndexOf(DOT);
+					if(elementLastDot == -1) return false; // invalid import declaration
+					
+					if(qualifiedName.substring(0, elementLastDot).equals(importName.substring(0, importLastDot)))
+						return false;
+				}
+				
+				if(importName.equals(qualifiedName))
+					return false;
+				if(elementShort.equals(shortName))
+					return true;
+				
+			}
+			compilationUnit.createImport(qualifiedName, null, new NullProgressMonitor());
+		}
+		return false;
 	}
 	
 	public static void addAnnotation(String qualifiedName, ICompilationUnit compilationUnit, IType element) throws JavaModelException{
@@ -104,12 +140,15 @@ public class MarkerResolutionUtils {
 		if(annotation != null && annotation.exists())
 			return;
 		
-		addImport(qualifiedName, compilationUnit);
+		boolean duplicateShortName = addImport(qualifiedName, compilationUnit);
 		
 		String lineDelim = compilationUnit.findRecommendedLineSeparator();
 		
 		IBuffer buffer = compilationUnit.getBuffer();
 		String shortName = getShortName(qualifiedName);
+		
+		if(duplicateShortName)
+			shortName = qualifiedName;
 		
 		buffer.replace(element.getSourceRange().getOffset(), 0, AT+shortName+lineDelim);
 		
@@ -125,12 +164,15 @@ public class MarkerResolutionUtils {
 		if(annotation != null && annotation.exists())
 			return;
 
-		addImport(qualifiedName, compilationUnit);
+		boolean duplicateShortName = addImport(qualifiedName, compilationUnit);
 		
 		String lineDelim = SPACE;
 		
 		IBuffer buffer = compilationUnit.getBuffer();
 		String shortName = getShortName(qualifiedName);
+		
+		if(duplicateShortName)
+			shortName = qualifiedName;
 		
 		annotation = getAnnotation(element, CDIConstants.INJECT_ANNOTATION_TYPE_NAME);
 		if(annotation != null && annotation.exists())
@@ -212,17 +254,18 @@ public class MarkerResolutionUtils {
 	}
 	
 	private static void addQualifiersToParameter(ICompilationUnit compilationUnit, IInjectionPoint injectionPoint, Set<IQualifier> qualifiers){
+		HashMap<IQualifier, Boolean> duplicants = new HashMap<IQualifier, Boolean>();
 		if(!(injectionPoint instanceof IInjectionPointParameter))
 			return;
 		try{
 			for(IQualifier qualifier : qualifiers){
 				String qualifierName = qualifier.getSourceType().getFullyQualifiedName();
-				if(!qualifierName.equals(CDIConstants.ANY_QUALIFIER_TYPE_NAME) && !qualifierName.equals(CDIConstants.DEFAULT_QUALIFIER_TYPE_NAME))
-					addImport(qualifierName, compilationUnit);
-			}
-			
-			synchronized(compilationUnit) {
-				compilationUnit.reconcile(ICompilationUnit.NO_AST, true, null, null);
+				boolean duplicant = false;
+				if(!qualifierName.equals(CDIConstants.ANY_QUALIFIER_TYPE_NAME) &&
+					!qualifierName.equals(CDIConstants.DEFAULT_QUALIFIER_TYPE_NAME)){
+						duplicant = addImport(qualifierName, compilationUnit);
+				}
+				duplicants.put(qualifier, new Boolean(duplicant));
 			}
 			
 			String paramName = ((IInjectionPointParameter)injectionPoint).getName();
@@ -230,7 +273,6 @@ public class MarkerResolutionUtils {
 			IType type = method.getDeclaringType();
 			IType t = compilationUnit.getType(type.getElementName());
 			IMethod m = t.getMethod(method.getElementName(), method.getParameterTypes());
-		
 		
 			IBuffer buffer = compilationUnit.getBuffer();
 			
@@ -246,7 +288,10 @@ public class MarkerResolutionUtils {
 					for(IQualifier qualifier : qualifiers){
 						String qualifierName = qualifier.getSourceType().getFullyQualifiedName();
 						if(!qualifierName.equals(CDIConstants.ANY_QUALIFIER_TYPE_NAME) && !qualifierName.equals(CDIConstants.DEFAULT_QUALIFIER_TYPE_NAME)){
+							boolean duplicant = duplicants.get(qualifier).booleanValue();
 							String annotation = getShortName(qualifierName);
+							if(duplicant)
+								annotation = qualifierName;
 							b.append(AT+annotation+SPACE);
 						}
 					}
