@@ -40,6 +40,15 @@ public class JsfLocaleProvider implements ILocaleProvider {
 	 */
 	public Locale getLocale(ITextEditor editor) {
 		IEditorInput editorInput = editor.getEditorInput();
+		return getLocale(editorInput);
+	}
+
+	public String getLocaleString() {
+		return localeString;
+	}
+
+	@Override
+	public Locale getLocale(IEditorInput editorInput) {
 		if (editorInput instanceof IFileEditorInput) {
 			IProject project = ((IFileEditorInput)editorInput)
 					.getFile().getProject();
@@ -53,10 +62,6 @@ public class JsfLocaleProvider implements ILocaleProvider {
 		} else {
 			return null;
 		}
-	}
-
-	public String getLocaleString() {
-		return localeString;
 	}
 	
 }

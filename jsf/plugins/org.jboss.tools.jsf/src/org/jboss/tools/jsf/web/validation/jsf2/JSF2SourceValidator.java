@@ -38,6 +38,7 @@ import org.jboss.tools.jsf.web.validation.jsf2.components.JSF2CompositeTempCompo
 import org.jboss.tools.jsf.web.validation.jsf2.components.JSF2URITempComponent;
 
 /**
+ * Validates when we change smth in file
  * 
  * @author yzhishko
  * @author mareshkau

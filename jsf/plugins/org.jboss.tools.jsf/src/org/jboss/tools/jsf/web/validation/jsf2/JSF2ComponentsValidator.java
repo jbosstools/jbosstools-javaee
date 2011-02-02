@@ -35,6 +35,7 @@ import org.jboss.tools.jst.web.kb.IKbProject;
 import org.jboss.tools.jst.web.kb.KbProjectFactory;
 
 /**
+ * Validates full file, when we click validate in Context menu
  * 
  * @author yzhishko
  * @author mareshkau
