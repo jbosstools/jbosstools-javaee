@@ -12,14 +12,14 @@
         <title>Editing the JSP View Files</title>
         
         <para>Now we will finish editing the JSP files for our two &quot;views&quot; using
-            JSP Visual Page.</para>
+            JSP Visual Page Editor.</para>
         <section id="Inputname.jsp">
             <title>inputname.jsp</title>
             <itemizedlist>
                 <listitem>
                     <para>Click on the <emphasis>
                         <property>Diagram</property>
-                    </emphasis> tab for the configuration file editor</para>
+                    </emphasis> tab of the configuration file editor</para>
                 </listitem>
                 <listitem>
                     <para>Open the editor for this first JSP file by double-clicking on the <emphasis>
@@ -77,8 +77,10 @@
                     </emphasis> Attributes from the menu</para>
                 </listitem>
                 <listitem>
-                    <para>In the value field next to id, type <emphasis>
-                        <property>greeting</property>
+                    <para>In the value field next to 
+                      <property>id</property>
+                      , type <emphasis>
+                        <property>&quot;greeting&quot;</property>
                     </emphasis> and click on the <emphasis>
                         <property>Close</property>
                     </emphasis> button</para>
@@ -107,14 +109,12 @@
                     </emphasis> button</para>
                 </listitem>
                 <listitem>
-                    <para>Back in the attributes dialog, select the <emphasis>
-                        <property>Advanced</property>
-                    </emphasis> tab, type in <emphasis>
-                        <property>name</property>
+                    <para>Back in the attributes dialog type in <emphasis>
+                        <property>&quot;name&quot;</property>
                     </emphasis> as the value for the <emphasis role="italic">
-                        <property>&quot;id&quot;</property>
+                        <property>id</property>
                     </emphasis> attribute, and then click on the <emphasis>
-                        <property>Finish</property>
+                        <property>Close</property>
                     </emphasis> button</para>
                 </listitem>
                 <listitem>
@@ -124,9 +124,8 @@
                         innermost box in the editor after the input box</para>
                 </listitem>
                 <listitem>
-                    <para>In the attributes dialog, click in the value field next to the <emphasis
-                        role="italic">
-                        <property>&quot;action&quot;</property>
+                    <para>In the attributes dialog, click in the value field next to the <emphasis>
+                        <property>action</property>
                     </emphasis> attribute and click on the <property>...
                     </property>button</para>
                 </listitem>
@@ -141,7 +140,7 @@
                     <para>Back in the attributes dialog box, type in &quot;Say Hello&quot;
                         as the value for the value attribute (&quot;Say Hello&quot;) and
                         then click on the <emphasis>
-                            <property>Finish</property>
+                            <property>Close</property>
                         </emphasis> button</para>
                 </listitem>
             </itemizedlist>
@@ -221,7 +220,7 @@ Please enter name:
                     </emphasis> node, click on the <emphasis>
                         <property>Ok</property>
                     </emphasis> button, and then click on the <emphasis>
-                        <property>Finish</property>
+                        <property>Close</property>
                     </emphasis> button</para>
                 </listitem>
                 <listitem>

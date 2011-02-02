@@ -22,7 +22,7 @@
             <itemizedlist>
                 <listitem>
                     <para>Right-click anywhere on the diagram and select <emphasis>
-                        <property>Rule...</property>
+                        <property>New View...</property>
                     </emphasis> from the pop-up menu</para>
                 </listitem>
                 <listitem>
@@ -44,7 +44,7 @@
                 </listitem>
                 <listitem>
                     <para>Back on the diagram, right-click anywhere and select <emphasis>
-                        <property>Rule...</property>
+                        <property>New View...</property>
                     </emphasis> from the pop-up menu</para>
                 </listitem>
                 <listitem>
