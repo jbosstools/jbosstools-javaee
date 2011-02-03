@@ -292,7 +292,10 @@ public class MarkerResolutionUtils {
 							String annotation = getShortName(qualifierName);
 							if(duplicant)
 								annotation = qualifierName;
-							b.append(AT+annotation+SPACE);
+							if(qualifierName.equals(CDIConstants.NAMED_QUALIFIER_TYPE_NAME))
+								b.append(AT+annotation+"(\""+parameter.getName()+"\")"+SPACE);
+							else
+								b.append(AT+annotation+SPACE);
 						}
 					}
 					b.append(parameter.getType()+SPACE);
