@@ -51,7 +51,6 @@ public class JsfLocaleProvider implements ILocaleProvider {
 		return localeString;
 	}
 
-	@Override
 	public Locale getLocale(IProject project) {
 		if (project !=null) {
 
