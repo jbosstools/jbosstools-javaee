@@ -121,9 +121,9 @@
 
      <row>
       <entry>Content Assist</entry>
-      <entry>Code completion proposals while working with html, java, JavaScript , xml, jsp, xhtml, xhtml, seam project
-       and jsf configuration files. Content assist based on project data (dynamic code assist); with
-       graphical editor. Code completion for values from property files, beans attributes and
+      <entry>Code completion proposals while working with html, java, JavaScript , xml, jsp, xhtml, seam project
+       and jsf configuration files. Content assist based on project data (dynamic code assist). Code completion 
+       for values from property files, beans attributes and
        methods, navigation rule outcomes and jsf variables.</entry>
       <entry>
        <xref linkend="CodeAssistAndDynamicCodeAssist42BasedOnProjectData"/>

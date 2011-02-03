@@ -23,7 +23,7 @@
     </itemizedlist>
     <para>The JBoss Tools Palette contains a developer's project tag libraries and provides
         possibility to add any tag libraries to it. Also you can choose a necessary one from the
-        list of already existed tag libraries:</para>
+        list of already existing tag libraries:</para>
     <itemizedlist>
         <listitem>
             <para>HTML</para>
@@ -62,22 +62,22 @@
         <emphasis><property>Window &gt; Show View Other... &gt; JBoss Tools Web &gt; JBoss Tools
             Palette</property></emphasis> from the menu bar. </para>
     <para>The standard <property>Eclipse Palette</property> is displayed by default in both Web Development and Seam
-        perspectives. Now, the standard <property>Eclipse Palette</property> is featured with all <property>JBoss Tools Palette</property>
+        perspectives. Now the standard <property>Eclipse Palette</property> is featured with all <property>JBoss Tools Palette</property>
         options and capabilities. </para>
     <para>To open the standard <property>Eclipse Palette</property> navigate to <emphasis><property>Window-&gt;Show
         View-&gt;Others-&gt;General-&gt;Palette</property></emphasis>. </para>
     <para>The differences between the two palettes are as follows:</para>
     <itemizedlist>
         <listitem>
-            <para>The standard <property>Eclipse Palette</property> is blank by default; the content of the palette
+            <para>The standard <property>Eclipse Palette</property> is blank by default. Content of the palette
                 is available only if Visual Page Editor is open and active, while JBoss Tools
                 Palette always contains a predefined set of components.</para>
         </listitem>
         <listitem>
             <para>The Expanded/Collapsed state of components in the standard Eclipse Palette is
-                not global as in JBoss Tools Palette: the state is associated with an instance
+                not global as in JBoss Tools Palette. State is associated with an instance
                 of Visual Page Editor. It means that the state can be different for various
-                files, and each new file opened in Visual Page Editor will have the default
+                files and each new file opened in Visual Page Editor will have the default
                 state of Palette with all components collapsed. </para>
         </listitem>
     </itemizedlist>
@@ -85,7 +85,7 @@
     <section id="PaletteOptions">
         <?dbhtml filename="PaletteOptions.html"?>
         <title>Palette Options</title>
-        <para>To facilitate your work, you can configure the Palette in your own way, by selecting
+        <para>To facilitate your work, you can configure the Palette in your own way by selecting
             the corresponding icon on the Palette toolbar.</para>
         <para>There is a possibility to configure the JBoss Tools Palette:</para>
         <itemizedlist>
@@ -94,10 +94,10 @@
                     changing the palette elements</para>
             </listitem>
             <listitem>
-                <para> to <property>show/hide groups</property>, subgroups</para>
+                <para> to <property>show/hide</property> groups, subgroups</para>
             </listitem>
             <listitem>
-                <para>to <property>import groups</property>, subgroups</para>
+                <para>to <property>import</property> groups, subgroups</para>
             </listitem>
         </itemizedlist>
         <figure>
@@ -113,7 +113,7 @@
             <title>Palette Editor</title>
             <para>JBoss Tools Palette contains existing libraries of tags, thus the
                     <property>Palette editor</property> is intended to work with them or create your
-                new one, as well.</para>
+                new one as well.</para>
             <para>To open the editor, click on the <emphasis>
                     <property>Palette Editor</property>
             </emphasis> icon(<inlinemediaobject> <imageobject>
@@ -170,7 +170,7 @@
                     </figure>
                     <para>Also you can delete the set. Right click on the set of icons that you wish
                         to remove and chose the <emphasis>
-                            <property>Delete Set</property>
+                            <property>Delete</property>
                         </emphasis> option from the pop-up menu or click the <emphasis>
                             <property>Delete</property>
                         </emphasis> keyboard button.</para>
@@ -214,7 +214,7 @@
                             </imageobject>
                         </mediaobject>
                     </figure>
-                    <para>You are allowed to edit or delete a group, as well. If you&apos;d like
+                    <para>You are allowed to edit or delete a group as well. If you&apos;d like
                         to change attributes of a group, use the right editing window of the palette
                         editor or the <emphasis>
                             <property>Edit...</property>
@@ -280,7 +280,7 @@
                             </imageobject>
                         </mediaobject>
                     </figure>
-                    <para>In the <property>Add Palette Macro</property> window, you can configure
+                    <para>In the <property>Add Palette Macro</property> window you can configure
                         the tag element. Attribute <emphasis>
                             <property>Name</property>
                         </emphasis> is mandatory to fill and it will be the name of the tag element.
@@ -330,7 +330,7 @@
 
             </itemizedlist>
             
-            <para>If you have changed any abject in the tree view and you don't like the final result you can always use the <emphasis><property>Restore Defaults</property></emphasis> button. Click on it will restore defaults for the object selected and for its children elements.  Please remember that the button will only restore data for objects defined in the default palette. If selected object is created by you, the button will be disabled. Child objects added by you will not be removed.</para>
+            <para>If you have changed any object in the tree view and you don't like the final result you can always use the <emphasis><property>Restore Defaults</property></emphasis> button. Click on it will restore defaults for the object selected and for its children elements.  Please remember that the button will only restore data for objects defined in the default palette. If selected object is created by you, the button will be disabled. Child objects added by you will not be removed.</para>
             <para>When updating JBoss Tools the palette content is not updated.</para>
         </section>
         <section id="show_hide">
@@ -405,11 +405,11 @@
             <para>A new tag can be added into any text file including jsp, htm, html and xhtml.</para>
             <para>Let&apos;s do it. Open your JSP file and place the cursor in a place where
                 you&apos;d like to add a tag and then click that tag in the palette. In the
-                    <property>Insert Tag</property> window, that appears, you can set the value of<emphasis>
+                    <property>Insert Tag</property> window that appears, you can set the value of<emphasis>
                     <property>general</property>
                 </emphasis> and <emphasis>
                     <property>advanced</property>
-                </emphasis> attributes of the tag that you chose.</para>
+                </emphasis> attributes of the tag that you choose.</para>
             <figure>
                 <title>Inserting Tag</title>
                 <mediaobject>
@@ -418,7 +418,7 @@
                     </imageobject>
                 </mediaobject>
             </figure>
-            <para>In the example below, the <emphasis>
+            <para>In the example below the <emphasis>
                     <property>commandButton</property>
                 </emphasis> tag has been inserted.</para>
             <figure>
@@ -450,7 +450,7 @@
             </figure>
             <para> Above you can see where the cursor position for <emphasis>
                     <property>HTML &gt; Form &gt; input</property>
-                </emphasis> is set. Thus, after adding this tag into your file the cursor will be in
+                </emphasis> is set. Thus after adding this tag into your file the cursor will be in
                 the attribute &quot;type&quot;. Then, you can straight use the combination
                 of buttons <property>Ctrl + Space</property> to inquire about a prompting. </para>
             <figure>
@@ -484,7 +484,7 @@
                 </emphasis> that includes your tag library under the lib folder in your project.
                 Or you can just  add   <emphasis> <property>&quot;.tld&quot;</property>
                 </emphasis>or  <emphasis>
-                    <property>&quot;.jar&quot;</property></emphasis> file to the classpath , and the library will be added to the Tag Library List in Web Projects View.</para>
+                    <property>&quot;.jar&quot;</property></emphasis> file to the classpath and the library will be added to the Tag Library List in Web Projects View.</para>
             <section id="Drag_and_Drop65332">
                 <?dbhtml filename="DragAndDrop.html"?>
                 <title>Drag-and-Drop</title>
@@ -511,7 +511,7 @@
                         <property>prefix</property>
                     </emphasis> of the library and <emphasis>
                         <property>Library URL</property>
-                    </emphasis> are detected, thus just need to set the <emphasis>
+                    </emphasis> are detected thus just need to set the <emphasis>
                         <property>Group</property>
                     </emphasis> name to which you wish to place this tag library. You can either add
                     this tag library to an existing Group or just create a new one.</para>

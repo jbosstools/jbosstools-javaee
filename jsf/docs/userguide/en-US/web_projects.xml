@@ -4,7 +4,7 @@
 <title>Web Projects View</title>
 <para><property>Web Projects</property> is a special view that comes with JBoss Developer Studio.</para>
 <para>If the Web Projects view&apos;s tab is not visible next to the Package Explorer tab, select <emphasis><property>Window &gt; Show View &gt; Other &gt; JBoss Tools Web &gt; Web Projects</property></emphasis> from the menu bar.</para>
-<para>With the Web Projects view, you can:</para>
+<para>With the Web Projects view you can:</para>
 
 <itemizedlist>
 <listitem><para>Visualize the project better because the project artifacts for JSF, Struts and Seam projects are organized and displayed by function.</para></listitem>
@@ -76,7 +76,7 @@ locate what you are looking for and develop.</para>
         </imageobject>
 </mediaobject>
 </figure>
-<para>You can actually place the tag anywhere in the page, not just inside an existing tag. In this case,
+<para>You can actually place the tag anywhere in the page, not just inside an existing tag. In this case
  JBoss Developer Studio will place the complete tag <code>&lt;h:outputText value="#{Message.header}"/&gt;</code> in the page.</para>
  </section>
 <section id="ForManagedBeanAttributes">

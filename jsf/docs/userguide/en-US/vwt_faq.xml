@@ -25,7 +25,7 @@
             </listitem>
             
             <listitem>
-                <para>On Debian based distributives run the following command: </para>
+                <para>On Debian based distributions run the following command: </para>
                 <programlisting role="JAVA"><![CDATA[apt-get install compat-libstdc++-33.i386
 ]]></programlisting>
             </listitem>     
@@ -35,7 +35,7 @@
             <property>Visual Page Editor</property> then close all browser views/editors and leave one <property>Visual Page
             Editor</property> open and restart eclipse. This should force a load of the right XULRunner
             viewer.</para>
-        <para> If it doesn't help and you use Fedora Core Linux and Eclipse Version: 3.4.1,the issue can be produced because libswt-xulrunner-gtk-3449.so file doesn't present
+        <para> If it doesn't help and you use Fedora Core Linux and Eclipse Version: 3.4.1, the issue can be produced because libswt-xulrunner-gtk-3449.so file doesn't present
             in eclipse-swt-3.4.1-5.fc10.x86_64.rpm/eclipse/plugins/org.eclipse.swt.gtk.linux.x86_64_3.4.1.v3449c.jar.To add this file to eclipse you should: 
         </para>
         <itemizedlist>
@@ -94,7 +94,7 @@
 
 </orderedlist>
 <para>
-If you are shure that your project does not need JSF capabilities, just disable this message box by checking <property>Do not show this dialog again!</property> checkbox.
+If you are sure that your project does not need JSF capabilities, just disable this message box by checking <property>Do not show this dialog again!</property> checkbox.
 	</para>
 	
 	</section>

@@ -9,16 +9,16 @@
         </keywordset>
     </chapterinfo>
     <title>CSS Editing Perspective</title>
-    <para>In this chapter we will discuss CSS Editing Perspective views, 
-          more information about style sheets can be found in 
+    <para>In this chapter we will discuss CSS Editing Perspective views. 
+          More information about style sheets can be found in 
           <xref linkend="pages_styling"/> 
           of Editor chapter.
     </para>
     <para>The CSS Editing Perspective combines a set of views which allow you to see the structure of
-        your css files,edit them and see the results.
-        To use this perspective you need to choose <emphasis><property>Window >Open Perspective> CSS Editing </property></emphasis>
-        .All of the views are fully synchronized with each other:the changes being made in one view are reflected in othes at once.</para>
-    <para>As you know, there are three ways of inserting a style sheet:
+        your css files, edit them and see the results.
+        To use this perspective you need to choose <emphasis><property>Window >Open Perspective> CSS Editing </property></emphasis>. 
+        All of the views are fully synchronized with each other:the changes being made in one view are reflected in othes at once.</para>
+    <para>As you know there are three ways of inserting a style sheet:
     </para>   
     <itemizedlist>
         <listitem><para>External style sheet (.css file)</para>
@@ -29,7 +29,7 @@
         </listitem>
    </itemizedlist>
     <para>Using CSS Editing Perspective you can change  your style sheet,
-        inserted in any of the possible places described before, in three ways:</para>
+        inserted in any of the possible places described before in three ways:</para>
     <itemizedlist>
         <listitem>
             <para>directly in your Editor
@@ -57,8 +57,8 @@
     <section id="OutlineView">
         <?dbhtml filename="OutlineView.html"?>
         <title>Outline view</title>
-        <para>Using this view you can easily skip between the selectors described in the source files,
-            see the list of properties in any selector just by clicking the triangle near it.
+        <para>Using this view you can easily skip between the selectors described in the source files.
+            See the list of properties in any selector just by clicking the triangle near it.
         </para>
 
         <figure>
@@ -165,7 +165,7 @@
                     </mediaobject>
                 </figure>
                 <para>
-                    When you click <emphasis><property>Ok</property></emphasis> the chosen fonts should appear in <emphasis><property>Font Family</property></emphasis> text field and in the sourse css file. 
+                    When you click <emphasis><property>Ok</property></emphasis> the choosen fonts should appear in <emphasis><property>Font Family</property></emphasis> text field and in the sourse css file. 
                     To define other properties in CSS <emphasis><property>Text/Font</property></emphasis> tab you should just click button near the
                     corresponding field you want and select the appropriate option in the list.
                     Or if you are absolutely sure of the property's value to use you can just write it in the text field.
@@ -213,7 +213,7 @@
                 </figure>
             </listitem>
             <listitem>
-                <para id="edited_properties"><emphasis><property>Edited Properties</property></emphasis> tab contains only "overflow-y" property, 
+                <para id="edited_properties"><emphasis><property>Edited Properties</property></emphasis> tab contains only "overflow-y" property 
                     which determines clipping of the element's content at the top and bottom edges. 
                 </para>
                 <figure>
