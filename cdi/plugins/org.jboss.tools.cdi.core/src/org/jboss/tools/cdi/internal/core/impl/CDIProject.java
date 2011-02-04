@@ -93,6 +93,8 @@ public class CDIProject extends CDIElement implements ICDIProject {
 	private Set<IDecorator> decorators = new HashSet<IDecorator>();
 	private Set<IInterceptor> interceptors = new HashSet<IInterceptor>();
 
+	private Map<String, Set<IInjectionPoint>> injectionPointsByType = new HashMap<String, Set<IInjectionPoint>>();
+
 	BeansXMLData beansXMLData = new BeansXMLData();
 
 	public CDIProject() {}
@@ -1156,6 +1158,8 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		for (IBean bean: beans) {
 			addBean(bean);
 		}
+	
+		buildInjectionPoinsByType();
 		
 //		System.out.println("Project=" + getNature().getProject());
 //		System.out.println("Qualifiers=" + qualifiers.size());
@@ -1211,6 +1215,26 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		synchronized (allBeans) {
 			allBeans.add(bean);
 		}
+	}
+
+	void buildInjectionPoinsByType() {
+		injectionPointsByType.clear();
+		
+		for (IBean b: allBeans) {
+			Set<IInjectionPoint> ps = b.getInjectionPoints();
+			for (IInjectionPoint p: ps) {
+				IParametedType t = p.getType();
+				if(t == null || t.getType() == null) continue;
+				String n = t.getType().getFullyQualifiedName();
+				Set<IInjectionPoint> s = injectionPointsByType.get(n);
+				if(s == null) {
+					s = new HashSet<IInjectionPoint>();
+					injectionPointsByType.put(n, s);
+				}
+				s.add(p);
+			}
+		}
+		
 	}
 
 	void rebuildXML() {
@@ -1324,31 +1348,9 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		return getBeans(attemptToResolveAmbiguousDependency, beanType, qualifiers.toArray(new IType[0]));
 	}
 
-	public List<IInjectionPoint> getInjections(String fullyQualifiedTypeName) {
-		List<IInjectionPoint> result = new ArrayList<IInjectionPoint>();
-
-		IType type = null;
-		try {
-			type = EclipseJavaUtil.findType(EclipseUtil.getJavaProject(getNature().getProject()), fullyQualifiedTypeName);
-		} catch (JavaModelException e) {
-			CDICorePlugin.getDefault().logError(e);
-		}
-		if(type == null) {
-			return result;
-		}
-		IParametedType pType = getNature().getTypeFactory().newParametedType(type);
-		Set<IParametedType> types = ((ParametedType)pType).getAllTypes();
-		IBean[] beans = getBeans();
-		for (IBean b: beans) {
-			Set<IInjectionPoint> ps = b.getInjectionPoints();
-			for (IInjectionPoint p: ps) {
-				IParametedType t = p.getType();
-				if(containsType(types, t)) {
-					result.add(p);
-				}
-			}
-		}
-		
+	public Set<IInjectionPoint> getInjections(String fullyQualifiedTypeName) {
+		Set<IInjectionPoint> result = injectionPointsByType.get(fullyQualifiedTypeName);
+		if(result == null) result = Collections.emptySet();		
 		return result;
 	}
 

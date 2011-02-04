@@ -460,5 +460,11 @@ public interface IBeanManager {
 	 */
 	List<INodeReference> getInterceptorClasses(String fullQualifiedTypeName);
 
-	List<IInjectionPoint> getInjections(String fullyQualifiedTypeName);
+	/**
+	 * Returns set of injection points with declared type exactly equal to fullyQualifiedTypeName.
+	 * 
+	 * @param fullyQualifiedTypeName
+	 * @return
+	 */
+	Set<IInjectionPoint> getInjections(String fullyQualifiedTypeName);
 }
