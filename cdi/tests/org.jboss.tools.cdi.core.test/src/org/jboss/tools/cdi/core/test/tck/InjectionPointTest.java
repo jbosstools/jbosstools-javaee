@@ -10,6 +10,7 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.core.test.tck;
 
+import java.util.List;
 import java.util.Set;
 
 import org.eclipse.jdt.core.ITypeParameter;
@@ -64,6 +65,14 @@ public class InjectionPointTest extends TCKTest {
 		assertNotNull("Can't find the bean.", bean);
 		Set<IInjectionPoint> injections = bean.getInjectionPoints();
 		assertEquals(1, injections.size());
+	}
+
+	public void testGetInjections() {
+		List<IInjectionPoint> ps = cdiProject.getInjections("org.jboss.jsr299.tck.tests.lookup.injection.Fox");
+		assertTrue(!ps.isEmpty());
+	
+		ps = cdiProject.getInjections("org.jboss.jsr299.tck.tests.context.dependent.Tarantula");
+		assertTrue(!ps.isEmpty());
 	}
 
 }
