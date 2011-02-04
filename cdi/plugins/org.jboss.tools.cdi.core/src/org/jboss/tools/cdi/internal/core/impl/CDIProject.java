@@ -1324,6 +1324,34 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		return getBeans(attemptToResolveAmbiguousDependency, beanType, qualifiers.toArray(new IType[0]));
 	}
 
+	public List<IInjectionPoint> getInjections(String fullyQualifiedTypeName) {
+		List<IInjectionPoint> result = new ArrayList<IInjectionPoint>();
+
+		IType type = null;
+		try {
+			type = EclipseJavaUtil.findType(EclipseUtil.getJavaProject(getNature().getProject()), fullyQualifiedTypeName);
+		} catch (JavaModelException e) {
+			CDICorePlugin.getDefault().logError(e);
+		}
+		if(type == null) {
+			return result;
+		}
+		IParametedType pType = getNature().getTypeFactory().newParametedType(type);
+		Set<IParametedType> types = ((ParametedType)pType).getAllTypes();
+		IBean[] beans = getBeans();
+		for (IBean b: beans) {
+			Set<IInjectionPoint> ps = b.getInjectionPoints();
+			for (IInjectionPoint p: ps) {
+				IParametedType t = p.getType();
+				if(containsType(types, t)) {
+					result.add(p);
+				}
+			}
+		}
+		
+		return result;
+	}
+
 	/**
 	 * For usage in TCK tests which contain many versions of beans.xml in packages.
 	 * @param path

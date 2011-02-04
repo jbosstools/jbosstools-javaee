@@ -459,4 +459,6 @@ public interface IBeanManager {
 	 *         <interceptors> of beans.xml by its full qualified type name.
 	 */
 	List<INodeReference> getInterceptorClasses(String fullQualifiedTypeName);
+
+	List<IInjectionPoint> getInjections(String fullyQualifiedTypeName);
 }
