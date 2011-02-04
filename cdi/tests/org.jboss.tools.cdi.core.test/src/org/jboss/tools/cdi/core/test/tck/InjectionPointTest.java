@@ -68,7 +68,7 @@ public class InjectionPointTest extends TCKTest {
 	}
 
 	public void testGetInjections() {
-		List<IInjectionPoint> ps = cdiProject.getInjections("org.jboss.jsr299.tck.tests.lookup.injection.Fox");
+		Set<IInjectionPoint> ps = cdiProject.getInjections("org.jboss.jsr299.tck.tests.lookup.injection.Fox");
 		assertTrue(!ps.isEmpty());
 	
 		ps = cdiProject.getInjections("org.jboss.jsr299.tck.tests.context.dependent.Tarantula");
