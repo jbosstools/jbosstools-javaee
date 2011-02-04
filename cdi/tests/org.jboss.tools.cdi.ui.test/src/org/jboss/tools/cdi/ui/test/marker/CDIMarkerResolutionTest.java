@@ -21,9 +21,12 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.jdt.core.ICompilationUnit;
+import org.eclipse.ltk.core.refactoring.Change;
 import org.eclipse.ltk.core.refactoring.CompositeChange;
 import org.eclipse.ltk.core.refactoring.RefactoringStatus;
 import org.eclipse.ltk.core.refactoring.RefactoringStatusEntry;
+import org.eclipse.ltk.core.refactoring.TextFileChange;
 import org.eclipse.ltk.core.refactoring.participants.RefactoringProcessor;
 import org.eclipse.ui.IMarkerResolution;
 import org.eclipse.ui.ide.IDE;
@@ -39,6 +42,7 @@ import org.jboss.tools.cdi.ui.marker.MakeMethodPublicMarkerResolution;
 import org.jboss.tools.cdi.ui.marker.SelectBeanMarkerResolution;
 import org.jboss.tools.cdi.ui.marker.TestableResolutionWithRefactoringProcessor;
 import org.jboss.tools.cdi.ui.marker.TestableResolutionWithSelectionWizard;
+import org.jboss.tools.common.EclipseUtil;
 import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.test.util.JobUtils;
 
@@ -70,6 +74,9 @@ public class CDIMarkerResolutionTest  extends ValidationTest {
 				if (attribute != null){
 					int messageId = attribute.intValue();
 					if(messageId == id){
+						String text = (String)marker.getAttribute(IMarker.MESSAGE,"none");
+						System.out.println("Before quick fix: "+text);
+						
 						IMarkerResolution[] resolutions = IDE.getMarkerHelpRegistry()
 								.getResolutions(marker);
 						for (int j = 0; j < resolutions.length; j++) {
@@ -99,7 +106,20 @@ public class CDIMarkerResolutionTest  extends ValidationTest {
 									
 									CompositeChange rootChange = (CompositeChange)processor.createChange(new NullProgressMonitor());
 									
-									rootChange.perform(new NullProgressMonitor());
+									for(Change change : rootChange.getChildren()){
+										if(change instanceof TextFileChange){
+											IFile cFile = ((TextFileChange)change).getFile();
+											ICompilationUnit cUnit = EclipseUtil.getCompilationUnit(cFile);
+											ICompilationUnit compilationUnit = cUnit.getWorkingCopy(new NullProgressMonitor());
+											
+											compilationUnit.applyTextEdit(((TextFileChange)change).getEdit(), new NullProgressMonitor());
+											
+											compilationUnit.commitWorkingCopy(false, new NullProgressMonitor());
+											compilationUnit.discardWorkingCopy();
+										}
+									}
+									
+									//rootChange.perform(new NullProgressMonitor());
 								}else if(resolution instanceof TestableResolutionWithSelectionWizard){
 									((TestableResolutionWithSelectionWizard)resolution).selectFirstElementAndRun(marker);
 								}else{
@@ -112,8 +132,10 @@ public class CDIMarkerResolutionTest  extends ValidationTest {
 								
 								System.out.println("Before: "+markers.length+" after: "+newMarkers.length);
 								
+								
+								
 								for(IMarker m : newMarkers){
-									String text = (String)m.getAttribute(IMarker.TEXT,"none");
+									text = (String)m.getAttribute(IMarker.MESSAGE,"none");
 									System.out.println("After quick fix: "+text);
 								}
 								
