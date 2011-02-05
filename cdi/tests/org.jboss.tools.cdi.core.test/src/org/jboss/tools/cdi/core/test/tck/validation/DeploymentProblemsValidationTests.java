@@ -14,7 +14,11 @@ package org.jboss.tools.cdi.core.test.tck.validation;
 import java.text.MessageFormat;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IncrementalProjectBuilder;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.jboss.tools.cdi.internal.core.validation.CDIValidationMessages;
+import org.jboss.tools.test.util.JobUtils;
+import org.jboss.tools.test.util.ResourcesUtils;
 
 /**
  * @author Alexey Kazakov
@@ -241,5 +245,40 @@ public class DeploymentProblemsValidationTests extends ValidationTest {
 	public void testAppliesToFinalMethodOnManagedBeanClass() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/decorators/definition/broken/finalBeanMethod/TimestampLogger.java");
 		assertMarkerIsCreated(file, MessageFormat.format(CDIValidationMessages.DECORATOR_RESOLVES_TO_FINAL_METHOD, "MockLogger", "log(String string)"), 31);
+	}
+
+	/**
+	 * See https://issues.jboss.org/browse/JBIDE-8325
+	 * @throws Exception
+	 */
+	public void testInjectionPointRevalidation() throws Exception {
+		boolean saveAutoBuild = ResourcesUtils.setBuildAutomatically(false);
+		JobUtils.waitForIdle();
+
+		IFile testInjection = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/inject/revalidation/TestBeanBroken.java");
+		assertMarkerIsNotCreated(testInjection, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS, 7);
+		assertMarkerIsNotCreated(testInjection, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS, 7);
+
+		IFile testBean = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/inject/revalidation/TestBeanImpl2.java");
+		IFile testBeanImpl = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/inject/revalidation/TestBeanImpl2.validation");
+		testBean.setContents(testBeanImpl.getContents(), IFile.FORCE, new NullProgressMonitor());
+		JobUtils.waitForIdle(1000);
+		tckProject.build(IncrementalProjectBuilder.INCREMENTAL_BUILD, new NullProgressMonitor());
+		JobUtils.waitForIdle(1000);
+
+		assertMarkerIsCreated(testInjection, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS, 7);
+
+		testBeanImpl = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/inject/revalidation/TestBeanImpl2.java");
+		testBean = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/inject/revalidation/TestBeanImpl2Original.validation");
+		testBeanImpl.setContents(testBean.getContents(), IFile.FORCE, new NullProgressMonitor());
+		JobUtils.waitForIdle(1000);
+		tckProject.build(IncrementalProjectBuilder.INCREMENTAL_BUILD, new NullProgressMonitor());
+		JobUtils.waitForIdle(1000);
+
+		assertMarkerIsNotCreated(testInjection, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS, 7);
+		assertMarkerIsNotCreated(testInjection, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS, 7);
+
+		ResourcesUtils.setBuildAutomatically(saveAutoBuild);
+		JobUtils.waitForIdle();
 	}
 }

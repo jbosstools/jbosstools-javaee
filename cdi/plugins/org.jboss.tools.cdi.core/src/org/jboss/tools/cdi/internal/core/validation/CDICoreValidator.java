@@ -245,6 +245,8 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 						}
 					}
 				}
+
+				collectAllRelatedInjections(currentFile, resources);
 			}
 		}
 
@@ -1277,6 +1279,26 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 			IType superType = type.getType();
 			if(superType!=null && !superType.isBinary() && superType.getResource()!=null && superType!=bean.getBeanClass()) {
 				getValidationContext().addLinkedCoreResource(SHORT_ID, bean.getSourcePath().toOSString(), superType.getResource().getFullPath(), false);
+			}
+		}
+	}
+
+	private void collectAllRelatedInjections(IFile validatingResource, Set<IPath> relatedResources) {
+		Set<IBean> beans = cdiProject.getBeans(validatingResource.getFullPath());
+		for (IBean bean : beans) {
+			if(bean instanceof IClassBean) {
+				Set<IParametedType> types = bean.getAllTypes();
+				for (IParametedType type : types) {
+					IType superType = type.getType();
+					if(superType!=null) {
+						Set<IInjectionPoint> injections = cdiProject.getInjections(superType.getFullyQualifiedName());
+						for (IInjectionPoint injection : injections) {
+							if(!injection.getClassBean().getBeanClass().isBinary() && injection.getClassBean()!=bean) {
+								relatedResources.add(injection.getResource().getFullPath());
+							}
+						}
+					}
+				}
 			}
 		}
 	}

@@ -110,9 +110,9 @@ public interface IBeanManager {
 	 * {@linkplain javax.enterprise.inject.Default default qualifier} is
 	 * assumed.
 	 * 
-	 * @param fullQualifiedBeanType
+	 * @param fullyQualifiedBeanType
 	 *            the required bean type
-	 * @param fullQualifiedQualifiersTypes
+	 * @param fullyQualifiedQualifiersTypes
 	 *            the required qualifiers
 	 * @param attemptToResolveAmbiguousDependency
 	 *            if there are a few beans with the given type and qualifiers
@@ -401,16 +401,16 @@ public interface IBeanManager {
 
 	/**
 	 * Returns the source reference to <stereotype>...</stereotype> or <class>...<class> element of
-	 * <alternatives> of beans.xml by its full qualified type name. For example:
+	 * <alternatives> of beans.xml by its fully qualified type name. For example:
 	 *     <alternatives>
 	 *        <stereotype>org.compony.Log</stereotype>
 	 *        <class>org.compony.Item</class>
 	 *     </alternatives>
 	 * 
 	 * @return the source reference to <stereotype>...</stereotype> or <class>...</class> element of
-	 *         <alternatives> of beans.xml by its full qualified type name
+	 *         <alternatives> of beans.xml by its fully qualified type name
 	 */
-	List<INodeReference> getAlternatives(String fullQualifiedTypeName);
+	List<INodeReference> getAlternatives(String fullyQualifiedTypeName);
 
 	/**
 	 * Returns the source reference to <class>...</class> element of
@@ -426,15 +426,15 @@ public interface IBeanManager {
 
 	/**
 	 * Returns the source reference to <class>...</class> element of
-	 * <decorators> of beans.xml by its full qualified type name. For example:
+	 * <decorators> of beans.xml by its fully qualified type name. For example:
 	 *     <decorators>
 	 *        <class>org.compony.Item</class>
 	 *     </decorators>
 	 * 
 	 * @return the source reference to <class>...</class> element of
-	 *         <decorators> of beans.xml by its full qualified type name.
+	 *         <decorators> of beans.xml by its fully qualified type name.
 	 */
-	List<INodeReference> getDecoratorClasses(String fullQualifiedTypeName);
+	List<INodeReference> getDecoratorClasses(String fullyQualifiedTypeName);
 
 	/**
 	 * Returns the source reference to <class>...</class> element of
@@ -450,15 +450,15 @@ public interface IBeanManager {
 
 	/**
 	 * Returns the source reference to <class>...</class> element of
-	 * <interceptors> of beans.xml by its full qualified type name. For example:
+	 * <interceptors> of beans.xml by its fully qualified type name. For example:
 	 *     <interceptors>
 	 *        <class>org.compony.Item</class>
 	 *     </interceptors>
 	 * 
 	 * @return the source reference to <class>...</class> element of
-	 *         <interceptors> of beans.xml by its full qualified type name.
+	 *         <interceptors> of beans.xml by its fully qualified type name.
 	 */
-	List<INodeReference> getInterceptorClasses(String fullQualifiedTypeName);
+	List<INodeReference> getInterceptorClasses(String fullyQualifiedTypeName);
 
 	/**
 	 * Returns set of injection points with declared type exactly equal to fullyQualifiedTypeName.
