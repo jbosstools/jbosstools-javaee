@@ -401,10 +401,14 @@ public class CDIMarkerResolutionTest  extends ValidationTest {
 				DeleteAllInjectedConstructorsMarkerResolution.class);
 	}
 
-	public void testMakeInjectedPointUnambiguousResolution() throws CoreException {
+	public void testSpecifyBeanWhenMultipleBeansAreEligibleForInjectedFieldResolution() throws CoreException {
+		System.out.println("testSpecifyBeanWhenMultipleBeansAreEligibleForInjectedFieldResolution...");
 		checkResolution(tckProject,
 				new String[]{
-					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Farm_Broken1.java"
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Farm_Broken1.java",
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Cow.java",
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Sheep.java",
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Dog.java"
 				},
 				MARKER_TYPE,
 				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
@@ -412,10 +416,19 @@ public class CDIMarkerResolutionTest  extends ValidationTest {
 				MakeInjectedPointUnambiguousMarkerResolution.class);
 	}
 
-	public void testSelectBeanResolution() throws CoreException {
+	public void testSelectBeanWhenMultipleBeansAreEligibleForInjectedFieldResolution() throws CoreException {
+		System.out.println("testSelectBeanWhenMultipleBeansAreEligibleForInjectedFieldResolution...");
 		checkResolution(tckProject,
 				new String[]{
-					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Office_Broken1.java"
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Office_Broken1.java",
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Armchair.java",
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Chair.java",
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Couch.java",
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Cupboard.java",
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Desk.java",
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/HighStool.java",
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Sofa.java",
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Stool.java"
 				},
 				MARKER_TYPE,
 				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
@@ -423,10 +436,14 @@ public class CDIMarkerResolutionTest  extends ValidationTest {
 				SelectBeanMarkerResolution.class);
 	}
 
-	public void testMakeInjectedPointUnambiguousResolution2() throws CoreException {
+	public void testSpecifyBeanWhenNoBeanIsEligibleForInjectedFieldResolution() throws CoreException {
+		System.out.println("testSpecifyBeanWhenNoBeanIsEligibleForInjectedFieldResolution...");
 		checkResolution(tckProject,
 				new String[]{
-					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Farm_Broken2.java"
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Farm_Broken2.java",
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Cow.java",
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Sheep.java",
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Dog.java"
 				},
 				MARKER_TYPE,
 				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
@@ -434,10 +451,89 @@ public class CDIMarkerResolutionTest  extends ValidationTest {
 				MakeInjectedPointUnambiguousMarkerResolution.class);
 	}
 
-	public void testSelectBeanResolution2() throws CoreException {
+	public void testSelectBeanWhenNoBeanIsEligibleForInjectedFieldResolution() throws CoreException {
+		System.out.println("testSelectBeanWhenNoBeanIsEligibleForInjectedFieldResolution...");
 		checkResolution(tckProject,
 				new String[]{
-					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Office_Broken2.java"
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Office_Broken2.java",
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Armchair.java",
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Chair.java",
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Couch.java",
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Cupboard.java",
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Desk.java",
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/HighStool.java",
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Sofa.java",
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Stool.java"
+				},
+				MARKER_TYPE,
+				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
+				CDIValidationErrorManager.UNSATISFIED_INJECTION_POINTS_ID,
+				SelectBeanMarkerResolution.class);
+	}
+	
+	public void testSpecifyBeanWhenMultipleBeansAreEligibleForInjectedParameterResolution() throws CoreException {
+		System.out.println("testSpecifyBeanWhenMultipleBeansAreEligibleForInjectedParameterResolution...");
+		checkResolution(tckProject,
+				new String[]{
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Farm_Broken3.java",
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Cow.java",
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Sheep.java",
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Dog.java"
+				},
+				MARKER_TYPE,
+				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
+				CDIValidationErrorManager.AMBIGUOUS_INJECTION_POINTS_ID,
+				MakeInjectedPointUnambiguousMarkerResolution.class);
+	}
+
+	public void testSelectBeanWhenMultipleBeansAreEligibleForInjectedParameterResolution() throws CoreException {
+		System.out.println("testSelectBeanWhenMultipleBeansAreEligibleForInjectedParameterResolution...");
+		checkResolution(tckProject,
+				new String[]{
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Office_Broken3.java",
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Armchair.java",
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Chair.java",
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Couch.java",
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Cupboard.java",
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Desk.java",
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/HighStool.java",
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Sofa.java",
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Stool.java"
+				},
+				MARKER_TYPE,
+				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
+				CDIValidationErrorManager.AMBIGUOUS_INJECTION_POINTS_ID,
+				SelectBeanMarkerResolution.class);
+	}
+
+	public void testSpecifyBeanWhenNoBeanIsEligibleForInjectedParameterResolution() throws CoreException {
+		System.out.println("testSpecifyBeanWhenNoBeanIsEligibleForInjectedParameterResolution...");
+		checkResolution(tckProject,
+				new String[]{
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Farm_Broken4.java",
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Cow.java",
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Sheep.java",
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Dog.java"
+				},
+				MARKER_TYPE,
+				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
+				CDIValidationErrorManager.UNSATISFIED_INJECTION_POINTS_ID,
+				MakeInjectedPointUnambiguousMarkerResolution.class);
+	}
+
+	public void testSelectBeanWhenNoBeanIsEligibleForInjectedParameterResolution() throws CoreException {
+		System.out.println("testSelectBeanWhenNoBeanIsEligibleForInjectedParameterResolution...");
+		checkResolution(tckProject,
+				new String[]{
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Office_Broken4.java",
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Armchair.java",
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Chair.java",
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Couch.java",
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Cupboard.java",
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Desk.java",
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/HighStool.java",
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Sofa.java",
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Stool.java"
 				},
 				MARKER_TYPE,
 				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,

@@ -1,5 +1,5 @@
 package org.jboss.jsr299.tck.tests.jbt.quickfixes;
 
-public class Chiar implements Furniture {
+public class Chair implements Furniture {
 
 }
