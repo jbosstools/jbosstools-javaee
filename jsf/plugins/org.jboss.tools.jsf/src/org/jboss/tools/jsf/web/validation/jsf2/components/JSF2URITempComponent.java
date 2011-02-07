@@ -26,7 +26,6 @@ import org.jboss.tools.jsf.web.validation.jsf2.util.JSF2ValidatorConstants;
 
 public class JSF2URITempComponent extends JSFAbstractValidationComponent {
 
-	private String validationMessage = ""; //$NON-NLS-1$
 	private String URI;
 
 	public JSF2URITempComponent(String URI) {
@@ -34,16 +33,12 @@ public class JSF2URITempComponent extends JSFAbstractValidationComponent {
 	}
 
 	public void createValidationMessage() {
-		this.validationMessage = MessageFormat.format(
-				JSFUIMessages.Missing_JSF_2_Resources_Folder, getResourcesFolder());
+		setValidationMessage(MessageFormat.format(
+				JSFUIMessages.Missing_JSF_2_Resources_Folder, getResourcesFolder()));
 	}
 	
 	public String getResourcesFolder(){
 		return "/resources" + URI.replaceAll(JSF2ResourceUtil.JSF2_URI_PREFIX, ""); //$NON-NLS-1$ //$NON-NLS-2$
-	}
-
-	public String getValidationMessage() {
-		return validationMessage;
 	}
 
 	public String getType() {

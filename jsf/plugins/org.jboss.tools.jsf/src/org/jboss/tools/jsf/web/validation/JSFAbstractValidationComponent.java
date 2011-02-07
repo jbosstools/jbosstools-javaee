@@ -20,6 +20,7 @@ public abstract class JSFAbstractValidationComponent implements
 	private int startOffSet;
 	private int line;
 	private Object[] messageParams;
+	private String validationMessage;
 
 	public int getLength() {
 		return length;
@@ -57,6 +58,14 @@ public abstract class JSFAbstractValidationComponent implements
 	
 	public void createMessageParams() {
 		this.messageParams = new Object[] { this };
+	}
+	
+	public String getValidationMessage() {
+		return this.validationMessage;
+	}
+	
+	protected void setValidationMessage(String validationMessage) {
+		this.validationMessage = validationMessage;
 	}
 
 }

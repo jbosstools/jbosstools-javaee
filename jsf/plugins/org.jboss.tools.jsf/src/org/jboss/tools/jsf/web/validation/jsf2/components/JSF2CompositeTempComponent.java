@@ -31,7 +31,6 @@ import org.w3c.dom.NamedNodeMap;
 @SuppressWarnings("restriction")
 public class JSF2CompositeTempComponent extends JSFAbstractValidationComponent {
 
-	private String validationMessage = ""; //$NON-NLS-1$
 	private List<String> attrNames = new ArrayList<String>(0);
 	private ElementImpl element;
 	private String componentResLoc;
@@ -42,12 +41,8 @@ public class JSF2CompositeTempComponent extends JSFAbstractValidationComponent {
 
 	public void createValidationMessage() {
 		String nodeName = element.getLocalName();
-		this.validationMessage = MessageFormat.format(
-				JSFUIMessages.Missing_JSF_2_Composite_Component, nodeName);
-	}
-
-	public String getValidationMessage() {
-		return validationMessage;
+		setValidationMessage(MessageFormat.format(
+				JSFUIMessages.Missing_JSF_2_Composite_Component, nodeName));
 	}
 
 	@Override

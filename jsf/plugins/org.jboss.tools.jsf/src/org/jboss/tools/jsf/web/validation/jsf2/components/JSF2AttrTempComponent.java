@@ -28,7 +28,6 @@ import org.jboss.tools.jsf.web.validation.jsf2.util.JSF2ValidatorConstants;
 @SuppressWarnings("restriction")
 public class JSF2AttrTempComponent extends JSFAbstractValidationComponent {
 
-	private String validationMessage = ""; //$NON-NLS-1$
 	private String type = JSF2ValidatorConstants.JSF2_UNFIXABLE_ATTR_TYPE;
 	private ElementImpl parentEl;
 	private IDOMAttr attr;
@@ -40,19 +39,15 @@ public class JSF2AttrTempComponent extends JSFAbstractValidationComponent {
 	}
 
 	public void createValidationMessage() {
-		this.validationMessage = MessageFormat.format(
+		setValidationMessage(MessageFormat.format(
 				JSFUIMessages.Missing_JSF_2_Component_Attr, attr.getName(),
-				getElementName());
+				getElementName()));
 	}
 	
 	public String getElementName(){
 		return parentEl.getLocalName();
 	}
-
-	public String getValidationMessage() {
-		return validationMessage;
-	}
-
+	
 	public void setType(String type) {
 		this.type = type;
 	}
