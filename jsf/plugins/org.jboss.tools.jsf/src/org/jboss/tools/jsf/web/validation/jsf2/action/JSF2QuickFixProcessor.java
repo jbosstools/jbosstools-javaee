@@ -22,7 +22,7 @@ import org.eclipse.jface.text.quickassist.IQuickAssistProcessor;
 import org.eclipse.jface.text.source.Annotation;
 import org.eclipse.wst.sse.ui.StructuredTextInvocationContext;
 import org.jboss.tools.jsf.jsf2.util.JSF2ResourceUtil;
-import org.jboss.tools.jsf.web.validation.jsf2.components.IJSF2ValidationComponent;
+import org.jboss.tools.jsf.web.validation.jsf2.util.JSF2ValidatorConstants;
 
 /**
  * 
@@ -45,7 +45,7 @@ public class JSF2QuickFixProcessor implements IQuickAssistProcessor {
 		if (invocationContext instanceof StructuredTextInvocationContext) {
 			StructuredTextInvocationContext context = (StructuredTextInvocationContext) invocationContext;
 			String type = (String) context
-					.getAttribute(IJSF2ValidationComponent.JSF2_TYPE_KEY);
+					.getAttribute(JSF2ValidatorConstants.JSF2_TYPE_KEY);
 			IResource resource = ResourcesPlugin.getWorkspace().getRoot()
 					.findMember(
 							(String) context
@@ -53,23 +53,23 @@ public class JSF2QuickFixProcessor implements IQuickAssistProcessor {
 			String compPath = (String) context
 					.getAttribute(JSF2ResourceUtil.COMPONENT_RESOURCE_PATH_KEY);
 
-			if (type.equals(IJSF2ValidationComponent.JSF2_FIXABLE_ATTR_TYPE)) {
+			if (type.equals(JSF2ValidatorConstants.JSF2_FIXABLE_ATTR_TYPE)) {
 				String[] attrs = new String[] { (String) context
-						.getAttribute(IJSF2ValidationComponent.JSF2_ATTR_NAME_KEY) };
+						.getAttribute(JSF2ValidatorConstants.JSF2_ATTR_NAME_KEY) };
 				ICompletionProposal proposal = new JSF2CompositeAttrsProposal(
-						resource, compPath, attrs,(String)context.getAttribute(IJSF2ValidationComponent.JSF2_ATTR_NAME_KEY),
+						resource, compPath, attrs,(String)context.getAttribute(JSF2ValidatorConstants.JSF2_ATTR_NAME_KEY),
 						(String)context.getAttribute(JSF2ResourceUtil.JSF2_COMPONENT_NAME));
 				return new ICompletionProposal[] { proposal };
 			} else if (type
-					.equals(IJSF2ValidationComponent.JSF2_COMPOSITE_COMPONENT_TYPE)) {
+					.equals(JSF2ValidatorConstants.JSF2_COMPOSITE_COMPONENT_TYPE)) {
 				ICompletionProposal proposal = new JSF2CompositeComponentProposal(
 						resource, compPath, retriveAttrsFromContext(context),(String)context.getAttribute(JSF2ResourceUtil.JSF2_COMPONENT_NAME));
 				return new ICompletionProposal[] { proposal };
-			} else if (type.equals(IJSF2ValidationComponent.JSF2_URI_TYPE)) {
+			} else if (type.equals(JSF2ValidatorConstants.JSF2_URI_TYPE)) {
 				String uriPath = (String) context
-						.getAttribute(IJSF2ValidationComponent.JSF2_URI_NAME_KEY);
+						.getAttribute(JSF2ValidatorConstants.JSF2_URI_NAME_KEY);
 				ICompletionProposal proposal = new JSF2ResourcesFolderProposal(
-						resource, uriPath,(String)context.getAttribute(IJSF2ValidationComponent.JSF2_URI_NAME_KEY));
+						resource, uriPath,(String)context.getAttribute(JSF2ValidatorConstants.JSF2_URI_NAME_KEY));
 				return new ICompletionProposal[] { proposal };
 			}
 		}
@@ -81,10 +81,10 @@ public class JSF2QuickFixProcessor implements IQuickAssistProcessor {
 		List<String> attrsList = new ArrayList<String>();
 		int i = 0;
 		while (!(context
-				.getAttribute(IJSF2ValidationComponent.JSF2_ATTR_NAME_KEY
+				.getAttribute(JSF2ValidatorConstants.JSF2_ATTR_NAME_KEY
 						+ String.valueOf(i)) == null)) {
 			attrsList.add((String) context
-					.getAttribute(IJSF2ValidationComponent.JSF2_ATTR_NAME_KEY
+					.getAttribute(JSF2ValidatorConstants.JSF2_ATTR_NAME_KEY
 							+ String.valueOf(i)));
 			i++;
 		}

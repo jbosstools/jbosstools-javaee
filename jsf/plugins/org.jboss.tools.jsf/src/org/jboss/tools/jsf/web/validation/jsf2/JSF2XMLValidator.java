@@ -26,7 +26,7 @@ import org.jboss.tools.common.el.core.resolver.ELContext;
 import org.jboss.tools.jsf.JSFModelPlugin;
 import org.jboss.tools.jsf.jsf2.model.JSF2ComponentModelManager;
 import org.jboss.tools.jsf.jsf2.util.JSF2ComponentUtil;
-import org.jboss.tools.jsf.web.validation.jsf2.components.IJSF2ValidationComponent;
+import org.jboss.tools.jsf.web.validation.jsf2.components.IJSFValidationComponent;
 import org.jboss.tools.jsf.web.validation.jsf2.util.JSF2ComponentRecognizer;
 import org.jboss.tools.jst.web.kb.IPageContext;
 import org.jboss.tools.jst.web.kb.PageContextFactory;
@@ -78,7 +78,7 @@ public class JSF2XMLValidator {
 	private void validateAsDOM(IFile file) {
 		IDOMDocument document = JSF2ComponentModelManager
 				.getReadableDOMDocument(file);
-		IJSF2ValidationComponent[] components = getValidationComponents(
+		IJSFValidationComponent[] components = getValidationComponents(
 				document, file);
 		if (components != null) {
 			for (int i = 0; i < components.length; i++) {
@@ -88,16 +88,16 @@ public class JSF2XMLValidator {
 	}
 
 	private void createMarkerForComponent(
-			IJSF2ValidationComponent jsf2ValidationComponent) {
+			IJSFValidationComponent jsf2ValidationComponent) {
 		validationInfo.addWarning(jsf2ValidationComponent
 				.getValidationMessage(), jsf2ValidationComponent.getLine(), 0,
 				validationInfo.getFileURI(), null, jsf2ValidationComponent
 						.getMessageParams());
 	}
 
-	public static IJSF2ValidationComponent[] getValidationComponents(Node node,
+	public static IJSFValidationComponent[] getValidationComponents(Node node,
 			IFile file) {
-		List<IJSF2ValidationComponent> components = new ArrayList<IJSF2ValidationComponent>(
+		List<IJSFValidationComponent> components = new ArrayList<IJSFValidationComponent>(
 				0);
 		Map<String, List<Element>> compositeComponentsMap = JSF2ComponentUtil
 				.findCompositeComponents(node);
@@ -106,7 +106,7 @@ public class JSF2XMLValidator {
 		for (Entry<String, List<Element>> entry : entries) {
 			List<Element> elements = entry.getValue();
 			for (Element element : elements) {
-				IJSF2ValidationComponent[] validationComponents = JSF2ComponentRecognizer
+				IJSFValidationComponent[] validationComponents = JSF2ComponentRecognizer
 						.recognizeCompositeValidationComponents(file,
 								(IDOMElement) element);
 				for (int i = 0; i < validationComponents.length; i++) {
@@ -119,7 +119,7 @@ public class JSF2XMLValidator {
 		for (int i = 0; i < attrs.length; i++) {
 			if (!attrValuesSet.contains(attrs[i].getValue())) {
 				attrValuesSet.add(attrs[i].getValue());
-				IJSF2ValidationComponent validationComponent = JSF2ComponentRecognizer
+				IJSFValidationComponent validationComponent = JSF2ComponentRecognizer
 						.recognizeURIValidationComponent(file.getProject(),
 								attrs[i]);
 				if (validationComponent != null) {
@@ -127,6 +127,6 @@ public class JSF2XMLValidator {
 				}
 			}
 		}
-		return components.toArray(new IJSF2ValidationComponent[0]);
+		return components.toArray(new IJSFValidationComponent[0]);
 	}
 }

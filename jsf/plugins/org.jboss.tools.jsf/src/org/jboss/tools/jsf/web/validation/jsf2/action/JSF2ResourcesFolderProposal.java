@@ -20,7 +20,7 @@ import org.jboss.tools.jsf.JSFModelPlugin;
 import org.jboss.tools.jsf.jsf2.util.JSF2ResourceUtil;
 import org.jboss.tools.jsf.messages.JSFUIMessages;
 import org.jboss.tools.jsf.web.validation.jsf2.JSF2XMLValidator;
-import org.jboss.tools.jsf.web.validation.jsf2.components.IJSF2ValidationComponent;
+import org.jboss.tools.jsf.web.validation.jsf2.util.JSF2ValidatorConstants;
 
 /**
  * 
@@ -37,7 +37,7 @@ public class JSF2ResourcesFolderProposal extends JSF2AbstractProposal {
 			super(marker.getResource());
 		try {
 			this.componentPath=(String) marker.getAttribute(JSF2ResourceUtil.COMPONENT_RESOURCE_PATH_KEY);
-			this.URL = (String) marker.getAttribute(IJSF2ValidationComponent.JSF2_URI_NAME_KEY);
+			this.URL = (String) marker.getAttribute(JSF2ValidatorConstants.JSF2_URI_NAME_KEY);
 		} catch (CoreException e) {
 			JSFModelPlugin.getPluginLog().logError(e);
 		}
@@ -62,7 +62,7 @@ public class JSF2ResourcesFolderProposal extends JSF2AbstractProposal {
 	protected void runWithMarker(IMarker marker) throws CoreException {
 		if (marker != null) {
 			componentPath = (String) marker
-					.getAttribute(IJSF2ValidationComponent.JSF2_URI_NAME_KEY);
+					.getAttribute(JSF2ValidatorConstants.JSF2_URI_NAME_KEY);
 			validateResource = marker.getResource();
 		}
 		JSF2ResourceUtil.createResourcesFolderByNameSpace(validateResource

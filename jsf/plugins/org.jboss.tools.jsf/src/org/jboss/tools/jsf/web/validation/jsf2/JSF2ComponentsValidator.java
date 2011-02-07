@@ -13,6 +13,7 @@ package org.jboss.tools.jsf.web.validation.jsf2;
 
 import java.io.InputStream;
 import java.util.Scanner;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -27,10 +28,10 @@ import org.eclipse.wst.xml.core.internal.validation.core.ValidationReport;
 import org.eclipse.wst.xml.core.internal.validation.eclipse.Validator;
 import org.jboss.tools.jsf.JSFModelPlugin;
 import org.jboss.tools.jsf.jsf2.util.JSF2ResourceUtil;
-import org.jboss.tools.jsf.web.validation.jsf2.components.IJSF2ValidationComponent;
 import org.jboss.tools.jsf.web.validation.jsf2.components.JSF2AttrTempComponent;
 import org.jboss.tools.jsf.web.validation.jsf2.components.JSF2CompositeTempComponent;
 import org.jboss.tools.jsf.web.validation.jsf2.components.JSF2URITempComponent;
+import org.jboss.tools.jsf.web.validation.jsf2.util.JSF2ValidatorConstants;
 import org.jboss.tools.jst.web.kb.IKbProject;
 import org.jboss.tools.jst.web.kb.KbProjectFactory;
 
@@ -108,7 +109,7 @@ public class JSF2ComponentsValidator extends Validator {
 		}
 		if (args[0] instanceof JSF2CompositeTempComponent) {
 			JSF2CompositeTempComponent component = (JSF2CompositeTempComponent) args[0];
-			message.setAttribute(IJSF2ValidationComponent.JSF2_TYPE_KEY,
+			message.setAttribute(JSF2ValidatorConstants.JSF2_TYPE_KEY,
 					component.getType());
 			message.setAttribute(JSF2ResourceUtil.COMPONENT_RESOURCE_PATH_KEY,
 					component.getComponentResourceLocation());
@@ -117,7 +118,7 @@ public class JSF2ComponentsValidator extends Validator {
 			if (attrNames != null) {
 				for (int i = 0; i < attrNames.length; i++) {
 					message.setAttribute(
-							IJSF2ValidationComponent.JSF2_ATTR_NAME_KEY
+							JSF2ValidatorConstants.JSF2_ATTR_NAME_KEY
 									+ String.valueOf(i), attrNames[i]);
 				}
 			}
@@ -125,9 +126,9 @@ public class JSF2ComponentsValidator extends Validator {
 		}
 		if (args[0] instanceof JSF2AttrTempComponent) {
 			JSF2AttrTempComponent component = (JSF2AttrTempComponent) args[0];
-			message.setAttribute(IJSF2ValidationComponent.JSF2_TYPE_KEY,
+			message.setAttribute(JSF2ValidatorConstants.JSF2_TYPE_KEY,
 					component.getType());
-			message.setAttribute(IJSF2ValidationComponent.JSF2_ATTR_NAME_KEY,
+			message.setAttribute(JSF2ValidatorConstants.JSF2_ATTR_NAME_KEY,
 					component.getName());
 			message.setAttribute(JSF2ResourceUtil.COMPONENT_RESOURCE_PATH_KEY,
 					component.getComponentResourceLocation());
@@ -136,9 +137,9 @@ public class JSF2ComponentsValidator extends Validator {
 		}
 		if (args[0] instanceof JSF2URITempComponent) {
 			JSF2URITempComponent component = (JSF2URITempComponent) args[0];
-			message.setAttribute(IJSF2ValidationComponent.JSF2_TYPE_KEY,
-					IJSF2ValidationComponent.JSF2_URI_TYPE);
-			message.setAttribute(IJSF2ValidationComponent.JSF2_URI_NAME_KEY,
+			message.setAttribute(JSF2ValidatorConstants.JSF2_TYPE_KEY,
+					JSF2ValidatorConstants.JSF2_URI_TYPE);
+			message.setAttribute(JSF2ValidatorConstants.JSF2_URI_NAME_KEY,
 					component.getURI());
 			message.setAttribute(JSF2ResourceUtil.COMPONENT_RESOURCE_PATH_KEY,
 					component.getResourcesFolder());

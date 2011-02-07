@@ -32,10 +32,11 @@ import org.eclipse.wst.xml.core.internal.provisional.document.IDOMDocument;
 import org.jboss.tools.jsf.JSFModelPlugin;
 import org.jboss.tools.jsf.jsf2.model.JSF2ComponentModelManager;
 import org.jboss.tools.jsf.jsf2.util.JSF2ResourceUtil;
-import org.jboss.tools.jsf.web.validation.jsf2.components.IJSF2ValidationComponent;
+import org.jboss.tools.jsf.web.validation.jsf2.components.IJSFValidationComponent;
 import org.jboss.tools.jsf.web.validation.jsf2.components.JSF2AttrTempComponent;
 import org.jboss.tools.jsf.web.validation.jsf2.components.JSF2CompositeTempComponent;
 import org.jboss.tools.jsf.web.validation.jsf2.components.JSF2URITempComponent;
+import org.jboss.tools.jsf.web.validation.jsf2.util.JSF2ValidatorConstants;
 
 /**
  * Validates when we change smth in file
@@ -99,7 +100,7 @@ public class JSF2SourceValidator implements IValidator, ISourceValidator {
 	}
 
 	private void reportProblems(IReporter reporter,
-			IJSF2ValidationComponent[] validationComponents,IResource resource) {
+			IJSFValidationComponent[] validationComponents,IResource resource) {
 		try {
 			resource.deleteMarkers(JSF2XMLValidator.JSF2_PROBLEM_ID, false, IResource.DEPTH_INFINITE);
 			for (int i = 0; i < validationComponents.length; i++) {
@@ -116,13 +117,13 @@ public class JSF2SourceValidator implements IValidator, ISourceValidator {
 
 	private static class LocalizedMessage extends Message {
 
-		private IJSF2ValidationComponent component;
+		private IJSFValidationComponent component;
 
-		public LocalizedMessage(IJSF2ValidationComponent component,
+		public LocalizedMessage(IJSFValidationComponent component,
 				IFile validateFile) {
 			this.component = component;
 			setAttribute("problemType", JSF2XMLValidator.JSF2_PROBLEM_ID); //$NON-NLS-1$
-			setAttribute(IJSF2ValidationComponent.JSF2_TYPE_KEY, component
+			setAttribute(JSF2ValidatorConstants.JSF2_TYPE_KEY, component
 					.getType());
 			setAttribute(
 					"validateResourcePath", validateFile == null ? "" : validateFile.getFullPath().toString()); //$NON-NLS-1$//$NON-NLS-2$
@@ -132,10 +133,10 @@ public class JSF2SourceValidator implements IValidator, ISourceValidator {
 			setAttribute(IMarker.SEVERITY, 1);
 			setAttribute(ValidatorMessage.ValidationId, "org.jboss.tools.jsf.jsf2.source"); //$NON-NLS-1$
 			if (component instanceof JSF2URITempComponent) {
-				setAttribute(IJSF2ValidationComponent.JSF2_URI_NAME_KEY,
+				setAttribute(JSF2ValidatorConstants.JSF2_URI_NAME_KEY,
 						((JSF2URITempComponent) component).getURI());
 			} else if (component instanceof JSF2AttrTempComponent) {
-				setAttribute(IJSF2ValidationComponent.JSF2_ATTR_NAME_KEY,
+				setAttribute(JSF2ValidatorConstants.JSF2_ATTR_NAME_KEY,
 						((JSF2AttrTempComponent) component).getName());
 				setAttribute(JSF2ResourceUtil.JSF2_COMPONENT_NAME, ((JSF2AttrTempComponent) component).getElementName());
 			} else if (component instanceof JSF2CompositeTempComponent) {
@@ -144,7 +145,7 @@ public class JSF2SourceValidator implements IValidator, ISourceValidator {
 				if (attrNames != null) {
 					for (int i = 0; i < attrNames.length; i++) {
 						setAttribute(
-								IJSF2ValidationComponent.JSF2_ATTR_NAME_KEY
+								JSF2ValidatorConstants.JSF2_ATTR_NAME_KEY
 										+ String.valueOf(i), attrNames[i]);
 					}
 					setAttribute(JSF2ResourceUtil.JSF2_COMPONENT_NAME, ((JSF2CompositeTempComponent) component).getElement().getLocalName());

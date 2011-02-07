@@ -16,6 +16,8 @@ import org.eclipse.wst.xml.core.internal.document.ElementImpl;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMAttr;
 import org.jboss.tools.jsf.jsf2.util.JSF2ResourceUtil;
 import org.jboss.tools.jsf.messages.JSFUIMessages;
+import org.jboss.tools.jsf.web.validation.JSFAbstractValidationComponent;
+import org.jboss.tools.jsf.web.validation.jsf2.util.JSF2ValidatorConstants;
 
 /**
  * 
@@ -24,10 +26,10 @@ import org.jboss.tools.jsf.messages.JSFUIMessages;
  */
 
 @SuppressWarnings("restriction")
-public class JSF2AttrTempComponent extends JSF2AbstractValidationComponent {
+public class JSF2AttrTempComponent extends JSFAbstractValidationComponent {
 
 	private String validationMessage = ""; //$NON-NLS-1$
-	private String type = JSF2_UNFIXABLE_ATTR_TYPE;
+	private String type = JSF2ValidatorConstants.JSF2_UNFIXABLE_ATTR_TYPE;
 	private ElementImpl parentEl;
 	private IDOMAttr attr;
 	private String componentResLocation;

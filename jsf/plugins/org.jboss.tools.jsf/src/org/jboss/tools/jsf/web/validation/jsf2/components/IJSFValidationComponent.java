@@ -17,25 +17,7 @@ package org.jboss.tools.jsf.web.validation.jsf2.components;
  * 
  */
 
-public interface IJSF2ValidationComponent {
-
-	String JSF2_TYPE_KEY = "JSF2_TYPE_KEY"; //$NON-NLS-1$
-
-	String JSF2_COMPONENT_NAME_KEY = "AJSF2_COMPONENT_NAME_KEY"; //$NON-NLS-1$
-
-	String JSF2_ATTR_NAME_KEY = "ATTR_NAME_KEY"; //$NON-NLS-1$
-
-	String JSF2_URI_NAME_KEY = "JSF2_URI_NAME_KEY"; //$NON-NLS-1$
-
-	String JSF2_URI_TYPE_KEY = "JSF2_URI_TYPE_KEY"; //$NON-NLS-1$
-
-	String JSF2_COMPOSITE_COMPONENT_TYPE = "JSF2_COMPOSITE_COMPONENT_TYPE"; //$NON-NLS-1$
-
-	String JSF2_UNFIXABLE_ATTR_TYPE = "JSF2_UNFIXABLE_ATTR_TYPE"; //$NON-NLS-1$
-
-	String JSF2_FIXABLE_ATTR_TYPE = "JSF2_FIXABLE_ATTR_TYPE"; //$NON-NLS-1$
-
-	String JSF2_URI_TYPE = "JSF2_URI_TYPE"; //$NON-NLS-1$
+public interface IJSFValidationComponent {
 
 	int getLine();
 

@@ -15,11 +15,9 @@ import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.ui.IMarkerResolution;
 import org.eclipse.ui.IMarkerResolutionGenerator;
-import org.eclipse.wst.xml.core.internal.document.ElementImpl;
 import org.jboss.tools.jsf.JSFModelPlugin;
-import org.jboss.tools.jsf.jsf2.util.JSF2ResourceUtil;
 import org.jboss.tools.jsf.web.validation.jsf2.JSF2XMLValidator;
-import org.jboss.tools.jsf.web.validation.jsf2.components.IJSF2ValidationComponent;
+import org.jboss.tools.jsf.web.validation.jsf2.util.JSF2ValidatorConstants;
 
 /**
  * 
@@ -38,14 +36,14 @@ public class JSF2ComponentResolutionGenerator implements
 				return new IMarkerResolution[0];
 			}
 			String fixType = (String) marker
-					.getAttribute(IJSF2ValidationComponent.JSF2_TYPE_KEY);
-				if (IJSF2ValidationComponent.JSF2_COMPOSITE_COMPONENT_TYPE.equals(fixType)) {
+					.getAttribute(JSF2ValidatorConstants.JSF2_TYPE_KEY);
+				if (JSF2ValidatorConstants.JSF2_COMPOSITE_COMPONENT_TYPE.equals(fixType)) {
 					return new IMarkerResolution[] { new JSF2CompositeComponentProposal(marker) };
 				}
-				if (IJSF2ValidationComponent.JSF2_FIXABLE_ATTR_TYPE.equals(fixType)) {
+				if (JSF2ValidatorConstants.JSF2_FIXABLE_ATTR_TYPE.equals(fixType)) {
 					return new IMarkerResolution[] { new JSF2CompositeAttrsProposal(marker) };
 				}
-				if (IJSF2ValidationComponent.JSF2_URI_TYPE.equals(fixType)) {
+				if (JSF2ValidatorConstants.JSF2_URI_TYPE.equals(fixType)) {
 					return new IMarkerResolution[] { new JSF2ResourcesFolderProposal(marker) };
 				}
 		} catch (CoreException e) {

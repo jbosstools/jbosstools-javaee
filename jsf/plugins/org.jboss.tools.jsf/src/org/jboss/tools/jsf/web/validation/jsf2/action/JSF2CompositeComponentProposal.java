@@ -16,6 +16,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
@@ -27,7 +28,7 @@ import org.jboss.tools.jsf.JSFModelPlugin;
 import org.jboss.tools.jsf.jsf2.util.JSF2ResourceUtil;
 import org.jboss.tools.jsf.messages.JSFUIMessages;
 import org.jboss.tools.jsf.web.validation.jsf2.JSF2XMLValidator;
-import org.jboss.tools.jsf.web.validation.jsf2.components.IJSF2ValidationComponent;
+import org.jboss.tools.jsf.web.validation.jsf2.util.JSF2ValidatorConstants;
 
 /**
  * 
@@ -67,7 +68,7 @@ public class JSF2CompositeComponentProposal extends JSF2AbstractProposal {
 			Set<Entry> entries = attrsMap.entrySet();
 			for (Entry entry : entries) {
 				String key = (String) entry.getKey();
-				if (key.startsWith(IJSF2ValidationComponent.JSF2_ATTR_NAME_KEY)) {
+				if (key.startsWith(JSF2ValidatorConstants.JSF2_ATTR_NAME_KEY)) {
 					set.add((String) entry.getValue());
 				}
 			}

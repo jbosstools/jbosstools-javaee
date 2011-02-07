@@ -18,7 +18,7 @@ import org.eclipse.jdt.internal.core.JarEntryFile;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMAttr;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMElement;
 import org.jboss.tools.jsf.jsf2.util.JSF2ResourceUtil;
-import org.jboss.tools.jsf.web.validation.jsf2.components.IJSF2ValidationComponent;
+import org.jboss.tools.jsf.web.validation.jsf2.components.IJSFValidationComponent;
 import org.jboss.tools.jsf.web.validation.jsf2.components.JSF2ComponentFactory;
 
 /**
@@ -30,34 +30,34 @@ import org.jboss.tools.jsf.web.validation.jsf2.components.JSF2ComponentFactory;
 @SuppressWarnings("restriction")
 public class JSF2ComponentRecognizer {
 
-	public static IJSF2ValidationComponent[] recognizeCompositeValidationComponents(
+	public static IJSFValidationComponent[] recognizeCompositeValidationComponents(
 			IFile file, IDOMElement element) {
-		List<IJSF2ValidationComponent> validationComponents = new ArrayList<IJSF2ValidationComponent>(
+		List<IJSFValidationComponent> validationComponents = new ArrayList<IJSFValidationComponent>(
 				0);
 		Object container = JSF2ResourceUtil.findCompositeComponentContainer(
 				file.getProject(), element);
 		if (container == null) {
-			IJSF2ValidationComponent component = JSF2ComponentFactory
+			IJSFValidationComponent component = JSF2ComponentFactory
 					.createCompositeTempComponent(element);
 			validationComponents.add(component);
 		} else if (container instanceof IFile) {
-			IJSF2ValidationComponent[] components = JSF2ComponentFactory
+			IJSFValidationComponent[] components = JSF2ComponentFactory
 					.createFixableAttrTempComponents((IFile) container, element);
 			for (int i = 0; i < components.length; i++) {
 				validationComponents.add(components[i]);
 			}
 		} else if (container instanceof JarEntryFile) {
-			IJSF2ValidationComponent[] components = JSF2ComponentFactory
+			IJSFValidationComponent[] components = JSF2ComponentFactory
 					.createUnfixableAttrTempComponents(
 							(JarEntryFile) container, element);
 			for (int i = 0; i < components.length; i++) {
 				validationComponents.add(components[i]);
 			}
 		}
-		return validationComponents.toArray(new IJSF2ValidationComponent[0]);
+		return validationComponents.toArray(new IJSFValidationComponent[0]);
 	}
 
-	public static IJSF2ValidationComponent recognizeURIValidationComponent(
+	public static IJSFValidationComponent recognizeURIValidationComponent(
 			IProject project, IDOMAttr attrContainer) {
 		if (!JSF2ResourceUtil.isResourcesFolderExists(project, attrContainer
 				.getValue())) {

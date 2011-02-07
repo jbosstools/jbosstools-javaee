@@ -22,6 +22,7 @@ import org.eclipse.wst.xml.core.internal.provisional.document.IDOMAttr;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMDocument;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMElement;
 import org.jboss.tools.jsf.jsf2.model.JSF2ComponentModelManager;
+import org.jboss.tools.jsf.web.validation.jsf2.util.JSF2ValidatorConstants;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
@@ -40,7 +41,7 @@ public class JSF2ComponentFactory {
 		uncheckedAttrs.add("id"); //$NON-NLS-1$
 	}
 
-	public static IJSF2ValidationComponent createCompositeTempComponent(
+	public static IJSFValidationComponent createCompositeTempComponent(
 			IDOMElement element) {
 		JSF2CompositeTempComponent component = new JSF2CompositeTempComponent(
 				(ElementImpl) element);
@@ -54,9 +55,9 @@ public class JSF2ComponentFactory {
 		return component;
 	}
 
-	public static IJSF2ValidationComponent[] createUnfixableAttrTempComponents(
+	public static IJSFValidationComponent[] createUnfixableAttrTempComponents(
 			JarEntryFile container, IDOMElement elementWithAttrs) {
-		List<IJSF2ValidationComponent> validationComponents = new ArrayList<IJSF2ValidationComponent>(
+		List<IJSFValidationComponent> validationComponents = new ArrayList<IJSFValidationComponent>(
 				0);
 		IDOMDocument containerDocument = JSF2ComponentModelManager
 				.getReadableDOMDocument(container);
@@ -72,7 +73,7 @@ public class JSF2ComponentFactory {
 				JSF2AttrTempComponent component = new JSF2AttrTempComponent(
 						attr, (ElementImpl) elementWithAttrs);
 				component
-						.setType(IJSF2ValidationComponent.JSF2_UNFIXABLE_ATTR_TYPE);
+						.setType(JSF2ValidatorConstants.JSF2_UNFIXABLE_ATTR_TYPE);
 				component.setStartOffSet(attr.getStartOffset());
 				component.setLine(attr.getStructuredDocument().getLineOfOffset(
 						component.getStartOffSet()) + 1);
@@ -82,12 +83,12 @@ public class JSF2ComponentFactory {
 				validationComponents.add(component);
 			}
 		}
-		return validationComponents.toArray(new IJSF2ValidationComponent[0]);
+		return validationComponents.toArray(new IJSFValidationComponent[0]);
 	}
 
-	public static IJSF2ValidationComponent[] createFixableAttrTempComponents(
+	public static IJSFValidationComponent[] createFixableAttrTempComponents(
 			IFile compContainerFile, IDOMElement elementWithAttrs) {
-		List<IJSF2ValidationComponent> components = new ArrayList<IJSF2ValidationComponent>(
+		List<IJSFValidationComponent> components = new ArrayList<IJSFValidationComponent>(
 				0);
 		IDOMDocument document = JSF2ComponentModelManager
 				.getReadableDOMDocument(compContainerFile);
@@ -103,7 +104,7 @@ public class JSF2ComponentFactory {
 				JSF2AttrTempComponent component = new JSF2AttrTempComponent(
 						attr, (ElementImpl) elementWithAttrs);
 				component
-						.setType(IJSF2ValidationComponent.JSF2_FIXABLE_ATTR_TYPE);
+						.setType(JSF2ValidatorConstants.JSF2_FIXABLE_ATTR_TYPE);
 				component.setStartOffSet(attr.getStartOffset());
 				component.setLine(attr.getStructuredDocument().getLineOfOffset(
 						component.getStartOffSet()) + 1);
@@ -113,10 +114,10 @@ public class JSF2ComponentFactory {
 				components.add(component);
 			}
 		}
-		return components.toArray(new IJSF2ValidationComponent[0]);
+		return components.toArray(new IJSFValidationComponent[0]);
 	}
 
-	public static IJSF2ValidationComponent createURITempComponent(
+	public static IJSFValidationComponent createURITempComponent(
 			IDOMAttr attrContainer) {
 		JSF2URITempComponent component = new JSF2URITempComponent(attrContainer
 				.getValue());

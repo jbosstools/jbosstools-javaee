@@ -22,6 +22,7 @@ import org.eclipse.wst.validation.internal.provisional.core.IValidationContext;
 import org.eclipse.wst.validation.internal.provisional.core.IValidator;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMDocument;
 import org.jboss.tools.jsf.jsf2.model.JSF2ComponentModelManager;
+import org.jboss.tools.jst.jsp.bundle.BundleMapUtil;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Text;
@@ -56,20 +57,34 @@ public class I18nValidator implements ISourceValidator, IValidator{
 
 	public void validate(IValidationContext helper, IReporter reporter)
 			throws ValidationException {
-		List<Node> stringNodes = new ArrayList<Node>();
-		lookForStrings(document, stringNodes);
+			List<Node> notValidNodes = new ArrayList<Node>();
+			validateDOM(document, notValidNodes);
+			
 	}
 	
 	
-	private void lookForStrings(Node node, List<Node> nonExtStings){
+	private void validateDOM(Node node, List<Node> nonExtStings){
 		NodeList childNodes = node.getChildNodes();
 		for(int i=0;i<childNodes.getLength();i++) {
 			Node childNode = childNodes.item(i);
 			if(childNode instanceof Text){
-				nonExtStings.add(childNode);
-			} else {
-				lookForStrings(childNode, nonExtStings);
-			}
+				if(!validateTextNode(((Text)childNode).getNodeValue())){
+					nonExtStings.add(childNode);
+				}
+			}else {
+				validateDOM(childNode, nonExtStings);
+			}			
 		}
+	}
+	/**
+	 * Return false if not not valid
+	 * @param String to validate
+	 * @return true is string ext and valid, false otherwise
+	 *
+	 */
+	private boolean validateTextNode(String stringToValidate){
+		if(stringToValidate==null) return true;
+		if(stringToValidate.trim().length()<1) return true;
+		return BundleMapUtil.isContainsEl(stringToValidate);
 	}
 }

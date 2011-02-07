@@ -13,6 +13,7 @@ package org.jboss.tools.jsf.web.validation.jsf2.action;
 
 import java.text.MessageFormat;
 import java.util.Map;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
@@ -24,7 +25,7 @@ import org.jboss.tools.jsf.JSFModelPlugin;
 import org.jboss.tools.jsf.jsf2.util.JSF2ResourceUtil;
 import org.jboss.tools.jsf.messages.JSFUIMessages;
 import org.jboss.tools.jsf.web.validation.jsf2.JSF2XMLValidator;
-import org.jboss.tools.jsf.web.validation.jsf2.components.IJSF2ValidationComponent;
+import org.jboss.tools.jsf.web.validation.jsf2.util.JSF2ValidatorConstants;
 
 /**
  * 
@@ -44,7 +45,7 @@ public class JSF2CompositeAttrsProposal extends JSF2AbstractProposal {
 		try {
 			this.elementName=(String) marker.getAttribute(JSF2ResourceUtil.JSF2_COMPONENT_NAME);
 			this.componentPath=(String) marker.getAttribute(JSF2ResourceUtil.COMPONENT_RESOURCE_PATH_KEY);
-			this.attrName=(String)marker.getAttribute(IJSF2ValidationComponent.JSF2_ATTR_NAME_KEY);
+			this.attrName=(String)marker.getAttribute(JSF2ValidatorConstants.JSF2_ATTR_NAME_KEY);
 		} catch (CoreException e) {
 			JSFModelPlugin.getPluginLog().logError(e);
 		}
@@ -72,7 +73,7 @@ public class JSF2CompositeAttrsProposal extends JSF2AbstractProposal {
 					.get(JSF2ResourceUtil.COMPONENT_RESOURCE_PATH_KEY);
 			componentPath = (String) object;
 			attrs = new String[] { (String) marker
-					.getAttribute(IJSF2ValidationComponent.JSF2_ATTR_NAME_KEY) };
+					.getAttribute(JSF2ValidatorConstants.JSF2_ATTR_NAME_KEY) };
 		}
 		final IFile createdFile = JSF2ResourceUtil
 				.createCompositeComponentFile(validateResource.getProject(),

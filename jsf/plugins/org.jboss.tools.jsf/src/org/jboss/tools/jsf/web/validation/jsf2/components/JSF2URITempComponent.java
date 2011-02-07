@@ -15,6 +15,8 @@ import java.text.MessageFormat;
 
 import org.jboss.tools.jsf.jsf2.util.JSF2ResourceUtil;
 import org.jboss.tools.jsf.messages.JSFUIMessages;
+import org.jboss.tools.jsf.web.validation.JSFAbstractValidationComponent;
+import org.jboss.tools.jsf.web.validation.jsf2.util.JSF2ValidatorConstants;
 
 /**
  * 
@@ -22,7 +24,7 @@ import org.jboss.tools.jsf.messages.JSFUIMessages;
  * 
  */
 
-public class JSF2URITempComponent extends JSF2AbstractValidationComponent {
+public class JSF2URITempComponent extends JSFAbstractValidationComponent {
 
 	private String validationMessage = ""; //$NON-NLS-1$
 	private String URI;
@@ -45,7 +47,7 @@ public class JSF2URITempComponent extends JSF2AbstractValidationComponent {
 	}
 
 	public String getType() {
-		return JSF2_URI_TYPE;
+		return JSF2ValidatorConstants.JSF2_URI_TYPE;
 	}
 
 	public String getComponentResourceLocation() {

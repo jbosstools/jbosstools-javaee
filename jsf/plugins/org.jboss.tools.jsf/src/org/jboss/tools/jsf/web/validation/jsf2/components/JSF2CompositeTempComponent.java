@@ -18,6 +18,8 @@ import org.eclipse.wst.xml.core.internal.document.ElementImpl;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMAttr;
 import org.jboss.tools.jsf.jsf2.util.JSF2ResourceUtil;
 import org.jboss.tools.jsf.messages.JSFUIMessages;
+import org.jboss.tools.jsf.web.validation.JSFAbstractValidationComponent;
+import org.jboss.tools.jsf.web.validation.jsf2.util.JSF2ValidatorConstants;
 import org.w3c.dom.NamedNodeMap;
 
 /**
@@ -27,7 +29,7 @@ import org.w3c.dom.NamedNodeMap;
  */
 
 @SuppressWarnings("restriction")
-public class JSF2CompositeTempComponent extends JSF2AbstractValidationComponent {
+public class JSF2CompositeTempComponent extends JSFAbstractValidationComponent {
 
 	private String validationMessage = ""; //$NON-NLS-1$
 	private List<String> attrNames = new ArrayList<String>(0);
@@ -65,7 +67,7 @@ public class JSF2CompositeTempComponent extends JSF2AbstractValidationComponent 
 	}
 
 	public String getType() {
-		return JSF2_COMPOSITE_COMPONENT_TYPE;
+		return JSF2ValidatorConstants.JSF2_COMPOSITE_COMPONENT_TYPE;
 	}
 
 	public String getComponentResourceLocation() {
