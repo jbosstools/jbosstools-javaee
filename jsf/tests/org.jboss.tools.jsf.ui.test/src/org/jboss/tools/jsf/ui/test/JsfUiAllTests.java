@@ -23,6 +23,7 @@ import org.jboss.tools.jsf.jsp.ca.test.CANotEmptyWhenThereIsNoSpaceBetweenInvert
 import org.jboss.tools.jsf.jsp.ca.test.CASuggestsNotOnlyELProposalsJBIDE2437Test;
 import org.jboss.tools.jsf.jsp.ca.test.CAUnnecessaryElementsForDirAttributeInXHTMLPageJBIDE1813Test;
 import org.jboss.tools.jsf.jsp.ca.test.CAVarAttributeForDataTableTagJBIDE2016;
+import org.jboss.tools.jsf.jsp.ca.test.JavaClassContentAssistProviderTest;
 import org.jboss.tools.jsf.jsp.ca.test.JsfJspJbide1704Test;
 import org.jboss.tools.jsf.jsp.ca.test.JsfJspJbide1717Test;
 import org.jboss.tools.jsf.jsp.ca.test.JsfJspJbide6259Test;
@@ -77,6 +78,11 @@ public class JsfUiAllTests {
 				new String[]{"test_jsf_project"}));
  		suite.addTest(
 				new ProjectImportTestSetup(new TestSuite(TestPalette.class),
+				"org.jboss.tools.jsf.ui.test",
+				new String[] { "projects/testJSFProject", }, //$NON-NLS-1$
+				new String[] { "testJSFProject" })); //$NON-NLS-1$
+ 		suite.addTest(
+				new ProjectImportTestSetup(new TestSuite(JavaClassContentAssistProviderTest.class),
 				"org.jboss.tools.jsf.ui.test",
 				new String[] { "projects/testJSFProject", }, //$NON-NLS-1$
 				new String[] { "testJSFProject" })); //$NON-NLS-1$
