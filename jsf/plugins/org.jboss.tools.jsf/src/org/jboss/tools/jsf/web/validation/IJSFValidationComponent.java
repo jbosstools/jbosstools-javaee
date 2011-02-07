@@ -9,7 +9,7 @@
  *     Red Hat, Inc. - initial API and implementation
  ******************************************************************************/
 
-package org.jboss.tools.jsf.web.validation.jsf2.components;
+package org.jboss.tools.jsf.web.validation;
 
 /**
  * 
@@ -17,7 +17,7 @@ package org.jboss.tools.jsf.web.validation.jsf2.components;
  * 
  */
 
-public interface IJSFValidationComponent {
+public interface IJSFValidationComponent{
 
 	int getLine();
 

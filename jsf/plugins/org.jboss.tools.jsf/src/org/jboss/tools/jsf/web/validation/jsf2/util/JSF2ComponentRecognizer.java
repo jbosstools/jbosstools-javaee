@@ -18,7 +18,7 @@ import org.eclipse.jdt.internal.core.JarEntryFile;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMAttr;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMElement;
 import org.jboss.tools.jsf.jsf2.util.JSF2ResourceUtil;
-import org.jboss.tools.jsf.web.validation.jsf2.components.IJSFValidationComponent;
+import org.jboss.tools.jsf.web.validation.IJSFValidationComponent;
 import org.jboss.tools.jsf.web.validation.jsf2.components.JSF2ComponentFactory;
 
 /**

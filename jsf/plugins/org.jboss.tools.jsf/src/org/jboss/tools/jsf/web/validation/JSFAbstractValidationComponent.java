@@ -11,7 +11,6 @@
 package org.jboss.tools.jsf.web.validation;
 
 import org.eclipse.wst.validation.internal.provisional.core.IMessage;
-import org.jboss.tools.jsf.web.validation.jsf2.components.IJSFValidationComponent;
 
 public abstract class JSFAbstractValidationComponent implements
 		IJSFValidationComponent {

@@ -26,7 +26,7 @@ import org.jboss.tools.common.el.core.resolver.ELContext;
 import org.jboss.tools.jsf.JSFModelPlugin;
 import org.jboss.tools.jsf.jsf2.model.JSF2ComponentModelManager;
 import org.jboss.tools.jsf.jsf2.util.JSF2ComponentUtil;
-import org.jboss.tools.jsf.web.validation.jsf2.components.IJSFValidationComponent;
+import org.jboss.tools.jsf.web.validation.IJSFValidationComponent;
 import org.jboss.tools.jsf.web.validation.jsf2.util.JSF2ComponentRecognizer;
 import org.jboss.tools.jst.web.kb.IPageContext;
 import org.jboss.tools.jst.web.kb.PageContextFactory;
