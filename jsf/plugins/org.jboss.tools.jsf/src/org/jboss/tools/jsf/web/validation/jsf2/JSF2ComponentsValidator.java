@@ -73,8 +73,8 @@ public class JSF2ComponentsValidator extends Validator {
 
 	protected boolean isValidate(IFile file) {
 		boolean isValidate = false;
-		if (file.getProject() == null
-				|| file.getProject().isAccessible() == false) {
+		if (!file.isAccessible() || !file.isSynchronized(IResource.DEPTH_ZERO) || file.getProject() == null 
+				|| !file.getProject().isAccessible()) {
 			return false;
 		}
 		try {
