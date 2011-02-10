@@ -82,6 +82,7 @@ public abstract class JSFAutoTestCase extends VPEAutoTestCase {
 			bot.menu("Edit").menu("Delete").click(); //$NON-NLS-1$ //$NON-NLS-2$
 			editor.setText(editorText);
 			editor.save();
+			delay();
 		}
 		super.tearDown();
 	}
