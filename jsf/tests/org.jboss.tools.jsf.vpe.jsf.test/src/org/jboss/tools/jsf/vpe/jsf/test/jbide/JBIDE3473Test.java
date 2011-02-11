@@ -81,8 +81,8 @@ public class JBIDE3473Test extends VpeTest {
 		Rectangle boundsAfterInsert = getBoundsOfElementById(vpeController.getXulRunnerEditor().getDOMDocument(), TABLE_ID);
 		assertNotNull("boundsAfterInsert should be not null.", boundsAfterInsert); //$NON-NLS-1$
 
-		assertEquals("Width of the table has been changed.", boundsBeforeInsert.width, boundsAfterInsert.width); //$NON-NLS-1$
-		assertEquals("Height of the table has been changed.", boundsBeforeInsert.height, boundsAfterInsert.height); //$NON-NLS-1$
+		assertEquals("Width of the table has been changed.", boundsBeforeInsert.width, boundsAfterInsert.width-4); //$NON-NLS-1$
+		assertEquals("Height of the table has been changed.", boundsBeforeInsert.height, boundsAfterInsert.height-4); //$NON-NLS-1$
 
 		if(getException()!=null) {
 			throw getException();
