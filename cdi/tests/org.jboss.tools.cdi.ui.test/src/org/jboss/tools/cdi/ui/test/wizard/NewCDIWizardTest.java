@@ -52,6 +52,8 @@ import org.jboss.tools.cdi.ui.wizard.NewQualifierWizardPage;
 import org.jboss.tools.cdi.ui.wizard.NewScopeWizardPage;
 import org.jboss.tools.cdi.ui.wizard.NewStereotypeWizardPage;
 import org.jboss.tools.common.EclipseUtil;
+import org.jboss.tools.common.model.XModelObject;
+import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.test.util.JUnitUtils;
 import org.jboss.tools.test.util.JobUtils;
@@ -189,6 +191,10 @@ public class NewCDIWizardTest extends TestCase {
 			page.setInherited(true);
 			page.setTarget("METHOD,FIELD");
 			page.setNamed(true);
+			page.setAlternative(true);
+			page.setToBeRegisteredInBeansXML(true);
+			
+			assertTrue(page.isToBeRegisteredInBeansXML());
 			
 			context.wizard.performFinish();
 			
@@ -199,6 +205,12 @@ public class NewCDIWizardTest extends TestCase {
 			assertTrue(text.contains("@Named"));
 			assertTrue(text.contains("@Target({ METHOD, FIELD })"));
 			assertTrue(text.contains("@Retention(RUNTIME)"));
+
+			IProject tck = ResourcesPlugin.getWorkspace().getRoot().getProject("tck");
+			IFile f = tck.getFile("WebContent/WEB-INF/beans.xml");
+			XModelObject o = EclipseResourceUtil.createObjectForResource(f);
+			XModelObject c = o.getChildByPath("Alternatives/" + PACK_NAME + "." + STEREOTYPE_NAME);
+			assertNotNull(c);
 			
 		} finally {
 			context.close();
@@ -342,6 +354,12 @@ public class NewCDIWizardTest extends TestCase {
 			assertTrue(text.contains("@Interceptor"));
 			assertTrue(text.contains("@" + INTERCEPTOR_BINDING_NAME));
 			
+
+			IProject tck = ResourcesPlugin.getWorkspace().getRoot().getProject("tck");
+			IFile f = tck.getFile("WebContent/WEB-INF/beans.xml");
+			XModelObject o = EclipseResourceUtil.createObjectForResource(f);
+			XModelObject c = o.getChildByPath("Interceptors/" + PACK_NAME + "." + INTERCEPTOR_NAME);
+			assertNotNull(c);
 		} finally {
 			context.close();
 		}
