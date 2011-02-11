@@ -51,6 +51,7 @@ import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
 import org.jboss.tools.cdi.ui.CDIUiImages;
+import org.jboss.tools.cdi.ui.wizard.NewBeanWizardPage.CheckBoxEditorWrapper;
 import org.jboss.tools.common.java.generation.JavaBeanGenerator;
 import org.jboss.tools.common.ui.widget.editor.CompositeEditor;
 import org.jboss.tools.common.ui.widget.editor.IFieldEditor;
@@ -70,10 +71,17 @@ public class NewDecoratorWizardPage extends NewClassWizardPage {
 
 	protected StatusInfo fieldNameStatus = new StatusInfo();
 
+	protected boolean mayBeRegisteredInBeansXML = true;
+	protected CheckBoxEditorWrapper registerInBeansXML = null;
+
 	public NewDecoratorWizardPage() {
 		setTitle(CDIUIMessages.NEW_DECORATOR_WIZARD_PAGE_NAME);
 		setDescription(CDIUIMessages.NEW_DECORATOR_WIZARD_DESCRIPTION);
 		setImageDescriptor(CDIUiImages.getImageDescriptor(CDIUiImages.WELD_WIZARD_IMAGE_PATH));
+	}
+
+	public void setMayBeRegisteredInBeansXML(boolean b) {
+		mayBeRegisteredInBeansXML = b;
 	}
 
 	public void init(IStructuredSelection selection) {
@@ -227,6 +235,7 @@ public class NewDecoratorWizardPage extends NewClassWizardPage {
 
 	protected void createCustomFields(Composite composite) {
 		createFieldNameField(composite);
+		createRegisterInBeansXML(composite);
 	}
 
 	protected void createFieldNameField(Composite composite) {
@@ -275,6 +284,12 @@ public class NewDecoratorWizardPage extends NewClassWizardPage {
 					val.getMessage()));
 		}
 
+	}
+
+	protected void createRegisterInBeansXML(Composite composite) {
+		if(!mayBeRegisteredInBeansXML) return;
+		String label = "Register in beans.xml";
+		registerInBeansXML = NewBeanWizardPage.createCheckBoxField(composite, "register", label, true);
 	}
 
 	protected IField createDelegateField(IType type, ImportsManager imports,
@@ -415,6 +430,13 @@ public class NewDecoratorWizardPage extends NewClassWizardPage {
 			buf.replace(start, end - start, sb.toString());
 		}
 		
+	}
+
+	public boolean isToBeRegisteredInBeansXML() {
+		if(registerInBeansXML != null) {
+			return registerInBeansXML.composite.getValue() == Boolean.TRUE;
+		}
+		return false;
 	}
 
 }

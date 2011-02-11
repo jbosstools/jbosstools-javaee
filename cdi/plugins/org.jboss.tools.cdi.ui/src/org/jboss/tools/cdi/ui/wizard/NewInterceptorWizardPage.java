@@ -63,6 +63,7 @@ import org.jboss.tools.cdi.core.ICDIAnnotation;
 import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
 import org.jboss.tools.cdi.ui.CDIUiImages;
+import org.jboss.tools.cdi.ui.wizard.NewBeanWizardPage.CheckBoxEditorWrapper;
 import org.jboss.tools.common.java.generation.JavaBeanGenerator;
 import org.jboss.tools.common.ui.widget.editor.CompositeEditor;
 import org.jboss.tools.common.ui.widget.editor.IFieldEditor;
@@ -82,6 +83,13 @@ public class NewInterceptorWizardPage extends NewClassWizardPage {
 
 	protected StatusInfo methodNameStatus = new StatusInfo();
 	protected StatusInfo interceptorBindingsStatus = new StatusInfo();
+
+	protected boolean mayBeRegisteredInBeansXML = true;
+	protected CheckBoxEditorWrapper registerInBeansXML = null;
+
+	public void setMayBeRegisteredInBeansXML(boolean b) {
+		mayBeRegisteredInBeansXML = b;
+	}
 
 	public NewInterceptorWizardPage() {
 		setTitle(CDIUIMessages.NEW_INTERCEPTOR_WIZARD_PAGE_NAME);
@@ -181,6 +189,7 @@ public class NewInterceptorWizardPage extends NewClassWizardPage {
 	protected void createCustomFields(Composite composite) {
 		createInterceptorBindingField(composite);
 		createMethodNameField(composite);
+		createRegisterInBeansXML(composite);
 	}
 
 	protected void createInterceptorBindingField(Composite composite) {
@@ -215,6 +224,12 @@ public class NewInterceptorWizardPage extends NewClassWizardPage {
 				doStatusUpdate();
 			}
 		});
+	}
+
+	protected void createRegisterInBeansXML(Composite composite) {
+		if(!mayBeRegisteredInBeansXML) return;
+		String label = "Register in beans.xml";
+		registerInBeansXML = NewBeanWizardPage.createCheckBoxField(composite, "register", label, true);
 	}
 
 	void setInterceptorBindings(IPackageFragmentRoot root) {
@@ -324,6 +339,13 @@ public class NewInterceptorWizardPage extends NewClassWizardPage {
 			interceptorBindingsProvider.setPackageFragment(getPackageFragment());
 		}
 		return result;
+	}
+
+	public boolean isToBeRegisteredInBeansXML() {
+		if(registerInBeansXML != null) {
+			return registerInBeansXML.composite.getValue() == Boolean.TRUE;
+		}
+		return false;
 	}
 
 }

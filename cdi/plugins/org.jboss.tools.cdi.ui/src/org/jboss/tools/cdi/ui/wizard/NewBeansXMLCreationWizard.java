@@ -196,4 +196,24 @@ public class NewBeansXMLCreationWizard extends BasicNewResourceWizard {
 
     }
 
+	public static IPath getContainerForBeansXML(IProject p) {
+		IPath path = ProjectHome.getWebInfPath(p);
+		if(path == null) {
+			boolean needMetaInf = false;
+			 Set<IFolder> fs = EclipseResourceUtil.getSourceFolders(p);
+			 if(fs != null) for (IFolder f: fs) {
+				 IFolder fm = f.getFolder("META-INF");
+				 IPath pth = fm.getFullPath();
+				 if(path == null) {
+					 path = pth;
+					 needMetaInf = !fm.exists();
+				 } else if(needMetaInf && fm.exists()) {
+					 path = pth;
+					 needMetaInf = false;
+				 }
+			 }
+		}
+		return path;			
+	}
+
 }

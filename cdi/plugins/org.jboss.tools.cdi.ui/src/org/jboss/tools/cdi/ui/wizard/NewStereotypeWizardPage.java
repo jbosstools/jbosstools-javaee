@@ -36,6 +36,7 @@ import org.jboss.tools.cdi.core.IStereotype;
 import org.jboss.tools.cdi.internal.core.validation.AnnotationValidationDelegate;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
 import org.jboss.tools.cdi.ui.CDIUIPlugin;
+import org.jboss.tools.cdi.ui.wizard.NewBeanWizardPage.CheckBoxEditorWrapper;
 import org.jboss.tools.common.ui.widget.editor.ITaggedFieldEditor;
 import org.jboss.tools.common.ui.widget.editor.ListFieldEditor;
 
@@ -46,6 +47,9 @@ import org.jboss.tools.common.ui.widget.editor.ListFieldEditor;
  */
 public class NewStereotypeWizardPage extends NewCDIAnnotationWizardPage {
 	protected CheckBoxEditorWrapper alternative = null;
+	protected boolean mayBeRegisteredInBeansXML = true;
+	protected CheckBoxEditorWrapper registerInBeansXML = null;
+
 	protected CheckBoxEditorWrapper named = null;
 	protected ITaggedFieldEditor scope = null;
 	protected Map<String, String> scopes = new TreeMap<String, String>();
@@ -60,6 +64,10 @@ public class NewStereotypeWizardPage extends NewCDIAnnotationWizardPage {
 
 	public NewStereotypeWizardPage() {
 		setTitle(CDIUIMessages.NEW_STEREOTYPE_WIZARD_PAGE_NAME);
+	}
+
+	public void setMayBeRegisteredInBeansXML(boolean b) {
+		mayBeRegisteredInBeansXML = b;
 	}
 
 	protected void addAnnotations(ImportsManager imports, StringBuffer sb, String lineDelimiter) {
@@ -131,6 +139,7 @@ public class NewStereotypeWizardPage extends NewCDIAnnotationWizardPage {
 	protected void createCustomFields(Composite composite) {
 		createInheritedField(composite, false);
 		createAlternativeField(composite);
+		createRegisterInBeansXML(composite);
 		createNamedField(composite);
 		createScopeField(composite);
 		createTargetField(composite);
@@ -141,6 +150,22 @@ public class NewStereotypeWizardPage extends NewCDIAnnotationWizardPage {
 	protected void createAlternativeField(Composite composite) {
 		String label = "Add @Alternative";
 		alternative = createCheckBoxField(composite, "isAlternative", label, isAlternativeInitialValue);
+		if(mayBeRegisteredInBeansXML) {
+			alternative.checkBox.addPropertyChangeListener(new PropertyChangeListener() {
+				public void propertyChange(PropertyChangeEvent evt) {
+					boolean isAlternative = "true".equals(alternative.checkBox.getValueAsString());
+					if(registerInBeansXML != null) {
+						registerInBeansXML.composite.setEnabled(isAlternative);
+					}
+				}});
+		}
+	}
+
+	protected void createRegisterInBeansXML(Composite composite) {
+		if(!mayBeRegisteredInBeansXML) return;
+		String label = "Register in beans.xml";
+		registerInBeansXML = createCheckBoxField(composite, "register", label, isAlternativeInitialValue);
+		registerInBeansXML.composite.setEnabled(isAlternativeInitialValue);
 	}
 
 	protected void createNamedField(Composite composite) {
@@ -333,6 +358,19 @@ public class NewStereotypeWizardPage extends NewCDIAnnotationWizardPage {
 		} else {
 			isAlternativeInitialValue = value;
 		}
+	}
+
+	public void setToBeRegisteredInBeansXML(boolean value) {
+		if(registerInBeansXML != null) {
+			registerInBeansXML.composite.setValue(Boolean.valueOf(value));
+		}
+	}
+
+	public boolean isToBeRegisteredInBeansXML() {
+		if(registerInBeansXML != null && alternative != null ) {
+			return alternative.composite.getValue() == Boolean.TRUE && registerInBeansXML.composite.getValue() == Boolean.TRUE;
+		}
+		return false;
 	}
 
 }

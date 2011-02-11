@@ -76,6 +76,8 @@ import org.jboss.tools.common.ui.widget.editor.TextFieldEditor;
  */
 public class NewBeanWizardPage extends NewClassWizardPage {
 	protected CheckBoxEditorWrapper alternative = null;
+	protected boolean mayBeRegisteredInBeansXML = true;
+	protected CheckBoxEditorWrapper registerInBeansXML = null;
 
 	protected CheckBoxEditorWrapper isNamed;
 	protected BeanNameEditorWrapper beanName;
@@ -94,6 +96,10 @@ public class NewBeanWizardPage extends NewClassWizardPage {
 		setTitle(CDIUIMessages.NEW_BEAN_WIZARD_PAGE_NAME);
 		setDescription(CDIUIMessages.NEW_BEAN_WIZARD_DESCRIPTION);
 		setImageDescriptor(CDIUiImages.getImageDescriptor(CDIUiImages.WELD_WIZARD_IMAGE_PATH));
+	}
+
+	public void setMayBeRegisteredInBeansXML(boolean b) {
+		mayBeRegisteredInBeansXML = b;
 	}
 
 	public void init(IStructuredSelection selection) {
@@ -256,6 +262,7 @@ public class NewBeanWizardPage extends NewClassWizardPage {
 	protected void createCustomFields(Composite composite) {
 		createBeanNameField(composite);
 		createAlternativeField(composite);
+		createRegisterInBeansXML(composite);
 		createScopeField(composite);
 		createQualifiersField(composite);
 	}
@@ -378,13 +385,28 @@ public class NewBeanWizardPage extends NewClassWizardPage {
 				beanName.composite.setEnabled(named);				
 			}});
 	}
-
 	protected void createAlternativeField(Composite composite) {
 		String label = "Add @Alternative";
 		alternative = createCheckBoxField(composite, "isAlternative", label, isAlternativeInitialValue);
+		if(mayBeRegisteredInBeansXML) {
+			alternative.checkBox.addPropertyChangeListener(new PropertyChangeListener() {
+				public void propertyChange(PropertyChangeEvent evt) {
+					boolean isAlternative = "true".equals(alternative.checkBox.getValueAsString());
+					if(registerInBeansXML != null) {
+						registerInBeansXML.composite.setEnabled(isAlternative);
+					}
+				}});
+		}
 	}
 
-	protected CheckBoxEditorWrapper createCheckBoxField(Composite composite, String name, String label, boolean defaultValue) {
+	protected void createRegisterInBeansXML(Composite composite) {
+		if(!mayBeRegisteredInBeansXML) return;
+		String label = "Register in beans.xml";
+		registerInBeansXML = createCheckBoxField(composite, "register", label, isAlternativeInitialValue);
+		registerInBeansXML.composite.setEnabled(isAlternativeInitialValue);
+	}
+
+	protected static CheckBoxEditorWrapper createCheckBoxField(Composite composite, String name, String label, boolean defaultValue) {
 		CheckBoxEditorWrapper wrapper = new CheckBoxEditorWrapper();
 		wrapper.checkBox = new CheckBoxFieldEditor(name,"",Boolean.valueOf(defaultValue));
 		CompositeEditor editor = new CompositeEditor(name,"", defaultValue);
@@ -431,6 +453,13 @@ public class NewBeanWizardPage extends NewClassWizardPage {
 		} else {
 			isAlternativeInitialValue = value;
 		}
+	}
+
+	public boolean isToBeRegisteredInBeansXML() {
+		if(registerInBeansXML != null && alternative != null ) {
+			return alternative.composite.getValue() == Boolean.TRUE && registerInBeansXML.composite.getValue() == Boolean.TRUE;
+		}
+		return false;
 	}
 
 }

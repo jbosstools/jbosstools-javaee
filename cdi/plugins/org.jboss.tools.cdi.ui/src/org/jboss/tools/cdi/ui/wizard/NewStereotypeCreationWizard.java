@@ -10,6 +10,7 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.ui.wizard;
 
+import org.eclipse.core.resources.IProject;
 import org.eclipse.jdt.ui.wizards.NewAnnotationWizardPage;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
 
@@ -32,7 +33,17 @@ public class NewStereotypeCreationWizard extends NewCDIAnnotationCreationWizard 
 		super.initPageFromAdapter();
 		if(adapter != null) {
 			((NewStereotypeWizardPage)fPage).setAlternative(true);
+			((NewStereotypeWizardPage)fPage).setMayBeRegisteredInBeansXML(false);
 		}
+	}
+
+	public boolean performFinish() {
+		boolean res = super.performFinish();
+		if(res && ((NewStereotypeWizardPage)fPage).isToBeRegisteredInBeansXML()) {
+			IProject project = fPage.getCreatedType().getResource().getProject();
+			NewBeanCreationWizard.registerInBeansXML(project, fPage.getCreatedType().getFullyQualifiedName(), "Alternatives", "CDIStereotype", "stereotype");
+		}
+		return res;
 	}
 
 }

@@ -11,6 +11,7 @@
 
 package org.jboss.tools.cdi.ui.wizard;
 
+import org.eclipse.core.resources.IProject;
 import org.eclipse.jdt.ui.wizards.NewClassWizardPage;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
 
@@ -34,6 +35,9 @@ public class NewDecoratorCreationWizard extends NewCDIElementWizard {
 			fPage = new  NewDecoratorWizardPage();
 			((NewClassWizardPage)fPage).init(getSelection());
 			initPageFromAdapter();
+			if(adapter != null) {
+				((NewDecoratorWizardPage)fPage).setMayBeRegisteredInBeansXML(false);
+			}
 		}
 		addPage(fPage);
 	}
@@ -43,6 +47,15 @@ public class NewDecoratorCreationWizard extends NewCDIElementWizard {
 	 */
 	protected boolean canRunForked() {
 		return !fPage.isEnclosingTypeSelected();
+	}
+
+	public boolean performFinish() {
+		boolean res = super.performFinish();
+		if(res && ((NewDecoratorWizardPage)fPage).isToBeRegisteredInBeansXML()) {
+			IProject project = fPage.getCreatedType().getResource().getProject();
+			NewBeanCreationWizard.registerInBeansXML(project, fPage.getCreatedType().getFullyQualifiedName(), "Decorators", "CDIClass", "class");
+		}
+		return res;
 	}
 
 }

@@ -11,6 +11,7 @@
 
 package org.jboss.tools.cdi.ui.wizard;
 
+import org.eclipse.core.resources.IProject;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
 
 /**
@@ -33,6 +34,9 @@ public class NewInterceptorCreationWizard extends NewCDIElementWizard {
 			fPage = new  NewInterceptorWizardPage();
 			((NewInterceptorWizardPage)fPage).init(getSelection());
 			initPageFromAdapter();
+			if(adapter != null) {
+				((NewInterceptorWizardPage)fPage).setMayBeRegisteredInBeansXML(false);
+			}
 		}
 		addPage(fPage);
 	}
@@ -42,6 +46,15 @@ public class NewInterceptorCreationWizard extends NewCDIElementWizard {
 	 */
 	protected boolean canRunForked() {
 		return !fPage.isEnclosingTypeSelected();
+	}
+
+	public boolean performFinish() {
+		boolean res = super.performFinish();
+		if(res && ((NewInterceptorWizardPage)fPage).isToBeRegisteredInBeansXML()) {
+			IProject project = fPage.getCreatedType().getResource().getProject();
+			NewBeanCreationWizard.registerInBeansXML(project, fPage.getCreatedType().getFullyQualifiedName(), "Interceptors", "CDIClass", "class");
+		}
+		return res;
 	}
 
 }
