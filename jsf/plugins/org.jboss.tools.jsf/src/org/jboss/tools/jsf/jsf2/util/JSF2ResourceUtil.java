@@ -17,6 +17,7 @@ import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
@@ -33,6 +34,8 @@ import org.eclipse.jdt.internal.core.JarPackageFragmentRoot;
 import org.eclipse.wst.common.componentcore.ComponentCore;
 import org.eclipse.wst.common.componentcore.resources.IVirtualComponent;
 import org.eclipse.wst.common.componentcore.resources.IVirtualFolder;
+import org.eclipse.wst.sse.ui.internal.reconcile.validator.IncrementalHelper;
+import org.eclipse.wst.validation.internal.provisional.core.IValidationContext;
 import org.eclipse.wst.xml.core.internal.document.ElementImpl;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMElement;
 import org.jboss.tools.jsf.JSFModelPlugin;
@@ -273,5 +276,31 @@ public class JSF2ResourceUtil {
 		}
 		return projectResourceRelativePath;
 	}
-
+	/**
+	 * Get validating resource
+	 * @param helper
+	 * @return IResource on which validator works
+	 */
+	public static IResource getValidatingResource(IValidationContext helper){
+		IResource resource=null;
+		if (helper instanceof IncrementalHelper) {
+			IncrementalHelper incrementalHelper = (IncrementalHelper) helper;
+			IProject project = incrementalHelper.getProject();
+			if (project == null) {
+				return resource;
+			}
+			String[] uris = helper.getURIs();
+			if (uris == null || uris.length < 1) {
+				return resource;
+			}
+			String filePath = uris[0];
+			if (filePath == null) {
+				return resource;
+			}
+			filePath = filePath.substring(filePath.indexOf('/') + 1);
+			resource = project.findMember(filePath
+					.substring(filePath.indexOf('/') + 1));
+		}
+		return resource;
+	}
 }

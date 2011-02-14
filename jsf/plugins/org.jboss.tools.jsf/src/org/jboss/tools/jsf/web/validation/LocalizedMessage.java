@@ -18,6 +18,7 @@ import org.eclipse.wst.validation.ValidatorMessage;
 import org.eclipse.wst.validation.internal.core.Message;
 import org.eclipse.wst.validation.internal.provisional.core.IMessage;
 import org.jboss.tools.jsf.jsf2.util.JSF2ResourceUtil;
+import org.jboss.tools.jsf.web.validation.i18n.I18nValidationComponent;
 import org.jboss.tools.jsf.web.validation.jsf2.JSF2XMLValidator;
 import org.jboss.tools.jsf.web.validation.jsf2.components.JSF2AttrTempComponent;
 import org.jboss.tools.jsf.web.validation.jsf2.components.JSF2CompositeTempComponent;
@@ -70,6 +71,18 @@ public class LocalizedMessage extends Message {
 		return jsf2LocMessage;
 	}
 	
+	public static Message createJSFLocalizedMessage(
+			IJSFValidationComponent ijsfValidationComponent) {
+		LocalizedMessage i18nLocMessage = new LocalizedMessage();
+		i18nLocMessage.component = ijsfValidationComponent;
+		i18nLocMessage.setAttribute("problemType", I18nValidationComponent.PROBLEM_ID); //$NON-NLS-1$
+		i18nLocMessage.setAttribute(IMarker.LINE_NUMBER, i18nLocMessage.getLineNumber());
+		i18nLocMessage.setAttribute(IMarker.SEVERITY, 1);
+		i18nLocMessage.setAttribute(ValidatorMessage.ValidationId, "org.jboss.tools.jsf.i18n.source");
+		i18nLocMessage.setAttribute(IMarker.MESSAGE,i18nLocMessage.getText());
+		return i18nLocMessage;
+	}
+	
 	@Override
 	public int getLineNumber() {
 		return component.getLine();
@@ -109,4 +122,5 @@ public class LocalizedMessage extends Message {
 	public int getSeverity() {
 		return IMessage.NORMAL_SEVERITY;
 	}
+
 }

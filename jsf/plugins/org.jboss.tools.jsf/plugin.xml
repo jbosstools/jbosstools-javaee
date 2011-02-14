@@ -543,6 +543,15 @@
           markerType="org.jboss.tools.jsf.jsf2problemmarker">
     </markerResolutionGenerator>
  </extension>
+ 
+ <extension
+       point="org.eclipse.ui.ide.markerResolution">
+    <markerResolutionGenerator
+          class="org.jboss.tools.jsf.web.validation.i18n.I18nMarkerResolutionGenerator"
+          markerType="org.jboss.tools.jsf.i18nproblemmarker">
+    </markerResolutionGenerator>
+ </extension>
+ 
  <extension
        id="jsf2problemmarker"
        name="%JSF2ProblemName"
@@ -563,6 +572,28 @@
           type="org.eclipse.core.resources.textmarker">
     </super>
  </extension>
+ 
+  <extension
+       id="i18nproblemmarker"
+       name="%i18nProblemName"
+       point="org.eclipse.core.resources.markers">
+    <super
+          type="org.eclipse.core.resources.problemmarker">
+    </super>
+    <persistent
+          value="true">
+    </persistent>
+    <attribute
+          name="problemType">
+    </attribute>
+    <attribute
+          name="baseElement">
+    </attribute>
+    <super
+          type="org.eclipse.core.resources.textmarker">
+    </super>
+ </extension>
+ 
  <extension
        point="org.eclipse.wst.sse.ui.sourcevalidation">
     <validator
@@ -604,6 +635,44 @@
             <partitionType
                   id="org.eclipse.wst.html.HTML_DEFAULT"/>
          </contentTypeIdentifier>
+    </validator>
+ </extension>
+ 
+  <extension
+       id="jsf2"
+       name="%JSF2_ComponentsValidator.name"
+       point="org.eclipse.wst.validation.validatorV2">
+    <validator
+          build="true"
+          class="org.jboss.tools.jsf.web.validation.i18n.I18nValidator"
+          manual="true"
+          markerId="org.jboss.tools.jsf.i18nproblemmarker"
+          sourceid="org.eclipse.wst.xml.ui.internal.validation.DelegatingSourceValidatorForXML"
+          version="4">
+       <include>
+          <rules>
+             <contentType
+                   id="org.eclipse.wst.html.core.htmlsource">
+             </contentType>
+             <contentType
+                   id="org.eclipse.jst.jsp.core.jspfragmentsource">
+             </contentType>
+             <contentType
+                   id="org.eclipse.jst.jsp.core.tagsource">
+             </contentType>
+             <fileext
+                   caseSensitive="false"
+                   ext="xhtml">
+             </fileext>
+             <fileext
+                   caseSensitive="false"
+                   ext="jsp">
+             </fileext>
+             <contentType
+                   id="org.eclipse.jst.jsp.core.jspsource">
+             </contentType>
+          </rules>
+       </include>
     </validator>
  </extension>
  <extension
