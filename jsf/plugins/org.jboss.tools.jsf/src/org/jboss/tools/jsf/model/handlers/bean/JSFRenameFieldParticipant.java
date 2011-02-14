@@ -83,8 +83,9 @@ public class JSFRenameFieldParticipant extends RenameParticipant implements ISha
 				XModelObject[] os = JSFRenameFieldHelper.getBeanList(model, method);
 				String propertyName = BeanUtil.getPropertyName(method.getElementName());
 				if(propertyName == null) return null;
+				String newPropertyName = BeanUtil.getPropertyName(newName);
 				os = getProperties(os, propertyName);
-				RenameModelObjectChange c1 = RenameModelObjectChange.createChange(os, newName, "property-name"); //$NON-NLS-1$
+				RenameModelObjectChange c1 = RenameModelObjectChange.createChange(os, newPropertyName, "property-name"); //$NON-NLS-1$
 				return c1;
 			} else if(object != null) {
 				RenameModelObjectChange c1 = RenameModelObjectChange.createChange(new XModelObject[]{object}, getArguments().getNewName(), "property-name"); //$NON-NLS-1$
