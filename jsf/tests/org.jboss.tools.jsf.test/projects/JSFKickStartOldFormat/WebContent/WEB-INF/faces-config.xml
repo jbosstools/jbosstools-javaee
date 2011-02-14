@@ -66,6 +66,16 @@
    </list-entries>
   </managed-property>
  </managed-bean>
+ <managed-bean>
+  <managed-bean-name>second</managed-bean-name>
+  <managed-bean-class>demo.User</managed-bean-class>
+  <managed-bean-scope>request</managed-bean-scope>
+  <managed-property>
+   <property-name>age</property-name>
+   <property-class>java.lang.String</property-class>
+   <value/>
+  </managed-property>
+ </managed-bean>
  <navigation-rule>
   <from-view-id>/pages/inputname.jsp</from-view-id>
   <navigation-case>

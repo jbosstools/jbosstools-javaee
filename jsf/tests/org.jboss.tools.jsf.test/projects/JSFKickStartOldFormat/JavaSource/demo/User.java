@@ -42,4 +42,8 @@ public class User extends BaseBean {
 	public void setX3(int i, int j) {
 		
 	}
+
+	public String getAge() {
+		return "";
+	}
 }

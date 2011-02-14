@@ -28,6 +28,7 @@ import org.jboss.tools.jsf.model.pv.test.JsfJbide7975Test;
 import org.jboss.tools.jsf.test.refactoring.ELVariableRefactoringTest;
 import org.jboss.tools.jsf.test.refactoring.JSF2RefactoringTest;
 import org.jboss.tools.jsf.test.refactoring.MessagePropertyRefactoringTest;
+import org.jboss.tools.jsf.test.refactoring.MethodRefactoringTest;
 import org.jboss.tools.jsf.test.validation.ELValidatorTest;
 import org.jboss.tools.jsf.test.validation.JSF2ComponentsValidatorTest;
 import org.jboss.tools.test.util.JobUtils;
@@ -60,6 +61,10 @@ public class JsfAllTests {
 
 		suite.addTest(new ProjectImportTestSetup(new TestSuite(
 				ELVariableRefactoringTest.class), "org.jboss.tools.jsf.test", //$NON-NLS-1$
+				new String[] { "projects/JSFKickStartOldFormat" }, //$NON-NLS-1$
+				new String[] { "JSFKickStartOldFormat" })); //$NON-NLS-1$
+		suite.addTest(new ProjectImportTestSetup(new TestSuite(
+				MethodRefactoringTest.class), "org.jboss.tools.jsf.test", //$NON-NLS-1$
 				new String[] { "projects/JSFKickStartOldFormat" }, //$NON-NLS-1$
 				new String[] { "JSFKickStartOldFormat" })); //$NON-NLS-1$
 		suite.addTest(new ProjectImportTestSetup(new TestSuite(
