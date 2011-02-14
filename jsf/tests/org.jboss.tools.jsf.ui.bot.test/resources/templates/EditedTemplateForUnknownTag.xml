@@ -12,7 +12,7 @@
 Hello Demo Application
 </SPAN>
 </H1>
-<B style="border: 1px solid green; -moz-user-modify: read-only;" title="h:unknowntag" >
+<B style="border: 2px solid rgb(0, 0, 255) ! important; -moz-user-modify: read-only;" title="h:unknowntag" oldstyle="border: 1px solid green; -moz-user-modify: read-only;" >
 <B class="__any__tag__caption" style="" title="h:unknowntag" >
 </B>
 </B>
