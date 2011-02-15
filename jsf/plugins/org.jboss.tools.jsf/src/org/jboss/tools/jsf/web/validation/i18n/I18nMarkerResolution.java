@@ -12,21 +12,26 @@ package org.jboss.tools.jsf.web.validation.i18n;
 
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.ui.IMarkerResolution;
-import org.eclipse.ui.IMarkerResolutionGenerator;
 
 /**
+ * 
  * @author mareshkau
  *
  */
-public class I18nMarkerResolutionGenerator implements
-		IMarkerResolutionGenerator {
+public class I18nMarkerResolution implements IMarkerResolution {
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.ui.IMarkerResolutionGenerator#getResolutions(org.eclipse.core.resources.IMarker)
-	 */
-	public IMarkerResolution[] getResolutions(IMarker marker) {
-		I18nMarkerResolution i18nMarkerResolution =  new I18nMarkerResolution(marker);
-		return new IMarkerResolution[]{i18nMarkerResolution};
+	public I18nMarkerResolution(IMarker marker) {
+		// TODO Auto-generated constructor stub
+	}
+
+	public String getLabel() {
+		// TODO Auto-generated method stub
+		return "";
+	}
+
+	public void run(IMarker marker) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

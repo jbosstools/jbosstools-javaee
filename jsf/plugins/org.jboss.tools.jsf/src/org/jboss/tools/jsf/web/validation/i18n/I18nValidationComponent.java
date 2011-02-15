@@ -37,19 +37,19 @@ public class I18nValidationComponent extends JSFAbstractValidationComponent{
 	}
 	
 
-	@Override
+
 	public String getType() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
+
 	public String getComponentResourceLocation() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
+
 	public void createValidationMessage() {
 		setValidationMessage("Non externalized String literal; It should be moved to resource bundles.");
 	}
