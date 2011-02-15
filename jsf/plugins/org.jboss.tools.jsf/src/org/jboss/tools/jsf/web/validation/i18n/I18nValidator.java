@@ -67,13 +67,9 @@ public class I18nValidator extends Validator implements ISourceValidator, IValid
 
 	public void validate(IValidationContext helper, IReporter reporter)
 			throws ValidationException {
-			List<Node> notValidNodes = new ArrayList<Node>();
-			validateDOM(document, notValidNodes);
-			List<IJSFValidationComponent> jsfValComponents = new ArrayList<IJSFValidationComponent>();
-			for (Node node : notValidNodes) {
-				jsfValComponents.add(I18nValidationComponent.createI18nValidationComponent((IDOMText)node));
-			}
-			reportProblems(helper, reporter, jsfValComponents);
+		    List<IJSFValidationComponent> jsfnonValComponents =  new ArrayList<IJSFValidationComponent>();
+			validateDOM(document, jsfnonValComponents);
+			reportProblems(helper, reporter, jsfnonValComponents);
 	}
 	
 	private void reportProblems(IValidationContext helper, IReporter reporter,
@@ -95,16 +91,16 @@ public class I18nValidator extends Validator implements ISourceValidator, IValid
 	
 	
 	
-	private void validateDOM(Node node, List<Node> nonExtStings){
+	private void validateDOM(Node node, List<IJSFValidationComponent> jsfnonValComponents){
 		NodeList childNodes = node.getChildNodes();
 		for(int i=0;i<childNodes.getLength();i++) {
 			Node childNode = childNodes.item(i);
 			if(childNode instanceof Text){
 				if(!validateTextNode(((Text)childNode).getNodeValue())){
-					nonExtStings.add(childNode);
+					jsfnonValComponents.add(I18nValidationComponent.createI18nValidationComponent((IDOMText)childNode));
 				}
 			}else {
-				validateDOM(childNode, nonExtStings);
+				validateDOM(childNode, jsfnonValComponents);
 			}			
 		}
 	}

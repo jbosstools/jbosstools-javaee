@@ -78,8 +78,12 @@ public class LocalizedMessage extends Message {
 		i18nLocMessage.setAttribute("problemType", I18nValidationComponent.PROBLEM_ID); //$NON-NLS-1$
 		i18nLocMessage.setAttribute(IMarker.LINE_NUMBER, i18nLocMessage.getLineNumber());
 		i18nLocMessage.setAttribute(IMarker.SEVERITY, 1);
-		i18nLocMessage.setAttribute(ValidatorMessage.ValidationId, "org.jboss.tools.jsf.i18n.source");
+		i18nLocMessage.setAttribute(ValidatorMessage.ValidationId, "org.jboss.tools.jsf.i18n.source"); //$NON-NLS-1$
 		i18nLocMessage.setAttribute(IMarker.MESSAGE,i18nLocMessage.getText());
+		if(ijsfValidationComponent instanceof I18nValidationComponent){
+			i18nLocMessage.setAttribute(JSF2ValidatorConstants.INVALID_STRING_KEY, 
+					((I18nValidationComponent)ijsfValidationComponent).getInValidString());
+		}
 		return i18nLocMessage;
 	}
 	

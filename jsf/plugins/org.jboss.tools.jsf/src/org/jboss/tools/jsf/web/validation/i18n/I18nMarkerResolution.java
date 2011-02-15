@@ -10,8 +10,14 @@
  ******************************************************************************/
 package org.jboss.tools.jsf.web.validation.i18n;
 
+import java.text.MessageFormat;
+
 import org.eclipse.core.resources.IMarker;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.ui.IMarkerResolution;
+import org.jboss.tools.jsf.JSFModelPlugin;
+import org.jboss.tools.jsf.messages.JSFUIMessages;
+import org.jboss.tools.jsf.web.validation.jsf2.util.JSF2ValidatorConstants;
 
 /**
  * 
@@ -19,19 +25,22 @@ import org.eclipse.ui.IMarkerResolution;
  *
  */
 public class I18nMarkerResolution implements IMarkerResolution {
-
+	
+	private String invalidString="";
+		
 	public I18nMarkerResolution(IMarker marker) {
-		// TODO Auto-generated constructor stub
+		try {
+			invalidString =  (String) marker.getAttribute(JSF2ValidatorConstants.INVALID_STRING_KEY);
+		} catch (CoreException e) {
+			JSFModelPlugin.getPluginLog().logError(e);
+		}
 	}
 
 	public String getLabel() {
-		// TODO Auto-generated method stub
-		return "";
+		return  MessageFormat.format(JSFUIMessages.NonExternalizedStringMarkerLabel,invalidString); 
 	}
 
 	public void run(IMarker marker) {
-		// TODO Auto-generated method stub
-		
+	
 	}
-
 }
