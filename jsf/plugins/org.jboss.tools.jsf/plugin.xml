@@ -773,6 +773,20 @@
           </visibleWhen>
        </command>
     </menuContribution>
+             <menuContribution 
+			locationURI="popup:org.jboss.tools.jst.jsp.jspeditor.JSPTextEditor.source.EditorContext?after=org.jboss.tools.jst.jsp.i18n.ExternalizeStringsContributionItem">
+        	<dynamic
+               class="org.jboss.tools.jsf.web.validation.jsf2.action.CreateJSF2CompositeContributionItem"
+               id="org.jboss.tools.jsf.web.validation.jsf2.action.JSF2CreateCompositeContributionItem">
+        	</dynamic>
+        </menuContribution>
+        <menuContribution
+              locationURI="popup:org.jboss.tools.jst.jsp.jspeditor.HTMLTextEditor.source.EditorContext?after=org.jboss.tools.jst.jsp.i18n.ExternalizeStringsContributionItem">
+        	<dynamic
+               class="org.jboss.tools.jsf.web.validation.jsf2.action.CreateJSF2CompositeContributionItem"
+               id="org.jboss.tools.jsf.web.validation.jsf2.action.JSF2CreateCompositeContributionItem">
+        	</dynamic>
+        </menuContribution>
  </extension>
  <extension
        point="org.eclipse.ui.handlers">
