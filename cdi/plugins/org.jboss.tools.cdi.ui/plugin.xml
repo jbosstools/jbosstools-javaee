@@ -281,8 +281,7 @@
       <keyword
             label="%preferenceKeywords.newBeansXML"
             id="org.jboss.tools.cdi.ui.newBeansXML"/>
-            
-    </extension>
+   </extension>
 
    <extension
          point="org.eclipse.wst.common.project.facet.ui.wizardPages">
@@ -291,7 +290,71 @@
       </wizard-pages>
    </extension>
 
-      <extension
+   <extension
+         point="org.eclipse.ui.perspectives">
+      <perspective
+            class="org.jboss.tools.cdi.ui.CDIPerspectiveFactory"
+            icon="$nl$/icons/cdi16.png"
+            id="org.jboss.tools.cdi.ui.CDIPerspective"
+            name="%perspective.name">
+      </perspective>
+   </extension>
+
+   <extension
+         point="org.eclipse.ui.perspectiveExtensions">
+      <perspectiveExtension
+            targetID="org.jboss.tools.cdi.ui.CDIPerspective">
+         <newWizardShortcut
+               id="org.jboss.tools.cdi.ui.wizard.NewBeanCreationWizard">
+         </newWizardShortcut>
+         <newWizardShortcut
+               id="org.jboss.tools.cdi.ui.wizard.NewQualifierCreationWizard">
+         </newWizardShortcut>
+         <newWizardShortcut
+               id="org.jboss.tools.cdi.ui.wizard.NewStereotypeCreationWizard">
+         </newWizardShortcut>
+         <newWizardShortcut
+               id="org.jboss.tools.cdi.ui.wizard.NewScopeCreationWizard">
+         </newWizardShortcut>
+         <newWizardShortcut
+               id="org.jboss.tools.cdi.ui.wizard.NewInterceptorBindingCreationWizard">
+         </newWizardShortcut>
+         <newWizardShortcut
+               id="org.jboss.tools.cdi.ui.wizard.NewInterceptorCreationWizard">
+         </newWizardShortcut>
+         <newWizardShortcut
+               id="org.jboss.tools.cdi.ui.wizard.NewDecoratorCreationWizard">
+         </newWizardShortcut>
+         <newWizardShortcut
+               id="org.jboss.tools.cdi.ui.wizard.NewAnnotationLiteralCreationWizard">
+         </newWizardShortcut>
+         <newWizardShortcut
+               id="org.jboss.tools.cdi.ui.wizard.NewBeansXMLCreationWizard">
+         </newWizardShortcut>
+         <actionSet id="org.hibernate.eclipse.launch.actionset"/>
+         <perspectiveShortcut
+               id="org.jboss.tools.jst.web.ui.WebDevelopmentPerspective">
+         </perspectiveShortcut>
+         <perspectiveShortcut
+               id="org.eclipse.jdt.ui.JavaPerspective">
+         </perspectiveShortcut>
+         <perspectiveShortcut
+               id="org.eclipse.jdt.ui.JavaBrowsingPerspective">
+         </perspectiveShortcut>
+         <perspectiveShortcut
+               id="org.eclipse.debug.ui.DebugPerspective">
+         </perspectiveShortcut>
+         <perspectiveShortcut
+               id="org.hibernate.eclipse.console.HibernateConsolePerspective">
+         </perspectiveShortcut>
+         <actionSet
+               id="org.eclipse.debug.ui.breakpointActionSet">
+         </actionSet>
+         <actionSet id="org.eclipse.wst.server.ui.internal.webbrowser.actionSet"/>
+      </perspectiveExtension>
+   </extension>
+
+   <extension
        point="org.eclipse.wst.sse.ui.completionProposal">
 	<proposalCategory
           icon="icons/cdi16.png"
@@ -319,5 +382,5 @@
 			markerType="org.jboss.tools.cdi.core.cdiproblem"
 			class="org.jboss.tools.cdi.ui.marker.CDIProblemMarkerResolutionGenerator"/>
 	</extension>
-  
+
 </plugin>

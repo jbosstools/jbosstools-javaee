@@ -29,7 +29,10 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.core.expressions,
  org.eclipse.ltk.core.refactoring,
  org.jboss.tools.jst.jsp,
- org.eclipse.wst.common.project.facet.ui
+ org.eclipse.wst.common.project.facet.ui,
+ org.eclipse.debug.ui,
+ org.eclipse.ui.navigator,
+ org.eclipse.ui.navigator.resources
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-Vendor: %Bundle-Vendor.0
