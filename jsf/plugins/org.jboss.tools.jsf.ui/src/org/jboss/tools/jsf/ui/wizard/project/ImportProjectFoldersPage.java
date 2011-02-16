@@ -76,6 +76,7 @@ public class ImportProjectFoldersPage extends WizardPage {
 				{ATTRIBUTES[4], ""} //$NON-NLS-1$
 			}
 		);
+		appRegister.setDisableContextRoot(true);
 		XAttributeData[] ad = entityData.getAttributeData();
 		for (int i = 0; i < ad.length; i++) ad[i].setValue(""); //$NON-NLS-1$
 
