@@ -84,7 +84,7 @@ public class SetTemplateForUnknownTagTest extends JSFAutoTestCase {
 		bot.button(WidgetVariables.REMOVE_BUTTON).click();
 		bot.shell(WidgetVariables.PREF_FILTER_SHELL_TITLE).activate();
 		bot.button(WidgetVariables.OK_BUTTON).click();
-		checkVPE("templates/UnknownTemplate.xml"); //$NON-NLS-1$
+		checkVPE("templates/RemoveUnknownTemplate.xml"); //$NON-NLS-1$
 	}
 	
 	private String setStyles(){
