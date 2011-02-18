@@ -12,6 +12,7 @@ package org.jboss.tools.jsf.vpe.jsf.template.util;
 
 import org.eclipse.jst.jsp.core.internal.domdocument.DOMModelForJSP;
 import org.eclipse.jst.jsp.core.internal.parser.JSPSourceParser;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.wst.sse.core.internal.document.StructuredDocumentFactory;
 import org.eclipse.wst.sse.core.internal.provisional.text.IStructuredDocument;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMAttr;
@@ -72,12 +73,9 @@ public class NodeProxyUtil {
 	 * @return
 	 */
 	static public VpeNodeMapping findNodeByPosition(VpeDomMapping domMapping,
-			NodeList nodeList, int focusPosition, int anchorPosition) {
-
-		if (anchorPosition < focusPosition) {
-			focusPosition = anchorPosition;
-			anchorPosition = focusPosition;
-		}
+			NodeList nodeList, Point selectionRange) {
+		int beginPosition = Math.min(selectionRange.x, selectionRange.x + selectionRange.y);
+		int endPosition = Math.max(selectionRange.x, selectionRange.x + selectionRange.y);
 
 		for (int i = 0; i < nodeList.getLength(); i++) {
 
@@ -85,16 +83,15 @@ public class NodeProxyUtil {
 
 			VpeNodeMapping result = null;
 			if (child.hasChildNodes()) {
-
 				result = findNodeByPosition(domMapping, child.getChildNodes(),
-						focusPosition, anchorPosition);
+						selectionRange);
 			}
 
 			if (result != null)
 				return result;
 
-			if ((focusPosition >= (NodesManagingUtil.getStartOffsetNode(child)))
-					&& (anchorPosition <= (NodesManagingUtil
+			if ((beginPosition >= (NodesManagingUtil.getStartOffsetNode(child)))
+					&& (endPosition <= (NodesManagingUtil
 							.getEndOffsetNode(child)))) {
 
 				return VpeNodesManagingUtil.getNodeMapping(domMapping, child);

@@ -12,6 +12,7 @@ package org.jboss.tools.jsf.vpe.jsf.test.jbide;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.jface.text.ITextViewer;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.part.FileEditorInput;
 import org.jboss.tools.jsf.vpe.jsf.test.JsfAllTests;
@@ -68,8 +69,8 @@ public class JBIDE2584Test extends VpeTest {
 	
 		VpeTemplate simpleTextTemplate = simpleTextMapping.getTemplate();
 		
-		
-		nsIDOMNode domNode = simpleTextTemplate.getVisualNodeBySourcePosition(simpleTextMapping, TestUtil.getLinePositionOffcet(itextViewer, 14, 10), 0, domMapping).getFirstChild();
+		int positionOffset = TestUtil.getLinePositionOffcet(itextViewer, 14, 10);
+		nsIDOMNode domNode = simpleTextTemplate.getVisualNodeBySourcePosition(simpleTextMapping, new Point(positionOffset, -positionOffset), domMapping).getFirstChild();
 	
 		assertEquals(simpleTextNode ,domMapping.getNearElementMappingAtVisualNode(domNode).getSourceNode());
 		assertEquals("Node should be a text node", nsIDOMNode.TEXT_NODE,domNode.getNodeType()); //$NON-NLS-1$
@@ -107,7 +108,8 @@ public class JBIDE2584Test extends VpeTest {
 	
 		VpeTemplate simpleTextTemplate = simpleTextMapping.getTemplate();
 		
-		nsIDOMNode domNode = simpleTextTemplate.getVisualNodeBySourcePosition(simpleTextMapping, TestUtil.getLinePositionOffcet(itextViewer, 15, 27), 0, domMapping).getFirstChild();
+		int positionOffset = TestUtil.getLinePositionOffcet(itextViewer, 15, 27);
+		nsIDOMNode domNode = simpleTextTemplate.getVisualNodeBySourcePosition(simpleTextMapping, new Point(positionOffset, -positionOffset), domMapping).getFirstChild();
 	
 		assertEquals("Node should be a text node", nsIDOMNode.TEXT_NODE,domNode.getNodeType()); //$NON-NLS-1$
 		assertEquals(simpleTextNode ,domMapping.getNearElementMappingAtVisualNode(domNode).getSourceNode());

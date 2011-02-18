@@ -11,6 +11,7 @@
 
 package org.jboss.tools.jsf.vpe.jsf.template;
 
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMAttr;
 import org.jboss.tools.jsf.vpe.jsf.template.util.JSF;
 import org.jboss.tools.jsf.vpe.jsf.template.util.NodeProxyUtil;
@@ -198,8 +199,7 @@ public abstract class AbstractOutputJsfTemplate extends
 
 	@Override
 	public nsIDOMNode getVisualNodeBySourcePosition(
-			VpeElementMapping elementMapping, int focusPosition,
-			int anchorPosition, VpeDomMapping domMapping) {
+			VpeElementMapping elementMapping, Point selectionRange, VpeDomMapping domMapping) {
 		nsIDOMNode node = null;
 
 		if ((elementMapping.getElementData() instanceof VpeElementProxyData)
@@ -210,15 +210,13 @@ public abstract class AbstractOutputJsfTemplate extends
 					.getElementData();
 
 			VpeNodeMapping nodeMapping = NodeProxyUtil.findNodeByPosition(
-					domMapping, elementProxyData.getNodelist(), focusPosition,
-					anchorPosition);
+					domMapping, elementProxyData.getNodelist(), selectionRange);
 
 			if (nodeMapping != null) {
 
 				if (nodeMapping instanceof VpeElementMapping) {
 					node = super.getVisualNodeBySourcePosition(
-							(VpeElementMapping) nodeMapping, focusPosition,
-							anchorPosition, domMapping);
+							(VpeElementMapping) nodeMapping, selectionRange, domMapping);
 				} else {
 					node = nodeMapping.getVisualNode();
 				}
@@ -227,7 +225,7 @@ public abstract class AbstractOutputJsfTemplate extends
 
 		if (node == null) {
 			node = super.getVisualNodeBySourcePosition(elementMapping,
-					focusPosition, anchorPosition, domMapping);
+					selectionRange, domMapping);
 		}
 		return node;
 	}
