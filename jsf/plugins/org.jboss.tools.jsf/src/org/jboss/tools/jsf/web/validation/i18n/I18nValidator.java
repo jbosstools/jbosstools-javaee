@@ -10,23 +10,30 @@
  ******************************************************************************/
 package org.jboss.tools.jsf.web.validation.i18n;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.wst.sse.ui.internal.reconcile.validator.ISourceValidator;
+import org.eclipse.wst.validation.ValidationResult;
+import org.eclipse.wst.validation.ValidationState;
 import org.eclipse.wst.validation.internal.core.Message;
 import org.eclipse.wst.validation.internal.core.ValidationException;
 import org.eclipse.wst.validation.internal.provisional.core.IReporter;
 import org.eclipse.wst.validation.internal.provisional.core.IValidationContext;
 import org.eclipse.wst.validation.internal.provisional.core.IValidator;
-import org.eclipse.wst.xml.core.internal.validation.eclipse.Validator;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMDocument;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMText;
+import org.eclipse.wst.xml.core.internal.validation.XMLValidationInfo;
+import org.eclipse.wst.xml.core.internal.validation.core.NestedValidatorContext;
+import org.eclipse.wst.xml.core.internal.validation.core.ValidationReport;
+import org.eclipse.wst.xml.core.internal.validation.eclipse.Validator;
 import org.jboss.tools.jsf.JSFModelPlugin;
 import org.jboss.tools.jsf.jsf2.model.JSF2ComponentModelManager;
 import org.jboss.tools.jsf.jsf2.util.JSF2ResourceUtil;
@@ -46,6 +53,8 @@ import org.w3c.dom.Text;
 @SuppressWarnings("restriction")
 public class I18nValidator extends Validator implements ISourceValidator, IValidator{
 	private IDOMDocument document;
+	
+	
 	public void connect(IDocument document) {
 		this.document=JSF2ComponentModelManager
 		.getReadableDOMDocument(document);
@@ -64,17 +73,37 @@ public class I18nValidator extends Validator implements ISourceValidator, IValid
 		// TODO Auto-generated method stub
 		
 	}
-
+	@Override
+	public ValidationResult validate(IResource resource, int kind, ValidationState state, IProgressMonitor monitor){
+	if(resource instanceof IFile) 
+		this.document= JSF2ComponentModelManager
+			.getReadableDOMDocument((IFile) resource);
+		return super.validate(resource, kind, state, monitor);
+	}
+	
+	@Override
+	public ValidationReport validate(String uri, InputStream inputstream,
+			NestedValidatorContext context, ValidationResult result) {
+	XMLValidationInfo xmlValidationInfo = new XMLValidationInfo(uri);
+    List<IJSFValidationComponent> jsfnonValComponents =  new ArrayList<IJSFValidationComponent>();
+	validateDOM(document, jsfnonValComponents);
+	for (IJSFValidationComponent ijsfValidationComponent : jsfnonValComponents) {
+		xmlValidationInfo.addWarning(ijsfValidationComponent.getValidationMessage(),
+				ijsfValidationComponent.getLine(), 0, uri, null, ijsfValidationComponent.getMessageParams());
+	}
+	return xmlValidationInfo;
+	}
+	@Override
 	public void validate(IValidationContext helper, IReporter reporter)
 			throws ValidationException {
 		    List<IJSFValidationComponent> jsfnonValComponents =  new ArrayList<IJSFValidationComponent>();
 			validateDOM(document, jsfnonValComponents);
-			reportProblems(helper, reporter, jsfnonValComponents);
+			IResource resource = JSF2ResourceUtil.getValidatingResource(helper);
+			reportProblems(resource, reporter, jsfnonValComponents);
 	}
 	
-	private void reportProblems(IValidationContext helper, IReporter reporter,
+	private void reportProblems(IResource resource, IReporter reporter,
 			List<IJSFValidationComponent> jsfValComponents ) {
-		IResource resource = JSF2ResourceUtil.getValidatingResource(helper);
 		if(resource==null) return;
 		try {
 			resource.deleteMarkers(I18nValidationComponent.PROBLEM_ID, false, IResource.DEPTH_INFINITE);

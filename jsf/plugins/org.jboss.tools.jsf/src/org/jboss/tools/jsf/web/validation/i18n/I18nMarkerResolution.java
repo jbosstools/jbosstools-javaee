@@ -35,7 +35,7 @@ import org.jboss.tools.jst.jsp.jspeditor.JSPMultiPageEditor;
  */
 public class I18nMarkerResolution implements IMarkerResolution {
 	
-	private String invalidString="";
+	private String invalidString=""; //$NON-NLS-1$
 		
 	public I18nMarkerResolution(IMarker marker) {
 		try {
