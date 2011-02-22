@@ -14,10 +14,19 @@ import java.text.MessageFormat;
 
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IMarkerResolution;
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.ide.IDE;
+import org.eclipse.ui.texteditor.ITextEditor;
+import org.eclipse.wst.sse.ui.StructuredTextEditor;
 import org.jboss.tools.jsf.JSFModelPlugin;
 import org.jboss.tools.jsf.messages.JSFUIMessages;
 import org.jboss.tools.jsf.web.validation.jsf2.util.JSF2ValidatorConstants;
+import org.jboss.tools.jst.jsp.i18n.ExternalizeStringsDialog;
+import org.jboss.tools.jst.jsp.i18n.ExternalizeStringsWizard;
+import org.jboss.tools.jst.jsp.jspeditor.JSPMultiPageEditor;
 
 /**
  * 
@@ -40,7 +49,22 @@ public class I18nMarkerResolution implements IMarkerResolution {
 		return  MessageFormat.format(JSFUIMessages.NonExternalizedStringMarkerLabel,invalidString); 
 	}
 
-	public void run(IMarker marker) {
-	
+	public void run(final IMarker marker) {
+		try {
+			IEditorPart editorPart = IDE.openEditor(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage(), marker);
+			if(editorPart instanceof JSPMultiPageEditor){
+				StructuredTextEditor textEditor = ((JSPMultiPageEditor)editorPart).getSourceEditor();
+				textEditor.getTextViewer().setSelectedRange((Integer)marker.getAttribute(JSF2ValidatorConstants.PROBLEM_OFFSET),(Integer) marker.getAttribute(JSF2ValidatorConstants.PROBLEM_LENGHT));
+				ExternalizeStringsDialog dlg = new ExternalizeStringsDialog(
+						PlatformUI.getWorkbench().getDisplay().getActiveShell(),
+						new ExternalizeStringsWizard((ITextEditor)editorPart, 
+								null));
+				dlg.open();
+			}
+		} catch (PartInitException e) {
+			JSFModelPlugin.getPluginLog().logError(e);
+		} catch (CoreException e) {
+			JSFModelPlugin.getPluginLog().logError(e);
+		}
 	}
 }

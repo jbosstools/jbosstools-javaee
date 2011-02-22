@@ -36,4 +36,8 @@ public final class JSF2ValidatorConstants {
 	public static final String JSF2_URI_TYPE = "JSF2_URI_TYPE"; //$NON-NLS-1$
 	
 	public static final String INVALID_STRING_KEY = "INVALID_STRING_KEY"; //$NON-NLS-1$
+	
+	public static final String PROBLEM_OFFSET="PROBLEM_OFFSET"; //$NON-NLS-1$
+	
+	public static final String PROBLEM_LENGHT="PROBLEM_LENGHT"; //$NON-NLS-1$
 }

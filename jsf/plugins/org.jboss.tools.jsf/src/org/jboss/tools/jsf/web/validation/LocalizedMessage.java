@@ -80,6 +80,8 @@ public class LocalizedMessage extends Message {
 		i18nLocMessage.setAttribute(IMarker.SEVERITY, 1);
 		i18nLocMessage.setAttribute(ValidatorMessage.ValidationId, "org.jboss.tools.jsf.i18n.source"); //$NON-NLS-1$
 		i18nLocMessage.setAttribute(IMarker.MESSAGE,i18nLocMessage.getText());
+		i18nLocMessage.setAttribute(JSF2ValidatorConstants.PROBLEM_LENGHT, i18nLocMessage.getLength());
+		i18nLocMessage.setAttribute(JSF2ValidatorConstants.PROBLEM_OFFSET, i18nLocMessage.getOffset());
 		if(ijsfValidationComponent instanceof I18nValidationComponent){
 			i18nLocMessage.setAttribute(JSF2ValidatorConstants.INVALID_STRING_KEY, 
 					((I18nValidationComponent)ijsfValidationComponent).getInValidString());

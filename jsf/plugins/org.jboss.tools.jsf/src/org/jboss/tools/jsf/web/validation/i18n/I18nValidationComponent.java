@@ -14,7 +14,6 @@ import org.eclipse.wst.xml.core.internal.provisional.document.IDOMText;
 import org.jboss.tools.jsf.JSFModelPlugin;
 import org.jboss.tools.jsf.messages.JSFUIMessages;
 import org.jboss.tools.jsf.web.validation.JSFAbstractValidationComponent;
-import org.w3c.dom.Node;
 
 /**
  * @author mareshkau
@@ -44,13 +43,11 @@ public class I18nValidationComponent extends JSFAbstractValidationComponent{
 
 
 	public String getType() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 
 	public String getComponentResourceLocation() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
