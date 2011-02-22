@@ -12,8 +12,13 @@ package org.jboss.tools.jsf.web.validation.jsf2.action;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.eclipse.core.resources.IFile;
@@ -32,6 +37,7 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.wst.sse.core.StructuredModelManager;
 import org.eclipse.wst.sse.core.internal.provisional.IModelManager;
 import org.eclipse.wst.sse.core.internal.provisional.IStructuredModel;
@@ -49,9 +55,9 @@ import org.jboss.tools.jst.jsp.jspeditor.dnd.JSPPaletteInsertHelper;
 import org.jboss.tools.jst.jsp.jspeditor.dnd.PaletteTaglibInserter;
 import org.jboss.tools.jst.web.tld.TaglibData;
 import org.jboss.tools.jst.web.tld.URIConstants;
-import org.w3c.dom.Node;
+import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.NodeList;
-import org.w3c.dom.Text;
 
 public class CreateJSF2CompositeAction extends Action {
 
@@ -171,11 +177,55 @@ public class CreateJSF2CompositeAction extends Action {
 										 * Add required taglibs to the composite file
 										 */
 										IVisualContext context = editor.getJspEditor().getPageContext();
-										List<TaglibData> taglibs = null;
+										List<TaglibData> tl = null;
 										if (context instanceof SourceEditorPageContext) {
 											SourceEditorPageContext sourcePageContext = (SourceEditorPageContext) context;
-											taglibs = sourcePageContext.getTagLibs();
+											/*
+											 * Get taglibs from the source file
+											 */
+											tl = sourcePageContext.getTagLibs();
+											Map<String, String> sourceTaglibs = new HashMap<String, String>();
+											Map<String, String> requiredTaglibs = new HashMap<String, String>();
+											Set<String> compositeTaglibs = new HashSet<String>();
+											for (TaglibData taglibData : tl) {
+												sourceTaglibs.put(taglibData.getPrefix(), taglibData.getUri());
+											}
+											/*
+											 * Parse selected fragment to find used taglibs
+											 */
+											Pattern p = Pattern.compile("<([a-zA-Z]+\\d*)+:"); //$NON-NLS-1$ 
+											Matcher m = p.matcher(text);
+											while (m.find()) {
+												if (sourceTaglibs.keySet().contains(m.group(1)) 
+														&& !requiredTaglibs.keySet().contains(m.group(1))) {
+													requiredTaglibs.put(m.group(1), sourceTaglibs.get(m.group(1)));
+												}
+											}
+											/*
+											 * Get the <html> tag of the created file
+											 */
+											list = document.getElementsByTagName("html"); //$NON-NLS-1$
+											if (list.getLength() == 1) {
+												Element html = ((Element)list.item(0));
+												NamedNodeMap map = html.getAttributes();
+												for (int i = 0; i < map.getLength(); i++) {
+													compositeTaglibs.add(map.item(i).getNodeName());
+												}
+												for (String key : requiredTaglibs.keySet()) {
+													String xmlns = "xmlns:"+key; //$NON-NLS-1$
+													if (!compositeTaglibs.contains(xmlns)) {
+														html.setAttribute(xmlns, requiredTaglibs.get(key));
+													}
+												}
+											}
 										}										
+										/*
+										 * Open created file
+										 */
+										FileEditorInput input = new FileEditorInput(createdFile);
+										JSPMultiPageEditor part = (JSPMultiPageEditor) PlatformUI
+											.getWorkbench().getActiveWorkbenchWindow().getActivePage()
+											.openEditor(input, "org.jboss.tools.jst.jsp.jspeditor.JSPTextEditor", true); //$NON-NLS-1$
 									}
 								}
 							} catch (CoreException e) {
