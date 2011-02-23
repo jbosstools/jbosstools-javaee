@@ -30,6 +30,7 @@ import org.jboss.tools.jsf.test.refactoring.JSF2RefactoringTest;
 import org.jboss.tools.jsf.test.refactoring.MessagePropertyRefactoringTest;
 import org.jboss.tools.jsf.test.refactoring.MethodRefactoringTest;
 import org.jboss.tools.jsf.test.validation.ELValidatorTest;
+import org.jboss.tools.jsf.test.validation.I18nValidatorTest;
 import org.jboss.tools.jsf.test.validation.JSF2ComponentsValidatorTest;
 import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.ProjectImportTestSetup;
@@ -79,6 +80,10 @@ public class JsfAllTests {
 				JSF2RefactoringTest.class), "org.jboss.tools.jsf.test", //$NON-NLS-1$
 				new String[] { "projects/JSF2ComponentsValidator" }, //$NON-NLS-1$
 				new String[] { "JSF2ComponentsValidator" })); //$NON-NLS-1$
+		suite.addTest(new ProjectImportTestSetup(new TestSuite(
+				I18nValidatorTest.class), "org.jboss.tools.jsf.test", //$NON-NLS-1$
+				new String[] { "projects/i18nTestProject" }, //$NON-NLS-1$
+				new String[] { "i18nTestProject" })); //$NON-NLS-1$
 		suite.addTest(new ProjectImportTestSetup(new TestSuite(ELValidatorTest.class),"org.jboss.tools.jsf.test","projects/JSFKickStartOldFormat","JSFKickStartOldFormat") {
 			@Override
 			protected void setUp() throws Exception {
