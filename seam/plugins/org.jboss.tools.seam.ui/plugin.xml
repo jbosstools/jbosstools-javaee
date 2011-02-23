@@ -21,7 +21,7 @@
             icon="$nl$/icons/view/seam_project_new.gif"
             id="org.jboss.tools.seam.ui.wizards.SeamProjectWizard"
             name="Seam Web Project"
-            preferredPerspectives="org.jboss.tools.seam.ui.SeamPerspective"
+			preferredPerspectives="org.jboss.tools.seam.ui.SeamPerspective, org.jboss.tools.jst.web.ui.WebDevelopmentPerspective"
             project="true">
          <description>
             Create a Seam Web Project
