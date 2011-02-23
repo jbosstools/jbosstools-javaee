@@ -111,7 +111,7 @@
             icon="$nl$/images/xstudio/wizards/new_jsf_project.gif"
             id="org.jboss.tools.jsf.ui.wizard.project.NewProjectWizard"
             name="%newProjectWizard.name"
-            preferredPerspectives="org.jboss.tools.jst.web.ui.WebDevelopmentPerspective"
+            preferredPerspectives="org.jboss.tools.jst.web.ui.WebDevelopmentPerspective, org.jboss.tools.seam.ui.SeamPerspective"
             project="true">
          <description>
             	%NewWizardDescription_JSFProject
