@@ -174,9 +174,6 @@ public class RichFacesInplaceSelectTemplate extends RichFacesAbstractInplaceTemp
 				+ Constants.WHITE_SPACE + HTML.ATTR_WIDTH + Constants.COLON
 				+this.sourceListWidth + Constants.SEMICOLON;
 		
-		System.out.println(" dropDownListSizesStyle = " //$NON-NLS-1$
-				+ dropDownListSizesStyle);
-		
 		table.setAttribute(HTML.ATTR_STYLE, dropDownListSizesStyle);
         listScrollDiv.setAttribute(HTML.ATTR_CLASS, "rich-inplace-select-list-scroll"); //$NON-NLS-1$
         listScrollDiv.setAttribute(HTML.ATTR_STYLE, dropDownListSizesStyle);
