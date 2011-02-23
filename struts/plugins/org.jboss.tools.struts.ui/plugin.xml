@@ -40,7 +40,7 @@
             icon="$nl$/images/xstudio/wizards/new_project.gif"
             id="org.jboss.tools.struts.ui.wizard.project.NewStrutsProjectWizard"
             name="%newProjectWizard.name"
-            preferredPerspectives="org.jboss.tools.jst.web.ui.WebDevelopmentPerspective"
+            preferredPerspectives="org.jboss.tools.jst.web.ui.WebDevelopmentPerspective, org.jboss.tools.seam.ui.SeamPerspective"
             project="true">
          <description>
             	Create a Struts Project
