@@ -36,6 +36,7 @@ import org.eclipse.wst.xml.core.internal.validation.XMLValidationInfo;
 import org.eclipse.wst.xml.core.internal.validation.core.NestedValidatorContext;
 import org.eclipse.wst.xml.core.internal.validation.core.ValidationReport;
 import org.eclipse.wst.xml.core.internal.validation.eclipse.Validator;
+import org.eclipse.wst.xml.core.internal.provisional.document.IDOMAttr;
 import org.jboss.tools.jsf.JSFModelPlugin;
 import org.jboss.tools.jsf.jsf2.model.JSF2ComponentModelManager;
 import org.jboss.tools.jsf.jsf2.util.JSF2ResourceUtil;
@@ -44,6 +45,8 @@ import org.jboss.tools.jsf.web.validation.LocalizedMessage;
 import org.jboss.tools.jst.jsp.bundle.BundleMapUtil;
 import org.jboss.tools.jst.web.kb.WebKbPlugin;
 import org.jboss.tools.jst.web.kb.preferences.ELSeverityPreferences;
+import org.w3c.dom.Attr;
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Text;
@@ -156,12 +159,30 @@ public class I18nValidator extends Validator implements ISourceValidator,
 							.add(I18nValidationComponent
 									.createI18nValidationComponent((IDOMText) childNode));
 				}
-			} else {
-				validateDOM(childNode, jsfnonValComponents);
 			}
+			if(childNode instanceof Element){
+				Element elementToValidate = (Element) childNode;
+				Attr notValid = getNotValidAttr(elementToValidate);
+				if(notValid!=null){
+					jsfnonValComponents
+					.add(I18nValidationComponent
+							.createI18nValidationComponent((IDOMAttr)notValid));
+				}
+			}
+			
+			validateDOM(childNode, jsfnonValComponents);
 		}
 	}
-
+	/**
+	 * Checks if Element containt non Externalized strings in value attribute 
+	 */
+	private Attr getNotValidAttr(Element elementToValidate){
+		Attr notValidNode = null;
+		if(!validateTextNode(elementToValidate.getAttribute("value"))){ //$NON-NLS-1$
+			notValidNode = elementToValidate.getAttributeNode("value"); //$NON-NLS-1$
+		}
+		return notValidNode; 
+	}
 	/**
 	 * Return false if not not valid
 	 * 

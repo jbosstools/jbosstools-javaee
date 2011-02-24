@@ -10,6 +10,7 @@
  ******************************************************************************/
 package org.jboss.tools.jsf.web.validation.i18n;
 
+import org.eclipse.wst.xml.core.internal.provisional.document.IDOMAttr;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMText;
 import org.jboss.tools.jsf.JSFModelPlugin;
 import org.jboss.tools.jsf.messages.JSFUIMessages;
@@ -37,6 +38,18 @@ public class I18nValidationComponent extends JSFAbstractValidationComponent{
 		component.createValidationMessage();
 		component.createMessageParams();
 		component.setInValidString(element.getNodeValue());
+		return component;
+	}
+	
+	public static I18nValidationComponent createI18nValidationComponent(IDOMAttr attr){
+		I18nValidationComponent component =  new I18nValidationComponent();
+		component.setStartOffSet(attr.getValueRegionStartOffset()+1);
+		component.setLength(attr.getValueRegionText().length()-2);
+		component.setLine(attr.getStructuredDocument().getLineOfOffset(
+				component.getStartOffSet()) + 1);
+		component.createValidationMessage();
+		component.createMessageParams();
+		component.setInValidString(attr.getNodeValue());
 		return component;
 	}
 	

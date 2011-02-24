@@ -32,6 +32,8 @@ import org.jboss.tools.tests.AbstractResourceMarkerTest;
 public class I18nValidatorTest extends AbstractResourceMarkerTest {
 
 	private IPreferenceStore store;
+	private IFile testFile;
+	private static final int NUMBER_OF_EXT_PROBLEMS_IN_FILE = 3;
 
 	@Override
 	protected void setUp() throws Exception {
@@ -39,17 +41,17 @@ public class I18nValidatorTest extends AbstractResourceMarkerTest {
 		setProject(ResourcesPlugin.getWorkspace().getRoot()
 				.getProject("i18nTestProject")); //$NON-NLS-1$
 		store = WebKbPlugin.getDefault().getPreferenceStore();
+		testFile = getProject().getFile("WebContent/externalization-validator-test-case-1.xhtml"); //$NON-NLS-1$
 	}
 
 	public void testShowErrorMarkers() throws CoreException {
 		store.setValue(ELSeverityPreferences.NON_EXTERNALIZED_STRINGS, ELSeverityPreferences.WARNING);
-		IFile testFile = getProject().getFile("WebContent/externalization-validator-test-case-1.xhtml"); //$NON-NLS-1$
 		testFile.deleteMarkers(I18nValidationComponent.PROBLEM_ID, true, IResource.DEPTH_ZERO);
 		IMarker[] elMarkers = testFile.findMarkers(I18nValidationComponent.PROBLEM_ID, true, IResource.DEPTH_ZERO);
 		assertEquals("Markers should be cleaned", 0,elMarkers.length); //$NON-NLS-1$
 		ValidationFramework.getDefault().validate(testFile, new NullProgressMonitor());
 		elMarkers = testFile.findMarkers(I18nValidationComponent.PROBLEM_ID, true, IResource.DEPTH_ZERO);
-		assertEquals("Should be 2 Markers", 2,elMarkers.length); //$NON-NLS-1$	
+		assertEquals("Should be "+NUMBER_OF_EXT_PROBLEMS_IN_FILE+" Markers", NUMBER_OF_EXT_PROBLEMS_IN_FILE,elMarkers.length); //$NON-NLS-1$ //$NON-NLS-2$	
 	}
 
 	public void testDefaultStateI19nValidator() {
@@ -59,7 +61,6 @@ public class I18nValidatorTest extends AbstractResourceMarkerTest {
 	}
 	
 	public void testChangeMarkerSeverity() throws CoreException {
-		IFile testFile = getProject().getFile("WebContent/externalization-validator-test-case-1.xhtml"); //$NON-NLS-1$
 		testFile.deleteMarkers(I18nValidationComponent.PROBLEM_ID, true, IResource.DEPTH_ZERO);
 		IMarker[] elMarkers = testFile.findMarkers(I18nValidationComponent.PROBLEM_ID, true, IResource.DEPTH_ZERO);
 		//changing severity level on ignoring(disable validator)
@@ -72,15 +73,26 @@ public class I18nValidatorTest extends AbstractResourceMarkerTest {
 		store.setValue(ELSeverityPreferences.NON_EXTERNALIZED_STRINGS, ELSeverityPreferences.WARNING);
 		ValidationFramework.getDefault().validate(testFile, new NullProgressMonitor());
 		elMarkers = testFile.findMarkers(I18nValidationComponent.PROBLEM_ID, true, IResource.DEPTH_ZERO);
-		assertEquals("There shouldn't be 2 validation markers", 2,elMarkers.length); //$NON-NLS-1$
+		assertEquals("There shouldn't be "+NUMBER_OF_EXT_PROBLEMS_IN_FILE+" validation markers", NUMBER_OF_EXT_PROBLEMS_IN_FILE,elMarkers.length); //$NON-NLS-1$ //$NON-NLS-2$
 		assertEquals("Marker Severity should be warning",(Integer)IMarker.SEVERITY_WARNING, (Integer)elMarkers[0].getAttribute(IMarker.SEVERITY));//$NON-NLS-1$
 	
 		//changing severity level on warning
 		store.setValue(ELSeverityPreferences.NON_EXTERNALIZED_STRINGS, ELSeverityPreferences.ERROR);
 		ValidationFramework.getDefault().validate(testFile, new NullProgressMonitor());
 		elMarkers = testFile.findMarkers(I18nValidationComponent.PROBLEM_ID, true, IResource.DEPTH_ZERO);
-		assertEquals("There shouldn't be 2 validation markers", 2,elMarkers.length); //$NON-NLS-1$
+		assertEquals("There shouldn't be "+NUMBER_OF_EXT_PROBLEMS_IN_FILE+" validation markers", NUMBER_OF_EXT_PROBLEMS_IN_FILE,elMarkers.length); //$NON-NLS-1$ //$NON-NLS-2$
 		assertEquals("Marker Severity should be warning",(Integer)IMarker.SEVERITY_ERROR, (Integer)elMarkers[0].getAttribute(IMarker.SEVERITY));//$NON-NLS-1$
-
 	}
+	
+//	public void testRegionLineIsCorrect() throws CoreException{
+//		store.setValue(ELSeverityPreferences.NON_EXTERNALIZED_STRINGS, ELSeverityPreferences.WARNING);
+//		ValidationFramework.getDefault().validate(testFile, new NullProgressMonitor());
+//		IMarker[] elMarkers = testFile.findMarkers(I18nValidationComponent.PROBLEM_ID, true, IResource.DEPTH_ZERO);
+//		assertEquals("There shouldn't be "+NUMBER_OF_EXT_PROBLEMS_IN_FILE+" validation markers", NUMBER_OF_EXT_PROBLEMS_IN_FILE,elMarkers.length); //$NON-NLS-1$ //$NON-NLS-2$
+//		assertEquals("Marker Severity should be warning",(Integer)IMarker.SEVERITY_WARNING, (Integer)elMarkers[0].getAttribute(IMarker.SEVERITY));//$NON-NLS-1$
+//		
+//		assertEquals("Line number should be",8,elMarkers[0].getAttribute(IMarker.LINE_NUMBER)); //$NON-NLS-1$
+//		assertEquals("Line number should be",10,elMarkers[1].getAttribute(IMarker.LINE_NUMBER)); //$NON-NLS-1$
+//		assertEquals("Line number should be",12,elMarkers[2].getAttribute(IMarker.LINE_NUMBER)); //$NON-NLS-1$
+//	}
 }
