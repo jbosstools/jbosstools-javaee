@@ -16,8 +16,11 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.wst.validation.ValidationFramework;
 import org.jboss.tools.jsf.web.validation.i18n.I18nValidationComponent;
+import org.jboss.tools.jst.web.kb.WebKbPlugin;
+import org.jboss.tools.jst.web.kb.preferences.ELSeverityPreferences;
 import org.jboss.tools.tests.AbstractResourceMarkerTest;
 
 /**
@@ -44,4 +47,8 @@ public class I18nValidatorTest extends AbstractResourceMarkerTest{
 		assertEquals("Should be 2 Markers", 2,elMarkers.length); //$NON-NLS-1$	
 	}
 
+	public void testDefaultStateI19nValidator(){
+		IPreferenceStore store = WebKbPlugin.getDefault().getPreferenceStore();
+		assertEquals("By Default I18nValidator should be ignored",ELSeverityPreferences.IGNORE,store.getDefaultString(ELSeverityPreferences.NON_EXTERNALIZED_STRINGS)); //$NON-NLS-1$
+	}
 }
