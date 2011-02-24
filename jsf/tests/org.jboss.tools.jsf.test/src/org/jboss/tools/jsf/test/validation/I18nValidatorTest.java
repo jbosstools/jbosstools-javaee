@@ -57,4 +57,30 @@ public class I18nValidatorTest extends AbstractResourceMarkerTest {
 				"By Default I18nValidator should be ignored", ELSeverityPreferences.IGNORE,//$NON-NLS-1$
 				store.getDefaultString(ELSeverityPreferences.NON_EXTERNALIZED_STRINGS)); 
 	}
+	
+	public void testChangeMarkerSeverity() throws CoreException {
+		IFile testFile = getProject().getFile("WebContent/externalization-validator-test-case-1.xhtml"); //$NON-NLS-1$
+		testFile.deleteMarkers(I18nValidationComponent.PROBLEM_ID, true, IResource.DEPTH_ZERO);
+		IMarker[] elMarkers = testFile.findMarkers(I18nValidationComponent.PROBLEM_ID, true, IResource.DEPTH_ZERO);
+		//changing severity level on ignoring(disable validator)
+		store.setValue(ELSeverityPreferences.NON_EXTERNALIZED_STRINGS, ELSeverityPreferences.IGNORE);
+		assertEquals("Markers should be cleaned", 0,elMarkers.length); //$NON-NLS-1$
+		ValidationFramework.getDefault().validate(testFile, new NullProgressMonitor());
+		elMarkers = testFile.findMarkers(I18nValidationComponent.PROBLEM_ID, true, IResource.DEPTH_ZERO);
+		assertEquals("There shouldn't be any validation markers", 0,elMarkers.length); //$NON-NLS-1$
+		//changing severity level on warning
+		store.setValue(ELSeverityPreferences.NON_EXTERNALIZED_STRINGS, ELSeverityPreferences.WARNING);
+		ValidationFramework.getDefault().validate(testFile, new NullProgressMonitor());
+		elMarkers = testFile.findMarkers(I18nValidationComponent.PROBLEM_ID, true, IResource.DEPTH_ZERO);
+		assertEquals("There shouldn't be 2 validation markers", 2,elMarkers.length); //$NON-NLS-1$
+		assertEquals("Marker Severity should be warning",(Integer)IMarker.SEVERITY_WARNING, (Integer)elMarkers[0].getAttribute(IMarker.SEVERITY));//$NON-NLS-1$
+	
+		//changing severity level on warning
+		store.setValue(ELSeverityPreferences.NON_EXTERNALIZED_STRINGS, ELSeverityPreferences.ERROR);
+		ValidationFramework.getDefault().validate(testFile, new NullProgressMonitor());
+		elMarkers = testFile.findMarkers(I18nValidationComponent.PROBLEM_ID, true, IResource.DEPTH_ZERO);
+		assertEquals("There shouldn't be 2 validation markers", 2,elMarkers.length); //$NON-NLS-1$
+		assertEquals("Marker Severity should be warning",(Integer)IMarker.SEVERITY_ERROR, (Integer)elMarkers[0].getAttribute(IMarker.SEVERITY));//$NON-NLS-1$
+
+	}
 }
