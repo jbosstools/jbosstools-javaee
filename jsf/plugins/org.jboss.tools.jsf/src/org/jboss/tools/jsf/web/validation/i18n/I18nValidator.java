@@ -13,11 +13,13 @@ package org.jboss.tools.jsf.web.validation.i18n;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.wst.sse.ui.internal.reconcile.validator.ISourceValidator;
@@ -40,6 +42,8 @@ import org.jboss.tools.jsf.jsf2.util.JSF2ResourceUtil;
 import org.jboss.tools.jsf.web.validation.IJSFValidationComponent;
 import org.jboss.tools.jsf.web.validation.LocalizedMessage;
 import org.jboss.tools.jst.jsp.bundle.BundleMapUtil;
+import org.jboss.tools.jst.web.kb.WebKbPlugin;
+import org.jboss.tools.jst.web.kb.preferences.ELSeverityPreferences;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Text;
@@ -48,20 +52,22 @@ import org.w3c.dom.Text;
  * Validator which looks for non externalized strings
  * 
  * @author mareshkau
- *
+ * 
  */
 @SuppressWarnings("restriction")
-public class I18nValidator extends Validator implements ISourceValidator, IValidator{
+public class I18nValidator extends Validator implements ISourceValidator,
+		IValidator {
 	private IDOMDocument document;
 	
-	
+	private final static int VALIDATOR_DISABLED = -1;
+
 	public void connect(IDocument document) {
-		this.document=JSF2ComponentModelManager
-		.getReadableDOMDocument(document);
+		this.document = JSF2ComponentModelManager
+				.getReadableDOMDocument(document);
 	}
 
 	public void disconnect(IDocument document) {
-		this.document=null;
+		this.document = null;
 	}
 
 	public void validate(IRegion dirtyRegion, IValidationContext helper,
@@ -71,77 +77,116 @@ public class I18nValidator extends Validator implements ISourceValidator, IValid
 
 	public void cleanup(IReporter reporter) {
 		// TODO Auto-generated method stub
-		
+
 	}
+
 	@Override
-	public ValidationResult validate(IResource resource, int kind, ValidationState state, IProgressMonitor monitor){
-	if(resource instanceof IFile) 
-		this.document= JSF2ComponentModelManager
-			.getReadableDOMDocument((IFile) resource);
+	public ValidationResult validate(IResource resource, int kind,
+			ValidationState state, IProgressMonitor monitor) {
+		if (resource instanceof IFile)
+			this.document = JSF2ComponentModelManager
+					.getReadableDOMDocument((IFile) resource);
 		return super.validate(resource, kind, state, monitor);
 	}
-	
+
 	@Override
 	public ValidationReport validate(String uri, InputStream inputstream,
 			NestedValidatorContext context, ValidationResult result) {
-	XMLValidationInfo xmlValidationInfo = new XMLValidationInfo(uri);
-    List<IJSFValidationComponent> jsfnonValComponents =  new ArrayList<IJSFValidationComponent>();
-	validateDOM(document, jsfnonValComponents);
-	for (IJSFValidationComponent ijsfValidationComponent : jsfnonValComponents) {
-		xmlValidationInfo.addWarning(ijsfValidationComponent.getValidationMessage(),
-				ijsfValidationComponent.getLine(), 0, uri, null, ijsfValidationComponent.getMessageParams());
+		XMLValidationInfo xmlValidationInfo = new XMLValidationInfo(uri);
+			List<IJSFValidationComponent> jsfnonValComponents = new ArrayList<IJSFValidationComponent>();
+			validateDOM(document, jsfnonValComponents);
+			for (IJSFValidationComponent ijsfValidationComponent : jsfnonValComponents) {
+				if (IMarker.SEVERITY_WARNING == getWarningLevel()) {
+					xmlValidationInfo.addWarning(
+							ijsfValidationComponent.getValidationMessage(),
+							ijsfValidationComponent.getLine(), 0, uri, null,
+							ijsfValidationComponent.getMessageParams());
+				} else if (IMarker.SEVERITY_ERROR == getWarningLevel()) {
+					xmlValidationInfo.addError(
+							ijsfValidationComponent.getValidationMessage(),
+							ijsfValidationComponent.getLine(), 0, uri, null,
+							ijsfValidationComponent.getMessageParams());
+				}
+			}
+		return xmlValidationInfo;
 	}
-	return xmlValidationInfo;
-	}
+
 	@Override
 	public void validate(IValidationContext helper, IReporter reporter)
 			throws ValidationException {
-		    List<IJSFValidationComponent> jsfnonValComponents =  new ArrayList<IJSFValidationComponent>();
+		if(document!=null) {
+			List<IJSFValidationComponent> jsfnonValComponents = new ArrayList<IJSFValidationComponent>();
 			validateDOM(document, jsfnonValComponents);
 			IResource resource = JSF2ResourceUtil.getValidatingResource(helper);
 			reportProblems(resource, reporter, jsfnonValComponents);
+		}
 	}
-	
+
 	private void reportProblems(IResource resource, IReporter reporter,
-			List<IJSFValidationComponent> jsfValComponents ) {
-		if(resource==null) return;
+			List<IJSFValidationComponent> jsfValComponents) {
+		if (resource == null)
+			return;
 		try {
-			resource.deleteMarkers(I18nValidationComponent.PROBLEM_ID, false, IResource.DEPTH_INFINITE);
+			resource.deleteMarkers(I18nValidationComponent.PROBLEM_ID, false,
+					IResource.DEPTH_INFINITE);
+			if(getWarningLevel()==I18nValidator.VALIDATOR_DISABLED) return;
 			for (IJSFValidationComponent ijsfValidationComponent : jsfValComponents) {
-				Message locMessage = LocalizedMessage.createJSFLocalizedMessage(ijsfValidationComponent);
+				Message locMessage = LocalizedMessage
+						.createJSFLocalizedMessage(ijsfValidationComponent,
+								getWarningLevel());
 				reporter.addMessage(this, locMessage);
-					IMarker marker = resource.createMarker(I18nValidationComponent.PROBLEM_ID);
-					marker.setAttributes(locMessage.getAttributes());
+				IMarker marker = resource
+						.createMarker(I18nValidationComponent.PROBLEM_ID);
+				marker.setAttributes(locMessage.getAttributes());
 			}
 		} catch (CoreException e) {
 			JSFModelPlugin.getPluginLog().logError(e);
 		}
 	}
-	
-	
-	
-	private void validateDOM(Node node, List<IJSFValidationComponent> jsfnonValComponents){
+
+	private void validateDOM(Node node,
+			List<IJSFValidationComponent> jsfnonValComponents) {
+		if(getWarningLevel()==I18nValidator.VALIDATOR_DISABLED) return;
 		NodeList childNodes = node.getChildNodes();
-		for(int i=0;i<childNodes.getLength();i++) {
+		for (int i = 0; i < childNodes.getLength(); i++) {
 			Node childNode = childNodes.item(i);
-			if(childNode instanceof Text){
-				if(!validateTextNode(((Text)childNode).getNodeValue())){
-					jsfnonValComponents.add(I18nValidationComponent.createI18nValidationComponent((IDOMText)childNode));
+			if (childNode instanceof Text) {
+				if (!validateTextNode(((Text) childNode).getNodeValue())) {
+					jsfnonValComponents
+							.add(I18nValidationComponent
+									.createI18nValidationComponent((IDOMText) childNode));
 				}
-			}else {
+			} else {
 				validateDOM(childNode, jsfnonValComponents);
-			}			
+			}
 		}
 	}
+
 	/**
 	 * Return false if not not valid
-	 * @param String to validate
+	 * 
+	 * @param String
+	 *            to validate
 	 * @return true is string ext and valid, false otherwise
-	 *
+	 * 
 	 */
-	private boolean validateTextNode(String stringToValidate){
-		if(stringToValidate==null) return true;
-		if(stringToValidate.trim().length()<1) return true;
+	private boolean validateTextNode(String stringToValidate) {
+		if (stringToValidate == null)
+			return true;
+		if (stringToValidate.trim().length() < 1)
+			return true;
 		return BundleMapUtil.isContainsEl(stringToValidate);
+	}
+
+	private static int getWarningLevel() {
+		IPreferenceStore store = WebKbPlugin.getDefault().getPreferenceStore();
+		if (ELSeverityPreferences.WARNING.equals(store
+				.getString(ELSeverityPreferences.NON_EXTERNALIZED_STRINGS))) {
+			return IMarker.SEVERITY_WARNING;
+		} else if (ELSeverityPreferences.ERROR.equals(store
+				.getString(ELSeverityPreferences.NON_EXTERNALIZED_STRINGS))) {
+			return IMarker.SEVERITY_ERROR;
+		}
+		return VALIDATOR_DISABLED;
 	}
 }

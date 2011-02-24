@@ -27,17 +27,22 @@ import org.jboss.tools.tests.AbstractResourceMarkerTest;
  * Test class for Externalize String Validator
  * 
  * @author mareshkau
- *
+ * 
  */
-public class I18nValidatorTest extends AbstractResourceMarkerTest{
+public class I18nValidatorTest extends AbstractResourceMarkerTest {
+
+	private IPreferenceStore store;
 
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		setProject(ResourcesPlugin.getWorkspace().getRoot().getProject("i18nTestProject")); //$NON-NLS-1$
+		setProject(ResourcesPlugin.getWorkspace().getRoot()
+				.getProject("i18nTestProject")); //$NON-NLS-1$
+		store = WebKbPlugin.getDefault().getPreferenceStore();
 	}
-	
+
 	public void testShowErrorMarkers() throws CoreException {
+		store.setValue(ELSeverityPreferences.NON_EXTERNALIZED_STRINGS, ELSeverityPreferences.WARNING);
 		IFile testFile = getProject().getFile("WebContent/externalization-validator-test-case-1.xhtml"); //$NON-NLS-1$
 		testFile.deleteMarkers(I18nValidationComponent.PROBLEM_ID, true, IResource.DEPTH_ZERO);
 		IMarker[] elMarkers = testFile.findMarkers(I18nValidationComponent.PROBLEM_ID, true, IResource.DEPTH_ZERO);
@@ -47,8 +52,9 @@ public class I18nValidatorTest extends AbstractResourceMarkerTest{
 		assertEquals("Should be 2 Markers", 2,elMarkers.length); //$NON-NLS-1$	
 	}
 
-	public void testDefaultStateI19nValidator(){
-		IPreferenceStore store = WebKbPlugin.getDefault().getPreferenceStore();
-		assertEquals("By Default I18nValidator should be ignored",ELSeverityPreferences.IGNORE,store.getDefaultString(ELSeverityPreferences.NON_EXTERNALIZED_STRINGS)); //$NON-NLS-1$
+	public void testDefaultStateI19nValidator() {
+		assertEquals(
+				"By Default I18nValidator should be ignored", ELSeverityPreferences.IGNORE,//$NON-NLS-1$
+				store.getDefaultString(ELSeverityPreferences.NON_EXTERNALIZED_STRINGS)); 
 	}
 }
