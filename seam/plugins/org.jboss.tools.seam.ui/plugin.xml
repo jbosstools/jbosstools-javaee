@@ -404,12 +404,6 @@
       </hyperlinkDetector>
    </extension>
 
-	<extension 
-		point="org.jboss.tools.common.text.xml.contentAssistProcessor"
-		id="org.jboss.tools.seam.ui.contentAssistProcessor"
-		name="org.jboss.tools.seam.ui.contentAssistProcessor">
-  </extension>
- 
    <extension point="org.eclipse.ui.preferencePages">
       <page 
          category="org.jboss.tools.common.model.ui.seam" 
