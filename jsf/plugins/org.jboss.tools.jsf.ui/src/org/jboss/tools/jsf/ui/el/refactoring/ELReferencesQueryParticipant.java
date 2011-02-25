@@ -13,7 +13,6 @@ package org.jboss.tools.jsf.ui.el.refactoring;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -92,15 +91,8 @@ public class ELReferencesQueryParticipant implements IQueryParticipant{
 			
 		}
 		
-		protected boolean isFileCorrect(IFile file){
-			if(!file.isSynchronized(IResource.DEPTH_ZERO)){
-				return false;
-			}else if(file.isPhantom()){
-				return false;
-			}else if(file.isReadOnly()){
-				return false;
-			}
-			return true;
+		protected void outOfSynch(IProject file){
+			// do nothing
 		}
 
 		@Override

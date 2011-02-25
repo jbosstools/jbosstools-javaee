@@ -26,7 +26,7 @@ import org.eclipse.ltk.core.refactoring.TextFileChange;
 import org.eclipse.ltk.core.refactoring.participants.RefactoringParticipant;
 import org.eclipse.ltk.core.refactoring.participants.RefactoringProcessor;
 import org.eclipse.ltk.core.refactoring.participants.SharableParticipants;
-import org.eclipse.ltk.internal.core.refactoring.Messages;
+import org.eclipse.osgi.util.NLS;
 import org.eclipse.text.edits.MultiTextEdit;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
@@ -107,13 +107,12 @@ public abstract class MarkerResolutionRefactoringProcessor extends RefactoringPr
 	
 	private boolean isFileCorrect(IFile file){
 		if(!file.isSynchronized(IResource.DEPTH_ZERO)){
-			status.addFatalError(Messages.format(CDICoreMessages.CDI_RENAME_PROCESSOR_OUT_OF_SYNC_FILE, file.getFullPath().toString()));
+			status.addFatalError(NLS.bind(CDICoreMessages.CDI_RENAME_PROCESSOR_OUT_OF_SYNC_PROJECT, file.getProject().getFullPath().toString()));
 			return false;
 		}else if(file.isPhantom()){
-			status.addFatalError(Messages.format(CDICoreMessages.CDI_RENAME_PROCESSOR_ERROR_PHANTOM_FILE, file.getFullPath().toString()));
 			return false;
 		}else if(file.isReadOnly()){
-			status.addFatalError(Messages.format(CDICoreMessages.CDI_RENAME_PROCESSOR_ERROR_READ_ONLY_FILE, file.getFullPath().toString()));
+			status.addFatalError(NLS.bind(CDICoreMessages.CDI_RENAME_PROCESSOR_ERROR_READ_ONLY_FILE, file.getFullPath().toString()));
 			return false;
 		}
 		return true;

@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.ltk.core.refactoring.CompositeChange;
@@ -23,7 +22,7 @@ import org.eclipse.ltk.core.refactoring.RefactoringStatus;
 import org.eclipse.ltk.core.refactoring.TextFileChange;
 import org.eclipse.ltk.core.refactoring.participants.RefactoringParticipant;
 import org.eclipse.ltk.core.refactoring.participants.RenameProcessor;
-import org.eclipse.ltk.internal.core.refactoring.Messages;
+import org.eclipse.osgi.util.NLS;
 import org.eclipse.text.edits.MultiTextEdit;
 import org.eclipse.text.edits.ReplaceEdit;
 import org.eclipse.text.edits.TextEdit;
@@ -33,7 +32,6 @@ import org.jboss.tools.common.el.core.model.ELPropertyInvocation;
 import org.jboss.tools.common.el.core.resolver.ELResolver;
 import org.jboss.tools.common.el.core.resolver.IRelevanceCheck;
 import org.jboss.tools.common.model.project.ProjectHome;
-import org.jboss.tools.common.text.ITextSourceReference;
 import org.jboss.tools.jst.web.kb.refactoring.RefactorSearcher;
 
 /**
@@ -108,20 +106,6 @@ public abstract class ELRenameProcessor extends RenameProcessor {
 		return lastChange;
 	}
 	
-	private boolean isBadLocation(ITextSourceReference location, IFile file){
-		boolean flag;
-		if(location == null)
-			flag = true;
-		else
-			flag = location.getStartPosition() == 0 && location.getLength() == 0;
-		
-//		if(flag)
-//			status.addFatalError(Messages.format(ElCoreMessages.EL_RENAME_PROCESSOR_LOCATION_NOT_FOUND, file.getFullPath().toString()));
-		return flag;
-	}
-	
-	
-	
 	private void change(IFile file, int offset, int length, String text){
 		String key = file.getFullPath().toString()+" "+offset;
 		if(!keys.contains(key)){
@@ -132,21 +116,6 @@ public abstract class ELRenameProcessor extends RenameProcessor {
 		}
 	}
 	
-	protected boolean isFileCorrect(IFile file){
-		if(!file.isSynchronized(IResource.DEPTH_ZERO)){
-			status.addFatalError(Messages.format(ElCoreMessages.EL_RENAME_PROCESSOR_OUT_OF_SYNC_FILE, file.getFullPath().toString()));
-			return false;
-		}else if(file.isPhantom()){
-			status.addFatalError(Messages.format(ElCoreMessages.EL_RENAME_PROCESSOR_ERROR_PHANTOM_FILE, file.getFullPath().toString()));
-			return false;
-		}else if(file.isReadOnly()){
-			status.addFatalError(Messages.format(ElCoreMessages.EL_RENAME_PROCESSOR_ERROR_READ_ONLY_FILE, file.getFullPath().toString()));
-			return false;
-		}
-		return true;
-	}
-
-
 	public class ELSearcher extends RefactorSearcher{
 		
 		public ELSearcher(IFile file, String oldName){
@@ -191,12 +160,15 @@ public abstract class ELRenameProcessor extends RenameProcessor {
 		
 		@Override
 		protected void match(IFile file, int offset, int length) {
-			change(file, offset, length, newName);
+			if(isFileReadOnly(file)){
+				status.addFatalError(NLS.bind(ElCoreMessages.EL_RENAME_PROCESSOR_ERROR_READ_ONLY_FILE, file.getFullPath().toString()));
+			}else
+				change(file, offset, length, newName);
 		}
 
 		@Override
-		protected boolean isFileCorrect(IFile file) {
-			return ELRenameProcessor.this.isFileCorrect(file);
+		protected void outOfSynch(IProject project) {
+			status.addFatalError(NLS.bind(ElCoreMessages.EL_RENAME_PROCESSOR_OUT_OF_SYNC_PROJECT, project.getFullPath().toString()));
 		}
 		
 		protected ELInvocationExpression findComponentReference(ELInvocationExpression invocationExpression){

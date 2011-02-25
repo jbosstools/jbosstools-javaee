@@ -17,14 +17,13 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.ltk.core.refactoring.CompositeChange;
 import org.eclipse.ltk.core.refactoring.RefactoringStatus;
 import org.eclipse.ltk.core.refactoring.TextFileChange;
 import org.eclipse.ltk.core.refactoring.participants.RefactoringParticipant;
 import org.eclipse.ltk.core.refactoring.participants.RenameProcessor;
-import org.eclipse.ltk.internal.core.refactoring.Messages;
+import org.eclipse.osgi.util.NLS;
 import org.eclipse.text.edits.MultiTextEdit;
 import org.eclipse.text.edits.ReplaceEdit;
 import org.eclipse.text.edits.TextEdit;
@@ -140,7 +139,7 @@ public abstract class SeamRenameProcessor extends RenameProcessor {
 	
 	protected void findAnnotations(){
 		if(declarationFile == null){
-			status.addFatalError(Messages.format(SeamCoreMessages.SEAM_RENAME_PROCESSOR_DECLARATION_NOT_FOUND, getOldName()));
+			status.addFatalError(NLS.bind(SeamCoreMessages.SEAM_RENAME_PROCESSOR_DECLARATION_NOT_FOUND, getOldName()));
 			return;
 		}
 		
@@ -183,7 +182,10 @@ public abstract class SeamRenameProcessor extends RenameProcessor {
 		
 		for(IBijectedAttribute attribute : attributes){
 			ITextSourceReference location = attribute.getLocationFor(locationPath);
-			changeAnnotation(location, (IFile)attribute.getResource());
+			if(!changeAnnotation(location, (IFile)attribute.getResource())){
+				status.addFatalError(NLS.bind(SeamCoreMessages.SEAM_RENAME_PROCESSOR_OUT_OF_SYNC_PROJECT, seamProject.getProject().getFullPath().toString()));
+				return;
+			}
 		}
 	}
 	
@@ -192,12 +194,16 @@ public abstract class SeamRenameProcessor extends RenameProcessor {
 		
 		if(file.getFileExtension().equalsIgnoreCase(JAVA_EXT)){
 			ITextSourceReference location = factory.getLocationFor(SeamAnnotations.FACTORY_ANNOTATION_TYPE);
-			changeAnnotation(location, file);
-			
+			if(!changeAnnotation(location, file)){
+				status.addFatalError(NLS.bind(SeamCoreMessages.SEAM_RENAME_PROCESSOR_OUT_OF_SYNC_PROJECT, file.getProject().getFullPath().toString()));
+				return;
+			}
 		}else{
 			ITextSourceReference location = factory.getLocationFor(ISeamXmlComponentDeclaration.NAME);
-			changeXMLNode(location, file);
-			
+			if(!changeXMLNode(location, file)){
+				status.addFatalError(NLS.bind(SeamCoreMessages.SEAM_RENAME_PROCESSOR_OUT_OF_SYNC_PROJECT, file.getProject().getFullPath().toString()));
+				return;
+			}
 		}
 	}
 	
@@ -209,16 +215,19 @@ public abstract class SeamRenameProcessor extends RenameProcessor {
 			flag = location.getStartPosition() == 0 && location.getLength() == 0;
 		
 		if(flag)
-			status.addFatalError(Messages.format(SeamCoreMessages.SEAM_RENAME_PROCESSOR_LOCATION_NOT_FOUND, file.getFullPath().toString()));
+			status.addFatalError(NLS.bind(SeamCoreMessages.SEAM_RENAME_PROCESSOR_LOCATION_NOT_FOUND, file.getFullPath().toString()));
 		return flag;
 	}
 	
-	private void changeXMLNode(ITextSourceReference location, IFile file){
+	private boolean changeXMLNode(ITextSourceReference location, IFile file){
 		if(isBadLocation(location, file))
-			return;
+			return true;
 		
-		if(!isFileCorrect(file))
-			return;
+		if(file.isPhantom())
+			return true;
+		
+		if(!file.isSynchronized(IResource.DEPTH_ZERO))
+			return false;
 
 		String content = null;
 		try {
@@ -237,14 +246,18 @@ public abstract class SeamRenameProcessor extends RenameProcessor {
 		}else{
 			change(file, location.getStartPosition(), location.getLength(), getNewName());
 		}
+		return true;
 	}
 	
-	private void changeAnnotation(ITextSourceReference location, IFile file){
+	private boolean changeAnnotation(ITextSourceReference location, IFile file){
 		if(isBadLocation(location, file))
-			return;
+			return true;
 		
-		if(!isFileCorrect(file))
-			return;
+		if(file.isPhantom())
+			return true;
+		
+		if(!file.isSynchronized(IResource.DEPTH_ZERO))
+			return false;
 
 		String content = null;
 		try {
@@ -289,6 +302,7 @@ public abstract class SeamRenameProcessor extends RenameProcessor {
 			String newText = "(\""+getNewName()+"\")"; //$NON-NLS-1$ //$NON-NLS-2$
 			change(file, location.getStartPosition()+location.getLength(), 0, newText);
 		}
+		return true;
 	}
 
 	
@@ -307,34 +321,33 @@ public abstract class SeamRenameProcessor extends RenameProcessor {
 	protected void checkDeclarations(ISeamComponent component) throws CoreException{
 		if(component.getJavaDeclaration() != null){
 			if(component.getJavaDeclaration().getResource() == null)
-				status.addFatalError(Messages.format(SeamCoreMessages.SEAM_RENAME_PROCESSOR_COMPONENT_HAS_BROKEN_DECLARATION, new String[]{component.getName()}));
+				status.addFatalError(NLS.bind(SeamCoreMessages.SEAM_RENAME_PROCESSOR_COMPONENT_HAS_BROKEN_DECLARATION, new String[]{component.getName()}));
 			else if(SeamUtil.isJar(component.getJavaDeclaration()) && component.getJavaDeclaration().getName() != null)
-				status.addInfo(Messages.format(SeamCoreMessages.SEAM_RENAME_PROCESSOR_COMPONENT_HAS_DECLARATION_FROM_JAR, new String[]{component.getName(), component.getJavaDeclaration().getResource().getFullPath().toString()}));
+				status.addInfo(NLS.bind(SeamCoreMessages.SEAM_RENAME_PROCESSOR_COMPONENT_HAS_DECLARATION_FROM_JAR, new String[]{component.getName(), component.getJavaDeclaration().getResource().getFullPath().toString()}));
 		}
 
 		Set<ISeamXmlComponentDeclaration> xmlDecls = component.getXmlDeclarations();
 
 		for(ISeamXmlComponentDeclaration xmlDecl : xmlDecls){
 			if(xmlDecl.getResource() == null)
-				status.addFatalError(Messages.format(SeamCoreMessages.SEAM_RENAME_PROCESSOR_COMPONENT_HAS_BROKEN_DECLARATION, new String[]{component.getName()}));
+				status.addFatalError(NLS.bind(SeamCoreMessages.SEAM_RENAME_PROCESSOR_COMPONENT_HAS_BROKEN_DECLARATION, new String[]{component.getName()}));
 			else if(SeamUtil.isJar(xmlDecl) && xmlDecl.getName() != null)
-				status.addInfo(Messages.format(SeamCoreMessages.SEAM_RENAME_PROCESSOR_COMPONENT_HAS_DECLARATION_FROM_JAR, new String[]{component.getName(), xmlDecl.getResource().getFullPath().toString()}));
+				status.addInfo(NLS.bind(SeamCoreMessages.SEAM_RENAME_PROCESSOR_COMPONENT_HAS_DECLARATION_FROM_JAR, new String[]{component.getName(), xmlDecl.getResource().getFullPath().toString()}));
 		}
 	}
 	
-	protected boolean isFileCorrect(IFile file){
-			if(!file.isSynchronized(IResource.DEPTH_ZERO)){
-				status.addFatalError(Messages.format(SeamCoreMessages.SEAM_RENAME_PROCESSOR_OUT_OF_SYNC_FILE, file.getFullPath().toString()));
-				return false;
-			}else if(file.isPhantom()){
-				status.addFatalError(Messages.format(SeamCoreMessages.SEAM_RENAME_PROCESSOR_ERROR_PHANTOM_FILE, file.getFullPath().toString()));
-				return false;
-			}else if(file.isReadOnly()){
-				status.addFatalError(Messages.format(SeamCoreMessages.SEAM_RENAME_PROCESSOR_ERROR_READ_ONLY_FILE, file.getFullPath().toString()));
-				return false;
-			}
-			return true;
-	}
+//	protected boolean isFileCorrect(IFile file){
+//			if(!file.isSynchronized(IResource.DEPTH_ZERO)){
+//				status.addFatalError(Messages.format(SeamCoreMessages.SEAM_RENAME_PROCESSOR_OUT_OF_SYNC_PROJECT, file.getProject().getFullPath().toString()));
+//				return false;
+//			}else if(file.isPhantom()){
+//				return false;
+//			}else if(file.isReadOnly()){
+//				status.addFatalError(Messages.format(SeamCoreMessages.SEAM_RENAME_PROCESSOR_ERROR_READ_ONLY_FILE, file.getFullPath().toString()));
+//				return false;
+//			}
+//			return true;
+//	}
 	
 	private void renameJavaDeclaration(ISeamJavaComponentDeclaration javaDecl) throws CoreException{
 		IFile file  = (IFile)javaDecl.getResource();
@@ -359,19 +372,6 @@ public abstract class SeamRenameProcessor extends RenameProcessor {
 			declarationFile = file;
 	}
 
-	
-	private boolean checkFolder(IResource resource, IResource[] sources, IPath output){
-		for(IResource folder : sources){
-			if(resource.equals(folder))
-				return false;
-		}
-		
-		if(resource.getFullPath().equals(output))
-			return false;
-		
-		return true;
-	}
-	
 	protected void renameComponent(IProgressMonitor pm, ISeamComponent component)throws CoreException{
 		pm.beginTask("", 3);
 		
@@ -442,7 +442,10 @@ public abstract class SeamRenameProcessor extends RenameProcessor {
 	}
 	
 	private void change(IFile file, int offset, int length, String text){
-		//System.out.println("change file - "+file.getFullPath()+" offset - "+offset+" len - "+length+" text"+text);
+		if(file.isReadOnly()){
+			status.addFatalError(NLS.bind(SeamCoreMessages.SEAM_RENAME_PROCESSOR_ERROR_READ_ONLY_FILE, file.getFullPath().toString()));
+			return;
+		}
 		String key = file.getFullPath().toString()+" "+offset;
 		if(!keys.contains(key)){
 			TextFileChange change = getChange(file);
@@ -472,13 +475,16 @@ public abstract class SeamRenameProcessor extends RenameProcessor {
 		}
 
 		@Override
-		protected boolean isFileCorrect(IFile file) {
-			return SeamRenameProcessor.this.isFileCorrect(file);
+		protected void outOfSynch(IProject project) {
+			status.addFatalError(NLS.bind(SeamCoreMessages.SEAM_RENAME_PROCESSOR_OUT_OF_SYNC_PROJECT, project.getFullPath().toString()));
 		}
 
 		@Override
 		protected void match(IFile file, int offset, int length) {
-			change(file, offset, length, newName);
+			if(isFileReadOnly(file)){
+				status.addFatalError(NLS.bind(SeamCoreMessages.SEAM_RENAME_PROCESSOR_ERROR_READ_ONLY_FILE, file.getFullPath().toString()));
+			}else
+				change(file, offset, length, newName);
 		}
 		
 		protected ELInvocationExpression findComponentReference(ELInvocationExpression invocationExpression){
