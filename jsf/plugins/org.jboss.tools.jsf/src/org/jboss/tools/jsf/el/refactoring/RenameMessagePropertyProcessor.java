@@ -23,10 +23,10 @@ import org.eclipse.ltk.core.refactoring.TextFileChange;
 import org.eclipse.ltk.core.refactoring.participants.CheckConditionsContext;
 import org.eclipse.ltk.core.refactoring.participants.RefactoringParticipant;
 import org.eclipse.ltk.core.refactoring.participants.SharableParticipants;
+import org.eclipse.osgi.util.NLS;
 import org.eclipse.text.edits.ReplaceEdit;
 import org.eclipse.text.edits.TextEdit;
 import org.jboss.tools.common.el.core.ELReference;
-import org.eclipse.ltk.internal.core.refactoring.Messages;
 import org.jboss.tools.common.el.core.ElCoreMessages;
 import org.jboss.tools.common.el.core.model.ELExpression;
 import org.jboss.tools.common.el.core.resolver.ELCompletionEngine;
@@ -89,7 +89,7 @@ public class RenameMessagePropertyProcessor extends ELRenameProcessor {
 		RefactoringStatus result = new RefactoringStatus();
 		
 		if(!validateSegment())
-			result.addFatalError(Messages.format(ElCoreMessages.RENAME_MESSAGE_PROPERTY_PROCESSOR_CAN_NOT_FIND_MESSAGE_PROPERTY, getOldName()));
+			result.addFatalError(NLS.bind(ElCoreMessages.RENAME_MESSAGE_PROPERTY_PROCESSOR_CAN_NOT_FIND_MESSAGE_PROPERTY, getOldName()));
 		return result;
 	}
 	

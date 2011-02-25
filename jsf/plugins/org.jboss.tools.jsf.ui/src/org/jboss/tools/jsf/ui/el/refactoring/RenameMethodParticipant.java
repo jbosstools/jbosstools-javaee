@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -30,7 +29,7 @@ import org.eclipse.ltk.core.refactoring.participants.CheckConditionsContext;
 import org.eclipse.ltk.core.refactoring.participants.ISharableParticipant;
 import org.eclipse.ltk.core.refactoring.participants.RefactoringArguments;
 import org.eclipse.ltk.core.refactoring.participants.RenameParticipant;
-import org.eclipse.ltk.internal.core.refactoring.Messages;
+import org.eclipse.osgi.util.NLS;
 import org.eclipse.text.edits.MultiTextEdit;
 import org.eclipse.text.edits.ReplaceEdit;
 import org.eclipse.text.edits.TextEdit;
@@ -180,24 +179,16 @@ public class RenameMethodParticipant extends RenameParticipant implements IShara
 			}
 		}
 
-		@Override
-		protected boolean isFileCorrect(IFile file) {
-			if(!file.isSynchronized(IResource.DEPTH_ZERO)){
-				status.addFatalError(Messages.format(JsfUIMessages.RENAME_METHOD_PARTICIPANT_OUT_OF_SYNC_FILE, file.getFullPath().toString()));
-				return false;
-			}else if(file.isPhantom()){
-				status.addFatalError(Messages.format(JsfUIMessages.RENAME_METHOD_PARTICIPANT_ERROR_PHANTOM_FILE, file.getFullPath().toString()));
-				return false;
-			}else if(file.isReadOnly()){
-				status.addFatalError(Messages.format(JsfUIMessages.RENAME_METHOD_PARTICIPANT_ERROR_READ_ONLY_FILE, file.getFullPath().toString()));
-				return false;
-			}
-			return true;
+		protected void outOfSynch(IProject project){
+			status.addFatalError(NLS.bind(JsfUIMessages.RENAME_METHOD_PARTICIPANT_OUT_OF_SYNC_PROJECT, project.getFullPath().toString()));
 		}
 
 		@Override
 		protected void match(IFile file, int offset, int length) {
-			change(file, offset, length, newName);
+			if(isFileReadOnly(file)){
+				status.addFatalError(NLS.bind(JsfUIMessages.RENAME_METHOD_PARTICIPANT_ERROR_READ_ONLY_FILE, file.getFullPath().toString()));
+			}else
+				change(file, offset, length, newName);
 		}
 
 		protected IProject[] getProjects(){
