@@ -40,6 +40,7 @@ public class JsfAllTests {
 
 	public static Test suite() {
 		TestSuite suite = new TestSuite("Test model loading for JSF projects"); //$NON-NLS-1$
+		suite.addTestSuite(JSFTemplateTest.class);
 		TestSuite old = new TestSuite("Tests are using JSFKickStartOldFormat"); //$NON-NLS-1$
 		old.addTestSuite(JSFModelTest.class);
 		old.addTestSuite(ModelFormat_2_0_0_Test.class);
