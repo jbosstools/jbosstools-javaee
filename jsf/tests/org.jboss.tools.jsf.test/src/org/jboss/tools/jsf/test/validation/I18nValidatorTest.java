@@ -10,6 +10,10 @@
  ******************************************************************************/
 package org.jboss.tools.jsf.test.validation;
 
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Comparator;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
@@ -84,15 +88,24 @@ public class I18nValidatorTest extends AbstractResourceMarkerTest {
 		assertEquals("Marker Severity should be warning",(Integer)IMarker.SEVERITY_ERROR, (Integer)elMarkers[0].getAttribute(IMarker.SEVERITY));//$NON-NLS-1$
 	}
 	
-//	public void testRegionLineIsCorrect() throws CoreException{
-//		store.setValue(ELSeverityPreferences.NON_EXTERNALIZED_STRINGS, ELSeverityPreferences.WARNING);
-//		ValidationFramework.getDefault().validate(testFile, new NullProgressMonitor());
-//		IMarker[] elMarkers = testFile.findMarkers(I18nValidationComponent.PROBLEM_ID, true, IResource.DEPTH_ZERO);
-//		assertEquals("There shouldn't be "+NUMBER_OF_EXT_PROBLEMS_IN_FILE+" validation markers", NUMBER_OF_EXT_PROBLEMS_IN_FILE,elMarkers.length); //$NON-NLS-1$ //$NON-NLS-2$
-//		assertEquals("Marker Severity should be warning",(Integer)IMarker.SEVERITY_WARNING, (Integer)elMarkers[0].getAttribute(IMarker.SEVERITY));//$NON-NLS-1$
-//		
-//		assertEquals("Line number should be",8,elMarkers[0].getAttribute(IMarker.LINE_NUMBER)); //$NON-NLS-1$
-//		assertEquals("Line number should be",10,elMarkers[1].getAttribute(IMarker.LINE_NUMBER)); //$NON-NLS-1$
-//		assertEquals("Line number should be",12,elMarkers[2].getAttribute(IMarker.LINE_NUMBER)); //$NON-NLS-1$
-//	}
+	public void testRegionLineIsCorrect() throws CoreException{
+		store.setValue(ELSeverityPreferences.NON_EXTERNALIZED_STRINGS, ELSeverityPreferences.WARNING);
+		ValidationFramework.getDefault().validate(testFile, new NullProgressMonitor());
+		IMarker[] elMarkers = testFile.findMarkers(I18nValidationComponent.PROBLEM_ID, true, IResource.DEPTH_ZERO);
+		assertEquals("There shouldn't be "+NUMBER_OF_EXT_PROBLEMS_IN_FILE+" validation markers", NUMBER_OF_EXT_PROBLEMS_IN_FILE,elMarkers.length); //$NON-NLS-1$ //$NON-NLS-2$
+		assertEquals("Marker Severity should be warning",(Integer)IMarker.SEVERITY_WARNING, (Integer)elMarkers[0].getAttribute(IMarker.SEVERITY));//$NON-NLS-1$
+		Arrays.sort(elMarkers,new Comparator<IMarker>() {
+			public int compare(IMarker o1, IMarker o2) {
+				try {
+					return (Integer)o1.getAttribute(IMarker.LINE_NUMBER)-(Integer)o2.getAttribute(IMarker.LINE_NUMBER);
+				} catch (CoreException e) {
+					fail(e.getMessage());
+				}
+				return 0;
+			}
+		});
+		assertEquals("Line number should be",8,elMarkers[0].getAttribute(IMarker.LINE_NUMBER)); //$NON-NLS-1$
+		assertEquals("Line number should be",10,elMarkers[1].getAttribute(IMarker.LINE_NUMBER)); //$NON-NLS-1$
+		assertEquals("Line number should be",12,elMarkers[2].getAttribute(IMarker.LINE_NUMBER)); //$NON-NLS-1$
+	}
 }
