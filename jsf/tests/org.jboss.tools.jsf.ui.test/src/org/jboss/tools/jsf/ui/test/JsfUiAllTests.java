@@ -35,6 +35,7 @@ public class JsfUiAllTests {
 
 	public static Test suite() {
 		TestSuite suite = new TestSuite("JSF UI tests"); //$NON-NLS-1$
+		suite.addTestSuite(NewJSFProjectTest.class);
 		suite.addTestSuite(CAForUnclosedELTest.class);
 		suite.addTestSuite(CAForCompositeComponentTest.class);
 //		suite.addTestSuite(MissingKBBuilderTest.class);
