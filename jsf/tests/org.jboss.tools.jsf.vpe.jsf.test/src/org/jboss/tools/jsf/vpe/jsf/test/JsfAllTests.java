@@ -123,7 +123,8 @@ public class JsfAllTests {
 	public static final String IMPORT_TEST_WITH_2_URL_PATTERNS_PROJECT_NAME = "TestWith2URLPatterns"; //$NON-NLS-1$
 
 	public static Test suite() {
-		JSPIndexManager.getInstance().shutdown();
+//      FIXME https://issues.jboss.org/browse/JBIDE-8488
+//		JSPIndexManager.getInstance().shutdown();
 		TestSuite suite = new TestSuite("Tests for Vpe Jsf components"); //$NON-NLS-1$
 		// $JUnit-BEGIN$
 		/*
