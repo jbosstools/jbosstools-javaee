@@ -67,7 +67,7 @@ public class JBIDE3650Test extends VpeTest {
         int focusOffcetInSourceDocument = TestUtil.getLinePositionOffcet(part.getSourceEditor().getTextViewer(), srcLine, srcLinePos);
         part.getSourceEditor().getTextViewer().getTextWidget().setCaretOffset(focusOffcetInSourceDocument);
         vpeController.getPageContext().getSourceBuilder().getStructuredTextViewer().setSelectedRange(focusOffcetInSourceDocument, 0);
-        nsIDOMNode lastSelectedNode = vpeController.getXulRunnerEditor().getLastSelectedNode();
+        nsIDOMNode lastSelectedNode = vpeController.getXulRunnerEditor().getSelectedElement();
         NodeImpl sourceSelectedNode=null;
         //was selected source el
         if(attributeName!=null) {

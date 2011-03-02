@@ -172,7 +172,7 @@ public class JBIDE2582Test extends CommonJBIDE2010Test {
 
         SelectionUtil.setSourceSelection(controller.getPageContext(), elementNode, 1, 0);
 
-        nsIDOMNode node = SelectionUtil.getLastSelectedNode(controller.getPageContext());
+        nsIDOMNode node = SelectionUtil.getSelectedNode(controller.getPageContext());
 
         assertEquals("Node names should be equals", "Hello", node.getFirstChild().getNodeValue()); //$NON-NLS-1$ //$NON-NLS-2$
 

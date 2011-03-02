@@ -102,7 +102,7 @@ public class JBIDE2505Test extends VpeTest {
         
         for (int i=0;i<10;i++) {
         	
-	        nsIDOMNode domNode = vpeController.getXulRunnerEditor().getLastSelectedNode();
+	        nsIDOMNode domNode = vpeController.getXulRunnerEditor().getSelectedElement();
 	        assertNotNull(domNode);
 	        
 	        //we process selections only with reasons, but when we select programticly,
@@ -140,7 +140,7 @@ public class JBIDE2505Test extends VpeTest {
         
         for (int i=0;i<10;i++) {
         	
-	        nsIDOMNode domNode = vpeController.getXulRunnerEditor().getLastSelectedNode();
+	        nsIDOMNode domNode = vpeController.getXulRunnerEditor().getSelectedElement();
 	        assertNotNull(domNode);
 	        vpeController.visualRefresh();
         }

@@ -60,7 +60,7 @@ public class SelectWholeElement_JBIDE4713 extends VpeTest {
 				selectionEndOffset - selectionStartOffset);
 		TestUtil.waitForIdle();
 
-		nsIDOMNode selectedNode = SelectionUtil.getLastSelectedNode(
+		nsIDOMNode selectedNode = SelectionUtil.getSelectedNode(
 				vpeController.getPageContext()); 
 
 		assertTrue(selectedNode.getNodeType() == nsIDOMNode.ELEMENT_NODE);

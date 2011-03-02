@@ -42,7 +42,7 @@ public class JBIDE3127Test extends VpeTest{
         int offcet  = TestUtil.getLinePositionOffcet(editor.getSourceEditor().getTextViewer(), 13, 78);
         editor.getSourceEditor().getTextViewer().setSelectedRange(offcet, 1);
         assertTrue("VE sould be visible", vpeController.isVisualEditorVisible()); //$NON-NLS-1$
-        assertTrue("It's should be a div","DIV".equalsIgnoreCase(vpeController.getXulRunnerEditor().getLastSelectedNode().getNodeName()));  //$NON-NLS-1$//$NON-NLS-2$
+        assertTrue("It's should be a div","DIV".equalsIgnoreCase(vpeController.getXulRunnerEditor().getSelectedElement().getNodeName()));  //$NON-NLS-1$//$NON-NLS-2$
         VpeEditorPart editorPart = ((VpeEditorPart)editor.getVisualEditor());
         editorPart.maximizeSource();
         assertFalse("Visual part shouldn't be visible",vpeController.isVisualEditorVisible()); //$NON-NLS-1$

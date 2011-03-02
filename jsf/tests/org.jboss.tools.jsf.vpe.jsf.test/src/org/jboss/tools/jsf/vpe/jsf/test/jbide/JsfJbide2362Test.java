@@ -167,7 +167,7 @@ public class JsfJbide2362Test extends VpeTest {
 						node, 1, 0);
 
 				assertEquals(domMapping.getNearNodeMapping(node)
-						.getVisualNode(), xulRunnerEditor.getLastSelectedNode());
+						.getVisualNode(), xulRunnerEditor.getSelectedElement());
 
 				String insertedString = null;
 				int offset;
@@ -188,7 +188,7 @@ public class JsfJbide2362Test extends VpeTest {
 				// wait
 				TestUtil.delay(700);
 				// wait
-				assertNotNull(xulRunnerEditor.getLastSelectedNode());
+				assertNotNull(xulRunnerEditor.getSelectedElement());
 			}
 		}
 

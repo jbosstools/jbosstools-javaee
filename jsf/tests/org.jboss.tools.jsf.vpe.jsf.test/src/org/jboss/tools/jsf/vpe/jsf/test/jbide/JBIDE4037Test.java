@@ -43,7 +43,7 @@ public class JBIDE4037Test extends VpeTest {
         TestUtil.waitForJobs();
         nsIDOMElement rootElement = TestUtil.getVpeController(part)
         		.getXulRunnerEditor()
-        		.getLastSelectedElement();
+        		.getSelectedElement();
 
         //check if something selected
         assertNotNull(rootElement);
