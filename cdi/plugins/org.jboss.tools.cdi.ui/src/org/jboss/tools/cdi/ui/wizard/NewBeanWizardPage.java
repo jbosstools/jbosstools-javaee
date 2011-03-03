@@ -58,7 +58,6 @@ import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.ICDIAnnotation;
 import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.IQualifier;
-import org.jboss.tools.cdi.core.IStereotype;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
 import org.jboss.tools.cdi.ui.CDIUiImages;
 import org.jboss.tools.common.ui.widget.editor.CheckBoxFieldEditor;
@@ -96,7 +95,7 @@ public class NewBeanWizardPage extends NewClassWizardPage {
 
 	public void init(IStructuredSelection selection) {
 		super.init(selection);
-		if (!selection.isEmpty()) {
+		if (selection != null && !selection.isEmpty()) {
 			Object o = selection.iterator().next();
 			IType type = null;
 			if (o instanceof IType) {
@@ -118,8 +117,8 @@ public class NewBeanWizardPage extends NewClassWizardPage {
 			} catch (JavaModelException e) {
 				CDICorePlugin.getDefault().logError(e);
 			}
+			ArrayList<String> interfacesNames = new ArrayList<String>();
 			if (isInterface) {
-				ArrayList<String> interfacesNames = new ArrayList<String>();
 				String name = "";
 				try {
 					name = type.getFullyQualifiedParameterizedName();
@@ -127,12 +126,12 @@ public class NewBeanWizardPage extends NewClassWizardPage {
 					name = type.getFullyQualifiedName();
 				}
 				interfacesNames.add(name);
-				setSuperInterfaces(interfacesNames, true);
-				superInterfacesChanged();
 				setDefaultTypeName(name);
 			}
+			interfacesNames.add("java.io.Serializable");
+			setSuperInterfaces(interfacesNames, true);
+			superInterfacesChanged();
 		}
-		setModifiers(getModifiers() | Flags.AccAbstract, true);
 
 		doStatusUpdate();
 	}
