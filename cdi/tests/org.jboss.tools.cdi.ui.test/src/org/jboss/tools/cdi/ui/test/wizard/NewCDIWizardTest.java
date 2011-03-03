@@ -10,6 +10,7 @@
  ******************************************************************************/ 
 package org.jboss.tools.cdi.ui.test.wizard;
 
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -391,7 +392,7 @@ public class NewCDIWizardTest extends TestCase {
 		}
 	}
 
-	public void testNewBeanWizard() {
+	public void testNewBeanWizard() throws Exception {
 		WizardContext context = new WizardContext();
 		context.init("org.jboss.tools.cdi.ui.wizard.NewBeanCreationWizard",
 				PACK_NAME, BEAN_NAME);JobUtils.waitForIdle(2000);
@@ -410,6 +411,14 @@ public class NewCDIWizardTest extends TestCase {
 			
 			assertTrue(text.contains("@Named"));
 			assertTrue(text.contains("\"myNewBean\""));
+			
+			IType type = (IType)context.wizard.getCreatedElement();
+			int f = type.getFlags();
+			assertTrue(Modifier.isPublic(f));
+			assertFalse(Modifier.isAbstract(f));
+			String[] is = type.getSuperInterfaceNames();
+			assertEquals(1, is.length);
+			assertEquals("Serializable", is[0]);
 		} finally {
 			context.close();
 		}
