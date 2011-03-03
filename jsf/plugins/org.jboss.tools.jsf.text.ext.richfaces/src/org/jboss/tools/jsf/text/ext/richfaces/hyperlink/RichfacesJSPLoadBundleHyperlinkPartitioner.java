@@ -1,12 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2009 Exadel, Inc. and Red Hat, Inc.
+ * Copyright (c) 2011 Red Hat, Inc.
  * Distributed under license by Red Hat, Inc. All rights reserved.
  * This program is made available under the terms of the
  * Eclipse Public License v1.0 which accompanies this distribution,
  * and is available at http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *     Exadel, Inc. and Red Hat, Inc. - initial API and implementation
+ *     Red Hat, Inc. - initial API and implementation
  ******************************************************************************/
 
 package org.jboss.tools.jsf.text.ext.richfaces.hyperlink;
@@ -27,6 +27,11 @@ public class RichfacesJSPLoadBundleHyperlinkPartitioner extends
 
 	public static final String JSP_RICHFACES_LOADBUNDLE_PARTITION = "org.jboss.tools.common.text.ext.jsp.JSP_RICHFACES_LOADBUNDLE"; //$NON-NLS-1$
 	
+	public final static String[] LoadBundleURIs = {
+		"http://richfaces.org/a4j", //$NON-NLS-1$
+		"https://ajax4jsf.dev.java.net/ajax"	 //$NON-NLS-1$ // @deprecated URI
+	};
+
 	/**
 	 * @Override 
 	 */
@@ -43,7 +48,7 @@ public class RichfacesJSPLoadBundleHyperlinkPartitioner extends
 		if(!tmw.exists()) return null;
 
 		ArrayList<String> prefixes = new ArrayList<String>();
-		for (String uri : RichfacesJSPBundleHyperlinkPartitioner.LoadBundleURIs) {
+		for (String uri : LoadBundleURIs) {
 			String prefix = tmw.getPrefix(uri);
 			if (prefix != null)
 				prefixes.add(prefix);

@@ -6,7 +6,7 @@
 	xmlns:c="http://java.sun.com/jstl/core"
 	xmlns:ez="http://java.sun.com/jsf/composite/demo">
 
-<f:loadBundle basename="resources" var="msg" />
+<f:loadBundle basename="resources" var="pageMsgs" />
 
 <ui:composition template="/templates/common.xhtml"
 	xmlns:jar="http://java.sun.com/jsf/composite/jarPage"
@@ -17,7 +17,10 @@
 	<ui:define name="pageHeader">Facelets Hello Application</ui:define>
 
 	<ui:define name="body">
-		<ez:input id="inputname" label="${msgs.prompt}" value="#{user.name}" action="#{user.sayHello}" submitlabel="Say Hello"/>
+		<ez:input id="inputname" label="${registeredMsgs.prompt}" value="#{user.name}" action="#{user.sayHello}" submitlabel="Say Hello"/>
+		<h:outputText value="${registeredMsgs['demo.long.named.property']}" />
+		<h:outputText value="${pageMsgs.prompt}" />
+		<h:outputText value="${pageMsgs['demo.long.named.property']}" />
 		<form>
 		<jar:echo1 echo="Hello" />
 		<jar:echo echo="Hello" />

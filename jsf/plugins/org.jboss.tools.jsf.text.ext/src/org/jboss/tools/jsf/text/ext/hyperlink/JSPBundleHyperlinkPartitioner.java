@@ -1,36 +1,33 @@
-/*******************************************************************************
- * Copyright (c) 2007 Exadel, Inc. and Red Hat, Inc.
- * Distributed under license by Red Hat, Inc. All rights reserved.
- * This program is made available under the terms of the
- * Eclipse Public License v1.0 which accompanies this distribution,
- * and is available at http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *     Exadel, Inc. and Red Hat, Inc. - initial API and implementation
+/******************************************************************************* 
+ * Copyright (c) 2011 Red Hat, Inc. 
+ * Distributed under license by Red Hat, Inc. All rights reserved. 
+ * This program is made available under the terms of the 
+ * Eclipse Public License v1.0 which accompanies this distribution, 
+ * and is available at http://www.eclipse.org/legal/epl-v10.html 
+ * 
+ * Contributors: 
+ * Red Hat, Inc. - initial API and implementation 
  ******************************************************************************/ 
 package org.jboss.tools.jsf.text.ext.hyperlink;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
-import org.w3c.dom.Attr;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.w3c.dom.Text;
-
+import org.jboss.tools.common.el.core.model.ELExpression;
+import org.jboss.tools.common.el.core.model.ELInvocationExpression;
+import org.jboss.tools.common.el.core.resolver.ELContext;
+import org.jboss.tools.common.el.core.resolver.ELResolution;
+import org.jboss.tools.common.el.core.resolver.ELResolver;
+import org.jboss.tools.common.el.core.resolver.ELSegment;
+import org.jboss.tools.common.el.core.resolver.MessagePropertyELSegment;
 import org.jboss.tools.common.text.ext.hyperlink.AbstractHyperlinkPartitioner;
 import org.jboss.tools.common.text.ext.hyperlink.HyperlinkRegion;
 import org.jboss.tools.common.text.ext.hyperlink.IHyperlinkPartitionRecognizer;
 import org.jboss.tools.common.text.ext.hyperlink.IHyperlinkRegion;
 import org.jboss.tools.common.text.ext.util.StructuredModelWrapper;
-import org.jboss.tools.jst.text.ext.util.TaglibManagerWrapper;
 import org.jboss.tools.common.text.ext.util.Utils;
+import org.jboss.tools.jsf.text.ext.hyperlink.JSPExprHyperlinkPartitioner.ExpressionStructure;
 import org.jboss.tools.jst.text.ext.hyperlink.jsp.JSPRootHyperlinkPartitioner;
-import org.jboss.tools.jsf.text.ext.JSFExtensionsPlugin;
+import org.jboss.tools.jst.text.ext.util.TaglibManagerWrapper;
+import org.w3c.dom.Document;
 
 /**
  * @author Jeremy
@@ -76,61 +73,39 @@ public class JSPBundleHyperlinkPartitioner extends AbstractHyperlinkPartitioner 
 		}
 		return superRegion.getAxis();
 	}
-	
-	public static IHyperlinkRegion getRegion(IDocument document, final int offset) {
-		StructuredModelWrapper smw = new StructuredModelWrapper();
-		smw.init(document);
-		try {
-			Document xmlDocument = smw.getDocument();
-			if (xmlDocument == null) return null;
-			
-			Node n = Utils.findNodeForOffset(xmlDocument, offset);
-
-			if (n == null || !(n instanceof Attr || n instanceof Text)) return null;
-
-			int start = Utils.getValueStart(n);
-			int end = Utils.getValueEnd(n);
-			if(start < 0 || start > end || start > offset) return null;
-			String attrText = document.get(start, end - start);
-
-			StringBuffer sb = new StringBuffer(attrText);
-			//find start of bean property
-			int bStart = offset - start;
-			while (bStart >= 0) { 
-				if (!Character.isJavaIdentifierPart(sb.charAt(bStart)) &&
-						sb.charAt(bStart) != '.' && sb.charAt(bStart) != '[' && sb.charAt(bStart) != ']' &&
-						sb.charAt(bStart) != '\'') {
-					bStart++;
-					break;
-				}
-			
-				if (bStart == 0) break;
-				bStart--;
-			}
-			// find end of bean property
-			int bEnd = offset - start;
-			while (bEnd < sb.length()) { 
-				if (!Character.isJavaIdentifierPart(sb.charAt(bEnd)) &&
-						sb.charAt(bEnd) != '.' && sb.charAt(bEnd) != '[' && sb.charAt(bEnd) != ']' &&
-						sb.charAt(bEnd) != '\'')
-					break;
-				bEnd++;
-			}
-			
-			int propStart = bStart + start;
-			int propLength = bEnd - bStart;
-			
-			if (propStart > offset || propStart + propLength < offset) return null;
-			
-			IHyperlinkRegion region = new HyperlinkRegion(propStart, propLength, null, null, null);
-			return region;
-		} catch (BadLocationException x) {
-			JSFExtensionsPlugin.log("", x); //$NON-NLS-1$
-			return null;
-		} finally {
-			smw.dispose();
-		}
 		
+	public static IHyperlinkRegion getRegion(IDocument document, final int offset) {
+		ELContext context = JSPExprHyperlinkPartitioner.getELContext(document);
+		if(context != null){
+			ExpressionStructure eStructure = JSPExprHyperlinkPartitioner.getExpression(context, offset);
+			if(eStructure != null){
+				ELInvocationExpression invocationExpression = JSPExprHyperlinkPartitioner.getInvocationExpression(eStructure.reference, eStructure.expression, offset);
+				if(invocationExpression != null){
+					ELSegment segment = decide(context, eStructure.expression, invocationExpression, offset-eStructure.reference.getStartPosition(), offset); 
+					if (segment != null) {
+						IHyperlinkRegion region = new HyperlinkRegion(eStructure.reference.getStartPosition() + segment.getSourceReference().getStartPosition(), segment.getSourceReference().getLength(), null, null, null);
+						return region;
+					}
+				}
+			}
+		}
+		return null;
+	}
+	
+	private static ELSegment decide(ELContext context, ELExpression expression, ELInvocationExpression invocationExpression, int offset, int globalOffset){
+		for(ELResolver resolver : context.getElResolvers()){
+			ELResolution resolution = resolver.resolve(context, invocationExpression, globalOffset);
+			if(resolution==null) {
+				continue;
+			}
+			ELSegment segment = resolution.findSegmentByOffset(offset);
+			if(segment != null && segment.isResolved()){
+				if (segment != null && segment.isResolved() && segment instanceof MessagePropertyELSegment) {
+					return segment;
+				}
+			}
+		}
+		return null;
 	}
 
 	/**
@@ -145,81 +120,15 @@ public class JSPBundleHyperlinkPartitioner extends AbstractHyperlinkPartitioner 
 			
 			Utils.findNodeForOffset(xmlDocument, region.getOffset());
 
-			IHyperlinkRegion r = getRegion(document, region.getOffset());
-			if (r == null) return false;
-			
-			String bundleProp = document.get(r.getOffset(), r.getLength());
-			
-			// get var name
-			int dotIndex = bundleProp.indexOf("."); //$NON-NLS-1$
-			int bracketIndex = bundleProp.indexOf("["); //$NON-NLS-1$
-
-			boolean useDot = false;
-			boolean useBracket = false;
-			
-			if (dotIndex != -1) useDot = true;
-			if (bracketIndex != -1) {
-				if (!useDot || (useDot && dotIndex > bracketIndex)) 
-					useBracket = true;
-			}
-			if (useDot && bundleProp.indexOf(".", dotIndex + 1) != -1) //$NON-NLS-1$
-					useDot = false;
-
-			if (!useDot && !useBracket) return false;
-
-			String sVar = null;
-			String sProp = null;
-			if (useDot) {
-				sVar = bundleProp.substring(0, dotIndex);
-				sProp = bundleProp.substring(dotIndex + 1);
-			}
-			if (useBracket) {
-				sVar = bundleProp.substring(0, bracketIndex);
-				int startProp = bracketIndex + 1;
-				int endProp = bundleProp.indexOf("]"); //$NON-NLS-1$
-				if (endProp == -1) endProp = bundleProp.length() - 1;
-				sProp = Utils.trimQuotes(bundleProp.substring(startProp, endProp));
-			}
-			
-			
-			if (sVar == null || sProp == null) return false;
-			
-			String[] prefixes = getLoadBundleTagPrefixes(document, region.getOffset());
-			if (prefixes == null) return false;
-
-			for (String prefix : prefixes) {
-				// Find loadBundle tag
-				List<Element> lbTags = new ArrayList<Element>();
-				NodeList list = xmlDocument.getElementsByTagName(prefix + ":loadBundle"); //$NON-NLS-1$
-				for (int i = 0; list != null && i < list.getLength(); i++) {
-					Element el = (Element)list.item(i);
-					int end = Utils.getValueEnd(el);
-					if (end >= 0 && end < region.getOffset()) {
-						lbTags.add(el);
-					}
-				}
-	
-				Element lbTag = null;
-				for (int i = 0; i < lbTags.size(); i++) {
-					Element el = lbTags.get(i);
-					Attr var = el.getAttributeNode("var"); //$NON-NLS-1$
-					
-					if (sVar.equals(var.getValue())) {
-						lbTag = el;
-						break;
-					}
-				}
-				if (lbTag != null) return true;
-			}
-			return false;
-		} catch (BadLocationException x) {
-			JSFExtensionsPlugin.log("", x); //$NON-NLS-1$
-			return false;
+			return (getRegion(document, region.getOffset()) != null);
 		} finally {
 			smw.dispose();
 		}
 	}
 
+	/**
+	 * @deprecated
+	 */
 	protected String[] getLoadBundleTagPrefixes(IDocument document, int offset) {
 		TaglibManagerWrapper tmw = new TaglibManagerWrapper();
 		tmw.init(document, offset);

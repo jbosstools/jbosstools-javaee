@@ -21,6 +21,10 @@
  <application>
   <view-handler>com.sun.facelets.FaceletViewHandler</view-handler>
   <locale-config/>
+  <resource-bundle>
+   <base-name>resources</base-name>
+   <var>registeredMsgs</var>
+ </resource-bundle>
  </application>
  <factory/>
  <lifecycle/>

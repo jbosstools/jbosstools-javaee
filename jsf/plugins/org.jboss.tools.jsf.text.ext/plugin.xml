@@ -792,8 +792,18 @@
          	<contentType id="org.eclipse.jst.jsp.core.jspsource">
          		<partitionType id="org.jboss.tools.common.text.ext.jsp.JSP_EXPRESSION" />
          	</contentType>
+         	<!-- these CTs were copied from the JsfJSPBundleHyperlinkPartitioner -->
+         	<contentType id="org.eclipse.wst.html.core.htmlsource">
+         		<partitionType id="org.jboss.tools.common.text.ext.jsp.JSP_EXPRESSION" />
+         	</contentType>
+         	<contentType id="jsf.facelet">
+         		<partitionType id="org.jboss.tools.common.text.ext.jsp.JSP_EXPRESSION" />
+         	</contentType>
+         	<contentType id="jsf.facelet.composite">
+         		<partitionType id="org.jboss.tools.common.text.ext.jsp.JSP_EXPRESSION" />
+         	</contentType>
 		</hyperlinkPartitioner>
-		<hyperlinkPartitioner 
+		<!-- hyperlinkPartitioner 
          	id="org.jboss.tools.common.text.ext.jsf.hyperlink.JsfJSPBundleHyperlinkPartitioner"
          	class="org.jboss.tools.jsf.text.ext.hyperlink.JsfJSPBundleHyperlinkPartitioner">
          	<contentType id="org.eclipse.wst.html.core.htmlsource">
@@ -805,7 +815,7 @@
          	<contentType id="jsf.facelet.composite">
          		<partitionType id="org.jboss.tools.common.text.ext.jsp.JSP_EXPRESSION" />
          	</contentType>
-		</hyperlinkPartitioner>
+		</hyperlinkPartitioner -->
 
 		<hyperlinkPartitioner 
          	id="org.jboss.tools.common.text.ext.jsf.hyperlink.JSPClassHyperlinkPartitioner"
@@ -1066,8 +1076,18 @@
 			<contenttypeidentifier id="org.eclipse.jst.jsp.core.jspsource">
             	<partitiontype id="org.jboss.tools.common.text.ext.jsp.JSP_BUNDLE" />
 			</contenttypeidentifier>
+			<contenttypeidentifier id="org.eclipse.wst.html.core.htmlsource">
+            	<partitiontype id="org.jboss.tools.common.text.ext.jsp.JSP_BUNDLE" />
+			</contenttypeidentifier>
+			<contenttypeidentifier id="jsf.facelet">
+            	<partitiontype id="org.jboss.tools.common.text.ext.jsp.JSP_BUNDLE" />
+			</contenttypeidentifier>
+			<contenttypeidentifier id="jsf.facelet.composite">
+            	<partitiontype id="org.jboss.tools.common.text.ext.jsp.JSP_BUNDLE" />
+			</contenttypeidentifier>
 		</hyperlink>
-		<hyperlink 
+		
+		<!-- hyperlink 
 			class="org.jboss.tools.jsf.text.ext.hyperlink.JsfBundleHyperlink" 
 			id="org.jboss.tools.common.text.ext.jsf.hyperlink.JsfBundleHyperlink">
 			<contenttypeidentifier id="org.eclipse.wst.html.core.htmlsource">
@@ -1079,7 +1099,7 @@
 			<contenttypeidentifier id="jsf.facelet.composite">
             	<partitiontype id="org.jboss.tools.common.text.ext.jsp.JSP_BUNDLE" />
 			</contenttypeidentifier>
-		</hyperlink>
+		</hyperlink -->
 
 		<hyperlink 
 			class="org.jboss.tools.jsf.text.ext.hyperlink.BundleBasenameHyperlink" 

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2007 Red Hat, Inc.
+ * Copyright (c) 2011 Red Hat, Inc.
  * Distributed under license by Red Hat, Inc. All rights reserved.
  * This program is made available under the terms of the
  * Eclipse Public License v1.0 which accompanies this distribution,
@@ -19,14 +19,13 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.swt.graphics.Image;
-import org.jboss.tools.common.el.core.ELCorePlugin;
 import org.jboss.tools.common.el.core.ca.AbstractELCompletionEngine;
+import org.jboss.tools.common.el.core.model.ELArgumentInvocation;
 import org.jboss.tools.common.el.core.model.ELExpression;
 import org.jboss.tools.common.el.core.model.ELInstance;
 import org.jboss.tools.common.el.core.model.ELInvocationExpression;
@@ -49,7 +48,6 @@ import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.project.IModelNature;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.text.TextProposal;
-import org.jboss.tools.common.text.ext.util.Utils;
 import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.jsf.JSFModelPlugin;
 import org.jboss.tools.jsf.model.helpers.converter.OpenKeyHelper;
@@ -190,6 +188,19 @@ public class JSFMessageELCompletionEngine extends AbstractELCompletionEngine<IVa
 					true); 	// is Final and equal names are because of 
 							// we have no more to resolve the parts of expression, 
 							// but we have to resolve arguments of probably a message component
+			if (resolvedVariables != null && !resolvedVariables.isEmpty()) {
+				resolution.setLastResolvedToken(left);
+	
+				ELSegmentImpl segment = new MessagePropertyELSegmentImpl();
+				segment.setToken(left.getFirstToken());
+				processMessageBundleSegment(expr, (MessagePropertyELSegmentImpl)segment, resolvedVariables);
+
+				segment.setResolved(true);
+				for (Variable variable : resolvedVariables) {
+					segment.getVariables().add(variable);						
+				}
+				resolution.addSegment(segment);
+			}
 		} else if (expr.getLeft() == null && isIncomplete) {
 			resolvedVariables = resolveVariables(file, expr, bundles, true, 
 					returnEqualedVariablesOnly);
@@ -203,8 +214,10 @@ public class JSFMessageELCompletionEngine extends AbstractELCompletionEngine<IVa
 					resolvedVariables = resolvedVars;
 					resolution.setLastResolvedToken(left);
 
-					ELSegmentImpl segment = new ELSegmentImpl();
+					ELSegmentImpl segment = new MessagePropertyELSegmentImpl();
 					segment.setToken(left.getFirstToken());
+					processMessageBundleSegment(expr, (MessagePropertyELSegmentImpl)segment, resolvedVariables);
+					
 					segment.setResolved(true);
 					for (Variable variable : resolvedVars) {
 						segment.getVariables().add(variable);						
@@ -226,8 +239,10 @@ public class JSFMessageELCompletionEngine extends AbstractELCompletionEngine<IVa
 			resolvedVariables = resolveVariables(file, expr, bundles, true, returnEqualedVariablesOnly);			
 			Set<TextProposal> proposals = new TreeSet<TextProposal>(TextProposal.KB_PROPOSAL_ORDER);
 
-			ELSegmentImpl segment = new ELSegmentImpl();
-			segment.setToken(expr.getFirstToken());
+			ELSegmentImpl segment = new MessagePropertyELSegmentImpl();
+			segment.setToken(left.getFirstToken());
+			processMessageBundleSegment(expr, (MessagePropertyELSegmentImpl)segment, resolvedVariables);
+			
 			segment.setResolved(false);
 			resolution.addSegment(segment);
 
@@ -339,7 +354,7 @@ public class JSFMessageELCompletionEngine extends AbstractELCompletionEngine<IVa
 	protected void setImage(TextProposal kbProposal) {
 		kbProposal.setImage(getELProposalImage());
 	}
-
+	
 	protected void resolveLastSegment(ELInvocationExpression expr, 
 			List<Variable> members,
 			ELResolutionImpl resolution,
@@ -351,6 +366,10 @@ public class JSFMessageELCompletionEngine extends AbstractELCompletionEngine<IVa
 		if(expr instanceof ELPropertyInvocation) {
 			segment = new MessagePropertyELSegmentImpl();
 			segment.setToken(((ELPropertyInvocation)expr).getName());
+			processMessagePropertySegment(expr, (MessagePropertyELSegmentImpl)segment, members);
+		} else if (expr instanceof ELArgumentInvocation) {
+			segment = new MessagePropertyELSegmentImpl();
+			segment.setToken(((ELArgumentInvocation)expr).getArgument().getOpenArgumentToken().getNextToken());
 			processMessagePropertySegment(expr, (MessagePropertyELSegmentImpl)segment, members);
 		} else {
 			segment.setToken(expr.getFirstToken());			
@@ -462,6 +481,30 @@ public class JSFMessageELCompletionEngine extends AbstractELCompletionEngine<IVa
 		}
 	}
 	
+	private void processMessageBundleSegment(ELInvocationExpression expr, MessagePropertyELSegmentImpl segment, List<Variable> variables) {
+		if(segment.getToken() == null)
+			return;
+		for(Variable variable : variables){
+			if(expr.getFirstToken().getText().equals(variable.name)){
+				
+				IModelNature n = EclipseResourceUtil.getModelNature(variable.f.getProject());
+				if(n == null)
+					return;
+				XModel model = n.getModel();
+				if(model == null)
+					return;
+				
+				OpenKeyHelper keyHelper = new OpenKeyHelper();
+				XModelObject[] properties = keyHelper.findBundles(model, variable.basename, null);
+				if(properties == null)
+					return;
+
+				segment.setBaseName(variable.basename);
+				segment.setBundleOnlySegment(true);
+			}
+		}
+	}
+	
 	private void processMessagePropertySegment(ELInvocationExpression expr, MessagePropertyELSegmentImpl segment, List<Variable> variables){
 		if(segment.getToken() == null)
 			return;
@@ -486,7 +529,7 @@ public class JSFMessageELCompletionEngine extends AbstractELCompletionEngine<IVa
 					if(propFile == null)
 						continue;
 					segment.setMessageBundleResource(propFile);
-					XModelObject property = p.getChildByPath(segment.getToken().getText());
+					XModelObject property = p.getChildByPath(trimQuotes(segment.getToken().getText()));
 					if(property != null){
 						try {
 							String content = FileUtil.readStream(propFile);
@@ -501,6 +544,20 @@ public class JSFMessageELCompletionEngine extends AbstractELCompletionEngine<IVa
 			}
 		}
 	}
+	
+	private String trimQuotes(String value) {
+		if(value == null)
+			return null;
+
+		if(value.startsWith("'") || value.startsWith("\"")) {  //$NON-NLS-1$ //$NON-NLS-2$
+			value = value.substring(1);
+		} 
+		
+		if(value.endsWith("'") || value.endsWith("\"")) { //$NON-NLS-1$ //$NON-NLS-2$
+			value = value.substring(0, value.length() - 1);
+		}
+		return value;
+	}	
 	
 	public boolean findPropertyLocation(XModelObject property, String content, MessagePropertyELSegmentImpl segment) {
 		String name = property.getAttributeValue("name"); //$NON-NLS-1$

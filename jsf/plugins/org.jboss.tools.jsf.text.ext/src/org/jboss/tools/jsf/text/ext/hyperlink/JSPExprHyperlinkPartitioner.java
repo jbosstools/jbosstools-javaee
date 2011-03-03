@@ -1,12 +1,12 @@
-/*******************************************************************************
- * Copyright (c) 2007 Exadel, Inc. and Red Hat, Inc.
- * Distributed under license by Red Hat, Inc. All rights reserved.
- * This program is made available under the terms of the
- * Eclipse Public License v1.0 which accompanies this distribution,
- * and is available at http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *     Exadel, Inc. and Red Hat, Inc. - initial API and implementation
+/******************************************************************************* 
+ * Copyright (c) 2011 Red Hat, Inc. 
+ * Distributed under license by Red Hat, Inc. All rights reserved. 
+ * This program is made available under the terms of the 
+ * Eclipse Public License v1.0 which accompanies this distribution, 
+ * and is available at http://www.eclipse.org/legal/epl-v10.html 
+ * 
+ * Contributors: 
+ * Red Hat, Inc. - initial API and implementation 
  ******************************************************************************/ 
 package org.jboss.tools.jsf.text.ext.hyperlink;
 
@@ -21,6 +21,7 @@ import org.jboss.tools.common.el.core.resolver.ELResolution;
 import org.jboss.tools.common.el.core.resolver.ELResolver;
 import org.jboss.tools.common.el.core.resolver.ELSegment;
 import org.jboss.tools.common.el.core.resolver.JavaMemberELSegment;
+import org.jboss.tools.common.el.core.resolver.MessagePropertyELSegment;
 import org.jboss.tools.common.text.ext.hyperlink.AbstractHyperlinkPartitioner;
 import org.jboss.tools.common.text.ext.hyperlink.HyperlinkRegion;
 import org.jboss.tools.common.text.ext.hyperlink.IExclusiblePartitionerRecognition;
@@ -91,14 +92,14 @@ public class JSPExprHyperlinkPartitioner extends AbstractHyperlinkPartitioner im
 				if(invocationExpression != null){
 					jspExpression = decide(context, eStructure.expression, invocationExpression, offset-eStructure.reference.getStartPosition(), offset);
 					if(jspExpression){
-						IHyperlinkRegion region = new HyperlinkRegion(invocationExpression.getStartPosition(), invocationExpression.getLength(), null, null, null);
+						IHyperlinkRegion region = new HyperlinkRegion(eStructure.reference.getStartPosition() + invocationExpression.getStartPosition(), invocationExpression.getLength(), null, null, null);
 						return region;
 					}
+					dotExpression = checkDot(document, offset, context, eStructure.expression, invocationExpression, offset-eStructure.reference.getStartPosition());
+					
+					IHyperlinkRegion region = new HyperlinkRegion(eStructure.reference.getStartPosition() + invocationExpression.getStartPosition(), eStructure.expression.getLength(), null, null, null);
+					return region;
 				}
-				dotExpression = checkDot(document, offset, context, eStructure.expression, invocationExpression, offset-eStructure.reference.getStartPosition());
-				
-				IHyperlinkRegion region = new HyperlinkRegion(eStructure.expression.getStartPosition(), eStructure.expression.getLength(), null, null, null);
-				return region;
 			}
 		}
 		return null;
@@ -153,6 +154,9 @@ public class JSPExprHyperlinkPartitioner extends AbstractHyperlinkPartitioner im
 					if(javaSegment.getJavaElement() != null){
 						return true;
 					}
+				}
+				if (segment instanceof MessagePropertyELSegment) {
+					return false;
 				}
 			}
 		}

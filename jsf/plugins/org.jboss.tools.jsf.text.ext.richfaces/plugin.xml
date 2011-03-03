@@ -343,7 +343,7 @@
 		</hyperlinkPartitioner>
 
 
-		<hyperlinkPartitioner 
+		<!-- hyperlinkPartitioner 
          	id="org.jboss.tools.jsf.text.ext.richfaces.hyperlink.RichfacesJSPBundleHyperlinkPartitioner"
          	class="org.jboss.tools.jsf.text.ext.richfaces.hyperlink.RichfacesJSPBundleHyperlinkPartitioner">
          	<contentType id="org.eclipse.jst.jsp.core.jspsource">
@@ -362,7 +362,7 @@
          		<partitionType id="org.jboss.tools.common.text.ext.jsp.FACELETS_ATTRIBUTE_VALUE_WITH_EXPR" />
          		<partitionType id="org.jboss.tools.common.text.ext.jsp.JSP_EXPRESSION" />
          	</contentType>
-		</hyperlinkPartitioner>
+		</hyperlinkPartitioner -->
 
 		<hyperlinkPartitioner 
          	id="org.jboss.tools.common.text.ext.jsf.hyperlink.JSPForIDHyperlinkPartitioner"
@@ -1007,7 +1007,7 @@
 			</contenttypeidentifier>
 		</hyperlink>
 	
-		<hyperlink 
+		<!-- hyperlink 
 			class="org.jboss.tools.jsf.text.ext.richfaces.hyperlink.RichfacesBundleHyperlink" 
 			id="org.jboss.tools.jsf.text.ext.richfaces.hyperlink.RichfacesBundleHyperlink">
 			<contenttypeidentifier id="org.eclipse.jst.jsp.core.jspsource">
@@ -1022,7 +1022,7 @@
 			<contenttypeidentifier id="jsf.facelet.composite">
             	<partitiontype id="org.jboss.tools.common.text.ext.jsp.JSP_RICHFACES_BUNDLE" />
 			</contenttypeidentifier>
-		</hyperlink>
+		</hyperlink -->
 		
 	</extension>
 		
