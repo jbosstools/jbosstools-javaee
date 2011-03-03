@@ -126,8 +126,8 @@ public class NewBeanWizardPage extends NewClassWizardPage {
 			} catch (JavaModelException e) {
 				CDICorePlugin.getDefault().logError(e);
 			}
+			ArrayList<String> interfacesNames = new ArrayList<String>();
 			if (isInterface) {
-				ArrayList<String> interfacesNames = new ArrayList<String>();
 				String name = "";
 				try {
 					name = type.getFullyQualifiedParameterizedName();
@@ -135,12 +135,12 @@ public class NewBeanWizardPage extends NewClassWizardPage {
 					name = type.getFullyQualifiedName();
 				}
 				interfacesNames.add(name);
-				setSuperInterfaces(interfacesNames, true);
-				superInterfacesChanged();
 				setDefaultTypeName(name);
 			}
+			interfacesNames.add("java.io.Serializable");
+			setSuperInterfaces(interfacesNames, true);
+			superInterfacesChanged();
 		}
-		setModifiers(getModifiers() | Flags.AccAbstract, true);
 
 		doStatusUpdate();
 	}
