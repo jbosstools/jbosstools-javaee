@@ -13,5 +13,6 @@
 			<attribute name="owner.project.facets" value="jst.java"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="InternalClassFolder"/>
 	<classpathentry kind="output" path="WebContent/WEB-INF/classes"/>
 </classpath>
