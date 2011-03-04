@@ -215,6 +215,11 @@ public class CDICoreBuilder extends IncrementalProjectBuilder {
 				IFile f = EclipseResourceUtil.getFile(jar);
 				if(f != null && f.exists()) {
 					root = jp.getPackageFragmentRoot(f);
+				} else {
+					f = EclipseResourceUtil.getFile(jar + "/META-INF/beans.xml");
+					if(f != null && f.exists()) {
+						root = jp.getPackageFragmentRoot(f.getParent().getParent());
+					}
 				}
 			}
 			if (root == null || !root.exists())
