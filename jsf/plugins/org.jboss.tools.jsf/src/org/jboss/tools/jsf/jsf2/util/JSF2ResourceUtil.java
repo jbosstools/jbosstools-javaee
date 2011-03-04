@@ -27,6 +27,7 @@ import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
+import org.eclipse.jdt.internal.core.ExternalPackageFragmentRoot;
 import org.eclipse.jdt.internal.core.JarEntryDirectory;
 import org.eclipse.jdt.internal.core.JarEntryFile;
 import org.eclipse.jdt.internal.core.JarEntryResource;
@@ -83,8 +84,17 @@ public class JSF2ResourceUtil {
 				return file;
 			}
 		}
-		return searchInClassPath(project, "META-INF" + relativeLocation //$NON-NLS-1$
-				+ "/" + nodeName + ".xhtml", JAR_FILE_RESOURCE_TYPE); //$NON-NLS-1$ //$NON-NLS-2$
+		String classPathResource = "META-INF" + relativeLocation //$NON-NLS-1$
+					+ "/" + nodeName + ".xhtml"; //$NON-NLS-1$ //$NON-NLS-2$
+		JarEntryResource jer = searchInClassPath(project, classPathResource, JAR_FILE_RESOURCE_TYPE);
+		if(jer != null) {
+			return jer;
+		}
+		IResource r = searchInClassPath2(project, classPathResource, JAR_FILE_RESOURCE_TYPE);
+		if(r != null) {
+			return r;
+		}
+		return null;
 	}
 
 	private static JarEntryResource searchInClassPath(IProject project,
@@ -121,6 +131,36 @@ public class JSF2ResourceUtil {
 		return null;
 	}
 
+	private static IResource searchInClassPath2(IProject project,
+			String classPathResource, int jarResourceType) {
+		IJavaProject javaProject = JavaCore.create(project);
+		try {
+			for (IPackageFragmentRoot fragmentRoot : javaProject
+					.getAllPackageFragmentRoots()) {
+				IResource r = fragmentRoot.getResource();
+				if(fragmentRoot instanceof ExternalPackageFragmentRoot) {
+					r = ((ExternalPackageFragmentRoot) fragmentRoot).resource();
+				}
+				if(r instanceof IFolder && r.exists()) {
+					IFolder f = (IFolder)r;
+					IFile f1 = f.getFile(classPathResource);
+					if(f1.exists()) {
+						return f1;
+					}
+					IFolder f2 = f.getFolder(classPathResource);
+					if(f2.exists()) {
+						return f2;
+					}
+				}				
+			}
+		} catch (JavaModelException e) {
+			JSFModelPlugin.getPluginLog().logError(e);
+		} catch (CoreException e) {
+			JSFModelPlugin.getPluginLog().logError(e);
+		}
+		return null;
+	}
+
 	public static Object findResourcesFolderContainerByNameSpace(
 			IProject project, String nameSpaceURI) {
 		if (nameSpaceURI == null || nameSpaceURI.indexOf(JSF2_URI_PREFIX) == -1) {
@@ -140,8 +180,16 @@ public class JSF2ResourceUtil {
 				return resFolder;
 			}
 		}
-		return searchInClassPath(project,
-				"META-INF" + relativeLocation, JAR_DIRECTORY_RESOURCE_TYPE); //$NON-NLS-1$
+		String classPathResource = "META-INF" + relativeLocation; //$NON-NLS-1$
+		JarEntryResource jer = searchInClassPath(project, classPathResource, JAR_DIRECTORY_RESOURCE_TYPE);
+		if(jer != null) {
+			return jer;
+		}
+		IResource r = searchInClassPath2(project, classPathResource, JAR_DIRECTORY_RESOURCE_TYPE);
+		if(r != null) {
+			return r;
+		}
+		return null;
 	}
 
 	public static boolean isResourcesFolderExists(IProject project,
