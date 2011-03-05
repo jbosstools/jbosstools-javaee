@@ -417,6 +417,9 @@
             <contentType id="jsf.facelet.composite">
                     <partitionType id="org.jboss.tools.common.text.ext.jsp.JSP_LINK" />
             </contentType>
+            <contentType id="org.jboss.tools.jst.jsp.jspincludesource">
+                    <partitionType id="org.jboss.tools.common.text.ext.jsp.JSP_LINK" />
+            </contentType>
 		</hyperlinkPartitioner>
 
 		<hyperlinkPartitioner 
@@ -450,6 +453,13 @@
          			<axis path="*/[http://java.sun.com/jsf/html]:graphicImage/name/" />
          		</partitionType>
          	</contentType>
+         	<contentType id="org.jboss.tools.jst.jsp.jspincludesource">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
+         			<axis path="*/[http://java.sun.com/jsf/html]:outputStylesheet/name/" />
+         			<axis path="*/[http://java.sun.com/jsf/html]:outputScript/name/" />
+         			<axis path="*/[http://java.sun.com/jsf/html]:graphicImage/name/" />
+         		</partitionType>
+         	</contentType>
 		</hyperlinkPartitioner>
 
 		<hyperlinkPartitioner 
@@ -465,6 +475,9 @@
          		<partitionType id="org.jboss.tools.common.text.ext.jsp.JSP_XMLNS" />
          	</contentType>
          	<contentType id="jsf.facelet.composite">
+         		<partitionType id="org.jboss.tools.common.text.ext.jsp.JSP_XMLNS" />
+         	</contentType>
+         	<contentType id="org.jboss.tools.jst.jsp.jspincludesource">
          		<partitionType id="org.jboss.tools.common.text.ext.jsp.JSP_XMLNS" />
          	</contentType>
 		</hyperlinkPartitioner>
@@ -500,6 +513,15 @@
          		</partitionType>
          	</contentType>
          	<contentType id="jsf.facelet.composite">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
+         			<axis path="*/[http://java.sun.com/jsf/html]:commandButton/action/" />
+         			<axis path="*/[http://java.sun.com/jsf/html]:commandLink/action/" />
+
+         			<axis path="*/[http://myfaces.apache.org/tomahawk]:commandButton/action/" />
+         			<axis path="*/[http://myfaces.apache.org/tomahawk]:commandLink/action/" />
+         		</partitionType>
+         	</contentType>
+         	<contentType id="org.jboss.tools.jst.jsp.jspincludesource">
          		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
          			<axis path="*/[http://java.sun.com/jsf/html]:commandButton/action/" />
          			<axis path="*/[http://java.sun.com/jsf/html]:commandLink/action/" />
@@ -657,6 +679,43 @@
          			<axis path="*/[http://myfaces.apache.org/tomahawk]:selectOneRadio/converter/" />
          		</partitionType>
          	</contentType>
+         	<contentType id="org.jboss.tools.jst.jsp.jspincludesource">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
+         			<axis path="*/[http://java.sun.com/jsf/core]:converter/converterId/" />
+         			<axis path="*/[http://java.sun.com/jsf/html]:inputHidden/converter/" />
+         			<axis path="*/[http://java.sun.com/jsf/html]:inputSecret/converter/" />
+         			<axis path="*/[http://java.sun.com/jsf/html]:inputText/converter/" />
+         			<axis path="*/[http://java.sun.com/jsf/html]:inputTextarea/converter/" />
+         			<axis path="*/[http://java.sun.com/jsf/html]:outputFormat/converter/" />
+         			<axis path="*/[http://java.sun.com/jsf/html]:outputLabel/converter/" />
+         			<axis path="*/[http://java.sun.com/jsf/html]:outputLink/converter/" />
+         			<axis path="*/[http://java.sun.com/jsf/html]:outputText/converter/" />
+         			<axis path="*/[http://java.sun.com/jsf/html]:selectBooleanCheckbox/converter/" />
+         			<axis path="*/[http://java.sun.com/jsf/html]:selectManyCheckbox/converter/" />
+         			<axis path="*/[http://java.sun.com/jsf/html]:selectManyListbox/converter/" />
+         			<axis path="*/[http://java.sun.com/jsf/html]:selectManyMenu/converter/" />
+         			<axis path="*/[http://java.sun.com/jsf/html]:selectOneListbox/converter/" />
+         			<axis path="*/[http://java.sun.com/jsf/html]:selectOneMenu/converter/" />
+         			<axis path="*/[http://java.sun.com/jsf/html]:selectOneRadio/converter/" />
+
+         			<axis path="*/[http://myfaces.apache.org/tomahawk]:inputHidden/converter/" />
+         			<axis path="*/[http://myfaces.apache.org/tomahawk]:inputSecret/converter/" />
+         			<axis path="*/[http://myfaces.apache.org/tomahawk]:inputText/converter/" />
+         			<axis path="*/[http://myfaces.apache.org/tomahawk]:inputTextarea/converter/" />
+         			<axis path="*/[http://myfaces.apache.org/tomahawk]:outputFormat/converter/" />
+         			<axis path="*/[http://myfaces.apache.org/tomahawk]:outputLabel/converter/" />
+         			<axis path="*/[http://myfaces.apache.org/tomahawk]:outputLink/converter/" />
+         			<axis path="*/[http://myfaces.apache.org/tomahawk]:outputText/converter/" />
+         			<axis path="*/[http://myfaces.apache.org/tomahawk]:selectBooleanCheckbox/converter/" />
+         			<axis path="*/[http://myfaces.apache.org/tomahawk]:selectManyCheckbox/converter/" />
+         			<axis path="*/[http://myfaces.apache.org/tomahawk]:selectManyListbox/converter/" />
+         			<axis path="*/[http://myfaces.apache.org/tomahawk]:selectManyMenu/converter/" />
+         			<axis path="*/[http://myfaces.apache.org/tomahawk]:selectOneListbox/converter/" />
+         			<axis path="*/[http://myfaces.apache.org/tomahawk]:selectOneMenu/converter/" />
+         			<axis path="*/[http://myfaces.apache.org/tomahawk]:selectOneRadio/converter/" />
+         		</partitionType>
+         	</contentType>
+         	
 		</hyperlinkPartitioner>
 
 		<hyperlinkPartitioner 
@@ -678,6 +737,11 @@
          		</partitionType>
          	</contentType>
          	<contentType id="jsf.facelet.composite">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
+         			<axis path="*/[http://java.sun.com/jsf/core]:validator/validatorId/" />
+         		</partitionType>
+         	</contentType>
+         	<contentType id="org.jboss.tools.jst.jsp.jspincludesource">
          		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
          			<axis path="*/[http://java.sun.com/jsf/core]:validator/validatorId/" />
          		</partitionType>
@@ -723,6 +787,15 @@
          			<axis path="*/[http://myfaces.apache.org/tomahawk]:message/for/" />
          		</partitionType>
          	</contentType>
+         	<contentType id="org.jboss.tools.jst.jsp.jspincludesource">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
+         			<axis path="*/[http://java.sun.com/jsf/html]:outputLabel/for/" />
+         			<axis path="*/[http://java.sun.com/jsf/html]:message/for/" />
+
+         			<axis path="*/[http://myfaces.apache.org/tomahawk]:outputLabel/for/" />
+         			<axis path="*/[http://myfaces.apache.org/tomahawk]:message/for/" />
+         		</partitionType>
+         	</contentType>
 		</hyperlinkPartitioner>
 		<hyperlinkPartitioner 
          	id="org.jboss.tools.common.text.ext.jsf.hyperlink.JSPExprHyperlinkPartitioner"
@@ -759,6 +832,14 @@
          		<partitionType id="org.eclipse.jst.jsp.SCRIPT.JSP_EL" />
          		<partitionType id="org.eclipse.jst.jsp.SCRIPT.JSP_EL2" />
          	</contentType>
+         	<contentType id="org.jboss.tools.jst.jsp.jspincludesource">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_TEXT" />
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE" />
+         		<partitionType id="org.jboss.tools.common.text.ext.jsp.JSP_CONVERTER" />
+         		<partitionType id="org.jboss.tools.common.text.ext.jsp.JSP_NAVIGATION_CASE" />
+         		<partitionType id="org.eclipse.jst.jsp.SCRIPT.JSP_EL" />
+         		<partitionType id="org.eclipse.jst.jsp.SCRIPT.JSP_EL2" />
+         	</contentType>
 		</hyperlinkPartitioner>
 
 		<hyperlinkPartitioner 
@@ -784,6 +865,11 @@
          			<!--axis path="*/[http://java.sun.com/jsf/core]:loadBundle/basename/" /-->
          		</partitionType>
          	</contentType>
+         	<contentType id="org.jboss.tools.jst.jsp.jspincludesource">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
+         			<!--axis path="*/[http://java.sun.com/jsf/core]:loadBundle/basename/" /-->
+         		</partitionType>
+         	</contentType>
 		</hyperlinkPartitioner>
 
 		<hyperlinkPartitioner 
@@ -800,6 +886,9 @@
          		<partitionType id="org.jboss.tools.common.text.ext.jsp.JSP_EXPRESSION" />
          	</contentType>
          	<contentType id="jsf.facelet.composite">
+         		<partitionType id="org.jboss.tools.common.text.ext.jsp.JSP_EXPRESSION" />
+         	</contentType>
+         	<contentType id="org.jboss.tools.jst.jsp.jspincludesource">
          		<partitionType id="org.jboss.tools.common.text.ext.jsp.JSP_EXPRESSION" />
          	</contentType>
 		</hyperlinkPartitioner>
@@ -845,6 +934,14 @@
          		</partitionType>
          	</contentType>
          	<contentType id="jsf.facelet.composite">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
+         			<axis path="*/[http://java.sun.com/jsf/core]:actionListener/type/" />
+         			<axis path="*/[http://java.sun.com/jsf/core]:valueChangeListener/type/" />
+         			<axis path="*/[http://java.sun.com/jsf/core]:actionListener/type/" />
+         			<axis path="*/[http://java.sun.com/jsf/core]:actionListener/type/" />
+         		</partitionType>
+         	</contentType>
+         	<contentType id="org.jboss.tools.jst.jsp.jspincludesource">
          		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
          			<axis path="*/[http://java.sun.com/jsf/core]:actionListener/type/" />
          			<axis path="*/[http://java.sun.com/jsf/core]:valueChangeListener/type/" />
@@ -901,6 +998,17 @@
          			<axis path="*/[http://myfaces.apache.org/tomahawk]:graphicImage/url/" />
          		</partitionType>
          	</contentType>
+         	<contentType id="org.jboss.tools.jst.jsp.jspincludesource">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
+         			<axis path="*/[http://java.sun.com/jsf/html]:commandButton/image/" />
+         			<axis path="*/[http://java.sun.com/jsf/html]:graphicImage/value/" />
+		   			<axis path="*/img/src/" />
+         			<axis path="*/[http://java.sun.com/jsf/html]:graphicImage/url/" />
+         			<axis path="*/[http://myfaces.apache.org/tomahawk]:commandButton/image/" />
+         			<axis path="*/[http://myfaces.apache.org/tomahawk]:graphicImage/value/" />
+         			<axis path="*/[http://myfaces.apache.org/tomahawk]:graphicImage/url/" />
+         		</partitionType>
+         	</contentType>
 		</hyperlinkPartitioner>
          
 		<hyperlinkPartitioner 
@@ -916,6 +1024,9 @@
          		<partitionType id="org.jboss.tools.common.text.ext.jsp.JSP_TAGLIB" />
          	</contentType>
          	<contentType id="jsf.facelet.composite">
+         		<partitionType id="org.jboss.tools.common.text.ext.jsp.JSP_TAGLIB" />
+         	</contentType>
+         	<contentType id="org.jboss.tools.jst.jsp.jspincludesource">
          		<partitionType id="org.jboss.tools.common.text.ext.jsp.JSP_TAGLIB" />
          	</contentType>
 		</hyperlinkPartitioner>
@@ -935,6 +1046,9 @@
          	<contentType id="jsf.facelet.composite">
          		<partitionType id="org.jboss.tools.common.text.ext.jsp.JSP_TAG_ATTRIBUTE" />
          	</contentType>
+         	<contentType id="org.jboss.tools.jst.jsp.jspincludesource">
+         		<partitionType id="org.jboss.tools.common.text.ext.jsp.JSP_TAG_ATTRIBUTE" />
+         	</contentType>
 		</hyperlinkPartitioner>
 
 		<hyperlinkPartitioner 
@@ -950,6 +1064,9 @@
          		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ELEMENT_NAME" />
          	</contentType>
          	<contentType id="jsf.facelet.composite">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ELEMENT_NAME" />
+         	</contentType>
+         	<contentType id="org.jboss.tools.jst.jsp.jspincludesource">
          		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ELEMENT_NAME" />
          	</contentType>
 		</hyperlinkPartitioner>
@@ -1068,6 +1185,9 @@
 			<contenttypeidentifier id="jsf.facelet.composite">
 				<partitiontype id="org.jboss.tools.common.text.ext.jsp.JSP_LOADBUNDLE" />
 			</contenttypeidentifier>
+			<contenttypeidentifier id="org.jboss.tools.jst.jsp.jspincludesource">
+				<partitiontype id="org.jboss.tools.common.text.ext.jsp.JSP_LOADBUNDLE" />
+			</contenttypeidentifier>
 		</hyperlink>
 
 		<hyperlink 
@@ -1083,6 +1203,9 @@
             	<partitiontype id="org.jboss.tools.common.text.ext.jsp.JSP_BUNDLE" />
 			</contenttypeidentifier>
 			<contenttypeidentifier id="jsf.facelet.composite">
+            	<partitiontype id="org.jboss.tools.common.text.ext.jsp.JSP_BUNDLE" />
+			</contenttypeidentifier>
+			<contenttypeidentifier id="org.jboss.tools.jst.jsp.jspincludesource">
             	<partitiontype id="org.jboss.tools.common.text.ext.jsp.JSP_BUNDLE" />
 			</contenttypeidentifier>
 		</hyperlink>
@@ -1139,6 +1262,10 @@
 			<contenttypeidentifier id="jsf.facelet.composite"> 
 				<partitiontype id="org.jboss.tools.common.text.ext.jsp.JSP_FORWARD" />
 			</contenttypeidentifier>
+			<contenttypeidentifier id="org.jboss.tools.jst.jsp.jspincludesource"> 
+				<partitiontype id="org.jboss.tools.common.text.ext.jsp.JSP_FORWARD" />
+			</contenttypeidentifier>
+			
 		</hyperlink>
 
 		<hyperlink 
@@ -1156,6 +1283,9 @@
 			<contenttypeidentifier id="jsf.facelet.composite">
             	<partitiontype id="org.jboss.tools.common.text.ext.jsp.JSP_NAVIGATION_CASE" />
 			</contenttypeidentifier>
+			<contenttypeidentifier id="org.jboss.tools.jst.jsp.jspincludesource">
+            	<partitiontype id="org.jboss.tools.common.text.ext.jsp.JSP_NAVIGATION_CASE" />
+			</contenttypeidentifier>
 		</hyperlink>
       
 		<hyperlink 
@@ -1171,6 +1301,9 @@
             	<partitiontype id="org.jboss.tools.common.text.ext.jsp.JSP_CONVERTER" />
 			</contenttypeidentifier>
 			<contenttypeidentifier id="jsf.facelet.composite">
+            	<partitiontype id="org.jboss.tools.common.text.ext.jsp.JSP_CONVERTER" />
+			</contenttypeidentifier>
+			<contenttypeidentifier id="org.jboss.tools.jst.jsp.jspincludesource">
             	<partitiontype id="org.jboss.tools.common.text.ext.jsp.JSP_CONVERTER" />
 			</contenttypeidentifier>
 			<contenttypeidentifier id="org.eclipse.jst.jsf.facesconfig.facesConfigFile">
@@ -1208,6 +1341,9 @@
 			<contenttypeidentifier id="jsf.facelet.composite">
 				<partitiontype id="org.jboss.tools.common.text.ext.jsp.JSP_VALIDATOR" />
 			</contenttypeidentifier>
+			<contenttypeidentifier id="org.jboss.tools.jst.jsp.jspincludesource">
+				<partitiontype id="org.jboss.tools.common.text.ext.jsp.JSP_VALIDATOR" />
+			</contenttypeidentifier>
 		</hyperlink>
 
 		<hyperlink 
@@ -1223,6 +1359,9 @@
 				<partitiontype id="org.jboss.tools.common.text.ext.jsp.JSP_FOR_ID" />
 			</contenttypeidentifier>
 			<contenttypeidentifier id="jsf.facelet.composite">
+				<partitiontype id="org.jboss.tools.common.text.ext.jsp.JSP_FOR_ID" />
+			</contenttypeidentifier>
+			<contenttypeidentifier id="org.jboss.tools.jst.jsp.jspincludesource">
 				<partitiontype id="org.jboss.tools.common.text.ext.jsp.JSP_FOR_ID" />
 			</contenttypeidentifier>
 		</hyperlink>
@@ -1261,6 +1400,9 @@
 			<contenttypeidentifier id="jsf.facelet.composite">
 				<partitiontype id="org.jboss.tools.common.text.ext.jsp.JSF_JSP_LINK" />
 			</contenttypeidentifier>
+			<contenttypeidentifier id="org.jboss.tools.jst.jsp.jspincludesource">
+				<partitiontype id="org.jboss.tools.common.text.ext.jsp.JSF_JSP_LINK" />
+			</contenttypeidentifier>
 		</hyperlink>
 		
 		<hyperlink 
@@ -1276,6 +1418,9 @@
 				<partitiontype id="org.jboss.tools.common.text.ext.jsp.JSF2_JSP_LINK" />
 			</contenttypeidentifier>
 			<contenttypeidentifier id="jsf.facelet.composite">
+				<partitiontype id="org.jboss.tools.common.text.ext.jsp.JSF2_JSP_LINK" />
+			</contenttypeidentifier>
+			<contenttypeidentifier id="org.jboss.tools.jst.jsp.jspincludesource">
 				<partitiontype id="org.jboss.tools.common.text.ext.jsp.JSF2_JSP_LINK" />
 			</contenttypeidentifier>
 		</hyperlink>
@@ -1295,6 +1440,9 @@
 			<contenttypeidentifier id="jsf.facelet.composite">
 				<partitiontype id="org.jboss.tools.common.text.ext.jsp.JSF_JSP_XMLNS" />
 			</contenttypeidentifier>
+			<contenttypeidentifier id="org.jboss.tools.jst.jsp.jspincludesource">
+				<partitiontype id="org.jboss.tools.common.text.ext.jsp.JSF_JSP_XMLNS" />
+			</contenttypeidentifier>
 		</hyperlink>
 	
 		<hyperlink 
@@ -1310,6 +1458,9 @@
 				<partitiontype id="org.jboss.tools.common.text.ext.jsp.JSF_JSP_TAGLIB_DIRECTIVE" />
 			</contenttypeidentifier>
 			<contenttypeidentifier id="jsf.facelet.composite">
+				<partitiontype id="org.jboss.tools.common.text.ext.jsp.JSF_JSP_TAGLIB_DIRECTIVE" />
+			</contenttypeidentifier>
+			<contenttypeidentifier id="org.jboss.tools.jst.jsp.jspincludesource">
 				<partitiontype id="org.jboss.tools.common.text.ext.jsp.JSF_JSP_TAGLIB_DIRECTIVE" />
 			</contenttypeidentifier>
 		</hyperlink>
@@ -1329,6 +1480,9 @@
 			<contenttypeidentifier id="jsf.facelet.composite">
 				<partitiontype id="org.jboss.tools.common.text.ext.jsp.JSF_JSP_TAG_ATTRIBUTE" />
 			</contenttypeidentifier>
+			<contenttypeidentifier id="org.jboss.tools.jst.jsp.jspincludesource">
+				<partitiontype id="org.jboss.tools.common.text.ext.jsp.JSF_JSP_TAG_ATTRIBUTE" />
+			</contenttypeidentifier>
 		</hyperlink>
 	
 		<hyperlink 
@@ -1346,6 +1500,9 @@
 			<contenttypeidentifier id="jsf.facelet.composite">
 				<partitiontype id="org.jboss.tools.common.text.ext.jsp.JSF_JSP_TAG_NAME" />
 			</contenttypeidentifier>
+			<contenttypeidentifier id="org.jboss.tools.jst.jsp.jspincludesource">
+				<partitiontype id="org.jboss.tools.common.text.ext.jsp.JSF_JSP_TAG_NAME" />
+			</contenttypeidentifier>
 		</hyperlink>
 		
 		<hyperlink 
@@ -1361,6 +1518,9 @@
 				<partitiontype id="org.jboss.tools.common.text.ext.jsp.EXPRESSION" />
 			</contenttypeidentifier>
 			<contenttypeidentifier id="jsf.facelet.composite">
+				<partitiontype id="org.jboss.tools.common.text.ext.jsp.EXPRESSION" />
+			</contenttypeidentifier>
+			<contenttypeidentifier id="org.jboss.tools.jst.jsp.jspincludesource">
 				<partitiontype id="org.jboss.tools.common.text.ext.jsp.EXPRESSION" />
 			</contenttypeidentifier>
 			<contenttypeidentifier id="org.eclipse.core.runtime.xml">

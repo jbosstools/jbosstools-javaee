@@ -408,16 +408,114 @@
          	<contentType id="org.eclipse.jst.jsp.core.jspsource">
          		<partitionType id="org.jboss.tools.common.text.ext.jsp.JSP_LINK" />
          	</contentType>
+         	<contentType id="org.jboss.tools.jst.jsp.jspincludesource">
+         		<partitionType id="org.jboss.tools.common.text.ext.jsp.JSP_LINK" />
+         	</contentType>
          	<contentType id="org.eclipse.wst.html.core.htmlsource">
          		<partitionType id="org.jboss.tools.common.text.ext.jsp.JSP_LINK" />
          	</contentType>
 		</hyperlinkPartitioner>
-
          
 		<hyperlinkPartitioner 
          	id="org.jboss.tools.common.text.ext.struts.hyperlink.JSPCSSClassHyperlinkPartitioner"
          	class="org.jboss.tools.jst.text.ext.hyperlink.jsp.JSPCSSClassHyperlinkPartitioner">
          	<contentType id="org.eclipse.jst.jsp.core.jspsource">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
+					<axis path="*/[http://jakarta.apache.org/struts/tags-html]:button/styleClass/" />
+					<axis path="*/[http://jakarta.apache.org/struts/tags-html]:cancel/styleClass/" />
+					<axis path="*/[http://jakarta.apache.org/struts/tags-html]:checkbox/styleClass/" />
+					<axis path="*/[http://jakarta.apache.org/struts/tags-html]:checkbox/errorStyleClass/" />
+					<axis path="*/[http://jakarta.apache.org/struts/tags-html]:file/styleClass/" />
+					<axis path="*/[http://jakarta.apache.org/struts/tags-html]:file/errorStyleClass/" />
+					<axis path="*/[http://jakarta.apache.org/struts/tags-html]:form/styleClass/" />
+					<axis path="*/[http://jakarta.apache.org/struts/tags-html]:frame/styleClass/" />
+					<axis path="*/[http://jakarta.apache.org/struts/tags-html]:hidden/styleClass/" />
+					<axis path="*/[http://jakarta.apache.org/struts/tags-html]:image/styleClass/" />
+					<axis path="*/[http://jakarta.apache.org/struts/tags-html]:img/styleClass/" />
+					<axis path="*/[http://jakarta.apache.org/struts/tags-html]:link/styleClass/" />
+					<axis path="*/[http://jakarta.apache.org/struts/tags-html]:multibox/styleClass/" />
+					<axis path="*/[http://jakarta.apache.org/struts/tags-html]:multibox/errorStyleClass/" />
+					<axis path="*/[http://jakarta.apache.org/struts/tags-html]:option/styleClass/" />
+					<axis path="*/[http://jakarta.apache.org/struts/tags-html]:options/styleClass/" />
+					<axis path="*/[http://jakarta.apache.org/struts/tags-html]:optionsCollection/styleClass/" />
+					<axis path="*/[http://jakarta.apache.org/struts/tags-html]:password/styleClass/" />
+					<axis path="*/[http://jakarta.apache.org/struts/tags-html]:password/errorStyleClass/" />
+					<axis path="*/[http://jakarta.apache.org/struts/tags-html]:radio/styleClass/" />
+					<axis path="*/[http://jakarta.apache.org/struts/tags-html]:radio/errorStyleClass/" />
+					<axis path="*/[http://jakarta.apache.org/struts/tags-html]:reset/styleClass/" />
+					<axis path="*/[http://jakarta.apache.org/struts/tags-html]:rewrite/styleClass/" />
+					<axis path="*/[http://jakarta.apache.org/struts/tags-html]:select/styleClass/" />
+					<axis path="*/[http://jakarta.apache.org/struts/tags-html]:select/errorStyleClass/" />
+					<axis path="*/[http://jakarta.apache.org/struts/tags-html]:submit/styleClass/" />
+					<axis path="*/[http://jakarta.apache.org/struts/tags-html]:text/styleClass/" />
+					<axis path="*/[http://jakarta.apache.org/struts/tags-html]:text/errorStyleClass/" />
+					<axis path="*/[http://jakarta.apache.org/struts/tags-html]:textarea/styleClass/" />
+					<axis path="*/[http://jakarta.apache.org/struts/tags-html]:textarea/errorStyleClass/" />
+					
+					<axis path="*/[http://struts.apache.org/tags-html-el]:button/styleClass/" />
+					<axis path="*/[http://struts.apache.org/tags-html-el]:cancel/styleClass/" />
+					<axis path="*/[http://struts.apache.org/tags-html-el]:checkbox/styleClass/" />
+					<axis path="*/[http://struts.apache.org/tags-html-el]:checkbox/errorStyleClass/" />
+					<axis path="*/[http://struts.apache.org/tags-html-el]:file/styleClass/" />
+					<axis path="*/[http://struts.apache.org/tags-html-el]:file/errorStyleClass/" />
+					<axis path="*/[http://struts.apache.org/tags-html-el]:form/styleClass/" />
+					<axis path="*/[http://struts.apache.org/tags-html-el]:frame/styleClass/" />
+					<axis path="*/[http://struts.apache.org/tags-html-el]:hidden/styleClass/" />
+					<axis path="*/[http://struts.apache.org/tags-html-el]:image/styleClass/" />
+					<axis path="*/[http://struts.apache.org/tags-html-el]:img/styleClass/" />
+					<axis path="*/[http://struts.apache.org/tags-html-el]:link/styleClass/" />
+					<axis path="*/[http://struts.apache.org/tags-html-el]:multibox/styleClass/" />
+					<axis path="*/[http://struts.apache.org/tags-html-el]:multibox/errorStyleClass/" />
+					<axis path="*/[http://struts.apache.org/tags-html-el]:option/styleClass/" />
+					<axis path="*/[http://struts.apache.org/tags-html-el]:options/styleClass/" />
+					<axis path="*/[http://struts.apache.org/tags-html-el]:optionsCollection/styleClass/" />
+					<axis path="*/[http://struts.apache.org/tags-html-el]:password/styleClass/" />
+					<axis path="*/[http://struts.apache.org/tags-html-el]:password/errorStyleClass/" />
+					<axis path="*/[http://struts.apache.org/tags-html-el]:radio/styleClass/" />
+					<axis path="*/[http://struts.apache.org/tags-html-el]:radio/errorStyleClass/" />
+					<axis path="*/[http://struts.apache.org/tags-html-el]:reset/styleClass/" />
+					<axis path="*/[http://struts.apache.org/tags-html-el]:rewrite/styleClass/" />
+					<axis path="*/[http://struts.apache.org/tags-html-el]:select/styleClass/" />
+					<axis path="*/[http://struts.apache.org/tags-html-el]:select/errorStyleClass/" />
+					<axis path="*/[http://struts.apache.org/tags-html-el]:submit/styleClass/" />
+					<axis path="*/[http://struts.apache.org/tags-html-el]:text/styleClass/" />
+					<axis path="*/[http://struts.apache.org/tags-html-el]:text/errorStyleClass/" />
+					<axis path="*/[http://struts.apache.org/tags-html-el]:textarea/styleClass/" />
+					<axis path="*/[http://struts.apache.org/tags-html-el]:textarea/errorStyleClass/" />
+					
+					<axis path="*/[http://struts.apache.org/tags-html]:button/styleClass/" />
+					<axis path="*/[http://struts.apache.org/tags-html]:cancel/styleClass/" />
+					<axis path="*/[http://struts.apache.org/tags-html]:checkbox/styleClass/" />
+					<axis path="*/[http://struts.apache.org/tags-html]:checkbox/errorStyleClass/" />
+					<axis path="*/[http://struts.apache.org/tags-html]:file/styleClass/" />
+					<axis path="*/[http://struts.apache.org/tags-html]:file/errorStyleClass/" />
+					<axis path="*/[http://struts.apache.org/tags-html]:form/styleClass/" />
+					<axis path="*/[http://struts.apache.org/tags-html]:frame/styleClass/" />
+					<axis path="*/[http://struts.apache.org/tags-html]:hidden/styleClass/" />
+					<axis path="*/[http://struts.apache.org/tags-html]:image/styleClass/" />
+					<axis path="*/[http://struts.apache.org/tags-html]:img/styleClass/" />
+					<axis path="*/[http://struts.apache.org/tags-html]:link/styleClass/" />
+					<axis path="*/[http://struts.apache.org/tags-html]:multibox/styleClass/" />
+					<axis path="*/[http://struts.apache.org/tags-html]:multibox/errorStyleClass/" />
+					<axis path="*/[http://struts.apache.org/tags-html]:option/styleClass/" />
+					<axis path="*/[http://struts.apache.org/tags-html]:options/styleClass/" />
+					<axis path="*/[http://struts.apache.org/tags-html]:optionsCollection/styleClass/" />
+					<axis path="*/[http://struts.apache.org/tags-html]:password/styleClass/" />
+					<axis path="*/[http://struts.apache.org/tags-html]:password/errorStyleClass/" />
+					<axis path="*/[http://struts.apache.org/tags-html]:radio/styleClass/" />
+					<axis path="*/[http://struts.apache.org/tags-html]:radio/errorStyleClass/" />
+					<axis path="*/[http://struts.apache.org/tags-html]:reset/styleClass/" />
+					<axis path="*/[http://struts.apache.org/tags-html]:rewrite/styleClass/" />
+					<axis path="*/[http://struts.apache.org/tags-html]:select/styleClass/" />
+					<axis path="*/[http://struts.apache.org/tags-html]:select/errorStyleClass/" />
+					<axis path="*/[http://struts.apache.org/tags-html]:submit/styleClass/" />
+					<axis path="*/[http://struts.apache.org/tags-html]:text/styleClass/" />
+					<axis path="*/[http://struts.apache.org/tags-html]:text/errorStyleClass/" />
+					<axis path="*/[http://struts.apache.org/tags-html]:textarea/styleClass/" />
+					<axis path="*/[http://struts.apache.org/tags-html]:textarea/errorStyleClass/" />
+         		</partitionType>
+         	</contentType>
+         	<contentType id="org.jboss.tools.jst.jsp.jspincludesource">
          		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
 					<axis path="*/[http://jakarta.apache.org/struts/tags-html]:button/styleClass/" />
 					<axis path="*/[http://jakarta.apache.org/struts/tags-html]:cancel/styleClass/" />
@@ -531,12 +629,53 @@
 					<axis path="*/[http://struts.apache.org/tags-logic]:iterate/type/" />
            		</partitionType>
          	</contentType>
+         	<contentType id="org.jboss.tools.jst.jsp.jspincludesource">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-bean]:define/type/" />
+					<axis path="*/[http://struts.apache.org/tags-bean-el]:define/type/" />
+					<axis path="*/[http://struts.apache.org/tags-bean]:define/type/" />
+					<axis path="*/[http://jakarta.apache.org/struts/tags-html]:form/type/" />
+					<axis path="*/[http://struts.apache.org/tags-html-el]:form/type/" />
+					<axis path="*/[http://struts.apache.org/tags-html]:form/type/" />
+					<axis path="*/[http://jakarta.apache.org/struts/tags-logic]:iterate/type/" />
+					<axis path="*/[http://struts.apache.org/tags-logic-el]:iterate/type/" />
+					<axis path="*/[http://struts.apache.org/tags-logic]:iterate/type/" />
+           		</partitionType>
+         	</contentType>
 		</hyperlinkPartitioner>
          
 		<hyperlinkPartitioner 
          	id="org.jboss.tools.common.text.ext.struts.hyperlink.JSPLinkHyperlinkPartitioner"
          	class="org.jboss.tools.jst.text.ext.hyperlink.jsp.JSPLinkHyperlinkPartitioner">
          	<contentType id="org.eclipse.jst.jsp.core.jspsource">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-html]:frame/href/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-html]:image/src/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-html]:img/src/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-html]:link/src/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-html]:rewrite/href/" />
+         			
+         			<axis path="*/[http://struts.apache.org/tags-html-el]:frame/href/" />
+         			<axis path="*/[http://struts.apache.org/tags-html-el]:image/src/" />
+         			<axis path="*/[http://struts.apache.org/tags-html-el]:img/src/" />
+         			<axis path="*/[http://struts.apache.org/tags-html-el]:link/src/" />
+         			<axis path="*/[http://struts.apache.org/tags-html-el]:rewrite/href/" />
+
+         			<axis path="*/[http://struts.apache.org/tags-html]:frame/href/" />
+         			<axis path="*/[http://struts.apache.org/tags-html]:image/src/" />
+         			<axis path="*/[http://struts.apache.org/tags-html]:img/src/" />
+         			<axis path="*/[http://struts.apache.org/tags-html]:link/src/" />
+         			<axis path="*/[http://struts.apache.org/tags-html]:rewrite/href/" />
+         			
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-bean]:include/href/" />
+
+         			<axis path="*/[http://struts.apache.org/tags-bean-el]:include/href/" />
+
+         			<axis path="*/[http://struts.apache.org/tags-bean]:include/href/" />
+         			
+         		</partitionType>
+         	</contentType>
+         	<contentType id="org.jboss.tools.jst.jsp.jspincludesource">
          		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
          			<axis path="*/[http://jakarta.apache.org/struts/tags-html]:frame/href/" />
          			<axis path="*/[http://jakarta.apache.org/struts/tags-html]:image/src/" />
@@ -625,12 +764,129 @@
          			<axis path="*/[http://struts.apache.org/tags-logic]:redirect/page/" />
          		</partitionType>
          	</contentType>
+         	<contentType id="org.jboss.tools.jst.jsp.jspincludesource">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-html]:frame/page/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-html]:link/page/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-html]:link/href/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-html]:rewrite/page/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-html]:image/page/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-html]:img/page/" />
+
+         			<axis path="*/[http://struts.apache.org/tags-html-el]:frame/page/" />
+         			<axis path="*/[http://struts.apache.org/tags-html-el]:link/page/" />
+         			<axis path="*/[http://struts.apache.org/tags-html-el]:link/href/" />
+         			<axis path="*/[http://struts.apache.org/tags-html-el]:rewrite/page/" />
+         			<axis path="*/[http://struts.apache.org/tags-html-el]:image/page/" />
+         			<axis path="*/[http://struts.apache.org/tags-html-el]:img/page/" />
+
+         			<axis path="*/[http://struts.apache.org/tags-html]:frame/page/" />
+         			<axis path="*/[http://struts.apache.org/tags-html]:link/page/" />
+         			<axis path="*/[http://struts.apache.org/tags-html]:link/href/" />
+         			<axis path="*/[http://struts.apache.org/tags-html]:rewrite/page/" />
+         			<axis path="*/[http://struts.apache.org/tags-html]:image/page/" />
+         			<axis path="*/[http://struts.apache.org/tags-html]:img/page/" />
+
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-bean]:include/page/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-bean]:include/name/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-bean]:resource/name/" />
+
+         			<axis path="*/[http://struts.apache.org/tags-bean-el]:include/page/" />
+         			<axis path="*/[http://struts.apache.org/tags-bean-el]:include/name/" />
+         			<axis path="*/[http://struts.apache.org/tags-bean-el]:resource/name/" />
+
+         			<axis path="*/[http://struts.apache.org/tags-bean]:include/page/" />
+         			<axis path="*/[http://struts.apache.org/tags-bean]:include/name/" />
+         			<axis path="*/[http://struts.apache.org/tags-bean]:resource/name/" />
+         			
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-logic]:redirect/href/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-logic]:redirect/page/" />
+
+         			<axis path="*/[http://struts.apache.org/tags-logic-el]:redirect/href/" />
+         			<axis path="*/[http://struts.apache.org/tags-logic-el]:redirect/page/" />
+
+         			<axis path="*/[http://struts.apache.org/tags-logic]:redirect/href/" />
+         			<axis path="*/[http://struts.apache.org/tags-logic]:redirect/page/" />
+         		</partitionType>
+         	</contentType>
 		</hyperlinkPartitioner>
         
 		<hyperlinkPartitioner 
          	id="org.jboss.tools.common.text.ext.struts.hyperlink.StrutsBundleHyperlinkPartitioner"
          	class="org.jboss.tools.struts.text.ext.hyperlink.StrutsBundleHyperlinkPartitioner">
          	<contentType id="org.eclipse.jst.jsp.core.jspsource">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-html]:button/bundle/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-html]:cancel/bundle/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-html]:checkbox/bundle/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-html]:errors/bundle/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-html]:file/bundle/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-html]:frame/bundle/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-html]:hidden/bundle/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-html]:img/bundle/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-html]:link/bundle/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-html]:messages/bundle/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-html]:multibox/bundle/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-html]:option/bundle/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-html]:password/bundle/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-html]:radio/bundle/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-html]:reset/bundle/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-html]:select/bundle/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-html]:submit/bundle/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-html]:text/bundle/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-html]:textarea/bundle/" />
+
+         			<axis path="*/[http://struts.apache.org/tags-html-el]:button/bundle/" />
+         			<axis path="*/[http://struts.apache.org/tags-html-el]:cancel/bundle/" />
+         			<axis path="*/[http://struts.apache.org/tags-html-el]:checkbox/bundle/" />
+         			<axis path="*/[http://struts.apache.org/tags-html-el]:errors/bundle/" />
+         			<axis path="*/[http://struts.apache.org/tags-html-el]:file/bundle/" />
+         			<axis path="*/[http://struts.apache.org/tags-html-el]:frame/bundle/" />
+         			<axis path="*/[http://struts.apache.org/tags-html-el]:hidden/bundle/" />
+         			<axis path="*/[http://struts.apache.org/tags-html-el]:img/bundle/" />
+         			<axis path="*/[http://struts.apache.org/tags-html-el]:link/bundle/" />
+         			<axis path="*/[http://struts.apache.org/tags-html-el]:messages/bundle/" />
+         			<axis path="*/[http://struts.apache.org/tags-html-el]:multibox/bundle/" />
+         			<axis path="*/[http://struts.apache.org/tags-html-el]:option/bundle/" />
+         			<axis path="*/[http://struts.apache.org/tags-html-el]:password/bundle/" />
+         			<axis path="*/[http://struts.apache.org/tags-html-el]:radio/bundle/" />
+         			<axis path="*/[http://struts.apache.org/tags-html-el]:reset/bundle/" />
+         			<axis path="*/[http://struts.apache.org/tags-html-el]:select/bundle/" />
+         			<axis path="*/[http://struts.apache.org/tags-html-el]:submit/bundle/" />
+         			<axis path="*/[http://struts.apache.org/tags-html-el]:text/bundle/" />
+         			<axis path="*/[http://struts.apache.org/tags-html-el]:textarea/bundle/" />
+
+         			<axis path="*/[http://struts.apache.org/tags-html]:button/bundle/" />
+         			<axis path="*/[http://struts.apache.org/tags-html]:cancel/bundle/" />
+         			<axis path="*/[http://struts.apache.org/tags-html]:checkbox/bundle/" />
+         			<axis path="*/[http://struts.apache.org/tags-html]:errors/bundle/" />
+         			<axis path="*/[http://struts.apache.org/tags-html]:file/bundle/" />
+         			<axis path="*/[http://struts.apache.org/tags-html]:frame/bundle/" />
+         			<axis path="*/[http://struts.apache.org/tags-html]:hidden/bundle/" />
+         			<axis path="*/[http://struts.apache.org/tags-html]:img/bundle/" />
+         			<axis path="*/[http://struts.apache.org/tags-html]:link/bundle/" />
+         			<axis path="*/[http://struts.apache.org/tags-html]:messages/bundle/" />
+         			<axis path="*/[http://struts.apache.org/tags-html]:multibox/bundle/" />
+         			<axis path="*/[http://struts.apache.org/tags-html]:option/bundle/" />
+         			<axis path="*/[http://struts.apache.org/tags-html]:password/bundle/" />
+         			<axis path="*/[http://struts.apache.org/tags-html]:radio/bundle/" />
+         			<axis path="*/[http://struts.apache.org/tags-html]:reset/bundle/" />
+         			<axis path="*/[http://struts.apache.org/tags-html]:select/bundle/" />
+         			<axis path="*/[http://struts.apache.org/tags-html]:submit/bundle/" />
+         			<axis path="*/[http://struts.apache.org/tags-html]:text/bundle/" />
+         			<axis path="*/[http://struts.apache.org/tags-html]:textarea/bundle/" />
+
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-bean]:message/bundle/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-bean]:write/bundle/" />
+
+         			<axis path="*/[http://struts.apache.org/tags-bean-el]:message/bundle/" />
+         			<axis path="*/[http://struts.apache.org/tags-bean-el]:write/bundle/" />
+
+         			<axis path="*/[http://struts.apache.org/tags-bean]:message/bundle/" />
+         			<axis path="*/[http://struts.apache.org/tags-bean]:write/bundle/" />
+         		</partitionType>
+         	</contentType>
+         	<contentType id="org.jboss.tools.jst.jsp.jspincludesource">
          		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
          			<axis path="*/[http://jakarta.apache.org/struts/tags-html]:button/bundle/" />
          			<axis path="*/[http://jakarta.apache.org/struts/tags-html]:cancel/bundle/" />
@@ -848,6 +1104,127 @@
          			<axis path="*/[http://struts.apache.org/tags-bean]:write/formatKey/" />
          		</partitionType>
          	</contentType>
+         	<contentType id="org.jboss.tools.jst.jsp.jspincludesource">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-html]:button/altKey/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-html]:button/titleKey/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-html]:cancel/altKey/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-html]:cancel/titleKey/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-html]:checkbox/altKey/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-html]:checkbox/titleKey/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-html]:errors/header/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-html]:file/altKey/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-html]:file/titleKey/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-html]:frame/titleKey/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-html]:hidden/altKey/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-html]:hidden/titleKey/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-html]:img/altKey/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-html]:img/titleKey/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-html]:link/titleKey/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-html]:messages/header/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-html]:messages/footer/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-html]:multibox/altKey/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-html]:multibox/titleKey/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-html]:option/key/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-html]:password/altKey/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-html]:password/titleKey/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-html]:radio/altKey/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-html]:radio/titleKey/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-html]:reset/altKey/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-html]:reset/titleKey/" />
+          			<axis path="*/[http://jakarta.apache.org/struts/tags-html]:submit/altKey/" />
+          			<axis path="*/[http://jakarta.apache.org/struts/tags-html]:submit/titleKey/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-html]:text/altKey/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-html]:text/titleKey/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-html]:textarea/altKey/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-html]:textarea/titleKey/" />
+
+         			<axis path="*/[http://struts.apache.org/tags-html-el]:button/altKey/" />
+         			<axis path="*/[http://struts.apache.org/tags-html-el]:button/titleKey/" />
+         			<axis path="*/[http://struts.apache.org/tags-html-el]:cancel/altKey/" />
+         			<axis path="*/[http://struts.apache.org/tags-html-el]:cancel/titleKey/" />
+         			<axis path="*/[http://struts.apache.org/tags-html-el]:checkbox/altKey/" />
+         			<axis path="*/[http://struts.apache.org/tags-html-el]:checkbox/titleKey/" />
+         			<axis path="*/[http://struts.apache.org/tags-html-el]:errors/header/" />
+         			<axis path="*/[http://struts.apache.org/tags-html-el]:file/altKey/" />
+         			<axis path="*/[http://struts.apache.org/tags-html-el]:file/titleKey/" />
+         			<axis path="*/[http://struts.apache.org/tags-html-el]:frame/titleKey/" />
+         			<axis path="*/[http://struts.apache.org/tags-html-el]:hidden/altKey/" />
+         			<axis path="*/[http://struts.apache.org/tags-html-el]:hidden/titleKey/" />
+         			<axis path="*/[http://struts.apache.org/tags-html-el]:img/altKey/" />
+         			<axis path="*/[http://struts.apache.org/tags-html-el]:img/titleKey/" />
+         			<axis path="*/[http://struts.apache.org/tags-html-el]:link/titleKey/" />
+         			<axis path="*/[http://struts.apache.org/tags-html-el]:messages/header/" />
+         			<axis path="*/[http://struts.apache.org/tags-html-el]:messages/footer/" />
+         			<axis path="*/[http://struts.apache.org/tags-html-el]:multibox/altKey/" />
+         			<axis path="*/[http://struts.apache.org/tags-html-el]:multibox/titleKey/" />
+         			<axis path="*/[http://struts.apache.org/tags-html-el]:option/key/" />
+         			<axis path="*/[http://struts.apache.org/tags-html-el]:password/altKey/" />
+         			<axis path="*/[http://struts.apache.org/tags-html-el]:password/titleKey/" />
+         			<axis path="*/[http://struts.apache.org/tags-html-el]:radio/altKey/" />
+         			<axis path="*/[http://struts.apache.org/tags-html-el]:radio/errorKey/" />
+         			<axis path="*/[http://struts.apache.org/tags-html-el]:radio/titleKey/" />
+         			<axis path="*/[http://struts.apache.org/tags-html-el]:reset/altKey/" />
+         			<axis path="*/[http://struts.apache.org/tags-html-el]:reset/titleKey/" />
+          			<axis path="*/[http://struts.apache.org/tags-html-el]:submit/altKey/" />
+          			<axis path="*/[http://struts.apache.org/tags-html-el]:submit/titleKey/" />
+         			<axis path="*/[http://struts.apache.org/tags-html-el]:text/altKey/" />
+         			<axis path="*/[http://struts.apache.org/tags-html-el]:text/titleKey/" />
+         			<axis path="*/[http://struts.apache.org/tags-html-el]:textarea/altKey/" />
+         			<axis path="*/[http://struts.apache.org/tags-html-el]:textarea/titleKey/" />
+
+         			<axis path="*/[http://struts.apache.org/tags-html]:button/altKey/" />
+         			<axis path="*/[http://struts.apache.org/tags-html]:button/titleKey/" />
+         			<axis path="*/[http://struts.apache.org/tags-html]:cancel/altKey/" />
+         			<axis path="*/[http://struts.apache.org/tags-html]:cancel/titleKey/" />
+         			<axis path="*/[http://struts.apache.org/tags-html]:checkbox/altKey/" />
+         			<axis path="*/[http://struts.apache.org/tags-html]:checkbox/titleKey/" />
+         			<axis path="*/[http://struts.apache.org/tags-html]:errors/header/" />
+         			<axis path="*/[http://struts.apache.org/tags-html]:errors/footer/" />
+         			<axis path="*/[http://struts.apache.org/tags-html]:file/altKey/" />
+         			<axis path="*/[http://struts.apache.org/tags-html]:file/titleKey/" />
+         			<axis path="*/[http://struts.apache.org/tags-html]:frame/titleKey/" />
+         			<axis path="*/[http://struts.apache.org/tags-html]:hidden/altKey/" />
+         			<axis path="*/[http://struts.apache.org/tags-html]:hidden/titleKey/" />
+         			<axis path="*/[http://struts.apache.org/tags-html]:img/altKey/" />
+         			<axis path="*/[http://struts.apache.org/tags-html]:img/titleKey/" />
+         			<axis path="*/[http://struts.apache.org/tags-html]:image/altKey/" />
+        			<axis path="*/[http://struts.apache.org/tags-html]:image/titleKey/" />
+         			<axis path="*/[http://struts.apache.org/tags-html]:link/titleKey/" />
+         			<axis path="*/[http://struts.apache.org/tags-html]:messages/header/" />
+         			<axis path="*/[http://struts.apache.org/tags-html]:messages/footer/" />
+         			<axis path="*/[http://struts.apache.org/tags-html]:multibox/altKey/" />
+         			<axis path="*/[http://struts.apache.org/tags-html]:multibox/titleKey/" />
+         			<axis path="*/[http://struts.apache.org/tags-html]:option/key/" />
+         			<axis path="*/[http://struts.apache.org/tags-html]:password/altKey/" />
+         			<axis path="*/[http://struts.apache.org/tags-html]:password/errorKey/" />
+         			<axis path="*/[http://struts.apache.org/tags-html]:password/titleKey/" />
+         			<axis path="*/[http://struts.apache.org/tags-html]:radio/altKey/" />
+         			<axis path="*/[http://struts.apache.org/tags-html]:radio/titleKey/" />
+         			<axis path="*/[http://struts.apache.org/tags-html]:reset/altKey/" />
+         			<axis path="*/[http://struts.apache.org/tags-html]:reset/titleKey/" />
+          			<axis path="*/[http://struts.apache.org/tags-html]:submit/altKey/" />
+          			<axis path="*/[http://struts.apache.org/tags-html]:submit/titleKey/" />
+         			<axis path="*/[http://struts.apache.org/tags-html]:text/altKey/" />
+         			<axis path="*/[http://struts.apache.org/tags-html]:text/titleKey/" />
+         			<axis path="*/[http://struts.apache.org/tags-html]:text/errorKey/" />
+         			<axis path="*/[http://struts.apache.org/tags-html]:textarea/altKey/" />
+         			<axis path="*/[http://struts.apache.org/tags-html]:textarea/titleKey/" />
+         			<axis path="*/[http://struts.apache.org/tags-html]:textarea/errorKey/" />
+         			<axis path="*/[http://struts.apache.org/tags-html]:select/altKey/" />
+         			<axis path="*/[http://struts.apache.org/tags-html]:select/errorKey/" />
+        			<axis path="*/[http://struts.apache.org/tags-html]:select/titleKey/" />
+
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-bean]:message/key/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-bean]:write/formatKey/" />
+
+         			<axis path="*/[http://struts.apache.org/tags-bean-el]:message/key/" />
+         			<axis path="*/[http://struts.apache.org/tags-bean-el]:write/formatKey/" />
+
+         			<axis path="*/[http://struts.apache.org/tags-bean]:message/key/" />
+         			<axis path="*/[http://struts.apache.org/tags-bean]:write/formatKey/" />
+         		</partitionType>
+         	</contentType>
 		</hyperlinkPartitioner>
 
 		<hyperlinkPartitioner 
@@ -913,12 +1290,106 @@
          			<axis path="*/[http://struts.apache.org/tags-html]:textarea/property/" />
          		</partitionType>
          	</contentType>
+         	<contentType id="org.jboss.tools.jst.jsp.jspincludesource">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-html]:button/property/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-html]:cancel/property/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-html]:checkbox/property/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-html]:errors/property/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-html]:file/property/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-html]:hidden/property/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-html]:messages/property/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-html]:multibox/property/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-html]:optionsCollection/property/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-html]:optionsCollection/label/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-html]:optionsCollection/value/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-html]:password/property/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-html]:radio/property/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-html]:reset/property/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-html]:select/property/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-html]:submit/property/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-html]:text/property/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-html]:textarea/property/" />
+
+         			<axis path="*/[http://struts.apache.org/tags-html-el]:button/property/" />
+         			<axis path="*/[http://struts.apache.org/tags-html-el]:cancel/property/" />
+         			<axis path="*/[http://struts.apache.org/tags-html-el]:checkbox/property/" />
+         			<axis path="*/[http://struts.apache.org/tags-html-el]:errors/property/" />
+         			<axis path="*/[http://struts.apache.org/tags-html-el]:file/property/" />
+         			<axis path="*/[http://struts.apache.org/tags-html-el]:hidden/property/" />
+         			<axis path="*/[http://struts.apache.org/tags-html-el]:messages/property/" />
+         			<axis path="*/[http://struts.apache.org/tags-html-el]:multibox/property/" />
+         			<axis path="*/[http://struts.apache.org/tags-html-el]:optionsCollection/property/" />
+         			<axis path="*/[http://struts.apache.org/tags-html-el]:optionsCollection/label/" />
+         			<axis path="*/[http://struts.apache.org/tags-html-el]:optionsCollection/value/" />
+         			<axis path="*/[http://struts.apache.org/tags-html-el]:password/property/" />
+         			<axis path="*/[http://struts.apache.org/tags-html-el]:radio/property/" />
+         			<axis path="*/[http://struts.apache.org/tags-html-el]:reset/property/" />
+         			<axis path="*/[http://struts.apache.org/tags-html-el]:select/property/" />
+         			<axis path="*/[http://struts.apache.org/tags-html-el]:submit/property/" />
+         			<axis path="*/[http://struts.apache.org/tags-html-el]:text/property/" />
+         			<axis path="*/[http://struts.apache.org/tags-html-el]:textarea/property/" />
+
+         			<axis path="*/[http://struts.apache.org/tags-html]:button/property/" />
+         			<axis path="*/[http://struts.apache.org/tags-html]:cancel/property/" />
+         			<axis path="*/[http://struts.apache.org/tags-html]:checkbox/property/" />
+         			<axis path="*/[http://struts.apache.org/tags-html]:errors/property/" />
+         			<axis path="*/[http://struts.apache.org/tags-html]:file/property/" />
+         			<axis path="*/[http://struts.apache.org/tags-html]:hidden/property/" />
+         			<axis path="*/[http://struts.apache.org/tags-html]:messages/property/" />
+         			<axis path="*/[http://struts.apache.org/tags-html]:multibox/property/" />
+         			<axis path="*/[http://struts.apache.org/tags-html]:optionsCollection/property/" />
+         			<axis path="*/[http://struts.apache.org/tags-html]:optionsCollection/label/" />
+         			<axis path="*/[http://struts.apache.org/tags-html]:optionsCollection/value/" />
+         			<axis path="*/[http://struts.apache.org/tags-html]:password/property/" />
+         			<axis path="*/[http://struts.apache.org/tags-html]:radio/property/" />
+         			<axis path="*/[http://struts.apache.org/tags-html]:reset/property/" />
+         			<axis path="*/[http://struts.apache.org/tags-html]:select/property/" />
+         			<axis path="*/[http://struts.apache.org/tags-html]:submit/property/" />
+         			<axis path="*/[http://struts.apache.org/tags-html]:text/property/" />
+         			<axis path="*/[http://struts.apache.org/tags-html]:textarea/property/" />
+         		</partitionType>
+         	</contentType>
+         	
 		</hyperlinkPartitioner>
 
 		<hyperlinkPartitioner 
          	id="org.jboss.tools.common.text.ext.struts.hyperlink.StrutsForwardHyperlinkPartitioner"
          	class="org.jboss.tools.struts.text.ext.hyperlink.StrutsForwardHyperlinkPartitioner">
          	<contentType id="org.eclipse.jst.jsp.core.jspsource">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-html]:frame/forward/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-html]:link/forward/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-html]:rewrite/forward/" />
+         			
+         			<axis path="*/[http://struts.apache.org/tags-html-el]:frame/forward/" />
+         			<axis path="*/[http://struts.apache.org/tags-html-el]:link/forward/" />
+         			<axis path="*/[http://struts.apache.org/tags-html-el]:rewrite/forward/" />
+
+         			<axis path="*/[http://struts.apache.org/tags-html]:frame/forward/" />
+         			<axis path="*/[http://struts.apache.org/tags-html]:link/forward/" />
+         			<axis path="*/[http://struts.apache.org/tags-html]:rewrite/forward/" />
+         			
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-bean]:include/forward/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-bean]:struts/forward/" />
+         			
+         			<axis path="*/[http://struts.apache.org/tags-bean-el]:include/forward/" />
+         			<axis path="*/[http://struts.apache.org/tags-bean-el]:struts/forward/" />
+         			
+         			<axis path="*/[http://struts.apache.org/tags-bean]:include/forward/" />
+         			<axis path="*/[http://struts.apache.org/tags-bean]:struts/forward/" />
+         			
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-logic]:redirect/forward/" />
+         			<axis path="*/[http://struts.apache.org/tags-logic-el]:redirect/forward/" />
+         			<axis path="*/[http://struts.apache.org/tags-logic]:redirect/forward/" />
+         			
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-logic]:forward/name/" />
+         			<axis path="*/[http://struts.apache.org/tags-logic-el]:forward/name/" />
+         			<axis path="*/[http://struts.apache.org/tags-logic]:forward/name/" />
+         			
+         		</partitionType>
+         	</contentType>
+         	<contentType id="org.jboss.tools.jst.jsp.jspincludesource">
          		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
          			<axis path="*/[http://jakarta.apache.org/struts/tags-html]:frame/forward/" />
          			<axis path="*/[http://jakarta.apache.org/struts/tags-html]:link/forward/" />
@@ -977,6 +1448,27 @@
          			<axis path="*/[http://struts.apache.org/tags-logic]:redirect/action/" />
          		</partitionType>
          	</contentType>
+         	<contentType id="org.jboss.tools.jst.jsp.jspincludesource">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-html]:frame/action/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-html]:link/action/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-html]:rewrite/action/" />
+
+         			<axis path="*/[http://struts.apache.org/tags-html-el]:frame/action/" />
+         			<axis path="*/[http://struts.apache.org/tags-html-el]:link/action/" />
+         			<axis path="*/[http://struts.apache.org/tags-html-el]:rewrite/action/" />
+
+         			<axis path="*/[http://struts.apache.org/tags-html]:frame/action/" />
+         			<axis path="*/[http://struts.apache.org/tags-html]:link/action/" />
+         			<axis path="*/[http://struts.apache.org/tags-html]:rewrite/action/" />
+
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-logic]:redirect/action/" />
+
+         			<axis path="*/[http://struts.apache.org/tags-logic-el]:redirect/action/" />
+
+         			<axis path="*/[http://struts.apache.org/tags-logic]:redirect/action/" />
+         		</partitionType>
+         	</contentType>
         </hyperlinkPartitioner>
 
 		<hyperlinkPartitioner 
@@ -989,12 +1481,26 @@
          			<axis path="*/[http://struts.apache.org/tags-html]:form/action/" />
          		</partitionType>
          	</contentType>
+         	<contentType id="org.jboss.tools.jst.jsp.jspincludesource">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-html]:form/action/" />
+         			<axis path="*/[http://struts.apache.org/tags-html-el]:form/action/" />
+         			<axis path="*/[http://struts.apache.org/tags-html]:form/action/" />
+         		</partitionType>
+         	</contentType>
 		</hyperlinkPartitioner>
 
 		<hyperlinkPartitioner 
          	id="org.jboss.tools.common.text.ext.struts.hyperlink.StrutsFormBeanHyperlinkPartitioner"
          	class="org.jboss.tools.struts.text.ext.hyperlink.StrutsFormBeanHyperlinkPartitioner">
          	<contentType id="org.eclipse.jst.jsp.core.jspsource">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-bean]:struts/formBean/" />
+         			<axis path="*/[http://struts.apache.org/tags-bean-el]:struts/formBean/" />
+         			<axis path="*/[http://struts.apache.org/tags-bean]:struts/formBean/" />
+         		</partitionType>
+         	</contentType>
+         	<contentType id="org.jboss.tools.jst.jsp.jspincludesource">
          		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
          			<axis path="*/[http://jakarta.apache.org/struts/tags-bean]:struts/formBean/" />
          			<axis path="*/[http://struts.apache.org/tags-bean-el]:struts/formBean/" />
@@ -1022,6 +1528,13 @@
          	id="org.jboss.tools.common.text.ext.struts.hyperlink.StrutsActionMappingHyperlinkPartitioner"
          	class="org.jboss.tools.struts.text.ext.hyperlink.StrutsActionMappingHyperlinkPartitioner">
          	<contentType id="org.eclipse.jst.jsp.core.jspsource">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-bean]:struts/mapping/" />
+         			<axis path="*/[http://struts.apache.org/tags-bean-el]:struts/mapping/" />
+         			<axis path="*/[http://struts.apache.org/tags-bean]:struts/mapping/" />
+         		</partitionType>
+         	</contentType>
+         	<contentType id="org.jboss.tools.jst.jsp.jspincludesource">
          		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
          			<axis path="*/[http://jakarta.apache.org/struts/tags-bean]:struts/mapping/" />
          			<axis path="*/[http://struts.apache.org/tags-bean-el]:struts/mapping/" />
@@ -1082,12 +1595,106 @@
          			<axis path="*/[http://struts.apache.org/tags-logic]:present/name/" />
          		</partitionType>
          	</contentType>
+         	<contentType id="org.jboss.tools.jst.jsp.jspincludesource">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-bean]:write/name/" />
+         			<axis path="*/[http://struts.apache.org/tags-bean-el]:write/name/" />
+         			<axis path="*/[http://struts.apache.org/tags-bean]:write/name/" />
+
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-logic]:empty/name/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-logic]:equal/name/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-logic]:greaterEqual/name/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-logic]:greaterThan/name/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-logic]:iterate/name/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-logic]:lessEqual/name/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-logic]:lessThan/name/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-logic]:match/name/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-logic]:notEmpty/name/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-logic]:notEqual/name/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-logic]:notMatch/name/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-logic]:notPresent/name/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-logic]:present/name/" />
+
+         			<axis path="*/[http://struts.apache.org/tags-logic-el]:empty/name/" />
+         			<axis path="*/[http://struts.apache.org/tags-logic-el]:equal/name/" />
+         			<axis path="*/[http://struts.apache.org/tags-logic-el]:greaterEqual/name/" />
+         			<axis path="*/[http://struts.apache.org/tags-logic-el]:greaterThan/name/" />
+         			<axis path="*/[http://struts.apache.org/tags-logic-el]:iterate/name/" />
+         			<axis path="*/[http://struts.apache.org/tags-logic-el]:lessEqual/name/" />
+         			<axis path="*/[http://struts.apache.org/tags-logic-el]:lessThan/name/" />
+         			<axis path="*/[http://struts.apache.org/tags-logic-el]:match/name/" />
+         			<axis path="*/[http://struts.apache.org/tags-logic-el]:notEmpty/name/" />
+         			<axis path="*/[http://struts.apache.org/tags-logic-el]:notEqual/name/" />
+         			<axis path="*/[http://struts.apache.org/tags-logic-el]:notMatch/name/" />
+         			<axis path="*/[http://struts.apache.org/tags-logic-el]:notPresent/name/" />
+         			<axis path="*/[http://struts.apache.org/tags-logic-el]:present/name/" />
+
+         			<axis path="*/[http://struts.apache.org/tags-logic]:empty/name/" />
+         			<axis path="*/[http://struts.apache.org/tags-logic]:equal/name/" />
+         			<axis path="*/[http://struts.apache.org/tags-logic]:greaterEqual/name/" />
+         			<axis path="*/[http://struts.apache.org/tags-logic]:greaterThan/name/" />
+         			<axis path="*/[http://struts.apache.org/tags-logic]:iterate/name/" />
+         			<axis path="*/[http://struts.apache.org/tags-logic]:lessEqual/name/" />
+         			<axis path="*/[http://struts.apache.org/tags-logic]:lessThan/name/" />
+         			<axis path="*/[http://struts.apache.org/tags-logic]:match/name/" />
+         			<axis path="*/[http://struts.apache.org/tags-logic]:notEmpty/name/" />
+         			<axis path="*/[http://struts.apache.org/tags-logic]:notEqual/name/" />
+         			<axis path="*/[http://struts.apache.org/tags-logic]:notMatch/name/" />
+         			<axis path="*/[http://struts.apache.org/tags-logic]:notPresent/name/" />
+         			<axis path="*/[http://struts.apache.org/tags-logic]:present/name/" />
+         		</partitionType>
+         	</contentType>
 		</hyperlinkPartitioner>
 
 		<hyperlinkPartitioner 
          	id="org.jboss.tools.common.text.ext.struts.hyperlink.StrutsLogicPropertyHyperlinkPartitioner"
          	class="org.jboss.tools.struts.text.ext.hyperlink.StrutsLogicPropertyHyperlinkPartitioner">
          	<contentType id="org.eclipse.jst.jsp.core.jspsource">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-logic]:empty/property/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-logic]:equal/property/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-logic]:greaterEqual/property/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-logic]:greaterThan/property/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-logic]:iterate/property/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-logic]:lessEqual/property/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-logic]:lessThan/property/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-logic]:match/property/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-logic]:notEmpty/property/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-logic]:notEqual/property/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-logic]:notMatch/property/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-logic]:notPresent/property/" />
+         			<axis path="*/[http://jakarta.apache.org/struts/tags-logic]:present/property/" />
+
+         			<axis path="*/[http://struts.apache.org/tags-logic-el]:empty/property/" />
+         			<axis path="*/[http://struts.apache.org/tags-logic-el]:equal/property/" />
+         			<axis path="*/[http://struts.apache.org/tags-logic-el]:greaterEqual/property/" />
+         			<axis path="*/[http://struts.apache.org/tags-logic-el]:greaterThan/property/" />
+         			<axis path="*/[http://struts.apache.org/tags-logic-el]:iterate/property/" />
+         			<axis path="*/[http://struts.apache.org/tags-logic-el]:lessEqual/property/" />
+         			<axis path="*/[http://struts.apache.org/tags-logic-el]:lessThan/property/" />
+         			<axis path="*/[http://struts.apache.org/tags-logic-el]:match/property/" />
+         			<axis path="*/[http://struts.apache.org/tags-logic-el]:notEmpty/property/" />
+         			<axis path="*/[http://struts.apache.org/tags-logic-el]:notEqual/property/" />
+         			<axis path="*/[http://struts.apache.org/tags-logic-el]:notMatch/property/" />
+         			<axis path="*/[http://struts.apache.org/tags-logic-el]:notPresent/property/" />
+         			<axis path="*/[http://struts.apache.org/tags-logic-el]:present/property/" />
+
+         			<axis path="*/[http://struts.apache.org/tags-logic]:empty/property/" />
+         			<axis path="*/[http://struts.apache.org/tags-logic]:equal/property/" />
+         			<axis path="*/[http://struts.apache.org/tags-logic]:greaterEqual/property/" />
+         			<axis path="*/[http://struts.apache.org/tags-logic]:greaterThan/property/" />
+         			<axis path="*/[http://struts.apache.org/tags-logic]:iterate/property/" />
+         			<axis path="*/[http://struts.apache.org/tags-logic]:lessEqual/property/" />
+         			<axis path="*/[http://struts.apache.org/tags-logic]:lessThan/property/" />
+         			<axis path="*/[http://struts.apache.org/tags-logic]:match/property/" />
+         			<axis path="*/[http://struts.apache.org/tags-logic]:notEmpty/property/" />
+         			<axis path="*/[http://struts.apache.org/tags-logic]:notEqual/property/" />
+         			<axis path="*/[http://struts.apache.org/tags-logic]:notMatch/property/" />
+         			<axis path="*/[http://struts.apache.org/tags-logic]:notPresent/property/" />
+         			<axis path="*/[http://struts.apache.org/tags-logic]:present/property/" />
+         		</partitionType>
+         	</contentType>
+         	<contentType id="org.jboss.tools.jst.jsp.jspincludesource">
          		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
          			<axis path="*/[http://jakarta.apache.org/struts/tags-logic]:empty/property/" />
          			<axis path="*/[http://jakarta.apache.org/struts/tags-logic]:equal/property/" />
@@ -1317,6 +1924,9 @@
          	<contentType id="org.eclipse.jst.jsp.core.jspsource">
          		<partitionType id="org.jboss.tools.common.text.ext.jsp.JSP_TAGLIB" />
          	</contentType>
+         	<contentType id="org.jboss.tools.jst.jsp.jspincludesource">
+         		<partitionType id="org.jboss.tools.common.text.ext.jsp.JSP_TAGLIB" />
+         	</contentType>
 		</hyperlinkPartitioner>
 
 		<hyperlinkPartitioner 
@@ -1325,12 +1935,18 @@
          	<contentType id="org.eclipse.jst.jsp.core.jspsource">
          		<partitionType id="org.jboss.tools.common.text.ext.jsp.JSP_TAG_ATTRIBUTE" />
          	</contentType>
+         	<contentType id="org.jboss.tools.jst.jsp.jspincludesource">
+         		<partitionType id="org.jboss.tools.common.text.ext.jsp.JSP_TAG_ATTRIBUTE" />
+         	</contentType>
 		</hyperlinkPartitioner>
 
 		<hyperlinkPartitioner 
          	id="org.jboss.tools.struts.text.ext.hyperlink.StrutsJSPTagNameHyperlinkPartitioner"
          	class="org.jboss.tools.struts.text.ext.hyperlink.StrutsJSPTagNameHyperlinkPartitioner">
          	<contentType id="org.eclipse.jst.jsp.core.jspsource">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ELEMENT_NAME" />
+         	</contentType>
+         	<contentType id="org.jboss.tools.jst.jsp.jspincludesource">
          		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ELEMENT_NAME" />
          	</contentType>
 		</hyperlinkPartitioner>
@@ -1530,6 +2146,9 @@
 			<contenttypeidentifier id="org.eclipse.jst.jsp.core.jspsource">
 				<partitiontype id="org.jboss.tools.common.text.ext.jsp.STRUTS_JSP_BUNDLE" />
 			</contenttypeidentifier>
+			<contenttypeidentifier id="org.jboss.tools.jst.jsp.jspincludesource">
+				<partitiontype id="org.jboss.tools.common.text.ext.jsp.STRUTS_JSP_BUNDLE" />
+			</contenttypeidentifier>
 		</hyperlink>
 
 		<hyperlink 
@@ -1552,12 +2171,18 @@
 			<contenttypeidentifier id="org.eclipse.jst.jsp.core.jspsource">
 				<partitiontype id="org.jboss.tools.common.text.ext.jsp.STRUTS_JSP_BUNDLE_KEY" />
 			</contenttypeidentifier>
+			<contenttypeidentifier id="org.jboss.tools.jst.jsp.jspincludesource">
+				<partitiontype id="org.jboss.tools.common.text.ext.jsp.STRUTS_JSP_BUNDLE_KEY" />
+			</contenttypeidentifier>
 		</hyperlink>
 
 		<hyperlink 
 			class="org.jboss.tools.struts.text.ext.hyperlink.StrutsPropertyHyperlink" 
     		id="org.jboss.tools.common.text.ext.struts.hyperlink.StrutsPropertyHyperlink">
 			<contenttypeidentifier id="org.eclipse.jst.jsp.core.jspsource">
+				<partitiontype id="org.jboss.tools.common.text.ext.jsp.STRUTS_JSP_PROPERTY" />
+			</contenttypeidentifier>
+			<contenttypeidentifier id="org.jboss.tools.jst.jsp.jspincludesource">
 				<partitiontype id="org.jboss.tools.common.text.ext.jsp.STRUTS_JSP_PROPERTY" />
 			</contenttypeidentifier>
 		</hyperlink>
@@ -1568,12 +2193,18 @@
 			<contenttypeidentifier id="org.eclipse.jst.jsp.core.jspsource">
 				<partitiontype id="org.jboss.tools.common.text.ext.jsp.STRUTS_JSP_FORWARD" />
 			</contenttypeidentifier>
+			<contenttypeidentifier id="org.jboss.tools.jst.jsp.jspincludesource">
+				<partitiontype id="org.jboss.tools.common.text.ext.jsp.STRUTS_JSP_FORWARD" />
+			</contenttypeidentifier>
 		</hyperlink>
 
 		<hyperlink 
 			class="org.jboss.tools.struts.text.ext.hyperlink.StrutsPageHyperlink" 
     		id="org.jboss.tools.common.text.ext.struts.hyperlink.StrutsPageHyperlink">
 			<contenttypeidentifier id="org.eclipse.jst.jsp.core.jspsource">
+				<partitiontype id="org.jboss.tools.common.text.ext.jsp.STRUTS_JSP_PAGE" />
+			</contenttypeidentifier>
+			<contenttypeidentifier id="org.jboss.tools.jst.jsp.jspincludesource">
 				<partitiontype id="org.jboss.tools.common.text.ext.jsp.STRUTS_JSP_PAGE" />
 			</contenttypeidentifier>
 		</hyperlink>
@@ -1585,6 +2216,10 @@
 				<partitiontype id="org.jboss.tools.common.text.ext.jsp.STRUTS_JSP_ACTION" />
 				<partitiontype id="org.jboss.tools.common.text.ext.jsp.STRUTS_JSP_FORM_ACTION" />
 			</contenttypeidentifier>
+			<contenttypeidentifier id="org.jboss.tools.jst.jsp.jspincludesource">
+				<partitiontype id="org.jboss.tools.common.text.ext.jsp.STRUTS_JSP_ACTION" />
+				<partitiontype id="org.jboss.tools.common.text.ext.jsp.STRUTS_JSP_FORM_ACTION" />
+			</contenttypeidentifier>
 		</hyperlink>
 
 		<hyperlink 
@@ -1593,12 +2228,18 @@
 			<contenttypeidentifier id="org.eclipse.jst.jsp.core.jspsource">
 				<partitiontype id="org.jboss.tools.common.text.ext.jsp.JSP_RELATIVE_LINK" />
 			</contenttypeidentifier>
+			<contenttypeidentifier id="org.jboss.tools.jst.jsp.jspincludesource">
+				<partitiontype id="org.jboss.tools.common.text.ext.jsp.JSP_RELATIVE_LINK" />
+			</contenttypeidentifier>
 		</hyperlink>
       
 		<hyperlink 
 			class="org.jboss.tools.struts.text.ext.hyperlink.StrutsLinkHyperlink" 
       		id="org.jboss.tools.common.text.ext.struts.hyperlink.StrutsLinkHyperlink">
 			<contenttypeidentifier id="org.eclipse.jst.jsp.core.jspsource">
+				<partitiontype id="org.jboss.tools.common.text.ext.jsp.STRUTS_JSP_LINK" />
+			</contenttypeidentifier>
+			<contenttypeidentifier id="org.jboss.tools.jst.jsp.jspincludesource">
 				<partitiontype id="org.jboss.tools.common.text.ext.jsp.STRUTS_JSP_LINK" />
 			</contenttypeidentifier>
 			<contenttypeidentifier id="org.eclipse.wst.html.core.htmlsource">
@@ -1610,6 +2251,9 @@
 			class="org.jboss.tools.struts.text.ext.hyperlink.StrutsFormBeanHyperlink" 
     		id="org.jboss.tools.common.text.ext.struts.hyperlink.StrutsFormBeanHyperlink">
 			<contenttypeidentifier id="org.eclipse.jst.jsp.core.jspsource">
+				<partitiontype id="org.jboss.tools.common.text.ext.jsp.STRUTS_JSP_FORM_BEAN" />
+			</contenttypeidentifier>
+			<contenttypeidentifier id="org.jboss.tools.jst.jsp.jspincludesource">
 				<partitiontype id="org.jboss.tools.common.text.ext.jsp.STRUTS_JSP_FORM_BEAN" />
 			</contenttypeidentifier>
 			<contenttypeidentifier id="org.eclipse.wst.xml.core.xmlsource">
@@ -1629,6 +2273,9 @@
 			<contenttypeidentifier id="org.eclipse.jst.jsp.core.jspsource">
 				<partitiontype id="org.jboss.tools.common.text.ext.jsp.STRUTS_JSP_ACTION_MAPPING" />
 			</contenttypeidentifier>
+			<contenttypeidentifier id="org.jboss.tools.jst.jsp.jspincludesource">
+				<partitiontype id="org.jboss.tools.common.text.ext.jsp.STRUTS_JSP_ACTION_MAPPING" />
+			</contenttypeidentifier>
 		</hyperlink>
 
 		<hyperlink 
@@ -1637,12 +2284,18 @@
 			<contenttypeidentifier id="org.eclipse.jst.jsp.core.jspsource">
 				<partitiontype id="org.jboss.tools.common.text.ext.jsp.STRUTS_JSP_BEAN_NAME" />
 			</contenttypeidentifier>
+			<contenttypeidentifier id="org.jboss.tools.jst.jsp.jspincludesource">
+				<partitiontype id="org.jboss.tools.common.text.ext.jsp.STRUTS_JSP_BEAN_NAME" />
+			</contenttypeidentifier>
 		</hyperlink>
 
 		<hyperlink 
 			class="org.jboss.tools.struts.text.ext.hyperlink.StrutsLogicPropertyHyperlink" 
     		id="org.jboss.tools.common.text.ext.struts.hyperlink.StrutsLogicPropertyHyperlink">
 			<contenttypeidentifier id="org.eclipse.jst.jsp.core.jspsource">
+				<partitiontype id="org.jboss.tools.common.text.ext.jsp.STRUTS_JSP_LOGIC_PROPERTY" />
+			</contenttypeidentifier>
+			<contenttypeidentifier id="org.jboss.tools.jst.jsp.jspincludesource">
 				<partitiontype id="org.jboss.tools.common.text.ext.jsp.STRUTS_JSP_LOGIC_PROPERTY" />
 			</contenttypeidentifier>
 		</hyperlink>
@@ -1723,6 +2376,9 @@
 			<contenttypeidentifier id="org.eclipse.jst.jsp.core.jspsource">
 				<partitiontype id="org.jboss.tools.common.text.ext.jsp.STRUTS_JSP_TAGLIB_DIRECTIVE" />
 			</contenttypeidentifier>
+			<contenttypeidentifier id="org.jboss.tools.jst.jsp.jspincludesource">
+				<partitiontype id="org.jboss.tools.common.text.ext.jsp.STRUTS_JSP_TAGLIB_DIRECTIVE" />
+			</contenttypeidentifier>
 		</hyperlink>
 
 		<hyperlink 
@@ -1731,12 +2387,18 @@
 			<contenttypeidentifier id="org.eclipse.jst.jsp.core.jspsource">
 				<partitiontype id="org.jboss.tools.common.text.ext.jsp.STRUTS_JSP_TAG_ATTRIBUTE" />
 			</contenttypeidentifier>
+			<contenttypeidentifier id="org.jboss.tools.jst.jsp.jspincludesource">
+				<partitiontype id="org.jboss.tools.common.text.ext.jsp.STRUTS_JSP_TAG_ATTRIBUTE" />
+			</contenttypeidentifier>
 		</hyperlink>
 
 		<hyperlink 
 			class="org.jboss.tools.struts.text.ext.hyperlink.StrutsJSPTagNameHyperlink" 
     		id="org.jboss.tools.common.text.ext.struts.hyperlink.StrutsJSPTagNameHyperlink">
 			<contenttypeidentifier id="org.eclipse.jst.jsp.core.jspsource">
+				<partitiontype id="org.jboss.tools.common.text.ext.jsp.STRUTS_JSP_TAG_NAME" />
+			</contenttypeidentifier>
+			<contenttypeidentifier id="org.jboss.tools.jst.jsp.jspincludesource">
 				<partitiontype id="org.jboss.tools.common.text.ext.jsp.STRUTS_JSP_TAG_NAME" />
 			</contenttypeidentifier>
 		</hyperlink>

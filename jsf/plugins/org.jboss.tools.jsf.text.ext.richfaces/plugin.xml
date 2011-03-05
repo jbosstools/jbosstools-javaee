@@ -162,6 +162,44 @@
          			<axis path="*/[http://richfaces.org/rich]:inplaceSelect/saveControlIcon/" />
          		</partitionType>
          	</contentType>
+         	<contentType id="org.jboss.tools.jst.jsp.jspincludesource">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
+         			<axis path="*/[http://richfaces.org/a4j]:include/viewId/" />
+         			<axis path="*/[http://richfaces.org/a4j]:loadStyle/src/" />
+         			<axis path="*/[http://richfaces.org/a4j]:commandButton/image/" />
+         			<axis path="*/[http://richfaces.org/a4j]:loadScript/src/" />
+         			<axis path="*/[http://richfaces.org/rich]:insert/src/" />
+         			<axis path="*/[http://richfaces.org/rich]:menuGroug/icon/" />
+         			<axis path="*/[http://richfaces.org/rich]:menuGroug/iconDisabled/" />
+         			<axis path="*/[http://richfaces.org/rich]:menuGroug/iconFolder/" />
+         			<axis path="*/[http://richfaces.org/rich]:menuGroug/iconFolderDisabled/" />
+         			<axis path="*/[http://richfaces.org/rich]:menuItem/icon/" />
+         			<axis path="*/[http://richfaces.org/rich]:menuItem/iconDisabled/" />
+         			<axis path="*/[http://richfaces.org/rich]:tree/icon/" />
+         			<axis path="*/[http://richfaces.org/rich]:tree/iconCollapsed/" />
+         			<axis path="*/[http://richfaces.org/rich]:tree/iconExpanded/" />
+         			<axis path="*/[http://richfaces.org/rich]:tree/iconLeaf/" />
+         			<axis path="*/[http://richfaces.org/rich]:panelMenu/iconCollapsedGroup/" />
+         			<axis path="*/[http://richfaces.org/rich]:panelMenu/iconCollapsedTopGroup/" />
+         			<axis path="*/[http://richfaces.org/rich]:panelMenu/iconDisabledGroup/" />
+         			<axis path="*/[http://richfaces.org/rich]:panelMenu/iconDisabledItem/" />
+         			<axis path="*/[http://richfaces.org/rich]:panelMenu/iconExpandedGroup/" />
+         			<axis path="*/[http://richfaces.org/rich]:panelMenu/iconExpandedTopGroup/" />
+         			<axis path="*/[http://richfaces.org/rich]:panelMenu/iconItem/" />
+         			<axis path="*/[http://richfaces.org/rich]:panelMenu/iconTopDisabledGroup/" />
+         			<axis path="*/[http://richfaces.org/rich]:panelMenu/iconTopDisabledItem/" />
+         			<axis path="*/[http://richfaces.org/rich]:panelMenu/iconTopItem/" />
+         			<axis path="*/[http://richfaces.org/rich]:calendar/buttonIcon/" />
+         			<axis path="*/[http://richfaces.org/rich]:calendar/buttonIconDisabled/" />
+         			<axis path="*/[http://richfaces.org/rich]:comboBox/buttonIcon/" />
+         			<axis path="*/[http://richfaces.org/rich]:comboBox/buttonIconDisabled/" />
+         			<axis path="*/[http://richfaces.org/rich]:comboBox/buttonIconInactive/" />
+         			<axis path="*/[http://richfaces.org/rich]:inplaceInput/cancelControlIcon/" />
+         			<axis path="*/[http://richfaces.org/rich]:inplaceInput/saveControlIcon/" />
+         			<axis path="*/[http://richfaces.org/rich]:inplaceSelect/cancelControlIcon/" />
+         			<axis path="*/[http://richfaces.org/rich]:inplaceSelect/saveControlIcon/" />
+         		</partitionType>
+         	</contentType>
 		</hyperlinkPartitioner>
 
 		<hyperlinkPartitioner 
@@ -319,6 +357,44 @@
          			<axis path="*/[http://richfaces.org/rich]:inplaceSelect/saveControlIcon/" />
          		</partitionType>
          	</contentType>
+         	<contentType id="org.jboss.tools.jst.jsp.jspincludesource">
+         		<partitionType id="org.jboss.tools.common.text.ext.jsp.JSP_LINK" >
+         			<axis path="*/[http://richfaces.org/a4j]:include/viewId/" />
+         			<axis path="*/[http://richfaces.org/a4j]:loadStyle/src/" />
+         			<axis path="*/[http://richfaces.org/a4j]:commandButton/image/" />
+         			<axis path="*/[http://richfaces.org/a4j]:loadScript/src/" />
+         			<axis path="*/[http://richfaces.org/rich]:insert/src/" />
+         			<axis path="*/[http://richfaces.org/rich]:menuGroug/icon/" />
+         			<axis path="*/[http://richfaces.org/rich]:menuGroug/iconDisabled/" />
+         			<axis path="*/[http://richfaces.org/rich]:menuGroug/iconFolder/" />
+         			<axis path="*/[http://richfaces.org/rich]:menuGroug/iconFolderDisabled/" />
+         			<axis path="*/[http://richfaces.org/rich]:menuItem/icon/" />
+         			<axis path="*/[http://richfaces.org/rich]:menuItem/iconDisabled/" />
+         			<axis path="*/[http://richfaces.org/rich]:tree/icon/" />
+         			<axis path="*/[http://richfaces.org/rich]:tree/iconCollapsed/" />
+         			<axis path="*/[http://richfaces.org/rich]:tree/iconExpanded/" />
+         			<axis path="*/[http://richfaces.org/rich]:tree/iconLeaf/" />
+         			<axis path="*/[http://richfaces.org/rich]:panelMenu/iconCollapsedGroup/" />
+         			<axis path="*/[http://richfaces.org/rich]:panelMenu/iconCollapsedTopGroup/" />
+         			<axis path="*/[http://richfaces.org/rich]:panelMenu/iconDisabledGroup/" />
+         			<axis path="*/[http://richfaces.org/rich]:panelMenu/iconDisabledItem/" />
+         			<axis path="*/[http://richfaces.org/rich]:panelMenu/iconExpandedGroup/" />
+         			<axis path="*/[http://richfaces.org/rich]:panelMenu/iconExpandedTopGroup/" />
+         			<axis path="*/[http://richfaces.org/rich]:panelMenu/iconItem/" />
+         			<axis path="*/[http://richfaces.org/rich]:panelMenu/iconTopDisabledGroup/" />
+         			<axis path="*/[http://richfaces.org/rich]:panelMenu/iconTopDisabledItem/" />
+         			<axis path="*/[http://richfaces.org/rich]:panelMenu/iconTopItem/" />
+         			<axis path="*/[http://richfaces.org/rich]:calendar/buttonIcon/" />
+         			<axis path="*/[http://richfaces.org/rich]:calendar/buttonIconDisabled/" />
+         			<axis path="*/[http://richfaces.org/rich]:comboBox/buttonIcon/" />
+         			<axis path="*/[http://richfaces.org/rich]:comboBox/buttonIconDisabled/" />
+         			<axis path="*/[http://richfaces.org/rich]:comboBox/buttonIconInactive/" />
+         			<axis path="*/[http://richfaces.org/rich]:inplaceInput/cancelControlIcon/" />
+         			<axis path="*/[http://richfaces.org/rich]:inplaceInput/saveControlIcon/" />
+         			<axis path="*/[http://richfaces.org/rich]:inplaceSelect/cancelControlIcon/" />
+         			<axis path="*/[http://richfaces.org/rich]:inplaceSelect/saveControlIcon/" />
+         		</partitionType>
+         	</contentType>
 		</hyperlinkPartitioner>
 
 		<hyperlinkPartitioner 
@@ -337,6 +413,10 @@
          		</partitionType>
          	</contentType>
          	<contentType id="jsf.facelet.composite">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
+         		</partitionType>
+         	</contentType>
+         	<contentType id="org.jboss.tools.jst.jsp.jspincludesource">
          		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
          		</partitionType>
          	</contentType>
@@ -539,6 +619,49 @@
 					<axis path="*/[http://richfaces.ajax4jsf.org/rich]:contextMenu/attachTo/" />
          		</partitionType>
          	</contentType>
+         	<contentType id="org.jboss.tools.jst.jsp.jspincludesource">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
+         			<axis path="*/[http://richfaces.org/a4j]:*/focus/" />
+         			<axis path="*/[https://ajax4jsf.dev.java.net/ajax]:*/focus/" />
+         			<axis path="*/[http://richfaces.org/rich]:*/focus/" />
+         			<axis path="*/[http://richfaces.ajax4jsf.org/rich]:*/focus/" />
+
+         			<axis path="*/[http://richfaces.org/a4j]:*/reRender/" />
+         			<axis path="*/[https://ajax4jsf.dev.java.net/ajax]:*/reRender/" />
+         			<axis path="*/[http://richfaces.org/rich]:*/reRender/" />
+         			<axis path="*/[http://richfaces.ajax4jsf.org/rich]:*/reRender/" />
+
+         			<axis path="*/[http://richfaces.org/a4j]:*/status/" />
+         			<axis path="*/[https://ajax4jsf.dev.java.net/ajax]:*/status/" />
+         			<axis path="*/[http://richfaces.org/rich]:*/status/" />
+         			<axis path="*/[http://richfaces.ajax4jsf.org/rich]:*/status/" />
+
+         			<axis path="*/[http://richfaces.org/a4j]:*/for/" />
+         			<axis path="*/[https://ajax4jsf.dev.java.net/ajax]:*/for/" />
+         			<axis path="*/[http://richfaces.org/rich]:*/for/" />
+         			<axis path="*/[http://richfaces.ajax4jsf.org/rich]:*/for/" />
+         			
+         			<axis path="*/[http://richfaces.org/rich]:effect/targetId/" />
+         			<axis path="*/[http://richfaces.ajax4jsf.org/rich]:effect/targetId/" />
+         			
+         			<axis path="*/[http://richfaces.org/rich]:toggleControl/panelId/" />
+         			<axis path="*/[http://richfaces.ajax4jsf.org/rich]:toggleControl/panelId/" />
+         			
+         			<axis path="*/[http://richfaces.org/rich]:*/dragIndicator/" />
+         			<axis path="*/[http://richfaces.ajax4jsf.org/rich]:*/dragIndicator/" />
+         			
+         			<axis path="*/[http://richfaces.org/rich]:*/process/" />
+         			<axis path="*/[http://richfaces.ajax4jsf.org/rich]:*/process/" />
+         			
+         			<axis path="*/[http://richfaces.org/rich]:*/similarityGroupingId/" />
+         			<axis path="*/[http://richfaces.ajax4jsf.org/rich]:*/similarityGroupingId/" />
+
+					<axis path="*/[http://richfaces.org/rich]:progressBar/reRenderAfterComplete/" />
+
+					<axis path="*/[http://richfaces.ajax4jsf.org/rich]:componentControl/attachTo/" />
+					<axis path="*/[http://richfaces.ajax4jsf.org/rich]:contextMenu/attachTo/" />
+         		</partitionType>
+         	</contentType>
 		</hyperlinkPartitioner>
 
 		<hyperlinkPartitioner 
@@ -578,6 +701,17 @@
           		</partitionType>
          	</contentType>
          	<contentType id="jsf.facelet.composite">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
+         		    <axis path="*/[http://richfaces.org/a4j]:*/converter/" />
+         			<axis path="*/[https://ajax4jsf.dev.java.net/ajax]:*/converter/" />
+         			<axis path="*/[http://richfaces.org/rich]:*/converter/" />
+         			<axis path="*/[http://richfaces.ajax4jsf.org/rich]:*/converter/" />
+         			
+         			<axis path="*/[http://richfaces.org/rich]:*/rowKeyConverter/" />
+         			<axis path="*/[http://richfaces.ajax4jsf.org/rich]:*/rowKeyConverter/" />
+          		</partitionType>
+         	</contentType>
+         	<contentType id="org.jboss.tools.jst.jsp.jspincludesource">
          		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
          		    <axis path="*/[http://richfaces.org/a4j]:*/converter/" />
          			<axis path="*/[https://ajax4jsf.dev.java.net/ajax]:*/converter/" />
@@ -981,6 +1115,103 @@
          			<axis path="*/[http://richfaces.org/rich]:*/nodeClass/" />
          		</partitionType>
          	</contentType>
+         	<contentType id="org.jboss.tools.jst.jsp.jspincludesource">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
+         			<axis path="*/[http://richfaces.org/rich]:*/addButtonClass/" />
+					<axis path="*/[http://richfaces.org/rich]:*/activeClass/" />
+					<axis path="*/[http://richfaces.org/rich]:*/activeTabClass/" />
+         			<axis path="*/[http://richfaces.org/rich]:*/buttonClass/" />
+         			<axis path="*/[http://richfaces.org/rich]:*/buttonDisabledClass/" />
+         			<axis path="*/[http://richfaces.org/rich]:*/buttonInactiveClass/" />
+         			<axis path="*/[http://richfaces.org/rich]:*/barClass/" />
+         			<axis path="*/[http://richfaces.org/rich]:*/bottomControlClass/" />
+         			<axis path="*/[http://richfaces.org/rich]:*/bodyClass/" />
+         			<axis path="*/[http://richfaces.org/rich]:*/columnClasses/" />
+         			<axis path="*/[http://richfaces.org/rich]:*/controlClass/" />
+         			<axis path="*/[http://richfaces.org/rich]:*/controlsClass/" />
+         			<axis path="*/[http://richfaces.org/rich]:*/controlHoverClass/" />
+         			<axis path="*/[http://richfaces.org/rich]:*/controlPressedClass/" />
+         			<axis path="*/[http://richfaces.org/rich]:*/controlPressClass/" />
+         			<axis path="*/[http://richfaces.org/rich]:*/cleanButtonClass/" />
+         			<axis path="*/[http://richfaces.org/rich]:*/changedClass/" />
+         			<axis path="*/[http://richfaces.org/rich]:*/changedHoverClass/" />
+         			<axis path="*/[http://richfaces.org/rich]:*/copyAllControlClass/" />
+         			<axis path="*/[http://richfaces.org/rich]:*/copyControlClass/" />
+         			<axis path="*/[http://richfaces.org/rich]:*/contentClass/" />
+         			<axis path="*/[http://richfaces.org/rich]:*/completeClass/" />
+         			<axis path="*/[http://richfaces.org/rich]:*/dayStyleClass/" />
+         			<axis path="*/[http://richfaces.org/rich]:*/decreaseClass/" />
+         			<axis path="*/[http://richfaces.org/rich]:*/decreaseSelectedClass/" />
+         			<axis path="*/[http://richfaces.org/rich]:*/disabledItemClass/" />
+         			<axis path="*/[http://richfaces.org/rich]:*/disabledControlClass/" />
+         			<axis path="*/[http://richfaces.org/rich]:*/downControlClass/" />
+         			<axis path="*/[http://richfaces.org/rich]:*/disabledGroupClass/" />
+         			<axis path="*/[http://richfaces.org/rich]:*/disabledClass/" />
+         			<axis path="*/[http://richfaces.org/rich]:*/errorClass/" />
+         			<axis path="*/[http://richfaces.org/rich]:*/errorLabelClass/" />
+         			<axis path="*/[http://richfaces.org/rich]:*/errorMarkerClass/" />
+         			<axis path="*/[http://richfaces.org/rich]:*/entryClass/" />
+         			<axis path="*/[http://richfaces.org/rich]:*/footerClass/" />
+         			<axis path="*/[http://richfaces.org/rich]:*/fileEntryClass/" />
+         			<axis path="*/[http://richfaces.org/rich]:*/fileEntryControlClass/" />
+         			<axis path="*/[http://richfaces.org/rich]:*/fatalClass/" />
+         			<axis path="*/[http://richfaces.org/rich]:*/fatalLabelClass/" />
+         			<axis path="*/[http://richfaces.org/rich]:*/fatalMarkerClass/" />
+         			<axis path="*/[http://richfaces.org/rich]:*/finishClass/" />
+         			<axis path="*/[http://richfaces.org/rich]:*/headerClass/" />
+         			<axis path="*/[http://richfaces.org/rich]:*/handleClass/" />
+         			<axis path="*/[http://richfaces.org/rich]:*/handleSelectedClass/" />
+         			<axis path="*/[http://richfaces.org/rich]:*/hoveredGroupClass/" />
+         			<axis path="*/[http://richfaces.org/rich]:*/hoveredItemClass/" />
+         			<axis path="*/[http://richfaces.org/rich]:*/highlightedClass/" />
+         			<axis path="*/[http://richfaces.org/rich]:*/inputClass/" />
+         			<axis path="*/[http://richfaces.org/rich]:*/inputDisabledClass/" />
+         			<axis path="*/[http://richfaces.org/rich]:*/inputInactiveClass/" />
+         			<axis path="*/[http://richfaces.org/rich]:*/itemClass/" />
+         			<axis path="*/[http://richfaces.org/rich]:*/itemSelectedClass/" />
+         			<axis path="*/[http://richfaces.org/rich]:*/increaseClass/" />
+         			<axis path="*/[http://richfaces.org/rich]:*/increaseSelectedClass/" />
+         			<axis path="*/[http://richfaces.org/rich]:*/iconClass/" />
+         			<axis path="*/[http://richfaces.org/rich]:*/infoClass/" />
+         			<axis path="*/[http://richfaces.org/rich]:*/infoLabelClass/" />
+         			<axis path="*/[http://richfaces.org/rich]:*/infoMarkerClass/" />
+         			<axis path="*/[http://richfaces.org/rich]:*/initialClass/" />
+         			<axis path="*/[http://richfaces.org/rich]:*/listClass/" />
+         			<axis path="*/[http://richfaces.org/rich]:*/labelClass/" />
+         			<axis path="*/[http://richfaces.org/rich]:*/popupClass/" />
+         			<axis path="*/[http://richfaces.org/rich]:*/rowClasses/" />
+         			<axis path="*/[http://richfaces.org/rich]:*/removeAllControlClass/" />
+         			<axis path="*/[http://richfaces.org/rich]:*/removeControlClass/" />
+         			<axis path="*/[http://richfaces.org/rich]:*/remainClass/" />
+         			<axis path="*/[http://richfaces.org/rich]:*/styleClass/" />
+         			<axis path="*/[http://richfaces.org/rich]:*/selectItemClass/" />
+         			<axis path="*/[http://richfaces.org/rich]:*/stopButtonClass/" />
+         			<axis path="*/[http://richfaces.org/rich]:*/selectClass/" />
+         			<axis path="*/[http://richfaces.org/rich]:*/sidebarClass/" />
+         			<axis path="*/[http://richfaces.org/rich]:*/selectedClass/" />
+         			<axis path="*/[http://richfaces.org/rich]:*/selectValueClass/" />
+         			<axis path="*/[http://richfaces.org/rich]:*/separatorClass/" />
+         			<axis path="*/[http://richfaces.org/rich]:*/uploadButtonClass/" />
+         			<axis path="*/[http://richfaces.org/rich]:*/uploadListClass/" />
+         			<axis path="*/[http://richfaces.org/rich]:*/upControlClass/" />
+         			<axis path="*/[http://richfaces.org/rich]:*/editClass/" />
+         			<axis path="*/[http://richfaces.org/rich]:*/viewClass/" />
+         			<axis path="*/[http://richfaces.org/rich]:*/viewHoverClass/" />
+         			<axis path="*/[http://richfaces.org/rich]:*/tipClass/" />
+         			<axis path="*/[http://richfaces.org/rich]:*/topControlClass/" />
+         			<axis path="*/[http://richfaces.org/rich]:*/topGroupClass/" />
+         			<axis path="*/[http://richfaces.org/rich]:*/topItemClass/" />
+         			<axis path="*/[http://richfaces.org/rich]:*/tabClass/" />
+         			<axis path="*/[http://richfaces.org/rich]:*/markerClass/" />
+         			<axis path="*/[http://richfaces.org/rich]:*/warnClass/" />
+         			<axis path="*/[http://richfaces.org/rich]:*/warnLabelClass/" />
+         			<axis path="*/[http://richfaces.org/rich]:*/warnMarkerClass/" />
+         			<axis path="*/[http://richfaces.org/rich]:*/groupClass/" />
+         			<axis path="*/[http://richfaces.org/rich]:*/disabledTabClass/" />
+         			<axis path="*/[http://richfaces.org/rich]:*/inactiveTabClass/" />
+         			<axis path="*/[http://richfaces.org/rich]:*/nodeClass/" />
+         		</partitionType>
+         	</contentType>
 		</hyperlinkPartitioner>
 
 	</extension>	
@@ -1003,6 +1234,9 @@
 				<partitiontype id="org.jboss.tools.common.text.ext.jsp.JSP_RICHFACES_LOADBUNDLE" />
 			</contenttypeidentifier>
 			<contenttypeidentifier id="jsf.facelet.composite">
+				<partitiontype id="org.jboss.tools.common.text.ext.jsp.JSP_RICHFACES_LOADBUNDLE" />
+			</contenttypeidentifier>
+			<contenttypeidentifier id="org.jboss.tools.jst.jsp.jspincludesource">
 				<partitiontype id="org.jboss.tools.common.text.ext.jsp.JSP_RICHFACES_LOADBUNDLE" />
 			</contenttypeidentifier>
 		</hyperlink>

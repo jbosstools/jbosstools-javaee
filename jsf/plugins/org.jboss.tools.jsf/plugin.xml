@@ -532,6 +532,9 @@
              <contentType
                    id="org.eclipse.jst.jsp.core.jspsource">
              </contentType>
+             <contentType
+                   id="org.jboss.tools.jst.jsp.jspincludesource">
+             </contentType>
           </rules>
        </include>
     </validator>
@@ -612,6 +615,10 @@
                id="org.eclipse.jst.jsp.core.jspsource">
             <partitionType id="org.eclipse.jst.jsp.DEFAULT_JSP"/>
          </contentTypeIdentifier>
+         <contentTypeIdentifier
+               id="org.jboss.tools.jst.jsp.jspincludesource">
+            <partitionType id="org.eclipse.jst.jsp.DEFAULT_JSP"/>
+         </contentTypeIdentifier>
     </validator>
  </extension>
  <extension
@@ -632,6 +639,11 @@
          </contentTypeIdentifier>
          <contentTypeIdentifier
                id="org.eclipse.jst.jsp.core.jspsource">
+            <partitionType
+                  id="org.eclipse.wst.html.HTML_DEFAULT"/>
+         </contentTypeIdentifier>
+         <contentTypeIdentifier
+               id="org.jboss.tools.jst.jsp.jspincludesource">
             <partitionType
                   id="org.eclipse.wst.html.HTML_DEFAULT"/>
          </contentTypeIdentifier>
@@ -670,6 +682,9 @@
              </fileext>
              <contentType
                    id="org.eclipse.jst.jsp.core.jspsource">
+             </contentType>
+             <contentType
+                   id="org.jboss.tools.jst.jsp.jspincludesource">
              </contentType>
           </rules>
        </include>
