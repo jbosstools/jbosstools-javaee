@@ -236,6 +236,7 @@
   XMLSUBPATH="absolute-ordering" name="JSFAbsoluteOrdering20">
   <XChildrenEntities>
    <XChildEntity name="JSFOrderingName20"/>
+   <XChildEntity maxCount="1" name="JSFOthers"/>
   </XChildrenEntities>
   <XEntityRenderer>
    <ICONS>
@@ -248,13 +249,6 @@
    </XModelAttribute>
    <XModelAttribute PROPERTIES="id=true" default="Absolute Ordering"
     name="name" visibility="false"/>
-   <XModelAttribute PROPERTIES="category=general" default="false" name="others">
-    <Constraint loader="List">
-     <value name="true"/>
-     <value name="false"/>
-    </Constraint>
-    <Editor name="List"/>
-   </XModelAttribute>
   </XModelAttributes>
   <XActionItem kind="list">
    <XActionItem kind="list" name="CreateActions">
@@ -263,6 +257,11 @@
      <EntityData EntityName="JSFOrderingName20">
       <AttributeData AttributeName="name"/>
      </EntityData>
+    </XActionItem>
+    <XActionItem HandlerClassName="%DefaultReplaceUnique%"
+     ICON="action.empty" PROPERTIES="child=others;significanceMessageClass=%Replace%"
+     displayName="Add Others..." kind="action" name="AddOthers">
+     <EntityData EntityName="JSFOthers"/>
     </XActionItem>
    </XActionItem>
    <XActionItem ICON="action.delete" displayName="Delete" kind="list" name="DeleteActions">
@@ -1502,6 +1501,39 @@
   <XDependencies/>
  </XModelEntity>
  <XModelEntity ImplementingClass="%Custom%"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData"
+  XMLSUBPATH="others" name="JSFOthers">
+  <XChildrenEntities/>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.jsf.property" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="others" loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="id=true" default="others" name="name" visibility="false"/>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem ICON="action.delete" displayName="Delete" kind="list" name="DeleteActions">
+    <XActionItem BaseActionName="Delete" HandlerClassName="%Delete%"
+     ICON="action.delete" displayName="Delete" kind="action" name="Delete"/>
+   </XActionItem>
+   <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
+    <XActionItem BaseActionName="Cut" HandlerClassName="%Cut%"
+     ICON="action.cut" displayName="Cut" kind="action" name="Cut"/>
+    <XActionItem BaseActionName="Copy" HandlerClassName="%Copy%"
+     ICON="action.copy" displayName="Copy" kind="action" name="Copy"/>
+   </XActionItem>
+   <XActionItem displayName="move" kind="list" name="MoveActions">
+    <XActionItem HIDE="always" HandlerClassName="%Move%"
+     ICON="action.move" displayName="Move" kind="action" name="Move"/>
+   </XActionItem>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity ImplementingClass="%Custom%"
   PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData;saveDefault=false"
   XMLSUBPATH="redirect" name="JSFRedirect20">
   <XChildrenEntities>
@@ -1706,7 +1738,8 @@
   </XActionItem>
   <XDependencies/>
  </XModelEntity>
- <XModelEntity ImplementingClass="org.jboss.tools.jsf.model.impl.SystemEventListenerObjectImpl"
+ <XModelEntity
+  ImplementingClass="org.jboss.tools.jsf.model.impl.SystemEventListenerObjectImpl"
   PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.jsf.ui.editor.form.JSFFormLayoutData"
   XMLSUBPATH="system-event-listener" name="JSFSystemEventListener">
   <XChildrenEntities/>
