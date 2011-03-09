@@ -156,7 +156,14 @@ public class CDIProblemMarkerResolutionGenerator implements
 		IBean[] bs = injectionPoint.getCDIProject().getBeans();
 		
 		String injectionPointTypeName = injectionPoint.getClassBean().getBeanClass().getFullyQualifiedName();
-		String injectionPointPackage = injectionPointTypeName.substring(0,injectionPointTypeName.lastIndexOf(MarkerResolutionUtils.DOT));
+		String injectionPointPackage = null;
+		
+		int dotLastIndex = injectionPointTypeName.lastIndexOf(MarkerResolutionUtils.DOT);
+		
+		if(dotLastIndex < 0)
+			injectionPointPackage = "";
+		else
+			injectionPointPackage = injectionPointTypeName.substring(0, dotLastIndex);
 
 		ArrayList<IBean> beans = new ArrayList<IBean>();
     	for(IBean bean : bs){
@@ -168,7 +175,15 @@ public class CDIProblemMarkerResolutionGenerator implements
 					CDIUIPlugin.getDefault().logError(ex);
 				}
     			String beanTypeName = bean.getBeanClass().getFullyQualifiedName();
-    			String beanPackage = beanTypeName.substring(0,beanTypeName.lastIndexOf(MarkerResolutionUtils.DOT));
+    			String beanPackage = null;
+    			
+    			dotLastIndex = beanTypeName.lastIndexOf(MarkerResolutionUtils.DOT);
+    			
+    			if(dotLastIndex < 0)
+    				beanPackage = "";
+    			else
+    				beanPackage = beanTypeName.substring(0,dotLastIndex);
+    			
     			if(isPublic || injectionPointPackage.equals(beanPackage))
     				beans.add(bean);
     		}
@@ -197,9 +212,7 @@ public class CDIProblemMarkerResolutionGenerator implements
 		
 		IInjectionPoint ip = CDIUtil.findInjectionPoint(allBeans, element, start);
 		
-		//if(ip instanceof IInjectionPointField)
-			return ip;
-		//return null;
+		return ip;
 	}
 	
 	private List<IBean> findBeans(IInjectionPoint injectionPoint){
