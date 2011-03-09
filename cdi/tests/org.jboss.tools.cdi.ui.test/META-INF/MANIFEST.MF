@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Contexts and Dependency Injection UI Test
 Bundle-SymbolicName: org.jboss.tools.cdi.ui.test
-Bundle-Version: 1.1.0.qualifier
+Bundle-Version: 1.2.0.qualifier
 Bundle-Vendor: JBoss by Red Hat
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Require-Bundle: org.junit,
@@ -23,5 +23,5 @@ Require-Bundle: org.junit,
  org.eclipse.jdt.ui,
  org.eclipse.ui.ide,
  org.jboss.tools.jst.jsp.base.test,
- org.eclipse.ltk.core.refactoring;bundle-version="3.5.100"
+ org.eclipse.ltk.core.refactoring
 Export-Package: org.jboss.tools.cdi.ui.test
