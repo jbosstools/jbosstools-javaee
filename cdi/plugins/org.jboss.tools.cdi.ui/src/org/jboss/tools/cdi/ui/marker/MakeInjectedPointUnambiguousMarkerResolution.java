@@ -28,8 +28,8 @@ import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.core.IQualifier;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
-import org.jboss.tools.cdi.ui.wizard.AddQualifiersToBeanComposite;
 import org.jboss.tools.cdi.ui.wizard.AddQualifiersToBeanWizard;
+import org.jboss.tools.cdi.ui.wizard.xpl.AddQualifiersToBeanComposite;
 
 /**
  * @author Daniel Azarov

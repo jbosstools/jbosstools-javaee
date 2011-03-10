@@ -1,4 +1,16 @@
-package org.jboss.tools.cdi.ui.wizard;
+/*******************************************************************************
+ * Copyright (c) 2000, 2011 IBM Corporation and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     IBM Corporation - initial API and implementation
+ *     Exadel, Inc.
+ *     Red Hat, Inc.
+ *******************************************************************************/
+package org.jboss.tools.cdi.ui.wizard.xpl;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -55,6 +67,8 @@ import org.jboss.tools.cdi.core.IQualifier;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
 import org.jboss.tools.cdi.ui.CDIUIPlugin;
 import org.jboss.tools.cdi.ui.marker.MarkerResolutionUtils;
+import org.jboss.tools.cdi.ui.wizard.AbstractModifyInjectionPointWizard;
+import org.jboss.tools.cdi.ui.wizard.NewQualifierCreationWizard;
 
 public class AddQualifiersToBeanComposite extends Composite {
 	private static Font font;

@@ -17,6 +17,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IQualifier;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
+import org.jboss.tools.cdi.ui.wizard.xpl.AddQualifiersToBeanComposite;
 
 public class AddQualifiersToBeanWizardPage extends WizardPage{
 
