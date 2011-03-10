@@ -81,7 +81,10 @@ public class CDIPreferences extends SeverityPreferences {
 	public static final String MISSING_NONBINDING_IN_INTERCEPTOR_BINDING_TYPE_MEMBER = INSTANCE.createSeverityOption("missingNonbindingInInterceptorBindingTypeMember"); //$NON-NLS-1$
 
 	public static final String MISSING_OR_INCORRECT_TARGET_OR_RETENTION_IN_ANNOTATION_TYPE = INSTANCE.createSeverityOption("missingOrIncorrectTargetOrRetentionInAnnotationType"); //$NON-NLS-1$
-
+//  Section 6.6.4 - Validation of passivation capable beans and dependencies
+//  - If a managed bean which declares a passivating scope is not passivation capable, then the container automatically detects the problem and treats it as a deployment problem.
+	public static final String NOT_PASSIVATION_CAPABLE_BEAN = INSTANCE.createSeverityOption("notPassivationCapableBean"); //$NON-NLS-1$
+	
 	//Scope group
 
 //	- bean class or producer method or field specifies multiple scope type annotations (2.4.3)

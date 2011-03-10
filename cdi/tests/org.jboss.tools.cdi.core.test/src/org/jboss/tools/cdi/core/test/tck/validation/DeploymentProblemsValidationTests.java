@@ -242,4 +242,16 @@ public class DeploymentProblemsValidationTests extends ValidationTest {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/decorators/definition/broken/finalBeanMethod/TimestampLogger.java");
 		assertMarkerIsCreated(file, MessageFormat.format(CDIValidationMessages.DECORATOR_RESOLVES_TO_FINAL_METHOD, "MockLogger", "log(String string)"), 31);
 	}
+
+	/**
+	 * 6.6.4 Validation of passivation capable beans and dependencies
+	 * - If a managed bean which declares a passivating scope is not passivation capable, then the container automatically detects the problem and treats it as a deployment problem.
+	 * 
+	 * See https://issues.jboss.org/browse/JBIDE-3126
+	 * @throws Exception
+	 */
+	public void testSimpleWebBeanWithNonSerializableImplementationClassFails() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/context/passivating/broken/nonPassivationCapableManagedBeanHasPassivatingScope/Hamina_Broken.java");
+		assertMarkerIsCreated(file, MessageFormat.format(CDIValidationMessages.NOT_PASSIVATION_CAPABLE_BEAN, "Hamina_Broken", "SessionScoped"), 22);
+	}
 }

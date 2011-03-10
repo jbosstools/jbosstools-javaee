@@ -1,7 +1,5 @@
 package org.jboss.tools.cdi.core.test;
 
-
-
 import java.io.IOException;
 import java.util.Set;
 
@@ -9,7 +7,6 @@ import junit.framework.TestCase;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
@@ -32,7 +29,6 @@ public class WeldJarTest extends TestCase {
 	public WeldJarTest() {}
 
 	public void setUp() throws Exception {
-		System.out.println("setUUUUUUUUUUUp");
 		project1 = ResourcesUtils.importProject(PLUGIN_ID, "/projects/CDITest1");
 		JobUtils.waitForIdle();
 		project1.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());

@@ -1667,12 +1667,13 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 				CDICorePlugin.getDefault().logError(e);
 			}
 		}
-		/*
-		 * 9.3. Binding an interceptor to a bean
-		 *  - managed bean has a class level interceptor binding and is declared final or has a non-static, non-private, final method
-		 *  - non-static, non-private, final method of a managed bean has a method level interceptor binding
-		 */
+
 		try {
+			/*
+			 * 9.3. Binding an interceptor to a bean
+			 *  - managed bean has a class level interceptor binding and is declared final or has a non-static, non-private, final method
+			 *  - non-static, non-private, final method of a managed bean has a method level interceptor binding
+			 */
 			Set<IInterceptorBinding> bindings = bean.getInterceptorBindings();
 			if(!bindings.isEmpty()) {
 				if(Flags.isFinal(bean.getBeanClass().getFlags())) {
@@ -1701,6 +1702,42 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 							if(Flags.isFinal(flags) && !Flags.isStatic(flags) && !Flags.isPrivate(flags)) {
 								ITextSourceReference reference = CDIUtil.convertToSourceReference(sourceMethod.getNameRange());
 								addError(CDIValidationMessages.ILLEGAL_INTERCEPTOR_BINDING_METHOD, CDIPreferences.ILLEGAL_INTERCEPTOR_BINDING_METHOD, reference, bean.getResource());
+							}
+						}
+					}
+				}
+			}
+
+			/*
+			 * 6.6.4 Validation of passivation capable beans and dependencies
+			 * - If a managed bean which declares a passivating scope is not passivation capable, then the container automatically detects the problem and treats it as a deployment problem.
+	 		 */
+			IScope scope = bean.getScope();
+			if(scope!=null && scope.isNorlmalScope()) {
+				IAnnotationDeclaration normalScopeDeclaration = scope.getAnnotationDeclaration(CDIConstants.NORMAL_SCOPE_ANNOTATION_TYPE_NAME);
+				if(normalScopeDeclaration!=null) {
+					IAnnotation annt = normalScopeDeclaration.getDeclaration();
+					if(annt!=null) {
+						boolean passivatingScope = false;
+						IMemberValuePair[] pairs = annt.getMemberValuePairs();
+						for (IMemberValuePair pair : pairs) {
+							if("passivating".equals(pair.getMemberName()) && "true".equalsIgnoreCase("" + pair.getValue())) {
+								passivatingScope = true;
+								break;
+							}
+						}
+						if(passivatingScope) {
+							boolean passivatingCapable = false;
+							Set<IParametedType> supers = bean.getAllTypes();
+							for (IParametedType type : supers) {
+								if("java.io.Serializable".equals(type.getType().getFullyQualifiedName())) {
+									passivatingCapable = true;
+									break;
+								}
+							}
+							if(!passivatingCapable) {
+								ITextSourceReference reference = CDIUtil.convertToSourceReference(bean.getBeanClass().getNameRange());
+								addError(MessageFormat.format(CDIValidationMessages.NOT_PASSIVATION_CAPABLE_BEAN, bean.getSimpleJavaName(), scope.getSourceType().getElementName()), CDIPreferences.NOT_PASSIVATION_CAPABLE_BEAN, reference, bean.getResource());
 							}
 						}
 					}
