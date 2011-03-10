@@ -211,6 +211,9 @@ b) Classes which are declared final or have final methods cannot be proxied by t
 c) Primitive types cannot be proxied by the container. 
 d) Array types cannot be proxied by the container. 
 
+6.6.4 Validation of passivation capable beans and dependencies
+- If a managed bean which declares a passivating scope is not passivation capable, then the container automatically detects the problem and treats it as a deployment problem.
+
 8.3. Decorator resolution 
 - If a decorator matches a managed bean, and the managed bean class is declared final, the container automatically detects 
   the problem and treats it as a deployment problem. 

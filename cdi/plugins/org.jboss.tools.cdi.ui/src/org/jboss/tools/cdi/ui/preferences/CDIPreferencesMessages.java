@@ -56,6 +56,7 @@ public class CDIPreferencesMessages extends NLS {
 	public static String CDIValidatorConfigurationBlock_pb_missingNonbindingInQualifierTypeMember_label;
 	public static String CDIValidatorConfigurationBlock_pb_missingNonbindingInInterceptorBindingTypeMember_label;
 	public static String CDIValidatorConfigurationBlock_pb_missingOrIncorrectTargetOrRetentionInAnnotationType_label;
+	public static String CDIValidatorConfigurationBlock_pb_notPassivationCapableBean_label;
 
 	// Scope
 	public static String CDIValidatorConfigurationBlock_section_scope;

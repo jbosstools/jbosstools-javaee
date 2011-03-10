@@ -57,6 +57,7 @@ public class CDIConfigurationBlock extends SeverityConfigurationBlock {
 			{CDIPreferences.MISSING_NONBINDING_IN_QUALIFIER_TYPE_MEMBER, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_missingNonbindingInQualifierTypeMember_label},
 			{CDIPreferences.MISSING_NONBINDING_IN_INTERCEPTOR_BINDING_TYPE_MEMBER, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_missingNonbindingInInterceptorBindingTypeMember_label},
 			{CDIPreferences.MISSING_OR_INCORRECT_TARGET_OR_RETENTION_IN_ANNOTATION_TYPE, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_missingOrIncorrectTargetOrRetentionInAnnotationType_label},
+			{CDIPreferences.NOT_PASSIVATION_CAPABLE_BEAN, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_notPassivationCapableBean_label},
 		},
 		CDICorePlugin.PLUGIN_ID
 	);
