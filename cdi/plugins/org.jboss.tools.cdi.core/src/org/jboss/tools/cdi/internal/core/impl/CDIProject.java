@@ -744,7 +744,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 					} catch (JavaModelException e) {
 						CDICorePlugin.getDefault().logError(e);
 					}
-					return true;
+					return false;
 				}
 			}
 		}		
