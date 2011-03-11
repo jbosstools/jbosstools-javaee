@@ -1,100 +1,90 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <chapter id="jsf_application">
-    <?dbhtml filename="jsf_application.html"?>
-    <chapterinfo>
-        <keywordset>
-            <keyword>JBoss Developer Studio</keyword>
-            <keyword>JSF application</keyword>
-            <keyword>Java</keyword>
-        </keywordset>
-    </chapterinfo>
+	<?dbhtml filename="jsf_application.html"?>
+	<chapterinfo>
+		<keywordset>
+			<keyword>JBoss Developer Studio</keyword>
+			<keyword>JSF application</keyword>
+			<keyword>Java</keyword>
+		</keywordset>
+	</chapterinfo>
 
-    <title>Creating a Simple JSF Application</title>
+	<title>Creating a Simple JSF Application</title>
 
-    <para>Firstly, we assume that you have already launched Eclipse with <property>JBoss Tools</property>
-        plug-ins installed and also that the <property>Web Development perspective</property> is the current
-        one. (If not, make it active by selecting <emphasis>
-            <property>Window > Open Perspective > Web Development</property>
-        </emphasis> from the menu bar or by selecting <emphasis>
-            <property>Window > Open Perspective > Other...</property>
-        </emphasis> from the menu bar and then selecting <emphasis>
-            <property>Web Development</property>
-        </emphasis> from the Select Perspective dialog box.)</para>
+	<para>
+    	Firstly, we assume that you have already launched Eclipse with <property>JBoss Tools</property> plug-ins installed and also that the <property>Web Development perspective</property> is the current one. (If not, make it active by selecting <menuchoice><guimenuitem>Window</guimenuitem><guimenuitem>Open Perspective</guimenuitem><guimenuitem>Web Development</guimenuitem></menuchoice> from the menu bar or by selecting <menuchoice><guimenuitem>Window</guimenuitem><guimenuitem>Open Perspective</guimenuitem><guimenuitem>Other...</guimenuitem></menuchoice> from the menu bar and then selecting <guimenuitem>Web Development</guimenuitem> from the Select Perspective dialog box.)
+	</para>
 
-    <section id="setting_up_the_project">
-        <?dbhtml filename="SettingUpTheProject.html"?>
-        <title>Setting Up the Project</title>
-        <para>Now we are going to create a new project for the application.</para>
-        <itemizedlist>
-            <listitem>
-                <para>For that go to the menu bar and select <emphasis>
-                        <property>File > New > Project...</property>
-                    </emphasis></para>
-            </listitem>
-            <listitem>
-                <para>Select <emphasis>
-                        <property>JBoss Tools Web > JSF > JSF Project</property>
-                    </emphasis> in the New Project dialog box</para>
-            </listitem>
-            <listitem>
-                <para>Click <emphasis>
-                        <property>Next</property>
-                    </emphasis></para>
-            </listitem>
-            <listitem>
-                <para>Enter &quot;jsfHello&quot; as the project name.</para>
-            </listitem>
-            <listitem>
-                <para>Leave everything else as is, and click <emphasis>
-                        <property>Finish</property>
-                    </emphasis></para>
-            </listitem>
+	<section id="setting_up_the_project">
+		<?dbhtml filename="SettingUpTheProject.html"?>
+		<title>Setting Up the Project</title>
+		<para>Now we are going to create a new project for the application.</para>
+		<itemizedlist>
+			<listitem>
+				<para>
+					For that go to the menu bar and select <menuchoice><guimenuitem>File</guimenuitem><guimenuitem>New</guimenuitem><guimenuitem>Project...</guimenuitem></menuchoice>
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					Select <menuchoice><guimenuitem>JBoss Tools We</guimenuitem><guimenuitem>JSF</guimenuitem><guimenuitem>JSF Project</guimenuitem></menuchoice> in the New Project dialog box.
+				</para>
+			</listitem>
+			<listitem>
+				<para>Click the <guibutton>Next</guibutton> button.</para>
+			</listitem>
+			<listitem>
+				<para>Enter <guilabel>jsfHello</guilabel> as the project name.</para>
+			</listitem>
+			<listitem>
+				<para>Leave everything else as is, and click the <guibutton>Finish</guibutton> button.</para>
+			</listitem>
 
-        </itemizedlist>
-    </section>
+		</itemizedlist>
+	</section>
 
-    <section id="TheJSFApplicationConfigurationFile">
-        <?dbhtml filename="TheJSFApplicationConfigurationFile.html"?>
-        <title>JSF Configuration File</title>
-        <para>A jsfHello node should appear in the upper-left Package Explorer view.</para>
-        <figure>
-            <title>Package Explorer View</title>
-            <mediaobject>
-                <imageobject>
-                    <imagedata fileref="images/jsf_application/jsf_application_1.png"/>
-                </imageobject>
-            </mediaobject>
-        </figure>
-        <itemizedlist>
-            <listitem>
-                <para>Click the plus sign next to <emphasis>
+	<section id="TheJSFApplicationConfigurationFile">
+		<?dbhtml filename="TheJSFApplicationConfigurationFile.html"?>
+		<title>JSF Configuration File</title>
+		<para>A <guilabel>jsfHello</guilabel> node should appear in the upper-left <guilabel>Package Explorer</guilabel> view.</para>
+		<figure>
+			<title>Package Explorer View</title>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="images/jsf_application/jsf_application_1.png"/>
+				</imageobject>
+			</mediaobject>
+		</figure>
+		<itemizedlist>
+			<listitem>
+				<para>Click the plus sign next to <emphasis>
                         <property>jsfHello</property>
-                    </emphasis> to reveal the child nodes</para>
-            </listitem>
-            <listitem>
-                <para>Click the plus sign next to <emphasis>
+					</emphasis> to reveal the child nodes</para>
+			</listitem>
+			<listitem>
+				<para>Click the plus sign next to <emphasis>
                         <property>WebContent</property>
-                    </emphasis> under jsfHello</para>
-            </listitem>
-            <listitem>
-                <para>Click the plus sign next to <emphasis>
+					</emphasis> under jsfHello</para>
+			</listitem>
+			<listitem>
+				<para>Click the plus sign next to <emphasis>
                         <property>WEB-INF</property>
-                    </emphasis> under WebContent</para>
-            </listitem>
+					</emphasis> under WebContent</para>
+			</listitem>
 
-            <listitem>
-                <para>Then double-click on the <property>faces-config.xml</property> node to display
+			<listitem>
+				<para>Then double-click on the <property>faces-config.xml</property> node to display
                     the JSF application configuration file editor</para>
-            </listitem>
-        </itemizedlist>
-        <figure>
-            <title>Configuration File Editor</title>
-            <mediaobject>
-                <imageobject>
-                    <imagedata fileref="images/jsf_application/jsf_application_2.png"/>
-                </imageobject>
-            </mediaobject>
-        </figure>
+			</listitem>
+		</itemizedlist>
+		<figure>
+			<title>Configuration File Editor</title>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="images/jsf_application/jsf_application_2.png"/>
+				</imageobject>
+			</mediaobject>
+		</figure>
 
-    </section>
+	</section>
 </chapter>
