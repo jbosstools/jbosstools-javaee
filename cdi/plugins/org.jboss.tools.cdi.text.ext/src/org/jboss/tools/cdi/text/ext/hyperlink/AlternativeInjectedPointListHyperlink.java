@@ -23,11 +23,13 @@ public class AlternativeInjectedPointListHyperlink extends AbstractHyperlink{
 	private IRegion region;
 	private List<IBean> beans;
 	private ITextViewer viewer;
+	private int previousIndex;
 	
-	public AlternativeInjectedPointListHyperlink(IRegion region, List<IBean> beans, ITextViewer viewer, IDocument document){
+	public AlternativeInjectedPointListHyperlink(IRegion region, List<IBean> beans, ITextViewer viewer, IDocument document, int previousIndex){
 		this.beans = beans;
 		this.region = region;
 		this.viewer = viewer;
+		this.previousIndex = previousIndex;
 		setDocument(document);
 	}
 	
@@ -53,7 +55,7 @@ public class AlternativeInjectedPointListHyperlink extends AbstractHyperlink{
 		if(hyperlinks.length == 1){
 			((InjectedPointHyperlink)hyperlinks[0]).doHyperlink(region);
 		}else{
-			MultipleHyperlinkPresenterManager.installAndShow(viewer, hyperlinks);
+			MultipleHyperlinkPresenterManager.installAndShow(viewer, hyperlinks, previousIndex);
 		}
 	}
 
