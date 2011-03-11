@@ -33,6 +33,7 @@ import org.eclipse.ui.ide.IDE;
 import org.jboss.tools.cdi.core.test.tck.validation.ValidationTest;
 import org.jboss.tools.cdi.internal.core.validation.CDIValidationErrorManager;
 import org.jboss.tools.cdi.ui.marker.AddLocalBeanMarkerResolution;
+import org.jboss.tools.cdi.ui.marker.AddSerializableInterfaceMarkerResolution;
 import org.jboss.tools.cdi.ui.marker.DeleteAllDisposerDuplicantMarkerResolution;
 import org.jboss.tools.cdi.ui.marker.DeleteAllInjectedConstructorsMarkerResolution;
 import org.jboss.tools.cdi.ui.marker.MakeFieldStaticMarkerResolution;
@@ -75,7 +76,6 @@ public class CDIMarkerResolutionTest  extends ValidationTest {
 					int messageId = attribute.intValue();
 					if(messageId == id){
 						String text = (String)marker.getAttribute(IMarker.MESSAGE,"none");
-						System.out.println("Before quick fix: "+text);
 						
 						IMarkerResolution[] resolutions = IDE.getMarkerHelpRegistry()
 								.getResolutions(marker);
@@ -119,7 +119,7 @@ public class CDIMarkerResolutionTest  extends ValidationTest {
 										}
 									}
 									
-									//rootChange.perform(new NullProgressMonitor());
+									rootChange.perform(new NullProgressMonitor());
 								}else if(resolution instanceof TestableResolutionWithSelectionWizard){
 									((TestableResolutionWithSelectionWizard)resolution).selectFirstElementAndRun(marker);
 								}else{
@@ -130,20 +130,9 @@ public class CDIMarkerResolutionTest  extends ValidationTest {
 								
 								IMarker[] newMarkers = file.findMarkers(markerType, true, IResource.DEPTH_INFINITE);
 								
-								System.out.println("Before: "+markers.length+" after: "+newMarkers.length);
-								
-								
-								
-								for(IMarker m : newMarkers){
-									text = (String)m.getAttribute(IMarker.MESSAGE,"none");
-									System.out.println("After quick fix: "+text);
-								}
-								
 								assertTrue("Marker resolution did not decrease number of problems. was: "+markers.length+" now: "+newMarkers.length, newMarkers.length < markers.length);
 								
 								checkResults(project, fileNames, results);
-								
-								
 								return;
 							}
 						}
@@ -402,7 +391,6 @@ public class CDIMarkerResolutionTest  extends ValidationTest {
 	}
 
 	public void testSpecifyBeanWhenMultipleBeansAreEligibleForInjectedFieldResolution() throws CoreException {
-		System.out.println("testSpecifyBeanWhenMultipleBeansAreEligibleForInjectedFieldResolution...");
 		checkResolution(tckProject,
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Farm_Broken1.java",
@@ -417,7 +405,6 @@ public class CDIMarkerResolutionTest  extends ValidationTest {
 	}
 
 	public void testSelectBeanWhenMultipleBeansAreEligibleForInjectedFieldResolution() throws CoreException {
-		System.out.println("testSelectBeanWhenMultipleBeansAreEligibleForInjectedFieldResolution...");
 		checkResolution(tckProject,
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Office_Broken1.java",
@@ -437,7 +424,6 @@ public class CDIMarkerResolutionTest  extends ValidationTest {
 	}
 
 	public void testSpecifyBeanWhenNoBeanIsEligibleForInjectedFieldResolution() throws CoreException {
-		System.out.println("testSpecifyBeanWhenNoBeanIsEligibleForInjectedFieldResolution...");
 		checkResolution(tckProject,
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Farm_Broken2.java",
@@ -452,7 +438,6 @@ public class CDIMarkerResolutionTest  extends ValidationTest {
 	}
 
 	public void testSelectBeanWhenNoBeanIsEligibleForInjectedFieldResolution() throws CoreException {
-		System.out.println("testSelectBeanWhenNoBeanIsEligibleForInjectedFieldResolution...");
 		checkResolution(tckProject,
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Office_Broken2.java",
@@ -472,7 +457,6 @@ public class CDIMarkerResolutionTest  extends ValidationTest {
 	}
 	
 	public void testSpecifyBeanWhenMultipleBeansAreEligibleForInjectedParameterResolution() throws CoreException {
-		System.out.println("testSpecifyBeanWhenMultipleBeansAreEligibleForInjectedParameterResolution...");
 		checkResolution(tckProject,
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Farm_Broken3.java",
@@ -487,7 +471,6 @@ public class CDIMarkerResolutionTest  extends ValidationTest {
 	}
 
 	public void testSelectBeanWhenMultipleBeansAreEligibleForInjectedParameterResolution() throws CoreException {
-		System.out.println("testSelectBeanWhenMultipleBeansAreEligibleForInjectedParameterResolution...");
 		checkResolution(tckProject,
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Office_Broken3.java",
@@ -507,7 +490,6 @@ public class CDIMarkerResolutionTest  extends ValidationTest {
 	}
 
 	public void testSpecifyBeanWhenNoBeanIsEligibleForInjectedParameterResolution() throws CoreException {
-		System.out.println("testSpecifyBeanWhenNoBeanIsEligibleForInjectedParameterResolution...");
 		checkResolution(tckProject,
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Farm_Broken4.java",
@@ -522,7 +504,6 @@ public class CDIMarkerResolutionTest  extends ValidationTest {
 	}
 
 	public void testSelectBeanWhenNoBeanIsEligibleForInjectedParameterResolution() throws CoreException {
-		System.out.println("testSelectBeanWhenNoBeanIsEligibleForInjectedParameterResolution...");
 		checkResolution(tckProject,
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Office_Broken4.java",
@@ -539,6 +520,20 @@ public class CDIMarkerResolutionTest  extends ValidationTest {
 				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
 				CDIValidationErrorManager.UNSATISFIED_INJECTION_POINTS_ID,
 				SelectBeanMarkerResolution.class);
+	}
+
+	public void testAddSerializableInterfaceResolution() throws CoreException {
+		checkResolution(tckProject,
+				new String[]{
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Hamina_Broken.java"
+				},
+				new String[]{
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Hamina_Broken.qfxresult"
+				},
+				MARKER_TYPE,
+				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
+				CDIValidationErrorManager.NOT_PASSIVATION_CAPABLE_BEAN_ID,
+				AddSerializableInterfaceMarkerResolution.class);
 	}
 
 }

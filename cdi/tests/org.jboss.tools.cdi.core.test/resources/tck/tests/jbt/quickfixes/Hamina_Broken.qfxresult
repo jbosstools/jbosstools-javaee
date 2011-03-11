@@ -1,0 +1,10 @@
+package org.jboss.jsr299.tck.tests.jbt.quickfixes;
+
+import javax.enterprise.context.SessionScoped;
+import java.io.Serializable;
+
+
+@SessionScoped
+class Hamina_Broken implements Serializable
+{
+}
