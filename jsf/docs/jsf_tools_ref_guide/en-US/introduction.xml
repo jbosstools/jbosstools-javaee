@@ -102,7 +102,7 @@
     </section>
     <section>
         <title>Other relevant resources on the topic</title>
-        <para>All JBoss Developer Studio/JBoss Tools release documentation you can find at <ulink url="http://docs.jboss.org/tools/">http://docs.jboss.org/tools</ulink> in the corresponding release directory.</para>
-        <para>The latest documentation builds are available at <ulink url="http://download.jboss.org/jbosstools/nightly-docs/">http://download.jboss.org/jbosstools/nightly-docs</ulink>.</para>
+        <para>All JBoss Developer Studio and JBoss Tools release documentation can be found on the <ulink url="http://docs.redhat.com/docs/en-US/JBoss_Developer_Studio/index.html">RedHat Documentation</ulink> website. </para>
+        <para>Nightly documentation builds are available at <ulink url="http://download.jboss.org/jbosstools/nightly-docs/">http://download.jboss.org/jbosstools/nightly-docs</ulink>.</para>
     </section>
 </chapter>

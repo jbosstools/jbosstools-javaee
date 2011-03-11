@@ -14,10 +14,10 @@
 	<title>JavaServer Faces Support</title>
 
 	<para>
-		We don&apos;t lock you into any one <productname>JavaServer Faces</productname> implementation. You can always specify the desired <productname>JavaServer Faces</productname> implementation while creating a new JSF project (see <xref linkend="new_jsf_project"/>), adding JSF capability to any existing Eclipse project (see <xref linkend="add_jsf_capability"/>) or importing existing JSF projects (see <xref linkend="ImportingExsJSFProjWithAnyStr74447"/>).
+		JSF Tools does not lock you into any one <property>JavaServer Faces</property> implementation. You can always specify the desired <property>JavaServer Faces</property> implementation while creating a new JSF project (see <xref linkend="new_jsf_project"/>), adding JSF capability to any existing Eclipse project (see <xref linkend="add_jsf_capability"/>), or importing existing JSF projects (see <xref linkend="ImportingExsJSFProjWithAnyStr74447"/>).
 	</para>
 	<para>
-		At this point the special wizard will prompt you to specify an appropriate JSF environment. It may be JSF 1.1.02 RI, or JSF 1.2 which integrates a number of new features and changes. The wizard also lets you select JSF implementation with a component orientation such as JSF 1.2 with Facelets or MyFaces 1.1.4.
+		At this point the special wizard will prompt you to specify an appropriate JSF environment. It may be <property>JSF 1.1.02 RI</property>, or <property>JSF 1.2</property> which integrates a number of new features and changes. The wizard also lets you select JSF implementation with a component orientation such as <property>JSF 1.2</property> with <property>Facelets</property> or <property>MyFaces 1.1.4</property>.
 	</para>
 
 	<figure>
@@ -30,7 +30,7 @@
 	</figure>
 
 	<para>
-		After specifying an appropriate JSF environment all the required libraries associated with the selected version will be added to your project.
+		After specifying an appropriate JSF environment, all the required libraries associated with the selected version will be added to your project.
 	</para>
 
 	<section id="FaceletsSupport865">
@@ -39,7 +39,7 @@
 		<para>In this section we will focus all the concepts that relate to working with Facelets.</para>
 
 		<para>
-			Facelets extend JavaServer Faces by providing a lightweight framework that radically simplifies the design of presentation pages for JSF. Facelets can be used in a variety of ways that we will consider further in this section.
+			Facelets extend JavaServer Faces by providing a lightweight framework that radically simplifies the design of JSF presentation pages. Facelets can be used in a variety of ways that we will consider further in this section.
 		</para>
 
 		<section>
