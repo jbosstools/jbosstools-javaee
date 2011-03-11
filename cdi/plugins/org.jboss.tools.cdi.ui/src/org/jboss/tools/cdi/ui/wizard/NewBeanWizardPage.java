@@ -55,9 +55,11 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.PlatformUI;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.CDICorePlugin;
+import org.jboss.tools.cdi.core.IAnnotationDeclaration;
 import org.jboss.tools.cdi.core.ICDIAnnotation;
 import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.IQualifier;
+import org.jboss.tools.cdi.core.IScope;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
 import org.jboss.tools.cdi.ui.CDIUiImages;
 import org.jboss.tools.common.ui.widget.editor.CheckBoxFieldEditor;
@@ -137,7 +139,7 @@ public class NewBeanWizardPage extends NewClassWizardPage {
 				interfacesNames.add(name);
 				setDefaultTypeName(name);
 			}
-			interfacesNames.add("java.io.Serializable");
+//			interfacesNames.add("java.io.Serializable");
 			setSuperInterfaces(interfacesNames, true);
 			superInterfacesChanged();
 		}
@@ -432,8 +434,62 @@ public class NewBeanWizardPage extends NewClassWizardPage {
 		ArrayList<String> values = new ArrayList<String>();
 		values.add("");
 		scope = createComboField("Scope", CDIUIMessages.FIELD_EDITOR_SCOPE_LABEL, composite, values);
+		scope.addPropertyChangeListener(new PropertyChangeListener() {			
+			public void propertyChange(PropertyChangeEvent evt) {
+				onScopeModified();
+			}
+		});
 		setScopes(getPackageFragmentRoot());
 	}
+
+	void onScopeModified() {
+		fSuperInterfacesStatus = superInterfacesChanged();
+		doStatusUpdate();
+	}
+
+	protected IStatus superInterfacesChanged() {
+		StatusInfo result = (StatusInfo)super.superClassChanged();
+		if(!checkScopeAndSerializable())
+			if (!result.isError() && !result.isWarning() && !checkScopeAndSerializable()) {
+				result.setWarning(CDIUIMessages.MESSAGE_BEAN_SHOULD_BE_SERIALIZABLE);
+			}
+		
+		return result;
+	}
+
+	boolean checkScopeAndSerializable() {
+		if(scope == null) return true;
+		IJavaProject jp = getJavaProject();
+		if(jp == null) return true;
+		boolean isPassivating = false;
+		String scopeName = scope.getValueAsString();
+		String qScopeName = scopes.get(scopeName);
+		if(CDIConstants.SESSION_SCOPED_ANNOTATION_TYPE_NAME.equals(qScopeName)) {
+			isPassivating = true;
+		} else {
+			ICDIProject cdi = NewCDIAnnotationWizardPage.getCDIProject(jp);
+			if(cdi != null) {
+				IScope s = cdi.getScope(qScopeName);
+				if(s != null && s.isNorlmalScope() && cdi.isPassivatingScope(s.getSourceType())) {
+					isPassivating = true;
+				}
+			}
+		}
+		if(isPassivating) {
+			boolean result = false;
+			List list = getSuperInterfaces();
+			if(list != null) {
+				for (int i = 0; i < list.size() && !result; i++) {
+					if("java.io.Serializable".equals(list.get(i).toString())) {
+						result = true;
+					}
+				}
+			}
+			return result;
+		}
+		return true;
+	}
+
 
 	protected ITaggedFieldEditor createComboField(String name, String label, Composite composite, List<String> values) {
 		ITaggedFieldEditor result = IFieldEditorFactory.INSTANCE.createComboEditor(name, label, values, values.get(0));
@@ -460,6 +516,18 @@ public class NewBeanWizardPage extends NewClassWizardPage {
 			return alternative.composite.getValue() == Boolean.TRUE && registerInBeansXML.composite.getValue() == Boolean.TRUE;
 		}
 		return false;
+	}
+
+	public void setScope(String qScopeName) {
+		String[] tags = scope.getTags();
+		for (String t: tags) {
+			String n = scopes.get(t);
+			if(qScopeName.equals(n)) {
+				scope.setValue(t);
+				doStatusUpdate();
+				return;
+			}
+		}
 	}
 
 }
