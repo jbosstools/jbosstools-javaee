@@ -1759,7 +1759,7 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 							}
 							if(!passivatingCapable) {
 								ITextSourceReference reference = CDIUtil.convertToSourceReference(bean.getBeanClass().getNameRange());
-								addError(MessageFormat.format(CDIValidationMessages.NOT_PASSIVATION_CAPABLE_BEAN, bean.getSimpleJavaName(), scope.getSourceType().getElementName()), CDIPreferences.NOT_PASSIVATION_CAPABLE_BEAN, reference, bean.getResource());
+								addError(MessageFormat.format(CDIValidationMessages.NOT_PASSIVATION_CAPABLE_BEAN, bean.getSimpleJavaName(), scope.getSourceType().getElementName()), CDIPreferences.NOT_PASSIVATION_CAPABLE_BEAN, reference, bean.getResource(), NOT_PASSIVATION_CAPABLE_BEAN_ID);
 							}
 						}
 					}

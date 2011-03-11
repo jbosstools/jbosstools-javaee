@@ -26,6 +26,7 @@ abstract public class CDIValidationErrorManager extends KBValidator {
 	public static final int MULTIPLE_INJECTION_CONSTRUCTORS_ID = 6;
 	public static final int UNSATISFIED_INJECTION_POINTS_ID = 7;
 	public static final int AMBIGUOUS_INJECTION_POINTS_ID = 8;
+	public static final int NOT_PASSIVATION_CAPABLE_BEAN_ID = 9;
 
 	/*
 	 * (non-Javadoc)

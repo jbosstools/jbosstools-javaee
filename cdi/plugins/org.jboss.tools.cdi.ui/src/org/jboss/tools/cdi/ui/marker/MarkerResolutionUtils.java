@@ -52,8 +52,10 @@ import org.jboss.tools.common.model.util.EclipseJavaUtil;
  */
 public class MarkerResolutionUtils {
 	public static final String DOT = ".";  //$NON-NLS-1$
+	public static final String COMMA = ",";  //$NON-NLS-1$
 	public static final String SPACE = " ";  //$NON-NLS-1$
 	public static final String AT = "@";  //$NON-NLS-1$
+	public static final String IMPLEMENTS = "implements";  //$NON-NLS-1$
 
 	static final HashSet<String> primitives = new HashSet<String>();
 	static{
@@ -437,6 +439,37 @@ public class MarkerResolutionUtils {
 		}catch(CoreException ex){
 			CDIUIPlugin.getDefault().logError(ex);
 		}
+	}
+	
+	public static void addInterfaceToClass(ICompilationUnit compilationUnit, IType type, String qualifiedName) throws JavaModelException{
+		String shortName = getShortName(qualifiedName);
+		
+		IType[] types = compilationUnit.getTypes();
+		IType workingType = null;
+		for(IType t : types){
+			if(t.getElementName().equals(type.getElementName())){
+				workingType = t;
+				break;
+			}
+		}
+		
+		if(workingType != null){
+			addImport(qualifiedName, compilationUnit);
+			
+			IBuffer buffer = compilationUnit.getBuffer();
+			
+			String text = buffer.getText(workingType.getSourceRange().getOffset(), workingType.getSourceRange().getLength());
+			
+			int namePosition = text.indexOf(workingType.getElementName());
+			if(namePosition >= 0){
+				int implementsPosition = text.indexOf(IMPLEMENTS,namePosition);
+				if(implementsPosition < 0)
+					buffer.replace(workingType.getSourceRange().getOffset()+namePosition+workingType.getElementName().length(),0,SPACE+IMPLEMENTS+SPACE+shortName);
+				else
+					buffer.replace(workingType.getSourceRange().getOffset()+implementsPosition+IMPLEMENTS.length(),0,SPACE+shortName+COMMA);
+			}
+		}
+
 	}
 	
 	private static IJavaElement getInjectedJavaElement(ICompilationUnit compilationUnit, IInjectionPoint injectionPoint){

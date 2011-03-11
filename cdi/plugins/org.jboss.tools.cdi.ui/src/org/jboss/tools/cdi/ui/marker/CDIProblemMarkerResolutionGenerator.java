@@ -147,6 +147,14 @@ public class CDIProblemMarkerResolutionGenerator implements
 						return resolutions;
 					}
 				}
+			}else if(messageId == CDIValidationErrorManager.NOT_PASSIVATION_CAPABLE_BEAN_ID){
+				IType type = findTypeWithNoSerializable(file, start);
+				
+				if(type != null){
+					return new IMarkerResolution[] {
+							new AddSerializableInterfaceMarkerResolution(type, file)
+						};
+				}
 			}
 		}
 		return new IMarkerResolution[] {};
@@ -230,6 +238,23 @@ public class CDIProblemMarkerResolutionGenerator implements
 			IMethod method = (IMethod)javaElement;
 			if(!method.isBinary())
 				return method;
+		}
+		return null;
+	}
+
+	private IType findTypeWithNoSerializable(IFile file, int start) throws JavaModelException{
+		IJavaElement javaElement = findJavaElement(file, start);
+		if(javaElement != null && javaElement instanceof IType){
+			IType type = (IType)javaElement;
+			if(!type.isBinary()){
+				String shortName = MarkerResolutionUtils.getShortName(AddSerializableInterfaceMarkerResolution.SERIALIZABLE);
+				String[] interfaces = type.getSuperInterfaceNames();
+				for(String name : interfaces){
+					if(name.equals(shortName))
+						return null;
+				}
+				return type;
+			}
 		}
 		return null;
 	}
