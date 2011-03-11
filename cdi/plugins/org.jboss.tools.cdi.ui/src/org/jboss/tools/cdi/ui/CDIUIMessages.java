@@ -82,6 +82,8 @@ public class CDIUIMessages extends NLS{
 	
 	public static String MESSAGE_QUALIFIER_NOT_SET;
 	
+	public static String MESSAGE_BEAN_SHOULD_BE_SERIALIZABLE;
+	
 	public static String MAKE_FIELD_STATIC_MARKER_RESOLUTION_TITLE;
 	public static String MAKE_METHOD_PUBLIC_MARKER_RESOLUTION_TITLE;
 	public static String MAKE_METHOD_BUSINESS_MARKER_RESOLUTION_TITLE;
