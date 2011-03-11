@@ -386,6 +386,14 @@ public class NewCDIWizardTest extends TestCase {
 			
 			page.setBeanName("myNewBean");
 
+			page.setScope(CDIConstants.SESSION_SCOPED_ANNOTATION_TYPE_NAME);
+			String message = page.getMessage();
+			assertEquals(CDIUIMessages.MESSAGE_BEAN_SHOULD_BE_SERIALIZABLE, message);
+			assertEquals(IMessageProvider.WARNING, page.getMessageType());
+
+			page.setScope(CDIConstants.APPLICATION_SCOPED_ANNOTATION_TYPE_NAME);
+			assertEquals(IMessageProvider.NONE, page.getMessageType());			
+			
 			context.wizard.performFinish();
 			
 			String text = context.getNewTypeContent();
@@ -398,9 +406,9 @@ public class NewCDIWizardTest extends TestCase {
 			int f = type.getFlags();
 			assertTrue(Modifier.isPublic(f));
 			assertFalse(Modifier.isAbstract(f));
-			String[] is = type.getSuperInterfaceNames();
-			assertEquals(1, is.length);
-			assertEquals("Serializable", is[0]);
+//			String[] is = type.getSuperInterfaceNames();
+//			assertEquals(1, is.length);
+//			assertEquals("Serializable", is[0]);
 		} finally {
 			context.close();
 		}
