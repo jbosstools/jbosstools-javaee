@@ -20,6 +20,9 @@
             <?dbhtml filename="AddingTwoViewsJSPPages.html"?>
             <title>Adding Two Views (JSP Pages)</title>
             <itemizedlist>
+            			<listitem>
+                    <para>Create a new folder called <filename>pages</filename> under the <filename>WebContent</filename> folder.</para>
+                </listitem>
                 <listitem>
                     <para>Right-click anywhere on the diagram and select <guimenuitem>New View...</guimenuitem> from the context menu.</para>
                 </listitem>
