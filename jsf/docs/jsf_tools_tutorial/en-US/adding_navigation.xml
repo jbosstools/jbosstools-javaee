@@ -21,44 +21,30 @@
             <title>Adding Two Views (JSP Pages)</title>
             <itemizedlist>
                 <listitem>
-                    <para>Right-click anywhere on the diagram and select <emphasis>
-                        <property>New View...</property>
-                    </emphasis> from the pop-up menu</para>
+                    <para>Right-click anywhere on the diagram and select <guimenuitem>New View...</guimenuitem> from the context menu.</para>
                 </listitem>
                 <listitem>
-                    <para>In the dialog box, type <emphasis>
-                        <property>pages/inputname</property>
-                    </emphasis> as the value for From View ID</para>
+                    <para>In the dialog box, type <guilabel>pages/inputname</guilabel> as the value for From View ID.</para>
                 </listitem>
                 <listitem>
-                    <para>Leave everything else as is</para>
+                    <para>Leave everything else as is.</para>
                 </listitem>
                 <listitem>
-                    <para>Click <emphasis>
-                        <property>Finish</property>
-                    </emphasis></para>
-                    <para>If you look in the Package Explorer view you should see a <emphasis>
-                        <property>pages</property>
-                    </emphasis> folder under WebContent. Opening it will reveal the JSP file you
-                        just created</para>
+                    <para>Click the <guibutton>Finish</guibutton> button.</para>
+                    <para>If you look in the Package Explorer view you should see a <filename>pages</filename> folder under the <filename>WebContent</filename> folder. Opening it will reveal the JSP file you
+                        just created.</para>
                 </listitem>
                 <listitem>
-                    <para>Back on the diagram, right-click anywhere and select <emphasis>
-                        <property>New View...</property>
-                    </emphasis> from the pop-up menu</para>
+                    <para>Back on the diagram, right-click anywhere and select <guimenuitem>New View...</guimenuitem> from the pop-up menu.</para>
                 </listitem>
                 <listitem>
-                    <para>In the dialog box, type <emphasis>
-                        <property>pages/greeting</property>
-                    </emphasis> as the value for From View ID</para>
+                    <para>In the dialog box, type <guilabel>pages/greeting</guilabel> as the value for From View ID.</para>
                 </listitem>
                 <listitem>
-                    <para>Leave everything else as is</para>
+                    <para>Leave everything else as is.</para>
                 </listitem>
                 <listitem>
-                    <para>Click <emphasis>
-                        <property>Finish</property>
-                    </emphasis></para>
+                    <para>Click the <guibutton>Finish</guibutton>.</para>
                 </listitem>
             </itemizedlist>
             
@@ -79,11 +65,7 @@
            
         <itemizedlist>
             <listitem>
-                <para>Click on the <emphasis>
-                    <property>pages/inputname</property>
-                </emphasis> page icon and then click on the <emphasis>
-                    <property>pages/greeting</property>
-                </emphasis> page icon</para>
+                <para>Click on the <guilabel>pages/inputname</guilabel> page icon and then click on the <guilabel>pages/greeting</guilabel> page icon.</para>
             </listitem>
             
         </itemizedlist>
@@ -98,9 +80,7 @@
         </figure>
         <itemizedlist>
             <listitem>
-                <para>Select <emphasis>
-                    <property>File > Save</property>
-                </emphasis> from the menu bar</para>
+                <para>Select <menuchoice><guimenuitem>File</guimenuitem><guimenuitem>Save</guimenuitem></menuchoice> from the menu bar.</para>
             </listitem>
         </itemizedlist>
     </section>

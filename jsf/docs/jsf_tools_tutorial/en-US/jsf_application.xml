@@ -27,7 +27,7 @@
 			</listitem>
 			<listitem>
 				<para>
-					Select <menuchoice><guimenuitem>JBoss Tools We</guimenuitem><guimenuitem>JSF</guimenuitem><guimenuitem>JSF Project</guimenuitem></menuchoice> in the New Project dialog box.
+					Select <menuchoice><guimenuitem>JBoss Tools Web</guimenuitem><guimenuitem>JSF</guimenuitem><guimenuitem>JSF Project</guimenuitem></menuchoice> in the New Project dialog box.
 				</para>
 			</listitem>
 			<listitem>
@@ -57,24 +57,16 @@
 		</figure>
 		<itemizedlist>
 			<listitem>
-				<para>Click the plus sign next to <emphasis>
-                        <property>jsfHello</property>
-					</emphasis> to reveal the child nodes</para>
+				<para>Click the plus sign next to <guilabel>jsfHello</guilabel> to reveal the child nodes</para>
 			</listitem>
 			<listitem>
-				<para>Click the plus sign next to <emphasis>
-                        <property>WebContent</property>
-					</emphasis> under jsfHello</para>
+				<para>Click the plus sign next to <guilabel>WebContent</guilabel> under jsfHello</para>
 			</listitem>
 			<listitem>
-				<para>Click the plus sign next to <emphasis>
-                        <property>WEB-INF</property>
-					</emphasis> under WebContent</para>
+				<para>Click the plus sign next to <guilabel>WEB-INF</guilabel> under WebContent</para>
 			</listitem>
-
 			<listitem>
-				<para>Then double-click on the <property>faces-config.xml</property> node to display
-                    the JSF application configuration file editor</para>
+				<para>Then double-click on the <filename>faces-config.xml</filename> node to display the JSF application configuration file editor</para>
 			</listitem>
 		</itemizedlist>
 		<figure>
