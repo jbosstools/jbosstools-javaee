@@ -239,24 +239,26 @@ public class JSFMessageELCompletionEngine extends AbstractELCompletionEngine<IVa
 			resolvedVariables = resolveVariables(file, expr, bundles, true, returnEqualedVariablesOnly);			
 			Set<TextProposal> proposals = new TreeSet<TextProposal>(TextProposal.KB_PROPOSAL_ORDER);
 
-			ELSegmentImpl segment = new MessagePropertyELSegmentImpl();
-			segment.setToken(left.getFirstToken());
-			processMessageBundleSegment(expr, (MessagePropertyELSegmentImpl)segment, resolvedVariables);
-			
-			segment.setResolved(false);
-			resolution.addSegment(segment);
-
-			for (Variable var : resolvedVariables) {
-				String varName = var.getName();
-				if(varName.startsWith(operand.getText())) {
-					TextProposal proposal = new TextProposal();
-					proposal.setReplacementString(varName.substring(operand.getLength()));
-					setImage(proposal);
-					proposals.add(proposal);
+			if (left != null) {
+				ELSegmentImpl segment = new MessagePropertyELSegmentImpl();
+				segment.setToken(left.getFirstToken());
+				processMessageBundleSegment(expr, (MessagePropertyELSegmentImpl)segment, resolvedVariables);
+				
+				segment.setResolved(false);
+				resolution.addSegment(segment);
+	
+				for (Variable var : resolvedVariables) {
+					String varName = var.getName();
+					if(varName.startsWith(operand.getText())) {
+						TextProposal proposal = new TextProposal();
+						proposal.setReplacementString(varName.substring(operand.getLength()));
+						setImage(proposal);
+						proposals.add(proposal);
+					}
 				}
+				resolution.setProposals(proposals);
+				segment.setResolved(!proposals.isEmpty());
 			}
-			resolution.setProposals(proposals);
-			segment.setResolved(!proposals.isEmpty());
 			return resolution;
 		}
 
