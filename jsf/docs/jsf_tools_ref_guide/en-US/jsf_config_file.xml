@@ -309,10 +309,10 @@
 		<title>Source View</title>
 
 		<para>
-			Here, we&apos;ll discuss how you can configure your <filename>faces-config.xml</filename> file with the help of the <guilabel>Source View</guilabel>.
+			Here, we&apos;ll discuss how you can configure your <filename>faces-config.xml</filename> file with the help of the <guilabel>Source</guilabel> View.
 		</para>
 		<para>
-			The <guilabel>Source view</guilabel> for the editor displays the text content of the JSF configuration file. It is always synchronized with other two views, so any changes made in one of the views will immediately appear in the other:
+			The <guilabel>Source</guilabel> View for the editor displays the text content of the JSF configuration file. It is always synchronized with other two views, so any changes made in one of the views will immediately appear in the other:
 		</para>
 		<figure>
 			<title>Source View</title>
@@ -325,7 +325,7 @@
 
 
 		<para>
-			You can also work in the <guilabel>Source view</guilabel> with the help of the <guilabel>Outline view</guilabel>. The <guilabel>Outline view</guilabel> shows a tree structure of the JSF configuration file. Simply select any element in the <guilabel>Outline view</guilabel>, and it will jump to the same place in the Source editor, so you can navigate through the source code with <guilabel>Outline view</guilabel>.
+			You can also work in the <guilabel>Source</guilabel> View with the help of the <guilabel>Outline</guilabel> View. The <guilabel>Outline view</guilabel> shows a tree structure of the JSF configuration file. Simply select any element in the <guilabel>Outline</guilabel> View, and it will jump to the same place in the Source editor, so you can navigate through the source code with <guilabel>Outline</guilabel> View.
 		</para>
 		<figure>
 			<title>Outline View</title>
