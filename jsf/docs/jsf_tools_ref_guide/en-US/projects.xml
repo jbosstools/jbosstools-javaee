@@ -35,7 +35,7 @@
 		<title>Creating a New JSF Project</title>
 
 		<para>
-			It is easy to create a new project that contains all the JSF libraries, tag libraries and JSF configuration file with the aid of a special wizard. To get it, select <menuchoice><guimenuitem>File</guimenuitem><guimenuitem>New</guimenuitem><guimenuitem>JBoos Tools Web</guimenuitem><guimenuitem>JSF</guimenuitem><guimenuitem>JSF Project</guimenuitem></menuchoice> and click the <guibutton>Next</guibutton> button.
+			It is easy to create a new project that contains all the JSF libraries, tag libraries and JSF configuration file with the aid of a special wizard. To get it, select <menuchoice><guimenuitem>File</guimenuitem><guimenuitem>New</guimenuitem><guimenuitem>Other</guimenuitem><guimenuitem>JBoos Tools Web</guimenuitem><guimenuitem>JSF</guimenuitem><guimenuitem>JSF Project</guimenuitem></menuchoice> and click the <guibutton>Next</guibutton> button.
 		</para>
 
 		<figure>
