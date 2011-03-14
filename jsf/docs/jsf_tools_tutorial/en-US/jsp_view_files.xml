@@ -176,7 +176,7 @@
 				<para>Select the <guilabel>Visual</guilabel> tab, so we can work with the editor completely in its WYSIWYG mode</para>
 			</listitem>
 			<listitem>
-				<para>Type &quot;Hello &quot;(note space after Hello) into the box</para>
+				<para>Type &quot;Hello &quot; (note space after Hello) into the box</para>
 			</listitem>
 			<listitem>
 				<para>Select <guimenuitem>outputText</guimenuitem> within the JSF HTML palette folder and drag it into the
