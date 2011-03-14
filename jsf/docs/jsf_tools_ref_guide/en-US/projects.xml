@@ -133,7 +133,7 @@
 
 						<entry>
 							<para>
-								Some servers already provide JSF libs and you risk library conflicts while deploying your project. To avoid such conflicts, use a template without libs if you have a server with its own JSF libraries.
+								Some servers already provide JSF libs, and you risk library conflicts while deploying your project. To avoid such conflicts, use a template without libs if you have a server with its own JSF libraries.
 							</para>
 						</entry>
 					</row>
