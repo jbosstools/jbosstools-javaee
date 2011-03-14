@@ -34,14 +34,12 @@
                     <imageobject>
                         <imagedata fileref="images/jsf_application/jsf_application_10.png"/>
                     </imageobject>
-                </inlinemediaobject>) or right click your project folder and select <emphasis>
-                    <property>Run As &gt; Run on Server</property>
-                </emphasis>:</para>
+                </inlinemediaobject>) or right click your project folder and select <menuchoice><guimenuitem>Run As</guimenuitem><guimenuitem>Run on Server</guimenuitem></menuchoice>:
+                </para>
             </listitem>
         </itemizedlist>
       
-        <para>This is the equivalent of launching the browser and typing <emphasis>
-            <property>http://localhost:8080/jsfHello</property>
-        </emphasis> into your browser. Our <property>JSF application</property> should now
+        <para>This is the equivalent of launching the browser and typing <ulink url="http://localhost:8080/jsfHello">
+            http://localhost:8080/jsfHello</ulink> into your browser. Our <property>JSF application</property> should now
             appear.</para>
     </chapter>

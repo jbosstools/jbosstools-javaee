@@ -17,7 +17,7 @@
 			</para>
 		</listitem>
 		<listitem>
-			<para>For Name type in <guilabel>index</guilabel>, for Template select <guimenuitem>JSPRedirect</guimenuitem> and click the <guibutton>Finish</guibutton> button.
+			<para>For Name type in <guilabel>index</guilabel>, for Template select <guimenuitem>New JSP File (html)</guimenuitem> and click the <guibutton>Finish</guibutton> button.
 			</para>
 		</listitem>
 	</itemizedlist>
@@ -25,10 +25,9 @@
 
 	<itemizedlist>
 		<listitem>
-			<para>In the Source part of the split screen, type <guilabel>/pages/inputname.jsf</guilabel> in between the quotes for the page attribute.</para>
+			<para>In the Source part of the split screen, replace the contents of the file with the code below.</para>
 		</listitem>
 	</itemizedlist>
-	<para>The source coding should look like this now:</para>
 	<programlisting role="XML"><![CDATA[<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
 <html>
 <head></head>
