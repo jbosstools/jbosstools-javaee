@@ -93,10 +93,9 @@
 			</figure>
 		<itemizedlist>
 			<listitem>
-				<para>In the attributes dialog, click in the <emphasis>
-                        <property>value</property>
-					</emphasis> field next to the value attribute and click on the <property>...
-                    </property>button</para>
+				<para>
+					In the attributes dialog, click in the <guilabel>value</guilabel> field next to the value attribute and click on the <guibutton>...</guibutton>button.
+				</para>
 			</listitem>
 			<listitem>
 				<para>
@@ -109,12 +108,12 @@
 			</listitem>
 			<listitem>
 				<para>
-					Select <guimenuitem>commandButton</guimenuitem> within the JSF HTML palette folder and drag it into the end of the <code>&lt;h:form&gt;</code> element.
+					Select <guimenuitem>commandButton</guimenuitem> within the <guilabel>JSF HTML palette</guilabel> folder and drag it into the end of the <code>&lt;h:form&gt;</code> element.
 				</para>
 			</listitem>
 			<listitem>
 				<para>
-					In the attributes dialog, click in the value field next to the <guilabel>action</guilabel> attribute and click on the <guibutton>...button</guibutton>.
+					In the attributes dialog, click in the value field next to the <guilabel>action</guilabel> attribute and click on the <guibutton>...</guibutton> button.
 				</para>
 			</listitem>
 			<listitem>
@@ -176,11 +175,11 @@
 				<para>Select the <guilabel>Visual</guilabel> tab, so we can work with the editor completely in its WYSIWYG mode</para>
 			</listitem>
 			<listitem>
-				<para>Type &quot;Hello &quot; (note space after Hello) into the box</para>
+				<para>Type &quot;Hello &quot; (note the space after Hello) into the box</para>
 			</listitem>
 			<listitem>
 				<para>Select <guimenuitem>outputText</guimenuitem> within the JSF HTML palette folder and drag it into the
-                        innermost box in the editor after &quot;Hello&quot;</para>
+                        innermost box in the editor after &quot;Hello &quot;</para>
 			</listitem>
 			<listitem>
 				<para>In the attributes dialog, click in <guilabel>value</guilabel> field next to the value attribute and click on the
