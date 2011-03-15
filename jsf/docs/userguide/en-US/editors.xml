@@ -12,13 +12,13 @@
   </chapterinfo>
    <title>Editors</title> 
   <para>
-    In the JSF Tools Reference Guide and Struts Tools Reference Guide you may have read about the Graphical Editors for JSF and Struts configuration files, Tiles Files, and Struts Validation Files. All these editors have OpenOn (see <xref linkend="OpenOnSelection4Hyperlinknavigation"/>) and Code Assist (see <xref linkend="CodeAssistAndDynamicCodeAssist42BasedOnProjectData"/>) features, which are described in more details in this document. In addition this document will cover the Visual Page Editor (see <xref linkend="visual_page"/>), which provides combined visual and source editing of Web pages, as well as many more editors (see <xref linkend="more_editors"/>) for different types of files.
+    In the JSF Tools Reference Guide and Struts Tools Reference Guide you may have read about the Graphical Editors for JSF and Struts configuration files, Tiles Files, and Struts Validation Files. All these editors have OpenOn (see <xref linkend="OpenOnSelection4Hyperlinknavigation"/>) and Code Assist (see <xref linkend="CodeAssistAndDynamicCodeAssist42BasedOnProjectData"/>) features, which are described in more detail in this document. In addition, this document will cover the Visual Page Editor (see <xref linkend="visual_page"/>), which provides combined visual and source editing of Web pages, as well as many more editors (see <xref linkend="more_editors"/>) for different types of files.
   </para>
    
   <section id="editors_features">
     <title>Editors Features</title> 
     <para>
-      <property>JBoss Developer Studio</property> has powerful editor features that help you easily navigate within your application and make use of content and code assist no matter what type of project file (<literal>.jsp</literal>, <literal>.xhtml</literal>, <literal>.xml</literal>, <literal>.css</literal> etc.) you are working on.
+      <property>JBoss Developer Studio</property> has powerful editing features that help you easily navigate within your application and make use of content and code assist no matter what type of project file (<filename>.jsp</filename>, <filename>.xhtml</filename>, <filename>.xml</filename>, <filename>.css</filename> etc.) you are working on.
     </para>
      
     <para>
@@ -48,7 +48,7 @@
     <section id="OpenOnSelection4Hyperlinknavigation">
       <title>OpenOn</title> 
       <para>
-        OpenOn lets you easily link directly from one resource to another in your project without using the <property>Package Explorer</property> view (project tree). With OpenOn, you can simply use <keycap>F3</keycap> or <keycombo><keycap>Ctrl</keycap><keycap>Click</keycap></keycombo> on a reference to another file and the file will be opened.
+        OpenOn lets you easily link directly from one resource to another in your project without using the <guilabel>Package Explorer</guilabel> view (project tree). With OpenOn, you can simply use <keycap>F3</keycap> or <keycombo><keycap>Ctrl</keycap><keycap>Click</keycap></keycombo> on a reference to another file and the file will be opened.
       </para>
        
       <para>
@@ -90,7 +90,7 @@
       <section id="XMLFiles232">
         <title>XML Files</title> 
         <para>
-          Press and hold down the <keycap>Ctrl</keycap> key. As you move the mouse cursor over different file references in the file, they are displayed with an underline. In this state these file references effectively become links, and when they are clicked the appropriate file will open in its own editor.
+          Press and hold down the <keycap>Ctrl</keycap> key. As you move the mouse cursor over different file references in the file, they are displayed with an underline. In this state these file references effectively become links, and when they are clicked the appropriate file will be opened in its own editor.
         </para>
          
         <para>
@@ -104,7 +104,7 @@
             </para>
              
             <para>
-              In this example source code of the managed bean <emphasis><property>&quot;User&quot;</property> </emphasis> will be open.
+              In this example source code of the managed bean <code>User</code> will be open.
             </para>
              
             <figure>
@@ -117,7 +117,7 @@
             </figure>
              
             <para>
-              This is the result of using OpenOn.
+              The image below shows the result of using OpenOn.
             </para>
              
             <figure>
@@ -165,17 +165,17 @@
       <section id="JSPPages223">
         <title>JSP/XHTML Pages</title> 
         <para>
-          OpenOn is also available in JSP and XHTML pages edited in the <property>Visual Page Editor</property>. It will allow you to quickly jump to the reference instead of having to hunt around in the project structure.
+          OpenOn is also available in <filename>JSP</filename> and <filename>XHTML</filename> pages edited in the <property>Visual Page Editor</property>. It will allow you to quickly jump to the reference instead of having to hunt around in the project structure.
         </para>
          
         <para>
-          You can use OpenOn for the following JSP/XHTML file entries:
+          You can use OpenOn for the following <filename>JSP</filename> or <filename>XHTML</filename> file entries:
         </para>
          
         <orderedlist>
           <listitem>
             <para>
-              Imported property files
+              Imported property files.
             </para>
              
             <figure>
@@ -190,7 +190,7 @@
            
           <listitem>
             <para>
-              CSS files used in a JSP/XHTML page
+              CSS files used in a <filename>JSP</filename> or <filename>XHTML</filename> page.
             </para>
              
             <figure>
@@ -205,7 +205,7 @@
            
           <listitem>
             <para>
-              Managed beans and their properties
+              Managed beans and their properties.
             </para>
              
             <figure>
@@ -220,11 +220,11 @@
            
           <listitem>
             <para>
-              Navigation rules in JSP files
+              Navigation rules in <filename>JSP</filename> files.
             </para>
              
             <para>
-              For JSP files in a JSF project, you can easily open the navigation rules by applying <property>OpenOn</property> to the JSF tag for the navigation outcome:
+              For <filename>JSP</filename> files in a JSF project, you can easily open the navigation rules by applying <property>OpenOn</property> to the JSF tag for the navigation outcome:
             </para>
              
             <figure>
@@ -239,7 +239,7 @@
            
           <listitem>
             <para>
-              Custom Facelets tag libraries in XHTML pages
+              Custom Facelets tag libraries in <filename>XHTML</filename> pages.
             </para>
              
             <para>
@@ -249,7 +249,7 @@
            
           <listitem>
             <para>
-              Custom JSF 2.0 components
+              Custom JSF 2.0 components.
             </para>
              
             <figure>
@@ -267,7 +267,7 @@
       <section id="cssclasses">
         <title>CSS Classes</title> 
         <para>
-          You can quickly navigate through CSS classes using OpenOn
+          You can quickly navigate through CSS classes using OpenOn.
         </para>
          
         <figure>
@@ -373,7 +373,7 @@
       </itemizedlist>
        
       <para>
-        Notice that code completion for EL variables has icons illustrating what they are from. The most of this icons are described in the table below.
+        Notice that code completion for EL variables have icons illustrating what they are from. These icons are described in the table below.
       </para>
        
       <table>
@@ -593,7 +593,7 @@
         <itemizedlist>
           <listitem>
             <para>
-              Content Assist for XML, XHTML, JSP and JSF configuration files
+              Content Assist for <filename>XML</filename>, <filename>XHTML</filename>, <filename>JSP</filename> and <filename>JSF</filename> configuration files
             </para>
           </listitem>
            
@@ -619,11 +619,11 @@
         <section id="ContentAssistForXMLJSPAndJSFConfigurationFiles865">
           <title>Content Assist for XML, JSP and JSF configuration files</title> 
           <para>
-            At any point when working with any XML, JSP and JSF configuration files Content Assist is available to help you. Simply type <keycombo><keycap>Ctrl</keycap><keycap>Space</keycap></keycombo> to see what is available.
+            At any point when working with any XML, JSP and JSF configuration files Content Assist is available to help you. Simply press <keycombo><keycap>Ctrl</keycap><keycap>Space</keycap></keycombo> to see what options are available.
           </para>
            
           <para>
-            Content Assist for JSF configuration file:
+            Content Assist for <filename>JSF</filename> configuration file:
           </para>
            
           <figure>
@@ -636,7 +636,7 @@
           </figure>
            
           <para>
-            Content Assist for JSF JSP file:
+            Content Assist for <filename>JSF</filename> <filename>JSP</filename> file:
           </para>
            
           <figure>
@@ -649,7 +649,7 @@
           </figure>
            
           <para>
-            Content Assist for other JSF XML project files ( <filename>web.xml</filename> shown):
+            Content Assist for other <filename>JSF</filename> <filename>XML</filename> project files ( <filename>web.xml</filename> shown):
           </para>
            
           <figure>
@@ -681,7 +681,7 @@
         <section id="ContentAssistBasedOnProjectData86">
           <title>Content Assist Based on Project Data</title> 
           <para>
-            JBoss Developer Studio takes Content Assist to the next level. JBoss Developer Studio will constantly scan your project, and you will be able to insert code into the JSP page from your project including:
+            JBoss Developer Studio takes Content Assist to the next level. JBoss Developer Studio will constantly scan your project, and you will be able to insert code into the <filename>JSP</filename> page from your project including:
           </para>
            
           <itemizedlist>
@@ -717,7 +717,7 @@
           </itemizedlist>
            
           <para>
-            The figure below shows how to insert message from a Properties files. You simply put the cursor inside the <emphasis role="italic"><property>&quot;value&quot;</property></emphasis> attribute and press <keycombo><keycap>Ctrl</keycap><keycap>Space</keycap></keycombo>. JBoss Developer Studio will scan your project and show a list of possible values to insert.
+            The figure below shows how to insert a message from a Properties file. You simply put the cursor inside the <code>value</code> attribute and press <keycombo><keycap>Ctrl</keycap><keycap>Space</keycap></keycombo>. JBoss Developer Studio will scan your project and display a list of possible values that can be inserted.
           </para>
            
           <figure>
@@ -730,11 +730,11 @@
           </figure>
            
           <para>
-            In the following screenshot we are inserting a <emphasis role="italic"> <property>&quot;Managed bean&quot;</property> </emphasis> attribute value. Again, by simply clicking <emphasis><property>Ctrl-Space</property>,</emphasis> JBoss Developer Studio will show a list of all possible values that you can insert.
+            In the following screenshot we are inserting a <emphasis role="italic"> <property>&quot;Managed bean&quot;</property> </emphasis> attribute value. Again, by simply clicking <keycombo><keycap>Ctrl</keycap><keycap>Space</keycap></keycombo>, JBoss Developer Studio will show a list of all possible values that can be inserted.
           </para>
            
           <para>
-            Once you select a Managed bean, it will show you a list of all available attributes for the selected Managed bean (userBean).
+            Once you select a Managed bean, it will show you a list of all available attributes for the selected Managed bean (<code>userBean</code>).
           </para>
            
           <figure>
@@ -747,7 +747,7 @@
           </figure>
            
           <para>
-            Code Assist based on project data will also prompt you for navigation rules that exist in your JSF configuration file.
+            Code Assist based on project data will also prompt you for navigation rules that exist in your <filename>JSF</filename> configuration file.
           </para>
            
           <figure>
@@ -760,7 +760,7 @@
           </figure>
            
           <para>
-            Code Assist can also provide you with access to the beans located in jar archives.
+            Code Assist can also provide you with access to the beans located in <filename>JAR</filename> archives.
           </para>
            
           <figure>
@@ -773,7 +773,7 @@
           </figure>
            
           <para>
-            Moreover <property>Code Assist</property> is able to define <property>Resource Bundles</property> on template pages and gives the proposals on the client page.
+            Moreover <property>Code Assist</property> is able to define <property>Resource Bundles</property> on template pages and provides the proposals on the client page.
           </para>
            
           <figure>
@@ -789,7 +789,7 @@
         <section id="ContentAssistWithinJSFGraphicalEditor44">
           <title>Content Assist within Tree JSF Editor</title> 
           <para>
-            JBoss Developer Studio also provides Content Assist when working within the Tree JSF configuration editor. Just click <emphasis> <property>Ctrl-Space</property>. </emphasis>
+            JBoss Developer Studio also provides Content Assist when working within the Tree JSF configuration editor. Just press <keycombo><keycap>Ctrl</keycap><keycap>Space</keycap></keycombo>.
           </para>
            
           <figure>
@@ -911,7 +911,7 @@
         <section id="ContentAssistForStrutsJSPFile07">
           <title>Content Assist for Struts JSP File</title> 
           <para>
-            The image below shows Code Assist being used in a Struts JSP file.
+            The image below shows Code Assist being used in a Struts <filename>JSP</filename> file.
           </para>
            
           <figure>
@@ -943,7 +943,7 @@
           </figure>
            
           <para>
-            When the tag is selected, the required attributes, if there any, are already inserted and the cursor is located to the first attribute. At this point you can ask for attribute proposals.
+            When the tag is selected, the required attributes, if there are any, are already inserted and the cursor is moved to the first attribute. At this point you can ask for attribute proposals.
           </para>
            
           <figure>
@@ -1042,14 +1042,14 @@
         </figure>
          
         <para>
-          If XHTML file uses custom Facelets components, the Content Assist should also be available for them. For details, see <xref linkend="contentAssistForCustomFacelets"/> later in this guide.
+          If <filename>XHTML</filename> file uses custom Facelets components, the Content Assist should also be available for them. For details, see <xref linkend="contentAssistForCustomFacelets"/> later in this guide.
         </para>
       </section>
        
       <section id="ContentAssistForJavaFiles">
         <title>Content Assist for Java Files</title> 
         <para>
-          Various tools tips provide you additional information about Java elements (JavaDocs, source classes, return types, method names, params and etc.) when working with java files.
+          Various tools tips provide you additional information about Java elements (JavaDocs, source classes, return types, method names, params and etc.) when working with Java files.
         </para>
          
         <figure>
@@ -1065,7 +1065,7 @@
       <section id="ContentAssistForInsertTag">
         <title>Content Assist for Insert Tag Wizard</title> 
         <para>
-          Content Assist is also available for any attribute value in the <emphasis>Insert Tag</emphasis> wizard.
+          Content Assist is also available for any attribute value in the <guilabel>Insert Tag</guilabel> wizard.
         </para>
          
         <figure>
@@ -1080,14 +1080,14 @@
        
       <section id="AddingDynamicCodeAssistToCustomComponents8745">
         <title>Adding dynamic code assist to custom components that were added to JBoss Tools Palette</title> 
-        <para>
-          Here is what you need to do to add project based code assist to a custom component added in <property>JBoss Developer Studio 2.X</property>:
+        <!--<para>
+          Here is what you need to do to add project based code assist to a custom component added in <property>JBoss Developer Studio 2.x</property>:
         </para>
          
         <orderedlist>
           <listitem>
             <para>
-              Create a new xml file in <emphasis> <property>&lt;JBDS_home&gt;studio/eclipse/plugins/org.jboss.tools.common.kb_***/schemas/tld/</property>. </emphasis>For example call it <emphasis> <property> JeniaFaces.xml</property> </emphasis>. The file should be written according to <emphasis> <property>&lt;JBDS_home&gt;/studio/eclipse/plugins/org.jboss.tools.common.kb/kb.jar/org/jboss/tools/common/kb/kb-schema_1.0.dtd</property> </emphasis>
+              Create a new xml file in <filename>&lt;JBDS_home&gt;studio/eclipse/plugins/org.jboss.tools.common.kb_***/schemas/tld/</filename>. For example, you can name it <filename>JeniaFaces.xml</filename>. The file should be written according to <filename>&lt;JBDS_home&gt;/studio/eclipse/plugins/org.jboss.tools.common.kb/kb.jar/org/jboss/tools/common/kb/kb-schema_1.0.dtd</filename>.
             </para>
           </listitem>
         </orderedlist>
@@ -1181,7 +1181,7 @@
         <orderedlist>
           <listitem>
             <para>
-              Add information on your xml file in <emphasis> <property>&lt;JBDS_home&gt;/studio/eclipse/plugins/org.jboss.common.kb_***/plugin.xml</property> </emphasis>
+              Add information on your xml file in <filename>&lt;JBDS_home&gt;/studio/eclipse/plugins/org.jboss.common.kb_***/plugin.xml</filename>.
             </para>
              
             <programlisting role="XML">
@@ -1202,8 +1202,8 @@
         </orderedlist>
          
         <para>
-          From <emphasis>JBoss Developer Studio 3.0.0.M1</emphasis> you should not do any of the steps described before, as dynamic code assist to custom components is added automatically.
-        </para>
+          From <emphasis>JBoss Developer Studio 3.0.0 and above</emphasis> you should not do any of the steps described before, as dynamic code assist to custom components is added automatically.
+        </para>-->
          
         <para>
           If you open projects that were created in older studio versions you may see the following message:
@@ -1219,13 +1219,13 @@
         </figure>
          
         <para>
-          It shows that some features of content assist including this one probably will not work. To fix this problem and turn off the message box execute the following steps:
+          It warns that some features of content assist probably will not work. To fix the problem and turn off the message box execute the following steps:
         </para>
          
         <itemizedlist>
           <listitem>
             <para>
-              Right click the project in Package Explorer.
+              Right click the project in the <guilabel>Package Explorer</guilabel> view.
             </para>
           </listitem>
            
@@ -1237,7 +1237,7 @@
            
           <listitem>
             <para>
-              Configure your project using Add JSF Capabilities wizard and press <property>Finish</property>
+              Configure your project using the <guilabel>Add JSF Capabilities</guilabel> wizard and click the <guibutton>Finish</guibutton> button
             </para>
           </listitem>
         </itemizedlist>
@@ -1247,11 +1247,11 @@
     <section id="FullControlOverSourceFiles-SynchronizedSourcAndVisualEditing74">
       <title>Synchronized Source and Visual Editing</title> 
       <para>
-        <property>JBoss Developer Studio</property> offers the ability to edit the source code of a file, as well as providing visual editors for many file types. The source code and visual editors can be viewed and edited at the same time in a split screen view and any changes you make in the source code editor will immediately appear in the visual editor.
+        <property>JBoss Developer Studio</property> offers the ability to edit the source code of a file, as well as providing visual editors for many file types. The source code and visual editors can be viewed and edited at the same time in a split screen view, and any changes you make in the source code editor will immediately appear in the visual editor.
       </para>
        
       <para>
-        The JSF configuration file editor has three views: <property>Diagram</property>, <property>Tree</property> and <property>Source</property>. All views are synchronized and you can edit the file in any view.
+        The JSF configuration file editor has three views: <guilabel>Diagram</guilabel>, <guilabel>Tree</guilabel> and <guilabel>Source</guilabel>. All views are synchronized and you can edit the file in any view.
       </para>
        
       <figure>
@@ -1268,7 +1268,7 @@
       </para>
        
       <para>
-        Web XML editor is shown. Web XML editor has a graphical view (Tree) and source (Source).
+        The Web XML editor is shown. The Web XML editor has a graphical view, accessed by the <guilabel>Tree</guilabel> tab, and a source view, accessed by the <guilabel>Source</guilabel> tab.
       </para>
        
       <figure>
@@ -1298,15 +1298,15 @@
   <section id="visual_page" role="updated">
     <title>Visual Page Editor</title> 
     <para>
-      <property>JBoss Developer Studio</property> comes with a powerful and customizable <property>Visual Page Editor</property> (VPE). You can use the Visual Page Editor to develop an application using any technology such as JSF, Struts, JSP, HTML and more. Double-click on a file in the Package Explorer view to open it in the Visual Editor, or just drag-and-drop it into perspective (the drag-and-drop feature can be also applied to JSP, XHTML or HTML files created locally).
+      <property>JBoss Developer Studio</property> comes with a powerful and customizable <property>Visual Page Editor</property> (VPE). You can use the Visual Page Editor to develop an application using any technology such as JSF, Struts, JSP, HTML and more. Double-click on a file in the <guilabel>Package Explorer</guilabel> view to open it in the Visual Editor, or just drag-and-drop it into perspective (the drag-and-drop feature can be also applied to <filename>JSP</filename>, <filename>XHTML</filename> or <filename>HTML</filename> files created locally).
     </para>
      
     <para>
-      As a new JSF 2.0 specification has been released, support of new features is now implemented in the <property>Visual Page Editor</property>. The JSF 2.0 tags like <literal>&lt;h:body&gt;</literal>, <literal>&lt;h:head&gt;</literal>, <literal>&lt;h:outputscript&gt;</literal>, <literal>&lt;h:outputstyle&gt;</literal> are supported in the editor as well as the composite components and expression language resource handling. (See the <ulink url="http://www.ibm.com/developerworks/java/library/j-jsf2fu2/index.html">following link</ulink> on how to use composite components and <ulink url="http://blogs.sun.com/rlubke/entry/jsf_2_0_new_feature3">following blog post</ulink> on how to handle EL resources).
+      As a new JSF 2.0 specification has been released, support of new features is now implemented in the <property>Visual Page Editor</property>. The JSF 2.0 tags like <literal>&lt;h:body&gt;</literal>, <literal>&lt;h:head&gt;</literal>, <literal>&lt;h:outputscript&gt;</literal>, <literal>&lt;h:outputstyle&gt;</literal> are supported in the editor, as well as the composite components and expression language resource handling. (See the <ulink url="http://www.ibm.com/developerworks/java/library/j-jsf2fu2/index.html">JSF 2 fu, Part 2: Templating and composite components</ulink> for information on how to use composite components and <ulink url="http://blogs.sun.com/rlubke/entry/jsf_2_0_new_feature3">JSF 2.0 New Feature Preview Series (Part 2.3): Resources</ulink> on how to handle EL resources).
     </para>
      
     <para>
-      The current VPE version has three tabs: <property>Visual/Source</property>, <property>Source</property> and <property>Preview</property>. To switch between the views you can use tabs at the bottom of the VPE or the shortcut keys <emphasis> <property>Ctrl + PageUp</property> and <property>Ctrl + PageDown</property> </emphasis>.
+      The current VPE version has three tabs: <property>Visual/Source</property>, <property>Source</property> and <property>Preview</property>. To switch between the views you can use tabs at the bottom of the VPE or the shortcut keys <keycombo><keycap>Ctrl</keycap><keycap>PageUp</keycap></keycombo>  and <keycombo><keycap>Ctrl</keycap><keycap>PageDown</keycap></keycombo>.
     </para>
      
     <figure>
@@ -1321,7 +1321,7 @@
     <section id="visual_source">
       <title>Visual/Source View</title> 
       <para>
-        Using the <property>Visual/Source view</property> you can edit your pages in the Source and Visual modes simultaneously, with instant synchronization between them:
+        Using the <guilabel>Visual/Source</guilabel> view you can edit your pages in the Source and Visual modes simultaneously, with instant synchronization between them:
       </para>
        
       <figure>
@@ -1334,11 +1334,11 @@
       </figure>
        
       <para>
-        The view is designed in the form of a split pane with toggle buttons for quickly moving between Source, Visual or Source/Visual modes, as shown on the figure above.
+        The view is designed in the form of a split pane with toggle buttons for quickly moving between <guilabel>Source</guilabel>, <guilabel>Visual</guilabel> or <guilabel>Source/Visual</guilabel> modes, as shown on the figure above.
       </para>
        
       <para>
-        One more way to toggle between the various states of the split pane is using the shortcuts <emphasis> <property>Shift + F6</property> </emphasis> for maximizing/restoring the Source part and <emphasis> <property>Shift + Alt + F6</property> </emphasis> for maximizing or restoring the Visual part.
+        One more way to toggle between the various states of the split pane is using the shortcuts <keycombo><keycap>Shift</keycap><keycap>F6</keycap></keycombo> for maximizing or restoring the <guilabel>Source</guilabel> part and <keycombo><keycap>Shift</keycap><keycap>Alt</keycap><keycap>F6</keycap></keycombo> for maximizing or restoring the <guilabel>Visual</guilabel> part.
       </para>
        
       <note>
@@ -1349,7 +1349,7 @@
       </note>
        
       <para>
-        It should be pointed out that, no matter what mode you are working in, you get a full integration with the <property>Properties</property> and <property>Outline views</property>:
+        It should be pointed out that, no matter what mode you are working in, you get a full integration with the <guilabel>Properties</guilabel> and <guilabel>Outline</guilabel> views:
       </para>
        
       <figure>
@@ -1362,15 +1362,15 @@
       </figure>
        
       <para>
-        The Outline view displays a specific outline of a structured file that is currently open in the editor area, and lists its structural elements. Right-clicking on these elements will open additional options that allow other specific elements to be added in their appropriate positions.
+        The <guilabel>Outline</guilabel> view displays a specific outline of a structured file that is currently open in the editor area, and lists its structural elements. Right-clicking on these elements will open additional options that allow other specific elements to be added in their appropriate positions.
       </para>
        
       <para>
-        The Properties view shows the property names and their values for a selected item. The values are editable just select any value and click on the button that will appear to choose a new value. The key combination <property>Ctrl+Z</property> will return the previous value, while <property>Ctrl+Y</property> will return the new value again. The Properties view has additional options and can be set up to display categories and advanced properties.
+        The <guilabel>Properties</guilabel> view shows the property names and their values for a selected item. The values are editable: just select any value and click on the button that will appear to choose a new value. The key combination <keycombo><keycap>Ctrl</keycap><keycap>Z</keycap></keycombo> will return the previous value, while <keycombo><keycap>Ctrl</keycap><keycap>Y</keycap></keycombo> will return the new value again. The <guilabel>Properties</guilabel> view has additional options and can be set up to display categories and advanced properties.
       </para>
        
       <para>
-        It&apos;s also possible to use the <xref linkend="palette"/> to insert any tag from the list of tag libraries to the page you are editing with just a click or drag-and-drop.
+        It is also possible to use the JBoss Tools Palette (see <xref linkend="palette"/>) to insert any tag from the list of tag libraries to the page you are editing with just a click or drag-and-drop.
       </para>
        
       <figure>
@@ -1383,11 +1383,11 @@
       </figure>
        
       <para>
-        You can insert a tag or component from the palette into either the Source or the Visual part by displaying the context menu and selecting <property>Insert around</property>, <property>Insert before</property>, <property>Insert after</property> or <property>Replace With</property>, pointing to <property>From Palette</property>, picking the type of the tag and finally choosing the tag you want to insert.
+        You can insert a tag or component from the palette into either the <guilabel>Source</guilabel> or the <guilabel>Visual</guilabel> part by displaying the context menu and selecting <guimenuitem>Insert around</guimenuitem>, <guimenuitem>Insert before</guimenuitem>, <guimenuitem>Insert after</guimenuitem> or <guimenuitem>Replace With</guimenuitem>, pointing to <guimenuitem>From Palette</guimenuitem>, picking the type of the tag and finally choosing the tag you want to insert.
       </para>
        
       <para>
-        The image below illustrates how you can insert a tag into the Source part.
+        The image below illustrates how you can insert a tag into the <guilabel>Source</guilabel> part.
       </para>
        
       <figure>
@@ -1400,7 +1400,7 @@
       </figure>
        
       <para>
-        And this is how a tag is inserted using a context menu in the Visual part.
+        And this is how a tag is inserted using a context menu in the <guilabel>Visual</guilabel> part.
       </para>
        
       <figure>
@@ -1413,7 +1413,7 @@
       </figure>
        
       <para>
-        The Visual Page Editor also displays custom tags correctly if they are configured properly. The picture below shows an example how the custom tags <emphasis><property>&quot;pagination&quot;</property> </emphasis> and <emphasis><property>&quot;echo&quot;</property> </emphasis> will be displayed in VPE.
+        The Visual Page Editor also displays custom tags correctly if they are configured properly. The picture below shows an example how the custom tags <code>pagination</code> and <code>echo</code> will be displayed in VPE.
       </para>
        
       <figure>
@@ -1432,26 +1432,23 @@
       <itemizedlist>
         <listitem>
           <para>
-            echo.xhtml:
+            <filename>echo.xhtml</filename>:
           </para>
            
           <programlisting role="XML">
-<![CDATA[
-<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets">
+<![CDATA[<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets">
 	<span class="message">#{msg}</span>
-</ui:composition>
-]]>
+</ui:composition>]]>
           </programlisting>
         </listitem>
          
         <listitem>
           <para>
-            paginator.xhtml:
+            <filename>paginator.xhtml</filename>:
           </para>
            
           <programlisting role="XML">
-<![CDATA[
-                        <?xml version="1.0" encoding="UTF-8"?>
+<![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
@@ -1477,14 +1474,13 @@ two elements with equal id has been used, but should be used only one -->
 	</h:panelGrid>
 	<h:inputHidden id="currentPage" value=""/>
 </ui:component>
-</html>
-]]>
+</html>]]>
           </programlisting>
         </listitem>
       </itemizedlist>
        
       <para>
-        If your custom tags aren&apos;t configured correctly your Visual mode will look like this:
+        If your custom tags are not configured correctly your Visual mode will look like this:
       </para>
        
       <figure>
@@ -1499,7 +1495,7 @@ two elements with equal id has been used, but should be used only one -->
       <section id="comments">
         <title>Commenting out Code</title> 
         <para>
-          <property>VPE</property> supports the ability to add comments in files you are working with (JSP, XHTML, etc.):
+          <property>VPE</property> supports the ability to add comments in files you are working with (<filename>JSP</filename>, <filename>XHTML</filename>, etc.):
         </para>
          
         <itemizedlist>
@@ -1524,7 +1520,7 @@ two elements with equal id has been used, but should be used only one -->
         </para>
          
         <para>
-          Code folding can be enabled by right-clicking on the left margin on the Source part of Visual Page Editor, selecting <property>Folding</property> and checking the <property>Enable Folding</property> checkbox or using the <emphasis> <property>Ctrl+Numpad_Divide</property> </emphasis> shortcut.
+          Code folding can be enabled by right-clicking on the left margin on the Source part of Visual Page Editor, selecting <property>Folding</property> and checking the <property>Enable Folding</property> checkbox or using the <keycombo><keycap>Ctrl</keycap><keycap>Numpad Divide</keycap></keycombo> shortcut.
         </para>
          
         <para>
@@ -1627,7 +1623,7 @@ two elements with equal id has been used, but should be used only one -->
         </figure>
          
         <para>
-          For editing inline styles for DOM elements <property>VPE</property> provides the <property>CSS Dialog</property>. It can be called from <emphasis> <property>style</property> </emphasis> line in the <property>Properties view</property> for a currently selected element.
+          For editing inline styles for DOM elements <property>VPE</property> provides the <property>CSS Dialog</property>. It can be called from <guilabel> style</guilabel> line in the <guilabel>Properties</guilabel> view for a currently selected element.
         </para>
          
         <figure>
@@ -1640,7 +1636,7 @@ two elements with equal id has been used, but should be used only one -->
         </figure>
          
         <para id="css_dialog">
-          <property>CSS Style Dialog</property> has several tabs where css properties for text, background, borders and others can be specified. A simple preview which is generated at the top of the <property>CSS Style Dialog</property> allows you to see the changes before you apply them.
+          <guilabel>CSS Style</guilabel> Dialog has several tabs where css properties for text, background, borders and others can be specified. A simple preview which is generated at the top of the <guilabel>CSS Style</guilabel> Dialog allows you to see the changes before you apply them.
         </para>
          
         <figure>
@@ -1656,11 +1652,11 @@ two elements with equal id has been used, but should be used only one -->
       <section id="external_stylesheets">
         <title>External Stylesheets</title> 
         <para>
-          The pages you are working with in <property>VPE</property> can use external stylesheets. <property>VPE</property> allows you to create new style classes in existing stylesheets and/or edit them as well. For these purposes <property>Edit Style Class Dialog</property> is provided.
+          The pages you are working with in <property>VPE</property> can use external stylesheets. <property>VPE</property> allows you to create new style classes in existing stylesheets and/or edit them as well. For these purposes <guilabel>Edit Style Class</guilabel> Dialog is provided.
         </para>
          
         <para>
-          Select the element for which you need to create or edit style class and press button next to <emphasis> <property>styleClass</property> </emphasis> field in <property>Properties view</property>.
+          Select the element for which you need to create or edit style class and press button next to <guilabel>styleClass</guilabel> field in <guilabel>Properties</guilabel> view.
         </para>
          
         <figure>
@@ -1673,7 +1669,7 @@ two elements with equal id has been used, but should be used only one -->
         </figure>
          
         <para>
-          It&apos;ll pick up the <property>Edit Style Class Dialog</property> which looks like on the figure below:
+          It&apos;ll pick up the <guilabel>Edit Style Class</guilabel> Dialog which looks like on the figure below:
         </para>
          
         <figure>
@@ -1696,7 +1692,7 @@ two elements with equal id has been used, but should be used only one -->
               <imagedata fileref="images/visual_page/visual_page_19.png"/>
             </imageobject>
           </inlinemediaobject>
-           in the top panel or use hot-keys (<property>Shift+Ctrl+C</property>).
+           in the top panel or use hot-keys (<keycombo><keycap>Shift</keycap><keycap>Ctrl</keycap><keycap>C</keycap></keycombo>).
         </para>
          
         <para>
@@ -1713,7 +1709,7 @@ two elements with equal id has been used, but should be used only one -->
         </figure>
          
         <para>
-          Then you can configure style settings switching between the tabs: <emphasis> <property>Text/Font</property>, </emphasis> <emphasis> <property>Background</property>, </emphasis> <emphasis> <property>Boxes</property>, </emphasis> <emphasis> <property>Property Sheet</property>. </emphasis>The list of already existing classes with names beginning with the symbols printed will be displayed on standard "Ctrl+Space" key combination. To add existing styling to the chosen element just point to the necessary one. Each time you select any class it is displayed in the Preview tab. Click on the <emphasis><property>Apply</property> </emphasis> button will apply the changes without closing the window.
+          Then you can configure style settings switching between the tabs: <guilabel>Text/Font</guilabel>, <guilabel>Background</guilabel>, <guilabel>Boxes</guilabel>,  <guilabel>Property Sheet</guilabel>. The list of already existing classes with names beginning with the symbols printed will be displayed on standard <keycombo><keycap>Ctrl</keycap><keycap>Space</keycap></keycombo> key combination. To add existing styling to the chosen element just point to the necessary one. Each time you select any class it is displayed in the <guilabel>Preview</guilabel> tab. Click on the <guibutton>Apply</guibutton> button will apply the changes without closing the window.
         </para>
          
         <figure>
@@ -1726,7 +1722,7 @@ two elements with equal id has been used, but should be used only one -->
         </figure>
          
         <para>
-          The <emphasis> <property>Edited properties</property> </emphasis> tab gives a preview of the properties which are set for the existing style class. You can easily modify them with the help of this wizard.
+          The <guilabel>Edited properties</guilabel> tab gives a preview of the properties which are set for the existing style class. You can easily modify them with the help of this wizard.
         </para>
          
         <figure>
@@ -1739,7 +1735,7 @@ two elements with equal id has been used, but should be used only one -->
         </figure>
          
         <para>
-          If the style class isn&apos;t chosen, the tab doesn&apos;t show any properties.
+          If the style class isn ot chosen, the tab does not show any properties.
         </para>
          
         <figure>
@@ -1752,7 +1748,7 @@ two elements with equal id has been used, but should be used only one -->
         </figure>
          
         <para>
-          The <emphasis> <property>Preview tab</property> </emphasis> is for observing the content of the chosen CSS file. This tab is hidden if no CSS file is chosen.
+          The <guilabel>Preview</guilabel> tab is for observing the content of the chosen <filename>CSS</filename> file. This tab is hidden if no <filename>CSS</filename> file is chosen.
         </para>
          
         <figure>
@@ -1765,7 +1761,7 @@ two elements with equal id has been used, but should be used only one -->
         </figure>
          
         <para>
-          At the top of the <property>CSS Class Dialog</property> you can see a preview box which visualizes the result. To edit the preview you should double click in the box. To leave the focus, use <emphasis> <property>Ctrl + Tab</property>.</emphasis>
+          At the top of the <guilabel>CSS Class</guilabel> Dialog you can see a preview box which visualizes the result. To edit the preview you should double click in the box. To leave the focus, use <keycombo><keycap>Ctrl</keycap><keycap>Tab</keycap></keycombo>.
         </para>
          
         <figure>
@@ -1778,7 +1774,7 @@ two elements with equal id has been used, but should be used only one -->
         </figure>
          
         <para>
-          The dialog for creating a new CSS class, which is called from <emphasis> <property>New > Other... > JBoss Tools Web > CSS Class</property>, </emphasis> looks this way:
+          The dialog for creating a new CSS class, which is called from <menuchoice><guimenuitem>New</guimenuitem><guimenuitem>Other...</guimenuitem><guimenuitem>JBoss Tools Web</guimenuitem><guimenuitem>CSS Class</guimenuitem></menuchoice>, looks this way:
         </para>
          
         <figure>
@@ -1804,7 +1800,7 @@ two elements with equal id has been used, but should be used only one -->
         </figure>
          
         <para>
-          Choose the necessary CSS file and click on the <property>Ok</property> button.
+          Choose the necessary <filename>CSS</filename> file and click on the <guibutton>Ok</guibutton> button.
         </para>
       </section>
     </section>
@@ -1816,7 +1812,7 @@ two elements with equal id has been used, but should be used only one -->
       </para>
        
       <para>
-        To call the <property>Template dialog</property> for a tag, right-click on it in Visual mode and select <emphasis> <property>Setup Visual Template for &lt;tag name&gt;</property> </emphasis> option.
+        To call the <property>Template dialog</property> for a tag, right-click on it in Visual mode and select <guimenuitem>Setup Visual Template for &lt;tag name&gt;</guimenuitem> option.
       </para>
        
       <figure>
@@ -1842,13 +1838,13 @@ two elements with equal id has been used, but should be used only one -->
       </figure>
        
       <para>
-        The <emphasis> <property>Tag Name</property> </emphasis> field is for setting the name of the unknown tag.
+        The <guilabel>Tag Name</guilabel> field is for setting the name of the unknown tag.
       </para>
        
       <note>
         <title>Note:</title> 
         <para>
-          The given field should be filled in according to the pattern: &quot;taglib:tag&quot;. Also make sure you do not surround the name with angle brackets which will cause the validation error (see the figure below).
+          The given field should be filled in according to the pattern: <code>taglib:tag</code>. Also make sure you do not surround the name with angle brackets which will cause the validation error (see the figure below).
         </para>
       </note>
        
@@ -1862,25 +1858,25 @@ two elements with equal id has been used, but should be used only one -->
       </figure>
        
       <para>
-        <emphasis> <property>Tag for Display</property> </emphasis> field in the <property>Template dialog</property> requires specifying a type of tag. It can be SPAN, DIV, TABLE or any other html element. Check <emphasis> <property>Children</property> </emphasis>, if you want to mark a tag as a child element.
+        <guilabel>Tag for Display</guilabel> field in the <guilabel>Template</guilabel> dialog requires specifying a type of tag. It can be SPAN, DIV, TABLE or any other html element. Check <guilabel>Children</guilabel>, if you want to mark a tag as a child element.
       </para>
        
       <para>
-        The <emphasis> <property>Value</property> </emphasis> field is for setting a tag value.
+        The <guilabel>Value</guilabel> field is for setting a tag value.
       </para>
        
       <para>
-        As for the <emphasis> <property>Style</property> </emphasis> field, you can fill it out manually or make use of the button next to the field to bring the <xref linkend="css_dialog"/> for editing styles.
+        As for the <guilabel>Style</guilabel> field, you can fill it out manually or make use of the button next to the field to bring the <xref linkend="css_dialog"/> for editing styles.
       </para>
        
       <para>
-        You can observe all defined templates in the <xref linkend="VisualPageEditor2"/> on the <emphasis> <property>Visual Templates</property> </emphasis> tab which you can quickly access by pressing <xref linkend="AdvancedSettings954"/> ( 
+        You can observe all defined templates in the <xref linkend="VisualPageEditor2"/> on the <guilabel>Visual Templates</guilabel> tab which you can quickly access by pressing 
         <inlinemediaobject>
           <imageobject>
             <imagedata fileref="images/visual_page/icon_1.png"/>
           </imageobject>
         </inlinemediaobject>
-         ).
+         (see <xref linkend="AdvancedSettings954"/>).
       </para>
        
       <figure>
@@ -1904,7 +1900,7 @@ two elements with equal id has been used, but should be used only one -->
       </para>
        
       <para>
-        To export all visual templates you defined for unknown tags, navigate to <menuchoice> <guimenuitem> File </guimenuitem> <guimenuitem> Export </guimenuitem> <guimenuitem> Other </guimenuitem> <guimenuitem> Unknown tags templates </guimenuitem> </menuchoice>. Here is what the wizard looks like.
+        To export all visual templates you defined for unknown tags, navigate to <menuchoice><guimenuitem>File</guimenuitem><guimenuitem>Export</guimenuitem> <guimenuitem>Other</guimenuitem><guimenuitem>Unknown tags templates</guimenuitem></menuchoice>. Here is what the wizard looks like.
       </para>
        
       <figure>
@@ -1917,11 +1913,11 @@ two elements with equal id has been used, but should be used only one -->
       </figure>
        
       <para>
-        At this point click <emphasis> <property>Browse</property> </emphasis> to set the path where to save the external XML file with templates and then press <emphasis> <property>Finish</property> </emphasis> to complete the export.
+        At this point click the <guibutton>Browse</guibutton> button to set the path where to save the external XML file with templates and then click the <guibutton>Finish</guibutton> button to complete the export.
       </para>
        
       <para>
-        For import, use the similar steps. Follow to <emphasis> <property>File &gt; Import &gt; Other &gt; Unknown tags templates</property> </emphasis> to open the import wizard. Click <emphasis> <property>Browse</property> </emphasis> to point to the XML file which stores the custom tags templates and then hit <emphasis> <property>Finish</property> </emphasis> to complete the import.
+        For import, use the similar steps. Select <menuchoice><guimenuitem>File</guimenuitem><guimenuitem>Import</guimenuitem><guimenuitem>Other</guimenuitem><guimenuitem>Unknown tags templates</guimenuitem></menuchoice> to open the import wizard. Click the <guibutton>Browse</guibutton> to point to the <filename>XML</filename> file which stores the custom tags templates and then click the <guibutton>Finish</guibutton> button to complete the import.
       </para>
        
       <figure>
@@ -2088,7 +2084,7 @@ two elements with equal id has been used, but should be used only one -->
       <section id="vpe_refresh">
         <title>Refresh</title> 
         <para>
-          Clicking on the <emphasis> <property>Refresh</property> </emphasis> button ( 
+          Clicking on the <guibutton>Refresh</guibutton> button ( 
           <inlinemediaobject>
             <imageobject>
               <imagedata fileref="images/visual_page/icon_2.png"/>
@@ -2101,13 +2097,13 @@ two elements with equal id has been used, but should be used only one -->
       <section id="vpe_page_design_options">
         <title>Page Design Options</title> 
         <para>
-          The <emphasis> <property>Page Design Options</property> </emphasis> button ( 
+          The <guibutton>Page Design Options</guibutton> button ( 
           <inlinemediaobject>
             <imageobject>
               <imagedata fileref="images/visual_page/icon_3.png"/>
             </imageobject>
           </inlinemediaobject>
-           ) leads to a window which helps you specify necessary references of the resources. It is represented by a window with 4 tabs. The first one, <emphasis> <property>Actual Run-Time folders</property>, </emphasis> is used to replace absolute and relative path values when generating a preview:
+           ) leads to a window which helps you specify necessary references of the resources. It is represented by a window with 4 tabs. The first one, <guilabel>Actual Run-Time folders</guilabel>, is used to replace absolute and relative path values when generating a preview:
         </para>
          
         <figure>
@@ -2120,7 +2116,7 @@ two elements with equal id has been used, but should be used only one -->
         </figure>
          
         <para>
-          The second tab, <emphasis> <property>Included CSS files</property> </emphasis>, is used to add CSS files to be linked by Visual Page Editor when generating a preview:
+          The second tab, <guilabel>Included CSS files</guilabel>, is used to add CSS files to be linked by Visual Page Editor when generating a preview:
         </para>
          
         <figure>
@@ -2133,7 +2129,7 @@ two elements with equal id has been used, but should be used only one -->
         </figure>
          
         <para>
-          The third one, <emphasis> <property>Included tag libs</property> </emphasis>, can be used to add Taglibs that can be used by the editor for getting appropriate templates to generate a preview:
+          The third one, <guilabel>Included tag libs</guilabel>, can be used to add Taglibs that can be used by the editor for getting appropriate templates to generate a preview:
         </para>
          
         <figure>
@@ -2146,7 +2142,7 @@ two elements with equal id has been used, but should be used only one -->
         </figure>
          
         <para id="el_exp_para">
-          And finally, the <emphasis> <property>Substituted El expressions</property> </emphasis> tab is used to add El expressions that will be substituted by the editor when generating a preview:
+          And finally, the <guilabel>Substituted El expressions</guilabel> tab is used to add El expressions that will be substituted by the editor when generating a preview:
         </para>
          
         <figure>
@@ -2177,7 +2173,7 @@ two elements with equal id has been used, but should be used only one -->
         </programlisting>
          
         <para>
-          The content of the <emphasis> <property>header.jsp</property> </emphasis> is:
+          The content of the <filename>header.jsp</filename> is:
         </para>
          
         <programlisting role="XML">
@@ -2187,7 +2183,7 @@ two elements with equal id has been used, but should be used only one -->
         </programlisting>
          
         <para>
-          and <emphasis> <property>main.jsp</property> </emphasis> content is:
+          and <filename>main.jsp</filename> content is:
         </para>
          
         <programlisting role="XML">
@@ -2196,7 +2192,7 @@ two elements with equal id has been used, but should be used only one -->
         </programlisting>
          
         <para>
-          When you open <emphasis> <property>main.jsp</property> </emphasis> in <property>Visual Page Editor</property>, it will not be able to resolve the image from the header, however it will work fine in runtime. To fix this in design time, click the <emphasis> <property>Page Design Options</property> </emphasis> button and set <emphasis> <property>Actual Run-Time Relative Folder</property> </emphasis> to <emphasis>&apos;projectName &gt; WebContent &gt; pages&apos;</emphasis> and you will see the image appeared.
+          When you open the <filename>main.jsp</filename> file in <property>Visual Page Editor</property>, it will not be able to resolve the image from the header, however it will work fine in runtime. To fix this in design time, click the <guibutton>Page Design Options</guibutton> button and set <guilabel>Actual Run-Time Relative Folder</guilabel> to <menuchoice><guimenuitem>[Project Name]</guimenuitem><guimenuitem>WebContent</guimenuitem><guimenuitem>pages</guimenuitem></menuchoice> and you will see the image appeared.
         </para>
          
         <para/>
@@ -2212,7 +2208,7 @@ two elements with equal id has been used, but should be used only one -->
         </programlisting>
          
         <para>
-          This will work fine in runtime, but the <property>Visual Page Editor</property> doesn&apos;t know what <emphasis>requestContextPath</emphasis> in design time is. In order to see the necessary styles applied in design time your should add a path to your stylesheet in the <property>CSS File Path</property> section.
+          This will work fine in runtime, but the <property>Visual Page Editor</property> does not know what <code>requestContextPath</code> in design time is. In order to see the necessary styles applied in design time your should add a path to your stylesheet in the <guilabel>CSS File Path</guilabel> section.
         </para>
          
         <para>
@@ -2237,7 +2233,7 @@ two elements with equal id has been used, but should be used only one -->
         </figure>
          
         <para>
-          Here both in Source and Visual modes you see the EL expression <emphasis>#{user.name}</emphasis>. When you switch to <property>Preview view</property>, you&apos;ll also see this expression. Now press <emphasis> <property>Page Design Options</property> </emphasis> button and set the value for the <emphasis>&quot;user.name&quot;</emphasis> as <emphasis><property>World</property>.</emphasis>
+          Here both in Source and Visual modes you see the EL expression <code>#{user.name}</code>. When you switch to <guilabel>Preview</guilabel> view, you will also see this expression. Now press <guibutton>Page Design Options</guibutton> button and set the value for the <guilabel>user.name</guilabel> as <guilabel>World</guilabel>.
         </para>
          
         <figure>
@@ -2250,7 +2246,7 @@ two elements with equal id has been used, but should be used only one -->
         </figure>
          
         <para>
-          As a result in Visual mode and Preview view the word <emphasis> <property>World</property> </emphasis> is displayed.
+          As a result in Visual mode and Preview view the word <guilabel>World</guilabel> is displayed.
         </para>
          
         <figure>
@@ -2266,7 +2262,7 @@ two elements with equal id has been used, but should be used only one -->
       <section id="splitting_buttons">
         <title>Visual/Source Editors splitting buttons</title> 
         <para>
-          The <emphasis> <property>Visual/Source Editors splitting buttons</property> </emphasis> provide the possibility to choose one of the four possible layouts for the Visual/Source Editor.
+          The Visual/Source Editors splitting buttons provide a way to choose one of the four possible layouts for the Visual/Source Editor.
         </para>
          
         <para>
@@ -2344,7 +2340,7 @@ two elements with equal id has been used, but should be used only one -->
       <section id="vpe_show_border">
         <title>Show Border for Unknown Tags</title> 
         <para>
-          The option is a self explanatory, i. e. if you want unknown tags to be wrapped in a border in the VPE visual part, just press the <emphasis> <property>Show border for unknown tags</property> </emphasis> button ( 
+          The option is a self explanatory, i. e. if you want unknown tags to be wrapped in a border in the VPE visual part, just press the <guibutton>Show border for unknown tags</guibutton> button ( 
           <inlinemediaobject>
             <imageobject>
               <imagedata fileref="images/visual_page/show_border_button.png"/>
@@ -2357,7 +2353,7 @@ two elements with equal id has been used, but should be used only one -->
       <section id="vpe_show_nonvisual_tags">
         <title>Show Non-visual Tags</title> 
         <para>
-          <property>Visual Page Editor</property> provides the option for displaying non-visual tags in Visual mode of the editor. To enable it select the <emphasis> <property>Show non-visual tags</property> </emphasis> button ( 
+          <property>Visual Page Editor</property> provides the option for displaying non-visual tags in Visual mode of the editor. To enable it select the <guibutton>Show non-visual tags</guibutton> button ( 
           <inlinemediaobject>
             <imageobject>
               <imagedata fileref="images/visual_page/show_nonvisual.png"/>
@@ -2380,7 +2376,7 @@ two elements with equal id has been used, but should be used only one -->
         </figure>
          
         <para>
-          You can also switch on this option in the VPE preferences, having clicked on the <emphasis><property>Preferences</property> </emphasis> button ( 
+          You can also switch on this option in the VPE preferences, having clicked on the <guibutton>Preferences</guibutton> button ( 
           <inlinemediaobject>
             <imageobject>
               <imagedata fileref="images/visual_page/icon_1.png"/>
@@ -2393,7 +2389,7 @@ two elements with equal id has been used, but should be used only one -->
       <section id="vpe_show_selection_bar">
         <title>Show Selection Bar</title> 
         <para>
-          You can find useful one more functionality provided by VPE. At the bottom of the <property>Visual/Source view</property> there is a <property>Selection Tag Bar</property>. It's updated automatically allowing to see tags tree for a current component selected in Visual or Source mode, also it allows to select tags back and forward.
+          You can find useful one more functionality provided by VPE. At the bottom of the <guilabel>Visual/Source</guilabel> view there is a <property>Selection Tag Bar</property>. It's updated automatically allowing to see tags tree for a current component selected in Visual or Source mode, also it allows to select tags back and forward.
         </para>
          
         <figure>
@@ -2406,7 +2402,7 @@ two elements with equal id has been used, but should be used only one -->
         </figure>
          
         <para>
-          If you want to hide the <property>Selection Tag Bar</property>, use the <emphasis> <property>Show Selection Bar</property> </emphasis> button ( 
+          If you want to hide the <property>Selection Tag Bar</property>, use the <guibutton>Show Selection Bar</guibutton> button ( 
           <inlinemediaobject>
             <imageobject>
               <imagedata fileref="images/visual_page/show_selection_bar.png"/>
@@ -2482,7 +2478,7 @@ two elements with equal id has been used, but should be used only one -->
     <section id="custom_facelets_support">
       <title>Support for Custom Facelets Components</title> 
       <para>
-        <property>Visual Page Editor</property> (starting from 3.0.0.M3 version of <property>JBoss Tools</property>) supports custom Facelets tag libraries both declared in the <literal>web.xml</literal> file (for details, see <ulink url="http://www.ibm.com/developerworks/java/library/j-facelets/#N10294">Creating a component</ulink>) and packed into the JAR file.
+        <property>Visual Page Editor</property> (starting from 3.0.0.M3 version of <property>JBoss Tools</property>) supports custom Facelets tag libraries both declared in the <literal>web.xml</literal> file (for details, see <ulink url="http://www.ibm.com/developerworks/java/library/j-facelets/#N10294">Creating a component</ulink>) and packed into the <filename>JAR</filename> file.
       </para>
        
       <note>
@@ -2526,7 +2522,7 @@ two elements with equal id has been used, but should be used only one -->
       <section id="contentAssistForCustomFacelets">
         <title>Content Assist for Custom Facelets Components</title> 
         <para>
-          Call the content assist as usual by using <emphasis><property>Ctrl+Space</property> </emphasis> when typing a tag. As proposals you should see custom Facelets tags defined in your Facelets tag library.
+          Call the content assist as usual by using <keycombo><keycap>Ctrl</keycap><keycap>Space</keycap></keycombo> when typing a tag. As proposals you should see custom Facelets tags defined in your Facelets tag library.
         </para>
          
         <figure>
@@ -2572,7 +2568,7 @@ two elements with equal id has been used, but should be used only one -->
               </para>
                
               <para>
-                <emphasis> <property>Ctrl+Click</property> </emphasis> on the namespace will open the Facelets tag file in a separate window.
+                <keycombo><keycap>Ctrl</keycap><keycap>Click</keycap></keycombo> on the namespace will open the Facelets tag file in a separate window.
               </para>
                
               <figure>
@@ -2585,7 +2581,7 @@ two elements with equal id has been used, but should be used only one -->
               </figure>
                
               <para>
-                <emphasis> <property>Ctrl+Click</property> </emphasis> on any custom Facelets tag declared on the page will do the same. The selected tag will be highlighted in the opened file.
+                <keycombo><keycap>Ctrl</keycap><keycap>Click</keycap></keycombo> on any custom Facelets tag declared on the page will do the same. The selected tag will be highlighted in the opened file.
               </para>
                
               <figure>
@@ -2613,7 +2609,7 @@ two elements with equal id has been used, but should be used only one -->
         <section id="openOnInCustomFaceletsTaglibs">
           <title>OpenOn in Custom Facelets Tag File (<literal>*.taglib.xml</literal>)</title> 
           <para>
-            <emphasis> <property>Ctrl+Click</property> </emphasis> on the path to source of the Facelets tag will open the component in its own editor.
+            <keycombo><keycap>Ctrl</keycap><keycap>Click</keycap></keycombo> on the path to source of the Facelets tag will open the component in its own editor.
           </para>
            
           <figure>
@@ -2635,13 +2631,13 @@ two elements with equal id has been used, but should be used only one -->
       </para>
        
       <para>
-        The Visual Page Editor requires the library libstdc++.so.5. This library is contained in the compat-libstdc++-33.i386 package.
+        The Visual Page Editor requires the library <filename>libstdc++.so.5</filename>. This library is contained in the <filename>compat-libstdc++-33.i386</filename> package.
       </para>
        
       <note>
         <title>Note</title> 
         <para>
-          Starting from JBoss Tools 3.1.0.M4 the libstdc++.so.5 library isn't required.
+          Starting from JBoss Tools 3.1.0.M4 the <filename>libstdc++.so.5</filename> library isn't required.
         </para>
       </note>
        
@@ -2659,7 +2655,7 @@ two elements with equal id has been used, but should be used only one -->
          
         <listitem>
           <para>
-            On any other rpm based distributions download libstdc++.so.5 and run the following command:
+            On any other rpm based distributions download <filename>libstdc++.so.5</filename> and run the following command:
           </para>
            
           <programlisting role="JAVA">
@@ -2685,25 +2681,25 @@ two elements with equal id has been used, but should be used only one -->
       </para>
        
       <para>
-        If it doesn't help and you use Fedora Core Linux and Eclipse Version: 3.4.1,the issue can be produced because libswt-xulrunner-gtk-3449.so file doesn't present in eclipse-swt-3.4.1-5.fc10.x86_64.rpm/eclipse/plugins/org.eclipse.swt.gtk.linux.x86_64_3.4.1.v3449c.jar.To add this file to eclipse you should:
+        If it doesn't help and you use Fedora Core Linux and Eclipse Version: 3.4.1,the issue can be produced because libswt-xulrunner-gtk-3449.so file doesn't present in <filename>eclipse-swt-3.4.1-5.fc10.x86_64.rpm/eclipse/plugins/org.eclipse.swt.gtk.linux.x86_64_3.4.1.v3449c.jar</filename>. To add this file to eclipse you should:
       </para>
        
       <itemizedlist>
         <listitem>
           <para>
-            Decompress eclipse/plugins/org.eclipse.swt.gtk.linux.x86_3.4.1.v3449c.jar form eclipse-SDK-3.4.1-linux-gtk-x86_64.tar.gz
+            Decompress <filename>eclipse/plugins/org.eclipse.swt.gtk.linux.x86_3.4.1.v3449c.jar</filename> form <filename>eclipse-SDK-3.4.1-linux-gtk-x86_64.tar.gz</filename>
           </para>
         </listitem>
          
         <listitem>
           <para>
-            Copy <property>libswt-xulrunner-gtk-3449.so</property> file to your Fedora Eclipse location.
+            Copy <filename>libswt-xulrunner-gtk-3449.so</filename> file to your Fedora Eclipse location.
           </para>
         </listitem>
          
         <listitem>
           <para>
-            Open the file eclipse.ini,which can be found in your Fedora Eclipse location and add the following line:
+            Open the file <filename>eclipse.ini</filename>, which can be found in your Fedora Eclipse location and add the following line:
           </para>
            
           <programlisting role="JAVA">
@@ -2761,7 +2757,7 @@ two elements with equal id has been used, but should be used only one -->
   <section id="more_editors">
     <title>More Editors</title> 
     <para>
-      Besides Visual Page Editor JBDS is supplied with a huge range of various editors for different file types: properties, TLD, web.xml, tiles and so on.
+      Besides Visual Page Editor JBDS is supplied with a huge range of various editors for different file types: properties, TLD, <filename>web.xml</filename>, tiles and so on.
     </para>
      
     <section id="GraphicalPropertiesEditor">
@@ -2914,11 +2910,11 @@ two elements with equal id has been used, but should be used only one -->
     <section id="GraphicalWebApplicationFileEditor">
       <title>Graphical Web Application File (web.xml) Editor</title> 
       <para>
-        The deployment descriptor <emphasis> <property>web.xml</property> </emphasis> file is intended for describing the servlets, container-managed security constraints and various deployment properties specific for your Web Application.
+        The deployment descriptor <filename>web.xml</filename> file is intended for describing the servlets, container-managed security constraints and various deployment properties specific for your Web Application.
       </para>
        
       <para>
-        To edit the deployment descriptor <property>JBoss Developer Studio</property> provides its own <property>web.xml editor</property> that comes with the same features you will find in all other <property>JBDS</property> editors:
+        To edit the deployment descriptor <property>JBoss Developer Studio</property> provides its own <filename>web.xml editor</filename> that comes with the same features you will find in all other <property>JBDS</property> editors:
       </para>
        
       <itemizedlist>
@@ -2938,7 +2934,7 @@ two elements with equal id has been used, but should be used only one -->
       <section id="TreeView1">
         <title>Tree View</title> 
         <para>
-          Switch to the <property>Tree view</property> if you want to edit <emphasis> <property>web.xml</property> </emphasis> in a graphical mode. All elements that <emphasis> <property>web.xml</property> </emphasis> could include are located in the left area of the editor in a tree format. Click a node on the left to display and edit its properties that will appear in the right-hand area.
+          Switch to the <property>Tree view</property> if you want to edit <filename>web.xml</filename> in a graphical mode. All elements that <filename>web.xml</filename> could include are located in the left area of the editor in a tree format. Click a node on the left to display and edit its properties that will appear in the right-hand area.
         </para>
          
         <figure>
@@ -2967,7 +2963,7 @@ two elements with equal id has been used, but should be used only one -->
       <section id="SourceView2">
         <title>Source View</title> 
         <para>
-          Switch to the <property>Source viewer </property>to edit the web.xml file by hand at any time:
+          Switch to the <property>Source viewer </property>to edit the <filename>web.xml</filename> file by hand at any time:
         </para>
          
         <figure>
@@ -2983,7 +2979,7 @@ two elements with equal id has been used, but should be used only one -->
       <section id="ContentAssist">
         <title>Content Assist</title> 
         <para>
-          Content assist is available in the Source viewer. Simply click <emphasis> <property>CTRL-Space</property> </emphasis> anywhere in the file.
+          Content assist is available in the Source viewer. Simply click <keycombo><keycap>CTRL</keycap><keycap>Space</keycap></keycombo> anywhere in the file.
         </para>
          
         <figure>
@@ -3126,7 +3122,7 @@ two elements with equal id has been used, but should be used only one -->
       </para>
        
       <para>
-        To create a new XSD file, right-click a folder in the Package Explorer view, select <emphasis> <property>New &gt; Other...</property> </emphasis> from the context menu and then select <emphasis> <property>XML &gt; XML Schema</property> </emphasis> in the dialog box.
+        To create a new XSD file, right-click a folder in the Package Explorer view, select <menuchoice><guimenuitem>New</guimenuitem><guimenuitem>Other...</guimenuitem></menuchoice> from the context menu and then select <menuchoice><guimenuitem>XML</guimenuitem><guimenuitem>XML Schema</guimenuitem></menuchoice> in the dialog box.
       </para>
        
       <figure>
