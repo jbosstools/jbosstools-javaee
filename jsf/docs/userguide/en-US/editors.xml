@@ -649,11 +649,7 @@
           </figure>
            
           <para>
-            Content Assist for other JSF XML project files (
-            <filename>
-              web.xml
-            </filename>
-             shown):
+            Content Assist for other JSF XML project files ( <filename>web.xml</filename> shown):
           </para>
            
           <figure>
@@ -669,11 +665,7 @@
         <section id="ContentAssistforCompositeComponents">
           <title>Content Assist for Composite Components</title> 
           <para>
-            Content assist functionality is also available for composite components. The image below shows content assist used with a composite component file 
-            <filename>
-              tag.xhtml
-            </filename>
-             within a JSF 1.2 project with facelets.
+            Content assist functionality is also available for composite components. The image below shows content assist used with a composite component file <filename> tag.xhtml </filename> within a JSF 1.2 project with facelets.
           </para>
            
           <figure>
@@ -1107,11 +1099,7 @@
         <itemizedlist>
           <listitem>
             <para>
-              Adds code assist for JSF pre-defined objects, such as 
-              <code>
-                value=&quot;#{param}&quot;
-              </code>
-               :
+              Adds code assist for JSF pre-defined objects, such as <code> value=&quot;#{param}&quot; </code> :
             </para>
           </listitem>
         </itemizedlist>
@@ -1243,17 +1231,7 @@
            
           <listitem>
             <para>
-              Select 
-              <menuchoice>
-                <guimenuitem>
-                  Configure
-                </guimenuitem>
-                 
-                <guimenuitem>
-                  Add JSF Capabilities
-                </guimenuitem>
-              </menuchoice>
-               from the context menu.
+              Select <menuchoice> <guimenuitem> Configure </guimenuitem> <guimenuitem> Add JSF Capabilities </guimenuitem> </menuchoice> from the context menu.
             </para>
           </listitem>
            
@@ -1527,21 +1505,13 @@ two elements with equal id has been used, but should be used only one -->
         <itemizedlist>
           <listitem>
             <para>
-              HTML comments (
-              <code>
-                &lt;!-- --&gt;
-              </code>
-              ) which are output to the client
+              HTML comments ( <code> &lt;!-- --&gt; </code> ) which are output to the client
             </para>
           </listitem>
            
           <listitem>
             <para>
-              JSP comments (
-              <code>
-                &lt;%-- --%&gt;
-              </code>
-              ) which are not output to the client as part of the JSP page output
+              JSP comments ( <code> &lt;%-- --%&gt; </code> ) which are not output to the client as part of the JSP page output
             </para>
           </listitem>
         </itemizedlist>
@@ -1624,15 +1594,7 @@ two elements with equal id has been used, but should be used only one -->
         </para>
          
         <para>
-          For example, 
-          <code>
-            &lt;s:decorate&gt;
-          </code>
-           element in seam has different parameters in versions 1.2 and 2.0 as well as 
-          <code>
-            &lt;h:outputLink&gt;
-          </code>
-           JSF element has different preview in versions 1.1 and 1.2.
+          For example, <code> &lt;s:decorate&gt; </code> element in seam has different parameters in versions 1.2 and 2.0 as well as <code> &lt;h:outputLink&gt; </code> JSF element has different preview in versions 1.1 and 1.2.
         </para>
       </section>
     </section>
@@ -1652,7 +1614,7 @@ two elements with equal id has been used, but should be used only one -->
               <imagedata fileref="images/visual_page/formatting_bar_icon.png"/>
             </imageobject>
           </inlinemediaobject>
-          ) on the VPE toolbar.
+           ) on the VPE toolbar.
         </para>
          
         <figure>
@@ -1942,7 +1904,7 @@ two elements with equal id has been used, but should be used only one -->
       </para>
        
       <para>
-        To export all visual templates you defined for unknown tags, navigate to <emphasis> <property>File &gt; Export &gt; Other &gt; Unknown tags templates</property>.</emphasis> Here is what the wizard looks like.
+        To export all visual templates you defined for unknown tags, navigate to <menuchoice> <guimenuitem> File </guimenuitem> <guimenuitem> Export </guimenuitem> <guimenuitem> Other </guimenuitem> <guimenuitem> Unknown tags templates </guimenuitem> </menuchoice>. Here is what the wizard looks like.
       </para>
        
       <figure>
@@ -2023,7 +1985,7 @@ two elements with equal id has been used, but should be used only one -->
                 <imagedata fileref="images/visual_page/source_top.png"/>
               </imageobject>
             </inlinemediaobject>
-            )
+             )
           </para>
         </listitem>
          
@@ -2035,7 +1997,7 @@ two elements with equal id has been used, but should be used only one -->
                 <imagedata fileref="images/visual_page/show_border_button.png"/>
               </imageobject>
             </inlinemediaobject>
-            )
+             )
           </para>
         </listitem>
          
@@ -2047,7 +2009,7 @@ two elements with equal id has been used, but should be used only one -->
                 <imagedata fileref="images/visual_page/show_nonvisual.png"/>
               </imageobject>
             </inlinemediaobject>
-            )
+             )
           </para>
         </listitem>
          
@@ -2059,7 +2021,7 @@ two elements with equal id has been used, but should be used only one -->
                 <imagedata fileref="images/visual_page/show_selection_bar.png"/>
               </imageobject>
             </inlinemediaobject>
-            )
+             )
           </para>
         </listitem>
          
@@ -2071,7 +2033,7 @@ two elements with equal id has been used, but should be used only one -->
                 <imagedata fileref="images/visual_page/formatting_bar_icon.png"/>
               </imageobject>
             </inlinemediaobject>
-            )
+             )
           </para>
         </listitem>
          
@@ -2083,7 +2045,7 @@ two elements with equal id has been used, but should be used only one -->
                 <imagedata fileref="images/visual_page/show_bundles_mess_button.png" />
               </imageobject>
             </inlinemediaobject>
-            )
+             )
           </para>
         </listitem>
       </itemizedlist>
@@ -2312,13 +2274,13 @@ two elements with equal id has been used, but should be used only one -->
           <itemizedlist>
             <listitem>
               <para>
-                Vertical Source on top(
+                Vertical Source on top( 
                 <inlinemediaobject>
                   <imageobject>
                     <imagedata fileref="images/visual_page/source_top.png"/>
                   </imageobject>
                 </inlinemediaobject>
-                )
+                 )
               </para>
             </listitem>
              
@@ -2330,7 +2292,7 @@ two elements with equal id has been used, but should be used only one -->
                     <imagedata fileref="images/visual_page/source_bottom.png"/>
                   </imageobject>
                 </inlinemediaobject>
-                )
+                 )
               </para>
             </listitem>
              
@@ -2342,7 +2304,7 @@ two elements with equal id has been used, but should be used only one -->
                     <imagedata fileref="images/visual_page/source_left.png"/>
                   </imageobject>
                 </inlinemediaobject>
-                )
+                 )
               </para>
             </listitem>
              
@@ -2354,7 +2316,7 @@ two elements with equal id has been used, but should be used only one -->
                     <imagedata fileref="images/visual_page/source_right.png"/>
                   </imageobject>
                 </inlinemediaobject>
-                )
+                 )
               </para>
             </listitem>
           </itemizedlist>
@@ -2388,7 +2350,7 @@ two elements with equal id has been used, but should be used only one -->
               <imagedata fileref="images/visual_page/show_border_button.png"/>
             </imageobject>
           </inlinemediaobject>
-          ) on the toolbar.
+           ) on the toolbar.
         </para>
       </section>
        
@@ -2401,7 +2363,7 @@ two elements with equal id has been used, but should be used only one -->
               <imagedata fileref="images/visual_page/show_nonvisual.png"/>
             </imageobject>
           </inlinemediaobject>
-          ) on the VPE toolbar.
+           ) on the VPE toolbar.
         </para>
          
         <para>
@@ -2418,13 +2380,13 @@ two elements with equal id has been used, but should be used only one -->
         </figure>
          
         <para>
-          You can also switch on this option in the VPE preferences, having clicked on the <emphasis><property>Preferences</property> </emphasis> button (
+          You can also switch on this option in the VPE preferences, having clicked on the <emphasis><property>Preferences</property> </emphasis> button ( 
           <inlinemediaobject>
             <imageobject>
               <imagedata fileref="images/visual_page/icon_1.png"/>
             </imageobject>
           </inlinemediaobject>
-          ).
+           ).
         </para>
       </section>
        
@@ -2450,7 +2412,7 @@ two elements with equal id has been used, but should be used only one -->
               <imagedata fileref="images/visual_page/show_selection_bar.png"/>
             </imageobject>
           </inlinemediaobject>
-          ) on the VPE toolbar.
+           ) on the VPE toolbar.
         </para>
       </section>
     </section>
@@ -2750,11 +2712,7 @@ two elements with equal id has been used, but should be used only one -->
           </programlisting>
            
           <para>
-            where 
-            <code>
-              /usr/lib/eclipse
-            </code>
-             is the path to your eclipse folder.
+            where <code> /usr/lib/eclipse </code> is the path to your eclipse folder.
           </para>
         </listitem>
       </itemizedlist>
@@ -2813,7 +2771,7 @@ two elements with equal id has been used, but should be used only one -->
       </para>
        
       <para>
-        To create a new properties file in the Package Explorer view, select <emphasis> <property>New > Properties File</property> </emphasis> from the right-click context menu on the folder where you want to create the file.
+        To create a new properties file in the Package Explorer view, select <menuchoice><guimenuitem>New</guimenuitem><guimenuitem>Properties File</guimenuitem></menuchoice> from the right-click context menu on the folder where you want to create the file.
       </para>
        
       <figure>
