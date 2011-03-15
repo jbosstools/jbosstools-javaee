@@ -177,7 +177,7 @@
      
     <itemizedlist>
       <listitem>
-        <para id="text_font">
+        <para id="text_font" xreflabel="Text/Font">        
           CSS Text/Font properties define the appearance of text, its font family, boldness, size and the style.
         </para>
          
@@ -215,11 +215,11 @@
       </listitem>
        
       <listitem>
-        <para id="background">
+        <para id="background" xreflabel="Background">
           You should use CSS background properties and <emphasis><property>Background</property></emphasis> tab to define the background effects of an element.
         </para>
          
-        <para id="boxes">
+        <para id="boxes" xreflabel="Boxes">
           <emphasis><property>Boxes</property></emphasis> tab is used to define CSS border properties, the box model and dimensions. The CSS border properties allow you to specify the style and color of an element's border.
         </para>
          
@@ -257,7 +257,7 @@
       </listitem>
        
       <listitem>
-        <para id="property_sheet">
+        <para id="property_sheet" xreflabel="Property Sheet">
           <emphasis><property>Property Sheet</property></emphasis> tab contains the categorized list of properties. Like in <xref linkend="PropertiesView"/> it's possible to edit the properties values.
         </para>
          
@@ -272,7 +272,7 @@
       </listitem>
        
       <listitem>
-        <para id="edited_properties">
+        <para id="edited_properties" xreflabel="Edited Properties">
           <emphasis><property>Edited Properties</property></emphasis> tab contains only "overflow-y" property which determines clipping of the element's content at the top and bottom edges.
         </para>
          
