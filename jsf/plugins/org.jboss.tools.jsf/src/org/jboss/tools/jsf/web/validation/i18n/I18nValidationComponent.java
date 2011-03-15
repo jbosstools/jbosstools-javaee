@@ -15,14 +15,14 @@ import org.eclipse.wst.xml.core.internal.provisional.document.IDOMText;
 import org.jboss.tools.jsf.JSFModelPlugin;
 import org.jboss.tools.jsf.messages.JSFUIMessages;
 import org.jboss.tools.jsf.web.validation.JSFAbstractValidationComponent;
+import org.jboss.tools.jst.jsp.JspEditorPlugin;
 
 /**
  * @author mareshkau
  *
  */
 public class I18nValidationComponent extends JSFAbstractValidationComponent{
-	public static String PROBLEM_ID = JSFModelPlugin.PLUGIN_ID
-	+ ".i18nproblemmarker"; //$NON-NLS-1$
+	public static String PROBLEM_ID = JspEditorPlugin.I18N_VALIDATION_PROBLEM_ID;
 	
 	private String inValidString;
 
