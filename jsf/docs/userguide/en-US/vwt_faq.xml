@@ -5,7 +5,7 @@
   <section id="question_1">
     <title>What should I do if Visual Page Editor does not start under Linux?</title> 
     <para>
-      The <property>Visual Page Editor</property> requires the library <filename>libstdc++.so.5</filename>. This library is contained in the compat-libstdc++-33.i386 package.
+      The Visual Page Editor requires the library <filename>libstdc++.so.5</filename>. This library is contained in the <filename>compat-libstdc++-33.i386</filename> package.
     </para>
      
     <itemizedlist>
@@ -44,7 +44,7 @@
     </itemizedlist>
      
     <para>
-      In case you have the library installed and you still have issue with starting the <property>Visual Page Editor</property> then close all browser views/editors and leave one <property>Visual Page Editor</property> open and restart eclipse. This should force a load of the right XULRunner viewer.
+      In case you have the library installed and you still have issue with starting the Visual Page Editor then close all browser views/editors and leave one Visual Page Editor open and restart eclipse. This should force a load of the right XULRunner viewer.
     </para>
      
     <para>
@@ -83,7 +83,7 @@
   <section id="question_2">
     <title>How do I change the auto-formating preferences for the Visual Page Editor?</title> 
     <para>
-      JBoss HTML/JSP editor uses basic eclipse HTML formatter to format files. So if you want to change preferences of formatter for the <property>Visual Page Editor</property>, you should change it for eclipse html editor (open <menuchoice><guimenuitem>Window</guimenuitem><guimenuitem>Preferences</guimenuitem></menuchoice> then choose <menuchoice><guimenuitem>Web</guimenuitem><guimenuitem>HTML Files</guimenuitem><guimenuitem>Editor</guimenuitem></menuchoice>).
+      JBoss HTML/JSP editor uses basic eclipse HTML formatter to format files. So if you want to change preferences of formatter for the Visual Page Editor, you should change it for eclipse html editor (open <menuchoice><guimenuitem>Window</guimenuitem><guimenuitem>Preferences</guimenuitem></menuchoice> then choose <menuchoice><guimenuitem>Web</guimenuitem><guimenuitem>HTML Files</guimenuitem><guimenuitem>Editor</guimenuitem></menuchoice>).
     </para>
   </section>
    
@@ -123,7 +123,7 @@
     </orderedlist>
      
     <para>
-      If you are sure that your project does not need JSF capabilities, just disable this message box by checking <property>Do not show this dialog again!</property> checkbox.
+      If you are sure that your project does not need JSF capabilities, just disable this message box by checking <guilabel>Do not show this dialog again!</guilabel> checkbox.
     </para>
   </section>
 </chapter>

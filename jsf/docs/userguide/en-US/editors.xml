@@ -2914,7 +2914,7 @@ two elements with equal id has been used, but should be used only one -->
       </para>
        
       <para>
-        To edit the deployment descriptor JBoss Developer Studio provides its own <filename>web.xml editor</filename> that comes with the same features you will find in all other JBoss Developer Studio editors:
+        To edit the deployment descriptor JBoss Developer Studio provides its own <filename>web.xml</filename> editor that comes with the same features you will find in all other JBoss Developer Studio editors:
       </para>
        
       <itemizedlist>

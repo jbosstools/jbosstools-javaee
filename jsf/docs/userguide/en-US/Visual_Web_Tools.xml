@@ -14,7 +14,7 @@
   </chapterinfo>
    <title>Visual Web Tools</title> 
   <para>
-    This guide covers the usage of Visual Web Tools in <property>JBoss Developer Studio</property> and <property>JBoss Tools</property>. The difference between these products is that JBoss Tools are just a set of Eclipse plugins where JBoss Developer Studio adds the following functionality:
+    This guide covers the usage of Visual Web Tools in JBoss Developer Studio and JBoss Tools. The difference between these products is that JBoss Tools are just a set of Eclipse plugins where JBoss Developer Studio adds the following functionality:
   </para>
    
   <itemizedlist>
