@@ -147,7 +147,6 @@ public class JsfAllTests {
 		suite.addTestSuite(OpenOnJsf20Test_JBIDE5382.class);
 		suite.addTestSuite(MozDirtyTest_JBIDE5105.class);
 		suite.addTestSuite(VpeI18nTest_JBIDE4887.class);
-		suite.addTestSuite(JsfComponentTest.class);
 		suite.addTestSuite(JBIDE3519Test.class);
 		suite.addTestSuite(ContextMenuDoubleInsertionTest_JBIDE3888.class);
 		suite.addTestSuite(SelectAllAndCut_JBIDE4853.class);

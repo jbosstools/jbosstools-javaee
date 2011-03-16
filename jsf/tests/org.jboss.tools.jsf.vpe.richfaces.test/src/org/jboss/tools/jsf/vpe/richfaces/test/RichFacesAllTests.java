@@ -40,7 +40,6 @@ public class RichFacesAllTests {
 		TestSuite suite = new TestSuite("Tests for Vpe RichFaces components"); // $NON //$NON-NLS-1$
 		// $JUnit-BEGIN$
 
-		suite.addTestSuite(RichFacesComponentTest.class);
 		suite.addTestSuite(JBIDE1579Test.class);
 		suite.addTestSuite(Jbide1580Test.class);
 		suite.addTestSuite(JBIDE1613Test.class);

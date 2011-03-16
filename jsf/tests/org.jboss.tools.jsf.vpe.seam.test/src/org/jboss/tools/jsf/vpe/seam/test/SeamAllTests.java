@@ -29,7 +29,6 @@ public class SeamAllTests {
     public static Test suite() {
 		TestSuite suite = new TestSuite("Tests for Vpe Seam components"); //$NON-NLS-1$
 		// $JUnit-BEGIN$
-		suite.addTestSuite(SeamComponentTest.class);
 		suite.addTestSuite(SeamComponentContentTest.class);
 		suite.addTestSuite(JBIDE1484Test.class);
 		suite.addTestSuite(OpenOnForDecorateTest.class);
