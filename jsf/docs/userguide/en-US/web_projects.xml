@@ -3,7 +3,7 @@
 <?dbhtml filename="web_projects.html"?>
   <title>Web Projects View</title> 
   <para>
-    <property>Web Projects</property> is a special view that comes with JBoss Developer Studio.
+    Web Projects is a special view that comes with JBoss Developer Studio.
   </para>
    
   <para>
@@ -119,11 +119,11 @@
     <section id="ForAProperty">
       <title>For a Property</title> 
       <para>
-        Expand the <property>Resources Bundles</property> folder that holds all the Property files in your project. Select the file from which you want to add the property and then select the property.
+        Expand the Resources Bundles folder that holds all the Property files in your project. Select the file from which you want to add the property and then select the property.
       </para>
        
       <para>
-        We will be dragging and dropping a property file value inside the outputText tag for the <emphasis role="italic"><property>&quot;value&quot;</property></emphasis> attribute.
+        We will be dragging and dropping a property file value inside the outputText tag for the <code>value</code> attribute.
       </para>
        
       <figure>
@@ -169,7 +169,7 @@
     <section id="ForManagedBeanAttributes">
       <title>For Managed Bean Attributes</title> 
       <para>
-        Select a <emphasis role="italic"><property>&quot;managed bean&quot;</property></emphasis> attribute and then drag and drop it onto the JSP page. We are going to place it inside the <emphasis role="italic"><property>&quot;value&quot;</property></emphasis> attribute of the inputText tag.
+        Select a &quot;managed bean&quot; attribute and then drag and drop it onto the JSP page. We are going to place it inside the <code>value</code> attribute of the inputText tag.
       </para>
        
       <figure>
@@ -315,7 +315,7 @@
   <section id="ExpandingTagLibraryFiles">
     <title>Expanding Tag Library Files</title> 
     <para>
-      You can easily expand any TLD file in the project. Browse to the Tag Libraries folder. Right-click a TLD file and select <emphasis><property>Expand</property></emphasis>:
+      You can easily expand any TLD file in the project. Browse to the Tag Libraries folder. Right-click a TLD file and select <guimenuitem>Expand</guimenuitem>:
     </para>
      
     <figure>

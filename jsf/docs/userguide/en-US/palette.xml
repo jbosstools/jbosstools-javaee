@@ -12,11 +12,11 @@
   </chapterinfo>
    <title>JBoss Tools Palette</title> 
   <para>
-    This chapter will introduce you to the functionality provided by <property>JBoss Tools Palette</property>. The Palette allows you to quickly and easily create your JSP or JSF pages. Now you can do it more faster without additional knowledge.
+    This chapter will introduce you to the functionality provided by <guilabel>JBoss Tools Palette</guilabel>. The Palette allows you to quickly and easily create your <filename>JSP</filename> or <filename>JSF</filename> pages. Now you can do it more faster without additional knowledge.
   </para>
    
   <para>
-    The <property>JBoss Tools Palette</property> allows you to:
+    The <guilabel>JBoss Tools Palette</guilabel> allows you to:
   </para>
    
   <itemizedlist>
@@ -97,15 +97,15 @@
   </figure>
    
   <para>
-    By default <property>JBoss Tools Palette</property> is not displayed. If you want to use it select <menuchoice><guimenuitem>Window</guimenuitem><guimenuitem>Show View Other...</guimenuitem><guimenuitem>JBoss Tools Web</guimenuitem><guimenuitem>JBoss Tools Palette</guimenuitem></menuchoice> from the menu bar.
+    By default <guilabel>JBoss Tools Palette</guilabel> is not displayed. If you want to use it select <menuchoice><guimenuitem>Window</guimenuitem><guimenuitem>Show View Other...</guimenuitem><guimenuitem>JBoss Tools Web</guimenuitem><guimenuitem>JBoss Tools Palette</guimenuitem></menuchoice> from the menu bar.
   </para>
    
   <para>
-    The standard <property>Eclipse Palette</property> is displayed by default in both Web Development and Seam perspectives. Now the standard <property>Eclipse Palette</property> is featured with all <property>JBoss Tools Palette</property> options and capabilities.
+    The standard <guilabel>Eclipse Palette</guilabel> is displayed by default in both Web Development and Seam perspectives. Now the standard <guilabel>Eclipse Palette</guilabel> is featured with all <guilabel>JBoss Tools Palette</guilabel> options and capabilities.
   </para>
    
   <para>
-    To open the standard <property>Eclipse Palette</property> navigate to <menuchoice><guimenuitem>Window</guimenuitem><guimenuitem>Show View</guimenuitem><guimenuitem>Others</guimenuitem><guimenuitem>General</guimenuitem><guimenuitem>Palette</guimenuitem></menuchoice>.
+    To open the standard <guilabel>Eclipse Palette</guilabel> navigate to <menuchoice><guimenuitem>Window</guimenuitem><guimenuitem>Show View</guimenuitem><guimenuitem>Others</guimenuitem><guimenuitem>General</guimenuitem><guimenuitem>Palette</guimenuitem></menuchoice>.
   </para>
    
   <para>
@@ -115,7 +115,7 @@
   <itemizedlist>
     <listitem>
       <para>
-        The standard <property>Eclipse Palette</property> is blank by default. Content of the palette is available only if Visual Page Editor is open and active, while JBoss Tools Palette always contains a predefined set of components.
+        The standard <guilabel>Eclipse Palette</guilabel> is blank by default. Content of the palette is available only if Visual Page Editor is open and active, while JBoss Tools Palette always contains a predefined set of components.
       </para>
     </listitem>
      
@@ -140,19 +140,19 @@
     <itemizedlist>
       <listitem>
         <para>
-          to <property>edit the palette</property> content by adding, removing or changing the palette elements
+          to edit the palette content by adding, removing or changing the palette elements
         </para>
       </listitem>
        
       <listitem>
         <para>
-          to <property>show/hide</property> groups, subgroups
+          to show/hide groups, subgroups
         </para>
       </listitem>
        
       <listitem>
         <para>
-          to <property>import</property> groups, subgroups
+          to import groups, subgroups
         </para>
       </listitem>
     </itemizedlist>
@@ -170,11 +170,11 @@
 <?dbhtml filename="PaletteEditor.html"?>
       <title>Palette Editor</title> 
       <para>
-        JBoss Tools Palette contains existing libraries of tags, thus the <property>Palette editor</property> is intended to work with them or create your new one as well.
+        JBoss Tools Palette contains existing libraries of tags, thus the <guilabel>Palette editor</guilabel> is intended to work with them or create your new one as well.
       </para>
        
       <para>
-        To open the editor, click on the <emphasis> <property>Palette Editor</property> </emphasis> icon(
+        To open the editor, click on the <guilabel>Palette Editor</guilabel> icon(
         <inlinemediaobject>
           <imageobject>
             <imagedata fileref="images/palette/palette_7.png"/>
@@ -188,13 +188,13 @@
       </para>
        
       <para>
-        It can also be done by right click and using <emphasis> <property>Edit…</property> </emphasis> option.
+        It can also be done by right click and using <guimenuitem>Edit…</guimenuitem> option.
       </para>
        
       <literallayout/>
        
       <para>
-        For example, <property>JSF</property> group consists of <property>Core</property>, <property>Facelets</property>, <property>HTML</property> tag libraries and the attributes as <property>name</property>, <property>description</property> and <property>hidden</property> which are available for editing:
+        For example, <guilabel>JSF</guilabel> group consists of <guilabel>Core</guilabel>, <guilabel>Facelets</guilabel>, <guilabel>HTML</guilabel> tag libraries and the attributes as <guilabel>name</guilabel>, <guilabel>description</guilabel> and <guilabel>hidden</guilabel> which are available for editing:
       </para>
        
       <figure>
@@ -217,11 +217,11 @@
           </para>
            
           <para>
-            <emphasis> <property>Icons</property> </emphasis> is the root folder for the icon sets. The first step is creating the icon set. Right click on the <emphasis> <property>Icons</property> </emphasis> folder and select <menuchoice><guimenuitem>Create</guimenuitem><guimenuitem>Create Set...</guimenuitem></menuchoice>.
+            <guilabel>Icons</guilabel> is the root folder for the icon sets. The first step is creating the icon set. Right click on the <emphasis> <guilabel>Icons</guilabel> </emphasis> folder and select <menuchoice><guimenuitem>Create</guimenuitem><guimenuitem>Create Set...</guimenuitem></menuchoice>.
           </para>
            
           <para>
-            Set the value of the name in the <emphasis> <property>Add Icons</property> </emphasis> window and click the <guibutton>Finish</guibutton> button. A new element will appear in the list.
+            Set the value of the name in the <guilabel>Add Icons</guilabel> window and click the <guibutton>Finish</guibutton> button. A new element will appear in the list.
           </para>
            
           <figure>
@@ -234,7 +234,7 @@
           </figure>
            
           <para>
-            Also you can delete the set. Right click on the set of icons that you wish to remove and chose the <emphasis> <property>Delete</property> </emphasis> option from the pop-up menu or click the <emphasis> <property>Delete</property> </emphasis> keyboard button.
+            Also you can delete the set. Right click on the set of icons that you wish to remove and chose the <guimenuitem>Delete</guimenuitem> option from the pop-up menu or click the <keycap>Delete</keycap> keyboard button.
           </para>
         </listitem>
          
@@ -267,11 +267,11 @@
           </para>
            
           <para>
-            The first step in work with the editor is creating a group of libraries. It&apos;s very easy to do, right mouse button click on the <emphasis> <property>Palette</property> </emphasis> folder and select <menuchoice><guimenuitem>Create</guimenuitem><guimenuitem>Create Group…</guimenuitem></menuchoice>
+            The first step in work with the editor is creating a group of libraries. It&apos;s very easy to do, right mouse button click on the <guilabel>Palette</guilabel> folder and select <menuchoice><guimenuitem>Create</guimenuitem><guimenuitem>Create Group…</guimenuitem></menuchoice>
           </para>
            
           <para>
-            Set a name of a group in the <property>Create Group</property> window and click the <guibutton>OK</guibutton> button. A new element will appear at the end of the list.
+            Set a name of a group in the <guilabel>Create Group</guilabel> window and click the <guibutton>OK</guibutton> button. A new element will appear at the end of the list.
           </para>
            
           <figure>
@@ -284,7 +284,7 @@
           </figure>
            
           <para>
-            You are allowed to edit or delete a group as well. If you&apos;d like to change attributes of a group, use the right editing window of the palette editor or the <emphasis> <property>Edit...</property> </emphasis> option, like it was mentioned before. In order to remove the group, right click on the group that you wish to remove and choose the <emphasis> <property>Delete</property> </emphasis> option or click the <emphasis> <property>Delete</property> </emphasis> keyboard button.
+            You are allowed to edit or delete a group as well. If you&apos;d like to change attributes of a group, use the right editing window of the palette editor or the <guimenuitem>Edit...</guimenuitem> option, like it was mentioned before. In order to remove the group, right click on the group that you wish to remove and choose the <guimenuitem>Delete</guimenuitem> option or click the <keycap>Delete</keycap> keyboard button.
           </para>
            
           <important>
@@ -301,7 +301,7 @@
           </para>
            
           <para>
-            The group maintains a list of tag libraries. If you&apos;d like to create your own library, click right mouse button on the group and choose <emphasis> <property>Create Group…</property> </emphasis> option.
+            The group maintains a list of tag libraries. If you&apos;d like to create your own library, click right mouse button on the group and choose <guimenuitem>Create Group…</guimenuitem> option.
           </para>
            
           <figure>
@@ -325,7 +325,7 @@
           </note>
            
           <para>
-            You are allowed to edit or delete the tag library, as well. If you&apos;d like to change attributes of the library or choose another icon, use the right editing window of the palette editor or the <emphasis> <property>Edit...</property> </emphasis> option. In order to remove the tag library, right click on the library that you wish to remove and chose the <emphasis> <property>Delete</property> </emphasis> option or click the <emphasis> <property>Delete</property> </emphasis> keyboard button.
+            You are allowed to edit or delete the tag library, as well. If you&apos;d like to change attributes of the library or choose another icon, use the right editing window of the palette editor or the <guimenuitem>Edit...</guimenuitem> option. In order to remove the tag library, right click on the library that you wish to remove and chose the <guimenuitem>Delete</guimenuitem> option or click the <keycap>Delete</keycap> keyboard button.
           </para>
            
           <important>
@@ -355,7 +355,7 @@
           </figure>
            
           <para>
-            In the <property>Add Palette Macro</property> window you can configure the tag element. Attribute <emphasis> <property>Name</property> </emphasis> is mandatory to fill and it will be the name of the tag element. Other settings are optional. You can choose the icon and set the <emphasis> <property>Start Text</property> </emphasis> and the <emphasis> <property>End Text</property> </emphasis> for your tag element. If your tag text is too long, use the <emphasis> <property>Change...</property> </emphasis> button to see it all. For <emphasis> <property>start text</property> </emphasis> and <emphasis> <property>end text</property> </emphasis> there is a possibility to control the cursor position by using "|" symbol.
+            In the <guilabel>Add Palette Macro</guilabel> window you can configure the tag element. Attribute <guilabel>Name</guilabel> is mandatory to fill and it will be the name of the tag element. Other settings are optional. You can choose the icon and set the <guilabel>Start Text</guilabel> and the <guilabel>End Text</guilabel> for your tag element. If your tag text is too long, use the <guibutton>Change...</guibutton> button to see it all. For <guilabel>start text</guilabel> and <guilabel>end text</guilabel> there is a possibility to control the cursor position by using "|" symbol.
           </para>
            
           <figure>
@@ -368,7 +368,7 @@
           </figure>
            
           <para>
-            After all the attributes are set, click <emphasis> <property>Finish</property> </emphasis> button.
+            After all the attributes are set, click the <guibutton>Finish</guibutton> button.
           </para>
            
           <note>
@@ -379,7 +379,7 @@
           </note>
            
           <para>
-            You are also allowed to edit or delete the tag. If you&apos;d like to change the attributes of the tag or choose another icon for it, use the right editing window of the palette editor or the <emphasis> <property>Edit...</property> </emphasis> option from the pop-up menu. In order to remove the tag, right click on the tag that you wish to remove and chose the <emphasis> <property>Delete</property> </emphasis> option or click the <emphasis> <property>Delete</property> </emphasis> keyboard button.
+            You are also allowed to edit or delete the tag. If you&apos;d like to change the attributes of the tag or choose another icon for it, use the right editing window of the palette editor or the <guimenuitem>Edit...</guimenuitem> option from the pop-up menu. In order to remove the tag, right click on the tag that you wish to remove and chose the <guimenuitem>Delete</guimenuitem> option or click the <keycap>Delete</keycap> keyboard button.
           </para>
            
           <important>
@@ -392,7 +392,7 @@
       </itemizedlist>
        
       <para>
-        If you have changed any object in the tree view and you don't like the final result you can always use the <emphasis><property>Restore Defaults</property></emphasis> button. Click on it will restore defaults for the object selected and for its children elements. Please remember that the button will only restore data for objects defined in the default palette. If selected object is created by you, the button will be disabled. Child objects added by you will not be removed.
+        If you have changed any object in the tree view and you don't like the final result you can always use the <guibutton>Restore Defaults</guibutton> button. Click on it will restore defaults for the object selected and for its children elements. Please remember that the button will only restore data for objects defined in the default palette. If selected object is created by you, the button will be disabled. Child objects added by you will not be removed.
       </para>
        
       <para>
@@ -404,13 +404,13 @@
 <?dbhtml filename="Show/Hide.html"?>
       <title>Show/Hide</title> 
       <para>
-        <emphasis> <property>Show/Hide</property> </emphasis> is a very useful feature that allows you to control the number of tag groups that are shown on the palette.
+        <guibutton>Show/Hide</guibutton> is a very useful feature that allows you to control the number of tag groups that are shown on the palette.
       </para>
        
       <itemizedlist>
         <listitem>
           <para>
-            Click <emphasis> <property>Show/Hide</property> </emphasis> button(
+            Click the <guibutton>Show/Hide</guibutton> button(
             <inlinemediaobject>
               <imageobject>
                 <imagedata fileref="images/palette/palette_10.png"/>
@@ -447,7 +447,7 @@
       <itemizedlist>
         <listitem>
           <para>
-            Click <emphasis><property>OK</property>.</emphasis> The new groups will now be shown on the palette:
+            Click the <guibutton>OK</guibutton> button. The new groups will now be shown on the palette:
           </para>
         </listitem>
       </itemizedlist>
@@ -488,7 +488,7 @@
       </para>
        
       <para>
-        Let&apos;s do it. Open your JSP file and place the cursor in a place where you&apos;d like to add a tag and then click that tag in the palette. In the <property>Insert Tag</property> window that appears, you can set the value of<emphasis> <property>general</property> </emphasis> and <emphasis> <property>advanced</property> </emphasis> attributes of the tag that you choose.
+        Let&apos;s do it. Open your JSP file and place the cursor in a place where you&apos;d like to add a tag and then click that tag in the palette. In the <guilabel>Insert Tag</guilabel> window that appears, you can set the value of<guilabel>general</guilabel> and <guilabel>advanced</guilabel> attributes of the tag that you choose.
       </para>
        
       <figure>
@@ -501,7 +501,7 @@
       </figure>
        
       <para>
-        In the example below the <emphasis> <property>commandButton</property> </emphasis> tag has been inserted.
+        In the example below the <guibutton>commandButton</guibutton> tag has been inserted.
       </para>
        
       <figure>
@@ -516,7 +516,7 @@
       <note>
         <title>Tip:</title> 
         <para>
-          if you place the cursor over any tag, a balloon hint is shown with all the <emphasis role="italic"> <property>&quot;tag&quot;</property> </emphasis> attributes.
+          if you place the cursor over any tag, a balloon hint is shown with all the tag attributes.
         </para>
       </note>
        
@@ -551,7 +551,7 @@
 <?dbhtml filename="AddingCustomJSFTagsToTheJBossToolsPalette.html"?>
       <title>Adding Custom JSF Tags to the JBoss Tools Palette</title> 
       <para>
-        There are two ways to add any custom (including custom Facelets libraries) or 3rd party tag library to the <property>JBoss Tools Palette</property>:
+        There are two ways to add any custom (including custom Facelets libraries) or 3rd party tag library to the JBoss Tools Palette:
       </para>
        
       <itemizedlist>
@@ -569,7 +569,7 @@
       </itemizedlist>
        
       <para>
-        Before you add your custom component library, you need to make sure it is included in your project. You need to either place the <emphasis role="italic"> <property>&quot;.tld&quot;</property> </emphasis> file or the <emphasis role="italic"> <property>&quot;.jar&quot;</property> </emphasis> that includes your tag library under the lib folder in your project. Or you can just add <emphasis> <property>&quot;.tld&quot;</property> </emphasis>or <emphasis> <property>&quot;.jar&quot;</property></emphasis> file to the classpath and the library will be added to the Tag Library List in Web Projects View.
+        Before you add your custom component library, you need to make sure it is included in your project. You need to either place the <filename>TLD</filename> file or the <filename>JAR</filename> that includes your tag library under the lib folder in your project. Or you can just add <filename>TLD</filename> or <filename>JAR</filename> file to the classpath and the library will be added to the Tag Library List in Web Projects View.
       </para>
        
       <section id="Drag_and_Drop65332">
@@ -593,7 +593,7 @@
         </para>
          
         <para>
-          You will see the following dialog window. As you can see JBoss Developer Studio takes care of all the details. Chosen <emphasis> <property>TLD file</property> </emphasis>, <emphasis> <property>name</property> </emphasis> and <emphasis> <property>prefix</property> </emphasis> of the library and <emphasis> <property>Library URL</property> </emphasis> are detected thus just need to set the <emphasis> <property>Group</property> </emphasis> name to which you wish to place this tag library. You can either add this tag library to an existing Group or just create a new one.
+          You will see the following dialog window. As you can see JBoss Developer Studio takes care of all the details. Chosen <guilabel>TLD file</guilabel>, <guilabel>name</guilabel> and <guilabel>prefix</guilabel> of the library and <guilabel>Library URL</guilabel> are detected thus just need to set the <guilabel>Group name</guilabel> to which you wish to place this tag library. You can either add this tag library to an existing Group or just create a new one.
         </para>
          
         <figure>
@@ -623,7 +623,7 @@
 <?dbhtml filename="ImportButton.html"?>
         <title>Import Button</title> 
         <para>
-          The same you can do with <emphasis> <property>Import</property> </emphasis> button(
+          The same you can do with <guibutton>Import</guibutton> button(
           <inlinemediaobject>
             <imageobject>
               <imagedata fileref="images/palette/palette_6.png"/>
@@ -633,8 +633,8 @@
         </para>
          
         <para>
-          By clicking on the <emphasis> <property>Import button</property> </emphasis> you will see the Import Tag window a similar like in the <xref
-                        linkend="Drag_and_Drop65332"/> method. Set the name and prefix of the library and Library URL. Also you need to set the Group name to which you&apos;d like to add your tag library. And like in the previous method you can add it to an existing Group or create a new one. On this Import Tag form you can use <emphasis> <property>Browse...</property> </emphasis>button to locate the tag library that you want to add:
+          By clicking on the <guibutton>Import</guibutton> button you will see the Import Tag window a similar like in the <xref
+                        linkend="Drag_and_Drop65332"/> method. Set the name and prefix of the library and Library URL. Also you need to set the Group name to which you&apos;d like to add your tag library. And like in the previous method you can add it to an existing Group or create a new one. On this Import Tag form you can use <guibutton>Browse...</guibutton> button to locate the tag library that you want to add:
         </para>
          
         <figure>
