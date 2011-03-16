@@ -18,7 +18,7 @@
   <section id="editors_features">
     <title>Editors Features</title> 
     <para>
-      <property>JBoss Developer Studio</property> has powerful editing features that help you easily navigate within your application and make use of content and code assist no matter what type of project file (<filename>.jsp</filename>, <filename>.xhtml</filename>, <filename>.xml</filename>, <filename>.css</filename> etc.) you are working on.
+      JBoss Developer Studio has powerful editing features that help you easily navigate within your application and make use of content and code assist no matter what type of project file (<filename>.jsp</filename>, <filename>.xhtml</filename>, <filename>.xml</filename>, <filename>.css</filename> etc.) you are working on.
     </para>
      
     <para>
@@ -165,7 +165,7 @@
       <section id="JSPPages223">
         <title>JSP/XHTML Pages</title> 
         <para>
-          OpenOn is also available in <filename>JSP</filename> and <filename>XHTML</filename> pages edited in the <property>Visual Page Editor</property>. It will allow you to quickly jump to the reference instead of having to hunt around in the project structure.
+          OpenOn is also available in <filename>JSP</filename> and <filename>XHTML</filename> pages edited in the Visual Page Editor. It will allow you to quickly jump to the reference instead of having to hunt around in the project structure.
         </para>
          
         <para>
@@ -224,7 +224,7 @@
             </para>
              
             <para>
-              For <filename>JSP</filename> files in a JSF project, you can easily open the navigation rules by applying <property>OpenOn</property> to the JSF tag for the navigation outcome:
+              For <filename>JSP</filename> files in a JSF project, you can easily open the navigation rules by applying OpenOn to the JSF tag for the navigation outcome:
             </para>
              
             <figure>
@@ -313,7 +313,7 @@
     <section id="CodeAssistAndDynamicCodeAssist42BasedOnProjectData">
       <title>Content Assist</title> 
       <para>
-        <property>Content assist</property> is available when working with:
+        Content assist is available when working with:
       </para>
        
       <itemizedlist>
@@ -1787,7 +1787,7 @@ two elements with equal id has been used, but should be used only one -->
         </figure>
          
         <para>
-          Click on the <property>Browse</property> button to open a dialog to select the CSS file to create a CSS class for:
+          Click on the <guibutton>Browse</guibutton> button to open a dialog to select the CSS file to create a CSS class for:
         </para>
          
         <figure>
@@ -1812,7 +1812,7 @@ two elements with equal id has been used, but should be used only one -->
       </para>
        
       <para>
-        To call the <property>Template dialog</property> for a tag, right-click on it in Visual mode and select <guimenuitem>Setup Visual Template for &lt;tag name&gt;</guimenuitem> option.
+        To call the <guilabel>Template</guilabel> dialog for a tag, right-click on it in Visual mode and select <guimenuitem>Setup Visual Template for &lt;tag name&gt;</guimenuitem> option.
       </para>
        
       <figure>
@@ -1825,7 +1825,7 @@ two elements with equal id has been used, but should be used only one -->
       </figure>
        
       <para id="template_dialog">
-        Here is what the <property>Template dialog</property> looks like.
+        Here is what the <guilabel>Template</guilabel> dialog looks like.
       </para>
        
       <figure>
@@ -2058,13 +2058,13 @@ two elements with equal id has been used, but should be used only one -->
       <section id="vpe_preferences">
         <title>Preferences</title> 
         <para>
-          The <emphasis> <property>Preferences</property> </emphasis> button ( 
+          The <guibutton>Preferences</guibutton> button ( 
           <inlinemediaobject>
             <imageobject>
               <imagedata fileref="images/visual_page/icon_1.png"/>
             </imageobject>
           </inlinemediaobject>
-           ) provides a quick access to the <property>Visual Page Editor</property> preferences.
+           ) provides a quick access to the Visual Page Editor preferences.
         </para>
          
         <figure>
@@ -2077,7 +2077,7 @@ two elements with equal id has been used, but should be used only one -->
         </figure>
          
         <para>
-          This page provides a number of options associated with the editor representation. The more detailed description on each one you can find in the <property>&quot;JBoss Tools Preferences&quot;</property> chapter under <xref linkend="VisualPageEditor2"/>.
+          This page provides a number of options associated with the editor representation. The more detailed description on each one you can find in the &quot;JBoss Tools Preferences&quot; chapter under <xref linkend="VisualPageEditor2"/>.
         </para>
       </section>
        
@@ -2192,7 +2192,7 @@ two elements with equal id has been used, but should be used only one -->
         </programlisting>
          
         <para>
-          When you open the <filename>main.jsp</filename> file in <property>Visual Page Editor</property>, it will not be able to resolve the image from the header, however it will work fine in runtime. To fix this in design time, click the <guibutton>Page Design Options</guibutton> button and set <guilabel>Actual Run-Time Relative Folder</guilabel> to <menuchoice><guimenuitem>[Project Name]</guimenuitem><guimenuitem>WebContent</guimenuitem><guimenuitem>pages</guimenuitem></menuchoice> and you will see the image appeared.
+          When you open the <filename>main.jsp</filename> file in Visual Page Editor, it will not be able to resolve the image from the header, however it will work fine in runtime. To fix this in design time, click the <guibutton>Page Design Options</guibutton> button and set <guilabel>Actual Run-Time Relative Folder</guilabel> to <menuchoice><guimenuitem>[Project Name]</guimenuitem><guimenuitem>WebContent</guimenuitem><guimenuitem>pages</guimenuitem></menuchoice> and you will see the image appeared.
         </para>
          
         <para/>
@@ -2208,15 +2208,15 @@ two elements with equal id has been used, but should be used only one -->
         </programlisting>
          
         <para>
-          This will work fine in runtime, but the <property>Visual Page Editor</property> does not know what <code>requestContextPath</code> in design time is. In order to see the necessary styles applied in design time your should add a path to your stylesheet in the <guilabel>CSS File Path</guilabel> section.
+          This will work fine in runtime, but the Visual Page Editor does not know what <code>requestContextPath</code> in design time is. In order to see the necessary styles applied in design time your should add a path to your stylesheet in the <guilabel>CSS File Path</guilabel> section.
         </para>
          
         <para>
-          The next <property>URI</property> section lets you add URI taglibs so that the editor knows where to find the tag libraries.
+          The next URI section lets you add URI taglibs so that the editor knows where to find the tag libraries.
         </para>
          
         <para>
-          And the last <property>Substituted EL expressions</property> section is provided to specify the values for specific EL variables. It can be useful for a preview generation.
+          And the last Substituted EL expressions section is provided to specify the values for specific EL variables. It can be useful for a preview generation.
         </para>
          
         <para>
@@ -2325,7 +2325,7 @@ two elements with equal id has been used, but should be used only one -->
               </imageobject>
             </mediaobject>
           </figure>
-           Note, at the current view there is only <emphasis> <property> one</property> </emphasis> button, that proposes the possibility to change it in order the Source and the View are moved <emphasis> <property>in a clockwise direction</property> </emphasis>. 
+           Note, at the current view there is only <emphasis>one</emphasis> button, that proposes the possibility to change it in order the Source and the View are moved <emphasis>in a clockwise direction</emphasis>. 
           <figure>
             <title>Visual Page Editor After Layout Changing </title> 
             <mediaobject>
@@ -2353,7 +2353,7 @@ two elements with equal id has been used, but should be used only one -->
       <section id="vpe_show_nonvisual_tags">
         <title>Show Non-visual Tags</title> 
         <para>
-          <property>Visual Page Editor</property> provides the option for displaying non-visual tags in Visual mode of the editor. To enable it select the <guibutton>Show non-visual tags</guibutton> button ( 
+          Visual Page Editor provides the option for displaying non-visual tags in Visual mode of the editor. To enable it select the <guibutton>Show non-visual tags</guibutton> button ( 
           <inlinemediaobject>
             <imageobject>
               <imagedata fileref="images/visual_page/show_nonvisual.png"/>
@@ -2389,7 +2389,7 @@ two elements with equal id has been used, but should be used only one -->
       <section id="vpe_show_selection_bar">
         <title>Show Selection Bar</title> 
         <para>
-          You can find useful one more functionality provided by VPE. At the bottom of the <guilabel>Visual/Source</guilabel> view there is a <property>Selection Tag Bar</property>. It's updated automatically allowing to see tags tree for a current component selected in Visual or Source mode, also it allows to select tags back and forward.
+          You can find useful one more functionality provided by VPE. At the bottom of the <guilabel>Visual/Source</guilabel> view there is a <guilabel>Selection Tag Bar</guilabel>. It's updated automatically allowing to see tags tree for a current component selected in Visual or Source mode, also it allows to select tags back and forward.
         </para>
          
         <figure>
@@ -2402,7 +2402,7 @@ two elements with equal id has been used, but should be used only one -->
         </figure>
          
         <para>
-          If you want to hide the <property>Selection Tag Bar</property>, use the <guibutton>Show Selection Bar</guibutton> button ( 
+          If you want to hide the <guilabel>Selection Tag Bar</guilabel>, use the <guibutton>Show Selection Bar</guibutton> button ( 
           <inlinemediaobject>
             <imageobject>
               <imagedata fileref="images/visual_page/show_selection_bar.png"/>
@@ -2416,7 +2416,7 @@ two elements with equal id has been used, but should be used only one -->
     <section id="page_preview">
       <title>Page Preview</title> 
       <para>
-        <property>VPE</property> comes with design-time preview feature which is available for:
+        The Visual Page Editor comes with design-time preview feature which is available for:
       </para>
        
       <itemizedlist>
@@ -2440,7 +2440,7 @@ two elements with equal id has been used, but should be used only one -->
       </itemizedlist>
        
       <para>
-        <property>Preview view</property> is read-only, it shows how the page will look like in a browser.
+        <guilabel>Preview</guilabel> view is read-only, it shows how the page will look like in a browser.
       </para>
        
       <figure>
@@ -2458,7 +2458,7 @@ two elements with equal id has been used, but should be used only one -->
     <section id="vpe_errors">
       <title>Error Messages</title> 
       <para>
-        <property>Visual Page Editor</property> provide a user friendly and effective <property>error</property> messages, which should make solving problems easier. <property>Error</property> message contains a reference to the problem and its description. Also in <property>Error</property> area you can find a link to <property>Visual Page Editor</property> forum and <property>Details</property> button whick is used to see a error trace.
+        Visual Page Editor provide a user friendly and effective error messages, which should make solving problems easier. Error message contains a reference to the problem and its description. Also in Error area you can find a link to Visual Page Editor forum and a <guibutton>Details</guibutton> button which is used to see a error trace.
       </para>
        
       <para>
@@ -2478,7 +2478,7 @@ two elements with equal id has been used, but should be used only one -->
     <section id="custom_facelets_support">
       <title>Support for Custom Facelets Components</title> 
       <para>
-        <property>Visual Page Editor</property> (starting from 3.0.0.M3 version of <property>JBoss Tools</property>) supports custom Facelets tag libraries both declared in the <literal>web.xml</literal> file (for details, see <ulink url="http://www.ibm.com/developerworks/java/library/j-facelets/#N10294">Creating a component</ulink>) and packed into the <filename>JAR</filename> file.
+        Visual Page Editor (starting from 3.0.0.M3 version of JBoss Tools) supports custom Facelets tag libraries both declared in the <literal>web.xml</literal> file (for details, see <ulink url="http://www.ibm.com/developerworks/java/library/j-facelets/#N10294">Creating a component</ulink>) and packed into the <filename>JAR</filename> file.
       </para>
        
       <note>
@@ -2489,7 +2489,7 @@ two elements with equal id has been used, but should be used only one -->
       </note>
        
       <para>
-        <property>Visual Page Editor</property> recognizes the tags from the custom Facelets tag library and correctly renders them both in source and visual view of the editor.
+        Visual Page Editor recognizes the tags from the custom Facelets tag library and correctly renders them both in source and visual view of the editor.
       </para>
        
       <figure>
@@ -2558,7 +2558,7 @@ two elements with equal id has been used, but should be used only one -->
         <section id="openOnInXHTML">
           <title>OpenOn in XHTML Files That Use Custom Facelets Components</title> 
           <para>
-            OpenOn functionality in XHTML files is available in two views of the <property>Visual Page Editor</property>:
+            OpenOn functionality in XHTML files is available in two views of the Visual Page Editor:
           </para>
            
           <orderedlist>
@@ -2600,7 +2600,7 @@ two elements with equal id has been used, but should be used only one -->
               </para>
                
               <para>
-                In the visual view of the <property>VPE</property>, double-click a custom component and the Facelets tag file (<literal>*.taglib.xml</literal>) where it is declared will be opened.
+                In the visual view of the Visual Page Editor, double-click a custom component and the Facelets tag file (<code>*.taglib.xml</code>) where it is declared will be opened.
               </para>
             </listitem>
           </orderedlist>
@@ -2627,7 +2627,7 @@ two elements with equal id has been used, but should be used only one -->
     <section id="SetupnotesforLinu895x">
       <title>Setup notes for Linux</title> 
       <para>
-        Linux users who are going to use earlier versions of JBoss Tools then 3.1.0.M4 may need to do the following to get the <property>Visual Page Editor</property> to work correctly on their machines.
+        Linux users who are going to use earlier versions of JBoss Tools then 3.1.0.M4 may need to do the following to get the Visual Page Editor to work correctly on their machines.
       </para>
        
       <para>
@@ -2763,7 +2763,7 @@ two elements with equal id has been used, but should be used only one -->
     <section id="GraphicalPropertiesEditor">
       <title>Graphical Properties Editor</title> 
       <para>
-        <property>The Properties editor</property> allows you to work in two different modes and also supports unicode characters.
+        The <guilabel>Properties</guilabel> editor allows you to work in two different modes and also supports unicode characters.
       </para>
        
       <para>
@@ -2807,9 +2807,9 @@ two elements with equal id has been used, but should be used only one -->
     </section>
      
     <section id="GraphicalTLDEditor">
-      <title>Graphical TLD Editor</title> 
+      <title>Graphical Tag Library Editor</title> 
       <para>
-        <property>The TLD editor</property> comes with same features you will find in all other JBoss Developer Studio editors:
+        The <guilabel>Tag Library Editor</guilabel> comes with same features you will find in all other JBoss Developer Studio editors:
       </para>
        
       <itemizedlist>
@@ -2854,7 +2854,7 @@ two elements with equal id has been used, but should be used only one -->
         </figure>
          
         <para>
-          You can easily add a <property>new tag</property>:
+          You can easily add a new tag:
         </para>
          
         <figure>
@@ -2867,7 +2867,7 @@ two elements with equal id has been used, but should be used only one -->
         </figure>
          
         <para>
-          You can also easily add a <property>new attribute</property> to an existing tag:
+          You can also easily add a new attribute to an existing tag:
         </para>
          
         <figure>
@@ -2914,7 +2914,7 @@ two elements with equal id has been used, but should be used only one -->
       </para>
        
       <para>
-        To edit the deployment descriptor <property>JBoss Developer Studio</property> provides its own <filename>web.xml editor</filename> that comes with the same features you will find in all other <property>JBDS</property> editors:
+        To edit the deployment descriptor JBoss Developer Studio provides its own <filename>web.xml editor</filename> that comes with the same features you will find in all other JBoss Developer Studio editors:
       </para>
        
       <itemizedlist>
@@ -2934,7 +2934,7 @@ two elements with equal id has been used, but should be used only one -->
       <section id="TreeView1">
         <title>Tree View</title> 
         <para>
-          Switch to the <property>Tree view</property> if you want to edit <filename>web.xml</filename> in a graphical mode. All elements that <filename>web.xml</filename> could include are located in the left area of the editor in a tree format. Click a node on the left to display and edit its properties that will appear in the right-hand area.
+          Switch to the <guilabel>Tree</guilabel> view if you want to edit <filename>web.xml</filename> in a graphical mode. All elements that <filename>web.xml</filename> could include are located in the left area of the editor in a tree format. Click a node on the left to display and edit its properties that will appear in the right-hand area.
         </para>
          
         <figure>
@@ -2947,7 +2947,7 @@ two elements with equal id has been used, but should be used only one -->
         </figure>
          
         <para>
-          You can add any new elements right in the <property>Tree viewer</property>:
+          You can add any new elements right in the <guilabel>Tree</guilabel> viewer:
         </para>
          
         <figure>
@@ -2963,7 +2963,7 @@ two elements with equal id has been used, but should be used only one -->
       <section id="SourceView2">
         <title>Source View</title> 
         <para>
-          Switch to the <property>Source viewer </property>to edit the <filename>web.xml</filename> file by hand at any time:
+          Switch to the <guilabel>Source</guilabel> viewer to edit the <filename>web.xml</filename> file by hand at any time:
         </para>
          
         <figure>
@@ -3012,7 +3012,7 @@ two elements with equal id has been used, but should be used only one -->
     <section id="CSSEditor">
       <title>CSS Editor</title> 
       <para>
-        The <property>CSS editor</property> comes with the same features you will find in all other JBoss Developer Studio editors.
+        The CSS editor comes with the same features you will find in all other JBoss Developer Studio editors.
       </para>
        
       <itemizedlist>
@@ -3074,7 +3074,7 @@ two elements with equal id has been used, but should be used only one -->
     <section id="JavaScriptEditor">
       <title>JavaScript Editor</title> 
       <para>
-        The <property>JavaScript editor</property> is a Source viewer in which you can use code assist:
+        The JavaScript editor is a Source viewer in which you can use code assist:
       </para>
        
       <figure>
@@ -3087,7 +3087,7 @@ two elements with equal id has been used, but should be used only one -->
       </figure>
        
       <para>
-        You can also use the <property>JavaScript editor</property> with the Outline view to navigate around the file:
+        You can also use the JavaScript editor with the Outline view to navigate around the file:
       </para>
        
       <figure>
@@ -3118,7 +3118,7 @@ two elements with equal id has been used, but should be used only one -->
     <section id="XSDEditor">
       <title>XSD Editor</title> 
       <para>
-        JBoss Developer Studio comes with an <property>XSD Editor</property> for XML Schema files. This editor comes from the Web Tools Project (WTP) (see <ulink url="http://www.eclipse.org/webtools/testtutorials/gettingstarted/GettingStarted.html">WTP Getting Started</ulink>).
+        JBoss Developer Studio comes with an XSD Editor for XML Schema files. This editor comes from the Web Tools Project (WTP) (see <ulink url="http://www.eclipse.org/webtools/testtutorials/gettingstarted/GettingStarted.html">WTP Getting Started</ulink>).
       </para>
        
       <para>
