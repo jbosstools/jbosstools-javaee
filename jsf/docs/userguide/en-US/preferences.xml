@@ -2,7 +2,7 @@
 <chapter id="preferences">
   <title>JBoss Tools Preferences</title> 
   <para>
-    Configuring the various <property>JBoss Developer Studio</property> features is done via the <property>Preferences</property> screen by selecting <menuchoice><guimenuitem>Window</guimenuitem><guimenuitem>Preferences</guimenuitem><guimenuitem>JBoss Tools</guimenuitem></menuchoice> from the menu bar.
+    Configuring the various <property>JBoss Developer Studio</property> features is done via the <guilabel>Preferences</guilabel> screen by selecting <menuchoice><guimenuitem>Window</guimenuitem><guimenuitem>Preferences</guimenuitem><guimenuitem>JBoss Tools</guimenuitem></menuchoice> from the menu bar.
   </para>
    
   <figure>
@@ -147,14 +147,14 @@
   </itemizedlist>
    
   <para>
-    The <property>Preferences</property> dialog (<menuchoice><guimenuitem>Window</guimenuitem><guimenuitem>Preferences</guimenuitem></menuchoice> ) also allows to adjust settings for <xref linkend="JBossServerPreferences"/> and <xref linkend="XDoclet"/> module.
+    The <guilabel>Preferences</guilabel> dialog (<menuchoice><guimenuitem>Window</guimenuitem><guimenuitem>Preferences</guimenuitem></menuchoice> ) also allows to adjust settings for <xref linkend="JBossServerPreferences"/> and <xref linkend="XDoclet"/> module.
   </para>
    
   <section id="ProjectArchives">
 <?dbhtml filename="ProjectArchives.html"?>
     <title>Project Archives</title> 
     <para>
-      Click on the <emphasis> <property>Project Archives</property> </emphasis> to open the page for changing Project Archives preferences.
+      Click on the <guilabel>Project Archives</guilabel> to open the page for changing Project Archives preferences.
     </para>
      
     <para>
@@ -1199,7 +1199,7 @@
 <?dbhtml filename="StrutsCustomization"?>
     <title>Struts Customization</title> 
     <para>
-      The following preferences can be changed on the <emphasis> <property>JBoss Tools > Web > Struts > Customization</property> </emphasis> page.
+      The following preferences can be changed on the <menuchoice><guimenuitem>JBoss Tools</guimenuitem><guimenuitem>Web</guimenuitem><guimenuitem>Struts</guimenuitem><guimenuitem>Customization</guimenuitem></menuchoice> page.
     </para>
      
     <para>
@@ -1220,7 +1220,7 @@
 <?dbhtml filename="StrutsProject.html"?>
     <title>Struts Project</title> 
     <para>
-      You can change the following preferences on the <emphasis> <property>JBoss Tools > Web > Struts > Project</property> </emphasis> preference page:
+      You can change the following preferences on the <menuchoice><guimenuitem>JBoss Tools</guimenuitem><guimenuitem>Web</guimenuitem><guimenuitem>Struts</guimenuitem><guimenuitem>Project</guimenuitem></menuchoice> preference page:
     </para>
      
     <para>
@@ -1254,7 +1254,7 @@
 <?dbhtml filename="StrutsSupport.html"?>
     <title>Struts Support</title> 
     <para>
-      The following preferences can be changed on the <emphasis> <property>JBoss Tools > Web > Struts > Project > Struts Support</property> </emphasis> page.
+      The following preferences can be changed on the <menuchoice><guimenuitem>JBoss Tools</guimenuitem><guimenuitem>Web</guimenuitem><guimenuitem>Struts</guimenuitem><guimenuitem>Project</guimenuitem><guimenuitem>Struts Support</guimenuitem></menuchoice> page.
     </para>
      
     <para>
@@ -1275,7 +1275,7 @@
 <?dbhtml filename="StrutsPages.html"?>
     <title>Struts Pages</title> 
     <para>
-      You can change the following preferences on the JBoss Tools > Web > Struts > Struts Pages preference page.
+      You can change the following preferences on the <menuchoice><guimenuitem>JBoss Tools</guimenuitem><guimenuitem>Web</guimenuitem><guimenuitem>Struts</guimenuitem><guimenuitem>Struts Pages</guimenuitem></menuchoice> preference page.
     </para>
      
     <para>
@@ -1296,7 +1296,7 @@
 <?dbhtml filename="StrutsFlowDiagram.html"?>
     <title>Struts Flow Diagram</title> 
     <para>
-      Similarly to the JSF Flow Diagram screen, selecting <emphasis> <property>JBoss Tools > Web > Editor > Struts Flow Diagram</property> </emphasis> page allows you to specify aspects of the Diagram mode of the Struts configuration file editor. The Struts Flow Diagram screen adds an option to hide the Diagram tab and labeling settings for additional artifacts.
+      Similarly to the JSF Flow Diagram screen, selecting <menuchoice><guimenuitem>JBoss Tools</guimenuitem><guimenuitem>Web</guimenuitem><guimenuitem>Editor</guimenuitem><guimenuitem>Struts Flow Diagram</guimenuitem></menuchoice> page allows you to specify aspects of the Diagram mode of the Struts configuration file editor. The Struts Flow Diagram screen adds an option to hide the Diagram tab and labeling settings for additional artifacts.
     </para>
      
     <figure>
@@ -1326,7 +1326,7 @@
 <?dbhtml filename="titles_diagram.html"?>
     <title>Tiles Diagram</title> 
     <para>
-      <emphasis> <property>JBoss Tools > Web > Editors > Title Diagram</property> </emphasis> screen allows you control some settings for the placement of Tiles definitions in the Diagram mode of the JBoss Tools Tiles editor.
+      <menuchoice><guimenuitem>JBoss Tools</guimenuitem><guimenuitem>Web</guimenuitem><guimenuitem>Editors</guimenuitem><guimenuitem>Title Diagram</guimenuitem></menuchoice> screen allows you control some settings for the placement of Tiles definitions in the Diagram mode of the JBoss Tools Tiles editor.
     </para>
      
     <figure>
@@ -1343,7 +1343,7 @@
 <?dbhtml filename="Verification.html"?>
     <title>Verification</title> 
     <para>
-      The following preferences can be changed on the <emphasis> <property>JBoss Tools > Web > Verification</property> </emphasis> page.
+      The following preferences can be changed on the <menuchoice><guimenuitem>JBoss Tools</guimenuitem><guimenuitem>Web</guimenuitem><guimenuitem>Verification</guimenuitem></menuchoice> page.
     </para>
      
     <para>
@@ -1390,7 +1390,7 @@
     </figure>
      
     <para>
-      On the <emphasis> <property>Server > Runtime Environments</property> </emphasis> page you can add new or modify already defined Server Runtime.
+      On the <menuchoice><guimenuitem>Server</guimenuitem><guimenuitem>Runtime Environments</guimenuitem></menuchoice> page you can add new or modify already defined Server Runtime.
     </para>
      
     <figure>
@@ -1403,7 +1403,7 @@
     </figure>
      
     <para>
-      Server Launching preferences can be configured on the <emphasis> <property>Server > Launching</property> </emphasis> page.
+      Server Launching preferences can be configured on the <menuchoice><guimenuitem>Server</guimenuitem><guimenuitem>Launching</guimenuitem></menuchoice> page.
     </para>
      
     <figure>
@@ -1416,7 +1416,7 @@
     </figure>
      
     <para>
-      Going to <emphasis> <property>Server > Audio</property> </emphasis> you can enable/disable the sound notification for different Server states and actions and set the sound volume as well.
+      Going to <menuchoice><guimenuitem>Server</guimenuitem><guimenuitem>Audio</guimenuitem></menuchoice> you can enable or disable the sound notification for different Server states and actions and set the sound volume as well.
     </para>
      
     <figure>
@@ -1433,11 +1433,11 @@
 <?dbhtml filename="XDoclet.html"?>
     <title>XDoclet</title> 
     <para>
-      The preferences for XDoclet can be changed if you click <emphasis> <property>XDoclet</property> </emphasis> on the left navigation bar.
+      The preferences for XDoclet can be changed if you click <guilabel>XDoclet</guilabel> on the left navigation bar.
     </para>
      
     <para>
-      On the <emphasis> <property>XDoclet</property> </emphasis> screen it&apos;s possible to enable/disable XDoclet builder by checking proper box, specify XDoclet home and determine XDoclet module version as well.
+      On the <guilabel>XDoclet</guilabel> screen it is possible to enable or disable XDoclet builder by checking proper box, specify XDoclet home and determine XDoclet module version as well.
     </para>
      
     <figure>
@@ -1450,7 +1450,7 @@
     </figure>
      
     <para>
-      Switch to <emphasis> <property>XDoclet > ejbdoclet</property> </emphasis> page in order to adjust settings for EJB-specific sub-tasks.
+      Switch to <menuchoice><guimenuitem>XDoclet</guimenuitem><guimenuitem>ejbdoclet</guimenuitem></menuchoice> page in order to adjust settings for EJB-specific sub-tasks.
     </para>
      
     <figure>
@@ -1463,7 +1463,7 @@
     </figure>
      
     <para>
-      To configure settings for various web-specific XDoclet sub-tasks, follow to <emphasis> <property>XDoclet > webdoclet</property> </emphasis> page.
+      To configure settings for various web-specific XDoclet sub-tasks, follow to <menuchoice><guimenuitem>XDoclet</guimenuitem><guimenuitem>webdoclet</guimenuitem></menuchoice> page.
     </para>
      
     <figure>
@@ -1590,10 +1590,7 @@
 
         <orderedlist>
             <listitem>
-                <para>Select<emphasis>
-                        <property> Window > Preferences > JBoss Tools > Web > {JSF or Struts} >
-                            Project</property>
-                    </emphasis></para>
+                <para>Select<menuchoice><guimenuitem>Window</guimenuitem><guimenuitem>Preferences</guimenuitem><guimenuitem>JBoss Tools</guimenuitem><guimenuitem>Web</guimenuitem><guimenuitem>{JSF or Struts}</guimenuitem><guimenuitem>Project</guimenuitem></menuchoice></para>
             </listitem>
             <listitem>
                 <para>For Project Template set the template you want to be the default one</para>
