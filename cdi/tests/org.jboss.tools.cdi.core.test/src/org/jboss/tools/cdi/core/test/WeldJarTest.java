@@ -52,6 +52,10 @@ public class WeldJarTest extends TestCase {
 		p = ps.iterator().next();
 		inbs = cdi.getBeans(false, p);
 		assertFalse(inbs.isEmpty());
+
+		//Find bean defined in some-weld.jar
+		bs = cdi.getBeans("beanInWeldJar", false);
+		assertEquals(1, bs.size());
 	}
 
 	public void tearDown() throws Exception {
