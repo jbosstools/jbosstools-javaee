@@ -71,7 +71,7 @@ public class ClassPathMonitor extends AbstractClassPathMonitor<CDICoreNature>{
 	}
 
 	private boolean isWeldJar(String fileName) {
-		if(!fileName.startsWith("weld-")) return false;
+		if(!fileName.startsWith("weld-") && fileName.indexOf("-weld") < 0) return false;
 		if(fileName.startsWith("weld-extensions")) return false;
 		if(fileName.indexOf("-javadoc") > 0) return false;
 		if(fileName.indexOf("-sources") > 0) return false;
