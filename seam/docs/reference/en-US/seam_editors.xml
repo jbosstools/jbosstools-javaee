@@ -1,697 +1,815 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <chapter id="seam_editors" role="updated">
-    <?dbhtml filename="seam_editors.html"?>
-    <chapterinfo>
-        <keywordset>
-            <keyword>JBoss Tools</keyword>
-            <keyword>Seam</keyword>
-            <keyword>JBDS</keyword>
-        </keywordset>
-    </chapterinfo>
-
-    <title>Seam Editors</title>
-    
-    
-    <para>This chapter tells about Seam Editors and their features.</para>
-    
-    <section>
-        <title>Visual Page Editor</title>
-        <para>Visual Page Editor fits perfectly for authoring view Seam pages. The major features of VPE are listed in <xref linkend="SeamEditors"/></para>
-        <para>You can also read more about Visual Page Editor in <ulink url="http://download.jboss.org/jbosstools/nightly-docs/en/jsf/html/editors.html#visual_page">Visual Page Editor</ulink> chapter of &quot;Visual Web Tools Reference Guide&quot;.</para>
-    </section>
-    
-    
-    
-    
-    <section>
-        <title>Seam Pages Editor</title>
-        
+<?dbhtml filename="seam_editors.html"?>
+  <chapterinfo>
+    <keywordset>
+      <keyword>JBoss Tools</keyword>
        
-       <para>
-           <property>Seam Pages Editor</property> provides a handy way to edit the <property>pages.xml</property> file.
-                    
-        </para>
-        
-        <para>
-            You can edit the pages.xml file in three modes: Graphical, Tree and Source.
-            
-        </para>
-        <para>
-            Seam Pages Editor supports synchronization with Package Explorer.This means that while renaming files in the Package Explorer all the changes immediately affect the pages.xml file.
-            
-        </para>
-      <section>
-          <title>Graphical Mode</title>
+      <keyword>Seam</keyword>
+       
+      <keyword>JBDS</keyword>
+    </keywordset>
+  </chapterinfo>
+   <title>Seam Editors</title> 
+  <para>
+    This chapter tells about Seam Editors and their features.
+  </para>
    
-        
-        <para>Graphical mode provides you with a set of visual tools to organize your project pageflow, exception handling etc.</para>
-        <figure>
-            <title>Seam Pages Editor: Graphical View</title>
-            <mediaobject>
-                <imageobject>
-                    <imagedata fileref="images/seam_editors/seam_editors_7.png"/>
-                </imageobject>
-            </mediaobject>
-        </figure>
-        
-        <para>The Graphical part of the editor has some visual elements. The table below shows graphical representation of the elements and explains their meanings. </para>
-
-<table>
-    <title>Pages Editor: Graphical View. Visual elements</title>   
-    <tgroup cols="2">
-        <thead>
-            <row>
-                <entry>Element</entry>
-                
-                <entry>Description</entry>
-            </row>
-        </thead>
-        <tbody>
-            <row>
-                <entry>            
-                    <mediaobject>
-                    <imageobject>
-                        <imagedata fileref="images/seam_editors/element_page.png"/>
-                    </imageobject>
-                    </mediaobject>
-                </entry>
-                <entry><para>A yellow box with a solid border represents a <code>
-                        &lt;page&gt;
-                    </code> element.
-                </para></entry>
-            </row> 
-                <row>
-                    <entry>            
-                        <mediaobject>
-                        <imageobject>
-                            <imagedata fileref="images/seam_editors/element_param.png"/>
-                        </imageobject>
-                    </mediaobject></entry>
-                    <entry>
-                        <para>Pressing on the plus icon (<inlinemediaobject>
-                            <imageobject>
-                                <imagedata fileref="images/seam_editors/icon_plus.png"/>
-                            </imageobject>
-                        </inlinemediaobject>)
-                        
-                        
-                        on the <code>
-                        &lt;page&gt;
-                    </code> element reveals a box that lists the parameters for the page.</para>
-                    </entry>
-                
-                </row> 
-            
-                <row>
-                    <entry>            <mediaobject>
-                        <imageobject>
-                            <imagedata fileref="images/seam_editors/element_page2.png"/>
-                        </imageobject>
-                    </mediaobject></entry>
-                    <entry> 
-                        <para>A red cross in the upper left corner of the page box indicates that the view-id is not found in the project.</para>
-                        </entry>
-                </row> 
-                    
-                <row>
-                    <entry><mediaobject>
-                        <imageobject>
-                            <imagedata fileref="images/seam_editors/element_page1.png"/>
-                        </imageobject>
-                    </mediaobject></entry>
-                    <entry>        <para>
-                        A gray box with a dashed border represents a page that has  navigation 
-                        (navigation rule) to but the page is not defined in the page.xml file.
-                    </para></entry>
-                </row> 
-            
-                
-                <row>
-                    <entry>            <mediaobject>
-                        <imageobject>
-                            <imagedata fileref="images/seam_editors/element_exception.png"/>
-                        </imageobject>
-                    </mediaobject></entry>
-                    <entry>  <para>An <code>&lt;exception&gt;</code> is represented by a blue box with a orange diamond.</para></entry>
-                </row> 
-            
-            
-                
-            
-        
-        </tbody>
-    </tgroup>
-</table>
-        
-               
-    <para>Pageflow relations are shown with gray arrows, when you select a relationship the arrow is changed to orange.  </para>    
-  
-        
-        
-        <para>On the lefthand side of the Graphical view of <property>Seam Page Editor</property> you can find a toolbar with a set of icons for the most frequently used commands.  </para>     
-
-      <table>
-          <title>Pages Editor: Graphical View. Commands Icons</title>   
-          <tgroup cols="2">
-              <thead>
-                  <row>
-                      <entry>Icon Image</entry>
-                      
-                      <entry>Command</entry>
-                  </row>
-              </thead>
-              <tbody>
-                  <row>
-                      <entry>
-                      <inlinemediaobject>
-                          <imageobject>
-                              <imagedata fileref="images/seam_editors/icon_select.png"/>
-                          </imageobject>
-                      </inlinemediaobject>
-                          
-                      </entry>
-                      <entry>Select a page element</entry>
-                      
-                  </row> 
-                  
-                  <row>
-                      <entry><inlinemediaobject>
-                          <imageobject>
-                              <imagedata fileref="images/seam_editors/icon_marquee.png"/>
-                          </imageobject>
-                      </inlinemediaobject></entry>
-                      <entry>Marquee a page item</entry>
-                  </row> 
-                  
-                  
-                  <row>
-                      <entry>
-                      <inlinemediaobject>
-                          <imageobject>
-                              <imagedata fileref="images/seam_editors/icon_new_link.png"/>
-                          </imageobject>
-                      </inlinemediaobject>
-                          
-                      </entry>
-                      <entry>Add a page relationship</entry>
-                  </row> 
-                  
-                  
-                  <row>
-                      <entry>
-                      <inlinemediaobject>
-                          <imageobject>
-                              <imagedata fileref="images/seam_editors/icon_exception.png"/>
-                          </imageobject>
-                      </inlinemediaobject>    
-                      
-                      </entry>
-                      <entry>Add an exception rule</entry>
-                  </row> 
-                  
-              </tbody>
-          </tgroup>
-      </table>  
-        
-          <para>Context menus are also available when you click  either on an item or a blank space.</para>
-          
-          
-          <para>A context menu called on a blank space of the diagram  provides the following options:</para>
-          <itemizedlist>
-              <listitem><para><emphasis role="bold">Page</emphasis> creates a new page element on the diagram</para></listitem>
-              <listitem><para><emphasis role="bold">Exception</emphasis> creates a new exception element on the diagram</para></listitem>
-              <listitem><para><emphasis role="bold">Auto Layout</emphasis> formats the layout of the diagram automatically</para></listitem>
-              <listitem><para><emphasis role="bold">Select Element</emphasis> calls the <property>Select Element Wizard</property> with a filter to perform a quick search  through  the <property>pages.xml</property> file  </para></listitem>
-          </itemizedlist>
-          <para>Rightclicking on a selected
-                        <code>&lt;page&gt;</code>
-                     element calls a context menu where you can choose the following options if you click on the <emphasis role="bold">New</emphasis> menu item:  </para>
-      
-      
-      
-      <itemizedlist>
-          <listitem><para><emphasis role="bold">Rule</emphasis> opens the <property>Add Navigation Rule</property> dialog in which you can browse your project for a view page to set the view-id in the navigation rule  and specify <emphasis role="bold">render</emphasis> or <emphasis role="bold">redirect</emphasis> navigation options </para></listitem>
-          <listitem><para><emphasis role="bold">Param</emphasis> calls a dialog box where you can define a parameter (using the  
-                        <code>&lt;param&gt;</code> 
-           tag) for the 
-                        <code>&lt;page&gt;</code>
-                     element</para></listitem>
-      </itemizedlist>
-          
-          
-          <section>
-              <title>Seam Pages Diagram Preferences</title>
-              
-              
-              
-              <para>In order to customize the layout of Diagram you can go to  
-                  <property>Window > Preferences > JBoss Tools > Web > Seam > Editors > Seam Pages Diagram</property>.
-              </para>
-              
-               <figure>
-                   <title>Preferences of Seam Pages Diagram</title>
-                   <mediaobject>
-                       <imageobject>
-                           <imagedata fileref="images/seam_editors/seam_editors_11.png"/>
-                       </imageobject>
-                   </mediaobject>
-               </figure>
-          </section>
-      </section>
-        
-        
-        <section>
-            <title>Tree Mode</title>
-            
-            <para>Tree Mode provides a wider range of options and way to edit and modify the pages.xml file.</para>
-      
-        
-        
-        <figure>
-            <title>Seam Pages Editor: Tree View</title>
-            <mediaobject>
-                <imageobject>
-                    <imagedata fileref="images/seam_editors/seam_editors_8.png"/>
-                </imageobject>
-            </mediaobject>
-        </figure>
-            
-            <para>
-                In this mode all elements and attributes of the page.xml
-                file can be viewed and edited in a visual, user friendly way.
-            </para>
-            
-        </section>
-        
-        
-        <section>
-            <title>Outline Support for Seam Pages Editor</title>
-            
-            
-            <para>Seam Pages Editor provides <property>Outline</property> view support.
-                You can explore the pages.xml using Outline view in two modes: <property>Tree</property> ( <inlinemediaobject>
-                    <imageobject>
-                        <imagedata fileref="images/seam_editors/outline_tree.png"/>
-                    </imageobject>
-                </inlinemediaobject> ) and <property>Diagram Navigation</property> ( <inlinemediaobject>
-                    <imageobject>
-                        <imagedata fileref="images/seam_editors/outline_navigation.png"/>
-                    </imageobject>
-                </inlinemediaobject> ).</para>
-            
-            <para>
-                The Diagram Navigation mode of Outline view gives a birds-view of the layout to allow quick navigation for large-scale applications. 
-            </para>
-            
-            <figure>
-                <title>Outline view: Diagram Navigation mode</title>
-                <mediaobject>
-                    <imageobject>
-                        <imagedata fileref="images/seam_editors/seam_editors_9.png"/>
-                    </imageobject>
-                </mediaobject>
-            </figure>
-            
-            
-            <para>The Tree mode shows a tree for every element in the pages.xml file. You can get a quick overview of the whole file. When selecting an element in the Outline view the  related element is highlighted in the Graphical, Tree or Source page of Seam Pages Editor.</para>
-     
-     
-     
-            <figure>
-                <title>Outline view: Tree mode</title>
-                <mediaobject>
-                    <imageobject>
-                        <imagedata fileref="images/seam_editors/seam_editors_10.png"/>
-                    </imageobject>
-                </mediaobject>
-            </figure>
-        
-        
-        
-        
-        </section>
-
-        
-        
-    </section>
-    
-    
-    
-    
-    <section>
-        
-        
-        <title>Seam Components Editor</title>
-        
-        <para>When editing <property>components.xml</property> a structured tree editor is available
-            in addition to pure source editing. It has a graphical view (Tree tab) and source
-            (Source tab).</para>
-        
-        <figure>
-            <title>component.xml Editor</title>
-            <mediaobject>
-                <imageobject>
-                    <imagedata fileref="images/seam_editors/seam_editors_4.png"/>
-                </imageobject>
-            </mediaobject>
-        </figure>
-        
-        <note>
-            <title>Note:</title>
-            
-            <para>You can view and edit <property>components.xml</property> and other xml files
-                directly in the Project Explorer and Properties sheet without opening the
-                components.xml editor.</para>
-        </note>
-        <figure>
-            <title>component.xml Editor</title>
-            <mediaobject>
-                <imageobject>
-                    <imagedata fileref="images/seam_editors/seam_editors_5.png"/>
-                </imageobject>
-            </mediaobject>
-        </figure>
-        
-    </section>
- 
-     
-    
-    <section id="SeamEditors">
-    <title>Main Features of Seam Editors</title>
-
-    <para>In this chapter you will know what Seam Editors features are and how to work with them. </para>
-
-    <section id="ContentAssist">
-
-        <title>Content Assist</title>
-
-        <para><property>Content Assist</property> (Ctrl + Space) is available when using EL expressions in the following file formats:</para>
-        <itemizedlist>
-            <listitem>
-                <para>JSP</para>
-            </listitem>
-            <listitem>
-                <para>XHTML</para>
-            </listitem>
-            <listitem>
-                <para>XML</para>
-            </listitem>
-            <listitem>
-                <para>JAVA</para>
-            </listitem>
-        </itemizedlist>
-
-        <para>Notice, the code completion for the Seam components shows the proposals marked with Seam icon.</para>
-
-        <figure>
-            <title>Content Assist</title>
-            <mediaobject>
-                <imageobject>
-                    <imagedata fileref="images/seam_editors/seam_editors_1.png" scale="70"/>
-                </imageobject>
-            </mediaobject>
-        </figure>
-        <para> Content Assist is also available for  the  <emphasis
-            role="italic">
-            <property>&quot;jsfc &quot;</property>
-        </emphasis> attribute, it lets you select from a list of possible attribute values. Whereas, JSF components appear above all other components in the list.</para>
-        <figure>
-            <title>Content Assist for the &quot;jsfc&quot; attribute</title>
-            <mediaobject>
-                <imageobject>
-                    <imagedata fileref="images/seam_editors/seam_editors_12.png" scale="70"/>
-                </imageobject>
-            </mediaobject>
-        </figure>
-        <note>
-            <title>Note:</title>
-
-            <para>To get Code Assist available for an externally generated and imported project,
-                don&apos;t forget to enable Seam features and configure Seam Settings in <xref linkend="project_pref"/>.</para>
-        </note>
-
-        <section id="components_code_assist" role="new">
-            <title>Content Assist for components.xml</title>
-
-            <para>While you are editing a <emphasis>
-                    <property>components.xml</property>
-                </emphasis> file you can make use of the Content Assist for inserting needed
-                elements.</para>
-
-            <figure>
-                <title>Content Assist in the component.xml Editor</title>
-                <mediaobject>
-                    <imageobject>
-                        <imagedata fileref="images/seam_editors/seam_editors_1a.png"/>
-                    </imageobject>
-                </mediaobject>
-            </figure>
-
-            <para>The editor also makes code completion aware of methods/attributes for EntityQuery
-                component.</para>
-
-            <figure>
-                <title>Content Assist for EntityQuery Component</title>
-                <mediaobject>
-                    <imageobject>
-                        <imagedata fileref="images/seam_editors/seam_editors_1b.png"/>
-                    </imageobject>
-                </mediaobject>
-            </figure>
-        </section>
-
-        <section id="named_beans_code_assist" role="new">
-            <title>Content assist for @Named beans</title>
-            
-            <para>To the nice code completion you can also use Content assist for all occurrences where @Named  beans  are used.
-            </para>
-            
-            <figure>
-                <title>Content assist for @Named beans</title>
-                <mediaobject>
-                    <imageobject>
-                        <imagedata fileref="images/seam_editors/seam_editors_1c.png"/>
-                    </imageobject>
-                </mediaobject>
-            </figure>
-        </section>
-        
-    </section>
-        <section>
-            <title>Content Assist for Page Descriptors</title>
-            
-            <para>Content Assist ( CA ) is available for Page Descriptors, 
-                <property>.page.xml</property> and <property>page.xml</property> files. 
-                Content Assist lets you easily compose a Page Descriptor file by suggesting elements and attributes. The suggestions are context dependent, which means that CA provides only the elements, attributes and in some cases values for the attributes,  suitable in a particular place of your Page Descriptor. 
-                
-            </para>
-            <para>
-                Seam Pages Editor also supports  code completion in EL-expressions suggesting you possible bean properties and methods. 
-            </para>
-        </section>
-    <section id="OpenOn">
-        <title>OpenOn</title>
-
-        <para><property>OpenOn</property> lets you easily navigate through your project without
-            using the Package Explorer or Project Explorer. After pressing <emphasis>
-                <property>Ctrl + left click</property>
-            </emphasis> (or just F3) you will see a corresponding method or class.</para>
-
-        <figure>
-            <title>OpenOn</title>
-            <mediaobject>
-                <imageobject>
-                    <imagedata fileref="images/seam_editors/seam_editors_2.png"/>
-                </imageobject>
-            </mediaobject>
-        </figure>
-        <para>OpenOn is available for the following files:</para>
-        <itemizedlist>
-            <listitem>
-                <para>
-                    <xref linkend="xmlFiles"/>
-                </para>
-            </listitem>
-            <listitem>
-                <para>
-                    <xref linkend="xhtmlFiles"/>
-                </para>
-            </listitem>
-            <listitem>
-                <para> <xref linkend="javaFiles"/></para>
-            </listitem>
-        </itemizedlist>
-        <note>
-            <title>Note:</title>
-            
-            <para>In this section were described only use cases special for Seam applications.For general information please read
-                <ulink url="http://download.jboss.org/jbosstools/nightly-docs/en/jsf/html/editors.html#OpenOnSelection4Hyperlinknavigation">OpenOn section in Visual Web Tools Reference Guide</ulink>.</para>
-        </note>
-        <itemizedlist>
-            <listitem id="xhtmlFiles"> <para>Using OpenOn in .xhtml files you can open:</para>
-        <itemizedlist>
-            <listitem><para>components or properties resolved using an EL expression;</para></listitem>
-            <listitem><para>all actions described in pages.xml;</para></listitem>
-            <listitem><para>other .xhtml files that paths are specified in a current file;</para></listitem> 
-            <listitem><para>image files that paths are set in  the <emphasis>
-                <property>value</property></emphasis> property.The files will be opened in the default system graphical editor.</para></listitem> 
-            </itemizedlist>
-            </listitem>
-            <listitem id="xmlFiles"> 
-                <para>OpenOn is also supported in Page Descriptors (<property>.page.xml</property> and <property>pages.xml</property>). OpenOn allows you to navigate to Java beans as well as to view pages.
-            You can <property>Ctrl + left click</property> on a bean or on view page file (e.g. XTML file) to  navigate to the file you clicked on. </para>
-
-        <figure>
-            <title>OpenOn in .page.xml file</title>
-            <mediaobject>
-                <imageobject>
-                    <imagedata fileref="images/seam_editors/seam_editors_2a.png"/>
-                </imageobject>
-            </mediaobject>
-        </figure>
-        <para>If you use Rule-based authorization with Drools in your Seam application you can apply OpenOn 
-            in <emphasis>
-                <property>components.xml</property></emphasis> to open the files containing rule  definitions in the <emphasis>
-                    <property>"rule-files"</property></emphasis> tag.
-        </para>
-        <figure>
-            <title>OpenOn in components.xml file</title>
-            <mediaobject>
-                <imageobject>
-                    <imagedata fileref="images/seam_editors/seam_editors_2c.png"/>
-                </imageobject>
-            </mediaobject>
-        </figure>
-        <para>You can also use OpenOn to open jBPM components that are described in  Seam component descriptor.
-            Two places where it works  are available: </para> 
-        <itemizedlist>
-            <listitem><para>inside <emphasis>
-                <property>&lt;component&gt;</property></emphasis> definition;</para>
-                <figure>
-                    <title>OpenOn in components.xml file</title>
-                    <mediaobject>
-                        <imageobject>
-                            <imagedata fileref="images/seam_editors/seam_editors_2d.png"/>
-                        </imageobject>
-                    </mediaobject>
-                </figure></listitem>
-            <listitem><para>inside <emphasis>
-                <property>jbpm</property></emphasis> tags;</para>
-                <figure>
-                    <title>OpenOn in components.xml file</title>
-                    <mediaobject>
-                        <imageobject>
-                            <imagedata fileref="images/seam_editors/seam_editors_2e.png"/>
-                        </imageobject>
-                    </mediaobject>
-                </figure></listitem>
-        </itemizedlist>
-            </listitem> 
-            <listitem id="javaFiles"> 
+  <section>
+    <title>Visual Page Editor</title> 
     <para>
-    OpenOn is also supported  in seam components where <property> In annotation</property> is presented.
-    After pressing <property>Ctrl + left click</property> on  the seam component specified in <code>@In </code> you will get the possibility to open the file where the  component is declarated as well as 
-    all of the seam components where it is used in the next declarations:</para>
-    <itemizedlist>
-        <listitem><para>@Out</para></listitem>
-        <listitem><para>@DataModel</para></listitem>
-        <listitem><para>@Role</para></listitem>
-        <listitem><para>@Roles</para></listitem> 
-     </itemizedlist>
+      Visual Page Editor fits perfectly for authoring view Seam pages. The major features of VPE are listed in <xref linkend="SeamEditors"/>
+    </para>
+     
+    <para>
+      You can also read more about Visual Page Editor in <ulink url="http://download.jboss.org/jbosstools/nightly-docs/en/jsf/html/editors.html#visual_page">Visual Page Editor</ulink> chapter of &quot;Visual Web Tools Reference Guide&quot;.
+    </para>
+  </section>
+   
+  <section>
+    <title>Seam Pages Editor</title> 
+    <para>
+      <property>Seam Pages Editor</property> provides a handy way to edit the <property>pages.xml</property> file.
+    </para>
+     
+    <para>
+      You can edit the pages.xml file in three modes: Graphical, Tree and Source.
+    </para>
+     
+    <para>
+      Seam Pages Editor supports synchronization with Package Explorer.This means that while renaming files in the Package Explorer all the changes immediately affect the pages.xml file.
+    </para>
+     
+    <section>
+      <title>Graphical Mode</title> 
+      <para>
+        Graphical mode provides you with a set of visual tools to organize your project pageflow, exception handling etc.
+      </para>
        
+      <figure>
+        <title>Seam Pages Editor: Graphical View</title> 
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="images/seam_editors/seam_editors_7.png"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+       
+      <para>
+        The Graphical part of the editor has some visual elements. The table below shows graphical representation of the elements and explains their meanings.
+      </para>
+       
+      <table>
+        <title>Pages Editor: Graphical View. Visual elements</title> 
+        <tgroup cols="2">
+          <thead>
+            <row>
+              <entry>
+                Element
+              </entry>
+               
+              <entry>
+                Description
+              </entry>
+            </row>
+          </thead>
+           
+          <tbody>
+            <row>
+              <entry>
+                <mediaobject>
+                  <imageobject>
+                    <imagedata fileref="images/seam_editors/element_page.png"/>
+                  </imageobject>
+                </mediaobject>
+              </entry>
+               
+              <entry>
+                <para>
+                  A yellow box with a solid border represents a <code> &lt;page&gt; </code> element.
+                </para>
+              </entry>
+            </row>
+             
+            <row>
+              <entry>
+                <mediaobject>
+                  <imageobject>
+                    <imagedata fileref="images/seam_editors/element_param.png"/>
+                  </imageobject>
+                </mediaobject>
+              </entry>
+               
+              <entry>
+                <para>
+                  Pressing on the plus icon (
+                  <inlinemediaobject>
+                    <imageobject>
+                      <imagedata fileref="images/seam_editors/icon_plus.png"/>
+                    </imageobject>
+                  </inlinemediaobject>
+                  ) on the <code> &lt;page&gt; </code> element reveals a box that lists the parameters for the page.
+                </para>
+              </entry>
+            </row>
+             
+            <row>
+              <entry>
+                <mediaobject>
+                  <imageobject>
+                    <imagedata fileref="images/seam_editors/element_page2.png"/>
+                  </imageobject>
+                </mediaobject>
+              </entry>
+               
+              <entry>
+                <para>
+                  A red cross in the upper left corner of the page box indicates that the view-id is not found in the project.
+                </para>
+              </entry>
+            </row>
+             
+            <row>
+              <entry>
+                <mediaobject>
+                  <imageobject>
+                    <imagedata fileref="images/seam_editors/element_page1.png"/>
+                  </imageobject>
+                </mediaobject>
+              </entry>
+               
+              <entry>
+                <para>
+                  A gray box with a dashed border represents a page that has navigation (navigation rule) to but the page is not defined in the page.xml file.
+                </para>
+              </entry>
+            </row>
+             
+            <row>
+              <entry>
+                <mediaobject>
+                  <imageobject>
+                    <imagedata fileref="images/seam_editors/element_exception.png"/>
+                  </imageobject>
+                </mediaobject>
+              </entry>
+               
+              <entry>
+                <para>
+                  An <code>&lt;exception&gt;</code> is represented by a blue box with a orange diamond.
+                </para>
+              </entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+       
+      <para>
+        Pageflow relations are shown with gray arrows, when you select a relationship the arrow is changed to orange.
+      </para>
+       
+      <para>
+        On the left hand side of the Graphical view of <property>Seam Page Editor</property> you can find a toolbar with a set of icons for the most frequently used commands.
+      </para>
+       
+      <table>
+        <title>Pages Editor: Graphical View. Commands Icons</title> 
+        <tgroup cols="2">
+          <thead>
+            <row>
+              <entry>
+                Icon Image
+              </entry>
+               
+              <entry>
+                Command
+              </entry>
+            </row>
+          </thead>
+           
+          <tbody>
+            <row>
+              <entry>
+                <inlinemediaobject>
+                  <imageobject>
+                    <imagedata fileref="images/seam_editors/icon_select.png"/>
+                  </imageobject>
+                </inlinemediaobject>
+              </entry>
+               
+              <entry>
+                Select a page element
+              </entry>
+            </row>
+             
+            <row>
+              <entry>
+                <inlinemediaobject>
+                  <imageobject>
+                    <imagedata fileref="images/seam_editors/icon_marquee.png"/>
+                  </imageobject>
+                </inlinemediaobject>
+              </entry>
+               
+              <entry>
+                Marquee a page item
+              </entry>
+            </row>
+             
+            <row>
+              <entry>
+                <inlinemediaobject>
+                  <imageobject>
+                    <imagedata fileref="images/seam_editors/icon_new_link.png"/>
+                  </imageobject>
+                </inlinemediaobject>
+              </entry>
+               
+              <entry>
+                Add a page relationship
+              </entry>
+            </row>
+             
+            <row>
+              <entry>
+                <inlinemediaobject>
+                  <imageobject>
+                    <imagedata fileref="images/seam_editors/icon_exception.png"/>
+                  </imageobject>
+                </inlinemediaobject>
+              </entry>
+               
+              <entry>
+                Add an exception rule
+              </entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+       
+      <para>
+        Context menus are also available when you click either on an item or a blank space.
+      </para>
+       
+      <para>
+        A context menu called on a blank space of the diagram provides the following options:
+      </para>
+       
+      <itemizedlist>
+        <listitem>
+          <para>
+            <emphasis role="bold">Page</emphasis> creates a new page element on the diagram
+          </para>
+        </listitem>
+         
+        <listitem>
+          <para>
+            <emphasis role="bold">Exception</emphasis> creates a new exception element on the diagram
+          </para>
+        </listitem>
+         
+        <listitem>
+          <para>
+            <emphasis role="bold">Auto Layout</emphasis> formats the layout of the diagram automatically
+          </para>
+        </listitem>
+         
+        <listitem>
+          <para>
+            <emphasis role="bold">Select Element</emphasis> calls the <property>Select Element Wizard</property> with a filter to perform a quick search through the <property>pages.xml</property> file
+          </para>
+        </listitem>
+      </itemizedlist>
+       
+      <para>
+        Right clicking on a selected <code>&lt;page&gt;</code> element calls a context menu where you can choose the following options if you click on the <emphasis role="bold">New</emphasis> menu item:
+      </para>
+       
+      <itemizedlist>
+        <listitem>
+          <para>
+            <emphasis role="bold">Rule</emphasis> opens the <property>Add Navigation Rule</property> dialog in which you can browse your project for a view page to set the view-id in the navigation rule and specify <emphasis role="bold">render</emphasis> or <emphasis role="bold">redirect</emphasis> navigation options
+          </para>
+        </listitem>
+         
+        <listitem>
+          <para>
+            <emphasis role="bold">Param</emphasis> calls a dialog box where you can define a parameter (using the <code>&lt;param&gt;</code> tag) for the <code>&lt;page&gt;</code> element
+          </para>
+        </listitem>
+      </itemizedlist>
+       
+      <section>
+        <title>Seam Pages Diagram Preferences</title> 
+        <para>
+          In order to customize the layout of Diagram you can go to <property>Window > Preferences > JBoss Tools > Web > Seam > Editors > Seam Pages Diagram</property>.
+        </para>
+         
         <figure>
-            <title>OpenOn in Seam Component</title>
-            <mediaobject>
-                <imageobject>
-                    <imagedata fileref="images/seam_editors/seam_editors_2b.png"/>
-                </imageobject>
-            </mediaobject>
+          <title>Preferences of Seam Pages Diagram</title> 
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="images/seam_editors/seam_editors_11.png"/>
+            </imageobject>
+          </mediaobject>
         </figure>
-            </listitem>
-        </itemizedlist>
-       </section>
-
-    <section id="SeamValidation">
-        <title>Seam Validation</title>
-
-        <para>Validation of various possible problematic definitions is implemented for Seam
-            applications.</para>
-
-        <para>If an issue is found it will be shown in the standard <property>Problems
-                View</property>.</para>
-
-        <figure>
-            <title>Seam Validation</title>
-            <mediaobject>
-                <imageobject>
-                    <imagedata fileref="images/seam_editors/seam_editors_6.png" scale="70"/>
-                </imageobject>
-            </mediaobject>
-        </figure>
-
-        <note>
-            <title>Note:</title>
-            <para>Please note, only files within source path and web content are validated, meaning temporary files or test files are not included.</para>
-        </note>
-
-        <para>In the preferences page for Seam Validator you can see and modify the validator
-            behavior. Go to <emphasis>
-                <property>Window > Preferences > JBoss Tools > Web > Seam > Validator</property>
-            </emphasis> and select the severity level for the optional Seam Validator
-            problem.</para>
-
-        <figure>
-            <title>Seam Validator Preferences</title>
-            <mediaobject>
-                <imageobject>
-                    <imagedata fileref="images/seam_editors/seam_editors_3.png"/>
-                </imageobject>
-            </mediaobject>
-        </figure>
-
-        <para>On WTP projects validation are enabled by default and thus executed automatically, but
-            on normal Java projects you will have to go and add the Validation builder of your
-            project . It is available in the properties of your project under
-        	<emphasis><property>Validation</property>.</emphasis></para>
-    	
-    	<figure>
-    		<title>Enabling the Validation Builder</title>
-    		<mediaobject>
-    			<imageobject>
-    				<imagedata fileref="images/seam_editors/validator1.png"/>
-    			</imageobject>
-    		</mediaobject>
-    	</figure>
-    	
-        	<para>The validations can be run manually by clicking
-        		<emphasis><property>Validate</property></emphasis> via the context menu on your project (folder or file inside your project) which will
-        		execute all the active WTP validations. Following to the project&apos;s preferences under <emphasis>
-        			<property>Validation</property></emphasis> it&apos;s possible to enable/disable any validator. 
-        	</para>
-    	
-    	<para>It&apos;s also possible to turn off the validation for some resource (a file, folder) inside your project via the <emphasis>
-    		<property>Exclude Validation</property></emphasis> context menu option.</para>
-    	
-    	<figure>
-    		<title>Excluding Validation for the WebContent Folder</title>
-    		<mediaobject>
-    			<imageobject>
-    				<imagedata fileref="images/seam_editors/validator2.png"/>
-    			</imageobject>
-    		</mediaobject>
-    	</figure>
-    	
-    	<para>As a result, if you&apos;ve turned off the validation for a folder (or file), it is put to the excluded group of the Validation filters and be ignored during the validation.</para>
-    	
-    	<figure>
-    		<title>Validation Filters</title>
-    		<mediaobject>
-    			<imageobject>
-    				<imagedata fileref="images/seam_editors/validator3.png"/>
-    			</imageobject>
-    		</mediaobject>
-    	</figure>
+      </section>
     </section>
-
-</section>
+     
+    <section>
+      <title>Tree Mode</title> 
+      <para>
+        Tree Mode provides a wider range of options and way to edit and modify the pages.xml file.
+      </para>
+       
+      <figure>
+        <title>Seam Pages Editor: Tree View</title> 
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="images/seam_editors/seam_editors_8.png"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+       
+      <para>
+        In this mode all elements and attributes of the page.xml file can be viewed and edited in a visual, user friendly way.
+      </para>
+    </section>
+     
+    <section>
+      <title>Outline Support for Seam Pages Editor</title> 
+      <para>
+        Seam Pages Editor provides <property>Outline</property> view support. You can explore the pages.xml using Outline view in two modes: <property>Tree</property> ( 
+        <inlinemediaobject>
+          <imageobject>
+            <imagedata fileref="images/seam_editors/outline_tree.png"/>
+          </imageobject>
+        </inlinemediaobject>
+         ) and <property>Diagram Navigation</property> ( 
+        <inlinemediaobject>
+          <imageobject>
+            <imagedata fileref="images/seam_editors/outline_navigation.png"/>
+          </imageobject>
+        </inlinemediaobject>
+         ).
+      </para>
+       
+      <para>
+        The Diagram Navigation mode of Outline view gives a birds-view of the layout to allow quick navigation for large-scale applications.
+      </para>
+       
+      <figure>
+        <title>Outline view: Diagram Navigation mode</title> 
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="images/seam_editors/seam_editors_9.png"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+       
+      <para>
+        The Tree mode shows a tree for every element in the pages.xml file. You can get a quick overview of the whole file. When selecting an element in the Outline view the related element is highlighted in the Graphical, Tree or Source page of Seam Pages Editor.
+      </para>
+       
+      <figure>
+        <title>Outline view: Tree mode</title> 
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="images/seam_editors/seam_editors_10.png"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+    </section>
+  </section>
+   
+  <section>
+    <title>Seam Components Editor</title> 
+    <para>
+      When editing <property>components.xml</property> a structured tree editor is available in addition to pure source editing. It has a graphical view (Tree tab) and source (Source tab).
+    </para>
+     
+    <figure>
+      <title>component.xml Editor</title> 
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/seam_editors/seam_editors_4.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+     
+    <note>
+      <title>Note:</title> 
+      <para>
+        You can view and edit <property>components.xml</property> and other xml files directly in the Project Explorer and Properties sheet without opening the components.xml editor.
+      </para>
+    </note>
+     
+    <figure>
+      <title>component.xml Editor</title> 
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/seam_editors/seam_editors_5.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+  </section>
+   
+  <section id="SeamEditors">
+    <title>Main Features of Seam Editors</title> 
+    <para>
+      In this chapter you will know what Seam Editors features are and how to work with them.
+    </para>
+     
+    <section id="ContentAssist">
+      <title>Content Assist</title> 
+      <para>
+        <property>Content Assist</property> (Ctrl + Space) is available when using EL expressions in the following file formats:
+      </para>
+       
+      <itemizedlist>
+        <listitem>
+          <para>
+            JSP
+          </para>
+        </listitem>
+         
+        <listitem>
+          <para>
+            XHTML
+          </para>
+        </listitem>
+         
+        <listitem>
+          <para>
+            XML
+          </para>
+        </listitem>
+         
+        <listitem>
+          <para>
+            JAVA
+          </para>
+        </listitem>
+      </itemizedlist>
+       
+      <para>
+        Notice, the code completion for the Seam components shows the proposals marked with Seam icon.
+      </para>
+       
+      <figure>
+        <title>Content Assist</title> 
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="images/seam_editors/seam_editors_1.png" scale="70"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+       
+      <para>
+        Content Assist is also available for the <emphasis
+            role="italic"> <property>&quot;jsfc &quot;</property> </emphasis> attribute, it lets you select from a list of possible attribute values. Whereas, JSF components appear above all other components in the list.
+      </para>
+       
+      <figure>
+        <title>Content Assist for the &quot;jsfc&quot; attribute</title> 
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="images/seam_editors/seam_editors_12.png" scale="70"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+       
+      <note>
+        <title>Note:</title> 
+        <para>
+          To get Code Assist available for an externally generated and imported project, don&apos;t forget to enable Seam features and configure Seam Settings in <xref linkend="project_pref"/>.
+        </para>
+      </note>
+       
+      <section id="components_code_assist" role="new">
+        <title>Content Assist for components.xml</title> 
+        <para>
+          While you are editing a <emphasis> <property>components.xml</property> </emphasis> file you can make use of the Content Assist for inserting needed elements.
+        </para>
+         
+        <figure>
+          <title>Content Assist in the component.xml Editor</title> 
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="images/seam_editors/seam_editors_1a.png"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
+         
+        <para>
+          The editor also makes code completion aware of methods/attributes for EntityQuery component.
+        </para>
+         
+        <figure>
+          <title>Content Assist for EntityQuery Component</title> 
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="images/seam_editors/seam_editors_1b.png"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
+      </section>
+       
+      <section id="named_beans_code_assist" role="new">
+        <title>Content assist for @Named beans</title> 
+        <para>
+          To the nice code completion you can also use Content assist for all occurrences where @Named beans are used.
+        </para>
+         
+        <figure>
+          <title>Content assist for @Named beans</title> 
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="images/seam_editors/seam_editors_1c.png"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
+      </section>
+    </section>
+     
+    <section>
+      <title>Content Assist for Page Descriptors</title> 
+      <para>
+        Content Assist ( CA ) is available for Page Descriptors, <property>.page.xml</property> and <property>page.xml</property> files. Content Assist lets you easily compose a Page Descriptor file by suggesting elements and attributes. The suggestions are context dependent, which means that CA provides only the elements, attributes and in some cases values for the attributes, suitable in a particular place of your Page Descriptor.
+      </para>
+       
+      <para>
+        Seam Pages Editor also supports code completion in EL-expressions suggesting you possible bean properties and methods.
+      </para>
+    </section>
+     
+    <section id="OpenOn">
+      <title>OpenOn</title> 
+      <para>
+        <property>OpenOn</property> lets you easily navigate through your project without using the Package Explorer or Project Explorer. After pressing <emphasis> <property>Ctrl + left click</property> </emphasis> (or just F3) you will see a corresponding method or class.
+      </para>
+       
+      <figure>
+        <title>OpenOn</title> 
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="images/seam_editors/seam_editors_2.png"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+       
+      <para>
+        OpenOn is available for the following files:
+      </para>
+       
+      <itemizedlist>
+        <listitem>
+          <para>
+            <xref linkend="xmlFiles"/>
+          </para>
+        </listitem>
+         
+        <listitem>
+          <para>
+            <xref linkend="xhtmlFiles"/>
+          </para>
+        </listitem>
+         
+        <listitem>
+          <para>
+            <xref linkend="javaFiles"/>
+          </para>
+        </listitem>
+      </itemizedlist>
+       
+      <note>
+        <title>Note:</title> 
+        <para>
+          In this section were described only use cases special for Seam applications.For general information please read <ulink url="http://download.jboss.org/jbosstools/nightly-docs/en/jsf/html/editors.html#OpenOnSelection4Hyperlinknavigation">OpenOn section in Visual Web Tools Reference Guide</ulink>.
+        </para>
+      </note>
+       
+      <itemizedlist>
+        <listitem id="xhtmlFiles">
+          <para>
+            Using OpenOn in .xhtml files you can open:
+          </para>
+           
+          <itemizedlist>
+            <listitem>
+              <para>
+                components or properties resolved using an EL expression;
+              </para>
+            </listitem>
+             
+            <listitem>
+              <para>
+                all actions described in pages.xml;
+              </para>
+            </listitem>
+             
+            <listitem>
+              <para>
+                other .xhtml files that paths are specified in a current file;
+              </para>
+            </listitem>
+             
+            <listitem>
+              <para>
+                image files that paths are set in the <emphasis> <property>value</property></emphasis> property.The files will be opened in the default system graphical editor.
+              </para>
+            </listitem>
+          </itemizedlist>
+        </listitem>
+         
+        <listitem id="xmlFiles">
+          <para>
+            OpenOn is also supported in Page Descriptors (<property>.page.xml</property> and <property>pages.xml</property>). OpenOn allows you to navigate to Java beans as well as to view pages. You can <property>Ctrl + left click</property> on a bean or on view page file (e.g. XTML file) to navigate to the file you clicked on.
+          </para>
+           
+          <figure>
+            <title>OpenOn in .page.xml file</title> 
+            <mediaobject>
+              <imageobject>
+                <imagedata fileref="images/seam_editors/seam_editors_2a.png"/>
+              </imageobject>
+            </mediaobject>
+          </figure>
+           
+          <para>
+            If you use Rule-based authorization with Drools in your Seam application you can apply OpenOn in <emphasis> <property>components.xml</property></emphasis> to open the files containing rule definitions in the <emphasis> <property>"rule-files"</property></emphasis> tag.
+          </para>
+           
+          <figure>
+            <title>OpenOn in components.xml file</title> 
+            <mediaobject>
+              <imageobject>
+                <imagedata fileref="images/seam_editors/seam_editors_2c.png"/>
+              </imageobject>
+            </mediaobject>
+          </figure>
+           
+          <para>
+            You can also use OpenOn to open jBPM components that are described in Seam component descriptor. Two places where it works are available:
+          </para>
+           
+          <itemizedlist>
+            <listitem>
+              <para>
+                inside <emphasis> <property>&lt;component&gt;</property></emphasis> definition;
+              </para>
+               
+              <figure>
+                <title>OpenOn in components.xml file</title> 
+                <mediaobject>
+                  <imageobject>
+                    <imagedata fileref="images/seam_editors/seam_editors_2d.png"/>
+                  </imageobject>
+                </mediaobject>
+              </figure>
+            </listitem>
+             
+            <listitem>
+              <para>
+                inside <emphasis> <property>jbpm</property></emphasis> tags;
+              </para>
+               
+              <figure>
+                <title>OpenOn in components.xml file</title> 
+                <mediaobject>
+                  <imageobject>
+                    <imagedata fileref="images/seam_editors/seam_editors_2e.png"/>
+                  </imageobject>
+                </mediaobject>
+              </figure>
+            </listitem>
+          </itemizedlist>
+        </listitem>
+         
+        <listitem id="javaFiles">
+          <para>
+            OpenOn is also supported in seam components where <property> In annotation</property> is presented. After pressing <property>Ctrl + left click</property> on the seam component specified in <code>@In </code> you will get the possibility to open the file where the component is declarated as well as all of the seam components where it is used in the next declarations:
+          </para>
+           
+          <itemizedlist>
+            <listitem>
+              <para>
+                @Out
+              </para>
+            </listitem>
+             
+            <listitem>
+              <para>
+                @DataModel
+              </para>
+            </listitem>
+             
+            <listitem>
+              <para>
+                @Role
+              </para>
+            </listitem>
+             
+            <listitem>
+              <para>
+                @Roles
+              </para>
+            </listitem>
+          </itemizedlist>
+           
+          <figure>
+            <title>OpenOn in Seam Component</title> 
+            <mediaobject>
+              <imageobject>
+                <imagedata fileref="images/seam_editors/seam_editors_2b.png"/>
+              </imageobject>
+            </mediaobject>
+          </figure>
+        </listitem>
+      </itemizedlist>
+    </section>
+     
+    <section id="SeamValidation">
+      <title>Seam Validation</title> 
+      <para>
+        Validation of various possible problematic definitions is implemented for Seam applications.
+      </para>
+       
+      <para>
+        If an issue is found it will be shown in the standard <property>Problems View</property>.
+      </para>
+       
+      <figure>
+        <title>Seam Validation</title> 
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="images/seam_editors/seam_editors_6.png" scale="70"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+       
+      <note>
+        <title>Note:</title> 
+        <para>
+          Please note, only files within source path and web content are validated, meaning temporary files or test files are not included.
+        </para>
+      </note>
+       
+      <para>
+        In the preferences page for Seam Validator you can see and modify the validator behavior. Go to <emphasis> <property>Window > Preferences > JBoss Tools > Web > Seam > Validator</property> </emphasis> and select the severity level for the optional Seam Validator problem.
+      </para>
+       
+      <figure>
+        <title>Seam Validator Preferences</title> 
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="images/seam_editors/seam_editors_3.png"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+       
+      <para>
+        On WTP projects validation are enabled by default and thus executed automatically, but on normal Java projects you will have to go and add the Validation builder of your project . It is available in the properties of your project under <emphasis><property>Validation</property>.</emphasis>
+      </para>
+       
+      <figure>
+        <title>Enabling the Validation Builder</title> 
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="images/seam_editors/validator1.png"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+       
+      <para>
+        The validations can be run manually by clicking <emphasis><property>Validate</property></emphasis> via the context menu on your project (folder or file inside your project) which will execute all the active WTP validations. Following to the project&apos;s preferences under <emphasis> <property>Validation</property></emphasis> it&apos;s possible to enable/disable any validator.
+      </para>
+       
+      <para>
+        It&apos;s also possible to turn off the validation for some resource (a file, folder) inside your project via the <emphasis> <property>Exclude Validation</property></emphasis> context menu option.
+      </para>
+       
+      <figure>
+        <title>Excluding Validation for the WebContent Folder</title> 
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="images/seam_editors/validator2.png"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+       
+      <para>
+        As a result, if you&apos;ve turned off the validation for a folder (or file), it is put to the excluded group of the Validation filters and be ignored during the validation.
+      </para>
+       
+      <figure>
+        <title>Validation Filters</title> 
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="images/seam_editors/validator3.png"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+    </section>
+  </section>
 </chapter>
