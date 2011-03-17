@@ -64,7 +64,7 @@
                     
                     <row>
                         <entry><para>New Seam Project wizard</para></entry>
-                        <entry><para>An easy step-by-step wizard to create a standalone Seam Web Project with a form to create runtime and server instances in order to get started creating, running, and debugging J2EE (only) applications. You may also add JSF capabilities.</para></entry>
+                        <entry><para>An easy step-by-step wizard to create a stand alone Seam Web Project with a form to create runtime and server instances in order to get started creating, running, and debugging J2EE (only) applications. You may also add JSF capabilities.</para></entry>
                         <entry>
                             <xref linkend="create_seam"/>
                         </entry>
