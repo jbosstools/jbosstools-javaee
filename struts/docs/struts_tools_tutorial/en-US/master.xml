@@ -53,12 +53,12 @@
             Version: 3.1.1.GA
         </releaseinfo>
 
-<abstract>
+<!--<abstract>
    <title/>
        <para>
            <ulink url="http://download.jboss.org/jbosstools/nightly-docs/en/struts_tools_tutorial/pdf/Struts_Tools_Tutorial.pdf">PDF version</ulink>
        </para>
-</abstract>
+</abstract>-->
 
 
     </bookinfo>    
