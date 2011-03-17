@@ -66,12 +66,12 @@
              Version: 3.1.1.GA
          </releaseinfo>
          
-<abstract>
+<!--<abstract>
    <title/>
        <para>
            <ulink url="http://download.jboss.org/jbosstools/nightly-docs/en/seam/pdf/Seam_Reference_Guide.pdf">PDF version</ulink>
        </para>
-</abstract>
+</abstract>-->
 
 
     </bookinfo>
