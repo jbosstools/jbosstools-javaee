@@ -416,7 +416,7 @@
 
 		<para>The Constants view let you set constant values for your validation rules.</para>
 		<figure>
-			<title>Constansts View</title>
+			<title>Constants View</title>
 			<mediaobject>
 				<imageobject>
 					<imagedata fileref="images/struts/struts_35.png"/>
