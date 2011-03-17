@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name.0
 Bundle-SymbolicName: org.jboss.tools.jsf.text.ext.test
-Bundle-Version: 3.2.0.qualifier
+Bundle-Version: 3.3.0.qualifier
 Require-Bundle: org.junit,
  org.jboss.tools.jsf.text.ext,
  org.eclipse.ui.workbench.texteditor,
@@ -11,18 +11,18 @@ Require-Bundle: org.junit,
  org.jboss.tools.common.text.ext,
  org.jboss.tools.common.model,
  org.jboss.tools.tests,
- org.jboss.tools.common.model.ui;bundle-version="3.1.0",
- org.eclipse.core.commands;bundle-version="3.5.0",
- org.eclipse.jface;bundle-version="3.5.2",
- org.jboss.tools.jst.jsp;bundle-version="3.1.0",
- org.jboss.tools.vpe;bundle-version="3.1.0",
- org.jboss.tools.jst.web.ui;bundle-version="3.1.0",
- org.jboss.tools.jst.css;bundle-version="3.1.0",
- org.jboss.tools.common.el.core;bundle-version="3.1.0",
- org.jboss.tools.jst.text.ext;bundle-version="3.1.0",
- org.jboss.tools.jsf.text.ext.facelets;bundle-version="3.1.0",
- org.jboss.tools.jsf.text.ext.richfaces;bundle-version="3.1.0",
- org.jboss.tools.jsf.ui;bundle-version="3.1.0",
+ org.jboss.tools.common.model.ui,
+ org.eclipse.core.commands,
+ org.eclipse.jface,
+ org.jboss.tools.jst.jsp,
+ org.jboss.tools.vpe,
+ org.jboss.tools.jst.web.ui,
+ org.jboss.tools.jst.css,
+ org.jboss.tools.common.el.core,
+ org.jboss.tools.jst.text.ext,
+ org.jboss.tools.jsf.text.ext.facelets,
+ org.jboss.tools.jsf.text.ext.richfaces,
+ org.jboss.tools.jsf.ui,
  org.eclipse.jst.standard.schemas
 Bundle-ActivationPolicy: lazy
 Bundle-Vendor: %Bundle-Vendor.0

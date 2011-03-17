@@ -12,6 +12,8 @@
 	xmlns:jar="http://java.sun.com/jsf/composite/jarPage"
 	xmlns:jar1="http://java.sun.com/jsf/composite/jarPage1">
 
+	<h:outputStylesheet name="stylesheet/style.css" type="text/css"/>
+
 	<ui:define name="pageTitle">Input User Name</ui:define>
 
 	<ui:define name="pageHeader">Facelets Hello Application</ui:define>
@@ -21,13 +23,14 @@
 		<h:outputText value="${registeredMsgs['demo.long.named.property']}" />
 		<h:outputText value="${pageMsgs.prompt}" />
 		<h:outputText value="${pageMsgs['demo.long.named.property']}" />
+		<div class="info">
 		<form>
 		<jar:echo1 echo="Hello" />
 		<jar:echo echo="Hello" />
 		<jar:echo anknownAttr="1" echo="Hello" />
 		<jar1:echo echo="Hello" />
 		</form>
-
+		</div>
 	</ui:define>
 </ui:composition>
 </html>

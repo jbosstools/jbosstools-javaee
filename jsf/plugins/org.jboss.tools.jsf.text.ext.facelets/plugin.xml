@@ -324,5 +324,10 @@
 	        	<attribute name="src" />
 			</tag>
 		</include>
+		<jsf2cssholder uri="http://java.sun.com/jsf/html">
+			<tag name="outputStylesheet">
+				<attribute name="name" />
+			</tag>
+		</jsf2cssholder>
    </extension>
 </plugin>
