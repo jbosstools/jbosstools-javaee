@@ -1,17 +1,20 @@
 /*******************************************************************************
- * Copyright (c) 2007 Exadel, Inc. and Red Hat, Inc.
+ * Copyright (c) 2011 Red Hat, Inc.
  * Distributed under license by Red Hat, Inc. All rights reserved.
  * This program is made available under the terms of the
  * Eclipse Public License v1.0 which accompanies this distribution,
  * and is available at http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *     Exadel, Inc. and Red Hat, Inc. - initial API and implementation
+ *     Red Hat, Inc. - initial API and implementation
  ******************************************************************************/ 
 package org.jboss.tools.jsf.ui.action;
 
 import java.util.Iterator;
+import java.util.ResourceBundle;
+
 import org.jboss.tools.common.model.ui.texteditors.AbstractMultiPageContributor;
+import org.jboss.tools.common.text.xml.xpl.GoToMatchingTagAction;
 import org.jboss.tools.common.text.xml.xpl.ToggleOccurencesMarkUpAction;
 import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.jface.action.IAction;
@@ -24,6 +27,7 @@ import org.eclipse.ui.handlers.IHandlerService;
 import org.eclipse.ui.ide.IDEActionFactory;
 import org.eclipse.ui.texteditor.ITextEditor;
 import org.eclipse.wst.sse.ui.internal.actions.StructuredTextEditorActionConstants;
+import org.eclipse.wst.xml.ui.internal.XMLUIMessages;
 import org.jboss.tools.common.gef.action.ActionRegistrySupport;
 import org.jboss.tools.jsf.ui.editor.FacesConfigGuiEditor;
 import org.jboss.tools.jsf.ui.editor.actions.JSFCutRetargetAction;
@@ -32,11 +36,18 @@ import org.jboss.tools.jsf.ui.editor.actions.JSFCutRetargetAction;
  * @author Jeremy
  */
 public class JSFMultiPageContributor extends AbstractMultiPageContributor {
+	private static final String GO_TO_MATCHING_TAG_ID = "org.eclipse.wst.xml.ui.gotoMatchingTag"; //$NON-NLS-1$
+
 	protected FakeTextEditor fakeTextEditor = new FakeTextEditor();
 	ActionRegistrySupport registrySupport = new ActionRegistrySupport();
 
 	public JSFMultiPageContributor() {
 		fToggleOccurencesMarkUp = new ToggleOccurencesMarkUpAction();
+		
+		ResourceBundle resourceBundle = XMLUIMessages.getResourceBundle();
+		fGoToMatchingTagAction = new GoToMatchingTagAction(resourceBundle, "gotoMatchingTag_", null); //$NON-NLS-1$
+		fGoToMatchingTagAction.setActionDefinitionId(GO_TO_MATCHING_TAG_ID);
+		fGoToMatchingTagAction.setId(GO_TO_MATCHING_TAG_ID);
 	}
 	
 	public void dispose() {
@@ -119,11 +130,18 @@ public class JSFMultiPageContributor extends AbstractMultiPageContributor {
 			actionBars.updateActionBars();
 		}
 
+		ITextEditor textEditor = getTextEditor(part);
+
 		if(fToggleOccurencesMarkUp != null) {
-			fToggleOccurencesMarkUp.setEditor(getTextEditor(part));
+			fToggleOccurencesMarkUp.setEditor(textEditor);
 			fToggleOccurencesMarkUp.update();
 		}
 	
+		fGoToMatchingTagAction.setEditor(textEditor);
+		if (textEditor != null) {
+			textEditor.setAction(GO_TO_MATCHING_TAG_ID, fGoToMatchingTagAction);
+		}
+
 		updateStatus();
 	}
 

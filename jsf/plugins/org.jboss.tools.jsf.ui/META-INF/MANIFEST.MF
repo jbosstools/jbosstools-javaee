@@ -56,7 +56,8 @@ Require-Bundle: org.jboss.tools.common.model.ui,
  org.eclipse.wst.html.ui;bundle-version="1.0.401",
  org.eclipse.pde.ui;bundle-version="[3.6.0,4.0.0)",
  org.eclipse.jst.jsf.core,
- org.eclipse.wst.common.project.facet.core
-Bundle-Version: 3.2.0.qualifier
+ org.eclipse.wst.common.project.facet.core,
+ org.eclipse.wst.xml.ui;bundle-version="1.1.103"
+Bundle-Version: 3.2.1.qualifier
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
