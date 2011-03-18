@@ -41,7 +41,7 @@
     <itemizedlist>
       <listitem>
         <para>
-          Navigate to <emphasis> <property>File &gt; New Seam Project</property>.</emphasis> Give the project a meaningful name, specify a target runtime and server and select the proper configuration for your Seam project:
+          Navigate to <menuchoice><guimenuitem>File</guimenuitem><guimenuitem>New Seam Project.</guimenuitem></menuchoice> Give the project a meaningful name, specify a target runtime and server and select the proper configuration for your Seam project:
         </para>
          
         <figure>

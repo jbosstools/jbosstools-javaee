@@ -16,7 +16,7 @@
   </para>
    
   <para>
-    At first, we suggest to set the specific Seam perspective that combines a number of different views and editors needed for work with resources concerned. For that select <emphasis> <property>Window > Open Perspective > Other > Seam</property> </emphasis> or you can also access it through the button in the right top corner.
+    At first, we suggest to set the specific Seam perspective that combines a number of different views and editors needed for work with resources concerned. For that select <menuchoice><guimenuitem>Window</guimenuitem><guimenuitem>Open Perspective</guimenuitem><guimenuitem>Other</guimenuitem><guimenuitem>Seam</guimenuitem></menuchoice> or you can also access it through the button in the right top corner.
   </para>
    
   <figure>

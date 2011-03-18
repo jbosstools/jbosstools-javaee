@@ -42,7 +42,7 @@
   <section id="file_menu">
     <title>File Menu Actions</title> 
     <para>
-      In a Seam perspective, by default there are the following actions in <emphasis> <property>File > New</property> </emphasis> submenu
+      In a Seam perspective, by default there are the following actions in <menuchoice><guimenuitem>File</guimenuitem><guimenuitem>New</guimenuitem></menuchoice> submenu
     </para>
      
     <table>
@@ -270,7 +270,7 @@
     <section id="open_seam_component">
       <title>Open Seam Component</title> 
       <para>
-        To open Seam Components click on <emphasis><property>Navigate > Open Seam Component</property></emphasis> in the main menu bar. This dialog is also available from toolbar icon or with hot keys combination "Ctrl+Shift+Z ".
+        To open Seam Components click on <menuchoice><guimenuitem>Navigate</guimenuitem><guimenuitem>Open Seam Component</guimenuitem></menuchoice> in the main menu bar. This dialog is also available from toolbar icon or with hot keys combination "Ctrl+Shift+Z ".
       </para>
        
       <figure>

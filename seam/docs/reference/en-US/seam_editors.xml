@@ -302,7 +302,7 @@
       <section>
         <title>Seam Pages Diagram Preferences</title> 
         <para>
-          In order to customize the layout of Diagram you can go to <property>Window > Preferences > JBoss Tools > Web > Seam > Editors > Seam Pages Diagram</property>.
+          In order to customize the layout of Diagram you can go to <menuchoice><guimenuitem>Window</guimenuitem><guimenuitem>Preferences</guimenuitem><guimenuitem>JBoss Tools</guimenuitem><guimenuitem>Web</guimenuitem><guimenuitem>Seam</guimenuitem><guimenuitem>Editors</guimenuitem><guimenuitem>Seam Pages Diagram</guimenuitem></menuchoice>.
         </para>
          
         <figure>
@@ -756,7 +756,7 @@
       </note>
        
       <para>
-        In the preferences page for Seam Validator you can see and modify the validator behavior. Go to <emphasis> <property>Window > Preferences > JBoss Tools > Web > Seam > Validator</property> </emphasis> and select the severity level for the optional Seam Validator problem.
+        In the preferences page for Seam Validator you can see and modify the validator behavior. Go to <menuchoice><guimenuitem>Window</guimenuitem><guimenuitem>Preferences</guimenuitem><guimenuitem>JBoss Tools</guimenuitem><guimenuitem>Web</guimenuitem><guimenuitem>Seam</guimenuitem><guimenuitem>Validator</guimenuitem></menuchoice> and select the severity level for the optional Seam Validator problem.
       </para>
        
       <figure>

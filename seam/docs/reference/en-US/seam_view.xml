@@ -29,7 +29,7 @@
         <para>The Seam Components View can show a components default scope in two ways:</para>
         
         <itemizedlist>
-            <listitem><para>as labels on each component (click on the triangular symbol at the top of the Seam Components View page and select <emphasis><property>Scope Presentation &gt; Label</property></emphasis>)</para></listitem>
+            <listitem><para>as labels on each component (click on the triangular symbol at the top of the Seam Components View page and select <menuchoice><guimenuitem>Scope Presentation</guimenuitem><guimenuitem>Label</guimenuitem></menuchoice>)</para></listitem>
         </itemizedlist>
         
         <figure>
