@@ -1,0 +1,93 @@
+/*******************************************************************************
+ * Copyright (c) 2011 Red Hat, Inc.
+ * Distributed under license by Red Hat, Inc. All rights reserved.
+ * This program is made available under the terms of the
+ * Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Red Hat, Inc. - initial API and implementation
+ ******************************************************************************/
+package org.jboss.tools.cdi.ui.marker;
+
+import java.text.MessageFormat;
+
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IMarker;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.jdt.core.Flags;
+import org.eclipse.jdt.core.IBuffer;
+import org.eclipse.jdt.core.ICompilationUnit;
+import org.eclipse.jdt.core.IField;
+import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.IMarkerResolution2;
+import org.eclipse.ui.PlatformUI;
+import org.jboss.tools.cdi.ui.CDIUIMessages;
+import org.jboss.tools.cdi.ui.CDIUIPlugin;
+import org.jboss.tools.common.EclipseUtil;
+
+/**
+ * @author Daniel Azarov
+ */
+public class MakeFieldProtectedMarkerResolution implements IMarkerResolution2{
+	private static final String PUBLIC = "public";  //$NON-NLS-1$
+	private static final String PROTECTED = "protected";  //$NON-NLS-1$
+
+	private String label;
+	private IField field;
+	private IFile file;
+	
+	public MakeFieldProtectedMarkerResolution(IField field, IFile file){
+		this.label = MessageFormat.format(CDIUIMessages.MAKE_FIELD_PROTECTED_MARKER_RESOLUTION_TITLE, new Object[]{field.getElementName()});
+		this.field = field;
+		this.file = file;
+	}
+	
+	@Override
+	public String getLabel() {
+		return label;
+	}
+
+	@Override
+	public void run(IMarker marker) {
+		Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+		boolean cont = MessageDialog.openQuestion(shell, CDIUIMessages.QUESTION, CDIUIMessages.DECREASING_FIELD_VISIBILITY_MAY_CAUSE_COMPILATION_PROBLEMS);
+		if(!cont)
+			return;
+		try{
+			ICompilationUnit original = EclipseUtil.getCompilationUnit(file);
+			ICompilationUnit compilationUnit = original.getWorkingCopy(new NullProgressMonitor());
+			
+			IBuffer buffer = compilationUnit.getBuffer();
+			
+			int flag = field.getFlags();
+			
+			String text = buffer.getText(field.getSourceRange().getOffset(), field.getSourceRange().getLength());
+
+			int position = field.getSourceRange().getOffset();
+			if((flag & Flags.AccPublic) != 0){
+				position += text.indexOf(PUBLIC);
+				buffer.replace(position, PUBLIC.length(), PROTECTED);
+			}
+			
+			compilationUnit.commitWorkingCopy(false, new NullProgressMonitor());
+			compilationUnit.discardWorkingCopy();
+		}catch(CoreException ex){
+			CDIUIPlugin.getDefault().logError(ex);
+		}
+	}
+
+	@Override
+	public String getDescription() {
+		return null;
+	}
+
+	@Override
+	public Image getImage() {
+		return null;
+	}
+
+}

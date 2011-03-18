@@ -11,6 +11,7 @@
 package org.jboss.tools.cdi.ui.marker;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -154,6 +155,26 @@ public class CDIProblemMarkerResolutionGenerator implements
 					return new IMarkerResolution[] {
 							new AddSerializableInterfaceMarkerResolution(type, file)
 						};
+				}
+			}else if(messageId == CDIValidationErrorManager.ILLEGAL_SCOPE_FOR_MANAGED_BEAN_WITH_PUBLIC_FIELD_ID){
+				IField field = findPublicField(file, start);
+				CDICoreNature cdiNature = CDIUtil.getCDINatureWithProgress(file.getProject());
+				if(cdiNature != null){
+					ICDIProject cdiProject = cdiNature.getDelegate();
+					
+					if(cdiProject != null){
+						Set<IBean> beans = cdiProject.getBeans(file.getFullPath());
+						Iterator<IBean> iter = beans.iterator();
+						if(iter.hasNext()){
+							IBean bean = iter.next();
+							if(field != null){
+								return new IMarkerResolution[] {
+										new MakeFieldProtectedMarkerResolution(field, file)//,
+										//new MakeBeanScopedDependentMarkerResolution(bean, file)
+									};
+							}
+						}
+					}
 				}
 			}
 		}
@@ -310,6 +331,21 @@ public class CDIProblemMarkerResolutionGenerator implements
 			if(javaElement != null && javaElement instanceof IField){
 				IField field = (IField)javaElement;
 				if(!Flags.isStatic(field.getFlags()) && !field.isBinary())
+					return field;
+			}
+		}catch(JavaModelException ex){
+			CDIUIPlugin.getDefault().logError(ex);
+		}
+		return null;
+	}
+
+	private IField findPublicField(IFile file, int start){
+		try{
+			IJavaElement javaElement = findJavaElement(file, start);
+			
+			if(javaElement != null && javaElement instanceof IField){
+				IField field = (IField)javaElement;
+				if(Flags.isPublic(field.getFlags()) && !field.isBinary())
 					return field;
 			}
 		}catch(JavaModelException ex){

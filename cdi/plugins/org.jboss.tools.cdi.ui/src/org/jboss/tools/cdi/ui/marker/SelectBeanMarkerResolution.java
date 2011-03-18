@@ -20,7 +20,7 @@ import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IMarkerResolution2;
-import org.eclipse.ui.internal.Workbench;
+import org.eclipse.ui.PlatformUI;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.IInjectionPoint;
@@ -55,7 +55,7 @@ public class SelectBeanMarkerResolution implements IMarkerResolution2, TestableR
 	}
 
 	private void internal_run(IMarker marker, boolean test) {
-		Shell shell = Workbench.getInstance().getActiveWorkbenchWindow().getShell();
+		Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
 		SelectBeanWizard wizard = new SelectBeanWizard(injectionPoint, beans);
 		WizardDialog dialog = new WizardDialog(shell, wizard);
 		

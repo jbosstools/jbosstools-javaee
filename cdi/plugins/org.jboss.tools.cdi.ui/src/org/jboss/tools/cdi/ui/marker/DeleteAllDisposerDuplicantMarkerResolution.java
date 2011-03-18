@@ -17,12 +17,10 @@ import org.eclipse.core.resources.IMarker;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.ltk.core.refactoring.participants.ProcessorBasedRefactoring;
 import org.eclipse.ltk.core.refactoring.participants.RefactoringProcessor;
-import org.eclipse.ltk.ui.refactoring.RefactoringWizardOpenOperation;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IMarkerResolution2;
-import org.eclipse.ui.internal.Workbench;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
+import org.jboss.tools.cdi.ui.wizard.DeletePreviewWizard;
 
 /**
  * @author Daniel Azarov
@@ -47,8 +45,7 @@ public class DeleteAllDisposerDuplicantMarkerResolution implements IMarkerResolu
 		DeleteAllDisposerAnnotationsProcessor processor = new DeleteAllDisposerAnnotationsProcessor(file, method, label);
 		ProcessorBasedRefactoring refactoring = new ProcessorBasedRefactoring(processor);
 		DeletePreviewWizard wizard = new DeletePreviewWizard(refactoring);
-		RefactoringWizardOpenOperation op = new RefactoringWizardOpenOperation(wizard);
-		Shell shell = Workbench.getInstance().getActiveWorkbenchWindow().getShell();
+		//RefactoringWizardOpenOperation op = new RefactoringWizardOpenOperation(wizard);
 		wizard.showWizard();
 	}
 	

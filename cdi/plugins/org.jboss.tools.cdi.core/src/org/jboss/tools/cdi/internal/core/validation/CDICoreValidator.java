@@ -1633,7 +1633,7 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 					if (Flags.isPublic(field.getFlags()) && !Flags.isStatic(field.getFlags())) {
 						ITextSourceReference fieldReference = CDIUtil.convertToSourceReference(field.getNameRange());
 						addError(CDIValidationMessages.ILLEGAL_SCOPE_FOR_MANAGED_BEAN_WITH_PUBLIC_FIELD, CDIPreferences.ILLEGAL_SCOPE_FOR_MANAGED_BEAN,
-								fieldReference, bean.getResource());
+								fieldReference, bean.getResource(), ILLEGAL_SCOPE_FOR_MANAGED_BEAN_WITH_PUBLIC_FIELD_ID);
 					}
 				}
 				/*
