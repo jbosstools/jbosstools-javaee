@@ -177,7 +177,7 @@
         <para>
           The <emphasis><property moreinfo="none">inputname.jsp</property></emphasis> file needs to be populated with some template code. Click on the <emphasis> <property moreinfo="none">inputname.jsp</property> </emphasis> page in the <property moreinfo="none">Web Projects view</property>, and then modify the file so it looks like this: 
           <programlisting>
-<![CDATA[&lt;%@ taglib uri=&quot;/WEB-INF/struts-html&quot; prefix=&quot;html&quot; %&gt;
+&lt;%@ taglib uri=&quot;/WEB-INF/struts-html&quot; prefix=&quot;html&quot; %&gt;
 &lt;html:html&gt;
 &lt;head&gt;
 	&lt;title&gt;&lt;/title&gt;
@@ -186,7 +186,7 @@
     &lt;html:form action=&quot;&quot;&gt;
     &lt;/html:form&gt;
 &lt;/body&gt;
-&lt;/html:html&gt;]]>
+&lt;/html:html&gt;
           </programlisting>
         </para>
       </section>
