@@ -41,22 +41,22 @@ public class JBIDE3163Test extends VpeTest{
 		XulRunnerEditor xulRunnerEditor = controller.getXulRunnerEditor();
 		int position = TestUtil.getLinePositionOffcet(part.getSourceEditor().getTextViewer(), 1, 6);
 		part.getSourceEditor().getTextViewer().setSelectedRange(position, 0);
-		assertTrue("Show be selected Text Node",xulRunnerEditor.getSelectedElement().getNodeType()==nsIDOMNode.TEXT_NODE); //$NON-NLS-1$
+		assertTrue("Show be selected Text Node",getSelectedNode(xulRunnerEditor).getNodeType()==nsIDOMNode.TEXT_NODE); //$NON-NLS-1$
 		position =  TestUtil.getLinePositionOffcet(part.getSourceEditor().getTextViewer(), 1, 7);
 		part.getSourceEditor().getTextViewer().setSelectedRange(position, 0);
-		assertTrue("Selected should be Element Node",xulRunnerEditor.getSelectedElement().getNodeType()==nsIDOMNode.ELEMENT_NODE); //$NON-NLS-1$
+		assertTrue("Selected should be Element Node",getSelectedNode(xulRunnerEditor).getNodeType()==nsIDOMNode.ELEMENT_NODE); //$NON-NLS-1$
 		position = TestUtil.getLinePositionOffcet(part.getSourceEditor().getTextViewer(), 1, 15);
 		part.getSourceEditor().getTextViewer().setSelectedRange(position, 0);
-		assertTrue("Selected should be Text Node",xulRunnerEditor.getSelectedElement().getNodeType()==nsIDOMNode.TEXT_NODE); //$NON-NLS-1$
+		assertTrue("Selected should be Text Node",getSelectedNode(xulRunnerEditor).getNodeType()==nsIDOMNode.TEXT_NODE); //$NON-NLS-1$
 		position = TestUtil.getLinePositionOffcet(part.getSourceEditor().getTextViewer(), 1, 20);
 		part.getSourceEditor().getTextViewer().setSelectedRange(position, 0);
-		assertTrue("Selected should be Text Node",xulRunnerEditor.getSelectedElement().getNodeType()==nsIDOMNode.TEXT_NODE); //$NON-NLS-1$
+		assertTrue("Selected should be Text Node",getSelectedNode(xulRunnerEditor).getNodeType()==nsIDOMNode.TEXT_NODE); //$NON-NLS-1$
 		position = TestUtil.getLinePositionOffcet(part.getSourceEditor().getTextViewer(), 1, 25);
 		part.getSourceEditor().getTextViewer().setSelectedRange(position, 0);
-		assertTrue("Selected should be Text Node",xulRunnerEditor.getSelectedElement().getNodeType()==nsIDOMNode.TEXT_NODE); //$NON-NLS-1$
+		assertTrue("Selected should be Text Node",getSelectedNode(xulRunnerEditor).getNodeType()==nsIDOMNode.TEXT_NODE); //$NON-NLS-1$
 		position = TestUtil.getLinePositionOffcet(part.getSourceEditor().getTextViewer(), 1, 26);
 		part.getSourceEditor().getTextViewer().setSelectedRange(position, 0);
-		assertTrue("Selected should be Element Node",xulRunnerEditor.getSelectedElement().getNodeType()==nsIDOMNode.ELEMENT_NODE); //$NON-NLS-1$
+		assertTrue("Selected should be Element Node",getSelectedNode(xulRunnerEditor).getNodeType()==nsIDOMNode.ELEMENT_NODE); //$NON-NLS-1$
 		
 	}
 }
