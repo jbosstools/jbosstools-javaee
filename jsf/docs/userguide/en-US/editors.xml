@@ -2463,7 +2463,7 @@ two elements with equal id has been used, but should be used only one -->
       </para>
        
       <para>
-        If the error occurs while editor loading, error message will contain information about of what might have caused the error ( a missing library or errors in source code).
+        If the error occurs while the editor is loading, the error message will contain information about of what might have caused the error (e.g. a missing library or errors in source code).
       </para>
        
       <figure>
@@ -2479,7 +2479,7 @@ two elements with equal id has been used, but should be used only one -->
     <section id="custom_facelets_support">
       <title>Support for Custom Facelets Components</title> 
       <para>
-        Visual Page Editor (starting from 3.0.0.M3 version of JBoss Tools) supports custom Facelets tag libraries both declared in the <literal>web.xml</literal> file (for details, see <ulink url="http://www.ibm.com/developerworks/java/library/j-facelets/#N10294">Creating a component</ulink>) and packed into the <filename>JAR</filename> file.
+        Visual Page Editor supports custom Facelets tag libraries both declared in the <filename>web.xml</filename> file (for details, see <ulink url="http://www.ibm.com/developerworks/java/library/j-facelets/#N10294">Creating a component</ulink>) and packed into a <filename>JAR</filename> file.
       </para>
        
       <note>
@@ -2503,7 +2503,7 @@ two elements with equal id has been used, but should be used only one -->
       </figure>
        
       <para>
-        While editing an XHTML file that uses a custom Facelets components you can always make use of the following editor&apos;s features:
+        While editing an <filename>XHTML</filename> file that uses a custom Facelets components you can always make use of the following editor&apos;s features:
       </para>
        
       <itemizedlist>
@@ -2523,7 +2523,7 @@ two elements with equal id has been used, but should be used only one -->
       <section id="contentAssistForCustomFacelets">
         <title>Content Assist for Custom Facelets Components</title> 
         <para>
-          Call the content assist as usual by using <keycombo><keycap>Ctrl</keycap><keycap>Space</keycap></keycombo> when typing a tag. As proposals you should see custom Facelets tags defined in your Facelets tag library.
+          Call the content assist as usual by using <keycombo><keycap>Ctrl</keycap><keycap>Space</keycap></keycombo> when typing a tag. You should see the custom Facelets tags defined in your Facelets tag library listed as proposals.
         </para>
          
         <figure>
@@ -2559,7 +2559,7 @@ two elements with equal id has been used, but should be used only one -->
         <section id="openOnInXHTML">
           <title>OpenOn in XHTML Files That Use Custom Facelets Components</title> 
           <para>
-            OpenOn functionality in XHTML files is available in two views of the Visual Page Editor:
+            OpenOn functionality in <guilabel>XHTML</guilabel> files is available in two views of the Visual Page Editor:
           </para>
            
           <orderedlist>
@@ -2569,7 +2569,7 @@ two elements with equal id has been used, but should be used only one -->
               </para>
                
               <para>
-                <keycombo><keycap>Ctrl</keycap><keycap>Click</keycap></keycombo> on the namespace will open the Facelets tag file in a separate window.
+                Using the <keycombo><keycap>Ctrl</keycap><keycap>Click</keycap></keycombo> keyboard shortcut on the namespace will open the Facelets tag file in a separate window.
               </para>
                
               <figure>
@@ -2582,7 +2582,7 @@ two elements with equal id has been used, but should be used only one -->
               </figure>
                
               <para>
-                <keycombo><keycap>Ctrl</keycap><keycap>Click</keycap></keycombo> on any custom Facelets tag declared on the page will do the same. The selected tag will be highlighted in the opened file.
+                 Using the <keycombo><keycap>Ctrl</keycap><keycap>Click</keycap></keycombo> keyboard shortcut on any custom Facelets tag declared on the page will do the same. The selected tag will be highlighted in the opened file.
               </para>
                
               <figure>
@@ -2610,7 +2610,7 @@ two elements with equal id has been used, but should be used only one -->
         <section id="openOnInCustomFaceletsTaglibs">
           <title>OpenOn in Custom Facelets Tag File (<literal>*.taglib.xml</literal>)</title> 
           <para>
-            <keycombo><keycap>Ctrl</keycap><keycap>Click</keycap></keycombo> on the path to source of the Facelets tag will open the component in its own editor.
+            Using the <keycombo><keycap>Ctrl</keycap><keycap>Click</keycap></keycombo> keyboard shortcut on the path to source of the Facelets tag will open the component in its own editor.
           </para>
            
           <figure>
@@ -2625,7 +2625,7 @@ two elements with equal id has been used, but should be used only one -->
       </section>
     </section>
      
-    <section id="SetupnotesforLinu895x">
+    <!--<section id="SetupnotesforLinu895x">
       <title>Setup notes for Linux</title> 
       <para>
         Linux users who are going to use earlier versions of JBoss Tools then 3.1.0.M4 may need to do the following to get the Visual Page Editor to work correctly on their machines.
@@ -2714,6 +2714,7 @@ two elements with equal id has been used, but should be used only one -->
         </listitem>
       </itemizedlist>
     </section>
+-->
 <!-- <section id="CreateLookAndFeel(Design-timeMetadate)ForAnyCustomJSFComponents41">
 <?dbhtml filename="CreateLookAndFeel(Design-timeMetadate)ForAnyCustomJSFComponents.html"?>
 <title>JSP Visual Page Editor - Design Time Look and Feel for Custom Components</title>
@@ -2768,7 +2769,7 @@ two elements with equal id has been used, but should be used only one -->
       </para>
        
       <para>
-        To create a new properties file in the Package Explorer view, select <menuchoice><guimenuitem>New</guimenuitem><guimenuitem>Properties File</guimenuitem></menuchoice> from the right-click context menu on the folder where you want to create the file.
+        To create a new properties file in the <guilabel>Package Explorer</guilabel> view, select <menuchoice><guimenuitem>New</guimenuitem><guimenuitem>Properties File</guimenuitem></menuchoice> from the right-click context menu on the folder where you want to create the file.
       </para>
        
       <figure>
