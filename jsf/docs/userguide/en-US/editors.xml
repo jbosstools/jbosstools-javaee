@@ -2843,7 +2843,7 @@ two elements with equal id has been used, but should be used only one -->
       <section id="SourceView1">
         <title>Source view</title> 
         <para>
-          You can easily switch from Tree to Source by selecting the Source tab at the bottom of the editor.
+          You can easily switch from Tree to Source by selecting the <guilabel>Source</guilabel> tab at the bottom of the editor.
         </para>
          
         <figure>
@@ -2895,7 +2895,7 @@ two elements with equal id has been used, but should be used only one -->
         </figure>
          
         <para>
-          In the Source viewer, if at any point a tag is incorrect or incomplete, an error will be indicated next to the line and also in the Problems view below.
+          In the <guilabel>Source</guilabel> viewer, if at any point a tag is incorrect or incomplete, an error will be indicated next to the line and also in the <guilabel>Problems</guilabel> view below.
         </para>
          
         <figure>
@@ -2912,7 +2912,7 @@ two elements with equal id has been used, but should be used only one -->
     <section id="GraphicalWebApplicationFileEditor">
       <title>Graphical Web Application File (web.xml) Editor</title> 
       <para>
-        The deployment descriptor <filename>web.xml</filename> file is intended for describing the servlets, container-managed security constraints and various deployment properties specific for your Web Application.
+        The deployment descriptor <filename>web.xml</filename> file is intended for describing the servlets, container-managed security constraints and various deployment properties specific for your web application.
       </para>
        
       <para>
@@ -2936,7 +2936,7 @@ two elements with equal id has been used, but should be used only one -->
       <section id="TreeView1">
         <title>Tree View</title> 
         <para>
-          Switch to the <guilabel>Tree</guilabel> view if you want to edit <filename>web.xml</filename> in a graphical mode. All elements that <filename>web.xml</filename> could include are located in the left area of the editor in a tree format. Click a node on the left to display and edit its properties that will appear in the right-hand area.
+          Switch to the <guilabel>Tree</guilabel> view if you want to edit the <filename>web.xml</filename> file in a graphical mode. All elements that <filename>web.xml</filename> could include are located in the left area of the editor in a tree format. Click a node on the left to display and edit its properties, which will appear in the right-hand area.
         </para>
          
         <figure>
@@ -2981,7 +2981,7 @@ two elements with equal id has been used, but should be used only one -->
       <section id="ContentAssist">
         <title>Content Assist</title> 
         <para>
-          Content assist is available in the Source viewer. Simply click <keycombo><keycap>CTRL</keycap><keycap>Space</keycap></keycombo> anywhere in the file.
+          Content assist is available in the <guilabel>Source</guilabel> viewer. Simply click <keycombo><keycap>CTRL</keycap><keycap>Space</keycap></keycombo> anywhere in the file.
         </para>
          
         <figure>
@@ -2997,7 +2997,7 @@ two elements with equal id has been used, but should be used only one -->
       <section id="ErrorCheckingAndValidation">
         <title>Errors Checking and Validation</title> 
         <para>
-          If errors occur anywhere in the file, small red dots will appear next to the lines where the errors occurred. Also note that the file is marked by a small x in the Package Explorer view.
+          If errors occur anywhere in the file, small red dots will appear next to the lines where the errors occurred. Also note that the file is marked by a small x in the <guilabel>Package Explorer</guilabel> view.
         </para>
          
         <figure>
@@ -3056,7 +3056,7 @@ two elements with equal id has been used, but should be used only one -->
             </figure>            
           -->
       <para>
-        And you can also use the Properties view next to the editor to edit existing stylesheet declaration properties:
+        And you can also use the <guilabel>Properties</guilabel> view next to the editor to edit existing stylesheet declaration properties:
       </para>
        
       <figure>
@@ -3069,7 +3069,7 @@ two elements with equal id has been used, but should be used only one -->
       </figure>
        
       <para>
-        To make you work on CSS files more comfortable, CSS perspective is available, read more about it in <xref linkend="css_perspective"/>
+        The <guilabel>CSS</guilabel> perspective is available to facilitate working on Cascading Style Sheets. For more information please read <xref linkend="css_perspective"/>
       </para>
     </section>
      
@@ -3089,7 +3089,7 @@ two elements with equal id has been used, but should be used only one -->
       </figure>
        
       <para>
-        You can also use the JavaScript editor with the Outline view to navigate around the file:
+        You can also use the JavaScript editor with the <guilabel>Outline</guilabel> view to navigate around the file:
       </para>
        
       <figure>
@@ -3124,7 +3124,7 @@ two elements with equal id has been used, but should be used only one -->
       </para>
        
       <para>
-        To create a new XSD file, right-click a folder in the Package Explorer view, select <menuchoice><guimenuitem>New</guimenuitem><guimenuitem>Other...</guimenuitem></menuchoice> from the context menu and then select <menuchoice><guimenuitem>XML</guimenuitem><guimenuitem>XML Schema</guimenuitem></menuchoice> in the dialog box.
+        To create a new <filename>XSD</filename> file, right-click a folder in the Package Explorer view, select <menuchoice><guimenuitem>New</guimenuitem><guimenuitem>Other...</guimenuitem></menuchoice> from the context menu and then select <menuchoice><guimenuitem>XML</guimenuitem><guimenuitem>XML Schema</guimenuitem></menuchoice> in the dialog box.
       </para>
        
       <figure>
@@ -3137,7 +3137,7 @@ two elements with equal id has been used, but should be used only one -->
       </figure>
        
       <para>
-        The XSD Editor includes two viewers for working on the file, a Design viewer and a Source viewer:
+        The XSD Editor includes two viewers for working on the file, a <guilabel>Design</guilabel> viewer and a <guilabel>Source</guilabel> viewer:
       </para>
        
       <figure>
@@ -3150,7 +3150,7 @@ two elements with equal id has been used, but should be used only one -->
       </figure>
        
       <para>
-        In the Design viewer you can drill down on an element by double-clicking on it:
+        In the <guilabel>Design</guilabel> viewer you can drill down on an element by double-clicking on it:
       </para>
        
       <figure>
@@ -3176,7 +3176,7 @@ two elements with equal id has been used, but should be used only one -->
       </figure>
        
       <para>
-        You can also use the Properties view to edit a selected element:
+        You can also use the <guilabel>Properties</guilabel> view to edit a selected element:
       </para>
        
       <figure>
@@ -3189,7 +3189,7 @@ two elements with equal id has been used, but should be used only one -->
       </figure>
        
       <para>
-        You can also use a Source viewer for the file. In this viewer, along with direct editing of the source code, you can also edit the file by using the Properties view on the right:
+        You can also use a <guilabel>Source</guilabel> viewer for the file. In this viewer, along with direct editing of the source code, you can also edit the file by using the <guilabel>Properties</guilabel> view on the right:
       </para>
        
       <figure>
