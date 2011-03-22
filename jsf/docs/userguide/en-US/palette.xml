@@ -12,7 +12,7 @@
   </chapterinfo>
    <title>JBoss Tools Palette</title> 
   <para>
-    This chapter will introduce you to the functionality provided by <guilabel>JBoss Tools Palette</guilabel>. The Palette allows you to quickly and easily create your <filename>JSP</filename> or <filename>JSF</filename> pages. Now you can do it more faster without additional knowledge.
+    This chapter will introduce you to the functionality provided by <guilabel>JBoss Tools Palette</guilabel>. The Palette allows you to quickly and easily create your <filename>JSP</filename> or <filename>JSF</filename> pages.
   </para>
    
   <para>
@@ -22,7 +22,7 @@
   <itemizedlist>
     <listitem>
       <para>
-        Insert tags into a JSP or JSF page with one click
+        Insert tags into a <filename>JSP</filename> or <filename>JSF</filename> page with one click
       </para>
     </listitem>
      
@@ -34,7 +34,7 @@
   </itemizedlist>
    
   <para>
-    The JBoss Tools Palette contains a developer's project tag libraries and provides possibility to add any tag libraries to it. Also you can choose a necessary one from the list of already existing tag libraries:
+    The <guilabel>JBoss Tools Palette</guilabel> contains a developer's project tag libraries and provides possibility to add any tag libraries to it. Also you can choose a necessary one from the list of already existing tag libraries:
   </para>
    
   <itemizedlist>
@@ -97,11 +97,11 @@
   </figure>
    
   <para>
-    By default <guilabel>JBoss Tools Palette</guilabel> is not displayed. If you want to use it select <menuchoice><guimenuitem>Window</guimenuitem><guimenuitem>Show View Other...</guimenuitem><guimenuitem>JBoss Tools Web</guimenuitem><guimenuitem>JBoss Tools Palette</guimenuitem></menuchoice> from the menu bar.
+    By default the <guilabel>JBoss Tools Palette</guilabel> is not displayed. If you want to use it select <menuchoice><guimenuitem>Window</guimenuitem><guimenuitem>Show View Other...</guimenuitem><guimenuitem>JBoss Tools Web</guimenuitem><guimenuitem>JBoss Tools Palette</guimenuitem></menuchoice> from the menu bar.
   </para>
    
   <para>
-    The standard <guilabel>Eclipse Palette</guilabel> is displayed by default in both Web Development and Seam perspectives. Now the standard <guilabel>Eclipse Palette</guilabel> is featured with all <guilabel>JBoss Tools Palette</guilabel> options and capabilities.
+    The standard <guilabel>Eclipse Palette</guilabel> is displayed by default in both <guilabel>Web Development</guilabel> and <guilabel>Seam</guilabel> perspectives. Now the standard <guilabel>Eclipse Palette</guilabel> is featured with all <guilabel>JBoss Tools Palette</guilabel> options and capabilities.
   </para>
    
   <para>
@@ -115,13 +115,13 @@
   <itemizedlist>
     <listitem>
       <para>
-        The standard <guilabel>Eclipse Palette</guilabel> is blank by default. Content of the palette is available only if Visual Page Editor is open and active, while JBoss Tools Palette always contains a predefined set of components.
+        The standard <guilabel>Eclipse Palette</guilabel> is blank by default. Content of the palette is available only if Visual Page Editor is open and active, while <guilabel>JBoss Tools Palette</guilabel> always contains a predefined set of components.
       </para>
     </listitem>
      
     <listitem>
       <para>
-        The Expanded/Collapsed state of components in the standard Eclipse Palette is not global as in JBoss Tools Palette. State is associated with an instance of Visual Page Editor. It means that the state can be different for various files and each new file opened in Visual Page Editor will have the default state of Palette with all components collapsed.
+        The Expanded/Collapsed state of components in the standard <guilabel>Eclipse Palette</guilabel> is not global as in <guilabel>JBoss Tools Palette</guilabel>. State is associated with an instance of Visual Page Editor. It means that the state can be different for various files and each new file opened in Visual Page Editor will have the default state of Palette with all components collapsed.
       </para>
     </listitem>
   </itemizedlist>
@@ -130,29 +130,25 @@
 <?dbhtml filename="PaletteOptions.html"?>
     <title>Palette Options</title> 
     <para>
-      To facilitate your work, you can configure the Palette in your own way by selecting the corresponding icon on the Palette toolbar.
-    </para>
-     
-    <para>
-      There is a possibility to configure the JBoss Tools Palette:
+      The Palette can be customized by using the following buttons on the Palette toolbar, which provide the following functionality:
     </para>
      
     <itemizedlist>
       <listitem>
         <para>
-          to edit the palette content by adding, removing or changing the palette elements
+          editing the palette content by adding, removing or changing the palette elements
         </para>
       </listitem>
        
       <listitem>
         <para>
-          to show/hide groups, subgroups
+          showing or hiding groups and subgroups
         </para>
       </listitem>
        
       <listitem>
         <para>
-          to import groups, subgroups
+          importing groups and subgroups
         </para>
       </listitem>
     </itemizedlist>
@@ -170,11 +166,11 @@
 <?dbhtml filename="PaletteEditor.html"?>
       <title>Palette Editor</title> 
       <para>
-        JBoss Tools Palette contains existing libraries of tags, thus the <guilabel>Palette editor</guilabel> is intended to work with them or create your new one as well.
+        The <guilabel>JBoss Tools Palette</guilabel> contains existing libraries of tags, and the <guilabel>Palette editor</guilabel> provides a way to add a new library, or edit existing libraries.
       </para>
        
       <para>
-        To open the editor, click on the <guilabel>Palette Editor</guilabel> icon(
+        To open the editor, click on the <guilabel>Palette Editor</guilabel> icon (
         <inlinemediaobject>
           <imageobject>
             <imagedata fileref="images/palette/palette_7.png"/>
@@ -184,7 +180,7 @@
       </para>
        
       <para>
-        The window has two parts. There is a reflected grouped list of components on the left side of the palette editor. Each group is divided into multiple groups, every of which is a tag library. The right side of the palette editor is an editing window where it&apos;s possible to change values of group or tag library attributes that you&apos;ve chosen on the left part of the window.
+        The window has two parts. There is a reflected grouped list of components on the left side of the palette editor. Each group is divided into multiple groups, each of which is a tag library. To the right side of the palette editor is an editing window where it is possible to change values of group or tag library attributes that you have chosen on the left part of the window.
       </para>
        
       <para>
@@ -207,19 +203,18 @@
       </figure>
        
       <para>
-        The Palette Editor provides the following possibilities when working with existing tags or icons:
+        The <guilabel>Palette Editor</guilabel> provides the following functionality when working with existing tags or icons:
       </para>
        
       <itemizedlist>
         <listitem>
-          <para>
-            to work with a set of icons
-          </para>
-           
-          <para>
-            <guilabel>Icons</guilabel> is the root folder for the icon sets. The first step is creating the icon set. Right click on the <emphasis> <guilabel>Icons</guilabel> </emphasis> folder and select <menuchoice><guimenuitem>Create</guimenuitem><guimenuitem>Create Set...</guimenuitem></menuchoice>.
-          </para>
-           
+          <formalpara>
+            <title>To work with a set of icons</title>
+            <para>
+            	<guilabel>Icons</guilabel> is the root folder for the icon sets. The first step is creating the icon set. Right click on the <emphasis> <guilabel>Icons</guilabel> </emphasis> folder and select <menuchoice><guimenuitem>Create</guimenuitem><guimenuitem>Create Set...</guimenuitem></menuchoice>.
+            </para>
+          </formalpara>
+
           <para>
             Set the value of the name in the <guilabel>Add Icons</guilabel> window and click the <guibutton>Finish</guibutton> button. A new element will appear in the list.
           </para>
@@ -234,19 +229,18 @@
           </figure>
            
           <para>
-            Also you can delete the set. Right click on the set of icons that you wish to remove and chose the <guimenuitem>Delete</guimenuitem> option from the pop-up menu or click the <keycap>Delete</keycap> keyboard button.
+            Also you can delete the set. Right click on the set of icons that you wish to remove and select the <guimenuitem>Delete</guimenuitem> option from the pop-up menu or click the <keycap>Delete</keycap> keyboard button.
           </para>
         </listitem>
          
         <listitem>
-          <para>
-            to edit icons in the chosen set
-          </para>
-           
-          <para>
-            When the set of icons is created, new icons can be imported to it. Choose the required set and select the option <menuchoice><guimenuitem>Create</guimenuitem><guimenuitem>Import Icon...</guimenuitem></menuchoice> from the pop-up menu that appears after you right-click on a folder.
-          </para>
-           
+          <formalpara>
+            <title>To edit icons in the chosen set</title>
+            <para>
+            		When the set of icons is created, new icons can be imported to it. Choose the required set and select the option <menuchoice><guimenuitem>Create</guimenuitem><guimenuitem>Import Icon...</guimenuitem></menuchoice> from the pop-up menu that appears after you right-click on a folder.
+            	</para>
+          </formalpara>
+
           <figure>
             <title>Creating Icons</title> 
             <mediaobject>
@@ -262,14 +256,13 @@
         </listitem>
          
         <listitem>
-          <para>
-            to work with a group of tag libraries
-          </para>
-           
-          <para>
-            The first step in work with the editor is creating a group of libraries. It&apos;s very easy to do, right mouse button click on the <guilabel>Palette</guilabel> folder and select <menuchoice><guimenuitem>Create</guimenuitem><guimenuitem>Create Group…</guimenuitem></menuchoice>
-          </para>
-           
+          <formalpara>
+            <title>To work with a group of tag libraries</title>
+            <para>
+            		The first step in work with the editor is creating a group of libraries. It&apos;s very easy to do, right mouse button click on the <guilabel>Palette</guilabel> folder and select <menuchoice><guimenuitem>Create</guimenuitem><guimenuitem>Create Group…</guimenuitem></menuchoice>
+            	</para>
+          </formalpara>
+
           <para>
             Set a name of a group in the <guilabel>Create Group</guilabel> window and click the <guibutton>OK</guibutton> button. A new element will appear at the end of the list.
           </para>
@@ -296,14 +289,13 @@
         </listitem>
          
         <listitem>
-          <para>
-            to work with a tag library
-          </para>
-           
-          <para>
-            The group maintains a list of tag libraries. If you&apos;d like to create your own library, click right mouse button on the group and choose <guimenuitem>Create Group…</guimenuitem> option.
-          </para>
-           
+          <formalpara>
+            <title>To work with a tag library</title>
+            <para>
+            		The group maintains a list of tag libraries. If you&apos;d like to create your own library, click right mouse button on the group and choose <guimenuitem>Create Group…</guimenuitem> option.
+            		</para>
+          </formalpara>
+
           <figure>
             <title>Creating a tag library</title> 
             <mediaobject>
@@ -337,13 +329,14 @@
         </listitem>
          
         <listitem>
-          <para>
-            to work with a tag element
-          </para>
+          <formalpara>
+            <title>To work with a tag element</title>
+            <para>
+            		When the library folder is created, new tags can be added to it. Choose the required library and select the option <menuchoice><guimenuitem>Create</guimenuitem><guimenuitem>Create Macro…</guimenuitem></menuchoice> from the pop-up menu that appears after you right-click on a folder.
+            	</para>
+          </formalpara>
            
-          <para>
-            When the library folder is created, new tags can be added to it. Choose the required library and select the option <menuchoice><guimenuitem>Create</guimenuitem><guimenuitem>Create Macro…</guimenuitem></menuchoice> from the pop-up menu that appears after you right-click on a folder.
-          </para>
+
            
           <figure>
             <title>Creating a tag element</title> 
@@ -516,7 +509,7 @@
       <note>
         <title>Tip:</title> 
         <para>
-          if you place the cursor over any tag, a balloon hint is shown with all the tag attributes.
+          If you place the cursor over any tag, a balloon hint is shown with all the tag attributes.
         </para>
       </note>
        

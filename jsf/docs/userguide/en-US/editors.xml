@@ -2795,7 +2795,7 @@ two elements with equal id has been used, but should be used only one -->
       </figure>
        
       <para>
-        You can also use a Source viewer for editing the file:
+        You can also use a <guilabel>Source</guilabel> viewer for editing the file:
       </para>
        
       <figure>
@@ -2843,7 +2843,7 @@ two elements with equal id has been used, but should be used only one -->
       <section id="SourceView1">
         <title>Source view</title> 
         <para>
-          You can easily switch from Tree to Source by selecting the <guilabel>Source</guilabel> tab at the bottom of the editor.
+          You can easily switch from <guilabel>Tree</guilabel> to <guilabel>Source</guilabel> by selecting the <guilabel>Source</guilabel> tab at the bottom of the editor.
         </para>
          
         <figure>
@@ -2882,7 +2882,7 @@ two elements with equal id has been used, but should be used only one -->
         </figure>
          
         <para>
-          Content assist is available when editing the file using the Source viewer:
+          Content assist is available when editing the file using the <guilabel>Source</guilabel> viewer:
         </para>
          
         <figure>
@@ -3205,7 +3205,7 @@ two elements with equal id has been used, but should be used only one -->
     <section id="SupportforXMLSchema">
       <title>Support for XML Schema</title> 
       <para>
-        JBoss Developer Studio fully supports XML files based on schemas as well as DTDs:
+        JBoss Developer Studio fully supports <filename>XML</filename> files based on schemas as well as DTDs:
       </para>
        
       <figure>
