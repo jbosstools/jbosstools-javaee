@@ -16,7 +16,7 @@
   </para>
    
   <para>
-    The CSS Editing Perspective combines a set of views which allow you to see the structure of your css files, edit them and see the results. To use this perspective you need to choose <menuchoice><guimenuitem>Window</guimenuitem><guimenuitem>Open Perspective</guimenuitem><guimenuitem>CSS Editing</guimenuitem></menuchoice>. All of the views are fully synchronized with each other:the changes being made in one view are reflected in othes at once.
+    The CSS Editing Perspective combines a set of views which allow you to see the structure of your css files, edit them and see the results. To use this perspective you need to choose <menuchoice><guimenuitem>Window</guimenuitem><guimenuitem>Open Perspective</guimenuitem><guimenuitem>CSS Editing</guimenuitem></menuchoice>. All of the views are fully synchronized with each other: the changes being made in one view are reflected in others at once.
   </para>
    
   <para>

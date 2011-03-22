@@ -1049,7 +1049,7 @@
       <section id="ContentAssistForJavaFiles">
         <title>Content Assist for Java Files</title> 
         <para>
-          Various tools tips provide you additional information about Java elements (JavaDocs, source classes, return types, method names, params and etc.) when working with Java files.
+          Various tools tips provide you additional information about Java elements (JavaDocs, source classes, return types, method names, parameters and etc.) when working with Java files.
         </para>
          
         <figure>
@@ -1735,7 +1735,7 @@ two elements with equal id has been used, but should be used only one -->
         </figure>
          
         <para>
-          If the style class isn ot chosen, the tab does not show any properties.
+          If the style class is not chosen, the tab does not show any properties.
         </para>
          
         <figure>
