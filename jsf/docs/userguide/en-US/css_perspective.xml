@@ -210,7 +210,7 @@
         </figure>
          
         <para>
-          When you click <emphasis><property>Ok</property></emphasis> the choosen fonts should appear in <emphasis><property>Font Family</property></emphasis> text field and in the sourse css file. To define other properties in CSS <emphasis><property>Text/Font</property></emphasis> tab you should just click button near the corresponding field you want and select the appropriate option in the list. Or if you are absolutely sure of the property's value to use you can just write it in the text field.
+          When you click the <guibutton>OK</guibutton> button the chosen fonts should appear in <guilabel>Font Family</guilabel> text field and in the source css file. To define other properties in CSS <guilabel>Text/Font</guilabel> tab you should just click button near the corresponding field you want and select the appropriate option in the list. Or if you are absolutely sure of the property's value to use you can just write it in the text field.
         </para>
       </listitem>
        

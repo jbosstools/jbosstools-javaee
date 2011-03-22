@@ -488,7 +488,7 @@
       </para>
        
       <para>
-        Let&apos;s do it. Open your JSP file and place the cursor in a place where you&apos;d like to add a tag and then click that tag in the palette. In the <guilabel>Insert Tag</guilabel> window that appears, you can set the value of<guilabel>general</guilabel> and <guilabel>advanced</guilabel> attributes of the tag that you choose.
+        Let&apos;s do it. Open your JSP file and place the cursor in a place where you&apos;d like to add a tag and then click that tag in the palette. In the <guilabel>Insert Tag</guilabel> window that appears, you can set the value of <guilabel>general</guilabel> and <guilabel>advanced</guilabel> attributes of the tag that you choose.
       </para>
        
       <figure>
