@@ -12,13 +12,13 @@
   </chapterinfo>
    <title>Editors</title> 
   <para>
-    In the JSF Tools Reference Guide and Struts Tools Reference Guide you may have read about the Graphical Editors for JSF and Struts configuration files, Tiles Files, and Struts Validation Files. All these editors have OpenOn (see <xref linkend="OpenOnSelection4Hyperlinknavigation"/>) and Code Assist (see <xref linkend="CodeAssistAndDynamicCodeAssist42BasedOnProjectData"/>) features, which are described in more detail in this document. In addition, this document will cover the Visual Page Editor (see <xref linkend="visual_page"/>), which provides combined visual and source editing of Web pages, as well as many more editors (see <xref linkend="more_editors"/>) for different types of files.
+    In the JSF Tools Reference Guide and Struts Tools Reference Guide you may have read about the Graphical Editors for JSF and Struts configuration files, Tiles Files, and Struts Validation Files. All these editors have OpenOn (see <xref linkend="OpenOnSelection4Hyperlinknavigation"/>) and Code Assist (see <xref linkend="CodeAssistAndDynamicCodeAssist42BasedOnProjectData"/>) features, which are described in more detail in this document. In addition, this document will cover the Visual Page Editor (see <xref linkend="visual_page"/>), which provides combined visual and source editing of Web pages, as well as a number of additional editors (see <xref linkend="more_editors"/>) for different types of files.
   </para>
    
   <section id="editors_features">
     <title>Editors Features</title> 
     <para>
-      JBoss Developer Studio has powerful editing features that help you easily navigate within your application and make use of content and code assist no matter what type of project file (<filename>.jsp</filename>, <filename>.xhtml</filename>, <filename>.xml</filename>, <filename>.css</filename> etc.) you are working on.
+      JBoss Developer Studio has powerful editing features that help you easily navigate within your application and make use of content and code assist no matter what type of project file (<filename>JSP</filename>, <filename>XHTML</filename>, <filename>XML</filename>, <filename>CSS</filename> etc.) you are working on.
     </para>
      
     <para>
@@ -48,7 +48,7 @@
     <section id="OpenOnSelection4Hyperlinknavigation">
       <title>OpenOn</title> 
       <para>
-        OpenOn lets you easily link directly from one resource to another in your project without using the <guilabel>Package Explorer</guilabel> view (project tree). With OpenOn, you can simply use <keycap>F3</keycap> or <keycombo><keycap>Ctrl</keycap><keycap>Click</keycap></keycombo> on a reference to another file and the file will be opened.
+        OpenOn lets you easily link directly from one resource to another in your project without using the <guilabel>Package Explorer</guilabel> view (i.e. the project tree). With OpenOn, you can simply use <keycap>F3</keycap> or <keycombo><keycap>Ctrl</keycap><keycap>Click</keycap></keycombo> on a reference to another file and the file will be opened.
       </para>
        
       <para>
@@ -90,7 +90,7 @@
       <section id="XMLFiles232">
         <title>XML Files</title> 
         <para>
-          Press and hold down the <keycap>Ctrl</keycap> key. As you move the mouse cursor over different file references in the file, they are displayed with an underline. In this state these file references effectively become links, and when they are clicked the appropriate file will be opened in its own editor.
+          When editing an XML file press and hold down the <keycap>Ctrl</keycap> key. As you move the mouse cursor over different file references in the file, they are displayed with an underline. In this state these file references effectively become links, and when they are clicked the appropriate file will be opened in its own editor.
         </para>
          
         <para>
@@ -280,7 +280,7 @@
         </figure>
          
         <para>
-          OpenOn is also implemented for css classes added by a complex link.
+          OpenOn is also implemented for CSS classes added by a complex link.
         </para>
          
         <figure>
@@ -619,7 +619,7 @@
         <section id="ContentAssistForXMLJSPAndJSFConfigurationFiles865">
           <title>Content Assist for XML, JSP and JSF configuration files</title> 
           <para>
-            At any point when working with any <filename>XML</filename>, <filename>JSP</filename> and <filename>JSF</filename> configuration files Content Assist is available to help you. Simply press <keycombo><keycap>Ctrl</keycap><keycap>Space</keycap></keycombo> to see what options are available.
+            Content Assist is available to help you at any point when working with any <filename>XML</filename>, <filename>JSP</filename> and <filename>JSF</filename> configuration files. Simply press <keycombo><keycap>Ctrl</keycap><keycap>Space</keycap></keycombo> to see what options are available.
           </para>
            
           <para>
@@ -649,7 +649,7 @@
           </figure>
            
           <para>
-            Content Assist for other <filename>JSF</filename> <filename>XML</filename> project files ( <filename>web.xml</filename> shown):
+            Content Assist for other <filename>JSF</filename> <filename>XML</filename> project files (<filename>web.xml</filename> shown):
           </para>
            
           <figure>
@@ -665,7 +665,7 @@
         <section id="ContentAssistforCompositeComponents">
           <title>Content Assist for Composite Components</title> 
           <para>
-            Content assist functionality is also available for composite components. The image below shows content assist used with a composite component file <filename>loginPanel.xhtml</filename> within a JSF 1.2 project with facelets.
+            Content assist functionality is also available for composite components. The image below shows content assist used with a composite component file named <filename>loginPanel.xhtml</filename> within a JSF 1.2 project with facelets.
           </para>
            
           <figure>
@@ -717,7 +717,7 @@
           </itemizedlist>
            
           <para>
-            The figure below shows how to insert a message from a Properties file. You simply put the cursor inside the <code>value</code> attribute and press <keycombo><keycap>Ctrl</keycap><keycap>Space</keycap></keycombo>. JBoss Developer Studio will scan your project and display a list of possible values that can be inserted.
+            The figure below demonstrates how to insert a message from a Properties file. You simply put the cursor inside the <code>value</code> attribute and press <keycombo><keycap>Ctrl</keycap><keycap>Space</keycap></keycombo>. JBoss Developer Studio will scan your project and display a list of possible values that can be inserted.
           </para>
            
           <figure>
@@ -730,11 +730,11 @@
           </figure>
            
           <para>
-            In the following screenshot we are inserting a Managed bean attribute value. Again, by simply clicking <keycombo><keycap>Ctrl</keycap><keycap>Space</keycap></keycombo>, JBoss Developer Studio will show a list of all possible values that can be inserted.
+            In the following screenshot we are inserting a Managed bean attribute value. Again, by simply pressing <keycombo><keycap>Ctrl</keycap><keycap>Space</keycap></keycombo>, JBoss Developer Studio will show a list of all possible values that can be inserted.
           </para>
            
           <para>
-            Once you select a Managed bean, it will show you a list of all available attributes for the selected Managed bean (<code>userBean</code>).
+            Once you select a Managed bean, it will show you a list of all available attributes for the selected Managed bean.
           </para>
            
           <figure>
@@ -773,7 +773,7 @@
           </figure>
            
           <para>
-            Moreover Code Assist is able to define Resource Bundles on template pages and provides the proposals on the client page.
+            Code Assist is able to define Resource Bundles on template pages and provides the proposals on the client page.
           </para>
            
           <figure>
@@ -789,7 +789,7 @@
         <section id="ContentAssistWithinJSFGraphicalEditor44">
           <title>Content Assist within Tree JSF Editor</title> 
           <para>
-            JBoss Developer Studio also provides Content Assist when working within the Tree JSF configuration editor. Just press <keycombo><keycap>Ctrl</keycap><keycap>Space</keycap></keycombo>.
+            JBoss Developer Studio also provides Content Assist when working within the <guilabel>Tree</guilabel> JSF configuration editor. Just press <keycombo><keycap>Ctrl</keycap><keycap>Space</keycap></keycombo>.
           </para>
            
           <figure>
@@ -930,7 +930,7 @@
         <section id="ContentAssistForJSFTags96">
           <title>Content Assist for JSF Tags</title> 
           <para>
-            JBDS provides full code completion for JSF tags:
+            JBoss Developer Studio provides full code completion for JSF tags:
           </para>
            
           <figure>
@@ -1029,7 +1029,7 @@
       <section id="ContentAssistForXHTMLPages">
         <title>Content Assist for XHTML Pages</title> 
         <para>
-          The code completion for the Seam components in a Seam project shows the proposals marked with Seam icon.
+          The code completion menu items for the Seam components in a Seam project shows the proposals marked with Seam icon.
         </para>
          
         <figure>
@@ -1042,7 +1042,7 @@
         </figure>
          
         <para>
-          If <filename>XHTML</filename> file uses custom Facelets components, the Content Assist should also be available for them. For details, see <xref linkend="contentAssistForCustomFacelets"/> later in this guide.
+          If an <filename>XHTML</filename> file uses custom Facelets components, the Content Assist should also be available for them. For details, see <xref linkend="contentAssistForCustomFacelets"/> later in this guide.
         </para>
       </section>
        
@@ -1219,19 +1219,19 @@
         </figure>
          
         <para>
-          It warns that some features of content assist probably will not work. To fix the problem and turn off the message box execute the following steps:
+          It warns that some features of content assist may not work. Use the following steps to fix the problem and turn off the message box:
         </para>
          
         <itemizedlist>
           <listitem>
             <para>
-              Right click the project in the <guilabel>Package Explorer</guilabel> view.
+              Right click the project in the <guilabel>Package Explorer</guilabel> view
             </para>
           </listitem>
            
           <listitem>
             <para>
-              Select <menuchoice> <guimenuitem> Configure </guimenuitem> <guimenuitem> Add JSF Capabilities </guimenuitem> </menuchoice> from the context menu.
+              Select <menuchoice> <guimenuitem> Configure </guimenuitem> <guimenuitem> Add JSF Capabilities </guimenuitem> </menuchoice> from the context menu
             </para>
           </listitem>
            
@@ -1281,7 +1281,7 @@
       </figure>
        
       <para>
-        The JBoss Developer Studio TLD file editor is shown below in Tree view. At any point you can edit the source by switching to the Source view.
+        The JBoss Developer Studio TLD file editor is shown below in <guilabel>Tree</guilabel> view. At any point you can edit the source by switching to the <guilabel>Source</guilabel> view.
       </para>
        
       <figure>
@@ -1338,7 +1338,7 @@
       </para>
        
       <para>
-        One more way to toggle between the various states of the split pane is using the shortcuts <keycombo><keycap>Shift</keycap><keycap>F6</keycap></keycombo> for maximizing or restoring the <guilabel>Source</guilabel> part and <keycombo><keycap>Shift</keycap><keycap>Alt</keycap><keycap>F6</keycap></keycombo> for maximizing or restoring the <guilabel>Visual</guilabel> part.
+        One more way to toggle between the various states of the split pane is using the <keycombo><keycap>Shift</keycap><keycap>F6</keycap></keycombo> keyboard shortcut for maximizing or restoring the <guilabel>Source</guilabel> part and <keycombo><keycap>Shift</keycap><keycap>Alt</keycap><keycap>F6</keycap></keycombo> for maximizing or restoring the <guilabel>Visual</guilabel> part.
       </para>
        
       <note>
@@ -1370,7 +1370,7 @@
       </para>
        
       <para>
-        It is also possible to use the JBoss Tools Palette (see <xref linkend="palette"/>) to insert any tag from the list of tag libraries to the page you are editing with just a click or drag-and-drop.
+        It is also possible to use the <guilabel>JBoss Tools Palette</guilabel> (see <xref linkend="palette"/>) to insert any tag from the list of tag libraries into the page you are editing with just a click or by dragging-and-dropping.
       </para>
        
       <figure>
@@ -1516,11 +1516,11 @@ two elements with equal id has been used, but should be used only one -->
       <section id="codefolding">
         <title>Using Code Folding</title> 
         <para>
-          The Visual Page Editor lets you collapse (hide) and expand (show) sections of your code to make it easier to navigate and read.
+          The Visual Page Editor lets you collapse and expand (or hide and show) sections of your code to make it easier to navigate and read.
         </para>
          
         <para>
-          Code folding can be enabled by right-clicking on the left margin on the Source part of Visual Page Editor, selecting <guimenuitem>Folding</guimenuitem> and checking the <guilabel>Enable Folding</guilabel> checkbox or using the <keycombo><keycap>Ctrl</keycap><keycap>Numpad Divide</keycap></keycombo> shortcut.
+          Code folding can be enabled by right-clicking on the left margin on the <guilabel>Source</guilabel> part of Visual Page Editor, selecting <guimenuitem>Folding</guimenuitem>, and checking the <guilabel>Enable Folding</guilabel> checkbox or using the <keycombo><keycap>Ctrl</keycap><keycap>Numpad Divide</keycap></keycombo> shortcut.
         </para>
          
         <para>
@@ -1547,19 +1547,19 @@ two elements with equal id has been used, but should be used only one -->
         </para>
          
         <para>
-          When the minus sing is clicked on the appropriate tag collapses and a plus sing ( 
+          When the minus sign is clicked on the appropriate tag collapses and a plus sign ( 
           <inlinemediaobject>
             <imageobject>
               <imagedata fileref="images/visual_page/visual_page_23d.png"/>
             </imageobject>
           </inlinemediaobject>
-           ) is displayed on the left margin as well as a gray rectangle two dots ( 
+           ) is displayed on the left margin as well as a gray rectangle with two dots ( 
           <inlinemediaobject>
             <imageobject>
               <imagedata fileref="images/visual_page/visual_page_23e.png"/>
             </imageobject>
           </inlinemediaobject>
-           ) appears after opening and closing tags.
+           ), which appears after opening and closing tags.
         </para>
          
         <figure>
@@ -1575,7 +1575,7 @@ two elements with equal id has been used, but should be used only one -->
       <section id="JSPsyntaxvalidation84">
         <title>JSP Syntax Validation</title> 
         <para>
-          When working in JBoss Tools JSP editor you are constantly provided with feedback and contextual error checking as you type.
+          When working in the JBoss Tools JSP editor you are constantly provided with feedback and contextual error checking as you type.
         </para>
       </section>
        
@@ -1586,11 +1586,11 @@ two elements with equal id has been used, but should be used only one -->
         </para>
          
         <para>
-          VPE templates also provide a support for various versions of tag libraries. It means that the Visual Page Editor takes control over those components which have different parameters or preview according to the framework version (like seam 1.2 and seam 2.0, or JSF 1.1 and JSF 1.2).
+          VPE templates also provides support for various versions of tag libraries, meaning that the Visual Page Editor takes control over those components which have different parameters or preview according to the framework version (like seam 1.2 and seam 2.0, or JSF 1.1 and JSF 1.2).
         </para>
          
         <para>
-          For example, <code> &lt;s:decorate&gt; </code> element in seam has different parameters in versions 1.2 and 2.0 as well as <code> &lt;h:outputLink&gt; </code> JSF element has different preview in versions 1.1 and 1.2.
+          For example, the <code> &lt;s:decorate&gt; </code> element in Seam has different parameters in versions 1.2 and 2.0, and the <code> &lt;h:outputLink&gt; </code> JSF element has different preview in versions 1.1 and 1.2.
         </para>
       </section>
     </section>
@@ -1598,19 +1598,19 @@ two elements with equal id has been used, but should be used only one -->
     <section id="pages_styling">
       <title>Pages Styling</title> 
       <para>
-        Most web pages use the cascading style sheets (CSS) to control the way they look. With Visual Page Editor you can easily stylize your pages. In this section we are going to introduce you to a powerful mechanism that Visual Page Editor provides for a complete control over pages styling. More helpful information on work with CSS files can be found in <xref linkend="css_perspective"/>
+        Most web pages use the cascading style sheets (CSS) to control the way they look. With Visual Page Editor you can easily stylize your pages. In this section we are going to introduce you to a powerful mechanism that Visual Page Editor provides for complete control over a pages' styling. Additional information on working with CSS files can be found in <xref linkend="css_perspective"/>
       </para>
        
       <section id="inline_styling">
         <title>Inline Style Editing</title> 
         <para>
-          In the Visual part of the Visual Page Editor there is a graphical toolbar, use it to add inline styling to JSF and Struts tags on your page. The toolbar can be hidden with the help of the special button ( 
+          In the <guilabel>Visual</guilabel> part of the Visual Page Editor there is a graphical toolbar, which is used to add inline styling to JSF and Struts tags on your page. The toolbar can be hidden with the help of the special button ( 
           <inlinemediaobject>
             <imageobject>
               <imagedata fileref="images/visual_page/formatting_bar_icon.png"/>
             </imageobject>
           </inlinemediaobject>
-           ) on the VPE toolbar.
+           ) on the Visual Page Editor toolbar.
         </para>
          
         <figure>
@@ -1623,7 +1623,7 @@ two elements with equal id has been used, but should be used only one -->
         </figure>
          
         <para>
-          For editing inline styles for DOM elements the Visual Page Editor provides the <guilabel>CSS Dialog</guilabel>. It can be called from <guilabel> style</guilabel> line in the <guilabel>Properties</guilabel> view for a currently selected element.
+          For editing inline styles for DOM elements, the Visual Page Editor provides the <guilabel>CSS Dialog</guilabel>. It can be called from the <guilabel> style</guilabel> line in the <guilabel>Properties</guilabel> view of a currently selected element.
         </para>
          
         <figure>
@@ -1636,7 +1636,7 @@ two elements with equal id has been used, but should be used only one -->
         </figure>
          
         <para id="css_dialog">
-          <guilabel>CSS Style</guilabel> Dialog has several tabs where css properties for text, background, borders and others can be specified. A simple preview which is generated at the top of the <guilabel>CSS Style</guilabel> Dialog allows you to see the changes before you apply them.
+          The <guilabel>CSS Style</guilabel> dialog has several tabs where CSS properties for text, background, borders and others can be specified. A simple preview which is generated at the top of the <guilabel>CSS Style</guilabel> dialog allows you to see the changes before you apply them.
         </para>
          
         <figure>
@@ -1652,11 +1652,11 @@ two elements with equal id has been used, but should be used only one -->
       <section id="external_stylesheets">
         <title>External Stylesheets</title> 
         <para>
-          The pages you are working with in the Visual Page Editor can use external stylesheets. The Visual Page Editor allows you to create new style classes in existing stylesheets and/or edit them as well. For these purposes <guilabel>Edit Style Class</guilabel> Dialog is provided.
+          The pages you are working with in the Visual Page Editor can use external stylesheets. The Visual Page Editor allows you to create new style classes in existing stylesheets, as well as edit them. The <guilabel>Edit Style Class</guilabel> dialog is provided for this purposes.
         </para>
          
         <para>
-          Select the element for which you need to create or edit style class and press button next to <guilabel>styleClass</guilabel> field in <guilabel>Properties</guilabel> view.
+          Select the element for which you need to create or edit style class, and press button next to the <guilabel>styleClass</guilabel> field in the <guilabel>Properties</guilabel> view.
         </para>
          
         <figure>
@@ -1669,7 +1669,7 @@ two elements with equal id has been used, but should be used only one -->
         </figure>
          
         <para>
-          It&apos;ll pick up the <guilabel>Edit Style Class</guilabel> Dialog which looks like on the figure below:
+         	This will display the <guilabel>Edit Style Class</guilabel> dialog, which is shown in the image below:
         </para>
          
         <figure>
@@ -1682,7 +1682,7 @@ two elements with equal id has been used, but should be used only one -->
         </figure>
          
         <para>
-          Choose a style class from the variants provided and click on the <guibutton>OK</guibutton> button to apply the changes.
+          Choose a style class from the variants provided, and click on the <guibutton>OK</guibutton> button to apply the changes.
         </para>
          
         <para>
@@ -1696,7 +1696,7 @@ two elements with equal id has been used, but should be used only one -->
         </para>
          
         <para>
-          To create a new CSS class for the file click on the <guibutton>Add CSS Class</guibutton> button, write its name in the field appeared and click on the <guibutton>OK</guibutton> button:
+          To create a new CSS class for the file click on the <guibutton>Add CSS Class</guibutton> button, enter its name in the textbox, and click on the <guibutton>OK</guibutton> button:
         </para>
          
         <figure>
@@ -1709,7 +1709,7 @@ two elements with equal id has been used, but should be used only one -->
         </figure>
          
         <para>
-          Then you can configure style settings switching between the tabs: <guilabel>Text/Font</guilabel>, <guilabel>Background</guilabel>, <guilabel>Boxes</guilabel>,  <guilabel>Property Sheet</guilabel>. The list of already existing classes with names beginning with the symbols printed will be displayed on standard <keycombo><keycap>Ctrl</keycap><keycap>Space</keycap></keycombo> key combination. To add existing styling to the chosen element just point to the necessary one. Each time you select any class it is displayed in the <guilabel>Preview</guilabel> tab. Click on the <guibutton>Apply</guibutton> button will apply the changes without closing the window.
+          Then you can configure style settings by switching between the tabs: <guilabel>Text/Font</guilabel>, <guilabel>Background</guilabel>, <guilabel>Boxes</guilabel>,  <guilabel>Property Sheet</guilabel>. The list of existing classes with names beginning with the symbols printed will be displayed by using the standard <keycombo><keycap>Ctrl</keycap><keycap>Space</keycap></keycombo> key combination. To add an existing style to the chosen element just point to the necessary one. Each time you select any class it is displayed in the <guilabel>Preview</guilabel> tab. Click on the <guibutton>Apply</guibutton> button to apply the changes without closing the window.
         </para>
          
         <figure>
