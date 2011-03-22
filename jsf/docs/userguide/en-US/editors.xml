@@ -665,7 +665,7 @@
         <section id="ContentAssistforCompositeComponents">
           <title>Content Assist for Composite Components</title> 
           <para>
-            Content assist functionality is also available for composite components. The image below shows content assist used with a composite component file <filename> tag.xhtml </filename> within a JSF 1.2 project with facelets.
+            Content assist functionality is also available for composite components. The image below shows content assist used with a composite component file <filename>loginPanel.xhtml</filename> within a JSF 1.2 project with facelets.
           </para>
            
           <figure>
