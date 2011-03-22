@@ -1722,7 +1722,7 @@ two elements with equal id has been used, but should be used only one -->
         </figure>
          
         <para>
-          The <guilabel>Edited properties</guilabel> tab gives a preview of the properties which are set for the existing style class. You can easily modify them with the help of this wizard.
+          The <guilabel>Edited properties</guilabel> tab provides a preview of the properties which are set for the existing style class. You can easily modify them with the help of this wizard.
         </para>
          
         <figure>
@@ -1748,7 +1748,7 @@ two elements with equal id has been used, but should be used only one -->
         </figure>
          
         <para>
-          The <guilabel>Preview</guilabel> tab is for observing the content of the chosen <filename>CSS</filename> file. This tab is hidden if no <filename>CSS</filename> file is chosen.
+          The <guilabel>Preview</guilabel> tab provides a way to view the content of the selected <filename>CSS</filename> file. This tab is hidden if no <filename>CSS</filename> file is selected.
         </para>
          
         <figure>
@@ -1761,7 +1761,7 @@ two elements with equal id has been used, but should be used only one -->
         </figure>
          
         <para>
-          At the top of the <guilabel>CSS Class</guilabel> Dialog you can see a preview box which visualizes the result. To edit the preview you should double click in the box. To leave the focus, use <keycombo><keycap>Ctrl</keycap><keycap>Tab</keycap></keycombo>.
+          At the top of the <guilabel>CSS Class</guilabel> dialog you can see a preview box which visualizes the result. To edit the preview you should double click in the box. To leave the focus, use <keycombo><keycap>Ctrl</keycap><keycap>Tab</keycap></keycombo>.
         </para>
          
         <figure>
@@ -1774,7 +1774,7 @@ two elements with equal id has been used, but should be used only one -->
         </figure>
          
         <para>
-          The dialog for creating a new CSS class, which is called from <menuchoice><guimenuitem>New</guimenuitem><guimenuitem>Other...</guimenuitem><guimenuitem>JBoss Tools Web</guimenuitem><guimenuitem>CSS Class</guimenuitem></menuchoice>, looks this way:
+          The dialog for creating a new CSS class, which is called from <menuchoice><guimenuitem>New</guimenuitem><guimenuitem>Other...</guimenuitem><guimenuitem>JBoss Tools Web</guimenuitem><guimenuitem>CSS Class</guimenuitem></menuchoice>, is shown in the image below:
         </para>
          
         <figure>
@@ -1787,7 +1787,7 @@ two elements with equal id has been used, but should be used only one -->
         </figure>
          
         <para>
-          Click on the <guibutton>Browse</guibutton> button to open a dialog to select the CSS file to create a CSS class for:
+          Click on the <guibutton>Browse</guibutton> button to open a dialog where you can select the CSS file to create a CSS class for:
         </para>
          
         <figure>
@@ -1800,7 +1800,7 @@ two elements with equal id has been used, but should be used only one -->
         </figure>
          
         <para>
-          Choose the necessary <filename>CSS</filename> file and click on the <guibutton>Ok</guibutton> button.
+          Choose the appropriate <filename>CSS</filename> file and click on the <guibutton>OK</guibutton> button.
         </para>
       </section>
     </section>
@@ -1808,11 +1808,11 @@ two elements with equal id has been used, but should be used only one -->
     <section id="vpe_templating">
       <title>Visual Templates for Unknown Tags</title> 
       <para>
-        The VPE also makes it possible to create visual templates for unknown tags.
+        The Visual Page Editor also makes it possible to create visual templates for unknown tags.
       </para>
        
       <para>
-        To call the <guilabel>Template</guilabel> dialog for a tag, right-click on it in Visual mode and select <guimenuitem>Setup Visual Template for &lt;tag name&gt;</guimenuitem> option.
+        To display the <guilabel>Template</guilabel> dialog for a tag, right-click on it in Visual mode and select <guimenuitem>Setup Visual Template for &lt;tag name&gt;</guimenuitem> option.
       </para>
        
       <figure>
@@ -1825,7 +1825,7 @@ two elements with equal id has been used, but should be used only one -->
       </figure>
        
       <para id="template_dialog">
-        Here is what the <guilabel>Template</guilabel> dialog looks like.
+        The <guilabel>Template</guilabel> dialog is shown in the image below:
       </para>
        
       <figure>
@@ -1838,7 +1838,7 @@ two elements with equal id has been used, but should be used only one -->
       </figure>
        
       <para>
-        The <guilabel>Tag Name</guilabel> field is for setting the name of the unknown tag.
+        The <guilabel>Tag Name</guilabel> field is used to define the name of the unknown tag.
       </para>
        
       <note>
@@ -1846,36 +1846,37 @@ two elements with equal id has been used, but should be used only one -->
         <para>
           The given field should be filled in according to the pattern: <code>taglib:tag</code>. Also make sure you do not surround the name with angle brackets which will cause the validation error (see the figure below).
         </para>
+        <figure>
+					<title>Validation Error in the Template Dialog</title> 
+					<mediaobject>
+						<imageobject>
+							<imagedata fileref="images/visual_page/validation_error.png"/>
+						</imageobject>
+					</mediaobject>
+				</figure>
       </note>
        
-      <figure>
-        <title>Validation Error in the Template Dialog</title> 
-        <mediaobject>
-          <imageobject>
-            <imagedata fileref="images/visual_page/validation_error.png"/>
-          </imageobject>
-        </mediaobject>
-      </figure>
+
        
       <para>
-        <guilabel>Tag for Display</guilabel> field in the <guilabel>Template</guilabel> dialog requires specifying a type of tag. It can be SPAN, DIV, TABLE or any other html element. Check <guilabel>Children</guilabel>, if you want to mark a tag as a child element.
+        The <guilabel>Tag for Display</guilabel> field in the <guilabel>Template</guilabel> dialog requires specifying a type of tag. It can be SPAN, DIV, TABLE or any other HTML element. Check the <guilabel>Children</guilabel> field if you want to mark a tag as a child element.
       </para>
        
       <para>
-        The <guilabel>Value</guilabel> field is for setting a tag value.
+        The <guilabel>Value</guilabel> defines a tags' value.
       </para>
        
       <para>
-        As for the <guilabel>Style</guilabel> field, you can fill it out manually or make use of the button next to the field to bring the <xref linkend="css_dialog"/> for editing styles.
+        As for the <guilabel>Style</guilabel> field, you can fill it out manually or make use of the button next to the field to bring the <guilabel>CSS Style</guilabel> dialog (See <xref linkend="css_dialog"/>) for editing styles.
       </para>
        
       <para>
-        You can observe all defined templates in the <xref linkend="VisualPageEditor2"/> on the <guilabel>Visual Templates</guilabel> tab which you can quickly access by pressing 
+        You can view all defined templates in the <xref linkend="VisualPageEditor2"/> on the <guilabel>Visual Templates</guilabel> tab which, you can quickly access by pressing the 
         <inlinemediaobject>
           <imageobject>
             <imagedata fileref="images/visual_page/icon_1.png"/>
           </imageobject>
-        </inlinemediaobject>
+        </inlinemediaobject> toolbar button
          (see <xref linkend="AdvancedSettings954"/>).
       </para>
        
@@ -1889,18 +1890,18 @@ two elements with equal id has been used, but should be used only one -->
       </figure>
        
       <para>
-        Here it&apos;s possible to add a new and edit or remove any listed in the table template.
+        Here it&apos;s possible to add, edit or remove any listed in the table template.
       </para>
     </section>
      
     <section id="templates_export_import">
       <title>Export/Import of the Templates for Unknown Tags</title> 
       <para>
-        If you have a number of custom tags for which you have defined visual templates, you may need to share the templates definitions with other team members. In this case you can use export/import functionality for unknown tag templates.
+        If you have a number of custom tags for which you have defined visual templates, you may need to share the templates definitions with other team members. In this case you can use export and import functionality for unknown tag templates.
       </para>
        
       <para>
-        To export all visual templates you defined for unknown tags, navigate to <menuchoice><guimenuitem>File</guimenuitem><guimenuitem>Export</guimenuitem> <guimenuitem>Other</guimenuitem><guimenuitem>Unknown tags templates</guimenuitem></menuchoice>. Here is what the wizard looks like.
+        To export all visual templates you defined for unknown tags, select <menuchoice><guimenuitem>File</guimenuitem><guimenuitem>Export</guimenuitem> <guimenuitem>Other</guimenuitem><guimenuitem>Unknown tags templates</guimenuitem></menuchoice>. Here is what the wizard looks like.
       </para>
        
       <figure>
@@ -1913,11 +1914,11 @@ two elements with equal id has been used, but should be used only one -->
       </figure>
        
       <para>
-        At this point click the <guibutton>Browse</guibutton> button to set the path where to save the external XML file with templates and then click the <guibutton>Finish</guibutton> button to complete the export.
+        At this point click the <guibutton>Browse</guibutton> button to set the path where to save the external XML file with templates, and then click the <guibutton>Finish</guibutton> button to complete the export.
       </para>
        
       <para>
-        For import, use the similar steps. Select <menuchoice><guimenuitem>File</guimenuitem><guimenuitem>Import</guimenuitem><guimenuitem>Other</guimenuitem><guimenuitem>Unknown tags templates</guimenuitem></menuchoice> to open the import wizard. Click the <guibutton>Browse</guibutton> to point to the <filename>XML</filename> file which stores the custom tags templates and then click the <guibutton>Finish</guibutton> button to complete the import.
+        Importing follows a similar procedure. Select <menuchoice><guimenuitem>File</guimenuitem><guimenuitem>Import</guimenuitem><guimenuitem>Other</guimenuitem><guimenuitem>Unknown tags templates</guimenuitem></menuchoice> to open the import wizard. Click the <guibutton>Browse</guibutton> to point to the <filename>XML</filename> file which stores the custom tags templates, and then click the <guibutton>Finish</guibutton> button to complete the import.
       </para>
        
       <figure>
@@ -2064,7 +2065,7 @@ two elements with equal id has been used, but should be used only one -->
               <imagedata fileref="images/visual_page/icon_1.png"/>
             </imageobject>
           </inlinemediaobject>
-           ) provides a quick access to the Visual Page Editor preferences.
+           ) provides quick access to the Visual Page Editor preferences.
         </para>
          
         <figure>
@@ -2077,7 +2078,7 @@ two elements with equal id has been used, but should be used only one -->
         </figure>
          
         <para>
-          This page provides a number of options associated with the editor representation. The more detailed description on each one you can find in the &quot;JBoss Tools Preferences&quot; chapter under <xref linkend="VisualPageEditor2"/>.
+          This page provides a number of options associated with the editor representation. For more detailed description on each option please read the &quot;JBoss Tools Preferences&quot; chapter under <xref linkend="VisualPageEditor2"/>.
         </para>
       </section>
        
@@ -2103,7 +2104,7 @@ two elements with equal id has been used, but should be used only one -->
               <imagedata fileref="images/visual_page/icon_3.png"/>
             </imageobject>
           </inlinemediaobject>
-           ) leads to a window which helps you specify necessary references of the resources. It is represented by a window with 4 tabs. The first one, <guilabel>Actual Run-Time folders</guilabel>, is used to replace absolute and relative path values when generating a preview:
+           ) displays a window which helps you specify necessary references of the resources. It is represented by a window with four tabs. The first one, <guilabel>Actual Run-Time folders</guilabel>, is used to replace absolute and relative path values when generating a preview:
         </para>
          
         <figure>
@@ -2129,7 +2130,7 @@ two elements with equal id has been used, but should be used only one -->
         </figure>
          
         <para>
-          The third one, <guilabel>Included tag libs</guilabel>, can be used to add Taglibs that can be used by the editor for getting appropriate templates to generate a preview:
+          The third tab, <guilabel>Included tag libs</guilabel>, can be used to add Taglibs that can be used by the editor for getting appropriate templates to generate a preview:
         </para>
          
         <figure>
@@ -2192,13 +2193,13 @@ two elements with equal id has been used, but should be used only one -->
         </programlisting>
          
         <para>
-          When you open the <filename>main.jsp</filename> file in Visual Page Editor, it will not be able to resolve the image from the header, however it will work fine in runtime. To fix this in design time, click the <guibutton>Page Design Options</guibutton> button and set <guilabel>Actual Run-Time Relative Folder</guilabel> to <menuchoice><guimenuitem>[Project Name]</guimenuitem><guimenuitem>WebContent</guimenuitem><guimenuitem>pages</guimenuitem></menuchoice> and you will see the image appeared.
+          When you open the <filename>main.jsp</filename> file in the Visual Page Editor, it will not be able to resolve the image from the header, however it will work fine in runtime. To fix this in design time, click the <guibutton>Page Design Options</guibutton> button and set <guilabel>Actual Run-Time Relative Folder</guilabel> to <menuchoice><guimenuitem>[Project Name]</guimenuitem><guimenuitem>WebContent</guimenuitem><guimenuitem>pages</guimenuitem></menuchoice>, and you will see the image appeared.
         </para>
          
         <para/>
          
         <para>
-          Let&apos; consider an example for other tabs. For instance, the definition of your CSS on the page is the next:
+          Let&apos;s consider an example for other tabs. For instance, the definition of your CSS on the page is the next:
         </para>
          
         <programlisting role="XML">
@@ -2208,7 +2209,7 @@ two elements with equal id has been used, but should be used only one -->
         </programlisting>
          
         <para>
-          This will work fine in runtime, but the Visual Page Editor does not know what <code>requestContextPath</code> in design time is. In order to see the necessary styles applied in design time your should add a path to your stylesheet in the <guilabel>CSS File Path</guilabel> section.
+          This will work fine in runtime, but the Visual Page Editor does not know the value of <code>requestContextPath</code> in design time. In order to see the necessary styles applied in design time your should add a path to your stylesheet in the <guilabel>CSS File Path</guilabel> section.
         </para>
          
         <para>
@@ -2233,7 +2234,7 @@ two elements with equal id has been used, but should be used only one -->
         </figure>
          
         <para>
-          Here both in Source and Visual modes you see the EL expression <code>#{user.name}</code>. When you switch to <guilabel>Preview</guilabel> view, you will also see this expression. Now press <guibutton>Page Design Options</guibutton> button and set the value for the <guilabel>user.name</guilabel> as <guilabel>World</guilabel>.
+          Here both in <guilabel>Source</guilabel> and <guilabel>Visual</guilabel> modes you see the EL expression <code>#{user.name}</code>. When you switch to <guilabel>Preview</guilabel> view, you will also see this expression. Now click the <guibutton>Page Design Options</guibutton> button and set the value for the <guilabel>user.name</guilabel> as <guilabel>World</guilabel>.
         </para>
          
         <figure>
@@ -2246,7 +2247,7 @@ two elements with equal id has been used, but should be used only one -->
         </figure>
          
         <para>
-          As a result in Visual mode and Preview view the word <guilabel>World</guilabel> is displayed.
+          As a result in <guilabel>Visual</guilabel> mode and <guilabel>Preview</guilabel> view the word <guilabel>World</guilabel> is displayed.
         </para>
          
         <figure>
@@ -2262,7 +2263,7 @@ two elements with equal id has been used, but should be used only one -->
       <section id="splitting_buttons">
         <title>Visual/Source Editors splitting buttons</title> 
         <para>
-          The Visual/Source Editors splitting buttons provide a way to choose one of the four possible layouts for the Visual/Source Editor.
+          The <guilabel>Visual/Source</guilabel> Editors splitting buttons provide a way to choose one of the four possible layouts for the <guilabel>Visual/Source</guilabel> Editor.
         </para>
          
         <para>
@@ -2325,7 +2326,7 @@ two elements with equal id has been used, but should be used only one -->
               </imageobject>
             </mediaobject>
           </figure>
-           Note, at the current view there is only <emphasis>one</emphasis> button, that proposes the possibility to change it in order the Source and the View are moved <emphasis>in a clockwise direction</emphasis>. 
+           Note, with the current view there is only <emphasis>one</emphasis> button, which provides the ability to move the <guilabel>Source</guilabel> and the <guilabel>View</guilabel> <emphasis>in a clockwise direction</emphasis>. 
           <figure>
             <title>Visual Page Editor After Layout Changing </title> 
             <mediaobject>
@@ -2340,30 +2341,30 @@ two elements with equal id has been used, but should be used only one -->
       <section id="vpe_show_border">
         <title>Show Border for Unknown Tags</title> 
         <para>
-          The option is a self explanatory, i. e. if you want unknown tags to be wrapped in a border in the VPE visual part, just press the <guibutton>Show border for unknown tags</guibutton> button ( 
+          The <guibutton>Show border for unknown tags</guibutton> button ( 
           <inlinemediaobject>
             <imageobject>
               <imagedata fileref="images/visual_page/show_border_button.png"/>
             </imageobject>
           </inlinemediaobject>
-           ) on the toolbar.
+           ) will display unknown tags in a border in the <guilabel>Visual</guilabel> section of the Visual Page Editor.
         </para>
       </section>
        
       <section id="vpe_show_nonvisual_tags">
         <title>Show Non-visual Tags</title> 
         <para>
-          Visual Page Editor provides the option for displaying non-visual tags in Visual mode of the editor. To enable it select the <guibutton>Show non-visual tags</guibutton> button ( 
+        		The <guibutton>Show non-visual tags</guibutton> button ( 
           <inlinemediaobject>
             <imageobject>
               <imagedata fileref="images/visual_page/show_nonvisual.png"/>
             </imageobject>
           </inlinemediaobject>
-           ) on the VPE toolbar.
+           ) will display non-visual tags in the <guilabel>Visual</guilabel> section of the Visual Page Editor.
         </para>
          
         <para>
-          On the figure you can see non-visual elements with gray dashed borders.
+          In the figure you can see that the non-visual elements are displayed with gray dashed borders.
         </para>
          
         <figure>
@@ -2376,7 +2377,7 @@ two elements with equal id has been used, but should be used only one -->
         </figure>
          
         <para>
-          You can also switch on this option in the VPE preferences, having clicked on the <guibutton>Preferences</guibutton> button ( 
+          You can also switch on this option in the Visual Page Editor preferences, having clicked on the <guibutton>Preferences</guibutton> button ( 
           <inlinemediaobject>
             <imageobject>
               <imagedata fileref="images/visual_page/icon_1.png"/>
@@ -2389,7 +2390,7 @@ two elements with equal id has been used, but should be used only one -->
       <section id="vpe_show_selection_bar">
         <title>Show Selection Bar</title> 
         <para>
-          You can find useful one more functionality provided by VPE. At the bottom of the <guilabel>Visual/Source</guilabel> view there is a <guilabel>Selection Tag Bar</guilabel>. It's updated automatically allowing to see tags tree for a current component selected in Visual or Source mode, also it allows to select tags back and forward.
+          At the bottom of the <guilabel>Visual/Source</guilabel> view there is a <guilabel>Selection Tag Bar</guilabel>. It's updated automatically, allowing you to see tags tree for a current component selected in Visual or Source mode. It also allows you to select tags parent and child tags.
         </para>
          
         <figure>
@@ -2408,7 +2409,7 @@ two elements with equal id has been used, but should be used only one -->
               <imagedata fileref="images/visual_page/show_selection_bar.png"/>
             </imageobject>
           </inlinemediaobject>
-           ) on the VPE toolbar.
+           ) on the Visual Page Editor toolbar.
         </para>
       </section>
     </section>
@@ -2416,7 +2417,7 @@ two elements with equal id has been used, but should be used only one -->
     <section id="page_preview">
       <title>Page Preview</title> 
       <para>
-        The Visual Page Editor comes with design-time preview feature which is available for:
+        The Visual Page Editor comes with a design-time preview feature, which is available for:
       </para>
        
       <itemizedlist>
@@ -2440,7 +2441,7 @@ two elements with equal id has been used, but should be used only one -->
       </itemizedlist>
        
       <para>
-        <guilabel>Preview</guilabel> view is read-only, it shows how the page will look like in a browser.
+        <guilabel>Preview</guilabel> view is read-only, and it shows how the page will look like in a browser.
       </para>
        
       <figure>
@@ -2458,7 +2459,7 @@ two elements with equal id has been used, but should be used only one -->
     <section id="vpe_errors">
       <title>Error Messages</title> 
       <para>
-        Visual Page Editor provide a user friendly and effective error messages, which should make solving problems easier. Error message contains a reference to the problem and its description. Also in Error area you can find a link to Visual Page Editor forum and a <guibutton>Details</guibutton> button which is used to see a error trace.
+        The Visual Page Editor provides user friendly and effective error messages, which should make solving problems easier. The error messages contains a reference to the problem and its description. Also in the <guilabel>Error</guilabel> area you can find a link to Visual Page Editor forum and a <guibutton>Details</guibutton> button which is used to see a error trace.
       </para>
        
       <para>
