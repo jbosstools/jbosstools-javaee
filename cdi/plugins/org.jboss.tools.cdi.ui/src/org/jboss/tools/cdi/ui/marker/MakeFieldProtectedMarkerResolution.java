@@ -32,7 +32,7 @@ import org.jboss.tools.common.EclipseUtil;
 /**
  * @author Daniel Azarov
  */
-public class MakeFieldProtectedMarkerResolution implements IMarkerResolution2{
+public class MakeFieldProtectedMarkerResolution implements IMarkerResolution2, TestableResolutionWithDialog{
 	private static final String PUBLIC = "public";  //$NON-NLS-1$
 	private static final String PROTECTED = "protected";  //$NON-NLS-1$
 
@@ -53,10 +53,21 @@ public class MakeFieldProtectedMarkerResolution implements IMarkerResolution2{
 
 	@Override
 	public void run(IMarker marker) {
-		Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
-		boolean cont = MessageDialog.openQuestion(shell, CDIUIMessages.QUESTION, CDIUIMessages.DECREASING_FIELD_VISIBILITY_MAY_CAUSE_COMPILATION_PROBLEMS);
-		if(!cont)
-			return;
+		internal_run(marker, false);
+	}
+	
+	@Override
+	public void runForTest(IMarker marker) {
+		internal_run(marker, true);
+	}
+	
+	private void internal_run(IMarker marker, boolean test){
+		if(!test){
+			Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+			boolean cont = MessageDialog.openQuestion(shell, CDIUIMessages.QUESTION, CDIUIMessages.DECREASING_FIELD_VISIBILITY_MAY_CAUSE_COMPILATION_PROBLEMS);
+			if(!cont)
+				return;
+		}
 		try{
 			ICompilationUnit original = EclipseUtil.getCompilationUnit(file);
 			ICompilationUnit compilationUnit = original.getWorkingCopy(new NullProgressMonitor());
@@ -89,5 +100,4 @@ public class MakeFieldProtectedMarkerResolution implements IMarkerResolution2{
 	public Image getImage() {
 		return null;
 	}
-
 }

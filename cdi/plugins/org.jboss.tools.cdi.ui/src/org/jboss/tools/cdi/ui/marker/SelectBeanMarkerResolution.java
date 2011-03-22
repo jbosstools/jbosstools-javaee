@@ -31,7 +31,7 @@ import org.jboss.tools.cdi.ui.wizard.SelectBeanWizard;
 /**
  * @author Daniel Azarov
  */
-public class SelectBeanMarkerResolution implements IMarkerResolution2, TestableResolutionWithSelectionWizard {
+public class SelectBeanMarkerResolution implements IMarkerResolution2, TestableResolutionWithDialog {
 	private String label;
 	private IInjectionPoint injectionPoint;
 	private List<IBean> beans;
@@ -46,7 +46,7 @@ public class SelectBeanMarkerResolution implements IMarkerResolution2, TestableR
 		return label;
 	}
 
-	public void selectFirstElementAndRun(IMarker marker){
+	public void runForTest(IMarker marker){
 		internal_run(marker, true);
 	}
 	

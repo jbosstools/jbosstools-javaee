@@ -169,8 +169,8 @@ public class CDIProblemMarkerResolutionGenerator implements
 							IBean bean = iter.next();
 							if(field != null){
 								return new IMarkerResolution[] {
-										new MakeFieldProtectedMarkerResolution(field, file)//,
-										//new MakeBeanScopedDependentMarkerResolution(bean, file)
+										new MakeFieldProtectedMarkerResolution(field, file),
+										new MakeBeanScopedDependentMarkerResolution(bean, file)
 									};
 							}
 						}

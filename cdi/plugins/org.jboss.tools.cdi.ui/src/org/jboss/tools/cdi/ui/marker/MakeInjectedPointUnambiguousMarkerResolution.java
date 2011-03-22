@@ -34,7 +34,7 @@ import org.jboss.tools.cdi.ui.wizard.xpl.AddQualifiersToBeanComposite;
 /**
  * @author Daniel Azarov
  */
-public class MakeInjectedPointUnambiguousMarkerResolution implements IMarkerResolution2, TestableResolutionWithSelectionWizard {
+public class MakeInjectedPointUnambiguousMarkerResolution implements IMarkerResolution2, TestableResolutionWithDialog {
 	private String label;
 	private IInjectionPoint injectionPoint;
 	private List<IBean> beans;
@@ -51,7 +51,7 @@ public class MakeInjectedPointUnambiguousMarkerResolution implements IMarkerReso
 		return label;
 	}
 	
-	public void selectFirstElementAndRun(IMarker marker){
+	public void runForTest(IMarker marker){
 		internal_run(marker, true);
 	}
 	

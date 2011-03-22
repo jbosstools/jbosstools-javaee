@@ -15,6 +15,6 @@ import org.eclipse.core.resources.IMarker;
 /**
  * @author Daniel Azarov
  */
-public interface TestableResolutionWithSelectionWizard {
-	public void selectFirstElementAndRun(IMarker marker);
+public interface TestableResolutionWithDialog {
+	public void runForTest(IMarker marker);
 }

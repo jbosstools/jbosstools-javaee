@@ -36,13 +36,15 @@ import org.jboss.tools.cdi.ui.marker.AddLocalBeanMarkerResolution;
 import org.jboss.tools.cdi.ui.marker.AddSerializableInterfaceMarkerResolution;
 import org.jboss.tools.cdi.ui.marker.DeleteAllDisposerDuplicantMarkerResolution;
 import org.jboss.tools.cdi.ui.marker.DeleteAllInjectedConstructorsMarkerResolution;
+import org.jboss.tools.cdi.ui.marker.MakeBeanScopedDependentMarkerResolution;
+import org.jboss.tools.cdi.ui.marker.MakeFieldProtectedMarkerResolution;
 import org.jboss.tools.cdi.ui.marker.MakeFieldStaticMarkerResolution;
 import org.jboss.tools.cdi.ui.marker.MakeInjectedPointUnambiguousMarkerResolution;
 import org.jboss.tools.cdi.ui.marker.MakeMethodBusinessMarkerResolution;
 import org.jboss.tools.cdi.ui.marker.MakeMethodPublicMarkerResolution;
 import org.jboss.tools.cdi.ui.marker.SelectBeanMarkerResolution;
 import org.jboss.tools.cdi.ui.marker.TestableResolutionWithRefactoringProcessor;
-import org.jboss.tools.cdi.ui.marker.TestableResolutionWithSelectionWizard;
+import org.jboss.tools.cdi.ui.marker.TestableResolutionWithDialog;
 import org.jboss.tools.common.EclipseUtil;
 import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.test.util.JobUtils;
@@ -120,8 +122,8 @@ public class CDIMarkerResolutionTest  extends ValidationTest {
 									}
 									
 									rootChange.perform(new NullProgressMonitor());
-								}else if(resolution instanceof TestableResolutionWithSelectionWizard){
-									((TestableResolutionWithSelectionWizard)resolution).selectFirstElementAndRun(marker);
+								}else if(resolution instanceof TestableResolutionWithDialog){
+									((TestableResolutionWithDialog)resolution).runForTest(marker);
 								}else{
 									resolution.run(marker);
 								}
@@ -534,6 +536,34 @@ public class CDIMarkerResolutionTest  extends ValidationTest {
 				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
 				CDIValidationErrorManager.NOT_PASSIVATION_CAPABLE_BEAN_ID,
 				AddSerializableInterfaceMarkerResolution.class);
+	}
+
+	public void testMakeFieldProtectedResolution() throws CoreException {
+		checkResolution(tckProject,
+				new String[]{
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Leopard_Broken.java"
+				},
+				new String[]{
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Leopard_Broken1.qfxresult"
+				},
+				MARKER_TYPE,
+				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
+				CDIValidationErrorManager.ILLEGAL_SCOPE_FOR_MANAGED_BEAN_WITH_PUBLIC_FIELD_ID,
+				MakeFieldProtectedMarkerResolution.class);
+	}
+
+	public void testMakeBeanScopedDependentResolution() throws CoreException {
+		checkResolution(tckProject,
+				new String[]{
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Leopard_Broken.java"
+				},
+				new String[]{
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Leopard_Broken2.qfxresult"
+				},
+				MARKER_TYPE,
+				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
+				CDIValidationErrorManager.ILLEGAL_SCOPE_FOR_MANAGED_BEAN_WITH_PUBLIC_FIELD_ID,
+				MakeBeanScopedDependentMarkerResolution.class);
 	}
 
 }
