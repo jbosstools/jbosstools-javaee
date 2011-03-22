@@ -170,13 +170,13 @@
       </para>
        
       <para>
-        To open the editor, click on the <guilabel>Palette Editor</guilabel> icon (
+        To open the editor, click on the <guilabel>Palette Editor</guilabel> icon ( 
         <inlinemediaobject>
           <imageobject>
             <imagedata fileref="images/palette/palette_7.png"/>
           </imageobject>
         </inlinemediaobject>
-        ).
+         ).
       </para>
        
       <para>
@@ -209,14 +209,14 @@
       <itemizedlist>
         <listitem>
           <formalpara>
-            <title>To work with a set of icons</title>
+            <title>To work with a set of icons</title> 
             <para>
-            	<guilabel>Icons</guilabel> is the root folder for the icon sets. The first step is creating the icon set. Right click on the <emphasis> <guilabel>Icons</guilabel> </emphasis> folder and select <menuchoice><guimenuitem>Create</guimenuitem><guimenuitem>Create Set...</guimenuitem></menuchoice>.
+              <guilabel>Icons</guilabel> is the root folder for the icon sets. The first step is creating the icon set. Right click on the <guilabel>Icons</guilabel> folder and select <menuchoice><guimenuitem>Create</guimenuitem><guimenuitem>Create Set...</guimenuitem></menuchoice>.
             </para>
           </formalpara>
-
+           
           <para>
-            Set the value of the name in the <guilabel>Add Icons</guilabel> window and click the <guibutton>Finish</guibutton> button. A new element will appear in the list.
+            Set the value of the name in the <guilabel>Add Icons</guilabel> window and click the <guibutton> Finish </guibutton> button. A new element will appear in the list.
           </para>
            
           <figure>
@@ -229,18 +229,18 @@
           </figure>
            
           <para>
-            Also you can delete the set. Right click on the set of icons that you wish to remove and select the <guimenuitem>Delete</guimenuitem> option from the pop-up menu or click the <keycap>Delete</keycap> keyboard button.
+            Also you can delete the set. Right click on the set of icons that you wish to remove and select the <guimenuitem>Delete</guimenuitem> option from the pop-up menu, or click the <keycap>Delete</keycap> keyboard button.
           </para>
         </listitem>
          
         <listitem>
           <formalpara>
-            <title>To edit icons in the chosen set</title>
+            <title>To edit icons in the chosen set</title> 
             <para>
-            		When the set of icons is created, new icons can be imported to it. Choose the required set and select the option <menuchoice><guimenuitem>Create</guimenuitem><guimenuitem>Import Icon...</guimenuitem></menuchoice> from the pop-up menu that appears after you right-click on a folder.
-            	</para>
+              When the set of icons is created, new icons can be imported to it. Choose the required set and select the option <menuchoice><guimenuitem>Create</guimenuitem><guimenuitem>Import Icon...</guimenuitem></menuchoice> from the pop-up menu that appears after you right-click on a folder.
+            </para>
           </formalpara>
-
+           
           <figure>
             <title>Creating Icons</title> 
             <mediaobject>
@@ -251,20 +251,20 @@
           </figure>
            
           <para>
-            Set the name of the icon and the path and click the <guibutton>Finish</guibutton> button.
+            Set the name of the icon and the path and click the <guibutton> Finish </guibutton> button.
           </para>
         </listitem>
          
         <listitem>
           <formalpara>
-            <title>To work with a group of tag libraries</title>
+            <title>To work with a group of tag libraries</title> 
             <para>
-            		The first step in work with the editor is creating a group of libraries. It&apos;s very easy to do, right mouse button click on the <guilabel>Palette</guilabel> folder and select <menuchoice><guimenuitem>Create</guimenuitem><guimenuitem>Create Group…</guimenuitem></menuchoice>
-            	</para>
+              The first step in working with the editor is creating a group of libraries. It&apos;s very easy to do, right click on the <guilabel>Palette</guilabel> folder and select <menuchoice><guimenuitem>Create</guimenuitem><guimenuitem>Create Group…</guimenuitem></menuchoice>
+            </para>
           </formalpara>
-
+           
           <para>
-            Set a name of a group in the <guilabel>Create Group</guilabel> window and click the <guibutton>OK</guibutton> button. A new element will appear at the end of the list.
+            Set a name of a group in the <guilabel>Create Group</guilabel> window and click the <guibutton> OK </guibutton> button. A new element will appear at the end of the list.
           </para>
            
           <figure>
@@ -290,12 +290,12 @@
          
         <listitem>
           <formalpara>
-            <title>To work with a tag library</title>
+            <title>To work with a tag library</title> 
             <para>
-            		The group maintains a list of tag libraries. If you&apos;d like to create your own library, click right mouse button on the group and choose <guimenuitem>Create Group…</guimenuitem> option.
-            		</para>
+              The group maintains a list of tag libraries. If you would like to create your own library, right click on the group and select the <guimenuitem>Create Group…</guimenuitem> option.
+            </para>
           </formalpara>
-
+           
           <figure>
             <title>Creating a tag library</title> 
             <mediaobject>
@@ -306,7 +306,7 @@
           </figure>
            
           <para>
-            After setting the attribute name and the path of the icon, click the <guibutton>Ok</guibutton> button.
+            After setting the attribute name and the path of the icon, click the <guibutton> OK </guibutton> button.
           </para>
            
           <note>
@@ -330,13 +330,11 @@
          
         <listitem>
           <formalpara>
-            <title>To work with a tag element</title>
+            <title>To work with a tag element</title> 
             <para>
-            		When the library folder is created, new tags can be added to it. Choose the required library and select the option <menuchoice><guimenuitem>Create</guimenuitem><guimenuitem>Create Macro…</guimenuitem></menuchoice> from the pop-up menu that appears after you right-click on a folder.
-            	</para>
+              When the library folder is created, new tags can be added to it. Choose the required library and select the <menuchoice><guimenuitem>Create</guimenuitem><guimenuitem>Create Macro…</guimenuitem></menuchoice> option from the pop-up menu that appears after you right-click on a folder.
+            </para>
           </formalpara>
-           
-
            
           <figure>
             <title>Creating a tag element</title> 
@@ -348,7 +346,7 @@
           </figure>
            
           <para>
-            In the <guilabel>Add Palette Macro</guilabel> window you can configure the tag element. Attribute <guilabel>Name</guilabel> is mandatory to fill and it will be the name of the tag element. Other settings are optional. You can choose the icon and set the <guilabel>Start Text</guilabel> and the <guilabel>End Text</guilabel> for your tag element. If your tag text is too long, use the <guibutton>Change...</guibutton> button to see it all. For <guilabel>start text</guilabel> and <guilabel>end text</guilabel> there is a possibility to control the cursor position by using "|" symbol.
+            In the <guilabel>Add Palette Macro</guilabel> window you can configure the tag element. The <guilabel>Name</guilabel> attribute is mandatory, as it defines the name of the tag element. Other settings are optional. You can choose the icon and set the <guilabel>Start Text</guilabel> and the <guilabel>End Text</guilabel> for your tag element. If your tag text is too long, use the <guibutton> Change... </guibutton> button to see it all. The pipe ("|") symbole can be used to control the cursors position for the <guilabel>start text</guilabel> and <guilabel>end text</guilabel> values.
           </para>
            
           <figure>
@@ -361,7 +359,7 @@
           </figure>
            
           <para>
-            After all the attributes are set, click the <guibutton>Finish</guibutton> button.
+            After all the attributes are set, click the <guibutton> Finish </guibutton> button.
           </para>
            
           <note>
@@ -372,7 +370,7 @@
           </note>
            
           <para>
-            You are also allowed to edit or delete the tag. If you&apos;d like to change the attributes of the tag or choose another icon for it, use the right editing window of the palette editor or the <guimenuitem>Edit...</guimenuitem> option from the pop-up menu. In order to remove the tag, right click on the tag that you wish to remove and chose the <guimenuitem>Delete</guimenuitem> option or click the <keycap>Delete</keycap> keyboard button.
+            You are also allowed to edit or delete the tag. If you would like to change the attributes of the tag or choose another icon for it, use the right editing window of the palette editor or the <guimenuitem>Edit...</guimenuitem> option from the pop-up menu. In order to remove the tag, right click on the tag that you wish to remove and chose the <guimenuitem>Delete</guimenuitem> option, or click the <keycap>Delete</keycap> keyboard button.
           </para>
            
           <important>
@@ -385,7 +383,7 @@
       </itemizedlist>
        
       <para>
-        If you have changed any object in the tree view and you don't like the final result you can always use the <guibutton>Restore Defaults</guibutton> button. Click on it will restore defaults for the object selected and for its children elements. Please remember that the button will only restore data for objects defined in the default palette. If selected object is created by you, the button will be disabled. Child objects added by you will not be removed.
+        If you have changed any object in the tree view and you don't like the final result you can always use the <guibutton> Restore Defaults </guibutton> button. Clicking this button will restore defaults for the object selected and for its children elements. Please remember that the button will only restore data for objects defined in the default palette. If selected object is created by you, the button will be disabled. Child objects added by you will not be removed.
       </para>
        
       <para>
@@ -397,19 +395,19 @@
 <?dbhtml filename="Show/Hide.html"?>
       <title>Show/Hide</title> 
       <para>
-        <guibutton>Show/Hide</guibutton> is a very useful feature that allows you to control the number of tag groups that are shown on the palette.
+        <guibutton> Show/Hide </guibutton> is a very useful feature that allows you to control the number of tag groups that are shown on the palette.
       </para>
        
       <itemizedlist>
         <listitem>
           <para>
-            Click the <guibutton>Show/Hide</guibutton> button(
+            Click the <guibutton> Show/Hide </guibutton> button( 
             <inlinemediaobject>
               <imageobject>
                 <imagedata fileref="images/palette/palette_10.png"/>
               </imageobject>
             </inlinemediaobject>
-            ), at the top right side of the JBoss Tools Palette.
+             ), at the top right side of the JBoss Tools Palette.
           </para>
         </listitem>
       </itemizedlist>
@@ -440,7 +438,7 @@
       <itemizedlist>
         <listitem>
           <para>
-            Click the <guibutton>OK</guibutton> button. The new groups will now be shown on the palette:
+            Click the <guibutton> OK </guibutton> button. The new groups will now be shown on the palette:
           </para>
         </listitem>
       </itemizedlist>
@@ -463,7 +461,7 @@
 <?dbhtml filename="Import.html"?>
       <title>Import</title> 
       <para>
-        The Import button lets you add a custom or 3rd party tag library to JBoss Tools Palette. Find out more information on how to add particular tags see the <xref
+        The <guibutton> Import </guibutton> button lets you add a custom or 3rd party tag library to JBoss Tools Palette. Find out more information on how to add particular tags see the <xref
                     linkend="ImportButton521"/> section.
 <!--<link linkend="CreatingAndWorkingCustomCapability">Learn how to import</link>. -->
       </para>
@@ -477,11 +475,11 @@
 <?dbhtml filename="InsertingTagsIntoAJSPFile.html"?>
       <title>Inserting Tags into a JSP File</title> 
       <para>
-        A new tag can be added into any text file including jsp, htm, html and xhtml.
+        A new tag can be added into any text file including <filename>JSP</filename>, <filename>HTM</filename>, <filename>HTML</filename> and <filename>XHTML</filename>.
       </para>
        
       <para>
-        Let&apos;s do it. Open your JSP file and place the cursor in a place where you&apos;d like to add a tag and then click that tag in the palette. In the <guilabel>Insert Tag</guilabel> window that appears, you can set the value of <guilabel>general</guilabel> and <guilabel>advanced</guilabel> attributes of the tag that you choose.
+        Open your <filename>JSP</filename> file, place the cursor in a place where you would like to add a tag, and then click that tag in the palette. In the <guilabel>Insert Tag</guilabel> window that appears, you can set the value of <guilabel>general</guilabel> and <guilabel>advanced</guilabel> attributes of the tag that you choose.
       </para>
        
       <figure>
@@ -494,7 +492,7 @@
       </figure>
        
       <para>
-        In the example below the <guibutton>commandButton</guibutton> tag has been inserted.
+        In the example below the <guibutton> commandButton </guibutton> tag has been inserted.
       </para>
        
       <figure>
@@ -527,7 +525,7 @@
       </figure>
        
       <para>
-        Above you can see where the cursor position for <menuchoice><guimenuitem>HTML</guimenuitem><guimenuitem>Form</guimenuitem><guimenuitem>input</guimenuitem></menuchoice> is set. Thus after adding this tag into your file the cursor will be in the attribute &quot;type&quot;. Then, you can straight use the combination of buttons <keycombo><keycap>Ctrl</keycap><keycap>Space</keycap></keycombo> to inquire about a prompting.
+        Above you can see where the cursor position for <menuchoice><guimenuitem>HTML</guimenuitem><guimenuitem>Form</guimenuitem><guimenuitem>input</guimenuitem></menuchoice> is set. After adding this tag into your file the cursor will be in the attribute <code>type</code>. At this point you can straight use the <keycombo><keycap>Ctrl</keycap><keycap>Space</keycap></keycombo> keyboard shortcut to display alist of possible values.
       </para>
        
       <figure>
@@ -569,7 +567,7 @@
 <?dbhtml filename="DragAndDrop.html"?>
         <title>Drag-and-Drop</title> 
         <para>
-          Switch to the Web Projects view and expand the Tag Libraries folder. If the view is not active, select <menuchoice><guimenuitem>Window</guimenuitem><guimenuitem>Show View</guimenuitem><guimenuitem>Web Projects</guimenuitem></menuchoice> from the menu bar.
+          Switch to the <guilabel>Web Projects</guilabel> view and expand the <guilabel>Tag Libraries</guilabel> folder. If the view is not active, select <menuchoice><guimenuitem>Window</guimenuitem><guimenuitem>Show View</guimenuitem><guimenuitem>Web Projects</guimenuitem></menuchoice> from the menu bar.
         </para>
          
         <figure>
@@ -582,7 +580,7 @@
         </figure>
          
         <para>
-          Also make sure that the JBoss Tools Palette is open. Select the tag library that you want to add and simply drag-and-drop it on to the JBoss Tools Palette.
+          Also make sure that the <guilabel>JBoss Tools Palette</guilabel> is open. Select the tag library that you want to add and simply drag-and-drop it on to the the <guilabel>JBoss Tools Palette</guilabel>.
         </para>
          
         <para>
@@ -599,7 +597,7 @@
         </figure>
          
         <para>
-          Once you are finished, you will see the new tag library added to the JBoss Tools Palette.
+          Once you are finished, you will see the new tag library added to the <guilabel>JBoss Tools Palette</guilabel>.
         </para>
          
         <figure>
@@ -616,18 +614,20 @@
 <?dbhtml filename="ImportButton.html"?>
         <title>Import Button</title> 
         <para>
-          The same you can do with <guibutton>Import</guibutton> button(
+          Tag libraries can also be imported with the <guibutton> Import </guibutton> button ( 
           <inlinemediaobject>
             <imageobject>
               <imagedata fileref="images/palette/palette_6.png"/>
             </imageobject>
           </inlinemediaobject>
-          ).You can see this button at the top right side of the JBoss Tools Palette.
+           ). This button is found at the top right side of the <guilabel>JBoss Tools Palette</guilabel>.
         </para>
          
         <para>
-          By clicking on the <guibutton>Import</guibutton> button you will see the Import Tag window a similar like in the <xref
-                        linkend="Drag_and_Drop65332"/> method. Set the name and prefix of the library and Library URL. Also you need to set the Group name to which you&apos;d like to add your tag library. And like in the previous method you can add it to an existing Group or create a new one. On this Import Tag form you can use <guibutton>Browse...</guibutton> button to locate the tag library that you want to add:
+          By clicking on the <guibutton> Import </guibutton> button you will see the <guilabel>Import Tag</guilabel> window a similar like in the Drag-and-Drop method (see <xref linkend="Drag_and_Drop65332"/>). Set the name and prefix of the library and Library URL. You also need to set the Group name to which you&apos;d like to add your tag library.
+          </para>
+          <para>
+          Like in the previous method you can add it to an existing Group or create a new one. On this <guilabel>Import Tag</guilabel> form you can use <guibutton> Browse... </guibutton> button to locate the tag library that you want to add:
         </para>
          
         <figure>
