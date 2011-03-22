@@ -909,33 +909,33 @@
     <itemizedlist>
       <listitem>
         <para>
-          <emphasis> <property>Version</property> </emphasis> for setting the default JSF Environment
+          <guilabel>Version</guilabel> for setting the default JSF Environment
         </para>
       </listitem>
        
       <listitem>
         <para>
-          <emphasis> <property>Project Template</property> </emphasis> so as <property>New JSF Project wizard</property> shows this template as default for the chosen JSF Environment
+          <guilabel>Project Template</guilabel> so as <property>New JSF Project wizard</property> shows this template as default for the chosen JSF Environment
         </para>
       </listitem>
        
       <listitem>
         <para>
-          <emphasis> <property>Project Root</property> </emphasis> for specifying default location for a new JSF project
+          <guilabel>Project Root</guilabel> for specifying default location for a new JSF project
         </para>
          
         <para>
-          If you check <emphasis> <property>Use Default Path</property> </emphasis> here, this box will be also checked in the <property>New JSF Project wizard</property>.
+          If you check <guilabel>Use Default Path</guilabel> here, this box will be also checked in the <guilabel>New JSF Project</guilabel> wizard.
         </para>
       </listitem>
        
       <listitem>
         <para>
-          <emphasis> <property>Servlet Version</property> </emphasis> for setting the default Servlet version of a new JSF project
+          <guilabel>Servlet Version</guilabel> for setting the default Servlet version of a new JSF project
         </para>
          
         <para>
-          Here it&apos;s also possible to define whether to register Web Context in <emphasis> <property>server.xml</property> </emphasis> while organizing a new project or not. Check the proper box in order to do that.
+          Here it&apos;s also possible to define whether to register Web Context in <filename>server.xml</filename> while organizing a new project or not. Check the proper box in order to do that.
         </para>
       </listitem>
     </itemizedlist>
@@ -950,7 +950,7 @@
     </figure>
      
     <para>
-      On the <emphasis> <property>Import Project</property> </emphasis> tab in the JSF Project screen you can determine the default Servlet version for the Import JSF Project wizard and also whether to register Web Context in <emphasis> <property>server.xml</property> </emphasis> or not.
+      On the <guilabel>Import Project</guilabel> tab in the JSF Project screen you can determine the default Servlet version for the Import JSF Project wizard and also whether to register Web Context in <filename>server.xml</filename> or not.
     </para>
      
     <figure>
@@ -997,7 +997,7 @@
     </figure>
      
     <para>
-      The first two items control the background grid for the diagram. The next two items allow you to control the appearance of the labels for views (pages) and the transitions between views. For these two items clicking the <emphasis> <property>Change... </property> </emphasis>button allows you to assign a font with a dialog box.
+      The first two items control the background grid for the diagram. The next two items allow you to control the appearance of the labels for views (pages) and the transitions between views. For these two items clicking the <guibutton>Change...</guibutton>button allows you to assign a font with a dialog box.
     </para>
      
     <para>
@@ -1034,7 +1034,7 @@
     </figure>
      
     <para>
-      On this page you can determine the format for a text output near to the decoration label for different Web resources. To change the value for selected element, click <emphasis> <property>Add Variable...</property> </emphasis> button next to <emphasis> <property>Format</property> </emphasis> field. Appeared wizard will prompt you to select one from the available list.
+      On this page you can determine the format for a text output near to the decoration label for different Web resources. To change the value for selected element, click <guibutton>Add Variable...</guibutton> button next to <guilabel>Format</guilabel> field. Appeared wizard will prompt you to select one from the available list.
     </para>
      
     <figure>
@@ -1055,7 +1055,7 @@
     </para>
      
     <para>
-      On <emphasis> <property>Seam</property> </emphasis> screen you can add and remove Seam runtimes.
+      On <guilabel>Seam</guilabel> screen you can add and remove Seam runtimes.
     </para>
      
     <para>
@@ -1076,11 +1076,11 @@
 <?dbhtml filename="SeamValidator.html"?>
     <title>Seam Validator</title> 
     <para>
-      The following preferences can be changed on the <menuchoice><guimenuitem>JBoss Tools</guimenuitem><guimenuitem> </guimenuitem><guimenuitem>Seam</guimenuitem><guimenuitem>Validator</guimenuitem></menuchoice> page.
+      The following preferences can be changed on the <menuchoice><guimenuitem>JBoss Tools</guimenuitem><guimenuitem>Seam</guimenuitem><guimenuitem>Validator</guimenuitem></menuchoice> page.
     </para>
      
     <para>
-      In <emphasis> <property>Validator</property> </emphasis> panel you configure seam problems that will be processed by validator.
+      In <guilabel>Validator</guilabel> panel you configure seam problems that will be processed by validator.
     </para>
      
     <figure>
@@ -1131,7 +1131,7 @@
 <?dbhtml filename="struts_automation.html"?>
     <title>Struts Automation</title> 
     <para>
-      On <emphasis> <property>Automation</property> </emphasis> panel you can modify default text for the Title Struts plug-in element, the Validator Struts plug-in element, and error message resource files.
+      On <guilabel>Automation</guilabel> panel you can modify default text for the Title Struts plug-in element, the Validator Struts plug-in element, and error message resource files.
     </para>
      
     <figure>
@@ -1182,7 +1182,7 @@
     </para>
      
     <para>
-      On <emphasis> <property>Resource Insets</property> </emphasis> panel you determine default error messages for error resource files.
+      On <guilabel>Resource Insets</guilabel> panel you determine default error messages for error resource files.
     </para>
      
     <figure>
@@ -1203,7 +1203,7 @@
     </para>
      
     <para>
-      In the<emphasis> <property>Customization</property> </emphasis> screen you configure Link Recognizer for Struts tags.
+      In the <guilabel>Customization</guilabel> screen you configure Link Recognizer for Struts tags.
     </para>
      
     <figure>
@@ -1224,7 +1224,7 @@
     </para>
      
     <para>
-      On <emphasis> <property>Project</property> </emphasis> panel you define a template for a new Struts created project: servlet version, page template and so on.
+      On <guilabel>Project</guilabel> panel you define a template for a new Struts created project: servlet version, page template and so on.
     </para>
      
     <figure>
@@ -1237,7 +1237,7 @@
     </figure>
      
     <para>
-      Selecting the Import Project tab in the Struts Project screen allows you to determine the default servlet version and whether to register Web Context in server.xml.
+      Selecting the Import Project tab in the Struts Project screen allows you to determine the default servlet version and whether to register Web Context in <filename>server.xml</filename>.
     </para>
      
     <figure>
@@ -1258,7 +1258,7 @@
     </para>
      
     <para>
-      Select <emphasis> <property>Struts Support</property> </emphasis> screen if you want to configure Struts versions support settings.
+      Select <guilabel>Struts Support</guilabel> screen if you want to configure Struts versions support settings.
     </para>
      
     <figure>
@@ -1279,7 +1279,7 @@
     </para>
      
     <para>
-      On <emphasis> <property>Struts Pages</property> </emphasis> panel you can add or remove Struts pages.
+      On <guilabel>Struts Pages</guilabel> panel you can add or remove Struts pages.
     </para>
      
     <figure>
@@ -1347,7 +1347,7 @@
     </para>
      
     <para>
-      On Rules Configuration tab of <emphasis> <property>Verification</property> </emphasis> panel you can determine JSF and Struts rules.
+      On Rules Configuration tab of <guilabel>Verification</guilabel> panel you can determine JSF and Struts rules.
     </para>
      
     <figure>
@@ -1377,7 +1377,7 @@
 <?dbhtml filename="View.html"?>
     <title>Server Preferences</title> 
     <para>
-      Preferences for <property>JBoss Server</property> and other servers can be changed on the <emphasis> <property>Server</property> </emphasis> page.
+      Preferences for <property>JBoss Server</property> and other servers can be changed on the <guilabel>Server</guilabel> page.
     </para>
      
     <figure>
