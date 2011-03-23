@@ -525,7 +525,7 @@
       </figure>
        
       <para>
-        Above you can see where the cursor position for <menuchoice><guimenuitem>HTML</guimenuitem><guimenuitem>Form</guimenuitem><guimenuitem>input</guimenuitem></menuchoice> is set. After adding this tag into your file the cursor will be in the attribute <code>type</code>. At this point you can straight use the <keycombo><keycap>Ctrl</keycap><keycap>Space</keycap></keycombo> keyboard shortcut to display alist of possible values.
+        Above you can see where the cursor position for <menuchoice><guimenuitem>HTML</guimenuitem><guimenuitem>Form</guimenuitem><guimenuitem>input</guimenuitem></menuchoice> is set. After adding this tag into your file the cursor will be in the attribute <code>type</code>. At this point you can straight use the <keycombo><keycap>Ctrl</keycap><keycap>Space</keycap></keycombo> keyboard shortcut to display a list of possible values.
       </para>
        
       <figure>
