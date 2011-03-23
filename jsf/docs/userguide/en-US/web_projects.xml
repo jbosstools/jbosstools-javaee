@@ -7,7 +7,7 @@
   </para>
    
   <para>
-    If the Web Projects view&apos;s tab is not visible next to the Package Explorer tab, select <menuchoice><guimenuitem>Window</guimenuitem><guimenuitem>Show View</guimenuitem><guimenuitem>Other</guimenuitem><guimenuitem>JBoss Tools Web</guimenuitem><guimenuitem>Web Projects</guimenuitem></menuchoice> from the menu bar.
+    If the <guilabel>Web Projects</guilabel> view&apos;s tab is not visible next to the Package Explorer tab, select <menuchoice><guimenuitem>Window</guimenuitem><guimenuitem>Show View</guimenuitem><guimenuitem>Other</guimenuitem><guimenuitem>JBoss Tools Web</guimenuitem><guimenuitem>Web Projects</guimenuitem></menuchoice> from the menu bar.
   </para>
    
   <para>
@@ -97,7 +97,7 @@
     </para>
      
     <para>
-      The screen shot below shows a JSF project and a Struts project in Web Projects view.
+      The screen shot below shows a JSF project and a Struts project in <guilabel>Web Projects</guilabel> view.
     </para>
      
     <figure>
@@ -113,7 +113,7 @@
   <section id="DragAndDrop">
     <title>Drag and Drop</title> 
     <para>
-      Web Projects View has a drag and drop option that can be used for property, managed bean attributes, navigation rules, tag library file declaration and JSP Pages.
+      The <guilabel>Web Projects</guilabel> view has a drag and drop option that can be used for property, managed bean attributes, navigation rules, tag library file declaration and JSP Pages.
     </para>
      
     <section id="ForAProperty">
@@ -169,7 +169,7 @@
     <section id="ForManagedBeanAttributes">
       <title>For Managed Bean Attributes</title> 
       <para>
-        Select a &quot;managed bean&quot; attribute and then drag and drop it onto the JSP page. We are going to place it inside the <code>value</code> attribute of the inputText tag.
+        Select a &quot;managed bean&quot; attribute and then drag and drop it onto the JSP page. We are going to place it inside the <code>value</code> attribute of the <code>inputText</code> tag.
       </para>
        
       <figure>
@@ -211,7 +211,7 @@
       </figure>
        
       <para>
-        Drag and drop it inside the commandButton tag:
+        Drag and drop it inside the <code>commandButton</code> tag:
       </para>
        
       <figure>
@@ -315,7 +315,7 @@
   <section id="ExpandingTagLibraryFiles">
     <title>Expanding Tag Library Files</title> 
     <para>
-      You can easily expand any TLD file in the project. Browse to the Tag Libraries folder. Right-click a TLD file and select <guimenuitem>Expand</guimenuitem>:
+      You can easily expand any <filename>TLD</filename> file in the project. Browse to the Tag Libraries folder. Right-click a <filename>TLD</filename> file and select <guimenuitem>Expand</guimenuitem>:
     </para>
      
     <figure>
@@ -328,7 +328,7 @@
     </figure>
      
     <para>
-      The TLD file will now be expanded:
+      The <filename>TLD</filename> file will now be expanded:
     </para>
      
     <figure>

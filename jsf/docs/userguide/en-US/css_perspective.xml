@@ -16,7 +16,7 @@
   </para>
    
   <para>
-    The CSS Editing Perspective combines a set of views which allow you to see the structure of your css files, edit them and see the results. To use this perspective you need to choose <menuchoice><guimenuitem>Window</guimenuitem><guimenuitem>Open Perspective</guimenuitem><guimenuitem>CSS Editing</guimenuitem></menuchoice>. All of the views are fully synchronized with each other: the changes being made in one view are reflected in others at once.
+    The CSS Editing Perspective combines a set of views which allow you to see the structure of your css files, edit them and see the results. To use this perspective you need to select <menuchoice><guimenuitem>Window</guimenuitem><guimenuitem>Open Perspective</guimenuitem><guimenuitem>CSS Editing</guimenuitem></menuchoice>. All of the views are fully synchronized with each other: the changes being made in one view are reflected in the others.
   </para>
    
   <para>
@@ -32,7 +32,7 @@
      
     <listitem>
       <para>
-        Internal style sheet (using the <emphasis><property>&lt;style&gt;</property></emphasis> tag in the head section of an HTML/XHTML/JSP page)
+        Internal style sheet (using the <code>&lt;style&gt;</code> tag in the head section of an <filename>HTML</filename>/<filename>XHTML</filename>/<filename>JSP</filename> page)
       </para>
     </listitem>
      
@@ -44,7 +44,7 @@
   </itemizedlist>
    
   <para>
-    Using CSS Editing Perspective you can change your style sheet, inserted in any of the possible places described before in three ways:
+    Using the <guilabel>CSS Editing</guilabel> Perspective you can change your style sheet, inserted in any of the possible places described before in three ways:
   </para>
    
   <itemizedlist>
@@ -93,7 +93,7 @@
     </figure>
      
     <para>
-      You can use the Source viewer with the Outline view to navigate around the file. To do this you should just left click the selector or property you want and it will be automatically highlighted in the source code:
+      You can use the <guilabel>Source</guilabel> viewer with the <guilabel>Outline</guilabel> view to navigate around the file. To do this you should left click the selector or property you want and it will be automatically highlighted in the source code:
     </para>
      
     <figure>
@@ -110,7 +110,7 @@
 <?dbhtml filename="PropertiesView.html"?>
     <title>Properties view</title> 
     <para>
-      Properties view provides a full list of properties of a chosen selector. The properties are divided into logic groups for better navigation.
+      <guilabel>Properties</guilabel> view provides a full list of properties of a chosen selector. The properties are divided into logic groups for better navigation.
     </para>
      
     <figure>
@@ -123,7 +123,7 @@
     </figure>
      
     <para>
-      With the help of Properties view you have also the possibility to edit the css file by adding/editing/removing properties in the selector. Left click the "<emphasis><property>Value</property></emphasis>" field near the property you want to edit and write the changes in the text field.
+      With the help of <guilabel>Properties</guilabel> view you have also the ability to edit the <filename>CSS</filename> file by adding, editing or removing properties in the selector. Left click the <guilabel>Value</guilabel> field near the property you want to edit and write the changes in the text field.
     </para>
      
     <figure>
@@ -178,7 +178,7 @@
     <itemizedlist>
       <listitem>
         <para id="text_font" xreflabel="Text/Font">        
-          CSS Text/Font properties define the appearance of text, its font family, boldness, size and the style.
+          CSS <guilabel>Text/Font</guilabel> properties define the appearance of text, its font family, boldness, size and the style.
         </para>
          
         <figure>
@@ -191,7 +191,7 @@
         </figure>
          
         <para>
-          For example, to define the "<emphasis><property>font-family</property></emphasis>" property you should click <emphasis><property>Choose font family</property></emphasis> button( 
+          For example, to define the <code>font-family</code> property you should click <guibutton>Choose font family</guibutton> button( 
           <inlinemediaobject>
             <imageobject>
               <imagedata fileref="images/css_perspective/cssEditor7.png"/>
@@ -216,11 +216,11 @@
        
       <listitem>
         <para id="background" xreflabel="Background">
-          You should use CSS background properties and <emphasis><property>Background</property></emphasis> tab to define the background effects of an element.
+          You should use CSS background properties and <guilabel>Background</guilabel> tab to define the background effects of an element.
         </para>
          
         <para id="boxes" xreflabel="Boxes">
-          <emphasis><property>Boxes</property></emphasis> tab is used to define CSS border properties, the box model and dimensions. The CSS border properties allow you to specify the style and color of an element's border.
+          The <guilabel>Boxes</guilabel> tab is used to define CSS border properties, the box model and dimensions. The CSS border properties allow you to specify the style and color of an element's border.
         </para>
          
         <para>
@@ -258,7 +258,7 @@
        
       <listitem>
         <para id="property_sheet" xreflabel="Property Sheet">
-          <emphasis><property>Property Sheet</property></emphasis> tab contains the categorized list of properties. Like in <xref linkend="PropertiesView"/> it's possible to edit the properties values.
+          The <guilabel>Property Sheet</guilabel> tab contains the categorized list of properties. Like in <xref linkend="PropertiesView"/>, it's possible to edit the properties values.
         </para>
          
         <figure>
@@ -273,7 +273,7 @@
        
       <listitem>
         <para id="edited_properties" xreflabel="Edited Properties">
-          <emphasis><property>Edited Properties</property></emphasis> tab contains only "overflow-y" property which determines clipping of the element's content at the top and bottom edges.
+          <guilabel>Edited Properties</guilabel> tab contains only <guilabel>overflow-y</guilabel> property which determines clipping of the element's content at the top and bottom edges.
         </para>
          
         <figure>
@@ -296,7 +296,7 @@
 <?dbhtml filename="CSSPropertiesView.html"?>
     <title>CSS Preview</title> 
     <para>
-      Using CSS Preview you can see how a selector affects any text.
+      Using <guilabel>CSS Preview</guilabel> you can see how a selector affects any text.
     </para>
      
     <figure>
@@ -309,7 +309,7 @@
     </figure>
      
     <para>
-      The preview is also edited by double click.You can write instead of the default text any text you want,including html tags.
+      The preview can edited by double clicking on it. You can add any text you want, including HTML tags.
     </para>
   </section>
 </chapter>

@@ -49,11 +49,11 @@
       </para>
     </listitem>
      
-    <listitem>
+    <!--listitem>
       <para>
         <xref linkend="JSFPage"/>
       </para>
-    </listitem>
+    </listitem-->
      
     <listitem>
       <para>
@@ -121,11 +121,11 @@
       </para>
     </listitem>
      
-    <listitem>
+    <!--listitem>
       <para>
         <xref linkend="StrutsPages"/>
       </para>
-    </listitem>
+    </listitem-->
      
     <listitem>
       <para>
@@ -813,7 +813,7 @@
 <?dbhtml filename="el_variables.html"?>
     <title>El Variables</title> 
     <para>
-      To specify necessary EL variables globally, i. e. for all projects and resources in your workspace, you should go to <menuchoice><guimenuitem>JBoss Tools</guimenuitem><guimenuitem>Web</guimenuitem><guimenuitem>El Variables</guimenuitem></menuchoice>.
+      To specify necessary EL variables globally, i. e. for all projects and resources in your workspace, you should go to <menuchoice><guimenuitem>JBoss Tools</guimenuitem><guimenuitem>Web</guimenuitem><guimenuitem>Expression Language</guimenuitem><guimenuitem>Variables</guimenuitem></menuchoice>.
     </para>
      
     <figure>
@@ -878,7 +878,7 @@
     </figure>
   </section>
    
-  <section id="JSFPage">
+  <!--section id="JSFPage">
 <?dbhtml filename="JSF Page.html"?>
     <title>JSF Pages</title> 
     <para>
@@ -893,7 +893,7 @@
         </imageobject>
       </mediaobject>
     </figure>
-  </section>
+  </section-->
    
   <section id="JSFPropject">
 <?dbhtml filename="JSFPropject.html"?>
@@ -903,7 +903,7 @@
     </para>
      
     <para>
-      On the <emphasis> <property>New Project</property> </emphasis> tab you can set default values for New JSF Project wizard:
+      On the <guilabel>New Project</guilabel> tab you can set default values for New JSF Project wizard:
     </para>
      
     <itemizedlist>
@@ -963,7 +963,7 @@
     </figure>
   </section>
    
-  <section id="JSFValidator">
+  <!--section id="JSFValidator">
 <?dbhtml filename="JSFValidator.html"?>
     <title>JSF Validator</title> 
     <para>
@@ -978,7 +978,7 @@
         </imageobject>
       </mediaobject>
     </figure>
-  </section>
+  </section-->
    
   <section id="JSFFlowDiagram">
 <?dbhtml filename="JSFFlowDiagram.html"?>
@@ -1271,7 +1271,7 @@
     </figure>
   </section>
    
-  <section id="StrutsPages">
+  <!--section id="StrutsPages">
 <?dbhtml filename="StrutsPages.html"?>
     <title>Struts Pages</title> 
     <para>
@@ -1290,7 +1290,7 @@
         </imageobject>
       </mediaobject>
     </figure>
-  </section>
+  </section-->
    
   <section id="StrutsFlowDiagram">
 <?dbhtml filename="StrutsFlowDiagram.html"?>

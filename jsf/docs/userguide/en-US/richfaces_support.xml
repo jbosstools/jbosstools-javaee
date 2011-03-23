@@ -48,14 +48,13 @@
   </itemizedlist>
    
   <para>
-    All you have to do is to <ulink url="http://www.jboss.org/jbossrichfaces/downloads/">download</ulink> and install RichFaces libraries into your project, i. e. just put <filename>richfaces-*.jar</filename> files into the <filename>/lib</filename> project folder. Also how to get started with <property>RichFaces</property> you can find in <ulink url="http://jboss.org/file-access/default/members/jbossrichfaces/freezone/docs/devguide/en/html_single/index.html#GettingStarted">RichFaces documentation</ulink>.
+    All you have to do is to <ulink url="http://www.jboss.org/jbossrichfaces/downloads/">download</ulink> and install RichFaces libraries into your project, i. e. just put <filename>richfaces-*.jar</filename> files into the <filename>/lib</filename> project folder. For more information on how to get started with <property>RichFaces</property>, please read the <ulink url="http://jboss.org/file-access/default/members/jbossrichfaces/freezone/docs/devguide/en/html_single/index.html#GettingStarted">RichFaces documentation</ulink>.
   </para>
    
   <section id="ContentAssistForRF">
     <title>Code Assist for RichFaces</title> 
     <para>
-      <property>JBDS/JBoss Tools</property> indeed provide code completion for <ulink
-            url="http://www.jboss.org/jbossrichfaces">RichFaces</ulink> framework components.
+      <property>JBoss Developer Studio</property> provides code completion for <ulink url="http://www.jboss.org/jbossrichfaces">RichFaces</ulink> framework components.
     </para>
      
     <note>
@@ -79,11 +78,11 @@
   <section id="RF_openOn">
     <title>OpenOn for RichFaces</title> 
     <para>
-      Working with <filename>JSP</filename> and <filename>XHTML</filename> pages in <property>VPE</property> you can also take the advantage of <emphasis> <property>OpenOn</property></emphasis> feature for the <property>RichFaces</property> components.
+      While working with <filename>JSP</filename> and <filename>XHTML</filename> pages in the <property>Visual Page Editor</property> you can also take the advantage of the <emphasis> <property>OpenOn</property></emphasis> feature with <property>RichFaces</property> components.
     </para>
      
     <para>
-      For example, <property>Richfaces</property> tags <code>&lt;rich:insert&gt;</code> and <code> &lt;a4j:include&gt;</code> has <property>OpenOn</property> support.
+      For example, the <property>Richfaces</property> tags <code>&lt;rich:insert&gt;</code> and <code> &lt;a4j:include&gt;</code> have <property>OpenOn</property> support.
     </para>
      
     <figure>
@@ -140,7 +139,7 @@
     <itemizedlist>
       <listitem>
         <para>
-          expand <emphasis> <property>JBoss RichFaces</property> </emphasis> group on the palette
+          expand <guilabel>JBoss RichFaces</guilabel> group on the palette
         </para>
       </listitem>
        
@@ -152,7 +151,7 @@
        
       <listitem>
         <para>
-          put the needed attributes in the <emphasis> <property>Insert Tag</property> </emphasis> dialog and click <emphasis> <property>Finish</property> </emphasis> button
+          put the needed attributes in the <guilabel>Insert Tag</guilabel> dialog and click <guibutton>Finish</guibutton> button
         </para>
       </listitem>
     </itemizedlist>
@@ -169,7 +168,7 @@
     </figure>
      
     <para>
-      The <property>RichFaces</property> component will be inserted on your page and displayed in source and visual modes:
+      The <property>RichFaces</property> component will be inserted on your page and displayed in the <guilabel>Source</guilabel> and <guilabel>Visual</guilabel> modes:
     </para>
      
     <figure>
@@ -186,13 +185,13 @@
   <section>
     <title>Relevant Resources Links</title> 
     <para>
-      To get more in-depth information on <property>RichFaces</property> framework refer to <ulink url="http://jboss.org/file-access/default/members/jbossrichfaces/freezone/docs/devguide/en/html_single/index.html">RichFaces Developer Guide</ulink>.
+      To get more in-depth information on <property>RichFaces</property> framework refer to the <ulink url="http://jboss.org/file-access/default/members/jbossrichfaces/freezone/docs/devguide/en/html_single/index.html">RichFaces Developer Guide</ulink>.
     </para>
      
     <para>
-      It may be also helpful for you to look through the <ulink
+      It may be also helpful for you to view the <ulink
             url="http://docs.jboss.org/tools/movies/"
-            >movies</ulink> where there are ones that demonstrate the usage of RichFaces components.
+            >movies</ulink> that demonstrate the usage of RichFaces components.
     </para>
   </section>
 </chapter>
