@@ -346,7 +346,7 @@
           </figure>
            
           <para>
-            In the <guilabel>Add Palette Macro</guilabel> window you can configure the tag element. The <guilabel>Name</guilabel> attribute is mandatory, as it defines the name of the tag element. Other settings are optional. You can choose the icon and set the <guilabel>Start Text</guilabel> and the <guilabel>End Text</guilabel> for your tag element. If your tag text is too long, use the <guibutton> Change... </guibutton> button to see it all. The pipe ("|") symbole can be used to control the cursors position for the <guilabel>start text</guilabel> and <guilabel>end text</guilabel> values.
+            In the <guilabel>Add Palette Macro</guilabel> window you can configure the tag element. The <guilabel>Name</guilabel> attribute is mandatory, as it defines the name of the tag element. Other settings are optional. You can choose the icon and set the <guilabel>Start Text</guilabel> and the <guilabel>End Text</guilabel> for your tag element. If your tag text is too long, use the <guibutton> Change... </guibutton> button to see it all. The pipe ("|") symbol can be used to control the cursors position for the <guilabel>start text</guilabel> and <guilabel>end text</guilabel> values.
           </para>
            
           <figure>
