@@ -290,6 +290,7 @@
   <XDependencies/>
  </XModelEntity>
  <XModelEntity ImplementingClass="%Custom%"
+  PROPERTIES="children=%Ordered%"
   XMLSUBPATH="composite:interface" name="JSF2ComponentInterface">
   <XChildrenEntities>
    <XChildEntity name="JSF2ComponentAttribute"/>
