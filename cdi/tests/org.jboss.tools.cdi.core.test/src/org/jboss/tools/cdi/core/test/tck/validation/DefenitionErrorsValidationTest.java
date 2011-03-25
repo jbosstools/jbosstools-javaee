@@ -33,8 +33,6 @@ public class DefenitionErrorsValidationTest extends ValidationTest {
 	public void testLegalTypesInTyped() throws Exception {
 		IFile petShopFile = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/lookup/typesafe/resolution/PetShop.java");
 		assertMarkerIsCreated(petShopFile, CDIValidationMessages.ILLEGAL_TYPE_IN_TYPED_DECLARATION_IN_PRODUCER_FIELD, 25);
-		int markerNumbers = getMarkersNumber(petShopFile);
-		assertEquals("PetShop.java should has the only error marker.", markerNumbers, 1);
 	}
 
 	/**
@@ -68,8 +66,6 @@ public class DefenitionErrorsValidationTest extends ValidationTest {
 	public void testMultipleBeanScope() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/definition/scope/broken/tooManyScopes/BeanWithTooManyScopeTypes_Broken.java");
 		assertMarkerIsCreated(file, CDIValidationMessages.MULTIPLE_SCOPE_TYPE_ANNOTATIONS_IN_BEAN_CLASS, 22, 23);
-		int markerNumbers = getMarkersNumber(file);
-		assertEquals("StereotypeWithTyped_Broken.java should has two error markers.", markerNumbers, 2);
 	}
 
 	/**
@@ -82,8 +78,6 @@ public class DefenitionErrorsValidationTest extends ValidationTest {
 	public void testBeanWithMultipleScopedStereotypes() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/definition/stereotype/broken/scopeConflict/Scallop_Broken.java");
 		assertMarkerIsCreated(file, CDIValidationMessages.MISSING_SCOPE_WHEN_THERE_IS_NO_DEFAULT_SCOPE, 24, 25);
-		int markerNumbers = getMarkersNumber(file);
-		assertEquals("Scallop_Broken.java should has two error markers.", markerNumbers, 2);
 	}
 
 	/**
@@ -143,8 +137,6 @@ public class DefenitionErrorsValidationTest extends ValidationTest {
 	public void testStereotypeScope() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/definition/stereotype/broken/tooManyScopes/StereotypeWithTooManyScopeTypes_Broken.java");
 		assertMarkerIsCreated(file, CDIValidationMessages.STEREOTYPE_DECLARES_MORE_THAN_ONE_SCOPE, 32, 33);
-		int markerNumbers = getMarkersNumber(file);
-		assertEquals("StereotypeWithTooManyScopeTypes_Broken.java should has two error markers.", markerNumbers, 2);
 	}
 
 	/**
@@ -156,8 +148,6 @@ public class DefenitionErrorsValidationTest extends ValidationTest {
 	public void testNonEmptyNamedForStereotype() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/definition/stereotype/broken/nonEmptyNamed/StereotypeWithNonEmptyNamed_Broken.java");
 		assertMarkerIsCreated(file, CDIValidationMessages.STEREOTYPE_DECLARES_NON_EMPTY_NAME, 31);
-		int markerNumbers = getMarkersNumber(file);
-		assertEquals("StereotypeWithNonEmptyNamed_Broken.java should has the only error marker.", markerNumbers, 1);
 	}
 
 	/**
@@ -169,8 +159,6 @@ public class DefenitionErrorsValidationTest extends ValidationTest {
 	public void testAnnotatedStereotype() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/definition/stereotype/broken/withBindingType/StereotypeWithBindingTypes_Broken.java");
 		assertMarkerIsCreated(file, CDIValidationMessages.ILLEGAL_QUALIFIER_IN_STEREOTYPE, 30);
-		int markerNumbers = getMarkersNumber(file);
-		assertEquals("StereotypeWithBindingTypes_Broken.java should has the only error marker.", markerNumbers, 1);
 	}
 
 	/**
@@ -182,8 +170,6 @@ public class DefenitionErrorsValidationTest extends ValidationTest {
 	public void testTypedStereotype() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/definition/stereotype/broken/withBindingType/StereotypeWithTyped_Broken.java");
 		assertMarkerIsCreated(file, CDIValidationMessages.STEREOTYPE_IS_ANNOTATED_TYPED, 15);
-		int markerNumbers = getMarkersNumber(file);
-		assertEquals("StereotypeWithTyped_Broken.java should has the only error marker.", markerNumbers, 1);
 	}
 
 	/**
