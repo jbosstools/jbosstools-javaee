@@ -54,6 +54,6 @@ public class RefreshBundles_JBIDE5460 extends VpeTest {
 
 		assertNotNull("Editor is not opened", part); //$NON-NLS-1$
 
-		TestUtil.delay(2000);
+		TestUtil.delay();
 	}
 }

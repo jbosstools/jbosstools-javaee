@@ -42,7 +42,7 @@ public class JBIDE3632Test extends VpeTest {
         // delete one of "
         part.getSourceEditor().getTextViewer().getTextWidget().replaceTextRange(position, 1, ""); //$NON-NLS-1$
         //wait while update job will be running
-        TestUtil.delay(600);
+        TestUtil.delay();
         closeEditors();
 		if(getException()!=null) {
 			throw getException();

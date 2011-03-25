@@ -57,7 +57,7 @@ public class JBIDE3441Test  extends VpeTest {
 		for (int i = 0; i < 5; i++) {
 			controller1.visualRefresh();
 			controller2.visualRefresh();
-			TestUtil.delay(5000);
+			TestUtil.delay();
 			TestUtil.waitForJobs();
 			checkTaggedDivValue(controller1);
 			checkTaggedDivValue(controller2);	

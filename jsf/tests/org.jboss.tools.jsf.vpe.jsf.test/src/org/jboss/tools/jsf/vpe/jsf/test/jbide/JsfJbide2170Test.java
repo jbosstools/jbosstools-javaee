@@ -286,11 +286,11 @@ public class JsfJbide2170Test extends VpeTest {
 		assertNotNull(styledText);
 		styledText.replaceTextRange(start, end - start, "");
 
-		TestUtil.delay(500);
+		TestUtil.delay();
 
 		controller.visualRefresh();
 
-		TestUtil.delay(500);
+		TestUtil.delay();
 
 		nsIDOMDocument visualDocument = TestUtil.getVpeVisualDocument(part);
 

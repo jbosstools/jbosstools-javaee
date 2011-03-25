@@ -77,7 +77,7 @@ public class JBIDE3030Test extends VpeTest {
 			 */		
 			JSPMultiPageEditor jspMultiPageEditor = (JSPMultiPageEditor) editorPart;
 			TestUtil.getVpeController(jspMultiPageEditor).visualRefresh();
-			TestUtil.delay(5);
+			TestUtil.delay();
 			TestUtil.waitForIdle();
 			//end of lines for testing visual refresh on external files
 			

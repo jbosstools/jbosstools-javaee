@@ -313,7 +313,7 @@ public class JBIDE788Test extends VpeTest {
 			viewer.getTextWidget().setCaretOffset(newPosition);
 			
 			TestUtil.waitForJobs();
-			TestUtil.delay(1000);
+			TestUtil.delay();
 			SourceViewerConfiguration sourceViewerConfiguration = ((JSPTextEditor) part
 			        .getSourceEditor()).getSourceViewerConfigurationForTest();
 			// errase errors which can be on start of editor(for example xuklunner
@@ -362,7 +362,7 @@ public class JBIDE788Test extends VpeTest {
 			iContentAssistant.uninstall();
 		} finally {
 			closeEditors();
-	        TestUtil.delay(1000L);
+	        TestUtil.delay();
 		}
 
         return results;

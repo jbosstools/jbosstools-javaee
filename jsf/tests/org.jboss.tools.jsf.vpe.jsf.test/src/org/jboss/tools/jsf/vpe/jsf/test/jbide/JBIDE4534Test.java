@@ -98,7 +98,7 @@ public class JBIDE4534Test extends VpeTest{
 		
 			this.nonUIJob.schedule();
 			while(this.nonUIJob.getState()!=Job.RUNNING) {
-				TestUtil.delay(4);
+				TestUtil.delay();
 			}
 			IFile file = (IFile) TestUtil.getComponentPath("index.xhtml", //$NON-NLS-1$
 					JsfAllTests.IMPORT_JBIDE3247_PROJECT_NAME);

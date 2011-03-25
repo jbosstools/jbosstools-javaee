@@ -60,7 +60,7 @@ public class JBIDE2219Test extends VpeTest {
 		styledText.insert("Test "); //$NON-NLS-1$
 		styledText.setSelection(0, 1);
 		assertTrue("Char count shouldn't be a 0",styledText.getCharCount()>2); //$NON-NLS-1$
-		TestUtil.delay(500);
+		TestUtil.delay();
 		TestUtil.waitForJobs();
 		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().closeEditor(part, false);
         TestUtil.waitForJobs();

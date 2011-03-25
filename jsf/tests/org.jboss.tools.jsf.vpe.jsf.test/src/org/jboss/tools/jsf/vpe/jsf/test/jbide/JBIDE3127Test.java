@@ -52,7 +52,7 @@ public class JBIDE3127Test extends VpeTest{
         editorPart.maximizeVisual();
         vpeController.visualRefresh();
         //wait while refresh jobs start
-        TestUtil.delay(500);
+        TestUtil.delay();
         TestUtil.waitForJobs();
         if(getException()!=null) {
         	throw new Exception(getException());

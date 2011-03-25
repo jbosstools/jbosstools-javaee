@@ -63,7 +63,7 @@ public class JBIDE2774Test extends VpeTest {
 		assertNotNull(controller);
 		
 		controller.visualRefresh();
-		TestUtil.delay(500);
+		TestUtil.delay();
 		Point selectionRangeAfterRefresh =  part.getSourceEditor().getTextViewer().getSelectedRange();
 		
 		assertEquals("Selection should be before and after refresh equals", selectionRangeBeforeRefresh,selectionRangeAfterRefresh); //$NON-NLS-1$

@@ -49,7 +49,7 @@ public class EditingSPecialSymbolsVPE_JBIDE3810 extends VpeTest {
 		IEditorInput editorInput = new FileEditorInput(file);
 		JSPMultiPageEditor part = openEditor(editorInput);
 		TestUtil.waitForIdle();
-		TestUtil.delay(3000);
+		TestUtil.delay();
 		VpeController controller = TestUtil.getVpeController(part);
 		Mouse mouse = new Mouse(controller, delay);
 		mouse.click(clientX, clientY);
@@ -86,7 +86,7 @@ public class EditingSPecialSymbolsVPE_JBIDE3810 extends VpeTest {
 							0);
 			eventTarget.dispatchEvent(delKeyEvent);
 			TestUtil.waitForIdle();
-			TestUtil.delay(this.delay);
+			TestUtil.delay();
 			return this;
 		}
 
@@ -98,7 +98,7 @@ public class EditingSPecialSymbolsVPE_JBIDE3810 extends VpeTest {
 					nsIDOMKeyEvent.DOM_VK_BACK_SPACE, 0);
 			eventTarget.dispatchEvent(bsKeyEvent);
 			TestUtil.waitForIdle();
-			TestUtil.delay(this.delay);
+			TestUtil.delay();
 			return this;
 		}
 
@@ -111,7 +111,7 @@ public class EditingSPecialSymbolsVPE_JBIDE3810 extends VpeTest {
 					nsIDOMKeyEvent.DOM_VK_LEFT, 0);
 			eventTarget.dispatchEvent(leftArrowKeyEvent);
 			TestUtil.waitForIdle();
-			TestUtil.delay(this.delay);
+			TestUtil.delay();
 			return this;
 		}
 	}
@@ -138,7 +138,7 @@ public class EditingSPecialSymbolsVPE_JBIDE3810 extends VpeTest {
 					nsIDOMNSEvent.MOUSEDOWN, true);
 			windowUtils.sendMouseEvent("mouseup", clientX, clientY, 0, 1, //$NON-NLS-1$
 					nsIDOMNSEvent.MOUSEUP, true);
-			TestUtil.delay(this.delay);
+			TestUtil.delay();
 			return this;
 		}
 

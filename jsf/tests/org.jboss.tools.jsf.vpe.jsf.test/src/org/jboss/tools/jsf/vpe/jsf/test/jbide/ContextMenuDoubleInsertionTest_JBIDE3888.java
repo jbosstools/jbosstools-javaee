@@ -62,13 +62,13 @@ public class ContextMenuDoubleInsertionTest_JBIDE3888
 				"Insert Action", insertionItem,				//$NON-NLS-1$
 				sourceEditor, InsertType.INSERT_INTO);
 		firstInsertAction.run();
-		TestUtil.delay(2000);
+		TestUtil.delay();
 		textWidget.setText("");
 		final InsertAction2 secondInsertAction = new InsertAction2(
 				"Insert Action", insertionItem,				//$NON-NLS-1$
 				sourceEditor, InsertType.INSERT_INTO);
 		secondInsertAction.run();
-		TestUtil.delay(2000);
+		TestUtil.delay();
 		assertTrue(textWidget.getText()
 				.contains(REQUIRED_STRING));
 	}

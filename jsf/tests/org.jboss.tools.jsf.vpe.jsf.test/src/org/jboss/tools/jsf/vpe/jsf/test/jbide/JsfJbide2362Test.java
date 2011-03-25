@@ -182,7 +182,7 @@ public class JsfJbide2362Test extends VpeTest {
 				for (int j = 0; j < insertedString.length(); j++) {
 					styledText.setCaretOffset(offset + j);
 					styledText.insert(String.valueOf(insertedString.charAt(j)));
-					TestUtil.delay(50);
+					TestUtil.delay();
 				}
 
 				// wait

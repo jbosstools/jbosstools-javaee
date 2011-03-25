@@ -67,7 +67,7 @@ public class JBIDE1105Test extends VpeTest {
 		}
 
 		TestUtil.waitForIdle();
-		TestUtil.delay(1000L);
+		TestUtil.delay();
 
 		if (getException() != null) {
 			throw getException();

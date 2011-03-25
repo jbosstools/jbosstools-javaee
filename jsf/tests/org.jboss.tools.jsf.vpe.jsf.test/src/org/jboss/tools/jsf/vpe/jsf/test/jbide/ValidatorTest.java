@@ -36,7 +36,7 @@ public class ValidatorTest extends VpeTest{
 		ValidationFramework.getDefault().validate(new IProject[] { project },
 				false, false, new NullProgressMonitor());
 		//wait while validation job starts
-		TestUtil.delay(200);
+		TestUtil.delay();
 		TestUtil.waitForJobs();
 		VpeDebugUtil.debugInfo("Validation time was "+((new Date()).getTime()-startValidationTime)/1000.0+"sec");  //$NON-NLS-1$//$NON-NLS-2$
 	}

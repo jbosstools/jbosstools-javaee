@@ -38,7 +38,7 @@ public class ExceptionInVPEComments_JBIDE5143 extends VpeTest {
 				JsfAllTests.IMPORT_PROJECT_NAME);
 		IEditorInput editorInput = new FileEditorInput(file);
 		JSPMultiPageEditor part = openEditor(editorInput);
-		TestUtil.delay(3000);
+		TestUtil.delay();
 		TestUtil.waitForIdle();
 		StyledText styledText = part.getSourceEditor().getTextViewer()
 				.getTextWidget();
@@ -46,16 +46,16 @@ public class ExceptionInVPEComments_JBIDE5143 extends VpeTest {
 		int offset = styledText.getOffsetAtLine(8);
 		styledText.setCaretOffset(offset - delimiter.length() - 28);
 		styledText.insert("-"); //$NON-NLS-1$
-		TestUtil.delay(1000);
+		TestUtil.delay();
 		TestUtil.waitForIdle();
 		styledText.insert("-"); //$NON-NLS-1$
-		TestUtil.delay(1000);
+		TestUtil.delay();
 		TestUtil.waitForIdle();
 		styledText.insert("!"); //$NON-NLS-1$
-		TestUtil.delay(1000);
+		TestUtil.delay();
 		TestUtil.waitForIdle();
 		styledText.insert("<"); //$NON-NLS-1$
-		TestUtil.delay(1000);
+		TestUtil.delay();
 		TestUtil.waitForIdle();
 	}
 

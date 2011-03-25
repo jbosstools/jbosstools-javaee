@@ -64,7 +64,7 @@ public class JBIDE3617Test extends VpeTest {
 		vpeController.visualRefresh();
 		TestUtil.waitForJobs();
 		try {
-			TestUtil.delay(500);
+			TestUtil.delay();
 		} catch (Throwable e) {
 			fail("Seems like JBIDE-3617 has occured.\n" + e);//$NON-NLS-1$
 		}

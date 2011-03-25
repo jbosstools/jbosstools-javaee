@@ -78,17 +78,17 @@ public class JBIDE3396Test extends VpeTest{
 		TestUtil.getVpeController(firstEditorPart);
 		ELReferenceList.getInstance().setAllResources(this.firstPage, this.firstElValues);
 		//wait for visual refresh 
-		TestUtil.delay(1000);
+		TestUtil.delay();
 		TestUtil.waitForJobs();
 		//open second page and 
 		final IEditorInput secondInput = new FileEditorInput(this.secondPage);
 		final JSPMultiPageEditor secondEditorPart =  openEditor(secondInput);
 		final VpeController secondPageVpeController = TestUtil.getVpeController(secondEditorPart);
 		final int size = secondPageVpeController.getDomMapping().getVisualMap().size();
-		TestUtil.delay(5000);
+		TestUtil.delay();
 		ELReferenceList.getInstance().setAllResources(this.secondPage, this.secondElValues);
 		//wait for visual refresh
-		TestUtil.delay(5000);
+		TestUtil.delay();
 		final ResourceReference[] elResoReferences = ELReferenceList.getInstance().getAllResources(this.secondPage);
 		for (final ResourceReference resourceReference : elResoReferences) {
 			resourceReference.setProperties(resourceReference.getProperties()+'T');

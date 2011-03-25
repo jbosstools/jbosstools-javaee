@@ -38,7 +38,7 @@ public class JBIDE4337Test extends VpeTest {
 		int offset = TestUtil.getLinePositionOffcet(vpeController.getSourceEditor().getTextViewer(), 11, 23);
 		styledText.setCaretOffset(offset);
 		styledText.insert(" "); //$NON-NLS-1$
-		TestUtil.delay(450);
+		TestUtil.delay();
 		TestUtil.waitForJobs();
 		assertEquals("Number of child nodes should be equal before and after change",headChildCount, //$NON-NLS-1$
 				vpeController.getVisualBuilder().getHeadNode().getChildNodes().getLength());
