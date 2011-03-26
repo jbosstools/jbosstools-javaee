@@ -28,6 +28,7 @@ Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-Vendor: JBoss by Red Hat
 Export-Package: org.jboss.tools.cdi.core,
+ org.jboss.tools.cdi.core.extension,
  org.jboss.tools.cdi.core.preferences,
  org.jboss.tools.cdi.internal.core.ca,
  org.jboss.tools.cdi.internal.core.el,

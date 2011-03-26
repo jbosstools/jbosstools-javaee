@@ -28,6 +28,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jdt.core.IType;
+import org.jboss.tools.cdi.core.extension.CDIExtensionManager;
 import org.jboss.tools.cdi.internal.core.impl.definition.AnnotationDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.DefinitionContext;
 import org.jboss.tools.cdi.internal.core.impl.definition.ParametedTypeFactory;
@@ -63,6 +64,8 @@ public class CDICoreNature implements IProjectNature {
 	Set<CDICoreNature> dependsOn = new HashSet<CDICoreNature>();
 	
 	Set<CDICoreNature> usedBy = new HashSet<CDICoreNature>();
+
+	private CDIExtensionManager extensions = new CDIExtensionManager(this);
 	
 	public CDICoreNature() {
 		definitions.setProject(this);
