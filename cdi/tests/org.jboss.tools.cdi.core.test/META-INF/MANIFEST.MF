@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Contexts and Dependency Injection Test
-Bundle-SymbolicName: org.jboss.tools.cdi.core.test
+Bundle-SymbolicName: org.jboss.tools.cdi.core.test;singleton:=true
 Bundle-Version: 1.2.0.qualifier
 Bundle-Vendor: JBoss by Red Hat
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
@@ -20,5 +20,6 @@ Require-Bundle: org.jboss.tools.tests,
  org.jboss.tools.cdi.xml,
  org.eclipse.jst.standard.schemas
 Export-Package: org.jboss.tools.cdi.core.test,
+ org.jboss.tools.cdi.core.test.extension,
  org.jboss.tools.cdi.core.test.tck,
  org.jboss.tools.cdi.core.test.tck.validation

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+	<extension
+	      point="org.jboss.tools.cdi.core.cdiextensions">
+    <cdiextension
+          class="org.jboss.tools.cdi.core.test.extension.CDIExtensionImpl"
+          runtime="org.jboss.tools.cdi.core.fake.FakeExtension"
+          features="feature_1,feature_2">
+    </cdiextension>
+	</extension>
+</plugin>

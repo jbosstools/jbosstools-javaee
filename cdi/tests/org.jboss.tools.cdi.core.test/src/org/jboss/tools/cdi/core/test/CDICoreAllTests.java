@@ -15,6 +15,7 @@ import junit.framework.TestSuite;
 
 import org.eclipse.jdt.internal.core.JavaModelManager;
 import org.jboss.tools.cdi.core.test.ca.BeansXmlCATest;
+import org.jboss.tools.cdi.core.test.extension.ExtensionFactoryTest;
 import org.jboss.tools.cdi.core.test.project.EnableCDISupportForJarTest;
 import org.jboss.tools.cdi.core.test.project.EnableCDISupportForWarTest;
 import org.jboss.tools.cdi.core.test.tck.AssignabilityOfRawAndParameterizedTypesTest;
@@ -93,6 +94,7 @@ public class CDICoreAllTests {
 		suite.addTestSuite(CoreValidationTest.class);
 		suite.addTestSuite(ELValidationTest.class);
 
+		suiteAll.addTestSuite(ExtensionFactoryTest.class);
 		suiteAll.addTestSuite(WeldJarTest.class);
 		suiteAll.addTestSuite(BeansXMLTest.class);
 		suiteAll.addTestSuite(DependentProjectTest.class);
