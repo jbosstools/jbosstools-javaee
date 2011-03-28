@@ -21,8 +21,12 @@ import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtensionPoint;
 import org.eclipse.core.runtime.Platform;
 import org.jboss.tools.cdi.core.CDICorePlugin;
-import org.osgi.framework.Bundle;
 
+/**
+ * Loads Eclipse extension point 'org.jboss.tools.cdi.core.cdiextensions'
+ * @author Viacheslav Kabanovich
+ *
+ */
 public class CDIExtensionFactory {
 	static CDIExtensionFactory factory = null;
 	public static String POINT_ID = "org.jboss.tools.cdi.core.cdiextensions";
@@ -43,7 +47,7 @@ public class CDIExtensionFactory {
 	/**
 	 * Maps features to fully qualified names of implementations of ICDIExtention.
 	 */
-	Map<String, Set<String>> featureToDesign = new HashMap<String, Set<String>>();
+	private Map<String, Set<String>> featureToDesign = new HashMap<String, Set<String>>();
 
 	/**
 	 * Maps fully qualified names of implementations of ICDIExtention to their Class objects.
@@ -94,6 +98,13 @@ public class CDIExtensionFactory {
 
 	public Set<String> getExtensionClassesByRuntime(String qualifiedName) {
 		return runtimeToDesign.get(qualifiedName);
+	}
+
+	public Set<String> getFeatures() {
+		return featureToDesign.keySet();
+	}
+	public Set<String> getExtensionClassesByfeature(String featureName) {
+		return featureToDesign.get(featureName);
 	}
 
 	public ICDIExtension createExtensionInstance(String qualifiedName) {

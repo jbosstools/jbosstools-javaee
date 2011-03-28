@@ -18,6 +18,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.StringTokenizer;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -30,6 +31,7 @@ import org.eclipse.jdt.core.JavaCore;
 import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.common.model.XModelObject;
+import org.jboss.tools.common.model.filesystems.impl.FileAnyImpl;
 import org.jboss.tools.common.model.project.ext.AbstractClassPathMonitor;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 
@@ -49,6 +51,7 @@ public class ClassPathMonitor extends AbstractClassPathMonitor<CDICoreNature>{
 		Map<String, XModelObject> newJars = new HashMap<String, XModelObject>();
 		for (String p: syncProcessedPaths()) {
 			project.pathRemoved(new Path(p));
+			project.getExtensionManager().pathRemoved(p);
 		}
 		for (int i = 0; i < paths.size(); i++) {
 			String p = paths.get(i);
@@ -59,6 +62,10 @@ public class ClassPathMonitor extends AbstractClassPathMonitor<CDICoreNature>{
 			String jsname = "lib-" + fileName; //$NON-NLS-1$
 			XModelObject o = model.getByPath("FileSystems").getChildByPath(jsname); //$NON-NLS-1$
 			if(o == null) continue;
+
+			//Load cdi extensions. Do we need beans.xml to look for extensions?
+			project.getExtensionManager().setRuntimes(p, readRuntimes(o));
+
 			XModelObject b = o.getChildByPath("META-INF/beans.xml");
 			if(b == null && !isWeldJar(fileName)) {
 				continue;
@@ -156,4 +163,23 @@ public class ClassPathMonitor extends AbstractClassPathMonitor<CDICoreNature>{
 		}
 		return list;
 	}
+
+	private static Set<String> EMPTY_RUNTIMES = new HashSet<String>();
+
+	private Set<String> readRuntimes(XModelObject jar) {
+		XModelObject o = jar.getChildByPath("META-INF/services/javax.enterprise.inject.spi.Extension");
+		if(o == null) return EMPTY_RUNTIMES;
+		if(!(o instanceof FileAnyImpl)) return EMPTY_RUNTIMES;
+		Set<String> result = new HashSet<String>();
+		String text = ((FileAnyImpl)o).getAsText();
+		if(text == null || text.length() == 0) return EMPTY_RUNTIMES;
+		StringTokenizer st = new StringTokenizer(text, " \r\n\t");
+		while(st.hasMoreTokens()) {
+			String t = st.nextToken().trim();
+			if(t.length() > 0) result.add(t);
+		}
+		return result;
+	}
+	
+	
 }

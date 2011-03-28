@@ -97,6 +97,10 @@ public class CDICoreNature implements IProjectNature {
 		return dependsOn;
 	}
 
+	public CDIExtensionManager getExtensionManager() {
+		return extensions;
+	}
+
 	public Set<CDICoreNature> getCDIProjects(boolean hierarchy) {
 		if(hierarchy) {
 			if(dependsOn.isEmpty()) return dependsOn;
