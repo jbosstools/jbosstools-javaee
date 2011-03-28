@@ -10,10 +10,10 @@
  ******************************************************************************/
 package org.jboss.tools.jsf.vpe.seam.test;
 
-import org.jboss.tools.vpe.base.test.VpeTestSetup;
-
 import junit.framework.Test;
 import junit.framework.TestSuite;
+
+import org.jboss.tools.vpe.base.test.VpeTestSetup;
 
 /**
  * Class for testing all Seam components
@@ -29,9 +29,8 @@ public class SeamAllTests {
     public static Test suite() {
 		TestSuite suite = new TestSuite("Tests for Vpe Seam components"); //$NON-NLS-1$
 		// $JUnit-BEGIN$
+		suite.addTest(SeamAllImportantTests.suite());
 		suite.addTestSuite(SeamComponentContentTest.class);
-		suite.addTestSuite(JBIDE1484Test.class);
-		suite.addTestSuite(OpenOnForDecorateTest.class);
 		// $JUnit-END$
 		return new VpeTestSetup(suite);
     }

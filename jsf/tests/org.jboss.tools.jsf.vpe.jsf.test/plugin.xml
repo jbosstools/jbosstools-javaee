@@ -5,7 +5,8 @@
          point="org.jboss.tools.vpe.ui.test">
       <tests
             name="JsfAllTests"
-            testSuite="org.jboss.tools.jsf.vpe.jsf.test.JsfAllTests"/>
+            testSuite="org.jboss.tools.jsf.vpe.jsf.test.JsfAllTests"
+            importantTestSuite="org.jboss.tools.jsf.vpe.jsf.test.JsfAllImportantTests"/>
       <testProject
             name="jsfTest"
             path="resources/jsfTest"/>

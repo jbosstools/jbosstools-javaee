@@ -5,7 +5,8 @@
          point="org.jboss.tools.vpe.ui.test">
       <tests
             name="Vpe test&apos;s for seam ui components"
-            testSuite="org.jboss.tools.jsf.vpe.seam.test.SeamAllTests"/>
+            testSuite="org.jboss.tools.jsf.vpe.seam.test.SeamAllTests"
+            importantTestSuite="org.jboss.tools.jsf.vpe.seam.test.SeamAllImportantTests"/>
       <testProject
             name="SeamTest"
             path="resources/SeamTest"/>
