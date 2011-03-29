@@ -26,7 +26,6 @@ Require-Bundle:
  org.eclipse.jdt.core.manipulation,
  org.jboss.tools.common.el.core,
  org.eclipse.jst.jee.web;bundle-version="1.0.201",
- org.eclipse.jpt.core;bundle-version="2.2.1",
  org.eclipse.jst.jsp.core;bundle-version="1.2.204",
  org.eclipse.wst.validation.ui;bundle-version="1.2.104",
  org.jboss.tools.common.el.core,
