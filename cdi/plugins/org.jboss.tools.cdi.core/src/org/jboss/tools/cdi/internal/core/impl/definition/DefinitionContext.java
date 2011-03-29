@@ -38,6 +38,9 @@ public class DefinitionContext {
 	private Map<String, TypeDefinition> typeDefinitions = new HashMap<String, TypeDefinition>();
 	private Map<String, AnnotationDefinition> annotations = new HashMap<String, AnnotationDefinition>();
 
+	private Set<String> packages = new HashSet<String>();
+	private Map<String, PackageDefinition> packageDefinitions = new HashMap<String, PackageDefinition>();
+
 	private Map<IPath, BeansXMLDefinition> beanXMLs = new HashMap<IPath, BeansXMLDefinition>();
 
 	private DefinitionContext workingCopy;
@@ -53,6 +56,10 @@ public class DefinitionContext {
 			copy.types.addAll(types);
 			copy.typeDefinitions.putAll(typeDefinitions);
 			copy.annotations.putAll(annotations);
+
+			copy.packages.addAll(packages);
+			copy.packageDefinitions.putAll(packageDefinitions);
+
 			for (IPath p: resources.keySet()) {
 				Set<String> set = resources.get(p);
 				if(set != null) {
@@ -112,6 +119,24 @@ public class DefinitionContext {
 		}
 	}
 
+	public void addPackage(IPath file, String packageName, PackageDefinition def) {
+		if(file != null) {
+			Set<String> ts = resources.get(file);
+			if(ts == null) {
+				ts = new HashSet<String>();
+				resources.put(file, ts);
+			}
+			ts.add(packageName);
+			packages.add(packageName);
+			addToParents(file);
+		}
+		if(def != null) {
+			synchronized (packageDefinitions) {
+				packageDefinitions.put(def.getQualifiedName(), def);
+			}
+		}
+	}
+
 	public void addBeanXML(IPath path, BeansXMLDefinition def) {
 		synchronized (beanXMLs) {
 			beanXMLs.put(path, def);
@@ -137,11 +162,15 @@ public class DefinitionContext {
 		childPaths.clear();
 		resources.clear();
 		types.clear();
+		packages.clear();
 		synchronized (typeDefinitions) {
 			typeDefinitions.clear();
 		}
 		synchronized (annotations) {
 			annotations.clear();
+		}
+		synchronized (packageDefinitions) {
+			packageDefinitions.clear();
 		}
 		synchronized (beanXMLs) {
 			beanXMLs.clear();
@@ -157,6 +186,10 @@ public class DefinitionContext {
 			}
 			synchronized (annotations) {
 				annotations.remove(t);
+			}
+			packages.remove(t);
+			synchronized (packageDefinitions) {
+				packageDefinitions.remove(t);
 			}
 		}
 		synchronized (beanXMLs) {
@@ -271,6 +304,8 @@ public class DefinitionContext {
 		childPaths = workingCopy.childPaths;
 		typeDefinitions = workingCopy.typeDefinitions;
 		annotations = workingCopy.annotations;
+		packages = workingCopy.packages;
+		packageDefinitions = workingCopy.packageDefinitions;
 		beanXMLs = workingCopy.beanXMLs;
 	
 		project.getDelegate().update();

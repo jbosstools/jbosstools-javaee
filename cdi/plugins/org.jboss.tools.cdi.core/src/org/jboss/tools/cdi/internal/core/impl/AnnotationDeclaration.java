@@ -59,7 +59,7 @@ public class AnnotationDeclaration implements IAnnotationDeclaration {
 			}
 			String name = annotation.getElementName();
 			annotationTypeName = EclipseJavaUtil.resolveType(declaringType, name);
-			type = EclipseJavaUtil.findType(declaringType.getJavaProject(), annotationTypeName);
+			type = EclipseJavaUtil.findType(annotation.getJavaProject(), annotationTypeName);
 		} catch (JavaModelException e) {
 			CDICorePlugin.getDefault().logError(e);
 		}

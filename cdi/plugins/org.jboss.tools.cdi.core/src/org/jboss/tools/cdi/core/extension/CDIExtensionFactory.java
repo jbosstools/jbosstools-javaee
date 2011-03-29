@@ -24,6 +24,18 @@ import org.jboss.tools.cdi.core.CDICorePlugin;
 
 /**
  * Loads Eclipse extension point 'org.jboss.tools.cdi.core.cdiextensions'
+ * Element:
+ * 'cdiextension'
+ * Attributes:
+ * 'runtime' - 	Qualified name of CDI runtime extension implementation class.
+ * 'class' - 	Qualified name of JBoss Tools CDI model extension implementation class.
+ * 'features' - It is not planned to add regular methods to this interface, 
+ * 				all features that are to be provided by implementations, will be available 
+ * 				through IAdaptable. In that way, adding to core support of a new feature 
+ * 				will not require to implement new methods in existing extensions.
+ * 				In order to efficiently request only relevant implementations, 
+ * 				extensions must register supported features in this attribute.
+ * 
  * @author Viacheslav Kabanovich
  *
  */

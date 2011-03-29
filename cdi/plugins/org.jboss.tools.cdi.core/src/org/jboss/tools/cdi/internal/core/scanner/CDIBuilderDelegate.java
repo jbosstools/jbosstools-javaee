@@ -5,6 +5,7 @@ import java.util.Set;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.jdt.core.IPackageDeclaration;
 import org.eclipse.jdt.core.IType;
 import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.ICDIBuilderDelegate;
@@ -12,6 +13,7 @@ import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.internal.core.impl.CDIProject;
 import org.jboss.tools.cdi.internal.core.impl.definition.BeansXMLDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.DefinitionContext;
+import org.jboss.tools.cdi.internal.core.impl.definition.PackageDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.TypeDefinition;
 import org.jboss.tools.common.model.XModelObject;
 
@@ -56,6 +58,14 @@ public class CDIBuilderDelegate implements ICDIBuilderDelegate {
 				def.setType(type, context);
 				context.addType(f, type.getFullyQualifiedName(), def);
 			}
+		}
+
+		Map<IPath, IPackageDeclaration> pkgs = fileSet.getPackages();
+		for (IPath f: pkgs.keySet()) {
+			IPackageDeclaration pkg = pkgs.get(f);
+			PackageDefinition def = new PackageDefinition();
+			def.setPackage(pkg, context);
+			context.addPackage(f, def.getQualifiedName(), def);
 		}
 
 		for (IPath f: ps) {

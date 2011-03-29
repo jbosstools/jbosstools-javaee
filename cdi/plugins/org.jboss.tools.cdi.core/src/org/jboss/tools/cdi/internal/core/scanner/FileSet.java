@@ -8,6 +8,7 @@ import java.util.Set;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.Flags;
+import org.eclipse.jdt.core.IPackageDeclaration;
 import org.eclipse.jdt.core.IType;
 import org.jboss.tools.common.model.XModelObject;
 
@@ -17,6 +18,7 @@ public class FileSet {
 	private Map<IPath, Set<IType>> annotations = new HashMap<IPath, Set<IType>>();
 	private Map<IPath, Set<IType>> interfaces = new HashMap<IPath, Set<IType>>();
 	private Map<IPath, Set<IType>> classes = new HashMap<IPath, Set<IType>>();
+	private Map<IPath, IPackageDeclaration> packages = new HashMap<IPath, IPackageDeclaration>();
 	private Map<IPath, XModelObject> beanXMLs = new HashMap<IPath, XModelObject>();
 
 	public FileSet() {}
@@ -58,6 +60,12 @@ public class FileSet {
 		ts.add(type);
 	}
 
+	public void add(IPath path, IPackageDeclaration pkg) throws CoreException {
+		if(pkg == null) return;
+		allpaths.add(path);
+		packages.put(path, pkg);
+	}
+
 	public Set<IPath> getAllPaths() {
 		return allpaths;
 	}
@@ -76,6 +84,10 @@ public class FileSet {
 
 	public Map<IPath, Set<IType>> getClasses() {
 		return classes;
+	}
+
+	public Map<IPath, IPackageDeclaration> getPackages() {
+		return packages;
 	}
 
 	public XModelObject getBeanXML(IPath f) {

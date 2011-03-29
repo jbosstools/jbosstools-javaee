@@ -19,6 +19,7 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.IAnnotatable;
 import org.eclipse.jdt.core.IAnnotation;
+import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IType;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.CDICorePlugin;
@@ -62,7 +63,7 @@ public abstract class AbstractMemberDefinition implements IAnnotated {
 	}
 
 	protected void init(IType contextType, DefinitionContext context) throws CoreException {
-		resource = contextType.getResource();
+		resource = ((IJavaElement)member).getResource();
 		IAnnotation[] ts = member.getAnnotations();
 		for (int i = 0; i < ts.length; i++) {
 			AnnotationDeclaration a = new AnnotationDeclaration();

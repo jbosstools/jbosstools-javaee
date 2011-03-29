@@ -34,6 +34,7 @@ import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.IPackageDeclaration;
 import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.IType;
@@ -337,8 +338,15 @@ public class CDICoreBuilder extends IncrementalProjectBuilder {
 						if(f.getName().endsWith(".java")) {
 							ICompilationUnit unit = EclipseUtil.getCompilationUnit(f);
 							if(unit!=null) {
-								IType[] ts = unit.getTypes();
-								fileSet.add(f.getFullPath(), ts);
+								if(f.getName().equals("package-info.java")) {
+									IPackageDeclaration[] pkg = unit.getPackageDeclarations();
+									if(pkg != null && pkg.length > 0) {
+										fileSet.add(f.getFullPath(), pkg[0]);
+									}
+								} else {
+									IType[] ts = unit.getTypes();
+									fileSet.add(f.getFullPath(), ts);
+								}
 							}
 						}
 						else if(path.segmentCount() == srcs[i].segmentCount() + 2

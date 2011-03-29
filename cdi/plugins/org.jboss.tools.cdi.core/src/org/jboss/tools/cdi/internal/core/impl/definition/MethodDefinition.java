@@ -19,6 +19,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.ISourceRange;
 import org.eclipse.jdt.core.IType;
+import org.eclipse.jdt.core.JavaModelException;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.IAnnotationDeclaration;
 import org.jboss.tools.cdi.core.IInterceptorBinding;
@@ -117,7 +118,7 @@ public class MethodDefinition extends BeanMemberDefinition {
 			String p = params[i].trim();
 			int pi = params[i].indexOf(p);
 			
-			ValueInfo v = new ValueInfo();
+			ValueInfo v = new CheckingValueInfo(method);
 			v.setValue(params[i]);
 			v.valueStartPosition = start + pi;
 			v.valueLength = p.length();
@@ -126,7 +127,7 @@ public class MethodDefinition extends BeanMemberDefinition {
 			String[] tokens = getParamTokens(p);
 			for (String q: tokens) {
 				if(!q.startsWith("@")) continue;
-				v = new ValueInfo();
+				v = new CheckingValueInfo(method);
 				v.setValue(q);
 				v.valueStartPosition = start + params[i].indexOf(q);
 				v.valueLength = q.length();
@@ -268,6 +269,44 @@ public class MethodDefinition extends BeanMemberDefinition {
 			result.add(sb.toString());
 		}
 		return result.toArray(new String[0]);
+	}
+
+	class CheckingValueInfo extends ValueInfo {
+		IMethod m;
+		CheckingValueInfo(IMethod m) {
+			this.m = m;
+		}
+		
+		void check() {
+			ISourceRange r = null;
+			try {
+				r = m.getSourceRange();
+			} catch (JavaModelException e) {
+				System.out.println("Method is obsolete: " + m);
+			}
+			if(r == null) {
+				valueStartPosition = 0;
+				valueLength = 0;
+			} else {
+				if(valueStartPosition + valueLength > r.getOffset() + r.getLength()) {
+					System.out.println("Method is modified: " + m);
+					valueStartPosition = 0;
+					valueLength = 0;
+				}
+			}
+			
+		}
+		
+		public int getStartPosition() {
+			check();
+			return valueStartPosition;
+		}
+
+		public int getLength() {
+			check();
+			return valueLength;
+		}
+
 	}
 
 }
