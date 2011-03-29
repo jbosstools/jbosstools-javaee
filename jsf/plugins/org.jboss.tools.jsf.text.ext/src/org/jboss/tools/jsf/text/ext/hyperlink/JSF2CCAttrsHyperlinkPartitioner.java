@@ -43,7 +43,9 @@ public class JSF2CCAttrsHyperlinkPartitioner extends AbstractHyperlinkPartitione
 		return JSF2_CC_ATTRIBUTE_PARTITION;
 	}
 
-	@Override
+	/**
+	 * Recognizes the region as having JSF2 CC Attribute reference
+	 */
 	public boolean recognize(IDocument document, IHyperlinkRegion region) {
 		StructuredModelWrapper smw = new StructuredModelWrapper();
 		smw.init(document);
