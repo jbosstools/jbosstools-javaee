@@ -259,7 +259,7 @@ public class CdiATWizardTest extends SWTTestExt {
 		CDIWizard w = decorator("cdi", "", "java.lang.Comparable", null, true, true, false, false);
 		w.finish();
 		util.waitForNonIgnoredJobs();
-		SWTBotEditor ed = new SWTWorkbenchBot().activeEditor();
+		SWTBotEditor ed = new SWTWorkbenchBot().editorByTitle("ComparableDecorator.java");
 		assertTrue(("ComparableDecorator.java").equals(ed.getTitle()));
 		String code = ed.toTextEditor().getText();
 		L.fine(code);
@@ -275,7 +275,7 @@ public class CdiATWizardTest extends SWTTestExt {
 		w = decorator("cdi", "", "java.util.Map", "field", false, false, true, true);
 		w.finish();
 		util.waitForNonIgnoredJobs();
-		ed = new SWTWorkbenchBot().activeEditor();
+		ed = new SWTWorkbenchBot().editorByTitle("MapDecorator.java");
 		assertTrue(("MapDecorator.java").equals(ed.getTitle()));
 		code = ed.toTextEditor().getText();
 		L.fine(code);
@@ -295,7 +295,7 @@ public class CdiATWizardTest extends SWTTestExt {
 		CDIWizard w = interceptor("cdi", "I1", "B2", null, null, false);
 		w.finish();
 		util.waitForNonIgnoredJobs();
-		SWTBotEditor ed = new SWTWorkbenchBot().activeEditor();
+		SWTBotEditor ed = new SWTWorkbenchBot().editorByTitle("I1.java");
 		assertTrue(("I1.java").equals(ed.getTitle()));
 		String code = ed.toTextEditor().getText();
 		L.fine(code);
@@ -309,7 +309,7 @@ public class CdiATWizardTest extends SWTTestExt {
 		w = interceptor("cdi", "I2", "B4", "java.util.Date", "sample", true);
 		w.finish();
 		util.waitForNonIgnoredJobs();
-		ed = new SWTWorkbenchBot().activeEditor();
+		ed = new SWTWorkbenchBot().editorByTitle("I2.java");
 		assertTrue(("I2.java").equals(ed.getTitle()));
 		code = ed.toTextEditor().getText();
 		L.fine(code);
@@ -326,6 +326,8 @@ public class CdiATWizardTest extends SWTTestExt {
 	public void testBeansXml() {
 		CDIWizard w = new NewCDIFileWizard(CDIWizardType.BEANS_XML).run();
 		w.setSourceFolder(PROJECT_NAME + "/WebContent/WEB-INF");
+		assertFalse(w.canFinish());
+		w.setSourceFolder(PROJECT_NAME + "/src/cdi");
 		assertTrue(w.canFinish());
 		w.finish();
 		w = new NewCDIFileWizard(CDIWizardType.BEANS_XML).run();
@@ -384,20 +386,16 @@ public class CdiATWizardTest extends SWTTestExt {
 		w.finish();
 		util.waitForNonIgnoredJobs();
 		SWTBotEditor ed = new SWTWorkbenchBot().activeEditor();
-		//https://issues.jboss.org/browse/JBIDE-8244
-//		assertTrue(("AnnL1.java").equals(ed.getTitle()));
-		assertTrue(("Q1Literal.java").equals(ed.getTitle()));
+		assertTrue(("AnnL1.java").equals(ed.getTitle()));
 		String code = ed.toTextEditor().getText();
 		L.info(code);
 		assertTrue(code.contains("package cdi;"));
-		assertTrue(code.contains("public final class Q1Literal extends AnnotationLiteral<Q1> implements Q1"));
-		assertTrue(code.contains("public static final Q1 INSTANCE = new Q1Literal();"));
+		assertTrue(code.contains("public final class AnnL1 extends AnnotationLiteral<Q1> implements Q1"));
+		assertTrue(code.contains("public static final Q1 INSTANCE = new AnnL1();"));
 		assertFalse(code.contains("abstract"));
 		assertFalse(code.startsWith("/**"));
 		
 		w = annLiteral("cdi", "AnnL2", false, true, false, true, "Q2");
-		//https://issues.jboss.org/browse/JBIDE-8244
-		w.setName("AnnL2");
 		w.finish();
 		util.waitForNonIgnoredJobs();
 		ed = new SWTWorkbenchBot().activeEditor();
