@@ -5,8 +5,7 @@
 	      point="org.jboss.tools.cdi.core.cdiextensions">
     <cdiextension
           class="org.jboss.tools.cdi.solder.core.CDISolderCoreExtension"
-          runtime="org.jboss.seam.solder.core.CoreExtension"
-          features="">
+          runtime="org.jboss.seam.solder.core.CoreExtension">
     </cdiextension>
 	</extension>
 </plugin>
