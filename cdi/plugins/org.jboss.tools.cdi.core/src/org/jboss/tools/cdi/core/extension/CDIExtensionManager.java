@@ -10,13 +10,20 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.core.extension;
 
+
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
 import org.jboss.tools.cdi.core.CDICoreNature;
+import org.jboss.tools.cdi.core.extension.feature.IBeanNameFeature;
 
+/**
+ * 
+ * @author Viacheslav Kabanovich
+ *
+ */
 public class CDIExtensionManager {
 	CDICoreNature n;
 	/**
@@ -32,7 +39,9 @@ public class CDIExtensionManager {
 	/**
 	 * Mapping of feature ids to extension instances.
 	 */
-	Map<String, Set<ICDIExtension>> featureToExtensions = new HashMap<String, Set<ICDIExtension>>();
+	Map<Class<?>, Set<ICDIExtension>> featureToExtensions = new HashMap<Class<?>, Set<ICDIExtension>>();
+
+	FeatureStorage featureStorage = new FeatureStorage();
 	
 	public CDIExtensionManager(CDICoreNature n) {
 		this.n = n;
@@ -68,13 +77,12 @@ public class CDIExtensionManager {
 	private void addRuntime(String runtime) {
 		CDIExtensionFactory factory = CDIExtensionFactory.getInstance();
 		Set<String> clss = factory.getExtensionClassesByRuntime(runtime);
-		if(clss != null) for (String cls: clss) {
+		if(clss != null && !clss.isEmpty()) for (String cls: clss) {
 			ICDIExtension ext = factory.createExtensionInstance(cls);
 			if(ext == null) continue;
-			//TODO initialize ext object.
 			instances.put(cls, ext);
-			for (String feature: CDIExtensionFactory.getInstance().getFeatures()) {
-				if(factory.getExtensionClassesByfeature(feature).contains(cls)) {
+			for (Class<?> feature: CDIExtensionFactory.getInstance().getFeatures()) {
+				if(factory.getExtensionClassesByFeature(feature).contains(cls)) {
 					Set<ICDIExtension> es = featureToExtensions.get(feature);
 					if(es == null) {
 						es = new HashSet<ICDIExtension>();
@@ -83,6 +91,7 @@ public class CDIExtensionManager {
 					es.add(ext);
 				}
 			}
+			featureStorage.clean();
 		}
 	}
 
@@ -91,8 +100,8 @@ public class CDIExtensionManager {
 		for (String cls: clss) {
 			ICDIExtension ext = instances.remove(cls);
 			if(ext != null) {
-				String[] is = featureToExtensions.keySet().toArray(new String[0]);
-				for (String feature: is) {
+				Class<?>[] is = featureToExtensions.keySet().toArray(new Class<?>[0]);
+				for (Class<?> feature: is) {
 					Set<ICDIExtension> es = featureToExtensions.get(feature);
 					if(es != null) {
 						es.remove(ext);
@@ -101,12 +110,47 @@ public class CDIExtensionManager {
 				}
 			}
 		}
+		if(!clss.isEmpty()) {
+			featureStorage.clean();
+		}
 	}
 
 	static Set<ICDIExtension> EMPTY = new HashSet<ICDIExtension>();
 
-	public Set<ICDIExtension> getExtensions(String feature) {
+	public Set<ICDIExtension> getExtensions(Class<?> feature) {
 		return featureToExtensions.containsKey(feature) ? featureToExtensions.get(feature) : EMPTY;
+	}
+
+	public Set<IBeanNameFeature> getBeanNameFeature() {
+		Set<IBeanNameFeature> result = featureStorage.beanName;
+		if(result == null) {
+			featureStorage.beanName = result = getFeature(IBeanNameFeature.class);
+		}
+		return result;
+	}
+
+	private <F extends Object> Set<F> getFeature(Class<F> cls) {
+		Set<F> result = new HashSet<F>();
+		Set<ICDIExtension> extensions = getExtensions(cls);
+		if(!extensions.isEmpty()) {
+			for (ICDIExtension ext: extensions) {
+				F feature = CDIExtensionFactory.adaptTo(ext, cls);
+				if(feature != null) {
+					result.add(feature);
+				}
+			}
+		}
+		return result;
+	}
+
+	class FeatureStorage {
+		Set<IBeanNameFeature> beanName = null;
+		
+		void clean() {
+			beanName = null;
+		}
+	
+	
 	}
 
 }

@@ -17,6 +17,7 @@ import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.JavaModelException;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.ICDIElement;
+import org.jboss.tools.cdi.core.extension.CDIExtensionManager;
 
 /**
  * 
@@ -29,6 +30,11 @@ public class CDIElement implements ICDIElement {
 
 	public CDIProject getCDIProject() {
 		return parent != null ? parent.getCDIProject() : null;
+	}
+
+	public CDIExtensionManager getExtensionManager() {
+		CDIProject project = getCDIProject();
+		return project == null ? null : project.getNature().getExtensionManager();
 	}
 
 	protected ParametedType getObjectType(IMember context) {

@@ -21,6 +21,7 @@ import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtensionPoint;
 import org.eclipse.core.runtime.Platform;
 import org.jboss.tools.cdi.core.CDICorePlugin;
+import org.jboss.tools.cdi.core.extension.feature.IBeanNameFeature;
 
 /**
  * Loads Eclipse extension point 'org.jboss.tools.cdi.core.cdiextensions'
@@ -29,12 +30,11 @@ import org.jboss.tools.cdi.core.CDICorePlugin;
  * Attributes:
  * 'runtime' - 	Qualified name of CDI runtime extension implementation class.
  * 'class' - 	Qualified name of JBoss Tools CDI model extension implementation class.
- * 'features' - It is not planned to add regular methods to this interface, 
+ * Implements:
+ * IAdaptable - It is not planned to add regular methods to ICDIExtension, 
  * 				all features that are to be provided by implementations, will be available 
  * 				through IAdaptable. In that way, adding to core support of a new feature 
  * 				will not require to implement new methods in existing extensions.
- * 				In order to efficiently request only relevant implementations, 
- * 				extensions must register supported features in this attribute.
  * 
  * @author Viacheslav Kabanovich
  *
@@ -42,6 +42,10 @@ import org.jboss.tools.cdi.core.CDICorePlugin;
 public class CDIExtensionFactory {
 	static CDIExtensionFactory factory = null;
 	public static String POINT_ID = "org.jboss.tools.cdi.core.cdiextensions";
+
+	public static Class<?>[] FEATURES = {
+		IBeanNameFeature.class
+	};
 	
 	public static CDIExtensionFactory getInstance() {
 		if(factory == null) {
@@ -59,7 +63,7 @@ public class CDIExtensionFactory {
 	/**
 	 * Maps features to fully qualified names of implementations of ICDIExtention.
 	 */
-	private Map<String, Set<String>> featureToDesign = new HashMap<String, Set<String>>();
+	private Map<Class<?>, Set<String>> featureToDesign = new HashMap<Class<?>, Set<String>>();
 
 	/**
 	 * Maps fully qualified names of implementations of ICDIExtention to their Class objects.
@@ -93,17 +97,17 @@ public class CDIExtensionFactory {
 				runtimeToDesign.put(runtime, classes);
 			}
 			classes.add(cls);
-
-			String features = c.getAttribute("features");
-			StringTokenizer st = new StringTokenizer(features, ",");
-			while(st.hasMoreTokens()) {
-				String feature = st.nextToken();
-				classes = featureToDesign.get(feature);
-				if(classes == null) {
-					classes = new HashSet<String>();
-					featureToDesign.put(feature, classes);
+			
+			for (Class<?> f: FEATURES) {
+				Object adapter = adaptTo(extension, f);
+				if(adapter != null) {
+					classes = featureToDesign.get(f);
+					if(classes == null) {
+						classes = new HashSet<String>();
+						featureToDesign.put(f, classes);
+					}
+					classes.add(cls);
 				}
-				classes.add(cls);
 			}
 		}
 	}
@@ -112,10 +116,10 @@ public class CDIExtensionFactory {
 		return runtimeToDesign.get(qualifiedName);
 	}
 
-	public Set<String> getFeatures() {
+	public Set<Class<?>> getFeatures() {
 		return featureToDesign.keySet();
 	}
-	public Set<String> getExtensionClassesByfeature(String featureName) {
+	public Set<String> getExtensionClassesByFeature(Class<?> featureName) {
 		return featureToDesign.get(featureName);
 	}
 
@@ -132,6 +136,15 @@ public class CDIExtensionFactory {
 		}
 		
 		return null;
+	}
+
+	static <F> F adaptTo(ICDIExtension extension, Class<F> feature) {
+		if(extension == null || feature == null) return null;
+		Class<?> cls = extension.getClass();
+		if(feature.isAssignableFrom(cls)) {
+			return (F)extension;
+		}
+		return (F)extension.getAdapter(feature);
 	}
 
 }

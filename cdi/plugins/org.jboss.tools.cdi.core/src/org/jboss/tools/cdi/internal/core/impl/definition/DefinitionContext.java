@@ -351,6 +351,10 @@ public class DefinitionContext {
 		}
 		return result;
 	}
+
+	public PackageDefinition getPackageDefinition(String packageName) {
+		return packageDefinitions.get(packageName);
+	}
 	
 }
 

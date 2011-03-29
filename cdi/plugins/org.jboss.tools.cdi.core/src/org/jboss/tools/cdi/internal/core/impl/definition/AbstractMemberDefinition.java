@@ -22,6 +22,7 @@ import org.eclipse.jdt.core.IAnnotation;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IType;
 import org.jboss.tools.cdi.core.CDIConstants;
+import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.IAnnotated;
 import org.jboss.tools.cdi.core.IAnnotationDeclaration;
@@ -38,6 +39,7 @@ import org.jboss.tools.common.text.ITextSourceReference;
  *
  */
 public abstract class AbstractMemberDefinition implements IAnnotated {
+	CDICoreNature project;
 	protected List<IAnnotationDeclaration> annotations = new ArrayList<IAnnotationDeclaration>();
 	protected IAnnotatable member;
 	protected Map<String, AnnotationDeclaration> annotationsByType = new HashMap<String, AnnotationDeclaration>();
@@ -62,7 +64,18 @@ public abstract class AbstractMemberDefinition implements IAnnotated {
 		return null;
 	}
 
+	public PackageDefinition getPackageDefinition() {
+		AbstractTypeDefinition t = getTypeDefinition();
+		if(t == null) return null;
+		String qn = t.getQualifiedName();
+		if(qn == null) return null;
+		int d = qn.lastIndexOf('.');
+		String packageName = (d < 0) ? "" : qn.substring(0, d);
+		return project.getDefinitions().getPackageDefinition(packageName);
+	}
+
 	protected void init(IType contextType, DefinitionContext context) throws CoreException {
+		project = context.getProject();
 		resource = ((IJavaElement)member).getResource();
 		IAnnotation[] ts = member.getAnnotations();
 		for (int i = 0; i < ts.length; i++) {
