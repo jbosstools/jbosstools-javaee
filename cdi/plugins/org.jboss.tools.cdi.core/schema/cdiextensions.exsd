@@ -66,13 +66,6 @@
                </documentation>
             </annotation>
          </attribute>
-         <attribute name="features" type="string">
-            <annotation>
-               <documentation>
-                  Comma separated list of ids of features supported by this cdi extension. This is an optimisation parameter that allows to access at a specific feature request only instances of extensions registered for that feature.
-               </documentation>
-            </annotation>
-         </attribute>
       </complexType>
    </element>
 
