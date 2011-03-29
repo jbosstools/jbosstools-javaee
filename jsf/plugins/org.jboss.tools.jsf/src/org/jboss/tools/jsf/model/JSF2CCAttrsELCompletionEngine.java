@@ -35,6 +35,7 @@ import org.jboss.tools.common.el.core.model.ELPropertyInvocation;
 import org.jboss.tools.common.el.core.parser.ELParser;
 import org.jboss.tools.common.el.core.parser.ELParserFactory;
 import org.jboss.tools.common.el.core.parser.ELParserUtil;
+import org.jboss.tools.common.el.core.parser.LexicalToken;
 import org.jboss.tools.common.el.core.resolver.ELContext;
 import org.jboss.tools.common.el.core.resolver.ELResolution;
 import org.jboss.tools.common.el.core.resolver.ELResolutionImpl;
@@ -192,7 +193,16 @@ public class JSF2CCAttrsELCompletionEngine extends AbstractELCompletionEngine<IV
 					resolution.setLastResolvedToken(left);
 
 					ELSegmentImpl segment = new ELSegmentImpl();
-					segment.setToken(left.getFirstToken());
+					// Combine left's tokens into a single token
+					LexicalToken token = left.getFirstToken();
+					String singleText = left.getText();
+					int start = token.getStart();
+					int type = token.getType();
+					int length = singleText.length();
+					
+					LexicalToken singleToken = new LexicalToken(start, length, singleText, type);
+					
+					segment.setToken(singleToken);
 					segment.setResolved(true);
 					resolution.addSegment(segment);
 

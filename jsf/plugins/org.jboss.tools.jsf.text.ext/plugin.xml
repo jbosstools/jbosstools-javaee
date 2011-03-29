@@ -907,6 +907,27 @@
 		</hyperlinkPartitioner -->
 
 		<hyperlinkPartitioner 
+         	id="org.jboss.tools.jsf.text.ext.hyperlink.JSF2CCAttrsOpenOnPartitioner"
+         	class="org.jboss.tools.jsf.text.ext.hyperlink.JSF2CCAttrsHyperlinkPartitioner">
+         	<contentType id="org.eclipse.jst.jsp.core.jspsource">
+         		<partitionType id="org.jboss.tools.common.text.ext.jsp.JSP_EXPRESSION" />
+         	</contentType>
+         	<!-- these CTs were copied from the JsfJSPBundleHyperlinkPartitioner -->
+         	<contentType id="org.eclipse.wst.html.core.htmlsource">
+         		<partitionType id="org.jboss.tools.common.text.ext.jsp.JSP_EXPRESSION" />
+         	</contentType>
+         	<contentType id="jsf.facelet">
+         		<partitionType id="org.jboss.tools.common.text.ext.jsp.JSP_EXPRESSION" />
+         	</contentType>
+         	<contentType id="jsf.facelet.composite">
+         		<partitionType id="org.jboss.tools.common.text.ext.jsp.JSP_EXPRESSION" />
+         	</contentType>
+         	<contentType id="org.jboss.tools.jst.jsp.jspincludesource">
+         		<partitionType id="org.jboss.tools.common.text.ext.jsp.JSP_EXPRESSION" />
+         	</contentType>
+		</hyperlinkPartitioner>
+
+		<hyperlinkPartitioner 
          	id="org.jboss.tools.common.text.ext.jsf.hyperlink.JSPClassHyperlinkPartitioner"
          	class="org.jboss.tools.jst.text.ext.hyperlink.jsp.JSPClassHyperlinkPartitioner">
          	<contentType id="org.eclipse.jst.jsp.core.jspsource">
@@ -1207,6 +1228,26 @@
 			</contenttypeidentifier>
 			<contenttypeidentifier id="org.jboss.tools.jst.jsp.jspincludesource">
             	<partitiontype id="org.jboss.tools.common.text.ext.jsp.JSP_BUNDLE" />
+			</contenttypeidentifier>
+		</hyperlink>
+		
+		<hyperlink 
+			class="org.jboss.tools.jsf.text.ext.hyperlink.JSF2CCAttrsHyperlink" 
+			id="org.jboss.tools.jsf.text.ext.hyperlink.JSF2CCAttrsHyperlink">
+			<contenttypeidentifier id="org.eclipse.jst.jsp.core.jspsource">
+            	<partitiontype id="org.jboss.tools.common.text.ext.jsp.JSF2_CC_ATTRIBUTE" />
+			</contenttypeidentifier>
+			<contenttypeidentifier id="org.eclipse.wst.html.core.htmlsource">
+            	<partitiontype id="org.jboss.tools.common.text.ext.jsp.JSF2_CC_ATTRIBUTE" />
+			</contenttypeidentifier>
+			<contenttypeidentifier id="jsf.facelet">
+            	<partitiontype id="org.jboss.tools.common.text.ext.jsp.JSF2_CC_ATTRIBUTE" />
+			</contenttypeidentifier>
+			<contenttypeidentifier id="jsf.facelet.composite">
+            	<partitiontype id="org.jboss.tools.common.text.ext.jsp.JSF2_CC_ATTRIBUTE" />
+			</contenttypeidentifier>
+			<contenttypeidentifier id="org.jboss.tools.jst.jsp.jspincludesource">
+            	<partitiontype id="org.jboss.tools.common.text.ext.jsp.JSF2_CC_ATTRIBUTE" />
 			</contenttypeidentifier>
 		</hyperlink>
 		
