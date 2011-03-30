@@ -42,7 +42,7 @@ public class JSFTemplateTest extends TestCase {
 		assertEquals("3.0", preferredVersion);
 		
 		String[] templateList = template.getTemplateList(JSF_2_0);
-		assertEquals(1, templateList.length);
+		assertEquals(3, templateList.length);
 		assertEquals("JSFKickStartWithoutLibs", templateList[0]);
 		
 		String s = v.getProjectTemplatesLocation();
