@@ -15,6 +15,7 @@ import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IPackageDeclaration;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
+import org.jboss.tools.common.util.EclipseJavaUtil;
 
 /**
  * 
@@ -31,6 +32,7 @@ public class PackageDefinition extends AbstractMemberDefinition {
 	}
 
 	public void setPackage(IPackageDeclaration pkg, DefinitionContext context) {
+		qualifiedName = pkg.getElementName();
 		IType contextType = null;
 		ICompilationUnit u = null;
 		if(pkg.getParent() instanceof ICompilationUnit) {
@@ -50,5 +52,36 @@ public class PackageDefinition extends AbstractMemberDefinition {
 			}
 		}
 	}
+
+	public String resolveType(String typeName) {
+		String result = typeName;
+		IPackageDeclaration pkg = (IPackageDeclaration)member;
+		IType contextType = null;
+		ICompilationUnit u = null;
+		if(pkg.getParent() instanceof ICompilationUnit) {
+			try {
+				u = ((ICompilationUnit)pkg.getParent()).getWorkingCopy(new NullProgressMonitor());
+				contextType = u.createType("class A {}", null, false, new NullProgressMonitor());
+			} catch (JavaModelException e) {
+				
+			}
+		}
+		
+		if(contextType != null) {
+			result = EclipseJavaUtil.resolveType(contextType, typeName);
+		}
+		
+		if (u != null) {
+			try {
+				u.discardWorkingCopy();
+			} catch (JavaModelException e) {
+				
+			}
+		}
+		
+		return result == null ? typeName : result;
+	}
+
+	
 
 }

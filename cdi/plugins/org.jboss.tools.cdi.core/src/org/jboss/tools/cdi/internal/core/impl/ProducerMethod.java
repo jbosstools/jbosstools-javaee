@@ -29,10 +29,12 @@ import org.jboss.tools.cdi.core.IScopeDeclaration;
 import org.jboss.tools.cdi.core.IStereotype;
 import org.jboss.tools.cdi.core.IStereotypeDeclaration;
 import org.jboss.tools.cdi.core.ITypeDeclaration;
+import org.jboss.tools.cdi.core.extension.feature.IBeanNameFeature;
 import org.jboss.tools.cdi.internal.core.impl.definition.MethodDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.ParameterDefinition;
 import org.jboss.tools.common.model.project.ext.impl.ValueInfo;
 import org.jboss.tools.common.text.ITextSourceReference;
+import org.jboss.tools.common.util.BeanUtil;
 
 /**
  * 
@@ -120,6 +122,15 @@ public class ProducerMethod extends BeanMethod implements IProducerMethod {
 		if(specialized != null) {
 			return specialized.getName();
 		}
+
+		Set<IBeanNameFeature> fs = getExtensionManager().getBeanNameFeature();
+		if(fs != null) for (IBeanNameFeature f: fs) {
+			String result = f.computeBeanName(this);
+			if(result != null) {
+				return result;
+			}
+		}
+	
 		AnnotationDeclaration named = findNamedAnnotation();
 		if(named == null) return null;
 
@@ -129,10 +140,8 @@ public class ProducerMethod extends BeanMethod implements IProducerMethod {
 		try {
 			IMemberValuePair[] vs = a.getMemberValuePairs();
 			if(vs == null || vs.length == 0) {
-				if(name.startsWith("get") && name.length() > 3) {
-					return name.substring(3, 4).toLowerCase() + name.substring(4);
-				} else if(name.startsWith("is") && name.length() > 2) {
-					return name.substring(2, 3).toLowerCase() + name.substring(3);
+				if(BeanUtil.isGetter(getMethod())) {
+					return BeanUtil.getPropertyName(name);
 				}
 			} else {
 				Object value = vs[0].getValue();
