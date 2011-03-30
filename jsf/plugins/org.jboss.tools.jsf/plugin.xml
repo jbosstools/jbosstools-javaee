@@ -440,6 +440,22 @@
          <public 
          	publicId="-//Sun Microsystems, Inc.//DTD Facelet Taglib 1.0//EN" 
          	uri="platform:/plugin/org.jboss.tools.jsf/dtds/facelet-taglib_1_0.dtd"/>
+         	
+         <uri 
+            name="http://jboss.org/schema/richfaces/cdk/core" 
+            uri="platform:/plugin/org.jboss.tools.jsf/schemas/cdk-template.xsd"/>
+         <uri 
+            name="http://jboss.org/schema/richfaces/cdk/ext" 
+            uri="platform:/plugin/org.jboss.tools.jsf/schemas/cdk-extensions.xsd"/>
+         <uri 
+            name="http://jboss.org/schema/richfaces/cdk/jsf/composite" 
+            uri="platform:/plugin/org.jboss.tools.jsf/schemas/cdk-composite.xsd"/>
+         <uri 
+            name="http://jboss.org/schema/richfaces/cdk/jstl/core" 
+            uri="platform:/plugin/org.jboss.tools.jsf/schemas/cdk-jstl-core.xsd"/>
+         <uri 
+            name="http://jboss.org/schema/richfaces/cdk/xhtml-el" 
+            uri="platform:/plugin/org.jboss.tools.jsf/schemas/xhtml-el.xsd"/>
       </catalogContribution>
   </extension>
 
