@@ -36,13 +36,6 @@
       <jspAdopt class="org.jboss.tools.jsf.model.handlers.JSPAdopt"/>
    </extension>
    
-   
-   	<extension
-		point="org.eclipse.wst.xml.core.catalogContributions">
-		<catalogContribution id="default">
-		</catalogContribution>
-	</extension>
-	
    <extension
          point="org.eclipse.ltk.core.refactoring.renameParticipants">
       <renameParticipant
