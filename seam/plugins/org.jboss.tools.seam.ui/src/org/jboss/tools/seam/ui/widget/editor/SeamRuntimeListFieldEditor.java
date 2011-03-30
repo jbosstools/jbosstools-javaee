@@ -66,6 +66,7 @@ import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.SeamUtil;
 import org.jboss.tools.seam.core.project.facet.SeamRuntime;
+import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
 import org.jboss.tools.seam.core.project.facet.SeamVersion;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
 import org.jboss.tools.seam.ui.SeamUIMessages;
@@ -170,6 +171,31 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor {
 	 */
 	public List<SeamRuntime> getRemoved() {
 		return removed;
+	}
+
+	public void performApply() {
+		for (SeamRuntime rt : getAddedSeamRuntimes()) {
+			SeamRuntimeManager.getInstance().addRuntime(rt);
+		}
+		getAddedSeamRuntimes().clear();
+		for (SeamRuntime rt : getRemoved()) {
+			SeamRuntimeManager.getInstance().removeRuntime(rt);
+		}
+		getRemoved().clear();
+		Map<SeamRuntime, SeamRuntime> changed = getChangedSeamRuntimes();
+		for (SeamRuntime c : changed.keySet()) {
+			SeamRuntime o = changed.get(c);
+			o.setHomeDir(c.getHomeDir());
+			o.setVersion(c.getVersion());
+			String oldName = o.getName();
+			String newName = c.getName();
+			if (!oldName.equals(newName)) {
+				SeamRuntimeManager.getInstance().changeRuntimeName(oldName, newName);
+			}
+		}
+		getChangedSeamRuntimes().clear();
+
+		SeamRuntimeManager.getInstance().save();
 	}
 
 	/**
@@ -806,7 +832,7 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor {
 			}
 			if (added.contains(source) || changed.containsKey(source)) {
 				source.setName(rt.getName());
-				source.setHomeDir(rt.getName());
+				source.setHomeDir(rt.getHomeDir());
 				source.setVersion(rt.getVersion());
 			} else {
 				changed.put(rt, source);
@@ -1031,6 +1057,7 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor {
 			dialog.open();
 			tableView.refresh();
 			setDefaultRuntimes();
+			performApply();
 		}
 		
 		public void run(String name, String version) {
@@ -1046,6 +1073,7 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor {
 			dialog.open();
 			tableView.refresh();
 			setDefaultRuntimes();
+			performApply();
 		}
 	}
 
@@ -1096,6 +1124,7 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor {
 					tableView.setSelection(new StructuredSelection(c));
 				}
 			}
+			performApply();
 		}
 
 		private SeamRuntime findChangedRuntime(SeamRuntime source) {
@@ -1140,6 +1169,7 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor {
 			}
 			tableView.refresh();
 			setDefaultRuntimes();
+			performApply();
 		}
 
 		private void removeRuntime(SeamRuntime r) {
