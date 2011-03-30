@@ -14,7 +14,6 @@ package org.jboss.tools.seam.ui.preferences;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.swt.SWT;
@@ -67,7 +66,6 @@ public class SeamPreferencePage extends PreferencePage implements IWorkbenchPref
 		GridLayout gl = new GridLayout(COLUMNS, false);
 		root.setLayout(gl);
 		seamRuntimes.doFillIntoGrid(root);
-
 		return root;
 	}
 
@@ -86,14 +84,6 @@ public class SeamPreferencePage extends PreferencePage implements IWorkbenchPref
 	 */
 	@Override
 	protected void performApply() {
-		for (SeamRuntime rt : seamRuntimes.getAddedSeamRuntimes()) {
-			SeamRuntimeManager.getInstance().addRuntime(rt);
-		}
-		seamRuntimes.getAddedSeamRuntimes().clear();
-		for (SeamRuntime rt : seamRuntimes.getRemoved()) {
-			SeamRuntimeManager.getInstance().removeRuntime(rt);
-		}
-		seamRuntimes.getRemoved().clear();
 		List<SeamRuntime> defaultRuntimes = seamRuntimes.getDefaultSeamRuntimes();
 		// reset all default runtimes 
 		for (SeamRuntime seamRuntime : SeamRuntimeManager.getInstance().getRuntimes()) {
@@ -104,19 +94,6 @@ public class SeamPreferencePage extends PreferencePage implements IWorkbenchPref
 			seamRuntime.setDefault(true);
 		}
 		seamRuntimes.getDefaultSeamRuntimes().clear();
-		Map<SeamRuntime, SeamRuntime> changed = seamRuntimes.getChangedSeamRuntimes();
-		for (SeamRuntime c : changed.keySet()) {
-			SeamRuntime o = changed.get(c);
-			o.setHomeDir(c.getHomeDir());
-			o.setVersion(c.getVersion());
-			String oldName = o.getName();
-			String newName = c.getName();
-			if (!oldName.equals(newName)) {
-				SeamRuntimeManager.getInstance().changeRuntimeName(oldName, newName);
-			}
-		}
-		seamRuntimes.getChangedSeamRuntimes().clear();
-
 		SeamRuntimeManager.getInstance().save();
 	}
 
