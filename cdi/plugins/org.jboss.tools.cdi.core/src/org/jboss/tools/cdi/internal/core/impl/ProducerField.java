@@ -10,15 +10,13 @@
  ******************************************************************************/ 
 package org.jboss.tools.cdi.internal.core.impl;
 
+
 import java.util.HashSet;
 import java.util.Set;
 
-import org.eclipse.jdt.core.IAnnotation;
 import org.eclipse.jdt.core.IMemberValuePair;
 import org.eclipse.jdt.core.IType;
-import org.eclipse.jdt.core.JavaModelException;
 import org.jboss.tools.cdi.core.CDIConstants;
-import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.IAnnotationDeclaration;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IInjectionPoint;
@@ -30,7 +28,6 @@ import org.jboss.tools.cdi.core.IStereotype;
 import org.jboss.tools.cdi.core.IStereotypeDeclaration;
 import org.jboss.tools.cdi.core.ITypeDeclaration;
 import org.jboss.tools.cdi.core.extension.feature.IBeanNameFeature;
-import org.jboss.tools.common.model.project.ext.impl.ValueInfo;
 import org.jboss.tools.common.text.ITextSourceReference;
 
 /**
@@ -106,29 +103,20 @@ public class ProducerField extends BeanField implements IProducerField {
 		if(named == null) return null;
 
 		String name = getField().getElementName();
-		IAnnotation a = named.getDeclaration();
-		try {
-			IMemberValuePair[] vs = a.getMemberValuePairs();
-			if(vs == null || vs.length == 0) {
-				return name;
-			} else {
-				Object value = vs[0].getValue();
-				if(value != null && value.toString().trim().length() > 0) {
-					return value.toString().trim();
-				}
+		IMemberValuePair[] vs = named.getMemberValuePairs();
+		if(vs == null || vs.length == 0) {
+			return name;
+		} else {
+			Object value = vs[0].getValue();
+			if(value != null && value.toString().trim().length() > 0) {
+				return value.toString().trim();
 			}
-		} catch (JavaModelException e) {
-			CDICorePlugin.getDefault().logError(e);
 		}
 		return name;
 	}
 
 	public ITextSourceReference getNameLocation() {
-		AnnotationDeclaration named = findNamedAnnotation();
-		if(named != null) {
-			return ValueInfo.getValueInfo(named.getDeclaration(), null);
-		}
-		return null;
+		return findNamedAnnotation();
 	}
 
 	public IBean getSpecializedBean() {

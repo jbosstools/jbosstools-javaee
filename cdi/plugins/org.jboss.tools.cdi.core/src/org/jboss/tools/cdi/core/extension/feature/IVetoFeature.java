@@ -10,20 +10,13 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.core.extension.feature;
 
-import org.jboss.tools.cdi.core.IBean;
-
 /**
  * This feature corresponds to runtime feature
- * javax.enterprise.inject.spi.ProcessAnnotatedType.setAnnotatedType()
- *
- * This feature is invoked by bean when it computes its name.
- * The first non-null value is accepted.
+ * javax.enterprise.inject.spi.ProcessAnnotatedType.veto()
  * 
  * @author Viacheslav Kabanovich
  *
  */
-public interface IBeanNameFeature {
-	public static String ID = "org.jboss.tools.cdi.core.extension.feature.IBeanNameFeature";
+public interface IVetoFeature {
 
-	public String computeBeanName(IBean bean);
 }

@@ -10,8 +10,8 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.core;
 
-import org.eclipse.jdt.core.IAnnotation;
 import org.eclipse.jdt.core.IMember;
+import org.eclipse.jdt.core.IMemberValuePair;
 import org.eclipse.jdt.core.IType;
 import org.jboss.tools.common.text.ITextSourceReference;
 
@@ -28,7 +28,9 @@ public interface IAnnotationDeclaration extends ITextSourceReference {
 	 * 
 	 * @return the annotation declaration.
 	 */
-	IAnnotation getDeclaration();
+//	IAnnotation getDeclaration();
+
+	IMemberValuePair[] getMemberValuePairs();
 
 	/**
 	 * Returns the member which is annotated by this declaration.

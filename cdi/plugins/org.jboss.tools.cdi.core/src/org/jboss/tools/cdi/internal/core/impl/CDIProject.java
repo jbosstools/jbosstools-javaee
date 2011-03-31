@@ -10,6 +10,7 @@
  ******************************************************************************/ 
 package org.jboss.tools.cdi.internal.core.impl;
 
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -27,7 +28,6 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.Flags;
-import org.eclipse.jdt.core.IAnnotation;
 import org.eclipse.jdt.core.IMemberValuePair;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IType;
@@ -516,7 +516,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 			result.append(type.getFullyQualifiedName());
 		if(ms != null && ms.length > 0) {
 			TreeMap<String, String> values = new TreeMap<String, String>();
-			IMemberValuePair[] ps = d.getDeclaration().getMemberValuePairs();
+			IMemberValuePair[] ps = d.getMemberValuePairs();
 			if (ps != null) for (IMemberValuePair p: ps) {
 				String n = p.getMemberName();
 				Object o = p.getValue();
@@ -732,17 +732,12 @@ public class CDIProject extends CDIElement implements ICDIProject {
 			if(a instanceof AnnotationDeclaration) {
 				AnnotationDeclaration aa = (AnnotationDeclaration)a;
 				if(CDIConstants.NORMAL_SCOPE_ANNOTATION_TYPE_NAME.equals(aa.getTypeName())) {
-					IAnnotation ann = a.getDeclaration();
-					try {
-						IMemberValuePair[] ps = ann.getMemberValuePairs();
-						if(ps != null) for (IMemberValuePair p: ps) {
-							if("passivating".equals(p.getMemberName())) {
-								Object o = p.getValue();
-								return o != null && "true".equalsIgnoreCase(o.toString());
-							}
+					IMemberValuePair[] ps = a.getMemberValuePairs();
+					if(ps != null) for (IMemberValuePair p: ps) {
+						if("passivating".equals(p.getMemberName())) {
+							Object o = p.getValue();
+							return o != null && "true".equalsIgnoreCase(o.toString());
 						}
-					} catch (JavaModelException e) {
-						CDICorePlugin.getDefault().logError(e);
 					}
 					return false;
 				}

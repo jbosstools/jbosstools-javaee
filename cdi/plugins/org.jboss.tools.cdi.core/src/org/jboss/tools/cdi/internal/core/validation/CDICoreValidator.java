@@ -10,6 +10,7 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.internal.core.validation;
 
+
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -1322,20 +1323,16 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 		} else if (injection instanceof IInjectionPointMethod) {
 			IAnnotationDeclaration named = injection.getAnnotation(CDIConstants.NAMED_QUALIFIER_TYPE_NAME);
 			if (named != null) {
-				try {
-					IMemberValuePair[] values = named.getDeclaration().getMemberValuePairs();
-					boolean valueExists = false;
-					for (IMemberValuePair pair : values) {
-						if ("value".equals(pair.getMemberName())) {
-							valueExists = true;
-							break;
-						}
+				IMemberValuePair[] values = named.getMemberValuePairs();
+				boolean valueExists = false;
+				for (IMemberValuePair pair : values) {
+					if ("value".equals(pair.getMemberName())) {
+						valueExists = true;
+						break;
 					}
-					if (!valueExists) {
-						addError(CDIValidationMessages.PARAM_INJECTION_DECLARES_EMPTY_NAME, CDIPreferences.PARAM_INJECTION_DECLARES_EMPTY_NAME, named, injection.getResource());
-					}
-				} catch (JavaModelException e) {
-					CDICorePlugin.getDefault().logError(e);
+				}
+				if (!valueExists) {
+					addError(CDIValidationMessages.PARAM_INJECTION_DECLARES_EMPTY_NAME, CDIPreferences.PARAM_INJECTION_DECLARES_EMPTY_NAME, named, injection.getResource());
 				}
 			}
 
@@ -1737,30 +1734,27 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 			IScope scope = bean.getScope();
 			if(scope!=null && scope.isNorlmalScope()) {
 				IAnnotationDeclaration normalScopeDeclaration = scope.getAnnotationDeclaration(CDIConstants.NORMAL_SCOPE_ANNOTATION_TYPE_NAME);
-				if(normalScopeDeclaration!=null) {
-					IAnnotation annt = normalScopeDeclaration.getDeclaration();
-					if(annt!=null) {
-						boolean passivatingScope = false;
-						IMemberValuePair[] pairs = annt.getMemberValuePairs();
-						for (IMemberValuePair pair : pairs) {
-							if("passivating".equals(pair.getMemberName()) && "true".equalsIgnoreCase("" + pair.getValue())) {
-								passivatingScope = true;
+				if(normalScopeDeclaration != null) {
+					boolean passivatingScope = false;
+					IMemberValuePair[] pairs = normalScopeDeclaration.getMemberValuePairs();
+					for (IMemberValuePair pair : pairs) {
+						if("passivating".equals(pair.getMemberName()) && "true".equalsIgnoreCase("" + pair.getValue())) {
+							passivatingScope = true;
+							break;
+						}
+					}
+					if(passivatingScope) {
+						boolean passivatingCapable = false;
+						Set<IParametedType> supers = bean.getAllTypes();
+						for (IParametedType type : supers) {
+							if("java.io.Serializable".equals(type.getType().getFullyQualifiedName())) {
+								passivatingCapable = true;
 								break;
 							}
 						}
-						if(passivatingScope) {
-							boolean passivatingCapable = false;
-							Set<IParametedType> supers = bean.getAllTypes();
-							for (IParametedType type : supers) {
-								if("java.io.Serializable".equals(type.getType().getFullyQualifiedName())) {
-									passivatingCapable = true;
-									break;
-								}
-							}
-							if(!passivatingCapable) {
-								ITextSourceReference reference = CDIUtil.convertToSourceReference(bean.getBeanClass().getNameRange());
-								addError(MessageFormat.format(CDIValidationMessages.NOT_PASSIVATION_CAPABLE_BEAN, bean.getSimpleJavaName(), scope.getSourceType().getElementName()), CDIPreferences.NOT_PASSIVATION_CAPABLE_BEAN, reference, bean.getResource(), NOT_PASSIVATION_CAPABLE_BEAN_ID);
-							}
+						if(!passivatingCapable) {
+							ITextSourceReference reference = CDIUtil.convertToSourceReference(bean.getBeanClass().getNameRange());
+							addError(MessageFormat.format(CDIValidationMessages.NOT_PASSIVATION_CAPABLE_BEAN, bean.getSimpleJavaName(), scope.getSourceType().getElementName()), CDIPreferences.NOT_PASSIVATION_CAPABLE_BEAN, reference, bean.getResource(), NOT_PASSIVATION_CAPABLE_BEAN_ID);
 						}
 					}
 				}
@@ -1832,31 +1826,27 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 				boolean markedAsWrong = false;
 				IAnnotationDeclaration target = binding.getAnnotationDeclaration(CDIConstants.TARGET_ANNOTATION_TYPE_NAME);
 				if(target!=null) {
-					try {
-						IMemberValuePair[] ps = target.getDeclaration().getMemberValuePairs();
-						if (ps != null && ps.length==1) {
-							IMemberValuePair pair = ps[0];
-							Object value = pair.getValue();
-							if(value != null && value instanceof Object[]) {
-								Object[] values = (Object[]) value;
-								if(values.length>1) {
-									Set<IBeanMethod> methods = interceptor.getAllMethods();
-									for (IBeanMethod method : methods) {
-										if(method.isLifeCycleCallbackMethod()) {
-											ITextSourceReference declaration = CDIUtil.getAnnotationDeclaration(interceptor, binding);
-											if(declaration==null) {
-												declaration = interceptor.getInterceptorAnnotation();
-											}
-											addError(CDIValidationMessages.ILLEGAL_LIFECYCLE_CALLBACK_INTERCEPTOR_BINDING, CDIPreferences.ILLEGAL_LIFECYCLE_CALLBACK_INTERCEPTOR_BINDING, declaration, interceptor.getResource());
-											markedAsWrong = true;
-											break;
+					IMemberValuePair[] ps = target.getMemberValuePairs();
+					if (ps != null && ps.length==1) {
+						IMemberValuePair pair = ps[0];
+						Object value = pair.getValue();
+						if(value != null && value instanceof Object[]) {
+							Object[] values = (Object[]) value;
+							if(values.length>1) {
+								Set<IBeanMethod> methods = interceptor.getAllMethods();
+								for (IBeanMethod method : methods) {
+									if(method.isLifeCycleCallbackMethod()) {
+										ITextSourceReference declaration = CDIUtil.getAnnotationDeclaration(interceptor, binding);
+										if(declaration==null) {
+											declaration = interceptor.getInterceptorAnnotation();
 										}
+										addError(CDIValidationMessages.ILLEGAL_LIFECYCLE_CALLBACK_INTERCEPTOR_BINDING, CDIPreferences.ILLEGAL_LIFECYCLE_CALLBACK_INTERCEPTOR_BINDING, declaration, interceptor.getResource());
+										markedAsWrong = true;
+										break;
 									}
 								}
 							}
 						}
-					} catch (JavaModelException e) {
-						CDICorePlugin.getDefault().logError(e);
 					}
 				}
 				if(markedAsWrong) {
@@ -2166,12 +2156,7 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 		// 1. non-empty name
 		IAnnotationDeclaration nameDeclaration = stereotype.getNameDeclaration();
 		if (nameDeclaration != null) {
-			IMemberValuePair[] ps = null;
-			try {
-				ps = nameDeclaration.getDeclaration().getMemberValuePairs();
-			} catch (JavaModelException e) {
-				CDICorePlugin.getDefault().logError(e);
-			}
+			IMemberValuePair[] ps = nameDeclaration.getMemberValuePairs();
 			if (ps != null && ps.length > 0) {
 				Object name = ps[0].getValue();
 				if (name != null && name.toString().length() > 0) {

@@ -11,6 +11,7 @@
 package org.jboss.tools.cdi.internal.core.impl;
 
 
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -19,7 +20,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.eclipse.jdt.core.IAnnotation;
 import org.eclipse.jdt.core.IMemberValuePair;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
@@ -331,27 +331,18 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 			name = name.substring(0, 1).toLowerCase() + name.substring(1);
 		}
 
-		IAnnotation a = named.getDeclaration();
-		try {
-			IMemberValuePair[] vs = a.getMemberValuePairs();
-			if(vs != null && vs.length > 0) {
-				Object value = vs[0].getValue();
-				if(value != null && value.toString().trim().length() > 0) {
-					return value.toString().trim();
-				}
+		IMemberValuePair[] vs = named.getMemberValuePairs();
+		if(vs != null && vs.length > 0) {
+			Object value = vs[0].getValue();
+			if(value != null && value.toString().trim().length() > 0) {
+				return value.toString().trim();
 			}
-		} catch (JavaModelException e) {
-			CDICorePlugin.getDefault().logError(e);
 		}
 		return name;
 	}
 
 	public ITextSourceReference getNameLocation() {
-		AnnotationDeclaration named = getDefinition().getNamedAnnotation();
-		if(named != null) {
-			return ValueInfo.getValueInfo(named.getDeclaration(), null);
-		}
-		return null;
+		return getDefinition().getNamedAnnotation();
 	}
 
 	public ClassBean getSpecializedBean() {

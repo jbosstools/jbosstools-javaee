@@ -10,8 +10,10 @@
  ******************************************************************************/ 
 package org.jboss.tools.cdi.internal.core.impl;
 
+import org.eclipse.core.resources.IResource;
 import org.eclipse.jdt.core.IAnnotation;
 import org.eclipse.jdt.core.IMember;
+import org.eclipse.jdt.core.IMemberValuePair;
 import org.eclipse.jdt.core.ISourceRange;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
@@ -65,9 +67,30 @@ public class AnnotationDeclaration implements IAnnotationDeclaration {
 		}
 	}
 
-	public IAnnotation getDeclaration() {
-		return annotation;
+//	public IAnnotation getDeclaration() {
+//		return annotation;
+//	}
+
+	public IResource getResource() {
+		if(annotation != null) {
+			return annotation.getResource();
+		}
+		//TODO
+		return null;
 	}
+
+	public IMemberValuePair[] getMemberValuePairs() {
+		if(annotation != null) {
+			try {
+				return annotation.getMemberValuePairs();
+			} catch (JavaModelException e) {
+				CDICorePlugin.getDefault().logError(e);
+			}
+		}
+		//
+		return new IMemberValuePair[0];
+	}
+
 
 	public IMember getParentMember() {
 		return (IMember)annotation.getParent();
@@ -82,10 +105,28 @@ public class AnnotationDeclaration implements IAnnotationDeclaration {
 	}
 
 	public int getLength() {
+		//while annotation is available, it can be updated, we should take actual value.
+		if(annotation != null) try {
+			ISourceRange range = annotation.getSourceRange();
+			if(range != null) {
+				return length = range.getLength();
+			}
+		} catch (JavaModelException e) {
+			CDICorePlugin.getDefault().logError(e);
+		}
 		return length;
 	}
 
 	public int getStartPosition() {
+		//while annotation is available, it can be updated, we should take actual value.
+		if(annotation != null) try {
+			ISourceRange range = annotation.getSourceRange();
+			if(range != null) {
+				return startPosition = range.getOffset();
+			}
+		} catch (JavaModelException e) {
+			CDICorePlugin.getDefault().logError(e);
+		}
 		return startPosition;
 	}
 

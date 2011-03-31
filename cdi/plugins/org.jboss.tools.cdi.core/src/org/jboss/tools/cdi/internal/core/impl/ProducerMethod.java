@@ -10,15 +10,13 @@
  ******************************************************************************/ 
 package org.jboss.tools.cdi.internal.core.impl;
 
+
 import java.util.HashSet;
 import java.util.Set;
 
-import org.eclipse.jdt.core.IAnnotation;
 import org.eclipse.jdt.core.IMemberValuePair;
 import org.eclipse.jdt.core.IType;
-import org.eclipse.jdt.core.JavaModelException;
 import org.jboss.tools.cdi.core.CDIConstants;
-import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.IAnnotationDeclaration;
 import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.core.IParametedType;
@@ -32,7 +30,6 @@ import org.jboss.tools.cdi.core.ITypeDeclaration;
 import org.jboss.tools.cdi.core.extension.feature.IBeanNameFeature;
 import org.jboss.tools.cdi.internal.core.impl.definition.MethodDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.ParameterDefinition;
-import org.jboss.tools.common.model.project.ext.impl.ValueInfo;
 import org.jboss.tools.common.text.ITextSourceReference;
 import org.jboss.tools.common.util.BeanUtil;
 
@@ -136,31 +133,22 @@ public class ProducerMethod extends BeanMethod implements IProducerMethod {
 
 		String name = getMethod().getElementName();
 
-		IAnnotation a = named.getDeclaration();
-		try {
-			IMemberValuePair[] vs = a.getMemberValuePairs();
-			if(vs == null || vs.length == 0) {
-				if(BeanUtil.isGetter(getMethod())) {
-					return BeanUtil.getPropertyName(name);
-				}
-			} else {
-				Object value = vs[0].getValue();
-				if(value != null && value.toString().trim().length() > 0) {
-					return value.toString().trim();
-				}
+		IMemberValuePair[] vs = named.getMemberValuePairs();
+		if(vs == null || vs.length == 0) {
+			if(BeanUtil.isGetter(getMethod())) {
+				return BeanUtil.getPropertyName(name);
 			}
-		} catch (JavaModelException e) {
-			CDICorePlugin.getDefault().logError(e);
+		} else {
+			Object value = vs[0].getValue();
+			if(value != null && value.toString().trim().length() > 0) {
+				return value.toString().trim();
+			}
 		}
 		return name;
 	}
 
 	public ITextSourceReference getNameLocation() {
-		AnnotationDeclaration named = findNamedAnnotation();
-		if(named != null) {
-			return ValueInfo.getValueInfo(named.getDeclaration(), null);
-		}
-		return null;
+		return findNamedAnnotation();
 	}
 
 	public void setSpecializedBean(ProducerMethod other) {

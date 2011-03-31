@@ -10,6 +10,7 @@
  ******************************************************************************/ 
 package org.jboss.tools.cdi.internal.core.impl;
 
+
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -19,10 +20,8 @@ import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.jdt.core.IAnnotation;
 import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.IMemberValuePair;
-import org.eclipse.jdt.core.ISourceRange;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.Signature;
 import org.jboss.tools.cdi.core.CDIConstants;
@@ -265,21 +264,21 @@ public class AbstractBeanElement extends CDIElement implements IAnnotated {
 		Set<ITypeDeclaration> result = new HashSet<ITypeDeclaration>();
 		AnnotationDeclaration typed = getDefinition().getTypedAnnotation();
 		if(typed != null) {
-			IAnnotation a = typed.getDeclaration();
+			int s = typed.getStartPosition();
+			int l = typed.getLength();
 			try {
-				ISourceRange r = a.getSourceRange();
 				String txt = null;
-				if(r != null && a.getResource() instanceof IFile) {
+				if(s >= 0 && typed.getResource() instanceof IFile) {
 					AbstractTypeDefinition td = getDefinition().getTypeDefinition();
 					if(td != null) {
 						String content = td.getContent();
-						if(content != null && content.length() > r.getOffset() + r.getLength()) {
-							txt = content.substring(r.getOffset(), r.getOffset() + r.getLength());
+						if(content != null && content.length() > s + l) {
+							txt = content.substring(s, s + l);
 						}
 					}					
 				}
 				
-				IMemberValuePair[] ps = a.getMemberValuePairs();
+				IMemberValuePair[] ps = typed.getMemberValuePairs();
 				if(ps == null || ps.length == 0) return result;
 				IMember member = (IMember)definition.getMember();
 				IType declaringType = member instanceof IType ? (IType)member : member.getDeclaringType();
@@ -297,7 +296,7 @@ public class AbstractBeanElement extends CDIElement implements IAnnotated {
 							if(txt != null) {
 								int q = txt.indexOf(rawTypeName);
 								if(q >= 0) {
-									offset = r.getOffset() + q;
+									offset = s + q;
 									length = rawTypeName.length();
 								}
 							}
@@ -323,7 +322,7 @@ public class AbstractBeanElement extends CDIElement implements IAnnotated {
 						if(txt != null) {
 							int q = txt.indexOf(rawTypeName);
 							if(q >= 0) {
-								offset = r.getOffset() + q;
+								offset = s + q;
 								length = rawTypeName.length();
 							}
 						}

@@ -190,7 +190,7 @@ public class AnnotationValidationDelegate extends CDICoreValidationDelegate {
 		if(retention == null) {
 			validator.addError(message, CDIPreferences.MISSING_OR_INCORRECT_TARGET_OR_RETENTION_IN_ANNOTATION_TYPE, CDIUtil.convertToSourceReference(type.getSourceType().getNameRange()), resource);
 		} else {
-			IMemberValuePair[] ps = retention.getDeclaration().getMemberValuePairs();
+			IMemberValuePair[] ps = retention.getMemberValuePairs();
 			boolean ok = false;
 			for (IMemberValuePair p: ps) {
 				if(!"value".equals(p.getMemberName())) continue;

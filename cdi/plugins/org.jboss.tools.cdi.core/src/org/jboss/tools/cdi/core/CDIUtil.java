@@ -1047,7 +1047,7 @@ public class CDIUtil {
 	 */
 	public static Set<String> getTargetAnnotationValues(IAnnotationDeclaration target) throws JavaModelException {
 		Set<String> result = new HashSet<String>();
-		IMemberValuePair[] ps = target.getDeclaration().getMemberValuePairs();
+		IMemberValuePair[] ps = target.getMemberValuePairs();
 		for (IMemberValuePair p: ps) {
 			if(!"value".equals(p.getMemberName())) continue;
 			Object o = p.getValue();
