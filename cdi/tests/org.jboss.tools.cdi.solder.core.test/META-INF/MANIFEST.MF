@@ -1,0 +1,24 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Contexts and Dependency Injection Test
+Bundle-SymbolicName: org.jboss.tools.cdi.solder.core.test;singleton:=true
+Bundle-Version: 1.2.0.qualifier
+Bundle-Vendor: JBoss by Red Hat
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Require-Bundle: org.jboss.tools.tests,
+ org.eclipse.core.runtime,
+ org.eclipse.core.resources,
+ org.junit,
+ org.jboss.tools.cdi.core,
+ org.jboss.tools.cdi.solder.core,
+ org.jboss.tools.common,
+ org.eclipse.ui,
+ org.eclipse.jdt.core,
+ org.jboss.tools.common.el.core,
+ org.jboss.tools.common.model.ui,
+ org.eclipse.ltk.core.refactoring,
+ org.jboss.tools.jst.web.kb,
+ org.jboss.tools.cdi.xml,
+ org.eclipse.jst.standard.schemas
+Export-Package: org.jboss.tools.cdi.solder.core.test
+
