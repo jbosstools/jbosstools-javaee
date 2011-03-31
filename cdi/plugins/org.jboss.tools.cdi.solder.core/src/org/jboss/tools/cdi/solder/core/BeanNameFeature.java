@@ -12,14 +12,11 @@ package org.jboss.tools.cdi.solder.core;
 
 import java.beans.Introspector;
 
-import org.eclipse.jdt.core.IAnnotation;
 import org.eclipse.jdt.core.IMemberValuePair;
-import org.eclipse.jdt.core.JavaModelException;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.CDIUtil;
 import org.jboss.tools.cdi.core.IAnnotationDeclaration;
 import org.jboss.tools.cdi.core.IBean;
-import org.jboss.tools.cdi.core.ICDIAnnotation;
 import org.jboss.tools.cdi.core.IClassBean;
 import org.jboss.tools.cdi.core.IProducerField;
 import org.jboss.tools.cdi.core.IProducerMethod;
@@ -77,22 +74,18 @@ public class BeanNameFeature implements IBeanNameFeature {
 		return null;
 	}
 
-	private String getStringValue(IAnnotation a) {
+	private String getStringValue(IAnnotationDeclaration a) {
 		if(a == null) return null;
-		try {
-			IMemberValuePair[] ps = a.getMemberValuePairs();
-			if(ps != null && ps.length > 0 && ps[0].getValue() != null) {
-				return ps[0].getValue().toString();
-			}
-		} catch (JavaModelException e) {
-			CDISolderCorePlugin.getDefault().logError(e);
+		IMemberValuePair[] ps = a.getMemberValuePairs();
+		if(ps != null && ps.length > 0 && ps[0].getValue() != null) {
+			return ps[0].getValue().toString();
 		}
 		return null;
 	}
 
 	private String resolvePackageName(AnnotationDeclaration fullyQualified, AnnotationDeclaration fullyQualifiedOnPackage, AbstractTypeDefinition t, PackageDefinition p) {
 		String contextClass = null;
-		IAnnotation a = fullyQualified != null ? fullyQualified.getDeclaration() : fullyQualifiedOnPackage.getDeclaration();
+		AnnotationDeclaration a = fullyQualified != null ? fullyQualified : fullyQualifiedOnPackage;
 		contextClass = getStringValue(a);
 		if(contextClass == null) {
 			contextClass = t == null ? "" : t.getQualifiedName();
@@ -109,7 +102,7 @@ public class BeanNameFeature implements IBeanNameFeature {
 	private String getSimpleBeanName(IBean bean, IAnnotationDeclaration named) {
 		String simpleName = null;
 		if(named != null) {
-			simpleName = getStringValue(named.getDeclaration());
+			simpleName = getStringValue(named);
 		}
 		if(simpleName != null && simpleName.length() > 0) {
 			//do nothing
