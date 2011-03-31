@@ -10,22 +10,12 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.core;
 
-import org.eclipse.jdt.core.IAnnotation;
-
 /**
  * Represents a stereotype.
  * 
  * @author Alexey Kazakov
  */
 public interface IStereotype extends IScoped, IStereotyped, ICDINamedAnnotation, IAnnotated, IInterceptorBinded {
-
-	/**
-	 * Returns the location of @Name declaration of this stereotype. If the bean
-	 * doesn't have the @Name declaration then null will be returned.
-	 * 
-	 * @return the location of @Name declaration of this bean.
-	 */
-	IAnnotation getNameLocation();
 
 	/**
 	 * Determines if the stereotype is an alternative.

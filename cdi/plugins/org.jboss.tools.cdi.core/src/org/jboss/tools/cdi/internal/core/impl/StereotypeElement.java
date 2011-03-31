@@ -15,7 +15,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.eclipse.jdt.core.IAnnotation;
 import org.jboss.tools.cdi.core.CDIUtil;
 import org.jboss.tools.cdi.core.IAnnotationDeclaration;
 import org.jboss.tools.cdi.core.IInterceptorBinding;
@@ -65,14 +64,6 @@ public class StereotypeElement extends CDIAnnotationElement implements IStereoty
 	 */
 	public Set<IInterceptorBinding> getInterceptorBindings() {
 		return CDIUtil.getAllInterceptorBindings(this);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.jboss.tools.cdi.core.IStereotype#getNameLocation()
-	 */
-	public IAnnotation getNameLocation() {
-		return getNameDeclaration() != null ? getNameDeclaration().getDeclaration() : null;
 	}
 
 	/*
