@@ -17,6 +17,7 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jdt.core.IAnnotation;
 import org.eclipse.jdt.core.IMember;
+import org.eclipse.jdt.core.IMemberValuePair;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
 import org.jboss.tools.cdi.core.CDICorePlugin;
@@ -159,8 +160,7 @@ public class TCKTest extends TestCase {
 			Set<IQualifierDeclaration> declarations = bean.getQualifierDeclarations();
 			IParametedType type = getType(annotationTypeName);
 			for (IQualifierDeclaration declaration : declarations) {
-				IAnnotation annotation = declaration.getDeclaration();
-				if(type.getType().getElementName().equals(annotation.getElementName())) {
+				if(declaration.getType() != null && type.getType().getElementName().equals(declaration.getType().getElementName())) {
 					return declaration;
 				}
 			}
@@ -199,6 +199,17 @@ public class TCKTest extends TestCase {
 
 			public ICDIAnnotation getAnnotation() {
 				return null;
+			}
+
+			public IMemberValuePair[] getMemberValuePairs() {
+				if(annotation != null) {
+					try {
+						return annotation.getMemberValuePairs();
+					} catch (JavaModelException e) {
+						CDICorePlugin.getDefault().logError(e);
+					}
+				}
+				return new IMemberValuePair[0];
 			}
 		};
 		return annotationDeclaration;

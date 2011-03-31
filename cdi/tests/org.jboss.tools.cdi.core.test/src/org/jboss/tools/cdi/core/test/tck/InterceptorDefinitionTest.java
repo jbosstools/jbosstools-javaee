@@ -11,12 +11,12 @@
 package org.jboss.tools.cdi.core.test.tck;
 
 
+
 import java.util.HashSet;
 import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.jdt.core.IAnnotation;
 import org.eclipse.jdt.core.IMemberValuePair;
 import org.eclipse.jdt.core.JavaModelException;
 import org.jboss.tools.cdi.core.IBean;
@@ -126,8 +126,7 @@ public class InterceptorDefinitionTest extends TCKTest {
 	void assertContainsBindingDeclarationWithValue(Set<IInterceptorBindingDeclaration> bs, String className, String value) throws JavaModelException {
 		for (IInterceptorBindingDeclaration b: bs) {
 			if(className.equals(b.getInterceptorBinding().getSourceType().getFullyQualifiedName())) {
-				IAnnotation a = b.getDeclaration();
-				IMemberValuePair[] ps = a.getMemberValuePairs();
+				IMemberValuePair[] ps = b.getMemberValuePairs();
 				for (IMemberValuePair p: ps) {
 					if(p.getMemberName().equals("value")) {
 						assertEquals(value, p.getValue());
