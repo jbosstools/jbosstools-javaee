@@ -14,14 +14,11 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.jdt.core.IAnnotation;
 import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.IMemberValuePair;
-import org.eclipse.jdt.core.ISourceRange;
 import org.eclipse.jdt.core.IType;
-import org.eclipse.jdt.core.JavaModelException;
 import org.jboss.tools.cdi.core.CDICoreNature;
-import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.IAnnotationDeclaration;
 import org.jboss.tools.cdi.core.ICDIAnnotation;
-import org.jboss.tools.common.model.util.EclipseJavaUtil;
+import org.jboss.tools.cdi.core.IJavaAnnotation;
 
 /**
  * 
@@ -30,104 +27,49 @@ import org.jboss.tools.common.model.util.EclipseJavaUtil;
  */
 public class AnnotationDeclaration implements IAnnotationDeclaration {
 	protected CDICoreNature project;
-	protected IAnnotation annotation;
-	protected int startPosition = -1;
-	protected int length = 0;	
-	protected String annotationTypeName = null;
-	protected IType type = null;
+	protected IJavaAnnotation annotation;
 
 	public AnnotationDeclaration() {}
 
 	protected void copyTo(AnnotationDeclaration other) {
 		other.project = project;
 		other.annotation = annotation;
-		other.startPosition = startPosition;
-		other.length = length;
-		other.annotationTypeName = annotationTypeName;
-		other.type = type;
 	}
 
 	public void setProject(CDICoreNature project) {
 		this.project = project;
 	}
 
-	public void setDeclaration(IAnnotation annotation, IType declaringType) {
+	public void setDeclaration(IJavaAnnotation annotation) {
 		this.annotation = annotation;
-		try {
-			ISourceRange range = annotation.getSourceRange();
-			if(range != null) {
-				startPosition = range.getOffset();
-				length = range.getLength();
-			}
-			String name = annotation.getElementName();
-			annotationTypeName = EclipseJavaUtil.resolveType(declaringType, name);
-			type = EclipseJavaUtil.findType(annotation.getJavaProject(), annotationTypeName);
-		} catch (JavaModelException e) {
-			CDICorePlugin.getDefault().logError(e);
-		}
 	}
 
-//	public IAnnotation getDeclaration() {
-//		return annotation;
-//	}
-
 	public IResource getResource() {
-		if(annotation != null) {
-			return annotation.getResource();
-		}
-		//TODO
-		return null;
+		return annotation.getResource();
 	}
 
 	public IMemberValuePair[] getMemberValuePairs() {
-		if(annotation != null) {
-			try {
-				return annotation.getMemberValuePairs();
-			} catch (JavaModelException e) {
-				CDICorePlugin.getDefault().logError(e);
-			}
-		}
-		//
-		return new IMemberValuePair[0];
+		return annotation.getMemberValuePairs();
 	}
 
-
 	public IMember getParentMember() {
-		return (IMember)annotation.getParent();
+		return annotation.getParentMember();
 	}
 
 	public String getTypeName() {
-		return annotationTypeName;
+		return annotation.getTypeName();
 	}
 
 	public IType getType() {
-		return type;
+		return annotation.getType();
 	}
 
 	public int getLength() {
-		//while annotation is available, it can be updated, we should take actual value.
-		if(annotation != null) try {
-			ISourceRange range = annotation.getSourceRange();
-			if(range != null) {
-				return length = range.getLength();
-			}
-		} catch (JavaModelException e) {
-			CDICorePlugin.getDefault().logError(e);
-		}
-		return length;
+		return annotation.getLength();
 	}
 
 	public int getStartPosition() {
-		//while annotation is available, it can be updated, we should take actual value.
-		if(annotation != null) try {
-			ISourceRange range = annotation.getSourceRange();
-			if(range != null) {
-				return startPosition = range.getOffset();
-			}
-		} catch (JavaModelException e) {
-			CDICorePlugin.getDefault().logError(e);
-		}
-		return startPosition;
+		return annotation.getStartPosition();
 	}
 
 	/*

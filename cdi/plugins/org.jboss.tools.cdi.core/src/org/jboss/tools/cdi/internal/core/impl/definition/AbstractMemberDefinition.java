@@ -28,6 +28,7 @@ import org.jboss.tools.cdi.core.IAnnotated;
 import org.jboss.tools.cdi.core.IAnnotationDeclaration;
 import org.jboss.tools.cdi.internal.core.impl.AnnotationDeclaration;
 import org.jboss.tools.cdi.internal.core.impl.InterceptorBindingDeclaration;
+import org.jboss.tools.cdi.internal.core.impl.JavaAnnotation;
 import org.jboss.tools.cdi.internal.core.impl.QualifierDeclaration;
 import org.jboss.tools.cdi.internal.core.impl.ScopeDeclaration;
 import org.jboss.tools.cdi.internal.core.impl.StereotypeDeclaration;
@@ -81,7 +82,7 @@ public abstract class AbstractMemberDefinition implements IAnnotated {
 		for (int i = 0; i < ts.length; i++) {
 			AnnotationDeclaration a = new AnnotationDeclaration();
 			a.setProject(context.getProject());
-			a.setDeclaration(ts[i], contextType);
+			a.setDeclaration(new JavaAnnotation(ts[i], contextType));
 			AnnotationDeclaration b = null;
 			int kind = context.getAnnotationKind(a.getType());
 			if(kind > 0 && (kind & AnnotationDefinition.STEREOTYPE) > 0) {

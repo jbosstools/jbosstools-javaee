@@ -21,6 +21,7 @@ import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.IAnnotated;
 import org.jboss.tools.cdi.core.IAnnotationDeclaration;
 import org.jboss.tools.cdi.internal.core.impl.AnnotationDeclaration;
+import org.jboss.tools.cdi.internal.core.impl.JavaAnnotation;
 import org.jboss.tools.cdi.internal.core.impl.ParametedType;
 import org.jboss.tools.common.text.ITextSourceReference;
 
@@ -61,7 +62,9 @@ public class ParameterDefinition implements IAnnotated {
 		}
 		// JDT doesn't have API for annotations for method params. So let's wrap ITextSourceReference into IAnnotationDeclaration.
 		AnnotationDeclaration ad = new AnnotationDeclaration();
-		ad.setDeclaration(null, methodDefinition.getMethod().getDeclaringType());
+		//TODO it should be annotation literal!
+		System.out.println("!!!!!!!!!!!!!Here we are!!!!!!!!");
+		ad.setDeclaration(new JavaAnnotation(null, methodDefinition.getMethod().getDeclaringType()));
 		CDICoreNature nature = CDICorePlugin.getCDI(methodDefinition.getResource().getProject(), false);
 		ad.setProject(nature);
 		return ad;
