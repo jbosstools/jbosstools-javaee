@@ -10,9 +10,10 @@
  ******************************************************************************/
 package org.jboss.tools.jsf.vpe.jsf.template.util;
 
-import org.eclipse.jst.jsp.core.internal.domdocument.DOMModelForJSP;
 import org.eclipse.jst.jsp.core.internal.parser.JSPSourceParser;
+import org.eclipse.jst.jsp.core.internal.provisional.contenttype.ContentTypeIdForJSP;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.wst.sse.core.StructuredModelManager;
 import org.eclipse.wst.sse.core.internal.document.StructuredDocumentFactory;
 import org.eclipse.wst.sse.core.internal.provisional.text.IStructuredDocument;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMAttr;
@@ -37,7 +38,9 @@ public class NodeProxyUtil {
 
 		newStructuredDocument.set(attrString);
 
-		IDOMModel modelForJSP = new DOMModelForJSP();
+		IDOMModel modelForJSP = (IDOMModel) StructuredModelManager
+				.getModelManager().createUnManagedStructuredModelFor(
+						ContentTypeIdForJSP.ContentTypeID_JSP);
 
 		modelForJSP.setStructuredDocument(newStructuredDocument);
 
