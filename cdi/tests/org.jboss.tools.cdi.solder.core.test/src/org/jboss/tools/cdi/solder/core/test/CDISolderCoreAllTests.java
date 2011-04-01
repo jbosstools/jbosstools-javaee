@@ -26,6 +26,7 @@ public class CDISolderCoreAllTests {
 		TestSuite suiteAll = new TestSuite("CDI Solder Core Tests");
 
 		suiteAll.addTestSuite(BeanNamingTest.class);
+		suiteAll.addTestSuite(VetoTest.class);
 
 		return suiteAll;
 	}
