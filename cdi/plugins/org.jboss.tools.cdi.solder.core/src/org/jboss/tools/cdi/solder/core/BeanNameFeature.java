@@ -10,9 +10,9 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.solder.core;
 
+
 import java.beans.Introspector;
 
-import org.eclipse.jdt.core.IMemberValuePair;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.CDIUtil;
 import org.jboss.tools.cdi.core.IAnnotationDeclaration;
@@ -76,11 +76,8 @@ public class BeanNameFeature implements IBeanNameFeature {
 
 	private String getStringValue(IAnnotationDeclaration a) {
 		if(a == null) return null;
-		IMemberValuePair[] ps = a.getMemberValuePairs();
-		if(ps != null && ps.length > 0 && ps[0].getValue() != null) {
-			return ps[0].getValue().toString();
-		}
-		return null;
+		Object o = a.getMemberValue(null);
+		return o == null ? null : o.toString();
 	}
 
 	private String resolvePackageName(AnnotationDeclaration fullyQualified, AnnotationDeclaration fullyQualifiedOnPackage, AbstractTypeDefinition t, PackageDefinition p) {
