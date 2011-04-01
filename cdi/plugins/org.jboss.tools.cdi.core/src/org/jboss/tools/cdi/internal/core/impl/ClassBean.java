@@ -20,7 +20,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.eclipse.jdt.core.IMemberValuePair;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
 import org.jboss.tools.cdi.core.CDIConstants;
@@ -331,12 +330,9 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 			name = name.substring(0, 1).toLowerCase() + name.substring(1);
 		}
 
-		IMemberValuePair[] vs = named.getMemberValuePairs();
-		if(vs != null && vs.length > 0) {
-			Object value = vs[0].getValue();
-			if(value != null && value.toString().trim().length() > 0) {
-				return value.toString().trim();
-			}
+		Object value = named.getMemberValue(null);
+		if(value != null && value.toString().trim().length() > 0) {
+			return value.toString().trim();
 		}
 		return name;
 	}

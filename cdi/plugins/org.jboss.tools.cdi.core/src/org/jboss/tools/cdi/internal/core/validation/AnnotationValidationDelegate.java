@@ -14,7 +14,6 @@ package org.jboss.tools.cdi.internal.core.validation;
 import java.util.Set;
 
 import org.eclipse.core.resources.IResource;
-import org.eclipse.jdt.core.IMemberValuePair;
 import org.eclipse.jdt.core.JavaModelException;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.CDICorePlugin;
@@ -190,18 +189,14 @@ public class AnnotationValidationDelegate extends CDICoreValidationDelegate {
 		if(retention == null) {
 			validator.addError(message, CDIPreferences.MISSING_OR_INCORRECT_TARGET_OR_RETENTION_IN_ANNOTATION_TYPE, CDIUtil.convertToSourceReference(type.getSourceType().getNameRange()), resource);
 		} else {
-			IMemberValuePair[] ps = retention.getMemberValuePairs();
 			boolean ok = false;
-			for (IMemberValuePair p: ps) {
-				if(!"value".equals(p.getMemberName())) continue;
-				Object o = p.getValue();
-				if(o != null) {
-					ok = true;
-					String s = o.toString();
-					int i = s.lastIndexOf('.');
-					if(i >= 0) s = s.substring(i + 1);
-					if(!"RUNTIME".equals(s)) ok = false;
-				}
+			Object o = retention.getMemberValue(null);
+			if(o != null) {
+				ok = true;
+				String s = o.toString();
+				int i = s.lastIndexOf('.');
+				if(i >= 0) s = s.substring(i + 1);
+				if(!"RUNTIME".equals(s)) ok = false;
 			}
 			if(!ok) {
 				validator.addError(message, CDIPreferences.MISSING_OR_INCORRECT_TARGET_OR_RETENTION_IN_ANNOTATION_TYPE, retention, resource);

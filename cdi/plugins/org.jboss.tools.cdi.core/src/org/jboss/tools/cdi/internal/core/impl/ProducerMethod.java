@@ -14,7 +14,6 @@ package org.jboss.tools.cdi.internal.core.impl;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.eclipse.jdt.core.IMemberValuePair;
 import org.eclipse.jdt.core.IType;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.IAnnotationDeclaration;
@@ -131,18 +130,13 @@ public class ProducerMethod extends BeanMethod implements IProducerMethod {
 		AnnotationDeclaration named = findNamedAnnotation();
 		if(named == null) return null;
 
+		Object value = named.getMemberValue(null);
+		if(value != null && value.toString().trim().length() > 0) {
+			return value.toString().trim();
+		}
 		String name = getMethod().getElementName();
-
-		IMemberValuePair[] vs = named.getMemberValuePairs();
-		if(vs == null || vs.length == 0) {
-			if(BeanUtil.isGetter(getMethod())) {
-				return BeanUtil.getPropertyName(name);
-			}
-		} else {
-			Object value = vs[0].getValue();
-			if(value != null && value.toString().trim().length() > 0) {
-				return value.toString().trim();
-			}
+		if(BeanUtil.isGetter(getMethod())) {
+			return BeanUtil.getPropertyName(name);
 		}
 		return name;
 	}

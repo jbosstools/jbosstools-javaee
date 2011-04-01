@@ -24,13 +24,18 @@ import org.jboss.tools.common.text.ITextSourceReference;
 public interface IAnnotationDeclaration extends ITextSourceReference {
 
 	/**
-	 * Return the annotation declaration. May be null.
+	 * Returns the member value pairs.
 	 * 
-	 * @return the annotation declaration.
+	 * @return the member value pairs
 	 */
-//	IAnnotation getDeclaration();
-
 	IMemberValuePair[] getMemberValuePairs();
+
+	/**
+	 * Convenience method that allows to get one member value without enumerating pairs.
+	 * @param name
+	 * @return
+	 */
+	Object getMemberValue(String name);
 
 	/**
 	 * Returns the member which is annotated by this declaration.

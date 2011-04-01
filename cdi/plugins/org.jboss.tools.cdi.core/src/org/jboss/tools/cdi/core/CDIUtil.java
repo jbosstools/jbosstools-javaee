@@ -10,6 +10,7 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.core;
 
+
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -38,7 +39,6 @@ import org.eclipse.jdt.core.IAnnotation;
 import org.eclipse.jdt.core.IField;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.ILocalVariable;
-import org.eclipse.jdt.core.IMemberValuePair;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.ISourceRange;
 import org.eclipse.jdt.core.IType;
@@ -1047,24 +1047,20 @@ public class CDIUtil {
 	 */
 	public static Set<String> getTargetAnnotationValues(IAnnotationDeclaration target) throws JavaModelException {
 		Set<String> result = new HashSet<String>();
-		IMemberValuePair[] ps = target.getMemberValuePairs();
-		for (IMemberValuePair p: ps) {
-			if(!"value".equals(p.getMemberName())) continue;
-			Object o = p.getValue();
-			if(o instanceof Object[]) {
-				Object[] os = (Object[])o;
-				for (Object q: os) {
-					String s = q.toString();
-					int i = s.lastIndexOf('.');
-					if(i >= 0) s = s.substring(i + 1);
-					result.add(s);
-				}
-			} else if(o != null) {
-				String s = o.toString();
+		Object o = target.getMemberValue(null);
+		if(o instanceof Object[]) {
+			Object[] os = (Object[])o;
+			for (Object q: os) {
+				String s = q.toString();
 				int i = s.lastIndexOf('.');
 				if(i >= 0) s = s.substring(i + 1);
 				result.add(s);
 			}
+		} else if(o != null) {
+			String s = o.toString();
+			int i = s.lastIndexOf('.');
+			if(i >= 0) s = s.substring(i + 1);
+			result.add(s);
 		}
 		return result;
 	}

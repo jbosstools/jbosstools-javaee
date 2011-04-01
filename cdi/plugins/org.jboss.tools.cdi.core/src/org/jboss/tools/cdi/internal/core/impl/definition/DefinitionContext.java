@@ -374,6 +374,10 @@ public class DefinitionContext {
 	public PackageDefinition getPackageDefinition(String packageName) {
 		return packageDefinitions.get(packageName);
 	}
+
+	public TypeDefinition getTypeDefinition(String fullyQualifiedName) {
+		return typeDefinitions.get(fullyQualifiedName);
+	}
 	
 }
 

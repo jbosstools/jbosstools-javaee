@@ -21,7 +21,6 @@ import java.util.Set;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.IMember;
-import org.eclipse.jdt.core.IMemberValuePair;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.Signature;
 import org.jboss.tools.cdi.core.CDIConstants;
@@ -278,11 +277,10 @@ public class AbstractBeanElement extends CDIElement implements IAnnotated {
 					}					
 				}
 				
-				IMemberValuePair[] ps = typed.getMemberValuePairs();
-				if(ps == null || ps.length == 0) return result;
+				Object value = typed.getMemberValue(null);
+				if(value == null) return result;
 				IMember member = (IMember)definition.getMember();
 				IType declaringType = member instanceof IType ? (IType)member : member.getDeclaringType();
-				Object value = ps[0].getValue();
 				if(value instanceof Object[]) {
 					Object[] os = (Object[])value;
 					for (int i = 0; i < os.length; i++) {

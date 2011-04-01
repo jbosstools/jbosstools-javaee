@@ -1735,14 +1735,7 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 			if(scope!=null && scope.isNorlmalScope()) {
 				IAnnotationDeclaration normalScopeDeclaration = scope.getAnnotationDeclaration(CDIConstants.NORMAL_SCOPE_ANNOTATION_TYPE_NAME);
 				if(normalScopeDeclaration != null) {
-					boolean passivatingScope = false;
-					IMemberValuePair[] pairs = normalScopeDeclaration.getMemberValuePairs();
-					for (IMemberValuePair pair : pairs) {
-						if("passivating".equals(pair.getMemberName()) && "true".equalsIgnoreCase("" + pair.getValue())) {
-							passivatingScope = true;
-							break;
-						}
-					}
+					boolean passivatingScope = "true".equalsIgnoreCase("" + normalScopeDeclaration.getMemberValue("passivating"));
 					if(passivatingScope) {
 						boolean passivatingCapable = false;
 						Set<IParametedType> supers = bean.getAllTypes();
@@ -1826,24 +1819,20 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 				boolean markedAsWrong = false;
 				IAnnotationDeclaration target = binding.getAnnotationDeclaration(CDIConstants.TARGET_ANNOTATION_TYPE_NAME);
 				if(target!=null) {
-					IMemberValuePair[] ps = target.getMemberValuePairs();
-					if (ps != null && ps.length==1) {
-						IMemberValuePair pair = ps[0];
-						Object value = pair.getValue();
-						if(value != null && value instanceof Object[]) {
-							Object[] values = (Object[]) value;
-							if(values.length>1) {
-								Set<IBeanMethod> methods = interceptor.getAllMethods();
-								for (IBeanMethod method : methods) {
-									if(method.isLifeCycleCallbackMethod()) {
-										ITextSourceReference declaration = CDIUtil.getAnnotationDeclaration(interceptor, binding);
-										if(declaration==null) {
-											declaration = interceptor.getInterceptorAnnotation();
-										}
-										addError(CDIValidationMessages.ILLEGAL_LIFECYCLE_CALLBACK_INTERCEPTOR_BINDING, CDIPreferences.ILLEGAL_LIFECYCLE_CALLBACK_INTERCEPTOR_BINDING, declaration, interceptor.getResource());
-										markedAsWrong = true;
-										break;
+					Object value = target.getMemberValue(null);
+					if(value != null && value instanceof Object[]) {
+						Object[] values = (Object[]) value;
+						if(values.length>1) {
+							Set<IBeanMethod> methods = interceptor.getAllMethods();
+							for (IBeanMethod method : methods) {
+								if(method.isLifeCycleCallbackMethod()) {
+									ITextSourceReference declaration = CDIUtil.getAnnotationDeclaration(interceptor, binding);
+									if(declaration==null) {
+										declaration = interceptor.getInterceptorAnnotation();
 									}
+									addError(CDIValidationMessages.ILLEGAL_LIFECYCLE_CALLBACK_INTERCEPTOR_BINDING, CDIPreferences.ILLEGAL_LIFECYCLE_CALLBACK_INTERCEPTOR_BINDING, declaration, interceptor.getResource());
+									markedAsWrong = true;
+									break;
 								}
 							}
 						}
@@ -2156,13 +2145,10 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 		// 1. non-empty name
 		IAnnotationDeclaration nameDeclaration = stereotype.getNameDeclaration();
 		if (nameDeclaration != null) {
-			IMemberValuePair[] ps = nameDeclaration.getMemberValuePairs();
-			if (ps != null && ps.length > 0) {
-				Object name = ps[0].getValue();
-				if (name != null && name.toString().length() > 0) {
-					ITextSourceReference location = nameDeclaration;
-					addError(CDIValidationMessages.STEREOTYPE_DECLARES_NON_EMPTY_NAME, CDIPreferences.STEREOTYPE_DECLARES_NON_EMPTY_NAME, location, resource);
-				}
+			Object name = nameDeclaration.getMemberValue(null);
+			if (name != null && name.toString().length() > 0) {
+				ITextSourceReference location = nameDeclaration;
+				addError(CDIValidationMessages.STEREOTYPE_DECLARES_NON_EMPTY_NAME, CDIPreferences.STEREOTYPE_DECLARES_NON_EMPTY_NAME, location, resource);
 			}
 		}
 

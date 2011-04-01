@@ -732,14 +732,8 @@ public class CDIProject extends CDIElement implements ICDIProject {
 			if(a instanceof AnnotationDeclaration) {
 				AnnotationDeclaration aa = (AnnotationDeclaration)a;
 				if(CDIConstants.NORMAL_SCOPE_ANNOTATION_TYPE_NAME.equals(aa.getTypeName())) {
-					IMemberValuePair[] ps = a.getMemberValuePairs();
-					if(ps != null) for (IMemberValuePair p: ps) {
-						if("passivating".equals(p.getMemberName())) {
-							Object o = p.getValue();
-							return o != null && "true".equalsIgnoreCase(o.toString());
-						}
-					}
-					return false;
+					Object o = a.getMemberValue("passivating");
+					return o != null && "true".equalsIgnoreCase(o.toString());
 				}
 			}
 		}		

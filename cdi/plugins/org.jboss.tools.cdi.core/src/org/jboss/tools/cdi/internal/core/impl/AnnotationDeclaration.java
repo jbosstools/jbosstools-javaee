@@ -51,6 +51,19 @@ public class AnnotationDeclaration implements IAnnotationDeclaration {
 		return annotation.getMemberValuePairs();
 	}
 
+	public Object getMemberValue(String name) {
+		if(name == null) name = "value";
+		IMemberValuePair[] pairs = getMemberValuePairs();
+		if(pairs != null) {
+			for (IMemberValuePair pair: pairs) {
+				if(name.equals(pair.getMemberName())) {
+					return pair.getValue();
+				}
+			}
+		}
+		return null;
+	}
+
 	public IMember getParentMember() {
 		return annotation.getParentMember();
 	}

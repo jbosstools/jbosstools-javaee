@@ -89,4 +89,8 @@ public class JavaAnnotation implements IJavaAnnotation {
 		return new IMemberValuePair[0];
 	}
 
+	public IAnnotation getAnnotation() {
+		return annotation;
+	}
+
 }
