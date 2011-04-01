@@ -21,6 +21,7 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IType;
 import org.jboss.tools.cdi.core.CDICoreNature;
+import org.jboss.tools.cdi.core.extension.feature.IProcessAnnotatedTypeFeature;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 
 /**
@@ -298,7 +299,16 @@ public class DefinitionContext {
 		if(workingCopy == null) {
 			return;
 		}
-
+		
+		Set<TypeDefinition> newTypeDefinitions = new HashSet<TypeDefinition>();
+		for (String typeName: workingCopy.typeDefinitions.keySet()) {
+			TypeDefinition nd = workingCopy.typeDefinitions.get(typeName);
+			TypeDefinition od = typeDefinitions.get(typeName);
+			if(od != nd) {
+				newTypeDefinitions.add(nd);
+			}
+		}
+		
 		types = workingCopy.types;
 		resources = workingCopy.resources;
 		childPaths = workingCopy.childPaths;
@@ -307,7 +317,16 @@ public class DefinitionContext {
 		packages = workingCopy.packages;
 		packageDefinitions = workingCopy.packageDefinitions;
 		beanXMLs = workingCopy.beanXMLs;
-	
+
+		Set<IProcessAnnotatedTypeFeature> fs = project.getExtensionManager().getProcessAnnotatedTypeFeature();
+		if(fs != null && !fs.isEmpty()) {
+			for (TypeDefinition nd: newTypeDefinitions) {
+				for (IProcessAnnotatedTypeFeature f: fs) {
+					f.processAnnotatedType(nd, workingCopy);
+				}
+			}
+		}
+
 		project.getDelegate().update();
 
 		workingCopy = null;

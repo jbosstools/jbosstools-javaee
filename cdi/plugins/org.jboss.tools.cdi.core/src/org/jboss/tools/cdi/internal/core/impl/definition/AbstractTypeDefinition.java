@@ -35,8 +35,18 @@ public class AbstractTypeDefinition extends AbstractMemberDefinition {
 	protected ParametedType parametedType = null;
 
 	protected String content = null;
+
+	protected boolean isVetoed = false;
 	
 	public AbstractTypeDefinition() {}
+
+	public void veto() {
+		isVetoed = true;
+	}
+
+	public boolean isVetoed() {
+		return isVetoed;
+	}
 
 	public AbstractTypeDefinition getTypeDefinition() {
 		return this;

@@ -45,9 +45,8 @@ public class AnnotationLiteral implements IJavaAnnotation {
 		return declaringResource;
 	}
 
-	@Override
 	public String getTypeName() {
-		// TODO Auto-generated method stub
+		if(annotationType != null) return annotationType.getFullyQualifiedName();
 		return null;
 	}
 

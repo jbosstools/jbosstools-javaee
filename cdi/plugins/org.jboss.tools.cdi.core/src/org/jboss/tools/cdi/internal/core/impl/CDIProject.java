@@ -1092,6 +1092,9 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		ImplementationCollector ic = new ImplementationCollector(typeDefinitions);
 
 		for (TypeDefinition typeDefinition : typeDefinitions) {
+			if(typeDefinition.isVetoed()) {
+				continue;
+			}
 			ClassBean bean = null;
 			if(typeDefinition.getInterceptorAnnotation() != null || ic.isInterceptor(typeDefinition.getType())) {
 				bean = new InterceptorBean();

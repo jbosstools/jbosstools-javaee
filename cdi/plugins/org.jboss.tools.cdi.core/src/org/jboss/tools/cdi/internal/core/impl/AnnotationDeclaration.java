@@ -11,7 +11,6 @@
 package org.jboss.tools.cdi.internal.core.impl;
 
 import org.eclipse.core.resources.IResource;
-import org.eclipse.jdt.core.IAnnotation;
 import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.IMemberValuePair;
 import org.eclipse.jdt.core.IType;

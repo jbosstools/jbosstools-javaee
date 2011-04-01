@@ -186,6 +186,7 @@ public class CDICoreBuilder extends IncrementalProjectBuilder {
 		throws CoreException {
 		try {
 			CDIResourceVisitor rv = getResourceVisitor();
+			rv.incremental = false;
 			getProject().accept(rv);
 			FileSet fs = rv.fileSet;
 			builderDelegate.build(fs, getCDICoreNature());
@@ -198,8 +199,10 @@ public class CDICoreBuilder extends IncrementalProjectBuilder {
 	protected void incrementalBuild(IResourceDelta delta,
 			IProgressMonitor monitor) throws CoreException {
 		CDIResourceVisitor rv = getResourceVisitor();
+		rv.incremental = true;
 		delta.accept(new SampleDeltaVisitor());
 		FileSet fs = rv.fileSet;
+//		fs.getPackages().
 		builderDelegate.build(fs, getCDICoreNature());
 	}
 
@@ -286,10 +289,12 @@ public class CDICoreBuilder extends IncrementalProjectBuilder {
 	}
 
 	class CDIResourceVisitor implements IResourceVisitor {
+		boolean incremental = false;
 		FileSet fileSet = new FileSet();
 		IPath[] outs = new IPath[0];
 		IPath[] srcs = new IPath[0];
 		IPath webinf = null;
+		Set<IPath> visited = new HashSet<IPath>(); 
 		
 		CDIResourceVisitor() {
 			webinf = ProjectHome.getWebInfPath(getProject());
@@ -327,6 +332,10 @@ public class CDICoreBuilder extends IncrementalProjectBuilder {
 		public boolean visit(IResource resource) throws CoreException {
 			IPath path = resource.getFullPath();
 			if(resource instanceof IFile) {
+				if(visited.contains(path)) {
+					return false;
+				}
+				visited.add(path);
 				IFile f = (IFile)resource;
 				for (int i = 0; i < outs.length; i++) {
 					if(outs[i].isPrefixOf(path)) {
@@ -342,6 +351,14 @@ public class CDICoreBuilder extends IncrementalProjectBuilder {
 									IPackageDeclaration[] pkg = unit.getPackageDeclarations();
 									if(pkg != null && pkg.length > 0) {
 										fileSet.add(f.getFullPath(), pkg[0]);
+										if(incremental) {
+											IResource[] ms = resource.getParent().members();
+											for (IResource m: ms) {
+												if(m instanceof IFile && !m.getName().equals("package-info.java")) {
+													visit(m);
+												}
+											}
+										}
 									}
 								} else {
 									IType[] ts = unit.getTypes();

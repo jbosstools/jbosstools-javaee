@@ -18,6 +18,7 @@ import java.util.Set;
 
 import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.extension.feature.IBeanNameFeature;
+import org.jboss.tools.cdi.core.extension.feature.IProcessAnnotatedTypeFeature;
 
 /**
  * 
@@ -129,6 +130,14 @@ public class CDIExtensionManager {
 		return result;
 	}
 
+	public Set<IProcessAnnotatedTypeFeature> getProcessAnnotatedTypeFeature() {
+		Set<IProcessAnnotatedTypeFeature> result = featureStorage.processAnnotatedType;
+		if(result == null) {
+			featureStorage.processAnnotatedType = result = getFeature(IProcessAnnotatedTypeFeature.class);
+		}
+		return result;
+	}
+
 	private <F extends Object> Set<F> getFeature(Class<F> cls) {
 		Set<F> result = new HashSet<F>();
 		Set<ICDIExtension> extensions = getExtensions(cls);
@@ -145,9 +154,11 @@ public class CDIExtensionManager {
 
 	class FeatureStorage {
 		Set<IBeanNameFeature> beanName = null;
+		Set<IProcessAnnotatedTypeFeature> processAnnotatedType = null;
 		
 		void clean() {
 			beanName = null;
+			processAnnotatedType = null;
 		}
 	
 	
