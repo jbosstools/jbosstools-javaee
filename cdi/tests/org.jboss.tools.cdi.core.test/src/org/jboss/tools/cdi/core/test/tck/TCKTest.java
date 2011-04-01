@@ -33,7 +33,9 @@ import org.jboss.tools.cdi.core.IParametedType;
 import org.jboss.tools.cdi.core.IQualifier;
 import org.jboss.tools.cdi.core.IQualifierDeclaration;
 import org.jboss.tools.cdi.core.test.tck.validation.CoreValidationTest;
+import org.jboss.tools.cdi.internal.core.impl.AnnotationDeclaration;
 import org.jboss.tools.cdi.internal.core.impl.CDIProject;
+import org.jboss.tools.cdi.internal.core.impl.JavaAnnotation;
 import org.jboss.tools.common.EclipseUtil;
 import org.jboss.tools.common.model.util.EclipseJavaUtil;
 import org.jboss.tools.common.text.ITextSourceReference;
@@ -173,45 +175,21 @@ public class TCKTest extends TestCase {
 		IFile file = tckProject.getFile(beanClassFilePath);
 		Set<IBean> beans = cdiProject.getBeans(file.getFullPath());
 		IBean bean = beans.iterator().next();
-		final IType beanClass = bean.getBeanClass();
+		IType beanClass = bean.getBeanClass();
 		final IParametedType type = getType(annotationTypeName);
-		final IAnnotation annotation = beanClass.getAnnotation(type.getType().getElementName());
-		IAnnotationDeclaration annotationDeclaration = new IAnnotationDeclaration() {
-			public IAnnotation getDeclaration() {
-				return annotation;
-			}
-
-			public IMember getParentMember() {
-				return beanClass;
-			}
-
+		IAnnotation annotation = beanClass.getAnnotation(type.getType().getElementName());
+		AnnotationDeclaration annotationDeclaration = new AnnotationDeclaration() {
 			public IType getType() {
 				return type.getType();
 			}
-
 			public int getLength() {
 				return 0;
 			}
-
 			public int getStartPosition() {
 				return 0;
 			}
-
-			public ICDIAnnotation getAnnotation() {
-				return null;
-			}
-
-			public IMemberValuePair[] getMemberValuePairs() {
-				if(annotation != null) {
-					try {
-						return annotation.getMemberValuePairs();
-					} catch (JavaModelException e) {
-						CDICorePlugin.getDefault().logError(e);
-					}
-				}
-				return new IMemberValuePair[0];
-			}
 		};
+		annotationDeclaration.setDeclaration(new JavaAnnotation(annotation, beanClass));
 		return annotationDeclaration;
 	}
 
