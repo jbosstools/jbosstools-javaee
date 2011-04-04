@@ -1,9 +1,9 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Context and Dependency Injection Core
-Bundle-SymbolicName: org.jboss.tools.cdi.solder.core;singleton:=true
+Bundle-SymbolicName: org.jboss.tools.cdi.seam.solder.core;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: org.jboss.tools.seam.solder.core.CDISolderCorePlugin
+Bundle-Activator: org.jboss.tools.cdi.seam.solder.core.CDISolderCorePlugin
 Bundle-Localization: plugin
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
@@ -28,5 +28,5 @@ Require-Bundle: org.eclipse.ui,
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-Vendor: JBoss by Red Hat
-Export-Package: org.jboss.tools.seam.solder.core
+Export-Package: org.jboss.tools.cdi.seam.solder.core
 

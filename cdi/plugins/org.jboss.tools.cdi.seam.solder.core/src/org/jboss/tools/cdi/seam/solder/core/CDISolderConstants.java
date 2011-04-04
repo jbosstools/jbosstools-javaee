@@ -1,4 +1,4 @@
-package org.jboss.tools.cdi.solder.core;
+package org.jboss.tools.cdi.seam.solder.core;
 
 import org.jboss.tools.cdi.core.CDIConstants;
 

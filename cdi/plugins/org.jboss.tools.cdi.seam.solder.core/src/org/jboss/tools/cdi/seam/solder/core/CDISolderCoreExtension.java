@@ -1,4 +1,4 @@
-package org.jboss.tools.seam.solder.core;
+package org.jboss.tools.cdi.seam.solder.core;
 
 import java.util.ArrayList;
 import java.util.HashSet;

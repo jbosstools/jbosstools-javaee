@@ -4,7 +4,7 @@
 	<extension
 	      point="org.jboss.tools.cdi.core.cdiextensions">
     <cdiextension
-          class="org.jboss.tools.seam.solder.core.CDISolderCoreExtension"
+          class="org.jboss.tools.cdi.seam.solder.core.CDISolderCoreExtension"
           runtime="org.jboss.seam.solder.core.CoreExtension">
     </cdiextension>
 	</extension>

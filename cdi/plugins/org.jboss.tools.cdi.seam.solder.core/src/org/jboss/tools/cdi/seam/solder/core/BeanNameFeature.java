@@ -8,7 +8,7 @@
  * Contributors: 
  * Red Hat, Inc. - initial API and implementation 
  ******************************************************************************/
-package org.jboss.tools.cdi.solder.core;
+package org.jboss.tools.cdi.seam.solder.core;
 
 
 import java.beans.Introspector;
