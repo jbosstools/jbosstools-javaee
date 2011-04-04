@@ -20,5 +20,5 @@ Require-Bundle: org.jboss.tools.tests,
  org.jboss.tools.jst.web.kb,
  org.jboss.tools.cdi.xml,
  org.eclipse.jst.standard.schemas
-Export-Package: org.jboss.tools.cdi.solder.core.test
+Export-Package: org.jboss.tools.seam.solder.core.test
 
