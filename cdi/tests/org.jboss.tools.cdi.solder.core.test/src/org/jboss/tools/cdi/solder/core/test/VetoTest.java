@@ -49,7 +49,7 @@ public class VetoTest extends TestCase {
 		Object name = a.getMemberValue(null);
 		assertEquals("tiger", name); //...and it is annotated with @Named("tiger")
 		Set<IBean> bs = cdi.getBeans("tiger", false);
-		assertTrue(bs.isEmpty());    //...CDI model does not have bean named "tiger"
+		assertTrue(bs.isEmpty());    //...CDI model does not have a bean named "tiger"
 		bs = cdi.getBeans(d.getResource().getFullPath());
 		assertTrue(bs.isEmpty());    //...and does not loaded any beans form its resource
 
@@ -61,7 +61,7 @@ public class VetoTest extends TestCase {
 		name = a.getMemberValue(null);
 		assertEquals("lion", name);  //...and it is annotated with @Named("lion")
 		bs = cdi.getBeans("lion", false);
-		assertTrue(bs.isEmpty());    //...CDI model does not have bean named "lion"
+		assertTrue(bs.isEmpty());    //...CDI model does not have a bean named "lion"
 		bs = cdi.getBeans(d.getResource().getFullPath());
 		assertTrue(bs.isEmpty());    //...and does not loaded any beans form its resource
 	}
@@ -77,7 +77,7 @@ public class VetoTest extends TestCase {
 		Object name = a.getMemberValue(null);
 		assertEquals("bear", name); //...and it is annotated with @Named("bear")
 		Set<IBean> bs = cdi.getBeans("bear", false);
-		assertTrue(bs.isEmpty());    //...CDI model does not have bean named "bear"
+		assertTrue(bs.isEmpty());    //...CDI model does not have a bean named "bear"
 		bs = cdi.getBeans(d.getResource().getFullPath());
 		assertTrue(bs.isEmpty());    //...and does not loaded any beans form its resource
 
@@ -89,17 +89,17 @@ public class VetoTest extends TestCase {
 		name = a.getMemberValue(null);
 		assertEquals("bee", name);  //...and it is annotated with @Named("bee")
 		bs = cdi.getBeans("bee", false);
-		assertTrue(bs.isEmpty());    //...CDI model does not have bean named "bee"
+		assertTrue(bs.isEmpty());    //...CDI model does not have a bean named "bee"
 		bs = cdi.getBeans(d.getResource().getFullPath());
 		assertTrue(bs.isEmpty());    //...and does not loaded any beans form its resource
 
 		//3. class annotated @Requires that references single available class
 		bs = cdi.getBeans("fly", false);
-		assertTrue(!bs.isEmpty());    //...CDI model have a bean named "fly"
+		assertEquals(1, bs.size());    //...CDI model has a bean named "fly"
 
 		//4. class annotated @Requires that references array of available classes
 		bs = cdi.getBeans("dragonfly", false);
-		assertTrue(!bs.isEmpty());    //...CDI model have a bean named "dragonfly"
+		assertEquals(1, bs.size());    //...CDI model has a bean named "dragonfly"
 
 	}
 
