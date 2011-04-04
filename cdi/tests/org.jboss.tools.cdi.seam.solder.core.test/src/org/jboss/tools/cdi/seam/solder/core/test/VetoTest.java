@@ -26,7 +26,7 @@ import org.jboss.tools.test.util.ResourcesUtils;
  *
  */
 public class VetoTest extends TestCase {
-	protected static String PLUGIN_ID = "org.jboss.tools.cdi.solder.core.test";
+	protected static String PLUGIN_ID = "org.jboss.tools.cdi.seam.solder.core.test";
 	IProject project = null;
 
 	public VetoTest() {}
