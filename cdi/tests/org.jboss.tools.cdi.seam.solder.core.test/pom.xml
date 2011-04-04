@@ -13,7 +13,7 @@
 
 	<properties>
 		<emma.filter>org.jboss.tools.cdi.seam.solder.core*</emma.filter>
-		<emma.instrument.bundles>org.jboss.tools.cdi.seam.older.core</emma.instrument.bundles>
+		<emma.instrument.bundles>org.jboss.tools.cdi.seam.solder.core</emma.instrument.bundles>
 	</properties>
 
 	<build>
