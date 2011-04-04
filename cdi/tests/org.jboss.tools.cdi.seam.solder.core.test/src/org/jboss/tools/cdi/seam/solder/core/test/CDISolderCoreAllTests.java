@@ -8,7 +8,7 @@
  * Contributors: 
  * Red Hat, Inc. - initial API and implementation 
  ******************************************************************************/ 
-package org.jboss.tools.seam.solder.core.test;
+package org.jboss.tools.cdi.seam.solder.core.test;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;

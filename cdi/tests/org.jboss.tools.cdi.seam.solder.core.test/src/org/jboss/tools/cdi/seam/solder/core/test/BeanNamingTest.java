@@ -1,4 +1,4 @@
-package org.jboss.tools.cdi.solder.core.test;
+package org.jboss.tools.cdi.seam.solder.core.test;
 
 import java.io.IOException;
 import java.util.Set;
