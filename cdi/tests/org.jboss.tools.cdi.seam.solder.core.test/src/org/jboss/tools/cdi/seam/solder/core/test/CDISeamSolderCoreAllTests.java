@@ -17,7 +17,7 @@ import org.eclipse.jdt.internal.core.JavaModelManager;
 /**
  * @author Viacheslav Kabanovich
  */
-public class CDISolderCoreAllTests {
+public class CDISeamSolderCoreAllTests {
 
 	public static Test suite() {
 		// it could be done here because it is not needed to be enabled back
