@@ -53,10 +53,10 @@ public class BeanNameFeature implements IBeanNameFeature {
 		AnnotationDeclaration fullyQualifiedOnPackage = null;
 		if(p != null) {
 			namedOnPackage = p.getAnnotation(CDIConstants.NAMED_QUALIFIER_TYPE_NAME);
-			fullyQualifiedOnPackage = p.getAnnotation(CDISolderConstants.FULLY_QUALIFIED_ANNOTATION_TYPE_NAME);
+			fullyQualifiedOnPackage = p.getAnnotation(CDISeamSolderConstants.FULLY_QUALIFIED_ANNOTATION_TYPE_NAME);
 		}
 
-		AnnotationDeclaration fullyQualified = d.getAnnotation(CDISolderConstants.FULLY_QUALIFIED_ANNOTATION_TYPE_NAME);
+		AnnotationDeclaration fullyQualified = d.getAnnotation(CDISeamSolderConstants.FULLY_QUALIFIED_ANNOTATION_TYPE_NAME);
 		
 		//@FullyQualified
 		if((fullyQualified != null || fullyQualifiedOnPackage != null) && (named != null || namedOnPackage != null)) {

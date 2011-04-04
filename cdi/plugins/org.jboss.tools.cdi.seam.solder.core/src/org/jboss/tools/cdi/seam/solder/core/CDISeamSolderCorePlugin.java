@@ -20,18 +20,18 @@ import org.osgi.framework.BundleContext;
 /**
  * The activator class controls the plug-in life cycle
  */
-public class CDISolderCorePlugin extends BaseUIPlugin {
+public class CDISeamSolderCorePlugin extends BaseUIPlugin {
 
 	// The plug-in ID
 	public static final String PLUGIN_ID = "org.jboss.tools.cdi.solder.core";
 
 	// The shared instance
-	private static CDISolderCorePlugin plugin;
+	private static CDISeamSolderCorePlugin plugin;
 
 	/**
 	 * The constructor
 	 */
-	public CDISolderCorePlugin() {
+	public CDISeamSolderCorePlugin() {
 	}
 
 	/*
@@ -57,7 +57,7 @@ public class CDISolderCorePlugin extends BaseUIPlugin {
 	 *
 	 * @return the shared instance
 	 */
-	public static CDISolderCorePlugin getDefault() {
+	public static CDISeamSolderCorePlugin getDefault() {
 		return plugin;
 	}
 

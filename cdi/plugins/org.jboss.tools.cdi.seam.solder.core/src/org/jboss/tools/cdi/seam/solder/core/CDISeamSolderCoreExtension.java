@@ -22,7 +22,7 @@ import org.jboss.tools.cdi.internal.core.impl.definition.TypeDefinition;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.util.EclipseJavaUtil;
 
-public class CDISolderCoreExtension implements ICDIExtension, IProcessAnnotatedTypeFeature {
+public class CDISeamSolderCoreExtension implements ICDIExtension, IProcessAnnotatedTypeFeature {
 
 	public Object getAdapter(Class adapter) {
 		if(adapter == IBeanNameFeature.class) {
@@ -32,9 +32,9 @@ public class CDISolderCoreExtension implements ICDIExtension, IProcessAnnotatedT
 	}
 
 	public void processAnnotatedType(TypeDefinition typeDefinition, DefinitionContext context) {
-		if(typeDefinition.isAnnotationPresent(CDISolderConstants.VETO_ANNOTATION_TYPE_NAME)
+		if(typeDefinition.isAnnotationPresent(CDISeamSolderConstants.VETO_ANNOTATION_TYPE_NAME)
 			|| (typeDefinition.getPackageDefinition() != null 
-					&& typeDefinition.getPackageDefinition().isAnnotationPresent(CDISolderConstants.VETO_ANNOTATION_TYPE_NAME))) {
+					&& typeDefinition.getPackageDefinition().isAnnotationPresent(CDISeamSolderConstants.VETO_ANNOTATION_TYPE_NAME))) {
 			typeDefinition.veto();
 			return;
 		}
@@ -53,7 +53,7 @@ public class CDISolderCoreExtension implements ICDIExtension, IProcessAnnotatedT
 						 return;
 					 }
 				 } catch (JavaModelException e) {
-					 CDISolderCorePlugin.getDefault().logError(e);
+					 CDISeamSolderCorePlugin.getDefault().logError(e);
 					 typeDefinition.veto();
 					 return;
 				 }
@@ -84,7 +84,7 @@ public class CDISolderCoreExtension implements ICDIExtension, IProcessAnnotatedT
 
 	private List<String> getRequiredClasses(IAnnotated d) {
 		if(d == null) return null;
-		IAnnotationDeclaration requires = d.getAnnotation(CDISolderConstants.REQUIRES_ANNOTATION_TYPE_NAME);
+		IAnnotationDeclaration requires = d.getAnnotation(CDISeamSolderConstants.REQUIRES_ANNOTATION_TYPE_NAME);
 		return requires != null ? getArrayValue(requires) : null;
 	}
 
@@ -103,7 +103,7 @@ public class CDISolderCoreExtension implements ICDIExtension, IProcessAnnotatedT
 	}
 
 	private IParametedType getExactType(IAnnotated annotated, IType declaringType, DefinitionContext context) {
-		 IAnnotationDeclaration a = annotated.getAnnotation(CDISolderConstants.EXACT_ANNOTATION_TYPE_NAME);
+		 IAnnotationDeclaration a = annotated.getAnnotation(CDISeamSolderConstants.EXACT_ANNOTATION_TYPE_NAME);
 		 if(a != null) {
 			 Object o = a.getMemberValue(null);
 			 if(o != null) {
@@ -114,7 +114,7 @@ public class CDISolderCoreExtension implements ICDIExtension, IProcessAnnotatedT
 						try {
 							return context.getProject().getTypeFactory().getParametedType(declaringType, "Q" + q + ";");
 						} catch (JavaModelException e) {
-							CDISolderCorePlugin.getDefault().logError(e);
+							CDISeamSolderCorePlugin.getDefault().logError(e);
 						}
 						
 					 }
