@@ -6,13 +6,18 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
 import org.jboss.tools.cdi.core.IAnnotated;
 import org.jboss.tools.cdi.core.IAnnotationDeclaration;
+import org.jboss.tools.cdi.core.IParametedType;
 import org.jboss.tools.cdi.core.extension.ICDIExtension;
 import org.jboss.tools.cdi.core.extension.feature.IBeanNameFeature;
 import org.jboss.tools.cdi.core.extension.feature.IProcessAnnotatedTypeFeature;
 import org.jboss.tools.cdi.internal.core.impl.definition.DefinitionContext;
+import org.jboss.tools.cdi.internal.core.impl.definition.FieldDefinition;
+import org.jboss.tools.cdi.internal.core.impl.definition.MethodDefinition;
+import org.jboss.tools.cdi.internal.core.impl.definition.ParameterDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.TypeDefinition;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.util.EclipseJavaUtil;
@@ -54,6 +59,27 @@ public class CDISolderCoreExtension implements ICDIExtension, IProcessAnnotatedT
 				 }
 			 }
 		 }
+
+		 List<FieldDefinition> fs = typeDefinition.getFields();
+		 for (FieldDefinition f: fs) {
+			 IParametedType exact = getExactType(f, typeDefinition.getType(), context);
+			 System.out.println("field:" + exact);
+			 if(exact != null) {
+				 
+			 }
+		 }
+		 
+		 List<MethodDefinition> ms = typeDefinition.getMethods();
+		 for (MethodDefinition m: ms) {
+			 List<ParameterDefinition> ps = m.getParameters();
+			 for (ParameterDefinition p: ps) {
+				 IParametedType exact = getExactType(p, typeDefinition.getType(), context);
+				 System.out.println("parameter:" + exact);
+				 if(exact != null) {
+					 
+				 }
+			 }
+		 }
 	}
 
 	private List<String> getRequiredClasses(IAnnotated d) {
@@ -74,6 +100,29 @@ public class CDISolderCoreExtension implements ICDIExtension, IProcessAnnotatedT
 			result.add(value.toString());
 		}
 		return result;
+	}
+
+	private IParametedType getExactType(IAnnotated annotated, IType declaringType, DefinitionContext context) {
+		 IAnnotationDeclaration a = annotated.getAnnotation(CDISolderConstants.EXACT_ANNOTATION_TYPE_NAME);
+		 if(a != null) {
+			 Object o = a.getMemberValue(null);
+			 if(o != null) {
+				 String s = o.toString();
+				 if(s.length() > 0) {
+					 String q = EclipseJavaUtil.resolveType(declaringType, s);
+					 if(q != null) {
+						try {
+							return context.getProject().getTypeFactory().getParametedType(declaringType, "Q" + q + ";");
+						} catch (JavaModelException e) {
+							CDISolderCorePlugin.getDefault().logError(e);
+						}
+						
+					 }
+				 }
+				 System.out.println("Exact:" + s);
+			 }
+		 }
+		 return null;
 	}
 
 }
