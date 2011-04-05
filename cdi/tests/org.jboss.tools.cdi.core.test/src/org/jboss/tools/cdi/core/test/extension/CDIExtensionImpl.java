@@ -2,19 +2,22 @@ package org.jboss.tools.cdi.core.test.extension;
 
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.extension.ICDIExtension;
-import org.jboss.tools.cdi.core.extension.feature.IBeanNameFeature;
+import org.jboss.tools.cdi.core.extension.feature.IProcessAnnotatedTypeFeature;
+import org.jboss.tools.cdi.internal.core.impl.definition.DefinitionContext;
+import org.jboss.tools.cdi.internal.core.impl.definition.TypeDefinition;
 
-public class CDIExtensionImpl implements ICDIExtension, IBeanNameFeature {
+public class CDIExtensionImpl implements ICDIExtension, IProcessAnnotatedTypeFeature {
 
 	public Object getAdapter(Class adapter) {
-		if(adapter == IBeanNameFeature.class) {
+		if(adapter == IProcessAnnotatedTypeFeature.class) {
 			return this;
 		}
 		return null;
 	}
 
-	public String computeBeanName(IBean bean) {
-		return null;
+	public void processAnnotatedType(TypeDefinition typeDefinition,
+			DefinitionContext context) {
+		
 	}
 
 }
