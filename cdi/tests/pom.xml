@@ -10,6 +10,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 		<module>org.jboss.tools.cdi.core.test</module>
 		<module>org.jboss.tools.cdi.text.ext.test</module>
 		<module>org.jboss.tools.cdi.ui.test</module>
+		<module>org.jboss.tools.cdi.seam.solder.core.test</module>
 	</modules>
 </project>
 	
