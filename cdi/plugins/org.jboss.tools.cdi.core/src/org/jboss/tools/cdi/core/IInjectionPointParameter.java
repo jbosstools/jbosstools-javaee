@@ -17,4 +17,11 @@ package org.jboss.tools.cdi.core;
  */
 public interface IInjectionPointParameter extends IParameter, IInjectionPoint {
 
+	/**
+	 * Extensions can override type.
+	 * 
+	 * @return type that was set by an extension instead of Java parameter type
+	 */
+	public ITypeDeclaration getOverridenType();
+
 }

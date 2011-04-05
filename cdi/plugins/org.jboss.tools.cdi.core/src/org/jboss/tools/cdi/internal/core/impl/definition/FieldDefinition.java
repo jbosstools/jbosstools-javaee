@@ -11,6 +11,7 @@
 package org.jboss.tools.cdi.internal.core.impl.definition;
 
 import org.eclipse.jdt.core.IField;
+import org.jboss.tools.cdi.core.ITypeDeclaration;
 
 /**
  * 
@@ -19,6 +20,7 @@ import org.eclipse.jdt.core.IField;
  */
 public class FieldDefinition extends BeanMemberDefinition {
 	IField field;
+	ITypeDeclaration overridenType = null;
 
 	public FieldDefinition() {}
 
@@ -29,6 +31,14 @@ public class FieldDefinition extends BeanMemberDefinition {
 
 	public IField getField() {
 		return field;
+	}
+
+	public void setOverridenType(ITypeDeclaration overridenType) {
+		this.overridenType = overridenType;
+	}
+
+	public ITypeDeclaration getOverridenType() {
+		return overridenType;
 	}
 
 }

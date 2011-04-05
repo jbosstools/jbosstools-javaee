@@ -27,8 +27,8 @@ import org.jboss.tools.cdi.core.IAnnotated;
 import org.jboss.tools.cdi.core.IAnnotationDeclaration;
 import org.jboss.tools.cdi.internal.core.impl.AnnotationDeclaration;
 import org.jboss.tools.cdi.internal.core.impl.AnnotationLiteral;
-import org.jboss.tools.cdi.internal.core.impl.JavaAnnotation;
 import org.jboss.tools.cdi.internal.core.impl.ParametedType;
+import org.jboss.tools.cdi.internal.core.impl.TypeDeclaration;
 import org.jboss.tools.common.model.util.EclipseJavaUtil;
 import org.jboss.tools.common.text.ITextSourceReference;
 
@@ -37,6 +37,7 @@ public class ParameterDefinition implements IAnnotated {
 	
 	protected String name;
 	protected ParametedType type;
+	protected TypeDeclaration overridenType;
 	protected int index;
 
 	protected ITextSourceReference position = null;
@@ -50,6 +51,14 @@ public class ParameterDefinition implements IAnnotated {
 
 	public ParametedType getType() {
 		return type;
+	}
+
+	public TypeDeclaration getOverridenType() {
+		return overridenType;
+	}
+
+	public void setOverridenType(TypeDeclaration overridenType) {
+		this.overridenType = overridenType;
 	}
 
 	public MethodDefinition getMethodDefinition() {
@@ -104,7 +113,11 @@ public class ParameterDefinition implements IAnnotated {
 				} else if(params.endsWith(".class")) {
 					params = params.substring(0, params.length() - 6);
 					IMemberValuePair pair = new MemberValuePair("value", params, IMemberValuePair.K_CLASS);
-					return new IMemberValuePair[]{pair};					
+					return new IMemberValuePair[]{pair};
+				} else if(params.startsWith("\"") && params.endsWith("\"")) {
+					params = params.substring(1, params.length() - 1);
+					IMemberValuePair pair = new MemberValuePair("value", params, IMemberValuePair.K_STRING);
+					return new IMemberValuePair[]{pair};
 				} else {
 					//TODO
 				}
@@ -157,4 +170,5 @@ public class ParameterDefinition implements IAnnotated {
 		String text = methodDefinition.getTypeDefinition().getContent().substring(pos.getStartPosition(), pos.getStartPosition() + pos.getLength());
 		return text;
 	}
+
 }

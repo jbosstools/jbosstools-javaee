@@ -19,6 +19,7 @@ import org.jboss.tools.cdi.core.IAnnotationDeclaration;
 import org.jboss.tools.cdi.core.IInjectionPointParameter;
 import org.jboss.tools.cdi.core.IQualifier;
 import org.jboss.tools.cdi.core.IQualifierDeclaration;
+import org.jboss.tools.cdi.core.ITypeDeclaration;
 import org.jboss.tools.common.text.ITextSourceReference;
 
 /**
@@ -29,6 +30,9 @@ import org.jboss.tools.common.text.ITextSourceReference;
 public class InjectionPointParameter extends Parameter implements
 		IInjectionPointParameter {
 
+	public ITypeDeclaration getOverridenType() {
+		return definition.getOverridenType();
+	}
 	/*
 	 * (non-Javadoc)
 	 * @see org.jboss.tools.cdi.core.IInjectionPoint#getDelegateAnnotation()

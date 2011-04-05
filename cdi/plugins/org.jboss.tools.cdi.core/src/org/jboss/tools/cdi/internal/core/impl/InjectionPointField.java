@@ -14,6 +14,7 @@ import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.CDIUtil;
 import org.jboss.tools.cdi.core.IAnnotationDeclaration;
 import org.jboss.tools.cdi.core.IInjectionPointField;
+import org.jboss.tools.cdi.core.ITypeDeclaration;
 
 /**
  * 
@@ -23,6 +24,10 @@ import org.jboss.tools.cdi.core.IInjectionPointField;
 public class InjectionPointField extends BeanField implements IInjectionPointField {
 
 	public InjectionPointField() {}
+
+	public ITypeDeclaration getOverridenType() {
+		return getDefinition().getOverridenType();
+	}
 
 	/*
 	 * (non-Javadoc)
