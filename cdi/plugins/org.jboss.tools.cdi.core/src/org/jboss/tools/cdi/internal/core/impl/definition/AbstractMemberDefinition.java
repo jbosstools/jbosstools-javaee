@@ -27,6 +27,7 @@ import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.IAnnotated;
 import org.jboss.tools.cdi.core.IAnnotationDeclaration;
 import org.jboss.tools.cdi.core.IJavaAnnotation;
+import org.jboss.tools.cdi.core.IRootDefinitionContext;
 import org.jboss.tools.cdi.internal.core.impl.AnnotationDeclaration;
 import org.jboss.tools.cdi.internal.core.impl.InterceptorBindingDeclaration;
 import org.jboss.tools.cdi.internal.core.impl.JavaAnnotation;
@@ -49,7 +50,7 @@ public abstract class AbstractMemberDefinition implements IAnnotated {
 
 	public AbstractMemberDefinition() {}
 
-	protected void setAnnotatable(IAnnotatable member, IType contextType, DefinitionContext context) {
+	protected void setAnnotatable(IAnnotatable member, IType contextType, IRootDefinitionContext context) {
 		this.member = member;
 		try {
 			init(contextType, context);
@@ -76,7 +77,7 @@ public abstract class AbstractMemberDefinition implements IAnnotated {
 		return project.getDefinitions().getPackageDefinition(packageName);
 	}
 
-	protected void init(IType contextType, DefinitionContext context) throws CoreException {
+	protected void init(IType contextType, IRootDefinitionContext context) throws CoreException {
 		project = context.getProject();
 		resource = ((IJavaElement)member).getResource();
 		IAnnotation[] ts = member.getAnnotations();
@@ -86,7 +87,7 @@ public abstract class AbstractMemberDefinition implements IAnnotated {
 		}
 	}
 
-	public void addAnnotation(IJavaAnnotation ja, DefinitionContext context) {
+	public void addAnnotation(IJavaAnnotation ja, IRootDefinitionContext context) {
 		AnnotationDeclaration a = new AnnotationDeclaration();
 		a.setProject(context.getProject());
 		a.setDeclaration(ja);

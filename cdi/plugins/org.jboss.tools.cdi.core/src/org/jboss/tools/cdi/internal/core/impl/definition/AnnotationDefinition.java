@@ -20,6 +20,7 @@ import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IType;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.IAnnotationDeclaration;
+import org.jboss.tools.cdi.core.IRootDefinitionContext;
 import org.jboss.tools.cdi.internal.core.impl.AnnotationDeclaration;
 
 /**
@@ -56,7 +57,7 @@ public class AnnotationDefinition extends AbstractTypeDefinition {
 	}
 
 	@Override
-	protected void init(IType contextType, DefinitionContext context) throws CoreException {
+	protected void init(IType contextType, IRootDefinitionContext context) throws CoreException {
 		super.init(contextType, context);
 		if(annotations.isEmpty()) {
 			//TODO check super ?
@@ -98,7 +99,7 @@ public class AnnotationDefinition extends AbstractTypeDefinition {
 		}
 	}
 
-	void initMemberDefinitions(IType contextType, DefinitionContext context) throws CoreException {
+	void initMemberDefinitions(IType contextType, IRootDefinitionContext context) throws CoreException {
 		IMethod[] ms = getType().getMethods();
 		for (int i = 0; i < ms.length; i++) {
 			AnnotationMemberDefinition m = new AnnotationMemberDefinition();

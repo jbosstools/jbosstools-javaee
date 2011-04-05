@@ -12,6 +12,7 @@ package org.jboss.tools.cdi.internal.core.impl.definition;
 
 import org.eclipse.jdt.core.IMethod;
 import org.jboss.tools.cdi.core.CDIConstants;
+import org.jboss.tools.cdi.core.IRootDefinitionContext;
 import org.jboss.tools.cdi.internal.core.impl.AnnotationDeclaration;
 
 /**
@@ -33,7 +34,7 @@ public class AnnotationMemberDefinition extends AbstractMemberDefinition {
 		return annotationDefinition;
 	}
 
-	public void setMethod(IMethod method, DefinitionContext context) {
+	public void setMethod(IMethod method, IRootDefinitionContext context) {
 		this.method = method;
 		setAnnotatable(method, method.getDeclaringType(), context);
 	}

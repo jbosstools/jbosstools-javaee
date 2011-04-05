@@ -21,6 +21,7 @@ import org.eclipse.jdt.core.ISourceRange;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.SourceRange;
 import org.jboss.tools.cdi.core.IParametedType;
+import org.jboss.tools.cdi.core.IRootDefinitionContext;
 import org.jboss.tools.cdi.internal.core.impl.ParametedType;
 import org.jboss.tools.common.util.FileUtil;
 
@@ -60,12 +61,12 @@ public class AbstractTypeDefinition extends AbstractMemberDefinition {
 		return type;
 	}
 
-	public void setType(IType type, DefinitionContext context) {
+	public void setType(IType type, IRootDefinitionContext context) {
 		super.setAnnotatable(type, type, context);
 	}
 
 	@Override
-	protected void init(IType contextType, DefinitionContext context) throws CoreException {
+	protected void init(IType contextType, IRootDefinitionContext context) throws CoreException {
 		this.type = contextType;
 		super.init(contextType, context);
 		qualifiedName = getType().getFullyQualifiedName();

@@ -10,6 +10,7 @@
  ******************************************************************************/ 
 package org.jboss.tools.cdi.internal.core.impl.definition;
 
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -24,10 +25,10 @@ import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.IAnnotationDeclaration;
 import org.jboss.tools.cdi.core.IInterceptorBinding;
 import org.jboss.tools.cdi.core.IInterceptorBindingDeclaration;
+import org.jboss.tools.cdi.core.IRootDefinitionContext;
 import org.jboss.tools.cdi.core.IStereotypeDeclaration;
 import org.jboss.tools.cdi.internal.core.impl.AnnotationDeclaration;
 import org.jboss.tools.cdi.internal.core.impl.ClassBean;
-import org.jboss.tools.cdi.internal.core.impl.InterceptorBindingDeclaration;
 import org.jboss.tools.cdi.internal.core.impl.ParametedType;
 import org.jboss.tools.common.model.project.ext.impl.ValueInfo;
 import org.jboss.tools.common.model.util.EclipseJavaUtil;
@@ -45,7 +46,7 @@ public class MethodDefinition extends BeanMemberDefinition {
 
 	public MethodDefinition() {}
 
-	public void setMethod(IMethod method, DefinitionContext context) {
+	public void setMethod(IMethod method, IRootDefinitionContext context) {
 		this.method = method;
 		setAnnotatable(method, method.getDeclaringType(), context);
 	}
@@ -58,7 +59,7 @@ public class MethodDefinition extends BeanMemberDefinition {
 		return isConstructor;
 	}
 
-	protected void init(IType contextType, DefinitionContext context) throws CoreException {
+	protected void init(IType contextType, IRootDefinitionContext context) throws CoreException {
 		super.init(contextType, context);
 		isConstructor = method.isConstructor();
 		//TODO process parameters for disposers and observers
@@ -69,7 +70,7 @@ public class MethodDefinition extends BeanMemberDefinition {
 		return getProducesAnnotation() != null || getInjectAnnotation() != null;
 	}
 
-	void loadParamDefinitions(IType contextType, DefinitionContext context) throws CoreException {
+	void loadParamDefinitions(IType contextType, IRootDefinitionContext context) throws CoreException {
 		if(method == null) return;
 		boolean parametersAreInjectionPoints = parametersAreInjectionPoints();
 		String[] parameterNames = method.getParameterNames();

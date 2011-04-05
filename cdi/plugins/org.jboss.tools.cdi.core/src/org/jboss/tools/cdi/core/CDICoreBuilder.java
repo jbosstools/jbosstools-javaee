@@ -12,6 +12,7 @@ package org.jboss.tools.cdi.core;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -38,6 +39,8 @@ import org.eclipse.jdt.core.IPackageDeclaration;
 import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.IType;
+import org.jboss.tools.cdi.core.extension.IDefinitionContextExtension;
+import org.jboss.tools.cdi.core.extension.feature.IBuildParticipantFeature;
 import org.jboss.tools.cdi.internal.core.impl.definition.AnnotationHelper;
 import org.jboss.tools.cdi.internal.core.scanner.CDIBuilderDelegate;
 import org.jboss.tools.cdi.internal.core.scanner.FileSet;
@@ -65,6 +68,8 @@ public class CDICoreBuilder extends IncrementalProjectBuilder {
 	ICDIBuilderDelegate builderDelegate;
 
 	CDIResourceVisitor resourceVisitor = null;
+
+	Set<IBuildParticipantFeature> buildParticipants = null;
 
 	public CDICoreBuilder() {}
 
@@ -109,6 +114,7 @@ public class CDICoreBuilder extends IncrementalProjectBuilder {
 		if(n == null) {
 			return null;
 		}
+		
 		if(n.hasNoStorage()) {
 			kind = FULL_BUILD;
 		}
@@ -137,12 +143,32 @@ public class CDICoreBuilder extends IncrementalProjectBuilder {
 			}
 
 			n.getTypeFactory().clean();
+		
+			//1. Check class path.
+			boolean isClassPathUpdated = n.getClassPath().update();
+	
+			Map<String, XModelObject> newJars = new HashMap<String, XModelObject>();
+			if(isClassPathUpdated) {
+				n.getClassPath().setSrcs(getResourceVisitor().srcs);
+				
+				//2. Update class path.
+				newJars = n.getClassPath().process();
 
+				//3. Install extensions.
+				buildParticipants = n.getExtensionManager().getBuildParticipantFeature();
+				Set<IDefinitionContextExtension> es = new HashSet<IDefinitionContextExtension>();
+				for (IBuildParticipantFeature p: buildParticipants) {
+					IDefinitionContextExtension e = p.getContext();
+					if(e != null) es.add(e);
+				}
+				n.getDefinitions().setExtensions(es);
+			}
+
+			//4. Create working copy of context.
 			n.getDefinitions().newWorkingCopy(kind == FULL_BUILD);
 
-			if(n.getClassPath().update()) {
-				n.getClassPath().setSrcs(getResourceVisitor().srcs);
-				Map<String, XModelObject> newJars = n.getClassPath().process();
+			//5. Build bean definitions.
+			if(isClassPathUpdated) {
 				buildJars(newJars);
 				
 				n.getClassPath().validateProjectDependencies();
@@ -163,6 +189,7 @@ public class CDICoreBuilder extends IncrementalProjectBuilder {
 				}
 			}
 
+			// 6. Save created definitions to project context and build beans.
 			getCDICoreNature().getDefinitions().applyWorkingCopy();
 			
 			long end = System.currentTimeMillis();

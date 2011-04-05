@@ -17,6 +17,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.jboss.tools.cdi.core.CDICoreNature;
+import org.jboss.tools.cdi.core.extension.feature.IBuildParticipantFeature;
 import org.jboss.tools.cdi.core.extension.feature.IProcessAnnotatedTypeFeature;
 
 /**
@@ -129,6 +130,17 @@ public class CDIExtensionManager {
 		return result;
 	}
 
+	public Set<IBuildParticipantFeature> getBuildParticipantFeature() {
+		Set<IBuildParticipantFeature> result = featureStorage.buildParticipant;
+		if(result == null) {
+			featureStorage.buildParticipant = result = getFeature(IBuildParticipantFeature.class);
+			for (IBuildParticipantFeature f: result) {
+				f.setProject(n);
+			}
+		}
+		return result;
+	}
+
 	private <F extends Object> Set<F> getFeature(Class<F> cls) {
 		Set<F> result = new HashSet<F>();
 		Set<ICDIExtension> extensions = getExtensions(cls);
@@ -144,10 +156,12 @@ public class CDIExtensionManager {
 	}
 
 	class FeatureStorage {
+		Set<IBuildParticipantFeature> buildParticipant = null;
 		Set<IProcessAnnotatedTypeFeature> processAnnotatedType = null;
 		
 		void clean() {
 			processAnnotatedType = null;
+			buildParticipant = null;
 		}
 	
 	

@@ -11,6 +11,7 @@
 package org.jboss.tools.cdi.internal.core.impl.definition;
 
 import org.eclipse.jdt.core.IField;
+import org.jboss.tools.cdi.core.IRootDefinitionContext;
 import org.jboss.tools.cdi.core.ITypeDeclaration;
 
 /**
@@ -24,7 +25,7 @@ public class FieldDefinition extends BeanMemberDefinition {
 
 	public FieldDefinition() {}
 
-	public void setField(IField field, DefinitionContext context) {
+	public void setField(IField field, IRootDefinitionContext context) {
 		this.field = field;
 		setAnnotatable(field, field.getDeclaringType(), context);
 	}

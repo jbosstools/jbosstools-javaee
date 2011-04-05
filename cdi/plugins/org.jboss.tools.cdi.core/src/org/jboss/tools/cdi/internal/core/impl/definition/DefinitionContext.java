@@ -21,6 +21,8 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IType;
 import org.jboss.tools.cdi.core.CDICoreNature;
+import org.jboss.tools.cdi.core.IRootDefinitionContext;
+import org.jboss.tools.cdi.core.extension.IDefinitionContextExtension;
 import org.jboss.tools.cdi.core.extension.feature.IProcessAnnotatedTypeFeature;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 
@@ -29,7 +31,7 @@ import org.jboss.tools.common.model.util.EclipseResourceUtil;
  * @author Viacheslav Kabanovich
  *
  */
-public class DefinitionContext {
+public class DefinitionContext implements IRootDefinitionContext {
 	protected CDICoreNature project;
 	protected IJavaProject javaProject;
 
@@ -44,15 +46,30 @@ public class DefinitionContext {
 
 	private Map<IPath, BeansXMLDefinition> beanXMLs = new HashMap<IPath, BeansXMLDefinition>();
 
+	Set<IDefinitionContextExtension> extensions = new HashSet<IDefinitionContextExtension>();
+
 	private DefinitionContext workingCopy;
 	private DefinitionContext original;
 
 	public DefinitionContext() {}
 
+	public void setExtensions(Set<IDefinitionContextExtension> extensions) {
+		this.extensions.clear();
+		this.extensions.addAll(extensions);
+		for (IDefinitionContextExtension e: extensions) e.setRootContext(this);
+	}
+
 	private DefinitionContext copy(boolean clean) {
 		DefinitionContext copy = new DefinitionContext();
 		copy.project = project;
 		copy.javaProject = javaProject;
+		copy.extensions = new HashSet<IDefinitionContextExtension>();
+		for (IDefinitionContextExtension e: extensions) {
+			e.newWorkingCopy(clean);
+			IDefinitionContextExtension ecopy = e.getWorkingCopy();
+			ecopy.setRootContext(copy);
+			copy.extensions.add(ecopy);
+		}
 		if(!clean) {
 			copy.types.addAll(types);
 			copy.typeDefinitions.putAll(typeDefinitions);
@@ -145,7 +162,7 @@ public class DefinitionContext {
 		addToParents(path);
 	}
 
-	private void addToParents(IPath file) {
+	public void addToParents(IPath file) {
 		if(file == null) return;
 		if(file.segmentCount() < 2) return;
 		IPath q = file;
@@ -176,6 +193,8 @@ public class DefinitionContext {
 		synchronized (beanXMLs) {
 			beanXMLs.clear();
 		}
+	
+		for (IDefinitionContextExtension e: extensions) e.clean();
 	}
 
 	public void clean(IPath path) {
@@ -206,6 +225,8 @@ public class DefinitionContext {
 		} else {
 			removeFromParents(path);
 		}
+	
+		for (IDefinitionContextExtension e: extensions) e.clean(path);
 	}
 
 	void removeFromParents(IPath file) {
@@ -325,6 +346,10 @@ public class DefinitionContext {
 					f.processAnnotatedType(nd, workingCopy);
 				}
 			}
+		}
+	
+		for (IDefinitionContextExtension e: extensions) {
+			e.applyWorkingCopy();
 		}
 
 		project.getDelegate().update();

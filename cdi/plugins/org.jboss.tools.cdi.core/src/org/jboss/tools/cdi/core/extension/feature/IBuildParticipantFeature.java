@@ -10,25 +10,22 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.core.extension.feature;
 
-
-import org.jboss.tools.cdi.core.IRootDefinitionContext;
-import org.jboss.tools.cdi.internal.core.impl.definition.TypeDefinition;
+import org.jboss.tools.cdi.core.CDICoreNature;
+import org.jboss.tools.cdi.core.extension.IDefinitionContextExtension;
 
 /**
- * This feature corresponds to ProcessAnnotatedTypeEvent in CDI runtime.
+ * This feature includes BeforeBeanDiscovery event of CDI runtime, but also it should provide
+ * facilities for incremental build and clean of project at design time. 
  * 
  * @author Viacheslav Kabanovich
  *
  */
-public interface IProcessAnnotatedTypeFeature {
+public interface IBuildParticipantFeature {
+	
+	public void setProject(CDICoreNature n);
 
-	/**
-	 * Method is called after CDI builder loaded type definitions and before they are 
-	 * used to build beans. Client may change type definitions and there members or veto them.
-	 * 
-	 * @param typeDefinition
-	 * @param context
-	 */
-	public void processAnnotatedType(TypeDefinition typeDefinition, IRootDefinitionContext context);
+	public void buildIsAboutToBegin();
+
+	public IDefinitionContextExtension getContext();
 
 }
