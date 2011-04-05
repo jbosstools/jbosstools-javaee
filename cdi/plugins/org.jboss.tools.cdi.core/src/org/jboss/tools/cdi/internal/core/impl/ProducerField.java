@@ -26,7 +26,6 @@ import org.jboss.tools.cdi.core.IScopeDeclaration;
 import org.jboss.tools.cdi.core.IStereotype;
 import org.jboss.tools.cdi.core.IStereotypeDeclaration;
 import org.jboss.tools.cdi.core.ITypeDeclaration;
-import org.jboss.tools.cdi.core.extension.feature.IBeanNameFeature;
 import org.jboss.tools.common.text.ITextSourceReference;
 
 /**
@@ -90,14 +89,6 @@ public class ProducerField extends BeanField implements IProducerField {
 	}
 
 	public String getName() {
-		Set<IBeanNameFeature> fs = getExtensionManager().getBeanNameFeature();
-		if(fs != null) for (IBeanNameFeature f: fs) {
-			String result = f.computeBeanName(this);
-			if(result != null) {
-				return result;
-			}
-		}
-	
 		AnnotationDeclaration named = findNamedAnnotation();
 		if(named == null) return null;
 

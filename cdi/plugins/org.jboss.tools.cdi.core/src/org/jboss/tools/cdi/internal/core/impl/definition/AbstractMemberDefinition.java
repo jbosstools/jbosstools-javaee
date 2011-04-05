@@ -26,6 +26,7 @@ import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.IAnnotated;
 import org.jboss.tools.cdi.core.IAnnotationDeclaration;
+import org.jboss.tools.cdi.core.IJavaAnnotation;
 import org.jboss.tools.cdi.internal.core.impl.AnnotationDeclaration;
 import org.jboss.tools.cdi.internal.core.impl.InterceptorBindingDeclaration;
 import org.jboss.tools.cdi.internal.core.impl.JavaAnnotation;
@@ -80,36 +81,50 @@ public abstract class AbstractMemberDefinition implements IAnnotated {
 		resource = ((IJavaElement)member).getResource();
 		IAnnotation[] ts = member.getAnnotations();
 		for (int i = 0; i < ts.length; i++) {
-			AnnotationDeclaration a = new AnnotationDeclaration();
-			a.setProject(context.getProject());
-			a.setDeclaration(new JavaAnnotation(ts[i], contextType));
-			AnnotationDeclaration b = null;
-			int kind = context.getAnnotationKind(a.getType());
-			if(kind > 0 && (kind & AnnotationDefinition.STEREOTYPE) > 0) {
-				b = new StereotypeDeclaration(a);
-				annotations.add(b);
-			}
-			if(kind > 0 && (kind & AnnotationDefinition.INTERCEPTOR_BINDING) > 0) {
-				b = new InterceptorBindingDeclaration(a);
-				annotations.add(b);
-			}
-			if(kind > 0 && (kind & AnnotationDefinition.QUALIFIER) > 0) {
-				b = new QualifierDeclaration(a);
-				annotations.add(b);
-			}
-			if(kind > 0 && (kind & AnnotationDefinition.SCOPE) > 0) {
-				b = new ScopeDeclaration(a);
-				annotations.add(b);
-			}
-			if(b == null) {
-				annotations.add(a);
-			} else {
-				a = b;
-			}
-			
-			if(a.getTypeName() != null) {
-				annotationsByType.put(a.getTypeName(), a);
-			}
+			IJavaAnnotation ja = new JavaAnnotation(ts[i], contextType);
+			addAnnotation(ja, context);
+		}
+	}
+
+	public void addAnnotation(IJavaAnnotation ja, DefinitionContext context) {
+		AnnotationDeclaration a = new AnnotationDeclaration();
+		a.setProject(context.getProject());
+		a.setDeclaration(ja);
+		AnnotationDeclaration b = null;
+		int kind = context.getAnnotationKind(a.getType());
+		if(kind > 0 && (kind & AnnotationDefinition.STEREOTYPE) > 0) {
+			b = new StereotypeDeclaration(a);
+			annotations.add(b);
+		}
+		if(kind > 0 && (kind & AnnotationDefinition.INTERCEPTOR_BINDING) > 0) {
+			b = new InterceptorBindingDeclaration(a);
+			annotations.add(b);
+		}
+		if(kind > 0 && (kind & AnnotationDefinition.QUALIFIER) > 0) {
+			b = new QualifierDeclaration(a);
+			annotations.add(b);
+		}
+		if(kind > 0 && (kind & AnnotationDefinition.SCOPE) > 0) {
+			b = new ScopeDeclaration(a);
+			annotations.add(b);
+		}
+		if(b == null) {
+			annotations.add(a);
+		} else {
+			a = b;
+		}
+		
+		if(a.getTypeName() != null) {
+			annotationsByType.put(a.getTypeName(), a);
+		}
+	}
+
+	public void removeAnnotation(IAnnotationDeclaration a) {
+		String name = ((AnnotationDeclaration)a).getTypeName();
+		IAnnotationDeclaration b = annotationsByType.get(name);
+		if(a == b) {
+			annotationsByType.remove(name);
+			annotations.remove(a);
 		}
 	}
 

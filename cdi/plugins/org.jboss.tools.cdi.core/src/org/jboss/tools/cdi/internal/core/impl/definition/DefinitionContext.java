@@ -347,6 +347,20 @@ public class DefinitionContext {
 		return result;
 	}
 
+	public AnnotationDefinition getAnnotation(String fullyQualifiedName) {
+		AnnotationDefinition result = annotations.get(fullyQualifiedName);
+		if(result == null) {
+			Set<CDICoreNature> ns = project.getCDIProjects(true);
+			for (CDICoreNature n: ns) {
+				result = n.getDefinitions().getAnnotation(fullyQualifiedName);
+				if(result != null) {
+					break;
+				}
+			}
+		}
+		return result;
+	}
+
 	public List<AnnotationDefinition> getAllAnnotations() {
 		List<AnnotationDefinition> result = new ArrayList<AnnotationDefinition>();
 		synchronized (annotations) {

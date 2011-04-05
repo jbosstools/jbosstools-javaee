@@ -40,7 +40,6 @@ import org.jboss.tools.cdi.core.IScopeDeclaration;
 import org.jboss.tools.cdi.core.IStereotype;
 import org.jboss.tools.cdi.core.IStereotypeDeclaration;
 import org.jboss.tools.cdi.core.ITypeDeclaration;
-import org.jboss.tools.cdi.core.extension.feature.IBeanNameFeature;
 import org.jboss.tools.cdi.internal.core.impl.definition.AbstractMemberDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.FieldDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.MethodDefinition;
@@ -312,14 +311,6 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 		ClassBean specialized = getSpecializedBean();
 		if(specialized != null) {
 			return specialized.getName();
-		}
-	
-		Set<IBeanNameFeature> fs = getExtensionManager().getBeanNameFeature();
-		if(fs != null) for (IBeanNameFeature f: fs) {
-			String result = f.computeBeanName(this);
-			if(result != null) {
-				return result;
-			}
 		}
 	
 		AnnotationDeclaration named = findNamedAnnotation();

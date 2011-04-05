@@ -21,7 +21,6 @@ import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtensionPoint;
 import org.eclipse.core.runtime.Platform;
 import org.jboss.tools.cdi.core.CDICorePlugin;
-import org.jboss.tools.cdi.core.extension.feature.IBeanNameFeature;
 import org.jboss.tools.cdi.core.extension.feature.IProcessAnnotatedTypeFeature;
 
 /**
@@ -46,7 +45,6 @@ public class CDIExtensionFactory {
 
 	public static Class<?>[] FEATURES = {
 		IProcessAnnotatedTypeFeature.class,
-		IBeanNameFeature.class
 	};
 	
 	public static CDIExtensionFactory getInstance() {

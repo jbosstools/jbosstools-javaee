@@ -17,7 +17,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.jboss.tools.cdi.core.CDICoreNature;
-import org.jboss.tools.cdi.core.extension.feature.IBeanNameFeature;
 import org.jboss.tools.cdi.core.extension.feature.IProcessAnnotatedTypeFeature;
 
 /**
@@ -122,14 +121,6 @@ public class CDIExtensionManager {
 		return featureToExtensions.containsKey(feature) ? featureToExtensions.get(feature) : EMPTY;
 	}
 
-	public Set<IBeanNameFeature> getBeanNameFeature() {
-		Set<IBeanNameFeature> result = featureStorage.beanName;
-		if(result == null) {
-			featureStorage.beanName = result = getFeature(IBeanNameFeature.class);
-		}
-		return result;
-	}
-
 	public Set<IProcessAnnotatedTypeFeature> getProcessAnnotatedTypeFeature() {
 		Set<IProcessAnnotatedTypeFeature> result = featureStorage.processAnnotatedType;
 		if(result == null) {
@@ -153,11 +144,9 @@ public class CDIExtensionManager {
 	}
 
 	class FeatureStorage {
-		Set<IBeanNameFeature> beanName = null;
 		Set<IProcessAnnotatedTypeFeature> processAnnotatedType = null;
 		
 		void clean() {
-			beanName = null;
 			processAnnotatedType = null;
 		}
 	
