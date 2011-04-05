@@ -17,11 +17,4 @@ package org.jboss.tools.cdi.core;
  */
 public interface IInjectionPointField extends IBeanField, IInjectionPoint {
 
-	/**
-	 * Extensions can override type.
-	 * 
-	 * @return type that was set by an extension instead of Java member type
-	 */
-	public ITypeDeclaration getOverridenType();
-
 }

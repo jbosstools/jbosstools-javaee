@@ -37,7 +37,14 @@ public class Parameter extends CDIElement implements IParameter {
 		return definition.getName();
 	}
 
+	public IParametedType getMemberType() {
+		return definition.getType();
+	}
+
 	public IParametedType getType() {
+		if(definition.getOverridenType() != null) {
+			return definition.getOverridenType();
+		}
 		return definition.getType();
 	}
 

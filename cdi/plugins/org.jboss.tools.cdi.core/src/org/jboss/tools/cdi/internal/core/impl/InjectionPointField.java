@@ -14,6 +14,7 @@ import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.CDIUtil;
 import org.jboss.tools.cdi.core.IAnnotationDeclaration;
 import org.jboss.tools.cdi.core.IInjectionPointField;
+import org.jboss.tools.cdi.core.IParametedType;
 import org.jboss.tools.cdi.core.ITypeDeclaration;
 
 /**
@@ -25,8 +26,15 @@ public class InjectionPointField extends BeanField implements IInjectionPointFie
 
 	public InjectionPointField() {}
 
-	public ITypeDeclaration getOverridenType() {
-		return getDefinition().getOverridenType();
+	public IParametedType getType() {
+		if(getDefinition().getOverridenType() != null) {
+			return getDefinition().getOverridenType();
+		}
+		return super.getType();
+	}
+
+	public IParametedType getJavaMemberType() {
+		return super.getType();
 	}
 
 	/*

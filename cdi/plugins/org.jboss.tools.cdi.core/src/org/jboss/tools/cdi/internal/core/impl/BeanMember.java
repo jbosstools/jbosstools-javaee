@@ -93,6 +93,10 @@ public abstract class BeanMember extends AbstractBeanElement implements IBeanMem
 		return typeDeclaration;
 	}
 
+	public IParametedType getMemberType() {
+		return typeDeclaration;
+	}
+
 	public int getLength() {
 		ISourceRange r = null;
 		try {

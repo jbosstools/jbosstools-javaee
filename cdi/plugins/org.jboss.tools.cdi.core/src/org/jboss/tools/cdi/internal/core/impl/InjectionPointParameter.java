@@ -30,9 +30,6 @@ import org.jboss.tools.common.text.ITextSourceReference;
 public class InjectionPointParameter extends Parameter implements
 		IInjectionPointParameter {
 
-	public ITypeDeclaration getOverridenType() {
-		return definition.getOverridenType();
-	}
 	/*
 	 * (non-Javadoc)
 	 * @see org.jboss.tools.cdi.core.IInjectionPoint#getDelegateAnnotation()

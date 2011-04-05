@@ -45,7 +45,6 @@ import org.jboss.tools.cdi.core.IClassBean;
 import org.jboss.tools.cdi.core.IDecorator;
 import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.core.IInjectionPointField;
-import org.jboss.tools.cdi.core.IInjectionPointParameter;
 import org.jboss.tools.cdi.core.IInterceptor;
 import org.jboss.tools.cdi.core.IInterceptorBinding;
 import org.jboss.tools.cdi.core.IObserverMethod;
@@ -286,14 +285,6 @@ public class CDIProject extends CDIElement implements ICDIProject {
 			return result;
 		}
 	
-		IParametedType overridenType = null;
-		if(injectionPoint instanceof IInjectionPointField) {
-			overridenType = ((IInjectionPointField)injectionPoint).getOverridenType();
-		} else if(injectionPoint instanceof IInjectionPointParameter) {
-			overridenType = ((IInjectionPointParameter)injectionPoint).getOverridenType();
-		}
-		if(overridenType != null) type = overridenType;
-		
 		if(type.getType() != null && CDIConstants.EVENT_TYPE_NAME.equals(type.getType().getFullyQualifiedName())) {
 			List<? extends IParametedType> ps = type.getParameters();
 			if(ps != null && ps.size() == 1) {

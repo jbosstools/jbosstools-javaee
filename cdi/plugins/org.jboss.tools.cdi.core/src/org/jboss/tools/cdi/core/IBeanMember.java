@@ -25,4 +25,11 @@ public interface IBeanMember extends IJavaSourceReference, IAnnotated {
 	 * @return
 	 */
 	IClassBean getClassBean();
+
+	/**
+	 * Returns type of underlying Java member.
+	 *  
+	 * @return
+	 */
+	IParametedType getMemberType();
 }
