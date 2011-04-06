@@ -8,12 +8,13 @@
  * Contributors: 
  * Red Hat, Inc. - initial API and implementation 
  ******************************************************************************/
-package org.jboss.tools.cdi.seam.config.core;
+package org.jboss.tools.cdi.seam.config.core.definition;
 
-import org.jboss.tools.cdi.core.CDIConstants;
-
-public interface CDISeamConfigConstants extends CDIConstants {
-
-	public static String SEAM_BEANS_XML = "seam-beans.xml";
+/**
+ * 
+ * @author Viacheslav Kabanovich
+ *
+ */
+public class SeamBeansDefinition {
 
 }

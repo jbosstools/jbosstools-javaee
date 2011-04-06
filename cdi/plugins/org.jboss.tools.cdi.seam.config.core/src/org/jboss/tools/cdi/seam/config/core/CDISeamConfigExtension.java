@@ -10,13 +10,28 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.seam.config.core;
 
+
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.extension.ICDIExtension;
 import org.jboss.tools.cdi.core.extension.IDefinitionContextExtension;
 import org.jboss.tools.cdi.core.extension.feature.IBuildParticipantFeature;
+import org.jboss.tools.cdi.seam.config.core.scanner.ConfigFileSet;
+import org.jboss.tools.common.model.XModelObject;
+import org.jboss.tools.common.model.util.EclipseResourceUtil;
 
+/**
+ * 
+ * @author Viacheslav Kabanovich
+ *
+ */
 public class CDISeamConfigExtension implements ICDIExtension, IBuildParticipantFeature {
 	CDICoreNature project;
+	ConfigDefinitionContext context = new ConfigDefinitionContext();
+
+	ConfigFileSet fileSet = new ConfigFileSet();
 
 	public Object getAdapter(Class adapter) {
 		return null;
@@ -27,8 +42,61 @@ public class CDISeamConfigExtension implements ICDIExtension, IBuildParticipantF
 	}
 
 	public IDefinitionContextExtension getContext() {
-		// TODO Auto-generated method stub
-		return null;
+		return context;
+	}
+
+	public void beginVisiting() {
+		fileSet = new ConfigFileSet();
+	}
+
+	public void visit(IFile file, IPath src, IPath webinf) {
+		IPath path = file.getFullPath();
+		if(src != null && path.segmentCount() == src.segmentCount() + 2
+				&& "META-INF".equals(path.segments()[path.segmentCount() - 2])) {
+			addBeansXML(file, fileSet);
+		} else if(webinf != null && webinf.isPrefixOf(path) && webinf.segmentCount() == path.segmentCount() - 1) {
+			addBeansXML(file, fileSet);
+		}
+	}
+
+	public void visitJar(IPath path, IPackageFragmentRoot root, XModelObject beansXML) {
+		if(beansXML != null) {
+			fileSet.setBeanXML(path, beansXML);
+			XModelObject seamBeanXML = beansXML.getParent().getChildByPath(CDISeamConfigConstants.SEAM_BEANS_XML);
+			if(seamBeanXML != null) {
+				fileSet.setSeamBeanXML(path, seamBeanXML);
+			}
+		}
+	}
+
+	public void buildDefinitions() {
+		//TODO
+	}
+
+	public void buildBeans() {
+		//TODO
+	}
+
+	private void addBeansXML(IFile f, ConfigFileSet fileSet) {
+		if(f.getName().equals("beans.xml")) {
+			XModelObject beansXML = getObject(f);
+			if(beansXML != null) {
+				fileSet.setBeanXML(f.getFullPath(), beansXML);
+			}
+		} else if(f.getName().equals(CDISeamConfigConstants.SEAM_BEANS_XML)) {
+			XModelObject beansXML = getObject(f);
+			if(beansXML != null) {
+				fileSet.setSeamBeanXML(f.getFullPath(), beansXML);
+			}
+		}
+	}
+
+	private XModelObject getObject(IFile f) {
+		XModelObject o = EclipseResourceUtil.getObjectByResource(f);
+		if(o == null) {
+			o = EclipseResourceUtil.createObjectForResource(f);
+		}
+		return o;
 	}
 
 }
