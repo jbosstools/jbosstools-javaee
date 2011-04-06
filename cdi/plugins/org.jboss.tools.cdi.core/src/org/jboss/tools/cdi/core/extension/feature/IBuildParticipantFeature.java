@@ -21,11 +21,18 @@ import org.jboss.tools.cdi.core.extension.IDefinitionContextExtension;
  *
  */
 public interface IBuildParticipantFeature {
-	
+
+	/**
+	 * Sets CDI project access object once per lifetime of this object.
+	 * @param n
+	 */
 	public void setProject(CDICoreNature n);
 
-	public void buildIsAboutToBegin();
-
+	/**
+	 * Implementation should create and keep one instance of IDefinitionContextExtension.
+	 * 
+	 * @return
+	 */
 	public IDefinitionContextExtension getContext();
 
 }
