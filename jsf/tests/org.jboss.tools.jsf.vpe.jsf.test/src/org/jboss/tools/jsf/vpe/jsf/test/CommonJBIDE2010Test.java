@@ -40,7 +40,7 @@ public abstract class CommonJBIDE2010Test extends VpeTest {
     protected static final String KEY_5 = "bean1.property3"; //$NON-NLS-1$
 
     /** The Constant VALUE_4. */
-    protected static final String VALUE_4 = "background: red"; //$NON-NLS-1$
+    protected static final String VALUE_4 = "background-color: red"; //$NON-NLS-1$
 
     /** The Constant KEY_4. */
     protected static final String KEY_4 = "bean1.property2"; //$NON-NLS-1$
