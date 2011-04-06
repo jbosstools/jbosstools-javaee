@@ -166,8 +166,10 @@ public class CDICoreBuilder extends IncrementalProjectBuilder {
 
 			//4. Create working copy of context.
 			n.getDefinitions().newWorkingCopy(kind == FULL_BUILD);
+		
+			for (IBuildParticipantFeature p: buildParticipants) p.beginVisiting();
 
-			//5. Build bean definitions.
+			//5. Discover sources and build definitions.
 			if(isClassPathUpdated) {
 				buildJars(newJars);
 				
@@ -188,6 +190,7 @@ public class CDICoreBuilder extends IncrementalProjectBuilder {
 					incrementalBuild(delta, monitor);
 				}
 			}
+			for (IBuildParticipantFeature p: buildParticipants) p.buildDefinitions();
 
 			// 6. Save created definitions to project context and build beans.
 			getCDICoreNature().getDefinitions().applyWorkingCopy();
@@ -267,6 +270,8 @@ public class CDICoreBuilder extends IncrementalProjectBuilder {
 			}
 			XModelObject beansXML = newJars.get(jar);
 			fileSet.setBeanXML(path, beansXML);
+			
+			for (IBuildParticipantFeature p: buildParticipants) p.visitJar(path, root, beansXML);
 		}
 		addBasicTypes(fileSet);
 		builderDelegate.build(fileSet, getCDICoreNature());
@@ -397,11 +402,15 @@ public class CDICoreBuilder extends IncrementalProjectBuilder {
 							&& "META-INF".equals(path.segments()[path.segmentCount() - 2])) {
 							addBeansXML(f, fileSet);
 						}
+						for (IBuildParticipantFeature p: buildParticipants) p.visit(f, srcs[i], null);
 						return false;
 					}
 				}
-				if(webinf != null && webinf.isPrefixOf(path) && webinf.segmentCount() == path.segmentCount() - 1) {
-					addBeansXML(f, fileSet);
+				if(webinf != null && webinf.isPrefixOf(path)) {
+					if(webinf.segmentCount() == path.segmentCount() - 1) {
+						addBeansXML(f, fileSet);
+					}
+					for (IBuildParticipantFeature p: buildParticipants) p.visit(f, null, webinf);
 				}
 			}
 			

@@ -56,6 +56,7 @@ import org.jboss.tools.cdi.core.IQualifier;
 import org.jboss.tools.cdi.core.IQualifierDeclaration;
 import org.jboss.tools.cdi.core.IScope;
 import org.jboss.tools.cdi.core.IStereotype;
+import org.jboss.tools.cdi.core.extension.feature.IBuildParticipantFeature;
 import org.jboss.tools.cdi.internal.core.impl.definition.AnnotationDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.BeansXMLDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.DefinitionContext;
@@ -88,7 +89,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 	private Map<IPath, Set<IBean>> beansByPath = new HashMap<IPath, Set<IBean>>();
 	private Map<String, Set<IBean>> beansByName = new HashMap<String, Set<IBean>>();
 	private Set<IBean> namedBeans = new HashSet<IBean>();
-	private Map<IType, ClassBean> classBeans = new HashMap<IType, ClassBean>();
+	private Map<IType, IClassBean> classBeans = new HashMap<IType, IClassBean>();
 	private Set<IBean> alternatives = new HashSet<IBean>();
 	private Set<IDecorator> decorators = new HashSet<IDecorator>();
 	private Set<IInterceptor> interceptors = new HashSet<IInterceptor>();
@@ -1014,6 +1015,9 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		rebuildXML();
 		rebuildAnnotationTypes();
 		rebuildBeans();
+
+		Set<IBuildParticipantFeature> buildParticipants = n.getExtensionManager().getBuildParticipantFeature();
+		for (IBuildParticipantFeature p: buildParticipants) p.buildBeans();
 		
 		CDICoreNature[] ps = n.getDependentProjects().toArray(new CDICoreNature[0]);
 		for (CDICoreNature p: ps) {
@@ -1081,7 +1085,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 	void rebuildBeans() {
 		List<TypeDefinition> typeDefinitions = n.getAllTypeDefinitions();
 		List<IBean> beans = new ArrayList<IBean>();
-		Map<IType, ClassBean> newClassBeans = new HashMap<IType, ClassBean>();
+		Map<IType, IClassBean> newClassBeans = new HashMap<IType, IClassBean>();
 	
 		ImplementationCollector ic = new ImplementationCollector(typeDefinitions);
 
@@ -1113,16 +1117,13 @@ public class CDIProject extends CDIElement implements ICDIProject {
 			}
 		}
 	
-		for (ClassBean bean: newClassBeans.values()) {
-			ParametedType s = bean.getDefinition().getSuperType();
+		for (IClassBean bean: newClassBeans.values()) {
+			IParametedType s = bean.getSuperType();
 			if(s != null && s.getType() != null) {
-				ClassBean superClassBean = newClassBeans.get(s.getType());
-				if(superClassBean != null) {
-					bean.setSuperClassBean(superClassBean);
-				}
+				IClassBean superClassBean = newClassBeans.get(s.getType());
+				bean.setSuperClassBean(superClassBean);
 			}
-		}
-	
+		}	
 
 		synchronized (beansByPath) {
 			beansByPath.clear();
@@ -1161,7 +1162,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 //		System.out.println("Bean paths=" + beansByPath.size());
 	}
 
-	void addBean(IBean bean) {
+	public void addBean(IBean bean) {
 		String name = bean.getName();
 		if(name != null && name.length() > 0) {
 			Set<IBean> bs = beansByName.get(name);
@@ -1202,6 +1203,13 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		if(bean instanceof IInterceptor) {
 			synchronized (interceptors) {
 				interceptors.add((IInterceptor)bean);
+			}
+		}
+		if(bean instanceof IClassBean) {
+			IClassBean c = (IClassBean)bean;
+			IType t = c.getBeanClass();
+			if(t != null && !classBeans.containsKey(t)) {
+				classBeans.put(t, c);
 			}
 		}
 		synchronized (allBeans) {

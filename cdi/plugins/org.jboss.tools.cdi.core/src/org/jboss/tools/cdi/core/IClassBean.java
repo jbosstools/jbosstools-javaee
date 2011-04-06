@@ -60,4 +60,11 @@ public interface IClassBean extends IBean, IInterceptorBinded {
 	 * @return all the directly derived classes that declare annotation @Specializes
 	 */
 	Set<? extends IClassBean> getSpecializingBeans();
+
+	IParametedType getSuperType();
+
+	IClassBean getSuperClassBean();
+
+	void setSuperClassBean(IClassBean bean);
+
 }

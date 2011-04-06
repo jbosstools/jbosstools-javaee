@@ -10,8 +10,6 @@
  ******************************************************************************/ 
 package org.jboss.tools.cdi.internal.core.impl;
 
-
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -44,7 +42,6 @@ import org.jboss.tools.cdi.internal.core.impl.definition.AbstractMemberDefinitio
 import org.jboss.tools.cdi.internal.core.impl.definition.FieldDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.MethodDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.TypeDefinition;
-import org.jboss.tools.common.model.project.ext.impl.ValueInfo;
 import org.jboss.tools.common.text.ITextSourceReference;
 
 /**
@@ -123,10 +120,12 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 		return result;
 	}
 
-	public void setSuperClassBean(ClassBean bean) {
-		HashSet<ClassBean> beans = new HashSet<ClassBean>();
+	public void setSuperClassBean(IClassBean bean) {
+		if(!(bean instanceof ClassBean)) return;
+		
+		HashSet<IClassBean> beans = new HashSet<IClassBean>();
 		beans.add(this);
-		ClassBean b = bean;
+		IClassBean b = bean;
 		while(b != null) {
 			if(beans.contains(b)) {
 				bean = null;
@@ -135,13 +134,13 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 			b = b.getSuperClassBean();
 		}		
 		
-		superClassBean = bean;
+		superClassBean = (ClassBean)bean;
 		if(superClassBean != null && isSpecializing()) {
 			superClassBean.addSpecializingClassBean(this);
 		}
-		if(bean != null) {
+		if(superClassBean != null) {
 			Map<String, ProducerMethod> thisProducers = getProducerMethodsForSignatures();
-			Map<String, ProducerMethod> superProducers = bean.getProducerMethodsForSignatures();
+			Map<String, ProducerMethod> superProducers = superClassBean.getProducerMethodsForSignatures();
 			for (String s: thisProducers.keySet()) {
 				ProducerMethod thisProducer = thisProducers.get(s);
 				ProducerMethod superProducer = superProducers.get(s);
@@ -531,4 +530,9 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 	public String getSimpleJavaName() {
 		return this.getBeanClass().getElementName();
 	}
+
+	public ParametedType getSuperType() {
+		return getDefinition().getSuperType();
+	}
+
 }
