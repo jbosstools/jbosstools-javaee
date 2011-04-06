@@ -15,6 +15,8 @@ import org.eclipse.jdt.internal.core.MemberValuePair;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.IAnnotated;
 import org.jboss.tools.cdi.core.IAnnotationDeclaration;
+import org.jboss.tools.cdi.core.IDefinitionContext;
+import org.jboss.tools.cdi.core.IRootDefinitionContext;
 import org.jboss.tools.cdi.core.extension.ICDIExtension;
 import org.jboss.tools.cdi.core.extension.feature.IProcessAnnotatedTypeFeature;
 import org.jboss.tools.cdi.internal.core.impl.AnnotationLiteral;
@@ -39,7 +41,7 @@ public class CDISeamSolderCoreExtension implements ICDIExtension, IProcessAnnota
 		return null;
 	}
 
-	public void processAnnotatedType(TypeDefinition typeDefinition, DefinitionContext context) {
+	public void processAnnotatedType(TypeDefinition typeDefinition, IRootDefinitionContext context) {
 
 		if(processVeto(typeDefinition, context)) {
 			return;
@@ -56,7 +58,7 @@ public class CDISeamSolderCoreExtension implements ICDIExtension, IProcessAnnota
 	}
 
 	// @Veto
-	private boolean processVeto(TypeDefinition typeDefinition, DefinitionContext context) {
+	private boolean processVeto(TypeDefinition typeDefinition, IRootDefinitionContext context) {
 		if (typeDefinition
 				.isAnnotationPresent(CDISeamSolderConstants.VETO_ANNOTATION_TYPE_NAME)
 				|| (typeDefinition.getPackageDefinition() != null && typeDefinition
@@ -70,7 +72,7 @@ public class CDISeamSolderCoreExtension implements ICDIExtension, IProcessAnnota
 	}
 
 	// @Requires
-	private boolean processRequires(TypeDefinition typeDefinition, DefinitionContext context) {
+	private boolean processRequires(TypeDefinition typeDefinition, IRootDefinitionContext context) {
 		Set<String> requiredClasses = new HashSet<String>();
 		List<String> typeRequiredClasses = getRequiredClasses(typeDefinition);
 		if (typeRequiredClasses != null)
@@ -100,7 +102,7 @@ public class CDISeamSolderCoreExtension implements ICDIExtension, IProcessAnnota
 	}
 
 	// @FullyQualified @Named
-	private void processNames(TypeDefinition typeDefinition, DefinitionContext context) {
+	private void processNames(TypeDefinition typeDefinition, IRootDefinitionContext context) {
 		PackageDefinition p = typeDefinition.getPackageDefinition();
 		IAnnotationDeclaration namedOnPackage = null;
 		IAnnotationDeclaration fullyQualifiedOnPackage = null;
@@ -127,7 +129,7 @@ public class CDISeamSolderCoreExtension implements ICDIExtension, IProcessAnnota
 		
 	}
 
-	private void processNames(AbstractMemberDefinition d, DefinitionContext context,
+	private void processNames(AbstractMemberDefinition d, IRootDefinitionContext context,
 			IAnnotationDeclaration namedOnPackage, IAnnotationDeclaration fullyQualifiedOnPackage, PackageDefinition p) {
 		IAnnotationDeclaration named = d.getAnnotation(CDIConstants.NAMED_QUALIFIER_TYPE_NAME);
 		IAnnotationDeclaration fullyQualified = d.getAnnotation(CDISeamSolderConstants.FULLY_QUALIFIED_ANNOTATION_TYPE_NAME);
@@ -182,7 +184,7 @@ public class CDISeamSolderCoreExtension implements ICDIExtension, IProcessAnnota
 	}
 
 	// @Exact
-	private void processExact(TypeDefinition typeDefinition, DefinitionContext context) {
+	private void processExact(TypeDefinition typeDefinition, IRootDefinitionContext context) {
 		List<FieldDefinition> fs = typeDefinition.getFields();
 		for (FieldDefinition f : fs) {
 			TypeDeclaration exact = getExactType(f, typeDefinition, context);
@@ -203,7 +205,7 @@ public class CDISeamSolderCoreExtension implements ICDIExtension, IProcessAnnota
 		}
 	}
 
-	private TypeDeclaration getExactType(IAnnotated annotated, TypeDefinition declaringType, DefinitionContext context) {
+	private TypeDeclaration getExactType(IAnnotated annotated, TypeDefinition declaringType, IRootDefinitionContext context) {
 		IAnnotationDeclaration a = annotated.getAnnotation(CDISeamSolderConstants.EXACT_ANNOTATION_TYPE_NAME);
 		if(a != null) {
 			Object o = a.getMemberValue(null);
