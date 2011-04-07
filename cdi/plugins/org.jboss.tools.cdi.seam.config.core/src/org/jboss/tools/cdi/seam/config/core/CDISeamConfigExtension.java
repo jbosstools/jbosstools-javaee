@@ -11,15 +11,22 @@
 package org.jboss.tools.cdi.seam.config.core;
 
 
+import java.util.Set;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
+import org.eclipse.jface.text.Document;
+import org.eclipse.jface.text.IDocument;
 import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.extension.ICDIExtension;
 import org.jboss.tools.cdi.core.extension.IDefinitionContextExtension;
 import org.jboss.tools.cdi.core.extension.feature.IBuildParticipantFeature;
+import org.jboss.tools.cdi.seam.config.core.definition.SeamBeansDefinition;
 import org.jboss.tools.cdi.seam.config.core.scanner.ConfigFileSet;
+import org.jboss.tools.cdi.seam.config.core.scanner.SeamDefinitionBuilder;
 import org.jboss.tools.common.model.XModelObject;
+import org.jboss.tools.common.model.filesystems.impl.FileAnyImpl;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 
 /**
@@ -70,6 +77,27 @@ public class CDISeamConfigExtension implements ICDIExtension, IBuildParticipantF
 	}
 
 	public void buildDefinitions() {
+		 Set<IPath> paths = fileSet.getAllPaths();
+		 for (IPath p: paths) {
+			 boolean isSeamBeans = false;
+			 XModelObject o = fileSet.getBeanXML(p);
+			 if(o == null) {
+				 o = fileSet.getSeamBeanXML(p);
+				 isSeamBeans = true;
+			 }
+			 if(o instanceof FileAnyImpl) {
+				 String text = ((FileAnyImpl)o).getAsText();
+				 IDocument document = new Document();
+				 SeamDefinitionBuilder builder = new SeamDefinitionBuilder();
+				 document.set(text);
+				 SeamBeansDefinition def = builder.createDefinition(document, project);
+				 if(isSeamBeans) {
+					 context.addSeamBeanXML(p, def);
+				 } else {
+					 context.addBeanXML(p, def);
+				 }
+			 }
+		 }
 		//TODO
 	}
 
