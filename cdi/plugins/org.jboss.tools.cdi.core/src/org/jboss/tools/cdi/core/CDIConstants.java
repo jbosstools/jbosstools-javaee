@@ -83,6 +83,11 @@ public interface CDIConstants {
 
 	public String EVENT_TYPE_NAME = "javax.enterprise.event.Event";
 
+	public String USER_TRANSACTION_TYPE_NAME = "javax.transaction.UserTransaction";
+	public String PRINCIPAL_TYPE_NAME = "java.security.Principal";
+	public String VALIDATION_FACTORY_TYPE_NAME = "javax.validation.ValidatorFactory";
+	public String VALIDATOR_TYPE_NAME = "javax.validation.Validator";
+
 	public String ANNOTATION_LITERAL_TYPE_NAME = "javax.enterprise.util.AnnotationLiteral";
 
 	public String WELD_BEAN_MANAGER_TYPE_NAME = "org.jboss.weld.manager.BeanManagerImpl";
