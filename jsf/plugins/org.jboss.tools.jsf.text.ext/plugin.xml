@@ -1071,8 +1071,8 @@
          		<partitionType id="org.jboss.tools.common.text.ext.jsp.JSP_TAG_ATTRIBUTE" />
          	</contentType>
 		</hyperlinkPartitioner>
-
-		<hyperlinkPartitioner 
+		
+		<!--hyperlinkPartitioner 
          	id="org.jboss.tools.common.text.ext.jsf.hyperlink.JsfJSPTagNameHyperlinkPartitioner"
          	class="org.jboss.tools.jsf.text.ext.hyperlink.JsfJSPTagNameHyperlinkPartitioner">
          	<contentType id="org.eclipse.jst.jsp.core.jspsource">
@@ -1090,9 +1090,19 @@
          	<contentType id="org.jboss.tools.jst.jsp.jspincludesource">
          		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ELEMENT_NAME" />
          	</contentType>
-		</hyperlinkPartitioner>
+		</hyperlinkPartitioner-->
 
-	</extension>	
+	</extension>
+	
+	<extension
+         point="org.eclipse.ui.workbench.texteditor.hyperlinkDetectors">
+      <hyperlinkDetector
+            class="org.jboss.tools.jsf.text.ext.hyperlink.JsfJSPTagNameHyperlinkDetector"
+            id="org.jboss.tools.jsf.text.ext.hyperlink.JsfJSPTagNameHyperlinkDetector"
+            name="%JsfJSPTagNameHyperlinkDetector"
+            targetId="org.eclipse.wst.html.core.htmlsource">
+      </hyperlinkDetector>
+   	</extension>
 
 	<extension 
 		point="org.jboss.tools.common.text.ext.hyperlink"
