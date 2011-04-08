@@ -1,13 +1,25 @@
+/*******************************************************************************
+ * Copyright (c) 2011 Exadel, Inc. and Red Hat, Inc.
+ * Distributed under license by Red Hat, Inc. All rights reserved.
+ * This program is made available under the terms of the
+ * Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Exadel, Inc. and Red Hat, Inc. - initial API and implementation
+ ******************************************************************************/ 
 package org.jboss.tools.jsf.text.ext.hyperlink;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.jface.text.IRegion;
+import org.eclipse.osgi.util.NLS;
 import org.eclipse.ui.IEditorPart;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.filesystems.impl.FileAnyImpl;
 import org.jboss.tools.common.model.util.FindObjectHelper;
 import org.jboss.tools.common.text.ext.hyperlink.AbstractHyperlink;
+import org.jboss.tools.jsf.text.ext.JSFTextExtMessages;
 import org.jboss.tools.jst.web.kb.internal.taglib.AbstractComponent;
 import org.jboss.tools.jst.web.kb.taglib.ITagLibrary;
 
@@ -69,11 +81,11 @@ public class TLDTagHyperlink extends AbstractHyperlink {
 	@Override
 	public String getHyperlinkText() {
 		if(xmodelObjectName != null)
-			return "Open "+xmodelObjectName;
+			return NLS.bind(JSFTextExtMessages.Open, xmodelObjectName);
 		else if(file != null)
-			return "Open "+file.getName();
+			return NLS.bind(JSFTextExtMessages.Open, file.getName());
 		else
-			return "Open...";
+			return NLS.bind(JSFTextExtMessages.Open, "");
 	}
 
 }
