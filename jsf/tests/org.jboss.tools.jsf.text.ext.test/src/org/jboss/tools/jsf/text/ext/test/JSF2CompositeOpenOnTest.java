@@ -24,6 +24,7 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.jboss.tools.common.text.ext.hyperlink.HyperlinkDetector;
+import org.jboss.tools.jsf.text.ext.hyperlink.JsfJSPTagNameHyperlinkDetector;
 import org.jboss.tools.jst.jsp.jspeditor.JSPMultiPageEditor;
 import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.WorkbenchUtils;
@@ -61,7 +62,8 @@ public class JSF2CompositeOpenOnTest extends TestCase {
 		
 		assertNotNull("Tag:"+tagName+" not found",reg);
 		
-		IHyperlink[] links = HyperlinkDetector.getInstance().detectHyperlinks(viewer, reg, true);
+		IHyperlink[] links = new JsfJSPTagNameHyperlinkDetector().detectHyperlinks(viewer, reg, false);
+		//IHyperlink[] links = HyperlinkDetector.getInstance().detectHyperlinks(viewer, reg, true);
 		
 		assertNotNull("Hyperlinks for tag:"+tagName+" are not found",links);
 		

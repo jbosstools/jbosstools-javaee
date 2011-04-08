@@ -19,6 +19,7 @@ import org.eclipse.ui.PlatformUI;
 import org.jboss.tools.common.model.ui.editor.EditorPartWrapper;
 import org.jboss.tools.common.model.ui.editors.multipage.DefaultMultipageEditor;
 import org.jboss.tools.common.text.ext.hyperlink.HyperlinkDetector;
+import org.jboss.tools.jsf.text.ext.hyperlink.JsfJSPTagNameHyperlinkDetector;
 import org.jboss.tools.jst.jsp.jspeditor.JSPMultiPageEditor;
 import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.WorkbenchUtils;
@@ -459,7 +460,8 @@ public class OpenOnsTest extends TestCase {
 
 		IRegion reg = new FindReplaceDocumentAdapter(jspMultyPageEditor.getSourceEditor().getTextViewer().getDocument()).find(0,
 				"message", true, true, false, false);
-		IHyperlink[] links = HyperlinkDetector.getInstance().detectHyperlinks(viewer, reg, false);
+		IHyperlink[] links = new JsfJSPTagNameHyperlinkDetector().detectHyperlinks(viewer, reg, false);
+		//IHyperlink[] links = HyperlinkDetector.getInstance().detectHyperlinks(viewer, reg, false);
 		assertNotNull(links);
 		assertTrue(links.length!=0);
 		//assertNotNull(links[0].getHyperlinkText());
