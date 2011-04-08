@@ -47,7 +47,16 @@ public class CDIBuilderDelegate implements ICDIBuilderDelegate {
 		
 		Map<IPath, Set<IType>> is = fileSet.getInterfaces();
 		for (IPath f: is.keySet()) {
-			//TODO
+			Set<IType> ts = is.get(f);
+			for (IType type: ts) {
+				// Jars present package-info as binary interface 
+				// whereas sources present it as compilation unit with package declaration. 
+				if(type.getElementName().equals("package-info")) {
+					PackageDefinition def = new PackageDefinition();
+					def.setBinaryType(type, context);
+					context.addPackage(f, def.getQualifiedName(), def);
+				}
+			}
 		}
 		
 		Map<IPath, Set<IType>> cs = fileSet.getClasses();

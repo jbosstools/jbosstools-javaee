@@ -24,12 +24,19 @@ import org.jboss.tools.common.util.EclipseJavaUtil;
  *
  */
 public class PackageDefinition extends AbstractMemberDefinition {
+	IType binaryType = null;
 	protected String qualifiedName;
 
 	public PackageDefinition() {}
 
 	public String getQualifiedName() {
 		return qualifiedName;
+	}
+
+	public void setBinaryType(IType pkg, IRootDefinitionContext context) {
+		binaryType = pkg;
+		setAnnotatable(pkg, pkg, context);
+		qualifiedName = pkg.getPackageFragment().getElementName();
 	}
 
 	public void setPackage(IPackageDeclaration pkg, IRootDefinitionContext context) {
@@ -55,6 +62,9 @@ public class PackageDefinition extends AbstractMemberDefinition {
 	}
 
 	public String resolveType(String typeName) {
+		if(binaryType != null) {
+			return typeName;
+		}
 		String result = typeName;
 		IPackageDeclaration pkg = (IPackageDeclaration)member;
 		IType contextType = null;
