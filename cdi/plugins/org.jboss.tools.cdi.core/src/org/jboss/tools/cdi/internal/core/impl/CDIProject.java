@@ -328,6 +328,21 @@ public class CDIProject extends CDIElement implements ICDIProject {
 			}
 		}
 		
+		if(isBuiltIn(type.getType())) {
+			Set<IBean> rslt = null;
+			if(isParameter) {
+				rslt = getBeans(attemptToResolveAmbiguousDependency, type, qs2.toArray(new IType[0]));
+			} else {
+				rslt = getBeans(attemptToResolveAmbiguousDependency, type, qs.toArray(new IQualifierDeclaration[0]));
+			}
+			if(rslt != null && !rslt.isEmpty()) return rslt;
+			BuiltInBean builtInBean = new BuiltInBean(type);
+			builtInBean.setParent(this);
+			builtInBean.setSourcePath(injectionPoint.getSourcePath());
+			result.add(builtInBean);
+			return result;
+		}
+		
 		Set<IBean> beans = new HashSet<IBean>();
 		synchronized(allBeans) {
 			beans.addAll(allBeans);
@@ -376,6 +391,17 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		}
 
 		return getResolvedBeans(result, attemptToResolveAmbiguousDependency);
+	}
+
+	static Set<String> BUILT_IN = new HashSet<String>();
+	static {
+		BUILT_IN.add(CDIConstants.USER_TRANSACTION_TYPE_NAME);
+		BUILT_IN.add(CDIConstants.PRINCIPAL_TYPE_NAME);
+		BUILT_IN.add(CDIConstants.VALIDATION_FACTORY_TYPE_NAME);
+		BUILT_IN.add(CDIConstants.VALIDATOR_TYPE_NAME);
+	}
+	static boolean isBuiltIn(IType type) {
+		return type != null && BUILT_IN.contains(type.getFullyQualifiedName());
 	}
 
 	public static boolean containsType(Set<IParametedType> types, IParametedType type) {
