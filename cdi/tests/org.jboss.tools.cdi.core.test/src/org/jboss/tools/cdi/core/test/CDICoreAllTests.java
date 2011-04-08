@@ -20,6 +20,7 @@ import org.jboss.tools.cdi.core.test.project.EnableCDISupportForWarTest;
 import org.jboss.tools.cdi.core.test.tck.AssignabilityOfRawAndParameterizedTypesTest;
 import org.jboss.tools.cdi.core.test.tck.BeanDefinitionTest;
 import org.jboss.tools.cdi.core.test.tck.BeanSpecializationTest;
+import org.jboss.tools.cdi.core.test.tck.BuiltInBeanInjectionTest;
 import org.jboss.tools.cdi.core.test.tck.DecoratorDefinitionTest;
 import org.jboss.tools.cdi.core.test.tck.DefaultNamedTest;
 import org.jboss.tools.cdi.core.test.tck.DynamicLookupTest;
@@ -82,6 +83,7 @@ public class CDICoreAllTests {
 		suite.addTestSuite(InterceptorDefinitionTest.class);
 		suite.addTestSuite(DecoratorDefinitionTest.class);
 		suite.addTestSuite(ObserverMethodResolutionTest.class);
+		suite.addTestSuite(BuiltInBeanInjectionTest.class);
 		suite.addTestSuite(BeansXmlCATest.class);
 		suite.addTestSuite(SelectedAlternativeTest.class);
 
