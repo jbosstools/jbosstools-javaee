@@ -5,5 +5,6 @@
 	<classpathentry kind="lib" path="lib/cdi-api.jar"/>
 	<classpathentry kind="lib" path="lib/javax.inject.jar"/>
 	<classpathentry kind="lib" path="lib/seam-solder.jar"/>
+	<classpathentry kind="lib" path="lib/cdi-solder-birds.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

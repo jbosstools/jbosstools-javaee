@@ -10,11 +10,14 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.jdt.core.IMember;
+import org.eclipse.jdt.core.IType;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IBeanMember;
 import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.IClassBean;
+import org.jboss.tools.cdi.core.IProducerMethod;
 import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.ResourcesUtils;
 
@@ -138,6 +141,40 @@ public class BeanNamingTest extends TestCase {
 			}
 		}
 		return null;
+	}
+
+	public void testAnnotatedPackagesInJars() {
+		ICDIProject cdi = CDICorePlugin.getCDIProject(project, true);
+		
+		// Package @FullyQualified and @Named
+
+		// 1. Class @Named("bird-of-prey")
+		Set<IBean> bs = cdi.getBeans("org.jboss.birds.bird-of-prey", false);
+		assertEquals(1, bs.size());
+		IBean b = bs.iterator().next();
+		assertTrue(b instanceof IClassBean);
+		IClassBean cb = (IClassBean)b;
+		IType t = cb.getBeanClass();
+		assertEquals("org.jboss.birds.Eagle", t.getFullyQualifiedName());
+
+		// 2. Class not annotated
+		bs = cdi.getBeans("org.jboss.birds.nightingale", false);
+		assertEquals(1, bs.size());
+		b = bs.iterator().next();
+		assertTrue(b instanceof IClassBean);
+		cb = (IClassBean)b;
+		t = cb.getBeanClass();
+		assertEquals("org.jboss.birds.Nightingale", t.getFullyQualifiedName());
+		
+		// 3. Producer method @Named
+		bs = cdi.getBeans("org.jboss.birds.song", false);
+		assertEquals(1, bs.size());
+		b = bs.iterator().next();
+		assertTrue(b instanceof IProducerMethod);
+		IProducerMethod mb = (IProducerMethod)b;
+		IMember m = mb.getSourceMember();
+		assertEquals("getSong", m.getElementName());
+		
 	}
 
 	public void tearDown() throws Exception {
