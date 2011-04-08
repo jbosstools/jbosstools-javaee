@@ -13,13 +13,15 @@ package org.jboss.tools.jsf.text.ext.hyperlink;
 import java.util.ArrayList;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.ITextViewer;
+import org.eclipse.jface.text.Region;
 import org.eclipse.jface.text.hyperlink.AbstractHyperlinkDetector;
 import org.eclipse.jface.text.hyperlink.IHyperlink;
-import org.eclipse.wst.sse.core.internal.provisional.text.IStructuredDocumentRegion;
-import org.eclipse.wst.xml.core.internal.provisional.document.IDOMNode;
+import org.eclipse.wst.xml.core.internal.provisional.document.IDOMElement;
 import org.jboss.tools.common.core.resources.XModelObjectEditorInput;
+import org.jboss.tools.common.el.core.resolver.ELContext;
 import org.jboss.tools.common.text.ext.util.StructuredModelWrapper;
 import org.jboss.tools.common.text.ext.util.Utils;
 import org.jboss.tools.jst.jsp.jspeditor.JSPTextEditor;
@@ -58,42 +60,26 @@ public class JsfJSPTagNameHyperlinkDetector extends AbstractHyperlinkDetector {
 		if (xmlDocument == null)
 			return null;
 		
-		IDOMNode node = (IDOMNode)Utils.findNodeForOffset((Node)xmlDocument, region.getOffset());
-		if(node != null){
+		Node n = Utils.findNodeForOffset(xmlDocument, region.getOffset());
+		
+		IRegion reg = getRegion(n, region.getOffset());
+		
+		if(reg != null){
 			KbQuery query = new KbQuery();
 			query.setType(KbQuery.Type.TAG_NAME);
 			
+			query.setOffset(reg.getOffset());
+			query.setValue(n.getNodeName());
+			query.setMask(false);
 			
-			IStructuredDocumentRegion sRegion = node.getStartStructuredDocumentRegion();
+			ELContext context = PageContextFactory.createPageContext(file);
 			
-			if(sRegion == null)
-				return null;
-			
-			if(region.getOffset() > (sRegion.getStartOffset()+sRegion.getLength()))
-				sRegion = node.getEndStructuredDocumentRegion();
-			
-			final IStructuredDocumentRegion reg = sRegion;
-			
-			if(reg != null){
-				query.setOffset(sRegion.getStartOffset());
-				query.setValue(node.getNodeName());
-				query.setMask(false);
-				
-				IPageContext context = (IPageContext)PageContextFactory.createPageContext(file);
-				
-				IComponent[] components = PageProcessor.getInstance().getComponents(query, context);
+			if(context instanceof IPageContext){
+				IComponent[] components = PageProcessor.getInstance().getComponents(query, (IPageContext)context);
 				ArrayList<IHyperlink> hyperlinks = new ArrayList<IHyperlink>();
 				for(IComponent component : components){
 					if(component instanceof TLDTag || component instanceof FaceletTag){
-						TLDTagHyperlink link = new TLDTagHyperlink((AbstractComponent)component, new IRegion(){
-							public int getLength() {
-								return reg.getLength();
-							}
-
-							public int getOffset() {
-								return reg.getStartOffset();
-							}
-						});
+						TLDTagHyperlink link = new TLDTagHyperlink((AbstractComponent)component, reg);
 						link.setDocument(textViewer.getDocument());
 						hyperlinks.add(link);
 					}
@@ -102,10 +88,9 @@ public class JsfJSPTagNameHyperlinkDetector extends AbstractHyperlinkDetector {
 				if(hyperlinks.size() > 0)
 					return (IHyperlink[]) hyperlinks.toArray(new IHyperlink[hyperlinks.size()]);
 			}
-			
 		}
 		
-		return null;
+		return parse(textViewer.getDocument(), xmlDocument, region);
 	}
 	
 	private void sortHyperlinks(ArrayList<IHyperlink> hyperlinks){
@@ -122,6 +107,36 @@ public class JsfJSPTagNameHyperlinkDetector extends AbstractHyperlinkDetector {
 				}
 			}
 		}
+	}
+	
+	private IHyperlink[] parse(IDocument document, Document xmlDocument, IRegion superRegion) {
+		Node n = Utils.findNodeForOffset(xmlDocument, superRegion.getOffset());
+		IRegion r = getRegion(n, superRegion.getOffset());
+		if (r == null) return null;
+		
+		JsfJSPTagNameHyperlink link = new JsfJSPTagNameHyperlink(r);
+		link.setDocument(document);
+		return new IHyperlink[]{link};
+	}
+	
+	private IRegion getRegion(Node n, int offset) {
+		if (n == null || !(n instanceof IDOMElement)) return null;
+		
+		IDOMElement elem = (IDOMElement)n;
+		
+		String tagName = elem.getTagName();
+		
+		int start = elem.getStartOffset();
+		int nameStart = start + "<".length(); //$NON-NLS-1$
+		int nameEnd = nameStart + tagName.length();
+
+		if(offset > nameEnd){
+			start = elem.getEndStartOffset();
+			nameStart = start + "</".length(); //$NON-NLS-1$
+			nameEnd = nameStart + tagName.length();
+		}
+
+		return new Region(nameStart,nameEnd - nameStart);
 	}
 
 }

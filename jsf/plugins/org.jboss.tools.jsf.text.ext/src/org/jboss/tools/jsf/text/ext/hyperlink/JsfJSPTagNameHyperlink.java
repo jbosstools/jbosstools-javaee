@@ -18,17 +18,15 @@ import java.util.Properties;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.jface.text.IRegion;
-import org.eclipse.jface.text.Region;
 import org.eclipse.ui.IEditorPart;
-import org.eclipse.wst.xml.core.internal.provisional.document.IDOMElement;
 import org.jboss.tools.common.model.XModel;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.util.FindObjectHelper;
 import org.jboss.tools.common.text.ext.hyperlink.AbstractHyperlink;
-import org.jboss.tools.jst.text.ext.hyperlink.jsp.JSPRootHyperlinkPartitioner;
 import org.jboss.tools.common.text.ext.util.StructuredModelWrapper;
 import org.jboss.tools.common.text.ext.util.Utils;
 import org.jboss.tools.jsf.text.ext.JSFTextExtMessages;
+import org.jboss.tools.jst.text.ext.hyperlink.jsp.JSPRootHyperlinkPartitioner;
 import org.jboss.tools.jst.web.kb.KbProjectFactory;
 import org.jboss.tools.jst.web.kb.internal.taglib.AbstractComponent;
 import org.jboss.tools.jst.web.kb.taglib.IComponent;
@@ -43,7 +41,11 @@ import org.w3c.dom.Node;
  * @author Jeremy
  */
 public class JsfJSPTagNameHyperlink extends AbstractHyperlink {
-
+	private IRegion fLastRegion = null;
+	
+	public JsfJSPTagNameHyperlink(IRegion region){
+		fLastRegion = region;
+	}
 	/**
 	 * @see com.ibm.sse.editor.AbstractHyperlink#doHyperlink(org.eclipse.jface.text.IRegion)
 	 */
@@ -184,38 +186,11 @@ public class JsfJSPTagNameHyperlink extends AbstractHyperlink {
 		}
 	}
 	
-	IRegion fLastRegion = null;
 	/**
 	 * @see com.ibm.sse.editor.AbstractHyperlink#doGetHyperlinkRegion(int)
 	 */
 	protected IRegion doGetHyperlinkRegion(int offset) {
-		fLastRegion = getRegion(offset);
 		return fLastRegion;
-	}
-	
-	protected IRegion getRegion (int offset) {
-		StructuredModelWrapper smw = new StructuredModelWrapper();
-		smw.init(getDocument());
-		try {
-			Document xmlDocument = smw.getDocument();
-			if (xmlDocument == null) return null;
-			
-			Node n = Utils.findNodeForOffset(xmlDocument, offset);
-
-			if (n == null || !(n instanceof IDOMElement)) return null;
-			
-			IDOMElement elem = (IDOMElement)n;
-			String tagName = elem.getTagName();
-			int start = elem.getStartOffset();
-			final int nameStart = start + (elem.isEndTag() ? "</" : "<").length(); //$NON-NLS-1$ //$NON-NLS-2$
-			final int nameEnd = nameStart + tagName.length();
-
-			if (nameStart > offset || nameEnd <= offset) return null;
-			
-			return new Region(nameStart,nameEnd - nameStart);
-		} finally {
-			smw.dispose();
-		}
 	}
 	
 	/*
