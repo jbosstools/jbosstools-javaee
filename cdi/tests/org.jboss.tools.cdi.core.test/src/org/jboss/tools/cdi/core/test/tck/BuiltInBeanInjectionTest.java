@@ -35,7 +35,7 @@ import org.jboss.tools.common.model.util.EclipseResourceUtil;
  */
 public class BuiltInBeanInjectionTest extends TCKTest {
 
-	public void testUserTransactionBean() {
+	public void testBuiltInBeans() {
 		// javax.transaction.UserTransaction
 		IInjectionPointField field =  getInjectionPointField("JavaSource/org/jboss/jsr299/tck/tests/implementation/builtin/UserTransactionInjectedBean.java", "userTransaction");
 		assertNotNull(field);
