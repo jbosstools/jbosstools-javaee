@@ -12,23 +12,10 @@ package org.jboss.tools.cdi.core.test.tck;
 
 import java.util.Set;
 
-import org.eclipse.core.resources.IProject;
-import org.eclipse.jdt.core.IClassFile;
-import org.eclipse.jdt.core.IJavaProject;
-import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IType;
-import org.eclipse.jdt.core.compiler.IProblem;
-import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.IBean;
-import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.core.IInjectionPointField;
-import org.jboss.tools.cdi.core.IInjectionPointParameter;
-import org.jboss.tools.cdi.core.IObserverMethod;
-import org.jboss.tools.cdi.core.IParameter;
-import org.jboss.tools.cdi.core.IQualifier;
 import org.jboss.tools.cdi.internal.core.impl.BuiltInBean;
-import org.jboss.tools.common.model.util.EclipseJavaUtil;
-import org.jboss.tools.common.model.util.EclipseResourceUtil;
 
 /**
  * @author Viacheslav Kabanovich
@@ -39,9 +26,6 @@ public class BuiltInBeanInjectionTest extends TCKTest {
 		// javax.transaction.UserTransaction
 		IInjectionPointField field =  getInjectionPointField("JavaSource/org/jboss/jsr299/tck/tests/implementation/builtin/UserTransactionInjectedBean.java", "userTransaction");
 		assertNotNull(field);
-		
-		IProject p = cdiProject.getNature().getProject();
-		IJavaProject jp = EclipseResourceUtil.getJavaProject(p);
 		
 		Set<IBean> beans = field.getCDIProject().getBeans(false, field);
 		assertFalse(beans.isEmpty());
