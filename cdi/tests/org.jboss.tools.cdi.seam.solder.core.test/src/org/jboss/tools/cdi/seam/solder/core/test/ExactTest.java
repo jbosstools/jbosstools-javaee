@@ -42,7 +42,7 @@ public class ExactTest extends TestCase {
 		JobUtils.waitForIdle();
 	}
 
-	public void testVeto() throws CoreException, IOException {
+	public void testExact() throws CoreException, IOException {
 		ICDIProject cdi = CDICorePlugin.getCDIProject(project, true);
 
 		Set<IBean> bs = cdi.getBeans(new Path("/CDISolderTest/src/org/jboss/exact/FishFactory.java"));
@@ -82,43 +82,6 @@ public class ExactTest extends TestCase {
 			}
 		}
 		assertEquals(3, count);
-	}
-
-	public void testRequires() throws CoreException, IOException {
-		ICDIProject cdi = CDICorePlugin.getCDIProject(project, true);
-
-		//1. class annotated @Requires that references single non-available class
-		TypeDefinition d = cdi.getNature().getDefinitions().getTypeDefinition("org.jboss.requires.Bear");
-		assertNotNull(d);            //Though there exists Java type Bear
-		IAnnotationDeclaration a = d.getAnnotation(CDIConstants.NAMED_QUALIFIER_TYPE_NAME);
-		assertNotNull(a);
-		Object name = a.getMemberValue(null);
-		assertEquals("bear", name); //...and it is annotated with @Named("bear")
-		Set<IBean> bs = cdi.getBeans("bear", false);
-		assertTrue(bs.isEmpty());    //...CDI model does not have a bean named "bear"
-		bs = cdi.getBeans(d.getResource().getFullPath());
-		assertTrue(bs.isEmpty());    //...and does not loaded any beans form its resource
-
-		//2. class annotated @Requires that references array of classes some of which are not available
-		d = cdi.getNature().getDefinitions().getTypeDefinition("org.jboss.requires.Bee");
-		assertNotNull(d);            //Though there exists Java type Bee
-		a = d.getAnnotation(CDIConstants.NAMED_QUALIFIER_TYPE_NAME);
-		assertNotNull(a);
-		name = a.getMemberValue(null);
-		assertEquals("bee", name);  //...and it is annotated with @Named("bee")
-		bs = cdi.getBeans("bee", false);
-		assertTrue(bs.isEmpty());    //...CDI model does not have a bean named "bee"
-		bs = cdi.getBeans(d.getResource().getFullPath());
-		assertTrue(bs.isEmpty());    //...and does not loaded any beans form its resource
-
-		//3. class annotated @Requires that references single available class
-		bs = cdi.getBeans("fly", false);
-		assertEquals(1, bs.size());    //...CDI model has a bean named "fly"
-
-		//4. class annotated @Requires that references array of available classes
-		bs = cdi.getBeans("dragonfly", false);
-		assertEquals(1, bs.size());    //...CDI model has a bean named "dragonfly"
-
 	}
 
 	public void tearDown() throws Exception {
