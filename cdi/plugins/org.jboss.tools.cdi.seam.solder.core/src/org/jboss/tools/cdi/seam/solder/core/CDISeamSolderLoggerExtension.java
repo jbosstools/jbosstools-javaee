@@ -8,11 +8,15 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.IType;
+import org.eclipse.jdt.core.SourceRange;
 import org.jboss.tools.cdi.core.CDICoreNature;
+import org.jboss.tools.cdi.core.IAnnotationDeclaration;
 import org.jboss.tools.cdi.core.IRootDefinitionContext;
 import org.jboss.tools.cdi.core.extension.ICDIExtension;
 import org.jboss.tools.cdi.core.extension.IDefinitionContextExtension;
 import org.jboss.tools.cdi.core.extension.feature.IBuildParticipantFeature;
+import org.jboss.tools.cdi.internal.core.impl.AnnotationDeclaration;
+import org.jboss.tools.cdi.internal.core.impl.AnnotationLiteral;
 import org.jboss.tools.cdi.internal.core.impl.CDIProject;
 import org.jboss.tools.cdi.internal.core.impl.ClassBean;
 import org.jboss.tools.cdi.internal.core.impl.definition.AbstractMemberDefinition;
@@ -49,6 +53,8 @@ public class CDISeamSolderLoggerExtension implements ICDIExtension, IBuildPartic
 	}
 
 	public void buildDefinitions(FileSet fileSet) {
+		LoggerDefinitionContext workingCopy = context.getWorkingCopy();
+		
 		Map<IPath, Set<IType>> is = fileSet.getInterfaces();
 		for (IPath path: is.keySet()) {
 			Set<IType> ts = is.get(path);
@@ -56,12 +62,23 @@ public class CDISeamSolderLoggerExtension implements ICDIExtension, IBuildPartic
 				InterfaceDefinition i = new InterfaceDefinition(t);
 				if(i.isAnnotationPresent(CDISeamSolderConstants.MESSAGE_LOGGER_ANNOTATION_TYPE_NAME)) {
 					TypeDefinition d = new TypeDefinition();
-					d.setType(t, context.getRootContext());
-					((LoggerDefinitionContext)context.getWorkingCopy()).addMessageLogger(path, d);
+					d.setType(t, workingCopy.getRootContext());
+					workingCopy.addMessageLogger(path, d);
 				} else if(i.isAnnotationPresent(CDISeamSolderConstants.MESSAGE_BUNDLE_ANNOTATION_TYPE_NAME)) {
 					TypeDefinition d = new TypeDefinition();
-					d.setType(t, context.getRootContext());
-					((LoggerDefinitionContext)context.getWorkingCopy()).addMessageBundle(path, d);
+					d.setType(t, workingCopy.getRootContext());
+					workingCopy.addMessageBundle(path, d);
+					AnnotationDeclaration ad = d.getAnnotation(CDISeamSolderConstants.MESSAGE_BUNDLE_ANNOTATION_TYPE_NAME);
+					if(ad.getMemberValue("projectCode") != null && ad.getMemberValue("projectCode").toString().length() > 0) {
+						String text = d.getContent();
+						int st = ad.getStartPosition();
+						int le = ad.getLength();
+						String source = text.substring(st, st + le);
+						AnnotationLiteral l = new AnnotationLiteral(d.getResource(), source, new SourceRange(st, le), null, ad.getType());
+						d.removeAnnotation(ad);
+						d.addAnnotation(l, workingCopy.getRootContext());
+					}				
+					
 				}
 			}
 		}
@@ -145,7 +162,7 @@ public class CDISeamSolderLoggerExtension implements ICDIExtension, IBuildPartic
 			return root;
 		}
 
-		public IDefinitionContextExtension getWorkingCopy() {
+		public LoggerDefinitionContext getWorkingCopy() {
 			if(original != null) {
 				return this;
 			}
