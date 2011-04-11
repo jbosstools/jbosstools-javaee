@@ -22,6 +22,7 @@ import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.extension.ICDIExtension;
 import org.jboss.tools.cdi.core.extension.IDefinitionContextExtension;
 import org.jboss.tools.cdi.core.extension.feature.IBuildParticipantFeature;
+import org.jboss.tools.cdi.internal.core.scanner.FileSet;
 import org.jboss.tools.cdi.seam.config.core.definition.SeamBeansDefinition;
 import org.jboss.tools.cdi.seam.config.core.scanner.ConfigFileSet;
 import org.jboss.tools.cdi.seam.config.core.scanner.SeamDefinitionBuilder;
@@ -92,13 +93,17 @@ public class CDISeamConfigExtension implements ICDIExtension, IBuildParticipantF
 				 document.set(text);
 				 SeamBeansDefinition def = builder.createDefinition(document, project);
 				 if(isSeamBeans) {
-					 context.addSeamBeanXML(p, def);
+					 context.getWorkingCopy().addSeamBeanXML(p, def);
 				 } else {
-					 context.addBeanXML(p, def);
+					 context.getWorkingCopy().addBeanXML(p, def);
 				 }
 			 }
 		 }
 		//TODO
+	}
+
+	public void buildDefinitions(FileSet fileSet) {
+		//nothing to do
 	}
 
 	public void buildBeans() {

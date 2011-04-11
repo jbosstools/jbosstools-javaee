@@ -64,6 +64,7 @@ public class ConfigDefinitionContext implements IDefinitionContextExtension {
 		beanXMLs = workingCopy.beanXMLs;
 		seambeanXMLs = workingCopy.seambeanXMLs;
 		
+		workingCopy = null;
 	}
 
 	public void clean() {
@@ -92,7 +93,7 @@ public class ConfigDefinitionContext implements IDefinitionContextExtension {
 		return root;
 	}
 
-	public IDefinitionContextExtension getWorkingCopy() {
+	public ConfigDefinitionContext getWorkingCopy() {
 		if(original != null) {
 			return this;
 		}
