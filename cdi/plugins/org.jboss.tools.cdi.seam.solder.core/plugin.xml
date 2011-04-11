@@ -7,5 +7,9 @@
           class="org.jboss.tools.cdi.seam.solder.core.CDISeamSolderCoreExtension"
           runtime="org.jboss.seam.solder.core.CoreExtension">
     </cdiextension>
+    <cdiextension
+          class="org.jboss.tools.cdi.seam.solder.core.CDISeamSolderLoggerExtension"
+          runtime="org.jboss.seam.solder.logging.TypedMessageLoggerExtension">
+    </cdiextension>
 	</extension>
 </plugin>
