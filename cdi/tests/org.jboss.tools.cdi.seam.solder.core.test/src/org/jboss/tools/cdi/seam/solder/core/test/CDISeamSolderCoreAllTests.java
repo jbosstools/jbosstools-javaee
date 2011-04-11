@@ -28,6 +28,7 @@ public class CDISeamSolderCoreAllTests {
 		suiteAll.addTestSuite(BeanNamingTest.class);
 		suiteAll.addTestSuite(VetoTest.class);
 		suiteAll.addTestSuite(ExactTest.class);
+		suiteAll.addTestSuite(MessageLoggerTest.class);
 
 		return suiteAll;
 	}
