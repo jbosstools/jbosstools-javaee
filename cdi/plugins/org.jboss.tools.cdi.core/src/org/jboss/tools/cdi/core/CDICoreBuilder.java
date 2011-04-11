@@ -219,7 +219,7 @@ public class CDICoreBuilder extends IncrementalProjectBuilder {
 			rv.incremental = false;
 			getProject().accept(rv);
 			FileSet fs = rv.fileSet;
-			builderDelegate.build(fs, getCDICoreNature());
+			invokeBuilderDelegates(fs, getCDICoreNature());
 			
 		} catch (CoreException e) {
 			CDICorePlugin.getDefault().logError(e);
@@ -233,7 +233,7 @@ public class CDICoreBuilder extends IncrementalProjectBuilder {
 		delta.accept(new SampleDeltaVisitor());
 		FileSet fs = rv.fileSet;
 //		fs.getPackages().
-		builderDelegate.build(fs, getCDICoreNature());
+		invokeBuilderDelegates(fs, getCDICoreNature());
 	}
 
 	protected void buildJars(Map<String, XModelObject> newJars) throws CoreException {
@@ -274,7 +274,12 @@ public class CDICoreBuilder extends IncrementalProjectBuilder {
 			for (IBuildParticipantFeature p: buildParticipants) p.visitJar(path, root, beansXML);
 		}
 		addBasicTypes(fileSet);
-		builderDelegate.build(fileSet, getCDICoreNature());
+		invokeBuilderDelegates(fileSet, getCDICoreNature());
+	}
+
+	void invokeBuilderDelegates(FileSet fileSet, CDICoreNature n) {
+		builderDelegate.build(fileSet, n);
+		for (IBuildParticipantFeature p: buildParticipants) p.buildDefinitions(fileSet);
 	}
 
 	void addBasicTypes(FileSet fs) throws CoreException {

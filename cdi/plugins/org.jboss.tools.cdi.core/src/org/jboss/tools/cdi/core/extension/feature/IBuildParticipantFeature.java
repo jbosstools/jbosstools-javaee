@@ -15,6 +15,7 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.extension.IDefinitionContextExtension;
+import org.jboss.tools.cdi.internal.core.scanner.FileSet;
 import org.jboss.tools.common.model.XModelObject;
 
 /**
@@ -70,6 +71,14 @@ public interface IBuildParticipantFeature {
 	 * This method is the final stage of BeforeBeanDiscovery event.
 	 */
 	public void buildDefinitions();
+
+	/**
+	 * Build specific models for default bean sources.
+	 * That may allow to go without implementing visitor methods 
+	 * 
+	 * @param fileSet
+	 */
+	public void buildDefinitions(FileSet fileSet);
 
 	/**
 	 * Builds CDI artifacts by definitions and already existing CDI model.

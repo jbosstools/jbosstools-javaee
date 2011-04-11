@@ -39,6 +39,7 @@ import org.jboss.tools.cdi.core.IStereotype;
 import org.jboss.tools.cdi.core.IStereotypeDeclaration;
 import org.jboss.tools.cdi.core.ITypeDeclaration;
 import org.jboss.tools.cdi.internal.core.impl.definition.AbstractMemberDefinition;
+import org.jboss.tools.cdi.internal.core.impl.definition.AbstractTypeDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.FieldDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.MethodDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.TypeDefinition;
@@ -315,7 +316,7 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 		AnnotationDeclaration named = findNamedAnnotation();
 		if(named == null) return null;
 
-		String name = ((TypeDefinition)definition).getType().getElementName();
+		String name = ((AbstractTypeDefinition)definition).getType().getElementName();
 		if(name.length() > 0) {
 			name = name.substring(0, 1).toLowerCase() + name.substring(1);
 		}
