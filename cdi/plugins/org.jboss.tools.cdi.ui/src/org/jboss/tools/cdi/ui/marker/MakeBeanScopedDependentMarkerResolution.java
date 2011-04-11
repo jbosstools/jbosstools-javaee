@@ -58,6 +58,8 @@ public class MakeBeanScopedDependentMarkerResolution implements IMarkerResolutio
 	@Override
 	public void run(IMarker marker) {
 		IAnnotation originalAnnotation = getScopeAnnotation();
+		if(originalAnnotation == null)
+			return;
 		try{
 			ICompilationUnit original = EclipseUtil.getCompilationUnit(file);
 			ICompilationUnit compilationUnit = original.getWorkingCopy(new NullProgressMonitor());
@@ -79,13 +81,15 @@ public class MakeBeanScopedDependentMarkerResolution implements IMarkerResolutio
 				
 				// delete import
 				String qualifiedName = getFullyQualifiedName();
-				IImportDeclaration importDeclaration = compilationUnit.getImport(qualifiedName);
-				IImportContainer importContainer = compilationUnit.getImportContainer();
-				if(importDeclaration != null && importContainer != null){
-					int importSize = importContainer.getSourceRange().getOffset()+importContainer.getSourceRange().getLength();
-					String text = buffer.getText(importSize, buffer.getLength()-importSize);
-					if(checkImport(text, originalAnnotation.getElementName()))
-						importDeclaration.delete(false, new NullProgressMonitor());
+				if(qualifiedName != null){
+					IImportDeclaration importDeclaration = compilationUnit.getImport(qualifiedName);
+					IImportContainer importContainer = compilationUnit.getImportContainer();
+					if(importDeclaration != null && importContainer != null){
+						int importSize = importContainer.getSourceRange().getOffset()+importContainer.getSourceRange().getLength();
+						String text = buffer.getText(importSize, buffer.getLength()-importSize);
+						if(checkImport(text, originalAnnotation.getElementName()))
+							importDeclaration.delete(false, new NullProgressMonitor());
+					}
 				}
 			}
 			
