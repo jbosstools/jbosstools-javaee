@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.IMethod;
@@ -21,6 +22,7 @@ import org.eclipse.jdt.core.IType;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.IAnnotationDeclaration;
 import org.jboss.tools.cdi.core.IRootDefinitionContext;
+import org.jboss.tools.cdi.core.extension.IDefinitionContextExtension;
 import org.jboss.tools.cdi.internal.core.impl.AnnotationDeclaration;
 
 /**
@@ -36,9 +38,12 @@ public class AnnotationDefinition extends AbstractTypeDefinition {
 	public static final int STEREOTYPE = 8;	//has Stereotype
 	public static final int INTERCEPTOR_BINDING = 16; //has InterceptorBinding
 	public static final int SCOPE = 32; //has Scope or NormalScope
+
+	public static final int EXTENDED = 1024;
 	//TODO add other definition kinds of interest
 
 	protected int kind = NON_RELEVANT;
+	protected Object extendedKind = null;
 
 	List<AnnotationMemberDefinition> methods = new ArrayList<AnnotationMemberDefinition>();
 
@@ -48,8 +53,17 @@ public class AnnotationDefinition extends AbstractTypeDefinition {
 		this.kind = kind;
 	}
 
+	public void setExtendedKind(Object s) {
+		extendedKind = s;
+		kind |= EXTENDED;
+	}
+
 	public int getKind() {
 		return kind;
+	}
+
+	public boolean hasExtendedKind(Object kind) {
+		return extendedKind != null && extendedKind.equals(kind);
 	}
 
 	public List<AnnotationMemberDefinition> getMethods() {
@@ -85,6 +99,13 @@ public class AnnotationDefinition extends AbstractTypeDefinition {
 		}
 		if(ds.containsKey(CDIConstants.INTERCEPTOR_BINDING_ANNOTATION_TYPE_NAME)) {
 			kind |= INTERCEPTOR_BINDING;
+		}
+		if(kind == NON_RELEVANT) {
+			Set<IDefinitionContextExtension> es = context.getExtensions();
+			for (IDefinitionContextExtension e: es) {
+				e.computeAnnotationKind(this);
+				if(kind == EXTENDED) break;
+			}
 		}
 		if(kind == NON_RELEVANT) {
 			if(AnnotationHelper.BASIC_ANNOTATION_TYPES.contains(qualifiedName)) {

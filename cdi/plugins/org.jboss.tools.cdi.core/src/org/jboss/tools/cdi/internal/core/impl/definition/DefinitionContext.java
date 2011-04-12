@@ -59,6 +59,10 @@ public class DefinitionContext implements IRootDefinitionContext {
 		for (IDefinitionContextExtension e: extensions) e.setRootContext(this);
 	}
 
+	public Set<IDefinitionContextExtension> getExtensions() {
+		return extensions;
+	}
+
 	private DefinitionContext copy(boolean clean) {
 		DefinitionContext copy = new DefinitionContext();
 		copy.project = project;
@@ -114,16 +118,7 @@ public class DefinitionContext implements IRootDefinitionContext {
 	}
 
 	public void addType(IPath file, String typeName, AbstractTypeDefinition def) {
-		if(file != null) {
-			Set<String> ts = resources.get(file);
-			if(ts == null) {
-				ts = new HashSet<String>();
-				resources.put(file, ts);
-			}
-			ts.add(typeName);
-			types.add(typeName);
-			addToParents(file);
-		}
+		addType(file, typeName);
 		if(def != null) {
 			if(def instanceof AnnotationDefinition) {
 				synchronized (annotations) {
@@ -160,6 +155,19 @@ public class DefinitionContext implements IRootDefinitionContext {
 			beanXMLs.put(path, def);
 		}
 		addToParents(path);
+	}
+
+	public void addType(IPath file, String typeName) {
+		if(file != null) {
+			Set<String> ts = resources.get(file);
+			if(ts == null) {
+				ts = new HashSet<String>();
+				resources.put(file, ts);
+			}
+			ts.add(typeName);
+			types.add(typeName);
+			addToParents(file);
+		}
 	}
 
 	public void addToParents(IPath file) {
@@ -211,6 +219,7 @@ public class DefinitionContext implements IRootDefinitionContext {
 			synchronized (packageDefinitions) {
 				packageDefinitions.remove(t);
 			}
+			for (IDefinitionContextExtension e: extensions) e.clean(t);
 		}
 		synchronized (beanXMLs) {
 			beanXMLs.remove(path);
@@ -248,6 +257,7 @@ public class DefinitionContext implements IRootDefinitionContext {
 
 	public int getAnnotationKind(IType annotationType) {
 		if(annotationType == null) return -1;
+		if(!annotationType.exists()) return -1;
 		AnnotationDefinition d = getAnnotation(annotationType);
 		if(d != null) {
 			return d.getKind();

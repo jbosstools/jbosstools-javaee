@@ -10,8 +10,10 @@
  ******************************************************************************/ 
 package org.jboss.tools.cdi.core.extension;
 
+import org.eclipse.jdt.core.IType;
 import org.jboss.tools.cdi.core.IDefinitionContext;
 import org.jboss.tools.cdi.core.IRootDefinitionContext;
+import org.jboss.tools.cdi.internal.core.impl.definition.AnnotationDefinition;
 
 /**
  * Context to keep definitions loaded by CDI extensions.
@@ -20,6 +22,13 @@ import org.jboss.tools.cdi.core.IRootDefinitionContext;
  *
  */
 public interface IDefinitionContextExtension extends IDefinitionContext {
+
+	/**
+	 * Removes definitions loaded from type
+	 * 
+	 * @param typeName
+	 */
+	public void clean(String typeName);
 
 	public void setRootContext(IRootDefinitionContext context);
 
@@ -36,5 +45,13 @@ public interface IDefinitionContextExtension extends IDefinitionContext {
 	 * @return
 	 */
 	public IDefinitionContextExtension getWorkingCopy();
+
+	/**
+	 * Contributes to computing of annotation kind by root context.
+	 *   
+	 * @param annotationType
+	 * @return
+	 */
+	public void computeAnnotationKind(AnnotationDefinition annotation);
 
 }
