@@ -11,5 +11,10 @@
           class="org.jboss.tools.cdi.seam.solder.core.CDISeamSolderLoggerExtension"
           runtime="org.jboss.seam.solder.logging.TypedMessageLoggerExtension">
     </cdiextension>
+    
+    <cdiextension
+          class="org.jboss.tools.cdi.seam.solder.core.CDISeamSolderServiceHandlerExtension"
+          runtime="org.jboss.seam.solder.serviceHandler.ServiceHandlerExtension">
+    </cdiextension>
 	</extension>
 </plugin>

@@ -1,3 +1,13 @@
+/******************************************************************************* 
+ * Copyright (c) 2011 Red Hat, Inc. 
+ * Distributed under license by Red Hat, Inc. All rights reserved. 
+ * This program is made available under the terms of the 
+ * Eclipse Public License v1.0 which accompanies this distribution, 
+ * and is available at http://www.eclipse.org/legal/epl-v10.html 
+ * 
+ * Contributors: 
+ * Red Hat, Inc. - initial API and implementation 
+ ******************************************************************************/
 package org.jboss.tools.cdi.seam.solder.core;
 
 import java.util.HashMap;
@@ -10,8 +20,7 @@ import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.SourceRange;
 import org.jboss.tools.cdi.core.CDICoreNature;
-import org.jboss.tools.cdi.core.IAnnotationDeclaration;
-import org.jboss.tools.cdi.core.IRootDefinitionContext;
+import org.jboss.tools.cdi.core.extension.AbstractDefinitionContextExtension;
 import org.jboss.tools.cdi.core.extension.ICDIExtension;
 import org.jboss.tools.cdi.core.extension.IDefinitionContextExtension;
 import org.jboss.tools.cdi.core.extension.feature.IBuildParticipantFeature;
@@ -24,6 +33,11 @@ import org.jboss.tools.cdi.internal.core.impl.definition.TypeDefinition;
 import org.jboss.tools.cdi.internal.core.scanner.FileSet;
 import org.jboss.tools.common.model.XModelObject;
 
+/**
+ * 
+ * @author Viacheslav Kabanovich
+ *
+ */
 public class CDISeamSolderLoggerExtension implements ICDIExtension, IBuildParticipantFeature {
 	CDICoreNature project;
 	LoggerDefinitionContext context = new LoggerDefinitionContext();
@@ -53,7 +67,7 @@ public class CDISeamSolderLoggerExtension implements ICDIExtension, IBuildPartic
 	}
 
 	public void buildDefinitions(FileSet fileSet) {
-		LoggerDefinitionContext workingCopy = context.getWorkingCopy();
+		LoggerDefinitionContext workingCopy = (LoggerDefinitionContext)context.getWorkingCopy();
 		
 		Map<IPath, Set<IType>> is = fileSet.getInterfaces();
 		for (IPath path: is.keySet()) {
@@ -86,7 +100,7 @@ public class CDISeamSolderLoggerExtension implements ICDIExtension, IBuildPartic
 
 	public void buildBeans() {
 		CDIProject p = ((CDIProject)project.getDelegate());
-		Map<IPath, TypeDefinition> loggers = context.getMessageLoggers();
+		Map<String, TypeDefinition> loggers = context.getMessageLoggers();
 		for (TypeDefinition d: loggers.values()) {
 			ClassBean b = new ClassBean();
 			b.setDefinition(d);
@@ -94,7 +108,7 @@ public class CDISeamSolderLoggerExtension implements ICDIExtension, IBuildPartic
 			p.addBean(b);
 		}
 
-		Map<IPath, TypeDefinition> bundles = context.getMessageBundles();
+		Map<String, TypeDefinition> bundles = context.getMessageBundles();
 		for (TypeDefinition d: bundles.values()) {
 			ClassBean b = new ClassBean();
 			b.setDefinition(d);
@@ -104,16 +118,12 @@ public class CDISeamSolderLoggerExtension implements ICDIExtension, IBuildPartic
 
 	}
 
-	class LoggerDefinitionContext implements IDefinitionContextExtension {
-		IRootDefinitionContext root;
-
-		Map<IPath, TypeDefinition> messageLoggers = new HashMap<IPath, TypeDefinition>();
-		Map<IPath, TypeDefinition> messageBundles = new HashMap<IPath, TypeDefinition>();
+	class LoggerDefinitionContext extends AbstractDefinitionContextExtension {
+		Map<String, TypeDefinition> messageLoggers = new HashMap<String, TypeDefinition>();
+		Map<String, TypeDefinition> messageBundles = new HashMap<String, TypeDefinition>();
 	
-		LoggerDefinitionContext original;
-		LoggerDefinitionContext workingCopy;
 
-		private LoggerDefinitionContext copy(boolean clean) {
+		protected LoggerDefinitionContext copy(boolean clean) {
 			LoggerDefinitionContext copy = new LoggerDefinitionContext();
 			copy.root = root;
 			if(!clean) {
@@ -124,24 +134,9 @@ public class CDISeamSolderLoggerExtension implements ICDIExtension, IBuildPartic
 			return copy;
 		}
 
-		public void newWorkingCopy(boolean forFullBuild) {
-			if(original != null) return;
-			workingCopy = copy(forFullBuild);
-			workingCopy.original = this;
-		}
-
-		public void applyWorkingCopy() {
-			if(original != null) {
-				original.applyWorkingCopy();
-				return;
-			}
-			if(workingCopy == null) {
-				return;
-			}
-			messageLoggers = workingCopy.messageLoggers;
-			messageBundles = workingCopy.messageBundles;
-			
-			workingCopy = null;
+		protected void doApplyWorkingCopy() {
+			messageLoggers = ((LoggerDefinitionContext)workingCopy).messageLoggers;
+			messageBundles = ((LoggerDefinitionContext)workingCopy).messageBundles;
 		}
 
 		public void clean() {
@@ -150,45 +145,30 @@ public class CDISeamSolderLoggerExtension implements ICDIExtension, IBuildPartic
 		}
 
 		public void clean(IPath path) {
-			messageLoggers.remove(path);
-			messageBundles.remove(path);
 		}
 
-		public void setRootContext(IRootDefinitionContext context) {
-			root = context;
+		public void clean(String typeName) {
+			messageLoggers.remove(typeName);
+			messageBundles.remove(typeName);
 		}
 
-		public IRootDefinitionContext getRootContext() {
-			return root;
-		}
-
-		public LoggerDefinitionContext getWorkingCopy() {
-			if(original != null) {
-				return this;
-			}
-			if(workingCopy != null) {
-				return workingCopy;
-			}
-			workingCopy = copy(false);
-			workingCopy.original = this;
-			return workingCopy;
-		}
-	
 		public void addMessageLogger(IPath path, TypeDefinition def) {
-			messageLoggers.put(path, def);
-			root.addToParents(path);
+			String typeName = def.getType().getFullyQualifiedName();
+			messageLoggers.put(typeName, def);
+			root.addType(path, typeName);
 		}
 		
 		public void addMessageBundle(IPath path, TypeDefinition def) {
-			messageBundles.put(path, def);
-			root.addToParents(path);
+			String typeName = def.getType().getFullyQualifiedName();
+			messageBundles.put(typeName, def);
+			root.addType(path, typeName);
 		}
 	
-		public Map<IPath, TypeDefinition> getMessageLoggers() {
+		public Map<String, TypeDefinition> getMessageLoggers() {
 			return messageLoggers;
 		}
 		
-		public Map<IPath, TypeDefinition> getMessageBundles() {
+		public Map<String, TypeDefinition> getMessageBundles() {
 			return messageBundles;
 		}
 		
