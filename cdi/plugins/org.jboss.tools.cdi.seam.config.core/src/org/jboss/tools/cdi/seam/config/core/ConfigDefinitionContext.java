@@ -16,8 +16,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.core.runtime.IPath;
-import org.jboss.tools.cdi.core.IRootDefinitionContext;
-import org.jboss.tools.cdi.core.extension.IDefinitionContextExtension;
+import org.jboss.tools.cdi.core.extension.AbstractDefinitionContextExtension;
 import org.jboss.tools.cdi.seam.config.core.definition.SeamBeansDefinition;
 
 /**
@@ -25,16 +24,15 @@ import org.jboss.tools.cdi.seam.config.core.definition.SeamBeansDefinition;
  * @author Viacheslav Kabanovich
  *
  */
-public class ConfigDefinitionContext implements IDefinitionContextExtension {
-	IRootDefinitionContext root;
-
+public class ConfigDefinitionContext extends AbstractDefinitionContextExtension {
 	private Map<IPath, SeamBeansDefinition> beanXMLs = new HashMap<IPath, SeamBeansDefinition>();
 	private Map<IPath, SeamBeansDefinition> seambeanXMLs = new HashMap<IPath, SeamBeansDefinition>();
 
-	ConfigDefinitionContext workingCopy;
-	ConfigDefinitionContext original;
+	public ConfigDefinitionContext getWorkingCopy() {
+		return (ConfigDefinitionContext)super.getWorkingCopy();
+	}
 
-	private ConfigDefinitionContext copy(boolean clean) {
+	protected ConfigDefinitionContext copy(boolean clean) {
 		ConfigDefinitionContext copy = new ConfigDefinitionContext();
 		copy.root = root;
 		if(!clean) {
@@ -46,25 +44,9 @@ public class ConfigDefinitionContext implements IDefinitionContextExtension {
 		return copy;
 	}
 
-	public void newWorkingCopy(boolean forFullBuild) {
-		if(original != null) return;
-		workingCopy = copy(forFullBuild);
-		workingCopy.original = this;
-	}
-
-	public void applyWorkingCopy() {
-		if(original != null) {
-			original.applyWorkingCopy();
-			return;
-		}
-		if(workingCopy == null) {
-			return;
-		}
-		
-		beanXMLs = workingCopy.beanXMLs;
-		seambeanXMLs = workingCopy.seambeanXMLs;
-		
-		workingCopy = null;
+	protected void doApplyWorkingCopy() {
+		beanXMLs = ((ConfigDefinitionContext)workingCopy).beanXMLs;
+		seambeanXMLs = ((ConfigDefinitionContext)workingCopy).seambeanXMLs;
 	}
 
 	public void clean() {
@@ -83,26 +65,6 @@ public class ConfigDefinitionContext implements IDefinitionContextExtension {
 		synchronized (seambeanXMLs) {
 			seambeanXMLs.remove(path);
 		}
-	}
-
-	public void setRootContext(IRootDefinitionContext context) {
-		root = context;
-	}
-
-	public IRootDefinitionContext getRootContext() {
-		return root;
-	}
-
-	public ConfigDefinitionContext getWorkingCopy() {
-		if(original != null) {
-			return this;
-		}
-		if(workingCopy != null) {
-			return workingCopy;
-		}
-		workingCopy = copy(false);
-		workingCopy.original = this;
-		return workingCopy;
 	}
 
 	public void addBeanXML(IPath path, SeamBeansDefinition def) {
