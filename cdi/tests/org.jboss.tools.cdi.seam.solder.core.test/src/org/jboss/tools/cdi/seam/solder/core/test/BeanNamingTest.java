@@ -13,12 +13,7 @@ package org.jboss.tools.cdi.seam.solder.core.test;
 import java.io.IOException;
 import java.util.Set;
 
-import junit.framework.TestCase;
-
-import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.IType;
@@ -28,26 +23,15 @@ import org.jboss.tools.cdi.core.IBeanMember;
 import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.IClassBean;
 import org.jboss.tools.cdi.core.IProducerMethod;
-import org.jboss.tools.test.util.JobUtils;
-import org.jboss.tools.test.util.ResourcesUtils;
 
 /**
  *   
  * @author Viacheslav Kabanovich
  *
  */
-public class BeanNamingTest extends TestCase {
-	protected static String PLUGIN_ID = "org.jboss.tools.cdi.seam.solder.core.test";
-	IProject project = null;
+public class BeanNamingTest extends SeamSolderTest {
 
 	public BeanNamingTest() {}
-
-	public void setUp() throws Exception {
-		project = ResourcesUtils.importProject(PLUGIN_ID, "/projects/CDISolderTest");
-		JobUtils.waitForIdle();
-		project.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
-		JobUtils.waitForIdle();
-	}
 
 	public void testNamedPackage() throws CoreException, IOException {
 		ICDIProject cdi = CDICorePlugin.getCDIProject(project, true);
@@ -187,12 +171,4 @@ public class BeanNamingTest extends TestCase {
 		
 	}
 
-	public void tearDown() throws Exception {
-		boolean saveAutoBuild = ResourcesUtils.setBuildAutomatically(false);
-		JobUtils.waitForIdle();
-		project.delete(true, true, null);
-		JobUtils.waitForIdle();
-		ResourcesUtils.setBuildAutomatically(saveAutoBuild);
-		JobUtils.waitForIdle();
-	}
 }

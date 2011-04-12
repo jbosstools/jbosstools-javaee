@@ -30,6 +30,8 @@ public class CDISeamSolderCoreAllTests {
 		suiteAll.addTestSuite(ExactTest.class);
 		suiteAll.addTestSuite(MessageLoggerTest.class);
 
-		return suiteAll;
+		SeamSolderTestSetup suite = new SeamSolderTestSetup(suiteAll);
+
+		return suite;
 	}
 }
