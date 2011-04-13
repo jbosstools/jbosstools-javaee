@@ -29,7 +29,6 @@ import org.jboss.tools.cdi.core.IProducerMethod;
  *
  */
 public class ExactTest extends SeamSolderTest {
-	protected static String PLUGIN_ID = "org.jboss.tools.cdi.seam.solder.core.test";
 
 	public ExactTest() {}
 

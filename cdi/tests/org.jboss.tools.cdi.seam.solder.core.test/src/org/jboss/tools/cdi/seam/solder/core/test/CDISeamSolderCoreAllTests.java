@@ -29,6 +29,7 @@ public class CDISeamSolderCoreAllTests {
 		suiteAll.addTestSuite(VetoTest.class);
 		suiteAll.addTestSuite(ExactTest.class);
 		suiteAll.addTestSuite(MessageLoggerTest.class);
+		suiteAll.addTestSuite(ServiceHandlerTest.class);
 
 		SeamSolderTestSetup suite = new SeamSolderTestSetup(suiteAll);
 

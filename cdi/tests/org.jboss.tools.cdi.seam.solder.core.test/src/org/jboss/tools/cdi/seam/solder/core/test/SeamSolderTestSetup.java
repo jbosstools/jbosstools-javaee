@@ -14,6 +14,7 @@ import junit.extensions.TestSetup;
 import junit.framework.Test;
 
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.ResourcesUtils;
 
@@ -22,7 +23,7 @@ import org.jboss.tools.test.util.ResourcesUtils;
  */
 public class SeamSolderTestSetup extends TestSetup {
 
-	protected IProject tckProject;
+	protected IProject project;
 
 	public SeamSolderTestSetup(Test test) {
 		super(test);
@@ -30,14 +31,17 @@ public class SeamSolderTestSetup extends TestSetup {
 
 	@Override
 	protected void setUp() throws Exception {
-		tckProject = ResourcesUtils.importProject(SeamSolderTest.PLUGIN_ID, SeamSolderTest.PROJECT_PATH);
+		project = ResourcesPlugin.getWorkspace().getRoot().getProject(SeamSolderTest.PROJECT_NAME);
+		if(project == null || !project.exists()) {
+			project = ResourcesUtils.importProject(SeamSolderTest.PLUGIN_ID, SeamSolderTest.PROJECT_PATH);
+		}
 	}
 
 	@Override
 	protected void tearDown() throws Exception {
 		boolean saveAutoBuild = ResourcesUtils.setBuildAutomatically(false);
 		JobUtils.waitForIdle();
-		tckProject.delete(true, true, null);
+		project.delete(true, true, null);
 		JobUtils.waitForIdle();
 		ResourcesUtils.setBuildAutomatically(saveAutoBuild);
 	}
