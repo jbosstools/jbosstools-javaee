@@ -10,6 +10,7 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.Flags;
 import org.eclipse.jdt.core.IPackageDeclaration;
 import org.eclipse.jdt.core.IType;
+import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.common.model.XModelObject;
 
 public class FileSet {
@@ -36,6 +37,13 @@ public class FileSet {
 	public void add(IPath path, IType type) throws CoreException {
 		if(type == null) return;
 		allpaths.add(path);
+			//https://bugs.eclipse.org/bugs/show_bug.cgi?id=342757
+			try {
+				type.isAnnotation();
+			} catch (ArrayIndexOutOfBoundsException e) {
+				CDICorePlugin.getDefault().logError("JDT failed to load " + type.getFullyQualifiedName() + " from " + path + "\nSee https://bugs.eclipse.org/bugs/show_bug.cgi?id=342757");
+				return;
+			}
 		if(type.isAnnotation()) {
 			add(annotations, path, type);
 		} else if(type.isInterface()) {
