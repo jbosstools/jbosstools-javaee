@@ -22,7 +22,7 @@
     </para>
      
     <para>
-      In the next section we will create <xref linkend="intro"/> Web application, connect it to the <ulink url="http://www.hsqldb.org/">HSQL</ulink> database and add <property>CRUD</property> support.
+      In the next section we will create a Seam Web application, connect it to the <ulink url="http://www.hsqldb.org/">HSQL</ulink> database and add <property>CRUD</property> support.
     </para>
   </section>
    
