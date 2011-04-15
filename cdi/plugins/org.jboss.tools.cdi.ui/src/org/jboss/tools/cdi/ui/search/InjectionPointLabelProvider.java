@@ -15,6 +15,7 @@ import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.graphics.Image;
 import org.jboss.tools.cdi.core.IBean;
+import org.jboss.tools.cdi.core.ICDIElement;
 import org.jboss.tools.cdi.core.IInjectionPointField;
 import org.jboss.tools.cdi.core.IInjectionPointMethod;
 import org.jboss.tools.cdi.core.IInjectionPointParameter;
@@ -25,22 +26,25 @@ import org.jboss.tools.cdi.ui.CDIUiImages;
 public class InjectionPointLabelProvider implements ILabelProvider {
 
 	public Image getImage(Object element) {
-		//return JavaUI.getSharedImages().getImage(ISharedImages.IMG_OBJS_CLASS);
 		return CDIUiImages.WELD_IMAGE;
 	}
 
 	public String getText(Object element) {
-		if(element instanceof IBean){
-			return NLS.bind(CDIUIMessages.INJECTION_POINT_LABEL_PROVIDER_INJECT_BEAN, ((IBean)element).getBeanClass().getElementName());
-		}else if(element instanceof IObserverMethod){
-			return NLS.bind(CDIUIMessages.INJECTION_POINT_LABEL_PROVIDER_OBSERVER_METHOD, ((IObserverMethod)element).getMethod().getDeclaringType().getElementName(), ((IObserverMethod)element).getMethod().getElementName());
-		}else if(element instanceof IInjectionPointField){
-			return NLS.bind(CDIUIMessages.INJECTION_POINT_LABEL_PROVIDER_EVENT, ((IInjectionPointField)element).getField().getDeclaringType().getElementName(), ((IInjectionPointField)element).getField().getElementName());
-		}else if(element instanceof IInjectionPointMethod){
-			return NLS.bind(CDIUIMessages.INJECTION_POINT_LABEL_PROVIDER_EVENT, ((IInjectionPointMethod)element).getMethod().getDeclaringType().getElementName(), ((IInjectionPointMethod)element).getMethod().getElementName());
-		}else if(element instanceof IInjectionPointParameter){
-			return NLS.bind(CDIUIMessages.INJECTION_POINT_LABEL_PROVIDER_EVENT, ((IInjectionPointParameter)element).getBeanMethod().getMethod().getDeclaringType().getElementName(), ((IInjectionPointParameter)element).getBeanMethod().getMethod().getElementName());
-		}else
+		if(element instanceof CDIElementWrapper){
+			ICDIElement cdiElement = ((CDIElementWrapper)element).getCDIElement();
+			String label = ((CDIElementWrapper)element).getLabel();
+			if(cdiElement instanceof IBean){
+				return NLS.bind(CDIUIMessages.INJECTION_POINT_LABEL_PROVIDER_INJECT_BEAN, label);
+			}else if(cdiElement instanceof IObserverMethod){
+				return NLS.bind(CDIUIMessages.INJECTION_POINT_LABEL_PROVIDER_OBSERVER_METHOD, label);
+			}else if(cdiElement instanceof IInjectionPointField){
+				return NLS.bind(CDIUIMessages.INJECTION_POINT_LABEL_PROVIDER_EVENT, label);
+			}else if(cdiElement instanceof IInjectionPointMethod){
+				return NLS.bind(CDIUIMessages.INJECTION_POINT_LABEL_PROVIDER_EVENT, label);
+			}else if(cdiElement instanceof IInjectionPointParameter){
+				return NLS.bind(CDIUIMessages.INJECTION_POINT_LABEL_PROVIDER_EVENT, label);
+			}
+		}
 			return ""; //$NON-NLS-1$
 	}
 

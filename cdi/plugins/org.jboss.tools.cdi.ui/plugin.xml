@@ -117,6 +117,15 @@
            nature="org.jboss.tools.cdi.core.cdinature">
      </queryParticipant>
   </extension>
+	<extension
+        point="org.eclipse.jdt.ui.queryParticipants">
+     <queryParticipant
+           class="org.jboss.tools.cdi.ui.search.CDIBeanQueryParticipant"
+           id="org.jboss.tools.cdi.ui.search.CDIBeanQueryParticipant"
+           name="cdi-BeanReferencesParticipant"
+           nature="org.jboss.tools.cdi.core.cdinature">
+     </queryParticipant>
+  </extension>
   <!-- Refactorng -->
 	<extension
 		point="org.eclipse.ui.menus">

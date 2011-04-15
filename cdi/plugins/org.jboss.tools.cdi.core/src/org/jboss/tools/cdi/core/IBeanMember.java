@@ -17,7 +17,7 @@ import org.jboss.tools.common.java.IJavaSourceReference;
  * 
  * @author Alexey Kazakov
  */
-public interface IBeanMember extends IJavaSourceReference, IAnnotated {
+public interface IBeanMember extends IJavaSourceReference, IAnnotated, ICDIElement {
 
 	/**
 	 * Returns the class bean that declares this method.

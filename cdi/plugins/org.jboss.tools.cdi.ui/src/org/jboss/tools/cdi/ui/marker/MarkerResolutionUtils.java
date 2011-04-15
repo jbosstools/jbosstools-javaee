@@ -26,6 +26,7 @@ import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IField;
 import org.eclipse.jdt.core.IImportDeclaration;
 import org.eclipse.jdt.core.IJavaElement;
+import org.eclipse.jdt.core.ILocalVariable;
 import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IPackageDeclaration;
@@ -35,6 +36,7 @@ import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.ITypeParameter;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.core.Signature;
+import org.eclipse.jdt.core.SourceRange;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IInjectionPoint;
@@ -309,6 +311,41 @@ public class MarkerResolutionUtils {
 		}catch(JavaModelException ex){
 			CDIUIPlugin.getDefault().logError(ex);
 		}
+	}
+	
+	public static ISourceRange getParameterRegion(IInjectionPointParameter injectionParameter){
+		try{
+			String paramName = injectionParameter.getName();
+			IMethod method =  injectionParameter.getBeanMethod().getMethod();
+			
+			ICompilationUnit compilationUnit = method.getCompilationUnit();
+			
+			IBuffer buffer = compilationUnit.getBuffer();
+			
+			MethodStructure ms = parseMethod(method, buffer.getContents());
+			if(ms == null)
+				return null;
+			for(Parameter parameter : ms.getParameters()){
+				if(parameter.getName().equals(paramName)){
+					return new SourceRange(parameter.getOffset(), parameter.getLength());
+				}
+			}
+		}catch(JavaModelException ex){
+			CDIUIPlugin.getDefault().logError(ex);
+		}
+		return null;
+	}
+	
+	public static ILocalVariable getParameter(IMethod method, String name){
+		try{
+			for(ILocalVariable param : method.getParameters()){
+				if(param.getElementName().equals(name))
+					return param;
+			}
+		}catch(JavaModelException ex){
+			CDIUIPlugin.getDefault().logError(ex);
+		}
+		return null;
 	}
 	
 	static void getParams(IMethod method, MethodStructure ms, String paramsString, int offset) throws JavaModelException{

@@ -86,7 +86,7 @@ public class InjectionPointQueryParticipant implements IQueryParticipant{
 					for(IBean bean : resultBeanList){
 						if(bean != null){
 							if(!objects.contains(bean)){
-								Match match = new BeanMatch(bean);
+								Match match = new CDIMatch(bean);
 								requestor.reportMatch(match);
 								objects.add(bean);
 							}
@@ -96,7 +96,7 @@ public class InjectionPointQueryParticipant implements IQueryParticipant{
 					for(IObserverMethod observerMethod : observerMethods){
 						// match observer method
 						if(!objects.contains(observerMethod)){
-							Match match = new ObserverMethodMatch(observerMethod);
+							Match match = new CDIMatch(observerMethod);
 							requestor.reportMatch(match);
 							objects.add(observerMethod);
 						}
@@ -109,7 +109,7 @@ public class InjectionPointQueryParticipant implements IQueryParticipant{
 						for(IInjectionPoint event : events){
 							// match event
 							if(!objects.contains(event)){
-								Match match = new EventMatch(event);
+								Match match = new CDIMatch(event);
 								requestor.reportMatch(match);
 								objects.add(event);
 							}
