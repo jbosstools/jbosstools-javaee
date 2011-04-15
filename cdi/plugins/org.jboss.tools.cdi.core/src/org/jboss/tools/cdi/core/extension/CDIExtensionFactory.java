@@ -21,6 +21,7 @@ import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtensionPoint;
 import org.eclipse.core.runtime.Platform;
 import org.jboss.tools.cdi.core.CDICorePlugin;
+import org.jboss.tools.cdi.core.extension.feature.IAmbiguousBeanResolverFeature;
 import org.jboss.tools.cdi.core.extension.feature.IBuildParticipantFeature;
 import org.jboss.tools.cdi.core.extension.feature.IProcessAnnotatedTypeFeature;
 
@@ -46,7 +47,8 @@ public class CDIExtensionFactory {
 
 	public static Class<?>[] FEATURES = {
 		IBuildParticipantFeature.class,
-		IProcessAnnotatedTypeFeature.class,		
+		IProcessAnnotatedTypeFeature.class,
+		IAmbiguousBeanResolverFeature.class
 	};
 	
 	public static CDIExtensionFactory getInstance() {

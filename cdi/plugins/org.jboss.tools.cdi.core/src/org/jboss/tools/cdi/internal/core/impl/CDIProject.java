@@ -56,6 +56,7 @@ import org.jboss.tools.cdi.core.IQualifier;
 import org.jboss.tools.cdi.core.IQualifierDeclaration;
 import org.jboss.tools.cdi.core.IScope;
 import org.jboss.tools.cdi.core.IStereotype;
+import org.jboss.tools.cdi.core.extension.feature.IAmbiguousBeanResolverFeature;
 import org.jboss.tools.cdi.core.extension.feature.IBuildParticipantFeature;
 import org.jboss.tools.cdi.internal.core.impl.definition.AnnotationDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.BeansXMLDefinition;
@@ -228,18 +229,27 @@ public class CDIProject extends CDIElement implements ICDIProject {
 			result.removeAll(disabled);
 		}
 
-		if(!containsAlternatives) return result;
-
-		it = result.iterator();
-		while(it.hasNext()) {
-			IBean bean = it.next();
-			if(bean.isAlternative()) continue;
-			if(bean instanceof IProducer && bean instanceof IBeanMember) {
-				IBeanMember p = (IBeanMember)bean;
-				if(p.getClassBean() != null && p.getClassBean().isAlternative()) continue;
+		if(containsAlternatives) {
+			it = result.iterator();
+			while(it.hasNext()) {
+				IBean bean = it.next();
+				if(bean.isAlternative()) continue;
+				if(bean instanceof IProducer && bean instanceof IBeanMember) {
+					IBeanMember p = (IBeanMember)bean;
+					if(p.getClassBean() != null && p.getClassBean().isAlternative()) continue;
+				}
+				it.remove();
 			}
-			it.remove();
 		}
+		
+		if(result.size() > 1) {
+			Set<IAmbiguousBeanResolverFeature> extensions = getExtensionManager().getAmbiguousBeanResolverFeature();
+			for (IAmbiguousBeanResolverFeature e: extensions) {
+				result = e.getResolvedBeans(result);
+				if(result.size() < 2) return result;
+			}
+		}
+
 		return result;
 	}
 

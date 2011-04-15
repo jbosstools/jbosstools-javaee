@@ -17,6 +17,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.jboss.tools.cdi.core.CDICoreNature;
+import org.jboss.tools.cdi.core.extension.feature.IAmbiguousBeanResolverFeature;
 import org.jboss.tools.cdi.core.extension.feature.IBuildParticipantFeature;
 import org.jboss.tools.cdi.core.extension.feature.IProcessAnnotatedTypeFeature;
 
@@ -141,6 +142,14 @@ public class CDIExtensionManager {
 		return result;
 	}
 
+	public Set<IAmbiguousBeanResolverFeature> getAmbiguousBeanResolverFeature() {
+		Set<IAmbiguousBeanResolverFeature> result = featureStorage.ambiguousBeanResolver;
+		if(result == null) {
+			featureStorage.ambiguousBeanResolver = result = getFeature(IAmbiguousBeanResolverFeature.class);
+		}
+		return result;
+	}
+
 	private <F extends Object> Set<F> getFeature(Class<F> cls) {
 		Set<F> result = new HashSet<F>();
 		Set<ICDIExtension> extensions = getExtensions(cls);
@@ -158,10 +167,12 @@ public class CDIExtensionManager {
 	class FeatureStorage {
 		Set<IBuildParticipantFeature> buildParticipant = null;
 		Set<IProcessAnnotatedTypeFeature> processAnnotatedType = null;
+		Set<IAmbiguousBeanResolverFeature> ambiguousBeanResolver = null;
 		
 		void clean() {
 			processAnnotatedType = null;
 			buildParticipant = null;
+			ambiguousBeanResolver = null;
 		}
 	
 	
