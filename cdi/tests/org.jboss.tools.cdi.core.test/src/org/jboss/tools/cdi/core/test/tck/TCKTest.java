@@ -3,6 +3,7 @@ package org.jboss.tools.cdi.core.test.tck;
 import java.io.File;
 import java.io.FileFilter;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 import junit.framework.TestCase;
@@ -30,6 +31,7 @@ import org.jboss.tools.cdi.core.IDecorator;
 import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.core.IInjectionPointField;
 import org.jboss.tools.cdi.core.IParametedType;
+import org.jboss.tools.cdi.core.IProducer;
 import org.jboss.tools.cdi.core.IQualifier;
 import org.jboss.tools.cdi.core.IQualifierDeclaration;
 import org.jboss.tools.cdi.core.test.tck.validation.CoreValidationTest;
@@ -295,6 +297,11 @@ public class TCKTest extends TestCase {
 	protected IInjectionPointField getInjectionPointField(String beanClassFilePath, String fieldName) {
 		IFile file = tckProject.getFile(beanClassFilePath);
 		Set<IBean> beans = cdiProject.getBeans(file.getFullPath());
+		Iterator<IBean> it = beans.iterator();
+		while(it.hasNext()) {
+			IBean b = it.next();
+			if(b instanceof IProducer) it.remove();
+		}
 		assertEquals("Wrong number of the beans", 1, beans.size());
 		Set<IInjectionPoint> injections = beans.iterator().next().getInjectionPoints();
 		for (IInjectionPoint injectionPoint : injections) {
