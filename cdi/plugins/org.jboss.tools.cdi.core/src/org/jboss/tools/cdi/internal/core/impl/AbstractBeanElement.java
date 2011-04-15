@@ -305,8 +305,10 @@ public class AbstractBeanElement extends CDIElement implements IAnnotated {
 								if(!s1.equals(s2) && Signature.getArrayCount(s1) == Signature.getArrayCount(s2)) {
 									p.setSignature(s2);
 								}
+								result.add(new TypeDeclaration((ParametedType)other, offset, length));
+							} else {
+								result.add(new TypeDeclaration(p, offset, length));
 							}
-							result.add(new TypeDeclaration(p, offset, length));
 						}
 					}
 				} else if(value != null) {
@@ -331,8 +333,10 @@ public class AbstractBeanElement extends CDIElement implements IAnnotated {
 							if(!s1.equals(s2) && Signature.getArrayCount(s1) == Signature.getArrayCount(s2)) {
 								p.setSignature(s2);
 							}
+							result.add(new TypeDeclaration((ParametedType)other, offset, length));
+						} else {
+							result.add(new TypeDeclaration(p, offset, length));
 						}
-						result.add(new TypeDeclaration(p, offset, length));
 					}
 				}
 			} catch (CoreException e) {
