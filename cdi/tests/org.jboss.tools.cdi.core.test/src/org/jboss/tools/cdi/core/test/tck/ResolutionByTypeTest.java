@@ -18,7 +18,9 @@ import org.eclipse.jdt.core.IType;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IClassBean;
 import org.jboss.tools.cdi.core.IInjectionPoint;
+import org.jboss.tools.cdi.core.IInjectionPointField;
 import org.jboss.tools.cdi.core.IParametedType;
+import org.jboss.tools.cdi.core.IProducerField;
 import org.jboss.tools.cdi.core.IProducerMethod;
 import org.jboss.tools.cdi.core.IQualifierDeclaration;
 import org.jboss.tools.common.EclipseUtil;
@@ -200,7 +202,7 @@ public class ResolutionByTypeTest extends TCKTest {
 
 		assertContainsBeanTypes(false, bean, "java.lang.Object");
 		assertContainsBeanTypes(false, bean, "org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.FlightlessBird");
-		assertContainsBeanTypeSignatures(false, bean, "Qorg.jboss.jsr299.tck.tests.lookup.typesafe.resolution.FlightlessBird<Qorg.jboss.jsr299.tck.tests.lookup.typesafe.resolution.Australian;>;");
+		assertContainsBeanTypeSignatures(false, bean, "Lorg.jboss.jsr299.tck.tests.lookup.typesafe.resolution.FlightlessBird<Lorg.jboss.jsr299.tck.tests.lookup.typesafe.resolution.Australian;>;");
 	}
 
 	/**
@@ -235,7 +237,7 @@ public class ResolutionByTypeTest extends TCKTest {
 
 		assertContainsBeanTypes(false, bean, "java.lang.Object");
 		assertContainsBeanTypes(false, bean, "org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.Cat");
-		assertContainsBeanTypeSignatures(false, bean, "Qorg.jboss.jsr299.tck.tests.lookup.typesafe.resolution.Cat<Qorg.jboss.jsr299.tck.tests.lookup.typesafe.resolution.European;>;");
+		assertContainsBeanTypeSignatures(false, bean, "Lorg.jboss.jsr299.tck.tests.lookup.typesafe.resolution.Cat<Lorg.jboss.jsr299.tck.tests.lookup.typesafe.resolution.European;>;");
 
 		beans = getBeans("org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.DomesticCat", "org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.Tame");
 		assertEquals("Wrong number of the beans", 0, beans.size());
@@ -258,7 +260,7 @@ public class ResolutionByTypeTest extends TCKTest {
 
 		assertContainsBeanTypes(false, bean, "java.lang.Object");
 		assertContainsBeanTypes(false, bean, "org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.Cat");
-		assertContainsBeanTypeSignatures(false, bean, "Qorg.jboss.jsr299.tck.tests.lookup.typesafe.resolution.Cat<Qorg.jboss.jsr299.tck.tests.lookup.typesafe.resolution.African;>;");
+		assertContainsBeanTypeSignatures(false, bean, "Lorg.jboss.jsr299.tck.tests.lookup.typesafe.resolution.Cat<Lorg.jboss.jsr299.tck.tests.lookup.typesafe.resolution.African;>;");
 
 		beans = getBeans("org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.Lion", "org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.Wild");
 		assertEquals("Wrong number of the beans", 0, beans.size());
@@ -278,4 +280,21 @@ public class ResolutionByTypeTest extends TCKTest {
 		beans = getBeans("org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.Bird");
 		assertEquals("Wrong number of the beans", 0, beans.size());
 	}
+
+	public void testInjectionResolutionOfRestrictedProducerField() throws CoreException {
+		IInjectionPointField injection = getInjectionPointField("JavaSource/org/jboss/jsr299/tck/tests/jbt/resolution/Zoo.java", "cats");
+		Set<IBean> beans = cdiProject.getBeans(true, injection);
+		assertEquals("Wrong number of the beans", 1, beans.size());
+		IBean bean = beans.iterator().next();
+		assertTrue(bean instanceof IProducerField);
+	}
+
+	public void testInjectionResolutionOfRestrictedProducerMethod() throws CoreException {
+		IInjectionPointField injection = getInjectionPointField("JavaSource/org/jboss/jsr299/tck/tests/jbt/resolution/Zoo.java", "lions");
+		Set<IBean> beans = cdiProject.getBeans(true, injection);
+		assertEquals("Wrong number of the beans", 1, beans.size());
+		IBean bean = beans.iterator().next();
+		assertTrue(bean instanceof IProducerMethod);
+	}
+
 }
