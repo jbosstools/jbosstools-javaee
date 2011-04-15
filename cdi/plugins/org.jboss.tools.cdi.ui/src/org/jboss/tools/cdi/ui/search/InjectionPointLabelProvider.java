@@ -12,8 +12,13 @@ package org.jboss.tools.cdi.ui.search;
 
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ILabelProviderListener;
+import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.graphics.Image;
 import org.jboss.tools.cdi.core.IBean;
+import org.jboss.tools.cdi.core.IInjectionPointField;
+import org.jboss.tools.cdi.core.IInjectionPointMethod;
+import org.jboss.tools.cdi.core.IInjectionPointParameter;
+import org.jboss.tools.cdi.core.IObserverMethod;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
 import org.jboss.tools.cdi.ui.CDIUiImages;
 
@@ -26,7 +31,15 @@ public class InjectionPointLabelProvider implements ILabelProvider {
 
 	public String getText(Object element) {
 		if(element instanceof IBean){
-			return CDIUIMessages.INJECTION_POINT_LABEL_PROVIDER+" "+((IBean)element).getBeanClass().getElementName(); //$NON-NLS-1$
+			return NLS.bind(CDIUIMessages.INJECTION_POINT_LABEL_PROVIDER_INJECT_BEAN, ((IBean)element).getBeanClass().getElementName());
+		}else if(element instanceof IObserverMethod){
+			return NLS.bind(CDIUIMessages.INJECTION_POINT_LABEL_PROVIDER_OBSERVER_METHOD, ((IObserverMethod)element).getMethod().getDeclaringType().getElementName(), ((IObserverMethod)element).getMethod().getElementName());
+		}else if(element instanceof IInjectionPointField){
+			return NLS.bind(CDIUIMessages.INJECTION_POINT_LABEL_PROVIDER_EVENT, ((IInjectionPointField)element).getField().getDeclaringType().getElementName(), ((IInjectionPointField)element).getField().getElementName());
+		}else if(element instanceof IInjectionPointMethod){
+			return NLS.bind(CDIUIMessages.INJECTION_POINT_LABEL_PROVIDER_EVENT, ((IInjectionPointMethod)element).getMethod().getDeclaringType().getElementName(), ((IInjectionPointMethod)element).getMethod().getElementName());
+		}else if(element instanceof IInjectionPointParameter){
+			return NLS.bind(CDIUIMessages.INJECTION_POINT_LABEL_PROVIDER_EVENT, ((IInjectionPointParameter)element).getBeanMethod().getMethod().getDeclaringType().getElementName(), ((IInjectionPointParameter)element).getBeanMethod().getMethod().getElementName());
 		}else
 			return ""; //$NON-NLS-1$
 	}

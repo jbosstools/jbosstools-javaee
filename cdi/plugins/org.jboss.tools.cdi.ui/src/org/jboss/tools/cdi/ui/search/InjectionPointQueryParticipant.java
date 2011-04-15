@@ -10,36 +10,37 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.ui.search;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.jdt.core.IAnnotatable;
-import org.eclipse.jdt.core.IAnnotation;
 import org.eclipse.jdt.core.IField;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IMethod;
-import org.eclipse.jdt.core.ISourceRange;
-import org.eclipse.jdt.core.IType;
+import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.core.search.IJavaSearchConstants;
-import org.eclipse.jdt.internal.core.Member;
 import org.eclipse.jdt.ui.search.ElementQuerySpecification;
 import org.eclipse.jdt.ui.search.IMatchPresentation;
 import org.eclipse.jdt.ui.search.IQueryParticipant;
 import org.eclipse.jdt.ui.search.ISearchRequestor;
 import org.eclipse.jdt.ui.search.QuerySpecification;
 import org.eclipse.search.ui.text.Match;
-import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.CDIUtil;
 import org.jboss.tools.cdi.core.IBean;
+import org.jboss.tools.cdi.core.IBeanMethod;
 import org.jboss.tools.cdi.core.ICDIProject;
+import org.jboss.tools.cdi.core.IClassBean;
 import org.jboss.tools.cdi.core.IInjectionPoint;
+import org.jboss.tools.cdi.core.IObserverMethod;
+import org.jboss.tools.cdi.core.IParameter;
 
 public class InjectionPointQueryParticipant implements IQueryParticipant{
+	ArrayList<Object> objects = new ArrayList<Object>();
 	
 	public int estimateTicks(QuerySpecification specification) {
 		return 10;
@@ -52,6 +53,8 @@ public class InjectionPointQueryParticipant implements IQueryParticipant{
 	public void search(ISearchRequestor requestor,
 			QuerySpecification querySpecification, IProgressMonitor monitor)
 			throws CoreException {
+		
+		objects.clear();
 		
 		if(querySpecification instanceof ElementQuerySpecification){
 			if (!isSearchForReferences(querySpecification.getLimitTo()))
@@ -76,22 +79,39 @@ public class InjectionPointQueryParticipant implements IQueryParticipant{
 				
 				Set<IBean> beans = cdiProject.getBeans(file.getFullPath());
 				
-				if (element instanceof IAnnotatable) {
-					IAnnotatable annotatable = (IAnnotatable)element;
-					
-					IAnnotation annotation = annotatable.getAnnotation(CDIConstants.INJECT_ANNOTATION_TYPE_NAME);
-					if (annotation == null)
-						return;
-					IInjectionPoint injectionPoint = CDIUtil.findInjectionPoint(beans, element, 0);
-					if(injectionPoint != null){
-						Set<IBean> resultBeanSet = cdiProject.getBeans(false, injectionPoint);
-						List<IBean> resultBeanList = CDIUtil.sortBeans(resultBeanSet);
-						for(IBean bean : resultBeanList){
-							if(bean != null){
-								IType type = bean.getBeanClass();
-								ISourceRange range = ((Member)type).getNameRange();
-								Match match = new InjectionPointMatch(bean, range.getOffset(), range.getLength());
+				IInjectionPoint injectionPoint = CDIUtil.findInjectionPoint(beans, element, 0);
+				if(injectionPoint != null){
+					Set<IBean> resultBeanSet = cdiProject.getBeans(false, injectionPoint);
+					List<IBean> resultBeanList = CDIUtil.sortBeans(resultBeanSet);
+					for(IBean bean : resultBeanList){
+						if(bean != null){
+							if(!objects.contains(bean)){
+								Match match = new BeanMatch(bean);
 								requestor.reportMatch(match);
+								objects.add(bean);
+							}
+						}
+					}
+					Set<IObserverMethod> observerMethods = cdiProject.resolveObserverMethods(injectionPoint);
+					for(IObserverMethod observerMethod : observerMethods){
+						// match observer method
+						if(!objects.contains(observerMethod)){
+							Match match = new ObserverMethodMatch(observerMethod);
+							requestor.reportMatch(match);
+							objects.add(observerMethod);
+						}
+					}
+				}
+				if(element instanceof IMethod){
+					IParameter param = findObserverParameter(beans, (IMethod)element);
+					if(param != null){
+						Set<IInjectionPoint> events = cdiProject.findObservedEvents(param);
+						for(IInjectionPoint event : events){
+							// match event
+							if(!objects.contains(event)){
+								Match match = new EventMatch(event);
+								requestor.reportMatch(match);
+								objects.add(event);
 							}
 						}
 					}
@@ -99,6 +119,28 @@ public class InjectionPointQueryParticipant implements IQueryParticipant{
 			}
 		}
 	}
+	
+	private IParameter findObserverParameter(Set<IBean> beans, IMethod method) throws JavaModelException {
+		for (IBean bean: beans) {
+			if(bean instanceof IClassBean) {
+				Set<IBeanMethod> observers = ((IClassBean)bean).getObserverMethods();
+				for (IBeanMethod bm: observers) {
+					if(bm instanceof IObserverMethod) {
+						if(bm.getMethod().equals(method)){
+							IObserverMethod obs = (IObserverMethod)bm;
+							Set<IParameter> ps = obs.getObservedParameters();
+							if(!ps.isEmpty()) {
+								return ps.iterator().next();
+							}
+						}
+					}
+				}
+			}
+		}
+		
+		return null;
+	}
+
 	
 	public boolean isSearchForReferences(int limitTo) {
     	int maskedLimitTo = limitTo & ~(IJavaSearchConstants.IGNORE_DECLARING_TYPE+IJavaSearchConstants.IGNORE_RETURN_TYPE);
