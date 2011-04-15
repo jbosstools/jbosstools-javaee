@@ -21,6 +21,13 @@ import org.jboss.tools.cdi.core.IBean;
  */
 public interface IAmbiguousBeanResolverFeature {
 
+	/**
+	 * Contributes to resolving ambiguous beans in methods ICDIProject.getBeans(boolean attemptToResolveAmbiguousDependency, ...)
+	 * Invoked by ICDIProject only when attemptToResolveAmbiguousDependency = true.
+	 * 
+	 * @param result
+	 * @return
+	 */
 	public Set<IBean> getResolvedBeans(Set<IBean> result);
 
 }
