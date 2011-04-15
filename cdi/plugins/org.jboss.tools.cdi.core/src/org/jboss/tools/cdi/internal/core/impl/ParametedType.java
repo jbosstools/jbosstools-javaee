@@ -176,10 +176,10 @@ public class ParametedType implements IParametedType {
 						CDICorePlugin.getDefault().logError(e);
 					}
 				} else if(!"java.lang.Object".equals(type.getFullyQualifiedName())) {
-					sc = "QObject;";
+					sc = ParametedTypeFactory.OBJECT;
 				} else if("java.lang.Object".equals(type.getFullyQualifiedName()) && arrayPrefix.length() > 0) {
 					objectArray = true;
-					sc = "QObject;";
+					sc = ParametedTypeFactory.OBJECT;
 				}
 				if(!objectArray && arrayPrefix.length() > 0) {
 					sc = arrayPrefix + sc;
@@ -240,7 +240,7 @@ public class ParametedType implements IParametedType {
 		}
 		int i = typeSignature.indexOf('<');
 		if(i < 0) {
-			if(( typeSignature.startsWith("T") || typeSignature.startsWith("Q")) && typeSignature.endsWith(";")) {
+			if(( typeSignature.startsWith("T") || typeSignature.startsWith("Q") || typeSignature.startsWith("L")) && typeSignature.endsWith(";")) {
 				String param = typeSignature.substring(1, typeSignature.length() - 1);
 				String s = findParameterSignature(param);
 				return s == null ? typeSignature : s;

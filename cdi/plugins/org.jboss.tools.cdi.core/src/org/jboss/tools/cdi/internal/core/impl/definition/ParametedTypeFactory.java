@@ -30,14 +30,16 @@ public class ParametedTypeFactory {
 	// I S J C F D Z
 	static HashMap<String,String> primitives = new HashMap<String, String>();
 	static {
-		primitives.put("I", "Qjava.lang.Integer;");
-		primitives.put("S", "Qjava.lang.Short;");
-		primitives.put("J", "Qjava.lang.Long;");
-		primitives.put("C", "Qjava.lang.Character;");
-		primitives.put("F", "Qjava.lang.Float;");
-		primitives.put("D", "Qjava.lang.Double;");
-		primitives.put("Z", "Qjava.lang.Boolean;");
+		primitives.put("I", "Ljava.lang.Integer;");
+		primitives.put("S", "Ljava.lang.Short;");
+		primitives.put("J", "Ljava.lang.Long;");
+		primitives.put("C", "Ljava.lang.Character;");
+		primitives.put("F", "Ljava.lang.Float;");
+		primitives.put("D", "Ljava.lang.Double;");
+		primitives.put("Z", "Ljava.lang.Boolean;");
 	}
+	//unresolved Object signature
+	public static String OBJECT = "QObject;";
 	Map<String, ParametedType> cache = new HashMap<String, ParametedType>();
 
 	public ParametedType newParametedType(IType type) {
@@ -55,7 +57,7 @@ public class ParametedTypeFactory {
 		}
 		parametedType.setFactory(this);
 		parametedType.setType(type);
-		if(type != null) parametedType.setSignature("Q" + type.getFullyQualifiedName() + ";");
+		if(type != null) parametedType.setSignature("L" + type.getFullyQualifiedName() + ";");
 		String[] ps = null;
 		try {
 			ps = type.getTypeParameterSignatures();
@@ -83,7 +85,7 @@ public class ParametedTypeFactory {
 		
 		IType contextType = context instanceof IType ? (IType)context : context.getDeclaringType();
 
-		String key = context == null || context.isBinary() || "QObject;".equals(typeSignature) ? typeSignature : contextType.getFullyQualifiedName() + "+" + typeSignature;
+		String key = context == null || context.isBinary() || OBJECT.equals(typeSignature) ? typeSignature : contextType.getFullyQualifiedName() + "+" + typeSignature;
 		if(cache.containsKey(key)) return cache.get(key);
 		ParametedType result = new ParametedType();
 		result.setFactory(this);
@@ -112,7 +114,7 @@ public class ParametedTypeFactory {
 				ns.append(result.getArrayPrefix());
 				if(result.isLower()) ns.append('-');
 				if(result.isUpper()) ns.append('+');
-				ns.append('Q').append(resovedTypeName).append(";");
+				ns.append('L').append(resovedTypeName).append(";");
 				result.setSignature(ns.toString());
 			}
 			IType type = EclipseJavaUtil.findType(context.getJavaProject(), resovedTypeName);
@@ -169,7 +171,7 @@ public class ParametedTypeFactory {
 					ns.append(result.getArrayPrefix());
 					if(result.isLower()) ns.append('-');
 					if(result.isUpper()) ns.append('+');
-					ns.append('Q').append(resovedTypeName).append('<').append(newParams).append(">;");
+					ns.append('L').append(resovedTypeName).append('<').append(newParams).append(">;");
 					result.setSignature(ns.toString());
 				}
 				return result;
@@ -185,7 +187,7 @@ public class ParametedTypeFactory {
 		String t = Signature.getTypeVariable(typeParameterSignature);
 		String[] bounds = Signature.getTypeParameterBounds(typeParameterSignature);
 		
-		t = "Q" + t + ";";
+		t = "L" + t + ";";
 		if(result == null || t.equals(result.getSignature())) {
 			String sts = bounds.length > 0 ? bounds[0] : "";
 			if(sts.length() > 0) {

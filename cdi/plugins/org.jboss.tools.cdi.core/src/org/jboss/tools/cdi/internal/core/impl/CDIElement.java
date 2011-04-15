@@ -17,6 +17,7 @@ import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.JavaModelException;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.ICDIElement;
+import org.jboss.tools.cdi.internal.core.impl.definition.ParametedTypeFactory;
 
 /**
  * 
@@ -33,7 +34,7 @@ public class CDIElement implements ICDIElement {
 
 	protected ParametedType getObjectType(IMember context) {
 		try {
-			return getCDIProject().getNature().getTypeFactory().getParametedType(context, "QObject;");
+			return getCDIProject().getNature().getTypeFactory().getParametedType(context, ParametedTypeFactory.OBJECT);
 		} catch (JavaModelException e) {
 			CDICorePlugin.getDefault().logError(e);
 			return null;
