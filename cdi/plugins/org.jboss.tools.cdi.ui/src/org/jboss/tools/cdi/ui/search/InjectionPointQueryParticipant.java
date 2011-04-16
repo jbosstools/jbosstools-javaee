@@ -19,6 +19,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jdt.core.IField;
 import org.eclipse.jdt.core.IJavaElement;
+import org.eclipse.jdt.core.ILocalVariable;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.core.search.IJavaSearchConstants;
@@ -62,7 +63,7 @@ public class InjectionPointQueryParticipant implements IQueryParticipant{
 			
 			ElementQuerySpecification qs = (ElementQuerySpecification)querySpecification;
 			IJavaElement element = qs.getElement();
-			if(element instanceof IMethod || element instanceof IField){
+			if(element instanceof IMethod || element instanceof IField || element instanceof ILocalVariable){
 				IFile file = (IFile)element.getResource();
 				if(file == null)
 					return;
