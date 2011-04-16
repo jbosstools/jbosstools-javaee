@@ -40,4 +40,5 @@ Export-Package: org.jboss.tools.cdi.ui,
  org.jboss.tools.cdi.ui.ca,
  org.jboss.tools.cdi.ui.marker,
  org.jboss.tools.cdi.ui.preferences,
+ org.jboss.tools.cdi.ui.search,
  org.jboss.tools.cdi.ui.wizard
