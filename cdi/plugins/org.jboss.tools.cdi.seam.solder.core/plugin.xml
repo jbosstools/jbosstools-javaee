@@ -7,6 +7,7 @@
           class="org.jboss.tools.cdi.seam.solder.core.CDISeamSolderCoreExtension"
           runtime="org.jboss.seam.solder.core.CoreExtension">
     </cdiextension>
+
     <cdiextension
           class="org.jboss.tools.cdi.seam.solder.core.CDISeamSolderLoggerExtension"
           runtime="org.jboss.seam.solder.logging.TypedMessageLoggerExtension">
@@ -15,6 +16,11 @@
     <cdiextension
           class="org.jboss.tools.cdi.seam.solder.core.CDISeamSolderServiceHandlerExtension"
           runtime="org.jboss.seam.solder.serviceHandler.ServiceHandlerExtension">
+    </cdiextension>
+
+    <cdiextension
+          class="org.jboss.tools.cdi.seam.solder.core.CDISeamSolderDefaultBeanExtension"
+          runtime="org.jboss.seam.solder.bean.defaultbean.DefaultBeanExtension">
     </cdiextension>
 	</extension>
 </plugin>

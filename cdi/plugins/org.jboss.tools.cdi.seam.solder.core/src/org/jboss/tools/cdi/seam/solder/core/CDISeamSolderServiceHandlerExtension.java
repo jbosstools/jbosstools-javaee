@@ -35,6 +35,13 @@ import org.jboss.tools.cdi.internal.core.scanner.FileSet;
 import org.jboss.tools.common.model.XModelObject;
 
 /**
+ * Implements support for org.jboss.seam.solder.serviceHandler.ServiceHandlerExtension.
+ * 
+ * During building definitions
+ * 		1) participates in recognizing annotations type annotated with @ServiceHandlerType and stores them;
+ * 		2) builds and stores definitions annotated with those annotation types.
+ * 
+ * During building beans creates beans of stored definitions.
  * 
  * @author Viacheslav Kabanovich
  *

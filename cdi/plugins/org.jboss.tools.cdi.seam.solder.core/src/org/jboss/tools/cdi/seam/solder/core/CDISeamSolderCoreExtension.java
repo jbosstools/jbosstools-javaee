@@ -1,5 +1,14 @@
+/******************************************************************************* 
+ * Copyright (c) 2011 Red Hat, Inc. 
+ * Distributed under license by Red Hat, Inc. All rights reserved. 
+ * This program is made available under the terms of the 
+ * Eclipse Public License v1.0 which accompanies this distribution, 
+ * and is available at http://www.eclipse.org/legal/epl-v10.html 
+ * 
+ * Contributors: 
+ * Red Hat, Inc. - initial API and implementation 
+ ******************************************************************************/
 package org.jboss.tools.cdi.seam.solder.core;
-
 
 import java.beans.Introspector;
 import java.util.ArrayList;
@@ -10,12 +19,9 @@ import java.util.Set;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IMemberValuePair;
 import org.eclipse.jdt.core.JavaModelException;
-import org.eclipse.jdt.core.SourceRange;
-import org.eclipse.jdt.internal.core.MemberValuePair;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.IAnnotated;
 import org.jboss.tools.cdi.core.IAnnotationDeclaration;
-import org.jboss.tools.cdi.core.IDefinitionContext;
 import org.jboss.tools.cdi.core.IRootDefinitionContext;
 import org.jboss.tools.cdi.core.extension.ICDIExtension;
 import org.jboss.tools.cdi.core.extension.feature.IProcessAnnotatedTypeFeature;
@@ -25,7 +31,6 @@ import org.jboss.tools.cdi.internal.core.impl.TypeDeclaration;
 import org.jboss.tools.cdi.internal.core.impl.definition.AbstractMemberDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.AbstractTypeDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.AnnotationDefinition;
-import org.jboss.tools.cdi.internal.core.impl.definition.DefinitionContext;
 import org.jboss.tools.cdi.internal.core.impl.definition.FieldDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.MethodDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.PackageDefinition;
@@ -35,6 +40,18 @@ import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.util.BeanUtil;
 import org.jboss.tools.common.util.EclipseJavaUtil;
 
+/**
+ * Implements support for org.jboss.seam.solder.core.CoreExtension
+ * 
+ * For @Veto and @Requires marks bean definition as vetoed.
+ * 
+ * For @FullyQualified and @Named on packages, adds fake @Named to bean
+ * 
+ * For @Exact marks parameter or field type as overridden.
+ * 
+ * @author Viacheslav Kabanovich
+ *
+ */
 public class CDISeamSolderCoreExtension implements ICDIExtension, IProcessAnnotatedTypeFeature {
 
 	public Object getAdapter(Class adapter) {
@@ -148,10 +165,9 @@ public class CDISeamSolderCoreExtension implements ICDIExtension, IProcessAnnota
 		}
 		
 		if(beanName != null) {
-			IMemberValuePair[] pairs = new IMemberValuePair[]{new MemberValuePair("value", beanName, IMemberValuePair.K_STRING)};
 			AnnotationDefinition n = context.getAnnotation(CDIConstants.NAMED_QUALIFIER_TYPE_NAME);
 			if(n != null) {
-				AnnotationLiteral l = new AnnotationLiteral(d.getResource(), "", new SourceRange(0, 0), pairs, n.getType());
+				AnnotationLiteral l = new AnnotationLiteral(d.getResource(), 0, 0, beanName, IMemberValuePair.K_STRING, n.getType());
 				if(named != null) d.removeAnnotation(named);
 				d.addAnnotation(l, context);
 			}
