@@ -30,6 +30,7 @@ public class CDISeamSolderCoreAllTests {
 		suiteAll.addTestSuite(ExactTest.class);
 		suiteAll.addTestSuite(MessageLoggerTest.class);
 		suiteAll.addTestSuite(ServiceHandlerTest.class);
+		suiteAll.addTestSuite(DefaultBeanTest.class);
 
 		SeamSolderTestSetup suite = new SeamSolderTestSetup(suiteAll);
 
