@@ -15,6 +15,8 @@ import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.IMemberValuePair;
 import org.eclipse.jdt.core.ISourceRange;
 import org.eclipse.jdt.core.IType;
+import org.eclipse.jdt.core.SourceRange;
+import org.eclipse.jdt.internal.core.MemberValuePair;
 import org.jboss.tools.cdi.core.IJavaAnnotation;
 
 public class AnnotationLiteral implements IJavaAnnotation {
@@ -30,6 +32,17 @@ public class AnnotationLiteral implements IJavaAnnotation {
 		this.source = source;
 		this.range = range;
 		this.memberValues = memberValues;
+		this.annotationType = annotationType;
+	}
+
+	public AnnotationLiteral(IResource declaringResource, int offset, int length, Object value, int valueType, IType annotationType) {
+		this.declaringResource = declaringResource;
+		this.range = new SourceRange(offset, length);
+		if(value != null) {
+			this.memberValues = new IMemberValuePair[]{
+				new MemberValuePair("value", value, valueType)	
+			};
+		}
 		this.annotationType = annotationType;
 	}
 
