@@ -53,7 +53,10 @@ public class CDIElementWrapper {
 			String type = Signature.getSignatureSimpleName(((ILocalVariable)javaElement).getTypeSignature());
 			label = method.getDeclaringType().getElementName()+DOT+method.getElementName()+OPEN+type+SPACE+javaElement.getElementName()+CLOSE;
 		}
-		path = javaElement.getResource().getFullPath()+"/"+label;
+		if(javaElement.getResource() != null)
+			path = javaElement.getResource().getFullPath()+"/"+label;
+		else
+			path = "/"+label;
 	}
 	
 	public ICDIElement getCDIElement(){
