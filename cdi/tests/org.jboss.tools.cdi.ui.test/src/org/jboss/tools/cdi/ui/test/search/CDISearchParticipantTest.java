@@ -172,6 +172,17 @@ public class CDISearchParticipantTest  extends TCKTest {
 		testSearchParticipant("JavaSource/org/jboss/jsr299/tck/tests/event/bindingTypes/EventEmitter.java", FIELD_SEARCH, "stringEvent", "", new InjectionPointQueryParticipant(), matches);
 	}
 
+	public void testInjectionPointQueryParticipant4(){
+		ArrayList<MatchStructure> matches = new ArrayList<MatchStructure>();
+		
+		matches.add(new MatchStructure(InjectionPointField.class, "EventEmitter.stringEvent"));
+		matches.add(new MatchStructure(InjectionPointField.class, "EventEmitter.stringEventWithAnyAndNonRuntimeBindingType"));
+		matches.add(new MatchStructure(InjectionPointField.class, "EventEmitter.stringEventWithOnlyNonRuntimeBindingType"));
+		matches.add(new MatchStructure(InjectionPointField.class, "OwlFinch_Broken.simpleEvent"));
+		
+		testSearchParticipant("JavaSource/org/jboss/jsr299/tck/tests/implementation/enterprise/newBean/GoldenRetriever.java", METHOD_SEARCH, "anObserverMethod", "", new InjectionPointQueryParticipant(), matches);
+	}
+
 	public void testCDIBeanQueryParticipant(){
 		ArrayList<MatchStructure> matches = new ArrayList<MatchStructure>();
 		
