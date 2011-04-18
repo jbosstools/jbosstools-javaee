@@ -28,7 +28,6 @@ import org.eclipse.jdt.ui.search.IMatchPresentation;
 import org.eclipse.jdt.ui.search.IQueryParticipant;
 import org.eclipse.jdt.ui.search.ISearchRequestor;
 import org.eclipse.jdt.ui.search.QuerySpecification;
-import org.eclipse.search.ui.text.Match;
 import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.CDIUtil;
@@ -41,7 +40,7 @@ import org.jboss.tools.cdi.core.IObserverMethod;
 import org.jboss.tools.cdi.core.IParameter;
 
 public class InjectionPointQueryParticipant implements IQueryParticipant{
-	ArrayList<Object> objects = new ArrayList<Object>();
+	ArrayList<String> objects = new ArrayList<String>();
 	
 	public int estimateTicks(QuerySpecification specification) {
 		return 10;
@@ -86,20 +85,20 @@ public class InjectionPointQueryParticipant implements IQueryParticipant{
 					List<IBean> resultBeanList = CDIUtil.sortBeans(resultBeanSet);
 					for(IBean bean : resultBeanList){
 						if(bean != null){
-							if(!objects.contains(bean)){
-								Match match = new CDIMatch(bean);
+							CDIMatch match = new CDIMatch(bean);
+							if(!objects.contains(match.getPath())){
 								requestor.reportMatch(match);
-								objects.add(bean);
+								objects.add(match.getPath());
 							}
 						}
 					}
 					Set<IObserverMethod> observerMethods = cdiProject.resolveObserverMethods(injectionPoint);
 					for(IObserverMethod observerMethod : observerMethods){
 						// match observer method
-						if(!objects.contains(observerMethod)){
-							Match match = new CDIMatch(observerMethod);
+						CDIMatch match = new CDIMatch(observerMethod);
+						if(!objects.contains(match.getPath())){
 							requestor.reportMatch(match);
-							objects.add(observerMethod);
+							objects.add(match.getPath());
 						}
 					}
 				}
@@ -109,10 +108,10 @@ public class InjectionPointQueryParticipant implements IQueryParticipant{
 						Set<IInjectionPoint> events = cdiProject.findObservedEvents(param);
 						for(IInjectionPoint event : events){
 							// match event
-							if(!objects.contains(event)){
-								Match match = new CDIMatch(event);
+							CDIMatch match = new CDIMatch(event);
+							if(!objects.contains(match.getPath())){
 								requestor.reportMatch(match);
-								objects.add(event);
+								objects.add(match.getPath());
 							}
 						}
 					}

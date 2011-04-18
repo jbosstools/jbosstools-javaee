@@ -17,6 +17,7 @@ import org.eclipse.jdt.internal.core.JavaModelManager;
 import org.jboss.tools.cdi.ui.test.marker.CDIMarkerResolutionTest;
 import org.jboss.tools.cdi.ui.test.perspective.CDIPerspectiveTest;
 import org.jboss.tools.cdi.ui.test.preferences.CDIPreferencePageTest;
+import org.jboss.tools.cdi.ui.test.search.CDISearchParticipantTest;
 import org.jboss.tools.cdi.ui.test.wizard.NewCDIClassWizardFactoryTest;
 import org.jboss.tools.cdi.ui.test.wizard.NewCDIWizardTest;
 
@@ -36,6 +37,7 @@ public class CDIUIAllTests {
 		suite.addTestSuite(CDIPreferencePageTest.class);
 		suite.addTestSuite(NewCDIClassWizardFactoryTest.class);
 		suite.addTestSuite(CDIPerspectiveTest.class);
+		suite.addTestSuite(CDISearchParticipantTest.class);
 
 		return suite;
 	}

@@ -30,6 +30,7 @@ public class CDIElementWrapper {
 	private static String BRACKETS = OPEN+CLOSE;
 	private ICDIElement element;
 	private String label;
+	private String path;
 	private IJavaElement javaElement;
 	
 	public CDIElementWrapper(ICDIElement element){
@@ -52,7 +53,7 @@ public class CDIElementWrapper {
 			String type = Signature.getSignatureSimpleName(((ILocalVariable)javaElement).getTypeSignature());
 			label = method.getDeclaringType().getElementName()+DOT+method.getElementName()+OPEN+type+SPACE+javaElement.getElementName()+CLOSE;
 		}
-
+		path = javaElement.getResource().getFullPath()+"/"+label;
 	}
 	
 	public ICDIElement getCDIElement(){
@@ -64,6 +65,10 @@ public class CDIElementWrapper {
 	}
 	
 	public String getLabel(){
+		return label;
+	}
+
+	public String getPath(){
 		return label;
 	}
 }

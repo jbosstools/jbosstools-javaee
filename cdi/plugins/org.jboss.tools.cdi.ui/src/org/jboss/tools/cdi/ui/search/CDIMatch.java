@@ -23,6 +23,10 @@ public class CDIMatch extends Match {
 		return ((CDIElementWrapper)getElement()).getLabel();
 	}
 
+	public String getPath(){
+		return ((CDIElementWrapper)getElement()).getPath();
+	}
+
 	public IJavaElement getJavaElement(){
 		return ((CDIElementWrapper)getElement()).getJavaElement();
 	}
