@@ -23,8 +23,10 @@ import org.eclipse.ui.IMarkerResolution;
 import org.jboss.tools.cdi.core.ICDIElement;
 import org.jboss.tools.cdi.core.test.tck.TCKTest;
 import org.jboss.tools.cdi.internal.core.impl.ClassBean;
+import org.jboss.tools.cdi.internal.core.impl.EventBean;
 import org.jboss.tools.cdi.internal.core.impl.InjectionPointField;
 import org.jboss.tools.cdi.internal.core.impl.InjectionPointParameter;
+import org.jboss.tools.cdi.internal.core.impl.ObserverMethod;
 import org.jboss.tools.cdi.ui.marker.MarkerResolutionUtils;
 import org.jboss.tools.cdi.ui.search.CDIBeanQueryParticipant;
 import org.jboss.tools.cdi.ui.search.CDIMatch;
@@ -146,6 +148,28 @@ public class CDISearchParticipantTest  extends TCKTest {
 		matches.add(new MatchStructure(ClassBean.class, "BeanWithInjectionPointMetadata"));
 		
 		testSearchParticipant("JavaSource/org/jboss/jsr299/tck/tests/lookup/injectionpoint/ConstructorInjectionPointBean.java", PARAMETER_SEARCH, "ConstructorInjectionPointBean", "injectedBean", new InjectionPointQueryParticipant(), matches);
+	}
+
+	public void testInjectionPointQueryParticipant3(){
+		ArrayList<MatchStructure> matches = new ArrayList<MatchStructure>();
+		
+		matches.add(new MatchStructure(EventBean.class, "Event"));
+		
+		matches.add(new MatchStructure(ObserverMethod.class, "DiscerningObserver.observeAny()"));
+		matches.add(new MatchStructure(ObserverMethod.class, "EventTypeFamilyObserver.observeObject()"));
+		matches.add(new MatchStructure(ObserverMethod.class, "Fox.observeEvent()"));
+		matches.add(new MatchStructure(ObserverMethod.class, "GoldenRetriever.anObserverMethod()"));
+		matches.add(new MatchStructure(ObserverMethod.class, "Pomeranian.observeStringEvent()"));
+		matches.add(new MatchStructure(ObserverMethod.class, "StringObserver.anotherObserver()"));
+		matches.add(new MatchStructure(ObserverMethod.class, "TeaCupPomeranian.observeSimpleEvent()"));
+		matches.add(new MatchStructure(ObserverMethod.class, "Terrier.observer()"));
+		matches.add(new MatchStructure(ObserverMethod.class, "TibetanTerrier_Broken.observeSomeEvent()"));
+		matches.add(new MatchStructure(ObserverMethod.class, "TibetanTerrier_BrokenNoInterface.observeSomeEvent()"));
+		matches.add(new MatchStructure(ObserverMethod.class, "ClassFragmentLogger.addEntry()"));
+		matches.add(new MatchStructure(ObserverMethod.class, "ObserverMethodInInterceptorBroken.observeSomeEvent()"));
+		matches.add(new MatchStructure(ObserverMethod.class, "ObserverMethodInDecoratorBroken.observeSomeEvent()"));
+		
+		testSearchParticipant("JavaSource/org/jboss/jsr299/tck/tests/event/bindingTypes/EventEmitter.java", FIELD_SEARCH, "stringEvent", "", new InjectionPointQueryParticipant(), matches);
 	}
 
 	public void testCDIBeanQueryParticipant(){
