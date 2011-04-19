@@ -14,12 +14,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IMemberValuePair;
 import org.eclipse.jdt.core.IType;
-import org.eclipse.jdt.core.JavaModelException;
 import org.jboss.tools.cdi.core.CDIConstants;
-import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.IAnnotationDeclaration;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IClassBean;
@@ -34,8 +31,6 @@ import org.jboss.tools.cdi.internal.core.impl.definition.AbstractMemberDefinitio
 import org.jboss.tools.cdi.internal.core.impl.definition.FieldDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.MethodDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.TypeDefinition;
-import org.jboss.tools.common.model.util.EclipseResourceUtil;
-import org.jboss.tools.common.util.EclipseJavaUtil;
 
 /**
  * Implements support for org.jboss.seam.solder.bean.defaultbean.DefaultBeanExtension.
@@ -50,10 +45,6 @@ import org.jboss.tools.common.util.EclipseJavaUtil;
  *
  */
 public class CDISeamSolderDefaultBeanExtension implements ICDIExtension, IProcessAnnotatedTypeFeature, IAmbiguousBeanResolverFeature {
-
-	public Object getAdapter(Class adapter) {
-		return null;
-	}
 
 	public void processAnnotatedType(TypeDefinition typeDefinition, IRootDefinitionContext context) {
 		boolean defaultBean = typeDefinition.isAnnotationPresent(CDISeamSolderConstants.DEFAULT_BEAN_ANNOTATION_TYPE_NAME);
@@ -94,16 +85,10 @@ public class CDISeamSolderDefaultBeanExtension implements ICDIExtension, IProces
 		Object n = a.getMemberValue(null);
 		String defaultType = null;
 		if(n != null && n.toString().length() > 0) {
-			IJavaProject jp = EclipseResourceUtil.getJavaProject(context.getProject().getProject());
-			IType typedAnnotation = null;
-			try {
-				typedAnnotation = EclipseJavaUtil.findType(jp, CDIConstants.TYPED_ANNOTATION_TYPE_NAME);
-			} catch (JavaModelException e) {
-				CDICorePlugin.getDefault().logError(e);
-				return null;
-			}
 			defaultType = n.toString();
-			return new AnnotationLiteral(def.getResource(), a.getStartPosition(), a.getLength(), defaultType, IMemberValuePair.K_CLASS, typedAnnotation);
+			IType typedAnnotation = context.getProject().getType(CDIConstants.TYPED_ANNOTATION_TYPE_NAME);
+			return (typedAnnotation == null) ? null 
+				: new AnnotationLiteral(def.getResource(), a.getStartPosition(), a.getLength(), defaultType, IMemberValuePair.K_CLASS, typedAnnotation);
 		}
 		return null;
 	 

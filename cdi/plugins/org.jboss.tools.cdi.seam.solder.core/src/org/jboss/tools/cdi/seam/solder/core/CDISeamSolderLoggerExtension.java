@@ -42,10 +42,6 @@ public class CDISeamSolderLoggerExtension implements ICDIExtension, IBuildPartic
 	CDICoreNature project;
 	LoggerDefinitionContext context = new LoggerDefinitionContext();
 
-	public Object getAdapter(Class adapter) {
-		return null;
-	}
-
 	public void setProject(CDICoreNature n) {
 		project = n;
 	}

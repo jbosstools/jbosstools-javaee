@@ -15,4 +15,6 @@ public interface CDISeamSolderConstants extends CDIConstants {
 	public String SERVICE_ANNOTATION_KIND = "serviceAnnotation";
 
 	public String DEFAULT_BEAN_ANNOTATION_TYPE_NAME = "org.jboss.seam.solder.bean.defaultbean.DefaultBean";
+
+	public String UNWRAPS_ANNOTATION_TYPE_NAME = "org.jboss.seam.solder.unwraps.Unwraps";
 }

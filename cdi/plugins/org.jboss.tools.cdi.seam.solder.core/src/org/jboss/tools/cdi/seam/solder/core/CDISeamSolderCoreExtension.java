@@ -16,7 +16,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IMemberValuePair;
 import org.eclipse.jdt.core.JavaModelException;
 import org.jboss.tools.cdi.core.CDIConstants;
@@ -36,7 +35,6 @@ import org.jboss.tools.cdi.internal.core.impl.definition.MethodDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.PackageDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.ParameterDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.TypeDefinition;
-import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.util.BeanUtil;
 import org.jboss.tools.common.util.EclipseJavaUtil;
 
@@ -53,10 +51,6 @@ import org.jboss.tools.common.util.EclipseJavaUtil;
  *
  */
 public class CDISeamSolderCoreExtension implements ICDIExtension, IProcessAnnotatedTypeFeature {
-
-	public Object getAdapter(Class adapter) {
-		return null;
-	}
 
 	public void processAnnotatedType(TypeDefinition typeDefinition, IRootDefinitionContext context) {
 
@@ -99,17 +93,9 @@ public class CDISeamSolderCoreExtension implements ICDIExtension, IProcessAnnota
 		;
 		if (packageRequiredClasses != null)
 			requiredClasses.addAll(packageRequiredClasses);
-		IJavaProject jp = EclipseResourceUtil.getJavaProject(context
-				.getProject().getProject());
-		if (!requiredClasses.isEmpty() && jp != null) {
+		if (!requiredClasses.isEmpty()) {
 			for (String c : requiredClasses) {
-				try {
-					if (EclipseJavaUtil.findType(jp, c) == null) {
-						typeDefinition.veto();
-						return true;
-					}
-				} catch (JavaModelException e) {
-					CDISeamSolderCorePlugin.getDefault().logError(e);
+				if (context.getProject().getType(c) == null) {
 					typeDefinition.veto();
 					return true;
 				}

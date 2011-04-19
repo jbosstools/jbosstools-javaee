@@ -50,10 +50,6 @@ public class CDISeamSolderServiceHandlerExtension implements ICDIExtension, IBui
 	CDICoreNature project;
 	ServiceHandlerDefinitionContext context = new ServiceHandlerDefinitionContext();
 
-	public Object getAdapter(Class adapter) {
-		return null;
-	}
-
 	public void setProject(CDICoreNature n) {
 		project = n;
 	}
