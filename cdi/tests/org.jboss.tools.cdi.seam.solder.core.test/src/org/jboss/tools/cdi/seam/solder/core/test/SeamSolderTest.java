@@ -10,6 +10,7 @@
  ******************************************************************************/ 
 package org.jboss.tools.cdi.seam.solder.core.test;
 
+import java.util.Iterator;
 import java.util.Set;
 
 import junit.framework.TestCase;
@@ -22,6 +23,7 @@ import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.core.IInjectionPointField;
+import org.jboss.tools.cdi.core.IProducer;
 import org.jboss.tools.test.util.ResourcesUtils;
 
 /**
@@ -64,6 +66,11 @@ public class SeamSolderTest extends TestCase {
 	protected IInjectionPointField getInjectionPointField(ICDIProject cdi, String beanClassFilePath, String fieldName) {
 		IFile file = cdi.getNature().getProject().getFile(beanClassFilePath);
 		Set<IBean> beans = cdi.getBeans(file.getFullPath());
+		Iterator<IBean> it = beans.iterator();
+		while(it.hasNext()) {
+			IBean b = it.next();
+			if(b instanceof IProducer) it.remove();
+		}
 		assertEquals("Wrong number of the beans", 1, beans.size());
 		Set<IInjectionPoint> injections = beans.iterator().next().getInjectionPoints();
 		for (IInjectionPoint injectionPoint : injections) {
