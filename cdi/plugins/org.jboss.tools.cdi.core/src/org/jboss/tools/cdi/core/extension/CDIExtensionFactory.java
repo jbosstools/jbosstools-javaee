@@ -14,15 +14,16 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.StringTokenizer;
 
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtensionPoint;
 import org.eclipse.core.runtime.Platform;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.extension.feature.IAmbiguousBeanResolverFeature;
 import org.jboss.tools.cdi.core.extension.feature.IBuildParticipantFeature;
+import org.jboss.tools.cdi.core.extension.feature.IProcessAnnotatedMemberFeature;
 import org.jboss.tools.cdi.core.extension.feature.IProcessAnnotatedTypeFeature;
 
 /**
@@ -47,6 +48,7 @@ public class CDIExtensionFactory {
 
 	public static Class<?>[] FEATURES = {
 		IBuildParticipantFeature.class,
+		IProcessAnnotatedMemberFeature.class,
 		IProcessAnnotatedTypeFeature.class,
 		IAmbiguousBeanResolverFeature.class
 	};
@@ -86,7 +88,12 @@ public class CDIExtensionFactory {
 			String cls = c.getAttribute("class");
 			ICDIExtension extension = null;
 			try {
-				extension = (ICDIExtension)c.createExecutableExtension("class");
+				Object o = c.createExecutableExtension("class");
+				if(!(o instanceof ICDIExtension)) {
+					CDICorePlugin.getDefault().logError("CDI extension " + cls + " should implement ICDIExtension.");
+				} else {
+					extension = (ICDIExtension)o;
+				}
 			} catch (CoreException e) {
 				CDICorePlugin.getDefault().logError(e);
 				continue;
@@ -148,7 +155,10 @@ public class CDIExtensionFactory {
 		if(feature.isAssignableFrom(cls)) {
 			return (F)extension;
 		}
-		return (F)extension.getAdapter(feature);
+		if(extension instanceof IAdaptable) {
+			return (F)((IAdaptable)extension).getAdapter(feature);
+		}
+		return null;
 	}
 
 }

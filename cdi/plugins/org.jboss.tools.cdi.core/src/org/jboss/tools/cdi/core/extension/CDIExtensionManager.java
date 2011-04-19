@@ -19,6 +19,7 @@ import java.util.Set;
 import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.extension.feature.IAmbiguousBeanResolverFeature;
 import org.jboss.tools.cdi.core.extension.feature.IBuildParticipantFeature;
+import org.jboss.tools.cdi.core.extension.feature.IProcessAnnotatedMemberFeature;
 import org.jboss.tools.cdi.core.extension.feature.IProcessAnnotatedTypeFeature;
 
 /**
@@ -123,6 +124,14 @@ public class CDIExtensionManager {
 		return featureToExtensions.containsKey(feature) ? featureToExtensions.get(feature) : EMPTY;
 	}
 
+	public Set<IProcessAnnotatedMemberFeature> getProcessAnnotatedMemberFeature() {
+		Set<IProcessAnnotatedMemberFeature> result = featureStorage.processAnnotatedMember;
+		if(result == null) {
+			featureStorage.processAnnotatedMember = result = getFeature(IProcessAnnotatedMemberFeature.class);
+		}
+		return result;
+	}
+
 	public Set<IProcessAnnotatedTypeFeature> getProcessAnnotatedTypeFeature() {
 		Set<IProcessAnnotatedTypeFeature> result = featureStorage.processAnnotatedType;
 		if(result == null) {
@@ -166,10 +175,12 @@ public class CDIExtensionManager {
 
 	class FeatureStorage {
 		Set<IBuildParticipantFeature> buildParticipant = null;
+		Set<IProcessAnnotatedMemberFeature> processAnnotatedMember = null;
 		Set<IProcessAnnotatedTypeFeature> processAnnotatedType = null;
 		Set<IAmbiguousBeanResolverFeature> ambiguousBeanResolver = null;
 		
 		void clean() {
+			processAnnotatedMember = null;
 			processAnnotatedType = null;
 			buildParticipant = null;
 			ambiguousBeanResolver = null;

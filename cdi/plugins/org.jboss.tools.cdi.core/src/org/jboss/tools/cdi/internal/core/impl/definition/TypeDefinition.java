@@ -12,6 +12,7 @@ package org.jboss.tools.cdi.internal.core.impl.definition;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.Flags;
@@ -21,6 +22,7 @@ import org.eclipse.jdt.core.IType;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.IAnnotationDeclaration;
 import org.jboss.tools.cdi.core.IRootDefinitionContext;
+import org.jboss.tools.cdi.core.extension.feature.IProcessAnnotatedMemberFeature;
 import org.jboss.tools.cdi.internal.core.impl.AnnotationDeclaration;
 import org.jboss.tools.cdi.internal.core.impl.ParametedType;
 
@@ -46,11 +48,15 @@ public class TypeDefinition extends AbstractTypeDefinition {
 			//provide initialization
 			context.getAnnotationKind(a.getType());
 		}
+		Set<IProcessAnnotatedMemberFeature> extensions = context.getProject().getExtensionManager().getProcessAnnotatedMemberFeature();
 		IField[] fs = getType().getFields();
 		for (int i = 0; i < fs.length; i++) {
 			FieldDefinition f = new FieldDefinition();
 			f.setTypeDefinition(this);
 			f.setField(fs[i], context);
+			for (IProcessAnnotatedMemberFeature e: extensions) {
+				e.processAnnotatedMember(f, context);
+			}
 			if(f.isCDIAnnotated()) {
 				fields.add(f);
 			}
@@ -61,6 +67,9 @@ public class TypeDefinition extends AbstractTypeDefinition {
 			MethodDefinition m = new MethodDefinition();
 			m.setTypeDefinition(this);
 			m.setMethod(ms[i], context);
+			for (IProcessAnnotatedMemberFeature e: extensions) {
+				e.processAnnotatedMember(m, context);
+			}
 			if(m.isCDIAnnotated() || (ms[i].isConstructor() && ms[i].getNumberOfParameters()==0)) {
 				methods.add(m);
 			}

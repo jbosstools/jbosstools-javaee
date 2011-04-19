@@ -27,7 +27,9 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IType;
+import org.eclipse.jdt.core.JavaModelException;
 import org.jboss.tools.cdi.core.extension.CDIExtensionManager;
 import org.jboss.tools.cdi.internal.core.impl.definition.AnnotationDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.DefinitionContext;
@@ -36,6 +38,8 @@ import org.jboss.tools.cdi.internal.core.impl.definition.TypeDefinition;
 import org.jboss.tools.cdi.internal.core.scanner.lib.ClassPathMonitor;
 import org.jboss.tools.common.model.XJob;
 import org.jboss.tools.common.model.XJob.XRunnable;
+import org.jboss.tools.common.model.util.EclipseResourceUtil;
+import org.jboss.tools.common.util.EclipseJavaUtil;
 import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.common.xml.XMLUtilities;
 import org.jboss.tools.jst.web.kb.WebKbPlugin;
@@ -81,6 +85,23 @@ public class CDICoreNature implements IProjectNature {
 
 	public IProject getProject() {
 		return project;
+	}
+
+	/**
+	 * Convenience method.
+	 * 
+	 * @param qualifiedName
+	 * @return
+	 */
+	public IType getType(String qualifiedName) {
+		IJavaProject jp = EclipseResourceUtil.getJavaProject(getProject());
+		if(jp == null) return null;
+		try {
+			return EclipseJavaUtil.findType(jp, qualifiedName);
+		} catch (JavaModelException e) {
+			CDICorePlugin.getDefault().logError(e);
+		}
+		return null;
 	}
 
 	public void setProject(IProject project) {

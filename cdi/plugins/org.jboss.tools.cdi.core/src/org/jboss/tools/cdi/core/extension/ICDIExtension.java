@@ -28,6 +28,6 @@ import org.eclipse.core.runtime.IAdaptable;
  * @author Viacheslav Kabanovich
  *
  */
-public interface ICDIExtension extends IAdaptable {
+public interface ICDIExtension {
 
 }

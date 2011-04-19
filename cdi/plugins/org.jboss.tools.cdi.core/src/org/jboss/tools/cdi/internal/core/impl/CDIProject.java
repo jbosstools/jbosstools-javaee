@@ -1361,23 +1361,14 @@ public class CDIProject extends CDIElement implements ICDIProject {
 	public Set<IBean> getBeans(boolean attemptToResolveAmbiguousDependency,
 			String fullyQualifiedBeanType,
 			String... fullyQualifiedQualifiersTypes) {
-		IType type = null;
-		try {
-			type = EclipseJavaUtil.findType(EclipseUtil.getJavaProject(getNature().getProject()), fullyQualifiedBeanType);
-		} catch (JavaModelException e) {
-			CDICorePlugin.getDefault().logError(e);
-		}
+		IType type = getNature().getType(fullyQualifiedBeanType);
 		if(type == null) {
 			return Collections.emptySet();
 		}
 		IParametedType beanType = getNature().getTypeFactory().newParametedType(type);
 		List<IType> qualifiers = new ArrayList<IType>();
 		if(fullyQualifiedQualifiersTypes != null) for (String s : fullyQualifiedQualifiersTypes) {
-			try {
-				type = EclipseJavaUtil.findType(EclipseUtil.getJavaProject(getNature().getProject()), s);
-			} catch (JavaModelException e) {
-				CDICorePlugin.getDefault().logError(e);
-			}
+			type = getNature().getType(s);
 			if(type != null) qualifiers.add(type);
 		}
 		
