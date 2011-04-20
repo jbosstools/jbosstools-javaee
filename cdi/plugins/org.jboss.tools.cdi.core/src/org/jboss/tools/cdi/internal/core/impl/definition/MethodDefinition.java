@@ -86,7 +86,7 @@ public class MethodDefinition extends BeanMemberDefinition {
 		int declEnd = content.indexOf('{', paramStart);
 		if(declEnd < 0) return;
 		int paramEnd = content.lastIndexOf(')', declEnd);
-		if(paramEnd < 0) return;
+		if(paramEnd < paramStart) paramEnd = declEnd;
 		String paramsString = content.substring(paramStart + 1, paramEnd);
 		if(!parametersAreInjectionPoints && paramsString.indexOf("@Observes") >= 0) {
 			parametersAreInjectionPoints = true;
