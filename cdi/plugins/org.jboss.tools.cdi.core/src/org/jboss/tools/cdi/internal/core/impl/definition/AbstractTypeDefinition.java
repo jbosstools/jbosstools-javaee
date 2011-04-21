@@ -104,12 +104,18 @@ public class AbstractTypeDefinition extends AbstractMemberDefinition {
 			map = new HashMap<String, ISourceRange>();
 			getContent();
 			if(content == null) return;
-			
+
+			//Any disagreement between content and range means that content is obsolete
+			//and this build is obsolete (type was updated wile old build is proceeding).
+			//New build is pending, and now we only have to go smoothly around inconsistencies.
 			ISourceRange r = type.getNameRange();
 			if(r == null) return;
 			int b = r.getOffset() + r.getLength();
+			if(b < 0) return;
 			int e = content.indexOf('{', b);
 			if(e < 0) e = content.length();
+			if(e < b) return;
+
 			String sup = content.substring(b, e);
 			String sc = type.getSuperclassName();
 			if(sc != null) checkRange(b, sup, sc);
