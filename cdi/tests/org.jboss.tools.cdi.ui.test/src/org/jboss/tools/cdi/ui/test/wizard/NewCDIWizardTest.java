@@ -21,6 +21,7 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.IType;
@@ -301,7 +302,10 @@ public class NewCDIWizardTest extends TestCase {
 		}
 	}
 
-	public void testNewInterceptorBindingWizardWithBinding() {
+	public void testNewInterceptorBindingWizardWithBinding() throws CoreException {
+		IProject tck = ResourcesPlugin.getWorkspace().getRoot().getProject("tck");
+		tck.build(IncrementalProjectBuilder.FULL_BUILD, new NullProgressMonitor());
+
 		WizardContext context = new WizardContext();
 		context.init("org.jboss.tools.cdi.ui.wizard.NewInterceptorBindingCreationWizard",
 				PACK_NAME, INTERCEPTOR_BINDING2_NAME);
