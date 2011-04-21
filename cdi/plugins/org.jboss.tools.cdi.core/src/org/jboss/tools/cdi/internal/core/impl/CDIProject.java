@@ -399,6 +399,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		BUILT_IN.add(CDIConstants.PRINCIPAL_TYPE_NAME);
 		BUILT_IN.add(CDIConstants.VALIDATION_FACTORY_TYPE_NAME);
 		BUILT_IN.add(CDIConstants.VALIDATOR_TYPE_NAME);
+		BUILT_IN.add(CDIConstants.BEAN_MANAGER_TYPE_NAME);
 	}
 	static boolean isBuiltIn(IType type) {
 		return type != null && BUILT_IN.contains(type.getFullyQualifiedName());

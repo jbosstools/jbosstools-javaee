@@ -87,6 +87,7 @@ public interface CDIConstants {
 	public String PRINCIPAL_TYPE_NAME = "java.security.Principal";
 	public String VALIDATION_FACTORY_TYPE_NAME = "javax.validation.ValidatorFactory";
 	public String VALIDATOR_TYPE_NAME = "javax.validation.Validator";
+	public String BEAN_MANAGER_TYPE_NAME = "javax.enterprise.inject.spi.BeanManager";
 
 	public String ANNOTATION_LITERAL_TYPE_NAME = "javax.enterprise.util.AnnotationLiteral";
 

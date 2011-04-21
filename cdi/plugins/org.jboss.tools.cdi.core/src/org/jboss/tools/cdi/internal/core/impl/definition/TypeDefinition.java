@@ -73,9 +73,9 @@ public class TypeDefinition extends AbstractTypeDefinition {
 		if(!hasConstructor) {
 			hasBeanConstructor = true;
 		}
-		if(!hasBeanConstructor && getType().getFullyQualifiedName().equals(CDIConstants.WELD_BEAN_MANAGER_TYPE_NAME)) {
-			hasBeanConstructor = true;
-		}
+//		if(!hasBeanConstructor && getType().getFullyQualifiedName().equals(CDIConstants.WELD_BEAN_MANAGER_TYPE_NAME)) {
+//			hasBeanConstructor = true;
+//		}
 	}
 
 	public ParametedType getSuperType() {
