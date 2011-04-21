@@ -13,6 +13,7 @@ package org.jboss.tools.cdi.core.test.tck;
 import java.util.Set;
 
 import org.eclipse.jdt.core.IType;
+import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IInjectionPointField;
 import org.jboss.tools.cdi.internal.core.impl.BuiltInBean;
@@ -72,7 +73,18 @@ public class BuiltInBeanInjectionTest extends TCKTest {
 		t = b.getBeanClass();
 		assertEquals("java.security.Principal", t.getFullyQualifiedName());
 
-	
+		//javax.enterprise.inject.spi.BeanManager
+		field =  getInjectionPointField("JavaSource/org/jboss/jsr299/tck/tests/context/conversation/BuiltInConversation.java", "manager");
+		assertNotNull(field);
+		
+		beans = field.getCDIProject().getBeans(false, field);
+		assertFalse(beans.isEmpty());
+
+		b = beans.iterator().next();
+		assertTrue(b instanceof BuiltInBean);
+		t = b.getBeanClass();
+		assertEquals(CDIConstants.BEAN_MANAGER_TYPE_NAME, t.getFullyQualifiedName());
+
 	}
 
 }
