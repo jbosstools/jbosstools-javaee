@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Seam Faces Test
+Bundle-SymbolicName: org.jboss.tools.cdi.seam.faces.core.test;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Require-Bundle: org.jboss.tools.cdi.seam.faces.core,
+ org.eclipse.jdt.core,
+ org.junit
