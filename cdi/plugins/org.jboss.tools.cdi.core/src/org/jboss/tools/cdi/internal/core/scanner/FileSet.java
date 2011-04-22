@@ -37,13 +37,7 @@ public class FileSet {
 	public void add(IPath path, IType type) throws CoreException {
 		if(type == null) return;
 		allpaths.add(path);
-			//https://bugs.eclipse.org/bugs/show_bug.cgi?id=342757
-			try {
-				type.isAnnotation();
-			} catch (ArrayIndexOutOfBoundsException e) {
-				CDICorePlugin.getDefault().logError("JDT failed to load " + type.getFullyQualifiedName() + " from " + path + "\nSee https://bugs.eclipse.org/bugs/show_bug.cgi?id=342757");
-				return;
-			}
+			if(!checkType(type, path)) return;
 		if(type.isAnnotation()) {
 			add(annotations, path, type);
 		} else if(type.isInterface()) {
@@ -52,11 +46,35 @@ public class FileSet {
 			add(classes, path, type);
 			IType[] ts = type.getTypes();
 			for (IType t: ts) {
+				if(!checkType(t, path)) continue;
 				if(Flags.isStatic(t.getFlags())) {
 					add(path, t);
 				}
 			}
 		}
+	}
+
+	private static Set<IPath> failedPaths = new HashSet<IPath>();
+
+	/**
+	 * Workaround for https://bugs.eclipse.org/bugs/show_bug.cgi?id=342757	
+	 * This method and field failedPaths should be removed as soon as the 
+	 * issue is fixed.
+	 * @param type
+	 * @param path
+	 * @return
+	 * @throws CoreException
+	 */
+	private boolean checkType(IType type, IPath path) throws CoreException {
+		try {
+			type.isAnnotation();
+		} catch (ArrayIndexOutOfBoundsException e) {
+			if(failedPaths.contains(path)) return false; // Do not let's be too noisy.
+			failedPaths.add(path);
+			CDICorePlugin.getDefault().logError("JDT failed to load " + type.getFullyQualifiedName() + " from " + path + "\nSee https://bugs.eclipse.org/bugs/show_bug.cgi?id=342757");
+			return false;
+		}
+		return true;
 	}
 
 	private void add(Map<IPath, Set<IType>> target, IPath path, IType type) {
