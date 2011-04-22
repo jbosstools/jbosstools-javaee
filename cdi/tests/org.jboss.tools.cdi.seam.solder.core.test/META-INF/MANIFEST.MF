@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Contexts and Dependency Injection Test
+Bundle-Name: Seam Solder Test
 Bundle-SymbolicName: org.jboss.tools.cdi.seam.solder.core.test;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: JBoss by Red Hat
