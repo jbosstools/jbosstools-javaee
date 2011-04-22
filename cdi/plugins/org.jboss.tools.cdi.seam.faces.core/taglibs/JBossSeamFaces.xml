@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tag-lib PUBLIC "-//Red Hat, Inc//DTD Knowledge Base 2.0//EN" "http://anonsvn.jboss.org/repos/jbosstools/trunk/jst/plugins/org.jboss.tools.jst.web.kb/resources/kbCustomTagLibSchema-1.0.dtd">
+<tag-lib defaultPrefix="s">
+	<component name="viewAction">
+		<attribute name="phase">
+			<proposal type="enumeration">
+				<param value="APPLY_REQUEST_VALUES" />
+				<param value="UPDATE_MODEL_VALUES" />
+				<param value="PROCESS_VALIDATIONS" />
+				<param value="INVOKE_APPLICATION" />
+			</proposal>
+		</attribute>
+	</component>
+</tag-lib>
