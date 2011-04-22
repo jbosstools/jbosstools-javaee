@@ -43,7 +43,9 @@ public class JSFTemplateTest extends TestCase {
 		
 		String[] templateList = template.getTemplateList(JSF_2_0);
 		assertEquals(3, templateList.length);
-		assertEquals("JSFKickStartWithoutLibs", templateList[0]);
+		Set<String> projects = new HashSet<String>();
+		for (String p: templateList) projects.add(p);
+		assertTrue(projects.contains("JSFKickStartWithoutLibs"));
 		
 		String s = v.getProjectTemplatesLocation();
 		assertEquals("jsf-2.0", new File(s).getName());
