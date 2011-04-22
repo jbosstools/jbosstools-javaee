@@ -10,10 +10,6 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.seam.solder.core;
 
-
-import org.eclipse.core.resources.IProject;
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.jboss.tools.common.log.BaseUIPlugin;
 import org.osgi.framework.BundleContext;
 
@@ -23,7 +19,7 @@ import org.osgi.framework.BundleContext;
 public class CDISeamSolderCorePlugin extends BaseUIPlugin {
 
 	// The plug-in ID
-	public static final String PLUGIN_ID = "org.jboss.tools.cdi.solder.core";
+	public static final String PLUGIN_ID = "org.jboss.tools.cdi.seam.solder.core";
 
 	// The shared instance
 	private static CDISeamSolderCorePlugin plugin;
@@ -60,6 +56,4 @@ public class CDISeamSolderCorePlugin extends BaseUIPlugin {
 	public static CDISeamSolderCorePlugin getDefault() {
 		return plugin;
 	}
-
 }
-
