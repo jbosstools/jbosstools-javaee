@@ -23,13 +23,6 @@ import org.jboss.tools.cdi.internal.core.impl.definition.AnnotationDefinition;
  */
 public interface IDefinitionContextExtension extends IDefinitionContext {
 
-	/**
-	 * Removes definitions loaded from type
-	 * 
-	 * @param typeName
-	 */
-	public void clean(String typeName);
-
 	public void setRootContext(IRootDefinitionContext context);
 
 	/**

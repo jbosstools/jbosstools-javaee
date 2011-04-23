@@ -30,6 +30,10 @@ public class AnnotationDeclaration implements IAnnotationDeclaration {
 
 	public AnnotationDeclaration() {}
 
+	public AnnotationDeclaration(AnnotationDeclaration d) {
+		d.copyTo(this);
+	}
+
 	protected void copyTo(AnnotationDeclaration other) {
 		other.project = project;
 		other.annotation = annotation;

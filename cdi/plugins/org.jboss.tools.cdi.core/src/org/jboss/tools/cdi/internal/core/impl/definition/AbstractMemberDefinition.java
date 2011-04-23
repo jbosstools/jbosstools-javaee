@@ -12,6 +12,7 @@ package org.jboss.tools.cdi.internal.core.impl.definition;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -91,6 +92,10 @@ public abstract class AbstractMemberDefinition implements IAnnotated {
 		AnnotationDeclaration a = new AnnotationDeclaration();
 		a.setProject(context.getProject());
 		a.setDeclaration(ja);
+		addAnnotation(a, context);
+	}
+
+	private void addAnnotation(AnnotationDeclaration a, IRootDefinitionContext context) {
 		AnnotationDeclaration b = null;
 		int kind = context.getAnnotationKind(a.getType());
 		if(kind > 0 && (kind & AnnotationDefinition.STEREOTYPE) > 0) {
@@ -118,6 +123,20 @@ public abstract class AbstractMemberDefinition implements IAnnotated {
 		if(a.getTypeName() != null) {
 			annotationsByType.put(a.getTypeName(), a);
 		}
+	}
+
+	public void annotationKindChanged(String typeName, IRootDefinitionContext context) {
+		AnnotationDeclaration a = annotationsByType.get(typeName);
+		if(a == null) return;
+		Iterator<IAnnotationDeclaration> it = annotations.iterator();
+		while(it.hasNext()) {
+			IAnnotationDeclaration a1 = it.next();
+			IType t = a1.getType();
+			if(t != null && typeName.equals(t.getFullyQualifiedName())) it.remove();
+		}
+		//Make sure that a is non-specific annotation.
+		addAnnotation(new AnnotationDeclaration(a), context);
+		
 	}
 
 	public void removeAnnotation(IAnnotationDeclaration a) {

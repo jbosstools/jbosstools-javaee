@@ -20,6 +20,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IType;
 import org.jboss.tools.cdi.core.CDIConstants;
+import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.IAnnotationDeclaration;
 import org.jboss.tools.cdi.core.IRootDefinitionContext;
 import org.jboss.tools.cdi.core.extension.IDefinitionContextExtension;
@@ -77,6 +78,13 @@ public class AnnotationDefinition extends AbstractTypeDefinition {
 			//TODO check super ?
 			return;
 		}
+		revalidateKind(context);
+	}
+
+	public void revalidateKind(IRootDefinitionContext context) {
+		boolean hasMembers = (kind & QUALIFIER) > 0 || (kind & INTERCEPTOR_BINDING) > 0;
+		kind = NON_RELEVANT;
+		
 		Map<String, AnnotationDeclaration> ds = new HashMap<String, AnnotationDeclaration>();
 		
 		for (IAnnotationDeclaration a: annotations) {
@@ -115,8 +123,14 @@ public class AnnotationDefinition extends AbstractTypeDefinition {
 			}
 		}
 
-		if((kind & QUALIFIER) > 0 || (kind & INTERCEPTOR_BINDING) > 0) {
-			initMemberDefinitions(contextType, context);
+		boolean newHasMembers = (kind & QUALIFIER) > 0 || (kind & INTERCEPTOR_BINDING) > 0;
+		if(newHasMembers != hasMembers) {
+			methods.clear();
+			try {
+				initMemberDefinitions(type, context);
+			} catch (CoreException e) {
+				CDICorePlugin.getDefault().logError(e);
+			}
 		}
 	}
 

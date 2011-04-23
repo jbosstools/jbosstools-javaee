@@ -88,6 +88,12 @@ public class TypeDefinition extends AbstractTypeDefinition {
 //		}
 	}
 
+	public void annotationKindChanged(String typeName, IRootDefinitionContext context) {
+		super.annotationKindChanged(typeName, context);
+		for (FieldDefinition f: fields) f.annotationKindChanged(typeName, context);
+		for (FieldDefinition m: fields) m.annotationKindChanged(typeName, context);
+	}
+
 	public ParametedType getSuperType() {
 		return parametedType == null ? null : parametedType.getSuperType();
 	}

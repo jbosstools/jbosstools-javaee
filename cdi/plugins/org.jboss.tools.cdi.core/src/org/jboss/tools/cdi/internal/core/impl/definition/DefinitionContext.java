@@ -121,8 +121,13 @@ public class DefinitionContext implements IRootDefinitionContext {
 		addType(file, typeName);
 		if(def != null) {
 			if(def instanceof AnnotationDefinition) {
+				AnnotationDefinition newD = (AnnotationDefinition)def;
+				AnnotationDefinition oldD = annotations.get(def.getQualifiedName());
 				synchronized (annotations) {
-					annotations.put(def.getQualifiedName(), (AnnotationDefinition)def);
+					annotations.put(def.getQualifiedName(), newD);
+				}
+				if(oldD != null && oldD.getKind() != newD.getKind()) {
+					annotationKindChanged(typeName);
 				}
 			} else {
 				synchronized (typeDefinitions) {
@@ -208,18 +213,7 @@ public class DefinitionContext implements IRootDefinitionContext {
 	public void clean(IPath path) {
 		Set<String> ts = resources.remove(path);
 		if(ts != null) for (String t: ts) {
-			types.remove(t);
-			synchronized (typeDefinitions) {
-				typeDefinitions.remove(t);
-			}
-			synchronized (annotations) {
-				annotations.remove(t);
-			}
-			packages.remove(t);
-			synchronized (packageDefinitions) {
-				packageDefinitions.remove(t);
-			}
-			for (IDefinitionContextExtension e: extensions) e.clean(t);
+			clean(t);
 		}
 		synchronized (beanXMLs) {
 			beanXMLs.remove(path);
@@ -236,6 +230,21 @@ public class DefinitionContext implements IRootDefinitionContext {
 		}
 	
 		for (IDefinitionContextExtension e: extensions) e.clean(path);
+	}
+
+	public void clean(String typeName) {
+		types.remove(typeName);
+		synchronized (typeDefinitions) {
+			typeDefinitions.remove(typeName);
+		}
+		synchronized (annotations) {
+			annotations.remove(typeName);
+		}
+		packages.remove(typeName);
+		synchronized (packageDefinitions) {
+			packageDefinitions.remove(typeName);
+		}
+		for (IDefinitionContextExtension e: extensions) e.clean(typeName);
 	}
 
 	void removeFromParents(IPath file) {
@@ -297,7 +306,7 @@ public class DefinitionContext implements IRootDefinitionContext {
 		d.setType(annotationType, this);
 		int kind = d.getKind();
 		if(kind <= AnnotationDefinition.CDI) {
-			d = null;
+//			d = null; //We need it to compare kind if extensions change it.
 		}
 		addType(annotationType.getPath(), name, d);
 		underConstruction.remove(name);
@@ -426,6 +435,13 @@ public class DefinitionContext implements IRootDefinitionContext {
 
 	public TypeDefinition getTypeDefinition(String fullyQualifiedName) {
 		return typeDefinitions.get(fullyQualifiedName);
+	}
+
+	private void annotationKindChanged(String typeName) {
+		List<TypeDefinition> ds = getTypeDefinitions();
+		for (TypeDefinition d: ds) {
+			d.annotationKindChanged(typeName, this);
+		}
 	}
 	
 }

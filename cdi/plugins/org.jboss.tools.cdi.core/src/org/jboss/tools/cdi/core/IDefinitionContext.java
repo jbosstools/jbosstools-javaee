@@ -50,4 +50,11 @@ public interface IDefinitionContext {
 	 */
 	public void clean(IPath path);
 
+	/**
+	 * Removes definitions loaded from type
+	 * 
+	 * @param typeName
+	 */
+	public void clean(String typeName);
+
 }
