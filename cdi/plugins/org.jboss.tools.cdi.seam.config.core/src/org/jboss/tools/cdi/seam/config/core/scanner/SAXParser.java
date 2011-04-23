@@ -134,6 +134,7 @@ public class SAXParser extends SAXValidator {
 			current = element;
 			currentText = new StringBuffer();
 			currentTextLocation = null;
+			if(root == null) root = element;
 		}
 	
 		public void characters (char ch[], int start, int length) throws SAXException {
@@ -160,13 +161,17 @@ public class SAXParser extends SAXValidator {
 				current.setTextNode(text);
 				text.setLocation(currentTextLocation);
 			}
+		
+			if(current.getParent() != null) {
+				current.getParent().addChildElement(current);
+			}
 			
 			current = current.getParent();
 		}
 
 
 		public void error(SAXParseException e) throws SAXException {
-			String message = e.getException().getMessage();
+			String message = e.getMessage();
 			errors.add(message);
 		}
 

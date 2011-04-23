@@ -16,4 +16,12 @@ public interface CDISeamConfigConstants extends CDIConstants {
 
 	public static String SEAM_BEANS_XML = "seam-beans.xml";
 
+	public static String URI_PREFIX = "urn:java:";
+
+	//Problem id: node name was not resolved to Java type
+	public static String UNRESOLVED_TYPE = "Unresolved type";
+
+	//Problem id: node was expected to be resolved to annotation type
+	public static String ANNOTATION_EXPECTED = "Annotation expected";
+
 }

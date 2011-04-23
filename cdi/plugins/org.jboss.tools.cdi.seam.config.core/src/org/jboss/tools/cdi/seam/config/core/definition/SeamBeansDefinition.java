@@ -10,11 +10,30 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.seam.config.core.definition;
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
+import org.jboss.tools.cdi.seam.config.core.scanner.SAXElement;
+import org.jboss.tools.cdi.seam.config.core.scanner.SAXNode;
+
 /**
  * 
  * @author Viacheslav Kabanovich
  *
  */
 public class SeamBeansDefinition {
+	Map<SAXNode, String> unresolvedNodes = new HashMap<SAXNode, String>();
+	
+	public SeamBeansDefinition() {}
+
+	public Map<SAXNode, String> getUnresolvedNodes() {
+		return unresolvedNodes;
+	}
+
+	public void addUnresolvedNode(SAXNode node, String problem) {
+		unresolvedNodes.put(node, problem);
+	}
 
 }

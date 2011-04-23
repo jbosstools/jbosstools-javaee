@@ -16,7 +16,10 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.jdt.core.IType;
 import org.jboss.tools.cdi.core.extension.AbstractDefinitionContextExtension;
+import org.jboss.tools.cdi.internal.core.impl.definition.AnnotationDefinition;
+import org.jboss.tools.cdi.internal.core.impl.definition.DefinitionContext;
 import org.jboss.tools.cdi.seam.config.core.definition.SeamBeansDefinition;
 
 /**
@@ -28,6 +31,8 @@ public class ConfigDefinitionContext extends AbstractDefinitionContextExtension 
 	private Map<IPath, SeamBeansDefinition> beanXMLs = new HashMap<IPath, SeamBeansDefinition>();
 	private Map<IPath, SeamBeansDefinition> seambeanXMLs = new HashMap<IPath, SeamBeansDefinition>();
 
+	private Map<String, AnnotationDefinition> annotations = new HashMap<String, AnnotationDefinition>();
+
 	public ConfigDefinitionContext getWorkingCopy() {
 		return (ConfigDefinitionContext)super.getWorkingCopy();
 	}
@@ -38,6 +43,7 @@ public class ConfigDefinitionContext extends AbstractDefinitionContextExtension 
 		if(!clean) {
 			copy.beanXMLs.putAll(beanXMLs);
 			copy.seambeanXMLs.putAll(seambeanXMLs);
+			copy.annotations.putAll(annotations);
 			//TODO
 		}
 
@@ -45,8 +51,20 @@ public class ConfigDefinitionContext extends AbstractDefinitionContextExtension 
 	}
 
 	protected void doApplyWorkingCopy() {
-		beanXMLs = ((ConfigDefinitionContext)workingCopy).beanXMLs;
-		seambeanXMLs = ((ConfigDefinitionContext)workingCopy).seambeanXMLs;
+		ConfigDefinitionContext copy = (ConfigDefinitionContext)workingCopy;
+		beanXMLs = copy.beanXMLs;
+		seambeanXMLs = copy.seambeanXMLs;
+		
+		for (String s: annotations.keySet()) {
+			if(!copy.annotations.containsKey(s)) {
+				//Remove from root and reload it in root.
+				AnnotationDefinition d = annotations.get(s);
+				IType type = d.getType();
+				root.clean(type.getFullyQualifiedName());
+				root.getAnnotationKind(type);
+			}
+		}
+		annotations = copy.annotations;
 	}
 
 	public void clean() {
@@ -56,6 +74,9 @@ public class ConfigDefinitionContext extends AbstractDefinitionContextExtension 
 		synchronized (seambeanXMLs) {
 			seambeanXMLs.clear();
 		}
+		synchronized (annotations) {
+			annotations.clear();
+		}
 	}
 
 	public void clean(IPath path) {
@@ -64,6 +85,12 @@ public class ConfigDefinitionContext extends AbstractDefinitionContextExtension 
 		}
 		synchronized (seambeanXMLs) {
 			seambeanXMLs.remove(path);
+		}
+	}
+
+	public void clean(String typeName) {
+		synchronized(annotations) {
+			annotations.remove(typeName);
 		}
 	}
 
@@ -90,6 +117,13 @@ public class ConfigDefinitionContext extends AbstractDefinitionContextExtension 
 			result.addAll(seambeanXMLs.values());
 		}
 		return result;
+	}
+
+	public void addAnnotation(String typeName, AnnotationDefinition def) {
+		IPath path = def.getResource().getFullPath();
+//		root.clean(typeName);
+		annotations.put(typeName, def);
+		((DefinitionContext)root).addType(path, typeName, def);
 	}
 
 }

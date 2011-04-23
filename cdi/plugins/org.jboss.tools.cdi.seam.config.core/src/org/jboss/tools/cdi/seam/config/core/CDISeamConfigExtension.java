@@ -14,6 +14,7 @@ package org.jboss.tools.cdi.seam.config.core;
 import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jface.text.Document;
@@ -40,10 +41,6 @@ public class CDISeamConfigExtension implements ICDIExtension, IBuildParticipantF
 	ConfigDefinitionContext context = new ConfigDefinitionContext();
 
 	ConfigFileSet fileSet = new ConfigFileSet();
-
-	public Object getAdapter(Class adapter) {
-		return null;
-	}
 
 	public void setProject(CDICoreNature n) {
 		project = n;
@@ -88,10 +85,11 @@ public class CDISeamConfigExtension implements ICDIExtension, IBuildParticipantF
 			 }
 			 if(o instanceof FileAnyImpl) {
 				 String text = ((FileAnyImpl)o).getAsText();
+				 IResource resource = (IResource)o.getAdapter(IResource.class);
 				 IDocument document = new Document();
 				 SeamDefinitionBuilder builder = new SeamDefinitionBuilder();
 				 document.set(text);
-				 SeamBeansDefinition def = builder.createDefinition(document, project);
+				 SeamBeansDefinition def = builder.createDefinition(resource, document, project, context.getWorkingCopy());
 				 if(isSeamBeans) {
 					 context.getWorkingCopy().addSeamBeanXML(p, def);
 				 } else {
@@ -103,7 +101,7 @@ public class CDISeamConfigExtension implements ICDIExtension, IBuildParticipantF
 	}
 
 	public void buildDefinitions(FileSet fileSet) {
-		//nothing to do
+		//nothing to do since we visited all resources.
 	}
 
 	public void buildBeans() {
