@@ -22,6 +22,7 @@ import org.eclipse.jface.text.hyperlink.IHyperlink;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMElement;
 import org.jboss.tools.common.core.resources.XModelObjectEditorInput;
 import org.jboss.tools.common.el.core.resolver.ELContext;
+import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.text.ext.util.StructuredModelWrapper;
 import org.jboss.tools.common.text.ext.util.Utils;
 import org.jboss.tools.jst.jsp.jspeditor.JSPTextEditor;
@@ -78,7 +79,7 @@ public class JsfJSPTagNameHyperlinkDetector extends AbstractHyperlinkDetector {
 				IComponent[] components = PageProcessor.getInstance().getComponents(query, (IPageContext)context);
 				ArrayList<IHyperlink> hyperlinks = new ArrayList<IHyperlink>();
 				for(IComponent component : components){
-					if(component instanceof TLDTag || component instanceof FaceletTag){
+					if(validateComponent(component)){
 						TLDTagHyperlink link = new TLDTagHyperlink((AbstractComponent)component, reg);
 						link.setDocument(textViewer.getDocument());
 						hyperlinks.add(link);
@@ -91,6 +92,21 @@ public class JsfJSPTagNameHyperlinkDetector extends AbstractHyperlinkDetector {
 		}
 		
 		return parse(textViewer.getDocument(), xmlDocument, region);
+	}
+	
+	private boolean validateComponent(IComponent component){
+		if(component instanceof TLDTag || component instanceof FaceletTag){
+			IFile file = TLDTagHyperlink.getFile((AbstractComponent)component);
+			
+			if(file != null && file.getFullPath() != null && file.getFullPath().toString().endsWith(".jar")) {
+				XModelObject xmodelObject = TLDTagHyperlink.getXModelObject((AbstractComponent)component);
+				if(xmodelObject != null)
+					if(TLDTagHyperlink.getFileName(xmodelObject) != null)
+						return true;
+			}else if(file != null)
+				return true;
+		}
+		return false;
 	}
 	
 	private void sortHyperlinks(ArrayList<IHyperlink> hyperlinks){

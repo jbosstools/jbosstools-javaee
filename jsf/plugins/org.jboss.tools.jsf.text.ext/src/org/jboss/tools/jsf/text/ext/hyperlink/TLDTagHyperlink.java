@@ -32,25 +32,40 @@ public class TLDTagHyperlink extends AbstractHyperlink {
 	
 	public TLDTagHyperlink(AbstractComponent tag, IRegion region){
 		this.tag = tag;
-		ITagLibrary tagLib = tag.getTagLib();
 		this.region = region;
-		IResource r = tagLib.getResource();
-		if(r instanceof IFile) {
-			IFile file = (IFile)r;
-			if(file.getFullPath() != null && file.getFullPath().toString().endsWith(".jar")) {
-				Object id = tag.getId();
-				if(id instanceof XModelObject) {
-					xmodelObject = (XModelObject)id;
-					FileAnyImpl fai = null;
-					XModelObject f = xmodelObject;
-					while(f != null && f.getFileType() != XModelObject.FILE) f = f.getParent();
-					if(f instanceof FileAnyImpl) fai = (FileAnyImpl)f;
-					xmodelObjectName = FileAnyImpl.toFileName(fai);
-				}
-			}
+		
+		IFile file = getFile(tag);
+		
+		if(file != null && file.getFullPath() != null && file.getFullPath().toString().endsWith(".jar")) {
+			xmodelObject = getXModelObject(tag);
+			if(xmodelObject != null)
+				xmodelObjectName = getFileName(xmodelObject);
 		}
+	}
+	
+	public static IFile getFile(AbstractComponent tag){
+		ITagLibrary tagLib = tag.getTagLib();
+		IResource r = tagLib.getResource();
+		if(r instanceof IFile)
+			return (IFile)r;
 		
+		return null;
+	}
+	
+	public static XModelObject getXModelObject(AbstractComponent tag){
+		Object id = tag.getId();
+		if(id instanceof XModelObject)
+			return (XModelObject)id;
 		
+		return null;
+	}
+	
+	public static String getFileName(XModelObject xmodelObject){
+		FileAnyImpl fai = null;
+		XModelObject f = xmodelObject;
+		while(f != null && f.getFileType() != XModelObject.FILE) f = f.getParent();
+		if(f instanceof FileAnyImpl) fai = (FileAnyImpl)f;
+		return FileAnyImpl.toFileName(fai);
 	}
 	
 	public AbstractComponent getComponent(){
@@ -63,7 +78,7 @@ public class TLDTagHyperlink extends AbstractHyperlink {
 
 	@Override
 	protected void doHyperlink(IRegion region) {
-		if(xmodelObject != null){
+		if(xmodelObjectName != null){
 			int q = FindObjectHelper.findModelObject(xmodelObject, FindObjectHelper.IN_EDITOR_ONLY);
 			if(q == 1) {
 				openFileFailed();
