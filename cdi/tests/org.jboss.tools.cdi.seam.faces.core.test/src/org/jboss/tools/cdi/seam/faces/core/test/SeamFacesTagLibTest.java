@@ -48,7 +48,7 @@ public class SeamFacesTagLibTest extends TestCase {
 					}
 				}
 				assertEquals(1, enums.size());
-				assertEquals(4, enums.iterator().next().getParams());
+				assertEquals(4, enums.iterator().next().getParams().length);
 				break;
 			}
 		}
