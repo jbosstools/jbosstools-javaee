@@ -126,7 +126,7 @@
      </EntityData>
     </XActionItem>
    </XActionItem>
-   <XActionItem HIDE="disabled"
+   <XActionItem HIDE="always"
     HandlerClassName="org.jboss.tools.jst.web.tld.model.handlers.ExpandTLDHandler"
     ICON="action.empty" displayName="Set Expanded" kind="action" name="SetExpanded"/>
    <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
