@@ -39,7 +39,7 @@ public class TLDTagHyperlink extends AbstractHyperlink {
 		if(file != null && file.getFullPath() != null && file.getFullPath().toString().endsWith(".jar")) {
 			xmodelObject = getXModelObject(tag);
 			if(xmodelObject != null)
-				xmodelObjectName = getFileName(xmodelObject);
+				xmodelObjectName = file.getName()+" : "+getFileName(xmodelObject);
 		}
 	}
 	
