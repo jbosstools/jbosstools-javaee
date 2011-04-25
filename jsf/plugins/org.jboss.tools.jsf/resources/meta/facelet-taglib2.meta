@@ -856,7 +856,7 @@
      <EntityData EntityName="FaceletTaglibExtension"/>
     </XActionItem>
    </XActionItem>
-   <XActionItem HIDE="disabled"
+   <XActionItem HIDE="always"
     HandlerClassName="org.jboss.tools.jst.web.tld.model.handlers.ExpandTLDHandler"
     ICON="action.empty" displayName="Set Expanded" kind="action" name="SetExpanded"/>
    <XActionItemReference entity="FileFaceletTaglib" name="CopyActions"/>
