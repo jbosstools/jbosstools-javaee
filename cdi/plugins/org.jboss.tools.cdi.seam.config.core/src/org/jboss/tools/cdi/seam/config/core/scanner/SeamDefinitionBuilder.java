@@ -4,6 +4,9 @@ import java.io.ByteArrayInputStream;
 import java.util.List;
 
 import org.eclipse.core.resources.IResource;
+import org.eclipse.jdt.core.IField;
+import org.eclipse.jdt.core.IMember;
+import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jface.text.IDocument;
@@ -14,7 +17,10 @@ import org.jboss.tools.cdi.internal.core.impl.definition.AnnotationDefinition;
 import org.jboss.tools.cdi.seam.config.core.CDISeamConfigConstants;
 import org.jboss.tools.cdi.seam.config.core.CDISeamConfigCorePlugin;
 import org.jboss.tools.cdi.seam.config.core.ConfigDefinitionContext;
+import org.jboss.tools.cdi.seam.config.core.definition.SeamBeanDefinition;
 import org.jboss.tools.cdi.seam.config.core.definition.SeamBeansDefinition;
+import org.jboss.tools.cdi.seam.config.core.definition.SeamFieldDefinition;
+import org.jboss.tools.cdi.seam.config.core.definition.SeamMethodDefinition;
 import org.jboss.tools.cdi.seam.config.core.util.Util;
 
 public class SeamDefinitionBuilder {
@@ -76,7 +82,6 @@ public class SeamDefinitionBuilder {
 
 	private void scanAnnotation(SAXElement element, IType type) {
 		context.getRootContext().getAnnotationKind(type); // kick it
-		AnnotationDefinition old = context.getRootContext().getAnnotation(type.getFullyQualifiedName());
 		AnnotationDefinition def = new AnnotationDefinition();
 		def.setType(type, context.getRootContext());
 
@@ -96,8 +101,99 @@ public class SeamDefinitionBuilder {
 	}
 
 	private void scanBean(SAXElement element, IType type) {
+		SeamBeanDefinition def = new SeamBeanDefinition();
+		def.setElement(element);
+		def.setType(type);
+		result.addBeanDefinition(def);
 		List<SAXElement> es = element.getChildElements();
-		//TODO
+		for (SAXElement c: es) {
+			if(!Util.isConfigRelevant(c)) continue;
+			if(Util.containsEEPackage(c.getURI())) {
+				if("replaces".equals(c.getLocalName())) {
+					def.setReplaces(c);
+					continue;
+				}
+				if("modifies".equals(c.getLocalName())) {
+					def.setModifies(c);
+					continue;
+				}
+			}
+			IType t = Util.resolveType(c, project);
+			if(t != null) {
+				IJavaAnnotation a = loadAnnotationDeclaration(element, IN_ANNOTATION_TYPE);
+				if(a != null) {
+					def.addAnnotation(a);
+				}
+				continue;
+			}
+			IMember m = null;
+			try {
+				m = Util.resolveMember(type, c);
+			} catch (JavaModelException e) {
+				CDISeamConfigCorePlugin.getDefault().logError(e);
+			}
+			if(m instanceof IField) {
+				def.addField(scanField(c, (IField)m));
+			} else if(m instanceof IMethod) {
+				def.addMethod(scanMethod(element, (IMethod)m));
+			} else {
+				result.addUnresolvedNode(c, "Cannot resolve member.");
+			}
+		}
+	}
+
+	private SeamFieldDefinition scanField(SAXElement element, IField field) {
+		SeamFieldDefinition def = new SeamFieldDefinition();
+		def.setElement(element);
+		def.setField(field);
+		List<SAXElement> es = element.getChildElements();
+		for (SAXElement c: es) {
+			if(!Util.isConfigRelevant(c)) continue;
+			if(Util.containsEEPackage(c.getURI())) {
+				if("value".equals(c.getLocalName())) {
+					//TODO do not forget to look for Inline Bean Declarations inside field values.
+					
+				}
+				
+			}
+			IType t = Util.resolveType(c, project);
+			if(t != null) {
+				IJavaAnnotation a = loadAnnotationDeclaration(element, IN_ANNOTATION_TYPE);
+				if(a != null) {
+					def.addAnnotation(a);
+				}
+				continue;
+			}
+		
+		}		
+		return def;
+	}	
+
+	private SeamMethodDefinition scanMethod(SAXElement element, IMethod method) {
+		SeamMethodDefinition def = new SeamMethodDefinition();
+		def.setElement(element);
+		def.setMethod(method);
+		List<SAXElement> es = element.getChildElements();
+		for (SAXElement c: es) {
+			if(!Util.isConfigRelevant(c)) continue;
+			if(Util.containsEEPackage(c.getURI())) {
+				if("parameters".equals(c.getLocalName())) {
+					//TODO
+					
+				}
+				
+			}
+			IType t = Util.resolveType(c, project);
+			if(t != null) {
+				IJavaAnnotation a = loadAnnotationDeclaration(element, IN_ANNOTATION_TYPE);
+				if(a != null) {
+					def.addAnnotation(a);
+				}
+				continue;
+			}
+		
+		}		
+		return def;
 	}
 
 	private IJavaAnnotation loadAnnotationDeclaration(SAXElement element, int contextKind) {

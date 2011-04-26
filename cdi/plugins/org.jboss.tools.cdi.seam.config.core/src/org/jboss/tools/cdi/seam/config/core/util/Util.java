@@ -104,4 +104,12 @@ public class Util {
 		return uri.split(":");
 	}
 
+	public static boolean containsEEPackage(String uri) {
+		String[] ps = getPackages(uri);
+		for (String p: ps) if("ee".equals(p)) {
+			return true;
+		}
+		return false;
+	}
+
 }

@@ -11,35 +11,37 @@
 package org.jboss.tools.cdi.seam.config.core.definition;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
+import org.jboss.tools.cdi.core.IJavaAnnotation;
 import org.jboss.tools.cdi.seam.config.core.scanner.SAXElement;
-import org.jboss.tools.cdi.seam.config.core.scanner.SAXNode;
 
 /**
  * 
  * @author Viacheslav Kabanovich
  *
  */
-public class SeamBeansDefinition {
-	Map<SAXNode, String> unresolvedNodes = new HashMap<SAXNode, String>();
-
-	Set<SeamBeanDefinition> beanDefinitions = new HashSet<SeamBeanDefinition>();
+public abstract class SeamMemberDefinition {
+	protected SAXElement element;
+	SAXElement replaces = null;
+	SAXElement modifies = null;
+	Map<String, IJavaAnnotation> annotations = new HashMap<String, IJavaAnnotation>();
 	
-	public SeamBeansDefinition() {}
+	public SeamMemberDefinition() {}
 
-	public Map<SAXNode, String> getUnresolvedNodes() {
-		return unresolvedNodes;
+	public void setElement(SAXElement element) {
+		this.element = element;
 	}
 
-	public void addUnresolvedNode(SAXNode node, String problem) {
-		unresolvedNodes.put(node, problem);
+	public void setReplaces(SAXElement replaces) {
+		this.replaces = replaces;
 	}
 
-	public void addBeanDefinition(SeamBeanDefinition def) {
-		beanDefinitions.add(def);
+	public void setModifies(SAXElement modifies) {
+		this.modifies = modifies;
 	}
 
+	public void addAnnotation(IJavaAnnotation a) {
+		annotations.put(a.getTypeName(), a);
+	}
 }
