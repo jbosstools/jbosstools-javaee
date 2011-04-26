@@ -10,28 +10,32 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.seam.config.core.definition;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.eclipse.jdt.core.IMethod;
+import org.eclipse.jdt.core.ILocalVariable;
+import org.eclipse.jdt.core.IType;
 
 /**
  * 
  * @author Viacheslav Kabanovich
  *
  */
-public class SeamMethodDefinition extends SeamMemberDefinition {
-	IMethod method;
-	List<SeamParameterDefinition> parameters = new ArrayList<SeamParameterDefinition>();
+public class SeamParameterDefinition extends SeamMemberDefinition {
+	IType type;
+	String dimentions;
 
-	public SeamMethodDefinition() {}
+	ILocalVariable parameter;
 
-	public void setMethod(IMethod method) {
-		this.method = method;
+	public SeamParameterDefinition() {}
+
+	public void setType(IType type) {
+		this.type = type;
 	}
 
-	public void addParameter(SeamParameterDefinition p) {
-		parameters.add(p);
+	public void setDimensions(String value) {
+		dimentions = value;
+	}
+
+	public void setParameter(ILocalVariable parameter) {
+		this.parameter = parameter;
 	}
 
 }

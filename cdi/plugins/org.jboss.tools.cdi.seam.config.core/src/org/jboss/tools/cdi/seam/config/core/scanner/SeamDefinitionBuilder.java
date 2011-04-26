@@ -2,10 +2,12 @@ package org.jboss.tools.cdi.seam.config.core.scanner;
 
 import java.io.ByteArrayInputStream;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.jdt.core.IField;
 import org.eclipse.jdt.core.IMember;
+import org.eclipse.jdt.core.IMemberValuePair;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
@@ -21,6 +23,7 @@ import org.jboss.tools.cdi.seam.config.core.definition.SeamBeanDefinition;
 import org.jboss.tools.cdi.seam.config.core.definition.SeamBeansDefinition;
 import org.jboss.tools.cdi.seam.config.core.definition.SeamFieldDefinition;
 import org.jboss.tools.cdi.seam.config.core.definition.SeamMethodDefinition;
+import org.jboss.tools.cdi.seam.config.core.definition.SeamParameterDefinition;
 import org.jboss.tools.cdi.seam.config.core.util.Util;
 
 public class SeamDefinitionBuilder {
@@ -62,18 +65,12 @@ public class SeamDefinitionBuilder {
 
 		IType type = Util.resolveType(element, project);
 		if(type == null) {
-			result.addUnresolvedNode(element, CDISeamConfigConstants.UNRESOLVED_TYPE);
+			result.addUnresolvedNode(element, CDISeamConfigConstants.ERROR_UNRESOLVED_TYPE);
 			return;
 		}
-		boolean isAnnnotation = false;
-		try {
-			isAnnnotation = type.isAnnotation();
-		} catch (JavaModelException e) {
-			CDISeamConfigCorePlugin.getDefault().logError(e);
-			result.addUnresolvedNode(element, CDISeamConfigConstants.UNRESOLVED_TYPE);
-			return;
-		}
-		if(isAnnnotation) {
+		TypeCheck typeCheck = new TypeCheck(type, element);
+		if(typeCheck.isCorrupted) return;
+		if(typeCheck.isAnnotation) {
 			scanAnnotation(element, type);
 		} else {
 			scanBean(element, type);
@@ -89,9 +86,7 @@ public class SeamDefinitionBuilder {
 		//children should be annotation declarations.
 		for (SAXElement c: es) {
 			IJavaAnnotation a = loadAnnotationDeclaration(c, IN_ANNOTATION_TYPE);
-			if(a != null) {
-				def.addAnnotation(a, context.getRootContext());
-			}
+			if(a != null) def.addAnnotation(a, context.getRootContext());
 		}
 		
 		def.revalidateKind(context.getRootContext());
@@ -108,26 +103,24 @@ public class SeamDefinitionBuilder {
 		List<SAXElement> es = element.getChildElements();
 		for (SAXElement c: es) {
 			if(!Util.isConfigRelevant(c)) continue;
-			if(Util.containsEEPackage(c.getURI())) {
-				if("replaces".equals(c.getLocalName())) {
+			if(Util.containsEEPackage(c)) {
+				if(CDISeamConfigConstants.KEYWORD_REPLACES.equals(c.getLocalName())) {
 					def.setReplaces(c);
 					continue;
 				}
-				if("modifies".equals(c.getLocalName())) {
+				if(CDISeamConfigConstants.KEYWORD_MODIFIES.equals(c.getLocalName())) {
 					def.setModifies(c);
 					continue;
 				}
 			}
 			IType t = Util.resolveType(c, project);
 			if(t != null) {
-				IJavaAnnotation a = loadAnnotationDeclaration(element, IN_ANNOTATION_TYPE);
-				if(a != null) {
-					def.addAnnotation(a);
-				}
+				IJavaAnnotation a = loadAnnotationDeclaration(c, IN_ANNOTATION_TYPE);
+				if(a != null) def.addAnnotation(a);
 				continue;
 			}
 			IMember m = null;
-			try {
+			if(c.getURI() != null && c.getURI().equals(element.getURI())) try {
 				m = Util.resolveMember(type, c);
 			} catch (JavaModelException e) {
 				CDISeamConfigCorePlugin.getDefault().logError(e);
@@ -149,25 +142,53 @@ public class SeamDefinitionBuilder {
 		List<SAXElement> es = element.getChildElements();
 		for (SAXElement c: es) {
 			if(!Util.isConfigRelevant(c)) continue;
-			if(Util.containsEEPackage(c.getURI())) {
-				if("value".equals(c.getLocalName())) {
-					//TODO do not forget to look for Inline Bean Declarations inside field values.
-					
+			if(Util.containsEEPackage(c)) {
+				if(Util.isValue(c)) {
+					scanFieldValue(c);
+				} else if(Util.isEntry(c)) {
+					scanEntry(c);
 				}
-				
+				continue;
 			}
 			IType t = Util.resolveType(c, project);
 			if(t != null) {
-				IJavaAnnotation a = loadAnnotationDeclaration(element, IN_ANNOTATION_TYPE);
-				if(a != null) {
-					def.addAnnotation(a);
-				}
+				IJavaAnnotation a = loadAnnotationDeclaration(c, IN_ANNOTATION_TYPE);
+				if(a != null) def.addAnnotation(a);
 				continue;
 			}
 		
 		}		
 		return def;
 	}	
+
+	/**
+	 * Scan field value for inline bean declarations. 
+	 * @param element
+	 */
+	private void scanFieldValue(SAXElement element) {
+		if(!Util.isConfigRelevant(element)) return;
+		List<SAXElement> es = element.getChildElements();
+		for (SAXElement c: es) {
+			if(!Util.isConfigRelevant(c)) continue;
+			IType type = Util.resolveType(element, project);
+			if(type == null) continue;
+			TypeCheck typeCheck = new TypeCheck(type, element);
+			if(typeCheck.isCorrupted) return;
+			if(!typeCheck.isAnnotation) {
+				scanBean(element, type);
+			}
+		}
+	}
+
+	private void scanEntry(SAXElement element) {
+		List<SAXElement> es = element.getChildElements();
+		for (SAXElement c: es) {
+			if(!Util.isConfigRelevant(c)) continue;
+			if(Util.isKey(c) || Util.isValue(c)) {
+				scanFieldValue(c);
+			}
+		}
+	}
 
 	private SeamMethodDefinition scanMethod(SAXElement element, IMethod method) {
 		SeamMethodDefinition def = new SeamMethodDefinition();
@@ -176,23 +197,76 @@ public class SeamDefinitionBuilder {
 		List<SAXElement> es = element.getChildElements();
 		for (SAXElement c: es) {
 			if(!Util.isConfigRelevant(c)) continue;
-			if(Util.containsEEPackage(c.getURI())) {
-				if("parameters".equals(c.getLocalName())) {
-					//TODO
-					
-				}
-				
+			if(Util.containsEEPackage(c)) {
+				if(Util.isParameters(c)) {
+					List<SAXElement> ps = element.getChildElements();
+					for (SAXElement p: ps) {
+						SeamParameterDefinition pd = scanParameter(p);
+						if(pd != null) def.addParameter(pd);
+					}
+				} else if(Util.isArray(c)) {
+					SeamParameterDefinition pd = scanParameter(c);
+					if(pd != null) def.addParameter(pd);
+				}				
 			}
 			IType t = Util.resolveType(c, project);
 			if(t != null) {
-				IJavaAnnotation a = loadAnnotationDeclaration(element, IN_ANNOTATION_TYPE);
-				if(a != null) {
-					def.addAnnotation(a);
-				}
+				IJavaAnnotation a = loadAnnotationDeclaration(c, IN_ANNOTATION_TYPE);
+				if(a != null) def.addAnnotation(a);
 				continue;
 			}
 		
 		}		
+		return def;
+	}
+
+	private SeamParameterDefinition scanParameter(SAXElement element) {
+		if(!Util.isConfigRelevant(element)) return null;
+		SeamParameterDefinition def = new SeamParameterDefinition();
+		def.setElement(element);
+		if(Util.isArray(element)) {
+			if(element.hasAttribute(CDISeamConfigConstants.ATTR_DIMENSIONS)) {
+				def.setDimensions(element.getAttribute(CDISeamConfigConstants.ATTR_DIMENSIONS).getValue());
+			}
+			List<SAXElement> es = element.getChildElements();
+			for (SAXElement c: es) {
+				if(!Util.isConfigRelevant(c)) continue;
+				IType type = Util.resolveType(c, project);
+				if(type == null) {
+					result.addUnresolvedNode(element, CDISeamConfigConstants.ERROR_UNRESOLVED_TYPE);
+					continue;
+				}
+				TypeCheck typeCheck = new TypeCheck(type, c);
+				if(typeCheck.isCorrupted) continue;
+				if(typeCheck.isAnnotation) {
+					IJavaAnnotation a = loadAnnotationDeclaration(c, IN_ANNOTATION_TYPE);
+					if(a != null) def.addAnnotation(a);
+				} else {
+					def.setType(type);
+				}
+			}
+		} else {
+			IType type = Util.resolveType(element, project);
+			if(type == null) {
+				result.addUnresolvedNode(element, CDISeamConfigConstants.ERROR_UNRESOLVED_TYPE);
+				return null;
+			}
+			def.setType(type);
+			List<SAXElement> es = element.getChildElements();
+			for (SAXElement c: es) {
+				if(!Util.isConfigRelevant(c)) {
+					continue; //report?
+				}
+				if(Util.containsEEPackage(c)) continue; //we are not interested yet
+				IType t = Util.resolveType(c, project);
+				if(t != null) {
+					IJavaAnnotation a = loadAnnotationDeclaration(c, IN_ANNOTATION_TYPE);
+					if(a != null) def.addAnnotation(a);
+					continue;
+				}
+			}
+		}
+
 		return def;
 	}
 
@@ -202,29 +276,46 @@ public class SeamDefinitionBuilder {
 		IType type = Util.resolveType(element, project);
 		if(type == null) {
 			if(contextKind == IN_ANNOTATION_TYPE) {
-				result.addUnresolvedNode(element, CDISeamConfigConstants.UNRESOLVED_TYPE);
+				result.addUnresolvedNode(element, CDISeamConfigConstants.ERROR_UNRESOLVED_TYPE);
 			}
 			return null;
 		}
-		boolean isAnnnotation = false;
-		try {
-			isAnnnotation = type.isAnnotation();
-		} catch (JavaModelException e) {
-			CDISeamConfigCorePlugin.getDefault().logError(e);
-			result.addUnresolvedNode(element, CDISeamConfigConstants.UNRESOLVED_TYPE);
-			return null;
-		}
-		if(isAnnnotation) {
+		TypeCheck typeCheck = new TypeCheck(type, element);
+		if(typeCheck.isCorrupted) return null;
+		if(typeCheck.isAnnotation) {
 			context.getRootContext().getAnnotationKind(type); // kick it
+			String value = null;
+			SAXText text = element.getTextNode();
+			if(text != null && text.getValue() != null && text.getValue().trim().length() > 0) {
+				value = text.getValue();
+			}
 			AnnotationLiteral literal = new AnnotationLiteral(resource,  
 					element.getLocation().getStartPosition(), element.getLocation().getLength(), 
-					null, 0, type);
-			//TODO read and add member values.
+					value, IMemberValuePair.K_STRING, type);
+			Set<String> ns = element.getAttributeNames();
+			for (String n: ns) {
+				String v = element.getAttribute(n).getValue();
+				literal.addMemberValuePair(n, v, IMemberValuePair.K_STRING);
+			}
 			return literal;
 		} else if(contextKind == IN_ANNOTATION_TYPE) {
-			result.addUnresolvedNode(element, CDISeamConfigConstants.ANNOTATION_EXPECTED);
+			result.addUnresolvedNode(element, CDISeamConfigConstants.ERROR_ANNOTATION_EXPECTED);
 		}		
 		return null;
+	}
+
+	class TypeCheck {
+		boolean isCorrupted = false;
+		boolean isAnnotation = false;
+		TypeCheck(IType type, SAXElement element) {
+			try {
+				isAnnotation = type.isAnnotation();
+			} catch (JavaModelException e) {
+				CDISeamConfigCorePlugin.getDefault().logError(e);
+				result.addUnresolvedNode(element, CDISeamConfigConstants.ERROR_UNRESOLVED_TYPE);
+				isCorrupted = true;
+			}
+		}
 	}
 
 }

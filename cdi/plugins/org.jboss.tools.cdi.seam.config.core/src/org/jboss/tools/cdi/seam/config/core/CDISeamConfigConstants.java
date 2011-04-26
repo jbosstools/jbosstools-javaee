@@ -14,14 +14,34 @@ import org.jboss.tools.cdi.core.CDIConstants;
 
 public interface CDISeamConfigConstants extends CDIConstants {
 
-	public static String SEAM_BEANS_XML = "seam-beans.xml";
+	public String SEAM_BEANS_XML = "seam-beans.xml";
 
-	public static String URI_PREFIX = "urn:java:";
+	public String URI_PREFIX = "urn:java:";
 
 	//Problem id: node name was not resolved to Java type
-	public static String UNRESOLVED_TYPE = "Unresolved type";
+	public String ERROR_UNRESOLVED_TYPE = "Unresolved type";
 
 	//Problem id: node was expected to be resolved to annotation type
-	public static String ANNOTATION_EXPECTED = "Annotation expected";
+	public String ERROR_ANNOTATION_EXPECTED = "Annotation expected";
 
+	public String PACKAGE_EE = "ee";
+
+	public String KEYWORD_ARRAY = "array";
+
+	public String KEYWORD_ENTRY = "entry";
+	public String KEYWORD_E = "e";
+
+	public String KEYWORD_KEY = "key";
+	public String KEYWORD_K = "k";
+
+	public String KEYWORD_VALUE = "value";
+	public String KEYWORD_V = "v";
+
+	public String KEYWORD_REPLACES = "replaces";
+
+	public String KEYWORD_MODIFIES = "modifies";
+	
+	public String KEYWORD_PARAMETERS = "parameters";
+
+	public String ATTR_DIMENSIONS = "dimensions";
 }

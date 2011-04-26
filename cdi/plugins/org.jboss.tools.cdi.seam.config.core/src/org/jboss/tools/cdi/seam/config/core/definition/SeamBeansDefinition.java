@@ -42,4 +42,8 @@ public class SeamBeansDefinition {
 		beanDefinitions.add(def);
 	}
 
+	public Set<SeamBeanDefinition> getBeanDefinitions() {
+		return beanDefinitions;
+	}
+
 }

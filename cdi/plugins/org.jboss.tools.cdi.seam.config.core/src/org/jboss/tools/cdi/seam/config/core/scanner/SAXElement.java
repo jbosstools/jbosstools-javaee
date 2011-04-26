@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import org.jboss.tools.common.text.ITextSourceReference;
 
@@ -86,6 +87,10 @@ public class SAXElement extends SAXNode {
 
 	public SAXAttribute getAttribute(String name) {
 		return attributes.get(name);
+	}
+
+	public Set<String> getAttributeNames() {
+		return attributes.keySet();
 	}
 
 	public void addChildElement(SAXElement child) {

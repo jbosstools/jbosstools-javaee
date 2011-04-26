@@ -12,7 +12,7 @@ import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.seam.config.core.CDISeamConfigConstants;
 import org.jboss.tools.cdi.seam.config.core.scanner.SAXElement;
 
-public class Util {
+public class Util implements CDISeamConfigConstants {
 	public static Map<String, String> EE_TYPES = new HashMap<String, String>();
 	
 	static {
@@ -104,12 +104,45 @@ public class Util {
 		return uri.split(":");
 	}
 
+	public static boolean containsEEPackage(SAXElement element) {
+		return containsEEPackage(element.getURI());
+	}
+
 	public static boolean containsEEPackage(String uri) {
 		String[] ps = getPackages(uri);
-		for (String p: ps) if("ee".equals(p)) {
+		for (String p: ps) if(CDISeamConfigConstants.PACKAGE_EE.equals(p)) {
 			return true;
 		}
 		return false;
+	}
+
+	public static boolean isArray(SAXElement element) {
+		return isKeyword(element, KEYWORD_ARRAY);
+	}
+
+	public static boolean isEntry(SAXElement element) {
+		return isKeyword(element, KEYWORD_ENTRY, KEYWORD_E);
+	}
+
+	public static boolean isKey(SAXElement element) {
+		return isKeyword(element, KEYWORD_KEY, KEYWORD_K);
+	}
+
+	public static boolean isValue(SAXElement element) {
+		return isKeyword(element, KEYWORD_VALUE, KEYWORD_V);
+	}
+
+	public static boolean isParameters(SAXElement element) {
+		return isKeyword(element, KEYWORD_PARAMETERS);
+	}
+
+	public static boolean isKeyword(SAXElement element, String keyword) {
+		return keyword.equals(element.getLocalName()) && containsEEPackage(element);
+	}
+
+	public static boolean isKeyword(SAXElement element, String keyword1, String keyword2) {
+		String n = element.getLocalName();
+		return (keyword1.equals(n) || keyword2.equals(n)) && containsEEPackage(element);
 	}
 
 }

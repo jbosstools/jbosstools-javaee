@@ -119,6 +119,12 @@ public class ConfigDefinitionContext extends AbstractDefinitionContextExtension 
 		return result;
 	}
 
+	public SeamBeansDefinition getDefinition(IPath path) {
+		if(beanXMLs.containsKey(path)) return beanXMLs.get(path);
+		if(seambeanXMLs.containsKey(path)) return seambeanXMLs.get(path);
+		return null;
+	}
+
 	public void addAnnotation(String typeName, AnnotationDefinition def) {
 		IPath path = def.getResource().getFullPath();
 //		root.clean(typeName);
