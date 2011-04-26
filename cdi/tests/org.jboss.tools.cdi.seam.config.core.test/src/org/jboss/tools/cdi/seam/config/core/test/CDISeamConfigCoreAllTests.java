@@ -26,7 +26,10 @@ public class CDISeamConfigCoreAllTests {
 		TestSuite suiteAll = new TestSuite("CDI Config Core Tests");
 
 		suiteAll.addTestSuite(ExtensionTest.class);
+		suiteAll.addTestSuite(SeamDefinitionsTest.class);
 
-		return suiteAll;
+		SeamConfigTestSetup suite = new SeamConfigTestSetup(suiteAll);
+
+		return suite;
 	}
 }

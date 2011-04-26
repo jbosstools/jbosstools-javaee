@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<beans xmlns="http://java.sun.com/xml/ns/javaee"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xmlns:s="urn:java:ee" 
+   xmlns:config="urn:java:org.jboss.test.config"
+   xmlns:test602="urn:java:org.jboss.test602.report"
+   xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://jboss.org/schema/cdi/beans_1_0.xsd"> 
+<config:MyAnnotation>
+	 <s:Qualifier1/>
+</config:MyAnnotation>
+
+<test602:Report>
+    <s:modifies/>
+    <test602:NewQualifier/>
+</test602:Report>
+
+<test602:ReportDatasource>
+    <s:replaces/>
+    <test602:NewQualifier/>
+</test602:ReportDatasource>
+
+</beans> 
