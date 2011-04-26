@@ -24,6 +24,7 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.wst.validation.ValidationFramework;
 import org.jboss.tools.jsf.jsf2.util.JSF2ResourceUtil;
+import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.ProjectImportTestSetup;
 
 import junit.framework.TestCase;
@@ -47,6 +48,7 @@ public class JSF2ComponentsValidatorTest extends TestCase {
 		project = ProjectImportTestSetup.loadProject(projectName);
 		project.build(IncrementalProjectBuilder.FULL_BUILD,
 				new NullProgressMonitor());
+		JobUtils.waitForIdle();
 	}
 	//junit test add to check JBIDE-7016 by Maksim Areshkau
 	public void testCreatingFile() throws CoreException, IOException{

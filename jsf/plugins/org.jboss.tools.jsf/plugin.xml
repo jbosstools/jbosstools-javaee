@@ -660,8 +660,8 @@
  </extension>
  
   <extension
-       id="jsf2"
-       name="%JSF2_ComponentsValidator.name"
+       id="i18n"
+       name="%I18nValidator.name"
        point="org.eclipse.wst.validation.validatorV2">
     <validator
           build="true"

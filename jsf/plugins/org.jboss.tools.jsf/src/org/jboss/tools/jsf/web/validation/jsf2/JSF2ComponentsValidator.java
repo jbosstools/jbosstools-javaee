@@ -72,11 +72,16 @@ public class JSF2ComponentsValidator extends Validator {
 	}
 
 	protected boolean isValidate(IFile file) {
-		boolean isValidate = false;
 		if (!file.isAccessible() || !file.isSynchronized(IResource.DEPTH_ZERO) || file.getProject() == null 
 				|| !file.getProject().isAccessible()) {
 			return false;
 		}
+		IProject project = file.getProject();
+		kbProject = KbProjectFactory.getKbProject(project, false);
+		if (kbProject == null) {
+			return false;
+		}
+		boolean isValidate = false;
 		try {
 			InputStream is = file.getContents();
 			Scanner scanner = new Scanner(is);
@@ -91,11 +96,6 @@ public class JSF2ComponentsValidator extends Validator {
 		} catch (CoreException e) {
 			JSFModelPlugin.getPluginLog().logError(e);
 			return isValidate;
-		}
-		IProject project = file.getProject();
-		kbProject = KbProjectFactory.getKbProject(project, false);
-		if (kbProject == null) {
-			isValidate = false;
 		}
 		return isValidate;
 	}
