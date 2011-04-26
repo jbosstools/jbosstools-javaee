@@ -10,6 +10,7 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.core;
 
+import org.eclipse.jdt.core.IAnnotation;
 import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.IMemberValuePair;
 import org.eclipse.jdt.core.IType;
@@ -57,4 +58,12 @@ public interface IAnnotationDeclaration extends ITextSourceReference {
 	 * @return the corresponding annotation
 	 */
 	ICDIAnnotation getAnnotation();
+
+	/**
+	 * Returns underlying Java annotation if this declaration is based on Java source.
+	 * Returns null if this declaration is based on xml source.
+	 * 
+	 * @return underlying Java annotation if it exists
+	 */
+	IAnnotation getJavaAnnotation();
 }

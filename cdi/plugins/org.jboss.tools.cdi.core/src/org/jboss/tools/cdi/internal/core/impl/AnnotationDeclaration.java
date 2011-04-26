@@ -11,6 +11,7 @@
 package org.jboss.tools.cdi.internal.core.impl;
 
 import org.eclipse.core.resources.IResource;
+import org.eclipse.jdt.core.IAnnotation;
 import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.IMemberValuePair;
 import org.eclipse.jdt.core.IType;
@@ -93,6 +94,13 @@ public class AnnotationDeclaration implements IAnnotationDeclaration {
 	 * @see org.jboss.tools.cdi.core.IAnnotationDeclaration#getAnnotation()
 	 */
 	public ICDIAnnotation getAnnotation() {
+		return null;
+	}
+
+	public IAnnotation getJavaAnnotation() {
+		if(annotation instanceof JavaAnnotation) {
+			return ((JavaAnnotation) annotation).getAnnotation();
+		}
 		return null;
 	}
 }

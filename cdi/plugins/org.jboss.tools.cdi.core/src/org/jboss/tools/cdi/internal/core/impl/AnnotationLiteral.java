@@ -40,10 +40,21 @@ public class AnnotationLiteral implements IJavaAnnotation {
 		this.range = new SourceRange(offset, length);
 		if(value != null) {
 			this.memberValues = new IMemberValuePair[]{
-				new MemberValuePair("value", value, valueType)	
+				createPair("value", value, valueType)	
 			};
 		}
 		this.annotationType = annotationType;
+	}
+
+	public void addMemberValuePair(String name, Object value, int valueType) {
+		IMemberValuePair[] pairs = new IMemberValuePair[memberValues.length + 1];
+		System.arraycopy(memberValues, 0, pairs, 0, memberValues.length);
+		pairs[memberValues.length] = createPair(name, value, valueType);
+		memberValues = pairs;
+	}
+
+	private IMemberValuePair createPair(String name, Object value, int valueType) {
+		return new MemberValuePair(name, value, valueType);
 	}
 
 	public int getStartPosition() {
