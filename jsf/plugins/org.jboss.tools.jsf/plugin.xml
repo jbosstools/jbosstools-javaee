@@ -557,37 +557,8 @@
  </extension>
  
  <extension
-       point="org.eclipse.ui.ide.markerResolution">
-    <markerResolutionGenerator
-          class="org.jboss.tools.jsf.web.validation.i18n.I18nMarkerResolutionGenerator"
-          markerType="org.jboss.tools.jsf.i18nproblemmarker">
-    </markerResolutionGenerator>
- </extension>
- 
- <extension
        id="jsf2problemmarker"
        name="%JSF2ProblemName"
-       point="org.eclipse.core.resources.markers">
-    <super
-          type="org.eclipse.core.resources.problemmarker">
-    </super>
-    <persistent
-          value="true">
-    </persistent>
-    <attribute
-          name="problemType">
-    </attribute>
-    <attribute
-          name="baseElement">
-    </attribute>
-    <super
-          type="org.eclipse.core.resources.textmarker">
-    </super>
- </extension>
- 
-  <extension
-       id="i18nproblemmarker"
-       name="%i18nProblemName"
        point="org.eclipse.core.resources.markers">
     <super
           type="org.eclipse.core.resources.problemmarker">
@@ -630,9 +601,39 @@
          </contentTypeIdentifier>
     </validator>
  </extension>
+
+<!--
+  <extension
+       point="org.eclipse.ui.ide.markerResolution">
+    <markerResolutionGenerator
+          class="org.jboss.tools.jsf.web.validation.i18n.I18nMarkerResolutionGenerator"
+          markerType="org.jboss.tools.jsf.i18nproblemmarker">
+    </markerResolutionGenerator>
+ </extension>
+ 
+  <extension
+       id="i18nproblemmarker"
+       name="%i18nProblemName"
+       point="org.eclipse.core.resources.markers">
+    <super
+          type="org.eclipse.core.resources.problemmarker">
+    </super>
+    <persistent
+          value="true">
+    </persistent>
+    <attribute
+          name="problemType">
+    </attribute>
+    <attribute
+          name="baseElement">
+    </attribute>
+    <super
+          type="org.eclipse.core.resources.textmarker">
+    </super>
+ </extension>
+
  <extension
        point="org.eclipse.wst.sse.ui.sourcevalidation">
-           <!--Added by Maksim Areshkau -->
      <validator
           class="org.jboss.tools.jsf.web.validation.i18n.I18nValidator"
           id="org.jboss.tools.jsf.externalize.source.validator"
@@ -699,6 +700,7 @@
        </include>
     </validator>
  </extension>
+-->
  <extension
        point="org.eclipse.wst.sse.ui.quickFixProcessor">
     <quickFixProcessor

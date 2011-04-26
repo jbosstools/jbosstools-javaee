@@ -62,7 +62,6 @@ public class JsfAllTests {
 				JsfJbide7975Test.TEST_PROJECT_PATH,
 				JsfJbide7975Test.TEST_PROJECT_NAME));
 
-
 		suite.addTest(new ProjectImportTestSetup(new TestSuite(
 				ELVariableRefactoringTest.class), "org.jboss.tools.jsf.test", //$NON-NLS-1$
 				new String[] { "projects/JSFKickStartOldFormat" }, //$NON-NLS-1$
@@ -84,10 +83,10 @@ public class JsfAllTests {
 				JSF2RefactoringTest.class), "org.jboss.tools.jsf.test", //$NON-NLS-1$
 				new String[] { "projects/JSF2ComponentsValidator" }, //$NON-NLS-1$
 				new String[] { "JSF2ComponentsValidator" })); //$NON-NLS-1$
-		suite.addTest(new ProjectImportTestSetup(new TestSuite(
-				I18nValidatorTest.class), "org.jboss.tools.jsf.test", //$NON-NLS-1$
-				new String[] { "projects/i18nTestProject" }, //$NON-NLS-1$
-				new String[] { "i18nTestProject" })); //$NON-NLS-1$
+//		suite.addTest(new ProjectImportTestSetup(new TestSuite(
+//				I18nValidatorTest.class), "org.jboss.tools.jsf.test", //$NON-NLS-1$
+//				new String[] { "projects/i18nTestProject" }, //$NON-NLS-1$
+//				new String[] { "i18nTestProject" })); //$NON-NLS-1$
 		suite.addTest(new ProjectImportTestSetup(new TestSuite(ELValidatorTest.class),"org.jboss.tools.jsf.test","projects/JSFKickStartOldFormat","JSFKickStartOldFormat") {
 			@Override
 			protected void setUp() throws Exception {

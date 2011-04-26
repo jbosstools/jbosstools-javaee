@@ -30,13 +30,13 @@ import org.eclipse.wst.validation.internal.core.ValidationException;
 import org.eclipse.wst.validation.internal.provisional.core.IReporter;
 import org.eclipse.wst.validation.internal.provisional.core.IValidationContext;
 import org.eclipse.wst.validation.internal.provisional.core.IValidator;
+import org.eclipse.wst.xml.core.internal.provisional.document.IDOMAttr;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMDocument;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMText;
 import org.eclipse.wst.xml.core.internal.validation.XMLValidationInfo;
 import org.eclipse.wst.xml.core.internal.validation.core.NestedValidatorContext;
 import org.eclipse.wst.xml.core.internal.validation.core.ValidationReport;
 import org.eclipse.wst.xml.core.internal.validation.eclipse.Validator;
-import org.eclipse.wst.xml.core.internal.provisional.document.IDOMAttr;
 import org.jboss.tools.jsf.JSFModelPlugin;
 import org.jboss.tools.jsf.jsf2.model.JSF2ComponentModelManager;
 import org.jboss.tools.jsf.jsf2.util.JSF2ResourceUtil;
@@ -75,12 +75,9 @@ public class I18nValidator extends Validator implements ISourceValidator,
 
 	public void validate(IRegion dirtyRegion, IValidationContext helper,
 			IReporter reporter) {
-		// TODO Auto-generated method stub
 	}
 
 	public void cleanup(IReporter reporter) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -155,24 +152,26 @@ public class I18nValidator extends Validator implements ISourceValidator,
 			Node childNode = childNodes.item(i);
 			if (childNode instanceof Text) {
 				if (!validateTextNode(((Text) childNode).getNodeValue())) {
-					jsfnonValComponents
-							.add(I18nValidationComponent
-									.createI18nValidationComponent((IDOMText) childNode));
+					I18nValidationComponent comp = I18nValidationComponent.createI18nValidationComponent((IDOMText) childNode);
+					if(comp!=null) {
+						jsfnonValComponents.add(comp);
+					}
 				}
 			}
 			if(childNode instanceof Element){
 				Element elementToValidate = (Element) childNode;
 				Attr notValid = getNotValidAttr(elementToValidate);
 				if(notValid!=null){
-					jsfnonValComponents
-					.add(I18nValidationComponent
-							.createI18nValidationComponent((IDOMAttr)notValid));
+					I18nValidationComponent comp = I18nValidationComponent.createI18nValidationComponent((IDOMAttr)notValid);
+					if(comp!=null) {
+						jsfnonValComponents.add(comp);
+					}
 				}
 			}
-			
 			validateDOM(childNode, jsfnonValComponents);
 		}
 	}
+
 	/**
 	 * Checks if Element containt non Externalized strings in value attribute 
 	 */
@@ -183,6 +182,7 @@ public class I18nValidator extends Validator implements ISourceValidator,
 		}
 		return notValidNode; 
 	}
+
 	/**
 	 * Return false if not not valid
 	 * 
