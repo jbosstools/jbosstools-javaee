@@ -10,19 +10,24 @@
  ******************************************************************************/ 
 package org.jboss.tools.cdi.seam.text.ext.test;
 
+import org.eclipse.jdt.internal.core.JavaModelManager;
+import org.jboss.tools.cdi.core.test.CDICoreTestSetup;
+
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
 public class CdiSeamTextExtAllTests {
 	public static Test suite() {
 		// it could be done here because it is not needed to be enabled back
-		//JavaModelManager.getIndexManager().disable();
+		JavaModelManager.getIndexManager().disable();
 
-		//TestSuite suiteAll = new TestSuite("CDI Core Tests");
+		TestSuite suiteAll = new TestSuite("CDI Core Tests");
 
 		TestSuite suite = new TestSuite("CDI Seam OpenOns Tests");
 		suite.addTestSuite(CDISeamResourceLoadingHyperlinkDetectorTest.class);
-
-		return suite;
+		
+		suiteAll.addTest(new CDICoreTestSetup(suite));
+		
+		return suiteAll;
 	}
 }

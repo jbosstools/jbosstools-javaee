@@ -19,7 +19,7 @@ public class CDISeamResourceLoadingHyperlinkDetectorTest extends HyperlinkDetect
 		ArrayList<Region> regionList = new ArrayList<Region>();
 		
 		int injectPosition = text.indexOf("@Inject");
-		System.out.println("injectPosition - "+injectPosition);
+		//System.out.println("injectPosition - "+injectPosition);
 		if(injectPosition > 0){
 			regionList.add(new Region(injectPosition, 58));
 		}
