@@ -31,6 +31,7 @@ import org.eclipse.ui.IMarkerResolution2;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IScopeDeclaration;
+import org.jboss.tools.cdi.internal.core.impl.AnnotationDeclaration;
 import org.jboss.tools.cdi.internal.core.impl.JavaAnnotation;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
 import org.jboss.tools.cdi.ui.CDIUIPlugin;
@@ -121,8 +122,8 @@ public class MakeBeanScopedDependentMarkerResolution implements IMarkerResolutio
 		Iterator<IScopeDeclaration> iter = scopDeclarations.iterator();
 		while(iter.hasNext()){
 			IScopeDeclaration declaration = iter.next();
-			if(declaration instanceof JavaAnnotation) {
-				return ((JavaAnnotation)declaration).getAnnotation();
+			if(declaration.getJavaAnnotation() != null) {
+				return declaration.getJavaAnnotation();
 			}
 		}
 		return null;
