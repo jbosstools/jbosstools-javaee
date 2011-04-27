@@ -143,6 +143,16 @@ public class ELExprPartitionerTest extends TestCase {
 		regionList.add(new Region(1237, 14));
 		regionList.add(new Region(1252, 8));
 		recognitionTest.put("org.jboss.tools.common.text.ext.jsp.EXPRESSION", regionList);
+
+		regionList = new ArrayList<Region>();
+		regionList.add(new Region(680, 1));
+		regionList.add(new Region(763, 1));
+		regionList.add(new Region(870, 1));
+		regionList.add(new Region(920, 1));
+		regionList.add(new Region(971, 1));
+		regionList.add(new Region(1029, 1));
+		regionList.add(new Region(1098, 1));
+		recognitionTest.put("org.jboss.tools.common.text.ext.jsp.JSP_EXPRESSION", regionList);
 		
 		int counter = 0;
 		for (int i = 0; i < document.getLength(); i++) {
@@ -150,8 +160,10 @@ public class ELExprPartitionerTest extends TestCase {
 			boolean recognized = elPartitioner.recognize(testData.document, testData.getHyperlinkRegion());
 			if (recognized) {
 				String childPartitionType = elPartitioner.getChildPartitionType(testData.document, testData.getHyperlinkRegion());
+				//System.out.println("Type - "+childPartitionType+" offset - "+i);
 				if (childPartitionType != null) {
 					ArrayList<Region> test = (ArrayList<Region>)recognitionTest.get(childPartitionType);
+					assertNotNull("There are no regions for partition type - "+childPartitionType, test);
 					boolean testResult = false;
 					Iterator<Region> regions = test.iterator();
 					Region r = null;
