@@ -4,6 +4,8 @@
    xmlns:s="urn:java:ee" 
    xmlns:config="urn:java:org.jboss.test.config"
    xmlns:test602="urn:java:org.jboss.test602.report"
+   xmlns:test603="urn:java:org.jboss.test603"
+   xmlns:test6041="urn:java:org.jboss.test6041"
    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://jboss.org/schema/cdi/beans_1_0.xsd"> 
 <config:MyAnnotation>
 	 <s:Qualifier1/>
@@ -19,4 +21,45 @@
     <test602:NewQualifier/>
 </test602:ReportDatasource>
 
-</beans> 
+<test603:QualifiedBean1>
+        <test603:OtherQualifier value1="AA" value2="1">false</test603:OtherQualifier>
+</test603:QualifiedBean1>    
+
+<test603:QualifiedBean2>
+    <test603:OtherQualifier value1="BB" value2="2" value="true" />
+</test603:QualifiedBean2>
+
+<test6041:RobotFactory>
+    <test6041:robot>
+        <s:Produces/>
+    </test6041:robot>
+</test6041:RobotFactory>
+
+<test6041:MyBean>
+    <test6041:SomeQualifier/>
+    <test6041:company>Red Hat Inc</test6041:company>
+</test6041:MyBean>
+
+<test6041:MyBean>
+    <test6041:company>
+        <s:value>Red Hat Inc</s:value>
+        <test6041:SomeQualifier/>
+     </test6041:company>
+</test6041:MyBean>
+
+<test6041:ArrayFieldValue>
+    <test6041:intArrayField>
+        <s:value>1</s:value>
+        <s:value>2</s:value>
+    </test6041:intArrayField>
+    <test6041:classArrayField>
+        <s:value>java.lang.Integer</s:value>
+        <s:value>java.lang.Long</s:value>
+    </test6041:classArrayField>
+    <test6041:stringArrayField>
+        <s:value>hello</s:value>
+        <s:value>world</s:value>
+    </test6041:stringArrayField>
+</test6041:ArrayFieldValue>
+
+</beans>
