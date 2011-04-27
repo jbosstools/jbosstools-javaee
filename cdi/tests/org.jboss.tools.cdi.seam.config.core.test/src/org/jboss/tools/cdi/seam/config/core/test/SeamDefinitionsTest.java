@@ -10,10 +10,12 @@ import java.util.Set;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.IMemberValuePair;
+import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.IJavaAnnotation;
 import org.jboss.tools.cdi.core.extension.feature.IBuildParticipantFeature;
+import org.jboss.tools.cdi.seam.config.core.CDISeamConfigConstants;
 import org.jboss.tools.cdi.seam.config.core.CDISeamConfigExtension;
 import org.jboss.tools.cdi.seam.config.core.ConfigDefinitionContext;
 import org.jboss.tools.cdi.seam.config.core.definition.SeamBeanDefinition;
@@ -184,6 +186,76 @@ public class SeamDefinitionsTest extends SeamConfigTest {
 		assertEquals(2, vs.size());
 		assertEquals("hello", vs.get(0));
 		assertEquals("world", vs.get(1));
+		
+	}
+
+	/**
+<test6042:Knight>
+  <test6042:sword>
+     <s:value>
+        <test6042:Sword type="sharp"/>
+     </s:value>
+  </test6042:sword>
+  <test6042:horse>
+     <s:value>
+        <test6042:Horse>
+           <test6042:name>
+              <value>billy</value>
+           </test6042:name>
+           <test6042:shoe>
+              <Inject/>
+           </test6042:shoe>
+        </test6042:Horse>
+     </s:value>
+  </test6042:horse>
+</test6042:Knight>
+	 */
+	public void testInlineBeanDeclarations() {
+		ICDIProject cdi = CDICorePlugin.getCDIProject(project, true);
+		ConfigDefinitionContext context = (ConfigDefinitionContext)getConfigExtension(cdi).getContext();
+		SeamBeansDefinition d = getBeansDefinition(context, "src/META-INF/beans.xml");
+		
+		Set<SeamBeanDefinition> ds = findBeanDefinitionByTagName(d, "test6042:Knight");
+		assertEquals(1, ds.size());
+		SeamBeanDefinition knight = ds.iterator().next();
+	
+		SeamFieldDefinition f = knight.getField("sword");
+		assertNotNull(f);
+		ds = findBeanDefinitionByTagName(d, "test6042:Sword");
+		assertEquals(1, ds.size());
+		SeamBeanDefinition sword = ds.iterator().next();
+		assertTrue(sword.isInline());
+		IJavaAnnotation a1 = sword.getAnnotation(CDISeamConfigConstants.INLINE_BEAN_QUALIFIER);
+		assertNotNull(a1);
+		IJavaAnnotation a2 = f.getAnnotation(CDISeamConfigConstants.INLINE_BEAN_QUALIFIER);
+		assertTrue(a1 == a2);
+		IJavaAnnotation inject = f.getAnnotation(CDIConstants.INJECT_ANNOTATION_TYPE_NAME);
+		assertNotNull(inject);
+	
+		SeamFieldDefinition swordType = sword.getField("type");
+		assertNotNull(swordType);
+		assertEquals("sharp", swordType.getValue());
+
+		f = knight.getField("horse");
+		assertNotNull(f);
+		ds = findBeanDefinitionByTagName(d, "test6042:Horse");
+		assertEquals(1, ds.size());
+		SeamBeanDefinition horse = ds.iterator().next();
+		assertTrue(horse.isInline());
+		a1 = horse.getAnnotation(CDISeamConfigConstants.INLINE_BEAN_QUALIFIER);
+		assertNotNull(a1);
+		a2 = f.getAnnotation(CDISeamConfigConstants.INLINE_BEAN_QUALIFIER);
+		assertTrue(a1 == a2);
+		inject = f.getAnnotation(CDIConstants.INJECT_ANNOTATION_TYPE_NAME);
+		assertNotNull(inject);
+
+		SeamFieldDefinition horseName = horse.getField("name");
+		assertNotNull(horseName);
+		assertEquals("billy", horseName.getValue());
+		SeamFieldDefinition shoe = horse.getField("shoe");
+		assertNotNull(shoe);
+		inject = shoe.getAnnotation(CDIConstants.INJECT_ANNOTATION_TYPE_NAME);
+		assertNotNull(inject);
 		
 	}
 

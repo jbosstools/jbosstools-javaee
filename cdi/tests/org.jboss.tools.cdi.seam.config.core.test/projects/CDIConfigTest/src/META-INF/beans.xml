@@ -6,6 +6,7 @@
    xmlns:test602="urn:java:org.jboss.test602.report"
    xmlns:test603="urn:java:org.jboss.test603"
    xmlns:test6041="urn:java:org.jboss.test6041"
+   xmlns:test6042="urn:java:org.jboss.test6042"
    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://jboss.org/schema/cdi/beans_1_0.xsd"> 
 <config:MyAnnotation>
 	 <s:Qualifier1/>
@@ -61,5 +62,25 @@
         <s:value>world</s:value>
     </test6041:stringArrayField>
 </test6041:ArrayFieldValue>
+
+<test6042:Knight>
+  <test6042:sword>
+     <s:value>
+        <test6042:Sword type="sharp"/>
+     </s:value>
+  </test6042:sword>
+  <test6042:horse>
+     <s:value>
+        <test6042:Horse>
+           <test6042:name>
+              <s:value>billy</s:value>
+           </test6042:name>
+           <test6042:shoe>
+              <s:Inject/>
+           </test6042:shoe>
+        </test6042:Horse>
+     </s:value>
+  </test6042:horse>
+</test6042:Knight>
 
 </beans>
