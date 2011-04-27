@@ -3,6 +3,7 @@ package org.jboss.tools.cdi.seam.config.core.test;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -137,5 +138,53 @@ public class SeamDefinitionsTest extends SeamConfigTest {
 		assertNotNull(f.getAnnotation(someQualifier));
 		assertEquals("Red Hat Inc", f.getValue());
 	}
-	
+
+	/**
+<test6041:ArrayFieldValue>
+    <test6041:intArrayField>
+        <s:value>1</s:value>
+        <s:value>2</s:value>
+    </test6041:intArrayField>
+    <test6041:classArrayField>
+        <s:value>java.lang.Integer</s:value>
+        <s:value>java.lang.Long</s:value>
+    </test6041:classArrayField>
+    <test6041:stringArrayField>
+        <s:value>hello</s:value>
+        <s:value>world</s:value>
+    </test6041:stringArrayField>
+</test6041:ArrayFieldValue>
+	 * 
+	 */
+	public void testInitialFieldListValues() {
+		ICDIProject cdi = CDICorePlugin.getCDIProject(project, true);
+		ConfigDefinitionContext context = (ConfigDefinitionContext)getConfigExtension(cdi).getContext();
+		SeamBeansDefinition d = getBeansDefinition(context, "src/META-INF/beans.xml");
+		
+		Set<SeamBeanDefinition> ds = findBeanDefinitionByTagName(d, "test6041:ArrayFieldValue");
+		assertEquals(1, ds.size());
+		SeamBeanDefinition b = ds.iterator().next();
+		SeamFieldDefinition f = b.getField("intArrayField");
+		assertNotNull(f);
+		List<String> vs = f.getListValue();
+		assertEquals(2, vs.size());
+		assertEquals("1", vs.get(0));
+		assertEquals("2", vs.get(1));
+		
+		f = b.getField("classArrayField");
+		assertNotNull(f);
+		vs = f.getListValue();
+		assertEquals(2, vs.size());
+		assertEquals("java.lang.Integer", vs.get(0));
+		assertEquals("java.lang.Long", vs.get(1));
+		
+		f = b.getField("stringArrayField");
+		assertNotNull(f);
+		vs = f.getListValue();
+		assertEquals(2, vs.size());
+		assertEquals("hello", vs.get(0));
+		assertEquals("world", vs.get(1));
+		
+	}
+
 }
