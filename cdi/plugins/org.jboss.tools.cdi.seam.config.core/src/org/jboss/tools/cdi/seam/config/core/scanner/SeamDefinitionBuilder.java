@@ -139,15 +139,21 @@ public class SeamDefinitionBuilder {
 		SeamFieldDefinition def = new SeamFieldDefinition();
 		def.setElement(element);
 		def.setField(field);
+		if(Util.hasText(element)) {
+			def.addValue(element.getTextNode());
+		}
 		List<SAXElement> es = element.getChildElements();
 		for (SAXElement c: es) {
 			if(!Util.isConfigRelevant(c)) continue;
-			if(Util.containsEEPackage(c)) {
-				if(Util.isValue(c)) {
+			if(Util.isValue(c)) {
+				if(Util.hasText(c)) {
+					def.addValue(c.getTextNode());
+				} else {
 					scanFieldValue(c);
-				} else if(Util.isEntry(c)) {
-					scanEntry(c);
 				}
+				continue;
+			} else if(Util.isEntry(c)) {
+				scanEntry(def, c);
 				continue;
 			}
 			IType t = Util.resolveType(c, project);
@@ -180,13 +186,29 @@ public class SeamDefinitionBuilder {
 		}
 	}
 
-	private void scanEntry(SAXElement element) {
+	private void scanEntry(SeamFieldDefinition def, SAXElement element) {
 		List<SAXElement> es = element.getChildElements();
+		SAXText key = null;
+		SAXText value = null;
 		for (SAXElement c: es) {
 			if(!Util.isConfigRelevant(c)) continue;
-			if(Util.isKey(c) || Util.isValue(c)) {
-				scanFieldValue(c);
+			if(Util.isKey(c)) {
+				if(Util.hasText(c)) {
+					key = c.getTextNode();
+				} else {
+					scanFieldValue(c);
+				}
 			}
+			if(Util.isValue(c)) {
+				if(Util.hasText(c)) {
+					value = c.getTextNode();
+				} else {
+					scanFieldValue(c);
+				}
+			}
+		}
+		if(key != null && value != null) {
+			def.addValue(key, value);
 		}
 	}
 
@@ -197,17 +219,17 @@ public class SeamDefinitionBuilder {
 		List<SAXElement> es = element.getChildElements();
 		for (SAXElement c: es) {
 			if(!Util.isConfigRelevant(c)) continue;
-			if(Util.containsEEPackage(c)) {
-				if(Util.isParameters(c)) {
-					List<SAXElement> ps = element.getChildElements();
-					for (SAXElement p: ps) {
-						SeamParameterDefinition pd = scanParameter(p);
-						if(pd != null) def.addParameter(pd);
-					}
-				} else if(Util.isArray(c)) {
-					SeamParameterDefinition pd = scanParameter(c);
+			if(Util.isParameters(c)) {
+				List<SAXElement> ps = element.getChildElements();
+				for (SAXElement p: ps) {
+					SeamParameterDefinition pd = scanParameter(p);
 					if(pd != null) def.addParameter(pd);
-				}				
+				}
+				continue;
+			} else if(Util.isArray(c)) {
+				SeamParameterDefinition pd = scanParameter(c);
+				if(pd != null) def.addParameter(pd);
+				continue;
 			}
 			IType t = Util.resolveType(c, project);
 			if(t != null) {

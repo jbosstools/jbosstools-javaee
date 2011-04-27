@@ -11,6 +11,7 @@ import org.eclipse.jdt.core.JavaModelException;
 import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.seam.config.core.CDISeamConfigConstants;
 import org.jboss.tools.cdi.seam.config.core.scanner.SAXElement;
+import org.jboss.tools.cdi.seam.config.core.scanner.SAXText;
 
 public class Util implements CDISeamConfigConstants {
 	public static Map<String, String> EE_TYPES = new HashMap<String, String>();
@@ -143,6 +144,11 @@ public class Util implements CDISeamConfigConstants {
 	public static boolean isKeyword(SAXElement element, String keyword1, String keyword2) {
 		String n = element.getLocalName();
 		return (keyword1.equals(n) || keyword2.equals(n)) && containsEEPackage(element);
+	}
+
+	public static boolean hasText(SAXElement element) {
+		SAXText t = element.getTextNode();
+		return t != null && t.getValue() != null && t.getValue().trim().length() > 0;
 	}
 
 }

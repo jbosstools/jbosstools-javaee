@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.jdt.core.IType;
+import org.jboss.tools.cdi.seam.config.core.scanner.SAXElement;
 
 /**
  * 
@@ -37,6 +38,14 @@ public class SeamBeanDefinition extends SeamMemberDefinition {
 
 	public void addMethod(SeamMethodDefinition method) {
 		methods.add(method);
+	}
+
+	public SeamFieldDefinition getField(String name) {
+		for (SeamFieldDefinition d: fields) {
+			SAXElement e = d.getElement();
+			if(name.equals(e.getLocalName())) return d;
+		}
+		return null;
 	}
 
 }
