@@ -12,8 +12,10 @@ import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jface.text.IDocument;
+import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.IJavaAnnotation;
+import org.jboss.tools.cdi.internal.core.impl.AnnotationDeclaration;
 import org.jboss.tools.cdi.internal.core.impl.AnnotationLiteral;
 import org.jboss.tools.cdi.internal.core.impl.definition.AnnotationDefinition;
 import org.jboss.tools.cdi.seam.config.core.CDISeamConfigConstants;
@@ -73,7 +75,7 @@ public class SeamDefinitionBuilder {
 		if(typeCheck.isAnnotation) {
 			scanAnnotation(element, type);
 		} else {
-			scanBean(element, type);
+			scanBean(element, type, false);
 		}
 	}
 
@@ -95,9 +97,10 @@ public class SeamDefinitionBuilder {
 
 	}
 
-	private void scanBean(SAXElement element, IType type) {
+	private SeamBeanDefinition scanBean(SAXElement element, IType type, boolean inline) {
 		SeamBeanDefinition def = new SeamBeanDefinition();
-		def.setElement(element);
+		def.setInline(inline);
+		def.setNode(element);
 		def.setType(type);
 		result.addBeanDefinition(def);
 		List<SAXElement> es = element.getChildElements();
@@ -130,14 +133,25 @@ public class SeamDefinitionBuilder {
 			} else if(m instanceof IMethod) {
 				def.addMethod(scanMethod(element, (IMethod)m));
 			} else {
-				result.addUnresolvedNode(c, "Cannot resolve member.");
+				result.addUnresolvedNode(c, CDISeamConfigConstants.ERROR_UNRESOLVED_MEMBER);
 			}
 		}
+		Set<String> as = element.getAttributeNames();
+		for (String name: as) {
+			SAXAttribute a = element.getAttribute(name);
+			IField f = type.getField(name);
+			if(f == null || !f.exists()) {
+				result.addUnresolvedNode(a, CDISeamConfigConstants.ERROR_UNRESOLVED_MEMBER);
+			} else {
+				def.addField(scanField(a, f));
+			}
+		}
+		return def;
 	}
 
 	private SeamFieldDefinition scanField(SAXElement element, IField field) {
 		SeamFieldDefinition def = new SeamFieldDefinition();
-		def.setElement(element);
+		def.setNode(element);
 		def.setField(field);
 		if(Util.hasText(element)) {
 			def.addValue(element.getTextNode());
@@ -149,7 +163,7 @@ public class SeamDefinitionBuilder {
 				if(Util.hasText(c)) {
 					def.addValue(c.getTextNode());
 				} else {
-					scanFieldValue(c);
+					scanFieldValue(def, c);
 				}
 				continue;
 			} else if(Util.isEntry(c)) {
@@ -167,21 +181,36 @@ public class SeamDefinitionBuilder {
 		return def;
 	}	
 
+	private SeamFieldDefinition scanField(SAXAttribute a, IField field) {
+		SeamFieldDefinition def = new SeamFieldDefinition();
+		def.setNode(a);
+		def.setField(field);
+		def.addValue(a);
+		return def;
+	}	
+
 	/**
 	 * Scan field value for inline bean declarations. 
 	 * @param element
 	 */
-	private void scanFieldValue(SAXElement element) {
+	private void scanFieldValue(SeamFieldDefinition def, SAXElement element) {
 		if(!Util.isConfigRelevant(element)) return;
 		List<SAXElement> es = element.getChildElements();
 		for (SAXElement c: es) {
 			if(!Util.isConfigRelevant(c)) continue;
-			IType type = Util.resolveType(element, project);
+			IType type = Util.resolveType(c, project);
 			if(type == null) continue;
-			TypeCheck typeCheck = new TypeCheck(type, element);
+			TypeCheck typeCheck = new TypeCheck(type, c);
 			if(typeCheck.isCorrupted) return;
 			if(!typeCheck.isAnnotation) {
-				scanBean(element, type);
+				SeamBeanDefinition inline = scanBean(c, type, true);
+				IJavaAnnotation q = createInlineBeanQualifier();
+				if(q != null) {
+					inline.addAnnotation(q);
+					def.addAnnotation(q);
+					IJavaAnnotation inject = createInject();
+					if(inject != null) def.addAnnotation(inject);
+				}
 			}
 		}
 	}
@@ -196,14 +225,14 @@ public class SeamDefinitionBuilder {
 				if(Util.hasText(c)) {
 					key = c.getTextNode();
 				} else {
-					scanFieldValue(c);
+					scanFieldValue(def, c);
 				}
 			}
 			if(Util.isValue(c)) {
 				if(Util.hasText(c)) {
 					value = c.getTextNode();
 				} else {
-					scanFieldValue(c);
+					scanFieldValue(def, c);
 				}
 			}
 		}
@@ -214,7 +243,7 @@ public class SeamDefinitionBuilder {
 
 	private SeamMethodDefinition scanMethod(SAXElement element, IMethod method) {
 		SeamMethodDefinition def = new SeamMethodDefinition();
-		def.setElement(element);
+		def.setNode(element);
 		def.setMethod(method);
 		List<SAXElement> es = element.getChildElements();
 		for (SAXElement c: es) {
@@ -245,7 +274,7 @@ public class SeamDefinitionBuilder {
 	private SeamParameterDefinition scanParameter(SAXElement element) {
 		if(!Util.isConfigRelevant(element)) return null;
 		SeamParameterDefinition def = new SeamParameterDefinition();
-		def.setElement(element);
+		def.setNode(element);
 		if(Util.isArray(element)) {
 			if(element.hasAttribute(CDISeamConfigConstants.ATTR_DIMENSIONS)) {
 				def.setDimensions(element.getAttribute(CDISeamConfigConstants.ATTR_DIMENSIONS).getValue());
@@ -338,6 +367,25 @@ public class SeamDefinitionBuilder {
 				isCorrupted = true;
 			}
 		}
+	}
+
+	static long inlineBeanCount = 0;
+	
+	IJavaAnnotation createInlineBeanQualifier() {
+		IType type = project.getType(CDISeamConfigConstants.INLINE_BEAN_QUALIFIER);
+		if(type == null) {
+			return null;
+		}
+		long id = inlineBeanCount++;
+		return new AnnotationLiteral(resource, 0, 0, "" + id, IMemberValuePair.K_STRING, type);
+	}
+
+	IJavaAnnotation createInject() {
+		IType type = project.getType(CDIConstants.INJECT_ANNOTATION_TYPE_NAME);
+		if(type == null) {
+			return null;
+		}
+		return new AnnotationLiteral(resource, 0, 0, null, 0, type);
 	}
 
 }

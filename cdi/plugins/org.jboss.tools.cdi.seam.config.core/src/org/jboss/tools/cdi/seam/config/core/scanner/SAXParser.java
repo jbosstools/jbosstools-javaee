@@ -127,6 +127,14 @@ public class SAXParser extends SAXValidator {
 				SAXAttribute a = new SAXAttribute();
 				a.setName(n);
 				a.setValue(v);
+				int n_start = document.get().indexOf(n, start);
+				if(n_start >= 0) {
+					a.setNameLocation(new Location(n_start, n.length()));
+					int v_start = document.get().indexOf('"', n_start);
+					if(v_start >= 0) {
+						a.setValueLocation(new Location(v_start + 1, v.length()));
+					}
+				}
 				//TODO
 				element.addAttribute(a);
 			}

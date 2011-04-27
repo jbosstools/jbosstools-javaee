@@ -15,6 +15,7 @@ import java.util.List;
 
 import org.eclipse.jdt.core.IType;
 import org.jboss.tools.cdi.seam.config.core.scanner.SAXElement;
+import org.jboss.tools.cdi.seam.config.core.scanner.SAXNode;
 
 /**
  * 
@@ -22,14 +23,31 @@ import org.jboss.tools.cdi.seam.config.core.scanner.SAXElement;
  *
  */
 public class SeamBeanDefinition extends SeamMemberDefinition {
+	boolean inline = false;
 	IType type = null;
 	List<SeamFieldDefinition> fields = new ArrayList<SeamFieldDefinition>();
 	List<SeamMethodDefinition> methods = new ArrayList<SeamMethodDefinition>();
 
 	public SeamBeanDefinition() {}
 
+	public SAXElement getElement() {
+		return (SAXElement)getNode();
+	}
+
+	public void setInline(boolean b) {
+		inline = b;
+	}
+
+	public boolean isInline() {
+		return inline;
+	}
+
 	public void setType(IType type) {
 		this.type = type;
+	}
+
+	public IType getType() {
+		return type;
 	}
 
 	public void addField(SeamFieldDefinition field) {
@@ -42,8 +60,7 @@ public class SeamBeanDefinition extends SeamMemberDefinition {
 
 	public SeamFieldDefinition getField(String name) {
 		for (SeamFieldDefinition d: fields) {
-			SAXElement e = d.getElement();
-			if(name.equals(e.getLocalName())) return d;
+			if(name.equals(d.getName())) return d;
 		}
 		return null;
 	}

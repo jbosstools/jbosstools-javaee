@@ -15,6 +15,7 @@ import java.util.Map;
 
 import org.jboss.tools.cdi.core.IJavaAnnotation;
 import org.jboss.tools.cdi.seam.config.core.scanner.SAXElement;
+import org.jboss.tools.cdi.seam.config.core.scanner.SAXNode;
 import org.jboss.tools.common.text.ITextSourceReference;
 
 /**
@@ -23,19 +24,19 @@ import org.jboss.tools.common.text.ITextSourceReference;
  *
  */
 public abstract class SeamMemberDefinition {
-	protected SAXElement element;
+	protected SAXNode node;
 	protected SAXElement replaces = null;
 	protected SAXElement modifies = null;
 	protected Map<String, IJavaAnnotation> annotations = new HashMap<String, IJavaAnnotation>();
 	
 	public SeamMemberDefinition() {}
 
-	public void setElement(SAXElement element) {
-		this.element = element;
+	public void setNode(SAXNode node) {
+		this.node = node;
 	}
 
-	public SAXElement getElement() {
-		return element;
+	public SAXNode getNode() {
+		return node;
 	}
 
 	public void setReplaces(SAXElement replaces) {

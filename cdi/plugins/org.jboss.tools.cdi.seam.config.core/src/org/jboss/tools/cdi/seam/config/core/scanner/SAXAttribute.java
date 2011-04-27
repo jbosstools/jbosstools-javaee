@@ -12,11 +12,9 @@ package org.jboss.tools.cdi.seam.config.core.scanner;
 
 import org.jboss.tools.common.text.ITextSourceReference;
 
-public class SAXAttribute extends SAXNode {
+public class SAXAttribute extends SAXText {
 	private String name;
 	private ITextSourceReference nameLocation;
-	private String value;
-	private ITextSourceReference valueLocation;
 
 	private SAXElement parent;
 	
@@ -28,28 +26,20 @@ public class SAXAttribute extends SAXNode {
 		return name;
 	}
 
-	public void setValue(String value) {
-		this.value = value;
-	}
-
-	public String getValue() {
-		return value;
-	}
-
 	public void setNameLocation(ITextSourceReference location) {
 		nameLocation = location;
-	}
-
-	public void setValueLocation(ITextSourceReference location) {
-		valueLocation = location;
 	}
 
 	public ITextSourceReference getNameLocation() {
 		return nameLocation;
 	}
 
+	public void setValueLocation(ITextSourceReference location) {
+		setLocation(location);
+	}
+
 	public ITextSourceReference getValueLocation() {
-		return valueLocation;
+		return getLocation();
 	}
 
 	public void setParent(SAXElement parent) {

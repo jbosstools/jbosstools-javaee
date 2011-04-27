@@ -21,6 +21,8 @@ public interface CDISeamConfigConstants extends CDIConstants {
 	//Problem id: node name was not resolved to Java type
 	public String ERROR_UNRESOLVED_TYPE = "Unresolved type";
 
+	public String ERROR_UNRESOLVED_MEMBER = "Unresolved member";
+
 	//Problem id: node was expected to be resolved to annotation type
 	public String ERROR_ANNOTATION_EXPECTED = "Annotation expected";
 
@@ -44,4 +46,6 @@ public interface CDISeamConfigConstants extends CDIConstants {
 	public String KEYWORD_PARAMETERS = "parameters";
 
 	public String ATTR_DIMENSIONS = "dimensions";
+
+	public String INLINE_BEAN_QUALIFIER = "org.jboss.seam.config.xml.fieldset.InlineBeanQualifier";
 }

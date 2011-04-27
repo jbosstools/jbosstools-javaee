@@ -16,6 +16,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.jdt.core.IField;
+import org.jboss.tools.cdi.seam.config.core.scanner.SAXAttribute;
+import org.jboss.tools.cdi.seam.config.core.scanner.SAXElement;
 import org.jboss.tools.cdi.seam.config.core.scanner.SAXText;
 
 /**
@@ -33,6 +35,13 @@ public class SeamFieldDefinition extends SeamMemberDefinition {
 
 	public void setField(IField field) {
 		this.field = field;
+	}
+
+	public String getName() {
+		if(field != null) return field.getElementName();
+		if(getNode() instanceof SAXElement) return ((SAXElement)getNode()).getLocalName();
+		if(getNode() instanceof SAXAttribute) return ((SAXAttribute)getNode()).getName();
+		return null;
 	}
 
 	public String getValue() {
