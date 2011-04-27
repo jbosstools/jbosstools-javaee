@@ -160,6 +160,7 @@ public class SAXParser extends SAXValidator {
 				text.setValue(currentText.toString());
 				current.setTextNode(text);
 				text.setLocation(currentTextLocation);
+				currentText.setLength(0);
 			}
 		
 			if(current.getParent() != null) {
