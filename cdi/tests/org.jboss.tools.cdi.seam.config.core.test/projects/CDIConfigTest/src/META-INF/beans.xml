@@ -7,6 +7,9 @@
    xmlns:test603="urn:java:org.jboss.test603"
    xmlns:test6041="urn:java:org.jboss.test6041"
    xmlns:test6042="urn:java:org.jboss.test6042"
+   xmlns:test605="urn:java:org.jboss.test605"
+   xmlns:test606="urn:java:org.jboss.test606"
+   xmlns:test607="urn:java:org.jboss.test607"
    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://jboss.org/schema/cdi/beans_1_0.xsd"> 
 <config:MyAnnotation>
 	 <s:Qualifier1/>
@@ -82,5 +85,55 @@
      </s:value>
   </test6042:horse>
 </test6042:Knight>
+
+<test605:MethodBean>
+    <test605:doStuff>
+        <s:Produces/>
+    </test605:doStuff>      
+
+    <test605:doStuff>
+        <s:Produces/>
+        <test605:Qualifier1/>
+        <s:parameters>
+            <s:Long>
+                <test605:Qualifier2/>
+            </s:Long>
+        </s:parameters>
+    </test605:doStuff>
+
+    <test605:doStuff>
+        <s:Produces/>
+        <test605:Qualifier1/>
+        <s:parameters>
+            <s:array dimensions="2">
+                <test605:Qualifier2/>
+                <s:Long/>
+            </s:array>
+        </s:parameters>
+    </test605:doStuff>
+</test605:MethodBean>
+
+<test605:MethodBean2>
+    <test605:method>
+        <s:array>
+            <s:String/>
+        </s:array>
+    </test605:method>
+</test605:MethodBean2>
+
+<test606:MyBean>
+   <s:parameters>
+       <s:Integer>
+           <test606:MyQualifier/>
+       </s:Integer>
+   </s:parameters>
+</test606:MyBean>
+
+<test607:SomeBean>
+    <test607:someField>
+        <s:Inject/>
+        <s:Exact>org.jboss.test607.MyInterface</s:Exact>
+    </test607:someField>
+</test607:SomeBean>
 
 </beans>

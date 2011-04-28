@@ -1,3 +1,13 @@
+/******************************************************************************* 
+ * Copyright (c) 2011 Red Hat, Inc. 
+ * Distributed under license by Red Hat, Inc. All rights reserved. 
+ * This program is made available under the terms of the 
+ * Eclipse Public License v1.0 which accompanies this distribution, 
+ * and is available at http://www.eclipse.org/legal/epl-v10.html 
+ * 
+ * Contributors: 
+ * Red Hat, Inc. - initial API and implementation 
+ ******************************************************************************/
 package org.jboss.tools.cdi.seam.config.core.test;
 
 import java.io.IOException;
@@ -10,6 +20,7 @@ import java.util.Set;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.IMemberValuePair;
+import org.eclipse.jdt.core.IMethod;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.ICDIProject;
@@ -21,6 +32,9 @@ import org.jboss.tools.cdi.seam.config.core.ConfigDefinitionContext;
 import org.jboss.tools.cdi.seam.config.core.definition.SeamBeanDefinition;
 import org.jboss.tools.cdi.seam.config.core.definition.SeamBeansDefinition;
 import org.jboss.tools.cdi.seam.config.core.definition.SeamFieldDefinition;
+import org.jboss.tools.cdi.seam.config.core.definition.SeamMethodDefinition;
+import org.jboss.tools.cdi.seam.config.core.definition.SeamParameterDefinition;
+import org.jboss.tools.cdi.seam.solder.core.CDISeamSolderConstants;
 import org.jboss.tools.common.text.ITextSourceReference;
 
 /**
@@ -256,6 +270,151 @@ public class SeamDefinitionsTest extends SeamConfigTest {
 		assertNotNull(shoe);
 		inject = shoe.getAnnotation(CDIConstants.INJECT_ANNOTATION_TYPE_NAME);
 		assertNotNull(inject);
+		
+	}
+
+	/**
+<test605:MethodBean>
+    <test605:doStuff>
+        <s:Produces/>
+    </test605:doStuff>      
+
+    <test605:doStuff>
+        <s:Produces/>
+        <test605:Qualifier1/>
+        <s:parameters>
+            <s:Long>
+                <test605:Qualifier2/>
+            </s:Long>
+        </s:parameters>
+    </test605:doStuff>
+
+    <test605:doStuff>
+        <s:Produces/>
+        <test605:Qualifier1/>
+        <s:parameters>
+            <s:array dimensions="2">
+                <test605:Qualifier2/>
+                <s:Long/>
+            </s:array>
+        </s:parameters>
+    </test605:doStuff>
+</test605:MethodBean>
+	 */
+	public void testConfiguringMethods() {
+		ICDIProject cdi = CDICorePlugin.getCDIProject(project, true);
+		ConfigDefinitionContext context = (ConfigDefinitionContext)getConfigExtension(cdi).getContext();
+		SeamBeansDefinition d = getBeansDefinition(context, "src/META-INF/beans.xml");
+		
+		Set<SeamBeanDefinition> ds = findBeanDefinitionByTagName(d, "test605:MethodBean");
+		assertEquals(1, ds.size());
+		SeamBeanDefinition b = ds.iterator().next();
+		List<SeamMethodDefinition> ms = b.getMethods();
+		assertEquals(3, ms.size());
+		
+		SeamMethodDefinition noParam = ms.get(0);
+		assertEquals(0, noParam.getParameters().size());
+		assertNotNull(noParam.getAnnotation(CDIConstants.PRODUCES_ANNOTATION_TYPE_NAME));
+		
+		SeamMethodDefinition oneParam = ms.get(1);
+		assertEquals(1, oneParam.getParameters().size());
+		assertNotNull(oneParam.getAnnotation(CDIConstants.PRODUCES_ANNOTATION_TYPE_NAME));
+		assertNotNull(oneParam.getAnnotation("org.jboss.test605.Qualifier1"));
+		SeamParameterDefinition param = oneParam.getParameters().get(0);
+		assertEquals(0, param.getDimensions());
+		assertEquals("java.lang.Long", param.getType().getFullyQualifiedName());
+		assertNotNull(param.getAnnotation("org.jboss.test605.Qualifier2"));
+		
+		SeamMethodDefinition oneArrayParam = ms.get(2);
+		assertEquals(1, oneParam.getParameters().size());
+		assertNotNull(oneArrayParam.getAnnotation(CDIConstants.PRODUCES_ANNOTATION_TYPE_NAME));
+		assertNotNull(oneArrayParam.getAnnotation("org.jboss.test605.Qualifier1"));
+		param = oneArrayParam.getParameters().get(0);
+		assertEquals(2, param.getDimensions());
+		assertEquals("java.lang.Long", param.getType().getFullyQualifiedName());
+		assertNotNull(param.getAnnotation("org.jboss.test605.Qualifier2"));
+		
+	}
+
+	/**
+<test605:MethodBean2>
+    <test605:method>
+        <s:array>
+            <test605:String/>
+        </s:array>
+    </test605:method>
+</test605:MethodBean2>
+	 */
+	public void testConfiguringMethods2() {
+		ICDIProject cdi = CDICorePlugin.getCDIProject(project, true);
+		ConfigDefinitionContext context = (ConfigDefinitionContext)getConfigExtension(cdi).getContext();
+		SeamBeansDefinition d = getBeansDefinition(context, "src/META-INF/beans.xml");
+		
+		Set<SeamBeanDefinition> ds = findBeanDefinitionByTagName(d, "test605:MethodBean2");
+		assertEquals(1, ds.size());
+		SeamBeanDefinition b = ds.iterator().next();
+		List<SeamMethodDefinition> ms = b.getMethods();
+		assertEquals(1, ms.size());
+		
+		SeamMethodDefinition m = ms.get(0);
+		assertEquals(1, m.getParameters().size());
+		SeamParameterDefinition param = m.getParameters().get(0);
+		assertEquals(1, param.getDimensions());
+		assertEquals("java.lang.String", param.getType().getFullyQualifiedName());
+		
+	}
+
+	/**
+<test606:MyBean>
+   <s:parameters>
+       <s:Integer>
+           <test606:MyQualifier/>
+       </s:Integer>
+   </s:parameters>
+</test606:MyBean>
+	 */
+	public void testConfiguringConstructor() throws CoreException {
+		ICDIProject cdi = CDICorePlugin.getCDIProject(project, true);
+		ConfigDefinitionContext context = (ConfigDefinitionContext)getConfigExtension(cdi).getContext();
+		SeamBeansDefinition d = getBeansDefinition(context, "src/META-INF/beans.xml");
+		
+		Set<SeamBeanDefinition> ds = findBeanDefinitionByTagName(d, "test606:MyBean");
+		assertEquals(1, ds.size());
+		SeamBeanDefinition b = ds.iterator().next();
+		List<SeamMethodDefinition> ms = b.getMethods();
+		assertEquals(1, ms.size());
+		
+		SeamMethodDefinition m = ms.get(0);
+		IMethod jm = m.getMethod();
+		assertTrue(jm.isConstructor());
+		assertEquals(1, m.getParameters().size());
+		SeamParameterDefinition param = m.getParameters().get(0);
+		assertEquals(0, param.getDimensions());
+		assertEquals("java.lang.Integer", param.getType().getFullyQualifiedName());
+		
+	}
+
+	/**
+	 * 
+	 * @throws CoreException
+	 */
+	public void testOverridingTypeOfAnInjectionPoint() throws CoreException {
+		ICDIProject cdi = CDICorePlugin.getCDIProject(project, true);
+		ConfigDefinitionContext context = (ConfigDefinitionContext)getConfigExtension(cdi).getContext();
+		SeamBeansDefinition d = getBeansDefinition(context, "src/META-INF/beans.xml");
+		
+		Set<SeamBeanDefinition> ds = findBeanDefinitionByTagName(d, "test607:SomeBean");
+		assertEquals(1, ds.size());
+		SeamBeanDefinition b = ds.iterator().next();
+		SeamFieldDefinition f = b.getField("someField");
+		assertNotNull(f);
+		IJavaAnnotation inject = f.getAnnotation(CDIConstants.INJECT_ANNOTATION_TYPE_NAME);
+		assertNotNull(inject);
+		IJavaAnnotation exact = f.getAnnotation(CDISeamSolderConstants.EXACT_ANNOTATION_TYPE_NAME);
+		assertNotNull(exact);
+		IMemberValuePair[] ps = exact.getMemberValuePairs();
+		assertEquals(1, ps.length);
+		assertEquals("org.jboss.test607.MyInterface", ps[0].getValue());
 		
 	}
 
