@@ -23,7 +23,6 @@ import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.IParametedType;
 import org.jboss.tools.cdi.core.IRootDefinitionContext;
 import org.jboss.tools.cdi.seam.config.core.CDISeamConfigConstants;
-import org.jboss.tools.cdi.seam.config.core.definition.SeamBeanDefinition;
 import org.jboss.tools.cdi.seam.config.core.definition.SeamMethodDefinition;
 import org.jboss.tools.cdi.seam.config.core.definition.SeamParameterDefinition;
 import org.jboss.tools.cdi.seam.config.core.scanner.SAXElement;

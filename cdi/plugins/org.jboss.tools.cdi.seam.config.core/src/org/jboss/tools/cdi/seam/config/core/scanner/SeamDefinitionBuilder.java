@@ -1,3 +1,13 @@
+/******************************************************************************* 
+ * Copyright (c) 2011 Red Hat, Inc. 
+ * Distributed under license by Red Hat, Inc. All rights reserved. 
+ * This program is made available under the terms of the 
+ * Eclipse Public License v1.0 which accompanies this distribution, 
+ * and is available at http://www.eclipse.org/legal/epl-v10.html 
+ * 
+ * Contributors: 
+ * Red Hat, Inc. - initial API and implementation 
+ ******************************************************************************/
 package org.jboss.tools.cdi.seam.config.core.scanner;
 
 import java.io.ByteArrayInputStream;
@@ -15,7 +25,6 @@ import org.eclipse.jface.text.IDocument;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.IJavaAnnotation;
-import org.jboss.tools.cdi.internal.core.impl.AnnotationDeclaration;
 import org.jboss.tools.cdi.internal.core.impl.AnnotationLiteral;
 import org.jboss.tools.cdi.internal.core.impl.definition.AnnotationDefinition;
 import org.jboss.tools.cdi.seam.config.core.CDISeamConfigConstants;
@@ -28,6 +37,11 @@ import org.jboss.tools.cdi.seam.config.core.definition.SeamMethodDefinition;
 import org.jboss.tools.cdi.seam.config.core.definition.SeamParameterDefinition;
 import org.jboss.tools.cdi.seam.config.core.util.Util;
 
+/**
+ * 
+ * @author Viacheslav Kabanovich
+ *
+ */
 public class SeamDefinitionBuilder {
 	static int IN_ANNOTATION_TYPE = 1;
 

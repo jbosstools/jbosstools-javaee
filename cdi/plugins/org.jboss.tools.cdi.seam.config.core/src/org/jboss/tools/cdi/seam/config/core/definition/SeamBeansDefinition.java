@@ -15,7 +15,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import org.jboss.tools.cdi.seam.config.core.scanner.SAXElement;
 import org.jboss.tools.cdi.seam.config.core.scanner.SAXNode;
 
 /**
