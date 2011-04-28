@@ -72,6 +72,6 @@ public class CDIElementWrapper {
 	}
 
 	public String getPath(){
-		return label;
+		return path;
 	}
 }
