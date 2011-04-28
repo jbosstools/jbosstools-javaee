@@ -7,7 +7,6 @@ import junit.framework.TestSuite;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.jface.text.contentassist.ICompletionProposal;
-import org.eclipse.jface.text.contentassist.IContentAssistProcessor;
 import org.jboss.tools.common.el.core.ELCorePlugin;
 import org.jboss.tools.common.el.core.ca.preferences.ELContentAssistPreferences;
 import org.jboss.tools.common.el.ui.ca.ELProposalProcessor;
@@ -25,6 +24,7 @@ public class SeamELContentAssistJbide1645Test extends ContentAssistantTestCase {
 	private static final String POSTFIX_STRING = " </h:commandButton>";
 	private static final String INSERT_BEFORE_STRING = "<rich:panel";
 	private static final String INSERTION_STRING = PREFIX_STRING + POSTFIX_STRING;
+	Throwable exception = null;
 
 	public static Test suite() {
 		return new TestSuite(SeamELContentAssistJbide1645Test.class);
@@ -33,14 +33,13 @@ public class SeamELContentAssistJbide1645Test extends ContentAssistantTestCase {
 	public void setUp() throws Exception {
 		provider = new TestProjectProvider("org.jboss.tools.seam.ui.test", null, PROJECT_NAME, makeCopy); 
 		project = provider.getProject();
-		Throwable exception = null;
 		try {
 			project.refreshLocal(IResource.DEPTH_INFINITE, null);
 		} catch (Exception x) {
 			exception = x;
-			x.printStackTrace();
 		}
-		assertNull("An exception caught: " + (exception != null? exception.getMessage() : ""), exception);
+		// No asserts should be done in setUp() method 
+//		assertNull("An exception caught: " + (exception != null? exception.getMessage() : ""), exception);
 	}
 
 	protected void tearDown() throws Exception {
@@ -50,15 +49,20 @@ public class SeamELContentAssistJbide1645Test extends ContentAssistantTestCase {
 	}
 
 	public void testSeamELContentAssistJbide1645() {
+		assertNull("An exception caught: " + (exception != null? exception.getMessage() : ""), exception);
+
 		ELCorePlugin.getDefault().getPreferenceStore().setValue(ELContentAssistPreferences.SHOW_METHODS_WITH_PARENTHESES_ONLY, false);
 		openEditor(PAGE_NAME);
-
+		
+		JobUtils.waitForIdle();
+		
 		try {
 			// Find start of <rich:panel> tag
 			String documentContent = document.get();
+
 			int start = (documentContent == null ? -1 : documentContent.indexOf(INSERT_BEFORE_STRING));
 			int offsetToTest = start + PREFIX_STRING.length();
-	
+
 			assertTrue("Cannot find the starting point in the test file  \"" + PAGE_NAME + "\"", (start != -1));
 	
 			String documentContentModified = documentContent.substring(0, start) +
