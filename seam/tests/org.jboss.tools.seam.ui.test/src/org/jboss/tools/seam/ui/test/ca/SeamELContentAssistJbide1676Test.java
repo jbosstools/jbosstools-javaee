@@ -45,7 +45,7 @@ public class SeamELContentAssistJbide1676Test extends TestCase {
 	private static final String[] VALID_SEAM_EL_PROPOSALS = new String[] {
 			"TestSeamELContentAssistEntityManagerFactory",
 			"fullPostList",
-			"a4j", 
+			"a4j",
 			"a4jSkin", 
 			"actor",
 			"ajaxContext",
@@ -302,13 +302,20 @@ public class SeamELContentAssistJbide1676Test extends TestCase {
 					if (filteredValidProposals.contains(proposalString)) {
 						existingProposals.add(proposalString);
 						filteredValidProposals.remove(proposalString);
-					} else {
+					} else if (!existingProposals.contains(proposalString)){
 						nonExistingProposals.add(proposalString);
 					}
 				}
 			}
 			assertTrue("Some Seam EL proposals werent\'t shown in the Content Assistant", filteredValidProposals.isEmpty());
-			assertTrue("Some Seam EL proposals were shown in the Content Assistant but they shouldn\'t", nonExistingProposals.isEmpty());
+			StringBuffer sb = new StringBuffer();
+			if (nonExistingProposals != null && !nonExistingProposals.isEmpty()) {
+				for (String np : nonExistingProposals) {
+					sb.append(np).append(' ');
+				}
+			}
+			
+			assertTrue("Some Seam EL proposals were shown in the Content Assistant but they shouldn\'t: " + sb.toString(), nonExistingProposals.isEmpty());
 		} finally {
 			PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
 			.closeEditor(editorPart, false);
