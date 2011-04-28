@@ -38,7 +38,16 @@ public class Util implements CDISeamConfigConstants {
 	public static Map<String, String> EE_TYPES = new HashMap<String, String>();
 	
 	static {
-		String[] JAVA_LANG = {"Integer", "Short", "Long", "String", "Character", "Byte", "Boolean"};
+		EE_TYPES.put("int", "java.lang.Integer");
+		EE_TYPES.put("short", "java.lang.Short");
+		EE_TYPES.put("long", "java.lang.Long");
+		EE_TYPES.put("char", "java.lang.Character");
+		EE_TYPES.put("byte", "java.lang.Byte");
+		EE_TYPES.put("boolean", "java.lang.Boolean");
+		EE_TYPES.put("double", "java.lang.Double");
+		EE_TYPES.put("float", "java.lang.Float");
+		
+		String[] JAVA_LANG = {"Integer", "Short", "Long", "String", "Character", "Byte", "Boolean", "Double", "Float"};
 		for (String s: JAVA_LANG) EE_TYPES.put(s, "java.lang." + s);
 
 		String[] JAVA_UTIL = {"List", "Map", "Set"};
