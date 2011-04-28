@@ -115,6 +115,11 @@ public class SeamDefinitionBuilder {
 					def.setModifies(c);
 					continue;
 				}
+				if(Util.isParameters(c)) {
+					SeamMethodDefinition md = scanConstructor(c, type);
+					if(md != null) def.addMethod(md);
+					continue;
+				}
 			}
 			IType t = Util.resolveType(c, project);
 			if(t != null) {
@@ -131,7 +136,8 @@ public class SeamDefinitionBuilder {
 			if(m instanceof IField) {
 				def.addField(scanField(c, (IField)m));
 			} else if(m instanceof IMethod) {
-				def.addMethod(scanMethod(element, (IMethod)m));
+				SeamMethodDefinition md = scanMethod(c, type);
+				if(md != null) def.addMethod(md);
 			} else {
 				result.addUnresolvedNode(c, CDISeamConfigConstants.ERROR_UNRESOLVED_MEMBER);
 			}
@@ -241,15 +247,14 @@ public class SeamDefinitionBuilder {
 		}
 	}
 
-	private SeamMethodDefinition scanMethod(SAXElement element, IMethod method) {
+	private SeamMethodDefinition scanMethod(SAXElement element, IType type) {
 		SeamMethodDefinition def = new SeamMethodDefinition();
 		def.setNode(element);
-		def.setMethod(method);
 		List<SAXElement> es = element.getChildElements();
 		for (SAXElement c: es) {
 			if(!Util.isConfigRelevant(c)) continue;
 			if(Util.isParameters(c)) {
-				List<SAXElement> ps = element.getChildElements();
+				List<SAXElement> ps = c.getChildElements();
 				for (SAXElement p: ps) {
 					SeamParameterDefinition pd = scanParameter(p);
 					if(pd != null) def.addParameter(pd);
@@ -268,6 +273,43 @@ public class SeamDefinitionBuilder {
 			}
 		
 		}		
+		IMethod method = null;
+		try {
+			method = Util.findMethod(def, type, element.getLocalName(), context.getRootContext());
+		} catch (JavaModelException e) {
+			CDISeamConfigCorePlugin.getDefault().logError(e);
+		}
+		if(method != null) {
+			def.setMethod(method);
+		}
+		return def;
+	}
+
+	private SeamMethodDefinition scanConstructor(SAXElement element, IType type) {
+		SeamMethodDefinition def = new SeamMethodDefinition();
+		def.setNode(element);
+		if(Util.isParameters(element)) {
+			List<SAXElement> ps = element.getChildElements();
+			for (SAXElement p: ps) {
+				SeamParameterDefinition pd = scanParameter(p);
+				if(pd != null) def.addParameter(pd);
+			}
+		} else if(Util.isArray(element)) {
+			SeamParameterDefinition pd = scanParameter(element);
+			if(pd != null) def.addParameter(pd);
+		}
+		IJavaAnnotation inject = createInject();
+		def.addAnnotation(inject);
+		IMethod method = null;
+		try {
+			method = Util.findMethod(def, type, null, context.getRootContext());
+		} catch (JavaModelException e) {
+			CDISeamConfigCorePlugin.getDefault().logError(e);
+		}
+		if(method != null) {
+			def.setMethod(method);
+		}
+		
 		return def;
 	}
 
@@ -278,13 +320,15 @@ public class SeamDefinitionBuilder {
 		if(Util.isArray(element)) {
 			if(element.hasAttribute(CDISeamConfigConstants.ATTR_DIMENSIONS)) {
 				def.setDimensions(element.getAttribute(CDISeamConfigConstants.ATTR_DIMENSIONS).getValue());
+			} else {
+				def.setDimensions("1");
 			}
 			List<SAXElement> es = element.getChildElements();
 			for (SAXElement c: es) {
 				if(!Util.isConfigRelevant(c)) continue;
 				IType type = Util.resolveType(c, project);
 				if(type == null) {
-					result.addUnresolvedNode(element, CDISeamConfigConstants.ERROR_UNRESOLVED_TYPE);
+					result.addUnresolvedNode(c, CDISeamConfigConstants.ERROR_UNRESOLVED_TYPE);
 					continue;
 				}
 				TypeCheck typeCheck = new TypeCheck(type, c);

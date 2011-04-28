@@ -28,10 +28,19 @@ public class SeamMethodDefinition extends SeamMemberDefinition {
 
 	public void setMethod(IMethod method) {
 		this.method = method;
+		//TODO set parameter objects to parameters
+	}
+
+	public IMethod getMethod() {
+		return method;
 	}
 
 	public void addParameter(SeamParameterDefinition p) {
 		parameters.add(p);
+	}
+
+	public List<SeamParameterDefinition> getParameters() {
+		return parameters;
 	}
 
 }

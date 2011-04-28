@@ -12,6 +12,11 @@ package org.jboss.tools.cdi.seam.config.core;
 
 import org.jboss.tools.cdi.core.CDIConstants;
 
+/**
+ * 
+ * @author Viacheslav Kabanovich
+ *
+ */
 public interface CDISeamConfigConstants extends CDIConstants {
 
 	public String SEAM_BEANS_XML = "seam-beans.xml";

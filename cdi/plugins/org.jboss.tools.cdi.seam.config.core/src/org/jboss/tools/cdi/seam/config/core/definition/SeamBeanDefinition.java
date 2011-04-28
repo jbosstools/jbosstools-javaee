@@ -65,4 +65,8 @@ public class SeamBeanDefinition extends SeamMemberDefinition {
 		return null;
 	}
 
+	public List<SeamMethodDefinition> getMethods() {
+		return methods;
+	}
+
 }

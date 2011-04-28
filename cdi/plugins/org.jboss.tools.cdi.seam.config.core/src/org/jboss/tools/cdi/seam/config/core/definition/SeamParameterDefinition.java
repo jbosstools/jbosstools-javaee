@@ -31,11 +31,27 @@ public class SeamParameterDefinition extends SeamMemberDefinition {
 	}
 
 	public void setDimensions(String value) {
-		dimentions = value;
+		dimentions = value == null ? null : value.trim();
 	}
 
 	public void setParameter(ILocalVariable parameter) {
 		this.parameter = parameter;
+	}
+
+	public int getDimensions() {
+		if(dimentions == null || dimentions.length() == 0) {
+			return 0;
+		}
+		try {
+			return Integer.parseInt(dimentions);
+		} catch (NumberFormatException e) {
+			//reporting is done by loader; do not report here.
+			return 0;
+		}
+	}
+
+	public IType getType() {
+		return type;
 	}
 
 }

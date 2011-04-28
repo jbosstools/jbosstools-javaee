@@ -1,3 +1,13 @@
+/******************************************************************************* 
+ * Copyright (c) 2011 Red Hat, Inc. 
+ * Distributed under license by Red Hat, Inc. All rights reserved. 
+ * This program is made available under the terms of the 
+ * Eclipse Public License v1.0 which accompanies this distribution, 
+ * and is available at http://www.eclipse.org/legal/epl-v10.html 
+ * 
+ * Contributors: 
+ * Red Hat, Inc. - initial API and implementation 
+ ******************************************************************************/
 package org.jboss.tools.cdi.seam.config.core.util;
 
 import java.util.HashMap;
@@ -8,11 +18,22 @@ import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
+import org.eclipse.jdt.core.Signature;
 import org.jboss.tools.cdi.core.CDICoreNature;
+import org.jboss.tools.cdi.core.IParametedType;
+import org.jboss.tools.cdi.core.IRootDefinitionContext;
 import org.jboss.tools.cdi.seam.config.core.CDISeamConfigConstants;
+import org.jboss.tools.cdi.seam.config.core.definition.SeamBeanDefinition;
+import org.jboss.tools.cdi.seam.config.core.definition.SeamMethodDefinition;
+import org.jboss.tools.cdi.seam.config.core.definition.SeamParameterDefinition;
 import org.jboss.tools.cdi.seam.config.core.scanner.SAXElement;
 import org.jboss.tools.cdi.seam.config.core.scanner.SAXText;
 
+/**
+ *   
+ * @author Viacheslav Kabanovich
+ *
+ */
 public class Util implements CDISeamConfigConstants {
 	public static Map<String, String> EE_TYPES = new HashMap<String, String>();
 	
@@ -49,6 +70,12 @@ public class Util implements CDISeamConfigConstants {
 		String[] JAVAX_INTERCEPTOR = {"AroundInvoke", "AroundTimeout", "ExcludeClassInterceptors", "ExcludeDefaultInterceptors",
 				"Interceptor", "InterceptorBinding", "Interceptors", "InvocationContext"};
 		for (String s: JAVAX_INTERCEPTOR) EE_TYPES.put(s, "javax.interceptor." + s);
+
+		//It is not clear.
+		// In Seam3 doc, item 6.7. Overriding the type of an injection point is devoted to @Exact,
+		// but item 6.1 does not mentions its package in namespace urn:java:ee.
+		String[] SEAM_SOLDER = {"Exact"};
+		for (String s: SEAM_SOLDER) EE_TYPES.put(s, "org.jboss.seam.solder.core." + s);
 		
 	}
 
@@ -149,6 +176,40 @@ public class Util implements CDISeamConfigConstants {
 	public static boolean hasText(SAXElement element) {
 		SAXText t = element.getTextNode();
 		return t != null && t.getValue() != null && t.getValue().trim().length() > 0;
+	}
+
+	/**
+	 * 
+	 * @param def
+	 * @param type
+	 * @param name method name or null for constructor
+	 * @return
+	 */
+	public static IMethod findMethod(SeamMethodDefinition def, IType type, String name, IRootDefinitionContext context) throws JavaModelException {
+		IMethod[] ms = type.getMethods();
+		for (IMethod m: ms) {
+			if((name == null && m.isConstructor()) || name.equals(m.getElementName())) {
+				if(sameParameterTypes(def, m, context)) return m;
+			}
+		}
+		return null;
+	}
+
+	static boolean sameParameterTypes(SeamMethodDefinition def, IMethod m, IRootDefinitionContext context) throws JavaModelException {
+		String[] paramTypes = m.getParameterTypes();
+		if(paramTypes.length != def.getParameters().size()) return false;
+		if(paramTypes.length == 0) return true;
+		for (int i = 0; i < paramTypes.length; i++) {
+			String paramType = paramTypes[i];
+			SeamParameterDefinition p = def.getParameters().get(i);
+			if(p.getDimensions() != Signature.getArrayCount(paramType)) {
+				return false;
+			}
+			IParametedType pt = context.getProject().getTypeFactory().getParametedType(m, paramType);
+			if(pt == null || p.getType() == null) return false;
+			if(!pt.getType().getFullyQualifiedName().equals(p.getType().getFullyQualifiedName())) return false; 
+		}
+		return true;
 	}
 
 }

@@ -12,6 +12,11 @@ package org.jboss.tools.cdi.seam.config.core.scanner;
 
 import org.jboss.tools.common.text.ITextSourceReference;
 
+/**
+ * 
+ * @author Viacheslav Kabanovich
+ *
+ */
 public class SAXAttribute extends SAXText {
 	private String name;
 	private ITextSourceReference nameLocation;

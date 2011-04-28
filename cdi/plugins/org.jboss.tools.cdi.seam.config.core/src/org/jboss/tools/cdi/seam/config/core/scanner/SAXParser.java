@@ -22,6 +22,11 @@ import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.DefaultHandler;
 import org.xml.sax.helpers.XMLReaderFactory;
 
+/**
+ * 
+ * @author Viacheslav Kabanovich
+ *
+ */
 public class SAXParser extends SAXValidator {
 
 	XMLReader createParser1(DefaultHandler handler) {
