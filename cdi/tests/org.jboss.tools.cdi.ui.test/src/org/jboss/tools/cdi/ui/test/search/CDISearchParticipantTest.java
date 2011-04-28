@@ -19,7 +19,6 @@ import org.eclipse.jdt.ui.search.IQueryParticipant;
 import org.eclipse.jdt.ui.search.ISearchRequestor;
 import org.eclipse.jdt.ui.search.QuerySpecification;
 import org.eclipse.search.ui.text.Match;
-import org.eclipse.ui.IMarkerResolution;
 import org.jboss.tools.cdi.core.ICDIElement;
 import org.jboss.tools.cdi.core.test.tck.TCKTest;
 import org.jboss.tools.cdi.internal.core.impl.ClassBean;
@@ -92,12 +91,12 @@ public class CDISearchParticipantTest  extends TCKTest {
 		for(Match match : matchesForCheck){
 			assertTrue("Match must be CDIMatch", match instanceof CDIMatch);
 			MatchStructure ms = findMatch(matchList, (CDIMatch)match);
-			assertNotNull("Unexpected mutch found (class - "+((CDIMatch)match).getCDIElement().getClass()+" label - "+((CDIMatch)match).getLabel()+")", ms);
+			assertNotNull("Unexpected mutch found (class - "+((CDIMatch)match).getCDIElement().getClass()+" name - "+((CDIMatch)match).getLabel()+")", ms);
 			ms.checked = true;
 		}
 		
 		for(MatchStructure ms : matchList){
-			assertTrue("Match not found (class - "+ms.type+" label - "+ms.name, ms.checked);
+			assertTrue("Match not found (class - "+ms.type+" name - "+ms.name, ms.checked);
 		}
 	}
 	

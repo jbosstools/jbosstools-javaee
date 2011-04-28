@@ -31,7 +31,6 @@ import org.eclipse.osgi.util.NLS;
 import org.eclipse.search.ui.text.Match;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.editors.text.TextFileDocumentProvider;
 import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.IBean;
@@ -81,7 +80,11 @@ public class CDIBeanQueryParticipant implements IQueryParticipant{
 				monitor.beginTask(CDIUIMessages.CDI_BEAN_QUERY_PARTICIPANT_TASK, beans.length);
 				
 				for(IBean bean : beans){
+					if(monitor.isCanceled())
+						break;
+					
 					monitor.worked(1);
+					
 					Set<IInjectionPoint> injectionPoints = bean.getInjectionPoints();
 					
 					for(IInjectionPoint injectionPoint : injectionPoints){
@@ -95,6 +98,7 @@ public class CDIBeanQueryParticipant implements IQueryParticipant{
 						}
 					}
 				}
+				monitor.done();
 			}
 		}
 	}
@@ -115,17 +119,7 @@ public class CDIBeanQueryParticipant implements IQueryParticipant{
 
 	@Override
 	public IMatchPresentation getUIParticipant() {
-		//return null;
 		return new CDIBeanMatchPresentation();
-	}
-	
-	TextFileDocumentProvider provider=null;
-	
-	private TextFileDocumentProvider getDocumentProvider(){
-		if(provider == null){
-			provider = new TextFileDocumentProvider();
-		}
-		return provider;
 	}
 	
 	class CDIBeanMatchPresentation implements IMatchPresentation{
