@@ -88,10 +88,14 @@ public class CDISearchParticipantTest  extends TCKTest {
 	}
 	
 	private void checkMatches(List<Match> matchesForCheck, List<MatchStructure> matchList) throws CoreException {
+//		for(Match match : matchesForCheck){
+//			System.out.println(("Match found (class - "+((CDIMatch)match).getCDIElement().getClass()+" name - "+((CDIMatch)match).getLabel()+")"));
+//		}
+		
 		for(Match match : matchesForCheck){
 			assertTrue("Match must be CDIMatch", match instanceof CDIMatch);
 			MatchStructure ms = findMatch(matchList, (CDIMatch)match);
-			assertNotNull("Unexpected mutch found (class - "+((CDIMatch)match).getCDIElement().getClass()+" name - "+((CDIMatch)match).getLabel()+")", ms);
+			assertNotNull("Unexpected match found (class - "+((CDIMatch)match).getCDIElement().getClass()+" name - "+((CDIMatch)match).getLabel()+")", ms);
 			ms.checked = true;
 		}
 		

@@ -14,6 +14,7 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 
 import org.eclipse.jdt.internal.core.JavaModelManager;
+import org.jboss.tools.cdi.core.test.CDICoreTestSetup;
 import org.jboss.tools.cdi.ui.test.marker.CDIMarkerResolutionTest;
 import org.jboss.tools.cdi.ui.test.perspective.CDIPerspectiveTest;
 import org.jboss.tools.cdi.ui.test.preferences.CDIPreferencePageTest;
@@ -29,16 +30,22 @@ public class CDIUIAllTests {
 	public static Test suite() {
 		// it could be done here because it is not needed to be enabled back
 		JavaModelManager.getIndexManager().disable();
-
-		TestSuite suite = new TestSuite("CDI UI Tests");
-		suite.addTestSuite(CDIMarkerResolutionTest.class);
-		suite.addTestSuite(CATest.class);
-		suite.addTestSuite(NewCDIWizardTest.class);
-		suite.addTestSuite(CDIPreferencePageTest.class);
-		suite.addTestSuite(NewCDIClassWizardFactoryTest.class);
-		suite.addTestSuite(CDIPerspectiveTest.class);
+		
+		TestSuite suiteAll = new TestSuite("CDI UI Tests");
+		
+		TestSuite suite = new TestSuite("TCK Tests");
 		suite.addTestSuite(CDISearchParticipantTest.class);
+		suiteAll.addTestSuite(CDIMarkerResolutionTest.class);
+		
+		
+		suiteAll.addTestSuite(CDIPerspectiveTest.class);
+		suiteAll.addTestSuite(NewCDIClassWizardFactoryTest.class);
+		suiteAll.addTestSuite(CDIPreferencePageTest.class);
+		suiteAll.addTestSuite(NewCDIWizardTest.class);
+		suiteAll.addTestSuite(CATest.class);
+		
+		suiteAll.addTest(new CDICoreTestSetup(suite));
 
-		return suite;
+		return suiteAll;
 	}
 }
