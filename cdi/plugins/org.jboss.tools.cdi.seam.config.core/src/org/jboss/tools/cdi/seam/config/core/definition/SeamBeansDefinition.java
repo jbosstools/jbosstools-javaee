@@ -26,6 +26,7 @@ public class SeamBeansDefinition {
 	Map<SAXNode, String> unresolvedNodes = new HashMap<SAXNode, String>();
 
 	Set<SeamBeanDefinition> beanDefinitions = new HashSet<SeamBeanDefinition>();
+	Set<SeamVirtualFieldDefinition> virtualFieldDefinitions = new HashSet<SeamVirtualFieldDefinition>();
 	
 	public SeamBeansDefinition() {}
 
@@ -43,6 +44,14 @@ public class SeamBeansDefinition {
 
 	public Set<SeamBeanDefinition> getBeanDefinitions() {
 		return beanDefinitions;
+	}
+
+	public void addVirtualField(SeamVirtualFieldDefinition def) {
+		virtualFieldDefinitions.add(def);
+	}
+
+	public Set<SeamVirtualFieldDefinition> getVirtualFieldDefinitions() {
+		return virtualFieldDefinitions;
 	}
 
 }

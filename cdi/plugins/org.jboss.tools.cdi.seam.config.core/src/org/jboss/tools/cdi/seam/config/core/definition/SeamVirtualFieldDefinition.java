@@ -11,6 +11,7 @@
 package org.jboss.tools.cdi.seam.config.core.definition;
 
 import org.eclipse.jdt.core.IField;
+import org.eclipse.jdt.core.IType;
 import org.jboss.tools.cdi.seam.config.core.scanner.SAXAttribute;
 import org.jboss.tools.cdi.seam.config.core.scanner.SAXElement;
 
@@ -19,24 +20,17 @@ import org.jboss.tools.cdi.seam.config.core.scanner.SAXElement;
  * @author Viacheslav Kabanovich
  *
  */
-public class SeamFieldDefinition extends AbstractSeamFieldDefinition {
-	protected IField field;
+public class SeamVirtualFieldDefinition extends AbstractSeamFieldDefinition {
+	protected IType returnType;
 
-	public SeamFieldDefinition() {}
+	public SeamVirtualFieldDefinition() {}
 
-	public void setField(IField field) {
-		this.field = field;
+	public void setType(IType returnType) {
+		this.returnType = returnType;
 	}
 
-	public IField getField() {
-		return field;
-	}
-
-	public String getName() {
-		if(field != null) return field.getElementName();
-		if(getNode() instanceof SAXElement) return ((SAXElement)getNode()).getLocalName();
-		if(getNode() instanceof SAXAttribute) return ((SAXAttribute)getNode()).getName();
-		return null;
+	public IType getType() {
+		return returnType;
 	}
 
 }

@@ -30,11 +30,13 @@ import org.jboss.tools.cdi.internal.core.impl.definition.AnnotationDefinition;
 import org.jboss.tools.cdi.seam.config.core.CDISeamConfigConstants;
 import org.jboss.tools.cdi.seam.config.core.CDISeamConfigCorePlugin;
 import org.jboss.tools.cdi.seam.config.core.ConfigDefinitionContext;
+import org.jboss.tools.cdi.seam.config.core.definition.AbstractSeamFieldDefinition;
 import org.jboss.tools.cdi.seam.config.core.definition.SeamBeanDefinition;
 import org.jboss.tools.cdi.seam.config.core.definition.SeamBeansDefinition;
 import org.jboss.tools.cdi.seam.config.core.definition.SeamFieldDefinition;
 import org.jboss.tools.cdi.seam.config.core.definition.SeamMethodDefinition;
 import org.jboss.tools.cdi.seam.config.core.definition.SeamParameterDefinition;
+import org.jboss.tools.cdi.seam.config.core.definition.SeamVirtualFieldDefinition;
 import org.jboss.tools.cdi.seam.config.core.util.Util;
 
 /**
@@ -88,6 +90,12 @@ public class SeamDefinitionBuilder {
 		if(typeCheck.isCorrupted) return;
 		if(typeCheck.isAnnotation) {
 			scanAnnotation(element, type);
+		} else if(Util.hasProducesChild(element)) {
+			SeamVirtualFieldDefinition f = scanVirtualProducerField(element);
+			if(f != null) {
+				result.addVirtualField(f);
+			}
+			
 		} else {
 			scanBean(element, type, false);
 		}
@@ -169,10 +177,28 @@ public class SeamDefinitionBuilder {
 		return def;
 	}
 
+	private SeamVirtualFieldDefinition scanVirtualProducerField(SAXElement element) {
+		SeamVirtualFieldDefinition def = new SeamVirtualFieldDefinition();
+		def.setNode(element);
+		IType type = Util.resolveType(element, project);
+		if(type == null) {
+			result.addUnresolvedNode(element, CDISeamConfigConstants.ERROR_UNRESOLVED_TYPE);
+			return null;
+		}
+		def.setType(type);
+		scanFieldContent(def, element);
+		return def;
+	}
+
 	private SeamFieldDefinition scanField(SAXElement element, IField field) {
 		SeamFieldDefinition def = new SeamFieldDefinition();
 		def.setNode(element);
 		def.setField(field);
+		scanFieldContent(def, element);
+		return def;
+	}
+
+	private void scanFieldContent(AbstractSeamFieldDefinition def, SAXElement element) {
 		if(Util.hasText(element)) {
 			def.addValue(element.getTextNode());
 		}
@@ -198,8 +224,7 @@ public class SeamDefinitionBuilder {
 			}
 		
 		}		
-		return def;
-	}	
+	}
 
 	private SeamFieldDefinition scanField(SAXAttribute a, IField field) {
 		SeamFieldDefinition def = new SeamFieldDefinition();
@@ -213,7 +238,7 @@ public class SeamDefinitionBuilder {
 	 * Scan field value for inline bean declarations. 
 	 * @param element
 	 */
-	private void scanFieldValue(SeamFieldDefinition def, SAXElement element) {
+	private void scanFieldValue(AbstractSeamFieldDefinition def, SAXElement element) {
 		if(!Util.isConfigRelevant(element)) return;
 		List<SAXElement> es = element.getChildElements();
 		for (SAXElement c: es) {
@@ -235,7 +260,7 @@ public class SeamDefinitionBuilder {
 		}
 	}
 
-	private void scanEntry(SeamFieldDefinition def, SAXElement element) {
+	private void scanEntry(AbstractSeamFieldDefinition def, SAXElement element) {
 		List<SAXElement> es = element.getChildElements();
 		SAXText key = null;
 		SAXText value = null;

@@ -11,6 +11,7 @@
 package org.jboss.tools.cdi.seam.config.core.util;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.jdt.core.IField;
@@ -102,7 +103,7 @@ public class Util implements CDISeamConfigConstants {
 		for (String pkg: packages) {
 			if(pkg.length() == 0) continue;
 			String typeName = null;
-			if(pkg.equals("ee")) {
+			if(pkg.equals(PACKAGE_EE)) {
 				typeName = Util.EE_TYPES.get(name);
 			} else {
 				typeName = pkg + "." + name;
@@ -184,6 +185,16 @@ public class Util implements CDISeamConfigConstants {
 	public static boolean hasText(SAXElement element) {
 		SAXText t = element.getTextNode();
 		return t != null && t.getValue() != null && t.getValue().trim().length() > 0;
+	}
+
+	public static boolean hasProducesChild(SAXElement element) {
+		List<SAXElement> cs = element.getChildElements();
+		for (SAXElement c: cs) {
+			if(containsEEPackage(c) && "Produces".equals(c.getLocalName())) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**
