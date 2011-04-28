@@ -21,10 +21,14 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.IMemberValuePair;
 import org.eclipse.jdt.core.IMethod;
+import org.eclipse.jdt.core.IType;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.ICDIProject;
+import org.jboss.tools.cdi.core.IInterceptorBinding;
 import org.jboss.tools.cdi.core.IJavaAnnotation;
+import org.jboss.tools.cdi.core.IQualifier;
+import org.jboss.tools.cdi.core.IStereotype;
 import org.jboss.tools.cdi.core.extension.feature.IBuildParticipantFeature;
 import org.jboss.tools.cdi.seam.config.core.CDISeamConfigConstants;
 import org.jboss.tools.cdi.seam.config.core.CDISeamConfigExtension;
@@ -34,6 +38,7 @@ import org.jboss.tools.cdi.seam.config.core.definition.SeamBeansDefinition;
 import org.jboss.tools.cdi.seam.config.core.definition.SeamFieldDefinition;
 import org.jboss.tools.cdi.seam.config.core.definition.SeamMethodDefinition;
 import org.jboss.tools.cdi.seam.config.core.definition.SeamParameterDefinition;
+import org.jboss.tools.cdi.seam.config.core.definition.SeamVirtualFieldDefinition;
 import org.jboss.tools.cdi.seam.solder.core.CDISeamSolderConstants;
 import org.jboss.tools.common.text.ITextSourceReference;
 
@@ -395,8 +400,12 @@ public class SeamDefinitionsTest extends SeamConfigTest {
 	}
 
 	/**
-	 * 
-	 * @throws CoreException
+<test607:SomeBean>
+    <test607:someField>
+        <s:Inject/>
+        <s:Exact>org.jboss.test607.MyInterface</s:Exact>
+    </test607:someField>
+</test607:SomeBean>
 	 */
 	public void testOverridingTypeOfAnInjectionPoint() throws CoreException {
 		ICDIProject cdi = CDICorePlugin.getCDIProject(project, true);
@@ -416,6 +425,65 @@ public class SeamDefinitionsTest extends SeamConfigTest {
 		assertEquals(1, ps.length);
 		assertEquals("org.jboss.test607.MyInterface", ps[0].getValue());
 		
+	}
+
+	public void testConfiguringMetaAnnotations() {
+		ICDIProject cdi = CDICorePlugin.getCDIProject(project, true);
+		ConfigDefinitionContext context = (ConfigDefinitionContext)getConfigExtension(cdi).getContext();
+		SeamBeansDefinition d = getBeansDefinition(context, "src/META-INF/beans.xml");
+
+		/*
+<test608:SomeQualifier>
+    <s:Qualifier/>
+</test608:SomeQualifier>
+		 */
+		context.getRootContext().getAnnotation("org.jboss.test608.SomeQualifier");
+		IQualifier q = cdi.getQualifier("org.jboss.test608.SomeQualifier");
+		assertNotNull(q);
+
+		/*
+<test608:SomeInterceptorBinding>
+    <s:InterceptorBinding/>
+</test608:SomeInterceptorBinding>
+		 */
+		IInterceptorBinding b = cdi.getInterceptorBinding("org.jboss.test608.SomeInterceptorBinding");
+		assertNotNull(b);
+	
+		/*
+<test608:SomeStereotype>
+    <s:Stereotype/>
+    <test608:MyInterceptorBinding/>
+    <s:Named/>
+</test608:SomeStereotype>
+		 */
+		IStereotype s = cdi.getStereotype("org.jboss.test608.SomeStereotype");
+		assertNotNull(s);
+		assertNotNull(s.getAnnotation(CDIConstants.NAMED_QUALIFIER_TYPE_NAME));
+		Set<IInterceptorBinding> bs = s.getInterceptorBindings();
+		assertEquals(1, bs.size());
+		
+	}
+	
+	public void testVirtualProducerField() {
+		ICDIProject cdi = CDICorePlugin.getCDIProject(project, true);
+		ConfigDefinitionContext context = (ConfigDefinitionContext)getConfigExtension(cdi).getContext();
+		SeamBeansDefinition d = getBeansDefinition(context, "src/META-INF/beans.xml");
+		
+		Set<SeamVirtualFieldDefinition> fs = d.getVirtualFieldDefinitions();
+		assertFalse(fs.isEmpty());
+		SeamVirtualFieldDefinition f = findVirtualField(fs, "java.lang.String", "org.jboss.test606.MyQualifier");
+		assertNotNull(f);
+		assertNotNull(f.getAnnotation(CDIConstants.PRODUCES_ANNOTATION_TYPE_NAME));
+		assertEquals("Version 1.23", f.getValue());
+
+	}
+
+	private SeamVirtualFieldDefinition findVirtualField(Set<SeamVirtualFieldDefinition> fs, String typeName, String qualifier) {
+		for (SeamVirtualFieldDefinition f: fs) {
+			IType t = f.getType();
+			if(typeName.equals(t.getFullyQualifiedName()) && f.getAnnotation(qualifier) != null) return f;
+		}
+		return null;
 	}
 
 }

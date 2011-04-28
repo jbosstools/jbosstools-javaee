@@ -10,11 +10,13 @@
    xmlns:test605="urn:java:org.jboss.test605"
    xmlns:test606="urn:java:org.jboss.test606"
    xmlns:test607="urn:java:org.jboss.test607"
+   xmlns:test608="urn:java:org.jboss.test608"
    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://jboss.org/schema/cdi/beans_1_0.xsd"> 
 <config:MyAnnotation>
 	 <s:Qualifier1/>
 </config:MyAnnotation>
 
+<!-- 6.2. Adding, replacing and modifying beans -->
 <test602:Report>
     <s:modifies/>
     <test602:NewQualifier/>
@@ -25,6 +27,7 @@
     <test602:NewQualifier/>
 </test602:ReportDatasource>
 
+<!-- 6.3. Applying annotations using XML -->
 <test603:QualifiedBean1>
         <test603:OtherQualifier value1="AA" value2="1">false</test603:OtherQualifier>
 </test603:QualifiedBean1>    
@@ -33,12 +36,14 @@
     <test603:OtherQualifier value1="BB" value2="2" value="true" />
 </test603:QualifiedBean2>
 
+<!-- 6.4. Configuring Fields -->
 <test6041:RobotFactory>
     <test6041:robot>
         <s:Produces/>
     </test6041:robot>
 </test6041:RobotFactory>
 
+<!-- 6.4.1. Initial Field Values -->
 <test6041:MyBean>
     <test6041:SomeQualifier/>
     <test6041:company>Red Hat Inc</test6041:company>
@@ -66,6 +71,7 @@
     </test6041:stringArrayField>
 </test6041:ArrayFieldValue>
 
+<!-- 6.4.2. Inline Bean Declarations -->
 <test6042:Knight>
   <test6042:sword>
      <s:value>
@@ -86,6 +92,7 @@
   </test6042:horse>
 </test6042:Knight>
 
+<!-- 6.5. Configuring methods -->
 <test605:MethodBean>
     <test605:doStuff>
         <s:Produces/>
@@ -121,6 +128,7 @@
     </test605:method>
 </test605:MethodBean2>
 
+<!-- 6.6. Configuring the bean constructor -->
 <test606:MyBean>
    <s:parameters>
        <s:Integer>
@@ -129,11 +137,34 @@
    </s:parameters>
 </test606:MyBean>
 
+<!-- 6.7. Overriding the type of an injection point -->
 <test607:SomeBean>
     <test607:someField>
         <s:Inject/>
         <s:Exact>org.jboss.test607.MyInterface</s:Exact>
     </test607:someField>
 </test607:SomeBean>
+
+<!-- 6.8. Configuring Meta Annotations -->
+<test608:SomeStereotype>
+    <s:Stereotype/>
+    <test608:MyInterceptorBinding/>
+    <s:Named/>
+</test608:SomeStereotype>
+
+<test608:SomeQualifier>
+    <s:Qualifier/>
+</test608:SomeQualifier>
+
+<test608:SomeInterceptorBinding>
+    <s:InterceptorBinding/>
+</test608:SomeInterceptorBinding>
+
+<!-- 6.9. Virtual Producer Fields -->
+<s:String>
+  <s:Produces/>
+  <test606:MyQualifier />
+  <s:value>Version 1.23</s:value>
+</s:String>
 
 </beans>

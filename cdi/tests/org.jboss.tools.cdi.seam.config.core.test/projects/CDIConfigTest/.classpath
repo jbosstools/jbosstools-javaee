@@ -6,5 +6,6 @@
 	<classpathentry kind="lib" path="lib/javax.inject.jar"/>
 	<classpathentry kind="lib" path="lib/seam-config-xml.jar"/>
 	<classpathentry kind="lib" path="lib/seam-solder.jar"/>
+	<classpathentry kind="lib" path="lib/jboss-interceptor-api.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
