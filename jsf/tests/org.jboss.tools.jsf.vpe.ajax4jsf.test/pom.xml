@@ -26,7 +26,6 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 					<explodedBundles>
 						<bundle>org.jboss.tools.jsf.vpe.ajax4jsf</bundle>
 						<bundle>org.jboss.tools.vpe</bundle>
-						<bundle>org.mozilla.xulrunner.carbon.macosx</bundle>
 						<bundle>org.mozilla.xulrunner.cocoa.macosx</bundle>
 						<bundle>org.mozilla.xulrunner.gtk.linux.x86</bundle>
 						<bundle>org.mozilla.xulrunner.gtk.linux.x86_64</bundle>
