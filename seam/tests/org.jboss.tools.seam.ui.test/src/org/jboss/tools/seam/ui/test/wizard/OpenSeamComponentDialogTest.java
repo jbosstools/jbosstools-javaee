@@ -56,7 +56,7 @@ public class OpenSeamComponentDialogTest extends TestCase{
 		try {
 			JobUtils.waitForIdle();
 			if(project != null){
-				project.close(new NullProgressMonitor());
+				try {project.close(new NullProgressMonitor());} catch (Exception e) {e.printStackTrace(System.out);}
 				project.delete(true, new NullProgressMonitor());
 				project = null;
 				JobUtils.waitForIdle();
@@ -104,6 +104,7 @@ public class OpenSeamComponentDialogTest extends TestCase{
 			assertNotNull("Component "+componentName+" not found with " + pattern, component);
 		} finally {
 			dialog.okPressed();
+			dialog.close();
 		}
 	}
 	
