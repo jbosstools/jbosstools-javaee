@@ -19,10 +19,6 @@ import java.util.Map;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.wst.common.project.facet.core.IFacetedProject;
-import org.eclipse.wst.common.project.facet.core.IProjectFacet;
-import org.eclipse.wst.common.project.facet.core.IProjectFacetVersion;
-import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
 import org.jboss.tools.common.meta.action.impl.handlers.DefaultCreateHandler;
 import org.jboss.tools.common.model.XModel;
 import org.jboss.tools.common.model.XModelConstants;
@@ -36,6 +32,7 @@ import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.jsf.JSFModelPlugin;
 import org.jboss.tools.jsf.model.FacesProcessImpl;
 import org.jboss.tools.jsf.model.JSFConstants;
+import org.jboss.tools.jsf.project.JSF2Util;
 import org.jboss.tools.jst.web.context.IImportWebProjectContext;
 import org.jboss.tools.jst.web.model.helpers.WebAppHelper;
 import org.jboss.tools.jst.web.project.WebModuleConstants;
@@ -241,6 +238,15 @@ public class AdoptJSFProjectFinisher {
 	}
 
     void modifyWebXML() throws XModelException {
+		IProject project = EclipseResourceUtil.getProject(model.getRoot());
+		boolean isJSF2 = isJSF2a();
+		if(!isJSF2) try {
+			isJSF2 = JSF2Util.isJSF2FacetedProject(project);
+		} catch (CoreException e) {
+			JSFModelPlugin.getPluginLog().logError(e);
+			return;
+		}
+		if(isJSF2) return;
 		XModelObject webxml = WebAppHelper.getWebApp(model);
 		XModelObject servlet = WebAppHelper.findServlet(webxml,
 				JSFConstants.FACES_SERVLET_CLASS, "Faces Config");
@@ -258,12 +264,6 @@ public class AdoptJSFProjectFinisher {
 		XModelObject facesConfig = model.getByPath("/faces-config.xml");
 		if (facesConfig == null) {
 			XModelObject webinf = FileSystemsHelper.getWebInf(model);
-			boolean isJSF2 = isJSF2a();
-			if(!isJSF2) try {
-				isJSF2 = isJSF2();
-			} catch (CoreException e) {
-				JSFModelPlugin.getPluginLog().logError(e);
-			}
 			if (webinf != null && !isJSF2) {
 				facesConfig = XModelObjectLoaderUtil.createValidObject(model, JSFConstants.ENT_FACESCONFIG_12);
 				DefaultCreateHandler.addCreatedObject(webinf, facesConfig, -1);
@@ -274,19 +274,7 @@ public class AdoptJSFProjectFinisher {
 
 	}
 
-    boolean isJSF2() throws CoreException {
-    	IProject project = EclipseResourceUtil.getProject(model.getRoot());
-    	IProjectFacet facet = ProjectFacetsManager.getProjectFacet("jst.jsf");
-    	IFacetedProject fp = ProjectFacetsManager.create(project);
-    	if(fp == null) return false;
-    	IProjectFacetVersion v = fp.getProjectFacetVersion(facet);
-    	if(v == null) return false;
-    	String vs = v.getVersionString();
-    	if(vs.startsWith("2.")) return true;
-    	return false;
-    }
-
-    boolean isJSF2a() {
+    private boolean isJSF2a() {
     	XModelObject fs = model.getByPath("FileSystems/lib-jsf-api.jar");
     	if(fs == null) return false;
     	XModelObject m = fs.getChildByPath("META-INF/MANIFEST.MF");
