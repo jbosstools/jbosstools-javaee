@@ -104,7 +104,7 @@ public class SeamDefinitionBuilder {
 	private void scanAnnotation(SAXElement element, IType type) {
 		context.getRootContext().getAnnotationKind(type); // kick it
 		AnnotationDefinition def = new AnnotationDefinition();
-		def.setType(type, context.getRootContext());
+		def.setType(type, context.getRootContext(), 0);
 
 		List<SAXElement> es = element.getChildElements();
 		//children should be annotation declarations.
@@ -253,7 +253,7 @@ public class SeamDefinitionBuilder {
 				if(q != null) {
 					inline.addAnnotation(q);
 					def.addAnnotation(q);
-					IJavaAnnotation inject = createInject();
+					IJavaAnnotation inject = createInject(element);
 					if(inject != null) def.addAnnotation(inject);
 				}
 			}
@@ -337,7 +337,7 @@ public class SeamDefinitionBuilder {
 			SeamParameterDefinition pd = scanParameter(element);
 			if(pd != null) def.addParameter(pd);
 		}
-		IJavaAnnotation inject = createInject();
+		IJavaAnnotation inject = createInject(element);
 		def.addAnnotation(inject);
 		IMethod method = null;
 		try {
@@ -463,12 +463,12 @@ public class SeamDefinitionBuilder {
 		return new AnnotationLiteral(resource, 0, 0, "" + id, IMemberValuePair.K_STRING, type);
 	}
 
-	IJavaAnnotation createInject() {
+	IJavaAnnotation createInject(SAXElement forElement) {
 		IType type = project.getType(CDIConstants.INJECT_ANNOTATION_TYPE_NAME);
 		if(type == null) {
 			return null;
 		}
-		return new AnnotationLiteral(resource, 0, 0, null, 0, type);
+		return new AnnotationLiteral(resource, forElement.getLocation().getStartPosition(), forElement.getLocation().getLength(), null, 0, type);
 	}
 
 }

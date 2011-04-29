@@ -17,7 +17,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IType;
+import org.jboss.tools.cdi.core.IAnnotationDeclaration;
+import org.jboss.tools.cdi.core.IJavaAnnotation;
+import org.jboss.tools.cdi.internal.core.impl.definition.AbstractMemberDefinition;
+import org.jboss.tools.cdi.internal.core.impl.definition.DefinitionContext;
+import org.jboss.tools.cdi.internal.core.impl.definition.FieldDefinition;
+import org.jboss.tools.cdi.internal.core.impl.definition.MethodDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.TypeDefinition;
 import org.jboss.tools.cdi.seam.config.core.ConfigDefinitionContext;
 import org.jboss.tools.cdi.seam.config.core.scanner.SAXNode;
@@ -67,17 +74,26 @@ public class SeamBeansDefinition {
 	}
 
 	public void buildTypeDefinitions(ConfigDefinitionContext context) {
+		typeDefinitions.clear();
+
 		for (SeamBeanDefinition def: beanDefinitions) {
 			IType type = def.getType();
 			TypeDefinition typeDef = new TypeDefinition();
 			boolean replaces = def.getReplacesLocation() != null;
 			boolean modifies = def.getModifiesLocation() != null;
 			if(replaces || modifies) {
-				//TODO veto type in root context
+				replacedAndModified.add(type);
+				((DefinitionContext)context.getRootContext()).veto(type);
 			}
-			//TODO Initialize typeDef taking into account replaces and modifies
-			typeDef.setType(type, context.getRootContext());
-			//TODO merge seam definitions into typeDef and add to typeDefinitions
+			//Initialize typeDef taking into account replaces and modifies
+			int flags = AbstractMemberDefinition.FLAG_ALL_MEMBERS;
+			if(replaces) flags |= AbstractMemberDefinition.FLAG_NO_ANNOTATIONS;
+			typeDef.setType(type, context.getRootContext(), flags);
+
+			System.out.println("--merge type def-->" + def.getType().getFullyQualifiedName());
+			mergeTypeDefinition(def, typeDef, context);
+
+			typeDefinitions.add(typeDef);
 		}		
 	}
 
@@ -85,7 +101,42 @@ public class SeamBeansDefinition {
 		List<IType> ds = replacedAndModified;
 		replacedAndModified = new ArrayList<IType>();
 		for (IType type: ds) {
-			//TODO unveto type in root context
+			((DefinitionContext)context.getRootContext()).unveto(type);
+		}
+	}
+
+	private void mergeTypeDefinition(SeamBeanDefinition def, TypeDefinition typeDef, ConfigDefinitionContext context) {
+		mergeAnnotations(def, typeDef, context);
+		
+		List<FieldDefinition> fieldDefs = typeDef.getFields();
+		for (FieldDefinition fieldDef:fieldDefs) {
+			if(fieldDef.getField() == null) continue;
+			String n = fieldDef.getField().getElementName();
+			SeamFieldDefinition f = def.getField(n);
+			if(f != null) {
+				mergeAnnotations(f, fieldDef, context);
+			}
+		}
+	
+		List<MethodDefinition> methodDefs = typeDef.getMethods();
+		for (MethodDefinition methodDef: methodDefs) {
+			IMethod method = methodDef.getMethod();
+			if(method == null) continue;
+			SeamMethodDefinition m = def.getMethod(method);
+			if(m != null) {
+				mergeAnnotations(m, methodDef, context);
+			}
+		}		
+		
+	}
+
+	private void mergeAnnotations(SeamMemberDefinition def, AbstractMemberDefinition memberDef, ConfigDefinitionContext context) {
+		Map<String, IJavaAnnotation> annotations = def.getAnnotations();
+		for (String typeName: annotations.keySet()) {
+			IJavaAnnotation ja = annotations.get(typeName);
+			IAnnotationDeclaration current = memberDef.getAnnotation(typeName);
+			if(current != null) memberDef.removeAnnotation(current);
+			memberDef.addAnnotation(ja, context.getRootContext());
 		}
 	}
 

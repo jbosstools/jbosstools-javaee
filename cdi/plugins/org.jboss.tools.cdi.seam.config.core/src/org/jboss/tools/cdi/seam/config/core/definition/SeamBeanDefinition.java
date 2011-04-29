@@ -13,6 +13,7 @@ package org.jboss.tools.cdi.seam.config.core.definition;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IType;
 import org.jboss.tools.cdi.seam.config.core.scanner.SAXElement;
 
@@ -66,6 +67,17 @@ public class SeamBeanDefinition extends SeamMemberDefinition {
 
 	public List<SeamMethodDefinition> getMethods() {
 		return methods;
+	}
+
+	public SeamMethodDefinition getMethod(IMethod method) {
+		for (SeamMethodDefinition m: methods) {
+			IMethod c = m.getMethod();
+			if(c != null && c.getElementName().equals(method.getElementName())
+					&& c.equals(method)) {
+				return m;
+			}
+		}
+		return null;
 	}
 
 }

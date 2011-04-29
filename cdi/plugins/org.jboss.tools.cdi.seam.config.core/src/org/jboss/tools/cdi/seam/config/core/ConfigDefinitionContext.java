@@ -10,8 +10,10 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.seam.config.core;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -20,6 +22,7 @@ import org.eclipse.jdt.core.IType;
 import org.jboss.tools.cdi.core.extension.AbstractDefinitionContextExtension;
 import org.jboss.tools.cdi.internal.core.impl.definition.AnnotationDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.DefinitionContext;
+import org.jboss.tools.cdi.internal.core.impl.definition.TypeDefinition;
 import org.jboss.tools.cdi.seam.config.core.definition.SeamBeansDefinition;
 
 /**
@@ -132,6 +135,17 @@ public class ConfigDefinitionContext extends AbstractDefinitionContextExtension 
 //		root.clean(typeName);
 		annotations.put(typeName, def);
 		((DefinitionContext)root).addType(path, typeName, def);
+	}
+
+	public List<TypeDefinition> getTypeDefinitions() {
+		List<TypeDefinition> result = new ArrayList<TypeDefinition>();
+		for (SeamBeansDefinition def: beanXMLs.values()) {
+			result.addAll(def.getTypeDefinitions());
+		}
+		for (SeamBeansDefinition def: seambeanXMLs.values()) {
+			result.addAll(def.getTypeDefinitions());
+		}
+		return result;
 	}
 
 }

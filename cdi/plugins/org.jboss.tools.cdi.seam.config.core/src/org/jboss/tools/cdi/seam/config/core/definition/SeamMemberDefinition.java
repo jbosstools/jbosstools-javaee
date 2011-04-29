@@ -51,6 +51,10 @@ public abstract class SeamMemberDefinition {
 		annotations.put(a.getTypeName(), a);
 	}
 
+	public Map<String, IJavaAnnotation> getAnnotations() {
+		return annotations;
+	}
+
 	public IJavaAnnotation getAnnotation(String typeName) {
 		return annotations.get(typeName);
 	}
