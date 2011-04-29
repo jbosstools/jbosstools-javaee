@@ -239,9 +239,10 @@ public class AdoptJSFProjectFinisher {
 
     void modifyWebXML() throws XModelException {
 		IProject project = EclipseResourceUtil.getProject(model.getRoot());
-		boolean isJSF2 = isJSF2a();
-		if(!isJSF2) try {
-			isJSF2 = JSF2Util.isJSF2FacetedProject(project);
+		boolean isJSF2 = false;
+		try {
+			isJSF2 = JSF2Util.isJSF2(project);
+			if(!isJSF2) isJSF2 = isJSF2a();
 		} catch (CoreException e) {
 			JSFModelPlugin.getPluginLog().logError(e);
 			return;

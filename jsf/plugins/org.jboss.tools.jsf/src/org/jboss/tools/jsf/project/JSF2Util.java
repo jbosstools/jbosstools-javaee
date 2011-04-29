@@ -95,16 +95,12 @@ public class JSF2Util {
 		IPackageFragmentRoot library = findLibrary(project, jarName);
 		if(library instanceof JarPackageFragmentRoot) {
 			ZipFile zip = ((JarPackageFragmentRoot)library).getJar();
-			try {
-				ZipEntry entry = zip.getEntry("META-INF/MANIFEST.MF");
-				if(entry != null) {
-					InputStream is = zip.getInputStream(entry);
-					if(is != null) {
-						return FileUtil.readStream(is);
-					}
+			ZipEntry entry = zip.getEntry("META-INF/MANIFEST.MF");
+			if(entry != null) {
+				InputStream is = zip.getInputStream(entry);
+				if(is != null) {
+					return FileUtil.readStream(is);
 				}
-			} finally {
-				zip.close();
 			}
 		}
 		return null;
