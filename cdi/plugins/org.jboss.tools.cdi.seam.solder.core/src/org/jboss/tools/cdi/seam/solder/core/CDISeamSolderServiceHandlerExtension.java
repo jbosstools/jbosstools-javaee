@@ -82,7 +82,7 @@ public class CDISeamSolderServiceHandlerExtension implements ICDIExtension, IBui
 				for (IAnnotationDeclaration a: as) {
 					if(workingCopy.isServiceAnnotation(a.getType())) {
 						TypeDefinition d = new TypeDefinition();
-						d.setType(t, workingCopy.getRootContext());
+						d.setType(t, workingCopy.getRootContext(), 0);
 						workingCopy.addService(path, d);
 					}
 				}
@@ -159,7 +159,7 @@ public class CDISeamSolderServiceHandlerExtension implements ICDIExtension, IBui
 
 	class InterfaceDefinition extends AbstractMemberDefinition {
 		InterfaceDefinition(IType type) {
-			setAnnotatable(type, type, context.getRootContext());
+			setAnnotatable(type, type, context.getRootContext(), 0);
 		}
 	}
 

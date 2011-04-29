@@ -72,11 +72,11 @@ public class CDISeamSolderLoggerExtension implements ICDIExtension, IBuildPartic
 				InterfaceDefinition i = new InterfaceDefinition(t);
 				if(i.isAnnotationPresent(CDISeamSolderConstants.MESSAGE_LOGGER_ANNOTATION_TYPE_NAME)) {
 					TypeDefinition d = new TypeDefinition();
-					d.setType(t, workingCopy.getRootContext());
+					d.setType(t, workingCopy.getRootContext(), 0);
 					workingCopy.addMessageLogger(path, d);
 				} else if(i.isAnnotationPresent(CDISeamSolderConstants.MESSAGE_BUNDLE_ANNOTATION_TYPE_NAME)) {
 					TypeDefinition d = new TypeDefinition();
-					d.setType(t, workingCopy.getRootContext());
+					d.setType(t, workingCopy.getRootContext(), 0);
 					workingCopy.addMessageBundle(path, d);
 					AnnotationDeclaration ad = d.getAnnotation(CDISeamSolderConstants.MESSAGE_BUNDLE_ANNOTATION_TYPE_NAME);
 					if(ad.getMemberValue("projectCode") != null && ad.getMemberValue("projectCode").toString().length() > 0) {
@@ -172,7 +172,7 @@ public class CDISeamSolderLoggerExtension implements ICDIExtension, IBuildPartic
 
 	class InterfaceDefinition extends AbstractMemberDefinition {
 		InterfaceDefinition(IType type) {
-			setAnnotatable(type, type, context.getRootContext());
+			setAnnotatable(type, type, context.getRootContext(), 0);
 		}
 	}
 
