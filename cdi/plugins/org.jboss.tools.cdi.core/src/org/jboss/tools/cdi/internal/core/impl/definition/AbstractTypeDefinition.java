@@ -45,6 +45,10 @@ public class AbstractTypeDefinition extends AbstractMemberDefinition {
 		isVetoed = true;
 	}
 
+	public void unveto() {
+		isVetoed = false;
+	}
+
 	public boolean isVetoed() {
 		return isVetoed;
 	}

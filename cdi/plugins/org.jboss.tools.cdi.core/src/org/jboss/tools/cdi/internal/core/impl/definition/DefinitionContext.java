@@ -418,6 +418,10 @@ public class DefinitionContext implements IRootDefinitionContext {
 		synchronized (typeDefinitions) {
 			result.addAll(typeDefinitions.values());
 		}
+		for (IDefinitionContextExtension e: extensions) {
+			List<TypeDefinition> ds = e.getTypeDefinitions();
+			if(ds != null && !ds.isEmpty()) result.addAll(ds);
+		}
 		return result;
 	}
 

@@ -1,11 +1,29 @@
+/******************************************************************************* 
+ * Copyright (c) 2011 Red Hat, Inc. 
+ * Distributed under license by Red Hat, Inc. All rights reserved. 
+ * This program is made available under the terms of the 
+ * Eclipse Public License v1.0 which accompanies this distribution, 
+ * and is available at http://www.eclipse.org/legal/epl-v10.html 
+ * 
+ * Contributors: 
+ * Red Hat, Inc. - initial API and implementation 
+ ******************************************************************************/
 package org.jboss.tools.cdi.core.extension;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import org.eclipse.core.runtime.IPath;
-import org.eclipse.jdt.core.IType;
-import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.IRootDefinitionContext;
 import org.jboss.tools.cdi.internal.core.impl.definition.AnnotationDefinition;
+import org.jboss.tools.cdi.internal.core.impl.definition.TypeDefinition;
 
+/**
+ * 
+ * @author Viacheslav Kabanovich
+ *
+ */
 public abstract class AbstractDefinitionContextExtension implements IDefinitionContextExtension {
 	protected IRootDefinitionContext root;
 	
@@ -67,6 +85,12 @@ public abstract class AbstractDefinitionContextExtension implements IDefinitionC
 
 	public void computeAnnotationKind(AnnotationDefinition annotation) {
 		
+	}
+
+	private static List<TypeDefinition> EMPTY_LIST = Collections.unmodifiableList(new ArrayList<TypeDefinition>());
+
+	public List<TypeDefinition> getTypeDefinitions() {
+		return EMPTY_LIST;
 	}
 
 }

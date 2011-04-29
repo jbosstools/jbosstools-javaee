@@ -10,7 +10,10 @@
  ******************************************************************************/ 
 package org.jboss.tools.cdi.core;
 
+import java.util.List;
+
 import org.eclipse.core.runtime.IPath;
+import org.jboss.tools.cdi.internal.core.impl.definition.TypeDefinition;
 
 /**
  * 
@@ -56,5 +59,12 @@ public interface IDefinitionContext {
 	 * @param typeName
 	 */
 	public void clean(String typeName);
+
+	/**
+	 * Returns list of TypeDefinition defined and stored inside this context.
+	 * 
+	 * @return list of TypeDefinition defined and stored inside this context
+	 */
+	public List<TypeDefinition> getTypeDefinitions();
 
 }
