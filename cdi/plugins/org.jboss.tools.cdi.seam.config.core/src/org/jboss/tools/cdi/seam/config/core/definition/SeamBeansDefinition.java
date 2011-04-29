@@ -126,7 +126,9 @@ public class SeamBeansDefinition {
 			if(m != null) {
 				mergeAnnotations(m, methodDef, context);
 			}
-		}		
+		}
+		
+		typeDef.checkConstructor();
 		
 	}
 
