@@ -120,6 +120,17 @@
     </test605:doStuff>
 </test605:MethodBean>
 
+<test605:MethodBean3>
+    <test605:name>
+    </test605:name>
+</test605:MethodBean3>
+
+<test605:MethodBean4>
+    <test605:name>
+      <s:parameters/>
+    </test605:name>
+</test605:MethodBean4>
+
 <test605:MethodBean2>
     <test605:method>
         <s:array>

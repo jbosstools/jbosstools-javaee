@@ -30,6 +30,7 @@ import org.jboss.tools.cdi.core.IJavaAnnotation;
 import org.jboss.tools.cdi.core.IQualifier;
 import org.jboss.tools.cdi.core.IStereotype;
 import org.jboss.tools.cdi.core.extension.feature.IBuildParticipantFeature;
+import org.jboss.tools.cdi.internal.core.impl.BeanField;
 import org.jboss.tools.cdi.seam.config.core.CDISeamConfigConstants;
 import org.jboss.tools.cdi.seam.config.core.CDISeamConfigExtension;
 import org.jboss.tools.cdi.seam.config.core.ConfigDefinitionContext;
@@ -366,6 +367,27 @@ public class SeamDefinitionsTest extends SeamConfigTest {
 		SeamParameterDefinition param = m.getParameters().get(0);
 		assertEquals(1, param.getDimensions());
 		assertEquals("java.lang.String", param.getType().getFullyQualifiedName());
+		
+	}
+
+	public void testResolvingBetweenFieldAndMethod() {
+		ICDIProject cdi = CDICorePlugin.getCDIProject(project, true);
+		ConfigDefinitionContext context = (ConfigDefinitionContext)getConfigExtension(cdi).getContext();
+		SeamBeansDefinition d = getBeansDefinition(context, "src/META-INF/beans.xml");
+		
+		Set<SeamBeanDefinition> ds = findBeanDefinitionByTagName(d, "test605:MethodBean3");
+		assertEquals(1, ds.size());
+		SeamBeanDefinition b = ds.iterator().next();
+		SeamFieldDefinition f = b.getField("name");
+		assertNotNull(f);
+		
+		ds = findBeanDefinitionByTagName(d, "test605:MethodBean4");
+		assertEquals(1, ds.size());
+		b = ds.iterator().next();
+		List<SeamMethodDefinition> ms = b.getMethods();
+		assertEquals(1, ms.size());
+		SeamMethodDefinition m = ms.get(0);
+		assertEquals("name", m.getMethod().getElementName());
 		
 	}
 
