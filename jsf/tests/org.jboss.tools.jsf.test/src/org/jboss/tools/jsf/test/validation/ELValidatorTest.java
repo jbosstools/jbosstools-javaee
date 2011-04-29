@@ -71,7 +71,7 @@ public class ELValidatorTest extends AbstractResourceMarkerTest{
 		}
 	}
 
-	public void testRevalidationUnresolvedELs() throws CoreException, ValidationException{
+	public void _testRevalidationUnresolvedELs() throws CoreException, ValidationException{
 		IPreferenceStore store = WebKbPlugin.getDefault().getPreferenceStore();
 		store.setValue(ELSeverityPreferences.RE_VALIDATE_UNRESOLVED_EL, ELSeverityPreferences.DISABLE);
 		store.setValue(ELSeverityPreferences.UNKNOWN_EL_VARIABLE_NAME, ELSeverityPreferences.ERROR);
