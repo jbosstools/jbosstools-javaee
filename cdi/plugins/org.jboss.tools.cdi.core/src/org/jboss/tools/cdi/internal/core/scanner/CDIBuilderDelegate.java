@@ -64,7 +64,7 @@ public class CDIBuilderDelegate implements ICDIBuilderDelegate {
 			Set<IType> ts = cs.get(f);
 			for (IType type: ts) {
 				TypeDefinition def = new TypeDefinition();
-				def.setType(type, context);
+				def.setType(type, context, 0);
 				context.addType(f, type.getFullyQualifiedName(), def);
 			}
 		}

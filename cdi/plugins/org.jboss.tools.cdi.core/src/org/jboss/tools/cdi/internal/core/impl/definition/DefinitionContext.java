@@ -303,7 +303,7 @@ public class DefinitionContext implements IRootDefinitionContext {
 	private int createAnnotation(IType annotationType, String name) {
 		underConstruction.add(name);
 		AnnotationDefinition d = new AnnotationDefinition();
-		d.setType(annotationType, this);
+		d.setType(annotationType, this, 0);
 		int kind = d.getKind();
 		if(kind <= AnnotationDefinition.CDI) {
 //			d = null; //We need it to compare kind if extensions change it.
@@ -446,6 +446,17 @@ public class DefinitionContext implements IRootDefinitionContext {
 		for (TypeDefinition d: ds) {
 			d.annotationKindChanged(typeName, this);
 		}
+	}
+
+	public void veto(IType type) {
+		TypeDefinition d = typeDefinitions.get(type.getFullyQualifiedName());
+		if(d != null) d.veto();
+		
+	}
+	
+	public void unveto(IType type) {
+		TypeDefinition d = typeDefinitions.get(type.getFullyQualifiedName());
+		if(d != null) d.unveto();
 	}
 	
 }

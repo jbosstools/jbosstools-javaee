@@ -35,7 +35,7 @@ public class PackageDefinition extends AbstractMemberDefinition {
 
 	public void setBinaryType(IType pkg, IRootDefinitionContext context) {
 		binaryType = pkg;
-		setAnnotatable(pkg, pkg, context);
+		setAnnotatable(pkg, pkg, context, 0);
 		qualifiedName = pkg.getPackageFragment().getElementName();
 	}
 
@@ -51,7 +51,7 @@ public class PackageDefinition extends AbstractMemberDefinition {
 				
 			}
 		}
-		super.setAnnotatable(pkg, contextType, context);
+		super.setAnnotatable(pkg, contextType, context, 0);
 		if (u != null) {
 			try {
 				u.discardWorkingCopy();

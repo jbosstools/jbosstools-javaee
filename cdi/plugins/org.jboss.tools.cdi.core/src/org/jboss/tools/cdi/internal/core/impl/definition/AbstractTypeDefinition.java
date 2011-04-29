@@ -65,14 +65,14 @@ public class AbstractTypeDefinition extends AbstractMemberDefinition {
 		return type;
 	}
 
-	public void setType(IType type, IRootDefinitionContext context) {
-		super.setAnnotatable(type, type, context);
+	public void setType(IType type, IRootDefinitionContext context, int flags) {
+		super.setAnnotatable(type, type, context, flags);
 	}
 
 	@Override
-	protected void init(IType contextType, IRootDefinitionContext context) throws CoreException {
+	protected void init(IType contextType, IRootDefinitionContext context, int flags) throws CoreException {
 		this.type = contextType;
-		super.init(contextType, context);
+		super.init(contextType, context, flags);
 		qualifiedName = getType().getFullyQualifiedName();
 		parametedType = context.getProject().getDelegate().getNature().getTypeFactory().newParametedType(type);
 		if(type != null && !type.isBinary()) {

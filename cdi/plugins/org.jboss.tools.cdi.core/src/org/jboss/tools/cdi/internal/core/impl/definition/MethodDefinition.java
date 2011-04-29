@@ -46,9 +46,9 @@ public class MethodDefinition extends BeanMemberDefinition {
 
 	public MethodDefinition() {}
 
-	public void setMethod(IMethod method, IRootDefinitionContext context) {
+	public void setMethod(IMethod method, IRootDefinitionContext context, int flags) {
 		this.method = method;
-		setAnnotatable(method, method.getDeclaringType(), context);
+		setAnnotatable(method, method.getDeclaringType(), context, flags);
 	}
 
 	public IMethod getMethod() {
@@ -59,8 +59,9 @@ public class MethodDefinition extends BeanMemberDefinition {
 		return isConstructor;
 	}
 
-	protected void init(IType contextType, IRootDefinitionContext context) throws CoreException {
-		super.init(contextType, context);
+	@Override
+	protected void init(IType contextType, IRootDefinitionContext context, int flags) throws CoreException {
+		super.init(contextType, context, flags);
 		isConstructor = method.isConstructor();
 		//TODO process parameters for disposers and observers
 		loadParamDefinitions(contextType, context);

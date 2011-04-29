@@ -1089,7 +1089,7 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 			 */
 			IAnnotationDeclaration inject = producer.getAnnotation(CDIConstants.INJECT_ANNOTATION_TYPE_NAME);
 			if (inject != null) {
-				addError(CDIValidationMessages.PRODUCER_ANNOTATED_INJECT, CDIPreferences.PRODUCER_ANNOTATED_INJECT, inject, producer.getResource());
+				addError(CDIValidationMessages.PRODUCER_ANNOTATED_INJECT, CDIPreferences.PRODUCER_ANNOTATED_INJECT, inject, inject.getResource() != null ? inject.getResource() : producer.getResource());
 			}
 
 			if (producer instanceof IProducerField) {

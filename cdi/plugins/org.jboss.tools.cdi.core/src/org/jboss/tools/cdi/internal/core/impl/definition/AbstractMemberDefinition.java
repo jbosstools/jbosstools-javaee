@@ -43,6 +43,9 @@ import org.jboss.tools.common.text.ITextSourceReference;
  *
  */
 public abstract class AbstractMemberDefinition implements IAnnotated {
+	public static int FLAG_NO_ANNOTATIONS = 1;
+	public static int FLAG_ALL_MEMBERS = 2;
+
 	CDICoreNature project;
 	protected List<IAnnotationDeclaration> annotations = new ArrayList<IAnnotationDeclaration>();
 	protected IAnnotatable member;
@@ -51,10 +54,10 @@ public abstract class AbstractMemberDefinition implements IAnnotated {
 
 	public AbstractMemberDefinition() {}
 
-	protected void setAnnotatable(IAnnotatable member, IType contextType, IRootDefinitionContext context) {
+	protected void setAnnotatable(IAnnotatable member, IType contextType, IRootDefinitionContext context, int flags) {
 		this.member = member;
 		try {
-			init(contextType, context);
+			init(contextType, context, flags);
 		} catch (CoreException e) {
 			CDICorePlugin.getDefault().logError(e);
 		}
@@ -78,13 +81,15 @@ public abstract class AbstractMemberDefinition implements IAnnotated {
 		return project.getDefinitions().getPackageDefinition(packageName);
 	}
 
-	protected void init(IType contextType, IRootDefinitionContext context) throws CoreException {
+	protected void init(IType contextType, IRootDefinitionContext context, int flags) throws CoreException {
 		project = context.getProject();
 		resource = ((IJavaElement)member).getResource();
-		IAnnotation[] ts = member.getAnnotations();
-		for (int i = 0; i < ts.length; i++) {
-			IJavaAnnotation ja = new JavaAnnotation(ts[i], contextType);
-			addAnnotation(ja, context);
+		if((flags & FLAG_NO_ANNOTATIONS) == 0) {
+			IAnnotation[] ts = member.getAnnotations();
+			for (int i = 0; i < ts.length; i++) {
+				IJavaAnnotation ja = new JavaAnnotation(ts[i], contextType);
+				addAnnotation(ja, context);
+			}
 		}
 	}
 

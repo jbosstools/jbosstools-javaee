@@ -41,8 +41,9 @@ public class TypeDefinition extends AbstractTypeDefinition {
 	}
 
 	@Override
-	protected void init(IType contextType, IRootDefinitionContext context) throws CoreException {
-		super.init(contextType, context);
+	protected void init(IType contextType, IRootDefinitionContext context, int flags) throws CoreException {
+		super.init(contextType, context, flags);
+		boolean allMembers = (flags & FLAG_ALL_MEMBERS) > 0;
 		isAbstract = Flags.isAbstract(type.getFlags());
 		for (IAnnotationDeclaration a: annotations) {
 			//provide initialization
@@ -53,11 +54,11 @@ public class TypeDefinition extends AbstractTypeDefinition {
 		for (int i = 0; i < fs.length; i++) {
 			FieldDefinition f = new FieldDefinition();
 			f.setTypeDefinition(this);
-			f.setField(fs[i], context);
+			f.setField(fs[i], context, flags);
 			for (IProcessAnnotatedMemberFeature e: extensions) {
 				e.processAnnotatedMember(f, context);
 			}
-			if(f.isCDIAnnotated()) {
+			if(allMembers || f.isCDIAnnotated()) {
 				fields.add(f);
 			}
 		}
@@ -66,11 +67,11 @@ public class TypeDefinition extends AbstractTypeDefinition {
 		for (int i = 0; i < ms.length; i++) {
 			MethodDefinition m = new MethodDefinition();
 			m.setTypeDefinition(this);
-			m.setMethod(ms[i], context);
+			m.setMethod(ms[i], context, flags);
 			for (IProcessAnnotatedMemberFeature e: extensions) {
 				e.processAnnotatedMember(m, context);
 			}
-			if(m.isCDIAnnotated() || (ms[i].isConstructor() && ms[i].getNumberOfParameters()==0)) {
+			if(allMembers || m.isCDIAnnotated() || (ms[i].isConstructor() && ms[i].getNumberOfParameters()==0)) {
 				methods.add(m);
 			}
 			if(ms[i].isConstructor()) {

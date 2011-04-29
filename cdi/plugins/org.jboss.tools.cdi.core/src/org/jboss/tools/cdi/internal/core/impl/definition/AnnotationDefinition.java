@@ -72,8 +72,8 @@ public class AnnotationDefinition extends AbstractTypeDefinition {
 	}
 
 	@Override
-	protected void init(IType contextType, IRootDefinitionContext context) throws CoreException {
-		super.init(contextType, context);
+	protected void init(IType contextType, IRootDefinitionContext context, int flags) throws CoreException {
+		super.init(contextType, context, flags);
 		if(annotations.isEmpty()) {
 			//TODO check super ?
 			return;
@@ -139,7 +139,7 @@ public class AnnotationDefinition extends AbstractTypeDefinition {
 		for (int i = 0; i < ms.length; i++) {
 			AnnotationMemberDefinition m = new AnnotationMemberDefinition();
 			m.setAnnotationDefinition(this);
-			m.setMethod(ms[i], context);
+			m.setMethod(ms[i], context, 0);
 			if(m.isCDIAnnotated()) {
 				methods.add(m);
 			}

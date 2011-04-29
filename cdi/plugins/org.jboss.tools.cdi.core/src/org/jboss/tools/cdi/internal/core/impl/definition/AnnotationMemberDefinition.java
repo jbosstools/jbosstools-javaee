@@ -34,9 +34,9 @@ public class AnnotationMemberDefinition extends AbstractMemberDefinition {
 		return annotationDefinition;
 	}
 
-	public void setMethod(IMethod method, IRootDefinitionContext context) {
+	public void setMethod(IMethod method, IRootDefinitionContext context, int flags) {
 		this.method = method;
-		setAnnotatable(method, method.getDeclaringType(), context);
+		setAnnotatable(method, method.getDeclaringType(), context, flags);
 	}
 
 	public IMethod getMethod() {

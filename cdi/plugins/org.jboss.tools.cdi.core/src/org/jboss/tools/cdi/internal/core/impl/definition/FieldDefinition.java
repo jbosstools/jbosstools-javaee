@@ -25,9 +25,9 @@ public class FieldDefinition extends BeanMemberDefinition {
 
 	public FieldDefinition() {}
 
-	public void setField(IField field, IRootDefinitionContext context) {
+	public void setField(IField field, IRootDefinitionContext context, int flags) {
 		this.field = field;
-		setAnnotatable(field, field.getDeclaringType(), context);
+		setAnnotatable(field, field.getDeclaringType(), context, flags);
 	}
 
 	public IField getField() {
