@@ -89,6 +89,14 @@ public class TypeDefinition extends AbstractTypeDefinition {
 //		}
 	}
 
+	public void checkConstructor() {
+		for (MethodDefinition m: methods) {
+			if(m.isConstructor() && m.getAnnotation(CDIConstants.INJECT_ANNOTATION_TYPE_NAME) != null) {
+				hasBeanConstructor = true;
+			}
+		}
+	}
+
 	public void annotationKindChanged(String typeName, IRootDefinitionContext context) {
 		super.annotationKindChanged(typeName, context);
 		for (FieldDefinition f: fields) f.annotationKindChanged(typeName, context);
