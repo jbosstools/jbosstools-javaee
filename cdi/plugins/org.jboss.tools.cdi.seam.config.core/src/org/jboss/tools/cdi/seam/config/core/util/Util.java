@@ -119,13 +119,13 @@ public class Util implements CDISeamConfigConstants {
 	public static IMember resolveMember(IType type, SAXElement element) throws JavaModelException {
 		String name = element.getLocalName();
 		IField f = type.getField(name);
-		if(f != null && f.exists()) {
+		if(f != null && f.exists() && !hasParametersOrArrayChild(element)) {
 			return f;
 		}
 		IMethod[] ms = type.getMethods();
 		for (IMethod m: ms) {
 			if(name.equals(m.getElementName())) {
-				//do more checks
+				//that is only a preliminary resolving. Exact method will be found on loading parameters.
 				return m;
 			}
 		}
@@ -193,6 +193,14 @@ public class Util implements CDISeamConfigConstants {
 			if(containsEEPackage(c) && "Produces".equals(c.getLocalName())) {
 				return true;
 			}
+		}
+		return false;
+	}
+
+	public static boolean hasParametersOrArrayChild(SAXElement element) {
+		List<SAXElement> cs = element.getChildElements();
+		for (SAXElement c: cs) {
+			if(isParameters(c) || isArray(c)) return true;
 		}
 		return false;
 	}

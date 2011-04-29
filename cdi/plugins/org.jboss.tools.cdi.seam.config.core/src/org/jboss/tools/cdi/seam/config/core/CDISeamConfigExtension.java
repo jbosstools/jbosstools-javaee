@@ -11,6 +11,8 @@
 package org.jboss.tools.cdi.seam.config.core;
 
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
@@ -75,6 +77,7 @@ public class CDISeamConfigExtension implements ICDIExtension, IBuildParticipantF
 	}
 
 	public void buildDefinitions() {
+		List<SeamBeansDefinition> newDefinitions = new ArrayList<SeamBeansDefinition>();
 		 Set<IPath> paths = fileSet.getAllPaths();
 		 for (IPath p: paths) {
 			 boolean isSeamBeans = false;
@@ -90,12 +93,18 @@ public class CDISeamConfigExtension implements ICDIExtension, IBuildParticipantF
 				 SeamDefinitionBuilder builder = new SeamDefinitionBuilder();
 				 document.set(text);
 				 SeamBeansDefinition def = builder.createDefinition(resource, document, project, context.getWorkingCopy());
+				 newDefinitions.add(def);
 				 if(isSeamBeans) {
 					 context.getWorkingCopy().addSeamBeanXML(p, def);
 				 } else {
 					 context.getWorkingCopy().addBeanXML(p, def);
 				 }
 			 }
+		 }
+		 
+		 for (SeamBeansDefinition def: newDefinitions) {
+			 //Or, should we just build through all context?
+			 def.buildTypeDefinitions(context.getWorkingCopy());
 		 }
 		//TODO
 	}

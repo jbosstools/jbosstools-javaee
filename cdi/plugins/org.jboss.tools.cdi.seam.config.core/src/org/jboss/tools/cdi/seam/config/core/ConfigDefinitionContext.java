@@ -81,10 +81,12 @@ public class ConfigDefinitionContext extends AbstractDefinitionContextExtension 
 
 	public void clean(IPath path) {
 		synchronized (beanXMLs) {
-			beanXMLs.remove(path);
+			SeamBeansDefinition def = beanXMLs.remove(path);
+			if(def != null) def.clean(this);
 		}
 		synchronized (seambeanXMLs) {
-			seambeanXMLs.remove(path);
+			SeamBeansDefinition def = seambeanXMLs.remove(path);
+			if(def != null) def.clean(this);
 		}
 	}
 

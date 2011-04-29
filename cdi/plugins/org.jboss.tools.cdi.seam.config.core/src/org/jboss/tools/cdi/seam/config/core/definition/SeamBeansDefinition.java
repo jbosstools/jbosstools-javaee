@@ -10,11 +10,16 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.seam.config.core.definition;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.jdt.core.IType;
+import org.jboss.tools.cdi.internal.core.impl.definition.TypeDefinition;
+import org.jboss.tools.cdi.seam.config.core.ConfigDefinitionContext;
 import org.jboss.tools.cdi.seam.config.core.scanner.SAXNode;
 
 /**
@@ -27,6 +32,9 @@ public class SeamBeansDefinition {
 
 	Set<SeamBeanDefinition> beanDefinitions = new HashSet<SeamBeanDefinition>();
 	Set<SeamVirtualFieldDefinition> virtualFieldDefinitions = new HashSet<SeamVirtualFieldDefinition>();
+
+	List<TypeDefinition> typeDefinitions = new ArrayList<TypeDefinition>();
+	List<IType> replacedAndModified = new ArrayList<IType>();
 	
 	public SeamBeansDefinition() {}
 
@@ -52,6 +60,33 @@ public class SeamBeansDefinition {
 
 	public Set<SeamVirtualFieldDefinition> getVirtualFieldDefinitions() {
 		return virtualFieldDefinitions;
+	}
+
+	public List<TypeDefinition> getTypeDefinitions() {
+		return typeDefinitions;
+	}
+
+	public void buildTypeDefinitions(ConfigDefinitionContext context) {
+		for (SeamBeanDefinition def: beanDefinitions) {
+			IType type = def.getType();
+			TypeDefinition typeDef = new TypeDefinition();
+			boolean replaces = def.getReplacesLocation() != null;
+			boolean modifies = def.getModifiesLocation() != null;
+			if(replaces || modifies) {
+				//TODO veto type in root context
+			}
+			//TODO Initialize typeDef taking into account replaces and modifies
+			typeDef.setType(type, context.getRootContext());
+			//TODO merge seam definitions into typeDef and add to typeDefinitions
+		}		
+	}
+
+	public void clean(ConfigDefinitionContext context) {
+		List<IType> ds = replacedAndModified;
+		replacedAndModified = new ArrayList<IType>();
+		for (IType type: ds) {
+			//TODO unveto type in root context
+		}
 	}
 
 }
