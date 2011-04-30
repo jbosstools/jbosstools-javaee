@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.jdt.core.IMemberValuePair;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.ISourceRange;
 import org.eclipse.jdt.core.IType;
@@ -28,6 +29,7 @@ import org.jboss.tools.cdi.core.IInterceptorBindingDeclaration;
 import org.jboss.tools.cdi.core.IRootDefinitionContext;
 import org.jboss.tools.cdi.core.IStereotypeDeclaration;
 import org.jboss.tools.cdi.internal.core.impl.AnnotationDeclaration;
+import org.jboss.tools.cdi.internal.core.impl.AnnotationLiteral;
 import org.jboss.tools.cdi.internal.core.impl.ClassBean;
 import org.jboss.tools.cdi.internal.core.impl.ParametedType;
 import org.jboss.tools.common.model.project.ext.impl.ValueInfo;
@@ -64,15 +66,16 @@ public class MethodDefinition extends BeanMemberDefinition {
 		super.init(contextType, context, flags);
 		isConstructor = method.isConstructor();
 		//TODO process parameters for disposers and observers
-		loadParamDefinitions(contextType, context);
+		loadParamDefinitions(contextType, context, flags);
 	}
 
 	public boolean parametersAreInjectionPoints() {
 		return getProducesAnnotation() != null || getInjectAnnotation() != null;
 	}
 
-	void loadParamDefinitions(IType contextType, IRootDefinitionContext context) throws CoreException {
+	void loadParamDefinitions(IType contextType, IRootDefinitionContext context, int flags) throws CoreException {
 		if(method == null) return;
+		boolean loadAll = (flags & FLAG_ALL_MEMBERS) > 0;
 		boolean parametersAreInjectionPoints = parametersAreInjectionPoints();
 		String[] parameterNames = method.getParameterNames();
 		if(parameterNames == null || parameterNames.length == 0) return;
@@ -92,7 +95,7 @@ public class MethodDefinition extends BeanMemberDefinition {
 		if(!parametersAreInjectionPoints && paramsString.indexOf("@Observes") >= 0) {
 			parametersAreInjectionPoints = true;
 		}
-		if(!parametersAreInjectionPoints && paramsString.indexOf('@') < 0) return;
+		if(!loadAll && !parametersAreInjectionPoints && paramsString.indexOf('@') < 0) return;
 		String[] params = getParams(paramsString);
 		String[] ps = method.getParameterTypes();
 		int start = paramStart + 1;
@@ -103,7 +106,7 @@ public class MethodDefinition extends BeanMemberDefinition {
 				// The source code may be broken. Just ignore such errors.
 				break;
 			}
-			if(!parametersAreInjectionPoints && params[i].indexOf('@') < 0) {
+			if(!loadAll && !parametersAreInjectionPoints && params[i].indexOf('@') < 0) {
 				start += params[i].length() + 1;
 				continue; //do not need parameters without annotation
 			}
@@ -129,14 +132,21 @@ public class MethodDefinition extends BeanMemberDefinition {
 			String[] tokens = getParamTokens(p);
 			for (String q: tokens) {
 				if(!q.startsWith("@")) continue;
-				v = new CheckingValueInfo(method);
-				v.setValue(q);
-				v.valueStartPosition = start + params[i].indexOf(q);
-				v.valueLength = q.length();
+				int valueStartPosition = start + params[i].indexOf(q);
+				int valueLength = q.length();
 				int s = q.indexOf('(');
 				if(s >= 0) q = q.substring(0, s).trim();
 				String annotationType = EclipseJavaUtil.resolveType(contextType, q.substring(1).trim());
-				if(annotationType != null) pd.annotationsByTypeName.put(annotationType, v);
+				IType t = context.getProject().getType(annotationType);
+				if(t != null) {
+					String source = content.substring(valueStartPosition, valueStartPosition + valueLength);
+					IMemberValuePair[] pairs = ParameterDefinition.getMemberValues(source);
+					AnnotationLiteral ja = new AnnotationLiteral(method.getResource(), valueStartPosition, valueLength, null, IMemberValuePair.K_UNKNOWN, t);
+					if(pairs != null && pairs.length > 0) for (IMemberValuePair pair: pairs) {
+						ja.addMemberValuePair(pair.getMemberName(), pair.getValue(), pair.getValueKind());
+					}
+					pd.addAnnotation(ja, context);
+				}
 			}
 			
 			parameters.add(pd);

@@ -10,8 +10,6 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.core;
 
-import java.util.Set;
-
 import org.jboss.tools.common.text.ITextSourceReference;
 
 /**
@@ -20,13 +18,6 @@ import org.jboss.tools.common.text.ITextSourceReference;
  * @author Alexey Kazakov
  */
 public interface IParameter extends IBeanMember {
-
-	/**
-	 * Returns all the annotations of this parameter.
-	 * 
-	 * @return all the annotations of this parameter.
-	 */
-	Set<IAnnotationDeclaration> getAnnotationDeclarations();
 
 	/**
 	 * Returns the declared type of this parameter.

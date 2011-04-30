@@ -21,6 +21,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.StringTokenizer;
 
+import javax.management.ValueExp;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
@@ -1310,27 +1312,22 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 		 *  - injection point other than injected field declares a @Named annotation that does not specify the value member
 		 */
 		if(injection instanceof IInjectionPointParameter) {
-			IInjectionPointParameter pinjection = (IInjectionPointParameter)injection;
-			if(pinjection.isAnnotationPresent(CDIConstants.NAMED_QUALIFIER_TYPE_NAME)) {
-				String value = ((Parameter)pinjection).getValue(CDIConstants.NAMED_QUALIFIER_TYPE_NAME);
-				if(value == null || value.length() == 0) {
+//			IInjectionPointParameter pinjection = (IInjectionPointParameter)injection;
+			IAnnotationDeclaration named = injection.getAnnotation(CDIConstants.NAMED_QUALIFIER_TYPE_NAME);
+			if (named != null) {
+				Object value = named.getMemberValue(null);
+				boolean valueExists = value != null && value.toString().trim().length() > 0;
+				if (!valueExists) {
 					addError(CDIValidationMessages.PARAM_INJECTION_DECLARES_EMPTY_NAME, 
 							CDIPreferences.PARAM_INJECTION_DECLARES_EMPTY_NAME, 
-							pinjection.getAnnotationPosition(CDIConstants.NAMED_QUALIFIER_TYPE_NAME),
+							named,
 							injection.getResource());
 				}
 			}
 		} else if (injection instanceof IInjectionPointMethod) {
 			IAnnotationDeclaration named = injection.getAnnotation(CDIConstants.NAMED_QUALIFIER_TYPE_NAME);
 			if (named != null) {
-				IMemberValuePair[] values = named.getMemberValuePairs();
-				boolean valueExists = false;
-				for (IMemberValuePair pair : values) {
-					if ("value".equals(pair.getMemberName())) {
-						valueExists = true;
-						break;
-					}
-				}
+				boolean valueExists = named.getMemberValue(null) != null;
 				if (!valueExists) {
 					addError(CDIValidationMessages.PARAM_INJECTION_DECLARES_EMPTY_NAME, CDIPreferences.PARAM_INJECTION_DECLARES_EMPTY_NAME, named, injection.getResource());
 				}

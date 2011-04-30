@@ -1,11 +1,9 @@
 package org.jboss.tools.cdi.internal.core.impl;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import org.eclipse.jdt.core.IMember;
-import org.jboss.tools.cdi.core.IAnnotationDeclaration;
 import org.jboss.tools.cdi.core.IBeanMethod;
 import org.jboss.tools.cdi.core.IClassBean;
 import org.jboss.tools.cdi.core.IParametedType;
@@ -14,7 +12,7 @@ import org.jboss.tools.cdi.core.IQualifier;
 import org.jboss.tools.cdi.internal.core.impl.definition.ParameterDefinition;
 import org.jboss.tools.common.text.ITextSourceReference;
 
-public class Parameter extends CDIElement implements IParameter {
+public class Parameter extends AbstractBeanElement implements IParameter {
 	ParameterDefinition definition;
 	BeanMethod beanMethod;
 
@@ -26,11 +24,8 @@ public class Parameter extends CDIElement implements IParameter {
 	}
 
 	public void setDefinition(ParameterDefinition definition) {
+		super.setDefinition(definition);
 		this.definition = definition;
-	}
-
-	public Set<IAnnotationDeclaration> getAnnotationDeclarations() {
-		throw new RuntimeException("Not implemented because limitations of JDT model.");
 	}
 
 	public String getName() {
@@ -64,22 +59,6 @@ public class Parameter extends CDIElement implements IParameter {
 	public int getStartPosition() {
 		ITextSourceReference p = definition.getPosition();
 		return p == null ? 0 : p.getStartPosition();
-	}
-
-	public IAnnotationDeclaration getAnnotation(String annotationTypeName) {
-		throw new RuntimeException("Not implemented because limitations of JDT model.");
-	}
-
-	public List<IAnnotationDeclaration> getAnnotations() {
-		throw new RuntimeException("Not implemented because limitations of JDT model.");
-	}
-
-	public boolean isAnnotationPresent(String annotationTypeName) {
-		return definition.isAnnotationPresent(annotationTypeName);
-	}
-
-	public ITextSourceReference getAnnotationPosition(String annotationTypeName) {
-		return definition.getAnnotationPosition(annotationTypeName);
 	}
 
 	public Set<String> getAnnotationTypes() {

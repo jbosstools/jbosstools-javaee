@@ -43,9 +43,7 @@ public class InjectionPointParameter extends Parameter implements
 	 * @see org.jboss.tools.cdi.core.IInjectionPoint#getQualifierDeclarations()
 	 */
 	public Set<IQualifierDeclaration> getQualifierDeclarations() {
-		Set<IQualifierDeclaration> result = new HashSet<IQualifierDeclaration>();
-		//cannot implement
-		return result;
+		return super.getQualifierDeclarations();
 	}
 
 	/*

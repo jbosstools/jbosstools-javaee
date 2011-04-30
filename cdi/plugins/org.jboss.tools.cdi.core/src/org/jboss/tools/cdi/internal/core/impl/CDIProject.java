@@ -314,7 +314,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 			}
 		}
 		
-		boolean isParameter = injectionPoint instanceof InjectionPointParameter;
+		boolean isParameter = false;// injectionPoint instanceof InjectionPointParameter;
 		boolean isNew = false;
 
 		Set<IQualifierDeclaration> qs = injectionPoint.getQualifierDeclarations();
