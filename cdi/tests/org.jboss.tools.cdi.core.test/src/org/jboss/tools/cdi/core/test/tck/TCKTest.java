@@ -17,19 +17,17 @@ import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jdt.core.IAnnotation;
-import org.eclipse.jdt.core.IMember;
-import org.eclipse.jdt.core.IMemberValuePair;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.IAnnotationDeclaration;
 import org.jboss.tools.cdi.core.IBean;
-import org.jboss.tools.cdi.core.ICDIAnnotation;
 import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.IClassBean;
 import org.jboss.tools.cdi.core.IDecorator;
 import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.core.IInjectionPointField;
+import org.jboss.tools.cdi.core.IInjectionPointParameter;
 import org.jboss.tools.cdi.core.IParametedType;
 import org.jboss.tools.cdi.core.IProducer;
 import org.jboss.tools.cdi.core.IQualifier;
@@ -313,6 +311,28 @@ public class TCKTest extends TestCase {
 			}
 		}
 		fail("Can't find \"" + fieldName + "\" injection point filed in " + beanClassFilePath);
+		return null;
+	}
+
+	protected IInjectionPointParameter getInjectionPointParameter(String beanClassFilePath, String methodName) {
+		IFile file = tckProject.getFile(beanClassFilePath);
+		Set<IBean> beans = cdiProject.getBeans(file.getFullPath());
+		Iterator<IBean> it = beans.iterator();
+		while(it.hasNext()) {
+			IBean b = it.next();
+			if(b instanceof IProducer) it.remove();
+		}
+		assertEquals("Wrong number of the beans", 1, beans.size());
+		Set<IInjectionPoint> injections = beans.iterator().next().getInjectionPoints();
+		for (IInjectionPoint injectionPoint : injections) {
+			if(injectionPoint instanceof IInjectionPointParameter) {
+				IInjectionPointParameter param = (IInjectionPointParameter)injectionPoint;
+				if(methodName.equals(param.getBeanMethod().getMethod().getElementName())) {
+					return param;
+				}
+			}
+		}
+		fail("Can't find injection point parameter in method \"" + methodName + "\" in " + beanClassFilePath);
 		return null;
 	}
 

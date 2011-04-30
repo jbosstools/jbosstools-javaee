@@ -15,6 +15,7 @@ import java.util.Set;
 
 import org.eclipse.jdt.core.ITypeParameter;
 import org.jboss.tools.cdi.core.CDIUtil;
+import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IClassBean;
 import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.core.IInjectionPointParameter;
@@ -73,6 +74,19 @@ public class InjectionPointTest extends TCKTest {
 	
 		ps = cdiProject.getInjections("org.jboss.jsr299.tck.tests.context.dependent.Tarantula");
 		assertTrue(!ps.isEmpty());
+	}
+
+	public void testParameterInjectionsWithQualifierWithMemberValues() {
+		IInjectionPointParameter injectionPoint = getInjectionPointParameter("JavaSource/org/jboss/jsr299/tck/tests/lookup/injection/NamedParameters.java", "setA");
+		assertNotNull(injectionPoint);
+		Set<IBean> resolved = cdiProject.getBeans(false, injectionPoint);
+		assertTrue(resolved.isEmpty());
+
+		injectionPoint = getInjectionPointParameter("JavaSource/org/jboss/jsr299/tck/tests/lookup/injection/NamedParameters.java", "setABC");
+		assertNotNull(injectionPoint);
+		resolved = cdiProject.getBeans(false, injectionPoint);
+		assertFalse(resolved.isEmpty());
+		
 	}
 
 }
