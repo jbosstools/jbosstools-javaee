@@ -25,6 +25,7 @@ import org.jboss.tools.cdi.internal.core.impl.definition.AbstractMemberDefinitio
 import org.jboss.tools.cdi.internal.core.impl.definition.DefinitionContext;
 import org.jboss.tools.cdi.internal.core.impl.definition.FieldDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.MethodDefinition;
+import org.jboss.tools.cdi.internal.core.impl.definition.ParameterDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.TypeDefinition;
 import org.jboss.tools.cdi.seam.config.core.ConfigDefinitionContext;
 import org.jboss.tools.cdi.seam.config.core.scanner.SAXNode;
@@ -125,6 +126,15 @@ public class SeamBeansDefinition {
 			SeamMethodDefinition m = def.getMethod(method);
 			if(m != null) {
 				mergeAnnotations(m, methodDef, context);
+				List<ParameterDefinition> psDefs = methodDef.getParameters();
+				List<SeamParameterDefinition> ps = m.getParameters();
+				if(ps.size() != psDefs.size()) {
+					System.out.println("different number of parameters in MethodDefinition and SeamMethodDefinition for method " + method.getDeclaringType().getElementName() + "." + method.getElementName());
+				} else {
+					for (int i = 0; i < ps.size(); i++) {
+						mergeAnnotations(ps.get(i), psDefs.get(i), context);
+					}
+				}
 			}
 		}
 		
