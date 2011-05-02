@@ -65,7 +65,9 @@ public class CDIMarkerResolutionTest  extends ValidationTest {
 		assertTrue("File - "+file.getFullPath()+" must be exist",file.exists());
 		
 		copyFiles(fileNames);
-		
+
+		tckProject.build(IncrementalProjectBuilder.INCREMENTAL_BUILD, null);
+
 		try{
 			IMarker[] markers = file.findMarkers(markerType, true,	IResource.DEPTH_INFINITE);
 			
