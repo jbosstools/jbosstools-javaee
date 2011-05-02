@@ -52,14 +52,16 @@ public class CDIMarkerResolutionTest  extends ValidationTest {
 	
 	private void checkResolution(IProject project, String[] fileNames, String[] results, String markerType, String idName, int id, Class<? extends IMarkerResolution> resolutionClass) throws CoreException {
 		IFile file = project.getFile(fileNames[0]);
-		
+
 		assertTrue("File - "+file.getFullPath()+" must be exist",file.exists());
-		
+
 		copyFiles(project, fileNames);
-		
+
+		tckProject.build(IncrementalProjectBuilder.INCREMENTAL_BUILD, null);
+
 		try{
 			IMarker[] markers = file.findMarkers(markerType, true,	IResource.DEPTH_INFINITE);
-			
+
 			for (int i = 0; i < markers.length; i++) {
 				IMarker marker = markers[i];
 				Integer attribute = ((Integer) marker
