@@ -869,7 +869,7 @@ public class CDIUtil {
 	 * @param range
 	 * @return
 	 */
-	public static ITextSourceReference convertToSourceReference(final ISourceRange range) {
+	public static ITextSourceReference convertToSourceReference(final ISourceRange range, final IResource resource) {
 		return new ITextSourceReference() {
 
 			public int getStartPosition() {
@@ -878,6 +878,10 @@ public class CDIUtil {
 
 			public int getLength() {
 				return range.getLength();
+			}
+
+			public IResource getResource() {
+				return resource;
 			}
 		};
 	}

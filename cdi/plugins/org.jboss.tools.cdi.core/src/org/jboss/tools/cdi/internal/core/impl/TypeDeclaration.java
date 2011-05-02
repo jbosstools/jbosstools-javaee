@@ -10,6 +10,7 @@
  ******************************************************************************/ 
 package org.jboss.tools.cdi.internal.core.impl;
 
+import org.eclipse.core.resources.IResource;
 import org.jboss.tools.cdi.core.ITypeDeclaration;
 
 /**
@@ -48,5 +49,9 @@ public class TypeDeclaration extends ParametedType implements ITypeDeclaration {
 
 	public int getStartPosition() {
 		return startPosition;
+	}
+
+	public IResource getResource() {
+		return type.getResource();
 	}
 }

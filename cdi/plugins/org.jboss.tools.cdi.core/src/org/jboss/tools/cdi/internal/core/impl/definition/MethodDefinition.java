@@ -16,6 +16,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.IMemberValuePair;
 import org.eclipse.jdt.core.IMethod;
@@ -127,6 +128,7 @@ public class MethodDefinition extends BeanMemberDefinition {
 			v.setValue(params[i]);
 			v.valueStartPosition = start + pi;
 			v.valueLength = p.length();
+			v.setResource((IFile)resource);
 			pd.setPosition(v);
 
 			String[] tokens = getParamTokens(p);
