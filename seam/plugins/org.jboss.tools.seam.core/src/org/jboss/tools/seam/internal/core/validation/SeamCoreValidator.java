@@ -786,7 +786,7 @@ public class SeamCoreValidator extends SeamValidationErrorManager implements IVa
 		} catch (JavaModelException e) {
 			SeamCorePlugin.getDefault().logError(SeamCoreMessages.SEAM_CORE_VALIDATOR_ERROR_VALIDATING_SEAM_CORE, e);
 		}
-		return new SeamTextSourceReference(length, offset);
+		return new SeamTextSourceReference(length, offset, source.getResource());
 	}
 
 	private void validateStatefulComponent(ISeamComponent component) {

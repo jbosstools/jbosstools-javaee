@@ -76,6 +76,10 @@ public abstract class AbstractSeamDeclaration extends SeamObject implements ISea
 			public int getStartPosition() {
 				return valueInfo != null ? valueInfo.getStartPosition() : 0;
 			}
+
+			public IResource getResource() {
+				return resource;
+			}
 		};
 		return reference;
 	}
