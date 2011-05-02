@@ -226,7 +226,7 @@ public class CDISeamSolderCoreExtension implements ICDIExtension, IProcessAnnota
 								e = i + s.length();
 							}
 						}
-						return new TypeDeclaration(p, b, e - b);
+						return new TypeDeclaration(p, a.getResource(), b, e - b);
 					} catch (JavaModelException e) {
 						CDISeamSolderCorePlugin.getDefault().logError(e);
 					}
