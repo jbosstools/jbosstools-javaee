@@ -387,7 +387,7 @@ public class NewCDIWizardTest extends TestCase {
 			context.wizard.performFinish();
 			
 			String text = context.getNewTypeContent();
-			System.out.println(text);
+//			System.out.println(text);
 			
 			assertTrue(text.contains("@Decorator"));
 			assertTrue(text.contains("@Delegate"));
@@ -419,7 +419,7 @@ public class NewCDIWizardTest extends TestCase {
 			context.wizard.performFinish();
 			
 			String text = context.getNewTypeContent();
-			System.out.println(text);
+//			System.out.println(text);
 			
 			assertTrue(text.contains("@Named"));
 			assertTrue(text.contains("\"myNewBean\""));
@@ -451,7 +451,7 @@ public class NewCDIWizardTest extends TestCase {
 			context.wizard.performFinish();
 			
 			String text = context.getNewTypeContent();
-			System.out.println(text);
+//			System.out.println(text);
 			
 			assertTrue(text.contains("AnnotationLiteral<" + QUALIFIER_NAME + ">"));
 		} finally {
@@ -474,7 +474,7 @@ public class NewCDIWizardTest extends TestCase {
 			context.wizard.performFinish();
 			
 			String text = context.getNewTypeContent();
-			System.out.println(text);
+//			System.out.println(text);
 			
 			assertTrue(text.contains("AnnotationLiteral<New>"));
 			assertTrue(text.contains("private final Class<?> value;"));
