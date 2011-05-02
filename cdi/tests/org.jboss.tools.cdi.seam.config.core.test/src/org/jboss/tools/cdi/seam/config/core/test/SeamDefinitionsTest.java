@@ -40,7 +40,7 @@ import org.jboss.tools.cdi.seam.config.core.definition.SeamFieldDefinition;
 import org.jboss.tools.cdi.seam.config.core.definition.SeamMethodDefinition;
 import org.jboss.tools.cdi.seam.config.core.definition.SeamParameterDefinition;
 import org.jboss.tools.cdi.seam.config.core.definition.SeamVirtualFieldDefinition;
-import org.jboss.tools.cdi.seam.config.core.scanner.Location;
+import org.jboss.tools.cdi.seam.config.core.xml.Location;
 import org.jboss.tools.cdi.seam.solder.core.CDISeamSolderConstants;
 import org.jboss.tools.common.text.ITextSourceReference;
 

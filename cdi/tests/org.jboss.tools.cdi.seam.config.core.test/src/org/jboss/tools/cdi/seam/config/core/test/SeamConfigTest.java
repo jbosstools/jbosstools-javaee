@@ -30,7 +30,7 @@ import org.jboss.tools.cdi.seam.config.core.CDISeamConfigExtension;
 import org.jboss.tools.cdi.seam.config.core.ConfigDefinitionContext;
 import org.jboss.tools.cdi.seam.config.core.definition.SeamBeanDefinition;
 import org.jboss.tools.cdi.seam.config.core.definition.SeamBeansDefinition;
-import org.jboss.tools.cdi.seam.config.core.scanner.SAXElement;
+import org.jboss.tools.cdi.seam.config.core.xml.SAXElement;
 import org.jboss.tools.test.util.ResourcesUtils;
 
 /**
