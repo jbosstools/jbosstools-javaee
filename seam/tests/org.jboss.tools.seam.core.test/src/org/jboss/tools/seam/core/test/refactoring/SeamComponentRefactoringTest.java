@@ -124,15 +124,15 @@ public class SeamComponentRefactoringTest extends SeamRefactoringTest {
 		}
 
 		rootChange.perform(new NullProgressMonitor());
-		
-		if(delay > 0)
-			JobUtils.waitForIdle(delay);
-		else
-			JobUtils.waitForIdle();
+//
+//		if(delay > 0)
+//			JobUtils.waitForIdle(delay);
+//		else
+//			JobUtils.waitForIdle();
 
 		seamProject.getProject().build(IncrementalProjectBuilder.INCREMENTAL_BUILD, new NullProgressMonitor());
 
-		JobUtils.waitForIdle();
+//		JobUtils.waitForIdle();
 
 		// Test results
 		assertNotNull("Can't load component " + newName, seamProject.getComponent(newName));
