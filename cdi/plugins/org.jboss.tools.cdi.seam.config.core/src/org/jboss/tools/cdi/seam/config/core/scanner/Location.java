@@ -10,14 +10,15 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.seam.config.core.scanner;
 
-import org.jboss.tools.common.text.ITextSourceReference;
+import org.eclipse.core.resources.IFile;
 
 /**
  * 
  * @author Viacheslav Kabanovich
  *
  */
-public class Location implements ITextSourceReference {
+public class Location {
+	IFile file;
 	int start;
 	int length;
 
@@ -32,6 +33,10 @@ public class Location implements ITextSourceReference {
 
 	public int getLength() {
 		return length;
+	}
+
+	public IFile getResource() {
+		return file;
 	}
 
 }

@@ -10,21 +10,19 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.seam.config.core.scanner;
 
-import org.jboss.tools.common.text.ITextSourceReference;
-
 /**
  * 
  * @author Viacheslav Kabanovich
  *
  */
 public class SAXNode {
-	protected ITextSourceReference location = null;
+	protected Location location = null;
 
-	public void setLocation(ITextSourceReference location) {
+	public void setLocation(Location location) {
 		this.location = location;
 	}
 
-	public ITextSourceReference getLocation() {
+	public Location getLocation() {
 		return location;
 	}
 

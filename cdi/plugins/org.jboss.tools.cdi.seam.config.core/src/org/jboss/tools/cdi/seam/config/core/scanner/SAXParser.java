@@ -8,7 +8,6 @@ import java.util.List;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.jboss.tools.common.CommonPlugin;
-import org.jboss.tools.common.text.ITextSourceReference;
 import org.jboss.tools.common.xml.SAXValidator;
 import org.jboss.tools.common.xml.XMLEntityResolverImpl;
 import org.xml.sax.Attributes;
@@ -82,7 +81,7 @@ public class SAXParser extends SAXValidator {
 		SAXElement current = null;
 	
 		StringBuffer currentText = new StringBuffer();
-		ITextSourceReference currentTextLocation = null;
+		Location currentTextLocation = null;
 
 		ConfigHanlder(IDocument document) {
 			this.document = document;
@@ -165,7 +164,7 @@ public class SAXParser extends SAXValidator {
 			int end = getCurrentLocation();
 			if(end > 0) {
 				int start = document.get().lastIndexOf("<", end);
-				ITextSourceReference endLocation = new Location(start, end - start);
+				Location endLocation = new Location(start, end - start);
 				//TODO
 			}
 			if(currentText.length() > 0) {

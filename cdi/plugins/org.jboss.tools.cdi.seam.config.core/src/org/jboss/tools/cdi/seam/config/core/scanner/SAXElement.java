@@ -16,8 +16,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import org.jboss.tools.common.text.ITextSourceReference;
-
 /**
  * 
  * @author Viacheslav Kabanovich
@@ -27,7 +25,7 @@ public class SAXElement extends SAXNode {
 	protected String uri;
 	protected String localName;
 	protected String name;
-	protected ITextSourceReference nameLocation;
+	protected Location nameLocation;
 	protected Map<String, SAXAttribute> attributes = new HashMap<String, SAXAttribute>();
 	protected SAXText text;
 
@@ -44,11 +42,11 @@ public class SAXElement extends SAXNode {
 		return name;
 	}
 
-	public void setNameLocation(ITextSourceReference location) {
+	public void setNameLocation(Location location) {
 		nameLocation = location;
 	}
 
-	public ITextSourceReference getNameLocation() {
+	public Location getNameLocation() {
 		return nameLocation;
 	}
 

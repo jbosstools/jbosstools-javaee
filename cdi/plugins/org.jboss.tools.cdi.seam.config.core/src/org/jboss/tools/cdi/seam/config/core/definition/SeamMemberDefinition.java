@@ -14,9 +14,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.jboss.tools.cdi.core.IJavaAnnotation;
+import org.jboss.tools.cdi.seam.config.core.scanner.Location;
 import org.jboss.tools.cdi.seam.config.core.scanner.SAXElement;
 import org.jboss.tools.cdi.seam.config.core.scanner.SAXNode;
-import org.jboss.tools.common.text.ITextSourceReference;
 
 /**
  * 
@@ -59,11 +59,11 @@ public abstract class SeamMemberDefinition {
 		return annotations.get(typeName);
 	}
 
-	public ITextSourceReference getReplacesLocation() {
+	public Location getReplacesLocation() {
 		return replaces == null ? null : replaces.getLocation();
 	}
 
-	public ITextSourceReference getModifiesLocation() {
+	public Location getModifiesLocation() {
 		return modifies == null ? null : modifies.getLocation();
 	}
 }
