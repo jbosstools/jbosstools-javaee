@@ -52,7 +52,7 @@ public class ParametedTypeFactory {
 				CDICorePlugin.getDefault().logError(e);
 			}
 			if(r != null) {
-				parametedType = new TypeDeclaration(parametedType, r.getOffset(), r.getLength());
+				parametedType = new TypeDeclaration(parametedType, type.getResource(), r.getOffset(), r.getLength());
 			}
 		}
 		parametedType.setFactory(this);
@@ -193,7 +193,7 @@ public class ParametedTypeFactory {
 			if(sts.length() > 0) {
 				ParametedType st = getParametedType(contextType, sts);
 				if(st != null) {
-					result = new TypeDeclaration(st, 0, 0);
+					result = new TypeDeclaration(st, context.getResource(), 0, 0);
 				}
 			} else if(result != null) {
 				result.setSignature(t);

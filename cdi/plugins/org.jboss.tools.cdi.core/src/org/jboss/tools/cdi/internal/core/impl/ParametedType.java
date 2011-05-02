@@ -191,7 +191,7 @@ public class ParametedType implements IParametedType {
 						String scn = type.getSuperclassName();
 						if(scn != null && provider.getRange(scn) != null) {
 							ISourceRange r = provider.getRange(scn);
-							superType = new TypeDeclaration(superType, r.getOffset(), r.getLength());
+							superType = new TypeDeclaration(superType, type.getResource(), r.getOffset(), r.getLength());
 						}
 						
 					}
@@ -208,7 +208,7 @@ public class ParametedType implements IParametedType {
 						String scn = type.getSuperInterfaceNames()[i];
 						if(scn != null && provider.getRange(scn) != null) {
 							ISourceRange r = provider.getRange(scn);
-							t = new TypeDeclaration(t, r.getOffset(), r.getLength());
+							t = new TypeDeclaration(t, type.getResource(), r.getOffset(), r.getLength());
 						}
 						
 					}

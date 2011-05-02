@@ -19,13 +19,15 @@ import org.jboss.tools.cdi.core.ITypeDeclaration;
  *
  */
 public class TypeDeclaration extends ParametedType implements ITypeDeclaration {
+	IResource resource;
 	int length;
 	int startPosition;
 
-	public TypeDeclaration(ParametedType type, int startPosition, int length) {
+	public TypeDeclaration(ParametedType type, IResource resource, int startPosition, int length) {
 		this.setFactory(type.getFactory());
 		this.type = type.getType();
 		arrayPrefix = type.arrayPrefix;
+		this.resource = resource;
 		this.length = length;
 		this.startPosition = startPosition;
 
@@ -52,6 +54,6 @@ public class TypeDeclaration extends ParametedType implements ITypeDeclaration {
 	}
 
 	public IResource getResource() {
-		return type.getResource();
+		return resource;
 	}
 }

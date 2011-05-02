@@ -72,7 +72,7 @@ public abstract class BeanMember extends AbstractBeanElement implements IBeanMem
 						}
 					}
 
-					typeDeclaration = new TypeDeclaration(p, offset, length);
+					typeDeclaration = new TypeDeclaration(p, member.getResource(), offset, length);
 				}
 			}
 		} catch (JavaModelException e) {
