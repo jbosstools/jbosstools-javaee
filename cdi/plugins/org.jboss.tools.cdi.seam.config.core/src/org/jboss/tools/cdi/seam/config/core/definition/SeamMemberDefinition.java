@@ -14,9 +14,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.jboss.tools.cdi.core.IJavaAnnotation;
-import org.jboss.tools.cdi.seam.config.core.scanner.Location;
-import org.jboss.tools.cdi.seam.config.core.scanner.SAXElement;
-import org.jboss.tools.cdi.seam.config.core.scanner.SAXNode;
+import org.jboss.tools.cdi.seam.config.core.xml.Location;
+import org.jboss.tools.cdi.seam.config.core.xml.SAXElement;
+import org.jboss.tools.cdi.seam.config.core.xml.SAXNode;
 
 /**
  * 

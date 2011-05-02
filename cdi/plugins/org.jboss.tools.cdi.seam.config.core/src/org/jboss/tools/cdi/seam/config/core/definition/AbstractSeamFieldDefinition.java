@@ -16,9 +16,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.jdt.core.IField;
-import org.jboss.tools.cdi.seam.config.core.scanner.SAXAttribute;
-import org.jboss.tools.cdi.seam.config.core.scanner.SAXElement;
-import org.jboss.tools.cdi.seam.config.core.scanner.SAXText;
+import org.jboss.tools.cdi.seam.config.core.xml.SAXAttribute;
+import org.jboss.tools.cdi.seam.config.core.xml.SAXElement;
+import org.jboss.tools.cdi.seam.config.core.xml.SAXText;
 
 /**
  * 

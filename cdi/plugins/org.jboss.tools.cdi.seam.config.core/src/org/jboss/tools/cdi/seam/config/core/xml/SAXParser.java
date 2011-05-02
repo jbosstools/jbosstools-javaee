@@ -1,4 +1,4 @@
-package org.jboss.tools.cdi.seam.config.core.scanner;
+package org.jboss.tools.cdi.seam.config.core.xml;
 
 import java.io.IOException;
 import java.io.InputStream;

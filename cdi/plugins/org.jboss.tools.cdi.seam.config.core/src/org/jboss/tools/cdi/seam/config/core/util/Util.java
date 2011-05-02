@@ -26,8 +26,8 @@ import org.jboss.tools.cdi.core.IRootDefinitionContext;
 import org.jboss.tools.cdi.seam.config.core.CDISeamConfigConstants;
 import org.jboss.tools.cdi.seam.config.core.definition.SeamMethodDefinition;
 import org.jboss.tools.cdi.seam.config.core.definition.SeamParameterDefinition;
-import org.jboss.tools.cdi.seam.config.core.scanner.SAXElement;
-import org.jboss.tools.cdi.seam.config.core.scanner.SAXText;
+import org.jboss.tools.cdi.seam.config.core.xml.SAXElement;
+import org.jboss.tools.cdi.seam.config.core.xml.SAXText;
 
 /**
  *   

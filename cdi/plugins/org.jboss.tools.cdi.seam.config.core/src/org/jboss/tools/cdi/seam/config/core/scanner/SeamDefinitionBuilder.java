@@ -38,6 +38,10 @@ import org.jboss.tools.cdi.seam.config.core.definition.SeamMethodDefinition;
 import org.jboss.tools.cdi.seam.config.core.definition.SeamParameterDefinition;
 import org.jboss.tools.cdi.seam.config.core.definition.SeamVirtualFieldDefinition;
 import org.jboss.tools.cdi.seam.config.core.util.Util;
+import org.jboss.tools.cdi.seam.config.core.xml.SAXAttribute;
+import org.jboss.tools.cdi.seam.config.core.xml.SAXElement;
+import org.jboss.tools.cdi.seam.config.core.xml.SAXParser;
+import org.jboss.tools.cdi.seam.config.core.xml.SAXText;
 
 /**
  * 

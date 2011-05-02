@@ -15,7 +15,7 @@ import java.util.List;
 
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IType;
-import org.jboss.tools.cdi.seam.config.core.scanner.SAXElement;
+import org.jboss.tools.cdi.seam.config.core.xml.SAXElement;
 
 /**
  * 

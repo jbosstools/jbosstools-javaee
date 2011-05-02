@@ -8,35 +8,22 @@
  * Contributors: 
  * Red Hat, Inc. - initial API and implementation 
  ******************************************************************************/
-package org.jboss.tools.cdi.seam.config.core.scanner;
-
-import org.eclipse.core.resources.IFile;
+package org.jboss.tools.cdi.seam.config.core.xml;
 
 /**
  * 
  * @author Viacheslav Kabanovich
  *
  */
-public class Location {
-	IFile file;
-	int start;
-	int length;
-
-	public Location(int start, int length) {
-		this.start = start;
-		this.length = length;
+public class SAXText extends SAXNode {
+	private String value;
+	
+	public void setValue(String value) {
+		this.value = value;
 	}
 
-	public int getStartPosition() {
-		return start;
-	}
-
-	public int getLength() {
-		return length;
-	}
-
-	public IFile getResource() {
-		return file;
+	public String getValue() {
+		return value;
 	}
 
 }

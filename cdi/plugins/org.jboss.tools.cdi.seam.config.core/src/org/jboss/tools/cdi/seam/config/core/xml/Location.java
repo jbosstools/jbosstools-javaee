@@ -8,22 +8,30 @@
  * Contributors: 
  * Red Hat, Inc. - initial API and implementation 
  ******************************************************************************/
-package org.jboss.tools.cdi.seam.config.core.scanner;
+package org.jboss.tools.cdi.seam.config.core.xml;
+
+import org.eclipse.core.resources.IFile;
 
 /**
  * 
  * @author Viacheslav Kabanovich
  *
  */
-public class SAXNode {
-	protected Location location = null;
+public class Location {
+	int start;
+	int length;
 
-	public void setLocation(Location location) {
-		this.location = location;
+	public Location(int start, int length) {
+		this.start = start;
+		this.length = length;
 	}
 
-	public Location getLocation() {
-		return location;
+	public int getStartPosition() {
+		return start;
+	}
+
+	public int getLength() {
+		return length;
 	}
 
 }

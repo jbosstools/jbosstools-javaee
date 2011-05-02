@@ -8,22 +8,22 @@
  * Contributors: 
  * Red Hat, Inc. - initial API and implementation 
  ******************************************************************************/
-package org.jboss.tools.cdi.seam.config.core.scanner;
+package org.jboss.tools.cdi.seam.config.core.xml;
 
 /**
  * 
  * @author Viacheslav Kabanovich
  *
  */
-public class SAXText extends SAXNode {
-	private String value;
-	
-	public void setValue(String value) {
-		this.value = value;
+public class SAXNode {
+	protected Location location = null;
+
+	public void setLocation(Location location) {
+		this.location = location;
 	}
 
-	public String getValue() {
-		return value;
+	public Location getLocation() {
+		return location;
 	}
 
 }

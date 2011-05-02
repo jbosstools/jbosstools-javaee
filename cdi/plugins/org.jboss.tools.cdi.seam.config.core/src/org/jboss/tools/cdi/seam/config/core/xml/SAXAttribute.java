@@ -8,7 +8,7 @@
  * Contributors: 
  * Red Hat, Inc. - initial API and implementation 
  ******************************************************************************/
-package org.jboss.tools.cdi.seam.config.core.scanner;
+package org.jboss.tools.cdi.seam.config.core.xml;
 
 /**
  * 

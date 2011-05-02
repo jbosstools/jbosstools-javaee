@@ -12,8 +12,8 @@ package org.jboss.tools.cdi.seam.config.core.definition;
 
 import org.eclipse.jdt.core.IField;
 import org.eclipse.jdt.core.IType;
-import org.jboss.tools.cdi.seam.config.core.scanner.SAXAttribute;
-import org.jboss.tools.cdi.seam.config.core.scanner.SAXElement;
+import org.jboss.tools.cdi.seam.config.core.xml.SAXAttribute;
+import org.jboss.tools.cdi.seam.config.core.xml.SAXElement;
 
 /**
  * 
