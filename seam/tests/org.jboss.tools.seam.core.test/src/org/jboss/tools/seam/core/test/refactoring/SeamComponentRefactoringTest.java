@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.ltk.core.refactoring.CompositeChange;
@@ -128,7 +129,11 @@ public class SeamComponentRefactoringTest extends SeamRefactoringTest {
 			JobUtils.waitForIdle(delay);
 		else
 			JobUtils.waitForIdle();
-		
+
+		seamProject.getProject().build(IncrementalProjectBuilder.INCREMENTAL_BUILD, new NullProgressMonitor());
+
+		JobUtils.waitForIdle();
+
 		// Test results
 		assertNotNull("Can't load component " + newName, seamProject.getComponent(newName));
 		for(TestChangeStructure changeStructure : changeList){
