@@ -40,6 +40,7 @@ import org.jboss.tools.cdi.seam.config.core.definition.SeamFieldDefinition;
 import org.jboss.tools.cdi.seam.config.core.definition.SeamMethodDefinition;
 import org.jboss.tools.cdi.seam.config.core.definition.SeamParameterDefinition;
 import org.jboss.tools.cdi.seam.config.core.definition.SeamVirtualFieldDefinition;
+import org.jboss.tools.cdi.seam.config.core.scanner.Location;
 import org.jboss.tools.cdi.seam.solder.core.CDISeamSolderConstants;
 import org.jboss.tools.common.text.ITextSourceReference;
 
@@ -59,7 +60,7 @@ public class SeamDefinitionsTest extends SeamConfigTest {
 		Set<SeamBeanDefinition> ds = findBeanDefinitionByTagName(d, "test602:Report");
 		assertEquals(1, ds.size());
 		SeamBeanDefinition report = ds.iterator().next();
-		ITextSourceReference modifies = report.getModifiesLocation();
+		Location modifies = report.getModifiesLocation();
 		assertNotNull(modifies);
 		IJavaAnnotation annotation = report.getAnnotation("org.jboss.test602.report.NewQualifier");
 		assertNotNull(annotation);
@@ -67,7 +68,7 @@ public class SeamDefinitionsTest extends SeamConfigTest {
 		ds = findBeanDefinitionByTagName(d, "test602:ReportDatasource");
 		assertEquals(1, ds.size());
 		SeamBeanDefinition reportDatasource = ds.iterator().next();
-		ITextSourceReference replaces = reportDatasource.getReplacesLocation();
+		Location replaces = reportDatasource.getReplacesLocation();
 		assertNotNull(replaces);
 	}
 
