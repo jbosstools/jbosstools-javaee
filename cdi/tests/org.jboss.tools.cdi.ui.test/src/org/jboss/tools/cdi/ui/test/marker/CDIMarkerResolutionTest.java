@@ -10,43 +10,32 @@
  ************************************************************************************/
 package org.jboss.tools.cdi.ui.test.marker;
 
-
 import java.io.IOException;
 import java.io.InputStream;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.jdt.core.ICompilationUnit;
-import org.eclipse.ltk.core.refactoring.Change;
 import org.eclipse.ltk.core.refactoring.CompositeChange;
 import org.eclipse.ltk.core.refactoring.RefactoringStatus;
-import org.eclipse.ltk.core.refactoring.TextFileChange;
 import org.eclipse.ltk.core.refactoring.participants.RefactoringProcessor;
 import org.eclipse.ui.IMarkerResolution;
 import org.eclipse.ui.ide.IDE;
 import org.jboss.tools.cdi.core.test.tck.validation.ValidationTest;
 import org.jboss.tools.cdi.internal.core.validation.CDIValidationErrorManager;
 import org.jboss.tools.cdi.ui.marker.AddLocalBeanMarkerResolution;
-import org.jboss.tools.cdi.ui.marker.AddSerializableInterfaceMarkerResolution;
 import org.jboss.tools.cdi.ui.marker.DeleteAllDisposerDuplicantMarkerResolution;
 import org.jboss.tools.cdi.ui.marker.DeleteAllInjectedConstructorsMarkerResolution;
-import org.jboss.tools.cdi.ui.marker.MakeBeanScopedDependentMarkerResolution;
-import org.jboss.tools.cdi.ui.marker.MakeFieldProtectedMarkerResolution;
 import org.jboss.tools.cdi.ui.marker.MakeFieldStaticMarkerResolution;
-import org.jboss.tools.cdi.ui.marker.MakeInjectedPointUnambiguousMarkerResolution;
 import org.jboss.tools.cdi.ui.marker.MakeMethodBusinessMarkerResolution;
 import org.jboss.tools.cdi.ui.marker.MakeMethodPublicMarkerResolution;
-import org.jboss.tools.cdi.ui.marker.SelectBeanMarkerResolution;
-import org.jboss.tools.cdi.ui.marker.TestableResolutionWithDialog;
 import org.jboss.tools.cdi.ui.marker.TestableResolutionWithRefactoringProcessor;
-import org.jboss.tools.common.EclipseUtil;
 import org.jboss.tools.common.util.FileUtil;
+import org.jboss.tools.jst.web.kb.internal.validation.ValidatorManager;
 import org.jboss.tools.test.util.JobUtils;
-import org.jboss.tools.test.util.ResourcesUtils;
 
 /**
  * @author Daniel Azarov
@@ -55,22 +44,23 @@ import org.jboss.tools.test.util.ResourcesUtils;
 public class CDIMarkerResolutionTest  extends ValidationTest {
 	public static final String MARKER_TYPE = "org.jboss.tools.cdi.core.cdiproblem";
 	
-	private void checkResolution(String[] fileNames, String markerType, String idName, int id, Class<? extends IMarkerResolution> resolutionClass) throws CoreException {
-		checkResolution(fileNames, new String[]{}, markerType, idName, id, resolutionClass);
+	private void checkResolution(IProject project, String[] fileNames, String markerType, String idName, int id, Class<? extends IMarkerResolution> resolutionClass) throws CoreException {
+		checkResolution(project, fileNames, new String[]{}, markerType, idName, id, resolutionClass);
 	}
 	
-	private void checkResolution(String[] fileNames, String[] results, String markerType, String idName, int id, Class<? extends IMarkerResolution> resolutionClass) throws CoreException {
-		IFile file = tckProject.getFile(fileNames[0]);
-		
-		assertTrue("File - "+file.getFullPath()+" must be exist",file.exists());
-		
-		copyFiles(fileNames);
+	private void checkResolution(IProject project, String[] fileNames, String[] results, String markerType, String idName, int id, Class<? extends IMarkerResolution> resolutionClass) throws CoreException {
+		IFile file = project.getFile(fileNames[0]);
 
-		tckProject.build(IncrementalProjectBuilder.INCREMENTAL_BUILD, null);
+		assertTrue("File - "+file.getFullPath()+" must be exist",file.exists());
+
+		ValidatorManager.setStatus("TESTING");
+		copyFiles(project, fileNames);
+		waitForIdle(project);
 
 		try{
+			file = project.getFile(fileNames[0]);
 			IMarker[] markers = file.findMarkers(markerType, true,	IResource.DEPTH_INFINITE);
-			
+
 			for (int i = 0; i < markers.length; i++) {
 				IMarker marker = markers[i];
 				Integer attribute = ((Integer) marker
@@ -78,13 +68,14 @@ public class CDIMarkerResolutionTest  extends ValidationTest {
 				if (attribute != null){
 					int messageId = attribute.intValue();
 					if(messageId == id){
-						//String text = (String)marker.getAttribute(IMarker.MESSAGE,"none");
-						
 						IMarkerResolution[] resolutions = IDE.getMarkerHelpRegistry()
 								.getResolutions(marker);
 						for (int j = 0; j < resolutions.length; j++) {
 							IMarkerResolution resolution = resolutions[j];
 							if (resolution.getClass().equals(resolutionClass)) {
+
+								ValidatorManager.setStatus("TESTING");
+
 								if(resolution instanceof TestableResolutionWithRefactoringProcessor){
 									RefactoringProcessor processor = ((TestableResolutionWithRefactoringProcessor)resolution).getRefactoringProcessor();
 									
@@ -94,48 +85,34 @@ public class CDIMarkerResolutionTest  extends ValidationTest {
 //									for(RefactoringStatusEntry entry : entries){
 //										System.out.println("Refactor status - "+entry.getMessage());
 //									}
-									
+
 									assertNull("Rename processor returns fatal error", status.getEntryMatchingSeverity(RefactoringStatus.FATAL));
-									
+
 									status = processor.checkFinalConditions(new NullProgressMonitor(), null);
-									
+
 //									entries = status.getEntries();
 //									for(RefactoringStatusEntry entry : entries){
 //										System.out.println("Refactor status - "+entry.getMessage());
 //									}
-									
+
 									assertNull("Rename processor returns fatal error", status.getEntryMatchingSeverity(RefactoringStatus.FATAL));
-									
-									
+
 									CompositeChange rootChange = (CompositeChange)processor.createChange(new NullProgressMonitor());
-									
-									for(Change change : rootChange.getChildren()){
-										if(change instanceof TextFileChange){
-											IFile cFile = ((TextFileChange)change).getFile();
-											ICompilationUnit cUnit = EclipseUtil.getCompilationUnit(cFile);
-											ICompilationUnit compilationUnit = cUnit.getWorkingCopy(new NullProgressMonitor());
-											
-											compilationUnit.applyTextEdit(((TextFileChange)change).getEdit(), new NullProgressMonitor());
-											
-											compilationUnit.commitWorkingCopy(false, new NullProgressMonitor());
-											compilationUnit.discardWorkingCopy();
-										}
-									}
-									
+
 									rootChange.perform(new NullProgressMonitor());
-								}else if(resolution instanceof TestableResolutionWithDialog){
-									((TestableResolutionWithDialog)resolution).runForTest(marker);
-								}else{
+								} else {
 									resolution.run(marker);
 								}
-								
-								refresh();
-								
-								IMarker[] newMarkers = file.findMarkers(markerType, true, IResource.DEPTH_INFINITE);
-								
+
+								waitForIdle(project);
+
+								file = project.getFile(fileNames[0]);
+								IMarker[] newMarkers = file.findMarkers(markerType, true,	IResource.DEPTH_INFINITE);
+
 								assertTrue("Marker resolution did not decrease number of problems. was: "+markers.length+" now: "+newMarkers.length, newMarkers.length < markers.length);
-								
-								checkResults(fileNames, results);
+
+								checkResults(project, fileNames, results);
+
 								return;
 							}
 						}
@@ -145,28 +122,30 @@ public class CDIMarkerResolutionTest  extends ValidationTest {
 			}
 			fail("Problem marker with id: "+id+" not found");
 		}finally{
-			restoreFiles(fileNames);
-			
-			refresh();
+			restoreFiles(project, fileNames);
+			waitForIdle(project);
 		}
 	}
-	
-	private void refresh() throws CoreException{
-		tckProject.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
-		JobUtils.waitForIdle(2000);
-		tckProject.build(IncrementalProjectBuilder.INCREMENTAL_BUILD, null);
-		JobUtils.waitForIdle(2000);
-		
+
+	private void waitForIdle(IProject project) throws CoreException{
+		JobUtils.waitForIdle();
+		for (int i = 0; i < 50; i++) {
+			if(ValidatorManager.getStatus().equals(ValidatorManager.SLEEPING)) {
+				break;
+			}
+			JobUtils.delay(100);
+			JobUtils.waitForIdle();
+		}
 	}
-	
-	private void copyFiles(String[] fileNames) throws CoreException{
+
+	private void copyFiles(IProject project, String[] fileNames) throws CoreException{
 		for(String fileName : fileNames){
-			IFile file = tckProject.getFile(fileName);
-			IFile copyFile = tckProject.getFile(fileName+".copy");
-			
+			IFile file = project.getFile(fileName);
+			IFile copyFile = project.getFile(fileName+".copy");
+
 			if(copyFile.exists())
 				copyFile.delete(true, null);
-			
+
 			InputStream is = null;
 			try{
 				is = file.getContents();
@@ -182,11 +161,11 @@ public class CDIMarkerResolutionTest  extends ValidationTest {
 			}
 		}
 	}
-	
-	private void restoreFiles(String[] fileNames) throws CoreException {
+
+	private void restoreFiles(IProject project, String[] fileNames) throws CoreException {
 		for(String fileName : fileNames){
-			IFile file = tckProject.getFile(fileName);
-			IFile copyFile = tckProject.getFile(fileName+".copy");
+			IFile file = project.getFile(fileName);
+			IFile copyFile = project.getFile(fileName+".copy");
 			InputStream is = null;
 			try{
 				is = copyFile.getContents();
@@ -203,22 +182,21 @@ public class CDIMarkerResolutionTest  extends ValidationTest {
 			copyFile.delete(true, null);
 		}
 	}
-	
-	private void checkResults(String[] fileNames, String[] results) throws CoreException{
+
+	private void checkResults(IProject project, String[] fileNames, String[] results) throws CoreException{
 		for(int i = 0; i < results.length; i++){
-			IFile file = tckProject.getFile(fileNames[i]);
-			IFile resultFile = tckProject.getFile(results[i]);
-			
+			IFile file = project.getFile(fileNames[i]);
+			IFile resultFile = project.getFile(results[i]);
+
 			String fileContent = FileUtil.readStream(file);
 			String resultContent = FileUtil.readStream(resultFile);
-			
+
 			assertEquals("Wrong result of resolution", resultContent, fileContent);
 		}
-		
 	}
-	
+
 	public void testMakeProducerFieldStaticResolution() throws CoreException {
-		checkResolution(
+		checkResolution(tckProject, 
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/NonStaticProducerOfSessionBeanBroken.java"
 				},
@@ -230,9 +208,10 @@ public class CDIMarkerResolutionTest  extends ValidationTest {
 				CDIValidationErrorManager.ILLEGAL_PRODUCER_FIELD_IN_SESSION_BEAN_ID,
 				MakeFieldStaticMarkerResolution.class);
 	}
-	
+
 	public void testMakeProducerMethodBusinessResolution() throws CoreException {
 		checkResolution(
+				tckProject,
 				new String[]{
 						"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/FooProducer.java",
 						"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/FooProducerLocal.java"
@@ -246,9 +225,10 @@ public class CDIMarkerResolutionTest  extends ValidationTest {
 				CDIValidationErrorManager.ILLEGAL_PRODUCER_METHOD_IN_SESSION_BEAN_ID,
 				MakeMethodBusinessMarkerResolution.class);
 	}
-	
+
 	public void testAddLocalBeanResolution() throws CoreException {
 		checkResolution(
+				tckProject,
 				new String[]{
 						"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/FooProducer.java"
 				},
@@ -262,7 +242,7 @@ public class CDIMarkerResolutionTest  extends ValidationTest {
 	}
 
 	public void testMakeProducerMethodPublicResolution() throws CoreException {
-		checkResolution(
+		checkResolution(tckProject,
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/FooProducerNoInterface.java"
 				},
@@ -276,7 +256,7 @@ public class CDIMarkerResolutionTest  extends ValidationTest {
 	}
 	
 	public void testMakeObserverParamMethodBusinessResolution() throws CoreException {
-		checkResolution(
+		checkResolution(tckProject,
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TibetanTerrier_Broken.java",
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Terrier.java"
@@ -292,7 +272,7 @@ public class CDIMarkerResolutionTest  extends ValidationTest {
 	}
 
 	public void testAddLocalBeanResolution2() throws CoreException {
-		checkResolution(
+		checkResolution(tckProject,
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TibetanTerrier_Broken.java"
 				},
@@ -306,7 +286,7 @@ public class CDIMarkerResolutionTest  extends ValidationTest {
 	}
 
 	public void testMakeObserverParamMethodPublicResolution() throws CoreException {
-		checkResolution(
+		checkResolution(tckProject,
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TibetanTerrier_BrokenNoInterface.java"
 				},
@@ -320,7 +300,7 @@ public class CDIMarkerResolutionTest  extends ValidationTest {
 	}
 
 	public void testMakeDisposerParamMethodBusinessResolution() throws CoreException {
-		checkResolution(
+		checkResolution(tckProject,
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/NotBusinessMethod_Broken.java",
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/LocalInt.java"
@@ -336,7 +316,7 @@ public class CDIMarkerResolutionTest  extends ValidationTest {
 	}
 
 	public void testAddLocalBeanResolution3() throws CoreException {
-		checkResolution(
+		checkResolution(tckProject,
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/NotBusinessMethod_Broken.java"
 				},
@@ -350,7 +330,7 @@ public class CDIMarkerResolutionTest  extends ValidationTest {
 	}
 
 	public void testMakeDisposerParamMethodPublicResolution() throws CoreException {
-		checkResolution(
+		checkResolution(tckProject,
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/NotBusinessMethod_BrokenNoInterface.java"
 				},
@@ -364,7 +344,7 @@ public class CDIMarkerResolutionTest  extends ValidationTest {
 	}
 
 	public void testDeleteAllDisposerDuplicantsResolution() throws CoreException {
-		checkResolution(
+		checkResolution(tckProject,
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TimestampLogger_Broken.java"
 				},
@@ -378,7 +358,7 @@ public class CDIMarkerResolutionTest  extends ValidationTest {
 	}
 
 	public void testDeleteAllInjectedConstructorsResolution() throws CoreException {
-		checkResolution(
+		checkResolution(tckProject,
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Goose_Broken.java"
 				},
@@ -389,180 +369,6 @@ public class CDIMarkerResolutionTest  extends ValidationTest {
 				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
 				CDIValidationErrorManager.MULTIPLE_INJECTION_CONSTRUCTORS_ID,
 				DeleteAllInjectedConstructorsMarkerResolution.class);
-	}
-
-	public void testSpecifyBeanWhenMultipleBeansAreEligibleForInjectedFieldResolution() throws CoreException {
-		checkResolution(
-				new String[]{
-					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Farm_Broken1.java",
-					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Cow.java",
-					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Sheep.java",
-					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Dog.java"
-				},
-				MARKER_TYPE,
-				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
-				CDIValidationErrorManager.AMBIGUOUS_INJECTION_POINTS_ID,
-				MakeInjectedPointUnambiguousMarkerResolution.class);
-	}
-
-	public void testSelectBeanWhenMultipleBeansAreEligibleForInjectedFieldResolution() throws CoreException {
-		checkResolution(
-				new String[]{
-					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Office_Broken1.java",
-					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Armchair.java",
-					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Chair.java",
-					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Couch.java",
-					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Cupboard.java",
-					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Desk.java",
-					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/HighStool.java",
-					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Sofa.java",
-					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Stool.java"
-				},
-				MARKER_TYPE,
-				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
-				CDIValidationErrorManager.AMBIGUOUS_INJECTION_POINTS_ID,
-				SelectBeanMarkerResolution.class);
-	}
-
-	public void testSpecifyBeanWhenNoBeanIsEligibleForInjectedFieldResolution() throws CoreException {
-		checkResolution(
-				new String[]{
-					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Farm_Broken2.java",
-					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Cow.java",
-					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Sheep.java",
-					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Dog.java"
-				},
-				MARKER_TYPE,
-				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
-				CDIValidationErrorManager.UNSATISFIED_INJECTION_POINTS_ID,
-				MakeInjectedPointUnambiguousMarkerResolution.class);
-	}
-
-	public void testSelectBeanWhenNoBeanIsEligibleForInjectedFieldResolution() throws CoreException {
-		checkResolution(
-				new String[]{
-					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Office_Broken2.java",
-					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Armchair.java",
-					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Chair.java",
-					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Couch.java",
-					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Cupboard.java",
-					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Desk.java",
-					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/HighStool.java",
-					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Sofa.java",
-					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Stool.java"
-				},
-				MARKER_TYPE,
-				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
-				CDIValidationErrorManager.UNSATISFIED_INJECTION_POINTS_ID,
-				SelectBeanMarkerResolution.class);
-	}
-	
-	public void testSpecifyBeanWhenMultipleBeansAreEligibleForInjectedParameterResolution() throws CoreException {
-		checkResolution(
-				new String[]{
-					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Farm_Broken3.java",
-					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Cow.java",
-					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Sheep.java",
-					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Dog.java"
-				},
-				MARKER_TYPE,
-				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
-				CDIValidationErrorManager.AMBIGUOUS_INJECTION_POINTS_ID,
-				MakeInjectedPointUnambiguousMarkerResolution.class);
-	}
-
-	public void testSelectBeanWhenMultipleBeansAreEligibleForInjectedParameterResolution() throws CoreException {
-		checkResolution(
-				new String[]{
-					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Office_Broken3.java",
-					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Armchair.java",
-					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Chair.java",
-					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Couch.java",
-					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Cupboard.java",
-					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Desk.java",
-					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/HighStool.java",
-					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Sofa.java",
-					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Stool.java"
-				},
-				MARKER_TYPE,
-				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
-				CDIValidationErrorManager.AMBIGUOUS_INJECTION_POINTS_ID,
-				SelectBeanMarkerResolution.class);
-	}
-
-	public void testSpecifyBeanWhenNoBeanIsEligibleForInjectedParameterResolution() throws CoreException {
-		checkResolution(
-				new String[]{
-					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Farm_Broken4.java",
-					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Cow.java",
-					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Sheep.java",
-					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Dog.java"
-				},
-				MARKER_TYPE,
-				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
-				CDIValidationErrorManager.UNSATISFIED_INJECTION_POINTS_ID,
-				MakeInjectedPointUnambiguousMarkerResolution.class);
-	}
-
-	public void testSelectBeanWhenNoBeanIsEligibleForInjectedParameterResolution() throws CoreException {
-		checkResolution(
-				new String[]{
-					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Office_Broken4.java",
-					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Armchair.java",
-					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Chair.java",
-					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Couch.java",
-					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Cupboard.java",
-					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Desk.java",
-					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/HighStool.java",
-					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Sofa.java",
-					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Stool.java"
-				},
-				MARKER_TYPE,
-				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
-				CDIValidationErrorManager.UNSATISFIED_INJECTION_POINTS_ID,
-				SelectBeanMarkerResolution.class);
-	}
-
-	public void testAddSerializableInterfaceResolution() throws CoreException {
-		checkResolution(
-				new String[]{
-					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Hamina_Broken.java"
-				},
-				new String[]{
-					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Hamina_Broken.qfxresult"
-				},
-				MARKER_TYPE,
-				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
-				CDIValidationErrorManager.NOT_PASSIVATION_CAPABLE_BEAN_ID,
-				AddSerializableInterfaceMarkerResolution.class);
-	}
-
-	public void testMakeFieldProtectedResolution() throws CoreException {
-		checkResolution(
-				new String[]{
-					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Leopard_Broken.java"
-				},
-				new String[]{
-					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Leopard_Broken1.qfxresult"
-				},
-				MARKER_TYPE,
-				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
-				CDIValidationErrorManager.ILLEGAL_SCOPE_FOR_MANAGED_BEAN_WITH_PUBLIC_FIELD_ID,
-				MakeFieldProtectedMarkerResolution.class);
-	}
-
-	public void testMakeBeanScopedDependentResolution() throws CoreException {
-		checkResolution(
-				new String[]{
-					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Leopard_Broken.java"
-				},
-				new String[]{
-					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Leopard_Broken2.qfxresult"
-				},
-				MARKER_TYPE,
-				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
-				CDIValidationErrorManager.ILLEGAL_SCOPE_FOR_MANAGED_BEAN_WITH_PUBLIC_FIELD_ID,
-				MakeBeanScopedDependentMarkerResolution.class);
 	}
 
 }
