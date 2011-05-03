@@ -34,4 +34,8 @@ public class Location {
 		return length;
 	}
 
+	public boolean includes(int offset) {
+		return start <= offset && start + length >= offset;
+	}
+
 }

@@ -28,6 +28,8 @@ public abstract class SeamMemberDefinition {
 	protected SAXElement replaces = null;
 	protected SAXElement modifies = null;
 	protected Map<String, IJavaAnnotation> annotations = new HashMap<String, IJavaAnnotation>();
+
+	protected SeamMemberDefinition parent;
 	
 	public SeamMemberDefinition() {}
 
@@ -39,6 +41,13 @@ public abstract class SeamMemberDefinition {
 		return node;
 	}
 
+	public void setParent(SeamMemberDefinition parent) {
+		this.parent = parent;
+	}
+	
+	public SeamMemberDefinition getParent() {
+		return parent;
+	}
 	public void setReplaces(SAXElement replaces) {
 		this.replaces = replaces;
 	}

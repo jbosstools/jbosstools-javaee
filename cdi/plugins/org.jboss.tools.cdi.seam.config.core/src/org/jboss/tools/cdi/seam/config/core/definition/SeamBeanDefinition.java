@@ -52,10 +52,12 @@ public class SeamBeanDefinition extends SeamMemberDefinition {
 
 	public void addField(SeamFieldDefinition field) {
 		fields.add(field);
+		field.setParent(this);
 	}
 
 	public void addMethod(SeamMethodDefinition method) {
 		methods.add(method);
+		method.setParent(this);
 	}
 
 	public SeamFieldDefinition getField(String name) {
@@ -76,6 +78,17 @@ public class SeamBeanDefinition extends SeamMemberDefinition {
 					&& c.equals(method)) {
 				return m;
 			}
+		}
+		return null;
+	}
+
+	public SeamMemberDefinition findExactly(int offset) {
+		if(node.getLocation().includes(offset)) return this;
+		for (SeamFieldDefinition f: fields) {
+			if(f.getNode().getLocation().includes(offset)) return f;
+		}
+		for (SeamMethodDefinition m: methods) {
+			if(m.getNode().getLocation().includes(offset)) return m;
 		}
 		return null;
 	}

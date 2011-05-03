@@ -94,7 +94,7 @@ public class Util implements CDISeamConfigConstants {
 	}
 
 	public static IType resolveType(SAXElement element, CDICoreNature project) {
-		return resolveType(element.getURI(), element.getLocalName(), project);
+		return resolveType(element.getLocalName(), element.getURI(), project);
 	}
 
 	public static IType resolveType(String name, String uri, CDICoreNature project) {

@@ -117,6 +117,14 @@ public class SeamBeansDefinition {
 		}
 	}
 
+	public SeamMemberDefinition findExactly(int offset) {
+		for (SeamBeanDefinition b: beanDefinitions) {
+			SeamMemberDefinition d = b.findExactly(offset);
+			if(d != null) return d;
+		}
+		return null;
+	}
+
 	private void mergeTypeDefinition(SeamBeanDefinition def, TypeDefinition typeDef, ConfigDefinitionContext context) {
 		mergeAnnotations(def, typeDef, context);
 		

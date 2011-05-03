@@ -44,11 +44,19 @@ public class CDISeamConfigExtension implements ICDIExtension, IBuildParticipantF
 
 	ConfigFileSet fileSet = new ConfigFileSet();
 
+	public static CDISeamConfigExtension getExtension(CDICoreNature project) {
+		Set<ICDIExtension> es = project.getExtensionManager().getExtensions(IBuildParticipantFeature.class);
+		for (ICDIExtension ext: es) {
+			if(ext instanceof CDISeamConfigExtension) return (CDISeamConfigExtension)ext;
+		}
+		return null;
+	}
+
 	public void setProject(CDICoreNature n) {
 		project = n;
 	}
 
-	public IDefinitionContextExtension getContext() {
+	public ConfigDefinitionContext getContext() {
 		return context;
 	}
 
