@@ -94,11 +94,13 @@ public class Util implements CDISeamConfigConstants {
 	}
 
 	public static IType resolveType(SAXElement element, CDICoreNature project) {
-		String uri = element.getURI();
+		return resolveType(element.getURI(), element.getLocalName(), project);
+	}
+
+	public static IType resolveType(String name, String uri, CDICoreNature project) {
 		if(uri == null || !uri.startsWith(CDISeamConfigConstants.URI_PREFIX)) {
 			return null;
 		}
-		String name = element.getLocalName();
 		String[] packages = getPackages(uri);
 		for (String pkg: packages) {
 			if(pkg.length() == 0) continue;

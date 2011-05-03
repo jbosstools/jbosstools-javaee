@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.core.resources.IResource;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IType;
 import org.jboss.tools.cdi.core.IAnnotationDeclaration;
@@ -28,7 +29,9 @@ import org.jboss.tools.cdi.internal.core.impl.definition.MethodDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.ParameterDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.TypeDefinition;
 import org.jboss.tools.cdi.seam.config.core.ConfigDefinitionContext;
+import org.jboss.tools.cdi.seam.config.core.xml.Location;
 import org.jboss.tools.cdi.seam.config.core.xml.SAXNode;
+import org.jboss.tools.common.text.ITextSourceReference;
 
 /**
  * 
@@ -36,6 +39,7 @@ import org.jboss.tools.cdi.seam.config.core.xml.SAXNode;
  *
  */
 public class SeamBeansDefinition {
+	IResource resource;
 	Map<SAXNode, String> unresolvedNodes = new HashMap<SAXNode, String>();
 
 	Set<SeamBeanDefinition> beanDefinitions = new HashSet<SeamBeanDefinition>();
@@ -45,6 +49,14 @@ public class SeamBeansDefinition {
 	List<IType> replacedAndModified = new ArrayList<IType>();
 	
 	public SeamBeansDefinition() {}
+
+	public void setResource(IResource resource) {
+		this.resource = resource;
+	}
+
+	public IResource getResource() {
+		return resource;
+	}
 
 	public Map<SAXNode, String> getUnresolvedNodes() {
 		return unresolvedNodes;
@@ -91,7 +103,6 @@ public class SeamBeansDefinition {
 			if(replaces) flags |= AbstractMemberDefinition.FLAG_NO_ANNOTATIONS;
 			typeDef.setType(type, context.getRootContext(), flags);
 
-			System.out.println("--merge type def-->" + def.getType().getFullyQualifiedName());
 			mergeTypeDefinition(def, typeDef, context);
 
 			typeDefinitions.add(typeDef);
@@ -115,6 +126,7 @@ public class SeamBeansDefinition {
 			String n = fieldDef.getField().getElementName();
 			SeamFieldDefinition f = def.getField(n);
 			if(f != null) {
+				fieldDef.setOriginalDefinition(new TextSourceReference(f.getNode().getLocation()));
 				mergeAnnotations(f, fieldDef, context);
 			}
 		}
@@ -150,6 +162,27 @@ public class SeamBeansDefinition {
 			if(current != null) memberDef.removeAnnotation(current);
 			memberDef.addAnnotation(ja, context.getRootContext());
 		}
+	}
+
+	class TextSourceReference implements ITextSourceReference {
+		Location location;
+		
+		public TextSourceReference(Location location) {
+			this.location = location;
+		}		
+
+		public int getStartPosition() {
+			return location.getStartPosition();
+		}
+
+		public int getLength() {
+			return location.getLength();
+		}
+
+		public IResource getResource() {
+			return resource;
+		}
+		
 	}
 
 }

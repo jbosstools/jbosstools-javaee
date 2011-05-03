@@ -63,6 +63,7 @@ public class SeamDefinitionBuilder {
 		this.resource = resource;
 		
 		result = new SeamBeansDefinition();
+		result.setResource(resource);
 		if(document.get().indexOf("<") >= 0) { // file can be empty
 			SAXParser parser = new SAXParser();
 			String text = document.get();
@@ -124,6 +125,7 @@ public class SeamDefinitionBuilder {
 	}
 
 	private SeamBeanDefinition scanBean(SAXElement element, IType type, boolean inline) {
+		addDependency(type);
 		SeamBeanDefinition def = new SeamBeanDefinition();
 		def.setInline(inline);
 		def.setNode(element);
@@ -421,6 +423,7 @@ public class SeamDefinitionBuilder {
 		TypeCheck typeCheck = new TypeCheck(type, element);
 		if(typeCheck.isCorrupted) return null;
 		if(typeCheck.isAnnotation) {
+			addDependency(type);
 			context.getRootContext().getAnnotationKind(type); // kick it
 			String value = null;
 			SAXText text = element.getTextNode();
@@ -473,6 +476,15 @@ public class SeamDefinitionBuilder {
 			return null;
 		}
 		return new AnnotationLiteral(resource, forElement.getLocation().getStartPosition(), forElement.getLocation().getLength(), null, 0, type);
+	}
+
+	private void addDependency(IType type) {
+		if(!type.exists() || type.isBinary()) return;
+		if(!resource.exists() || resource.getName().endsWith(".jar")) return;
+		//beans.xml depends on type
+		context.getRootContext().addDependency(type.getResource().getFullPath(), resource.getFullPath());
+		//though type does not depend on beans.xml it has to be revalidated. Maybe it should be method addValidationDependency.
+		context.getRootContext().addDependency(resource.getFullPath(), type.getResource().getFullPath());
 	}
 
 }
