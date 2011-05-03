@@ -25,6 +25,7 @@ import org.jboss.tools.ui.bot.ext.config.Annotations.Server;
 import org.jboss.tools.ui.bot.ext.config.Annotations.ServerState;
 import org.jboss.tools.ui.bot.ext.gen.ActionItem;
 import org.jboss.tools.ui.bot.ext.parts.SWTBotBrowserExt;
+import org.jboss.tools.ui.bot.ext.parts.SWTBotRadioExt;
 import org.jboss.tools.ui.bot.ext.view.ProblemsView;
 import org.jboss.tools.ui.bot.test.SWTJBTBot;
 import org.junit.Test;
@@ -87,7 +88,7 @@ public class CreateSeamProjects extends AbstractSeamTestBase {
 		bot.button("Next >").click();
 		bot.button("Next >").click();
 		bot.comboBoxWithLabel("Seam Runtime:").setSelection(SWTTestExt.configuredState.getSeam().name);
-		bot.radio(type).click();
+		new SWTBotRadioExt(bot.radio(type).widget).clickWithoutDeselectionEvent();
 		bot.comboBoxWithLabel("Connection profile:").setSelection(CONN_PROFILE);
 		
 		SWTBotShell seamPrjShell = bot.activeShell();		

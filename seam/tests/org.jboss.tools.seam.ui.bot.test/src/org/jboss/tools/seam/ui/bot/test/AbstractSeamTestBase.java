@@ -1,21 +1,13 @@
 package org.jboss.tools.seam.ui.bot.test;
 
-import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
 import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotView;
 import org.eclipse.swtbot.swt.finder.SWTBot;
 import org.eclipse.swtbot.swt.finder.waits.Conditions;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotCLabel;
-import org.eclipse.swtbot.swt.finder.widgets.SWTBotLabel;
-import org.eclipse.swtbot.swt.finder.widgets.SWTBotMenu;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotShell;
-import org.eclipse.swtbot.swt.finder.widgets.SWTBotTreeItem;
-import org.jboss.tools.ui.bot.ext.SWTBotExt;
 import org.jboss.tools.ui.bot.ext.SWTTestExt;
+import org.jboss.tools.ui.bot.ext.Timing;
 import org.jboss.tools.ui.bot.ext.helper.ContextMenuHelper;
-import org.jboss.tools.ui.bot.ext.view.ProjectExplorer;
-import org.jboss.tools.ui.bot.test.JBTSWTBotTestCase;
-import org.jboss.tools.ui.bot.test.SWTJBTBot;
-import org.junit.BeforeClass;
 
 public abstract class AbstractSeamTestBase extends SWTTestExt {
 	
@@ -53,7 +45,7 @@ public abstract class AbstractSeamTestBase extends SWTTestExt {
 		
 		SWTBot viewBot = bot.activeView().bot();
 		
-		SWTBotTreeItem suiteItem = projectExplorer.selectTreeItem("Seam" + unitType + "Test.java", new String[] {
+		projectExplorer.selectTreeItem("Seam" + unitType + "Test.java", new String[] {
 			testProjectName + type + "-test",
 			"test-src",
 			getTestPackageName(type)
@@ -61,11 +53,10 @@ public abstract class AbstractSeamTestBase extends SWTTestExt {
 					
 		ContextMenuHelper.clickContextMenu(viewBot.tree(), "Run As", "2 TestNG Test");
 		SWTTestExt.util.waitForNonIgnoredJobs(120000);
-		
-		SWTBotView ngView = bot.viewByTitle("Results of running test class");
+		SWTBotView ngView = bot.viewByTitle("Results of running class Seam" + unitType + "Test");
+		bot.sleep(Timing.time20S());
 		SWTBot ngBot = ngView.bot();
 		int k = 0;
-		util.displayAllBotWidgets(ngBot);
 		SWTBotCLabel l = ngBot.clabel(k);
 				
 		int passed = -1;
