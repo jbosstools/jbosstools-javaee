@@ -10,6 +10,48 @@
             name="%CDISeamResourceLoadingHyperlinkDetector"
             targetId="org.eclipse.jdt.ui.javaCode">
       </hyperlinkDetector>
+
    </extension>
+
+   	<extension 
+		point="org.jboss.tools.common.text.ext.hyperlinkPartitioner"
+		id="org.jboss.tools.cdi.text.ext.hyperlinkPartitioner"
+		name="org.jboss.tools.cdi.text.ext.hyperlinkPartitioner">
+		<hyperlinkPartitioner 
+         	id="org.jboss.tools.cdi.seam.text.ext.hyperlink.SeamConfigTagNameHyperlinkPartitioner"
+         	class="org.jboss.tools.cdi.seam.text.ext.hyperlink.SeamConfigTagNameHyperlinkPartitioner">
+         	<contentType id="org.jboss.tools.common.model.ui.xml">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ELEMENT">
+         		    <axis path="/beans/*"/>
+         		</partitionType>
+         	</contentType>
+         	<contentType id="org.eclipse.core.runtime.xml">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ELEMENT">
+         		    <axis path="/beans/*"/>
+         		</partitionType>
+         	</contentType>
+		</hyperlinkPartitioner>
+   </extension>
+
+<extension 
+	point="org.jboss.tools.common.text.ext.hyperlink"
+	id="org.jboss.tools.common.text.ext.hyperlink"
+	name="org.jboss.tools.common.text.ext.hyperlink">
+
+		<hyperlink 
+			class="org.jboss.tools.cdi.seam.text.ext.hyperlink.SeamConfigTagNameHyperlink" 
+			id="org.jboss.tools.cdi.seam.text.ext.hyperlink.SeamConfigTagNameHyperlink">
+			<contenttypeidentifier id="org.eclipse.wst.xml.core.xmlsource">
+				<partitiontype id="org.jboss.tools.common.text.ext.jsp.SEAM_CONFIG_TAG_NAME" />
+			</contenttypeidentifier>
+			<contenttypeidentifier id="org.eclipse.core.runtime.xml">
+				<partitiontype id="org.jboss.tools.common.text.ext.jsp.SEAM_CONFIG_TAG_NAME" />
+			</contenttypeidentifier>
+			<contenttypeidentifier id="org.jboss.tools.common.model.ui.xml">
+				<partitiontype id="org.jboss.tools.common.text.ext.jsp.SEAM_CONFIG_TAG_NAME" />
+			</contenttypeidentifier>
+		</hyperlink>
+	
+</extension>
 
 </plugin>

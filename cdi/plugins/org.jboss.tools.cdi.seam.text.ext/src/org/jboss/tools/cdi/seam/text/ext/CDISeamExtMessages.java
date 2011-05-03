@@ -20,4 +20,5 @@ public class CDISeamExtMessages extends NLS{
 	}
 	public static String CDI_SEAM_EXT_PLUGIN_NO_MESSAGE;
 	public static String CDI_SEAM_RESOURCE_LOADING_HYPERLINK;
+	public static String CDI_SEAM_CONFIG_OPEN_TAG;
 }
