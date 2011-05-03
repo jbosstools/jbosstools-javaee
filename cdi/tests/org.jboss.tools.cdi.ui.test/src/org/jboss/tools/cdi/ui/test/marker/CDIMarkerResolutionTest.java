@@ -10,7 +10,6 @@
  ************************************************************************************/
 package org.jboss.tools.cdi.ui.test.marker;
 
-
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -23,7 +22,6 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.ltk.core.refactoring.CompositeChange;
 import org.eclipse.ltk.core.refactoring.RefactoringStatus;
-import org.eclipse.ltk.core.refactoring.RefactoringStatusEntry;
 import org.eclipse.ltk.core.refactoring.participants.RefactoringProcessor;
 import org.eclipse.ui.IMarkerResolution;
 import org.eclipse.ui.ide.IDE;
@@ -37,6 +35,7 @@ import org.jboss.tools.cdi.ui.marker.MakeMethodBusinessMarkerResolution;
 import org.jboss.tools.cdi.ui.marker.MakeMethodPublicMarkerResolution;
 import org.jboss.tools.cdi.ui.marker.TestableResolutionWithRefactoringProcessor;
 import org.jboss.tools.common.util.FileUtil;
+import org.jboss.tools.jst.web.kb.internal.validation.ValidatorManager;
 import org.jboss.tools.test.util.JobUtils;
 
 /**
@@ -55,11 +54,12 @@ public class CDIMarkerResolutionTest  extends ValidationTest {
 
 		assertTrue("File - "+file.getFullPath()+" must be exist",file.exists());
 
+		ValidatorManager.setStatus("TESTING");
 		copyFiles(project, fileNames);
-
-		tckProject.build(IncrementalProjectBuilder.INCREMENTAL_BUILD, null);
+		waitForIdle(project);
 
 		try{
+			file = project.getFile(fileNames[0]);
 			IMarker[] markers = file.findMarkers(markerType, true,	IResource.DEPTH_INFINITE);
 
 			for (int i = 0; i < markers.length; i++) {
@@ -74,6 +74,9 @@ public class CDIMarkerResolutionTest  extends ValidationTest {
 						for (int j = 0; j < resolutions.length; j++) {
 							IMarkerResolution resolution = resolutions[j];
 							if (resolution.getClass().equals(resolutionClass)) {
+
+								ValidatorManager.setStatus("TESTING");
+
 								if(resolution instanceof TestableResolutionWithRefactoringProcessor){
 									RefactoringProcessor processor = ((TestableResolutionWithRefactoringProcessor)resolution).getRefactoringProcessor();
 									
@@ -83,35 +86,34 @@ public class CDIMarkerResolutionTest  extends ValidationTest {
 //									for(RefactoringStatusEntry entry : entries){
 //										System.out.println("Refactor status - "+entry.getMessage());
 //									}
-									
+
 									assertNull("Rename processor returns fatal error", status.getEntryMatchingSeverity(RefactoringStatus.FATAL));
-									
+
 									status = processor.checkFinalConditions(new NullProgressMonitor(), null);
-									
+
 //									entries = status.getEntries();
 //									for(RefactoringStatusEntry entry : entries){
 //										System.out.println("Refactor status - "+entry.getMessage());
 //									}
-									
+
 									assertNull("Rename processor returns fatal error", status.getEntryMatchingSeverity(RefactoringStatus.FATAL));
-									
-									
+
 									CompositeChange rootChange = (CompositeChange)processor.createChange(new NullProgressMonitor());
-									
+
 									rootChange.perform(new NullProgressMonitor());
-								}else{
+								} else {
 									resolution.run(marker);
 								}
-								
-								refresh(project);
-								
+
+								waitForIdle(project);
+
+								file = project.getFile(fileNames[0]);
 								IMarker[] newMarkers = file.findMarkers(markerType, true,	IResource.DEPTH_INFINITE);
-								
+
 								assertTrue("Marker resolution did not decrease number of problems. was: "+markers.length+" now: "+newMarkers.length, newMarkers.length < markers.length);
-								
+
 								checkResults(project, fileNames, results);
-								
-								
+
 								return;
 							}
 						}
@@ -122,27 +124,29 @@ public class CDIMarkerResolutionTest  extends ValidationTest {
 			fail("Problem marker with id: "+id+" not found");
 		}finally{
 			restoreFiles(project, fileNames);
-			
-			refresh(project);
+			waitForIdle(project);
 		}
 	}
-	
-	private void refresh(IProject project) throws CoreException{
-		project.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
+
+	private void waitForIdle(IProject project) throws CoreException{
 		JobUtils.waitForIdle();
-		project.build(IncrementalProjectBuilder.INCREMENTAL_BUILD, null);
-		JobUtils.waitForIdle();
-		
+		for (int i = 0; i < 50; i++) {
+			if(ValidatorManager.getStatus().equals("Sleeping")) {
+				break;
+			}
+			JobUtils.delay(100);
+			JobUtils.waitForIdle();
+		}
 	}
-	
+
 	private void copyFiles(IProject project, String[] fileNames) throws CoreException{
 		for(String fileName : fileNames){
 			IFile file = project.getFile(fileName);
 			IFile copyFile = project.getFile(fileName+".copy");
-			
+
 			if(copyFile.exists())
 				copyFile.delete(true, null);
-			
+
 			InputStream is = null;
 			try{
 				is = file.getContents();
@@ -158,7 +162,7 @@ public class CDIMarkerResolutionTest  extends ValidationTest {
 			}
 		}
 	}
-	
+
 	private void restoreFiles(IProject project, String[] fileNames) throws CoreException {
 		for(String fileName : fileNames){
 			IFile file = project.getFile(fileName);
@@ -179,20 +183,19 @@ public class CDIMarkerResolutionTest  extends ValidationTest {
 			copyFile.delete(true, null);
 		}
 	}
-	
+
 	private void checkResults(IProject project, String[] fileNames, String[] results) throws CoreException{
 		for(int i = 0; i < results.length; i++){
 			IFile file = project.getFile(fileNames[i]);
 			IFile resultFile = project.getFile(results[i]);
-			
+
 			String fileContent = FileUtil.readStream(file);
 			String resultContent = FileUtil.readStream(resultFile);
-			
+
 			assertEquals("Wrong result of resolution", resultContent, fileContent);
 		}
-		
 	}
-	
+
 	public void testMakeProducerFieldStaticResolution() throws CoreException {
 		checkResolution(tckProject, 
 				new String[]{
@@ -206,7 +209,7 @@ public class CDIMarkerResolutionTest  extends ValidationTest {
 				CDIValidationErrorManager.ILLEGAL_PRODUCER_FIELD_IN_SESSION_BEAN_ID,
 				MakeFieldStaticMarkerResolution.class);
 	}
-	
+
 	public void testMakeProducerMethodBusinessResolution() throws CoreException {
 		checkResolution(
 				tckProject,
@@ -223,7 +226,7 @@ public class CDIMarkerResolutionTest  extends ValidationTest {
 				CDIValidationErrorManager.ILLEGAL_PRODUCER_METHOD_IN_SESSION_BEAN_ID,
 				MakeMethodBusinessMarkerResolution.class);
 	}
-	
+
 	public void testAddLocalBeanResolution() throws CoreException {
 		checkResolution(
 				tckProject,
