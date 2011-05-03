@@ -158,32 +158,21 @@ public class CDISearchParticipantTest  extends TCKTest {
 		
 		matches.add(new MatchStructure(EventBean.class, "Event"));
 		
-		matches.add(new MatchStructure(ObserverMethod.class, "DiscerningObserver.observeAny()"));
 		matches.add(new MatchStructure(ObserverMethod.class, "EventTypeFamilyObserver.observeObject()"));
-		matches.add(new MatchStructure(ObserverMethod.class, "Fox.observeEvent()"));
 		matches.add(new MatchStructure(ObserverMethod.class, "GoldenRetriever.anObserverMethod()"));
-		matches.add(new MatchStructure(ObserverMethod.class, "Pomeranian.observeStringEvent()"));
-		matches.add(new MatchStructure(ObserverMethod.class, "StringObserver.anotherObserver()"));
-		matches.add(new MatchStructure(ObserverMethod.class, "TeaCupPomeranian.observeSimpleEvent()"));
-		matches.add(new MatchStructure(ObserverMethod.class, "Terrier.observer()"));
-		matches.add(new MatchStructure(ObserverMethod.class, "TibetanTerrier_Broken.observeSomeEvent()"));
-		matches.add(new MatchStructure(ObserverMethod.class, "TibetanTerrier_BrokenNoInterface.observeSomeEvent()"));
 		matches.add(new MatchStructure(ObserverMethod.class, "ClassFragmentLogger.addEntry()"));
-		matches.add(new MatchStructure(ObserverMethod.class, "ObserverMethodInInterceptorBroken.observeSomeEvent()"));
-		matches.add(new MatchStructure(ObserverMethod.class, "ObserverMethodInDecoratorBroken.observeSomeEvent()"));
 		
-		testSearchParticipant("JavaSource/org/jboss/jsr299/tck/tests/event/bindingTypes/EventEmitter.java", FIELD_SEARCH, "stringEvent", "", new InjectionPointQueryParticipant(), matches);
+		testSearchParticipant("JavaSource/org/jboss/jsr299/tck/tests/jbt/search/EventEmitter.java", FIELD_SEARCH, "myEvent", "", new InjectionPointQueryParticipant(), matches);
 	}
 
 	public void testInjectionPointQueryParticipant4(){
 		ArrayList<MatchStructure> matches = new ArrayList<MatchStructure>();
 		
-		matches.add(new MatchStructure(InjectionPointField.class, "EventEmitter.stringEvent"));
-		matches.add(new MatchStructure(InjectionPointField.class, "EventEmitter.stringEventWithAnyAndNonRuntimeBindingType"));
-		matches.add(new MatchStructure(InjectionPointField.class, "EventEmitter.stringEventWithOnlyNonRuntimeBindingType"));
-		matches.add(new MatchStructure(InjectionPointField.class, "OwlFinch_Broken.simpleEvent"));
+		matches.add(new MatchStructure(InjectionPointField.class, "EventEmitter.myEvent"));
+		matches.add(new MatchStructure(InjectionPointField.class, "EventEmitter.myEventWithAnyAndNonRuntimeBindingType"));
+		matches.add(new MatchStructure(InjectionPointField.class, "EventEmitter.myEventWithOnlyNonRuntimeBindingType"));
 		
-		testSearchParticipant("JavaSource/org/jboss/jsr299/tck/tests/implementation/enterprise/newBean/GoldenRetriever.java", METHOD_SEARCH, "anObserverMethod", "", new InjectionPointQueryParticipant(), matches);
+		testSearchParticipant("JavaSource/org/jboss/jsr299/tck/tests/jbt/search/GoldenRetriever.java", METHOD_SEARCH, "anObserverMethod", "", new InjectionPointQueryParticipant(), matches);
 	}
 
 	public void testCDIBeanQueryParticipant(){
