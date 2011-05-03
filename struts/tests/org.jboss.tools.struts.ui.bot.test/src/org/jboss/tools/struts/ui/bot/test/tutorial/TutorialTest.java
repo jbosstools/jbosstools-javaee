@@ -482,7 +482,6 @@ public class TutorialTest extends SWTTestExt {
         bot.sleep(1000);
         util.waitForNonIgnoredJobs();
         bot.sleep(1500);
-//        tb = bot.activeShell().bot().toolbarButtonWithTooltip("Change Timestamp of " + PROJECT_NAME);
         tb = bot.activeShell().bot().toolbarButtonWithTooltip("Touch descriptors");
        	tb.click();
        	ed.show();
