@@ -25,7 +25,9 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceDelta;
 import org.eclipse.core.resources.IResourceDeltaVisitor;
 import org.eclipse.core.resources.IResourceVisitor;
+import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -42,6 +44,7 @@ import org.eclipse.jdt.core.IType;
 import org.jboss.tools.cdi.core.extension.IDefinitionContextExtension;
 import org.jboss.tools.cdi.core.extension.feature.IBuildParticipantFeature;
 import org.jboss.tools.cdi.internal.core.impl.definition.AnnotationHelper;
+import org.jboss.tools.cdi.internal.core.impl.definition.Dependencies;
 import org.jboss.tools.cdi.internal.core.scanner.CDIBuilderDelegate;
 import org.jboss.tools.cdi.internal.core.scanner.FileSet;
 import org.jboss.tools.common.EclipseUtil;
@@ -304,6 +307,29 @@ public class CDICoreBuilder extends IncrementalProjectBuilder {
 		if(n != null) n.clean();
 	}
 
+	/**
+	 * Returns files directly dependent on path which are not included into visited set. 
+	 * 
+	 * @param path
+	 * @param visited
+	 * @return
+	 */
+	Set<IFile> getDependentFiles(IPath path, Set<IPath> visited) {
+		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+		Dependencies d = getCDICoreNature().getDefinitions().getWorkingCopy().getDependencies();
+		Set<IFile> result = new HashSet<IFile>();
+
+		// we do not need to recurse: that will be done by visitor.
+		Set<IPath> ps = d.getDirectDependencies(path);
+		if(ps != null) for (IPath p: ps) {
+			if(visited.contains(p)) continue;
+			IFile f = root.getFile(p);
+			if(f != null && f.exists()) result.add(f);
+		}
+		
+		return result;		
+	}
+
 	class SampleDeltaVisitor implements IResourceDeltaVisitor {
 		/*
 		 * @see org.eclipse.core.resources.IResourceDeltaVisitor#visit(org.eclipse.core.resources.IResourceDelta)
@@ -408,6 +434,8 @@ public class CDICoreBuilder extends IncrementalProjectBuilder {
 							addBeansXML(f, fileSet);
 						}
 						for (IBuildParticipantFeature p: buildParticipants) p.visit(f, srcs[i], null);
+						Set<IFile> ds = getDependentFiles(path, visited);
+						if(ds != null) for (IFile d: ds) visit(d);
 						return false;
 					}
 				}
@@ -417,6 +445,9 @@ public class CDICoreBuilder extends IncrementalProjectBuilder {
 					}
 					for (IBuildParticipantFeature p: buildParticipants) p.visit(f, null, webinf);
 				}
+				
+				Set<IFile> ds = getDependentFiles(path, visited);
+				if(ds != null) for (IFile d: ds) visit(d);
 			}
 			
 			if(resource instanceof IFolder) {

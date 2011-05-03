@@ -48,6 +48,8 @@ public class DefinitionContext implements IRootDefinitionContext {
 
 	Set<IDefinitionContextExtension> extensions = new HashSet<IDefinitionContextExtension>();
 
+	private Dependencies dependencies = new Dependencies();
+
 	private DefinitionContext workingCopy;
 	private DefinitionContext original;
 
@@ -99,6 +101,7 @@ public class DefinitionContext implements IRootDefinitionContext {
 				}
 			}
 			copy.beanXMLs.putAll(beanXMLs);
+			copy.dependencies = dependencies;
 		}
 		
 		return copy;
@@ -208,6 +211,7 @@ public class DefinitionContext implements IRootDefinitionContext {
 		}
 	
 		for (IDefinitionContextExtension e: extensions) e.clean();
+		dependencies.clean();
 	}
 
 	public void clean(IPath path) {
@@ -230,6 +234,7 @@ public class DefinitionContext implements IRootDefinitionContext {
 		}
 	
 		for (IDefinitionContextExtension e: extensions) e.clean(path);
+		dependencies.clean(path);
 	}
 
 	public void clean(String typeName) {
@@ -357,6 +362,7 @@ public class DefinitionContext implements IRootDefinitionContext {
 		packages = workingCopy.packages;
 		packageDefinitions = workingCopy.packageDefinitions;
 		beanXMLs = workingCopy.beanXMLs;
+		dependencies = workingCopy.dependencies;
 
 		Set<IProcessAnnotatedTypeFeature> fs = project.getExtensionManager().getProcessAnnotatedTypeFeature();
 		if(fs != null && !fs.isEmpty()) {
@@ -457,6 +463,14 @@ public class DefinitionContext implements IRootDefinitionContext {
 	public void unveto(IType type) {
 		TypeDefinition d = typeDefinitions.get(type.getFullyQualifiedName());
 		if(d != null) d.unveto();
+	}
+
+	public void addDependency(IPath source, IPath target) {
+		dependencies.addDependency(source, target);
+	}
+
+	public Dependencies getDependencies() {
+		return dependencies;
 	}
 	
 }

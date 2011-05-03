@@ -16,11 +16,13 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.IAnnotatable;
 import org.eclipse.jdt.core.IAnnotation;
 import org.eclipse.jdt.core.IJavaElement;
+import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.IType;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.CDICoreNature;
@@ -51,6 +53,8 @@ public abstract class AbstractMemberDefinition implements IAnnotated {
 	protected IAnnotatable member;
 	protected Map<String, AnnotationDeclaration> annotationsByType = new HashMap<String, AnnotationDeclaration>();
 	protected IResource resource;
+	
+	protected ITextSourceReference originalDefinition = null;
 
 	public AbstractMemberDefinition() {}
 
@@ -61,6 +65,10 @@ public abstract class AbstractMemberDefinition implements IAnnotated {
 		} catch (CoreException e) {
 			CDICorePlugin.getDefault().logError(e);
 		}
+	}
+
+	public void setOriginalDefinition(ITextSourceReference def) {
+		originalDefinition = def;
 	}
 
 	public IAnnotatable getMember() {
@@ -98,6 +106,17 @@ public abstract class AbstractMemberDefinition implements IAnnotated {
 		a.setProject(context.getProject());
 		a.setDeclaration(ja);
 		addAnnotation(a, context);
+		addDependency(ja.getType(), context);
+	}
+
+	protected void addDependency(IMember reference, IRootDefinitionContext context) {
+		if(reference == null || reference.isBinary()) return;
+		if(!(resource instanceof IFile)) return;
+		IFile target = (IFile)resource;
+		IFile source = (IFile)reference.getResource();
+		if(target.exists() && source != null && source.exists()) {
+			context.addDependency(source.getFullPath(), target.getFullPath());
+		}
 	}
 
 	private void addAnnotation(AnnotationDeclaration a, IRootDefinitionContext context) {
@@ -203,5 +222,9 @@ public abstract class AbstractMemberDefinition implements IAnnotated {
 
 	public IResource getResource() {
 		return resource;
+	}
+
+	public ITextSourceReference getOriginalDefinition() {
+		return originalDefinition;
 	}
 }

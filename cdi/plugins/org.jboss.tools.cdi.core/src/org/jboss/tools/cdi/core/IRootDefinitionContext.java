@@ -53,4 +53,6 @@ public interface IRootDefinitionContext extends IDefinitionContext {
 
 	public Set<IDefinitionContextExtension> getExtensions();
 
+	public void addDependency(IPath source, IPath target);
+
 }

@@ -90,6 +90,7 @@ import org.jboss.tools.cdi.internal.core.impl.CDIProject;
 import org.jboss.tools.cdi.internal.core.impl.ParametedType;
 import org.jboss.tools.cdi.internal.core.impl.Parameter;
 import org.jboss.tools.cdi.internal.core.impl.SessionBean;
+import org.jboss.tools.cdi.internal.core.impl.definition.Dependencies;
 import org.jboss.tools.common.model.util.EclipseJavaUtil;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.text.ITextSourceReference;
@@ -270,6 +271,26 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 		// linked again during validation.
 		getValidationContext().removeLinkedCoreResources(SHORT_ID, resources);
 
+		Dependencies ds = cdiProject.getNature().getDefinitions().getDependencies();
+		Set<IFile> dependentFiles = new HashSet<IFile>();
+		for(IFile file: filesToValidate) {
+			Set<IPath> dd = ds.getDirectDependencies(file.getFullPath());
+			if(dd != null && !dd.isEmpty()) {
+				for (IPath p: dd) {
+					IFile f = cdiProject.getNature().getProject().getParent().getFile(p);
+					if(f != null && f.exists() && !filesToValidate.contains(f)) dependentFiles.add(f);
+				}
+			}
+		}
+		if(!dependentFiles.isEmpty()) {
+			System.out.println("Dependencies=" + dependentFiles.size());
+			filesToValidate.addAll(dependentFiles);
+		}
+
+		// We should remove markers from the source files at first
+		for(IFile file: filesToValidate) {
+			removeAllMessagesFromResource(file);
+		}
 		// Then we can validate them
 		for (IFile file : filesToValidate) {
 			validateResource(file);
@@ -340,6 +361,10 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 			}
 		}
 
+		// We should remove markers from the source files at first
+		for(IFile file: filesToValidate) {
+			removeAllMessagesFromResource(file);
+		}
 		for (IFile file : filesToValidate) {
 			validateResource(file);
 		}
@@ -358,9 +383,6 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 		}
 		displaySubtask(CDIValidationMessages.VALIDATING_RESOURCE, new String[] {file.getProject().getName(), file.getName()});
 		coreHelper.getValidationContextManager().addValidatedProject(this, file.getProject());
-
-		// We should remove markers from the source file at first
-		removeAllMessagesFromResource(file);
 
 		if("beans.xml".equalsIgnoreCase(file.getName()) && CDIPreferences.shouldValidateBeansXml(file.getProject())) {
 			// TODO should we check the path of the beans.xml? Or it's better to check the every beans.xml even if it is not in META-INF or WEB-INF.

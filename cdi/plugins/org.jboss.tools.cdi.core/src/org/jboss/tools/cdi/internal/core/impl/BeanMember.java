@@ -10,6 +10,7 @@
  ******************************************************************************/ 
 package org.jboss.tools.cdi.internal.core.impl;
 
+import org.eclipse.core.resources.IResource;
 import org.eclipse.jdt.core.IField;
 import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.IMethod;
@@ -97,7 +98,17 @@ public abstract class BeanMember extends AbstractBeanElement implements IBeanMem
 		return typeDeclaration;
 	}
 
+	public IResource getResource() {
+		if(definition.getOriginalDefinition() != null) {
+			return definition.getOriginalDefinition().getResource();
+		}
+		return super.getResource();
+	}
+
 	public int getLength() {
+		if(definition.getOriginalDefinition() != null) {
+			return definition.getOriginalDefinition().getLength();
+		}
 		ISourceRange r = null;
 		try {
 			getSourceMember().getSourceRange();
@@ -108,6 +119,9 @@ public abstract class BeanMember extends AbstractBeanElement implements IBeanMem
 	}
 
 	public int getStartPosition() {
+		if(definition.getOriginalDefinition() != null) {
+			return definition.getOriginalDefinition().getStartPosition();
+		}
 		ISourceRange r = null;
 		try {
 			getSourceMember().getSourceRange();
