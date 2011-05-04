@@ -21,12 +21,18 @@
          	id="org.jboss.tools.cdi.seam.text.ext.hyperlink.SeamConfigTagNameHyperlinkPartitioner"
          	class="org.jboss.tools.cdi.seam.text.ext.hyperlink.SeamConfigTagNameHyperlinkPartitioner">
          	<contentType id="org.jboss.tools.common.model.ui.xml">
-         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ELEMENT">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ELEMENT_NAME">
+         		    <axis path="/beans/*"/>
+         		</partitionType>
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_NAME">
          		    <axis path="/beans/*"/>
          		</partitionType>
          	</contentType>
          	<contentType id="org.eclipse.core.runtime.xml">
-         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ELEMENT">
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ELEMENT_NAME">
+         		    <axis path="/beans/*"/>
+         		</partitionType>
+         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_NAME">
          		    <axis path="/beans/*"/>
          		</partitionType>
          	</contentType>
