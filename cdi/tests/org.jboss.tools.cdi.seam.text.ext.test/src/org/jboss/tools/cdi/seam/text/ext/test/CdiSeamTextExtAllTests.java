@@ -12,6 +12,7 @@ package org.jboss.tools.cdi.seam.text.ext.test;
 
 import org.eclipse.jdt.internal.core.JavaModelManager;
 import org.jboss.tools.cdi.core.test.CDICoreTestSetup;
+import org.jboss.tools.cdi.seam.config.core.test.SeamConfigTestSetup;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
@@ -27,6 +28,11 @@ public class CdiSeamTextExtAllTests {
 		suite.addTestSuite(CDISeamResourceLoadingHyperlinkDetectorTest.class);
 		
 		suiteAll.addTest(new CDICoreTestSetup(suite));
+
+		TestSuite suiteConfig = new TestSuite("CDI Seam Config Tests");
+		suiteConfig.addTestSuite(SeamConfigTagNameHyperlinkTest.class);
+		
+		suiteAll.addTest(new SeamConfigTestSetup(suiteConfig));
 		
 		return suiteAll;
 	}
