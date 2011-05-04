@@ -3,6 +3,7 @@ package org.jboss.tools.cdi.text.ext.test;
 import java.util.List;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.jdt.internal.ui.javaeditor.JavaEditor;
 import org.eclipse.jdt.internal.ui.text.JavaWordFinder;
@@ -27,6 +28,8 @@ import org.eclipse.wst.sse.core.internal.provisional.IStructuredModel;
 import org.eclipse.wst.sse.ui.StructuredTextEditor;
 import org.eclipse.wst.xml.ui.internal.tabletree.XMLMultiPageEditorPart;
 import org.jboss.tools.cdi.core.test.tck.TCKTest;
+import org.jboss.tools.common.editor.ObjectMultiPageEditor;
+import org.jboss.tools.common.model.ui.editor.EditorPartWrapper;
 import org.jboss.tools.common.text.ext.hyperlink.HyperlinkDetector;
 import org.jboss.tools.common.text.ext.hyperlink.IHyperlinkRegion;
 import org.jboss.tools.common.text.ext.util.AxisUtil;
@@ -101,8 +104,12 @@ public class HyperlinkDetectorTest  extends TCKTest {
 	}
 
 	protected void checkHyperLinkInXml(String fileName, int offset, String hyperlinkClassName) throws Exception {
+		checkHyperLinkInXml(fileName, tckProject, offset, hyperlinkClassName);
+	}
+
+	public static IHyperlink checkHyperLinkInXml(String fileName, IProject project, int offset, String hyperlinkClassName) throws Exception {
 		Region region = new Region(offset, 0);
-		IFile file = tckProject.getFile(fileName);
+		IFile file = project.getFile(fileName);
 
 		assertNotNull("The file \"" + fileName + "\" is not found", file);
 		assertTrue("The file \"" + fileName + "\" is not found", file.isAccessible());
@@ -110,23 +117,29 @@ public class HyperlinkDetectorTest  extends TCKTest {
 		FileEditorInput editorInput = new FileEditorInput(file);
 
 		IEditorPart part = openFileInEditor(file);
+		if(part instanceof EditorPartWrapper) part = ((EditorPartWrapper)part).getEditor();
 		ISourceViewer viewer = null;
 		if (part instanceof XMLMultiPageEditorPart) {
 			IEditorPart[] parts = ((XMLMultiPageEditorPart)part).findEditors(editorInput);
 			if(parts.length>0) {
 				viewer = ((StructuredTextEditor)parts[0]).getTextViewer();
 			}
+		} else if(part instanceof ObjectMultiPageEditor) {
+			viewer = ((ObjectMultiPageEditor)part).getSourceEditor().getTextViewer();
+		} else if(part instanceof StructuredTextEditor) {
+			viewer = ((StructuredTextEditor)part).getTextViewer();
 		}
 
 		IHyperlink[] links = HyperlinkDetector.getInstance().detectHyperlinks(viewer, region, true);
 		if(links!=null) {
 			for (IHyperlink hyperlink : links) {
 				if(hyperlink.getClass().getName().equals(hyperlinkClassName)) {
-					return;
+					return hyperlink;
 				}
 			}
 		}
 		fail("Can't find HyperLink");
+		return null;
 	}
 
 	protected boolean findOffsetInRegions(int offset, List<Region> regionList){
@@ -137,11 +150,11 @@ public class HyperlinkDetectorTest  extends TCKTest {
 		return false;
 	}
 
-	protected IEditorPart openFileInEditor(IFile input) {
+	public static IEditorPart openFileInEditor(IFile input) {
 		return openFileInEditor(input, null);
 	}
 
-	protected IEditorPart openFileInEditor(IFile input, String id) {
+	public static IEditorPart openFileInEditor(IFile input, String id) {
 		if (input != null && input.exists()) {
 			try {
 				if(id==null) {
