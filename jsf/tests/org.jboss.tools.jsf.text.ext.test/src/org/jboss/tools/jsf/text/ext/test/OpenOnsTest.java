@@ -20,6 +20,7 @@ import org.jboss.tools.common.model.ui.editor.EditorPartWrapper;
 import org.jboss.tools.common.model.ui.editors.multipage.DefaultMultipageEditor;
 import org.jboss.tools.common.text.ext.hyperlink.HyperlinkDetector;
 import org.jboss.tools.jsf.text.ext.hyperlink.JsfJSPTagNameHyperlinkDetector;
+import org.jboss.tools.jsf.text.ext.hyperlink.TLDTagHyperlink;
 import org.jboss.tools.jst.jsp.jspeditor.JSPMultiPageEditor;
 import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.WorkbenchUtils;
@@ -571,4 +572,120 @@ public class OpenOnsTest extends TestCase {
 		String fileName = editor.getEditorInput().getName();
 		assertTrue("style1.css".equals(fileName));		
 	}
+
+	public static final String TAGLIB_TAGS_TEST_FILE = OPENON_TEST_PROJECT + "/WebContent/tldTagsHyperlinkTests.jsp";
+	
+	public void testTaglibAttributeFromJarOpenOn() throws BadLocationException {
+		IEditorPart editor = WorkbenchUtils.openEditor(TAGLIB_TAGS_TEST_FILE);
+		assertTrue(editor instanceof JSPMultiPageEditor);
+		JobUtils.waitForIdle();
+		JSPMultiPageEditor jspMultyPageEditor = (JSPMultiPageEditor) editor;
+		ISourceViewer viewer = jspMultyPageEditor.getSourceEditor().getTextViewer();
+		IDocument document = jspMultyPageEditor.getSourceEditor().getTextViewer().getDocument();
+		IRegion reg = new FindReplaceDocumentAdapter(document).find(0,
+				"value", true, true, false, false);
+		IHyperlink[] links = new JsfJSPTagNameHyperlinkDetector().detectHyperlinks(viewer, reg, true);
+		assertNotNull(links);
+		assertTrue(links.length!=0);
+		//assertNotNull(links[0].getHyperlinkText());
+		assertNotNull(links[0].toString());
+		links[0].open();
+		JobUtils.waitForIdle();
+		
+		editor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
+		
+		String fileName = editor.getEditorInput().getName();
+		assertTrue("html_basic.tld".equals(fileName));
+		
+		assertModelObjectSelection(links[0], "value");
+	}
+	
+	public void testTaglibTagsFromJarOpenOn() throws BadLocationException {
+		IEditorPart editor = WorkbenchUtils.openEditor(TAGLIB_TAGS_TEST_FILE);
+		assertTrue(editor instanceof JSPMultiPageEditor);
+		JobUtils.waitForIdle();
+		JSPMultiPageEditor jspMultyPageEditor = (JSPMultiPageEditor) editor;
+		ISourceViewer viewer = jspMultyPageEditor.getSourceEditor().getTextViewer();
+		IDocument document = jspMultyPageEditor.getSourceEditor().getTextViewer().getDocument();
+		IRegion reg = new FindReplaceDocumentAdapter(document).find(0,
+				"h:outputText", true, true, false, false);
+		IHyperlink[] links = new JsfJSPTagNameHyperlinkDetector().detectHyperlinks(viewer, reg, true);
+		assertNotNull(links);
+		assertTrue(links.length!=0);
+		//assertNotNull(links[0].getHyperlinkText());
+		assertNotNull(links[0].toString());
+		links[0].open();
+		JobUtils.waitForIdle();
+		
+		editor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
+		
+		String fileName = editor.getEditorInput().getName();
+		assertTrue("html_basic.tld".equals(fileName));
+
+		try {
+			assertModelObjectSelection(links[0], "outputText");
+		} finally {
+			PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().closeEditor(editor, false);
+		}
+	}
+	
+	public void testTaglibTagsInWebInfOpenOn() throws BadLocationException {
+		IEditorPart editor = WorkbenchUtils.openEditor(TAGLIB_TAGS_TEST_FILE);
+		assertTrue(editor instanceof JSPMultiPageEditor);
+		JobUtils.waitForIdle();
+		JSPMultiPageEditor jspMultyPageEditor = (JSPMultiPageEditor) editor;
+		ISourceViewer viewer = jspMultyPageEditor.getSourceEditor().getTextViewer();
+		IDocument document = jspMultyPageEditor.getSourceEditor().getTextViewer().getDocument();
+		IRegion reg = new FindReplaceDocumentAdapter(document).find(0,
+				"m:myTag", true, true, false, false);
+		IHyperlink[] links = new JsfJSPTagNameHyperlinkDetector().detectHyperlinks(viewer, reg, true);
+		assertNotNull(links);
+		assertTrue(links.length!=0);
+		//assertNotNull(links[0].getHyperlinkText());
+		assertNotNull(links[0].toString());
+		links[0].open();
+		JobUtils.waitForIdle();
+		
+		editor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
+		
+		String fileName = editor.getEditorInput().getName();
+		assertTrue("myLibrary.tld".equals(fileName));
+		
+		assertModelObjectSelection(links[0], "myTag");
+	}
+	
+	public void testTaglibAttributeInWebInfOpenOn() throws BadLocationException {
+		IEditorPart editor = WorkbenchUtils.openEditor(TAGLIB_TAGS_TEST_FILE);
+		assertTrue(editor instanceof JSPMultiPageEditor);
+		JobUtils.waitForIdle();
+		JSPMultiPageEditor jspMultyPageEditor = (JSPMultiPageEditor) editor;
+		ISourceViewer viewer = jspMultyPageEditor.getSourceEditor().getTextViewer();
+		IDocument document = jspMultyPageEditor.getSourceEditor().getTextViewer().getDocument();
+		IRegion reg = new FindReplaceDocumentAdapter(document).find(0,
+				"myattr", true, true, false, false);
+		IHyperlink[] links = new JsfJSPTagNameHyperlinkDetector().detectHyperlinks(viewer, reg, true);
+		assertNotNull(links);
+		assertTrue(links.length!=0);
+		//assertNotNull(links[0].getHyperlinkText());
+		assertNotNull(links[0].toString());
+		links[0].open();
+		JobUtils.waitForIdle();
+		
+		editor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
+		
+		String fileName = editor.getEditorInput().getName();
+		assertTrue("myLibrary.tld".equals(fileName));
+		
+		assertModelObjectSelection(links[0], "myattr");
+	}
+
+	void assertModelObjectSelection(IHyperlink link, String name) {
+		assertTrue(link instanceof TLDTagHyperlink);
+		TLDTagHyperlink tagLink = (TLDTagHyperlink)link;
+		String objectName = tagLink.getObjectName();
+		int i = objectName.lastIndexOf(":");
+		if(i > 0) objectName = objectName.substring(i + 1).trim();
+		assertEquals(name, objectName);
+	}	
+
 }
