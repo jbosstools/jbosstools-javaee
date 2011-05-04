@@ -50,7 +50,6 @@ public class SeamConfigTagNameHyperlinkTest extends SeamConfigTest {
 		IFile f = input.getFile();
 		assertEquals("OtherQualifier.java", f.getName());
 		ISelection selection =  editor.getEditorSite().getSelectionProvider().getSelection();
-		System.out.println(selection);
 		assertTrue(selection instanceof TextSelection);
 		TextSelection textSelection = (TextSelection)selection;
 		assertEquals("value1", textSelection.getText());
