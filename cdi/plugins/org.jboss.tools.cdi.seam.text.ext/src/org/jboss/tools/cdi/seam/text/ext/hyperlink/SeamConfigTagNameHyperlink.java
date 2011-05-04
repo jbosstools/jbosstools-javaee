@@ -27,6 +27,7 @@ import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.Region;
 import org.eclipse.ui.PartInitException;
+import org.eclipse.wst.xml.core.internal.provisional.document.IDOMAttr;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMElement;
 import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.CDICorePlugin;
@@ -208,11 +209,22 @@ public class SeamConfigTagNameHyperlink extends AbstractHyperlink {
 
 			if (n == null || !(n instanceof IDOMElement)) return null;
 			
-			IDOMElement elem = (IDOMElement)n;
-			String tagName = elem.getTagName();
-			int start = elem.getStartOffset();
-			final int nameStart = start + (elem.isEndTag() ? "</" : "<").length(); //$NON-NLS-1$ //$NON-NLS-2$
-			final int nameEnd = nameStart + tagName.length();
+			int start, nameStart, nameEnd;
+			
+			if(n instanceof IDOMElement) {			
+				IDOMElement elem = (IDOMElement)n;
+				String tagName = elem.getTagName();
+				start = elem.getStartOffset();
+				nameStart = start + (elem.isEndTag() ? "</" : "<").length(); //$NON-NLS-1$ //$NON-NLS-2$
+				nameEnd = nameStart + tagName.length();
+			} else if (n instanceof IDOMAttr) {
+				String attrName = n.getNodeName();
+				start = ((IDOMAttr)n).getStartOffset();
+				nameStart = start;
+				nameEnd = start + attrName.length();
+			} else {
+				return null;
+			}
 
 			if (nameStart > offset || nameEnd <= offset) return null;
 			
