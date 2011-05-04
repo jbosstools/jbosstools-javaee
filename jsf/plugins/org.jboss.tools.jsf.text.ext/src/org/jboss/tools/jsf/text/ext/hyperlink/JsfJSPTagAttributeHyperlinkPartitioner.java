@@ -110,7 +110,7 @@ public class JsfJSPTagAttributeHyperlinkPartitioner extends AbstractHyperlinkPar
 			IDOMNode node = (IDOMNode)n;
 			
 			int start = node.getStartOffset();
-			int end = node.getEndOffset();
+			int end = (n instanceof Attr) ? start + ((Attr)n).getNodeName().length() : node.getEndOffset();
 			
 			if (start > offset || end < offset) return null;
 
