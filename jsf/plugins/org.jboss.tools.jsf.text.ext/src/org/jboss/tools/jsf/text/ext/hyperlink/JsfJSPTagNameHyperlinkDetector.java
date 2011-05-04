@@ -19,7 +19,9 @@ import org.eclipse.jface.text.ITextViewer;
 import org.eclipse.jface.text.Region;
 import org.eclipse.jface.text.hyperlink.AbstractHyperlinkDetector;
 import org.eclipse.jface.text.hyperlink.IHyperlink;
+import org.eclipse.wst.xml.core.internal.provisional.document.IDOMAttr;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMElement;
+import org.eclipse.wst.xml.core.internal.provisional.document.IDOMNode;
 import org.jboss.tools.common.core.resources.XModelObjectEditorInput;
 import org.jboss.tools.common.el.core.resolver.ELContext;
 import org.jboss.tools.common.model.XModelObject;
@@ -27,15 +29,20 @@ import org.jboss.tools.common.text.ext.util.StructuredModelWrapper;
 import org.jboss.tools.common.text.ext.util.Utils;
 import org.jboss.tools.jst.jsp.jspeditor.JSPTextEditor;
 import org.jboss.tools.jst.jsp.jspeditor.JSPTextEditor.JSPStructuredTextViewer;
+import org.jboss.tools.jst.text.ext.util.TaglibManagerWrapper;
 import org.jboss.tools.jst.web.kb.IPageContext;
 import org.jboss.tools.jst.web.kb.KbQuery;
 import org.jboss.tools.jst.web.kb.PageContextFactory;
 import org.jboss.tools.jst.web.kb.PageProcessor;
+import org.jboss.tools.jst.web.kb.internal.taglib.AbstractAttribute;
 import org.jboss.tools.jst.web.kb.internal.taglib.AbstractComponent;
 import org.jboss.tools.jst.web.kb.internal.taglib.FaceletTag;
 import org.jboss.tools.jst.web.kb.internal.taglib.TLDTag;
+import org.jboss.tools.jst.web.kb.taglib.IAttribute;
 import org.jboss.tools.jst.web.kb.taglib.IComponent;
+import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 public class JsfJSPTagNameHyperlinkDetector extends AbstractHyperlinkDetector {
@@ -65,12 +72,15 @@ public class JsfJSPTagNameHyperlinkDetector extends AbstractHyperlinkDetector {
 		
 		IRegion reg = getRegion(n, region.getOffset());
 		
-		if(reg != null){
+		if(reg != null && n instanceof IDOMElement) {
+			String tagName = n.getNodeName();
+			int i = tagName.indexOf(":");
 			KbQuery query = new KbQuery();
 			query.setType(KbQuery.Type.TAG_NAME);
-			
+			if(i > 0) query.setPrefix(tagName.substring(0, i));
 			query.setOffset(reg.getOffset());
-			query.setValue(n.getNodeName());
+			query.setValue(tagName);
+			query.setUri(getURI(region, textViewer.getDocument()));
 			query.setMask(false);
 			
 			ELContext context = PageContextFactory.createPageContext(file);
@@ -81,6 +91,35 @@ public class JsfJSPTagNameHyperlinkDetector extends AbstractHyperlinkDetector {
 				for(IComponent component : components){
 					if(validateComponent(component)){
 						TLDTagHyperlink link = new TLDTagHyperlink((AbstractComponent)component, reg);
+						link.setDocument(textViewer.getDocument());
+						hyperlinks.add(link);
+					}
+				}
+				sortHyperlinks(hyperlinks);
+				if(hyperlinks.size() > 0)
+					return (IHyperlink[]) hyperlinks.toArray(new IHyperlink[hyperlinks.size()]);
+			}
+		} else if(reg != null && n instanceof IDOMAttr) {
+			String tagName = ((IDOMAttr)n).getOwnerElement().getNodeName();
+			int i = tagName.indexOf(":");
+			KbQuery query = new KbQuery();
+			query.setType(KbQuery.Type.ATTRIBUTE_NAME);
+			if(i > 0) query.setPrefix(tagName.substring(0, i));
+			query.setUri(getURI(region, textViewer.getDocument()));
+			query.setParentTags(new String[]{tagName});
+			query.setParent(tagName);
+			query.setOffset(reg.getOffset());
+			query.setValue(n.getNodeName());
+			query.setMask(false);
+			
+			ELContext context = PageContextFactory.createPageContext(file);
+			
+			if(context instanceof IPageContext){
+				IAttribute[] components = PageProcessor.getInstance().getAttributes(query, (IPageContext)context);
+				ArrayList<IHyperlink> hyperlinks = new ArrayList<IHyperlink>();
+				for(IAttribute attribute : components){
+					if(validateComponent(attribute.getComponent())){
+						TLDAttributeHyperlink link = new TLDAttributeHyperlink((AbstractAttribute)attribute, reg);
 						link.setDocument(textViewer.getDocument());
 						hyperlinks.add(link);
 					}
@@ -136,23 +175,68 @@ public class JsfJSPTagNameHyperlinkDetector extends AbstractHyperlinkDetector {
 	}
 	
 	private IRegion getRegion(Node n, int offset) {
-		if (n == null || !(n instanceof IDOMElement)) return null;
+		if (n == null || !(n instanceof IDOMNode)) return null;
 		
-		IDOMElement elem = (IDOMElement)n;
-		
-		String tagName = elem.getTagName();
-		
-		int start = elem.getStartOffset();
-		int nameStart = start + "<".length(); //$NON-NLS-1$
-		int nameEnd = nameStart + tagName.length();
+		int start = 0;
+		int nameStart;
+		int nameEnd;
 
-		if(offset > nameEnd){
-			start = elem.getEndStartOffset();
-			nameStart = start + "</".length(); //$NON-NLS-1$
+		if(n instanceof IDOMAttr) {
+			IDOMAttr attr = (IDOMAttr)n;
+			String attrName = attr.getName();
+			start = attr.getStartOffset();
+			nameStart = start;
+			nameEnd = nameStart + attrName.length();
+		} else if(n instanceof IDOMElement) {		
+			IDOMElement elem = (IDOMElement)n;		
+			String tagName = elem.getTagName();		
+			start = elem.getStartOffset();
+			nameStart = start + "<".length(); //$NON-NLS-1$
 			nameEnd = nameStart + tagName.length();
+			if(offset > nameEnd) {
+				start = elem.getEndStartOffset();
+				nameStart = start + "</".length(); //$NON-NLS-1$
+				nameEnd = nameStart + tagName.length();
+			}
+		} else {
+			return null;
 		}
 
 		return new Region(nameStart,nameEnd - nameStart);
 	}
 
+	private String getURI(IRegion region, IDocument document) {
+		StructuredModelWrapper smw = new StructuredModelWrapper();
+		smw.init(document);
+		try {
+			Document xmlDocument = smw.getDocument();
+			if (xmlDocument == null) return null;
+
+			Node n = Utils.findNodeForOffset(xmlDocument, region.getOffset());
+
+			Node node = null;
+			if (n instanceof Attr) {
+				node = ((Attr)n).getOwnerElement();
+			} else {
+				node = n;
+			}
+			if (!(node instanceof Element)) return null;
+			
+			String nodeName = node.getNodeName();
+			if (nodeName.indexOf(':') == -1) return null;
+
+			String nodePrefix = nodeName.substring(0, nodeName.indexOf(":")); //$NON-NLS-1$
+			if (nodePrefix == null || nodePrefix.length() == 0) return null;
+
+			TaglibManagerWrapper tmw = new TaglibManagerWrapper();
+			tmw.init(document, region.getOffset());
+			
+			if (!tmw.exists()) return null;
+			
+			return tmw.getUri(nodePrefix);
+		} finally {
+			smw.dispose();
+		}
+	}
+	
 }

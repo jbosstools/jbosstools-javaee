@@ -16,31 +16,48 @@ import org.eclipse.jface.text.IRegion;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.ui.IEditorPart;
 import org.jboss.tools.common.model.XModelObject;
+import org.jboss.tools.common.model.XModelObjectConstants;
 import org.jboss.tools.common.model.filesystems.impl.FileAnyImpl;
 import org.jboss.tools.common.model.util.FindObjectHelper;
 import org.jboss.tools.common.text.ext.hyperlink.AbstractHyperlink;
 import org.jboss.tools.jsf.text.ext.JSFTextExtMessages;
+import org.jboss.tools.jst.web.kb.internal.KbObject;
 import org.jboss.tools.jst.web.kb.internal.taglib.AbstractComponent;
 import org.jboss.tools.jst.web.kb.taglib.ITagLibrary;
 
 public class TLDTagHyperlink extends AbstractHyperlink {
-	private AbstractComponent tag;
-	private XModelObject xmodelObject;
-	private String xmodelObjectName = null;
-	private IFile file = null;
-	private IRegion region;
+	protected AbstractComponent tag;
+	protected XModelObject xmodelObject;
+	protected String xmodelObjectName = null;
+	protected IFile file = null;
+	protected IRegion region;
 	
 	public TLDTagHyperlink(AbstractComponent tag, IRegion region){
 		this.tag = tag;
 		this.region = region;
 		
-		IFile file = getFile(tag);
+		file = getFile(tag);
 		
-		if(file != null && file.getFullPath() != null && file.getFullPath().toString().endsWith(".jar")) {
-			xmodelObject = getXModelObject(tag);
-			if(xmodelObject != null)
-				xmodelObjectName = file.getName()+" : "+getFileName(xmodelObject);
+		xmodelObject = getXModelObject(tag);
+		if(xmodelObject != null && file != null) {
+			String fileName = file.getName();
+			String libraryName = getFileName(xmodelObject);
+			String objectName = xmodelObject.getAttributeValue(XModelObjectConstants.ATTR_NAME);
+			if(objectName == null) {
+				objectName = xmodelObject.getAttributeValue("tag-name");
+			}
+			xmodelObjectName = fileName;
+			if(libraryName != null && !libraryName.equals(fileName)) {
+				xmodelObjectName += " : " + libraryName;
+			}
+			if(objectName != null && !objectName.equals(libraryName)) {
+				xmodelObjectName += " : " + objectName;
+			}
 		}
+	}
+
+	public String getObjectName() {
+		return xmodelObjectName;
 	}
 	
 	public static IFile getFile(AbstractComponent tag){
@@ -52,7 +69,7 @@ public class TLDTagHyperlink extends AbstractHyperlink {
 		return null;
 	}
 	
-	public static XModelObject getXModelObject(AbstractComponent tag){
+	public static XModelObject getXModelObject(KbObject tag){
 		Object id = tag.getId();
 		if(id instanceof XModelObject)
 			return (XModelObject)id;
