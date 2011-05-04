@@ -18,6 +18,7 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.Region;
+import org.eclipse.wst.xml.core.internal.provisional.document.IDOMNode;
 import org.jboss.tools.common.model.XModel;
 import org.jboss.tools.common.text.ext.hyperlink.AbstractHyperlink;
 import org.jboss.tools.common.text.ext.util.StructuredModelWrapper;
@@ -91,13 +92,14 @@ public class JsfJSPTagAttributeHyperlink extends AbstractHyperlink {
 
 			Node n = Utils.findNodeForOffset(xmlDocument, region.getOffset());
 
+			Node node = null;
 			if (n instanceof Attr) {
-				n = ((Attr)n).getOwnerElement();
+				node = ((Attr)n).getOwnerElement();
+			} else {
+				node = n.getParentNode();
 			}
-			if (!(n instanceof Element)) return null;
+			if (!(node instanceof Element)) return null;
 			
-			Node node = n.getParentNode();
-
 			String nodeName = node.getNodeName();
 			if (nodeName.indexOf(':') == -1) return null;
 
@@ -125,13 +127,14 @@ public class JsfJSPTagAttributeHyperlink extends AbstractHyperlink {
 			
 			Node n = Utils.findNodeForOffset(xmlDocument, region.getOffset());
 
+			Node node = null;
 			if (n instanceof Attr) {
-				n = ((Attr)n).getOwnerElement();
+				node = ((Attr)n).getOwnerElement();
+			} else {
+				node = n.getParentNode();
 			}
-			if (!(n instanceof Element)) return null;
+			if (!(node instanceof Element)) return null;
 			
-			Node node = n.getParentNode();
-
 			String tagName = node.getNodeName();
 			if (tagName.indexOf(':') == -1) return null;
 			
@@ -151,12 +154,22 @@ public class JsfJSPTagAttributeHyperlink extends AbstractHyperlink {
 	}
 	
 	private String getTagAttributeName(IRegion region) {
-		if(region == null || getDocument() == null) return null;
+		if(region == null) return null;
+		StructuredModelWrapper smw = new StructuredModelWrapper();
+		smw.init(getDocument());
 		try {
-			return Utils.trimQuotes(getDocument().get(region.getOffset(), region.getLength()));
-		} catch (BadLocationException x) {
-			JSFExtensionsPlugin.log("", x); //$NON-NLS-1$
+			Document xmlDocument = smw.getDocument();
+			if (xmlDocument == null) return null;
+			
+			Node n = Utils.findNodeForOffset(xmlDocument, region.getOffset());
+
+			Node node = null;
+			if (n instanceof Attr) {
+				return ((Attr)n).getName();
+			}
 			return null;
+		} finally {
+			smw.dispose();
 		}
 	}
 	
@@ -171,9 +184,9 @@ public class JsfJSPTagAttributeHyperlink extends AbstractHyperlink {
 			Node n = Utils.findNodeForOffset(xmlDocument, offset);
 
 			if (n == null || !(n instanceof Attr || n instanceof Text)) return null;
-
-			int start = Utils.getValueStart(n);
-			int end = Utils.getValueEnd(n);
+			IDOMNode node = (IDOMNode)n;
+			int start =node.getStartOffset();
+			int end = node.getEndOffset();
 
 			if (start > offset || end < offset) return null;
 
