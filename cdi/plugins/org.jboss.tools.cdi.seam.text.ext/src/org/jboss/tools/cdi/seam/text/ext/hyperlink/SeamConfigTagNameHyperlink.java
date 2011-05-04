@@ -207,7 +207,7 @@ public class SeamConfigTagNameHyperlink extends AbstractHyperlink {
 			
 			Node n = Utils.findNodeForOffset(xmlDocument, offset);
 
-			if (n == null || !(n instanceof IDOMElement)) return null;
+			if (n == null) return null;
 			
 			int start, nameStart, nameEnd;
 			
