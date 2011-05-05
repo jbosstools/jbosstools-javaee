@@ -643,7 +643,7 @@ public class JSFMessageELCompletionEngine extends AbstractELCompletionEngine<IVa
 	 */
 	@Override
 	protected MemberInfo getMemberInfoByVariable(IVariable var,
-			boolean onlyEqualNames) {
+			boolean onlyEqualNames, int offset) {
 		return null;
 	}
 
@@ -653,7 +653,7 @@ public class JSFMessageELCompletionEngine extends AbstractELCompletionEngine<IVa
 	 */
 	@Override
 	public List<IVariable> resolveVariables(IFile file,
-			ELInvocationExpression expr, boolean isFinal, boolean onlyEqualNames) {
+			ELInvocationExpression expr, boolean isFinal, boolean onlyEqualNames, int offset) {
 		return null;
 	}
 

@@ -1,12 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2008 Exadel, Inc. and Red Hat, Inc.
+ * Copyright (c) 2008-2011 Red Hat, Inc.
  * Distributed under license by Red Hat, Inc. All rights reserved.
  * This program is made available under the terms of the
  * Eclipse Public License v1.0 which accompanies this distribution,
  * and is available at http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *     Exadel, Inc. and Red Hat, Inc. - initial API and implementation
+ *     Red Hat, Inc. - initial API and implementation
  ******************************************************************************/ 
 package org.jboss.tools.seam.text.ext.hyperlink;
 
@@ -41,7 +41,6 @@ import org.jboss.tools.jst.text.ext.hyperlink.jsp.JSPRootHyperlinkPartitioner;
 import org.jboss.tools.seam.core.ISeamContextVariable;
 import org.jboss.tools.seam.core.ISeamMessages;
 import org.jboss.tools.seam.core.ISeamProject;
-import org.jboss.tools.seam.core.ScopeType;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.internal.core.el.SeamELCompletionEngine;
 import org.jboss.tools.seam.text.ext.SeamExtPlugin;
@@ -347,7 +346,7 @@ public class SeamBeanHyperlinkPartitioner extends AbstractHyperlinkPartitioner i
 				elText.append('.').append(app);
 				
 				javaElements = engine.getJavaElementsForExpression(
-						seamProject, file, elText.toString());
+						seamProject, file, elText.toString(), region.getOffset());
 			}
 			return javaElements;
 		} catch (BadLocationException x) {

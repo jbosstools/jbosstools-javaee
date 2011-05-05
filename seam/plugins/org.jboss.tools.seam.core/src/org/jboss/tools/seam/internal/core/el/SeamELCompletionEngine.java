@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2007 Red Hat, Inc.
+ * Copyright (c) 2007-2011 Red Hat, Inc.
  * Distributed under license by Red Hat, Inc. All rights reserved.
  * This program is made available under the terms of the
  * Eclipse Public License v1.0 which accompanies this distribution,
@@ -148,14 +148,14 @@ public final class SeamELCompletionEngine extends AbstractELCompletionEngine<ISe
 	}
 
 	@Override
-	public List<ISeamContextVariable> resolveVariables(IFile file, ELInvocationExpression expr, boolean isFinal, boolean onlyEqualNames) {
+	public List<ISeamContextVariable> resolveVariables(IFile file, ELInvocationExpression expr, boolean isFinal, boolean onlyEqualNames, int offset) {
 		ISeamProject project = SeamCorePlugin.getSeamProject(file.getProject(), true);
 //		ScopeType scope = getScope(project, file);
 		return resolveVariables(project, file, expr, isFinal, onlyEqualNames);
 	}
 
-	protected TypeInfoCollector.MemberInfo getMemberInfoByVariable(ISeamContextVariable var, boolean onlyEqualNames) {
-		return SeamExpressionResolver.getMemberInfoByVariable(var, true, this);
+	protected TypeInfoCollector.MemberInfo getMemberInfoByVariable(ISeamContextVariable var, boolean onlyEqualNames, int offset) {
+		return SeamExpressionResolver.getMemberInfoByVariable(var, true, this, offset);
 	}
 
 	protected void setImage(TextProposal proposal, ISeamContextVariable var) {
@@ -305,11 +305,12 @@ public final class SeamELCompletionEngine extends AbstractELCompletionEngine<ISe
 	 * Create the array of suggestions from expression. 
 	 * @param project Seam project 
 	 * @param file File 
+	 * @param offset TODO
 	 * @param document 
 	 * @param prefix the prefix to search for
 	 * @param position Offset of the prefix 
 	 */
-	public List<IJavaElement> getJavaElementsForExpression(ISeamProject project, IFile file, String expression) throws BadLocationException, StringIndexOutOfBoundsException {
+	public List<IJavaElement> getJavaElementsForExpression(ISeamProject project, IFile file, String expression, int offset) throws BadLocationException, StringIndexOutOfBoundsException {
 		ELExpression expr = parseOperand(expression);
 		if(!(expr instanceof ELInvocationExpression)) {
 			return new ArrayList<IJavaElement>();
@@ -333,7 +334,7 @@ public final class SeamELCompletionEngine extends AbstractELCompletionEngine<ISe
 		ElVarSearcher varSearcher = new ElVarSearcher(file, this);
 		List<Var> vars = varSearcher.findAllVars(file, expr.getStartPosition());
 
-		ELResolution resolution = resolveELOperand(file, expr, true, vars, varSearcher);
+		ELResolution resolution = resolveELOperand(file, expr, true, vars, varSearcher, 0);
 		if (resolution!=null && resolution.isResolved()) {
 			ELSegment segment = resolution.getLastSegment();
 			if(segment instanceof JavaMemberELSegment) {

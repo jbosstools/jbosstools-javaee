@@ -1,5 +1,5 @@
 /******************************************************************************* 
- * Copyright (c) 2009 Red Hat, Inc. 
+ * Copyright (c) 2009-2011 Red Hat, Inc. 
  * Distributed under license by Red Hat, Inc. All rights reserved. 
  * This program is made available under the terms of the 
  * Eclipse Public License v1.0 which accompanies this distribution, 
@@ -65,17 +65,17 @@ public class JSFImplicitObjectELResolver extends JSFELCompletionEngine {
 	 * (non-Javadoc)
 	 * @see org.jboss.tools.jst.web.kb.el.AbstractELCompletionEngine#resolveVariables(org.eclipse.core.resources.IFile, org.jboss.tools.common.el.core.model.ELInvocationExpression, boolean, boolean)
 	 */
-	public List<IJSFVariable> resolveVariables(IFile file, ELInvocationExpression expr, boolean isFinal, boolean onlyEqualNames) {
+	public List<IJSFVariable> resolveVariables(IFile file, ELInvocationExpression expr, boolean isFinal, boolean onlyEqualNames, int offset) {
 		this.file = file;
-		return super.resolveVariables(file, expr, isFinal, onlyEqualNames);
+		return super.resolveVariables(file, expr, isFinal, onlyEqualNames, offset);
 	}
 
     /*
 	 * (non-Javadoc)
-	 * @see org.jboss.tools.jsf.model.JSFELCompletionEngine#resolveVariables(org.jboss.tools.common.model.project.IModelNature, java.lang.String, boolean)
+	 * @see org.jboss.tools.jsf.model.JSFELCompletionEngine#resolveVariables(org.jboss.tools.common.model.project.IModelNature, java.lang.String, boolean, int)
 	 */
 	@Override
-	protected List<IJSFVariable> resolveVariables(IModelNature project, String varName, boolean onlyEqualNames) {
+	protected List<IJSFVariable> resolveVariables(IModelNature project, String varName, boolean onlyEqualNames, int offset) {
 		if(file.getProject() == null) {
 			return null;
 		}
@@ -103,7 +103,7 @@ public class JSFImplicitObjectELResolver extends JSFELCompletionEngine {
 
 		for (String var : elVars) {
 			try {
-				ELResolution resolution = resolveEL(file, IMPLICT_OBJECTS_ELS.get(var), false);
+				ELResolution resolution = resolveEL(file, IMPLICT_OBJECTS_ELS.get(var), false, offset);
 				if(resolution!=null && resolution.isResolved()) {
 					ELSegment segment = resolution.getLastSegment();
 					if(segment instanceof JavaMemberELSegment) {

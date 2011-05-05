@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2007 Red Hat, Inc.
+ * Copyright (c) 2007-2011 Red Hat, Inc.
  * Distributed under license by Red Hat, Inc. All rights reserved.
  * This program is made available under the terms of the
  * Eclipse Public License v1.0 which accompanies this distribution,
@@ -51,10 +51,8 @@ import org.jboss.tools.seam.core.ISeamJavaComponentDeclaration;
 import org.jboss.tools.seam.core.ISeamMessages;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.ISeamXmlFactory;
-import org.jboss.tools.seam.core.ScopeType;
 import org.jboss.tools.seam.core.SeamComponentMethodType;
 import org.jboss.tools.seam.core.SeamCorePlugin;
-import org.jboss.tools.seam.internal.core.SeamJavaComponentDeclaration;
 
 /**
  * Utility class used to resolve Seam project variables and to get the methods/properties and their presentation strings from type
@@ -263,10 +261,10 @@ public class SeamExpressionResolver {
 	 * @param variable
 	 * @return
 	 */
-	public static TypeInfoCollector.MemberInfo getMemberInfoByVariable(ISeamContextVariable variable, boolean onlyEqualNames, SeamELCompletionEngine engine) {
+	public static TypeInfoCollector.MemberInfo getMemberInfoByVariable(ISeamContextVariable variable, boolean onlyEqualNames, SeamELCompletionEngine engine, int offset) {
 		TypeInfoCollector.MemberInfo member = null;
 		if(variable instanceof ISeamContextShortVariable) {
-			return getMemberInfoByVariable(((ISeamContextShortVariable)variable).getOriginal(), onlyEqualNames, engine);
+			return getMemberInfoByVariable(((ISeamContextShortVariable)variable).getOriginal(), onlyEqualNames, engine, offset);
 		}
 		if(variable instanceof ISeamMessages) {
 			MemberInfo info = null;;
@@ -343,7 +341,7 @@ public class SeamExpressionResolver {
 					List<ISeamContextVariable> resolvedValues = resolveVariables(project, null /* factory.getScope()*/, value, onlyEqualNames); 
 					for (ISeamContextVariable var : resolvedValues) {
 						if (var.getName().equals(value)) {
-							member = getMemberInfoByVariable(var, onlyEqualNames, engine);
+							member = getMemberInfoByVariable(var, onlyEqualNames, engine, offset);
 							break;
 						}
 					}
@@ -357,7 +355,7 @@ public class SeamExpressionResolver {
 				if(ex instanceof ELInvocationExpression) {
 					ELInvocationExpression expr = (ELInvocationExpression)ex;
 					try {
-						ELResolution resolution = engine.resolveEL(null, expr, false);
+						ELResolution resolution = engine.resolveEL(null, expr, false, offset);
 						if(resolution != null && resolution.isResolved()) {
 							ELSegment segment = resolution.getLastSegment();
 							if(segment instanceof JavaMemberELSegmentImpl) {

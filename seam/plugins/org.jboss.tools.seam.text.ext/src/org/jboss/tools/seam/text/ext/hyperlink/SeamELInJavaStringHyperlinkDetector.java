@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008 Red Hat, Inc.
+ * Copyright (c) 2008-2011 Red Hat, Inc.
  * Distributed under license by Red Hat, Inc. All rights reserved.
  * This program is made available under the terms of the
  * Eclipse Public License v1.0 which accompanies this distribution,
@@ -41,7 +41,6 @@ import org.jboss.tools.common.text.ext.util.Utils;
 import org.jboss.tools.seam.core.ISeamContextVariable;
 import org.jboss.tools.seam.core.ISeamMessages;
 import org.jboss.tools.seam.core.ISeamProject;
-import org.jboss.tools.seam.core.ScopeType;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.internal.core.el.SeamELCompletionEngine;
 import org.jboss.tools.seam.text.ext.SeamExtPlugin;
@@ -125,7 +124,7 @@ public class SeamELInJavaStringHyperlinkDetector extends
 		
 		try {
 			javaElements = engine.getJavaElementsForExpression(
-											seamProject, file, prefix);
+											seamProject, file, prefix, region.getOffset());
 		} catch (StringIndexOutOfBoundsException e) {
 			SeamExtPlugin.getPluginLog().logError(e);  
 		} catch (BadLocationException e) {

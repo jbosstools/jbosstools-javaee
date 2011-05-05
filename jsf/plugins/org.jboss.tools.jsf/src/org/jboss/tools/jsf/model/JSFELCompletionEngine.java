@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2007 Red Hat, Inc.
+ * Copyright (c) 2007-2011 Red Hat, Inc.
  * Distributed under license by Red Hat, Inc. All rights reserved.
  * This program is made available under the terms of the
  * Eclipse Public License v1.0 which accompanies this distribution,
@@ -71,10 +71,10 @@ public class JSFELCompletionEngine extends AbstractELCompletionEngine<JSFELCompl
 	 * (non-Javadoc)
 	 * @see org.jboss.tools.jst.web.kb.el.AbstractELCompletionEngine#resolveVariables(org.eclipse.core.resources.IFile, org.jboss.tools.common.el.core.model.ELInvocationExpression, boolean, boolean)
 	 */
-	public List<IJSFVariable> resolveVariables(IFile file, ELInvocationExpression expr, boolean isFinal, boolean onlyEqualNames) {
+	public List<IJSFVariable> resolveVariables(IFile file, ELInvocationExpression expr, boolean isFinal, boolean onlyEqualNames, int offset) {
 		IModelNature project = EclipseResourceUtil.getModelNature(file.getProject());
 		
-		return resolveVariables(file, project, expr, isFinal, onlyEqualNames);
+		return resolveVariables(file, project, expr, isFinal, onlyEqualNames, offset);
 	}
 
 	/**
@@ -85,7 +85,7 @@ public class JSFELCompletionEngine extends AbstractELCompletionEngine<JSFELCompl
 	 * @param onlyEqualNames
 	 * @return
 	 */
-	public List<IJSFVariable> resolveVariables(IFile file, IModelNature project, ELInvocationExpression expr, boolean isFinal, boolean onlyEqualNames) {
+	public List<IJSFVariable> resolveVariables(IFile file, IModelNature project, ELInvocationExpression expr, boolean isFinal, boolean onlyEqualNames, int offset) {
 		List<IJSFVariable>resolvedVars = new ArrayList<IJSFVariable>();
 		
 		if (project == null)
@@ -94,7 +94,7 @@ public class JSFELCompletionEngine extends AbstractELCompletionEngine<JSFELCompl
 		String varName = expr.toString();
 
 		if (varName != null) {
-			resolvedVars = resolveVariables(project, varName, onlyEqualNames);
+			resolvedVars = resolveVariables(project, varName, onlyEqualNames, offset);
 		}
 		if (resolvedVars != null && !resolvedVars.isEmpty()) {
 			List<IJSFVariable> newResolvedVars = new ArrayList<IJSFVariable>();
@@ -132,7 +132,7 @@ public class JSFELCompletionEngine extends AbstractELCompletionEngine<JSFELCompl
 		return new ArrayList<IJSFVariable>(); 
 	}
 
-	protected List<IJSFVariable> resolveVariables(IModelNature project, String varName, boolean onlyEqualNames) {
+	protected List<IJSFVariable> resolveVariables(IModelNature project, String varName, boolean onlyEqualNames, int offset) {
 		if(project == null) return null;
 		List<IJSFVariable> beans = new JSFPromptingProvider().getVariables(project.getModel());
 		List<IJSFVariable> resolvedVariables = new ArrayList<IJSFVariable>();
@@ -155,7 +155,7 @@ public class JSFELCompletionEngine extends AbstractELCompletionEngine<JSFELCompl
 	 * (non-Javadoc)
 	 * @see org.jboss.tools.jst.web.kb.el.AbstractELCompletionEngine#getMemberInfoByVariable(org.jboss.tools.jst.web.kb.el.AbstractELCompletionEngine.IVariable, boolean)
 	 */
-	protected TypeInfoCollector.MemberInfo getMemberInfoByVariable(IJSFVariable var, boolean onlyEqualNames) {
+	protected TypeInfoCollector.MemberInfo getMemberInfoByVariable(IJSFVariable var, boolean onlyEqualNames, int offset) {
 		return TypeInfoCollector.createMemberInfo(((IJSFVariable)var).getSourceMember());		
 	}
 
