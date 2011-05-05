@@ -1,5 +1,5 @@
 /******************************************************************************* 
- * Copyright (c) 2009 Red Hat, Inc. 
+ * Copyright (c) 2009-2011 Red Hat, Inc. 
  * Distributed under license by Red Hat, Inc. All rights reserved. 
  * This program is made available under the terms of the 
  * Eclipse Public License v1.0 which accompanies this distribution, 
@@ -64,7 +64,7 @@ public class CdiElResolver extends AbstractELCompletionEngine<IBean> {
 	 * @see org.jboss.tools.jst.web.kb.el.AbstractELCompletionEngine#getMemberInfoByVariable(org.jboss.tools.common.el.core.resolver.IVariable, boolean)
 	 */
 	@Override
-	protected MemberInfo getMemberInfoByVariable(IBean bean, boolean onlyEqualNames) {
+	protected MemberInfo getMemberInfoByVariable(IBean bean, boolean onlyEqualNames, int offset) {
 		IMember member = null;
 		if(bean instanceof IClassBean) {
 			member = bean.getBeanClass();
@@ -80,7 +80,7 @@ public class CdiElResolver extends AbstractELCompletionEngine<IBean> {
 	 * @see org.jboss.tools.jst.web.kb.el.AbstractELCompletionEngine#resolveVariables(org.eclipse.core.resources.IFile, org.jboss.tools.common.el.core.model.ELInvocationExpression, boolean, boolean)
 	 */
 	@Override
-	public List<IBean> resolveVariables(IFile file,	ELInvocationExpression expr, boolean isFinal, boolean onlyEqualNames) {
+	public List<IBean> resolveVariables(IFile file,	ELInvocationExpression expr, boolean isFinal, boolean onlyEqualNames, int offset) {
 		ArrayList<IBean> beans = new ArrayList<IBean>();
 
 		IProject project = file.getProject();
