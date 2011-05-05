@@ -476,7 +476,7 @@
    <extension
          point="org.jboss.tools.common.el.core.elResolver">
          <el-resolver id="jsfFuncsELResolver">
-         	<project-nature id="org.jboss.tools.jsf.jsfnature" 
+         	<project-nature id="org.jboss.tools.jst.web.kb.kbnature" 
          		resolver-class="org.jboss.tools.jsf.model.JSFFuncsELCompletionEngine"/>
          </el-resolver>
    </extension>
