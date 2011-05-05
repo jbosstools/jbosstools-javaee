@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='iso-8859-1'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:t="http://myfaces.apache.org/tomahawk"
+    xmlns:target="http://www.jboss.org/target"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html" >
+    <t:dataList value="#{someBean.weekDaysAsArrayOfString}"
+               var="weekDay" rowIndexVar="index">
+        #{index eq 0 ? '' : ', '}
+        <h:outputFormat value="#{appLabel['week_days']}">
+             <f:param
+                          value="#{target:convertToInteger(weekDay)}"/>                              
+             <f:param
+                          value="#{target:loopModel()}"/>                              
+        </h:outputFormat>
+    </t:dataList>
+</html>

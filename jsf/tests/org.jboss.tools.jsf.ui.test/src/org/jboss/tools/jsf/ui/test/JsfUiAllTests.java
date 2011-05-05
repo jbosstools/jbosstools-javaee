@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2007 Red Hat, Inc.
+ * Copyright (c) 2007-2011 Red Hat, Inc.
  * Distributed under license by Red Hat, Inc. All rights reserved.
  * This program is made available under the terms of the
  * Eclipse Public License v1.0 which accompanies this distribution,
@@ -27,6 +27,7 @@ import org.jboss.tools.jsf.jsp.ca.test.JavaClassContentAssistProviderTest;
 import org.jboss.tools.jsf.jsp.ca.test.JsfJspJbide1704Test;
 import org.jboss.tools.jsf.jsp.ca.test.JsfJspJbide1717Test;
 import org.jboss.tools.jsf.jsp.ca.test.JsfJspJbide6259Test;
+import org.jboss.tools.jsf.jsp.ca.test.JspElFunctionsTest;
 import org.jboss.tools.jsf.jsp.ca.test.WebContentAssistProviderTest;
 import org.jboss.tools.jsf.ui.test.refactoring.ELReferencesRenameTest;
 import org.jboss.tools.test.util.ProjectImportTestSetup;
@@ -35,6 +36,7 @@ public class JsfUiAllTests {
 
 	public static Test suite() {
 		TestSuite suite = new TestSuite("JSF UI tests"); //$NON-NLS-1$
+
 		suite.addTestSuite(NewJSFProjectTest.class);
 		suite.addTestSuite(CAForUnclosedELTest.class);
 		suite.addTestSuite(CAForCompositeComponentTest.class);
@@ -89,6 +91,11 @@ public class JsfUiAllTests {
 				new String[] { "testJSFProject" })); //$NON-NLS-1$
 		suite.addTestSuite(JsfUiPreferencesPagesTest.class);
 		suite.addTestSuite(TaglibXMLUnformatedDTD_JBIDE5642.class);
+
+		suite.addTest(new ProjectImportTestSetup(new TestSuite(
+				JspElFunctionsTest.class), "org.jboss.tools.jsf.ui.test", //$NON-NLS-1$
+				new String[] { "projects/testJSFProject", }, //$NON-NLS-1$
+				new String[] { "testJSFProject" })); //$NON-NLS-1$
 
 		return new TestWizardsProject(suite);
 	}

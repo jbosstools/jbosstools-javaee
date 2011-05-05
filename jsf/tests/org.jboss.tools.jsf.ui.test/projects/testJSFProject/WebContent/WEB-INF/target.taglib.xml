@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!DOCTYPE facelet-taglib PUBLIC "-//Sun Microsystems, Inc.//DTD Facelet Taglib 1.0//EN"
+                                "http://java.sun.com/dtd/facelet-taglib_1_0.dtd">
+<facelet-taglib>
+ <namespace>http://www.jboss.org/target</namespace>
+ <function>
+  <function-name>loopModel</function-name>
+  <function-class>demo.utils.ELFunctions</function-class>
+  <function-signature>List getLoopModel(java.lang.Integer)</function-signature>
+ </function>
+ <function>
+  <function-name>convertToInteger</function-name>
+  <function-class>demo.utils.ELFunctions</function-class>
+  <function-signature>int doConvertToInteger(java.lang.Object)</function-signature>
+ </function>
+</facelet-taglib>
