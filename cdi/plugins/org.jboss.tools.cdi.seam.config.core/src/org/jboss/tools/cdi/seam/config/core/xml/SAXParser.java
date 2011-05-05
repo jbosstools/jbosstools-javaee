@@ -111,7 +111,7 @@ public class SAXParser extends SAXValidator {
 		public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
 			int end = getCurrentLocation(), start = 0;
 			if(end > 0) {
-				start = document.get().lastIndexOf("<", end);
+				start = document.get().lastIndexOf("<", end - 1);
 			}
 			SAXElement element = new SAXElement();
 			element.setLocalName(localName);

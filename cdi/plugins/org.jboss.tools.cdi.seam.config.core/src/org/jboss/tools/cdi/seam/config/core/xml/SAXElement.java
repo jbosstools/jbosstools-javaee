@@ -16,6 +16,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import org.w3c.dom.Node;
+
 /**
  * 
  * @author Viacheslav Kabanovich
@@ -33,6 +35,12 @@ public class SAXElement extends SAXNode {
 	protected List<SAXElement> children = new ArrayList<SAXElement>();
 
 	public SAXElement() {}
+	
+	public SAXElement(Node node) {
+		setName(node.getNodeName());
+		setLocalName(node.getLocalName());
+		setURI(node.getNamespaceURI());
+	}
 
 	public void setName(String name) {
 		this.name = name;
