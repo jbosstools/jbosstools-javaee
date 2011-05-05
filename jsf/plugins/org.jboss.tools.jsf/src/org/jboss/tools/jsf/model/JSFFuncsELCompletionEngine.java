@@ -12,6 +12,7 @@ package org.jboss.tools.jsf.model;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -95,12 +96,12 @@ public class JSFFuncsELCompletionEngine extends JSFELCompletionEngine {
 		ELContext context = PageContextFactory.createPageContext(file);
 
 		if (!(context instanceof XmlContextImpl)) {
-			return null;
+			return Collections.emptyList();
 		}
 			
 		ITagLibrary[] libraries = TagLibraryManager.getLibraries(file.getProject());
 		if (libraries == null)
-			return null;
+			return Collections.emptyList();;
 
 		List<IJSFVariable> result = new ArrayList<IJSFVariable>();
 		
