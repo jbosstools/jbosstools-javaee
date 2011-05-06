@@ -1,7 +1,9 @@
 package org.jboss.tools.cdi.seam.config.ui.contentassist;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -22,6 +24,7 @@ import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
+import org.eclipse.jdt.internal.ui.text.javadoc.JavadocContentAccess2;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.wst.sse.core.StructuredModelManager;
 import org.eclipse.wst.sse.core.internal.provisional.IStructuredModel;
@@ -31,6 +34,7 @@ import org.eclipse.wst.sse.ui.contentassist.CompletionProposalInvocationContext;
 import org.eclipse.wst.sse.ui.internal.contentassist.ContentAssistUtils;
 import org.eclipse.wst.sse.ui.internal.contentassist.CustomCompletionProposal;
 import org.eclipse.wst.xml.core.internal.contentmodel.CMNode;
+import org.eclipse.wst.xml.core.internal.provisional.document.IDOMElement;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMNode;
 import org.eclipse.wst.xml.ui.internal.contentassist.AbstractXMLModelQueryCompletionProposalComputer;
 import org.eclipse.wst.xml.ui.internal.contentassist.ContentAssistRequest;
@@ -45,6 +49,7 @@ import org.jboss.tools.cdi.seam.config.core.CDISeamConfigExtension;
 import org.jboss.tools.cdi.seam.config.core.util.Util;
 import org.jboss.tools.cdi.seam.config.core.xml.SAXElement;
 import org.jboss.tools.cdi.seam.config.ui.CDISeamConfigUIPlugin;
+import org.jboss.tools.common.model.util.EclipseJavaUtil;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.xml.XMLUtilities;
 import org.w3c.dom.Element;
@@ -60,6 +65,7 @@ public class SeamConfigXmlCompletionProposalComputer extends AbstractXMLModelQue
 
 	CompletionProposalInvocationContext context;
 	Node currentNode;
+	Element parentElement;
 	SAXElement sax;
 
 	IFile resource;
@@ -73,11 +79,22 @@ public class SeamConfigXmlCompletionProposalComputer extends AbstractXMLModelQue
 	String eePrefix;
 	Map<String, String> prefixByPackage = new HashMap<String, String>();
 
-	public List computeCompletionProposals(
+	public List<?> computeCompletionProposals(
 			CompletionProposalInvocationContext context,
 			IProgressMonitor monitor) {
 		this.context = context;
 		currentNode = findNode();
+		if(currentNode instanceof IDOMElement && context.getInvocationOffset() == ((IDOMElement)currentNode).getStartOffset()) {
+			currentNode = currentNode.getPreviousSibling() != null ? currentNode.getPreviousSibling() : currentNode.getParentNode();
+		}
+
+		Node p = currentNode;
+		while(p != null && !(p instanceof Element)) p = p.getParentNode();
+		if(!(p instanceof Element)) {
+			// can do nothing without context of parent element.
+			return new ArrayList<Object>();
+		}
+		parentElement = (Element)p;
 		sax = buildSAXElement(currentNode);
 	
 		fillNameSpaces(currentNode);
@@ -86,6 +103,9 @@ public class SeamConfigXmlCompletionProposalComputer extends AbstractXMLModelQue
 			javaProject = EclipseResourceUtil.getJavaProject(resource.getProject());
 			cdi = CDICorePlugin.getCDI(resource.getProject(), true);
 			if(cdi != null) extension = CDISeamConfigExtension.getExtension(cdi);
+		}
+		if(!isActive()) {
+			return new ArrayList<Object>();
 		}
 		//compute the completion proposals
 		return super.computeCompletionProposals(context, monitor);
@@ -140,20 +160,26 @@ public class SeamConfigXmlCompletionProposalComputer extends AbstractXMLModelQue
 	protected void addTagInsertionProposals(
 			ContentAssistRequest contentAssistRequest, int childPosition,
 			CompletionProposalInvocationContext context) {
-		if(!isActive()) {
-			return;
-		}
+		Set<TagData> tagData = collectTagData();
 
-		Node currentNode = contentAssistRequest.getNode();
-		Node parentElement = currentNode;
-		while(parentElement != null && !(parentElement instanceof Element)) parentElement = parentElement.getParentNode();
-		if(parentElement == null) {
-			//Can suggest nothing without parent context.
-			return;
+		for (TagData tag: tagData) {
+			if(tag.isUnique()) {
+				if(XMLUtilities.getUniqueChild((Element)parentElement, tag.getName()) != null) continue;
+			}
+			String tagText = tag.getText();
+			int positionAdjustment = (tagText.indexOf("><") > 0) ? tagText.indexOf("><") + 1 : tagText.length();
+			String displayText = tag.getName();
+			if(tag.getMember() instanceof IType) {
+				displayText += " - " + ((IType)tag.getMember()).getPackageFragment().getElementName();
+			}
+			createProposal(contentAssistRequest, tagText, displayText, positionAdjustment, tag.getMember(), tag.getRelevance());
 		}
+	}
+
+	private Set<TagData> collectTagData() {
 		String parentElementName = sax.getLocalName();
 		String parentElementPrefix = sax.getPrefix();
-
+		
 		Set<TagData> tagData = new HashSet<TagData>();
 
 		if("beans".equals(parentElementName)) {
@@ -164,9 +190,9 @@ public class SeamConfigXmlCompletionProposalComputer extends AbstractXMLModelQue
 			IType contextType = null;
 			if(Util.isEntry(sax)) {
 				//Inside entry - only <key> and <value>
-				if(eePrefix != null) {
-					addTagData(tagData, eePrefix, KEYWORD_KEY, true, RELEVANCE_TAG_KEYWORD);
-					addTagData(tagData, eePrefix, KEYWORD_VALUE, true, RELEVANCE_TAG_KEYWORD);
+				if(eePrefix != null) {					
+					addTagData(tagData, eePrefix, KEYWORD_KEY, true, true, RELEVANCE_TAG_KEYWORD);
+					addTagData(tagData, eePrefix, KEYWORD_VALUE, true, true, RELEVANCE_TAG_KEYWORD);
 				}
 			} else if(Util.isValue(sax) || Util.isKey(sax)) {
 				//Inside value or key we can define new bean.
@@ -176,9 +202,11 @@ public class SeamConfigXmlCompletionProposalComputer extends AbstractXMLModelQue
 			} else if((contextType = Util.resolveType(sax, cdi)) != null) {
 				//We are inside bean. Suggest members and annotations.
 				addTypeNames(tagData, true); //only annotations allowed here.
-				addTagData(tagData, getTagNamesForMembers(parentElementPrefix, contextType), RELEVANCE_TAG_MEMBER);
+				addTagData(tagData, getTagNamesForMembers(parentElementPrefix, contextType, false), RELEVANCE_TAG_MEMBER);
 
-				if(eePrefix != null) {
+				if(eePrefix != null
+						&& XMLUtilities.getUniqueChild((Element)parentElement, eePrefix + ":" + KEYWORD_MODIFIES) == null
+						&& XMLUtilities.getUniqueChild((Element)parentElement, eePrefix + ":" + KEYWORD_REPLACES) == null) {
 					addTagData(tagData, eePrefix, KEYWORD_MODIFIES, false, true, RELEVANCE_TAG_KEYWORD);
 					addTagData(tagData, eePrefix, KEYWORD_REPLACES, false, true, RELEVANCE_TAG_KEYWORD);
 				}
@@ -203,26 +231,12 @@ public class SeamConfigXmlCompletionProposalComputer extends AbstractXMLModelQue
 				}
 			}
 		}
-
-		int begin = contentAssistRequest.getReplacementBeginPosition();;
-		int length = contentAssistRequest.getReplacementLength();
-		for (TagData tag: tagData) {
-			if(tag.isUnique) {
-				if(XMLUtilities.getUniqueChild((Element)parentElement, tag.getName()) != null) continue;
-			}
-			String tagText = tag.getText();
-			String proposedInfo = null;
-			CustomCompletionProposal textProposal = new CustomCompletionProposal(
-					tagText, begin, length, tagText.length(),
-					XMLEditorPluginImageHelper.getInstance().getImage(XMLEditorPluginImages.IMG_OBJ_TAG_GENERIC),
-					tag.getName(), null, proposedInfo, tag.getRelevance());
-			contentAssistRequest.addProposal(textProposal);
-		}
+		return tagData;
 	}
 
 	private void addTypeNames(Set<TagData> tagData, boolean annotationsOnly) {
 		try {
-			Set<String> tagNames = getAllTagNames(annotationsOnly);
+			Map<String, IMember> tagNames = getAllTagNames(annotationsOnly);
 			addTagData(tagData, tagNames, annotationsOnly ? RELEVANCE_TAG_ANNOTATION : RELEVANCE_TAG_TYPE);
 		} catch (JavaModelException e) {
 			CDISeamConfigUIPlugin.log(e);
@@ -237,19 +251,106 @@ public class SeamConfigXmlCompletionProposalComputer extends AbstractXMLModelQue
 		tagData.add(new TagData(prefix, name, hasClosingTag, isUnique, relevance));
 	}
 
-	private void addTagData(Set<TagData> tagData, Set<String> tagNames, int relevance) {
-		for (String tagName: tagNames) {
-			tagData.add(new TagData(tagName, relevance));
+	private void addTagData(Set<TagData> tagData, Map<String, IMember> tagNames, int relevance) {
+		for (String tagName: tagNames.keySet()) {
+			TagData d = new TagData(tagName, relevance);
+			IMember m = tagNames.get(tagName);
+			if(m instanceof IType) {
+				String qn = ((IType)m).getFullyQualifiedName();
+				//TODO improve list of annotations that never need children.  
+				if(QUALIFIER_ANNOTATION_TYPE_NAME.equals(qn)
+					|| ANY_QUALIFIER_TYPE_NAME.equals(qn)
+					|| DEFAULT_QUALIFIER_TYPE_NAME.equals(qn)
+					|| SPECIALIZES_ANNOTATION_TYPE_NAME.equals(qn)
+					|| DECORATOR_STEREOTYPE_TYPE_NAME.equals(qn)
+					|| INJECT_ANNOTATION_TYPE_NAME.equals(qn)
+					|| PRODUCES_ANNOTATION_TYPE_NAME.equals(qn)) {
+					d.setHasClosingTag(false);
+				}
+			}
+			d.setMember(m);
+			tagData.add(d);
 		}
 	}
 
 	protected void addTagNameProposals(ContentAssistRequest contentAssistRequest,
 			int childPosition, CompletionProposalInvocationContext context) {
-		if(!isActive()) {
-			return;
+		IDOMNode node = (IDOMNode) contentAssistRequest.getNode();
+		boolean isEnded = (node.getNodeType() != Node.TEXT_NODE) &&
+				node.getFirstStructuredDocumentRegion().isEnded();
+		if(currentNode == parentElement) {
+			parentElement = (Element)parentElement.getParentNode();
+			sax = sax.getParent();
 		}
-		//TODO
-	//	super.addTagNameProposals(contentAssistRequest, childPosition, context);
+
+		String match = contentAssistRequest.getMatchString();
+
+		Set<TagData> tagData = collectTagData();
+		if(match != null && match.length() > 0) {
+			Iterator<TagData> i = tagData.iterator();
+			while(i.hasNext()) {
+				TagData d = i.next();
+				if(!d.getName().startsWith(match) && d.getName().indexOf(":" + match) < 0) {
+					i.remove();
+				}
+			}
+		}
+		
+		for (TagData tag: tagData) {
+			if(tag.isUnique()) {
+				if(XMLUtilities.getUniqueChild((Element)parentElement, tag.getName()) != null) continue;
+			}
+			String tagText = isEnded ? tag.getName() : tag.getText();
+			if(tagText.startsWith("<")) tagText = tagText.substring(1);
+			int positionAdjustment = (tagText.indexOf("><") > 0) ? tagText.indexOf("><") + 1 : tagText.length();
+			String displayText = tag.getName();
+			if(tag.getMember() instanceof IType) {
+				displayText += " - " + ((IType)tag.getMember()).getPackageFragment().getElementName();
+			}
+			createProposal(contentAssistRequest, tagText, displayText, positionAdjustment, tag.getMember(), tag.getRelevance());
+		}
+	}
+
+	private void createProposal(ContentAssistRequest contentAssistRequest, String tagText, String displayText, int positionAdjustment, IMember member, int relevance) {
+		int begin = contentAssistRequest.getReplacementBeginPosition();;
+		int length = contentAssistRequest.getReplacementLength();
+		String proposedInfo = null;
+		if(member != null) {
+			try {
+				proposedInfo = JavadocContentAccess2.getHTMLContent(member, true);
+			} catch (JavaModelException e) {
+				CDISeamConfigUIPlugin.log(e);
+			}
+		}
+		String imagePath = XMLEditorPluginImages.IMG_OBJ_TAG_GENERIC;
+		if(tagText.endsWith("\"")) { //improve that dirty hack
+			imagePath = XMLEditorPluginImages.IMG_OBJ_ATTRIBUTE;
+		}
+		CustomCompletionProposal textProposal = new CustomCompletionProposal(
+				tagText, begin, length, positionAdjustment,
+				XMLEditorPluginImageHelper.getInstance().getImage(imagePath),
+				displayText, null, proposedInfo, relevance);
+		contentAssistRequest.addProposal(textProposal);
+	}
+
+	protected void addAttributeNameProposals(
+			ContentAssistRequest contentAssistRequest,
+			CompletionProposalInvocationContext context) {
+		IType contextType = Util.resolveType(sax, cdi);
+		if(contextType != null) {
+			String match = contentAssistRequest.getMatchString();
+			Set<TagData> tagData = new HashSet<TagData>();
+			addTagData(tagData, getTagNamesForMembers(sax.getPrefix(), contextType, true), RELEVANCE_TAG_MEMBER);
+			for (TagData tag: tagData) {
+				String attrName = tag.getName().substring(tag.getName().indexOf(':') + 1);
+				if(parentElement.hasAttribute(attrName)) continue;
+				if(match != null && !attrName.startsWith(match)) continue;
+				String tagText = attrName + "=\"\"";
+				int positionAdjustment = tagText.length() - 1;
+				createProposal(contentAssistRequest, tagText, attrName, positionAdjustment, tag.getMember(), tag.getRelevance());
+			}
+		}
+
 	}
 
 	@Override
@@ -295,29 +396,35 @@ public class SeamConfigXmlCompletionProposalComputer extends AbstractXMLModelQue
 		}
 	}
 
-	Set<String> getAllTagNames(boolean annotationsOnly) throws JavaModelException {
-		Set<String> result = new HashSet<String>();
+	Map<String, IMember> getAllTagNames(boolean annotationsOnly) throws JavaModelException {
+		Map<String, IMember> result = new HashMap<String, IMember>();
 		for (String packageName: prefixByPackage.keySet()) {
 			String prefix = prefixByPackage.get(packageName);
-			Set<String> typeNames = findTypeNamesByPackage(javaProject, packageName, annotationsOnly);
-			for (String typeName: typeNames) result.add(prefix + ":" + typeName);
+			Map<String, IMember> typeNames = findTypeNamesByPackage(javaProject, packageName, annotationsOnly);
+			for (String typeName: typeNames.keySet()) {
+				result.put(prefix + ":" + typeName, typeNames.get(typeName));
+			}
 		}
 		return result;
 	}
 
-	Set<String> getTypeNamesByPrefix(String prefix, boolean annotationsOnly) throws JavaModelException {
-		Set<String> result = new HashSet<String>();
+	Map<String, IMember> getTypeNamesByPrefix(String prefix, boolean annotationsOnly) throws JavaModelException {
+		Map<String, IMember> result = new HashMap<String, IMember>();
 		String uri = uriByPrefix.get(prefix);
 		for (String packageName: Util.getPackages(uri)) {
-			result.addAll(findTypeNamesByPackage(javaProject, packageName, annotationsOnly));
+			result.putAll(findTypeNamesByPackage(javaProject, packageName, annotationsOnly));
 		}
 		return result;
 	}
 
-	public static Set<String> findTypeNamesByPackage(IJavaProject javaProject, String packageName, boolean annotationsOnly) throws JavaModelException {
-		Set<String> result = new HashSet<String>();
+	public static Map<String, IMember> findTypeNamesByPackage(IJavaProject javaProject, String packageName, boolean annotationsOnly) throws JavaModelException {
+		Map<String, IMember> result = new HashMap<String, IMember>();
 		if(PACKAGE_EE.equals(packageName)) {
-			result.addAll(Util.EE_TYPES.keySet());
+			for (String name: Util.EE_TYPES.keySet()) {
+				String cls = Util.EE_TYPES.get(name);
+				IType t = EclipseJavaUtil.findType(javaProject, cls);
+				if(accept(t, annotationsOnly)) result.put(name, t);
+			}
 		} else if(javaProject != null) {
 			IPackageFragmentRoot[] rs = javaProject.getAllPackageFragmentRoots();
 			for (IPackageFragmentRoot r: rs) {
@@ -326,11 +433,11 @@ public class SeamConfigXmlCompletionProposalComputer extends AbstractXMLModelQue
 					ICompilationUnit[] units = pkg.getCompilationUnits();
 					for (ICompilationUnit u: units) {
 						IType[] ts = u.getTypes();
-						for (IType t: ts) if(accept(t, annotationsOnly)) result.add(t.getElementName());
+						for (IType t: ts) if(accept(t, annotationsOnly)) result.put(t.getElementName(), t);
 					}
 					IClassFile[] cs = pkg.getClassFiles();
 					for (IClassFile cls: cs) {
-						if(accept(cls.getType(), annotationsOnly)) result.add(cls.getType().getElementName());
+						if(accept(cls.getType(), annotationsOnly)) result.put(cls.getType().getElementName(), cls.getType());
 					}
 				}
 			}
@@ -343,16 +450,18 @@ public class SeamConfigXmlCompletionProposalComputer extends AbstractXMLModelQue
 		return (type != null) && (!annotationOnly || type.isAnnotation());
 	}
 
-	private Set<String> getTagNamesForMembers(String prefix, IType type) {
-		Set<String> result = new HashSet<String>();
+	private Map<String, IMember> getTagNamesForMembers(String prefix, IType type, boolean fieldsOnly) {
+		Map<String, IMember> result = new HashMap<String, IMember>();
 		try {
 			IField[] fs = type.getFields();
 			for (IField f: fs) {
-				result.add(prefix + ":" + f.getElementName());
+				result.put(prefix + ":" + f.getElementName(), f);
 			}
-			IMethod[] ms = type.getMethods();
-			for (IMethod m: ms) {
-				result.add(prefix + ":" + m.getElementName());
+			if(!fieldsOnly || type.isAnnotation()) {
+				IMethod[] ms = type.getMethods();
+				for (IMethod m: ms) {
+					result.put(prefix + ":" + m.getElementName(), m);
+				}
 			}
 		} catch (JavaModelException e) {
 			CDISeamConfigUIPlugin.log(e);
