@@ -8,10 +8,10 @@ Bundle-SymbolicName: org.jboss.tools.cdi.seam.text.ext;singleton:=true
 Bundle-Localization: plugin
 Export-Package: org.jboss.tools.cdi.seam.text.ext,
  org.jboss.tools.cdi.seam.text.ext.hyperlink
-Require-Bundle: org.eclipse.ui;bundle-version="3.5.0",
+Require-Bundle: org.eclipse.ui;bundle-version="3.7.0",
  org.jboss.tools.common.text.ext;bundle-version="2.0.0",
- org.eclipse.jface.text;bundle-version="3.5.0",
- org.eclipse.jdt.ui;bundle-version="3.5.0",
+ org.eclipse.jface.text;bundle-version="3.7.0",
+ org.eclipse.jdt.ui;bundle-version="3.7.0",
  org.jboss.tools.cdi.ui;bundle-version="1.2.0",
  org.jboss.tools.cdi.core,
  org.jboss.tools.cdi.seam.config.core,

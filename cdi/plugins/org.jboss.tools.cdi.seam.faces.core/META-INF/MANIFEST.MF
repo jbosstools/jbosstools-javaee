@@ -5,8 +5,8 @@ Bundle-SymbolicName: org.jboss.tools.cdi.seam.faces.core;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: org.jboss.tools.cdi.seam.faces.core.SeamFacesCorePlugin
 Bundle-Localization: plugin
-Require-Bundle: org.eclipse.ui,
- org.eclipse.core.runtime,
+Require-Bundle: org.eclipse.ui;bundle-version="3.7.0",
+ org.eclipse.core.runtime;bundle-version="3.7.0",
  org.jboss.tools.common,
  org.jboss.tools.jst.web.kb
 Bundle-ActivationPolicy: lazy
