@@ -13,7 +13,7 @@ package org.jboss.tools.cdi.seam.config.ui;
 import org.eclipse.osgi.util.NLS;
 
 public class CDISeamConfigUIMessages extends NLS{
-	private static final String BUNDLE_NAME = "org.jboss.tools.cdi.seam.text.ext.messages"; //$NON-NLS-1$
+	private static final String BUNDLE_NAME = "org.jboss.tools.cdi.seam.config.ui.messages"; //$NON-NLS-1$
 
 	static {
 		NLS.initializeMessages(BUNDLE_NAME, CDISeamConfigUIMessages.class);
