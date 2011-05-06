@@ -131,7 +131,14 @@ public abstract class AbstractSeamFacetTest extends TestCase {
 							nature.deconfigure();
 						}						
 					}
-					r.delete(true, null);
+					try {
+						r.delete(true, null);
+					} catch (Exception ex) {
+						// Ignore any exceptions here (mostly because ResourceException rising is possible here)
+						// But we cannot break tearDown() procedures in test cases which widely use this method
+						// So, just print an exception stacktrace to see it in console log
+						ex.printStackTrace();
+					}
 				} catch(Exception e) {
 					e.printStackTrace();
 					last = e;
@@ -145,7 +152,8 @@ public abstract class AbstractSeamFacetTest extends TestCase {
 			ResourcesUtils.setBuildAutomatically(oldAutoBuilding); 
 		}
 		
-		if(last!=null) throw last;
+// 		Do not throw any exceptions in tearDown procedure unless they are important
+//		if(last!=null) throw last;
 	}
 
 	protected final void addResourceToCleanup(final IResource resource) {
