@@ -40,18 +40,24 @@ import org.eclipse.wst.xml.ui.internal.editor.XMLEditorPluginImageHelper;
 import org.eclipse.wst.xml.ui.internal.editor.XMLEditorPluginImages;
 import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.CDICorePlugin;
-import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.seam.config.core.CDISeamConfigConstants;
 import org.jboss.tools.cdi.seam.config.core.CDISeamConfigExtension;
 import org.jboss.tools.cdi.seam.config.core.util.Util;
 import org.jboss.tools.cdi.seam.config.core.xml.SAXElement;
 import org.jboss.tools.cdi.seam.config.ui.CDISeamConfigUIPlugin;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
+import org.jboss.tools.common.xml.XMLUtilities;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
-public class SeamConfigXmlCompletionProposalComputer extends AbstractXMLModelQueryCompletionProposalComputer {
+public class SeamConfigXmlCompletionProposalComputer extends AbstractXMLModelQueryCompletionProposalComputer implements CDISeamConfigConstants {
+	static int RELEVANCE_TAG = XMLRelevanceConstants.R_STRICTLY_VALID_TAG_NAME;
+	static int RELEVANCE_TAG_KEYWORD = RELEVANCE_TAG - 1;
+	static int RELEVANCE_TAG_ANNOTATION = RELEVANCE_TAG_KEYWORD - 1;
+	static int RELEVANCE_TAG_MEMBER = RELEVANCE_TAG_ANNOTATION - 1;
+	static int RELEVANCE_TAG_TYPE = RELEVANCE_TAG_MEMBER - 1;
+
 	CompletionProposalInvocationContext context;
 	Node currentNode;
 	SAXElement sax;
@@ -159,8 +165,8 @@ public class SeamConfigXmlCompletionProposalComputer extends AbstractXMLModelQue
 			if(Util.isEntry(sax)) {
 				//Inside entry - only <key> and <value>
 				if(eePrefix != null) {
-					addTagData(tagData, eePrefix, CDISeamConfigConstants.KEYWORD_KEY, XMLRelevanceConstants.R_STRICTLY_VALID_TAG_NAME - 1);
-					addTagData(tagData, eePrefix, CDISeamConfigConstants.KEYWORD_VALUE, XMLRelevanceConstants.R_STRICTLY_VALID_TAG_NAME - 1);
+					addTagData(tagData, eePrefix, KEYWORD_KEY, true, RELEVANCE_TAG_KEYWORD);
+					addTagData(tagData, eePrefix, KEYWORD_VALUE, true, RELEVANCE_TAG_KEYWORD);
 				}
 			} else if(Util.isValue(sax) || Util.isKey(sax)) {
 				//Inside value or key we can define new bean.
@@ -170,30 +176,27 @@ public class SeamConfigXmlCompletionProposalComputer extends AbstractXMLModelQue
 			} else if((contextType = Util.resolveType(sax, cdi)) != null) {
 				//We are inside bean. Suggest members and annotations.
 				addTypeNames(tagData, true); //only annotations allowed here.
-				addTagData(tagData, getTagNamesForMembers(parentElementPrefix, contextType), XMLRelevanceConstants.R_STRICTLY_VALID_TAG_NAME - 2);
+				addTagData(tagData, getTagNamesForMembers(parentElementPrefix, contextType), RELEVANCE_TAG_MEMBER);
 
 				if(eePrefix != null) {
-					TagData d = new TagData(eePrefix + ":" + CDISeamConfigConstants.KEYWORD_MODIFIES, XMLRelevanceConstants.R_STRICTLY_VALID_TAG_NAME - 1);
-					d.hasClosingTag = false;
-					tagData.add(d);
-					d = new TagData(eePrefix + ":" + CDISeamConfigConstants.KEYWORD_REPLACES, XMLRelevanceConstants.R_STRICTLY_VALID_TAG_NAME - 1);
-					tagData.add(d);
+					addTagData(tagData, eePrefix, KEYWORD_MODIFIES, false, true, RELEVANCE_TAG_KEYWORD);
+					addTagData(tagData, eePrefix, KEYWORD_REPLACES, false, true, RELEVANCE_TAG_KEYWORD);
 				}
 			} else if(sax.getParent() != null && ((contextType = Util.resolveType(sax.getParent(), cdi)) != null)) {
 				IMember member = null;
 				try {
 					member = Util.resolveMember(contextType, sax);
 				} catch (JavaModelException e) {
-					CDISeamConfigUIPlugin.getDefault().log(e);
+					CDISeamConfigUIPlugin.log(e);
 				}
 				if(member != null) {
 					//We are inside bean member. Suggest annotations and <value>.
 					addTypeNames(tagData, true); //only annotations allowed here.
 					if(eePrefix != null) {
 						if(member instanceof IField) {
-							addTagData(tagData, eePrefix, CDISeamConfigConstants.KEYWORD_VALUE, XMLRelevanceConstants.R_STRICTLY_VALID_TAG_NAME - 1);
+							addTagData(tagData, eePrefix, KEYWORD_VALUE, true, RELEVANCE_TAG_KEYWORD);
 						} else if(member instanceof IMethod) {
-							addTagData(tagData, eePrefix, CDISeamConfigConstants.KEYWORD_PARAMETERS, XMLRelevanceConstants.R_STRICTLY_VALID_TAG_NAME - 1);
+							addTagData(tagData, eePrefix, KEYWORD_PARAMETERS, true, true, RELEVANCE_TAG_KEYWORD);
 						}
 					}
 
@@ -204,6 +207,9 @@ public class SeamConfigXmlCompletionProposalComputer extends AbstractXMLModelQue
 		int begin = contentAssistRequest.getReplacementBeginPosition();;
 		int length = contentAssistRequest.getReplacementLength();
 		for (TagData tag: tagData) {
+			if(tag.isUnique) {
+				if(XMLUtilities.getUniqueChild((Element)parentElement, tag.getName()) != null) continue;
+			}
 			String tagText = tag.getText();
 			String proposedInfo = null;
 			CustomCompletionProposal textProposal = new CustomCompletionProposal(
@@ -217,14 +223,18 @@ public class SeamConfigXmlCompletionProposalComputer extends AbstractXMLModelQue
 	private void addTypeNames(Set<TagData> tagData, boolean annotationsOnly) {
 		try {
 			Set<String> tagNames = getAllTagNames(annotationsOnly);
-			addTagData(tagData, tagNames, XMLRelevanceConstants.R_STRICTLY_VALID_TAG_NAME - 3);
+			addTagData(tagData, tagNames, annotationsOnly ? RELEVANCE_TAG_ANNOTATION : RELEVANCE_TAG_TYPE);
 		} catch (JavaModelException e) {
-			CDISeamConfigUIPlugin.getDefault().log(e);
+			CDISeamConfigUIPlugin.log(e);
 		}
 	}
 
-	private void addTagData(Set<TagData> tagData, String prefix, String name, int relevance) {
-		tagData.add(new TagData(prefix + ":" + name, relevance));
+	private void addTagData(Set<TagData> tagData, String prefix, String name, boolean hasClosingTag, int relevance) {
+		tagData.add(new TagData(prefix, name, hasClosingTag, false, relevance));
+	}
+
+	private void addTagData(Set<TagData> tagData, String prefix, String name, boolean hasClosingTag, boolean isUnique, int relevance) {
+		tagData.add(new TagData(prefix, name, hasClosingTag, isUnique, relevance));
 	}
 
 	private void addTagData(Set<TagData> tagData, Set<String> tagNames, int relevance) {
@@ -280,7 +290,7 @@ public class SeamConfigXmlCompletionProposalComputer extends AbstractXMLModelQue
 					}
 				}
 			}
-			eePrefix = prefixByPackage.get(CDISeamConfigConstants.PACKAGE_EE);
+			eePrefix = prefixByPackage.get(PACKAGE_EE);
 			node = node.getParentNode();
 		}
 	}
@@ -306,7 +316,7 @@ public class SeamConfigXmlCompletionProposalComputer extends AbstractXMLModelQue
 
 	public static Set<String> findTypeNamesByPackage(IJavaProject javaProject, String packageName, boolean annotationsOnly) throws JavaModelException {
 		Set<String> result = new HashSet<String>();
-		if(CDISeamConfigConstants.PACKAGE_EE.equals(packageName)) {
+		if(PACKAGE_EE.equals(packageName)) {
 			result.addAll(Util.EE_TYPES.keySet());
 		} else if(javaProject != null) {
 			IPackageFragmentRoot[] rs = javaProject.getAllPackageFragmentRoots();
@@ -330,9 +340,7 @@ public class SeamConfigXmlCompletionProposalComputer extends AbstractXMLModelQue
 	}
 
 	private static boolean accept(IType type, boolean annotationOnly) throws JavaModelException {
-		if(type == null) return false;
-		if(annotationOnly && !type.isAnnotation()) return false;
-		return true;
+		return (type != null) && (!annotationOnly || type.isAnnotation());
 	}
 
 	private Set<String> getTagNamesForMembers(String prefix, IType type) {
@@ -347,7 +355,7 @@ public class SeamConfigXmlCompletionProposalComputer extends AbstractXMLModelQue
 				result.add(prefix + ":" + m.getElementName());
 			}
 		} catch (JavaModelException e) {
-			CDISeamConfigUIPlugin.getDefault().log(e);
+			CDISeamConfigUIPlugin.log(e);
 		}
 		return result;
 	}
