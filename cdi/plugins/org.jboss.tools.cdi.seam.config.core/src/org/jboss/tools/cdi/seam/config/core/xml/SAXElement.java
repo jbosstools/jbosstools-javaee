@@ -74,6 +74,10 @@ public class SAXElement extends SAXNode {
 		return localName;
 	}
 
+	public String getPrefix() {
+		return (name != null && name.indexOf(":") >= 0) ? name.substring(0, name.indexOf(":")) : null;
+	}
+
 	public void setTextNode(SAXText text) {
 		this.text = text;
 	}
