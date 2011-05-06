@@ -36,6 +36,13 @@ for a full listing of individual contributors.
          unpack="false"/>
 
    <plugin
+         id="org.jboss.tools.cdi.seam.config.ui"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
          id="org.jboss.tools.cdi.seam.faces.core"
          download-size="0"
          install-size="0"
