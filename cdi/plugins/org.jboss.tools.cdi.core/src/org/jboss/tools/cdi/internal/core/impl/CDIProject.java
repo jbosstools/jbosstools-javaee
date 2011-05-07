@@ -376,7 +376,8 @@ public class CDIProject extends CDIElement implements ICDIProject {
 			if(isNew) {
 				//TODO improve
 				IType bType = b.getBeanClass();
-				if(bType != null && bType.equals(type.getType())) {
+				if(bType != null && type.getType() != null 
+						&& bType.getFullyQualifiedName().equals(type.getType().getFullyQualifiedName())) {
 					result.add(b);
 				}
 				continue;
@@ -426,7 +427,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		if(jType == null) return false;
 		for (IParametedType t: types) {
 			IType jType1 = t.getType();
-			if(!jType.equals(jType1)) continue;
+			if(jType1 == null || !jType.getFullyQualifiedName().equals(jType1.getFullyQualifiedName())) continue;
 			if(!((ParametedType)t).getArrayPrefix().equals(((ParametedType)type).getArrayPrefix())) continue;
 			if(((ParametedType)t).isAssignableTo((ParametedType)type, false)) {
 				return true;

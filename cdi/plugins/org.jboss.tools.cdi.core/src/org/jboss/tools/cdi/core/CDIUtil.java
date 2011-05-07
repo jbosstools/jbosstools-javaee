@@ -205,7 +205,7 @@ public class CDIUtil {
 			Set<IInjectionPoint> injectionPoints = bean.getInjectionPoints();
 			for (IInjectionPoint iPoint : injectionPoints) {
 				if (element instanceof IField && iPoint instanceof IInjectionPointField) {
-					if (((IInjectionPointField) iPoint).getField() != null && ((IInjectionPointField) iPoint).getField().equals(element))
+					if (((IInjectionPointField) iPoint).getField() != null && ((IInjectionPointField) iPoint).getField().getElementName().equals(element.getElementName()))
 						return iPoint;
 				} else if (element instanceof IMethod && iPoint instanceof IInjectionPointMethod && position == 0) {
 					if (((IInjectionPointMethod) iPoint).getMethod() != null && ((IInjectionPointMethod) iPoint).getMethod().equals(element))
