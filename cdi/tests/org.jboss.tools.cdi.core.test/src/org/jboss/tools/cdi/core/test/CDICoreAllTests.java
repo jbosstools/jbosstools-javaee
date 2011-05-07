@@ -99,7 +99,10 @@ public class CDICoreAllTests {
 		suiteAll.addTestSuite(ExtensionFactoryTest.class);
 		suiteAll.addTestSuite(WeldJarTest.class);
 		suiteAll.addTestSuite(BeansXMLTest.class);
-		suiteAll.addTestSuite(DependentProjectTest.class);
+		TestSuite dependentSuite = new TestSuite("Dependent Projects Tests");
+		dependentSuite.addTestSuite(DependentProjectTest.class);
+		DependentProjectsTestSetup dependent = new DependentProjectsTestSetup(dependentSuite);
+		suiteAll.addTest(dependent);
 		suiteAll.addTestSuite(EnableCDISupportForWarTest.class);
 		suiteAll.addTestSuite(EnableCDISupportForJarTest.class);
 		suiteAll.addTestSuite(DependentProjectValidationTest.class);
