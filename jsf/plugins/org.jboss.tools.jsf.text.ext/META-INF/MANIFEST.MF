@@ -6,14 +6,14 @@ Bundle-ManifestVersion: 2
 Bundle-Vendor: %providerName
 Bundle-SymbolicName: org.jboss.tools.jsf.text.ext; singleton:=true
 Bundle-Localization: plugin
-Require-Bundle: org.eclipse.ui.ide,
- org.eclipse.ui,
- org.eclipse.jface.text,
+Require-Bundle: org.eclipse.ui.ide;bundle-version="3.7.0",
+ org.eclipse.ui;bundle-version="3.7.0",
+ org.eclipse.jface.text;bundle-version="3.7.0",
  org.jboss.tools.common.text.ext,
  org.jboss.tools.jst.text.ext,
  org.jboss.tools.jsf,
  org.jboss.tools.common.el.core,
- org.eclipse.jdt.ui;bundle-version="3.5.0",
+ org.eclipse.jdt.ui;bundle-version="3.7.0",
  org.jboss.tools.jst.jsp;bundle-version="3.3.0",
  org.jboss.tools.common.model.ui;bundle-version="3.3.0"
 Export-Package: org.jboss.tools.jsf.text.ext,
