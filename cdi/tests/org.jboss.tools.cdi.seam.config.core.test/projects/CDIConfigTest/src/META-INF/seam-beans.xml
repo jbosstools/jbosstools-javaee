@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+<beans xmlns="http://java.sun.com/xml/ns/javaee"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xmlns:s="urn:java:ee" 
+   xmlns:test01="urn:java:org.jboss.beans.test01"
+   xmlns:test02="urn:java:org.jboss.beans.test02"
+   xmlns:test03="urn:java:org.jboss.beans.test03"
+   xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://jboss.org/schema/cdi/beans_1_0.xsd">
+
+<!-- Test 01-1 -->
+<test01:MyBean1>
+	<s:modifies/>
+</test01:MyBean1>
+
+<!-- Test 01-2 -->
+<test01:MyBean2>
+	<s:replaces/>
+</test01:MyBean2>
+
+<!-- Test 01-3 -->
+<test01:MyBean3>
+</test01:MyBean3>
+
+<!-- Test 01-4 -->
+<test01:MyBean4>
+</test01:MyBean4>
+<test01:MyBean4>
+</test01:MyBean4>
+
+<!-- Test 02-1 -->
+<test02:MyBean1>
+	<s:modifies/>
+	<test02:MyQualifier2/>
+</test02:MyBean1>
+
+<!-- Test 02-2 -->
+<test02:MyBean2>
+	<s:replaces/>
+	<test02:MyQualifier2/>
+</test02:MyBean2>
+
+<!-- Test 02-3 -->
+<test02:MyBean3>
+	<test02:MyQualifier1/>
+</test02:MyBean3>
+<test02:MyBean3>
+	<test02:MyQualifier2/>
+</test02:MyBean3>
+
+<!-- Test 03-1 -->
+<test03:MyBean1>
+	<s:modifies/>
+	<s:Named>test03-1-b</s:Named>
+</test03:MyBean1>
+
+<!-- Test 03-2 -->
+<test03:MyBean2>
+	<s:replaces/>
+	<s:Named>test03-2-b</s:Named>
+</test03:MyBean2>
+
+<!-- Test 03-3 -->
+<test03:MyBean3>
+	<s:Named>test03-3-b</s:Named>
+</test03:MyBean3>
+<test03:MyBean3>
+	<s:Named>test03-3-c</s:Named>
+</test03:MyBean3>
+
+</beans>

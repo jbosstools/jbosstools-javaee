@@ -27,6 +27,7 @@ public class CDISeamConfigCoreAllTests {
 
 		suiteAll.addTestSuite(ExtensionTest.class);
 		suiteAll.addTestSuite(SeamDefinitionsTest.class);
+		suiteAll.addTestSuite(SeamBeansTest.class);
 
 		SeamConfigTestSetup suite = new SeamConfigTestSetup(suiteAll);
 
