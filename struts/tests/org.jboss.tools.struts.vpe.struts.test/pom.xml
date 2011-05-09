@@ -20,9 +20,9 @@
 				<groupId>org.sonatype.tycho</groupId>
 				<artifactId>maven-osgi-test-plugin</artifactId>
 				<configuration>
-					<!-- timeout in seconds (45 mins) -->
-					<surefire.timeout>2700</surefire.timeout>
-					<forkedProcessTimeoutInSeconds>2700</forkedProcessTimeoutInSeconds>
+					<!-- timeout in seconds (60 mins) -->
+					<surefire.timeout>3600</surefire.timeout>
+					<forkedProcessTimeoutInSeconds>3600</forkedProcessTimeoutInSeconds>
 					<product>org.jboss.tools.tests</product>
 					<explodedBundles>
 						<bundle>org.jboss.tools.vpe</bundle>
