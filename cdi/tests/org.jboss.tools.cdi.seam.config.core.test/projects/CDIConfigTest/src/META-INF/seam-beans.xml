@@ -5,6 +5,7 @@
    xmlns:test01="urn:java:org.jboss.beans.test01"
    xmlns:test02="urn:java:org.jboss.beans.test02"
    xmlns:test03="urn:java:org.jboss.beans.test03"
+   xmlns:test04="urn:java:org.jboss.beans.test04"
    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://jboss.org/schema/cdi/beans_1_0.xsd">
 
 <!-- Test 01-1 -->
@@ -66,5 +67,18 @@
 <test03:MyBean3>
 	<s:Named>test03-3-c</s:Named>
 </test03:MyBean3>
+
+<!-- Test 04-1 -->
+<test04:MyBean1>
+	<s:modifies/>
+</test04:MyBean1>
+
+<!-- Test 04-2 -->
+<test04:MyBean2>
+	<s:modifies/>
+	<test04:myType2>
+		<s:Named>test04-2-a</s:Named>
+	</test04:myType2>
+</test04:MyBean2>
 
 </beans>
