@@ -18,6 +18,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.core.runtime.CoreException;
+import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.IAnnotationDeclaration;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IClassBean;
@@ -484,16 +485,7 @@ public class SeamBeansTest extends SeamConfigTest {
 		assertTrue(b instanceof IClassBean);
 
 		Set<IInjectionPoint> is = b.getInjectionPoints();
-		assertFalse(is.isEmpty());
-		IInjectionPoint p = null;
-		Iterator<IInjectionPoint> it = is.iterator();
-		while(it.hasNext()) {
-			IInjectionPoint i = it.next();
-			if(i instanceof IInjectionPointParameter) {
-				p = i;
-				break;
-			}
-		}
+		IInjectionPoint p = getParameterInjectionPoint(is);
 		assertNotNull(p);
 	
 		Set<IBean> beansI = cdiProject.getBeans(false, p);
@@ -504,6 +496,17 @@ public class SeamBeansTest extends SeamConfigTest {
 		IBean b2 = beans2.iterator().next();
 		
 		assertTrue(beansI.contains(b2));
+	}
+
+	private IInjectionPoint getParameterInjectionPoint(Set<IInjectionPoint> is) {
+		Iterator<IInjectionPoint> it = is.iterator();
+		while(it.hasNext()) {
+			IInjectionPoint i = it.next();
+			if(i instanceof IInjectionPointParameter) {
+				return i;
+			}
+		}
+		return null;
 	}
 
 	/**
@@ -590,7 +593,7 @@ public class SeamBeansTest extends SeamConfigTest {
 	 * ASSERT: Injection point field 'two' in MyBean1 is resolved to that bean.
 	 * ASSERT: Injection point field 'one' in MyBean1 is resolved to 2 beans.
 	 * ASSERT: One of them is the above-mentioned MyType1 bean.
-	 * ASSERT: The other of them is a bean with type MyType1 and InlineBeanQualifier qualifier - it is the inner bean.
+	 * ASSERT: The other of them is a bean with type MyType1 InlineBeanQualifier qualifier.
 	 */
 	public void testVirtualFieldProducerWithNoBeanConstructor() {
 		Set<IBean> beans = cdiProject.getBeans(false, "org.jboss.beans.test06.MyType1", 
@@ -605,7 +608,7 @@ public class SeamBeansTest extends SeamConfigTest {
 //		Now this qualifier is added, but it should belong only two the inner injection point, not to the bean.
 //		IAnnotationDeclaration inlineBeanQ = b.getAnnotation(CDISeamConfigConstants.INLINE_BEAN_QUALIFIER);
 //		assertNotNull(inlineBeanQ);
-//		String inlineIndex1 = inlineBeanQ.getMemberValue(null).toString();
+//		Object inlineIndex1 = inlineBeanQ.getMemberValue(null);
 		
 		Set<IBean> beans1 = cdiProject.getBeans(false, "org.jboss.beans.test06.MyBean2", new String[0]);
 		assertEquals(1, beans1.size());
@@ -645,12 +648,53 @@ public class SeamBeansTest extends SeamConfigTest {
 		d = inner.getAnnotation("org.jboss.beans.test06.MyQualifier");
 		assertNull(d);
 		
-		IAnnotationDeclaration inlineBeanQ2 = b.getAnnotation(CDISeamConfigConstants.INLINE_BEAN_QUALIFIER);
+		IAnnotationDeclaration inlineBeanQ2 = inner.getAnnotation(CDISeamConfigConstants.INLINE_BEAN_QUALIFIER);
 		assertNotNull(inlineBeanQ2);
-		String inlineIndex2 = inlineBeanQ2.getMemberValue(null).toString();
+		Object inlineIndex2 = inlineBeanQ2.getMemberValue(null);
 		assertNotNull(inlineIndex2);
 //see comment to inlineIndex1 above.
 //		assertEquals(inlineIndex1, inlineIndex2);		
+	}
+
+	/**
+	 * Test 06-3.
+	 * Uses sources of tests 06-1 and 06-2.
+	 * 
+	 * ASSERT: Inner bean of type MyType1 has InlineBeanQualifier qualifier.
+	 * ASSERT: Inner bean of type MyType1 has one injection point.
+	 * ASSERT: The injection point is constructor parameter.
+	 * ASSERT: The injection point is resolved to a bean (created in test 06-1).
+	 * 
+	 */
+	public void testInnerBeanWithConstructor() {
+		Set<IBean> beans = cdiProject.getBeans(false, "org.jboss.beans.test06.MyType1", 
+				new String[]{CDIConstants.ANY_QUALIFIER_TYPE_NAME});
+		assertEquals(2, beans.size());
+		IBean inner = null;
+		IBean virtual = null;
+		Iterator<IBean> it = beans.iterator();
+		while(it.hasNext()) {
+			IBean b = it.next();
+			if(b.getAnnotation("org.jboss.beans.test06.MyQualifier") != null) {
+				virtual = b;
+			} else {
+				inner = b;
+			}
+		}
+		assertNotNull(inner);
+		assertNotNull(virtual);
+
+		IAnnotationDeclaration inlineBeanQ = inner.getAnnotation(CDISeamConfigConstants.INLINE_BEAN_QUALIFIER);
+		assertNotNull(inlineBeanQ);
+		Object inlineIndex = inlineBeanQ.getMemberValue(null);
+		assertNotNull(inlineIndex);
+
+		Set<IInjectionPoint> is = inner.getInjectionPoints();
+		IInjectionPoint p = getParameterInjectionPoint(is);
+		assertNotNull(p);
+		Set<IBean> bs = cdiProject.getBeans(false, p);
+		assertEquals(1, bs.size());
+		
 	}
 
 	protected Set<IBean> getBeansByClassName(String className) {

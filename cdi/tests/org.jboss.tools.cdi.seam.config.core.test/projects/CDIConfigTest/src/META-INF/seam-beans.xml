@@ -140,7 +140,7 @@
 	<test06:MyQualifier>one</test06:MyQualifier>
 </s:String>
 
-<!-- Test 06-2 -->
+<!-- Test 06-2 and Test 06-3 -->
 <test06:MyType1>
 	<s:Produces/>
 	<test06:MyQualifier>two</test06:MyQualifier>
