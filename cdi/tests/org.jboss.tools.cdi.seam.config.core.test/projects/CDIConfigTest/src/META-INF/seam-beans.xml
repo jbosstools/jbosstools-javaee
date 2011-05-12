@@ -6,6 +6,7 @@
    xmlns:test02="urn:java:org.jboss.beans.test02"
    xmlns:test03="urn:java:org.jboss.beans.test03"
    xmlns:test04="urn:java:org.jboss.beans.test04"
+   xmlns:test05="urn:java:org.jboss.beans.test05"
    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://jboss.org/schema/cdi/beans_1_0.xsd">
 
 <!-- Test 01-1 -->
@@ -80,5 +81,56 @@
 		<s:Named>test04-2-a</s:Named>
 	</test04:myType2>
 </test04:MyBean2>
+
+<!-- Test 04-3 -->
+<test04:MyBean3>
+	<s:modifies/>
+	<test04:myType3>
+ 		<s:Produces/>
+ 	</test04:myType3>
+</test04:MyBean3>
+
+<!-- Test 04-4 -->
+<test04:MyBean4>
+	<s:replaces/>
+</test04:MyBean4>
+
+<!-- Test 04-5 -->
+<test04:MyBean5>
+	<s:replaces/>
+	<test04:myType5>
+		<s:Inject/>
+		<test04:MyQualifier kind="kind-04-5-a"/>
+	</test04:myType5>
+</test04:MyBean5>
+
+<!-- Test 04-6 -->
+<test04:MyBean6>
+	<test04:MyQualifier kind="kind-04-6"/>
+	<test04:myType6>
+		<s:Produces/>
+	</test04:myType6>
+</test04:MyBean6>
+
+<!-- Test 05-1 -->
+<test05:MyBean1>
+	<s:modifies/>
+	<test05:createType>
+		<s:Produces/>
+		<test05:MyQualifier/>
+		<s:parameters>
+			<test05:MyType1>
+ 			</test05:MyType1>
+		</s:parameters>
+	</test05:createType>
+</test05:MyBean1>
+
+<!-- Test 05-2 -->
+<test05:MyBean2>
+	<s:parameters>
+		<test05:MyType1>
+		</test05:MyType1>
+	</s:parameters>
+</test05:MyBean2>
 
 </beans>
