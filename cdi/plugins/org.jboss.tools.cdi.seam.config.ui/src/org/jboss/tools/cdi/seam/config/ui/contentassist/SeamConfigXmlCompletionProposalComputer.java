@@ -298,8 +298,10 @@ public class SeamConfigXmlCompletionProposalComputer extends AbstractXMLModelQue
 		boolean isEnded = (node.getNodeType() != Node.TEXT_NODE) &&
 				node.getFirstStructuredDocumentRegion().isEnded();
 		if(currentNode == parentElement) {
-			parentElement = (Element)parentElement.getParentNode();
-			sax = sax.getParent();
+			if(parentElement.getParentNode() instanceof Element) {
+				parentElement = (Element)parentElement.getParentNode();
+				sax = sax.getParent();
+			}
 		}
 
 		String match = contentAssistRequest.getMatchString();
@@ -330,17 +332,9 @@ public class SeamConfigXmlCompletionProposalComputer extends AbstractXMLModelQue
 		}
 	}
 
-	private void createProposal(ContentAssistRequest contentAssistRequest, String tagText, String displayText, int positionAdjustment, IMember member, int relevance) {
+	private void createProposal(ContentAssistRequest contentAssistRequest, String tagText, String displayText, int positionAdjustment, final IMember member, int relevance) {
 		int begin = contentAssistRequest.getReplacementBeginPosition();
 		int length = contentAssistRequest.getReplacementLength();
-		String proposedInfo = null;
-		if(member != null) {
-			try {
-				proposedInfo = JavadocContentAccess2.getHTMLContent(member, true);
-			} catch (JavaModelException e) {
-				CDISeamConfigUIPlugin.log(e);
-			}
-		}
 		String imagePath = XMLEditorPluginImages.IMG_OBJ_TAG_GENERIC;
 		if(tagText.endsWith("\"")) { //improve that dirty hack
 			imagePath = XMLEditorPluginImages.IMG_OBJ_ATTRIBUTE;
@@ -348,7 +342,21 @@ public class SeamConfigXmlCompletionProposalComputer extends AbstractXMLModelQue
 		CustomCompletionProposal textProposal = new CustomCompletionProposal(
 				tagText, begin, length, positionAdjustment,
 				XMLEditorPluginImageHelper.getInstance().getImage(imagePath),
-				displayText, null, proposedInfo, relevance);
+				displayText, null, null, relevance) {
+			String proposedInfo = null;
+			public String getAdditionalProposalInfo() {
+				if(member != null && proposedInfo == null) {
+					try {
+						proposedInfo = JavadocContentAccess2.getHTMLContent(member, true);
+						if(proposedInfo == null) proposedInfo = "";
+					} catch (JavaModelException e) {
+						CDISeamConfigUIPlugin.log(e);
+					}
+				}
+				return proposedInfo;
+			}
+			
+		};
 		contentAssistRequest.addProposal(textProposal);
 	}
 
