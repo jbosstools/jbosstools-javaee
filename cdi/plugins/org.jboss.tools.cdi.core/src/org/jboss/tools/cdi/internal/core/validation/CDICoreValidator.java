@@ -85,6 +85,7 @@ import org.jboss.tools.cdi.core.IStereotype;
 import org.jboss.tools.cdi.core.IStereotypeDeclaration;
 import org.jboss.tools.cdi.core.IStereotyped;
 import org.jboss.tools.cdi.core.ITypeDeclaration;
+import org.jboss.tools.cdi.core.extension.feature.IValidatorFeature;
 import org.jboss.tools.cdi.core.preferences.CDIPreferences;
 import org.jboss.tools.cdi.internal.core.impl.CDIProject;
 import org.jboss.tools.cdi.internal.core.impl.ParametedType;
@@ -403,6 +404,10 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 	
 			IInterceptorBinding binding = cdiProject.getInterceptorBinding(file.getFullPath());
 			validateInterceptorBinding(binding);
+		}
+		Set<IValidatorFeature> extensions = cdiProject.getNature().getExtensionManager().getValidatorFeature();
+		for (IValidatorFeature v: extensions) {
+			v.validateResource(file, this);
 		}
 	}
 

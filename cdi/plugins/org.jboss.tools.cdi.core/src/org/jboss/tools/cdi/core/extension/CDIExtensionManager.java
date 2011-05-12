@@ -21,6 +21,7 @@ import org.jboss.tools.cdi.core.extension.feature.IAmbiguousBeanResolverFeature;
 import org.jboss.tools.cdi.core.extension.feature.IBuildParticipantFeature;
 import org.jboss.tools.cdi.core.extension.feature.IProcessAnnotatedMemberFeature;
 import org.jboss.tools.cdi.core.extension.feature.IProcessAnnotatedTypeFeature;
+import org.jboss.tools.cdi.core.extension.feature.IValidatorFeature;
 
 /**
  * 
@@ -159,6 +160,14 @@ public class CDIExtensionManager {
 		return result;
 	}
 
+	public Set<IValidatorFeature> getValidatorFeature() {
+		Set<IValidatorFeature> result = featureStorage.validator;
+		if(result == null) {
+			featureStorage.validator = result = getFeature(IValidatorFeature.class);
+		}
+		return result;
+	}
+
 	private <F extends Object> Set<F> getFeature(Class<F> cls) {
 		Set<F> result = new HashSet<F>();
 		Set<ICDIExtension> extensions = getExtensions(cls);
@@ -178,12 +187,14 @@ public class CDIExtensionManager {
 		Set<IProcessAnnotatedMemberFeature> processAnnotatedMember = null;
 		Set<IProcessAnnotatedTypeFeature> processAnnotatedType = null;
 		Set<IAmbiguousBeanResolverFeature> ambiguousBeanResolver = null;
+		Set<IValidatorFeature> validator = null;
 		
 		void clean() {
 			processAnnotatedMember = null;
 			processAnnotatedType = null;
 			buildParticipant = null;
 			ambiguousBeanResolver = null;
+			validator = null;
 		}
 	
 	
