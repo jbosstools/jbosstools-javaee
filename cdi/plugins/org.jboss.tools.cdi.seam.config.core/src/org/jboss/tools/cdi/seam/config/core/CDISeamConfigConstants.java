@@ -28,6 +28,10 @@ public interface CDISeamConfigConstants extends CDIConstants {
 
 	public String ERROR_UNRESOLVED_MEMBER = "Unresolved member";
 
+	public String ERROR_UNRESOLVED_METHOD = "Unresolved method";
+
+	public String ERROR_UNRESOLVED_CONSTRUCTOR = "Unresolved constructor";
+
 	//Problem id: node was expected to be resolved to annotation type
 	public String ERROR_ANNOTATION_EXPECTED = "Annotation expected";
 

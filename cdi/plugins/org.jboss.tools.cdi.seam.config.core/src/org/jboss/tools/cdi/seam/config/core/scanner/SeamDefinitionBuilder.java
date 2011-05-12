@@ -227,6 +227,8 @@ public class SeamDefinitionBuilder {
 				IJavaAnnotation a = loadAnnotationDeclaration(c, IN_ANNOTATION_TYPE);
 				if(a != null) def.addAnnotation(a);
 				continue;
+			} else {
+				result.addUnresolvedNode(c, CDISeamConfigConstants.ERROR_UNRESOLVED_TYPE);
 			}
 		
 		}		
@@ -315,6 +317,8 @@ public class SeamDefinitionBuilder {
 				IJavaAnnotation a = loadAnnotationDeclaration(c, IN_ANNOTATION_TYPE);
 				if(a != null) def.addAnnotation(a);
 				continue;
+			} else {
+				result.addUnresolvedNode(c, CDISeamConfigConstants.ERROR_UNRESOLVED_TYPE);
 			}
 		
 		}		
@@ -326,6 +330,9 @@ public class SeamDefinitionBuilder {
 		}
 		if(method != null) {
 			def.setMethod(method);
+		} else {
+			result.addUnresolvedNode(element, CDISeamConfigConstants.ERROR_UNRESOLVED_METHOD);
+			def = null;
 		}
 		return def;
 	}
@@ -353,6 +360,9 @@ public class SeamDefinitionBuilder {
 		}
 		if(method != null) {
 			def.setMethod(method);
+		} else {
+			result.addUnresolvedNode(element, CDISeamConfigConstants.ERROR_UNRESOLVED_CONSTRUCTOR);
+			def = null;
 		}
 		
 		return def;
@@ -435,8 +445,13 @@ public class SeamDefinitionBuilder {
 					value, IMemberValuePair.K_STRING, type);
 			Set<String> ns = element.getAttributeNames();
 			for (String n: ns) {
-				String v = element.getAttribute(n).getValue();
+				SAXAttribute attr = element.getAttribute(n);
+				String v = attr.getValue();
 				literal.addMemberValuePair(n, v, IMemberValuePair.K_STRING);
+				IMethod m = type.getMethod(n, new String[0]);
+				if(!m.exists()) {
+					result.addUnresolvedNode(attr, CDISeamConfigConstants.ERROR_UNRESOLVED_MEMBER);
+				}
 			}
 			return literal;
 		} else if(contextKind == IN_ANNOTATION_TYPE) {

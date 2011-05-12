@@ -58,7 +58,8 @@ public class ConfigDefinitionContext extends AbstractDefinitionContextExtension 
 		beanXMLs = copy.beanXMLs;
 		seambeanXMLs = copy.seambeanXMLs;
 		
-		for (String s: annotations.keySet()) {
+		String[] as = annotations.keySet().toArray(new String[0]);
+		for (String s: as) {
 			if(!copy.annotations.containsKey(s)) {
 				//Remove from root and reload it in root.
 				AnnotationDefinition d = annotations.get(s);

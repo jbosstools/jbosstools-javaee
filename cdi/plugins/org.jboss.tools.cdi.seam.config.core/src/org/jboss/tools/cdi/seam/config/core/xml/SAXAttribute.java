@@ -17,7 +17,7 @@ package org.jboss.tools.cdi.seam.config.core.xml;
  */
 public class SAXAttribute extends SAXText {
 	private String name;
-	private Location nameLocation;
+	private Location valueLocation;
 
 	private SAXElement parent;
 	
@@ -30,19 +30,19 @@ public class SAXAttribute extends SAXText {
 	}
 
 	public void setNameLocation(Location location) {
-		nameLocation = location;
-	}
-
-	public Location getNameLocation() {
-		return nameLocation;
-	}
-
-	public void setValueLocation(Location location) {
 		setLocation(location);
 	}
 
-	public Location getValueLocation() {
+	public Location getNameLocation() {
 		return getLocation();
+	}
+
+	public void setValueLocation(Location location) {
+		valueLocation = location;
+	}
+
+	public Location getValueLocation() {
+		return valueLocation;
 	}
 
 	public void setParent(SAXElement parent) {

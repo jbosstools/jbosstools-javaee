@@ -100,7 +100,10 @@ public class SeamBeansDefinition {
 			}
 			//Initialize typeDef taking into account replaces and modifies
 			int flags = AbstractMemberDefinition.FLAG_ALL_MEMBERS;
-			if(replaces) flags |= AbstractMemberDefinition.FLAG_NO_ANNOTATIONS;
+			if(!modifies) {
+				//For replacing or created - no annotations loaded.
+				flags |= AbstractMemberDefinition.FLAG_NO_ANNOTATIONS;
+			}
 			typeDef.setType(type, context.getRootContext(), flags);
 
 			mergeTypeDefinition(def, typeDef, context);
@@ -134,7 +137,7 @@ public class SeamBeansDefinition {
 			String n = fieldDef.getField().getElementName();
 			SeamFieldDefinition f = def.getField(n);
 			if(f != null) {
-				fieldDef.setOriginalDefinition(new TextSourceReference(f.getNode().getLocation()));
+				fieldDef.setOriginalDefinition(new TextSourceReference(resource, f.getNode()));
 				mergeAnnotations(f, fieldDef, context);
 			}
 		}
@@ -170,27 +173,6 @@ public class SeamBeansDefinition {
 			if(current != null) memberDef.removeAnnotation(current);
 			memberDef.addAnnotation(ja, context.getRootContext());
 		}
-	}
-
-	class TextSourceReference implements ITextSourceReference {
-		Location location;
-		
-		public TextSourceReference(Location location) {
-			this.location = location;
-		}		
-
-		public int getStartPosition() {
-			return location.getStartPosition();
-		}
-
-		public int getLength() {
-			return location.getLength();
-		}
-
-		public IResource getResource() {
-			return resource;
-		}
-		
 	}
 
 }

@@ -43,7 +43,7 @@ public class SAXParser extends SAXValidator {
 		setFeature(parserInstance, VALIDATION_SCHEMA_FEATURE_ID, true);
 		setFeature(parserInstance, VALIDATION_SCHEMA_CHECKING_FEATURE_ID, false);
 		setFeature(parserInstance, VALIDATION_DYNAMIC_FEATURE_ID, false);
-		setFeature(parserInstance, FATAL_ERROR_PROCESSING_FEATURE_ID, false);
+		setFeature(parserInstance, FATAL_ERROR_PROCESSING_FEATURE_ID, true);
 
 		try {
 			parserInstance.setProperty(ENTITY_RESOLVER_PROPERTY_ID, new XMLEntityResolverImpl());
