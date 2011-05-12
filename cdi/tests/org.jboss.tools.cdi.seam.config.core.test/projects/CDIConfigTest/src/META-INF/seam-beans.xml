@@ -7,6 +7,7 @@
    xmlns:test03="urn:java:org.jboss.beans.test03"
    xmlns:test04="urn:java:org.jboss.beans.test04"
    xmlns:test05="urn:java:org.jboss.beans.test05"
+   xmlns:test06="urn:java:org.jboss.beans.test06"
    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://jboss.org/schema/cdi/beans_1_0.xsd">
 
 <!-- Test 01-1 -->
@@ -132,5 +133,26 @@
 		</test05:MyType1>
 	</s:parameters>
 </test05:MyBean2>
+
+<!-- Test 06-1 -->
+<s:String>
+	<s:Produces/>
+	<test06:MyQualifier>one</test06:MyQualifier>
+</s:String>
+
+<!-- Test 06-2 -->
+<test06:MyType1>
+	<s:Produces/>
+	<test06:MyQualifier>two</test06:MyQualifier>
+	<s:value>
+		<test06:MyType1>
+			<s:parameters>
+				<s:String>
+					<test06:MyQualifier>one</test06:MyQualifier>
+				</s:String>
+			</s:parameters>
+		</test06:MyType1>
+	</s:value>
+</test06:MyType1>
 
 </beans>

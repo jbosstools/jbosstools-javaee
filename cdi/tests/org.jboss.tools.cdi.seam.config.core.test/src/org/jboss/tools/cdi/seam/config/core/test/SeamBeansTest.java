@@ -18,13 +18,16 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.core.runtime.CoreException;
+import org.jboss.tools.cdi.core.IAnnotationDeclaration;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IClassBean;
 import org.jboss.tools.cdi.core.IInjectionPoint;
+import org.jboss.tools.cdi.core.IInjectionPointField;
 import org.jboss.tools.cdi.core.IInjectionPointParameter;
 import org.jboss.tools.cdi.core.IProducerField;
 import org.jboss.tools.cdi.core.IProducerMethod;
 import org.jboss.tools.cdi.core.IQualifierDeclaration;
+import org.jboss.tools.cdi.seam.config.core.CDISeamConfigConstants;
 
 /**
  *   
@@ -501,6 +504,153 @@ public class SeamBeansTest extends SeamConfigTest {
 		IBean b2 = beans2.iterator().next();
 		
 		assertTrue(beansI.contains(b2));
+	}
+
+	/**
+	 * Test 06-1.
+	 * Sources contain simple bean class MyBean1
+	 * with two injection points of type String.
+	 * Seam config xml contains declaration:
+	 * <s:String>
+	 *  <s:Produces/>
+	 *  <test06:MyQualifier>one</test06:MyQualifier>
+	 * </s:String>
+	 * 
+	 * ASSERT: Model contains 1 bean with type String and qualifier MyQualifier.
+	 * ASSERT: Qualifier has value member equal to "one".
+	 * ASSERT: Injection point field 'one' in MyBean1 is resolved to that bean.
+	 * ASSERT: Injection point field 'two' in MyBean1 is not resolved to a bean.
+	 */
+	public void testVirtualFieldProducer() {
+		Set<IBean> beans = cdiProject.getBeans(false, "java.lang.String", 
+				new String[]{"org.jboss.beans.test06.MyQualifier"});
+		assertEquals(1, beans.size());
+		IBean b = beans.iterator().next();
+		assertTrue(b instanceof IClassBean); // we keep it as a class bean
+		IQualifierDeclaration d = b.getQualifierDeclarations().iterator().next();
+		String value = (String)d.getMemberValue(null);
+		assertEquals("one", value);
+		
+		Set<IBean> beans1 = cdiProject.getBeans(false, "org.jboss.beans.test06.MyBean1", new String[0]);
+		assertEquals(1, beans1.size());
+		IBean b1 = beans1.iterator().next();
+
+		Set<IInjectionPoint> is = b1.getInjectionPoints();
+		assertEquals(2, is.size());
+		IInjectionPoint one = null;
+		IInjectionPoint two = null;
+		
+		Iterator<IInjectionPoint> it = is.iterator();
+		while(it.hasNext()) {
+			IInjectionPoint i = it.next();
+			if(i instanceof IInjectionPointField) {
+				IInjectionPointField f = (IInjectionPointField)i;
+				String n = f.getField().getElementName();
+				if("one".equals(n)) {
+					one = f;
+				} else if("two".equals(n)) {
+					two = f;
+				}
+				
+			}
+		}
+		assertNotNull(one);
+		assertNotNull(two);
+	
+		Set<IBean> beansI = cdiProject.getBeans(false, one);
+		assertEquals(1, beansI.size());
+		assertTrue(beansI.contains(b));
+		
+		beansI = cdiProject.getBeans(false, two);
+		assertTrue(beansI.isEmpty());
+	}
+
+	/**
+	 * Test 06-2.
+	 * Sources contain simple bean class MyBean1
+	 * with injection point of type MyType1.
+	 * class MyType1 has no bean constructor.
+	 * Seam config xml contains declaration:
+	 * <test06:MyType1>
+	 *  <s:Produces/>
+	 *  <test06:MyQualifier>two</test06:MyQualifier>
+	 *  <s:value>
+	 *    <test06:MyType1>
+	 *      <s:parameters>
+	 *        <s:String>
+	 *          <test06:MyQualifier>one</test06:MyQualifier>
+	 *        </s:String>
+	 *      </s:parameters>
+	 *    </test06:MyType1>
+	 *  </s:value>
+	 * </test06:MyType1>
+	 * 
+	 * ASSERT: Model contains 1 bean with type MyType1 and qualifier MyQualifier.
+	 * ASSERT: Qualifier has value member equal to "two".
+	 * ASSERT: Injection point field 'two' in MyBean1 is resolved to that bean.
+	 * ASSERT: Injection point field 'one' in MyBean1 is resolved to 2 beans.
+	 * ASSERT: One of them is the above-mentioned MyType1 bean.
+	 * ASSERT: The other of them is a bean with type MyType1 and InlineBeanQualifier qualifier - it is the inner bean.
+	 */
+	public void testVirtualFieldProducerWithNoBeanConstructor() {
+		Set<IBean> beans = cdiProject.getBeans(false, "org.jboss.beans.test06.MyType1", 
+				new String[]{"org.jboss.beans.test06.MyQualifier"});
+		assertEquals(1, beans.size());
+		IBean b = beans.iterator().next();
+		assertTrue(b instanceof IClassBean); // we keep it as a class bean
+		IAnnotationDeclaration d = b.getAnnotation("org.jboss.beans.test06.MyQualifier");
+		assertTrue(d instanceof IQualifierDeclaration);
+		String value = (String)d.getMemberValue(null);
+		assertEquals("two", value);
+//		Now this qualifier is added, but it should belong only two the inner injection point, not to the bean.
+//		IAnnotationDeclaration inlineBeanQ = b.getAnnotation(CDISeamConfigConstants.INLINE_BEAN_QUALIFIER);
+//		assertNotNull(inlineBeanQ);
+//		String inlineIndex1 = inlineBeanQ.getMemberValue(null).toString();
+		
+		Set<IBean> beans1 = cdiProject.getBeans(false, "org.jboss.beans.test06.MyBean2", new String[0]);
+		assertEquals(1, beans1.size());
+		IBean b1 = beans1.iterator().next();
+
+		Set<IInjectionPoint> is = b1.getInjectionPoints();
+		assertEquals(2, is.size());
+		IInjectionPoint one = null;
+		IInjectionPoint two = null;
+		
+		Iterator<IInjectionPoint> it = is.iterator();
+		while(it.hasNext()) {
+			IInjectionPoint i = it.next();
+			if(i instanceof IInjectionPointField) {
+				IInjectionPointField f = (IInjectionPointField)i;
+				String n = f.getField().getElementName();
+				if("one".equals(n)) {
+					one = f;
+				} else if("two".equals(n)) {
+					two = f;
+				}
+				
+			}
+		}
+		assertNotNull(one);
+		assertNotNull(two);
+	
+		Set<IBean> beansI = cdiProject.getBeans(false, two);
+		assertEquals(1, beansI.size());
+		assertTrue(beansI.contains(b));
+		
+		beansI = cdiProject.getBeans(false, one);
+		assertEquals(2, beansI.size());
+		assertTrue(beansI.contains(b));
+		beansI.remove(b);
+		IBean inner = beansI.iterator().next();
+		d = inner.getAnnotation("org.jboss.beans.test06.MyQualifier");
+		assertNull(d);
+		
+		IAnnotationDeclaration inlineBeanQ2 = b.getAnnotation(CDISeamConfigConstants.INLINE_BEAN_QUALIFIER);
+		assertNotNull(inlineBeanQ2);
+		String inlineIndex2 = inlineBeanQ2.getMemberValue(null).toString();
+		assertNotNull(inlineIndex2);
+//see comment to inlineIndex1 above.
+//		assertEquals(inlineIndex1, inlineIndex2);		
 	}
 
 	protected Set<IBean> getBeansByClassName(String className) {
