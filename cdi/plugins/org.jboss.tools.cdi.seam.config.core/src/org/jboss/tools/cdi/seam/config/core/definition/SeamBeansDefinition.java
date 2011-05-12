@@ -109,7 +109,18 @@ public class SeamBeansDefinition {
 			mergeTypeDefinition(def, typeDef, context);
 
 			typeDefinitions.add(typeDef);
-		}		
+		}
+		
+		for (SeamVirtualFieldDefinition def: virtualFieldDefinitions) {
+			IType type = def.getType();
+			TypeDefinition typeDef = new TypeDefinition();
+			int flags = AbstractMemberDefinition.FLAG_NO_ANNOTATIONS;
+			typeDef.setType(type, context.getRootContext(), flags);
+			mergeAnnotations(def, typeDef, context);
+			//That is how field producers differ from class beans. They do not need a bean constructor.
+			typeDef.setBeanConstructor(true);
+			typeDefinitions.add(typeDef);
+		}
 	}
 
 	public void clean(ConfigDefinitionContext context) {
