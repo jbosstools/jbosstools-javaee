@@ -77,22 +77,23 @@ public class TypeDefinition extends AbstractTypeDefinition {
 			if(ms[i].isConstructor()) {
 				hasConstructor = true; 
 				if(ms[i].getNumberOfParameters() == 0 || m.getInjectAnnotation() != null) {
-					hasBeanConstructor = true;
+					setBeanConstructor(true);
 				}
 			}
 		}
 		if(!hasConstructor) {
-			hasBeanConstructor = true;
+			setBeanConstructor(true);
 		}
-//		if(!hasBeanConstructor && getType().getFullyQualifiedName().equals(CDIConstants.WELD_BEAN_MANAGER_TYPE_NAME)) {
-//			hasBeanConstructor = true;
-//		}
+	}
+
+	public void setBeanConstructor(boolean b) {
+		hasBeanConstructor = b;
 	}
 
 	public void checkConstructor() {
 		for (MethodDefinition m: methods) {
 			if(m.isConstructor() && m.getAnnotation(CDIConstants.INJECT_ANNOTATION_TYPE_NAME) != null) {
-				hasBeanConstructor = true;
+				setBeanConstructor(true);
 			}
 		}
 	}
