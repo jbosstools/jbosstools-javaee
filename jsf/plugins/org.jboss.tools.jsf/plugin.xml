@@ -808,17 +808,15 @@
     </menuContribution>
              <menuContribution 
 			locationURI="popup:org.jboss.tools.jst.jsp.jspeditor.JSPTextEditor.source.EditorContext?before=org.jboss.tools.jst.jsp.i18n.ExternalizeAllStringsContributionItem">
-        	<dynamic
-               class="org.jboss.tools.jsf.web.validation.jsf2.action.CreateJSF2CompositeContributionItem"
-               id="org.jboss.tools.jsf.web.validation.jsf2.action.JSF2CreateCompositeContributionItem">
-        	</dynamic>
+        	<command
+          		commandId="org.jboss.tools.jsf.web.commands.CreateJSF2CompositeCommand"
+          		style="toggle" />
         </menuContribution>
         <menuContribution
               locationURI="popup:org.jboss.tools.jst.jsp.jspeditor.HTMLTextEditor.source.EditorContext?before=org.jboss.tools.jst.jsp.i18n.ExternalizeAllStringsContributionItem">
-        	<dynamic
-               class="org.jboss.tools.jsf.web.validation.jsf2.action.CreateJSF2CompositeContributionItem"
-               id="org.jboss.tools.jsf.web.validation.jsf2.action.JSF2CreateCompositeContributionItem">
-        	</dynamic>
+			<command
+          		commandId="org.jboss.tools.jsf.web.commands.CreateJSF2CompositeCommand"
+          		style="toggle" />
         </menuContribution>
  </extension>
  <extension
@@ -873,5 +871,15 @@
              forNature="org.jboss.tools.jsf.jsfnature">
        </require>
  </extension>
+ 
+ <extension
+         point="org.eclipse.ui.commands">
+      <command
+            categoryId="org.jboss.tools.jsf.commands.category"
+            id="org.jboss.tools.jsf.web.commands.CreateJSF2CompositeCommand"
+            description="%CreateJSF2Composite"
+            name="%CreateJSF2Composite" 
+            defaultHandler="org.jboss.tools.jsf.web.commands.CreateJSF2CompositeCommandHandler"/>
+  </extension>
  
 </plugin>
