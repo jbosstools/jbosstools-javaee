@@ -29,9 +29,7 @@ import org.jboss.tools.cdi.internal.core.impl.definition.MethodDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.ParameterDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.TypeDefinition;
 import org.jboss.tools.cdi.seam.config.core.ConfigDefinitionContext;
-import org.jboss.tools.cdi.seam.config.core.xml.Location;
 import org.jboss.tools.cdi.seam.config.core.xml.SAXNode;
-import org.jboss.tools.common.text.ITextSourceReference;
 
 /**
  * 
@@ -144,7 +142,6 @@ public class SeamBeansDefinition {
 		
 		List<FieldDefinition> fieldDefs = typeDef.getFields();
 		for (FieldDefinition fieldDef:fieldDefs) {
-			if(fieldDef.getField() == null) continue;
 			String n = fieldDef.getField().getElementName();
 			SeamFieldDefinition f = def.getField(n);
 			if(f != null) {
