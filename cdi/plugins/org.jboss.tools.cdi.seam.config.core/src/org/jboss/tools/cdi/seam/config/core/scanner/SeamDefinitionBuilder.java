@@ -351,7 +351,7 @@ public class SeamDefinitionBuilder {
 			if(pd != null) def.addParameter(pd);
 		}
 		IJavaAnnotation inject = createInject(element);
-		def.addAnnotation(inject);
+		if(inject != null) def.addAnnotation(inject);
 		IMethod method = null;
 		try {
 			method = Util.findMethod(def, type, null, context.getRootContext());

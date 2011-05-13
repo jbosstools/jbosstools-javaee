@@ -41,6 +41,7 @@ import org.jboss.tools.cdi.seam.config.core.xml.SAXElement;
 import org.jboss.tools.cdi.seam.config.core.xml.SAXNode;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.filesystems.impl.FileAnyImpl;
+import org.jboss.tools.common.model.filesystems.impl.FolderImpl;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 
 /**
@@ -105,7 +106,11 @@ public class CDISeamConfigExtension implements ICDIExtension, IBuildParticipantF
 				 isSeamBeans = true;
 			 }
 			 if(o instanceof FileAnyImpl) {
-				 String text = ((FileAnyImpl)o).getAsText();
+				 FileAnyImpl f = (FileAnyImpl)o;
+				 if(f.getParent() instanceof FolderImpl) {
+					 ((FolderImpl)f.getParent()).update();
+				 }
+				 String text = f.getAsText();
 				 IResource resource = (IResource)o.getAdapter(IResource.class);
 				 IDocument document = new Document();
 				 SeamDefinitionBuilder builder = new SeamDefinitionBuilder();
