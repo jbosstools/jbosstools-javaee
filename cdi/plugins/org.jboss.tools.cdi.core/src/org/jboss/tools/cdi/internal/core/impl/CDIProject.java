@@ -22,6 +22,7 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
+import org.apache.xerces.util.SynchronizedSymbolTable;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -32,6 +33,7 @@ import org.eclipse.jdt.core.IMemberValuePair;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
+import org.eclipse.jdt.core.dom.CatchClause;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.CDICorePlugin;
@@ -114,7 +116,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 	 * @see org.jboss.tools.cdi.core.IBeanManager#getBeans()
 	 */
 	public IBean[] getBeans() {
-		if(allBeans == null || allBeans.isEmpty()) {
+		if(allBeans.isEmpty()) {
 			return new IBean[0];
 		}
 		IBean[] result = new IBean[allBeans.size()];
@@ -173,12 +175,14 @@ public class CDIProject extends CDIElement implements ICDIProject {
 			synchronized (beansByPath) {
 				bs = beansByPath.get(path);
 			}
-			if(bs != null) synchronized(bs) {
-				for (IBean b: bs) {
-					if(b instanceof IClassBean) {
-						IClassBean result = (IClassBean)b;
-						if(type.getFullyQualifiedName().equals(result.getBeanClass().getFullyQualifiedName())) {
-							return result;
+			if(bs != null) { 
+				synchronized(bs) {
+					for (IBean b: bs) {
+						if(b instanceof IClassBean) {
+							IClassBean result = (IClassBean)b;
+							if(type.getFullyQualifiedName().equals(result.getBeanClass().getFullyQualifiedName())) {
+								return result;
+							}
 						}
 					}
 				}
@@ -298,7 +302,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 	
 		if(type.getType() != null && CDIConstants.EVENT_TYPE_NAME.equals(type.getType().getFullyQualifiedName())) {
 			List<? extends IParametedType> ps = type.getParameters();
-			if(ps != null && ps.size() == 1) {
+			if(ps.size() == 1) {
 				EventBean eventBean = new EventBean(type, injectionPoint);
 				eventBean.setParent(this);
 				eventBean.setSourcePath(injectionPoint.getSourcePath());
@@ -309,7 +313,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		
 		if(type.getType() != null && CDIConstants.INSTANCE_TYPE_NAME.equals(type.getType().getFullyQualifiedName())) {
 			List<? extends IParametedType> ps = type.getParameters();
-			if(ps != null && ps.size() == 1) {
+			if(ps.size() == 1) {
 				type = ps.get(0);
 			}
 		}
@@ -348,11 +352,14 @@ public class CDIProject extends CDIElement implements ICDIProject {
 			} else {
 				rslt = getBeans(attemptToResolveAmbiguousDependency, type, qs.toArray(new IQualifierDeclaration[0]));
 			}
-			if(rslt != null && !rslt.isEmpty()) return rslt;
-			BuiltInBean builtInBean = new BuiltInBean(type);
-			builtInBean.setParent(this);
-			builtInBean.setSourcePath(injectionPoint.getSourcePath());
-			result.add(builtInBean);
+			if(rslt.isEmpty()) {
+				BuiltInBean builtInBean = new BuiltInBean(type);
+				builtInBean.setParent(this);
+				builtInBean.setSourcePath(injectionPoint.getSourcePath());
+				result.add(builtInBean);
+			} else {
+				result = rslt;
+			}
 			return result;
 		}
 		
@@ -438,14 +445,14 @@ public class CDIProject extends CDIElement implements ICDIProject {
 	}
 
 	public static boolean areMatchingQualifiers(Set<IQualifierDeclaration> beanQualifiers, Set<IQualifierDeclaration> injectionQualifiers) throws CoreException {
-		if(beanQualifiers == null || beanQualifiers.isEmpty()) {
-			if(injectionQualifiers == null || injectionQualifiers.isEmpty()) {
+		if(beanQualifiers.isEmpty()) {
+			if(injectionQualifiers.isEmpty()) {
 				return true;
 			}
 		}
 
 		TreeSet<String> injectionKeys = new TreeSet<String>();
-		if(injectionQualifiers != null) for (IQualifierDeclaration d: injectionQualifiers) {
+		for (IQualifierDeclaration d: injectionQualifiers) {
 			injectionKeys.add(getAnnotationDeclarationKey(d));
 		}
 
@@ -457,7 +464,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		}
 
 		TreeSet<String> beanKeys = new TreeSet<String>();
-		if(beanQualifiers == null || beanQualifiers.isEmpty()) {
+		if(beanQualifiers.isEmpty()) {
 			beanKeys.add(CDIConstants.DEFAULT_QUALIFIER_TYPE_NAME);
 		} else for (IQualifierDeclaration d: beanQualifiers) {
 			beanKeys.add(getAnnotationDeclarationKey(d));
@@ -480,64 +487,61 @@ public class CDIProject extends CDIElement implements ICDIProject {
 	 * @throws CoreException
 	 */
 	public static boolean areMatchingQualifiers(Set<IQualifierDeclaration> beanQualifiers, IType... injectionQualifiers) throws CoreException {
-		if(beanQualifiers == null || beanQualifiers.isEmpty()) {
-			if(injectionQualifiers == null || injectionQualifiers.length == 0) {
-				return true;
+		if(!beanQualifiers.isEmpty() || injectionQualifiers.length != 0) {
+
+			TreeSet<String> injectionKeys = new TreeSet<String>();
+			for (IType d: injectionQualifiers) {
+				injectionKeys.add(d.getFullyQualifiedName());
+			}
+	
+			if(!injectionKeys.contains(CDIConstants.ANY_QUALIFIER_TYPE_NAME)) {
+				if(injectionKeys.isEmpty()) {
+					injectionKeys.add(CDIConstants.DEFAULT_QUALIFIER_TYPE_NAME);
+				}
+		
+				TreeSet<String> beanKeys = new TreeSet<String>();
+				if(beanQualifiers.isEmpty()) {
+					beanKeys.add(CDIConstants.DEFAULT_QUALIFIER_TYPE_NAME);
+				} else {
+					for (IAnnotationDeclaration d: beanQualifiers) {
+						beanKeys.add(d.getType().getFullyQualifiedName());
+					}
+				}
+				if(beanKeys.size() == 1 && beanKeys.iterator().next().startsWith(CDIConstants.NAMED_QUALIFIER_TYPE_NAME)) {
+					beanKeys.add(CDIConstants.DEFAULT_QUALIFIER_TYPE_NAME);
+				}
+		
+				for(String k: injectionKeys) {
+					if(!beanKeys.contains(k)) { 
+						return false;
+					}
+				}
 			}
 		}
-
-		TreeSet<String> injectionKeys = new TreeSet<String>();
-		if(injectionQualifiers != null) for (IType d: injectionQualifiers) {
-			injectionKeys.add(d.getFullyQualifiedName());
-		}
-
-		if(injectionKeys.contains(CDIConstants.ANY_QUALIFIER_TYPE_NAME)) {
-			return true;
-		}
-		if(injectionKeys.isEmpty()) {
-			injectionKeys.add(CDIConstants.DEFAULT_QUALIFIER_TYPE_NAME);
-		}
-
-		TreeSet<String> beanKeys = new TreeSet<String>();
-		if(beanQualifiers == null || beanQualifiers.isEmpty()) {
-			beanKeys.add(CDIConstants.DEFAULT_QUALIFIER_TYPE_NAME);
-		} else for (IAnnotationDeclaration d: beanQualifiers) {
-			beanKeys.add(d.getType().getFullyQualifiedName());
-		}
-		if(beanKeys.size() == 1 && beanKeys.iterator().next().startsWith(CDIConstants.NAMED_QUALIFIER_TYPE_NAME)) {
-			beanKeys.add(CDIConstants.DEFAULT_QUALIFIER_TYPE_NAME);
-		}
-
-		for(String k: injectionKeys) {
-			if(!beanKeys.contains(k)) return false;
-		}		
 		return true;
 	}
 
 	public static boolean areMatchingEventQualifiers(Set<IQualifierDeclaration> eventQualifiers, IType... paramQualifiers) throws CoreException {
-		if(eventQualifiers == null || eventQualifiers.isEmpty()) {
-			if(paramQualifiers == null || paramQualifiers.length == 0) {
-				return true;
+		if(!eventQualifiers.isEmpty() || paramQualifiers.length != 0) {
+
+			TreeSet<String> paramKeys = new TreeSet<String>();
+			for (IType d: paramQualifiers) {
+				paramKeys.add(d.getFullyQualifiedName());
+			}
+	
+			TreeSet<String> eventKeys = new TreeSet<String>();
+			for (IAnnotationDeclaration d: eventQualifiers) {
+				eventKeys.add(d.getType().getFullyQualifiedName());
+			}
+	
+			if(!eventKeys.contains(CDIConstants.ANY_QUALIFIER_TYPE_NAME)) {
+				eventKeys.add(CDIConstants.ANY_QUALIFIER_TYPE_NAME);
+			}
+	
+			for(String k: paramKeys) {
+				if(!eventKeys.contains(k)) return false;
 			}
 		}
-
-		TreeSet<String> paramKeys = new TreeSet<String>();
-		if(paramQualifiers != null) for (IType d: paramQualifiers) {
-			paramKeys.add(d.getFullyQualifiedName());
-		}
-
-		TreeSet<String> eventKeys = new TreeSet<String>();
-		if(eventQualifiers != null) for (IAnnotationDeclaration d: eventQualifiers) {
-			eventKeys.add(d.getType().getFullyQualifiedName());
-		}
-
-		if(!eventKeys.contains(CDIConstants.ANY_QUALIFIER_TYPE_NAME)) {
-			eventKeys.add(CDIConstants.ANY_QUALIFIER_TYPE_NAME);
-		}
-
-		for(String k: paramKeys) {
-			if(!eventKeys.contains(k)) return false;
-		}		
 		return true;
 	}
 
@@ -553,47 +557,45 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		IMethod[] ms = type.getMethods();
 		StringBuffer result = new StringBuffer();
 			result.append(type.getFullyQualifiedName());
-		if(ms != null && ms.length > 0) {
+		if(ms.length > 0) {
 			TreeMap<String, String> values = new TreeMap<String, String>();
 			IMemberValuePair[] ps = d.getMemberValuePairs();
 			if (ps != null) for (IMemberValuePair p: ps) {
 				String n = p.getMemberName();
 				Object o = p.getValue();
-				if(o != null) {
-					int k = p.getValueKind();
-					if(k == IMemberValuePair.K_QUALIFIED_NAME || k == IMemberValuePair.K_SIMPLE_NAME) {
-						String s = o.toString();
-						int dot = s.lastIndexOf('.');
-						//We reduce value to simple name. That makes it not precise
-						//and there must be a test that display limit of this approach.
-						if(dot >= 0) {
-							String s1 = s.substring(dot + 1);
-							if(!"class".equals(s1)) {
-								o = s1;
-							}
+				int k = p.getValueKind();
+				if(k == IMemberValuePair.K_QUALIFIED_NAME || k == IMemberValuePair.K_SIMPLE_NAME) {
+					String s = o.toString();
+					int dot = s.lastIndexOf('.');
+					//We reduce value to simple name. That makes it not precise
+					//and there must be a test that display limit of this approach.
+					if(dot >= 0) {
+						String s1 = s.substring(dot + 1);
+						if(!"class".equals(s1)) {
+							o = s1;
 						}
 					}
-					values.put(n, o.toString());
 				}
+				values.put(n, o.toString());
+
 			}
 			for (IMethod m: ms) {
 				String n = m.getElementName();
 				if(nb.contains(m)) {
 					values.remove(n);
-					continue;
+				} else if(!values.containsKey(n)) {
+					IMemberValuePair p = m.getDefaultValue();
+					if (p != null) {
+						n = p.getMemberName();
+						Object o = p.getValue();
+						if(!values.containsKey(n)) {
+							values.put(n, o.toString());
+						}
+					}
 				}
-				if(values.containsKey(n)) {
-					continue;
-				}
-				IMemberValuePair p = m.getDefaultValue();
-				n = p.getMemberName();
-				Object o = p.getValue();
-				if(values.containsKey(n) || o == null) continue;
-				values.put(n, o.toString());
 			}
 			for (String n: values.keySet()) {
-				String v = values.get(n);
-				result.append(';').append(n).append('=').append(v);
+				result.append(';').append(n).append('=').append(values.get(n));
 			}
 		}		
 		return result.toString();
@@ -739,80 +741,83 @@ public class CDIProject extends CDIElement implements ICDIProject {
 	}
 
 	public boolean isNormalScope(IType annotationType) {
-		if(annotationType == null) return false;
 		try {
-			if(!annotationType.isAnnotation()) return false;
-		} catch (CoreException e) {
-			return false;
-		}
-		AnnotationDefinition d = n.getDefinitions().getAnnotation(annotationType);
-		List<IAnnotationDeclaration> ds = d.getAnnotations();
-		for (IAnnotationDeclaration a: ds) {
-			if(a instanceof AnnotationDeclaration) {
-				AnnotationDeclaration aa = (AnnotationDeclaration)a;
-				if(CDIConstants.NORMAL_SCOPE_ANNOTATION_TYPE_NAME.equals(aa.getTypeName())) {
-					return true;
-				}
+			if(annotationType.isAnnotation()) {
+				AnnotationDefinition d = n.getDefinitions().getAnnotation(annotationType);
+				List<IAnnotationDeclaration> ds = d.getAnnotations();
+				for (IAnnotationDeclaration a: ds) {
+					if(a instanceof AnnotationDeclaration) {
+						AnnotationDeclaration aa = (AnnotationDeclaration)a;
+						if(CDIConstants.NORMAL_SCOPE_ANNOTATION_TYPE_NAME.equals(aa.getTypeName())) {
+							return true;
+						}
+					}
+				}				
 			}
-		}		
+		} catch (CoreException e) {
+			CDICorePlugin.getDefault().logError(e);
+		}
 		return false;
 	}
 
 	public boolean isPassivatingScope(IType annotationType) {
-		if(annotationType == null) return false;
 		try {
-			if(!annotationType.isAnnotation()) return false;
-		} catch (CoreException e) {
-			return false;
-		}
-		AnnotationDefinition d = n.getDefinitions().getAnnotation(annotationType);
-		List<IAnnotationDeclaration> ds = d.getAnnotations();
-		for (IAnnotationDeclaration a: ds) {
-			if(a instanceof AnnotationDeclaration) {
-				AnnotationDeclaration aa = (AnnotationDeclaration)a;
-				if(CDIConstants.NORMAL_SCOPE_ANNOTATION_TYPE_NAME.equals(aa.getTypeName())) {
-					Object o = a.getMemberValue("passivating");
-					return o != null && "true".equalsIgnoreCase(o.toString());
+			if(annotationType.isAnnotation())  {
+				AnnotationDefinition d = n.getDefinitions().getAnnotation(annotationType);
+				List<IAnnotationDeclaration> ds = d.getAnnotations();
+				for (IAnnotationDeclaration a: ds) {
+					if(a instanceof AnnotationDeclaration) {
+						AnnotationDeclaration aa = (AnnotationDeclaration)a;
+						if(CDIConstants.NORMAL_SCOPE_ANNOTATION_TYPE_NAME.equals(aa.getTypeName())) {
+							Object o = a.getMemberValue("passivating");
+							return o != null && "true".equalsIgnoreCase(o.toString());
+						}
+					}
 				}
 			}
-		}		
+		} catch (CoreException e) {
+			CDICorePlugin.getDefault().logError(e);
+		}
 		return false;
 	}
 
 	public boolean isQualifier(IType annotationType) {
-		if(annotationType == null) return false;
+		boolean result = false;
 		try {
-			if(!annotationType.isAnnotation()) return false;
+			if(annotationType.isAnnotation()) {
+				int k = n.getDefinitions().getAnnotationKind(annotationType);
+				result = k > 0 && (k & AnnotationDefinition.QUALIFIER) > 0;
+			}
 		} catch (CoreException e) {
-			return false;
+			CDICorePlugin.getDefault().logError(e);
 		}
-		int k = n.getDefinitions().getAnnotationKind(annotationType);
-		
-		return k > 0 && (k & AnnotationDefinition.QUALIFIER) > 0;
+		return result;
 	}
 
 	public boolean isScope(IType annotationType) {
-		if(annotationType == null) return false;
+		boolean result = false;
 		try {
-			if(!annotationType.isAnnotation()) return false;
+			if(annotationType.isAnnotation()) {
+				int k = n.getDefinitions().getAnnotationKind(annotationType);
+				result = k > 0 && (k & AnnotationDefinition.SCOPE) > 0;
+			}
 		} catch (CoreException e) {
-			return false;
+			CDICorePlugin.getDefault().logError(e);
 		}
-		int k = n.getDefinitions().getAnnotationKind(annotationType);
-		
-		return k > 0 && (k & AnnotationDefinition.SCOPE) > 0;
+		return result;
 	}
 
 	public boolean isStereotype(IType annotationType) {
-		if(annotationType == null) return false;
+		boolean result = false;
 		try {
-			if(!annotationType.isAnnotation()) return false;
+			if(annotationType.isAnnotation()) {
+				int k = n.getDefinitions().getAnnotationKind(annotationType);
+				result= k > 0 && (k & AnnotationDefinition.STEREOTYPE) > 0;
+			}
 		} catch (CoreException e) {
-			return false;
+			CDICorePlugin.getDefault().logError(e);
 		}
-		int k = n.getDefinitions().getAnnotationKind(annotationType);
-		
-		return k > 0 && (k & AnnotationDefinition.STEREOTYPE) > 0;
+		return result;
 	}
 
 	public Set<IBean> resolve(Set<IBean> beans) {
@@ -834,29 +839,26 @@ public class CDIProject extends CDIElement implements ICDIProject {
 
 		IParametedType eventType = getEventType(injectionPoint.getType());
 		
-		if(eventType == null) {
-			return result;
-		}
-
-		for (IClassBean b: classBeans.values()) {
-			Set<IBeanMethod> ms = b.getObserverMethods();
-			for (IBeanMethod m: ms) {
-				if(m instanceof IObserverMethod) {
-					IObserverMethod om = (IObserverMethod)m;
-					Set<IParameter> params = om.getObservedParameters();
-					if(params.isEmpty()) continue;
-					IParameter param = params.iterator().next();
-					IParametedType paramType = param.getType();
-					if(!((ParametedType)eventType).isAssignableTo((ParametedType)paramType, true)) {
-						continue;
+		if(eventType != null) {
+			for (IClassBean b: classBeans.values()) {
+				Set<IBeanMethod> ms = b.getObserverMethods();
+				for (IBeanMethod m: ms) {
+					if(m instanceof IObserverMethod) {
+						IObserverMethod om = (IObserverMethod)m;
+						Set<IParameter> params = om.getObservedParameters();
+						if(params.isEmpty()) continue;
+						IParameter param = params.iterator().next();
+						IParametedType paramType = param.getType();
+						if(!((ParametedType)eventType).isAssignableTo((ParametedType)paramType, true)) {
+							continue;
+						}
+						if(areMatchingEventQualifiers(param, injectionPoint)) {
+							result.add(om);
+						}
 					}
-					if(areMatchingEventQualifiers(param, injectionPoint)) {
-						result.add(om);
-					}
-				}
-			}			
+				}			
+			}
 		}
-
 		return result;
 	}
 
@@ -868,7 +870,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 	 * @return
 	 */
 	private IParametedType getEventType(IParametedType t) {
-		if(t == null || t.getType() == null || !CDIConstants.EVENT_TYPE_NAME.equals(t.getType().getFullyQualifiedName())) {
+		if(t.getType() == null || !CDIConstants.EVENT_TYPE_NAME.equals(t.getType().getFullyQualifiedName())) {
 			return null;
 		}
 		List<? extends IParametedType> ps = t.getParameters();
@@ -917,39 +919,40 @@ public class CDIProject extends CDIElement implements ICDIProject {
 	public Set<IBeanMethod> resolveDisposers(IProducerMethod producer) {
 		Set<IBeanMethod> result = new HashSet<IBeanMethod>();
 		IClassBean cb = producer.getClassBean();
-		if(cb == null) return result;
+		if(cb != null) {
 
-		Set<IParametedType> types = producer.getLegalTypes();
-		Set<IQualifierDeclaration> qs = producer.getQualifierDeclarations(true);
-
-		Set<IBeanMethod> ds = cb.getDisposers();
-		for (IBeanMethod m: ds) {
-			List<IParameter> ps = m.getParameters();
-			IParameter match = null;
-			for (IParameter p: ps) {
-				if(!p.isAnnotationPresent(CDIConstants.DISPOSES_ANNOTATION_TYPE_NAME)) continue;
-				IParametedType type = p.getType();
-				if(!containsType(types, type)) continue;
-				Set<IType> qts = new HashSet<IType>();
-				Set<String> ts = ((Parameter)p).getAnnotationTypes();
-				for (String t: ts) {
-					QualifierElement q = getQualifier(t);
-					if(q != null && q.getSourceType() != null) {
-						qts.add(q.getSourceType());
+			Set<IParametedType> types = producer.getLegalTypes();
+			Set<IQualifierDeclaration> qs = producer.getQualifierDeclarations(true);
+	
+			Set<IBeanMethod> ds = cb.getDisposers();
+			for (IBeanMethod m: ds) {
+				List<IParameter> ps = m.getParameters();
+				IParameter match = null;
+				for (IParameter p: ps) {
+					if(!p.isAnnotationPresent(CDIConstants.DISPOSES_ANNOTATION_TYPE_NAME)) continue;
+					IParametedType type = p.getType();
+					if(!containsType(types, type)) continue;
+					Set<IType> qts = new HashSet<IType>();
+					Set<String> ts = ((Parameter)p).getAnnotationTypes();
+					for (String t: ts) {
+						QualifierElement q = getQualifier(t);
+						if(q != null && q.getSourceType() != null) {
+							qts.add(q.getSourceType());
+						}
+					}
+					IType[] qtsa = qts.toArray(new IType[0]);
+					try {
+						if(areMatchingQualifiers(qs, qtsa)) {
+							match = p;
+							break;
+						}
+					} catch (CoreException e) {
+						CDICorePlugin.getDefault().logError(e);
 					}
 				}
-				IType[] qtsa = qts.toArray(new IType[0]);
-				try {
-					if(areMatchingQualifiers(qs, qtsa)) {
-						match = p;
-						break;
-					}
-				} catch (CoreException e) {
-					CDICorePlugin.getDefault().logError(e);
+				if(match != null) {
+					result.add(m);
 				}
-			}
-			if(match != null) {
-				result.add(m);
 			}
 		}
 		return result;
@@ -1305,15 +1308,14 @@ public class CDIProject extends CDIElement implements ICDIProject {
 			if(attemptToResolveAmbiguousNames) {
 				Set<String> names = new HashSet<String>();
 				for (IBean bean : namedBeans) {
-					if(names.contains(bean.getName())) {
-						continue;
-					}
-					Set<IBean> beans = getBeans(bean.getName(), attemptToResolveAmbiguousNames);
-					if(beans.isEmpty()) {
-						result.add(bean);
-					} else {
-						result.addAll(beans);
-						names.add(bean.getName());
+					if(!names.contains(bean.getName())) {
+						Set<IBean> beans = getBeans(bean.getName(), attemptToResolveAmbiguousNames);
+						if(beans.isEmpty()) {
+							result.add(bean);
+						} else {
+							result.addAll(beans);
+							names.add(bean.getName());
+						}
 					}
 				}
 			} else {
@@ -1331,10 +1333,6 @@ public class CDIProject extends CDIElement implements ICDIProject {
 			IParametedType beanType, IType... qualifiers) {
 		Set<IBean> result = new HashSet<IBean>();
 		IParametedType type = beanType;
-		if(type == null) {
-			return result;
-		}
-
 		Set<IBean> beans = new HashSet<IBean>();
 		synchronized(allBeans) {
 			beans.addAll(allBeans);
@@ -1364,9 +1362,6 @@ public class CDIProject extends CDIElement implements ICDIProject {
 			String fullyQualifiedBeanType,
 			String... fullyQualifiedQualifiersTypes) {
 		IType type = getNature().getType(fullyQualifiedBeanType);
-		if(type == null) {
-			return Collections.emptySet();
-		}
 		IParametedType beanType = getNature().getTypeFactory().newParametedType(type);
 		List<IType> qualifiers = new ArrayList<IType>();
 		if(fullyQualifiedQualifiersTypes != null) for (String s : fullyQualifiedQualifiersTypes) {
