@@ -26,7 +26,7 @@ public class FileSet {
 
 	public void add(IPath path, IType[] types) throws CoreException {
 		allpaths.add(path);
-		if(types == null || types.length == 0) {
+		if(types.length == 0) {
 			nonmodel.add(path);
 		} else {
 			for (IType type: types) {
@@ -35,10 +35,10 @@ public class FileSet {
 		}
 	}
 	public void add(IPath path, IType type) throws CoreException {
-		if(type == null) return;
 		allpaths.add(path);
-			if(!checkType(type, path)) return;
-		if(type.isAnnotation()) {
+		if(!checkType(type, path)) {
+			//do nothing, bug JDT
+		} else if(type.isAnnotation()) {
 			add(annotations, path, type);
 		} else if(type.isInterface()) {
 			add(interfaces, path, type);
@@ -46,8 +46,7 @@ public class FileSet {
 			add(classes, path, type);
 			IType[] ts = type.getTypes();
 			for (IType t: ts) {
-				if(!checkType(t, path)) continue;
-				if(Flags.isStatic(t.getFlags())) {
+				if(checkType(t, path) && Flags.isStatic(t.getFlags())) {
 					add(path, t);
 				}
 			}
@@ -87,7 +86,6 @@ public class FileSet {
 	}
 
 	public void add(IPath path, IPackageDeclaration pkg) throws CoreException {
-		if(pkg == null) return;
 		allpaths.add(path);
 		packages.put(path, pkg);
 	}
