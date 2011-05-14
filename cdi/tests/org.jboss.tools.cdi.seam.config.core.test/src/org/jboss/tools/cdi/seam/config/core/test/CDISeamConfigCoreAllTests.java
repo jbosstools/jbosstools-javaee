@@ -22,15 +22,19 @@ public class CDISeamConfigCoreAllTests {
 	public static Test suite() {
 		// it could be done here because it is not needed to be enabled back
 		JavaModelManager.getIndexManager().disable();
-
+		
 		TestSuite suiteAll = new TestSuite("CDI Config Core Tests");
 
-		suiteAll.addTestSuite(ExtensionTest.class);
-		suiteAll.addTestSuite(SeamDefinitionsTest.class);
-		suiteAll.addTestSuite(SeamBeansTest.class);
+		TestSuite suiteCore = new TestSuite("CDI Config Model Tests");
+		suiteCore.addTestSuite(ExtensionTest.class);
+		suiteCore.addTestSuite(SeamDefinitionsTest.class);
+		suiteCore.addTestSuite(SeamBeansTest.class);
+		suiteAll.addTest(new SeamConfigTestSetup(suiteCore));
 
-		SeamConfigTestSetup suite = new SeamConfigTestSetup(suiteAll);
+		TestSuite suiteValidation = new TestSuite("CDI Config Validation Tests");
+		suiteValidation.addTestSuite(SeamConfigValidationTest.class);
+		suiteAll.addTest(new SeamConfigValidationTestSetup(suiteValidation));
 
-		return suite;
+		return suiteAll;
 	}
 }

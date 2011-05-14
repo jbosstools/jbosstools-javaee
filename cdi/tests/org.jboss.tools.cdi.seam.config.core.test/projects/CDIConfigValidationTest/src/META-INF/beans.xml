@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<beans xmlns="http://java.sun.com/xml/ns/javaee"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xmlns:s="urn:java:ee" 
+   xmlns:v="urn:java:org.jboss.beans.validation.test"
+   xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://jboss.org/schema/cdi/beans_1_0.xsd">
+   
+<v:MyBean2>
+</v:MyBean2>
+
+<v:MyBean1>
+	<s:Default/>
+	<v:field1>
+	</v:field1>
+	<v:field3></v:field3>
+</v:MyBean1>
+
+<v:MyBean1>
+	<s:Default/>
+	<v:field1>
+		<s:Named param="abc"/>
+	</v:field1>
+</v:MyBean1>
+
+<v:MyBean1>
+	<s:Default/>
+	<v:field1>
+		<s:Named value="abc"/>
+	</v:field1>
+</v:MyBean1>
+
+<v:MyBean1>
+	<s:Default/>
+	<v:method1>
+		<s:parameters>
+		</s:parameters>
+	</v:method1>
+	<v:method2>
+		<s:parameters>
+		</s:parameters>
+	</v:method2>	
+	<v:method1>
+		<s:parameters>
+			<s:String/>
+		</s:parameters>
+	</v:method1>
+	<v:method1>
+		<s:parameters>
+			<s:Boolean/>
+		</s:parameters>
+	</v:method1>
+</v:MyBean1>
+
+</beans>
