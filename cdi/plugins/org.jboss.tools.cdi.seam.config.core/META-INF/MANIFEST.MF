@@ -32,5 +32,6 @@ Export-Package: org.jboss.tools.cdi.seam.config.core,
  org.jboss.tools.cdi.seam.config.core.definition,
  org.jboss.tools.cdi.seam.config.core.scanner,
  org.jboss.tools.cdi.seam.config.core.xml,
- org.jboss.tools.cdi.seam.config.core.util
+ org.jboss.tools.cdi.seam.config.core.util,
+ org.jboss.tools.cdi.seam.config.core.validation
 

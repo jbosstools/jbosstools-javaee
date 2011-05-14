@@ -487,10 +487,7 @@ public class SeamDefinitionBuilder {
 
 	IJavaAnnotation createInject(SAXElement forElement) {
 		IType type = project.getType(CDIConstants.INJECT_ANNOTATION_TYPE_NAME);
-		if(type == null) {
-			return null;
-		}
-		return new AnnotationLiteral(resource, forElement.getLocation().getStartPosition(), forElement.getLocation().getLength(), null, 0, type);
+		return (type == null) ? null : new AnnotationLiteral(resource, forElement.getLocation().getStartPosition(), forElement.getLocation().getLength(), null, 0, type);
 	}
 
 	private void addDependency(IType type) {
