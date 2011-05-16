@@ -15,4 +15,4 @@ Require-Bundle:
 Export-Package: org.jboss.tools.jsf.text.ext.facelets,
  org.jboss.tools.jsf.text.ext.facelets.hyperlink
 Bundle-Version: 3.3.0.qualifier
-Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6

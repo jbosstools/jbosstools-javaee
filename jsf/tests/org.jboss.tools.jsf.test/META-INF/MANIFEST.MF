@@ -39,5 +39,5 @@ Require-Bundle:
 Bundle-Activator: org.jboss.tools.jsf.plugin.JsfTestPlugin
 Bundle-ActivationPolicy: lazy
 Bundle-Localization: plugin
-Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Import-Package: org.jboss.tools.jst.jsp.contentassist
