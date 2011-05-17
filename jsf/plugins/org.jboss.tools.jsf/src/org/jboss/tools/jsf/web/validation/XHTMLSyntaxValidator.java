@@ -19,7 +19,6 @@ import java.io.Reader;
 import java.io.StringReader;
 import java.util.ArrayList;
 
-import org.apache.xerces.xni.parser.XMLEntityResolver;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.wst.common.uriresolver.internal.provisional.URIResolverPlugin;
 import org.eclipse.wst.validation.ValidationResult;
@@ -31,10 +30,11 @@ import org.eclipse.wst.xml.core.internal.validation.core.NestedValidatorContext;
 import org.eclipse.wst.xml.core.internal.validation.core.ValidationReport;
 import org.eclipse.wst.xml.core.internal.validation.eclipse.ErrorCustomizationPluginRegistryReader;
 import org.eclipse.wst.xml.core.internal.validation.eclipse.Validator;
-import org.jboss.tools.common.xml.XMLEntityResolverImpl;
 import org.jboss.tools.jsf.JSFModelPlugin;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
+import org.xml.sax.SAXNotRecognizedException;
+import org.xml.sax.SAXNotSupportedException;
 import org.xml.sax.SAXParseException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.ext.LexicalHandler;
@@ -224,7 +224,7 @@ public class XHTMLSyntaxValidator extends Validator {
 				this.entityResolver = entityResolver;
 			}
 
-			protected XMLReader createXMLReader(String uri) throws Exception
+			protected XMLReader createXMLReader(String uri) throws SAXNotRecognizedException, SAXNotSupportedException
 			{     
 				XMLReader reader = super.createXMLReader(uri);
 	
