@@ -553,10 +553,10 @@ public class CDIUtil {
 				}
 				if(sourceType.isInterface()) {
 					IAnnotation annotation = sourceType.getAnnotation(CDIConstants.LOCAL_ANNOTATION_TYPE_NAME);
-					if (annotation == null || !annotation.exists()) {
+					if (!annotation.exists()) {
 						annotation = sourceType.getAnnotation("Local"); //$NON-NLS-N1
 					}
-					if (annotation != null && CDIConstants.LOCAL_ANNOTATION_TYPE_NAME.equals(EclipseJavaUtil.resolveType(sourceType, "Local"))) { //$NON-NLS-N1
+					if (annotation.exists() && CDIConstants.LOCAL_ANNOTATION_TYPE_NAME.equals(EclipseJavaUtil.resolveType(sourceType, "Local"))) { //$NON-NLS-N1
 						sourceTypes.add(sourceType);
 					}
 				}

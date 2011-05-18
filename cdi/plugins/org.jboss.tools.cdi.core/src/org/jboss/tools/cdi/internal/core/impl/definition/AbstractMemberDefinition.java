@@ -80,13 +80,15 @@ public abstract class AbstractMemberDefinition implements IAnnotated {
 	}
 
 	public PackageDefinition getPackageDefinition() {
+		PackageDefinition result = null;
 		AbstractTypeDefinition t = getTypeDefinition();
-		if(t == null) return null;
-		String qn = t.getQualifiedName();
-		if(qn == null) return null;
-		int d = qn.lastIndexOf('.');
-		String packageName = (d < 0) ? "" : qn.substring(0, d);
-		return project.getDefinitions().getPackageDefinition(packageName);
+		if(t != null) {
+			String qn = t.getQualifiedName();
+			int d = qn.lastIndexOf('.');
+			String packageName = (d < 0) ? "" : qn.substring(0, d);
+			result = project.getDefinitions().getPackageDefinition(packageName);
+		}
+		return result;
 	}
 
 	protected void init(IType contextType, IRootDefinitionContext context, int flags) throws CoreException {

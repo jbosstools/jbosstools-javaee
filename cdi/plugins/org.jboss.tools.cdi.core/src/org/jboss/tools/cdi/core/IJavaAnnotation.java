@@ -39,9 +39,9 @@ public interface IJavaAnnotation extends ITextSourceReference {
 	public String getTypeName();
 
 	/**
-	 * Returns annotation type.
+	 * Returns annotation type or null if it cannot be resolved.
 	 * 
-	 * @return annotation type
+	 * @return annotation type or null if it cannot be resolved
 	 */
 	public IType getType();
 	/**
