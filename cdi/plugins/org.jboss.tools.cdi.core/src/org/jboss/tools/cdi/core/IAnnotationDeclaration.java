@@ -47,6 +47,13 @@ public interface IAnnotationDeclaration extends ITextSourceReference {
 	IMember getParentMember();
 
 	/**
+	 * Returns the corresponding type name of the annotation.
+	 * 
+	 * @return the corresponding type name of the annotation
+	 */
+	String getTypeName();
+
+	/**
 	 * Returns the corresponding IType of the annotation. May be null.
 	 * 
 	 * @return the corresponding IType of the annotation

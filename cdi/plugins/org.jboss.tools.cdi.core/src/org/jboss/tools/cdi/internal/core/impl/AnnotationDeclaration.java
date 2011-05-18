@@ -48,6 +48,10 @@ public class AnnotationDeclaration implements IAnnotationDeclaration {
 		this.annotation = annotation;
 	}
 
+	public IJavaAnnotation getDeclaration() {
+		return annotation;
+	}
+
 	public IResource getResource() {
 		return annotation.getResource();
 	}
