@@ -12,6 +12,7 @@
  *******************************************************************************/
 package org.jboss.tools.cdi.ui.wizard.xpl;
 
+import java.lang.reflect.InvocationTargetException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -19,11 +20,13 @@ import java.util.Iterator;
 import java.util.Set;
 
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jdt.core.Flags;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IMessageProvider;
+import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IContentProvider;
 import org.eclipse.jface.viewers.IDoubleClickListener;
@@ -61,6 +64,8 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.SearchPattern;
+import org.jboss.tools.cdi.core.CDICoreMessages;
+import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.core.IQualifier;
@@ -99,6 +104,8 @@ public class AddQualifiersToBeanComposite extends Composite {
 	private Label nLabel;
 	
 	protected boolean isComplete = true;
+	
+	private ILabelProvider labelProvider;
 
 	public AddQualifiersToBeanComposite(Composite parent, WizardPage wizard) {
 		super(parent, SWT.NONE);
@@ -120,13 +127,15 @@ public class AddQualifiersToBeanComposite extends Composite {
 		qualifiers.clear();
 		
 		loadAvailableQualifiers();
+		availableListViewer.setInput(qualifiers);
 		if(nLabel != null)
 			nLabel.setText(MessageFormat.format(CDIUIMessages.ADD_QUALIFIERS_TO_BEAN_WIZARD_MESSAGE,
 					new Object[]{bean.getBeanClass().getElementName()}));
 		refresh();
 	}
 	
-	private void loadAvailableQualifiers(){
+	private IQualifier loadAvailableQualifiers(){
+		IQualifier lastQualifier = null;
 		String beanTypeName = bean.getBeanClass().getFullyQualifiedName();
 		String beanPackage = beanTypeName.substring(0,beanTypeName.lastIndexOf(MarkerResolutionUtils.DOT));
 		
@@ -136,10 +145,9 @@ public class AddQualifiersToBeanComposite extends Composite {
 		boolean samePackage = beanPackage.equals(injectionPointPackage);
 		
 		IQualifier[] qs = bean.getCDIProject().getQualifiers();
-		qualifiers = new ArrayList<IQualifier>();
 		
 		for(IQualifier q : qs){
-			if(!originalQualifiers.contains(q)){
+			if(!contains(originalQualifiers, q) && !contains(qualifiers, q) && !contains(deployed, q)){
 				boolean isPublic = true;
 				try{
 					isPublic = Flags.isPublic(q.getSourceType().getFlags());
@@ -148,12 +156,23 @@ public class AddQualifiersToBeanComposite extends Composite {
 				}
 				String qualifierTypeName = q.getSourceType().getFullyQualifiedName();
 				String qualifierPackage = qualifierTypeName.substring(0,qualifierTypeName.lastIndexOf(MarkerResolutionUtils.DOT));
-				if(isPublic || (samePackage && injectionPointPackage.equals(qualifierPackage)))
+				if((isPublic || (samePackage && injectionPointPackage.equals(qualifierPackage))) ){
 					qualifiers.add(q);
+					lastQualifier = q;
+				}
 			}
 		}
-		availableListViewer.setInput(qualifiers);
-		
+		return lastQualifier;
+	}
+	
+	private boolean contains(ArrayList<IQualifier> qualifiers, IQualifier qualifier){
+		String qualifierText = labelProvider.getText(qualifier);
+		for(IQualifier q : qualifiers){
+			String qText = labelProvider.getText(q);
+			if(qText.equals(qualifierText))
+				return true;
+		}
+		return false;
 	}
 
 	public void setVisible(boolean visible) {
@@ -275,7 +294,7 @@ public class AddQualifiersToBeanComposite extends Composite {
 		availableList.setLayoutData(data);
 		
 		availableListViewer = new ListViewer(availableList);
-		ILabelProvider labelProvider = new QualifiersListLabelProvider();
+		labelProvider = new QualifiersListLabelProvider();
 		availableListViewer.setLabelProvider(labelProvider);
 		IContentProvider contentProvider = new QualifiersListContentProvider();
 		availableListViewer.setContentProvider(contentProvider);
@@ -390,6 +409,13 @@ public class AddQualifiersToBeanComposite extends Composite {
 			}
 		});
 		
+		label = new Label(this, SWT.NONE);
+		label.setText("");
+
+		label = new Label(this, SWT.NONE);
+		label.setText("");
+		
+		
 		final Button createQualifier = new Button(this, SWT.PUSH);
 		createQualifier.setText(CDIUIMessages.ADD_QUALIFIERS_TO_BEAN_WIZARD_CREATE_NEW_QUALIFIER);
 		
@@ -404,23 +430,40 @@ public class AddQualifiersToBeanComposite extends Composite {
 				int status = dialog.open();
 				if(status == WizardDialog.OK){
 					// reload qualifiers
-					try {
-						Job.getJobManager().join(ResourcesPlugin.FAMILY_AUTO_BUILD, null);
-					} catch (InterruptedException e) {
-						// do nothing
+					if (Display.getCurrent() != null) {
+						try{
+							PlatformUI.getWorkbench().getProgressService().busyCursorWhile(new IRunnableWithProgress(){
+								public void run(IProgressMonitor monitor)
+										throws InvocationTargetException, InterruptedException {
+									monitor.beginTask(CDICoreMessages.CDI_UTIL_BUILD_CDI_MODEL, 10);
+									monitor.worked(3);
+									
+									try {
+										Job.getJobManager().join(ResourcesPlugin.FAMILY_AUTO_BUILD, null);
+									} catch (InterruptedException e) {
+										// do nothing
+									}
+									
+									monitor.worked(7);
+								}
+							});
+						}catch(InterruptedException ie){
+							CDICorePlugin.getDefault().logError(ie);
+						}catch(InvocationTargetException ite){
+							CDICorePlugin.getDefault().logError(ite);
+						}
 					}
 					
-					qualifiers.clear();
+					IQualifier q = loadAvailableQualifiers();
 					
-					loadAvailableQualifiers();
-					
-					refresh();
+					if(q != null){
+						moveAll(new IQualifier[]{q}, true);
+					}
 				}
 			}
 		});
 		
 		setEnablement();
-		//availableList.setFocus();
 		
 		Dialog.applyDialogFont(this);
 	}
@@ -456,7 +499,7 @@ public class AddQualifiersToBeanComposite extends Composite {
 			for (int i = 0; i < ms.length; i++) {
 				IQualifier qualifier = ms[i];
 				if (qualifier != null) {
-					if (qualifiers.contains(qualifier)) {
+					if (contains(qualifiers, qualifier)) {
 						enabled = true;
 					}else{
 						enabled = false;
@@ -475,7 +518,7 @@ public class AddQualifiersToBeanComposite extends Composite {
 			boolean enabled = false;
 			for (int i = 0; i < ms.length; i++) {
 				IQualifier qualifier = ms[i];
-				if (qualifier != null && deployed.contains(qualifier)) {
+				if (qualifier != null && contains(deployed, qualifier)) {
 					enabled = true;
 				}
 				else{
@@ -524,7 +567,7 @@ public class AddQualifiersToBeanComposite extends Composite {
 		int size = mods.length;
 		ArrayList<IQualifier> list = new ArrayList<IQualifier>();
 		for (int i = 0; i < size; i++) {
-			if (!list.contains(mods[i]))
+			if (!contains(list, mods[i]))
 				list.add(mods[i]);
 		}
 		
@@ -553,7 +596,7 @@ public class AddQualifiersToBeanComposite extends Composite {
 		Iterator iterator = originalQualifiers.iterator();
 		while (iterator.hasNext()) {
 			IQualifier qualifier = (IQualifier) iterator.next();
-			if (!deployed.contains(qualifier))
+			if (!contains(deployed, qualifier))
 				list.add(qualifier);
 		}
 		return list;
@@ -564,7 +607,7 @@ public class AddQualifiersToBeanComposite extends Composite {
 		Iterator iterator = deployed.iterator();
 		while (iterator.hasNext()) {
 			IQualifier qualifier = (IQualifier) iterator.next();
-			if (!originalQualifiers.contains(qualifier))
+			if (!contains(originalQualifiers, qualifier))
 				list.add(qualifier);
 		}
 		return list;

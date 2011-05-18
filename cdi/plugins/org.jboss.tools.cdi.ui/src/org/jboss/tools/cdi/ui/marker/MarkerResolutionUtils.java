@@ -280,14 +280,11 @@ public class MarkerResolutionUtils {
 		
 			IBuffer buffer = compilationUnit.getBuffer();
 			
-			MethodStructure ms = parseMethod(m, buffer.getContents());
-			if(ms == null)
-				return;
-			
-			for(Parameter parameter : ms.getParameters()){
-				if(parameter.getName().equals(paramName)){
+			ILocalVariable[] parameters = m.getParameters();
+			for(int index = 0; index < parameters.length; index++){
+				if(parameters[index].getElementName().equals(paramName)){
 					StringBuffer b = new StringBuffer();
-					if(parameter.getIndex() > 0)
+					if(index > 0)
 						b.append(SPACE);
 					for(IQualifier qualifier : qualifiers){
 						String qualifierName = qualifier.getSourceType().getFullyQualifiedName();
@@ -297,14 +294,14 @@ public class MarkerResolutionUtils {
 							if(duplicant)
 								annotation = qualifierName;
 							if(qualifierName.equals(CDIConstants.NAMED_QUALIFIER_TYPE_NAME))
-								b.append(AT+annotation+"(\""+parameter.getName()+"\")"+SPACE);
+								b.append(AT+annotation+"(\""+parameters[index].getElementName()+"\")"+SPACE);
 							else
 								b.append(AT+annotation+SPACE);
 						}
 					}
-					b.append(parameter.getType()+SPACE);
-					b.append(parameter.getName());
-					buffer.replace(parameter.getOffset(), parameter.getLength(), b.toString());
+					b.append(Signature.getSignatureSimpleName(parameters[index].getTypeSignature())+SPACE);
+					b.append(parameters[index].getElementName());
+					buffer.replace(parameters[index].getSourceRange().getOffset(), parameters[index].getSourceRange().getLength(), b.toString());
 				}
 			}
 			
@@ -322,12 +319,9 @@ public class MarkerResolutionUtils {
 			
 			IBuffer buffer = compilationUnit.getBuffer();
 			
-			MethodStructure ms = parseMethod(method, buffer.getContents());
-			if(ms == null)
-				return null;
-			for(Parameter parameter : ms.getParameters()){
-				if(parameter.getName().equals(paramName)){
-					return new SourceRange(parameter.getOffset(), parameter.getLength());
+			for(ILocalVariable parameter : method.getParameters()){
+				if(parameter.getElementName().equals(paramName)){
+					return new SourceRange(parameter.getSourceRange().getOffset(), parameter.getSourceRange().getLength());
 				}
 			}
 		}catch(JavaModelException ex){
@@ -348,77 +342,6 @@ public class MarkerResolutionUtils {
 		return null;
 	}
 	
-	static void getParams(IMethod method, MethodStructure ms, String paramsString, int offset) throws JavaModelException{
-		String[] types = method.getParameterTypes();
-		String[] names = method.getParameterNames();
-		
-		int paramIndex = 0;
-		int paramPosition = 0;
-		int i = 0;
-		int c1 = 0;
-		int c2 = 0;
-		char quote = '\0';
-		StringBuffer sb = new StringBuffer();
-		while(i < paramsString.length()) {
-			char c = paramsString.charAt(i);
-			if(c == ',' && c1 == 0 && c2 == 0 && quote == '\0') {
-				if(sb.toString().trim().length() > 0) {
-					String param = sb.toString();
-					Parameter parameter = new Parameter(paramIndex, Signature.getSignatureSimpleName(types[paramIndex]), names[paramIndex], offset+paramPosition, param.length());
-					paramIndex++;
-					ms.addParameter(parameter);
-					paramPosition = i+1;
-				}
-				sb.setLength(0);
-				i++;
-				continue;
-			} else if(c == '(' && quote == '\0') {
-				c1++;
-			} else if(c == ')' && quote == '\0') {
-				c1--;
-			} else if(c == '<' && quote == '\0') {
-				c2++;
-			} else if(c == '>' && quote == '\0') {
-				c2--;
-			} else if((c == '\'' || c == '"') && quote == '\0') {
-				quote = c;
-			} else if(quote == c) {
-				quote = '\0';
-			}
-			sb.append(c);
-			i++;
-		}
-		if(sb.length() > 0) {
-			String param = sb.toString();
-			Parameter parameter = new Parameter(paramIndex, Signature.getSignatureSimpleName(types[paramIndex]), names[paramIndex], offset+paramPosition, param.length());
-			paramIndex++;
-			ms.addParameter(parameter);
-			paramPosition = i+1;
-		}
-	}
-
-	
-	private static MethodStructure parseMethod(IMethod method, String text){
-		try{
-			MethodStructure ms = new MethodStructure();
-			ISourceRange range = method.getSourceRange();
-			ISourceRange nameRange = method.getNameRange();
-			if(nameRange != null) range = nameRange;
-			int paramStart = text.indexOf('(', range.getOffset());
-			if(paramStart < 0) return null;
-			int declEnd = text.indexOf('{', paramStart);
-			if(declEnd < 0) return null;
-			int paramEnd = text.lastIndexOf(')', declEnd);
-			if(paramEnd < 0) return null;
-			String paramsString = text.substring(paramStart + 1, paramEnd);
-			getParams(method, ms, paramsString, paramStart+1);
-			
-			return ms;
-		}catch(JavaModelException ex){
-			CDIUIPlugin.getDefault().logError(ex);
-		}
-		return null;
-	}
 	
 	public static void addQualifiersToInjectedPoint(IInjectionPoint injectionPoint, IBean bean){
 		try{
@@ -527,52 +450,4 @@ public class MarkerResolutionUtils {
 		}
 		return null;
 	}
-	
-	static class MethodStructure{
-		List<Parameter> parameters = new ArrayList<Parameter>();
-		
-		public List<Parameter> getParameters(){
-			return parameters;
-		}
-		
-		public void addParameter(Parameter parameter){
-			parameters.add(parameter);
-		}
-	}
-	
-	static class Parameter{
-		String type;
-		String name;
-		int offset, length;
-		int index;
-		
-		public Parameter(int index, String type, String name, int offset, int length){
-			this.index = index;
-			this.type = type;
-			this.name = name;
-			this.offset = offset;
-			this.length = length;
-		}
-		
-		public int getOffset(){
-			return offset;
-		}
-		
-		public int getLength(){
-			return length;
-		}
-		
-		public String getType(){
-			return type;
-		}
-		
-		public String getName(){
-			return name;
-		}
-
-		public int getIndex(){
-			return index;
-		}
-	}
-
 }
