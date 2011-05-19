@@ -279,7 +279,7 @@ public class SeamBeansTest extends SeamConfigTest {
 		Set<IQualifierDeclaration> qs = b.getQualifierDeclarations();
 		Map<String, IQualifierDeclaration> map = new HashMap<String, IQualifierDeclaration>();
 		for (IQualifierDeclaration q: qs) {
-			map.put(q.getType().getFullyQualifiedName(), q);
+			map.put(q.getTypeName(), q);
 		}
 		IQualifierDeclaration myQualifier = map.get("org.jboss.beans.test04.MyQualifier");
 		assertNotNull(myQualifier);
@@ -312,7 +312,7 @@ public class SeamBeansTest extends SeamConfigTest {
 		Set<IQualifierDeclaration> qs = b.getQualifierDeclarations();
 		Map<String, IQualifierDeclaration> map = new HashMap<String, IQualifierDeclaration>();
 		for (IQualifierDeclaration q: qs) {
-			map.put(q.getType().getFullyQualifiedName(), q);
+			map.put(q.getTypeName(), q);
 		}
 		IQualifierDeclaration myQualifier = map.get("org.jboss.beans.test04.MyQualifier");
 		assertNotNull(myQualifier);
@@ -365,7 +365,7 @@ public class SeamBeansTest extends SeamConfigTest {
 		Set<IQualifierDeclaration> qs = p.getQualifierDeclarations();
 		Map<String, IQualifierDeclaration> map = new HashMap<String, IQualifierDeclaration>();
 		for (IQualifierDeclaration q: qs) {
-			map.put(q.getType().getFullyQualifiedName(), q);
+			map.put(q.getTypeName(), q);
 		}
 		IQualifierDeclaration myQualifier = map.get("org.jboss.beans.test04.MyQualifier");
 		assertNotNull(myQualifier);
