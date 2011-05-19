@@ -28,5 +28,10 @@
           runtime="org.jboss.seam.solder.unwraps.UnwrapsExtension">
     </cdiextension>
 
+    <cdiextension
+          class="org.jboss.tools.cdi.seam.solder.core.generic.CDISeamSolderGenericBeanExtension"
+          runtime="org.jboss.seam.solder.bean.generic.GenericBeanExtension">
+    </cdiextension>
+
 	</extension>
 </plugin>

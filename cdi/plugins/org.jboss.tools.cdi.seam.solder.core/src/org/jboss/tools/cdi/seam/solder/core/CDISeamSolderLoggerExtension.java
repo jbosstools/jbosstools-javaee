@@ -28,9 +28,9 @@ import org.jboss.tools.cdi.internal.core.impl.AnnotationDeclaration;
 import org.jboss.tools.cdi.internal.core.impl.AnnotationLiteral;
 import org.jboss.tools.cdi.internal.core.impl.CDIProject;
 import org.jboss.tools.cdi.internal.core.impl.ClassBean;
-import org.jboss.tools.cdi.internal.core.impl.definition.AbstractMemberDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.TypeDefinition;
 import org.jboss.tools.cdi.internal.core.scanner.FileSet;
+import org.jboss.tools.cdi.seam.solder.core.definition.InterfaceDefinition;
 import org.jboss.tools.common.model.XModelObject;
 
 /**
@@ -69,7 +69,7 @@ public class CDISeamSolderLoggerExtension implements ICDIExtension, IBuildPartic
 		for (IPath path: is.keySet()) {
 			Set<IType> ts = is.get(path);
 			for (IType t: ts) {
-				InterfaceDefinition i = new InterfaceDefinition(t);
+				InterfaceDefinition i = new InterfaceDefinition(t, context);
 				if(i.isAnnotationPresent(CDISeamSolderConstants.MESSAGE_LOGGER_ANNOTATION_TYPE_NAME)) {
 					TypeDefinition d = new TypeDefinition();
 					d.setType(t, workingCopy.getRootContext(), 0);
@@ -168,12 +168,6 @@ public class CDISeamSolderLoggerExtension implements ICDIExtension, IBuildPartic
 			return messageBundles;
 		}
 		
-	}
-
-	class InterfaceDefinition extends AbstractMemberDefinition {
-		InterfaceDefinition(IType type) {
-			setAnnotatable(type, type, context.getRootContext(), 0);
-		}
 	}
 
 }

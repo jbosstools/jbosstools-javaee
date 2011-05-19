@@ -85,14 +85,11 @@ public class CDISeamSolderCoreExtension implements ICDIExtension, IProcessAnnota
 	// @Requires
 	private boolean processRequires(TypeDefinition typeDefinition, IRootDefinitionContext context) {
 		Set<String> requiredClasses = new HashSet<String>();
-		List<String> typeRequiredClasses = getRequiredClasses(typeDefinition);
-		if (typeRequiredClasses != null)
-			requiredClasses.addAll(typeRequiredClasses);
-		List<String> packageRequiredClasses = getRequiredClasses(typeDefinition
-				.getPackageDefinition());
-		;
-		if (packageRequiredClasses != null)
-			requiredClasses.addAll(packageRequiredClasses);
+		requiredClasses.addAll(getRequiredClasses(typeDefinition));
+		PackageDefinition pkg = typeDefinition.getPackageDefinition();
+		if(pkg != null) {
+			requiredClasses.addAll(getRequiredClasses(pkg));
+		}
 		if (!requiredClasses.isEmpty()) {
 			for (String c : requiredClasses) {
 				if (context.getProject().getType(c) == null) {
@@ -161,13 +158,10 @@ public class CDISeamSolderCoreExtension implements ICDIExtension, IProcessAnnota
 
 	}
 
-
 	private List<String> getRequiredClasses(IAnnotated d) {
-		if (d == null)
-			return null;
 		IAnnotationDeclaration requires = d
 				.getAnnotation(CDISeamSolderConstants.REQUIRES_ANNOTATION_TYPE_NAME);
-		return requires != null ? getArrayValue(requires) : null;
+		return requires != null ? getArrayValue(requires) : new ArrayList<String>();
 	}
 
 	private List<String> getArrayValue(IAnnotationDeclaration d) {

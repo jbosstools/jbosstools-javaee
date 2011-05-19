@@ -28,10 +28,10 @@ import org.jboss.tools.cdi.core.extension.IDefinitionContextExtension;
 import org.jboss.tools.cdi.core.extension.feature.IBuildParticipantFeature;
 import org.jboss.tools.cdi.internal.core.impl.CDIProject;
 import org.jboss.tools.cdi.internal.core.impl.ClassBean;
-import org.jboss.tools.cdi.internal.core.impl.definition.AbstractMemberDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.AnnotationDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.TypeDefinition;
 import org.jboss.tools.cdi.internal.core.scanner.FileSet;
+import org.jboss.tools.cdi.seam.solder.core.definition.InterfaceDefinition;
 import org.jboss.tools.common.model.XModelObject;
 
 /**
@@ -77,7 +77,7 @@ public class CDISeamSolderServiceHandlerExtension implements ICDIExtension, IBui
 		for (IPath path: is.keySet()) {
 			Set<IType> ts = is.get(path);
 			for (IType t: ts) {
-				InterfaceDefinition i = new InterfaceDefinition(t);
+				InterfaceDefinition i = new InterfaceDefinition(t, context);
 				List<IAnnotationDeclaration> as = i.getAnnotations();
 				for (IAnnotationDeclaration a: as) {
 					if(workingCopy.isServiceAnnotation(a.getType())) {
@@ -155,12 +155,6 @@ public class CDISeamSolderServiceHandlerExtension implements ICDIExtension, IBui
 			return (type != null && serviceAnnotations.contains(type.getFullyQualifiedName()));
 		}
 
-	}
-
-	class InterfaceDefinition extends AbstractMemberDefinition {
-		InterfaceDefinition(IType type) {
-			setAnnotatable(type, type, context.getRootContext(), 0);
-		}
 	}
 
 }
