@@ -338,7 +338,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 			}
 		} else {
 			for (IQualifierDeclaration d: qs) {
-				if(CDIConstants.NEW_QUALIFIER_TYPE_NAME.equals(d.getType().getFullyQualifiedName())) {
+				if(CDIConstants.NEW_QUALIFIER_TYPE_NAME.equals(d.getTypeName())) {
 					isNew = true;
 					break;
 				}				
@@ -504,7 +504,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 					beanKeys.add(CDIConstants.DEFAULT_QUALIFIER_TYPE_NAME);
 				} else {
 					for (IAnnotationDeclaration d: beanQualifiers) {
-						beanKeys.add(d.getType().getFullyQualifiedName());
+						beanKeys.add(d.getTypeName());
 					}
 				}
 				if(beanKeys.size() == 1 && beanKeys.iterator().next().startsWith(CDIConstants.NAMED_QUALIFIER_TYPE_NAME)) {

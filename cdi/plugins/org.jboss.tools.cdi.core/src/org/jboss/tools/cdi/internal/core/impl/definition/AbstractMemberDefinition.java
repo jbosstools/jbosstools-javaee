@@ -157,8 +157,7 @@ public abstract class AbstractMemberDefinition implements IAnnotated {
 		Iterator<IAnnotationDeclaration> it = annotations.iterator();
 		while(it.hasNext()) {
 			IAnnotationDeclaration a1 = it.next();
-			IType t = a1.getType();
-			if(t != null && typeName.equals(t.getFullyQualifiedName())) it.remove();
+			if(typeName.equals(a1.getTypeName())) it.remove();
 		}
 		//Make sure that a is non-specific annotation.
 		addAnnotation(new AnnotationDeclaration(a), context);
