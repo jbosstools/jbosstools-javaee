@@ -22,12 +22,14 @@ import java.util.Set;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.jdt.core.Flags;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.DoubleClickEvent;
+import org.eclipse.jface.viewers.IColorProvider;
 import org.eclipse.jface.viewers.IContentProvider;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ILabelProvider;
@@ -35,9 +37,9 @@ import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.viewers.ListViewer;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerComparator;
 import org.eclipse.jface.viewers.ViewerFilter;
@@ -50,6 +52,7 @@ import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.Image;
@@ -59,8 +62,8 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.SearchPattern;
@@ -95,8 +98,8 @@ public class AddQualifiersToBeanComposite extends Composite {
 	// original + deployed
 	ArrayList<IQualifier> total = new ArrayList<IQualifier>();
 
-	private ListViewer availableListViewer;
-	private ListViewer deployedListViewer;
+	private TableViewer availableListViewer;
+	private TableViewer deployedListViewer;
 
 	private Button add, addAll;
 	private Button remove, removeAll;
@@ -105,7 +108,7 @@ public class AddQualifiersToBeanComposite extends Composite {
 	
 	protected boolean isComplete = true;
 	
-	private ILabelProvider labelProvider;
+	private ILabelProvider labelProvider = new QualifiersListLabelProvider();
 
 	public AddQualifiersToBeanComposite(Composite parent, WizardPage wizard) {
 		super(parent, SWT.NONE);
@@ -287,14 +290,14 @@ public class AddQualifiersToBeanComposite extends Composite {
 		label = new Label(this, SWT.NONE);
 		label.setText(CDIUIMessages.ADD_QUALIFIERS_TO_BEAN_WIZARD_IN_BEAN);
 		
-		List availableList = new List(this, SWT.BORDER | SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
+		Table availableList = new Table(this, SWT.BORDER | SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
 		data = new GridData(GridData.FILL_BOTH);
 		data.heightHint = 200;
 		data.widthHint = 150;
 		availableList.setLayoutData(data);
 		
-		availableListViewer = new ListViewer(availableList);
-		labelProvider = new QualifiersListLabelProvider();
+		availableListViewer = new TableViewer(availableList);
+		
 		availableListViewer.setLabelProvider(labelProvider);
 		IContentProvider contentProvider = new QualifiersListContentProvider();
 		availableListViewer.setContentProvider(contentProvider);
@@ -375,12 +378,12 @@ public class AddQualifiersToBeanComposite extends Composite {
 			}
 		});
 		
-		List deployedList = new List(this, SWT.BORDER | SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
+		Table deployedList = new Table(this, SWT.BORDER | SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
 		data = new GridData(GridData.FILL_BOTH);
 		data.widthHint = 150;
 		deployedList.setLayoutData(data);
 		
-		deployedListViewer = new ListViewer(deployedList);
+		deployedListViewer = new TableViewer(deployedList);
 		deployedListViewer.setLabelProvider(labelProvider);
 		deployedListViewer.setContentProvider(contentProvider);
 		deployedListViewer.setComparator(new ViewerComparator() {
@@ -634,7 +637,7 @@ public class AddQualifiersToBeanComposite extends Composite {
 		return qualifiers;
 	}
 
-	class QualifiersListLabelProvider implements ILabelProvider{
+	class QualifiersListLabelProvider implements ILabelProvider, IColorProvider{
 
 		public void addListener(ILabelProviderListener listener) {
 		}
@@ -643,7 +646,7 @@ public class AddQualifiersToBeanComposite extends Composite {
 		}
 
 		public boolean isLabelProperty(Object element, String property) {
-			return false;
+			return true;
 		}
 
 		public void removeListener(ILabelProviderListener listener) {
@@ -664,7 +667,18 @@ public class AddQualifiersToBeanComposite extends Composite {
 			}
 			return "";
 		}
-		
+
+		public Color getForeground(Object element) {
+			if(element instanceof IQualifier){
+				if(contains(originalQualifiers, (IQualifier)element))
+					return ColorConstants.lightGray;
+			}
+			return ColorConstants.black;
+		}
+
+		public Color getBackground(Object element) {
+			return null;
+		}
 	}
 	
 	class QualifiersListContentProvider implements IStructuredContentProvider{
