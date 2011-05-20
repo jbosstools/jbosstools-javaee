@@ -67,6 +67,7 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.SearchPattern;
+import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.CDICoreMessages;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.IBean;
@@ -108,6 +109,10 @@ public class AddQualifiersToBeanComposite extends Composite {
 	
 	protected boolean isComplete = true;
 	
+	private boolean hasDefaultQualifier = false;
+	
+	private IQualifier defaultQualifier, namedQualifier;
+	
 	private ILabelProvider labelProvider = new QualifiersListLabelProvider();
 
 	public AddQualifiersToBeanComposite(Composite parent, WizardPage wizard) {
@@ -125,6 +130,17 @@ public class AddQualifiersToBeanComposite extends Composite {
 	public void init(IBean bean){
 		this.bean = bean;
 		originalQualifiers = new ArrayList<IQualifier>(bean.getQualifiers());
+		
+		defaultQualifier = bean.getCDIProject().getQualifier(CDIConstants.DEFAULT_QUALIFIER_TYPE_NAME);
+		namedQualifier = bean.getCDIProject().getQualifier(CDIConstants.NAMED_QUALIFIER_TYPE_NAME);
+		
+		for(IQualifier q : originalQualifiers){
+			if(q.equals(defaultQualifier)){
+				hasDefaultQualifier = true;
+				break;
+			}
+		}
+		
 		deployedListViewer.setInput(originalQualifiers);
 		
 		qualifiers.clear();
@@ -418,7 +434,6 @@ public class AddQualifiersToBeanComposite extends Composite {
 		label = new Label(this, SWT.NONE);
 		label.setText("");
 		
-		
 		final Button createQualifier = new Button(this, SWT.PUSH);
 		createQualifier.setText(CDIUIMessages.ADD_QUALIFIERS_TO_BEAN_WIZARD_CREATE_NEW_QUALIFIER);
 		
@@ -587,6 +602,20 @@ public class AddQualifiersToBeanComposite extends Composite {
 				deployed.remove(qualifier);
 				availableListViewer.add(qualifier);
 				deployedListViewer.remove(qualifier);
+			}
+		}
+		
+		if(hasDefaultQualifier){
+			if(deployed.isEmpty() || (namedQualifier != null && deployed.size() == 1 && deployed.contains(namedQualifier))) {
+				if(!originalQualifiers.contains(defaultQualifier)){
+					originalQualifiers.add(defaultQualifier);
+					deployedListViewer.add(defaultQualifier);
+				}
+			}else{
+				if(originalQualifiers.contains(defaultQualifier)){
+					originalQualifiers.remove(defaultQualifier);
+					deployedListViewer.remove(defaultQualifier);
+				}
 			}
 		}
 
