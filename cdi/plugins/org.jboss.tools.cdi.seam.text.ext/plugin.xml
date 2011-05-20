@@ -13,6 +13,16 @@
 
    </extension>
 
+	<extension
+         point="org.eclipse.ui.workbench.texteditor.hyperlinkDetectors">
+      <hyperlinkDetector
+            class="org.jboss.tools.cdi.seam.text.ext.hyperlink.GenericInjectedPointHyperlinkDetector"
+            id="org.jboss.tools.cdi.seam.text.ext.hyperlink.GenericInjectedPointHyperlinkDetector"
+            name="%GenericInjectedPointHyperlinkDetector"
+            targetId="org.eclipse.jdt.ui.javaCode">
+      </hyperlinkDetector>
+   </extension>
+
    	<extension 
 		point="org.jboss.tools.common.text.ext.hyperlinkPartitioner"
 		id="org.jboss.tools.cdi.text.ext.hyperlinkPartitioner"

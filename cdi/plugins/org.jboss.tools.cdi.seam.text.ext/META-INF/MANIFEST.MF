@@ -9,12 +9,15 @@ Bundle-Localization: plugin
 Export-Package: org.jboss.tools.cdi.seam.text.ext,
  org.jboss.tools.cdi.seam.text.ext.hyperlink
 Require-Bundle: org.eclipse.ui;bundle-version="3.7.0",
+ org.jboss.tools.common.el.core,
  org.jboss.tools.common.text.ext;bundle-version="2.0.0",
  org.eclipse.jface.text;bundle-version="3.7.0",
  org.eclipse.jdt.ui;bundle-version="3.7.0",
  org.jboss.tools.cdi.ui;bundle-version="1.2.0",
  org.jboss.tools.cdi.core,
+ org.jboss.tools.cdi.text.ext,
  org.jboss.tools.cdi.seam.config.core,
+ org.jboss.tools.cdi.seam.solder.core,
  org.jboss.tools.jst.text.ext,
  org.jboss.tools.jst.web;bundle-version="3.2.0"
 Bundle-Version: 1.0.0.qualifier
