@@ -37,5 +37,7 @@ public interface CDISeamSolderConstants extends CDIConstants {
 	public String GENERIC_ANNOTATION_KIND = "genericAnnotation";
 	public String GENERIC_QUALIFIER_TYPE_NAME = "org.jboss.seam.solder.bean.generic.Generic";
 	public String GENERIC_CONFIGURATION_ANNOTATION_TYPE_NAME = "org.jboss.seam.solder.bean.generic.GenericConfiguration";
+	public String APPLY_SCOPE_ANNOTATION_TYPE_NAME = "org.jboss.seam.solder.bean.generic.ApplyScope";
+	public String INJECT_GENERIC_ANNOTATION_TYPE_NAME = "org.jboss.seam.solder.bean.generic.InjectGeneric";
 
 }

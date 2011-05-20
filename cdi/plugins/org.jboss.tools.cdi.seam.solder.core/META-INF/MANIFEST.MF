@@ -28,5 +28,6 @@ Require-Bundle: org.eclipse.ui;bundle-version="3.7.0",
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-Vendor: JBoss by Red Hat
-Export-Package: org.jboss.tools.cdi.seam.solder.core
+Export-Package: org.jboss.tools.cdi.seam.solder.core,
+ org.jboss.tools.cdi.seam.solder.core.generic
 
