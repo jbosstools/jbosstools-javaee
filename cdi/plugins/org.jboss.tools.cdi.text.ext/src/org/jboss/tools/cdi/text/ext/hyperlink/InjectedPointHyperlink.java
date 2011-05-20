@@ -27,7 +27,7 @@ import org.jboss.tools.cdi.text.ext.CDIExtensionsPlugin;
 import org.jboss.tools.common.text.ext.hyperlink.AbstractHyperlink;
 
 public class InjectedPointHyperlink extends AbstractHyperlink{
-	IBean bean;
+	protected IBean bean;
 	IRegion region;
 	boolean first = false;
 	

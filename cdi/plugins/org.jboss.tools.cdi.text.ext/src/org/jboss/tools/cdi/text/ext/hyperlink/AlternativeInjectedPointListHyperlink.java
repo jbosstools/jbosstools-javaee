@@ -44,7 +44,7 @@ public class AlternativeInjectedPointListHyperlink extends AbstractHyperlink{
 		
 		int index=0;
 		for(IBean bean : beans){
-			hyperlinks[index++] = new InjectedPointHyperlink(region, bean, getDocument());
+			hyperlinks[index++] = createHyperlink(region, bean);
 		}
 		
 		if(hyperlinks.length == 0){
@@ -57,6 +57,10 @@ public class AlternativeInjectedPointListHyperlink extends AbstractHyperlink{
 		}else{
 			MultipleHyperlinkPresenterManager.installAndShow(viewer, hyperlinks, previousIndex);
 		}
+	}
+
+	protected IHyperlink createHyperlink(IRegion region, IBean bean) {
+		return new InjectedPointHyperlink(region, bean, getDocument());
 	}
 
 	@Override
