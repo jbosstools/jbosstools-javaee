@@ -26,7 +26,6 @@ import org.eclipse.jface.text.IDocument;
 import org.eclipse.osgi.util.NLS;
 import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.extension.ICDIExtension;
-import org.jboss.tools.cdi.core.extension.IDefinitionContextExtension;
 import org.jboss.tools.cdi.core.extension.feature.IBuildParticipantFeature;
 import org.jboss.tools.cdi.core.extension.feature.IValidatorFeature;
 import org.jboss.tools.cdi.internal.core.scanner.FileSet;
@@ -182,7 +181,7 @@ public class CDISeamConfigExtension implements ICDIExtension, IBuildParticipantF
 					validator.addError(message, CDISeamConfigPreferences.UNRESOLVED_METHOD, new TextSourceReference(file, node), file);
 				} else if(CDISeamConfigConstants.ERROR_UNRESOLVED_CONSTRUCTOR.equals(problemId)) {
 					String name = node instanceof SAXElement && ((SAXElement)node).getParent() != null ? ((SAXElement)node).getParent().getName() : null;
-					String message = NLS.bind(SeamConfigValidationMessages.UNRESOLVED_CONSTRUCTOR, ((SAXElement)node).getParent().getName());
+					String message = NLS.bind(SeamConfigValidationMessages.UNRESOLVED_CONSTRUCTOR, name);
 					validator.addError(message, CDISeamConfigPreferences.UNRESOLVED_CONSTRUCTOR, new TextSourceReference(file, node), file);
 				} else if(CDISeamConfigConstants.ERROR_ANNOTATION_EXPECTED.equals(problemId)) {
 					String message = NLS.bind(SeamConfigValidationMessages.ANNOTATION_EXPECTED, null);
