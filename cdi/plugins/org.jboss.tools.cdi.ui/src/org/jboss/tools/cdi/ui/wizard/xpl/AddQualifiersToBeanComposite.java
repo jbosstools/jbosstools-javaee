@@ -99,8 +99,8 @@ public class AddQualifiersToBeanComposite extends Composite {
 	// original + deployed
 	ArrayList<IQualifier> total = new ArrayList<IQualifier>();
 
-	private TableViewer availableListViewer;
-	private TableViewer deployedListViewer;
+	private TableViewer availableTableViewer;
+	private TableViewer deployedTableViewer;
 
 	private Button add, addAll;
 	private Button remove, removeAll;
@@ -141,12 +141,12 @@ public class AddQualifiersToBeanComposite extends Composite {
 			}
 		}
 		
-		deployedListViewer.setInput(originalQualifiers);
+		deployedTableViewer.setInput(originalQualifiers);
 		
 		qualifiers.clear();
 		
 		loadAvailableQualifiers();
-		availableListViewer.setInput(qualifiers);
+		availableTableViewer.setInput(qualifiers);
 		if(nLabel != null)
 			nLabel.setText(MessageFormat.format(CDIUIMessages.ADD_QUALIFIERS_TO_BEAN_WIZARD_MESSAGE,
 					new Object[]{bean.getBeanClass().getElementName()}));
@@ -204,10 +204,10 @@ public class AddQualifiersToBeanComposite extends Composite {
 
 		Display.getDefault().syncExec(new Runnable() {
 			public void run() {
-				if (availableListViewer == null || availableListViewer.getControl().isDisposed())
+				if (availableTableViewer == null || availableTableViewer.getControl().isDisposed())
 					return;
-				availableListViewer.refresh();
-				deployedListViewer.refresh();
+				availableTableViewer.refresh();
+				deployedTableViewer.refresh();
 				setEnablement();
 			}
 		});
@@ -286,7 +286,7 @@ public class AddQualifiersToBeanComposite extends Composite {
 		pattern.setLayoutData(data);
 		pattern.addModifyListener(new ModifyListener(){
 			public void modifyText(ModifyEvent e){
-				availableListViewer.refresh();
+				availableTableViewer.refresh();
 			}
 		});
 		pattern.setFocus();
@@ -306,18 +306,18 @@ public class AddQualifiersToBeanComposite extends Composite {
 		label = new Label(this, SWT.NONE);
 		label.setText(CDIUIMessages.ADD_QUALIFIERS_TO_BEAN_WIZARD_IN_BEAN);
 		
-		Table availableList = new Table(this, SWT.BORDER | SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
+		Table availableTable = new Table(this, SWT.BORDER | SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
 		data = new GridData(GridData.FILL_BOTH);
 		data.heightHint = 200;
 		data.widthHint = 150;
-		availableList.setLayoutData(data);
+		availableTable.setLayoutData(data);
 		
-		availableListViewer = new TableViewer(availableList);
+		availableTableViewer = new TableViewer(availableTable);
 		
-		availableListViewer.setLabelProvider(labelProvider);
+		availableTableViewer.setLabelProvider(labelProvider);
 		IContentProvider contentProvider = new QualifiersListContentProvider();
-		availableListViewer.setContentProvider(contentProvider);
-		availableListViewer.setComparator(new ViewerComparator() {
+		availableTableViewer.setContentProvider(contentProvider);
+		availableTableViewer.setComparator(new ViewerComparator() {
 			public int compare(Viewer viewer, Object o1, Object o2) {
 				if (o1 instanceof IQualifier && o2 instanceof IQualifier) {
 					IQualifier q1 = (IQualifier) o1;
@@ -328,21 +328,21 @@ public class AddQualifiersToBeanComposite extends Composite {
 				return super.compare(viewer, o1, o2);
 			}
 		});
-		availableListViewer.setInput(qualifiers);
+		availableTableViewer.setInput(qualifiers);
 		
-		availableListViewer.addSelectionChangedListener(new ISelectionChangedListener() {
+		availableTableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
 			public void selectionChanged(SelectionChangedEvent event) {
 				setEnablement();
 			}
 		});
-		availableListViewer.addDoubleClickListener(new IDoubleClickListener() {
+		availableTableViewer.addDoubleClickListener(new IDoubleClickListener() {
 			public void doubleClick(DoubleClickEvent event) {
 				setEnablement();
 				if (add.isEnabled())
 					add(false);
 			}
 		});
-		availableListViewer.addFilter(new QualifierFilter());
+		availableTableViewer.addFilter(new QualifierFilter());
 		
 		Composite comp = new Composite(this, SWT.NONE);
 		data = new GridData(GridData.FILL_VERTICAL | GridData.HORIZONTAL_ALIGN_FILL);
@@ -394,15 +394,15 @@ public class AddQualifiersToBeanComposite extends Composite {
 			}
 		});
 		
-		Table deployedList = new Table(this, SWT.BORDER | SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
+		Table deployedTable = new Table(this, SWT.BORDER | SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL);
 		data = new GridData(GridData.FILL_BOTH);
 		data.widthHint = 150;
-		deployedList.setLayoutData(data);
+		deployedTable.setLayoutData(data);
 		
-		deployedListViewer = new TableViewer(deployedList);
-		deployedListViewer.setLabelProvider(labelProvider);
-		deployedListViewer.setContentProvider(contentProvider);
-		deployedListViewer.setComparator(new ViewerComparator() {
+		deployedTableViewer = new TableViewer(deployedTable);
+		deployedTableViewer.setLabelProvider(labelProvider);
+		deployedTableViewer.setContentProvider(contentProvider);
+		deployedTableViewer.setComparator(new ViewerComparator() {
 		public int compare(Viewer viewer, Object o1, Object o2) {
 			if (o1 instanceof IQualifier && o2 instanceof IQualifier) {
 				IQualifier q1 = (IQualifier) o1;
@@ -413,14 +413,14 @@ public class AddQualifiersToBeanComposite extends Composite {
 			return super.compare(viewer, o1, o2);
 			}
 		});
-		deployedListViewer.setInput(originalQualifiers);
+		deployedTableViewer.setInput(originalQualifiers);
 		
-		deployedListViewer.addSelectionChangedListener(new ISelectionChangedListener() {
+		deployedTableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
 			public void selectionChanged(SelectionChangedEvent event) {
 				setEnablement();
 			}
 		});
-		deployedListViewer.addDoubleClickListener(new IDoubleClickListener() {
+		deployedTableViewer.addDoubleClickListener(new IDoubleClickListener() {
 			public void doubleClick(DoubleClickEvent event) {
 				setEnablement();
 				if (remove.isEnabled())
@@ -487,7 +487,7 @@ public class AddQualifiersToBeanComposite extends Composite {
 	}
 
 	protected IQualifier[] getAvailableSelection() {
-		IStructuredSelection sel = (IStructuredSelection) availableListViewer.getSelection();
+		IStructuredSelection sel = (IStructuredSelection) availableTableViewer.getSelection();
 		if (sel.isEmpty())
 			return new IQualifier[0];
 			
@@ -497,7 +497,7 @@ public class AddQualifiersToBeanComposite extends Composite {
 	}
 
 	protected IQualifier[] getDeployedSelection() {
-		IStructuredSelection sel = (IStructuredSelection) deployedListViewer.getSelection();
+		IStructuredSelection sel = (IStructuredSelection) deployedTableViewer.getSelection();
 		if (sel.isEmpty())
 			return new IQualifier[0];
 		
@@ -595,13 +595,13 @@ public class AddQualifiersToBeanComposite extends Composite {
 			if (add2) {
 				qualifiers.remove(qualifier);
 				deployed.add(qualifier);
-				availableListViewer.remove(qualifier);
-				deployedListViewer.add(qualifier);
+				availableTableViewer.remove(qualifier);
+				deployedTableViewer.add(qualifier);
 			} else {
 				qualifiers.add(qualifier);
 				deployed.remove(qualifier);
-				availableListViewer.add(qualifier);
-				deployedListViewer.remove(qualifier);
+				availableTableViewer.add(qualifier);
+				deployedTableViewer.remove(qualifier);
 			}
 		}
 		
@@ -609,12 +609,12 @@ public class AddQualifiersToBeanComposite extends Composite {
 			if(deployed.isEmpty() || (namedQualifier != null && deployed.size() == 1 && deployed.contains(namedQualifier))) {
 				if(!originalQualifiers.contains(defaultQualifier)){
 					originalQualifiers.add(defaultQualifier);
-					deployedListViewer.add(defaultQualifier);
+					deployedTableViewer.add(defaultQualifier);
 				}
 			}else{
 				if(originalQualifiers.contains(defaultQualifier)){
 					originalQualifiers.remove(defaultQualifier);
-					deployedListViewer.remove(defaultQualifier);
+					deployedTableViewer.remove(defaultQualifier);
 				}
 			}
 		}
