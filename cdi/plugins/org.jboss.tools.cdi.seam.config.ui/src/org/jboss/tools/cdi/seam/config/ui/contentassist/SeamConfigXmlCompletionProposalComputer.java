@@ -172,8 +172,8 @@ public class SeamConfigXmlCompletionProposalComputer extends AbstractXMLModelQue
 		Set<TagData> tagData = collectTagData();
 
 		for (TagData tag: tagData) {
-			if(tag.isUnique()) {
-				if(XMLUtilities.getUniqueChild((Element)parentElement, tag.getName()) != null) continue;
+			if(tag.isUnique() && childOtherThanCurrentNodeExists(tag.getName())) {
+				continue;
 			}
 			String tagText = tag.getText();
 			int positionAdjustment = (tagText.indexOf("><") > 0) ? tagText.indexOf("><") + 1 : tagText.length();
@@ -183,6 +183,11 @@ public class SeamConfigXmlCompletionProposalComputer extends AbstractXMLModelQue
 			}
 			createProposal(contentAssistRequest, tagText, displayText, positionAdjustment, tag.getMember(), tag.getRelevance());
 		}
+	}
+
+	private boolean childOtherThanCurrentNodeExists(String tagName) {
+		Element element = XMLUtilities.getUniqueChild((Element)parentElement, tagName);
+		return element != null && element != currentNode;
 	}
 
 	private Set<TagData> collectTagData() {
@@ -213,11 +218,12 @@ public class SeamConfigXmlCompletionProposalComputer extends AbstractXMLModelQue
 				addTypeNames(tagData, true, false); //only annotations allowed here.
 				addTagData(tagData, getTagNamesForMembers(parentElementPrefix, contextType, false), RELEVANCE_TAG_MEMBER);
 
-				if(eePrefix != null
-						&& XMLUtilities.getUniqueChild((Element)parentElement, eePrefix + ":" + KEYWORD_MODIFIES) == null
-						&& XMLUtilities.getUniqueChild((Element)parentElement, eePrefix + ":" + KEYWORD_REPLACES) == null) {
-					addTagData(tagData, eePrefix, KEYWORD_MODIFIES, false, true, RELEVANCE_TAG_KEYWORD);
-					addTagData(tagData, eePrefix, KEYWORD_REPLACES, false, true, RELEVANCE_TAG_KEYWORD);
+				if(eePrefix != null) {
+					if(!childOtherThanCurrentNodeExists(eePrefix + ":" + KEYWORD_MODIFIES)
+					&&  !childOtherThanCurrentNodeExists(eePrefix + ":" + KEYWORD_REPLACES)) {
+						addTagData(tagData, eePrefix, KEYWORD_MODIFIES, false, true, RELEVANCE_TAG_KEYWORD);
+						addTagData(tagData, eePrefix, KEYWORD_REPLACES, false, true, RELEVANCE_TAG_KEYWORD);
+					}
 					addTagData(tagData, eePrefix, KEYWORD_PARAMETERS, true, true, RELEVANCE_TAG_KEYWORD);
 				}
 			} else if(sax.getParent() != null && ((contextType = Util.resolveType(sax.getParent(), cdi)) != null)) {
@@ -318,8 +324,8 @@ public class SeamConfigXmlCompletionProposalComputer extends AbstractXMLModelQue
 		}
 		
 		for (TagData tag: tagData) {
-			if(tag.isUnique()) {
-				if(XMLUtilities.getUniqueChild((Element)parentElement, tag.getName()) != null) continue;
+			if(tag.isUnique() && childOtherThanCurrentNodeExists(tag.getName())) {
+				continue;
 			}
 			String tagText = isEnded ? tag.getName() : tag.getText();
 			if(tagText.startsWith("<")) tagText = tagText.substring(1);
@@ -451,7 +457,9 @@ public class SeamConfigXmlCompletionProposalComputer extends AbstractXMLModelQue
 		CustomCompletionProposal textProposal = new CustomCompletionProposal(
 				tagText, begin, length, positionAdjustment,
 				CDISeamConfigUiImages.PACKAGE_IMAGE,
-				displayText, null, proposedInfo, relevance);
+				displayText, null, proposedInfo, relevance) {
+			// we make it our own type to filter from WTP's proposals
+		};
 		contentAssistRequest.addProposal(textProposal);
 	}
 
