@@ -10,7 +10,6 @@ import junit.framework.TestSuite;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.internal.ui.javaeditor.CompilationUnitEditor;
@@ -22,16 +21,14 @@ import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.jface.text.source.SourceViewerConfiguration;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorPart;
-import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.FileEditorInput;
 import org.jboss.tools.common.el.ui.ca.ELProposalProcessor;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
-import org.jboss.tools.jst.jsp.test.TestUtil;
+import org.jboss.tools.common.text.xml.contentassist.test.CATestUtil;
 import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.ResourcesUtils;
 import org.jboss.tools.test.util.TestProjectProvider;
-import org.jboss.tools.test.util.WorkbenchUtils;
 
 public class SeamELContentAssistJbide1676Test extends TestCase {
 	TestProjectProvider provider = null;
@@ -263,7 +260,7 @@ public class SeamELContentAssistJbide1676Test extends TestCase {
 			
 			ISourceViewer viewer = javaEditor.getViewer();
 			IDocument document = viewer.getDocument();
-			SourceViewerConfiguration config = TestUtil.getSourceViewerConfiguration(javaEditor);
+			SourceViewerConfiguration config = CATestUtil.getSourceViewerConfiguration(javaEditor);
 			IContentAssistant contentAssistant = (config == null ? null : config.getContentAssistant(viewer));
 	
 			assertTrue("Cannot get the Content Assistant instance for the editor for file  \"" + JAVA_FILENAME + "\"", (contentAssistant != null));
@@ -277,7 +274,7 @@ public class SeamELContentAssistJbide1676Test extends TestCase {
 			ICompletionProposal[] result= null;
 			String errorMessage = null;
 	
-			IContentAssistProcessor p= TestUtil.getProcessor(viewer, offsetToTest, contentAssistant);
+			IContentAssistProcessor p= CATestUtil.getProcessor(viewer, offsetToTest, contentAssistant);
 			if (p != null) {
 				result= p.computeCompletionProposals(viewer, offsetToTest);
 			}

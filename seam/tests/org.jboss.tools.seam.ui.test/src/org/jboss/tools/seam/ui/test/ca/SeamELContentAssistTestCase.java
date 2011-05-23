@@ -26,7 +26,6 @@ import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.ITextViewer;
 import org.eclipse.jface.text.Region;
 import org.eclipse.jface.text.contentassist.ICompletionProposal;
-import org.eclipse.jface.text.contentassist.IContentAssistProcessor;
 import org.eclipse.wst.sse.core.internal.provisional.text.IStructuredDocumentRegion;
 import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegion;
 import org.eclipse.wst.sse.core.internal.provisional.text.ITextRegionList;
@@ -34,9 +33,9 @@ import org.eclipse.wst.sse.ui.internal.contentassist.ContentAssistUtils;
 import org.eclipse.wst.xml.core.internal.regions.DOMRegionContext;
 import org.jboss.tools.common.el.core.ELCorePlugin;
 import org.jboss.tools.common.el.core.ca.preferences.ELContentAssistPreferences;
+import org.jboss.tools.common.text.xml.contentassist.test.CATestUtil;
 import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.jst.jsp.contentassist.AutoContentAssistantProposal;
-import org.jboss.tools.jst.jsp.test.TestUtil;
 import org.jboss.tools.jst.jsp.test.ca.ContentAssistantTestCase;
 import org.jboss.tools.test.util.JUnitUtils;
 import org.jboss.tools.test.util.JobUtils;
@@ -478,7 +477,7 @@ public class SeamELContentAssistTestCase extends ContentAssistantTestCase {
 							ICompletionProposal[] result= null;
 							String errorMessage = null;
 	
-							List<ICompletionProposal> res = TestUtil.collectProposals(contentAssistant, viewer, offset);
+							List<ICompletionProposal> res = CATestUtil.collectProposals(contentAssistant, viewer, offset);
 							assertTrue("Content Assist returned no proposals: ", (res != null && res.size() > 0));
 	
 	//						if (errorMessage != null && errorMessage.trim().length() > 0) {
@@ -576,7 +575,7 @@ public class SeamELContentAssistTestCase extends ContentAssistantTestCase {
 								ICompletionProposal[] result= null;
 								String errorMessage = null;
 		
-								List<ICompletionProposal> res = TestUtil.collectProposals(contentAssistant, viewer, offset);
+								List<ICompletionProposal> res = CATestUtil.collectProposals(contentAssistant, viewer, offset);
 								assertTrue("Content Assist returned no proposals: ", (res != null && res.size() > 0));
 	//							if (errorMessage != null && errorMessage.trim().length() > 0) {
 	//								System.out.println("#" + offset + ": ERROR MESSAGE: " + errorMessage);
@@ -648,7 +647,7 @@ public class SeamELContentAssistTestCase extends ContentAssistantTestCase {
 	
 					String errorMessage = null;
 	
-					List<ICompletionProposal> res = TestUtil.collectProposals(contentAssistant, viewer, offset);
+					List<ICompletionProposal> res = CATestUtil.collectProposals(contentAssistant, viewer, offset);
 					assertNotNull("Proposals were not created.", res);
 					assertEquals("Incorrect number of proposals for #{'aa'.subst|ring(1)}", 3, res.size());
 				}
