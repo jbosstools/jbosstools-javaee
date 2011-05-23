@@ -1,9 +1,8 @@
 package org.jboss.tools.jsf.jsp.ca.test;
 
-import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.jface.text.contentassist.ICompletionProposal;
 import org.eclipse.jface.text.contentassist.IContentAssistProcessor;
-import org.jboss.tools.jst.jsp.test.TestUtil;
+import org.jboss.tools.common.text.xml.contentassist.test.CATestUtil;
 import org.jboss.tools.jst.jsp.test.ca.ContentAssistantTestCase;
 import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.TestProjectProvider;
@@ -48,7 +47,7 @@ public class MissingKBBuilderTest extends ContentAssistantTestCase{
 
         ICompletionProposal[] result = null;
 
-        IContentAssistProcessor p = TestUtil.getProcessor(viewer, position + offset, contentAssistant);
+        IContentAssistProcessor p = CATestUtil.getProcessor(viewer, position + offset, contentAssistant);
         if (p != null) {
             try {
                 result = p.computeCompletionProposals(viewer, position + offset);

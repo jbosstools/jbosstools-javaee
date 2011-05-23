@@ -14,9 +14,8 @@ import org.eclipse.jface.text.contentassist.ICompletionProposal;
 import org.eclipse.wst.sse.ui.internal.contentassist.CustomCompletionProposal;
 import org.jboss.tools.common.el.core.ELCorePlugin;
 import org.jboss.tools.common.el.core.ca.preferences.ELContentAssistPreferences;
-import org.jboss.tools.jst.jsp.contentassist.AutoContentAssistantProposal;
+import org.jboss.tools.common.text.xml.contentassist.test.CATestUtil;
 import org.jboss.tools.jst.jsp.contentassist.AutoELContentAssistantProposal;
-import org.jboss.tools.jst.jsp.test.TestUtil;
 import org.jboss.tools.jst.jsp.test.ca.ContentAssistantTestCase;
 import org.jboss.tools.test.util.TestProjectProvider;
 
@@ -124,7 +123,7 @@ public class JsfJspJbide6259Test extends ContentAssistantTestCase {
 			// getters and setters are to be shown
 			setupELContentAssistPreferences(false, true);
 			
-			List<ICompletionProposal> res = TestUtil.collectProposals(contentAssistant, viewer, offsetToTest);
+			List<ICompletionProposal> res = CATestUtil.collectProposals(contentAssistant, viewer, offsetToTest);
 			
 			assertTrue("Content Assist returned no proposals: ", (res != null && res.size() > 0));
 			
@@ -137,8 +136,8 @@ public class JsfJspJbide6259Test extends ContentAssistantTestCase {
 			// getters and setters are to be shown
 
 			setupELContentAssistPreferences(true, true);
-			TestUtil.prepareCAInvokation(contentAssistant, viewer, 0); // drop the CA Window
-			res = TestUtil.collectProposals(contentAssistant, viewer, offsetToTest);
+			CATestUtil.prepareCAInvokation(contentAssistant, viewer, 0); // drop the CA Window
+			res = CATestUtil.collectProposals(contentAssistant, viewer, offsetToTest);
 			
 			assertTrue("Content Assist returned no proposals: ", (res != null && res.size() > 0));
 			
@@ -152,8 +151,8 @@ public class JsfJspJbide6259Test extends ContentAssistantTestCase {
 
 			setupELContentAssistPreferences(false, true);
 			
-			TestUtil.prepareCAInvokation(contentAssistant, viewer, 0); // drop the CA Window
-			res = TestUtil.collectProposals(contentAssistant, viewer, offsetToTest);
+			CATestUtil.prepareCAInvokation(contentAssistant, viewer, 0); // drop the CA Window
+			res = CATestUtil.collectProposals(contentAssistant, viewer, offsetToTest);
 			
 			assertTrue("Content Assist returned no proposals: ", (res != null && res.size() > 0));
 			
@@ -167,8 +166,8 @@ public class JsfJspJbide6259Test extends ContentAssistantTestCase {
 
 			setupELContentAssistPreferences(false, false);
 			
-			TestUtil.prepareCAInvokation(contentAssistant, viewer, 0); // drop the CA Window
-			res = TestUtil.collectProposals(contentAssistant, viewer, offsetToTest);
+			CATestUtil.prepareCAInvokation(contentAssistant, viewer, 0); // drop the CA Window
+			res = CATestUtil.collectProposals(contentAssistant, viewer, offsetToTest);
 			
 			assertTrue("Content Assist returned no proposals: ", (res != null && res.size() > 0));
 			

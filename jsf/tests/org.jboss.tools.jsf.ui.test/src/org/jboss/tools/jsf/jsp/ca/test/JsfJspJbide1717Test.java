@@ -7,9 +7,8 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 
 import org.eclipse.jface.text.contentassist.ICompletionProposal;
-import org.eclipse.jface.text.contentassist.IContentAssistProcessor;
 import org.eclipse.wst.sse.ui.internal.contentassist.CustomCompletionProposal;
-import org.jboss.tools.jst.jsp.test.TestUtil;
+import org.jboss.tools.common.text.xml.contentassist.test.CATestUtil;
 import org.jboss.tools.jst.jsp.test.ca.ContentAssistantTestCase;
 import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.TestProjectProvider;
@@ -61,7 +60,7 @@ public class JsfJspJbide1717Test extends ContentAssistantTestCase {
 		
 		String errorMessage = null;
 
-		List<ICompletionProposal> res = TestUtil.collectProposals(contentAssistant, viewer, offsetToTest);
+		List<ICompletionProposal> res = CATestUtil.collectProposals(contentAssistant, viewer, offsetToTest);
 
 		List<String> customCompletionProposals = new ArrayList<String>();
 		
@@ -96,7 +95,7 @@ public class JsfJspJbide1717Test extends ContentAssistantTestCase {
 
 		jspTextEditor.setText(documentContentModified);
 
-		res = TestUtil.collectProposals(contentAssistant, viewer, offsetToTest);
+		res = CATestUtil.collectProposals(contentAssistant, viewer, offsetToTest);
 
 		if (res != null) {
 			for (ICompletionProposal proposal : res) {

@@ -1,6 +1,5 @@
 package org.jboss.tools.jsf.jsp.ca.test;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import junit.framework.Test;
@@ -9,12 +8,10 @@ import junit.framework.TestSuite;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.FindReplaceDocumentAdapter;
 import org.eclipse.jface.text.IRegion;
-import org.eclipse.jface.text.contentassist.ContentAssistant;
 import org.eclipse.jface.text.contentassist.ICompletionProposal;
-import org.eclipse.jface.text.contentassist.IContentAssistProcessor;
 import org.eclipse.wst.sse.ui.internal.contentassist.CustomCompletionProposal;
+import org.jboss.tools.common.text.xml.contentassist.test.CATestUtil;
 import org.jboss.tools.jst.jsp.contentassist.AutoContentAssistantProposal;
-import org.jboss.tools.jst.jsp.test.TestUtil;
 import org.jboss.tools.jst.jsp.test.ca.ContentAssistantTestCase;
 import org.jboss.tools.test.util.TestProjectProvider;
 
@@ -61,9 +58,9 @@ public class JsfJspJbide1704Test extends ContentAssistantTestCase {
 			final IRegion reg = new FindReplaceDocumentAdapter(document).find(0,
 					" var=\"msg\"", true, true, false, false);
 			String text = document.get();
-			String errorMessage = null;
+//			String errorMessage = null;
 
-			List<ICompletionProposal> res = TestUtil.collectProposals(contentAssistant, viewer, reg.getOffset());
+			List<ICompletionProposal> res = CATestUtil.collectProposals(contentAssistant, viewer, reg.getOffset());
 			
 			assertTrue("Content Assist returned no proposals: ", (res != null && res.size() > 0));
 			
