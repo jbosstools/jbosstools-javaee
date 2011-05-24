@@ -55,7 +55,7 @@ public class SeamUiAllTests {
 		suite.addTestSuite(ELExprPartitionerTest.class);
 		suite.addTestSuite(OpenSeamComponentDialogTest.class);
 		suite.addTest(SeamComponentsViewAllTests.suite());
-		suite.addTest(SeamProjectNewWizardTest.suite());
+//		suite.addTest(SeamProjectNewWizardTest.suite());
 
 		suite.addTest(new ProjectImportTestSetup(new TestSuite(SeamActionNewWizardTest.class), "org.jboss.tools.seam.base.test", new String[]{"projects/Test1-ear", "projects/Test1-ejb", "projects/Test1"}, new String[]{"Test1-ear", "Test1-ejb", "Test1"}));
 
@@ -65,7 +65,7 @@ public class SeamUiAllTests {
 		suite.addTest(SeamELContentAssistTest.suite());
 		suite.addTestSuite(SeamELContentAssistJbide1676Test.class);
 		suite.addTestSuite(SeamELContentAssistJbide1645Test.class);
-		suite.addTest(new ProjectImportTestSetup(new TestSuite(SeamSettingsPreferencesPageTest.class), "org.jboss.tools.seam.ui.test", "projects/TestSeamSettingsPreferencesPage", "TestSeamSettingsPreferencesPage"));
+//		suite.addTest(new ProjectImportTestSetup(new TestSuite(SeamSettingsPreferencesPageTest.class), "org.jboss.tools.seam.ui.test", "projects/TestSeamSettingsPreferencesPage", "TestSeamSettingsPreferencesPage"));
 		suite.addTestSuite(PackageNamesTest.class);
 		suite.addTestSuite(JBide3989Test.class);
 		suite.addTestSuite(SeamCreateTestProjectTest.class);

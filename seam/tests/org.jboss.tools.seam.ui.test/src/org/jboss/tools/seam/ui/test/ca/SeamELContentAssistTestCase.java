@@ -33,7 +33,7 @@ import org.eclipse.wst.sse.ui.internal.contentassist.ContentAssistUtils;
 import org.eclipse.wst.xml.core.internal.regions.DOMRegionContext;
 import org.jboss.tools.common.el.core.ELCorePlugin;
 import org.jboss.tools.common.el.core.ca.preferences.ELContentAssistPreferences;
-import org.jboss.tools.common.text.xml.contentassist.test.CATestUtil;
+import org.jboss.tools.common.base.test.contentassist.CATestUtil;
 import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.jst.jsp.contentassist.AutoContentAssistantProposal;
 import org.jboss.tools.jst.jsp.test.ca.ContentAssistantTestCase;
