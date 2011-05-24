@@ -233,7 +233,9 @@ public class CDISeamSolderCoreExtension implements ICDIExtension, IProcessAnnota
 	private String resolvePackageName(IAnnotationDeclaration fullyQualified, IAnnotationDeclaration fullyQualifiedOnPackage, AbstractTypeDefinition t, PackageDefinition p) {
 		String contextClass = null;
 		IAnnotationDeclaration a = fullyQualified != null ? fullyQualified : fullyQualifiedOnPackage;
-		contextClass = getStringValue(a);
+		if(a != null) {
+			contextClass = getStringValue(a);
+		}
 		if(contextClass == null) {
 			contextClass = t == null ? "" : t.getQualifiedName();
 		} else if(fullyQualified != null && t != null) {
@@ -274,7 +276,6 @@ public class CDISeamSolderCoreExtension implements ICDIExtension, IProcessAnnota
 	}
 
 	private String getStringValue(IAnnotationDeclaration a) {
-		if(a == null) return null;
 		Object o = a.getMemberValue(null);
 		return o == null ? null : o.toString();
 	}

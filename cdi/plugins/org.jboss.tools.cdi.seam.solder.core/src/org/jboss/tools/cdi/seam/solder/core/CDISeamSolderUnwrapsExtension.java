@@ -45,12 +45,24 @@ public class CDISeamSolderUnwrapsExtension implements ICDIExtension, IProcessAnn
 
 	}
 
+	/**
+	 * Returns new annotation object with Produces type if definition is annotated with Unwraps
+	 * and Produces type is available in class path. Returns null otherwise.
+	 * 
+	 * @param def
+	 * @param context
+	 * @return new annotation object with Produces type or null
+	 */
 	IJavaAnnotation createFakeProducesAnnotation(AbstractMemberDefinition def, IRootDefinitionContext context) {
+		IJavaAnnotation result = null;
 		IAnnotationDeclaration a = def.getAnnotation(CDISeamSolderConstants.UNWRAPS_ANNOTATION_TYPE_NAME);
-		if(a == null) return null;
-		IType producesAnnotation = context.getProject().getType(CDIConstants.PRODUCES_ANNOTATION_TYPE_NAME);
-		return (producesAnnotation == null) ? null
-			: new AnnotationLiteral(def.getResource(), a.getStartPosition(), a.getLength(), null, IMemberValuePair.K_UNKNOWN, producesAnnotation);
+		if(a != null) {
+			IType producesAnnotation = context.getProject().getType(CDIConstants.PRODUCES_ANNOTATION_TYPE_NAME);
+			if (producesAnnotation != null) {
+				result = new AnnotationLiteral(def.getResource(), a.getStartPosition(), a.getLength(), null, IMemberValuePair.K_UNKNOWN, producesAnnotation);
+			}
+		}
+		return result;
 	}
 
 }

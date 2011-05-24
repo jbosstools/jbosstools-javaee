@@ -80,17 +80,19 @@ public class CDISeamSolderDefaultBeanExtension implements ICDIExtension, IProces
 	}
 
 	IJavaAnnotation createFakeTypedAnnotation(AbstractMemberDefinition def, IRootDefinitionContext context) {
+		IJavaAnnotation result = null;
 		IAnnotationDeclaration a = def.getAnnotation(CDISeamSolderConstants.DEFAULT_BEAN_ANNOTATION_TYPE_NAME);
-		if(a == null) return null;
-		Object n = a.getMemberValue(null);
-		String defaultType = null;
-		if(n != null && n.toString().length() > 0) {
-			defaultType = n.toString();
-			IType typedAnnotation = context.getProject().getType(CDIConstants.TYPED_ANNOTATION_TYPE_NAME);
-			return (typedAnnotation == null) ? null 
-				: new AnnotationLiteral(def.getResource(), a.getStartPosition(), a.getLength(), defaultType, IMemberValuePair.K_CLASS, typedAnnotation);
+		if(a != null) {
+			Object n = a.getMemberValue(null);
+			if(n != null && n.toString().length() > 0) {
+				String defaultType = n.toString();
+				IType typedAnnotation = context.getProject().getType(CDIConstants.TYPED_ANNOTATION_TYPE_NAME);
+				if (typedAnnotation != null) { 
+					result = new AnnotationLiteral(def.getResource(), a.getStartPosition(), a.getLength(), defaultType, IMemberValuePair.K_CLASS, typedAnnotation);
+				}
+			}
 		}
-		return null;
+		return result;
 	 
 	}
 

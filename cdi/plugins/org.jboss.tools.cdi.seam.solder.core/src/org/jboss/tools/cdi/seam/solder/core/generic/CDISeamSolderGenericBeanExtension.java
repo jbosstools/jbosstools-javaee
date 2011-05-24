@@ -182,6 +182,7 @@ public class CDISeamSolderGenericBeanExtension implements ICDIExtension, IBuildP
 						if(p != null && p.getType() != null) {
 							GenericConfiguration c = ((GenericBeanDefinitionContext)this.context.getWorkingCopy()).getGenericConfiguration(p.getType().getFullyQualifiedName());
 							c.getGenericConfigurationBeans().add(typeDefinition);
+							addToDependencies(c, typeDefinition, context);
 						}
 					} catch (JavaModelException e) {
 						CDISeamSolderCorePlugin.getDefault().logError(e);
@@ -189,28 +190,28 @@ public class CDISeamSolderGenericBeanExtension implements ICDIExtension, IBuildP
 				}				
 			}
 		} else {
-			addGenericProducerBean(typeDefinition);
+			addGenericProducerBean(typeDefinition, context);
 			for (MethodDefinition m: typeDefinition.getMethods()) {
 				if(m.isAnnotationPresent(PRODUCES_ANNOTATION_TYPE_NAME)) {
-					addGenericProducerBean(m);
+					addGenericProducerBean(m, context);
 				}
 			}
 			for (FieldDefinition f: typeDefinition.getFields()) {
 				if(f.isAnnotationPresent(PRODUCES_ANNOTATION_TYPE_NAME)) {
-					addGenericProducerBean(f);
+					addGenericProducerBean(f, context);
 				}
 			}
 		}
 	}
 
-	private void addGenericProducerBean(AbstractMemberDefinition def) {
+	private void addGenericProducerBean(AbstractMemberDefinition def, IRootDefinitionContext context) {
 		IAnnotationDeclaration d = findAnnotationAnnotatedWithGenericType(def);
 		if(d != null) {
-			addGenericProducerBean(def, d.getTypeName());
+			addGenericProducerBean(def, d.getTypeName(), context);
 		}
 	}
 
-	private void addGenericProducerBean(AbstractMemberDefinition def, String genericType) {
+	private void addGenericProducerBean(AbstractMemberDefinition def, String genericType, IRootDefinitionContext context) {
 		GenericConfiguration c = ((GenericBeanDefinitionContext)this.context.getWorkingCopy()).getGenericConfiguration(genericType);
 
 		List<IAnnotationDeclaration> list = new ArrayList<IAnnotationDeclaration>();
@@ -221,14 +222,17 @@ public class CDISeamSolderGenericBeanExtension implements ICDIExtension, IBuildP
 			}
 		}
 		c.getGenericProducerBeans().put(def, list);
+		addToDependencies(c, def, context);
+	}
 
+	private void addToDependencies(GenericConfiguration c, AbstractMemberDefinition def, IRootDefinitionContext context) {
 		IResource r = def.getResource();
 		if(r != null && r.exists() && !c.getInvolvedTypes().contains(r.getFullPath())) {
 			IPath newPath = r.getFullPath();
 			Set<IPath> ps = c.getInvolvedTypes();
 			for (IPath p: ps) {
-				context.getRootContext().addDependency(p, newPath);
-				context.getRootContext().addDependency(newPath, p);
+				context.addDependency(p, newPath);
+				context.addDependency(newPath, p);
 			}
 			ps.add(newPath);				
 		}
