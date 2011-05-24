@@ -48,6 +48,10 @@ public class AddQualifiersToBeanWizardPage extends WizardPage{
 	public void deploy(IQualifier qualifier){
 		composite.deploy(qualifier);
 	}
+
+	public void remove(IQualifier qualifier){
+		composite.remove(qualifier);
+	}
 	
 	public boolean checkBeans(){
 		return composite.checkBeans();

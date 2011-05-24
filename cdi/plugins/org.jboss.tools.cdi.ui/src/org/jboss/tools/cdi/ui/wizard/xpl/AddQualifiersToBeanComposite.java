@@ -662,6 +662,11 @@ public class AddQualifiersToBeanComposite extends Composite {
 		moveAll(qualifiers, true);
 	}
 
+	public void remove(IQualifier qualifier){
+		IQualifier[] qualifiers = new IQualifier[]{qualifier};
+		moveAll(qualifiers, false);
+	}
+
 	public ArrayList<IQualifier> getAvailableQualifiers(){
 		return qualifiers;
 	}

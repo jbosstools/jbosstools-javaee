@@ -49,6 +49,10 @@ public class AddQualifiersToBeanWizard extends AbstractModifyInjectionPointWizar
 	public void deploy(IQualifier qualifier){
 		page.deploy(qualifier);
 	}
+
+	public void remove(IQualifier qualifier){
+		page.remove(qualifier);
+	}
 	
 	public boolean checkBeans(){
 		return page.checkBeans();

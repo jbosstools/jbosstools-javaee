@@ -19,6 +19,7 @@ import org.jboss.tools.cdi.ui.test.marker.CDIMarkerResolutionTest;
 import org.jboss.tools.cdi.ui.test.perspective.CDIPerspectiveTest;
 import org.jboss.tools.cdi.ui.test.preferences.CDIPreferencePageTest;
 import org.jboss.tools.cdi.ui.test.search.CDISearchParticipantTest;
+import org.jboss.tools.cdi.ui.test.wizard.AddQualifiersToBeanWizardTest;
 import org.jboss.tools.cdi.ui.test.wizard.NewCDIClassWizardFactoryTest;
 import org.jboss.tools.cdi.ui.test.wizard.NewCDIWizardTest;
 
@@ -45,6 +46,8 @@ public class CDIUIAllTests {
 		suiteAll.addTestSuite(CATest.class);
 		
 		suiteAll.addTest(new CDICoreTestSetup(suite));
+		
+		suiteAll.addTestSuite(AddQualifiersToBeanWizardTest.class);
 
 		return suiteAll;
 	}
