@@ -12,26 +12,43 @@ package org.jboss.tools.cdi.internal.core.impl.definition;
 
 import java.util.Set;
 
-import org.eclipse.jdt.core.IMemberValuePair;
-import org.eclipse.jdt.internal.core.MemberValuePair;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.jdt.core.ILocalVariable;
+import org.eclipse.jdt.core.ISourceRange;
+import org.eclipse.jdt.core.IType;
+import org.jboss.tools.cdi.core.IRootDefinitionContext;
 import org.jboss.tools.cdi.internal.core.impl.ParametedType;
 import org.jboss.tools.cdi.internal.core.impl.TypeDeclaration;
 import org.jboss.tools.common.text.ITextSourceReference;
 
-public class ParameterDefinition extends AbstractMemberDefinition {
+public class ParameterDefinition extends BeanMemberDefinition {
 	protected MethodDefinition methodDefinition;
 	
-	protected String name;
+	ILocalVariable variable;
 	protected ParametedType type;
 	protected TypeDeclaration overridenType;
 	protected int index;
 
-	protected ITextSourceReference position = null;
-
 	public ParameterDefinition() {}
 
+	public void setMethodDefinition(MethodDefinition methodDefinition) {
+		this.methodDefinition = methodDefinition;
+		typeDefinition = methodDefinition.getTypeDefinition();
+	}
+
+	public void setLocalVariable(ILocalVariable v, IRootDefinitionContext context, int flags) {
+		variable = v;
+		super.setAnnotatable(v, v.getDeclaringMember().getDeclaringType(), context, flags);
+	}
+
+	@Override
+	protected void init(IType contextType, IRootDefinitionContext context, int flags) throws CoreException {
+		super.init(contextType, context, flags);
+		type = context.getProject().getTypeFactory().getParametedType(variable.getDeclaringMember(), variable.getTypeSignature());
+	}
+
 	public String getName() {
-		return name;
+		return variable.getElementName();
 	}
 
 	public ParametedType getType() {
@@ -50,43 +67,12 @@ public class ParameterDefinition extends AbstractMemberDefinition {
 		return methodDefinition;
 	}
 
-	private static IMemberValuePair[] EMPTY_PAIRS = new IMemberValuePair[0];
-
-	static IMemberValuePair[] getMemberValues(String source) {
-		int p1 = source.indexOf('(');
-		int p2 = source.indexOf(')');
-		if(p1 >= 0 && p2 > p1) {
-			String params = source.substring(p1 + 1, p2).trim();
-			if(params.length() > 0) {
-				if(params.startsWith("{") && params.endsWith("}")) {
-					//TODO
-				} else if(params.endsWith(".class")) {
-					params = params.substring(0, params.length() - 6);
-					IMemberValuePair pair = new MemberValuePair("value", params, IMemberValuePair.K_CLASS);
-					return new IMemberValuePair[]{pair};
-				} else if(params.startsWith("\"") && params.endsWith("\"")) {
-					params = params.substring(1, params.length() - 1);
-					IMemberValuePair pair = new MemberValuePair("value", params, IMemberValuePair.K_STRING);
-					return new IMemberValuePair[]{pair};
-				} else {
-					//TODO
-				}
-			}
-		}
-		
-		return EMPTY_PAIRS;
-	}
-
 	public Set<String> getAnnotationTypes() {
 		return annotationsByType.keySet();
 	}
 
-	public void setPosition(ITextSourceReference position) {
-		this.position = position;
-	}
-
-	public ITextSourceReference getPosition() {
-		return position;
+	public ILocalVariable getVariable() {
+		return variable;
 	}
 
 	public String getAnnotationText(String annotationTypeName) {

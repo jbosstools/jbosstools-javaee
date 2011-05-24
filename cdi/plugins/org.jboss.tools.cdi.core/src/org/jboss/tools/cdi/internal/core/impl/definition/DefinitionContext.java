@@ -362,7 +362,6 @@ public class DefinitionContext implements IRootDefinitionContext {
 		packages = workingCopy.packages;
 		packageDefinitions = workingCopy.packageDefinitions;
 		beanXMLs = workingCopy.beanXMLs;
-		dependencies = workingCopy.dependencies;
 
 		Set<IProcessAnnotatedTypeFeature> fs = project.getExtensionManager().getProcessAnnotatedTypeFeature();
 		if(fs != null && !fs.isEmpty()) {
@@ -376,6 +375,9 @@ public class DefinitionContext implements IRootDefinitionContext {
 		for (IDefinitionContextExtension e: extensions) {
 			e.applyWorkingCopy();
 		}
+
+		//extensions may add to dependencies while they change
+		dependencies = workingCopy.dependencies;
 
 		project.getDelegate().update();
 

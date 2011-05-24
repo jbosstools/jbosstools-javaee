@@ -12,9 +12,12 @@ package org.jboss.tools.cdi.internal.core.impl;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.jdt.core.IField;
+import org.eclipse.jdt.core.IJavaElement;
+import org.eclipse.jdt.core.ILocalVariable;
 import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.ISourceRange;
+import org.eclipse.jdt.core.ISourceReference;
 import org.eclipse.jdt.core.JavaModelException;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.IBeanMember;
@@ -37,20 +40,30 @@ public abstract class BeanMember extends AbstractBeanElement implements IBeanMem
 		return (BeanMemberDefinition)definition;
 	}
 
-	protected void setMember(IMember member) {
+	protected void setMember(IJavaElement member) {
 		try {
-			String returnType = member instanceof IField ? ((IField)member).getTypeSignature()
-					: member instanceof IMethod ? ((IMethod)member).getReturnType() : null;
+			String returnType = null;
+			IMember currentMember = null;
+			if (member instanceof IField) {
+				returnType = ((IField)member).getTypeSignature();
+				currentMember = (IMember)member;
+			} else if (member instanceof IMethod) {
+				returnType = ((IMethod)member).getReturnType();
+				currentMember = (IMember)member;
+			} else if (member instanceof ILocalVariable) {
+				returnType = ((ILocalVariable)member).getTypeSignature();
+				currentMember = ((ILocalVariable)member).getDeclaringMember();
+			}
 			if(returnType != null) {
-				ParametedType p = getCDIProject().getNature().getTypeFactory().getParametedType(member, returnType);
+				ParametedType p = getCDIProject().getNature().getTypeFactory().getParametedType(currentMember, returnType);
 				if(p != null) {
 
 					int offset = -1;
 					int length = 0;
 					String content = getDefinition().getTypeDefinition().getContent();
 					if(content != null) {
-						ISourceRange sr = member.getSourceRange();
-						ISourceRange nr = member.getNameRange();
+						ISourceRange sr = ((ISourceReference)member).getSourceRange();
+						ISourceRange nr = ((ISourceReference)member).getNameRange();
 						if(sr != null && nr != null && sr.getOffset() < nr.getOffset() && nr.getOffset() < content.length()) {
 							String start = content.substring(sr.getOffset(), nr.getOffset());
 							int off = -1;
@@ -105,16 +118,25 @@ public abstract class BeanMember extends AbstractBeanElement implements IBeanMem
 		return super.getResource();
 	}
 
+	protected ISourceReference getSourceReference() {
+		return getSourceMember();
+	}
+
+	protected ISourceRange getSourceRange() {
+		ISourceRange result = null;
+		try {
+			result = getSourceReference().getSourceRange();
+		} catch (JavaModelException e) {
+			CDICorePlugin.getDefault().logError(e);
+		}
+		return result;
+	}
+
 	public int getLength() {
 		if(definition.getOriginalDefinition() != null) {
 			return definition.getOriginalDefinition().getLength();
 		}
-		ISourceRange r = null;
-		try {
-			getSourceMember().getSourceRange();
-		} catch (JavaModelException e) {
-			CDICorePlugin.getDefault().logError(e);
-		}
+		ISourceRange r = getSourceRange();
 		return r == null ? 0 : r.getLength();
 	}
 
@@ -122,16 +144,11 @@ public abstract class BeanMember extends AbstractBeanElement implements IBeanMem
 		if(definition.getOriginalDefinition() != null) {
 			return definition.getOriginalDefinition().getStartPosition();
 		}
-		ISourceRange r = null;
-		try {
-			getSourceMember().getSourceRange();
-		} catch (JavaModelException e) {
-			CDICorePlugin.getDefault().logError(e);
-		}
+		ISourceRange r = getSourceRange();
 		return r == null ? 0 : r.getOffset();
 	}
 
 	public boolean isNullable() {
-		return typeDeclaration==null?false:!typeDeclaration.isPrimitive();
+		return typeDeclaration == null ? false : !typeDeclaration.isPrimitive();
 	}
 }

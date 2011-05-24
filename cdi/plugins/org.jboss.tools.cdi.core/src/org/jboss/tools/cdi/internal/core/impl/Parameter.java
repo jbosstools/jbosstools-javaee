@@ -3,20 +3,24 @@ package org.jboss.tools.cdi.internal.core.impl;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.eclipse.jdt.core.ILocalVariable;
 import org.eclipse.jdt.core.IMember;
+import org.eclipse.jdt.core.ISourceReference;
 import org.jboss.tools.cdi.core.IBeanMethod;
 import org.jboss.tools.cdi.core.IClassBean;
 import org.jboss.tools.cdi.core.IParametedType;
 import org.jboss.tools.cdi.core.IParameter;
 import org.jboss.tools.cdi.core.IQualifier;
 import org.jboss.tools.cdi.internal.core.impl.definition.ParameterDefinition;
-import org.jboss.tools.common.text.ITextSourceReference;
 
-public class Parameter extends AbstractBeanElement implements IParameter {
-	ParameterDefinition definition;
+public class Parameter extends BeanMember implements IParameter {
 	BeanMethod beanMethod;
 
 	public Parameter() {}
+
+	public ParameterDefinition getDefinition() {
+		return (ParameterDefinition)definition;
+	}
 
 	public void setBeanMethod(BeanMethod beanMethod) {
 		this.beanMethod = beanMethod;
@@ -24,23 +28,30 @@ public class Parameter extends AbstractBeanElement implements IParameter {
 	}
 
 	public void setDefinition(ParameterDefinition definition) {
+		if(beanMethod.getMethod().getElementName().equals("obs")) {
+			System.out.println("!!");
+		}
 		super.setDefinition(definition);
 		this.definition = definition;
 	}
 
+	public void setLocalVariable(ILocalVariable v) {
+		setMember(v);
+	}
+
 	public String getName() {
-		return definition.getName();
+		return getDefinition().getName();
 	}
 
 	public IParametedType getMemberType() {
-		return definition.getType();
+		return getDefinition().getType();
 	}
 
 	public IParametedType getType() {
-		if(definition.getOverridenType() != null) {
-			return definition.getOverridenType();
+		if(getDefinition().getOverridenType() != null) {
+			return getDefinition().getOverridenType();
 		}
-		return definition.getType();
+		return getDefinition().getType();
 	}
 
 	public IClassBean getClassBean() {
@@ -48,38 +59,15 @@ public class Parameter extends AbstractBeanElement implements IParameter {
 	}
 
 	public IMember getSourceMember() {
-		return definition.getMethodDefinition().getMethod();
+		return getDefinition().getMethodDefinition().getMethod();
 	}
 
-	public int getLength() {
-		ITextSourceReference p = definition.getPosition();
-		return p == null ? 0 : p.getLength();
-	}
-
-	public int getStartPosition() {
-		ITextSourceReference p = definition.getPosition();
-		return p == null ? 0 : p.getStartPosition();
+	protected ISourceReference getSourceReference() {
+		return getDefinition().getVariable();
 	}
 
 	public Set<String> getAnnotationTypes() {
-		return definition.getAnnotationTypes();
-	}
-
-	public String getValue(String annotationTypeName) {
-		String text = definition.getAnnotationText(annotationTypeName);
-		if(text != null) {
-			int i = text.indexOf('(');
-			int j = text.lastIndexOf(')');
-			if(i >= 0 && j > i) {
-				String values = text.substring(i + 1, j).trim();
-				if(values.startsWith("\"") && values.endsWith("\"")) {
-					return values.substring(1, values.length() - 1);
-				}
-				//TODO improve
-				return values;
-			}
-		}
-		return null;
+		return getDefinition().getAnnotationTypes();
 	}
 
 	/*

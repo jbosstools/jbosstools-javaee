@@ -318,40 +318,19 @@ public class CDIProject extends CDIElement implements ICDIProject {
 			}
 		}
 		
-		boolean isParameter = false;// injectionPoint instanceof InjectionPointParameter;
 		boolean isNew = false;
 
 		Set<IQualifierDeclaration> qs = injectionPoint.getQualifierDeclarations();
-		List<IType> qs2 = null;
-		if(isParameter) {
-			qs2 = new ArrayList<IType>();
-			Set<IQualifier> qs_ = ((InjectionPointParameter)injectionPoint).getQualifiers();
-			for (IQualifier q: qs_) {
-				IType t = q.getSourceType();
-				if(t != null) {
-					if(CDIConstants.NEW_QUALIFIER_TYPE_NAME.equals(t.getFullyQualifiedName())) {
-						isNew = true;
-					} else {
-						qs2.add(t);
-					}
-				}
-			}
-		} else {
-			for (IQualifierDeclaration d: qs) {
-				if(CDIConstants.NEW_QUALIFIER_TYPE_NAME.equals(d.getTypeName())) {
-					isNew = true;
-					break;
-				}				
-			}
+		for (IQualifierDeclaration d: qs) {
+			if(CDIConstants.NEW_QUALIFIER_TYPE_NAME.equals(d.getTypeName())) {
+				isNew = true;
+				break;
+			}				
 		}
 	
 		if(isBuiltIn(type.getType())) {
 			Set<IBean> rslt = null;
-			if(isParameter) {
-				rslt = getBeans(attemptToResolveAmbiguousDependency, type, qs2.toArray(new IType[0]));
-			} else {
-				rslt = getBeans(attemptToResolveAmbiguousDependency, type, qs.toArray(new IQualifierDeclaration[0]));
-			}
+			rslt = getBeans(attemptToResolveAmbiguousDependency, type, qs.toArray(new IQualifierDeclaration[0]));
 			if(rslt.isEmpty()) {
 				BuiltInBean builtInBean = new BuiltInBean(type);
 				builtInBean.setParent(this);
@@ -396,14 +375,8 @@ public class CDIProject extends CDIElement implements ICDIProject {
 						continue;
 					}
 					Set<IQualifierDeclaration> qsb = b.getQualifierDeclarations(true);
-					if(isParameter) {
-						if(areMatchingQualifiers(qsb, qs2.toArray(new IType[0]))) {
-							result.add(b);
-						}
-					} else {
-						if(areMatchingQualifiers(qsb, qs)) {
-							result.add(b);
-						}
+					if(areMatchingQualifiers(qsb, qs)) {
+						result.add(b);
 					}
 				} catch (CoreException e) {
 					CDICorePlugin.getDefault().logError(e);
@@ -901,6 +874,10 @@ public class CDIProject extends CDIElement implements ICDIProject {
 			for (IClassBean b: classBeans.values()) {
 				Set<IInjectionPoint> ps = b.getInjectionPoints();
 				for (IInjectionPoint p: ps) {
+					if(p.getType() == null && p instanceof IInjectionPointField) {
+						System.out.println("shit");
+						continue;
+					}
 					if(p instanceof IInjectionPointField) {
 						IParametedType eventType = getEventType(p.getType());
 						if(eventType != null && ((ParametedType)eventType).isAssignableTo((ParametedType)paramType, true)) {
