@@ -18,7 +18,7 @@ import org.eclipse.wst.sse.ui.StructuredTextEditor;
 import org.eclipse.wst.sse.ui.internal.contentassist.CustomCompletionProposal;
 import org.jboss.tools.common.editor.ObjectMultiPageEditor;
 import org.jboss.tools.common.model.ui.editor.EditorPartWrapper;
-import org.jboss.tools.common.text.xml.contentassist.test.AbstractContentAssistantTestCase;
+import org.jboss.tools.common.base.test.contentassist.AbstractContentAssistantTestCase;
 
 public class ContentAssistantTestCase extends AbstractContentAssistantTestCase {
 
