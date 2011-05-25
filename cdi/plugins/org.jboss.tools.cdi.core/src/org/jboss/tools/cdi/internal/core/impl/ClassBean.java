@@ -68,7 +68,7 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 		for (MethodDefinition m: ms) {
 			BeanMethod bm = null;
 			if(m.getProducesAnnotation() != null) {
-				bm = new ProducerMethod();
+				bm = newProducerMethod(m);
 			} else if(m.getInjectAnnotation() != null) {
 				bm = new InjectionPointMethod();
 			} else if(m.isObserver()) {
@@ -85,7 +85,7 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 		for (FieldDefinition f: fs) {
 			BeanField bf = null;
 			if(f.getProducesAnnotation() != null) {
-				bf = new ProducerField();
+				bf = newProducerField(f);
 			} else if(f.getInjectAnnotation() != null) {
 				bf = new InjectionPointField();
 			} else {
@@ -96,6 +96,14 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 			bf.setDefinition(f);
 			fields.add(bf);
 		}
+	}
+
+	protected ProducerMethod newProducerMethod(MethodDefinition m) {
+		return new ProducerMethod();
+	}
+
+	protected ProducerField newProducerField(FieldDefinition f) {
+		return new ProducerField();
 	}
 
 	public TypeDefinition getDefinition() {
