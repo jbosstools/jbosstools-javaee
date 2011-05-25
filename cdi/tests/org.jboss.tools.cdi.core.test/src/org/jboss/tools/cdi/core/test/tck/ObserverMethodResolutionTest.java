@@ -34,13 +34,17 @@ public class ObserverMethodResolutionTest extends TCKTest {
 		assertFalse(observers.isEmpty());
 
 		IObserverMethod tamedObserver = null;
+		IObserverMethod recognizedFriendObserver = null;
 		for (IObserverMethod m: observers) {
 			IMethod jm = m.getMethod();
 			if("tamed".equals(jm.getElementName())) {
 				tamedObserver = m;
+			} else if("recognizedFriend".equals(jm.getElementName())) {
+				recognizedFriendObserver = m;
 			}
 		}
 		assertNotNull(tamedObserver);
+		assertNull(recognizedFriendObserver);
 
 		Set<IParameter> p = tamedObserver.getObservedParameters();
 		assertTrue(p.size() == 1);
@@ -52,6 +56,62 @@ public class ObserverMethodResolutionTest extends TCKTest {
 		assertTrue(points.size() == 1);
 		assertTrue(points.contains(tamingEvent));
 	}
+
+	public void testObserverMethodResolution2() {
+		IInjectionPointField solicitingEvent =  getInjectionPointField("JavaSource/org/jboss/jsr299/tck/tests/event/fires/DogWhisperer.java", "solicitingEvent");
+		assertNotNull(solicitingEvent);
+
+		Set<IObserverMethod> observers = solicitingEvent.getCDIProject().resolveObserverMethods(solicitingEvent);
+
+		IObserverMethod tamedObserver = null;
+		IObserverMethod recognizedFriendObserver = null;
+		for (IObserverMethod m: observers) {
+			IMethod jm = m.getMethod();
+			if("tamed".equals(jm.getElementName())) {
+				tamedObserver = m;
+			} else if("recognizedFriend".equals(jm.getElementName())) {
+				recognizedFriendObserver = m;
+			} else {
+				System.out.println(jm);
+			}
+		}
+		assertNull(tamedObserver);
+		assertNull(recognizedFriendObserver);
+
+
+	}
+
+	public void testObserverMethodResolution3() {
+		IInjectionPointField friendlyEvent =  getInjectionPointField("JavaSource/org/jboss/jsr299/tck/tests/event/fires/DogWhisperer.java", "friendlyEvent");
+		assertNotNull(friendlyEvent);
+
+		Set<IObserverMethod> observers = friendlyEvent.getCDIProject().resolveObserverMethods(friendlyEvent);
+		assertFalse(observers.isEmpty());
+
+		IObserverMethod tamedObserver = null;
+		IObserverMethod recognizedFriendObserver = null;
+		for (IObserverMethod m: observers) {
+			IMethod jm = m.getMethod();
+			if("tamed".equals(jm.getElementName())) {
+				tamedObserver = m;
+			} else if("recognizedFriend".equals(jm.getElementName())) {
+				recognizedFriendObserver = m;
+			}
+		}
+		assertNull(tamedObserver);
+		assertNotNull(recognizedFriendObserver);
+
+		Set<IParameter> p = recognizedFriendObserver.getObservedParameters();
+		assertTrue(p.size() == 1);
+
+		IParameter observerParameter = p.iterator().next();
+		assertFalse(observerParameter instanceof IInjectionPointParameter);
+
+		Set<IInjectionPoint> points = recognizedFriendObserver.getClassBean().getCDIProject().findObservedEvents(observerParameter);
+		assertTrue(points.size() == 1);
+		assertTrue(points.contains(friendlyEvent));
+	}
+
 
 	public void testEventBean() {
 		IInjectionPointField tamingEvent =  getInjectionPointField("JavaSource/org/jboss/jsr299/tck/tests/event/fires/DogWhisperer.java", "tamingEvent");

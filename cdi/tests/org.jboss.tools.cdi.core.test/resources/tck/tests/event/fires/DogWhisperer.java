@@ -25,6 +25,12 @@ class DogWhisperer
    @Inject @Any @Tame @Role("Master") 
    Event<TamingCommand> tamingEvent;
    
+   @Inject @Any @Tame @Role("Alien") 
+   Event<TamingCommand> solicitingEvent;
+   
+   @Inject @Any @Tame @Role("Neighbor") 
+   Event<TamingCommand> friendlyEvent;
+   
    @Inject @Any
    Event<Praise> praiseEvent;
    

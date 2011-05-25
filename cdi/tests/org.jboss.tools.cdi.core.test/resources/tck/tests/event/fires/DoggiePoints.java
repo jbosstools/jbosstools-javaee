@@ -36,6 +36,11 @@ import javax.enterprise.inject.Any;
       numTamed++;
    }
    
+   public void recognizedFriend(@Observes @Tame @Role("Neighbor") TamingCommand tamed)
+   {
+      numTamed++;
+   }
+   
    public int getNumPraiseReceived()
    {
       return numPraiseReceived;
