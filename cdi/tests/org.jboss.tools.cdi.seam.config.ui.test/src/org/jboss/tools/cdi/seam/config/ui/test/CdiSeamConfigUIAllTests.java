@@ -10,12 +10,11 @@
  ******************************************************************************/ 
 package org.jboss.tools.cdi.seam.config.ui.test;
 
-import org.eclipse.jdt.internal.core.JavaModelManager;
-import org.jboss.tools.cdi.core.test.CDICoreTestSetup;
-import org.jboss.tools.cdi.seam.config.core.test.SeamConfigTestSetup;
-
 import junit.framework.Test;
 import junit.framework.TestSuite;
+
+import org.eclipse.jdt.internal.core.JavaModelManager;
+import org.jboss.tools.cdi.seam.config.core.test.SeamConfigTestSetup;
 
 public class CdiSeamConfigUIAllTests {
 
