@@ -10,7 +10,6 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.internal.core.validation;
 
-
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -188,6 +187,9 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 		CDICoreNature nature = CDICorePlugin.getCDI(projectSet.getRootProject(), false);
 		if(nature!=null) {
 			cdiProject =  nature.getDelegate();
+			if(cdiProject==null) {
+				CDICorePlugin.getDefault().logError("Trying to validate " + rootProject + " but CDI Tools model for the project is not buit.");
+			}
 		}
 		projectName = projectSet.getRootProject().getName();
 		sourceFolders = null;
@@ -280,7 +282,6 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 			}
 		}
 		if(!dependentFiles.isEmpty()) {
-			System.out.println("Dependencies=" + dependentFiles.size());
 			filesToValidate.addAll(dependentFiles);
 		}
 

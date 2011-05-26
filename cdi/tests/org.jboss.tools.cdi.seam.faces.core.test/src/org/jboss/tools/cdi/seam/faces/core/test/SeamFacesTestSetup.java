@@ -36,7 +36,7 @@ public class SeamFacesTestSetup extends TestSetup {
 	@Override
 	protected void setUp() throws Exception {
 		project = ResourcesPlugin.getWorkspace().getRoot().getProject(PROJECT_NAME);
-		if(project == null || !project.exists()) {
+		if(!project.exists()) {
 			project = ResourcesUtils.importProject(PLUGIN_ID, PROJECT_PATH);
 		}
 	}

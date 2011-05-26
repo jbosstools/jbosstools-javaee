@@ -34,8 +34,8 @@ import org.jboss.tools.cdi.ui.marker.MakeMethodBusinessMarkerResolution;
 import org.jboss.tools.cdi.ui.marker.MakeMethodPublicMarkerResolution;
 import org.jboss.tools.cdi.ui.marker.TestableResolutionWithRefactoringProcessor;
 import org.jboss.tools.common.util.FileUtil;
+import org.jboss.tools.jst.jsp.test.TestUtil;
 import org.jboss.tools.jst.web.kb.internal.validation.ValidatorManager;
-import org.jboss.tools.test.util.JobUtils;
 
 /**
  * @author Daniel Azarov
@@ -55,7 +55,7 @@ public class CDIMarkerResolutionTest  extends ValidationTest {
 
 		ValidatorManager.setStatus("TESTING");
 		copyFiles(project, fileNames);
-		waitForIdle(project);
+		TestUtil.waitForValidation(project);
 
 		try{
 			file = project.getFile(fileNames[0]);
@@ -104,7 +104,7 @@ public class CDIMarkerResolutionTest  extends ValidationTest {
 									resolution.run(marker);
 								}
 
-								waitForIdle(project);
+								TestUtil.waitForValidation(project);
 
 								file = project.getFile(fileNames[0]);
 								IMarker[] newMarkers = file.findMarkers(markerType, true,	IResource.DEPTH_INFINITE);
@@ -123,18 +123,7 @@ public class CDIMarkerResolutionTest  extends ValidationTest {
 			fail("Problem marker with id: "+id+" not found");
 		}finally{
 			restoreFiles(project, fileNames);
-			waitForIdle(project);
-		}
-	}
-
-	private void waitForIdle(IProject project) throws CoreException{
-		JobUtils.waitForIdle();
-		for (int i = 0; i < 50; i++) {
-			if(ValidatorManager.getStatus().equals(ValidatorManager.SLEEPING)) {
-				break;
-			}
-			JobUtils.delay(100);
-			JobUtils.waitForIdle();
+			TestUtil.waitForValidation(project);
 		}
 	}
 

@@ -10,12 +10,22 @@
  ******************************************************************************/ 
 package org.jboss.tools.cdi.seam.faces.core.test;
 
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+
 import junit.framework.TestCase;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
 import org.jboss.tools.cdi.internal.core.validation.CDIValidationMessages;
+import org.jboss.tools.jst.jsp.test.TestUtil;
+import org.jboss.tools.jst.web.kb.internal.validation.ValidatorManager;
+import org.jboss.tools.test.util.JobUtils;
+import org.jboss.tools.test.util.ResourcesUtils;
 import org.jboss.tools.tests.AbstractResourceMarkerTest;
 
 /**
@@ -25,9 +35,14 @@ public class SeamFacesValidationTest extends TestCase {
 
 	protected IProject project;
 
-	public IProject getTestProject() {
+	public IProject getTestProject() throws IOException, CoreException, InvocationTargetException, InterruptedException {
 		if(project==null) {
+			ValidatorManager.setStatus("INIT");
 			project = ResourcesPlugin.getWorkspace().getRoot().getProject(SeamFacesTestSetup.PROJECT_NAME);
+			if(!project.exists()) {
+				project = ResourcesUtils.importProject(SeamFacesTestSetup.PLUGIN_ID, SeamFacesTestSetup.PROJECT_PATH);
+			}
+			TestUtil.waitForValidation(project);
 		}
 		return project;
 	}

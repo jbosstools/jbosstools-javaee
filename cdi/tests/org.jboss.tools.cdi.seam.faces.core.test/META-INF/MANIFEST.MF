@@ -11,4 +11,5 @@ Require-Bundle: org.jboss.tools.cdi.seam.faces.core,
  org.eclipse.core.resources;bundle-version="3.7.100",
  org.jboss.tools.tests,
  org.eclipse.core.runtime;bundle-version="3.7.0",
- org.jboss.tools.cdi.core
+ org.jboss.tools.cdi.core,
+ org.jboss.tools.jst.jsp.base.test

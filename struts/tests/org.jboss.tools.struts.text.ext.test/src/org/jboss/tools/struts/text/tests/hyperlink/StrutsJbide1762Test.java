@@ -22,9 +22,9 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.texteditor.ITextEditor;
 import org.eclipse.wst.sse.ui.internal.StructuredTextViewer;
+import org.jboss.tools.common.base.test.contentassist.CATestUtil;
 import org.jboss.tools.common.model.ui.editor.EditorPartWrapper;
 import org.jboss.tools.common.model.ui.texteditors.XMLTextEditorComponent;
-import org.jboss.tools.jst.jsp.test.TestUtil;
 import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.TestProjectProvider;
 
@@ -98,7 +98,7 @@ public class StrutsJbide1762Test extends TestCase {
 			e.printStackTrace();
 			assertTrue("Waiting for the jobs to complete has failed.", false);
 		} 
-		TestUtil.delay(3000);
+		CATestUtil.delay(3000);
 
 //		ITextEditor textEditor = TestUtil.getActiveTextEditor(wrapperEditor);
 		ITextEditor textEditor = getTextEditor(wrapperEditor);
@@ -112,7 +112,7 @@ public class StrutsJbide1762Test extends TestCase {
 //		wrapperEditor.getJspEditor();
 		StructuredTextViewer viewer = xmlTextEditor.getTextViewer();
 		IDocument document = viewer.getDocument();
-		SourceViewerConfiguration config = TestUtil.getSourceViewerConfiguration(xmlTextEditor);
+		SourceViewerConfiguration config = CATestUtil.getSourceViewerConfiguration(xmlTextEditor);
 		IHyperlinkDetector[] hyperlinkDetectors = (config == null ? null : config.getHyperlinkDetectors(viewer));
 
 		assertTrue("Cannot get the Hyperlink Detectors for the editor for page \"" + WEB_XML_NAME + "\"", (hyperlinkDetectors != null));
@@ -179,16 +179,14 @@ public class StrutsJbide1762Test extends TestCase {
 				index = startNodeIndex;
 				continue;
 			}
-			
+
 //			System.out.println("Posting the Test Regions: " + documentContent.substring(startNodeIndex, endNodeIndex));
 			for (int j = startNodeIndex; j < endNodeIndex; j++) {
 				regions.add(new Region(j, 0));
 			}
 			index = documentContent.indexOf(">", endNodeIndex);
 		}
-		
+
 		return regions;
 	}
-
-	
 }
