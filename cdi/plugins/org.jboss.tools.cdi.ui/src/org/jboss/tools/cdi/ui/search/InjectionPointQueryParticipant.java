@@ -123,15 +123,13 @@ public class InjectionPointQueryParticipant implements IQueryParticipant{
 	private IParameter findObserverParameter(Set<IBean> beans, IMethod method) throws JavaModelException {
 		for (IBean bean: beans) {
 			if(bean instanceof IClassBean) {
-				Set<IBeanMethod> observers = ((IClassBean)bean).getObserverMethods();
-				for (IBeanMethod bm: observers) {
-					if(bm instanceof IObserverMethod) {
-						if(bm.getMethod().equals(method)){
-							IObserverMethod obs = (IObserverMethod)bm;
-							Set<IParameter> ps = obs.getObservedParameters();
-							if(!ps.isEmpty()) {
-								return ps.iterator().next();
-							}
+				Set<IObserverMethod> observers = ((IClassBean)bean).getObserverMethods();
+				for (IObserverMethod bm: observers) {
+					if(bm.getMethod().equals(method)){
+						IObserverMethod obs = (IObserverMethod)bm;
+						Set<IParameter> ps = obs.getObservedParameters();
+						if(!ps.isEmpty()) {
+							return ps.iterator().next();
 						}
 					}
 				}
