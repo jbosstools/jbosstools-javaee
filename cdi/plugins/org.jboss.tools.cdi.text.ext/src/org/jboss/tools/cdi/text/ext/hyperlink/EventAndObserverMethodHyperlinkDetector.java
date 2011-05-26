@@ -12,6 +12,7 @@ package org.jboss.tools.cdi.text.ext.hyperlink;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
@@ -107,7 +108,7 @@ public class EventAndObserverMethodHyperlinkDetector extends AbstractHyperlinkDe
 				ICDIProject cdiProject = cdiNature.getDelegate();
 				if(cdiProject != null){
 					IInjectionPoint injectionPoint = findInjectedPoint(cdiProject, element, position, file);
-					IParameter param = findObserverParameter(cdiProject, element, offset, file);
+					Set<IParameter> param = findObserverParameter(cdiProject, element, offset, file);
 					if(injectionPoint != null){
 						Set<IObserverMethod> observerMethods = cdiProject.resolveObserverMethods(injectionPoint);
 
@@ -115,7 +116,9 @@ public class EventAndObserverMethodHyperlinkDetector extends AbstractHyperlinkDe
 							hyperlinks.add(new ObserverMethodListHyperlink(textViewer, region, observerMethods, document, hyperlinks.size()));
 						
 					} else if(param != null) {
-						Set<IInjectionPoint> events = cdiProject.findObservedEvents(param);
+						Set<IInjectionPoint> events =  new HashSet<IInjectionPoint>();
+						for (IParameter p: param)
+							events.addAll(cdiProject.findObservedEvents(p));
 						
 						if(events.size() > 0)
 							hyperlinks.add(new EventListHyperlink(textViewer, region, events, document, hyperlinks.size()));
@@ -138,27 +141,26 @@ public class EventAndObserverMethodHyperlinkDetector extends AbstractHyperlinkDe
 		return CDIUtil.findInjectionPoint(beans, element, offset);
 	}
 	
-	private IParameter findObserverParameter(ICDIProject cdiProject, IJavaElement element, int offset, IFile file) throws JavaModelException {
+	private Set<IParameter> findObserverParameter(ICDIProject cdiProject, IJavaElement element, int offset, IFile file) throws JavaModelException {
+		HashSet<IParameter> result = new HashSet<IParameter>();
 		Set<IBean> beans = cdiProject.getBeans(file.getFullPath());
 		for (IBean bean: beans) {
 			if(bean instanceof IClassBean) {
-				Set<IBeanMethod> observers = ((IClassBean)bean).getObserverMethods();
-				for (IBeanMethod bm: observers) {
-					if(bm instanceof IObserverMethod) {
-						ISourceRange sr = bm.getMethod().getSourceRange();
-						if(sr.getOffset() <= offset && sr.getOffset() + sr.getLength() >= offset) {
-							IObserverMethod obs = (IObserverMethod)bm;
-							Set<IParameter> ps = obs.getObservedParameters();
-							if(!ps.isEmpty()) {
-								return ps.iterator().next();
-							}
+				Set<IObserverMethod> observers = ((IClassBean)bean).getObserverMethods();
+				for (IObserverMethod bm: observers) {
+					ISourceRange sr = bm.getMethod().getSourceRange();
+					if(sr.getOffset() <= offset && sr.getOffset() + sr.getLength() >= offset) {
+						IObserverMethod obs = (IObserverMethod)bm;
+						Set<IParameter> ps = obs.getObservedParameters();
+						if(!ps.isEmpty()) {
+							result.add(ps.iterator().next());
 						}
 					}
 				}
 			}
 		}
 		
-		return null;
+		return result;
 	}
 	
 }
