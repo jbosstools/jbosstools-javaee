@@ -22,6 +22,7 @@ import org.eclipse.osgi.util.NLS;
 import org.jboss.tools.common.meta.action.impl.handlers.DefaultCreateHandler;
 import org.jboss.tools.common.model.*;
 import org.jboss.tools.common.model.filesystems.FileSystemsHelper;
+import org.jboss.tools.common.model.filesystems.impl.Libs;
 import org.jboss.tools.common.model.plugin.ModelPlugin;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.model.util.XModelObjectLoaderUtil;
@@ -198,7 +199,7 @@ public class LibrariesPerformer extends PerformerItem {
 				}
 				FileUtil.copyFile(source, target, true);
 				changed = true;
-				String fsName = "lib-" + n;
+				String fsName = Libs.LIB_PREFIX + n;
 				if(fss.getChildByPath(fsName) == null) {
 	                Properties fsProp = new Properties();
 	                fsProp.setProperty("name", fsName);

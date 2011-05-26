@@ -26,6 +26,7 @@ import org.jboss.tools.common.model.XModelException;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.filesystems.FileSystemsHelper;
 import org.jboss.tools.common.model.filesystems.impl.FileAnyImpl;
+import org.jboss.tools.common.model.filesystems.impl.Libs;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.model.util.XModelObjectLoaderUtil;
 import org.jboss.tools.common.util.FileUtil;
@@ -192,7 +193,7 @@ public class AdoptJSFProjectFinisher {
 		if (jars != null)
 			for (int i = 0; i < jars.length; i++) {
 				String n = jars[i].getName();
-				getOrCreateFileSystem("lib-" + n, loc + "/" + n, "hidden=yes",
+				getOrCreateFileSystem(Libs.LIB_PREFIX + n, loc + "/" + n, "hidden=yes",
 						true, true);
 			}
 	}

@@ -15,6 +15,7 @@ import java.util.*;
 import org.eclipse.core.resources.IResource;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.filesystems.FileSystemsHelper;
+import org.jboss.tools.common.model.filesystems.impl.Libs;
 import org.jboss.tools.jst.web.model.helpers.WebAppHelper;
 import org.jboss.tools.jst.web.tld.model.TLDUtil;
 
@@ -29,7 +30,7 @@ public class JSFProjectTagLibs extends JSFProjectResourceBundles {
 		if(fss == null) return list.iterator();
 		XModelObject[] fs = fss.getChildren("FileSystemJar");
 		for (int i = 0; i < fs.length; i++) {
-			if(!fs[i].getAttributeValue("name").startsWith("lib-")) continue;
+			if(!fs[i].getAttributeValue("name").startsWith(Libs.LIB_PREFIX)) continue;
 			r = fs[i].getChildByPath("META-INF");
 			if(r != null) list.add(r);
 		}
