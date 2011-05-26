@@ -177,32 +177,34 @@ public class JsfJSPTagNameHyperlinkDetector extends AbstractHyperlinkDetector {
 	private IRegion getRegion(Node n, int offset) {
 		if (n == null || !(n instanceof IDOMNode)) return null;
 		
-		int start = 0;
-		int nameStart;
-		int nameEnd;
+		int nameStart, nameEnd;
 
 		if(n instanceof IDOMAttr) {
 			IDOMAttr attr = (IDOMAttr)n;
 			String attrName = attr.getName();
-			start = attr.getStartOffset();
+			int start = attr.getStartOffset();
 			nameStart = start;
 			nameEnd = nameStart + attrName.length();
-		} else if(n instanceof IDOMElement) {		
+		} else if(n instanceof IDOMElement) {
 			IDOMElement elem = (IDOMElement)n;		
-			String tagName = elem.getTagName();		
-			start = elem.getStartOffset();
-			nameStart = start + "<".length(); //$NON-NLS-1$
-			nameEnd = nameStart + tagName.length();
-			if(offset > nameEnd) {
-				start = elem.getEndStartOffset();
+			String tagName = elem.getTagName();
+			if(offset >= elem.getStartOffset() && offset <= elem.getStartEndOffset()){
+				int start = elem.getStartOffset();
+				nameStart = start + "<".length(); //$NON-NLS-1$
+				nameEnd = nameStart + tagName.length();
+			}else if(offset >= elem.getEndStartOffset() && offset <= (elem.getEndStartOffset() + elem.getLength())) {
+				int start = elem.getEndStartOffset();
 				nameStart = start + "</".length(); //$NON-NLS-1$
 				nameEnd = nameStart + tagName.length();
-			}
-		} else {
+			}else
+				return null;
+		} else
 			return null;
-		}
-
-		return new Region(nameStart,nameEnd - nameStart);
+		
+		if(offset < nameEnd)
+			return new Region(nameStart, nameEnd - nameStart);
+		else
+			return null;
 	}
 
 	private String getURI(IRegion region, IDocument document) {
