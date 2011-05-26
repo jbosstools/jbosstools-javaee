@@ -875,7 +875,6 @@
  <extension
          point="org.eclipse.ui.commands">
       <command
-            categoryId="org.jboss.tools.jsf.commands.category"
             id="org.jboss.tools.jsf.web.commands.CreateJSF2CompositeCommand"
             description="%CreateJSF2Composite"
             name="%CreateJSF2Composite" 
