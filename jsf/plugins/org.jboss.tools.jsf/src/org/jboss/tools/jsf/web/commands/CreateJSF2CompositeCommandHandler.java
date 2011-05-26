@@ -144,145 +144,150 @@ public class CreateJSF2CompositeCommandHandler extends AbstractHandler {
 							length += n.getEndOffset() - n.getStartOffset(); 
 						}
 					}
-					/*
-					 * Get composite's name and namespace from the popup dialog
-					 */
-					InputDialog dlg = new InputDialog(Display.getCurrent().getActiveShell(),
-							"Creating composite component", //$NON-NLS-1$
-							"Enter component's namespace and name:", "namespace:name", //$NON-NLS-1$ //$NON-NLS-2$
-							new IInputValidator() {
-						public String isValid(String newText) {
-							String trim = newText.trim();
-							String result = null;
-							String[] split = trim.split(":", 2); //$NON-NLS-1$
-							Pattern p = Pattern.compile("([a-zA-Z]+\\d*)+"); //$NON-NLS-1$ 
-							/*
-							 * Check the correct format.
-							 * Matcher will accept only word characters with optional numbers.
-							 */
-							if ((split.length != 2) || trim.startsWith(":") || trim.endsWith(":") //$NON-NLS-1$ //$NON-NLS-2$
-									|| (split[0].length() == 0) || (split[1].length() == 0)) {
-								result = "Component's name should fit in the pattern \"namespace:name\""; //$NON-NLS-1$
-							} else if(!p.matcher(split[0]).matches()) {
-								result = "Namespace '"+split[0]+"' has wrong spelling, please correct"; //$NON-NLS-1$ //$NON-NLS-2$
-							} else if(!p.matcher(split[1]).matches()) {
-								result = "Name '"+split[1]+"' has wrong spelling, please correct"; //$NON-NLS-1$ //$NON-NLS-2$
-							} else {
-								String nameSpaceURI = JSF2ResourceUtil.JSF2_URI_PREFIX + "/" + split[0];  //$NON-NLS-1$
-								Object fld = JSF2ResourceUtil.findResourcesFolderContainerByNameSpace(project, nameSpaceURI);
-								if (fld instanceof IFolder) {
-									IResource res = ((IFolder) fld).findMember(split[1]+ ".xhtml"); //$NON-NLS-1$
-									if ((res instanceof IFile) && ((IFile)res).exists() ) {
-										result = "Component with the same name already exists"; //$NON-NLS-1$
-									}
+				}
+				/*
+				 * Get composite's name and namespace from the popup dialog
+				 */
+				InputDialog dlg = new InputDialog(Display.getCurrent().getActiveShell(),
+						"Creating composite component", //$NON-NLS-1$
+						"Enter component's namespace and name:", "namespace:name", //$NON-NLS-1$ //$NON-NLS-2$
+						new IInputValidator() {
+					public String isValid(String newText) {
+						String trim = newText.trim();
+						String result = null;
+						String[] split = trim.split(":", 2); //$NON-NLS-1$
+						Pattern p = Pattern.compile("([a-zA-Z]+\\d*)+"); //$NON-NLS-1$ 
+						/*
+						 * Check the correct format.
+						 * Matcher will accept only word characters with optional numbers.
+						 */
+						if ((split.length != 2) || trim.startsWith(":") || trim.endsWith(":") //$NON-NLS-1$ //$NON-NLS-2$
+								|| (split[0].length() == 0) || (split[1].length() == 0)) {
+							result = "Component's name should fit in the pattern \"namespace:name\""; //$NON-NLS-1$
+						} else if(!p.matcher(split[0]).matches()) {
+							result = "Namespace '"+split[0]+"' has wrong spelling, please correct"; //$NON-NLS-1$ //$NON-NLS-2$
+						} else if(!p.matcher(split[1]).matches()) {
+							result = "Name '"+split[1]+"' has wrong spelling, please correct"; //$NON-NLS-1$ //$NON-NLS-2$
+						} else {
+							String nameSpaceURI = JSF2ResourceUtil.JSF2_URI_PREFIX + "/" + split[0];  //$NON-NLS-1$
+							Object fld = JSF2ResourceUtil.findResourcesFolderContainerByNameSpace(project, nameSpaceURI);
+							if (fld instanceof IFolder) {
+								IResource res = ((IFolder) fld).findMember(split[1]+ ".xhtml"); //$NON-NLS-1$
+								if ((res instanceof IFile) && ((IFile)res).exists() ) {
+									result = "Component with the same name already exists"; //$NON-NLS-1$
 								}
 							}
-							return result;
 						}
-					});
-					if (dlg.open() == Window.OK) {
-						/*
-						 * Create all required files
-						 */
-						String componentName = dlg.getValue();
-						String[] split = componentName.split(":", 2); //$NON-NLS-1$
-						String path = ""; //$NON-NLS-1$
-						path = componentName.replaceAll(":", "/") + ".xhtml"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-						if (project != null) {
-							IStructuredModel model = null;
-							try {
-								IFile createdFile = JSF2ResourceUtil
-										.createCompositeComponentFile(project, new Path(path));
-								/*
-								 * Add selected text to the template
-								 */
-								IModelManager manager = StructuredModelManager.getModelManager();
-								if (manager != null) {
-									model = manager.getModelForEdit(createdFile);
-									if (model instanceof IDOMModel) {
-										IDOMModel domModel = (IDOMModel) model;
-										IDOMDocument document = domModel.getDocument();
-										NodeList list = document.getElementsByTagName(IMPLEMENTATION);
-										if (list.getLength() == 1) {
-											IDocument doc = editor.getDocumentProvider().getDocument(editor.getEditorInput());
-											String replacedText = doc.get(offset, length);
-											String content = document.getStructuredDocument().getText();
-											int index = content.indexOf("<"+IMPLEMENTATION+">") + ("<"+IMPLEMENTATION+">").length(); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-											content = content.subSequence(0, index) + "\n" + replacedText + content.subSequence(index, content.length()); //$NON-NLS-1$
-											domModel.reload(new ByteArrayInputStream(content.getBytes()));
-											model.save();
+						return result;
+					}
+				});
+				if (dlg.open() == Window.OK) {
+					/*
+					 * Create all required files
+					 */
+					String componentName = dlg.getValue();
+					String[] split = componentName.split(":", 2); //$NON-NLS-1$
+					String path = ""; //$NON-NLS-1$
+					path = componentName.replaceAll(":", "/") + ".xhtml"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+					if (project != null) {
+						IStructuredModel model = null;
+						try {
+							IFile createdFile = JSF2ResourceUtil
+									.createCompositeComponentFile(project, new Path(path));
+							/*
+							 * Add selected text to the template
+							 */
+							IModelManager manager = StructuredModelManager.getModelManager();
+							if (manager != null) {
+								model = manager.getModelForEdit(createdFile);
+								if (model instanceof IDOMModel) {
+									IDOMModel domModel = (IDOMModel) model;
+									IDOMDocument document = domModel.getDocument();
+									NodeList list = document.getElementsByTagName(IMPLEMENTATION);
+									if (list.getLength() == 1) {
+										IDocument doc = editor.getDocumentProvider().getDocument(editor.getEditorInput());
+										String replacedText = doc.get(offset, length);
+										String content = document.getStructuredDocument().getText();
+										int index = content.indexOf("<"+IMPLEMENTATION+">") + ("<"+IMPLEMENTATION+">").length(); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+										content = content.subSequence(0, index) + "\n" + replacedText + content.subSequence(index, content.length()); //$NON-NLS-1$
+										domModel.reload(new ByteArrayInputStream(content.getBytes()));
+										model.save();
+										/*
+										 * Register JSF 2 composite on the current page
+										 */
+										String replacement = "<" + componentName + "> </" + componentName + ">"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+										doc.replace(offset, length, replacement);
+										/*
+										 * Register the required taglib
+										 */
+										StructuredTextEditor ed = ((JSPMultiPageEditor) editor).getSourceEditor();
+										if (ed instanceof JSPTextEditor) {
+											String libraryUri = JSF2ResourceUtil.JSF2_URI_PREFIX + "/" + split[0]; //$NON-NLS-1$
+											PaletteTaglibInserter PaletteTaglibInserter = new PaletteTaglibInserter();
+											Properties p = new Properties();
+											p.put("selectionProvider", editor.getSelectionProvider()); //$NON-NLS-1$
+											p.setProperty(URIConstants.LIBRARY_URI, libraryUri);
+											p.setProperty(URIConstants.LIBRARY_VERSION, ""); //$NON-NLS-1$
+											p.setProperty(URIConstants.DEFAULT_PREFIX, split[0]);
+											p.setProperty(JSPPaletteInsertHelper.PROPOPERTY_ADD_TAGLIB, "true"); //$NON-NLS-1$
+											p.setProperty(XModelObjectConstants.REFORMAT, "yes"); //$NON-NLS-1$
+											p.setProperty(XModelObjectConstants.START_TEXT, 
+													"<%@ taglib uri=\""+libraryUri+"\" prefix=\"" +split[0]+ "\" %>\\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+											PaletteTaglibInserter.inserTaglib(ed.getTextViewer().getDocument(), p);
+										}
+										/*
+										 * Add required taglibs to the composite file
+										 */
+										IVisualContext context = editor.getJspEditor().getPageContext();
+										List<TaglibData> tl = null;
+										if (context instanceof SourceEditorPageContext) {
+											SourceEditorPageContext sourcePageContext = (SourceEditorPageContext) context;
 											/*
-											 * Register JSF 2 composite on the current page
+											 * Get taglibs from the source file
 											 */
-											String replacement = "<" + componentName + "> </" + componentName + ">"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-											doc.replace(offset, length, replacement);
-											/*
-											 * Register the required taglib
-											 */
-											StructuredTextEditor ed = ((JSPMultiPageEditor) editor).getSourceEditor();
-											if (ed instanceof JSPTextEditor) {
-												String libraryUri = JSF2ResourceUtil.JSF2_URI_PREFIX + "/" + split[0]; //$NON-NLS-1$
-												PaletteTaglibInserter PaletteTaglibInserter = new PaletteTaglibInserter();
-												Properties p = new Properties();
-												p.put("selectionProvider", editor.getSelectionProvider()); //$NON-NLS-1$
-												p.setProperty(URIConstants.LIBRARY_URI, libraryUri);
-												p.setProperty(URIConstants.LIBRARY_VERSION, ""); //$NON-NLS-1$
-												p.setProperty(URIConstants.DEFAULT_PREFIX, split[0]);
-												p.setProperty(JSPPaletteInsertHelper.PROPOPERTY_ADD_TAGLIB, "true"); //$NON-NLS-1$
-												p.setProperty(XModelObjectConstants.REFORMAT, "yes"); //$NON-NLS-1$
-												p.setProperty(XModelObjectConstants.START_TEXT, 
-														"<%@ taglib uri=\""+libraryUri+"\" prefix=\"" +split[0]+ "\" %>\\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-												PaletteTaglibInserter.inserTaglib(ed.getTextViewer().getDocument(), p);
+											tl = sourcePageContext.getTagLibs();
+											Map<String, String> sourceTaglibs = new HashMap<String, String>();
+											Map<String, String> requiredTaglibs = new HashMap<String, String>();
+											Set<String> compositeTaglibs = new HashSet<String>();
+											for (TaglibData taglibData : tl) {
+												sourceTaglibs.put(taglibData.getPrefix(), taglibData.getUri());
 											}
 											/*
-											 * Add required taglibs to the composite file
+											 * Parse selected fragment to find used taglibs
 											 */
-											IVisualContext context = editor.getJspEditor().getPageContext();
-											List<TaglibData> tl = null;
-											if (context instanceof SourceEditorPageContext) {
-												SourceEditorPageContext sourcePageContext = (SourceEditorPageContext) context;
-												/*
-												 * Get taglibs from the source file
-												 */
-												tl = sourcePageContext.getTagLibs();
-												Map<String, String> sourceTaglibs = new HashMap<String, String>();
-												Map<String, String> requiredTaglibs = new HashMap<String, String>();
-												Set<String> compositeTaglibs = new HashSet<String>();
-												for (TaglibData taglibData : tl) {
-													sourceTaglibs.put(taglibData.getPrefix(), taglibData.getUri());
+											Pattern p = Pattern.compile("<([a-zA-Z]+\\d*)+:"); //$NON-NLS-1$ 
+											Matcher m = p.matcher(replacedText);
+											while (m.find()) {
+												if (sourceTaglibs.keySet().contains(m.group(1)) 
+														&& !requiredTaglibs.keySet().contains(m.group(1))) {
+													requiredTaglibs.put(m.group(1), sourceTaglibs.get(m.group(1)));
 												}
-												/*
-												 * Parse selected fragment to find used taglibs
-												 */
-												Pattern p = Pattern.compile("<([a-zA-Z]+\\d*)+:"); //$NON-NLS-1$ 
-												Matcher m = p.matcher(replacedText);
-												while (m.find()) {
-													if (sourceTaglibs.keySet().contains(m.group(1)) 
-															&& !requiredTaglibs.keySet().contains(m.group(1))) {
-														requiredTaglibs.put(m.group(1), sourceTaglibs.get(m.group(1)));
-													}
-												}
-												/*
-												 * Get the <html> tag of the created file
-												 */
-												list = document.getElementsByTagName("html"); //$NON-NLS-1$
-												if (list.getLength() == 1) {
-													Element html = ((Element)list.item(0));
-													NamedNodeMap map = html.getAttributes();
-													for (int i = 0; i < map.getLength(); i++) {
-														compositeTaglibs.add(map.item(i).getNodeName());
-													}
-													for (String key : requiredTaglibs.keySet()) {
-														String xmlns = "xmlns:"+key; //$NON-NLS-1$
-														if (!compositeTaglibs.contains(xmlns)) {
-															html.setAttribute(xmlns, requiredTaglibs.get(key));
-														}
-													}
-												}
-											}										
+											}
 											/*
-											 * Open created file
+											 * Get the <html> tag of the created file
 											 */
+											list = document.getElementsByTagName("html"); //$NON-NLS-1$
+											if (list.getLength() == 1) {
+												Element html = ((Element)list.item(0));
+												NamedNodeMap map = html.getAttributes();
+												for (int i = 0; i < map.getLength(); i++) {
+													compositeTaglibs.add(map.item(i).getNodeName());
+												}
+												for (String key : requiredTaglibs.keySet()) {
+													String xmlns = "xmlns:"+key; //$NON-NLS-1$
+													if (!compositeTaglibs.contains(xmlns)) {
+														html.setAttribute(xmlns, requiredTaglibs.get(key));
+													}
+												}
+											}
+										}										
+										/*
+										 * Open created file
+										 */
+										if (null == createdFile) {
+											JSFModelPlugin.getPluginLog().logError(
+													"Composite file:'"+path.toString()+"' cannot be created!"); //$NON-NLS-1$ //$NON-NLS-2$
+										} else {
 											FileEditorInput input = new FileEditorInput(createdFile);
 											JSPMultiPageEditor part = (JSPMultiPageEditor) PlatformUI
 													.getWorkbench().getActiveWorkbenchWindow().getActivePage()
@@ -290,16 +295,16 @@ public class CreateJSF2CompositeCommandHandler extends AbstractHandler {
 										}
 									}
 								}
-							} catch (CoreException e) {
-								JSFModelPlugin.getPluginLog().logError(e);
-							} catch (IOException e) {
-								JSFModelPlugin.getPluginLog().logError(e);
-							} catch (BadLocationException e) {
-								JSFModelPlugin.getPluginLog().logError(e);
-							} finally {
-								if (model != null) {
-									model.releaseFromEdit();
-								}
+							}
+						} catch (CoreException e) {
+							JSFModelPlugin.getPluginLog().logError(e);
+						} catch (IOException e) {
+							JSFModelPlugin.getPluginLog().logError(e);
+						} catch (BadLocationException e) {
+							JSFModelPlugin.getPluginLog().logError(e);
+						} finally {
+							if (model != null) {
+								model.releaseFromEdit();
 							}
 						}
 					}
