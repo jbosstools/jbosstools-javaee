@@ -19,6 +19,7 @@ import org.jboss.tools.common.model.XModel;
 import org.jboss.tools.common.model.XModelConstants;
 import org.jboss.tools.common.model.XModelException;
 import org.jboss.tools.common.model.XModelObject;
+import org.jboss.tools.common.model.filesystems.impl.Libs;
 import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.jst.web.context.IImportWebProjectContext;
 import org.jboss.tools.jst.web.project.WebModuleConstants;
@@ -208,7 +209,7 @@ public class AdoptProjectFinisher {
         });
         if(jars != null) for (int i = 0; i < jars.length; i++) {
             String n = jars[i].getName();
-            getOrCreateFileSystem("lib-" + n, loc + "/" + n, "hidden=yes", true, true);
+            getOrCreateFileSystem(Libs.LIB_PREFIX + n, loc + "/" + n, "hidden=yes", true, true);
         }
     }
 
