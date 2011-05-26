@@ -22,18 +22,17 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
-import org.apache.xerces.util.SynchronizedSymbolTable;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.Flags;
+import org.eclipse.jdt.core.IField;
 import org.eclipse.jdt.core.IMemberValuePair;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
-import org.eclipse.jdt.core.dom.CatchClause;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.CDICorePlugin;
@@ -65,9 +64,7 @@ import org.jboss.tools.cdi.internal.core.impl.definition.BeansXMLDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.DefinitionContext;
 import org.jboss.tools.cdi.internal.core.impl.definition.TypeDefinition;
 import org.jboss.tools.cdi.internal.core.scanner.ImplementationCollector;
-import org.jboss.tools.common.EclipseUtil;
 import org.jboss.tools.common.model.XModelObject;
-import org.jboss.tools.common.model.util.EclipseJavaUtil;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.text.INodeReference;
 
@@ -494,17 +491,17 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		return true;
 	}
 
-	public static boolean areMatchingEventQualifiers(Set<IQualifierDeclaration> eventQualifiers, IType... paramQualifiers) throws CoreException {
-		if(!eventQualifiers.isEmpty() || paramQualifiers.length != 0) {
+	public static boolean areMatchingEventQualifiers(Set<IQualifierDeclaration> eventQualifiers, Set<IQualifierDeclaration> paramQualifiers) throws CoreException {
+		if(!eventQualifiers.isEmpty() || paramQualifiers.isEmpty()) {
 
 			TreeSet<String> paramKeys = new TreeSet<String>();
-			for (IType d: paramQualifiers) {
-				paramKeys.add(d.getFullyQualifiedName());
+			for (IQualifierDeclaration d: paramQualifiers) {
+				paramKeys.add(getAnnotationDeclarationKey(d));
 			}
 	
 			TreeSet<String> eventKeys = new TreeSet<String>();
 			for (IAnnotationDeclaration d: eventQualifiers) {
-				eventKeys.add(d.getType().getFullyQualifiedName());
+				eventKeys.add(getAnnotationDeclarationKey(d));
 			}
 	
 			if(!eventKeys.contains(CDIConstants.ANY_QUALIFIER_TYPE_NAME)) {
@@ -813,19 +810,18 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		IParametedType eventType = getEventType(injectionPoint.getType());
 		
 		if(eventType != null) {
-			for (IClassBean b: classBeans.values()) {
-				Set<IBeanMethod> ms = b.getObserverMethods();
-				for (IBeanMethod m: ms) {
-					if(m instanceof IObserverMethod) {
-						IObserverMethod om = (IObserverMethod)m;
-						Set<IParameter> params = om.getObservedParameters();
-						if(params.isEmpty()) continue;
+			for (IBean ib: allBeans) {
+				if(!(ib instanceof IClassBean)) continue;
+				IClassBean b = (IClassBean)ib;
+				Set<IObserverMethod> ms = b.getObserverMethods();
+				for (IObserverMethod m: ms) {
+					IObserverMethod om = (IObserverMethod)m;
+					Set<IParameter> params = om.getObservedParameters();
+					if(!params.isEmpty()) {
 						IParameter param = params.iterator().next();
 						IParametedType paramType = param.getType();
-						if(!((ParametedType)eventType).isAssignableTo((ParametedType)paramType, true)) {
-							continue;
-						}
-						if(areMatchingEventQualifiers(param, injectionPoint)) {
+						if(((ParametedType)eventType).isAssignableTo((ParametedType)paramType, true)
+								&& areMatchingEventQualifiers(param, injectionPoint)) {
 							result.add(om);
 						}
 					}
@@ -851,15 +847,8 @@ public class CDIProject extends CDIElement implements ICDIProject {
 	}
 
 	private boolean areMatchingEventQualifiers(IParameter observerParam, IInjectionPoint event) {
-		Set<IQualifier> qs = ((Parameter)observerParam).getQualifiers();
-		List<IType> paramQualifiers = new ArrayList<IType>();
-		for (IQualifier q: qs) {
-			if(q.getSourceType() != null) paramQualifiers.add(q.getSourceType());
-		}
 		try {
-			if(areMatchingEventQualifiers(event.getQualifierDeclarations(), paramQualifiers.toArray(new IType[0]))) {
-				return true;
-			}
+			return areMatchingEventQualifiers(event.getQualifierDeclarations(), observerParam.getQualifierDeclarations());
 		} catch (CoreException err) {
 			CDICorePlugin.getDefault().logError(err);
 		}
@@ -867,22 +856,22 @@ public class CDIProject extends CDIElement implements ICDIProject {
 	}
 
 	public Set<IInjectionPoint> findObservedEvents(IParameter observedEventParameter) {
-		Set<IInjectionPoint> result = new HashSet<IInjectionPoint>();
+		Map<IField, IInjectionPoint> result = new HashMap<IField, IInjectionPoint>();
 
 		if(observedEventParameter.getBeanMethod() instanceof IObserverMethod) {
 			IParametedType paramType = observedEventParameter.getType();
-			for (IClassBean b: classBeans.values()) {
+			for (IBean ib: allBeans) {
+				if(!(ib instanceof IClassBean)) {
+					continue;
+				}
+				IClassBean b = (IClassBean)ib;
 				Set<IInjectionPoint> ps = b.getInjectionPoints();
 				for (IInjectionPoint p: ps) {
-					if(p.getType() == null && p instanceof IInjectionPointField) {
-						System.out.println("shit");
-						continue;
-					}
-					if(p instanceof IInjectionPointField) {
+					if(p instanceof IInjectionPointField && p.getType() != null) {
 						IParametedType eventType = getEventType(p.getType());
 						if(eventType != null && ((ParametedType)eventType).isAssignableTo((ParametedType)paramType, true)) {
 							if(areMatchingEventQualifiers(observedEventParameter, p)) {
-								 result.add(p);
+								 result.put(((IInjectionPointField)p).getField(), p);
 							 }
 						}
 					}
@@ -890,7 +879,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 			}			
 		}
 		
-		return result;
+		return new HashSet<IInjectionPoint>(result.values());
 	}
 
 	public Set<IBeanMethod> resolveDisposers(IProducerMethod producer) {

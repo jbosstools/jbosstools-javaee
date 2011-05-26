@@ -52,7 +52,7 @@ public interface IClassBean extends IBean, IInterceptorBinded {
 	 * 
 	 * @return a set of observer methods of the bean
 	 */
-	Set<IBeanMethod> getObserverMethods();
+	Set<IObserverMethod> getObserverMethods();
 
 	/**
 	 * Returns all the directly derived classes that declare annotation @Specializes

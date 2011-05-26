@@ -1,16 +1,19 @@
 package org.jboss.tools.cdi.internal.core.impl;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.eclipse.jdt.core.ILocalVariable;
 import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.ISourceReference;
+import org.jboss.tools.cdi.core.IAnnotationDeclaration;
 import org.jboss.tools.cdi.core.IBeanMethod;
 import org.jboss.tools.cdi.core.IClassBean;
 import org.jboss.tools.cdi.core.IParametedType;
 import org.jboss.tools.cdi.core.IParameter;
 import org.jboss.tools.cdi.core.IQualifier;
+import org.jboss.tools.cdi.core.IQualifierDeclaration;
 import org.jboss.tools.cdi.internal.core.impl.definition.ParameterDefinition;
 
 public class Parameter extends BeanMember implements IParameter {
@@ -85,6 +88,19 @@ public class Parameter extends BeanMember implements IParameter {
 			IQualifier q = getCDIProject().getQualifier(s);
 			if (q != null) result.add(q);
 		}
+		return result;
+	}
+
+	public Set<IQualifierDeclaration> getQualifierDeclarations() {
+		Set<IQualifierDeclaration> result = new HashSet<IQualifierDeclaration>();
+		
+		List<IAnnotationDeclaration> ds = definition.getAnnotations();
+		for (IAnnotationDeclaration d: ds) {
+			if(d instanceof IQualifierDeclaration) {
+				result.add((IQualifierDeclaration)d);
+			}
+		}
+		
 		return result;
 	}
 

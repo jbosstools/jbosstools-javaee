@@ -68,6 +68,7 @@ import org.jboss.tools.cdi.core.IInterceptor;
 import org.jboss.tools.cdi.core.IInterceptorBinded;
 import org.jboss.tools.cdi.core.IInterceptorBinding;
 import org.jboss.tools.cdi.core.IInterceptorBindingDeclaration;
+import org.jboss.tools.cdi.core.IObserverMethod;
 import org.jboss.tools.cdi.core.IParametedType;
 import org.jboss.tools.cdi.core.IParameter;
 import org.jboss.tools.cdi.core.IProducer;
@@ -799,11 +800,11 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 	}
 
 	private void validateObserves(IClassBean bean) {
-		Set<IBeanMethod> observes = bean.getObserverMethods();
+		Set<IObserverMethod> observes = bean.getObserverMethods();
 		if (observes.isEmpty()) {
 			return;
 		}
-		for (IBeanMethod observer : observes) {
+		for (IObserverMethod observer : observes) {
 			List<IParameter> params = observer.getParameters();
 			Set<ITextSourceReference> declarations = new HashSet<ITextSourceReference>();
 			for (IParameter param : params) {

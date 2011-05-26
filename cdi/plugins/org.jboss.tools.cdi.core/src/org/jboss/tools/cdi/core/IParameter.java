@@ -10,6 +10,8 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.core;
 
+import java.util.Set;
+
 import org.jboss.tools.common.text.ITextSourceReference;
 
 /**
@@ -51,4 +53,10 @@ public interface IParameter extends IBeanMember {
 	 * @return the bean method which has this parameter
 	 */
 	IBeanMethod getBeanMethod();
+
+	/**
+	 * 
+	 * @return qualifier declarations for this parameter
+	 */
+	public Set<IQualifierDeclaration> getQualifierDeclarations();
 }

@@ -29,6 +29,7 @@ import org.jboss.tools.cdi.core.IClassBean;
 import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.core.IInterceptorBinding;
 import org.jboss.tools.cdi.core.IInterceptorBindingDeclaration;
+import org.jboss.tools.cdi.core.IObserverMethod;
 import org.jboss.tools.cdi.core.IParametedType;
 import org.jboss.tools.cdi.core.IParameter;
 import org.jboss.tools.cdi.core.IProducer;
@@ -215,11 +216,11 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 		return CDIUtil.getAllInterceptorBindings(this);
 	}
 
-	public Set<IBeanMethod> getObserverMethods() {
-		Set<IBeanMethod> result = new HashSet<IBeanMethod>();
+	public Set<IObserverMethod> getObserverMethods() {
+		Set<IObserverMethod> result = new HashSet<IObserverMethod>();
 		for (BeanMethod m: methods) {
-			if(m.isObserver()) {
-				result.add(m);
+			if(m.isObserver() && m instanceof IObserverMethod) {
+				result.add((IObserverMethod)m);
 			}
 		}
 		return result;
