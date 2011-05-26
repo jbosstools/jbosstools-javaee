@@ -104,9 +104,18 @@ public class CDISeamSolderGenericBeanExtension implements ICDIExtension, IBuildP
 					ti.setType(t.getType(), context.getRootContext(), 0);
 					List<MethodDefinition> ps = ti.getMethods();
 					for (MethodDefinition m: ps) {
-						if(m.isAnnotationPresent(PRODUCES_ANNOTATION_TYPE_NAME)) {
+						if(m.isAnnotationPresent(PRODUCES_ANNOTATION_TYPE_NAME)
+								|| m.isAnnotationPresent(UNWRAPS_ANNOTATION_TYPE_NAME)) {
 							for (IAnnotationDeclaration d: list) {
 								m.addAnnotation(((AnnotationDeclaration)d).getDeclaration(), context.getRootContext());
+							}
+						}
+					}
+					List<FieldDefinition> fs = ti.getFields();
+					for (FieldDefinition f: fs) {
+						if(f.isAnnotationPresent(PRODUCES_ANNOTATION_TYPE_NAME)) {
+							for (IAnnotationDeclaration d: list) {
+								f.addAnnotation(((AnnotationDeclaration)d).getDeclaration(), context.getRootContext());
 							}
 						}
 					}
@@ -142,11 +151,13 @@ public class CDISeamSolderGenericBeanExtension implements ICDIExtension, IBuildP
 		
 		List<MethodDefinition> ms = ti.getMethods();
 		for (MethodDefinition m: ms) {
-			if(m.isAnnotationPresent(INJECT_ANNOTATION_TYPE_NAME)) {
+			boolean isObserver = m.isObserver();
+			if(m.isAnnotationPresent(INJECT_ANNOTATION_TYPE_NAME) || isObserver) {
 				boolean isMethodGeneric = m.isAnnotationPresent(GENERIC_QUALIFIER_TYPE_NAME);
 				List<ParameterDefinition> ps = m.getParameters();
 				for (ParameterDefinition p: ps) {
-					if(isMethodGeneric || p.isAnnotationPresent(GENERIC_QUALIFIER_TYPE_NAME)) {
+					if(isMethodGeneric || p.isAnnotationPresent(GENERIC_QUALIFIER_TYPE_NAME)
+						|| (isObserver && p.isAnnotationPresent(OBSERVERS_ANNOTATION_TYPE_NAME))) {
 						for (IAnnotationDeclaration d: list) {
 							p.addAnnotation(((AnnotationDeclaration)d).getDeclaration(), context.getRootContext());
 						}

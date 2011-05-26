@@ -15,7 +15,11 @@ import java.util.Set;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.internal.core.impl.AbstractBeanElement;
 import org.jboss.tools.cdi.internal.core.impl.ClassBean;
+import org.jboss.tools.cdi.internal.core.impl.ProducerField;
+import org.jboss.tools.cdi.internal.core.impl.ProducerMethod;
 import org.jboss.tools.cdi.internal.core.impl.definition.AbstractMemberDefinition;
+import org.jboss.tools.cdi.internal.core.impl.definition.FieldDefinition;
+import org.jboss.tools.cdi.internal.core.impl.definition.MethodDefinition;
 import org.jboss.tools.cdi.seam.solder.core.CDISeamSolderConstants;
 
 /**
@@ -27,6 +31,14 @@ public class GenericClassBean extends ClassBean {
 	protected AbstractMemberDefinition genericProducerBean;
 	
 	public GenericClassBean() {}
+
+	protected ProducerMethod newProducerMethod(MethodDefinition m) {
+		return new GenericBeanProducerMethod();
+	}
+
+	protected ProducerField newProducerField(FieldDefinition f) {
+		return new GenericBeanProducerField();
+	}
 
 	public void setGenericProducerBeanDefinition(AbstractMemberDefinition def) {
 		genericProducerBean = def;
