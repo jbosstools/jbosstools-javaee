@@ -23,6 +23,7 @@ import org.eclipse.core.runtime.Path;
 import org.jboss.tools.cdi.internal.core.validation.CDIValidationMessages;
 import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.ResourcesUtils;
+import org.jboss.tools.tests.AbstractResourceMarkerTest;
 
 /**
  * @author Alexey Kazakov
@@ -67,13 +68,13 @@ public class DependentProjectValidationTest extends ValidationTest {
 		JobUtils.waitForIdle();
 
 		IFile testBean3 = project3.getFile("src/cdi/test3/TestBean3.java");
-		assertMarkerIsNotCreated(testBean3, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_PRIMITIVE_TYPE, "boolean", "TestBean3.foo()"), 10);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(testBean3, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_PRIMITIVE_TYPE, "boolean", "TestBean3.foo()"), 10);
 
 		IFile testBean4 = project4.getFile("src/cdi/test4/TestBean4.java");
-		assertMarkerIsNotCreated(testBean4, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_PRIMITIVE_TYPE, "int", "TestBean4.foo()"), 10);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(testBean4, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_PRIMITIVE_TYPE, "int", "TestBean4.foo()"), 10);
 
 		IFile testBean5 = project5.getFile("src/cdi/test5/TestBean5.java");
-		assertMarkerIsNotCreated(testBean5, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_PRIMITIVE_TYPE, "boolean", "TestBean5.foo()"), 10);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(testBean5, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_PRIMITIVE_TYPE, "boolean", "TestBean5.foo()"), 10);
 
 		IFile scope = project2.getFile(new Path("src/test/TestScope.java"));
 		IFile normalScope = project2.getFile(new Path("src/test/TestNormalScope.validation"));
@@ -83,13 +84,13 @@ public class DependentProjectValidationTest extends ValidationTest {
 		JobUtils.waitForIdle(1000);
 
 		testBean3 = project3.getFile("src/cdi/test3/TestBean3.java");
-		assertMarkerIsCreated(testBean3, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_PRIMITIVE_TYPE, "boolean", "TestBean3.foo()"), 10);
+		AbstractResourceMarkerTest.assertMarkerIsCreated(testBean3, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_PRIMITIVE_TYPE, "boolean", "TestBean3.foo()"), 10);
 
 		testBean4 = project4.getFile("src/cdi/test4/TestBean4.java");
-		assertMarkerIsCreated(testBean4, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_PRIMITIVE_TYPE, "int", "TestBean4.foo()"), 10);
+		AbstractResourceMarkerTest.assertMarkerIsCreated(testBean4, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_PRIMITIVE_TYPE, "int", "TestBean4.foo()"), 10);
 
 		testBean5 = project5.getFile("src/cdi/test5/TestBean5.java");
-		assertMarkerIsCreated(testBean5, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_PRIMITIVE_TYPE, "boolean", "TestBean5.foo()"), 10);
+		AbstractResourceMarkerTest.assertMarkerIsCreated(testBean5, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_PRIMITIVE_TYPE, "boolean", "TestBean5.foo()"), 10);
 
 		normalScope = project2.getFile(new Path("src/test/TestScope.java"));
 		scope = project2.getFile(new Path("src/test/TestScope.validation"));
@@ -99,13 +100,13 @@ public class DependentProjectValidationTest extends ValidationTest {
 		JobUtils.waitForIdle(1000);
 
 		testBean3 = project3.getFile("src/cdi/test3/TestBean3.java");
-		assertMarkerIsNotCreated(testBean3, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_PRIMITIVE_TYPE, "boolean", "TestBean3.foo()"), 10);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(testBean3, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_PRIMITIVE_TYPE, "boolean", "TestBean3.foo()"), 10);
 
 		testBean4 = project4.getFile("src/cdi/test4/TestBean4.java");
-		assertMarkerIsNotCreated(testBean4, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_PRIMITIVE_TYPE, "int", "TestBean4.foo()"), 10);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(testBean4, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_PRIMITIVE_TYPE, "int", "TestBean4.foo()"), 10);
 
 		testBean5 = project5.getFile("src/cdi/test5/TestBean5.java");
-		assertMarkerIsNotCreated(testBean5, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_PRIMITIVE_TYPE, "boolean", "TestBean5.foo()"), 10);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(testBean5, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_PRIMITIVE_TYPE, "boolean", "TestBean5.foo()"), 10);
 
 		ResourcesUtils.setBuildAutomatically(saveAutoBuild);
 		JobUtils.waitForIdle();

@@ -13,6 +13,7 @@ package org.jboss.tools.cdi.core.test.tck.validation;
 
 import org.eclipse.core.resources.IFile;
 import org.jboss.tools.cdi.internal.core.validation.CDIValidationMessages;
+import org.jboss.tools.tests.AbstractResourceMarkerTest;
 
 /**
  * @author Alexey Kazakov
@@ -34,8 +35,8 @@ public class BeansXmlValidationTest extends ValidationTest {
 	 */
 	public void testNoAlternativeClassWithSpecifiedName() throws Exception {
 		IFile file = tckProject.getFile("WebContent/WEB-INF/beans.xml");
-		assertMarkerIsCreated(file, CDIValidationMessages.UNKNOWN_ALTERNATIVE_BEAN_CLASS_NAME, false, 7);
-		assertMarkerIsNotCreated(file, CDIValidationMessages.UNKNOWN_ALTERNATIVE_BEAN_CLASS_NAME, 19);
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, CDIValidationMessages.UNKNOWN_ALTERNATIVE_BEAN_CLASS_NAME, false, 7);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, CDIValidationMessages.UNKNOWN_ALTERNATIVE_BEAN_CLASS_NAME, 19);
 	}
 
 	/**
@@ -45,8 +46,8 @@ public class BeansXmlValidationTest extends ValidationTest {
 	 */
 	public void testIllegalAlternativeClassWithSpecifiedName() throws Exception {
 		IFile file = tckProject.getFile("WebContent/WEB-INF/beans.xml");
-		assertMarkerIsCreated(file, CDIValidationMessages.ILLEGAL_ALTERNATIVE_BEAN_CLASS, 4);
-		assertMarkerIsNotCreated(file, CDIValidationMessages.ILLEGAL_ALTERNATIVE_BEAN_CLASS, 19);
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, CDIValidationMessages.ILLEGAL_ALTERNATIVE_BEAN_CLASS, 4);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, CDIValidationMessages.ILLEGAL_ALTERNATIVE_BEAN_CLASS, 19);
 	}
 
 	/**
@@ -57,8 +58,8 @@ public class BeansXmlValidationTest extends ValidationTest {
 	 */
 	public void testNoAlternativeAnnotationWithSpecifiedName() throws Exception {
 		IFile file = tckProject.getFile("WebContent/WEB-INF/beans.xml");
-		assertMarkerIsCreated(file, CDIValidationMessages.UNKNOWN_ALTERNATIVE_ANNOTATION_NAME, 12);
-		assertMarkerIsNotCreated(file, CDIValidationMessages.UNKNOWN_ALTERNATIVE_ANNOTATION_NAME, 17);
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, CDIValidationMessages.UNKNOWN_ALTERNATIVE_ANNOTATION_NAME, 12);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, CDIValidationMessages.UNKNOWN_ALTERNATIVE_ANNOTATION_NAME, 17);
 	}
 
 	/**
@@ -68,8 +69,8 @@ public class BeansXmlValidationTest extends ValidationTest {
 	 */
 	public void testIllegalAlternativeAnnotationWithSpecifiedName() throws Exception {
 		IFile file = tckProject.getFile("WebContent/WEB-INF/beans.xml");
-		assertMarkerIsCreated(file, CDIValidationMessages.ILLEGAL_ALTERNATIVE_ANNOTATION, 15);
-		assertMarkerIsNotCreated(file, CDIValidationMessages.ILLEGAL_ALTERNATIVE_ANNOTATION, 17);
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, CDIValidationMessages.ILLEGAL_ALTERNATIVE_ANNOTATION, 15);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, CDIValidationMessages.ILLEGAL_ALTERNATIVE_ANNOTATION, 17);
 	}
 
 	/**
@@ -79,9 +80,9 @@ public class BeansXmlValidationTest extends ValidationTest {
 	 */
 	public void testSameAlternativeClassListedTwice() throws Exception {
 		IFile file = tckProject.getFile("WebContent/WEB-INF/beans.xml");
-		assertMarkerIsCreated(file, CDIValidationMessages.DUPLICATE_ALTERNATIVE_TYPE, 20, 22, 26, 27);
-		assertMarkerIsNotCreated(file, CDIValidationMessages.DUPLICATE_ALTERNATIVE_TYPE, 17);
-		assertMarkerIsNotCreated(file, CDIValidationMessages.DUPLICATE_ALTERNATIVE_TYPE, 19);
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, CDIValidationMessages.DUPLICATE_ALTERNATIVE_TYPE, 20, 22, 26, 27);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, CDIValidationMessages.DUPLICATE_ALTERNATIVE_TYPE, 17);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, CDIValidationMessages.DUPLICATE_ALTERNATIVE_TYPE, 19);
 	}
 
 	/**
@@ -91,8 +92,8 @@ public class BeansXmlValidationTest extends ValidationTest {
 	 */
 	public void testNonExistantDecoratorClassInBeansXmlNotOK() throws Exception {
 		IFile file = tckProject.getFile("WebContent/WEB-INF/beans.xml");
-		assertMarkerIsCreated(file, CDIValidationMessages.UNKNOWN_DECORATOR_BEAN_CLASS_NAME, 34);
-		assertMarkerIsNotCreated(file, CDIValidationMessages.UNKNOWN_DECORATOR_BEAN_CLASS_NAME, BAR_DECORATOR_LINE);
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, CDIValidationMessages.UNKNOWN_DECORATOR_BEAN_CLASS_NAME, 34);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, CDIValidationMessages.UNKNOWN_DECORATOR_BEAN_CLASS_NAME, BAR_DECORATOR_LINE);
 	}
 
 	/**
@@ -102,8 +103,8 @@ public class BeansXmlValidationTest extends ValidationTest {
 	 */
 	public void testEnabledDecoratorNotADecorator() throws Exception {
 		IFile file = tckProject.getFile("WebContent/WEB-INF/beans.xml");
-		assertMarkerIsCreated(file, CDIValidationMessages.ILLEGAL_DECORATOR_BEAN_CLASS, 37);
-		assertMarkerIsNotCreated(file, CDIValidationMessages.ILLEGAL_DECORATOR_BEAN_CLASS, BAR_DECORATOR_LINE);
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, CDIValidationMessages.ILLEGAL_DECORATOR_BEAN_CLASS, 37);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, CDIValidationMessages.ILLEGAL_DECORATOR_BEAN_CLASS, BAR_DECORATOR_LINE);
 	}
 
 	/**
@@ -113,8 +114,8 @@ public class BeansXmlValidationTest extends ValidationTest {
 	 */
 	public void testDecoratorListedTwiceInBeansXmlNotOK() throws Exception {
 		IFile file = tckProject.getFile("WebContent/WEB-INF/beans.xml");
-		assertMarkerIsCreated(file, CDIValidationMessages.DUPLICATE_DECORATOR_CLASS, 39, 40);
-		assertMarkerIsNotCreated(file, CDIValidationMessages.DUPLICATE_DECORATOR_CLASS, BAR_DECORATOR_LINE);
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, CDIValidationMessages.DUPLICATE_DECORATOR_CLASS, 39, 40);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, CDIValidationMessages.DUPLICATE_DECORATOR_CLASS, BAR_DECORATOR_LINE);
 	}
 
 	/**
@@ -124,8 +125,8 @@ public class BeansXmlValidationTest extends ValidationTest {
 	 */
 	public void testNonExistantClassInBeansXmlNotOk() throws Exception {
 		IFile file = tckProject.getFile("WebContent/WEB-INF/beans.xml");
-		assertMarkerIsCreated(file, CDIValidationMessages.UNKNOWN_INTERCEPTOR_CLASS_NAME, FOO_LINE);
-		assertMarkerIsNotCreated(file, CDIValidationMessages.UNKNOWN_INTERCEPTOR_CLASS_NAME, CAT_INTERCEPTOR_LINE);
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, CDIValidationMessages.UNKNOWN_INTERCEPTOR_CLASS_NAME, FOO_LINE);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, CDIValidationMessages.UNKNOWN_INTERCEPTOR_CLASS_NAME, CAT_INTERCEPTOR_LINE);
 	}
 
 	/**
@@ -135,8 +136,8 @@ public class BeansXmlValidationTest extends ValidationTest {
 	 */
 	public void testNonInterceptorClassInBeansXmlNotOk() throws Exception {
 		IFile file = tckProject.getFile("WebContent/WEB-INF/beans.xml");
-		assertMarkerIsCreated(file, CDIValidationMessages.ILLEGAL_INTERCEPTOR_CLASS, NON_INTERCEPTOR_LINE);
-		assertMarkerIsNotCreated(file, CDIValidationMessages.ILLEGAL_INTERCEPTOR_CLASS, CAT_INTERCEPTOR_LINE);
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, CDIValidationMessages.ILLEGAL_INTERCEPTOR_CLASS, NON_INTERCEPTOR_LINE);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, CDIValidationMessages.ILLEGAL_INTERCEPTOR_CLASS, CAT_INTERCEPTOR_LINE);
 	}
 
 	/**
@@ -146,7 +147,7 @@ public class BeansXmlValidationTest extends ValidationTest {
 	 */
 	public void testSameInterceptorClassListedTwiceInBeansXmlNotOk() throws Exception {
 		IFile file = tckProject.getFile("WebContent/WEB-INF/beans.xml");
-		assertMarkerIsCreated(file, CDIValidationMessages.DUPLICATE_INTERCEPTOR_CLASS, FORD_INTERCEPTOR_1_LINE, FORD_INTERCEPTOR_2_LINE);
-		assertMarkerIsNotCreated(file, CDIValidationMessages.DUPLICATE_INTERCEPTOR_CLASS, CAT_INTERCEPTOR_LINE);
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, CDIValidationMessages.DUPLICATE_INTERCEPTOR_CLASS, FORD_INTERCEPTOR_1_LINE, FORD_INTERCEPTOR_2_LINE);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, CDIValidationMessages.DUPLICATE_INTERCEPTOR_CLASS, CAT_INTERCEPTOR_LINE);
 	}
 }

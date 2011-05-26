@@ -20,9 +20,9 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.ICDIProject;
-import org.jboss.tools.cdi.core.test.tck.validation.ValidationTest;
 import org.jboss.tools.cdi.seam.config.core.validation.SeamConfigValidationMessages;
 import org.jboss.tools.test.util.ResourcesUtils;
+import org.jboss.tools.tests.AbstractResourceMarkerTest;
 
 /**
  * 
@@ -65,30 +65,30 @@ public class SeamConfigValidationTest extends TestCase {
 	}
 
 	public void testBeanResolution() throws CoreException {
-		ValidationTest.assertMarkerIsCreated(f, MessageFormat.format(SeamConfigValidationMessages.UNRESOLVED_TYPE, "v:MyBean2"), 8);
-		ValidationTest.assertMarkerIsNotCreated(f, MessageFormat.format(SeamConfigValidationMessages.UNRESOLVED_TYPE, "v:MyBean1"));
+		AbstractResourceMarkerTest.assertMarkerIsCreated(f, MessageFormat.format(SeamConfigValidationMessages.UNRESOLVED_TYPE, "v:MyBean2"), 8);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(f, MessageFormat.format(SeamConfigValidationMessages.UNRESOLVED_TYPE, "v:MyBean1"));
 	}
 
 	public void testFieldResolution() throws CoreException {
-		ValidationTest.assertMarkerIsCreated(f, MessageFormat.format(SeamConfigValidationMessages.UNRESOLVED_MEMBER, "param"), 21);
-		ValidationTest.assertMarkerIsNotCreated(f, MessageFormat.format(SeamConfigValidationMessages.UNRESOLVED_MEMBER, "value"), 28);
+		AbstractResourceMarkerTest.assertMarkerIsCreated(f, MessageFormat.format(SeamConfigValidationMessages.UNRESOLVED_MEMBER, "param"), 21);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(f, MessageFormat.format(SeamConfigValidationMessages.UNRESOLVED_MEMBER, "value"), 28);
 	}
 
 	public void testMethodResolution() throws CoreException {
 		//It is unresolved member because no member with that name is found. 
-		ValidationTest.assertMarkerIsCreated(f, MessageFormat.format(SeamConfigValidationMessages.UNRESOLVED_MEMBER, "v:method2"), 38);
+		AbstractResourceMarkerTest.assertMarkerIsCreated(f, MessageFormat.format(SeamConfigValidationMessages.UNRESOLVED_MEMBER, "v:method2"), 38);
 		
-		ValidationTest.assertMarkerIsNotCreated(f, MessageFormat.format(SeamConfigValidationMessages.UNRESOLVED_MEMBER, "v:method1"), 34);
-		ValidationTest.assertMarkerIsNotCreated(f, MessageFormat.format(SeamConfigValidationMessages.UNRESOLVED_METHOD, "v:method1"), 34);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(f, MessageFormat.format(SeamConfigValidationMessages.UNRESOLVED_MEMBER, "v:method1"), 34);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(f, MessageFormat.format(SeamConfigValidationMessages.UNRESOLVED_METHOD, "v:method1"), 34);
 
-		ValidationTest.assertMarkerIsNotCreated(f, MessageFormat.format(SeamConfigValidationMessages.UNRESOLVED_MEMBER, "v:method1"), 42);
-		ValidationTest.assertMarkerIsNotCreated(f, MessageFormat.format(SeamConfigValidationMessages.UNRESOLVED_METHOD, "v:method1"), 42);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(f, MessageFormat.format(SeamConfigValidationMessages.UNRESOLVED_MEMBER, "v:method1"), 42);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(f, MessageFormat.format(SeamConfigValidationMessages.UNRESOLVED_METHOD, "v:method1"), 42);
 
-		ValidationTest.assertMarkerIsCreated(f, MessageFormat.format(SeamConfigValidationMessages.UNRESOLVED_METHOD, "v:method1"), 47);
+		AbstractResourceMarkerTest.assertMarkerIsCreated(f, MessageFormat.format(SeamConfigValidationMessages.UNRESOLVED_METHOD, "v:method1"), 47);
 	}
 
 	public void testAnnotationMemberResolution() throws CoreException {
-		ValidationTest.assertMarkerIsCreated(f, MessageFormat.format(SeamConfigValidationMessages.UNRESOLVED_MEMBER, "v:field3"), 15);
-		ValidationTest.assertMarkerIsNotCreated(f, MessageFormat.format(SeamConfigValidationMessages.UNRESOLVED_MEMBER, "v:field1"));
+		AbstractResourceMarkerTest.assertMarkerIsCreated(f, MessageFormat.format(SeamConfigValidationMessages.UNRESOLVED_MEMBER, "v:field3"), 15);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(f, MessageFormat.format(SeamConfigValidationMessages.UNRESOLVED_MEMBER, "v:field1"));
 	}
 }
