@@ -16,6 +16,7 @@ import org.jboss.tools.cdi.core.IClassBean;
 import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.core.IInterceptorBinding;
 import org.jboss.tools.cdi.core.IInterceptorBindingDeclaration;
+import org.jboss.tools.cdi.core.IObserverMethod;
 import org.jboss.tools.cdi.core.IParametedType;
 import org.jboss.tools.cdi.core.IProducer;
 import org.jboss.tools.cdi.core.IQualifier;
@@ -236,7 +237,7 @@ public class CDIBean extends CDIElement implements IClassBean{
 	}
 
 	@Override
-	public Set<IBeanMethod> getObserverMethods() {
+	public Set<IObserverMethod> getObserverMethods() {
 		// TODO Auto-generated method stub
 		return null;
 	}
