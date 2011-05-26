@@ -23,9 +23,12 @@ public class CDISeamFacesCoreAllTests {
 	public static Test suite() {
 		JavaModelManager.getIndexManager().disable();
 
-		TestSuite suite = new TestSuite("Seam Solder Faces Tests");
+		TestSuite suiteAll = new TestSuite("Seam Faces Tests");
 
-		suite.addTestSuite(SeamFacesTagLibTest.class);
+		TestSuite suite = new TestSuite("Seam Faces Project Tests");
+		suite.addTestSuite(SeamFacesValidationTest.class);
+		suiteAll.addTest(new SeamFacesTestSetup(suite));
+		suiteAll.addTestSuite(SeamFacesTagLibTest.class);
 		return suite;
 	}
 }

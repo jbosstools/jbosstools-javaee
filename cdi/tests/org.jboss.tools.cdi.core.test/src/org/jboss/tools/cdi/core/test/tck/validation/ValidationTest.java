@@ -40,27 +40,27 @@ public class ValidationTest extends TCKTest {
 		return AbstractResourceMarkerTest.getMarkersNumberByGroupName(resource, null);
 	}
 
-	protected static void assertMarkerIsCreated(IResource resource, String pattern, int... expectedLines) throws CoreException {
+	public static void assertMarkerIsCreated(IResource resource, String pattern, int... expectedLines) throws CoreException {
 		assertMarkerIsCreated(resource, pattern, true, expectedLines);
 	}
 
-	protected static void assertMarkerIsCreated(IResource resource, String message, boolean pattern, int... expectedLines) throws CoreException {
+	public static void assertMarkerIsCreated(IResource resource, String message, boolean pattern, int... expectedLines) throws CoreException {
 		AbstractResourceMarkerTest.assertMarkerIsCreated(resource, AbstractResourceMarkerTest.MARKER_TYPE, pattern?convertMessageToPatern(message):message, pattern, expectedLines);
 	}
 
-	protected static void assertMarkerIsNotCreated(IResource resource, String message) throws CoreException {
+	public static void assertMarkerIsNotCreated(IResource resource, String message) throws CoreException {
 		AbstractResourceMarkerTest.assertMarkerIsNotCreated(resource, AbstractResourceMarkerTest.MARKER_TYPE, convertMessageToPatern(message));
 	}
 
-	protected static void assertMarkerIsNotCreated(IResource resource, String message, int expectedLine) throws CoreException {
+	public static void assertMarkerIsNotCreated(IResource resource, String message, int expectedLine) throws CoreException {
 		AbstractResourceMarkerTest.assertMarkerIsNotCreated(resource, AbstractResourceMarkerTest.MARKER_TYPE, convertMessageToPatern(message), expectedLine);
 	}
 
-	protected static void assertMarkerIsCreatedForGivenPosition(IResource resource, String message, int lineNumber, int startPosition, int endPosition) throws CoreException {
+	public static void assertMarkerIsCreatedForGivenPosition(IResource resource, String message, int lineNumber, int startPosition, int endPosition) throws CoreException {
 		AbstractResourceMarkerTest.assertMarkerIsCreatedForGivenPosition(resource, AbstractResourceMarkerTest.MARKER_TYPE, convertMessageToPatern(message), lineNumber, startPosition, endPosition);
 	}
 
-	protected static String convertMessageToPatern(String message) {
+	public static String convertMessageToPatern(String message) {
 		return message.replace("[", "\\[").replace("]", "\\]").replace("<", "\\<").replace(">", "\\>").replace("(", "\\(").replace(")", "\\)")
 				.replace("{", "\\{").replace("}", "\\}").replace("'", "\\'");
 	}
