@@ -33,7 +33,7 @@ public class SeamFacesValidationTest extends TestCase {
 	}
 
 	public void testInjectionAnnotatedInputField() throws Exception {
-		IFile file = project.getFile("src/org/jboss/beans/validation/test/Validation.java");
+		IFile file = getTestProject().getFile("src/org/jboss/beans/validation/test/Validation.java");
 		AbstractResourceMarkerTest.assertMarkerIsCreated(file, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS, 18, 23);
 		AbstractResourceMarkerTest.assertMarkerIsCreated(file, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS, 20, 28);
 
