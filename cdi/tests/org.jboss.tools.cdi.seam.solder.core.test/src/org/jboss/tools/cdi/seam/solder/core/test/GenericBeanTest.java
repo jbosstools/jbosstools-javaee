@@ -11,15 +11,20 @@
 package org.jboss.tools.cdi.seam.solder.core.test;
 
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.IType;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.IClassBean;
+import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.core.IInjectionPointField;
+import org.jboss.tools.cdi.core.IProducer;
 import org.jboss.tools.cdi.core.IProducerMethod;
 import org.jboss.tools.cdi.seam.solder.core.generic.GenericBeanProducerMethod;
 import org.jboss.tools.cdi.seam.solder.core.generic.GenericClassBean;
@@ -106,7 +111,77 @@ public class GenericBeanTest extends SeamSolderTest {
 		assertEquals("MyExtendedConfiguration", gbc.getBeanClass().getElementName());
 
 	}
+
+	public void testGenericBeanInjectionIntoGenericPoint() throws CoreException {
+		ICDIProject cdi = CDICorePlugin.getCDIProject(project, true);
+		
+		/*
+		 * Injection point: in class MyGenericBean2
+		 *     @Inject @Generic MyBean c;
+		 * There are 5 configurations, hence there are 5 beans MyGenericBean2, 
+		 * each has that injection point; 
+		 * in all cases bean is produced by MyGenericBean.createMyFirstBean()
+		 */
+		Set<IInjectionPointField> injections = getGenericInjectionPointField(cdi, "src/org/jboss/generic/MyGenericBean2.java", "c");
+		assertEquals(5, injections.size());
+		for (IInjectionPointField injection: injections) {
+			Set<IBean> bs = cdi.getBeans(false, injection);
+			assertEquals(1, bs.size());
+			IBean b = bs.iterator().next();
+			assertTrue(b instanceof IProducerMethod);
+			IProducerMethod m = (IProducerMethod)b;
+			assertEquals("createMyFirstBean", m.getMethod().getElementName());
+		}
 	
+
+	}
+
+	public void testGenericTypeInjection() throws CoreException {
+		ICDIProject cdi = CDICorePlugin.getCDIProject(project, true);
+		
+		/*
+		 * Injection point: in class MyGenericBean2
+		 *     @Inject MyGenericType type;
+		 * There are 5 configurations, hence there are 5 beans MyGenericBean2, 
+		 * each has that injection point; 
+		 * in all cases we insert a dummy bean of type org.jboss.generic.MyGenericType
+		 */
+		Set<IInjectionPointField> injections = getGenericInjectionPointField(cdi, "src/org/jboss/generic/MyGenericBean2.java", "type");
+		assertEquals(5, injections.size());
+		for (IInjectionPointField injection: injections) {
+			Set<IBean> bs = cdi.getBeans(false, injection);
+			assertEquals(1, bs.size());
+			IBean b = bs.iterator().next();
+			assertTrue(b instanceof IClassBean);
+			IType t = ((IClassBean)b).getBeanClass();
+			assertEquals("org.jboss.generic.MyGenericType", t.getFullyQualifiedName());
+		}
+		
+	}
 	//TODO - more tests
+
+	protected Set<IInjectionPointField> getGenericInjectionPointField(ICDIProject cdi, String beanClassFilePath, String fieldName) {
+		Set<IInjectionPointField> result = new HashSet<IInjectionPointField>();
+		IFile file = cdi.getNature().getProject().getFile(beanClassFilePath);
+		Set<IBean> beans = cdi.getBeans(file.getFullPath());
+		Iterator<IBean> it = beans.iterator();
+		while(it.hasNext()) {
+			IBean b = it.next();
+			if(b instanceof IProducer) it.remove();
+		}
+
+		for (IBean b: beans) {
+			Set<IInjectionPoint> injections = b.getInjectionPoints();
+			for (IInjectionPoint injectionPoint : injections) {
+				if(injectionPoint instanceof IInjectionPointField) {
+					IInjectionPointField field = (IInjectionPointField)injectionPoint;
+					if(fieldName.equals(field.getField().getElementName())) {
+						result.add(field);
+					}
+				}
+			}
+		}
+		return result;
+	}
 
 }
