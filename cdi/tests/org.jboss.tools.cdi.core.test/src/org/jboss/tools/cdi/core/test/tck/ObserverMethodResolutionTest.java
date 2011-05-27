@@ -12,10 +12,13 @@ package org.jboss.tools.cdi.core.test.tck;
 
 import java.util.Set;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.jdt.core.IMethod;
 import org.jboss.tools.cdi.core.IBean;
+import org.jboss.tools.cdi.core.IClassBean;
 import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.core.IInjectionPointField;
+import org.jboss.tools.cdi.core.IInjectionPointMethod;
 import org.jboss.tools.cdi.core.IInjectionPointParameter;
 import org.jboss.tools.cdi.core.IObserverMethod;
 import org.jboss.tools.cdi.core.IParameter;
@@ -110,6 +113,30 @@ public class ObserverMethodResolutionTest extends TCKTest {
 		Set<IInjectionPoint> points = recognizedFriendObserver.getClassBean().getCDIProject().findObservedEvents(observerParameter);
 		assertTrue(points.size() == 1);
 		assertTrue(points.contains(friendlyEvent));
+	}
+
+	public void testResolveObserverMethod() {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/event/fires/DogWhisperer.java");
+		Set<IBean> beans = cdiProject.getBeans(file.getFullPath());
+		IClassBean cb = null;
+		for (IBean b: beans) {
+			if(b instanceof IClassBean) {
+				cb = (IClassBean)b;
+			}
+		}
+		assertNotNull(cb);
+		Set<IInjectionPoint> ps = cb.getInjectionPoints();
+		IInjectionPointMethod mp = null;
+		for (IInjectionPoint p: ps) {
+			if(p instanceof IInjectionPointMethod) {
+				mp = (IInjectionPointMethod)p;
+			}
+		}
+		assertNotNull(mp);
+		assertEquals("foo", mp.getMethod().getElementName());
+		//no exception should happen on invoking resolveObserverMethods
+		cdiProject.resolveObserverMethods(mp);
+		
 	}
 
 
