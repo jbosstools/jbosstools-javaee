@@ -139,7 +139,7 @@ public class InjectedPointHyperlinkDetector extends AbstractHyperlinkDetector{
 		if(resultBeanList.size() > 0){
 			hyperlinks.add(new InjectedPointHyperlink(region, resultBeanList.get(0), document, true));
 			if(alternativeBeanList.size() > 1)
-				hyperlinks.add(new AlternativeInjectedPointListHyperlink(region, alternativeBeanList, viewer, document, hyperlinks.size()));
+				hyperlinks.add(new AlternativeInjectedPointListHyperlink(region, alternativeBeanList, viewer, document));
 		}
 	}
 }

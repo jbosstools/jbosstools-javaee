@@ -24,13 +24,11 @@ public class ObserverMethodListHyperlink extends AbstractHyperlink{
 	private ITextViewer viewer;
 	private Set<IObserverMethod> observerMethods;
 	private IRegion region;
-	private int previousIndex;
 	
-	public ObserverMethodListHyperlink(ITextViewer viewer, IRegion region, Set<IObserverMethod> observerMethods, IDocument document, int previousIndex){
+	public ObserverMethodListHyperlink(ITextViewer viewer, IRegion region, Set<IObserverMethod> observerMethods, IDocument document){
 		this.viewer = viewer;
 		this.observerMethods = observerMethods;
 		this.region = region;
-		this.previousIndex = previousIndex;
 		setDocument(document);
 	}
 
@@ -55,7 +53,7 @@ public class ObserverMethodListHyperlink extends AbstractHyperlink{
 		if(hyperlinks.length == 1){
 			((ObserverMethodHyperlink)hyperlinks[0]).doHyperlink(region);
 		}else{
-			MultipleHyperlinkPresenterManager.installAndShow(viewer, hyperlinks, previousIndex);
+			MultipleHyperlinkPresenterManager.installAndShow(viewer, hyperlinks);
 		}
 	}
 

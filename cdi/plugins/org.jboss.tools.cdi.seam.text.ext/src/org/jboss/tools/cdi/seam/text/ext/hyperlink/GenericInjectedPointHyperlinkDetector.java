@@ -172,7 +172,7 @@ public class GenericInjectedPointHyperlinkDetector extends AbstractHyperlinkDete
 		if(resultBeanList.size() == 1) {
 			hyperlinks.add(new GenericInjectedPointHyperlink(region, resultBeanList.get(0), document, true));
 		} else if(resultBeanList.size() > 0) {
-			hyperlinks.add(new GenericInjectedPointListHyperlink(region, resultBeanList, viewer, document, hyperlinks.size()));
+			hyperlinks.add(new GenericInjectedPointListHyperlink(region, resultBeanList, viewer, document));
 		}
 	}
 

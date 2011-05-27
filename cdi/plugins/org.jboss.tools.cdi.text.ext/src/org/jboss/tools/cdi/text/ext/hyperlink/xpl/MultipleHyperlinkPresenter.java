@@ -595,10 +595,10 @@ public class MultipleHyperlinkPresenter  extends DefaultHyperlinkPresenter {
 		 * @see org.eclipse.jface.text.AbstractInformationControlManager#showInformationControl(org.eclipse.swt.graphics.Rectangle)
 		 */
 		protected void showInformationControl(Rectangle subjectArea) {
-			int offset = fTextViewer.getTextWidget().getLineHeight()*(index+1);
-			Rectangle bounds = ((IInformationControlExtension3)fInformationControl).getBounds();
-			Point location = new Point(bounds.x, bounds.y+offset);
+			Point point = Display.getCurrent().getCursorLocation();
+			Point location = new Point(point.x-20, point.y-20);
 			fInformationControl.setLocation(location);
+			
 			if (fTextViewer instanceof IWidgetTokenOwnerExtension) {
 				if (((IWidgetTokenOwnerExtension) fTextViewer).requestWidgetToken(this, WIDGET_TOKEN_PRIORITY))
 					super.showInformationControl(subjectArea);
@@ -764,15 +764,11 @@ public class MultipleHyperlinkPresenter  extends DefaultHyperlinkPresenter {
 		fHyperlinks= null;
 	}
 	
-	private static int index=0;
-
 	/*
 	 * @see org.eclipse.jface.text.hyperlink.DefaultHyperlinkPresenter#showHyperlinks(org.eclipse.jface.text.hyperlink.IHyperlink[])
 	 */
-	public void showHyperlinks(IHyperlink[] hyperlinks, int index) {
+	public void showHyperlinks(IHyperlink[] hyperlinks) {
 		super.showHyperlinks(new IHyperlink[] { hyperlinks[0] });
-		
-		this.index = index;
 		
 		fSubjectRegion= null;
 		fHyperlinks= hyperlinks;

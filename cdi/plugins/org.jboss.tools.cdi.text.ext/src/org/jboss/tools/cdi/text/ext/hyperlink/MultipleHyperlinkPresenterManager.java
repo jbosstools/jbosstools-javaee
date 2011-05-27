@@ -23,12 +23,12 @@ public class MultipleHyperlinkPresenterManager {
 	private static boolean installed = false;
 	private static MyPartListener listener = new MyPartListener();
 	
-	public static void installAndShow(ITextViewer viewer, IHyperlink[] hyperlinks, int previousIndex){
+	public static void installAndShow(ITextViewer viewer, IHyperlink[] hyperlinks){
 		if(installed)
 			uninstall();
 		
 		mhp.install(viewer);
-		mhp.showHyperlinks(hyperlinks, previousIndex);
+		mhp.showHyperlinks(hyperlinks);
 		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getPartService().addPartListener(listener);
 		installed = true;
 	}

@@ -24,13 +24,11 @@ public class EventListHyperlink extends AbstractHyperlink{
 	private ITextViewer viewer;
 	private Set<IInjectionPoint> events;
 	private IRegion region;
-	private int previousIndex;
 	
-	public EventListHyperlink(ITextViewer viewer, IRegion region, Set<IInjectionPoint> events, IDocument document, int previousIndex){
+	public EventListHyperlink(ITextViewer viewer, IRegion region, Set<IInjectionPoint> events, IDocument document){
 		this.viewer = viewer;
 		this.events = events;
 		this.region = region;
-		this.previousIndex = previousIndex;
 		setDocument(document);
 	}
 
@@ -55,7 +53,7 @@ public class EventListHyperlink extends AbstractHyperlink{
 		if(hyperlinks.length == 1){
 			((EventHyperlink)hyperlinks[0]).doHyperlink(region);
 		}else{
-			MultipleHyperlinkPresenterManager.installAndShow(viewer, hyperlinks, previousIndex);
+			MultipleHyperlinkPresenterManager.installAndShow(viewer, hyperlinks);
 		}
 	}
 

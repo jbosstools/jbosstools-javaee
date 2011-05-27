@@ -24,8 +24,8 @@ public class GenericInjectedPointListHyperlink extends
 		AlternativeInjectedPointListHyperlink {
 
 	public GenericInjectedPointListHyperlink(IRegion region, List<IBean> beans,
-			ITextViewer viewer, IDocument document, int previousIndex) {
-		super(region, beans, viewer, document, previousIndex);
+			ITextViewer viewer, IDocument document) {
+		super(region, beans, viewer, document);
 	}
 
 	@Override
