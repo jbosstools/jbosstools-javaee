@@ -67,6 +67,7 @@ import org.jboss.tools.seam.core.ISeamXmlComponentDeclaration;
 import org.jboss.tools.seam.core.ISeamXmlFactory;
 import org.jboss.tools.seam.core.ScopeType;
 import org.jboss.tools.seam.core.SeamComponentMethodType;
+import org.jboss.tools.seam.core.SeamCoreBuilder;
 import org.jboss.tools.seam.core.SeamCoreMessages;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.SeamPreferences;
@@ -123,6 +124,10 @@ public class SeamCoreValidator extends SeamValidationErrorManager implements IVa
 	 */
 	public String getId() {
 		return ID;
+	}
+
+	public String getBuilderId() {
+		return SeamCoreBuilder.BUILDER_ID;
 	}
 
 	/*
