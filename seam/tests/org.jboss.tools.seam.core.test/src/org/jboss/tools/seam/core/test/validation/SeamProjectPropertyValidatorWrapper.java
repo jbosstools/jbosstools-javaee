@@ -20,6 +20,7 @@ import org.jboss.tools.jst.web.kb.validation.IProjectValidationContext;
 import org.jboss.tools.jst.web.kb.validation.IValidatingProjectTree;
 import org.jboss.tools.jst.web.kb.validation.IValidationErrorManager;
 import org.jboss.tools.jst.web.kb.validation.IValidator;
+import org.jboss.tools.seam.core.SeamCoreBuilder;
 import org.jboss.tools.seam.internal.core.validation.SeamProjectPropertyValidator;
 import org.jboss.tools.seam.internal.core.validation.SeamValidationErrorManager;
 
@@ -108,6 +109,10 @@ public class SeamProjectPropertyValidatorWrapper extends SeamProjectPropertyVali
 
 	public String getId() {
 		return "id";
+	}
+
+	public String getBuilderId() {
+		return SeamCoreBuilder.BUILDER_ID;
 	}
 
 	public IValidatingProjectTree getValidatingProjects(IProject project) {
