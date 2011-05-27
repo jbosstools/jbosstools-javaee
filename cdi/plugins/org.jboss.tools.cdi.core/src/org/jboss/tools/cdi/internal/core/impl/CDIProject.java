@@ -839,7 +839,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 	 * @return
 	 */
 	private IParametedType getEventType(IParametedType t) {
-		if(t.getType() == null || !CDIConstants.EVENT_TYPE_NAME.equals(t.getType().getFullyQualifiedName())) {
+		if(t == null || t.getType() == null || !CDIConstants.EVENT_TYPE_NAME.equals(t.getType().getFullyQualifiedName())) {
 			return null;
 		}
 		List<? extends IParametedType> ps = t.getParameters();
