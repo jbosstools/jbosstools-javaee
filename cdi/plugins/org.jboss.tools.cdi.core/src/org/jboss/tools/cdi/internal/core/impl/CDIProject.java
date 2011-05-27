@@ -807,7 +807,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 	public Set<IObserverMethod> resolveObserverMethods(IInjectionPoint injectionPoint) {
 		Set<IObserverMethod> result = new HashSet<IObserverMethod>();
 
-		IParametedType eventType = getEventType(injectionPoint.getType());
+		IParametedType eventType = getEventType(injectionPoint);
 		
 		if(eventType != null) {
 			for (IBean ib: allBeans) {
@@ -838,7 +838,8 @@ public class CDIProject extends CDIElement implements ICDIProject {
 	 * @param t
 	 * @return
 	 */
-	private IParametedType getEventType(IParametedType t) {
+	private IParametedType getEventType(IInjectionPoint p) {
+		IParametedType t = p.getType();
 		if(t == null || t.getType() == null || !CDIConstants.EVENT_TYPE_NAME.equals(t.getType().getFullyQualifiedName())) {
 			return null;
 		}
@@ -867,8 +868,8 @@ public class CDIProject extends CDIElement implements ICDIProject {
 				IClassBean b = (IClassBean)ib;
 				Set<IInjectionPoint> ps = b.getInjectionPoints();
 				for (IInjectionPoint p: ps) {
-					if(p instanceof IInjectionPointField && p.getType() != null) {
-						IParametedType eventType = getEventType(p.getType());
+					if(p instanceof IInjectionPointField) {
+						IParametedType eventType = getEventType(p);
 						if(eventType != null && ((ParametedType)eventType).isAssignableTo((ParametedType)paramType, true)) {
 							if(areMatchingEventQualifiers(observedEventParameter, p)) {
 								 result.put(((IInjectionPointField)p).getField(), p);
