@@ -25,6 +25,7 @@ public class CDISeamSolderCoreAllTests {
 
 		TestSuite suiteAll = new TestSuite("CDI Solder Core Tests");
 
+		suiteAll.addTestSuite(GenericBeanTest.class);
 		suiteAll.addTestSuite(BeanNamingTest.class);
 		suiteAll.addTestSuite(VetoTest.class);
 		suiteAll.addTestSuite(ExactTest.class);
