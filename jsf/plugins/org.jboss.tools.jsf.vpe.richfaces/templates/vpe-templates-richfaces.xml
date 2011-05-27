@@ -264,6 +264,11 @@
 		</vpe:template>
 	</vpe:tag>
 
+	<vpe:tag name="rich:dragSource" case-sensitive="yes">
+		<vpe:template children="no" modify="no">
+		</vpe:template>
+	</vpe:tag>
+	
 	<vpe:tag name="rich:dragSupport" case-sensitive="yes">
 		<vpe:template children="no" modify="no" />
 	</vpe:tag>
@@ -288,6 +293,11 @@
 		<vpe:template children="no" modify="no" />
 	</vpe:tag>
 
+	<vpe:tag name="rich:dropTarget" case-sensitive="yes">
+		<vpe:template children="no" modify="no">
+		</vpe:template>
+	</vpe:tag>
+	
 	<!-- Since RichFaces 3.3.0 -->
 	<vpe:tag name="rich:editor" case-sensitive="yes">
 		<vpe:if test="tld_version('min=3.3')">
@@ -370,6 +380,11 @@
 		<vpe:template children="yes" modify="no" />
 	</vpe:tag>
 
+	<vpe:tag name="rich:hashParam" case-sensitive="yes">
+		<vpe:template children="no" modify="no">
+		</vpe:template>
+	</vpe:tag>
+	
 	<vpe:tag name="rich:hotKey" case-sensitive="yes">
 		<vpe:template children="yes" modify="no" />
 	</vpe:tag>
@@ -982,6 +997,18 @@
 		</vpe:template>
 	</vpe:tag>
 
+	<vpe:tag name="rich:treeSelectionChangeListener" case-sensitive="yes">
+		<vpe:template children="no" modify="no" />
+	</vpe:tag>
+	
+	<vpe:tag name="rich:treeToggleListener" case-sensitive="yes">
+		<vpe:template children="no" modify="no" />
+	</vpe:tag>
+	
+	<vpe:tag name="rich:validator" case-sensitive="yes">
+		<vpe:template children="no" modify="no" />
+	</vpe:tag>
+	
 	<vpe:tag name="rich:virtualEarth" case-sensitive="yes">
 		<vpe:template children="no" modify="yes"
 			class="org.jboss.tools.jsf.vpe.richfaces.template.RichFacesVirtualEarthTemplate">
