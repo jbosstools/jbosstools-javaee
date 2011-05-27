@@ -49,6 +49,7 @@ import org.eclipse.wst.common.componentcore.resources.IVirtualFile;
 import org.eclipse.wst.validation.internal.core.ValidationException;
 import org.eclipse.wst.validation.internal.provisional.core.IReporter;
 import org.jboss.tools.cdi.core.CDIConstants;
+import org.jboss.tools.cdi.core.CDICoreBuilder;
 import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.CDIUtil;
@@ -131,6 +132,10 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 	 */
 	public String getId() {
 		return ID;
+	}
+
+	public String getBuilderId() {
+		return CDICoreBuilder.BUILDER_ID;
 	}
 
 	/*
