@@ -23,7 +23,8 @@ Require-Bundle: org.eclipse.ui;bundle-version="3.7.0",
  org.eclipse.equinox.preferences;bundle-version="3.4.0",
  org.eclipse.wst.sse.core;bundle-version="1.1.600",
  org.eclipse.jdt.ui;bundle-version="3.7.0",
- org.apache.ant;bundle-version="1.7.1"
+ org.apache.ant;bundle-version="1.7.1",
+ org.jboss.tools.jst.web
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-Vendor: JBoss by Red Hat

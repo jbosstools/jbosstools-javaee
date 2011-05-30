@@ -20,6 +20,7 @@ import java.util.jar.JarFile;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.IField;
 import org.eclipse.jdt.core.IJavaProject;
@@ -36,6 +37,8 @@ import org.eclipse.wst.common.componentcore.resources.IVirtualComponent;
 import org.eclipse.wst.common.componentcore.resources.IVirtualReference;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.text.ITextSourceReference;
+import org.jboss.tools.jst.web.WebModelPlugin;
+import org.jboss.tools.jst.web.kb.IKbProject;
 import org.jboss.tools.seam.core.project.facet.SeamRuntime;
 import org.jboss.tools.seam.internal.core.AbstractContextVariable;
 import org.jboss.tools.seam.internal.core.SeamComponentDeclaration;
@@ -44,6 +47,22 @@ import org.jboss.tools.seam.internal.core.SeamComponentDeclaration;
  * @author Alexey Kazakov
  */
 public class SeamUtil {
+
+	public static void enableSeamSupport(IProject project) {
+		if(project==null) {
+			return;
+		}
+		try {
+//			EclipseResourceUtil.addNatureToProject(project,	ISeamProject.NATURE_ID);
+			if(!project.hasNature(IKbProject.NATURE_ID)) {
+				EclipseResourceUtil.addNatureToProject(project, IKbProject.NATURE_ID);
+			}
+//			EclipseResourceUtil.addBuilderToProject(project, ValidationPlugin.VALIDATION_BUILDER_ID);
+			WebModelPlugin.addNatureToProjectWithValidationSupport(project, SeamCoreBuilder.BUILDER_ID, ISeamProject.NATURE_ID);
+		} catch (CoreException e) {
+			SeamCorePlugin.getPluginLog().logError(e);
+		}
+	}
 
 	/**
 	 * Returns Seam version from <Seam Runtime>/lib/jboss-seam.jar/META-INF/MANIFEST.MF

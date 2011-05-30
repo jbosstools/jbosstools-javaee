@@ -10,7 +10,6 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.core;
 
-
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -55,13 +54,13 @@ import org.eclipse.wst.common.componentcore.resources.IVirtualFolder;
 import org.eclipse.wst.common.project.facet.core.IFacetedProject;
 import org.eclipse.wst.common.project.facet.core.IProjectFacetVersion;
 import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
-import org.eclipse.wst.validation.internal.plugin.ValidationPlugin;
 import org.jboss.tools.cdi.internal.core.impl.ClassBean;
 import org.jboss.tools.common.EclipseUtil;
 import org.jboss.tools.common.model.util.EclipseJavaUtil;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.text.ITextSourceReference;
 import org.jboss.tools.common.zip.UnzipOperation;
+import org.jboss.tools.jst.web.WebModelPlugin;
 import org.jboss.tools.jst.web.kb.IKbProject;
 import org.osgi.framework.Bundle;
 
@@ -83,8 +82,7 @@ public class CDIUtil {
 			if (!project.hasNature(IKbProject.NATURE_ID)) {
 				EclipseResourceUtil.addNatureToProject(project, IKbProject.NATURE_ID);
 			}
-			EclipseUtil.addNatureToProject(project, CDICoreNature.NATURE_ID);
-			EclipseResourceUtil.addBuilderToProject(project, ValidationPlugin.VALIDATION_BUILDER_ID);
+			WebModelPlugin.addNatureToProjectWithValidationSupport(project, CDICoreBuilder.BUILDER_ID, CDICoreNature.NATURE_ID);
 			if(genearteBeansXml) {
 				File beansXml = getBeansXml(project);
 				if(beansXml!=null && !beansXml.exists()) {
@@ -103,7 +101,7 @@ public class CDIUtil {
 		}
 	}
 
-	/**
+    /**
 	 * Removes CDI builder from the project.
 	 * 
 	 * @param project
