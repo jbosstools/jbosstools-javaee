@@ -53,14 +53,12 @@ import org.eclipse.wst.common.project.facet.core.IFacetedProject;
 import org.eclipse.wst.common.project.facet.core.IProjectFacet;
 import org.eclipse.wst.common.project.facet.core.IProjectFacetVersion;
 import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
-import org.eclipse.wst.validation.internal.plugin.ValidationPlugin;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.ui.IValidator;
 import org.jboss.tools.common.ui.preferences.SettingsPage;
 import org.jboss.tools.common.ui.widget.editor.IFieldEditor;
 import org.jboss.tools.common.ui.widget.editor.IFieldEditorFactory;
 import org.jboss.tools.common.ui.wizard.IParameter;
-import org.jboss.tools.jst.web.kb.IKbProject;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.SeamProjectsSet;
@@ -758,8 +756,8 @@ public class SeamSettingsPreferencePage extends SettingsPage {
 	@Override
 	public boolean performOk() {
 		if (isSeamSupported()) {
-			addSeamSupport(project);
-			addSeamSupport(warProject);
+			SeamUtil.enableSeamSupport(project);
+			SeamUtil.enableSeamSupport(warProject);
 			if (warProject != null) {
 				IEclipsePreferences prefs = SeamCorePlugin.getSeamPreferences(warProject);
 				prefs.putBoolean(ISeamFacetDataModelProperties.SEAM_SETTINGS_CHANGED_BY_USER, true);
@@ -952,21 +950,6 @@ public class SeamSettingsPreferencePage extends SettingsPage {
 	private void removeSeamSupport() {
 		try {
 			EclipseResourceUtil.removeNatureFromProject(project, ISeamProject.NATURE_ID);
-		} catch (CoreException e) {
-			SeamGuiPlugin.getPluginLog().logError(e);
-		}
-	}
-
-	private void addSeamSupport(IProject project) {
-		if(project==null) {
-			return;
-		}
-		try {
-			EclipseResourceUtil.addNatureToProject(project,	ISeamProject.NATURE_ID);
-			if(!project.hasNature(IKbProject.NATURE_ID)) {
-				EclipseResourceUtil.addNatureToProject(project, IKbProject.NATURE_ID);
-			}
-			EclipseResourceUtil.addBuilderToProject(project, ValidationPlugin.VALIDATION_BUILDER_ID);
 		} catch (CoreException e) {
 			SeamGuiPlugin.getPluginLog().logError(e);
 		}
