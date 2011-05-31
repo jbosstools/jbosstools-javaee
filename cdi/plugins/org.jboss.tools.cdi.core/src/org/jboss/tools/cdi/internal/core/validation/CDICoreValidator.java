@@ -171,11 +171,19 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 	 */
 	public boolean shouldValidate(IProject project) {
 		try {
-			return project != null && project.isAccessible() && project.hasNature(CDICoreNature.NATURE_ID) && isEnabled(project);
+			return project != null 
+					&& project.isAccessible() 
+					&& project.hasNature(CDICoreNature.NATURE_ID) 
+					&& validateBuilderOrder(project)
+					&& isEnabled(project);
 		} catch (CoreException e) {
 			CDICorePlugin.getDefault().logError(e);
 		}
 		return false;
+	}
+
+	private boolean validateBuilderOrder(IProject project) throws CoreException {
+		return ValidatorManager.validateBuilderOrder(project, getBuilderId(), getId(), CDIPreferences.getInstance());
 	}
 
 	/*

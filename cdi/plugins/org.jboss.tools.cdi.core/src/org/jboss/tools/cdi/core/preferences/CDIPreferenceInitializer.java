@@ -29,6 +29,7 @@ public class CDIPreferenceInitializer extends AbstractPreferenceInitializer {
 	public void initializeDefaultPreferences() {
 		IEclipsePreferences defaultPreferences = ((IScopeContext) new DefaultScope()).getNode(CDICorePlugin.PLUGIN_ID);
 		defaultPreferences.putBoolean(SeverityPreferences.ENABLE_BLOCK_PREFERENCE_NAME, true);
+		defaultPreferences.put(SeverityPreferences.WRONG_BUILDER_ORDER_PREFERENCE_NAME, CDIPreferences.ERROR);
 		for (String name : CDIPreferences.SEVERITY_OPTION_NAMES) {
 			defaultPreferences.put(name, SeverityPreferences.ERROR);
 		}

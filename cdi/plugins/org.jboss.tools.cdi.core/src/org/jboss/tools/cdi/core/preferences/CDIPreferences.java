@@ -305,4 +305,5 @@ public class CDIPreferences extends SeverityPreferences {
 	public static int getMaxNumberOfProblemMarkersPerFile(IProject project) {
 		return INSTANCE.getMaxNumberOfProblemMarkersPerResource(project);
 	}
+
 }
