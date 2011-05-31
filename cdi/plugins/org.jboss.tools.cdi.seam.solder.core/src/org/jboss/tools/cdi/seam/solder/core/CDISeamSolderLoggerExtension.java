@@ -130,19 +130,23 @@ public class CDISeamSolderLoggerExtension implements ICDIExtension, IBuildPartic
 			return copy;
 		}
 
+		@Override
 		protected void doApplyWorkingCopy() {
 			messageLoggers = ((LoggerDefinitionContext)workingCopy).messageLoggers;
 			messageBundles = ((LoggerDefinitionContext)workingCopy).messageBundles;
 		}
 
+		@Override
 		public void clean() {
 			messageLoggers.clear();
 			messageBundles.clear();			
 		}
 
+		@Override
 		public void clean(IPath path) {
 		}
 
+		@Override
 		public void clean(String typeName) {
 			messageLoggers.remove(typeName);
 			messageBundles.remove(typeName);

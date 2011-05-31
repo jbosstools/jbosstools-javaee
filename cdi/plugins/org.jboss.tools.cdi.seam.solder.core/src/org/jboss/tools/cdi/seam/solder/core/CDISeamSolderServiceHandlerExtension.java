@@ -118,17 +118,19 @@ public class CDISeamSolderServiceHandlerExtension implements ICDIExtension, IBui
 			return copy;
 		}
 
+		@Override
 		protected void doApplyWorkingCopy() {
 			services = ((ServiceHandlerDefinitionContext)workingCopy).services;
 			serviceAnnotations = ((ServiceHandlerDefinitionContext)workingCopy).serviceAnnotations;
 		}
-		
 
+		@Override
 		public void clean() {
 			services.clear();
 			serviceAnnotations.clear();
 		}
 
+		@Override
 		public void clean(String typeName) {
 			services.remove(typeName);
 			serviceAnnotations.remove(typeName);
@@ -143,18 +145,17 @@ public class CDISeamSolderServiceHandlerExtension implements ICDIExtension, IBui
 		public Map<String, TypeDefinition> getServices() {
 			return services;
 		}
-		
+
+		@Override
 		public void computeAnnotationKind(AnnotationDefinition annotation) {
 			if(annotation.isAnnotationPresent(CDISeamSolderConstants.SERVICE_HANDLER_TYPE_ANNOTATION_TYPE_NAME)) {
 				annotation.setExtendedKind(CDISeamSolderConstants.SERVICE_ANNOTATION_KIND);
 				serviceAnnotations.add(annotation.getType().getFullyQualifiedName());
 			}
 		}
-	
+
 		public boolean isServiceAnnotation(IType type) {
 			return (type != null && serviceAnnotations.contains(type.getFullyQualifiedName()));
 		}
-
 	}
-
 }

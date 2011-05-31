@@ -12,7 +12,6 @@ package org.jboss.tools.cdi.seam.solder.core.definition;
 
 import org.eclipse.jdt.core.IType;
 import org.jboss.tools.cdi.core.extension.IDefinitionContextExtension;
-import org.jboss.tools.cdi.internal.core.impl.definition.AbstractMemberDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.AbstractTypeDefinition;
 
 /**

@@ -32,10 +32,12 @@ public class GenericClassBean extends ClassBean {
 	
 	public GenericClassBean() {}
 
+	@Override
 	protected ProducerMethod newProducerMethod(MethodDefinition m) {
 		return new GenericBeanProducerMethod();
 	}
 
+	@Override
 	protected ProducerField newProducerField(FieldDefinition f) {
 		return new GenericBeanProducerField();
 	}
@@ -56,6 +58,7 @@ public class GenericClassBean extends ClassBean {
 		return null;
 	}
 
+	@Override
 	protected void computeScope() {
 		if(definition.isAnnotationPresent(CDISeamSolderConstants.APPLY_SCOPE_ANNOTATION_TYPE_NAME)) {
 			IBean generic = getGenericProducerBean();
@@ -67,5 +70,4 @@ public class GenericClassBean extends ClassBean {
 			super.computeScope();
 		}
 	}
-
 }

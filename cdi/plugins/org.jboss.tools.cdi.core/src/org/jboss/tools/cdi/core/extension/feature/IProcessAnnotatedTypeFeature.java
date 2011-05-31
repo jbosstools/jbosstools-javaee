@@ -10,7 +10,6 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.core.extension.feature;
 
-
 import org.jboss.tools.cdi.core.IRootDefinitionContext;
 import org.jboss.tools.cdi.internal.core.impl.definition.TypeDefinition;
 
@@ -24,7 +23,7 @@ public interface IProcessAnnotatedTypeFeature {
 
 	/**
 	 * Method is called after CDI builder loaded type definitions and before they are 
-	 * used to build beans. Client may change type definitions and there members or veto them.
+	 * used to build beans. Client may change type definitions or their members or veto them.
 	 * 
 	 * @param typeDefinition
 	 * @param context

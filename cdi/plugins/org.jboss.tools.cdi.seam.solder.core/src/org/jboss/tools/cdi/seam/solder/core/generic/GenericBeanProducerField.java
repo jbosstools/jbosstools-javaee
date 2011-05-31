@@ -24,6 +24,7 @@ public class GenericBeanProducerField extends ProducerField {
 
 	public GenericBeanProducerField() {}
 
+	@Override
 	public IScope getScope() {
 		IScope result = null;
 		if(definition.isAnnotationPresent(CDISeamSolderConstants.APPLY_SCOPE_ANNOTATION_TYPE_NAME)) {
@@ -39,5 +40,4 @@ public class GenericBeanProducerField extends ProducerField {
 		}
 		return result;
 	}
-
 }

@@ -36,16 +36,19 @@ public class GenericBeanDefinitionContext extends AbstractDefinitionContextExten
 		return copy;
 	}
 
+	@Override
 	protected void doApplyWorkingCopy() {
 		genericConfiguartions = ((GenericBeanDefinitionContext)workingCopy).genericConfiguartions;
 		//
 	}
 
+	@Override
 	public void clean() {
 		genericConfiguartions.clear();
 		//
 	}
 
+	@Override
 	public void clean(String typeName) {
 		genericConfiguartions.remove(typeName);
 		for (GenericConfiguration c: genericConfiguartions.values()) {
@@ -54,6 +57,7 @@ public class GenericBeanDefinitionContext extends AbstractDefinitionContextExten
 		//
 	}
 
+	@Override
 	public void computeAnnotationKind(AnnotationDefinition annotation) {
 		if(annotation.isAnnotationPresent(CDISeamSolderConstants.GENERIC_TYPE_ANNOTATION_TYPE_NAME)) {
 			annotation.setExtendedKind(CDISeamSolderConstants.GENERIC_ANNOTATION_KIND);
@@ -78,5 +82,4 @@ public class GenericBeanDefinitionContext extends AbstractDefinitionContextExten
 		}
 		return result;
 	}
-
 }

@@ -10,8 +10,6 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.core.extension;
 
-import org.eclipse.core.runtime.IAdaptable;
-
 /**
  * This object represents CDI runtime extension in JBoss Tools CDI model.
  * It is not necessarily one to one mapping between CDI runtime extension implementation classes 

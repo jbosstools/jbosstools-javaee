@@ -20,6 +20,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.ISourceRange;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.SourceRange;
+import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.IParametedType;
 import org.jboss.tools.cdi.core.IRootDefinitionContext;
 import org.jboss.tools.cdi.internal.core.impl.ParametedType;
@@ -53,6 +54,7 @@ public class AbstractTypeDefinition extends AbstractMemberDefinition {
 		return isVetoed;
 	}
 
+	@Override
 	public AbstractTypeDefinition getTypeDefinition() {
 		return this;
 	}
@@ -139,13 +141,11 @@ public class AbstractTypeDefinition extends AbstractMemberDefinition {
 				try {
 					init();
 				} catch (CoreException e) {
-					//ignore
+					CDICorePlugin.getDefault().logError(e);
 				}
 			}
-			
+
 			return map.get(superTypeName);
 		}
-		
 	}
-
 }

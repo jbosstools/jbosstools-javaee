@@ -10,7 +10,6 @@
  ******************************************************************************/ 
 package org.jboss.tools.cdi.core.extension;
 
-import org.eclipse.jdt.core.IType;
 import org.jboss.tools.cdi.core.IDefinitionContext;
 import org.jboss.tools.cdi.core.IRootDefinitionContext;
 import org.jboss.tools.cdi.internal.core.impl.definition.AnnotationDefinition;
