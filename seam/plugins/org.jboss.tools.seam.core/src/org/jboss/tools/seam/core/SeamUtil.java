@@ -39,6 +39,7 @@ import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.text.ITextSourceReference;
 import org.jboss.tools.jst.web.WebModelPlugin;
 import org.jboss.tools.jst.web.kb.IKbProject;
+import org.jboss.tools.jst.web.kb.internal.KbBuilder;
 import org.jboss.tools.seam.core.project.facet.SeamRuntime;
 import org.jboss.tools.seam.internal.core.AbstractContextVariable;
 import org.jboss.tools.seam.internal.core.SeamComponentDeclaration;
@@ -53,11 +54,7 @@ public class SeamUtil {
 			return;
 		}
 		try {
-//			EclipseResourceUtil.addNatureToProject(project,	ISeamProject.NATURE_ID);
-			if(!project.hasNature(IKbProject.NATURE_ID)) {
-				EclipseResourceUtil.addNatureToProject(project, IKbProject.NATURE_ID);
-			}
-//			EclipseResourceUtil.addBuilderToProject(project, ValidationPlugin.VALIDATION_BUILDER_ID);
+			WebModelPlugin.addNatureToProjectWithValidationSupport(project, KbBuilder.BUILDER_ID, IKbProject.NATURE_ID);
 			WebModelPlugin.addNatureToProjectWithValidationSupport(project, SeamCoreBuilder.BUILDER_ID, ISeamProject.NATURE_ID);
 		} catch (CoreException e) {
 			SeamCorePlugin.getPluginLog().logError(e);

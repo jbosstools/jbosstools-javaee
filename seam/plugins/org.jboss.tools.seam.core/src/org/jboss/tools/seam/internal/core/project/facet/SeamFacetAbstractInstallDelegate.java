@@ -866,7 +866,8 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 		if(projectType != ProjectType.EAR) {
 			ClasspathHelper.addClasspathEntries(project, fv);
 			createSeamProjectPreferenes(project, model);
-			EclipseResourceUtil.addNatureToProject(project, ISeamProject.NATURE_ID);
+//			EclipseResourceUtil.addNatureToProject(project, ISeamProject.NATURE_ID);
+			SeamUtil.enableSeamSupport(project);
 		}
 
 		project.refreshLocal(IResource.DEPTH_INFINITE, monitor);

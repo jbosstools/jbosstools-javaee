@@ -62,6 +62,7 @@ import org.jboss.tools.common.text.ITextSourceReference;
 import org.jboss.tools.common.zip.UnzipOperation;
 import org.jboss.tools.jst.web.WebModelPlugin;
 import org.jboss.tools.jst.web.kb.IKbProject;
+import org.jboss.tools.jst.web.kb.internal.KbBuilder;
 import org.osgi.framework.Bundle;
 
 /**
@@ -79,9 +80,7 @@ public class CDIUtil {
 	 */
 	public static void enableCDI(IProject project, boolean genearteBeansXml, IProgressMonitor monitor) {
 		try {
-			if (!project.hasNature(IKbProject.NATURE_ID)) {
-				EclipseResourceUtil.addNatureToProject(project, IKbProject.NATURE_ID);
-			}
+			WebModelPlugin.addNatureToProjectWithValidationSupport(project, KbBuilder.BUILDER_ID, IKbProject.NATURE_ID);
 			WebModelPlugin.addNatureToProjectWithValidationSupport(project, CDICoreBuilder.BUILDER_ID, CDICoreNature.NATURE_ID);
 			if(genearteBeansXml) {
 				File beansXml = getBeansXml(project);
