@@ -44,5 +44,5 @@ class DogWhisperer
       praiseEvent.fire(new Praise());
    }
   
-   @Inject void foo(Object o) {}
+   @Inject void foo(String o) {}
 }
