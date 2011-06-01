@@ -1,5 +1,5 @@
 /******************************************************************************* 
- * Copyright (c) 2010 Red Hat, Inc. 
+ * Copyright (c) 2010-2011 Red Hat, Inc. 
  * Distributed under license by Red Hat, Inc. All rights reserved. 
  * This program is made available under the terms of the 
  * Eclipse Public License v1.0 which accompanies this distribution, 
@@ -12,8 +12,12 @@ package org.jboss.tools.cdi.internal.core.validation;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
+import org.jboss.tools.cdi.core.CDICoreBuilder;
 import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.CDICorePlugin;
+import org.jboss.tools.cdi.core.preferences.CDIPreferences;
+import org.jboss.tools.jst.web.kb.internal.validation.ELValidator;
+import org.jboss.tools.jst.web.kb.internal.validation.ValidatorManager;
 import org.jboss.tools.jst.web.kb.validation.IELValidationDelegate;
 import org.jboss.tools.jst.web.kb.validation.IValidatingProjectTree;
 
@@ -34,10 +38,22 @@ public class CDIELValidationDelegate implements IELValidationDelegate {
 	 */
 	public boolean shouldValidate(IProject project) {
 		try {
-			return project != null && project.isAccessible() && project.hasNature(CDICoreNature.NATURE_ID);
+			return project != null 
+					&& project.isAccessible() 
+					&& project.hasNature(CDICoreNature.NATURE_ID)
+					&& validateBuilderOrder(project);
 		} catch (CoreException e) {
 			CDICorePlugin.getDefault().logError(e);
 		}
 		return false;
 	}
+
+	private boolean validateBuilderOrder(IProject project) throws CoreException {
+		return ValidatorManager.validateBuilderOrder(project, getBuilderId(), ELValidator.ID + "-CDI", CDIPreferences.getInstance());
+	}
+
+	public String getBuilderId() {
+		return CDICoreBuilder.BUILDER_ID;
+	}
+
 }
