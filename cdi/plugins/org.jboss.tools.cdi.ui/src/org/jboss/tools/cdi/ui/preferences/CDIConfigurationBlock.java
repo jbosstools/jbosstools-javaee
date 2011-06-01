@@ -178,6 +178,7 @@ public class CDIConfigurationBlock extends SeverityConfigurationBlock {
 			}
 		}
 		keys.add(MAX_NUMBER_OF_PROBLEMS_KEY);
+		keys.add(WRONG_BUILDER_ORDER_KEY);
 		return keys.toArray(new Key[0]);
 	}
 
@@ -186,6 +187,12 @@ public class CDIConfigurationBlock extends SeverityConfigurationBlock {
 	@Override
 	protected Key getMaxNumberOfProblemsKey() {
 		return MAX_NUMBER_OF_PROBLEMS_KEY;
+	}
+
+	private static final Key WRONG_BUILDER_ORDER_KEY = getKey(CDICorePlugin.PLUGIN_ID, SeverityPreferences.WRONG_BUILDER_ORDER_PREFERENCE_NAME);
+
+	protected Key getWrongBuilderOrderKey() {
+		return WRONG_BUILDER_ORDER_KEY;
 	}
 
 	public CDIConfigurationBlock(IStatusChangeListener context,
