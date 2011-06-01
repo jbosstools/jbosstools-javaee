@@ -195,12 +195,14 @@ public final class SeamELCompletionEngine extends AbstractELCompletionEngine<ISe
 				if (key.indexOf('.') != -1) {
 					TextProposal proposal = new TextProposal();
 					proposal.setReplacementString("['" + key + "']");
+					proposal.setLabel("['" + key + "']");
 					proposal.setImage(SEAM_MESSAGES_PROPOSAL_IMAGE);
 					
 					kbProposals.add(proposal);
 				} else {
 					TextProposal proposal = new TextProposal();
 					proposal.setReplacementString(key);
+					proposal.setLabel(key);
 					proposal.setImage(SEAM_MESSAGES_PROPOSAL_IMAGE);
 					
 					kbProposals.add(proposal);
