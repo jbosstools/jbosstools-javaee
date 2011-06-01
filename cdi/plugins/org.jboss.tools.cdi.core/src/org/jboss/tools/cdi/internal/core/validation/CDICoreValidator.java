@@ -832,7 +832,7 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 					 * 10.4.2. Declaring an observer method
 					 *  - bean with scope @Dependent has an observer method declared notifyObserver=IF_EXISTS
 					 */
-					if(CDIConstants.DEPENDENT_ANNOTATION_TYPE_NAME.equals(bean.getScope().getSourceType().getFullyQualifiedName())) {
+					if(bean.getScope()!=null && CDIConstants.DEPENDENT_ANNOTATION_TYPE_NAME.equals(bean.getScope().getSourceType().getFullyQualifiedName())) {
 						ICompilationUnit unit = observer.getMethod().getCompilationUnit();
 						if(unit!=null) {
 							try {
@@ -1453,7 +1453,7 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 						 * 	- If an injection point whose declared type cannot be proxied by the container resolves to a bean with a normal scope,
 						 * 	  the container automatically detects the problem and treats it as a deployment problem.
 						 */
-						if(bean.getScope().isNorlmalScope() && injection.getType()!=null) {
+						if(bean.getScope()!=null && bean.getScope().isNorlmalScope() && injection.getType()!=null) {
 							 // - Array types cannot be proxied by the container.
 							String typeSignature = injection.getType().getSignature();
 							int kind = Signature.getTypeSignatureKind(typeSignature);
