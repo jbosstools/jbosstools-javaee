@@ -14,12 +14,12 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.jboss.tools.jst.web.kb.internal.validation.ELValidator;
 import org.jboss.tools.jst.web.kb.internal.validation.ValidatorManager;
+import org.jboss.tools.jst.web.kb.preferences.ELSeverityPreferences;
 import org.jboss.tools.jst.web.kb.validation.IELValidationDelegate;
 import org.jboss.tools.jst.web.kb.validation.IValidatingProjectTree;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCoreBuilder;
 import org.jboss.tools.seam.core.SeamCorePlugin;
-import org.jboss.tools.seam.core.SeamPreferences;
 
 /**
  * @author Alexey Kazakov
@@ -49,7 +49,8 @@ public class SeamELValidationDelegate implements IELValidationDelegate {
 	}
 
 	private boolean validateBuilderOrder(IProject project) throws CoreException {
-		return ValidatorManager.validateBuilderOrder(project, getBuilderId(), ELValidator.ID + "-Seam", SeamPreferences.getInstance());
+		//It's EL, hence EL preferences, not Seam preferences.
+		return ValidatorManager.validateBuilderOrder(project, getBuilderId(), ELValidator.ID + "-Seam", ELSeverityPreferences.getInstance());
 	}
 
 	public String getBuilderId() {
