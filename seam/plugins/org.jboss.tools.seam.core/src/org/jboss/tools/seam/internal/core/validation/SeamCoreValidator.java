@@ -46,7 +46,6 @@ import org.jboss.tools.jst.web.kb.internal.validation.ContextValidationHelper;
 import org.jboss.tools.jst.web.kb.internal.validation.SimpleValidatingProjectTree;
 import org.jboss.tools.jst.web.kb.internal.validation.ValidatingProjectSet;
 import org.jboss.tools.jst.web.kb.internal.validation.ValidatorManager;
-import org.jboss.tools.jst.web.kb.preferences.ELSeverityPreferences;
 import org.jboss.tools.jst.web.kb.validation.IProjectValidationContext;
 import org.jboss.tools.jst.web.kb.validation.IValidatingProjectSet;
 import org.jboss.tools.jst.web.kb.validation.IValidatingProjectTree;
@@ -202,7 +201,7 @@ public class SeamCoreValidator extends SeamValidationErrorManager implements IVa
 	}
 
 	private boolean validateBuilderOrder(IProject project) throws CoreException {
-		return ValidatorManager.validateBuilderOrder(project, getBuilderId(), getId(), SeamPreferences.getInstance());
+		return ValidatorManager.validateBuilderOrder(project, getBuilderId(), SeamPreferences.getInstance());
 	}
 
 	/*
