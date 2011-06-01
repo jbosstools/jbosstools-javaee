@@ -11,6 +11,8 @@
 package org.jboss.tools.jsf.text.ext.hyperlink;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.jface.text.IDocument;
@@ -36,10 +38,10 @@ import org.jboss.tools.jst.web.kb.PageContextFactory;
 import org.jboss.tools.jst.web.kb.PageProcessor;
 import org.jboss.tools.jst.web.kb.internal.taglib.AbstractAttribute;
 import org.jboss.tools.jst.web.kb.internal.taglib.AbstractComponent;
-import org.jboss.tools.jst.web.kb.internal.taglib.FaceletTag;
 import org.jboss.tools.jst.web.kb.internal.taglib.TLDTag;
 import org.jboss.tools.jst.web.kb.taglib.IAttribute;
 import org.jboss.tools.jst.web.kb.taglib.IComponent;
+import org.jboss.tools.jst.web.kb.taglib.INameSpace;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -77,7 +79,10 @@ public class JsfJSPTagNameHyperlinkDetector extends AbstractHyperlinkDetector {
 			int i = tagName.indexOf(":");
 			KbQuery query = new KbQuery();
 			query.setType(KbQuery.Type.TAG_NAME);
+			
 			if(i > 0) query.setPrefix(tagName.substring(0, i));
+			else query.setPrefix("");
+			
 			query.setOffset(reg.getOffset());
 			query.setValue(tagName);
 			query.setUri(getURI(region, textViewer.getDocument()));
@@ -89,7 +94,7 @@ public class JsfJSPTagNameHyperlinkDetector extends AbstractHyperlinkDetector {
 				IComponent[] components = PageProcessor.getInstance().getComponents(query, (IPageContext)context);
 				ArrayList<IHyperlink> hyperlinks = new ArrayList<IHyperlink>();
 				for(IComponent component : components){
-					if(validateComponent(component)){
+					if(validateComponent(component, ((IPageContext)context).getNameSpaces(reg.getOffset()), query.getPrefix())){
 						TLDTagHyperlink link = new TLDTagHyperlink((AbstractComponent)component, reg);
 						link.setDocument(textViewer.getDocument());
 						hyperlinks.add(link);
@@ -104,7 +109,10 @@ public class JsfJSPTagNameHyperlinkDetector extends AbstractHyperlinkDetector {
 			int i = tagName.indexOf(":");
 			KbQuery query = new KbQuery();
 			query.setType(KbQuery.Type.ATTRIBUTE_NAME);
+			
 			if(i > 0) query.setPrefix(tagName.substring(0, i));
+			else query.setPrefix("");
+			
 			query.setUri(getURI(region, textViewer.getDocument()));
 			query.setParentTags(new String[]{tagName});
 			query.setParent(tagName);
@@ -118,7 +126,7 @@ public class JsfJSPTagNameHyperlinkDetector extends AbstractHyperlinkDetector {
 				IAttribute[] components = PageProcessor.getInstance().getAttributes(query, (IPageContext)context);
 				ArrayList<IHyperlink> hyperlinks = new ArrayList<IHyperlink>();
 				for(IAttribute attribute : components){
-					if(validateComponent(attribute.getComponent())){
+					if(validateComponent(attribute.getComponent(), ((IPageContext)context).getNameSpaces(reg.getOffset()), query.getPrefix())){
 						TLDAttributeHyperlink link = new TLDAttributeHyperlink((AbstractAttribute)attribute, reg);
 						link.setDocument(textViewer.getDocument());
 						hyperlinks.add(link);
@@ -133,8 +141,11 @@ public class JsfJSPTagNameHyperlinkDetector extends AbstractHyperlinkDetector {
 		return parse(textViewer.getDocument(), xmlDocument, region);
 	}
 	
-	private boolean validateComponent(IComponent component){
-		if(component instanceof TLDTag || component instanceof FaceletTag){
+	private boolean validateComponent(IComponent component, Map<String, List<INameSpace>> nameSpaces, String prefix){
+		if(!validateNameSpace(component, nameSpaces, prefix))
+			return false;
+		
+		if(component instanceof AbstractComponent){
 			IFile file = TLDTagHyperlink.getFile((AbstractComponent)component);
 			
 			if(file != null && file.getFullPath() != null && file.getFullPath().toString().endsWith(".jar")) {
@@ -144,6 +155,18 @@ public class JsfJSPTagNameHyperlinkDetector extends AbstractHyperlinkDetector {
 						return true;
 			}else if(file != null)
 				return true;
+		}
+		return false;
+	}
+	
+	private boolean validateNameSpace(IComponent component, Map<String, List<INameSpace>> nameSpaces, String prefix){
+		String uri = component.getTagLib().getURI();
+		List<INameSpace> list = nameSpaces.get(uri);
+		if(list != null){
+			for(INameSpace nameSpace : list){
+				if(nameSpace.getPrefix().equals(prefix))
+					return true;
+			}
 		}
 		return false;
 	}
