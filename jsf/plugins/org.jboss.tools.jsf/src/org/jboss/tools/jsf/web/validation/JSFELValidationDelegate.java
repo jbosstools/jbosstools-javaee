@@ -31,6 +31,7 @@ import org.jboss.tools.jst.web.kb.validation.IValidatingProjectTree;
  * @author Alexey Kazakov
  */
 public class JSFELValidationDelegate implements IELValidationDelegate {
+	public static final String ID = "org.jboss.tools.jsf.JSFELValidationDelegate";
 
 	/* (non-Javadoc)
 	 * @see org.jboss.tools.jst.web.kb.validation.IELValidationDelegate#getValidatingProjects(org.eclipse.core.resources.IProject)
@@ -57,5 +58,9 @@ public class JSFELValidationDelegate implements IELValidationDelegate {
 			JSFModelPlugin.getDefault().logError(e);
 		}
 		return false;
+	}
+
+	public String getID() {
+		return ID;
 	}
 }

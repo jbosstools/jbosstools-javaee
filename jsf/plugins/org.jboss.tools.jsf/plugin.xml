@@ -482,8 +482,10 @@
    </extension>
 
    <extension
+   		 id="org.jboss.tools.jsf.web.validation.JSFELValidationDelegate"
          point="org.jboss.tools.jst.web.kb.elValidationDelegate">
          <delegate
+               name="%JSFELValidationDelegate"
                class="org.jboss.tools.jsf.web.validation.JSFELValidationDelegate">
          </delegate>
    </extension>
