@@ -518,16 +518,20 @@
    </extension>
 
    <extension
+         id="CoreValidator"
          point="org.jboss.tools.jst.web.kb.validator">
          <validator
                class="org.jboss.tools.seam.internal.core.validation.SeamCoreValidator"
+               name="%SeamCoreValidator"
                id="org.jboss.tools.seam.core.CoreValidator">
          </validator>
    </extension>
 
    <extension
+         id="SeamELValidationDelegate"
          point="org.jboss.tools.jst.web.kb.elValidationDelegate">
          <delegate
+         	   name="%SeamELValidationDelegate"
                class="org.jboss.tools.seam.internal.core.validation.SeamELValidationDelegate">
          </delegate>
    </extension>
