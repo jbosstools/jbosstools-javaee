@@ -94,4 +94,5 @@ public interface CDIConstants {
 	public String WELD_BEAN_MANAGER_TYPE_NAME = "org.jboss.weld.manager.BeanManagerImpl";
 
 	public String SEAM_FACES_INPUT_FIELD_TYPE_NAME = "org.jboss.seam.faces.validation.InputField";
+	public String SEAM_FACES_INPUT_ELEMENT_TYPE_NAME = "org.jboss.seam.faces.validation.InputElement";
 }
