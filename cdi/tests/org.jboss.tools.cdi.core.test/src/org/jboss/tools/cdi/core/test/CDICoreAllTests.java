@@ -44,11 +44,13 @@ import org.jboss.tools.cdi.core.test.tck.StereotypeDefinitionTest;
 import org.jboss.tools.cdi.core.test.tck.StereotypeInheritenceTest;
 import org.jboss.tools.cdi.core.test.tck.validation.AnnotationsValidationTest;
 import org.jboss.tools.cdi.core.test.tck.validation.BeansXmlValidationTest;
+import org.jboss.tools.cdi.core.test.tck.validation.BuilderOrderValidationTest;
 import org.jboss.tools.cdi.core.test.tck.validation.CoreValidationTest;
 import org.jboss.tools.cdi.core.test.tck.validation.DefenitionErrorsValidationTest;
 import org.jboss.tools.cdi.core.test.tck.validation.DependentProjectValidationTest;
 import org.jboss.tools.cdi.core.test.tck.validation.DeploymentProblemsValidationTests;
 import org.jboss.tools.cdi.core.test.tck.validation.ELValidationTest;
+import org.jboss.tools.test.util.ProjectImportTestSetup;
 
 /**
  * @author Alexey Kazakov
@@ -107,7 +109,16 @@ public class CDICoreAllTests {
 		suiteAll.addTestSuite(EnableCDISupportForJarTest.class);
 		suiteAll.addTestSuite(DependentProjectValidationTest.class);
 		suiteAll.addTest(new CDICoreTestSetup(suite));
+		
+		suite = new TestSuite(BuilderOrderValidationTest.class.getName());
+		suite.addTestSuite(BuilderOrderValidationTest.class);
+		ProjectImportTestSetup testSetup = new ProjectImportTestSetup(suite,
+				"org.jboss.tools.cdi.core.test",
+				new String[]{"projects/CDITestBrokenBuilderOrder"},
+				new String[]{"CDITestBrokenBuilderOrder"});
+		suiteAll.addTest(testSetup);
 
 		return suiteAll;
 	}
+
 }
