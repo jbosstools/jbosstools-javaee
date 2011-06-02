@@ -1,5 +1,6 @@
 package org.jboss.tools.cdi.text.ext.test;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.core.resources.IFile;
@@ -35,7 +36,7 @@ import org.jboss.tools.common.text.ext.hyperlink.IHyperlinkRegion;
 import org.jboss.tools.common.text.ext.util.AxisUtil;
 
 public class HyperlinkDetectorTest  extends TCKTest {
-	protected void checkRegions(String fileName, List<Region> regionList, AbstractHyperlinkDetector elPartitioner) throws Exception {
+	protected void checkRegions(String fileName, List<TestRegion> regionList, AbstractHyperlinkDetector elPartitioner) throws Exception {
 		IFile file = tckProject.getFile(fileName);
 
 		assertNotNull("The file \"" + fileName + "\" is not found", file);
@@ -65,8 +66,8 @@ public class HyperlinkDetectorTest  extends TCKTest {
 		assertNotNull("The document for the file \"" + fileName + "\" is not loaded", document);
 
 		int expected = 0;
-		for(Region region : regionList)
-			expected += region.getLength()+1;
+		for(TestRegion testRegion : regionList)
+			expected += testRegion.region.getLength()+1;
 		
 		IEditorPart part = openFileInEditor(file);
 		ISourceViewer viewer = null;
@@ -85,14 +86,17 @@ public class HyperlinkDetectorTest  extends TCKTest {
 
 			if (recognized) {
 				counter++;
-				if(!findOffsetInRegions(i, regionList)){
+				TestRegion testRegion = findOffsetInRegions(i, regionList); 
+				if(testRegion == null){
 					fail("Wrong detection for offset - "+i);
+				}else{
+					checkTestRegion(links, testRegion);
 				}
 			} else {
-				for(Region region : regionList){
-					if(i >= region.getOffset() && i <= region.getOffset()+region.getLength()) {
-						int line = document.getLineOfOffset(region.getOffset());
-						fail("Wrong detection for region - "+region.getOffset()+" : "+region.getLength()+" region - "+i);
+				for(TestRegion testRegion : regionList){
+					if(i >= testRegion.region.getOffset() && i <= testRegion.region.getOffset()+testRegion.region.getLength()) {
+						int line = document.getLineOfOffset(testRegion.region.getOffset());
+						fail("Wrong detection for region - "+testRegion.region.getOffset()+" : "+testRegion.region.getLength()+" region - "+i);
 					}
 				}
 			}
@@ -101,6 +105,36 @@ public class HyperlinkDetectorTest  extends TCKTest {
 		assertEquals("Wrong recognized region count: ", expected,  counter);
 
 		documentProvider.disconnect(editorInput);
+	}
+	
+	protected void checkTestRegion(IHyperlink[] links, TestRegion testRegion){
+		for(IHyperlink link : links){
+			TestHyperlink testLink = findTestHyperlink(testRegion.hyperlinks, link);
+			assertNotNull("Unexpected hyperlink - "+link.getHyperlinkText(), testLink);
+			assertEquals("Unexpected hyperlink type", testLink.hyperlink, link.getClass());
+			assertTrue("Validation fails for hyperlink - "+link.getHyperlinkText(), testLink.validateHyperlink(link));
+		}
+		
+		for(TestHyperlink testLink : testRegion.hyperlinks){
+			IHyperlink link = findHyperlink(links, testLink);
+			assertNotNull("Hyperlink - "+testLink.name+" not found", link);
+		}
+	}
+	
+	protected TestHyperlink findTestHyperlink(List<TestHyperlink> testHyperlinks, IHyperlink link){
+		for(TestHyperlink testLink : testHyperlinks){
+			if(testLink.name.equals(link.getHyperlinkText()))
+				return testLink;
+		}
+		return null;
+	}
+
+	protected IHyperlink findHyperlink(IHyperlink[] links, TestHyperlink testLink){
+		for(IHyperlink link : links){
+			if(testLink.name.equals(link.getHyperlinkText()))
+				return link;
+		}
+		return null;
 	}
 
 	protected void checkHyperLinkInXml(String fileName, int offset, String hyperlinkClassName) throws Exception {
@@ -142,12 +176,12 @@ public class HyperlinkDetectorTest  extends TCKTest {
 		return null;
 	}
 
-	protected boolean findOffsetInRegions(int offset, List<Region> regionList){
-		for(Region region : regionList){
-			if(offset >= region.getOffset() && offset <= region.getOffset()+region.getLength())
-				return true;
+	protected TestRegion findOffsetInRegions(int offset, List<TestRegion> regionList){
+		for(TestRegion testRegion : regionList){
+			if(offset >= testRegion.region.getOffset() && offset <= testRegion.region.getOffset()+testRegion.region.getLength())
+				return testRegion;
 		}
-		return false;
+		return null;
 	}
 
 	public static IEditorPart openFileInEditor(IFile input) {
@@ -268,6 +302,32 @@ public class HyperlinkDetectorTest  extends TCKTest {
 			if(adapter.equals(ITextEditor.class))
 				return editor;
 			return null;
+		}
+	}
+	
+	public class TestRegion{
+		Region region;
+		ArrayList<TestHyperlink> hyperlinks = new ArrayList<TestHyperlink>();
+		
+		public TestRegion(int offset, int length, TestHyperlink[] testHyperlinks){
+			region = new Region(offset, length);
+			for(TestHyperlink testHyperlink : testHyperlinks){
+				hyperlinks.add(testHyperlink);
+			}
+		}
+	}
+	
+	public class TestHyperlink{
+		Class<? extends IHyperlink> hyperlink;
+		String name;
+		
+		public TestHyperlink(Class<? extends IHyperlink> hyperlink, String name){
+			this.hyperlink = hyperlink;
+			this.name = name;
+		}
+		
+		public boolean validateHyperlink(IHyperlink hyperlink){
+			return true;
 		}
 	}
 }

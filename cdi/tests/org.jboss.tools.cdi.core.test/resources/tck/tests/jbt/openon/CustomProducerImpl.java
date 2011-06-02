@@ -1,15 +1,10 @@
 package org.jboss.jsr299.tck.tests.jbt.openon;
 
 import javax.enterprise.inject.Disposes;
-import javax.enterprise.inject.New;
 import javax.enterprise.inject.Produces;
 
 
-/**
- * @author pmuir
- *
- */
-public class CustomProducerImpl implements Producer
+public class CustomProducerImpl
 {
    
    private static boolean disposedCorrectly = false;
@@ -23,20 +18,14 @@ public class CustomProducerImpl implements Producer
    }
    
    @Produces
-   public Foo produce()
+   public Something produce(Something order)
    {
-      return new Foo("foo!");
+      return new Something();
    }
    
-   @Produces
-   public Foo produce2(Foo order)
+   public void dispose(@Disposes Something toDispose)
    {
-      return new Foo("foo!");
-   }
-   
-   public void dispose(@Disposes Foo foo)
-   {
-      disposedCorrectly = foo.getFoo().equals("decorated");
+      
    }
    
    /**
@@ -45,6 +34,10 @@ public class CustomProducerImpl implements Producer
    public static boolean isDisposedCorrectly()
    {
       return disposedCorrectly;
+   }
+   
+   public class Something{
+	   
    }
 
 }
