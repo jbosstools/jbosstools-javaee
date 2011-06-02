@@ -138,16 +138,20 @@
    </extension>
 
    <extension
+   		 id="CoreValidator"
          point="org.jboss.tools.jst.web.kb.validator">
          <validator
                class="org.jboss.tools.cdi.internal.core.validation.CDICoreValidator"
+               name="%CDICoreValidator"
                id="org.jboss.tools.cdi.core.CoreValidator">
          </validator>
    </extension>
 
    <extension
+   		 id="CDIELValidationDelegate"
          point="org.jboss.tools.jst.web.kb.elValidationDelegate">
          <delegate
+         	   name="%CDIELValidationDelegate"
                class="org.jboss.tools.cdi.internal.core.validation.CDIELValidationDelegate">
          </delegate>
    </extension>

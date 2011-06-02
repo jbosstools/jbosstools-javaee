@@ -183,7 +183,7 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 	}
 
 	private boolean validateBuilderOrder(IProject project) throws CoreException {
-		return ValidatorManager.validateBuilderOrder(project, getBuilderId(), CDIPreferences.getInstance());
+		return ValidatorManager.validateBuilderOrder(project, getBuilderId(), getId(), CDIPreferences.getInstance());
 	}
 
 	/*

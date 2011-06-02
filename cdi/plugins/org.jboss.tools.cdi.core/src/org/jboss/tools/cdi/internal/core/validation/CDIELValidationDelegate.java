@@ -15,6 +15,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.jboss.tools.cdi.core.CDICoreBuilder;
 import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.CDICorePlugin;
+import org.jboss.tools.jst.web.kb.internal.validation.ELValidator;
 import org.jboss.tools.jst.web.kb.internal.validation.ValidatorManager;
 import org.jboss.tools.jst.web.kb.preferences.ELSeverityPreferences;
 import org.jboss.tools.jst.web.kb.validation.IELValidationDelegate;
@@ -24,6 +25,7 @@ import org.jboss.tools.jst.web.kb.validation.IValidatingProjectTree;
  * @author Alexey Kazakov
  */
 public class CDIELValidationDelegate implements IELValidationDelegate {
+	public static final String ID = "org.jboss.tools.cdi.core.CDIELValidationDelegate";
 
 	/* (non-Javadoc)
 	 * @see org.jboss.tools.jst.web.kb.validation.IELValidationDelegate#getValidatingProjects(org.eclipse.core.resources.IProject)
@@ -49,10 +51,15 @@ public class CDIELValidationDelegate implements IELValidationDelegate {
 
 	private boolean validateBuilderOrder(IProject project) throws CoreException {
 		//It's EL, hence EL preferences, not CDI preferences.
-		return ValidatorManager.validateBuilderOrder(project, getBuilderId(), ELSeverityPreferences.getInstance());
+		return ValidatorManager.validateBuilderOrder(project, getBuilderId(), getID(), ELSeverityPreferences.getInstance()); //$NON-NLS-1$
+	}
+
+	public String getID() {
+		return ID;
 	}
 
 	public String getBuilderId() {
 		return CDICoreBuilder.BUILDER_ID;
 	}
+
 }
