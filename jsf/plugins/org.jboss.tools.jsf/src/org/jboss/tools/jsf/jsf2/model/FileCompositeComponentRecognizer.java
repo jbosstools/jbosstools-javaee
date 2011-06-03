@@ -20,12 +20,22 @@ public class FileCompositeComponentRecognizer implements EntityRecognizer, Compo
 	}
 
     private boolean isComponents(String body) {
-    	int i = body.indexOf("<html"); //$NON-NLS-1$
-    	if(i < 0) return false;
-    	int j = body.indexOf(">", i); //$NON-NLS-1$
-    	if(j < 0) return false;
-    	String s = body.substring(i, j);
-    	return s.indexOf("\"" + COMPOSITE_XMLNS + "\"") > 0; //$NON-NLS-1$ //$NON-NLS-2$
+    	String q = "\""; //$NON-NLS-1$
+    	int i = body.indexOf(q + COMPOSITE_XMLNS + q);
+    	while(i > 0) {
+    		int j = body.lastIndexOf("xmlns", i); //$NON-NLS-1$
+    		if(j > 0) {
+    			int k = body.indexOf("=", j); //$NON-NLS-1$
+    			if(k > j && k < i) {
+    				int l = body.indexOf(q, k);
+    				if(l == i) {
+    					return true;
+    				}
+    			}
+    		}
+    		i = body.indexOf(q + COMPOSITE_XMLNS + q, i + 1);
+    	}
+    	return false;
     }
-    
+
 }
