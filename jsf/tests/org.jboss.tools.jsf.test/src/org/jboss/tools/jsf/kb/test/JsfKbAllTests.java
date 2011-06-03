@@ -24,6 +24,7 @@ public class JsfKbAllTests {
 	public static Test suite() {
 		TestSuite suite = new TestSuite(JsfKbAllTests.class.getName());
 		suite.addTestSuite(FaceletsKbModelTest.class);
+		suite.addTestSuite(KbModelTest.class);
 		ProjectImportTestSetup testSetup = new XProjectImportTestSetUp(suite,
 				"org.jboss.tools.jsf.test",
 				new String[]{"projects/TestKbModel"},
