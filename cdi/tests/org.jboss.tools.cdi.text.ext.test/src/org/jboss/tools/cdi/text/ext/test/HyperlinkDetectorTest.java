@@ -2,6 +2,7 @@ package org.jboss.tools.cdi.text.ext.test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
@@ -322,6 +323,7 @@ public class HyperlinkDetectorTest  extends TCKTest {
 	public class TestHyperlink{
 		Class<? extends IHyperlink> hyperlink;
 		ICDIElement element = null;
+		String[] elementPaths = null;
 		String name;
 		
 		public TestHyperlink(Class<? extends IHyperlink> hyperlink, String name){
@@ -333,12 +335,44 @@ public class HyperlinkDetectorTest  extends TCKTest {
 			this(hyperlink, name);
 			this.element = element;
 		}
+
+		public TestHyperlink(Class<? extends IHyperlink> hyperlink, String name, String[] elementPaths){
+			this(hyperlink, name);
+			this.elementPaths = elementPaths;
+		}
 		
 		public boolean validateHyperlink(IHyperlink hyperlink){
-			if(hyperlink instanceof ITestableCDIHyperlink && element != null){
+			if(hyperlink instanceof ITestableCDIHyperlink && ((ITestableCDIHyperlink)hyperlink).getCDIElement() != null && element != null){
 				assertEquals(element, ((ITestableCDIHyperlink)hyperlink).getCDIElement());
+			}else if(hyperlink instanceof ITestableCDIHyperlink && ((ITestableCDIHyperlink)hyperlink).getCDIElements() != null && elementPaths != null){
+				for(ICDIElement element : ((ITestableCDIHyperlink)hyperlink).getCDIElements()){
+					String elementPath = findElementPath(elementPaths, element);
+					assertNotNull("Unexpected CDI element - "+element.getSourcePath().toString(), elementPath);
+				}
+				
+				for(String elementPath : elementPaths){
+					ICDIElement element = findCDIElement(((ITestableCDIHyperlink)hyperlink).getCDIElements(), elementPath);
+					assertNotNull("CDI element - "+elementPath+" not found", element);
+				}
 			}
 			return true;
 		}
+		
+		protected String findElementPath(String[] elementPaths, ICDIElement element){
+			for(String elementPath : elementPaths){
+				if(elementPath.equals(element.getSourcePath().toString()))
+					return elementPath;
+			}
+			return null;
+		}
+
+		protected ICDIElement findCDIElement(Set<? extends ICDIElement> elements, String elementPath){
+			for(ICDIElement element : elements){
+				if(elementPath.equals(element.getSourcePath().toString()))
+					return element;
+			}
+			return null;
+		}
+
 	}
 }
