@@ -1,0 +1,11 @@
+package org.jboss.jsr299.tck.tests.jbt.validation.inject.revalidation;
+
+import javax.enterprise.inject.Produces;
+
+public class MarketPlace {
+
+	@Produces
+	public Fruit createFruit() {
+		return new Fruit();
+	}
+}

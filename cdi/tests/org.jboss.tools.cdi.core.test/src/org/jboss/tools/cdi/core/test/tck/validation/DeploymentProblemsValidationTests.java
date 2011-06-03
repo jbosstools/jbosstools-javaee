@@ -17,6 +17,8 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.jboss.tools.cdi.internal.core.validation.CDIValidationMessages;
+import org.jboss.tools.jst.jsp.test.TestUtil;
+import org.jboss.tools.jst.web.kb.internal.validation.ValidatorManager;
 import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.ResourcesUtils;
 import org.jboss.tools.tests.AbstractResourceMarkerTest;
@@ -275,6 +277,41 @@ public class DeploymentProblemsValidationTests extends ValidationTest {
 		JobUtils.waitForIdle(1000);
 		tckProject.build(IncrementalProjectBuilder.INCREMENTAL_BUILD, new NullProgressMonitor());
 		JobUtils.waitForIdle(1000);
+
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(testInjection, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS, 7);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(testInjection, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS, 7);
+
+		ResourcesUtils.setBuildAutomatically(saveAutoBuild);
+		JobUtils.waitForIdle();
+	}
+
+	/**
+	 * See https://issues.jboss.org/browse/JBIDE-9071
+	 * @throws Exception
+	 */
+	public void testInjectionPointResolvedToProducerRevalidation() throws Exception {
+		boolean saveAutoBuild = ResourcesUtils.setBuildAutomatically(false);
+		JobUtils.waitForIdle();
+
+		IFile testInjection = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/inject/revalidation/TestBeanForProducerBroken.java");
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(testInjection, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS, 7);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(testInjection, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS, 7);
+
+		IFile testBean = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/inject/revalidation/MarketPlace.java");
+		IFile testBeanImpl = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/inject/revalidation/MarketPlace.validation");
+		ValidatorManager.setStatus("TESTING");
+		testBean.setContents(testBeanImpl.getContents(), IFile.FORCE, new NullProgressMonitor());
+		tckProject.build(IncrementalProjectBuilder.INCREMENTAL_BUILD, new NullProgressMonitor());
+		TestUtil.waitForValidation(tckProject);
+
+		AbstractResourceMarkerTest.assertMarkerIsCreated(testInjection, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS, 7);
+
+		testBeanImpl = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/inject/revalidation/MarketPlace.java");
+		testBean = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/inject/revalidation/MarketPlaceOriginal.validation");
+		ValidatorManager.setStatus("TESTING");
+		testBeanImpl.setContents(testBean.getContents(), IFile.FORCE, new NullProgressMonitor());
+		tckProject.build(IncrementalProjectBuilder.INCREMENTAL_BUILD, new NullProgressMonitor());
+		TestUtil.waitForValidation(tckProject);
 
 		AbstractResourceMarkerTest.assertMarkerIsNotCreated(testInjection, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS, 7);
 		AbstractResourceMarkerTest.assertMarkerIsNotCreated(testInjection, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS, 7);
