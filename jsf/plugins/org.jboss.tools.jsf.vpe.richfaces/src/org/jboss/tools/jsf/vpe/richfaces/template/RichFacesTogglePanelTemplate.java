@@ -36,20 +36,13 @@ public class RichFacesTogglePanelTemplate extends VpeAbstractTemplate {
 
 	private static Map toggleMap = new HashMap();
 	private Map states = null;
-
 	
 	public VpeCreationData create(VpePageContext pageContext, Node sourceNode, nsIDOMDocument visualDocument) {
-
 		Element sourceElement = (Element)sourceNode;
-
 		nsIDOMElement div = visualDocument.createElement(HTML.TAG_DIV);
-
 		VpeCreationData creationData = new VpeCreationData(div);
-
 		states = getStates(sourceElement);
-		
 		String state = getActiveState(sourceElement);
-		
 		Node bodyFacet = null;
 		if(state!=null) {
 			bodyFacet = ComponentUtil.getFacet(sourceElement, state, true);
@@ -75,7 +68,6 @@ public class RichFacesTogglePanelTemplate extends VpeAbstractTemplate {
 		
 		for (int i = 0; children != null && i < children.getLength(); i++) {
 			Node child = children.item(i);
-			
 			if (child instanceof Element && child.getNodeName().endsWith(":facet")) { //$NON-NLS-1$
 				Element facet = (Element)child;				
 				if (facet.hasAttribute("name")) { //$NON-NLS-1$

@@ -29,18 +29,16 @@ public class RichFacesColumnGroupTemplate extends RichFacesSubTableTemplate {
 		super();
 	}
 	
-	/** @see RichFacesSubTableTemplate#encode(VpePageContext, VpeCreationData, Element, nsIDOMDocument, nsIDOMElement) */
+	/** @see RichFacesSubTableTemplate#encodeSubTable(VpePageContext, VpeCreationData, Element, nsIDOMDocument, nsIDOMElement) */
 	@Override
-	public VpeCreationData encode(VpePageContext pageContext,
+	public VpeCreationData encodeSubTable(VpePageContext pageContext,
 			VpeCreationData creationData, Element sourceElement,
 			nsIDOMDocument visualDocument, nsIDOMElement parentVisualNode) {		
 		styleClass = sourceElement.getAttribute(RichFaces.ATTR_STYLE_CLASS);
 		
-		return super.encode(pageContext, creationData, sourceElement, visualDocument,
+		return super.encodeSubTable(pageContext, creationData, sourceElement, visualDocument,
 				parentVisualNode);
 	}
-
-
 
 	@Override
 	protected String getHeaderClass() {

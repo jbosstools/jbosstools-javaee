@@ -51,20 +51,6 @@
 		<vpe:template children="no" modify="no" />
 	</vpe:tag>
 
-	<vpe:tag name="rich:comboBox" case-sensitive="yes">
-		<vpe:template children="no" modify="no"
-			class="org.jboss.tools.jsf.vpe.richfaces.template.RichFacesComboBoxTemplate">
-			<vpe:resize>
-				<vpe:width width-attr="width" />
-			</vpe:resize>
-			<vpe:dnd>
-				<vpe:drag start-enable="yes" />
-				<vpe:drop container="no">
-				</vpe:drop>
-			</vpe:dnd>
-		</vpe:template>
-	</vpe:tag>
-
 	<vpe:tag name="rich:calendar" case-sensitive="yes">
 		<vpe:template children="yes" modify="no"
 			class="org.jboss.tools.jsf.vpe.richfaces.template.RichFacesCalendarTemplate">
@@ -86,6 +72,20 @@
 
 	<vpe:tag name="rich:clientId" case-sensitive="yes">
 		<vpe:template children="no" modify="no">
+		</vpe:template>
+	</vpe:tag>
+
+	<vpe:tag name="rich:comboBox" case-sensitive="yes">
+		<vpe:template children="no" modify="no"
+			class="org.jboss.tools.jsf.vpe.richfaces.template.RichFacesComboBoxTemplate">
+			<vpe:resize>
+				<vpe:width width-attr="width" />
+			</vpe:resize>
+			<vpe:dnd>
+				<vpe:drag start-enable="yes" />
+				<vpe:drop container="no">
+				</vpe:drop>
+			</vpe:dnd>
 		</vpe:template>
 	</vpe:tag>
 
@@ -112,7 +112,19 @@
 			</vpe:dnd>
 		</vpe:template>
 	</vpe:tag>
+	
+	<vpe:tag name="rich:collapsibleSubTable" case-sensitive="yes">
+		<vpe:template children="yes" modify="yes"
+			class="org.jboss.tools.jsf.vpe.richfaces.template.RichFacesCollapsibleSubTableTemplate">
+		</vpe:template>
+	</vpe:tag>
 
+	<vpe:tag name="rich:collapsibleSubTableToggler" case-sensitive="yes">
+		<vpe:template children="yes" modify="yes"
+			class="org.jboss.tools.jsf.vpe.richfaces.template.RichFacesCollapsibleSubTableTogglerTemplate">
+		</vpe:template>
+	</vpe:tag>
+	
 	<vpe:tag name="rich:colorPicker" case-sensitive="yes">
 		<vpe:template children="yes" modify="no"
 			class="org.jboss.tools.jsf.vpe.richfaces.template.RichFacesColorPickerTemplate">

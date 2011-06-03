@@ -44,9 +44,10 @@ public class RichFacesSubTableTemplate extends VpeAbstractTemplate {
 	public RichFacesSubTableTemplate() {
 		super();
 	}
-
-	public VpeCreationData encode(final VpePageContext pageContext, VpeCreationData creationData, final Element sourceElement,
-			final nsIDOMDocument visualDocument, nsIDOMElement parentVisualNode) {		
+	
+	public VpeCreationData encodeSubTable(final VpePageContext pageContext,
+			VpeCreationData creationData, final Element sourceElement,
+			final nsIDOMDocument visualDocument, nsIDOMElement parentVisualNode) {
 		if(creationData!=null) {
 			/*
 			 * Encode header
@@ -191,7 +192,7 @@ public class RichFacesSubTableTemplate extends VpeAbstractTemplate {
 		final Element sourceElement = (Element)sourceNode;
 		final nsIDOMElement tbody = visualDocument.createElement(HTML.TAG_TBODY);
 		VpeCreationData creationData = new VpeCreationData(tbody);
-		creationData = encode(pageContext, creationData, sourceElement,
+		creationData = encodeSubTable(pageContext, creationData, sourceElement,
 				visualDocument, tbody);
 		return creationData;
 	}

@@ -250,9 +250,9 @@ public class RichFacesDataTableTemplate extends VpeAbstractTemplate {
 		boolean isColumnGroup = facetBody.getNodeName().endsWith(RichFaces.TAG_COLUMN_GROUP);
 		boolean isSubTable = facetBody.getNodeName().endsWith(RichFaces.TAG_SUB_TABLE);
 		if(isColumnGroup) {
-			RichFacesColumnGroupTemplate.DEFAULT_INSTANCE.encode(pageContext, creationData, (Element)facetBody, visualDocument, parentTheadOrTfood);
+			RichFacesColumnGroupTemplate.DEFAULT_INSTANCE.encodeSubTable(pageContext, creationData, (Element)facetBody, visualDocument, parentTheadOrTfood);
 		} else if(isSubTable) {
-			RichFacesSubTableTemplate.DEFAULT_INSTANCE.encode(pageContext, creationData, (Element)facetBody, visualDocument, parentTheadOrTfood);
+			RichFacesSubTableTemplate.DEFAULT_INSTANCE.encodeSubTable(pageContext, creationData, (Element)facetBody, visualDocument, parentTheadOrTfood);
 		} else {
 			nsIDOMElement tr = visualDocument.createElement(HTML.TAG_TR);
 			parentTheadOrTfood.appendChild(tr);

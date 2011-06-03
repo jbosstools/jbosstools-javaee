@@ -321,10 +321,10 @@ public class RichFacesScrollableDataTableTemplate extends VpeAbstractTemplate {
 				.endsWith(":columnGroup"); //$NON-NLS-1$
 		boolean isSubTable = facetBody.getNodeName().endsWith(":subTable"); //$NON-NLS-1$
 		if (isColumnGroup) {
-			RichFacesColumnGroupTemplate.DEFAULT_INSTANCE.encode(pageContext, creationData,
+			RichFacesColumnGroupTemplate.DEFAULT_INSTANCE.encodeSubTable(pageContext, creationData,
 					facetBody, visualDocument, parentTheadOrTfood);
 		} else if (isSubTable) {
-			RichFacesSubTableTemplate.DEFAULT_INSTANCE.encode(pageContext, creationData,
+			RichFacesSubTableTemplate.DEFAULT_INSTANCE.encodeSubTable(pageContext, creationData,
 					facetBody, visualDocument, parentTheadOrTfood);
 		} else {
 			nsIDOMElement tr = visualDocument

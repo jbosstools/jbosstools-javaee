@@ -11,9 +11,15 @@
 
 package org.jboss.tools.jsf.vpe.richfaces.template.util;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.jboss.tools.vpe.editor.template.expression.VpeExpression;
 import org.jboss.tools.vpe.editor.template.expression.VpeExpressionBuilder;
 import org.jboss.tools.vpe.editor.template.expression.VpeExpressionBuilderException;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 /**
  * contain rich faces tags and general attributes.
@@ -105,6 +111,8 @@ public class RichFaces {
 	public static final String VALUE_BOTTOM = "bottom"; //$NON-NLS-1$
 	public static final String VALUE_CENTER = "center"; //$NON-NLS-1$
 	
+	public static final String COLLAPSED_STATE = "collapsedState";
+	
 	private static VpeExpression exprColumnClasses = null;
 	/**
 	 * Returns the expression to extract style-classes from a {@code 'columnClasses'} attribute. 
@@ -139,5 +147,31 @@ public class RichFaces {
 		}
 		
 		return exprRowClasses;
+	}
+	
+	public static List<Element> findElementsById(Element root, String id, String tagName) {
+		ArrayList<Element> list = new ArrayList<Element>();
+		NodeList nodeList = root.getChildNodes();
+		for (int i = 0; i < nodeList.getLength(); i++) {
+			Node child = nodeList.item(i);
+			if (child instanceof Element) {
+				Element childElement = (Element) child;
+				if (childElement.getNodeName().endsWith(tagName)
+						&& id.equals(childElement.getAttribute("id"))) { //$NON-NLS-1$
+					list.add(childElement);
+				}
+				list.addAll(findElementsById(childElement, id, tagName));
+			}
+		}
+		return list;
+	}
+
+	public static boolean readCollapsedStateFromSourceNode(Node sourceNode) {
+		boolean colapsed = false;
+		String collapsedState = (String) sourceNode.getUserData(COLLAPSED_STATE);
+		if ((collapsedState != null) && ("true".equalsIgnoreCase(collapsedState))){ //$NON-NLS-1$
+			colapsed = true;
+		}
+		return colapsed;
 	}
 }

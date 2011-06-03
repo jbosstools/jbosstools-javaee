@@ -20,6 +20,7 @@ import java.util.StringTokenizer;
 
 import org.jboss.tools.jsf.vpe.richfaces.ComponentUtil;
 import org.jboss.tools.jsf.vpe.richfaces.HtmlComponentUtil;
+import org.jboss.tools.jsf.vpe.richfaces.template.util.RichFaces;
 import org.jboss.tools.vpe.editor.VpeVisualDomBuilder;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.mapping.VpeElementMapping;
@@ -127,7 +128,9 @@ public class RichFacesToggleControlTemplate  extends VpeAbstractTemplate impleme
 			
 			id = id.trim();
 			
-			List<Element> sourceElements = findElementsById ((Element)sourceElement.getOwnerDocument().getDocumentElement(), id);
+			List<Element> sourceElements = RichFaces.findElementsById(
+					(Element) sourceElement.getOwnerDocument()
+							.getDocumentElement(), id, ":togglePanel"); //$NON-NLS-1$
 			
 			for (Element el : sourceElements) {
 				if (builder != null) {
@@ -144,27 +147,6 @@ public class RichFacesToggleControlTemplate  extends VpeAbstractTemplate impleme
 		}
 	}
 
-	private List<Element> findElementsById (Element root, String id) {
-    	ArrayList<Element> list = new ArrayList<Element>();
-		NodeList nodeList = root.getChildNodes();
-		for(int i=0; i<nodeList.getLength(); i++) {
-			Node child = nodeList.item(i);
-			
-			if(child instanceof Element) {
-				Element childElement = (Element)child;
-				
-				if (childElement.getNodeName().endsWith(":togglePanel") &&  //$NON-NLS-1$
-						id.equals(childElement.getAttribute("id")) ) { //$NON-NLS-1$
-					list.add(childElement);
-				}
-				
-				list.addAll(findElementsById(childElement, id));
-			}
-		}
-    	return list;
-	}
-	
-	
 	public void stopToggling(Node sourceNode) {
 		toggleMap.remove(sourceNode);
 	}
