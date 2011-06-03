@@ -28,7 +28,9 @@ import org.eclipse.wst.sse.core.internal.provisional.IModelManager;
 import org.eclipse.wst.sse.core.internal.provisional.IStructuredModel;
 import org.eclipse.wst.sse.ui.StructuredTextEditor;
 import org.eclipse.wst.xml.ui.internal.tabletree.XMLMultiPageEditorPart;
+import org.jboss.tools.cdi.core.ICDIElement;
 import org.jboss.tools.cdi.core.test.tck.TCKTest;
+import org.jboss.tools.cdi.text.ext.hyperlink.ITestableCDIHyperlink;
 import org.jboss.tools.common.editor.ObjectMultiPageEditor;
 import org.jboss.tools.common.model.ui.editor.EditorPartWrapper;
 import org.jboss.tools.common.text.ext.hyperlink.HyperlinkDetector;
@@ -319,6 +321,7 @@ public class HyperlinkDetectorTest  extends TCKTest {
 	
 	public class TestHyperlink{
 		Class<? extends IHyperlink> hyperlink;
+		ICDIElement element = null;
 		String name;
 		
 		public TestHyperlink(Class<? extends IHyperlink> hyperlink, String name){
@@ -326,7 +329,15 @@ public class HyperlinkDetectorTest  extends TCKTest {
 			this.name = name;
 		}
 		
+		public TestHyperlink(Class<? extends IHyperlink> hyperlink, String name, ICDIElement element){
+			this(hyperlink, name);
+			this.element = element;
+		}
+		
 		public boolean validateHyperlink(IHyperlink hyperlink){
+			if(hyperlink instanceof ITestableCDIHyperlink && element != null){
+				assertEquals(element, ((ITestableCDIHyperlink)hyperlink).getCDIElement());
+			}
 			return true;
 		}
 	}

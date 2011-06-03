@@ -16,11 +16,12 @@ import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.ITextViewer;
 import org.eclipse.jface.text.hyperlink.IHyperlink;
+import org.jboss.tools.cdi.core.ICDIElement;
 import org.jboss.tools.cdi.core.IObserverMethod;
 import org.jboss.tools.cdi.text.ext.CDIExtensionsMessages;
 import org.jboss.tools.common.text.ext.hyperlink.AbstractHyperlink;
 
-public class ObserverMethodListHyperlink extends AbstractHyperlink{
+public class ObserverMethodListHyperlink extends AbstractHyperlink implements ITestableCDIHyperlink{
 	private ITextViewer viewer;
 	private Set<IObserverMethod> observerMethods;
 	private IRegion region;
@@ -60,6 +61,14 @@ public class ObserverMethodListHyperlink extends AbstractHyperlink{
 	@Override
 	public String getHyperlinkText() {
 		return CDIExtensionsMessages.CDI_EVENT_LIST_HYPERLINK_OPEN_OBSERVER_METHODS;
+	}
+
+	public ICDIElement getCDIElement() {
+		return null;
+	}
+
+	public Set<? extends ICDIElement> getCDIElements() {
+		return observerMethods;
 	}
 
 }

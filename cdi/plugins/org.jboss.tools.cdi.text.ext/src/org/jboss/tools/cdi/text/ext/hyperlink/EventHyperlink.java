@@ -10,6 +10,8 @@
  ******************************************************************************/ 
 package org.jboss.tools.cdi.text.ext.hyperlink;
 
+import java.util.Set;
+
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.ui.JavaUI;
@@ -17,6 +19,7 @@ import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PartInitException;
+import org.jboss.tools.cdi.core.ICDIElement;
 import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.core.IInjectionPointField;
 import org.jboss.tools.cdi.core.IInjectionPointMethod;
@@ -25,7 +28,7 @@ import org.jboss.tools.cdi.text.ext.CDIExtensionsMessages;
 import org.jboss.tools.cdi.text.ext.CDIExtensionsPlugin;
 import org.jboss.tools.common.text.ext.hyperlink.AbstractHyperlink;
 
-public class EventHyperlink extends AbstractHyperlink{
+public class EventHyperlink extends AbstractHyperlink implements ITestableCDIHyperlink{
 	IInjectionPoint event;
 	IRegion region;
 	
@@ -77,6 +80,15 @@ public class EventHyperlink extends AbstractHyperlink{
 			text += "."+((IInjectionPointMethod)event).getMethod().getElementName();
 		
 		return text;
+	}
+
+
+	public ICDIElement getCDIElement() {
+		return event;
+	}
+
+	public Set<? extends ICDIElement> getCDIElements() {
+		return null;
 	}
 
 }

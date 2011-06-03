@@ -10,6 +10,8 @@
  ******************************************************************************/ 
 package org.jboss.tools.cdi.text.ext.hyperlink;
 
+import java.util.Set;
+
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.ui.JavaUI;
@@ -17,12 +19,13 @@ import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PartInitException;
+import org.jboss.tools.cdi.core.ICDIElement;
 import org.jboss.tools.cdi.core.IObserverMethod;
 import org.jboss.tools.cdi.text.ext.CDIExtensionsMessages;
 import org.jboss.tools.cdi.text.ext.CDIExtensionsPlugin;
 import org.jboss.tools.common.text.ext.hyperlink.AbstractHyperlink;
 
-public class ObserverMethodHyperlink extends AbstractHyperlink{
+public class ObserverMethodHyperlink extends AbstractHyperlink implements ITestableCDIHyperlink{
 	IObserverMethod observerMethod;
 	IRegion region;
 	
@@ -62,6 +65,15 @@ public class ObserverMethodHyperlink extends AbstractHyperlink{
 	@Override
 	public String getHyperlinkText() {
 		return CDIExtensionsMessages.CDI_EVENT_HYPERLINK_OPEN_OBSERVER_METHOD+" "+observerMethod.getMethod().getElementName();
+	}
+
+
+	public ICDIElement getCDIElement() {
+		return observerMethod;
+	}
+
+	public Set<? extends ICDIElement> getCDIElements() {
+		return null;
 	}
 
 }
