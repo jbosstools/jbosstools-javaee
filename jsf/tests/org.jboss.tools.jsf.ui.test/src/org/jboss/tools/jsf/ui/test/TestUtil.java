@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2007-2010 Red Hat, Inc.
+ * Copyright (c) 2007-2011 Red Hat, Inc.
  * Distributed under license by Red Hat, Inc. All rights reserved.
  * This program is made available under the terms of the
  * Eclipse Public License v1.0 which accompanies this distribution,
@@ -11,12 +11,11 @@
 
 package org.jboss.tools.jsf.ui.test;
 
-import org.eclipse.core.runtime.jobs.Job;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.jboss.tools.jst.jsp.jspeditor.JSPMultiPageEditorPart;
+import org.jboss.tools.test.util.JobUtils;
 
 import static junit.framework.Assert.*;
 
@@ -35,32 +34,11 @@ public class TestUtil {
 	public static final long MAX_IDLE = 15*1000L;
 
 	public static void delay(long waitTimeMillis) {
-		Display display = Display.getCurrent();
-		if (display != null) {
-			long endTimeMillis = System.currentTimeMillis() + waitTimeMillis;
-			while (System.currentTimeMillis() < endTimeMillis) {
-				if (!display.readAndDispatch())
-					display.sleep();
-			}
-			display.update();
-		}
-		// Otherwise, perform a simple sleep.
-		else {
-			try {
-				Thread.sleep(waitTimeMillis);
-			} catch (InterruptedException e) {
-				// Ignored.
-			}
-		}
+		JobUtils.delay(waitTimeMillis);
 	}
 	
 	public static void waitForIdle(long maxIdle) {
-		long start = System.currentTimeMillis();
-		while (!Job.getJobManager().isIdle()) {
-			delay(500);
-			if ( (System.currentTimeMillis()-start) > maxIdle ) 
-				throw new RuntimeException("A long running task detected"); //$NON-NLS-1$
-		}
+		JobUtils.waitForIdle(500, maxIdle);
 	}
 	
 	public static void waitForIdle() {
@@ -68,14 +46,11 @@ public class TestUtil {
 	}
 	
     public static JSPMultiPageEditorPart openEditor(IEditorInput input) throws PartInitException {
-
         // get editor
         JSPMultiPageEditorPart part = (JSPMultiPageEditorPart) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().openEditor(
                 input, EDITOR_ID, true);
-
         assertNotNull(part);
         return part;
-
     }
 
 }
