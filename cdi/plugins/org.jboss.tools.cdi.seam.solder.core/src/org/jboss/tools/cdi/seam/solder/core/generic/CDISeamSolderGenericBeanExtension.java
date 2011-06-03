@@ -98,6 +98,10 @@ public class CDISeamSolderGenericBeanExtension implements ICDIExtension, IBuildP
 
 			Set<TypeDefinition> ts = c.getGenericConfigurationBeans();
 			for (AbstractMemberDefinition gp: ms.keySet()) {
+				//check veto
+				if(gp.getTypeDefinition().isVetoed()) {
+					continue;
+				}
 				List<IAnnotationDeclaration> list = ms.get(gp);
 				for (TypeDefinition t: ts) {
 					TypeDefinition ti = new TypeDefinition();

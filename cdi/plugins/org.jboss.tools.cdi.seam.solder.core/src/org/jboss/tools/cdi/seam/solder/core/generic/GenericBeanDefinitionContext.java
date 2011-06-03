@@ -13,6 +13,7 @@ package org.jboss.tools.cdi.seam.solder.core.generic;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.IType;
 import org.jboss.tools.cdi.core.extension.AbstractDefinitionContextExtension;
 import org.jboss.tools.cdi.internal.core.impl.definition.AnnotationDefinition;
@@ -46,6 +47,13 @@ public class GenericBeanDefinitionContext extends AbstractDefinitionContextExten
 	public void clean() {
 		genericConfiguartions.clear();
 		//
+	}
+
+	@Override
+	public void clean(IPath path) {
+		for (GenericConfiguration c: genericConfiguartions.values()) {
+			c.clear(path);
+		}
 	}
 
 	@Override

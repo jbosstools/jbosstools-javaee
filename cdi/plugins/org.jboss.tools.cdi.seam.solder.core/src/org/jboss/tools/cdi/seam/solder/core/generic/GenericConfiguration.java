@@ -45,6 +45,10 @@ public class GenericConfiguration {
 		this.genericType = genericType;
 	}
 
+	public void clear(IPath path) {
+		involvedResources.remove(path);
+	}
+
 	public void clear(String typeName) {
 		Iterator<AbstractMemberDefinition> it = genericProducerBeans.keySet().iterator();
 		while(it.hasNext()) {
