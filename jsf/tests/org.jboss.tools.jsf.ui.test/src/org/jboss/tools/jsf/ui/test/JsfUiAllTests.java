@@ -23,6 +23,7 @@ import org.jboss.tools.jsf.jsp.ca.test.CANotEmptyWhenThereIsNoSpaceBetweenInvert
 import org.jboss.tools.jsf.jsp.ca.test.CASuggestsNotOnlyELProposalsJBIDE2437Test;
 import org.jboss.tools.jsf.jsp.ca.test.CAUnnecessaryElementsForDirAttributeInXHTMLPageJBIDE1813Test;
 import org.jboss.tools.jsf.jsp.ca.test.CAVarAttributeForDataTableTagJBIDE2016;
+import org.jboss.tools.jsf.jsp.ca.test.JsfJBide3845Test;
 import org.jboss.tools.jsf.jsp.ca.test.JavaClassContentAssistProviderTest;
 import org.jboss.tools.jsf.jsp.ca.test.JsfJspJbide1704Test;
 import org.jboss.tools.jsf.jsp.ca.test.JsfJspJbide1717Test;
@@ -54,6 +55,8 @@ public class JsfUiAllTests {
 		suite.addTestSuite(JsfJspJbide6259Test.class);
 		suite.addTestSuite(JsfJspJbide1704Test.class);
  		suite.addTestSuite(JsfJspJbide1717Test.class);
+		suite.addTestSuite(JsfJBide3845Test.class);
+
  		suite.addTest(
 				new ProjectImportTestSetup(WebContentAssistProviderTest.suite(),
 				"org.jboss.tools.jsf.ui.test",
