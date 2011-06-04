@@ -1,0 +1,17 @@
+package org.jboss.generic2;
+
+import javax.enterprise.context.ConversationScoped;
+
+import org.jboss.seam.solder.core.Veto;
+
+//@Veto
+@Durable
+@ConversationScoped
+@ACMEQueue("durableQueue")
+public class DurableQueueConfiguration extends MessageSystemConfiguration {
+
+	public DurableQueueConfiguration() {
+		super(null);
+		this.durable = true;
+	}
+}

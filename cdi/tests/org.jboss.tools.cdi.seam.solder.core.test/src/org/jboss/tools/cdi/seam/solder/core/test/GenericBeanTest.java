@@ -16,7 +16,11 @@ import java.util.Iterator;
 import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.jdt.core.IType;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.IBean;
@@ -28,6 +32,9 @@ import org.jboss.tools.cdi.core.IProducer;
 import org.jboss.tools.cdi.core.IProducerMethod;
 import org.jboss.tools.cdi.seam.solder.core.generic.GenericBeanProducerMethod;
 import org.jboss.tools.cdi.seam.solder.core.generic.GenericClassBean;
+import org.jboss.tools.common.util.FileUtil;
+import org.jboss.tools.test.util.JobUtils;
+import org.jboss.tools.test.util.ResourcesUtils;
 
 /**
  *   
@@ -182,6 +189,103 @@ public class GenericBeanTest extends SeamSolderTest {
 			}
 		}
 		return result;
+	}
+
+	public void testVetoedGenericBeanInjectionIntoGenericPoint() throws CoreException {
+		ICDIProject cdi = CDICorePlugin.getCDIProject(project, true);
+		
+		/*
+		 * Injection point: in class MessageManager
+		 *     @Inject @Generic MessageQueue queue;
+		 * There are 3 configurations, hence there are 3 beans MessageQueue, 
+		 * each has that injection point; 
+		 * in all cases bean is produced by MyGenericBean.createMyFirstBean()
+		 */
+		IClassBean beanToBeVetoed = null;
+		Set<IInjectionPointField> injections = getGenericInjectionPointField(cdi, "src/org/jboss/generic2/MessageManager.java", "queue");
+		assertEquals(3, injections.size());
+		for (IInjectionPointField injection: injections) {
+			Set<IBean> bs = cdi.getBeans(false, injection);
+			assertTrue(bs.size() >= 1);
+			for (IBean b: bs) {
+				assertTrue(b instanceof GenericBeanProducerMethod);
+				GenericBeanProducerMethod m = (GenericBeanProducerMethod)b;
+				assertEquals("messageQueueProducer", m.getMethod().getElementName());
+				IBean g = ((GenericClassBean) m.getClassBean()).getGenericProducerBean();
+				if(g instanceof IClassBean) {
+					beanToBeVetoed = (IClassBean)g;
+				}
+			}
+		}	
+		assertNotNull(beanToBeVetoed);
+
+
+		/*
+		 * Replace DurableQueueConfiguration.java with vetoed version.
+		 * After that there are only 2 configurations.
+		 */
+		replaceFile("src/org/jboss/generic2/DurableQueueConfiguration.vetoed",
+				"src/org/jboss/generic2/DurableQueueConfiguration.java");
+
+		beanToBeVetoed = null;
+		injections = getGenericInjectionPointField(cdi, "src/org/jboss/generic2/MessageManager.java", "queue");		
+		assertEquals(2, injections.size());
+		for (IInjectionPointField injection: injections) {
+			Set<IBean> bs = cdi.getBeans(false, injection);
+			assertEquals(1, bs.size());
+			IBean b = bs.iterator().next();
+			assertTrue(b instanceof GenericBeanProducerMethod);
+			GenericBeanProducerMethod m = (GenericBeanProducerMethod)b;
+			assertEquals("messageQueueProducer", m.getMethod().getElementName());
+			IBean g = ((GenericClassBean) m.getClassBean()).getGenericProducerBean();
+			if(g instanceof IClassBean) {
+				beanToBeVetoed = (IClassBean)g;
+			}
+		}
+		assertNull(beanToBeVetoed);
+
+		/*
+		 * Set original DurableQueueConfiguration.java back.
+		 * Make sure that there are again 3 configurations.
+		 */
+		replaceFile("src/org/jboss/generic2/DurableQueueConfiguration.original",
+				"src/org/jboss/generic2/DurableQueueConfiguration.java");
+
+		beanToBeVetoed = null;
+		injections = getGenericInjectionPointField(cdi, "src/org/jboss/generic2/MessageManager.java", "queue");		
+		assertEquals(3, injections.size());
+		for (IInjectionPointField injection: injections) {
+			Set<IBean> bs = cdi.getBeans(false, injection);
+			assertTrue(bs.size() >= 1);
+			for (IBean b: bs) {
+				assertTrue(b instanceof GenericBeanProducerMethod);
+				GenericBeanProducerMethod m = (GenericBeanProducerMethod)b;
+				assertEquals("messageQueueProducer", m.getMethod().getElementName());
+				IBean g = ((GenericClassBean) m.getClassBean()).getGenericProducerBean();
+				if(g instanceof IClassBean) {
+					beanToBeVetoed = (IClassBean)g;
+				}
+			}
+		}	
+		assertNotNull(beanToBeVetoed);
+	}
+
+	void replaceFile(String sourcePath, String targetPath) throws CoreException {
+		boolean saveAutoBuild = ResourcesUtils.setBuildAutomatically(false);
+		JobUtils.waitForIdle();
+		try {
+			IFile target = project.getFile(new Path(targetPath));
+			assertTrue(target.exists());		
+			IFile source = project.getFile(new Path(sourcePath));
+			assertTrue(target.exists());
+			target.setContents(source.getContents(), true, false, new NullProgressMonitor());
+			JobUtils.waitForIdle();
+			project.build(IncrementalProjectBuilder.INCREMENTAL_BUILD, new NullProgressMonitor());
+			JobUtils.waitForIdle();
+		} finally {
+			ResourcesUtils.setBuildAutomatically(saveAutoBuild);
+			JobUtils.waitForIdle();
+		}
 	}
 
 }
