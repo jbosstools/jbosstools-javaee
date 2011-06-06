@@ -58,6 +58,8 @@ public class MarkerResolutionUtils {
 	public static final String SPACE = " ";  //$NON-NLS-1$
 	public static final String AT = "@";  //$NON-NLS-1$
 	public static final String IMPLEMENTS = "implements";  //$NON-NLS-1$
+	public static final String EXTENDS = "extends";  //$NON-NLS-1$
+	public static final String OPEN_BRACE = "{"; //$NON-NLS-1$
 
 	static final HashSet<String> primitives = new HashSet<String>();
 	static{
@@ -423,10 +425,20 @@ public class MarkerResolutionUtils {
 			int namePosition = text.indexOf(workingType.getElementName());
 			if(namePosition >= 0){
 				int implementsPosition = text.indexOf(IMPLEMENTS,namePosition);
-				if(implementsPosition < 0)
-					buffer.replace(workingType.getSourceRange().getOffset()+namePosition+workingType.getElementName().length(),0,SPACE+IMPLEMENTS+SPACE+shortName);
-				else
+				if(implementsPosition > 0){
 					buffer.replace(workingType.getSourceRange().getOffset()+implementsPosition+IMPLEMENTS.length(),0,SPACE+shortName+COMMA);
+				}else{
+					int extedsPosition = text.indexOf(EXTENDS,namePosition);
+					if(extedsPosition > 0){
+						int bracePosition = text.indexOf(OPEN_BRACE, extedsPosition);
+						String str = IMPLEMENTS+SPACE+shortName+SPACE;
+						if(!text.substring(bracePosition-1,bracePosition).equals(SPACE))
+							str = SPACE+str;
+						buffer.replace(workingType.getSourceRange().getOffset()+bracePosition,0,str);
+					}else{
+						buffer.replace(workingType.getSourceRange().getOffset()+namePosition+workingType.getElementName().length(),0,SPACE+IMPLEMENTS+SPACE+shortName);
+					}
+				}
 			}
 		}
 

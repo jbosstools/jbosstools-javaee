@@ -27,6 +27,7 @@ import org.eclipse.ui.ide.IDE;
 import org.jboss.tools.cdi.core.test.tck.validation.ValidationTest;
 import org.jboss.tools.cdi.internal.core.validation.CDIValidationErrorManager;
 import org.jboss.tools.cdi.ui.marker.AddLocalBeanMarkerResolution;
+import org.jboss.tools.cdi.ui.marker.AddSerializableInterfaceMarkerResolution;
 import org.jboss.tools.cdi.ui.marker.DeleteAllDisposerDuplicantMarkerResolution;
 import org.jboss.tools.cdi.ui.marker.DeleteAllInjectedConstructorsMarkerResolution;
 import org.jboss.tools.cdi.ui.marker.MakeFieldStaticMarkerResolution;
@@ -180,7 +181,7 @@ public class CDIMarkerResolutionTest  extends ValidationTest {
 			String fileContent = FileUtil.readStream(file);
 			String resultContent = FileUtil.readStream(resultFile);
 
-			assertEquals("Wrong result of resolution", resultContent, fileContent);
+			assertEquals("Wrong result of resolution", resultContent.trim(), fileContent.trim());
 		}
 	}
 
@@ -358,6 +359,34 @@ public class CDIMarkerResolutionTest  extends ValidationTest {
 				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
 				CDIValidationErrorManager.MULTIPLE_INJECTION_CONSTRUCTORS_ID,
 				DeleteAllInjectedConstructorsMarkerResolution.class);
+	}
+	
+	public void testAddSerializableInterfaceResolution() throws CoreException{
+		checkResolution(tckProject,
+				new String[]{
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Hamina_Broken.java"
+				},
+				new String[]{
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Hamina_Broken.qfxresult"
+				},
+				MARKER_TYPE,
+				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
+				CDIValidationErrorManager.NOT_PASSIVATION_CAPABLE_BEAN_ID,
+				AddSerializableInterfaceMarkerResolution.class);
+	}
+
+	public void testAddSerializableInterfaceResolution2() throws CoreException{
+		checkResolution(tckProject,
+				new String[]{
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/SecondBean.java"
+				},
+//				new String[]{
+//					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/SecondBean.qfxresult"
+//				},
+				MARKER_TYPE,
+				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
+				CDIValidationErrorManager.NOT_PASSIVATION_CAPABLE_BEAN_ID,
+				AddSerializableInterfaceMarkerResolution.class);
 	}
 
 }
