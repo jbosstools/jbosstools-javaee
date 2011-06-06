@@ -163,8 +163,8 @@ public class ParametedType implements IParametedType {
 	}
 
 	void buildInheritance() {
-		inheritanceIsBuilt = true;
 		if(type == null) return;
+		Set<IParametedType> inheritedTypes = new HashSet<IParametedType>();
 		try {
 			if(!type.isInterface() && !type.isAnnotation()) {
 				String sc = type.getSuperclassTypeSignature();
@@ -218,6 +218,8 @@ public class ParametedType implements IParametedType {
 		} catch (JavaModelException e) {
 			CDICorePlugin.getDefault().logError(e);
 		}
+		this.inheritedTypes = inheritedTypes;
+		inheritanceIsBuilt = true;
 	}
 
 	public ParametedType getSuperType() {
@@ -288,23 +290,25 @@ public class ParametedType implements IParametedType {
 
 	public Set<IParametedType> getAllTypes() {
 		if(allInheritedTypes == null) {
-			allInheritedTypes = new HashSet<IParametedType>();
-			Set<String> processed = new HashSet<String>();
-			buildAllTypes(processed, this);
+			allInheritedTypes = buildAllTypes(new HashSet<String>(), this, new HashSet<IParametedType>());
 		}
 		return allInheritedTypes;
 	}
 
-	void buildAllTypes(Set<String> processed, ParametedType p) {
+	Set<IParametedType> buildAllTypes(Set<String> processed, ParametedType p, Set<IParametedType> types) {
 		IType t = p.getType();
-		if(t == null) return;
-		if(processed.contains(p.getArrayPrefix() + t.getFullyQualifiedName())) return;
-		processed.add(p.getArrayPrefix() + t.getFullyQualifiedName());
-		allInheritedTypes.add(p);
-		Set<IParametedType> ts = p.getInheritedTypes();
-		if(ts != null) for (IParametedType pp: ts) {
-			buildAllTypes(processed, (ParametedType)pp);
+		if(t != null) {
+			String key = p.getArrayPrefix() + t.getFullyQualifiedName();
+			if(!processed.contains(key)) {
+				processed.add(key);
+				types.add(p);
+				Set<IParametedType> ts = p.getInheritedTypes();
+				if(ts != null) for (IParametedType pp: ts) {
+					buildAllTypes(processed, (ParametedType)pp, types);
+				}
+			}
 		}
+		return types;
 	}
 
 	public String toString() {
