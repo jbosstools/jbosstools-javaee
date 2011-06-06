@@ -62,7 +62,7 @@ public class CDICoreAllTests {
 		JavaModelManager.getIndexManager().disable();
 
 		TestSuite suiteAll = new TestSuite("CDI Core Tests");
-
+		suiteAll.addTestSuite(TypeTest.class);
 		TestSuite suite = new TestSuite("TCK Tests");
 		suite.addTestSuite(ResolutionByNameTest.class);
 		suite.addTestSuite(BeanDefinitionTest.class);
