@@ -180,8 +180,8 @@ public class CDIMarkerResolutionTest  extends ValidationTest {
 
 			String fileContent = FileUtil.readStream(file);
 			String resultContent = FileUtil.readStream(resultFile);
-
-			assertEquals("Wrong result of resolution", resultContent.trim(), fileContent.trim());
+			
+			assertEquals("Wrong result of resolution", resultContent, fileContent);
 		}
 	}
 
@@ -380,9 +380,9 @@ public class CDIMarkerResolutionTest  extends ValidationTest {
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/SecondBean.java"
 				},
-//				new String[]{
-//					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/SecondBean.qfxresult"
-//				},
+				new String[]{
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/SecondBean.qfxresult"
+				},
 				MARKER_TYPE,
 				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
 				CDIValidationErrorManager.NOT_PASSIVATION_CAPABLE_BEAN_ID,
