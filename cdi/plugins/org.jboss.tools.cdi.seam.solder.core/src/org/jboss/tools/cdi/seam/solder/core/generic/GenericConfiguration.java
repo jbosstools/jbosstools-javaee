@@ -19,6 +19,7 @@ import java.util.Set;
 
 import org.eclipse.core.runtime.IPath;
 import org.jboss.tools.cdi.core.IAnnotationDeclaration;
+import org.jboss.tools.cdi.core.IQualifierDeclaration;
 import org.jboss.tools.cdi.internal.core.impl.definition.AbstractMemberDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.AnnotationDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.TypeDefinition;
@@ -32,7 +33,7 @@ public class GenericConfiguration {
 	String genericTypeName;
 	AnnotationDefinition genericType;
 
-	Map<AbstractMemberDefinition, List<IAnnotationDeclaration>> genericProducerBeans = new HashMap<AbstractMemberDefinition, List<IAnnotationDeclaration>>();
+	Map<AbstractMemberDefinition, List<IQualifierDeclaration>> genericProducerBeans = new HashMap<AbstractMemberDefinition, List<IQualifierDeclaration>>();
 	Set<TypeDefinition> genericConfigurationBeans = new HashSet<TypeDefinition>();
 
 	Set<IPath> involvedResources = new HashSet<IPath>();
@@ -64,7 +65,7 @@ public class GenericConfiguration {
 		}
 	}
 
-	public Map<AbstractMemberDefinition, List<IAnnotationDeclaration>> getGenericProducerBeans() {
+	public Map<AbstractMemberDefinition, List<IQualifierDeclaration>> getGenericProducerBeans() {
 		return genericProducerBeans;
 	}
 

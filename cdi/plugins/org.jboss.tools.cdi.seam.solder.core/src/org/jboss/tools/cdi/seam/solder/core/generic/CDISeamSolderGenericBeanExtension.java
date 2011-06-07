@@ -31,6 +31,7 @@ import org.jboss.tools.cdi.core.extension.ICDIExtension;
 import org.jboss.tools.cdi.core.extension.IDefinitionContextExtension;
 import org.jboss.tools.cdi.core.extension.feature.IBuildParticipantFeature;
 import org.jboss.tools.cdi.core.extension.feature.IProcessAnnotatedTypeFeature;
+import org.jboss.tools.cdi.core.extension.feature.IValidatorFeature;
 import org.jboss.tools.cdi.internal.core.impl.AnnotationDeclaration;
 import org.jboss.tools.cdi.internal.core.impl.AnnotationLiteral;
 import org.jboss.tools.cdi.internal.core.impl.CDIProject;
@@ -43,6 +44,7 @@ import org.jboss.tools.cdi.internal.core.impl.definition.MethodDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.ParameterDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.TypeDefinition;
 import org.jboss.tools.cdi.internal.core.scanner.FileSet;
+import org.jboss.tools.cdi.internal.core.validation.CDICoreValidator;
 import org.jboss.tools.cdi.seam.solder.core.CDISeamSolderConstants;
 import org.jboss.tools.cdi.seam.solder.core.CDISeamSolderCorePlugin;
 import org.jboss.tools.common.model.XModelObject;
@@ -52,7 +54,7 @@ import org.jboss.tools.common.model.XModelObject;
  * @author Viacheslav Kabanovich
  *
  */
-public class CDISeamSolderGenericBeanExtension implements ICDIExtension, IBuildParticipantFeature, IProcessAnnotatedTypeFeature, CDISeamSolderConstants {
+public class CDISeamSolderGenericBeanExtension implements ICDIExtension, IBuildParticipantFeature, IProcessAnnotatedTypeFeature, IValidatorFeature, CDISeamSolderConstants {
 	CDICoreNature project;
 	GenericBeanDefinitionContext context = new GenericBeanDefinitionContext();
 
@@ -94,7 +96,7 @@ public class CDISeamSolderGenericBeanExtension implements ICDIExtension, IBuildP
 				p.addBean(b);				
 			}
 
-			Map<AbstractMemberDefinition, List<IAnnotationDeclaration>> ms = c.getGenericProducerBeans();
+			Map<AbstractMemberDefinition, List<IQualifierDeclaration>> ms = c.getGenericProducerBeans();
 
 			Set<TypeDefinition> ts = c.getGenericConfigurationBeans();
 			for (AbstractMemberDefinition gp: ms.keySet()) {
@@ -102,9 +104,9 @@ public class CDISeamSolderGenericBeanExtension implements ICDIExtension, IBuildP
 				if(gp.getTypeDefinition().isVetoed()) {
 					continue;
 				}
-				List<IAnnotationDeclaration> list = ms.get(gp);
+				List<IQualifierDeclaration> list = ms.get(gp);
 				for (TypeDefinition t: ts) {
-					TypeDefinition ti = new TypeDefinition();
+					TypeDefinition ti = new TypeDefinition(); //TODO copy, do not create new.
 					ti.setType(t.getType(), context.getRootContext(), 0);
 					List<MethodDefinition> ps = ti.getMethods();
 					for (MethodDefinition m: ps) {
@@ -140,7 +142,7 @@ public class CDISeamSolderGenericBeanExtension implements ICDIExtension, IBuildP
 		}
 	}
 
-	private void replaceGenericInjections(TypeDefinition ti, List<IAnnotationDeclaration> list) {
+	private void replaceGenericInjections(TypeDefinition ti, List<IQualifierDeclaration> list) {
 		List<FieldDefinition> fs = ti.getFields();
 		for (FieldDefinition f: fs) {
 			if(f.isAnnotationPresent(INJECT_ANNOTATION_TYPE_NAME) && f.isAnnotationPresent(GENERIC_QUALIFIER_TYPE_NAME)) {
@@ -229,11 +231,11 @@ public class CDISeamSolderGenericBeanExtension implements ICDIExtension, IBuildP
 	private void addGenericProducerBean(AbstractMemberDefinition def, String genericType, IRootDefinitionContext context) {
 		GenericConfiguration c = ((GenericBeanDefinitionContext)this.context.getWorkingCopy()).getGenericConfiguration(genericType);
 
-		List<IAnnotationDeclaration> list = new ArrayList<IAnnotationDeclaration>();
+		List<IQualifierDeclaration> list = new ArrayList<IQualifierDeclaration>();
 		List<IAnnotationDeclaration> ds = def.getAnnotations();
 		for (IAnnotationDeclaration d: ds) {
 			if(d instanceof IQualifierDeclaration) {
-				list.add(d);
+				list.add((IQualifierDeclaration)d);
 			}
 		}
 		c.getGenericProducerBeans().put(def, list);
@@ -264,6 +266,10 @@ public class CDISeamSolderGenericBeanExtension implements ICDIExtension, IBuildP
 			}
 		}
 		return null;
-	}	
+	}
+
+	public void validateResource(IFile file, CDICoreValidator validator) {
+		new GenericBeanValidator().validateResource(file, validator, project, context);
+	}
 	
 }
