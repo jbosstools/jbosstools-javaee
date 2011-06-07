@@ -12,6 +12,7 @@ package org.jboss.tools.cdi.internal.core.impl;
 
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -414,7 +415,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		return false;
 	}
 
-	public static boolean areMatchingQualifiers(Set<IQualifierDeclaration> beanQualifiers, Set<IQualifierDeclaration> injectionQualifiers) throws CoreException {
+	public static boolean areMatchingQualifiers(Collection<IQualifierDeclaration> beanQualifiers, Collection<IQualifierDeclaration> injectionQualifiers) throws CoreException {
 		if(beanQualifiers.isEmpty()) {
 			if(injectionQualifiers.isEmpty()) {
 				return true;
@@ -899,17 +900,8 @@ public class CDIProject extends CDIElement implements ICDIProject {
 					if(!p.isAnnotationPresent(CDIConstants.DISPOSES_ANNOTATION_TYPE_NAME)) continue;
 					IParametedType type = p.getType();
 					if(!containsType(types, type)) continue;
-					Set<IType> qts = new HashSet<IType>();
-					Set<String> ts = ((Parameter)p).getAnnotationTypes();
-					for (String t: ts) {
-						QualifierElement q = getQualifier(t);
-						if(q != null && q.getSourceType() != null) {
-							qts.add(q.getSourceType());
-						}
-					}
-					IType[] qtsa = qts.toArray(new IType[0]);
 					try {
-						if(areMatchingQualifiers(qs, qtsa)) {
+						if(areMatchingQualifiers(qs, p.getQualifierDeclarations())) {
 							match = p;
 							break;
 						}
