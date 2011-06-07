@@ -43,6 +43,7 @@ public class SeamCoreAllTests {
 		suite.addTestSuite(SeamRuntimeManagerTest.class);
 		suite.addTestSuite(CyclicDependingProjectsTest.class);
 		suite.addTestSuite(ComponentsFromLibTest.class);
+		suite.addTestSuite(Seam2ValidatorTest.class);
 		return suite;
 	}
 }

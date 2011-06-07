@@ -46,7 +46,6 @@ import org.jboss.tools.jst.web.kb.internal.validation.ContextValidationHelper;
 import org.jboss.tools.jst.web.kb.internal.validation.SimpleValidatingProjectTree;
 import org.jboss.tools.jst.web.kb.internal.validation.ValidatingProjectSet;
 import org.jboss.tools.jst.web.kb.internal.validation.ValidatorManager;
-import org.jboss.tools.jst.web.kb.preferences.ELSeverityPreferences;
 import org.jboss.tools.jst.web.kb.validation.IProjectValidationContext;
 import org.jboss.tools.jst.web.kb.validation.IValidatingProjectSet;
 import org.jboss.tools.jst.web.kb.validation.IValidatingProjectTree;
@@ -631,6 +630,12 @@ public class SeamCoreValidator extends SeamValidationErrorManager implements IVa
 		validateXmlComponentDeclarations(component);
 	}
 
+	private static final String BUILT_IN_COMPONENT_NAME_PREFIX = "org.jboss.seam.";
+
+	private boolean isBuiltInComponentName(String componentName) {
+		return componentName.startsWith(BUILT_IN_COMPONENT_NAME_PREFIX);
+	}
+
 	private void validateXmlComponentDeclarations(ISeamComponent component) {
 		String componentName = component.getName();
 		if(componentName!=null) {
@@ -691,7 +696,7 @@ public class SeamCoreValidator extends SeamValidationErrorManager implements IVa
 								if(declaration.getClassName()!=null && javaDec.getName()!=null && javaDec.getName().equals(declaration.getName())) {
 									// Check precedences
 									String javaPrecedence = "" + javaDec.getPrecedence();
-									if(javaPrecedence.equals(precedence)) {
+									if(javaPrecedence.equals(precedence) && !isBuiltInComponentName(componentName)) {
 										if(!markedJavaDeclarations.contains(javaDec)) {
 											markedJavaDeclarations.add(javaDec);
 											ITextSourceReference location = ((SeamComponentDeclaration)javaDec).getLocationFor(SeamComponentDeclaration.PATH_OF_NAME);
