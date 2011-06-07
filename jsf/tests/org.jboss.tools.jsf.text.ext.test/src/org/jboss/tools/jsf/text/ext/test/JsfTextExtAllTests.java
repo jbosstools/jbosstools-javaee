@@ -23,7 +23,9 @@ public class JsfTextExtAllTests {
 				"org.jboss.tools.jsf.text.ext.test",
 				new String[]{"projects/HiperlinksTestProject"},
 				new String[]{"HiperlinksTestProject"}));
-		suite.addTest(new ProjectImportTestSetup(new TestSuite(JSF2CompositeOpenOnTest.class),
+		suite.addTest(new ProjectImportTestSetup(new TestSuite(
+					JSF2CompositeOpenOnTest.class, 
+					JSF2CompositeLibOpenOnTest.class),
 				"org.jboss.tools.jsf.text.ext.test",
 				new String[]{"projects/JSF2CompositeOpenOn"},
 				new String[]{"JSF2CompositeOpenOn"}));
