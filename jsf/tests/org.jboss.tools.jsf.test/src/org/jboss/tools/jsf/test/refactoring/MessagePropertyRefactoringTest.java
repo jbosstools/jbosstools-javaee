@@ -48,8 +48,7 @@ public class MessagePropertyRefactoringTest extends AbstractRefactorTest{
 		structure.addTextChange(change);
 		list.add(structure);
 		
-		MessagePropertyELSegmentImpl segment = new MessagePropertyELSegmentImpl();
-		segment.setToken(new LexicalToken(position,13,"hello_message",-1000));
+		MessagePropertyELSegmentImpl segment = new MessagePropertyELSegmentImpl(new LexicalToken(position,13,"hello_message",-1000));
 		segment.setMessageBundleResource(propertyFile);
 		segment.setBaseName("demo.Messages");
 		segment.setMessagePropertySourceReference(0,10);

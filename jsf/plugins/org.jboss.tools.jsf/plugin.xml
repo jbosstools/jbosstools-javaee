@@ -490,6 +490,23 @@
          </delegate>
    </extension>
 
+   <extension id="compositionproblem" name="%ComponentCompositionProblemName" point="org.eclipse.core.resources.markers">
+      <super type="org.jboss.tools.jst.web.kb.kbproblemmarker">
+      </super>
+      <persistent value="true">
+      </persistent>
+   </extension>
+
+   <!--extension
+   		 id="CompositionComponentValidator"
+         point="org.jboss.tools.jst.web.kb.validator">
+         <validator
+               class="org.jboss.tools.jsf.web.validation.composition.CompositionComponentValidator"
+               name="%ComponentCompositionValidator"
+               id="org.jboss.tools.jsf.CompositionComponentValidator">
+         </validator>
+   </extension-->
+
    <extension
          point="org.jboss.tools.common.model.modelnatures">
       <modelnature 

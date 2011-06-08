@@ -191,8 +191,7 @@ public class JSFMessageELCompletionEngine extends AbstractELCompletionEngine<IVa
 			if (resolvedVariables != null && !resolvedVariables.isEmpty()) {
 				resolution.setLastResolvedToken(left);
 	
-				ELSegmentImpl segment = new MessagePropertyELSegmentImpl();
-				segment.setToken(left.getFirstToken());
+				ELSegmentImpl segment = new MessagePropertyELSegmentImpl(left.getFirstToken());
 				processMessageBundleSegment(expr, (MessagePropertyELSegmentImpl)segment, resolvedVariables);
 
 				segment.setResolved(true);
@@ -214,8 +213,7 @@ public class JSFMessageELCompletionEngine extends AbstractELCompletionEngine<IVa
 					resolvedVariables = resolvedVars;
 					resolution.setLastResolvedToken(left);
 
-					ELSegmentImpl segment = new MessagePropertyELSegmentImpl();
-					segment.setToken(left.getFirstToken());
+					ELSegmentImpl segment = new MessagePropertyELSegmentImpl(left.getFirstToken());
 					processMessageBundleSegment(expr, (MessagePropertyELSegmentImpl)segment, resolvedVariables);
 					
 					segment.setResolved(true);
@@ -240,8 +238,7 @@ public class JSFMessageELCompletionEngine extends AbstractELCompletionEngine<IVa
 			Set<TextProposal> proposals = new TreeSet<TextProposal>(TextProposal.KB_PROPOSAL_ORDER);
 
 			if (left != null) {
-				ELSegmentImpl segment = new MessagePropertyELSegmentImpl();
-				segment.setToken(left.getFirstToken());
+				ELSegmentImpl segment = new MessagePropertyELSegmentImpl(left.getFirstToken());
 				processMessageBundleSegment(expr, (MessagePropertyELSegmentImpl)segment, resolvedVariables);
 				
 				segment.setResolved(false);
@@ -267,8 +264,7 @@ public class JSFMessageELCompletionEngine extends AbstractELCompletionEngine<IVa
 		if (resolution.getLastResolvedToken() == operand) {
 			// First segment is the last one
 			Set<TextProposal> proposals = new TreeSet<TextProposal>(TextProposal.KB_PROPOSAL_ORDER);
-			ELSegmentImpl segment = new ELSegmentImpl();
-			segment.setToken(operand.getFirstToken());
+			ELSegmentImpl segment = new ELSegmentImpl(operand.getFirstToken());
 			segment.setResolved(true);
 			resolution.addSegment(segment);
 
@@ -299,8 +295,7 @@ public class JSFMessageELCompletionEngine extends AbstractELCompletionEngine<IVa
 			while(left != expr) {
 				left = (ELInvocationExpression)left.getParent();
 				if (left != expr) { // inside expression
-					ELSegmentImpl segment = new ELSegmentImpl();
-					segment = new ELSegmentImpl();
+					ELSegmentImpl segment = new ELSegmentImpl(left.getLastToken());
 					segment.setResolved(true);
 					resolution.addSegment(segment);
 					resolution.setLastResolvedToken(left);
@@ -311,8 +306,7 @@ public class JSFMessageELCompletionEngine extends AbstractELCompletionEngine<IVa
 				}
 			}
 		} else {
-			ELSegmentImpl segment = new ELSegmentImpl();
-			segment.setToken(expr.getFirstToken());
+			ELSegmentImpl segment = new ELSegmentImpl(expr.getFirstToken());
 			resolution.addSegment(segment);
 		}
 
@@ -363,18 +357,14 @@ public class JSFMessageELCompletionEngine extends AbstractELCompletionEngine<IVa
 			boolean returnEqualedVariablesOnly) {
 		Set<TextProposal> kbProposals = new TreeSet<TextProposal>(TextProposal.KB_PROPOSAL_ORDER);
 
-		ELSegmentImpl segment = new ELSegmentImpl();
+		ELSegmentImpl segment = new ELSegmentImpl(expr.getFirstToken());
 		resolution.setProposals(kbProposals);
 		if(expr instanceof ELPropertyInvocation) {
-			segment = new MessagePropertyELSegmentImpl();
-			segment.setToken(((ELPropertyInvocation)expr).getName());
+			segment = new MessagePropertyELSegmentImpl(((ELPropertyInvocation)expr).getName());
 			processMessagePropertySegment(expr, (MessagePropertyELSegmentImpl)segment, members);
 		} else if (expr instanceof ELArgumentInvocation) {
-			segment = new MessagePropertyELSegmentImpl();
-			segment.setToken(((ELArgumentInvocation)expr).getArgument().getOpenArgumentToken().getNextToken());
+			segment = new MessagePropertyELSegmentImpl(((ELArgumentInvocation)expr).getArgument().getOpenArgumentToken().getNextToken());
 			processMessagePropertySegment(expr, (MessagePropertyELSegmentImpl)segment, members);
-		} else {
-			segment.setToken(expr.getFirstToken());			
 		}
 
 		if(segment.getToken()!=null) {

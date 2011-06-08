@@ -192,17 +192,15 @@ public class JSF2CCAttrsELCompletionEngine extends AbstractELCompletionEngine<IV
 					resolvedVariables = resolvedVars;
 					resolution.setLastResolvedToken(left);
 
-					ELSegmentImpl segment = new ELSegmentImpl();
 					// Combine left's tokens into a single token
 					LexicalToken token = left.getFirstToken();
 					String singleText = left.getText();
 					int start = token.getStart();
 					int type = token.getType();
 					int length = singleText.length();
-					
+
 					LexicalToken singleToken = new LexicalToken(start, length, singleText, type);
-					
-					segment.setToken(singleToken);
+					ELSegmentImpl segment = new ELSegmentImpl(singleToken);
 					segment.setResolved(true);
 					resolution.addSegment(segment);
 
@@ -221,8 +219,7 @@ public class JSF2CCAttrsELCompletionEngine extends AbstractELCompletionEngine<IV
 			resolvedVariables = resolveVariablesInternal(file, expr, true, returnEqualedVariablesOnly);			
 			Set<TextProposal> proposals = new TreeSet<TextProposal>(TextProposal.KB_PROPOSAL_ORDER);
 
-			ELSegmentImpl segment = new ELSegmentImpl();
-			segment.setToken(expr.getFirstToken());
+			ELSegmentImpl segment = new ELSegmentImpl(expr.getFirstToken());
 			segment.setResolved(false);
 			resolution.addSegment(segment);
 
@@ -245,8 +242,7 @@ public class JSF2CCAttrsELCompletionEngine extends AbstractELCompletionEngine<IV
 		if (resolution.getLastResolvedToken() == operand) {
 			// First segment is the last one
 			Set<TextProposal> proposals = new TreeSet<TextProposal>(TextProposal.KB_PROPOSAL_ORDER);
-			ELSegmentImpl segment = new ELSegmentImpl();
-			segment.setToken(operand.getFirstToken());
+			ELSegmentImpl segment = new ELSegmentImpl(operand.getFirstToken());
 			segment.setResolved(true);
 			resolution.addSegment(segment);
 
@@ -281,8 +277,7 @@ public class JSF2CCAttrsELCompletionEngine extends AbstractELCompletionEngine<IV
 			while(left != expr) {
 				left = (ELInvocationExpression)left.getParent();
 				if (left != expr) { // inside expression
-					ELSegmentImpl segment = new ELSegmentImpl();
-					segment = new ELSegmentImpl();
+					ELSegmentImpl segment = new ELSegmentImpl(left.getLastToken());
 					segment.setResolved(true);
 					resolution.addSegment(segment);
 					resolution.setLastResolvedToken(left);
@@ -293,8 +288,7 @@ public class JSF2CCAttrsELCompletionEngine extends AbstractELCompletionEngine<IV
 				}
 			}
 		} else {
-			ELSegmentImpl segment = new ELSegmentImpl();
-			segment.setToken(expr.getFirstToken());
+			ELSegmentImpl segment = new ELSegmentImpl(expr.getFirstToken());
 			resolution.addSegment(segment);
 		}
 
@@ -307,8 +301,7 @@ public class JSF2CCAttrsELCompletionEngine extends AbstractELCompletionEngine<IV
 		boolean varIsUsed = false;
 		// First segment is found - proceed with next tokens 
 		List<TypeInfoCollector.MemberInfo> members = new ArrayList<TypeInfoCollector.MemberInfo>();
-		JavaMemberELSegmentImpl segment = new JavaMemberELSegmentImpl();
-		segment.setToken(expr.getFirstToken());
+		JavaMemberELSegmentImpl segment = new JavaMemberELSegmentImpl(expr.getFirstToken());
 		for (IVariable var : resolvedVariables) {
 			TypeInfoCollector.MemberInfo member = getMemberInfoByVariable(var, returnEqualedVariablesOnly, offset);
 			if (member != null && !members.contains(member)) { 
@@ -324,7 +317,7 @@ public class JSF2CCAttrsELCompletionEngine extends AbstractELCompletionEngine<IV
 			while(left != expr) {
 				left = (ELInvocationExpression)left.getParent();
 				if (left != expr) { // inside expression
-					segment = new JavaMemberELSegmentImpl();
+					segment = new JavaMemberELSegmentImpl(left.getLastToken());
 					if(left instanceof ELArgumentInvocation) {
 						String s = "#{" + left.getLeft().toString() + collectionAdditionForCollectionDataModel + "}"; //$NON-NLS-1$ //$NON-NLS-2$
 						ELParser p = getParserFactory().createParser();
@@ -433,12 +426,10 @@ public class JSF2CCAttrsELCompletionEngine extends AbstractELCompletionEngine<IV
 			boolean returnEqualedVariablesOnly) {
 		Set<TextProposal> kbProposals = new TreeSet<TextProposal>(TextProposal.KB_PROPOSAL_ORDER);
 
-		ELSegmentImpl segment = new ELSegmentImpl();
+		ELSegmentImpl segment = new ELSegmentImpl(expr.getFirstToken());
 		resolution.setProposals(kbProposals);
 		if(expr instanceof ELPropertyInvocation) {
 			segment.setToken(((ELPropertyInvocation)expr).getName());			
-		} else {
-			segment.setToken(expr.getFirstToken());			
 		}
 
 		if(segment.getToken()!=null) {
