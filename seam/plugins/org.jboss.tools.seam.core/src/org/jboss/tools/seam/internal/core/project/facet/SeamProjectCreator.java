@@ -267,12 +267,15 @@ public class SeamProjectCreator {
 				});
 				StringBuffer earJarsStrWar = new StringBuffer();
 				StringBuffer earJarsStrEjb = new StringBuffer();
-				for (File file : earJars) {
-					earJarsStrWar.append(" ").append(file.getName()).append(" \n");
-					if (isJBossSeamJar(file)) {
-						jbossSeamPath = file.getAbsolutePath();
-					} else {
-						earJarsStrEjb.append(" ").append(file.getName()).append(" \n");
+				
+				if(earJars != null){
+					for (File file : earJars) {
+						earJarsStrWar.append(" ").append(file.getName()).append(" \n");
+						if (isJBossSeamJar(file)) {
+							jbossSeamPath = file.getAbsolutePath();
+						} else {
+							earJarsStrEjb.append(" ").append(file.getName()).append(" \n");
+						}
 					}
 				}
 
@@ -283,13 +286,17 @@ public class SeamProjectCreator {
 				FilterSet manifestFilterWar = new FilterSet();
 				manifestFilterWar.addFilter("earLibs", earJarsStrWar.toString()); //$NON-NLS-1$
 				manifestFilterColWar.addFilterSet(manifestFilterWar);
-				AntCopyUtils.copyFileToFolder(new File(SeamFacetInstallDataModelProvider.getTemplatesFolder(), "war/META-INF/MANIFEST.MF"), webMetaInf, manifestFilterColWar, true); //$NON-NLS-1$
+				
+				if(shouldCopySeamRuntimeLibraries(model))
+					AntCopyUtils.copyFileToFolder(new File(SeamFacetInstallDataModelProvider.getTemplatesFolder(), "war/META-INF/MANIFEST.MF"), webMetaInf, manifestFilterColWar, true); //$NON-NLS-1$
 
 				FilterSetCollection manifestFilterColEjb = new FilterSetCollection(projectFilterSet);
 				FilterSet manifestFilterEjb = new FilterSet();
 				manifestFilterEjb.addFilter("earClasspath", earJarsStrEjb.toString()); //$NON-NLS-1$
 				manifestFilterColEjb.addFilterSet(manifestFilterEjb);
-				AntCopyUtils.copyFileToFolder(new File(SeamFacetInstallDataModelProvider.getTemplatesFolder(), "ejb/ejbModule/META-INF/MANIFEST.MF"), ejbMetaInf, manifestFilterColEjb, true); //$NON-NLS-1$
+				
+				if(shouldCopySeamRuntimeLibraries(model))
+					AntCopyUtils.copyFileToFolder(new File(SeamFacetInstallDataModelProvider.getTemplatesFolder(), "ejb/ejbModule/META-INF/MANIFEST.MF"), ejbMetaInf, manifestFilterColEjb, true); //$NON-NLS-1$
 			} catch (IOException e) {
 				SeamCorePlugin.getPluginLog().logError(e);
 			}
@@ -449,7 +456,7 @@ public class SeamProjectCreator {
 	 * Creates test project for given seam web project.
 	 */
 	protected boolean createTestProject() {
-		if(!(Boolean)model.getProperty(ISeamFacetDataModelProperties.TEST_PROJECT_CREATING))
+		if(!(Boolean)model.getProperty(ISeamFacetDataModelProperties.TEST_PROJECT_CREATING) || !shouldCopySeamRuntimeLibraries(model))
 			return false;
 
 		File testProjectDir = new File(seamWebProject.getLocation().removeLastSegments(1).toFile(), testProjectName); //$NON-NLS-1$
@@ -541,6 +548,9 @@ public class SeamProjectCreator {
 	}
 
 	protected void createEjbProject() {
+		if(!shouldCopySeamRuntimeLibraries(model))
+			return;
+		
 		ejbProjectFolder.mkdir();
 
 		AntCopyUtils.copyFilesAndFolders(
@@ -602,6 +612,9 @@ public class SeamProjectCreator {
 	}
 
 	protected void createEarProject() {
+		if(!shouldCopySeamRuntimeLibraries(model))
+			return;
+		
 		earProjectFolder.mkdir();
 
 		File earContentsFolder = new File(earProjectFolder, "EarContent"); //$NON-NLS-1$
@@ -626,14 +639,14 @@ public class SeamProjectCreator {
 		} catch (IOException e) {
 			SeamCorePlugin.getPluginLog().logError(e);
 		}
-
+	
 		// Fill ear contents
 		AntCopyUtils.copyFiles(seamHomeFolder, earContentsFolder, new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(getJbossEarContent()).dir(seamHomeFolder)));
 		if (!SeamCorePlugin.getDefault().hasM2Facet(seamWebProject)) {
 			AntCopyUtils.copyFiles(seamLibFolder, earContentsFolder, new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(getJbossEarContent()).dir(seamLibFolder)));
 			AntCopyUtils.copyFiles(droolsLibFolder, earContentsFolder, new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(getJbossEarContent()).dir(droolsLibFolder)));
 		}
-		AntCopyUtils.copyFiles(seamGenResFolder, earContentsFolder, new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(getJbossEarContent()).dir(seamGenResFolder)));						
+		AntCopyUtils.copyFiles(seamGenResFolder, earContentsFolder, new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(getJbossEarContent()).dir(seamGenResFolder)));
 
 		File resources = new File(earProjectFolder, "resources");
 		AntCopyUtils.copyFileToFile(
@@ -689,5 +702,9 @@ public class SeamProjectCreator {
 	
 	protected void configureJBossAppXml() {
 		// Do nothing special for Seam 1.2
+	}
+	
+	protected boolean shouldCopySeamRuntimeLibraries(IDataModel model){
+		return model.getBooleanProperty(ISeamFacetDataModelProperties.SEAM_RUNTIME_LIBRARIES_COPYING);
 	}
 }

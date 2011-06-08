@@ -386,6 +386,9 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 	 */
 	protected void copyFilesToWarProject(IProject project, IProjectFacetVersion fv,
 			IDataModel model, IProgressMonitor monitor) throws CoreException {
+		
+		if(!shouldCopySeamRuntimeLibraries(model))
+			return;
 
 		final AntCopyUtils.FileSet viewFileSet = new AntCopyUtils.FileSet(VIEW_FILESET).dir(seamGenViewSource);
 		AntCopyUtils.copyFilesAndFolders(
@@ -552,28 +555,35 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 		FilterSet earFilterSet =  new FilterSet();
 		earFilterSet.addFilter("projectName", project.getName() + ".ear"); //$NON-NLS-1$ //$NON-NLS-2$
 
-		AntCopyUtils.copyFileToFolder(
-			new File(seamGenResFolder, "META-INF/jboss-app.xml"), //$NON-NLS-1$
-			metaInfFolder, new FilterSetCollection(earFilterSet), false);
+		if(shouldCopySeamRuntimeLibraries(model)){
+			AntCopyUtils.copyFileToFolder(
+				new File(seamGenResFolder, "META-INF/jboss-app.xml"), //$NON-NLS-1$
+				metaInfFolder, new FilterSetCollection(earFilterSet), false);
+		}
 
 		if(applicationXml.exists()) {
 			configureApplicationXml(project, monitor);
 		}
-		// Copy configuration files from template
-		try {
-			AntCopyUtils.copyFilesAndFolders(
-				new File(SeamFacetInstallDataModelProvider.getTemplatesFolder(), "ear"),  //$NON-NLS-1$
-				earProjectFolder, new FilterSetCollection(ejbFilterSet), false);
-		} catch (IOException e) {
-			SeamCorePlugin.getPluginLog().logError(e);
+		
+		if(shouldCopySeamRuntimeLibraries(model)){
+			// Copy configuration files from template
+			try {
+				AntCopyUtils.copyFilesAndFolders(
+					new File(SeamFacetInstallDataModelProvider.getTemplatesFolder(), "ear"),  //$NON-NLS-1$
+					earProjectFolder, new FilterSetCollection(ejbFilterSet), false);
+			} catch (IOException e) {
+				SeamCorePlugin.getPluginLog().logError(e);
+			}
 		}
 
-		fillEarContents(project);
+		fillEarContents(project, model);
 
-		File resources = new File(earProjectFolder, "resources"); //$NON-NLS-1$
-		AntCopyUtils.copyFileToFile(
-			dataSourceDsFile, new File(resources, project.getName() + "-ds.xml"),  //$NON-NLS-1$
-			viewFilterSetCollection, false);
+		if(shouldCopySeamRuntimeLibraries(model)){
+			File resources = new File(earProjectFolder, "resources"); //$NON-NLS-1$
+			AntCopyUtils.copyFileToFile(
+				dataSourceDsFile, new File(resources, project.getName() + "-ds.xml"),  //$NON-NLS-1$
+				viewFilterSetCollection, false);
+		}
 	}
 
 	protected void configureApplicationXml(IProject project, IProgressMonitor monitor) {
@@ -612,7 +622,7 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 	/**
 	 * Fill ear contents
 	 */
-	abstract protected void fillEarContents(IProject project);
+	abstract protected void fillEarContents(IProject project, IDataModel model);
 
 	protected IResource getSrcFolder(IProject project) throws JavaModelException {
 		IJavaProject javaProject = EclipseResourceUtil.getJavaProject(project);
@@ -661,14 +671,16 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 			viewFilterSetCollection.addFilterSet(projectFilterSet);
 
 			File srcFile = src.getLocation().toFile();
-			// Copy sources to EJB project in case of EAR configuration
-			AntCopyUtils.copyFileToFile(
-				new File(seamGenHomeFolder, "src/Authenticator.java"), //$NON-NLS-1$
-				new File(srcFile, model.getProperty(ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_NAME).toString().replace('.', '/') + "/" + "Authenticator.java"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-				new FilterSetCollection(filtersFilterSet), false);
+			if(shouldCopySeamRuntimeLibraries(model)){
+				// Copy sources to EJB project in case of EAR configuration
+				AntCopyUtils.copyFileToFile(
+					new File(seamGenHomeFolder, "src/Authenticator.java"), //$NON-NLS-1$
+					new File(srcFile, model.getProperty(ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_NAME).toString().replace('.', '/') + "/" + "Authenticator.java"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+					new FilterSetCollection(filtersFilterSet), false);
+			}
 
 			File persistentXml = new File(srcFile, "META-INF/persistence.xml"); //$NON-NLS-1$
-			if(!persistentXml.exists()) {
+			if(!persistentXml.exists() && shouldCopySeamRuntimeLibraries(model)) {
 				AntCopyUtils.copyFileToFile(persistenceFile, new File(srcFile, "META-INF/persistence.xml"), //$NON-NLS-1$
 						viewFilterSetCollection, false);
 			} else {
@@ -681,10 +693,12 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 			}
 
 			AntCopyUtils.FileSet ejbSrcResourcesSet = new AntCopyUtils.FileSet(JBOOS_EJB_WEB_INF_CLASSES_SET).dir(seamGenResFolder);
-			AntCopyUtils.copyFilesAndFolders(seamGenResFolder, srcFile, new AntCopyUtils.FileSetFileFilter(ejbSrcResourcesSet), viewFilterSetCollection, false);
+			if(shouldCopySeamRuntimeLibraries(model)){
+				AntCopyUtils.copyFilesAndFolders(seamGenResFolder, srcFile, new AntCopyUtils.FileSetFileFilter(ejbSrcResourcesSet), viewFilterSetCollection, false);
+			}
 
 			File ejbJarXml = new File(srcFile, "META-INF/ejb-jar.xml"); //$NON-NLS-1$
-			if(!ejbJarXml.exists()) {
+			if(!ejbJarXml.exists() && shouldCopySeamRuntimeLibraries(model)) {
 				AntCopyUtils.copyFileToFolder(new File(seamGenResFolder, "META-INF/ejb-jar.xml"), //$NON-NLS-1$
 					new File(srcFile, "META-INF"), viewFilterSetCollection, false); //$NON-NLS-1$
 			} else {
@@ -692,13 +706,15 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 			}
 		}
 
-		AntCopyUtils.copyFileToFile(
-				hibernateConsoleLaunchFile,
-				new File(ejbProjectFolder, getLaunchCfgName(ejbProjectFolder.getName()) + ".launch"), //$NON-NLS-1$
-				new FilterSetCollection(ejbFilterSet), false);
-
-		AntCopyUtils.copyFileToFolder(hibernateConsolePropsFile,
-			ejbProjectFolder, hibernateDialectFilterSet, false);
+		if(shouldCopySeamRuntimeLibraries(model)){
+			AntCopyUtils.copyFileToFile(
+					hibernateConsoleLaunchFile,
+					new File(ejbProjectFolder, getLaunchCfgName(ejbProjectFolder.getName()) + ".launch"), //$NON-NLS-1$
+					new FilterSetCollection(ejbFilterSet), false);
+	
+			AntCopyUtils.copyFileToFolder(hibernateConsolePropsFile,
+				ejbProjectFolder, hibernateDialectFilterSet, false);
+		}
 	}
 
 	enum ProjectType {
@@ -727,11 +743,16 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 	public void doExecute(final IProject project, IProjectFacetVersion fv,
 			Object config, IProgressMonitor monitor) throws CoreException {
 		final IDataModel model = (IDataModel)config;
+		
 		IFacetedProject facetedProject = ProjectFacetsManager.create(project);
 		IProjectFacetVersion ejbVersion = facetedProject.getProjectFacetVersion(IJ2EEFacetConstants.EJB_FACET);
 		IProjectFacetVersion webVersion = facetedProject.getProjectFacetVersion(IJ2EEFacetConstants.DYNAMIC_WEB_FACET);
 		IProjectFacetVersion earVersion = facetedProject.getProjectFacetVersion(IJ2EEFacetConstants.ENTERPRISE_APPLICATION_FACET);
-		IProjectFacetVersion jpaVersion = facetedProject.getProjectFacetVersion(ProjectFacetsManager.getProjectFacet("jpt.jpa"));
+		
+		IProjectFacetVersion jpaVersion = null;
+		if(ProjectFacetsManager.isProjectFacetDefined("jpt.jpa"))
+			jpaVersion = facetedProject.getProjectFacetVersion(ProjectFacetsManager.getProjectFacet("jpt.jpa"));
+		
 		initDefaultModelValues(model, webVersion!=null);
 
 		model.setProperty(ISeamFacetDataModelProperties.SEAM_PROJECT_NAME, project.getName());
@@ -916,6 +937,9 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 			} else if(!names.isEmpty()) {
 				model.setProperty(ISeamFacetDataModelProperties.SEAM_CONNECTION_PROFILE, names.get(0));
 			}
+		}
+		if(model.getProperty(ISeamFacetDataModelProperties.SEAM_RUNTIME_LIBRARIES_COPYING)==null) {
+			model.setBooleanProperty(ISeamFacetDataModelProperties.SEAM_RUNTIME_LIBRARIES_COPYING, true);
 		}
 	}
 
@@ -1269,4 +1293,8 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 	}
 	
 	protected abstract SeamProjectCreator getProjectCreator(IDataModel model, IProject project);
+	
+	protected boolean shouldCopySeamRuntimeLibraries(IDataModel model){
+		return model.getBooleanProperty(ISeamFacetDataModelProperties.SEAM_RUNTIME_LIBRARIES_COPYING);
+	}
 }

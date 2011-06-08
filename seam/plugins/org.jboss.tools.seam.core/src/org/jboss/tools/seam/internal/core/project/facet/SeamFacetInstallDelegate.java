@@ -131,6 +131,10 @@ public class SeamFacetInstallDelegate extends SeamFacetAbstractInstallDelegate {
 	@Override
 	protected void copyFilesToWarProject(final IProject project, IProjectFacetVersion fv,
 			IDataModel model, IProgressMonitor monitor) throws CoreException {
+		
+		if(!shouldCopySeamRuntimeLibraries(model))
+			return;
+		
 		super.copyFilesToWarProject(project, fv, model, monitor);
 		final File droolsLibFolder = new File(seamHomePath, DROOLS_LIB_SEAM_RELATED_PATH);
 		if (isWarConfiguration(model)) {
@@ -149,7 +153,10 @@ public class SeamFacetInstallDelegate extends SeamFacetAbstractInstallDelegate {
 	 * @see org.jboss.tools.seam.internal.core.project.facet.SeamFacetAbstractInstallDelegate#fillEarContents()
 	 */
 	@Override
-	protected void fillEarContents(IProject project) {
+	protected void fillEarContents(IProject project, IDataModel model) {
+		if(!shouldCopySeamRuntimeLibraries(model))
+			return;
+		
 		final File droolsLibFolder = new File(seamHomePath, DROOLS_LIB_SEAM_RELATED_PATH);
 		AntCopyUtils.copyFiles(seamHomeFolder, earContentsFolder, new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(JBOSS_EAR_CONTENT).dir(seamHomeFolder)), false);
 		AntCopyUtils.copyFiles(seamLibFolder, earContentsFolder, new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(JBOSS_EAR_CONTENT).dir(seamLibFolder)), false);

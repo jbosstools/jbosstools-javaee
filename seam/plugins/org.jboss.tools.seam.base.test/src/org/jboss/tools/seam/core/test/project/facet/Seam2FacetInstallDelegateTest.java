@@ -118,6 +118,7 @@ public class Seam2FacetInstallDelegateTest extends AbstractSeamFacetTest {
 		IDataModel dataModel = super.createSeamDataModel(deployType);
 		dataModel.setStringProperty(
 				ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME, SEAM_2_0_0);
+		dataModel.setBooleanProperty(ISeamFacetDataModelProperties.SEAM_RUNTIME_LIBRARIES_COPYING, true);
 
 		return dataModel;
 	}
@@ -161,7 +162,119 @@ public class Seam2FacetInstallDelegateTest extends AbstractSeamFacetTest {
 						IContainer.class);
 		assertOnlyContainsTheseFiles(seamgenlibs, warLibs);
 	}
+	
+	public void testWarLibrariesCopying() throws CoreException{
+		checkWarLibrariesInSeamProject("warLibPrj", true);
+	}
 
+	public void testWarLibrariesNotCopying() throws CoreException{
+		checkWarLibrariesInSeamProject("warNoLibPrj", false);
+	}
+
+	public void testEarLibrariesCopying() throws CoreException{
+		checkEarLibrariesInSeamProject("earLibPrj", true);
+	}
+
+	protected void checkWarLibrariesInSeamProject(String warName, Boolean copyLibraries) throws CoreException{
+		IDataModel warModel = createSeamDataModel("war");
+		warModel.setBooleanProperty(ISeamFacetDataModelProperties.SEAM_RUNTIME_LIBRARIES_COPYING, copyLibraries);
+
+		IFacetedProject wProject = createSeamProject(warName, warModel);
+		IProject war = wProject.getProject();
+		
+		Set<String> onlyInWar = getWarLibs();
+
+		final IContainer warLibs = (IContainer) war.findMember("WebContent/WEB-INF/lib");
+
+		if(copyLibraries){
+			assertOnlyContainsTheseFiles(onlyInWar, warLibs);
+		}else{
+			assertContainsNoneOfTheseFiles(onlyInWar, warLibs);
+		}
+	}
+	
+	protected void checkEarLibrariesInSeamProject(String earName, Boolean copyLibraries) throws CoreException{
+		IDataModel earModel = createSeamDataModel("ear");
+		earModel.setBooleanProperty(ISeamFacetDataModelProperties.SEAM_RUNTIME_LIBRARIES_COPYING, copyLibraries);
+		
+		IFacetedProject eProject = createSeamProject(earName, earModel);
+		IProject war = eProject.getProject();
+		
+		SeamProjectsSet seamProjectsSet = new SeamProjectsSet(war);
+		
+		assertTrue(seamProjectsSet.getWarProject().exists());
+		assertTrue(seamProjectsSet.getTestProject().exists());
+		assertTrue(seamProjectsSet.getEjbProject().exists());
+		assertTrue(seamProjectsSet.getEarProject().exists());
+
+		IProject ear = seamProjectsSet.getEarProject();
+		IProject ejb = seamProjectsSet.getEjbProject();
+		IProject test = seamProjectsSet.getTestProject();
+		
+		Set<String> onlyInWar = getEarWarLibs();
+		Set<String> onlyInEar = getEarLibs();
+		Set<String> onlyInTest = getTestLibs();
+		Set<String> onlyInEarSeam = new HashSet<String>();
+		Set<String> onlyInEjbSrc = new HashSet<String>();
+		Set<String> onlyInEarMeta = new HashSet<String>();
+		
+		onlyInEarMeta.add("jboss-app.xml");
+		onlyInEarMeta.add("application.xml");
+
+		onlyInEjbSrc.add("security.drl");
+		onlyInEjbSrc.add("seam.properties");
+		onlyInEjbSrc.add("import.sql");
+		onlyInEjbSrc.add("components.properties");
+
+		onlyInEarSeam.add("jboss-seam.jar");
+		
+		if(copyLibraries){
+			onlyInEarSeam.add("lib");
+			onlyInEarSeam.add("META-INF");
+			onlyInEjbSrc.add("META-INF");
+			onlyInEjbSrc.add("org");
+			
+		}
+		
+		final IContainer earMeta = (IContainer) ear.findMember("EarContent/META-INF");
+
+		final IContainer warLibs = (IContainer) war.findMember("WebContent/WEB-INF/lib");
+
+		final IContainer earLibsSeam = (IContainer) ear.findMember("EarContent");
+
+		final IContainer earLibs = (IContainer) ear.findMember("EarContent/lib");
+		
+		final IContainer ejbSrc = (IContainer) ejb.findMember("ejbModule");
+
+		final IContainer testLibs = (IContainer) test.findMember("lib");
+
+		if(copyLibraries){
+			assertOnlyContainsTheseFiles(onlyInEjbSrc, ejbSrc);
+			
+			assertOnlyContainsTheseFiles(onlyInEarMeta, earMeta);
+			
+			assertOnlyContainsTheseFiles(onlyInEarSeam, earLibsSeam);
+
+			assertOnlyContainsTheseFiles(onlyInEar, earLibs);
+
+			assertOnlyContainsTheseFiles(onlyInWar, warLibs);
+			
+			assertOnlyContainsTheseFiles(onlyInTest, testLibs);
+		}else{
+			assertContainsNoneOfTheseFiles(onlyInEjbSrc, ejbSrc);
+			
+			assertContainsNoneOfTheseFiles(onlyInEarMeta, earMeta);
+			
+			assertContainsNoneOfTheseFiles(onlyInEarSeam, earLibsSeam);
+
+			assertContainsNoneOfTheseFiles(onlyInEar, earLibs);
+
+			assertContainsNoneOfTheseFiles(onlyInWar, warLibs);
+			
+			assertContainsNoneOfTheseFiles(onlyInTest, testLibs);
+		}
+	}
+	
 	public void testMvelWarJars() {
 		final IContainer warLibs = (IContainer) warProject.getProject()
 				.findMember("WebContent/WEB-INF/lib").getAdapter(
@@ -362,6 +475,32 @@ public class Seam2FacetInstallDelegateTest extends AbstractSeamFacetTest {
 
 		assertTrue("Found additional files (" + foundFiles + " in " + dir
 				+ " at " + dir.getLocation(), foundFiles.isEmpty());
+	}
+
+	protected void assertContainsNoneOfTheseFiles(Set<String> fileNames,
+			final IResource dir) throws CoreException {
+		
+		if(dir == null)
+			return;
+		
+		final Set<String> foundFiles = new HashSet<String>();
+		dir.accept(new IResourceProxyVisitor() {
+
+			public boolean visit(IResourceProxy proxy) throws CoreException {
+				if (dir.getName().equals(proxy.getName()))
+					return true;
+				foundFiles.add(proxy.getName());
+				return false;
+			}
+
+		}, IResource.DEPTH_ZERO);
+		
+		for(String fileName : fileNames){
+			if(foundFiles.contains(fileName)){
+				fail("Found library: "+fileName);
+			}
+		}
+
 	}
 
 	public void testBootstrapDirPresent() throws CoreException, IOException {

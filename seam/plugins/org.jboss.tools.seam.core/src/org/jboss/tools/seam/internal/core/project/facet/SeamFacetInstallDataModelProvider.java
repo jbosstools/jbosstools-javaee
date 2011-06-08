@@ -92,6 +92,7 @@ public class SeamFacetInstallDataModelProvider extends
 		names.add(ISeamFacetDataModelProperties.CREATE_EAR_PROJECTS);
 		names.add(CONFIGURE_DEFAULT_SEAM_RUNTIME);
 		names.add(CONFIGURE_WAR_PROJECT);
+		names.add(ISeamFacetDataModelProperties.SEAM_RUNTIME_LIBRARIES_COPYING);
 		
 		return names;
 	}

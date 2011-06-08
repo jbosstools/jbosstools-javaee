@@ -49,11 +49,11 @@ import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
 import org.eclipse.wst.common.frameworks.datamodel.IDataModelListener;
 import org.eclipse.wst.common.frameworks.internal.operations.ProjectCreationDataModelProviderNew;
 import org.eclipse.wst.common.project.facet.core.IFacetedProject;
+import org.eclipse.wst.common.project.facet.core.IFacetedProject.Action;
 import org.eclipse.wst.common.project.facet.core.IFacetedProjectWorkingCopy;
 import org.eclipse.wst.common.project.facet.core.IProjectFacet;
 import org.eclipse.wst.common.project.facet.core.IProjectFacetVersion;
 import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
-import org.eclipse.wst.common.project.facet.core.IFacetedProject.Action;
 import org.eclipse.wst.common.project.facet.core.runtime.IRuntime;
 import org.eclipse.wst.common.project.facet.core.runtime.RuntimeManager;
 import org.eclipse.wst.common.project.facet.ui.AbstractFacetWizardPage;
@@ -76,7 +76,6 @@ import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelPrope
 import org.jboss.tools.seam.internal.core.project.facet.SeamFacetInstallDataModelProvider;
 import org.jboss.tools.seam.ui.SeamUIMessages;
 import org.jboss.tools.seam.ui.wizard.SeamFormWizard;
-import org.jboss.tools.seam.ui.wizard.SeamProjectWizard;
 import org.jboss.tools.seam.ui.wizard.SeamWizardFactory;
 import org.jboss.tools.seam.ui.wizard.SeamWizardUtils;
 
@@ -311,6 +310,8 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 		SeamCorePlugin.getDefault().getPluginPreferences().setValue(
 				SeamProjectPreferences.JBOSS_AS_DEFAULT_DEPLOY_AS,
 				this.jBossAsDeployAsEditor.getValueAsString());
+		
+		model.setBooleanProperty(ISeamFacetDataModelProperties.SEAM_RUNTIME_LIBRARIES_COPYING, !isNewProjectWizard());
 	}
 	
 	/*
@@ -597,10 +598,6 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 			}
 			editor.dispose();
 		}
-	}
-
-	private boolean isNewSeamProjectWizard() {
-		return getWizard() == null || getWizard() instanceof SeamProjectWizard;
 	}
 
 	private boolean isNewProjectWizard() {
