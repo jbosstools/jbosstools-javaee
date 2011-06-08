@@ -15,17 +15,4 @@
 		<emma.filter>org.jboss.tools.jsf.ui*</emma.filter>
 		<emma.instrument.bundles>org.jboss.tools.jsf.ui</emma.instrument.bundles>
 	</properties>
-
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.sonatype.tycho</groupId>
-				<artifactId>maven-osgi-test-plugin</artifactId>
-				<configuration>
-					<product>org.jboss.tools.tests.product</product>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
-
 </project>

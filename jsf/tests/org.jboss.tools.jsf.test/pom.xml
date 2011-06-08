@@ -22,7 +22,7 @@
 				<groupId>org.sonatype.tycho</groupId>
 				<artifactId>maven-osgi-test-plugin</artifactId>
 				<configuration>
-					<explodedBundles>
+					<explodedBundles combine.children="append">
 						<bundle>org.jboss.tools.jsf.test</bundle>
 					</explodedBundles>
 				</configuration>
