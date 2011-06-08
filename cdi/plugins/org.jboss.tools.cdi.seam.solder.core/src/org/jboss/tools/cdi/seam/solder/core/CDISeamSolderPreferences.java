@@ -25,7 +25,8 @@ public class CDISeamSolderPreferences extends SeverityPreferences {
 
 	private static CDISeamSolderPreferences INSTANCE = new CDISeamSolderPreferences();
 
-	public static final String AMBIGUOUS_GENERIC_BEAN = INSTANCE.createSeverityOption("ambiguousGenericBean");
+	public static final String AMBIGUOUS_GENERIC_CONFIGURATION_POINT = INSTANCE.createSeverityOption("ambiguousGenericConfigurationPoint");
+	public static final String WRONG_TYPE_OF_GENERIC_CONFIGURATION_POINT = INSTANCE.createSeverityOption("wrongTypeOfGenericConfigurationPoint");
 
 	public static CDISeamSolderPreferences getInstance() {
 		return INSTANCE;

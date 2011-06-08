@@ -70,7 +70,7 @@ public class GenericBeanDefinitionContext extends AbstractDefinitionContextExten
 		if(annotation.isAnnotationPresent(CDISeamSolderConstants.GENERIC_TYPE_ANNOTATION_TYPE_NAME)) {
 			annotation.setExtendedKind(CDISeamSolderConstants.GENERIC_ANNOTATION_KIND);
 			String qn = annotation.getType().getFullyQualifiedName();
-			getGenericConfiguration(qn).setGenericTypeDefinition(annotation);
+			getGenericConfiguration(qn).setGenericTypeDefinition(annotation, this);
 		}
 	}
 

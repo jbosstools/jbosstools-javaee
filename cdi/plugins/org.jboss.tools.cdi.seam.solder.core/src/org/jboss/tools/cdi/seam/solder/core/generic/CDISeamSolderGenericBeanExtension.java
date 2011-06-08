@@ -96,9 +96,9 @@ public class CDISeamSolderGenericBeanExtension implements ICDIExtension, IBuildP
 				p.addBean(b);				
 			}
 
-			Map<AbstractMemberDefinition, List<IQualifierDeclaration>> ms = c.getGenericProducerBeans();
+			Map<AbstractMemberDefinition, List<IQualifierDeclaration>> ms = c.getGenericConfigurationPoints();
 
-			Set<TypeDefinition> ts = c.getGenericConfigurationBeans();
+			Set<TypeDefinition> ts = c.getGenericBeans();
 			for (AbstractMemberDefinition gp: ms.keySet()) {
 				//check veto
 				if(gp.getTypeDefinition().isVetoed()) {
@@ -198,7 +198,7 @@ public class CDISeamSolderGenericBeanExtension implements ICDIExtension, IBuildP
 						ParametedType p = context.getProject().getTypeFactory().getParametedType(typeDefinition.getType(), "Q" + s + ";");
 						if(p != null && p.getType() != null) {
 							GenericConfiguration c = ((GenericBeanDefinitionContext)this.context.getWorkingCopy()).getGenericConfiguration(p.getType().getFullyQualifiedName());
-							c.getGenericConfigurationBeans().add(typeDefinition);
+							c.getGenericBeans().add(typeDefinition);
 							addToDependencies(c, typeDefinition, context);
 						}
 					} catch (JavaModelException e) {
@@ -238,7 +238,7 @@ public class CDISeamSolderGenericBeanExtension implements ICDIExtension, IBuildP
 				list.add((IQualifierDeclaration)d);
 			}
 		}
-		c.getGenericProducerBeans().put(def, list);
+		c.getGenericConfigurationPoints().put(def, list);
 		addToDependencies(c, def, context);
 	}
 

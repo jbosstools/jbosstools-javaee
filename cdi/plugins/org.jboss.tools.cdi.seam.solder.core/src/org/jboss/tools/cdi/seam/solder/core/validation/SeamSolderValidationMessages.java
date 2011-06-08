@@ -21,7 +21,8 @@ public class SeamSolderValidationMessages {
 
 	private static final String BUNDLE_NAME = SeamSolderValidationMessages.class.getPackage().getName() + ".messages"; //$NON-NLS-1$
 	
-	public static String AMBIGUOUS_GENERIC_BEAN;
+	public static String AMBIGUOUS_GENERIC_CONFIGURATION_POINT;
+	public static String WRONG_TYPE_OF_GENERIC_CONFIGURATION_POINT;
 
 	static {
 		NLS.initializeMessages(BUNDLE_NAME, SeamSolderValidationMessages.class);
