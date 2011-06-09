@@ -6,6 +6,7 @@ import java.util.Set;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.IType;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.IAnnotationDeclaration;
@@ -265,5 +266,9 @@ public class CDIBean extends CDIElement implements IClassBean{
 		// TODO Auto-generated method stub
 		
 	}
-	
+
+	@Override
+	public IMember getSourceMember() {
+		return getBeanClass();
+	}
 }

@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
 import org.jboss.tools.cdi.core.CDIConstants;
@@ -537,12 +538,26 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 	 * (non-Javadoc)
 	 * @see org.jboss.tools.cdi.core.IBean#getSimpleJavaName()
 	 */
+	@Override
 	public String getSimpleJavaName() {
 		return this.getBeanClass().getElementName();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.cdi.core.IClassBean#getSuperType()
+	 */
+	@Override
 	public ParametedType getSuperType() {
 		return getDefinition().getSuperType();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.common.java.IJavaMemberReference#getSourceMember()
+	 */
+	@Override
+	public IMember getSourceMember() {
+		return getBeanClass();
+	}
 }
