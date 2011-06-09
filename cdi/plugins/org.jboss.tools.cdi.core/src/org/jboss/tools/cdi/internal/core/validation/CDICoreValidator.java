@@ -223,6 +223,22 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
 		Set<IPath> resources = new HashSet<IPath>(); // Resources which we have
 														// to validate.
+		Dependencies ds = cdiProject.getNature().getDefinitions().getDependencies();
+		for(IFile file: changedFiles) {
+			Set<IPath> dd = ds.getDirectDependencies(file.getFullPath());
+			if(dd != null && !dd.isEmpty()) {
+				for (IPath p: dd) {
+					IFile f = root.getFile(p);
+					if(f != null && f.exists() && !changedFiles.contains(f)) {
+						resources.add(p);
+						if(f.exists()) {
+							collectAllRelatedInjections(f, resources);
+						}
+					}
+				}
+			}
+		}
+
 		for (IFile currentFile : changedFiles) {
 			if (reporter.isCancelled()) {
 				break;
@@ -282,21 +298,6 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 		// Remove all links between collected resources because they will be
 		// linked again during validation.
 		getValidationContext().removeLinkedCoreResources(SHORT_ID, resources);
-
-		Dependencies ds = cdiProject.getNature().getDefinitions().getDependencies();
-		Set<IFile> dependentFiles = new HashSet<IFile>();
-		for(IFile file: filesToValidate) {
-			Set<IPath> dd = ds.getDirectDependencies(file.getFullPath());
-			if(dd != null && !dd.isEmpty()) {
-				for (IPath p: dd) {
-					IFile f = cdiProject.getNature().getProject().getParent().getFile(p);
-					if(f != null && f.exists() && !filesToValidate.contains(f)) dependentFiles.add(f);
-				}
-			}
-		}
-		if(!dependentFiles.isEmpty()) {
-			filesToValidate.addAll(dependentFiles);
-		}
 
 		// We should remove markers from the source files at first
 		for(IFile file: filesToValidate) {
@@ -394,6 +395,22 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 		}
 		displaySubtask(CDIValidationMessages.VALIDATING_RESOURCE, new String[] {file.getProject().getName(), file.getName()});
 		coreHelper.getValidationContextManager().addValidatedProject(this, file.getProject());
+
+		Dependencies ds = cdiProject.getNature().getDefinitions().getDependencies();
+		Set<IPath> dd = ds.getDirectDependencies(file.getFullPath());
+		if(dd != null && !dd.isEmpty()) {
+			Set<IPath> resources = new HashSet<IPath>();
+			for (IPath p: dd) {
+				IFile f = cdiProject.getNature().getProject().getParent().getFile(p);
+				if(f.exists()) {
+					resources.add(p);
+					collectAllRelatedInjections(f, resources);
+				}
+			}
+			for (IPath p: resources) {
+				getValidationContext().addLinkedCoreResource(SHORT_ID, p.toOSString(), file.getFullPath(), false);
+			}					
+		}
 
 		if("beans.xml".equalsIgnoreCase(file.getName()) && CDIPreferences.shouldValidateBeansXml(file.getProject())) {
 			// TODO should we check the path of the beans.xml? Or it's better to check the every beans.xml even if it is not in META-INF or WEB-INF.
