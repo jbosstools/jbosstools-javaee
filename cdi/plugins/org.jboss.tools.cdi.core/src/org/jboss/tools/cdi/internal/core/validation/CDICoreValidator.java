@@ -215,7 +215,7 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 	public IStatus validate(Set<IFile> changedFiles, IProject project, ContextValidationHelper validationHelper, IProjectValidationContext context, ValidatorManager manager, IReporter reporter)
 			throws ValidationException {
 		init(project, validationHelper, context, manager, reporter);
-		displaySubtask(CDIValidationMessages.SEARCHING_RESOURCES);
+		displaySubtask(CDIValidationMessages.SEARCHING_RESOURCES, new String[]{project.getName()});
 
 		if (cdiProject == null) {
 			return OK_STATUS;
@@ -226,14 +226,12 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 		Dependencies ds = cdiProject.getNature().getDefinitions().getDependencies();
 		for(IFile file: changedFiles) {
 			Set<IPath> dd = ds.getDirectDependencies(file.getFullPath());
-			if(dd != null && !dd.isEmpty()) {
+			if(dd != null) {
 				for (IPath p: dd) {
 					IFile f = root.getFile(p);
 					if(f != null && f.exists() && !changedFiles.contains(f)) {
 						resources.add(p);
-						if(f.exists()) {
-							collectAllRelatedInjections(f, resources);
-						}
+						collectAllRelatedInjections(f, resources);
 					}
 				}
 			}
