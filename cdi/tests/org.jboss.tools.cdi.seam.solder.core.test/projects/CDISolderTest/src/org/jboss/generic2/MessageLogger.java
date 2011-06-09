@@ -11,4 +11,9 @@ public class MessageLogger {
 	      /* Add metaddata to the message */
 	      dispatcher.send(null);
 	   }
+
+	@Inject
+	@Durable
+	MessageDispatcher durableDispatcher;
+
 }
