@@ -938,9 +938,6 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 				model.setProperty(ISeamFacetDataModelProperties.SEAM_CONNECTION_PROFILE, names.get(0));
 			}
 		}
-		if(model.getProperty(ISeamFacetDataModelProperties.SEAM_RUNTIME_LIBRARIES_COPYING)==null) {
-			model.setBooleanProperty(ISeamFacetDataModelProperties.SEAM_RUNTIME_LIBRARIES_COPYING, true);
-		}
 	}
 
 	/**

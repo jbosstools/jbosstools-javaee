@@ -311,7 +311,7 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 				SeamProjectPreferences.JBOSS_AS_DEFAULT_DEPLOY_AS,
 				this.jBossAsDeployAsEditor.getValueAsString());
 		
-		model.setBooleanProperty(ISeamFacetDataModelProperties.SEAM_RUNTIME_LIBRARIES_COPYING, !isNewProjectWizard());
+		model.setBooleanProperty(ISeamFacetDataModelProperties.SEAM_RUNTIME_LIBRARIES_COPYING, isNewProjectWizard());
 	}
 	
 	/*

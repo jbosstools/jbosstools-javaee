@@ -131,6 +131,8 @@ public class SeamFacetInstallDataModelProvider extends
 			return Boolean.TRUE;
 		} else if (CONFIGURE_WAR_PROJECT.equals(propertyName)) {
 			return Boolean.TRUE;
+		} else if (SEAM_RUNTIME_LIBRARIES_COPYING.equals(propertyName)) {
+			return Boolean.TRUE;
 		}
 		return super.getDefaultProperty(propertyName);
 	}
