@@ -52,7 +52,7 @@ public class TypeDefinition extends AbstractTypeDefinition {
 		Set<IProcessAnnotatedMemberFeature> extensions = context.getProject().getExtensionManager().getProcessAnnotatedMemberFeature();
 		IField[] fs = getType().getFields();
 		for (int i = 0; i < fs.length; i++) {
-			FieldDefinition f = new FieldDefinition();
+			FieldDefinition f = newFieldDefinition();
 			f.setTypeDefinition(this);
 			f.setField(fs[i], context, flags);
 			for (IProcessAnnotatedMemberFeature e: extensions) {
@@ -65,7 +65,7 @@ public class TypeDefinition extends AbstractTypeDefinition {
 		IMethod[] ms = getType().getMethods();
 		boolean hasConstructor = false;
 		for (int i = 0; i < ms.length; i++) {
-			MethodDefinition m = new MethodDefinition();
+			MethodDefinition m = newMethodDefinition();
 			m.setTypeDefinition(this);
 			m.setMethod(ms[i], context, flags);
 			for (IProcessAnnotatedMemberFeature e: extensions) {
@@ -84,6 +84,14 @@ public class TypeDefinition extends AbstractTypeDefinition {
 		if(!hasConstructor) {
 			setBeanConstructor(true);
 		}
+	}
+
+	protected FieldDefinition newFieldDefinition() {
+		return new FieldDefinition();
+	}
+
+	protected MethodDefinition newMethodDefinition() {
+		return new MethodDefinition();
 	}
 
 	public void setBeanConstructor(boolean b) {
