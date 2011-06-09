@@ -23,6 +23,7 @@ public class CDISeamExtMessages extends NLS{
 	public static String CDI_SEAM_CONFIG_OPEN_TAG;
 
 	public static String CDI_INJECTED_POINT_HYPERLINK_SHOW_GENERIC_BEANS;
+	public static String CDI_INJECTED_POINT_HYPERLINK_SHOW_SEAM_CONFIG_BEANS;
 	public static String OPEN_GENERIC_BEAN;
 	public static String OPEN_GENERIC_PRODUCER_BEAN;
 }

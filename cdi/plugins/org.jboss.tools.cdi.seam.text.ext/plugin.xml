@@ -23,6 +23,16 @@
       </hyperlinkDetector>
    </extension>
 
+	<extension
+         point="org.eclipse.ui.workbench.texteditor.hyperlinkDetectors">
+      <hyperlinkDetector
+            class="org.jboss.tools.cdi.seam.text.ext.hyperlink.SeamConfigInjectedPointHyperlinkDetector"
+            id="org.jboss.tools.cdi.seam.text.ext.hyperlink.SeamConfigInjectedPointHyperlinkDetector"
+            name="%SeamConfigInjectedPointHyperlinkDetector"
+            targetId="org.eclipse.jdt.ui.javaCode">
+      </hyperlinkDetector>
+   </extension>
+
    	<extension 
 		point="org.jboss.tools.common.text.ext.hyperlinkPartitioner"
 		id="org.jboss.tools.cdi.text.ext.hyperlinkPartitioner"

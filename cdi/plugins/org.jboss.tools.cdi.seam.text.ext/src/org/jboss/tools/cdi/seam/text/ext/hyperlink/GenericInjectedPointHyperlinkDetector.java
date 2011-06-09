@@ -48,13 +48,11 @@ import org.jboss.tools.cdi.core.IInjectionPointParameter;
 import org.jboss.tools.cdi.seam.solder.core.CDISeamSolderConstants;
 import org.jboss.tools.cdi.seam.solder.core.generic.GenericClassBean;
 import org.jboss.tools.cdi.text.ext.CDIExtensionsPlugin;
-import org.jboss.tools.cdi.text.ext.hyperlink.AlternativeInjectedPointListHyperlink;
-import org.jboss.tools.cdi.text.ext.hyperlink.InjectedPointHyperlink;
 
 public class GenericInjectedPointHyperlinkDetector extends AbstractHyperlinkDetector{
-	private IRegion region;
-	private IDocument document;
-	private ITextViewer viewer;
+	protected IRegion region;
+	protected IDocument document;
+	protected ITextViewer viewer;
 
 	public IHyperlink[] detectHyperlinks(ITextViewer textViewer,
 			IRegion region, boolean canShowMultipleHyperlinks) {
@@ -128,7 +126,7 @@ public class GenericInjectedPointHyperlinkDetector extends AbstractHyperlinkDete
 		return null;
 	}
 	
-	private void findInjectedBeans(CDICoreNature nature, IJavaElement element, int offset, IFile file, ArrayList<IHyperlink> hyperlinks){
+	protected void findInjectedBeans(CDICoreNature nature, IJavaElement element, int offset, IFile file, ArrayList<IHyperlink> hyperlinks){
 		ICDIProject cdiProject = nature.getDelegate();
 		
 		if(cdiProject == null) {
