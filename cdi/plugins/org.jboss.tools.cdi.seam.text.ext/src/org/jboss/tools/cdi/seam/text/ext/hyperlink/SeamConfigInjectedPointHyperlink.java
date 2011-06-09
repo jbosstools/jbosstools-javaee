@@ -37,8 +37,8 @@ import org.jboss.tools.common.text.ITextSourceReference;
 
 public class SeamConfigInjectedPointHyperlink extends InjectedPointHyperlink {
 
-	public SeamConfigInjectedPointHyperlink(IRegion region, IBean bean, IDocument document, boolean b) {
-		super(region, bean, document, b);
+	public SeamConfigInjectedPointHyperlink(IRegion region, IBean bean, IDocument document) {
+		super(region, bean, document);
 	}
 
 	protected void doHyperlink(IRegion region) {

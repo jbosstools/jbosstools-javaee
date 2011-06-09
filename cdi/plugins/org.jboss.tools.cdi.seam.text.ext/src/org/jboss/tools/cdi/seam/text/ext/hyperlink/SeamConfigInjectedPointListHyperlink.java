@@ -35,7 +35,7 @@ public class SeamConfigInjectedPointListHyperlink extends
 
 	@Override
 	protected IHyperlink createHyperlink(IRegion region, IBean bean) {
-		return new SeamConfigInjectedPointHyperlink(region, bean, getDocument(), false);
+		return new SeamConfigInjectedPointHyperlink(region, bean, getDocument());
 	}
 
 }

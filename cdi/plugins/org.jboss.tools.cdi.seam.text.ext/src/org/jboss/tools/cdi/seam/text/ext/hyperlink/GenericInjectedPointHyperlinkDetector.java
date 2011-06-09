@@ -168,7 +168,7 @@ public class GenericInjectedPointHyperlinkDetector extends AbstractHyperlinkDete
 
 		List<IBean> resultBeanList = CDIUtil.sortBeans(resultBeanSet2);		
 		if(resultBeanList.size() == 1) {
-			hyperlinks.add(new GenericInjectedPointHyperlink(region, resultBeanList.get(0), document, true));
+			hyperlinks.add(new GenericInjectedPointHyperlink(region, resultBeanList.get(0), document));
 		} else if(resultBeanList.size() > 0) {
 			hyperlinks.add(new GenericInjectedPointListHyperlink(region, resultBeanList, viewer, document));
 		}

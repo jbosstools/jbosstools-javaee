@@ -21,8 +21,8 @@ import org.jboss.tools.cdi.text.ext.hyperlink.InjectedPointHyperlink;
 
 public class GenericInjectedPointHyperlink extends InjectedPointHyperlink {
 
-	public GenericInjectedPointHyperlink(IRegion region, IBean bean, IDocument document, boolean b) {
-		super(region, bean, document, b);
+	public GenericInjectedPointHyperlink(IRegion region, IBean bean, IDocument document) {
+		super(region, bean, document);
 	}
 
 	@Override

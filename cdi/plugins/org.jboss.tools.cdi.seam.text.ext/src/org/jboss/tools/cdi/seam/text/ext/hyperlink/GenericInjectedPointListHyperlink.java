@@ -35,7 +35,7 @@ public class GenericInjectedPointListHyperlink extends
 
 	@Override
 	protected IHyperlink createHyperlink(IRegion region, IBean bean) {
-		return new GenericInjectedPointHyperlink(region, bean, getDocument(), false);
+		return new GenericInjectedPointHyperlink(region, bean, getDocument());
 	}
 
 }

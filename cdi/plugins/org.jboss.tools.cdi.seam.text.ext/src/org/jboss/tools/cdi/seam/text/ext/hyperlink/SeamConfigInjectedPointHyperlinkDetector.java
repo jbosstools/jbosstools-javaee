@@ -63,7 +63,7 @@ public class SeamConfigInjectedPointHyperlinkDetector extends GenericInjectedPoi
 
 		List<IBean> resultBeanList = CDIUtil.sortBeans(resultBeanSet2);		
 		if(resultBeanList.size() == 1) {
-			hyperlinks.add(new SeamConfigInjectedPointHyperlink(region, resultBeanList.get(0), document, true));
+			hyperlinks.add(new SeamConfigInjectedPointHyperlink(region, resultBeanList.get(0), document));
 		} else if(resultBeanList.size() > 0) {
 			hyperlinks.add(new SeamConfigInjectedPointListHyperlink(region, resultBeanList, viewer, document));
 		}
