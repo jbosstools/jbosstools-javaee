@@ -11,11 +11,13 @@
 package org.jboss.tools.cdi.seam.solder.core.test;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.jboss.tools.cdi.internal.core.validation.CDIValidationMessages;
+import org.jboss.tools.cdi.seam.solder.core.validation.SeamSolderValidationMessages;
 import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.ResourcesUtils;
 import org.jboss.tools.tests.AbstractResourceMarkerTest;
@@ -52,7 +54,7 @@ public class GenericBeanValidationTest extends SeamSolderTest {
 		 * Set original DurableQueueConfiguration.java back.
 		 * After that there are only 2 configurations, with different qualifiers.
 		 */
-		writeFile("src/org/jboss/generic2/DurableQueueConfiguration.original",
+		writeFile(project, "src/org/jboss/generic2/DurableQueueConfiguration.original",
 				"src/org/jboss/generic2/DurableQueueConfiguration.java");
 
 		AbstractResourceMarkerTest.assertMarkerIsCreated(file, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS + ".*", 15);
@@ -74,7 +76,7 @@ public class GenericBeanValidationTest extends SeamSolderTest {
 		 * Replace DurableQueueConfiguration.java with not generic version.
 		 * After that there are only 2 configurations.
 		 */
-		writeFile("src/org/jboss/generic2/DurableQueueConfiguration.notgeneric",
+		writeFile(project, "src/org/jboss/generic2/DurableQueueConfiguration.notgeneric",
 				"src/org/jboss/generic2/DurableQueueConfiguration.java");
 
 		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS + ".*");
@@ -83,13 +85,41 @@ public class GenericBeanValidationTest extends SeamSolderTest {
 		 * Set original DurableQueueConfiguration.java back.
 		 * Assert that MessageLogger again has error marker.
 		 */
-		writeFile("src/org/jboss/generic2/DurableQueueConfiguration.original",
+		writeFile(project, "src/org/jboss/generic2/DurableQueueConfiguration.original",
 				"src/org/jboss/generic2/DurableQueueConfiguration.java");
 
 		AbstractResourceMarkerTest.assertMarkerIsCreated(file, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS + ".*", 15);
 	}
 
-	void writeFile(String sourcePath, String targetPath) throws CoreException {
+	public void testWrongTypeOfGenericPointConfiguration() throws CoreException {
+		/*
+		 * Generic configuration point DurableQueueConfiguration has correct type.
+		 */
+		IFile file = project.getFile(new Path("src/org/jboss/generic2/DurableQueueConfiguration.java"));
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, SeamSolderValidationMessages.WRONG_TYPE_OF_GENERIC_CONFIGURATION_POINT + ".*");
+
+
+		/*
+		 * Remove DurableQueueConfiguration.java with vetoed version.
+		 * Generic configuration point DurableQueueConfiguration has incorrect type.
+		 */
+		writeFile(project, "src/org/jboss/generic2/DurableQueueConfiguration.wrongtype",
+				"src/org/jboss/generic2/DurableQueueConfiguration.java");
+
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, SeamSolderValidationMessages.WRONG_TYPE_OF_GENERIC_CONFIGURATION_POINT + ".*", 11);
+
+		/*
+		 * Set original DurableQueueConfiguration.java back.
+		 * Generic configuration point DurableQueueConfiguration has correct type.
+		 */
+		writeFile(project, "src/org/jboss/generic2/DurableQueueConfiguration.original",
+				"src/org/jboss/generic2/DurableQueueConfiguration.java");
+
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, SeamSolderValidationMessages.WRONG_TYPE_OF_GENERIC_CONFIGURATION_POINT + ".*");
+	}
+
+
+	static void writeFile(IProject project, String sourcePath, String targetPath) throws CoreException {
 		boolean saveAutoBuild = ResourcesUtils.setBuildAutomatically(false);
 		JobUtils.waitForIdle();
 		try {

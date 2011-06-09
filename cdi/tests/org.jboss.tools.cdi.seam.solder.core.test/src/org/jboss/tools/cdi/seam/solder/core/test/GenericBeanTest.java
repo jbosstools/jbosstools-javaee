@@ -10,17 +10,13 @@
  ******************************************************************************/ 
 package org.jboss.tools.cdi.seam.solder.core.test;
 
-import java.io.IOException;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IncrementalProjectBuilder;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.core.runtime.Path;
 import org.eclipse.jdt.core.IType;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.IBean;
@@ -32,9 +28,6 @@ import org.jboss.tools.cdi.core.IProducer;
 import org.jboss.tools.cdi.core.IProducerMethod;
 import org.jboss.tools.cdi.seam.solder.core.generic.GenericBeanProducerMethod;
 import org.jboss.tools.cdi.seam.solder.core.generic.GenericClassBean;
-import org.jboss.tools.common.util.FileUtil;
-import org.jboss.tools.test.util.JobUtils;
-import org.jboss.tools.test.util.ResourcesUtils;
 
 /**
  *   
@@ -224,7 +217,7 @@ public class GenericBeanTest extends SeamSolderTest {
 		 * Replace DurableQueueConfiguration.java with vetoed version.
 		 * After that there are only 2 configurations.
 		 */
-		replaceFile("src/org/jboss/generic2/DurableQueueConfiguration.vetoed",
+		replaceFile(project, "src/org/jboss/generic2/DurableQueueConfiguration.vetoed",
 				"src/org/jboss/generic2/DurableQueueConfiguration.java");
 
 		beanToBeVetoed = null;
@@ -248,7 +241,7 @@ public class GenericBeanTest extends SeamSolderTest {
 		 * Set original DurableQueueConfiguration.java back.
 		 * Make sure that there are again 3 configurations.
 		 */
-		replaceFile("src/org/jboss/generic2/DurableQueueConfiguration.original",
+		replaceFile(project, "src/org/jboss/generic2/DurableQueueConfiguration.original",
 				"src/org/jboss/generic2/DurableQueueConfiguration.java");
 
 		beanToBeVetoed = null;
@@ -270,22 +263,8 @@ public class GenericBeanTest extends SeamSolderTest {
 		assertNotNull(beanToBeVetoed);
 	}
 
-	void replaceFile(String sourcePath, String targetPath) throws CoreException {
-		boolean saveAutoBuild = ResourcesUtils.setBuildAutomatically(false);
-		JobUtils.waitForIdle();
-		try {
-			IFile target = project.getFile(new Path(targetPath));
-			assertTrue(target.exists());		
-			IFile source = project.getFile(new Path(sourcePath));
-			assertTrue(target.exists());
-			target.setContents(source.getContents(), true, false, new NullProgressMonitor());
-			JobUtils.waitForIdle();
-			project.build(IncrementalProjectBuilder.INCREMENTAL_BUILD, new NullProgressMonitor());
-			JobUtils.waitForIdle();
-		} finally {
-			ResourcesUtils.setBuildAutomatically(saveAutoBuild);
-			JobUtils.waitForIdle();
-		}
+	static void replaceFile(IProject project, String sourcePath, String targetPath) throws CoreException {
+		GenericBeanValidationTest.writeFile(project, sourcePath, targetPath);
 	}
 
 }
