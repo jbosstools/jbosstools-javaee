@@ -13,6 +13,7 @@ package org.jboss.tools.cdi.seam.config.core.definition;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.eclipse.core.resources.IResource;
 import org.jboss.tools.cdi.core.IJavaAnnotation;
 import org.jboss.tools.cdi.seam.config.core.xml.Location;
 import org.jboss.tools.cdi.seam.config.core.xml.SAXElement;
@@ -24,6 +25,7 @@ import org.jboss.tools.cdi.seam.config.core.xml.SAXNode;
  *
  */
 public abstract class SeamMemberDefinition {
+	protected IResource resource;
 	protected SAXNode node;
 	protected SAXElement replaces = null;
 	protected SAXElement modifies = null;
@@ -32,6 +34,14 @@ public abstract class SeamMemberDefinition {
 	protected SeamMemberDefinition parent;
 	
 	public SeamMemberDefinition() {}
+
+	public void setResource(IResource resource) {
+		this.resource = resource;
+	}
+
+	public IResource getResource() {
+		return resource;
+	}
 
 	public void setNode(SAXNode node) {
 		this.node = node;

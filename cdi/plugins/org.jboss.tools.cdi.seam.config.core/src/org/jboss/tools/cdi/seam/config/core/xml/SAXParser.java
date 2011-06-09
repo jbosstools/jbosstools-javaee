@@ -119,10 +119,10 @@ public class SAXParser extends SAXValidator {
 			element.setName(qName);
 			element.setParent(current);
 			if(start >= 0) {
-				element.setLocation(new Location(start, end - start));
+				element.setLocation(new Location(start, end - start, getLine(start)));
 				int ns = document.get().indexOf(qName, start);
 				if(ns >= start) {
-					element.setNameLocation(new Location(ns, qName.length()));
+					element.setNameLocation(new Location(ns, qName.length(), getLine(ns)));
 				}
 			}
 			for (int i = 0; i < attributes.getLength(); i++) {
@@ -133,10 +133,10 @@ public class SAXParser extends SAXValidator {
 				a.setValue(v);
 				int n_start = document.get().indexOf(n, start);
 				if(n_start >= 0) {
-					a.setNameLocation(new Location(n_start, n.length()));
+					a.setNameLocation(new Location(n_start, n.length(), getLine(n_start)));
 					int v_start = document.get().indexOf('"', n_start);
 					if(v_start >= 0) {
-						a.setValueLocation(new Location(v_start + 1, v.length()));
+						a.setValueLocation(new Location(v_start + 1, v.length(), getLine(v_start)));
 					}
 				}
 				//TODO
@@ -157,14 +157,14 @@ public class SAXParser extends SAXValidator {
 				s = end - length;
 			}
 			currentText.append(append);
-			currentTextLocation = new Location(s, length);
+			currentTextLocation = new Location(s, length, getLine(s));
 		}
 
 		public void endElement(String uri, String localName, String qName) throws SAXException {
 			int end = getCurrentLocation();
 			if(end > 0) {
 				int start = document.get().lastIndexOf("<", end);
-				Location endLocation = new Location(start, end - start);
+				Location endLocation = new Location(start, end - start, getLine(start));
 				//TODO
 			}
 			if(currentText.length() > 0) {
@@ -191,6 +191,15 @@ public class SAXParser extends SAXValidator {
 		public void fatalError(SAXParseException e) throws SAXException {
 			String message = e.getMessage();
 			errors.add(message);
+		}
+		
+		private int getLine(int start) {
+			try {
+				return document.getLineOfOffset(start);
+			} catch (BadLocationException e) {
+				CommonPlugin.getPluginLog().logError(e);
+				return -1;
+			}
 		}
 	}
 

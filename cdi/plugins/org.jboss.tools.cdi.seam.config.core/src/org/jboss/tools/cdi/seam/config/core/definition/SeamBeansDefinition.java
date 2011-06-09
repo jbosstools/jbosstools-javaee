@@ -89,7 +89,7 @@ public class SeamBeansDefinition {
 
 		for (SeamBeanDefinition def: beanDefinitions) {
 			IType type = def.getType();
-			TypeDefinition typeDef = new TypeDefinition();
+			ConfigTypeDefinition typeDef = new ConfigTypeDefinition();
 			boolean replaces = def.getReplacesLocation() != null;
 			boolean modifies = def.getModifiesLocation() != null;
 			if(replaces || modifies) {
@@ -137,7 +137,8 @@ public class SeamBeansDefinition {
 		return null;
 	}
 
-	private void mergeTypeDefinition(SeamBeanDefinition def, TypeDefinition typeDef, ConfigDefinitionContext context) {
+	private void mergeTypeDefinition(SeamBeanDefinition def, ConfigTypeDefinition typeDef, ConfigDefinitionContext context) {
+		typeDef.setConfig(def);
 		mergeAnnotations(def, typeDef, context);
 		
 		List<FieldDefinition> fieldDefs = typeDef.getFields();
@@ -145,7 +146,7 @@ public class SeamBeansDefinition {
 			String n = fieldDef.getField().getElementName();
 			SeamFieldDefinition f = def.getField(n);
 			if(f != null) {
-				fieldDef.setOriginalDefinition(new TextSourceReference(resource, f.getNode()));
+				((ConfigFieldDefinition)fieldDef).setConfig(f);
 				mergeAnnotations(f, fieldDef, context);
 			}
 		}
@@ -156,6 +157,7 @@ public class SeamBeansDefinition {
 			if(method == null) continue;
 			SeamMethodDefinition m = def.getMethod(method);
 			if(m != null) {
+				((ConfigMethodDefinition)methodDef).setConfig(m);
 				mergeAnnotations(m, methodDef, context);
 				List<ParameterDefinition> psDefs = methodDef.getParameters();
 				List<SeamParameterDefinition> ps = m.getParameters();

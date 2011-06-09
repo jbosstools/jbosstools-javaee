@@ -23,10 +23,10 @@ import org.jboss.tools.cdi.seam.config.core.xml.SAXElement;
  *
  */
 public class SeamBeanDefinition extends SeamMemberDefinition {
-	boolean inline = false;
-	IType type = null;
-	List<SeamFieldDefinition> fields = new ArrayList<SeamFieldDefinition>();
-	List<SeamMethodDefinition> methods = new ArrayList<SeamMethodDefinition>();
+	protected boolean inline = false;
+	protected IType type = null;
+	protected List<SeamFieldDefinition> fields = new ArrayList<SeamFieldDefinition>();
+	protected List<SeamMethodDefinition> methods = new ArrayList<SeamMethodDefinition>();
 
 	public SeamBeanDefinition() {}
 

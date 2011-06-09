@@ -127,6 +127,7 @@ public class SeamDefinitionBuilder {
 	private SeamBeanDefinition scanBean(SAXElement element, IType type, boolean inline) {
 		addDependency(type);
 		SeamBeanDefinition def = new SeamBeanDefinition();
+		def.setResource(resource);
 		def.setInline(inline);
 		def.setNode(element);
 		def.setType(type);
@@ -185,6 +186,7 @@ public class SeamDefinitionBuilder {
 
 	private SeamVirtualFieldDefinition scanVirtualProducerField(SAXElement element) {
 		SeamVirtualFieldDefinition def = new SeamVirtualFieldDefinition();
+		def.setResource(resource);
 		def.setNode(element);
 		IType type = Util.resolveType(element, project);
 		if(type == null) {
@@ -198,6 +200,7 @@ public class SeamDefinitionBuilder {
 
 	private SeamFieldDefinition scanField(SAXElement element, IField field) {
 		SeamFieldDefinition def = new SeamFieldDefinition();
+		def.setResource(resource);
 		def.setNode(element);
 		def.setField(field);
 		scanFieldContent(def, element);
@@ -236,6 +239,7 @@ public class SeamDefinitionBuilder {
 
 	private SeamFieldDefinition scanField(SAXAttribute a, IField field) {
 		SeamFieldDefinition def = new SeamFieldDefinition();
+		def.setResource(resource);
 		def.setNode(a);
 		def.setField(field);
 		def.addValue(a);
@@ -296,6 +300,7 @@ public class SeamDefinitionBuilder {
 
 	private SeamMethodDefinition scanMethod(SAXElement element, IType type) {
 		SeamMethodDefinition def = new SeamMethodDefinition();
+		def.setResource(resource);
 		def.setNode(element);
 		List<SAXElement> es = element.getChildElements();
 		for (SAXElement c: es) {
@@ -339,6 +344,7 @@ public class SeamDefinitionBuilder {
 
 	private SeamMethodDefinition scanConstructor(SAXElement element, IType type) {
 		SeamMethodDefinition def = new SeamMethodDefinition();
+		def.setResource(resource);
 		def.setNode(element);
 		if(Util.isParameters(element)) {
 			List<SAXElement> ps = element.getChildElements();
@@ -371,6 +377,7 @@ public class SeamDefinitionBuilder {
 	private SeamParameterDefinition scanParameter(SAXElement element) {
 		if(!Util.isConfigRelevant(element)) return null;
 		SeamParameterDefinition def = new SeamParameterDefinition();
+		def.setResource(resource);
 		def.setNode(element);
 		if(Util.isArray(element)) {
 			if(element.hasAttribute(CDISeamConfigConstants.ATTR_DIMENSIONS)) {

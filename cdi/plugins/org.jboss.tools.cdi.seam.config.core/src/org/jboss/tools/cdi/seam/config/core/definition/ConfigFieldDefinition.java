@@ -10,38 +10,25 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.seam.config.core.definition;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.eclipse.jdt.core.IMethod;
+import org.jboss.tools.cdi.internal.core.impl.definition.FieldDefinition;
 
 /**
  * 
  * @author Viacheslav Kabanovich
  *
  */
-public class SeamMethodDefinition extends SeamMemberDefinition {
-	protected IMethod method;
-	protected List<SeamParameterDefinition> parameters = new ArrayList<SeamParameterDefinition>();
+public class ConfigFieldDefinition extends FieldDefinition implements IConfigDefinition {
+	protected SeamFieldDefinition config;
 
-	public SeamMethodDefinition() {}
+	public ConfigFieldDefinition() {}
 
-	public void setMethod(IMethod method) {
-		this.method = method;
-		//TODO set parameter objects to parameters
+	public void setConfig(SeamFieldDefinition config) {
+		this.config = config;
+		setOriginalDefinition(new TextSourceReference(config.getResource(), config.getNode()));
 	}
 
-	public IMethod getMethod() {
-		return method;
-	}
-
-	public void addParameter(SeamParameterDefinition p) {
-		p.setParent(this);
-		parameters.add(p);
-	}
-
-	public List<SeamParameterDefinition> getParameters() {
-		return parameters;
+	public SeamFieldDefinition getConfig() {
+		return config;
 	}
 
 }
