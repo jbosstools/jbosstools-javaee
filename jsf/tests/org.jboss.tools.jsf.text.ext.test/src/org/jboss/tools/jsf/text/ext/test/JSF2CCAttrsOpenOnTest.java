@@ -42,6 +42,7 @@ import org.w3c.dom.Node;
 public class JSF2CCAttrsOpenOnTest extends TestCase {
 	private static final String PROJECT_NAME = "JSF2CompositeOpenOn";
 	private static final String PAGE_NAME =  PROJECT_NAME+"/WebContent/resources/demo/input.xhtml";
+	private static final String PAGE2_NAME =  PROJECT_NAME+"/WebContent/resources/demo/input2.xhtml";
 	
 	public IProject project = null;
 
@@ -125,11 +126,24 @@ public class JSF2CCAttrsOpenOnTest extends TestCase {
 		}
 	}
 
-	public void testCCInterfaceAttrs() throws PartInitException, BadLocationException {
-		final String editorName = "input.xhtml";
+	/**
+	 * This test runs with default root element <html> and default namespace prefix 'composite'.
+	 */
+	public void testCCInterfaceAttrs1() throws PartInitException, BadLocationException {
+		testCCInterfaceAttrs(PAGE_NAME, "input.xhtml");
+	}
+
+	/**
+	 * In input2.xhtml root element is not html and namespace prefix is 'cc' instead of default 'composite'.
+	 */
+	public void testCCInterfaceAttrs2() throws PartInitException, BadLocationException {
+		testCCInterfaceAttrs(PAGE2_NAME, "input2.xhtml");
+	}
+
+	void testCCInterfaceAttrs(String pageName, String editorName) throws PartInitException, BadLocationException {
 		final String elToTest = "cc.attrs.action";
 		final String atributeAction = "action";
-		IEditorPart editor = WorkbenchUtils.openEditor(PAGE_NAME);
+		IEditorPart editor = WorkbenchUtils.openEditor(pageName);
 		assertTrue(editor instanceof JSPMultiPageEditor);
 		JobUtils.waitForIdle();
 		JSPMultiPageEditor jspMultyPageEditor = (JSPMultiPageEditor) editor;

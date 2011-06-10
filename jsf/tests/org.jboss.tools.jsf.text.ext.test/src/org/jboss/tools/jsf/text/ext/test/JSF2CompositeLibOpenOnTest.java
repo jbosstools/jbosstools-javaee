@@ -39,6 +39,7 @@ import org.jboss.tools.test.util.WorkbenchUtils;
 public class JSF2CompositeLibOpenOnTest extends TestCase {
 	private static final String PROJECT_NAME = "JSF2CompositeOpenOn";
 	private static final String PAGE_NAME = PROJECT_NAME+"/WebContent/pages/inputname.xhtml";
+	private static final String PAGE2_NAME = PROJECT_NAME+"/WebContent/pages/inputname2.xhtml";
 	public IProject project = null;
 
 	protected void setUp() {
@@ -57,17 +58,28 @@ public class JSF2CompositeLibOpenOnTest extends TestCase {
 	}
 
 	public void testAttribute() throws Exception {
-		testOpenon("<ez:input", "label", "input.xhtml", "<composite:attribute name=\"label\"/>");
-		testOpenon("<ez:input", "value", "input.xhtml", "<composite:attribute name=\"value\" required=\"true\"/>");
-		testOpenon("<ez:input", "action", "input.xhtml", "<composite:attribute name=\"action\" required=\"true\" method-signature=\"java.lang.String f()\"/>");
+		testOpenon(PAGE_NAME, "<ez:input", "label", "input.xhtml", "<composite:attribute name=\"label\"/>");
+		testOpenon(PAGE_NAME, "<ez:input", "value", "input.xhtml", "<composite:attribute name=\"value\" required=\"true\"/>");
+		testOpenon(PAGE_NAME, "<ez:input", "action", "input.xhtml", "<composite:attribute name=\"action\" required=\"true\" method-signature=\"java.lang.String f()\"/>");
+	}
+
+	/**
+	 * Root element is not html and namespace prefix is 'cc' instead of default 'composite.
+	 * 
+	 * @throws Exception
+	 */
+	public void testAttribute2() throws Exception {
+		testOpenon(PAGE2_NAME, "<ez:input2", "label", "input2.xhtml", "<cc:attribute name=\"label\"/>");
+		testOpenon(PAGE2_NAME, "<ez:input2", "value", "input2.xhtml", "<cc:attribute name=\"value\" required=\"true\"/>");
+		testOpenon(PAGE2_NAME, "<ez:input2", "action", "input2.xhtml", "<cc:attribute name=\"action\" required=\"true\" method-signature=\"java.lang.String f()\"/>");
 	}
 
 	public void testTag() throws Exception {
-		testOpenon("<ez:input", "input", "input.xhtml", null);
+		testOpenon(PAGE_NAME, "<ez:input", "input", "input.xhtml", null);
 	}
 	
-	private void testOpenon(String text, String subtext, String editorName, String targetSelection) throws PartInitException, BadLocationException {
-		IEditorPart editor = WorkbenchUtils.openEditor(PAGE_NAME);
+	private void testOpenon(String page, String text, String subtext, String editorName, String targetSelection) throws PartInitException, BadLocationException {
+		IEditorPart editor = WorkbenchUtils.openEditor(page);
 		assertTrue(editor instanceof JSPMultiPageEditor);
 		JobUtils.waitForIdle();
 		JSPMultiPageEditor jspMultyPageEditor = (JSPMultiPageEditor) editor;
