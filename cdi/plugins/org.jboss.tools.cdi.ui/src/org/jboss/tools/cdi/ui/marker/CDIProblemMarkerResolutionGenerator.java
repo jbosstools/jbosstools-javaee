@@ -237,7 +237,7 @@ public class CDIProblemMarkerResolutionGenerator implements
 			return null;
 		}
 		
-		Set<IBean> allBeans = cdiProject.getBeans(file.getFullPath());
+		Set<IBean> allBeans = CDIUtil.getFilteredBeans(cdiProject, file.getFullPath());
 		
 		IInjectionPoint ip = CDIUtil.findInjectionPoint(allBeans, element, start);
 		
@@ -246,11 +246,7 @@ public class CDIProblemMarkerResolutionGenerator implements
 	
 	private List<IBean> findBeans(IInjectionPoint injectionPoint){
 		ICDIProject cdiProject = injectionPoint.getCDIProject();
-		Set<IBean> beanSet = cdiProject.getBeans(false, injectionPoint);
-		
-		List<IBean> beanList = CDIUtil.sortBeans(beanSet);
-		
-		return beanList;
+		return CDIUtil.getSortedBeans(cdiProject, false, injectionPoint);
 	}
 	
 	private IMethod findMethod(IFile file, int start){

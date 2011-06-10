@@ -1089,9 +1089,36 @@ public class CDIUtil {
 		
 		return result;
 	}
+
+	/**
+	 * returns set of IBean elements filtered in order to have unique IJavaElement
+	 * @param cdiProject
+	 * @param path
+	 * @return
+	 */
+	public static Set<IBean> getFilteredBeans(ICDIProject cdiProject, IPath path){
+		Set<IBean> beans = cdiProject.getBeans(path);
+		HashSet<IJavaElement> elements = new HashSet<IJavaElement>();
+		HashSet<IBean> result = new HashSet<IBean>();
+		
+		for(IBean bean : beans){
+			IJavaElement element = getJavaElement(bean);
+			if(!elements.contains(element)){
+				elements.add(element);
+				result.add(bean);
+			}
+		}
+		
+		return result;
+	}
 	
 	public static List<IBean> getSortedBeans(ICDIProject cdiProject, boolean attemptToResolveAmbiguousDependency, IInjectionPoint injectionPoint){
 		Set<IBean> beans = getFilteredBeans(cdiProject, attemptToResolveAmbiguousDependency, injectionPoint);
+		return sortBeans(beans);
+	}
+
+	public static List<IBean> getSortedBeans(ICDIProject cdiProject, IPath path){
+		Set<IBean> beans = getFilteredBeans(cdiProject, path);
 		return sortBeans(beans);
 	}
 	
