@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import junit.framework.TestCase;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IAdaptable;
@@ -30,7 +32,6 @@ import org.eclipse.wst.sse.core.internal.provisional.IStructuredModel;
 import org.eclipse.wst.sse.ui.StructuredTextEditor;
 import org.eclipse.wst.xml.ui.internal.tabletree.XMLMultiPageEditorPart;
 import org.jboss.tools.cdi.core.ICDIElement;
-import org.jboss.tools.cdi.core.test.tck.TCKTest;
 import org.jboss.tools.cdi.text.ext.hyperlink.ITestableCDIHyperlink;
 import org.jboss.tools.common.editor.ObjectMultiPageEditor;
 import org.jboss.tools.common.model.ui.editor.EditorPartWrapper;
@@ -38,9 +39,9 @@ import org.jboss.tools.common.text.ext.hyperlink.HyperlinkDetector;
 import org.jboss.tools.common.text.ext.hyperlink.IHyperlinkRegion;
 import org.jboss.tools.common.text.ext.util.AxisUtil;
 
-public class HyperlinkDetectorTest  extends TCKTest {
-	protected void checkRegions(String fileName, List<TestRegion> regionList, AbstractHyperlinkDetector elPartitioner) throws Exception {
-		IFile file = tckProject.getFile(fileName);
+public class CDIHyperlinkTestUtil extends TestCase{
+	public static void checkRegions(IProject project, String fileName, List<TestRegion> regionList, AbstractHyperlinkDetector elPartitioner) throws Exception {
+		IFile file = project.getFile(fileName);
 
 		assertNotNull("The file \"" + fileName + "\" is not found", file);
 		assertTrue("The file \"" + fileName + "\" is not found", file.isAccessible());
@@ -95,7 +96,8 @@ public class HyperlinkDetectorTest  extends TCKTest {
 				}else{
 					checkTestRegion(links, testRegion);
 				}
-			} else {
+			} 
+			else {
 				for(TestRegion testRegion : regionList){
 					if(i >= testRegion.region.getOffset() && i <= testRegion.region.getOffset()+testRegion.region.getLength()) {
 						int line = document.getLineOfOffset(testRegion.region.getOffset());
@@ -110,7 +112,7 @@ public class HyperlinkDetectorTest  extends TCKTest {
 		documentProvider.disconnect(editorInput);
 	}
 	
-	protected void checkTestRegion(IHyperlink[] links, TestRegion testRegion){
+	private static void checkTestRegion(IHyperlink[] links, TestRegion testRegion){
 		for(IHyperlink link : links){
 			TestHyperlink testLink = findTestHyperlink(testRegion.hyperlinks, link);
 			assertNotNull("Unexpected hyperlink - "+link.getHyperlinkText(), testLink);
@@ -124,7 +126,7 @@ public class HyperlinkDetectorTest  extends TCKTest {
 		}
 	}
 	
-	protected TestHyperlink findTestHyperlink(List<TestHyperlink> testHyperlinks, IHyperlink link){
+	private static TestHyperlink findTestHyperlink(List<TestHyperlink> testHyperlinks, IHyperlink link){
 		for(TestHyperlink testLink : testHyperlinks){
 			if(testLink.name.equals(link.getHyperlinkText()))
 				return testLink;
@@ -132,7 +134,7 @@ public class HyperlinkDetectorTest  extends TCKTest {
 		return null;
 	}
 
-	protected IHyperlink findHyperlink(IHyperlink[] links, TestHyperlink testLink){
+	private static IHyperlink findHyperlink(IHyperlink[] links, TestHyperlink testLink){
 		for(IHyperlink link : links){
 			if(testLink.name.equals(link.getHyperlinkText()))
 				return link;
@@ -140,8 +142,8 @@ public class HyperlinkDetectorTest  extends TCKTest {
 		return null;
 	}
 
-	protected void checkHyperLinkInXml(String fileName, int offset, String hyperlinkClassName) throws Exception {
-		checkHyperLinkInXml(fileName, tckProject, offset, hyperlinkClassName);
+	public static void checkHyperLinkInXml(IProject project, String fileName, int offset, String hyperlinkClassName) throws Exception {
+		checkHyperLinkInXml(fileName, project, offset, hyperlinkClassName);
 	}
 
 	public static IHyperlink checkHyperLinkInXml(String fileName, IProject project, int offset, String hyperlinkClassName) throws Exception {
@@ -179,7 +181,7 @@ public class HyperlinkDetectorTest  extends TCKTest {
 		return null;
 	}
 
-	protected TestRegion findOffsetInRegions(int offset, List<TestRegion> regionList){
+	private static TestRegion findOffsetInRegions(int offset, List<TestRegion> regionList){
 		for(TestRegion testRegion : regionList){
 			if(offset >= testRegion.region.getOffset() && offset <= testRegion.region.getOffset()+testRegion.region.getLength())
 				return testRegion;
@@ -211,7 +213,7 @@ public class HyperlinkDetectorTest  extends TCKTest {
 		return null;
 	}
 
-	class TestData {
+	static class TestData {
 		IDocument document;
 		int offset;
 		IRegion region;
@@ -294,7 +296,7 @@ public class HyperlinkDetectorTest  extends TCKTest {
 		}
 	}
 
-	class TestContext implements IAdaptable{
+	static class TestContext implements IAdaptable{
 		ITextEditor editor;
 
 		public TestContext(ITextEditor editor){
@@ -308,7 +310,7 @@ public class HyperlinkDetectorTest  extends TCKTest {
 		}
 	}
 	
-	public class TestRegion{
+	public static class TestRegion{
 		Region region;
 		ArrayList<TestHyperlink> hyperlinks = new ArrayList<TestHyperlink>();
 		
@@ -320,7 +322,7 @@ public class HyperlinkDetectorTest  extends TCKTest {
 		}
 	}
 	
-	public class TestHyperlink{
+	public static class TestHyperlink{
 		Class<? extends IHyperlink> hyperlink;
 		ICDIElement element = null;
 		String[] elementPaths = null;

@@ -14,6 +14,7 @@ import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.ILocalVariable;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.Signature;
+import org.jboss.tools.cdi.core.CDIUtil;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.ICDIElement;
 import org.jboss.tools.cdi.core.IInjectionPointField;
@@ -49,7 +50,7 @@ public class CDIElementWrapper {
 			label = ((IInjectionPointMethod)element).getMethod().getDeclaringType().getElementName()+DOT+((IInjectionPointMethod)element).getMethod().getElementName()+BRACKETS;
 		}else if(element instanceof IInjectionPointParameter){
 			IMethod method = ((IInjectionPointParameter)element).getBeanMethod().getMethod();
-			javaElement = MarkerResolutionUtils.getParameter(method, ((IInjectionPointParameter)element).getName());
+			javaElement = CDIUtil.getParameter(method, ((IInjectionPointParameter)element).getName());
 			String type = Signature.getSignatureSimpleName(((ILocalVariable)javaElement).getTypeSignature());
 			label = method.getDeclaringType().getElementName()+DOT+method.getElementName()+OPEN+type+SPACE+javaElement.getElementName()+CLOSE;
 		}

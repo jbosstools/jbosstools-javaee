@@ -13,6 +13,7 @@ package org.jboss.tools.cdi.seam.text.ext.test;
 import org.eclipse.jdt.internal.core.JavaModelManager;
 import org.jboss.tools.cdi.core.test.CDICoreTestSetup;
 import org.jboss.tools.cdi.seam.config.core.test.SeamConfigTestSetup;
+import org.jboss.tools.cdi.seam.solder.core.test.SeamSolderTestSetup;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
@@ -33,6 +34,11 @@ public class CdiSeamTextExtAllTests {
 		suiteConfig.addTestSuite(SeamConfigTagNameHyperlinkTest.class);
 		
 		suiteAll.addTest(new SeamConfigTestSetup(suiteConfig));
+		
+		suiteConfig = new TestSuite("CDI Seam Solder Tests");
+		suiteConfig.addTestSuite(InjectedPointHyperlinkTest.class);
+		
+		suiteAll.addTest(new SeamSolderTestSetup(suiteConfig));
 		
 		return suiteAll;
 	}

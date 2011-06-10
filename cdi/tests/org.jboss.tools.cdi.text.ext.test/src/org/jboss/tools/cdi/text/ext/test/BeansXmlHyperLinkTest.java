@@ -10,26 +10,28 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.text.ext.test;
 
+import org.jboss.tools.cdi.core.test.tck.TCKTest;
+
 /**
  * beans.xml OpenOns test
  * 
  * @author Alexey Kazakov
  */
-public class BeansXmlHyperLinkTest extends HyperlinkDetectorTest {
+public class BeansXmlHyperLinkTest extends TCKTest {
 
 	public void testAlternativesClassOpenOns() throws Exception {
-		checkHyperLinkInXml("WebContent/WEB-INF/beans.xml", 73, "org.jboss.tools.common.text.ext.hyperlink.ClassHyperlink");
+		CDIHyperlinkTestUtil.checkHyperLinkInXml(tckProject, "WebContent/WEB-INF/beans.xml", 73, "org.jboss.tools.common.text.ext.hyperlink.ClassHyperlink");
 	}
 
 	public void testAlternativesStereotypeOpenOns() throws Exception {
-		checkHyperLinkInXml("WebContent/WEB-INF/beans.xml", 395, "org.jboss.tools.common.text.ext.hyperlink.ClassHyperlink");
+		CDIHyperlinkTestUtil.checkHyperLinkInXml(tckProject, "WebContent/WEB-INF/beans.xml", 395, "org.jboss.tools.common.text.ext.hyperlink.ClassHyperlink");
 	}
 
 	public void testDecoratorClassOpenOns() throws Exception {
-		checkHyperLinkInXml("WebContent/WEB-INF/beans.xml", 1159, "org.jboss.tools.common.text.ext.hyperlink.ClassHyperlink");
+		CDIHyperlinkTestUtil.checkHyperLinkInXml(tckProject, "WebContent/WEB-INF/beans.xml", 1159, "org.jboss.tools.common.text.ext.hyperlink.ClassHyperlink");
 	}
 
 	public void testInterceptorClassOpenOns() throws Exception {
-		checkHyperLinkInXml("WebContent/WEB-INF/beans.xml", 1841, "org.jboss.tools.common.text.ext.hyperlink.ClassHyperlink");
+		CDIHyperlinkTestUtil.checkHyperLinkInXml(tckProject, "WebContent/WEB-INF/beans.xml", 1841, "org.jboss.tools.common.text.ext.hyperlink.ClassHyperlink");
 	}
 }

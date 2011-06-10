@@ -20,9 +20,8 @@ import org.eclipse.jdt.core.ICodeAssist;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IMethod;
+import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
-import org.eclipse.jdt.internal.core.ResolvedBinaryType;
-import org.eclipse.jdt.internal.core.ResolvedSourceType;
 import org.eclipse.jdt.internal.ui.javaeditor.EditorUtility;
 import org.eclipse.jdt.internal.ui.javaeditor.JavaEditor;
 import org.eclipse.jdt.internal.ui.text.JavaWordFinder;
@@ -93,7 +92,7 @@ public class InjectedPointHyperlinkDetector extends AbstractHyperlinkDetector{
 			ArrayList<IHyperlink> hyperlinks = new ArrayList<IHyperlink>();
 			for (IJavaElement element : elements) {
 				int position = 0;
-				if(element instanceof ResolvedSourceType || element instanceof ResolvedBinaryType){
+				if(element instanceof IType){
 					ICompilationUnit cUnit = (ICompilationUnit)input;
 					element = cUnit.getElementAt(wordRegion.getOffset());
 					if(element == null)
@@ -130,16 +129,15 @@ public class InjectedPointHyperlinkDetector extends AbstractHyperlinkDetector{
 			return;
 		}
 		
-		Set<IBean> resultBeanSet = cdiProject.getBeans(true, injectionPoint);
-		List<IBean> resultBeanList = CDIUtil.sortBeans(resultBeanSet);
+		List<IBean> resultBeans = CDIUtil.getSortedBeans(cdiProject, true, injectionPoint);
 		
-		Set<IBean> alternativeBeanSet = cdiProject.getBeans(false, injectionPoint);
-		List<IBean> alternativeBeanList = CDIUtil.sortBeans(alternativeBeanSet);
+		List<IBean> alternativeBeans = CDIUtil.getSortedBeans(cdiProject, false, injectionPoint);
+
 			
-		if(resultBeanList.size() > 0){
-			hyperlinks.add(new InjectedPointHyperlink(region, resultBeanList.get(0), document, true));
-			if(alternativeBeanList.size() > 1)
-				hyperlinks.add(new AlternativeInjectedPointListHyperlink(region, alternativeBeanList, viewer, document));
+		if(resultBeans.size() > 0){
+			hyperlinks.add(new InjectedPointHyperlink(region, resultBeans.get(0), document, true));
+			if(alternativeBeans.size() > 1)
+				hyperlinks.add(new AlternativeInjectedPointListHyperlink(region, alternativeBeans, viewer, document));
 		}
 	}
 }

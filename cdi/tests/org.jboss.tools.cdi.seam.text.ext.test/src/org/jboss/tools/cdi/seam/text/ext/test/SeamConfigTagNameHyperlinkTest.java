@@ -18,7 +18,7 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IFileEditorInput;
 import org.jboss.tools.cdi.seam.config.core.test.SeamConfigTest;
 import org.jboss.tools.cdi.seam.text.ext.CDISeamExtPlugin;
-import org.jboss.tools.cdi.text.ext.test.HyperlinkDetectorTest;
+import org.jboss.tools.cdi.text.ext.test.CDIHyperlinkTestUtil;
 import org.jboss.tools.common.util.FileUtil;
 
 /**
@@ -31,7 +31,7 @@ public class SeamConfigTagNameHyperlinkTest extends SeamConfigTest {
 
 	public void testSeamConfigTagNameHyperlink() throws Exception {
 		int offset = 802; // <|test602:Report>
-		IHyperlink hyperlink = HyperlinkDetectorTest.checkHyperLinkInXml("src/META-INF/beans.xml", project, offset, "org.jboss.tools.cdi.seam.text.ext.hyperlink.SeamConfigTagNameHyperlink");
+		IHyperlink hyperlink = CDIHyperlinkTestUtil.checkHyperLinkInXml("src/META-INF/beans.xml", project, offset, "org.jboss.tools.cdi.seam.text.ext.hyperlink.SeamConfigTagNameHyperlink");
 		hyperlink.open();
 		
 		IEditorPart editor = CDISeamExtPlugin.getDefault().getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
@@ -42,7 +42,7 @@ public class SeamConfigTagNameHyperlinkTest extends SeamConfigTest {
 
 	public void testSeamConfigTagAttributeHyperlink() throws Exception {
 		int offset = 1088; // <test603:OtherQualifier va|lue1="AA"
-		IHyperlink hyperlink = HyperlinkDetectorTest.checkHyperLinkInXml("src/META-INF/beans.xml", project, offset, "org.jboss.tools.cdi.seam.text.ext.hyperlink.SeamConfigTagNameHyperlink");
+		IHyperlink hyperlink = CDIHyperlinkTestUtil.checkHyperLinkInXml("src/META-INF/beans.xml", project, offset, "org.jboss.tools.cdi.seam.text.ext.hyperlink.SeamConfigTagNameHyperlink");
 		hyperlink.open();
 		
 		IEditorPart editor = CDISeamExtPlugin.getDefault().getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();

@@ -19,6 +19,7 @@ import org.eclipse.jdt.ui.search.IQueryParticipant;
 import org.eclipse.jdt.ui.search.ISearchRequestor;
 import org.eclipse.jdt.ui.search.QuerySpecification;
 import org.eclipse.search.ui.text.Match;
+import org.jboss.tools.cdi.core.CDIUtil;
 import org.jboss.tools.cdi.core.ICDIElement;
 import org.jboss.tools.cdi.core.test.tck.TCKTest;
 import org.jboss.tools.cdi.internal.core.impl.ClassBean;
@@ -26,7 +27,6 @@ import org.jboss.tools.cdi.internal.core.impl.EventBean;
 import org.jboss.tools.cdi.internal.core.impl.InjectionPointField;
 import org.jboss.tools.cdi.internal.core.impl.InjectionPointParameter;
 import org.jboss.tools.cdi.internal.core.impl.ObserverMethod;
-import org.jboss.tools.cdi.ui.marker.MarkerResolutionUtils;
 import org.jboss.tools.cdi.ui.search.CDIBeanQueryParticipant;
 import org.jboss.tools.cdi.ui.search.CDIMatch;
 import org.jboss.tools.cdi.ui.search.InjectionPointQueryParticipant;
@@ -55,7 +55,7 @@ public class CDISearchParticipantTest  extends TCKTest {
 				element = type;
 			}else if(searchType == PARAMETER_SEARCH){
 				IMethod method = getMethod(type, elementName);
-				element = MarkerResolutionUtils.getParameter(method, parameterName);
+				element = CDIUtil.getParameter(method, parameterName);
 			}
 			
 			if(element != null){

@@ -2,12 +2,15 @@ package org.jboss.tools.cdi.text.ext.test;
 
 import java.util.ArrayList;
 
+import org.jboss.tools.cdi.core.test.tck.TCKTest;
 import org.jboss.tools.cdi.text.ext.CDIExtensionsMessages;
 import org.jboss.tools.cdi.text.ext.hyperlink.EventAndObserverMethodHyperlinkDetector;
 import org.jboss.tools.cdi.text.ext.hyperlink.EventListHyperlink;
 import org.jboss.tools.cdi.text.ext.hyperlink.ObserverMethodListHyperlink;
+import org.jboss.tools.cdi.text.ext.test.CDIHyperlinkTestUtil.TestRegion;
+import org.jboss.tools.cdi.text.ext.test.CDIHyperlinkTestUtil.TestHyperlink;
 
-public class EventAndObserverMethodHyperlinkDetectorTest extends HyperlinkDetectorTest {
+public class EventAndObserverMethodHyperlinkDetectorTest extends TCKTest {
 
 	public void testEventHyperlinkDetector() throws Exception {
 		String[] elementPaths = new String[]{
@@ -46,7 +49,7 @@ public class EventAndObserverMethodHyperlinkDetectorTest extends HyperlinkDetect
 		regionList.add(new TestRegion(1235, 11, new TestHyperlink[]{new TestHyperlink(ObserverMethodListHyperlink.class, CDIExtensionsMessages.CDI_EVENT_LIST_HYPERLINK_OPEN_OBSERVER_METHODS, elementPaths)}));
 		regionList.add(new TestRegion(1334, 42, new TestHyperlink[]{new TestHyperlink(ObserverMethodListHyperlink.class, CDIExtensionsMessages.CDI_EVENT_LIST_HYPERLINK_OPEN_OBSERVER_METHODS, elementPaths)}));
 
-		checkRegions("JavaSource/org/jboss/jsr299/tck/tests/event/bindingTypes/EventEmitter.java", regionList, new EventAndObserverMethodHyperlinkDetector());
+		CDIHyperlinkTestUtil.checkRegions(tckProject, "JavaSource/org/jboss/jsr299/tck/tests/event/bindingTypes/EventEmitter.java", regionList, new EventAndObserverMethodHyperlinkDetector());
 	}
 
 	public void testObserverMethodHyperlinkDetector() throws Exception {
@@ -65,7 +68,7 @@ public class EventAndObserverMethodHyperlinkDetectorTest extends HyperlinkDetect
 		regionList.add(new TestRegion(1232, 9,  new TestHyperlink[]{new TestHyperlink(EventListHyperlink.class, CDIExtensionsMessages.CDI_EVENT_LIST_HYPERLINK_OPEN_EVENTS, elementPaths)}));
 		regionList.add(new TestRegion(1264, 18, new TestHyperlink[]{new TestHyperlink(EventListHyperlink.class, CDIExtensionsMessages.CDI_EVENT_LIST_HYPERLINK_OPEN_EVENTS, elementPaths)}));
 
-		checkRegions("JavaSource/org/jboss/jsr299/tck/tests/event/observer/checkedException/TeaCupPomeranian.java", regionList, new EventAndObserverMethodHyperlinkDetector());
+		CDIHyperlinkTestUtil.checkRegions(tckProject, "JavaSource/org/jboss/jsr299/tck/tests/event/observer/checkedException/TeaCupPomeranian.java", regionList, new EventAndObserverMethodHyperlinkDetector());
 	}
 
 }

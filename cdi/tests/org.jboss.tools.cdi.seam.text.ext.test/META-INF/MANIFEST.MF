@@ -19,7 +19,9 @@ Require-Bundle: org.junit,
  org.jboss.tools.cdi.seam.config.core.test,
  org.jboss.tools.tests,
  org.eclipse.core.runtime,
- org.eclipse.jdt.core
+ org.eclipse.jdt.core,
+ org.jboss.tools.cdi.seam.solder.core.test;bundle-version="1.0.0",
+ org.jboss.tools.cdi.text.ext;bundle-version="1.2.0"
 Bundle-ActivationPolicy: lazy
 Bundle-Vendor: %Bundle-Vendor.0
 Export-Package: org.jboss.tools.cdi.seam.text.ext.test

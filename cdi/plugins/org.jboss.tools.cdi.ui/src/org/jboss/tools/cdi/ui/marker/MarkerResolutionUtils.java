@@ -332,19 +332,6 @@ public class MarkerResolutionUtils {
 		return null;
 	}
 	
-	public static ILocalVariable getParameter(IMethod method, String name){
-		try{
-			for(ILocalVariable param : method.getParameters()){
-				if(param.getElementName().equals(name))
-					return param;
-			}
-		}catch(JavaModelException ex){
-			CDIUIPlugin.getDefault().logError(ex);
-		}
-		return null;
-	}
-	
-	
 	public static void addQualifiersToInjectedPoint(IInjectionPoint injectionPoint, IBean bean){
 		try{
 			ICompilationUnit original = injectionPoint.getClassBean().getBeanClass().getCompilationUnit();

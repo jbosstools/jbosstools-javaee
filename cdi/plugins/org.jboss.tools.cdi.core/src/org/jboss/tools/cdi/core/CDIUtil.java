@@ -56,6 +56,7 @@ import org.eclipse.wst.common.project.facet.core.IProjectFacetVersion;
 import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
 import org.jboss.tools.cdi.internal.core.impl.ClassBean;
 import org.jboss.tools.common.EclipseUtil;
+import org.jboss.tools.common.java.IJavaMemberReference;
 import org.jboss.tools.common.model.util.EclipseJavaUtil;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.text.ITextSourceReference;
@@ -1065,4 +1066,57 @@ public class CDIUtil {
 		}
 		return result;
 	}
+	
+	/**
+	 * returns set of IBean elements filtered in order to have unique IJavaElement
+	 * @param cdiProject
+	 * @param attemptToResolveAmbiguousDependency
+	 * @param injectionPoint
+	 * @return
+	 */
+	public static Set<IBean> getFilteredBeans(ICDIProject cdiProject, boolean attemptToResolveAmbiguousDependency, IInjectionPoint injectionPoint){
+		Set<IBean> beans = cdiProject.getBeans(attemptToResolveAmbiguousDependency, injectionPoint);
+		HashSet<IJavaElement> elements = new HashSet<IJavaElement>();
+		HashSet<IBean> result = new HashSet<IBean>();
+		
+		for(IBean bean : beans){
+			IJavaElement element = getJavaElement(bean);
+			if(!elements.contains(element)){
+				elements.add(element);
+				result.add(bean);
+			}
+		}
+		
+		return result;
+	}
+	
+	public static List<IBean> getSortedBeans(ICDIProject cdiProject, boolean attemptToResolveAmbiguousDependency, IInjectionPoint injectionPoint){
+		Set<IBean> beans = getFilteredBeans(cdiProject, attemptToResolveAmbiguousDependency, injectionPoint);
+		return sortBeans(beans);
+	}
+	
+	public static IJavaElement getJavaElement(ICDIElement cdiElement){
+		if(cdiElement instanceof IJavaMemberReference)
+			return ((IJavaMemberReference)cdiElement).getSourceMember();
+		if(cdiElement instanceof IBean)
+			return ((IBean)cdiElement).getBeanClass();
+		else if(cdiElement instanceof IInjectionPointParameter){
+			IMethod method = ((IInjectionPointParameter)cdiElement).getBeanMethod().getMethod();
+			return getParameter(method, ((IInjectionPointParameter)cdiElement).getName());
+		}
+		return null;
+	}
+	
+	public static ILocalVariable getParameter(IMethod method, String name){
+		try{
+			for(ILocalVariable param : method.getParameters()){
+				if(param.getElementName().equals(name))
+					return param;
+			}
+		}catch(JavaModelException ex){
+			CDICorePlugin.getDefault().logError(ex);
+		}
+		return null;
+	}
+
 }

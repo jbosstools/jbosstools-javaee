@@ -5,15 +5,17 @@ import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
 import org.jboss.tools.cdi.core.IBean;
+import org.jboss.tools.cdi.core.test.tck.TCKTest;
 import org.jboss.tools.cdi.text.ext.CDIExtensionsMessages;
 import org.jboss.tools.cdi.text.ext.hyperlink.AlternativeInjectedPointListHyperlink;
 import org.jboss.tools.cdi.text.ext.hyperlink.InjectedPointHyperlink;
 import org.jboss.tools.cdi.text.ext.hyperlink.InjectedPointHyperlinkDetector;
-import org.jboss.tools.cdi.text.ext.test.HyperlinkDetectorTest.TestRegion;
+import org.jboss.tools.cdi.text.ext.test.CDIHyperlinkTestUtil.TestRegion;
 import org.jboss.tools.common.util.FileUtil;
+import org.jboss.tools.cdi.text.ext.test.CDIHyperlinkTestUtil.TestHyperlink;
 
 
-public class InjectedPointHyperlinkDetectorTest extends HyperlinkDetectorTest {
+public class InjectedPointHyperlinkDetectorTest extends TCKTest {
 
 	public void testInjectedPointHyperlinkDetector() throws Exception {
 		Set<IBean> beans = cdiProject.getBeans("/tck/JavaSource/org/jboss/jsr299/tck/tests/lookup/injectionpoint/BasicLogger.java",	true);
@@ -43,7 +45,7 @@ public class InjectedPointHyperlinkDetectorTest extends HyperlinkDetectorTest {
 			new TestHyperlink(AlternativeInjectedPointListHyperlink.class, CDIExtensionsMessages.CDI_INJECTED_POINT_HYPERLINK_SHOW_ALTERNATIVES)
 		})); // logger
 		
-		checkRegions("JavaSource/org/jboss/jsr299/tck/tests/lookup/injectionpoint/LoggerConsumer.java", regionList, new InjectedPointHyperlinkDetector());
+		CDIHyperlinkTestUtil.checkRegions(tckProject, "JavaSource/org/jboss/jsr299/tck/tests/lookup/injectionpoint/LoggerConsumer.java", regionList, new InjectedPointHyperlinkDetector());
 	}
 
 	public void testInjectedProducerMethodParametersHyperlinkDetector() throws Exception {
@@ -62,7 +64,7 @@ public class InjectedPointHyperlinkDetectorTest extends HyperlinkDetectorTest {
 			new TestHyperlink(InjectedPointHyperlink.class, CDIExtensionsMessages.CDI_INJECTED_POINT_HYPERLINK_OPEN_INJECT_BEAN+ " CustomProducerImpl.produce()", bean)
 		})); // order
 		
-		checkRegions("JavaSource/org/jboss/jsr299/tck/tests/jbt/openon/CustomProducerImpl.java", regionList, new InjectedPointHyperlinkDetector());
+		CDIHyperlinkTestUtil.checkRegions(tckProject, "JavaSource/org/jboss/jsr299/tck/tests/jbt/openon/CustomProducerImpl.java", regionList, new InjectedPointHyperlinkDetector());
 	}
 	
 	public void testInjectedConstructorParametersHyperlinkDetector() throws Exception {
@@ -79,7 +81,7 @@ public class InjectedPointHyperlinkDetectorTest extends HyperlinkDetectorTest {
 		regionList.add(new TestRegion(979, 3,  new TestHyperlink[]{new TestHyperlink(InjectedPointHyperlink.class, CDIExtensionsMessages.CDI_INJECTED_POINT_HYPERLINK_OPEN_INJECT_BEAN+ " Fox", bean)}));
 		regionList.add(new TestRegion(1017, 3, new TestHyperlink[]{new TestHyperlink(InjectedPointHyperlink.class, CDIExtensionsMessages.CDI_INJECTED_POINT_HYPERLINK_OPEN_INJECT_BEAN+ " Fox", bean)}));
 
-		checkRegions("JavaSource/org/jboss/jsr299/tck/tests/context/dependent/FoxFarm.java", regionList, new InjectedPointHyperlinkDetector());
+		CDIHyperlinkTestUtil.checkRegions(tckProject, "JavaSource/org/jboss/jsr299/tck/tests/context/dependent/FoxFarm.java", regionList, new InjectedPointHyperlinkDetector());
 	}
 	
 	public void testInjectedInitializerParametersHyperlinkDetector() throws Exception {
@@ -96,7 +98,7 @@ public class InjectedPointHyperlinkDetectorTest extends HyperlinkDetectorTest {
 		regionList.add(new TestRegion(976, 3,  new TestHyperlink[]{new TestHyperlink(InjectedPointHyperlink.class, CDIExtensionsMessages.CDI_INJECTED_POINT_HYPERLINK_OPEN_INJECT_BEAN+ " Fox", bean)}));
 		regionList.add(new TestRegion(1014, 3, new TestHyperlink[]{new TestHyperlink(InjectedPointHyperlink.class, CDIExtensionsMessages.CDI_INJECTED_POINT_HYPERLINK_OPEN_INJECT_BEAN+ " Fox", bean)}));
 
-		checkRegions("JavaSource/org/jboss/jsr299/tck/tests/context/dependent/FoxHole.java", regionList, new InjectedPointHyperlinkDetector());
+		CDIHyperlinkTestUtil.checkRegions(tckProject, "JavaSource/org/jboss/jsr299/tck/tests/context/dependent/FoxHole.java", regionList, new InjectedPointHyperlinkDetector());
 	}
 
 }
