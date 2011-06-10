@@ -10,33 +10,21 @@
  ******************************************************************************/
 package org.jboss.tools.jsf.ui.bot.test.smoke;
 
-import org.apache.log4j.Logger;
 import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotEditor;
-import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTable;
-import org.eclipse.swtbot.swt.finder.widgets.TimeoutException;
 import org.jboss.tools.jsf.ui.bot.test.JSFAutoTestCase;
 import org.jboss.tools.ui.bot.ext.SWTTestExt;
 import org.jboss.tools.ui.bot.ext.helper.OpenOnHelper;
-import org.jboss.tools.ui.bot.ext.types.IDELabel;
-import org.jboss.tools.ui.bot.test.JBTSWTBotTestCase;
 /**
  * Test open on functionality of JSF components within jsp page
  * @author Vladimir Pakan
  *
  */
 public class OpenOnTest extends JSFAutoTestCase{
-  private static Logger log = Logger.getLogger(JBTSWTBotTestCase.class);
+  
 	public void testOpenOn() throws Throwable{
-	  try{
-	    bot.menu(IDELabel.Menu.FILE).menu(IDELabel.Menu.CLOSE_ALL).click();
-	    log.info("All Editors closed");
-	  } catch (WidgetNotFoundException wnfe){
-	    log.info("No Editors to close");
-	  } catch (TimeoutException te){
-      log.info("No Editors to close");
-    }
-    		
+	 
+	  eclipse.closeAllEditors();
 	  openPage();
 	  checkOpenOn();
 		
