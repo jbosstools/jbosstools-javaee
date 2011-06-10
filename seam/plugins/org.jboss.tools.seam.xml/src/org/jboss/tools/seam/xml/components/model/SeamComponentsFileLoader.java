@@ -40,13 +40,13 @@ public class SeamComponentsFileLoader extends SimpleWebFileLoader {
     	return super.loadNamespace(element, object);
     }
 
-    public String serializeObject(XModelObject object) {
+    public Element createRootElement(XModelObject object) {
     	String rootName = getRootName(object);
         Element element = createRootElement(rootName, null, null);
         SeamNamespaces.getInstance(object.getModel().getMetaData(), getVersionSuffix(object)).validateNamespaces(object, element);
 		NamespaceMapping namespaceMapping = NamespaceMapping.load(object);
     	util.setNamespaceMapping(namespaceMapping);
-        return serializeToElement(element, object);
+        return element;
     }
     
     private String getVersionSuffix(XModelObject o) {
