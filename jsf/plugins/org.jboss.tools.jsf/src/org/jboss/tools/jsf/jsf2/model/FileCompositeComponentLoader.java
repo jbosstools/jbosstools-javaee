@@ -34,7 +34,7 @@ public class FileCompositeComponentLoader extends SimpleWebFileLoader {
     	return super.loadNamespace(element, object);
     }
 
-    public String serializeObject(XModelObject object) {
+    public Element createRootElement(XModelObject object) {
         String systemId = object.getAttributeValue("systemId"); //$NON-NLS-1$
         String publicId = object.getAttributeValue("publicId"); //$NON-NLS-1$
     	String rootName = getRootName(object);
@@ -42,9 +42,9 @@ public class FileCompositeComponentLoader extends SimpleWebFileLoader {
         CompositeComponentNamespaces.getInstance(object.getModel().getMetaData(), "").validateNamespaces(object, element);
 		NamespaceMapping namespaceMapping = NamespaceMapping.load(object);
     	util.setNamespaceMapping(namespaceMapping);
-        return serializeToElement(element, object);
+    	return element;
     }
-    
+
 }
 
 class FileCompositeComponentUtil extends XModelObjectLoaderUtil {
@@ -61,6 +61,7 @@ class FileCompositeComponentUtil extends XModelObjectLoaderUtil {
     public void load(Element element, XModelObject o) {
     	super.load(element, o);
     	if(o.getModelEntity().getName().startsWith("FileJSF2Component")) {
+    		o.setAttributeValue("tag", element.getNodeName());
     		Element c = XMLUtilities.getUniqueChild(element, "composite:interface");
     		if(c == null) {
     			NodeList l = element.getElementsByTagName("composite:interface");
