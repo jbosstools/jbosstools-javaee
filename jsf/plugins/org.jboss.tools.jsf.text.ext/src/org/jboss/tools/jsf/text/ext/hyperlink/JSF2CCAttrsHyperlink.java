@@ -72,6 +72,10 @@ public class JSF2CCAttrsHyperlink extends AbstractHyperlink {
 						if (attrObject != null) {
 							PositionHolder h = PositionHolder.getPosition(attrObject, null);
 							h.update();
+							if (h.getStart() == -1 || h.getEnd() == -1) {
+								openFileFailed();
+								return;
+							}
 							attrRegion = new Region(h.getStart(), h.getEnd() - h.getStart());
 						}
 					}
