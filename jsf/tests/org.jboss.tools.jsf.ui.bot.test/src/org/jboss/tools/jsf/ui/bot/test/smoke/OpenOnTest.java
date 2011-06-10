@@ -15,19 +15,37 @@ import org.eclipse.swtbot.swt.finder.widgets.SWTBotTable;
 import org.jboss.tools.jsf.ui.bot.test.JSFAutoTestCase;
 import org.jboss.tools.ui.bot.ext.SWTTestExt;
 import org.jboss.tools.ui.bot.ext.helper.OpenOnHelper;
+import org.jboss.tools.ui.bot.ext.parts.SWTBotEditorExt;
+import org.jboss.tools.ui.bot.ext.types.IDELabel;
+import org.jboss.tools.vpe.ui.bot.test.VPEAutoTestCase;
 /**
  * Test open on functionality of JSF components within jsp page
  * @author Vladimir Pakan
  *
  */
 public class OpenOnTest extends JSFAutoTestCase{
-  
-	public void testOpenOn() throws Throwable{
+  /**
+   * Test open on functionality of JSF components within jsp page
+   */
+	public void testOpenOn(){
 	 
 	  eclipse.closeAllEditors();
 	  openPage();
 	  checkOpenOn();
 		
+	}
+	/**
+	 * Test open on functionality of faces-config.xml fioe
+	 * @throws Throwable
+	 */
+	public void testFacesConfigOpenOn() throws Throwable{
+	   
+	  eclipse.closeAllEditors();
+	  SWTBotEditor facesConfigEditor = eclipse.openFile(VPEAutoTestCase.JBT_TEST_PROJECT_NAME, "WebContent","WEB-INF","faces-config.xml");
+	  new SWTBotEditorExt(facesConfigEditor.toTextEditor().getReference(),bot)
+	    .selectPage(IDELabel.FacesConfigEditor.SOURCE_TAB_LABEL);
+	  checkFacesConfigOpenOn();
+	    
 	}
 	/**
 	 * Check Open On functionality for jsp page
@@ -58,22 +76,75 @@ public class OpenOnTest extends JSFAutoTestCase{
     openedEditor = OpenOnHelper.checkOpenOnFileIsOpened(
         SWTTestExt.bot, TEST_PAGE, "value=\"#{user.name}\"", 10,
         0, 0, expectedOpenedFileName);
-    String selectedTextInSourceEditor = openedEditor.toTextEditor().getSelection();
-    String expectedSelectedTextInSourceEditor = "User";
-    assertTrue("Selected text in Source editor has to be " + expectedSelectedTextInSourceEditor +
-          " but is " + selectedTextInSourceEditor,
-          selectedTextInSourceEditor.equalsIgnoreCase(expectedSelectedTextInSourceEditor));
+    String selectedTextInEditor = openedEditor.toTextEditor().getSelection();
+    String expectedSelectedTextInEditor = "User";
+    assertTrue("Selected text in editor has to be " + expectedSelectedTextInEditor +
+          " but is " + selectedTextInEditor,
+          selectedTextInEditor.equalsIgnoreCase(expectedSelectedTextInEditor));
     openedEditor.close();
     // Check open on for "#{user.name} EL when text 'name' is selected
     expectedOpenedFileName = "User.java";
     openedEditor = OpenOnHelper.checkOpenOnFileIsOpened(
         SWTTestExt.bot, TEST_PAGE, "value=\"#{user.name}\"", 15,
         0, 0, expectedOpenedFileName);
-    selectedTextInSourceEditor = openedEditor.toTextEditor().getSelection();
-    expectedSelectedTextInSourceEditor = "getName";
-    assertTrue("Selected text in Source editor has to be " + expectedSelectedTextInSourceEditor +
-          " but is " + selectedTextInSourceEditor,
-          selectedTextInSourceEditor.equalsIgnoreCase(expectedSelectedTextInSourceEditor));
+    selectedTextInEditor = openedEditor.toTextEditor().getSelection();
+    expectedSelectedTextInEditor = "getName";
+    assertTrue("Selected text in editor has to be " + expectedSelectedTextInEditor +
+          " but is " + selectedTextInEditor,
+          selectedTextInEditor.equalsIgnoreCase(expectedSelectedTextInEditor));
     openedEditor.close();
   }
+  /**
+   * Check Open On functionality for faces-config.xml file
+   */
+  private void checkFacesConfigOpenOn() {
+    // Check open on for demo.User managed bean
+    final String facesConfigTitle = "faces-config.xml";
+    String expectedOpenedFileName = "User.java";
+    SWTBotEditor openedEditor = OpenOnHelper.checkOpenOnFileIsOpened(
+        SWTTestExt.bot, facesConfigTitle, "<managed-bean-class>demo.User</managed-bean-class>", 22,
+        0, 0, expectedOpenedFileName);
+    String selectedTextInSourceEditor = openedEditor.toTextEditor().getSelection();
+    String expectedSelectedTextInEditor = "User";
+    assertTrue("Selected text in editor has to be " + expectedSelectedTextInEditor +
+          " but is " + selectedTextInSourceEditor,
+          selectedTextInSourceEditor.equalsIgnoreCase(expectedSelectedTextInEditor));
+    openedEditor.close();
+    // Check open on for name property of demo.User managed bean
+    expectedOpenedFileName = "User.java";
+    openedEditor = OpenOnHelper.checkOpenOnFileIsOpened(
+        SWTTestExt.bot, facesConfigTitle, "<property-name>name</property-name>", 17,
+        0, 0, expectedOpenedFileName);
+    selectedTextInSourceEditor = openedEditor.toTextEditor().getSelection();
+    expectedSelectedTextInEditor = "getName";
+    assertTrue("Selected text in editor has to be " + expectedSelectedTextInEditor +
+          " but is " + selectedTextInSourceEditor,
+          selectedTextInSourceEditor.equalsIgnoreCase(expectedSelectedTextInEditor));
+    openedEditor.close();
+    // Check open on for java.lang.String class
+    expectedOpenedFileName = "String.class";
+    openedEditor = OpenOnHelper.checkOpenOnFileIsOpened(
+        SWTTestExt.bot, facesConfigTitle, "<property-class>java.lang.String</property-class>", 18,
+        0, 0, expectedOpenedFileName);
+    selectedTextInSourceEditor = openedEditor.toTextEditor().getSelection();
+    expectedSelectedTextInEditor = "String";
+    assertTrue("Selected text in editor has to be " + expectedSelectedTextInEditor +
+          " but is " + selectedTextInSourceEditor,
+          selectedTextInSourceEditor.equalsIgnoreCase(expectedSelectedTextInEditor));
+    openedEditor.close();
+    // Check open on for URI /pages/inputUserName.jsp within <from-view-id> tag
+    expectedOpenedFileName = "inputUserName.jsp";
+    openedEditor = OpenOnHelper.checkOpenOnFileIsOpened(
+        SWTTestExt.bot, facesConfigTitle, "<from-view-id>/pages/inputUserName.jsp</from-view-id>", 16,
+        0, 0, expectedOpenedFileName);
+    openedEditor.close();
+    // Check open on for URI /pages/hello.jsp within <to-view-id> tag
+    expectedOpenedFileName = "hello.jsp";
+    openedEditor = OpenOnHelper.checkOpenOnFileIsOpened(
+        SWTTestExt.bot, facesConfigTitle, "<to-view-id>/pages/hello.jsp</to-view-id>", 14,
+        0, 0, expectedOpenedFileName);
+    openedEditor.close();
+
+  }
+
 }
