@@ -2,6 +2,20 @@
 <?eclipse version="3.0"?>
 <plugin>
 
+  <extension
+         point="org.eclipse.ui.propertyPages">
+       <page
+            name="%PreferencePage_JSFValidation"
+            class="org.jboss.tools.jsf.ui.preferences.JSFValidationPreferencePage"
+            id="org.jboss.tools.jsf.ui.propertyPages.JSFValidationPreferencePage">
+         <enabledWhen>
+		     	<adapt type="org.eclipse.core.resources.IProject">
+		     		<test property="org.eclipse.core.resources.projectNature" value="org.jboss.tools.jsf.jsfnature"/>
+				</adapt>
+         </enabledWhen>
+      </page>
+   </extension>
+
    <extension point="org.eclipse.ui.preferencePages">
       <page category="org.jboss.tools.common.model.ui" 
             class="org.jboss.tools.jsf.ui.preferences.JSFStudioPreferencesPage" 
@@ -26,6 +40,12 @@
             class="org.jboss.tools.jsf.ui.preferences.JSFFlowTabbedPreferencesPage"
             id="org.jboss.tools.jsf.ui.jsfflowdiagram"
             name="%PreferencePage_JSFFlowTabbed"/>
+      <page
+            category="org.jboss.tools.jsf.ui"
+            class="org.jboss.tools.jsf.ui.preferences.JSFValidationPreferencePage"
+            id="org.jboss.tools.jsf.ui.preferences.JSFValidationPreferencePage"
+            name="%PreferencePage_Validation">
+      </page>
    </extension>
 
    <extension id="e" name="XML Editors" point="org.jboss.tools.common.model.ui.xmlEditor">

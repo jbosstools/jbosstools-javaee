@@ -13,6 +13,9 @@ package org.jboss.tools.jsf.test.validation;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.MessageFormat;
+
+import junit.framework.TestCase;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
@@ -24,10 +27,9 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.wst.validation.ValidationFramework;
 import org.jboss.tools.jsf.jsf2.util.JSF2ResourceUtil;
+import org.jboss.tools.jsf.web.validation.JSFValidationMessage;
 import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.ProjectImportTestSetup;
-
-import junit.framework.TestCase;
 
 /**
  * 
@@ -67,17 +69,11 @@ public class JSF2ComponentsValidatorTest extends TestCase {
 				.findMember("/WebContent/pages/inputname.xhtml"); //$NON-NLS-1$
 		assertNotNull(resource);
 		IMarker[] markers = resource.findMarkers(
-				"org.jboss.tools.jsf.jsf2problemmarker", false, 1); //$NON-NLS-1$
-		assertNotNull(markers);
-		assertTrue(isMarkerExist(markers,
-				"Composite component \"echo\" was not found in a project resources directory")); //$NON-NLS-1$
-		assertTrue(isMarkerExist(markers,
-				"Attribute \"anknownAttr\" is not defined for \"echo\" composite component")); //$NON-NLS-1$
-		assertTrue(isMarkerExist(
-				markers,
-				"JSF 2 Resources folder \"/resources/jarPage1\" is missing in a project web directory")); //$NON-NLS-1$
-		assertTrue(isMarkerExist(markers,
-				"Composite component \"echo1\" was not found in a project resources directory")); //$NON-NLS-1$
+				"org.jboss.tools.jsf.compositeproblem", false, 1); //$NON-NLS-1$
+		assertEquals(3, markers.length);
+		assertTrue(isMarkerExist(markers, MessageFormat.format(JSFValidationMessage.UNKNOWN_COMPOSITE_COMPONENT_NAME, "echo"))); //$NON-NLS-1$
+		assertTrue(isMarkerExist(markers, MessageFormat.format(JSFValidationMessage.UNKNOWN_COMPOSITE_COMPONENT_NAME, "echo1"))); //$NON-NLS-1$
+		assertTrue(isMarkerExist(markers, MessageFormat.format(JSFValidationMessage.UNKNOWN_COMPOSITE_COMPONENT_ATTRIBUTE, "anknownAttr", "echo"))); //$NON-NLS-1$
 	}
 
 	private boolean isMarkerExist(IMarker[] markers, String markerMesssage)
@@ -90,5 +86,4 @@ public class JSF2ComponentsValidatorTest extends TestCase {
 		}
 		return false;
 	}
-
 }

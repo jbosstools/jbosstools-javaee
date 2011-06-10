@@ -27,10 +27,10 @@ public class JSFSeverityPreferences extends SeverityPreferences {
 	private static JSFSeverityPreferences INSTANCE = new JSFSeverityPreferences();
 
 	// Mark tag which can't be found.
-	public static final String UNKNOWN_COMPOSITION_COMPONENT_NAME = INSTANCE.createSeverityOption("unknownComponent"); //$NON-NLS-1$
+	public static final String UNKNOWN_COMPOSITE_COMPONENT_NAME = INSTANCE.createSeverityOption("unknownComponent"); //$NON-NLS-1$
 
 	// Mark attribute which can't be found.
-	public static final String UNKNOWN_COMPOSITION_COMPONENT_ATTRIBUTE = INSTANCE.createSeverityOption("unknownAttribute"); //$NON-NLS-1$
+	public static final String UNKNOWN_COMPOSITE_COMPONENT_ATTRIBUTE = INSTANCE.createSeverityOption("unknownAttribute"); //$NON-NLS-1$
 
 	/**
 	 * @return the only instance of JSFSeverityPreferences
@@ -47,7 +47,7 @@ public class JSFSeverityPreferences extends SeverityPreferences {
 	 */
 	@Override
 	protected String createSeverityOption(String shortName) {
-		String name = getPluginId() + ".composition.validator.problem." + shortName; //$NON-NLS-1$
+		String name = getPluginId() + ".composite.validator.problem." + shortName; //$NON-NLS-1$
 		SEVERITY_OPTION_NAMES.add(name);
 		return name;
 	}
@@ -77,7 +77,7 @@ public class JSFSeverityPreferences extends SeverityPreferences {
 	}
 
 	public static boolean shouldValidateEL(IProject project) {
-		return !(SeverityPreferences.IGNORE.equals(INSTANCE.getProjectPreference(project, UNKNOWN_COMPOSITION_COMPONENT_NAME)) &&
-				SeverityPreferences.IGNORE.equals(INSTANCE.getProjectPreference(project, UNKNOWN_COMPOSITION_COMPONENT_ATTRIBUTE)));
+		return !(SeverityPreferences.IGNORE.equals(INSTANCE.getProjectPreference(project, UNKNOWN_COMPOSITE_COMPONENT_NAME)) &&
+				SeverityPreferences.IGNORE.equals(INSTANCE.getProjectPreference(project, UNKNOWN_COMPOSITE_COMPONENT_ATTRIBUTE)));
 	}
 }

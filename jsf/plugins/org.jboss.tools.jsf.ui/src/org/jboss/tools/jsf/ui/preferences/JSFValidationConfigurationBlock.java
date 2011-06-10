@@ -28,17 +28,17 @@ public class JSFValidationConfigurationBlock extends SeverityConfigurationBlock 
 
 	private static final String SETTINGS_SECTION_NAME = JSFSeverityPreferencesMessages.JSF_VALIDATION_CONFIGURATION_BLOCK_JSF_VALIDATION_CONFIGURATION_BLOCK;
 
-	private static SectionDescription SECTION_COMPOSITION_COMPONENTS = new SectionDescription(
-			JSFSeverityPreferencesMessages.JSFValidationConfigurationBlock_section_composition_components,
+	private static SectionDescription SECTION_COMPOSITE_COMPONENTS = new SectionDescription(
+			JSFSeverityPreferencesMessages.JSFValidationConfigurationBlock_section_composite_components,
 			new String[][]{
-				{JSFSeverityPreferences.UNKNOWN_COMPOSITION_COMPONENT_NAME, JSFSeverityPreferencesMessages.JSFValidationConfigurationBlock_pb_unknownComponent_label},
-				{JSFSeverityPreferences.UNKNOWN_COMPOSITION_COMPONENT_ATTRIBUTE, JSFSeverityPreferencesMessages.JSFValidationConfigurationBlock_pb_unknownAttribute_label},
+				{JSFSeverityPreferences.UNKNOWN_COMPOSITE_COMPONENT_NAME, JSFSeverityPreferencesMessages.JSFValidationConfigurationBlock_pb_unknownComponent_label},
+				{JSFSeverityPreferences.UNKNOWN_COMPOSITE_COMPONENT_ATTRIBUTE, JSFSeverityPreferencesMessages.JSFValidationConfigurationBlock_pb_unknownAttribute_label},
 			},
 			JSFModelPlugin.PLUGIN_ID
 		);
 
 		private static SectionDescription[] ALL_SECTIONS = new SectionDescription[] {
-			SECTION_COMPOSITION_COMPONENTS
+			SECTION_COMPOSITE_COMPONENTS
 		};
 
 		private static Key[] getKeys() {

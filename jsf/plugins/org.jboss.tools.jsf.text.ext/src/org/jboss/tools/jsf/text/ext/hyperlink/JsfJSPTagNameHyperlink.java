@@ -92,7 +92,7 @@ public class JsfJSPTagNameHyperlink extends AbstractHyperlink {
 //		String attributeName = p.getProperty(IWebPromptingProvider.ATTRIBUTE);
 		IComponent c = ls[0].getComponent(tagName);
 		if(c != null) {
-			IResource r = ((AbstractComponent)c).getResource();
+			IResource r = c.getResource();
 			if(r instanceof IFile) {
 				IEditorPart part = null;
 				IFile f = (IFile)r;

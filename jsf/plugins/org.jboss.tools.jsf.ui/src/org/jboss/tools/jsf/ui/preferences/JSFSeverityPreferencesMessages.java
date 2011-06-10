@@ -26,7 +26,7 @@ public class JSFSeverityPreferencesMessages extends NLS {
 	public static String JSFValidationConfigurationBlock_common_description;
 	
 	//Expression Language
-	public static String JSFValidationConfigurationBlock_section_composition_components;
+	public static String JSFValidationConfigurationBlock_section_composite_components;
 	public static String JSFValidationConfigurationBlock_pb_unknownComponent_label;
 	public static String JSFValidationConfigurationBlock_pb_unknownAttribute_label;
 

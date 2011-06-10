@@ -223,8 +223,10 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
 		Set<IPath> resources = new HashSet<IPath>(); // Resources which we have
 														// to validate.
+		Set<IPath> resourcesToClean = new HashSet<IPath>(); // Resource which we should remove from validation context
 		Dependencies ds = cdiProject.getNature().getDefinitions().getDependencies();
 		for(IFile file: changedFiles) {
+			resourcesToClean.add(file.getFullPath());
 			Set<IPath> dd = ds.getDirectDependencies(file.getFullPath());
 			if(dd != null) {
 				for (IPath p: dd) {
@@ -295,7 +297,8 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 		// Validate all collected linked resources.
 		// Remove all links between collected resources because they will be
 		// linked again during validation.
-		getValidationContext().removeLinkedCoreResources(SHORT_ID, resources);
+		resourcesToClean.addAll(resources);
+		getValidationContext().removeLinkedCoreResources(SHORT_ID, resourcesToClean);
 
 		// We should remove markers from the source files at first
 		for(IFile file: filesToValidate) {

@@ -6,8 +6,8 @@ public class JSFValidationMessage {
 
 	private static final String BUNDLE_NAME = "org.jboss.tools.jsf.web.validation.messages"; //$NON-NLS-1$
 
-	public static String UNKNOWN_COMPOSITION_COMPONENT_NAME;
-	public static String UNKNOWN_COMPOSITION_COMPONENT_ATTRIBUTE;
+	public static String UNKNOWN_COMPOSITE_COMPONENT_NAME;
+	public static String UNKNOWN_COMPOSITE_COMPONENT_ATTRIBUTE;
 
 	public static String SEARCHING_RESOURCES;
 	public static String VALIDATING_RESOURCE;
