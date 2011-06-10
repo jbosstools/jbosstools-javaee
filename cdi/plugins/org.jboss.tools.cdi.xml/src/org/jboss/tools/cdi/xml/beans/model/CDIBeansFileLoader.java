@@ -40,15 +40,15 @@ public class CDIBeansFileLoader extends SimpleWebFileLoader {
     	return super.loadNamespace(element, object);
     }
 
-    public String serializeObject(XModelObject object) {
+    public Element createRootElement(XModelObject object) {
     	String rootName = getRootName(object);
         Element element = createRootElement(rootName, null, null);
         CDINamespaces.getInstance(object.getModel().getMetaData(), getVersionSuffix(object)).validateNamespaces(object, element);
 		NamespaceMapping namespaceMapping = NamespaceMapping.load(object);
     	util.setNamespaceMapping(namespaceMapping);
-        return serializeToElement(element, object);
+    	return element;
     }
-    
+
     private String getVersionSuffix(XModelObject o) {
 //    	String entity = o.getModelEntity().getName();
     	return ""; //$NON-NLS-1$
