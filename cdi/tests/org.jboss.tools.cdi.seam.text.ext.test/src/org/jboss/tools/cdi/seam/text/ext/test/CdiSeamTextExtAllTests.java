@@ -32,6 +32,7 @@ public class CdiSeamTextExtAllTests {
 
 		TestSuite suiteConfig = new TestSuite("CDI Seam Config OpenOns Tests");
 		suiteConfig.addTestSuite(SeamConfigTagNameHyperlinkTest.class);
+		suiteConfig.addTestSuite(SeamConfigInjectedPointHyperlinkTest.class);
 		
 		suiteAll.addTest(new SeamConfigTestSetup(suiteConfig));
 		

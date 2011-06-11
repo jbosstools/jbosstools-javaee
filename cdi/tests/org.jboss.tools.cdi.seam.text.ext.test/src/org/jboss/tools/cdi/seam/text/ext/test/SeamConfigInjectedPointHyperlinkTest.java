@@ -26,7 +26,7 @@ import org.eclipse.ui.texteditor.ITextEditor;
 import org.jboss.tools.cdi.seam.config.core.test.SeamConfigTest;
 import org.jboss.tools.cdi.seam.text.ext.CDISeamExtPlugin;
 import org.jboss.tools.cdi.seam.text.ext.hyperlink.SeamConfigInjectedPointHyperlinkDetector;
-import org.jboss.tools.cdi.text.ext.test.HyperlinkDetectorTest;
+import org.jboss.tools.cdi.text.ext.test.CDIHyperlinkTestUtil;
 import org.jboss.tools.common.util.FileUtil;
 
 /**
@@ -81,7 +81,7 @@ public class SeamConfigInjectedPointHyperlinkTest extends SeamConfigTest {
 
 		FileEditorInput editorInput = new FileEditorInput(file);
 
-		IEditorPart part = HyperlinkDetectorTest.openFileInEditor(file);
+		IEditorPart part = CDIHyperlinkTestUtil.openFileInEditor(file);
 		CompilationUnitEditor editor = (CompilationUnitEditor)part;
 		ISourceViewer viewer = editor.getViewer();
 		detector.setContext(editor);
