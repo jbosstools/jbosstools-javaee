@@ -126,7 +126,7 @@ public class JsfJSPTagNameHyperlinkDetector extends AbstractHyperlinkDetector {
 				IAttribute[] attributes = PageProcessor.getInstance().getAttributes(query, (IPageContext)context);
 				ArrayList<IHyperlink> hyperlinks = new ArrayList<IHyperlink>();
 				for(IAttribute attribute : attributes){
-					if(!attribute.isExtended() && validateComponent(attribute.getComponent(), ((IPageContext)context).getNameSpaces(reg.getOffset()), query.getPrefix())){
+					if(!attribute.isExtended() && validateComponent(attribute.getComponent(), ((IPageContext)context).getNameSpaces(reg.getOffset()), query.getPrefix()) && attribute instanceof AbstractAttribute){
 						TLDAttributeHyperlink link = new TLDAttributeHyperlink((AbstractAttribute)attribute, reg);
 						link.setDocument(textViewer.getDocument());
 						hyperlinks.add(link);
