@@ -30,6 +30,7 @@ import org.jboss.tools.jsf.jsf2.util.JSF2ResourceUtil;
 import org.jboss.tools.jsf.web.validation.JSFValidationMessage;
 import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.ProjectImportTestSetup;
+import org.jboss.tools.tests.AbstractResourceMarkerTest;
 
 /**
  * 
@@ -63,24 +64,27 @@ public class JSF2ComponentsValidatorTest extends TestCase {
 	}
 	
 	public void testJSF2ComponentsValidator() throws Exception {
-		ValidationFramework.getDefault().validate(new IProject[] { project },
-				false, false, new NullProgressMonitor());
-		IResource resource = project
-				.findMember("/WebContent/pages/inputname.xhtml"); //$NON-NLS-1$
-		assertNotNull(resource);
-		IMarker[] markers = resource.findMarkers(
-				"org.jboss.tools.jsf.compositeproblem", false, 1); //$NON-NLS-1$
+		ValidationFramework.getDefault().validate(new IProject[] {project},	false, false, new NullProgressMonitor());
+		IResource resource = project.findMember("/WebContent/pages/inputname.xhtml"); //$NON-NLS-1$
+		assertTrue(resource.exists());
+		IMarker[] markers = resource.findMarkers("org.jboss.tools.jsf.compositeproblem", false, 1); //$NON-NLS-1$
 		assertEquals(3, markers.length);
 		assertTrue(isMarkerExist(markers, MessageFormat.format(JSFValidationMessage.UNKNOWN_COMPOSITE_COMPONENT_NAME, "echo"))); //$NON-NLS-1$
 		assertTrue(isMarkerExist(markers, MessageFormat.format(JSFValidationMessage.UNKNOWN_COMPOSITE_COMPONENT_NAME, "echo1"))); //$NON-NLS-1$
 		assertTrue(isMarkerExist(markers, MessageFormat.format(JSFValidationMessage.UNKNOWN_COMPOSITE_COMPONENT_ATTRIBUTE, "anknownAttr", "echo"))); //$NON-NLS-1$
 	}
 
-	private boolean isMarkerExist(IMarker[] markers, String markerMesssage)
-			throws CoreException {
+	public void testELInTagBodyInCompositeComponent() throws Exception {
+		ValidationFramework.getDefault().validate(new IProject[] {project},	false, false, new NullProgressMonitor());
+		IResource resource = project.findMember("/WebContent/resources/demo/input.xhtml"); //$NON-NLS-1$
+		assertTrue(resource.exists());
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(resource, "\"name\" cannot be resolved", 20);
+		AbstractResourceMarkerTest.assertMarkerIsCreated(resource, "\"nameBroken\" cannot be resolved", 21);
+	}
+
+	private boolean isMarkerExist(IMarker[] markers, String markerMesssage)	throws CoreException {
 		for (int i = 0; i < markers.length; i++) {
-			if (markerMesssage.equals((String) markers[i]
-					.getAttribute("message"))) { //$NON-NLS-1$
+			if (markerMesssage.equals((String) markers[i].getAttribute("message"))) { //$NON-NLS-1$
 				return true;
 			}
 		}

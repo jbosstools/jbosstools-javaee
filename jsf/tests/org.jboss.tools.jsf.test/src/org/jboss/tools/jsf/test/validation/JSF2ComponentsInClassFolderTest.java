@@ -8,36 +8,25 @@
  * Contributors:
  *     Exadel, Inc. and Red Hat, Inc. - initial API and implementation
  ******************************************************************************/
-
 package org.jboss.tools.jsf.test.validation;
 
+import junit.framework.TestCase;
 
-import java.io.IOException;
-import java.io.InputStream;
-
-import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.core.runtime.Path;
-import org.jboss.tools.jsf.jsf2.util.JSF2ResourceUtil;
 import org.jboss.tools.jst.web.kb.IKbProject;
 import org.jboss.tools.jst.web.kb.KbProjectFactory;
-import org.jboss.tools.jst.web.kb.internal.KbProject;
 import org.jboss.tools.jst.web.kb.taglib.IAttribute;
 import org.jboss.tools.jst.web.kb.taglib.IComponent;
 import org.jboss.tools.jst.web.kb.taglib.ITagLibrary;
 import org.jboss.tools.test.util.ProjectImportTestSetup;
-
-import junit.framework.TestCase;
 
 /**
  * 
  * @author yzhishko
  *
  */
-
 public class JSF2ComponentsInClassFolderTest extends TestCase {
 
 	private static String projectName = "JSF2ComponentsValidator"; //$NON-NLS-1$
@@ -47,6 +36,7 @@ public class JSF2ComponentsInClassFolderTest extends TestCase {
 		super("JSF 2 Components In Class Folder Test"); //$NON-NLS-1$
 	}
 
+	@Override
 	protected void setUp() throws Exception {
 		project = ProjectImportTestSetup.loadProject(projectName);
 		project.build(IncrementalProjectBuilder.FULL_BUILD,
@@ -61,12 +51,8 @@ public class JSF2ComponentsInClassFolderTest extends TestCase {
 		assertTrue(cs.length > 0);
 		assertEquals("input", cs[0].getName());
 		IAttribute[] as = cs[0].getAttributes();
-		assertEquals(5, as.length);
+		assertEquals(7, as.length);
 		IAttribute a = cs[0].getAttribute("value7");
 		assertNotNull(a);
-
 	}
-
 }
-
-
