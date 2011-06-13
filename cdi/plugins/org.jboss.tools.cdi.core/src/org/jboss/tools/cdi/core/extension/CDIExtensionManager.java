@@ -47,7 +47,10 @@ public class CDIExtensionManager {
 
 	FeatureStorage featureStorage = new FeatureStorage();
 	
-	public CDIExtensionManager(CDICoreNature n) {
+	public CDIExtensionManager() {
+	}
+
+	public void setProject(CDICoreNature n) {
 		this.n = n;
 	}
 
@@ -81,41 +84,45 @@ public class CDIExtensionManager {
 	private void addRuntime(String runtime) {
 		CDIExtensionFactory factory = CDIExtensionFactory.getInstance();
 		Set<String> clss = factory.getExtensionClassesByRuntime(runtime);
-		if(clss != null && !clss.isEmpty()) for (String cls: clss) {
-			ICDIExtension ext = factory.createExtensionInstance(cls);
-			if(ext == null) continue;
-			instances.put(cls, ext);
-			for (Class<?> feature: CDIExtensionFactory.getInstance().getFeatures()) {
-				if(factory.getExtensionClassesByFeature(feature).contains(cls)) {
-					Set<ICDIExtension> es = featureToExtensions.get(feature);
-					if(es == null) {
-						es = new HashSet<ICDIExtension>();
-						featureToExtensions.put(feature, es);
+		if(clss != null) {
+			for (String cls: clss) {
+				ICDIExtension ext = factory.createExtensionInstance(cls);
+				if(ext == null) continue;
+				instances.put(cls, ext);
+				for (Class<?> feature: CDIExtensionFactory.getInstance().getFeatures()) {
+					if(factory.getExtensionClassesByFeature(feature).contains(cls)) {
+						Set<ICDIExtension> es = featureToExtensions.get(feature);
+						if(es == null) {
+							es = new HashSet<ICDIExtension>();
+							featureToExtensions.put(feature, es);
+						}
+						es.add(ext);
 					}
-					es.add(ext);
 				}
+				featureStorage.clean();
 			}
-			featureStorage.clean();
 		}
 	}
 
 	private void deleteRuntime(String runtime) {
 		Set<String> clss = CDIExtensionFactory.getInstance().getExtensionClassesByRuntime(runtime);
-		for (String cls: clss) {
-			ICDIExtension ext = instances.remove(cls);
-			if(ext != null) {
-				Class<?>[] is = featureToExtensions.keySet().toArray(new Class<?>[0]);
-				for (Class<?> feature: is) {
-					Set<ICDIExtension> es = featureToExtensions.get(feature);
-					if(es != null) {
-						es.remove(ext);
-						if(es.isEmpty()) featureToExtensions.remove(feature);
+		if(clss != null) {
+			for (String cls: clss) {
+				ICDIExtension ext = instances.remove(cls);
+				if(ext != null) {
+					Class<?>[] is = featureToExtensions.keySet().toArray(new Class<?>[0]);
+					for (Class<?> feature: is) {
+						Set<ICDIExtension> es = featureToExtensions.get(feature);
+						if(es != null) {
+							es.remove(ext);
+							if(es.isEmpty()) featureToExtensions.remove(feature);
+						}
 					}
 				}
 			}
-		}
-		if(!clss.isEmpty()) {
-			featureStorage.clean();
+			if(!clss.isEmpty()) {
+				featureStorage.clean();
+			}
 		}
 	}
 

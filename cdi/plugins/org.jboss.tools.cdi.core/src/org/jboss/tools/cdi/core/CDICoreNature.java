@@ -69,9 +69,10 @@ public class CDICoreNature implements IProjectNature {
 	
 	Set<CDICoreNature> usedBy = new HashSet<CDICoreNature>();
 
-	private CDIExtensionManager extensions = new CDIExtensionManager(this);
+	private CDIExtensionManager extensions = new CDIExtensionManager();
 	
 	public CDICoreNature() {
+		extensions.setProject(this);
 		definitions.setProject(this);
 	}
 
