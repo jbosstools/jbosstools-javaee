@@ -111,7 +111,8 @@ public class SeamBeansDefinition {
 		
 		for (SeamVirtualFieldDefinition def: virtualFieldDefinitions) {
 			IType type = def.getType();
-			TypeDefinition typeDef = new TypeDefinition();
+			ConfigVirtualFieldDefinition typeDef = new ConfigVirtualFieldDefinition();
+			typeDef.setConfig(def);
 			int flags = AbstractMemberDefinition.FLAG_NO_ANNOTATIONS;
 			typeDef.setType(type, context.getRootContext(), flags);
 			mergeAnnotations(def, typeDef, context);
