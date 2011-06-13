@@ -12,6 +12,7 @@ package org.jboss.tools.cdi.seam.text.ext.test;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.internal.ui.javaeditor.CompilationUnitEditor;
 import org.eclipse.jface.text.ITextSelection;
 import org.eclipse.jface.text.Region;
@@ -25,6 +26,7 @@ import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.texteditor.ITextEditor;
 import org.jboss.tools.cdi.seam.config.core.test.SeamConfigTest;
 import org.jboss.tools.cdi.seam.text.ext.CDISeamExtPlugin;
+import org.jboss.tools.cdi.seam.text.ext.hyperlink.SeamConfigInjectedPointHyperlink;
 import org.jboss.tools.cdi.seam.text.ext.hyperlink.SeamConfigInjectedPointHyperlinkDetector;
 import org.jboss.tools.cdi.text.ext.test.CDIHyperlinkTestUtil;
 import org.jboss.tools.common.util.FileUtil;
@@ -35,27 +37,67 @@ import org.jboss.tools.common.util.FileUtil;
  *
  */
 public class SeamConfigInjectedPointHyperlinkTest extends SeamConfigTest {
+	static final String HYPERLINK_NAME = SeamConfigInjectedPointHyperlink.class.getName();
 	public SeamConfigInjectedPointHyperlinkTest() {}
 
-	public void testSeamConfigInjectedPointHyperlink() throws Exception {
+	public void testClassBean() throws Exception {
 		IHyperlink hyperlink = checkHyperLinkInJava(
 				"src/org/jboss/beans/injection/Injections.java", 
 				project, 
-				"@Inject", 1, 
+				"@Inject MyBean5", 1, 
 				new SeamConfigInjectedPointHyperlinkDetector(), 
-				"org.jboss.tools.cdi.seam.text.ext.hyperlink.SeamConfigInjectedPointHyperlink");
+				HYPERLINK_NAME);
 		hyperlink.open();
 		
+		checkResult("seam-beans.xml", "<test04:MyBean5>");
+	}
+
+	public void testProducerField() throws Exception {
+		IHyperlink hyperlink = checkHyperLinkInJava(
+				"src/org/jboss/beans/injection/Injections.java", 
+				project, 
+				"@Inject @MyQualifier", 1, 
+				new SeamConfigInjectedPointHyperlinkDetector(), 
+				HYPERLINK_NAME);
+		hyperlink.open();
+		
+		checkResult("seam-beans.xml", "<test04:myType3>");
+	}
+
+	public void testProducerMethod() throws Exception {
+		IHyperlink hyperlink = checkHyperLinkInJava(
+				"src/org/jboss/beans/injection/Injections.java", 
+				project, 
+				"@Inject @org.jboss.beans.test05.MyQualifier", 1, 
+				new SeamConfigInjectedPointHyperlinkDetector(), 
+				HYPERLINK_NAME);
+		hyperlink.open();
+		
+		checkResult("seam-beans.xml", "<test05:createType>");
+	}
+
+	public void testVirtualProducerField() throws Exception {
+		IHyperlink hyperlink = checkHyperLinkInJava(
+				"src/org/jboss/beans/injection/Injections.java", 
+				project, 
+				"@Inject @org.jboss.beans.test06.MyQualifier", 1, 
+				new SeamConfigInjectedPointHyperlinkDetector(), 
+				HYPERLINK_NAME);
+		hyperlink.open();
+		
+		checkResult("seam-beans.xml", "<s:String>");
+	}
+
+	void checkResult(String name, String selectedText) throws CoreException {
 		IEditorPart editor = CDISeamExtPlugin.getDefault().getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
 		IFileEditorInput input = (IFileEditorInput)editor.getEditorInput();
 		IFile f = input.getFile();
-		assertEquals("seam-beans.xml", f.getName());
+		assertEquals(name, f.getName());
 		
 		ITextSelection textSelection = getSelection(editor);
 		
 		String text = FileUtil.readStream(f).substring(textSelection.getOffset(), textSelection.getOffset() + textSelection.getLength());
-		assertEquals("<test04:myType3>", text);
-
+		assertEquals(selectedText, text);
 	}
 
 	public static ITextSelection getSelection(IEditorPart editor) {
