@@ -55,7 +55,7 @@ public class CodeCompletionTest extends JSFAutoTestCase{
   /**
    * Test Code Completion functionality for resource
    */
-  public void xxtestCodeCompletionOfResource(){
+  public void testCodeCompletionOfResource(){
    
     ContentAssistBot contentAssist = editor.contentAssist();
     String textForSelection = "${msg.prompt}";
@@ -81,7 +81,7 @@ public class CodeCompletionTest extends JSFAutoTestCase{
   /**
    * Test Code Completion functionality of <input> tag attributes within xhtml page
    */
-	public void xtestCodeCompletionOfInputTagAttributes(){
+	public void testCodeCompletionOfInputTagAttributes(){
 	 
 	  ContentAssistBot contentAssist = editor.contentAssist();
     String textForSelection = "action=\"greeting\" value=\"Say Hello\" ";
@@ -105,7 +105,7 @@ public class CodeCompletionTest extends JSFAutoTestCase{
   /**
    * Test Code Completion functionality of <input> tag for jsfc attribute within xhtml page
    */
-  public void xtestCodeCompletionOfInputTagForJsfcAttribute(){
+  public void testCodeCompletionOfInputTagForJsfcAttribute(){
     // check jsfc attribute insertion via Content Assist 
     SWTJBTExt.selectTextInSourcePane(SWTTestExt.bot, 
         FACELETS_TEST_PAGE,
