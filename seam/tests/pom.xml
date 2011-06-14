@@ -42,5 +42,27 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 		<module>org.jboss.tools.seam.ui.bot.test</module>
 		<module>org.jboss.tools.seam.xml.test</module>
 	</modules>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.sonatype.tycho</groupId>
+				<artifactId>maven-osgi-test-plugin</artifactId>
+				<configuration>
+					<product>org.jboss.tools.tests.product</product>
+					<!-- default is 1800 sec = 30 min -->
+					<surefire.timeout>1800</surefire.timeout>
+					<forkedProcessTimeoutInSeconds>1800</forkedProcessTimeoutInSeconds>
+
+					<explodedBundles>
+						<bundle>org.jboss.tools.vpe</bundle>
+						<bundle>org.mozilla.xulrunner.cocoa.macosx</bundle>
+						<bundle>org.mozilla.xulrunner.gtk.linux.x86</bundle>
+						<bundle>org.mozilla.xulrunner.gtk.linux.x86_64</bundle>
+						<bundle>org.mozilla.xulrunner.win32.win32.x86</bundle>
+					</explodedBundles>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 </project>
 	
