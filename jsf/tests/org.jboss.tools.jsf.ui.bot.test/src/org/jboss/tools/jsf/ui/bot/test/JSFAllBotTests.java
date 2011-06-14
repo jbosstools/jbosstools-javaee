@@ -13,6 +13,7 @@ import org.jboss.tools.jsf.ui.bot.test.jsf2.refactor.JSF2AttributeRenameTest;
 import org.jboss.tools.jsf.ui.bot.test.jsf2.refactor.JSF2MoveParticipantTest;
 import org.jboss.tools.jsf.ui.bot.test.jsf2.refactor.JSF2RenameParticipantTest;
 import org.jboss.tools.jsf.ui.bot.test.smoke.AddRemoveJSFCapabilitiesTest;
+import org.jboss.tools.jsf.ui.bot.test.smoke.CodeCompletionTest;
 import org.jboss.tools.jsf.ui.bot.test.smoke.CreateNewJSFProjectTest;
 import org.jboss.tools.jsf.ui.bot.test.smoke.OpenOnTest;
 import org.jboss.tools.jsf.ui.bot.test.templates.SetTemplateForUnknownTagTest;
@@ -40,6 +41,7 @@ public class JSFAllBotTests{
 		suite.addTestSuite(JSF2RenameParticipantTest.class);
 		suite.addTestSuite(JSF2AttributeRenameTest.class);
 		suite.addTestSuite(OpenOnTest.class);
+		suite.addTestSuite(CodeCompletionTest.class);
 		return suite;
 	}
 }
