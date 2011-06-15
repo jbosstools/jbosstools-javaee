@@ -152,12 +152,11 @@ public class CDICoreBuilder extends IncrementalProjectBuilder {
 	
 			Map<String, XModelObject> newJars = new HashMap<String, XModelObject>();
 			if(isClassPathUpdated) {
+				//2. Update class path. Removed paths will be cached to be applied to working copy of context. 
 				n.getClassPath().setSrcs(getResourceVisitor().srcs);
-				
-				//2. Update class path.
 				newJars = n.getClassPath().process();
 
-				//3. Install extensions.
+				//3. Install extensions. That should be done before constructing working copy of context.
 				buildParticipants = n.getExtensionManager().getBuildParticipantFeature();
 				Set<IDefinitionContextExtension> es = new HashSet<IDefinitionContextExtension>();
 				for (IBuildParticipantFeature p: buildParticipants) {
@@ -169,10 +168,16 @@ public class CDICoreBuilder extends IncrementalProjectBuilder {
 
 			//4. Create working copy of context.
 			n.getDefinitions().newWorkingCopy(kind == FULL_BUILD);
+
+			//5. Modify working copy of context.
+			//5.1 Apply Removed paths.
+			if(isClassPathUpdated) {
+				n.getClassPath().applyRemovedPaths();
+			}
 		
 			for (IBuildParticipantFeature p: buildParticipants) p.beginVisiting();
 
-			//5. Discover sources and build definitions.
+			//5.2 Discover sources and build definitions.
 			if(isClassPathUpdated) {
 				buildJars(newJars);
 				

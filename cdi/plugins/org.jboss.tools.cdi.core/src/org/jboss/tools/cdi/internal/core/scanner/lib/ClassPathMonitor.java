@@ -38,6 +38,8 @@ import org.jboss.tools.common.model.util.EclipseResourceUtil;
 
 public class ClassPathMonitor extends AbstractClassPathMonitor<CDICoreNature>{
 	IPath[] srcs = new IPath[0];
+	
+	Set<IPath> removedPaths = new HashSet<IPath>();
 
 	public ClassPathMonitor(CDICoreNature project) {
 		this.project = project;
@@ -51,7 +53,9 @@ public class ClassPathMonitor extends AbstractClassPathMonitor<CDICoreNature>{
 	public Map<String, XModelObject> process() {
 		Map<String, XModelObject> newJars = new HashMap<String, XModelObject>();
 		for (String p: syncProcessedPaths()) {
-			project.pathRemoved(new Path(p));
+			synchronized (removedPaths) {
+				removedPaths.add(new Path(p));
+			}
 			project.getExtensionManager().pathRemoved(p);
 		}
 		for (int i = 0; i < paths.size(); i++) {
@@ -78,6 +82,15 @@ public class ClassPathMonitor extends AbstractClassPathMonitor<CDICoreNature>{
 		return newJars;
 	}
 
+	public void applyRemovedPaths() {
+		synchronized (removedPaths) {
+			for (IPath p: removedPaths) {
+				project.pathRemoved(p);
+			}
+			removedPaths.clear();
+		}
+	}
+
 	private boolean isWeldJar(String fileName) {
 		if(!fileName.startsWith("weld-") && fileName.indexOf("-weld") < 0) return false;
 		if(fileName.startsWith("weld-extensions")) return false;
@@ -97,7 +110,9 @@ public class ClassPathMonitor extends AbstractClassPathMonitor<CDICoreNature>{
 		}
 		for (IPath s: srcs) {
 			if(!ss.contains(s)) {
-				project.pathRemoved(s);
+				synchronized (removedPaths) {
+					removedPaths.add(s);
+				}
 			}
 		}
 		srcs = newSrcs;
