@@ -144,7 +144,7 @@ public class CodeCompletionTest extends JSFAutoTestCase{
         "Editor Text is\n" + editor.getText(),
       editor.getText().contains(expectedInsertedText));
     editor.save();
-    // check Content Assist insertion of jsfc attribute attribute
+    // check Content Assist content of jsfc attribute attribute
     ContentAssistHelper.checkContentAssistContent(SWTTestExt.bot, 
         FACELETS_TEST_PAGE,
         expectedInsertedText, 
