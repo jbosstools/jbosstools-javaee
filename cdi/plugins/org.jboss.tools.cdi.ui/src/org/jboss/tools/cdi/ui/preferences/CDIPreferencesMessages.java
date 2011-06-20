@@ -28,6 +28,12 @@ public class CDIPreferencesMessages extends NLS {
 	public static String CDIValidatorConfigurationBlock_needsfullbuild_message;
 	public static String CDIValidatorConfigurationBlock_needsprojectbuild_message;
 
+	// Root section JSR-299
+	public static String CDIValidatorConfigurationBlock_section_jsr299;
+
+	// Root Section Extensions
+	public static String CDIValidatorConfigurationBlock_section_extensions;
+
 	// Section Test
 	public static String CDIValidatorConfigurationBlock_section_test;
 	public static String CDIValidatorConfigurationBlock_pb_test_label;
