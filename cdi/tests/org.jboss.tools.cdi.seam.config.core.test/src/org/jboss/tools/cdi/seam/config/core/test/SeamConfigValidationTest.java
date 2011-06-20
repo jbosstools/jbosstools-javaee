@@ -14,13 +14,21 @@ import java.text.MessageFormat;
 
 import junit.framework.TestCase;
 
+import org.eclipse.core.internal.preferences.EclipsePreferences;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.ICDIProject;
+import org.jboss.tools.cdi.seam.config.core.CDISeamConfigPreferences;
 import org.jboss.tools.cdi.seam.config.core.validation.SeamConfigValidationMessages;
+import org.jboss.tools.common.preferences.SeverityPreferences;
+import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.ResourcesUtils;
 import org.jboss.tools.tests.AbstractResourceMarkerTest;
 
@@ -91,4 +99,37 @@ public class SeamConfigValidationTest extends TestCase {
 		AbstractResourceMarkerTest.assertMarkerIsCreated(f, MessageFormat.format(SeamConfigValidationMessages.UNRESOLVED_MEMBER, "v:field3"), 15);
 		AbstractResourceMarkerTest.assertMarkerIsNotCreated(f, MessageFormat.format(SeamConfigValidationMessages.UNRESOLVED_MEMBER, "v:field1"));
 	}
+
+	/**
+	 * Check that marker disappears when preference is set to IGNORE and appears again
+	 * when preference is set back to WARNING. Check that marker for another preference 
+	 * is always present.
+	 * 
+	 * @throws CoreException
+	 */
+	public void testPreference() throws CoreException {
+		String pattern1 = MessageFormat.format(SeamConfigValidationMessages.UNRESOLVED_METHOD, "v:method1");
+		String pattern2 = MessageFormat.format(SeamConfigValidationMessages.UNRESOLVED_MEMBER, "v:method2");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(f, pattern1, 47);
+		AbstractResourceMarkerTest.assertMarkerIsCreated(f, pattern2, 38);
+
+		EclipsePreferences ps = (EclipsePreferences)CDISeamConfigPreferences.getInstance().getDefaultPreferences();
+		ps.put(CDISeamConfigPreferences.UNRESOLVED_MEMBER, SeverityPreferences.IGNORE);
+		rebuild();
+		AbstractResourceMarkerTest.assertMarkerIsCreated(f, pattern1, 47);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(f, pattern2, 38);
+		
+		ps.put(CDISeamConfigPreferences.UNRESOLVED_MEMBER, SeverityPreferences.WARNING);
+		rebuild();
+		AbstractResourceMarkerTest.assertMarkerIsCreated(f, pattern1, 47);
+		AbstractResourceMarkerTest.assertMarkerIsCreated(f, pattern2, 38);
+	}
+
+	void rebuild() throws CoreException {
+		project.build(IncrementalProjectBuilder.CLEAN_BUILD, new NullProgressMonitor());
+		JobUtils.waitForIdle();
+		project.build(IncrementalProjectBuilder.FULL_BUILD, new NullProgressMonitor());
+		JobUtils.waitForIdle();
+	}
+
 }
