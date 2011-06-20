@@ -26,4 +26,10 @@
     </proposalComputer>
    </extension>
 
+<extension
+      point="org.jboss.tools.cdi.ui.configBlockDescriptionProvider">
+   <provider
+         class="org.jboss.tools.cdi.seam.config.ui.preferences.CDISeamConfigurationBlockDescriptionProvider">
+   </provider>
+</extension>
 </plugin>
