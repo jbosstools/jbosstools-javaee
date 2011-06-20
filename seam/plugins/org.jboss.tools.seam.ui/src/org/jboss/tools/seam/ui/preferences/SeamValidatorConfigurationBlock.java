@@ -139,10 +139,8 @@ public class SeamValidatorConfigurationBlock extends SeverityConfigurationBlock 
 
 	private static Key[] getKeys() {
 		ArrayList<Key> keys = new ArrayList<Key>();
-		for (int i = 0; i < ALL_SECTIONS.length; i++) {
-			for (int j = 0; j < ALL_SECTIONS[i].options.length; j++) {
-				keys.add(ALL_SECTIONS[i].options[j].key);
-			}
+		for (SectionDescription s: ALL_SECTIONS) {
+			s.collectKeys(keys);
 		}
 		keys.add(MAX_NUMBER_OF_PROBLEMS_KEY);
 		keys.add(WRONG_BUILDER_ORDER_KEY);
