@@ -16,6 +16,7 @@ import junit.framework.TestSuite;
 import org.eclipse.jdt.internal.core.JavaModelManager;
 import org.eclipse.jst.jsp.core.internal.java.search.JSPSearchSupport;
 import org.jboss.tools.seam.core.SeamCorePlugin;
+import org.jboss.tools.seam.core.test.project.facet.SeamFacetOnExistingProjectTest;
 import org.jboss.tools.seam.core.test.project.facet.SeamRuntimeListConverterTest;
 import org.jboss.tools.seam.core.test.project.facet.SeamRuntimeManagerTest;
 import org.jboss.tools.test.util.ProjectImportTestSetup;
@@ -44,6 +45,7 @@ public class SeamCoreAllTests {
 		suite.addTestSuite(CyclicDependingProjectsTest.class);
 		suite.addTestSuite(ComponentsFromLibTest.class);
 		suite.addTestSuite(Seam2ValidatorTest.class);
+		suite.addTestSuite(SeamFacetOnExistingProjectTest.class);
 		return suite;
 	}
 }

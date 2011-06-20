@@ -1013,7 +1013,9 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 			String webRootFolderPath = webRootFolder.getFullPath().toString();
 			IPath srcRootFolder = null;
 			if(projectType == ProjectType.WAR) {
-				srcRootFolder = rootFolder.getFolder(new Path("/WEB-INF/classes")).getUnderlyingFolder().getParent().getFullPath(); //$NON-NLS-1$
+				// Fix for https://issues.jboss.org/browse/JBIDE-9183
+				srcRootFolder = rootFolder.getFolder(new Path("/WEB-INF/classes")).getUnderlyingFolder().getFullPath(); //$NON-NLS-1$
+//				srcRootFolder = rootFolder.getFolder(new Path("/WEB-INF/classes")).getUnderlyingFolder().getParent().getFullPath(); //$NON-NLS-1$
 			} else if(projectType == ProjectType.EJB) {
 				try {
 					srcRootFolder = getSrcFolder(project).getFullPath();

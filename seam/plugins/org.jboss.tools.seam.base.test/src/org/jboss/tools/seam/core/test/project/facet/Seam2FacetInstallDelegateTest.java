@@ -34,6 +34,7 @@ import org.eclipse.wst.common.project.facet.core.IProjectFacetVersion;
 import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
 import org.eclipse.wst.validation.ValidationFramework;
 import org.eclipse.wst.validation.internal.EventManager;
+import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.seam.core.SeamProjectsSet;
 import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
 import org.jboss.tools.seam.core.project.facet.SeamVersion;
