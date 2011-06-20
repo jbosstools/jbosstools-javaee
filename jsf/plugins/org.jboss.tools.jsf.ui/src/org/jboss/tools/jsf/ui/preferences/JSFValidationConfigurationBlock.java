@@ -18,6 +18,7 @@ import org.eclipse.jface.dialogs.IDialogSettings;
 import org.eclipse.ui.preferences.IWorkbenchPreferenceContainer;
 import org.jboss.tools.common.preferences.SeverityPreferences;
 import org.jboss.tools.common.ui.preferences.SeverityConfigurationBlock;
+import org.jboss.tools.common.ui.preferences.SeverityConfigurationBlock.SectionDescription;
 import org.jboss.tools.jsf.JSFModelPlugin;
 import org.jboss.tools.jsf.web.validation.JSFSeverityPreferences;
 
@@ -43,10 +44,8 @@ public class JSFValidationConfigurationBlock extends SeverityConfigurationBlock 
 
 		private static Key[] getKeys() {
 			ArrayList<Key> keys = new ArrayList<Key>();
-			for (int i = 0; i < ALL_SECTIONS.length; i++) {
-				for (int j = 0; j < ALL_SECTIONS[i].options.length; j++) {
-					keys.add(ALL_SECTIONS[i].options[j].key);
-				}
+			for (SectionDescription s: ALL_SECTIONS) {
+				s.collectKeys(keys);
 			}
 			keys.add(MAX_NUMBER_OF_PROBLEMS_KEY);
 			keys.add(WRONG_BUILDER_ORDER_KEY);
