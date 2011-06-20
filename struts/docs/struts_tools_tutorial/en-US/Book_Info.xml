@@ -5,9 +5,9 @@
 	<title>Struts Tools Tutorial</title>
 	<subtitle>Guides the reader through a tutorial on the Struts Tools set.</subtitle>
 	<productname>JBoss Developer Studio</productname>
-	<productnumber>4.0</productnumber>
-	<edition>4.0.0</edition>
-	<pubsnumber>6</pubsnumber>
+	<productnumber>4.1</productnumber>
+	<edition>4.1.0</edition>
+	<pubsnumber>1</pubsnumber>
 	<abstract>
 		<para>The Struts Tools Tutorial guide explains how to use the Struts Tools set and guides the reader through a tutorial.</para>
 	</abstract>
