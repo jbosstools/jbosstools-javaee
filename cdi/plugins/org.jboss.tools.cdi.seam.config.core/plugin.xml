@@ -8,4 +8,9 @@
           runtime="org.jboss.seam.config.xml.bootstrap.XmlConfigExtension">
     </cdiextension>
 	</extension>
+
+   <extension point="org.eclipse.core.runtime.preferences">
+      <initializer class="org.jboss.tools.cdi.seam.config.core.CDISeamConfigPreferenceInitializer"/>
+   </extension>
+
 </plugin>

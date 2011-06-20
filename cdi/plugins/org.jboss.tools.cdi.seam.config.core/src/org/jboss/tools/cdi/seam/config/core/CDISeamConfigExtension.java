@@ -42,6 +42,7 @@ import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.filesystems.impl.FileAnyImpl;
 import org.jboss.tools.common.model.filesystems.impl.FolderImpl;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
+import org.jboss.tools.common.preferences.SeverityPreferences;
 
 /**
  * 
@@ -189,6 +190,10 @@ public class CDISeamConfigExtension implements ICDIExtension, IBuildParticipantF
 				}
 			}
 		}
+	}
+
+	public SeverityPreferences getSeverityPreferences() {
+		return CDISeamConfigPreferences.getInstance();
 	}
 
 }
