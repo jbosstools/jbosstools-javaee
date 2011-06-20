@@ -12,6 +12,7 @@ package org.jboss.tools.cdi.internal.core.validation;
 
 import org.eclipse.core.resources.IProject;
 import org.jboss.tools.cdi.core.preferences.CDIPreferences;
+import org.jboss.tools.common.preferences.SeverityPreferences;
 import org.jboss.tools.jst.web.kb.internal.validation.KBValidator;
 
 abstract public class CDIValidationErrorManager extends KBValidator {
@@ -35,7 +36,13 @@ abstract public class CDIValidationErrorManager extends KBValidator {
 	 */
 	@Override
 	protected String getPreference(IProject project, String preferenceKey) {
-		return CDIPreferences.getInstance().getProjectPreference(project, preferenceKey);
+		return severityPreferences.getProjectPreference(project, preferenceKey);
+	}
+
+	SeverityPreferences severityPreferences = CDIPreferences.getInstance();
+
+	protected void setSeverityPreferences(SeverityPreferences severityPreferences) {
+		this.severityPreferences = (severityPreferences == null) ? CDIPreferences.getInstance() : severityPreferences;
 	}
 
 	/*

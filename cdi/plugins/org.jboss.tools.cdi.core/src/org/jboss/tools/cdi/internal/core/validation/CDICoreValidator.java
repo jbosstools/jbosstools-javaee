@@ -435,7 +435,9 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 		}
 		Set<IValidatorFeature> extensions = cdiProject.getNature().getExtensionManager().getValidatorFeature();
 		for (IValidatorFeature v: extensions) {
+			setSeverityPreferences(v.getSeverityPreferences());
 			v.validateResource(file, this);
+			setSeverityPreferences(null);
 		}
 	}
 

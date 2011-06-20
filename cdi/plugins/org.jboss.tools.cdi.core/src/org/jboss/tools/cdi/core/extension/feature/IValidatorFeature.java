@@ -12,6 +12,7 @@ package org.jboss.tools.cdi.core.extension.feature;
 
 import org.eclipse.core.resources.IFile;
 import org.jboss.tools.cdi.internal.core.validation.CDICoreValidator;
+import org.jboss.tools.common.preferences.SeverityPreferences;
 
 /**
  * 
@@ -27,5 +28,7 @@ public interface IValidatorFeature {
 	 * @param context
 	 */
 	public void validateResource(IFile file, CDICoreValidator validator);
+
+	public SeverityPreferences getSeverityPreferences();
 
 }
