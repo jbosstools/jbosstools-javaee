@@ -5,9 +5,9 @@
 	<title>Seam Developer Tools Reference Guide</title>
 	<subtitle>Provides information relating to the Seam Developer Tools module.</subtitle>
 	<productname>JBoss Developer Studio</productname>
-	<productnumber>4.0</productnumber>
-	<edition>4.0.0</edition>
-	<pubsnumber>6</pubsnumber>
+	<productnumber>4.1</productnumber>
+	<edition>4.1.0</edition>
+	<pubsnumber>1</pubsnumber>
 	<abstract>
 		<para>The Seam Developer Tools Reference Guide explains how to use the Seam Developer Tools module to create Seam projects for deployment.</para>
 	</abstract>

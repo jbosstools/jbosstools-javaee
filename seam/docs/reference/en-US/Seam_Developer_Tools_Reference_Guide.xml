@@ -21,5 +21,6 @@
 <xi:include href="testng.xml" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
 <xi:include href="seam_faq.xml" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
 <!--<xi:include href="business_application.xml" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>-->
+<xi:include href="Feedback.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
 <xi:include href="Revision_History.xml" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
 </book>

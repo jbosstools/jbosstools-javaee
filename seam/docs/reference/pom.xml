@@ -30,6 +30,11 @@
 						<version>2.3.4</version>
 						<extensions>true</extensions>
 						<configuration>
+						   <profiling> 
+						      <enabled>true</enabled> 
+						      <attributeName>condition</attributeName> 
+						      <attributeValue>jbt</attributeValue> 
+						   </profiling>
 							<formats>
 								<format>
 									<formatName>pdf</formatName>
