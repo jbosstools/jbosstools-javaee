@@ -65,7 +65,7 @@ public class OpenOnTest extends JSFAutoTestCase{
     // Check open on for #{Message.prompt_message} EL
     String expectedTableRowLabel = "prompt_message";
     openedEditor = OpenOnHelper.checkOpenOnFileIsOpened(
-        SWTTestExt.bot, TEST_PAGE, "value=\"#{Message." + expectedTableRowLabel + "}\"", 10,
+        SWTTestExt.bot, TEST_PAGE, "value=\"#{Message." + expectedTableRowLabel + "}\"", 18,
         0, 0, expectedOpenedFileName);
     selectedTableRowLabel = openedEditor.bot().table().selection().get(0, 0);
     assertTrue("Selected table row has to have value " + expectedTableRowLabel + " but has " + selectedTableRowLabel,
