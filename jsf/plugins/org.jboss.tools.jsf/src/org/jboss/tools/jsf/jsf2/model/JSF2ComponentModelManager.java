@@ -11,16 +11,20 @@
 
 package org.jboss.tools.jsf.jsf2.model;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jdt.internal.core.JarEntryFile;
 import org.eclipse.jface.text.IDocument;
+import org.eclipse.ui.part.FileEditorInput;
+import org.eclipse.ui.texteditor.DocumentProviderRegistry;
+import org.eclipse.ui.texteditor.IDocumentProvider;
 import org.eclipse.wst.html.core.internal.encoding.HTMLModelLoader;
 import org.eclipse.wst.sse.core.StructuredModelManager;
 import org.eclipse.wst.sse.core.internal.provisional.IModelManager;
@@ -35,6 +39,7 @@ import org.eclipse.wst.xml.core.internal.provisional.document.IDOMModel;
 import org.eclipse.wst.xml.core.internal.provisional.format.DocumentNodeFormatter;
 import org.jboss.tools.jsf.JSFModelPlugin;
 import org.jboss.tools.jsf.jsf2.util.JSF2ResourceUtil;
+import org.jboss.tools.jst.jsp.jspeditor.dnd.PaletteTaglibInserter;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -71,13 +76,26 @@ public class JSF2ComponentModelManager {
 			@Override
 			protected void edit(IDOMModel model) throws CoreException,
 					IOException {
-				IDOMDocument document = model.getDocument();
-				updateJSF2CompositeComponent(document, attrNames);
-				IStructuredDocument structuredDocument = document
-						.getStructuredDocument();
-				String text = structuredDocument.getText();
-				model.reload(new ByteArrayInputStream(text.getBytes()));
-				model.save();
+				FileEditorInput input = new FileEditorInput(getFile());
+				IDocumentProvider provider = DocumentProviderRegistry.getDefault().getDocumentProvider(input);
+				
+				provider.connect(input);
+			
+				IDocument document = provider.getDocument(input);
+				
+				updateJSF2CompositeComponent(model.getDocument(), attrNames);
+				
+				provider.aboutToChange(input);
+				provider.saveDocument(new NullProgressMonitor(), input, document, true);
+				provider.disconnect(input);
+				//IDOMDocument document = model.getDocument();
+				//updateJSF2CompositeComponent(document, attrNames);
+				//IStructuredDocument structuredDocument = document
+				//		.getStructuredDocument();
+				//String text = structuredDocument.getText();
+				//		//getFile().setContents(new ByteArrayInputStream(text.getBytes()),true,false,null);
+				//model.reload(new ByteArrayInputStream(text.getBytes()));
+				//model.save();
 			}
 		});
 		return file;
@@ -167,13 +185,13 @@ public class JSF2ComponentModelManager {
 		if (element == null) {
 			return null;
 		}
-		if (!"html".equals(element.getNodeName())) { //$NON-NLS-1$
-			return null;
-		}
-		ElementImpl elementImpl = (ElementImpl) element;
-		if (!"http://www.w3.org/1999/xhtml".equals(elementImpl.getNamespaceURI())) { //$NON-NLS-1$
-			return null;
-		}
+		//if (!"html".equals(element.getNodeName())) { //$NON-NLS-1$
+			//return null;
+		//}
+		//ElementImpl elementImpl = (ElementImpl) element;
+		//if (!"http://www.w3.org/1999/xhtml".equals(elementImpl.getNamespaceURI())) { //$NON-NLS-1$
+		//	return null;
+		//}
 		IDOMElement[] interfaceElement = new IDOMElement[1];
 		findInterfaceComponent(element, interfaceElement);
 		return interfaceElement[0];

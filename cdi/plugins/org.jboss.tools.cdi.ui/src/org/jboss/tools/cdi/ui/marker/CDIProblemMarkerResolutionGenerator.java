@@ -57,19 +57,30 @@ public class CDIProblemMarkerResolutionGenerator implements
 		}
 		return new IMarkerResolution[] {};
 	}
+	
+	/**
+	 * return message id or -1 if impossible to find
+	 * @param marker
+	 * @return
+	 */
+	private int getMessageID(IMarker marker)throws CoreException{
+		Integer attribute = ((Integer) marker.getAttribute(CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME));
+		if (attribute != null)
+			return attribute.intValue();
+
+		return -1; 
+	}
 
 	private IMarkerResolution[] findResolutions(IMarker marker)
 			throws CoreException {
-		Integer attribute = ((Integer) marker
-				.getAttribute(CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME));
-		if (attribute == null)
-			return new IMarkerResolution[] {};
 
-		int messageId = attribute.intValue();
+		int messageId = getMessageID(marker);
+		if (messageId == -1)
+			return new IMarkerResolution[] {};
 
 		final IFile file = (IFile) marker.getResource();
 
-		attribute = ((Integer) marker.getAttribute(IMarker.CHAR_START));
+		Integer attribute = ((Integer) marker.getAttribute(IMarker.CHAR_START));
 		if (attribute == null)
 			return new IMarkerResolution[] {};
 		final int start = attribute.intValue();
@@ -352,8 +363,7 @@ public class CDIProblemMarkerResolutionGenerator implements
 	
 	public boolean hasResolutions(IMarker marker) {
 		try {
-			if (findResolutions(marker).length != 0)
-				return true;
+			return getMessageID(marker) >= 0;
 		} catch (CoreException ex) {
 			CDIUIPlugin.getDefault().logError(ex);
 		}

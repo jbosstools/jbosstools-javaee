@@ -48,19 +48,30 @@ public class SeamProblemMarkerResolutionGenerator implements
 		}
 		return new IMarkerResolution[] {};
 	}
+	
+	/**
+	 * return message id or -1 if impossible to find
+	 * @param marker
+	 * @return
+	 */
+	private int getMessageID(IMarker marker)throws CoreException{
+		Integer attribute = ((Integer) marker.getAttribute(SeamCoreValidator.MESSAGE_ID_ATTRIBUTE_NAME));
+		if (attribute != null)
+			return attribute.intValue();
+
+		return -1; 
+	}
 
 	private IMarkerResolution[] findResolutions(IMarker marker)
 			throws CoreException {
-		Integer attribute = ((Integer) marker
-				.getAttribute(SeamCoreValidator.MESSAGE_ID_ATTRIBUTE_NAME));
-		if (attribute == null)
+		
+		int messageId = getMessageID(marker);
+		if (messageId == -1)
 			return new IMarkerResolution[] {};
-
-		int messageId = attribute.intValue();
 
 		IFile file = (IFile) marker.getResource();
 
-		attribute = ((Integer) marker.getAttribute(IMarker.CHAR_START));
+		Integer attribute = ((Integer) marker.getAttribute(IMarker.CHAR_START));
 		if (attribute == null)
 			return new IMarkerResolution[] {};
 		int start = attribute.intValue();
@@ -240,8 +251,7 @@ public class SeamProblemMarkerResolutionGenerator implements
 
 	public boolean hasResolutions(IMarker marker) {
 		try {
-			if (findResolutions(marker).length != 0)
-				return true;
+			return getMessageID(marker) >= 0;
 		} catch (CoreException ex) {
 			SeamGuiPlugin.getPluginLog().logError(ex);
 		}

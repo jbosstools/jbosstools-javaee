@@ -17,8 +17,11 @@ import java.util.Map;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.ui.IMarkerResolution;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
 import org.jboss.tools.jsf.JSFModelPlugin;
@@ -33,56 +36,39 @@ import org.jboss.tools.jsf.web.validation.jsf2.util.JSF2ValidatorConstants;
  * 
  */
 
-public class JSF2CompositeAttrsProposal extends JSF2AbstractProposal {
-
+public class JSF2CompositeAttrsProposal implements IMarkerResolution {
+	private IResource resource;
 	private String componentPath = null;
 	private String[] attrs = null;
 	private String elementName = null;
 	private String attrName="";
 
-	public JSF2CompositeAttrsProposal(IMarker marker) {
-		super(marker.getResource());
-		try {
-			this.elementName=(String) marker.getAttribute(JSF2ResourceUtil.JSF2_COMPONENT_NAME);
-			this.componentPath=(String) marker.getAttribute(JSF2ResourceUtil.COMPONENT_RESOURCE_PATH_KEY);
-			this.attrName=(String)marker.getAttribute(JSF2ValidatorConstants.JSF2_ATTR_NAME_KEY);
-		} catch (CoreException e) {
-			JSFModelPlugin.getPluginLog().logError(e);
-		}
-	}
 
-	public JSF2CompositeAttrsProposal(IResource validateResource,
-			String compPath, String[] attrs,String attrName,String elementName) {
-		super(validateResource);
+	public JSF2CompositeAttrsProposal(IResource resource, String compPath, String elementName, String[] attrs, String attrName) {
+		this.resource = resource;
 		this.componentPath = compPath;
 		this.attrs = attrs;
 		this.attrName = attrName;
 		this.elementName=elementName;
 	}
 
-	public String getDisplayString() {
-		return MessageFormat.format(JSFUIMessages.Create_JSF_2_Interface_Attr,attrName,elementName,JSF2ResourceUtil.calculateProjectRelativeJSF2ResourceProposal(validateResource.getProject())+componentPath);
+	@Override
+	public String getLabel() {
+		return MessageFormat.format(JSFUIMessages.Create_JSF_2_Interface_Attr, attrName, elementName, componentPath);
 	}
 
 	@Override
-	protected void runWithMarker(IMarker marker) throws CoreException {
-		if (marker != null) {
-			validateResource = marker.getResource();
-			Map<?, ?> attrsMap = marker.getAttributes();
-			Object object = attrsMap
-					.get(JSF2ResourceUtil.COMPONENT_RESOURCE_PATH_KEY);
-			componentPath = (String) object;
-			attrs = new String[] { (String) marker
-					.getAttribute(JSF2ValidatorConstants.JSF2_ATTR_NAME_KEY) };
-		}
-		final IFile createdFile = JSF2ResourceUtil
-				.createCompositeComponentFile(validateResource.getProject(),
-						new Path(componentPath), attrs);
-		validateResource.getProject().deleteMarkers(
-				JSF2XMLValidator.JSF2_PROBLEM_ID, false, 1);
-		if (createdFile != null) {
-			IDE.openEditor(PlatformUI.getWorkbench().getActiveWorkbenchWindow()
-					.getActivePage(), createdFile);
+	public void run(IMarker marker) {
+		try{
+			final IFile createdFile = JSF2ResourceUtil
+					.createCompositeComponentFile(resource.getProject(),
+							new Path(componentPath), attrs);
+			if (createdFile != null) {
+				IDE.openEditor(PlatformUI.getWorkbench().getActiveWorkbenchWindow()
+						.getActivePage(), createdFile);
+			}
+		}catch(Exception ex){
+			JSFModelPlugin.getPluginLog().logError(ex);
 		}
 	}
 

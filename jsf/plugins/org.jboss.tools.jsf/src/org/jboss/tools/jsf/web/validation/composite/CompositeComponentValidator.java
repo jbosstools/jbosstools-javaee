@@ -16,6 +16,7 @@ import java.util.Set;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
@@ -73,6 +74,11 @@ public class CompositeComponentValidator extends KBValidator {
 	public static final String SHORT_ID = "jboss.jsf.core"; //$NON-NLS-1$
 
 	private static final String COMPOSITE_COMPONENT_URI_PREFIX = "http://java.sun.com/jsf/composite/"; //$NON-NLS-1$
+	
+	public static final String MESSAGE_ID_ATTRIBUTE_NAME = "JSF2_message_id"; //$NON-NLS-1$
+	
+	public static final int UNKNOWN_COMPOSITE_COMPONENT_NAME_ID = 1;
+	public static final int UNKNOWN_COMPOSITE_COMPONENT_ATTRIBUTE_ID = 2;
 
 	private IProject currentProject;
 	private IContainer webRootFolder;
@@ -225,13 +231,14 @@ public class CompositeComponentValidator extends KBValidator {
 		if(tagName==null) {
 			return;
 		}
-		ITagLibrary[] libs = KbProjectFactory.getKbProject(file.getProject(), true).getTagLibraries(xmlComponent.getNamespaceURI());
+		String tagLibUri = xmlComponent.getNamespaceURI();
+		// Save the link between the composition component URI and the validating page 
+		getValidationContext().addLinkedCoreResource(SHORT_ID, tagLibUri + ":" + tagName, file.getFullPath(), false);
+
+		ITagLibrary[] libs = KbProjectFactory.getKbProject(file.getProject(), true).getTagLibraries(tagLibUri);
 		if(libs.length>0) {
 			IComponent kbComponent = libs[0].getComponent(tagName);
 			if(kbComponent!=null) {
-				// Save the link between the composition component URI and the validating page 
-				getValidationContext().addLinkedCoreResource(SHORT_ID, libs[0].getURI() + ":" + kbComponent.getName(), file.getFullPath(), false);
-
 				NamedNodeMap map = xmlComponent.getAttributes();
 				for (int i = 0; i < map.getLength(); i++) {
 					Node xmlAttribute = map.item(i);
@@ -241,7 +248,7 @@ public class CompositeComponentValidator extends KBValidator {
 						IndexedRegion region = (IndexedRegion)xmlAttribute;
 						int offset = region.getStartOffset();
 						int length = attributeName.length();
-						addError(JSFValidationMessage.UNKNOWN_COMPOSITE_COMPONENT_ATTRIBUTE, JSFSeverityPreferences.UNKNOWN_COMPOSITE_COMPONENT_ATTRIBUTE, new String[]{attributeName, tagName}, length, offset, file);
+						addError(JSFValidationMessage.UNKNOWN_COMPOSITE_COMPONENT_ATTRIBUTE, JSFSeverityPreferences.UNKNOWN_COMPOSITE_COMPONENT_ATTRIBUTE, new String[]{attributeName, tagName}, length, offset, file, UNKNOWN_COMPOSITE_COMPONENT_ATTRIBUTE_ID);
 					}
 				}
 			} else {
@@ -263,7 +270,7 @@ public class CompositeComponentValidator extends KBValidator {
 			IndexedRegion region = (IndexedRegion)xmlComponent;
 			int offset = region.getStartOffset();
 			int length = xmlComponent.getNodeName().length() + 1;
-			addError(JSFValidationMessage.UNKNOWN_COMPOSITE_COMPONENT_NAME, JSFSeverityPreferences.UNKNOWN_COMPOSITE_COMPONENT_NAME, new String[]{tagName}, length, offset, file);
+			addError(JSFValidationMessage.UNKNOWN_COMPOSITE_COMPONENT_NAME, JSFSeverityPreferences.UNKNOWN_COMPOSITE_COMPONENT_NAME, new String[]{tagName}, length, offset, file, UNKNOWN_COMPOSITE_COMPONENT_NAME_ID);
 		}
 	}
 
@@ -385,5 +392,18 @@ public class CompositeComponentValidator extends KBValidator {
 	 */
 	public String getMarkerType() {
 		return PROBLEM_TYPE;
+	}
+	
+	public IMarker addError(String message, String preferenceKey,
+			String[] messageArguments, int length, int offset, IResource target, int messageId) {
+		IMarker marker = addError(message, preferenceKey, messageArguments, length, offset, target);
+		try {
+			if(marker!=null) {
+				marker.setAttribute(MESSAGE_ID_ATTRIBUTE_NAME, new Integer(messageId));
+			}
+		} catch(CoreException e) {
+			JSFModelPlugin.getDefault().logError(e);
+		}
+		return marker;
 	}
 }

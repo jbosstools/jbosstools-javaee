@@ -12,23 +12,20 @@
 package org.jboss.tools.jsf.web.validation.jsf2.action;
 
 import java.text.MessageFormat;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.ui.IMarkerResolution;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
 import org.jboss.tools.jsf.JSFModelPlugin;
 import org.jboss.tools.jsf.jsf2.util.JSF2ResourceUtil;
 import org.jboss.tools.jsf.messages.JSFUIMessages;
-import org.jboss.tools.jsf.web.validation.jsf2.JSF2XMLValidator;
-import org.jboss.tools.jsf.web.validation.jsf2.util.JSF2ValidatorConstants;
 
 /**
  * 
@@ -36,75 +33,38 @@ import org.jboss.tools.jsf.web.validation.jsf2.util.JSF2ValidatorConstants;
  * 
  */
 
-public class JSF2CompositeComponentProposal extends JSF2AbstractProposal {
-
+public class JSF2CompositeComponentProposal implements IMarkerResolution {
+	private IResource resource;
 	private String componentPath = null;
 	private String[] attrs = null;
 	private String elementName;
 
-	public JSF2CompositeComponentProposal(IMarker marker) {
-		super(marker.getResource());
-		try {
-			this.elementName=(String) marker.getAttribute(JSF2ResourceUtil.JSF2_COMPONENT_NAME);
-			this.componentPath=(String) marker.getAttribute(JSF2ResourceUtil.COMPONENT_RESOURCE_PATH_KEY);
-		} catch (CoreException e) {
-			JSFModelPlugin.getPluginLog().logError(e);
-		}
-	}
-
-	public JSF2CompositeComponentProposal(IResource validateResource,
-			String compPath, String[] attrs, String elementName) {
-		super(validateResource);
+	public JSF2CompositeComponentProposal(IResource resource, String compPath, String elementName, String[] attrs) {
+		this.resource = resource;
 		this.componentPath = compPath;
 		this.attrs = attrs;
 		this.elementName=elementName;
 	}
 
-	@SuppressWarnings("unchecked")
-	private String[] getAttributes(IMarker marker) throws CoreException {
-		Map attrsMap = marker.getAttributes();
-		if (attrsMap != null) {
-			Set<String> set = new HashSet<String>(0);
-			Set<Entry> entries = attrsMap.entrySet();
-			for (Entry entry : entries) {
-				String key = (String) entry.getKey();
-				if (key.startsWith(JSF2ValidatorConstants.JSF2_ATTR_NAME_KEY)) {
-					set.add((String) entry.getValue());
-				}
-			}
-			return set.toArray(new String[0]);
-		}
-		return null;
-	}
-
-	public String getDisplayString() {
-		String projectResourceRelativePath = JSF2ResourceUtil.calculateProjectRelativeJSF2ResourceProposal(validateResource.getProject())
-		+componentPath;		
-		return MessageFormat.format(JSFUIMessages.Create_JSF_2_Composite_Component,elementName,
-				 projectResourceRelativePath);
-	}
-
-	@SuppressWarnings("unchecked")
 	@Override
-	protected void runWithMarker(IMarker marker) throws CoreException {
-		if (marker != null) {
-			validateResource = marker.getResource();
-			Map attrsMap = marker.getAttributes();
-			Object object = attrsMap
-					.get(JSF2ResourceUtil.COMPONENT_RESOURCE_PATH_KEY);
-			componentPath = (String) object;
-			attrs = getAttributes(marker);
-		}
-		final IFile createdFile = JSF2ResourceUtil
-				.createCompositeComponentFile(validateResource.getProject(),
-						new Path(componentPath), attrs);
-		validateResource.getProject().deleteMarkers(
-				JSF2XMLValidator.JSF2_PROBLEM_ID, false, 1);
-		if (createdFile != null) {
-			IDE.openEditor(PlatformUI.getWorkbench().getActiveWorkbenchWindow()
-					.getActivePage(), createdFile);
-		}
+	public String getLabel() {
+		return MessageFormat.format(JSFUIMessages.Create_JSF_2_Composite_Component,elementName,
+				componentPath);
+	}
 
+	@Override
+	public void run(IMarker marker) {
+		try{
+			final IFile createdFile = JSF2ResourceUtil
+					.createCompositeComponentFile(resource.getProject(),
+							new Path(componentPath), attrs);
+			if (createdFile != null) {
+				IDE.openEditor(PlatformUI.getWorkbench().getActiveWorkbenchWindow()
+						.getActivePage(), createdFile);
+			}
+		}catch(CoreException ex){
+			JSFModelPlugin.getPluginLog().logError(ex);
+		}
 	}
 
 }

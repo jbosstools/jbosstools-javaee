@@ -15,12 +15,13 @@ import java.text.MessageFormat;
 
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.ui.IMarkerResolution;
 import org.jboss.tools.jsf.JSFModelPlugin;
 import org.jboss.tools.jsf.jsf2.util.JSF2ResourceUtil;
 import org.jboss.tools.jsf.messages.JSFUIMessages;
-import org.jboss.tools.jsf.web.validation.jsf2.JSF2XMLValidator;
-import org.jboss.tools.jsf.web.validation.jsf2.util.JSF2ValidatorConstants;
 
 /**
  * 
@@ -28,47 +29,34 @@ import org.jboss.tools.jsf.web.validation.jsf2.util.JSF2ValidatorConstants;
  * 
  */
 
-public class JSF2ResourcesFolderProposal extends JSF2AbstractProposal {
-
+public class JSF2ResourcesFolderProposal implements IMarkerResolution {
+	private IResource resource;
 	private String componentPath = null;
 	private String URL=null;
 
-	public JSF2ResourcesFolderProposal(IMarker marker) {
-			super(marker.getResource());
-		try {
-			this.componentPath=(String) marker.getAttribute(JSF2ResourceUtil.COMPONENT_RESOURCE_PATH_KEY);
-			this.URL = (String) marker.getAttribute(JSF2ValidatorConstants.JSF2_URI_NAME_KEY);
-		} catch (CoreException e) {
-			JSFModelPlugin.getPluginLog().logError(e);
-		}
-	}
-
-	public JSF2ResourcesFolderProposal(IResource validateResource, String compPath,String URL) {
-		super(validateResource);
+	public JSF2ResourcesFolderProposal(IResource validateResource, String compPath, String URL) {
+		this.resource = validateResource;
 		this.componentPath = compPath;
 		this.URL = URL;
 	}
 
-	public String getDisplayString() {
+	@Override
+	public String getLabel() {
 		String folderName="";
 		if(componentPath!=null){
 			folderName=componentPath.replaceFirst(JSF2ResourceUtil.JSF2_URI_PREFIX, "").trim();
 		}
 		return MessageFormat.format(JSFUIMessages.Create_JSF_2_Resources_Folder,
-				JSF2ResourceUtil.calculateProjectRelativeJSF2ResourceProposal(validateResource.getProject())+folderName,URL);
+				JSF2ResourceUtil.calculateProjectRelativeJSF2ResourceProposal(resource.getProject())+folderName,URL);
 	}
 
 	@Override
-	protected void runWithMarker(IMarker marker) throws CoreException {
-		if (marker != null) {
-			componentPath = (String) marker
-					.getAttribute(JSF2ValidatorConstants.JSF2_URI_NAME_KEY);
-			validateResource = marker.getResource();
+	public void run(IMarker marker) {
+		try{
+			JSF2ResourceUtil.createResourcesFolderByNameSpace(resource.getProject(), componentPath);
+		}catch(CoreException ex){
+			JSFModelPlugin.getPluginLog().logError(ex);
 		}
-		JSF2ResourceUtil.createResourcesFolderByNameSpace(validateResource
-				.getProject(), componentPath);
-		validateResource.getProject().deleteMarkers(
-				JSF2XMLValidator.JSF2_PROBLEM_ID, false, 1);
 	}
 
 }
