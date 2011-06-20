@@ -47,7 +47,9 @@ import org.jboss.tools.cdi.internal.core.scanner.FileSet;
 import org.jboss.tools.cdi.internal.core.validation.CDICoreValidator;
 import org.jboss.tools.cdi.seam.solder.core.CDISeamSolderConstants;
 import org.jboss.tools.cdi.seam.solder.core.CDISeamSolderCorePlugin;
+import org.jboss.tools.cdi.seam.solder.core.CDISeamSolderPreferences;
 import org.jboss.tools.common.model.XModelObject;
+import org.jboss.tools.common.preferences.SeverityPreferences;
 
 /**
  * 
@@ -270,6 +272,10 @@ public class CDISeamSolderGenericBeanExtension implements ICDIExtension, IBuildP
 
 	public void validateResource(IFile file, CDICoreValidator validator) {
 		new GenericBeanValidator().validateResource(file, validator, project, context);
+	}
+
+	public SeverityPreferences getSeverityPreferences() {
+		return CDISeamSolderPreferences.getInstance();
 	}
 	
 }

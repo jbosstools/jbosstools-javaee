@@ -34,4 +34,9 @@
     </cdiextension>
 
 	</extension>
+
+   <extension point="org.eclipse.core.runtime.preferences">
+      <initializer class="org.jboss.tools.cdi.seam.solder.core.CDISeamSolderPreferenceInitializer"/>
+   </extension>
+
 </plugin>
