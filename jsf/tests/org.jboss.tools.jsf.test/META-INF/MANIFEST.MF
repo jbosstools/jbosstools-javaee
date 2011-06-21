@@ -11,6 +11,7 @@ Export-Package: org.custommonkey.xmlunit,
  org.jboss.tools.jsf.model.pv.test,
  org.jboss.tools.jsf.plugin,
  org.jboss.tools.jsf.test,
+ org.jboss.tools.jsf.test.project.facet,
  org.jboss.tools.jsf.test.refactoring,
  org.jboss.tools.jsf.test.validation
 Require-Bundle: 
@@ -35,7 +36,9 @@ Require-Bundle:
  org.eclipse.wst.validation,
  org.jboss.tools.common.el.core,
  org.jboss.tools.jst.jsp,
- org.jboss.tools.common.model.test
+ org.jboss.tools.common.model.test,
+ org.eclipse.wst.common.project.facet.core,
+ org.eclipse.jst.jsf.core
 Bundle-Activator: org.jboss.tools.jsf.plugin.JsfTestPlugin
 Bundle-ActivationPolicy: lazy
 Bundle-Localization: plugin
