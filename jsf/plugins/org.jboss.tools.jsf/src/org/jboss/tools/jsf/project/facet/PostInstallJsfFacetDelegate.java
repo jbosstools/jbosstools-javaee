@@ -7,7 +7,9 @@ import org.eclipse.wst.common.project.facet.core.IDelegate;
 import org.eclipse.wst.common.project.facet.core.IProjectFacetVersion;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.jsf.project.JSFNature;
+import org.jboss.tools.jst.web.WebModelPlugin;
 import org.jboss.tools.jst.web.kb.IKbProject;
+import org.jboss.tools.jst.web.kb.internal.KbBuilder;
 
 /**
  * 
@@ -21,8 +23,8 @@ public class PostInstallJsfFacetDelegate implements IDelegate  {
 	 */
 	public void execute(IProject project, IProjectFacetVersion fv,
 			Object config, IProgressMonitor monitor) throws CoreException {
-			EclipseResourceUtil.addNatureToProject(project, JSFNature.NATURE_ID);
-			EclipseResourceUtil.addNatureToProject(project, IKbProject.NATURE_ID);
+		WebModelPlugin.addNatureToProjectWithValidationSupport(project, KbBuilder.BUILDER_ID, IKbProject.NATURE_ID);
+		EclipseResourceUtil.addNatureToProject(project, JSFNature.NATURE_ID);
 	}
 	
 }
