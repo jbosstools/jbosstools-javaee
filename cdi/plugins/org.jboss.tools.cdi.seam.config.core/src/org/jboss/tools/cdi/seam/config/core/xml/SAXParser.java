@@ -192,10 +192,16 @@ public class SAXParser extends SAXValidator {
 			String message = e.getMessage();
 			errors.add(message);
 		}
-		
+
+		/**
+		 * Returns line number in text for offset 'start'; the first line has number 1.
+		 * 
+		 * @param start
+		 * @return
+		 */
 		private int getLine(int start) {
 			try {
-				return document.getLineOfOffset(start);
+				return document.getLineOfOffset(start) + 1;
 			} catch (BadLocationException e) {
 				CommonPlugin.getPluginLog().logError(e);
 				return -1;
