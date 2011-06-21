@@ -88,7 +88,7 @@ public class SeamConfigInjectedPointHyperlinkTest extends SeamConfigTest {
 		checkResult("seam-beans.xml", "<s:String>");
 	}
 
-	void checkResult(String name, String selectedText) throws CoreException {
+	static void checkResult(String name, String selectedText) throws CoreException {
 		IEditorPart editor = CDISeamExtPlugin.getDefault().getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
 		IFileEditorInput input = (IFileEditorInput)editor.getEditorInput();
 		IFile f = input.getFile();

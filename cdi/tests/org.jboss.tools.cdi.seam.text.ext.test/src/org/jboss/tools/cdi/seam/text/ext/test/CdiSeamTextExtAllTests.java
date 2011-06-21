@@ -36,10 +36,11 @@ public class CdiSeamTextExtAllTests {
 		
 		suiteAll.addTest(new SeamConfigTestSetup(suiteConfig));
 		
-		suiteConfig = new TestSuite("CDI Seam Solder Tests");
-		suiteConfig.addTestSuite(InjectedPointHyperlinkTest.class);
+		TestSuite suiteSolder = new TestSuite("CDI Seam Solder Tests");
+		suiteSolder.addTestSuite(InjectedPointHyperlinkTest.class);
+		suiteSolder.addTestSuite(SeamGenericInjectedPointHyperlinkTest.class);
 		
-		suiteAll.addTest(new SeamSolderTestSetup(suiteConfig));
+		suiteAll.addTest(new SeamSolderTestSetup(suiteSolder));
 		
 		return suiteAll;
 	}
