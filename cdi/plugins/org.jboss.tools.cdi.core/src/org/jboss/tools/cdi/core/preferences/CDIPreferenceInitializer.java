@@ -33,20 +33,16 @@ public class CDIPreferenceInitializer extends AbstractPreferenceInitializer {
 		for (String name : CDIPreferences.SEVERITY_OPTION_NAMES) {
 			defaultPreferences.put(name, SeverityPreferences.ERROR);
 		}
-		defaultPreferences.put(CDIPreferences.INTERCEPTOR_HAS_NAME, CDIPreferences.WARNING);
-		defaultPreferences.put(CDIPreferences.DECORATOR_HAS_NAME, CDIPreferences.WARNING);
-		defaultPreferences.put(CDIPreferences.ILLEGAL_SCOPE_FOR_INTERCEPTOR, CDIPreferences.WARNING);
-		defaultPreferences.put(CDIPreferences.ILLEGAL_SCOPE_FOR_DECORATOR, CDIPreferences.WARNING);
+		defaultPreferences.put(CDIPreferences.INTERCEPTOR_OR_DECORATOR_HAS_NAME, CDIPreferences.WARNING);
+		defaultPreferences.put(CDIPreferences.ILLEGAL_SCOPE_FOR_INTERCEPTOR_OR_DECORATOR, CDIPreferences.WARNING);
 		defaultPreferences.put(CDIPreferences.INTERCEPTOR_OR_DECORATOR_IS_ALTERNATIVE, CDIPreferences.WARNING);
 		defaultPreferences.put(CDIPreferences.INTERCEPTOR_ANNOTATED_SPECIALIZES, CDIPreferences.WARNING);
 		defaultPreferences.put(CDIPreferences.MISSING_NONBINDING_IN_QUALIFIER_TYPE_MEMBER, CDIPreferences.WARNING);
-		defaultPreferences.put(CDIPreferences.UNSATISFIED_INJECTION_POINTS, CDIPreferences.WARNING);
-		defaultPreferences.put(CDIPreferences.AMBIGUOUS_INJECTION_POINTS, CDIPreferences.WARNING);
+		defaultPreferences.put(CDIPreferences.UNSATISFIED_OR_AMBIGUOUS_INJECTION_POINTS, CDIPreferences.WARNING);
 		defaultPreferences.put(CDIPreferences.AMBIGUOUS_EL_NAMES, CDIPreferences.WARNING);
 		defaultPreferences.put(CDIPreferences.UNPROXYABLE_BEAN_TYPE, CDIPreferences.WARNING);
 		defaultPreferences.put(CDIPreferences.INJECT_RESOLVES_TO_NULLABLE_BEAN, CDIPreferences.WARNING);
-		defaultPreferences.put(CDIPreferences.INJECTED_DECORATOR, CDIPreferences.WARNING);
-		defaultPreferences.put(CDIPreferences.INJECTED_INTERCEPTOR, CDIPreferences.WARNING);
+		defaultPreferences.put(CDIPreferences.INJECTED_DECORATOR_OR_INTERCEPTOR, CDIPreferences.WARNING);
 		defaultPreferences.put(CDIPreferences.ILLEGAL_LIFECYCLE_CALLBACK_INTERCEPTOR_BINDING, CDIPreferences.WARNING);
 		defaultPreferences.put(CDIPreferences.MISSING_NONBINDING_IN_INTERCEPTOR_BINDING_TYPE_MEMBER, CDIPreferences.WARNING);
 		defaultPreferences.put(CDIPreferences.ILLEGAL_CONDITIONAL_OBSERVER, CDIPreferences.WARNING);

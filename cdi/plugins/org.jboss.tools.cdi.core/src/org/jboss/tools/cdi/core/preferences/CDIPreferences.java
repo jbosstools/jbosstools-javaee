@@ -37,8 +37,7 @@ public class CDIPreferences extends SeverityPreferences {
 //	  does not specify the value member
 	public static final String PARAM_INJECTION_DECLARES_EMPTY_NAME = INSTANCE.createSeverityOption("paramInjectionDeclaresEmptyName"); //$NON-NLS-1$
 //	- interceptor or decorator has a name (2.5.3 non-portable)
-	public static final String INTERCEPTOR_HAS_NAME = INSTANCE.createSeverityOption("interceptorHasName"); //$NON-NLS-1$
-	public static final String DECORATOR_HAS_NAME = INSTANCE.createSeverityOption("decoratorHasName"); //$NON-NLS-1$
+	public static final String INTERCEPTOR_OR_DECORATOR_HAS_NAME = INSTANCE.createSeverityOption("interceptorHasName"); //$NON-NLS-1$
 // 5.3.1. Ambiguous EL names 
 //	- All unresolvable ambiguous EL names are detected by the container when the application is initialized. Suppose two beans are both available for injection in a certain war, and either: 
 //		  • the two beans have the same EL name and the name is not resolvable, or 
@@ -51,8 +50,7 @@ public class CDIPreferences extends SeverityPreferences {
 //	5.2.1. Unsatisfied and ambiguous dependencies
 //	- If an unsatisfied or unresolvable ambiguous dependency exists, the container automatically detects the problem and
 //	  treats it as a deployment problem.
-	public static final String UNSATISFIED_INJECTION_POINTS = INSTANCE.createSeverityOption("unsatisfiedInjectionPoints"); //$NON-NLS-1$
-	public static final String AMBIGUOUS_INJECTION_POINTS = INSTANCE.createSeverityOption("ambiguousInjectionPoints"); //$NON-NLS-1$
+	public static final String UNSATISFIED_OR_AMBIGUOUS_INJECTION_POINTS = INSTANCE.createSeverityOption("unsatisfiedInjectionPoints"); //$NON-NLS-1$
 // 5.4.1. Unproxyable bean types
 //	-  If an injection point whose declared type cannot be proxied by the container resolves to a bean with a normal scope,
 //	   the container automatically detects the problem and treats it as a deployment problem.
@@ -62,9 +60,8 @@ public class CDIPreferences extends SeverityPreferences {
 //	  in the unrestricted set of bean types of a bean (2.2.2)
 	public static final String ILLEGAL_TYPE_IN_TYPED_DECLARATION = INSTANCE.createSeverityOption("illegalTypeInTypedDeclaration"); //$NON-NLS-1$
 //	- producer field/method return type contains a wildcard type parameter (3.3, 3.4)
-	public static final String PRODUCER_METHOD_RETURN_TYPE_HAS_WILDCARD = INSTANCE.createSeverityOption("producerMethodReturnTypeHasWildcard"); //$NON-NLS-1$
 //	- producer field/method return type is a type variable (3.3, 3.4)
-	public static final String PRODUCER_METHOD_RETURN_TYPE_IS_VARIABLE = INSTANCE.createSeverityOption("producerMethodReturnTypeIsVariable"); //$NON-NLS-1$
+	public static final String PRODUCER_METHOD_RETURN_TYPE_HAS_WILDCARD_OR_VARIABLE = INSTANCE.createSeverityOption("producerMethodReturnTypeHasWildcard"); //$NON-NLS-1$
 //  - an injection point of primitive type resolves to a bean that may have null values, such as a producer method	with a non-primitive return type or a producer field with a non-primitive type	
 	public static final String INJECT_RESOLVES_TO_NULLABLE_BEAN = INSTANCE.createSeverityOption("injectResolvesToNullableBean"); //$NON-NLS-1$
 //	- matching object in the Java EE component environment is not of the same type
@@ -96,24 +93,23 @@ public class CDIPreferences extends SeverityPreferences {
 	public static final String STEREOTYPE_DECLARES_MORE_THAN_ONE_SCOPE = INSTANCE.createSeverityOption("stereotypeDeclaresMoreThanOneScope"); //$NON-NLS-1$
 //	- managed bean with a public field declares any scope other than @Dependent (3.1)
 //	- managed bean with a parameterized bean class declares any scope other than @Dependent (3.1)
-	public static final String ILLEGAL_SCOPE_FOR_MANAGED_BEAN = INSTANCE.createSeverityOption("illegalScopeForManagedBean"); //$NON-NLS-1$
+//
 //	- session bean specifies an illegal scope (a stateless session bean must belong 
 //	  to the @Dependent pseudo-scope; a singleton bean must belong to either the
 //	  @ApplicationScoped scope or to the @Dependent pseudo-scope, a stateful session 
 //	  bean may have any scope) (3.2)
 //	- session bean with a parameterized bean class declares any scope other than @Dependent (3.2)
-	public static final String ILLEGAL_SCOPE_FOR_SESSION_BEAN = INSTANCE.createSeverityOption("illegalScopeForSessionBean"); //$NON-NLS-1$
+//
 //	- producer method with a parameterized return type with a type variable declares 
 //	  any scope other than @Dependent (3.3)
 //	- producer field with a parameterized type with a type variable declares any 
 //	  scope other than @Dependent (3.4)
-	public static final String ILLEGAL_SCOPE_FOR_PRODUCER_METHOD = INSTANCE.createSeverityOption("illegalScopeForProducerMethod"); //$NON-NLS-1$
+	public static final String ILLEGAL_SCOPE_FOR_BEAN = INSTANCE.createSeverityOption("illegalScopeForManagedBean"); //$NON-NLS-1$
 //	- bean that declares any scope other than @Dependent has an injection point of type 
 //	  InjectionPoint and qualifier @Default (5.5.7)
 	public static final String ILLEGAL_SCOPE_WHEN_TYPE_INJECTIONPOINT_IS_INJECTED = INSTANCE.createSeverityOption("illegalScopeWhenTypeInjectionPointIsInjected"); //$NON-NLS-1$
 //	- interceptor or decorator has any scope other than @Dependent (2.4.1 non-portable)
-	public static final String ILLEGAL_SCOPE_FOR_INTERCEPTOR = INSTANCE.createSeverityOption("illegalScopeForInterceptor"); //$NON-NLS-1$
-	public static final String ILLEGAL_SCOPE_FOR_DECORATOR = INSTANCE.createSeverityOption("illegalScopeForDecorator"); //$NON-NLS-1$
+	public static final String ILLEGAL_SCOPE_FOR_INTERCEPTOR_OR_DECORATOR = INSTANCE.createSeverityOption("illegalScopeForInterceptor"); //$NON-NLS-1$
 
 	//Member group
 
@@ -169,10 +165,8 @@ public class CDIPreferences extends SeverityPreferences {
 	public static final String PRODUCER_IN_INTERCEPTOR_OR_DECORATOR = INSTANCE.createSeverityOption("producerInInterceptorOrDecorator"); //$NON-NLS-1$
 //	- interceptor or decorator has a method annotated @Disposes
 	public static final String DISPOSER_IN_INTERCEPTOR_OR_DECORATOR = INSTANCE.createSeverityOption("disposerInInterceptorOrDecorator"); //$NON-NLS-1$
-//	- decorator has more than one delegate injection point, or
-	public static final String MULTIPLE_DELEGATE = INSTANCE.createSeverityOption("multipleDelegate"); //$NON-NLS-1$
-//	  does not have a delegate injection point (8.1.2)
-	public static final String MISSING_DELEGATE = INSTANCE.createSeverityOption("missingDelegate"); //$NON-NLS-1$
+//	- decorator has more than one delegate injection point, or does not have a delegate injection point (8.1.2)
+	public static final String MULTIPLE_OR_MISSING_DELEGATE = INSTANCE.createSeverityOption("multipleDelegate"); //$NON-NLS-1$
 //	- injection point that is not an injected field, initializer method parameter 
 //	  or bean constructor method parameter is annotated @Delegate (8.1.2)
 	public static final String ILLEGAL_INJECTION_POINT_DELEGATE = INSTANCE.createSeverityOption("illegalInjectionPointDelegate"); //$NON-NLS-1$
@@ -200,10 +194,8 @@ public class CDIPreferences extends SeverityPreferences {
 	public static final String INTERCEPTOR_OR_DECORATOR_IS_ALTERNATIVE = INSTANCE.createSeverityOption("interceptorOrDecoratorIsAlternative"); //$NON-NLS-1$
 //	- interceptor declared using @Interceptor does not declare any interceptor binding (9.2 non-portable)
 	public static final String MISSING_INTERCEPTOR_BINDING = INSTANCE.createSeverityOption("missingInterceptorBinding"); //$NON-NLS-1$
-//  - a decorator can not be injected
-	public static final String INJECTED_DECORATOR = INSTANCE.createSeverityOption("injectedDecorator"); //$NON-NLS-1$
-//  - an interceptor can not be injected
-	public static final String INJECTED_INTERCEPTOR = INSTANCE.createSeverityOption("injectedInterceptor"); //$NON-NLS-1$
+//  - a decorator or intercpetor can not be injected
+	public static final String INJECTED_DECORATOR_OR_INTERCEPTOR = INSTANCE.createSeverityOption("injectedDecorator"); //$NON-NLS-1$
 //	8.3. Decorator resolution 
 //	- If a decorator matches a managed bean, and the managed bean class is declared final, the container automatically detects 
 //	  the problem and treats it as a deployment problem. 
@@ -214,12 +206,12 @@ public class CDIPreferences extends SeverityPreferences {
 
 //	- managed bean class annotated @Specializes does not directly extend 
 //	  the bean class of another managed bean (3.1.4)
-	public static final String ILLEGAL_SPECIALIZING_MANAGED_BEAN = INSTANCE.createSeverityOption("illegalSpecializingManagedBean"); //$NON-NLS-1$
+//
 //	- session bean class annotated @Specializes does not directly extend 
 //	  the bean class of another session bean (3.2.4)
-	public static final String ILLEGAL_SPECIALIZING_SESSION_BEAN = INSTANCE.createSeverityOption("illegalSpecializingSessionBean"); //$NON-NLS-1$
+//
 //	- method annotated @Specializes is static or does not directly override another producer method (3.3.3)
-	public static final String ILLEGAL_SPECIALIZING_PRODUCER = INSTANCE.createSeverityOption("illegalSpecializingProducer"); //$NON-NLS-1$
+	public static final String ILLEGAL_SPECIALIZING_BEAN = INSTANCE.createSeverityOption("illegalSpecializingManagedBean"); //$NON-NLS-1$
 //	- X specializes Y but does not have some bean type of Y (4.3.1)
 	public static final String MISSING_TYPE_IN_SPECIALIZING_BEAN = INSTANCE.createSeverityOption("missingTypeInSpecializingBean"); //$NON-NLS-1$
 //	- X specializes Y and Y has a name and X declares a name explicitly, using @Named (4.3.1)
