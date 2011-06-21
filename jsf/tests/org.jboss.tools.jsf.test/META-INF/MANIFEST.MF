@@ -38,7 +38,12 @@ Require-Bundle:
  org.jboss.tools.jst.jsp,
  org.jboss.tools.common.model.test,
  org.eclipse.wst.common.project.facet.core,
- org.eclipse.jst.jsf.core
+ org.eclipse.jst.jsf.core,
+ org.eclipse.jst.j2ee,
+ org.eclipse.wst.web,
+ org.eclipse.jst.jee.ejb,
+ org.eclipse.jst.jee.web,
+ org.eclipse.jst.jsf.common
 Bundle-Activator: org.jboss.tools.jsf.plugin.JsfTestPlugin
 Bundle-ActivationPolicy: lazy
 Bundle-Localization: plugin
