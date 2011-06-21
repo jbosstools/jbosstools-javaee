@@ -52,6 +52,17 @@ import org.jboss.tools.common.text.ITextSourceReference;
 public class SeamDefinitionsTest extends SeamConfigTest {
 	public SeamDefinitionsTest() {}
 
+	public void testLineNumber() {
+		ICDIProject cdi = CDICorePlugin.getCDIProject(project, true);
+		ConfigDefinitionContext context = (ConfigDefinitionContext)getConfigExtension(cdi).getContext();
+		SeamBeansDefinition d = getBeansDefinition(context, "src/META-INF/beans.xml");
+		
+		Set<SeamBeanDefinition> ds = findBeanDefinitionByTagName(d, "test602:Report");
+		assertEquals(1, ds.size());
+		SeamBeanDefinition report = ds.iterator().next();
+		assertEquals(20, report.getElement().getLocation().getLine());
+	}
+
 	public void testReplacingAndModifyingBeans() throws CoreException, IOException {
 		ICDIProject cdi = CDICorePlugin.getCDIProject(project, true);
 		ConfigDefinitionContext context = (ConfigDefinitionContext)getConfigExtension(cdi).getContext();
