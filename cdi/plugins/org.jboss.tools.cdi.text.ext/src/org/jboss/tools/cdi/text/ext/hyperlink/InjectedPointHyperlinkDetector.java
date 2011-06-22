@@ -40,8 +40,8 @@ import org.jboss.tools.cdi.text.ext.CDIExtensionsPlugin;
 
 public class InjectedPointHyperlinkDetector extends AbstractHyperlinkDetector{
 	private IRegion region;
-	private IDocument document;
-	private ITextViewer viewer;
+	protected IDocument document;
+	protected ITextViewer viewer;
 
 	public IHyperlink[] detectHyperlinks(ITextViewer textViewer,
 			IRegion region, boolean canShowMultipleHyperlinks) {
@@ -115,7 +115,7 @@ public class InjectedPointHyperlinkDetector extends AbstractHyperlinkDetector{
 		return null;
 	}
 	
-	private void findInjectedBeans(CDICoreNature nature, IJavaElement element, int offset, IFile file, ArrayList<IHyperlink> hyperlinks){
+	protected void findInjectedBeans(CDICoreNature nature, IJavaElement element, int offset, IFile file, ArrayList<IHyperlink> hyperlinks){
 		ICDIProject cdiProject = nature.getDelegate();
 		
 		if(cdiProject == null){

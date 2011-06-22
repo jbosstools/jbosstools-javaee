@@ -35,9 +35,11 @@ import org.jboss.tools.cdi.core.ICDIElement;
 import org.jboss.tools.cdi.text.ext.hyperlink.ITestableCDIHyperlink;
 import org.jboss.tools.common.editor.ObjectMultiPageEditor;
 import org.jboss.tools.common.model.ui.editor.EditorPartWrapper;
+import org.jboss.tools.common.model.ui.texteditors.XMLTextEditorStandAlone;
 import org.jboss.tools.common.text.ext.hyperlink.HyperlinkDetector;
 import org.jboss.tools.common.text.ext.hyperlink.IHyperlinkRegion;
 import org.jboss.tools.common.text.ext.util.AxisUtil;
+import org.jboss.tools.jst.web.ui.editors.WebCompoundEditor;
 
 public class CDIHyperlinkTestUtil extends TestCase{
 	public static void checkRegions(IProject project, String fileName, List<TestRegion> regionList, AbstractHyperlinkDetector elPartitioner) throws Exception {
@@ -77,9 +79,20 @@ public class CDIHyperlinkTestUtil extends TestCase{
 		ISourceViewer viewer = null;
 		if(part instanceof JavaEditor){
 			viewer = ((JavaEditor)part).getViewer();
-		}
+			elPartitioner.setContext(new TestContext((ITextEditor)part));
+		}else if(part instanceof EditorPartWrapper){
+			if(((EditorPartWrapper)part).getEditor() instanceof WebCompoundEditor){
+				WebCompoundEditor wce = (WebCompoundEditor)((EditorPartWrapper)part).getEditor();
+				viewer = wce.getSourceEditor().getTextViewer();
+				elPartitioner.setContext(new TestContext(wce.getSourceEditor()));
+			}else if(((EditorPartWrapper)part).getEditor() instanceof XMLTextEditorStandAlone){
+				XMLTextEditorStandAlone xtesa = (XMLTextEditorStandAlone)((EditorPartWrapper)part).getEditor();
+				viewer = xtesa.getTextViewer();
+				elPartitioner.setContext(new TestContext(xtesa));
+			}else fail("unsupported editor type - "+((EditorPartWrapper)part).getEditor().getClass());
+		}else fail("unsupported editor type - "+part.getClass());
 
-		elPartitioner.setContext(new TestContext((ITextEditor)part));			
+		
 
 		int counter = 0;
 		for (int i = 0; i < document.getLength(); i++) {
@@ -87,6 +100,8 @@ public class CDIHyperlinkTestUtil extends TestCase{
 			IHyperlink[] links = elPartitioner.detectHyperlinks(viewer, testData.getHyperlinkRegion(), true);
 
 			boolean recognized = links != null;
+//			if(recognized)
+//				System.out.println("Recognized - "+i);
 
 			if (recognized) {
 				counter++;

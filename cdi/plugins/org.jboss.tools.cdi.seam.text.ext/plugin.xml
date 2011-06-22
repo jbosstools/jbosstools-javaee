@@ -11,25 +11,25 @@
             targetId="org.eclipse.jdt.ui.javaCode">
       </hyperlinkDetector>
 
-   </extension>
-
-	<extension
-         point="org.eclipse.ui.workbench.texteditor.hyperlinkDetectors">
       <hyperlinkDetector
             class="org.jboss.tools.cdi.seam.text.ext.hyperlink.GenericInjectedPointHyperlinkDetector"
             id="org.jboss.tools.cdi.seam.text.ext.hyperlink.GenericInjectedPointHyperlinkDetector"
             name="%GenericInjectedPointHyperlinkDetector"
             targetId="org.eclipse.jdt.ui.javaCode">
       </hyperlinkDetector>
-   </extension>
 
-	<extension
-         point="org.eclipse.ui.workbench.texteditor.hyperlinkDetectors">
       <hyperlinkDetector
             class="org.jboss.tools.cdi.seam.text.ext.hyperlink.SeamConfigInjectedPointHyperlinkDetector"
             id="org.jboss.tools.cdi.seam.text.ext.hyperlink.SeamConfigInjectedPointHyperlinkDetector"
             name="%SeamConfigInjectedPointHyperlinkDetector"
             targetId="org.eclipse.jdt.ui.javaCode">
+      </hyperlinkDetector>
+
+      <hyperlinkDetector
+            class="org.jboss.tools.cdi.seam.text.ext.hyperlink.XMLInjectedPointHyperlinkDetector"
+            id="org.jboss.tools.cdi.seam.text.ext.hyperlink.XMLInjectedPointHyperlinkDetector"
+            name="%XMLInjectedPointHyperlinkDetector"
+            targetId="org.eclipse.core.runtime.xml">
       </hyperlinkDetector>
    </extension>
 
