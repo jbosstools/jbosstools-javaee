@@ -41,7 +41,7 @@
    </ICONS>
   </XEntityRenderer>
   <XModelAttributes>
-   <XModelAttribute default="decorators" loader="ElementType" name="element type">
+   <XModelAttribute default="alternatives" loader="ElementType" name="element type">
     <Editor name="Uneditable"/>
    </XModelAttribute>
    <XModelAttribute PROPERTIES="id=true;category=general"
@@ -53,15 +53,17 @@
   <XActionItem kind="list">
    <XActionItem kind="list" name="CreateActions">
     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
-     PROPERTIES="entity=CDIClass" WizardClassName="%Default%"
-     displayName="Add Class..." kind="action" name="CreateClass">
+     PROPERTIES="entity=CDIClass;validator.add=true"
+     WizardClassName="%Default%" displayName="Add Class..."
+     kind="action" name="CreateClass">
      <EntityData EntityName="CDIClass">
       <AttributeData AttributeName="class"/>
      </EntityData>
     </XActionItem>
     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
-     PROPERTIES="entity=CDIStereotype" WizardClassName="%Default%"
-     displayName="Add Stereotype..." kind="action" name="CreateStereotype">
+     PROPERTIES="entity=CDIStereotype;validator.add=true"
+     WizardClassName="%Default%" displayName="Add Stereotype..."
+     kind="action" name="CreateStereotype">
      <EntityData EntityName="CDIStereotype">
       <AttributeData AttributeName="stereotype"/>
      </EntityData>
@@ -104,7 +106,8 @@
    <XModelAttribute default="class" loader="ElementType" name="element type">
     <Editor name="Uneditable"/>
    </XModelAttribute>
-   <XModelAttribute PROPERTIES="id=true;save=always;category=general;newWizardClassFactory=org.jboss.tools.cdi.xml.ui.editor.form.CDINewClassWizardFactory"
+   <XModelAttribute
+    PROPERTIES="id=true;save=always;category=general;newWizardClassFactory=org.jboss.tools.cdi.xml.ui.editor.form.CDINewClassWizardFactory"
     name="class" xmlname="#text">
     <Editor name="AccessibleJava"/>
    </XModelAttribute>
@@ -158,8 +161,9 @@
   <XActionItem kind="list">
    <XActionItem kind="list" name="CreateActions">
     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
-     PROPERTIES="entity=CDIClass" WizardClassName="%Default%"
-     displayName="Add Class..." kind="action" name="CreateClass">
+     PROPERTIES="entity=CDIClass;validator.add=true"
+     WizardClassName="%Default%" displayName="Add Class..."
+     kind="action" name="CreateClass">
      <EntityData EntityName="CDIClass">
       <AttributeData AttributeName="class"/>
      </EntityData>
@@ -196,8 +200,9 @@
   <XActionItem kind="list">
    <XActionItem kind="list" name="CreateActions">
     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
-     PROPERTIES="entity=CDIClass" WizardClassName="%Default%"
-     displayName="Add Class..." kind="action" name="CreateClass">
+     PROPERTIES="entity=CDIClass;validator.add=true"
+     WizardClassName="%Default%" displayName="Add Class..."
+     kind="action" name="CreateClass">
      <EntityData EntityName="CDIClass">
       <AttributeData AttributeName="class"/>
      </EntityData>
@@ -223,7 +228,8 @@
    <XModelAttribute default="stereotype" loader="ElementType" name="element type">
     <Editor name="Uneditable"/>
    </XModelAttribute>
-   <XModelAttribute PROPERTIES="id=true;save=always;category=general;newWizardClassFactory=org.jboss.tools.cdi.xml.ui.editor.form.CDINewClassWizardFactory"
+   <XModelAttribute
+    PROPERTIES="id=true;save=always;category=general;newWizardClassFactory=org.jboss.tools.cdi.xml.ui.editor.form.CDINewClassWizardFactory"
     name="stereotype" xmlname="#text">
     <Editor name="AccessibleJava"/>
    </XModelAttribute>
