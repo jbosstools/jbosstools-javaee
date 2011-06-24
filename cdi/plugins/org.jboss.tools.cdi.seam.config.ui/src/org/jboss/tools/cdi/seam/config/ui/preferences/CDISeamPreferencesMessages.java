@@ -17,6 +17,8 @@ public class CDISeamPreferencesMessages extends NLS {
 	public static String CDIValidatorConfigurationBlock_section_solder;
 	public static String CDIValidatorConfigurationBlock_pb_ambiguousGenericConfigurationPoint_label;
 	public static String CDIValidatorConfigurationBlock_pb_wrongTypeOfGenericConfigurationPoint_label;
+	public static String CDIValidatorConfigurationBlock_pb_wrongGenericConfigurationAnnotationReference_label;
+	public static String CDIValidatorConfigurationBlock_pb_genericConfigurationTypeIsGenericBean_label;
 
 	public static String CDI_SEAM_VALIDATOR_PREFERENCE_PAGE_TITLE;
 	

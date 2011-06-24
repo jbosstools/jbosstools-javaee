@@ -27,8 +27,10 @@ public class CDISeamConfigurationBlockDescriptionProvider implements IConfigurat
 	private static SectionDescription SECTION_SOLDER = new SectionDescription(
 		CDISeamPreferencesMessages.CDIValidatorConfigurationBlock_section_solder,
 		new String[][]{
+			{CDISeamSolderPreferences.WRONG_GENERIC_CONFIGURATION_ANNOTATION_REFERENCE, CDISeamPreferencesMessages.CDIValidatorConfigurationBlock_pb_wrongGenericConfigurationAnnotationReference_label},
 			{CDISeamSolderPreferences.AMBIGUOUS_GENERIC_CONFIGURATION_POINT, CDISeamPreferencesMessages.CDIValidatorConfigurationBlock_pb_ambiguousGenericConfigurationPoint_label},
 			{CDISeamSolderPreferences.WRONG_TYPE_OF_GENERIC_CONFIGURATION_POINT, CDISeamPreferencesMessages.CDIValidatorConfigurationBlock_pb_wrongTypeOfGenericConfigurationPoint_label},
+			{CDISeamSolderPreferences.GENERIC_CONFIGURATION_TYPE_IS_A_GENERIC_BEAN, CDISeamPreferencesMessages.CDIValidatorConfigurationBlock_pb_genericConfigurationTypeIsGenericBean_label},
 		},
 		CDISeamSolderCorePlugin.PLUGIN_ID
 	);
