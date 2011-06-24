@@ -16,7 +16,11 @@ import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.jdt.core.IAnnotatable;
 import org.eclipse.jdt.core.IMember;
+import org.eclipse.jdt.core.IMethod;
+import org.eclipse.jdt.core.IType;
+import org.eclipse.osgi.util.NLS;
 import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.CDIUtil;
 import org.jboss.tools.cdi.core.IAnnotationDeclaration;
@@ -35,7 +39,6 @@ import org.jboss.tools.cdi.seam.solder.core.CDISeamSolderCorePlugin;
 import org.jboss.tools.cdi.seam.solder.core.CDISeamSolderPreferences;
 import org.jboss.tools.cdi.seam.solder.core.validation.SeamSolderValidationMessages;
 import org.jboss.tools.common.text.ITextSourceReference;
-import org.jboss.tools.common.util.EclipseJavaUtil;
 
 /**
  * 
@@ -88,13 +91,21 @@ public class GenericBeanValidator {
 				 * than respective generic beans will result in ambiguous beans for injections
 				 * with that set of qualifiers.
 				 */
+				StringBuffer duplicates = new StringBuffer();
 				List<IQualifierDeclaration> ds = bs.get(d);
 				for (AbstractMemberDefinition d1: bs.keySet()) {
 					List<IQualifierDeclaration> ds2 = bs.get(d1);
-					if(ds2 != ds && !d1.getTypeDefinition().isVetoed() && CDIProject.areMatchingQualifiers(ds, ds2)) {
-						validator.addError(SeamSolderValidationMessages.AMBIGUOUS_GENERIC_CONFIGURATION_POINT, 
-								CDISeamSolderPreferences.AMBIGUOUS_GENERIC_CONFIGURATION_POINT, new String[0], reference, file);
+					if(ds2 != ds && !d1.getTypeDefinition().isVetoed() 
+							&& CDIProject.areMatchingQualifiers(ds, ds2)
+							&& CDIProject.areMatchingQualifiers(ds2, ds)) {
+						duplicates.append(", ").append(definitionToString(d1));
 					}
+				}
+				if(duplicates.length() > 0) {
+					duplicates.insert(0, definitionToString(d));
+					String message = NLS.bind(SeamSolderValidationMessages.AMBIGUOUS_GENERIC_CONFIGURATION_POINT, duplicates.toString());
+					validator.addError(message, 
+							CDISeamSolderPreferences.AMBIGUOUS_GENERIC_CONFIGURATION_POINT, new String[0], reference, file);
 				}
 
 				/*
@@ -110,6 +121,21 @@ public class GenericBeanValidator {
 		}
 		//TODO check`
 
+	}
+
+	private String definitionToString(AbstractMemberDefinition d) {
+		IAnnotatable e = d.getMember();
+		String result = "";
+		if(e instanceof IType) {
+			result = ((IType)e).getElementName();
+		} else if(e instanceof IMember) {
+			IMember m = (IMember)e;
+			result = m.getDeclaringType().getElementName() + "." + m.getElementName();
+			if(e instanceof IMethod) {
+				result += "()";
+			}
+		}
+		return result;
 	}
 
 	private IBean findGenericBean(IFile file, IMember member, CDICoreNature project) {
