@@ -7,7 +7,7 @@
             class="org.jboss.tools.jst.web.ui.editors.WebCompoundEditor" 
             contributorClass="org.jboss.tools.common.model.ui.texteditors.MultiPageContributor" 
             entities="FileCDIBeans" 
-            icon="$nl$/images/xstudio/editors/seam-components.gif" 
+            icon="$nl$/images/xstudio/editors/cdi-beans.gif" 
             name="%editors.spring-beans.name">
       </xmlEditor>
    </extension>
