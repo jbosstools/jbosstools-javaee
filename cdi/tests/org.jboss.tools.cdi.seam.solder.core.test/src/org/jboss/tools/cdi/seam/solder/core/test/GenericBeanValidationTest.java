@@ -136,6 +136,34 @@ public class GenericBeanValidationTest extends SeamSolderTest {
 		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, SeamSolderValidationMessages.WRONG_TYPE_OF_GENERIC_CONFIGURATION_POINT + ".*");
 	}
 
+	public void testDuplicateGenericPointConfiguration() throws CoreException {
+		/*
+		 * ConfigurationPointProducer has no duplicate generic configuration points,
+		 * because one of them has an additional qualifier.
+		 */
+		IFile file = project.getFile(new Path("src/org/jboss/generic3/ConfigurationPointProducer.java"));
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, SeamSolderValidationMessages.AMBIGUOUS_GENERIC_CONFIGURATION_POINT.substring(0, 35) + ".*");
+
+
+		/*
+		 * Replace ConfigurationPointProducer with version where configuration points have same qualifiers.
+		 * It has duplicate generic configuration points.
+		 */
+		writeFile(project, "src/org/jboss/generic3/ConfigurationPointProducer.duplicates",
+				"src/org/jboss/generic3/ConfigurationPointProducer.java");
+
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, SeamSolderValidationMessages.AMBIGUOUS_GENERIC_CONFIGURATION_POINT.substring(0, 35) + ".*", 19, 25);
+
+		/*
+		 * Set original ConfigurationPointProducer.java back.
+		 * ConfigurationPointProducer has no duplicate generic configuration points.
+		 */
+		writeFile(project, "src/org/jboss/generic3/ConfigurationPointProducer.original",
+				"src/org/jboss/generic3/ConfigurationPointProducer.java");
+
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, SeamSolderValidationMessages.AMBIGUOUS_GENERIC_CONFIGURATION_POINT.substring(0, 35) + ".*");
+	}
+
 
 	static void writeFile(IProject project, String sourcePath, String targetPath) throws CoreException {
 		boolean saveAutoBuild = ResourcesUtils.setBuildAutomatically(false);
