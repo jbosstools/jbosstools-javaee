@@ -31,6 +31,24 @@ public class GenericBeanValidationTest extends SeamSolderTest {
 
 	public GenericBeanValidationTest() {}
 
+	public void testBrokenGenericType() throws CoreException {
+		/*
+		 * BrokenGenericType is annotated @GenericType(MyGenericBean.class)
+		 * Generic configuration types may not be generic beans.
+		 */
+		IFile file = project.getFile(new Path("src/org/jboss/generic/BrokenGenericType.java"));
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, SeamSolderValidationMessages.GENERIC_CONFIGURATION_TYPE_IS_A_GENERIC_BEAN, 5);
+	}
+
+	public void testBrokenGenericBean() throws CoreException {
+		/*
+		 * BrokenGenericBean is annotated @GenericConfiguration(Override.class)
+		 * Annotation type mismatch: 'Override' is not a generic configuration annotation.
+		 */
+		IFile file = project.getFile(new Path("src/org/jboss/generic/BrokenGenericBean.java"));
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, SeamSolderValidationMessages.WRONG_GENERIC_CONFIGURATION_ANNOTATION_REFERENCE.substring(0, 25) + ".*", 8);
+	}
+
 	public void testRemovingGenericPointConfiguration() throws CoreException {
 		/*
 		 * Injection point: in class MessageManager
