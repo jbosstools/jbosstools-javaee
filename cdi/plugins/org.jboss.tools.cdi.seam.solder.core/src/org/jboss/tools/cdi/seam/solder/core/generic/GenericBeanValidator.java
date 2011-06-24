@@ -28,6 +28,7 @@ import org.jboss.tools.cdi.core.IQualifierDeclaration;
 import org.jboss.tools.cdi.internal.core.impl.CDIProject;
 import org.jboss.tools.cdi.internal.core.impl.definition.AbstractMemberDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.AnnotationDefinition;
+import org.jboss.tools.cdi.internal.core.impl.definition.TypeDefinition;
 import org.jboss.tools.cdi.internal.core.validation.CDICoreValidator;
 import org.jboss.tools.cdi.seam.solder.core.CDISeamSolderConstants;
 import org.jboss.tools.cdi.seam.solder.core.CDISeamSolderCorePlugin;
@@ -57,6 +58,26 @@ public class GenericBeanValidator {
 	}
 
 	public void validateConfiguration(IFile file, GenericConfiguration c, CDICoreValidator validator, CDICoreNature project, GenericBeanDefinitionContext context) throws CoreException {
+		IParametedType t = c.getConfigType();
+		AnnotationDefinition genericType = c.getGenericTypeDefinition();
+
+		if(genericType == null) {
+			String n = c.getGenericTypeName();
+			for (TypeDefinition d: c.getGenericBeans()) {
+				if(d.getResource() != null && d.getResource().equals(file)) {
+					IAnnotationDeclaration a = d.getAnnotation(CDISeamSolderConstants.GENERIC_CONFIGURATION_ANNOTATION_TYPE_NAME);
+					validator.addError(SeamSolderValidationMessages.WRONG_GENERIC_CONFIGURATION_ANNOTATION_REFERENCE, 
+						CDISeamSolderPreferences.WRONG_GENERIC_CONFIGURATION_ANNOTATION_REFERENCE, new String[]{n}, a, file);
+				}
+			}
+		} else if(file.equals(genericType.getResource())) {
+			if(t != null && context.isGenericBean(t.getType().getFullyQualifiedName())) {
+				IAnnotationDeclaration a = genericType.getAnnotation(CDISeamSolderConstants.GENERIC_TYPE_ANNOTATION_TYPE_NAME);
+				validator.addError(SeamSolderValidationMessages.GENERIC_CONFIGURATION_TYPE_IS_A_GENERIC_BEAN, 
+						CDISeamSolderPreferences.GENERIC_CONFIGURATION_TYPE_IS_A_GENERIC_BEAN, new String[0], a, file);
+			}
+		}
+
 		Map<AbstractMemberDefinition, List<IQualifierDeclaration>> bs = c.getGenericConfigurationPoints();
 		for (AbstractMemberDefinition d: bs.keySet()) {
 			if(d.getResource() != null && d.getResource().equals(file) && !d.getTypeDefinition().isVetoed()) {
@@ -79,7 +100,6 @@ public class GenericBeanValidator {
 				/*
 				 * Type of generic configuration point must be assignable to the configuration type.
 				 */
-				IParametedType t = c.getConfigType();
 				IBean b = findGenericBean(file, (IMember)d.getMember(), project);
 				if(t == null || b == null || !CDIProject.containsType(b.getAllTypes(), t)) {
 					validator.addError(SeamSolderValidationMessages.WRONG_TYPE_OF_GENERIC_CONFIGURATION_POINT, 

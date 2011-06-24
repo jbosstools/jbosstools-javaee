@@ -11,6 +11,7 @@
 package org.jboss.tools.cdi.seam.solder.core.generic;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -189,7 +190,9 @@ public class CDISeamSolderGenericBeanExtension implements ICDIExtension, IBuildP
 
 	@Override
 	public void processAnnotatedType(TypeDefinition typeDefinition, IRootDefinitionContext context) {
-		if(typeDefinition.isAnnotationPresent(GENERIC_CONFIGURATION_ANNOTATION_TYPE_NAME)) {
+		if(typeDefinition.isAnnotationPresent(VETO_ANNOTATION_TYPE_NAME)) {
+			//ignore
+		} else if(typeDefinition.isAnnotationPresent(GENERIC_CONFIGURATION_ANNOTATION_TYPE_NAME)) {
 			typeDefinition.veto();
 			IAnnotationDeclaration d = typeDefinition.getAnnotation(GENERIC_CONFIGURATION_ANNOTATION_TYPE_NAME);
 			Object o = d.getMemberValue(null);

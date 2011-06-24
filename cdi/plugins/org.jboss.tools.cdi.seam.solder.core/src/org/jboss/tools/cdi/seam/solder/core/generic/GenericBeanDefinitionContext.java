@@ -10,13 +10,16 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.seam.solder.core.generic;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.IType;
 import org.jboss.tools.cdi.core.extension.AbstractDefinitionContextExtension;
 import org.jboss.tools.cdi.internal.core.impl.definition.AnnotationDefinition;
+import org.jboss.tools.cdi.internal.core.impl.definition.TypeDefinition;
 import org.jboss.tools.cdi.seam.solder.core.CDISeamSolderConstants;
 
 /**
@@ -40,6 +43,15 @@ public class GenericBeanDefinitionContext extends AbstractDefinitionContextExten
 	@Override
 	protected void doApplyWorkingCopy() {
 		genericConfiguartions = ((GenericBeanDefinitionContext)workingCopy).genericConfiguartions;
+
+		for (GenericConfiguration c: genericConfiguartions.values()) {
+			if(c.getGenericTypeDefinition() == null) {
+				for (TypeDefinition d: c.getGenericBeans()) {
+					//Do last minute correction. This is a wrong generic bean, let it be a usual bean to be validated.
+					d.unveto();
+				}
+			}
+		}
 		//
 	}
 
@@ -70,7 +82,17 @@ public class GenericBeanDefinitionContext extends AbstractDefinitionContextExten
 		if(annotation.isAnnotationPresent(CDISeamSolderConstants.GENERIC_TYPE_ANNOTATION_TYPE_NAME)) {
 			annotation.setExtendedKind(CDISeamSolderConstants.GENERIC_ANNOTATION_KIND);
 			String qn = annotation.getType().getFullyQualifiedName();
-			getGenericConfiguration(qn).setGenericTypeDefinition(annotation, this);
+			GenericConfiguration c = getGenericConfiguration(qn);
+			c.setGenericTypeDefinition(annotation, this);
+			if(!annotation.getType().isBinary()) {
+				IPath newPath = annotation.getType().getResource().getFullPath();
+				Set<IPath> ps = c.getInvolvedTypes();
+				for (IPath p: ps) {
+					getRootContext().addDependency(p, newPath);
+					getRootContext().addDependency(newPath, p);
+				}
+				ps.add(newPath);				
+			}
 		}
 	}
 
@@ -89,5 +111,17 @@ public class GenericBeanDefinitionContext extends AbstractDefinitionContextExten
 			genericConfiguartions.put(typeName, result);
 		}
 		return result;
+	}
+
+	public boolean isGenericBean(String typeName) {
+		for (GenericConfiguration c: genericConfiguartions.values()) {
+			Set<TypeDefinition> bs = c.getGenericBeans();
+			for (TypeDefinition d: bs) {
+				if(typeName.equals(d.getType().getFullyQualifiedName())) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 }

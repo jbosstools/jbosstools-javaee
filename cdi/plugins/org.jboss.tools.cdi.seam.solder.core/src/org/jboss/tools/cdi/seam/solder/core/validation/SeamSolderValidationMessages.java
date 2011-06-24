@@ -23,6 +23,8 @@ public class SeamSolderValidationMessages {
 	
 	public static String AMBIGUOUS_GENERIC_CONFIGURATION_POINT;
 	public static String WRONG_TYPE_OF_GENERIC_CONFIGURATION_POINT;
+	public static String WRONG_GENERIC_CONFIGURATION_ANNOTATION_REFERENCE;
+	public static String GENERIC_CONFIGURATION_TYPE_IS_A_GENERIC_BEAN;
 
 	static {
 		NLS.initializeMessages(BUNDLE_NAME, SeamSolderValidationMessages.class);
