@@ -106,113 +106,113 @@ public class SeamComponentHyperlinkDetector extends AbstractHyperlinkDetector {
 			elements = ((ICodeAssist)input).codeSelect(wordRegion.getOffset(), wordRegion.getLength());
 			if (elements == null) 
 				return null;
+			if(elements.length != 1)
+				return null;
 			
 			ArrayList<IHyperlink> hyperlinks = new ArrayList<IHyperlink>();
-			for (IJavaElement element : elements) {
-				if (element instanceof IAnnotatable) {
-					IAnnotatable annotatable = (IAnnotatable)element;
-					
-					IAnnotation annotation = annotatable.getAnnotation("In");
-					if (annotation == null || !annotation.exists())
-						continue;
-					
-					String nameToSearch = element.getElementName();
-					
-					IMemberValuePair[] mvPairs = annotation.getMemberValuePairs();
-					if (mvPairs != null) {
-						for (IMemberValuePair mvPair : mvPairs) {
-							if ("value".equals(mvPair.getMemberName()) && mvPair.getValue() != null) {
-								String name = mvPair.getValue().toString();
-								if (name != null && name.trim().length() != 0) {
-									nameToSearch = name;
-									break;
-								}
+			if (elements[0] instanceof IAnnotatable) {
+				IAnnotatable annotatable = (IAnnotatable)elements[0];
+				
+				IAnnotation annotation = annotatable.getAnnotation("In");
+				if (annotation == null || !annotation.exists())
+					return null;
+				
+				String nameToSearch = elements[0].getElementName();
+				
+				IMemberValuePair[] mvPairs = annotation.getMemberValuePairs();
+				if (mvPairs != null) {
+					for (IMemberValuePair mvPair : mvPairs) {
+						if ("value".equals(mvPair.getMemberName()) && mvPair.getValue() != null) {
+							String name = mvPair.getValue().toString();
+							if (name != null && name.trim().length() != 0) {
+								nameToSearch = name;
+								break;
 							}
 						}
 					}
-					
+				}
+				
 
-					if (nameToSearch == null && nameToSearch.trim().length() == 0)
-						continue;
-					
-					ISeamJavaComponentDeclaration declaration = null;
-					
-					if(file != null) {
-						Set<ISeamComponent> cs = seamProject.getComponentsByPath(file.getFullPath());
-						for (ISeamComponent c: cs) {
-							ISeamJavaComponentDeclaration d = c.getJavaDeclaration();
-							if(d != null && file.getFullPath().equals(d.getSourcePath()) && !((SeamJavaComponentDeclaration)d).getImports().isEmpty()) {
-								declaration = d;
-							}
+				if (nameToSearch == null && nameToSearch.trim().length() == 0)
+					return null;
+				
+				ISeamJavaComponentDeclaration declaration = null;
+				
+				if(file != null) {
+					Set<ISeamComponent> cs = seamProject.getComponentsByPath(file.getFullPath());
+					for (ISeamComponent c: cs) {
+						ISeamJavaComponentDeclaration d = c.getJavaDeclaration();
+						if(d != null && file.getFullPath().equals(d.getSourcePath()) && !((SeamJavaComponentDeclaration)d).getImports().isEmpty()) {
+							declaration = d;
 						}
-					
 					}
-					Set<ISeamContextVariable> vars = seamProject.getVariables(declaration);
-					if (vars != null) {
-						for (ISeamContextVariable var : vars) {
-							if (nameToSearch.equals(var.getName())){
-								while (var instanceof ISeamContextShortVariable) {
-									var = ((ISeamContextShortVariable)var).getOriginal();
+				
+				}
+				Set<ISeamContextVariable> vars = seamProject.getVariables(declaration);
+				if (vars != null) {
+					for (ISeamContextVariable var : vars) {
+						if (nameToSearch.equals(var.getName())){
+							while (var instanceof ISeamContextShortVariable) {
+								var = ((ISeamContextShortVariable)var).getOriginal();
+							}
+							if (var == null)
+								continue;
+							
+							if (var instanceof ISeamXmlFactory) {
+								ISeamXmlFactory xmlFactory = (ISeamXmlFactory)var;
+
+								String value = xmlFactory.getValue();
+								if (value == null || value.trim().length() == 0) {
+									value = xmlFactory.getMethod();
 								}
-								if (var == null)
+								
+								if (value == null || value.trim().length() == 0)
 									continue;
 								
-								if (var instanceof ISeamXmlFactory) {
-									ISeamXmlFactory xmlFactory = (ISeamXmlFactory)var;
-
-									String value = xmlFactory.getValue();
-									if (value == null || value.trim().length() == 0) {
-										value = xmlFactory.getMethod();
-									}
-									
-									if (value == null || value.trim().length() == 0)
-										continue;
-									
-									List<IJavaElement> javaElements = null;
-									
-									try {
-										javaElements = engine.getJavaElementsForExpression(
-																		seamProject, file, value, region.getOffset());
-									} catch (StringIndexOutOfBoundsException e) {
-										SeamExtPlugin.getDefault().logError(e);
-									} catch (BadLocationException e) {
-										SeamExtPlugin.getDefault().logError(e);
-									}
-									if (javaElements != null) {
-										for (IJavaElement javaElement : javaElements) {
-											String resourceName = null;
-											if (javaElement.getResource() != null) {
-												resourceName=javaElement.getResource().getName();
-											}
-											hyperlinks.add(new SeamComponentHyperlink(wordRegion, resourceName, javaElement, nameToSearch));
+								List<IJavaElement> javaElements = null;
+								
+								try {
+									javaElements = engine.getJavaElementsForExpression(
+																	seamProject, file, value, region.getOffset());
+								} catch (StringIndexOutOfBoundsException e) {
+									SeamExtPlugin.getDefault().logError(e);
+								} catch (BadLocationException e) {
+									SeamExtPlugin.getDefault().logError(e);
+								}
+								if (javaElements != null) {
+									for (IJavaElement javaElement : javaElements) {
+										String resourceName = null;
+										if (javaElement.getResource() != null) {
+											resourceName=javaElement.getResource().getName();
 										}
+										hyperlinks.add(new SeamComponentHyperlink(wordRegion, resourceName, javaElement, nameToSearch));
 									}
-								} else if (var instanceof ISeamComponent) {
-									String resourceName = null;
-									ISeamComponent comp = (ISeamComponent)var;
-									Set<ISeamComponentDeclaration> decls = comp.getAllDeclarations();
-									for (ISeamComponentDeclaration decl : decls) {
-										if (decl.getResource() != null) {
-											resourceName = decl.getResource().getName();
-											break;
-										}
+								}
+							} else if (var instanceof ISeamComponent) {
+								String resourceName = null;
+								ISeamComponent comp = (ISeamComponent)var;
+								Set<ISeamComponentDeclaration> decls = comp.getAllDeclarations();
+								for (ISeamComponentDeclaration decl : decls) {
+									if (decl.getResource() != null) {
+										resourceName = decl.getResource().getName();
+										break;
 									}
-									hyperlinks.add(new SeamComponentHyperlink(wordRegion, resourceName, (ISeamComponent)var, nameToSearch));
-								} else if (var instanceof IRole) {
-									String resourceName = null;
-									if (var.getResource() != null) {
-										resourceName = var.getResource().getName();
-									}
-									hyperlinks.add(new SeamComponentHyperlink(wordRegion, resourceName, (IRole)var, nameToSearch));
-								} else if (var instanceof IBijectedAttribute) {
-									String resourceName = null;
-									if (var.getResource() != null) {
-										resourceName = var.getResource().getName();
-									}
-									IBijectedAttribute attr = (IBijectedAttribute)var;
-									if (attr.getSourceMember() != null) {
-										hyperlinks.add(new SeamComponentHyperlink(wordRegion, resourceName, (IBijectedAttribute)var, nameToSearch));
-									}
+								}
+								hyperlinks.add(new SeamComponentHyperlink(wordRegion, resourceName, (ISeamComponent)var, nameToSearch));
+							} else if (var instanceof IRole) {
+								String resourceName = null;
+								if (var.getResource() != null) {
+									resourceName = var.getResource().getName();
+								}
+								hyperlinks.add(new SeamComponentHyperlink(wordRegion, resourceName, (IRole)var, nameToSearch));
+							} else if (var instanceof IBijectedAttribute) {
+								String resourceName = null;
+								if (var.getResource() != null) {
+									resourceName = var.getResource().getName();
+								}
+								IBijectedAttribute attr = (IBijectedAttribute)var;
+								if (attr.getSourceMember() != null) {
+									hyperlinks.add(new SeamComponentHyperlink(wordRegion, resourceName, (IBijectedAttribute)var, nameToSearch));
 								}
 							}
 						}
