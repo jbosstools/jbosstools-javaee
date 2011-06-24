@@ -39,9 +39,10 @@ import org.eclipse.wst.xml.core.internal.provisional.document.IDOMModel;
 import org.eclipse.wst.xml.core.internal.provisional.format.DocumentNodeFormatter;
 import org.jboss.tools.jsf.JSFModelPlugin;
 import org.jboss.tools.jsf.jsf2.util.JSF2ResourceUtil;
-import org.jboss.tools.jst.jsp.jspeditor.dnd.PaletteTaglibInserter;
+import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -53,6 +54,17 @@ import org.w3c.dom.NodeList;
 
 @SuppressWarnings("restriction")
 public class JSF2ComponentModelManager {
+	public final static String INTERFACE = "interface";
+	public final static String ATTRIBUTE = "attribute";
+	public final static String NAME = "name";
+	public final static String XMLNS = "xmlns";
+	
+	public final static String COLON = ":";
+	public final static String DEFAULT_COMPOSITE_PREFIX = "composite";
+	public final static String XHTML_URI = "http://www.w3.org/1999/xhtml";
+	public final static String HTML = "html";
+	public final static String HTML_URI = "http://java.sun.com/jsf/html";
+	public final static String HTML_PREFIX = "h";
 
 	private static JSF2ComponentModelManager instance = new JSF2ComponentModelManager();
 
@@ -88,14 +100,6 @@ public class JSF2ComponentModelManager {
 				provider.aboutToChange(input);
 				provider.saveDocument(new NullProgressMonitor(), input, document, true);
 				provider.disconnect(input);
-				//IDOMDocument document = model.getDocument();
-				//updateJSF2CompositeComponent(document, attrNames);
-				//IStructuredDocument structuredDocument = document
-				//		.getStructuredDocument();
-				//String text = structuredDocument.getText();
-				//		//getFile().setContents(new ByteArrayInputStream(text.getBytes()),true,false,null);
-				//model.reload(new ByteArrayInputStream(text.getBytes()));
-				//model.save();
 			}
 		});
 		return file;
@@ -103,40 +107,42 @@ public class JSF2ComponentModelManager {
 
 	private void updateJSF2CompositeComponent(IDOMDocument componentDoc,
 			String[] attrNames) {
-		IDOMElement[] interfaceElement = new IDOMElement[1];
-		findInterfaceComponent(componentDoc, interfaceElement);
-		createCompositeCompInterface(interfaceElement[0], attrNames);
+		Element interfaceElement = findInterfaceComponent(componentDoc);
+		if(interfaceElement == null)
+			interfaceElement = createCompositeInterface(componentDoc);
+		createCompositeCompInterface(interfaceElement, attrNames);
 	}
 
-	private void findInterfaceComponent(Node node,
-			IDOMElement[] interfaceElement) {
+	private Element findInterfaceComponent(Node node) {
 		if (node instanceof IDOMDocument) {
 			IDOMDocument document = (IDOMDocument) node;
-			findInterfaceComponent(document.getDocumentElement(),
-					interfaceElement);
+			Element element = findInterfaceComponent(document.getDocumentElement());
+			if(element != null)
+				return element;
 		}
 		if (node instanceof ElementImpl) {
 			ElementImpl impl = (ElementImpl) node;
 			String nameSpace = impl.getNamespaceURI();
 			if (JSF2ResourceUtil.JSF2_URI_PREFIX.equals(nameSpace)) {
 				String nodeName = impl.getLocalName();
-				if ("interface".equals(nodeName)) { //$NON-NLS-1$
-					interfaceElement[0] = impl;
-					return;
+				if (INTERFACE.equals(nodeName)) { //$NON-NLS-1$
+					return impl;
 				}
 			} else {
 				NodeList nodeList = node.getChildNodes();
 				if (nodeList != null) {
 					for (int i = 0; i < nodeList.getLength(); i++) {
-						findInterfaceComponent(nodeList.item(i),
-								interfaceElement);
+						Element element = findInterfaceComponent(nodeList.item(i));
+						if(element != null)
+							return element;
 					}
 				}
 			}
 		}
+		return null;
 	}
 
-	private void createCompositeCompInterface(IDOMElement element,
+	private void createCompositeCompInterface(Element element,
 			String[] attrNames) {
 		Document document = (Document) element.getOwnerDocument();
 		String prefix = element.getPrefix();
@@ -146,8 +152,8 @@ public class JSF2ComponentModelManager {
 				if (!existInerfaceAttrs.contains(attrNames[i])) {
 					Element attrEl = document.createElementNS(
 							JSF2ResourceUtil.JSF2_URI_PREFIX, prefix
-									+ ":attribute"); //$NON-NLS-1$
-					attrEl.setAttribute("name", attrNames[i]); //$NON-NLS-1$
+									+ COLON+ATTRIBUTE); //$NON-NLS-1$
+					attrEl.setAttribute(NAME, attrNames[i]); //$NON-NLS-1$
 					element.appendChild(attrEl);
 				}
 			}
@@ -155,8 +161,8 @@ public class JSF2ComponentModelManager {
 			for (int i = 0; i < attrNames.length; i++) {
 				if (!existInerfaceAttrs.contains(attrNames[i])) {
 					Element attrEl = document.createElementNS(
-							JSF2ResourceUtil.JSF2_URI_PREFIX, "attribute"); //$NON-NLS-1$
-					attrEl.setAttribute("name", attrNames[i]); //$NON-NLS-1$
+							JSF2ResourceUtil.JSF2_URI_PREFIX, ATTRIBUTE); //$NON-NLS-1$
+					attrEl.setAttribute(NAME, attrNames[i]); //$NON-NLS-1$
 					element.appendChild(attrEl);
 				}
 			}
@@ -170,14 +176,14 @@ public class JSF2ComponentModelManager {
 		if (document == null) {
 			return null;
 		}
-		IDOMElement interfaceElement = checkCompositeInterface(document);
-		if (interfaceElement == null) {
-			return null;
-		}
+		
+		//Element interfaceElement = checkCompositeInterface(document);
+		//if (interfaceElement == null)
+			//return null;
 		return file;
 	}
 
-	public IDOMElement checkCompositeInterface(IDOMDocument document) {
+	public Element checkCompositeInterface(IDOMDocument document) {
 		if (document == null) {
 			return null;
 		}
@@ -185,16 +191,97 @@ public class JSF2ComponentModelManager {
 		if (element == null) {
 			return null;
 		}
-		//if (!"html".equals(element.getNodeName())) { //$NON-NLS-1$
-			//return null;
-		//}
-		//ElementImpl elementImpl = (ElementImpl) element;
-		//if (!"http://www.w3.org/1999/xhtml".equals(elementImpl.getNamespaceURI())) { //$NON-NLS-1$
-		//	return null;
-		//}
-		IDOMElement[] interfaceElement = new IDOMElement[1];
-		findInterfaceComponent(element, interfaceElement);
-		return interfaceElement[0];
+		
+		if(!hasNamespace(element, JSF2ResourceUtil.JSF2_URI_PREFIX))
+			return null;
+		
+		return findInterfaceComponent(element);
+	}
+	
+	private boolean hasNamespace(Node node, String URI){
+		NamedNodeMap attributes = node.getAttributes();
+		for(int i = 0; i < attributes.getLength(); i++){
+			Node attr = attributes.item(i);
+			
+			if(attr.getNodeName().startsWith(XMLNS+COLON) && URI.equals(attr.getNodeValue()))
+				return true;
+		}
+		return false;
+	}
+
+	private String getPrefix(Node node, String URI){
+		NamedNodeMap attributes = node.getAttributes();
+		for(int i = 0; i < attributes.getLength(); i++){
+			Node attr = attributes.item(i);
+			
+			if(attr.getNodeName().startsWith(XMLNS+COLON) && URI.equals(attr.getNodeValue()))
+				return attr.getLocalName();
+		}
+		return null;
+	}
+	
+	private Element findNodeToCreateCompositeInterface(Element rootNode){
+		if(hasNamespace(rootNode, JSF2ResourceUtil.JSF2_URI_PREFIX))
+			return rootNode;
+		NodeList children = rootNode.getChildNodes();
+		for(int i = 0; i < children.getLength(); i++){
+			Node child = children.item(i);
+			if(child instanceof Element){
+				Node result = findNodeToCreateCompositeInterface((Element)child);
+				if(result != null && result instanceof Element)
+					return (Element)result;
+			}
+		}
+		return null;
+	}
+	
+	private Element createCompositeInterface(Document document){
+		Element rootElement = document.getDocumentElement();
+		if (rootElement == null) {
+			rootElement = createDocumentElementForCompositeInterface(document);
+		}
+		
+		Element node = findNodeToCreateCompositeInterface(rootElement);
+		
+		if(node == null){
+			addURI(document, rootElement);
+			node = rootElement;
+		}
+		
+		String prefix = getPrefix(node, JSF2ResourceUtil.JSF2_URI_PREFIX);
+		Element interfaceElement = document.createElement(prefix+COLON+INTERFACE);
+		
+		node.appendChild(interfaceElement);
+		
+		DocumentNodeFormatter formatter = new DocumentNodeFormatter();
+		formatter.format(document);
+		
+		return interfaceElement;
+	}
+	
+	private Element createDocumentElementForCompositeInterface(Document document){
+		Element rootElement = document.createElement(HTML);
+		
+		Attr attr = document.createAttribute(XMLNS);
+		attr.setValue(XHTML_URI);
+		rootElement.setAttributeNode(attr);
+		
+		attr = document.createAttribute(XMLNS+COLON+HTML_PREFIX);
+		attr.setValue(HTML_URI);
+		rootElement.setAttributeNode(attr);
+		
+		attr = document.createAttribute(XMLNS+COLON+DEFAULT_COMPOSITE_PREFIX);
+		attr.setValue(JSF2ResourceUtil.JSF2_URI_PREFIX);
+		rootElement.setAttributeNode(attr);
+		
+		document.appendChild(rootElement);
+		return rootElement;
+	}
+	
+	private void addURI(Document document, Element rootElement){
+		Attr attr = document.createAttribute(XMLNS+COLON+DEFAULT_COMPOSITE_PREFIX);
+		attr.setValue(JSF2ResourceUtil.JSF2_URI_PREFIX);
+		rootElement.setAttributeNode(attr);
 	}
 
 	public static IDOMDocument getReadableDOMDocument(IFile file) {
@@ -274,13 +361,13 @@ public class JSF2ComponentModelManager {
 		return document;
 	}
 
-	public Set<String> getInterfaceAttrs(IDOMElement interfaceElement) {
+	public Set<String> getInterfaceAttrs(Element interfaceElement) {
 		Set<String> interfaceAttrs = new HashSet<String>(0);
 		if (interfaceElement != null) {
 			String prefix = interfaceElement.getPrefix();
-			String nodeName = "attribute"; //$NON-NLS-1$
+			String nodeName = ATTRIBUTE;
 			if (prefix != null && !"".equals(prefix)) { //$NON-NLS-1$
-				nodeName = prefix + ":" + nodeName; //$NON-NLS-1$
+				nodeName = prefix + COLON + nodeName; //$NON-NLS-1$
 			}
 			NodeList attrsElements = interfaceElement
 					.getElementsByTagName(nodeName);
@@ -289,7 +376,7 @@ public class JSF2ComponentModelManager {
 					Node el = attrsElements.item(i);
 					if (el instanceof IDOMElement) {
 						IDOMElement element = (IDOMElement) el;
-						String attrvalue = element.getAttribute("name"); //$NON-NLS-1$
+						String attrvalue = element.getAttribute(NAME); //$NON-NLS-1$
 						if (attrvalue != null && !"".equals(attrvalue)) { //$NON-NLS-1$
 							interfaceAttrs.add(attrvalue);
 						}

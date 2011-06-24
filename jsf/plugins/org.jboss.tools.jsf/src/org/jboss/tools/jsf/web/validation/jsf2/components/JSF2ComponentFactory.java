@@ -24,6 +24,7 @@ import org.eclipse.wst.xml.core.internal.provisional.document.IDOMElement;
 import org.jboss.tools.jsf.jsf2.model.JSF2ComponentModelManager;
 import org.jboss.tools.jsf.web.validation.IJSFValidationComponent;
 import org.jboss.tools.jsf.web.validation.jsf2.util.JSF2ValidatorConstants;
+import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
@@ -62,7 +63,7 @@ public class JSF2ComponentFactory {
 				0);
 		IDOMDocument containerDocument = JSF2ComponentModelManager
 				.getReadableDOMDocument(container);
-		IDOMElement interfaceElement = JSF2ComponentModelManager.getManager()
+		Element interfaceElement = JSF2ComponentModelManager.getManager()
 				.checkCompositeInterface(containerDocument);
 		Set<String> interfaceAttrs = JSF2ComponentModelManager.getManager()
 				.getInterfaceAttrs(interfaceElement);
@@ -93,7 +94,7 @@ public class JSF2ComponentFactory {
 				0);
 		IDOMDocument document = JSF2ComponentModelManager
 				.getReadableDOMDocument(compContainerFile);
-		IDOMElement interfaceElement = JSF2ComponentModelManager.getManager()
+		Element interfaceElement = JSF2ComponentModelManager.getManager()
 				.checkCompositeInterface(document);
 		Set<String> interfaceAttrs = JSF2ComponentModelManager.getManager()
 				.getInterfaceAttrs(interfaceElement);
