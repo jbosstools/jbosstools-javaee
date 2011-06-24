@@ -23,9 +23,8 @@ import org.eclipse.jdt.core.IField;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.ILocalVariable;
 import org.eclipse.jdt.core.IMethod;
+import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
-import org.eclipse.jdt.internal.core.ResolvedBinaryType;
-import org.eclipse.jdt.internal.core.ResolvedSourceType;
 import org.eclipse.jdt.internal.ui.javaeditor.EditorUtility;
 import org.eclipse.jdt.internal.ui.javaeditor.JavaEditor;
 import org.eclipse.jdt.internal.ui.text.JavaWordFinder;
@@ -99,23 +98,23 @@ public class GenericInjectedPointHyperlinkDetector extends AbstractHyperlinkDete
 			elements = ((ICodeAssist)input).codeSelect(wordRegion.getOffset(), wordRegion.getLength());
 			if (elements == null) 
 				return null;
+			if(elements.length != 1)
+				return null;
 			
 			ArrayList<IHyperlink> hyperlinks = new ArrayList<IHyperlink>();
-			for (IJavaElement element : elements) {
-				int position = 0;
-				if(element instanceof ResolvedSourceType || element instanceof ResolvedBinaryType){
-					ICompilationUnit cUnit = (ICompilationUnit)input;
-					element = cUnit.getElementAt(wordRegion.getOffset());
-					if(element == null)
-						continue;
-					
-					if(element instanceof IMethod){
-						position = offset;
-					}
+			int position = 0;
+			if(elements[0] instanceof IType){
+				ICompilationUnit cUnit = (ICompilationUnit)input;
+				elements[0] = cUnit.getElementAt(wordRegion.getOffset());
+				if(elements[0] == null)
+					return null;
+				
+				if(elements[0] instanceof IMethod){
+					position = offset;
 				}
-
-				findInjectedBeans(cdiNature, element, position, file, hyperlinks);
 			}
+
+			findInjectedBeans(cdiNature, elements[0], position, file, hyperlinks);
 			
 			if (hyperlinks != null && !hyperlinks.isEmpty()) {
 				return (IHyperlink[])hyperlinks.toArray(new IHyperlink[hyperlinks.size()]);

@@ -89,35 +89,34 @@ public class ProducerDisposerHyperlinkDetector extends AbstractHyperlinkDetector
 			elements = ((ICodeAssist)input).codeSelect(wordRegion.getOffset(), wordRegion.getLength());
 			if (elements == null) 
 				return null;
+			if(elements.length != 1)
+				return null;
 			
 			ArrayList<IHyperlink> hyperlinks = new ArrayList<IHyperlink>();
-			for (IJavaElement element : elements) {
-				
-				if(element instanceof IType){
-					if(CDIConstants.PRODUCES_ANNOTATION_TYPE_NAME.equals(((IType) element).getFullyQualifiedName())){
-						ICompilationUnit cUnit = (ICompilationUnit)input;
-						element = cUnit.getElementAt(wordRegion.getOffset());
-						if(element == null)
-							continue;
-					}
+			if(elements[0] instanceof IType){
+				if(CDIConstants.PRODUCES_ANNOTATION_TYPE_NAME.equals(((IType) elements[0]).getFullyQualifiedName())){
+					ICompilationUnit cUnit = (ICompilationUnit)input;
+					elements[0] = cUnit.getElementAt(wordRegion.getOffset());
+					if(elements[0] == null)
+						return null;
 				}
-				
-				if (element instanceof IMethod) {
-					for(IBean bean : beans){
-						if(bean instanceof IClassBean){
-							IProducerMethod producer = getProducer((IClassBean)bean, (IMethod)element);
-							if(producer != null){
-								List<IMethod> disposers = findDisposerMethods(producer);
-								for(IMethod method : disposers){
-									hyperlinks.add(new DisposerHyperlink(region, method, document));
-								}
-							}else{
-								IBeanMethod disposer = getDisposer((IClassBean)bean, (IMethod)element);
-								if(disposer != null){
-									List<IMethod> producers = findProducerMethods((IClassBean)bean, disposer);
-									for(IMethod method : producers){
-										hyperlinks.add(new ProducerHyperlink(region, method, document));
-									}
+			}
+			
+			if (elements[0] instanceof IMethod) {
+				for(IBean bean : beans){
+					if(bean instanceof IClassBean){
+						IProducerMethod producer = getProducer((IClassBean)bean, (IMethod)elements[0]);
+						if(producer != null){
+							List<IMethod> disposers = findDisposerMethods(producer);
+							for(IMethod method : disposers){
+								hyperlinks.add(new DisposerHyperlink(region, method, document));
+							}
+						}else{
+							IBeanMethod disposer = getDisposer((IClassBean)bean, (IMethod)elements[0]);
+							if(disposer != null){
+								List<IMethod> producers = findProducerMethods((IClassBean)bean, disposer);
+								for(IMethod method : producers){
+									hyperlinks.add(new ProducerHyperlink(region, method, document));
 								}
 							}
 						}

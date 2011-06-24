@@ -11,7 +11,6 @@
 package org.jboss.tools.cdi.text.ext.hyperlink;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -22,9 +21,8 @@ import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.ISourceRange;
+import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
-import org.eclipse.jdt.internal.core.ResolvedBinaryType;
-import org.eclipse.jdt.internal.core.ResolvedSourceType;
 import org.eclipse.jdt.internal.ui.javaeditor.EditorUtility;
 import org.eclipse.jdt.internal.ui.javaeditor.JavaEditor;
 import org.eclipse.jdt.internal.ui.text.JavaWordFinder;
@@ -37,11 +35,9 @@ import org.eclipse.ui.texteditor.ITextEditor;
 import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.CDIUtil;
 import org.jboss.tools.cdi.core.IBean;
-import org.jboss.tools.cdi.core.IBeanMethod;
 import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.IClassBean;
 import org.jboss.tools.cdi.core.IInjectionPoint;
-import org.jboss.tools.cdi.core.IInjectionPointParameter;
 import org.jboss.tools.cdi.core.IObserverMethod;
 import org.jboss.tools.cdi.core.IParameter;
 import org.jboss.tools.cdi.text.ext.CDIExtensionsPlugin;
@@ -91,38 +87,38 @@ public class EventAndObserverMethodHyperlinkDetector extends AbstractHyperlinkDe
 			elements = ((ICodeAssist)input).codeSelect(wordRegion.getOffset(), wordRegion.getLength());
 			if (elements == null) 
 				return null;
+			if(elements.length != 1)
+				return null;
 			
 			ArrayList<IHyperlink> hyperlinks = new ArrayList<IHyperlink>();
-			for (IJavaElement element : elements) {
-				int position = 0;
-				if(element instanceof ResolvedSourceType || element instanceof ResolvedBinaryType){
-					ICompilationUnit cUnit = (ICompilationUnit)input;
-					element = cUnit.getElementAt(wordRegion.getOffset());
-					if(element == null)
-						continue;
-					
-					if(element instanceof IMethod){
-						position = offset;
-					}
+			int position = 0;
+			if(elements[0] instanceof IType){
+				ICompilationUnit cUnit = (ICompilationUnit)input;
+				elements[0] = cUnit.getElementAt(wordRegion.getOffset());
+				if(elements[0] == null)
+					return null;
+				
+				if(elements[0] instanceof IMethod){
+					position = offset;
 				}
-				ICDIProject cdiProject = cdiNature.getDelegate();
-				if(cdiProject != null){
-					IInjectionPoint injectionPoint = findInjectedPoint(cdiProject, element, position, file);
-					Set<IParameter> param = findObserverParameter(cdiProject, element, offset, file);
-					if(injectionPoint != null){
-						Set<IObserverMethod> observerMethods = cdiProject.resolveObserverMethods(injectionPoint);
+			}
+			ICDIProject cdiProject = cdiNature.getDelegate();
+			if(cdiProject != null){
+				IInjectionPoint injectionPoint = findInjectedPoint(cdiProject, elements[0], position, file);
+				Set<IParameter> param = findObserverParameter(cdiProject, elements[0], offset, file);
+				if(injectionPoint != null){
+					Set<IObserverMethod> observerMethods = cdiProject.resolveObserverMethods(injectionPoint);
 
-						if(observerMethods.size() > 0)
-							hyperlinks.add(new ObserverMethodListHyperlink(textViewer, region, observerMethods, document));
-						
-					} else if(param != null) {
-						Set<IInjectionPoint> events =  new HashSet<IInjectionPoint>();
-						for (IParameter p: param)
-							events.addAll(cdiProject.findObservedEvents(p));
-						
-						if(events.size() > 0)
-							hyperlinks.add(new EventListHyperlink(textViewer, region, events, document));
-					}
+					if(observerMethods.size() > 0)
+						hyperlinks.add(new ObserverMethodListHyperlink(textViewer, region, observerMethods, document));
+					
+				} else if(param != null) {
+					Set<IInjectionPoint> events =  new HashSet<IInjectionPoint>();
+					for (IParameter p: param)
+						events.addAll(cdiProject.findObservedEvents(p));
+					
+					if(events.size() > 0)
+						hyperlinks.add(new EventListHyperlink(textViewer, region, events, document));
 				}
 			}
 			
