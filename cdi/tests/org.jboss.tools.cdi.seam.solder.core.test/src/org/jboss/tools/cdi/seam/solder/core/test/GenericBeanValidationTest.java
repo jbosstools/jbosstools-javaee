@@ -164,6 +164,11 @@ public class GenericBeanValidationTest extends SeamSolderTest {
 		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, SeamSolderValidationMessages.AMBIGUOUS_GENERIC_CONFIGURATION_POINT.substring(0, 35) + ".*");
 	}
 
+	// https://issues.jboss.org/browse/JBIDE-9255
+	public void testDuplicateNamedBeans() throws CoreException {
+		IFile file = project.getFile(new Path("src/org/jboss/generic4/MyMessageQueues.java"));
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, CDIValidationMessages.DUPLCICATE_EL_NAME.substring(0, 11) + ".*", 10, 17);
+	}
 
 	static void writeFile(IProject project, String sourcePath, String targetPath) throws CoreException {
 		boolean saveAutoBuild = ResourcesUtils.setBuildAutomatically(false);

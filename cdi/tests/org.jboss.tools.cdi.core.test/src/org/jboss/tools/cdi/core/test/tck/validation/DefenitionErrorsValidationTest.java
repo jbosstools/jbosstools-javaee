@@ -12,6 +12,7 @@
 package org.jboss.tools.cdi.core.test.tck.validation;
 
 import java.text.MessageFormat;
+import java.util.List;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.osgi.util.NLS;
@@ -928,8 +929,17 @@ public class DefenitionErrorsValidationTest extends ValidationTest {
 	 */
 	public void testBeanDoesNotHaveSomeTypeOfSpecializedBean() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/specialization/MissingTypeBeanBroken.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, MessageFormat.format(CDIValidationMessages.MISSING_TYPE_IN_SPECIALIZING_BEAN, "MissingTypeBeanBroken", "Farmer", "Farmer"), 6);
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, MessageFormat.format(CDIValidationMessages.MISSING_TYPE_IN_SPECIALIZING_BEAN, "MissingTypeBeanBroken", "Farmer", "Simple"), 6);
+
+		String message = AbstractResourceMarkerTest.convertMessageToPatern(MessageFormat.format(CDIValidationMessages.MISSING_TYPE_IN_SPECIALIZING_BEAN, "MissingTypeBeanBroken", "Farmer", "Farmer, Simple"));
+		List<Integer> lines = AbstractResourceMarkerTest.findMarkerLines(file, AbstractResourceMarkerTest.MARKER_TYPE, message, true);
+		if(!lines.contains(new Integer(6))) {
+			message = AbstractResourceMarkerTest.convertMessageToPatern(MessageFormat.format(CDIValidationMessages.MISSING_TYPE_IN_SPECIALIZING_BEAN, "MissingTypeBeanBroken", "Farmer", "Simple, Farmer"));
+			lines = AbstractResourceMarkerTest.findMarkerLines(file, AbstractResourceMarkerTest.MARKER_TYPE, message, true);
+			assertTrue(lines.contains(new Integer(6)));
+		}
+
+//		AbstractResourceMarkerTest.assertMarkerIsCreated(file, MessageFormat.format(CDIValidationMessages.MISSING_TYPE_IN_SPECIALIZING_BEAN, "MissingTypeBeanBroken", "Farmer", "Farmer"), 6);
+//		AbstractResourceMarkerTest.assertMarkerIsCreated(file, MessageFormat.format(CDIValidationMessages.MISSING_TYPE_IN_SPECIALIZING_BEAN, "MissingTypeBeanBroken", "Farmer", "Simple"), 6);
 	}
 
 	/**

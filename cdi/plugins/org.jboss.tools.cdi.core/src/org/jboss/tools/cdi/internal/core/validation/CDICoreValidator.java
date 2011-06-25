@@ -309,6 +309,7 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 			validateResource(file);
 		}
 
+		cleanSavedMarkers();
 		return OK_STATUS;
 	}
 
@@ -382,6 +383,7 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 			validateResource(file);
 		}
 
+		cleanSavedMarkers();
 		return OK_STATUS;
 	}
 
@@ -574,10 +576,15 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 				if(reference==null) {
 					reference = CDIUtil.getNamedDeclaration(bean);
 				}
-				StringBuffer sb = new StringBuffer(bean.getSimpleJavaName());
+				Set<String> names = new HashSet<String>();
+				String bName = bean.getSimpleJavaName();
+				names.add(bName);
+				StringBuffer sb = new StringBuffer(bName);
 				for (IBean iBean : beans) {
-					if(bean!=iBean) {
-						sb.append(", ").append(iBean.getSimpleJavaName());
+					bName = iBean.getSimpleJavaName();
+					if(bean!=iBean && !names.contains(bName)) {
+						names.add(bName);
+						sb.append(", ").append(bName);
 					}
 				}
 				addError(MessageFormat.format(CDIValidationMessages.DUPLCICATE_EL_NAME, sb.toString()), CDIPreferences.AMBIGUOUS_EL_NAMES, reference, bean.getResource());
@@ -614,6 +621,15 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 				}
 			}
 		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.jst.web.kb.internal.validation.ValidationErrorManager#shouldCheckDuplicateMarkers()
+	 */
+	@Override
+	protected boolean shouldCheckDuplicateMarkers() {
+		return true;
 	}
 
 	/*
@@ -753,6 +769,7 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 			 */
 			Set<IParametedType> beanTypes = bean.getLegalTypes();
 			Set<IParametedType> specializingBeanTypes = specializedBean.getLegalTypes();
+			StringBuffer missingTypes = new StringBuffer();
 			for (IParametedType specializingType : specializingBeanTypes) {
 				boolean found = false;
 				for (IParametedType type : beanTypes) {
@@ -762,11 +779,18 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 					}
 				}
 				if(!found) {
-					addError(CDIValidationMessages.MISSING_TYPE_IN_SPECIALIZING_BEAN, CDIPreferences.MISSING_TYPE_IN_SPECIALIZING_BEAN,
-							new String[]{beanName, specializingBeanName, specializingType.getType().getElementName()},
-							bean.getSpecializesAnnotationDeclaration(), bean.getResource());
+					if(missingTypes.length()>0) {
+						missingTypes.append(", ");
+					}
+					missingTypes.append(specializingType.getType().getElementName());
 				}
 			}
+			if(missingTypes.length()>0) {
+				addError(CDIValidationMessages.MISSING_TYPE_IN_SPECIALIZING_BEAN, CDIPreferences.MISSING_TYPE_IN_SPECIALIZING_BEAN,
+						new String[]{beanName, specializingBeanName, missingTypes.toString()},
+						bean.getSpecializesAnnotationDeclaration(), bean.getResource());
+			}
+
 			/*
 			 * 4.3.1. Direct and indirect specialization
 			 *  - X specializes Y and Y has a name and X declares a name explicitly, using @Named
