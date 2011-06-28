@@ -4262,253 +4262,305 @@
 		<PageTabHTML DESCRIPTION="" EDITOR_TYPE="" HIDDEN="no"
 			NAME="JSF" NATURE_TYPE="" SCOPE="project" TABTYPE="HTML"
 			model-entity="SharablePageTabHTML">
-			<GroupHTML HIDDEN="no" ICON="" NAME="HTML" PREFIX="h"
-				SCOPE="project" URI="http://java.sun.com/jsf/html" add_taglib="true"
-				library-version="" model-entity="SharableGroupHTML">
-				<MacroHTML
-					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;h:outputLabel&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/h:outputLabel&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>converter, id, rendered, value, accesskey, dir, escape, for, lang, onblur, onclick, ondblclick, onfocus, onkeydown, onkeypress, onkeyup, onmousedown, onmousemove, onmouseout, onmouseover, onmouseup, style, styleClass, tabindex, title, binding&lt;/code>"
-					ENDTEXT="&lt;/outputLabel>" ICON="%Icons%/JSF Core/write" NAME="outputLabel"
-					REFORMAT="yes" SCOPE="project" STARTTEXT="&lt;outputLabel for=&quot;|&quot;>"
-					large-icon="" model-entity="SharableMacroHTML" />
-				<MacroHTML
-					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;%@ taglib uri=&quot;http://java.sun.com/jsf/html&quot; prefix=&quot;h&quot; %&amp;gt;&lt;/code>"
-					ENDTEXT="" ICON="%Icons%/Struts Common/taglib" NAME="JSF HTML taglib"
-					REFORMAT="yes" SCOPE="project"
-					STARTTEXT="&lt;%@ taglib uri=&quot;http://java.sun.com/jsf/html&quot; prefix=&quot;h&quot; %>\\n|"
-					large-icon="" model-entity="SharableMacroHTML" />
-				<MacroHTML
-					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;h:inputHidden/&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>converter, converterMessage, id, immediate, rendered, required, requiredMessage, validator, validatorMessage, value, valueChangeListener, binding&lt;/code>"
-					ENDTEXT="" ICON="%Icons%/Struts HTML/hidden" NAME="inputHidden"
-					REFORMAT="yes" SCOPE="project" STARTTEXT="&lt;inputHidden/>"
-					large-icon="" model-entity="SharableMacroHTML" />
-				<MacroHTML
-					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;h:graphicImage/&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>id, rendered, url, value, alt, dir, height, ismap, lang, longdesc, onclick, ondblclick, onkeydown, onkeypress, onkeyup, onmousedown, onmousemove, onmouseout, onmouseover, onmouseup, style, styleClass, title, usemap, width, binding&lt;/code>"
-					ENDTEXT="" ICON="%Icons%/Struts HTML/img" NAME="graphicImage"
-					REFORMAT="yes" SCOPE="project" STARTTEXT="&lt;graphicImage value=&quot;|&quot;/>"
-					large-icon="" model-entity="SharableMacroHTML" />
-				<MacroHTML
-					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;h:selectOneListbox&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/h:selectOneListbox&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>converter, converterMessage, id, immediate, rendered, required, requiredMessage, validator, validatorMessage, value, valueChangeListener, accesskey, dir, disabled, disabledClass, enabledClass, label, lang, onblur, onchange, onclick, ondblclick, onfocus, onkeydown, onkeypress, onkeyup, onmousedown, onmousemove, onmouseout, onmouseover, onmouseup, onselect, readonly, size, style, styleClass, tabindex, title, binding&lt;/code>"
-					ENDTEXT="&lt;/selectOneListbox>" ICON="%Icons%/Struts HTML/select"
-					NAME="selectOneListbox" REFORMAT="yes" SCOPE="project"
-					STARTTEXT="&lt;selectOneListbox>" large-icon="" model-entity="SharableMacroHTML" />
-				<MacroHTML
-					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;h:commandLink&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/h:commandLink&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>action, actionListener, id, immediate, rendered, value, accesskey, charset, coords, dir, disabled, hreflang, lang, onblur, onclick, ondblclick, onfocus, onkeydown, onkeypress, onkeyup, onmousedown, onmousemove, onmouseout, onmouseover, onmouseup, rel, rev, shape, style, styleClass, tabindex, target, title, type, binding&lt;/code>"
-					ENDTEXT="&lt;/commandLink>" ICON="%Icons%/Struts HTML/link" NAME="commandLink"
-					REFORMAT="yes" SCOPE="project" STARTTEXT="&lt;commandLink value=&quot;|&quot;>"
-					large-icon="" model-entity="SharableMacroHTML" />
-				<MacroHTML
-					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;h:inputTextarea&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/h:inputTextarea&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>converter, converterMessage, id, immediate, rendered, required, requiredMessage, validator, validatorMessage, value, valueChangeListener, accesskey, cols, dir, disabled, label, lang, onblur, onchange, onclick, ondblclick, onfocus, onkeydown, onkeypress, onkeyup, onmousedown, onmousemove, onmouseout, onmouseover, onmouseup, onselect, readonly, rows, style, styleClass, tabindex, title, binding&lt;/code>"
-					ENDTEXT="&lt;/inputTextarea>" ICON="%Icons%/Struts HTML/textarea"
-					NAME="inputTextarea" REFORMAT="yes" SCOPE="project" STARTTEXT="&lt;inputTextarea>"
-					large-icon="" model-entity="SharableMacroHTML" />
-				<MacroHTML
-					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;h:commandButton/&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>action, actionListener, id, immediate, rendered, value, accesskey, alt, dir, disabled, image, label, lang, onblur, onchange, onclick, ondblclick, onfocus, onkeydown, onkeypress, onkeyup, onmousedown, onmousemove, onmouseout, onmouseover, onmouseup, onselect, readonly, style, styleClass, tabindex, title, type, binding&lt;/code>"
-					ENDTEXT="" ICON="%Icons%/Struts HTML/button" NAME="commandButton"
-					REFORMAT="yes" SCOPE="project"
-					STARTTEXT="&lt;commandButton value=&quot;|&quot; action=&quot;&quot;/>"
-					large-icon="" model-entity="SharableMacroHTML" />
-				<MacroHTML
-					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;h:messages/&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>globalOnly, id, rendered, showDetail, showSummary, dir, errorClass, errorStyle, fatalClass, fatalStyle, infoClass, infoStyle, lang, layout, style, styleClass, title, tooltip, warnClass, warnStyle, binding&lt;/code>"
-					ENDTEXT="" ICON="%Icons%/Struts Logic/messages" NAME="messages"
-					REFORMAT="yes" SCOPE="project" STARTTEXT="&lt;messages/>"
-					large-icon="" model-entity="SharableMacroHTML" />
-				<MacroHTML
-					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;h:selectBooleanCheckbox/&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>converter, converterMessage, id, immediate, rendered, required, requiredMessage, validator, validatorMessage, value, valueChangeListener, accesskey, dir, disabled, label, lang, onblur, onchange, onclick, ondblclick, onfocus, onkeydown, onkeypress, onkeyup, onmousedown, onmousemove, onmouseout, onmouseover, onmouseup, onselect, readonly, style, styleClass, tabindex, title, binding&lt;/code>"
-					ENDTEXT="" ICON="%Icons%/Struts HTML/checkbox" NAME="selectBooleanCheckbox"
-					REFORMAT="yes" SCOPE="project" STARTTEXT="&lt;selectBooleanCheckbox/>"
-					large-icon="" model-entity="SharableMacroHTML" />
-				<MacroHTML
-					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;h:selectManyMenu&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/h:selectManyMenu&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>converter, converterMessage, id, immediate, rendered, required, requiredMessage, validator, validatorMessage, value, valueChangeListener, accesskey, dir, disabled, disabledClass, enabledClass, label, lang, onblur, onchange, onclick, ondblclick, onfocus, onkeydown, onkeypress, onkeyup, onmousedown, onmousemove, onmouseout, onmouseover, onmouseup, onselect, readonly, style, styleClass, tabindex, title, binding&lt;/code>"
-					ENDTEXT="&lt;/selectManyMenu>" ICON="%Icons%/Struts HTML/select"
-					NAME="selectManyMenu" REFORMAT="yes" SCOPE="project" STARTTEXT="&lt;selectManyMenu>"
-					large-icon="" model-entity="SharableMacroHTML" />
-				<MacroHTML
-					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;h:outputText/&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>converter, id, rendered, value, dir, escape, lang, style, styleClass, title, binding&lt;/code>"
-					ENDTEXT="" ICON="%Icons%/JSF Core/write" NAME="outputText"
-					REFORMAT="yes" SCOPE="project" STARTTEXT="&lt;outputText/>"
-					large-icon="" model-entity="SharableMacroHTML" />
-				<MacroHTML
-					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;h:inputSecret/&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>converter, converterMessage, id, immediate, rendered, required, requiredMessage, validator, validatorMessage, value, valueChangeListener, accesskey, alt, autocomplete, dir, disabled, label, lang, maxlength, onblur, onchange, onclick, ondblclick, onfocus, onkeydown, onkeypress, onkeyup, onmousedown, onmousemove, onmouseout, onmouseover, onmouseup, onselect, readonly, redisplay, size, style, styleClass, tabindex, title, binding&lt;/code>"
-					ENDTEXT="" ICON="%Icons%/Struts HTML/password" NAME="inputSecret"
-					REFORMAT="yes" SCOPE="project" STARTTEXT="&lt;inputSecret value=&quot;|&quot;/>"
-					large-icon="" model-entity="SharableMacroHTML" />
-				<MacroHTML
-					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;h:selectOneRadio&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/h:selectOneRadio&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>converter, converterMessage, id, immediate, rendered, required, requiredMessage, validator, validatorMessage, value, valueChangeListener, accesskey, border, dir, disabled, disabledClass, enabledClass, label, lang, layout, onblur, onchange, onclick, ondblclick, onfocus, onkeydown, onkeypress, onkeyup, onmousedown, onmousemove, onmouseout, onmouseover, onmouseup, onselect, readonly, style, styleClass, tabindex, title, binding&lt;/code>"
-					ENDTEXT="&lt;/selectOneRadio>" ICON="%Icons%/Struts HTML/radio"
-					NAME="selectOneRadio" REFORMAT="yes" SCOPE="project" STARTTEXT="&lt;selectOneRadio>"
-					large-icon="" model-entity="SharableMacroHTML" />
-				<MacroHTML
-					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;h:dataTable&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/h:dataTable&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>first, id, rendered, rows, value, var, bgcolor, border, captionClass, captionStyle, cellpadding, cellspacing, columnClasses, dir, footerClass, frame, headerClass, lang, onclick, ondblclick, onkeydown, onkeypress, onkeyup, onmousedown, onmousemove, onmouseout, onmouseover, onmouseup, rowClasses, rules, style, styleClass, summary, title, width, binding&lt;/code>"
-					ENDTEXT="&lt;/dataTable>" ICON="%Icons%/Tables/table" NAME="dataTable"
-					REFORMAT="yes" SCOPE="project"
-					STARTTEXT="&lt;dataTable value=&quot;|&quot; var=&quot;&quot;>"
-					large-icon="" model-entity="SharableMacroHTML" />
-				<MacroHTML
-					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;h:panelGrid&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/h:panelGrid&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>id, rendered, bgcolor, border, captionClass, captionStyle, cellpadding, cellspacing, columnClasses, columns, dir, footerClass, frame, headerClass, lang, onclick, ondblclick, onkeydown, onkeypress, onkeyup, onmousedown, onmousemove, onmouseout, onmouseover, onmouseup, rowClasses, rules, style, styleClass, summary, title, width, binding&lt;/code>"
-					ENDTEXT="&lt;/panelGrid>" ICON="%Icons%/Tables/table" NAME="panelGrid"
-					REFORMAT="yes" SCOPE="project" STARTTEXT="&lt;panelGrid columns=&quot;|&quot;>"
-					large-icon="" model-entity="SharableMacroHTML" />
-				<MacroHTML
-					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;h:form&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/h:form&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>id, prependId, rendered, accept, acceptcharset, dir, enctype, lang, onclick, ondblclick, onkeydown, onkeypress, onkeyup, onmousedown, onmousemove, onmouseout, onmouseover, onmouseup, onreset, onsubmit, style, styleClass, target, title, binding&lt;/code>"
-					ENDTEXT="&lt;/form>" ICON="%Icons%/Struts HTML/form" NAME="form"
-					REFORMAT="yes" SCOPE="project" STARTTEXT="&lt;form>" large-icon=""
-					model-entity="SharableMacroHTML" />
-				<MacroHTML
-					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;h:outputFormat&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/h:outputFormat&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>converter, id, rendered, value, dir, escape, lang, style, styleClass, title, binding&lt;/code>"
-					ENDTEXT="&lt;/outputFormat>" ICON="" NAME="outputFormat" REFORMAT="yes"
-					SCOPE="project" STARTTEXT="&lt;outputFormat>" large-icon=""
-					model-entity="SharableMacroHTML" />
-				<MacroHTML
-					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;h:selectOneMenu&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/h:selectOneMenu&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>converter, converterMessage, id, immediate, rendered, required, requiredMessage, validator, validatorMessage, value, valueChangeListener, accesskey, dir, disabled, disabledClass, enabledClass, label, lang, onblur, onchange, onclick, ondblclick, onfocus, onkeydown, onkeypress, onkeyup, onmousedown, onmousemove, onmouseout, onmouseover, onmouseup, onselect, readonly, style, styleClass, tabindex, title, binding&lt;/code>"
-					ENDTEXT="&lt;/selectOneMenu>" ICON="%Icons%/Struts HTML/select"
-					NAME="selectOneMenu" REFORMAT="yes" SCOPE="project" STARTTEXT="&lt;selectOneMenu>"
-					large-icon="" model-entity="SharableMacroHTML" />
-				<MacroHTML
-					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;h:message/&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>&lt;b>for&lt;/b>, id, rendered, showDetail, showSummary, dir, errorClass, errorStyle, fatalClass, fatalStyle, infoClass, infoStyle, lang, style, styleClass, title, tooltip, warnClass, warnStyle, binding&lt;/code>"
-					ENDTEXT="" ICON="%Icons%/Struts Logic/messages" NAME="message"
-					REFORMAT="yes" SCOPE="project" STARTTEXT="&lt;message for=&quot;|&quot;/>"
-					large-icon="" model-entity="SharableMacroHTML" />
-				<MacroHTML
-					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;h:inputText/&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>converter, converterMessage, id, immediate, rendered, required, requiredMessage, validator, validatorMessage, value, valueChangeListener, accesskey, alt, autocomplete, dir, disabled, label, lang, maxlength, onblur, onchange, onclick, ondblclick, onfocus, onkeydown, onkeypress, onkeyup, onmousedown, onmousemove, onmouseout, onmouseover, onmouseup, onselect, readonly, size, style, styleClass, tabindex, title, binding&lt;/code>"
-					ENDTEXT="" ICON="%Icons%/Struts HTML/text" NAME="inputText"
-					REFORMAT="yes" SCOPE="project" STARTTEXT="&lt;inputText value=&quot;|&quot;/>"
-					large-icon="" model-entity="SharableMacroHTML" />
-				<MacroHTML
-					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;h:column&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/h:column&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>rendered, binding, id, footerClass, headerClass&lt;/code>"
-					ENDTEXT="&lt;/column>" ICON="" NAME="column" REFORMAT="yes" SCOPE="project"
-					STARTTEXT="&lt;column>" large-icon="" model-entity="SharableMacroHTML" />
-				<MacroHTML
-					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;h:panelGroup&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/h:panelGroup&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>id, rendered, layout, style, styleClass, binding&lt;/code>"
-					ENDTEXT="&lt;/panelGroup>" ICON="" NAME="panelGroup" REFORMAT="yes"
-					SCOPE="project" STARTTEXT="&lt;panelGroup>" large-icon=""
-					model-entity="SharableMacroHTML" />
-				<MacroHTML
-					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;h:selectManyListbox&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/h:selectManyListbox&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>converter, converterMessage, id, immediate, rendered, required, requiredMessage, validator, validatorMessage, value, valueChangeListener, accesskey, dir, disabled, disabledClass, enabledClass, label, lang, onblur, onchange, onclick, ondblclick, onfocus, onkeydown, onkeypress, onkeyup, onmousedown, onmousemove, onmouseout, onmouseover, onmouseup, onselect, readonly, size, style, styleClass, tabindex, title, binding&lt;/code>"
-					ENDTEXT="&lt;/selectManyListbox>" ICON="%Icons%/Struts HTML/select"
-					NAME="selectManyListbox" REFORMAT="yes" SCOPE="project"
-					STARTTEXT="&lt;selectManyListbox>" large-icon="" model-entity="SharableMacroHTML" />
-				<MacroHTML
-					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;h:outputLink&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/h:outputLink&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>converter, id, rendered, value, accesskey, charset, coords, dir, disabled, hreflang, lang, onblur, onclick, ondblclick, onfocus, onkeydown, onkeypress, onkeyup, onmousedown, onmousemove, onmouseout, onmouseover, onmouseup, rel, rev, shape, style, styleClass, tabindex, target, title, type, binding&lt;/code>"
-					ENDTEXT="&lt;/outputLink>" ICON="%Icons%/Common/a" NAME="outputLink"
-					REFORMAT="yes" SCOPE="project" STARTTEXT="&lt;outputLink value=&quot;|&quot;>"
-					large-icon="" model-entity="SharableMacroHTML" />
-				<MacroHTML
-					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;h:selectManyCheckbox&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/h:selectManyCheckbox&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>converter, converterMessage, id, immediate, rendered, required, requiredMessage, validator, validatorMessage, value, valueChangeListener, accesskey, border, dir, disabled, disabledClass, enabledClass, label, lang, layout, onblur, onchange, onclick, ondblclick, onfocus, onkeydown, onkeypress, onkeyup, onmousedown, onmousemove, onmouseout, onmouseover, onmouseup, onselect, readonly, style, styleClass, tabindex, title, binding&lt;/code>"
-					ENDTEXT="&lt;/selectManyCheckbox>" ICON="%Icons%/Struts HTML/multibox"
-					NAME="selectManyCheckbox" REFORMAT="yes" SCOPE="project"
-					STARTTEXT="&lt;selectManyCheckbox>" large-icon="" model-entity="SharableMacroHTML" />
-			</GroupHTML>
-			<GroupHTML HIDDEN="yes" ICON="" NAME="Core" PREFIX="f"
-				SCOPE="project" URI="http://java.sun.com/jsf/core" add_taglib="true"
-				library-version="" model-entity="SharableGroupHTML">
-				<MacroHTML
-					DESCRIPTION="\t&lt;font color=&quot;OLIVE&quot;>&lt;b>Name:&lt;/b>&lt;/font> &lt;code>&lt;br>Select Item&lt;/code>    &lt;br>\n&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;f:selectItem/&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>binding, id, itemDescription, itemDisabled, itemLabel, itemValue, value&lt;/code>"
-					ENDTEXT="" ICON="%Icons%/Struts HTML/option" NAME="selectItem"
-					REFORMAT="no" SCOPE="project" STARTTEXT="&lt;selectItem/>"
-					large-icon="" model-entity="SharableMacroHTML" />
-				<MacroHTML
-					DESCRIPTION="\t&lt;font color=&quot;OLIVE&quot;>&lt;b>Name:&lt;/b>&lt;/font> &lt;code>&lt;br>Action Listener&lt;/code>    &lt;br>\n&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;f:actionListener/&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>&lt;b>type&lt;/b>&lt;/code>"
-					ENDTEXT="" ICON="" NAME="actionListener" REFORMAT="yes" SCOPE="project"
-					STARTTEXT="&lt;actionListener type=&quot;|&quot;/>" large-icon=""
-					model-entity="SharableMacroHTML" />
-				<MacroHTML
-					DESCRIPTION="&lt;font color=&quot;OLIVE&quot;>&lt;b>Name:&lt;/b>&lt;/font> &lt;code>&lt;br>Validate Length&lt;/code>    &lt;br> &lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;f:validateLength/&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>maximum, minimum&lt;/code>"
-					ENDTEXT="" ICON="%Icons%/JSF Core/validator" NAME="validateLength"
-					REFORMAT="yes" SCOPE="project" STARTTEXT="&lt;validateLength |/>"
-					large-icon="" model-entity="SharableMacroHTML" />
-				<MacroHTML
-					DESCRIPTION="&lt;font color=&quot;OLIVE&quot;>&lt;b>Name:&lt;/b>&lt;/font> &lt;code>&lt;br>Verbatim&lt;/code>    &lt;br> &lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;f:verbatim&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/f:verbatim&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>escape&lt;/code>"
-					ENDTEXT="&lt;/verbatim>" ICON="" NAME="verbatim" REFORMAT="yes"
-					SCOPE="project" STARTTEXT="&lt;verbatim>" large-icon=""
-					model-entity="SharableMacroHTML" />
-				<MacroHTML
-					DESCRIPTION="\t&lt;font color=&quot;OLIVE&quot;>&lt;b>Name:&lt;/b>&lt;/font> &lt;code>&lt;br>Facet&lt;/code>    &lt;br>\n&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;f:facet&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/f:facet&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>&lt;b>name&lt;/b>&lt;/code>"
-					ENDTEXT="&lt;/facet>" ICON="" NAME="facet" REFORMAT="yes" SCOPE="project"
-					STARTTEXT="&lt;facet name=&quot;|&quot;>" large-icon=""
-					model-entity="SharableMacroHTML" />
-				<MacroHTML
-					DESCRIPTION="&lt;font color=&quot;OLIVE&quot;>&lt;b>Name:&lt;/b>&lt;/font> &lt;code>&lt;br>Validate Long Range&lt;/code>    &lt;br> &lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;f:validateLongRange/&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>maximum, minimum&lt;/code>"
-					ENDTEXT="" ICON="%Icons%/JSF Core/validator" NAME="validateLongRange"
-					REFORMAT="yes" SCOPE="project" STARTTEXT="&lt;validateLongRange |/>"
-					large-icon="" model-entity="SharableMacroHTML" />
-				<MacroHTML
-					DESCRIPTION="\t&lt;font color=&quot;OLIVE&quot;>&lt;b>Name:&lt;/b>&lt;/font> &lt;code>&lt;br>Parameter&lt;/code>    &lt;br>\n&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;f:param&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/f:param&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>&lt;b>value&lt;/b>, binding, id, name&lt;/code>"
-					ENDTEXT="&lt;/param>" ICON="%Icons%/Struts Bean/parameter" NAME="param"
-					REFORMAT="yes" SCOPE="project" STARTTEXT="&lt;param value=&quot;|&quot;>"
-					large-icon="" model-entity="SharableMacroHTML" />
-				<MacroHTML
-					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;f:setPropertyActionListener /&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>&lt;b>value&lt;/b>, &lt;b>target&lt;/b>&lt;/code>"
-					ENDTEXT="" ICON="" NAME="setPropertyActionListener" REFORMAT="no"
-					SCOPE="project"
-					STARTTEXT="&lt;setPropertyActionListener value=&quot;|&quot; target=&quot;&quot;/>"
-					large-icon="" model-entity="SharableMacroHTML" />
-				<MacroHTML
-					DESCRIPTION="\t&lt;font color=&quot;OLIVE&quot;>&lt;b>Name:&lt;/b>&lt;/font> &lt;code>&lt;br>Validator&lt;/code>    &lt;br>\n&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;f:validator/&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>&lt;b>validatorId&lt;/b>&lt;/code>"
-					ENDTEXT="" ICON="%Icons%/JSF Core/validator" NAME="validator"
-					REFORMAT="no" SCOPE="project" STARTTEXT="&lt;validator validatorId=&quot;|&quot;/>"
-					large-icon="" model-entity="SharableMacroHTML" />
-				<MacroHTML
-					DESCRIPTION="\t&lt;font color=&quot;OLIVE&quot;>&lt;b>Name:&lt;/b>&lt;/font> &lt;code>&lt;br>Attribute&lt;/code>    &lt;br>\n&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;f:attribute/&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>&lt;b>name&lt;/b>, &lt;b>value&lt;/b>&lt;/code>"
-					ENDTEXT="" ICON="%Icons%/jstl/attr" NAME="attribute" REFORMAT="no"
-					SCOPE="project" STARTTEXT="&lt;attribute name=&quot;|&quot; value=&quot;&quot;/>"
-					large-icon="" model-entity="SharableMacroHTML" />
-				<MacroHTML
-					DESCRIPTION="\t&lt;font color=&quot;OLIVE&quot;>&lt;b>Name:&lt;/b>&lt;/font> &lt;code>&lt;br>Convert Date Time&lt;/code>    &lt;br>\n&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;f:convertDateTime/&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>dateStyle, locale, pattern, timeStyle, timeZone, type&lt;/code>"
-					ENDTEXT="" ICON="%Icons%/JSF Core/convertDateTime" NAME="convertDateTime"
-					REFORMAT="no" SCOPE="project" STARTTEXT="&lt;convertDateTime/>"
-					large-icon="" model-entity="SharableMacroHTML" />
-				<MacroHTML
-					DESCRIPTION="&lt;font color=&quot;OLIVE&quot;>&lt;b>Name:&lt;/b>&lt;/font> &lt;code>&lt;br>Validate Double Range&lt;/code>    &lt;br>\n&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;f:validateDoubleRange/&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>maximum, minimum&lt;/code>"
-					ENDTEXT="" ICON="%Icons%/JSF Core/validator" NAME="validateDoubleRange"
-					REFORMAT="yes" SCOPE="project" STARTTEXT="&lt;validateDoubleRange |/>"
-					large-icon="" model-entity="SharableMacroHTML" />
-				<MacroHTML
-					DESCRIPTION="\t&lt;font color=&quot;OLIVE&quot;>&lt;b>Name:&lt;/b>&lt;/font> &lt;code>&lt;br>Convert Number&lt;/code>    &lt;br>\n&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;f:convertNumber/&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>currencyCode, currencySymbol, groupingUsed, integerOnly, locale, maxFractionDigits, maxIntegerDigits, minFractionDigits, minIntegerDigits, pattern, type&lt;/code>"
-					ENDTEXT="" ICON="%Icons%/JSF Core/convertNumber" NAME="convertNumber"
-					REFORMAT="no" SCOPE="project" STARTTEXT="&lt;convertNumber/>"
-					large-icon="" model-entity="SharableMacroHTML" />
-				<MacroHTML
-					DESCRIPTION="\t&lt;font color=&quot;OLIVE&quot;>&lt;b>Name:&lt;/b>&lt;/font> &lt;code>&lt;br>Value Change Listener&lt;/code>    &lt;br>\n&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;f:valueChangeListener/&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>&lt;b>type&lt;/b>&lt;/code>"
-					ENDTEXT="" ICON="" NAME="valueChangeListener" REFORMAT="no" SCOPE="project"
-					STARTTEXT="&lt;valueChangeListener type=&quot;|&quot;/>"
-					large-icon="" model-entity="SharableMacroHTML" />
-				<MacroHTML
-					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;%@ taglib uri=&quot;http://java.sun.com/jsf/core&quot; prefix=&quot;f&quot; %&amp;gt;&lt;/code>"
-					ENDTEXT="" ICON="%Icons%/Struts Common/taglib" NAME="JSF Core taglib"
-					REFORMAT="yes" SCOPE="project"
-					STARTTEXT="&lt;%@ taglib uri=&quot;http://java.sun.com/jsf/core&quot; prefix=&quot;f&quot; %>\\n|"
-					large-icon="" model-entity="SharableMacroHTML" />
-				<MacroHTML
-					DESCRIPTION="\t&lt;font color=&quot;OLIVE&quot;>&lt;b>Name:&lt;/b>&lt;/font> &lt;code>&lt;br>Subview&lt;/code>    &lt;br>\n&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;f:subview&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/f:subview&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>&lt;b>id&lt;/b>, binding, rendered&lt;/code>"
-					ENDTEXT="&lt;/subview>" ICON="" NAME="subview" REFORMAT="yes"
-					SCOPE="project" STARTTEXT="&lt;subview id=&quot;|&quot;>"
-					large-icon="" model-entity="SharableMacroHTML" />
-				<MacroHTML
-					DESCRIPTION="\t&lt;font color=&quot;OLIVE&quot;>&lt;b>Name:&lt;/b>&lt;/font> &lt;code>&lt;br>Load Bundle&lt;/code>    &lt;br>\n&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;f:loadBundle/&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>&lt;b>basename&lt;/b>, &lt;b>var&lt;/b>&lt;/code>"
-					ENDTEXT="" ICON="%Icons%/JSF Core/bundle" NAME="loadBundle"
-					REFORMAT="no" SCOPE="project"
-					STARTTEXT="&lt;loadBundle basename=&quot;|&quot; var=&quot;&quot;/>"
-					large-icon="" model-entity="SharableMacroHTML" />
-				<MacroHTML
-					DESCRIPTION="\t&lt;font color=&quot;OLIVE&quot;>&lt;b>Name:&lt;/b>&lt;/font> &lt;code>&lt;br>Converter&lt;/code>    &lt;br>\n&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;f:converter/&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>&lt;b>converterId&lt;/b>&lt;/code>"
-					ENDTEXT="" ICON="%Icons%/JSF Core/converter" NAME="converter"
-					REFORMAT="yes" SCOPE="project" STARTTEXT="&lt;converter converterId=&quot;|&quot;/>"
-					large-icon="" model-entity="SharableMacroHTML" />
-				<MacroHTML
-					DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;f:phaseListener /&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>type, binding&lt;/code>"
-					ENDTEXT="" ICON="" NAME="phaseListener" REFORMAT="no" SCOPE="project"
-					STARTTEXT="&lt;phaseListener type=&quot;|&quot;/>" large-icon=""
-					model-entity="SharableMacroHTML" />
-				<MacroHTML
-					DESCRIPTION="\t&lt;font color=&quot;OLIVE&quot;>&lt;b>Name:&lt;/b>&lt;/font> &lt;code>&lt;br>Select Items&lt;/code>    &lt;br>\n&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;f:selectItems/&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>binding, id, value&lt;/code>"
-					ENDTEXT="" ICON="%Icons%/Struts HTML/options" NAME="selectItems"
-					REFORMAT="no" SCOPE="project" STARTTEXT="&lt;selectItems/>"
-					large-icon="" model-entity="SharableMacroHTML" />
-				<MacroHTML
-					DESCRIPTION="\t&lt;font color=&quot;OLIVE&quot;>&lt;b>Name:&lt;/b>&lt;/font> &lt;code>&lt;br>View&lt;/code>    &lt;br>\n&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;f:view&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/f:view&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>locale&lt;/code>"
-					ENDTEXT="&lt;/view>" ICON="" NAME="view" REFORMAT="yes" SCOPE="project"
-					STARTTEXT="&lt;view>" large-icon="" model-entity="SharableMacroHTML" />
-			</GroupHTML>
+		   <GroupHTML HIDDEN="no" ICON="" NAME="HTML" PREFIX="h" SCOPE="project"
+		    URI="http://java.sun.com/jsf/html" add_taglib="true"
+		    library-version="" model-entity="SharableGroupHTML">
+		    <MacroHTML
+		     DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;h:body&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/h:body&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>declaration, dir, lang, onclick, ondblclick, onkeydown, onkeypress, onkeyup, onload, onmousedown, onmousemove, onmouseout, onmouseover, onmouseup, onunload, style, styleClass, title, binding&lt;/code>"
+		     ENDTEXT="&lt;/body>" ICON="" NAME="body" REFORMAT="yes"
+		     SCOPE="project" STARTTEXT="&lt;body>" large-icon="" model-entity="SharableMacroHTML"/>
+		    <MacroHTML
+		     DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;h:outputLabel&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/h:outputLabel&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>declaration, converter, id, rendered, value, accesskey, dir, escape, for, lang, onblur, onclick, ondblclick, onfocus, onkeydown, onkeypress, onkeyup, onmousedown, onmousemove, onmouseout, onmouseover, onmouseup, style, styleClass, tabindex, title, binding&lt;/code>"
+		     ENDTEXT="&lt;/outputLabel>" ICON="%Icons%/JSF Core/write"
+		     NAME="outputLabel" REFORMAT="yes" SCOPE="project"
+		     STARTTEXT="&lt;outputLabel>" large-icon="" model-entity="SharableMacroHTML"/>
+		    <MacroHTML
+		     DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;%@ taglib uri=&quot;http://java.sun.com/jsf/html&quot; prefix=&quot;h&quot; %&amp;gt;&lt;/code>"
+		     ENDTEXT="" ICON="%Icons%/Struts Common/taglib"
+		     NAME="JSF HTML taglib" REFORMAT="yes" SCOPE="project"
+		     STARTTEXT="&lt;%@ taglib uri=&quot;http://java.sun.com/jsf/html&quot; prefix=&quot;h&quot; %>\\n|"
+		     large-icon="" model-entity="SharableMacroHTML"/>
+		    <MacroHTML
+		     DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;h:inputHidden&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/h:inputHidden&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>declaration, converter, converterMessage, id, immediate, rendered, required, requiredMessage, validator, validatorMessage, value, valueChangeListener, binding&lt;/code>"
+		     ENDTEXT="&lt;/inputHidden>" ICON="%Icons%/Struts HTML/hidden"
+		     NAME="inputHidden" REFORMAT="yes" SCOPE="project"
+		     STARTTEXT="&lt;inputHidden>" large-icon="" model-entity="SharableMacroHTML"/>
+		    <MacroHTML
+		     DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;h:link&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/h:link&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>declaration, id, includeViewParams, outcome, rendered, value, accesskey, charset, coords, dir, disabled, fragment, hreflang, lang, onblur, onclick, ondblclick, onfocus, onkeydown, onkeypress, onkeyup, onmousedown, onmousemove, onmouseout, onmouseover, onmouseup, rel, rev, shape, style, styleClass, tabindex, target, title, type, binding&lt;/code>"
+		     ENDTEXT="&lt;/link>" ICON="%Icons%/Struts HTML/link" NAME="link"
+		     REFORMAT="yes" SCOPE="project" STARTTEXT="&lt;link>" large-icon="" model-entity="SharableMacroHTML"/>
+		    <MacroHTML
+		     DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;h:graphicImage&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/h:graphicImage&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>declaration, id, rendered, url, value, alt, dir, height, ismap, lang, library, longdesc, name, onclick, ondblclick, onkeydown, onkeypress, onkeyup, onmousedown, onmousemove, onmouseout, onmouseover, onmouseup, style, styleClass, title, usemap, width, binding&lt;/code>"
+		     ENDTEXT="&lt;/graphicImage>" ICON="%Icons%/Struts HTML/img"
+		     NAME="graphicImage" REFORMAT="yes" SCOPE="project"
+		     STARTTEXT="&lt;graphicImage>" large-icon="" model-entity="SharableMacroHTML"/>
+		    <MacroHTML
+		     DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;h:selectOneListbox&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/h:selectOneListbox&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>declaration, converter, converterMessage, id, immediate, rendered, required, requiredMessage, validator, validatorMessage, value, valueChangeListener, accesskey, dir, disabled, disabledClass, enabledClass, hideNoSelectionOption, label, lang, onblur, onchange, onclick, ondblclick, onfocus, onkeydown, onkeypress, onkeyup, onmousedown, onmousemove, onmouseout, onmouseover, onmouseup, onselect, readonly, size, style, styleClass, tabindex, title, binding&lt;/code>"
+		     ENDTEXT="&lt;/selectOneListbox>" ICON="%Icons%/Struts HTML/select"
+		     NAME="selectOneListbox" REFORMAT="yes" SCOPE="project"
+		     STARTTEXT="&lt;selectOneListbox>" large-icon="" model-entity="SharableMacroHTML"/>
+		    <MacroHTML
+		     DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;h:commandLink&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/h:commandLink&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>declaration, action, actionListener, id, immediate, rendered, value, accesskey, charset, coords, dir, disabled, hreflang, lang, onblur, onclick, ondblclick, onfocus, onkeydown, onkeypress, onkeyup, onmousedown, onmousemove, onmouseout, onmouseover, onmouseup, rel, rev, shape, style, styleClass, tabindex, target, title, type, binding&lt;/code>"
+		     ENDTEXT="&lt;/commandLink>" ICON="%Icons%/Struts HTML/link"
+		     NAME="commandLink" REFORMAT="yes" SCOPE="project"
+		     STARTTEXT="&lt;commandLink>" large-icon="" model-entity="SharableMacroHTML"/>
+		    <MacroHTML
+		     DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;h:inputTextarea&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/h:inputTextarea&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>declaration, converter, converterMessage, id, immediate, rendered, required, requiredMessage, validator, validatorMessage, value, valueChangeListener, accesskey, cols, dir, disabled, label, lang, onblur, onchange, onclick, ondblclick, onfocus, onkeydown, onkeypress, onkeyup, onmousedown, onmousemove, onmouseout, onmouseover, onmouseup, onselect, readonly, rows, style, styleClass, tabindex, title, binding&lt;/code>"
+		     ENDTEXT="&lt;/inputTextarea>" ICON="%Icons%/Struts HTML/textarea"
+		     NAME="inputTextarea" REFORMAT="yes" SCOPE="project"
+		     STARTTEXT="&lt;inputTextarea>" large-icon="" model-entity="SharableMacroHTML"/>
+		    <MacroHTML
+		     DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;h:commandButton&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/h:commandButton&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>declaration, action, actionListener, id, immediate, rendered, value, accesskey, alt, dir, disabled, image, label, lang, onblur, onchange, onclick, ondblclick, onfocus, onkeydown, onkeypress, onkeyup, onmousedown, onmousemove, onmouseout, onmouseover, onmouseup, onselect, readonly, style, styleClass, tabindex, title, type, binding&lt;/code>"
+		     ENDTEXT="&lt;/commandButton>" ICON="%Icons%/Struts HTML/button"
+		     NAME="commandButton" REFORMAT="yes" SCOPE="project"
+		     STARTTEXT="&lt;commandButton>" large-icon="" model-entity="SharableMacroHTML"/>
+		    <MacroHTML
+		     DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;h:messages&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/h:messages&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>declaration, for, globalOnly, id, rendered, showDetail, showSummary, dir, errorClass, errorStyle, fatalClass, fatalStyle, infoClass, infoStyle, lang, layout, style, styleClass, title, tooltip, warnClass, warnStyle, binding&lt;/code>"
+		     ENDTEXT="&lt;/messages>" ICON="%Icons%/Struts Logic/messages"
+		     NAME="messages" REFORMAT="yes" SCOPE="project"
+		     STARTTEXT="&lt;messages>" large-icon="" model-entity="SharableMacroHTML"/>
+		    <MacroHTML
+		     DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;h:selectBooleanCheckbox&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/h:selectBooleanCheckbox&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>declaration, converter, converterMessage, id, immediate, rendered, required, requiredMessage, validator, validatorMessage, value, valueChangeListener, accesskey, dir, disabled, label, lang, onblur, onchange, onclick, ondblclick, onfocus, onkeydown, onkeypress, onkeyup, onmousedown, onmousemove, onmouseout, onmouseover, onmouseup, onselect, readonly, style, styleClass, tabindex, title, binding&lt;/code>"
+		     ENDTEXT="&lt;/selectBooleanCheckbox>"
+		     ICON="%Icons%/Struts HTML/checkbox" NAME="selectBooleanCheckbox"
+		     REFORMAT="yes" SCOPE="project"
+		     STARTTEXT="&lt;selectBooleanCheckbox>" large-icon="" model-entity="SharableMacroHTML"/>
+		    <MacroHTML
+		     DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;h:selectManyMenu&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/h:selectManyMenu&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>declaration, converter, converterMessage, id, immediate, rendered, required, requiredMessage, validator, validatorMessage, value, valueChangeListener, accesskey, collectionType, dir, disabled, disabledClass, enabledClass, hideNoSelectionOption, label, lang, onblur, onchange, onclick, ondblclick, onfocus, onkeydown, onkeypress, onkeyup, onmousedown, onmousemove, onmouseout, onmouseover, onmouseup, onselect, readonly, style, styleClass, tabindex, title, binding&lt;/code>"
+		     ENDTEXT="&lt;/selectManyMenu>" ICON="%Icons%/Struts HTML/select"
+		     NAME="selectManyMenu" REFORMAT="yes" SCOPE="project"
+		     STARTTEXT="&lt;selectManyMenu>" large-icon="" model-entity="SharableMacroHTML"/>
+		    <MacroHTML
+		     DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;h:outputText&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/h:outputText&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>declaration, converter, id, rendered, value, dir, escape, lang, style, styleClass, title, binding&lt;/code>"
+		     ENDTEXT="&lt;/outputText>" ICON="%Icons%/JSF Core/write"
+		     NAME="outputText" REFORMAT="yes" SCOPE="project"
+		     STARTTEXT="&lt;outputText>" large-icon="" model-entity="SharableMacroHTML"/>
+		    <MacroHTML
+		     DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;h:button&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/h:button&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>declaration, id, includeViewParams, outcome, rendered, value, accesskey, alt, dir, fragment, image, lang, onblur, onclick, ondblclick, onfocus, onkeydown, onkeypress, onkeyup, onmousedown, onmousemove, onmouseout, onmouseover, onmouseup, style, styleClass, tabindex, title, binding&lt;/code>"
+		     ENDTEXT="&lt;/button>" ICON="" NAME="button" REFORMAT="yes"
+		     SCOPE="project" STARTTEXT="&lt;button>" large-icon="" model-entity="SharableMacroHTML"/>
+		    <MacroHTML
+		     DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;h:outputScript&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/h:outputScript&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>declaration, converter, id, rendered, value, library, name, target, binding&lt;/code>"
+		     ENDTEXT="&lt;/outputScript>" ICON="" NAME="outputScript"
+		     REFORMAT="yes" SCOPE="project" STARTTEXT="&lt;outputScript>"
+		     large-icon="" model-entity="SharableMacroHTML"/>
+		    <MacroHTML
+		     DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;h:inputSecret&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/h:inputSecret&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>declaration, converter, converterMessage, id, immediate, rendered, required, requiredMessage, validator, validatorMessage, value, valueChangeListener, accesskey, alt, autocomplete, dir, disabled, label, lang, maxlength, onblur, onchange, onclick, ondblclick, onfocus, onkeydown, onkeypress, onkeyup, onmousedown, onmousemove, onmouseout, onmouseover, onmouseup, onselect, readonly, redisplay, size, style, styleClass, tabindex, title, binding&lt;/code>"
+		     ENDTEXT="&lt;/inputSecret>" ICON="%Icons%/Struts HTML/password"
+		     NAME="inputSecret" REFORMAT="yes" SCOPE="project"
+		     STARTTEXT="&lt;inputSecret>" large-icon="" model-entity="SharableMacroHTML"/>
+		    <MacroHTML
+		     DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;h:head&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/h:head&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>declaration, dir, lang, binding&lt;/code>"
+		     ENDTEXT="&lt;/head>" ICON="" NAME="head" REFORMAT="yes"
+		     SCOPE="project" STARTTEXT="&lt;head>" large-icon="" model-entity="SharableMacroHTML"/>
+		    <MacroHTML
+		     DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;h:selectOneRadio&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/h:selectOneRadio&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>declaration, converter, converterMessage, id, immediate, rendered, required, requiredMessage, validator, validatorMessage, value, valueChangeListener, accesskey, border, dir, disabled, disabledClass, enabledClass, hideNoSelectionOption, label, lang, layout, onblur, onchange, onclick, ondblclick, onfocus, onkeydown, onkeypress, onkeyup, onmousedown, onmousemove, onmouseout, onmouseover, onmouseup, onselect, readonly, style, styleClass, tabindex, title, binding&lt;/code>"
+		     ENDTEXT="&lt;/selectOneRadio>" ICON="%Icons%/Struts HTML/radio"
+		     NAME="selectOneRadio" REFORMAT="yes" SCOPE="project"
+		     STARTTEXT="&lt;selectOneRadio>" large-icon="" model-entity="SharableMacroHTML"/>
+		    <MacroHTML
+		     DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;h:dataTable&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/h:dataTable&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>declaration, first, id, rendered, rows, value, var, bgcolor, bodyrows, border, captionClass, captionStyle, cellpadding, cellspacing, columnClasses, dir, footerClass, frame, headerClass, lang, onclick, ondblclick, onkeydown, onkeypress, onkeyup, onmousedown, onmousemove, onmouseout, onmouseover, onmouseup, rowClasses, rules, style, styleClass, summary, title, width, binding&lt;/code>"
+		     ENDTEXT="&lt;/dataTable>" ICON="%Icons%/Tables/table"
+		     NAME="dataTable" REFORMAT="yes" SCOPE="project"
+		     STARTTEXT="&lt;dataTable>" large-icon="" model-entity="SharableMacroHTML"/>
+		    <MacroHTML
+		     DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;h:panelGrid&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/h:panelGrid&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>declaration, id, rendered, bgcolor, bodyrows, border, captionClass, captionStyle, cellpadding, cellspacing, columnClasses, columns, dir, footerClass, frame, headerClass, lang, onclick, ondblclick, onkeydown, onkeypress, onkeyup, onmousedown, onmousemove, onmouseout, onmouseover, onmouseup, rowClasses, rules, style, styleClass, summary, title, width, binding&lt;/code>"
+		     ENDTEXT="&lt;/panelGrid>" ICON="%Icons%/Tables/table"
+		     NAME="panelGrid" REFORMAT="yes" SCOPE="project"
+		     STARTTEXT="&lt;panelGrid>" large-icon="" model-entity="SharableMacroHTML"/>
+		    <MacroHTML
+		     DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;h:form&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/h:form&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>declaration, id, prependId, rendered, accept, acceptcharset, dir, enctype, lang, onclick, ondblclick, onkeydown, onkeypress, onkeyup, onmousedown, onmousemove, onmouseout, onmouseover, onmouseup, onreset, onsubmit, style, styleClass, target, title, binding&lt;/code>"
+		     ENDTEXT="&lt;/form>" ICON="%Icons%/Struts HTML/form" NAME="form"
+		     REFORMAT="yes" SCOPE="project" STARTTEXT="&lt;form>" large-icon="" model-entity="SharableMacroHTML"/>
+		    <MacroHTML
+		     DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;h:outputStylesheet&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/h:outputStylesheet&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>declaration, converter, id, rendered, value, library, name, binding&lt;/code>"
+		     ENDTEXT="&lt;/outputStylesheet>" ICON="" NAME="outputStylesheet"
+		     REFORMAT="yes" SCOPE="project" STARTTEXT="&lt;outputStylesheet>"
+		     large-icon="" model-entity="SharableMacroHTML"/>
+		    <MacroHTML
+		     DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;h:outputFormat&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/h:outputFormat&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>declaration, converter, id, rendered, value, dir, escape, lang, style, styleClass, title, binding&lt;/code>"
+		     ENDTEXT="&lt;/outputFormat>" ICON="" NAME="outputFormat"
+		     REFORMAT="yes" SCOPE="project" STARTTEXT="&lt;outputFormat>"
+		     large-icon="" model-entity="SharableMacroHTML"/>
+		    <MacroHTML
+		     DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;h:selectOneMenu&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/h:selectOneMenu&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>declaration, converter, converterMessage, id, immediate, rendered, required, requiredMessage, validator, validatorMessage, value, valueChangeListener, accesskey, dir, disabled, disabledClass, enabledClass, hideNoSelectionOption, label, lang, onblur, onchange, onclick, ondblclick, onfocus, onkeydown, onkeypress, onkeyup, onmousedown, onmousemove, onmouseout, onmouseover, onmouseup, onselect, readonly, style, styleClass, tabindex, title, binding&lt;/code>"
+		     ENDTEXT="&lt;/selectOneMenu>" ICON="%Icons%/Struts HTML/select"
+		     NAME="selectOneMenu" REFORMAT="yes" SCOPE="project"
+		     STARTTEXT="&lt;selectOneMenu>" large-icon="" model-entity="SharableMacroHTML"/>
+		    <MacroHTML
+		     DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;h:message&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/h:message&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>declaration, id, rendered, showDetail, showSummary, dir, errorClass, errorStyle, fatalClass, fatalStyle, infoClass, infoStyle, lang, style, styleClass, title, tooltip, warnClass, warnStyle, binding, &lt;/code>"
+		     ENDTEXT="&lt;/message>" ICON="%Icons%/Struts Logic/messages"
+		     NAME="message" REFORMAT="yes" SCOPE="project"
+		     STARTTEXT="&lt;message>" large-icon="" model-entity="SharableMacroHTML"/>
+		    <MacroHTML
+		     DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;h:inputText&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/h:inputText&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>declaration, converter, converterMessage, id, immediate, rendered, required, requiredMessage, validator, validatorMessage, value, valueChangeListener, accesskey, alt, autocomplete, dir, disabled, label, lang, maxlength, onblur, onchange, onclick, ondblclick, onfocus, onkeydown, onkeypress, onkeyup, onmousedown, onmousemove, onmouseout, onmouseover, onmouseup, onselect, readonly, size, style, styleClass, tabindex, title, binding&lt;/code>"
+		     ENDTEXT="&lt;/inputText>" ICON="%Icons%/Struts HTML/text"
+		     NAME="inputText" REFORMAT="yes" SCOPE="project"
+		     STARTTEXT="&lt;inputText>" large-icon="" model-entity="SharableMacroHTML"/>
+		    <MacroHTML
+		     DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;h:column&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/h:column&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>declaration, rendered, binding, id, footerClass, headerClass, rowHeader&lt;/code>"
+		     ENDTEXT="&lt;/column>" ICON="" NAME="column" REFORMAT="yes"
+		     SCOPE="project" STARTTEXT="&lt;column>" large-icon="" model-entity="SharableMacroHTML"/>
+		    <MacroHTML
+		     DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;h:panelGroup&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/h:panelGroup&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>declaration, id, rendered, layout, style, styleClass, binding&lt;/code>"
+		     ENDTEXT="&lt;/panelGroup>" ICON="" NAME="panelGroup" REFORMAT="yes"
+		     SCOPE="project" STARTTEXT="&lt;panelGroup>" large-icon="" model-entity="SharableMacroHTML"/>
+		    <MacroHTML
+		     DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;h:selectManyListbox&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/h:selectManyListbox&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>declaration, converter, converterMessage, id, immediate, rendered, required, requiredMessage, validator, validatorMessage, value, valueChangeListener, accesskey, collectionType, dir, disabled, disabledClass, enabledClass, hideNoSelectionOption, label, lang, onblur, onchange, onclick, ondblclick, onfocus, onkeydown, onkeypress, onkeyup, onmousedown, onmousemove, onmouseout, onmouseover, onmouseup, onselect, readonly, size, style, styleClass, tabindex, title, binding&lt;/code>"
+		     ENDTEXT="&lt;/selectManyListbox>" ICON="%Icons%/Struts HTML/select"
+		     NAME="selectManyListbox" REFORMAT="yes" SCOPE="project"
+		     STARTTEXT="&lt;selectManyListbox>" large-icon="" model-entity="SharableMacroHTML"/>
+		    <MacroHTML
+		     DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;h:outputLink&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/h:outputLink&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>declaration, converter, id, rendered, value, accesskey, charset, coords, dir, disabled, hreflang, lang, onblur, onclick, ondblclick, onfocus, onkeydown, onkeypress, onkeyup, onmousedown, onmousemove, onmouseout, onmouseover, onmouseup, rel, rev, shape, style, styleClass, tabindex, target, title, type, binding&lt;/code>"
+		     ENDTEXT="&lt;/outputLink>" ICON="%Icons%/Common/a"
+		     NAME="outputLink" REFORMAT="yes" SCOPE="project"
+		     STARTTEXT="&lt;outputLink>" large-icon="" model-entity="SharableMacroHTML"/>
+		    <MacroHTML
+		     DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;h:selectManyCheckbox&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/h:selectManyCheckbox&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>declaration, converter, converterMessage, id, immediate, rendered, required, requiredMessage, validator, validatorMessage, value, valueChangeListener, accesskey, border, collectionType, dir, disabled, disabledClass, enabledClass, hideNoSelectionOption, label, lang, layout, onblur, onchange, onclick, ondblclick, onfocus, onkeydown, onkeypress, onkeyup, onmousedown, onmousemove, onmouseout, onmouseover, onmouseup, onselect, readonly, selectedClass, style, styleClass, tabindex, title, unselectedClass, binding&lt;/code>"
+		     ENDTEXT="&lt;/selectManyCheckbox>"
+		     ICON="%Icons%/Struts HTML/multibox" NAME="selectManyCheckbox"
+		     REFORMAT="yes" SCOPE="project" STARTTEXT="&lt;selectManyCheckbox>"
+		     large-icon="" model-entity="SharableMacroHTML"/>
+		   </GroupHTML>
+		   <GroupHTML HIDDEN="yes" ICON="" NAME="Core" PREFIX="f"
+		    SCOPE="project" URI="http://java.sun.com/jsf/core" add_taglib="true"
+		    library-version="" model-entity="SharableGroupHTML">
+		    <MacroHTML
+		     DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;f:actionListener&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/f:actionListener&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>declaration, type, binding, for&lt;/code>"
+		     ENDTEXT="&lt;/actionListener>" ICON="" NAME="actionListener"
+		     REFORMAT="yes" SCOPE="project" STARTTEXT="&lt;actionListener>"
+		     large-icon="" model-entity="SharableMacroHTML"/>
+		    <MacroHTML
+		     DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;f:selectItem&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/f:selectItem&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>declaration, binding, id, itemDescription, itemDisabled, itemLabel, escapeItem, itemValue, value, noSelectionOption&lt;/code>"
+		     ENDTEXT="&lt;/selectItem>" ICON="%Icons%/Struts HTML/option"
+		     NAME="selectItem" REFORMAT="yes" SCOPE="project"
+		     STARTTEXT="&lt;selectItem>" large-icon="" model-entity="SharableMacroHTML"/>
+		    <MacroHTML
+		     DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;f:facet&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/f:facet&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>declaration, &lt;/code>"
+		     ENDTEXT="&lt;/facet>" ICON="" NAME="facet" REFORMAT="yes"
+		     SCOPE="project" STARTTEXT="&lt;facet>" large-icon="" model-entity="SharableMacroHTML"/>
+		    <MacroHTML
+		     DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;f:validateLongRange&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/f:validateLongRange&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>declaration, disabled, maximum, minimum, binding, for&lt;/code>"
+		     ENDTEXT="&lt;/validateLongRange>" ICON="%Icons%/JSF Core/validator"
+		     NAME="validateLongRange" REFORMAT="yes" SCOPE="project"
+		     STARTTEXT="&lt;validateLongRange>" large-icon="" model-entity="SharableMacroHTML"/>
+		    <MacroHTML
+		     DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;f:param&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/f:param&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>declaration, binding, id, name, value, disable&lt;/code>"
+		     ENDTEXT="&lt;/param>" ICON="%Icons%/Struts Bean/parameter"
+		     NAME="param" REFORMAT="yes" SCOPE="project" STARTTEXT="&lt;param>"
+		     large-icon="" model-entity="SharableMacroHTML"/>
+		    <MacroHTML
+		     DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;f:setPropertyActionListener&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/f:setPropertyActionListener&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>declaration, for, &lt;/code>"
+		     ENDTEXT="&lt;/setPropertyActionListener>" ICON=""
+		     NAME="setPropertyActionListener" REFORMAT="yes" SCOPE="project"
+		     STARTTEXT="&lt;setPropertyActionListener>" large-icon="" model-entity="SharableMacroHTML"/>
+		    <MacroHTML
+		     DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;f:validateRequired&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/f:validateRequired&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>declaration, disabled, binding, for&lt;/code>"
+		     ENDTEXT="&lt;/validateRequired>" ICON="%Icons%/JSF Core/validator"
+		     NAME="validateRequired" REFORMAT="yes" SCOPE="project"
+		     STARTTEXT="&lt;validateRequired>" large-icon="" model-entity="SharableMacroHTML"/>
+		    <MacroHTML
+		     DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;f:validator&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/f:validator&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>declaration, disabled, validatorId, binding, for&lt;/code>"
+		     ENDTEXT="&lt;/validator>" ICON="%Icons%/JSF Core/validator"
+		     NAME="validator" REFORMAT="yes" SCOPE="project"
+		     STARTTEXT="&lt;validator>" large-icon="" model-entity="SharableMacroHTML"/>
+		    <MacroHTML
+		     DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;f:attribute&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/f:attribute&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>declaration, name, value&lt;/code>"
+		     ENDTEXT="&lt;/attribute>" ICON="%Icons%/jstl/attr" NAME="attribute"
+		     REFORMAT="yes" SCOPE="project" STARTTEXT="&lt;attribute>"
+		     large-icon="" model-entity="SharableMacroHTML"/>
+		    <MacroHTML
+		     DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;f:viewParam&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/f:viewParam&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>declaration, converter, converterMessage, id, required, requiredMessage, validator, validatorMessage, value, valueChangeListener, maxlength, binding, for, &lt;/code>"
+		     ENDTEXT="&lt;/viewParam>" ICON="" NAME="viewParam" REFORMAT="yes"
+		     SCOPE="project" STARTTEXT="&lt;viewParam>" large-icon="" model-entity="SharableMacroHTML"/>
+		    <MacroHTML
+		     DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;f:valueChangeListener&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/f:valueChangeListener&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>declaration, type, binding, for&lt;/code>"
+		     ENDTEXT="&lt;/valueChangeListener>" ICON=""
+		     NAME="valueChangeListener" REFORMAT="yes" SCOPE="project"
+		     STARTTEXT="&lt;valueChangeListener>" large-icon="" model-entity="SharableMacroHTML"/>
+		    <MacroHTML
+		     DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;f:validateRegex&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/f:validateRegex&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>declaration, disabled, binding, for, &lt;/code>"
+		     ENDTEXT="&lt;/validateRegex>" ICON="%Icons%/JSF Core/validator"
+		     NAME="validateRegex" REFORMAT="yes" SCOPE="project"
+		     STARTTEXT="&lt;validateRegex>" large-icon="" model-entity="SharableMacroHTML"/>
+		    <MacroHTML
+		     DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;f:subview&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/f:subview&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>declaration, binding, rendered, &lt;/code>"
+		     ENDTEXT="&lt;/subview>" ICON="" NAME="subview" REFORMAT="yes"
+		     SCOPE="project" STARTTEXT="&lt;subview>" large-icon="" model-entity="SharableMacroHTML"/>
+		    <MacroHTML
+		     DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;f:event&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/f:event&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>declaration, &lt;/code>"
+		     ENDTEXT="&lt;/event>" ICON="" NAME="event" REFORMAT="yes"
+		     SCOPE="project" STARTTEXT="&lt;event>" large-icon="" model-entity="SharableMacroHTML"/>
+		    <MacroHTML
+		     DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;f:converter&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/f:converter&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>declaration, converterId, binding, for&lt;/code>"
+		     ENDTEXT="&lt;/converter>" ICON="%Icons%/JSF Core/converter"
+		     NAME="converter" REFORMAT="yes" SCOPE="project"
+		     STARTTEXT="&lt;converter>" large-icon="" model-entity="SharableMacroHTML"/>
+		    <MacroHTML
+		     DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;f:ajax&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/f:ajax&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>declaration, disabled, event, execute, immediate, listener, onevent, onerror, render&lt;/code>"
+		     ENDTEXT="&lt;/ajax>" ICON="" NAME="ajax" REFORMAT="yes"
+		     SCOPE="project" STARTTEXT="&lt;ajax>" large-icon="" model-entity="SharableMacroHTML"/>
+		    <MacroHTML
+		     DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;f:phaseListener&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/f:phaseListener&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>declaration, type, binding&lt;/code>"
+		     ENDTEXT="&lt;/phaseListener>" ICON="" NAME="phaseListener"
+		     REFORMAT="yes" SCOPE="project" STARTTEXT="&lt;phaseListener>"
+		     large-icon="" model-entity="SharableMacroHTML"/>
+		    <MacroHTML
+		     DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;f:selectItems&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/f:selectItems&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>declaration, binding, id, value, var, itemValue, itemLabel, itemDescription, itemDisabled, itemLabelEscaped, noSelectionValue&lt;/code>"
+		     ENDTEXT="&lt;/selectItems>" ICON="%Icons%/Struts HTML/options"
+		     NAME="selectItems" REFORMAT="yes" SCOPE="project"
+		     STARTTEXT="&lt;selectItems>" large-icon="" model-entity="SharableMacroHTML"/>
+		    <MacroHTML
+		     DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;f:metadata&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/f:metadata&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>declaration&lt;/code>"
+		     ENDTEXT="&lt;/metadata>" ICON="" NAME="metadata" REFORMAT="yes"
+		     SCOPE="project" STARTTEXT="&lt;metadata>" large-icon="" model-entity="SharableMacroHTML"/>
+		    <MacroHTML
+		     DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;f:validateLength&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/f:validateLength&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>declaration, disabled, maximum, minimum, binding, for&lt;/code>"
+		     ENDTEXT="&lt;/validateLength>" ICON="%Icons%/JSF Core/validator"
+		     NAME="validateLength" REFORMAT="yes" SCOPE="project"
+		     STARTTEXT="&lt;validateLength>" large-icon="" model-entity="SharableMacroHTML"/>
+		    <MacroHTML
+		     DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;f:verbatim&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/f:verbatim&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>declaration, escape, rendered&lt;/code>"
+		     ENDTEXT="&lt;/verbatim>" ICON="" NAME="verbatim" REFORMAT="yes"
+		     SCOPE="project" STARTTEXT="&lt;verbatim>" large-icon="" model-entity="SharableMacroHTML"/>
+		    <MacroHTML
+		     DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;f:convertDateTime&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/f:convertDateTime&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>declaration, dateStyle, locale, pattern, timeStyle, timeZone, type, binding, for&lt;/code>"
+		     ENDTEXT="&lt;/convertDateTime>"
+		     ICON="%Icons%/JSF Core/convertDateTime" NAME="convertDateTime"
+		     REFORMAT="yes" SCOPE="project" STARTTEXT="&lt;convertDateTime>"
+		     large-icon="" model-entity="SharableMacroHTML"/>
+		    <MacroHTML
+		     DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;f:convertNumber&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/f:convertNumber&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>declaration, currencyCode, currencySymbol, groupingUsed, integerOnly, locale, maxFractionDigits, maxIntegerDigits, minFractionDigits, minIntegerDigits, pattern, type, binding, for&lt;/code>"
+		     ENDTEXT="&lt;/convertNumber>" ICON="%Icons%/JSF Core/convertNumber"
+		     NAME="convertNumber" REFORMAT="yes" SCOPE="project"
+		     STARTTEXT="&lt;convertNumber>" large-icon="" model-entity="SharableMacroHTML"/>
+		    <MacroHTML
+		     DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;f:validateDoubleRange&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/f:validateDoubleRange&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>declaration, disabled, maximum, minimum, binding, for&lt;/code>"
+		     ENDTEXT="&lt;/validateDoubleRange>"
+		     ICON="%Icons%/JSF Core/validator" NAME="validateDoubleRange"
+		     REFORMAT="yes" SCOPE="project" STARTTEXT="&lt;validateDoubleRange>"
+		     large-icon="" model-entity="SharableMacroHTML"/>
+		    <MacroHTML
+		     DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;%@ taglib uri=&quot;http://java.sun.com/jsf/core&quot; prefix=&quot;f&quot; %&amp;gt;&lt;/code>"
+		     ENDTEXT="" ICON="%Icons%/Struts Common/taglib"
+		     NAME="JSF Core taglib" REFORMAT="yes" SCOPE="project"
+		     STARTTEXT="&lt;%@ taglib uri=&quot;http://java.sun.com/jsf/core&quot; prefix=&quot;f&quot; %>\\n|"
+		     large-icon="" model-entity="SharableMacroHTML"/>
+		    <MacroHTML
+		     DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;f:loadBundle&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/f:loadBundle&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>declaration, basename, &lt;/code>"
+		     ENDTEXT="&lt;/loadBundle>" ICON="%Icons%/JSF Core/bundle"
+		     NAME="loadBundle" REFORMAT="yes" SCOPE="project"
+		     STARTTEXT="&lt;loadBundle>" large-icon="" model-entity="SharableMacroHTML"/>
+		    <MacroHTML
+		     DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;f:validateBean&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/f:validateBean&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>declaration, validationGroups, disabled, binding, for&lt;/code>"
+		     ENDTEXT="&lt;/validateBean>" ICON="%Icons%/JSF Core/validator"
+		     NAME="validateBean" REFORMAT="yes" SCOPE="project"
+		     STARTTEXT="&lt;validateBean>" large-icon="" model-entity="SharableMacroHTML"/>
+		    <MacroHTML
+		     DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;f:view&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/f:view&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>declaration, locale, renderKitId, contentType, encoding, beforePhase, afterPhase&lt;/code>"
+		     ENDTEXT="&lt;/view>" ICON="" NAME="view" REFORMAT="yes"
+		     SCOPE="project" STARTTEXT="&lt;view>" large-icon="" model-entity="SharableMacroHTML"/>
+		   </GroupHTML>
 			<GroupHTML HIDDEN="no" ICON="" NAME="Facelets" PREFIX="ui"
 				SCOPE="project" URI="http://java.sun.com/jsf/facelets" add_taglib="true"
 				library-version="" model-entity="SharableGroupHTML">
