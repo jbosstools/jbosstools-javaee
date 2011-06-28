@@ -2795,7 +2795,7 @@
 		<PageTabHTML DESCRIPTION="" EDITOR_TYPE="" HIDDEN="no"
 			NAME="JBoss" NATURE_TYPE="" SCOPE="project" TABTYPE="HTML"
 			model-entity="SharablePageTabHTML">
-			<GroupHTML HIDDEN="yes" ICON="" NAME="RichFaces 4" PREFIX="rich"
+			<GroupHTML HIDDEN="no" ICON="" NAME="RichFaces" PREFIX="rich"
 				SCOPE="project" URI="http://richfaces.org/rich" add_taglib="true"
 				library-version="" model-entity="SharableGroupHTML">
 				<MacroHTML
@@ -3075,7 +3075,7 @@
 					SCOPE="project" STARTTEXT="&lt;tooltip>" large-icon=""
 					model-entity="SharableMacroHTML" />
 			</GroupHTML>
-			<GroupHTML HIDDEN="no" ICON="" NAME="RichFaces" PREFIX="rich"
+			<GroupHTML HIDDEN="yes" ICON="" NAME="RichFaces 3" PREFIX="rich"
 				SCOPE="project" URI="http://richfaces.org/rich" add_taglib="true"
 				library-version="" model-entity="SharableGroupHTML">
 				<MacroHTML
@@ -3482,7 +3482,7 @@
 					STARTTEXT="&lt;simpleTogglePanel>" large-icon="" model-entity="SharableMacroHTML" />
 
 			</GroupHTML>
-			<GroupHTML HIDDEN="yes" ICON="" NAME="Ajax4Jsf 4" PREFIX="a4j"
+			<GroupHTML HIDDEN="no" ICON="" NAME="Ajax4Jsf" PREFIX="a4j"
 				SCOPE="project" URI="http://richfaces.org/a4j" add_taglib="true"
 				library-version="" model-entity="SharableGroupHTML">
 				<MacroHTML
@@ -4139,7 +4139,7 @@
 					ENDTEXT="&lt;/span>" ICON="" NAME="span" REFORMAT="yes" SCOPE="project"
 					STARTTEXT="&lt;span>" large-icon="" model-entity="SharableMacroHTML" />
 			</GroupHTML>
-			<GroupHTML HIDDEN="no" ICON="" NAME="Ajax4Jsf" PREFIX="a4j"
+			<GroupHTML HIDDEN="yes" ICON="" NAME="Ajax4Jsf 3" PREFIX="a4j"
 				SCOPE="project" URI="http://richfaces.org/a4j" add_taglib="true"
 				library-version="" model-entity="SharableGroupHTML">
 				<MacroHTML
