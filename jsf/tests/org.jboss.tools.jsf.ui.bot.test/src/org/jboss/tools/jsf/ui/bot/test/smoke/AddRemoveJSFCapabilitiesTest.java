@@ -96,7 +96,7 @@ public class AddRemoveJSFCapabilitiesTest extends JSFAutoTestCase {
       SWTJBTExt.stopApplicationServer(bot, 0);
       SWTJBTExt.deleteApplicationServer(bot, 0);
       assertTrue("Displayed HTML page has wrong content", 
-          (browserText!= null) && (browserText.indexOf("<TITLE>Input User Name Page</TITLE>") > - 1));
+          (browserText!= null) && (browserText.toLowerCase().indexOf("<title>input user name page</title>") > - 1));
       setException(null);      
     }
     else{
