@@ -22,7 +22,6 @@ import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.IRootDefinitionContext;
 import org.jboss.tools.cdi.core.extension.ICDIExtension;
 import org.jboss.tools.cdi.core.extension.feature.IProcessAnnotatedTypeFeature;
-import org.jboss.tools.cdi.internal.core.impl.AnnotationLiteral;
 import org.jboss.tools.cdi.internal.core.impl.definition.AbstractMemberDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.AbstractTypeDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.AnnotationDefinition;
@@ -35,6 +34,7 @@ import org.jboss.tools.common.java.IAnnotated;
 import org.jboss.tools.common.java.IAnnotationDeclaration;
 import org.jboss.tools.common.java.ParametedType;
 import org.jboss.tools.common.java.TypeDeclaration;
+import org.jboss.tools.common.java.impl.AnnotationLiteral;
 import org.jboss.tools.common.util.BeanUtil;
 import org.jboss.tools.common.util.EclipseJavaUtil;
 
