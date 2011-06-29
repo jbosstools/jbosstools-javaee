@@ -16,13 +16,13 @@ import java.util.List;
 import java.util.Set;
 
 import org.jboss.tools.cdi.core.CDIUtil;
-import org.jboss.tools.cdi.core.IAnnotationDeclaration;
 import org.jboss.tools.cdi.core.IInterceptorBinding;
 import org.jboss.tools.cdi.core.IInterceptorBindingDeclaration;
 import org.jboss.tools.cdi.core.IScope;
 import org.jboss.tools.cdi.core.IScopeDeclaration;
 import org.jboss.tools.cdi.core.IStereotype;
 import org.jboss.tools.cdi.core.IStereotypeDeclaration;
+import org.jboss.tools.common.java.IAnnotationDeclaration;
 import org.jboss.tools.common.text.ITextSourceReference;
 
 /**

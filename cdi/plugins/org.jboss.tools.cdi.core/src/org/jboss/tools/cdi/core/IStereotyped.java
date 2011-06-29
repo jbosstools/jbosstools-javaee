@@ -12,6 +12,8 @@ package org.jboss.tools.cdi.core;
 
 import java.util.Set;
 
+import org.jboss.tools.common.java.IAnnotated;
+
 /**
  * Represents an element that can has stereotypes.
  * 

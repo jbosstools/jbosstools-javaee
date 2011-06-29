@@ -14,9 +14,9 @@ import java.util.Set;
 
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.CDIUtil;
-import org.jboss.tools.cdi.core.IAnnotationDeclaration;
 import org.jboss.tools.cdi.core.IInjectionPointParameter;
 import org.jboss.tools.cdi.core.IQualifierDeclaration;
+import org.jboss.tools.common.java.IAnnotationDeclaration;
 import org.jboss.tools.common.text.ITextSourceReference;
 
 /**

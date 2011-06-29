@@ -37,7 +37,6 @@ import org.eclipse.jdt.core.JavaModelException;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.CDICorePlugin;
-import org.jboss.tools.cdi.core.IAnnotationDeclaration;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IBeanMember;
 import org.jboss.tools.cdi.core.IBeanMethod;
@@ -64,6 +63,7 @@ import org.jboss.tools.cdi.internal.core.impl.definition.BeansXMLDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.DefinitionContext;
 import org.jboss.tools.cdi.internal.core.impl.definition.TypeDefinition;
 import org.jboss.tools.cdi.internal.core.scanner.ImplementationCollector;
+import org.jboss.tools.common.java.IAnnotationDeclaration;
 import org.jboss.tools.common.java.IParametedType;
 import org.jboss.tools.common.java.ParametedType;
 import org.jboss.tools.common.model.XModelObject;
@@ -518,7 +518,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 	}
 
 	public static String getAnnotationDeclarationKey(IAnnotationDeclaration d) throws CoreException {
-		ICDIAnnotation annotation = d.getAnnotation();
+		ICDIAnnotation annotation = (ICDIAnnotation)d.getAnnotation();
 		Set<IMethod> nb = annotation == null ? new HashSet<IMethod>() : annotation.getNonBindingMethods();
 		return getAnnotationDeclarationKey(d, nb);
 	}

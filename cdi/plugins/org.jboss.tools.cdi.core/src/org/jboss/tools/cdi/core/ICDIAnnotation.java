@@ -1,10 +1,10 @@
 package org.jboss.tools.cdi.core;
 
-import java.util.List;
 import java.util.Set;
 
 import org.eclipse.jdt.core.IMethod;
-import org.eclipse.jdt.core.IType;
+import org.jboss.tools.common.java.IAnnotationDeclaration;
+import org.jboss.tools.common.java.IAnnotationType;
 
 /**
  * Common interface for an annotation interface.
@@ -12,14 +12,7 @@ import org.eclipse.jdt.core.IType;
  * @author Viacheslav Kabanovich
  * 
  */
-public interface ICDIAnnotation extends ICDIElement {
-
-	/**
-	 * Returns the corresponding IType of the annotation type.
-	 * 
-	 * @return the corresponding IType
-	 */
-	IType getSourceType();
+public interface ICDIAnnotation extends ICDIElement, IAnnotationType {
 
 	/**
 	 * Returns the declaration of @Inherited declaration of this annotation
@@ -29,23 +22,6 @@ public interface ICDIAnnotation extends ICDIElement {
 	 * @return the declaration of @Inherited declaration of this bean
 	 */
 	IAnnotationDeclaration getInheritedDeclaration();
-
-	/**
-	 * Returns all the available annotations which are declared for this
-	 * interface.
-	 * 
-	 * @return all the available annotations which are declared for this
-	 *         interface
-	 */
-	List<IAnnotationDeclaration> getAnnotationDeclarations();
-
-	/**
-	 * Returns the annotations with given type name.
-	 * 
-	 * @param typeName
-	 * @return the annotations with given type name
-	 */
-	IAnnotationDeclaration getAnnotationDeclaration(String typeName);
 
 	/**
 	 * Returns set of members annotated with @Nonbinding

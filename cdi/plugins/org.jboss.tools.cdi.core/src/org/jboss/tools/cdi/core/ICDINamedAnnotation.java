@@ -10,6 +10,8 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.core;
 
+import org.jboss.tools.common.java.IAnnotationDeclaration;
+
 /**
  * A common interface for an annotation interface with can have @Named
  * annotation.

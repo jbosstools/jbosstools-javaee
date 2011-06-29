@@ -11,9 +11,9 @@
 package org.jboss.tools.cdi.internal.core.impl;
 
 import org.jboss.tools.cdi.core.CDIUtil;
-import org.jboss.tools.cdi.core.IAnnotationDeclaration;
 import org.jboss.tools.cdi.core.IInjectionPointMethod;
 import org.jboss.tools.cdi.internal.core.impl.definition.ParameterDefinition;
+import org.jboss.tools.common.java.IAnnotationDeclaration;
 
 /**
  * 

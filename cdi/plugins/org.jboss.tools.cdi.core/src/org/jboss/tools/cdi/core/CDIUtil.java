@@ -56,6 +56,9 @@ import org.eclipse.wst.common.project.facet.core.IProjectFacetVersion;
 import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
 import org.jboss.tools.cdi.internal.core.impl.ClassBean;
 import org.jboss.tools.common.EclipseUtil;
+import org.jboss.tools.common.java.IAnnotated;
+import org.jboss.tools.common.java.IAnnotationDeclaration;
+import org.jboss.tools.common.java.IAnnotationType;
 import org.jboss.tools.common.java.IJavaMemberReference;
 import org.jboss.tools.common.java.IParametedType;
 import org.jboss.tools.common.model.util.EclipseJavaUtil;
@@ -363,7 +366,7 @@ public class CDIUtil {
 	public static IAnnotationDeclaration getAnnotationDeclaration(IAnnotated annotated, ICDIAnnotation annotation) {
 		List<IAnnotationDeclaration> annotations = annotated.getAnnotations();
 		for (IAnnotationDeclaration annotationDeclaration : annotations) {
-			ICDIAnnotation annotationElement = annotationDeclaration.getAnnotation();
+			IAnnotationType annotationElement = annotationDeclaration.getAnnotation();
 			if(annotationElement!=null && annotation.equals(annotationElement)) {
 				return annotationDeclaration;
 			}
@@ -1006,7 +1009,7 @@ public class CDIUtil {
 	 * @return
 	 * @throws JavaModelException
 	 */
-	public static Boolean checkTargetAnnotation(ICDIAnnotation annotationType, String[][] variants) throws JavaModelException {
+	public static Boolean checkTargetAnnotation(IAnnotationType annotationType, String[][] variants) throws JavaModelException {
 		IAnnotationDeclaration target = annotationType.getAnnotationDeclaration(CDIConstants.TARGET_ANNOTATION_TYPE_NAME);
 		return target == null?null:checkTargetAnnotation(target, variants);
 	}

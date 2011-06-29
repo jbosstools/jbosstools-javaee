@@ -18,7 +18,6 @@ import org.eclipse.jdt.core.JavaModelException;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.CDIUtil;
-import org.jboss.tools.cdi.core.IAnnotationDeclaration;
 import org.jboss.tools.cdi.core.ICDIAnnotation;
 import org.jboss.tools.cdi.core.IInterceptorBinding;
 import org.jboss.tools.cdi.core.IInterceptorBindingDeclaration;
@@ -27,6 +26,8 @@ import org.jboss.tools.cdi.core.IScope;
 import org.jboss.tools.cdi.core.IStereotype;
 import org.jboss.tools.cdi.core.IStereotypeDeclaration;
 import org.jboss.tools.cdi.core.preferences.CDIPreferences;
+import org.jboss.tools.common.java.IAnnotationDeclaration;
+import org.jboss.tools.common.java.IAnnotationType;
 
 /**
  * CDI annotation validator.
@@ -141,7 +142,7 @@ public class AnnotationValidationDelegate extends CDICoreValidationDelegate {
 			if(target!=null) {
 				if(CDIUtil.checkTargetAnnotation(target, TYPE__METHOD_VARIANTS)) {
 					for (IInterceptorBindingDeclaration declaration : declarations) {
-						ICDIAnnotation superBinding = declaration.getAnnotation();
+						IAnnotationType superBinding = declaration.getAnnotation();
 						Boolean result = CDIUtil.checkTargetAnnotation(superBinding, TYPE_VARIANTS);
 						if(result!=null && result) {
 							validator.addError(CDIValidationMessages.ILLEGAL_TARGET_IN_INTERCEPTOR_BINDING_TYPE, CDIPreferences.MISSING_OR_INCORRECT_TARGET_OR_RETENTION_IN_ANNOTATION_TYPE, new String[]{superBinding.getSourceType().getElementName(), binding.getSourceType().getElementName()}, declaration, binding.getResource());
