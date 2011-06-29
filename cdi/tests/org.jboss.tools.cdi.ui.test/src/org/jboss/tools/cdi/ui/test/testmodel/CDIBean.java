@@ -18,14 +18,14 @@ import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.core.IInterceptorBinding;
 import org.jboss.tools.cdi.core.IInterceptorBindingDeclaration;
 import org.jboss.tools.cdi.core.IObserverMethod;
-import org.jboss.tools.cdi.core.IParametedType;
 import org.jboss.tools.cdi.core.IProducer;
 import org.jboss.tools.cdi.core.IQualifier;
 import org.jboss.tools.cdi.core.IQualifierDeclaration;
 import org.jboss.tools.cdi.core.IScope;
 import org.jboss.tools.cdi.core.IScopeDeclaration;
 import org.jboss.tools.cdi.core.IStereotypeDeclaration;
-import org.jboss.tools.cdi.core.ITypeDeclaration;
+import org.jboss.tools.common.java.IParametedType;
+import org.jboss.tools.common.java.ITypeDeclaration;
 import org.jboss.tools.common.text.ITextSourceReference;
 
 public class CDIBean extends CDIElement implements IClassBean{

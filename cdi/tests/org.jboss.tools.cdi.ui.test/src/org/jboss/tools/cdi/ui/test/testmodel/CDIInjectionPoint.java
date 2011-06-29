@@ -10,8 +10,8 @@ import org.jboss.tools.cdi.core.IAnnotationDeclaration;
 import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.IClassBean;
 import org.jboss.tools.cdi.core.IInjectionPoint;
-import org.jboss.tools.cdi.core.IParametedType;
 import org.jboss.tools.cdi.core.IQualifierDeclaration;
+import org.jboss.tools.common.java.IParametedType;
 import org.jboss.tools.common.text.ITextSourceReference;
 
 public class CDIInjectionPoint implements IInjectionPoint {
