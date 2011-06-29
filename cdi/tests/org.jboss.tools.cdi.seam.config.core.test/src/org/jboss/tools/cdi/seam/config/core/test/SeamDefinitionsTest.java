@@ -26,7 +26,6 @@ import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.IInterceptorBinding;
-import org.jboss.tools.cdi.core.IJavaAnnotation;
 import org.jboss.tools.cdi.core.IQualifier;
 import org.jboss.tools.cdi.core.IStereotype;
 import org.jboss.tools.cdi.core.extension.feature.IBuildParticipantFeature;
@@ -42,6 +41,7 @@ import org.jboss.tools.cdi.seam.config.core.definition.SeamParameterDefinition;
 import org.jboss.tools.cdi.seam.config.core.definition.SeamVirtualFieldDefinition;
 import org.jboss.tools.cdi.seam.config.core.xml.Location;
 import org.jboss.tools.cdi.seam.solder.core.CDISeamSolderConstants;
+import org.jboss.tools.common.java.IJavaAnnotation;
 import org.jboss.tools.common.text.ITextSourceReference;
 
 /**
