@@ -20,7 +20,6 @@ import java.util.Set;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IType;
-import org.jboss.tools.cdi.core.IAnnotationDeclaration;
 import org.jboss.tools.cdi.core.IJavaAnnotation;
 import org.jboss.tools.cdi.internal.core.impl.definition.AbstractMemberDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.DefinitionContext;
@@ -30,6 +29,7 @@ import org.jboss.tools.cdi.internal.core.impl.definition.ParameterDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.TypeDefinition;
 import org.jboss.tools.cdi.seam.config.core.ConfigDefinitionContext;
 import org.jboss.tools.cdi.seam.config.core.xml.SAXNode;
+import org.jboss.tools.common.java.IAnnotationDeclaration;
 
 /**
  * 
