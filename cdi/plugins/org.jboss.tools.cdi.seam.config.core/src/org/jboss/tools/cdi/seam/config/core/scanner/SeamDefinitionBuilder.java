@@ -24,8 +24,6 @@ import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jface.text.IDocument;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.CDICoreNature;
-import org.jboss.tools.cdi.core.IJavaAnnotation;
-import org.jboss.tools.cdi.internal.core.impl.AnnotationLiteral;
 import org.jboss.tools.cdi.internal.core.impl.definition.AnnotationDefinition;
 import org.jboss.tools.cdi.seam.config.core.CDISeamConfigConstants;
 import org.jboss.tools.cdi.seam.config.core.CDISeamConfigCorePlugin;
@@ -42,6 +40,8 @@ import org.jboss.tools.cdi.seam.config.core.xml.SAXAttribute;
 import org.jboss.tools.cdi.seam.config.core.xml.SAXElement;
 import org.jboss.tools.cdi.seam.config.core.xml.SAXParser;
 import org.jboss.tools.cdi.seam.config.core.xml.SAXText;
+import org.jboss.tools.common.java.IJavaAnnotation;
+import org.jboss.tools.common.java.impl.AnnotationLiteral;
 
 /**
  * 

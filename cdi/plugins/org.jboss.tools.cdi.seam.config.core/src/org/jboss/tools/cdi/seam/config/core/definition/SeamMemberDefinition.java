@@ -14,10 +14,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.core.resources.IResource;
-import org.jboss.tools.cdi.core.IJavaAnnotation;
 import org.jboss.tools.cdi.seam.config.core.xml.Location;
 import org.jboss.tools.cdi.seam.config.core.xml.SAXElement;
 import org.jboss.tools.cdi.seam.config.core.xml.SAXNode;
+import org.jboss.tools.common.java.IJavaAnnotation;
 
 /**
  * 
