@@ -17,7 +17,6 @@ import java.util.Set;
 import org.eclipse.jdt.core.IMemberValuePair;
 import org.eclipse.jdt.core.IType;
 import org.jboss.tools.cdi.core.CDIConstants;
-import org.jboss.tools.cdi.core.IAnnotationDeclaration;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IClassBean;
 import org.jboss.tools.cdi.core.IJavaAnnotation;
@@ -31,6 +30,7 @@ import org.jboss.tools.cdi.internal.core.impl.definition.AbstractMemberDefinitio
 import org.jboss.tools.cdi.internal.core.impl.definition.FieldDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.MethodDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.TypeDefinition;
+import org.jboss.tools.common.java.IAnnotationDeclaration;
 
 /**
  * Implements support for org.jboss.seam.solder.bean.defaultbean.DefaultBeanExtension.

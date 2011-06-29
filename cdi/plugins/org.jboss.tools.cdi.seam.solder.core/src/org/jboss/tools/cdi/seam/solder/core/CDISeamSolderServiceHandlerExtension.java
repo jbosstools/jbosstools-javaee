@@ -21,7 +21,6 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.IType;
 import org.jboss.tools.cdi.core.CDICoreNature;
-import org.jboss.tools.cdi.core.IAnnotationDeclaration;
 import org.jboss.tools.cdi.core.extension.AbstractDefinitionContextExtension;
 import org.jboss.tools.cdi.core.extension.ICDIExtension;
 import org.jboss.tools.cdi.core.extension.IDefinitionContextExtension;
@@ -32,6 +31,7 @@ import org.jboss.tools.cdi.internal.core.impl.definition.AnnotationDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.TypeDefinition;
 import org.jboss.tools.cdi.internal.core.scanner.FileSet;
 import org.jboss.tools.cdi.seam.solder.core.definition.InterfaceDefinition;
+import org.jboss.tools.common.java.IAnnotationDeclaration;
 import org.jboss.tools.common.model.XModelObject;
 
 /**

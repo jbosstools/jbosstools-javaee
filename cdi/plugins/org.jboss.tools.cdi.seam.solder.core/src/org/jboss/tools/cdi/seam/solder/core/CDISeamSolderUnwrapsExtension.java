@@ -13,7 +13,6 @@ package org.jboss.tools.cdi.seam.solder.core;
 import org.eclipse.jdt.core.IMemberValuePair;
 import org.eclipse.jdt.core.IType;
 import org.jboss.tools.cdi.core.CDIConstants;
-import org.jboss.tools.cdi.core.IAnnotationDeclaration;
 import org.jboss.tools.cdi.core.IJavaAnnotation;
 import org.jboss.tools.cdi.core.IRootDefinitionContext;
 import org.jboss.tools.cdi.core.extension.ICDIExtension;
@@ -22,6 +21,7 @@ import org.jboss.tools.cdi.internal.core.impl.AnnotationLiteral;
 import org.jboss.tools.cdi.internal.core.impl.definition.AbstractMemberDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.BeanMemberDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.MethodDefinition;
+import org.jboss.tools.common.java.IAnnotationDeclaration;
 
 /**
  * This implementation detects @Unwrap annotation at methods and makes CDI builder aware of 

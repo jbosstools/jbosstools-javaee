@@ -23,7 +23,6 @@ import org.eclipse.jdt.core.IType;
 import org.eclipse.osgi.util.NLS;
 import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.CDIUtil;
-import org.jboss.tools.cdi.core.IAnnotationDeclaration;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IClassBean;
 import org.jboss.tools.cdi.core.IProducer;
@@ -37,6 +36,7 @@ import org.jboss.tools.cdi.seam.solder.core.CDISeamSolderConstants;
 import org.jboss.tools.cdi.seam.solder.core.CDISeamSolderCorePlugin;
 import org.jboss.tools.cdi.seam.solder.core.CDISeamSolderPreferences;
 import org.jboss.tools.cdi.seam.solder.core.validation.SeamSolderValidationMessages;
+import org.jboss.tools.common.java.IAnnotationDeclaration;
 import org.jboss.tools.common.java.IParametedType;
 import org.jboss.tools.common.text.ITextSourceReference;
 
