@@ -23,9 +23,9 @@ import org.eclipse.ltk.core.refactoring.participants.CheckConditionsContext;
 import org.eclipse.text.edits.ReplaceEdit;
 import org.eclipse.text.edits.TextEdit;
 import org.jboss.tools.cdi.core.CDIConstants;
-import org.jboss.tools.cdi.core.IAnnotationDeclaration;
 import org.jboss.tools.cdi.core.IBeanMethod;
 import org.jboss.tools.cdi.core.IClassBean;
+import org.jboss.tools.common.java.IAnnotationDeclaration;
 
 public class DeleteAllInjectedConstructorsProcessor extends MarkerResolutionRefactoringProcessor {
 

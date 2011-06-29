@@ -25,15 +25,13 @@ import org.eclipse.jdt.internal.ui.dialogs.StatusUtil;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.widgets.Composite;
 import org.jboss.tools.cdi.core.CDIConstants;
-import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.CDIUtil;
-import org.jboss.tools.cdi.core.IAnnotationDeclaration;
 import org.jboss.tools.cdi.core.ICDIAnnotation;
 import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.IInterceptorBinding;
-import org.jboss.tools.cdi.core.IStereotype;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
 import org.jboss.tools.cdi.ui.CDIUIPlugin;
+import org.jboss.tools.common.java.IAnnotationDeclaration;
 import org.jboss.tools.common.ui.widget.editor.ListFieldEditor;
 
 /**
