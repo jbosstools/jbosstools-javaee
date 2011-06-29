@@ -7,9 +7,9 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IType;
-import org.jboss.tools.cdi.core.IAnnotationDeclaration;
 import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.IQualifier;
+import org.jboss.tools.common.java.IAnnotationDeclaration;
 
 public class CDIQualifier implements IQualifier{
 	private ICDIProject project;
