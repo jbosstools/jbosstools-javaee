@@ -9,9 +9,9 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaCore;
-import org.jboss.tools.cdi.core.IParametedType;
-import org.jboss.tools.cdi.internal.core.impl.ParametedType;
-import org.jboss.tools.cdi.internal.core.impl.definition.ParametedTypeFactory;
+import org.jboss.tools.common.java.IParametedType;
+import org.jboss.tools.common.java.ParametedType;
+import org.jboss.tools.common.java.ParametedTypeFactory;
 import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.ResourcesUtils;
 
