@@ -27,16 +27,16 @@ import org.eclipse.jdt.core.IType;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.CDICorePlugin;
-import org.jboss.tools.cdi.core.IJavaAnnotation;
 import org.jboss.tools.cdi.core.IRootDefinitionContext;
 import org.jboss.tools.cdi.internal.core.impl.AnnotationDeclaration;
 import org.jboss.tools.cdi.internal.core.impl.InterceptorBindingDeclaration;
-import org.jboss.tools.cdi.internal.core.impl.JavaAnnotation;
 import org.jboss.tools.cdi.internal.core.impl.QualifierDeclaration;
 import org.jboss.tools.cdi.internal.core.impl.ScopeDeclaration;
 import org.jboss.tools.cdi.internal.core.impl.StereotypeDeclaration;
 import org.jboss.tools.common.java.IAnnotated;
 import org.jboss.tools.common.java.IAnnotationDeclaration;
+import org.jboss.tools.common.java.IJavaAnnotation;
+import org.jboss.tools.common.java.impl.JavaAnnotation;
 import org.jboss.tools.common.text.ITextSourceReference;
 
 /**
