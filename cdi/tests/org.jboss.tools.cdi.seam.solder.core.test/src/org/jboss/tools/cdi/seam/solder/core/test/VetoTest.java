@@ -17,10 +17,10 @@ import java.util.Set;
 import org.eclipse.core.runtime.CoreException;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.CDICorePlugin;
-import org.jboss.tools.cdi.core.IAnnotationDeclaration;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.internal.core.impl.definition.TypeDefinition;
+import org.jboss.tools.common.java.IAnnotationDeclaration;
 
 /**
  *   
