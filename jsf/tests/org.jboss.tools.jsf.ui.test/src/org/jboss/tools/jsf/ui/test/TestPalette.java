@@ -169,6 +169,20 @@ public class TestPalette  extends TestCase {
 		assertEquals("Text of macros containsIgnoreCase is not correct.", "${containsIgnoreCase('', '')}", m.getAttributeValue("start text"));
 	}
 
+	public void testFaceletTaglibImport() throws Exception {
+		XModel model = EclipseResourceUtil.getModelNature(jsfProject).getModel();
+
+		XModelObject tld = model.getByPath("/kgcomponents.taglib.xml");
+		assertNotNull("Facelet taglib kgcomponents.taglib.xml not found.", tld);
+		XModelObject g = new TLDToPaletteHelper().createGroupByTLD(tld, model);
+		assertNotNull(g);
+		assertEquals("Library uri is not set correctly to the palette group.", "http://www.krasig.org/paduan", g.getAttributeValue("library uri"));
+		XModelObject m = g.getChildByPath("myModal");
+		assertNotNull("Macros myModal was not created.", m);
+		assertEquals("Text of macros myModal is not correct.", "<myModal>", m.getAttributeValue("start text"));
+		assertTrue("Text of description of macro myModal is not correct.", m.getAttributeValue("description").endsWith("<code></code>"));
+	}
+
 	public void testPaletteInsertHelper() throws Exception {
 		IWorkbench w = JsfUiPlugin.getDefault().getWorkbench();
 		IWorkbenchWindow window = w.getActiveWorkbenchWindow();
