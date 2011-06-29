@@ -12,7 +12,7 @@ package org.jboss.tools.cdi.internal.core.impl.definition;
 
 import org.eclipse.jdt.core.IField;
 import org.jboss.tools.cdi.core.IRootDefinitionContext;
-import org.jboss.tools.cdi.core.ITypeDeclaration;
+import org.jboss.tools.common.java.ITypeDeclaration;
 
 /**
  * 

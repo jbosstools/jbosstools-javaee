@@ -384,6 +384,14 @@ public class DefinitionContext implements IRootDefinitionContext {
 		workingCopy = null;
 	}
 
+	public void dropWorkingCopy() {
+		if(original != null) {
+			original.dropWorkingCopy();
+		} else {
+			workingCopy = null;
+		}
+	}
+
 	public AnnotationDefinition getAnnotation(IType type) {
 		String name = type.getFullyQualifiedName();
 		AnnotationDefinition result = annotations.get(name);

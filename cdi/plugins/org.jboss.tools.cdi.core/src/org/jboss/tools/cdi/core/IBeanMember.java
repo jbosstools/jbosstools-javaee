@@ -11,6 +11,7 @@
 package org.jboss.tools.cdi.core;
 
 import org.jboss.tools.common.java.IJavaSourceReference;
+import org.jboss.tools.common.java.IParametedType;
 
 /**
  * Represents a member of bean class.

@@ -14,6 +14,8 @@ import java.util.Set;
 
 import org.eclipse.jdt.core.IType;
 import org.jboss.tools.common.el.core.resolver.IVariable;
+import org.jboss.tools.common.java.IParametedType;
+import org.jboss.tools.common.java.ITypeDeclaration;
 import org.jboss.tools.common.text.ITextSourceReference;
 
 /**

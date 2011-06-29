@@ -18,7 +18,7 @@ import org.eclipse.jdt.core.JavaModelException;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.IAnnotationDeclaration;
 import org.jboss.tools.cdi.core.IDecorator;
-import org.jboss.tools.cdi.core.IParametedType;
+import org.jboss.tools.common.java.IParametedType;
 
 /**
  * 

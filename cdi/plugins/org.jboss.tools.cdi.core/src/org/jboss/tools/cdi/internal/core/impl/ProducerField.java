@@ -10,7 +10,6 @@
  ******************************************************************************/ 
 package org.jboss.tools.cdi.internal.core.impl;
 
-
 import java.util.HashSet;
 import java.util.Set;
 
@@ -19,13 +18,14 @@ import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.IAnnotationDeclaration;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IInjectionPoint;
-import org.jboss.tools.cdi.core.IParametedType;
 import org.jboss.tools.cdi.core.IProducerField;
 import org.jboss.tools.cdi.core.IScope;
 import org.jboss.tools.cdi.core.IScopeDeclaration;
 import org.jboss.tools.cdi.core.IStereotype;
 import org.jboss.tools.cdi.core.IStereotypeDeclaration;
-import org.jboss.tools.cdi.core.ITypeDeclaration;
+import org.jboss.tools.common.java.IParametedType;
+import org.jboss.tools.common.java.ITypeDeclaration;
+import org.jboss.tools.common.java.ParametedType;
 import org.jboss.tools.common.text.ITextSourceReference;
 
 /**

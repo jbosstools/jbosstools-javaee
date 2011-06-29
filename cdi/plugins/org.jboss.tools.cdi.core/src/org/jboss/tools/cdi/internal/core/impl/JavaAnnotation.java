@@ -23,8 +23,6 @@ import org.jboss.tools.common.model.util.EclipseJavaUtil;
 
 public class JavaAnnotation implements IJavaAnnotation {
 	IAnnotation annotation;
-	protected int startPosition = -1;
-	protected int length = 0;	
 
 	String annotationTypeName;
 	IType type;
@@ -56,24 +54,24 @@ public class JavaAnnotation implements IJavaAnnotation {
 		try {
 			ISourceRange range = annotation.getSourceRange();
 			if(range != null) {
-				return length = range.getLength();
+				return range.getLength();
 			}
 		} catch (JavaModelException e) {
 			CDICorePlugin.getDefault().logError(e);
 		}
-		return length;
+		return 0;
 	}
 
 	public int getStartPosition() {
 		try {
 			ISourceRange range = annotation.getSourceRange();
 			if(range != null) {
-				return startPosition = range.getOffset();
+				return range.getOffset();
 			}
 		} catch (JavaModelException e) {
 			CDICorePlugin.getDefault().logError(e);
 		}
-		return startPosition;
+		return 0;
 	}
 
 	public IMember getParentMember() {

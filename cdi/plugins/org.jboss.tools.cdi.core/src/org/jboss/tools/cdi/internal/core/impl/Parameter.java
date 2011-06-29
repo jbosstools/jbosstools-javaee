@@ -10,11 +10,11 @@ import org.eclipse.jdt.core.ISourceReference;
 import org.jboss.tools.cdi.core.IAnnotationDeclaration;
 import org.jboss.tools.cdi.core.IBeanMethod;
 import org.jboss.tools.cdi.core.IClassBean;
-import org.jboss.tools.cdi.core.IParametedType;
 import org.jboss.tools.cdi.core.IParameter;
 import org.jboss.tools.cdi.core.IQualifier;
 import org.jboss.tools.cdi.core.IQualifierDeclaration;
 import org.jboss.tools.cdi.internal.core.impl.definition.ParameterDefinition;
+import org.jboss.tools.common.java.IParametedType;
 
 public class Parameter extends BeanMember implements IParameter {
 	BeanMethod beanMethod;

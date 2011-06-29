@@ -57,6 +57,7 @@ import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
 import org.jboss.tools.cdi.internal.core.impl.ClassBean;
 import org.jboss.tools.common.EclipseUtil;
 import org.jboss.tools.common.java.IJavaMemberReference;
+import org.jboss.tools.common.java.IParametedType;
 import org.jboss.tools.common.model.util.EclipseJavaUtil;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.text.ITextSourceReference;

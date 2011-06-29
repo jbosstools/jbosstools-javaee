@@ -24,7 +24,7 @@ import org.jboss.tools.cdi.core.IAnnotationDeclaration;
 import org.jboss.tools.cdi.core.IRootDefinitionContext;
 import org.jboss.tools.cdi.core.extension.feature.IProcessAnnotatedMemberFeature;
 import org.jboss.tools.cdi.internal.core.impl.AnnotationDeclaration;
-import org.jboss.tools.cdi.internal.core.impl.ParametedType;
+import org.jboss.tools.common.java.ParametedType;
 
 /**
  * 

@@ -22,8 +22,10 @@ import org.eclipse.jdt.core.JavaModelException;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.IBeanMember;
 import org.jboss.tools.cdi.core.IClassBean;
-import org.jboss.tools.cdi.core.IParametedType;
 import org.jboss.tools.cdi.internal.core.impl.definition.BeanMemberDefinition;
+import org.jboss.tools.common.java.IParametedType;
+import org.jboss.tools.common.java.ParametedType;
+import org.jboss.tools.common.java.TypeDeclaration;
 
 /**
  * 

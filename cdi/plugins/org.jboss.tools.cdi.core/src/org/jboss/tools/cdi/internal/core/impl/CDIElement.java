@@ -18,7 +18,8 @@ import org.eclipse.jdt.core.JavaModelException;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.ICDIElement;
 import org.jboss.tools.cdi.core.extension.CDIExtensionManager;
-import org.jboss.tools.cdi.internal.core.impl.definition.ParametedTypeFactory;
+import org.jboss.tools.common.java.ParametedType;
+import org.jboss.tools.common.java.ParametedTypeFactory;
 
 /**
  * 

@@ -21,9 +21,9 @@ import org.eclipse.jdt.core.ISourceRange;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.SourceRange;
 import org.jboss.tools.cdi.core.CDICorePlugin;
-import org.jboss.tools.cdi.core.IParametedType;
 import org.jboss.tools.cdi.core.IRootDefinitionContext;
-import org.jboss.tools.cdi.internal.core.impl.ParametedType;
+import org.jboss.tools.common.java.IParametedType;
+import org.jboss.tools.common.java.ParametedType;
 import org.jboss.tools.common.util.FileUtil;
 
 /**
