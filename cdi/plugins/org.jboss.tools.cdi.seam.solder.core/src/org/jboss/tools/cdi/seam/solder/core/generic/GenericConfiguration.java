@@ -20,13 +20,13 @@ import java.util.Set;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.JavaModelException;
 import org.jboss.tools.cdi.core.IAnnotationDeclaration;
-import org.jboss.tools.cdi.core.IParametedType;
 import org.jboss.tools.cdi.core.IQualifierDeclaration;
 import org.jboss.tools.cdi.internal.core.impl.definition.AbstractMemberDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.AnnotationDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.TypeDefinition;
 import org.jboss.tools.cdi.seam.solder.core.CDISeamSolderConstants;
 import org.jboss.tools.cdi.seam.solder.core.CDISeamSolderCorePlugin;
+import org.jboss.tools.common.java.IParametedType;
 import org.jboss.tools.common.util.EclipseJavaUtil;
 
 /**
