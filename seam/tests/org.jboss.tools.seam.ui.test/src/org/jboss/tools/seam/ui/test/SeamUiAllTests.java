@@ -57,7 +57,7 @@ public class SeamUiAllTests {
 		suite.addTestSuite(ELExprPartitionerTest.class);
 		suite.addTestSuite(OpenSeamComponentDialogTest.class);
 		suite.addTest(SeamComponentsViewAllTests.suite());
-//		suite.addTest(SeamProjectNewWizardTest.suite());
+		suite.addTest(SeamProjectNewWizardTest.suite());
 
 		suite.addTest(new ProjectImportTestSetup(new TestSuite(SeamActionNewWizardTest.class), "org.jboss.tools.seam.base.test", new String[]{"projects/Test1-ear", "projects/Test1-ejb", "projects/Test1"}, new String[]{"Test1-ear", "Test1-ejb", "Test1"}));
 
