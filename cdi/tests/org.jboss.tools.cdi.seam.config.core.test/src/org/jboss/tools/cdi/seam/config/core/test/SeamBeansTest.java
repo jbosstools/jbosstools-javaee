@@ -19,7 +19,6 @@ import java.util.Set;
 
 import org.eclipse.core.runtime.CoreException;
 import org.jboss.tools.cdi.core.CDIConstants;
-import org.jboss.tools.cdi.core.IAnnotationDeclaration;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IClassBean;
 import org.jboss.tools.cdi.core.IInjectionPoint;
@@ -29,6 +28,7 @@ import org.jboss.tools.cdi.core.IProducerField;
 import org.jboss.tools.cdi.core.IProducerMethod;
 import org.jboss.tools.cdi.core.IQualifierDeclaration;
 import org.jboss.tools.cdi.seam.config.core.CDISeamConfigConstants;
+import org.jboss.tools.common.java.IAnnotationDeclaration;
 
 /**
  *   
