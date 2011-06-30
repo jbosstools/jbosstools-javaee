@@ -34,6 +34,7 @@ public class CDIExtensionManager {
 	 * Mapping of jar path to CDI extensions declared in it. 
 	 */
 	Map<String, Set<String>> runtimes = new HashMap<String, Set<String>>();
+	Set<String> allRuntimes = new HashSet<String>();
 
 	/**
 	 * Mapping of extension ids (class names) to instances.
@@ -52,6 +53,10 @@ public class CDIExtensionManager {
 
 	public void setProject(CDICoreNature n) {
 		this.n = n;
+	}
+
+	public boolean isCDIExtensionAvailable(String runtimeClassName) {
+		return allRuntimes.contains(runtimeClassName);
 	}
 
 	public void pathRemoved(String path) {
@@ -82,6 +87,7 @@ public class CDIExtensionManager {
 	}
 
 	private void addRuntime(String runtime) {
+		allRuntimes.add(runtime);
 		CDIExtensionFactory factory = CDIExtensionFactory.getInstance();
 		Set<String> clss = factory.getExtensionClassesByRuntime(runtime);
 		if(clss != null) {
@@ -105,6 +111,7 @@ public class CDIExtensionManager {
 	}
 
 	private void deleteRuntime(String runtime) {
+		allRuntimes.remove(runtime);
 		Set<String> clss = CDIExtensionFactory.getInstance().getExtensionClassesByRuntime(runtime);
 		if(clss != null) {
 			for (String cls: clss) {
