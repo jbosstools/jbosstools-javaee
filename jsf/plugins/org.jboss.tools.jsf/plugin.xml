@@ -386,15 +386,11 @@
 			class="org.jboss.tools.jsf.jsf2.model.FileCompositeComponentRecognizer"/>
    </extension>
    <extension
-         point="org.eclipse.wst.common.project.facet.core.facets">
-      <event-handler
-            facet="jst.jsf"
-            type="PRE_INSTALL"
-            version="[1.1">
-         <delegate
-               class="org.jboss.tools.jsf.project.facet.PostInstallJsfFacetDelegate">
-         </delegate>
-      </event-handler>
+   		point="org.eclipse.wst.common.project.facet.core.listeners">
+      <listener
+            class="org.jboss.tools.jsf.project.facet.JSFFacetedProjectListener"
+            eventTypes="PRE_INSTALL">
+      </listener>
    </extension>
 
    <extension id="xhtml" name="%XHTML_Validator.name" 
