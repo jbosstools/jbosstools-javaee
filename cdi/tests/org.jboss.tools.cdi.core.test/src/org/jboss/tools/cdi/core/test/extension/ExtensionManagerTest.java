@@ -25,18 +25,21 @@ import org.jboss.tools.cdi.core.extension.CDIExtensionManager;
 public class ExtensionManagerTest extends TestCase {
 
 	public void testExtensionManager() throws Exception {
+		String runtimeClassName = "org.jboss.tools.cdi.core.fake.FakeExtension";
 		CDIExtensionManager m = new CDIExtensionManager();
 		Set<String> set = new HashSet<String>();
 		m.setRuntimes("path1", set);
 		m.pathRemoved("path1");
 
-		set.add("org.jboss.tools.cdi.core.fake.FakeExtension");
+		set.add(runtimeClassName);
 		m.setRuntimes("path1", set);
+		assertTrue(m.isCDIExtensionAvailable(runtimeClassName));
 		m.pathRemoved("path1");
+		assertFalse(m.isCDIExtensionAvailable(runtimeClassName));
 
+		set.add("abc");
 		m.setRuntimes("path1", set);
 		m.pathRemoved("path1");
-		set.add("abc");
 		
 		set.clear();
 		set.add("abc");
