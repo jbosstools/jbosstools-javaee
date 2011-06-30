@@ -2,7 +2,7 @@
 <feature
       id="org.jboss.tools.cdi.seam.feature"
       label="%featureName"
-      version="1.0.0.qualifier"
+      version="1.2.0.qualifier"
       provider-name="%featureProvider">
 
    <description>
@@ -20,6 +20,13 @@ for a full listing of individual contributors.
    <license url="%licenseURL">
       %license
    </license>
+
+   <plugin
+         id="org.jboss.tools.cdi.seam.core"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
 
    <plugin
          id="org.jboss.tools.cdi.seam.solder.core"

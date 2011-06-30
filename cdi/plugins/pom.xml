@@ -17,6 +17,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 		<module>org.jboss.tools.cdi.ui</module>
 		<module>org.jboss.tools.cdi.xml</module>
 		<module>org.jboss.tools.cdi.xml.ui</module>
+		<module>org.jboss.tools.cdi.seam.core</module>
 		<module>org.jboss.tools.cdi.seam.solder.core</module>
 		<module>org.jboss.tools.cdi.seam.config.core</module>
 		<module>org.jboss.tools.cdi.seam.config.ui</module>
