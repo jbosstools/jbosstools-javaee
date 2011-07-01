@@ -55,9 +55,9 @@ public class WebContentTest extends AbstractResourceMarkerTest {
 	}
 
 	public void testWebContentValidation() throws CoreException {
-		IFile file = project.getFile("WebContent/input.xhtml");
+		IFile file = project.getFile("WebContent/inputname.xhtml");
 		AbstractResourceMarkerTest.assertMarkerIsCreated(file, MessageFormat.format(ELValidationMessages.UNKNOWN_EL_VARIABLE_PROPERTY_NAME, "broken"), 6);
-		file = project.getFile("TestWebContent/input.xhtml");
+		file = project.getFile("TestWebContent/inputname.xhtml");
 		AbstractResourceMarkerTest.assertMarkerIsCreated(file, MessageFormat.format(ELValidationMessages.UNKNOWN_EL_VARIABLE_PROPERTY_NAME, "broken"), 6);
 	}
 }
