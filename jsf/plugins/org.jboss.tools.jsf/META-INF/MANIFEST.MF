@@ -8,6 +8,7 @@ Bundle-Localization: plugin
 Export-Package: org.jboss.tools.jsf,
  org.jboss.tools.jsf.el.refactoring,
  org.jboss.tools.jsf.facelet.model,
+ org.jboss.tools.jsf.jsf2.bean.build,
  org.jboss.tools.jsf.jsf2.model,
  org.jboss.tools.jsf.jsf2.refactoring,
  org.jboss.tools.jsf.jsf2.refactoring.action.rename,
