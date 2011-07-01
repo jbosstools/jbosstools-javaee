@@ -799,7 +799,7 @@ public class CDIInternationalMessagesELResolver extends AbstractELCompletionEngi
 				objects.add(o);
 			}
 
-			if (o.hasChildren()) {
+			if (o.getFileType() > XModelObject.FILE && o.hasChildren()) {
 				XModelObject[] children = o.getChildren();
 				if (children != null) {
 					for (XModelObject c : children) {
