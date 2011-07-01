@@ -2,12 +2,14 @@ package org.jboss.tools.cdi.seam.config.core.xml;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.jboss.tools.common.CommonPlugin;
+import org.jboss.tools.common.Messages;
 import org.jboss.tools.common.xml.SAXValidator;
 import org.jboss.tools.common.xml.XMLEntityResolverImpl;
 import org.xml.sax.Attributes;
@@ -28,6 +30,11 @@ import org.xml.sax.helpers.XMLReaderFactory;
  */
 public class SAXParser extends SAXValidator {
 
+	/**
+	 * 
+	 * @param handler
+	 * @return instanceof XMLReader or null if Apache SAX parser is not available.
+	 */
 	XMLReader createParser1(DefaultHandler handler) {
 		XMLReader parserInstance = null;
 
@@ -58,12 +65,22 @@ public class SAXParser extends SAXValidator {
 		return parserInstance;
 	}
 
+	private String errorMessage = null;
+
 	public SAXElement parse(InputStream input, IDocument document) {
 		InputSource s = new InputSource(input);
 		ConfigHanlder handler = new ConfigHanlder(document);
 		XMLReader reader = createParser1(handler);
 		try {
-			reader.parse(s);
+			if(reader != null) {
+				reader.parse(s);
+				errorMessage = null;
+			} else if(errorMessage == null) {
+				//Report only the first failure.
+				errorMessage = MessageFormat.format(
+					Messages.SAXValidator_UnableToInstantiateMessage, DEFAULT_SAX_PARSER_CLASS_NAME);
+        		CommonPlugin.getDefault().logError(errorMessage);				
+			}
 		} catch (IOException e) {
 			CommonPlugin.getDefault().logError(e);
 		} catch (SAXException e) {
