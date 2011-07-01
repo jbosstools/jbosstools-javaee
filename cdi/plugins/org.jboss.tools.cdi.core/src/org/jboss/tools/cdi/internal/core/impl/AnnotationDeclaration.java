@@ -10,25 +10,15 @@
  ******************************************************************************/ 
 package org.jboss.tools.cdi.internal.core.impl;
 
-import org.eclipse.core.resources.IResource;
-import org.eclipse.jdt.core.IAnnotation;
-import org.eclipse.jdt.core.IMember;
-import org.eclipse.jdt.core.IMemberValuePair;
-import org.eclipse.jdt.core.IType;
 import org.jboss.tools.cdi.core.CDICoreNature;
-import org.jboss.tools.cdi.core.ICDIAnnotation;
-import org.jboss.tools.common.java.IAnnotationDeclaration;
-import org.jboss.tools.common.java.IJavaAnnotation;
-import org.jboss.tools.common.java.impl.JavaAnnotation;
 
 /**
  * 
  * @author Viacheslav Kabanovich
  *
  */
-public class AnnotationDeclaration implements IAnnotationDeclaration {
+public class AnnotationDeclaration extends org.jboss.tools.common.java.impl.AnnotationDeclaration {
 	protected CDICoreNature project;
-	protected IJavaAnnotation annotation;
 
 	public AnnotationDeclaration() {}
 
@@ -45,67 +35,4 @@ public class AnnotationDeclaration implements IAnnotationDeclaration {
 		this.project = project;
 	}
 
-	public void setDeclaration(IJavaAnnotation annotation) {
-		this.annotation = annotation;
-	}
-
-	public IJavaAnnotation getDeclaration() {
-		return annotation;
-	}
-
-	public IResource getResource() {
-		return annotation.getResource();
-	}
-
-	public IMemberValuePair[] getMemberValuePairs() {
-		return annotation.getMemberValuePairs();
-	}
-
-	public Object getMemberValue(String name) {
-		if(name == null) name = "value";
-		IMemberValuePair[] pairs = getMemberValuePairs();
-		if(pairs != null) {
-			for (IMemberValuePair pair: pairs) {
-				if(name.equals(pair.getMemberName())) {
-					return pair.getValue();
-				}
-			}
-		}
-		return null;
-	}
-
-	public IMember getParentMember() {
-		return annotation.getParentMember();
-	}
-
-	public String getTypeName() {
-		return annotation.getTypeName();
-	}
-
-	public IType getType() {
-		return annotation.getType();
-	}
-
-	public int getLength() {
-		return annotation.getLength();
-	}
-
-	public int getStartPosition() {
-		return annotation.getStartPosition();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.jboss.tools.cdi.core.IAnnotationDeclaration#getAnnotation()
-	 */
-	public ICDIAnnotation getAnnotation() {
-		return null;
-	}
-
-	public IAnnotation getJavaAnnotation() {
-		if(annotation instanceof JavaAnnotation) {
-			return ((JavaAnnotation) annotation).getAnnotation();
-		}
-		return null;
-	}
 }
