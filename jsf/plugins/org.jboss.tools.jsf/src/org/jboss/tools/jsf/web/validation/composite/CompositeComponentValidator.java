@@ -14,7 +14,6 @@ import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IProject;
@@ -24,13 +23,6 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Path;
-import org.eclipse.jst.j2ee.project.facet.IJ2EEFacetConstants;
-import org.eclipse.wst.common.componentcore.ComponentCore;
-import org.eclipse.wst.common.componentcore.resources.IVirtualComponent;
-import org.eclipse.wst.common.componentcore.resources.IVirtualFolder;
-import org.eclipse.wst.common.project.facet.core.IFacetedProject;
-import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
 import org.eclipse.wst.sse.core.StructuredModelManager;
 import org.eclipse.wst.sse.core.internal.provisional.IModelManager;
 import org.eclipse.wst.sse.core.internal.provisional.IStructuredModel;
@@ -49,8 +41,8 @@ import org.jboss.tools.jst.web.kb.KbProjectFactory;
 import org.jboss.tools.jst.web.kb.PageContextFactory;
 import org.jboss.tools.jst.web.kb.internal.KbBuilder;
 import org.jboss.tools.jst.web.kb.internal.validation.ContextValidationHelper;
-import org.jboss.tools.jst.web.kb.internal.validation.KBValidator;
 import org.jboss.tools.jst.web.kb.internal.validation.ValidatorManager;
+import org.jboss.tools.jst.web.kb.internal.validation.WebValidator;
 import org.jboss.tools.jst.web.kb.taglib.IComponent;
 import org.jboss.tools.jst.web.kb.taglib.ICompositeTagLibrary;
 import org.jboss.tools.jst.web.kb.taglib.ITagLibrary;
@@ -67,7 +59,7 @@ import org.w3c.dom.NodeList;
  * 
  * @author Alexey Kazakov
  */
-public class CompositeComponentValidator extends KBValidator {
+public class CompositeComponentValidator extends WebValidator {
 
 	public static final String ID = "org.jboss.tools.jsf.CompositeComponentValidator"; //$NON-NLS-1$
 	public static final String PROBLEM_TYPE = "org.jboss.tools.jsf.compositeproblem"; //$NON-NLS-1$
@@ -79,20 +71,6 @@ public class CompositeComponentValidator extends KBValidator {
 	
 	public static final int UNKNOWN_COMPOSITE_COMPONENT_NAME_ID = 1;
 	public static final int UNKNOWN_COMPOSITE_COMPONENT_ATTRIBUTE_ID = 2;
-
-	private IProject currentProject;
-	private IContainer webRootFolder;
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.jboss.tools.jst.web.kb.internal.validation.ValidationErrorManager#init(org.eclipse.core.resources.IProject, org.jboss.tools.jst.web.kb.internal.validation.ContextValidationHelper, org.jboss.tools.jst.web.kb.validation.IProjectValidationContext, org.eclipse.wst.validation.internal.provisional.core.IValidator, org.eclipse.wst.validation.internal.provisional.core.IReporter)
-	 */
-	@Override
-	public void init(IProject project, ContextValidationHelper validationHelper, IProjectValidationContext context, org.eclipse.wst.validation.internal.provisional.core.IValidator manager, IReporter reporter) {
-		super.init(project, validationHelper, context, manager, reporter);
-		currentProject = null;
-		webRootFolder = null;
-	}
 
 	/*
 	 * (non-Javadoc)
@@ -274,49 +252,6 @@ public class CompositeComponentValidator extends KBValidator {
 		}
 	}
 
-	private boolean enabled = true;
-
-	private boolean shouldFileBeValidated(IFile file) {
-		if(!file.isAccessible()) {
-			return false;
-		}
-		IProject project = file.getProject();
-		if(!file.isSynchronized(IResource.DEPTH_ZERO)) {
-			// The resource is out of sync with the file system
-			// Just ignore this resource.
-			return false;
-		}
-		if(!project.equals(currentProject)) {
-			currentProject = project;
-			enabled = isEnabled(project);	
-			if(!enabled) {
-				return false;
-			}
-			if(webRootFolder!=null && !project.equals(webRootFolder.getProject())) {
-				webRootFolder = null;
-			}
-			if(webRootFolder==null) {
-				IFacetedProject facetedProject = null;
-				try {
-					facetedProject = ProjectFacetsManager.create(project);
-				} catch (CoreException e) {
-					JSFModelPlugin.getDefault().logError(e);
-				}
-				if(facetedProject!=null && facetedProject.getProjectFacetVersion(IJ2EEFacetConstants.DYNAMIC_WEB_FACET)!=null) {
-					IVirtualComponent component = ComponentCore.createComponent(project);
-					if(component!=null) {
-						IVirtualFolder webRootVirtFolder = component.getRootFolder().getFolder(new Path("/")); //$NON-NLS-1$
-						webRootFolder = webRootVirtFolder.getUnderlyingFolder();
-					}
-				}
-			}
-			currentProject = project;
-		}
-
-		// Validate files from Web-Content only (in case of WTP project)
-		return enabled && webRootFolder!=null && webRootFolder.getLocation().isPrefixOf(file.getLocation()) && PageContextFactory.isPage(file);
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * @see org.jboss.tools.jst.web.kb.validation.IValidator#getId()
@@ -405,5 +340,14 @@ public class CompositeComponentValidator extends KBValidator {
 			JSFModelPlugin.getDefault().logError(e);
 		}
 		return marker;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.jst.web.kb.internal.validation.WebValidator#shouldValidateJavaSources()
+	 */
+	@Override
+	protected boolean shouldValidateJavaSources() {
+		return false;
 	}
 }

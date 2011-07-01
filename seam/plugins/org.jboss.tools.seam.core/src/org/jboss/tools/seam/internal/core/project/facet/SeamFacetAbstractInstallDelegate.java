@@ -330,7 +330,19 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 		IVirtualComponent component = ComponentCore.createComponent(project);
 		IVirtualFolder webRootVirtFolder = component.getRootFolder().getFolder(new Path("/")); //$NON-NLS-1$
 		warDefaultSrcRootFolder = component.getRootFolder().getFolder(new Path("/WEB-INF/classes")); //$NON-NLS-1$
-		webRootFolder = webRootVirtFolder.getUnderlyingFolder();
+		IContainer[] roots = webRootVirtFolder.getUnderlyingFolders();
+		webRootFolder = null;
+		if(roots.length>1) {
+			for (IContainer container : roots) {
+				if(!container.getFullPath().toString().contains("/target/")) { //$NON-NLS-1$
+					webRootFolder = container;
+					break;
+				}
+			}
+		}
+		if(webRootFolder==null) {
+			webRootFolder = webRootVirtFolder.getUnderlyingFolder();
+		}
 
 		webContentFolder = webRootFolder.getLocation().toFile();
 		webContentPath = webRootFolder.getFullPath();
