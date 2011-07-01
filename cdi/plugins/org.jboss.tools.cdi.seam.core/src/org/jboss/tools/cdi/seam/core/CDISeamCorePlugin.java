@@ -23,6 +23,11 @@ public class CDISeamCorePlugin extends BaseUIPlugin {
 	// The plug-in ID
 	public static final String PLUGIN_ID = "org.jboss.tools.cdi.seam.core"; //$NON-NLS-1$
 
+	public static final String CA_CDI_MESSAGE_IMAGE_PATH = "images/ca/icons_CDI_Message.gif";
+
+	// Seam 3 International Module Runtime Extension ID
+	public static final String CDI_INTERNATIONAL_RUNTIME_EXTENTION = "org.jboss.seam.international.status.TypedStatusMessageBundleExtension";
+
 	// The shared instance
 	private static CDISeamCorePlugin plugin;
 	
