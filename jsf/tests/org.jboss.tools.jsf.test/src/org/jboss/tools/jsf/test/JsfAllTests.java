@@ -16,12 +16,8 @@ import junit.framework.TestSuite;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jdt.internal.core.JavaModelManager;
-import org.eclipse.wst.validation.ValidationFramework;
-import org.eclipse.wst.validation.Validator;
 import org.eclipse.wst.validation.internal.operations.ValidatorManager;
 import org.jboss.tools.jsf.model.pv.test.JSFPromptingProviderTest;
 import org.jboss.tools.jsf.model.pv.test.JsfJbide7975Test;
@@ -31,9 +27,9 @@ import org.jboss.tools.jsf.test.refactoring.JSF2RefactoringTest;
 import org.jboss.tools.jsf.test.refactoring.MessagePropertyRefactoringTest;
 import org.jboss.tools.jsf.test.refactoring.MethodRefactoringTest;
 import org.jboss.tools.jsf.test.validation.ELValidatorTest;
-import org.jboss.tools.jsf.test.validation.I18nValidatorTest;
 import org.jboss.tools.jsf.test.validation.JSF2ComponentsInClassFolderTest;
 import org.jboss.tools.jsf.test.validation.JSF2ComponentsValidatorTest;
+import org.jboss.tools.jsf.test.validation.WebContentTest;
 import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.ProjectImportTestSetup;
 
@@ -48,6 +44,7 @@ public class JsfAllTests {
 		old.addTestSuite(JSFModelTest.class);
 		old.addTestSuite(ModelFormat_2_0_0_Test.class);
 		old.addTestSuite(JSFBeansTest.class);
+		suite.addTestSuite(WebContentTest.class);
 		suite.addTestSuite(XMLCatalogTest.class);
 		suite.addTestSuite(JSFPaletteTest.class);
 		suite.addTest(new ProjectImportTestSetup(old,
