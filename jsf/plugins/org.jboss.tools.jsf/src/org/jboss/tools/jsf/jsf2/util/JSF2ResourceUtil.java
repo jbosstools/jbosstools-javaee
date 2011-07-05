@@ -76,12 +76,14 @@ public class JSF2ResourceUtil {
 		if (component != null) {
 			IVirtualFolder webRootFolder = component.getRootFolder().getFolder(
 					new Path("/")); //$NON-NLS-1$
-			IContainer folder = webRootFolder.getUnderlyingFolder();
-			IPath path = folder.getFullPath().append(relativeLocation).append(
+			IContainer[] folders = webRootFolder.getUnderlyingFolders();
+			for (IContainer folder: folders) {
+				IPath path = folder.getFullPath().append(relativeLocation).append(
 					"/" + nodeName + ".xhtml"); //$NON-NLS-1$ //$NON-NLS-2$
-			IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(path);
-			if (file.isAccessible()) {
-				return file;
+				IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(path);
+				if (file.isAccessible()) {
+					return file;
+				}
 			}
 		}
 		String classPathResource = "META-INF" + relativeLocation //$NON-NLS-1$
@@ -172,12 +174,14 @@ public class JSF2ResourceUtil {
 		if (component != null) {
 			IVirtualFolder webRootFolder = component.getRootFolder().getFolder(
 					new Path("/")); //$NON-NLS-1$
-			IContainer folder = webRootFolder.getUnderlyingFolder();
-			IPath path = folder.getFullPath().append(relativeLocation);
-			IFolder resFolder = ResourcesPlugin.getWorkspace().getRoot()
+			IContainer[] folders = webRootFolder.getUnderlyingFolders();
+			for (IContainer folder: folders) {
+				IPath path = folder.getFullPath().append(relativeLocation);
+				IFolder resFolder = ResourcesPlugin.getWorkspace().getRoot()
 					.getFolder(path);
-			if (resFolder.isAccessible()) {
-				return resFolder;
+				if (resFolder.isAccessible()) {
+					return resFolder;
+				}
 			}
 		}
 		String classPathResource = "META-INF" + relativeLocation; //$NON-NLS-1$
