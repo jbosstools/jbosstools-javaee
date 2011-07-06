@@ -37,10 +37,15 @@ public class TwoWebContentFoldersTest extends TestCase {
 		JobUtils.waitForIdle();
 	}
 
-	public void testBeansXML() throws CoreException, IOException {
+	public void testBeansXMLInDifferentWebContentFolders() throws CoreException, IOException {
 		ICDIProject cdi = CDICorePlugin.getCDIProject(project, true);
-		Set<IBean> bs = cdi.getBeans("myBeanA", false);
+		Set<IBean> bs = cdi.getBeans("bean1", false);
 		assertEquals(1, bs.size());
+		assertTrue(bs.iterator().next().isSelectedAlternative());
+		
+		bs = cdi.getBeans("bean2", false);
+		assertEquals(1, bs.size());
+		assertTrue(bs.iterator().next().isSelectedAlternative());
 	}
 
 	public void tearDown() throws Exception {
