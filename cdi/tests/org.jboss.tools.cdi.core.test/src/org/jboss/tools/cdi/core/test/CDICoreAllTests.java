@@ -99,6 +99,7 @@ public class CDICoreAllTests {
 		suite.addTestSuite(CoreValidationTest.class);
 		suite.addTestSuite(ELValidationTest.class);
 
+		suiteAll.addTestSuite(TwoWebContentFoldersTest.class);
 		suiteAll.addTestSuite(RemoveJarFromClasspathTest.class);
 		suiteAll.addTestSuite(ExtensionFactoryTest.class);
 		suiteAll.addTestSuite(ExtensionManagerTest.class);
