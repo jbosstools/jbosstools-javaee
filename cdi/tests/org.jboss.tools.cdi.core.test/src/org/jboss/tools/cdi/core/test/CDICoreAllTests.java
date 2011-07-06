@@ -50,6 +50,7 @@ import org.jboss.tools.cdi.core.test.tck.validation.CoreValidationTest;
 import org.jboss.tools.cdi.core.test.tck.validation.DefenitionErrorsValidationTest;
 import org.jboss.tools.cdi.core.test.tck.validation.DependentProjectValidationTest;
 import org.jboss.tools.cdi.core.test.tck.validation.DeploymentProblemsValidationTests;
+import org.jboss.tools.cdi.core.test.tck.validation.DisableCDISupportTest;
 import org.jboss.tools.cdi.core.test.tck.validation.ELValidationTest;
 import org.jboss.tools.test.util.ProjectImportTestSetup;
 
@@ -122,7 +123,8 @@ public class CDICoreAllTests {
 				new String[]{"CDITestBrokenBuilderOrder"});
 		suiteAll.addTest(testSetup);
 
+		suiteAll.addTestSuite(DisableCDISupportTest.class);
+
 		return suiteAll;
 	}
-
 }

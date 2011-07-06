@@ -47,6 +47,7 @@ import org.eclipse.wst.common.componentcore.ComponentCore;
 import org.eclipse.wst.common.componentcore.resources.IVirtualComponent;
 import org.eclipse.wst.common.componentcore.resources.IVirtualFile;
 import org.eclipse.wst.validation.internal.core.ValidationException;
+import org.eclipse.wst.validation.internal.operations.WorkbenchReporter;
 import org.eclipse.wst.validation.internal.provisional.core.IReporter;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.CDICoreBuilder;
@@ -385,6 +386,14 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 
 		cleanSavedMarkers();
 		return OK_STATUS;
+	}
+
+	/**
+	 * Removes all the validation problems created by this validator
+	 * @param project
+	 */
+	public static void cleanProject(IProject project) {
+		WorkbenchReporter.removeAllMessages(project, new String[]{CDICoreValidator.class.getName()}, null);
 	}
 
 	/**

@@ -55,6 +55,7 @@ import org.eclipse.wst.common.project.facet.core.IFacetedProject;
 import org.eclipse.wst.common.project.facet.core.IProjectFacetVersion;
 import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
 import org.jboss.tools.cdi.internal.core.impl.ClassBean;
+import org.jboss.tools.cdi.internal.core.validation.CDICoreValidator;
 import org.jboss.tools.common.EclipseUtil;
 import org.jboss.tools.common.java.IAnnotated;
 import org.jboss.tools.common.java.IAnnotationDeclaration;
@@ -113,6 +114,7 @@ public class CDIUtil {
 	public static void disableCDI(IProject project) {
 		try {
 			EclipseUtil.removeNatureFromProject(project, CDICoreNature.NATURE_ID);
+			CDICoreValidator.cleanProject(project);
 		} catch (CoreException e) {
 			CDICorePlugin.getDefault().logError(e);
 		}
