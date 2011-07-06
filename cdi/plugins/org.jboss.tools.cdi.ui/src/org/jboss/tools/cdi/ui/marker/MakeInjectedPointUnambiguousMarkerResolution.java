@@ -131,7 +131,7 @@ public class MakeInjectedPointUnambiguousMarkerResolution implements IMarkerReso
 	
 	
 	public String getDescription() {
-		return null;
+		return label;
 	}
 
 	public Image getImage() {

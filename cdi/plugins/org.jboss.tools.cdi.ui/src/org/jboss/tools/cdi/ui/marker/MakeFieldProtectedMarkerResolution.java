@@ -93,7 +93,7 @@ public class MakeFieldProtectedMarkerResolution implements IMarkerResolution2, T
 
 	@Override
 	public String getDescription() {
-		return null;
+		return label;
 	}
 
 	@Override

@@ -64,7 +64,7 @@ public class DeleteAllInjectedConstructorsMarkerResolution implements IMarkerRes
 	}
 	
 	public String getDescription() {
-		return null;
+		return label;
 	}
 
 	public Image getImage() {

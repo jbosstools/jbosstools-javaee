@@ -64,7 +64,7 @@ public class AddSerializableInterfaceMarkerResolution  implements IMarkerResolut
 
 	@Override
 	public String getDescription() {
-		return null;
+		return label;
 	}
 
 	@Override

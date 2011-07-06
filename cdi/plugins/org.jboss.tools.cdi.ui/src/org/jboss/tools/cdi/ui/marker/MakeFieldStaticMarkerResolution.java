@@ -86,7 +86,7 @@ public class MakeFieldStaticMarkerResolution implements IMarkerResolution2 {
 	}
 
 	public String getDescription() {
-		return null;
+		return label;
 	}
 
 	public Image getImage() {

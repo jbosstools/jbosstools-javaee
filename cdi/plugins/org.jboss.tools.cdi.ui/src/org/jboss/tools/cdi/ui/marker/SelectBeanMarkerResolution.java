@@ -114,7 +114,7 @@ public class SelectBeanMarkerResolution implements IMarkerResolution2, TestableR
 	}
 	
 	public String getDescription() {
-		return null;
+		return label;
 	}
 
 	public Image getImage() {

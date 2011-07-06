@@ -140,7 +140,7 @@ public class MakeBeanScopedDependentMarkerResolution implements IMarkerResolutio
 
 	@Override
 	public String getDescription() {
-		return null;
+		return label;
 	}
 
 	@Override

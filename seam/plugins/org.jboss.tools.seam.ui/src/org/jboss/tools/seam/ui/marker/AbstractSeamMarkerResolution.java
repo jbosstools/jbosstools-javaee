@@ -261,7 +261,7 @@ public abstract class AbstractSeamMarkerResolution implements
 	}
 
 	public String getDescription() {
-		return null;
+		return label;
 	}
 
 	public Image getImage() {

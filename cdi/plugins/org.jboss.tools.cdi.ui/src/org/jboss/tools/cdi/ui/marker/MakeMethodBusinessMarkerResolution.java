@@ -141,7 +141,7 @@ public class MakeMethodBusinessMarkerResolution implements IMarkerResolution2 {
 	
 
 	public String getDescription() {
-		return null;
+		return label;
 	}
 
 	public Image getImage() {

@@ -54,7 +54,7 @@ public class DeleteAllDisposerDuplicantMarkerResolution implements IMarkerResolu
 	}
 	
 	public String getDescription() {
-		return null;
+		return label;
 	}
 
 	public Image getImage() {
