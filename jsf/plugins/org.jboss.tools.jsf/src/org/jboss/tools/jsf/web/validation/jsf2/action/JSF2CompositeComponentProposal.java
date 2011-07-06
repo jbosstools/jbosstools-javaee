@@ -20,7 +20,9 @@ import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.IMarkerResolution;
+import org.eclipse.ui.IMarkerResolution2;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
 import org.jboss.tools.jsf.JSFModelPlugin;
@@ -33,7 +35,7 @@ import org.jboss.tools.jsf.messages.JSFUIMessages;
  * 
  */
 
-public class JSF2CompositeComponentProposal implements IMarkerResolution {
+public class JSF2CompositeComponentProposal implements IMarkerResolution2 {
 	private IResource resource;
 	private String componentPath = null;
 	private String[] attrs = null;
@@ -65,6 +67,16 @@ public class JSF2CompositeComponentProposal implements IMarkerResolution {
 		}catch(CoreException ex){
 			JSFModelPlugin.getPluginLog().logError(ex);
 		}
+	}
+
+	@Override
+	public String getDescription() {
+		return getLabel();
+	}
+
+	@Override
+	public Image getImage() {
+		return null;
 	}
 
 }
