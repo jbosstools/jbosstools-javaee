@@ -42,6 +42,7 @@ import org.eclipse.wst.xml.core.internal.provisional.document.IDOMElement;
 import org.jboss.tools.jsf.JSFModelPlugin;
 import org.jboss.tools.jsf.jsf2.model.JSF2ComponentModelManager;
 import org.jboss.tools.jsf.web.validation.jsf2.util.JSF2TemplateManager;
+import org.jboss.tools.jst.web.WebUtils;
 
 /**
  * 
@@ -260,11 +261,11 @@ public class JSF2ResourceUtil {
 		}
 		IVirtualComponent component = ComponentCore.createComponent(project);
 		if (component != null) {
-			IVirtualFolder webRootFolder = component.getRootFolder().getFolder(
-					new Path("/")); //$NON-NLS-1$
-			IContainer folder = webRootFolder.getUnderlyingFolder();
+			IContainer[] folders = WebUtils.getWebRootFolders(project, false);
+			if(folders == null || folders.length == 0)
+				return null;
 			IFolder webFolder = ResourcesPlugin.getWorkspace().getRoot()
-					.getFolder(folder.getFullPath());
+					.getFolder(folders[0].getFullPath());
 			IFolder resourcesFolder = webFolder.getFolder("resources"); //$NON-NLS-1$
 			NullProgressMonitor monitor = new NullProgressMonitor();
 			if (!resourcesFolder.exists()) {
