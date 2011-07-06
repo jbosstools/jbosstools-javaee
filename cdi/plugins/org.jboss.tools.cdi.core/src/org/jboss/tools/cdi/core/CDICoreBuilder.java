@@ -240,7 +240,6 @@ public class CDICoreBuilder extends IncrementalProjectBuilder {
 		rv.incremental = true;
 		delta.accept(new SampleDeltaVisitor());
 		FileSet fs = rv.fileSet;
-//		fs.getPackages().
 		invokeBuilderDelegates(fs, getCDICoreNature());
 	}
 
@@ -361,11 +360,11 @@ public class CDICoreBuilder extends IncrementalProjectBuilder {
 		FileSet fileSet = new FileSet();
 		IPath[] outs = new IPath[0];
 		IPath[] srcs = new IPath[0];
-		IPath webinf = null;
-		Set<IPath> visited = new HashSet<IPath>(); 
+		IPath[] webinfs = new IPath[0];
+		Set<IPath> visited = new HashSet<IPath>();
 		
 		CDIResourceVisitor() {
-			webinf = ProjectHome.getWebInfPath(getProject());
+			webinfs = ProjectHome.getWebInfPaths(getProject());
 			getJavaSourceRoots(getProject());
 		}
 
@@ -444,11 +443,13 @@ public class CDICoreBuilder extends IncrementalProjectBuilder {
 						return false;
 					}
 				}
-				if(webinf != null && webinf.isPrefixOf(path)) {
-					if(webinf.segmentCount() == path.segmentCount() - 1) {
-						addBeansXML(f, fileSet);
+				for (IPath webinf: webinfs) {
+					if(webinf.isPrefixOf(path)) {
+						if(webinf.segmentCount() == path.segmentCount() - 1) {
+							addBeansXML(f, fileSet);
+						}
+						for (IBuildParticipantFeature p: buildParticipants) p.visit(f, null, webinf);
 					}
-					for (IBuildParticipantFeature p: buildParticipants) p.visit(f, null, webinf);
 				}
 				
 				Set<IFile> ds = getDependentFiles(path, visited);
@@ -456,17 +457,17 @@ public class CDICoreBuilder extends IncrementalProjectBuilder {
 			}
 			
 			if(resource instanceof IFolder) {
-				for (int i = 0; i < outs.length; i++) {
-					if(outs[i].isPrefixOf(path)) {
+				for (IPath out: outs) {
+					if(out.isPrefixOf(path)) {
 						return false;
 					}
 				}
-				for (int i = 0; i < srcs.length; i++) {
-					if(srcs[i].isPrefixOf(path) || path.isPrefixOf(srcs[i])) {
+				for (IPath src: srcs) {
+					if(src.isPrefixOf(path) || path.isPrefixOf(src)) {
 						return true;
 					}
 				}
-				if(webinf != null) {
+				for (IPath webinf: webinfs) {
 					if(webinf.isPrefixOf(path) || path.isPrefixOf(webinf)) {
 						return true;
 					}
