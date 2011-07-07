@@ -37,6 +37,7 @@ import org.jboss.tools.cdi.text.ext.hyperlink.ITestableCDIHyperlink;
 import org.jboss.tools.common.editor.ObjectMultiPageEditor;
 import org.jboss.tools.common.model.ui.editor.EditorPartWrapper;
 import org.jboss.tools.common.model.ui.texteditors.XMLTextEditorStandAlone;
+import org.jboss.tools.common.text.ext.hyperlink.AbstractHyperlink;
 import org.jboss.tools.common.text.ext.hyperlink.HyperlinkDetector;
 import org.jboss.tools.common.text.ext.hyperlink.IHyperlinkRegion;
 import org.jboss.tools.common.text.ext.util.AxisUtil;
@@ -136,12 +137,12 @@ public class CDIHyperlinkTestUtil extends TestCase{
 			assertEquals("Unexpected hyperlink type", testLink.hyperlink, link.getClass());
 			assertTrue("Validation fails for hyperlink - "+link.getHyperlinkText(), testLink.validateHyperlink(link));
 			if(testLink.fileName != null){
-				link.open();
-				IEditorPart editor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
-				IFileEditorInput input = (IFileEditorInput)editor.getEditorInput();
-				IFile f = input.getFile();
+				assertTrue("HyperLink must be inherited from AbstractHyperlink", link instanceof AbstractHyperlink);
+				
+				IFile f = ((AbstractHyperlink)link).getReadyToOpenFile();
+				assertNotNull("HyperLink must return not null file", f);
 				assertEquals(testLink.fileName, f.getName());
-				editor.dispose();
+				
 			}
 		}
 		

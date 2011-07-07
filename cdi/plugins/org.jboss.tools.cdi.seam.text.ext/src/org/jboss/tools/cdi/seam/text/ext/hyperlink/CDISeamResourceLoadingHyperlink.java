@@ -39,10 +39,15 @@ public class CDISeamResourceLoadingHyperlink extends AbstractHyperlink{
 	protected IRegion doGetHyperlinkRegion(int offset) {
 		return region;
 	}
+	
+	@Override
+	public IFile getReadyToOpenFile(){
+		return getFileFromProject(path);
+	}
 
 	@Override
 	protected void doHyperlink(IRegion region) {
-		IFile file = getFileFromProject(path);
+		IFile file = getReadyToOpenFile();
 		IEditorPart part = openFileInEditor(file);
 		if(part == null)
 			openFileFailed();
