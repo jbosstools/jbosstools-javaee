@@ -15,6 +15,8 @@ import java.util.Set;
 
 import org.eclipse.core.runtime.IPath;
 import org.jboss.tools.common.model.XModelObject;
+import org.jboss.tools.common.model.filesystems.impl.FileAnyImpl;
+import org.jboss.tools.common.model.filesystems.impl.FolderImpl;
 import org.jboss.tools.common.text.INodeReference;
 
 /**
@@ -39,7 +41,12 @@ public class BeansXMLDefinition {
 
 	public void setBeansXML(XModelObject beansXML) {
 		if(beansXML.getModelEntity().getName().startsWith("FileCDIBeans")) {
-
+			if(beansXML instanceof FileAnyImpl) {
+				FileAnyImpl f = (FileAnyImpl)beansXML;
+				if(f.getParent() instanceof FolderImpl) {
+					((FolderImpl)f.getParent()).update();
+				}
+			}
 			XModelObject interceptorsObject = beansXML.getChildByPath(NODE_INTERCEPTORS);
 			if(interceptorsObject != null) {
 				XModelObject[] cs = interceptorsObject.getChildren();
