@@ -26,7 +26,8 @@ public class CDISeamResourceLoadingHyperlinkDetectorTest extends TCKTest{
 		int injectPosition = text.indexOf("@Inject");
 		//System.out.println("injectPosition - "+injectPosition);
 		if(injectPosition > 0){
-			regionList.add(new TestRegion(injectPosition, 58, new TestHyperlink[]{new TestHyperlink(CDISeamResourceLoadingHyperlink.class, NLS.bind(CDISeamExtMessages.CDI_SEAM_RESOURCE_LOADING_HYPERLINK, "WEB-INF/beans.xml"))}));
+			regionList.add(new TestRegion(injectPosition, 58,
+					new TestHyperlink[]{new TestHyperlink(CDISeamResourceLoadingHyperlink.class, NLS.bind(CDISeamExtMessages.CDI_SEAM_RESOURCE_LOADING_HYPERLINK, "WEB-INF/beans.xml", "WebContent/WEB-INF/beans.xml"))}));
 		}
 		 
 		CDIHyperlinkTestUtil.checkRegions(tckProject, FILENAME, regionList, new CDISeamResourceLoadingHyperlinkDetector());

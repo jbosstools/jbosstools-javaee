@@ -18,6 +18,7 @@ import org.eclipse.jface.text.hyperlink.AbstractHyperlinkDetector;
 import org.eclipse.jface.text.hyperlink.IHyperlink;
 import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
@@ -42,6 +43,7 @@ import org.jboss.tools.common.text.ext.util.AxisUtil;
 import org.jboss.tools.jst.web.ui.editors.WebCompoundEditor;
 
 public class CDIHyperlinkTestUtil extends TestCase{
+	
 	public static void checkRegions(IProject project, String fileName, List<TestRegion> regionList, AbstractHyperlinkDetector elPartitioner) throws Exception {
 		IFile file = project.getFile(fileName);
 
@@ -133,6 +135,14 @@ public class CDIHyperlinkTestUtil extends TestCase{
 			assertNotNull("Unexpected hyperlink - "+link.getHyperlinkText(), testLink);
 			assertEquals("Unexpected hyperlink type", testLink.hyperlink, link.getClass());
 			assertTrue("Validation fails for hyperlink - "+link.getHyperlinkText(), testLink.validateHyperlink(link));
+			if(testLink.fileName != null){
+				link.open();
+				IEditorPart editor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
+				IFileEditorInput input = (IFileEditorInput)editor.getEditorInput();
+				IFile f = input.getFile();
+				assertEquals(testLink.fileName, f.getName());
+				editor.dispose();
+			}
 		}
 		
 		for(TestHyperlink testLink : testRegion.hyperlinks){
@@ -342,6 +352,12 @@ public class CDIHyperlinkTestUtil extends TestCase{
 		ICDIElement element = null;
 		String[] elementPaths = null;
 		String name;
+		String fileName=null;
+		
+		public TestHyperlink(Class<? extends IHyperlink> hyperlink, String name, String fileName){
+			this(hyperlink, name);
+			this.fileName = fileName;
+		}
 		
 		public TestHyperlink(Class<? extends IHyperlink> hyperlink, String name){
 			this.hyperlink = hyperlink;
