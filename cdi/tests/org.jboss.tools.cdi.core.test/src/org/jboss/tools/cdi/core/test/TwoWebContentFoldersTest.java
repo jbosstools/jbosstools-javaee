@@ -33,6 +33,7 @@ public class TwoWebContentFoldersTest extends TestCase {
 
 	public void setUp() throws Exception {
 		project = ResourcesUtils.importProject(PLUGIN_ID, "/projects/TwoWebContentFolders");
+		JobUtils.waitForIdle();
 		project.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
 		JobUtils.waitForIdle();
 	}
