@@ -100,37 +100,36 @@ public class IncrementalValidationTest extends ValidationTest {
 	 * @throws Exception
 	 */
 	public void testAlternativesInBeansXml() throws Exception {
-//		boolean saveAutoBuild = ResourcesUtils.setBuildAutomatically(false);
-//		JobUtils.waitForIdle();
-//
-//		try {
-//			IFile bean = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/beansxml/incremental/Test3.java");
-//			AbstractResourceMarkerTest.assertMarkerIsNotCreated(bean, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS, 8);
-//
-//			IFile beansXml = tckProject.getFile("JavaSource/META-INF/beans.xml");
-//			IFile emptyBeansXml = tckProject.getFile("JavaSource/META-INF/beans.xml.empty");
-//
-//			ValidatorManager.setStatus("TESTING");
-//			beansXml.setContents(emptyBeansXml.getContents(), IFile.FORCE, new NullProgressMonitor());
-//			tckProject.build(IncrementalProjectBuilder.INCREMENTAL_BUILD, new NullProgressMonitor());
-//			TestUtil.waitForValidation(tckProject);
-//
-//			AbstractResourceMarkerTest.assertMarkerIsCreated(bean, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS, 8);
-//
-//			IFile beansXmlWithAlternative = tckProject.getFile("JavaSource/META-INF/beans.xml.with.alternative");
-//
-//			ValidatorManager.setStatus("TESTING");
-//			beansXml.setContents(beansXmlWithAlternative.getContents(), IFile.FORCE, new NullProgressMonitor());
-//			tckProject.build(IncrementalProjectBuilder.INCREMENTAL_BUILD, new NullProgressMonitor());
-//			TestUtil.waitForValidation(tckProject);
-//	
-//			AbstractResourceMarkerTest.assertMarkerIsNotCreated(bean, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS, 8);
-//		} finally {
-//			IFile beansXml = tckProject.getFile("JavaSource/META-INF/beans.xml");
-//			IFile beansXmlWithAlternative = tckProject.getFile("JavaSource/META-INF/beans.xml.with.alternative");
-//			beansXml.setContents(beansXmlWithAlternative.getContents(), IFile.FORCE, new NullProgressMonitor());
-//			ResourcesUtils.setBuildAutomatically(saveAutoBuild);
-//			JobUtils.waitForIdle();
-//		}
+		boolean saveAutoBuild = ResourcesUtils.setBuildAutomatically(false);
+		JobUtils.waitForIdle();
+
+		try {
+			IFile bean = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/beansxml/incremental/Test3.java");
+			AbstractResourceMarkerTest.assertMarkerIsNotCreated(bean, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS, 8);
+
+			IFile beansXml = tckProject.getFile("JavaSource/META-INF/beans.xml");
+			IFile emptyBeansXml = tckProject.getFile("JavaSource/META-INF/beans.xml.empty");
+
+			ValidatorManager.setStatus("TESTING ALTERNATIVES 1");
+			beansXml.setContents(emptyBeansXml.getContents(), IFile.FORCE, new NullProgressMonitor());
+			tckProject.build(IncrementalProjectBuilder.INCREMENTAL_BUILD, new NullProgressMonitor());
+			TestUtil.waitForValidation(tckProject);
+			AbstractResourceMarkerTest.assertMarkerIsCreated(bean, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS, 8);
+
+			IFile beansXmlWithAlternative = tckProject.getFile("JavaSource/META-INF/beans.xml.with.alternative");
+
+			ValidatorManager.setStatus("TESTING ALTERNATIVES 2");
+			beansXml.setContents(beansXmlWithAlternative.getContents(), IFile.FORCE, new NullProgressMonitor());
+			tckProject.build(IncrementalProjectBuilder.INCREMENTAL_BUILD, new NullProgressMonitor());
+			TestUtil.waitForValidation(tckProject);
+	
+			AbstractResourceMarkerTest.assertMarkerIsNotCreated(bean, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS, 8);
+		} finally {
+			IFile beansXml = tckProject.getFile("JavaSource/META-INF/beans.xml");
+			IFile beansXmlWithAlternative = tckProject.getFile("JavaSource/META-INF/beans.xml.with.alternative");
+			beansXml.setContents(beansXmlWithAlternative.getContents(), IFile.FORCE, new NullProgressMonitor());
+			ResourcesUtils.setBuildAutomatically(saveAutoBuild);
+			JobUtils.waitForIdle();
+		}
 	}
 }
