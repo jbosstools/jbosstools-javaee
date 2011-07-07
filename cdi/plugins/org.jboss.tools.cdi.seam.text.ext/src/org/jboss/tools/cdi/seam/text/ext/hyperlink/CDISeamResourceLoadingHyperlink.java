@@ -42,7 +42,7 @@ public class CDISeamResourceLoadingHyperlink extends AbstractHyperlink{
 
 	@Override
 	protected void doHyperlink(IRegion region) {
-		IFile file = getFile().getProject().getFile(path);
+		IFile file = getFileFromProject(path);
 		IEditorPart part = openFileInEditor(file);
 		if(part == null)
 			openFileFailed();
