@@ -14,6 +14,7 @@ package org.jboss.tools.cdi.internal.core.validation;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -187,6 +188,14 @@ public class BeansXmlValidationDelegate extends CDICoreValidationDelegate {
 						if(type!=null) {
 							if(!type.isBinary()) {
 								validator.getValidationContext().addLinkedCoreResource(CDICoreValidator.SHORT_ID, beansXml.getFullPath().toOSString(), type.getPath(), false);
+								Set<IPath> relatedResources = new HashSet<IPath>();
+								IResource resource = type.getResource();
+								if(resource instanceof IFile) {
+									validator.collectAllRelatedInjectionsForBean((IFile)resource, relatedResources);
+									for (IPath path : relatedResources) {
+										validator.getValidationContext().addLinkedCoreResource(CDICoreValidator.SHORT_ID, path.toOSString(), beansXml.getFullPath(), false);
+									}
+								}
 							}
 							if(!typeValidator.validateKindOfType(type)) {
 								validator.addError(typeValidator.getIllegalTypeErrorMessage(), CDIPreferences.ILLEGAL_TYPE_NAME_IN_BEANS_XML,
@@ -225,7 +234,7 @@ public class BeansXmlValidationDelegate extends CDICoreValidationDelegate {
 
 	private Map<IProject, IJavaProject> javaProjects;
 
-	private IJavaProject getJavaProject(IResource resource) {
+	public IJavaProject getJavaProject(IResource resource) {
 		if(javaProjects == null) {
 			javaProjects = new HashMap<IProject, IJavaProject>();
 		}

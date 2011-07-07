@@ -52,6 +52,7 @@ import org.jboss.tools.cdi.core.test.tck.validation.DependentProjectValidationTe
 import org.jboss.tools.cdi.core.test.tck.validation.DeploymentProblemsValidationTests;
 import org.jboss.tools.cdi.core.test.tck.validation.DisableCDISupportTest;
 import org.jboss.tools.cdi.core.test.tck.validation.ELValidationTest;
+import org.jboss.tools.cdi.core.test.tck.validation.IncrementalValidationTest;
 import org.jboss.tools.test.util.ProjectImportTestSetup;
 
 /**
@@ -99,6 +100,7 @@ public class CDICoreAllTests {
 		suite.addTestSuite(AnnotationsValidationTest.class);
 		suite.addTestSuite(CoreValidationTest.class);
 		suite.addTestSuite(ELValidationTest.class);
+		suite.addTestSuite(IncrementalValidationTest.class);
 
 		suiteAll.addTestSuite(TwoWebContentFoldersTest.class);
 		suiteAll.addTestSuite(RemoveJarFromClasspathTest.class);

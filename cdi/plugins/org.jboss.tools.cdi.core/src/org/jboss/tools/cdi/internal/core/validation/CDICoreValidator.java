@@ -91,6 +91,7 @@ import org.jboss.tools.common.java.ITypeDeclaration;
 import org.jboss.tools.common.java.ParametedType;
 import org.jboss.tools.common.model.util.EclipseJavaUtil;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
+import org.jboss.tools.common.text.INodeReference;
 import org.jboss.tools.common.text.ITextSourceReference;
 import org.jboss.tools.jst.web.kb.internal.validation.ContextValidationHelper;
 import org.jboss.tools.jst.web.kb.internal.validation.ValidatorManager;
@@ -1380,6 +1381,35 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 	}
 
 	private void collectAllRelatedInjections(IFile validatingResource, Set<IPath> relatedResources) {
+		collectAllRelatedInjectionsForBean(validatingResource, relatedResources);
+		if("beans.xml".equals(validatingResource.getName().toLowerCase())) {
+			List<INodeReference> nodes = cdiProject.getAlternativeClasses();
+			collectAllRelatedInjectionsForNode(nodes, relatedResources);
+			nodes = cdiProject.getDecoratorClasses();
+			collectAllRelatedInjectionsForNode(nodes, relatedResources);
+			nodes = cdiProject.getInterceptorClasses();
+			collectAllRelatedInjectionsForNode(nodes, relatedResources);
+		}
+	}
+
+	private void collectAllRelatedInjectionsForNode(List<INodeReference> nodes, Set<IPath> relatedResources) {
+		try {
+			for (INodeReference node : nodes) {
+				String className = node.getValue();
+				IType type = EclipseJavaUtil.findType(beansXmlValidator.getJavaProject(node.getResource()), className);
+				if(type!=null && !type.isBinary()) {
+					IResource resource = type.getResource();
+					if(type!=null && resource instanceof IFile) {
+						collectAllRelatedInjectionsForBean((IFile)resource, relatedResources);
+					}
+				}
+			}
+		} catch (JavaModelException e) {
+			CDICorePlugin.getDefault().logError(e);
+		}
+	}
+
+	public void collectAllRelatedInjectionsForBean(IFile validatingResource, Set<IPath> relatedResources) {
 		Set<IBean> beans = cdiProject.getBeans(validatingResource.getFullPath());
 		for (IBean bean : beans) {
 			Set<IParametedType> types = bean.getAllTypes();
