@@ -12,8 +12,10 @@ package org.jboss.tools.jsf.jsf2.bean.model.impl;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -41,6 +43,11 @@ import org.jboss.tools.jst.web.kb.WebKbPlugin;
 import org.jboss.tools.jst.web.kb.internal.KbBuilder;
 import org.w3c.dom.Element;
 
+/**
+ * 
+ * @author Viacheslav Kabanovich
+ *
+ */
 public class JSF2Project implements IJSF2Project {
 	IProject project = null;
 
@@ -53,6 +60,7 @@ public class JSF2Project implements IJSF2Project {
 	Set<JSF2Project> dependsOn = new HashSet<JSF2Project>();
 	Set<JSF2Project> usedBy = new HashSet<JSF2Project>();
 
+	private Set<IJSF2ManagedBean> allBeans = new HashSet<IJSF2ManagedBean>();
 	private Map<IPath, Set<IJSF2ManagedBean>> beansByPath = new HashMap<IPath, Set<IJSF2ManagedBean>>();
 	private Map<String, Set<IJSF2ManagedBean>> beansByName = new HashMap<String, Set<IJSF2ManagedBean>>();
 	private Set<IJSF2ManagedBean> namedBeans = new HashSet<IJSF2ManagedBean>();
@@ -62,8 +70,10 @@ public class JSF2Project implements IJSF2Project {
 	}
 
 	@Override
-	public IJSF2ManagedBean[] getManagedBeans() {
-		return namedBeans.toArray(new IJSF2ManagedBean[0]);
+	public Set<IJSF2ManagedBean> getManagedBeans() {
+		Set<IJSF2ManagedBean> result = new HashSet<IJSF2ManagedBean>();
+		result.addAll(namedBeans);
+		return result;
 	}
 
 	@Override
@@ -71,6 +81,18 @@ public class JSF2Project implements IJSF2Project {
 		Set<IJSF2ManagedBean> result = new HashSet<IJSF2ManagedBean>();
 		Set<IJSF2ManagedBean> beans = beansByPath.get(path);
 		if(beans != null && !beans.isEmpty()) result.addAll(beans);
+		return result;
+	}
+
+	@Override
+	public Set<IJSF2ManagedBean> getManagedBeans(String name) {
+		Set<IJSF2ManagedBean> result = new HashSet<IJSF2ManagedBean>();
+		Set<IJSF2ManagedBean> beans = beansByName.get(name);
+		if(beans != null) {
+			synchronized(beans) {
+				result.addAll(beans);
+			}
+		}
 		return result;
 	}
 
@@ -167,6 +189,32 @@ public class JSF2Project implements IJSF2Project {
 		}
 	}
 
+	public List<TypeDefinition> getAllTypeDefinitions() {
+		Set<JSF2Project> ps = getUsedProjects(true);
+		if(ps == null || ps.isEmpty()) {
+			return getDefinitions().getTypeDefinitions();
+		}
+		List<TypeDefinition> ds = getDefinitions().getTypeDefinitions();
+		List<TypeDefinition> result = new ArrayList<TypeDefinition>();
+		result.addAll(ds);
+		Set<IType> types = new HashSet<IType>();
+		for (TypeDefinition d: ds) {
+			IType t = d.getType();
+			if(t != null) types.add(t);
+		}
+		for (JSF2Project p: ps) {
+			List<TypeDefinition> ds2 = p.getDefinitions().getTypeDefinitions();
+			for (TypeDefinition d: ds2) {
+				IType t = d.getType();
+				if(t != null && !types.contains(t)) {
+					types.add(t);
+					result.add(d);
+				}
+			}
+		}
+		return result;
+	}
+
 	public DefinitionContext getDefinitions() {
 		return definitions;
 	}
@@ -202,7 +250,7 @@ public class JSF2Project implements IJSF2Project {
 		if(isStorageResolved) return;
 		isStorageResolved = true;
 		try {
-			getProject().build(IncrementalProjectBuilder.FULL_BUILD, KbBuilder.BUILDER_ID, new HashMap(), new NullProgressMonitor());
+			getProject().build(IncrementalProjectBuilder.FULL_BUILD, KbBuilder.BUILDER_ID, new HashMap<String,String>(), new NullProgressMonitor());
 		} catch (CoreException e) {
 			JSFModelPlugin.getDefault().logError(e);
 		}
@@ -230,7 +278,65 @@ public class JSF2Project implements IJSF2Project {
 	}
 	
 	public void update() {
-		//TODO
+		List<TypeDefinition> typeDefinitions = getAllTypeDefinitions();
+		List<IJSF2ManagedBean> beans = new ArrayList<IJSF2ManagedBean>();
+		for (TypeDefinition typeDefinition : typeDefinitions) {
+			if(typeDefinition.isManagedBean()) { //improve for managed properties
+				JSF2ManagedBean bean = new JSF2ManagedBean();
+				bean.setDefinition(typeDefinition);
+				beans.add(bean);
+			}
+			
+		}
+		synchronized (beansByPath) {
+			beansByPath.clear();
+		}
+		synchronized (beansByName) {
+			beansByName.clear();
+		}
+		synchronized (namedBeans) {
+			namedBeans.clear();
+		}
+		synchronized (allBeans) {
+			allBeans.clear();
+		}
+
+		for (IJSF2ManagedBean bean: beans) {
+			addBean(bean);
+		}
+	}
+
+	public void addBean(IJSF2ManagedBean bean) {
+		String name = bean.getName();
+		if(name != null && name.length() > 0) {
+			Set<IJSF2ManagedBean> bs = beansByName.get(name);
+			if(bs == null) {
+				bs = new HashSet<IJSF2ManagedBean>();
+				synchronized (beansByName) {
+					beansByName.put(name, bs);				
+				}
+			}
+			synchronized (bs) {
+				bs.add(bean);
+			}
+			synchronized (namedBeans) {
+				namedBeans.add(bean);
+			}
+		}
+		IPath path = bean.getSourcePath();
+		Set<IJSF2ManagedBean> bs = beansByPath.get(path);
+		if(bs == null) {
+			bs = new HashSet<IJSF2ManagedBean>();
+			synchronized (beansByPath) {
+				beansByPath.put(path, bs);
+			}
+		}
+		synchronized (bs) {
+			bs.add(bean);
+		}
+		synchronized (allBeans) {
+			allBeans.add(bean);
+		}
 	}
 
 	public void store() throws IOException {

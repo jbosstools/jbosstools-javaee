@@ -10,8 +10,14 @@
  ******************************************************************************/ 
 package org.jboss.tools.jsf.jsf2.bean.model.impl;
 
+import org.jboss.tools.jsf.jsf2.bean.model.JSF2Constants;
+
 public class TypeDefinition extends AbstractTypeDefinition {
 
 	public TypeDefinition() {}
+
+	public boolean isManagedBean() {
+		return isAnnotationPresent(JSF2Constants.MANAGED_BEAN_ANNOTATION_TYPE_NAME);
+	}
 
 }

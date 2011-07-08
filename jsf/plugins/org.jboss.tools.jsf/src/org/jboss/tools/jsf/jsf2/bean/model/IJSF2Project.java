@@ -17,9 +17,11 @@ import org.eclipse.core.runtime.IPath;
 
 public interface IJSF2Project {
 
-	public IJSF2ManagedBean[] getManagedBeans();
+	public Set<IJSF2ManagedBean> getManagedBeans();
 
 	public Set<IJSF2ManagedBean> getManagedBeans(IPath path);
+
+	public Set<IJSF2ManagedBean> getManagedBeans(String name);
 
 	public IProject getProject();
 

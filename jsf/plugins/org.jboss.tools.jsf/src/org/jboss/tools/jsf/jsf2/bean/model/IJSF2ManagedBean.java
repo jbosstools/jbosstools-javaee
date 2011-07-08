@@ -10,6 +10,19 @@
  ******************************************************************************/ 
 package org.jboss.tools.jsf.jsf2.bean.model;
 
-public interface IJSF2ManagedBean {
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.jdt.core.IType;
+import org.jboss.tools.common.el.core.resolver.IVariable;
+import org.jboss.tools.common.java.IAnnotationDeclaration;
+
+public interface IJSF2ManagedBean extends IVariable {
+
+	public String getName();
+
+	public IAnnotationDeclaration getManagedBeanDeclaration();
+
+	public IPath getSourcePath();
+
+	public IType getBeanClass();
 
 }
