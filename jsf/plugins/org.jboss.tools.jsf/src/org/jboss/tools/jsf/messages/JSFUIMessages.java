@@ -151,6 +151,7 @@ public class JSFUIMessages extends NLS {
 	public static String NonExternalizedStringLiteral;
 	public static String NonExternalizedStringMarkerLabel;
 	public static String CreateJSF2Composite;
+	public static String BUILD_JSF2_MODEL;
 	
 	static {
 		// load message values from bundle file
