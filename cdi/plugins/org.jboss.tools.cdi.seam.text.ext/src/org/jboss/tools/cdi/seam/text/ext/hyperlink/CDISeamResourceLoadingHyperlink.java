@@ -27,6 +27,7 @@ import org.jboss.tools.common.text.ext.hyperlink.AbstractHyperlink;
 import org.jboss.tools.common.text.ext.util.Utils;
 
 public class CDISeamResourceLoadingHyperlink extends AbstractHyperlink{
+	private final static String PROPERTIES = ".properties";
 	private IRegion region;
 	private String path;
 	private IFile file;
@@ -50,16 +51,49 @@ public class CDISeamResourceLoadingHyperlink extends AbstractHyperlink{
 	
 	@Override
 	public IFile getReadyToOpenFile(){
-		IFile result = getFileFromProject(path);
+		String fileName = path;
+		
+		IFile result = searchFile(fileName);
+		if(result != null && result.exists())
+			return result;
+		
+		fileName = replaceDots(fileName);
+		result = searchFile(fileName);
+		if(result != null && result.exists())
+			return result;
+	
+		fileName = path;
+		fileName += PROPERTIES;
+		fileName = replaceDots(fileName);
+		return searchFile(fileName);
+	}
+	
+	private String replaceDots(String name){
+		String fileName = name;
+		int propIndex = fileName.lastIndexOf(".");
+		if(propIndex < 0)
+			return fileName;
+		
+		String extension = fileName.substring(propIndex);
+		
+		fileName = fileName.substring(0, propIndex);
+		fileName = fileName.replace(".", "/");
+		fileName += extension;
+		
+		return fileName;
+	}
+	
+	public IFile searchFile(String fileName){
+		IFile result = getFileFromProject(fileName);
 		if(result != null && result.exists())
 			return result;
 		
 		if(file == null || !file.isAccessible()) return null;
 		
-		path = findAndReplaceElVariable(path);
+		fileName = findAndReplaceElVariable(fileName);
 		
 		IProject project = file.getProject();
-		String name = Utils.trimFilePath(path);
+		String name = Utils.trimFilePath(fileName);
 		IPath currentPath = file.getLocation().removeLastSegments(1);
 		IResource member = null;
 		
