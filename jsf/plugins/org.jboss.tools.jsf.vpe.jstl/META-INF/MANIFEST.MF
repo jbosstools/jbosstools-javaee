@@ -5,17 +5,17 @@ Bundle-SymbolicName: org.jboss.tools.jsf.vpe.jstl;singleton:=true
 Bundle-Version: 3.1.0.qualifier
 Bundle-Activator: org.jboss.tools.jsf.vpe.jstl.JstlTemplatePlugin
 Bundle-Vendor: %providerName
-Require-Bundle: org.eclipse.ui,
- org.eclipse.core.runtime,
+Require-Bundle: org.eclipse.ui;bundle-version="3.7.0",
+ org.eclipse.core.runtime;bundle-version="3.7.0",
  org.jboss.tools.common,
  org.jboss.tools.vpe,
  org.mozilla.xpcom,
  org.jboss.tools.jst.jsp,
- org.eclipse.wst.sse.core,
- org.eclipse.jst.jsp.core,
- org.eclipse.wst.html.core,
+ org.eclipse.wst.sse.core;bundle-version="1.1.600",
+ org.eclipse.jst.jsp.core;bundle-version="1.2.400",
+ org.eclipse.wst.html.core;bundle-version="1.1.500",
  org.jboss.tools.vpe.html,
- org.jboss.tools.jsf.vpe.jsf;bundle-version="2.1.0"
+ org.jboss.tools.jsf.vpe.jsf
 Bundle-ActivationPolicy: lazy
 Export-Package: org.jboss.tools.jsf.vpe.jstl.template
 Bundle-Localization: plugin
