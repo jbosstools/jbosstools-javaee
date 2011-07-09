@@ -126,7 +126,7 @@ public class CDISeamResourceLoadingHyperlink extends AbstractHyperlink{
 			//IPath sourcePath = source.getLocation();
 
 			// Look in source environment
-			IPath webRootPath = source.getFullPath();//projectPath.append(sourcePath);
+			IPath webRootPath = source.getProjectRelativePath();//projectPath.append(sourcePath);
 			IPath relativePath = Utils.getRelativePath(webRootPath,	basePath);
 			IPath filePath = relativePath.append(path);
 			member = project.getFolder(webRootPath).getFile(filePath);
@@ -146,9 +146,10 @@ public class CDISeamResourceLoadingHyperlink extends AbstractHyperlink{
 
 		Set<IFolder> sources = EclipseResourceUtil.getSourceFolders(file.getProject());
 		for (IFolder source : sources) {
-			IPath sourcePath = source.getFullPath();
+			IPath sourcePath = source.getProjectRelativePath();
 
 			// Look in source environment
+			//IPath relativePath = Utils.getRelativePath(sourcePath,	project.getLocation());
 			member = project.getFolder(sourcePath).getFile(path);
 			if(member.exists()) {
 					return member;
