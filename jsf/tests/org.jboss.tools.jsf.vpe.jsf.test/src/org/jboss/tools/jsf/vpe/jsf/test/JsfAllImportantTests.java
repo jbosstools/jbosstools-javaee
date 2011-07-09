@@ -1,5 +1,8 @@
 package org.jboss.tools.jsf.vpe.jsf.test;
 
+import junit.framework.Test;
+import junit.framework.TestSuite;
+
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.ChangeMessageBundleTest_JBIDE5818;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.ContextMenuDoubleInsertionTest_JBIDE3888;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.EditFontFamilyTest_JBIDE5872;
@@ -57,7 +60,6 @@ import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE5920Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE675Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE788Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JBIDE924Test;
-import org.jboss.tools.jsf.vpe.jsf.test.jbide.JSF2ValidatorTest;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JsfJbide1467Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JsfJbide1501Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JsfJbide1568Test;
@@ -88,9 +90,6 @@ import org.jboss.tools.jsf.vpe.jsf.test.jbide.VisualRefreshComment_JBIDE6067;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.VpeI18nTest_JBIDE4887;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.XulRunnerVpeUtilsTest;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
-
 /**
  * Test suite containing all important JSP tests
  * 
@@ -103,7 +102,6 @@ public class JsfAllImportantTests {
 		//$JUnit-BEGIN$
 		suite.addTestSuite(SourceDomUtilTest.class);
 		suite.addTestSuite(XulRunnerVpeUtilsTest.class);
-		suite.addTestSuite(JSF2ValidatorTest.class);
 		suite.addTestSuite(UnclosedELExpressionTest.class);
 		suite.addTestSuite(TestContextPathResolution.class);
 		suite.addTestSuite(JBIDE5920Test.class);
