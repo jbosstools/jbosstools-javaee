@@ -1524,12 +1524,9 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 							 * 5.1.4. Inter-module injection
 							 *  - a decorator can not be injected
 							 *  - an interceptor can not be injected
+							 *  It is not an error - container just never attempts to inject them.
 							 */
-							if(bean instanceof IDecorator) {
-								addError(CDIValidationMessages.INJECTED_DECORATOR, CDIPreferences.INJECTED_DECORATOR_OR_INTERCEPTOR, reference, injection.getResource());
-							} else if(bean instanceof IInterceptor) {
-								addError(CDIValidationMessages.INJECTED_INTERCEPTOR, CDIPreferences.INJECTED_DECORATOR_OR_INTERCEPTOR, reference, injection.getResource());
-							}
+
 							/*
 							 * 	5.4.1. Unproxyable bean types
 							 * 	- If an injection point whose declared type cannot be proxied by the container resolves to a bean with a normal scope,

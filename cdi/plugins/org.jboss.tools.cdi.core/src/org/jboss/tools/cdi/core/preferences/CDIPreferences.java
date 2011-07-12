@@ -194,8 +194,6 @@ public class CDIPreferences extends SeverityPreferences {
 	public static final String INTERCEPTOR_OR_DECORATOR_IS_ALTERNATIVE = INSTANCE.createSeverityOption("interceptorOrDecoratorIsAlternative"); //$NON-NLS-1$
 //	- interceptor declared using @Interceptor does not declare any interceptor binding (9.2 non-portable)
 	public static final String MISSING_INTERCEPTOR_BINDING = INSTANCE.createSeverityOption("missingInterceptorBinding"); //$NON-NLS-1$
-//  - a decorator or intercpetor can not be injected
-	public static final String INJECTED_DECORATOR_OR_INTERCEPTOR = INSTANCE.createSeverityOption("injectedDecorator"); //$NON-NLS-1$
 //	8.3. Decorator resolution 
 //	- If a decorator matches a managed bean, and the managed bean class is declared final, the container automatically detects 
 //	  the problem and treats it as a deployment problem. 

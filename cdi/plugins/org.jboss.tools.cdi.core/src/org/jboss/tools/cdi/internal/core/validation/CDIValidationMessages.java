@@ -126,8 +126,6 @@ public class CDIValidationMessages {
 	public static String INTERCEPTOR_IS_ALTERNATIVE;
 	public static String DECORATOR_IS_ALTERNATIVE;
 	public static String MISSING_INTERCEPTOR_BINDING;
-	public static String INJECTED_DECORATOR;
-	public static String INJECTED_INTERCEPTOR;
 
 	public static String ILLEGAL_SPECIALIZING_MANAGED_BEAN;
 	public static String ILLEGAL_SPECIALIZING_SESSION_BEAN;
