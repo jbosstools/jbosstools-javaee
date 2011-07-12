@@ -21,6 +21,8 @@ import org.eclipse.jdt.core.IMemberValuePair;
 import org.eclipse.jdt.core.JavaModelException;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IClassBean;
+import org.jboss.tools.cdi.core.IDecorator;
+import org.jboss.tools.cdi.core.IInjectionPointField;
 import org.jboss.tools.cdi.core.IInterceptor;
 import org.jboss.tools.cdi.core.IInterceptorBinding;
 import org.jboss.tools.cdi.core.IInterceptorBindingDeclaration;
@@ -102,6 +104,20 @@ public class InterceptorDefinitionTest extends TCKTest {
 		
 	}
 
+	public void testInterceptorIsNotInjected() throws CoreException {
+		IInjectionPointField f = getInjectionPointField("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/interceptors/InjectInterceptorBroken.java", "cat");
+		/*
+		 * Invocation getBeans(false, f) returns all beans that match type and qualifiers.
+		 */
+		Set<IBean> bs = cdiProject.getBeans(false, f);
+		assertEquals(1, bs.size());
+		assertTrue(bs.iterator().next() instanceof IInterceptor);
+		/*
+		 * Invocation getBeans(true, f) filters away all beans that are not available for injection.
+		 */
+		bs = cdiProject.getBeans(true, f);
+		assertTrue(bs.isEmpty());
+	}
 
 	void assertContainsBindings(Set<IInterceptorBinding> bs, String... classNames) {
 		Set<String> bsn = new HashSet<String>();

@@ -979,29 +979,20 @@ public class DefenitionErrorsValidationTest extends ValidationTest {
 	 * 5.1.4. Inter-module injection
 	 *  - a decorator can not be injected
 	 * 
-	 * @throws Exception
-	 */
 	public void testDecoratorNotResolved() throws Exception {
-		/*      Now we exclude decorators from resolved beans.
-		 * 		Another test is required - that getBeans(false) - returns decorator, and getBeans(true) does not.  
-		 */
-//		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/lookup/typesafe/resolution/decorator/House.java");
-//		AbstractResourceMarkerTest.assertMarkerIsCreated(file, CDIValidationMessages.INJECTED_DECORATOR, 23);
+		Now we exclude decorators from resolved beans.
+		This test is replaced with DecoratorDefinitionTest.testDecoratorIsNotInjected()
 	}
+	 */
 
 	/**
 	 * 5.1.4. Inter-module injection
 	 *  - an interceptor can not be injected
-	 * 
-	 * @throws Exception
-	 */
 	public void testInterceptorNotResolved() throws Exception {
-/*      Now we exclude interceptors from resolved beans.
- * 		Another test is required - that getBeans(false) - returns interceptor, and getBeans(true) does not.  
- */
-//		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/interceptors/InjectInterceptorBroken.java");
-//		AbstractResourceMarkerTest.assertMarkerIsCreated(file, CDIValidationMessages.INJECTED_INTERCEPTOR, 7);
+		Now we exclude interceptors from resolved beans.
+		This test is replaced with InterceptorDefinitionTest.testInterceptorIsNotInjected()
 	}
+	 */
 
 	/**
 	 * 5.2.2. Legal injection point types

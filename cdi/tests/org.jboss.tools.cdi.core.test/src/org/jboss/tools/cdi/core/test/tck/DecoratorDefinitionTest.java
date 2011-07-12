@@ -17,8 +17,10 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.JavaModelException;
+import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IDecorator;
 import org.jboss.tools.cdi.core.IInjectionPoint;
+import org.jboss.tools.cdi.core.IInjectionPointField;
 import org.jboss.tools.cdi.internal.core.impl.CDIProject;
 import org.jboss.tools.cdi.internal.core.impl.ClassBean;
 import org.jboss.tools.common.java.IParametedType;
@@ -84,6 +86,21 @@ public class DecoratorDefinitionTest extends TCKTest {
 		} finally {
 			old = ((CDIProject)cdiProject).replaceBeanXML(old);
 		}
+	}
+
+	public void testDecoratorIsNotInjected() throws CoreException {
+		IInjectionPointField f = getInjectionPointField("JavaSource/org/jboss/jsr299/tck/tests/lookup/typesafe/resolution/decorator/House.java", "decorator");
+		/*
+		 * Invocation getBeans(false, f) returns all beans that match type and qualifiers.
+		 */
+		Set<IBean> bs = cdiProject.getBeans(false, f);
+		assertEquals(1, bs.size());
+		assertTrue(bs.iterator().next() instanceof IDecorator);
+		/*
+		 * Invocation getBeans(true, f) filters away all beans that are not available for injection.
+		 */
+		bs = cdiProject.getBeans(true, f);
+		assertTrue(bs.isEmpty());
 	}
 
 	public void testCustomDecorator() throws CoreException {
