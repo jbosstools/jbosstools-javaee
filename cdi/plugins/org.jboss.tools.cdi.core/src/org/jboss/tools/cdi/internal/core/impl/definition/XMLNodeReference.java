@@ -13,6 +13,7 @@ package org.jboss.tools.cdi.internal.core.impl.definition;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.jboss.tools.common.model.XModelObject;
+import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.model.util.PositionHolder;
 import org.jboss.tools.common.text.INodeReference;
 
@@ -60,8 +61,12 @@ public class XMLNodeReference implements INodeReference {
 		return object;
 	}
 
-	public IFile getResource() {
-		return (IFile)object.getAdapter(IFile.class);
+	public IResource getResource() {
+		IFile file = (IFile)object.getAdapter(IFile.class);
+		if(file == null) {
+			return EclipseResourceUtil.getProject(object);
+		}
+		return file;
 	}
 
 }

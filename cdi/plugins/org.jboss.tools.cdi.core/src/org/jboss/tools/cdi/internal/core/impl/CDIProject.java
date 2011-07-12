@@ -98,7 +98,8 @@ public class CDIProject extends CDIElement implements ICDIProject {
 
 	private Map<String, Set<IInjectionPoint>> injectionPointsByType = new HashMap<String, Set<IInjectionPoint>>();
 
-	BeansXMLData beansXMLData = new BeansXMLData();
+	BeansXMLData allBeansXMLData = new BeansXMLData();
+	BeansXMLData projectBeansXMLData = new BeansXMLData();
 
 	public CDIProject() {}
 
@@ -130,7 +131,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 
 	public List<INodeReference> getAlternativeClasses() {
 		List<INodeReference> result = new ArrayList<INodeReference>();
-		Set<INodeReference> typeAlternatives = beansXMLData.getTypeAlternatives();
+		Set<INodeReference> typeAlternatives = allBeansXMLData.getTypeAlternatives();
 		synchronized (typeAlternatives) {
 			result.addAll(typeAlternatives);
 		}
@@ -139,26 +140,32 @@ public class CDIProject extends CDIElement implements ICDIProject {
 
 	public List<INodeReference> getAlternativeStereotypes() {
 		List<INodeReference> result = new ArrayList<INodeReference>();
-		Set<INodeReference> stereotypeAlternatives = beansXMLData.getStereotypeAlternatives();
+		Set<INodeReference> stereotypeAlternatives = allBeansXMLData.getStereotypeAlternatives();
 		synchronized (stereotypeAlternatives) {
 			result.addAll(stereotypeAlternatives);
 		}
 		return result;
 	}
 
+	/**
+	 * Selected in at least one bean archive
+	 * 
+	 * @param fullQualifiedTypeName
+	 * @return
+	 */
 	public boolean isClassAlternativeActivated(String fullQualifiedTypeName) {
-		return beansXMLData.getTypeAlternativeTypes().contains(fullQualifiedTypeName);
+		return allBeansXMLData.getTypeAlternativeTypes().contains(fullQualifiedTypeName);
 	}
 
 	public List<INodeReference> getAlternatives(String fullQualifiedTypeName) {
 		List<INodeReference> result = new ArrayList<INodeReference>();
-		Set<INodeReference> typeAlternatives = beansXMLData.getTypeAlternatives();
+		Set<INodeReference> typeAlternatives = allBeansXMLData.getTypeAlternatives();
 		synchronized (typeAlternatives) {
 			for (INodeReference r: typeAlternatives) {
 				if(fullQualifiedTypeName.equals(r.getValue())) result.add(r);
 			}
 		}
-		Set<INodeReference> stereotypeAlternatives = beansXMLData.getStereotypeAlternatives();
+		Set<INodeReference> stereotypeAlternatives = allBeansXMLData.getStereotypeAlternatives();
 		synchronized (stereotypeAlternatives) {
 			for (INodeReference r: stereotypeAlternatives) {
 				if(fullQualifiedTypeName.equals(r.getValue())) result.add(r);
@@ -203,7 +210,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 	}
 
 	public Set<IBean> getResolvedBeans(Set<IBean> result, boolean attemptToResolveAmbiguousness) {
-		if(result.size() < 2 || !attemptToResolveAmbiguousness) {
+		if(result.size() < 1 || !attemptToResolveAmbiguousness) {
 			return result;
 		}
 		
@@ -212,6 +219,10 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		Set<IBean> disabled = null;
 		while(it.hasNext()) {
 			IBean b = it.next();
+			if(!b.isEnabled() || b instanceof IDecorator || b instanceof IInterceptor) {
+				it.remove();
+				continue;
+			}
 			if(b.isAlternative()) {
 				if(b.isSelectedAlternative()) {
 					containsAlternatives = true;
@@ -582,7 +593,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 
 	public List<INodeReference> getDecoratorClasses() {
 		List<INodeReference> result = new ArrayList<INodeReference>();
-		Set<INodeReference> decorators = beansXMLData.getDecorators();
+		Set<INodeReference> decorators = allBeansXMLData.getDecorators();
 		synchronized (decorators) {
 			result.addAll(decorators);
 		}
@@ -591,7 +602,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 
 	public List<INodeReference> getDecoratorClasses(String fullQualifiedTypeName) {
 		List<INodeReference> result = new ArrayList<INodeReference>();
-		Set<INodeReference> decorators = beansXMLData.getDecorators();
+		Set<INodeReference> decorators = allBeansXMLData.getDecorators();
 		synchronized (decorators) {
 			for (INodeReference r: decorators) {
 				if(fullQualifiedTypeName.equals(r.getValue())) result.add(r);
@@ -602,7 +613,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 
 	public List<INodeReference> getInterceptorClasses() {
 		List<INodeReference> result = new ArrayList<INodeReference>();
-		Set<INodeReference> interceptors = beansXMLData.getInterceptors();
+		Set<INodeReference> interceptors = allBeansXMLData.getInterceptors();
 		synchronized (interceptors) {
 			result.addAll(interceptors);
 		}
@@ -612,7 +623,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 	public List<INodeReference> getInterceptorClasses(
 			String fullQualifiedTypeName) {
 		List<INodeReference> result = new ArrayList<INodeReference>();
-		Set<INodeReference> interceptors = beansXMLData.getInterceptors();
+		Set<INodeReference> interceptors = allBeansXMLData.getInterceptors();
 		synchronized (interceptors) {
 			for (INodeReference r: interceptors) {
 				if(fullQualifiedTypeName.equals(r.getValue())) result.add(r);
@@ -621,12 +632,24 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		return result;
 	}
 
+	/**
+	 * True if type qualifiedName is selected in this module, false otherwise.
+	 * 
+	 * @param qualifiedName
+	 * @return true if type qualifiedName is selected in this module
+	 */
 	public boolean isTypeAlternative(String qualifiedName) {
-		return beansXMLData.getTypeAlternativeTypes().contains(qualifiedName);
+		return projectBeansXMLData.getTypeAlternativeTypes().contains(qualifiedName);
 	}
 
+	/**
+	 * True if stereotype qualifiedName is selected in this module, false otherwise.
+	 * 
+	 * @param qualifiedName
+	 * @return true if stereotype qualifiedName is selected in this module
+	 */
 	public boolean isStereotypeAlternative(String qualifiedName) {
-		return beansXMLData.getStereotypeAlternativeTypes().contains(qualifiedName);
+		return projectBeansXMLData.getStereotypeAlternativeTypes().contains(qualifiedName);
 	}
 
 	public Set<IType> getQualifierTypes() {
@@ -1239,20 +1262,27 @@ public class CDIProject extends CDIElement implements ICDIProject {
 	}
 
 	void rebuildXML() {
-		beansXMLData.clean();
+		allBeansXMLData.clean();
+		projectBeansXMLData.clean();
 		Set<BeansXMLDefinition> beanXMLs = n.getDefinitions().getBeansXMLDefinitions();
 		for (BeansXMLDefinition b: beanXMLs) {
+			IPath p = b.getPath();
+			boolean t = (!p.lastSegment().endsWith(".jar") && p.segment(0).equals(getNature().getProject().getName()));
 			for (INodeReference r: b.getInterceptors()) {
-				beansXMLData.addInterceptor(r);
+				allBeansXMLData.addInterceptor(r);
+				if(t) projectBeansXMLData.addInterceptor(r);
 			}
 			for (INodeReference r: b.getDecorators()) {
-				beansXMLData.addDecorator(r);
+				allBeansXMLData.addDecorator(r);
+				if(t) projectBeansXMLData.addDecorator(r);
 			}
 			for (INodeReference r: b.getStereotypeAlternatives()) {
-				beansXMLData.addStereotypeAlternative(r);
+				allBeansXMLData.addStereotypeAlternative(r);
+				if(t) projectBeansXMLData.addStereotypeAlternative(r);
 			}
 			for (INodeReference r: b.getTypeAlternatives()) {
-				beansXMLData.addTypeAlternative(r);
+				allBeansXMLData.addTypeAlternative(r);
+				if(t) projectBeansXMLData.addTypeAlternative(r);
 			}
 		}
 	}
