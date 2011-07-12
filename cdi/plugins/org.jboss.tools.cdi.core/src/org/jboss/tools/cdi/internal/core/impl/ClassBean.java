@@ -560,7 +560,6 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 	 * (non-Javadoc)
 	 * @see org.jboss.tools.cdi.core.IClassBean#getSuperType()
 	 */
-	@Override
 	public ParametedType getSuperType() {
 		return getDefinition().getSuperType();
 	}

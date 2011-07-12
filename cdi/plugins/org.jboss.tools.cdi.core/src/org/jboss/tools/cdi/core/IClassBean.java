@@ -64,10 +64,11 @@ public interface IClassBean extends IBean, IInterceptorBinded, IJavaMemberRefere
 	 */
 	Set<? extends IClassBean> getSpecializingBeans();
 
-	IParametedType getSuperType();
-
+	/**
+	 * Returns class bean of super class of this bean, or null if it is not a bean.
+	 * 
+	 * @return class bean of super class of this bean, or null if it is not a bean
+	 */
 	IClassBean getSuperClassBean();
-
-	void setSuperClassBean(IClassBean bean);
 
 }

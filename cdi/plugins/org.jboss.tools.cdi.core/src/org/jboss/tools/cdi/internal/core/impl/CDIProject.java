@@ -1150,10 +1150,12 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		}
 	
 		for (IClassBean bean: newClassBeans.values()) {
-			IParametedType s = bean.getSuperType();
+			IParametedType s = ((ClassBean)bean).getSuperType();
 			if(s != null && s.getType() != null) {
 				IClassBean superClassBean = newClassBeans.get(s.getType());
-				bean.setSuperClassBean(superClassBean);
+				if(bean instanceof ClassBean) {
+					((ClassBean)bean).setSuperClassBean(superClassBean);
+				}
 			}
 		}	
 
