@@ -128,7 +128,6 @@ public class CDIConfigurationBlockDescriptionProvider {
 			{CDIPreferences.OBSERVER_IN_INTERCEPTOR_OR_DECORATOR, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_observerInInterceptorOrDecorator_label},
 			{CDIPreferences.INTERCEPTOR_OR_DECORATOR_IS_ALTERNATIVE, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_interceptorOrDecoratorIsAlternative_label},
 			{CDIPreferences.MISSING_INTERCEPTOR_BINDING, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_missingInterceptorBinding_label},
-			{CDIPreferences.INJECTED_DECORATOR_OR_INTERCEPTOR, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_injectedDecoratorOrInterceptor_label},
 			{CDIPreferences.DECORATOR_RESOLVES_TO_FINAL_BEAN, CDIPreferencesMessages.CDIValidatorConfigurationBlock_pb_decoratorResolvesToFinalBean_label},
 		},
 		CDICorePlugin.PLUGIN_ID
