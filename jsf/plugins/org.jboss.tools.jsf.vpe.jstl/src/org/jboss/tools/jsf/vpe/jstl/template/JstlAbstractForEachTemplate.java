@@ -31,8 +31,8 @@ import org.w3c.dom.Node;
  */
 public abstract class JstlAbstractForEachTemplate extends VpeAbstractTemplate {
 
-	protected final int TIMES_TO_ITERATE = 3;
-	
+	private static int iterateTimes = 3;
+
 	public JstlAbstractForEachTemplate() {
 		super();
 	}
@@ -46,12 +46,19 @@ public abstract class JstlAbstractForEachTemplate extends VpeAbstractTemplate {
 		
 		VpeChildrenInfo spanInfo = new VpeChildrenInfo(span);
 		creationData.addChildrenInfo(spanInfo);
-		for(int i = 0; i < TIMES_TO_ITERATE; i++) {
+		for(int i = 0; i < iterateTimes; i++) {
 		    for (Node child : children) {
 		    	spanInfo.addSourceChild(child);
 		    }
 		}
 		return creationData;
 	}
+	
+	public static int getIterateTimes() {
+		return iterateTimes;
+	}
 
+	public static void setIterateTimes(int newIterateTimes) {
+		iterateTimes = newIterateTimes;
+	}
 }
