@@ -29,6 +29,11 @@ public class CDIInjectionPoint implements IInjectionPoint {
 	}
 
 	@Override
+	public ICDIProject getDeclaringProject() {
+		return project;
+	}
+
+	@Override
 	public IPath getSourcePath() {
 		// TODO Auto-generated method stub
 		return null;
