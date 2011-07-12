@@ -58,7 +58,7 @@ public class InterceptorDefinitionTest extends TCKTest {
 		//Y inherits X indirectly through Q. 
 		//X declares inheritable BindingA and BindingC and non-inheritable BindingB
 		//Q overrides declaring BindingC with another value.
-		Set<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.interceptors.definition.inheritance.Y");
+		Set<IBean> beans = getBeans(false, "org.jboss.jsr299.tck.tests.interceptors.definition.inheritance.Y");
 		assertEquals("Wrong number of the beans", 1, beans.size());
 		IClassBean bean = (IClassBean)beans.iterator().next();
 
@@ -72,7 +72,7 @@ public class InterceptorDefinitionTest extends TCKTest {
 		assertContainsBindingDeclarationWithValue(ds, "org.jboss.jsr299.tck.tests.interceptors.definition.inheritance.BindingC", "c2");
 		
 		//Y1 inherits X directly.
-		beans = getBeans("org.jboss.jsr299.tck.tests.interceptors.definition.inheritance.Y1");
+		beans = getBeans(false, "org.jboss.jsr299.tck.tests.interceptors.definition.inheritance.Y1");
 		assertEquals("Wrong number of the beans", 1, beans.size());
 		bean = (IClassBean)beans.iterator().next();
 		
@@ -93,7 +93,7 @@ public class InterceptorDefinitionTest extends TCKTest {
 		IInterceptorBinding b = cdiProject.getInterceptorBinding("org.jboss.jsr299.tck.tests.jbt.validation.interceptors.StereotypeAndBinding");
 		assertNotNull(b);
 		
-		Set<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.jbt.validation.interceptors.InterceptorWithStereotypeThatIsBinding");
+		Set<IBean> beans = getBeans(false, "org.jboss.jsr299.tck.tests.jbt.validation.interceptors.InterceptorWithStereotypeThatIsBinding");
 		assertEquals("Wrong number of the beans", 1, beans.size());
 		IBean bean = beans.iterator().next();
 		assertTrue("The bean should be an interceptor", bean instanceof IClassBean);

@@ -120,6 +120,10 @@ public class TCKTest extends TestCase {
 	}
 
 	protected Set<IBean> getBeans(String typeName, String... qualifierNames) throws JavaModelException {
+		return getBeans(true, typeName, qualifierNames);
+	}
+
+	protected Set<IBean> getBeans(boolean resolve, String typeName, String... qualifierNames) throws JavaModelException {
 		IParametedType type = getType(typeName);
 		assertNotNull("Can't find " + typeName + " type.", type);
 		Set<IType> qualifiers = new HashSet<IType>();
@@ -128,7 +132,7 @@ public class TCKTest extends TestCase {
 			assertNotNull("Can't find " + name + " type.", qualifier);
 			qualifiers.add(qualifier);
 		}
-		Set<IBean> beans = cdiProject.getBeans(true, type, qualifiers.toArray(new IType[0]));
+		Set<IBean> beans = cdiProject.getBeans(resolve, type, qualifiers.toArray(new IType[0]));
 		assertNotNull("There is no beans with " + typeName + " type", beans);
 		return beans;
 	}
