@@ -250,21 +250,9 @@ public class CDIBean extends CDIElement implements IClassBean{
 	}
 
 	@Override
-	public IParametedType getSuperType() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public IClassBean getSuperClassBean() {
 		// TODO Auto-generated method stub
 		return null;
-	}
-
-	@Override
-	public void setSuperClassBean(IClassBean bean) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
