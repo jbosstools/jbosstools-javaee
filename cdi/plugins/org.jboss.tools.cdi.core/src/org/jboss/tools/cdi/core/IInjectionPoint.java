@@ -23,6 +23,8 @@ import org.jboss.tools.common.text.ITextSourceReference;
  */
 public interface IInjectionPoint extends ICDIElement, IBeanMember {
 
+	public ICDIProject getDeclaringProject();
+
 	/**
 	 * Returns the required type of this injection point.
 	 * 

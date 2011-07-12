@@ -67,6 +67,10 @@ public abstract class AbstractMemberDefinition implements IAnnotated {
 		}
 	}
 
+	public CDICoreNature getDeclaringProject() {
+		return project;
+	}
+
 	public void setOriginalDefinition(ITextSourceReference def) {
 		originalDefinition = def;
 	}

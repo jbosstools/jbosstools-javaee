@@ -25,6 +25,7 @@ import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.CDIUtil;
 import org.jboss.tools.cdi.core.IBeanMethod;
+import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.IClassBean;
 import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.core.IInterceptorBinding;
@@ -113,6 +114,16 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 	public TypeDefinition getDefinition() {
 		return (TypeDefinition)definition;
 	}
+
+	public ICDIProject getDeclaringProject() {
+		ICDIProject result = definition.getDeclaringProject().getDelegate();
+		if(result == null) {
+			result = getCDIProject();
+			System.out.println("Failed to get declaring project.");
+		}				
+		return result;
+	}
+
 
 	public Set<IBeanMethod> getBeanConstructors() {
 		Set<IBeanMethod> result = new HashSet<IBeanMethod>();

@@ -304,6 +304,9 @@ public class CDIProject extends CDIElement implements ICDIProject {
 	 * @see org.jboss.tools.cdi.core.IBeanManager#getBeans(boolean, org.jboss.tools.cdi.core.IInjectionPoint)
 	 */
 	public Set<IBean> getBeans(boolean attemptToResolveAmbiguousDependency, IInjectionPoint injectionPoint) {
+		if(injectionPoint.getDeclaringProject() != this) {
+			return injectionPoint.getDeclaringProject().getBeans(attemptToResolveAmbiguousDependency, injectionPoint);
+		}
 		Set<IBean> result = new HashSet<IBean>();
 		IParametedType type = injectionPoint.getType();
 		if(type == null) {
@@ -943,6 +946,11 @@ public class CDIProject extends CDIElement implements ICDIProject {
 
 	@Override
 	public CDIProject getCDIProject() {
+		return this;
+	}
+
+	@Override
+	public ICDIProject getDeclaringProject() {
 		return this;
 	}
 
