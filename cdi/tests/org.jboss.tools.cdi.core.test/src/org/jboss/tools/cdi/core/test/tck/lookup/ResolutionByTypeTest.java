@@ -8,7 +8,7 @@
  * Contributors: 
  * Red Hat, Inc. - initial API and implementation 
  ******************************************************************************/
-package org.jboss.tools.cdi.core.test.tck;
+package org.jboss.tools.cdi.core.test.tck.lookup;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -22,6 +22,7 @@ import org.jboss.tools.cdi.core.IInjectionPointField;
 import org.jboss.tools.cdi.core.IProducerField;
 import org.jboss.tools.cdi.core.IProducerMethod;
 import org.jboss.tools.cdi.core.IQualifierDeclaration;
+import org.jboss.tools.cdi.core.test.tck.TCKTest;
 import org.jboss.tools.common.EclipseUtil;
 import org.jboss.tools.common.java.IParametedType;
 import org.jboss.tools.common.model.util.EclipseJavaUtil;

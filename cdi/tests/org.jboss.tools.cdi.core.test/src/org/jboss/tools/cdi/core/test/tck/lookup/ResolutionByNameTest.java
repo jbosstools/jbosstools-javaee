@@ -9,7 +9,7 @@
  * Red Hat, Inc. - initial API and implementation 
  ******************************************************************************/
 
-package org.jboss.tools.cdi.core.test.tck;
+package org.jboss.tools.cdi.core.test.tck.lookup;
 
 import java.util.Set;
 
@@ -17,6 +17,7 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.jboss.tools.cdi.core.IBean;
+import org.jboss.tools.cdi.core.test.tck.TCKTest;
 import org.jboss.tools.cdi.internal.core.impl.CDIProject;
 
 /**

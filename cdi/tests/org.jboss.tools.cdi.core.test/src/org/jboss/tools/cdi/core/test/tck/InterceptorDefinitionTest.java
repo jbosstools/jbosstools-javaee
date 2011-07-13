@@ -10,18 +10,14 @@
  ******************************************************************************/ 
 package org.jboss.tools.cdi.core.test.tck;
 
-
-
 import java.util.HashSet;
 import java.util.Set;
 
-import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.IMemberValuePair;
 import org.eclipse.jdt.core.JavaModelException;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IClassBean;
-import org.jboss.tools.cdi.core.IDecorator;
 import org.jboss.tools.cdi.core.IInjectionPointField;
 import org.jboss.tools.cdi.core.IInterceptor;
 import org.jboss.tools.cdi.core.IInterceptorBinding;
@@ -68,40 +64,38 @@ public class InterceptorDefinitionTest extends TCKTest {
 		assertEquals("Wrong number of interceptor bindings", 2, bs.size());
 		assertContainsBindings(bs, "org.jboss.jsr299.tck.tests.interceptors.definition.inheritance.BindingA", "org.jboss.jsr299.tck.tests.interceptors.definition.inheritance.BindingC");
 		assertNotContainsBindings(bs, "tck.tests.interceptors.definition.inheritance.BindingB");
-		
+
 		Set<IInterceptorBindingDeclaration> ds = bean.getInterceptorBindingDeclarations(true);
 		assertEquals("Wrong number of interceptor binding declarations", 2, ds.size());
 		assertContainsBindingDeclarationWithValue(ds, "org.jboss.jsr299.tck.tests.interceptors.definition.inheritance.BindingC", "c2");
-		
+
 		//Y1 inherits X directly.
 		beans = getBeans(false, "org.jboss.jsr299.tck.tests.interceptors.definition.inheritance.Y1");
 		assertEquals("Wrong number of the beans", 1, beans.size());
 		bean = (IClassBean)beans.iterator().next();
-		
+
 		bs = bean.getInterceptorBindings();
 		assertEquals("Wrong number of interceptor bindings", 2, bs.size());
 		assertContainsBindings(bs, "org.jboss.jsr299.tck.tests.interceptors.definition.inheritance.BindingA", "org.jboss.jsr299.tck.tests.interceptors.definition.inheritance.BindingC");
 		assertNotContainsBindings(bs, "tck.tests.interceptors.definition.inheritance.BindingB");
-		
+
 		ds = bean.getInterceptorBindingDeclarations(true);
 		assertEquals("Wrong number of interceptor binding declarations", 2, ds.size());
 		assertContainsBindingDeclarationWithValue(ds, "org.jboss.jsr299.tck.tests.interceptors.definition.inheritance.BindingC", "c1");
 	}
 
 	public void testStereotypeCanBeInterceptorBinding() throws Exception {
-		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/interceptors/StereotypeAndBinding.java");
 		IStereotype s = cdiProject.getStereotype("org.jboss.jsr299.tck.tests.jbt.validation.interceptors.StereotypeAndBinding");
 		assertNotNull(s);
 		IInterceptorBinding b = cdiProject.getInterceptorBinding("org.jboss.jsr299.tck.tests.jbt.validation.interceptors.StereotypeAndBinding");
 		assertNotNull(b);
-		
+
 		Set<IBean> beans = getBeans(false, "org.jboss.jsr299.tck.tests.jbt.validation.interceptors.InterceptorWithStereotypeThatIsBinding");
 		assertEquals("Wrong number of the beans", 1, beans.size());
 		IBean bean = beans.iterator().next();
 		assertTrue("The bean should be an interceptor", bean instanceof IClassBean);
 		IClassBean interceptor = (IClassBean)bean;
 		assertFalse("The interceptor should inherites interceptor bindings", interceptor.getInterceptorBindings().isEmpty());
-		
 	}
 
 	public void testInterceptorIsNotInjected() throws CoreException {
@@ -153,7 +147,6 @@ public class InterceptorDefinitionTest extends TCKTest {
 			}
 		}
 		fail("Set of interceptor bindings should include " + className);
-		
 	}
 
 	public void testCustomInterceptor() throws CoreException {
@@ -162,5 +155,4 @@ public class InterceptorDefinitionTest extends TCKTest {
 		assertNotNull("Can't find the bean.", bean);
 		assertTrue("The bean is not a decorator.", bean instanceof IInterceptor);
 	}
-
 }

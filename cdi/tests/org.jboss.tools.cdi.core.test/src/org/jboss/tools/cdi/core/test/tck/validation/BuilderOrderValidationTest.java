@@ -59,7 +59,7 @@ public class BuilderOrderValidationTest extends TestCase {
 						ValidatorManager.setStatus(ValidatorManager.RUNNING);
 						resolution.run(marker);
 						JobUtils.waitForIdle();
-						TestUtil.waitForValidation(project);
+						TestUtil.waitForValidation();
 						IMarker[] newMarkers = project.findMarkers(markerType, true, IResource.DEPTH_INFINITE);
 						assertTrue("Marker resolution did not decrease number of problems. was: "+markers.length+" now: "+newMarkers.length, newMarkers.length < markers.length);
 						return;
@@ -107,12 +107,10 @@ public class BuilderOrderValidationTest extends TestCase {
 
 	void rebuild() throws CoreException {
 		ValidatorManager.setStatus(ValidatorManager.RUNNING);
-		JobUtils.waitForIdle();
 		project.build(IncrementalProjectBuilder.CLEAN_BUILD, new NullProgressMonitor());
 		JobUtils.waitForIdle();
 		project.build(IncrementalProjectBuilder.FULL_BUILD, new NullProgressMonitor());
-		JobUtils.waitForIdle();
-		TestUtil.waitForValidation(project);
+		TestUtil.waitForValidation();
 	}
 
 	public void testBuilderOrderResolution() throws CoreException {
@@ -120,5 +118,4 @@ public class BuilderOrderValidationTest extends TestCase {
 				ValidatorManager.ORDER_PROBLEM_MARKER_TYPE,
 				"org.jboss.tools.jst.web.kb.internal.validation.BuilderOrderResolution");
 	}
-
 }

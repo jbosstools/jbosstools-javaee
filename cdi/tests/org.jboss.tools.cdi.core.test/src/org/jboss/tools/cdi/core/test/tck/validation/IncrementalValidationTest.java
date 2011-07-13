@@ -77,7 +77,7 @@ public class IncrementalValidationTest extends ValidationTest {
 		ValidatorManager.setStatus("TESTING");
 		testBean.setContents(testBeanImpl.getContents(), IFile.FORCE, new NullProgressMonitor());
 		tckProject.build(IncrementalProjectBuilder.INCREMENTAL_BUILD, new NullProgressMonitor());
-		TestUtil.waitForValidation(tckProject);
+		TestUtil.waitForValidation();
 
 		AbstractResourceMarkerTest.assertMarkerIsCreated(testInjection, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS, 7);
 
@@ -86,7 +86,7 @@ public class IncrementalValidationTest extends ValidationTest {
 		ValidatorManager.setStatus("TESTING");
 		testBeanImpl.setContents(testBean.getContents(), IFile.FORCE, new NullProgressMonitor());
 		tckProject.build(IncrementalProjectBuilder.INCREMENTAL_BUILD, new NullProgressMonitor());
-		TestUtil.waitForValidation(tckProject);
+		TestUtil.waitForValidation();
 
 		AbstractResourceMarkerTest.assertMarkerIsNotCreated(testInjection, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS, 7);
 		AbstractResourceMarkerTest.assertMarkerIsNotCreated(testInjection, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS, 7);
@@ -113,7 +113,7 @@ public class IncrementalValidationTest extends ValidationTest {
 			ValidatorManager.setStatus("TESTING ALTERNATIVES 1");
 			beansXml.setContents(emptyBeansXml.getContents(), IFile.FORCE, new NullProgressMonitor());
 			tckProject.build(IncrementalProjectBuilder.INCREMENTAL_BUILD, new NullProgressMonitor());
-			TestUtil.waitForValidation(tckProject);
+			TestUtil.waitForValidation();
 			AbstractResourceMarkerTest.assertMarkerIsCreated(bean, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS, 8);
 
 			IFile beansXmlWithAlternative = tckProject.getFile("JavaSource/META-INF/beans.xml.with.alternative");
@@ -121,7 +121,7 @@ public class IncrementalValidationTest extends ValidationTest {
 			ValidatorManager.setStatus("TESTING ALTERNATIVES 2");
 			beansXml.setContents(beansXmlWithAlternative.getContents(), IFile.FORCE, new NullProgressMonitor());
 			tckProject.build(IncrementalProjectBuilder.INCREMENTAL_BUILD, new NullProgressMonitor());
-			TestUtil.waitForValidation(tckProject);
+			TestUtil.waitForValidation();
 	
 			AbstractResourceMarkerTest.assertMarkerIsNotCreated(bean, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS, 8);
 		} finally {

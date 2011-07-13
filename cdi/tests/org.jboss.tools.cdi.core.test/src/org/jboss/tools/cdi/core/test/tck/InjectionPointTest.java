@@ -10,10 +10,8 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.core.test.tck;
 
-import java.util.List;
 import java.util.Set;
 
-import org.eclipse.jdt.core.ITypeParameter;
 import org.jboss.tools.cdi.core.CDIUtil;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IClassBean;
@@ -71,7 +69,7 @@ public class InjectionPointTest extends TCKTest {
 	public void testGetInjections() {
 		Set<IInjectionPoint> ps = cdiProject.getInjections("org.jboss.jsr299.tck.tests.lookup.injection.Fox");
 		assertTrue(!ps.isEmpty());
-	
+
 		ps = cdiProject.getInjections("org.jboss.jsr299.tck.tests.context.dependent.Tarantula");
 		assertTrue(!ps.isEmpty());
 	}
@@ -86,7 +84,5 @@ public class InjectionPointTest extends TCKTest {
 		assertNotNull(injectionPoint);
 		resolved = cdiProject.getBeans(false, injectionPoint);
 		assertFalse(resolved.isEmpty());
-		
 	}
-
 }

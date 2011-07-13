@@ -39,7 +39,7 @@ public class SeamFacesValidationTest extends TestCase {
 			if(!project.exists()) {
 				project = ResourcesUtils.importProject(SeamFacesTestSetup.PLUGIN_ID, SeamFacesTestSetup.PROJECT_PATH);
 			}
-			TestUtil.waitForValidation(project);
+			TestUtil.waitForValidation();
 		}
 		return project;
 	}

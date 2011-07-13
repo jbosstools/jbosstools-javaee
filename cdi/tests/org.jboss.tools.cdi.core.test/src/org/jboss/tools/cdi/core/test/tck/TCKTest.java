@@ -40,6 +40,7 @@ import org.jboss.tools.common.java.impl.JavaAnnotation;
 import org.jboss.tools.common.model.util.EclipseJavaUtil;
 import org.jboss.tools.common.text.ITextSourceReference;
 import org.jboss.tools.common.util.FileUtil;
+import org.jboss.tools.jst.jsp.test.TestUtil;
 import org.jboss.tools.jst.web.kb.internal.validation.ValidatorManager;
 import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.ResourcesUtils;
@@ -76,6 +77,7 @@ public class TCKTest extends TestCase {
 				if(tckProject==null || !tckProject.exists()) {
 					ValidatorManager.setStatus(CoreValidationTest.VALIDATION_STATUS);
 					tckProject = importPreparedProject("/");
+					TestUtil.waitForValidation();
 				}
 			} catch (Exception e) {
 				e.printStackTrace();

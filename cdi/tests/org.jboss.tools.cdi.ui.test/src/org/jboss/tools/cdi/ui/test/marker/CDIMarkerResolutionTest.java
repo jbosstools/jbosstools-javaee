@@ -56,7 +56,7 @@ public class CDIMarkerResolutionTest  extends ValidationTest {
 
 		ValidatorManager.setStatus("TESTING");
 		copyFiles(project, fileNames);
-		TestUtil.waitForValidation(project);
+		TestUtil.waitForValidation();
 
 		try{
 			file = project.getFile(fileNames[0]);
@@ -105,7 +105,7 @@ public class CDIMarkerResolutionTest  extends ValidationTest {
 									resolution.run(marker);
 								}
 
-								TestUtil.waitForValidation(project);
+								TestUtil.waitForValidation();
 
 								file = project.getFile(fileNames[0]);
 								IMarker[] newMarkers = file.findMarkers(markerType, true,	IResource.DEPTH_INFINITE);
@@ -124,7 +124,7 @@ public class CDIMarkerResolutionTest  extends ValidationTest {
 			fail("Problem marker with id: "+id+" not found");
 		}finally{
 			restoreFiles(project, fileNames);
-			TestUtil.waitForValidation(project);
+			TestUtil.waitForValidation();
 		}
 	}
 
@@ -388,5 +388,4 @@ public class CDIMarkerResolutionTest  extends ValidationTest {
 				CDIValidationErrorManager.NOT_PASSIVATION_CAPABLE_BEAN_ID,
 				AddSerializableInterfaceMarkerResolution.class);
 	}
-
 }

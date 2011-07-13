@@ -23,7 +23,6 @@ import org.jboss.tools.cdi.core.test.tck.AssignabilityOfRawAndParameterizedTypes
 import org.jboss.tools.cdi.core.test.tck.BeanDefinitionTest;
 import org.jboss.tools.cdi.core.test.tck.BeanSpecializationTest;
 import org.jboss.tools.cdi.core.test.tck.BuiltInBeanInjectionTest;
-import org.jboss.tools.cdi.core.test.tck.CircularDependencyTest;
 import org.jboss.tools.cdi.core.test.tck.DecoratorDefinitionTest;
 import org.jboss.tools.cdi.core.test.tck.DefaultNamedTest;
 import org.jboss.tools.cdi.core.test.tck.DynamicLookupTest;
@@ -38,12 +37,15 @@ import org.jboss.tools.cdi.core.test.tck.ObserverMethodResolutionTest;
 import org.jboss.tools.cdi.core.test.tck.ProducerMethodDefinitionTest;
 import org.jboss.tools.cdi.core.test.tck.QualifierDefinitionTest;
 import org.jboss.tools.cdi.core.test.tck.QualifierWithMembersTest;
-import org.jboss.tools.cdi.core.test.tck.ResolutionByNameTest;
-import org.jboss.tools.cdi.core.test.tck.ResolutionByTypeTest;
 import org.jboss.tools.cdi.core.test.tck.ScopeDefinitionTest;
 import org.jboss.tools.cdi.core.test.tck.SelectedAlternativeTest;
 import org.jboss.tools.cdi.core.test.tck.StereotypeDefinitionTest;
 import org.jboss.tools.cdi.core.test.tck.StereotypeInheritenceTest;
+import org.jboss.tools.cdi.core.test.tck.lookup.AmbiguousDependencyTest;
+import org.jboss.tools.cdi.core.test.tck.lookup.CircularDependencyTest;
+import org.jboss.tools.cdi.core.test.tck.lookup.ResolutionByNameTest;
+import org.jboss.tools.cdi.core.test.tck.lookup.ResolutionByTypeTest;
+import org.jboss.tools.cdi.core.test.tck.lookup.UnsatisfiedDependencyTest;
 import org.jboss.tools.cdi.core.test.tck.validation.AnnotationsValidationTest;
 import org.jboss.tools.cdi.core.test.tck.validation.BeansXmlValidationTest;
 import org.jboss.tools.cdi.core.test.tck.validation.BuilderOrderValidationTest;
@@ -94,6 +96,8 @@ public class CDICoreAllTests {
 		suite.addTestSuite(BeansXmlCATest.class);
 		suite.addTestSuite(SelectedAlternativeTest.class);
 		suite.addTestSuite(CircularDependencyTest.class);
+		suite.addTestSuite(AmbiguousDependencyTest.class);
+		suite.addTestSuite(UnsatisfiedDependencyTest.class);
 
 		// Validation tests
 		suite.addTestSuite(DefenitionErrorsValidationTest.class);
