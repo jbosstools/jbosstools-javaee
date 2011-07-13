@@ -26,6 +26,7 @@ import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.core.IInjectionPointField;
 import org.jboss.tools.cdi.core.IProducer;
 import org.jboss.tools.cdi.core.extension.feature.IBuildParticipantFeature;
+import org.jboss.tools.cdi.core.test.DependentProjectTest;
 import org.jboss.tools.cdi.seam.config.core.CDISeamConfigExtension;
 import org.jboss.tools.cdi.seam.config.core.ConfigDefinitionContext;
 import org.jboss.tools.cdi.seam.config.core.definition.SeamBeanDefinition;
@@ -82,25 +83,7 @@ public class SeamConfigTest extends TestCase {
 	}
 
 	protected IInjectionPointField getInjectionPointField(ICDIProject cdi, String beanClassFilePath, String fieldName) {
-		IFile file = cdi.getNature().getProject().getFile(beanClassFilePath);
-		Set<IBean> beans = cdi.getBeans(file.getFullPath());
-		Iterator<IBean> it = beans.iterator();
-		while(it.hasNext()) {
-			IBean b = it.next();
-			if(b instanceof IProducer) it.remove();
-		}
-		assertEquals("Wrong number of the beans", 1, beans.size());
-		Set<IInjectionPoint> injections = beans.iterator().next().getInjectionPoints();
-		for (IInjectionPoint injectionPoint : injections) {
-			if(injectionPoint instanceof IInjectionPointField) {
-				IInjectionPointField field = (IInjectionPointField)injectionPoint;
-				if(fieldName.equals(field.getField().getElementName())) {
-					return field;
-				}
-			}
-		}
-		fail("Can't find \"" + fieldName + "\" injection point filed in " + beanClassFilePath);
-		return null;
+		return DependentProjectTest.getInjectionPointField(cdi, beanClassFilePath, fieldName);
 	}
 
 	protected SeamBeansDefinition getBeansDefinition(ConfigDefinitionContext context, String path) {
