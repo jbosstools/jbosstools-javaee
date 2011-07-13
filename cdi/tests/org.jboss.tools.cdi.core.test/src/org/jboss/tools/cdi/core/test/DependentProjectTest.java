@@ -2,6 +2,7 @@ package org.jboss.tools.cdi.core.test;
 
 
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.Set;
 
 import junit.framework.TestCase;
@@ -27,6 +28,7 @@ import org.jboss.tools.cdi.core.IProducer;
 import org.jboss.tools.cdi.core.IProducerMethod;
 import org.jboss.tools.cdi.core.IQualifier;
 import org.jboss.tools.cdi.core.IScope;
+import org.jboss.tools.cdi.core.test.tck.TCKTest;
 import org.jboss.tools.cdi.internal.core.impl.ProducerMethod;
 import org.jboss.tools.common.java.IAnnotationDeclaration;
 import org.jboss.tools.jst.web.kb.IKbProject;
@@ -153,6 +155,127 @@ public class DependentProjectTest extends TestCase {
 		return producer;
 	}
 
+	public void testAlternativesInDependentProjects() throws CoreException {
+		ICDIProject cdi1 = CDICorePlugin.getCDIProject(project1, true);
+		ICDIProject cdi2 = CDICorePlugin.getCDIProject(project2, true);
+
+		/*
+		 * Case 1.
+		 * Bean A is defined in CDITest1 project.
+		 * Alternative bean B is defined in CDITest1 project. It is not selected.
+		 * Alternative bean C is defined in CDITest2 project. It is not selected.
+		 * 
+		 * ASSERT: Injection resolved to bean A.
+		 */
+		IInjectionPointField f = getInjectionPointField(cdi2, "/src/cdi/test/alternative/case1/X.java", "a");
+		Set<IBean> bs = cdi2.getBeans(true, f);
+		assertEquals(1, bs.size());
+		assertEquals("A", bs.iterator().next().getBeanClass().getElementName());
+
+		/*
+		 * Case 2.
+		 * Bean A is defined in CDITest1 project.
+		 * Alternative bean B is defined in CDITest1 project. It is not selected.
+		 * Alternative bean C is defined in CDITest2 project. It is selected in CDITest2.
+		 * 
+		 * ASSERT: Injection resolved to bean C.
+		 */
+		f = getInjectionPointField(cdi2, "/src/cdi/test/alternative/case2/X.java", "a");
+		bs = cdi2.getBeans(true, f);
+		assertEquals(1, bs.size());
+		assertEquals("C", bs.iterator().next().getBeanClass().getElementName());
+
+		/*
+		 * Case 3.
+		 * Bean A is defined in CDITest1 project.
+		 * Alternative bean B is defined in CDITest1 project. It is selected in CDITest2.
+		 * Alternative bean C is defined in CDITest2 project. It is not selected.
+		 * 
+		 * ASSERT: Injection resolved to bean B.
+		 */
+		f = getInjectionPointField(cdi2, "/src/cdi/test/alternative/case3/X.java", "a");
+		bs = cdi2.getBeans(true, f);
+		assertEquals(1, bs.size());
+		assertEquals("B", bs.iterator().next().getBeanClass().getElementName());
+
+		/*
+		 * Case 4-1.
+		 * Bean A is defined in CDITest1 project.
+		 * Alternative bean B is defined in CDITest1 project. It is selected in CDITest1.
+		 * Alternative bean C is defined in CDITest2 project. It is not selected.
+		 * 
+		 * ASSERT: Injection resolved to bean A.
+		 */
+		f = getInjectionPointField(cdi2, "/src/cdi/test/alternative/case4/X.java", "a");
+		bs = cdi2.getBeans(true, f);
+		assertEquals(1, bs.size());
+		assertEquals("A", bs.iterator().next().getBeanClass().getElementName());
+
+		/*
+		 * Case 4-2.
+		 * Bean A is defined in CDITest1 project.
+		 * Alternative bean B is defined in CDITest1 project. It is selected in CDITest1.
+		 * Alternative bean C is defined in CDITest2 project. It is not selected.
+		 * Bean Y is defined in CDITest1 but it is accessed through project CDITest2
+		 * ASSERT: Injection resolved to bean B.
+		 */
+		f = getInjectionPointField(cdi1, "/src/cdi/test/alternative/case4/Y.java", "b");
+		bs = cdi2.getBeans(true, f);
+		assertEquals(1, bs.size());
+		assertEquals("B", bs.iterator().next().getBeanClass().getElementName());
+
+		/*
+		 * Case 5.
+		 * Bean A is defined in CDITest1 project.
+		 * Alternative bean B is defined in CDITest1 project. It is selected in CDITest1.
+		 * Alternative bean C is defined in CDITest2 project. It is selected in CDITest2.
+		 * 
+		 * ASSERT: Injection resolved to bean C.
+		 */
+		f = getInjectionPointField(cdi2, "/src/cdi/test/alternative/case5/X.java", "a");
+		bs = cdi2.getBeans(true, f);
+		assertEquals(1, bs.size());
+		assertEquals("C", bs.iterator().next().getBeanClass().getElementName());
+
+		/*
+		 * Case 6.
+		 * Bean A is defined in CDITest1 project.
+		 * Alternative bean B is defined in CDITest1 project. It is selected in CDITest2.
+		 * Alternative bean C is defined in CDITest2 project. It is selected in CDITest2.
+		 * 
+		 * ASSERT: Multiple beans: injection resolved to beans B and C.
+		 */
+		f = getInjectionPointField(cdi2, "/src/cdi/test/alternative/case6/X.java", "a");
+		bs = cdi2.getBeans(true, f);
+		assertEquals(2, bs.size());
+
+		/*
+		 * Case 7.
+		 * Bean A is defined in CDITest1 project.
+		 * Alternative bean B is defined in CDITest1 project. It is not selected.
+		 * Producer bean P is declared in B.p().
+		 * 
+		 * ASSERT: No eligible bean.
+		 */
+		f = getInjectionPointField(cdi2, "/src/cdi/test/alternative/case7/X.java", "p");
+		bs = cdi2.getBeans(true, f);
+		assertTrue(bs.isEmpty());
+
+		/*
+		 * Case 8.
+		 * Bean A is defined in CDITest1 project.
+		 * Alternative bean B is defined in CDITest1 project. It is selected in CDITest1.
+		 * Producer bean P is declared in B.p().
+		 * 
+		 * ASSERT: Injection resolved to bean B.p().
+		 */
+		f = getInjectionPointField(cdi2, "/src/cdi/test/alternative/case8/X.java", "p");
+		bs = cdi2.getBeans(true, f);
+		assertEquals(1, bs.size());
+		IBean b = bs.iterator().next();
+		assertTrue(b instanceof IProducerMethod);
+	}
+
 	public void testIndirectDependency() throws CoreException, IOException {
 		ICDIProject cdi3 = CDICorePlugin.getCDIProject(project3, true);
 		Set<IBean> beans = cdi3.getBeans(new Path("/CDITest1/src/cdi/test/MyBean.java"));
@@ -196,5 +319,29 @@ public class DependentProjectTest extends TestCase {
 
 		ResourcesUtils.setBuildAutomatically(saveAutoBuild);
 	}
+
+	public static IInjectionPointField getInjectionPointField(ICDIProject cdi, String beanClassFilePath, String fieldName) {
+		IFile file = cdi.getNature().getProject().getFile(beanClassFilePath);
+		Set<IBean> beans = cdi.getBeans(file.getFullPath());
+		Iterator<IBean> it = beans.iterator();
+		while(it.hasNext()) {
+			IBean b = it.next();
+			if(b instanceof IProducer) it.remove();
+		}
+		assertEquals("Wrong number of the beans", 1, beans.size());
+		Set<IInjectionPoint> injections = beans.iterator().next().getInjectionPoints();
+		for (IInjectionPoint injectionPoint : injections) {
+			if(injectionPoint instanceof IInjectionPointField) {
+				IInjectionPointField field = (IInjectionPointField)injectionPoint;
+				if(fieldName.equals(field.getField().getElementName())) {
+					return field;
+				}
+			}
+		}
+		fail("Can't find \"" + fieldName + "\" injection point filed in " + beanClassFilePath);
+		return null;
+	}
+
+
 
 }
