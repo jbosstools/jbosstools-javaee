@@ -32,6 +32,7 @@ import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
 import org.jboss.tools.cdi.core.extension.CDIExtensionManager;
 import org.jboss.tools.cdi.internal.core.impl.definition.AnnotationDefinition;
+import org.jboss.tools.cdi.internal.core.impl.definition.BeansXMLDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.DefinitionContext;
 import org.jboss.tools.cdi.internal.core.impl.definition.TypeDefinition;
 import org.jboss.tools.cdi.internal.core.scanner.lib.ClassPathMonitor;
@@ -195,6 +196,32 @@ public class CDICoreNature implements IProjectNature {
 			}
 		}
 
+		return result;
+	}
+
+	public Set<BeansXMLDefinition> getAllBeanXMLDefinitions() {
+		Set<CDICoreNature> ps = getCDIProjects(true);
+		if(ps == null || ps.isEmpty()) {
+			return getDefinitions().getBeansXMLDefinitions();
+		}
+		Set<BeansXMLDefinition> ds = getDefinitions().getBeansXMLDefinitions();
+		Set<BeansXMLDefinition> result = new HashSet<BeansXMLDefinition>();
+		result.addAll(ds);
+		Set<IPath> paths = new HashSet<IPath>();
+		for (BeansXMLDefinition d: ds) {
+			IPath t = d.getPath();
+			if(t != null) paths.add(t);
+		}
+		for (CDICoreNature p: ps) {
+			Set<BeansXMLDefinition> ds2 = p.getDefinitions().getBeansXMLDefinitions();
+			for (BeansXMLDefinition d: ds2) {
+				IPath t = d.getPath();
+				if(t != null && !paths.contains(t)) {
+					paths.add(t);
+					result.add(d);
+				}
+			}
+		}
 		return result;
 	}
 

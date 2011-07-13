@@ -1274,7 +1274,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 	void rebuildXML() {
 		allBeansXMLData.clean();
 		projectBeansXMLData.clean();
-		Set<BeansXMLDefinition> beanXMLs = n.getDefinitions().getBeansXMLDefinitions();
+		Set<BeansXMLDefinition> beanXMLs = n.getAllBeanXMLDefinitions();
 		for (BeansXMLDefinition b: beanXMLs) {
 			IPath p = b.getPath();
 			boolean t = (!p.lastSegment().endsWith(".jar") && p.segment(0).equals(getNature().getProject().getName()));
