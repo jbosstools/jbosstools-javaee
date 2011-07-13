@@ -38,11 +38,8 @@ public class SAXParser extends SAXValidator {
 	XMLReader createParser1(DefaultHandler handler) {
 		XMLReader parserInstance = null;
 
-		try {
-			parserInstance = XMLReaderFactory.createXMLReader(DEFAULT_SAX_PARSER_CLASS_NAME);
-		} catch (SAXException e) {
-			return null;
-		}
+		//XMLReaderFactory.createXMLReader(DEFAULT_SAX_PARSER_CLASS_NAME);
+		parserInstance = new org.apache.xerces.parsers.SAXParser();
 
 		setFeature(parserInstance, NAMESPACES_FEATURE_ID, true);
 		setFeature(parserInstance, NAMESPACE_PREFIXES_FEATURE_ID, false);
