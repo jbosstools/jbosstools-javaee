@@ -18,12 +18,14 @@ import junit.framework.TestCase;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.osgi.internal.loader.buddy.DependentPolicy;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.core.IInjectionPointField;
 import org.jboss.tools.cdi.core.IProducer;
+import org.jboss.tools.cdi.core.test.DependentProjectTest;
 import org.jboss.tools.test.util.ResourcesUtils;
 
 /**
@@ -64,25 +66,7 @@ public class SeamSolderTest extends TestCase {
 	}
 
 	protected IInjectionPointField getInjectionPointField(ICDIProject cdi, String beanClassFilePath, String fieldName) {
-		IFile file = cdi.getNature().getProject().getFile(beanClassFilePath);
-		Set<IBean> beans = cdi.getBeans(file.getFullPath());
-		Iterator<IBean> it = beans.iterator();
-		while(it.hasNext()) {
-			IBean b = it.next();
-			if(b instanceof IProducer) it.remove();
-		}
-		assertEquals("Wrong number of the beans", 1, beans.size());
-		Set<IInjectionPoint> injections = beans.iterator().next().getInjectionPoints();
-		for (IInjectionPoint injectionPoint : injections) {
-			if(injectionPoint instanceof IInjectionPointField) {
-				IInjectionPointField field = (IInjectionPointField)injectionPoint;
-				if(fieldName.equals(field.getField().getElementName())) {
-					return field;
-				}
-			}
-		}
-		fail("Can't find \"" + fieldName + "\" injection point filed in " + beanClassFilePath);
-		return null;
+		return DependentProjectTest.getInjectionPointField(cdi, beanClassFilePath, fieldName);
 	}
 
 }
