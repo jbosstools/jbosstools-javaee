@@ -797,7 +797,7 @@
          		</partitionType>
          	</contentType>
 		</hyperlinkPartitioner>
-		<hyperlinkPartitioner 
+		<!--hyperlinkPartitioner 
          	id="org.jboss.tools.common.text.ext.jsf.hyperlink.JSPExprHyperlinkPartitioner"
          	class="org.jboss.tools.jsf.text.ext.hyperlink.JSPExprHyperlinkPartitioner">
          	<contentType id="org.eclipse.jst.jsp.core.jspsource">
@@ -840,7 +840,7 @@
          		<partitionType id="org.eclipse.jst.jsp.SCRIPT.JSP_EL" />
          		<partitionType id="org.eclipse.jst.jsp.SCRIPT.JSP_EL2" />
          	</contentType>
-		</hyperlinkPartitioner>
+		</hyperlinkPartitioner-->
 
 		<hyperlinkPartitioner 
          	id="org.jboss.tools.common.text.ext.jsf.hyperlink.JSPLoadBundleHyperlinkPartitioner"
@@ -872,13 +872,12 @@
          	</contentType>
 		</hyperlinkPartitioner>
 
-		<hyperlinkPartitioner 
+		<!--hyperlinkPartitioner 
          	id="org.jboss.tools.common.text.ext.jsf.hyperlink.JSPBundleHyperlinkPartitioner"
          	class="org.jboss.tools.jsf.text.ext.hyperlink.JSPBundleHyperlinkPartitioner">
          	<contentType id="org.eclipse.jst.jsp.core.jspsource">
          		<partitionType id="org.jboss.tools.common.text.ext.jsp.JSP_EXPRESSION" />
          	</contentType>
-         	<!-- these CTs were copied from the JsfJSPBundleHyperlinkPartitioner -->
          	<contentType id="org.eclipse.wst.html.core.htmlsource">
          		<partitionType id="org.jboss.tools.common.text.ext.jsp.JSP_EXPRESSION" />
          	</contentType>
@@ -891,7 +890,7 @@
          	<contentType id="org.jboss.tools.jst.jsp.jspincludesource">
          		<partitionType id="org.jboss.tools.common.text.ext.jsp.JSP_EXPRESSION" />
          	</contentType>
-		</hyperlinkPartitioner>
+		</hyperlinkPartitioner-->
 		<!-- hyperlinkPartitioner 
          	id="org.jboss.tools.common.text.ext.jsf.hyperlink.JsfJSPBundleHyperlinkPartitioner"
          	class="org.jboss.tools.jsf.text.ext.hyperlink.JsfJSPBundleHyperlinkPartitioner">
@@ -906,13 +905,12 @@
          	</contentType>
 		</hyperlinkPartitioner -->
 
-		<hyperlinkPartitioner 
+		<!--hyperlinkPartitioner 
          	id="org.jboss.tools.jsf.text.ext.hyperlink.JSF2CCAttrsOpenOnPartitioner"
          	class="org.jboss.tools.jsf.text.ext.hyperlink.JSF2CCAttrsHyperlinkPartitioner">
          	<contentType id="org.eclipse.jst.jsp.core.jspsource">
          		<partitionType id="org.jboss.tools.common.text.ext.jsp.JSP_EXPRESSION" />
          	</contentType>
-         	<!-- these CTs were copied from the JsfJSPBundleHyperlinkPartitioner -->
          	<contentType id="org.eclipse.wst.html.core.htmlsource">
          		<partitionType id="org.jboss.tools.common.text.ext.jsp.JSP_EXPRESSION" />
          	</contentType>
@@ -925,7 +923,7 @@
          	<contentType id="org.jboss.tools.jst.jsp.jspincludesource">
          		<partitionType id="org.jboss.tools.common.text.ext.jsp.JSP_EXPRESSION" />
          	</contentType>
-		</hyperlinkPartitioner>
+		</hyperlinkPartitioner-->
 
 		<hyperlinkPartitioner 
          	id="org.jboss.tools.common.text.ext.jsf.hyperlink.JSPClassHyperlinkPartitioner"
@@ -1221,7 +1219,7 @@
 			</contenttypeidentifier>
 		</hyperlink>
 
-		<hyperlink 
+		<!--hyperlink 
 			class="org.jboss.tools.jsf.text.ext.hyperlink.BundleHyperlink" 
 			id="org.jboss.tools.common.text.ext.jsf.hyperlink.BundleHyperlink">
 			<contenttypeidentifier id="org.eclipse.jst.jsp.core.jspsource">
@@ -1239,9 +1237,9 @@
 			<contenttypeidentifier id="org.jboss.tools.jst.jsp.jspincludesource">
             	<partitiontype id="org.jboss.tools.common.text.ext.jsp.JSP_BUNDLE" />
 			</contenttypeidentifier>
-		</hyperlink>
+		</hyperlink-->
 		
-		<hyperlink 
+		<!--hyperlink 
 			class="org.jboss.tools.jsf.text.ext.hyperlink.JSF2CCAttrsHyperlink" 
 			id="org.jboss.tools.jsf.text.ext.hyperlink.JSF2CCAttrsHyperlink">
 			<contenttypeidentifier id="org.eclipse.jst.jsp.core.jspsource">
@@ -1259,7 +1257,7 @@
 			<contenttypeidentifier id="org.jboss.tools.jst.jsp.jspincludesource">
             	<partitiontype id="org.jboss.tools.common.text.ext.jsp.JSF2_CC_ATTRIBUTE" />
 			</contenttypeidentifier>
-		</hyperlink>
+		</hyperlink-->
 		
 		<!-- hyperlink 
 			class="org.jboss.tools.jsf.text.ext.hyperlink.JsfBundleHyperlink" 
@@ -1556,7 +1554,7 @@
 			</contenttypeidentifier>
 		</hyperlink>
 		
-		<hyperlink 
+		<!--hyperlink 
 			class="org.jboss.tools.jsf.text.ext.hyperlink.ExpressionHyperlink" 
     		id="org.jboss.tools.jsf.text.ext.hyperlink.ExpressionHyperlink">
 			<contenttypeidentifier id="org.eclipse.jst.jsp.core.jspsource">
@@ -1598,7 +1596,7 @@
 			<contenttypeidentifier id="org.jboss.tools.seam.xml.ui.page21xmlsource">
 				<partitiontype id="org.jboss.tools.common.text.ext.jsp.EXPRESSION" />
 			</contenttypeidentifier>
-		</hyperlink>
+		</hyperlink-->
 
 	</extension>
 

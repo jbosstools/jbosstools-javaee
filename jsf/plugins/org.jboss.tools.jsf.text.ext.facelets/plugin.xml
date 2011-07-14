@@ -7,7 +7,7 @@
 		id="org.jboss.tools.common.text.ext.jsf.facelets.hyperlinkPartitioner"
 		name="org.jboss.tools.common.text.ext.jsf.facelets.hyperlinkPartitioner">
 
-		<hyperlinkPartitioner 
+		<!--hyperlinkPartitioner 
          	id="org.jboss.tools.common.text.ext.jsf.facelets.hyperlink.FaceletsExprHyperlinkPartitioner"
          	class="org.jboss.tools.jsf.text.ext.hyperlink.JSPExprHyperlinkPartitioner">
          	<contentType id="org.eclipse.jst.jsp.core.jspsource">
@@ -25,9 +25,9 @@
          	<contentType id="org.jboss.tools.jst.jsp.jspincludesource">
          		<partitionType id="org.jboss.tools.common.text.ext.jsp.JSP_ROOT" />
          	</contentType>
-		</hyperlinkPartitioner>
+		</hyperlinkPartitioner-->
 
-		<hyperlinkPartitioner 
+		<!--hyperlinkPartitioner 
          	id="org.jboss.tools.common.text.ext.jsf.facelets.hyperlink.ExprHyperlinkPartitioner"
          	class="org.jboss.tools.jsf.text.ext.hyperlink.JSPExprHyperlinkPartitioner">
          	<contentType id="org.eclipse.jst.jsp.core.jspsource">
@@ -45,7 +45,7 @@
          	<contentType id="org.jboss.tools.jst.jsp.jspincludesource">
          		<partitionType id="org.jboss.tools.common.text.ext.jsp.FACELETS_ATTRIBUTE_VALUE_WITH_EXPR" />
          	</contentType>
-		</hyperlinkPartitioner>
+		</hyperlinkPartitioner-->
 
 		<hyperlinkPartitioner 
          	id="org.jboss.tools.common.text.ext.jsf.facelets.hyperlink.FaceletsTemplateHyperlinkPartitioner"

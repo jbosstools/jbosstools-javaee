@@ -11,31 +11,17 @@
 package org.jboss.tools.seam.ui.test.el;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.jface.text.IDocument;
-import org.eclipse.jface.text.IDocumentExtension3;
-import org.eclipse.jface.text.ITypedRegion;
-import org.eclipse.jface.text.Region;
-import org.eclipse.ui.part.FileEditorInput;
-import org.eclipse.ui.texteditor.DocumentProviderRegistry;
-import org.eclipse.ui.texteditor.IDocumentProvider;
-import org.eclipse.wst.sse.core.StructuredModelManager;
-import org.eclipse.wst.sse.core.internal.provisional.IModelManager;
-import org.eclipse.wst.sse.core.internal.provisional.IStructuredModel;
-import org.eclipse.wst.sse.core.internal.provisional.text.IStructuredDocument;
-import org.eclipse.wst.sse.ui.internal.editor.EditorModelUtil;
-import org.jboss.tools.common.text.ext.hyperlink.IHyperlinkRegion;
-import org.jboss.tools.common.text.ext.util.AxisUtil;
-import org.jboss.tools.jsf.text.ext.hyperlink.JSPExprHyperlinkPartitioner;
-import org.jboss.tools.test.util.JobUtils;
+import org.jboss.tools.jst.text.ext.hyperlink.ELHyperlink;
+import org.jboss.tools.jst.text.ext.hyperlink.ELHyperlinkDetector;
+import org.jboss.tools.jst.text.ext.test.HyperlinkTestUtil;
+import org.jboss.tools.jst.text.ext.test.HyperlinkTestUtil.TestHyperlink;
+import org.jboss.tools.jst.text.ext.test.HyperlinkTestUtil.TestRegion;
 import org.jboss.tools.test.util.TestProjectProvider;
 
 public class ELExprPartitionerTest extends TestCase {
@@ -55,6 +41,8 @@ public class ELExprPartitionerTest extends TestCase {
 		Throwable exception = null;
 		
 		assertNull("An exception caught: " + (exception != null? exception.getMessage() : ""), exception);
+		
+		
 	}
 
 	protected void tearDown() throws Exception {
@@ -63,251 +51,38 @@ public class ELExprPartitionerTest extends TestCase {
 		}
 	}
 
-	public void testELExprPartitioner() {
-		try { 
-			JobUtils.waitForIdle(); 
-		} catch (Exception e) { 
-			assertNull("An exception caught: " + e.getMessage(), e);
-		}
-		assertTrue("Test project \"" + PROJECT_NAME + "\" is not loaded", (project != null));
+	public void testELExprPartitioner() throws Exception{
 
-		IFile jspFile = project.getFile(PAGE_NAME);
-
-		assertTrue("The file \"" + PAGE_NAME + "\" is not found", (jspFile != null));
-		assertTrue("The file \"" + PAGE_NAME + "\" is not found", (jspFile.exists()));
-
-		FileEditorInput editorInput = new FileEditorInput(jspFile);
+		ArrayList<TestRegion> regionList = new ArrayList<TestRegion>();
+		regionList.add(new TestRegion(673, 6, new TestHyperlink[]{new TestHyperlink(ELHyperlink.class, "Open 'demo.bundle.Messages'", "Messages.properties")}));
+		regionList.add(new TestRegion(681, 7, new TestHyperlink[]{new TestHyperlink(ELHyperlink.class, "Open property 'question' of bundle 'demo.bundle.Messages'", "Messages.properties")}));
 		
-		IDocumentProvider documentProvider = null;
-		Throwable exception = null;
-		try {
-			documentProvider = DocumentProviderRegistry.getDefault().getDocumentProvider(editorInput);
-		} catch (Exception x) {
-			exception = x;
-			x.printStackTrace();
-		}
-		assertNull("An exception caught: " + (exception != null? exception.getMessage() : ""), exception);
-
-		assertNotNull("The document provider for the file \"" + PAGE_NAME + "\" is not loaded", documentProvider);
-
-		try {
-			documentProvider.connect(editorInput);
-		} catch (Exception x) {
-			exception = x;
-			x.printStackTrace();
-			assertTrue("The document provider is not able to be initialized with the editor input", false);
-		}
-		assertNull("An exception caught: " + (exception != null? exception.getMessage() : ""), exception);
+		regionList.add(new TestRegion(756, 6, new TestHyperlink[]{new TestHyperlink(ELHyperlink.class, "Open 'demo.bundle.Messages'", "Messages.properties")}));
+		regionList.add(new TestRegion(764, 7, new TestHyperlink[]{new TestHyperlink(ELHyperlink.class, "Open property 'question' of bundle 'demo.bundle.Messages'", "Messages.properties")}));
 		
-		IDocument document = documentProvider.getDocument(editorInput);
-
-		assertNotNull("The document for the file \"" + PAGE_NAME + "\" is not loaded", document);
+		regionList.add(new TestRegion(863, 6, new TestHyperlink[]{new TestHyperlink(ELHyperlink.class, "Open 'demo.bundle.Messages'", "Messages.properties")}));
+		regionList.add(new TestRegion(871, 9, new TestHyperlink[]{new TestHyperlink(ELHyperlink.class, "Open property 'info_start' of bundle 'demo.bundle.Messages'", "Messages.properties")}));
 		
-		IStructuredModel model = null;
-		if (document instanceof IStructuredDocument) {
-			// corresponding releaseFromEdit occurs in
-			// dispose()
-			model = StructuredModelManager.getModelManager().getModelForEdit((IStructuredDocument) document);
-			EditorModelUtil.addFactoriesTo(model);
-		}
-
-		assertNotNull("The document model for the file \"" + PAGE_NAME + "\" is not loaded", model);
-
-		JSPExprHyperlinkPartitioner elPartitioner = new JSPExprHyperlinkPartitioner();
-
-		HashMap<Object, ArrayList<Region>> recognitionTest = new HashMap<Object, ArrayList<Region>>();
+		regionList.add(new TestRegion(909, 10, new TestHyperlink[]{new TestHyperlink(ELHyperlink.class, "Open 'NumberGuess - org.jboss.seam.example.numberguess'", "NumberGuess.java")}));
+		regionList.add(new TestRegion(921, 15, new TestHyperlink[]{new TestHyperlink(ELHyperlink.class, "Open 'NumberGuess.getRemainingGuesses() - org.jboss.seam.example.numberguess'", "NumberGuess.java")}));
 		
-		ArrayList<Region> regionList = new ArrayList<Region>();
-		regionList.add(new Region(673, 7));
-		regionList.add(new Region(680, 9));
-		regionList.add(new Region(756, 7));
-		regionList.add(new Region(763, 9));
-		regionList.add(new Region(863, 7));
-		regionList.add(new Region(870, 11));
-		regionList.add(new Region(964, 19));
-		regionList.add(new Region(1022, 18));
-		regionList.add(new Region(1091, 17));
-		recognitionTest.put("org.jboss.tools.common.text.ext.jsp.JSP_BUNDLE", regionList);
+		regionList.add(new TestRegion(964, 6, new TestHyperlink[]{new TestHyperlink(ELHyperlink.class, "Open 'demo.bundle.Messages'", "Messages.properties")}));
+		regionList.add(new TestRegion(972, 10, new TestHyperlink[]{new TestHyperlink(ELHyperlink.class, "Open property 'info_finish' of bundle 'demo.bundle.Messages'", "Messages.properties")}));
 		
-		regionList = new ArrayList<Region>();
-		regionList.add(new Region(920, 1));
-		regionList.add(new Region(1168, 1));
-		regionList.add(new Region(1251, 1));
-		recognitionTest.put("org.jboss.tools.common.text.ext.jsp.DOT_EXPRESSION", regionList);
+		regionList.add(new TestRegion(1022, 6, new TestHyperlink[]{new TestHyperlink(ELHyperlink.class, "Open 'demo.bundle.Messages'", "Messages.properties")}));
+		regionList.add(new TestRegion(1030, 9, new TestHyperlink[]{new TestHyperlink(ELHyperlink.class, "Open property 'button_yes' of bundle 'demo.bundle.Messages'", "Messages.properties")}));
 		
-		regionList = new ArrayList<Region>();
-		regionList.add(new Region(909, 11));
-		regionList.add(new Region(921, 16));
-		regionList.add(new Region(1157, 11));
-		regionList.add(new Region(1169, 13));
-		regionList.add(new Region(1237, 14));
-		regionList.add(new Region(1252, 8));
-		recognitionTest.put("org.jboss.tools.common.text.ext.jsp.EXPRESSION", regionList);
-
-		regionList = new ArrayList<Region>();
-		regionList.add(new Region(680, 1));
-		regionList.add(new Region(763, 1));
-		regionList.add(new Region(870, 1));
-		regionList.add(new Region(920, 1));
-		regionList.add(new Region(971, 1));
-		regionList.add(new Region(1029, 1));
-		regionList.add(new Region(1098, 1));
-		recognitionTest.put("org.jboss.tools.common.text.ext.jsp.JSP_EXPRESSION", regionList);
+		regionList.add(new TestRegion(1091, 6, new TestHyperlink[]{new TestHyperlink(ELHyperlink.class, "Open 'demo.bundle.Messages'", "Messages.properties")}));
+		regionList.add(new TestRegion(1099, 8, new TestHyperlink[]{new TestHyperlink(ELHyperlink.class, "Open property 'button_no' of bundle 'demo.bundle.Messages'", "Messages.properties")}));
 		
-		int counter = 0;
-		for (int i = 0; i < document.getLength(); i++) {
-			TestData testData = new TestData(document, i);
-			boolean recognized = elPartitioner.recognize(testData.document, testData.getHyperlinkRegion());
-			if (recognized) {
-				String childPartitionType = elPartitioner.getChildPartitionType(testData.document, testData.getHyperlinkRegion());
-				//System.out.println("Type - "+childPartitionType+" offset - "+i);
-				if (childPartitionType != null) {
-					ArrayList<Region> test = (ArrayList<Region>)recognitionTest.get(childPartitionType);
-					assertNotNull("There are no regions for partition type - "+childPartitionType, test);
-					boolean testResult = false;
-					Iterator<Region> regions = test.iterator();
-					Region r = null;
-					while (!testResult && regions.hasNext()) {
-						r = regions.next();
-						if (r.getOffset() <= testData.offset && testData.offset < (r.getOffset() + r.getLength()))
-							testResult = true;
-					}
-					StringBuffer assertMessage = new StringBuffer();
-					assertMessage.append("Wrong recognition for the region #")
-						.append(i)
-						.append(": ")
-						.append(testData.getHyperlinkRegion().toString())
-						.append(" doesn't matches the regions for PARTITION_TYPE '")
-						.append(childPartitionType)
-						.append("' {");
-					boolean first = true;
-					for (Region reg : test) {
-						if (!first) {
-							assertMessage.append(", ");
-						} else {
-							first = false;
-						}
-						assertMessage.append("[")
-							.append(reg.getOffset())
-							.append("-")
-							.append(reg.getOffset() + reg.getLength())
-							.append("]");
-					}
-					assertMessage.append("}");
-
-					assertTrue(assertMessage.toString() , testResult);
-					counter++;
-				} else {
-					recognized = false;
-				}
-			}
-			if (!recognized) {
-				boolean testResult = false;
-				Iterator keys = recognitionTest.keySet().iterator();
-				Region r = null;
-				while (keys != null && keys.hasNext()) {
-					Object key = keys.next();
-					ArrayList test = (ArrayList)recognitionTest.get(key);
-					Iterator regions = test.iterator();
-					while (!testResult && regions.hasNext()) {
-						r = (Region)regions.next();
-						if (r.getOffset() <= testData.offset && testData.offset < (r.getOffset() + r.getLength()))
-							testResult = true;
-					}
-				}
-				assertFalse("Wrong recognition for the region: " + testData.getHyperlinkRegion().toString() 
-						+ " matches the wrong region [" + r.getOffset() + "-" + (r.getOffset() + r.getLength()) + "]" , testResult);
-			}
-		}
-
-		assertEquals("Wrong recognized region count: ", 180,  counter);
+		regionList.add(new TestRegion(1157, 10, new TestHyperlink[]{new TestHyperlink(ELHyperlink.class, "Open 'NumberGuess - org.jboss.seam.example.numberguess'", "NumberGuess.java")}));
+		regionList.add(new TestRegion(1169, 12, new TestHyperlink[]{new TestHyperlink(ELHyperlink.class, "Open 'NumberGuess.getPossibilities() - org.jboss.seam.example.numberguess'", "NumberGuess.java")}));
 		
-		model.releaseFromEdit();
-
-		documentProvider.disconnect(editorInput);
+		regionList.add(new TestRegion(1237, 13, new TestHyperlink[]{new TestHyperlink(ELHyperlink.class, "Open 'Iterator.next() - java.util'")}));
+		regionList.add(new TestRegion(1252, 7, new TestHyperlink[]{new TestHyperlink(ELHyperlink.class, "Open 'Integer.intValue() - java.lang'")}));
+		
+		HyperlinkTestUtil.checkRegions(project, PAGE_NAME, regionList, new ELHyperlinkDetector());
+		
 	}
 	
-	class TestData {
-		IDocument document;
-		int offset;
-		ITypedRegion region;
-		String contentType;
-		private IHyperlinkRegion hyperlinkRegion = null;
-	
-		TestData (IDocument document, int offset) {
-			this.document = document;
-			this.offset = offset;
-			init();
-		}
-		
-		private void init() {
-			this.region = getDocumentRegion();
-			this.contentType = getContentType();
-			this.hyperlinkRegion = getHyperlinkRegion();
-		}
-		
-		private ITypedRegion getDocumentRegion() {
-			ITypedRegion region = null;
-			try {
-				region = (document instanceof IDocumentExtension3 ? 
-						((IDocumentExtension3)document).getDocumentPartitioner("org.eclipse.wst.sse.core.default_structured_text_partitioning").getPartition(offset) : 
-						document.getDocumentPartitioner().getPartition(offset)); 
-			} catch (Exception x) {}
-			
-			return region;
-		}
-		
-		public IHyperlinkRegion getHyperlinkRegion() {
-			if (hyperlinkRegion != null)
-				return hyperlinkRegion;
-			
-			return new IHyperlinkRegion() {
-		        public String getAxis() {
-                    return AxisUtil.getAxis(document, region.getOffset());
-                }
-                public String getContentType() {
-                    return contentType;
-                }
-                public String getType() {
-                    return region.getType();
-                }
-                public int getLength() {
-                    return region.getLength();
-                }
-                public int getOffset() {
-                    return region.getOffset();
-                }
-                public String toString() {
-                	return "[" + getOffset() + "-" + (getOffset() + getLength() - 1) + ":" + getType() + ":" + getContentType() +  "]";
-                }
-            };
-		}
-		
-		
-		/**
-		 * Returns the content type of document
-		 * 
-		 * @param document -
-		 *            assumes document is not null
-		 * @return String content type of given document
-		 */
-		private String getContentType() {
-			String type = null;
-	
-			IModelManager mgr = StructuredModelManager.getModelManager();
-			IStructuredModel model = null;
-			try {
-				model = mgr.getExistingModelForRead(document);
-				if (model != null) {
-					type = model.getContentTypeIdentifier();
-				}
-			} finally {
-				if (model != null) {
-					model.releaseFromRead();
-				}
-			}
-			return type;
-		}
-	}
-
 }

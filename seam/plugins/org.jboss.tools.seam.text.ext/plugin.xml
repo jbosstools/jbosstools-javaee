@@ -135,7 +135,7 @@
          	</contentType>
 		</hyperlinkPartitioner> 
 
-		<hyperlinkPartitioner 
+		<!--hyperlinkPartitioner 
          	id="org.jboss.tools.seam.text.ext.hyperlink.SeamBeanHyperlinkPartitioner"
          	class="org.jboss.tools.seam.text.ext.hyperlink.SeamBeanHyperlinkPartitioner">
          	<contentType id="org.eclipse.jst.jsp.core.jspsource">
@@ -177,9 +177,9 @@
          	<contentType id="org.jboss.tools.seam.xml.ui.page21xmlsource">
          		<partitionType id="org.jboss.tools.common.text.ext.jsp.JSP_EXPRESSION"/>
          	</contentType>
-		</hyperlinkPartitioner>
+		</hyperlinkPartitioner-->
 
-		<hyperlinkPartitioner 
+		<!--hyperlinkPartitioner 
 	         id="org.jboss.tools.common.text.ext.jsf.hyperlink.JSPExprHyperlinkPartitioner1"
    	      class="org.jboss.tools.jsf.text.ext.hyperlink.JSPExprHyperlinkPartitioner">
 
@@ -215,7 +215,7 @@
          		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE" />
          		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_TEXT" />
          	</contentType>
-		</hyperlinkPartitioner>
+		</hyperlinkPartitioner-->
 		
 		<hyperlinkPartitioner 
          	id="org.jboss.tools.seam.text.ext.hyperlink.SeamViewHyperlinkPartitioner"
@@ -340,7 +340,7 @@
 		id="org.jboss.tools.seam.text.ext.hyperlink"
 		name="org.jboss.tools.seam.text.ext.hyperlink">
 
-		<hyperlink 
+		<!--hyperlink 
 			class="org.jboss.tools.seam.text.ext.hyperlink.SeamMessagesBeanHyperlink" 
 			id="org.jboss.tools.seam.text.ext.hyperlink.SeamBeanHyperlink">
 			<contenttypeidentifier id="org.eclipse.jst.jsp.core.jspsource">
@@ -382,7 +382,7 @@
 			<contenttypeidentifier id="org.jboss.tools.seam.xml.ui.page21xmlsource">
 				<partitiontype id="org.jboss.tools.seam.text.ext.SEAM_MESSAGES_BEAN" />
 			</contenttypeidentifier>
-		</hyperlink>
+		</hyperlink-->
 		
 		<hyperlink 
 			class="org.jboss.tools.seam.text.ext.hyperlink.SeamViewHyperlink" 
@@ -424,12 +424,6 @@
 
 	<extension
          point="org.eclipse.ui.workbench.texteditor.hyperlinkDetectors">
-      <hyperlinkDetector
-            class="org.jboss.tools.seam.text.ext.hyperlink.SeamELInJavaStringHyperlinkDetector"
-            id="org.jboss.tools.seam.text.ext.hyperlink.SeamELInJavaStringHyperlinkDetector"
-            name="%SeamELInJavaStringHyperlinkDetector"
-            targetId="org.eclipse.jdt.ui.javaCode">
-      </hyperlinkDetector>
       <hyperlinkDetector
             class="org.jboss.tools.seam.text.ext.hyperlink.SeamComponentHyperlinkDetector"
             id="org.jboss.tools.seam.text.ext.hyperlink.SeamComponentHyperlinkDetector"

@@ -490,7 +490,15 @@ public class JSFMessageELCompletionEngine extends AbstractELCompletionEngine<IVa
 				XModelObject[] properties = keyHelper.findBundles(model, variable.basename, null);
 				if(properties == null)
 					return;
-
+				
+				for (XModelObject p : properties) {
+					IFile propFile = (IFile)p.getAdapter(IFile.class);
+					if(propFile == null)
+						continue;
+					segment.setMessageBundleResource(propFile);
+					
+				}
+				
 				segment.setBaseName(variable.basename);
 				segment.setBundleOnlySegment(true);
 			}
