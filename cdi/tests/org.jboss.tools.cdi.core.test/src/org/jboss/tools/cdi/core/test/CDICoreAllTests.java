@@ -96,6 +96,7 @@ public class CDICoreAllTests {
 		suite.addTestSuite(BeansXmlCATest.class);
 		suite.addTestSuite(SelectedAlternativeTest.class);
 		suite.addTestSuite(CircularDependencyTest.class);
+		suite.addTestSuite(DynamicLookupTest.class);
 		suite.addTestSuite(AmbiguousDependencyTest.class);
 		suite.addTestSuite(UnsatisfiedDependencyTest.class);
 
