@@ -450,6 +450,13 @@
 
    <extension
          point="org.jboss.tools.common.el.core.elResolver">
+         <el-resolver id="jsf2ELResolver">
+         	<project-nature id="org.jboss.tools.jst.web.kb.kbnature" 
+         		resolver-class="org.jboss.tools.jsf.jsf2.bean.el.JSF2ElResolver"/>
+         </el-resolver>
+   </extension>
+   <extension
+         point="org.jboss.tools.common.el.core.elResolver">
          <el-resolver id="jsfELResolver">
          	<project-nature id="org.jboss.tools.jsf.jsfnature" 
          		resolver-class="org.jboss.tools.jsf.model.JSFELCompletionEngine"/>
