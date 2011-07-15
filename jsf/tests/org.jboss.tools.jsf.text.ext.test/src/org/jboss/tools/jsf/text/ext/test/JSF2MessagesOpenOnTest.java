@@ -10,23 +10,19 @@
  ******************************************************************************/ 
 package org.jboss.tools.jsf.text.ext.test;
 
+import java.util.ArrayList;
+
 import junit.framework.TestCase;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.jface.text.BadLocationException;
-import org.eclipse.jface.text.FindReplaceDocumentAdapter;
-import org.eclipse.jface.text.IDocument;
-import org.eclipse.jface.text.IRegion;
-import org.eclipse.jface.text.hyperlink.IHyperlink;
-import org.eclipse.jface.text.source.ISourceViewer;
-import org.eclipse.ui.IEditorPart;
-import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
-import org.jboss.tools.common.text.ext.hyperlink.HyperlinkDetector;
-import org.jboss.tools.jst.jsp.jspeditor.JSPMultiPageEditor;
+import org.jboss.tools.jst.text.ext.hyperlink.ELHyperlink;
+import org.jboss.tools.jst.text.ext.hyperlink.ELHyperlinkDetector;
+import org.jboss.tools.jst.text.ext.test.HyperlinkTestUtil;
+import org.jboss.tools.jst.text.ext.test.HyperlinkTestUtil.TestHyperlink;
+import org.jboss.tools.jst.text.ext.test.HyperlinkTestUtil.TestRegion;
 import org.jboss.tools.test.util.JobUtils;
-import org.jboss.tools.test.util.WorkbenchUtils;
 
 /**
  * 
@@ -35,7 +31,7 @@ import org.jboss.tools.test.util.WorkbenchUtils;
  */
 public class JSF2MessagesOpenOnTest extends TestCase {
 	private static final String PROJECT_NAME = "JSF2CompositeOpenOn";
-	private static final String PAGE_NAME =  PROJECT_NAME+"/WebContent/pages/inputname.xhtml";
+	private static final String PAGE_NAME =  "/WebContent/pages/inputname.xhtml";
 	
 	public IProject project = null;
 
@@ -53,100 +49,24 @@ public class JSF2MessagesOpenOnTest extends TestCase {
 	public JSF2MessagesOpenOnTest() {
 		super("JSF2 OpenOn on messages test");
 	}
-
-	public void testRegisteredBundle() throws PartInitException, BadLocationException {
-		doTextBundlePropertyOpenOn("resources.properties", "registeredMsgs.prompt", "registeredMsgs");
-	}
-	public void testRegisteredBundleProperty() throws PartInitException, BadLocationException {
-		doTextBundlePropertyOpenOn("resources.properties", "registeredMsgs.prompt", "prompt");
-	}
-	public void testRegisteredLongNamedBundleProperty() throws PartInitException, BadLocationException {
-		doTextBundlePropertyOpenOn("resources.properties", "registeredMsgs['demo.long.named.property']", "demo.long.named.property");
-	}
-	public void testPageLoadedBundle() throws PartInitException, BadLocationException {
-		doTextBundlePropertyOpenOn("resources.properties", "pageMsgs.prompt", "pageMsgs");
-	}
-	public void testPageLoadedBundleProperty() throws PartInitException, BadLocationException {
-		doTextBundlePropertyOpenOn("resources.properties", "pageMsgs.prompt", "prompt");
-	}
-	public void testPageLoadedLongNamedBundleProperty() throws PartInitException, BadLocationException {
-		doTextBundlePropertyOpenOn("resources.properties", "pageMsgs['demo.long.named.property']", "demo.long.named.property");
-	}
-
-	private void doTextBundlePropertyOpenOn(String editorName, String propertyQualifiedName, String property) throws PartInitException, BadLocationException {
-		IEditorPart editor = WorkbenchUtils.openEditor(PAGE_NAME);
-		assertTrue(editor instanceof JSPMultiPageEditor);
-		JobUtils.waitForIdle();
-		JSPMultiPageEditor jspMultyPageEditor = (JSPMultiPageEditor) editor;
-		ISourceViewer viewer = jspMultyPageEditor.getSourceEditor().getTextViewer(); 
-			
-		IDocument document = viewer.getDocument();
-		IRegion reg = new FindReplaceDocumentAdapter(document).find(0,
-				propertyQualifiedName, true, true, false, false);
-		assertNotNull("Property:"+propertyQualifiedName+" not found",reg);
-		
-		reg = new FindReplaceDocumentAdapter(document).find(reg.getOffset(),
-				property, true, true, false, false);
-		assertNotNull("Property:"+property+" not found",reg);
-		
-		IHyperlink[] links = HyperlinkDetector.getInstance().detectHyperlinks(viewer, reg, true); // new Region(reg.getOffset() + reg.getLength(), 0)
-		
-		assertNotNull("Hyperlinks for property:"+propertyQualifiedName+" are not found",links);
-		
-		assertTrue("Hyperlinks for property:"+propertyQualifiedName+" are not found",links.length!=0);
-		
-		boolean found = false;
-		for(IHyperlink link : links){
-			assertNotNull(link.toString());
-			
-			link.open();
-			JobUtils.waitForIdle(2000);
-			
-			IEditorPart resultEditor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
-			if(editorName.equals(resultEditor.getTitle())){
-				found = true;
-				return;
-			}
-		}
-		assertTrue("OpenOn have not opened "+editorName+" editor",found);
-	}
 	
-	
-	public void testRegisteredBundlePropertyOpenOn() throws PartInitException, BadLocationException {
-		final String editorName = "resources.properties";
-		final String propertyName = "registeredMsgs.prompt";  
-		IEditorPart editor = WorkbenchUtils.openEditor(PAGE_NAME);
-		assertTrue(editor instanceof JSPMultiPageEditor);
-		JobUtils.waitForIdle();
-		JSPMultiPageEditor jspMultyPageEditor = (JSPMultiPageEditor) editor;
-		ISourceViewer viewer = jspMultyPageEditor.getSourceEditor().getTextViewer(); 
-			
-		IDocument document = viewer.getDocument();
-		IRegion reg = new FindReplaceDocumentAdapter(document).find(0,
-				propertyName, true, true, false, false);
+	public void testJSF2MessagesHyperlink() throws Exception{
+
+		ArrayList<TestRegion> regionList = new ArrayList<TestRegion>();
+		regionList.add(new TestRegion(881, 13, new TestHyperlink[]{new TestHyperlink(ELHyperlink.class, "Open 'resources'", "resources.properties")}));
+		regionList.add(new TestRegion(896, 5, new TestHyperlink[]{new TestHyperlink(ELHyperlink.class, "Open property 'prompt' of bundle 'resources'", "resources.properties")}));
 		
-		assertNotNull("Property:"+propertyName+" not found",reg);
+		regionList.add(new TestRegion(1004, 13, new TestHyperlink[]{new TestHyperlink(ELHyperlink.class, "Open 'resources'", "resources.properties")}));
+		regionList.add(new TestRegion(1019, 25, new TestHyperlink[]{new TestHyperlink(ELHyperlink.class, "Open property 'demo.long.named.property' of bundle 'resources'", "resources.properties")}));
+
+		regionList.add(new TestRegion(1078, 7, new TestHyperlink[]{new TestHyperlink(ELHyperlink.class, "Open 'resources'", "resources.properties")}));
+		regionList.add(new TestRegion(1087, 5, new TestHyperlink[]{new TestHyperlink(ELHyperlink.class, "Open property 'prompt' of bundle 'resources'", "resources.properties")}));
+
+		regionList.add(new TestRegion(1125, 7, new TestHyperlink[]{new TestHyperlink(ELHyperlink.class, "Open 'resources'", "resources.properties")}));
+		regionList.add(new TestRegion(1134, 25, new TestHyperlink[]{new TestHyperlink(ELHyperlink.class, "Open property 'demo.long.named.property' of bundle 'resources'", "resources.properties")}));
 		
-		IHyperlink[] links = HyperlinkDetector.getInstance().detectHyperlinks(viewer, reg, true); // new Region(reg.getOffset() + reg.getLength(), 0)
+		HyperlinkTestUtil.checkRegions(project, PAGE_NAME, regionList, new ELHyperlinkDetector());
 		
-		assertNotNull("Hyperlinks for property:"+propertyName+" are not found",links);
-		
-		assertTrue("Hyperlinks for property:"+propertyName+" are not found",links.length!=0);
-		
-		boolean found = false;
-		for(IHyperlink link : links){
-			assertNotNull(link.toString());
-			
-			link.open();
-			JobUtils.waitForIdle(2000);
-			
-			IEditorPart resultEditor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
-			if(editorName.equals(resultEditor.getTitle())){
-				found = true;
-				return;
-			}
-		}
-		assertTrue("OpenOn have not opened "+editorName+" editor",found);
 	}
 
 }
