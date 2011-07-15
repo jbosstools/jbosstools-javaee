@@ -420,6 +420,30 @@ public class RichFacesComponentContentTest extends ComponentContentTest {
 		performContentTest("components/togglePanelItem.xhtml");//$NON-NLS-1$
 	}
 	
+	public void testDragSource() throws Throwable {
+		performInvisibleTagTest("components/dragSource.xhtml", "dragSource"); //$NON-NLS-1$ //$NON-NLS-2$
+	}
+	
+	public void testDropTarget() throws Throwable {
+		performInvisibleTagTest("components/dropTarget.xhtml", "dropTarget"); //$NON-NLS-1$ //$NON-NLS-2$
+	}
+	
+	public void testHashParam() throws Throwable {
+		performInvisibleTagTest("components/hashParam.xhtml", "hashParam"); //$NON-NLS-1$ //$NON-NLS-2$
+	}
+	
+	public void testTreeSelectionChangeListener() throws Throwable {
+		performInvisibleTagTest("components/treeSelectionChangeListener.xhtml", "treeSelectionChangeListener"); //$NON-NLS-1$ //$NON-NLS-2$
+	}
+	
+	public void testTreeToggleListener() throws Throwable {
+		performInvisibleTagTest("components/treeToggleListener.xhtml", "treeToggleListener"); //$NON-NLS-1$ //$NON-NLS-2$
+	}
+	
+	public void testValidator() throws Throwable {
+		performInvisibleTagTest("components/validator.xhtml", "validator"); //$NON-NLS-1$ //$NON-NLS-2$
+	}
+	
 	@Override
 	protected String getTestProjectName() {
 		return RichFacesAllTests.IMPORT_PROJECT_NAME;
