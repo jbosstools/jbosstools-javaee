@@ -99,6 +99,7 @@ public class JSF2ComponentModelManager {
 				
 				provider.aboutToChange(input);
 				provider.saveDocument(new NullProgressMonitor(), input, document, true);
+				provider.changed(input);
 				provider.disconnect(input);
 			}
 		});
