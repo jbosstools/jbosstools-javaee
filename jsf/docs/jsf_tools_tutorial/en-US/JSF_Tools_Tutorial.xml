@@ -12,5 +12,6 @@
 <xi:include href="start_page.xml" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
 <xi:include href="running_application.xml" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
 <xi:include href="relevant_resources.xml" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
+<xi:include href="Feedback.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
 <xi:include href="Revision_History.xml" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
 </book>

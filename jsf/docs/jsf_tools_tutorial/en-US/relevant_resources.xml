@@ -1,37 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <chapter id="relevant_resources">
-    <?dbhtml filename="relevant_resources.html"?>
-    <chapterinfo>
-        <keywordset>
-            <keyword>JBoss Tools</keyword>
-            <keyword>JSF application</keyword>
-            <keyword>Java</keyword>
-        </keywordset>
-    </chapterinfo>
+	<?dbhtml filename="relevant_resources.html"?>
+	<chapterinfo>
+		<keywordset>
+			<keyword>JBoss Tools</keyword>
+			<keyword>JSF application</keyword>
+			<keyword>Java</keyword>
+		</keywordset>
+	</chapterinfo>
 
-    <title>Other Relevant Resources on the topic</title>
-    <para>JSF on Sun: <ulink url="http://java.sun.com/javaee/javaserverfaces/">JavaServer Faces
-            Technology</ulink></para>
-    <para>Core JSF: <ulink url="http://www.horstmann.com/corejsf/">Core JavaServer Faces</ulink></para>
-    <para>API: <ulink url="http://java.sun.com/javaee/javaserverfaces/1.1/docs/api/index.html">JSF
-            API</ulink></para>
-    <para>JSF Tags: <ulink url="http://www.horstmann.com/corejsf/jsf-tags.html">JSF Core
-        Tags</ulink></para>
-    <para>HTML Tags Reference: <ulink url="http://www.exadel.com/tutorial/jsf/jsftags-guide.html"
-            >JSF HTML Tags Reference</ulink></para>
-    <para>JSF Central: <ulink url="http://www.jsfcentral.com/">JSF Central - Your JavaServer Faces
-            Community</ulink></para>
-    <para>FAQ: <ulink url="http://wiki.java.net/bin/view/Projects/JavaServerFacesSpecFaq">JSF
-        FAQ</ulink></para>
-    <para>Download: <ulink url="http://java.sun.com/javaee/javaserverfaces/download.html">JavaServer
-            Faces Technology - Download</ulink></para>
-
-    <para>In summary, with this tutorial you should now know how to organize JSF sample application
+	<title>Other Relevant Resources on the topic</title>
+	<itemizedlist>
+		<listitem>
+			<para>JSF on Sun: <ulink url="http://java.sun.com/javaee/javaserverfaces/">JavaServer Faces
+            Technology</ulink>
+			</para>
+		</listitem>
+		<listitem>
+			<para>Core JSF: <ulink url="http://www.horstmann.com/corejsf/">Core JavaServer Faces</ulink>
+			</para>
+			</listitem>
+			<listitem>
+			<para>API: <ulink url="http://java.sun.com/javaee/javaserverfaces/reference/api/index.html">JSF
+            API</ulink>
+			</para>
+			</listitem>
+			<listitem>			
+			<para>JSF Tags: <ulink url="http://www.horstmann.com/corejsf/jsf-tags.html">JSF Core
+        Tags</ulink>
+			</para>
+			</listitem>
+			<listitem>
+			<para>HTML Tags Reference: <ulink url="http://www.exadel.com/tutorial/jsf/jsftags-guide.html">JSF HTML Tags Reference</ulink>
+			</para>
+			</listitem>
+			<listitem>
+			<para>JSF Central: <ulink url="http://www.jsfcentral.com/">JSF Central - Your JavaServer Faces
+            Community</ulink>
+			</para>
+			</listitem>
+			<listitem>
+			<para>FAQ: <ulink url="http://wiki.java.net/bin/view/Projects/JavaServerFacesSpecFaq">JSF
+        FAQ</ulink>
+			</para>
+			</listitem>
+			<listitem>
+			<para>Download: <ulink url="http://java.sun.com/javaee/javaserverfaces/download.html">JavaServer
+            Faces Technology - Download</ulink>
+			</para>
+			</listitem>
+			</itemizedlist>
+			<para>In summary, with this tutorial you should now know how to organize JSF sample application
         using the wizards provided by <property>JBoss Tools</property>, configure its stuff and
         finally run it on the <property>JBoss Server</property>.</para>
 
-    <para>Find out more features on JSF tooling in our JSF Tools
-            Reference Guide. If you have questions and suggestions, please refer to <ulink
-            url="http://www.jboss.com/index.html?module=bb&amp;op=viewforum&amp;f=201">JBoss
+			<para>Find out more features on JSF tooling in our JSF Tools
+            Reference Guide. If you have questions and suggestions, please refer to <ulink url="http://www.jboss.com/index.html?module=bb&amp;op=viewforum&amp;f=201">JBoss
             Tools Forum</ulink>.</para>
-</chapter>
+		</chapter>

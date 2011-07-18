@@ -56,12 +56,12 @@
             </releaseinfo>
 
 
-<abstract>
+<!--<abstract>
    <title/>
        <para>
-           <ulink url="http://download.jboss.org/jbosstools/nightly-docs/en/jsf_tools_tutorial/pdf/Struts_Tools_Tutorial.pdf">PDF version</ulink>
+           <ulink url="http://download.jboss.org/jbosstools/nightly-docs/en/jsf_tools_tutorial/pdf/JSF_Tools_Tutorial.pdf">PDF version</ulink>
        </para>
-</abstract>
+</abstract>-->
 
 
     </bookinfo>    

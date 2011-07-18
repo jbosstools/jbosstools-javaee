@@ -1,239 +1,205 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <chapter id="jsp_view_files">
-    <?dbhtml filename="jsp_view_files.html"?>
-    <chapterinfo>
-        <keywordset>
-            <keyword>JBoss Tools</keyword>
-            <keyword>JSF application</keyword>
-            <keyword>Java</keyword>
-        </keywordset>
-    </chapterinfo>
+	<?dbhtml filename="jsp_view_files.html"?>
+	<chapterinfo>
+		<keywordset>
+			<keyword>JBoss Tools</keyword>
+			<keyword>JSF application</keyword>
+			<keyword>Java</keyword>
+		</keywordset>
+	</chapterinfo>
 
-        <title>Editing the JSP View Files</title>
-        
-        <para>Now we will finish editing the JSP files for our two &quot;views&quot; using
-            JSP Visual Page.</para>
-        <section id="Inputname.jsp">
-            <title>inputname.jsp</title>
-            <itemizedlist>
-                <listitem>
-                    <para>Click on the <emphasis>
-                        <property>Diagram</property>
-                    </emphasis> tab for the configuration file editor</para>
-                </listitem>
-                <listitem>
-                    <para>Open the editor for this first JSP file by double-clicking on the <emphasis>
-                        <property>/pages/inputname. jsp</property>
-                    </emphasis> icon</para>
-                </listitem>
-            </itemizedlist>
-            
-            <para>The Visual Page Editor will open in a screen split between source code along the
-                top and a WYSIWIG view along the bottom:</para>
-            <figure>
-                <title>Visual Page Editor</title>
-                <mediaobject>
-                    <imageobject>
-                        <imagedata fileref="images/jsf_application/jsf_application_6.png"/>
-                    </imageobject>
-                </mediaobject>
-            </figure>
-            <para>Some JSF code is already in the file, because we have chosen a template to create
-                a page.</para>
-            <itemizedlist>
-                <listitem>
-                    <para>Select the <emphasis>
-                        <property>Visual</property>
-                    </emphasis> tab, so we can work with the editor completely in its WYSIWYG
-                        mode</para>
-                </listitem>
-                <listitem>
-                    <para>To the right of the editor, in the JBoss Tools Palette, expand the <emphasis>
-                        <property>JSF HTML</property>
-                    </emphasis> palette folder by selecting it</para>
-                </listitem>
-            </itemizedlist>
-            <figure>
-                <title>JBoss Tools Palette</title>
-                <mediaobject>
-                    <imageobject>
-                        <imagedata fileref="images/jsf_application/jsf_application_7.png"/>
-                    </imageobject>
-                </mediaobject>
-            </figure>
-            <itemizedlist>
-                <listitem>
-                    <para>Click on <emphasis>
-                        <property>form</property>
-                    </emphasis> within this folder, drag the cursor over to the editor, and drop
-                        it inside the red box in the editor</para>
-                </listitem>
-                <listitem>
-                    <para>Another red box will appear inside the first red box</para>
-                </listitem>
-                <listitem>
-                    <para>Right-click on the innermost box and select <emphasis role="bold">
-                        <property>&lt;h:form&gt;</property>
-                    </emphasis> Attributes from the menu</para>
-                </listitem>
-                <listitem>
-                    <para>In the value field next to id, type <emphasis>
-                        <property>greeting</property>
-                    </emphasis> and click on the <emphasis>
-                        <property>Close</property>
-                    </emphasis> button</para>
-                </listitem>
-                <listitem>
-                    <para>Type &quot;Please enter name:&quot; inside the boxes</para>
-                </listitem>
-                <listitem>
-                    <para>Select <emphasis>
-                        <property>inputText</property>
-                    </emphasis> within the JSF HTML palette folder and drag it into the
-                        innermost box in the editor after &quot;Please enter
-                        name:&quot;</para>
-                </listitem>
-                <listitem>
-                    <para>In the attributes dialog, click in the <emphasis>
-                        <property>value</property>
-                    </emphasis> field next to the value attribute and click on the <property>...
-                    </property>button</para>
-                </listitem>
-                <listitem>
-                    <para>Then, select the <emphasis>
-                        <property>Managed Beans > personBean > name</property>
-                    </emphasis> node and click on the <emphasis>
-                        <property>Ok</property>
-                    </emphasis> button</para>
-                </listitem>
-                <listitem>
-                    <para>Back in the attributes dialog, select the <emphasis>
-                        <property>Advanced</property>
-                    </emphasis> tab, type in <emphasis>
-                        <property>name</property>
-                    </emphasis> as the value for the <emphasis role="italic">
-                        <property>&quot;id&quot;</property>
-                    </emphasis> attribute, and then click on the <emphasis>
-                        <property>Finish</property>
-                    </emphasis> button</para>
-                </listitem>
-                <listitem>
-                    <para>Select <emphasis>
-                        <property>commandButton</property>
-                    </emphasis> within the JSF HTML palette folder and drag it into the
-                        innermost box in the editor after the input box</para>
-                </listitem>
-                <listitem>
-                    <para>In the attributes dialog, click in the value field next to the <emphasis
-                        role="italic">
-                        <property>&quot;action&quot;</property>
-                    </emphasis> attribute and click on the <property>...
-                    </property>button</para>
-                </listitem>
-                <listitem>
-                    <para>Then, select the <emphasis>
-                        <property>View Actions > greeting</property>
-                    </emphasis> node and click on the <emphasis>
-                        <property>OK</property>
-                    </emphasis> button</para>
-                </listitem>
-                <listitem>
-                    <para>Back in the attributes dialog box, type in &quot;Say Hello&quot;
-                        as the value for the value attribute (&quot;Say Hello&quot;) and
-                        then click on the <emphasis>
-                            <property>Finish</property>
-                        </emphasis> button</para>
-                </listitem>
-            </itemizedlist>
-            <para>The source coding should be something like this now:</para>
-            <programlisting role="XML"><![CDATA[<%@ taglib uri="http://java.sun.com/jsf/html" prefix="h" %>
-<%@ taglib uri="http://java.sun.com/jsf/core" prefix="f" %>
+	<title>Editing the JSP View Files</title>
+
+	<para>Now we will finish editing the JSP files for our two &quot;views&quot; using
+            JSP Visual Page Editor.</para>
+	<section id="Inputname.jsp">
+		<title>inputname.jsp</title>
+		<itemizedlist>
+			<listitem>
+				<para>Click on the <guilabel>Diagram</guilabel> tab of the configuration file editor.</para>
+			</listitem>
+			<listitem>
+				<para>Open the editor for this first JSP file by double-clicking on the <guilabel>/pages/inputname.jsp</guilabel> icon.</para>
+			</listitem>
+		</itemizedlist>
+
+		<para>The Visual Page Editor will open in a screen split between source code along the top and a WYSIWIG view along the bottom:</para>
+		<figure>
+			<title>Visual Page Editor</title>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="images/jsf_application/jsf_application_6.png"/>
+				</imageobject>
+			</mediaobject>
+		</figure>
+		<para>Some JSF code is already in the file, because we have chosen a template to create a page.</para>
+		<itemizedlist>
+			<listitem>
+				<para>Select the <guilabel>Visual</guilabel> tab, so we can work with the editor completely in its WYSIWYG mode.</para>
+			</listitem>
+			<listitem>
+				<para>To the right of the editor, in the JBoss Tools Palette, expand the <guilabel>JSF HTML</guilabel> palette folder by selecting it.</para>
+			</listitem>
+		</itemizedlist>
+		<figure>
+			<title>JBoss Tools Palette</title>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="images/jsf_application/jsf_application_7.png"/>
+				</imageobject>
+			</mediaobject>
+		</figure>
+		<itemizedlist>
+			<listitem>
+				<para>
+					Click on <guimenuitem>form</guimenuitem> within this folder, drag the cursor over to the editor, and drop it inside the <code>&lt;f:view&gt;</code> element. This can be done by dragging the form element onto the horizontal line at the top of the <code>&lt;f:view&gt;</code> element. You should see a message saying <guilabel>Place at the beginning of &lt;f:view&gt;</guilabel>.
+				</para>
+			</listitem>
+		</itemizedlist>
+			<figure>
+				<title>Inserting the form element</title>
+				<mediaobject>
+					<imageobject>
+						<imagedata fileref="images/jsf_application/jsf_application_7a.png"/>
+					</imageobject>
+				</mediaobject>
+			</figure>
+		<itemizedlist>
+			<listitem>
+				<para>The <guilabel>Insert Tags</guilabel> dialog box will be displayed.</para>
+			</listitem>
+			<listitem>
+				<para>
+					In the value field next to <guilabel>id</guilabel>, type <guilabel>greeting</guilabel> and click on the <guibutton>Close</guibutton> button.
+				</para>
+			</listitem>
+			<listitem>
+				<para>Type &quot;Please enter name:&quot; inside the <code>&lt;h:form&gt;</code> element.</para>
+			</listitem>
+			<listitem>
+				<para>
+					Select <guimenuitem>inputText</guimenuitem> within the JSF HTML palette folder place it at the end of the <code>&lt;h:form&gt;</code> element.
+				</para> 
+			</listitem>
+			</itemizedlist>
+			<figure>
+				<title>Inserting the input text element</title>
+				<mediaobject>
+					<imageobject>
+						<imagedata fileref="images/jsf_application/jsf_application_7b.png"/>
+					</imageobject>
+				</mediaobject>
+			</figure>
+		<itemizedlist>
+			<listitem>
+				<para>
+					In the attributes dialog, click in the <guilabel>value</guilabel> field next to the value attribute and click on the <guibutton>...</guibutton>button.
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					Then, select the <menuchoice><guimenuitem>Managed Beans</guimenuitem><guimenuitem>personBean</guimenuitem><guimenuitem>name</guimenuitem></menuchoice> node and click on the <guibutton>OK</guibutton> button.</para>
+			</listitem>
+			<listitem>
+				<para>
+					Back in the attributes dialog, select the <guilabel>Advanced</guilabel> tab, and type in <guilabel>name</guilabel> as the value for the <guilabel>id</guilabel> attribute, and then click on the <guibutton>Finish</guibutton> button.
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					Select <guimenuitem>commandButton</guimenuitem> within the <guilabel>JSF HTML palette</guilabel> folder and drag it into the end of the <code>&lt;h:form&gt;</code> element.
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					In the attributes dialog, click in the value field next to the <guilabel>action</guilabel> attribute and click on the <guibutton>...</guibutton> button.
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					Then, select the <menuchoice><guimenuitem>View Actions</guimenuitem><guimenuitem>greeting</guimenuitem></menuchoice> node and click on the <guibutton>OK</guibutton> button.
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					In the <guilabel>Advanced</guilabel> tab, type in <guilabel>Say Hello</guilabel> as the value for the value attribute (&quot;Say Hello&quot;) and then click on the <guibutton>Finish</guibutton> button.
+				</para>
+			</listitem>
+		</itemizedlist>
+		<para>The source coding should be something like this now:</para>
+		<programlisting role="XML"><![CDATA[<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="f"  uri="http://java.sun.com/jsf/core"%>
+<%@ taglib prefix="h"  uri="http://java.sun.com/jsf/html"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<title></title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Insert title here</title>
 </head>
-<body>
-<f:view>
-<h:form id="greeting">
-Please enter name:
-<h:inputText id="name" value="#{personBean.name}"/>
-<h:commandButton value=" Say Hello " action="greeting"/>
-</h:form>
-</f:view>
-</body>
-</html>
-]]></programlisting>
-            <para>The editor should look like this:</para>
-            <figure>
-                <title>Visual Page Editor</title>
-                <mediaobject>
-                    <imageobject>
-                        <imagedata fileref="images/jsf_application/jsf_application_8.png"/>
-                    </imageobject>
-                </mediaobject>
-            </figure>
-            <itemizedlist>
-                <listitem>
-                    <para>Save the file by selecting <emphasis>
-                        <property>File > Save</property>
-                    </emphasis> from the menu bar</para>
-                </listitem>
-            </itemizedlist>
-        </section>
-        <section id="Greeting.jsp">
-            <title>greeting.jsp</title>
-            <itemizedlist>
-                <listitem>
-                    <para>Click on the <emphasis>
-                        <property>faces-config.xml</property>
-                    </emphasis> tab to bring the diagram back</para>
-                </listitem>
-                <listitem>
-                    <para>Open the editor for the second file by double-clicking on the <emphasis>
-                        <property>/pages/greeting.jsp</property>
-                    </emphasis> icon</para>
-                </listitem>
-                <listitem>
-                    <para>Select the <emphasis>
-                        <property>Visual</property>
-                    </emphasis> tab, so we can work with the editor completely in its WYSIWYG
-                        mode</para>
-                </listitem>
-                <listitem>
-                    <para>Type &quot;Hello &quot;(note space after Hello) into the
-                        box</para>
-                </listitem>
-                <listitem>
-                    <para>Select <emphasis>
-                        <property>outputText</property>
-                    </emphasis> within the JSF HTML palette folder and drag it into the
-                        innermost box in the editor after &quot;Hello&quot;</para>
-                </listitem>
-                <listitem>
-                    <para>In the attributes dialog, click in <emphasis>
-                        <property>value</property>
-                    </emphasis> field next to the value attribute and click on the
-                        <property>...</property> (Browse) button</para>
-                </listitem>
-                <listitem>
-                    <para>Then, select the <emphasis>
-                        <property>Managed Beans > personBean > name</property>
-                    </emphasis> node, click on the <emphasis>
-                        <property>Ok</property>
-                    </emphasis> button, and then click on the <emphasis>
-                        <property>Finish</property>
-                    </emphasis> button</para>
-                </listitem>
-                <listitem>
-                    <para>Right after the output field, type an <emphasis>
+	<body>
+		<f:view>
+			<h:form id="greeting">
+				Please enter name:
+			<h:inputText id="name" value="#{personBean.name}"/>
+			<h:commandButton action="greeting" value="Say Hello"/>
+			</h:form>
+		</f:view>
+	</body>
+</html>]]></programlisting>
+		<para>The editor should look like this:</para>
+		<figure>
+			<title>Visual Page Editor</title>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="images/jsf_application/jsf_application_8.png"/>
+				</imageobject>
+			</mediaobject>
+		</figure>
+		<itemizedlist>
+			<listitem>
+				<para>Save the file by selecting <menuchoice><guimenuitem>File</guimenuitem><guimenuitem>Save</guimenuitem></menuchoice> from the menu bar</para>
+			</listitem>
+		</itemizedlist>
+	</section>
+	<section id="Greeting.jsp">
+		<title>greeting.jsp</title>
+		<itemizedlist>
+			<listitem>
+				<para>Click on the <filename>faces-config.xml</filename> tab to bring the diagram back</para>
+			</listitem>
+			<listitem>
+				<para>Open the editor for the second file by double-clicking on the <filename>/pages/greeting.jsp</filename> icon</para>
+			</listitem>
+			<listitem>
+				<para>Select the <guilabel>Visual</guilabel> tab, so we can work with the editor completely in its WYSIWYG mode</para>
+			</listitem>
+			<listitem>
+				<para>Type &quot;Hello &quot; (note the space after Hello) into the box</para>
+			</listitem>
+			<listitem>
+				<para>Select <guimenuitem>outputText</guimenuitem> within the JSF HTML palette folder and drag it into the
+                        innermost box in the editor after &quot;Hello &quot;</para>
+			</listitem>
+			<listitem>
+				<para>In the attributes dialog, click in <guilabel>value</guilabel> field next to the value attribute and click on the
+                        <guibutton>...</guibutton> (Browse) button</para>
+			</listitem>
+			<listitem>
+				<para>
+					Then, select the <menuchoice><guimenuitem>Managed Beans</guimenuitem><guimenuitem>personBean</guimenuitem><guimenuitem>name</guimenuitem></menuchoice> node, click on the <guibutton>OK</guibutton> button, and then click on the <guibutton>Finish</guibutton> button.
+				</para>
+			</listitem>
+			<listitem>
+				<para>Right after the output field, type an <emphasis>
                         <property>exclamation point</property>
-                    </emphasis> (<emphasis>
+					</emphasis> (<emphasis>
                         <property>!</property>
-                    </emphasis>)</para>
-                </listitem>
-            </itemizedlist>
-            <para>The source coding should be something like this now:</para>
-            <programlisting role="XML"><![CDATA[<%@ taglib uri="http://java.sun.com/jsf/html" prefix="h" %>
+					</emphasis>)</para>
+			</listitem>
+		</itemizedlist>
+		<para>The source coding should be something like this now:</para>
+		<programlisting role="XML"><![CDATA[<%@ taglib uri="http://java.sun.com/jsf/html" prefix="h" %>
 <%@ taglib uri="http://java.sun.com/jsf/core" prefix="f" %>
 <html>
 <head>
@@ -246,10 +212,10 @@ Hello <h:outputText value="#{personBean.name}"/>!
 </body>
 </html>
 ]]></programlisting>
-            <itemizedlist>
-                <listitem>
-                    <para>Save the file</para>
-                </listitem>
-            </itemizedlist>
-        </section>
-    </chapter>
+		<itemizedlist>
+			<listitem>
+				<para>Save the file</para>
+			</listitem>
+		</itemizedlist>
+	</section>
+</chapter>

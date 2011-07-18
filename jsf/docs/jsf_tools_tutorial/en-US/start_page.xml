@@ -1,45 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <chapter id="start_page">
-    <?dbhtml filename="start_page.html"?>
-    <chapterinfo>
-        <keywordset>
-            <keyword>JBoss Tools</keyword>
-            <keyword>JSF application</keyword>
-            <keyword>Java</keyword>
-        </keywordset>
-    </chapterinfo>
+	<?dbhtml filename="start_page.html"?>
+	<chapterinfo>
+		<keywordset>
+			<keyword>JBoss Tools</keyword>
+			<keyword>JSF application</keyword>
+			<keyword>Java</keyword>
+		</keywordset>
+	</chapterinfo>
 
-        <title>Creating the Start Page</title>
-        <para>You also need to create a start page as an entry point into the application.</para>
-        <itemizedlist>
-            <listitem>
-                <para>In the Package Explorer view to the left, right-click <emphasis>
-                    <property>jsfHello > WebContent</property>
-                </emphasis> and select <emphasis>
-                    <property>New > JSP File</property>
-                </emphasis></para>
-            </listitem>
-            <listitem>
-                <para>For Name type in <emphasis>
-                    <property>index</property>
-                </emphasis>, for Template select <emphasis>
-                    <property>JSPRedirect</property>
-                </emphasis> and click <emphasis>
-                    <property>Finish</property>
-                </emphasis></para>
-            </listitem>
-        </itemizedlist>
-        <para>A JSP editor will open up on the newly created file.</para>
-        
-        <itemizedlist>
-            <listitem>
-                <para>In the Source part of the split screen, type <emphasis>
-                    <property>/pages/inputname.jsf</property>
-                </emphasis> in between the quotes for the page attribute</para>
-            </listitem>
-        </itemizedlist>
-        <para>The source coding should look like this now:</para>
-        <programlisting role="XML"><![CDATA[<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+	<title>Creating the Start Page</title>
+	<para>You also need to create a start page as an entry point into the application.</para>
+	<itemizedlist>
+		<listitem>
+			<para>In the Package Explorer view to the left, right-click <menuchoice><guimenuitem>jsfHello</guimenuitem><guimenuitem>WebContent</guimenuitem></menuchoice> and select <menuchoice><guimenuitem>New</guimenuitem><guimenuitem>JSP File</guimenuitem></menuchoice>
+			</para>
+		</listitem>
+		<listitem>
+			<para>For Name type in <guilabel>index</guilabel>, for Template select <guimenuitem>New JSP File (html)</guimenuitem> and click the <guibutton>Finish</guibutton> button.
+			</para>
+		</listitem>
+	</itemizedlist>
+	<para>A JSP editor will open up on the newly created file.</para>
+
+	<itemizedlist>
+		<listitem>
+			<para>In the Source part of the split screen, replace the contents of the file with the code below.</para>
+		</listitem>
+	</itemizedlist>
+	<programlisting role="XML"><![CDATA[<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
 <html>
 <head></head>
 <body>
@@ -47,17 +36,13 @@
 </body>
 </html>
 ]]></programlisting>
-        
-        <para>Note the <emphasis>
-            <property>.jsf</property>
-        </emphasis> extension for the file name. This is a mapping defined in the web.xml file
-            for the project for invoking <property>JavaServer Faces</property> when you run the
-            application.</para>
-        <itemizedlist>
-            <listitem>
-                <para>Select<emphasis>
-                    <property> File > Save</property>
-                </emphasis> from the menu bar</para>
-            </listitem>
-        </itemizedlist>
-    </chapter>
+
+	<para>
+		Note the <filename>.jsf</filename> extension for the file name. This is a mapping defined in the <filename>web.xml</filename> file for the project for invoking <property>JavaServer Faces</property> when you run the application.
+	</para>
+	<itemizedlist>
+		<listitem>
+			<para>Select <menuchoice><guimenuitem>File</guimenuitem><guimenuitem>Save</guimenuitem></menuchoice> from the menu bar</para>
+		</listitem>
+	</itemizedlist>
+</chapter>
