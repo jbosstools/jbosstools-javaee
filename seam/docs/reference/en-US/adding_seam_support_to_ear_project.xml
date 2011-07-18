@@ -15,9 +15,9 @@
     <para>For example you have several WTP projects:</para>
     
     <itemizedlist>  
-        <listitem><para> seamproject-ear (You can create WTP EAR project using New -> Project -> Java EE -> Enterprise Application Project wizard)</para></listitem>
-        <listitem><para> seamproject-ejb (You can create WTP EJB project using New -> Project -> EJB -> EJB Project wizard)</para></listitem>
-        <listitem><para> seamproject-war (You can create WTP WEB project using New -> Project -> Web -> Dynamic Web Project wizard)</para></listitem>
+        <listitem><para> seamproject-ear (You can create WTP EAR project using <menuchoice><guimenuitem>New</guimenuitem><guimenuitem>Project</guimenuitem><guimenuitem>Java EE</guimenuitem><guimenuitem>Enterprise Application Project wizard</guimenuitem></menuchoice>)</para></listitem>
+        <listitem><para> seamproject-ejb (You can create WTP EJB project using <menuchoice><guimenuitem>New</guimenuitem><guimenuitem>Project</guimenuitem><guimenuitem>EJB</guimenuitem><guimenuitem>EJB Project wizard</guimenuitem></menuchoice>)</para></listitem>
+        <listitem><para> seamproject-war (You can create WTP WEB project using <menuchoice><guimenuitem>New</guimenuitem><guimenuitem>Project</guimenuitem><guimenuitem>Web</guimenuitem><guimenuitem>Dynamic Web Project wizard</guimenuitem></menuchoice>)</para></listitem>
     </itemizedlist>
     
     <note><title>Tip</title>
@@ -32,7 +32,7 @@
         </mediaobject>
     </figure>
         
-    <para>Make sure EJB and WAR are included in EAR as modules (Properties for seamproject-ear -> Java EE Module Dependencies)</para>
+    <para>Make sure EJB and WAR are included in EAR as modules (Properties for <menuchoice><guimenuitem>seamproject-ear</guimenuitem><guimenuitem>Java EE Module Dependencies</guimenuitem></menuchoice>)</para>
     
     <figure>
         <title>Java EE Module Dependencies</title>
@@ -55,7 +55,7 @@
     </figure>
     
     
-    <para>Then include libs from EAR to EJB Manifest Class-Path (Properties for seamproject-ejb -> Java EE Module Dependencies)</para>
+    <para>Then include libs from EAR to EJB Manifest Class-Path (Properties for <menuchoice><guimenuitem>seamproject-ejb</guimenuitem><guimenuitem>Java EE Module Dependencies</guimenuitem></menuchoice>)</para>
     
     <figure>
         <title>Including Libs from EAR to EJB Manifest Class-Path</title>
@@ -66,7 +66,7 @@
         </mediaobject>
     </figure>
     
-    <para>Include libs from EAR and seamproject-ejb.jar to WAR Manifest Class-Path (Properties for seamproject-war -> Java EE Module Dependencies)</para>   
+    <para>Include libs from EAR and seamproject-ejb.jar to WAR Manifest Class-Path (Properties for <menuchoice><guimenuitem>seamproject-war</guimenuitem><guimenuitem>Java EE Module Dependencies</guimenuitem></menuchoice>)</para>   
     
     <figure>
         <title>Including Libs from EAR and seamproject-ejb.jar to WAR Manifest Class-Path</title>
@@ -79,7 +79,7 @@
     
     <para>Thus we have set our WTP EAR/EJB/WAR projects and now we are ready to add Seam support to them:</para>
     
-    <para>First you have to add Seam support to WAR project: Properties for seamproject-war -> Seam Settings</para>
+    <para>First you have to add Seam support to WAR project: Properties for <menuchoice><guimenuitem>seamproject-war</guimenuitem><guimenuitem>Seam Settings</guimenuitem></menuchoice></para>
     
     
     <figure>
@@ -94,7 +94,7 @@
      
     <para>Set seamproject-war as Main Seam project. All other settings mostly are used by New Seam Entity/Action/Form/Conversation/... Wizards. Thus you can set them as you wish.</para>
     
-    <para>Then you can add Seam support to EJB project: Properties for seamproject-war -> Seam Settings</para>
+    <para>Then you can add Seam support to EJB project: Properties for <menuchoice><guimenuitem>seamproject-war</guimenuitem><guimenuitem>Seam Settings</guimenuitem></menuchoice></para>
     
     <figure>
         <title>Adding Seam Support to EJB Project</title>

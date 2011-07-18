@@ -1,249 +1,294 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <chapter id="testNG">
-    <?dbhtml filename="testNG.html"?>
-    <chapterinfo>
-        <keywordset>
-            <keyword>JBoss Developer Studio</keyword>
-            <keyword>JBDS</keyword>
-            <keyword>testNG</keyword>
-        </keywordset>
-    </chapterinfo>
-    <title>Using TestNG project</title>
-    <para>With the help this chapter you will get to know with TestNG.</para>
-    <section>
-        <title>What is TestNG?</title>
-        <para><property>TestNG</property> (&quot;Testing, the Next Generation&quot;) is a
-            Java unit testing framework that aims to overcome many limitations of JUnit. TestNG
-            introduces some new functionalities that make it more powerful and easier to use, such
-            as:</para>
-        <itemizedlist>
-            <listitem>
-                <para>JDK 5 Annotations (JDK 1.4 is also supported with JavaDoc annotations)</para>
-            </listitem>
-            <listitem>
-                <para>Flexible test configuration</para>
-            </listitem>
-            <listitem>
-                <para>Support for data-driven testing (with @DataProvider)</para>
-            </listitem>
-            <listitem>
-                <para>Support for parameters</para>
-            </listitem>
-            <listitem>
-                <para>Allows distribution of tests on slave machines</para>
-            </listitem>
-            <listitem>
-                <para>Powerful execution model (no more TestSuite)</para>
-            </listitem>
-            <listitem>
-                <para>Supported by a variety of tools and plug-ins (Eclipse, IDEA, Maven,
-                etc...)</para>
-            </listitem>
-            <listitem>
-                <para>Embeds BeanShell for further flexibility</para>
-            </listitem>
-            <listitem>
-                <para>Default JDK functions for runtime and logging (no dependencies)</para>
-            </listitem>
-            <listitem>
-                <para>Dependent methods for application server testing</para>
-            </listitem>
-        </itemizedlist>
-
-        <para>More information can be found on home page: <ulink url="http://testng.org"
-                >www.testng.org</ulink></para>
-    </section>
-    <section id="OtherRelevantResourcesOnTheTopic5">
-        <?dbhtml filename="OtherRelevantResourcesOnTheTopic5.html"?>
-        <title>Other relevant resources on the topic</title>
-        <para>
-            <ulink url="http://www.artima.com/lejava/articles/testng.html">Next-Generation Testing
-                with TestNG (An Interview with Cedric Beust)</ulink>
-        </para>
-        <para>
-            <ulink url="http://www.javaworld.com/javaworld/jw-04-2005/jw-0404-testng.html">TestNG:
-                The next generation of unit testing</ulink>
-        </para>
-        <para>
-            <ulink url="http://dev2dev.bea.com/pub/a/2006/09/testng-categorization.html">Test
-                Categorization Techniques with TestNG</ulink>
-        </para>
-        <para>
-            <ulink url="http://www-128.ibm.com/developerworks/java/library/j-testng/">TestNG makes
-                Java unit testing a breeze</ulink>
-        </para>
-        <para>
-            <ulink url="http://www-128.ibm.com/developerworks/java/library/j-cq08296/index.html">In
-                pursuit of code quality: JUnit 4 vs. TestNG</ulink>
-        </para>
-    </section>
-    <section>
-        <title>How to use the generated Seam-test project to run Seam tests?</title>
-
-        <itemizedlist>
-            <listitem>
-                <para>Create a new Seam Web Project with EAR deployment using the New Seam Project
-                    wizard.</para>
-            </listitem>
-        </itemizedlist>
-
-        <itemizedlist>
-            <listitem>
-                <para>After a project is created you will have the generated Seam-test project that
-                    is setup to run TestNG directly against the proper libraries and server runtime
-                    libraries.</para>
-            </listitem>
-        </itemizedlist>
-
-        <figure>
-            <title>Seam-test Project</title>
-            <mediaobject>
-                <imageobject>
-                    <imagedata fileref="images/testng/testng_5.png"/>
-                </imageobject>
-            </mediaobject>
-        </figure>
-
-        <itemizedlist>
-            <listitem>
-                <para>Add Seam Action to your project via <emphasis><property>File > New > Seam
-                            Action</property>.</emphasis></para>
-            </listitem>
-        </itemizedlist>
-
-        <figure>
-            <title>Seam Action Creation</title>
-            <mediaobject>
-                <imageobject>
-                    <imagedata fileref="images/testng/testng_6.png"/>
-                </imageobject>
-            </mediaobject>
-        </figure>
-
-        <itemizedlist>
-            <listitem>
-                <para>Fill out the wizard fields. New Seam Action wizard will create resources and
-                    place them in the appropriate folders dependent on EAR project structure.</para>
-            </listitem>
-        </itemizedlist>
-
-        <figure>
-            <title>New Seam Action Wizard</title>
-            <mediaobject>
-                <imageobject>
-                    <imagedata fileref="images/testng/testng_7.png"/>
-                </imageobject>
-            </mediaobject>
-        </figure>
-
-        <itemizedlist>
-            <listitem>
-                <para>When Action is created you will see <property>actionPage.xhtml</property> in
-                    Package Explorer view. <property>ActionBean.java</property> will be
-                    automatically opened in Java Editor.</para>
-            </listitem>
-        </itemizedlist>
-
-        <figure>
-            <title>Created Action</title>
-            <mediaobject>
-                <imageobject>
-                    <imagedata fileref="images/testng/testng_8.png" scale="70"/>
-                </imageobject>
-            </mediaobject>
-        </figure>
-
-
-        <itemizedlist>
-            <listitem>
-                <para>Select <property>ActionLocalTest.xml</property> in Seam-test project and run
-                    the test with right click <emphasis><property>Run As > TestNG
-                    Suite</property>.</emphasis></para>
-            </listitem>
-        </itemizedlist>
-        <note><para>OpenOn is available in testNG XML files opened in JBoss XML Editor</para></note>
-            <figure>
-            <title>Running TestNG</title>
-            <mediaobject>
-                <imageobject>
-                    <imagedata fileref="images/testng/testng_9.png"/>
-                </imageobject>
-            </mediaobject>
-        </figure>
-
-        <para>The test process will start and its output will be written in Console View.</para>
-
-        <figure>
-            <title>Test is Finished</title>
-            <mediaobject>
-                <imageobject>
-                    <imagedata fileref="images/testng/testng_10.png" scale="70"/>
-                </imageobject>
-            </mediaobject>
-        </figure>
-
-
-        <itemizedlist>
-            <listitem>
-                <para>After running TestNG you will have the test results in <emphasis>
-                        <property>test-output</property>
-                    </emphasis> folder in Seam-test project (press F5 to refresh the Package
-                    Explorer view). Open <property>index.html</property> file with Web Browser or
-                    simply use the TestNG view.</para>
-            </listitem>
-        </itemizedlist>
-
-        <para>The below view shows a successful run of the test.</para>
-
-        <figure>
-            <title>Viewing the Test Results</title>
-            <mediaobject>
-                <imageobject>
-                    <imagedata fileref="images/testng/testng_11.png" scale="70"/>
-                </imageobject>
-            </mediaobject>
-        </figure>
-
-
-        <para>You can see the test results in Web Browser.</para>
-
-        <figure>
-            <title>Test Results in Browser</title>
-            <mediaobject>
-                <imageobject>
-                    <imagedata fileref="images/testng/testng_12.png" scale="70"/>
-                </imageobject>
-            </mediaobject>
-        </figure>
-
-        <para>After clicking on <emphasis>
-                <property>ActionLocal Tests</property>
-            </emphasis> link you will see the Results for ActionLocal Tests.</para>
-
-        <figure>
-            <title>Test Information</title>
-            <mediaobject>
-                <imageobject>
-                    <imagedata fileref="images/testng/testng_13.png" scale="70"/>
-                </imageobject>
-            </mediaobject>
-        </figure>
-
-        <para>Select a result on the left-hand pane and its details will be displayed on the
-            right-hand one.</para>
-
-        <figure>
-            <title>ActionLocal Test Details</title>
-            <mediaobject>
-                <imageobject>
-                    <imagedata fileref="images/testng/testng_14.png"/>
-                </imageobject>
-            </mediaobject>
-        </figure>
-
-        <para>Thus with Seam tooling you can easily take advantage of TestNG framework. As you can
-            see, it generates its own TestNG project as a separate module within which you can
-            easily monitor the tests execution and their output.</para>
+<?dbhtml filename="testNG.html"?>
+  <chapterinfo>
+    <keywordset>
+      <keyword>JBoss Developer Studio</keyword>
+       
+      <keyword>JBDS</keyword>
+       
+      <keyword>testNG</keyword>
+    </keywordset>
+  </chapterinfo>
+   <title>Using TestNG project</title> 
+  <para>
+    With the help this chapter you will get to know with TestNG.
+  </para>
+   
+  <section>
+    <title>What is TestNG?</title> 
+    <para>
+      <property>TestNG</property> (&quot;Testing, the Next Generation&quot;) is a Java unit testing framework that aims to overcome many limitations of JUnit. TestNG introduces some new functionalities that make it more powerful and easier to use, such as:
+    </para>
      
-    </section>
+    <itemizedlist>
+      <listitem>
+        <para>
+          JDK 5 Annotations (JDK 1.4 is also supported with JavaDoc annotations)
+        </para>
+      </listitem>
+       
+      <listitem>
+        <para>
+          Flexible test configuration
+        </para>
+      </listitem>
+       
+      <listitem>
+        <para>
+          Support for data-driven testing (with @DataProvider)
+        </para>
+      </listitem>
+       
+      <listitem>
+        <para>
+          Support for parameters
+        </para>
+      </listitem>
+       
+      <listitem>
+        <para>
+          Allows distribution of tests on slave machines
+        </para>
+      </listitem>
+       
+      <listitem>
+        <para>
+          Powerful execution model (no more TestSuite)
+        </para>
+      </listitem>
+       
+      <listitem>
+        <para>
+          Supported by a variety of tools and plug-ins (Eclipse, IDEA, Maven, etc...)
+        </para>
+      </listitem>
+       
+      <listitem>
+        <para>
+          Embeds BeanShell for further flexibility
+        </para>
+      </listitem>
+       
+      <listitem>
+        <para>
+          Default JDK functions for runtime and logging (no dependencies)
+        </para>
+      </listitem>
+       
+      <listitem>
+        <para>
+          Dependent methods for application server testing
+        </para>
+      </listitem>
+    </itemizedlist>
+     
+    <para>
+      More information can be found on home page: <ulink url="http://testng.org"
+                >www.testng.org</ulink>
+    </para>
+  </section>
+   
+  <section id="OtherRelevantResourcesOnTheTopic5">
+<?dbhtml filename="OtherRelevantResourcesOnTheTopic5.html"?>
+    <title>Other relevant resources on the topic</title> 
+    <para>
+      <ulink url="http://www.artima.com/lejava/articles/testng.html">Next-Generation Testing with TestNG (An Interview with Cedric Beust)</ulink>
+    </para>
+     
+    <para>
+      <ulink url="http://www.javaworld.com/javaworld/jw-04-2005/jw-0404-testng.html">TestNG: The next generation of unit testing</ulink>
+    </para>
+     
+    <para>
+      <ulink url="http://dev2dev.bea.com/pub/a/2006/09/testng-categorization.html">Test Categorization Techniques with TestNG</ulink>
+    </para>
+     
+    <para>
+      <ulink url="http://www-128.ibm.com/developerworks/java/library/j-testng/">TestNG makes Java unit testing a breeze</ulink>
+    </para>
+     
+    <para>
+      <ulink url="http://www-128.ibm.com/developerworks/java/library/j-cq08296/index.html">In pursuit of code quality: JUnit 4 vs. TestNG</ulink>
+    </para>
+  </section>
+   
+  <section>
+    <title>How to use the generated Seam-test project to run Seam tests?</title> 
+    <itemizedlist>
+      <listitem>
+        <para>
+          Create a new Seam Web Project with EAR deployment using the New Seam Project wizard.
+        </para>
+      </listitem>
+    </itemizedlist>
+     
+    <itemizedlist>
+      <listitem>
+        <para>
+          After a project is created you will have the generated Seam-test project that is setup to run TestNG directly against the proper libraries and server runtime libraries.
+        </para>
+      </listitem>
+    </itemizedlist>
+     
+    <figure>
+      <title>Seam-test Project</title> 
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/testng/testng_5.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+     
+    <itemizedlist>
+      <listitem>
+        <para>
+          Add Seam Action to your project via <menuchoice><guimenuitem>File</guimenuitem><guimenuitem>New</guimenuitem><guimenuitem>Seam Action.</guimenuitem></menuchoice>
+        </para>
+      </listitem>
+    </itemizedlist>
+     
+    <figure>
+      <title>Seam Action Creation</title> 
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/testng/testng_6.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+     
+    <itemizedlist>
+      <listitem>
+        <para>
+          Fill out the wizard fields. New Seam Action wizard will create resources and place them in the appropriate folders dependent on EAR project structure.
+        </para>
+      </listitem>
+    </itemizedlist>
+     
+    <figure>
+      <title>New Seam Action Wizard</title> 
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/testng/testng_7.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+     
+    <itemizedlist>
+      <listitem>
+        <para>
+          When Action is created you will see <property>actionPage.xhtml</property> in Package Explorer view. <property>ActionBean.java</property> will be automatically opened in Java Editor.
+        </para>
+      </listitem>
+    </itemizedlist>
+     
+    <figure>
+      <title>Created Action</title> 
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/testng/testng_8.png" scale="70"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+     
+    <itemizedlist>
+      <listitem>
+        <para>
+          Select <property>ActionLocalTest.xml</property> in Seam-test project and run the test with right click <menuchoice><guimenuitem>Run As</guimenuitem><guimenuitem>TestNG Suite.</guimenuitem></menuchoice>
+        </para>
+      </listitem>
+    </itemizedlist>
+     
+    <note>
+      <para>
+        OpenOn is available in testNG XML files opened in JBoss XML Editor
+      </para>
+    </note>
+     
+    <figure>
+      <title>Running TestNG</title> 
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/testng/testng_9.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+     
+    <para>
+      The test process will start and its output will be written in Console View.
+    </para>
+     
+    <figure>
+      <title>Test is Finished</title> 
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/testng/testng_10.png" scale="70"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+     
+    <itemizedlist>
+      <listitem>
+        <para>
+          After running TestNG you will have the test results in <emphasis> <property>test-output</property> </emphasis> folder in Seam-test project (press F5 to refresh the Package Explorer view). Open <property>index.html</property> file with Web Browser or simply use the TestNG view.
+        </para>
+      </listitem>
+    </itemizedlist>
+     
+    <para>
+      The below view shows a successful run of the test.
+    </para>
+     
+    <figure>
+      <title>Viewing the Test Results</title> 
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/testng/testng_11.png" scale="70"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+     
+    <para>
+      You can see the test results in Web Browser.
+    </para>
+     
+    <figure>
+      <title>Test Results in Browser</title> 
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/testng/testng_12.png" scale="70"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+     
+    <para>
+      After clicking on <emphasis> <property>ActionLocal Tests</property> </emphasis> link you will see the Results for ActionLocal Tests.
+    </para>
+     
+    <figure>
+      <title>Test Information</title> 
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/testng/testng_13.png" scale="70"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+     
+    <para>
+      Select a result on the left-hand pane and its details will be displayed on the right-hand one.
+    </para>
+     
+    <figure>
+      <title>ActionLocal Test Details</title> 
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/testng/testng_14.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+     
+    <para>
+      Thus with Seam tooling you can easily take advantage of TestNG framework. As you can see, it generates its own TestNG project as a separate module within which you can easily monitor the tests execution and their output.
+    </para>
+  </section>
 </chapter>
