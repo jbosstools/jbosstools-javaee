@@ -14,18 +14,18 @@
 
     <title>Introduction</title>
 
-    <para>JSF Tools are especially designed for supporting JSF and JSF-related technologies. JSF
-        Tools provide extensible and exemplary tools for building JSF-based applications as well as
-        adding JSF capabilities to existing web projects, importing JSF projects and choosing any
-        JSF implementation while developing JSF application.</para>
+    <para>
+    	JSF Tools are especially designed to support JSF and JSF-related technologies. JSF Tools provide extensible tools for building JSF-based applications as well as adding JSF capabilities to existing web projects, importing JSF projects and choosing any JSF implementation while developing JSF application.
+    </para>
 
-    <para>In this guide we provide you with the information on JSF tooling which allows you to
-        develop JSF applications much faster and with far fewer errors so sparing your time.</para>
+    <para>
+    	This guide provides the information on JSF tooling you need to allow you to quickly develop JSF applications with far fewer errors.
+    </para>
 
     <section id="jsf_key_features">
         <title>Key Features of JSF Tools</title>
 
-        <para>Here, we provide you with a key functionality which is integrated in JSF tooling.</para>
+        <para>The table below lists the functionality provided by the JSF Tools.</para>
 
         <table>
             <title>Key Functionality for JSF Tools</title>
@@ -46,14 +46,15 @@
                     
                     <row>
                         <entry>JSF and Facelets support</entry>
-                        <entry>Step-by-step wizards for creating new JSF and Facelets projects with a number of predefined templates, importing existing ones and adding JSF capabilities to non-jsf web projects.</entry>
+                        <entry>
+                        	Step-by-step wizards for creating new JSF and Facelets projects with a number of predefined templates, importing existing ones and adding JSF capabilities to non-JSF web projects.
+                        </entry>
                         <entry><xref linkend="jsf_support"/></entry>
                     </row>
 
                     <row>
                         <entry>Flexible and customizable project template management</entry>
-                        <entry>Jump-start development with out-of-the-box templates or easily
-                            customized templates for re-use.</entry>
+                        <entry>Jump-start development with the supplied templates or easily create customized templates for re-use.</entry>
                         <entry>
                             <xref linkend="projects"/>
                         </entry>
@@ -61,9 +62,9 @@
 
                     <row>
                         <entry>Support for JSF Configuration File</entry>
-                        <entry>Working on file using three modes: diagram, tree and source.
-                            Synchronization between the modes and full control over the code. Easy
-                            moving around the diagram using the Diagram Navigator.</entry>
+                        <entry>
+                        	Work on a file using three modes: diagram, tree and source. Automatic synchronization between the modes and full control over the code. Easily move around the diagram using the Diagram Navigator.
+                        </entry>
                         <entry>
                             <xref linkend="jsf_config_file"/>
                         </entry>
@@ -71,8 +72,7 @@
 
                     <row>
                         <entry>Support for Managed Beans</entry>
-                        <entry>Adding new managed beans, generating code for attributes, properties
-                            and getter/setter methods.</entry>
+                        <entry>Adding new managed beans, generating code for attributes, properties and getter/setter methods.</entry>
                         <entry>
                             <xref linkend="managed_beans"/>
                         </entry>
@@ -80,8 +80,7 @@
 
                     <row>
                         <entry>Support for Custom Converters and Validators</entry>
-                        <entry>Fast creating of custom converters and validators with tree view of
-                            faces-config.xml file.</entry>
+                        <entry>Fast creation of custom converters and validators with a tree view of the <filename>faces-config.xml</filename> file.</entry>
                         <entry>
                             <xref linkend="creation_and_registration"/>
                         </entry>
@@ -89,10 +88,9 @@
 
                     <row>
                         <entry>Verification and Validation</entry>
-                        <entry>All occuring errors will be immediately reported by verification
-                            feature, no matter in what view you are working. Constant validation and
-                            errors checking allows to catch many of the errors during development
-                            process that significantly reduces development time.</entry>
+                        <entry>
+                        	All errors will be immediately reported by verification feature, no matter in what view you are working. Constant validation and error checking allows you to catch many of the errors during development process that significantly reduces development time.
+                        </entry>
                         <entry>
                             <xref linkend="jsf_project_verification"/>
                         </entry>
@@ -104,7 +102,7 @@
     </section>
     <section>
         <title>Other relevant resources on the topic</title>
-        <para>All JBoss Developer Studio/JBoss Tools release documentation you can find at<ulink url="http://docs.jboss.org/tools/">http://docs.jboss.org/tools</ulink> in the corresponding release directory.</para>
-        <para>The latest documentation builds are available at <ulink url="http://download.jboss.org/jbosstools/nightly-docs/">http://download.jboss.org/jbosstools/nightly-docs</ulink>.</para>
+        <para>All JBoss Developer Studio and JBoss Tools release documentation can be found on the <ulink url="http://docs.redhat.com/docs/en-US/JBoss_Developer_Studio/index.html">RedHat Documentation</ulink> website. </para>
+        <para>Nightly documentation builds are available at <ulink url="http://download.jboss.org/jbosstools/nightly-docs/">http://download.jboss.org/jbosstools/nightly-docs</ulink>.</para>
     </section>
 </chapter>

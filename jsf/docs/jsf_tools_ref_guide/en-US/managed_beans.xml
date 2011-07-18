@@ -1,208 +1,173 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <chapter id="managed_beans">
-    <?dbhtml filename="managed_beans.html"?>
-    <chapterinfo>
-        <keywordset>
-            <keyword>JBoss Developer Studio</keyword>
-            <keyword>Eclipse</keyword>
-            <keyword>JSF Tools</keyword>
-            <keyword>Java</keyword>
-            <keyword>JBoss</keyword>
-        </keywordset>
-    </chapterinfo>
+	<?dbhtml filename="managed_beans.html"?>
+	<chapterinfo>
+		<keywordset>
+			<keyword>JBoss Developer Studio</keyword>
+			<keyword>Eclipse</keyword>
+			<keyword>JSF Tools</keyword>
+			<keyword>Java</keyword>
+			<keyword>JBoss</keyword>
+		</keywordset>
+	</chapterinfo>
 
-    <title>Managed Beans</title>
+	<title>Managed Beans</title>
 
-    <para>There is lots of power to work with <property>managed beans</property>.</para>
-    <itemizedlist>
-        <listitem>
-            <para>Add and generate code for new managed beans</para>
-            <itemizedlist>
-                <listitem>
-                    <para>Generate code for attributes and getter/setter methods</para>
-                </listitem>
-            </itemizedlist>
-        </listitem>
-        <listitem>
-            <para>Add existing managed beans to JSF configuration file</para>
-        </listitem>
-    </itemizedlist>
+	<para>JSF Tools provides a number of useful features when working with <property>managed beans</property>, such as:</para>
+	<itemizedlist>
+		<listitem>
+			<para>Adding and generating code for new managed beans</para>
+			<itemizedlist>
+				<listitem>
+					<para>Generating code for attributes and getter/setter methods</para>
+				</listitem>
+			</itemizedlist>
+		</listitem>
+		<listitem>
+			<para>Adding existing managed beans to a JSF configuration file</para>
+		</listitem>
+	</itemizedlist>
 
-    <para>Thus, in this section we will guides you through all this possibilities.</para>
+	<para>This guide will look at each of these features in more detail.</para>
 
-    <section id="CodeGenerationForManagedBeans421">
+	<section id="CodeGenerationForManagedBeans421">
 
-        <title>Code Generation for Managed Beans</title>
+		<title>Code Generation for Managed Beans</title>
 
-        <para>To start, create a new managed bean in JSF configuration file editor, in the Tree
-            view.</para>
-        <figure>
-            <title>Creation of New Managed Bean</title>
-            <mediaobject>
-                <imageobject>
-                    <imagedata fileref="images/jsf_support/jsf_support_34.png"/>
-                </imageobject>
-            </mediaobject>
-        </figure>
-        <note>
-            <title>Note:</title>
-            <para>When you define a new managed bean, make sure that <emphasis>
-                    <property>Generate Source Code</property>
-                </emphasis> is checked as shown in the figure below.</para>
-        </note>
-        <figure>
-            <title>New Managed Bean</title>
-            <mediaobject>
-                <imageobject>
-                    <imagedata fileref="images/jsf_support/jsf_support_35.png" scale="75"/>
-                </imageobject>
-            </mediaobject>
-        </figure>
-        <para>After the <emphasis role="italic">
-                <property>&quot;Java&quot;</property>
-            </emphasis> class has been generated you can open it for additional editing. There are
-            two ways to open the <emphasis role="italic">
-                <property>&quot;Java&quot;</property>
-            </emphasis> class:</para>
+		<para>To begin, create a new managed bean in JSF configuration file editor using the <guilabel>Tree view</guilabel>.</para>
+		<figure>
+			<title>Creation of New Managed Bean</title>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="images/jsf_support/jsf_support_34.png"/>
+				</imageobject>
+			</mediaobject>
+		</figure>
+		<note>
+			<title>Note:</title>
+			<para>
+				When you define a new managed bean, make sure that <guilabel>Generate Source Code</guilabel> option is checked as shown in the figure below.
+			</para>
+		</note>
+		<figure>
+			<title>New Managed Bean</title>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="images/jsf_support/jsf_support_35.png" scale="75"/>
+				</imageobject>
+			</mediaobject>
+		</figure>
+		<para>After the Java class has been generated you can open it for additional editing. There are two ways to open a Java class:</para>
 
-        <itemizedlist>
-            <listitem>
-                <para>click on <emphasis>
-                        <property>Managed-Bean-Class</property>
-                    </emphasis> link in the editor</para>
-            </listitem>
-        </itemizedlist>
-        <para>or</para>
-        <itemizedlist>
-            <listitem>
-                <para>right click the <emphasis>
-                        <property>managed bean</property>
-                    </emphasis> and select <emphasis>
-                        <property>Open Source</property>
-                    </emphasis></para>
-            </listitem>
-        </itemizedlist>
+		<itemizedlist>
+			<listitem>
+				<para>Click on the <guilabel>Managed-Bean-Class</guilabel> link in the editor.</para>
+			</listitem>
+		</itemizedlist>
+		<itemizedlist>
+			<listitem>
+				<para>Right click the <emphasis><property>managed bean</property> </emphasis> and select the <guimenuitem>Open Declaration</guimenuitem> option.
+				</para>
+			</listitem>
+		</itemizedlist>
 
-        <figure>
-            <title>Opening of Created Managed Bean</title>
-            <mediaobject>
-                <imageobject>
-                    <imagedata fileref="images/jsf_support/jsf_support_36.png"/>
-                </imageobject>
-            </mediaobject>
-        </figure>
+		<figure>
+			<title>Opening of Created Managed Bean</title>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="images/jsf_support/jsf_support_36.png"/>
+				</imageobject>
+			</mediaobject>
+		</figure>
 
-        <para>The generated Java source should look as follows:</para>
+		<para>The generated Java source should look as follows:</para>
 
-        <figure>
-            <title>Java Source Code</title>
-            <mediaobject>
-                <imageobject>
-                    <imagedata fileref="images/jsf_support/jsf_support_37.png"/>
-                </imageobject>
-            </mediaobject>
-        </figure>
+		<figure>
+			<title>Java Source Code</title>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="images/jsf_support/jsf_support_37.png"/>
+				</imageobject>
+			</mediaobject>
+		</figure>
 
-        <para>You can also generate source code for properties, also includes <emphasis
-                role="italic">
-                <property>&quot;getter&quot;</property>
-            </emphasis> and <emphasis role="italic">
-                <property>&quot;setter&quot;</property>
-            </emphasis> methods. Right click on the bean and select <emphasis>
-                <property>New &gt; Property</property>
-            </emphasis>. You will see <property>Add Property</property> dialog.</para>
-        <figure>
-            <title>Generation of Source Code for Properties</title>
-            <mediaobject>
-                <imageobject>
-                    <imagedata fileref="images/jsf_support/jsf_support_38.png"/>
-                </imageobject>
-            </mediaobject>
-        </figure>
-        <para>When the form is open make sure that all the check boxes are selected:</para>
-        <itemizedlist>
-            <listitem>
-                <para>Add Java property</para>
-            </listitem>
-            <listitem>
-                <para>Generate Getter</para>
-            </listitem>
-            <listitem>
-                <para>Generate Setter</para>
-            </listitem>
-        </itemizedlist>
-        <para/>
-        <figure>
-            <title>&quot;Add Property&quot; Form</title>
-            <mediaobject>
-                <imageobject>
-                    <imagedata fileref="images/jsf_support/jsf_support_39.png"/>
-                </imageobject>
-            </mediaobject>
-        </figure>
-        <para>Once the generation is complete, you can open the file and see the added property with
-                <emphasis role="italic">
-                <property>&quot;get&quot;</property>
-            </emphasis> and <emphasis role="italic">
-                <property>&quot;set&quot;</property>
-            </emphasis> methods:</para>
-        <figure>
-            <title>Generated Java Source Code for Property</title>
-            <mediaobject>
-                <imageobject>
-                    <imagedata fileref="images/jsf_support/jsf_support_40.png" scale="75"/>
-                </imageobject>
-            </mediaobject>
-        </figure>
-        <para>Thus, we&apos;ve discussed everything which comes to creating a new Managed Bean.
-            The next section will show you how to add an existing Bean into a JSF configuration
-            file.</para>
-    </section>
-    <section id="AddExistingJavaBeansToAJSFConfigurationFile74332">
+		<para>You can also generate source code for properties, also includes getter and setter methods. Right click on the bean and select <menuchoice><guimenuitem>New</guimenuitem><guimenuitem>Property</guimenuitem></menuchoice>. You will then see the <guilabel>Add Property</guilabel> dialog.</para>
+		<figure>
+			<title>Generation of Source Code for Properties</title>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="images/jsf_support/jsf_support_38.png"/>
+				</imageobject>
+			</mediaobject>
+		</figure>
+		<para>When the form is open make sure that all the check boxes are selected:</para>
+		<itemizedlist>
+			<listitem>
+				<para>Add Java property</para>
+			</listitem>
+			<listitem>
+				<para>Generate Getter</para>
+			</listitem>
+			<listitem>
+				<para>Generate Setter</para>
+			</listitem>
+		</itemizedlist>
+		<para/>
+		<figure>
+			<title>&quot;Add Property&quot; Form</title>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="images/jsf_support/jsf_support_39.png"/>
+				</imageobject>
+			</mediaobject>
+		</figure>
+		<para>
+			Once the generation is complete, you can open the file and see the newly added property with accompanying &quot;get&quot; and &quot;set&quot; methods:
+		</para>
+		<figure>
+			<title>Generated Java Source Code for Property</title>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="images/jsf_support/jsf_support_40.png" scale="75"/>
+				</imageobject>
+			</mediaobject>
+		</figure>
+		<para>
+			This covers the options available when creating a new Managed Bean. The next section will show you how to add an existing Bean into a JSF configuration file.
+		</para>
+	</section>
+	<section id="AddExistingJavaBeansToAJSFConfigurationFile74332">
 
-        <title>Add Existing Java Beans to a JSF Configuration File</title>
-        <para>If you already have a Java bean you can easily add it to a <property>JSF configuration
-                file</property>.</para>
-        <para>You should start the same way you create a new managed bean. Use the <emphasis>
-                <property>Browse...</property>
-            </emphasis> button to add your existing Java class.</para>
-        <figure>
-            <title>New Managed Bean Form</title>
-            <mediaobject>
-                <imageobject>
-                    <imagedata fileref="images/jsf_support/jsf_support_42.png"/>
-                </imageobject>
-            </mediaobject>
-        </figure>
-        <para>Once the class is set, its <emphasis>
-                <property>Name</property>
-            </emphasis> will be set as well. But you can easily substitute it for the other one.
-            Notice that <emphasis>
-                <property>Generate Source Code</property>
-            </emphasis> option is not available as the <emphasis role="italic">
-                <property>&quot;Java&quot;</property>
-            </emphasis> class already exists. </para>
-        <para>After adding your class <emphasis>
-                <property>Next</property>
-            </emphasis> button will be activated. Pressing it you&apos;ll get <emphasis>
-                <property>Managed Properties</property>
-            </emphasis> dialog where all corresponding properties are displayed. Check the necessary
-            ones to add them into your <property>JSF Configuration File</property>.</para>
+		<title>Add Existing Java Beans to a JSF Configuration File</title>
+		<para>If you already have a Java bean you can easily add it to a <property>JSF configuration file</property>.</para>
+		<para>You should start the same way you create a new managed bean. Use the <guibutton>Browse...</guibutton> button to add your existing Java class.</para>
+		<figure>
+			<title>New Managed Bean Form</title>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="images/jsf_support/jsf_support_42.png"/>
+				</imageobject>
+			</mediaobject>
+		</figure>
+		<para>
+			Once the class is set, its <guilabel>Name</guilabel> will be set as well. But you can easily substitute it for the other one. Notice that <guilabel>Generate Source Code</guilabel> option is not available as the Java class already exists. 
+		</para>
+		<para>
+			After adding your class the <guibutton>Next</guibutton> button will be activated. When you click it you will be presented with the <guilabel>Managed Properties</guilabel> dialog where all corresponding properties are displayed. Checking the appropriate ones will add them into your <property>JSF Configuration File</property>.
+		</para>
 
-        <figure>
-            <title>Selection of Bean&apos;s Properties.</title>
-            <mediaobject>
-                <imageobject>
-                    <imagedata fileref="images/jsf_support/jsf_support_43.png"/>
-                </imageobject>
-            </mediaobject>
-        </figure>
+		<figure>
+			<title>Selection of Bean&apos;s Properties.</title>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="images/jsf_support/jsf_support_43.png"/>
+				</imageobject>
+			</mediaobject>
+		</figure>
 
-        <para>If you don&apos;t want to add any, just click <emphasis>
-                <property>Finish</property>. </emphasis></para>
-        <para>Above-listed steps have demonstrated how you can specify an existing Bean in the JSF
-            configuration file, i.e. <emphasis>
-                <property>faces-config.xml</property>. </emphasis> In the next chapter
-            you&apos;ll know how to organize and register another kind of artifacts.</para>
-    </section>
+		<para>If you don&apos;t want to add any, just click the <guibutton>Finish</guibutton> button.</para>
+		<para>
+			The steps above have demonstrated how you can add an existing Bean to the JSF configuration file, i.e. <filename>faces-config.xml</filename>. The next chapter will demonstrate how to organize and register other kinds of artifacts.
+		</para>
+	</section>
 </chapter>

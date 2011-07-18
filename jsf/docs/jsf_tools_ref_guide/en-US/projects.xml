@@ -1,75 +1,68 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <chapter id="projects">
-        <?dbhtml filename="projects.html"?>
-        <chapterinfo>
-                <keywordset>
-                        <keyword>JBoss Developer Studio</keyword>
-                        <keyword>Eclipse</keyword>
-                        <keyword>JSF Tools</keyword>
-                        <keyword>Java</keyword>
-                        <keyword>JBoss</keyword>
-                </keywordset>
-        </chapterinfo>
+	<?dbhtml filename="projects.html"?>
+	<chapterinfo>
+		<keywordset>
+			<keyword>JBoss Developer Studio</keyword>
+			<keyword>Eclipse</keyword>
+			<keyword>JSF Tools</keyword>
+			<keyword>Java</keyword>
+			<keyword>JBoss</keyword>
+		</keywordset>
+	</chapterinfo>
 
-        <title>Projects</title>
-        <para>To take an advantage of JSF firstly you should perform one of the next steps:</para>
+	<title>Projects</title>
+	<para>To take an advantage of JSF you will need to perform one of the next steps:</para>
 
-        <itemizedlist>
-                <listitem>
-                        <para>Create new JSF projects</para>
-                </listitem>
-                <listitem>
-                        <para>Import (open) existing JSF projects</para>
-                </listitem>
-                <listitem>
-                        <para>Add JSF capability to any existing Eclipse project</para>
-                </listitem>
-                <listitem>
-                        <para>Import and add JSF capability to any existing project created outside
-                                Eclipse.</para>
-                </listitem>
-        </itemizedlist>
-        <para>In this section we&apos;re going to stop on each of them in detail.</para>
+	<itemizedlist>
+		<listitem>
+			<para>Create new JSF projects</para>
+		</listitem>
+		<listitem>
+			<para>Import (open) existing JSF projects</para>
+		</listitem>
+		<listitem>
+			<para>Add JSF capability to any existing Eclipse project</para>
+		</listitem>
+		<listitem>
+			<para>Import and add JSF capability to any existing project created outside Eclipse.</para>
+		</listitem>
+	</itemizedlist>
+	<para>This section will go into more detail for each step.</para>
 
-        <section id="new_jsf_project">
+	<section id="new_jsf_project">
 
-                <title>Creating a New JSF Project</title>
+		<title>Creating a New JSF Project</title>
 
-                <para>If you want your project to already contain all JSF libraries, tag libraries
-                        and JSF configuration file, just organize a new brand JSF project. It is
-                        possible to do this easily with the help of the special wizard. To get it, select<emphasis>
-                                <property> File &gt; New &gt; Project &gt; JBoos Tools
-                                        Web &gt; JSF &gt; JSF Project</property>
-                        </emphasis> and click <emphasis>
-                                <property>Next</property>.</emphasis></para>
+		<para>
+			It is easy to create a new project that contains all the JSF libraries, tag libraries and JSF configuration file with the aid of a special wizard. To get it, select <menuchoice><guimenuitem>File</guimenuitem><guimenuitem>New</guimenuitem><guimenuitem>Other</guimenuitem><guimenuitem>JBoos Tools Web</guimenuitem><guimenuitem>JSF</guimenuitem><guimenuitem>JSF Project</guimenuitem></menuchoice> and click the <guibutton>Next</guibutton> button.
+		</para>
 
-                <figure>
-                        <title>Choosing a JSF Project</title>
-                        <mediaobject>
-                                <imageobject>
-                                        <imagedata fileref="images/jsf_support/jsf_support_10.png"/>
-                                </imageobject>
-                        </mediaobject>
-                </figure>
+		<figure>
+			<title>Choosing a JSF Project</title>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="images/jsf_support/jsf_support_10.png"/>
+				</imageobject>
+			</mediaobject>
+		</figure>
 
-                <para>On the next form you&apos;ll be prompted to enter <property>Project
-                                Name</property> and select a location for the project or just leave
-                        a default path.</para>
-                <para>Here, JSF Version also allows you to select which JSF implementation to
-                        use.</para>
-                <figure>
-                        <title>Creating a New JSF Project</title>
-                        <mediaobject>
-                                <imageobject>
-                                        <imagedata fileref="images/jsf_support/jsf_support_11.png"/>
-                                </imageobject>
-                        </mediaobject>
-                </figure>
+		<para>
+			On the next page you will be prompted to enter the <guilabel>Project Name</guilabel> and select a location for the project (or just leave a default path).
+		</para>
+		<para>The <guilabel>JSF Version</guilabel> option also allows you to specify the JSF implementation to use.</para>
+		<figure>
+			<title>Creating a New JSF Project</title>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="images/jsf_support/jsf_support_11.png"/>
+				</imageobject>
+			</mediaobject>
+		</figure>
 
-                <para>There is a number of predefined project templates that are flexible and easily
-                        customizable. Thus you can pick a different template on which the projects
-                        Importing Existing should be based on. Almost all templates come in two
-                        variations: with jsf libraries and without ones.</para>
+		<para>
+			There are a number of predefined project templates that are both flexible and easily customizable. You can pick a different template on which the projects Importing Existing should be based on. Almost all templates come in two variations: with and without JSF libraries.
+		</para>
 		<figure>
 			<title>Choosing JSF Templates</title>
 			<mediaobject>
@@ -77,82 +70,77 @@
 					<imagedata fileref="images/jsf_support/jsf_support_12.png"/>
 				</imageobject>
 			</mediaobject>
-                </figure>
+		</figure>
 
-                <para>The table below provides description for each possible JSF template.</para>
-                <table>
-                        <title>JSF Project Templates</title>
-                        <tgroup cols="2">
-                                <colspec colnum="1" align="left" colwidth="1*"/>
-                                <colspec colnum="2" colwidth="3*"/>
+		<para>The table below provides description for each possible JSF template.</para>
+		<table>
+			<title>JSF Project Templates</title>
+			<tgroup cols="2">
+				<colspec colnum="1" align="left" colwidth="1*"/>
+				<colspec colnum="2" colwidth="3*"/>
 
 
-                                <thead>
-                                        <row>
-                                                <entry align="center">
-                                                  <para>Template</para>
-                                                </entry>
+				<thead>
+					<row>
+						<entry align="center">
+							<para>Template</para>
+						</entry>
 
-                                                <entry align="center">
-                                                  <para>Description</para>
-                                                </entry>
-                                        </row>
-                                </thead>
+						<entry align="center">
+							<para>Description</para>
+						</entry>
+					</row>
+				</thead>
 
-                                <tbody>
+				<tbody>
 
-                                        <row>
-                                                <entry>
-                                                  <para>
-                                                  <emphasis>
-                                                  <property>JSFBlankWithLibs</property>
-                                                  </emphasis>
-                                                  </para>
-                                                </entry>
+					<row>
+						<entry>
+							<para>
+								<emphasis>
+									<property>JSFBlankWithLibs</property>
+								</emphasis>
+							</para>
+						</entry>
 
-                                                <entry>
-                                                  <para>This template will create a standard Web
-                                                  project structure with all JSF capabilities</para>
-                                                </entry>
-                                        </row>
+						<entry>
+							<para>This template will create a standard Web project structure with all the JSF capabilities</para>
+						</entry>
+					</row>
 
-                                        <row>
-                                                <entry>
-                                                  <para>
-                                                  <emphasis>
-                                                  <property>JSFKickStartWithLibs</property>
-                                                  </emphasis>
-                                                  </para>
-                                                </entry>
+					<row>
+						<entry>
+							<para>
+								<emphasis>
+									<property>JSFKickStartWithLibs</property>
+								</emphasis>
+							</para>
+						</entry>
 
-                                                <entry>
-                                                  <para>This template will create a standard Web
-                                                  project structure but will also include a sample
-                                                  application that is ready to run</para>
-                                                </entry>
-                                        </row>
+						<entry>
+							<para>This template will create a standard Web project structure, and also include a sample application that is ready to run</para>
+						</entry>
+					</row>
 
-                                        <row>
-                                                <entry>
-                                                  <para>
-                                                  <emphasis>
-                                                  <property>JSFKickStartWithoutLibs</property>
-                                                  </emphasis>
-                                                  </para>
-                                                </entry>
+					<row>
+						<entry>
+							<para>
+								<emphasis>
+									<property>JSFKickStartWithoutLibs</property>
+								</emphasis>
+							</para>
+						</entry>
 
-                                                <entry>
-                                                  <para>Some servers already provide jsf libs and
-                                                  you take risk of getting conflicting libraries
-                                                  while deploying your project. To avoid such
-                                                  conflicts, use a template without libs if you have
-                                                  a server with its own jsf libraries</para>
-                                                </entry>
-                                        </row>
+						<entry>
+							<para>
+								Some servers already provide JSF libs, and you risk library conflicts while deploying your project. To avoid such conflicts, use a template without libs if you have a server with its own JSF libraries.
+							</para>
+						</entry>
+					</row>
 
-                                </tbody>
-                        </tgroup>
-                </table>
+				</tbody>
+			</tgroup>
+		</table>
 
 
                 <!--                  <para>You can of course create your own custom templates. More information
@@ -160,243 +148,197 @@
                                         linkend="CreatingCustomJSPTemplates">Chapter 5</link>.</para>
      -->
 
-                <para>On the next screen select what <emphasis>
-                                <property>Servlet version</property>
-                        </emphasis> to use and whether to register this application with JBoss AS
-                        (or other server) for running and testing your application.</para>
+		<para>
+			On the next page you need to select which <guilabel>Servlet version</guilabel> to use, and specify whether or not to register this application with JBoss AS (or other server) in order to run and test your application.
+		</para>
 
-                <para>The <emphasis>
-                                <property>Context Path</property>
-                        </emphasis> is the name under which the application will be deployed.</para>
+		<para>The <guilabel>Context Path</guilabel> option defines the name under which the application will be deployed.</para>
 
-                <para>The <emphasis>
-                                <property>Runtime</property>
-                        </emphasis> value tells Eclipse where to find Web libraries in order to
-                        build (compile) the project. It is not possible to finish project creation
-                        without selecting Runtime. If you don&apos;t have any values, select <emphasis>
-                                <property>New...</property>
-                        </emphasis> to add new Runtime.</para>
+		<para>
+			The <guilabel>Runtime</guilabel> value tells Eclipse where to find the Web libraries necessary to build (compile) the project. It is not possible to finish the project creation without selecting a Runtime. If you do not have any values, click the <guibutton>New...</guibutton> button to add new Runtime.
+		</para>
 
-                <para>The <emphasis>
-                                <property>Target Server</property>
-                        </emphasis> allows you specifying whether to deploy the application. The
-                        Target Server corresponds to the Runtime value selected above. If you
-                        don&apos;t want to deploy the application, uncheck this value.</para>
-                <figure>
-                        <title>Registering the Project on Server</title>
-                        <mediaobject>
-                                <imageobject>
-                                        <imagedata fileref="images/jsf_support/jsf_support_14.png"/>
-                                </imageobject>
-                        </mediaobject>
-                </figure>
+		<para>
+			The <guilabel>Target Server</guilabel> option allows you specifying whether or not to deploy the application. The Target Server corresponds to the Runtime value selected above. If you do not want to deploy the application, uncheck this option.
+		</para>
+		<figure>
+			<title>Registering the Project on Server</title>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="images/jsf_support/jsf_support_14.png"/>
+				</imageobject>
+			</mediaobject>
+		</figure>
 
-                <para>When you are all done, you should have the project that has been appeared in
-                        the Package Explorer view:</para>
-                <figure>
-                        <title>A New Project in the Package Explorer</title>
-                        <mediaobject>
-                                <imageobject>
-                                        <imagedata fileref="images/jsf_support/jsf_support_15.png"/>
-                                </imageobject>
-                        </mediaobject>
-                </figure>
+		<para>When you are all done, you should see that the project has appeared in the Package Explorer view:</para>
+		<figure>
+			<title>A New Project in the Package Explorer</title>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="images/jsf_support/jsf_support_15.png"/>
+				</imageobject>
+			</mediaobject>
+		</figure>
 
-                <para>At this point you can open <emphasis>
-                                <property>faces-config.xml</property>
-                        </emphasis> and start working on your application. There are a lot of
-                        features to develop JSF applications. We will describe the features
-                        further.</para>
-        </section>
+		<para>
+			At this point you can open the <filename>faces-config.xml</filename> file and start working on your application. There are a lot of features available when developing JSF applications. These features will be discussed in more detail later in this document.</para>
+	</section>
 
-        <section id="ImportingExsJSFProjWithAnyStr74447">
+	<section id="ImportingExsJSFProjWithAnyStr74447">
 
-                <title>Importing Existing JSF Projects with Any Structure</title>
+		<title>Importing Existing JSF Projects with Any Structure</title>
 
-                <para>For detailed information on migration of JSF projects into a workspace see the Migration
-                        Guide.</para>
+		<para>For detailed information on migration of JSF projects into a workspace see the Migration Guide.</para>
 
-        </section>
-        <section id="add_jsf_capability">
+	</section>
+	<section id="add_jsf_capability">
 
-                <title>Adding JSF Capability to Any Existing Eclipse Project</title>
+		<title>Adding JSF Capability to Any Existing Eclipse Project</title>
 
-                <para>It&apos;s also possible to add <property>JSF capability</property> (JSF
-                        libraries, tag libraries) to any existing Eclipse project in your workspace.
-                        After that you&apos;ll be able to make use of such editors as JSF
-                        configuration editor, JBoss Tools JSP editor and any others.</para>
-                <para>Right click the project and select <emphasis>
-                                <property>JBoss Tools > Add JSF Capabilities</property>. </emphasis>
-                        This will start the process of adding all necessary libraries, files to make
-                        this a Web JSF project.</para>
-                <figure>
-                        <title>Adding JSF Capabilities</title>
-                        <mediaobject>
-                                <imageobject>
-                                        <imagedata fileref="images/jsf_support/jsf_support_16.png"/>
-                                </imageobject>
-                        </mediaobject>
-                </figure>
-                <para>The wizard will first ask you to show the <emphasis>
-                                <property>web.xml</property>
-                        </emphasis> file location and the project name.</para>
-                <figure>
-                        <title>Project Location</title>
-                        <mediaobject>
-                                <imageobject>
-                                        <imagedata fileref="images/jsf_support/jsf_support_17.png"/>
-                                </imageobject>
-                        </mediaobject>
-                </figure>
-                <para>On the last form you can set the different folders for your project as well as
-                        register this application with a servlet container.</para>
+		<para>
+			It is also possible to add <productname>JSF</productname> capabilities (JSF libraries, tag libraries) to any existing Eclipse project in your workspace. After that you will be able to make use of features such as the JSF configuration editor, JBoss Tools JSP editor and any others.
+		</para>
+		<para>
+			Right click the project and select <menuchoice><guimenuitem>JBoss Tools</guimenuitem><guimenuitem>Add JSF Capabilities</guimenuitem></menuchoice> from the context menu. This will start the process of adding the necessary libraries and files to convert the project into a Web JSF project.
+		</para>
+		<figure>
+			<title>Adding JSF Capabilities</title>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="images/jsf_support/jsf_support_16.png"/>
+				</imageobject>
+			</mediaobject>
+		</figure>
+		<para>The wizard will first ask you to define location of the <filename>web.xml</filename> file and the project name.</para>
+		<figure>
+			<title>Project Location</title>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="images/jsf_support/jsf_support_17.png"/>
+				</imageobject>
+			</mediaobject>
+		</figure>
+		<para>On the last page you can specify the different folders for your project as well as register this application with a servlet container.</para>
 
-                <para>Make sure to select <emphasis>
-                                <property>Add Libraries</property>
-                        </emphasis> to add all required JSF related libraries to this
-                        project.</para>
+		<para>Make sure to select the <guilabel>Add Libraries</guilabel> option to add all required JSF related libraries into your project.</para>
 
-                <para>The <emphasis>
-                                <property>Context Path</property>
-                        </emphasis> is the name under which the application will be deployed.</para>
+		<para>The <guilabel>Context Path</guilabel> option defines the name under which the application will be deployed.</para>
 
-                <para>The <emphasis>
-                                <property>Runtime</property>
-                        </emphasis> value tells Eclipse where to find Web libraries in order to
-                        build (compile) the project. It is not possible to finish project import
-                        without selecting Runtime. If you don&apos;t have any values, select <emphasis>
-                                <property>New...</property>
-                        </emphasis> to add new Runtime.</para>
+		<para>
+			The <guilabel>Runtime</guilabel> value tells Eclipse where to find Web libraries necessary to build (compile) the project. It is not possible to finish project import without selecting the Runtime. If you don not have any values, click the <guibutton>New...</guibutton> button to add a new Runtime.
+		</para>
 
-                <para>The <emphasis>
-                                <property>Target Server</property>
-                        </emphasis> allows you to specify whether to deploy the application. The
-                        Target Server corresponds to the Runtime value selected above. If you
-                        don&apos;t want to deploy the application, uncheck this value.</para>
-                <figure>
-                        <title>Project Folders</title>
-                        <mediaobject>
-                                <imageobject>
-                                        <imagedata fileref="images/jsf_support/jsf_support_18.png"/>
-                                </imageobject>
-                        </mediaobject>
-                </figure>
-                <para>Once your project is imported you can see that JSF related libraries have been
-                        added to your project: <emphasis>
-                                <property>jsf-api.jar</property>
-                        </emphasis> and <emphasis>
-                                <property>jsf-impl.jar</property>
-                        </emphasis>.</para>
-                <note>
-                        <title>Note:</title>
-                        <para>Some application servers provide their own jsf implementation
-                                libraries. Thus, to avoid conflicts you should not add jsf libraries
-                                while adding jsf capabilities.</para>
-                </note>
-                <para>You are now ready to work with JSF by creating a new JSF configuration
-                        file:</para>
+		<para>
+			The <guilabel>Target Server</guilabel> option allows you to specify whether or not to deploy the application. The Target Server corresponds to the Runtime value selected above. If you do not want to deploy the application, uncheck this value.
+		</para>
+		<figure>
+			<title>Project Folders</title>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="images/jsf_support/jsf_support_18.png"/>
+				</imageobject>
+			</mediaobject>
+		</figure>
+		<para>
+			Once your project is imported you can see that JSF related libraries <filename>jsf-api.jar</filename> and <filename>jsf-impl.jar</filename> have been added to your project.
+		</para>                                                    
+		<note>
+			<title>Note:</title>
+			<para>
+				Some application servers provide their own JSF implementation libraries. To avoid conflicts you should not add JSF libraries while adding JSF capabilities.
+			</para>
+		</note>
+		<para>You are now ready to work with JSF by creating a new JSF configuration file:</para>
 
+		<figure>
+			<title>Creating a New JSF Configuration File</title>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="images/jsf_support/jsf_support_19.png"/>
+				</imageobject>
+			</mediaobject>
+		</figure>
 
-                <figure>
-                        <title>Creating a New JSF Configuration File</title>
-                        <mediaobject>
-                                <imageobject>
-                                        <imagedata fileref="images/jsf_support/jsf_support_19.png"/>
-                                </imageobject>
-                        </mediaobject>
-                </figure>
+		<para>Once the file has been created, it should be opened in a special editor (see <xref linkend="jsf_config_file"/>).</para>
+	</section>
+	<section id="AddingYourOwnProjectTemplates853">
 
-                <para>Once the file has been created, it should be opened in a special <xref linkend="jsf_config_file"/>.</para>
-        </section>
-        <section id="AddingYourOwnProjectTemplates853">
+		<title>Adding Your Own Project Templates</title>
+		<para>
+			A template is a set of files that is provided as a basis when creating a new project. Project templates provide content and structure for a project.
+		</para>
+		<para>
+			JSF Tools provides powerful template capabilities which allow you to create new templates and import existing Struts and JSF projects. This templating facility has a variety of aspects to consider. Let&apos;s start with the most straightforward case and consider the process of creating a template from your existing JSF project.
+		</para>
 
-                <title>Adding Your Own Project Templates</title>
-                <para>Template is a set of files that is served as a basis to facilitate the
-                        creation of a new project. Project templates provide content and structure
-                        for a project.</para>
-                <para>There is a powerful templating capability for creating new and importing
-                        existing Struts and JSF projects. This templating facility has a variety of
-                        aspects to consider. But, let&apos;s start with the most straightforward
-                        case and consider the process of creating a template from your existing JSF
-                        project.</para>
+		<para>
+			Let&apos;s say you have a project that you want to use as the basis for a new <property>template</property>. The following steps will show you how to achieve this:
+		</para>
+		<itemizedlist>
+			<listitem>
+				<para>
+					In the Web Projects view, right-click the project and select <menuchoice><guimenuitem>JBoss Tools JS</guimenuitem><guimenuitem>Save As Template</guimenuitem></menuchoice>
+				</para>
+			</listitem>
+		</itemizedlist>
+		<figure>
+			<title>Saving Your Project as Template</title>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="images/jsf_support/jsf_support_20.png"/>
+				</imageobject>
+			</mediaobject>
+		</figure>
+		<itemizedlist>
+			<listitem>
+				<para>
+					In the first dialog box, you can specify a name for the template (it will default to the project name) and confirm what run-time implementation of the project technology will be used.
+				</para>
+			</listitem>
 
-                <para>Let&apos;s say you have a project that you want to use as the basis for a
-                        new <property>template</property>. Follow these steps to make a template out
-                        of it:</para>
-                <itemizedlist>
-                        <listitem>
-                                <para>In the Web Projects view, right-click the project and select <emphasis>
-                                                <property>JBoss Tools JSF > Save As
-                                                  Template</property>
-                                        </emphasis></para>
-                        </listitem>
-                </itemizedlist>
-                <figure>
-                        <title>Saving Your Project as Template</title>
-                        <mediaobject>
-                                <imageobject>
-                                        <imagedata fileref="images/jsf_support/jsf_support_20.png"/>
-                                </imageobject>
-                        </mediaobject>
-                </figure>
-                <itemizedlist>
-                        <listitem>
-                                <para>In the first dialog box, you can choose a name for the
-                                        template (defaults to the project name) and confirm what
-                                        run-time implementation of the project technology will be
-                                        used</para>
-                        </listitem>
-
-                </itemizedlist>
-                <figure>
-                        <title>Define Template Properties</title>
-                        <mediaobject>
-                                <imageobject>
-                                        <imagedata fileref="images/jsf_support/jsf_support_20_1.png"
-                                        />
-                                </imageobject>
-                        </mediaobject>
-                </figure>
+		</itemizedlist>
+		<figure>
+			<title>Define Template Properties</title>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="images/jsf_support/jsf_support_20_1.png" />
+				</imageobject>
+			</mediaobject>
+		</figure>
 
 
-                <itemizedlist>
-                        <listitem>
-                                <para>Select <emphasis>
-                                                <property>Next</property>
-                                        </emphasis> and you will be sent to a dialog box with your
-                                        project structure displayed with check boxes. Here you can
-                                        check only those parts and files in your project directory
-                                        that should be part of the template</para>
-                        </listitem>
-                </itemizedlist>
-                <figure>
-                        <title>Define Template Properties</title>
-                        <mediaobject>
-                                <imageobject>
-                                        <imagedata fileref="images/jsf_support/jsf_support_20_2.png"
-                                        />
-                                </imageobject>
-                        </mediaobject>
-                </figure>
-                <itemizedlist>
-                        <listitem>
-                                <para>At this point, unless you want to designate some extra files
-                                        as having Velocity template coding inside them, you should
-                                        click <emphasis>
-                                                <property>Finish</property>
-                                        </emphasis>.</para>
-                        </listitem>
-                </itemizedlist>
-                <para>That&apos;s it. Now, you can use this template with any new or imported
-                        project that uses the same run-time implementation as the project you turned
-                        into a template.</para>
-                <para>At this point, you have a fully configured project and now you can bring some
-                        new logic to it starting from JSF configuration file.</para>
-        </section>
-        <section>
-                <title>Relevant Resources Links</title>
+		<itemizedlist>
+			<listitem>
+				<para>
+					When you click the <guibutton>Next</guibutton> button a dialog box will be presented with your project structure displayed, along with a number of check boxes. Here you can select only those parts and files in your project directory that should be part of the template.
+				</para>
+			</listitem>
+		</itemizedlist>
+		<figure>
+			<title>Define Template Properties</title>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="images/jsf_support/jsf_support_20_2.png" />
+				</imageobject>
+			</mediaobject>
+		</figure>
+		<itemizedlist>
+			<listitem>
+				<para>
+					At this point, unless you want to designate some extra files as having Velocity template coding inside them, you should click the <guibutton>Finish</guibutton> button.
+				</para>
+			</listitem>
+		</itemizedlist>
+		<para>
+			That&apos;s it. This template can be used with any new or imported project that uses the same run-time implementation as the project you turned into a template.
+		</para>
+		<para>At this point you have a fully configured project. Now you can add some additional logic to it starting with the JSF configuration file.</para>
+	</section>
+	<section>
+		<title>Relevant Resources Links</title>
 
-                <para>You can find more in-depth explanation on how to work with special wizards, editors and views that can
-                        be used in various scenarios while developing JSF applications in our Visual Web Tools Guide.</para>
-        </section>
+		<para>
+			You can find a more in-depth explanation on how to work with the special wizards, editors and views that can be used while developing JSF applications in our Visual Web Tools Guide.
+		</para>
+	</section>
 </chapter>

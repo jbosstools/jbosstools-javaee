@@ -49,18 +49,19 @@
              <year>2008</year>
             <year>2009</year>
              <year>2010</year>
+	     <year>2011</year>
             <holder>JBoss by Red Hat</holder>
         </copyright>
         <releaseinfo>
             Version: 3.1.1.GA
         </releaseinfo>
 
-<abstract>
+<!--<abstract>
    <title/>
        <para>
            <ulink url="http://download.jboss.org/jbosstools/nightly-docs/en/jsf_tools_ref_guide/pdf/JSF_Tools_Reference_Guide.pdf">PDF version</ulink>
        </para>
-</abstract>
+</abstract>-->
 
     </bookinfo>
     

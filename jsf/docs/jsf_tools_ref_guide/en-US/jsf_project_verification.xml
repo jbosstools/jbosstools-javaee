@@ -17,11 +17,9 @@
     <para>In this chapter we&apos;ll discuss a possible verification that you can take advantage
         of.</para>
     <!-- JBoss Developer Studio checks for many different rules for a JSF project -->
-    <para>Many different rules are checked for a JSF project that can be configured by selecting <emphasis>
-            <property>Window > Preferences</property>
-        </emphasis> from the menu bar, selecting <emphasis>
-            <property>JBoss Tools > Web > Verification</property>
-        </emphasis> from the Preferences dialog box and then expanding the JSF Rules node.</para>
+    <para>
+    	Many different rules are checked for a JSF project that can be configured by selecting <menuchoice><guimenuitem>Window</guimenuitem><guimenuitem>Preferences</guimenuitem></menuchoice> from the menu bar, selecting <menuchoice><guimenuitem>JBoss Tools</guimenuitem><guimenuitem>Web</guimenuitem><guimenuitem>Verification</guimenuitem></menuchoice> from the Preferences dialog box and then expanding the JSF Rules node.
+    </para>
     <figure>
         <title>JSF Rules</title>
         <mediaobject>
@@ -40,9 +38,9 @@
         </mediaobject>
     </figure>
     <para>While typing a class name, you might make a minor typo (like <emphasis role="italic">
-            <property>&quot;jsfHello.PersonBean9&quot;</property>
+            <property>&quot;demo.Person9&quot;</property>
         </emphasis> instead of <emphasis role="italic">
-            <property>&quot;jsfHello.PersonBean&quot;</property>
+            <property>&quot;demo.Person&quot;</property>
         </emphasis>). After saving the file, verification checks to make sure everything is correct
         and finds the error below:</para>
     <figure>
