@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IProject;
@@ -87,20 +88,32 @@ public class CompositeComponentValidator extends WebValidator {
 		for (IFile file : changedFiles) {
 			pathesToClean.add(file.getFullPath());
 			// If the changed file is a composition component then collect all the pages which use this component.
-			if(file.isAccessible() && notValidatedYet(file)) {
-				filesToValidate.add(file);
-				ITagLibrary[] libs = TagLibraryManager.getLibraries(file.getParent());
-				for (ITagLibrary lib : libs) {
-					if(lib instanceof ICompositeTagLibrary) {
-						Set<IPath> pathes = getValidationContext().getCoreResourcesByVariableName(SHORT_ID, getComponentUri(lib, file), false);
-						if(pathes!=null) {
-							for (IPath path : pathes) {
-								IFile page = root.getFile(path);
-								if(page!=null && page.isAccessible()) {
-									filesToValidate.add(page);
-									pathesToClean.add(page.getFullPath());
+			if(notValidatedYet(file)) {
+				if(file.exists()) {
+					filesToValidate.add(file);
+					ITagLibrary[] libs = TagLibraryManager.getLibraries(file.getParent());
+					for (ITagLibrary lib : libs) {
+						if(lib instanceof ICompositeTagLibrary) {
+							collectRelatedPages(root, filesToValidate, pathesToClean, getComponentUri(lib.getURI(), file));
+						}
+					}
+				} else {
+					// In case of deleted resource file
+					IContainer folder = file.getParent();
+					if(folder!=null) {
+						String[] segemnts = folder.getFullPath().segments();
+						StringBuffer libUri = new StringBuffer();
+						for (String segment : segemnts) {
+							if(libUri.length()==0) {
+								if(segment.equalsIgnoreCase("resources")) {
+									libUri.append("http://java.sun.com/jsf/composite");
 								}
+							} else {
+								libUri.append('/').append(segment);
 							}
+						}
+						if(libUri.length()>"http://java.sun.com/jsf/composite".length()) {
+							collectRelatedPages(root, filesToValidate, pathesToClean, getComponentUri(libUri.toString(), file));
 						}
 					}
 				}
@@ -116,6 +129,19 @@ public class CompositeComponentValidator extends WebValidator {
 		}
 
 		return OK_STATUS;
+	}
+
+	private void collectRelatedPages(IWorkspaceRoot root, Set<IFile> filesToValidate, Set<IPath> pathesToClean, String uri) {
+		Set<IPath> pathes = getValidationContext().getCoreResourcesByVariableName(SHORT_ID, uri, false);
+		if(pathes!=null) {
+			for (IPath path : pathes) {
+				IFile page = root.getFile(path);
+				if(page!=null && page.isAccessible()) {
+					filesToValidate.add(page);
+					pathesToClean.add(page.getFullPath());
+				}
+			}
+		}
 	}
 
 	/*
@@ -142,14 +168,14 @@ public class CompositeComponentValidator extends WebValidator {
 		return OK_STATUS;
 	}
 
-	private String getComponentUri(ITagLibrary lib, IFile file) {
+	private String getComponentUri(String libUri, IFile file) {
 		String fullName = file.getName();
 		String name = fullName;
 		String ext = file.getFileExtension();
 		if(ext!=null) {
 			name = name.substring(0, name.lastIndexOf("." + ext));
 		}
-		return lib.getURI() + ":" + name;
+		return libUri + ":" + name;
 	}
 
 	private void validateResource(IFile file) {
