@@ -1,259 +1,400 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <chapter id="web_projects">
-    <?dbhtml filename="web_projects.html"?>
-<title>Web Projects View</title>
-<para><property>Web Projects</property> is a special view that comes with JBoss Developer Studio.</para>
-<para>If the Web Projects view&apos;s tab is not visible next to the Package Explorer tab, select <emphasis><property>Window &gt; Show View &gt; Other &gt; JBoss Tools Web &gt; Web Projects</property></emphasis> from the menu bar.</para>
-<para>With the Web Projects view, you can:</para>
-
-<itemizedlist>
-<listitem><para>Visualize the project better because the project artifacts for JSF, Struts and Seam projects are organized and displayed by function.</para></listitem>
-<listitem>
-    <para>Select these kinds of items to drag and drop into JSP pages:</para>
-     <itemizedlist>
-     <listitem><para>JSF managed bean attributes</para></listitem>
-<listitem><para>JSF navigation rules outcomes</para></listitem>
-<listitem><para>Property file values</para></listitem>
-<listitem><para>Tag library files</para></listitem>
-<listitem><para>Tags from tag libraries</para></listitem>
-<listitem><para>JSP page links</para></listitem>
-</itemizedlist>
-</listitem>
-<listitem><para>Use context menus to develop the application (all create and edit functions are available)</para></listitem>
-<listitem><para>Use icon shortcuts to create and import JSF and Struts projects</para></listitem>
-<listitem><para>Expand and inspect tag library files</para></listitem>
-<listitem><para><xref linkend="AddingCustomJSFTagsToTheRedHatPalette7433"/></para></listitem>
-</itemizedlist>
-
-<section id="ProjectOrganization">
-
-<title>Project Organization</title>
-<para>The Web Projects view organizes your project in a different way. The physical structure of course stays the same. The new organization combines common project artifacts together which makes it simpler to 
-locate what you are looking for and develop.</para>
-
-<para>The screen shot below shows a JSF project  and a Struts project in Web Projects view.</para>
-<figure>
-        <title>Web Projects View</title>
-      <mediaobject> 
+<?dbhtml filename="web_projects.html"?>
+  <title>Web Projects View</title> 
+  <para>
+    Web Projects is a special view that comes with JBoss Developer Studio.
+  </para>
+   
+  <para>
+    If the <guilabel>Web Projects</guilabel> view&apos;s tab is not visible next to the Package Explorer tab, select <menuchoice><guimenuitem>Window</guimenuitem><guimenuitem>Show View</guimenuitem><guimenuitem>Other</guimenuitem><guimenuitem>JBoss Tools Web</guimenuitem><guimenuitem>Web Projects</guimenuitem></menuchoice> from the menu bar.
+  </para>
+   
+  <para>
+    With the Web Projects view you can:
+  </para>
+   
+  <itemizedlist>
+    <listitem>
+      <para>
+        Visualize the project better because the project artifacts for JSF, Struts and Seam projects are organized and displayed by function.
+      </para>
+    </listitem>
+     
+    <listitem>
+      <para>
+        Select these kinds of items to drag and drop into JSP pages:
+      </para>
+       
+      <itemizedlist>
+        <listitem>
+          <para>
+            JSF managed bean attributes
+          </para>
+        </listitem>
+         
+        <listitem>
+          <para>
+            JSF navigation rules outcomes
+          </para>
+        </listitem>
+         
+        <listitem>
+          <para>
+            Property file values
+          </para>
+        </listitem>
+         
+        <listitem>
+          <para>
+            Tag library files
+          </para>
+        </listitem>
+         
+        <listitem>
+          <para>
+            Tags from tag libraries
+          </para>
+        </listitem>
+         
+        <listitem>
+          <para>
+            JSP page links
+          </para>
+        </listitem>
+      </itemizedlist>
+    </listitem>
+     
+    <listitem>
+      <para>
+        Use context menus to develop the application (all create and edit functions are available)
+      </para>
+    </listitem>
+     
+    <listitem>
+      <para>
+        Use icon shortcuts to create and import JSF and Struts projects
+      </para>
+    </listitem>
+     
+    <listitem>
+      <para>
+        Expand and inspect tag library files
+      </para>
+    </listitem>
+     
+    <listitem>
+      <para>
+        <xref linkend="AddingCustomJSFTagsToTheRedHatPalette7433"/>
+      </para>
+    </listitem>
+  </itemizedlist>
+   
+  <section id="ProjectOrganization">
+    <title>Project Organization</title> 
+    <para>
+      The Web Projects view organizes your project in a different way. The physical structure of course stays the same. The new organization combines common project artifacts together which makes it simpler to locate what you are looking for and develop.
+    </para>
+     
+    <para>
+      The screen shot below shows a JSF project and a Struts project in <guilabel>Web Projects</guilabel> view.
+    </para>
+     
+    <figure>
+      <title>Web Projects View</title> 
+      <mediaobject>
         <imageobject>
-            <imagedata fileref="images/web_projects/web_projects_1.png" />
+          <imagedata fileref="images/web_projects/web_projects_1.png" />
         </imageobject>
-    </mediaobject>
+      </mediaobject>
     </figure>
-</section>
-<section id="DragAndDrop">
-
-<title>Drag and Drop</title>
-    <para>Web Projects View has a drag and drop option that can be used for property, managed bean attributes, navigation rules, tag library file declaration and JSP Pages.</para>
-<section id="ForAProperty">
-    
-<title>For a Property</title>
-    <para>Expand the <property>Resources Bundles</property> folder that holds all the Property files in your project. Select the file from which you want to add the property and then select the property.</para>
-<para>We will be dragging and dropping a property file value inside the outputText tag for the <emphasis role="italic"><property>&quot;value&quot;</property></emphasis> attribute.</para>
-<figure>
-<title>OutputText Tag</title>
-<mediaobject> 
-        <imageobject>
+  </section>
+   
+  <section id="DragAndDrop">
+    <title>Drag and Drop</title> 
+    <para>
+      The <guilabel>Web Projects</guilabel> view has a drag and drop option that can be used for property, managed bean attributes, navigation rules, tag library file declaration and JSP Pages.
+    </para>
+     
+    <section id="ForAProperty">
+      <title>For a Property</title> 
+      <para>
+        Expand the Resources Bundles folder that holds all the Property files in your project. Select the file from which you want to add the property and then select the property.
+      </para>
+       
+      <para>
+        We will be dragging and dropping a property file value inside the outputText tag for the <code>value</code> attribute.
+      </para>
+       
+      <figure>
+        <title>OutputText Tag</title> 
+        <mediaobject>
+          <imageobject>
             <imagedata fileref="images/web_projects/web_projects_2.png"/>
-        </imageobject>
-</mediaobject>
-</figure>
-<para>Select the property:</para>
-<figure>
-<title>Selecting Property</title>
-<mediaobject> 
-        <imageobject>
+          </imageobject>
+        </mediaobject>
+      </figure>
+       
+      <para>
+        Select the property:
+      </para>
+       
+      <figure>
+        <title>Selecting Property</title> 
+        <mediaobject>
+          <imageobject>
             <imagedata fileref="images/web_projects/web_projects_3.png"/>
-        </imageobject>
-</mediaobject>
-</figure>
-    <para>Drag the property and drop it between the quotes for the value attribute in the JSP file. Notice that JBoss Developer Studio added the correctly formatted expression for referring to the property value <code>#{Message.header}</code> automatically.</para>
-  <figure>
-<title>Inserted Property</title>
-<mediaobject> 
-        <imageobject>
+          </imageobject>
+        </mediaobject>
+      </figure>
+       
+      <para>
+        Drag the property and drop it between the quotes for the value attribute in the JSP file. Notice that JBoss Developer Studio added the correctly formatted expression for referring to the property value <code>#{Message.header}</code> automatically.
+      </para>
+       
+      <figure>
+        <title>Inserted Property</title> 
+        <mediaobject>
+          <imageobject>
             <imagedata fileref="images/web_projects/web_projects_4.png"/>
-        </imageobject>
-</mediaobject>
-</figure>
-<para>You can actually place the tag anywhere in the page, not just inside an existing tag. In this case,
- JBoss Developer Studio will place the complete tag <code>&lt;h:outputText value="#{Message.header}"/&gt;</code> in the page.</para>
- </section>
-<section id="ForManagedBeanAttributes">
-
-<title>For Managed Bean Attributes</title>
-
-<para>Select a <emphasis role="italic"><property>&quot;managed bean&quot;</property></emphasis> attribute and then drag and drop it onto the JSP page. We are going to place it inside the <emphasis role="italic"><property>&quot;value&quot;</property></emphasis> attribute of the inputText tag.</para>
-<figure>
-<title>Selecting Managed Bean Attribute</title>
-<mediaobject> 
-        <imageobject>
+          </imageobject>
+        </mediaobject>
+      </figure>
+       
+      <para>
+        You can actually place the tag anywhere in the page, not just inside an existing tag. In this case JBoss Developer Studio will place the complete tag <code>&lt;h:outputText value="#{Message.header}"/&gt;</code> in the page.
+      </para>
+    </section>
+     
+    <section id="ForManagedBeanAttributes">
+      <title>For Managed Bean Attributes</title> 
+      <para>
+        Select a &quot;managed bean&quot; attribute and then drag and drop it onto the JSP page. We are going to place it inside the <code>value</code> attribute of the <code>inputText</code> tag.
+      </para>
+       
+      <figure>
+        <title>Selecting Managed Bean Attribute</title> 
+        <mediaobject>
+          <imageobject>
             <imagedata fileref="images/web_projects/web_projects_5.png"/>
-        </imageobject>
-</mediaobject>
-</figure>
-<para>Once again, JBoss Developer Studio adds the correct expression, <code>#{user.name}</code>.</para>
-<figure>
-<title>Added Expression</title>
-<mediaobject> 
-        <imageobject>
+          </imageobject>
+        </mediaobject>
+      </figure>
+       
+      <para>
+        Once again, JBoss Developer Studio adds the correct expression, <code>#{user.name}</code>.
+      </para>
+       
+      <figure>
+        <title>Added Expression</title> 
+        <mediaobject>
+          <imageobject>
             <imagedata fileref="images/web_projects/web_projects_6.png"/>
-        </imageobject>
-</mediaobject>
-</figure>
-</section>
-<section id="NavigationRules">
-
-<title>Navigation Rules</title>
-
-<para>Select the navigation rule under <emphasis><property>Configuration > faces-config.xml > Navigation Rules</property></emphasis>:</para>
-<figure>
-<title>Selecting Navigation Rule</title>
-<mediaobject> 
-        <imageobject>
+          </imageobject>
+        </mediaobject>
+      </figure>
+    </section>
+     
+    <section id="NavigationRules">
+      <title>Navigation Rules</title> 
+      <para>
+        Select the navigation rule under <menuchoice><guimenuitem>Configuration</guimenuitem><guimenuitem>faces-config.xml</guimenuitem><guimenuitem>Navigation Rules</guimenuitem></menuchoice>:
+      </para>
+       
+      <figure>
+        <title>Selecting Navigation Rule</title> 
+        <mediaobject>
+          <imageobject>
             <imagedata fileref="images/web_projects/web_projects_7.png"/>
-        </imageobject>
-</mediaobject>
-</figure>
-<para>Drag and drop it inside the commandButton tag:</para>
-<figure>
-<title>Navigation Rule in CommandButton Tag</title>
-<mediaobject> 
-        <imageobject>
+          </imageobject>
+        </mediaobject>
+      </figure>
+       
+      <para>
+        Drag and drop it inside the <code>commandButton</code> tag:
+      </para>
+       
+      <figure>
+        <title>Navigation Rule in CommandButton Tag</title> 
+        <mediaobject>
+          <imageobject>
             <imagedata fileref="images/web_projects/web_projects_8.png"/>
-        </imageobject>
-</mediaobject>
-</figure>
-<para>You could do the same if the navigation rule was defined inside an action method:</para>
-<figure>
-<title>Navigation Rule in Action Method</title>
-<mediaobject> 
-        <imageobject>
+          </imageobject>
+        </mediaobject>
+      </figure>
+       
+      <para>
+        You could do the same if the navigation rule was defined inside an action method:
+      </para>
+       
+      <figure>
+        <title>Navigation Rule in Action Method</title> 
+        <mediaobject>
+          <imageobject>
             <imagedata fileref="images/web_projects/web_projects_9.png"/>
-        </imageobject>
-</mediaobject>
-</figure>
-<para>Here is how it would look after drag and drop:</para>
-<figure>
-<title>Inserted Navigation Rule</title>
-<mediaobject> 
-        <imageobject>
+          </imageobject>
+        </mediaobject>
+      </figure>
+       
+      <para>
+        Here is how it would look after drag and drop:
+      </para>
+       
+      <figure>
+        <title>Inserted Navigation Rule</title> 
+        <mediaobject>
+          <imageobject>
             <imagedata fileref="images/web_projects/web_projects_10.png"/>
-        </imageobject>
-</mediaobject>
-</figure>
-</section>
-<section id="ForATagLibraryFileDeclaration">
-
-<title>For a Tag Library File Declaration</title>
-
-<para>Select a TLD file:</para>
-<figure>
-<title>Selecting TLD File</title>
-<mediaobject> 
-        <imageobject>
+          </imageobject>
+        </mediaobject>
+      </figure>
+    </section>
+     
+    <section id="ForATagLibraryFileDeclaration">
+      <title>For a Tag Library File Declaration</title> 
+      <para>
+        Select a TLD file:
+      </para>
+       
+      <figure>
+        <title>Selecting TLD File</title> 
+        <mediaobject>
+          <imageobject>
             <imagedata fileref="images/web_projects/web_projects_11.png"/>
-        </imageobject>
-</mediaobject>
-</figure>
-<para>Then drag and drop it onto the JSP page to add a declaration at the top of the page:</para>
-<figure>
-<title>Inserted TLD File</title>
-<mediaobject> 
-        <imageobject>
+          </imageobject>
+        </mediaobject>
+      </figure>
+       
+      <para>
+        Then drag and drop it onto the JSP page to add a declaration at the top of the page:
+      </para>
+       
+      <figure>
+        <title>Inserted TLD File</title> 
+        <mediaobject>
+          <imageobject>
             <imagedata fileref="images/web_projects/web_projects_12.png"/>
-        </imageobject>
-</mediaobject>
-</figure>
-</section>
-<section id="ForJSPPages">
-
-<title>For JSP Pages</title>
-
-<para>You can also drag and drop a JSP page path to a JSP page to create a forward as shown:</para>
-<figure>
-<title>Creating JSP Forward</title>
-<mediaobject> 
-        <imageobject>
+          </imageobject>
+        </mediaobject>
+      </figure>
+    </section>
+     
+    <section id="ForJSPPages">
+      <title>For JSP Pages</title> 
+      <para>
+        You can also drag and drop a JSP page path to a JSP page to create a forward as shown:
+      </para>
+       
+      <figure>
+        <title>Creating JSP Forward</title> 
+        <mediaobject>
+          <imageobject>
             <imagedata fileref="images/web_projects/web_projects_13.png" scale="80"/>
-        </imageobject>
-</mediaobject>
-</figure>
-</section>
-</section>
-<section id="DevelopingTheApplication">
-
-<title>Developing the Application</title>
-
-<para>It is also possible to develop your application right from the Web Projects view. 
-Simply right-click any node in the tree and select an appropriate action from the context menu. For instance, this screen capture shows creating a new navigation rule.</para>
-<figure>
-<title>Creating New Navigation Rule</title>
-<mediaobject> 
-        <imageobject>
-            <imagedata fileref="images/web_projects/web_projects_14.png" scale="90"/>
-        </imageobject>
-</mediaobject>
-</figure>
-</section>
-<section id="ExpandingTagLibraryFiles">
-
-<title>Expanding Tag Library Files</title>
-
-<para>You can easily expand any TLD file in the project. Browse to the Tag Libraries folder. Right-click a TLD file and select <emphasis><property>Expand</property></emphasis>:</para>
-    
-    <figure>
-        <title>Expanding Tag Library File</title>
-        <mediaobject> 
-            <imageobject>
-                <imagedata fileref="images/web_projects/web_projects_15a.png"/>
-            </imageobject>
+          </imageobject>
         </mediaobject>
-    </figure>
-    
-    <para> The TLD file will now be expanded:</para>
-
+      </figure>
+    </section>
+  </section>
+   
+  <section id="DevelopingTheApplication">
+    <title>Developing the Application</title> 
+    <para>
+      It is also possible to develop your application right from the Web Projects view. Simply right-click any node in the tree and select an appropriate action from the context menu. For instance, this screen capture shows creating a new navigation rule.
+    </para>
+     
     <figure>
-        <title>Expanded File</title>
-        <mediaobject> 
-            <imageobject>
-                <imagedata fileref="images/web_projects/web_projects_15b.png"/>
-            </imageobject>
-        </mediaobject>
-    </figure>
-    
-    
-<para>You can then select any tag and drag it onto a JSP page.</para>
-
-</section>
-<section id="DragAndDropTagLibrariesOnToRedHatPalette">
-
-<title>Drag and Drop Tag Libraries on to JBoss Tools Palette</title>
-
-    <para>Read <xref linkend="AddingCustomJSFTagsToTheRedHatPalette7433"/> to learn about this.</para>
-</section>
-<section id="CreateAndImportJSFAndStrutsProjects">
-<title>Create and Import JSF and Struts Projects</title>
-
-<para>You can also create and import JSF and Struts project from Web Projects view by selecting the 
-buttons below.</para>
-
-<para>From left to right:</para>
-
-<orderedlist>
-<listitem><para>Create New JSF Project</para></listitem>
-<listitem><para>Import JSF Project</para></listitem>
-<listitem><para>Create New Struts Project</para></listitem>
-<listitem><para>Import Struts Project</para></listitem>
-</orderedlist>
-<figure>
-<title>Web Projects View Buttons</title>
-<mediaobject> 
+      <title>Creating New Navigation Rule</title> 
+      <mediaobject>
         <imageobject>
-            <imagedata fileref="images/web_projects/web_projects_16.png"/>
+          <imagedata fileref="images/web_projects/web_projects_14.png" scale="90"/>
         </imageobject>
-</mediaobject>
-</figure>
-</section>
-
+      </mediaobject>
+    </figure>
+  </section>
+   
+  <section id="ExpandingTagLibraryFiles">
+    <title>Expanding Tag Library Files</title> 
+    <para>
+      You can easily expand any <filename>TLD</filename> file in the project. Browse to the Tag Libraries folder. Right-click a <filename>TLD</filename> file and select <guimenuitem>Expand</guimenuitem>:
+    </para>
+     
+    <figure>
+      <title>Expanding Tag Library File</title> 
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/web_projects/web_projects_15a.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+     
+    <para>
+      The <filename>TLD</filename> file will now be expanded:
+    </para>
+     
+    <figure>
+      <title>Expanded File</title> 
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/web_projects/web_projects_15b.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+     
+    <para>
+      You can then select any tag and drag it onto a JSP page.
+    </para>
+  </section>
+   
+  <section id="DragAndDropTagLibrariesOnToRedHatPalette">
+    <title>Drag and Drop Tag Libraries on to JBoss Tools Palette</title> 
+    <para>
+      Read <xref linkend="AddingCustomJSFTagsToTheRedHatPalette7433"/> to learn about this.
+    </para>
+  </section>
+   
+  <section id="CreateAndImportJSFAndStrutsProjects">
+    <title>Create and Import JSF and Struts Projects</title> 
+    <para>
+      You can also create and import JSF and Struts project from Web Projects view by selecting the buttons below.
+    </para>
+     
+    <para>
+      From left to right:
+    </para>
+     
+    <orderedlist>
+      <listitem>
+        <para>
+          Create New JSF Project
+        </para>
+      </listitem>
+       
+      <listitem>
+        <para>
+          Import JSF Project
+        </para>
+      </listitem>
+       
+      <listitem>
+        <para>
+          Create New Struts Project
+        </para>
+      </listitem>
+       
+      <listitem>
+        <para>
+          Import Struts Project
+        </para>
+      </listitem>
+    </orderedlist>
+     
+    <figure>
+      <title>Web Projects View Buttons</title> 
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/web_projects/web_projects_16.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+  </section>
 </chapter>
