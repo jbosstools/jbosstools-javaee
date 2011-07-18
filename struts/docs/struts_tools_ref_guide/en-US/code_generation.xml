@@ -1,97 +1,91 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <chapter id="code_generation">
-    <?dbhtml filename="code_generation.html"?>
-    
-    <chapterinfo>
-        <keywordset>
-            <keyword>JBoss Developer Studio</keyword>
-            <keyword>Eclipse</keyword>
-            <keyword>Struts Tools</keyword>
-            <keyword>Java</keyword>
-            <keyword>JBoss</keyword>
-        </keywordset>
-    </chapterinfo>
-    
-    <title>Code Generation</title>
-    
-    <para>JBoss Tools comes with a <property>code generation</property>
-        feature. You can generate stub code for Struts Actions, FormBeans, Forwards
-        and Exceptions.</para>
-    
-    <para>The code generation that JBoss tooling provides is based on Velocity templates
-        which can be modified for your use. The templates are located at <emphasis>
-            <property> {JBossStudioHome} > templates >
-                codegeneration</property>. </emphasis></para>
-    
-    <para>There are a number of ways to invoke code generation. One is simply
-        right-clicking the Struts diagram and selecting <emphasis>
-            <property>Generate Java Code....</property>
-        </emphasis></para>
-    
-    <figure>
-        <title>Selecting Generate Java Code</title>
-        <mediaobject>
-            <imageobject>
-                <imagedata fileref="images/struts/struts_45.png"/>
-            </imageobject>
-        </mediaobject>
-    </figure>
-    
-    <para>On this screen you can select for which elements to generate code. If you
-        select Next you will be able to specify more options for each of the
-        categories you selected.</para>
-    
-    <figure>
-        <title>Generate - Step 1</title>
-        <mediaobject>
-            <imageobject>
-                <imagedata fileref="images/struts/struts_46.png"/>
-            </imageobject>
-        </mediaobject>
-    </figure>
-    
-    <note>
-        <title>Tip:</title>
-        <para>Please be careful not to override your existing files.</para>
-    </note>
-    
-    <para>When generation is complete, a result window will appear letting you know how
+	<?dbhtml filename="code_generation.html"?>
+
+	<chapterinfo>
+		<keywordset>
+			<keyword>JBoss Developer Studio</keyword>
+			<keyword>Eclipse</keyword>
+			<keyword>Struts Tools</keyword>
+			<keyword>Java</keyword>
+			<keyword>JBoss</keyword>
+		</keywordset>
+	</chapterinfo>
+
+	<title>Code Generation</title>
+
+	<para>
+		JBoss Tools comes with a <property>code generation</property> feature which can be used to generate stub code for Struts Actions, FormBeans, Forwards and Exceptions.
+	</para>
+
+	<para>
+		The code generation that JBoss tooling provides is based on Velocity templates which can be modified for your use. The templates are located at <menuchoice><guimenuitem>{JBossStudioHome}</guimenuitem><guimenuitem>templates</guimenuitem><guimenuitem>codegeneration</guimenuitem></menuchoice>.
+	</para>
+
+	<para>
+		There are a number of ways to invoke code generation. One way is to simply right-click the Struts diagram and select <guimenuitem>Generate Java Code....</guimenuitem>
+	</para>
+
+	<figure>
+		<title>Selecting Generate Java Code</title>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="images/struts/struts_45.png"/>
+			</imageobject>
+		</mediaobject>
+	</figure>
+
+	<para>
+		On this screen you can select for which elements to generate code. If you click the <guibutton>Next</guibutton> button you will be able to specify more options for each of the categories you selected.
+	</para>
+
+	<figure>
+		<title>Generate - Step 1</title>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="images/struts/struts_46.png"/>
+			</imageobject>
+		</mediaobject>
+	</figure>
+
+	<note>
+		<title>Tip:</title>
+		<para>Please be careful not to override your existing files.</para>
+	</note>
+
+	<para>When generation is complete, a result window will appear letting you know how
         many classes were generated:</para>
-    
-    <figure>
-        <title>Generation Finished</title>
-        <mediaobject>
-            <imageobject>
-                <imagedata fileref="images/struts/struts_47.png"/>
-            </imageobject>
-        </mediaobject>
-    </figure>
-    
-    <para>You don&apos;t always have to generate code for all elements at once. You
-        can invoke generation for just an individual Struts artifact as well.
-        Right-click an element on the diagram of the Struts configuration file and
-        select <emphasis>
-            <property>Generate Java Code...</property>
-        </emphasis> from the context menu.</para>
-    
-    <figure>
-        <title>Generation For Individual Struts Artifact</title>
-        <mediaobject>
-            <imageobject>
-                <imagedata fileref="images/struts/struts_48.png"/>
-            </imageobject>
-        </mediaobject>
-    </figure>
-    
-    <para>The same can be done from within the Tree viewer for the editor of the Struts
-        configuration file.</para>
-    
-    <figure>
-        <title>Generation in Struts Config Editor</title>
-        <mediaobject>
-            <imageobject>
-                <imagedata fileref="images/struts/struts_49.png"/>
-            </imageobject>
-        </mediaobject>
-    </figure>
+
+	<figure>
+		<title>Generation Finished</title>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="images/struts/struts_47.png"/>
+			</imageobject>
+		</mediaobject>
+	</figure>
+
+	<para>
+		You don&apos;t always have to generate code for all elements at once. You can generate code for an individual Struts artifact as well. Right-click an element on the diagram of the Struts configuration file and select <guimenuitem>Generate Java Code...</guimenuitem> from the context menu.
+	</para>
+
+	<figure>
+		<title>Generation For Individual Struts Artifact</title>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="images/struts/struts_48.png"/>
+			</imageobject>
+		</mediaobject>
+	</figure>
+
+	<para>The same can be done from within the Tree viewer for the editor of the Struts configuration file.</para>
+
+	<figure>
+		<title>Generation in Struts Config Editor</title>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="images/struts/struts_49.png"/>
+			</imageobject>
+		</mediaobject>
+	</figure>
 </chapter>

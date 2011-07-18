@@ -13,6 +13,7 @@
 <xi:include href="page_links_recognizer.xml" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
 <xi:include href="project_verification.xml" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
 <xi:include href="rel_resources_links.xml" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
+<xi:include href="Feedback.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
 <xi:include href="Revision_History.xml" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
 <index></index>
 </book>

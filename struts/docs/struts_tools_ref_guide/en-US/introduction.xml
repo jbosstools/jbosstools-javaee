@@ -13,23 +13,20 @@
 
     <title>Introduction</title>
 
-    <para>If you prefer to develop web applications using Struts technology JBoss Tools also meet
-        your needs. The professional developer toolset provides all necessary editors and wizards
-        for creating Struts resources that enhances the process of building high-quality web
-        applications.</para>
+    <para>
+    	JBoss Developer Studio provides a number of editors and wizards that allow Struts developers to quickly and efficiently build high quality web applications.
+    </para>
     <note>
         <title>Note:</title>
         <para>Note that JBoss Tools support the Struts 1.1, 1.2.x versions.</para>
     </note>
 
-    <para>In this guide you will learn how to take advantage of Struts support that <property>JBoss Tools</property>
-        provide.</para>
+    <para>In this guide you will learn how to take advantage of Struts support that is provided by <property>JBoss Developer Studio</property>.</para>
 
     <section id="struts_key_features">
         <title>Key Features of Struts Tools</title>
 
-        <para>For a start, we propose you to look through the table of main features of Struts
-            Tools:</para>
+        <para>The table below lists the main features provided by Struts Tools:</para>
 
         <table>
 
@@ -50,9 +47,11 @@
                 <tbody>
                     <row>
                         <entry><para>Struts Support</para></entry>
-                        <entry><para>Step-by-step wizards for creating a new struts project with a number
-                            of predefined templates, importing existing ones and adding struts
-                            capabilities to non-struts web projects.</para></entry>
+                        <entry>
+                        	<para>
+                        		Step-by-step wizards for creating a new Struts project with a number of predefined templates, importing existing ones and adding struts capabilities to non-Struts web projects.
+                        	</para>
+                        </entry>
                         <entry>
                             <xref linkend="projects"/>
                         </entry>
@@ -60,12 +59,11 @@
 
                     <row>
                         <entry><para>Support for Struts Configuration File</para></entry>
-                        <entry><para>Working on file using three modes: diagram, tree and source.
-                            Synchronization between the modes and full control over the code. Easy
-                            moving around the diagram using the Diagram Navigator. Working with
-                            struts projects that have multiple modules. Possibility to use Struts
-                            configuration file debugger allowing to set break points on struts
-                            diagram and then launch the server in debug mode.</para></entry>
+                        <entry>
+                        	<para>
+                        		Working on files using three modes: diagram, tree and source. Synchronization between the modes and full control over the code. Easily move around the diagram using the Diagram Navigator. Working with struts projects that have multiple modules. The option to use thee Struts configuration file debugger, which allows break points to be set on a Struts diagram and then launch the server in debug mode.
+                        	</para>
+                        </entry>
                         <entry>
                             <xref linkend="struts_config_editor"/>
                             <xref linkend="config_file_debugger"/>
@@ -74,9 +72,11 @@
 
                     <row>
                         <entry><para>Support for Struts modules</para></entry>
-                        <entry><para>A Struts module (struts-config.xml) is automatically created while
-                            creating a new project. There is also possibility to add new ones or edit
-                            already existing modules in your existing project or while importing Struts project.</para></entry>
+                        <entry>
+                        	<para>
+                        		A Struts module (<filename>struts-config.xml</filename>) is automatically created when creating a new project. There is also the option to add new or edit already existing modules in your existing project or while importing Struts project.
+                        	</para>
+                        </entry>
                         <entry>
                             <xref linkend="modules"/>
                         </entry>
@@ -84,10 +84,11 @@
 
                     <row>
                         <entry><para>Verification and Validation</para></entry>
-                        <entry><para>All occurring errors will be immediately reported by verification
-                            feature, no matter in what view you are working. Constant validation and
-                            errors checking allows to catch many of the errors during development
-                            process that significantly reduces development time.</para></entry>
+                        <entry>
+                        	<para>
+                        		All errors will be immediately reported by verification feature, no matter which view you are working in. Constant validation and errors checking allows developers to catch many of the errors during development process, which significantly reduces development time.
+                        	</para>
+                        </entry>
                         <entry>
                             <xref linkend="project_verification"/>
                         </entry>
@@ -102,7 +103,9 @@
     <section>
         <title>Other relevant resources on the topic</title>
         
-        <para>All JBoss Developer Studio/JBoss Tools documentation you can find on<ulink url="http://docs.jboss.org/tools/">JBoss Tools project page </ulink>.</para>
+        <para>
+        	All JBoss Developer Studio/JBoss Tools documentation you can find on<ulink url="http://docs.jboss.org/tools/">JBoss Tools project page </ulink>.
+        </para>
         <para>The latest documentation builds are available on<ulink url="http://download.jboss.org/jbosstools/nightly-docs/">nightly docs page</ulink>.</para>
         
     </section>

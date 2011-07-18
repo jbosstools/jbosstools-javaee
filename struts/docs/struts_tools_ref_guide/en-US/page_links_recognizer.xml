@@ -13,13 +13,8 @@
     
     <title>Customizable Page Links Recognizer</title>
     
-    <para><property>Custom page links</property> allow you to define custom Struts page
-        links that will be recognizable in the Struts application diagram. You can
-        define these links by selecting <emphasis>
-            <property>Window > Preferences</property>
-        </emphasis> from the menu bar and then selecting <emphasis>
-            <property>JBoss Tools > Web > Struts > Customization</property>
-        </emphasis> from the Preferences dialog box.</para>
+    <para>
+    	<property>Custom page links</property> allow you to define custom Struts page links that will be recognizable in the Struts application diagram. You can define these links by selecting <menuchoice><guimenuitem>Window</guimenuitem><guimenuitem>Preferences</guimenuitem></menuchoice> from the menu bar and then selecting <menuchoice><guimenuitem>JBoss Tools</guimenuitem><guimenuitem>Web</guimenuitem><guimenuitem>Struts</guimenuitem><guimenuitem>Customization</guimenuitem></menuchoice> from the Preferences dialog box.</para>
     <figure>
         <title>Customization Panel</title>
         <mediaobject>
