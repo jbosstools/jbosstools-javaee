@@ -34,7 +34,7 @@ public class AddTargetAnnotationMarkerResolution implements
 		this.qualifiedNames = typeNames;
 		this.type = type;
 		shortNames = MarkerResolutionUtils.getShortNames(qualifiedNames);
-		totalList = "{"+MarkerResolutionUtils.getTotalList(shortNames)+"}";
+		totalList = MarkerResolutionUtils.OPEN_BRACE+MarkerResolutionUtils.getTotalList(shortNames)+MarkerResolutionUtils.CLOSE_BRACE;
 		label = NLS.bind(CDIUIMessages.ADD_TARGET_MARKER_RESOLUTION_TITLE, totalList, type.getElementName());
 	}
 

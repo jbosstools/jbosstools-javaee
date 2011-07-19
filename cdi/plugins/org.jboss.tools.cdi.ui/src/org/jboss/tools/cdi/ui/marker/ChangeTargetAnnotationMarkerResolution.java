@@ -40,7 +40,7 @@ public class ChangeTargetAnnotationMarkerResolution implements
 		this.annotation = annotation;
 		this.qualifiedNames = typeNames;
 		shortNames = MarkerResolutionUtils.getShortNames(qualifiedNames);
-		totalList = "{"+MarkerResolutionUtils.getTotalList(shortNames)+"}";
+		totalList = MarkerResolutionUtils.OPEN_BRACE+MarkerResolutionUtils.getTotalList(shortNames)+MarkerResolutionUtils.CLOSE_BRACE;
 		
 		try {
 			label = NLS.bind(CDIUIMessages.CHANGE_TARGET_MARKER_RESOLUTION_TITLE, annotation.getSource(), totalList);
