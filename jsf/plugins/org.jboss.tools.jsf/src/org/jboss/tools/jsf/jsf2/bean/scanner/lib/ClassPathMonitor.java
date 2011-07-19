@@ -152,14 +152,16 @@ public class ClassPathMonitor extends AbstractClassPathMonitor<IJSF2Project>{
 
 	public static List<IJSF2Project> getProjects(IProject project) throws CoreException {
 		List<IJSF2Project> list = new ArrayList<IJSF2Project>();
-		IJavaProject javaProject = JavaCore.create(project);
-		IClasspathEntry[] es = javaProject.getResolvedClasspath(true);
-		for (int i = 0; i < es.length; i++) {
-			if(es[i].getEntryKind() == IClasspathEntry.CPE_PROJECT) {
-				IProject p = ResourcesPlugin.getWorkspace().getRoot().getProject(es[i].getPath().lastSegment());
-				if(p == null || !p.isAccessible()) continue;
-				IJSF2Project sp = JSF2ProjectFactory.getJSF2Project(p, false);
-				if(sp != null) list.add(sp);
+		IJavaProject javaProject = EclipseResourceUtil.getJavaProject(project);
+		if(javaProject != null) {
+			IClasspathEntry[] es = javaProject.getResolvedClasspath(true);
+			for (int i = 0; i < es.length; i++) {
+				if(es[i].getEntryKind() == IClasspathEntry.CPE_PROJECT) {
+					IProject p = ResourcesPlugin.getWorkspace().getRoot().getProject(es[i].getPath().lastSegment());
+					if(p == null || !p.isAccessible()) continue;
+					IJSF2Project sp = JSF2ProjectFactory.getJSF2Project(p, false);
+					if(sp != null) list.add(sp);
+				}
 			}
 		}
 		return list;
