@@ -29,6 +29,9 @@ abstract public class CDIValidationErrorManager extends KBValidator {
 	public static final int AMBIGUOUS_INJECTION_POINTS_ID = 8;
 	public static final int NOT_PASSIVATION_CAPABLE_BEAN_ID = 9;
 	public static final int ILLEGAL_SCOPE_FOR_MANAGED_BEAN_WITH_PUBLIC_FIELD_ID = 10;
+	public static final int MISSING_RETENTION_ANNOTATION_IN_QUALIFIER_TYPE_ID = 11;
+	public static final int MISSING_RETENTION_ANNOTATION_IN_STEREOTYPE_TYPE_ID = 12;
+	public static final int MISSING_RETENTION_ANNOTATION_IN_SCOPE_TYPE_ID = 13;
 
 	/*
 	 * (non-Javadoc)

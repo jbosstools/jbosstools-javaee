@@ -15,6 +15,8 @@ public interface CDIConstants {
 	public String TARGET_ANNOTATION_TYPE_NAME = "java.lang.annotation.Target";
 	public String RETENTION_ANNOTATION_TYPE_NAME = "java.lang.annotation.Retention";
 	
+	public String RETENTION_POLICY_RUNTIME_TYPE_NAME = "java.lang.annotation.RetentionPolicy.RUNTIME";
+	
 	public String QUALIFIER_ANNOTATION_TYPE_NAME = "javax.inject.Qualifier";
 
 	public String NAMED_QUALIFIER_TYPE_NAME = "javax.inject.Named";

@@ -70,7 +70,7 @@ public class AnnotationValidationDelegate extends CDICoreValidationDelegate {
 		/*
 		 * Stereotype annotation type should be annotated with @Retention(RUNTIME)
 		 */
-		validateRetentionAnnotation(stereotype, CDIValidationMessages.MISSING_RETENTION_ANNOTATION_IN_STEREOTYPE_TYPE, resource);
+		validateRetentionAnnotation(stereotype, CDIValidationMessages.MISSING_RETENTION_ANNOTATION_IN_STEREOTYPE_TYPE, resource, CDIValidationErrorManager.MISSING_RETENTION_ANNOTATION_IN_STEREOTYPE_TYPE_ID);
 
 		IAnnotationDeclaration target = stereotype.getAnnotationDeclaration(CDIConstants.TARGET_ANNOTATION_TYPE_NAME);
 		if(target!=null) {
@@ -182,13 +182,13 @@ public class AnnotationValidationDelegate extends CDICoreValidationDelegate {
 		/*
 		 * Scope annotation type should be annotated with @Retention(RUNTIME)
 		 */
-		validateRetentionAnnotation(scope, CDIValidationMessages.MISSING_RETENTION_ANNOTATION_IN_SCOPE_TYPE, resource);
+		validateRetentionAnnotation(scope, CDIValidationMessages.MISSING_RETENTION_ANNOTATION_IN_SCOPE_TYPE, resource, CDIValidationErrorManager.MISSING_RETENTION_ANNOTATION_IN_SCOPE_TYPE_ID);
 	}
 
-	void validateRetentionAnnotation(ICDIAnnotation type, String message, IResource resource) throws JavaModelException {
+	void validateRetentionAnnotation(ICDIAnnotation type, String message, IResource resource, int message_id) throws JavaModelException {
 		IAnnotationDeclaration retention = type.getAnnotationDeclaration(CDIConstants.RETENTION_ANNOTATION_TYPE_NAME);
 		if(retention == null) {
-			validator.addError(message, CDIPreferences.MISSING_OR_INCORRECT_TARGET_OR_RETENTION_IN_ANNOTATION_TYPE, CDIUtil.convertToSourceReference(type.getSourceType().getNameRange(), resource), resource);
+			validator.addError(message, CDIPreferences.MISSING_OR_INCORRECT_TARGET_OR_RETENTION_IN_ANNOTATION_TYPE, CDIUtil.convertToSourceReference(type.getSourceType().getNameRange(), resource), resource, message_id);
 		} else {
 			boolean ok = false;
 			Object o = retention.getMemberValue(null);
@@ -200,7 +200,7 @@ public class AnnotationValidationDelegate extends CDICoreValidationDelegate {
 				if(!"RUNTIME".equals(s)) ok = false;
 			}
 			if(!ok) {
-				validator.addError(message, CDIPreferences.MISSING_OR_INCORRECT_TARGET_OR_RETENTION_IN_ANNOTATION_TYPE, retention, resource);
+				validator.addError(message, CDIPreferences.MISSING_OR_INCORRECT_TARGET_OR_RETENTION_IN_ANNOTATION_TYPE, retention, resource, message_id);
 			}
 		}
 	}
@@ -215,7 +215,7 @@ public class AnnotationValidationDelegate extends CDICoreValidationDelegate {
 		/*
 		 * Qualifier annotation type should be annotated with @Retention(RUNTIME)
 		 */
-		validateRetentionAnnotation(qualifier, CDIValidationMessages.MISSING_RETENTION_ANNOTATION_IN_QUALIFIER_TYPE, resource);
+		validateRetentionAnnotation(qualifier, CDIValidationMessages.MISSING_RETENTION_ANNOTATION_IN_QUALIFIER_TYPE, resource, CDIValidationErrorManager.MISSING_RETENTION_ANNOTATION_IN_QUALIFIER_TYPE_ID);
 	}
 
 	private void validateTargetAnnotation(ICDIAnnotation annotationType, String[][] variants, String message, IResource resource) throws JavaModelException {

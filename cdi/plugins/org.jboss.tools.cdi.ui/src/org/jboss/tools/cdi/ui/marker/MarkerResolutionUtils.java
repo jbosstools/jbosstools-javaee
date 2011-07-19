@@ -19,6 +19,7 @@ import java.util.Set;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.jdt.core.Flags;
 import org.eclipse.jdt.core.IAnnotatable;
 import org.eclipse.jdt.core.IAnnotation;
 import org.eclipse.jdt.core.IBuffer;
@@ -91,6 +92,18 @@ public class MarkerResolutionUtils {
 	 * @throws JavaModelException
 	 */
 	public static boolean addImport(String qualifiedName, ICompilationUnit compilationUnit) throws JavaModelException{
+		return addImport(qualifiedName, compilationUnit, false);
+	}
+	
+	/**
+	 * 
+	 * @param qualifiedName
+	 * @param compilationUnit
+	 * @param staticFlag
+	 * @return true if there is import in compilation unit with the same short name
+	 * @throws JavaModelException
+	 */
+	public static boolean addImport(String qualifiedName, ICompilationUnit compilationUnit, boolean staticFlag) throws JavaModelException{
 		if(primitives.contains(qualifiedName))
 			return false;
 		
@@ -136,12 +149,19 @@ public class MarkerResolutionUtils {
 					return true;
 				
 			}
-			compilationUnit.createImport(qualifiedName, null, new NullProgressMonitor());
+			if(staticFlag)
+				compilationUnit.createImport(qualifiedName, null, Flags.AccStatic, new NullProgressMonitor());
+			else
+				compilationUnit.createImport(qualifiedName, null, new NullProgressMonitor());
 		}
 		return false;
 	}
 	
 	public static void addAnnotation(String qualifiedName, ICompilationUnit compilationUnit, IType element) throws JavaModelException{
+		addAnnotation(qualifiedName, compilationUnit, element, "");
+	}
+	
+	public static void addAnnotation(String qualifiedName, ICompilationUnit compilationUnit, IType element, String params) throws JavaModelException{
 		IAnnotation annotation = getAnnotation(element, qualifiedName);
 		if(annotation != null && annotation.exists())
 			return;
@@ -156,7 +176,7 @@ public class MarkerResolutionUtils {
 		if(duplicateShortName)
 			shortName = qualifiedName;
 		
-		buffer.replace(element.getSourceRange().getOffset(), 0, AT+shortName+lineDelim);
+		buffer.replace(element.getSourceRange().getOffset(), 0, AT+shortName+params+lineDelim);
 		
 		synchronized(compilationUnit) {
 			compilationUnit.reconcile(ICompilationUnit.NO_AST, true, null, null);
@@ -446,6 +466,23 @@ public class MarkerResolutionUtils {
 			IMethod m = t.getMethod(method.getElementName(), method.getParameterTypes());
 			
 			return m;
+		}
+		return null;
+	}
+	
+	public static IType findWorkingCopyType(ICompilationUnit compilationUnit, IType type) throws JavaModelException{
+		for(IType t : compilationUnit.getAllTypes()){
+			if(t.getFullyQualifiedName().equals(type.getFullyQualifiedName()))
+				return t;
+		}
+		return null;
+	}
+	
+	public static IAnnotation findWorkingCopyAnnotation(ICompilationUnit compilationUnit, IType type, IAnnotation annotation) throws JavaModelException{
+		IType workingCopyType = findWorkingCopyType(compilationUnit, type);
+		for(IAnnotation a : workingCopyType.getAnnotations()){
+			if(a.getElementName().equals(annotation.getElementName()))
+				return a;
 		}
 		return null;
 	}
