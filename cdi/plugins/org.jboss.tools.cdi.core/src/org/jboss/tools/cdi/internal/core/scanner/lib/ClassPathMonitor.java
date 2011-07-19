@@ -167,14 +167,16 @@ public class ClassPathMonitor extends AbstractClassPathMonitor<CDICoreNature>{
 
 	public static List<CDICoreNature> getProjects(IProject project) throws CoreException {
 		List<CDICoreNature> list = new ArrayList<CDICoreNature>();
-		IJavaProject javaProject = JavaCore.create(project);
-		IClasspathEntry[] es = javaProject.getResolvedClasspath(true);
-		for (int i = 0; i < es.length; i++) {
-			if(es[i].getEntryKind() == IClasspathEntry.CPE_PROJECT) {
-				IProject p = ResourcesPlugin.getWorkspace().getRoot().getProject(es[i].getPath().lastSegment());
-				if(p == null || !p.isAccessible()) continue;
-				CDICoreNature sp = CDICorePlugin.getCDI(p, false);
-				if(sp != null) list.add(sp);
+		IJavaProject javaProject = EclipseResourceUtil.getJavaProject(project);
+		if(javaProject != null) {
+			IClasspathEntry[] es = javaProject.getResolvedClasspath(true);
+			for (int i = 0; i < es.length; i++) {
+				if(es[i].getEntryKind() == IClasspathEntry.CPE_PROJECT) {
+					IProject p = ResourcesPlugin.getWorkspace().getRoot().getProject(es[i].getPath().lastSegment());
+					if(p == null || !p.isAccessible()) continue;
+					CDICoreNature sp = CDICorePlugin.getCDI(p, false);
+					if(sp != null) list.add(sp);
+				}
 			}
 		}
 		return list;
