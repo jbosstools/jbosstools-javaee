@@ -97,4 +97,9 @@ public interface CDIConstants {
 
 	public String SEAM_FACES_INPUT_FIELD_TYPE_NAME = "org.jboss.seam.faces.validation.InputField";
 	public String SEAM_FACES_INPUT_ELEMENT_TYPE_NAME = "org.jboss.seam.faces.validation.InputElement";
+	
+	public String ELEMENT_TYPE_TYPE_NAME = "java.lang.annotation.ElementType.TYPE";
+	public String ELEMENT_TYPE_METHOD_NAME = "java.lang.annotation.ElementType.METHOD";
+	public String ELEMENT_TYPE_FIELD_NAME = "java.lang.annotation.ElementType.FIELD";
+	public String ELEMENT_TYPE_PARAMETER_NAME = "java.lang.annotation.ElementType.PARAMETER";
 }

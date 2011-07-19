@@ -32,6 +32,9 @@ abstract public class CDIValidationErrorManager extends KBValidator {
 	public static final int MISSING_RETENTION_ANNOTATION_IN_QUALIFIER_TYPE_ID = 11;
 	public static final int MISSING_RETENTION_ANNOTATION_IN_STEREOTYPE_TYPE_ID = 12;
 	public static final int MISSING_RETENTION_ANNOTATION_IN_SCOPE_TYPE_ID = 13;
+	public static final int MISSING_TARGET_ANNOTATION_IN_QUALIFIER_TYPE_ID = 14;
+	public static final int MISSING_TARGET_ANNOTATION_IN_STEREOTYPE_TYPE_ID = 15;
+	public static final int MISSING_TARGET_ANNOTATION_IN_SCOPE_TYPE_ID = 16;
 
 	/*
 	 * (non-Javadoc)

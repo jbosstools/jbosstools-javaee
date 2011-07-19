@@ -65,7 +65,7 @@ public class AnnotationValidationDelegate extends CDICoreValidationDelegate {
 		 * Stereotype annotation type should be annotated with @Target with correct targets [JSR-299 §2.7.1]
 		 * Stereotype annotation type should be annotated with @Retention(RUNTIME)
 		 */
-		validateTargetAnnotation(stereotype, STEREOTYPE_GENERAL_TARGET_VARAINTS, CDIValidationMessages.MISSING_TARGET_ANNOTATION_IN_STEREOTYPE_TYPE, resource);
+		validateTargetAnnotation(stereotype, STEREOTYPE_GENERAL_TARGET_VARAINTS, CDIValidationMessages.MISSING_TARGET_ANNOTATION_IN_STEREOTYPE_TYPE, resource, CDIValidationErrorManager.MISSING_TARGET_ANNOTATION_IN_STEREOTYPE_TYPE_ID);
 
 		/*
 		 * Stereotype annotation type should be annotated with @Retention(RUNTIME)
@@ -177,7 +177,7 @@ public class AnnotationValidationDelegate extends CDICoreValidationDelegate {
 		/*
 		 * Scope annotation type should be annotated with @Target({TYPE, METHOD, FIELD})
 		 */
-		validateTargetAnnotation(scope, SCOPE_GENERAL_TARGET_VARIANTS, CDIValidationMessages.MISSING_TARGET_ANNOTATION_IN_SCOPE_TYPE, resource);
+		validateTargetAnnotation(scope, SCOPE_GENERAL_TARGET_VARIANTS, CDIValidationMessages.MISSING_TARGET_ANNOTATION_IN_SCOPE_TYPE, resource, CDIValidationErrorManager.MISSING_TARGET_ANNOTATION_IN_SCOPE_TYPE_ID);
 		
 		/*
 		 * Scope annotation type should be annotated with @Retention(RUNTIME)
@@ -210,7 +210,7 @@ public class AnnotationValidationDelegate extends CDICoreValidationDelegate {
 		 * Qualifier annotation type should be annotated with @Target({METHOD, FIELD, PARAMETER, TYPE}) or  @Target({"FIELD", "PARAMETER"})
 		 * Qualifier annotation type should be annotated with @Retention(RUNTIME)
 		 */
-		validateTargetAnnotation(qualifier, QUALIFIER_GENERAL_TARGET_VARIANTS, CDIValidationMessages.MISSING_TARGET_ANNOTATION_IN_QUALIFIER_TYPE, resource);
+		validateTargetAnnotation(qualifier, QUALIFIER_GENERAL_TARGET_VARIANTS, CDIValidationMessages.MISSING_TARGET_ANNOTATION_IN_QUALIFIER_TYPE, resource, CDIValidationErrorManager.MISSING_TARGET_ANNOTATION_IN_QUALIFIER_TYPE_ID);
 
 		/*
 		 * Qualifier annotation type should be annotated with @Retention(RUNTIME)
@@ -218,12 +218,12 @@ public class AnnotationValidationDelegate extends CDICoreValidationDelegate {
 		validateRetentionAnnotation(qualifier, CDIValidationMessages.MISSING_RETENTION_ANNOTATION_IN_QUALIFIER_TYPE, resource, CDIValidationErrorManager.MISSING_RETENTION_ANNOTATION_IN_QUALIFIER_TYPE_ID);
 	}
 
-	private void validateTargetAnnotation(ICDIAnnotation annotationType, String[][] variants, String message, IResource resource) throws JavaModelException {
+	private void validateTargetAnnotation(ICDIAnnotation annotationType, String[][] variants, String message, IResource resource, int message_id) throws JavaModelException {
 		IAnnotationDeclaration target = annotationType.getAnnotationDeclaration(CDIConstants.TARGET_ANNOTATION_TYPE_NAME);
 		if(target==null) {
-			validator.addError(message, CDIPreferences.MISSING_OR_INCORRECT_TARGET_OR_RETENTION_IN_ANNOTATION_TYPE, CDIUtil.convertToSourceReference(annotationType.getSourceType().getNameRange(), resource), resource);
+			validator.addError(message, CDIPreferences.MISSING_OR_INCORRECT_TARGET_OR_RETENTION_IN_ANNOTATION_TYPE, CDIUtil.convertToSourceReference(annotationType.getSourceType().getNameRange(), resource), resource, message_id);
 		} else if(!CDIUtil.checkTargetAnnotation(target, variants)) {
-			validator.addError(message, CDIPreferences.MISSING_OR_INCORRECT_TARGET_OR_RETENTION_IN_ANNOTATION_TYPE, target, resource);
+			validator.addError(message, CDIPreferences.MISSING_OR_INCORRECT_TARGET_OR_RETENTION_IN_ANNOTATION_TYPE, target, resource, message_id);
 		}
 	}
 }

@@ -191,7 +191,7 @@ public class CDIProblemMarkerResolutionGenerator implements
 					messageId == CDIValidationErrorManager.MISSING_RETENTION_ANNOTATION_IN_SCOPE_TYPE_ID ||
 					messageId == CDIValidationErrorManager.MISSING_RETENTION_ANNOTATION_IN_STEREOTYPE_TYPE_ID){
 				
-				TypeAndAnnotation ta = findTypeOrRetentionAnnotation(file, start);
+				TypeAndAnnotation ta = findTypeAndAnnotation(file, start, CDIConstants.RETENTION_ANNOTATION_TYPE_NAME);
 				if(ta != null){
 					if(ta.annotation == null){
 						return new IMarkerResolution[] {
@@ -202,6 +202,58 @@ public class CDIProblemMarkerResolutionGenerator implements
 								new ChangeRetentionAnnotationMarkerResolution(ta.type, ta.annotation)
 							};
 						
+					}
+				}
+			}else if(messageId == CDIValidationErrorManager.MISSING_TARGET_ANNOTATION_IN_QUALIFIER_TYPE_ID){
+				TypeAndAnnotation ta = findTypeAndAnnotation(file, start, CDIConstants.TARGET_ANNOTATION_TYPE_NAME);
+				if(ta != null){
+					if(ta.annotation == null){
+						return new IMarkerResolution[] {
+								new AddTargetAnnotationMarkerResolution(ta.type, new String[]{CDIConstants.ELEMENT_TYPE_TYPE_NAME, CDIConstants.ELEMENT_TYPE_METHOD_NAME, CDIConstants.ELEMENT_TYPE_FIELD_NAME, CDIConstants.ELEMENT_TYPE_PARAMETER_NAME}),
+								new AddTargetAnnotationMarkerResolution(ta.type, new String[]{CDIConstants.ELEMENT_TYPE_FIELD_NAME, CDIConstants.ELEMENT_TYPE_PARAMETER_NAME})
+							};
+					}else{
+						return new IMarkerResolution[] {
+								new ChangeTargetAnnotationMarkerResolution(ta.type, ta.annotation, new String[]{CDIConstants.ELEMENT_TYPE_TYPE_NAME, CDIConstants.ELEMENT_TYPE_METHOD_NAME, CDIConstants.ELEMENT_TYPE_FIELD_NAME, CDIConstants.ELEMENT_TYPE_PARAMETER_NAME}),
+								new ChangeTargetAnnotationMarkerResolution(ta.type, ta.annotation, new String[]{CDIConstants.ELEMENT_TYPE_FIELD_NAME, CDIConstants.ELEMENT_TYPE_PARAMETER_NAME})
+							};
+						
+					}
+				}
+			}else if(messageId == CDIValidationErrorManager.MISSING_TARGET_ANNOTATION_IN_STEREOTYPE_TYPE_ID){
+				TypeAndAnnotation ta = findTypeAndAnnotation(file, start, CDIConstants.TARGET_ANNOTATION_TYPE_NAME);
+				if(ta != null){
+					if(ta.annotation == null){
+						return new IMarkerResolution[] {
+							new AddTargetAnnotationMarkerResolution(ta.type, new String[]{CDIConstants.ELEMENT_TYPE_TYPE_NAME, CDIConstants.ELEMENT_TYPE_METHOD_NAME, CDIConstants.ELEMENT_TYPE_FIELD_NAME}),
+							new AddTargetAnnotationMarkerResolution(ta.type, new String[]{CDIConstants.ELEMENT_TYPE_METHOD_NAME, CDIConstants.ELEMENT_TYPE_FIELD_NAME}),
+							new AddTargetAnnotationMarkerResolution(ta.type, new String[]{CDIConstants.ELEMENT_TYPE_TYPE_NAME}),
+							new AddTargetAnnotationMarkerResolution(ta.type, new String[]{CDIConstants.ELEMENT_TYPE_METHOD_NAME}),
+							new AddTargetAnnotationMarkerResolution(ta.type, new String[]{CDIConstants.ELEMENT_TYPE_FIELD_NAME})
+						};
+					}else{
+						return new IMarkerResolution[] {
+							new ChangeTargetAnnotationMarkerResolution(ta.type, ta.annotation, new String[]{CDIConstants.ELEMENT_TYPE_TYPE_NAME, CDIConstants.ELEMENT_TYPE_METHOD_NAME, CDIConstants.ELEMENT_TYPE_FIELD_NAME}),
+							new ChangeTargetAnnotationMarkerResolution(ta.type, ta.annotation, new String[]{CDIConstants.ELEMENT_TYPE_METHOD_NAME, CDIConstants.ELEMENT_TYPE_FIELD_NAME}),
+							new ChangeTargetAnnotationMarkerResolution(ta.type, ta.annotation, new String[]{CDIConstants.ELEMENT_TYPE_TYPE_NAME}),
+							new ChangeTargetAnnotationMarkerResolution(ta.type, ta.annotation, new String[]{CDIConstants.ELEMENT_TYPE_METHOD_NAME}),
+							new ChangeTargetAnnotationMarkerResolution(ta.type, ta.annotation, new String[]{CDIConstants.ELEMENT_TYPE_FIELD_NAME})
+						};
+					
+					}
+				}
+			}else if(messageId == CDIValidationErrorManager.MISSING_TARGET_ANNOTATION_IN_SCOPE_TYPE_ID){
+				TypeAndAnnotation ta = findTypeAndAnnotation(file, start, CDIConstants.TARGET_ANNOTATION_TYPE_NAME);
+				if(ta != null){
+					if(ta.annotation == null){
+						return new IMarkerResolution[] {
+							new AddTargetAnnotationMarkerResolution(ta.type, new String[]{CDIConstants.ELEMENT_TYPE_TYPE_NAME, CDIConstants.ELEMENT_TYPE_METHOD_NAME, CDIConstants.ELEMENT_TYPE_FIELD_NAME})
+						};
+					}else{
+						return new IMarkerResolution[] {
+							new ChangeTargetAnnotationMarkerResolution(ta.type, ta.annotation, new String[]{CDIConstants.ELEMENT_TYPE_TYPE_NAME, CDIConstants.ELEMENT_TYPE_METHOD_NAME, CDIConstants.ELEMENT_TYPE_FIELD_NAME})
+						};
+					
 					}
 				}
 			}
@@ -318,15 +370,15 @@ public class CDIProblemMarkerResolutionGenerator implements
 		}
 	}
 	
-	private TypeAndAnnotation findTypeOrRetentionAnnotation(IFile file, int start) throws JavaModelException{
+	private TypeAndAnnotation findTypeAndAnnotation(IFile file, int start, String annotationQualifiedName) throws JavaModelException{
 		IJavaElement javaElement = findJavaElement(file, start);
 		if(javaElement != null && javaElement instanceof IType){
 			IType type = (IType)javaElement;
 			if(!type.isBinary()){
-				String shortName = MarkerResolutionUtils.getShortName(CDIConstants.RETENTION_ANNOTATION_TYPE_NAME);
+				String shortName = MarkerResolutionUtils.getShortName(annotationQualifiedName);
 				IAnnotation[] annotations = type.getAnnotations();
 				for(IAnnotation annotation : annotations){
-					if(annotation.getElementName().equals(CDIConstants.RETENTION_ANNOTATION_TYPE_NAME) ||
+					if(annotation.getElementName().equals(annotationQualifiedName) ||
 							annotation.getElementName().equals(shortName))
 						return new TypeAndAnnotation(type, annotation);
 						

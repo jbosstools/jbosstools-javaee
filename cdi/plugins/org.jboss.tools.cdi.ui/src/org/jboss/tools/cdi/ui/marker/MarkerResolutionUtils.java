@@ -221,6 +221,24 @@ public class MarkerResolutionUtils {
 		return name;
 	}
 	
+	public static String[] getShortNames(String[] qualifiedNames){
+		String[] shortNames = new String[qualifiedNames.length];
+		for(int i = 0; i < qualifiedNames.length; i++){
+			shortNames[i] = getShortName(qualifiedNames[i]);
+		}
+		return shortNames;
+	}
+	
+	public static String getTotalList(String[] names){
+		String list = "";
+		for(int i = 0; i < names.length; i++){
+			if(i != 0)
+				list += ", ";
+			list += names[i];
+		}
+		return list;
+	}
+	
 	public static IAnnotation getAnnotation(IJavaElement element, String qualifiedName){
 		if(element instanceof IAnnotatable){
 			String name = getShortName(qualifiedName);
