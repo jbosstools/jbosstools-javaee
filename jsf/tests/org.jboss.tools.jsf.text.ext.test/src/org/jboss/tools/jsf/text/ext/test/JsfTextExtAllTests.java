@@ -41,6 +41,10 @@ public class JsfTextExtAllTests {
 				"org.jboss.tools.jsf.text.ext.test",
 				new String[]{"projects/JSF2CompositeOpenOn"},
 				new String[]{"JSF2CompositeOpenOn"}));
+		suite.addTest(new ProjectImportTestSetup(new TestSuite(JSF2XMLOpenOnTest.class),
+				"org.jboss.tools.jsf.text.ext.test",
+				new String[]{"projects/JSF2CompositeOpenOn"},
+				new String[]{"JSF2CompositeOpenOn"}));
 		return suite;
 	}
 }

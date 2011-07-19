@@ -22,6 +22,7 @@
   <view-handler>com.sun.facelets.FaceletViewHandler</view-handler>
   <locale-config/>
   <resource-bundle>
+   <display-name>#{person.name}</display-name>
    <base-name>resources</base-name>
    <var>registeredMsgs</var>
  </resource-bundle>

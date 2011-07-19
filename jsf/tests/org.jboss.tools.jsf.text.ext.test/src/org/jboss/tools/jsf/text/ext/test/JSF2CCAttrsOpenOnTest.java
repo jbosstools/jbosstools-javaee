@@ -17,11 +17,10 @@ import junit.framework.TestCase;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.ui.PlatformUI;
+import org.jboss.tools.jsf.text.ext.test.JSFHyperlinkTestUtil.TestRegion;
+import org.jboss.tools.jsf.text.ext.test.JSFHyperlinkTestUtil.TestHyperlink;
 import org.jboss.tools.jst.text.ext.hyperlink.ELHyperlink;
 import org.jboss.tools.jst.text.ext.hyperlink.ELHyperlinkDetector;
-import org.jboss.tools.jst.text.ext.test.HyperlinkTestUtil;
-import org.jboss.tools.jst.text.ext.test.HyperlinkTestUtil.TestHyperlink;
-import org.jboss.tools.jst.text.ext.test.HyperlinkTestUtil.TestRegion;
 import org.jboss.tools.test.util.JobUtils;
 
 /**
@@ -62,7 +61,7 @@ public class JSF2CCAttrsOpenOnTest extends TestCase {
 		regionList.add(new TestRegion(786, 7, new TestHyperlink[]{new TestHyperlink(ELHyperlink.class, "Open a Custom Component Attribute definition")}));
 		regionList.add(new TestRegion(795, 10, new TestHyperlink[]{new TestHyperlink(ELHyperlink.class, "Open a Custom Component Attribute definition")}));
 		
-		HyperlinkTestUtil.checkRegions(project, PAGE_NAME, regionList, new ELHyperlinkDetector());
+		JSFHyperlinkTestUtil.checkRegions(project, PAGE_NAME, regionList, new ELHyperlinkDetector());
 		
 	}
 
@@ -81,7 +80,7 @@ public class JSF2CCAttrsOpenOnTest extends TestCase {
 		regionList.add(new TestRegion(738, 7, new TestHyperlink[]{new TestHyperlink(ELHyperlink.class, "Open a Custom Component Attribute definition")}));
 		regionList.add(new TestRegion(747, 10, new TestHyperlink[]{new TestHyperlink(ELHyperlink.class, "Open a Custom Component Attribute definition")}));
 		
-		HyperlinkTestUtil.checkRegions(project, PAGE2_NAME, regionList, new ELHyperlinkDetector());
+		JSFHyperlinkTestUtil.checkRegions(project, PAGE2_NAME, regionList, new ELHyperlinkDetector());
 		
 	}
 
