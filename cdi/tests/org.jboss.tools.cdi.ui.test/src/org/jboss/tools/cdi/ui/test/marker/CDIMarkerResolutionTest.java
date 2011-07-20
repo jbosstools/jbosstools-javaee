@@ -30,7 +30,9 @@ import org.jboss.tools.cdi.internal.core.validation.CDIValidationErrorManager;
 import org.jboss.tools.cdi.ui.marker.AddLocalBeanMarkerResolution;
 import org.jboss.tools.cdi.ui.marker.AddRetentionAnnotationMarkerResolution;
 import org.jboss.tools.cdi.ui.marker.AddSerializableInterfaceMarkerResolution;
+import org.jboss.tools.cdi.ui.marker.AddTargetAnnotationMarkerResolution;
 import org.jboss.tools.cdi.ui.marker.ChangeRetentionAnnotationMarkerResolution;
+import org.jboss.tools.cdi.ui.marker.ChangeTargetAnnotationMarkerResolution;
 import org.jboss.tools.cdi.ui.marker.DeleteAllDisposerDuplicantMarkerResolution;
 import org.jboss.tools.cdi.ui.marker.DeleteAllInjectedConstructorsMarkerResolution;
 import org.jboss.tools.cdi.ui.marker.MakeFieldStaticMarkerResolution;
@@ -473,5 +475,27 @@ public class CDIMarkerResolutionTest  extends ValidationTest {
 				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
 				CDIValidationErrorManager.MISSING_RETENTION_ANNOTATION_IN_STEREOTYPE_TYPE_ID,
 				ChangeRetentionAnnotationMarkerResolution.class);
+	}
+	
+	public void testAddTargetToStereotypeResolution() throws CoreException{
+		checkResolution(tckProject,
+				new String[]{
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TestStereotype3.java"
+				},
+				CDICoreValidator.PROBLEM_TYPE,
+				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
+				CDIValidationErrorManager.MISSING_TARGET_ANNOTATION_IN_STEREOTYPE_TYPE_ID,
+				AddTargetAnnotationMarkerResolution.class);
+	}
+
+	public void testTargetRetentionToStereotypeResolution() throws CoreException{
+		checkResolution(tckProject,
+				new String[]{
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TestStereotype4.java"
+				},
+				CDICoreValidator.PROBLEM_TYPE,
+				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
+				CDIValidationErrorManager.MISSING_TARGET_ANNOTATION_IN_STEREOTYPE_TYPE_ID,
+				ChangeTargetAnnotationMarkerResolution.class);
 	}
 }
