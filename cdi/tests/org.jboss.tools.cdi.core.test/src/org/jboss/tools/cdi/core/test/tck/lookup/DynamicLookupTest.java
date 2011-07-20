@@ -23,16 +23,24 @@ import org.jboss.tools.cdi.core.test.tck.TCKTest;
 public class DynamicLookupTest extends TCKTest {
 
 	/**
-	 * section 5.6 aa) 
-	 * @throws CoreException
+	 * Section 5.6 - Programmatic lookup
+	 * @throws CoreException 
 	 */
-	public void testObtainsInjectsInstanceOfInstance() throws CoreException {
-		IInjectionPointField injectionPoint = getInjectionPointField("JavaSource/org/jboss/jsr299/tck/tests/lookup/dynamic/ObtainsInstanceBean.java", "paymentProcessor");
-		Set<IBean> beans = cdiProject.getBeans(false, injectionPoint);
+	public void testObtainsInjectsInstance() throws CoreException {
+		IInjectionPointField injection = getInjectionPointField("JavaSource/org/jboss/jsr299/tck/tests/lookup/dynamic/ObtainsInstanceBean.java", "paymentProcessor");
+		Set<IBean> beans = cdiProject.getBeans(true, injection);
 		assertEquals(1, beans.size());
+		assertContainsBeanClass(beans, "org.jboss.jsr299.tck.tests.lookup.dynamic.AdvancedPaymentProcessor");
+	}
 
-		injectionPoint = getInjectionPointField("JavaSource/org/jboss/jsr299/tck/tests/lookup/dynamic/ObtainsInstanceBean.java", "anyPaymentProcessor");
-		beans = cdiProject.getBeans(false, injectionPoint);
+	/**
+	 * Section 5.6 - Programmatic lookup
+	 * @throws CoreException 
+	 */
+	public void testObtainsAmbiguousInjectsInstance() throws CoreException {
+		IInjectionPointField injection = getInjectionPointField("JavaSource/org/jboss/jsr299/tck/tests/lookup/dynamic/ObtainsInstanceBean.java", "anyPaymentProcessor");
+		Set<IBean> beans = cdiProject.getBeans(true, injection);
 		assertEquals(3, beans.size());
+		assertContainsBeanClasses(beans, "org.jboss.jsr299.tck.tests.lookup.dynamic.AdvancedPaymentProcessor", "org.jboss.jsr299.tck.tests.lookup.dynamic.SimplePaymentProcessor", "org.jboss.jsr299.tck.tests.lookup.dynamic.RemotePaymentProcessor");
 	}
 }
