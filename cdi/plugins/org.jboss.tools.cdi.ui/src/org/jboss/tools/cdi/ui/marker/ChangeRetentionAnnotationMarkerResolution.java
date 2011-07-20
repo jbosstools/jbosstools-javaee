@@ -50,6 +50,8 @@ public class ChangeRetentionAnnotationMarkerResolution implements
 			ICompilationUnit original = type.getCompilationUnit();
 			ICompilationUnit compilationUnit = original.getWorkingCopy(new NullProgressMonitor());
 			
+			MarkerResolutionUtils.addImport(CDIConstants.RETENTION_ANNOTATION_TYPE_NAME, compilationUnit);
+			
 			MarkerResolutionUtils.addImport(CDIConstants.RETENTION_POLICY_RUNTIME_TYPE_NAME, compilationUnit, true);
 			
 			IAnnotation workingCopyAnnotation = MarkerResolutionUtils.findWorkingCopy(compilationUnit, annotation);
