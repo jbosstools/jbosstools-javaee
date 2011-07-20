@@ -61,6 +61,7 @@ public class MarkerResolutionUtils {
 	public static final String IMPLEMENTS = "implements";  //$NON-NLS-1$
 	public static final String EXTENDS = "extends";  //$NON-NLS-1$
 	public static final String OPEN_BRACE = "{"; //$NON-NLS-1$
+	public static final String CLOSE_BRACE = "}"; //$NON-NLS-1$
 
 	static final HashSet<String> primitives = new HashSet<String>();
 	static{
@@ -354,10 +355,6 @@ public class MarkerResolutionUtils {
 		try{
 			String paramName = injectionParameter.getName();
 			IMethod method =  injectionParameter.getBeanMethod().getMethod();
-			
-			ICompilationUnit compilationUnit = method.getCompilationUnit();
-			
-			IBuffer buffer = compilationUnit.getBuffer();
 			
 			for(ILocalVariable parameter : method.getParameters()){
 				if(parameter.getElementName().equals(paramName)){
