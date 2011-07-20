@@ -521,4 +521,32 @@ public class CDIMarkerResolutionTest  extends ValidationTest {
 				ChangeTargetAnnotationMarkerResolution.class);
 	}
 	
+	public void testAddTargetToScopeResolution() throws CoreException{
+		checkResolution(tckProject,
+				new String[]{
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TestScope3.java"
+				},
+				new String[]{
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TestScope3.qfxresult"
+				},
+				CDICoreValidator.PROBLEM_TYPE,
+				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
+				CDIValidationErrorManager.MISSING_TARGET_ANNOTATION_IN_SCOPE_TYPE_ID,
+				AddTargetAnnotationMarkerResolution.class);
+	}
+
+	public void testChangeTargetToScopeResolution() throws CoreException{
+		checkResolution(tckProject,
+				new String[]{
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TestScope4.java"
+				},
+				new String[]{
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TestScope4.qfxresult"
+				},
+				CDICoreValidator.PROBLEM_TYPE,
+				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
+				CDIValidationErrorManager.MISSING_TARGET_ANNOTATION_IN_SCOPE_TYPE_ID,
+				ChangeTargetAnnotationMarkerResolution.class);
+	}
+
 }
