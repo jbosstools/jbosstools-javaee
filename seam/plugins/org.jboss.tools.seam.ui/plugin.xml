@@ -577,23 +577,6 @@
 	  </factory>
 	</extension>
 
-   <extension point="org.eclipse.jdt.ui.javaCompletionProposalComputer"
-   		id="seam_el_proposals"
-			name="Seam EL Proposals">
-   	<proposalCategory icon="$nl$/icons/seam16.png"/>
- 	</extension>
-
-	<extension point="org.eclipse.jdt.ui.javaCompletionProposalComputer"
-   		id="SeamELCompletionProposalComputer" 
-   		name="Seam EL Completion Proposal Computer">
-   	<javaCompletionProposalComputer
-      		class="org.jboss.tools.seam.ui.text.java.SeamELProposalComputer"
-      		categoryId="org.jboss.tools.seam.ui.seam_el_proposals"
-      		activate="true">
-			<partition type="__java_string"/>
-   	</javaCompletionProposalComputer>
-	</extension>
-
    <extension
          point="org.eclipse.ui.workbench.texteditor.hyperlinkDetectors">
       <hyperlinkDetector
