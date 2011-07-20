@@ -58,6 +58,8 @@ public class ChangeTargetAnnotationMarkerResolution implements
 			ICompilationUnit original = type.getCompilationUnit();
 			ICompilationUnit compilationUnit = original.getWorkingCopy(new NullProgressMonitor());
 			
+			MarkerResolutionUtils.addImport(CDIConstants.TARGET_ANNOTATION_TYPE_NAME, compilationUnit);
+			
 			for(String qualifiedName : qualifiedNames){
 				MarkerResolutionUtils.addImport(qualifiedName, compilationUnit, true);
 			}
