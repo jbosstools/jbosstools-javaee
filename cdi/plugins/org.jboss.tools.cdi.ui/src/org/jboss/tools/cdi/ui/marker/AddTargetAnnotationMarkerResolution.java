@@ -51,9 +51,7 @@ public class AddTargetAnnotationMarkerResolution implements
 				MarkerResolutionUtils.addImport(qualifiedName, compilationUnit, true);
 			}
 			
-			IType workingCopyType = MarkerResolutionUtils.findWorkingCopyType(compilationUnit, type);
-			
-			MarkerResolutionUtils.addAnnotation(CDIConstants.TARGET_ANNOTATION_TYPE_NAME, compilationUnit, workingCopyType, "("+totalList+")");
+			MarkerResolutionUtils.addAnnotation(CDIConstants.TARGET_ANNOTATION_TYPE_NAME, compilationUnit, type, "("+totalList+")");
 			
 			compilationUnit.commitWorkingCopy(false, new NullProgressMonitor());
 			compilationUnit.discardWorkingCopy();

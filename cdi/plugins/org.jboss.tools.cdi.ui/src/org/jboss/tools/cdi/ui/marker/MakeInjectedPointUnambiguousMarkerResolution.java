@@ -111,7 +111,7 @@ public class MakeInjectedPointUnambiguousMarkerResolution implements IMarkerReso
 			}
 			
 		}
-		MarkerResolutionUtils.addQualifiersToInjectedPoint(injectionPoint, selectedBean);
+		MarkerResolutionUtils.addQualifiersToInjectionPoint(injectionPoint, selectedBean);
 	}
 	
 	private boolean checkBeans(){

@@ -2319,7 +2319,13 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 		 * 9.5.2. Interceptor binding types with members
 		 *  array-valued or annotation-valued member of an interceptor binding type is not annotated @Nonbinding (Non-Portable behavior)
 		 */
-		validateAnnotationMembers(binding, CDIValidationMessages.MISSING_NONBINDING_FOR_ARRAY_VALUE_IN_INTERCEPTOR_BINDING_TYPE_MEMBER, CDIValidationMessages.MISSING_NONBINDING_FOR_ANNOTATION_VALUE_IN_INTERCEPTOR_BINDING_TYPE_MEMBER, CDIPreferences.MISSING_NONBINDING_IN_INTERCEPTOR_BINDING_TYPE_MEMBER);
+		validateAnnotationMembers(
+				binding,
+				CDIValidationMessages.MISSING_NONBINDING_FOR_ARRAY_VALUE_IN_INTERCEPTOR_BINDING_TYPE_MEMBER,
+				CDIValidationMessages.MISSING_NONBINDING_FOR_ANNOTATION_VALUE_IN_INTERCEPTOR_BINDING_TYPE_MEMBER,
+				CDIPreferences.MISSING_NONBINDING_IN_INTERCEPTOR_BINDING_TYPE_MEMBER,
+				MISSING_NONBINDING_FOR_ARRAY_VALUE_IN_INTERCEPTOR_BINDING_TYPE_MEMBER_ID,
+				MISSING_NONBINDING_FOR_ANNOTATION_VALUE_IN_INTERCEPTOR_BINDING_TYPE_MEMBER_ID);
 
 		try {
 			annotationValidator.validateInterceptorBindingAnnotationTypeAnnotations(binding);
@@ -2345,7 +2351,13 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 		 * 5.2.5. Qualifier annotations with members
 		 *  - array-valued or annotation-valued member of a qualifier type is not annotated @Nonbinding (Non-Portable behavior)
 		 */
-		validateAnnotationMembers(qualifier, CDIValidationMessages.MISSING_NONBINDING_FOR_ARRAY_VALUE_IN_QUALIFIER_TYPE_MEMBER, CDIValidationMessages.MISSING_NONBINDING_FOR_ANNOTATION_VALUE_IN_QUALIFIER_TYPE_MEMBER, CDIPreferences.MISSING_NONBINDING_IN_QUALIFIER_TYPE_MEMBER);
+		validateAnnotationMembers(
+				qualifier,
+				CDIValidationMessages.MISSING_NONBINDING_FOR_ARRAY_VALUE_IN_QUALIFIER_TYPE_MEMBER,
+				CDIValidationMessages.MISSING_NONBINDING_FOR_ANNOTATION_VALUE_IN_QUALIFIER_TYPE_MEMBER,
+				CDIPreferences.MISSING_NONBINDING_IN_QUALIFIER_TYPE_MEMBER,
+				MISSING_NONBINDING_FOR_ARRAY_VALUE_IN_QUALIFIER_TYPE_MEMBER_ID,
+				MISSING_NONBINDING_FOR_ANNOTATION_VALUE_IN_QUALIFIER_TYPE_MEMBER_ID);
 
 		/*
 		 * Qualifier annotation type should be annotated with @Target({METHOD, FIELD, PARAMETER, TYPE})
@@ -2357,7 +2369,7 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 		}
 	}
 
-	void validateAnnotationMembers(ICDIAnnotation annotation, String arrayMessageErrorKey, String annotationValueErrorKey, String preferencesKey) {
+	void validateAnnotationMembers(ICDIAnnotation annotation, String arrayMessageErrorKey, String annotationValueErrorKey, String preferencesKey, int arrayMessageId, int annotationValueId) {
 		IType type = annotation.getSourceType();
 		try {
 			IMethod[] methods = type.getMethods();
@@ -2367,7 +2379,7 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 				if(kind == Signature.ARRAY_TYPE_SIGNATURE) {
 					if(!annotation.getNonBindingMethods().contains(method)) {
 						ITextSourceReference reference = CDIUtil.convertToSourceReference(method.getNameRange(), annotation.getResource());
-						addError(arrayMessageErrorKey, preferencesKey, reference, annotation.getResource());
+						addError(arrayMessageErrorKey, preferencesKey, reference, annotation.getResource(), arrayMessageId);
 					}
 				} else if(kind == Signature.CLASS_TYPE_SIGNATURE) {
 					String typeName = Signature.getSignatureSimpleName(returnTypeSignature);
@@ -2382,7 +2394,7 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 						if(memberType!=null && memberType.isAnnotation()) {
 							if(!annotation.getNonBindingMethods().contains(method)) {
 								ITextSourceReference reference = CDIUtil.convertToSourceReference(method.getNameRange(), annotation.getResource());
-								addError(annotationValueErrorKey, preferencesKey, reference, annotation.getResource());
+								addError(annotationValueErrorKey, preferencesKey, reference, annotation.getResource(), annotationValueId);
 							}
 						}
 					}

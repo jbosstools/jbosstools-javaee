@@ -62,7 +62,7 @@ public class ChangeTargetAnnotationMarkerResolution implements
 				MarkerResolutionUtils.addImport(qualifiedName, compilationUnit, true);
 			}
 			
-			IAnnotation workingCopyAnnotation = MarkerResolutionUtils.findWorkingCopyAnnotation(compilationUnit, type, annotation);
+			IAnnotation workingCopyAnnotation = MarkerResolutionUtils.findWorkingCopy(compilationUnit, annotation);
 			
 			IBuffer buffer = compilationUnit.getBuffer();
 			String shortName = MarkerResolutionUtils.getShortName(CDIConstants.TARGET_ANNOTATION_TYPE_NAME);

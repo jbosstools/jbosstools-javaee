@@ -15,7 +15,6 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IType;
-import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.IMarkerResolution2;
@@ -44,9 +43,7 @@ public class AddRetentionAnnotationMarkerResolution implements
 			
 			MarkerResolutionUtils.addImport(CDIConstants.RETENTION_POLICY_RUNTIME_TYPE_NAME, compilationUnit, true);
 			
-			IType workingCopyType = MarkerResolutionUtils.findWorkingCopyType(compilationUnit, type);
-			
-			MarkerResolutionUtils.addAnnotation(CDIConstants.RETENTION_ANNOTATION_TYPE_NAME, compilationUnit, workingCopyType, "(RUNTIME)");
+			MarkerResolutionUtils.addAnnotation(CDIConstants.RETENTION_ANNOTATION_TYPE_NAME, compilationUnit, type, "(RUNTIME)");
 			
 			compilationUnit.commitWorkingCopy(false, new NullProgressMonitor());
 			compilationUnit.discardWorkingCopy();

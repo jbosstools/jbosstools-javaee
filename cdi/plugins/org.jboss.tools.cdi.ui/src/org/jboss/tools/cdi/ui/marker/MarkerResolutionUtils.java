@@ -37,7 +37,6 @@ import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.ITypeParameter;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.core.Signature;
-import org.eclipse.jdt.core.SourceRange;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IInjectionPoint;
@@ -158,18 +157,20 @@ public class MarkerResolutionUtils {
 		return false;
 	}
 	
-	public static void addAnnotation(String qualifiedName, ICompilationUnit compilationUnit, IType element) throws JavaModelException{
+	public static void addAnnotation(String qualifiedName, ICompilationUnit compilationUnit, IMember element) throws JavaModelException{
 		addAnnotation(qualifiedName, compilationUnit, element, "");
 	}
 	
-	public static void addAnnotation(String qualifiedName, ICompilationUnit compilationUnit, IType element, String params) throws JavaModelException{
-		IAnnotation annotation = getAnnotation(element, qualifiedName);
+	public static void addAnnotation(String qualifiedName, ICompilationUnit compilationUnit, IMember element, String params) throws JavaModelException{
+		IMember workingCopyMember = findWorkingCopy(compilationUnit, element);
+		if(workingCopyMember == null)
+			return;
+		
+		IAnnotation annotation = getAnnotation(workingCopyMember, qualifiedName);
 		if(annotation != null && annotation.exists())
 			return;
 		
 		boolean duplicateShortName = addImport(qualifiedName, compilationUnit);
-		
-		String lineDelim = compilationUnit.findRecommendedLineSeparator();
 		
 		IBuffer buffer = compilationUnit.getBuffer();
 		String shortName = getShortName(qualifiedName);
@@ -177,7 +178,15 @@ public class MarkerResolutionUtils {
 		if(duplicateShortName)
 			shortName = qualifiedName;
 		
-		buffer.replace(element.getSourceRange().getOffset(), 0, AT+shortName+params+lineDelim);
+		String str = AT+shortName+params;
+		
+		if(workingCopyMember instanceof IType){
+			str += compilationUnit.findRecommendedLineSeparator();
+		}else{
+			str += SPACE;
+		}
+		
+		buffer.replace(workingCopyMember.getSourceRange().getOffset(), 0, str);
 		
 		synchronized(compilationUnit) {
 			compilationUnit.reconcile(ICompilationUnit.NO_AST, true, null, null);
@@ -358,7 +367,7 @@ public class MarkerResolutionUtils {
 			
 			for(ILocalVariable parameter : method.getParameters()){
 				if(parameter.getElementName().equals(paramName)){
-					return new SourceRange(parameter.getSourceRange().getOffset(), parameter.getSourceRange().getLength());
+					return parameter.getSourceRange();
 				}
 			}
 		}catch(JavaModelException ex){
@@ -367,7 +376,7 @@ public class MarkerResolutionUtils {
 		return null;
 	}
 	
-	public static void addQualifiersToInjectedPoint(IInjectionPoint injectionPoint, IBean bean){
+	public static void addQualifiersToInjectionPoint(IInjectionPoint injectionPoint, IBean bean){
 		try{
 			ICompilationUnit original = injectionPoint.getClassBean().getBeanClass().getCompilationUnit();
 			ICompilationUnit compilationUnit = original.getWorkingCopy(new NullProgressMonitor());
@@ -407,15 +416,12 @@ public class MarkerResolutionUtils {
 			ICompilationUnit original = EclipseUtil.getCompilationUnit(file);
 			ICompilationUnit compilationUnit = original.getWorkingCopy(new NullProgressMonitor());
 			
-			IType type = compilationUnit.findPrimaryType();
-			if(type != null){
-				for(IQualifier qualifier : deployed){
-					String qualifierName = qualifier.getSourceType().getFullyQualifiedName();
-					if(!qualifierName.equals(CDIConstants.ANY_QUALIFIER_TYPE_NAME) && !qualifierName.equals(CDIConstants.DEFAULT_QUALIFIER_TYPE_NAME)){
-						MarkerResolutionUtils.addAnnotation(qualifier.getSourceType().getFullyQualifiedName(), compilationUnit, type);
-					}
-					
+			for(IQualifier qualifier : deployed){
+				String qualifierName = qualifier.getSourceType().getFullyQualifiedName();
+				if(!qualifierName.equals(CDIConstants.ANY_QUALIFIER_TYPE_NAME) && !qualifierName.equals(CDIConstants.DEFAULT_QUALIFIER_TYPE_NAME)){
+					MarkerResolutionUtils.addAnnotation(qualifier.getSourceType().getFullyQualifiedName(), compilationUnit, bean.getBeanClass());
 				}
+				
 			}
 			
 			compilationUnit.commitWorkingCopy(false, new NullProgressMonitor());
@@ -485,20 +491,26 @@ public class MarkerResolutionUtils {
 		return null;
 	}
 	
-	public static IType findWorkingCopyType(ICompilationUnit compilationUnit, IType type) throws JavaModelException{
-		for(IType t : compilationUnit.getAllTypes()){
-			if(t.getFullyQualifiedName().equals(type.getFullyQualifiedName()))
-				return t;
+	@SuppressWarnings("unchecked")
+	public static <T extends IJavaElement> T findWorkingCopy(ICompilationUnit compilationUnit, T element) throws JavaModelException{
+		if(element instanceof IAnnotation){
+			IJavaElement parent = findWorkingCopy(compilationUnit, element.getParent());
+			if(parent instanceof IAnnotatable){
+				for(IAnnotation a : ((IAnnotatable)parent).getAnnotations()){
+					if(a.getElementName().equals(element.getElementName()))
+						return (T)a;
+				}
+			}
+		}else{
+			IJavaElement[] elements = compilationUnit.findElements(element);
+			if(elements != null){
+				for(IJavaElement e : elements){
+					if(e.getClass().equals(element.getClass()))
+						return (T)e;
+				}
+			}
 		}
 		return null;
 	}
 	
-	public static IAnnotation findWorkingCopyAnnotation(ICompilationUnit compilationUnit, IType type, IAnnotation annotation) throws JavaModelException{
-		IType workingCopyType = findWorkingCopyType(compilationUnit, type);
-		for(IAnnotation a : workingCopyType.getAnnotations()){
-			if(a.getElementName().equals(annotation.getElementName()))
-				return a;
-		}
-		return null;
-	}
 }

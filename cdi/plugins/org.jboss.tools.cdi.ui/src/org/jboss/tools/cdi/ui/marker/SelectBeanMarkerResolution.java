@@ -110,7 +110,7 @@ public class SelectBeanMarkerResolution implements IMarkerResolution2, TestableR
 				break;
 			}
 		}
-		MarkerResolutionUtils.addQualifiersToInjectedPoint(injectionPoint, selectedBean);
+		MarkerResolutionUtils.addQualifiersToInjectionPoint(injectionPoint, selectedBean);
 	}
 	
 	public String getDescription() {

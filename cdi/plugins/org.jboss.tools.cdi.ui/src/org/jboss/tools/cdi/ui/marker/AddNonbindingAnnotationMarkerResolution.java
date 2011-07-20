@@ -13,11 +13,8 @@ package org.jboss.tools.cdi.ui.marker;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.jdt.core.IAnnotation;
-import org.eclipse.jdt.core.IBuffer;
 import org.eclipse.jdt.core.ICompilationUnit;
-import org.eclipse.jdt.core.IType;
-import org.eclipse.jdt.core.JavaModelException;
+import org.eclipse.jdt.core.IMember;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.IMarkerResolution2;
@@ -25,20 +22,14 @@ import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
 import org.jboss.tools.cdi.ui.CDIUIPlugin;
 
-public class ChangeRetentionAnnotationMarkerResolution implements
+public class AddNonbindingAnnotationMarkerResolution implements
 		IMarkerResolution2 {
-	private String label=null;
-	private IType type;
-	private IAnnotation annotation;
+	private IMember member;
+	private String label;
 	
-	public ChangeRetentionAnnotationMarkerResolution(IType type, IAnnotation annotation){
-		this.type = type;
-		this.annotation = annotation;
-		try {
-			label = NLS.bind(CDIUIMessages.CHANGE_RETENTION_MARKER_RESOLUTION_TITLE, annotation.getSource());
-		} catch (JavaModelException e) {
-			CDIUIPlugin.getDefault().logError(e);
-		}
+	public AddNonbindingAnnotationMarkerResolution(IMember member){
+		this.member = member;
+		label = NLS.bind(CDIUIMessages.ADD_NONBINDING_MARKER_RESOLUTION_TITLE, member.getElementName());
 	}
 
 	public String getLabel() {
@@ -47,17 +38,10 @@ public class ChangeRetentionAnnotationMarkerResolution implements
 
 	public void run(IMarker marker) {
 		try{
-			ICompilationUnit original = type.getCompilationUnit();
+			ICompilationUnit original = member.getCompilationUnit();
 			ICompilationUnit compilationUnit = original.getWorkingCopy(new NullProgressMonitor());
 			
-			MarkerResolutionUtils.addImport(CDIConstants.RETENTION_POLICY_RUNTIME_TYPE_NAME, compilationUnit, true);
-			
-			IAnnotation workingCopyAnnotation = MarkerResolutionUtils.findWorkingCopy(compilationUnit, annotation);
-			
-			IBuffer buffer = compilationUnit.getBuffer();
-			String shortName = MarkerResolutionUtils.getShortName(CDIConstants.RETENTION_ANNOTATION_TYPE_NAME);
-			
-			buffer.replace(workingCopyAnnotation.getSourceRange().getOffset(), workingCopyAnnotation.getSourceRange().getLength(), MarkerResolutionUtils.AT+shortName+"(RUNTIME)");
+			MarkerResolutionUtils.addAnnotation(CDIConstants.NON_BINDING_ANNOTATION_TYPE_NAME, compilationUnit, member);
 			
 			compilationUnit.commitWorkingCopy(false, new NullProgressMonitor());
 			compilationUnit.discardWorkingCopy();
@@ -65,7 +49,7 @@ public class ChangeRetentionAnnotationMarkerResolution implements
 			CDIUIPlugin.getDefault().logError(ex);
 		}
 	}
-
+	
 	public String getDescription() {
 		return label;
 	}
