@@ -44,10 +44,7 @@ public class BeansXMLDefinition {
 			if(beansXML instanceof FileAnyImpl) {
 				FileAnyImpl f = (FileAnyImpl)beansXML;
 				if(f.getParent() instanceof FolderImpl) {
-					long b = ((FolderImpl)f.getParent()).waitForUpdate();
-					if(b > 0) {
-						System.out.println("wait=" + b);
-					}
+					((FolderImpl)f.getParent()).waitForUpdate(); // I am not sure that we need it, but let this call be here for the sake of testing.
 					((FolderImpl)f.getParent()).update();
 				}
 			}
