@@ -39,6 +39,12 @@ abstract public class CDIValidationErrorManager extends KBValidator {
 	public static final int MISSING_NONBINDING_FOR_ARRAY_VALUE_IN_QUALIFIER_TYPE_MEMBER_ID = 18;
 	public static final int MISSING_NONBINDING_FOR_ANNOTATION_VALUE_IN_INTERCEPTOR_BINDING_TYPE_MEMBER_ID = 19;
 	public static final int MISSING_NONBINDING_FOR_ARRAY_VALUE_IN_INTERCEPTOR_BINDING_TYPE_MEMBER_ID = 20;
+	public static final int PRODUCER_ANNOTATED_INJECT_ID = 21;
+	public static final int OBSERVER_ANNOTATED_INJECT_ID = 22;
+	public static final int DISPOSER_ANNOTATED_INJECT_ID = 23;
+	
+	public static final int CONSTRUCTOR_PARAMETER_ANNOTATED_OBSERVES_ID = 24;
+	public static final int CONSTRUCTOR_PARAMETER_ANNOTATED_DISPOSES_ID = 25;
 
 
 	/*

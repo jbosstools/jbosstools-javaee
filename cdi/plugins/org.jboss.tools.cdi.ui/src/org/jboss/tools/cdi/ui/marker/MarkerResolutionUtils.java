@@ -15,6 +15,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
@@ -25,6 +27,7 @@ import org.eclipse.jdt.core.IAnnotation;
 import org.eclipse.jdt.core.IBuffer;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IField;
+import org.eclipse.jdt.core.IImportContainer;
 import org.eclipse.jdt.core.IImportDeclaration;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.ILocalVariable;
@@ -157,14 +160,19 @@ public class MarkerResolutionUtils {
 		return false;
 	}
 	
-	public static void addAnnotation(String qualifiedName, ICompilationUnit compilationUnit, IMember element) throws JavaModelException{
+	public static void addAnnotation(String qualifiedName, ICompilationUnit compilationUnit, IJavaElement element) throws JavaModelException{
 		addAnnotation(qualifiedName, compilationUnit, element, "");
 	}
 	
-	public static void addAnnotation(String qualifiedName, ICompilationUnit compilationUnit, IMember element, String params) throws JavaModelException{
-		IMember workingCopyMember = findWorkingCopy(compilationUnit, element);
-		if(workingCopyMember == null)
+	public static void addAnnotation(String qualifiedName, ICompilationUnit compilationUnit, IJavaElement element, String params) throws JavaModelException{
+		IJavaElement workingCopyElement = findWorkingCopy(compilationUnit, element);
+		if(workingCopyElement == null)
 			return;
+		
+		if(!(workingCopyElement instanceof IMember))
+			return;
+		
+		IMember workingCopyMember = (IMember) workingCopyElement;
 		
 		IAnnotation annotation = getAnnotation(workingCopyMember, qualifiedName);
 		if(annotation != null && annotation.exists())
@@ -261,6 +269,8 @@ public class MarkerResolutionUtils {
 				member = (IMember)element;
 			}else if(element instanceof ITypeParameter){
 				member = ((ITypeParameter)element).getDeclaringMember();
+			}else if(element instanceof ILocalVariable){
+				member = ((ILocalVariable)element).getDeclaringMember();
 			}
 			if (member != null && annotation != null && qualifiedName.equals(EclipseJavaUtil.resolveType(member.getDeclaringType(), name))) {
 				return annotation;
@@ -501,6 +511,14 @@ public class MarkerResolutionUtils {
 						return (T)a;
 				}
 			}
+		}else if(element instanceof ILocalVariable && ((ILocalVariable) element).isParameter()){
+			IJavaElement parent = findWorkingCopy(compilationUnit, element.getParent());
+			if(parent instanceof IMethod){
+				for(ILocalVariable parameter : ((IMethod)parent).getParameters()){
+					if(parameter.getElementName().equals(element.getElementName()) && parameter.getTypeSignature().equals(((ILocalVariable)element).getTypeSignature()))
+						return (T)parameter;
+				}
+			}
 		}else{
 			IJavaElement[] elements = compilationUnit.findElements(element);
 			if(elements != null){
@@ -513,4 +531,56 @@ public class MarkerResolutionUtils {
 		return null;
 	}
 	
+	public static void deleteAnnotation(String qualifiedName, ICompilationUnit compilationUnit, IJavaElement element) throws JavaModelException{
+		IJavaElement workingCopyElement = findWorkingCopy(compilationUnit, element);
+		if(workingCopyElement == null)
+			return;
+		
+		IAnnotation annotation = getAnnotation(workingCopyElement, qualifiedName);
+		if(annotation != null){
+			IBuffer buffer = compilationUnit.getBuffer();
+			
+			int position = annotation.getSourceRange().getOffset() + annotation.getSourceRange().getLength();
+			int numberOfSpaces = 0;
+			if(position < buffer.getLength()-1){
+				char c = buffer.getChar(position);
+				while(c == ' ' && position < buffer.getLength()-1){
+					numberOfSpaces++;
+					position++;
+					c = buffer.getChar(position);
+				}
+			}
+			
+			// delete annotation
+			buffer.replace(annotation.getSourceRange().getOffset(), annotation.getSourceRange().getLength()+numberOfSpaces, "");
+			
+			// check and delete import
+			IImportDeclaration importDeclaration = compilationUnit.getImport(qualifiedName);
+			IImportContainer importContainer = compilationUnit.getImportContainer();
+			if(importDeclaration != null && importContainer != null){
+				int importSize = importContainer.getSourceRange().getOffset()+importContainer.getSourceRange().getLength();
+				String text = buffer.getText(importSize, buffer.getLength()-importSize);
+				if(checkImport(text, qualifiedName))
+					importDeclaration.delete(false, new NullProgressMonitor());
+			}
+		}
+	}
+	
+	private static boolean checkImport(String text, String qualifiedName){
+		String name = getShortName(qualifiedName);
+		
+		Pattern p = Pattern.compile(".*\\W"+name+"\\W.*",Pattern.DOTALL); //$NON-NLS-1$ //$NON-NLS-2$
+		Matcher m = p.matcher(text);
+		return !m.matches();
+	}
+	
+	public static IMember getJavaMember(IJavaElement element){
+		while(element != null){
+			if(element instanceof IMember)
+				return (IMember)element;
+			element = element.getParent();
+		}
+		return null;
+	}
+
 }

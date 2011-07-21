@@ -14,22 +14,40 @@ import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jdt.core.ICompilationUnit;
+import org.eclipse.jdt.core.IField;
+import org.eclipse.jdt.core.IJavaElement;
+import org.eclipse.jdt.core.ILocalVariable;
 import org.eclipse.jdt.core.IMember;
+import org.eclipse.jdt.core.IMethod;
+import org.eclipse.jdt.core.IType;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.IMarkerResolution2;
-import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
 import org.jboss.tools.cdi.ui.CDIUIPlugin;
 
-public class AddNonbindingAnnotationMarkerResolution implements
+public class DeleteAnnotationMarkerResolution implements
 		IMarkerResolution2 {
-	private IMember member;
+	private IJavaElement element;
+	private String qualifiedName;
 	private String label;
 	
-	public AddNonbindingAnnotationMarkerResolution(IMember member){
-		this.member = member;
-		label = NLS.bind(CDIUIMessages.ADD_NONBINDING_MARKER_RESOLUTION_TITLE, member.getElementName());
+	public DeleteAnnotationMarkerResolution(IJavaElement element, String qualifiedName){
+		this.element = element;
+		this.qualifiedName = qualifiedName;
+		String shortName = MarkerResolutionUtils.getShortName(qualifiedName);
+		String type = "";
+		if(element instanceof IType){
+			type = "class";
+		}else if(element instanceof IMethod){
+			type = "method";
+		}else if(element instanceof IField){
+			type = "field";
+		}else if(element instanceof ILocalVariable && ((ILocalVariable) element).isParameter()){
+			type = "parameter";
+		}
+			
+		label = NLS.bind(CDIUIMessages.DELETE_ANNOTATION_MARKER_RESOLUTION_TITLE, new String[]{shortName, element.getElementName(), type});
 	}
 
 	public String getLabel() {
@@ -38,10 +56,10 @@ public class AddNonbindingAnnotationMarkerResolution implements
 
 	public void run(IMarker marker) {
 		try{
-			ICompilationUnit original = member.getCompilationUnit();
+			ICompilationUnit original = MarkerResolutionUtils.getJavaMember(element).getCompilationUnit();
 			ICompilationUnit compilationUnit = original.getWorkingCopy(new NullProgressMonitor());
 			
-			MarkerResolutionUtils.addAnnotation(CDIConstants.NON_BINDING_ANNOTATION_TYPE_NAME, compilationUnit, member);
+			MarkerResolutionUtils.deleteAnnotation(qualifiedName, compilationUnit, element);
 			
 			compilationUnit.commitWorkingCopy(false, new NullProgressMonitor());
 			compilationUnit.discardWorkingCopy();

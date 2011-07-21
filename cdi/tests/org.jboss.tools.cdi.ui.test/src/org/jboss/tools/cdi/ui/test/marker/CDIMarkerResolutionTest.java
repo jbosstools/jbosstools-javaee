@@ -27,8 +27,8 @@ import org.eclipse.ui.ide.IDE;
 import org.jboss.tools.cdi.core.test.tck.validation.ValidationTest;
 import org.jboss.tools.cdi.internal.core.validation.CDICoreValidator;
 import org.jboss.tools.cdi.internal.core.validation.CDIValidationErrorManager;
+import org.jboss.tools.cdi.ui.marker.AddAnnotationMarkerResolution;
 import org.jboss.tools.cdi.ui.marker.AddLocalBeanMarkerResolution;
-import org.jboss.tools.cdi.ui.marker.AddNonbindingAnnotationMarkerResolution;
 import org.jboss.tools.cdi.ui.marker.AddRetentionAnnotationMarkerResolution;
 import org.jboss.tools.cdi.ui.marker.AddSerializableInterfaceMarkerResolution;
 import org.jboss.tools.cdi.ui.marker.AddTargetAnnotationMarkerResolution;
@@ -561,7 +561,7 @@ public class CDIMarkerResolutionTest  extends ValidationTest {
 				CDICoreValidator.PROBLEM_TYPE,
 				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
 				CDIValidationErrorManager.MISSING_NONBINDING_FOR_ANNOTATION_VALUE_IN_QUALIFIER_TYPE_MEMBER_ID,
-				AddNonbindingAnnotationMarkerResolution.class);
+				AddAnnotationMarkerResolution.class);
 	}
 
 	public void testAddNonbindingToArrayMemberOfQualifierResolution() throws CoreException{
@@ -575,7 +575,7 @@ public class CDIMarkerResolutionTest  extends ValidationTest {
 				CDICoreValidator.PROBLEM_TYPE,
 				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
 				CDIValidationErrorManager.MISSING_NONBINDING_FOR_ARRAY_VALUE_IN_QUALIFIER_TYPE_MEMBER_ID,
-				AddNonbindingAnnotationMarkerResolution.class);
+				AddAnnotationMarkerResolution.class);
 	}
 
 	public void testAddNonbindingToAnnotationMemberOfInterceptorResolution() throws CoreException{
@@ -589,7 +589,7 @@ public class CDIMarkerResolutionTest  extends ValidationTest {
 				CDICoreValidator.PROBLEM_TYPE,
 				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
 				CDIValidationErrorManager.MISSING_NONBINDING_FOR_ANNOTATION_VALUE_IN_INTERCEPTOR_BINDING_TYPE_MEMBER_ID,
-				AddNonbindingAnnotationMarkerResolution.class);
+				AddAnnotationMarkerResolution.class);
 	}
 
 	public void testAddNonbindingToArrayMemberOfInterceptorResolution() throws CoreException{
@@ -603,7 +603,7 @@ public class CDIMarkerResolutionTest  extends ValidationTest {
 				CDICoreValidator.PROBLEM_TYPE,
 				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
 				CDIValidationErrorManager.MISSING_NONBINDING_FOR_ARRAY_VALUE_IN_INTERCEPTOR_BINDING_TYPE_MEMBER_ID,
-				AddNonbindingAnnotationMarkerResolution.class);
+				AddAnnotationMarkerResolution.class);
 	}
 
 }

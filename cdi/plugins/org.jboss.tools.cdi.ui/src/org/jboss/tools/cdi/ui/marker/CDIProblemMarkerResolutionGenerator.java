@@ -24,6 +24,7 @@ import org.eclipse.jdt.core.IAnnotation;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IField;
 import org.eclipse.jdt.core.IJavaElement;
+import org.eclipse.jdt.core.ILocalVariable;
 import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IType;
@@ -267,7 +268,43 @@ public class CDIProblemMarkerResolutionGenerator implements
 					IAnnotation annotation = getAnnotation(element, CDIConstants.NON_BINDING_ANNOTATION_TYPE_NAME);
 					if(element instanceof IMember && annotation == null){
 						return new IMarkerResolution[] {
-							new AddNonbindingAnnotationMarkerResolution((IMember)element)
+							new AddAnnotationMarkerResolution((IMember)element, CDIConstants.NON_BINDING_ANNOTATION_TYPE_NAME)
+						};
+					}
+				}
+			}else if(messageId == CDIValidationErrorManager.DISPOSER_ANNOTATED_INJECT_ID){
+				IJavaElement element = findJavaElement(file, start);
+				if(element != null){
+					IJavaElement injectElement = findJavaElementByAnnotation(element, CDIConstants.INJECT_ANNOTATION_TYPE_NAME);
+					IJavaElement disposesElement = findJavaElementByAnnotation(element, CDIConstants.DISPOSES_ANNOTATION_TYPE_NAME);
+					if(injectElement != null && disposesElement != null){
+						return new IMarkerResolution[] {
+							new DeleteAnnotationMarkerResolution(injectElement, CDIConstants.INJECT_ANNOTATION_TYPE_NAME),
+							new DeleteAnnotationMarkerResolution(disposesElement, CDIConstants.DISPOSES_ANNOTATION_TYPE_NAME)
+						};
+					}
+				}
+			}else if(messageId == CDIValidationErrorManager.PRODUCER_ANNOTATED_INJECT_ID){
+				IJavaElement element = findJavaElement(file, start);
+				if(element != null){
+					IJavaElement injectElement = findJavaElementByAnnotation(element, CDIConstants.INJECT_ANNOTATION_TYPE_NAME);
+					IJavaElement produsesElement = findJavaElementByAnnotation(element, CDIConstants.PRODUCES_ANNOTATION_TYPE_NAME);
+					if(injectElement != null && produsesElement != null){
+						return new IMarkerResolution[] {
+							new DeleteAnnotationMarkerResolution(injectElement, CDIConstants.INJECT_ANNOTATION_TYPE_NAME),
+							new DeleteAnnotationMarkerResolution(produsesElement, CDIConstants.PRODUCES_ANNOTATION_TYPE_NAME)
+						};
+					}
+				}
+			}else if(messageId == CDIValidationErrorManager.OBSERVER_ANNOTATED_INJECT_ID){
+				IJavaElement element = findJavaElement(file, start);
+				if(element != null){
+					IJavaElement injectElement = findJavaElementByAnnotation(element, CDIConstants.INJECT_ANNOTATION_TYPE_NAME);
+					IJavaElement observerElement = findJavaElementByAnnotation(element, CDIConstants.OBSERVERS_ANNOTATION_TYPE_NAME);
+					if(injectElement != null && observerElement != null){
+						return new IMarkerResolution[] {
+							new DeleteAnnotationMarkerResolution(injectElement, CDIConstants.INJECT_ANNOTATION_TYPE_NAME),
+							new DeleteAnnotationMarkerResolution(observerElement, CDIConstants.OBSERVERS_ANNOTATION_TYPE_NAME)
 						};
 					}
 				}
@@ -497,6 +534,28 @@ public class CDIProblemMarkerResolutionGenerator implements
 				}
 			} catch (JavaModelException e) {
 				CDIUIPlugin.getDefault().logError(e);
+			}
+		}
+		return null;
+	}
+	
+	private IJavaElement findJavaElementByAnnotation(IJavaElement element, String qualifiedName) throws JavaModelException{
+		IAnnotation annotation = getAnnotation(element, qualifiedName);
+		if(annotation != null)
+			return element;
+		
+		if(element instanceof IMethod){
+			for(ILocalVariable parameter : ((IMethod)element).getParameters()){
+				annotation = getAnnotation(parameter, qualifiedName);
+				if(annotation != null)
+					return parameter;
+			}
+		}else if(element instanceof ILocalVariable){
+			IJavaElement parent = element.getParent();
+			if(parent != null){
+				annotation = getAnnotation(parent, qualifiedName);
+				if(annotation != null)
+					return parent;
 			}
 		}
 		return null;

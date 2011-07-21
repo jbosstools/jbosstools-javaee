@@ -927,9 +927,10 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 				if (injectDeclaration != null) {
 					String pref = observer.getMethod().isConstructor()?CDIPreferences.CONSTRUCTOR_PARAMETER_ILLEGALLY_ANNOTATED:CDIPreferences.OBSERVER_ANNOTATED_INJECT;
 					String message = observer.getMethod().isConstructor()?CDIValidationMessages.CONSTRUCTOR_PARAMETER_ANNOTATED_OBSERVES:CDIValidationMessages.OBSERVER_ANNOTATED_INJECT;
-					addError(message, pref, injectDeclaration, bean.getResource());
+					int messageId = observer.getMethod().isConstructor()?CONSTRUCTOR_PARAMETER_ANNOTATED_OBSERVES_ID:OBSERVER_ANNOTATED_INJECT_ID;
+					addError(message, pref, injectDeclaration, bean.getResource(), messageId);
 					for (ITextSourceReference declaration : declarations) {
-						addError(message, pref, declaration, bean.getResource());
+						addError(message, pref, declaration, bean.getResource(), messageId);
 					}
 				}
 			} catch (JavaModelException e) {
@@ -1039,9 +1040,10 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 				if (injectDeclaration != null) {
 					String pref = disposer.getMethod().isConstructor()?CDIPreferences.CONSTRUCTOR_PARAMETER_ILLEGALLY_ANNOTATED:CDIPreferences.DISPOSER_ANNOTATED_INJECT;
 					String message = disposer.getMethod().isConstructor()?CDIValidationMessages.CONSTRUCTOR_PARAMETER_ANNOTATED_DISPOSES:CDIValidationMessages.DISPOSER_ANNOTATED_INJECT;
-					addError(message, pref, injectDeclaration, bean.getResource());
+					int messageId = disposer.getMethod().isConstructor()?CONSTRUCTOR_PARAMETER_ANNOTATED_DISPOSES_ID:DISPOSER_ANNOTATED_INJECT_ID;
+					addError(message, pref, injectDeclaration, bean.getResource(), messageId);
 					for (ITextSourceReference declaration : disposerDeclarations) {
-						addError(message, pref, declaration, bean.getResource());
+						addError(message, pref, declaration, bean.getResource(), messageId);
 					}
 				}
 			} catch (JavaModelException e) {
@@ -1185,7 +1187,7 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 			 */
 			IAnnotationDeclaration inject = producer.getAnnotation(CDIConstants.INJECT_ANNOTATION_TYPE_NAME);
 			if (inject != null) {
-				addError(CDIValidationMessages.PRODUCER_ANNOTATED_INJECT, CDIPreferences.PRODUCER_ANNOTATED_INJECT, inject, inject.getResource() != null ? inject.getResource() : producer.getResource());
+				addError(CDIValidationMessages.PRODUCER_ANNOTATED_INJECT, CDIPreferences.PRODUCER_ANNOTATED_INJECT, inject, inject.getResource() != null ? inject.getResource() : producer.getResource(), PRODUCER_ANNOTATED_INJECT_ID);
 			}
 
 			if (producer instanceof IProducerField) {
