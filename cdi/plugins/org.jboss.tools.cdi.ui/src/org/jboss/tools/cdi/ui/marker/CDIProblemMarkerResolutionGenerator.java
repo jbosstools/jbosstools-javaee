@@ -19,6 +19,7 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.Flags;
+import org.eclipse.jdt.core.IAnnotatable;
 import org.eclipse.jdt.core.IAnnotation;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IField;
@@ -262,10 +263,13 @@ public class CDIProblemMarkerResolutionGenerator implements
 					messageId == CDIValidationErrorManager.MISSING_NONBINDING_FOR_ARRAY_VALUE_IN_INTERCEPTOR_BINDING_TYPE_MEMBER_ID ||
 					messageId == CDIValidationErrorManager.MISSING_NONBINDING_FOR_ARRAY_VALUE_IN_QUALIFIER_TYPE_MEMBER_ID){
 				IJavaElement element = findJavaElement(file, start);
-				if(element instanceof IMember){
-					return new IMarkerResolution[] {
-						new AddNonbindingAnnotationMarkerResolution((IMember)element)
-					};
+				if(element != null){
+					IAnnotation annotation = getAnnotation(element, CDIConstants.NON_BINDING_ANNOTATION_TYPE_NAME);
+					if(element instanceof IMember && annotation == null){
+						return new IMarkerResolution[] {
+							new AddNonbindingAnnotationMarkerResolution((IMember)element)
+						};
+					}
 				}
 			}
 		}
@@ -386,13 +390,9 @@ public class CDIProblemMarkerResolutionGenerator implements
 		if(javaElement != null && javaElement instanceof IType){
 			IType type = (IType)javaElement;
 			if(!type.isBinary()){
-				String shortName = MarkerResolutionUtils.getShortName(annotationQualifiedName);
-				IAnnotation[] annotations = type.getAnnotations();
-				for(IAnnotation annotation : annotations){
-					if(annotation.getElementName().equals(annotationQualifiedName) ||
-							annotation.getElementName().equals(shortName))
-						return new TypeAndAnnotation(type, annotation);
-						
+				IAnnotation annotation = getAnnotation(type, annotationQualifiedName);
+				if(annotation != null){
+					return new TypeAndAnnotation(type, annotation);
 				}
 				return new TypeAndAnnotation(type);
 			}
@@ -481,6 +481,25 @@ public class CDIProblemMarkerResolutionGenerator implements
 			CDIUIPlugin.getDefault().logError(ex);
 		}
 		return false;
+	}
+	
+	private IAnnotation getAnnotation(IJavaElement element, String annotationQualifiedName){
+		if(element instanceof IAnnotatable){
+			String shortName = MarkerResolutionUtils.getShortName(annotationQualifiedName);
+			IAnnotation[] annotations;
+			try {
+				annotations = ((IAnnotatable)element).getAnnotations();
+				for(IAnnotation annotation : annotations){
+					if(annotation.getElementName().equals(annotationQualifiedName) ||
+							annotation.getElementName().equals(shortName))
+						return annotation;
+						
+				}
+			} catch (JavaModelException e) {
+				CDIUIPlugin.getDefault().logError(e);
+			}
+		}
+		return null;
 	}
 	
 }
