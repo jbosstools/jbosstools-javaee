@@ -36,6 +36,7 @@ import org.jboss.tools.cdi.ui.marker.ChangeRetentionAnnotationMarkerResolution;
 import org.jboss.tools.cdi.ui.marker.ChangeTargetAnnotationMarkerResolution;
 import org.jboss.tools.cdi.ui.marker.DeleteAllDisposerDuplicantMarkerResolution;
 import org.jboss.tools.cdi.ui.marker.DeleteAllInjectedConstructorsMarkerResolution;
+import org.jboss.tools.cdi.ui.marker.DeleteAnnotationMarkerResolution;
 import org.jboss.tools.cdi.ui.marker.MakeFieldStaticMarkerResolution;
 import org.jboss.tools.cdi.ui.marker.MakeMethodBusinessMarkerResolution;
 import org.jboss.tools.cdi.ui.marker.MakeMethodPublicMarkerResolution;
@@ -604,6 +605,50 @@ public class CDIMarkerResolutionTest  extends ValidationTest {
 				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
 				CDIValidationErrorManager.MISSING_NONBINDING_FOR_ARRAY_VALUE_IN_INTERCEPTOR_BINDING_TYPE_MEMBER_ID,
 				AddAnnotationMarkerResolution.class);
+	}
+
+	public void testDeleteInjectFromProducerFieldResolution() throws CoreException{
+		checkResolution(tckProject,
+				new String[]{
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TestInjectProducerField.java"
+				},
+				CDICoreValidator.PROBLEM_TYPE,
+				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
+				CDIValidationErrorManager.PRODUCER_ANNOTATED_INJECT_ID,
+				DeleteAnnotationMarkerResolution.class);
+	}
+
+	public void testDeleteInjectFromProducerMethodResolution() throws CoreException{
+		checkResolution(tckProject,
+				new String[]{
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TestInjectProducerMethod.java"
+				},
+				CDICoreValidator.PROBLEM_TYPE,
+				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
+				CDIValidationErrorManager.PRODUCER_ANNOTATED_INJECT_ID,
+				DeleteAnnotationMarkerResolution.class);
+	}
+
+	public void testDeleteInjectFromObserverMethodResolution() throws CoreException{
+		checkResolution(tckProject,
+				new String[]{
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TestInjectObserverMethod.java"
+				},
+				CDICoreValidator.PROBLEM_TYPE,
+				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
+				CDIValidationErrorManager.OBSERVER_ANNOTATED_INJECT_ID,
+				DeleteAnnotationMarkerResolution.class);
+	}
+
+	public void testDeleteInjectFromDisposerMethodResolution() throws CoreException{
+		checkResolution(tckProject,
+				new String[]{
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TestInjectDisposerMethod.java"
+				},
+				CDICoreValidator.PROBLEM_TYPE,
+				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
+				CDIValidationErrorManager.DISPOSER_ANNOTATED_INJECT_ID,
+				DeleteAnnotationMarkerResolution.class);
 	}
 
 }
