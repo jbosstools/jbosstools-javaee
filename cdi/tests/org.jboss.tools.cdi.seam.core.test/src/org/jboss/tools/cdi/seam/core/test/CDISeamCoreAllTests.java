@@ -19,6 +19,7 @@ import org.eclipse.jdt.internal.core.JavaModelManager;
  * @author Alexey Kazakov
  */
 public class CDISeamCoreAllTests {
+	protected static String PLUGIN_ID = "org.jboss.tools.cdi.seam.core.test";
 
 	public static Test suite() {
 		JavaModelManager.getIndexManager().disable();
