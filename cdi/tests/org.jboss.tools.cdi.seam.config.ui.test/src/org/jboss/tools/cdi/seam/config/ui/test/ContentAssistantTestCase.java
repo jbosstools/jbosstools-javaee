@@ -12,6 +12,7 @@
 package org.jboss.tools.cdi.seam.config.ui.test;
 
 import org.eclipse.jface.text.contentassist.ICompletionProposal;
+import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.wst.sse.ui.StructuredTextEditor;
@@ -34,6 +35,10 @@ public class ContentAssistantTestCase extends AbstractContentAssistantTestCase {
 		
 		// clean deffered events 
 		while (Display.getCurrent().readAndDispatch());
+	}
+
+	protected ISourceViewer getTextViewer() {
+		return ((StructuredTextEditor)textEditor).getTextViewer();
 	}
 
 	protected boolean isRelevantProposal(ICompletionProposal proposal) {
