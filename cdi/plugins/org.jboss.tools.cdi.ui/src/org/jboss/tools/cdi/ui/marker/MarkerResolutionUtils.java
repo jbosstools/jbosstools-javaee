@@ -264,15 +264,17 @@ public class MarkerResolutionUtils {
 			if (annotation == null || !annotation.exists()) {
 				annotation = ((IAnnotatable)element).getAnnotation(name);
 			}
-			IMember member=null;
-			if(element instanceof IMember){
-				member = (IMember)element;
+			IType type=null;
+			if(element instanceof IType){
+				type = (IType)element;
+			}else if(element instanceof IMember){
+				type = ((IMember)element).getDeclaringType();
 			}else if(element instanceof ITypeParameter){
-				member = ((ITypeParameter)element).getDeclaringMember();
+				type = ((ITypeParameter)element).getDeclaringMember().getDeclaringType();
 			}else if(element instanceof ILocalVariable){
-				member = ((ILocalVariable)element).getDeclaringMember();
+				type = ((ILocalVariable)element).getDeclaringMember().getDeclaringType();
 			}
-			if (member != null && annotation != null && qualifiedName.equals(EclipseJavaUtil.resolveType(member.getDeclaringType(), name))) {
+			if (type != null && annotation != null && qualifiedName.equals(EclipseJavaUtil.resolveType(type, name))) {
 				return annotation;
 			}
 		}

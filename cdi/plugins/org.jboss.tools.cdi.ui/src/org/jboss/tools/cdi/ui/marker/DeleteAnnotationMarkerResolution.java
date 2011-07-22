@@ -44,7 +44,7 @@ public class DeleteAnnotationMarkerResolution implements
 		}else if(element instanceof IField){
 			type = "field";
 		}else if(element instanceof ILocalVariable && ((ILocalVariable) element).isParameter()){
-			type = "parameter";
+			type = "parameter of '"+element.getParent().getElementName()+"' method";
 		}
 			
 		label = NLS.bind(CDIUIMessages.DELETE_ANNOTATION_MARKER_RESOLUTION_TITLE, new String[]{shortName, element.getElementName(), type});

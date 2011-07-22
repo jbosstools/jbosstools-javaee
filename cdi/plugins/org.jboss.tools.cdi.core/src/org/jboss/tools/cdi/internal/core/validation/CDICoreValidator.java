@@ -1069,9 +1069,9 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 					decoratorDeclaration = decorator.getNameLocation();
 				}
 				addError(CDIValidationMessages.DISPOSER_IN_DECORATOR, CDIPreferences.DISPOSER_IN_INTERCEPTOR_OR_DECORATOR, decoratorDeclaration, bean
-						.getResource());
+						.getResource(), DISPOSER_IN_DECORATOR_ID);
 				for (ITextSourceReference declaration : disposerDeclarations) {
-					addError(CDIValidationMessages.DISPOSER_IN_DECORATOR, CDIPreferences.DISPOSER_IN_INTERCEPTOR_OR_DECORATOR, declaration, bean.getResource());
+					addError(CDIValidationMessages.DISPOSER_IN_DECORATOR, CDIPreferences.DISPOSER_IN_INTERCEPTOR_OR_DECORATOR, declaration, bean.getResource(), DISPOSER_IN_DECORATOR_ID);
 				}
 			}
 
@@ -1087,10 +1087,10 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 					interceptorDeclaration = interceptor.getNameLocation();
 				}
 				addError(CDIValidationMessages.DISPOSER_IN_INTERCEPTOR, CDIPreferences.DISPOSER_IN_INTERCEPTOR_OR_DECORATOR, interceptorDeclaration, bean
-						.getResource());
+						.getResource(), DISPOSER_IN_INTERCEPTOR_ID);
 				for (ITextSourceReference declaration : disposerDeclarations) {
 					addError(CDIValidationMessages.DISPOSER_IN_INTERCEPTOR, CDIPreferences.DISPOSER_IN_INTERCEPTOR_OR_DECORATOR, declaration, bean
-							.getResource());
+							.getResource(), DISPOSER_IN_INTERCEPTOR_ID);
 				}
 			}
 
@@ -1926,7 +1926,7 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 		 */
 		Set<IProducer> producers = interceptor.getProducers();
 		for (IProducer producer : producers) {
-			addError(CDIValidationMessages.PRODUCER_IN_INTERCEPTOR, CDIPreferences.PRODUCER_IN_INTERCEPTOR_OR_DECORATOR, producer.getProducesAnnotation(), interceptor.getResource());
+			addError(CDIValidationMessages.PRODUCER_IN_INTERCEPTOR, CDIPreferences.PRODUCER_IN_INTERCEPTOR_OR_DECORATOR, producer.getProducesAnnotation(), interceptor.getResource(), PRODUCER_IN_INTERCEPTOR_ID);
 		}
 		/*
 		 * 9.2. Declaring the interceptor bindings of an interceptor
@@ -2014,7 +2014,7 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 		 */
 		Set<IProducer> producers = decorator.getProducers();
 		for (IProducer producer : producers) {
-			addError(CDIValidationMessages.PRODUCER_IN_DECORATOR, CDIPreferences.PRODUCER_IN_INTERCEPTOR_OR_DECORATOR, producer.getProducesAnnotation(), decorator.getResource());
+			addError(CDIValidationMessages.PRODUCER_IN_DECORATOR, CDIPreferences.PRODUCER_IN_INTERCEPTOR_OR_DECORATOR, producer.getProducesAnnotation(), decorator.getResource(), PRODUCER_IN_DECORATOR_ID);
 		}
 
 		Set<IInjectionPoint> injections = decorator.getInjectionPoints();

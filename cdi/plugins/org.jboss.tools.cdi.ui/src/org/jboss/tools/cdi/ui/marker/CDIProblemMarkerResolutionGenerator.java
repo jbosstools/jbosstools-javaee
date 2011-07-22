@@ -328,6 +328,30 @@ public class CDIProblemMarkerResolutionGenerator implements
 						};
 					}
 				}
+			}else if(messageId == CDIValidationErrorManager.DISPOSER_IN_INTERCEPTOR_ID){
+				IJavaElement element = findJavaElement(file, start);
+				if(element != null){
+					IJavaElement disposerElement = findJavaElementByAnnotation(element, CDIConstants.DISPOSES_ANNOTATION_TYPE_NAME);
+					IJavaElement interceptorElement = findJavaElementByAnnotation(element, CDIConstants.INTERCEPTOR_ANNOTATION_TYPE_NAME);
+					if(disposerElement != null && interceptorElement != null){
+						return new IMarkerResolution[] {
+							new DeleteAnnotationMarkerResolution(disposerElement, CDIConstants.DISPOSES_ANNOTATION_TYPE_NAME),
+							new DeleteAnnotationMarkerResolution(interceptorElement, CDIConstants.INTERCEPTOR_ANNOTATION_TYPE_NAME)
+						};
+					}
+				}
+			}else if(messageId == CDIValidationErrorManager.DISPOSER_IN_DECORATOR_ID){
+				IJavaElement element = findJavaElement(file, start);
+				if(element != null){
+					IJavaElement disposerElement = findJavaElementByAnnotation(element, CDIConstants.DISPOSES_ANNOTATION_TYPE_NAME);
+					IJavaElement decoratorElement = findJavaElementByAnnotation(element, CDIConstants.DECORATOR_TYPE_NAME);
+					if(disposerElement != null && decoratorElement != null){
+						return new IMarkerResolution[] {
+							new DeleteAnnotationMarkerResolution(disposerElement, CDIConstants.DISPOSES_ANNOTATION_TYPE_NAME),
+							new DeleteAnnotationMarkerResolution(decoratorElement, CDIConstants.DECORATOR_TYPE_NAME)
+						};
+					}
+				}
 			}
 		}
 		return new IMarkerResolution[] {};
@@ -577,7 +601,31 @@ public class CDIProblemMarkerResolutionGenerator implements
 				if(annotation != null)
 					return parent;
 			}
+		}else if(element instanceof IType){
+			for(IField field : ((IType)element).getFields()){
+				annotation = getAnnotation(field, qualifiedName);
+				if(annotation != null)
+					return field;
+			}
+			
+			for(IMethod method : ((IType)element).getMethods()){
+				annotation = getAnnotation(method, qualifiedName);
+				if(annotation != null)
+					return method;
+				for(ILocalVariable parameter : method.getParameters()){
+					annotation = getAnnotation(parameter, qualifiedName);
+					if(annotation != null)
+						return parameter;
+				}
+			}
 		}
+		
+		if(element instanceof IMember){
+			annotation = getAnnotation(((IMember)element).getDeclaringType(), qualifiedName);
+			if(annotation != null)
+				return ((IMember)element).getDeclaringType();
+		}
+		
 		return null;
 	}
 	

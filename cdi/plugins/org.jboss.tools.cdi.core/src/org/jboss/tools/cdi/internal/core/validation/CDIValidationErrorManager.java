@@ -42,9 +42,12 @@ abstract public class CDIValidationErrorManager extends KBValidator {
 	public static final int PRODUCER_ANNOTATED_INJECT_ID = 21;
 	public static final int OBSERVER_ANNOTATED_INJECT_ID = 22;
 	public static final int DISPOSER_ANNOTATED_INJECT_ID = 23;
-	
 	public static final int CONSTRUCTOR_PARAMETER_ANNOTATED_OBSERVES_ID = 24;
 	public static final int CONSTRUCTOR_PARAMETER_ANNOTATED_DISPOSES_ID = 25;
+	public static final int PRODUCER_IN_INTERCEPTOR_ID = 26;
+	public static final int PRODUCER_IN_DECORATOR_ID = 27;
+	public static final int DISPOSER_IN_INTERCEPTOR_ID = 28;
+	public static final int DISPOSER_IN_DECORATOR_ID = 29;
 
 
 	/*
