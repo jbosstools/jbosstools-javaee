@@ -581,24 +581,15 @@ public class MultipleHyperlinkPresenter  extends DefaultHyperlinkPresenter {
 		 * @see org.eclipse.jface.text.AbstractInformationControlManager#computeInformationControlLocation(org.eclipse.swt.graphics.Rectangle, org.eclipse.swt.graphics.Point)
 		 */
 		protected Point computeInformationControlLocation(Rectangle subjectArea, Point controlSize) {
-			Point result= super.computeInformationControlLocation(subjectArea, controlSize);
-
-			Point cursorLocation= fTextViewer.getTextWidget().getDisplay().getCursorLocation();
-			if (cursorLocation.x <= result.x + controlSize.x)
-				return result;
-
-			result.x= cursorLocation.x + 20 - controlSize.x;
-			return result;
+			Point point = Display.getCurrent().getCursorLocation();
+			Point location = new Point(point.x-20, point.y-20);
+			return location;
 		}
 
 		/*
 		 * @see org.eclipse.jface.text.AbstractInformationControlManager#showInformationControl(org.eclipse.swt.graphics.Rectangle)
 		 */
 		protected void showInformationControl(Rectangle subjectArea) {
-			Point point = Display.getCurrent().getCursorLocation();
-			Point location = new Point(point.x-20, point.y-20);
-			fInformationControl.setLocation(location);
-			
 			if (fTextViewer instanceof IWidgetTokenOwnerExtension) {
 				if (((IWidgetTokenOwnerExtension) fTextViewer).requestWidgetToken(this, WIDGET_TOKEN_PRIORITY))
 					super.showInformationControl(subjectArea);
