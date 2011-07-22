@@ -55,7 +55,6 @@ import org.jboss.tools.common.el.core.resolver.TypeInfoCollector.MemberInfo;
 import org.jboss.tools.common.model.XModel;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.filesystems.FileSystemsHelper;
-import org.jboss.tools.common.model.project.IModelNature;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.text.TextProposal;
 import org.jboss.tools.common.util.FileUtil;
@@ -490,11 +489,9 @@ public class CDIInternationalMessagesELResolver extends AbstractELCompletionEngi
 			return;
 		for(Variable variable : variables){
 			if(expr.getFirstToken().getText().equals(variable.name)){
-				IModelNature n = EclipseResourceUtil.getModelNature(variable.f.getProject());
-
-				XModel model = n == null ? null : n.getModel();
-				if(model == null)
-					return;
+				XModelObject modelObject = EclipseResourceUtil.createObjectForResource(variable.f.getProject());
+				XModel model = modelObject == null ? null : modelObject.getModel();
+				if(model == null) return;
 				
 				XModelObject[] properties = keyHelper.findBundles(model, variable.basename, null);
 				if(properties == null)
@@ -511,13 +508,9 @@ public class CDIInternationalMessagesELResolver extends AbstractELCompletionEngi
 			return;
 		for(Variable variable : variables){
 			if(expr.getFirstToken().getText().equals(variable.name)){
-				
-				IModelNature n = EclipseResourceUtil.getModelNature(variable.f.getProject());
-				if(n == null)
-					return;
-				XModel model = n.getModel();
-				if(model == null)
-					return;
+				XModelObject modelObject = EclipseResourceUtil.createObjectForResource(variable.f.getProject());
+				XModel model = modelObject == null ? null : modelObject.getModel();
+				if(model == null) return;
 
 				XModelObject[] properties = keyHelper.findBundles(model, variable.basename, null);
 				if(properties == null)
@@ -622,9 +615,10 @@ public class CDIInternationalMessagesELResolver extends AbstractELCompletionEngi
 
 		public Collection<String> getKeys() {
 			TreeSet<String> result = new TreeSet<String>();
-			IModelNature n = EclipseResourceUtil.getModelNature(f.getProject());
-			if(n == null) return result;
-			XModel model = n.getModel();
+			
+			XModelObject modelObject = EclipseResourceUtil.createObjectForResource(f.getProject());
+			XModel model = modelObject == null ? null : modelObject.getModel();
+			if(model == null) return result;
 
 			List<Object> l = keyHelper.getBundleProperties(model, basename);
 			if (l == null) return result;
@@ -716,12 +710,42 @@ public class CDIInternationalMessagesELResolver extends AbstractELCompletionEngi
 			return result.values().toArray(new IResourceBundle[0]);
 		}
 
+		/**
+		 * The method returns bundles of all the existing locales for specified bundle name
+		 * 
+		 * @param model
+		 * @param bundle
+		 * @param locale
+		 * @return
+		 */
 		public XModelObject[] findBundles(XModel model, String bundle, String locale) {
 			ArrayList<XModelObject> l = new ArrayList<XModelObject>();
+			
+			String parentPath = bundle.replace('.', '/');
+			String bundleName = parentPath.substring(parentPath.lastIndexOf('/') + 1);
+			if (parentPath != null) parentPath = parentPath.substring(0, parentPath.lastIndexOf('/'));
+			XModelObject parentObject = model.getByPath(parentPath);
+			if (parentObject != null) {
+				for (XModelObject o : parentObject.getChildren()) {
+					String name = o.getPathPart(); 
+					if (name != null && name.toLowerCase().endsWith(".properties") && 
+							name.startsWith(bundleName) &&
+							(name.equalsIgnoreCase(bundleName + ".properties") ||
+									name.startsWith(bundleName + '_'))) {
+						l.add(o);
+					}
+				}
+			}
+			/* The following is commented because:
+			 * - we decided to show properties defined in any locale
+			 * - Seam3 International module has its own locate API which is probably to be supported
+			 *   
+			
 			if(locale == null || locale.length() == 0) locale = getDeafultLocale(model);
 			while(locale != null && locale.length() > 0) {
 				String path = bundle.replace('.', '/') + "_" + locale + ".properties"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 				XModelObject o = model.getByPath(path);
+				model.getByPath(path.substring(0,  path.lastIndexOf('/')));
 				if(o != null) l.add(o);
 				int i = locale.lastIndexOf('_');
 				if(i < 0) break;
@@ -730,6 +754,7 @@ public class CDIInternationalMessagesELResolver extends AbstractELCompletionEngi
 			String path = bundle.replace('.', '/') + ".properties"; //$NON-NLS-1$ //$NON-NLS-2$
 			XModelObject o = model.getByPath(path);
 			if(o != null) l.add(o);
+			*/
 			return l.toArray(new XModelObject[0]);
 		}
 
