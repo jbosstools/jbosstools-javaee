@@ -146,5 +146,28 @@ public class OpenOnTest extends JSFAutoTestCase{
     openedEditor.close();
 
   }
+  
+  /**
+   * Test Open On functionality for Composite Component
+   */
+  public void testOpenOnForCompositeComponent() {
+    eclipse.closeAllEditors();
+    openPage(JSF2_TEST_PAGE,JSF2_TEST_PROJECT_NAME);
+    // Check open on for <ez:input
+    String expectedOpenedFileName = "input.xhtml";
+    SWTBotEditor compositeComponentEditor = OpenOnHelper.checkOpenOnFileIsOpened(
+        SWTTestExt.bot, JSF2_TEST_PAGE, "<ez:input ", 5,
+        0, 0, expectedOpenedFileName);
+    // Check open on for cc.attrs.submitlabel
+    compositeComponentEditor = OpenOnHelper.checkOpenOnFileIsOpened(
+        SWTTestExt.bot, expectedOpenedFileName, "value=\"#{cc.attrs.submitlabel}\"", 20,
+        0, 0, expectedOpenedFileName);
+    String selectedText = compositeComponentEditor.toTextEditor().getSelection();
+    String expectedSelectedText = "<composite:attribute name=\"submitlabel\"/>";
+    assertTrue("Selected text in editor has to be " + expectedSelectedText
+        + " but it is " + selectedText,
+        selectedText.equalsIgnoreCase(expectedSelectedText));
+    compositeComponentEditor.close();
+  }
 
 }

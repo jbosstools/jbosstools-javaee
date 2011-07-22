@@ -10,13 +10,17 @@
  ******************************************************************************/
 package org.jboss.tools.jsf.ui.bot.test.smoke;
 
+import java.awt.event.KeyEvent;
 import java.util.LinkedList;
 import java.util.List;
 
 import org.jboss.tools.jsf.ui.bot.test.JSFAutoTestCase;
 import org.jboss.tools.ui.bot.ext.SWTJBTExt;
 import org.jboss.tools.ui.bot.ext.SWTTestExt;
+import org.jboss.tools.ui.bot.ext.Timing;
 import org.jboss.tools.ui.bot.ext.helper.ContentAssistHelper;
+import org.jboss.tools.ui.bot.ext.helper.KeyboardHelper;
+import org.jboss.tools.ui.bot.ext.helper.OpenOnHelper;
 import org.jboss.tools.ui.bot.ext.parts.ContentAssistBot;
 import org.jboss.tools.ui.bot.ext.parts.SWTBotEditorExt;
 /** * Test Code Completion functionality of JSF components within xhtml page
@@ -25,12 +29,16 @@ import org.jboss.tools.ui.bot.ext.parts.SWTBotEditorExt;
  */
 public class CodeCompletionTest extends JSFAutoTestCase{
   private SWTBotEditorExt editor;
+  private SWTBotEditorExt compositeComponentDefEditor;
+  private SWTBotEditorExt compositeComponentContainerEditor;
   private String originalEditorText;
+  private String compositeComponentDefEditorText;
+  private String origCompositeComponentContainerEditorText;
   /**
    * Test Code Completion functionality for managed bean
    */
   public void testCodeCompletionOfManagedBean(){
-   
+    initFaceletsPageTest();
     String textForSelection = "value=\"#{person.name}\"";
     List<String> expectedProposals = new LinkedList<String>();
     expectedProposals.add("msg");
@@ -56,7 +64,7 @@ public class CodeCompletionTest extends JSFAutoTestCase{
    * Test Code Completion functionality for resource
    */
   public void testCodeCompletionOfResource(){
-   
+    initFaceletsPageTest();
     ContentAssistBot contentAssist = editor.contentAssist();
     String textForSelection = "${msg.prompt}";
     // Check content assist for ${ prefix
@@ -82,7 +90,7 @@ public class CodeCompletionTest extends JSFAutoTestCase{
    * Test Code Completion functionality of <input> tag attributes within xhtml page
    */
 	public void testCodeCompletionOfInputTagAttributes(){
-	 
+	  initFaceletsPageTest();
 	  ContentAssistBot contentAssist = editor.contentAssist();
     String textForSelection = "action=\"greeting\" value=\"Say Hello\" ";
     // Check content assist menu content
@@ -106,6 +114,7 @@ public class CodeCompletionTest extends JSFAutoTestCase{
    * Test Code Completion functionality of <input> tag for jsfc attribute within xhtml page
    */
   public void testCodeCompletionOfInputTagForJsfcAttribute(){
+    initFaceletsPageTest();
     // check jsfc attribute insertion via Content Assist 
     SWTJBTExt.selectTextInSourcePane(SWTTestExt.bot, 
         FACELETS_TEST_PAGE,
@@ -160,10 +169,102 @@ public class CodeCompletionTest extends JSFAutoTestCase{
       editor.getText().contains(expectedInsertedText));
     editor.save();
   }
-
-	@Override
-	protected void setUp() throws Exception {
-	  super.setUp();
+  /**
+   * Test Code Completion functionality for Composite Component
+   */
+  public void testCodeCompletionOfCompositeComponent(){
+    eclipse.closeAllEditors();
+    openPage(JSF2_TEST_PAGE, JSF2_TEST_PROJECT_NAME);
+    compositeComponentContainerEditor = SWTTestExt.bot.swtBotEditorExtByTitle(FACELETS_TEST_PAGE);
+    origCompositeComponentContainerEditorText = compositeComponentContainerEditor.getText();
+    ContentAssistBot contentAssist = compositeComponentContainerEditor.contentAssist();
+    SWTJBTExt.selectTextInSourcePane(SWTTestExt.bot, 
+        JSF2_TEST_PAGE,
+        "<ez:input ", 
+        0, 
+        0, 
+        0);
+    String textToInsert = "<ez:";
+    compositeComponentContainerEditor.insertText(textToInsert);
+    SWTJBTExt.selectTextInSourcePane(SWTTestExt.bot, 
+        JSF2_TEST_PAGE,
+        textToInsert, 
+        textToInsert.length(), 
+        0, 
+        0);
+    // Check content assist menu content for "<ez:"
+    contentAssist.checkContentAssist("ez:input", true);
+    bot.sleep(Timing.time2S());
+    compositeComponentContainerEditor.save();
+    String currentLineText = compositeComponentContainerEditor.getTextOnCurrentLine();
+    String expectedInsertedText = "<ez:input value=\"\" action=\"\"></ez:input>";
+    if (!currentLineText.toLowerCase().contains(expectedInsertedText.toLowerCase())){
+      expectedInsertedText = "<ez:input action=\"\" value=\"\"></ez:input>";
+      assertTrue("Inserted text should be " + expectedInsertedText + " but is not.\n" 
+          + "Current line text is " + currentLineText,
+        currentLineText.toLowerCase().contains(expectedInsertedText.toLowerCase()));
+    }
+    // Check content assist menu content for Composite Components attributes    
+    ContentAssistHelper.checkContentAssistContent(SWTTestExt.bot, 
+        JSF2_TEST_PAGE,
+        expectedInsertedText, 
+        10, 
+        0, 
+        getCompositeComponentsAttributesProposalList());
+    // Open Composite Component definition file
+    String compositeComponentFileName = "input.xhtml";
+    OpenOnHelper.checkOpenOnFileIsOpened(
+        SWTTestExt.bot, JSF2_TEST_PAGE, "<ez:input ", 5,
+        0, 0, compositeComponentFileName);
+    compositeComponentDefEditor = SWTTestExt.bot.swtBotEditorExtByTitle(compositeComponentFileName);
+    compositeComponentDefEditorText = compositeComponentDefEditor.getText();
+    textToInsert = "<h:commandButton action=\"";
+    SWTJBTExt.selectTextInSourcePane(SWTTestExt.bot, 
+        compositeComponentFileName,
+        textToInsert, 
+        0, 
+        0, 
+        0);
+    compositeComponentDefEditor.insertText(textToInsert + "\"/> ");  // add closing "/>
+    SWTJBTExt.selectTextInSourcePane(SWTTestExt.bot, 
+        compositeComponentFileName,
+        textToInsert, 
+        textToInsert.length(), 
+        0, 
+        0);
+    // Check content assist menu content for ""<h:commandButton action="" />"
+    contentAssist = compositeComponentDefEditor.contentAssist();
+    contentAssist.checkContentAssist("cc.attrs", true);
+    bot.sleep(Timing.time2S());
+    compositeComponentDefEditor.save();
+    currentLineText = compositeComponentDefEditor.getTextOnCurrentLine();
+    expectedInsertedText = "#{cc.attrs}";
+    assertTrue("Inserted text should be " + expectedInsertedText + " but is not.\n" 
+        + "Current line text is " + currentLineText,
+      currentLineText.toLowerCase().contains(expectedInsertedText.toLowerCase()));
+    compositeComponentDefEditor.insertText(".");
+    KeyboardHelper.typeKeyCodeUsingAWT(KeyEvent.VK_RIGHT);
+    // Check content assist menu content for Composite Components attributes    
+    ContentAssistHelper.checkContentAssistContent(SWTTestExt.bot, 
+        compositeComponentFileName,
+        "#{cc.attrs.}", 
+        11, 
+        0, 
+        getCompositeComponentsAttributeDefProposalList());
+    // check inserting of "submitlabel" content assist
+    String contentAssistToUse = "submitlabel";
+    contentAssist.checkContentAssist(contentAssistToUse, true);
+    expectedInsertedText = "<h:commandButton action=\"#{cc.attrs." + contentAssistToUse + "}\"";
+    assertTrue("Editor has to contain text '" + expectedInsertedText + "' but it doesn't\n" +
+        "Editor Text is\n" + compositeComponentDefEditor.getText(),
+        compositeComponentDefEditor.getText().toLowerCase().contains(expectedInsertedText.toLowerCase()));
+    compositeComponentDefEditor.save();
+  }
+  /**
+   * Initialize test which are using facelets test page
+   */
+	private void initFaceletsPageTest() {
+	  eclipse.closeAllEditors();
 	  openPage(FACELETS_TEST_PAGE,FACELETS_TEST_PROJECT_NAME);
     editor = SWTTestExt.bot.swtBotEditorExtByTitle(FACELETS_TEST_PAGE);
     originalEditorText = editor.getText();
@@ -295,6 +396,14 @@ public class CodeCompletionTest extends JSFAutoTestCase{
       editor.setText(originalEditorText);
       editor.saveAndClose();
     }
+    if (compositeComponentDefEditor != null){
+      compositeComponentDefEditor.setText(compositeComponentDefEditorText);
+      compositeComponentDefEditor.saveAndClose();
+    }
+    if (compositeComponentContainerEditor != null){
+      compositeComponentContainerEditor.setText(origCompositeComponentContainerEditorText);
+      compositeComponentContainerEditor.saveAndClose();
+    }
     super.tearDown();
   }
   /**
@@ -355,4 +464,45 @@ public class CodeCompletionTest extends JSFAutoTestCase{
     result.add("valueChangeListener");
     return result;
   }
+  /**
+   * Returns list of expected Content Assist proposals for Composite Component Attributes
+   * @return
+   */
+  private static List<String> getCompositeComponentsAttributesProposalList(){
+    LinkedList<String> result = new LinkedList<String>();
+    
+    result.add("id");
+    result.add("label");
+    result.add("rendered");
+    result.add("submitlabel");    
+    return result;
+  }
+  
+  /**
+   * Returns list of expected Content Assist proposals for Composite Component Attributes
+   * within file containing Composite Component definition
+   * @return
+   */
+  private static List<String> getCompositeComponentsAttributeDefProposalList(){
+    LinkedList<String> result = new LinkedList<String>();
+    
+    result.add("action");
+    result.add("label");
+    result.add("onclick");
+    result.add("ondblclick");
+    result.add("onkeydown");
+    result.add("onkeypress");
+    result.add("onkeyup");
+    result.add("onmousedown");
+    result.add("onmousemove");
+    result.add("onmouseout");
+    result.add("onmouseover");
+    result.add("onmouseup");
+    result.add("submitlabel");
+    result.add("value");
+    result.add("\"#{cc.attrs.}\"");    
+    return result;
+  }
+
+
 }
