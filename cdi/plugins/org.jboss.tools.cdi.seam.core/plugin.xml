@@ -10,4 +10,11 @@
          </el-resolver>
    </extension>
 
+	<extension
+	      point="org.jboss.tools.cdi.core.cdiextensions">
+    <cdiextension
+          class="org.jboss.tools.cdi.seam.core.international.CDISeamInternationalExtension"
+          runtime="org.jboss.seam.international.status.TypedStatusMessageBundleExtension">
+    </cdiextension>
+	</extension>
 </plugin>
