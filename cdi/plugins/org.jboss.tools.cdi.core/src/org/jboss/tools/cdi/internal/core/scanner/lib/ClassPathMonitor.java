@@ -50,8 +50,8 @@ public class ClassPathMonitor extends AbstractClassPathMonitor<CDICoreNature>{
 		super.init();
 	}
 
-	public Map<String, XModelObject> process() {
-		Map<String, XModelObject> newJars = new HashMap<String, XModelObject>();
+	public JarSet process() {
+		JarSet newJars = new JarSet();
 		for (String p: syncProcessedPaths()) {
 			synchronized (removedPaths) {
 				removedPaths.add(new Path(p));
@@ -71,11 +71,13 @@ public class ClassPathMonitor extends AbstractClassPathMonitor<CDICoreNature>{
 			//Load cdi extensions. Do we need beans.xml to look for extensions?
 			project.getExtensionManager().setRuntimes(p, readRuntimes(o));
 
+			newJars.getFileSystems().put(p, o);
+
 			XModelObject b = o.getChildByPath("META-INF/beans.xml");
 			if(b == null && !isWeldJar(fileName)) {
 				continue;
 			}
-			newJars.put(p, b);
+			newJars.getBeanModules().put(p, b);
 		}
 		
 		validateProjectDependencies();

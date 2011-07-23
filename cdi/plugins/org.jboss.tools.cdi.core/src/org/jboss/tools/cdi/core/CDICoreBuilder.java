@@ -42,11 +42,13 @@ import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.IType;
 import org.jboss.tools.cdi.core.extension.IDefinitionContextExtension;
+import org.jboss.tools.cdi.core.extension.feature.IBuildParticipant2Feature;
 import org.jboss.tools.cdi.core.extension.feature.IBuildParticipantFeature;
 import org.jboss.tools.cdi.internal.core.impl.definition.AnnotationHelper;
 import org.jboss.tools.cdi.internal.core.impl.definition.Dependencies;
 import org.jboss.tools.cdi.internal.core.scanner.CDIBuilderDelegate;
 import org.jboss.tools.cdi.internal.core.scanner.FileSet;
+import org.jboss.tools.cdi.internal.core.scanner.lib.JarSet;
 import org.jboss.tools.common.EclipseUtil;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.plugin.ModelPlugin;
@@ -73,6 +75,7 @@ public class CDICoreBuilder extends IncrementalProjectBuilder {
 	CDIResourceVisitor resourceVisitor = null;
 
 	Set<IBuildParticipantFeature> buildParticipants = null;
+	Set<IBuildParticipant2Feature> buildParticipants2 = null;
 
 	public CDICoreBuilder() {}
 
@@ -150,7 +153,7 @@ public class CDICoreBuilder extends IncrementalProjectBuilder {
 			//1. Check class path.
 			boolean isClassPathUpdated = n.getClassPath().update();
 	
-			Map<String, XModelObject> newJars = new HashMap<String, XModelObject>();
+			JarSet newJars = new JarSet();
 			if(isClassPathUpdated) {
 				//2. Update class path. Removed paths will be cached to be applied to working copy of context. 
 				n.getClassPath().setSrcs(getResourceVisitor().srcs);
@@ -158,10 +161,14 @@ public class CDICoreBuilder extends IncrementalProjectBuilder {
 
 				//3. Install extensions. That should be done before constructing working copy of context.
 				buildParticipants = n.getExtensionManager().getBuildParticipantFeature();
+				buildParticipants2 = new HashSet<IBuildParticipant2Feature>();
 				Set<IDefinitionContextExtension> es = new HashSet<IDefinitionContextExtension>();
 				for (IBuildParticipantFeature p: buildParticipants) {
 					IDefinitionContextExtension e = p.getContext();
 					if(e != null) es.add(e);
+					if(p instanceof IBuildParticipant2Feature) {
+						buildParticipants2.add((IBuildParticipant2Feature)p);
+					}
 				}
 				n.getDefinitions().setExtensions(es);
 			}
@@ -243,12 +250,12 @@ public class CDICoreBuilder extends IncrementalProjectBuilder {
 		invokeBuilderDelegates(fs, getCDICoreNature());
 	}
 
-	protected void buildJars(Map<String, XModelObject> newJars) throws CoreException {
+	protected void buildJars(JarSet newJars) throws CoreException {
 		IJavaProject jp = EclipseResourceUtil.getJavaProject(getCDICoreNature().getProject());
 		if(jp == null) return;
 		FileSet fileSet = new FileSet();
 		
-		for (String jar: newJars.keySet()) {
+		for (String jar: newJars.getBeanModules().keySet()) {
 			Path path = new Path(jar);
 			IPackageFragmentRoot root = jp.getPackageFragmentRoot(jar);
 			if(root == null) continue;
@@ -275,10 +282,17 @@ public class CDICoreBuilder extends IncrementalProjectBuilder {
 					}
 				}
 			}
-			XModelObject beansXML = newJars.get(jar);
+			XModelObject beansXML = newJars.getBeanModules().get(jar);
 			fileSet.setBeanXML(path, beansXML);
 			
 			for (IBuildParticipantFeature p: buildParticipants) p.visitJar(path, root, beansXML);
+		}
+		if(!buildParticipants2.isEmpty()) {
+			for (String jar: newJars.getFileSystems().keySet()) {
+				Path path = new Path(jar);
+				XModelObject fs = newJars.getFileSystems().get(jar);
+				for (IBuildParticipant2Feature p: buildParticipants2) p.visitJar(path, fs);
+			}
 		}
 		addBasicTypes(fileSet);
 		invokeBuilderDelegates(fileSet, getCDICoreNature());
