@@ -18,5 +18,7 @@ Require-Bundle: org.jboss.tools.cdi.seam.core,
  org.jboss.tools.common;bundle-version="3.3.0",
  org.eclipse.ui;bundle-version="3.7.0",
  org.jboss.tools.common.base.test;bundle-version="3.3.0",
- org.eclipse.jface.text;bundle-version="3.7.0"
+ org.eclipse.jface.text;bundle-version="3.7.0",
+ org.jboss.tools.common.el.core;bundle-version="3.3.0",
+ org.jboss.tools.common.text.ext;bundle-version="3.3.0"
 
