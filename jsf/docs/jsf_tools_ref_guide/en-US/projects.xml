@@ -98,17 +98,22 @@
 						<entry>
 							<para>
 								<emphasis>
-									<property>JSFBlankWithLibs</property>
+									<property>JSFBlankWithoutLibs</property>
 								</emphasis>
 							</para>
 						</entry>
 
 						<entry>
-							<para>This template will create a standard Web project structure with all the JSF capabilities</para>
+							<para>
+								This template will create a standard Web project structure with all the JSF capabilities.
+							</para>
+							<para>
+								Use a template without libs to avoid library conflicts when your server already has JSF libraries installed.
+							</para>
 						</entry>
 					</row>
 
-					<row>
+				<!--	<row>
 						<entry>
 							<para>
 								<emphasis>
@@ -120,7 +125,7 @@
 						<entry>
 							<para>This template will create a standard Web project structure, and also include a sample application that is ready to run</para>
 						</entry>
-					</row>
+					</row> -->
 
 					<row>
 						<entry>
@@ -133,7 +138,13 @@
 
 						<entry>
 							<para>
+								This template will create a standard Web project structure, and also include a sample application that is ready to run.
+							</para>
+						<!--	<para>
 								Some servers already provide JSF libs, and you risk library conflicts while deploying your project. To avoid such conflicts, use a template without libs if you have a server with its own JSF libraries.
+							</para> -->
+							<para>
+								Use a template without libs to avoid library conflicts when your server already has JSF libraries installed.
 							</para>
 						</entry>
 					</row>
