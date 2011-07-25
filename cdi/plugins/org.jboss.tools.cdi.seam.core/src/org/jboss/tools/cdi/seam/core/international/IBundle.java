@@ -19,8 +19,23 @@ import java.util.Set;
  */
 public interface IBundle {
 
+	/**
+	 * 
+	 * @return name of this bundle
+	 */
 	public String getName();
 
+	/**
+	 * 
+	 * @return names of properties in all locales
+	 */
 	public Set<String> getPropertyNames();
+
+	/**
+	 * 
+	 * @param name
+	 * @return property object with given name
+	 */
+	public IProperty getProperty(String name);
 
 }

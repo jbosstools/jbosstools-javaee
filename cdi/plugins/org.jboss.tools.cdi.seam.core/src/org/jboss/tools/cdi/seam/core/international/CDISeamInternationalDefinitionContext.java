@@ -37,6 +37,7 @@ public class CDISeamInternationalDefinitionContext extends AbstractDefinitionCon
 		copy.root = root;
 		if(!clean) {
 			copy.bundles.putAll(bundles);
+			copy.allBundles.addAll(allBundles);
 		}
 		return copy;
 	}

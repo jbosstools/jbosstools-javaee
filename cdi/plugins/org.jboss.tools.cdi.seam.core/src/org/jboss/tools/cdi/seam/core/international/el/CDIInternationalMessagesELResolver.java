@@ -12,12 +12,9 @@ package org.jboss.tools.cdi.seam.core.international.el;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
@@ -25,14 +22,17 @@ import java.util.TreeSet;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.Path;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.swt.graphics.Image;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.seam.core.CDISeamCorePlugin;
+import org.jboss.tools.cdi.seam.core.international.BundleModelFactory;
+import org.jboss.tools.cdi.seam.core.international.IBundle;
+import org.jboss.tools.cdi.seam.core.international.IBundleModel;
+import org.jboss.tools.cdi.seam.core.international.IProperty;
+import org.jboss.tools.cdi.seam.core.international.impl.LocalizedValue;
 import org.jboss.tools.common.el.core.ca.AbstractELCompletionEngine;
 import org.jboss.tools.common.el.core.model.ELArgumentInvocation;
 import org.jboss.tools.common.el.core.model.ELExpression;
@@ -44,6 +44,7 @@ import org.jboss.tools.common.el.core.model.ELPropertyInvocation;
 import org.jboss.tools.common.el.core.parser.ELParser;
 import org.jboss.tools.common.el.core.parser.ELParserFactory;
 import org.jboss.tools.common.el.core.parser.ELParserUtil;
+import org.jboss.tools.common.el.core.parser.LexicalToken;
 import org.jboss.tools.common.el.core.resolver.ELContext;
 import org.jboss.tools.common.el.core.resolver.ELResolution;
 import org.jboss.tools.common.el.core.resolver.ELResolutionImpl;
@@ -52,10 +53,7 @@ import org.jboss.tools.common.el.core.resolver.IRelevanceCheck;
 import org.jboss.tools.common.el.core.resolver.IVariable;
 import org.jboss.tools.common.el.core.resolver.MessagePropertyELSegmentImpl;
 import org.jboss.tools.common.el.core.resolver.TypeInfoCollector.MemberInfo;
-import org.jboss.tools.common.model.XModel;
 import org.jboss.tools.common.model.XModelObject;
-import org.jboss.tools.common.model.filesystems.FileSystemsHelper;
-import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.text.TextProposal;
 import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.jst.web.kb.IPageContext;
@@ -71,8 +69,6 @@ public class CDIInternationalMessagesELResolver extends AbstractELCompletionEngi
 	private static final Image CDI_INTERNATIONAL_MESSAGE_PROPOSAL_IMAGE = 
 			CDISeamCorePlugin.getDefault().getImage(CDISeamCorePlugin.CA_CDI_MESSAGE_IMAGE_PATH);
 
-	static final CDIOpenKeyHelper keyHelper = new CDIOpenKeyHelper();
-	
 	/*
 	 * (non-Javadoc)
 	 * @see org.jboss.tools.common.el.core.ca.AbstractELCompletionEngine#getELProposalImage()
@@ -121,12 +117,10 @@ public class CDIInternationalMessagesELResolver extends AbstractELCompletionEngi
 		if (!CDICorePlugin.getCDI(project, true).getExtensionManager().isCDIExtensionAvailable(CDISeamCorePlugin.CDI_INTERNATIONAL_RUNTIME_EXTENTION))
 			return null;
 		
-		XModelObject modelObject = EclipseResourceUtil.createObjectForResource(project);
-		if (modelObject == null)
+		IBundleModel bundleModel = BundleModelFactory.getBundleModel(project);
+		if (bundleModel == null)
 			return null;
-		XModel model = modelObject.getModel();
-
-		IResourceBundle[] bundles = keyHelper.findResourceBundles(model);
+		IResourceBundle[] bundles = findResourceBundles(bundleModel);
 
 		IDocument document = null;
 
@@ -159,8 +153,11 @@ public class CDIInternationalMessagesELResolver extends AbstractELCompletionEngi
 			ELContext context, boolean returnEqualedVariablesOnly) {
 		IResourceBundle[] bundles = new IResourceBundle[0];
 		if(context instanceof IPageContext) {
-			IPageContext pageContext = (IPageContext)context;
-			bundles = pageContext.getResourceBundles();
+			IBundleModel bundleModel = BundleModelFactory.getBundleModel(context.getResource().getProject());
+			if (bundleModel != null) {
+				bundles = findResourceBundles(bundleModel);
+			}
+
 		}
 		try {
 			return resolveELOperand(context.getResource(), operand, returnEqualedVariablesOnly, bundles);
@@ -488,15 +485,21 @@ public class CDIInternationalMessagesELResolver extends AbstractELCompletionEngi
 		if(segment.getToken() == null)
 			return;
 		for(Variable variable : variables){
-			if(expr.getFirstToken().getText().equals(variable.name)){
-				XModelObject modelObject = EclipseResourceUtil.createObjectForResource(variable.f.getProject());
-				XModel model = modelObject == null ? null : modelObject.getModel();
-				if(model == null) return;
-				
-				XModelObject[] properties = keyHelper.findBundles(model, variable.basename, null);
-				if(properties == null)
+			LexicalToken first = expr.getFirstToken();
+			LexicalToken last = expr.getLastToken();
+			StringBuffer sb = new StringBuffer();
+			sb.append(first.getText());
+			boolean ok = sb.toString().equals(variable.name);
+			while(!ok && first != null && first != last) {
+				first = first.getNextToken();
+				sb.append(first.getText());
+				ok = sb.toString().equals(variable.name);
+			}
+			if(ok){
+				IBundleModel bundleModel = BundleModelFactory.getBundleModel(variable.f.getProject());
+				if(bundleModel == null) return;
+				if(bundleModel.getBundle(variable.basename) == null)
 					return;
-
 				segment.setBaseName(variable.basename);
 				segment.setBundleOnlySegment(true);
 			}
@@ -507,21 +510,37 @@ public class CDIInternationalMessagesELResolver extends AbstractELCompletionEngi
 		if(segment.getToken() == null)
 			return;
 		for(Variable variable : variables){
-			if(expr.getFirstToken().getText().equals(variable.name)){
-				XModelObject modelObject = EclipseResourceUtil.createObjectForResource(variable.f.getProject());
-				XModel model = modelObject == null ? null : modelObject.getModel();
-				if(model == null) return;
-
-				XModelObject[] properties = keyHelper.findBundles(model, variable.basename, null);
-				if(properties == null)
+			LexicalToken first = expr.getFirstToken();
+			LexicalToken last = expr.getLastToken();
+			StringBuffer sb = new StringBuffer();
+			sb.append(first.getText());
+			boolean ok = sb.toString().equals(variable.name);
+			while(!ok && first != null && first != last) {
+				first = first.getNextToken();
+				sb.append(first.getText());
+				ok = sb.toString().equals(variable.name);
+			}
+			if(ok){
+				IBundleModel bundleModel = BundleModelFactory.getBundleModel(variable.f.getProject());
+				if(bundleModel == null) return;
+				IBundle bundle = bundleModel.getBundle(variable.basename);
+				if(bundle == null)
 					return;
 				
-				for (XModelObject p : properties) {
+				Set<String> properties = bundle.getPropertyNames();
+				
+				for (String propertyName : properties) {
+					IProperty prop = bundle.getProperty(propertyName);
+					if(prop == null) continue;
+
+					LocalizedValue value = (LocalizedValue)prop.getValue();
+					XModelObject p = value.getObject();
+
 					IFile propFile = (IFile)p.getAdapter(IFile.class);
 					if(propFile == null)
 						continue;
 					segment.setMessageBundleResource(propFile);
-					XModelObject property = p.getChildByPath(trimQuotes(segment.getToken().getText()));
+					XModelObject property = p;
 					if(property != null){
 						try {
 							String content = FileUtil.readStream(propFile);
@@ -550,7 +569,7 @@ public class CDIInternationalMessagesELResolver extends AbstractELCompletionEngi
 		}
 		return value;
 	}	
-	
+
 	public boolean findPropertyLocation(XModelObject property, String content, MessagePropertyELSegmentImpl segment) {
 		String name = property.getAttributeValue("name"); //$NON-NLS-1$
 		String nvs = property.getAttributeValue("name-value-separator"); //$NON-NLS-1$
@@ -614,17 +633,13 @@ public class CDIInternationalMessagesELResolver extends AbstractELCompletionEngi
 		}
 
 		public Collection<String> getKeys() {
-			TreeSet<String> result = new TreeSet<String>();
-			
-			XModelObject modelObject = EclipseResourceUtil.createObjectForResource(f.getProject());
-			XModel model = modelObject == null ? null : modelObject.getModel();
-			if(model == null) return result;
-
-			List<Object> l = keyHelper.getBundleProperties(model, basename);
-			if (l == null) return result;
-			
-			for (Object o : l) {
-				result.add(o.toString());
+			TreeSet<String> result = new TreeSet<String>();			
+			IBundleModel bundleModel = BundleModelFactory.getBundleModel(f.getProject());
+			if(bundleModel != null) {
+				IBundle bundle = bundleModel.getBundle(basename);
+				if(bundle != null) {
+					result.addAll(bundle.getPropertyNames());
+				}
 			}
 			return result;
 		}
@@ -663,176 +678,14 @@ public class CDIInternationalMessagesELResolver extends AbstractELCompletionEngi
 		};
 	}
 
-	static class CDIOpenKeyHelper {
-		static List<Object> EMPTY_LIST = Collections.unmodifiableList(new ArrayList<Object>());
-
-		IResourceBundle[] findResourceBundles (XModel model) {
-			XModelObject[] fs = FileSystemsHelper.getFileSystems(model).getChildren();
-			if (fs == null)
-				return null;
-
-			Collection<XModelObject> bundles = new HashSet<XModelObject>(); 
-			for (XModelObject f : fs) {
-				String name = f.getAttributeValue("name");
-				if (name == null)
-					continue;
-				if (name.equals("src") || name.endsWith("lib") ||
-						name.startsWith("src-") || name.startsWith("lib-")) {
-					bundles.addAll(collectXModelBundleObjects(f));
-				}
-			}
-
-			if (bundles.isEmpty())
-				return null;
-			
-			 Map<String, IResourceBundle> result = new HashMap<String, IResourceBundle>();
-			 for (XModelObject b : bundles) {
-				 String path = b.getPath();
-				 IPath p = new Path(path);
-				 IPath containerPath = p.removeLastSegments(p.segmentCount() - 2);
-				 IPath varPath = p.removeFirstSegments(2);
-				 
-				 String var = varPath.toString();
-				 
-				 var = var.substring(0, var.lastIndexOf('.'));
-				 if (var.indexOf('_') != -1)
-					var = var.substring(0, var.indexOf('_'));
-				
-				String basename = containerPath.append(new Path(var)).toString();
-				var = "bundles." + var.replace('/', '.');
-				
-				if (!result.containsKey(var)) {
-					IResourceBundle resourceBundle = new ResourceBundle(basename, var);
-					result.put(var, resourceBundle);
-				}
-			 }
-
-			return result.values().toArray(new IResourceBundle[0]);
+	IResourceBundle[] findResourceBundles (IBundleModel model) {
+		Map<String, IResourceBundle> result = new HashMap<String, IResourceBundle>();
+		for (String basename : model.getAllAvailableBundles()) {
+			String var = "bundles." + basename;
+			IResourceBundle resourceBundle = new ResourceBundle(basename, var);
+			result.put(var, resourceBundle);
 		}
-
-		/**
-		 * The method returns bundles of all the existing locales for specified bundle name
-		 * 
-		 * @param model
-		 * @param bundle
-		 * @param locale
-		 * @return
-		 */
-		public XModelObject[] findBundles(XModel model, String bundle, String locale) {
-			ArrayList<XModelObject> l = new ArrayList<XModelObject>();
-			
-			String parentPath = bundle.replace('.', '/');
-			String bundleName = parentPath.substring(parentPath.lastIndexOf('/') + 1);
-			if (parentPath != null) parentPath = parentPath.substring(0, parentPath.lastIndexOf('/'));
-			XModelObject parentObject = model.getByPath(parentPath);
-			if (parentObject != null) {
-				for (XModelObject o : parentObject.getChildren()) {
-					String name = o.getPathPart(); 
-					if (name != null && name.toLowerCase().endsWith(".properties") && 
-							name.startsWith(bundleName) &&
-							(name.equalsIgnoreCase(bundleName + ".properties") ||
-									name.startsWith(bundleName + '_'))) {
-						l.add(o);
-					}
-				}
-			}
-			/* The following is commented because:
-			 * - we decided to show properties defined in any locale
-			 * - Seam3 International module has its own locate API which is probably to be supported
-			 *   
-			
-			if(locale == null || locale.length() == 0) locale = getDeafultLocale(model);
-			while(locale != null && locale.length() > 0) {
-				String path = bundle.replace('.', '/') + "_" + locale + ".properties"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-				XModelObject o = model.getByPath(path);
-				model.getByPath(path.substring(0,  path.lastIndexOf('/')));
-				if(o != null) l.add(o);
-				int i = locale.lastIndexOf('_');
-				if(i < 0) break;
-				locale = locale.substring(0, i);
-			}
-			String path = bundle.replace('.', '/') + ".properties"; //$NON-NLS-1$ //$NON-NLS-2$
-			XModelObject o = model.getByPath(path);
-			if(o != null) l.add(o);
-			*/
-			return l.toArray(new XModelObject[0]);
-		}
-
-		public List<Object> getBundleProperties(XModel model, String bundle) {
-			if(bundle == null || bundle.length() == 0) return EMPTY_LIST;
-			
-			XModelObject[] bundleObjects = findBundles(model, bundle, null);
-			if (bundleObjects == null) 
-				return EMPTY_LIST;
-			Set<String> properties = new TreeSet<String>(String.CASE_INSENSITIVE_ORDER);
-			for (XModelObject b : bundleObjects) {
-				if(b == null) continue;
-				XModelObject[] os = b.getChildren();
-				for (int i = 0; i < os.length; i++) {
-					properties.add(os[i].getAttributeValue("name"));
-				}
-			}
-			List<Object> list = new ArrayList<Object>();
-			list.addAll(properties);
-			
-			return list;
-		}
-
-		public String getDeafultLocale(XModel model) {
-			String facesConfigLocale = getDeafultLocaleFromFacesConfig(model);
-			if (facesConfigLocale.length() == 0) {
-				Locale locale = Locale.getDefault();
-				facesConfigLocale = locale == null || locale.toString().length() == 0 ? null : locale.toString();
-			}
-			return facesConfigLocale;
-		}
-		
-		/**
-		 * Gets the default locale from faces config file.
-		 * 
-		 * TODO: Need Get the Default Locale (From Web Project Root?)
-		 * 
-		 * @param model XModel
-		 * @return locale string or empty string if no locale was found
-		 */
-		public String getDeafultLocaleFromFacesConfig(XModel model) {
-			String facesConfigLocale = ""; //$NON-NLS-1$
-			/*
-			JSFProjectsRoot root = JSFProjectsTree.getProjectsRoot(model);
-			WebProjectNode conf = root == null ? null : (WebProjectNode)root.getChildByPath(JSFProjectTreeConstants.CONFIGURATION);
-			XModelObject[] fs = conf == null ? new XModelObject[0] : conf.getTreeChildren();
-			for (int i = 0; i < fs.length; i++) {
-				XModelObject o = fs[i].getChildByPath("application/Locale Config"); //$NON-NLS-1$
-				String res = (o == null) ? "" : o.getAttributeValue("default-locale"); //$NON-NLS-1$ //$NON-NLS-2$
-				if(res != null && res.length() > 0) {
-					facesConfigLocale = res;
-				}
-			}
-			*/
-			return facesConfigLocale;
-		}
-
-		private Collection<XModelObject> collectXModelBundleObjects(XModelObject o) {
-			Set<XModelObject> objects = new HashSet<XModelObject>();
-			if (o == null) return objects;
-			
-			String path = o.getPath();
-			if (path == null || "META-INF".equalsIgnoreCase(o.getAttributeValue("name")))
-				return objects;
-			
-			if (path.endsWith(".properties")) {
-				objects.add(o);
-			}
-
-			if (o.getFileType() > XModelObject.FILE && o.hasChildren()) {
-				XModelObject[] children = o.getChildren();
-				if (children != null) {
-					for (XModelObject c : children) {
-						objects.addAll(collectXModelBundleObjects(c));
-					}
-				}
-			}
-			return objects;
-		}
+		return result.values().toArray(new IResourceBundle[0]);
 	}
+
 }

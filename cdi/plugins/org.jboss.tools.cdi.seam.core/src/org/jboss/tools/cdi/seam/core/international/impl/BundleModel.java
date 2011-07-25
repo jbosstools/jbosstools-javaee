@@ -11,6 +11,7 @@
 package org.jboss.tools.cdi.seam.core.international.impl;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -19,12 +20,23 @@ import org.eclipse.core.runtime.Path;
 import org.jboss.tools.cdi.seam.core.international.IBundleModel;
 import org.jboss.tools.common.model.XModelObject;
 
+/**
+ * 
+ * @author Viacheslav Kabanovich
+ *
+ */
 public class BundleModel implements IBundleModel {
 	long timeStamp = 0;
 	Map<String, BundleImpl> bundles = new HashMap<String, BundleImpl>();
 
 	public BundleImpl getBundle(String name) {
 		return bundles.get(name);
+	}
+
+	public Set<String> getAllAvailableBundles() {
+		Set<String> result = new HashSet<String>();
+		result.addAll(bundles.keySet());
+		return result;
 	}
 
 	public void rebuild(Set<XModelObject> objects) {
@@ -42,6 +54,7 @@ public class BundleModel implements IBundleModel {
 		if(b == null) {
 			b = new BundleImpl();
 			b.setName(name);
+			bundles.put(name, b);
 		}
 		b.addObject(o);
 		return b;		

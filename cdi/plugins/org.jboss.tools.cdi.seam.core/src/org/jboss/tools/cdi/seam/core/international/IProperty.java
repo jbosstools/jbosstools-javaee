@@ -10,25 +10,36 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.seam.core.international;
 
-import java.util.Set;
-
 /**
  * 
  * @author Viacheslav Kabanovich
  *
  */
-public interface IBundleModel {
+public interface IProperty {
 
 	/**
 	 * 
-	 * @return set of base names of all available bundles
+	 * @return name of the property
 	 */
-	public Set<String> getAllAvailableBundles();
+	public String getName();
 
 	/**
 	 * 
-	 * @param banename
-	 * @return bundle object for basename
+	 * @return name of the bundle that declares the property
 	 */
-	public IBundle getBundle(String basename);
+	public IBundle getBundle();
+
+	/**
+	 * 
+	 * @return value of the property for default locale, or if it is not available, than any available value
+	 */
+	public ILocalizedValue getValue();
+
+	/**
+	 * 
+	 * @param locale
+	 * @return value for the selected locale
+	 */
+	public ILocalizedValue getValue(String locale);
+
 }

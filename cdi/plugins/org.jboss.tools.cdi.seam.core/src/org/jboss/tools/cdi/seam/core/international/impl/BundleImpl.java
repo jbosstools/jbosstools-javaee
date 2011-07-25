@@ -10,15 +10,24 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.seam.core.international.impl;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import org.jboss.tools.cdi.seam.core.international.IBundle;
+import org.jboss.tools.cdi.seam.core.international.IProperty;
 import org.jboss.tools.common.model.XModelObject;
 
+/**
+ * 
+ * @author Viacheslav Kabanovich
+ *
+ */
 public class BundleImpl implements IBundle {
 	String name = "";
 	Set<XModelObject> objects = new HashSet<XModelObject>();
+	Map<String, PropertyImpl> properties = null;
 
 	public BundleImpl() {}
 
@@ -31,19 +40,45 @@ public class BundleImpl implements IBundle {
 		name = s;
 	}
 
+	@Override
 	public Set<String> getPropertyNames() {
-		Set<String> result = new HashSet<String>();
-		for (XModelObject o: objects) {
-			XModelObject[] os = o.getChildren();
-			for (XModelObject p: os) {
-				result.add(p.getAttributeValue("name"));
+		initProperties();
+		return properties.keySet();
+	}
+
+	public void initProperties() {
+		if(properties == null) {
+			Map<String, PropertyImpl> ps = new HashMap<String, PropertyImpl>();
+			for (XModelObject o: objects) {
+				XModelObject[] os = o.getChildren();
+				for (XModelObject p: os) {
+					String name = p.getAttributeValue("name");
+					PropertyImpl pi = _getProperty(name, ps);
+					pi.addObject(p);
+				}
 			}
+			properties = ps;
 		}
-		return result;
 	}
 
 	public void addObject(XModelObject o) {
 		objects.add(o);
+	}
+
+	public IProperty getProperty(String name) {
+		initProperties();
+		return properties.get(name);
+	}
+
+	private PropertyImpl _getProperty(String name, Map<String, PropertyImpl> properties) {
+		PropertyImpl p = properties.get(name);
+		if(p == null) {
+			p = new PropertyImpl();
+			p.setBundle(this);
+			p.setName(name);
+			properties.put(name, p);
+		}
+		return p;
 	}
 
 }
