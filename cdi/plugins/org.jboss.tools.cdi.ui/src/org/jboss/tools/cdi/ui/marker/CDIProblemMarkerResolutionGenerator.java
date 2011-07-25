@@ -332,11 +332,9 @@ public class CDIProblemMarkerResolutionGenerator implements
 				IJavaElement element = findJavaElement(file, start);
 				if(element != null){
 					IJavaElement disposerElement = findJavaElementByAnnotation(element, CDIConstants.DISPOSES_ANNOTATION_TYPE_NAME);
-					IJavaElement interceptorElement = findJavaElementByAnnotation(element, CDIConstants.INTERCEPTOR_ANNOTATION_TYPE_NAME);
-					if(disposerElement != null && interceptorElement != null){
+					if(disposerElement != null){
 						return new IMarkerResolution[] {
-							new DeleteAnnotationMarkerResolution(disposerElement, CDIConstants.DISPOSES_ANNOTATION_TYPE_NAME),
-							new DeleteAnnotationMarkerResolution(interceptorElement, CDIConstants.INTERCEPTOR_ANNOTATION_TYPE_NAME)
+							new DeleteAnnotationMarkerResolution(disposerElement, CDIConstants.DISPOSES_ANNOTATION_TYPE_NAME)
 						};
 					}
 				}
@@ -344,11 +342,29 @@ public class CDIProblemMarkerResolutionGenerator implements
 				IJavaElement element = findJavaElement(file, start);
 				if(element != null){
 					IJavaElement disposerElement = findJavaElementByAnnotation(element, CDIConstants.DISPOSES_ANNOTATION_TYPE_NAME);
-					IJavaElement decoratorElement = findJavaElementByAnnotation(element, CDIConstants.DECORATOR_TYPE_NAME);
-					if(disposerElement != null && decoratorElement != null){
+					if(disposerElement != null){
 						return new IMarkerResolution[] {
-							new DeleteAnnotationMarkerResolution(disposerElement, CDIConstants.DISPOSES_ANNOTATION_TYPE_NAME),
-							new DeleteAnnotationMarkerResolution(decoratorElement, CDIConstants.DECORATOR_TYPE_NAME)
+							new DeleteAnnotationMarkerResolution(disposerElement, CDIConstants.DISPOSES_ANNOTATION_TYPE_NAME)
+						};
+					}
+				}
+			}else if(messageId == CDIValidationErrorManager.PRODUCER_IN_INTERCEPTOR_ID){
+				IJavaElement element = findJavaElement(file, start);
+				if(element != null){
+					IJavaElement producerElement = findJavaElementByAnnotation(element, CDIConstants.PRODUCES_ANNOTATION_TYPE_NAME);
+					if(producerElement != null){
+						return new IMarkerResolution[] {
+							new DeleteAnnotationMarkerResolution(producerElement, CDIConstants.PRODUCES_ANNOTATION_TYPE_NAME)
+						};
+					}
+				}
+			}else if(messageId == CDIValidationErrorManager.PRODUCER_IN_DECORATOR_ID){
+				IJavaElement element = findJavaElement(file, start);
+				if(element != null){
+					IJavaElement producerElement = findJavaElementByAnnotation(element, CDIConstants.PRODUCES_ANNOTATION_TYPE_NAME);
+					if(producerElement != null){
+						return new IMarkerResolution[] {
+							new DeleteAnnotationMarkerResolution(producerElement, CDIConstants.PRODUCES_ANNOTATION_TYPE_NAME)
 						};
 					}
 				}
