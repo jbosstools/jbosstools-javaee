@@ -1,6 +1,5 @@
 package org.jboss.jsr299.tck.tests.jbt.quickfixes;
 
-import javax.enterprise.inject.Disposes;
 import javax.enterprise.inject.Produces;
 import javax.interceptor.Interceptor;
 
@@ -11,7 +10,7 @@ public class TestInterceptor3 {
 		return "";
 	}
 	
-	public void method(@Disposes String parameter){
+	public void method(String parameter){
 		
 	}
 }

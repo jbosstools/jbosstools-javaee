@@ -684,6 +684,9 @@ public class CDIMarkerResolutionTest  extends ValidationTest {
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TestInterceptor3.java"
 				},
+				new String[]{
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TestInterceptor3.qfxresult"
+				},
 				CDICoreValidator.PROBLEM_TYPE,
 				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
 				CDIValidationErrorManager.DISPOSER_IN_INTERCEPTOR_ID,
@@ -694,6 +697,9 @@ public class CDIMarkerResolutionTest  extends ValidationTest {
 		checkResolution(tckProject,
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TestDecorator.java"
+				},
+				new String[]{
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TestDecorator.qfxresult"
 				},
 				CDICoreValidator.PROBLEM_TYPE,
 				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
