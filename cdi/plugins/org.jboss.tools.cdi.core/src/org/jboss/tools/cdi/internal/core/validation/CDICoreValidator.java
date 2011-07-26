@@ -1898,7 +1898,7 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 			if (declaration == null) {
 				declaration = CDIUtil.getNamedStereotypeDeclaration(interceptor);
 			}
-			addError(CDIValidationMessages.INTERCEPTOR_HAS_NAME, CDIPreferences.INTERCEPTOR_OR_DECORATOR_HAS_NAME, declaration, interceptor.getResource());
+			addError(CDIValidationMessages.INTERCEPTOR_HAS_NAME, CDIPreferences.INTERCEPTOR_OR_DECORATOR_HAS_NAME, declaration, interceptor.getResource(), INTERCEPTOR_HAS_NAME_ID);
 		}
 
 		/*
@@ -1986,7 +1986,7 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 			if (declaration == null) {
 				declaration = CDIUtil.getNamedStereotypeDeclaration(decorator);
 			}
-			addError(CDIValidationMessages.DECORATOR_HAS_NAME, CDIPreferences.INTERCEPTOR_OR_DECORATOR_HAS_NAME, declaration, decorator.getResource());
+			addError(CDIValidationMessages.DECORATOR_HAS_NAME, CDIPreferences.INTERCEPTOR_OR_DECORATOR_HAS_NAME, declaration, decorator.getResource(), DECORATOR_HAS_NAME_ID);
 		}
 
 		/*

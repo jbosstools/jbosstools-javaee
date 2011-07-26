@@ -758,4 +758,32 @@ public class CDIMarkerResolutionTest  extends ValidationTest {
 				ChangeAnnotationMarkerResolution.class);
 	}
 
+	public void testNamedInInterceptorResolution() throws CoreException{
+		checkResolution(tckProject,
+				new String[]{
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TestInterceptor5.java"
+				},
+				new String[]{
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TestInterceptor5.qfxresult"
+				},
+				CDICoreValidator.PROBLEM_TYPE,
+				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
+				CDIValidationErrorManager.INTERCEPTOR_HAS_NAME_ID,
+				DeleteAnnotationMarkerResolution.class);
+	}
+
+	public void testNamedInDecoratorResolution() throws CoreException{
+		checkResolution(tckProject,
+				new String[]{
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TestDecorator3.java"
+				},
+				new String[]{
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TestDecorator3.qfxresult"
+				},
+				CDICoreValidator.PROBLEM_TYPE,
+				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
+				CDIValidationErrorManager.DECORATOR_HAS_NAME_ID,
+				DeleteAnnotationMarkerResolution.class);
+	}
+
 }

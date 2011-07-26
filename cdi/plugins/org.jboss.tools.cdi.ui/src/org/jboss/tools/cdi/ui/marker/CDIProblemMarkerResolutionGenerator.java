@@ -308,16 +308,6 @@ public class CDIProblemMarkerResolutionGenerator implements
 						};
 					}
 				}
-			}else if(messageId == CDIValidationErrorManager.CONSTRUCTOR_PARAMETER_ANNOTATED_DISPOSES_ID){
-				IJavaElement element = findJavaElement(file, start);
-				if(element != null){
-					IJavaElement disposesElement = findJavaElementByAnnotation(element, CDIConstants.DISPOSES_ANNOTATION_TYPE_NAME);
-					if(disposesElement != null){
-						return new IMarkerResolution[] {
-							new DeleteAnnotationMarkerResolution(disposesElement, CDIConstants.DISPOSES_ANNOTATION_TYPE_NAME)
-						};
-					}
-				}
 			}else if(messageId == CDIValidationErrorManager.CONSTRUCTOR_PARAMETER_ANNOTATED_OBSERVES_ID){
 				IJavaElement element = findJavaElement(file, start);
 				if(element != null){
@@ -328,7 +318,9 @@ public class CDIProblemMarkerResolutionGenerator implements
 						};
 					}
 				}
-			}else if(messageId == CDIValidationErrorManager.DISPOSER_IN_INTERCEPTOR_ID){
+			}else if(messageId == CDIValidationErrorManager.DISPOSER_IN_INTERCEPTOR_ID ||
+					messageId == CDIValidationErrorManager.DISPOSER_IN_DECORATOR_ID ||
+					messageId == CDIValidationErrorManager.CONSTRUCTOR_PARAMETER_ANNOTATED_DISPOSES_ID){
 				IJavaElement element = findJavaElement(file, start);
 				if(element != null){
 					IJavaElement disposerElement = findJavaElementByAnnotation(element, CDIConstants.DISPOSES_ANNOTATION_TYPE_NAME);
@@ -338,27 +330,8 @@ public class CDIProblemMarkerResolutionGenerator implements
 						};
 					}
 				}
-			}else if(messageId == CDIValidationErrorManager.DISPOSER_IN_DECORATOR_ID){
-				IJavaElement element = findJavaElement(file, start);
-				if(element != null){
-					IJavaElement disposerElement = findJavaElementByAnnotation(element, CDIConstants.DISPOSES_ANNOTATION_TYPE_NAME);
-					if(disposerElement != null){
-						return new IMarkerResolution[] {
-							new DeleteAnnotationMarkerResolution(disposerElement, CDIConstants.DISPOSES_ANNOTATION_TYPE_NAME)
-						};
-					}
-				}
-			}else if(messageId == CDIValidationErrorManager.PRODUCER_IN_INTERCEPTOR_ID){
-				IJavaElement element = findJavaElement(file, start);
-				if(element != null){
-					IJavaElement producerElement = findJavaElementByAnnotation(element, CDIConstants.PRODUCES_ANNOTATION_TYPE_NAME);
-					if(producerElement != null){
-						return new IMarkerResolution[] {
-							new DeleteAnnotationMarkerResolution(producerElement, CDIConstants.PRODUCES_ANNOTATION_TYPE_NAME)
-						};
-					}
-				}
-			}else if(messageId == CDIValidationErrorManager.PRODUCER_IN_DECORATOR_ID){
+			}else if(messageId == CDIValidationErrorManager.PRODUCER_IN_INTERCEPTOR_ID ||
+					messageId == CDIValidationErrorManager.PRODUCER_IN_DECORATOR_ID){
 				IJavaElement element = findJavaElement(file, start);
 				if(element != null){
 					IJavaElement producerElement = findJavaElementByAnnotation(element, CDIConstants.PRODUCES_ANNOTATION_TYPE_NAME);
@@ -373,6 +346,14 @@ public class CDIProblemMarkerResolutionGenerator implements
 				if(ta != null && ta.annotation != null && ta.type != null){
 					return new IMarkerResolution[] {
 						new ChangeAnnotationMarkerResolution(ta.annotation),
+						new DeleteAnnotationMarkerResolution(ta.type, CDIConstants.NAMED_QUALIFIER_TYPE_NAME)
+					};
+				}
+			}else if(messageId == CDIValidationErrorManager.INTERCEPTOR_HAS_NAME_ID ||
+					messageId == CDIValidationErrorManager.DECORATOR_HAS_NAME_ID){
+				TypeAndAnnotation ta = findTypeAndAnnotation(file, start, CDIConstants.NAMED_QUALIFIER_TYPE_NAME);
+				if(ta != null && ta.annotation != null && ta.type != null){
+					return new IMarkerResolution[] {
 						new DeleteAnnotationMarkerResolution(ta.type, CDIConstants.NAMED_QUALIFIER_TYPE_NAME)
 					};
 				}
