@@ -41,6 +41,7 @@ import org.jboss.tools.common.el.core.resolver.ELResolution;
 import org.jboss.tools.common.el.core.resolver.ELResolutionImpl;
 import org.jboss.tools.common.el.core.resolver.ELSegment;
 import org.jboss.tools.common.el.core.resolver.ELSegmentImpl;
+import org.jboss.tools.common.el.core.resolver.IOpenableReference;
 import org.jboss.tools.common.el.core.resolver.IRelevanceCheck;
 import org.jboss.tools.common.el.core.resolver.IVariable;
 import org.jboss.tools.common.el.core.resolver.JavaMemberELSegmentImpl;
@@ -49,7 +50,9 @@ import org.jboss.tools.common.el.core.resolver.TypeInfoCollector.MemberInfo;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.util.EclipseJavaUtil;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
+import org.jboss.tools.common.model.util.FindObjectHelper;
 import org.jboss.tools.common.text.TextProposal;
+import org.jboss.tools.common.text.ext.hyperlink.xpl.Messages;
 import org.jboss.tools.jsf.JSFModelPlugin;
 import org.jboss.tools.jsf.model.JSFELCompletionEngine.IJSFVariable;
 import org.jboss.tools.jst.web.kb.IXmlContext;
@@ -426,7 +429,9 @@ public class JSF2CCAttrsELCompletionEngine extends AbstractELCompletionEngine<IV
 			boolean returnEqualedVariablesOnly) {
 		Set<TextProposal> kbProposals = new TreeSet<TextProposal>(TextProposal.KB_PROPOSAL_ORDER);
 
-		ELSegmentImpl segment = new ELSegmentImpl(expr.getFirstToken());
+		JSF2CCAttrELSegmentImpl segment = new JSF2CCAttrELSegmentImpl(expr.getFirstToken());
+		segment.setResource(this.currentFile);
+		segment.setVarName(expr.toString());
 		resolution.setProposals(kbProposals);
 		if(expr instanceof ELPropertyInvocation) {
 			segment.setToken(((ELPropertyInvocation)expr).getName());			
@@ -647,4 +652,71 @@ public class JSF2CCAttrsELCompletionEngine extends AbstractELCompletionEngine<IV
 		};
 	}
 
+}
+
+class JSF2CCAttrELSegmentImpl extends ELSegmentImpl {
+	String varName;
+	IFile file;
+
+	public JSF2CCAttrELSegmentImpl(LexicalToken token) {
+		super(token);
+	}
+	
+	public void setVarName(String s) {
+		varName = s;
+	}
+
+	public void setResource(IFile f) {
+		file = f;
+		super.setResource(f);
+	}
+	
+	public IOpenableReference[] getOpenable() {
+		final XModelObject o = findJSF2CCAttributeXModelObject(varName, file);
+		if(o != null) {
+			IOpenableReference openable = new IOpenableReference() {
+				@Override
+				public boolean open() {
+					int q = FindObjectHelper.findModelObject(o, FindObjectHelper.IN_EDITOR_ONLY);
+					return q == 0;
+				}				
+				@Override
+				public String getLabel() {
+					return Messages.OpenJsf2CCAttribute;
+				}				
+				@Override
+				public Image getImage() {
+					return null;
+				}
+			};
+			return new IOpenableReference[]{openable};
+		}
+		return new IOpenableReference[0];
+	}
+
+	static String[] vs = {"cc.attrs", "compositeComponent.attrs"}; //$NON-NLS-1$ //$NON-NLS-2$
+
+	public static XModelObject findJSF2CCAttributeXModelObject(String varName, IFile file) {
+		XModelObject xModelObject = EclipseResourceUtil.createObjectForResource(file);
+		if(xModelObject == null) return null;
+		if(!"FileJSF2Component".equals(xModelObject.getModelEntity().getName())) return null;
+
+		IJavaProject javaProject = EclipseResourceUtil.getJavaProject(file.getProject());
+		XModelObject is = xModelObject.getChildByPath("Interface");
+		if(is != null && javaProject != null) {	
+			for (int i = 0; i < vs.length; i++) {
+				if (vs[i].equals(varName)) return is;
+			}
+			XModelObject[] cs = is.getChildren("JSF2ComponentAttribute");
+
+			for (int i = 0; i < cs.length; i++) {
+				String name = cs[i].getAttributeValue("name");
+				String[] names = {vs[0] + "." + name, vs[1] + "." + name};
+				for (String n: names) {
+					if (n.equals(varName)) return cs[i];
+				}
+			}
+		}
+		return null;
+	}
 }
