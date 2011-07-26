@@ -485,17 +485,7 @@ public class CDIInternationalMessagesELResolver extends AbstractELCompletionEngi
 		if(segment.getToken() == null)
 			return;
 		for(Variable variable : variables){
-			LexicalToken first = expr.getFirstToken();
-			LexicalToken last = expr.getLastToken();
-			StringBuffer sb = new StringBuffer();
-			sb.append(first.getText());
-			boolean ok = sb.toString().equals(variable.name);
-			while(!ok && first != null && first != last) {
-				first = first.getNextToken();
-				sb.append(first.getText());
-				ok = sb.toString().equals(variable.name);
-			}
-			if(ok){
+			if(isRelevant(expr, variable)) {
 				IBundleModel bundleModel = BundleModelFactory.getBundleModel(variable.f.getProject());
 				if(bundleModel == null) return;
 				if(bundleModel.getBundle(variable.basename) == null)
@@ -505,22 +495,28 @@ public class CDIInternationalMessagesELResolver extends AbstractELCompletionEngi
 			}
 		}
 	}
+
+	/*
+	 * Checks that name of variable is equal to the beginning of expression, which can take more than one token (like a.b.c)
+	 */
+	private boolean isRelevant(ELInvocationExpression expr, Variable variable) {
+		LexicalToken t = expr.getFirstToken();
+		StringBuffer sb = new StringBuffer();
+		sb.append(t.getText());
+		boolean ok = sb.toString().equals(variable.name);
+		while(!ok && t != null && t != expr.getLastToken()) {
+			t = t.getNextToken();
+			sb.append(t.getText());
+			ok = sb.toString().equals(variable.name);
+		}
+		return ok;
+	}
 	
 	private void processMessagePropertySegment(ELInvocationExpression expr, MessagePropertyELSegmentImpl segment, List<Variable> variables){
 		if(segment.getToken() == null)
 			return;
 		for(Variable variable : variables){
-			LexicalToken first = expr.getFirstToken();
-			LexicalToken last = expr.getLastToken();
-			StringBuffer sb = new StringBuffer();
-			sb.append(first.getText());
-			boolean ok = sb.toString().equals(variable.name);
-			while(!ok && first != null && first != last) {
-				first = first.getNextToken();
-				sb.append(first.getText());
-				ok = sb.toString().equals(variable.name);
-			}
-			if(ok){
+			if(isRelevant(expr, variable)) {
 				IBundleModel bundleModel = BundleModelFactory.getBundleModel(variable.f.getProject());
 				if(bundleModel == null) return;
 				IBundle bundle = bundleModel.getBundle(variable.basename);
@@ -556,20 +552,6 @@ public class CDIInternationalMessagesELResolver extends AbstractELCompletionEngi
 		}
 	}
 	
-	private String trimQuotes(String value) {
-		if(value == null)
-			return null;
-
-		if(value.startsWith("'") || value.startsWith("\"")) {  //$NON-NLS-1$ //$NON-NLS-2$
-			value = value.substring(1);
-		} 
-		
-		if(value.endsWith("'") || value.endsWith("\"")) { //$NON-NLS-1$ //$NON-NLS-2$
-			value = value.substring(0, value.length() - 1);
-		}
-		return value;
-	}	
-
 	public boolean findPropertyLocation(XModelObject property, String content, MessagePropertyELSegmentImpl segment) {
 		String name = property.getAttributeValue("name"); //$NON-NLS-1$
 		String nvs = property.getAttributeValue("name-value-separator"); //$NON-NLS-1$
