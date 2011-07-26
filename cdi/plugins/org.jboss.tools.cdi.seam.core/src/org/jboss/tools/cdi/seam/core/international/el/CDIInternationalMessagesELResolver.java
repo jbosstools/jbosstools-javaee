@@ -248,6 +248,16 @@ public class CDIInternationalMessagesELResolver extends AbstractELCompletionEngi
 						segment.getVariables().add(variable);						
 					}
 					resolution.addSegment(segment);
+					if(left.getLastToken() != left.getFirstToken()) {
+						LexicalToken combined = left.getFirstToken().getNextToken().getCombinedToken(left.getLastToken());
+						segment = new MessagePropertyELSegmentImpl(combined);
+						processMessageBundleSegment(expr, (MessagePropertyELSegmentImpl)segment, resolvedVariables);
+						segment.setResolved(true);
+						for (Variable variable : resolvedVars) {
+							segment.getVariables().add(variable);						
+						}
+						resolution.addSegment(segment);
+					}
 
 					break;
 				}
