@@ -12,6 +12,7 @@ package org.jboss.tools.cdi.seam.core.international.impl;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 import org.jboss.tools.cdi.seam.core.international.IBundle;
 import org.jboss.tools.cdi.seam.core.international.ILocalizedValue;
@@ -26,7 +27,7 @@ import org.jboss.tools.common.model.XModelObject;
 public class PropertyImpl implements IProperty {
 	String name;
 	BundleImpl bundle;
-	Map<String, LocalizedValue> values = new HashMap<String, LocalizedValue>();
+	Map<String, LocalizedValue> values = new TreeMap<String, LocalizedValue>();
 
 	@Override
 	public IBundle getBundle() {
@@ -58,6 +59,10 @@ public class PropertyImpl implements IProperty {
 	@Override
 	public ILocalizedValue getValue(String locale) {
 		return values.get(locale);
+	}
+
+	public Map<String, LocalizedValue> getValues() {
+		return values;
 	}
 
 	public void addObject(XModelObject o) {

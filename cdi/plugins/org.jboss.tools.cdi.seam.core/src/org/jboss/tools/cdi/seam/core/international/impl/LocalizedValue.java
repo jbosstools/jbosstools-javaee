@@ -10,6 +10,7 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.seam.core.international.impl;
 
+import org.eclipse.swt.internal.gtk.XClientMessageEvent;
 import org.jboss.tools.cdi.seam.core.international.ILocalizedValue;
 import org.jboss.tools.common.model.XModelObject;
 
@@ -34,13 +35,22 @@ public class LocalizedValue implements ILocalizedValue {
 
 	public void setObject(XModelObject object) {
 		this.object = object;
-		String n = object.getParent().getAttributeValue("name");
-		int i = n.indexOf('_');
-		if(i >= 0) locale = n.substring(i + 1);
+		locale = getLocale(object);
 	}
 
 	public XModelObject getObject() {
 		return object;
+	}
+
+	public static String getLocale(XModelObject object) {
+		XModelObject p = object;
+		while(p != null && p.getFileType() < XModelObject.FILE) p = p.getParent();
+		if(p != null) {
+			String n = p.getAttributeValue("name");
+			int i = n.indexOf('_');
+			if(i >= 0) return n.substring(i + 1);
+		}
+		return "";
 	}
 
 }

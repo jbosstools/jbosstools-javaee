@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 
 import org.jboss.tools.cdi.seam.core.international.IBundle;
 import org.jboss.tools.cdi.seam.core.international.IProperty;
@@ -26,7 +27,7 @@ import org.jboss.tools.common.model.XModelObject;
  */
 public class BundleImpl implements IBundle {
 	String name = "";
-	Set<XModelObject> objects = new HashSet<XModelObject>();
+	Map<String, XModelObject> objects = new TreeMap<String, XModelObject>();
 	Map<String, PropertyImpl> properties = null;
 
 	public BundleImpl() {}
@@ -49,7 +50,7 @@ public class BundleImpl implements IBundle {
 	public void initProperties() {
 		if(properties == null) {
 			Map<String, PropertyImpl> ps = new HashMap<String, PropertyImpl>();
-			for (XModelObject o: objects) {
+			for (XModelObject o: objects.values()) {
 				XModelObject[] os = o.getChildren();
 				for (XModelObject p: os) {
 					String name = p.getAttributeValue("name");
@@ -62,7 +63,7 @@ public class BundleImpl implements IBundle {
 	}
 
 	public void addObject(XModelObject o) {
-		objects.add(o);
+		objects.put(LocalizedValue.getLocale(o), o);
 	}
 
 	public IProperty getProperty(String name) {
@@ -79,6 +80,13 @@ public class BundleImpl implements IBundle {
 			properties.put(name, p);
 		}
 		return p;
+	}
+
+	/*
+	 * Returns file objects sorted by locales.
+	 */
+	public Map<String, XModelObject> getObjects() {
+		return objects;
 	}
 
 }

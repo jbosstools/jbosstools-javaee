@@ -21,7 +21,6 @@ import java.util.TreeSet;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
@@ -32,7 +31,9 @@ import org.jboss.tools.cdi.seam.core.international.BundleModelFactory;
 import org.jboss.tools.cdi.seam.core.international.IBundle;
 import org.jboss.tools.cdi.seam.core.international.IBundleModel;
 import org.jboss.tools.cdi.seam.core.international.IProperty;
+import org.jboss.tools.cdi.seam.core.international.impl.BundleImpl;
 import org.jboss.tools.cdi.seam.core.international.impl.LocalizedValue;
+import org.jboss.tools.cdi.seam.core.international.impl.PropertyImpl;
 import org.jboss.tools.common.el.core.ca.AbstractELCompletionEngine;
 import org.jboss.tools.common.el.core.model.ELArgumentInvocation;
 import org.jboss.tools.common.el.core.model.ELExpression;
@@ -54,8 +55,8 @@ import org.jboss.tools.common.el.core.resolver.IVariable;
 import org.jboss.tools.common.el.core.resolver.MessagePropertyELSegmentImpl;
 import org.jboss.tools.common.el.core.resolver.TypeInfoCollector.MemberInfo;
 import org.jboss.tools.common.model.XModelObject;
+import org.jboss.tools.common.model.util.PositionHolder;
 import org.jboss.tools.common.text.TextProposal;
-import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.jst.web.kb.IPageContext;
 import org.jboss.tools.jst.web.kb.IResourceBundle;
 import org.jboss.tools.jst.web.kb.internal.ResourceBundle;
@@ -492,6 +493,15 @@ public class CDIInternationalMessagesELResolver extends AbstractELCompletionEngi
 					return;
 				segment.setBaseName(variable.basename);
 				segment.setBundleOnlySegment(true);
+
+				IBundle bundle = bundleModel.getBundle(variable.basename);
+				if(bundle == null)
+					continue;
+				Map<String, XModelObject> os = ((BundleImpl)bundle).getObjects();
+				for (XModelObject o: os.values()) {
+					segment.addObject(o);
+				}
+				
 			}
 		}
 	}
@@ -523,30 +533,24 @@ public class CDIInternationalMessagesELResolver extends AbstractELCompletionEngi
 				if(bundle == null)
 					return;
 				
-				Set<String> properties = bundle.getPropertyNames();
+				String propertyName = segment.getToken().getText();
 				
-				for (String propertyName : properties) {
-					IProperty prop = bundle.getProperty(propertyName);
-					if(prop == null) continue;
-
-					LocalizedValue value = (LocalizedValue)prop.getValue();
+				IProperty prop = bundle.getProperty(propertyName);
+				if(prop == null) continue;
+				Map<String, LocalizedValue> values = ((PropertyImpl)prop).getValues();
+				for (LocalizedValue value: values.values()) {
 					XModelObject p = value.getObject();
+					segment.addObject(p);
+					segment.setBaseName(variable.basename);
+
+					PositionHolder h = PositionHolder.getPosition(p, null);
+					h.update();
+					segment.setMessagePropertySourceReference(h.getStart(), prop.getName().length());
 
 					IFile propFile = (IFile)p.getAdapter(IFile.class);
 					if(propFile == null)
 						continue;
 					segment.setMessageBundleResource(propFile);
-					XModelObject property = p;
-					if(property != null){
-						try {
-							String content = FileUtil.readStream(propFile);
-							if(findPropertyLocation(property, content, segment)){
-								segment.setBaseName(variable.basename);
-							}
-						} catch (CoreException e) {
-							log(e);
-						}
-					}
 				}
 			}
 		}
