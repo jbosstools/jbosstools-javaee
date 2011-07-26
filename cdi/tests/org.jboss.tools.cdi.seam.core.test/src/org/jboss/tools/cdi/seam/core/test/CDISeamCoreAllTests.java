@@ -27,6 +27,7 @@ public class CDISeamCoreAllTests {
 		TestSuite suite = new TestSuite("Seam Core Tests");
 
 		suite.addTestSuite(SeamResourceBundlesTest.class);
+		suite.addTestSuite(BundleModelTest.class);
 		return suite;
 	}
 }
