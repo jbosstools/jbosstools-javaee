@@ -2271,7 +2271,7 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 			Object name = nameDeclaration.getMemberValue(null);
 			if (name != null && name.toString().length() > 0) {
 				ITextSourceReference location = nameDeclaration;
-				addError(CDIValidationMessages.STEREOTYPE_DECLARES_NON_EMPTY_NAME, CDIPreferences.STEREOTYPE_DECLARES_NON_EMPTY_NAME, location, resource);
+				addError(CDIValidationMessages.STEREOTYPE_DECLARES_NON_EMPTY_NAME, CDIPreferences.STEREOTYPE_DECLARES_NON_EMPTY_NAME, location, resource, STEREOTYPE_DECLARES_NON_EMPTY_NAME_ID);
 			}
 		}
 

@@ -48,6 +48,7 @@ abstract public class CDIValidationErrorManager extends KBValidator {
 	public static final int PRODUCER_IN_DECORATOR_ID = 27;
 	public static final int DISPOSER_IN_INTERCEPTOR_ID = 28;
 	public static final int DISPOSER_IN_DECORATOR_ID = 29;
+	public static final int STEREOTYPE_DECLARES_NON_EMPTY_NAME_ID = 30;
 
 
 	/*
