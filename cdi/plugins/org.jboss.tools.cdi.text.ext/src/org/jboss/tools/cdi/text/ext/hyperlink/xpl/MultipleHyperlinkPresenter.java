@@ -369,6 +369,15 @@ public class MultipleHyperlinkPresenter  extends DefaultHyperlinkPresenter {
 			private Display fDisplay;
 			private IInformationControl fControl;
 			private Rectangle fSubjectArea;
+			private long startTime;
+			
+			public Closer(){
+				startTime = System.currentTimeMillis();
+			}
+			
+			private boolean isItTime(){
+				return System.currentTimeMillis() - startTime > 500;
+			}
 
 			/*
 			 * @see org.eclipse.jface.text.AbstractInformationControlManager.IInformationControlCloser#setInformationControl(org.eclipse.jface.text.IInformationControl)
@@ -419,7 +428,7 @@ public class MultipleHyperlinkPresenter  extends DefaultHyperlinkPresenter {
 			public void handleEvent(Event event) {
 				switch (event.type) {
 					case SWT.FocusOut:
-						if (!fControl.isFocusControl())
+						if (isItTime() && !fControl.isFocusControl())
 							disposeInformationControl();
 						break;
 					case SWT.MouseMove:
