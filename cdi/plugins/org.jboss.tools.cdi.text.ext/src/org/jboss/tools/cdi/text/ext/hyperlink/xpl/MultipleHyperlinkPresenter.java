@@ -375,6 +375,10 @@ public class MultipleHyperlinkPresenter  extends DefaultHyperlinkPresenter {
 				startTime = System.currentTimeMillis();
 			}
 			
+			/**
+			 * Attempt to avoid losing focus just after opening. See JBIDE-9390
+			 * @return
+			 */
 			private boolean isItTime(){
 				return System.currentTimeMillis() - startTime > 500;
 			}
