@@ -10,7 +10,6 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.seam.core.international.impl;
 
-import org.eclipse.swt.internal.gtk.XClientMessageEvent;
 import org.jboss.tools.cdi.seam.core.international.ILocalizedValue;
 import org.jboss.tools.common.model.XModelObject;
 
