@@ -17,5 +17,5 @@ Require-Bundle: org.eclipse.ui;bundle-version="3.7.0",
  org.eclipse.jface.text;bundle-version="3.7.0"
 Export-Package: org.jboss.tools.jsf.vpe.facelets,
     org.jboss.tools.jsf.vpe.facelets.template
-Bundle-Version: 3.1.0.qualifier
+Bundle-Version: 3.3.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
