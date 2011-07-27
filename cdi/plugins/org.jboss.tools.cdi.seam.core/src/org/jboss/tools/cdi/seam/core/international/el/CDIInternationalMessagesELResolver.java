@@ -122,15 +122,12 @@ public class CDIInternationalMessagesELResolver extends AbstractELCompletionEngi
 		if (bundleModel == null)
 			return null;
 		IResourceBundle[] bundles = findResourceBundles(bundleModel);
-
-		IDocument document = null;
-
 		if (bundles == null) 
-			bundles = new IResourceBundle[0];
+			return null;
 
 		List<TextProposal> proposals = null;
 		try {
-			 proposals = getCompletions(context.getResource(), document, elString.subSequence(0, elString.length()), position, returnEqualedVariablesOnly, bundles);
+			 proposals = getCompletions(context.getResource(), null, elString.subSequence(0, elString.length()), position, returnEqualedVariablesOnly, bundles);
 		} catch (StringIndexOutOfBoundsException e) {
 			log(e);
 		} catch (BadLocationException e) {
@@ -217,8 +214,29 @@ public class CDIInternationalMessagesELResolver extends AbstractELCompletionEngi
 							// but we have to resolve arguments of probably a message component
 			if (resolvedVariables != null && !resolvedVariables.isEmpty()) {
 				resolution.setLastResolvedToken(left);
-	
-				ELSegmentImpl segment = new MessagePropertyELSegmentImpl(left.getFirstToken());
+				// Create a combined lexical token to store all the variable name (not only the name before first dot, but all the name including all the words and dots)
+				int variableTokenType = left.getFirstToken().getType();
+				int variableTokenStart = left.getFirstToken().getStart();
+				int variableTokenLength = 0;
+				StringBuffer variableTokenText = new StringBuffer();
+				LexicalToken current = left.getFirstToken();
+				LexicalToken variableTokenNext = null;
+				while (current != null && current != left.getLastToken()) {
+					variableTokenText.append(current.getText());
+					variableTokenLength += current.getLength();
+					variableTokenNext = current.getNextToken();
+					current = variableTokenNext;
+				}
+				if (current != null) {
+					variableTokenText.append(current.getText());
+					variableTokenLength += current.getLength();
+					variableTokenNext = current.getNextToken();
+				}				
+				
+				LexicalToken variableToken = new LexicalToken(variableTokenStart, variableTokenLength, variableTokenText, variableTokenType);
+				variableToken.setNextToken(variableTokenNext);
+				
+				ELSegmentImpl segment = new MessagePropertyELSegmentImpl(variableToken);
 				processMessageBundleSegment(expr, (MessagePropertyELSegmentImpl)segment, resolvedVariables);
 
 				segment.setResolved(true);
@@ -545,7 +563,7 @@ public class CDIInternationalMessagesELResolver extends AbstractELCompletionEngi
 				
 				String propertyName = segment.getToken().getText();
 				
-				IProperty prop = bundle.getProperty(propertyName);
+				IProperty prop = bundle.getProperty(trimQuotes(propertyName));
 				if(prop == null) continue;
 				Map<String, LocalizedValue> values = ((PropertyImpl)prop).getValues();
 				for (LocalizedValue value: values.values()) {

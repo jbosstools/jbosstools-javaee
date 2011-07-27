@@ -19,11 +19,9 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
-import org.eclipse.jface.text.IRegion;
 import org.eclipse.swt.graphics.Image;
 import org.jboss.tools.common.el.core.ca.AbstractELCompletionEngine;
 import org.jboss.tools.common.el.core.model.ELArgumentInvocation;
@@ -52,7 +50,6 @@ import org.jboss.tools.common.model.util.PositionHolder;
 import org.jboss.tools.common.text.TextProposal;
 import org.jboss.tools.common.text.ext.util.StructuredModelWrapper;
 import org.jboss.tools.common.text.ext.util.Utils;
-import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.jsf.JSFModelPlugin;
 import org.jboss.tools.jsf.model.helpers.converter.OpenKeyHelper;
 import org.jboss.tools.jst.web.kb.IPageContext;
@@ -601,20 +598,6 @@ public class JSFMessageELCompletionEngine extends AbstractELCompletionEngine<IVa
 			smw.dispose();
 		}
 	}
-	
-	private String trimQuotes(String value) {
-		if(value == null)
-			return null;
-
-		if(value.startsWith("'") || value.startsWith("\"")) {  //$NON-NLS-1$ //$NON-NLS-2$
-			value = value.substring(1);
-		} 
-		
-		if(value.endsWith("'") || value.endsWith("\"")) { //$NON-NLS-1$ //$NON-NLS-2$
-			value = value.substring(0, value.length() - 1);
-		}
-		return value;
-	}	
 	
 	public boolean findPropertyLocation(XModelObject property, String content, MessagePropertyELSegmentImpl segment) {
 		String name = property.getAttributeValue("name"); //$NON-NLS-1$
