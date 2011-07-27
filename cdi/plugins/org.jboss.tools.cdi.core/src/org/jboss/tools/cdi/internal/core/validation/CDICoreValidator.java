@@ -942,11 +942,11 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 			 */
 			if(bean instanceof IDecorator) {
 				for (ITextSourceReference declaration : declarations) {
-					addError(CDIValidationMessages.OBSERVER_IN_DECORATOR, CDIPreferences.OBSERVER_IN_INTERCEPTOR_OR_DECORATOR, declaration, bean.getResource());
+					addError(CDIValidationMessages.OBSERVER_IN_DECORATOR, CDIPreferences.OBSERVER_IN_INTERCEPTOR_OR_DECORATOR, declaration, bean.getResource(), OBSERVER_IN_DECORATOR_ID);
 				}
 			} else if(bean instanceof IInterceptor) {
 				for (ITextSourceReference declaration : declarations) {
-					addError(CDIValidationMessages.OBSERVER_IN_INTERCEPTOR, CDIPreferences.OBSERVER_IN_INTERCEPTOR_OR_DECORATOR, declaration, bean.getResource());
+					addError(CDIValidationMessages.OBSERVER_IN_INTERCEPTOR, CDIPreferences.OBSERVER_IN_INTERCEPTOR_OR_DECORATOR, declaration, bean.getResource(), OBSERVER_IN_INTERCEPTOR_ID);
 				}
 			}
 

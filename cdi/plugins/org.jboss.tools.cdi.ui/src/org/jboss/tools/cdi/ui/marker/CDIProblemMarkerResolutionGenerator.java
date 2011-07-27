@@ -408,6 +408,17 @@ public class CDIProblemMarkerResolutionGenerator implements
 						};
 					}
 				}
+			}else if(messageId == CDIValidationErrorManager.OBSERVER_IN_DECORATOR_ID ||
+					messageId == CDIValidationErrorManager.OBSERVER_IN_INTERCEPTOR_ID){
+				IJavaElement element = findJavaElement(file, start);
+				if(element != null){
+					IJavaElement observerElement = findJavaElementByAnnotation(element, CDIConstants.OBSERVERS_ANNOTATION_TYPE_NAME);
+					if(observerElement != null){
+						return new IMarkerResolution[] {
+							new DeleteAnnotationMarkerResolution(observerElement, CDIConstants.OBSERVERS_ANNOTATION_TYPE_NAME)
+						};
+					}
+				}
 			}
 		}
 		return new IMarkerResolution[] {};

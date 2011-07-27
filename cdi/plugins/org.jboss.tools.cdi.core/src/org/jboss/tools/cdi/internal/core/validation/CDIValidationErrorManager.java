@@ -57,6 +57,8 @@ abstract public class CDIValidationErrorManager extends KBValidator {
 	public static final int PRODUCER_PARAMETER_ILLEGALLY_ANNOTATED_DISPOSES_ID = 36;
 	public static final int PRODUCER_PARAMETER_ILLEGALLY_ANNOTATED_OBSERVES_ID = 37;
 	public static final int OBSERVER_PARAMETER_ILLEGALLY_ANNOTATED_ID = 38;
+	public static final int OBSERVER_IN_DECORATOR_ID = 39;
+	public static final int OBSERVER_IN_INTERCEPTOR_ID = 40;
 
 
 	/*
