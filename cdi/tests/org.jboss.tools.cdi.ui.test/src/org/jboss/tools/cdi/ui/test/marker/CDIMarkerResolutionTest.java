@@ -786,4 +786,18 @@ public class CDIMarkerResolutionTest  extends ValidationTest {
 				DeleteAnnotationMarkerResolution.class);
 	}
 
+	public void testTypedInStereotypeResolution() throws CoreException{
+		checkResolution(tckProject,
+				new String[]{
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TestStereotype6.java"
+				},
+				new String[]{
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TestStereotype6.qfxresult"
+				},
+				CDICoreValidator.PROBLEM_TYPE,
+				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
+				CDIValidationErrorManager.STEREOTYPE_IS_ANNOTATED_TYPED_ID,
+				DeleteAnnotationMarkerResolution.class);
+	}
+
 }

@@ -8,7 +8,6 @@ import org.jboss.jsr299.tck.tests.decorators.interceptor.FooBinding;
 @FooBinding
 public class TestInterceptor4{
 
-	
 	public String produce(){
 		return "a";
 	}

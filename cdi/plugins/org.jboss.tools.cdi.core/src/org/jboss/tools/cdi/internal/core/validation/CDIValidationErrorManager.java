@@ -51,6 +51,7 @@ abstract public class CDIValidationErrorManager extends KBValidator {
 	public static final int STEREOTYPE_DECLARES_NON_EMPTY_NAME_ID = 30;
 	public static final int INTERCEPTOR_HAS_NAME_ID = 31;
 	public static final int DECORATOR_HAS_NAME_ID = 32;
+	public static final int STEREOTYPE_IS_ANNOTATED_TYPED_ID = 33;
 
 
 	/*

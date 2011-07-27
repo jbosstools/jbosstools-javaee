@@ -2279,7 +2279,7 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 		IAnnotationDeclaration typedDeclaration = stereotype.getAnnotationDeclaration(CDIConstants.TYPED_ANNOTATION_TYPE_NAME);
 		if (typedDeclaration != null) {
 			ITextSourceReference location = typedDeclaration;
-			addError(CDIValidationMessages.STEREOTYPE_IS_ANNOTATED_TYPED, CDIPreferences.STEREOTYPE_IS_ANNOTATED_TYPED, location, resource);
+			addError(CDIValidationMessages.STEREOTYPE_IS_ANNOTATED_TYPED, CDIPreferences.STEREOTYPE_IS_ANNOTATED_TYPED, location, resource, STEREOTYPE_IS_ANNOTATED_TYPED_ID);
 		}
 
 		// 3. Qualifier other than @Named

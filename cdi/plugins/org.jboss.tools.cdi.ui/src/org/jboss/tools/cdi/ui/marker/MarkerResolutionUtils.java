@@ -546,7 +546,7 @@ public class MarkerResolutionUtils {
 			int numberOfSpaces = 0;
 			if(position < buffer.getLength()-1){
 				char c = buffer.getChar(position);
-				while(c == ' ' && position < buffer.getLength()-1){
+				while((c == ' ' || c == '\t' || c == '\n' || c == '\r') && position < buffer.getLength()-1){
 					numberOfSpaces++;
 					position++;
 					c = buffer.getChar(position);

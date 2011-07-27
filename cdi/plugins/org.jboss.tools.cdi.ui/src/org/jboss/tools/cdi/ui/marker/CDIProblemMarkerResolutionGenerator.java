@@ -357,6 +357,13 @@ public class CDIProblemMarkerResolutionGenerator implements
 						new DeleteAnnotationMarkerResolution(ta.type, CDIConstants.NAMED_QUALIFIER_TYPE_NAME)
 					};
 				}
+			}else if(messageId == CDIValidationErrorManager.STEREOTYPE_IS_ANNOTATED_TYPED_ID){
+				TypeAndAnnotation ta = findTypeAndAnnotation(file, start, CDIConstants.TYPED_ANNOTATION_TYPE_NAME);
+				if(ta != null && ta.annotation != null && ta.type != null){
+					return new IMarkerResolution[] {
+						new DeleteAnnotationMarkerResolution(ta.type, CDIConstants.TYPED_ANNOTATION_TYPE_NAME)
+					};
+				}
 			}
 		}
 		return new IMarkerResolution[] {};

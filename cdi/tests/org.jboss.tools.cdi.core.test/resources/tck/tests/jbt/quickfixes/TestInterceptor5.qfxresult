@@ -6,7 +6,6 @@ import org.jboss.jsr299.tck.tests.decorators.interceptor.FooBinding;
 
 @Interceptor
 @FooBinding
-
 public class TestInterceptor5{
 
 	

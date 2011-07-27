@@ -5,7 +5,6 @@ import javax.decorator.Delegate;
 import javax.inject.Inject;
 
 @Decorator
-
 public class TestDecorator3 {
 	@Inject @Delegate @AAnnotation String str;
 
