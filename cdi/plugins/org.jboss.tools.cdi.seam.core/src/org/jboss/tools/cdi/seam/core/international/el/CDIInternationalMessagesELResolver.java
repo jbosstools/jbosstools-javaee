@@ -119,9 +119,7 @@ public class CDIInternationalMessagesELResolver extends AbstractELCompletionEngi
 			return null;
 		
 		IBundleModel bundleModel = BundleModelFactory.getBundleModel(project);
-		if (bundleModel == null)
-			return null;
-		IResourceBundle[] bundles = findResourceBundles(bundleModel);
+		IResourceBundle[] bundles = bundleModel == null ? null : findResourceBundles(bundleModel);
 		if (bundles == null) 
 			return null;
 
@@ -149,14 +147,21 @@ public class CDIInternationalMessagesELResolver extends AbstractELCompletionEngi
 
 	public ELResolutionImpl resolveELOperand(ELExpression operand,
 			ELContext context, boolean returnEqualedVariablesOnly) {
-		IResourceBundle[] bundles = new IResourceBundle[0];
-		if(context instanceof IPageContext) {
-			IBundleModel bundleModel = BundleModelFactory.getBundleModel(context.getResource().getProject());
-			if (bundleModel != null) {
-				bundles = findResourceBundles(bundleModel);
-			}
 
-		}
+		IProject project = context == null ? null :
+			context.getResource() == null ? null :
+				context.getResource().getProject();
+		if (project == null)
+			return null;
+		
+		if (!CDICorePlugin.getCDI(project, true).getExtensionManager().isCDIExtensionAvailable(CDISeamCorePlugin.CDI_INTERNATIONAL_RUNTIME_EXTENTION))
+			return null;
+
+		IBundleModel bundleModel = BundleModelFactory.getBundleModel(context.getResource().getProject());
+		IResourceBundle[] bundles = bundleModel == null ? null : findResourceBundles(bundleModel);
+		if (bundles == null) 
+			return null;
+
 		try {
 			return resolveELOperand(context.getResource(), operand, returnEqualedVariablesOnly, bundles);
 		} catch (StringIndexOutOfBoundsException e) {
