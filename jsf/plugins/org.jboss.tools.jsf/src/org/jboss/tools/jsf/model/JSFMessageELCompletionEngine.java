@@ -547,10 +547,11 @@ public class JSFMessageELCompletionEngine extends AbstractELCompletionEngine<IVa
 					segment.setMessagePropertySourceReference(h.getStart(), name.length());
 
 					IFile propFile = (IFile)p.getAdapter(IFile.class);
-					if(propFile == null)
-						continue;
-					segment.setMessageBundleResource(propFile);
+					if(propFile != null)
+						segment.setMessageBundleResource(propFile);
 				}
+				segment.setBaseName(variable.basename);
+				segment.setBundleOnlySegment(false);
 			}
 		}
 	}
