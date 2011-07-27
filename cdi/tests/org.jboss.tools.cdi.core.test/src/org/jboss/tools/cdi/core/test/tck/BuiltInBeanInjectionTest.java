@@ -15,6 +15,7 @@ import java.util.Set;
 import org.eclipse.jdt.core.IType;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.IBean;
+import org.jboss.tools.cdi.core.IClassBean;
 import org.jboss.tools.cdi.core.IInjectionPointField;
 import org.jboss.tools.cdi.internal.core.impl.BuiltInBean;
 
@@ -23,8 +24,10 @@ import org.jboss.tools.cdi.internal.core.impl.BuiltInBean;
  */
 public class BuiltInBeanInjectionTest extends TCKTest {
 
-	public void testBuiltInBeans() {
-		// javax.transaction.UserTransaction
+	/**
+	 * Test built-in bean with type javax.transaction.UserTransaction
+	 */
+	public void testBuiltInUserTransactionBean() {
 		IInjectionPointField field =  getInjectionPointField("JavaSource/org/jboss/jsr299/tck/tests/implementation/builtin/UserTransactionInjectedBean.java", "userTransaction");
 		assertNotNull(field);
 		
@@ -35,56 +38,89 @@ public class BuiltInBeanInjectionTest extends TCKTest {
 		assertTrue(b instanceof BuiltInBean);
 		IType t = b.getBeanClass();
 		assertEquals("javax.transaction.UserTransaction", t.getFullyQualifiedName());
+	}
 
-		
-		// javax.validation.ValidatorFactory
-		field =  getInjectionPointField("JavaSource/org/jboss/jsr299/tck/tests/implementation/builtin/DefaultValidatorFactoryInjectedBean.java", "defaultValidatorFactory");
+	/**
+	 * Test built-in bean with type javax.validation.ValidatorFactory
+	 */
+	public void testBuiltInValidatorFactoryBean() {
+		IInjectionPointField field =  getInjectionPointField("JavaSource/org/jboss/jsr299/tck/tests/implementation/builtin/DefaultValidatorFactoryInjectedBean.java", "defaultValidatorFactory");
 		assertNotNull(field);
 		
-		beans = field.getCDIProject().getBeans(false, field);
+		Set<IBean> beans = field.getCDIProject().getBeans(false, field);
 		assertFalse(beans.isEmpty());
 
-		b = beans.iterator().next();
+		IBean b = beans.iterator().next();
 		assertTrue(b instanceof BuiltInBean);
-		t = b.getBeanClass();
+		IType t = b.getBeanClass();
 		assertEquals("javax.validation.ValidatorFactory", t.getFullyQualifiedName());
+	}
 
-		// javax.validation.Validator
-		field =  getInjectionPointField("JavaSource/org/jboss/jsr299/tck/tests/implementation/builtin/DefaultValidatorInjectedBean.java", "defaultValidator");
+	/**
+	 * Test built-in bean with type javax.validation.Validator
+	 */
+	public void testBuiltInValidatorBean() {
+		IInjectionPointField field =  getInjectionPointField("JavaSource/org/jboss/jsr299/tck/tests/implementation/builtin/DefaultValidatorInjectedBean.java", "defaultValidator");
 		assertNotNull(field);
 		
-		beans = field.getCDIProject().getBeans(false, field);
+		Set<IBean> beans = field.getCDIProject().getBeans(false, field);
 		assertFalse(beans.isEmpty());
 
-		b = beans.iterator().next();
+		IBean b = beans.iterator().next();
 		assertTrue(b instanceof BuiltInBean);
-		t = b.getBeanClass();
+		IType t = b.getBeanClass();
 		assertEquals("javax.validation.Validator", t.getFullyQualifiedName());
+	}
 
-		// java.security.Principal
-		field =  getInjectionPointField("JavaSource/org/jboss/jsr299/tck/tests/implementation/builtin/PrincipalInjectedBean.java", "principal");
+	/**
+	 * Test built-in bean with type java.security.Principal
+	 */
+	public void testBuiltInPrincipalBean() {
+		IInjectionPointField field =  getInjectionPointField("JavaSource/org/jboss/jsr299/tck/tests/implementation/builtin/PrincipalInjectedBean.java", "principal");
 		assertNotNull(field);
 		
-		beans = field.getCDIProject().getBeans(false, field);
+		Set<IBean> beans = field.getCDIProject().getBeans(false, field);
 		assertFalse(beans.isEmpty());
 
-		b = beans.iterator().next();
+		IBean b = beans.iterator().next();
 		assertTrue(b instanceof BuiltInBean);
-		t = b.getBeanClass();
+		IType t = b.getBeanClass();
 		assertEquals("java.security.Principal", t.getFullyQualifiedName());
+	}
 
-		//javax.enterprise.inject.spi.BeanManager
-		field =  getInjectionPointField("JavaSource/org/jboss/jsr299/tck/tests/context/conversation/BuiltInConversation.java", "manager");
+	/**
+	 * Test built-in bean with type javax.enterprise.inject.spi.BeanManager
+	 */
+	public void testBuiltInBeanManagerBean() {
+		IInjectionPointField field =  getInjectionPointField("JavaSource/org/jboss/jsr299/tck/tests/context/conversation/BuiltInConversation.java", "manager");
 		assertNotNull(field);
 		
-		beans = field.getCDIProject().getBeans(false, field);
+		Set<IBean> beans = field.getCDIProject().getBeans(false, field);
 		assertFalse(beans.isEmpty());
 
-		b = beans.iterator().next();
+		IBean b = beans.iterator().next();
 		assertTrue(b instanceof BuiltInBean);
-		t = b.getBeanClass();
+		IType t = b.getBeanClass();
 		assertEquals(CDIConstants.BEAN_MANAGER_TYPE_NAME, t.getFullyQualifiedName());
+	}
 
+	/**
+	 * Test built-in bean with type javax.enterprise.context.Conversation
+	 */
+	public void testBuiltInConversationBean() {
+		IInjectionPointField field =  getInjectionPointField("JavaSource/org/jboss/jsr299/tck/tests/context/conversation/BuiltInConversation.java", "conversation");
+		assertNotNull(field);
+		
+		Set<IBean> beans = field.getCDIProject().getBeans(false, field);
+		assertFalse(beans.isEmpty());
+
+		IBean b = beans.iterator().next();
+		assertTrue(b instanceof IClassBean);
+		IType t = b.getBeanClass();
+		assertEquals(CDIConstants.CONVERSATION_TYPE_NAME, t.getFullyQualifiedName());
+		assertEquals(CDIConstants.CONVERSATION_BEAN_NAME, b.getName());
+		beans = cdiProject.getBeans(CDIConstants.CONVERSATION_BEAN_NAME, false);
+		assertTrue(beans.contains(b));
 	}
 
 }
