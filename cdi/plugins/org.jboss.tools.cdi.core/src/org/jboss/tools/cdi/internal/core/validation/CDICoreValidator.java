@@ -1264,13 +1264,13 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 				if (observesDeclarations.size() > 1) {
 					for (ITextSourceReference declaration : observesDeclarations) {
 						addError(CDIValidationMessages.PRODUCER_PARAMETER_ILLEGALLY_ANNOTATED_OBSERVES, CDIPreferences.PRODUCER_PARAMETER_ILLEGALLY_ANNOTATED,
-								declaration, producer.getResource());
+								declaration, producer.getResource(), PRODUCER_PARAMETER_ILLEGALLY_ANNOTATED_OBSERVES_ID);
 					}
 				}
 				if (disposalDeclarations.size() > 1) {
 					for (ITextSourceReference declaration : disposalDeclarations) {
 						addError(CDIValidationMessages.PRODUCER_PARAMETER_ILLEGALLY_ANNOTATED_DISPOSES, CDIPreferences.PRODUCER_PARAMETER_ILLEGALLY_ANNOTATED,
-								declaration, producer.getResource());
+								declaration, producer.getResource(), PRODUCER_PARAMETER_ILLEGALLY_ANNOTATED_DISPOSES_ID);
 					}
 				}
 

@@ -54,6 +54,8 @@ abstract public class CDIValidationErrorManager extends KBValidator {
 	public static final int STEREOTYPE_IS_ANNOTATED_TYPED_ID = 33;
 	public static final int INTERCEPTOR_ANNOTATED_SPECIALIZES_ID = 34;
 	public static final int DECORATOR_ANNOTATED_SPECIALIZES_ID = 35;
+	public static final int PRODUCER_PARAMETER_ILLEGALLY_ANNOTATED_DISPOSES_ID = 36;
+	public static final int PRODUCER_PARAMETER_ILLEGALLY_ANNOTATED_OBSERVES_ID = 37;
 
 
 	/*
