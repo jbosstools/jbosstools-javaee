@@ -48,7 +48,7 @@ public class RichFacesJBIDE1169Test extends VpeTest{
     }
     
     public void testJBIDE1169() {  	
-        String replacedValue = ElService.getInstance().replaceEl(testFile,"#{"+RICH_FACES_SKIN_KEY+'}'); //$NON-NLS-1$
+        String replacedValue = ElService.replaceEl(testFile,"#{"+RICH_FACES_SKIN_KEY+'}'); //$NON-NLS-1$
         assertEquals("Skin value should be equals",SKIN_VALUE, replacedValue); //$NON-NLS-1$
     }
     /**

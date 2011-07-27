@@ -278,7 +278,7 @@ public class ComponentUtil {
 		if (file == null)
 			return resolvedValue;
 
-		resolvedValue = ElService.getInstance().replaceEl(file, resolvedValue);
+		resolvedValue = ElService.replaceEl(file, resolvedValue);
 
 		URI uri = null;
 		try {
@@ -584,7 +584,7 @@ public class ComponentUtil {
         		||!(pageContext.getVisualBuilder().getCurrentIncludeInfo().getStorage() instanceof IFile)) {
         	return;
         }
-        String path = ElService.getInstance().replaceEl((IFile)pageContext.getVisualBuilder().getCurrentIncludeInfo().getStorage(), fileImageName);
+        String path = ElService.replaceEl((IFile)pageContext.getVisualBuilder().getCurrentIncludeInfo().getStorage(), fileImageName);
         File file = new File(inputPath.toOSString() + File.separator + path);
         if (file.exists()) {
             img.setAttribute(HTML.ATTR_SRC, HtmlComponentUtil.FILE_PROTOCOL + inputPath.toString() + "/" //$NON-NLS-1$

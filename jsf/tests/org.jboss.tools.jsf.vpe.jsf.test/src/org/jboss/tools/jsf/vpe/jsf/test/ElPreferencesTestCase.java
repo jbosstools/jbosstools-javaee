@@ -42,7 +42,7 @@ public class ElPreferencesTestCase extends CommonJBIDE2010Test {
      */
     public void testReplaceAttributeValue() throws CoreException {
         String string1 = "#{beanA.property1}/images/smalle.gif"; //$NON-NLS-1$
-        String replacedValue = ElService.getInstance().replaceEl(file, string1);
+        String replacedValue = ElService.replaceEl(file, string1);
 
         assertEquals("Should be equals " + elValuesMap.get(KEY_1) + "/images/smalle.gif", replacedValue, elValuesMap.get(KEY_1) //$NON-NLS-1$ //$NON-NLS-2$
                 + "/images/smalle.gif"); //$NON-NLS-1$
@@ -57,7 +57,7 @@ public class ElPreferencesTestCase extends CommonJBIDE2010Test {
     public void testReplaceAttributeValue2() throws CoreException {
         String string1 = "#{beanA.property1}/images/#{beanA.property2}/path2/#{facesContext.requestPath}/smalle.gif"; //$NON-NLS-1$
 
-        final String replacedValue = ElService.getInstance().replaceEl(file, string1);
+        final String replacedValue = ElService.replaceEl(file, string1);
         final String check = elValuesMap.get(KEY_1) + "/images/" + elValuesMap.get(KEY_2) + "/path2/" + elValuesMap.get(KEY_3) //$NON-NLS-1$ //$NON-NLS-2$
                 + "/smalle.gif"; //$NON-NLS-1$
         assertEquals("Should be equals " + check, check, replacedValue); //$NON-NLS-1$
@@ -70,6 +70,6 @@ public class ElPreferencesTestCase extends CommonJBIDE2010Test {
     public void testReplaceNotInSet() {
         String string1 = "#{requestScope}/smalle.gif"; //$NON-NLS-1$
 
-        assertEquals("Should be equals", string1, ElService.getInstance().replaceEl(file, string1)); //$NON-NLS-1$
+        assertEquals("Should be equals", string1, ElService.replaceEl(file, string1)); //$NON-NLS-1$
     }
 }
