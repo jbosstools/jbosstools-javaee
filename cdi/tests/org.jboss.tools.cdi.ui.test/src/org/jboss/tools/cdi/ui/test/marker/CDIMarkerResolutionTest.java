@@ -847,4 +847,15 @@ public class CDIMarkerResolutionTest  extends ValidationTest {
 				CDIValidationErrorManager.PRODUCER_PARAMETER_ILLEGALLY_ANNOTATED_OBSERVES_ID,
 				DeleteAnnotationMarkerResolution.class);
 	}
+	
+	public void testDisposerInObserverResolution() throws CoreException{
+		checkResolution(tckProject,
+				new String[]{
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/DisposerInObserver.java"
+				},
+				CDICoreValidator.PROBLEM_TYPE,
+				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
+				CDIValidationErrorManager.OBSERVER_PARAMETER_ILLEGALLY_ANNOTATED_ID,
+				DeleteAnnotationMarkerResolution.class);
+	}
 }
