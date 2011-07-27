@@ -33,8 +33,6 @@ import org.jboss.tools.cdi.ui.marker.AddRetentionAnnotationMarkerResolution;
 import org.jboss.tools.cdi.ui.marker.AddSerializableInterfaceMarkerResolution;
 import org.jboss.tools.cdi.ui.marker.AddTargetAnnotationMarkerResolution;
 import org.jboss.tools.cdi.ui.marker.ChangeAnnotationMarkerResolution;
-import org.jboss.tools.cdi.ui.marker.ChangeRetentionAnnotationMarkerResolution;
-import org.jboss.tools.cdi.ui.marker.ChangeTargetAnnotationMarkerResolution;
 import org.jboss.tools.cdi.ui.marker.DeleteAllDisposerDuplicantMarkerResolution;
 import org.jboss.tools.cdi.ui.marker.DeleteAllInjectedConstructorsMarkerResolution;
 import org.jboss.tools.cdi.ui.marker.DeleteAnnotationMarkerResolution;
@@ -421,7 +419,7 @@ public class CDIMarkerResolutionTest  extends ValidationTest {
 				CDICoreValidator.PROBLEM_TYPE,
 				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
 				CDIValidationErrorManager.MISSING_RETENTION_ANNOTATION_IN_QUALIFIER_TYPE_ID,
-				ChangeRetentionAnnotationMarkerResolution.class);
+				ChangeAnnotationMarkerResolution.class);
 	}
 	
 	public void testAddRetentionToScopeResolution() throws CoreException{
@@ -449,7 +447,7 @@ public class CDIMarkerResolutionTest  extends ValidationTest {
 				CDICoreValidator.PROBLEM_TYPE,
 				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
 				CDIValidationErrorManager.MISSING_RETENTION_ANNOTATION_IN_SCOPE_TYPE_ID,
-				ChangeRetentionAnnotationMarkerResolution.class);
+				ChangeAnnotationMarkerResolution.class);
 	}
 	
 	public void testAddRetentionToStereotypeResolution() throws CoreException{
@@ -477,7 +475,7 @@ public class CDIMarkerResolutionTest  extends ValidationTest {
 				CDICoreValidator.PROBLEM_TYPE,
 				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
 				CDIValidationErrorManager.MISSING_RETENTION_ANNOTATION_IN_STEREOTYPE_TYPE_ID,
-				ChangeRetentionAnnotationMarkerResolution.class);
+				ChangeAnnotationMarkerResolution.class);
 	}
 	
 	public void testAddTargetToStereotypeResolution() throws CoreException{
@@ -499,7 +497,7 @@ public class CDIMarkerResolutionTest  extends ValidationTest {
 				CDICoreValidator.PROBLEM_TYPE,
 				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
 				CDIValidationErrorManager.MISSING_TARGET_ANNOTATION_IN_STEREOTYPE_TYPE_ID,
-				ChangeTargetAnnotationMarkerResolution.class);
+				ChangeAnnotationMarkerResolution.class);
 	}
 	
 	public void testAddTargetToQualifierResolution() throws CoreException{
@@ -521,7 +519,7 @@ public class CDIMarkerResolutionTest  extends ValidationTest {
 				CDICoreValidator.PROBLEM_TYPE,
 				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
 				CDIValidationErrorManager.MISSING_TARGET_ANNOTATION_IN_QUALIFIER_TYPE_ID,
-				ChangeTargetAnnotationMarkerResolution.class);
+				ChangeAnnotationMarkerResolution.class);
 	}
 	
 	public void testAddTargetToScopeResolution() throws CoreException{
@@ -549,7 +547,7 @@ public class CDIMarkerResolutionTest  extends ValidationTest {
 				CDICoreValidator.PROBLEM_TYPE,
 				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
 				CDIValidationErrorManager.MISSING_TARGET_ANNOTATION_IN_SCOPE_TYPE_ID,
-				ChangeTargetAnnotationMarkerResolution.class);
+				ChangeAnnotationMarkerResolution.class);
 	}
 	
 	public void testAddNonbindingToAnnotationMemberOfQualifierResolution() throws CoreException{
@@ -799,5 +797,32 @@ public class CDIMarkerResolutionTest  extends ValidationTest {
 				CDIValidationErrorManager.STEREOTYPE_IS_ANNOTATED_TYPED_ID,
 				DeleteAnnotationMarkerResolution.class);
 	}
-
+	
+	public void testSpecializesInDecoratorResolution() throws CoreException{
+		checkResolution(tckProject,
+				new String[]{
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TestDecorator4.java"
+				},
+				new String[]{
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TestDecorator4.qfxresult"
+				},
+				CDICoreValidator.PROBLEM_TYPE,
+				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
+				CDIValidationErrorManager.DECORATOR_ANNOTATED_SPECIALIZES_ID,
+				DeleteAnnotationMarkerResolution.class);
+	}
+	
+	public void testSpecializesInInterceptorResolution() throws CoreException{
+		checkResolution(tckProject,
+				new String[]{
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TestInterceptor6.java"
+				},
+				new String[]{
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TestInterceptor6.qfxresult"
+				},
+				CDICoreValidator.PROBLEM_TYPE,
+				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
+				CDIValidationErrorManager.INTERCEPTOR_ANNOTATED_SPECIALIZES_ID,
+				DeleteAnnotationMarkerResolution.class);
+	}
 }

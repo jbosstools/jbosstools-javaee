@@ -758,9 +758,9 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 		IAnnotationDeclaration specializesDeclaration = bean.getSpecializesAnnotationDeclaration();
 		if(specializesDeclaration!=null) {
 			if(bean instanceof IDecorator) {
-				addError(CDIValidationMessages.DECORATOR_ANNOTATED_SPECIALIZES, CDIPreferences.INTERCEPTOR_ANNOTATED_SPECIALIZES, specializesDeclaration, bean.getResource());
+				addError(CDIValidationMessages.DECORATOR_ANNOTATED_SPECIALIZES, CDIPreferences.INTERCEPTOR_ANNOTATED_SPECIALIZES, specializesDeclaration, bean.getResource(), DECORATOR_ANNOTATED_SPECIALIZES_ID);
 			} else if(bean instanceof IInterceptor) {
-				addError(CDIValidationMessages.INTERCEPTOR_ANNOTATED_SPECIALIZES, CDIPreferences.INTERCEPTOR_ANNOTATED_SPECIALIZES, specializesDeclaration, bean.getResource());
+				addError(CDIValidationMessages.INTERCEPTOR_ANNOTATED_SPECIALIZES, CDIPreferences.INTERCEPTOR_ANNOTATED_SPECIALIZES, specializesDeclaration, bean.getResource(), INTERCEPTOR_ANNOTATED_SPECIALIZES_ID);
 			}
 		}
 		IBean specializedBean = bean.getSpecializedBean();

@@ -202,7 +202,7 @@ public class CDIProblemMarkerResolutionGenerator implements
 							};
 					}else{
 						return new IMarkerResolution[] {
-								new ChangeRetentionAnnotationMarkerResolution(ta.type, ta.annotation)
+								new ChangeAnnotationMarkerResolution(ta.annotation, CDIConstants.RETENTION_POLICY_RUNTIME_TYPE_NAME)
 							};
 						
 					}
@@ -217,8 +217,8 @@ public class CDIProblemMarkerResolutionGenerator implements
 							};
 					}else{
 						return new IMarkerResolution[] {
-								new ChangeTargetAnnotationMarkerResolution(ta.type, ta.annotation, new String[]{CDIConstants.ELEMENT_TYPE_TYPE_NAME, CDIConstants.ELEMENT_TYPE_METHOD_NAME, CDIConstants.ELEMENT_TYPE_FIELD_NAME, CDIConstants.ELEMENT_TYPE_PARAMETER_NAME}),
-								new ChangeTargetAnnotationMarkerResolution(ta.type, ta.annotation, new String[]{CDIConstants.ELEMENT_TYPE_FIELD_NAME, CDIConstants.ELEMENT_TYPE_PARAMETER_NAME})
+								new ChangeAnnotationMarkerResolution(ta.annotation, new String[]{CDIConstants.ELEMENT_TYPE_TYPE_NAME, CDIConstants.ELEMENT_TYPE_METHOD_NAME, CDIConstants.ELEMENT_TYPE_FIELD_NAME, CDIConstants.ELEMENT_TYPE_PARAMETER_NAME}),
+								new ChangeAnnotationMarkerResolution(ta.annotation, new String[]{CDIConstants.ELEMENT_TYPE_FIELD_NAME, CDIConstants.ELEMENT_TYPE_PARAMETER_NAME})
 							};
 						
 					}
@@ -236,11 +236,11 @@ public class CDIProblemMarkerResolutionGenerator implements
 						};
 					}else{
 						return new IMarkerResolution[] {
-							new ChangeTargetAnnotationMarkerResolution(ta.type, ta.annotation, new String[]{CDIConstants.ELEMENT_TYPE_TYPE_NAME, CDIConstants.ELEMENT_TYPE_METHOD_NAME, CDIConstants.ELEMENT_TYPE_FIELD_NAME}),
-							new ChangeTargetAnnotationMarkerResolution(ta.type, ta.annotation, new String[]{CDIConstants.ELEMENT_TYPE_METHOD_NAME, CDIConstants.ELEMENT_TYPE_FIELD_NAME}),
-							new ChangeTargetAnnotationMarkerResolution(ta.type, ta.annotation, new String[]{CDIConstants.ELEMENT_TYPE_TYPE_NAME}),
-							new ChangeTargetAnnotationMarkerResolution(ta.type, ta.annotation, new String[]{CDIConstants.ELEMENT_TYPE_METHOD_NAME}),
-							new ChangeTargetAnnotationMarkerResolution(ta.type, ta.annotation, new String[]{CDIConstants.ELEMENT_TYPE_FIELD_NAME})
+							new ChangeAnnotationMarkerResolution(ta.annotation, new String[]{CDIConstants.ELEMENT_TYPE_TYPE_NAME, CDIConstants.ELEMENT_TYPE_METHOD_NAME, CDIConstants.ELEMENT_TYPE_FIELD_NAME}),
+							new ChangeAnnotationMarkerResolution(ta.annotation, new String[]{CDIConstants.ELEMENT_TYPE_METHOD_NAME, CDIConstants.ELEMENT_TYPE_FIELD_NAME}),
+							new ChangeAnnotationMarkerResolution(ta.annotation, new String[]{CDIConstants.ELEMENT_TYPE_TYPE_NAME}),
+							new ChangeAnnotationMarkerResolution(ta.annotation, new String[]{CDIConstants.ELEMENT_TYPE_METHOD_NAME}),
+							new ChangeAnnotationMarkerResolution(ta.annotation, new String[]{CDIConstants.ELEMENT_TYPE_FIELD_NAME})
 						};
 					
 					}
@@ -254,7 +254,7 @@ public class CDIProblemMarkerResolutionGenerator implements
 						};
 					}else{
 						return new IMarkerResolution[] {
-							new ChangeTargetAnnotationMarkerResolution(ta.type, ta.annotation, new String[]{CDIConstants.ELEMENT_TYPE_TYPE_NAME, CDIConstants.ELEMENT_TYPE_METHOD_NAME, CDIConstants.ELEMENT_TYPE_FIELD_NAME})
+							new ChangeAnnotationMarkerResolution(ta.annotation, new String[]{CDIConstants.ELEMENT_TYPE_TYPE_NAME, CDIConstants.ELEMENT_TYPE_METHOD_NAME, CDIConstants.ELEMENT_TYPE_FIELD_NAME})
 						};
 					
 					}
@@ -362,6 +362,14 @@ public class CDIProblemMarkerResolutionGenerator implements
 				if(ta != null && ta.annotation != null && ta.type != null){
 					return new IMarkerResolution[] {
 						new DeleteAnnotationMarkerResolution(ta.type, CDIConstants.TYPED_ANNOTATION_TYPE_NAME)
+					};
+				}
+			}else if(messageId == CDIValidationErrorManager.INTERCEPTOR_ANNOTATED_SPECIALIZES_ID ||
+					messageId == CDIValidationErrorManager.DECORATOR_ANNOTATED_SPECIALIZES_ID){
+				TypeAndAnnotation ta = findTypeAndAnnotation(file, start, CDIConstants.SPECIALIZES_ANNOTATION_TYPE_NAME);
+				if(ta != null && ta.annotation != null && ta.type != null){
+					return new IMarkerResolution[] {
+						new DeleteAnnotationMarkerResolution(ta.type, CDIConstants.SPECIALIZES_ANNOTATION_TYPE_NAME)
 					};
 				}
 			}
