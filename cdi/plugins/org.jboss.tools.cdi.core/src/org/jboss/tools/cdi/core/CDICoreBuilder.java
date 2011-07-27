@@ -158,7 +158,8 @@ public class CDICoreBuilder extends IncrementalProjectBuilder {
 				//2. Update class path. Removed paths will be cached to be applied to working copy of context. 
 				n.getClassPath().setSrcs(getResourceVisitor().srcs);
 				newJars = n.getClassPath().process();
-
+			}
+			if(isClassPathUpdated || buildParticipants == null) {
 				//3. Install extensions. That should be done before constructing working copy of context.
 				buildParticipants = n.getExtensionManager().getBuildParticipantFeature();
 				buildParticipants2 = new HashSet<IBuildParticipant2Feature>();
