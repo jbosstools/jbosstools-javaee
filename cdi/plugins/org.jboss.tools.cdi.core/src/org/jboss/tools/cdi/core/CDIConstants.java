@@ -51,6 +51,9 @@ public interface CDIConstants {
 	public String SESSION_SCOPED_ANNOTATION_TYPE_NAME = "javax.enterprise.context.SessionScoped";
 	public String DEPENDENT_ANNOTATION_TYPE_NAME = "javax.enterprise.context.Dependent";
 
+	public String CONVERSATION_TYPE_NAME = "javax.enterprise.context.Conversation";
+	public String CONVERSATION_BEAN_NAME = CONVERSATION_TYPE_NAME.toLowerCase();
+
 	public String SPECIALIZES_ANNOTATION_TYPE_NAME = "javax.enterprise.inject.Specializes";
 
 	public String NON_BINDING_ANNOTATION_TYPE_NAME ="javax.enterprise.util.Nonbinding";

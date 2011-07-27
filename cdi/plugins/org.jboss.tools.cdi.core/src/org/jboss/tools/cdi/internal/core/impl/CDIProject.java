@@ -341,13 +341,11 @@ public class CDIProject extends CDIElement implements ICDIProject {
 			}				
 		}
 	
-		if(isBuiltIn(type.getType())) {
+		if(BuiltInBeanFactory.isBuiltIn(type.getType())) {
 			Set<IBean> rslt = null;
 			rslt = getBeans(attemptToResolveAmbiguousDependency, type, qs.toArray(new IQualifierDeclaration[0]));
 			if(rslt.isEmpty()) {
-				BuiltInBean builtInBean = new BuiltInBean(type);
-				builtInBean.setParent(this);
-				builtInBean.setSourcePath(injectionPoint.getSourcePath());
+				IBean builtInBean = BuiltInBeanFactory.newBean(this, type, injectionPoint.getSourcePath());
 				result.add(builtInBean);
 			} else {
 				result = rslt;
@@ -398,18 +396,6 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		}
 
 		return getResolvedBeans(result, attemptToResolveAmbiguousDependency);
-	}
-
-	static Set<String> BUILT_IN = new HashSet<String>();
-	static {
-		BUILT_IN.add(CDIConstants.USER_TRANSACTION_TYPE_NAME);
-		BUILT_IN.add(CDIConstants.PRINCIPAL_TYPE_NAME);
-		BUILT_IN.add(CDIConstants.VALIDATION_FACTORY_TYPE_NAME);
-		BUILT_IN.add(CDIConstants.VALIDATOR_TYPE_NAME);
-		BUILT_IN.add(CDIConstants.BEAN_MANAGER_TYPE_NAME);
-	}
-	static boolean isBuiltIn(IType type) {
-		return type != null && BUILT_IN.contains(type.getFullyQualifiedName());
 	}
 
 	public static boolean containsType(Set<IParametedType> types, IParametedType type) {
@@ -1187,13 +1173,26 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		}
 	
 		buildInjectionPoinsByType();
-		
-//		System.out.println("Project=" + getNature().getProject());
-//		System.out.println("Qualifiers=" + qualifiers.size());
-//		System.out.println("Stereotypes=" + stereotypes.size());
-//		System.out.println("Scopes=" + scopes.size());
-//		System.out.println("Named beans=" + beansByName.size());
-//		System.out.println("Bean paths=" + beansByPath.size());
+
+		//Provide built-in bean Conversation
+		if(!beansByName.containsKey(CDIConstants.CONVERSATION_BEAN_NAME)) {
+			IType type = n.getType(CDIConstants.CONVERSATION_TYPE_NAME);
+			if(type != null) {
+				TypeDefinition t = new TypeDefinition();
+				t.setType(type, n.getDefinitions(), TypeDefinition.FLAG_NO_ANNOTATIONS);
+				ClassBean bean = new ClassBean() {
+					public String getName() {
+						return "javax.enterprise.context.conversation";
+					}
+					public IScope getScope() {
+						return getCDIProject().getScope(CDIConstants.REQUEST_SCOPED_ANNOTATION_TYPE_NAME);
+					}
+				};
+				bean.setParent(this);
+				bean.setDefinition(t);
+				addBean(bean);
+			}
+		}
 	}
 
 	public void addBean(IBean bean) {

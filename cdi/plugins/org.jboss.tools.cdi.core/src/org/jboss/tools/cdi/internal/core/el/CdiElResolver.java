@@ -71,6 +71,8 @@ public class CdiElResolver extends AbstractELCompletionEngine<IBean> {
 		} else if(bean instanceof IBeanMember) {
 			IBeanMember beanMember = (IBeanMember)bean;
 			member = beanMember.getSourceMember();
+		} else {
+			member = bean.getBeanClass();
 		}
 		return TypeInfoCollector.createMemberInfo(member);
 	}
