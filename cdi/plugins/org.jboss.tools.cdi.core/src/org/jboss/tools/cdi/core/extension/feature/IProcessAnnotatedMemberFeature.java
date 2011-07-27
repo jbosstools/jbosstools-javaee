@@ -27,7 +27,7 @@ import org.jboss.tools.cdi.internal.core.impl.definition.BeanMemberDefinition;
  * @author Viacheslav Kabanovich
  *
  */
-public interface IProcessAnnotatedMemberFeature {
+public interface IProcessAnnotatedMemberFeature extends ICDIFeature {
 
 	public void processAnnotatedMember(BeanMemberDefinition memberDefinition, IRootDefinitionContext context);
 

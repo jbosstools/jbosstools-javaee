@@ -19,7 +19,7 @@ import org.jboss.tools.common.preferences.SeverityPreferences;
  * @author Viacheslav Kabanovich
  *
  */
-public interface IValidatorFeature {
+public interface IValidatorFeature extends ICDIFeature {
 
 	/**
 	 * Contributes to validation of resource in CDICoreValidator.validateResource(IFile)

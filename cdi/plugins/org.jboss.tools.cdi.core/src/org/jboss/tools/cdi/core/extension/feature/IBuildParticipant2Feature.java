@@ -19,7 +19,7 @@ import org.jboss.tools.common.model.XModelObject;
  * @author Viacheslav Kabanovich
  *
  */
-public interface IBuildParticipant2Feature extends IBuildParticipantFeature {
+public interface IBuildParticipant2Feature extends IBuildParticipantFeature, ICDIFeature {
 
 	/**
 	 * Looks for artifacts in any jar entries.

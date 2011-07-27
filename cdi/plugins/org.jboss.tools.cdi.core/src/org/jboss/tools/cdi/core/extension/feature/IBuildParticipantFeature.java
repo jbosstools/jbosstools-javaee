@@ -29,7 +29,7 @@ import org.jboss.tools.common.model.XModelObject;
  * @author Viacheslav Kabanovich
  *
  */
-public interface IBuildParticipantFeature {
+public interface IBuildParticipantFeature extends ICDIFeature {
 
 	/**
 	 * Sets CDI project access object once per lifetime of this object.

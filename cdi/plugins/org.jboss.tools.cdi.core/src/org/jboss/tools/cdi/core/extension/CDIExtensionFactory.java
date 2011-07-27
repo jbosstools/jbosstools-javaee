@@ -21,11 +21,7 @@ import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtensionPoint;
 import org.eclipse.core.runtime.Platform;
 import org.jboss.tools.cdi.core.CDICorePlugin;
-import org.jboss.tools.cdi.core.extension.feature.IAmbiguousBeanResolverFeature;
-import org.jboss.tools.cdi.core.extension.feature.IBuildParticipantFeature;
-import org.jboss.tools.cdi.core.extension.feature.IProcessAnnotatedMemberFeature;
-import org.jboss.tools.cdi.core.extension.feature.IProcessAnnotatedTypeFeature;
-import org.jboss.tools.cdi.core.extension.feature.IValidatorFeature;
+import org.jboss.tools.cdi.core.extension.feature.ICDIFeature;
 
 /**
  * Loads Eclipse extension point 'org.jboss.tools.cdi.core.cdiextensions'
@@ -47,14 +43,6 @@ public class CDIExtensionFactory {
 	static CDIExtensionFactory factory = null;
 	public static String POINT_ID = "org.jboss.tools.cdi.core.cdiextensions";
 
-	public static Class<?>[] FEATURES = {
-		IBuildParticipantFeature.class,
-		IProcessAnnotatedMemberFeature.class,
-		IProcessAnnotatedTypeFeature.class,
-		IAmbiguousBeanResolverFeature.class,
-		IValidatorFeature.class
-	};
-	
 	public static CDIExtensionFactory getInstance() {
 		if(factory == null) {
 			factory = new CDIExtensionFactory();
@@ -69,10 +57,9 @@ public class CDIExtensionFactory {
 	private Map<String, Set<String>> runtimeToDesign = new HashMap<String, Set<String>>();
 
 	/**
-	 * Maps features to fully qualified names of implementations of ICDIExtention.
+	 * Maps implementation class to its features (IAdaptable cannot be used without a way to give all features)
 	 */
-	private Map<Class<?>, Set<String>> featureToDesign = new HashMap<Class<?>, Set<String>>();
-
+	private Map<Class<? extends ICDIExtension>, Set<Class<?>>> designToFeatures = new HashMap<Class<? extends ICDIExtension>, Set<Class<?>>>();
 	/**
 	 * Maps fully qualified names of implementations of ICDIExtention to their Class objects.
 	 */
@@ -110,30 +97,55 @@ public class CDIExtensionFactory {
 				runtimeToDesign.put(runtime, classes);
 			}
 			classes.add(cls);
-			
-			for (Class<?> f: FEATURES) {
-				Object adapter = adaptTo(extension, f);
-				if(adapter != null) {
-					classes = featureToDesign.get(f);
-					if(classes == null) {
-						classes = new HashSet<String>();
-						featureToDesign.put(f, classes);
-					}
-					classes.add(cls);
+		}
+	}
+
+	public Set<Class<?>> getFeatures(ICDIExtension extension) {
+		Set<Class<?>> result = designToFeatures.get(extension.getClass());
+		if(result == null) {
+			result = new HashSet<Class<?>>();
+			getFeatures(extension.getClass(), result);
+		}
+		return result;
+	}
+
+	Map<Class<?>, Boolean> featureCheck = new HashMap<Class<?>, Boolean>();
+	
+	void getFeatures(Class<?> cls, Set<Class<?>> result) {
+		if(cls == ICDIFeature.class) {
+			return;
+		}
+		if(isFeature(cls)) {
+			result.add(cls);
+		}
+		Class<?>[] is = cls.getInterfaces();
+		for (Class<?> c: is) {
+			getFeatures(c, result);
+		}
+	}
+
+	boolean isFeature(Class<?> cls) {
+		if(!cls.isInterface()) {
+			return false;
+		}
+		Boolean b = featureCheck.get(cls);
+		if(b == null) {
+			Class<?>[] is = cls.getInterfaces();
+			for (Class<?> c: is) {
+				if(c == ICDIFeature.class || isFeature(c)) {
+					b = Boolean.TRUE;
 				}
 			}
+			if(b == null) {
+				b = Boolean.FALSE;
+			}
+			featureCheck.put(cls, b);
 		}
+		return b.booleanValue();
 	}
 
 	public Set<String> getExtensionClassesByRuntime(String qualifiedName) {
 		return runtimeToDesign.get(qualifiedName);
-	}
-
-	public Set<Class<?>> getFeatures() {
-		return featureToDesign.keySet();
-	}
-	public Set<String> getExtensionClassesByFeature(Class<?> featureName) {
-		return featureToDesign.get(featureName);
 	}
 
 	public ICDIExtension createExtensionInstance(String qualifiedName) {

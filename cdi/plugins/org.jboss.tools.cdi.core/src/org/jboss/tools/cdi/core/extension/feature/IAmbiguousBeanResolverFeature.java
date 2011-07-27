@@ -19,7 +19,7 @@ import org.jboss.tools.cdi.core.IBean;
  * @author Viacheslav Kabanovich
  *
  */
-public interface IAmbiguousBeanResolverFeature {
+public interface IAmbiguousBeanResolverFeature extends ICDIFeature {
 
 	/**
 	 * Contributes to resolving ambiguous beans in methods ICDIProject.getBeans(boolean attemptToResolveAmbiguousDependency, ...)
