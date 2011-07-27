@@ -23,6 +23,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
+import org.eclipse.jface.text.IRegion;
 import org.eclipse.swt.graphics.Image;
 import org.jboss.tools.common.el.core.ca.AbstractELCompletionEngine;
 import org.jboss.tools.common.el.core.model.ELArgumentInvocation;
@@ -47,13 +48,21 @@ import org.jboss.tools.common.model.XModel;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.project.IModelNature;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
+import org.jboss.tools.common.model.util.PositionHolder;
 import org.jboss.tools.common.text.TextProposal;
+import org.jboss.tools.common.text.ext.util.StructuredModelWrapper;
+import org.jboss.tools.common.text.ext.util.Utils;
 import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.jsf.JSFModelPlugin;
 import org.jboss.tools.jsf.model.helpers.converter.OpenKeyHelper;
 import org.jboss.tools.jst.web.kb.IPageContext;
 import org.jboss.tools.jst.web.kb.IResourceBundle;
+import org.jboss.tools.jst.web.kb.PageContextFactory;
 import org.jboss.tools.jst.web.project.list.WebPromptingProvider;
+import org.w3c.dom.Attr;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 
 public class JSFMessageELCompletionEngine extends AbstractELCompletionEngine<IVariable> {
 	private static final Image JSF_EL_MESSAGES_PROPOSAL_IMAGE = JSFModelPlugin.getDefault().getImage(JSFModelPlugin.CA_JSF_MESSAGES_IMAGE_PATH);
@@ -91,6 +100,7 @@ public class JSFMessageELCompletionEngine extends AbstractELCompletionEngine<IVa
 	 * @see org.jboss.tools.common.el.core.resolver.ELResolver2#getProposals(org.jboss.tools.common.el.core.resolver.ELContext, java.lang.String)
 	 */
 	public List<TextProposal> getProposals(ELContext context, String el, int offset) {
+		currentOffset = offset;
 		return getCompletions(el, false, 0, context);
 	}
 
@@ -115,11 +125,14 @@ public class JSFMessageELCompletionEngine extends AbstractELCompletionEngine<IVa
 		return proposals;
 	}
 
+	int currentOffset = 0;
+
 	/*
 	 * (non-Javadoc)
 	 * @see org.jboss.tools.common.el.core.resolver.ELResolver2#resolve(org.jboss.tools.common.el.core.resolver.ELContext, org.jboss.tools.common.el.core.model.ELExpression)
 	 */
 	public ELResolution resolve(ELContext context, ELExpression operand, int offset) {
+		currentOffset = offset;
 		ELResolutionImpl resolution = resolveELOperand(operand, context, true);
 		if(resolution != null)
 			resolution.setContext(context);
@@ -492,6 +505,7 @@ public class JSFMessageELCompletionEngine extends AbstractELCompletionEngine<IVa
 					return;
 				
 				for (XModelObject p : properties) {
+					segment.addObject(p);
 					IFile propFile = (IFile)p.getAdapter(IFile.class);
 					if(propFile == null)
 						continue;
@@ -510,6 +524,8 @@ public class JSFMessageELCompletionEngine extends AbstractELCompletionEngine<IVa
 			return;
 		for(Variable variable : variables){
 			if(expr.getFirstToken().getText().equals(variable.name)){
+				int offset = currentOffset;
+				String locale = getPageLocale(variable.f, offset);
 				
 				IModelNature n = EclipseResourceUtil.getModelNature(variable.f.getProject());
 				if(n == null)
@@ -519,29 +535,70 @@ public class JSFMessageELCompletionEngine extends AbstractELCompletionEngine<IVa
 					return;
 				
 				OpenKeyHelper keyHelper = new OpenKeyHelper();
-				XModelObject[] properties = keyHelper.findBundles(model, variable.basename, null);
-//				XModelObject properties = model.getByPath("/" + variable.basename.replace('.', '/') + ".properties");
+				XModelObject[] properties = keyHelper.findBundles(model, variable.basename, locale);
 				if(properties == null)
 					return;
 				
 				for (XModelObject p : properties) {
+					String name = segment.getToken().getText();
+					XModelObject property = p.getChildByPath(trimQuotes(name));
+					if(property == null) continue;
+					segment.addObject(property);
+
+					PositionHolder h = PositionHolder.getPosition(p, null);
+					h.update();
+					segment.setMessagePropertySourceReference(h.getStart(), name.length());
+
 					IFile propFile = (IFile)p.getAdapter(IFile.class);
 					if(propFile == null)
 						continue;
 					segment.setMessageBundleResource(propFile);
-					XModelObject property = p.getChildByPath(trimQuotes(segment.getToken().getText()));
-					if(property != null){
-						try {
-							String content = FileUtil.readStream(propFile);
-							if(findPropertyLocation(property, content, segment)){
-								segment.setBaseName(variable.basename);
-							}
-						} catch (CoreException e) {
-							log(e);
-						}
-					}
 				}
 			}
+		}
+	}
+	
+	private static final String VIEW_TAGNAME = "view"; //$NON-NLS-1$
+	private static final String LOCALE_ATTRNAME = "locale"; //$NON-NLS-1$
+	private static final String PREFIX_SEPARATOR = ":"; //$NON-NLS-1$
+
+	private String getPageLocale(IFile file, int offset) {
+		ELContext c = PageContextFactory.createPageContext(file);
+		if(!(c instanceof IPageContext)) return "";
+		IPageContext context = (IPageContext)c;
+		IDocument document = context.getDocument();
+		if(document == null) return "";
+
+		StructuredModelWrapper smw = new StructuredModelWrapper();
+		try {
+			smw.init(document);
+			Document xmlDocument = smw.getDocument();
+			if (xmlDocument == null) return null;
+			
+			Node n = Utils.findNodeForOffset(xmlDocument, offset);
+			if (!(n instanceof Attr) ) return null; 
+
+			Element el = ((Attr)n).getOwnerElement();
+			
+			Element jsfCoreViewTag = null;
+			String nodeToFind = PREFIX_SEPARATOR + VIEW_TAGNAME; 
+	
+			while (el != null) {
+				if (el.getNodeName() != null && el.getNodeName().endsWith(nodeToFind)) {
+					jsfCoreViewTag = el;
+					break;
+				}
+				Node parent = el.getParentNode();
+				el = (parent instanceof Element ? (Element)parent : null); 
+			}
+			
+			if (jsfCoreViewTag == null || !jsfCoreViewTag.hasAttribute(LOCALE_ATTRNAME)) return null;
+			
+			String locale = Utils.trimQuotes((jsfCoreViewTag.getAttributeNode(LOCALE_ATTRNAME)).getValue());
+			if (locale == null || locale.length() == 0) return null;
+			return locale;
+		} finally {
+			smw.dispose();
 		}
 	}
 	
