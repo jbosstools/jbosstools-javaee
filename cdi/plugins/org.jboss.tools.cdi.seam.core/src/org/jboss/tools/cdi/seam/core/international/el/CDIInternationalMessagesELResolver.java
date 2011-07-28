@@ -219,29 +219,8 @@ public class CDIInternationalMessagesELResolver extends AbstractELCompletionEngi
 							// but we have to resolve arguments of probably a message component
 			if (resolvedVariables != null && !resolvedVariables.isEmpty()) {
 				resolution.setLastResolvedToken(left);
-				// Create a combined lexical token to store all the variable name (not only the name before first dot, but all the name including all the words and dots)
-				int variableTokenType = left.getFirstToken().getType();
-				int variableTokenStart = left.getFirstToken().getStart();
-				int variableTokenLength = 0;
-				StringBuffer variableTokenText = new StringBuffer();
-				LexicalToken current = left.getFirstToken();
-				LexicalToken variableTokenNext = null;
-				while (current != null && current != left.getLastToken()) {
-					variableTokenText.append(current.getText());
-					variableTokenLength += current.getLength();
-					variableTokenNext = current.getNextToken();
-					current = variableTokenNext;
-				}
-				if (current != null) {
-					variableTokenText.append(current.getText());
-					variableTokenLength += current.getLength();
-					variableTokenNext = current.getNextToken();
-				}				
-				
-				LexicalToken variableToken = new LexicalToken(variableTokenStart, variableTokenLength, variableTokenText, variableTokenType);
-				variableToken.setNextToken(variableTokenNext);
-				
-				ELSegmentImpl segment = new MessagePropertyELSegmentImpl(variableToken);
+
+				ELSegmentImpl segment = new MessagePropertyELSegmentImpl(combineLexicalTokensForExpression(left));
 				processMessageBundleSegment(expr, (MessagePropertyELSegmentImpl)segment, resolvedVariables);
 
 				segment.setResolved(true);
@@ -263,7 +242,7 @@ public class CDIInternationalMessagesELResolver extends AbstractELCompletionEngi
 					resolvedVariables = resolvedVars;
 					resolution.setLastResolvedToken(left);
 
-					ELSegmentImpl segment = new MessagePropertyELSegmentImpl(left.getFirstToken());
+					ELSegmentImpl segment = new MessagePropertyELSegmentImpl(combineLexicalTokensForExpression(left));
 					processMessageBundleSegment(expr, (MessagePropertyELSegmentImpl)segment, resolvedVariables);
 					
 					segment.setResolved(true);

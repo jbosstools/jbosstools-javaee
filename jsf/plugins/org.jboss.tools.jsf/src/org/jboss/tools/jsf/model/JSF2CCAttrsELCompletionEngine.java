@@ -195,15 +195,7 @@ public class JSF2CCAttrsELCompletionEngine extends AbstractELCompletionEngine<IV
 					resolvedVariables = resolvedVars;
 					resolution.setLastResolvedToken(left);
 
-					// Combine left's tokens into a single token
-					LexicalToken token = left.getFirstToken();
-					String singleText = left.getText();
-					int start = token.getStart();
-					int type = token.getType();
-					int length = singleText.length();
-
-					LexicalToken singleToken = new LexicalToken(start, length, singleText, type);
-					ELSegmentImpl segment = new ELSegmentImpl(singleToken);
+					ELSegmentImpl segment = new ELSegmentImpl(combineLexicalTokensForExpression(left));
 					segment.setResolved(true);
 					resolution.addSegment(segment);
 
