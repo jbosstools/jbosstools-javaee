@@ -38,7 +38,6 @@ public class JSF2CompositeOpenOnTest extends TestCase {
 		project = ResourcesPlugin.getWorkspace().getRoot().getProject(
 				PROJECT_NAME);
 		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().closeAllEditors(false);
-		JobUtils.waitForIdle();
 	}
 	
 	protected void tearDown() {
@@ -52,7 +51,6 @@ public class JSF2CompositeOpenOnTest extends TestCase {
 	private void testTag(String tagName, String editorName) throws PartInitException, BadLocationException {
 		IEditorPart editor = WorkbenchUtils.openEditor(PAGE_NAME);
 		assertTrue(editor instanceof JSPMultiPageEditor);
-		JobUtils.waitForIdle();
 		JSPMultiPageEditor jspMultyPageEditor = (JSPMultiPageEditor) editor;
 		ISourceViewer viewer = jspMultyPageEditor.getSourceEditor().getTextViewer(); 
 			
@@ -74,7 +72,6 @@ public class JSF2CompositeOpenOnTest extends TestCase {
 			assertNotNull(link.toString());
 			
 			link.open();
-			JobUtils.waitForIdle(2000);
 			
 			IEditorPart resultEdotor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
 			if(editorName.equals(resultEdotor.getTitle())){

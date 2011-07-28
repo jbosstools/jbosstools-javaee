@@ -33,7 +33,6 @@ public class JSF2XMLOpenOnTest extends TestCase {
 		project = ResourcesPlugin.getWorkspace().getRoot().getProject(
 				PROJECT_NAME);
 		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().closeAllEditors(false);
-		JobUtils.waitForIdle();
 	}
 	
 	protected void tearDown() {
