@@ -195,7 +195,9 @@ public class JSF2CCAttrsELCompletionEngine extends AbstractELCompletionEngine<IV
 					resolvedVariables = resolvedVars;
 					resolution.setLastResolvedToken(left);
 
-					ELSegmentImpl segment = new ELSegmentImpl(combineLexicalTokensForExpression(left));
+					JSF2CCAttrELSegmentImpl segment = new JSF2CCAttrELSegmentImpl(combineLexicalTokensForExpression(left));
+					segment.setVarName(left.toString());
+					segment.setResource(this.currentFile);
 					segment.setResolved(true);
 					resolution.addSegment(segment);
 
@@ -420,7 +422,7 @@ public class JSF2CCAttrsELCompletionEngine extends AbstractELCompletionEngine<IV
 			ELResolutionImpl resolution,
 			boolean returnEqualedVariablesOnly) {
 		Set<TextProposal> kbProposals = new TreeSet<TextProposal>(TextProposal.KB_PROPOSAL_ORDER);
-
+		
 		JSF2CCAttrELSegmentImpl segment = new JSF2CCAttrELSegmentImpl(expr.getFirstToken());
 		segment.setResource(this.currentFile);
 		segment.setVarName(expr.toString());
