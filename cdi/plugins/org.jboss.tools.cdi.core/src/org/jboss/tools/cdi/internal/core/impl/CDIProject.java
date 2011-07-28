@@ -40,6 +40,7 @@ import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IBeanMember;
 import org.jboss.tools.cdi.core.IBeanMethod;
+import org.jboss.tools.cdi.core.IBuiltInBean;
 import org.jboss.tools.cdi.core.ICDIAnnotation;
 import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.IClassBean;
@@ -210,6 +211,15 @@ public class CDIProject extends CDIElement implements ICDIProject {
 	}
 
 	public Set<IBean> getResolvedBeans(Set<IBean> result, boolean attemptToResolveAmbiguousness) {
+		if(result.size() > 1) {
+			Iterator<IBean> it = result.iterator();
+			while(it.hasNext()) {
+				IBean b = it.next();
+				if(b instanceof IBuiltInBean) {
+					it.remove();
+				}
+			}
+		}
 		if(result.size() < 1 || !attemptToResolveAmbiguousness) {
 			return result;
 		}
@@ -341,18 +351,6 @@ public class CDIProject extends CDIElement implements ICDIProject {
 			}				
 		}
 	
-		if(BuiltInBeanFactory.isBuiltIn(type.getType())) {
-			Set<IBean> rslt = null;
-			rslt = getBeans(attemptToResolveAmbiguousDependency, type, qs.toArray(new IQualifierDeclaration[0]));
-			if(rslt.isEmpty()) {
-				IBean builtInBean = BuiltInBeanFactory.newBean(this, type, injectionPoint.getSourcePath());
-				result.add(builtInBean);
-			} else {
-				result = rslt;
-			}
-			return result;
-		}
-		
 		Set<IBean> beans = new HashSet<IBean>();
 		synchronized(allBeans) {
 			beans.addAll(allBeans);
@@ -360,7 +358,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		boolean delegateInjectionPoint = injectionPoint.isDelegate();
 
 		for (IBean b: beans) {
-			if(b instanceof ClassBean) {
+			if(b instanceof ClassBean && !(b instanceof IBuiltInBean)) {
 				IType bType = b.getBeanClass();
 				try {
 					if(bType != null && Flags.isAbstract(bType.getFlags())) {
@@ -1135,6 +1133,17 @@ public class CDIProject extends CDIElement implements ICDIProject {
 			}
 		}
 	
+		for (String builtin: BuiltInBeanFactory.BUILT_IN) {
+			IType type = n.getType(builtin);
+			if(type != null && !newClassBeans.containsKey(type)) {
+				TypeDefinition t = new TypeDefinition();
+				t.setType(type, n.getDefinitions(), TypeDefinition.FLAG_NO_ANNOTATIONS);
+				ClassBean bean = BuiltInBeanFactory.newClassBean(this, t);
+				newClassBeans.put(t.getType(), bean);
+				beans.add(bean);
+			}
+		}
+	
 		for (IClassBean bean: newClassBeans.values()) {
 			IParametedType s = ((ClassBean)bean).getSuperType();
 			if(s != null && s.getType() != null) {
@@ -1174,25 +1183,6 @@ public class CDIProject extends CDIElement implements ICDIProject {
 	
 		buildInjectionPoinsByType();
 
-		//Provide built-in bean Conversation
-		if(!beansByName.containsKey(CDIConstants.CONVERSATION_BEAN_NAME)) {
-			IType type = n.getType(CDIConstants.CONVERSATION_TYPE_NAME);
-			if(type != null) {
-				TypeDefinition t = new TypeDefinition();
-				t.setType(type, n.getDefinitions(), TypeDefinition.FLAG_NO_ANNOTATIONS);
-				ClassBean bean = new ClassBean() {
-					public String getName() {
-						return "javax.enterprise.context.conversation";
-					}
-					public IScope getScope() {
-						return getCDIProject().getScope(CDIConstants.REQUEST_SCOPED_ANNOTATION_TYPE_NAME);
-					}
-				};
-				bean.setParent(this);
-				bean.setDefinition(t);
-				addBean(bean);
-			}
-		}
 	}
 
 	public void addBean(IBean bean) {

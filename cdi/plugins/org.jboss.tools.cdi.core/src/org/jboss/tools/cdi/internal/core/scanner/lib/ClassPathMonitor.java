@@ -12,11 +12,8 @@ package org.jboss.tools.cdi.internal.core.scanner.lib;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.StringTokenizer;
 
@@ -27,7 +24,6 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IJavaProject;
-import org.eclipse.jdt.core.JavaCore;
 import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.common.model.XModelObject;
@@ -74,7 +70,7 @@ public class ClassPathMonitor extends AbstractClassPathMonitor<CDICoreNature>{
 			newJars.getFileSystems().put(p, o);
 
 			XModelObject b = o.getChildByPath("META-INF/beans.xml");
-			if(b == null && !isWeldJar(fileName)) {
+			if(b == null) {
 				continue;
 			}
 			newJars.getBeanModules().put(p, b);
@@ -91,14 +87,6 @@ public class ClassPathMonitor extends AbstractClassPathMonitor<CDICoreNature>{
 			}
 			removedPaths.clear();
 		}
-	}
-
-	private boolean isWeldJar(String fileName) {
-		if(!fileName.startsWith("weld-") && fileName.indexOf("-weld") < 0) return false;
-		if(fileName.startsWith("weld-extensions")) return false;
-		if(fileName.indexOf("-javadoc") > 0) return false;
-		if(fileName.indexOf("-sources") > 0) return false;
-		return true;
 	}
 
 	public IProject getProjectResource() {
