@@ -54,25 +54,25 @@ public class ELExprPartitionerTest extends TestCase {
 	public void testELExprPartitioner() throws Exception{
 
 		ArrayList<TestRegion> regionList = new ArrayList<TestRegion>();
-		regionList.add(new TestRegion(673, 6, new TestHyperlink[]{new TestHyperlink(ELHyperlink.class, "Open 'demo.bundle.Messages'", "Messages.properties")}));
+		regionList.add(new TestRegion(673, 6, new TestHyperlink[]{new TestHyperlink(ELHyperlink.class, "Open bundle 'demo.bundle.Messages'", "Messages.properties")}));
 		regionList.add(new TestRegion(681, 7, new TestHyperlink[]{new TestHyperlink(ELHyperlink.class, "Open property 'question' of bundle 'demo.bundle.Messages'", "Messages.properties")}));
 		
-		regionList.add(new TestRegion(756, 6, new TestHyperlink[]{new TestHyperlink(ELHyperlink.class, "Open 'demo.bundle.Messages'", "Messages.properties")}));
+		regionList.add(new TestRegion(756, 6, new TestHyperlink[]{new TestHyperlink(ELHyperlink.class, "Open bundle 'demo.bundle.Messages'", "Messages.properties")}));
 		regionList.add(new TestRegion(764, 7, new TestHyperlink[]{new TestHyperlink(ELHyperlink.class, "Open property 'question' of bundle 'demo.bundle.Messages'", "Messages.properties")}));
 		
-		regionList.add(new TestRegion(863, 6, new TestHyperlink[]{new TestHyperlink(ELHyperlink.class, "Open 'demo.bundle.Messages'", "Messages.properties")}));
+		regionList.add(new TestRegion(863, 6, new TestHyperlink[]{new TestHyperlink(ELHyperlink.class, "Open bundle 'demo.bundle.Messages'", "Messages.properties")}));
 		regionList.add(new TestRegion(871, 9, new TestHyperlink[]{new TestHyperlink(ELHyperlink.class, "Open property 'info_start' of bundle 'demo.bundle.Messages'", "Messages.properties")}));
 		
 		regionList.add(new TestRegion(909, 10, new TestHyperlink[]{new TestHyperlink(ELHyperlink.class, "Open 'NumberGuess - org.jboss.seam.example.numberguess'", "NumberGuess.java")}));
 		regionList.add(new TestRegion(921, 15, new TestHyperlink[]{new TestHyperlink(ELHyperlink.class, "Open 'NumberGuess.getRemainingGuesses() - org.jboss.seam.example.numberguess'", "NumberGuess.java")}));
 		
-		regionList.add(new TestRegion(964, 6, new TestHyperlink[]{new TestHyperlink(ELHyperlink.class, "Open 'demo.bundle.Messages'", "Messages.properties")}));
+		regionList.add(new TestRegion(964, 6, new TestHyperlink[]{new TestHyperlink(ELHyperlink.class, "Open bundle 'demo.bundle.Messages'", "Messages.properties")}));
 		regionList.add(new TestRegion(972, 10, new TestHyperlink[]{new TestHyperlink(ELHyperlink.class, "Open property 'info_finish' of bundle 'demo.bundle.Messages'", "Messages.properties")}));
 		
-		regionList.add(new TestRegion(1022, 6, new TestHyperlink[]{new TestHyperlink(ELHyperlink.class, "Open 'demo.bundle.Messages'", "Messages.properties")}));
+		regionList.add(new TestRegion(1022, 6, new TestHyperlink[]{new TestHyperlink(ELHyperlink.class, "Open bundle 'demo.bundle.Messages'", "Messages.properties")}));
 		regionList.add(new TestRegion(1030, 9, new TestHyperlink[]{new TestHyperlink(ELHyperlink.class, "Open property 'button_yes' of bundle 'demo.bundle.Messages'", "Messages.properties")}));
 		
-		regionList.add(new TestRegion(1091, 6, new TestHyperlink[]{new TestHyperlink(ELHyperlink.class, "Open 'demo.bundle.Messages'", "Messages.properties")}));
+		regionList.add(new TestRegion(1091, 6, new TestHyperlink[]{new TestHyperlink(ELHyperlink.class, "Open bundle 'demo.bundle.Messages'", "Messages.properties")}));
 		regionList.add(new TestRegion(1099, 8, new TestHyperlink[]{new TestHyperlink(ELHyperlink.class, "Open property 'button_no' of bundle 'demo.bundle.Messages'", "Messages.properties")}));
 		
 		regionList.add(new TestRegion(1157, 10, new TestHyperlink[]{new TestHyperlink(ELHyperlink.class, "Open 'NumberGuess - org.jboss.seam.example.numberguess'", "NumberGuess.java")}));
