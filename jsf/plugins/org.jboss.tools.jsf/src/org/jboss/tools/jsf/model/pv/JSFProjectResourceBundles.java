@@ -63,7 +63,7 @@ public class JSFProjectResourceBundles extends JSFProjectFolder {
 		XModelObject[] cs = FileSystemsHelper.getFileSystems(getModel()).getChildren("FileSystemFolder");
 		for (int i = 0; i < cs.length; i++) {
 			String n = cs[i].getAttributeValue("name");
-			if(n.startsWith("src")) list.add(cs[i]);
+			if(n.startsWith("src") || n.startsWith("lib-")) list.add(cs[i]);
 		}
 		XModelObject web = getModel().getByPath("Web");
 		XModelObject[] ms = (web == null) ? new XModelObject[0] : web.getChildren("WebJSFModule");
