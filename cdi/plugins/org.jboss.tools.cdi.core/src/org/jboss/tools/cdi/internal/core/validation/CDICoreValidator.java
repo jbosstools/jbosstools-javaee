@@ -2132,7 +2132,7 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 					return false;
 				}
 				IParametedType superType = cdiProject.getNature().getTypeFactory().getParametedType(decorator.getBeanClass(), superInterfaceSignatures[0]);
-				return superType.getSignature().equals(delegatedType.getSignature());
+				return superType==null?true:superType.getSignature().equals(delegatedType.getSignature());
 			} else if(superInterfaceSignatures.length>0) {
 				return false;
 			}
