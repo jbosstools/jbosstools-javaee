@@ -14,20 +14,27 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 
 import org.eclipse.jdt.internal.core.JavaModelManager;
+import org.jboss.tools.cdi.seam.core.test.international.BundleModelTest;
+import org.jboss.tools.cdi.seam.core.test.international.SeamResourceBundlesTest;
+import org.jboss.tools.cdi.seam.core.test.servlet.SeamServletValidationTest;
 
 /**
  * @author Alexey Kazakov
  */
 public class CDISeamCoreAllTests {
-	protected static String PLUGIN_ID = "org.jboss.tools.cdi.seam.core.test";
+	public static String PLUGIN_ID = "org.jboss.tools.cdi.seam.core.test";
 
 	public static Test suite() {
 		JavaModelManager.getIndexManager().disable();
 
-		TestSuite suite = new TestSuite("Seam Core Tests");
+		TestSuite suiteAll = new TestSuite("Seam Core Tests");
 
-		suite.addTestSuite(SeamResourceBundlesTest.class);
-		suite.addTestSuite(BundleModelTest.class);
-		return suite;
+		suiteAll.addTestSuite(SeamResourceBundlesTest.class);
+		suiteAll.addTestSuite(BundleModelTest.class);
+
+		TestSuite suite = new TestSuite("Seam Core Project Tests");
+		suiteAll.addTest(new SeamCoreTestSetup(suite));
+		suiteAll.addTestSuite(SeamServletValidationTest.class);
+		return suiteAll;
 	}
 }

@@ -1,4 +1,4 @@
-package org.jboss.tools.cdi.seam.core.test;
+package org.jboss.tools.cdi.seam.core.test.international;
 
 import java.util.Set;
 

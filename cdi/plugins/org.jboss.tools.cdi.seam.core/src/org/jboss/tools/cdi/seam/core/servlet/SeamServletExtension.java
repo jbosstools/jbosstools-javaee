@@ -12,8 +12,10 @@ package org.jboss.tools.cdi.seam.core.servlet;
 
 import org.eclipse.jdt.core.IType;
 import org.jboss.tools.cdi.core.IInjectionPoint;
+import org.jboss.tools.cdi.core.IInjectionPointParameter;
 import org.jboss.tools.cdi.core.extension.ICDIExtension;
 import org.jboss.tools.cdi.core.extension.feature.IInjectionPointValidatorFeature;
+import org.jboss.tools.common.java.IAnnotated;
 
 /**
  * @author Alexey Kazakov
@@ -32,8 +34,14 @@ public class SeamServletExtension implements ICDIExtension,	IInjectionPointValid
 	 */
 	@Override
 	public boolean shouldIgnoreInjection(IType typeOfInjectionPoint, IInjectionPoint injection) {
-		return injection.getAnnotation(SEAM_SERVLET_COOKIE_PARAM_TYPE_NAME) != null
-				|| injection.getAnnotation(SEAM_SERVLET_HEADER_PARAM_TYPE_NAME) != null
-				|| injection.getAnnotation(SEAM_SERVLET_REQUEST_PARAM_TYPE_NAME) != null;
+		IAnnotated annotated = injection;
+		if(injection instanceof IInjectionPointParameter) {
+			IInjectionPointParameter param = (IInjectionPointParameter)injection;
+			annotated = param.getBeanMethod();
+		}
+
+		return annotated.getAnnotation(SEAM_SERVLET_COOKIE_PARAM_TYPE_NAME) != null
+				|| annotated.getAnnotation(SEAM_SERVLET_HEADER_PARAM_TYPE_NAME) != null
+				|| annotated.getAnnotation(SEAM_SERVLET_REQUEST_PARAM_TYPE_NAME) != null;
 	}
 }

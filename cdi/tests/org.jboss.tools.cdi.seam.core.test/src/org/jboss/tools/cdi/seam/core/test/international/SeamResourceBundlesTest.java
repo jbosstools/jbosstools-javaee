@@ -8,7 +8,7 @@
  * Contributors: 
  * Red Hat, Inc. - initial API and implementation 
  ******************************************************************************/ 
-package org.jboss.tools.cdi.seam.core.test;
+package org.jboss.tools.cdi.seam.core.test.international;
 
 import java.io.File;
 import java.util.List;
@@ -23,6 +23,7 @@ import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.test.tck.TCKTest;
 import org.jboss.tools.cdi.seam.core.CDISeamCorePlugin;
 import org.jboss.tools.cdi.seam.core.international.el.CDIInternationalMessagesELResolver;
+import org.jboss.tools.cdi.seam.core.test.CDISeamCoreAllTests;
 import org.jboss.tools.common.el.core.resolver.ELContext;
 import org.jboss.tools.common.el.core.resolver.ELResolver;
 import org.jboss.tools.common.text.TextProposal;
@@ -36,7 +37,6 @@ import org.jboss.tools.test.util.JobUtils;
 import org.osgi.framework.Bundle;
 
 /**
- * @author Alexey Kazakov
  * @author Victor Rubezhny
  */
 public class SeamResourceBundlesTest extends TCKTest {
