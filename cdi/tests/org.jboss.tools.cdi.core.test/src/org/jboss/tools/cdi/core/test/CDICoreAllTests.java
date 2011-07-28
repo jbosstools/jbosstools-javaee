@@ -112,7 +112,6 @@ public class CDICoreAllTests {
 		suiteAll.addTestSuite(RemoveJarFromClasspathTest.class);
 		suiteAll.addTestSuite(ExtensionFactoryTest.class);
 		suiteAll.addTestSuite(ExtensionManagerTest.class);
-		suiteAll.addTestSuite(WeldJarTest.class);
 		suiteAll.addTestSuite(BeansXMLTest.class);
 		TestSuite dependentSuite = new TestSuite("Dependent Projects Tests");
 		dependentSuite.addTestSuite(DependentProjectTest.class);

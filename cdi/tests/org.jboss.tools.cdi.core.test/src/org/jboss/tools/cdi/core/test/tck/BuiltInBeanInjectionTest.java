@@ -15,9 +15,9 @@ import java.util.Set;
 import org.eclipse.jdt.core.IType;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.IBean;
+import org.jboss.tools.cdi.core.IBuiltInBean;
 import org.jboss.tools.cdi.core.IClassBean;
 import org.jboss.tools.cdi.core.IInjectionPointField;
-import org.jboss.tools.cdi.internal.core.impl.BuiltInBean;
 
 /**
  * @author Viacheslav Kabanovich
@@ -35,7 +35,7 @@ public class BuiltInBeanInjectionTest extends TCKTest {
 		assertFalse(beans.isEmpty());
 
 		IBean b = beans.iterator().next();
-		assertTrue(b instanceof BuiltInBean);
+		assertTrue(b instanceof IBuiltInBean);
 		IType t = b.getBeanClass();
 		assertEquals("javax.transaction.UserTransaction", t.getFullyQualifiedName());
 	}
@@ -51,7 +51,7 @@ public class BuiltInBeanInjectionTest extends TCKTest {
 		assertFalse(beans.isEmpty());
 
 		IBean b = beans.iterator().next();
-		assertTrue(b instanceof BuiltInBean);
+		assertTrue(b instanceof IBuiltInBean);
 		IType t = b.getBeanClass();
 		assertEquals("javax.validation.ValidatorFactory", t.getFullyQualifiedName());
 	}
@@ -67,7 +67,7 @@ public class BuiltInBeanInjectionTest extends TCKTest {
 		assertFalse(beans.isEmpty());
 
 		IBean b = beans.iterator().next();
-		assertTrue(b instanceof BuiltInBean);
+		assertTrue(b instanceof IBuiltInBean);
 		IType t = b.getBeanClass();
 		assertEquals("javax.validation.Validator", t.getFullyQualifiedName());
 	}
@@ -83,7 +83,7 @@ public class BuiltInBeanInjectionTest extends TCKTest {
 		assertFalse(beans.isEmpty());
 
 		IBean b = beans.iterator().next();
-		assertTrue(b instanceof BuiltInBean);
+		assertTrue(b instanceof IBuiltInBean);
 		IType t = b.getBeanClass();
 		assertEquals("java.security.Principal", t.getFullyQualifiedName());
 	}
@@ -99,7 +99,7 @@ public class BuiltInBeanInjectionTest extends TCKTest {
 		assertFalse(beans.isEmpty());
 
 		IBean b = beans.iterator().next();
-		assertTrue(b instanceof BuiltInBean);
+		assertTrue(b instanceof IBuiltInBean);
 		IType t = b.getBeanClass();
 		assertEquals(CDIConstants.BEAN_MANAGER_TYPE_NAME, t.getFullyQualifiedName());
 	}
