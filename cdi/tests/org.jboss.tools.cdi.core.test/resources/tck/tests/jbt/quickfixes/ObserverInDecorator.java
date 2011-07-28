@@ -9,7 +9,7 @@ import javax.inject.Inject;
 public class ObserverInDecorator {
 	@Inject @Delegate @AAnnotation String str;
 	
-	public void method(@Observes String param){
+	public void method(@Observes Boolean param){
 		
 	}
 }

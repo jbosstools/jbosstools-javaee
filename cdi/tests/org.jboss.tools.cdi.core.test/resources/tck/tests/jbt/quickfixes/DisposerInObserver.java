@@ -10,7 +10,7 @@ public class DisposerInObserver {
 		return "a";
 	}
 	
-	public void method(@Observes String param1, @Disposes String param2){
+	public void method(@Observes Boolean param1, @Disposes Boolean param2){
 		
 	}
 }

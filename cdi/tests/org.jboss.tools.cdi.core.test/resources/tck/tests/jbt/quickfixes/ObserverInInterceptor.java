@@ -9,7 +9,7 @@ import org.jboss.jsr299.tck.tests.decorators.interceptor.FooBinding;
 @FooBinding
 public class ObserverInInterceptor {
 	
-	public void method(@Observes String param){
+	public void method(@Observes Boolean param){
 		
 	}
 }
