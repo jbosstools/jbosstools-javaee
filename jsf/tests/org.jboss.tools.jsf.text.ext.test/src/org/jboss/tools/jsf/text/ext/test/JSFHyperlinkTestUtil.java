@@ -70,9 +70,11 @@ public class JSFHyperlinkTestUtil extends TestCase{
 		assertNotNull("The document for the file \"" + fileName + "\" is not loaded", document);
 
 		int expected = 0;
-		for(TestRegion testRegion : regionList)
-			expected += testRegion.region.getLength()+1;
 		
+		for(TestRegion testRegion : regionList) {
+			expected += testRegion.region.getLength()+1;
+		}
+			
 		IEditorPart part = openFileInEditor(file);
 		ISourceViewer viewer = null;
 		if(part instanceof JavaEditor){
@@ -306,6 +308,13 @@ public class JSFHyperlinkTestUtil extends TestCase{
 		
 		public TestRegion(int offset, int length, TestHyperlink[] testHyperlinks){
 			region = new Region(offset, length);
+			for(TestHyperlink testHyperlink : testHyperlinks){
+				hyperlinks.add(testHyperlink);
+			}
+		}
+		
+		public TestRegion(Region region, TestHyperlink[] testHyperlinks){
+			region = new Region(region.getOffset(),region.getLength());
 			for(TestHyperlink testHyperlink : testHyperlinks){
 				hyperlinks.add(testHyperlink);
 			}
