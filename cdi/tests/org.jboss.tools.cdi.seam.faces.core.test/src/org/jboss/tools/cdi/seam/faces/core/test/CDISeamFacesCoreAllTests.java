@@ -29,6 +29,6 @@ public class CDISeamFacesCoreAllTests {
 		suite.addTestSuite(SeamFacesValidationTest.class);
 		suiteAll.addTest(new SeamFacesTestSetup(suite));
 		suiteAll.addTestSuite(SeamFacesTagLibTest.class);
-		return suite;
+		return suiteAll;
 	}
 }

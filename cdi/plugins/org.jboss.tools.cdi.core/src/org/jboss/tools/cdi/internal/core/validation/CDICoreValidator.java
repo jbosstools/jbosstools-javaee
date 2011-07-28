@@ -80,6 +80,7 @@ import org.jboss.tools.cdi.core.ISessionBean;
 import org.jboss.tools.cdi.core.IStereotype;
 import org.jboss.tools.cdi.core.IStereotypeDeclaration;
 import org.jboss.tools.cdi.core.IStereotyped;
+import org.jboss.tools.cdi.core.extension.feature.IInjectionPointValidatorFeature;
 import org.jboss.tools.cdi.core.extension.feature.IValidatorFeature;
 import org.jboss.tools.cdi.core.preferences.CDIPreferences;
 import org.jboss.tools.cdi.internal.core.impl.CDIProject;
@@ -111,7 +112,9 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 	String projectName;
 	IValidatingProjectTree projectTree;
 	IValidatingProjectSet projectSet;
-	Set<IFolder> sourceFolders = null;
+	Set<IFolder> sourceFolders;
+
+	private Set<IInjectionPointValidatorFeature> injectionValidationFeatures;
 
 	private BeansXmlValidationDelegate beansXmlValidator = new BeansXmlValidationDelegate(this);
 	private AnnotationValidationDelegate annotationValidator = new AnnotationValidationDelegate(this);
@@ -199,12 +202,14 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 		setMessageIdQuickFixAttributeName(MESSAGE_ID_ATTRIBUTE_NAME);
 		projectTree = validationHelper.getValidationContextManager().getValidatingProjectTree(this);
 		projectSet = projectTree.getBrunches().get(rootProject);
+		cdiProject = null;
 		CDICoreNature nature = CDICorePlugin.getCDI(projectSet.getRootProject(), false);
 		if(nature!=null) {
 			cdiProject =  nature.getDelegate();
 			if(cdiProject==null) {
 				CDICorePlugin.getDefault().logError("Trying to validate " + rootProject + " but CDI Tools model for the project is not buit.");
 			}
+			injectionValidationFeatures = nature.getExtensionManager().getFeatures(IInjectionPointValidatorFeature.class);
 		}
 		projectName = projectSet.getRootProject().getName();
 		sourceFolders = null;
@@ -445,7 +450,7 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 			IInterceptorBinding binding = cdiProject.getInterceptorBinding(file.getFullPath());
 			validateInterceptorBinding(binding);
 		}
-		Set<IValidatorFeature> extensions = cdiProject.getNature().getExtensionManager().getValidatorFeature();
+		Set<IValidatorFeature> extensions = cdiProject.getNature().getExtensionManager().getValidatorFeatures();
 		for (IValidatorFeature v: extensions) {
 			setSeverityPreferences(v.getSeverityPreferences());
 			v.validateResource(file, this);
@@ -1429,6 +1434,21 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 		}
 	}
 
+	/**
+	 * Checks if the injection point injects some bean from a CDI extension and should be ignored by the validator during lookup validation.
+	 * @param typeOfInjectionPoint
+	 * @param injection
+	 * @return
+	 */
+	private boolean shouldIgnoreInjection(IType typeOfInjectionPoint, IInjectionPoint injection) {
+		for (IInjectionPointValidatorFeature feature : injectionValidationFeatures) {
+			if(feature.shouldIgnoreInjection(typeOfInjectionPoint, injection)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	private void validateInjectionPoint(IInjectionPoint injection) {
 		/*
 		 * 3.11. The qualifier @Named at injection points
@@ -1491,127 +1511,117 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 			 *  - If an unsatisfied or unresolvable ambiguous dependency exists, the container automatically detects the problem and treats it as a deployment problem.
 			 */
 			IType type = getTypeOfInjection(injection);
-			// If the injection point annotated @InputField then don't try to resolve it. Also ignore @Inject InputElement field. 
-			// Despite this annotation is from Seam Faces module and is not part of JSR-299 it's much easy to check this annotation here instead of moving this check to Seam Faces plug-in. 
-			// See https://issues.jboss.org/browse/JBIDE-8576
-			if(type==null || !CDIConstants.SEAM_FACES_INPUT_ELEMENT_TYPE_NAME.equals(type.getFullyQualifiedName())) {
-				IAnnotationDeclaration faces = injection.getAnnotation(CDIConstants.SEAM_FACES_INPUT_FIELD_TYPE_NAME);
-				if(faces==null && injection instanceof IInjectionPointParameter) {
-					IInjectionPointParameter param = (IInjectionPointParameter)injection;
-					faces = param.getBeanMethod().getAnnotation(CDIConstants.SEAM_FACES_INPUT_FIELD_TYPE_NAME);
-				}
-				if(faces==null) {
-					boolean instance = type!=null && CDIConstants.INSTANCE_TYPE_NAME.equals(type.getFullyQualifiedName());
-					Set<IBean> allBeans = cdiProject.getBeans(false, injection);
-					for (IBean bean : allBeans) {
-						if(!bean.getBeanClass().isReadOnly()) {
-							getValidationContext().addLinkedCoreResource(SHORT_ID, injection.getSourcePath().toOSString(), bean.getResource().getFullPath(), false);
-						}
+			if(!shouldIgnoreInjection(type, injection)) {
+				boolean instance = type!=null && CDIConstants.INSTANCE_TYPE_NAME.equals(type.getFullyQualifiedName());
+				Set<IBean> allBeans = cdiProject.getBeans(false, injection);
+				for (IBean bean : allBeans) {
+					if(!bean.getBeanClass().isReadOnly()) {
+						getValidationContext().addLinkedCoreResource(SHORT_ID, injection.getSourcePath().toOSString(), bean.getResource().getFullPath(), false);
 					}
-					if(type!=null && beans.isEmpty() && !instance) {
-						addError(CDIValidationMessages.UNSATISFIED_INJECTION_POINTS, CDIPreferences.UNSATISFIED_OR_AMBIGUOUS_INJECTION_POINTS, reference, injection.getResource(), UNSATISFIED_INJECTION_POINTS_ID);
-					} else if(beans.size()>1  && !instance) {
-						addError(CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS, CDIPreferences.UNSATISFIED_OR_AMBIGUOUS_INJECTION_POINTS, reference, injection.getResource(), AMBIGUOUS_INJECTION_POINTS_ID);
-					} else if(beans.size()==1) {
-						IBean bean = beans.iterator().next();
-						if(!bean.getBeanClass().isReadOnly()) {
-							/*
-							 * 5.2.4. Primitive types and null values
-							 *  - injection point of primitive type resolves to a bean that may have null values, such as a producer method with a non-primitive return type or a producer field with a non-primitive type
-							 */
-							if(bean.isNullable() && injection.getType()!=null && injection.getType().isPrimitive()) {
-								addError(CDIValidationMessages.INJECT_RESOLVES_TO_NULLABLE_BEAN, CDIPreferences.INJECT_RESOLVES_TO_NULLABLE_BEAN, reference, injection.getResource());
-							}
-							/*
-							 * 5.1.4. Inter-module injection
-							 *  - a decorator can not be injected
-							 *  - an interceptor can not be injected
-							 *  It is not an error - container just never attempts to inject them.
-							 */
+				}
+				if(type!=null && beans.isEmpty() && !instance) {
+					addError(CDIValidationMessages.UNSATISFIED_INJECTION_POINTS, CDIPreferences.UNSATISFIED_OR_AMBIGUOUS_INJECTION_POINTS, reference, injection.getResource(), UNSATISFIED_INJECTION_POINTS_ID);
+				} else if(beans.size()>1  && !instance) {
+					addError(CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS, CDIPreferences.UNSATISFIED_OR_AMBIGUOUS_INJECTION_POINTS, reference, injection.getResource(), AMBIGUOUS_INJECTION_POINTS_ID);
+				} else if(beans.size()==1) {
+					IBean bean = beans.iterator().next();
+					if(!bean.getBeanClass().isReadOnly()) {
+						/*
+						 * 5.2.4. Primitive types and null values
+						 *  - injection point of primitive type resolves to a bean that may have null values, such as a producer method with a non-primitive return type or a producer field with a non-primitive type
+						 */
+						if(bean.isNullable() && injection.getType()!=null && injection.getType().isPrimitive()) {
+							addError(CDIValidationMessages.INJECT_RESOLVES_TO_NULLABLE_BEAN, CDIPreferences.INJECT_RESOLVES_TO_NULLABLE_BEAN, reference, injection.getResource());
+						}
+						/*
+						 * 5.1.4. Inter-module injection
+						 *  - a decorator can not be injected
+						 *  - an interceptor can not be injected
+						 *  It is not an error - container just never attempts to inject them.
+						 */
 
-							/*
-							 * 	5.4.1. Unproxyable bean types
-							 * 	- If an injection point whose declared type cannot be proxied by the container resolves to a bean with a normal scope,
-							 * 	  the container automatically detects the problem and treats it as a deployment problem.
-							 */
-							if(bean.getScope()!=null && bean.getScope().isNorlmalScope() && injection.getType()!=null) {
-								 // - Array types cannot be proxied by the container.
-								String typeSignature = injection.getType().getSignature();
-								int kind = Signature.getTypeSignatureKind(typeSignature);
-								if(kind == Signature.ARRAY_TYPE_SIGNATURE) {
-									addError(MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_ARRAY_TYPE, injection.getType().getSimpleName(), bean.getSimpleJavaName()), CDIPreferences.UNPROXYABLE_BEAN_TYPE, reference, injection.getResource());
-								} else if(injection.getType().isPrimitive()) {
-									// - Primitive types cannot be proxied by the container.
-									addError(MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_PRIMITIVE_TYPE, injection.getType().getSimpleName(), bean.getSimpleJavaName()), CDIPreferences.UNPROXYABLE_BEAN_TYPE, reference, injection.getResource());
-								} else if(bean instanceof IClassBean) {
-									try {
-										if(Flags.isFinal(bean.getBeanClass().getFlags())) {
-											// - Classes which are declared final cannot be proxied by the container.
-											addError(MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_FINAL_TYPE, injection.getType().getSimpleName(), bean.getSimpleJavaName()), CDIPreferences.UNPROXYABLE_BEAN_TYPE, reference, injection.getResource());
-										} else {
-											IMethod[] methods = bean.getBeanClass().getMethods();
-											boolean hasDefaultConstructor = false;
-											boolean hasConstructor = false;
-											for (IMethod method : methods) {
-												hasConstructor = hasConstructor || method.isConstructor();
-												hasDefaultConstructor = hasDefaultConstructor || (method.isConstructor() && !Flags.isPrivate(method.getFlags()) && method.getParameterNames().length==0);
-												if(Flags.isFinal(method.getFlags())) {
-													// - Classes which have final methods cannot be proxied by the container.
-													addError(MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_TYPE_WITH_FM, injection.getType().getSimpleName(), bean.getSimpleJavaName()), CDIPreferences.UNPROXYABLE_BEAN_TYPE, reference, injection.getResource());
-													hasDefaultConstructor = true;
-													break;
-												}
-											}
-											if(!hasDefaultConstructor && hasConstructor) {
-												// - Classes which don't have a non-private constructor with no parameters cannot be proxied by the container.
-												addError(MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_TYPE_WITH_NPC, injection.getType().getSimpleName(), bean.getSimpleJavaName()), CDIPreferences.UNPROXYABLE_BEAN_TYPE, reference, injection.getResource());
+						/*
+						 * 	5.4.1. Unproxyable bean types
+						 * 	- If an injection point whose declared type cannot be proxied by the container resolves to a bean with a normal scope,
+						 * 	  the container automatically detects the problem and treats it as a deployment problem.
+						 */
+						if(bean.getScope()!=null && bean.getScope().isNorlmalScope() && injection.getType()!=null) {
+							 // - Array types cannot be proxied by the container.
+							String typeSignature = injection.getType().getSignature();
+							int kind = Signature.getTypeSignatureKind(typeSignature);
+							if(kind == Signature.ARRAY_TYPE_SIGNATURE) {
+								addError(MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_ARRAY_TYPE, injection.getType().getSimpleName(), bean.getSimpleJavaName()), CDIPreferences.UNPROXYABLE_BEAN_TYPE, reference, injection.getResource());
+							} else if(injection.getType().isPrimitive()) {
+								// - Primitive types cannot be proxied by the container.
+								addError(MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_PRIMITIVE_TYPE, injection.getType().getSimpleName(), bean.getSimpleJavaName()), CDIPreferences.UNPROXYABLE_BEAN_TYPE, reference, injection.getResource());
+							} else if(bean instanceof IClassBean) {
+								try {
+									if(Flags.isFinal(bean.getBeanClass().getFlags())) {
+										// - Classes which are declared final cannot be proxied by the container.
+										addError(MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_FINAL_TYPE, injection.getType().getSimpleName(), bean.getSimpleJavaName()), CDIPreferences.UNPROXYABLE_BEAN_TYPE, reference, injection.getResource());
+									} else {
+										IMethod[] methods = bean.getBeanClass().getMethods();
+										boolean hasDefaultConstructor = false;
+										boolean hasConstructor = false;
+										for (IMethod method : methods) {
+											hasConstructor = hasConstructor || method.isConstructor();
+											hasDefaultConstructor = hasDefaultConstructor || (method.isConstructor() && !Flags.isPrivate(method.getFlags()) && method.getParameterNames().length==0);
+											if(Flags.isFinal(method.getFlags())) {
+												// - Classes which have final methods cannot be proxied by the container.
+												addError(MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_TYPE_WITH_FM, injection.getType().getSimpleName(), bean.getSimpleJavaName()), CDIPreferences.UNPROXYABLE_BEAN_TYPE, reference, injection.getResource());
+												hasDefaultConstructor = true;
+												break;
 											}
 										}
-									} catch (JavaModelException e) {
-										CDICorePlugin.getDefault().logError(e);
-									}
-								}
-							}
-							if(injection.getClassBean() instanceof IDecorator && injection.isDelegate() && bean instanceof IClassBean) {
-								try {
-									IType beanClass = bean.getBeanClass();
-									if(Flags.isFinal(beanClass.getFlags())) {
-										//	8.3. Decorator resolution 
-										//	- If a decorator matches a managed bean, and the managed bean class is declared final, the container automatically detects 
-										//	  the problem and treats it as a deployment problem.
-										addError(MessageFormat.format(CDIValidationMessages.DECORATOR_RESOLVES_TO_FINAL_CLASS, bean.getSimpleJavaName()), CDIPreferences.DECORATOR_RESOLVES_TO_FINAL_BEAN, reference, injection.getResource());
-									} else {
-										//	8.3. Decorator resolution 
-										//	- If a decorator matches a managed bean with a non-static, non-private, final method, and the decorator also implements that method,
-										//    the container automatically detects  the problem and treats it as a deployment problem. 
-										IType decoratorClass = injection.getClassBean().getBeanClass();
-										IMethod[] methods = decoratorClass.getMethods();
-										boolean reported = false;
-										if(methods!=null) {
-											for (IMethod method : methods) {
-												if(!Flags.isPrivate(method.getFlags()) && !Flags.isStatic(method.getFlags())) {
-													IMethod[] beanMethods = beanClass.findMethods(method);
-													if(beanMethods!=null) {
-														for (IMethod beanMethod : beanMethods) {
-															int flags = beanMethod.getFlags();
-															if(!Flags.isPrivate(flags) && !Flags.isStatic(flags) && Flags.isFinal(flags)) {
-																String methodName = Signature.toString(beanMethod.getSignature(), beanMethod.getElementName(), beanMethod.getParameterNames(), false, false);
-																addError(MessageFormat.format(CDIValidationMessages.DECORATOR_RESOLVES_TO_FINAL_METHOD, bean.getSimpleJavaName(), methodName), CDIPreferences.DECORATOR_RESOLVES_TO_FINAL_BEAN, reference, injection.getResource());
-																reported = true;
-																break;
-															}
-														}
-														if(reported) {
-															break;
-														}
-													}
-												}
-											}
+										if(!hasDefaultConstructor && hasConstructor) {
+											// - Classes which don't have a non-private constructor with no parameters cannot be proxied by the container.
+											addError(MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_TYPE_WITH_NPC, injection.getType().getSimpleName(), bean.getSimpleJavaName()), CDIPreferences.UNPROXYABLE_BEAN_TYPE, reference, injection.getResource());
 										}
 									}
 								} catch (JavaModelException e) {
 									CDICorePlugin.getDefault().logError(e);
 								}
+							}
+						}
+						if(injection.getClassBean() instanceof IDecorator && injection.isDelegate() && bean instanceof IClassBean) {
+							try {
+								IType beanClass = bean.getBeanClass();
+								if(Flags.isFinal(beanClass.getFlags())) {
+									//	8.3. Decorator resolution 
+									//	- If a decorator matches a managed bean, and the managed bean class is declared final, the container automatically detects 
+									//	  the problem and treats it as a deployment problem.
+									addError(MessageFormat.format(CDIValidationMessages.DECORATOR_RESOLVES_TO_FINAL_CLASS, bean.getSimpleJavaName()), CDIPreferences.DECORATOR_RESOLVES_TO_FINAL_BEAN, reference, injection.getResource());
+								} else {
+									//	8.3. Decorator resolution 
+									//	- If a decorator matches a managed bean with a non-static, non-private, final method, and the decorator also implements that method,
+									//    the container automatically detects  the problem and treats it as a deployment problem. 
+									IType decoratorClass = injection.getClassBean().getBeanClass();
+									IMethod[] methods = decoratorClass.getMethods();
+									boolean reported = false;
+									if(methods!=null) {
+										for (IMethod method : methods) {
+											if(!Flags.isPrivate(method.getFlags()) && !Flags.isStatic(method.getFlags())) {
+												IMethod[] beanMethods = beanClass.findMethods(method);
+												if(beanMethods!=null) {
+													for (IMethod beanMethod : beanMethods) {
+														int flags = beanMethod.getFlags();
+														if(!Flags.isPrivate(flags) && !Flags.isStatic(flags) && Flags.isFinal(flags)) {
+															String methodName = Signature.toString(beanMethod.getSignature(), beanMethod.getElementName(), beanMethod.getParameterNames(), false, false);
+															addError(MessageFormat.format(CDIValidationMessages.DECORATOR_RESOLVES_TO_FINAL_METHOD, bean.getSimpleJavaName(), methodName), CDIPreferences.DECORATOR_RESOLVES_TO_FINAL_BEAN, reference, injection.getResource());
+															reported = true;
+															break;
+														}
+													}
+													if(reported) {
+														break;
+													}
+												}
+											}
+										}
+									}
+								}
+							} catch (JavaModelException e) {
+								CDICorePlugin.getDefault().logError(e);
 							}
 						}
 					}

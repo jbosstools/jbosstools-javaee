@@ -49,7 +49,7 @@ public class TypeDefinition extends AbstractTypeDefinition {
 			//provide initialization
 			context.getAnnotationKind(a.getType());
 		}
-		Set<IProcessAnnotatedMemberFeature> extensions = context.getProject().getExtensionManager().getProcessAnnotatedMemberFeature();
+		Set<IProcessAnnotatedMemberFeature> extensions = context.getProject().getExtensionManager().getProcessAnnotatedMemberFeatures();
 		IField[] fs = getType().getFields();
 		for (int i = 0; i < fs.length; i++) {
 			FieldDefinition f = newFieldDefinition();

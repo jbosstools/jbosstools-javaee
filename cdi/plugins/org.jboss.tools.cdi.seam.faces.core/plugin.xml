@@ -1,11 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.2"?>
 <plugin>
-   <extension
+	<extension
          point="org.jboss.tools.jst.web.kb.tagLib">
-      <tag-lib
+		<tag-lib
             location="platform:/plugin/org.jboss.tools.cdi.seam.faces.core/taglibs/JBossSeamFaces.xml"
             name="JBoss Seam Faces"
             uri="http://jboss.org/seam/faces"/>
-   </extension>
+	</extension>
+	<extension
+	      point="org.jboss.tools.cdi.core.cdiextensions">
+	    <cdiextension
+	          class="org.jboss.tools.cdi.seam.faces.core.SeamFacesExtension"
+	          runtime="org.jboss.seam.faces.component.FormValidationTypeOverrideExtension">
+	    </cdiextension>
+	</extension>
 </plugin>

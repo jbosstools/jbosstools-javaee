@@ -29,7 +29,7 @@ public class ExtensionTest extends SeamConfigTest {
 	public void testExtension() throws CoreException, IOException {
 		ICDIProject cdi = CDICorePlugin.getCDIProject(project, true);
 		
-		Set<IBuildParticipantFeature> bp = cdi.getNature().getExtensionManager().getBuildParticipantFeature();
+		Set<IBuildParticipantFeature> bp = cdi.getNature().getExtensionManager().getBuildParticipantFeatures();
 		System.out.println(bp.size());
 	}
 

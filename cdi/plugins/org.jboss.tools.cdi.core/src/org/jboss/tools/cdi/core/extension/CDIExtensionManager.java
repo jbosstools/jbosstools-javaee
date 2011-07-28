@@ -10,7 +10,6 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.core.extension;
 
-
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -138,30 +137,30 @@ public class CDIExtensionManager {
 		return featureToExtensions.containsKey(feature) ? featureToExtensions.get(feature) : EMPTY;
 	}
 
-	public Set<IProcessAnnotatedMemberFeature> getProcessAnnotatedMemberFeature() {
-		return getFeature(IProcessAnnotatedMemberFeature.class);
+	public Set<IProcessAnnotatedMemberFeature> getProcessAnnotatedMemberFeatures() {
+		return getFeatures(IProcessAnnotatedMemberFeature.class);
 	}
 
-	public Set<IProcessAnnotatedTypeFeature> getProcessAnnotatedTypeFeature() {
-		return getFeature(IProcessAnnotatedTypeFeature.class);
+	public Set<IProcessAnnotatedTypeFeature> getProcessAnnotatedTypeFeatures() {
+		return getFeatures(IProcessAnnotatedTypeFeature.class);
 	}
 
-	public Set<IBuildParticipantFeature> getBuildParticipantFeature() {
+	public Set<IBuildParticipantFeature> getBuildParticipantFeatures() {
 		if(!featureStorage.containsKey(IBuildParticipantFeature.class)) {
-			Set<IBuildParticipantFeature> result = getFeature(IBuildParticipantFeature.class);
+			Set<IBuildParticipantFeature> result = getFeatures(IBuildParticipantFeature.class);
 			for (IBuildParticipantFeature f: result) {
 				f.setProject(n);
 			}
 		}
-		return getFeature(IBuildParticipantFeature.class);
+		return getFeatures(IBuildParticipantFeature.class);
 	}
 
-	public Set<IAmbiguousBeanResolverFeature> getAmbiguousBeanResolverFeature() {
-		return getFeature(IAmbiguousBeanResolverFeature.class);
+	public Set<IAmbiguousBeanResolverFeature> getAmbiguousBeanResolverFeatures() {
+		return getFeatures(IAmbiguousBeanResolverFeature.class);
 	}
 
-	public Set<IValidatorFeature> getValidatorFeature() {
-		return getFeature(IValidatorFeature.class);
+	public Set<IValidatorFeature> getValidatorFeatures() {
+		return getFeatures(IValidatorFeature.class);
 	}
 
 	/**
@@ -170,7 +169,8 @@ public class CDIExtensionManager {
 	 * @param cls
 	 * @return set of feature implementation objects by feature class
 	 */
-	public <F extends ICDIFeature> Set<F> getFeature(Class<F> cls) {
+	public <F extends ICDIFeature> Set<F> getFeatures(Class<F> cls) {
+		@SuppressWarnings("unchecked")
 		Set<F> result = (Set<F>)featureStorage.get(cls);
 		if(result == null) {
 			result = new HashSet<F>();
@@ -187,5 +187,4 @@ public class CDIExtensionManager {
 		}
 		return result;
 	}
-
 }

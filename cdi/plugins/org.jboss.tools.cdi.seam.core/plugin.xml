@@ -17,4 +17,12 @@
           runtime="org.jboss.seam.international.status.TypedStatusMessageBundleExtension">
     </cdiextension>
 	</extension>
+
+	<extension
+	      point="org.jboss.tools.cdi.core.cdiextensions">
+	    <cdiextension
+	          class="org.jboss.tools.cdi.seam.core.servlet.SeamServletExtension"
+	          runtime="org.jboss.seam.servlet.ServletExtension">
+	    </cdiextension>
+	</extension>
 </plugin>

@@ -257,7 +257,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		}
 		
 		if(result.size() > 1) {
-			Set<IAmbiguousBeanResolverFeature> extensions = getExtensionManager().getAmbiguousBeanResolverFeature();
+			Set<IAmbiguousBeanResolverFeature> extensions = getExtensionManager().getAmbiguousBeanResolverFeatures();
 			for (IAmbiguousBeanResolverFeature e: extensions) {
 				result = e.getResolvedBeans(result);
 				if(result.size() < 2) return result;
@@ -1034,7 +1034,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		rebuildAnnotationTypes();
 		rebuildBeans();
 
-		Set<IBuildParticipantFeature> buildParticipants = n.getExtensionManager().getBuildParticipantFeature();
+		Set<IBuildParticipantFeature> buildParticipants = n.getExtensionManager().getBuildParticipantFeatures();
 		for (IBuildParticipantFeature p: buildParticipants) p.buildBeans();
 		
 		CDICoreNature[] ps = n.getDependentProjects().toArray(new CDICoreNature[0]);

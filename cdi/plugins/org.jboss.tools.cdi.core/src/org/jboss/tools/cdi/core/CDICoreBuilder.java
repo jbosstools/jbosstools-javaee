@@ -161,7 +161,7 @@ public class CDICoreBuilder extends IncrementalProjectBuilder {
 			}
 			if(isClassPathUpdated || buildParticipants == null) {
 				//3. Install extensions. That should be done before constructing working copy of context.
-				buildParticipants = n.getExtensionManager().getBuildParticipantFeature();
+				buildParticipants = n.getExtensionManager().getBuildParticipantFeatures();
 				buildParticipants2 = new HashSet<IBuildParticipant2Feature>();
 				Set<IDefinitionContextExtension> es = new HashSet<IDefinitionContextExtension>();
 				for (IBuildParticipantFeature p: buildParticipants) {

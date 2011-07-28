@@ -363,7 +363,7 @@ public class DefinitionContext implements IRootDefinitionContext {
 		packageDefinitions = workingCopy.packageDefinitions;
 		beanXMLs = workingCopy.beanXMLs;
 
-		Set<IProcessAnnotatedTypeFeature> fs = project.getExtensionManager().getProcessAnnotatedTypeFeature();
+		Set<IProcessAnnotatedTypeFeature> fs = project.getExtensionManager().getProcessAnnotatedTypeFeatures();
 		if(fs != null && !fs.isEmpty()) {
 			for (TypeDefinition nd: newTypeDefinitions) {
 				for (IProcessAnnotatedTypeFeature f: fs) {

@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Core
+Bundle-Name: Seam Faces Core
 Bundle-SymbolicName: org.jboss.tools.cdi.seam.faces.core;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: org.jboss.tools.cdi.seam.faces.core.SeamFacesCorePlugin
@@ -8,7 +8,9 @@ Bundle-Localization: plugin
 Require-Bundle: org.eclipse.ui;bundle-version="3.7.0",
  org.eclipse.core.runtime;bundle-version="3.7.0",
  org.jboss.tools.common,
- org.jboss.tools.jst.web.kb
+ org.jboss.tools.jst.web.kb,
+ org.jboss.tools.cdi.core,
+ org.eclipse.jdt.core;bundle-version="3.7.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.jboss.tools.cdi.seam.faces.core

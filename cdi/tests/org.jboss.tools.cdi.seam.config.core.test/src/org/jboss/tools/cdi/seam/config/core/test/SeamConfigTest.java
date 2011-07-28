@@ -72,7 +72,7 @@ public class SeamConfigTest extends TestCase {
 	}
 
 	protected CDISeamConfigExtension getConfigExtension(ICDIProject cdi) {
-		Set<IBuildParticipantFeature> bp = cdi.getNature().getExtensionManager().getBuildParticipantFeature();
+		Set<IBuildParticipantFeature> bp = cdi.getNature().getExtensionManager().getBuildParticipantFeatures();
 		for (IBuildParticipantFeature p: bp) {
 			if(p instanceof CDISeamConfigExtension) {
 				return (CDISeamConfigExtension)p;
