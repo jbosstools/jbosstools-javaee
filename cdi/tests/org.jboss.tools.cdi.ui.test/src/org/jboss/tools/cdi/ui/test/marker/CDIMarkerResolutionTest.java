@@ -858,4 +858,32 @@ public class CDIMarkerResolutionTest  extends ValidationTest {
 				CDIValidationErrorManager.OBSERVER_PARAMETER_ILLEGALLY_ANNOTATED_ID,
 				DeleteAnnotationMarkerResolution.class);
 	}
+	
+	public void testObserverInDecoratorResolution() throws CoreException{
+		checkResolution(tckProject,
+				new String[]{
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/ObserverInDecorator.java"
+				},
+				new String[]{
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/ObserverInDecorator.qfxresult"
+				},
+				CDICoreValidator.PROBLEM_TYPE,
+				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
+				CDIValidationErrorManager.OBSERVER_IN_DECORATOR_ID,
+				DeleteAnnotationMarkerResolution.class);
+	}
+
+	public void testObserverInInterceptorResolution() throws CoreException{
+		checkResolution(tckProject,
+				new String[]{
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/ObserverInInterceptor.java"
+				},
+				new String[]{
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/ObserverInInterceptor.qfxresult"
+				},
+				CDICoreValidator.PROBLEM_TYPE,
+				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
+				CDIValidationErrorManager.OBSERVER_IN_INTERCEPTOR_ID,
+				DeleteAnnotationMarkerResolution.class);
+	}
 }
