@@ -36,7 +36,6 @@ public class OpenOnsTest extends TestCase {
 		project = ResourcesPlugin.getWorkspace().getRoot().getProject(
 				OPENON_TEST_PROJECT);
 		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().closeAllEditors(false);
-		JobUtils.waitForIdle();
 		IWorkbench workbench = PlatformUI.getWorkbench();
 	}
 	
@@ -53,7 +52,6 @@ public class OpenOnsTest extends TestCase {
 	public void testFilterNameOpenOn() throws PartInitException, BadLocationException {
 		IEditorPart editor = WorkbenchUtils.openEditor(WEB_XML_FILE_PATH);
 		editor = ((EditorPartWrapper)editor).getEditor();
-		JobUtils.waitForIdle();
 		DefaultMultipageEditor xmlMultyPageEditor = (DefaultMultipageEditor) editor;
 		xmlMultyPageEditor.selectPageByName("Source");
 		ISourceViewer viewer = xmlMultyPageEditor.getSourceEditor().getTextViewer(); 
@@ -77,7 +75,6 @@ public class OpenOnsTest extends TestCase {
 	public void testRoleNameOpenOn() throws PartInitException, BadLocationException {
 		IEditorPart editor = WorkbenchUtils.openEditor(WEB_XML_FILE_PATH);
 		editor = ((EditorPartWrapper)editor).getEditor();
-		JobUtils.waitForIdle();
 		DefaultMultipageEditor xmlMultyPageEditor = (DefaultMultipageEditor) editor;
 		xmlMultyPageEditor.selectPageByName("Source");
 		ISourceViewer viewer = xmlMultyPageEditor.getSourceEditor().getTextViewer(); 
@@ -99,7 +96,6 @@ public class OpenOnsTest extends TestCase {
 	public void testServletNameOpenOn() throws PartInitException, BadLocationException {
 		IEditorPart editor = WorkbenchUtils.openEditor(WEB_XML_FILE_PATH);
 		editor = ((EditorPartWrapper)editor).getEditor();
-		JobUtils.waitForIdle();
 		DefaultMultipageEditor xmlMultyPageEditor = (DefaultMultipageEditor) editor;
 		xmlMultyPageEditor.selectPageByName("Source");
 		ISourceViewer viewer = xmlMultyPageEditor.getSourceEditor().getTextViewer(); 
@@ -129,7 +125,6 @@ public class OpenOnsTest extends TestCase {
 	public void testTaglibUriFromJarOpenOn() throws BadLocationException {
 		IEditorPart editor = WorkbenchUtils.openEditor(TAGLIB_URI_TEST_FILE);
 		assertTrue(editor instanceof JSPMultiPageEditor);
-		JobUtils.waitForIdle();
 		JSPMultiPageEditor jspMultyPageEditor = (JSPMultiPageEditor) editor;
 		ISourceViewer viewer = jspMultyPageEditor.getSourceEditor().getTextViewer();
 		IDocument document = jspMultyPageEditor.getSourceEditor().getTextViewer().getDocument();
@@ -141,7 +136,6 @@ public class OpenOnsTest extends TestCase {
 		//assertNotNull(links[0].getHyperlinkText());
 		assertNotNull(links[0].toString());
 		links[0].open();
-		JobUtils.waitForIdle();
 		editor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
 		
 		String fileName = editor.getEditorInput().getName();
@@ -153,7 +147,6 @@ public class OpenOnsTest extends TestCase {
 	public void testTaglibUriFromJarinJspRootOpenOn() throws BadLocationException {
 		IEditorPart editor = WorkbenchUtils.openEditor(TAGLIB_URI_JSP_ROOT_TEST_FILE);
 		assertTrue(editor instanceof JSPMultiPageEditor);
-		JobUtils.waitForIdle();
 		JSPMultiPageEditor jspMultyPageEditor = (JSPMultiPageEditor) editor;
 		ISourceViewer viewer = jspMultyPageEditor.getSourceEditor().getTextViewer();
 		IDocument document = jspMultyPageEditor.getSourceEditor().getTextViewer().getDocument();
@@ -165,8 +158,6 @@ public class OpenOnsTest extends TestCase {
 		//assertNotNull(links[0].getHyperlinkText());
 		assertNotNull(links[0].toString());
 		links[0].open();
-		JobUtils.waitForIdle();
-		
 		editor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
 		
 		String fileName = editor.getEditorInput().getName();
@@ -181,7 +172,6 @@ public class OpenOnsTest extends TestCase {
 	public void testStylesheetOpenOn() throws BadLocationException {
 		IEditorPart editor = WorkbenchUtils.openEditor(STYLE_TEST_FILE);
 		assertTrue(editor instanceof JSPMultiPageEditor);
-		JobUtils.waitForIdle();
 		JSPMultiPageEditor jspMultyPageEditor = (JSPMultiPageEditor) editor;
 		ISourceViewer viewer = jspMultyPageEditor.getSourceEditor().getTextViewer();
 		IDocument document = jspMultyPageEditor.getSourceEditor().getTextViewer().getDocument();
@@ -193,7 +183,6 @@ public class OpenOnsTest extends TestCase {
 		//assertNotNull(links[0].getHyperlinkText());
 		assertNotNull(links[0].toString());
 		links[0].open();
-		JobUtils.waitForIdle();
 		editor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
 		
 		String fileName = editor.getEditorInput().getName();
@@ -203,7 +192,6 @@ public class OpenOnsTest extends TestCase {
 	public void testStyleClassOpenOns() throws CoreException, BadLocationException {
 		IEditorPart editor = WorkbenchUtils.openEditor(STYLE_TEST_FILE);
 		assertTrue(editor instanceof JSPMultiPageEditor);
-		JobUtils.waitForIdle();
 		JSPMultiPageEditor jspMultyPageEditor = (JSPMultiPageEditor) editor;
 		ISourceViewer viewer = jspMultyPageEditor.getSourceEditor().getTextViewer();
 		IDocument document = jspMultyPageEditor.getSourceEditor().getTextViewer().getDocument();
@@ -215,7 +203,6 @@ public class OpenOnsTest extends TestCase {
 		//assertNotNull(links[0].getHyperlinkText());
 		assertNotNull(links[0].toString());
 		links[0].open();
-		JobUtils.waitForIdle(DELAY_FOR_LINK_OPEN);
 		editor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
 		
 		String fileName = editor.getEditorInput().getName();
@@ -229,7 +216,6 @@ public class OpenOnsTest extends TestCase {
 		//assertNotNull(links[0].getHyperlinkText());
 		assertNotNull(links[0].toString());
 		links[0].open();
-		JobUtils.waitForIdle(DELAY_FOR_LINK_OPEN);
 		editor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
 		
 		fileName = editor.getEditorInput().getName();
@@ -243,7 +229,6 @@ public class OpenOnsTest extends TestCase {
 		//assertNotNull(links[0].getHyperlinkText());
 		assertNotNull(links[0].toString());
 		links[0].open();
-		JobUtils.waitForIdle(DELAY_FOR_LINK_OPEN);
 		editor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
 		
 		fileName = editor.getEditorInput().getName();
@@ -267,7 +252,6 @@ public class OpenOnsTest extends TestCase {
 		//assertNotNull(links[0].getHyperlinkText());
 		assertNotNull(links[0].toString());
 		links[0].open();
-		JobUtils.waitForIdle();
 		editor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
 		
 		String fileName = editor.getEditorInput().getName();
@@ -289,7 +273,6 @@ public class OpenOnsTest extends TestCase {
 		assertNotNull(links[0].toString());
 		System.out.println(links[0].getClass().getName());
 		links[0].open();
-		JobUtils.waitForIdle();
 		editor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
 		
 		String fileName = editor.getEditorInput().getName();
@@ -314,7 +297,6 @@ public class OpenOnsTest extends TestCase {
 		//assertNotNull(links[0].getHyperlinkText());
 		assertNotNull(links[0].toString());
 		links[0].open();
-		JobUtils.waitForIdle();
 		editor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
 		ITextSelection selection = (ITextSelection)viewer.getSelectionProvider().getSelection();
 		assertEquals("<jsp:useBean id=\"b1\" class=\"org.jboss.tools.test.TestBean1\">", selection.getText());
@@ -327,7 +309,6 @@ public class OpenOnsTest extends TestCase {
 		//assertNotNull(links[0].getHyperlinkText());
 		assertNotNull(links[0].toString());
 		links[0].open();
-		JobUtils.waitForIdle();
 		editor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
 		String fileName = editor.getEditorInput().getName();
 		assertTrue("TestBean1.java".equals(fileName));
@@ -347,7 +328,6 @@ public class OpenOnsTest extends TestCase {
 		//assertNotNull(links[0].getHyperlinkText());
 		assertNotNull(links[0].toString());
 		links[0].open();
-		JobUtils.waitForIdle();
 	
 		editor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
 		String fileName = editor.getEditorInput().getName();
@@ -368,7 +348,6 @@ public class OpenOnsTest extends TestCase {
 		//assertNotNull(links[0].getHyperlinkText());
 		assertNotNull(links[0].toString());
 		links[0].open();
-		JobUtils.waitForIdle();
 	
 		editor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
 		String fileName = editor.getEditorInput().getName();
@@ -392,7 +371,6 @@ public class OpenOnsTest extends TestCase {
 		//assertNotNull(links[0].getHyperlinkText());
 		assertNotNull(links[0].toString());
 		links[0].open();
-		JobUtils.waitForIdle();
 		editor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
 		
 		String fileName = editor.getEditorInput().getName();
@@ -406,7 +384,6 @@ public class OpenOnsTest extends TestCase {
 		//assertNotNull(links[0].getHyperlinkText());
 		assertNotNull(links[0].toString());
 		links[0].open();
-		JobUtils.waitForIdle();
 		
 		editor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
 		fileName = editor.getEditorInput().getName();
@@ -430,7 +407,6 @@ public class OpenOnsTest extends TestCase {
 		//assertNotNull(links[0].getHyperlinkText());
 		assertNotNull(links[0].toString());
 		links[0].open();
-		JobUtils.waitForIdle();
 		editor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
 		
 		String fileName = editor.getEditorInput().getName();
@@ -444,7 +420,6 @@ public class OpenOnsTest extends TestCase {
 		//assertNotNull(links[0].getHyperlinkText());
 		assertNotNull(links[0].toString());
 		links[0].open();
-		JobUtils.waitForIdle();
 		editor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
 		fileName = editor.getEditorInput().getName();
 		assertTrue("includeHiperlinkPage1Tests.jsp".equals(fileName));
@@ -468,7 +443,6 @@ public class OpenOnsTest extends TestCase {
 		//assertNotNull(links[0].getHyperlinkText());
 		assertNotNull(links[0].toString());
 		links[0].open();
-		JobUtils.waitForIdle();
 		editor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
 		
 		String fileName = editor.getEditorInput().getName();
@@ -492,7 +466,6 @@ public class OpenOnsTest extends TestCase {
 		//assertNotNull(links[0].getHyperlinkText());
 		assertNotNull(links[0].toString());
 		links[0].open();
-		JobUtils.waitForIdle();
 		editor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
 		
 		String fileName = editor.getEditorInput().getName();
@@ -516,7 +489,6 @@ public class OpenOnsTest extends TestCase {
 		//assertNotNull(links[0].getHyperlinkText());
 		assertNotNull(links[0].toString());
 		links[0].open();
-		JobUtils.waitForIdle();
 		editor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
 		
 		ITextSelection selection = (ITextSelection)viewer.getSelectionProvider().getSelection();
@@ -528,7 +500,6 @@ public class OpenOnsTest extends TestCase {
 	public void testFaceletTaglibTypeOpenOn() throws CoreException, BadLocationException {
 		IEditorPart editor = WorkbenchUtils.openEditor(FACELET_TAGLIB_TEST_FILE);
 		editor = ((EditorPartWrapper)editor).getEditor();
-		JobUtils.waitForIdle();
 		DefaultMultipageEditor faceletEditor = (DefaultMultipageEditor) editor;
 		faceletEditor.selectPageByName("Source");
 		ISourceViewer viewer = faceletEditor.getSourceEditor().getTextViewer();
@@ -542,7 +513,6 @@ public class OpenOnsTest extends TestCase {
 		assertTrue(links.length != 0);
 
 		links[0].open();
-		JobUtils.waitForIdle();
 		editor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
 		String title = editor.getTitle();
 		assertTrue("java.lang.String declaration should be opened, but \'" + title + "\' is actially openned in active editor", 
@@ -566,7 +536,6 @@ public class OpenOnsTest extends TestCase {
 		//assertNotNull(links[0].getHyperlinkText());
 		assertNotNull(links[0].toString());
 		links[0].open();
-		JobUtils.waitForIdle();
 		editor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
 		
 		String fileName = editor.getEditorInput().getName();
@@ -578,7 +547,6 @@ public class OpenOnsTest extends TestCase {
 	public void testTaglibAttributeFromJarOpenOn() throws BadLocationException {
 		IEditorPart editor = WorkbenchUtils.openEditor(TAGLIB_TAGS_TEST_FILE);
 		assertTrue(editor instanceof JSPMultiPageEditor);
-		JobUtils.waitForIdle();
 		JSPMultiPageEditor jspMultyPageEditor = (JSPMultiPageEditor) editor;
 		ISourceViewer viewer = jspMultyPageEditor.getSourceEditor().getTextViewer();
 		IDocument document = jspMultyPageEditor.getSourceEditor().getTextViewer().getDocument();
@@ -590,7 +558,6 @@ public class OpenOnsTest extends TestCase {
 		//assertNotNull(links[0].getHyperlinkText());
 		assertNotNull(links[0].toString());
 		links[0].open();
-		JobUtils.waitForIdle();
 		
 		editor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
 		
@@ -603,7 +570,6 @@ public class OpenOnsTest extends TestCase {
 	public void testTaglibTagsFromJarOpenOn() throws BadLocationException {
 		IEditorPart editor = WorkbenchUtils.openEditor(TAGLIB_TAGS_TEST_FILE);
 		assertTrue(editor instanceof JSPMultiPageEditor);
-		JobUtils.waitForIdle();
 		JSPMultiPageEditor jspMultyPageEditor = (JSPMultiPageEditor) editor;
 		ISourceViewer viewer = jspMultyPageEditor.getSourceEditor().getTextViewer();
 		IDocument document = jspMultyPageEditor.getSourceEditor().getTextViewer().getDocument();
@@ -615,7 +581,6 @@ public class OpenOnsTest extends TestCase {
 		//assertNotNull(links[0].getHyperlinkText());
 		assertNotNull(links[0].toString());
 		links[0].open();
-		JobUtils.waitForIdle();
 		
 		editor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
 		
@@ -632,7 +597,6 @@ public class OpenOnsTest extends TestCase {
 	public void testTaglibTagsInWebInfOpenOn() throws BadLocationException {
 		IEditorPart editor = WorkbenchUtils.openEditor(TAGLIB_TAGS_TEST_FILE);
 		assertTrue(editor instanceof JSPMultiPageEditor);
-		JobUtils.waitForIdle();
 		JSPMultiPageEditor jspMultyPageEditor = (JSPMultiPageEditor) editor;
 		ISourceViewer viewer = jspMultyPageEditor.getSourceEditor().getTextViewer();
 		IDocument document = jspMultyPageEditor.getSourceEditor().getTextViewer().getDocument();
@@ -644,7 +608,6 @@ public class OpenOnsTest extends TestCase {
 		//assertNotNull(links[0].getHyperlinkText());
 		assertNotNull(links[0].toString());
 		links[0].open();
-		JobUtils.waitForIdle();
 		
 		editor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
 		
@@ -657,7 +620,6 @@ public class OpenOnsTest extends TestCase {
 	public void testTaglibAttributeInWebInfOpenOn() throws BadLocationException {
 		IEditorPart editor = WorkbenchUtils.openEditor(TAGLIB_TAGS_TEST_FILE);
 		assertTrue(editor instanceof JSPMultiPageEditor);
-		JobUtils.waitForIdle();
 		JSPMultiPageEditor jspMultyPageEditor = (JSPMultiPageEditor) editor;
 		ISourceViewer viewer = jspMultyPageEditor.getSourceEditor().getTextViewer();
 		IDocument document = jspMultyPageEditor.getSourceEditor().getTextViewer().getDocument();
@@ -669,7 +631,6 @@ public class OpenOnsTest extends TestCase {
 		//assertNotNull(links[0].getHyperlinkText());
 		assertNotNull(links[0].toString());
 		links[0].open();
-		JobUtils.waitForIdle();
 		
 		editor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
 		
