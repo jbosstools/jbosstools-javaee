@@ -25,23 +25,11 @@ public class JsfTextExtAllTests {
 				new String[]{"HiperlinksTestProject"}));
 		suite.addTest(new ProjectImportTestSetup(new TestSuite(
 					JSF2CompositeOpenOnTest.class, 
-					JSF2CompositeLibOpenOnTest.class),
-				"org.jboss.tools.jsf.text.ext.test",
-				new String[]{"projects/JSF2CompositeOpenOn"},
-				new String[]{"JSF2CompositeOpenOn"}));
-		suite.addTest(new ProjectImportTestSetup(new TestSuite(JSF2MessagesOpenOnTest.class),
-				"org.jboss.tools.jsf.text.ext.test",
-				new String[]{"projects/JSF2CompositeOpenOn"},
-				new String[]{"JSF2CompositeOpenOn"}));
-		suite.addTest(new ProjectImportTestSetup(new TestSuite(JSF2CSSStylesheetOpenOnTest.class),
-				"org.jboss.tools.jsf.text.ext.test",
-				new String[]{"projects/JSF2CompositeOpenOn"},
-				new String[]{"JSF2CompositeOpenOn"}));
-		suite.addTest(new ProjectImportTestSetup(new TestSuite(JSF2CCAttrsOpenOnTest.class),
-				"org.jboss.tools.jsf.text.ext.test",
-				new String[]{"projects/JSF2CompositeOpenOn"},
-				new String[]{"JSF2CompositeOpenOn"}));
-		suite.addTest(new ProjectImportTestSetup(new TestSuite(JSF2XMLOpenOnTest.class),
+					JSF2CompositeLibOpenOnTest.class,
+					JSF2MessagesOpenOnTest.class,
+					JSF2CSSStylesheetOpenOnTest.class,
+					JSF2CCAttrsOpenOnTest.class,
+					JSF2XMLOpenOnTest.class),
 				"org.jboss.tools.jsf.text.ext.test",
 				new String[]{"projects/JSF2CompositeOpenOn"},
 				new String[]{"JSF2CompositeOpenOn"}));
