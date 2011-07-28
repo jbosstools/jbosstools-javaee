@@ -21,5 +21,5 @@ Require-Bundle: org.eclipse.ui;bundle-version="3.7.0",
  org.jboss.tools.cdi.seam.solder.core,
  org.jboss.tools.jst.web.kb,
  org.jboss.tools.jst.web
-Bundle-Version: 1.0.0.qualifier
+Bundle-Version: 1.2.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

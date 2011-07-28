@@ -32,5 +32,5 @@ Require-Bundle: org.eclipse.jface.text;bundle-version="3.7.0",
  org.jboss.tools.jst.web.ui,
  org.jboss.tools.cdi.xml,
  org.jboss.tools.cdi.ui
-Bundle-Version: 1.1.0.qualifier
+Bundle-Version: 1.2.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
