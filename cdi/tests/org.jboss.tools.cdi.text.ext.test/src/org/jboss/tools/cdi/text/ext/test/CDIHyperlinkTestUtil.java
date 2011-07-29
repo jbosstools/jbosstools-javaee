@@ -11,6 +11,8 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.jdt.internal.ui.javaeditor.JavaEditor;
 import org.eclipse.jdt.internal.ui.text.JavaWordFinder;
+import org.eclipse.jface.text.BadLocationException;
+import org.eclipse.jface.text.FindReplaceDocumentAdapter;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.Region;
@@ -73,6 +75,9 @@ public class CDIHyperlinkTestUtil extends TestCase{
 		IDocument document = documentProvider.getDocument(editorInput);
 		
 		assertNotNull("The document for the file \"" + fileName + "\" is not loaded", document);
+		
+		if(regionList.get(0).region == null)
+			loadRegions(regionList, document);
 
 		int expected = 0;
 		for(TestRegion testRegion : regionList)
@@ -99,6 +104,10 @@ public class CDIHyperlinkTestUtil extends TestCase{
 
 		int counter = 0;
 		for (int i = 0; i < document.getLength(); i++) {
+			int lineNumber = document.getLineOfOffset(i);
+			int position = i - document.getLineOffset(lineNumber)+1;
+			lineNumber++;
+			
 			TestData testData = new TestData(document, i);
 			IHyperlink[] links = elPartitioner.detectHyperlinks(viewer, testData.getHyperlinkRegion(), true);
 
@@ -110,7 +119,8 @@ public class CDIHyperlinkTestUtil extends TestCase{
 				counter++;
 				TestRegion testRegion = findOffsetInRegions(i, regionList); 
 				if(testRegion == null){
-					fail("Wrong detection for offset - "+i);
+					String information = findRegionInformation(document, i, regionList);
+					fail("Wrong detection for offset - "+i+" (line - "+lineNumber+" position - "+position+") "+information);
 				}else{
 					checkTestRegion(links, testRegion);
 				}
@@ -118,8 +128,7 @@ public class CDIHyperlinkTestUtil extends TestCase{
 			else {
 				for(TestRegion testRegion : regionList){
 					if(i >= testRegion.region.getOffset() && i <= testRegion.region.getOffset()+testRegion.region.getLength()) {
-						int line = document.getLineOfOffset(testRegion.region.getOffset());
-						fail("Wrong detection for region - "+testRegion.region.getOffset()+" : "+testRegion.region.getLength()+" region - "+i);
+						fail("Wrong detection for region - "+getRegionInformation(document, testRegion)+" offset - "+i+" (line - "+lineNumber+" position - "+position+")");
 					}
 				}
 			}
@@ -167,6 +176,30 @@ public class CDIHyperlinkTestUtil extends TestCase{
 		}
 		return null;
 	}
+	
+	private static void loadRegions(List<TestRegion> regionList, IDocument document) throws BadLocationException{
+		FindReplaceDocumentAdapter adapter = new FindReplaceDocumentAdapter(document);
+		//String documentText = document.get();
+		//int position = documentText.indexOf("{");
+		IRegion region = adapter.find(0, "{", true, true, false, false);
+		if(region == null)
+			region = new Region(0,0);
+		for(TestRegion testRegion : regionList){
+			//int newPosition = documentText.indexOf(testRegion.regionText, position);
+			IRegion newRegion = adapter.find(region.getOffset()+region.getLength(), testRegion.regionText, true, true, false, false);
+			if(newRegion != null){
+				testRegion.region = newRegion;
+				region = newRegion;
+			}else
+				fail("Can not find string - "+testRegion.regionText);
+		}
+		
+		for(int i = regionList.size()-1; i >= 0; i--){
+			TestRegion r = regionList.get(i);
+			if(r.hyperlinks.size() == 0)
+				regionList.remove(r);
+		}
+	}
 
 	public static void checkHyperLinkInXml(IProject project, String fileName, int offset, String hyperlinkClassName) throws Exception {
 		checkHyperLinkInXml(fileName, project, offset, hyperlinkClassName);
@@ -213,6 +246,34 @@ public class CDIHyperlinkTestUtil extends TestCase{
 				return testRegion;
 		}
 		return null;
+	}
+	
+	private static String findRegionInformation(IDocument document, int offset, List<TestRegion> regionList) throws BadLocationException{
+		int index = 0;
+		for(int i = 0; i < regionList.size(); i++){
+			TestRegion testRegion = regionList.get(i);
+			if(offset > testRegion.region.getOffset()+testRegion.region.getLength()){
+				index = i;
+			}
+		}
+		String info = "previous region - " + getRegionInformation(document, regionList.get(index));
+		if(index+1 < regionList.size())
+			info += " next region - " + getRegionInformation(document, regionList.get(index+1));
+		return info;
+	}
+	
+	private static String getRegionInformation(IDocument document, TestRegion region) throws BadLocationException{
+		String info = "";
+		int lineNumber = document.getLineOfOffset(region.region.getOffset());
+		int position = region.region.getOffset() - document.getLineOffset(lineNumber)+1;
+		lineNumber++;
+		
+		if(region.regionText != null)
+			info += "<"+region.regionText+"> ";
+		
+		info += region.region.getOffset()+" - "+(region.region.getOffset()+region.region.getLength())+" line - "+lineNumber+" position - "+position;
+		
+		return info;
 	}
 
 	public static IEditorPart openFileInEditor(IFile input) {
@@ -337,11 +398,19 @@ public class CDIHyperlinkTestUtil extends TestCase{
 	}
 	
 	public static class TestRegion{
-		Region region;
+		IRegion region = null;
+		String regionText = null;
 		ArrayList<TestHyperlink> hyperlinks = new ArrayList<TestHyperlink>();
 		
 		public TestRegion(int offset, int length, TestHyperlink[] testHyperlinks){
 			region = new Region(offset, length);
+			for(TestHyperlink testHyperlink : testHyperlinks){
+				hyperlinks.add(testHyperlink);
+			}
+		}
+		
+		public TestRegion(String regionText, TestHyperlink[] testHyperlinks){
+			this.regionText = regionText;
 			for(TestHyperlink testHyperlink : testHyperlinks){
 				hyperlinks.add(testHyperlink);
 			}

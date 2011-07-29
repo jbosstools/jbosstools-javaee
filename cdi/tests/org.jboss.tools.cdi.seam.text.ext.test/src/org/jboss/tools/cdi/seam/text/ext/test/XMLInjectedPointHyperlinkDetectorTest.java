@@ -16,7 +16,7 @@ public class XMLInjectedPointHyperlinkDetectorTest extends SeamConfigTest{
 	public void testXMLInjectedPointHyperlinkDetector() throws Exception {
 		ArrayList<TestRegion> regionList = new ArrayList<TestRegion>();
 		
-		regionList.add(new TestRegion(2166, 15, new TestHyperlink[]{
+		regionList.add(new TestRegion(2166, 15/*"s:Inject"*/, new TestHyperlink[]{
 				new TestHyperlink(InjectedPointHyperlink.class, CDIExtensionsMessages.CDI_INJECTED_POINT_HYPERLINK_OPEN_INJECT_BEAN+ " MyBean6.myType6")
 				//new TestHyperlink(AlternativeInjectedPointListHyperlink.class, CDIExtensionsMessages.CDI_INJECTED_POINT_HYPERLINK_SHOW_ALTERNATIVES)
 		}));

@@ -14,9 +14,9 @@ public class ProducerDisposerHyperlinkDetectorTest extends TCKTest {
 
 	public void testProducerDisposerHyperlinkDetector() throws Exception {
 		ArrayList<TestRegion> regionList = new ArrayList<TestRegion>();
-		regionList.add(new TestRegion(1199, 8, new TestHyperlink[]{new TestHyperlink(DisposerHyperlink.class, CDIExtensionsMessages.CDI_PRODUCER_DISPOSER_HYPERLINK_OPEN_BOUND_DISPOSER+ " dispose")})); // @Produces
-		regionList.add(new TestRegion(1222, 7, new TestHyperlink[]{new TestHyperlink(DisposerHyperlink.class, CDIExtensionsMessages.CDI_PRODUCER_DISPOSER_HYPERLINK_OPEN_BOUND_DISPOSER+ " dispose")})); // producer
-		regionList.add(new TestRegion(1291, 7, new TestHyperlink[]{new TestHyperlink(ProducerHyperlink.class, CDIExtensionsMessages.CDI_PRODUCER_DISPOSER_HYPERLINK_OPEN_BOUND_PRODUCER+ " produce")})); // disposer
+		regionList.add(new TestRegion(/*1199, 8*/"Produces", new TestHyperlink[]{new TestHyperlink(DisposerHyperlink.class, CDIExtensionsMessages.CDI_PRODUCER_DISPOSER_HYPERLINK_OPEN_BOUND_DISPOSER+ " dispose")})); // @Produces
+		regionList.add(new TestRegion(/*1222, 7*/"produce", new TestHyperlink[]{new TestHyperlink(DisposerHyperlink.class, CDIExtensionsMessages.CDI_PRODUCER_DISPOSER_HYPERLINK_OPEN_BOUND_DISPOSER+ " dispose")})); // producer
+		regionList.add(new TestRegion(/*1291, 7*/"dispose", new TestHyperlink[]{new TestHyperlink(ProducerHyperlink.class, CDIExtensionsMessages.CDI_PRODUCER_DISPOSER_HYPERLINK_OPEN_BOUND_PRODUCER+ " produce")})); // disposer
 
 		CDIHyperlinkTestUtil.checkRegions(tckProject, "JavaSource/org/jboss/jsr299/tck/tests/decorators/invocation/producer/method/ProducerImpl.java", regionList, new ProducerDisposerHyperlinkDetector());
 	}

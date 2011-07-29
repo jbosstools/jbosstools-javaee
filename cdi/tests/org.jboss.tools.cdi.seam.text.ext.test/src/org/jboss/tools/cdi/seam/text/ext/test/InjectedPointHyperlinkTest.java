@@ -20,28 +20,28 @@ public class InjectedPointHyperlinkTest extends SeamSolderTest {
 			bean = b;
 		}
 		ArrayList<TestRegion> regionList = new ArrayList<TestRegion>();
-		regionList.add(new TestRegion(97, 6,   new TestHyperlink[]{
+		regionList.add(new TestRegion(/*97, 6*/"Inject",   new TestHyperlink[]{
 			new TestHyperlink(InjectedPointHyperlink.class, CDIExtensionsMessages.CDI_INJECTED_POINT_HYPERLINK_OPEN_INJECT_BEAN+ " MessageManager.messageDispatcherProducer()", bean),
 		})); // Inject
-		regionList.add(new TestRegion(106, 7,   new TestHyperlink[]{
+		regionList.add(new TestRegion(/*106, 7*/"Durable",   new TestHyperlink[]{
 			new TestHyperlink(InjectedPointHyperlink.class, CDIExtensionsMessages.CDI_INJECTED_POINT_HYPERLINK_OPEN_INJECT_BEAN+ " MessageManager.messageDispatcherProducer()", bean),
 		})); // Logger
-		regionList.add(new TestRegion(115, 28,   new TestHyperlink[]{
+		regionList.add(new TestRegion(/*115, 28*/"MessageDispatcher dispatcher",   new TestHyperlink[]{
 			new TestHyperlink(InjectedPointHyperlink.class, CDIExtensionsMessages.CDI_INJECTED_POINT_HYPERLINK_OPEN_INJECT_BEAN+ " MessageManager.messageDispatcherProducer()", bean),
 		})); // logger
-		regionList.add(new TestRegion(148, 6,   new TestHyperlink[]{
+		regionList.add(new TestRegion(/*148, 6*/"Inject",   new TestHyperlink[]{
 			new TestHyperlink(InjectedPointHyperlink.class, CDIExtensionsMessages.CDI_INJECTED_POINT_HYPERLINK_OPEN_INJECT_BEAN+ " MessageManager.getPolicy()", bean),
 		})); // logger
-		regionList.add(new TestRegion(157, 7,   new TestHyperlink[]{
+		regionList.add(new TestRegion(/*157, 7*/"Durable",   new TestHyperlink[]{
 			new TestHyperlink(InjectedPointHyperlink.class, CDIExtensionsMessages.CDI_INJECTED_POINT_HYPERLINK_OPEN_INJECT_BEAN+ " MessageManager.getPolicy()", bean),
 		})); // logger
-		regionList.add(new TestRegion(166, 23,   new TestHyperlink[]{
+		regionList.add(new TestRegion(/*166, 23*/"DispatcherPolicy policy",   new TestHyperlink[]{
 			new TestHyperlink(InjectedPointHyperlink.class, CDIExtensionsMessages.CDI_INJECTED_POINT_HYPERLINK_OPEN_INJECT_BEAN+ " MessageManager.getPolicy()", bean),
 		})); // logger
-		regionList.add(new TestRegion(281, 31,   new TestHyperlink[]{
+		regionList.add(new TestRegion(/*281, 31*/"Durable DispatcherPolicy policy",   new TestHyperlink[]{
 			new TestHyperlink(InjectedPointHyperlink.class, CDIExtensionsMessages.CDI_INJECTED_POINT_HYPERLINK_OPEN_INJECT_BEAN+ " MessageManager.getPolicy()", bean),
 		})); // logger
-		regionList.add(new TestRegion(318, 6,   new TestHyperlink[]{
+		regionList.add(new TestRegion(/*318, 6*/"policy",   new TestHyperlink[]{
 			new TestHyperlink(InjectedPointHyperlink.class, CDIExtensionsMessages.CDI_INJECTED_POINT_HYPERLINK_OPEN_INJECT_BEAN+ " MessageManager.getPolicy()", bean),
 		})); // logger
 		
