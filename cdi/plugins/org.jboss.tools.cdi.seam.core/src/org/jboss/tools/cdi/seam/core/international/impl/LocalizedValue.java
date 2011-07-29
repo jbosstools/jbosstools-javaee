@@ -12,6 +12,7 @@ package org.jboss.tools.cdi.seam.core.international.impl;
 
 import org.jboss.tools.cdi.seam.core.international.ILocalizedValue;
 import org.jboss.tools.common.model.XModelObject;
+import org.jboss.tools.common.model.filesystems.FileSystemsHelper;
 
 /**
  * 
@@ -42,8 +43,7 @@ public class LocalizedValue implements ILocalizedValue {
 	}
 
 	public static String getLocale(XModelObject object) {
-		XModelObject p = object;
-		while(p != null && p.getFileType() < XModelObject.FILE) p = p.getParent();
+		XModelObject p = FileSystemsHelper.getFile(object);
 		if(p != null) {
 			String n = p.getAttributeValue("name");
 			int i = n.indexOf('_');
