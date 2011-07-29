@@ -12,6 +12,7 @@ package org.jboss.tools.seam.pages.xml.model.handlers;
 
 import java.util.*;
 import org.jboss.tools.common.model.*;
+import org.jboss.tools.common.model.filesystems.FileSystemsHelper;
 import org.jboss.tools.common.model.util.FindObjectHelper;
 import org.jboss.tools.common.meta.action.impl.*;
 import org.jboss.tools.jst.web.model.ReferenceObject;
@@ -29,12 +30,8 @@ public class SelectOnDiagramHandler extends AbstractHandler implements SeamPages
 
 	public boolean isEnabled(XModelObject object) {
 		if(object == null || !object.isActive()) return false;
-		XModelObject f = object.getParent();
-		while(f != null && f.getFileType() != XModelObject.FILE) f = f.getParent();
-		if(f == null || !f.getModelEntity().getName().startsWith(SeamPagesConstants.ENT_FILE_SEAM_PAGES)) {
-			return false;
-		}
-		return true;
+		XModelObject f = FileSystemsHelper.getFile(object);
+		return (f != null && f.getModelEntity().getName().startsWith(SeamPagesConstants.ENT_FILE_SEAM_PAGES));
 	}
 
 	public void executeHandler(XModelObject object, Properties p) throws XModelException {
