@@ -886,4 +886,32 @@ public class CDIMarkerResolutionTest  extends ValidationTest {
 				CDIValidationErrorManager.OBSERVER_IN_INTERCEPTOR_ID,
 				DeleteAnnotationMarkerResolution.class);
 	}
+
+	public void testSessionBeanAnnotatedDecoratorResolution() throws CoreException{
+		checkResolution(tckProject,
+				new String[]{
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/SessionBeanAnnotatedDecoratorBroken.java"
+				},
+				new String[]{
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/SessionBeanAnnotatedDecoratorBroken.qfxresult"
+				},
+				CDICoreValidator.PROBLEM_TYPE,
+				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
+				CDIValidationErrorManager.SESSION_BEAN_ANNOTATED_DECORATOR_ID,
+				DeleteAnnotationMarkerResolution.class);
+	}
+
+	public void testSessionBeanAnnotatedInterceptorBrokenResolution() throws CoreException{
+		checkResolution(tckProject,
+				new String[]{
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/SessionBeanAnnotatedInterceptorBroken.java"
+				},
+				new String[]{
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/SessionBeanAnnotatedInterceptorBroken.qfxresult"
+				},
+				CDICoreValidator.PROBLEM_TYPE,
+				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
+				CDIValidationErrorManager.SESSION_BEAN_ANNOTATED_INTERCEPTOR_ID,
+				DeleteAnnotationMarkerResolution.class);
+	}
 }

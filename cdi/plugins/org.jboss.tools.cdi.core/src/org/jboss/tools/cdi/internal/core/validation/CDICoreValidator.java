@@ -1665,9 +1665,9 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 			 */
 			if (decoratorDeclaration != null) {
 				addError(CDIValidationMessages.SESSION_BEAN_ANNOTATED_DECORATOR, CDIPreferences.SESSION_BEAN_ANNOTATED_INTERCEPTOR_OR_DECORATOR,
-						sessionDeclaration, bean.getResource());
+						sessionDeclaration, bean.getResource(), SESSION_BEAN_ANNOTATED_DECORATOR_ID);
 				addError(CDIValidationMessages.SESSION_BEAN_ANNOTATED_DECORATOR, CDIPreferences.SESSION_BEAN_ANNOTATED_INTERCEPTOR_OR_DECORATOR,
-						decoratorDeclaration, bean.getResource());
+						decoratorDeclaration, bean.getResource(), SESSION_BEAN_ANNOTATED_DECORATOR_ID);
 			}
 			/*
 			 * 3.2. Session beans
@@ -1675,9 +1675,9 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 			 */
 			if (interceptorDeclaration != null) {
 				addError(CDIValidationMessages.SESSION_BEAN_ANNOTATED_INTERCEPTOR, CDIPreferences.SESSION_BEAN_ANNOTATED_INTERCEPTOR_OR_DECORATOR,
-						sessionDeclaration, bean.getResource());
+						sessionDeclaration, bean.getResource(), SESSION_BEAN_ANNOTATED_INTERCEPTOR_ID);
 				addError(CDIValidationMessages.SESSION_BEAN_ANNOTATED_INTERCEPTOR, CDIPreferences.SESSION_BEAN_ANNOTATED_INTERCEPTOR_OR_DECORATOR,
-						interceptorDeclaration, bean.getResource());
+						interceptorDeclaration, bean.getResource(), SESSION_BEAN_ANNOTATED_INTERCEPTOR_ID);
 			}
 		}
 	}

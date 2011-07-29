@@ -419,6 +419,26 @@ public class CDIProblemMarkerResolutionGenerator implements
 						};
 					}
 				}
+			}else if(messageId == CDIValidationErrorManager.SESSION_BEAN_ANNOTATED_INTERCEPTOR_ID){
+				IJavaElement element = findJavaElement(file, start);
+				if(element != null){
+					IJavaElement interceptorElement = findJavaElementByAnnotation(element, CDIConstants.INTERCEPTOR_ANNOTATION_TYPE_NAME);
+					if(interceptorElement != null){
+						return new IMarkerResolution[] {
+							new DeleteAnnotationMarkerResolution(interceptorElement, CDIConstants.INTERCEPTOR_ANNOTATION_TYPE_NAME)
+						};
+					}
+				}
+			}else if(messageId == CDIValidationErrorManager.SESSION_BEAN_ANNOTATED_DECORATOR_ID){
+				IJavaElement element = findJavaElement(file, start);
+				if(element != null){
+					IJavaElement decoratorElement = findJavaElementByAnnotation(element, CDIConstants.DECORATOR_STEREOTYPE_TYPE_NAME);
+					if(decoratorElement != null){
+						return new IMarkerResolution[] {
+							new DeleteAnnotationMarkerResolution(decoratorElement, CDIConstants.DECORATOR_STEREOTYPE_TYPE_NAME)
+						};
+					}
+				}
 			}
 		}
 		return new IMarkerResolution[] {};
