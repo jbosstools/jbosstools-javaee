@@ -173,6 +173,7 @@ public class CDIWizard extends Wizard {
 	}
 
 	public List<String> getTargets() {
+		setFocus();
 		return Arrays.asList(bot().comboBoxWithLabel("Target:").items());
 	}
 
@@ -189,6 +190,7 @@ public class CDIWizard extends Wizard {
 	}
 
 	public List<String> getScopes() {
+		setFocus();
 		return Arrays.asList(bot().comboBoxWithLabel("Scope:").items());
 	}
 
@@ -197,10 +199,12 @@ public class CDIWizard extends Wizard {
 		case INTERCEPTOR_BINDING:
 		case STEREOTYPE:
 		case INTERCEPTOR:
+			setFocus();
 			bot().button("Add", 0).click();
 			SWTBotShell sh = bot().activeShell();
 			sh.bot().text().setText(ib);
 			sh.bot().button("OK").click();
+			setFocus();
 			break;
 		default:
 			throw new UnsupportedOperationException();
@@ -209,16 +213,19 @@ public class CDIWizard extends Wizard {
 	}
 
 	public List<String> getIBindings() {
+		setFocus();
 		return Arrays.asList(bot().listWithLabel("Interceptor Bindings:").getItems());
 	}
 
 	public CDIWizard addStereotype(String stereotype) {
 		switch (type) {
 		case STEREOTYPE:
+			setFocus();
 			bot().button("Add", 1).click();
 			SWTBotShell sh = bot().activeShell();
 			sh.bot().text().setText(stereotype);
 			sh.bot().button("OK").click();
+			setFocus();
 			break;
 		default:
 			throw new UnsupportedOperationException();
@@ -227,6 +234,7 @@ public class CDIWizard extends Wizard {
 	}
 
 	public List<String> getStereotypes() {
+		setFocus();
 		return Arrays.asList(bot().listWithLabel("Stereotypes:").getItems());
 	}
 
@@ -235,6 +243,7 @@ public class CDIWizard extends Wizard {
 		case DECORATOR:
 		case BEAN:
 		case ANNOTATION_LITERAL:
+			setFocus();
 			if (isPublic) {
 				bot().radio("public").click();
 			} else {
@@ -251,6 +260,7 @@ public class CDIWizard extends Wizard {
 				final Button b = bot().radio("default").widget;
 				new Radio2(b).click();
 			}
+			setFocus();
 			break;
 		default:
 			throw new UnsupportedOperationException();
@@ -273,12 +283,14 @@ public class CDIWizard extends Wizard {
 		switch (type) {
 		case DECORATOR:
 		case BEAN:
+			setFocus();
 			bot().button("Add...", 0).click();
 			SWTBotShell sh = bot().activeShell();
 			sh.bot().text().setText(intf);
 			sh.bot().sleep(1000);
 			sh.bot().table().getTableItem(0).select();
 			sh.bot().button("OK").click();
+			setFocus();
 			break;
 		default:
 			throw new UnsupportedOperationException();
@@ -287,6 +299,7 @@ public class CDIWizard extends Wizard {
 	}
 
 	public CDIWizard addQualifier(String qualifier) {
+		setFocus();
 		switch (type) {
 		case BEAN:
 			bot().button("Add", 0).click();
@@ -302,6 +315,7 @@ public class CDIWizard extends Wizard {
 		sh.bot().sleep(1000);
 		sh.bot().table().getTableItem(0).select();
 		sh.bot().button("OK").click();
+		setFocus();
 		return this;
 	}
 
@@ -334,11 +348,13 @@ public class CDIWizard extends Wizard {
 	public CDIWizard setSuperclass(String name) {
 		switch (type) {
 		case INTERCEPTOR:
+			setFocus();
 			bot().button("Browse...", 2).click();
 			SWTBotShell sh = bot().activeShell();
 			sh.bot().text().setText(name);
 			sh.bot().table().getTableItem(0).select();
 			sh.bot().button("OK").click();
+			setFocus();
 			break;
 		default:
 			throw new UnsupportedOperationException();
@@ -358,6 +374,7 @@ public class CDIWizard extends Wizard {
 	}
 	
 	private void setCheckbox(String label, boolean set) {
+		setFocus();
 		SWTBotCheckBox c = bot().checkBox(label);
 		if (c.isChecked() != set) {
 			if (set) {
@@ -369,11 +386,13 @@ public class CDIWizard extends Wizard {
 	}
 
 	private boolean isCheckboxSet(String label) {
+		setFocus();
 		SWTBotCheckBox c = bot().checkBox(label);
 		return c.isChecked();
 	}
 
 	private void setCombo(String label, String value) {
+		setFocus();
 		SWTBotCombo c = bot().comboBoxWithLabel(label);
 		c.setSelection(value);
 	}
