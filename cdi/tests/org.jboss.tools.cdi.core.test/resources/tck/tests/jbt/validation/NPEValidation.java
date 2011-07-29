@@ -1,11 +1,16 @@
 package org.jboss.jsr299.tck.tests.jbt.validation;
 
+import javax.decorator.Decorator;
+import javax.decorator.Delegate;
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 
-public class NPEValidation extends UnResolvedClass implements UnResolvedInterface {
+@Decorator
+public class NPEValidation extends UnResolvedClass {
 
-	@Inject UnResolvedType t;
+	@Inject @Delegate String t;
+
+	@Inject UnResolvedType t1;
 
 	@Inject
 	public UnResolvedType set(UnResolvedType p) {

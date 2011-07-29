@@ -56,6 +56,7 @@ import org.jboss.tools.cdi.core.test.tck.validation.DeploymentProblemsValidation
 import org.jboss.tools.cdi.core.test.tck.validation.DisableCDISupportTest;
 import org.jboss.tools.cdi.core.test.tck.validation.ELValidationTest;
 import org.jboss.tools.cdi.core.test.tck.validation.IncrementalValidationTest;
+import org.jboss.tools.cdi.core.test.tck.validation.ValidationExceptionTest;
 import org.jboss.tools.test.util.ProjectImportTestSetup;
 
 /**
@@ -67,7 +68,8 @@ public class CDICoreAllTests {
 		// it could be done here because it is not needed to be enabled back
 		JavaModelManager.getIndexManager().disable();
 
-//		ValidationExceptionTestSuite suiteAll = new ValidationExceptionTestSuite("CDI Core Tests");
+		ValidationExceptionTest.initLogger();
+
 		TestSuite suiteAll = new TestSuite("CDI Core Tests");
 		suiteAll.addTestSuite(TypeTest.class);
 		TestSuite suite = new TestSuite("TCK Tests");
@@ -133,7 +135,7 @@ public class CDICoreAllTests {
 
 		suiteAll.addTestSuite(DisableCDISupportTest.class);
 
-//		suiteAll.addTestSuite(ValidationExceptionTest.class); // This test should be added last!
+		suiteAll.addTestSuite(ValidationExceptionTest.class); // This test should be added last!
 		return suiteAll;
 	}
 }

@@ -21,11 +21,19 @@ import org.eclipse.core.runtime.IStatus;
  */
 public class ValidationExceptionTest extends TestCase {
 
+	private static ValidationExceptionLogger LOGGER;
+
+	public static ValidationExceptionLogger initLogger() {
+		LOGGER = new ValidationExceptionLogger();
+		return LOGGER;
+	}
+
 	public void testExceptions() {
-		Set<IStatus> exceptions = ValidationExceptionTestSuite.getExceptions();
+		Set<IStatus> exceptions = LOGGER.getExceptions();
 		StringBuffer error = new StringBuffer("The following exceptions were thrown during project validation:");
 		for (IStatus status : exceptions) {
-			error.append("\r\n").append(status.getException().toString());
+			Throwable cause = status.getException().getCause();
+			error.append("\r\n").append(status.toString()).append(": ").append(cause.toString()).append(": ").append(cause.getStackTrace()[0].toString());
 		}
 		assertTrue(error.toString(), exceptions.isEmpty());
 	}

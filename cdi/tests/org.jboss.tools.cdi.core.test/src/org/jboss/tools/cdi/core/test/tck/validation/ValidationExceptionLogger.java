@@ -15,8 +15,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import junit.framework.TestSuite;
-
 import org.eclipse.core.runtime.ILogListener;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
@@ -26,12 +24,11 @@ import org.jboss.tools.jst.web.kb.validation.KBValidationException;
 /**
  * @author Alexey Kazakov
  */
-public class ValidationExceptionTestSuite extends TestSuite implements ILogListener {
+public class ValidationExceptionLogger implements ILogListener {
 
-	private static Map<String, Set<IStatus>> EXCEPTIONS = new HashMap<String, Set<IStatus>>();
+	private Map<String, Set<IStatus>> exceptions = new HashMap<String, Set<IStatus>>();
 
-	public ValidationExceptionTestSuite(String name) {
-		super(name);
+	public ValidationExceptionLogger() {
 		Platform.addLogListener(this);
 	}
 
@@ -40,25 +37,31 @@ public class ValidationExceptionTestSuite extends TestSuite implements ILogListe
 	 * @see org.eclipse.core.runtime.ILogListener#logging(org.eclipse.core.runtime.IStatus, java.lang.String)
 	 */
 	public void logging(IStatus status, String plugin) {
-		Set<IStatus> statuses = EXCEPTIONS.get(plugin);
+		String id = status.getPlugin();
+		if(id==null) {
+			id = plugin;
+		}
+		Set<IStatus> statuses = exceptions.get(id);
 		if(statuses==null) {
 			statuses = new HashSet<IStatus>();
-			EXCEPTIONS.put(plugin, statuses);
+			exceptions.put(id, statuses);
 		}
 		statuses.add(status);
 	}
 
-	public static boolean hasExceptions() {
+	public boolean hasExceptions() {
 		return !getExceptions().isEmpty();
 	}
 
-	public static Set<IStatus> getExceptions() {
+	public Set<IStatus> getExceptions() {
 		Set<IStatus> result = new HashSet<IStatus>();
-		Set<IStatus> statuses = EXCEPTIONS.get(WebKbPlugin.PLUGIN_ID);
-		for (IStatus status : statuses) {
-			Throwable exception = status.getException();
-			if(exception instanceof KBValidationException) {
-				result.add(status);
+		Set<IStatus> statuses = exceptions.get(WebKbPlugin.PLUGIN_ID);
+		if(statuses!=null) {
+			for (IStatus status : statuses) {
+				Throwable exception = status.getException();
+				if(exception instanceof KBValidationException) {
+					result.add(status);
+				}
 			}
 		}
 		return result;
