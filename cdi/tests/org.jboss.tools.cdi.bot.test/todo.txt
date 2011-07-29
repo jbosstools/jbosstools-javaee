@@ -1,0 +1,18 @@
+UI tests to implement for CDI (based on F2F meeting)
+
+hyperlinks (...open ons etc)
+quickfixes
+completion
+uieditor for seam-config
+.
+.
+(cdi model from can be obtained from tests, check them).
+.
+.
+
+.
+.
+.
+.
+.
+validation
