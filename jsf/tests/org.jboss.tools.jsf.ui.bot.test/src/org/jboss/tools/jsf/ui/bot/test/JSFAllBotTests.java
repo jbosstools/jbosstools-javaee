@@ -16,6 +16,7 @@ import org.jboss.tools.jsf.ui.bot.test.smoke.AddRemoveJSFCapabilitiesTest;
 import org.jboss.tools.jsf.ui.bot.test.smoke.CodeCompletionTest;
 import org.jboss.tools.jsf.ui.bot.test.smoke.CreateNewJSFProjectTest;
 import org.jboss.tools.jsf.ui.bot.test.smoke.FacesConfigCodeCompletionTest;
+import org.jboss.tools.jsf.ui.bot.test.smoke.MarkersTest;
 import org.jboss.tools.jsf.ui.bot.test.smoke.OpenOnTest;
 import org.jboss.tools.jsf.ui.bot.test.templates.SetTemplateForUnknownTagTest;
 import org.jboss.tools.jsf.ui.bot.test.templates.UnknownTemplateTest;
@@ -44,6 +45,7 @@ public class JSFAllBotTests{
 		suite.addTestSuite(OpenOnTest.class);
 		suite.addTestSuite(CodeCompletionTest.class);
 		suite.addTestSuite(FacesConfigCodeCompletionTest.class);
+  	suite.addTestSuite(MarkersTest.class);	
 		return suite;
 	}
 }
