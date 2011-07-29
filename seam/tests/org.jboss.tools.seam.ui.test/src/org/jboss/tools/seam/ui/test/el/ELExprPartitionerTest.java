@@ -17,6 +17,7 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.QualifiedName;
 import org.jboss.tools.jst.text.ext.hyperlink.ELHyperlink;
 import org.jboss.tools.jst.text.ext.hyperlink.ELHyperlinkDetector;
 import org.jboss.tools.jst.text.ext.test.HyperlinkTestUtil;
@@ -34,21 +35,34 @@ public class ELExprPartitionerTest extends TestCase {
 	public static Test suite() {
 		return new TestSuite(ELExprPartitionerTest.class);
 	}
-
+	private boolean isKbNatureCheckNeed = false;
+	public static final QualifiedName IS_KB_NATURES_CHECK_NEED = new QualifiedName(
+			"", "Is KB natures check"); //$NON-NLS-1$
+	
 	public void setUp() throws Exception {
+		System.out.println(">>>> ELExprPartitionerTest >>>>");
 		provider = new TestProjectProvider("org.jboss.tools.seam.ui.test", "projects/" + PROJECT_NAME, PROJECT_NAME, makeCopy); 
 		project = provider.getProject();
 		Throwable exception = null;
 		
 		assertNull("An exception caught: " + (exception != null? exception.getMessage() : ""), exception);
-		
-		
+		isKbNatureCheckNeed = Boolean.valueOf(project.getPersistentProperty(IS_KB_NATURES_CHECK_NEED));
+		System.out.println("Is KB natures check: " + isKbNatureCheckNeed);
+		project.setPersistentProperty(IS_KB_NATURES_CHECK_NEED, //$NON-NLS-1$
+				Boolean.toString(false));
+		System.out.println("Is KB natures check: " + Boolean.valueOf(project.getPersistentProperty(IS_KB_NATURES_CHECK_NEED)));
 	}
 
 	protected void tearDown() throws Exception {
+		if (project != null) {
+			project.setPersistentProperty(IS_KB_NATURES_CHECK_NEED, //$NON-NLS-1$
+					Boolean.toString(isKbNatureCheckNeed));
+			System.out.println("Is KB natures check: " + Boolean.valueOf(project.getPersistentProperty(IS_KB_NATURES_CHECK_NEED)));
+		}
 		if(provider != null) {
 			provider.dispose();
 		}
+		System.out.println("<<<< ELExprPartitionerTest <<<<");
 	}
 
 	public void testELExprPartitioner() throws Exception{
