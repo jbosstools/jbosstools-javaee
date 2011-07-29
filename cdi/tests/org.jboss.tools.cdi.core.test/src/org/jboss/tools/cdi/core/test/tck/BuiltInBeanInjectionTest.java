@@ -12,12 +12,15 @@ package org.jboss.tools.cdi.core.test.tck;
 
 import java.util.Set;
 
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.IType;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IBuiltInBean;
 import org.jboss.tools.cdi.core.IClassBean;
 import org.jboss.tools.cdi.core.IInjectionPointField;
+import org.jboss.tools.cdi.core.test.RemoveJarFromClasspathTest;
 
 /**
  * @author Viacheslav Kabanovich
@@ -116,11 +119,44 @@ public class BuiltInBeanInjectionTest extends TCKTest {
 
 		IBean b = beans.iterator().next();
 		assertTrue(b instanceof IClassBean);
+		assertTrue(b instanceof IBuiltInBean);
 		IType t = b.getBeanClass();
 		assertEquals(CDIConstants.CONVERSATION_TYPE_NAME, t.getFullyQualifiedName());
 		assertEquals(CDIConstants.CONVERSATION_BEAN_NAME, b.getName());
 		beans = cdiProject.getBeans(CDIConstants.CONVERSATION_BEAN_NAME, false);
 		assertTrue(beans.contains(b));
+	}
+
+	/**
+	 * Test that when custom project provides implementation of javax.enterprise.context.Conversation
+	 * that is visible to our model, our built-in bean is replaced by it.  
+	 */
+	public void testBuiltInConversationBeanCustomImplementation() throws CoreException {
+		String c = "JavaSource/org/jboss/jsr299/tck/tests/jbt/builtin/ConversationImpl.java";
+		String c_active = "JavaSource/org/jboss/jsr299/tck/tests/jbt/builtin/ConversationImpl.changed";
+		String c_original = "JavaSource/org/jboss/jsr299/tck/tests/jbt/builtin/ConversationImpl.original";
+		
+		Set<IBean> beans = cdiProject.getBeans(CDIConstants.CONVERSATION_BEAN_NAME, false);
+		assertEquals(1, beans.size());
+		IBean b = beans.iterator().next();
+		assertTrue(b instanceof IClassBean);
+		assertTrue(b instanceof IBuiltInBean);
+
+		RemoveJarFromClasspathTest.replaceFile(tckProject, c_active, c);
+		
+		beans = cdiProject.getBeans(CDIConstants.CONVERSATION_BEAN_NAME, false);
+		assertEquals(1, beans.size());
+		b = beans.iterator().next();
+		assertTrue(b instanceof IClassBean);
+		assertFalse(b instanceof IBuiltInBean);
+		assertEquals("org.jboss.jsr299.tck.tests.jbt.builtin.ConversationImpl", b.getBeanClass().getFullyQualifiedName());
+
+		RemoveJarFromClasspathTest.replaceFile(tckProject, c_original, c);
+		beans = cdiProject.getBeans(CDIConstants.CONVERSATION_BEAN_NAME, false);
+		b = beans.iterator().next();
+		assertEquals(1, beans.size());
+		assertTrue(b instanceof IClassBean);
+		assertTrue(b instanceof IBuiltInBean);
 	}
 
 }

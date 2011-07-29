@@ -19,6 +19,8 @@ import org.jboss.tools.common.model.XModel;
 import org.jboss.tools.common.model.filesystems.FileSystemsHelper;
 import org.jboss.tools.common.model.filesystems.impl.Libs;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
+import org.jboss.tools.jst.jsp.test.TestUtil;
+import org.jboss.tools.jst.web.kb.internal.validation.ValidatorManager;
 import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.ResourcesUtils;
 
@@ -98,6 +100,7 @@ public class RemoveJarFromClasspathTest extends TestCase {
 			IFile target = project.getFile(new Path(targetPath));
 			IFile source = project.getFile(new Path(sourcePath));
 			assertTrue(source.exists());
+			ValidatorManager.setStatus(ValidatorManager.RUNNING);
 			if(!target.exists()) {
 				target.create(source.getContents(), true, new NullProgressMonitor());
 			} else {
@@ -106,6 +109,7 @@ public class RemoveJarFromClasspathTest extends TestCase {
 			JobUtils.waitForIdle();
 			project.build(IncrementalProjectBuilder.INCREMENTAL_BUILD, new NullProgressMonitor());
 			JobUtils.waitForIdle();
+			TestUtil.waitForValidation();
 		} finally {
 			ResourcesUtils.setBuildAutomatically(saveAutoBuild);
 			JobUtils.waitForIdle();
