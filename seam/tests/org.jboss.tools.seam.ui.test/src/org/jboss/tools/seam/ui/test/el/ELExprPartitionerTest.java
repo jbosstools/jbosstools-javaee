@@ -35,36 +35,59 @@ public class ELExprPartitionerTest extends TestCase {
 	public static Test suite() {
 		return new TestSuite(ELExprPartitionerTest.class);
 	}
-	private String isKbNatureCheckNeed = null;
+	
 	public static final QualifiedName IS_KB_NATURES_CHECK_NEED = new QualifiedName(
 			"", "Is KB natures check"); //$NON-NLS-1$
+	public static final QualifiedName IS_JSF_NATURES_CHECK_NEED = new QualifiedName(
+			"", "Is JSF natures check"); //$NON-NLS-1$
+	public static final QualifiedName IS_JSF_CHECK_NEED = new QualifiedName(
+			"", "Is JSF check"); //$NON-NLS-1$
+	private String isKbNatureCheck = null;
+	private String isJsfNatureCheck = null;
+	private String isJsfCheck = null;
 	
 	public void setUp() throws Exception {
-//		System.out.println(">>>> ELExprPartitionerTest >>>>");
+		System.out.println(">>>> ELExprPartitionerTest >>>>");
 		provider = new TestProjectProvider("org.jboss.tools.seam.ui.test", "projects/" + PROJECT_NAME, PROJECT_NAME, makeCopy); 
 		project = provider.getProject();
 		Throwable exception = null;
 		
 		assertNull("An exception caught: " + (exception != null? exception.getMessage() : ""), exception);
 		if (project != null) {
-			isKbNatureCheckNeed = project.getPersistentProperty(IS_KB_NATURES_CHECK_NEED);
-//			System.out.println("Is KB natures check: '" + isKbNatureCheckNeed + "'");
+			isKbNatureCheck = project.getPersistentProperty(IS_KB_NATURES_CHECK_NEED);
+			System.out.println("Before: Is KB natures check: '" + isKbNatureCheck + "'");
 			project.setPersistentProperty(IS_KB_NATURES_CHECK_NEED, //$NON-NLS-1$
 					Boolean.toString(false));
-//			System.out.println("Is KB natures check: '" + project.getPersistentProperty(IS_KB_NATURES_CHECK_NEED) + "'");
+			isJsfNatureCheck = project.getPersistentProperty(IS_JSF_NATURES_CHECK_NEED);
+			System.out.println("Before: Is JSF natures check: '" + isJsfNatureCheck + "'");
+			project.setPersistentProperty(IS_JSF_NATURES_CHECK_NEED, //$NON-NLS-1$
+					Boolean.toString(false));
+			isJsfCheck = project.getPersistentProperty(IS_JSF_CHECK_NEED);
+			System.out.println("Before: Is JSF check: '" + isJsfCheck + "'");
+			project.setPersistentProperty(IS_JSF_CHECK_NEED, //$NON-NLS-1$
+					Boolean.toString(false));
+			System.out.println("While Testing: Is KB natures check: '" + project.getPersistentProperty(IS_KB_NATURES_CHECK_NEED) + "'");
+			System.out.println("While Testing: Is JSF natures check: '" + project.getPersistentProperty(IS_JSF_NATURES_CHECK_NEED) + "'");
+			System.out.println("While Testing: Is JSF check: '" + project.getPersistentProperty(IS_JSF_CHECK_NEED) + "'");
 		}
 	}
 
 	protected void tearDown() throws Exception {
 		if (project != null) {
 			project.setPersistentProperty(IS_KB_NATURES_CHECK_NEED, //$NON-NLS-1$
-					isKbNatureCheckNeed);
-//			System.out.println("Is KB natures check: '" + project.getPersistentProperty(IS_KB_NATURES_CHECK_NEED) + "'");
+					isKbNatureCheck);
+			System.out.println("Restored default: Is KB natures check: '" + project.getPersistentProperty(IS_KB_NATURES_CHECK_NEED) + "'");
+			project.setPersistentProperty(IS_JSF_NATURES_CHECK_NEED, //$NON-NLS-1$
+					isJsfNatureCheck);
+			System.out.println("Restored default: Is JSF natures check: '" + project.getPersistentProperty(IS_JSF_NATURES_CHECK_NEED) + "'");
+			project.setPersistentProperty(IS_JSF_CHECK_NEED, //$NON-NLS-1$
+					isJsfCheck);
+			System.out.println("Restored default: Is JSF check: '" + project.getPersistentProperty(IS_JSF_CHECK_NEED) + "'");
 		}
 		if(provider != null) {
 			provider.dispose();
 		}
-//		System.out.println("<<<< ELExprPartitionerTest <<<<");
+		System.out.println("<<<< ELExprPartitionerTest <<<<");
 	}
 
 	public void testELExprPartitioner() throws Exception{
