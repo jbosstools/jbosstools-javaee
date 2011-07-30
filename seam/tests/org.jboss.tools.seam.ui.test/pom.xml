@@ -23,7 +23,7 @@
 				<groupId>org.sonatype.tycho</groupId>
 				<artifactId>maven-osgi-test-plugin</artifactId>
 				<configuration>
-					<product>org.jboss.tools.tests</product>
+					<product>org.jboss.tools.tests.product</product>
 					<explodedBundles>
 						<bundle>org.jboss.tools.seam.core.test</bundle>
 						<bundle>org.jboss.tools.vpe</bundle>
@@ -36,14 +36,6 @@
 					<includes>
 						<include>org/jboss/tools/seam/ui/test/SeamUiAllTests.class</include>
 					</includes>
-					<dependencies>
-						<dependency>
-							<groupId>org.jboss.tools</groupId>
-							<artifactId>org.jboss.tools.xulrunner.initializer</artifactId>
-							<version>3.1.0</version>
-							<type>eclipse-plugin</type>
-						</dependency>
-					</dependencies>
 				</configuration>
 			</plugin>
 		</plugins>
