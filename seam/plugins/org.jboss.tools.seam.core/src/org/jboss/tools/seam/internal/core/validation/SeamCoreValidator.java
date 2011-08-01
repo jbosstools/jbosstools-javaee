@@ -374,11 +374,11 @@ public class SeamCoreValidator extends SeamValidationErrorManager implements IVa
 			displaySubtask(SeamValidationMessages.VALIDATING_CLASS, new String[]{projectName, d.getClassName()});
 			validateMethodsOfUnknownComponent(d);
 		}
-		IResource webContent = EclipseResourceUtil.getFirstWebContentResource(project);
+		IResource webContent = set.getViewsFolder();
 		if(webContent instanceof IContainer) {
 			validateAllPageXMLFiles((IContainer)webContent);
 		}
-		
+
 		return OK_STATUS;
 	}
 	
