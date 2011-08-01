@@ -38,7 +38,7 @@ import org.jboss.tools.test.util.TestProjectProvider;
 public class JBide3989Test extends TestCase {
 
 	private IProject project;
-	private static final String PROJECT_NAME = "TestSeamELContentAssist";
+	private static final String PROJECT_NAME = "SeamConfigValidatorsTest";
 	private boolean makeCopy = true;
 
 	public static Test suite() {
@@ -47,14 +47,11 @@ public class JBide3989Test extends TestCase {
 
 	@Override
 	protected void setUp() throws Exception {
-		super.setUp();
 		TestProjectProvider provider = new TestProjectProvider(
 				"org.jboss.tools.seam.ui.test", null, PROJECT_NAME, makeCopy);
 		project = provider.getProject();
-		project.refreshLocal(IResource.DEPTH_INFINITE, null);
-		JobUtils.waitForIdle();
-		ISeamProject seamProject = SeamCorePlugin.getSeamProject(project, true);
-		seamProject.setRuntimeName("UNKNOWN");
+//		ISeamProject seamProject = SeamCorePlugin.getSeamProject(project, true);
+//		seamProject.setRuntimeName("UNKNOWN");
 		ValidatorManager.addProjectBuildValidationSupport(project);
 		// JBIDE-4832 - call SeamProjectPropertyValidator manually 
 		project.build(IncrementalProjectBuilder.FULL_BUILD,
@@ -64,19 +61,17 @@ public class JBide3989Test extends TestCase {
 	}
 
 	@Override
-	protected void tearDown() throws Exception {
-		JobUtils.waitForIdle();
-		boolean saveAutoBuild = ResourcesUtils.setBuildAutomatically(false);
+	protected void tearDown() {
 		try {
-			project.delete(true, true, null);
-		} finally {
-			ResourcesUtils.setBuildAutomatically(saveAutoBuild);
+			project.delete(false, true, null);
+		} catch (CoreException e) {
+			e.printStackTrace();
 		}
 	}
 
 	public void testJBide3989() throws CoreException {
 		IMarker[] markers = project.findMarkers(IMarker.PROBLEM, true,
-				IResource.DEPTH_INFINITE);
+				IResource.DEPTH_ZERO);
 		boolean found1 = false;
 		boolean found2 = false;
 		for (int i = 0; i < markers.length; i++) {
@@ -87,8 +82,7 @@ public class JBide3989Test extends TestCase {
 				IMarkerResolution resolution = resolutions[j];
 				if (resolution instanceof SeamRuntimeMarkerResolution) {
 					found1 = true;
-				}
-				if (resolution instanceof AddNewSeamRuntimeMarkerResolution) {
+				} else if (resolution instanceof AddNewSeamRuntimeMarkerResolution) {
 					found2 = true;
 				}
 			}
