@@ -375,28 +375,30 @@ public class SeamCoreValidator extends SeamValidationErrorManager implements IVa
 			validateMethodsOfUnknownComponent(d);
 		}
 		IResource webContent = set.getViewsFolder();
-		if(webContent instanceof IContainer) {
+		if(webContent instanceof IContainer && webContent.isAccessible()) {
 			validateAllPageXMLFiles((IContainer)webContent);
 		}
 
 		return OK_STATUS;
 	}
-	
+
 	void validateAllPageXMLFiles(IContainer c) {
-		IResource[] rs = null;
-		try {
-			rs = ((IContainer)c).members();
-		} catch (CoreException e) {
-			SeamCorePlugin.getDefault().logError(e);
-		}
-		for (int i = 0; i < rs.length; i++) {
-			if(rs[i] instanceof IContainer) {
-				 validateAllPageXMLFiles((IContainer)rs[i]);
-			} else if(rs[i] instanceof IFile) {
-				validatePageXML((IFile)rs[i]);
+		if(c.isAccessible()) {
+			IResource[] rs = null;
+			try {
+				rs = c.members();
+			} catch (CoreException e) {
+				SeamCorePlugin.getDefault().logError(e);
+				return;
+			}
+			for (int i = 0; i < rs.length; i++) {
+				if(rs[i] instanceof IContainer) {
+					 validateAllPageXMLFiles((IContainer)rs[i]);
+				} else if(rs[i] instanceof IFile) {
+					validatePageXML((IFile)rs[i]);
+				}
 			}
 		}
-		
 	}
 
 	private void validateFactory(IPath sourceFilePath, Set<String> markedDuplicateFactoryNames) {
@@ -1054,7 +1056,7 @@ public class SeamCoreValidator extends SeamValidationErrorManager implements IVa
 	}
 
 	private void validatePageXML(IFile f) {
-		if(f.getName().equals("pages.xml") || f.getName().endsWith(".page.xml")) {
+		if(f.isAccessible() && (f.getName().equals("pages.xml") || f.getName().endsWith(".page.xml"))) {
 			XModelObject object = EclipseResourceUtil.createObjectForResource(f);
 			if(object == null) return;
 			if(object.getModelEntity().getName().startsWith(SeamPagesConstants.ENT_FILE_SEAM_PAGE)) {
