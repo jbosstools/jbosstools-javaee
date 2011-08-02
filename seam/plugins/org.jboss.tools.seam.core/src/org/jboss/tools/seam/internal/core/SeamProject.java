@@ -57,7 +57,6 @@ import org.jboss.tools.seam.core.ISeamScope;
 import org.jboss.tools.seam.core.ISeamXmlComponentDeclaration;
 import org.jboss.tools.seam.core.ScopeType;
 import org.jboss.tools.seam.core.SeamCoreBuilder;
-import org.jboss.tools.seam.core.SeamCoreMessages;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.event.ISeamProjectChangeListener;
 import org.jboss.tools.seam.core.event.SeamProjectChangeEvent;
@@ -800,9 +799,15 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 	 * 
 	 */
 	private File getStorageFile() {
-		IPath path = SeamCorePlugin.getDefault().getStateLocation();
-		File file = new File(path.toFile(), "projects/" + project.getName()); //$NON-NLS-1$
-		return file;
+		SeamCorePlugin plugin = SeamCorePlugin.getDefault();
+		//The plug-in instance can be null at shutdown, when the plug-in is stopped. 
+		if(plugin != null) {
+			IPath path = plugin.getStateLocation();
+			File file = new File(path.toFile(), "projects/" + project.getName()); //$NON-NLS-1$
+			return file;
+		} else {
+			return null;
+		}
 	}
 	
 	public void clearStorage() {
