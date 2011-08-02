@@ -531,23 +531,25 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 	 */
 	public void store() throws IOException {
 		File file = getStorageFile();
-		file.getParentFile().mkdirs();
+		if(file != null) {
+			file.getParentFile().mkdirs();
 		
-		Element root = XMLUtilities.createDocumentElement("seam-project"); //$NON-NLS-1$
-		storeProjectDependencies(root);
+			Element root = XMLUtilities.createDocumentElement("seam-project"); //$NON-NLS-1$
+			storeProjectDependencies(root);
 
-		storeNamespaces(root);
+			storeNamespaces(root);
 //		storeSourcePaths(root);
-		storeSourcePaths2(root);
+			storeSourcePaths2(root);
 		
-		if(validationContext != null) validationContext.store(root);
+			if(validationContext != null) validationContext.store(root);
 		
-		XMLUtilities.serialize(root, file.getAbsolutePath());
+			XMLUtilities.serialize(root, file.getAbsolutePath());
 
-		modifications = 0;
-		namespaces.modifications = 0;
-		components.modifications = 0;
-		factories.modifications = 0;
+			modifications = 0;
+			namespaces.modifications = 0;
+			components.modifications = 0;
+			factories.modifications = 0;
+		}
 	}
 
 	/*
