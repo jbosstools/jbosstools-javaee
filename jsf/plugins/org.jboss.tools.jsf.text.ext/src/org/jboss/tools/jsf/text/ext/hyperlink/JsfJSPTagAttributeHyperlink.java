@@ -163,7 +163,6 @@ public class JsfJSPTagAttributeHyperlink extends AbstractHyperlink {
 			
 			Node n = Utils.findNodeForOffset(xmlDocument, region.getOffset());
 
-			Node node = null;
 			if (n instanceof Attr) {
 				return ((Attr)n).getName();
 			}

@@ -124,11 +124,9 @@ public class JSFXMLContextParamLinkHyperlinkPartitioner extends XMLContextParamL
 						int start = Utils.getValueStart(text);
 						if(start < 0) continue;
 						int end = Utils.getValueEnd(text);
-						if (paramNameValue == null) {
-							paramNameValue = Utils.trimQuotes(document.get(start, end - start));
-						} else {
-							paramNameValue += Utils.trimQuotes(document.get(start, end - start));
-						}
+						if (paramNameValue == null) 
+							paramNameValue = "";
+						paramNameValue += Utils.trimQuotes(document.get(start, end - start));
 					}
 				}
 			if (paramNameValue == null) return false;

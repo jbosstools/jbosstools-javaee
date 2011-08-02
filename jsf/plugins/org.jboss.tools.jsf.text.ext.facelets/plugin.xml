@@ -92,7 +92,7 @@
          	</contentType>
 		</hyperlinkPartitioner>
 
-		<hyperlinkPartitioner 
+		<!-- hyperlinkPartitioner 
          	id="org.jboss.tools.common.text.ext.jsf.facelets.hyperlink.FaceletsAttributeValueWithExprHyperlinkPartitioner"
          	class="org.jboss.tools.jsf.text.ext.facelets.hyperlink.FaceletsAttributeValueWithExprHyperlinkPartitioner">
          	<contentType id="org.eclipse.jst.jsp.core.jspsource">
@@ -165,9 +165,9 @@
          			<axis path="*/[http://java.sun.com/jsf/facelets]:param/value/" />
          		</partitionType>
          	</contentType>
-		</hyperlinkPartitioner>
+		</hyperlinkPartitioner -->
 
-		<hyperlinkPartitioner 
+		<!-- hyperlinkPartitioner 
          	id="org.jboss.tools.common.text.ext.jsf.facelets.hyperlink.FaceletsAttributeValueWithNoExprHyperlinkPartitioner"
          	class="org.jboss.tools.jsf.text.ext.facelets.hyperlink.FaceletsAttributeValueWithNoExprHyperlinkPartitioner">
          	<contentType id="org.eclipse.jst.jsp.core.jspsource">
@@ -195,7 +195,7 @@
          			<axis path="*/[http://java.sun.com/jsf/facelets]:component/hotkey/" />
          		</partitionType>
          	</contentType>
-		</hyperlinkPartitioner>
+		</hyperlinkPartitioner -->
 		
 		<hyperlinkPartitioner 
          	id="org.jboss.tools.jsf.text.ext.facelets.hyperlink.FaceletsCSSClassHyperlinkPartitioner"

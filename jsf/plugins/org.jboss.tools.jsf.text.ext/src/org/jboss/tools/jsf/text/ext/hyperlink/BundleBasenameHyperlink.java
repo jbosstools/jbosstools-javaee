@@ -1,12 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2007 Exadel, Inc. and Red Hat, Inc.
+ * Copyright (c) 2007-2011 Red Hat, Inc.
  * Distributed under license by Red Hat, Inc. All rights reserved.
  * This program is made available under the terms of the
  * Eclipse Public License v1.0 which accompanies this distribution,
  * and is available at http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *     Exadel, Inc. and Red Hat, Inc. - initial API and implementation
+ *     Red Hat, Inc. - initial API and implementation
  ******************************************************************************/ 
 package org.jboss.tools.jsf.text.ext.hyperlink;
 
@@ -19,23 +19,19 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.IClasspathEntry;
-import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.Region;
-import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.ide.IDE;
 import org.jboss.tools.common.model.XModel;
-import org.jboss.tools.common.model.XModelException;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.project.IModelNature;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.model.util.FindObjectHelper;
 import org.jboss.tools.common.model.util.XModelObjectLoaderUtil;
-import org.jboss.tools.common.text.ext.hyperlink.AbstractHyperlink;
 import org.jboss.tools.common.text.ext.hyperlink.ClassHyperlink;
 import org.jboss.tools.common.text.ext.hyperlink.xpl.Messages;
 import org.jboss.tools.common.text.ext.util.StructuredModelWrapper;
@@ -55,8 +51,6 @@ import org.w3c.dom.Text;
  */
 public class BundleBasenameHyperlink extends ClassHyperlink {
 	private static final String FILESYSTEMS = "/FileSystems/"; //$NON-NLS-1$
-	private static final String LIB = "/lib-"; //$NON-NLS-1$
-	private static final String SEPARATOR = "/"; //$NON-NLS-1$
 	
 	protected void doHyperlink(IRegion region) {
 		try {
@@ -335,30 +329,6 @@ public class BundleBasenameHyperlink extends ClassHyperlink {
 			JSFExtensionsPlugin.log("", x); //$NON-NLS-1$
 			return null;
 		}
-	}
-	
-	private IFile getFileToOpenOld(String fileName, String fileExt) {
-		IFile documentFile = getFile();
-		try {	
-			IProject project = documentFile.getProject();
-			
-			String name = fileName.replace('.','/')+ (fileExt != null ? "." + fileExt : ""); //$NON-NLS-1$ //$NON-NLS-2$
-			
-			if(project == null || !project.isOpen()) return null;
-			if(!project.hasNature(JavaCore.NATURE_ID)) return null;
-			IJavaProject javaProject = JavaCore.create(project);		
-			IClasspathEntry[] es = javaProject.getResolvedClasspath(true);
-			for (int i = 0; i < es.length; i++) {
-				if(es[i].getEntryKind() != IClasspathEntry.CPE_SOURCE) continue;
-				IFile file = (IFile)project.getFile(es[i].getPath().removeFirstSegments(1) + "/" + name); //$NON-NLS-1$
-				if(file != null && file.exists()) return file;
-			}
-			return null;
-		} catch (CoreException x) {
-			JSFExtensionsPlugin.log("", x); //$NON-NLS-1$
-			return null;
-		}
-
 	}
 
 	IRegion fLastRegion = null;

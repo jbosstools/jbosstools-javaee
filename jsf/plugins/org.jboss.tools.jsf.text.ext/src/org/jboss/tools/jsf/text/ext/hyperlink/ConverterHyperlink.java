@@ -58,7 +58,7 @@ public class ConverterHyperlink extends AbstractHyperlink {
 	}
 	
 	private String getConverterID (IRegion region) {
-		IRegion localRegion = getRegion(region.getOffset());
+		getRegion(region.getOffset());
 		String converterID = null;
 		if(getDocument() != null && region != null) { 
 			try {
