@@ -44,9 +44,6 @@ public class JsfJspLongResourceBundlePropertyNamesTest extends ContentAssistantT
 		project.build(IncrementalProjectBuilder.FULL_BUILD, new NullProgressMonitor());
 	}
 
-	protected void tearDown() throws Exception {
-	}
-
 	public static Test suite() {
 		return new TestSuite(JsfJspLongResourceBundlePropertyNamesTest.class);
 	}
