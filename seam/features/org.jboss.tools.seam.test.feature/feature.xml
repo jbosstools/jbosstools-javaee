@@ -1,199 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<feature
-      id="org.jboss.tools.seam.test.feature"
-      label="Seam Tests Feature"
-      version="3.3.0.qualifier"
-      provider-name="JBoss by RedHat">
+<feature id="org.jboss.tools.seam.test.feature" label="Seam Tests Feature" version="3.3.0.qualifier" provider-name="JBoss by RedHat">
 
-   <description url="http://www.example.com/description">
+	<description url="http://www.example.com/description">
       [Enter Feature Description here.]
    </description>
 
-   <copyright url="http://www.example.com/copyright">
+	<copyright url="http://www.example.com/copyright">
       [Enter Copyright Description here.]
    </copyright>
 
-   <license url="http://www.example.com/license">
+	<license url="http://www.example.com/license">
       [Enter License Description here.]
    </license>
 
-   <plugin
-         id="org.jboss.tools.seam.core.test"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"/>
+	<plugin id="org.jboss.tools.seam.core.test" download-size="0" install-size="0" version="0.0.0" />
+	<plugin id="org.jboss.tools.seam.pages.xml.test" download-size="0" install-size="0" version="0.0.0" />
+	<plugin id="org.jboss.tools.seam.ui.bot.test" download-size="0" install-size="0" version="0.0.0" />
+	<plugin id="org.jboss.tools.seam.ui.test" download-size="0" install-size="0" version="0.0.0" />
+	<plugin id="org.jboss.tools.seam.xml.test" download-size="0" install-size="0" version="0.0.0" unpack="false" />
 
-   <plugin
-         id="org.jboss.tools.seam.pages.xml.test"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"/>
+	<plugin id="org.jboss.tools.seam121EAP.core.test" download-size="0" install-size="0" version="0.0.0" unpack="false" />
+	<plugin id="org.jboss.tools.seam121EAP.ui.test" download-size="0" install-size="0" version="0.0.0" unpack="false" />
 
-   <plugin
-         id="org.jboss.tools.seam.ui.test"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"/>
+	<plugin id="org.jboss.tools.seam201GA.core.test" download-size="0" install-size="0" version="0.0.0" unpack="false" />
+	<plugin id="org.jboss.tools.seam201GA.ui.test" download-size="0" install-size="0" version="0.0.0" unpack="false" />
+	<plugin id="org.jboss.tools.seam202SP1.core.test" download-size="0" install-size="0" version="0.0.0" unpack="false" />
+	<plugin id="org.jboss.tools.seam202SP1.ui.test" download-size="0" install-size="0" version="0.0.0" unpack="false" />
+	<plugin id="org.jboss.tools.seam203CR1.core.test" download-size="0" install-size="0" version="0.0.0" unpack="false" />
+	<plugin id="org.jboss.tools.seam203CR1.ui.test" download-size="0" install-size="0" version="0.0.0" unpack="false" />
 
-   <plugin
-         id="org.jboss.tools.seam.xml.test"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
+	<plugin id="org.jboss.tools.seam211GA.core.test" download-size="0" install-size="0" version="0.0.0" unpack="false" />
+	<plugin id="org.jboss.tools.seam211GA.ui.test" download-size="0" install-size="0" version="0.0.0" unpack="false" />
+	<plugin id="org.jboss.tools.seam212GA.core.test" download-size="0" install-size="0" version="0.0.0" unpack="false" />
+	<plugin id="org.jboss.tools.seam212GA.ui.test" download-size="0" install-size="0" version="0.0.0" unpack="false" />
 
-   <plugin
-         id="org.jboss.tools.seam121EAP.core.test"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
+	<plugin id="org.jboss.tools.seam220CR1.core.test" download-size="0" install-size="0" version="0.0.0" unpack="false" />
+	<plugin id="org.jboss.tools.seam220CR1.ui.test" download-size="0" install-size="0" version="0.0.0" unpack="false" />
+	<plugin id="org.jboss.tools.seam220GA.core.test" download-size="0" install-size="0" version="0.0.0" unpack="false" />
+	<plugin id="org.jboss.tools.seam220GA.ui.test" download-size="0" install-size="0" version="0.0.0" unpack="false" />
 
-   <plugin
-         id="org.jboss.tools.seam121EAP.ui.test"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
+	<plugin id="org.jboss.tools.seam221CR1.core.test" download-size="0" install-size="0" version="0.0.0" unpack="false" />
+	<plugin id="org.jboss.tools.seam221CR1.ui.test" download-size="0" install-size="0" version="0.0.0" unpack="false" />
+	<plugin id="org.jboss.tools.seam221CR2.core.test" download-size="0" install-size="0" version="0.0.0" unpack="false" />
+	<plugin id="org.jboss.tools.seam221CR2.ui.test" download-size="0" install-size="0" version="0.0.0" unpack="false" />
 
-   <plugin
-         id="org.jboss.tools.seam201GA.core.test"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.jboss.tools.seam201GA.ui.test"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.jboss.tools.seam202SP1.core.test"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.jboss.tools.seam202SP1.ui.test"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.jboss.tools.seam203CR1.ui.test"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.jboss.tools.seam211GA.ui.test"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.jboss.tools.seam220CR1.ui.test"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.jboss.tools.seam220GA.ui.test"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.jboss.tools.seamfp.core.test"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.jboss.tools.seamfp.ui.test"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.jboss.tools.seam212GA.ui.test"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.jboss.tools.seam221CR1.ui.test"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.jboss.tools.seam221CR2.ui.test"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.jboss.tools.seam203CR1.core.test"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.jboss.tools.seam211GA.core.test"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.jboss.tools.seam212GA.core.test"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.jboss.tools.seam220CR1.core.test"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.jboss.tools.seam220GA.core.test"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.jboss.tools.seam221CR1.core.test"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.jboss.tools.seam221CR2.core.test"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
+	<plugin id="org.jboss.tools.seamfp.core.test" download-size="0" install-size="0" version="0.0.0" unpack="false" />
+	<plugin id="org.jboss.tools.seamfp.ui.test" download-size="0" install-size="0" version="0.0.0" unpack="false" />
 </feature>
