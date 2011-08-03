@@ -55,6 +55,11 @@
 				<para>
 					Click on <guimenuitem>form</guimenuitem> within this folder, drag the cursor over to the editor, and drop it inside the <code>&lt;f:view&gt;</code> element. This can be done by dragging the form element onto the horizontal line at the top of the <code>&lt;f:view&gt;</code> element. You should see a message saying <guilabel>Place at the beginning of &lt;f:view&gt;</guilabel>.
 				</para>
+				<important>
+					<para>
+						It is also possible to drag from the toolbar to the <guilabel>Source</guilabel> view. If you encounter any issues when dragging items to the <guilabel>Visual</guilabel> view, use the <guilabel>Source</guilabel> view; drag an element from the toolbar and drop it where you wish it to be within the code.
+					</para>
+				</important>
 			</listitem>
 		</itemizedlist>
 			<figure>
