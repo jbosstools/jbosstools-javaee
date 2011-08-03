@@ -6,7 +6,7 @@
     <simpara>
         <revhistory>
             <revision>
-                <revnumber>1</revnumber><date>Wed Jun 09 2010</date>
+                <revnumber>1-0</revnumber><date>Wed Jun 09 2010</date>
                 <author>
                     <firstname>JBoss Tools</firstname><surname>Documentation Team</surname><email>irooskov@redhat.com</email>
                 </author>
@@ -17,7 +17,7 @@
                 </revdescription>
             </revision>
             <revision>
-                <revnumber>0</revnumber><date>Fri Nov 20 2009</date>
+                <revnumber>0-0</revnumber><date>Fri Nov 20 2009</date>
                 <author>
                     <firstname>Isaac</firstname><surname>Rooskov</surname><email>irooskov@redhat.com</email>
                 </author>
