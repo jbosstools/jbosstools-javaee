@@ -11,5 +11,11 @@
 	<feature url="features/org.jboss.tools.cdi.seam.feature_0.0.0.jar" id="org.jboss.tools.cdi.seam.feature" version="0.0.0">
 		<category name="JBoss Tools cdi Nightly Build Update Site"/>
 	</feature>
+	<feature url="features/org.jboss.tools.cdi.tests.feature_0.0.0.jar" id="org.jboss.tools.cdi.tests.feature" version="0.0.0">
+		<category name="JBoss Tools cdi Nightly Build Update Site"/>
+	</feature>
+	<feature url="features/org.jboss.tools.cdi.seam.tests.feature_0.0.0.jar" id="org.jboss.tools.cdi.seam.tests.feature" version="0.0.0">
+		<category name="JBoss Tools cdi Nightly Build Update Site"/>
+	</feature>
 
 </site>

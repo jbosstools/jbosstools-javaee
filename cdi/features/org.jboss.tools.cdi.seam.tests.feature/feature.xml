@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature id="org.jboss.tools.cdi.seam.tests.feature" label="%featureName" version="1.2.0.qualifier" provider-name="%featureProvider">
+
+	<description>
+      %description
+   </description>
+
+	<copyright>
+      %copyright
+   </copyright>
+
+	<license url="%licenseURL">
+      %license
+   </license>
+
+	<requires>
+		<import plugin="org.junit" version="3.8.1" match="compatible" />
+		<import plugin="org.eclipse.core.runtime" version="3.3.0" match="compatible" />
+		<import plugin="org.eclipse.core.resources" version="3.3.0" match="compatible" />
+		<import plugin="org.eclipse.ant.core" version="3.1.100" match="compatible" />
+		<import plugin="org.eclipse.core.resources" version="3.2.0" match="compatible" />
+		<import plugin="org.eclipse.core.runtime" version="3.2.0" match="compatible" />
+		<import plugin="org.eclipse.debug.core" version="3.2.0" match="compatible" />
+		<import feature="org.jboss.tools.cdi.tests.feature" version="1.0.0" match="compatible" />
+	</requires>
+
+	<plugin id="org.jboss.tools.cdi.seam.config.core.test" download-size="0" install-size="0" version="0.0.0" />
+	<plugin id="org.jboss.tools.cdi.seam.config.ui.test" download-size="0" install-size="0" version="0.0.0" />
+	<plugin id="org.jboss.tools.cdi.seam.core.test" download-size="0" install-size="0" version="0.0.0" />
+	<plugin id="org.jboss.tools.cdi.seam.faces.core.test" download-size="0" install-size="0" version="0.0.0" />
+	<plugin id="org.jboss.tools.cdi.seam.solder.core.test" download-size="0" install-size="0" version="0.0.0" />
+	<plugin id="org.jboss.tools.cdi.seam.text.ext.test" download-size="0" install-size="0" version="0.0.0" />
+</feature>
