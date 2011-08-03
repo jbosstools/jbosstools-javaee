@@ -30,6 +30,7 @@ import org.jboss.tools.jsf.jsp.ca.test.JavaClassContentAssistProviderTest;
 import org.jboss.tools.jsf.jsp.ca.test.JsfJspJbide1704Test;
 import org.jboss.tools.jsf.jsp.ca.test.JsfJspJbide1717Test;
 import org.jboss.tools.jsf.jsp.ca.test.JsfJspJbide6259Test;
+import org.jboss.tools.jsf.jsp.ca.test.JsfJspLongResourceBundlePropertyNamesTest;
 import org.jboss.tools.jsf.jsp.ca.test.JspElFunctionsTest;
 import org.jboss.tools.jsf.jsp.ca.test.WebContentAssistProviderTest;
 import org.jboss.tools.jsf.ui.test.refactoring.ELReferencesRenameTest;
@@ -60,8 +61,9 @@ public class JsfUiAllTests {
 		suite.addTestSuite(JsfJspJbide1704Test.class);
  		suite.addTestSuite(JsfJspJbide1717Test.class);
 		suite.addTestSuite(JsfJBide3845Test.class);
+		suite.addTestSuite(JsfJspLongResourceBundlePropertyNamesTest.class);
 
- 		suite.addTest(
+		suite.addTest(
 				new ProjectImportTestSetup(WebContentAssistProviderTest.suite(),
 				"org.jboss.tools.jsf.ui.test",
 				new String[] { "projects/TestsWebArtefacts", }, //$NON-NLS-1$
