@@ -15,14 +15,14 @@ import java.util.List;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.resources.IncrementalProjectBuilder;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jface.text.contentassist.ICompletionProposal;
 import org.jboss.tools.common.base.test.contentassist.CATestUtil;
 import org.jboss.tools.jst.jsp.contentassist.AutoContentAssistantProposal;
 import org.jboss.tools.jst.jsp.test.ca.ContentAssistantTestCase;
-import org.jboss.tools.jst.jsp.test.ca.JstJspJbide1641Test;
 import org.jboss.tools.test.util.JobUtils;
-import org.jboss.tools.test.util.TestProjectProvider;
+import org.jboss.tools.test.util.ProjectImportTestSetup;
 
 /**
  * The JUnit test cases for https://issues.jboss.org/browse/JBIDE-9414 issue 
@@ -31,8 +31,6 @@ import org.jboss.tools.test.util.TestProjectProvider;
  *
  */
 public class JsfJspLongResourceBundlePropertyNamesTest extends ContentAssistantTestCase {
-	TestProjectProvider provider = null;
-	boolean makeCopy = false;
 	private static final String PROJECT_NAME = "CAForCompositeComponentTest";
 	private static final String PAGE_NAME = "WebContent/pages/greetingLong.xhtml";
 	private static final String PROPOSAL_TO_APPLY_STRING = "['org.jboss.long.named.Property']";
@@ -41,38 +39,17 @@ public class JsfJspLongResourceBundlePropertyNamesTest extends ContentAssistantT
 	private static final String TEXT_PREFIX_STRING = "<ui:define name=\"body\"";
 	private static final String COMPARE_STRING = "#{msg['org.jboss.long.named.Property']";
 	
-//	public JsfJspLongResourceBundlePropertyNamesTest() {
-//		try {
-//			provider = new TestProjectProvider("org.jboss.tools.jsf.ui.test", null, PROJECT_NAME, makeCopy);
-//			project = provider.getProject();
-//		} catch (CoreException e) {
-//			e.printStackTrace();
-//			project = null;
-//		} 
-//	}
-	
 	public void setUp() throws Exception {
-		provider = new TestProjectProvider("org.jboss.tools.jsf.ui.test", null, PROJECT_NAME, makeCopy); 
-		project = provider.getProject();
+		project = ProjectImportTestSetup.loadProject(PROJECT_NAME);
+		project.build(IncrementalProjectBuilder.FULL_BUILD, new NullProgressMonitor());
 	}
 
 	protected void tearDown() throws Exception {
-		if(provider != null) {
-			provider.dispose();
-		}
 	}
 
 	public static Test suite() {
-		return new TestSuite(JstJspJbide1641Test.class);
+		return new TestSuite(JsfJspLongResourceBundlePropertyNamesTest.class);
 	}
-
-//	@Override
-//	protected void finalize() throws Throwable {
-//		if(provider != null) {
-//			provider.dispose();
-//		}
-//		super.finalize();
-//	}
 
 	private void doTestLongResourceBundlePropertyNames(String tagName, String prefix, String proposalToApply, String compareString) {
 		// Find start of <ui:composition> tag
