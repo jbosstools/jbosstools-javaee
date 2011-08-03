@@ -8,6 +8,9 @@
 	<feature url="features/org.jboss.tools.jsf.feature_0.0.0.jar" id="org.jboss.tools.jsf.feature" version="0.0.0">
 		<category name="JBoss Tools jsf Nightly Build Update Site"/>
 	</feature>
+	<feature url="features/org.jboss.tools.jsf.tests.feature_0.0.0.jar" id="org.jboss.tools.jsf.tests.feature" version="0.0.0">
+		<category name="JBoss Tools jsf Nightly Build Update Site"/>
+	</feature>
 	<feature url="features/org.jboss.tools.richfaces.feature_0.0.0.jar" id="org.jboss.tools.richfaces.feature" version="0.0.0">
 		<category name="JBoss Tools jsf Nightly Build Update Site"/>
 	</feature>

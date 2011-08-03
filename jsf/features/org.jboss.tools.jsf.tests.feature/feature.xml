@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature id="org.jboss.tools.jsf.tests.feature" label="%featureName" version="3.3.0.qualifier" provider-name="%featureProvider">
+
+	<description>
+      %description
+   </description>
+
+	<copyright>
+      %copyright
+   </copyright>
+
+	<license url="%licenseURL">
+      %license
+   </license>
+
+	<plugin id="org.jboss.tools.jsf.test" download-size="0" install-size="0" version="0.0.0" />
+	<plugin id="org.jboss.tools.jsf.text.ext.test" download-size="0" install-size="0" version="0.0.0" />
+	<plugin id="org.jboss.tools.jsf.ui.bot.test" download-size="0" install-size="0" version="0.0.0" />
+	<plugin id="org.jboss.tools.jsf.ui.test" download-size="0" install-size="0" version="0.0.0" />
+	<plugin id="org.jboss.tools.jsf.verification.test" download-size="0" install-size="0" version="0.0.0" />
+	<plugin id="org.jboss.tools.jsf.vpe.ajax4jsf.test" download-size="0" install-size="0" version="0.0.0" />
+	<plugin id="org.jboss.tools.jsf.vpe.facelets.test" download-size="0" install-size="0" version="0.0.0" />
+	<plugin id="org.jboss.tools.jsf.vpe.jbpm.test" download-size="0" install-size="0" version="0.0.0" />
+	<plugin id="org.jboss.tools.jsf.vpe.jsf.test" download-size="0" install-size="0" version="0.0.0" />
+	<plugin id="org.jboss.tools.jsf.vpe.jstl.test" download-size="0" install-size="0" version="0.0.0" />
+	<plugin id="org.jboss.tools.jsf.vpe.myfaces.test" download-size="0" install-size="0" version="0.0.0" />
+	<plugin id="org.jboss.tools.jsf.vpe.richfaces.test" download-size="0" install-size="0" version="0.0.0" />
+	<plugin id="org.jboss.tools.jsf.vpe.seam.test" download-size="0" install-size="0" version="0.0.0" />
+</feature>
