@@ -14,6 +14,7 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 
 import org.eclipse.jdt.internal.core.JavaModelManager;
+import org.eclipse.jst.jsp.core.internal.java.search.JSPIndexManager;
 import org.jboss.tools.cdi.core.test.CDICoreTestSetup;
 import org.jboss.tools.cdi.ui.test.marker.CDIMarkerResolutionTest;
 import org.jboss.tools.cdi.ui.test.perspective.CDIPerspectiveTest;
@@ -30,7 +31,13 @@ public class CDIUIAllTests {
 
 	public static Test suite() {
 		// it could be done here because it is not needed to be enabled back
-		JavaModelManager.getIndexManager().disable();
+		JavaModelManager.getIndexManager().shutdown();
+		try {
+			JSPIndexManager.getDefault().stop();
+		} catch (InterruptedException e) {
+			// print it and ignore it 
+			e.printStackTrace();
+		}
 		
 		TestSuite suiteAll = new TestSuite("CDI UI Tests");
 		
