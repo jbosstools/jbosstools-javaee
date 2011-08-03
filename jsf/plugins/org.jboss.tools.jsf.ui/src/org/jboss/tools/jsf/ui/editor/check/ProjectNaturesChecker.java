@@ -31,6 +31,7 @@ import org.jboss.tools.jsf.ui.JsfUIMessages;
 import org.jboss.tools.jst.jsp.JspEditorPlugin;
 import org.jboss.tools.jst.jsp.util.FileUtil;
 import org.jboss.tools.jst.web.kb.IKbProject;
+import org.jboss.tools.jst.web.kb.internal.KbBuilderMarker;
 import org.jboss.tools.jst.web.kb.internal.KbProject;
 import org.jboss.tools.jst.web.project.WebProject;
 
@@ -214,7 +215,7 @@ public class ProjectNaturesChecker implements IResourceChangeListener {
 				IMarker marker = markers[i];
 				String _type = marker.getType();
 				if (_type != null
-						&& _type.equals(KbProject.KB_BUILDER_PROBLEM_MARKER_TYPE)) {
+						&& _type.equals(KbBuilderMarker.KB_BUILDER_PROBLEM_MARKER_TYPE)) {
 					kbProblemMarker = marker;
 					break;
 				}

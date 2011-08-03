@@ -33,6 +33,7 @@ import org.eclipse.ui.views.markers.internal.MarkerMessages;
 import org.jboss.tools.jsf.ui.JsfUIMessages;
 import org.jboss.tools.jsf.ui.JsfUiPlugin;
 import org.jboss.tools.jsf.ui.editor.check.wizards.QuickFixWizard;
+import org.jboss.tools.jst.web.kb.internal.KbBuilderMarker;
 import org.jboss.tools.jst.web.kb.internal.KbProject;
 
 /**
@@ -57,7 +58,7 @@ public class KBNaturesInfoDialog extends ProjectNaturesInfoDialog {
 				IMarker marker = markers[i];
 				String _type = marker.getType();
 				if (_type != null
-						&& _type.equals(KbProject.KB_BUILDER_PROBLEM_MARKER_TYPE)) {
+						&& _type.equals(KbBuilderMarker.KB_BUILDER_PROBLEM_MARKER_TYPE)) {
 					kbProblemMarker = marker;
 					break;
 				}
