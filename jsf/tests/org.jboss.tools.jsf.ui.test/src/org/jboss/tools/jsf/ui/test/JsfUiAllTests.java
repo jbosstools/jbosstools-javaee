@@ -61,8 +61,6 @@ public class JsfUiAllTests {
 		suite.addTestSuite(JsfJspJbide1704Test.class);
  		suite.addTestSuite(JsfJspJbide1717Test.class);
 		suite.addTestSuite(JsfJBide3845Test.class);
-//		suite.addTestSuite(JsfJspLongResourceBundlePropertyNamesTest.class);
-
 		
 		suite.addTest(
 				new ProjectImportTestSetup(JsfJspLongResourceBundlePropertyNamesTest.suite(),
