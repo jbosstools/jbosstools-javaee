@@ -134,4 +134,7 @@ public class CDIInjectionPoint implements IInjectionPoint {
 		return null;
 	}
 
+	public String getName() {
+		return null;
+	}
 }
