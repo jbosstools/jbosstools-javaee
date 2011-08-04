@@ -1,4 +1,4 @@
-package org.jboss.tools.jsf.vpe.jstl.template.util;
+package org.jboss.tools.jsf.vpe.jstl.template;
 
 import java.util.ArrayList;
 import java.util.List;

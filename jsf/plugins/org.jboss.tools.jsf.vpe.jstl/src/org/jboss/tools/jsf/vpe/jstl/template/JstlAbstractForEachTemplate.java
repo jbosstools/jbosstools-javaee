@@ -12,7 +12,6 @@ package org.jboss.tools.jsf.vpe.jstl.template;
 
 import java.util.List;
 
-import org.jboss.tools.jsf.vpe.jstl.template.util.JstlUtil;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;

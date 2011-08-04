@@ -12,7 +12,6 @@ package org.jboss.tools.jsf.vpe.jstl.template;
 
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.Region;
-import org.jboss.tools.jsf.vpe.jstl.template.util.Jstl;
 import org.jboss.tools.jst.jsp.util.NodesManagingUtil;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;

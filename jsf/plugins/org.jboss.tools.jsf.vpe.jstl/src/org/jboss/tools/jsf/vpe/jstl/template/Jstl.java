@@ -9,7 +9,7 @@
  *     Red Hat, Inc. - initial API and implementation
  ******************************************************************************/
 
-package org.jboss.tools.jsf.vpe.jstl.template.util;
+package org.jboss.tools.jsf.vpe.jstl.template;
 
 
 /**
