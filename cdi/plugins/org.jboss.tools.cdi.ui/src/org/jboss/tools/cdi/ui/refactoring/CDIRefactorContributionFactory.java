@@ -107,9 +107,12 @@ public class CDIRefactorContributionFactory extends AbstractContributionFactory 
 		
 		for(IBean bean : beans){
 			if(bean.getName() != null){
-				ITextSourceReference location = bean.getNameLocation();
-				if(selection.getOffset() >= location.getStartPosition() && (selection.getOffset()+selection.getLength()) <= (location.getStartPosition()+location.getLength()))
-					return bean;
+				//Get @Named declared directly, or stereotype that declares @Named.
+				ITextSourceReference location = bean.getNameLocation(true);
+				if(location != null) {
+					if(selection.getOffset() >= location.getStartPosition() && (selection.getOffset()+selection.getLength()) <= (location.getStartPosition()+location.getLength()))
+						return bean;
+				}
 			}
 		}
 		
