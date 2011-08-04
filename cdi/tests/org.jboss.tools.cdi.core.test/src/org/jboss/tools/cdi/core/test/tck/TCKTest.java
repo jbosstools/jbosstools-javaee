@@ -58,7 +58,7 @@ public class TCKTest extends TestCase {
 //	protected static String WEB_CONTENT = PROJECT_PATH + WEB_CONTENT_SUFFIX;
 //	protected static String WEB_INF = WEB_CONTENT + WEB_INF_SUFFIX;
 
-	static String PACKAGE = "/org/jboss/jsr299/tck";
+	protected static String PACKAGE = "/org/jboss/jsr299/tck";
 
 	protected static String TCK_RESOURCES_PREFIX = "/resources/tck";
 
@@ -204,7 +204,7 @@ public class TCKTest extends TestCase {
 		assertEquals("There should be the only bean with " + typeName + " type", 1, beans.size());
 	}
 
-	static class JavaFileFilter implements FileFilter {
+	public static class JavaFileFilter implements FileFilter {
 		public boolean accept(File pathname) {
 			String name = pathname.getName();
 			return (pathname.isDirectory() && !name.endsWith(".svn")) 
@@ -218,14 +218,14 @@ public class TCKTest extends TestCase {
 		}
 	}
 
-	static class XmlFileFilter implements FileFilter {
+	public static class XmlFileFilter implements FileFilter {
 		public boolean accept(File pathname) {
 			String name = pathname.getName();
 			return (pathname.isDirectory() && !name.endsWith(".svn")) || name.endsWith(".xml");
 		}		
 	}
 
-	static class PageFileFilter implements FileFilter {
+	public static class PageFileFilter implements FileFilter {
 		public boolean accept(File pathname) {
 			String name = pathname.getName();
 			return (pathname.isDirectory() && !name.endsWith(".svn")) || name.endsWith(".jsp") || name.endsWith(".xhtml");
