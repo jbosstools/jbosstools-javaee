@@ -224,7 +224,11 @@ public class NewCDIWizardTest extends TestCase {
 		WizardContext context = new WizardContext();
 		context.init("org.jboss.tools.cdi.ui.wizard.NewStereotypeCreationWizard",
 				PACK_NAME, STEREOTYPE2_NAME);
-		JobUtils.waitForIdle(2000);
+		try {
+			context.tck.build(IncrementalProjectBuilder.INCREMENTAL_BUILD,null);
+		} catch (CoreException e) {
+			e.printStackTrace();
+		}
 		ICDIProject cdi = CDICorePlugin.getCDIProject(context.tck, true);
 		IStereotype s = cdi.getStereotype(PACK_NAME + "." + STEREOTYPE_NAME);
 		IStereotype d = cdi.getStereotype(CDIConstants.DECORATOR_STEREOTYPE_TYPE_NAME);
@@ -309,7 +313,7 @@ public class NewCDIWizardTest extends TestCase {
 		WizardContext context = new WizardContext();
 		context.init("org.jboss.tools.cdi.ui.wizard.NewInterceptorBindingCreationWizard",
 				PACK_NAME, INTERCEPTOR_BINDING2_NAME);
-		JobUtils.waitForIdle(2000);
+
 
 		try {
 			NewInterceptorBindingWizardPage page = (NewInterceptorBindingWizardPage)context.page;
@@ -342,8 +346,8 @@ public class NewCDIWizardTest extends TestCase {
 	public void testNewInterceptorWizard() {
 		WizardContext context = new WizardContext();
 		context.init("org.jboss.tools.cdi.ui.wizard.NewInterceptorCreationWizard",
-				PACK_NAME, INTERCEPTOR_NAME);JobUtils.waitForIdle(2000);
-		JobUtils.waitForIdle(2000);
+				PACK_NAME, INTERCEPTOR_NAME);
+
 		ICDIProject cdi = CDICorePlugin.getCDIProject(context.tck, true);
 		ICDIAnnotation a = cdi.getInterceptorBinding(PACK_NAME + "." + INTERCEPTOR_BINDING_NAME);
 		
@@ -373,8 +377,8 @@ public class NewCDIWizardTest extends TestCase {
 	public void testNewDecoratorWizard() {
 		WizardContext context = new WizardContext();
 		context.init("org.jboss.tools.cdi.ui.wizard.NewDecoratorCreationWizard",
-				PACK_NAME, DECORATOR_NAME);JobUtils.waitForIdle(2000);
-		JobUtils.waitForIdle(2000);
+				PACK_NAME, DECORATOR_NAME);
+
 		ICDIProject cdi = CDICorePlugin.getCDIProject(context.tck, true);
 		
 		try {
@@ -399,8 +403,8 @@ public class NewCDIWizardTest extends TestCase {
 	public void testNewBeanWizard() throws Exception {
 		WizardContext context = new WizardContext();
 		context.init("org.jboss.tools.cdi.ui.wizard.NewBeanCreationWizard",
-				PACK_NAME, BEAN_NAME);JobUtils.waitForIdle(2000);
-		JobUtils.waitForIdle(2000);
+				PACK_NAME, BEAN_NAME);
+
 		ICDIProject cdi = CDICorePlugin.getCDIProject(context.tck, true);
 		
 		try {
@@ -439,8 +443,8 @@ public class NewCDIWizardTest extends TestCase {
 	public void testNewAnnotationLiteralWizard() {
 		WizardContext context = new WizardContext();
 		context.init("org.jboss.tools.cdi.ui.wizard.NewAnnotationLiteralCreationWizard",
-				PACK_NAME, QUALIFIER_NAME + "Literal");JobUtils.waitForIdle(2000);
-		JobUtils.waitForIdle(2000);
+				PACK_NAME, QUALIFIER_NAME + "Literal");
+
 		ICDIProject cdi = CDICorePlugin.getCDIProject(context.tck, true);
 		
 		try {
@@ -462,8 +466,8 @@ public class NewCDIWizardTest extends TestCase {
 	public void testNewAnnotationLiteralWizardWithMembers() {
 		WizardContext context = new WizardContext();
 		context.init("org.jboss.tools.cdi.ui.wizard.NewAnnotationLiteralCreationWizard",
-				PACK_NAME, "NewLiteral");JobUtils.waitForIdle(2000);
-		JobUtils.waitForIdle(2000);
+				PACK_NAME, "NewLiteral");
+
 		ICDIProject cdi = CDICorePlugin.getCDIProject(context.tck, true);
 		
 		try {
@@ -486,7 +490,6 @@ public class NewCDIWizardTest extends TestCase {
 	public void testNewBeansXMLWizard() throws CoreException {
 		NewBeansXMLWizardContext context = new NewBeansXMLWizardContext();
 		context.init("org.jboss.tools.cdi.ui.wizard.NewBeansXMLCreationWizard");
-		JobUtils.waitForIdle(2000);
 		
 		try {
 			

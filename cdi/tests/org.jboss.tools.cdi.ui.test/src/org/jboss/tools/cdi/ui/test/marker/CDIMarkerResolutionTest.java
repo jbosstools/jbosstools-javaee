@@ -40,6 +40,7 @@ import org.jboss.tools.cdi.ui.marker.MakeFieldStaticMarkerResolution;
 import org.jboss.tools.cdi.ui.marker.MakeMethodBusinessMarkerResolution;
 import org.jboss.tools.cdi.ui.marker.MakeMethodPublicMarkerResolution;
 import org.jboss.tools.cdi.ui.marker.TestableResolutionWithRefactoringProcessor;
+import org.jboss.tools.cdi.ui.test.TCKUITest;
 import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.jst.jsp.test.TestUtil;
 import org.jboss.tools.jst.web.kb.internal.validation.ValidatorManager;
@@ -48,7 +49,7 @@ import org.jboss.tools.jst.web.kb.internal.validation.ValidatorManager;
  * @author Daniel Azarov
  * 
  */
-public class CDIMarkerResolutionTest  extends ValidationTest {
+public class CDIMarkerResolutionTest  extends TCKUITest {
 	
 	private void checkResolution(IProject project, String[] fileNames, String markerType, String idName, int id, Class<? extends IMarkerResolution> resolutionClass) throws CoreException {
 		checkResolution(project, fileNames, new String[]{}, markerType, idName, id, resolutionClass);
@@ -59,9 +60,8 @@ public class CDIMarkerResolutionTest  extends ValidationTest {
 
 		assertTrue("File - "+file.getFullPath()+" must be exist",file.exists());
 
-		ValidatorManager.setStatus("TESTING");
 		copyFiles(project, fileNames);
-		TestUtil.waitForValidation();
+		TestUtil.validate(file);
 
 		try{
 			file = project.getFile(fileNames[0]);
@@ -79,8 +79,6 @@ public class CDIMarkerResolutionTest  extends ValidationTest {
 						for (int j = 0; j < resolutions.length; j++) {
 							IMarkerResolution resolution = resolutions[j];
 							if (resolution.getClass().equals(resolutionClass)) {
-
-								ValidatorManager.setStatus("TESTING");
 
 								if(resolution instanceof TestableResolutionWithRefactoringProcessor){
 									RefactoringProcessor processor = ((TestableResolutionWithRefactoringProcessor)resolution).getRefactoringProcessor();
@@ -110,7 +108,7 @@ public class CDIMarkerResolutionTest  extends ValidationTest {
 									resolution.run(marker);
 								}
 
-								TestUtil.waitForValidation();
+								TestUtil.validate(file);
 
 								file = project.getFile(fileNames[0]);
 								IMarker[] newMarkers = file.findMarkers(markerType, true,	IResource.DEPTH_INFINITE);
@@ -129,7 +127,7 @@ public class CDIMarkerResolutionTest  extends ValidationTest {
 			fail("Problem marker with id: "+id+" not found");
 		}finally{
 			restoreFiles(project, fileNames);
-			TestUtil.waitForValidation();
+			TestUtil.validate(file);
 		}
 	}
 
