@@ -11,6 +11,7 @@
 package org.jboss.tools.cdi.seam.core.test.international;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.core.resources.IFile;
@@ -31,6 +32,11 @@ import org.jboss.tools.common.text.ext.util.Utils;
 import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.jst.jsp.test.TestUtil;
 import org.jboss.tools.jst.jsp.test.ca.ContentAssistantTestCase;
+import org.jboss.tools.jst.text.ext.hyperlink.ELHyperlink;
+import org.jboss.tools.jst.text.ext.hyperlink.ELHyperlinkDetector;
+import org.jboss.tools.jst.text.ext.test.HyperlinkTestUtil;
+import org.jboss.tools.jst.text.ext.test.HyperlinkTestUtil.TestHyperlink;
+import org.jboss.tools.jst.text.ext.test.HyperlinkTestUtil.TestRegion;
 import org.jboss.tools.jst.web.kb.PageContextFactory;
 import org.jboss.tools.jst.web.kb.internal.validation.ValidatorManager;
 import org.jboss.tools.test.util.JobUtils;
@@ -153,7 +159,20 @@ public class SeamResourceBundlesTest extends TCKTest {
 		caTest.checkProposals(PAGE_NAME, "value=\"#{", 9, resourceBundleNames, false);
 		caTest.checkProposals(PAGE_NAME, "value=\"#{bundles.messages.", 26, defaultResourceBundleNameProperties, false);
 		caTest.checkProposals(PAGE_NAME, "value=\"#{bundles.messages.", 26, germanResourceBundleNameProperties, false);
-
+	}
+	
+	/**
+	 * The method tests CA on CDI Seam International Module Resource Bundles
+	 */
+	public void testSeamInternationalHyperlinks() throws Exception {
+		assertTrue(errMessage, bReadyForTesting);
+		
+		// Perform Hyperlink test
+		ArrayList<TestRegion> regionList = new ArrayList<TestRegion>();
+		regionList.add(new TestRegion(381, 15, new TestHyperlink[]{new TestHyperlink(ELHyperlink.class, "Open bundle 'messages'", null)})); 
+		regionList.add(new TestRegion(398, 10, new TestHyperlink[]{new TestHyperlink(ELHyperlink.class, "Open property 'home_header' of bundle 'messages'", null)})); 
+		
+		HyperlinkTestUtil.checkRegions(tckProject, PAGE_NAME, regionList, new ELHyperlinkDetector());
 	}
 	
 	private boolean setUpSeamInternationalLibraryAndResourceBundle() throws Exception {
