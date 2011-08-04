@@ -15,7 +15,7 @@ import java.util.Set;
 import org.jboss.tools.common.java.IAnnotated;
 
 /**
- * Represents an element that can has stereotypes.
+ * Represents an element that can have stereotypes.
  * 
  * @author Alexey Kazakov
  */
