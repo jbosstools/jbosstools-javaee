@@ -183,6 +183,10 @@ public class AbstractBeanElement extends CDIElement implements IAnnotated {
 					result.add(d);
 				}
 			}
+			IAnnotationDeclaration d = findNamedAnnotation();
+			if(d instanceof IQualifierDeclaration && !result.contains(d)) {
+				result.add((IQualifierDeclaration)d);
+			}
 		}
 		return result;
 	}

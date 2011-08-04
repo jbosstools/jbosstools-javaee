@@ -357,6 +357,8 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		}
 		boolean delegateInjectionPoint = injectionPoint.isDelegate();
 
+		String injectionPointName = injectionPoint.getName();
+
 		for (IBean b: beans) {
 			if(b instanceof ClassBean && !(b instanceof IBuiltInBean)) {
 				IType bType = b.getBeanClass();
@@ -381,6 +383,10 @@ public class CDIProject extends CDIElement implements ICDIProject {
 			if(containsType(types, type)) {
 				try {
 					if(delegateInjectionPoint && b == injectionPoint.getClassBean()) {
+						continue;
+					}
+					if(injectionPointName != null && injectionPointName.equals(b.getName())) {
+						//
 						continue;
 					}
 					Set<IQualifierDeclaration> qsb = b.getQualifierDeclarations(true);
@@ -524,9 +530,13 @@ public class CDIProject extends CDIElement implements ICDIProject {
 	private static String getAnnotationDeclarationKey(IAnnotationDeclaration d, Set<IMethod> ignoredMembers) throws CoreException {
 		Set<IMethod> nb = ignoredMembers == null ? new HashSet<IMethod>() : ignoredMembers;
 		IType type = d.getType();
-		IMethod[] ms = type.getMethods();
 		StringBuffer result = new StringBuffer();
-			result.append(type.getFullyQualifiedName());
+		result.append(type.getFullyQualifiedName());
+		if(CDIConstants.NAMED_QUALIFIER_TYPE_NAME.equals(type.getFullyQualifiedName())) {
+			//Declared name is excluded from comparison; names should be compared by invoking getName() method.
+			return result.toString();
+		}
+		IMethod[] ms = type.getMethods();
 		if(ms.length > 0) {
 			TreeMap<String, String> values = new TreeMap<String, String>();
 			IMemberValuePair[] ps = d.getMemberValuePairs();
