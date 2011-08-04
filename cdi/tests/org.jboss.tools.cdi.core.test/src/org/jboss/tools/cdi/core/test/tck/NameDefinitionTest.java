@@ -33,7 +33,7 @@ public class NameDefinitionTest extends TCKTest {
 		assertEquals("There should be the only bean with org.jboss.jsr299.tck.tests.definition.name.Moose type.", 1, beans.size());
 		IBean bean = beans.iterator().next();
 		assertEquals("Wrong EL name of org.jboss.jsr299.tck.tests.definition.name.Moose bean.", "aMoose", bean.getName());
-		assertLocationEquals(bean.getNameLocation(), 918, 16);
+		assertLocationEquals(bean.getNameLocation(true), 918, 16);
 	}
 
 	/**
