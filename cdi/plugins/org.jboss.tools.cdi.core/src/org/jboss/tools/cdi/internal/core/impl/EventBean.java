@@ -76,7 +76,7 @@ public class EventBean extends CDIElement implements IBean {
 		return null;
 	}
 
-	public ITextSourceReference getNameLocation() {
+	public ITextSourceReference getNameLocation(boolean stereotypeLocation) {
 		return null;
 	}
 

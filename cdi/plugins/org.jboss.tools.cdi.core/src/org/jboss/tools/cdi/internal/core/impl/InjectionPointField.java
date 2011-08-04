@@ -32,7 +32,8 @@ public class InjectionPointField extends BeanField implements IInjectionPointFie
 		return super.getType();
 	}
 
-	public String getName() {
+	@Override
+	public String getBeanName() {
 		AnnotationDeclaration d = getDefinition().getNamedAnnotation();
 		if(d != null) {
 			Object n = d.getMemberValue(null);

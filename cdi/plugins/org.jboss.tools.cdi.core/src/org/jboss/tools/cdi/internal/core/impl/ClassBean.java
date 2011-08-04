@@ -351,8 +351,8 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 		return name;
 	}
 
-	public ITextSourceReference getNameLocation() {
-		return getDefinition().getNamedAnnotation();
+	public ITextSourceReference getNameLocation(boolean stereotypeLocation) {
+		return (stereotypeLocation) ? CDIUtil.getNamedDeclaration(this) : findNamedAnnotation();
 	}
 
 	public ClassBean getSpecializedBean() {

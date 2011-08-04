@@ -15,6 +15,7 @@ import java.util.Set;
 
 import org.eclipse.jdt.core.IType;
 import org.jboss.tools.cdi.core.CDIConstants;
+import org.jboss.tools.cdi.core.CDIUtil;
 import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.core.IParameter;
 import org.jboss.tools.cdi.core.IProducerMethod;
@@ -132,8 +133,8 @@ public class ProducerMethod extends BeanMethod implements IProducerMethod {
 		return name;
 	}
 
-	public ITextSourceReference getNameLocation() {
-		return findNamedAnnotation();
+	public ITextSourceReference getNameLocation(boolean stereotypeLocation) {
+		return (stereotypeLocation) ? CDIUtil.getNamedDeclaration(this) : findNamedAnnotation();
 	}
 
 	public void setSpecializedBean(ProducerMethod other) {

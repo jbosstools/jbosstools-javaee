@@ -42,17 +42,6 @@ public abstract class BeanMember extends AbstractBeanElement implements IBeanMem
 		return (BeanMemberDefinition)definition;
 	}
 
-	public String getName() {
-		AnnotationDeclaration d = getDefinition().getNamedAnnotation();
-		if(d != null) {
-			Object n = d.getMemberValue(null);
-			if(n != null) {
-				return n.toString();
-			}
-		}
-		return null;
-	}
-
 	protected void setMember(IJavaElement member) {
 		try {
 			String returnType = null;

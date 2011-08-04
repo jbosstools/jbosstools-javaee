@@ -66,4 +66,16 @@ public class InjectionPointParameter extends Parameter implements
 	public boolean hasDefaultQualifier() {
 		return CDIUtil.containsDefaultQualifier(this);
 	}
+
+	@Override
+	public String getBeanName() {
+		AnnotationDeclaration d = getDefinition().getNamedAnnotation();
+		if(d != null) {
+			Object n = d.getMemberValue(null);
+			if(n != null && n.toString().length() > 0) {
+				return n.toString();
+			}
+		}
+		return null;
+	}
 }

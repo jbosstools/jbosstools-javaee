@@ -46,11 +46,13 @@ public interface IBean extends IScoped, IStereotyped, ICDIElement, IVariable, IA
 	 * Returns the location of a name declaration of this bean. If the bean
 	 * doesn't have the name declaration then null will be returned. May be
 	 * declared in a stereotype. May be a declaration of @Name annotation or
-	 * location of Java class name declaration.
+	 * stereotype declaration if @Named is declared in that stereotype 
+	 * and parameter stereotypeLocation is true.
 	 * 
+	 * @param stereotypeLocation
 	 * @return the location of a name declaration of this bean.
 	 */
-	ITextSourceReference getNameLocation();
+	ITextSourceReference getNameLocation(boolean stereotypeLocation);
 
 	/**
 	 * Obtains the legal types of the bean class or producer method or field.

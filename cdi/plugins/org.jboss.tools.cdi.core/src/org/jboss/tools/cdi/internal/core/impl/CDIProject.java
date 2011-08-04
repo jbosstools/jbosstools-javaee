@@ -357,7 +357,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		}
 		boolean delegateInjectionPoint = injectionPoint.isDelegate();
 
-		String injectionPointName = injectionPoint.getName();
+		String injectionPointName = injectionPoint.getBeanName();
 
 		for (IBean b: beans) {
 			if(b instanceof ClassBean && !(b instanceof IBuiltInBean)) {
@@ -385,7 +385,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 					if(delegateInjectionPoint && b == injectionPoint.getClassBean()) {
 						continue;
 					}
-					if(injectionPointName != null && injectionPointName.equals(b.getName())) {
+					if(injectionPointName != null && !injectionPointName.equals(b.getName())) {
 						//
 						continue;
 					}

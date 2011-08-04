@@ -587,10 +587,7 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 			 */
 			Set<IBean> beans = cdiProject.getBeans(name, true);
 			if(beans.size()>1 && beans.contains(bean)) {
-				ITextSourceReference reference = bean.getNameLocation();
-				if(reference==null) {
-					reference = CDIUtil.getNamedDeclaration(bean);
-				}
+				ITextSourceReference reference = bean.getNameLocation(true);
 				Set<String> names = new HashSet<String>();
 				String bName = bean.getSimpleJavaName();
 				names.add(bName);
@@ -623,7 +620,7 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 								String yName = name.substring(xNameAsString.length()+1);
 								IStatus status = JavaConventions.validateJavaTypeName(yName, CompilerOptions.VERSION_1_6, CompilerOptions.VERSION_1_6);
 								if (status.getSeverity() != IStatus.ERROR) {
-									ITextSourceReference reference = bean.getNameLocation();
+									ITextSourceReference reference = bean.getNameLocation(true);
 									if(reference==null) {
 										reference = CDIUtil.getNamedDeclaration(bean);
 									}
@@ -1071,7 +1068,7 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 				ITextSourceReference decoratorDeclaration = decorator.getDecoratorAnnotation();
 				if(decoratorDeclaration == null) {
 					//for custom implementations
-					decoratorDeclaration = decorator.getNameLocation();
+					decoratorDeclaration = decorator.getNameLocation(true);
 				}
 				addError(CDIValidationMessages.DISPOSER_IN_DECORATOR, CDIPreferences.DISPOSER_IN_INTERCEPTOR_OR_DECORATOR, decoratorDeclaration, bean
 						.getResource(), DISPOSER_IN_DECORATOR_ID);
@@ -1089,7 +1086,7 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 				ITextSourceReference interceptorDeclaration = interceptor.getInterceptorAnnotation();
 				if(interceptorDeclaration == null) {
 					//for custom implementations
-					interceptorDeclaration = interceptor.getNameLocation();
+					interceptorDeclaration = interceptor.getNameLocation(true);
 				}
 				addError(CDIValidationMessages.DISPOSER_IN_INTERCEPTOR, CDIPreferences.DISPOSER_IN_INTERCEPTOR_OR_DECORATOR, interceptorDeclaration, bean
 						.getResource(), DISPOSER_IN_INTERCEPTOR_ID);
@@ -1922,7 +1919,7 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 			}
 			if(declaration == null) {
 				//for custom implementations
-				declaration = interceptor.getNameLocation();
+				declaration = interceptor.getNameLocation(true);
 			}
 			addError(CDIValidationMessages.INTERCEPTOR_IS_ALTERNATIVE, CDIPreferences.INTERCEPTOR_OR_DECORATOR_IS_ALTERNATIVE, declaration, interceptor
 					.getResource());
@@ -2010,7 +2007,7 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 			}
 			if(declaration == null) {
 				//for custom implementations
-				declaration = decorator.getNameLocation();
+				declaration = decorator.getNameLocation(true);
 			}
 			addError(CDIValidationMessages.DECORATOR_IS_ALTERNATIVE, CDIPreferences.INTERCEPTOR_OR_DECORATOR_IS_ALTERNATIVE, declaration, decorator.getResource());
 		}

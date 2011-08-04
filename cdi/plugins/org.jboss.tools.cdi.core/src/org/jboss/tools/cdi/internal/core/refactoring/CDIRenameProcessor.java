@@ -109,15 +109,22 @@ public abstract class CDIRenameProcessor extends RenameProcessor {
 			return;
 		}
 		
-		ITextSourceReference nameLocation = bean.getNameLocation();
+		//1. Get @Named declared directly, not in stereotype.
+		ITextSourceReference nameLocation = bean.getNameLocation(false);
+		//2. Get stereotype declaration declaring @Named, if @Named is not declared directly.
+		ITextSourceReference stereotypeLocation = nameLocation != null ? null : bean.getNameLocation(true);
 		
-		if(nameLocation == null){
+		if(nameLocation == null && stereotypeLocation == null) {
 			status.addFatalError(CDICoreMessages.CDI_RENAME_PROCESSOR_BEAN_HAS_NO_NAME_LOCATION);
 			return;
 		}
 		
 		String newText = "@Named(\""+getNewName()+"\")"; //$NON-NLS-1$ //$NON-NLS-2$
-		change(declarationFile, nameLocation.getStartPosition(), nameLocation.getLength(), newText);
+		if(nameLocation != null) {
+			change(declarationFile, nameLocation.getStartPosition(), nameLocation.getLength(), newText);
+		} else if(stereotypeLocation != null) {
+			change(declarationFile, stereotypeLocation.getStartPosition() + stereotypeLocation.getLength(), 0, " " + newText);
+		}
 	}
 	
 	protected void renameBean(IProgressMonitor pm, IBean bean)throws CoreException{

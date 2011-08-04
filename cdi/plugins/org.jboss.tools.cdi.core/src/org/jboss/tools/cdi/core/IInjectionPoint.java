@@ -77,5 +77,5 @@ public interface IInjectionPoint extends ICDIElement, IBeanMember {
 	 * 
 	 * @return name declared by @Named or null if declaration is missing
 	 */
-	public String getName();
+	public String getBeanName();
 }

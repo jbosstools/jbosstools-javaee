@@ -51,4 +51,10 @@ public class InjectionPointMethod extends BeanMethod implements
 	public boolean hasDefaultQualifier() {
 		return CDIUtil.containsDefaultQualifier(this);
 	}
+
+	@Override
+	public String getBeanName() {
+		return null;
+	}
+
 }

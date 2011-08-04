@@ -15,6 +15,7 @@ import java.util.Set;
 
 import org.eclipse.jdt.core.IType;
 import org.jboss.tools.cdi.core.CDIConstants;
+import org.jboss.tools.cdi.core.CDIUtil;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.core.IProducerField;
@@ -99,8 +100,8 @@ public class ProducerField extends BeanField implements IProducerField {
 		return getField().getElementName();
 	}
 
-	public ITextSourceReference getNameLocation() {
-		return findNamedAnnotation();
+	public ITextSourceReference getNameLocation(boolean stereotypeLocation) {
+		return (stereotypeLocation) ? CDIUtil.getNamedDeclaration(this) : findNamedAnnotation();
 	}
 
 	public IBean getSpecializedBean() {
