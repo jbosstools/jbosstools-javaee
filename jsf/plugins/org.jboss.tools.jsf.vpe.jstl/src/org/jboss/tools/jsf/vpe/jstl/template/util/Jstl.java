@@ -17,20 +17,13 @@ package org.jboss.tools.jsf.vpe.jstl.template.util;
  *
  * @author Igor Zhukov
  */
-public class Jstl {
+public interface Jstl {
 
-	/**
-	 * The Constructor.
-	 */
-	private Jstl() {
-	}
+	static final String ATTR_ADD_CONTROL_LABEL = "addControlLabel"; //$NON-NLS-1$
 
-	/** The Constant ATTR_ADD_CONTROL_LABEL. */
-	public static final String ATTR_ADD_CONTROL_LABEL = "addControlLabel"; //$NON-NLS-1$
+	static final String TAG_OUT = "out"; //$NON-NLS-1$
 
-	public static final String TAG_OUT = "out"; //$NON-NLS-1$
+	static final String ATTR_URL = "url"; //$NON-NLS-1$
 
-	public static final String ATTR_URL = "url"; //$NON-NLS-1$
-
-	public static final String ATTR_SELECT = "select"; //$NON-NLS-1$
+	static final String ATTR_SELECT = "select"; //$NON-NLS-1$
 }
