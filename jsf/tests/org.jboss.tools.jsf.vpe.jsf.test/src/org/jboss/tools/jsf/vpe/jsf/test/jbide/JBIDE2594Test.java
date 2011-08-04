@@ -21,7 +21,7 @@ import org.eclipse.core.runtime.Platform;
 import org.jboss.tools.common.el.core.GlobalELReferenceList;
 import org.jboss.tools.common.resref.core.ResourceReference;
 import org.jboss.tools.jsf.vpe.jsf.test.CommonJBIDE2010Test;
-import org.jboss.tools.vpe.editor.util.ElService;
+import org.jboss.tools.vpe.editor.util.ElServiceUtil;
 
 /**
  * Test case for testing global El expression substitution
@@ -67,7 +67,7 @@ public class JBIDE2594Test extends CommonJBIDE2010Test {
 
     public void testReplaceGlobalElVariable(){
         String replaceString= "#{"+KEY_6+"}"+"images/test.gif"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-        String replacedString = ElService.replaceEl(file, replaceString);
+        String replacedString = ElServiceUtil.replaceEl(file, replaceString);
         
         assertEquals("Should be equals " + globalElMap.get(KEY_6) + "images/test.gif", replacedString, globalElMap.get(KEY_6) //$NON-NLS-1$ //$NON-NLS-2$
                 + "images/test.gif"); //$NON-NLS-1$
@@ -80,7 +80,7 @@ public class JBIDE2594Test extends CommonJBIDE2010Test {
      */
     public void testOverrideLocalVariable() throws CoreException {
         String string1 = "${" + KEY_1 + "}" + KEY_1_POSTFIX; //$NON-NLS-1$ //$NON-NLS-2$
-        String replacedValue = ElService.replaceEl(file, string1);
+        String replacedValue = ElServiceUtil.replaceEl(file, string1);
 
         assertEquals(elValuesMap.get(KEY_1) + KEY_1_POSTFIX, replacedValue);
     }

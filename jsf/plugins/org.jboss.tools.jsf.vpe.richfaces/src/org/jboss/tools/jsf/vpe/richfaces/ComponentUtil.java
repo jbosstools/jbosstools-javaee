@@ -31,6 +31,7 @@ import org.jboss.tools.jsf.vpe.richfaces.template.util.RichFaces;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.util.Constants;
 import org.jboss.tools.vpe.editor.util.ElService;
+import org.jboss.tools.vpe.editor.util.ElServiceUtil;
 import org.jboss.tools.vpe.editor.util.FileUtil;
 import org.jboss.tools.vpe.editor.util.HTML;
 import org.jboss.tools.vpe.editor.util.SourceDomUtil;
@@ -278,7 +279,7 @@ public class ComponentUtil {
 		if (file == null)
 			return resolvedValue;
 
-		resolvedValue = ElService.replaceEl(file, resolvedValue);
+		resolvedValue = ElServiceUtil.replaceEl(file, resolvedValue);
 
 		URI uri = null;
 		try {
@@ -584,7 +585,7 @@ public class ComponentUtil {
         		||!(pageContext.getVisualBuilder().getCurrentIncludeInfo().getStorage() instanceof IFile)) {
         	return;
         }
-        String path = ElService.replaceEl((IFile)pageContext.getVisualBuilder().getCurrentIncludeInfo().getStorage(), fileImageName);
+        String path = ElServiceUtil.replaceEl((IFile)pageContext.getVisualBuilder().getCurrentIncludeInfo().getStorage(), fileImageName);
         File file = new File(inputPath.toOSString() + File.separator + path);
         if (file.exists()) {
             img.setAttribute(HTML.ATTR_SRC, HtmlComponentUtil.FILE_PROTOCOL + inputPath.toString() + "/" //$NON-NLS-1$

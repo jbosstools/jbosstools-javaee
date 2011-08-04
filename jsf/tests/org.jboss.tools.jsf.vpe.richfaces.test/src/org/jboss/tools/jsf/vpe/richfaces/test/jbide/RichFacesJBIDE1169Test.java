@@ -16,7 +16,7 @@ import org.jboss.tools.common.resref.core.ResourceReference;
 import org.jboss.tools.jsf.vpe.richfaces.test.RichFacesAllTests;
 import org.jboss.tools.vpe.base.test.TestUtil;
 import org.jboss.tools.vpe.base.test.VpeTest;
-import org.jboss.tools.vpe.editor.util.ElService;
+import org.jboss.tools.vpe.editor.util.ElServiceUtil;
 
 /**
  * @author mareshkau
@@ -48,7 +48,7 @@ public class RichFacesJBIDE1169Test extends VpeTest{
     }
     
     public void testJBIDE1169() {  	
-        String replacedValue = ElService.replaceEl(testFile,"#{"+RICH_FACES_SKIN_KEY+'}'); //$NON-NLS-1$
+        String replacedValue = ElServiceUtil.replaceEl(testFile,"#{"+RICH_FACES_SKIN_KEY+'}'); //$NON-NLS-1$
         assertEquals("Skin value should be equals",SKIN_VALUE, replacedValue); //$NON-NLS-1$
     }
     /**
