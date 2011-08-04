@@ -49,6 +49,11 @@ public class DeploymentProblemsValidationTests extends ValidationTest {
 		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS, 34);
 	}
 
+	public void testAmbiguousDependencyWithNamed() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/lookup/duplicateName/TestNamed.java");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS, 9, 25, 26);
+	}
+
 	/**
 	 * 5.2.1. Unsatisfied and ambiguous dependencies
 	 *  - If an unsatisfied dependency exists, the container automatically detects the problem and treats it as a deployment problem.
@@ -60,6 +65,15 @@ public class DeploymentProblemsValidationTests extends ValidationTest {
 		AbstractResourceMarkerTest.assertMarkerIsCreated(file, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS, 25);
 		file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/decorators/definition/inject/delegateField/TimestampLogger.java");
 		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS, 34);
+	}
+
+	public void testUnsatisfiedDependencyWithNamed() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/lookup/duplicateName/TestNamed.java");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS, 22, 23);
+		int[] lines = {10, 11, 13, 14, 16, 17};
+		for (int i: lines) {
+			AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS, i);
+		}
 	}
 
 	/**
