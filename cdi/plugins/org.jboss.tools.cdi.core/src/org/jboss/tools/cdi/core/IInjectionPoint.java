@@ -73,9 +73,9 @@ public interface IInjectionPoint extends ICDIElement, IBeanMember {
 	IAnnotationDeclaration getInjectAnnotation();
 
 	/**
-	 * Returns name declared by @Named.
+	 * Returns name declared by @Named or null if declaration is missing.
 	 * 
-	 * @return name declared by @Named
+	 * @return name declared by @Named or null if declaration is missing
 	 */
 	public String getName();
 }
