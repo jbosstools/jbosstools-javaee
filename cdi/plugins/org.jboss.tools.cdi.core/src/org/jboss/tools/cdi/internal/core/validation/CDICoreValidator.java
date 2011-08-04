@@ -203,11 +203,11 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 		projectTree = validationHelper.getValidationContextManager().getValidatingProjectTree(this);
 		projectSet = projectTree.getBrunches().get(rootProject);
 		cdiProject = null;
-		CDICoreNature nature = CDICorePlugin.getCDI(projectSet.getRootProject(), false);
+		CDICoreNature nature = CDICorePlugin.getCDI(projectSet.getRootProject(), true);
 		if(nature!=null) {
 			cdiProject =  nature.getDelegate();
 			if(cdiProject==null) {
-				CDICorePlugin.getDefault().logError("Trying to validate " + rootProject + " but CDI Tools model for the project is not buit.");
+				CDICorePlugin.getDefault().logError("Trying to validate " + rootProject + " but CDI Tools model for the project is not built.");
 			}
 			injectionValidationFeatures = nature.getExtensionManager().getFeatures(IInjectionPointValidatorFeature.class);
 		}
