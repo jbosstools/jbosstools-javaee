@@ -6,7 +6,7 @@ import javax.inject.Named;
 
 public class TestNamed {
 
-	@Inject	String s; // OK//
+	@Inject	String s; // Ambiguous
 	@Inject	@Named String foo3; // OK
 	@Inject	@Named("foo3") String s1; // OK
 
