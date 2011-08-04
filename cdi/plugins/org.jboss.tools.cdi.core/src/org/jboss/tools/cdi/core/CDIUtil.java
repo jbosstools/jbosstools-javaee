@@ -401,10 +401,7 @@ public class CDIUtil {
 	 * @return
 	 */
 	public static IAnnotationDeclaration getQualifierDeclaration(IBean bean, String qualifierTypeName) {
-		IAnnotationDeclaration declaration = bean.getAnnotation(qualifierTypeName);
-		if (declaration == null) {
-			declaration = getQualifiedStereotypeDeclaration(bean, qualifierTypeName);
-		}
+		IAnnotationDeclaration declaration = getQualifiedStereotypeDeclaration(bean, qualifierTypeName);
 		if(declaration == null) {
 			declaration = getQualifiedSpecializesDeclaration(bean, qualifierTypeName);
 		}
