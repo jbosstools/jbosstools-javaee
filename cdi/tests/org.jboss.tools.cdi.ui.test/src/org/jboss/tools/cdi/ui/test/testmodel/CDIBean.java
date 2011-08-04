@@ -105,7 +105,7 @@ public class CDIBean extends CDIElement implements IClassBean{
 	}
 
 	@Override
-	public ITextSourceReference getNameLocation() {
+	public ITextSourceReference getNameLocation(boolean stereotypeLocation) {
 		return null;
 	}
 
