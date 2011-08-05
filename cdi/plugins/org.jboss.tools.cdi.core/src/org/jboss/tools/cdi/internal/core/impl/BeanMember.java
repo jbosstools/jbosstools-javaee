@@ -96,6 +96,20 @@ public abstract class BeanMember extends AbstractBeanElement implements IBeanMem
 		}
 	}
 
+	/**
+	 * These method is used to construct fake members that get all 
+	 * annotations from this member, but should have another type;
+	 * e.g. in implementation of Seam 3 persistence extension.
+	 * @param d
+	 */
+	public void setTypeDeclaration(TypeDeclaration typeDeclaration) {
+		this.typeDeclaration = typeDeclaration;
+	}
+
+	public TypeDeclaration getTypeDeclaration() {
+		return typeDeclaration;
+	}
+
 	public IClassBean getClassBean() {
 		return classBean;
 	}
