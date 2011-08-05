@@ -49,22 +49,6 @@ public class CDIUIAllTests {
 		// it could be done here because it is not needed to be enabled back
 		JavaModelManager.getIndexManager().shutdown();
 
-			new Job("Shutodwn what is not needed") {
-				@Override
-				protected IStatus run(IProgressMonitor monitor) {
-					try {
-						JSPIndexManager.getDefault().stop();
-					} catch (InterruptedException e) {
-						// print it and ignore it 
-						e.printStackTrace();
-					}
-					JSPFContentPropertiesManager.shutdown();
-					JavaCore.removeElementChangedListener(TaglibHelperManager.getInstance());
-					TaglibController.shutdown();
-					TaglibIndex.shutdown();
-					return Status.OK_STATUS;
-				}
-			}.schedule(3000);
 		try {
 			ResourcesUtils.setBuildAutomatically(false);
 			ValidationFramework.getDefault().suspendAllValidation(true);
