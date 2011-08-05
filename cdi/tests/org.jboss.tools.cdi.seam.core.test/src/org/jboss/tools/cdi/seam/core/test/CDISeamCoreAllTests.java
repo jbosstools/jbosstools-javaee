@@ -16,6 +16,8 @@ import junit.framework.TestSuite;
 import org.eclipse.jdt.internal.core.JavaModelManager;
 import org.jboss.tools.cdi.seam.core.test.international.BundleModelTest;
 import org.jboss.tools.cdi.seam.core.test.international.SeamResourceBundlesTest;
+import org.jboss.tools.cdi.seam.core.test.persistence.SeamPersistenceTest;
+import org.jboss.tools.cdi.seam.core.test.persistence.SeamPersistenceTestSetup;
 import org.jboss.tools.cdi.seam.core.test.servlet.SeamServletValidationTest;
 
 /**
@@ -35,6 +37,10 @@ public class CDISeamCoreAllTests {
 		TestSuite suite = new TestSuite("Seam Core Project Tests");
 		suiteAll.addTest(new SeamCoreTestSetup(suite));
 		suiteAll.addTestSuite(SeamServletValidationTest.class);
+		
+		suite = new TestSuite("Seam Persistence Project Tests");
+		suiteAll.addTest(new SeamPersistenceTestSetup(suite));
+		suiteAll.addTestSuite(SeamPersistenceTest.class);
 		return suiteAll;
 	}
 }
