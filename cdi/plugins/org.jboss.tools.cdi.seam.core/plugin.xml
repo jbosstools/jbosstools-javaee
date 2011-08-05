@@ -16,6 +16,10 @@
           class="org.jboss.tools.cdi.seam.core.international.CDISeamInternationalExtension"
           runtime="org.jboss.seam.international.status.TypedStatusMessageBundleExtension">
     </cdiextension>
+    <cdiextension
+          class="org.jboss.tools.cdi.seam.core.persistence.CDISeamPersistenceExtension"
+          runtime="org.jboss.seam.persistence.ManagedPersistenceContextExtension">
+    </cdiextension>
 	</extension>
 
 	<extension
