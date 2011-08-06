@@ -30,7 +30,7 @@ public class CATest extends TestCase {
 	public CATest() {
 		super();
 		try {
-			project = TCKTest.importPreparedProject("/tests/lookup");
+			project = TCKUITest.importPreparedProject("/tests/lookup");
 			caTest.setProject(project);
 		} catch (Exception e) {
 			e.printStackTrace();

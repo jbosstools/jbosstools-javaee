@@ -23,15 +23,22 @@ import org.jboss.tools.cdi.ui.CDIUIMessages;
 /**
  * 
  * @author Viacheslav Kabanovich
- *
+ * 
  */
 public class NewAnnotationLiteralCreationWizard extends NewElementWizard {
 	private NewClassWizardPage fPage;
-    private boolean fOpenEditorOnFinish = true;
-
+	private boolean fOpenEditorOnFinish = true;
 
 	public NewAnnotationLiteralCreationWizard() {
 		setWindowTitle(CDIUIMessages.NEW_ANNOTATION_LITERAL_WIZARD_TITLE);
+	}
+
+	public boolean isOpenEditorAfterFinish() {
+		return fOpenEditorOnFinish;
+	}
+
+	public void setOpenEditorAfterFinish(boolean set) {
+		this.fOpenEditorOnFinish = set;
 	}
 
 	/*
@@ -40,34 +47,43 @@ public class NewAnnotationLiteralCreationWizard extends NewElementWizard {
 	public void addPages() {
 		super.addPages();
 		if (fPage == null) {
-			fPage = new  NewAnnotationLiteralWizardPage();
+			fPage = new NewAnnotationLiteralWizardPage();
 			fPage.init(getSelection());
 		}
 		addPage(fPage);
 	}
 
-	/*(non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.jdt.internal.ui.wizards.NewElementWizard#canRunForked()
 	 */
 	protected boolean canRunForked() {
 		return !fPage.isEnclosingTypeSelected();
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.jdt.internal.ui.wizards.NewElementWizard#finishPage(org.eclipse.core.runtime.IProgressMonitor)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.jdt.internal.ui.wizards.NewElementWizard#finishPage(org.eclipse
+	 * .core.runtime.IProgressMonitor)
 	 */
-	protected void finishPage(IProgressMonitor monitor) throws InterruptedException, CoreException {
+	protected void finishPage(IProgressMonitor monitor)
+			throws InterruptedException, CoreException {
 		fPage.createType(monitor); // use the full progress monitor
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.jface.wizard.IWizard#performFinish()
 	 */
 	public boolean performFinish() {
 		warnAboutTypeCommentDeprecation();
-		boolean res= super.performFinish();
+		boolean res = super.performFinish();
 		if (res) {
-			IResource resource= fPage.getModifiedResource();
+			IResource resource = fPage.getModifiedResource();
 			if (resource != null) {
 				selectAndReveal(resource);
 				if (fOpenEditorOnFinish) {
@@ -78,12 +94,14 @@ public class NewAnnotationLiteralCreationWizard extends NewElementWizard {
 		return res;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.jdt.internal.ui.wizards.NewElementWizard#getCreatedElement()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.jdt.internal.ui.wizards.NewElementWizard#getCreatedElement()
 	 */
 	public IJavaElement getCreatedElement() {
 		return fPage.getCreatedType();
 	}
-
 
 }

@@ -3,9 +3,11 @@ package org.jboss.tools.cdi.ui.test;
 import java.io.File;
 
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
@@ -61,6 +63,8 @@ public class TCKUITest extends TCKTest {
 			File webInfTo = new File(projectPath + WEB_CONTENT_SUFFIX + WEB_INF_SUFFIX);
 			FileUtil.copyDir(from, webInfTo, true, true, true, new XmlFileFilter());
 		}
+
+		project.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
 		project.build(IncrementalProjectBuilder.CLEAN_BUILD,null);
 		project.build(IncrementalProjectBuilder.FULL_BUILD,null);
 		TestUtil._waitForValidation(project);

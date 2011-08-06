@@ -56,6 +56,8 @@ public class NewBeansXMLCreationWizard extends BasicNewResourceWizard {
 	
     private WizardNewFileCreationPage mainPage;
 
+	private boolean fOpenEditorOnFinish;
+
     /**
      * Creates a wizard for creating a new file resource in the workspace.
      */
@@ -95,33 +97,40 @@ public class NewBeansXMLCreationWizard extends BasicNewResourceWizard {
 	   setDefaultPageImageDescriptor(desc);
     }
 
-    /* (non-Javadoc)
-     * Method declared on IWizard.
-     */
-    public boolean performFinish() {
-        IFile file = mainPage.createNewFile();
-        if (file == null) {
+	public boolean isOpenEditorAfterFinish() {
+		return fOpenEditorOnFinish;
+	}
+
+	public void setOpenEditorAfterFinish(boolean set) {
+		this.fOpenEditorOnFinish = set;
+	}
+
+	/*
+	 * (non-Javadoc) Method declared on IWizard.
+	 */
+	public boolean performFinish() {
+		IFile file = mainPage.createNewFile();
+		if (file == null) {
 			return false;
 		}
 
-        selectAndReveal(file);
-
-        // Open editor on new file.
-        IWorkbenchWindow dw = getWorkbench().getActiveWorkbenchWindow();
-        try {
-            if (dw != null) {
-                IWorkbenchPage page = dw.getActivePage();
-                if (page != null) {
-                    IDE.openEditor(page, file, true);
-                }
-            }
-        } catch (PartInitException e) {
-            DialogUtil.openError(dw.getShell(), ResourceMessages.FileResource_errorMessage, 
-                    e.getMessage(), e);
-        }
-
-        return true;
-    }
+		selectAndReveal(file);
+		if (fOpenEditorOnFinish) {
+			// Open editor on new file.
+			IWorkbenchWindow dw = getWorkbench().getActiveWorkbenchWindow();
+			try {
+				if (dw != null) {
+					IWorkbenchPage page = dw.getActivePage();
+					if (page != null) {
+						IDE.openEditor(page, file, true);
+					}
+				}
+			} catch (PartInitException e) {
+				DialogUtil.openError(dw.getShell(), ResourceMessages.FileResource_errorMessage, e.getMessage(), e);
+			}
+		}
+		return true;
+	}
 
     class WizardNewBeansXMLFileCreationPage extends WizardNewFileCreationPage {
 

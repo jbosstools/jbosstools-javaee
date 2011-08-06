@@ -14,6 +14,7 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 
 import org.apache.xerces.impl.validation.ValidationManager;
+import org.eclipse.core.internal.jobs.JobManager;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -48,7 +49,6 @@ public class CDIUIAllTests {
 	public static Test suite() {
 		// it could be done here because it is not needed to be enabled back
 		JavaModelManager.getIndexManager().shutdown();
-
 		try {
 			ResourcesUtils.setBuildAutomatically(false);
 			ValidationFramework.getDefault().suspendAllValidation(true);
@@ -72,6 +72,9 @@ public class CDIUIAllTests {
 			@Override
 			protected void setUp() throws Exception {
 				tckProject = TCKUITest.importPreparedProject("/");
+			}
+			protected void tearDown() throws Exception {
+				tckProject.delete(true, true, null);
 			}
 		}
 		);

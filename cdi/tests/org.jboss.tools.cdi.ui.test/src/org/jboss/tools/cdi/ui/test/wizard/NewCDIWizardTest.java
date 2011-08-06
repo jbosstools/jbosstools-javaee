@@ -30,7 +30,6 @@ import org.eclipse.jdt.internal.ui.wizards.NewElementWizard;
 import org.eclipse.jdt.ui.wizards.NewTypeWizardPage;
 import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.viewers.StructuredSelection;
-import org.eclipse.jface.wizard.IWizard;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.ui.PlatformUI;
@@ -43,10 +42,11 @@ import org.jboss.tools.cdi.core.IInterceptorBinding;
 import org.jboss.tools.cdi.core.IStereotype;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
 import org.jboss.tools.cdi.ui.CDIUIPlugin;
-//import org.jboss.tools.cdi.ui.wizard.NewCDIAnnotationWizardPage;
+import org.jboss.tools.cdi.ui.wizard.NewAnnotationLiteralCreationWizard;
 import org.jboss.tools.cdi.ui.wizard.NewAnnotationLiteralWizardPage;
 import org.jboss.tools.cdi.ui.wizard.NewBeanWizardPage;
 import org.jboss.tools.cdi.ui.wizard.NewBeansXMLCreationWizard;
+import org.jboss.tools.cdi.ui.wizard.NewCDIElementWizard;
 import org.jboss.tools.cdi.ui.wizard.NewDecoratorWizardPage;
 import org.jboss.tools.cdi.ui.wizard.NewInterceptorBindingWizardPage;
 import org.jboss.tools.cdi.ui.wizard.NewInterceptorWizardPage;
@@ -58,7 +58,6 @@ import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.test.util.JUnitUtils;
-import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.WorkbenchUtils;
 
 /**
@@ -95,6 +94,11 @@ public class NewCDIWizardTest extends TestCase {
 			tck = ResourcesPlugin.getWorkspace().getRoot().getProject("tck");
 			jp = EclipseUtil.getJavaProject(tck);
 			wizard.init(CDIUIPlugin.getDefault().getWorkbench(), new StructuredSelection(jp));
+			if(wizard instanceof NewCDIElementWizard) {
+			    ((NewCDIElementWizard)wizard).setOpenEditorAfterFinish(false);
+			} else if(wizard instanceof NewAnnotationLiteralCreationWizard) {
+				((NewAnnotationLiteralCreationWizard)wizard).setOpenEditorAfterFinish(false);
+			}
 			dialog = new WizardDialog(
 					PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
 					wizard);
@@ -151,6 +155,7 @@ public class NewCDIWizardTest extends TestCase {
 			dialog = new WizardDialog(
 					PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
 					wizard);
+			wizard.setOpenEditorAfterFinish(false);
 			dialog.setBlockOnOpen(false);
 			dialog.open();
 		}

@@ -23,6 +23,14 @@ public class NewCDIElementWizard extends NewElementWizard implements INewClassWi
 		this.adapter = adapter;
 	}
 
+	public boolean isOpenEditorAfterFinish() {
+	    return fOpenEditorOnFinish;
+	}
+
+	public void setOpenEditorAfterFinish(boolean set) {
+	    this.fOpenEditorOnFinish = set;
+	}
+	
 	public String getQualifiedClassName() {
 		IType type = fPage.getCreatedType();
 		return type == null ? "" : type.getFullyQualifiedName();
