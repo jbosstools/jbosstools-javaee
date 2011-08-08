@@ -17,8 +17,8 @@
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>org.sonatype.tycho</groupId>
-				<artifactId>maven-osgi-test-plugin</artifactId>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-surefire-plugin</artifactId>
 				<configuration>
 					<!-- timeout in seconds (60 mins) -->
 					<surefire.timeout>3600</surefire.timeout>

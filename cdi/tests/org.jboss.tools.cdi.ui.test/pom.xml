@@ -19,8 +19,8 @@
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>org.sonatype.tycho</groupId>
-				<artifactId>maven-osgi-test-plugin</artifactId>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-surefire-plugin</artifactId>
 				<configuration>
 					<product>org.jboss.tools.tests.product</product>
 					<explodedBundles>
@@ -37,8 +37,8 @@
 			<build>
 				<plugins>
 					<plugin>
-						<groupId>org.sonatype.tycho</groupId>
-						<artifactId>maven-osgi-test-plugin</artifactId>
+						<groupId>org.eclipse.tycho</groupId>
+						<artifactId>tycho-surefire-plugin</artifactId>
 						<configuration>
 							<argLine>-XX:+UseLinuxPosixThreadCPUClocks -agentpath:/home/eskimo/Java/netbeans-7.0.1/profiler/lib/deployed/jdk16/linux-amd64/libprofilerinterface.so=/home/eskimo/Java/netbeans-7.0.1/profiler/lib,5140</argLine>
 						</configuration>
