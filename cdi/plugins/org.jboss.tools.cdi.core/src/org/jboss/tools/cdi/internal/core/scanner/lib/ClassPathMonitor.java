@@ -12,12 +12,17 @@ package org.jboss.tools.cdi.internal.core.scanner.lib;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.StringTokenizer;
 
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
@@ -29,11 +34,14 @@ import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.filesystems.FileSystemsHelper;
 import org.jboss.tools.common.model.filesystems.impl.FileAnyImpl;
+import org.jboss.tools.common.model.filesystems.impl.Libs;
 import org.jboss.tools.common.model.project.ext.AbstractClassPathMonitor;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 
 public class ClassPathMonitor extends AbstractClassPathMonitor<CDICoreNature>{
 	IPath[] srcs = new IPath[0];
+
+	Map<FileAnyImpl, Long> servicesInSrc = new HashMap<FileAnyImpl, Long>();
 	
 	Set<IPath> removedPaths = new HashSet<IPath>();
 
@@ -44,6 +52,16 @@ public class ClassPathMonitor extends AbstractClassPathMonitor<CDICoreNature>{
 	public void init() {
 		model = EclipseResourceUtil.createObjectForResource(getProjectResource()).getModel();
 		super.init();
+	}
+
+	public synchronized boolean update() {
+		Libs libs = FileSystemsHelper.getLibs(model);
+		if(libs == null) {
+			return false;
+		}
+		boolean r1 = updateServicesInSrcs();
+		boolean r2 = super.update();
+		return r1 || r2;
 	}
 
 	public JarSet process() {
@@ -74,6 +92,14 @@ public class ClassPathMonitor extends AbstractClassPathMonitor<CDICoreNature>{
 				continue;
 			}
 			newJars.getBeanModules().put(p, b);
+		}
+	
+		for (FileAnyImpl s: servicesInSrc.keySet()) {
+			IResource r = (IResource)s.getAdapter(IResource.class);
+			if(r != null && r.exists()) {
+				System.out.println(project.getProject() + ":" + r);
+				project.getExtensionManager().setRuntimes(r.getFullPath().toString(), readRuntimesInService(s));
+			}
 		}
 		
 		validateProjectDependencies();
@@ -172,12 +198,60 @@ public class ClassPathMonitor extends AbstractClassPathMonitor<CDICoreNature>{
 		return list;
 	}
 
+	private boolean updateServicesInSrcs() {
+		Set<IFolder> fs = EclipseResourceUtil.getSourceFolders(project.getProject());
+		IJavaProject javaProject = EclipseResourceUtil.getJavaProject(project.getProject());
+		if(javaProject == null) {
+			return false;
+		}
+		IClasspathEntry[] es = null;
+		try {
+			es = javaProject.getResolvedClasspath(true);
+		} catch (CoreException e) {
+			CDICorePlugin.getDefault().logError(e);
+			return false;
+		}
+		for (int i = 0; i < es.length; i++) {
+			if(es[i].getEntryKind() == IClasspathEntry.CPE_PROJECT) {
+				IProject p = ResourcesPlugin.getWorkspace().getRoot().getProject(es[i].getPath().lastSegment());
+				if(p != null && p.isAccessible()) {
+					fs.addAll(EclipseResourceUtil.getSourceFolders(p.getProject()));
+				}
+			}
+		}
+		Map<FileAnyImpl, Long> newServices = new HashMap<FileAnyImpl, Long>();
+		boolean result = false;
+		for (IFolder folder: fs) {
+			IFile f = folder.getFile(SERVICE_PATH);
+			if(f.exists()) {
+				XModelObject o = EclipseResourceUtil.createObjectForResource(f);
+				if(o instanceof FileAnyImpl) {
+					FileAnyImpl s = (FileAnyImpl)o;
+					newServices.put(s, s.getTimeStamp());
+					Long old = servicesInSrc.get(s);
+					if(old == null || old.longValue() != s.getTimeStamp()) {
+						result = true;
+					}
+				}
+			}
+		}
+		if(servicesInSrc.size() != newServices.size()) {
+			result = true;
+		}
+		servicesInSrc = newServices;		
+		return result;
+	}
+
+	private static String SERVICE_PATH = "META-INF/services/javax.enterprise.inject.spi.Extension";
+
 	private static Set<String> EMPTY_RUNTIMES = new HashSet<String>();
 
 	private Set<String> readRuntimes(XModelObject jar) {
-		XModelObject o = jar.getChildByPath("META-INF/services/javax.enterprise.inject.spi.Extension");
-		if(o == null) return EMPTY_RUNTIMES;
-		if(!(o instanceof FileAnyImpl)) return EMPTY_RUNTIMES;
+		XModelObject o = jar.getChildByPath(SERVICE_PATH);
+		return (o instanceof FileAnyImpl) ? readRuntimesInService((FileAnyImpl)o) : EMPTY_RUNTIMES;
+	}
+	
+	private Set<String> readRuntimesInService(FileAnyImpl o) {
 		Set<String> result = new HashSet<String>();
 		String text = ((FileAnyImpl)o).getAsText();
 		if(text == null || text.length() == 0) return EMPTY_RUNTIMES;
@@ -188,6 +262,4 @@ public class ClassPathMonitor extends AbstractClassPathMonitor<CDICoreNature>{
 		}
 		return result;
 	}
-	
-	
 }
