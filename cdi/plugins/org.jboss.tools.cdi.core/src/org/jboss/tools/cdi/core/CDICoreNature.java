@@ -151,17 +151,16 @@ public class CDICoreNature implements IProjectNature {
 		List<TypeDefinition> ds = getDefinitions().getTypeDefinitions();
 		List<TypeDefinition> result = new ArrayList<TypeDefinition>();
 		result.addAll(ds);
-		Set<IType> types = new HashSet<IType>();
+		Set<String> keys = new HashSet<String>();
 		for (TypeDefinition d: ds) {
-			IType t = d.getType();
-			if(t != null) types.add(t);
+			keys.add(d.getKey());
 		}
 		for (CDICoreNature p: ps) {
 			List<TypeDefinition> ds2 = p.getDefinitions().getTypeDefinitions();
 			for (TypeDefinition d: ds2) {
-				IType t = d.getType();
-				if(t != null && !types.contains(t)) {
-					types.add(t);
+				String key = d.getKey();
+				if(!keys.contains(key)) {
+					keys.add(key);
 					result.add(d);
 				}
 			}

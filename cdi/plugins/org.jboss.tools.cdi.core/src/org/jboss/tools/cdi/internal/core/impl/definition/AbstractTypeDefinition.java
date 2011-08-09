@@ -95,6 +95,18 @@ public class AbstractTypeDefinition extends AbstractMemberDefinition {
 		return parametedType == null ? new HashSet<IParametedType>() : parametedType.getAllTypes();
 	}
 
+	/**
+	 * Returns strings that uniquely identifies this definition
+	 * @return
+	 */
+	public String getKey() {
+		String result = getQualifiedName();
+		if(originalDefinition != null) {
+			result += ":" + originalDefinition.getStartPosition() + ":" + originalDefinition.getLength();
+		}
+		return result;
+	}
+
 	public String getContent() {
 		if(type == null || type.isBinary()) return null;
 		if(content == null && resource instanceof IFile && resource.getName().endsWith(".java")) {
