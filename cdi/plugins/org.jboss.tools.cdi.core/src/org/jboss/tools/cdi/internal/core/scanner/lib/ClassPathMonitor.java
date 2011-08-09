@@ -97,7 +97,6 @@ public class ClassPathMonitor extends AbstractClassPathMonitor<CDICoreNature>{
 		for (FileAnyImpl s: servicesInSrc.keySet()) {
 			IResource r = (IResource)s.getAdapter(IResource.class);
 			if(r != null && r.exists()) {
-				System.out.println(project.getProject() + ":" + r);
 				project.getExtensionManager().setRuntimes(r.getFullPath().toString(), readRuntimesInService(s));
 			}
 		}

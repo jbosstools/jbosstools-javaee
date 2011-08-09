@@ -146,12 +146,6 @@ public class CDIExtensionManager {
 	}
 
 	public Set<IBuildParticipantFeature> getBuildParticipantFeatures() {
-		if(!featureStorage.containsKey(IBuildParticipantFeature.class)) {
-			Set<IBuildParticipantFeature> result = getFeatures(IBuildParticipantFeature.class);
-			for (IBuildParticipantFeature f: result) {
-				f.setProject(n);
-			}
-		}
 		return getFeatures(IBuildParticipantFeature.class);
 	}
 

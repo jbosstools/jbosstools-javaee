@@ -41,7 +41,7 @@ public class ImplementationCollector {
 	void process() throws JavaModelException {
 		for (TypeDefinition typeDef: typeDefinitions) {
 			IType type = typeDef.getType();
-			if(type == null || type.isInterface()) continue;
+			if(type == null || !type.exists() || type.isInterface()) continue;
 			if(!mayBeRelevant(type)) continue;
 			Set<IParametedType> types = typeDef.getInheritedTypes();
 			for (IParametedType t: types) {

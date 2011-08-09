@@ -15,6 +15,7 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.extension.IDefinitionContextExtension;
+import org.jboss.tools.cdi.internal.core.impl.CDIProject;
 import org.jboss.tools.cdi.internal.core.scanner.FileSet;
 import org.jboss.tools.common.model.XModelObject;
 
@@ -30,12 +31,6 @@ import org.jboss.tools.common.model.XModelObject;
  *
  */
 public interface IBuildParticipantFeature extends ICDIFeature {
-
-	/**
-	 * Sets CDI project access object once per lifetime of this object.
-	 * @param n
-	 */
-	public void setProject(CDICoreNature n);
 
 	/**
 	 * Implementation should create and keep one instance of IDefinitionContextExtension.
@@ -85,6 +80,6 @@ public interface IBuildParticipantFeature extends ICDIFeature {
 	 * 
 	 * This method corresponds to AfterBeanDiscovery event.
 	 */
-	public void buildBeans();
+	public void buildBeans(CDIProject target);
 
 }

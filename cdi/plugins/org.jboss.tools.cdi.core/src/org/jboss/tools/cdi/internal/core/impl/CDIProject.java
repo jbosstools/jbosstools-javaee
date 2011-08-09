@@ -1043,7 +1043,15 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		rebuildBeans();
 
 		Set<IBuildParticipantFeature> buildParticipants = n.getExtensionManager().getBuildParticipantFeatures();
-		for (IBuildParticipantFeature p: buildParticipants) p.buildBeans();
+		for (IBuildParticipantFeature p: buildParticipants) p.buildBeans(this);
+				
+		Set<CDICoreNature> ds = n.getCDIProjects(true);
+		for (CDICoreNature c: ds) {
+			Set<IBuildParticipantFeature> bs = c.getExtensionManager().getBuildParticipantFeatures();
+			for (IBuildParticipantFeature bp: bs) {
+				bp.buildBeans(this);
+			}
+		}
 		
 		CDICoreNature[] ps = n.getDependentProjects().toArray(new CDICoreNature[0]);
 		for (CDICoreNature p: ps) {
