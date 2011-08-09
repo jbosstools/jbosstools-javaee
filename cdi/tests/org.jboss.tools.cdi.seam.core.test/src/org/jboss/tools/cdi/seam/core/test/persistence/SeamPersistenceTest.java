@@ -6,7 +6,6 @@ import java.util.Set;
 
 import junit.framework.TestCase;
 
-import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
@@ -15,11 +14,9 @@ import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.core.test.DependentProjectTest;
-import org.jboss.tools.cdi.internal.core.validation.CDIValidationMessages;
 import org.jboss.tools.jst.jsp.test.TestUtil;
 import org.jboss.tools.jst.web.kb.internal.validation.ValidatorManager;
 import org.jboss.tools.test.util.ResourcesUtils;
-import org.jboss.tools.tests.AbstractResourceMarkerTest;
 
 public class SeamPersistenceTest extends TestCase {
 
