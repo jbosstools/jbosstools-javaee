@@ -1,6 +1,7 @@
 package org.jboss.tools.cdi.seam.config.ui.test;
 
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.ICDIProject;
@@ -26,6 +27,7 @@ public class SeamConfigContentAssistTest extends ContentAssistantTestCase {
 				project = findTestProject();
 				if(project==null || !project.exists()) {
 					project = ResourcesUtils.importProject(PLUGIN_ID, PROJECT_PATH);
+					project.build(IncrementalProjectBuilder.INCREMENTAL_BUILD, null);
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -64,6 +66,4 @@ public class SeamConfigContentAssistTest extends ContentAssistantTestCase {
 		String text = "urn:java:org.jboss.beans.";
 		checkProposals(FILE_PATH, text, text.length(), proposals, false);
 	}
-
-
 }

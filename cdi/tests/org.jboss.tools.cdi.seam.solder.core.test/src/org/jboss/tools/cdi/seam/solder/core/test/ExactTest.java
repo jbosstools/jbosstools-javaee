@@ -33,7 +33,7 @@ public class ExactTest extends SeamSolderTest {
 	public ExactTest() {}
 
 	public void testExact() throws CoreException, IOException {
-		ICDIProject cdi = CDICorePlugin.getCDIProject(project, true);
+		ICDIProject cdi = CDICorePlugin.getCDIProject(getTestProject(), true);
 
 		Set<IBean> bs = cdi.getBeans(new Path("/CDISolderTest/src/org/jboss/exact/FishFactory.java"));
 		assertEquals(2, bs.size());
@@ -73,5 +73,4 @@ public class ExactTest extends SeamSolderTest {
 		}
 		assertEquals(3, count);
 	}
-
 }

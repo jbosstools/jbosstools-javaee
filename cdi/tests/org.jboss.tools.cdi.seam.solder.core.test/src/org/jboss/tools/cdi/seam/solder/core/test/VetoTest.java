@@ -10,7 +10,6 @@
  ******************************************************************************/ 
 package org.jboss.tools.cdi.seam.solder.core.test;
 
-
 import java.io.IOException;
 import java.util.Set;
 
@@ -32,7 +31,7 @@ public class VetoTest extends SeamSolderTest {
 	public VetoTest() {}
 
 	public void testVeto() throws CoreException, IOException {
-		ICDIProject cdi = CDICorePlugin.getCDIProject(project, true);
+		ICDIProject cdi = CDICorePlugin.getCDIProject(getTestProject(), true);
 
 		//1. package annotated @Veto; class is not annotated with it
 		TypeDefinition d = cdi.getNature().getDefinitions().getTypeDefinition("org.jboss.vetoed.Tiger");
@@ -60,7 +59,7 @@ public class VetoTest extends SeamSolderTest {
 	}
 
 	public void testRequires() throws CoreException, IOException {
-		ICDIProject cdi = CDICorePlugin.getCDIProject(project, true);
+		ICDIProject cdi = CDICorePlugin.getCDIProject(getTestProject(), true);
 
 		//1. class annotated @Requires that references single non-available class
 		TypeDefinition d = cdi.getNature().getDefinitions().getTypeDefinition("org.jboss.requires.Bear");
@@ -93,7 +92,5 @@ public class VetoTest extends SeamSolderTest {
 		//4. class annotated @Requires that references array of available classes
 		bs = cdi.getBeans("dragonfly", false);
 		assertEquals(1, bs.size());    //...CDI model has a bean named "dragonfly"
-
 	}
-
 }

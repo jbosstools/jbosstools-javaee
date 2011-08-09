@@ -10,21 +10,17 @@
  ******************************************************************************/ 
 package org.jboss.tools.cdi.seam.solder.core.test;
 
-import java.io.IOException;
 import java.util.Iterator;
 import java.util.Set;
 
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.Path;
 import org.eclipse.jdt.core.IField;
-import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IType;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.IClassBean;
-import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.core.IInjectionPointField;
 import org.jboss.tools.cdi.core.IProducerField;
 import org.jboss.tools.cdi.core.IProducerMethod;
@@ -39,7 +35,7 @@ public class DefaultBeanTest extends SeamSolderTest {
 	public DefaultBeanTest() {}
 
 	public void testDefaultBeanTest() throws CoreException {
-		ICDIProject cdi = CDICorePlugin.getCDIProject(project, true);
+		ICDIProject cdi = CDICorePlugin.getCDIProject(getTestProject(), true);
 	
 		// 1. For injection point with qualifier @Small, the only eligible bean is
 		//    default class bean with qualifier @Small
@@ -133,7 +129,5 @@ public class DefaultBeanTest extends SeamSolderTest {
 		bs = cdi.getBeans(true, injection);
 		assertEquals(1, bs.size());
 		assertTrue(!bs.contains(b));
-
 	}
-
 }

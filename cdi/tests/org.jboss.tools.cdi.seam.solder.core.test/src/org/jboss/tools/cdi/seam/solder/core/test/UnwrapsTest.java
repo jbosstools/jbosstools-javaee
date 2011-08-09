@@ -31,21 +31,19 @@ public class UnwrapsTest extends SeamSolderTest {
 	public UnwrapsTest() {}
 
 	public void testUnwraps() throws CoreException, IOException {
-		ICDIProject cdi = CDICorePlugin.getCDIProject(project, true);
-	
+		ICDIProject cdi = CDICorePlugin.getCDIProject(getTestProject(), true);
+
 		IInjectionPointField logger = getInjectionPointField(cdi, "src/org/jboss/unwraps/Unwrapped.java", "permission");
-		
+
 		Set<IBean> bs = cdi.getBeans(false, logger);
 		assertEquals(1, bs.size());
-		
+
 		IBean b = bs.iterator().next();
-		
+
 		assertTrue(b instanceof IProducerMethod);
-		
+
 		IProducerMethod m = (IProducerMethod)b;
 		assertTrue(m.isAnnotationPresent(CDISeamSolderConstants.UNWRAPS_ANNOTATION_TYPE_NAME));
 		assertEquals("getPermission", m.getMethod().getElementName());
-
 	}
-
 }

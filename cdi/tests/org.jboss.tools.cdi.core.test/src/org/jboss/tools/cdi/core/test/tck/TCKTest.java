@@ -11,6 +11,7 @@ import junit.framework.TestCase;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.FileLocator;
@@ -101,6 +102,7 @@ public class TCKTest extends TestCase {
 		IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(PROJECT_NAME);
 		if(project==null || !project.exists()) {
 			project = ResourcesUtils.importProject(b, PROJECT_PATH);
+			project.build(IncrementalProjectBuilder.INCREMENTAL_BUILD, null);
 		}
 		String projectPath = project.getLocation().toOSString();
 		String resourcePath = FileLocator.resolve(b.getEntry(TCK_RESOURCES_PREFIX)).getFile();

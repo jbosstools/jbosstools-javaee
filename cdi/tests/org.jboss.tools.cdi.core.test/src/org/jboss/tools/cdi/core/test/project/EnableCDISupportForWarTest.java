@@ -15,7 +15,8 @@ import junit.framework.TestCase;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IncrementalProjectBuilder;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.jboss.tools.cdi.core.CDICorePlugin;
@@ -33,17 +34,16 @@ public class EnableCDISupportForWarTest extends TestCase  {
 
 	public void setUp() throws Exception {
 		project = ResourcesUtils.importProject(PLUGIN_ID, "/projects/warproject");
-		project.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
-		JobUtils.waitForIdle();
+		project.build(IncrementalProjectBuilder.INCREMENTAL_BUILD, null);
 	}
 
 	protected String getBeansXmlPath() {
 		return "WebContent/WEB-INF/beans.xml";
 	}
 
-	public void testEnableCDISupport() {
+	public void testEnableCDISupport() throws CoreException {
 		CDIUtil.enableCDI(project, true, new NullProgressMonitor());
-		JobUtils.waitForIdle();
+		project.build(IncrementalProjectBuilder.INCREMENTAL_BUILD, null);
 		assertNotNull("CDI is not enabled", CDICorePlugin.getCDI(project, false));
 
 		IFile beansXml = project.getFile(new Path(getBeansXmlPath()));
@@ -51,13 +51,12 @@ public class EnableCDISupportForWarTest extends TestCase  {
 		assertTrue("Can't find beans.xml", beansXml.isAccessible());
 
 		CDIUtil.disableCDI(project);
-		JobUtils.waitForIdle();
+		project.build(IncrementalProjectBuilder.INCREMENTAL_BUILD, null);
 		assertNull("CDI is enabled", CDICorePlugin.getCDI(project, false));
 	}
 
 	public void tearDown() throws Exception {
 		boolean saveAutoBuild = ResourcesUtils.setBuildAutomatically(false);
-		JobUtils.waitForIdle();
 		project.delete(true, true, null);
 		JobUtils.waitForIdle();
 		ResourcesUtils.setBuildAutomatically(saveAutoBuild);

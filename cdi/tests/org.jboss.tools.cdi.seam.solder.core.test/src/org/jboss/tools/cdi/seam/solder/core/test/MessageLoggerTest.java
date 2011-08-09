@@ -30,37 +30,34 @@ public class MessageLoggerTest extends SeamSolderTest {
 	public MessageLoggerTest() {}
 
 	public void testMessageLogger() throws CoreException, IOException {
-		ICDIProject cdi = CDICorePlugin.getCDIProject(project, true);
-	
+		ICDIProject cdi = CDICorePlugin.getCDIProject(getTestProject(), true);
+
 		IInjectionPointField logger = getInjectionPointField(cdi, "src/org/jboss/logger/LogAccess.java", "logger");
-		
+
 		Set<IBean> bs = cdi.getBeans(false, logger);
 		assertEquals(1, bs.size());
-		
+
 		IBean b = bs.iterator().next();
-		
+
 		IType t = b.getBeanClass();
 		assertNotNull(t);
 		assertTrue(t.isInterface());
 		assertEquals("org.jboss.logger.MyLogger", t.getFullyQualifiedName());
-
 	}
 
 	public void testMessageBundle() throws CoreException, IOException {
-		ICDIProject cdi = CDICorePlugin.getCDIProject(project, true);
-	
+		ICDIProject cdi = CDICorePlugin.getCDIProject(getTestProject(), true);
+
 		IInjectionPointField bundle = getInjectionPointField(cdi, "src/org/jboss/logger/LogAccess.java", "bundle");
-		
+
 		Set<IBean> bs = cdi.getBeans(false, bundle);
 		assertEquals(1, bs.size());
-		
+
 		IBean b = bs.iterator().next();
-		
+
 		IType t = b.getBeanClass();
 		assertNotNull(t);
 		assertTrue(t.isInterface());
 		assertEquals("org.jboss.logger.MyBundle", t.getFullyQualifiedName());
-
 	}
-
 }

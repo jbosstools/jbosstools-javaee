@@ -1,6 +1,5 @@
 package org.jboss.tools.cdi.core.test;
 
-
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.Set;
@@ -9,7 +8,6 @@ import junit.framework.TestCase;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
@@ -28,13 +26,11 @@ import org.jboss.tools.cdi.core.IProducer;
 import org.jboss.tools.cdi.core.IProducerMethod;
 import org.jboss.tools.cdi.core.IQualifier;
 import org.jboss.tools.cdi.core.IScope;
-import org.jboss.tools.cdi.core.test.tck.TCKTest;
 import org.jboss.tools.cdi.internal.core.impl.ProducerMethod;
 import org.jboss.tools.common.java.IAnnotationDeclaration;
 import org.jboss.tools.jst.web.kb.IKbProject;
 import org.jboss.tools.jst.web.kb.KbProjectFactory;
 import org.jboss.tools.jst.web.kb.internal.KbProject;
-import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.ResourcesUtils;
 
 /**
@@ -53,15 +49,14 @@ public class DependentProjectTest extends TestCase {
 		project2 = getTestProject(project2, "/projects/CDITest2", "CDITest2");
 		project3 = getTestProject(project3, "/projects/CDITest3", "CDITest3");
 	}
-	
+
 	public static IProject getTestProject(IProject project, String projectPath, String projectName) {
 		if(project==null) {
 			try {
 				project = findTestProject(projectName);
 				if(project==null || !project.exists()) {
 					project = ResourcesUtils.importProject(PLUGIN_ID, projectPath);
-					project.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
-					JobUtils.waitForIdle();		
+					project.build(IncrementalProjectBuilder.INCREMENTAL_BUILD, null);
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -123,15 +118,11 @@ public class DependentProjectTest extends TestCase {
 		assertNull(sd);
 
 		boolean saveAutoBuild = ResourcesUtils.setBuildAutomatically(false);
-		JobUtils.waitForIdle();
 		IFile scope2File = project1.getFile(new Path("src/cdi/test/Scope2.java"));
 		IFile scope21File = project1.getFile(new Path("src/cdi/test/Scope2.1"));
 		scope2File.setContents(scope21File.getContents(), IFile.FORCE, new NullProgressMonitor());
-		JobUtils.waitForIdle();
-		project1.build(IncrementalProjectBuilder.INCREMENTAL_BUILD, new NullProgressMonitor());
-		JobUtils.waitForIdle();
+		project1.build(IncrementalProjectBuilder.INCREMENTAL_BUILD, null);
 		ResourcesUtils.setBuildAutomatically(saveAutoBuild);
-		JobUtils.waitForIdle();
 		
 		producer = getProducer("/CDITest2/src/test/Test1.java");
 		scope = producer.getScope();
@@ -331,14 +322,11 @@ public class DependentProjectTest extends TestCase {
 	public void testCleanDependentProject() throws CoreException, IOException {
 		ICDIProject cdi2 = CDICorePlugin.getCDIProject(project2, true);
 		boolean saveAutoBuild = ResourcesUtils.setBuildAutomatically(false);
-		JobUtils.waitForIdle();
 
 		cdi2.getNature().getProject().build(IncrementalProjectBuilder.CLEAN_BUILD, new NullProgressMonitor());
-		JobUtils.waitForIdle();
 		assertBeanIsPresent(cdi2, "cdi.test.MyBean", true);
 
 		ResourcesUtils.setBuildAutomatically(true);
-		JobUtils.waitForIdle();
 		assertBeanIsPresent(cdi2, "cdi.test.MyBean", true);
 
 		ResourcesUtils.setBuildAutomatically(saveAutoBuild);
@@ -365,7 +353,4 @@ public class DependentProjectTest extends TestCase {
 		fail("Can't find \"" + fieldName + "\" injection point filed in " + beanClassFilePath);
 		return null;
 	}
-
-
-
 }

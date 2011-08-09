@@ -6,9 +6,8 @@ import junit.framework.TestCase;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
@@ -29,8 +28,7 @@ public class BeansXMLTest extends TestCase {
 
 	public void setUp() throws Exception {
 		project = ResourcesUtils.importProject(PLUGIN_ID, "/projects/CDITest1");
-		project.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
-		JobUtils.waitForIdle();
+		project.build(IncrementalProjectBuilder.INCREMENTAL_BUILD, null);
 	}
 
 	public void testBeansXML() throws CoreException, IOException {
@@ -43,7 +41,7 @@ public class BeansXMLTest extends TestCase {
 
 		XModelObject o = findTag(beansXML, "drools:RuleResources");
 		assertNotNull(o);
-		
+
 		o = findTag(beansXML, "drools:DroolsConfig/drools:ruleResources/s:Inject");
 		assertNotNull(o);
 	}
@@ -55,10 +53,10 @@ public class BeansXMLTest extends TestCase {
 		assertNotNull(beansXML);
 
 		assertEquals("FileCDIBeans", beansXML.getModelEntity().getName());
-		
+
 		XModelObject scan = beansXML.getChildByPath("Scan");
 		assertNotNull(scan);
-		
+
 		XModelObject include1 = scan.getChildByPath("cls1");
 		assertNotNull(include1);
 		assertEquals("CDIWeldInclude", include1.getModelEntity().getName());
@@ -86,12 +84,10 @@ public class BeansXMLTest extends TestCase {
 		String pattern4 = exclude4.getAttributeValue("name");
 		assertEquals("cls4", pattern4);
 		assertEquals("true", exclude4.getAttributeValue("is regular expression"));
-
 	}
 
 	public void tearDown() throws Exception {
 		boolean saveAutoBuild = ResourcesUtils.setBuildAutomatically(false);
-		JobUtils.waitForIdle();
 		project.delete(true, true, null);
 		JobUtils.waitForIdle();
 		ResourcesUtils.setBuildAutomatically(saveAutoBuild);
@@ -109,5 +105,4 @@ public class BeansXMLTest extends TestCase {
 		}
 		return null;
 	}
-
 }

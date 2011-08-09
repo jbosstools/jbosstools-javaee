@@ -39,7 +39,7 @@ public class GenericBeanTest extends SeamSolderTest {
 	public GenericBeanTest() {}
 
 	public void testGenericBeanEndPointInjections() throws CoreException {
-		ICDIProject cdi = CDICorePlugin.getCDIProject(project, true);
+		ICDIProject cdi = CDICorePlugin.getCDIProject(getTestProject(), true);
 	
 		/*
 		 * Case 1. (default qualifier case)
@@ -109,11 +109,10 @@ public class GenericBeanTest extends SeamSolderTest {
 		assertTrue(gb instanceof IClassBean);
 		IClassBean gbc = (IClassBean)gb;
 		assertEquals("MyExtendedConfiguration", gbc.getBeanClass().getElementName());
-
 	}
 
 	public void testGenericBeanInjectionIntoGenericPoint() throws CoreException {
-		ICDIProject cdi = CDICorePlugin.getCDIProject(project, true);
+		ICDIProject cdi = CDICorePlugin.getCDIProject(getTestProject(), true);
 		
 		/*
 		 * Injection point: in class MyGenericBean2
@@ -132,13 +131,11 @@ public class GenericBeanTest extends SeamSolderTest {
 			IProducerMethod m = (IProducerMethod)b;
 			assertEquals("createMyFirstBean", m.getMethod().getElementName());
 		}
-	
-
 	}
 
 	public void testGenericTypeInjection() throws CoreException {
-		ICDIProject cdi = CDICorePlugin.getCDIProject(project, true);
-		
+		ICDIProject cdi = CDICorePlugin.getCDIProject(getTestProject(), true);
+
 		/*
 		 * Injection point: in class MyGenericBean2
 		 *     @Inject MyGenericType type;
@@ -156,7 +153,6 @@ public class GenericBeanTest extends SeamSolderTest {
 			IType t = ((IClassBean)b).getBeanClass();
 			assertEquals("org.jboss.generic.MyGenericType", t.getFullyQualifiedName());
 		}
-		
 	}
 	//TODO - more tests
 
@@ -185,8 +181,8 @@ public class GenericBeanTest extends SeamSolderTest {
 	}
 
 	public void testVetoedGenericBeanInjectionIntoGenericPoint() throws CoreException {
-		ICDIProject cdi = CDICorePlugin.getCDIProject(project, true);
-		
+		ICDIProject cdi = CDICorePlugin.getCDIProject(getTestProject(), true);
+
 		/*
 		 * Injection point: in class MessageManager
 		 *     @Inject @Generic MessageQueue queue;
@@ -212,12 +208,11 @@ public class GenericBeanTest extends SeamSolderTest {
 		}	
 		assertNotNull(beanToBeVetoed);
 
-
 		/*
 		 * Replace DurableQueueConfiguration.java with vetoed version.
 		 * After that there are only 2 configurations.
 		 */
-		replaceFile(project, "src/org/jboss/generic2/DurableQueueConfiguration.vetoed",
+		replaceFile(getTestProject(), "src/org/jboss/generic2/DurableQueueConfiguration.vetoed",
 				"src/org/jboss/generic2/DurableQueueConfiguration.java");
 
 		beanToBeVetoed = null;
@@ -241,7 +236,7 @@ public class GenericBeanTest extends SeamSolderTest {
 		 * Set original DurableQueueConfiguration.java back.
 		 * Make sure that there are again 3 configurations.
 		 */
-		replaceFile(project, "src/org/jboss/generic2/DurableQueueConfiguration.original",
+		replaceFile(getTestProject(), "src/org/jboss/generic2/DurableQueueConfiguration.original",
 				"src/org/jboss/generic2/DurableQueueConfiguration.java");
 
 		beanToBeVetoed = null;
@@ -266,5 +261,4 @@ public class GenericBeanTest extends SeamSolderTest {
 	static void replaceFile(IProject project, String sourcePath, String targetPath) throws CoreException {
 		GenericBeanValidationTest.writeFile(project, sourcePath, targetPath);
 	}
-
 }

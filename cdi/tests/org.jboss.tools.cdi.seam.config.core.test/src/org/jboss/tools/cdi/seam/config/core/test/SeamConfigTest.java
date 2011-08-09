@@ -11,20 +11,17 @@
 package org.jboss.tools.cdi.seam.config.core.test;
 
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
 
 import junit.framework.TestCase;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.jboss.tools.cdi.core.CDICorePlugin;
-import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.ICDIProject;
-import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.core.IInjectionPointField;
-import org.jboss.tools.cdi.core.IProducer;
 import org.jboss.tools.cdi.core.extension.feature.IBuildParticipantFeature;
 import org.jboss.tools.cdi.core.test.DependentProjectTest;
 import org.jboss.tools.cdi.seam.config.core.CDISeamConfigExtension;
@@ -58,6 +55,7 @@ public class SeamConfigTest extends TestCase {
 				project = findTestProject();
 				if(project==null || !project.exists()) {
 					project = ResourcesUtils.importProject(PLUGIN_ID, PROJECT_PATH);
+					project.build(IncrementalProjectBuilder.INCREMENTAL_BUILD, null);
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -79,7 +77,6 @@ public class SeamConfigTest extends TestCase {
 			}
 		}
 		return null;
-		
 	}
 
 	protected IInjectionPointField getInjectionPointField(ICDIProject cdi, String beanClassFilePath, String fieldName) {
@@ -106,5 +103,4 @@ public class SeamConfigTest extends TestCase {
 		}
 		return ds;
 	}
-
 }

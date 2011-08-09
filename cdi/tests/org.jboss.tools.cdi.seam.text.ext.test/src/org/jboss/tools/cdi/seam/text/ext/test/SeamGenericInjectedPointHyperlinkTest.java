@@ -10,30 +10,11 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.seam.text.ext.test;
 
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IProject;
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.jdt.internal.ui.javaeditor.CompilationUnitEditor;
-import org.eclipse.jface.text.ITextSelection;
-import org.eclipse.jface.text.Region;
-import org.eclipse.jface.text.hyperlink.AbstractHyperlinkDetector;
 import org.eclipse.jface.text.hyperlink.IHyperlink;
-import org.eclipse.jface.text.source.ISourceViewer;
-import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.ui.IEditorPart;
-import org.eclipse.ui.IFileEditorInput;
-import org.eclipse.ui.part.FileEditorInput;
-import org.eclipse.ui.texteditor.ITextEditor;
-import org.jboss.tools.cdi.seam.config.core.test.SeamConfigTest;
 import org.jboss.tools.cdi.seam.solder.core.test.SeamSolderTest;
-import org.jboss.tools.cdi.seam.text.ext.CDISeamExtPlugin;
 import org.jboss.tools.cdi.seam.text.ext.hyperlink.GenericInjectedPointHyperlink;
 import org.jboss.tools.cdi.seam.text.ext.hyperlink.GenericInjectedPointHyperlinkDetector;
 import org.jboss.tools.cdi.seam.text.ext.hyperlink.GenericInjectedPointListHyperlink;
-import org.jboss.tools.cdi.seam.text.ext.hyperlink.SeamConfigInjectedPointHyperlink;
-import org.jboss.tools.cdi.seam.text.ext.hyperlink.SeamConfigInjectedPointHyperlinkDetector;
-import org.jboss.tools.cdi.text.ext.test.CDIHyperlinkTestUtil;
-import org.jboss.tools.common.util.FileUtil;
 
 /**
  *   
@@ -48,7 +29,7 @@ public class SeamGenericInjectedPointHyperlinkTest extends SeamSolderTest {
 	public void testFieldInjection() throws Exception {
 		IHyperlink hyperlink = SeamConfigInjectedPointHyperlinkTest.checkHyperLinkInJava(
 				"src/org/jboss/generic/MyBeanInjections.java", 
-				project, 
+				getTestProject(), 
 				"first1", 1, 
 				new GenericInjectedPointHyperlinkDetector(), 
 				HYPERLINK_NAME);
@@ -60,7 +41,7 @@ public class SeamGenericInjectedPointHyperlinkTest extends SeamSolderTest {
 	public void testGenericInjection() throws Exception {
 		IHyperlink hyperlink = SeamConfigInjectedPointHyperlinkTest.checkHyperLinkInJava(
 				"src/org/jboss/generic/MyGenericBean.java", 
-				project, 
+				getTestProject(), 
 				"config", 1, 
 				new GenericInjectedPointHyperlinkDetector(), 
 				LIST_HYPERLYNK_NAME);
@@ -68,5 +49,4 @@ public class SeamGenericInjectedPointHyperlinkTest extends SeamSolderTest {
 //		
 //		SeamConfigInjectedPointHyperlinkTest.checkResult("MyConfigurationProducer.java", "getOneConfig");
 	}
-
 }

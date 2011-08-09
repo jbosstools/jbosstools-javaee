@@ -14,7 +14,7 @@ import org.jboss.tools.cdi.text.ext.test.CDIHyperlinkTestUtil.TestRegion;
 
 public class InjectedPointHyperlinkTest extends SeamSolderTest {
 	public void testInjectedPointHyperlinkDetector() throws Exception {
-		Set<IBean> beans = cdiProject.getBeans("/CDISolderTest/src/org/jboss/generic2/MessageManager.java",	true);
+		Set<IBean> beans = getCDIProject().getBeans("/CDISolderTest/src/org/jboss/generic2/MessageManager.java",	true);
 		IBean bean=null;
 		for(IBean b : beans){
 			bean = b;
@@ -44,8 +44,7 @@ public class InjectedPointHyperlinkTest extends SeamSolderTest {
 		regionList.add(new TestRegion(/*318, 6*/"policy",   new TestHyperlink[]{
 			new TestHyperlink(InjectedPointHyperlink.class, CDIExtensionsMessages.CDI_INJECTED_POINT_HYPERLINK_OPEN_INJECT_BEAN+ " MessageManager.getPolicy()", bean),
 		})); // logger
-		
-		CDIHyperlinkTestUtil.checkRegions(project, "src/org/jboss/generic2/DurableMessageLogger.java", regionList, new InjectedPointHyperlinkDetector());
-	}
 
+		CDIHyperlinkTestUtil.checkRegions(getTestProject(), "src/org/jboss/generic2/DurableMessageLogger.java", regionList, new InjectedPointHyperlinkDetector());
+	}
 }

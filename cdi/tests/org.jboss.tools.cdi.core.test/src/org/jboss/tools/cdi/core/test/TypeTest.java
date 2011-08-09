@@ -3,9 +3,10 @@ package org.jboss.tools.cdi.core.test;
 import java.util.ConcurrentModificationException;
 import java.util.Set;
 
+import junit.framework.TestCase;
+
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaCore;
@@ -15,8 +16,6 @@ import org.jboss.tools.common.java.ParametedTypeFactory;
 import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.ResourcesUtils;
 
-import junit.framework.TestCase;
-
 public class TypeTest extends TestCase {
 	IProject project = null;
 
@@ -25,8 +24,7 @@ public class TypeTest extends TestCase {
 	@Override
 	protected void setUp() throws Exception {
 		project = ResourcesUtils.importProject(DependentProjectsTestSetup.PLUGIN_ID, "/projects/TypeTest");
-		project.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
-		JobUtils.waitForIdle();		
+		project.build(IncrementalProjectBuilder.INCREMENTAL_BUILD, null);
 	}
 
 	public void testType() throws Exception {
@@ -82,10 +80,8 @@ public class TypeTest extends TestCase {
 
 	public void tearDown() throws Exception {
 		boolean saveAutoBuild = ResourcesUtils.setBuildAutomatically(false);
-		JobUtils.waitForIdle();
 		project.delete(true, true, null);
 		JobUtils.waitForIdle();
 		ResourcesUtils.setBuildAutomatically(saveAutoBuild);
 	}
-
 }

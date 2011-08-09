@@ -34,7 +34,7 @@ public class BeanNamingTest extends SeamSolderTest {
 	public BeanNamingTest() {}
 
 	public void testNamedPackage() throws CoreException, IOException {
-		ICDIProject cdi = CDICorePlugin.getCDIProject(project, true);
+		ICDIProject cdi = CDICorePlugin.getCDIProject(getTestProject(), true);
 
 		//1. package @Named; class not annotated
 		Set<IBean> bs = cdi.getBeans(new Path("/CDISolderTest/src/org/jboss/named/Dog.java"));
@@ -51,7 +51,7 @@ public class BeanNamingTest extends SeamSolderTest {
 	}
 
 	public void testFullyQualifiedPackage() throws CoreException {
-		ICDIProject cdi = CDICorePlugin.getCDIProject(project, true);
+		ICDIProject cdi = CDICorePlugin.getCDIProject(getTestProject(), true);
 		
 		//1. package @FullyQualified and @Named; class not annotated
 		Set<IBean> bs = cdi.getBeans(new Path("/CDISolderTest/src/org/jboss/fullyqualified/Cat.java"));
@@ -74,7 +74,7 @@ public class BeanNamingTest extends SeamSolderTest {
 	}
 
 	public void testFullyQualifiedProducers() {
-		ICDIProject cdi = CDICorePlugin.getCDIProject(project, true);
+		ICDIProject cdi = CDICorePlugin.getCDIProject(getTestProject(), true);
 		//1. package @FullyQualified
 		Set<IBean> bs = cdi.getBeans(new Path("/CDISolderTest/src/org/jboss/fullyqualified/Elephant.java"));
 		
@@ -138,7 +138,7 @@ public class BeanNamingTest extends SeamSolderTest {
 	}
 
 	public void testAnnotatedPackagesInJars() {
-		ICDIProject cdi = CDICorePlugin.getCDIProject(project, true);
+		ICDIProject cdi = CDICorePlugin.getCDIProject(getTestProject(), true);
 		
 		// Package @FullyQualified and @Named
 
@@ -168,7 +168,5 @@ public class BeanNamingTest extends SeamSolderTest {
 		IProducerMethod mb = (IProducerMethod)b;
 		IMember m = mb.getSourceMember();
 		assertEquals("getSong", m.getElementName());
-		
 	}
-
 }
