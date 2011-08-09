@@ -20,6 +20,7 @@ import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.extension.ICDIExtension;
 import org.jboss.tools.cdi.core.extension.feature.IBuildParticipant2Feature;
 import org.jboss.tools.cdi.core.extension.feature.IBuildParticipantFeature;
+import org.jboss.tools.cdi.internal.core.impl.CDIProject;
 import org.jboss.tools.cdi.internal.core.scanner.FileSet;
 import org.jboss.tools.cdi.seam.core.international.impl.BundleModel;
 import org.jboss.tools.cdi.seam.core.international.scanner.BundleFileSet;
@@ -32,7 +33,6 @@ import org.jboss.tools.common.model.util.EclipseResourceUtil;
  *
  */
 public class CDISeamInternationalExtension implements ICDIExtension, IBuildParticipant2Feature {
-	CDICoreNature project;
 	CDISeamInternationalDefinitionContext context = new CDISeamInternationalDefinitionContext();
 	BundleFileSet fileSet = new BundleFileSet();
 
@@ -44,10 +44,6 @@ public class CDISeamInternationalExtension implements ICDIExtension, IBuildParti
 			if(ext instanceof CDISeamInternationalExtension) return (CDISeamInternationalExtension)ext;
 		}
 		return null;
-	}
-
-	public void setProject(CDICoreNature n) {
-		project = n;
 	}
 
 	public BundleModel getBundleModel() {
@@ -100,7 +96,7 @@ public class CDISeamInternationalExtension implements ICDIExtension, IBuildParti
 	}
 
 	@Override
-	public void buildBeans() {
+	public void buildBeans(CDIProject target) {
 		model.rebuild(context.getAllBundles());
 	}
 

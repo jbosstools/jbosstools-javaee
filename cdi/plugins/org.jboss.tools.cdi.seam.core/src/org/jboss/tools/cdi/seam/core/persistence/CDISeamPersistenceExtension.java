@@ -44,13 +44,7 @@ import org.jboss.tools.common.model.XModelObject;
  *
  */
 public class CDISeamPersistenceExtension implements ICDIExtension, IBuildParticipantFeature {
-	CDICoreNature project;
 	CDISeamPersistenceDefinitionContext context = new CDISeamPersistenceDefinitionContext();
-
-	@Override
-	public void setProject(CDICoreNature n) {
-		project = n;
-	}
 
 	@Override
 	public IDefinitionContextExtension getContext() {
@@ -79,21 +73,21 @@ public class CDISeamPersistenceExtension implements ICDIExtension, IBuildPartici
 	}
 
 	@Override
-	public void buildBeans() {
-		List<TypeDefinition> definitions = project.getAllTypeDefinitions();
+	public void buildBeans(CDIProject target) {
+		List<TypeDefinition> definitions = target.getNature().getAllTypeDefinitions();
 		if(definitions.isEmpty()) {
 			//no beans to build
 			return;
 		}
-		ParametedType entityManager = getType(CDIPersistenceConstants.ENTITY_MANAGER_TYPE_NAME);
-		ParametedType entityManagerFactory = getType(CDIPersistenceConstants.ENTITY_MANAGER_FACTORY_TYPE_NAME);
-		ParametedType session = getType(CDIPersistenceConstants.SESSION_TYPE_NAME);
-		ParametedType sessionFactory = getType(CDIPersistenceConstants.SESSION_FACTORY_TYPE_NAME);
+		ParametedType entityManager = getType(CDIPersistenceConstants.ENTITY_MANAGER_TYPE_NAME, target);
+		ParametedType entityManagerFactory = getType(CDIPersistenceConstants.ENTITY_MANAGER_FACTORY_TYPE_NAME, target);
+		ParametedType session = getType(CDIPersistenceConstants.SESSION_TYPE_NAME, target);
+		ParametedType sessionFactory = getType(CDIPersistenceConstants.SESSION_FACTORY_TYPE_NAME, target);
 		if(entityManager == null && session == null) {
 			return;
 		}
 
-		CDIProject cdi = (CDIProject)project.getDelegate();
+		CDIProject cdi = target;
 		
 		for (TypeDefinition def: definitions) {
 			if(def.isVetoed() || !isArtifact(def)) {
@@ -147,13 +141,13 @@ public class CDISeamPersistenceExtension implements ICDIExtension, IBuildPartici
 				&& m.isAnnotationPresent(CDIPersistenceConstants.EXTENSION_MANAGED_ANNOTATION_TYPE_NAME);
 	}
 
-	private ParametedType getType(String name) {
-		IType t = project.getType(name);
+	private ParametedType getType(String name, CDIProject project) {
+		IType t = project.getNature().getType(name);
 		if(t == null) {
 			return null;
 		}
 		try {
-			return project.getTypeFactory().getParametedType(t, "L" + name + ";");
+			return project.getNature().getTypeFactory().getParametedType(t, "L" + name + ";");
 		} catch (JavaModelException e) {
 			CDISeamCorePlugin.getDefault().logError(e);
 			return null;
