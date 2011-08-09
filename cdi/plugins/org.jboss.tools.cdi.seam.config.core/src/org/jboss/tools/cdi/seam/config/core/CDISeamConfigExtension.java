@@ -10,7 +10,6 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.seam.config.core;
 
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -28,6 +27,7 @@ import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.extension.ICDIExtension;
 import org.jboss.tools.cdi.core.extension.feature.IBuildParticipantFeature;
 import org.jboss.tools.cdi.core.extension.feature.IValidatorFeature;
+import org.jboss.tools.cdi.internal.core.impl.CDIProject;
 import org.jboss.tools.cdi.internal.core.scanner.FileSet;
 import org.jboss.tools.cdi.internal.core.validation.CDICoreValidator;
 import org.jboss.tools.cdi.seam.config.core.definition.SeamBeansDefinition;
@@ -50,7 +50,6 @@ import org.jboss.tools.common.preferences.SeverityPreferences;
  *
  */
 public class CDISeamConfigExtension implements ICDIExtension, IBuildParticipantFeature, IValidatorFeature {
-	CDICoreNature project;
 	ConfigDefinitionContext context = new ConfigDefinitionContext();
 
 	ConfigFileSet fileSet = new ConfigFileSet();
@@ -61,10 +60,6 @@ public class CDISeamConfigExtension implements ICDIExtension, IBuildParticipantF
 			if(ext instanceof CDISeamConfigExtension) return (CDISeamConfigExtension)ext;
 		}
 		return null;
-	}
-
-	public void setProject(CDICoreNature n) {
-		project = n;
 	}
 
 	public ConfigDefinitionContext getContext() {
@@ -115,7 +110,7 @@ public class CDISeamConfigExtension implements ICDIExtension, IBuildParticipantF
 				 IDocument document = new Document();
 				 SeamDefinitionBuilder builder = new SeamDefinitionBuilder();
 				 document.set(text);
-				 SeamBeansDefinition def = builder.createDefinition(resource, document, project, context.getWorkingCopy());
+				 SeamBeansDefinition def = builder.createDefinition(resource, document, context.getRootContext().getProject(), context.getWorkingCopy());
 				 newDefinitions.add(def);
 				 if(isSeamBeans) {
 					 context.getWorkingCopy().addSeamBeanXML(p, def);
@@ -136,7 +131,7 @@ public class CDISeamConfigExtension implements ICDIExtension, IBuildParticipantF
 		//nothing to do since we visited all resources.
 	}
 
-	public void buildBeans() {
+	public void buildBeans(CDIProject target) {
 		//TODO
 	}
 
