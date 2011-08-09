@@ -47,12 +47,7 @@ import org.jboss.tools.common.model.XModelObject;
  *
  */
 public class CDISeamSolderServiceHandlerExtension implements ICDIExtension, IBuildParticipantFeature {
-	CDICoreNature project;
 	ServiceHandlerDefinitionContext context = new ServiceHandlerDefinitionContext();
-
-	public void setProject(CDICoreNature n) {
-		project = n;
-	}
 
 	public IDefinitionContextExtension getContext() {
 		return context;
@@ -90,8 +85,8 @@ public class CDISeamSolderServiceHandlerExtension implements ICDIExtension, IBui
 		}
 	}
 
-	public void buildBeans() {
-		CDIProject p = ((CDIProject)project.getDelegate());
+	public void buildBeans(CDIProject target) {
+		CDIProject p = target;
 		Map<String, TypeDefinition> services = context.getServices();
 		for (TypeDefinition d: services.values()) {
 			ClassBean b = new ClassBean();
