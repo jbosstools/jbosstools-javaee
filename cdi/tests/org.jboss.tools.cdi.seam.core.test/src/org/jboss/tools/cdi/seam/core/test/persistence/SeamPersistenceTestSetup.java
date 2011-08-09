@@ -14,6 +14,7 @@ import junit.extensions.TestSetup;
 import junit.framework.Test;
 
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.ResourcesUtils;
@@ -38,13 +39,13 @@ public class SeamPersistenceTestSetup extends TestSetup {
 		project = ResourcesPlugin.getWorkspace().getRoot().getProject(PROJECT_NAME);
 		if(!project.exists()) {
 			project = ResourcesUtils.importProject(PLUGIN_ID, PROJECT_PATH);
+			project.build(IncrementalProjectBuilder.INCREMENTAL_BUILD, null);
 		}
 	}
 
 	@Override
 	protected void tearDown() throws Exception {
 		boolean saveAutoBuild = ResourcesUtils.setBuildAutomatically(false);
-		JobUtils.waitForIdle();
 		project.delete(true, true, null);
 		JobUtils.waitForIdle();
 		ResourcesUtils.setBuildAutomatically(saveAutoBuild);

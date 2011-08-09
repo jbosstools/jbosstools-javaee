@@ -22,7 +22,6 @@ import org.eclipse.core.runtime.CoreException;
 import org.jboss.tools.cdi.internal.core.validation.CDIValidationMessages;
 import org.jboss.tools.cdi.seam.core.test.SeamCoreTestSetup;
 import org.jboss.tools.jst.jsp.test.TestUtil;
-import org.jboss.tools.jst.web.kb.internal.validation.ValidatorManager;
 import org.jboss.tools.test.util.ResourcesUtils;
 import org.jboss.tools.tests.AbstractResourceMarkerTest;
 
@@ -35,12 +34,11 @@ public class SeamServletValidationTest extends TestCase {
 
 	public IProject getTestProject() throws IOException, CoreException, InvocationTargetException, InterruptedException {
 		if(project==null) {
-			ValidatorManager.setStatus("INIT");
 			project = ResourcesPlugin.getWorkspace().getRoot().getProject(SeamCoreTestSetup.PROJECT_NAME);
 			if(!project.exists()) {
 				project = ResourcesUtils.importProject(SeamCoreTestSetup.PLUGIN_ID, SeamCoreTestSetup.PROJECT_PATH);
+				TestUtil.waitForValidation();
 			}
-			TestUtil.waitForValidation();
 		}
 		return project;
 	}

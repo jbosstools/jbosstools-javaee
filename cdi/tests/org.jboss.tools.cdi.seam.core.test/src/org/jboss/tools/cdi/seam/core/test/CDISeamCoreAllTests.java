@@ -35,12 +35,12 @@ public class CDISeamCoreAllTests {
 		suiteAll.addTestSuite(BundleModelTest.class);
 
 		TestSuite suite = new TestSuite("Seam Core Project Tests");
+		suite.addTestSuite(SeamServletValidationTest.class);
 		suiteAll.addTest(new SeamCoreTestSetup(suite));
-		suiteAll.addTestSuite(SeamServletValidationTest.class);
-		
+
 		suite = new TestSuite("Seam Persistence Project Tests");
+		suite.addTestSuite(SeamPersistenceTest.class);
 		suiteAll.addTest(new SeamPersistenceTestSetup(suite));
-		suiteAll.addTestSuite(SeamPersistenceTest.class);
 		return suiteAll;
 	}
 }

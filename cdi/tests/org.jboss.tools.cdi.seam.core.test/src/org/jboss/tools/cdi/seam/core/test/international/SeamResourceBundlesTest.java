@@ -15,10 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.FileLocator;
-import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Platform;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.test.tck.TCKTest;
@@ -38,8 +35,6 @@ import org.jboss.tools.jst.text.ext.test.HyperlinkTestUtil;
 import org.jboss.tools.jst.text.ext.test.HyperlinkTestUtil.TestHyperlink;
 import org.jboss.tools.jst.text.ext.test.HyperlinkTestUtil.TestRegion;
 import org.jboss.tools.jst.web.kb.PageContextFactory;
-import org.jboss.tools.jst.web.kb.internal.validation.ValidatorManager;
-import org.jboss.tools.test.util.JobUtils;
 import org.osgi.framework.Bundle;
 
 /**
@@ -202,13 +197,7 @@ public class SeamResourceBundlesTest extends TCKTest {
 		if (!FileUtil.copyFile(seamInternationalPageFrom, seamInternationalPageTo))
 			return false;
 
-		ValidatorManager.setStatus(ValidatorManager.RUNNING);
-		tckProject.refreshLocal(IResource.DEPTH_INFINITE, null);
-		JobUtils.waitForIdle();
-		tckProject.build(IncrementalProjectBuilder.CLEAN_BUILD, new NullProgressMonitor());
-		JobUtils.waitForIdle();
-		tckProject.build(IncrementalProjectBuilder.FULL_BUILD, new NullProgressMonitor());
-		TestUtil.waitForValidation();
+		TestUtil.validate(tckProject);
 
 		caTest.setProject(tckProject);
 		return true;

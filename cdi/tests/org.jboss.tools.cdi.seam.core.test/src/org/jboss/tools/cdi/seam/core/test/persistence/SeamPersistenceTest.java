@@ -15,7 +15,6 @@ import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.core.test.DependentProjectTest;
 import org.jboss.tools.jst.jsp.test.TestUtil;
-import org.jboss.tools.jst.web.kb.internal.validation.ValidatorManager;
 import org.jboss.tools.test.util.ResourcesUtils;
 
 public class SeamPersistenceTest extends TestCase {
@@ -24,12 +23,11 @@ public class SeamPersistenceTest extends TestCase {
 
 	public IProject getTestProject() throws IOException, CoreException, InvocationTargetException, InterruptedException {
 		if(project==null) {
-			ValidatorManager.setStatus("INIT");
 			project = ResourcesPlugin.getWorkspace().getRoot().getProject(SeamPersistenceTestSetup.PROJECT_NAME);
 			if(!project.exists()) {
 				project = ResourcesUtils.importProject(SeamPersistenceTestSetup.PLUGIN_ID, SeamPersistenceTestSetup.PROJECT_PATH);
+				TestUtil.waitForValidation();
 			}
-			TestUtil.waitForValidation();
 		}
 		return project;
 	}
@@ -51,5 +49,4 @@ public class SeamPersistenceTest extends TestCase {
 		Set<IBean> bs = cdi.getBeans(false, p);
 		assertFalse(bs.isEmpty());
 	}
-
 }
