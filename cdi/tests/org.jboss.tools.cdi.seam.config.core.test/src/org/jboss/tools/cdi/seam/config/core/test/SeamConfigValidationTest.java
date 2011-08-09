@@ -48,7 +48,7 @@ public class SeamConfigValidationTest extends TestCase {
 
 	public SeamConfigValidationTest() {
 		project = getTestProject();
-		cdiProject = CDICorePlugin.getCDIProject(project, false);
+		cdiProject = CDICorePlugin.getCDIProject(project, true);
 		f = project.getFile("src/META-INF/beans.xml");
 		assertTrue(f.exists());
 	}
