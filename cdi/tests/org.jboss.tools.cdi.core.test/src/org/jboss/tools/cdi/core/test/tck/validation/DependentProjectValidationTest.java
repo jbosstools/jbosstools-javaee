@@ -15,12 +15,11 @@ import java.text.MessageFormat;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.jboss.tools.cdi.internal.core.validation.CDIValidationMessages;
+import org.jboss.tools.jst.jsp.test.TestUtil;
 import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.ResourcesUtils;
 import org.jboss.tools.tests.AbstractResourceMarkerTest;
@@ -40,24 +39,15 @@ public class DependentProjectValidationTest extends ValidationTest {
 
 	public void setUp() throws Exception {
 		project1 = ResourcesUtils.importProject(PLUGIN_ID, "/projects/CDITest1");
-		project1.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
-		JobUtils.waitForIdle();
-
+		TestUtil._waitForValidation(project1);
 		project2 = ResourcesUtils.importProject(PLUGIN_ID, "/projects/CDITest2");
-		project2.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
-		JobUtils.waitForIdle();		
-
+		TestUtil._waitForValidation(project2);
 		project3 = ResourcesUtils.importProject(PLUGIN_ID, "/projects/CDITest3");
-		project3.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
-		JobUtils.waitForIdle();		
-
+		TestUtil._waitForValidation(project3);
 		project4 = ResourcesUtils.importProject(PLUGIN_ID, "/projects/CDITest4");
-		project4.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
-		JobUtils.waitForIdle();		
-
+		TestUtil._waitForValidation(project4);
 		project5 = ResourcesUtils.importProject(PLUGIN_ID, "/projects/CDITest5");
-		project5.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
-		JobUtils.waitForIdle();		
+		TestUtil._waitForValidation(project5);
 	}
 
 	/**
@@ -65,8 +55,6 @@ public class DependentProjectValidationTest extends ValidationTest {
 	 */
 	public void testDependentProjects() throws CoreException, IOException {
 		boolean saveAutoBuild = ResourcesUtils.setBuildAutomatically(false);
-		JobUtils.waitForIdle();
-
 		IFile testBean3 = project3.getFile("src/cdi/test3/TestBean3.java");
 		AbstractResourceMarkerTest.assertMarkerIsNotCreated(testBean3, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_PRIMITIVE_TYPE, "boolean", "TestBean3.foo()"), 10);
 
@@ -78,43 +66,28 @@ public class DependentProjectValidationTest extends ValidationTest {
 
 		IFile scope = project2.getFile(new Path("src/test/TestScope.java"));
 		IFile normalScope = project2.getFile(new Path("src/test/TestNormalScope.validation"));
+
 		scope.setContents(normalScope.getContents(), IFile.FORCE, new NullProgressMonitor());
-		JobUtils.waitForIdle(1000);
-		project2.build(IncrementalProjectBuilder.INCREMENTAL_BUILD, new NullProgressMonitor());
-		JobUtils.waitForIdle(1000);
+		TestUtil.validate(scope);
 
-		testBean3 = project3.getFile("src/cdi/test3/TestBean3.java");
 		AbstractResourceMarkerTest.assertMarkerIsCreated(testBean3, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_PRIMITIVE_TYPE, "boolean", "TestBean3.foo()"), 10);
-
-		testBean4 = project4.getFile("src/cdi/test4/TestBean4.java");
 		AbstractResourceMarkerTest.assertMarkerIsCreated(testBean4, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_PRIMITIVE_TYPE, "int", "TestBean4.foo()"), 10);
-
-		testBean5 = project5.getFile("src/cdi/test5/TestBean5.java");
 		AbstractResourceMarkerTest.assertMarkerIsCreated(testBean5, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_PRIMITIVE_TYPE, "boolean", "TestBean5.foo()"), 10);
 
 		normalScope = project2.getFile(new Path("src/test/TestScope.java"));
 		scope = project2.getFile(new Path("src/test/TestScope.validation"));
+
 		normalScope.setContents(scope.getContents(), IFile.FORCE, new NullProgressMonitor());
-		JobUtils.waitForIdle(1000);
-		project2.build(IncrementalProjectBuilder.INCREMENTAL_BUILD, new NullProgressMonitor());
-		JobUtils.waitForIdle(1000);
+		TestUtil.validate(normalScope);
 
-		testBean3 = project3.getFile("src/cdi/test3/TestBean3.java");
 		AbstractResourceMarkerTest.assertMarkerIsNotCreated(testBean3, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_PRIMITIVE_TYPE, "boolean", "TestBean3.foo()"), 10);
-
-		testBean4 = project4.getFile("src/cdi/test4/TestBean4.java");
 		AbstractResourceMarkerTest.assertMarkerIsNotCreated(testBean4, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_PRIMITIVE_TYPE, "int", "TestBean4.foo()"), 10);
-
-		testBean5 = project5.getFile("src/cdi/test5/TestBean5.java");
 		AbstractResourceMarkerTest.assertMarkerIsNotCreated(testBean5, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_PRIMITIVE_TYPE, "boolean", "TestBean5.foo()"), 10);
-
 		ResourcesUtils.setBuildAutomatically(saveAutoBuild);
-		JobUtils.waitForIdle();
 	}
 
 	public void tearDown() throws Exception {
 		boolean saveAutoBuild = ResourcesUtils.setBuildAutomatically(false);
-		JobUtils.waitForIdle();
 		project1.delete(true, true, null);
 		project2.delete(true, true, null);
 		project3.delete(true, true, null);

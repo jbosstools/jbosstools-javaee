@@ -16,6 +16,7 @@ import org.eclipse.core.resources.IResource;
 import org.jboss.tools.cdi.core.CDIUtil;
 import org.jboss.tools.cdi.core.test.tck.TCKTest;
 import org.jboss.tools.cdi.internal.core.validation.CDICoreValidator;
+import org.jboss.tools.jst.jsp.test.TestUtil;
 import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.ResourcesUtils;
 import org.jboss.tools.tests.AbstractResourceMarkerTest;
@@ -34,6 +35,7 @@ public class DisableCDISupportTest extends ValidationTest {
 	@Override
 	protected void setUp() throws Exception {
 		tckProject = TCKTest.importPreparedProject("/");
+		TestUtil._waitForValidation(tckProject);
 	}
 
 	/*
@@ -43,7 +45,6 @@ public class DisableCDISupportTest extends ValidationTest {
 	@Override
 	protected void tearDown() throws Exception {
 		boolean saveAutoBuild = ResourcesUtils.setBuildAutomatically(false);
-		JobUtils.waitForIdle();
 		tckProject.delete(true, true, null);
 		JobUtils.waitForIdle();
 		ResourcesUtils.setBuildAutomatically(saveAutoBuild);

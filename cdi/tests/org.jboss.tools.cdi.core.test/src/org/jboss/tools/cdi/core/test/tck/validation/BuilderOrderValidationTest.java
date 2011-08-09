@@ -16,10 +16,8 @@ import org.eclipse.core.internal.preferences.EclipsePreferences;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.ui.IMarkerResolution;
 import org.eclipse.ui.ide.IDE;
 import org.jboss.tools.cdi.core.preferences.CDIPreferences;
@@ -27,7 +25,6 @@ import org.jboss.tools.common.preferences.SeverityPreferences;
 import org.jboss.tools.jst.jsp.test.TestUtil;
 import org.jboss.tools.jst.web.kb.internal.validation.ValidatorManager;
 import org.jboss.tools.jst.web.kb.preferences.ELSeverityPreferences;
-import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.ResourcesUtils;
 
 public class BuilderOrderValidationTest extends TestCase {
@@ -39,7 +36,7 @@ public class BuilderOrderValidationTest extends TestCase {
 		project = ResourcesPlugin.getWorkspace().getRoot().getProject("CDITestBrokenBuilderOrder");
 		assertNotNull("Can't load CDITestBrokenBuilderOrder", project); //$NON-NLS-1$
 		saveAutoBuild = ResourcesUtils.setBuildAutomatically(false);
-		rebuild();
+		TestUtil._waitForValidation(project);
 	}
 
 	public void tearDown() throws CoreException {
@@ -47,29 +44,23 @@ public class BuilderOrderValidationTest extends TestCase {
 	}
 
 	private void checkResolution(IProject project, String markerType, String resolutionClassName) throws CoreException {
-		try{
-			IMarker[] markers = getBuilderOrderMarkers();
-			assertTrue(markers.length > 0);
-			for (int i = 0; i < markers.length; i++) {
-				IMarker marker = markers[i];
-				IMarkerResolution[] resolutions = IDE.getMarkerHelpRegistry().getResolutions(marker);
-				for (int j = 0; j < resolutions.length; j++) {
-					IMarkerResolution resolution = resolutions[j];
-					if (resolution.getClass().getName().equals(resolutionClassName)) {
-						ValidatorManager.setStatus(ValidatorManager.RUNNING);
-						resolution.run(marker);
-						JobUtils.waitForIdle();
-						TestUtil.waitForValidation();
-						IMarker[] newMarkers = project.findMarkers(markerType, true, IResource.DEPTH_INFINITE);
-						assertTrue("Marker resolution did not decrease number of problems. was: "+markers.length+" now: "+newMarkers.length, newMarkers.length < markers.length);
-						return;
-					}
-					fail("Marker resolution: "+resolutionClassName+" not found");
+		IMarker[] markers = getBuilderOrderMarkers();
+		assertTrue(markers.length > 0);
+		for (int i = 0; i < markers.length; i++) {
+			IMarker marker = markers[i];
+			IMarkerResolution[] resolutions = IDE.getMarkerHelpRegistry().getResolutions(marker);
+			for (int j = 0; j < resolutions.length; j++) {
+				IMarkerResolution resolution = resolutions[j];
+				if (resolution.getClass().getName().equals(resolutionClassName)) {
+					ValidatorManager.setStatus(ValidatorManager.RUNNING);
+					resolution.run(marker);
+					TestUtil._waitForValidation(project);
+					IMarker[] newMarkers = project.findMarkers(markerType, true, IResource.DEPTH_INFINITE);
+					assertTrue("Marker resolution did not decrease number of problems. was: "+markers.length+" now: "+newMarkers.length, newMarkers.length < markers.length);
+					return;
 				}
+				fail("Marker resolution: "+resolutionClassName+" not found");
 			}
-		} finally {
-			JobUtils.waitForIdle();
-//			TestUtil.waitForValidation(project);
 		}
 	}
 
@@ -102,15 +93,7 @@ public class BuilderOrderValidationTest extends TestCase {
 		ps.put(ELSeverityPreferences.WRONG_BUILDER_ORDER_PREFERENCE_NAME, value);
 		ps = (EclipsePreferences)ELSeverityPreferences.getInstance().getProjectPreferences(project);
 		ps.put(ELSeverityPreferences.WRONG_BUILDER_ORDER_PREFERENCE_NAME, value);
-		rebuild();
-	}
-
-	void rebuild() throws CoreException {
-		ValidatorManager.setStatus(ValidatorManager.RUNNING);
-		project.build(IncrementalProjectBuilder.CLEAN_BUILD, new NullProgressMonitor());
-		JobUtils.waitForIdle();
-		project.build(IncrementalProjectBuilder.FULL_BUILD, new NullProgressMonitor());
-		TestUtil.waitForValidation();
+		TestUtil._waitForValidation(project);
 	}
 
 	public void testBuilderOrderResolution() throws CoreException {

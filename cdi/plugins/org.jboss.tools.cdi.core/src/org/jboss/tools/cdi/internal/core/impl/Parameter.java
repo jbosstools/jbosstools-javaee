@@ -31,9 +31,6 @@ public class Parameter extends BeanMember implements IParameter {
 	}
 
 	public void setDefinition(ParameterDefinition definition) {
-		if(beanMethod.getMethod().getElementName().equals("obs")) {
-			System.out.println("!!");
-		}
 		super.setDefinition(definition);
 		this.definition = definition;
 	}

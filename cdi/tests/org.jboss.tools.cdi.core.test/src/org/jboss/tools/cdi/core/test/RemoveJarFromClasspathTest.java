@@ -7,7 +7,6 @@ import junit.framework.TestCase;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
@@ -19,7 +18,6 @@ import org.jboss.tools.common.model.XModel;
 import org.jboss.tools.common.model.filesystems.FileSystemsHelper;
 import org.jboss.tools.common.model.filesystems.impl.Libs;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
-import org.jboss.tools.jst.jsp.test.TestUtil;
 import org.jboss.tools.jst.web.kb.internal.validation.ValidatorManager;
 import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.ResourcesUtils;
@@ -37,9 +35,7 @@ public class RemoveJarFromClasspathTest extends TestCase {
 
 	public void setUp() throws Exception {
 		project = ResourcesUtils.importProject(PLUGIN_ID, "/projects/RemoveJarTest");
-		JobUtils.waitForIdle();
-		project.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
-		JobUtils.waitForIdle();
+		project.build(IncrementalProjectBuilder.INCREMENTAL_BUILD, null);
 	}
 
 	/**
@@ -95,7 +91,6 @@ public class RemoveJarFromClasspathTest extends TestCase {
 	 */
 	public static void replaceFile(IProject project, String sourcePath, String targetPath) throws CoreException {
 		boolean saveAutoBuild = ResourcesUtils.setBuildAutomatically(false);
-		JobUtils.waitForIdle();
 		try {
 			IFile target = project.getFile(new Path(targetPath));
 			IFile source = project.getFile(new Path(sourcePath));
@@ -106,10 +101,7 @@ public class RemoveJarFromClasspathTest extends TestCase {
 			} else {
 				target.setContents(source.getContents(), true, false, new NullProgressMonitor());
 			}
-			JobUtils.waitForIdle();
 			project.build(IncrementalProjectBuilder.INCREMENTAL_BUILD, new NullProgressMonitor());
-			JobUtils.waitForIdle();
-			TestUtil.waitForValidation();
 		} finally {
 			ResourcesUtils.setBuildAutomatically(saveAutoBuild);
 			JobUtils.waitForIdle();
@@ -118,9 +110,7 @@ public class RemoveJarFromClasspathTest extends TestCase {
 
 	public void tearDown() throws Exception {
 		boolean saveAutoBuild = ResourcesUtils.setBuildAutomatically(false);
-		JobUtils.waitForIdle();
 		project.delete(true, true, null);
-		JobUtils.waitForIdle();
 		ResourcesUtils.setBuildAutomatically(saveAutoBuild);
 		JobUtils.waitForIdle();
 	}

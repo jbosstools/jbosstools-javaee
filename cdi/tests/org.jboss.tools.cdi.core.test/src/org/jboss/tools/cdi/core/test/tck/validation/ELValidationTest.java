@@ -13,10 +13,9 @@ package org.jboss.tools.cdi.core.test.tck.validation;
 import java.text.MessageFormat;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.jboss.tools.jst.jsp.test.TestUtil;
 import org.jboss.tools.jst.web.kb.internal.validation.ELValidationMessages;
-import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.ResourcesUtils;
 import org.jboss.tools.tests.AbstractResourceMarkerTest;
 
@@ -27,7 +26,6 @@ public class ELValidationTest extends ValidationTest {
 
 	public void testEls() throws Exception {
 		boolean saveAutoBuild = ResourcesUtils.setBuildAutomatically(false);
-		JobUtils.waitForIdle();
 
 		try {
 			IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/el/TestBean.java");
@@ -38,9 +36,7 @@ public class ELValidationTest extends ValidationTest {
 			IFile namedBean = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/el/NamedBean.java");
 			IFile newNamedBean = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/el/NewNamedBean.validation");
 			namedBean.setContents(newNamedBean.getContents(), IFile.FORCE, new NullProgressMonitor());
-			JobUtils.waitForIdle(1000);
-			tckProject.build(IncrementalProjectBuilder.INCREMENTAL_BUILD, new NullProgressMonitor());
-			JobUtils.waitForIdle(1000);
+			TestUtil.validate(namedBean);
 	
 			file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/el/TestBean.java");
 			AbstractResourceMarkerTest.assertMarkerIsCreated(file, MessageFormat.format(ELValidationMessages.UNKNOWN_EL_VARIABLE_PROPERTY_NAME, "foo"), 6);
@@ -50,9 +46,7 @@ public class ELValidationTest extends ValidationTest {
 			newNamedBean = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/el/NamedBean.java");
 			namedBean = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/el/NamedBean.validation");
 			newNamedBean.setContents(namedBean.getContents(), IFile.FORCE, new NullProgressMonitor());
-			JobUtils.waitForIdle(1000);
-			tckProject.build(IncrementalProjectBuilder.INCREMENTAL_BUILD, new NullProgressMonitor());
-			JobUtils.waitForIdle(1000);
+			TestUtil.validate(newNamedBean);
 	
 			file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/el/TestBean.java");
 			AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, MessageFormat.format(ELValidationMessages.UNKNOWN_EL_VARIABLE_PROPERTY_NAME, "foo"), 6);
@@ -62,12 +56,9 @@ public class ELValidationTest extends ValidationTest {
 			IFile newNamedBean = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/el/NamedBean.java");
 			IFile namedBean = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/el/NamedBean.validation");
 			newNamedBean.setContents(namedBean.getContents(), IFile.FORCE, new NullProgressMonitor());
-			JobUtils.waitForIdle();
-			tckProject.build(IncrementalProjectBuilder.INCREMENTAL_BUILD, new NullProgressMonitor());
-			JobUtils.waitForIdle();
+			TestUtil.validate(newNamedBean);
 
 			ResourcesUtils.setBuildAutomatically(saveAutoBuild);
-			JobUtils.waitForIdle();
 		}
 	}
 }

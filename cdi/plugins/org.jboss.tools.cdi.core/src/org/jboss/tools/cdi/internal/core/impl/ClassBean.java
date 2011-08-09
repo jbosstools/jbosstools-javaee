@@ -119,7 +119,7 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 		ICDIProject result = definition.getDeclaringProject().getDelegate();
 		if(result == null) {
 			result = getCDIProject();
-			System.out.println("Failed to get declaring project.");
+//			System.out.println("Failed to get declaring project.");
 		}				
 		return result;
 	}
