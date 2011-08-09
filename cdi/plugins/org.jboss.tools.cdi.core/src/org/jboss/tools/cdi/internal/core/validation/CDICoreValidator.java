@@ -113,6 +113,7 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 	IValidatingProjectTree projectTree;
 	IValidatingProjectSet projectSet;
 	Set<IFolder> sourceFolders;
+	Dependencies dependencies;
 
 	private Set<IInjectionPointValidatorFeature> injectionValidationFeatures;
 
@@ -209,6 +210,7 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 			if(cdiProject==null) {
 				CDICorePlugin.getDefault().logError("Trying to validate " + rootProject + " but CDI Tools model for the project is not built.");
 			}
+			dependencies = nature.getDefinitions().getAllDependencies();
 			injectionValidationFeatures = nature.getExtensionManager().getFeatures(IInjectionPointValidatorFeature.class);
 		}
 		projectName = projectSet.getRootProject().getName();
@@ -231,10 +233,9 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 		Set<IPath> resources = new HashSet<IPath>(); // Resources which we have
 														// to validate.
 		Set<IPath> resourcesToClean = new HashSet<IPath>(); // Resource which we should remove from validation context
-		Dependencies ds = cdiProject.getNature().getDefinitions().getDependencies();
 		for(IFile file: changedFiles) {
 			resourcesToClean.add(file.getFullPath());
-			Set<IPath> dd = ds.getDirectDependencies(file.getFullPath());
+			Set<IPath> dd = dependencies.getDirectDependencies(file.getFullPath());
 			if(dd != null) {
 				for (IPath p: dd) {
 					IFile f = root.getFile(p);
@@ -414,8 +415,7 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 		displaySubtask(CDIValidationMessages.VALIDATING_RESOURCE, new String[] {file.getProject().getName(), file.getName()});
 		coreHelper.getValidationContextManager().addValidatedProject(this, file.getProject());
 
-		Dependencies ds = cdiProject.getNature().getDefinitions().getDependencies();
-		Set<IPath> dd = ds.getDirectDependencies(file.getFullPath());
+		Set<IPath> dd = dependencies.getDirectDependencies(file.getFullPath());
 		if(dd != null && !dd.isEmpty()) {
 			Set<IPath> resources = new HashSet<IPath>();
 			for (IPath p: dd) {
@@ -451,6 +451,10 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 			validateInterceptorBinding(binding);
 		}
 		Set<IValidatorFeature> extensions = cdiProject.getNature().getExtensionManager().getValidatorFeatures();
+		Set<CDICoreNature> ns = cdiProject.getNature().getCDIProjects();
+		for (CDICoreNature n: ns) {
+			extensions.addAll(n.getExtensionManager().getValidatorFeatures());
+		}
 		for (IValidatorFeature v: extensions) {
 			setSeverityPreferences(v.getSeverityPreferences());
 			v.validateResource(file, this);

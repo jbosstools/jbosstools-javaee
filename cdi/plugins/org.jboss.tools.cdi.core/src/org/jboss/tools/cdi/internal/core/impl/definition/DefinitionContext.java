@@ -482,6 +482,21 @@ public class DefinitionContext implements IRootDefinitionContext {
 	public Dependencies getDependencies() {
 		return dependencies;
 	}
+
+	public Dependencies getAllDependencies() {
+		Set<CDICoreNature> ns = project.getCDIProjects(true);
+		if(!ns.isEmpty()) {
+			Dependencies d = new Dependencies();
+			d.direct.putAll(dependencies.direct);
+			d.reverse.putAll(dependencies.reverse);
+			for (CDICoreNature n: ns) {
+				d.direct.putAll(n.getDefinitions().getDependencies().direct);
+				d.reverse.putAll(n.getDefinitions().getDependencies().reverse);
+			}
+			return d;
+		}
+		return dependencies;
+	}
 	
 }
 
