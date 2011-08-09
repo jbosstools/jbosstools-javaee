@@ -28,16 +28,29 @@ public class SeamSolderTest extends TestCase {
 	protected static String PLUGIN_ID = "org.jboss.tools.cdi.seam.solder.core.test";
 	protected static String PROJECT_NAME = "CDISolderTest";
 	protected static String PROJECT_PATH = "/projects/CDISolderTest";
+	protected static String DEPENDENT_PROJECT_NAME = "CDIDependentSolderTest";
+	protected static String DEPENDENT_PROJECT_PATH = "/projects/CDIDependentSolderTest";
 
 	private ICDIProject cdiProject;
 	private IProject project;
 
+	private IProject dependentProject;
+	private ICDIProject cdiDependentProject;
+
 	public IProject getTestProject() {
 		if(cdiProject==null) {
-			project = findTestProject();
+			project = findTestProject(PROJECT_NAME);
 			cdiProject = CDICorePlugin.getCDIProject(project, true);
 		}
 		return project;
+	}
+
+	public IProject getDependentTestProject() {
+		if(cdiDependentProject==null) {
+			dependentProject = findTestProject(DEPENDENT_PROJECT_NAME);
+			cdiDependentProject = CDICorePlugin.getCDIProject(dependentProject, true);
+		}
+		return dependentProject;
 	}
 
 	public ICDIProject getCDIProject() {
@@ -47,32 +60,15 @@ public class SeamSolderTest extends TestCase {
 		return cdiProject;
 	}
 
-	//	protected IProject project;
-//	protected ICDIProject cdiProject;
+	public ICDIProject getDependentCDIProject() {
+		if(cdiDependentProject==null) {
+			getDependentTestProject();
+		}
+		return cdiDependentProject;
+	}
 
-//	public SeamSolderTest() {
-//		project = getTestProject();
-//		cdiProject = CDICorePlugin.getCDIProject(project, false);
-//	}
-//
-//	public IProject getTestProject() {
-//		if(project==null) {
-//			try {
-//				project = findTestProject();
-//				if(project==null || !project.exists()) {
-//					project = ResourcesUtils.importProject(PLUGIN_ID, PROJECT_PATH);
-//					project.build(IncrementalProjectBuilder.FULL_BUILD, null);
-//				}
-//			} catch (Exception e) {
-//				e.printStackTrace();
-//				fail("Can't import CDI test project: " + e.getMessage());
-//			}
-//		}
-//		return project;
-//	}
-
-	public static IProject findTestProject() {
-		return ResourcesPlugin.getWorkspace().getRoot().getProject(PROJECT_NAME);
+	public static IProject findTestProject(String name) {
+		return ResourcesPlugin.getWorkspace().getRoot().getProject(name);
 	}
 
 	protected IInjectionPointField getInjectionPointField(ICDIProject cdi, String beanClassFilePath, String fieldName) {

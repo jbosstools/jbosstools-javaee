@@ -25,6 +25,7 @@ import org.jboss.tools.test.util.ResourcesUtils;
 public class SeamSolderTestSetup extends TestSetup {
 
 	protected IProject project;
+	protected IProject dependentProject;
 
 	public SeamSolderTestSetup(Test test) {
 		super(test);
@@ -37,12 +38,18 @@ public class SeamSolderTestSetup extends TestSetup {
 			project = ResourcesUtils.importProject(SeamSolderTest.PLUGIN_ID, SeamSolderTest.PROJECT_PATH);
 			TestUtil._waitForValidation(project);
 		}
+		dependentProject = ResourcesPlugin.getWorkspace().getRoot().getProject(SeamSolderTest.DEPENDENT_PROJECT_NAME);
+		if(dependentProject == null || !dependentProject.exists()) {
+			dependentProject = ResourcesUtils.importProject(SeamSolderTest.PLUGIN_ID, SeamSolderTest.DEPENDENT_PROJECT_PATH);
+			TestUtil._waitForValidation(dependentProject);
+		}
 	}
 
 	@Override
 	protected void tearDown() throws Exception {
 		boolean saveAutoBuild = ResourcesUtils.setBuildAutomatically(false);
 		project.delete(true, true, null);
+		dependentProject.delete(true, true, null);
 		JobUtils.waitForIdle();
 		ResourcesUtils.setBuildAutomatically(saveAutoBuild);
 	}

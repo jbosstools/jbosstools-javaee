@@ -36,10 +36,27 @@ public class DefaultBeanTest extends SeamSolderTest {
 
 	public void testDefaultBeanTest() throws CoreException {
 		ICDIProject cdi = CDICorePlugin.getCDIProject(getTestProject(), true);
-	
+		doTestDefaultBeanInDependentProject(cdi, "src/org/jboss/defaultbean/Town.java");
+	}
+
+	public void testDefaultBeanInDependentProject() throws CoreException {
+		ICDIProject dependent = getDependentCDIProject();
+		doTestDefaultBeanInDependentProject(dependent, "src/org/jboss/defaultbean/Town2.java");
+	}
+
+	/**
+	 * Checks default bean injection resolution. 
+	 * If dependent == cdi, executes check of one project, otherwise looks for beans in 
+	 * dependent project. 
+	 *  
+	 * @param cdi - project where injection points and beans are defined
+	 * @param dependent - dependent project, in which beans are looked for; can be equal to cdi
+	 * @throws CoreException
+	 */
+	public void doTestDefaultBeanInDependentProject(ICDIProject cdi, String javaPath) throws CoreException {
 		// 1. For injection point with qualifier @Small, the only eligible bean is
 		//    default class bean with qualifier @Small
-		IInjectionPointField injection = getInjectionPointField(cdi, "src/org/jboss/defaultbean/Town.java", "small");
+		IInjectionPointField injection = getInjectionPointField(cdi, javaPath, "small");
 
 		Set<IBean> bs = cdi.getBeans(false, injection);
 		assertEquals(1, bs.size());
@@ -54,7 +71,7 @@ public class DefaultBeanTest extends SeamSolderTest {
 
 		// 2. For injection point with qualifier @Big, the only eligible bean is 
 		//    default producer bean method with qualifier @Big
-		injection = getInjectionPointField(cdi, "src/org/jboss/defaultbean/Town.java", "big");
+		injection = getInjectionPointField(cdi, javaPath, "big");
 
 		bs = cdi.getBeans(false, injection);
 		assertEquals(1, bs.size());
@@ -71,7 +88,7 @@ public class DefaultBeanTest extends SeamSolderTest {
 		//  a) Default producer method bean with qualifier @Huge, 
 		//  b) one more bean with qualifier @Huge		
 		// default bean is filtered out at resolving beans.
-		injection = getInjectionPointField(cdi, "src/org/jboss/defaultbean/Town.java", "huge");
+		injection = getInjectionPointField(cdi, javaPath, "huge");
 
 		bs = cdi.getBeans(false, injection);
 		assertEquals(2, bs.size());
@@ -92,7 +109,7 @@ public class DefaultBeanTest extends SeamSolderTest {
 		//	a) Default producer field bean has qualifier @Cozy, producer inherits @DefaultBean from parent class;
 		//  b) One more bean with qualifier @Cozy.
 		// default bean is filtered out at resolving beans.
-		injection = getInjectionPointField(cdi, "src/org/jboss/defaultbean/Town.java", "cozy");
+		injection = getInjectionPointField(cdi, javaPath, "cozy");
 
 		bs = cdi.getBeans(false, injection);
 		assertEquals(2, bs.size());
@@ -113,7 +130,7 @@ public class DefaultBeanTest extends SeamSolderTest {
 		//	a) Default producer field bean without qualifier, producer inherits @DefaultBean from parent class; 
 		//  b) One more bean without qualifier.
 		// default bean is filtered out at resolving beans.
-		injection = getInjectionPointField(cdi, "src/org/jboss/defaultbean/Town.java", "ruins");
+		injection = getInjectionPointField(cdi, javaPath, "ruins");
 
 		bs = cdi.getBeans(false, injection);
 		assertEquals(2, bs.size());
