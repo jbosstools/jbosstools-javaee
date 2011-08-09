@@ -18,11 +18,11 @@
   <section>
     <title>Visual Page Editor</title> 
     <para>
-      Visual Page Editor fits perfectly for authoring view Seam pages. The major features of VPE are listed in <xref linkend="SeamEditors"/>
+      Visual Page Editor is a great tool to use for the authoring of Seam pages. The major features of VPE are listed in <xref linkend="SeamEditors"/>
     </para>
      
     <para>
-      You can also read more about Visual Page Editor in <ulink url="http://download.jboss.org/jbosstools/nightly-docs/en/jsf/html/editors.html#visual_page">Visual Page Editor</ulink> chapter of &quot;Visual Web Tools Reference Guide&quot;.
+      You can also read more about Visual Page Editor in the Visual Web Tools Reference Guide.
     </para>
   </section>
    
@@ -563,15 +563,15 @@
       </para>
        
       <itemizedlist>
+		<listitem>
+			<para>
+				<xref linkend="xhtmlFiles"/>
+			</para>
+		</listitem>
+		  
         <listitem>
           <para>
-            <xref linkend="xmlFiles"/>
-          </para>
-        </listitem>
-         
-        <listitem>
-          <para>
-            <xref linkend="xhtmlFiles"/>
+			  <xref linkend="xmlFiles"/>
           </para>
         </listitem>
          
@@ -588,14 +588,13 @@
           In this section were described only use cases special for Seam applications.For general information please read <ulink url="http://download.jboss.org/jbosstools/nightly-docs/en/jsf/html/editors.html#OpenOnSelection4Hyperlinknavigation">OpenOn section in Visual Web Tools Reference Guide</ulink>.
         </para>
       </note>
-       
+	  <formalpara id="xhtmlFiles">
+		  <title>OpenOn in XHTML files</title>
+		  <para>
+			  Using OpenOn in .xhtml files you can open:
+		  </para>
+	  </formalpara>
       <itemizedlist>
-        <listitem id="xhtmlFiles">
-          <para>
-            Using OpenOn in .xhtml files you can open:
-          </para>
-           
-          <itemizedlist>
             <listitem>
               <para>
                 components or properties resolved using an EL expression;
@@ -620,13 +619,13 @@
               </para>
             </listitem>
           </itemizedlist>
-        </listitem>
-         
-        <listitem id="xmlFiles">
-          <para>
-            OpenOn is also supported in Page Descriptors (<property>.page.xml</property> and <property>pages.xml</property>). OpenOn allows you to navigate to Java beans as well as to view pages. You can <property>Ctrl + left click</property> on a bean or on view page file (e.g. XTML file) to navigate to the file you clicked on.
-          </para>
-           
+       
+		<formalpara id="xmlFiles">
+			<title>OpenOn in XML files</title>
+			<para>
+				OpenOn is also supported in Page Descriptors (<property>.page.xml</property> and <property>pages.xml</property>). OpenOn allows you to navigate to Java beans as well as to view pages. You can <property>Ctrl + left click</property> on a bean or on view page file (e.g. XTML file) to navigate to the file you clicked on.
+			</para>
+		</formalpara>     
           <figure>
             <title>OpenOn in .page.xml file</title> 
             <mediaobject>
@@ -684,13 +683,13 @@
               </figure>
             </listitem>
           </itemizedlist>
-        </listitem>
-         
-        <listitem id="javaFiles">
-          <para>
-            OpenOn is also supported in seam components where <property> In annotation</property> is presented. After pressing <property>Ctrl + left click</property> on the seam component specified in <code>@In </code> you will get the possibility to open the file where the component is declarated as well as all of the seam components where it is used in the next declarations:
-          </para>
-           
+
+	<formalpara id="javaFiles">
+		<title>OpenOn in Java files</title>
+		<para>
+			OpenOn is also supported in seam components where <property> In annotation</property> is presented. After pressing <property>Ctrl + left click</property> on the seam component specified in <code>@In </code> you will get the possibility to open the file where the component is declarated as well as all of the seam components where it is used in the next declarations:
+		</para>
+	</formalpara>         
           <itemizedlist>
             <listitem>
               <para>
@@ -725,8 +724,6 @@
               </imageobject>
             </mediaobject>
           </figure>
-        </listitem>
-      </itemizedlist>
     </section>
      
     <section id="SeamValidation">
