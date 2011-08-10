@@ -1,6 +1,6 @@
 /******************************************************************************* 
 
- * Copyright (c) 2010 Red Hat, Inc. 
+ * Copyright (c) 2010-2011 Red Hat, Inc. 
  * Distributed under license by Red Hat, Inc. All rights reserved. 
  * This program is made available under the terms of the 
  * Eclipse Public License v1.0 which accompanies this distribution, 
@@ -131,4 +131,11 @@ public class CDIUIMessages extends NLS{
 	public static String CDI_GENERATE_BEANS_XML;
 	public static String CDI_INSTALL_WIZARD_PAGE_FACET;
 	public static String CDI_INSTALL_WIZARD_PAGE_CONFIGURE;
+	
+	public static String OPEN_CDI_NAMED_BEAN_DIALOG_LOADING;
+	public static String OPEN_CDI_NAMED_BEAN_DIALOG_NAME;
+	public static String OPEN_CDI_NAMED_BEAN_DIALOG_WAIT;
+	
+	public static String OPEN_CDI_NAMED_BEAN_ACTION_NAME;
+	public static String OPEN_CDI_NAMED_BEAN_ACTION_MESSAGE;
 }

@@ -118,8 +118,62 @@
 	      class="org.jboss.tools.cdi.ui.refactoring.CDIRefactorContributionFactory"
 	      locationURI="popup:org.eclipse.ui.popup.any?after=save">
 	</menuContribution>
+	
+       <menuContribution
+          locationURI="menu:navigate?after=open.ext2">
+            <command
+              	commandId="org.jboss.tools.cdi.ui.open.namedBean"
+              	id="openNamedBean"
+           		mnemonic="Z"
+		    	icon="$nl$/icons/open_cdi_named_bean.gif"
+              	label="Open CDI Named Bean"
+              	tooltip="Open CDI Named Bean" >
+       		</command> 
+  		</menuContribution>
+  		<menuContribution
+                locationURI="toolbar:org.eclipse.ui.main.toolbar?after=additions">
+                <toolbar
+                      id="org.eclipse.search.searchActionSet">
+                	<command
+                  		commandId="org.jboss.tools.cdi.ui.open.namedBean"
+                  		id="openNamedBean"
+                  		mnemonic="Z"
+      					icon="$nl$/icons/open_cdi_named_bean.gif"
+                  		label="Open CDI Named Bean"
+                  		tooltip="Open CDI Named Bean" >
+           			</command> 
+         		</toolbar>
+  		</menuContribution>
+	
 	</extension> 
-  
+   	
+   	<extension
+       point="org.eclipse.ui.handlers">
+	   <handler
+	          class="org.jboss.tools.cdi.ui.handlers.OpenCDINamedBeanHandler"
+	          commandId="org.jboss.tools.cdi.ui.open.namedBean">
+	    </handler>
+	</extension>
+	
+   	<extension
+         point="org.eclipse.ui.commands">
+      	<command
+            	categoryId="org.eclipse.ui.category.navigate"
+            	description="Open CDI Named Bean"
+            	id="org.jboss.tools.cdi.ui.open.namedBean"
+            	name="Open CDI Named Bean">
+      	</command>
+	</extension>
+	
+	<extension
+         point="org.eclipse.ui.bindings">
+      	<key
+            commandId="org.jboss.tools.cdi.ui.open.namedBean"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="M1+M3+Z">
+      	</key>
+   	</extension>
+	
    <extension point="org.eclipse.ui.newWizards">
       <category
             name="CDI (Context and Dependency Injection)"

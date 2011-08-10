@@ -1,5 +1,5 @@
 /******************************************************************************* 
- * Copyright (c) 2009 Red Hat, Inc. 
+ * Copyright (c) 2009-2011 Red Hat, Inc. 
  * Distributed under license by Red Hat, Inc. All rights reserved. 
  * This program is made available under the terms of the 
  * Eclipse Public License v1.0 which accompanies this distribution, 
@@ -11,9 +11,14 @@
 package org.jboss.tools.cdi.core;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.jboss.tools.cdi.internal.core.event.CDIProjectChangeEvent;
+import org.jboss.tools.cdi.internal.core.event.ICDIProjectChangeListener;
 import org.jboss.tools.common.log.BaseUIPlugin;
 import org.osgi.framework.BundleContext;
 
@@ -105,4 +110,43 @@ public class CDICorePlugin extends BaseUIPlugin {
 		}
 		return n;
 	}
+	
+	private static List<ICDIProjectChangeListener> listeners = new ArrayList<ICDIProjectChangeListener>();
+
+	/**
+	 * Adds CDI Project listener
+	 */
+	public static void addCDIProjectListener(ICDIProjectChangeListener listener) {
+		synchronized(listeners) {
+			if(listeners.contains(listener)) return;
+			listeners.add(listener);
+		}
+	}
+
+	/**
+	 * Removes CDI Project listener
+	 */
+	public static void removeCDIProjectListener(ICDIProjectChangeListener listener) {
+		synchronized(listeners) {
+			listeners.remove(listener);
+		}
+	}
+
+	/**
+	 * Fires CDI Project change event
+	 * 
+	 * @param event
+	 */
+	public static void fire(CDIProjectChangeEvent event) {
+		ICDIProjectChangeListener[] ls = null;
+		synchronized(listeners) {
+			ls = listeners.toArray(new ICDIProjectChangeListener[0]);
+		}
+		if(ls != null) {
+			for (int i = 0; i < ls.length; i++) {
+				ls[i].projectChanged(event);
+			}
+		}
+	}
+
 }

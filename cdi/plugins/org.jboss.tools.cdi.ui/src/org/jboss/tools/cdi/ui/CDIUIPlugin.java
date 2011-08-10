@@ -1,5 +1,5 @@
 /******************************************************************************* 
- * Copyright (c) 2009 Red Hat, Inc. 
+ * Copyright (c) 2009-2011 Red Hat, Inc. 
  * Distributed under license by Red Hat, Inc. All rights reserved. 
  * This program is made available under the terms of the 
  * Eclipse Public License v1.0 which accompanies this distribution, 
@@ -10,6 +10,10 @@
  ******************************************************************************/ 
 package org.jboss.tools.cdi.ui;
 
+import org.jboss.tools.cdi.core.CDICorePlugin;
+import org.jboss.tools.cdi.internal.core.event.CDIProjectChangeEvent;
+import org.jboss.tools.cdi.internal.core.event.ICDIProjectChangeListener;
+import org.jboss.tools.cdi.ui.wizard.OpenCDINamedBeanDialog;
 import org.jboss.tools.common.log.BaseUIPlugin;
 import org.osgi.framework.BundleContext;
 
@@ -37,6 +41,12 @@ public class CDIUIPlugin extends BaseUIPlugin {
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		plugin = this;
+		CDICorePlugin.addCDIProjectListener(new ICDIProjectChangeListener(){
+			public void projectChanged(CDIProjectChangeEvent event) {
+				OpenCDINamedBeanDialog.validateHistory(event.getProject());
+			}
+		});
+
 	}
 
 	/*
