@@ -118,9 +118,6 @@ public class CDIProject extends CDIElement implements ICDIProject {
 	 * @see org.jboss.tools.cdi.core.IBeanManager#getBeans()
 	 */
 	public IBean[] getBeans() {
-		if(allBeans.isEmpty()) {
-			return new IBean[0];
-		}
 		IBean[] result = new IBean[allBeans.size()];
 		synchronized (allBeans) {
 			int i=0;
