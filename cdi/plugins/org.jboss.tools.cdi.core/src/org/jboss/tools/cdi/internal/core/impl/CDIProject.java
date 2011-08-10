@@ -1203,6 +1203,10 @@ public class CDIProject extends CDIElement implements ICDIProject {
 	}
 
 	public void addBean(IBean bean) {
+		if(((CDIElement)bean).getDeclaringProject() != this && getNature().getClassPath().hasPath(bean.getSourcePath())) {
+			//Prevented double bean from library common for this and used project
+			return;
+		}
 		String name = bean.getName();
 		if(name != null && name.length() > 0) {
 			Set<IBean> bs = beansByName.get(name);
