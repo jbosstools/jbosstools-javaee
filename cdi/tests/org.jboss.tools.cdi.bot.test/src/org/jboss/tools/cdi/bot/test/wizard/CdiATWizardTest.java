@@ -329,12 +329,12 @@ public class CdiATWizardTest extends SWTTestExt {
 	public void testBeansXml() {
 		CDIWizard w = new NewCDIFileWizard(CDIWizardType.BEANS_XML).run();
 		w.setSourceFolder(PROJECT_NAME + "/WebContent/WEB-INF");
-		assertTrue(w.canFinish());
+		assertFalse(w.canFinish());
 		w.setSourceFolder(PROJECT_NAME + "/src/cdi");
 		assertTrue(w.canFinish());
 		w.finish();
 		w = new NewCDIFileWizard(CDIWizardType.BEANS_XML).run();
-		assertTrue(w.canFinish());
+		assertFalse(w.canFinish());
 		w.cancel();
 	}
 	
