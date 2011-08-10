@@ -348,7 +348,7 @@ public class OpenCDINamedBeanDialog extends FilteredItemsSelectionDialog {
 					if (cdiProject != null) {
 						Set<IBean> beans = cdiProject
 								.getBeans(beanName, true);
-						if (beans != null && !beans.isEmpty())
+						if (!beans.isEmpty())
 							return beans.iterator().next();
 					}
 				}
