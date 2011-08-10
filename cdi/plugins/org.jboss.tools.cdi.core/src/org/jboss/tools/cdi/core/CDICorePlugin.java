@@ -142,10 +142,8 @@ public class CDICorePlugin extends BaseUIPlugin {
 		synchronized(listeners) {
 			ls = listeners.toArray(new ICDIProjectChangeListener[0]);
 		}
-		if(ls != null) {
-			for (int i = 0; i < ls.length; i++) {
-				ls[i].projectChanged(event);
-			}
+		for (ICDIProjectChangeListener l : ls) {
+			l.projectChanged(event);
 		}
 	}
 
