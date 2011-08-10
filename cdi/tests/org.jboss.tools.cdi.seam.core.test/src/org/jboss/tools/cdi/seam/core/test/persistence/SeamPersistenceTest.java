@@ -20,6 +20,7 @@ import org.jboss.tools.test.util.ResourcesUtils;
 public class SeamPersistenceTest extends TestCase {
 
 	protected IProject project;
+	protected IProject dependentProject;
 
 	public IProject getTestProject() throws IOException, CoreException, InvocationTargetException, InterruptedException {
 		if(project==null) {
@@ -32,9 +33,29 @@ public class SeamPersistenceTest extends TestCase {
 		return project;
 	}
 
+	public IProject getDependentTestProject() throws IOException, CoreException, InvocationTargetException, InterruptedException {
+		if(dependentProject==null) {
+			dependentProject = ResourcesPlugin.getWorkspace().getRoot().getProject(SeamPersistenceTestSetup.DEPENDENT_PROJECT_NAME);
+			if(!dependentProject.exists()) {
+				dependentProject = ResourcesUtils.importProject(SeamPersistenceTestSetup.PLUGIN_ID, SeamPersistenceTestSetup.DEPENDENT_PROJECT_PATH);
+				TestUtil.waitForValidation();
+			}
+		}
+		return dependentProject;
+	}
+
 	public void testEntityManagerInjection() throws Exception {
 		ICDIProject cdi = CDICorePlugin.getCDIProject(getTestProject(), true);
 		IInjectionPoint p = DependentProjectTest.getInjectionPointField(cdi, "/src/test/EntityManagerTest.java", "manager");
+		assertNotNull(p);
+
+		Set<IBean> bs = cdi.getBeans(false, p);
+		assertEquals(1, bs.size());
+	}
+
+	public void testEntityManagerInjectionInDependentProject() throws Exception {
+		ICDIProject cdi = CDICorePlugin.getCDIProject(getDependentTestProject(), true);
+		IInjectionPoint p = DependentProjectTest.getInjectionPointField(cdi, "/src/test/EntityManager2Test.java", "manager");
 		assertNotNull(p);
 
 		Set<IBean> bs = cdi.getBeans(false, p);
@@ -48,5 +69,14 @@ public class SeamPersistenceTest extends TestCase {
 
 		Set<IBean> bs = cdi.getBeans(false, p);
 		assertFalse(bs.isEmpty());
+	}
+
+	public void testSessionInjectionInDependentProject() throws Exception {
+		ICDIProject cdi = CDICorePlugin.getCDIProject(getDependentTestProject(), true);
+		IInjectionPoint p = DependentProjectTest.getInjectionPointField(cdi, "/src/test/EntityManager2Test.java", "session");
+		assertNotNull(p);
+
+		Set<IBean> bs = cdi.getBeans(false, p);
+		assertEquals(1, bs.size());
 	}
 }

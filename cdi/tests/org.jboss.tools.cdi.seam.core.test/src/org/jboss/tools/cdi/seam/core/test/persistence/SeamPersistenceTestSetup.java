@@ -27,8 +27,11 @@ public class SeamPersistenceTestSetup extends TestSetup {
 	public static final String PLUGIN_ID = "org.jboss.tools.cdi.seam.core.test";
 	public static final String PROJECT_NAME = "Seam3PersistenceTest";
 	public static final String PROJECT_PATH = "/projects/Seam3PersistenceTest";
+	public static final String DEPENDENT_PROJECT_NAME = "Seam3DependentPersistenceTest";
+	public static final String DEPENDENT_PROJECT_PATH = "/projects/" + DEPENDENT_PROJECT_NAME;
 
 	protected IProject project;
+	protected IProject dependentProject;
 
 	public SeamPersistenceTestSetup(Test test) {
 		super(test);
@@ -41,12 +44,18 @@ public class SeamPersistenceTestSetup extends TestSetup {
 			project = ResourcesUtils.importProject(PLUGIN_ID, PROJECT_PATH);
 			project.build(IncrementalProjectBuilder.INCREMENTAL_BUILD, null);
 		}
+		dependentProject = ResourcesPlugin.getWorkspace().getRoot().getProject(DEPENDENT_PROJECT_NAME);
+		if(!dependentProject.exists()) {
+			dependentProject = ResourcesUtils.importProject(PLUGIN_ID, DEPENDENT_PROJECT_PATH);
+			dependentProject.build(IncrementalProjectBuilder.INCREMENTAL_BUILD, null);
+		}
 	}
 
 	@Override
 	protected void tearDown() throws Exception {
 		boolean saveAutoBuild = ResourcesUtils.setBuildAutomatically(false);
 		project.delete(true, true, null);
+		dependentProject.delete(true, true, null);
 		JobUtils.waitForIdle();
 		ResourcesUtils.setBuildAutomatically(saveAutoBuild);
 	}
