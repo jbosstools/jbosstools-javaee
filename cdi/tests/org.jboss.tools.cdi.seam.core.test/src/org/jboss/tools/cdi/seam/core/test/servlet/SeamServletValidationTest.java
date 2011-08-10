@@ -10,38 +10,15 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.seam.core.test.servlet;
 
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-
-import junit.framework.TestCase;
-
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.CoreException;
 import org.jboss.tools.cdi.internal.core.validation.CDIValidationMessages;
-import org.jboss.tools.cdi.seam.core.test.SeamCoreTestSetup;
-import org.jboss.tools.jst.jsp.test.TestUtil;
-import org.jboss.tools.test.util.ResourcesUtils;
+import org.jboss.tools.cdi.seam.core.test.international.SeamCoreTest;
 import org.jboss.tools.tests.AbstractResourceMarkerTest;
 
 /**
  * @author Alexey Kazakov
  */
-public class SeamServletValidationTest extends TestCase {
-
-	protected IProject project;
-
-	public IProject getTestProject() throws IOException, CoreException, InvocationTargetException, InterruptedException {
-		if(project==null) {
-			project = ResourcesPlugin.getWorkspace().getRoot().getProject(SeamCoreTestSetup.PROJECT_NAME);
-			if(!project.exists()) {
-				project = ResourcesUtils.importProject(SeamCoreTestSetup.PLUGIN_ID, SeamCoreTestSetup.PROJECT_PATH);
-				TestUtil.waitForValidation();
-			}
-		}
-		return project;
-	}
+public class SeamServletValidationTest extends SeamCoreTest {
 
 	/**
 	 * CDI validator should ignore injection points annotated @RequestParam/@HeaderParam/@CookieParam

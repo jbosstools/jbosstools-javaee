@@ -10,24 +10,17 @@
  ******************************************************************************/ 
 package org.jboss.tools.cdi.seam.core.test.international;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.runtime.FileLocator;
-import org.eclipse.core.runtime.Platform;
 import org.jboss.tools.cdi.core.CDICorePlugin;
-import org.jboss.tools.cdi.core.test.tck.TCKTest;
 import org.jboss.tools.cdi.seam.core.CDISeamCorePlugin;
 import org.jboss.tools.cdi.seam.core.international.el.CDIInternationalMessagesELResolver;
-import org.jboss.tools.cdi.seam.core.test.CDISeamCoreAllTests;
 import org.jboss.tools.common.el.core.resolver.ELContext;
 import org.jboss.tools.common.el.core.resolver.ELResolver;
 import org.jboss.tools.common.text.TextProposal;
 import org.jboss.tools.common.text.ext.util.Utils;
-import org.jboss.tools.common.util.FileUtil;
-import org.jboss.tools.jst.jsp.test.TestUtil;
 import org.jboss.tools.jst.jsp.test.ca.ContentAssistantTestCase;
 import org.jboss.tools.jst.text.ext.hyperlink.ELHyperlink;
 import org.jboss.tools.jst.text.ext.hyperlink.ELHyperlinkDetector;
@@ -35,19 +28,11 @@ import org.jboss.tools.jst.text.ext.test.HyperlinkTestUtil;
 import org.jboss.tools.jst.text.ext.test.HyperlinkTestUtil.TestHyperlink;
 import org.jboss.tools.jst.text.ext.test.HyperlinkTestUtil.TestRegion;
 import org.jboss.tools.jst.web.kb.PageContextFactory;
-import org.osgi.framework.Bundle;
 
 /**
  * @author Victor Rubezhny
  */
-public class SeamResourceBundlesTest extends TCKTest {
-	protected static final String SEAM_INTERNATIONAL_LIB_SUFFIX = "/seam-international.jar";
-	protected static final String SEAM_INTERNATIONAL_PAGE_SUFFIX = "/seam-international.xhtml";
-	protected static final String DEFAULT_RESOURCE_BUNDLE_SUFFIX = "/messages.properties";
-	protected static final String DE_RESOURCE_BUNDLE_SUFFIX = "/messages_de.properties";
-	protected static final String RESOURCES_SUFFIX = "/resources";
-	
-	protected static String LIB_SUFFIX = "/lib";
+public class SeamResourceBundlesTest extends SeamCoreTest {
 
 	private ContentAssistantTestCase caTest = new ContentAssistantTestCase();
 	private static final String PAGE_NAME = "WebContent/seam-international.xhtml";
@@ -56,49 +41,25 @@ public class SeamResourceBundlesTest extends TCKTest {
 	private String[] germanResourceBundleNameProperties = new String[] {"bundles.messages.de_home_header", "bundles.messages.de_home_body", "bundles.messages.de_home_note"};
 	private String[] textDefaultResourceBundleNameProperties = new String[] {"home_header", "home_body", "home_note"};
 	private String[] textGermanResourceBundleNameProperties = new String[] {"de_home_header", "de_home_body", "de_home_note"};
-	
-	boolean bReadyForTesting = false;
-	String errMessage = null;
-	
-	public SeamResourceBundlesTest () {
-		super();
-		
-		boolean setupOK = true;
-		// Set up seam-international.jar library into the project's WEB-INF/lib folder
-		try {
-			setupOK = setUpSeamInternationalLibraryAndResourceBundle();
-			if (!setupOK)
-			 errMessage = "Cannot set up SEAM International module and resource bundles into a test project";
-		} catch (Exception e) {
-			setupOK = false;
-			errMessage = "Cannot set up SEAM International module and resource bundles into a test project: " 
-					+ e.getLocalizedMessage();
-		}
-		
-		if (!setupOK) 
-			return;
-		
-		// Test that seam-international module is successfully installed on the CDI project
-		setupOK = CDICorePlugin.getCDI(tckProject, true).getExtensionManager()
-				.isCDIExtensionAvailable(CDISeamCorePlugin.CDI_INTERNATIONAL_RUNTIME_EXTENTION);
-		if (!setupOK)
-			errMessage = "SEAM International module is not installed or incorrectly installed";
-		
-		bReadyForTesting = setupOK;
-	}
 
+	/**
+	 * Test that seam-international module is successfully installed on the CDI project
+	 * @throws Exception 
+	 */
+	public void testExtension() throws Exception {
+		assertTrue("SEAM International module is not installed or incorrectly installed", CDICorePlugin.getCDI(getTestProject(), true).getExtensionManager().isCDIExtensionAvailable(CDISeamCorePlugin.CDI_INTERNATIONAL_RUNTIME_EXTENTION));
+	}
 
 	/**
 	 * The method checks if CDIInternationalMessagesELResolver present among the EL Resolvers,
 	 * then if the required resolver found uses it to retrieve and test proposals for bundle and their properties
+	 * @throws Exception 
 	 */
-	public void testCDIInternationalMessages () {
-		assertTrue(errMessage, bReadyForTesting);
-		
-		IFile page = tckProject.getFile(PAGE_NAME);
+	public void testCDIInternationalMessages () throws Exception {
+		IFile page = getTestProject().getFile(PAGE_NAME);
 		assertTrue("Test page not found: " + PAGE_NAME, (page != null && page.exists())); 
 		ELContext elContext = PageContextFactory.createPageContext(page);
-		
+
 		ELResolver[] elResolvers = elContext.getElResolvers();
 		ELResolver cdiInternationalModuleResolver = null;
 		if (elResolvers != null) {
@@ -110,19 +71,19 @@ public class SeamResourceBundlesTest extends TCKTest {
 			}
 		}
 		assertNotNull("Seam International module resolver is not set up on the project", cdiInternationalModuleResolver);
-		
+
 		List<TextProposal> bundleProposals = cdiInternationalModuleResolver.getProposals(elContext, "value=\"#{", 1);
 		assertTrue("Seam International module resolver didn't return proposals for bundles", 
 				(bundleProposals != null && bundleProposals.size() > 0));
 		proposalsExist(bundleProposals, resourceBundleNames);
-		
+
 		List<TextProposal> bundlePropertyProposals = cdiInternationalModuleResolver.getProposals(elContext, "value=\"#{bundles.messages.", 1);
 		assertTrue("Seam International module resolver didn't return proposals for bundles", 
 				(bundlePropertyProposals != null && bundlePropertyProposals.size() > 0));
 		proposalsExist(bundlePropertyProposals, textDefaultResourceBundleNameProperties);
 		proposalsExist(bundlePropertyProposals, textGermanResourceBundleNameProperties);
 	}
-	
+
 	public void proposalsExist(List<TextProposal> res, String[] proposals) {
         TextProposal[] result = res.toArray(new TextProposal[res.size()]);
         for (int i = 0; i < proposals.length; i++) {
@@ -130,7 +91,7 @@ public class SeamResourceBundlesTest extends TCKTest {
             assertTrue("Proposal " + proposals[i] + " not found!", found ); //$NON-NLS-1$ //$NON-NLS-2$
         }
 	}
-	
+
 	public boolean compareTextProposal(String proposal, TextProposal[] proposals){
 		for (int i = 0; i < proposals.length; i++) {
 			String replacementString = proposals[i].getReplacementString().toLowerCase();
@@ -139,67 +100,32 @@ public class SeamResourceBundlesTest extends TCKTest {
 
 			replacementString = Utils.trimQuotes(replacementString);
 			if (replacementString.equalsIgnoreCase(proposal)) return true;
-			
+
 		}
 		return false;
 	}
 
 	/**
 	 * The method tests CA on CDI Seam International Module Resource Bundles
+	 * @throws Exception 
 	 */
-	public void testResourceBundles() {
-		assertTrue(errMessage, bReadyForTesting);
-		
+	public void testResourceBundles() throws Exception {
 		// Perform CA test
+		caTest.setProject(getTestProject());
 		caTest.checkProposals(PAGE_NAME, "value=\"#{", 9, resourceBundleNames, false);
 		caTest.checkProposals(PAGE_NAME, "value=\"#{bundles.messages.", 26, defaultResourceBundleNameProperties, false);
 		caTest.checkProposals(PAGE_NAME, "value=\"#{bundles.messages.", 26, germanResourceBundleNameProperties, false);
 	}
-	
+
 	/**
 	 * The method tests CA on CDI Seam International Module Resource Bundles
 	 */
 	public void testSeamInternationalHyperlinks() throws Exception {
-		assertTrue(errMessage, bReadyForTesting);
-		
 		// Perform Hyperlink test
 		ArrayList<TestRegion> regionList = new ArrayList<TestRegion>();
 		regionList.add(new TestRegion(381, 15, new TestHyperlink[]{new TestHyperlink(ELHyperlink.class, "Open bundle 'messages'", null)})); 
 		regionList.add(new TestRegion(398, 10, new TestHyperlink[]{new TestHyperlink(ELHyperlink.class, "Open property 'home_header' of bundle 'messages'", null)})); 
-		
-		HyperlinkTestUtil.checkRegions(tckProject, PAGE_NAME, regionList, new ELHyperlinkDetector());
-	}
-	
-	private boolean setUpSeamInternationalLibraryAndResourceBundle() throws Exception {
-		Bundle b = Platform.getBundle(CDISeamCoreAllTests.PLUGIN_ID);
-		String projectPath = tckProject.getLocation().toOSString();
-		String resourcePath = FileLocator.resolve(b.getEntry(RESOURCES_SUFFIX)).getFile();
 
-		File seamInternationalLibFrom = new File(resourcePath + SEAM_INTERNATIONAL_LIB_SUFFIX);
-		File seamInternationalLibTo = new File(projectPath + WEB_CONTENT_SUFFIX + WEB_INF_SUFFIX 
-				+ LIB_SUFFIX + SEAM_INTERNATIONAL_LIB_SUFFIX);
-		if (!FileUtil.copyFile(seamInternationalLibFrom, seamInternationalLibTo))
-			return false;
-
-		File defaultResourceBundleFrom = new File(resourcePath + DEFAULT_RESOURCE_BUNDLE_SUFFIX);
-		File defaultResourceBundleTo = new File(projectPath + JAVA_SOURCE_SUFFIX + DEFAULT_RESOURCE_BUNDLE_SUFFIX);
-		if (!FileUtil.copyFile(defaultResourceBundleFrom, defaultResourceBundleTo))
-			return false;
-
-		File germanResourceBundleFrom = new File(resourcePath + DE_RESOURCE_BUNDLE_SUFFIX);
-		File germanResourceBundleTo = new File(projectPath + JAVA_SOURCE_SUFFIX + DE_RESOURCE_BUNDLE_SUFFIX);
-		if (!FileUtil.copyFile(germanResourceBundleFrom, germanResourceBundleTo))
-			return false;
-
-		File seamInternationalPageFrom = new File(resourcePath + SEAM_INTERNATIONAL_PAGE_SUFFIX);
-		File seamInternationalPageTo = new File(projectPath + WEB_CONTENT_SUFFIX 
-				+ SEAM_INTERNATIONAL_PAGE_SUFFIX);
-		if (!FileUtil.copyFile(seamInternationalPageFrom, seamInternationalPageTo))
-			return false;
-
-		TestUtil.validate(tckProject);
-
-		caTest.setProject(tckProject);
-		return true;
+		HyperlinkTestUtil.checkRegions(getTestProject(), PAGE_NAME, regionList, new ELHyperlinkDetector());
 	}
 }
