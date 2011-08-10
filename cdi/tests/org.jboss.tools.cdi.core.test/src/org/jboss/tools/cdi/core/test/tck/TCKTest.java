@@ -48,13 +48,13 @@ import org.jboss.tools.test.util.ResourcesUtils;
 import org.osgi.framework.Bundle;
 
 public class TCKTest extends TestCase {
-	protected static String PLUGIN_ID = "org.jboss.tools.cdi.core.test";
-	protected static String PROJECT_NAME = "tck";
-	protected static String PROJECT_PATH = "/projects/tck";
+	protected final static String PLUGIN_ID = "org.jboss.tools.cdi.core.test";
+	public final static String PROJECT_NAME = "tck";
+	protected final static String PROJECT_PATH = "/projects/tck";
 
-	protected static String JAVA_SOURCE_SUFFIX = "/JavaSource";
-	protected static String WEB_CONTENT_SUFFIX = "/WebContent";
-	protected static String WEB_INF_SUFFIX = "/WEB-INF";
+	public final static String JAVA_SOURCE_SUFFIX = "/JavaSource";
+	public final static String WEB_CONTENT_SUFFIX = "/WebContent";
+	public final static String WEB_INF_SUFFIX = "/WEB-INF";
 //	protected static String JAVA_SOURCE = PROJECT_PATH + JAVA_SOURCE_SUFFIX;
 //	protected static String WEB_CONTENT = PROJECT_PATH + WEB_CONTENT_SUFFIX;
 //	protected static String WEB_INF = WEB_CONTENT + WEB_INF_SUFFIX;
