@@ -16,6 +16,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -42,6 +43,7 @@ import org.eclipse.ui.dialogs.FilteredItemsSelectionDialog;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.ICDIProject;
+import org.jboss.tools.cdi.internal.core.impl.CDIElement;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
 import org.jboss.tools.cdi.ui.CDIUIPlugin;
 import org.jboss.tools.cdi.ui.CDIUiImages;
@@ -125,16 +127,15 @@ public class OpenCDINamedBeanDialog extends FilteredItemsSelectionDialog {
 			IProject project = projects[i];
 			progressMonitor.subTask(project.getName());
 
-			ICDIProject cdiProject = CDICorePlugin.getCDIProject(project,
-					true);
+			ICDIProject cdiProject = CDICorePlugin.getCDIProject(project, true);
 			if (cdiProject != null) {
 				Set<IBean> iter = cdiProject.getNamedBeans(false);
 				for (IBean bean: iter) {
-					if (CDINamedBeanReferencedFilter
-							.isBeanDeclaredInThisProject(bean))
+					if (bean instanceof CDIElement && cdiProject == ((CDIElement)bean).getDeclaringProject()) {
 						contentProvider.add(new CDINamedBeanWrapper(bean
 								.getName(), project.getName(), bean),
 								itemsFilter);
+					}
 				}
 			}
 			progressMonitor.worked(1);
