@@ -1383,7 +1383,7 @@
       </figure>
        
       <para>
-        You can insert a tag or component from the palette into either the <guilabel>Source</guilabel> or the <guilabel>Visual</guilabel> part by displaying the context menu and selecting <guimenuitem>Insert around</guimenuitem>, <guimenuitem>Insert before</guimenuitem>, <guimenuitem>Insert after</guimenuitem> or <guimenuitem>Replace With</guimenuitem>, pointing to <guimenuitem>From Palette</guimenuitem>, picking the type of the tag and finally choosing the tag you want to insert.
+        You can insert a tag or component from the palette into either the <guilabel>Source</guilabel> or the <guilabel>Visual</guilabel> part by displaying the context menu and selecting <guimenuitem>Insert around</guimenuitem>, <guimenuitem>Insert before</guimenuitem>, <guimenuitem>Insert after</guimenuitem> or <guimenuitem>Replace With</guimenuitem>, picking the type of the tag and finally choosing the tag you want to insert.
       </para>
        
       <para>
