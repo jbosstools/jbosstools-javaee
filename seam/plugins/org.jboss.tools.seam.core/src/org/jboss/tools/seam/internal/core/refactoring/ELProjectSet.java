@@ -14,10 +14,10 @@ import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IPath;
 import org.jboss.tools.common.model.project.ProjectHome;
-import org.jboss.tools.jsf.el.refactoring.ProjectsSet;
+import org.jboss.tools.jst.web.kb.refactoring.IProjectsSet;
 import org.jboss.tools.seam.core.SeamProjectsSet;
 
-public class ELProjectSet implements ProjectsSet {
+public class ELProjectSet implements IProjectsSet {
 	SeamProjectsSet projectsSet;
 	IProject project;
 	

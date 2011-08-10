@@ -415,15 +415,6 @@
       </perspectiveExtension>
    </extension>
    
-    <extension
-        point="org.eclipse.jdt.ui.queryParticipants">
-     <queryParticipant
-           class="org.jboss.tools.jsf.ui.el.refactoring.ELReferencesQueryParticipant"
-           id="org.jboss.tools.jsf.ui.el.refactoring.ELReferencesQueryParticipant"
-           name="jsf-SearchELReferencesParticipant"
-           nature="org.jboss.tools.jsf.jsfnature">
-     </queryParticipant>
-  </extension>
   <extension
          point="org.eclipse.ltk.core.refactoring.renameParticipants">
          <renameParticipant

@@ -35,9 +35,9 @@ import org.eclipse.text.edits.ReplaceEdit;
 import org.eclipse.text.edits.TextEdit;
 import org.jboss.tools.common.model.project.ProjectHome;
 import org.jboss.tools.common.util.BeanUtil;
-import org.jboss.tools.jsf.el.refactoring.ELProjectSetExtension;
-import org.jboss.tools.jsf.el.refactoring.ProjectsSet;
 import org.jboss.tools.jsf.ui.JsfUIMessages;
+import org.jboss.tools.jst.web.kb.refactoring.ELProjectSetExtension;
+import org.jboss.tools.jst.web.kb.refactoring.IProjectsSet;
 import org.jboss.tools.jst.web.kb.refactoring.RefactorSearcher;
 
 public class RenameMethodParticipant extends RenameParticipant implements ISharableParticipant{
@@ -168,7 +168,7 @@ public class RenameMethodParticipant extends RenameParticipant implements IShara
 	}
 	
 	class RenameMethodSearcher extends RefactorSearcher{
-		ProjectsSet projectSet=null;
+		IProjectsSet projectSet=null;
 		public RenameMethodSearcher(IFile file, String name){
 			super(file, name, element);
 			ELProjectSetExtension[] extensions = 	ELProjectSetExtension.getInstances();
