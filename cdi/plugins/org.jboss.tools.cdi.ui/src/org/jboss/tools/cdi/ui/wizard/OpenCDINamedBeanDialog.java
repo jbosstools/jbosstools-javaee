@@ -16,7 +16,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -43,6 +42,8 @@ import org.eclipse.ui.dialogs.FilteredItemsSelectionDialog;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.ICDIProject;
+import org.jboss.tools.cdi.internal.core.event.CDIProjectChangeEvent;
+import org.jboss.tools.cdi.internal.core.event.ICDIProjectChangeListener;
 import org.jboss.tools.cdi.internal.core.impl.CDIElement;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
 import org.jboss.tools.cdi.ui.CDIUIPlugin;
@@ -72,11 +73,59 @@ public class OpenCDINamedBeanDialog extends FilteredItemsSelectionDialog {
 
 		setListLabelProvider(new CDINamedBeanLabelProvider());
 		setDetailsLabelProvider(new CDINamedBeanLabelProvider());
-
-		XMLMemento memento = loadMemento();
-		if (memento != null)
-			getSelectionHistory().load(memento);
 	}
+
+	private final static ICDIProjectChangeListener cdiProjectListener =
+			new ICDIProjectChangeListener() {
+				public void projectChanged(CDIProjectChangeEvent event) {
+					validateHistory(event.getProject());
+				}
+			};
+			
+
+	@Override
+	public boolean close() {
+		CDICorePlugin.removeCDIProjectListener(cdiProjectListener);
+		return super.close();
+	}
+
+	@Override
+	public int open() {
+		XMLMemento memento = loadMemento();
+		if (memento != null) {
+			getSelectionHistory().load(memento);
+			updateHistory(memento);
+			saveMemento(memento);
+		}
+		CDICorePlugin.addCDIProjectListener(cdiProjectListener);
+		return super.open();
+	}
+
+	private static void updateHistory(XMLMemento memento) {
+		XMLMemento historyMemento = (XMLMemento) memento
+				.getChild(ROOT_NODE);
+
+		if (historyMemento == null)
+			return;
+
+		IMemento[] mementoElements = historyMemento.getChildren(INFO_NODE);
+		for (int i = 0; i < mementoElements.length; ++i) {
+			IMemento mem = mementoElements[i];
+			String projectName = mem.getString(PROJECT_NAME);
+			if (projectName == null) {
+				mem.putString(DELETED, YES);
+				continue;
+			}
+			IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(projectName);
+			ICDIProject cdiProject = CDICorePlugin.getCDIProject(project, true);
+			if (cdiProject == null) {
+				mem.putString(DELETED, YES);
+				continue;
+			}
+			validateHistory(cdiProject, memento);
+		}
+	}
+
 
 	public void startSearch() {
 		applyFilter();
@@ -357,55 +406,52 @@ public class OpenCDINamedBeanDialog extends FilteredItemsSelectionDialog {
 			}
 			return bean;
 		}
-
 	}
-
+	
 	public static void validateHistory(ICDIProject cdiProject) {
-		String cdiProjectName = cdiProject.getNature().getProject().getName(); 
-
 		XMLMemento memento = loadMemento();
 		if (memento != null) {
-			XMLMemento historyMemento = (XMLMemento) memento
-					.getChild(ROOT_NODE);
+			validateHistory(cdiProject, memento);
+			saveMemento(memento);
+		}
+	}
+	
+	public static void validateHistory(ICDIProject cdiProject, XMLMemento memento) {
+		String cdiProjectName = cdiProject.getNature().getProject().getName(); 
+		XMLMemento historyMemento = (XMLMemento) memento
+				.getChild(ROOT_NODE);
 
-			if (historyMemento == null) {
-				return;
+		if (historyMemento == null) {
+			return;
+		}
+
+		IMemento[] mementoElements = historyMemento.getChildren(INFO_NODE);
+		for (int i = 0; i < mementoElements.length; ++i) {
+			IMemento mem = mementoElements[i];
+			String projectName = mem.getString(PROJECT_NAME);
+			if (projectName == null) {
+				mem.putString(DELETED, YES);
+				continue;
 			}
-
-			IMemento[] mementoElements = historyMemento.getChildren(INFO_NODE);
-			for (int i = 0; i < mementoElements.length; ++i) {
-				IMemento mem = mementoElements[i];
-				String projectName = mem.getString(PROJECT_NAME);
-				if (projectName == null) {
+			if (projectName.equals(cdiProjectName)) {
+				if (!cdiProject.getNature().getProject().exists()) {
 					mem.putString(DELETED, YES);
 					continue;
 				}
-				if (projectName.equals(cdiProjectName)) {
-					String beanName = mem.getString(BEAN_NAME);
-					if (beanName == null) {
-						mem.putString(DELETED, YES);
-						continue;
-					}
-					IProject project = ResourcesPlugin.getWorkspace().getRoot()
-							.getProject(projectName);
-					if (project != null) {
-						ICDIProject cCDIProject = CDICorePlugin
-								.getCDIProject(project, true);
-						if (cCDIProject != null) {
-							Set<IBean> beans = cdiProject
-									.getBeans(beanName, true);
-							IBean bean = (beans == null || beans.isEmpty() ? null : beans.iterator().next()); 
-							if (bean == null)
-								mem.putString(DELETED, YES);
-							else
-								mem.putString(DELETED, NO);
-						} else
-							mem.putString(DELETED, YES);
-					} else
-						mem.putString(DELETED, YES);
+				
+				String beanName = mem.getString(BEAN_NAME);
+				if (beanName == null) {
+					mem.putString(DELETED, YES);
+					continue;
 				}
+				Set<IBean> beans = cdiProject
+						.getBeans(beanName, true);
+				IBean bean = (beans == null || beans.isEmpty() ? null : beans.iterator().next()); 
+				if (bean == null)
+					mem.putString(DELETED, YES);
+				else
+					mem.putString(DELETED, NO);
 			}
-			saveMemento(memento);
 		}
 	}
 }

@@ -10,10 +10,6 @@
  ******************************************************************************/ 
 package org.jboss.tools.cdi.ui;
 
-import org.jboss.tools.cdi.core.CDICorePlugin;
-import org.jboss.tools.cdi.internal.core.event.CDIProjectChangeEvent;
-import org.jboss.tools.cdi.internal.core.event.ICDIProjectChangeListener;
-import org.jboss.tools.cdi.ui.wizard.OpenCDINamedBeanDialog;
 import org.jboss.tools.common.log.BaseUIPlugin;
 import org.osgi.framework.BundleContext;
 
@@ -34,13 +30,6 @@ public class CDIUIPlugin extends BaseUIPlugin {
 	public CDIUIPlugin() {
 	}
 
-	private final static ICDIProjectChangeListener cdiProjectListener =
-			new ICDIProjectChangeListener() {
-				public void projectChanged(CDIProjectChangeEvent event) {
-					OpenCDINamedBeanDialog.validateHistory(event.getProject());
-				}
-			};
-			
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext)
@@ -48,8 +37,6 @@ public class CDIUIPlugin extends BaseUIPlugin {
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		plugin = this;
-		CDICorePlugin.addCDIProjectListener(cdiProjectListener);
-
 	}
 
 	/*
@@ -57,7 +44,6 @@ public class CDIUIPlugin extends BaseUIPlugin {
 	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext)
 	 */
 	public void stop(BundleContext context) throws Exception {
-		CDICorePlugin.removeCDIProjectListener(cdiProjectListener);
 		plugin = null;
 		super.stop(context);
 	}
