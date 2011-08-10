@@ -15,10 +15,16 @@ import java.util.List;
 
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swtbot.swt.finder.SWTBot;
+import org.eclipse.swtbot.swt.finder.finders.UIThreadRunnable;
+import org.eclipse.swtbot.swt.finder.results.Result;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotCheckBox;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotCombo;
+import org.eclipse.swtbot.swt.finder.widgets.SWTBotMenu;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotRadio;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotShell;
+import org.eclipse.swtbot.swt.finder.widgets.SWTBotTree;
+import org.eclipse.swtbot.swt.finder.widgets.SWTBotTreeItem;
+import org.jboss.tools.ui.bot.ext.helper.ContextMenuHelper;
 
 public class CDIWizard extends Wizard {
 
@@ -52,7 +58,7 @@ public class CDIWizard extends Wizard {
 		}
 		return this;
 	}
-	
+
 	public CDIWizard setInherited(boolean set) {
 		setCheckbox("Add @Inherited", set);
 		return this;
@@ -214,7 +220,8 @@ public class CDIWizard extends Wizard {
 
 	public List<String> getIBindings() {
 		setFocus();
-		return Arrays.asList(bot().listWithLabel("Interceptor Bindings:").getItems());
+		return Arrays.asList(bot().listWithLabel("Interceptor Bindings:")
+				.getItems());
 	}
 
 	public CDIWizard addStereotype(String stereotype) {
@@ -251,7 +258,7 @@ public class CDIWizard extends Wizard {
 					Radio2(Button b) {
 						super(b);
 					}
-					
+
 					@Override
 					public SWTBotRadio click() {
 						return (SWTBotRadio) click(true);
@@ -278,7 +285,7 @@ public class CDIWizard extends Wizard {
 		}
 		return this;
 	}
-	
+
 	public CDIWizard addInterface(String intf) {
 		switch (type) {
 		case DECORATOR:
@@ -361,7 +368,7 @@ public class CDIWizard extends Wizard {
 		}
 		return this;
 	}
-	
+
 	public CDIWizard setMethodName(String name) {
 		switch (type) {
 		case INTERCEPTOR:
@@ -372,6 +379,7 @@ public class CDIWizard extends Wizard {
 		}
 		return this;
 	}
+
 	
 	private void setCheckbox(String label, boolean set) {
 		setFocus();

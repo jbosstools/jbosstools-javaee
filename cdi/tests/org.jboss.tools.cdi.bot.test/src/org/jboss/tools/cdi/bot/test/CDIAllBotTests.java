@@ -11,7 +11,7 @@
 package org.jboss.tools.cdi.bot.test;
 
 import org.jboss.tools.cdi.bot.test.editor.BeansEditorTest;
-import org.jboss.tools.cdi.bot.test.fix.QuickFixTest;
+import org.jboss.tools.cdi.bot.test.fix.CDIQuickFixTest;
 import org.jboss.tools.cdi.bot.test.wizard.CdiATWizardTest;
 import org.jboss.tools.ui.bot.ext.RequirementAwareSuite;
 import org.junit.runner.RunWith;
@@ -41,7 +41,7 @@ import org.junit.runners.Suite.SuiteClasses;
 @SuiteClasses({
 	CdiATWizardTest.class,
 	BeansEditorTest.class,
-	QuickFixTest.class
+	CDIQuickFixTest.class
 	})
 public class CDIAllBotTests {
 }
