@@ -74,6 +74,10 @@ public class CDISeamPersistenceExtension implements ICDIExtension, IBuildPartici
 
 	@Override
 	public void buildBeans(CDIProject target) {
+		if(target.getNature() != context.getRootContext().getProject()) {
+			//because we getAll type definitions
+			return;
+		}
 		List<TypeDefinition> definitions = target.getNature().getAllTypeDefinitions();
 		if(definitions.isEmpty()) {
 			//no beans to build

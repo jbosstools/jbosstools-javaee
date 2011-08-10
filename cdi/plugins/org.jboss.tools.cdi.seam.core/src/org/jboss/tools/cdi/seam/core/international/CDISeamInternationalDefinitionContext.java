@@ -16,6 +16,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.core.runtime.IPath;
+import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.extension.AbstractDefinitionContextExtension;
 import org.jboss.tools.cdi.seam.core.international.scanner.BundleFileSet;
 import org.jboss.tools.common.model.XModelObject;
@@ -82,7 +83,16 @@ public class CDISeamInternationalDefinitionContext extends AbstractDefinitionCon
 	}
 
 	public Set<XModelObject> getAllBundles() {
-		return allBundles;
+		Set<XModelObject> result = new HashSet<XModelObject>();
+		result.addAll(allBundles);
+		Set<CDICoreNature> ns = root.getProject().getCDIProjects(true);
+		for (CDICoreNature n: ns) {
+			CDISeamInternationalExtension extension = CDISeamInternationalExtension.getExtension(n);
+			if(extension != null) {
+				result.addAll(extension.getContext().allBundles);
+			}
+		}
+		return result;
 	}
 
 }
