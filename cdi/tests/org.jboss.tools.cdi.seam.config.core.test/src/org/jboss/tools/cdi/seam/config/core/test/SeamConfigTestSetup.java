@@ -25,6 +25,7 @@ import org.jboss.tools.test.util.ResourcesUtils;
 public class SeamConfigTestSetup extends TestSetup {
 
 	protected IProject project;
+	protected IProject dependentProject;
 
 	public SeamConfigTestSetup(Test test) {
 		super(test);
@@ -36,6 +37,11 @@ public class SeamConfigTestSetup extends TestSetup {
 		if(project == null || !project.exists()) {
 			project = ResourcesUtils.importProject(SeamConfigTest.PLUGIN_ID, SeamConfigTest.PROJECT_PATH);
 			project.build(IncrementalProjectBuilder.INCREMENTAL_BUILD, null);
+		}
+		dependentProject = ResourcesPlugin.getWorkspace().getRoot().getProject(SeamConfigTest.DEPENDENT_PROJECT_NAME);
+		if(dependentProject == null || !dependentProject.exists()) {
+			dependentProject = ResourcesUtils.importProject(SeamConfigTest.PLUGIN_ID, SeamConfigTest.DEPENDENT_PROJECT_PATH);
+			dependentProject.build(IncrementalProjectBuilder.INCREMENTAL_BUILD, null);
 		}
 	}
 

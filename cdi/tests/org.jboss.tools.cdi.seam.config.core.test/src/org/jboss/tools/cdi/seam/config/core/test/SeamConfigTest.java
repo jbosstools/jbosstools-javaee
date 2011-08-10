@@ -39,20 +39,28 @@ import org.jboss.tools.test.util.ResourcesUtils;
 public class SeamConfigTest extends TestCase {
 	protected static String PLUGIN_ID = "org.jboss.tools.cdi.seam.config.core.test";
 	protected static String PROJECT_NAME = "CDIConfigTest";
-	protected static String PROJECT_PATH = "/projects/CDIConfigTest";
+	protected static String PROJECT_PATH = "/projects/" + PROJECT_NAME;
+
+	protected static String DEPENDENT_PROJECT_NAME = "CDIDependentConfigTest";
+	protected static String DEPENDENT_PROJECT_PATH = "/projects/" + DEPENDENT_PROJECT_NAME;
 
 	protected IProject project;
 	protected ICDIProject cdiProject;
 
+	protected IProject dependentProject;
+	protected ICDIProject cdiDependentProject;
+
 	public SeamConfigTest() {
 		project = getTestProject();
 		cdiProject = CDICorePlugin.getCDIProject(project, false);
+		dependentProject = getDependentTestProject();
+		cdiDependentProject = CDICorePlugin.getCDIProject(dependentProject, false);
 	}
 
 	public IProject getTestProject() {
 		if(project==null) {
 			try {
-				project = findTestProject();
+				project = findTestProject(PROJECT_NAME);
 				if(project==null || !project.exists()) {
 					project = ResourcesUtils.importProject(PLUGIN_ID, PROJECT_PATH);
 					project.build(IncrementalProjectBuilder.INCREMENTAL_BUILD, null);
@@ -65,8 +73,24 @@ public class SeamConfigTest extends TestCase {
 		return project;
 	}
 
-	public static IProject findTestProject() {
-		return ResourcesPlugin.getWorkspace().getRoot().getProject(PROJECT_NAME);
+	public IProject getDependentTestProject() {
+		if(dependentProject==null) {
+			try {
+				dependentProject = findTestProject(DEPENDENT_PROJECT_NAME);
+				if(dependentProject==null || !dependentProject.exists()) {
+					dependentProject = ResourcesUtils.importProject(PLUGIN_ID, DEPENDENT_PROJECT_PATH);
+					dependentProject.build(IncrementalProjectBuilder.INCREMENTAL_BUILD, null);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+				fail("Can't import CDI test project: " + e.getMessage());
+			}
+		}
+		return dependentProject;
+	}
+
+	public static IProject findTestProject(String name) {
+		return ResourcesPlugin.getWorkspace().getRoot().getProject(name);
 	}
 
 	protected CDISeamConfigExtension getConfigExtension(ICDIProject cdi) {

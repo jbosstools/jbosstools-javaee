@@ -29,6 +29,7 @@ public class CDISeamConfigCoreAllTests {
 		suiteCore.addTestSuite(ExtensionTest.class);
 		suiteCore.addTestSuite(SeamDefinitionsTest.class);
 		suiteCore.addTestSuite(SeamBeansTest.class);
+		suiteCore.addTestSuite(ConfigBeansInjectionTest.class);
 		suiteAll.addTest(new SeamConfigTestSetup(suiteCore));
 
 		TestSuite suiteValidation = new TestSuite("CDI Config Validation Tests");

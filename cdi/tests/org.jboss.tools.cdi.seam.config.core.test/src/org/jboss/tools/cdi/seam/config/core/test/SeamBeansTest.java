@@ -81,6 +81,10 @@ public class SeamBeansTest extends SeamConfigTest {
 	public void testCreatingNewTrivialBean() throws CoreException, IOException {
 		Set<IBean> beans = getBeansByClassName("org.jboss.beans.test01.MyBean3");
 		assertEquals(2, beans.size());
+
+		//The same in dependent project
+		beans = getBeansByClassNameInDependentProject("org.jboss.beans.test01.MyBean3");
+		assertEquals(2, beans.size());
 	}
 
 	/**
@@ -96,6 +100,10 @@ public class SeamBeansTest extends SeamConfigTest {
 	 */
 	public void testCreatingTwoNewTrivialBeans() throws CoreException, IOException {
 		Set<IBean> beans = getBeansByClassName("org.jboss.beans.test01.MyBean4");
+		assertEquals(3, beans.size());
+
+		//The same in dependent project
+		beans = getBeansByClassNameInDependentProject("org.jboss.beans.test01.MyBean4");
 		assertEquals(3, beans.size());
 	}
 
@@ -124,6 +132,16 @@ public class SeamBeansTest extends SeamConfigTest {
 							 "org.jboss.beans.test02.MyQualifier2"});
 		assertEquals(1, beans2.size());
 		assertTrue("Two sets should contain the same bean.", beans1.iterator().next() == beans2.iterator().next());
+
+		//The same in dependent project
+		beans1 = cdiDependentProject.getBeans(false, "org.jboss.beans.test02.MyBean1", 
+				new String[]{"org.jboss.beans.test02.MyQualifier1"});
+		assertEquals(1, beans1.size());
+		beans2 = cdiDependentProject.getBeans(false, "org.jboss.beans.test02.MyBean1", 
+				new String[]{"org.jboss.beans.test02.MyQualifier1",
+							 "org.jboss.beans.test02.MyQualifier2"});
+		assertEquals(1, beans2.size());
+		assertTrue("Two sets should contain the same bean.", beans1.iterator().next() == beans2.iterator().next());
 	}
 
 	/**
@@ -144,6 +162,14 @@ public class SeamBeansTest extends SeamConfigTest {
 				new String[]{"org.jboss.beans.test02.MyQualifier1"});
 		assertTrue(beans1.isEmpty());
 		Set<IBean> beans2 = cdiProject.getBeans(false, "org.jboss.beans.test02.MyBean2", 
+				new String[]{"org.jboss.beans.test02.MyQualifier2"});
+		assertEquals(1, beans2.size());
+
+		//The same in dependent project
+		beans1 = cdiDependentProject.getBeans(false, "org.jboss.beans.test02.MyBean2", 
+				new String[]{"org.jboss.beans.test02.MyQualifier1"});
+		assertTrue(beans1.isEmpty());
+		beans2 = cdiDependentProject.getBeans(false, "org.jboss.beans.test02.MyBean2", 
 				new String[]{"org.jboss.beans.test02.MyQualifier2"});
 		assertEquals(1, beans2.size());
 	}
@@ -169,6 +195,10 @@ public class SeamBeansTest extends SeamConfigTest {
 	public void testCreatingTwoNewQualifiedBeans() throws CoreException, IOException {
 		Set<IBean> beans = getBeansByClassName("org.jboss.beans.test01.MyBean4");
 		assertEquals(3, beans.size());
+
+		//The same in dependent project
+		beans = getBeansByClassName("org.jboss.beans.test01.MyBean4");
+		assertEquals(3, beans.size());
 	}
 
 	/**
@@ -188,6 +218,12 @@ public class SeamBeansTest extends SeamConfigTest {
 		assertEquals(1, beans1.size());
 		IBean b = beans1.iterator().next();
 		assertEquals("test03-1-b", b.getName());
+
+		//The same in dependent project
+		beans1 = cdiDependentProject.getBeans(false, "org.jboss.beans.test03.MyBean1");
+		assertEquals(1, beans1.size());
+		b = beans1.iterator().next();
+		assertEquals("test03-1-b", b.getName());
 	}
 
 	/**
@@ -206,6 +242,12 @@ public class SeamBeansTest extends SeamConfigTest {
 		Set<IBean> beans1 = cdiProject.getBeans(false, "org.jboss.beans.test03.MyBean2");
 		assertEquals(1, beans1.size());
 		IBean b = beans1.iterator().next();
+		assertEquals("test03-2-b", b.getName());
+
+		//The same in dependent project
+		beans1 = cdiDependentProject.getBeans(false, "org.jboss.beans.test03.MyBean2");
+		assertEquals(1, beans1.size());
+		b = beans1.iterator().next();
 		assertEquals("test03-2-b", b.getName());
 	}
 
@@ -232,6 +274,17 @@ public class SeamBeansTest extends SeamConfigTest {
 		assertTrue(names.contains("test03-3-a"));
 		assertTrue(names.contains("test03-3-b"));
 		assertTrue(names.contains("test03-3-c"));
+
+		//The same in dependent project
+		beans = cdiDependentProject.getBeans(false, "org.jboss.beans.test03.MyBean3");
+		assertEquals(3, beans.size());
+		names = new HashSet<String>();
+		for (IBean b: beans) {
+			names.add(b.getName());
+		}
+		assertTrue(names.contains("test03-3-a"));
+		assertTrue(names.contains("test03-3-b"));
+		assertTrue(names.contains("test03-3-c"));
 	}
 
 	/**
@@ -250,6 +303,12 @@ public class SeamBeansTest extends SeamConfigTest {
 		Set<IBean> beans = cdiProject.getBeans(false, "org.jboss.beans.test04.MyType1");
 		assertEquals(1, beans.size());
 		IBean b = beans.iterator().next();
+		assertTrue(b instanceof IProducerField);
+
+		//The same in dependent project
+		beans = cdiDependentProject.getBeans(false, "org.jboss.beans.test04.MyType1");
+		assertEquals(1, beans.size());
+		b = beans.iterator().next();
 		assertTrue(b instanceof IProducerField);
 	}
 
@@ -699,6 +758,10 @@ public class SeamBeansTest extends SeamConfigTest {
 
 	protected Set<IBean> getBeansByClassName(String className) {
 		return cdiProject.getBeans(false, className, new String[0]);
+	}
+
+	protected Set<IBean> getBeansByClassNameInDependentProject(String className) {
+		return cdiDependentProject.getBeans(false, className, new String[0]);
 	}
 
 }
