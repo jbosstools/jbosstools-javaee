@@ -1934,10 +1934,21 @@ two elements with equal id has been used, but should be used only one -->
     <section id="AdvancedSettings954">
       <title>VPE Toolbar</title> 
       <para>
-        The Visual Page Editor toolbar includes the next buttons:
+        The Visual Page Editor toolbar includes the following buttons:
       </para>
        
       <itemizedlist>
+		  <listitem>
+			<para>
+			<xref linkend="vpe_externalize_string"/> ( 
+				<inlinemediaobject>
+					<imageobject>
+						<imagedata fileref="images/visual_page/externalize_string_button.png"/>
+					</imageobject>
+				</inlinemediaobject>
+				)
+			</para>
+		</listitem>
         <listitem>
           <para>
             <xref linkend="vpe_preferences"/> ( 
@@ -2056,6 +2067,61 @@ two elements with equal id has been used, but should be used only one -->
         </mediaobject>
       </figure>
        
+	  <section id="vpe_externalize_string">
+		  <title>Externalize string</title> 
+		  <para>
+			  The <guibutton>Externalize string</guibutton> button ( 
+				  <inlinemediaobject>
+					  <imageobject>
+						  <imagedata fileref="images/visual_page/externalize_string_button.png"/>
+					  </imageobject>
+				  </inlinemediaobject>
+				  ) provides the ability to export a selected string.
+			  </para>
+			  
+			  <figure>
+				  <title>Visual Page Editor Externalize string wizard page 1</title> 
+				  <mediaobject>
+					  <imageobject>
+						  <imagedata fileref="images/visual_page/visual_page_export_string_wizard_1.png"/>
+					  </imageobject>
+				  </mediaobject>
+			  </figure>
+			  
+			  <para>
+				  The first page of the Visual Page Externalize string wizard asks you for the name of the <guilabel>Property key</guilabel> you wish to create and the then <guilabel>Property value</guilabel> for that key. You then have the choice to either have the wizard generate a new properties file for the string or to select a property file that already exists (if one is available).
+			  </para>
+			  
+			  <figure>
+				  <title>Visual Page Editor Externalize string wizard page 2</title> 
+				  <mediaobject>
+					  <imageobject>
+						  <imagedata fileref="images/visual_page/visual_page_export_string_wizard_2.png"/>
+					  </imageobject>
+				  </mediaobject>
+			  </figure>
+			  
+			  <para>
+				On the second page of the wizard enter a new or select an existing folder where the property file of the string will be stored. Be sure to also name the property file. 
+			  </para>
+			  <para>
+				  By clicking on the <guibutton>Advanced</guibutton> button you will be shown an option to link the property file that will be created, to a file already on your computer. This step is not necessary for externalizing a string.
+			  </para>
+			  
+			  <figure>
+				  <title>Visual Page Editor Externalize string wizard page 3</title> 
+				  <mediaobject>
+					  <imageobject>
+						  <imagedata fileref="images/visual_page/visual_page_export_string_wizard_3.png"/>
+					  </imageobject>
+				  </mediaobject>
+			  </figure>
+			  
+			  <para>
+				  The final page asks you to choose a place for the string bundle to be registered. By default the option of <guilabel>manually by user</guilabel> will be selected.
+			  </para>
+		  </section>
+	  
       <section id="vpe_preferences">
         <title>Preferences</title> 
         <para>
@@ -2414,6 +2480,32 @@ two elements with equal id has been used, but should be used only one -->
       </section>
     </section>
      
+	<section id="vpe_EL_expressions">
+		<title>EL expressions</title> 
+		<para>
+			The <guibutton>EL expressions</guibutton> button ( 
+				<inlinemediaobject>
+					<imageobject>
+						<imagedata fileref="images/visual_page/show_bundles_mess_button.png"/>
+					</imageobject>
+				</inlinemediaobject>
+				) provides quick access to the Visual Page Editor preferences.
+			</para>
+			
+			<figure>
+				<title>Visual Page Editor Preferences Window</title> 
+				<mediaobject>
+					<imageobject>
+						<imagedata fileref="images/visual_page/visual_page_EL_expressions.png"/>
+					</imageobject>
+				</mediaobject>
+			</figure>
+			
+			<para>
+				
+			</para>
+		</section>
+	
     <section id="page_preview">
       <title>Page Preview</title> 
       <para>
