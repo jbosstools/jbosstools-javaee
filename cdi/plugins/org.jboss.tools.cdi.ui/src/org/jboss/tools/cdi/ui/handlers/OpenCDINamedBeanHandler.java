@@ -60,46 +60,43 @@ public class OpenCDINamedBeanHandler extends AbstractHandler {
 		if (result != IDialogConstants.OK_ID)
 			return null;
 
-		Object[] beans= dialog.getResult();
-		if (beans != null && beans.length > 0) {
-			CDINamedBeanWrapper wrapper= null;
-			for (int i= 0; i < beans.length; i++) {
-				wrapper= (CDINamedBeanWrapper) beans[i];
-				IBean bean = wrapper.getBean();
-				IProject project = bean.getCDIProject().getNature().getProject();
-				ELContextImpl elContext = new ELContextImpl();
-				elContext.setResource(project.getFile(".project"));
-				
-				CdiElResolver resolver = new CdiElResolver();
-				ELResolution resolution = resolver.resolve(elContext, resolver.parseOperand("${" + bean.getName() + "}"), 0);
-				if (resolution.isResolved() && resolution.getNumberOfResolvedSegments() == 1) {
-					ELSegment segment = resolution.getLastSegment();
-					if (segment.isResolved()) {
-						IOpenableReference[] openables = segment.getOpenable();
-						
-						if(openables.length == 0 || !openables[0].open()) {
-							ITextSourceReference ref = segment.getSourceReference();
-							if (ref.getResource() instanceof IFile) {
-								try {
-									IWorkbenchPage page = PlatformUI.getWorkbench()
-											.getActiveWorkbenchWindow().getActivePage();
-									IEditorPart part = IDE.openEditor(page, (IFile)ref.getResource(), true);
-									if (ref.getStartPosition() >=0 && ref.getLength() > 0) {
-										if (part instanceof JavaEditor) {
-											EditorUtility.revealInEditor(part, 
-													ref.getStartPosition(), ref.getLength());
-										} else if (part != null) { 
-											// We have not to pass null argument here, because the following call will 
-											// perform select and reveal on active editor which is wrong in part == null
-											//
-											StructuredSelectionHelper.setSelectionAndRevealInActiveEditor(
-													new Region(ref.getStartPosition(), ref.getLength()));
-										}
+		Object[] resultObjects = dialog.getResult();
+		for (Object resultObject : resultObjects) {
+			CDINamedBeanWrapper wrapper= (CDINamedBeanWrapper) resultObject;
+			IBean bean = wrapper.getBean();
+			IProject project = bean.getCDIProject().getNature().getProject();
+			ELContextImpl elContext = new ELContextImpl();
+			elContext.setResource(project.getFile(".project"));
+			
+			CdiElResolver resolver = new CdiElResolver();
+			ELResolution resolution = resolver.resolve(elContext, resolver.parseOperand("${" + bean.getName() + "}"), 0);
+			if (resolution.isResolved() && resolution.getNumberOfResolvedSegments() == 1) {
+				ELSegment segment = resolution.getLastSegment();
+				if (segment.isResolved()) {
+					IOpenableReference[] openables = segment.getOpenable();
+					
+					if(openables.length == 0 || !openables[0].open()) {
+						ITextSourceReference ref = segment.getSourceReference();
+						if (ref.getResource() instanceof IFile) {
+							try {
+								IWorkbenchPage page = PlatformUI.getWorkbench()
+										.getActiveWorkbenchWindow().getActivePage();
+								IEditorPart part = IDE.openEditor(page, (IFile)ref.getResource(), true);
+								if (ref.getStartPosition() >=0 && ref.getLength() > 0) {
+									if (part instanceof JavaEditor) {
+										EditorUtility.revealInEditor(part, 
+												ref.getStartPosition(), ref.getLength());
+									} else if (part != null) { 
+										// We have not to pass null argument here, because the following call will 
+										// perform select and reveal on active editor which is wrong in part == null
+										//
+										StructuredSelectionHelper.setSelectionAndRevealInActiveEditor(
+												new Region(ref.getStartPosition(), ref.getLength()));
 									}
-
-								} catch (PartInitException pie) {
-									CDICorePlugin.getDefault().logError(pie);
 								}
+
+							} catch (PartInitException pie) {
+								CDICorePlugin.getDefault().logError(pie);
 							}
 						}
 					}
