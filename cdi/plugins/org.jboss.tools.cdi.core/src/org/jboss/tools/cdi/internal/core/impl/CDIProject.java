@@ -175,19 +175,17 @@ public class CDIProject extends CDIElement implements ICDIProject {
 
 	public IClassBean getBeanClass(IType type) {
 		IPath path = type.getPath();
-		if(path != null) {
-			Set<IBean> bs = null;
-			synchronized (beansByPath) {
-				bs = beansByPath.get(path);
-			}
-			if(bs != null) { 
-				synchronized(bs) {
-					for (IBean b: bs) {
-						if(b instanceof IClassBean) {
-							IClassBean result = (IClassBean)b;
-							if(type.getFullyQualifiedName().equals(result.getBeanClass().getFullyQualifiedName())) {
-								return result;
-							}
+		Set<IBean> bs = null;
+		synchronized (beansByPath) {
+			bs = beansByPath.get(path);
+		}
+		if(bs != null) {
+			synchronized(bs) {
+				for (IBean b: bs) {
+					if(b instanceof IClassBean) {
+						IClassBean result = (IClassBean)b;
+						if(type.getFullyQualifiedName().equals(result.getBeanClass().getFullyQualifiedName())) {
+							return result;
 						}
 					}
 				}

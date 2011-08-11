@@ -169,14 +169,14 @@ public class CDICoreNature implements IProjectNature {
 	}
 
 	public List<AnnotationDefinition> getAllAnnotations() {
-		Set<CDICoreNature> ps = getCDIProjects(true);
+		Set<CDICoreNature> ps = getCDIProjects(false);
 		if(ps == null || ps.isEmpty()) {
 			return getDefinitions().getAllAnnotations();
 		}
 		List<AnnotationDefinition> result = new ArrayList<AnnotationDefinition>();
 		Set<IType> types = new HashSet<IType>();
 		for (CDICoreNature p: ps) {
-			List<AnnotationDefinition> ds2 = p.getDefinitions().getAllAnnotations();
+			List<AnnotationDefinition> ds2 = p.getAllAnnotations();
 			for (AnnotationDefinition d: ds2) {
 				IType t = d.getType();
 				if(t != null && !types.contains(t)) {

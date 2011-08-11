@@ -40,6 +40,7 @@ public class DefinitionContext implements IRootDefinitionContext {
 	private Map<IPath, Set<String>> resources = new HashMap<IPath, Set<String>>();
 	private Map<String, TypeDefinition> typeDefinitions = new HashMap<String, TypeDefinition>();
 	private Map<String, AnnotationDefinition> annotations = new HashMap<String, AnnotationDefinition>();
+	private Map<String, AnnotationDefinition> usedAnnotations = new HashMap<String, AnnotationDefinition>();
 
 	private Set<String> packages = new HashSet<String>();
 	private Map<String, PackageDefinition> packageDefinitions = new HashMap<String, PackageDefinition>();
@@ -393,38 +394,70 @@ public class DefinitionContext implements IRootDefinitionContext {
 	}
 
 	public AnnotationDefinition getAnnotation(IType type) {
-		String name = type.getFullyQualifiedName();
-		AnnotationDefinition result = annotations.get(name);
-		if(result == null) {
-			Set<CDICoreNature> ns = project.getCDIProjects(true);
-			for (CDICoreNature n: ns) {
-				result = n.getDefinitions().getAnnotation(type);
-				if(result != null) {
-					break;
-				}
-			}
-		}
-		return result;
+		return getAnnotation(type.getFullyQualifiedName());
 	}
 
+	/**
+	 * Looks up for annotation definition loaded by this project or by projects used by it.
+	 */
 	public AnnotationDefinition getAnnotation(String fullyQualifiedName) {
+		//1. Look in annotations loaded by this project
 		AnnotationDefinition result = annotations.get(fullyQualifiedName);
-		if(result == null) {
+		//2. Validate result.
+		if(result != null && (!result.getType().exists())) {
+			synchronized (annotations) {
+				annotations.remove(fullyQualifiedName);
+			}
+			result = null;
+		}
+		if(result == null || usedAnnotations.containsKey(fullyQualifiedName) 
+				|| (result.getType().getResource() != null && result.getType().getResource().getProject() != project.getProject())
+				) {
+			//3. Look in annotations loaded by used projects
 			Set<CDICoreNature> ns = project.getCDIProjects(true);
 			for (CDICoreNature n: ns) {
-				result = n.getDefinitions().getAnnotation(fullyQualifiedName);
-				if(result != null) {
+				AnnotationDefinition r = n.getDefinitions().getAnnotation(fullyQualifiedName);
+				if(r != null) {
+					result = r;
+					//4. Store result for the case if used project is cleaned.
+					synchronized (usedAnnotations) {
+						usedAnnotations.put(fullyQualifiedName, result);
+					}
 					break;
 				}
+			}
+		}
+		if(result == null && usedAnnotations.containsKey(fullyQualifiedName)) {
+			//4. Finally, try in annotations obtained earlier from used projects - they may be cleaned now.
+			// The result may be out-of-date until used project is rebuilt.
+			result = usedAnnotations.get(fullyQualifiedName);
+			if(!result.getType().exists()) {
+				synchronized (usedAnnotations) {
+					usedAnnotations.remove(fullyQualifiedName);
+				}
+				result = null;
 			}
 		}
 		return result;
 	}
 
+	/**
+	 * Returns both annotations loaded by this project, and stored annotations 
+	 * loaded by used projects. This method can be only used in combination with 
+	 * getting up-to-date annotations from used projects. Stored annotations 
+	 * can only be used if used project is cleaned.
+	 * 
+	 * @return
+	 */
 	public List<AnnotationDefinition> getAllAnnotations() {
 		List<AnnotationDefinition> result = new ArrayList<AnnotationDefinition>();
+		//1. Add annotations loaded by this project.
 		synchronized (annotations) {
 			result.addAll(annotations.values());
+		}
+		//2. Add stored annotations loaded by used projects. They may be out-of-date.
+		synchronized (usedAnnotations) {
+			result.addAll(usedAnnotations.values());
 		}
 		return result;
 	}

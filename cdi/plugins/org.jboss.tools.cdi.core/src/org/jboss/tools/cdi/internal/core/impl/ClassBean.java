@@ -71,6 +71,10 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 		super.setDefinition(definition);
 		List<MethodDefinition> ms = definition.getMethods();
 		for (MethodDefinition m: ms) {
+			if(!m.getMethod().exists()) {
+				//update may be run on project that was not rebuilt
+				continue;
+			}
 			BeanMethod bm = null;
 			if(m.getProducesAnnotation() != null) {
 				bm = newProducerMethod(m);
@@ -88,6 +92,10 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 		}
 		List<FieldDefinition> fs = definition.getFields();
 		for (FieldDefinition f: fs) {
+			if(!f.getField().exists()) {
+				//update may be run on project that was not rebuilt
+				continue;
+			}
 			BeanField bf = null;
 			if(f.getProducesAnnotation() != null) {
 				bf = newProducerField(f);
