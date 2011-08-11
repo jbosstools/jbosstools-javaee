@@ -177,9 +177,12 @@
      
     <itemizedlist>
       <listitem>
-        <para id="text_font" xreflabel="Text/Font">        
-          CSS <guilabel>Text/Font</guilabel> properties define the appearance of text, its font family, boldness, size and the style.
-        </para>
+        <formalpara id="text_font">
+			<title>Text and Font properties</title>
+			<para>
+				CSS <guilabel>Text/Font</guilabel> properties define the appearance of text, its font family, boldness, size and the style.
+			</para>
+        </formalpara>
          
         <figure>
           <title>Text/Font tab</title> 
@@ -215,13 +218,19 @@
       </listitem>
        
       <listitem>
-        <para id="background" xreflabel="Background">
-          You should use CSS background properties and <guilabel>Background</guilabel> tab to define the background effects of an element.
-        </para>
+			<formalpara id="background">
+				<title>Background properties</title>
+				<para>
+					You should use CSS background properties and <guilabel>Background</guilabel> tab to define the background effects of an element.
+				</para>
+			</formalpara>
          
-        <para id="boxes" xreflabel="Boxes">
-          The <guilabel>Boxes</guilabel> tab is used to define CSS border properties, the box model and dimensions. The CSS border properties allow you to specify the style and color of an element's border.
-        </para>
+			<formalpara id="boxes">
+				<title>Boxes and border properties</title>
+				<para>
+					The <guilabel>Boxes</guilabel> tab is used to define CSS border properties, the box model and dimensions. The CSS border properties allow you to specify the style and color of an element's border.
+				</para>
+			</formalpara>
          
         <para>
           As well as in Text/Font tab, it's also possible to define the property in two ways:
@@ -257,9 +266,12 @@
       </listitem>
        
       <listitem>
-        <para id="property_sheet" xreflabel="Property Sheet">
-          The <guilabel>Property Sheet</guilabel> tab contains the categorized list of properties. Like in <xref linkend="PropertiesView"/>, it's possible to edit the properties values.
-        </para>
+			<formalpara id="property_sheet">
+				<title>Property Sheet</title>
+				<para>
+					The <guilabel>Property Sheet</guilabel> tab contains the categorized list of properties. Similarly to <xref linkend="PropertiesView"/>, it's possible to edit the properties values.
+				</para>
+			</formalpara>
          
         <figure>
           <title>Property Sheet tab</title> 
@@ -272,9 +284,12 @@
       </listitem>
        
       <listitem>
-        <para id="edited_properties" xreflabel="Edited Properties">
-          <guilabel>Edited Properties</guilabel> tab contains only <guilabel>overflow-y</guilabel> property which determines clipping of the element's content at the top and bottom edges.
-        </para>
+			<formalpara id="edited_properties">
+				<title>Edited Properties</title>
+				<para>
+					<guilabel>Edited Properties</guilabel> tab contains only <guilabel>overflow-y</guilabel> property which determines clipping of the element's content at the top and bottom edges.
+				</para>
+			</formalpara>
          
         <figure>
           <title>Edited Properties tab</title> 
