@@ -392,7 +392,7 @@ public class OpenCDINamedBeanDialog extends FilteredItemsSelectionDialog {
 			if (bean == null) {
 				IProject project = ResourcesPlugin.getWorkspace().getRoot()
 						.getProject(projectName);
-				if (project != null) {
+				if (project.isAccessible()) {
 					ICDIProject cdiProject = CDICorePlugin.getCDIProject(
 							project, true);
 					if (cdiProject != null) {
