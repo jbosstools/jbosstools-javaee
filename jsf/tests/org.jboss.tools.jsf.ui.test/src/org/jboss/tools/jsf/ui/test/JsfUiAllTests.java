@@ -25,8 +25,8 @@ import org.jboss.tools.jsf.jsp.ca.test.CANotEmptyWhenThereIsNoSpaceBetweenInvert
 import org.jboss.tools.jsf.jsp.ca.test.CASuggestsNotOnlyELProposalsJBIDE2437Test;
 import org.jboss.tools.jsf.jsp.ca.test.CAUnnecessaryElementsForDirAttributeInXHTMLPageJBIDE1813Test;
 import org.jboss.tools.jsf.jsp.ca.test.CAVarAttributeForDataTableTagJBIDE2016;
-import org.jboss.tools.jsf.jsp.ca.test.JsfJBide3845Test;
 import org.jboss.tools.jsf.jsp.ca.test.JavaClassContentAssistProviderTest;
+import org.jboss.tools.jsf.jsp.ca.test.JsfJBide3845Test;
 import org.jboss.tools.jsf.jsp.ca.test.JsfJspJbide1704Test;
 import org.jboss.tools.jsf.jsp.ca.test.JsfJspJbide1717Test;
 import org.jboss.tools.jsf.jsp.ca.test.JsfJspJbide6259Test;
@@ -34,6 +34,7 @@ import org.jboss.tools.jsf.jsp.ca.test.JsfJspLongResourceBundlePropertyNamesTest
 import org.jboss.tools.jsf.jsp.ca.test.JspElFunctionsTest;
 import org.jboss.tools.jsf.jsp.ca.test.WebContentAssistProviderTest;
 import org.jboss.tools.jsf.ui.test.refactoring.ELReferencesRenameTest;
+import org.jboss.tools.jst.jsp.test.ValidationProjectTestSetup;
 import org.jboss.tools.test.util.ProjectImportTestSetup;
 
 public class JsfUiAllTests {
@@ -88,7 +89,7 @@ public class JsfUiAllTests {
 				"org.jboss.tools.jsf.ui.test",
 				new String[]{"projects/test_add_jsf_capabilities"},
 				new String[]{"test_add_jsf_capabilities"}));
-		suite.addTest(new ProjectImportTestSetup(new TestSuite(JSPProblemMarkerResolutionTest.class),
+		suite.addTest(new ValidationProjectTestSetup(new TestSuite(JSPProblemMarkerResolutionTest.class),
 				"org.jboss.tools.jsf.ui.test",
 				new String[]{"projects/test_jsf_project"},
 				new String[]{"test_jsf_project"}));
