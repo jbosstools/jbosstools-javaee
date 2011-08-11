@@ -1602,7 +1602,7 @@ two elements with equal id has been used, but should be used only one -->
       </para>
        
       <section id="inline_styling">
-        <title>Inline Style Editing</title> 
+        <title>Text Formatting</title> 
         <para>
           In the <guilabel>Visual</guilabel> part of the Visual Page Editor there is a graphical toolbar, which is used to add inline styling to JSF and Struts tags on your page. The toolbar can be hidden with the help of the special button ( 
           <inlinemediaobject>
@@ -2479,7 +2479,7 @@ two elements with equal id has been used, but should be used only one -->
         </para>
       </section>
     </section>
-     
+<!--     
 	<section id="vpe_EL_expressions">
 		<title>EL expressions</title> 
 		<para>
@@ -2491,20 +2491,8 @@ two elements with equal id has been used, but should be used only one -->
 				</inlinemediaobject>
 				) provides quick access to the Visual Page Editor preferences.
 			</para>
-			
-			<figure>
-				<title>Visual Page Editor Preferences Window</title> 
-				<mediaobject>
-					<imageobject>
-						<imagedata fileref="images/visual_page/visual_page_EL_expressions.png"/>
-					</imageobject>
-				</mediaobject>
-			</figure>
-			
-			<para>
-				
-			</para>
-		</section>
+		</section> 
+					-->
 	
     <section id="page_preview">
       <title>Page Preview</title> 
@@ -3216,7 +3204,7 @@ two elements with equal id has been used, but should be used only one -->
       </para>
        
       <para>
-        To create a new <filename>XSD</filename> file, right-click a folder in the Package Explorer view, select <menuchoice><guimenuitem>New</guimenuitem><guimenuitem>Other...</guimenuitem></menuchoice> from the context menu and then select <menuchoice><guimenuitem>XML</guimenuitem><guimenuitem>XML Schema</guimenuitem></menuchoice> in the dialog box.
+        To create a new <filename>XSD</filename> file, right-click a folder in the Package Explorer view, select <menuchoice><guimenuitem>New</guimenuitem><guimenuitem>Other...</guimenuitem></menuchoice> from the context menu and then select <menuchoice><guimenuitem>XML</guimenuitem><guimenuitem>XML Schema File</guimenuitem></menuchoice> in the dialog box.
       </para>
        
       <figure>

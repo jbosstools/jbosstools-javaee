@@ -811,13 +811,13 @@
    
   <section id="el_variables">
 <?dbhtml filename="el_variables.html"?>
-    <title>El Variables</title> 
+    <title>EL Variables</title> 
     <para>
       To specify necessary EL variables globally, i. e. for all projects and resources in your workspace, you should go to <menuchoice><guimenuitem>JBoss Tools</guimenuitem><guimenuitem>Web</guimenuitem><guimenuitem>Expression Language</guimenuitem><guimenuitem>Variables</guimenuitem></menuchoice>.
     </para>
      
     <figure>
-      <title>El Variables</title> 
+      <title>EL Variables</title> 
       <mediaobject>
         <imageobject>
           <imagedata fileref="images/preferences/preferences_9.png"/>
@@ -830,7 +830,7 @@
     </para>
      
     <figure>
-      <title>Adding a Global El Variable</title> 
+      <title>Adding a Global EL Variable</title> 
       <mediaobject>
         <imageobject>
           <imagedata fileref="images/preferences/preferences_10.png"/>
