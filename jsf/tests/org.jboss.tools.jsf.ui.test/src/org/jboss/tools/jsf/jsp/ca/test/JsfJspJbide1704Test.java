@@ -69,7 +69,8 @@ public class JsfJspJbide1704Test extends ContentAssistantTestCase {
 				// (the only exclusion is EL-proposals)
 				
 				if (proposal instanceof AutoContentAssistantProposal) {
-					if(((AutoContentAssistantProposal)proposal).getReplacementString().startsWith("#{")) {
+					if(((AutoContentAssistantProposal)proposal).getReplacementString().startsWith("#{") ||
+						((AutoContentAssistantProposal)proposal).getReplacementString().startsWith("${")) {
 						// The only EL template proposal is allowed to be shown here
 						continue;
 					}
