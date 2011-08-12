@@ -14,11 +14,7 @@ import junit.extensions.TestSetup;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.jdt.internal.core.JavaModelManager;
-import org.eclipse.wst.validation.internal.operations.ValidatorManager;
 import org.jboss.tools.jsf.model.pv.test.JSFPromptingProviderTest;
 import org.jboss.tools.jsf.model.pv.test.JsfJbide7975Test;
 import org.jboss.tools.jsf.test.project.facet.JSFFacetOnExistingProjectTest;
@@ -30,7 +26,7 @@ import org.jboss.tools.jsf.test.validation.ELValidatorTest;
 import org.jboss.tools.jsf.test.validation.JSF2ComponentsInClassFolderTest;
 import org.jboss.tools.jsf.test.validation.JSF2ComponentsValidatorTest;
 import org.jboss.tools.jsf.test.validation.WebContentTest;
-import org.jboss.tools.test.util.JobUtils;
+import org.jboss.tools.jst.jsp.test.ValidationProjectTestSetup;
 import org.jboss.tools.test.util.ProjectImportTestSetup;
 
 public class JsfAllTests {
@@ -74,7 +70,7 @@ public class JsfAllTests {
 				MessagePropertyRefactoringTest.class), "org.jboss.tools.jsf.test", //$NON-NLS-1$
 				new String[] { "projects/JSFKickStartOldFormat" }, //$NON-NLS-1$
 				new String[] { "JSFKickStartOldFormat" })); //$NON-NLS-1$
-		suite.addTest(new ProjectImportTestSetup(new TestSuite(
+		suite.addTest(new ValidationProjectTestSetup(new TestSuite(
 				JSF2ComponentsValidatorTest.class,
 				JSF2ComponentsInClassFolderTest.class), "org.jboss.tools.jsf.test", //$NON-NLS-1$
 				new String[] { "projects/JSF2ComponentsValidator" }, //$NON-NLS-1$
@@ -87,17 +83,7 @@ public class JsfAllTests {
 //				I18nValidatorTest.class), "org.jboss.tools.jsf.test", //$NON-NLS-1$
 //				new String[] { "projects/i18nTestProject" }, //$NON-NLS-1$
 //				new String[] { "i18nTestProject" })); //$NON-NLS-1$
-		suite.addTest(new ProjectImportTestSetup(new TestSuite(ELValidatorTest.class),"org.jboss.tools.jsf.test","projects/JSFKickStartOldFormat","JSFKickStartOldFormat") {
-			@Override
-			protected void setUp() throws Exception {
-				super.setUp();
-				IProject project = (IProject)ResourcesPlugin.getWorkspace().getRoot().findMember("JSFKickStartOldFormat");
-				project.refreshLocal(IResource.DEPTH_INFINITE, null);
-				JobUtils.waitForIdle();
-				
-				ValidatorManager.addProjectBuildValidationSupport(project);
-			}
-		} );
+		suite.addTest(new ValidationProjectTestSetup(new TestSuite(ELValidatorTest.class),"org.jboss.tools.jsf.test","projects/JSFKickStartOldFormat","JSFKickStartOldFormat"));
 
 		return new DisableJavaIndexingSetup(suite);
 	}

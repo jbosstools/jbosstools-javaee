@@ -8,7 +8,6 @@
  * Contributors:
  *     Exadel, Inc. and Red Hat, Inc. - initial API and implementation
  ******************************************************************************/
-
 package org.jboss.tools.jsf.test.validation;
 
 import java.io.IOException;
@@ -21,15 +20,13 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IncrementalProjectBuilder;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.wst.validation.ValidationFramework;
 import org.jboss.tools.jsf.jsf2.util.JSF2ResourceUtil;
 import org.jboss.tools.jsf.web.validation.JSFValidationMessage;
-import org.jboss.tools.test.util.JobUtils;
-import org.jboss.tools.test.util.ProjectImportTestSetup;
 import org.jboss.tools.tests.AbstractResourceMarkerTest;
 
 /**
@@ -37,22 +34,20 @@ import org.jboss.tools.tests.AbstractResourceMarkerTest;
  * @author yzhishko
  *
  */
-
 public class JSF2ComponentsValidatorTest extends TestCase {
 
-	private static String projectName = "JSF2ComponentsValidator"; //$NON-NLS-1$
-	private static IProject project;
+	public static String PROJECT_NAME = "JSF2ComponentsValidator"; //$NON-NLS-1$
+	private IProject project;
 
 	public JSF2ComponentsValidatorTest() {
 		super("JSF 2 Components Validator Test"); //$NON-NLS-1$
 	}
 
+	@Override
 	protected void setUp() throws Exception {
-		project = ProjectImportTestSetup.loadProject(projectName);
-		project.build(IncrementalProjectBuilder.FULL_BUILD,
-				new NullProgressMonitor());
-		JobUtils.waitForIdle();
+		project = ResourcesPlugin.getWorkspace().getRoot().getProject(PROJECT_NAME);
 	}
+
 	//junit test add to check JBIDE-7016 by Maksim Areshkau
 	public void testCreatingFile() throws CoreException, IOException{
 		final IFile createdFile = JSF2ResourceUtil

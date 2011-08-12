@@ -13,14 +13,12 @@ package org.jboss.tools.jsf.test.validation;
 import junit.framework.TestCase;
 
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IncrementalProjectBuilder;
-import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.jboss.tools.jst.web.kb.IKbProject;
 import org.jboss.tools.jst.web.kb.KbProjectFactory;
 import org.jboss.tools.jst.web.kb.taglib.IAttribute;
 import org.jboss.tools.jst.web.kb.taglib.IComponent;
 import org.jboss.tools.jst.web.kb.taglib.ITagLibrary;
-import org.jboss.tools.test.util.ProjectImportTestSetup;
 
 /**
  * 
@@ -29,8 +27,7 @@ import org.jboss.tools.test.util.ProjectImportTestSetup;
  */
 public class JSF2ComponentsInClassFolderTest extends TestCase {
 
-	private static String projectName = "JSF2ComponentsValidator"; //$NON-NLS-1$
-	private static IProject project;
+	private IProject project;
 
 	public JSF2ComponentsInClassFolderTest() {
 		super("JSF 2 Components In Class Folder Test"); //$NON-NLS-1$
@@ -38,9 +35,7 @@ public class JSF2ComponentsInClassFolderTest extends TestCase {
 
 	@Override
 	protected void setUp() throws Exception {
-		project = ProjectImportTestSetup.loadProject(projectName);
-		project.build(IncrementalProjectBuilder.FULL_BUILD,
-				new NullProgressMonitor());
+		project = project = ResourcesPlugin.getWorkspace().getRoot().getProject(JSF2ComponentsValidatorTest.PROJECT_NAME);
 	}
 
 	public void testJSF2ComponentsInClassFolder() throws Exception {

@@ -6,31 +6,27 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IncrementalProjectBuilder;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.ltk.internal.core.refactoring.resource.MoveResourcesProcessor;
 import org.eclipse.ltk.internal.core.refactoring.resource.RenameResourceProcessor;
 import org.jboss.tools.jsf.jsf2.refactoring.JSF2RenameParticipant;
 import org.jboss.tools.jsf.jsf2.refactoring.JSf2MoveParticipant;
-import org.jboss.tools.test.util.JobUtils;
-import org.jboss.tools.test.util.ProjectImportTestSetup;
 import org.jboss.tools.tests.AbstractRefactorTest;
 
 public class JSF2RefactoringTest extends AbstractRefactorTest  {
-	static String projectName = "JSF2ComponentsValidator";
-	static IProject project;
+	static String PROJECT_NAME = "JSF2ComponentsValidator";
+	IProject project;
 	
 	public JSF2RefactoringTest(){
 		super("Refactor JSF2 Composite Components Test");
 	}
-	
+
+	@Override
 	protected void setUp() throws Exception {
-		project = ProjectImportTestSetup.loadProject(projectName);
-		project.build(IncrementalProjectBuilder.FULL_BUILD, new NullProgressMonitor());
-		JobUtils.waitForIdle(2000);
+		project = ResourcesPlugin.getWorkspace().getRoot().getProject(PROJECT_NAME);
 	}
-	
+
 	public void testRenameCompositeComponentFile() throws CoreException {
 		ArrayList<TestChangeStructure> list = new ArrayList<TestChangeStructure>();
 
@@ -40,15 +36,15 @@ public class JSF2RefactoringTest extends AbstractRefactorTest  {
 		list.add(structure);
 
 		IFile sourceFile = project.getProject().getFile("/WebContent/resources/demo/input.xhtml");
-		
+
 		RenameResourceProcessor processor = new RenameResourceProcessor(sourceFile);
 		processor.setNewResourceName("input2.xhtml");
-		
+
 		JSF2RenameParticipant participant = new JSF2RenameParticipant();
 
 		checkRename(processor, sourceFile, "input2.xhtml", participant, list);
 	}
-	
+
 	public void testRenameCompositeComponentFolder() throws CoreException {
 		ArrayList<TestChangeStructure> list = new ArrayList<TestChangeStructure>();
 
@@ -58,15 +54,15 @@ public class JSF2RefactoringTest extends AbstractRefactorTest  {
 		list.add(structure);
 
 		IFolder sourceFolder = project.getProject().getFolder("/WebContent/resources/demo");
-		
+
 		RenameResourceProcessor processor = new RenameResourceProcessor(sourceFolder);
 		processor.setNewResourceName("demo2");
-		
+
 		JSF2RenameParticipant participant = new JSF2RenameParticipant();
 
 		checkRename(processor, sourceFolder, "demo2", participant, list);
 	}
-	
+
 	public void testMoveCompositeComponentFile() throws CoreException {
 		ArrayList<TestChangeStructure> list = new ArrayList<TestChangeStructure>();
 
@@ -104,5 +100,4 @@ public class JSF2RefactoringTest extends AbstractRefactorTest  {
 
 		checkMove(processor, sourceFolder, destinationFolder, participant, list);
 	}
-
 }
