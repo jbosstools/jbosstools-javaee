@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import junit.framework.TestCase;
 
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.QualifiedName;
 import org.jboss.tools.jst.web.kb.refactoring.ELReferencesQueryParticipant;
 import org.jboss.tools.jst.web.kb.test.QueryParticipantTestUtils;
@@ -60,7 +61,7 @@ public class ELReferencesQueryParticipantTest extends TestCase{
 		}
 	}
 	
-	public void testELReferencesQueryParticipantForType(){
+	public void testELReferencesQueryParticipantForType() throws CoreException{
 		ArrayList<MatchStructure> matches = new ArrayList<MatchStructure>();
 		
 		matches.add(new MatchStructure("/numberguess/web/giveup.jspx", "numberGuess"));
@@ -75,7 +76,7 @@ public class ELReferencesQueryParticipantTest extends TestCase{
 				matches);
 	}
 	
-	public void testELReferencesQueryParticipantForMethod1(){
+	public void testELReferencesQueryParticipantForMethod1() throws CoreException{
 		ArrayList<MatchStructure> matches = new ArrayList<MatchStructure>();
 		
 		matches.add(new MatchStructure("/numberguess/web/giveup.jspx", "remainingGuesses"));
@@ -89,7 +90,7 @@ public class ELReferencesQueryParticipantTest extends TestCase{
 				matches);
 	}
 
-	public void testELReferencesQueryParticipantForMethod2(){
+	public void testELReferencesQueryParticipantForMethod2() throws CoreException{
 		ArrayList<MatchStructure> matches = new ArrayList<MatchStructure>();
 		
 		matches.add(new MatchStructure("/numberguess/web/giveup.jspx", "possibilities"));
