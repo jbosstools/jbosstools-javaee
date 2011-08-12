@@ -172,8 +172,7 @@ public class OpenCDINamedBeanDialog extends FilteredItemsSelectionDialog {
 				CDIUIMessages.OPEN_CDI_NAMED_BEAN_DIALOG_LOADING,
 				projects.length);
 
-		for (int i = 0; i < projects.length; i++) {
-			IProject project = projects[i];
+		for (IProject project : projects) {
 			progressMonitor.subTask(project.getName());
 
 			ICDIProject cdiProject = CDICorePlugin.getCDIProject(project, true);
