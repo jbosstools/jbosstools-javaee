@@ -27,6 +27,17 @@ public interface ICDIElement {
 	ICDIProject getCDIProject();
 
 	/**
+	 * Returns CDI project that contains declaration of this object.
+	 * The project that contains this object may be the same, or a dependent project.
+	 * Theoretically, objects built by the same declaration in the declaring project and in 
+	 * a dependent object may differ because of different sets of extensions visible in
+	 * projects.
+	 *  
+	 * @return
+	 */
+	ICDIProject getDeclaringProject();
+
+	/**
 	 * Returns path of resource that declares this object.
 	 * @return
 	 */
