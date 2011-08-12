@@ -112,8 +112,6 @@ public class CDIHyperlinkTestUtil extends TestCase{
 			IHyperlink[] links = elPartitioner.detectHyperlinks(viewer, testData.getHyperlinkRegion(), true);
 
 			boolean recognized = links != null;
-//			if(recognized)
-//				System.out.println("Recognized - "+i);
 
 			if (recognized) {
 				counter++;
@@ -179,13 +177,10 @@ public class CDIHyperlinkTestUtil extends TestCase{
 	
 	private static void loadRegions(List<TestRegion> regionList, IDocument document) throws BadLocationException{
 		FindReplaceDocumentAdapter adapter = new FindReplaceDocumentAdapter(document);
-		//String documentText = document.get();
-		//int position = documentText.indexOf("{");
 		IRegion region = adapter.find(0, "{", true, true, false, false);
 		if(region == null)
 			region = new Region(0,0);
 		for(TestRegion testRegion : regionList){
-			//int newPosition = documentText.indexOf(testRegion.regionText, position);
 			IRegion newRegion = adapter.find(region.getOffset()+region.getLength(), testRegion.regionText, true, true, false, false);
 			if(newRegion != null){
 				testRegion.region = newRegion;

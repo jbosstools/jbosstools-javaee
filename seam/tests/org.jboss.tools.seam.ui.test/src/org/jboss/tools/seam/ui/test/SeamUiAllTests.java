@@ -27,6 +27,7 @@ import org.jboss.tools.seam.ui.test.ca.SeamELContentAssistJbide1676Test;
 import org.jboss.tools.seam.ui.test.ca.SeamELContentAssistTest;
 import org.jboss.tools.seam.ui.test.ca.SeamJbide3845Test;
 import org.jboss.tools.seam.ui.test.el.ELExprPartitionerTest;
+import org.jboss.tools.seam.ui.test.el.ELReferencesQueryParticipantTest;
 import org.jboss.tools.seam.ui.test.hyperlink.SeamViewHyperlinkPartitionerTest;
 import org.jboss.tools.seam.ui.test.jbide.JBide3989Test;
 import org.jboss.tools.seam.ui.test.marker.SeamMarkerResolutionTest;
@@ -55,6 +56,7 @@ public class SeamUiAllTests {
 		TestSuite suite = new TestSuite("Seam UI tests");
 		
 		suite.addTestSuite(ELExprPartitionerTest.class);
+		suite.addTestSuite(ELReferencesQueryParticipantTest.class);
 		suite.addTestSuite(OpenSeamComponentDialogTest.class);
 		suite.addTest(SeamComponentsViewAllTests.suite());
 		suite.addTest(SeamProjectNewWizardTest.suite());
