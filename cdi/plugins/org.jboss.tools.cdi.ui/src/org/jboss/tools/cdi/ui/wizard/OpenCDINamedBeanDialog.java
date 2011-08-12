@@ -44,7 +44,6 @@ import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.internal.core.event.CDIProjectChangeEvent;
 import org.jboss.tools.cdi.internal.core.event.ICDIProjectChangeListener;
-import org.jboss.tools.cdi.internal.core.impl.CDIElement;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
 import org.jboss.tools.cdi.ui.CDIUIPlugin;
 import org.jboss.tools.cdi.ui.CDIUiImages;
@@ -179,7 +178,7 @@ public class OpenCDINamedBeanDialog extends FilteredItemsSelectionDialog {
 			if (cdiProject != null) {
 				Set<IBean> iter = cdiProject.getNamedBeans(false);
 				for (IBean bean: iter) {
-					if (bean instanceof CDIElement && cdiProject == ((CDIElement)bean).getDeclaringProject()) {
+					if (cdiProject == bean.getDeclaringProject()) {
 						contentProvider.add(new CDINamedBeanWrapper(bean
 								.getName(), project.getName(), bean),
 								itemsFilter);
