@@ -16,6 +16,7 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.jboss.tools.jst.jsp.test.TestUtil;
 import org.jboss.tools.jst.web.kb.internal.validation.ELValidationMessages;
 import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.ResourcesUtils;
@@ -40,6 +41,7 @@ public class WebContentTest extends AbstractResourceMarkerTest {
 		if(!project.exists()) {
 			project = ResourcesUtils.importProject(PLUGIN_ID, PROJECT_PATH);
 		}
+		TestUtil._waitForValidation(project);
 	}
 
 	/* (non-Javadoc)
@@ -48,7 +50,6 @@ public class WebContentTest extends AbstractResourceMarkerTest {
 	@Override
 	protected void tearDown() throws Exception {
 		boolean saveAutoBuild = ResourcesUtils.setBuildAutomatically(false);
-		JobUtils.waitForIdle();
 		project.delete(true, true, null);
 		JobUtils.waitForIdle();
 		ResourcesUtils.setBuildAutomatically(saveAutoBuild);
