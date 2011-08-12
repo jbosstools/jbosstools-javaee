@@ -59,5 +59,11 @@ public class CDIQualifier implements IQualifier{
 	public IResource getResource() {
 		return null;
 	}
+
+	@Override
+	public ICDIProject getDeclaringProject() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 }

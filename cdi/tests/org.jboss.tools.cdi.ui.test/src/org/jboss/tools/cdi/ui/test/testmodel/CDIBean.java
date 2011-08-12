@@ -259,4 +259,10 @@ public class CDIBean extends CDIElement implements IClassBean{
 	public IMember getSourceMember() {
 		return getBeanClass();
 	}
+
+	@Override
+	public ICDIProject getDeclaringProject() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
