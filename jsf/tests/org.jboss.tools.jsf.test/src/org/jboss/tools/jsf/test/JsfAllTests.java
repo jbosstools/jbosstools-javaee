@@ -79,6 +79,10 @@ public class JsfAllTests {
 				JSF2RefactoringTest.class), "org.jboss.tools.jsf.test", //$NON-NLS-1$
 				new String[] { "projects/JSF2ComponentsValidator" }, //$NON-NLS-1$
 				new String[] { "JSF2ComponentsValidator" })); //$NON-NLS-1$
+		suite.addTest(new ProjectImportTestSetup(new TestSuite(
+				ELReferencesQueryParticipantTest.class), "org.jboss.tools.jsf.test", //$NON-NLS-1$
+				new String[] { "projects/JSF2ComponentsValidator" }, //$NON-NLS-1$
+				new String[] { "JSF2ComponentsValidator" })); //$NON-NLS-1$
 //		suite.addTest(new ProjectImportTestSetup(new TestSuite(
 //				I18nValidatorTest.class), "org.jboss.tools.jsf.test", //$NON-NLS-1$
 //				new String[] { "projects/i18nTestProject" }, //$NON-NLS-1$
