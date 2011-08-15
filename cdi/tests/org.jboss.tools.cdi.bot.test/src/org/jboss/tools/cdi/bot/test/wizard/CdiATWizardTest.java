@@ -279,7 +279,6 @@ public class CdiATWizardTest extends SWTTestExt {
 		assertTrue(code.contains("@Any"));
 		assertTrue(code.contains("private Map<K, V> field;"));
 		assertTrue(code.contains("final class"));
-		assertFalse(code.contains("public final"));
 		assertTrue(code.startsWith("/**"));
 	}
 	
