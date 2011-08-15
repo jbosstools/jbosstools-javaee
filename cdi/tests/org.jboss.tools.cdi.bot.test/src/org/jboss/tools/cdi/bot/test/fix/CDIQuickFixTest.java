@@ -4,6 +4,7 @@ import java.util.logging.Logger;
 
 import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotEclipseEditor;
 import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotEditor;
+import org.eclipse.swtbot.swt.finder.SWTBot;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTree;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTreeItem;
 import org.jboss.tools.cdi.bot.test.CDIAllBotTests;
@@ -53,9 +54,9 @@ public class CDIQuickFixTest extends SWTTestExt {
 				.selectTemplate("Web", "Dynamic Web Project").next();
 		new DynamicWebProjectWizard().setProjectName(PROJECT_NAME).finish();
 		util.waitForNonIgnoredJobs();		
-		SWTBotTree tree = bot.tree();
+		SWTBot v = eclipse.showView(ViewType.PROJECT_EXPLORER);
+		SWTBotTree tree = v.tree();
 		tree.setFocus();
-				
 		assertTrue("Project " + PROJECT_NAME + " was not created properly.",
 				SWTEclipseExt.treeContainsItemWithLabel(tree, PROJECT_NAME));
 		SWTBotTreeItem item = tree.getTreeItem(PROJECT_NAME);
