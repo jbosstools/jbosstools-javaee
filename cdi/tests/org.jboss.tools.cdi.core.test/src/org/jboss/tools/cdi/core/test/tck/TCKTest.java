@@ -76,9 +76,10 @@ public class TCKTest extends TestCase {
 			try {
 				tckProject = findTestProject();
 				if(tckProject==null || !tckProject.exists()) {
-					ValidatorManager.setStatus(CoreValidationTest.VALIDATION_STATUS);
+//					ValidatorManager.setStatus(CoreValidationTest.VALIDATION_STATUS);
 					tckProject = importPreparedProject("/");
-					TestUtil.waitForValidation();
+					TestUtil._waitForValidation(tckProject);
+//					TestUtil.waitForValidation();
 				}
 			} catch (Exception e) {
 				e.printStackTrace();

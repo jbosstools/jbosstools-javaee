@@ -225,7 +225,6 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 			throws ValidationException {
 		init(project, validationHelper, context, manager, reporter);
 		displaySubtask(CDIValidationMessages.SEARCHING_RESOURCES, new String[]{project.getName()});
-
 		if (cdiProject == null) {
 			return OK_STATUS;
 		}
@@ -331,6 +330,7 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 		if (cdiProject == null) {
 			return OK_STATUS;
 		}
+		
 		displaySubtask(CDIValidationMessages.VALIDATING_PROJECT, new String[] { projectName });
 
 		Set<IFile> filesToValidate = new HashSet<IFile>();
