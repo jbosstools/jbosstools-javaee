@@ -14,6 +14,9 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 
 import org.eclipse.jdt.internal.core.JavaModelManager;
+import org.eclipse.wst.validation.ValidationFramework;
+import org.jboss.tools.cdi.core.test.tck.validation.ValidationExceptionTest;
+
 /**
  * @author Viacheslav Kabanovich
  */
@@ -22,7 +25,11 @@ public class CDISeamConfigCoreAllTests {
 	public static Test suite() {
 		// it could be done here because it is not needed to be enabled back
 		JavaModelManager.getIndexManager().disable();
-		
+
+		ValidationFramework.getDefault().suspendAllValidation(true);
+
+		ValidationExceptionTest.initLogger();
+
 		TestSuite suiteAll = new TestSuite("CDI Config Core Tests");
 
 		TestSuite suiteCore = new TestSuite("CDI Config Model Tests");
@@ -35,6 +42,8 @@ public class CDISeamConfigCoreAllTests {
 		TestSuite suiteValidation = new TestSuite("CDI Config Validation Tests");
 		suiteValidation.addTestSuite(SeamConfigValidationTest.class);
 		suiteAll.addTest(new SeamConfigValidationTestSetup(suiteValidation));
+
+		suiteAll.addTestSuite(ValidationExceptionTest.class); // This test should be added last!
 
 		return suiteAll;
 	}

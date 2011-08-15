@@ -14,6 +14,8 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 
 import org.eclipse.jdt.internal.core.JavaModelManager;
+import org.eclipse.wst.validation.ValidationFramework;
+import org.jboss.tools.cdi.core.test.tck.validation.ValidationExceptionTest;
 
 /**
  * @author Alexey Kazakov
@@ -23,12 +25,19 @@ public class CDISeamFacesCoreAllTests {
 	public static Test suite() {
 		JavaModelManager.getIndexManager().disable();
 
+		ValidationFramework.getDefault().suspendAllValidation(true);
+
+		ValidationExceptionTest.initLogger();
+
 		TestSuite suiteAll = new TestSuite("Seam Faces Tests");
 
 		TestSuite suite = new TestSuite("Seam Faces Project Tests");
 		suite.addTestSuite(SeamFacesValidationTest.class);
 		suiteAll.addTest(new SeamFacesTestSetup(suite));
 		suiteAll.addTestSuite(SeamFacesTagLibTest.class);
+
+		suiteAll.addTestSuite(ValidationExceptionTest.class); // This test should be added last!
+
 		return suiteAll;
 	}
 }

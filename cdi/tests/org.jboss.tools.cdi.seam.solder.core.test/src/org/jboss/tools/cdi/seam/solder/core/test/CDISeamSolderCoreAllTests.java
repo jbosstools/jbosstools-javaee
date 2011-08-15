@@ -14,6 +14,8 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 
 import org.eclipse.jdt.internal.core.JavaModelManager;
+import org.eclipse.wst.validation.ValidationFramework;
+import org.jboss.tools.cdi.core.test.tck.validation.ValidationExceptionTest;
 /**
  * @author Viacheslav Kabanovich
  */
@@ -23,7 +25,12 @@ public class CDISeamSolderCoreAllTests {
 		// it could be done here because it is not needed to be enabled back
 		JavaModelManager.getIndexManager().disable();
 
+		ValidationFramework.getDefault().suspendAllValidation(true);
+
+		ValidationExceptionTest.initLogger();
+
 		TestSuite suiteAll = new TestSuite("CDI Solder Core Tests");
+		SeamSolderTestSetup suite = new SeamSolderTestSetup(suiteAll);
 
 		suiteAll.addTestSuite(GenericBeanTest.class);
 		suiteAll.addTestSuite(GenericBeanValidationTest.class);
@@ -35,7 +42,7 @@ public class CDISeamSolderCoreAllTests {
 		suiteAll.addTestSuite(DefaultBeanTest.class);
 		suiteAll.addTestSuite(UnwrapsTest.class);
 
-		SeamSolderTestSetup suite = new SeamSolderTestSetup(suiteAll);
+		suiteAll.addTestSuite(ValidationExceptionTest.class); // This test should be added last!
 
 		return suite;
 	}

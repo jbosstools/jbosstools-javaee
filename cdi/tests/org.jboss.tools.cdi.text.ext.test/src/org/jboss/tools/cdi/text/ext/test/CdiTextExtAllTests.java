@@ -14,12 +14,15 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 
 import org.eclipse.jdt.internal.core.JavaModelManager;
+import org.eclipse.wst.validation.ValidationFramework;
 import org.jboss.tools.cdi.core.test.CDICoreTestSetup;
 
 public class CdiTextExtAllTests {
 	public static Test suite() {
 		// it could be done here because it is not needed to be enabled back
 		JavaModelManager.getIndexManager().disable();
+
+		ValidationFramework.getDefault().suspendAllValidation(true);
 
 		TestSuite suiteAll = new TestSuite("CDI Core Tests");
 

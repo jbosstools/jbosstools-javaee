@@ -15,6 +15,8 @@ import java.util.Set;
 import junit.framework.TestCase;
 
 import org.eclipse.core.runtime.IStatus;
+import org.jboss.tools.jst.web.kb.WebKbPlugin;
+import org.jboss.tools.jst.web.kb.validation.KBValidationException;
 
 /**
  * @author Alexey Kazakov
@@ -36,5 +38,11 @@ public class ValidationExceptionTest extends TestCase {
 			error.append("\r\n").append(status.toString()).append(": ").append(cause.toString()).append(": ").append(cause.getStackTrace()[0].toString());
 		}
 		assertTrue(error.toString(), exceptions.isEmpty());
+	}
+
+	public void testLogger() {
+		WebKbPlugin.getDefault().logError(new KBValidationException("Test exception", null));
+		Set<IStatus> exceptions = LOGGER.getExceptions();
+		assertEquals(1, exceptions.size());
 	}
 }
