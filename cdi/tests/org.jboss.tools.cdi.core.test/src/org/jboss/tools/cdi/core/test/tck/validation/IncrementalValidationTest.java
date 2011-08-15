@@ -37,11 +37,7 @@ public class IncrementalValidationTest extends ValidationTest {
 		IFile testBeanImpl = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/inject/revalidation/TestBeanImpl2.validation");
 		testBean.setContents(testBeanImpl.getContents(), IFile.FORCE, new NullProgressMonitor());
 
-System.out.println("START VALIDATING!!!!");
-
 		TestUtil.validate(testBean);
-
-System.out.println("END VALIDATING!!!!");
 
 		AbstractResourceMarkerTest.assertMarkerIsCreated(testInjection, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS, 7);
 
