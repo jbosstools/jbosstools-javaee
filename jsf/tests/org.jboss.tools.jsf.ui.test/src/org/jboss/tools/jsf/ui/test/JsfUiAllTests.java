@@ -114,6 +114,7 @@ public class JsfUiAllTests {
 				new String[] { "projects/testJSFProject", }, //$NON-NLS-1$
 				new String[] { "testJSFProject" })); //$NON-NLS-1$
 
-		return new TestWizardsProject(suite);
+//		return new TestWizardsProject(suite);
+		return suite;
 	}
 }
