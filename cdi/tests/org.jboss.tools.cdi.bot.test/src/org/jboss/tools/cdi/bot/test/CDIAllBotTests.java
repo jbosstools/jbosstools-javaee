@@ -36,6 +36,7 @@ import org.junit.runners.Suite.SuiteClasses;
  *  Suite duration: aprox. 3min
  * 
  * @author Lukas Jungmann
+ * @author Jaroslav Jankovic
  */
 @RunWith(RequirementAwareSuite.class)
 @SuiteClasses({

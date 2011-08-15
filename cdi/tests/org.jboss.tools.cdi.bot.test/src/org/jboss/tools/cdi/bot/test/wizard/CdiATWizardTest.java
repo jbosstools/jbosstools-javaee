@@ -15,9 +15,6 @@ import java.util.logging.Logger;
 import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
 import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotEditor;
 import org.eclipse.swtbot.swt.finder.SWTBot;
-import org.eclipse.swtbot.swt.finder.finders.UIThreadRunnable;
-import org.eclipse.swtbot.swt.finder.results.Result;
-import org.eclipse.swtbot.swt.finder.widgets.SWTBotMenu;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTree;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTreeItem;
 import org.jboss.tools.cdi.bot.test.uiutils.actions.CDIUtil;
@@ -32,7 +29,6 @@ import org.jboss.tools.ui.bot.ext.SWTTestExt;
 import org.jboss.tools.ui.bot.ext.config.Annotations.SWTBotTestRequires;
 import org.jboss.tools.ui.bot.ext.config.Annotations.Server;
 import org.jboss.tools.ui.bot.ext.config.Annotations.ServerState;
-import org.jboss.tools.ui.bot.ext.helper.ContextMenuHelper;
 import org.jboss.tools.ui.bot.ext.types.ViewType;
 import org.junit.After;
 import org.junit.Test;
@@ -65,13 +61,7 @@ public class CdiATWizardTest extends SWTTestExt {
 				SWTEclipseExt.treeContainsItemWithLabel(tree, PROJECT_NAME));
 		SWTBotTreeItem t = tree.getTreeItem(PROJECT_NAME);
 		t.expand();
-
-		// Configure Add CDI Support...
-		
-		new CDIUtil().nodeContextMenu(tree, t, "Configure", 
-				"Add CDI (Context and Dependency Injection) support...").click();
-		bot.activeShell().bot().button("OK").click();
-		util.waitForNonIgnoredJobs();
+		CDIUtil.addCDISupport(tree, t, bot, util);
 	}
 
 	@Test
