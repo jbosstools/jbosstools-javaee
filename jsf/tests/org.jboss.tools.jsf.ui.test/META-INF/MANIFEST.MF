@@ -33,6 +33,7 @@ Require-Bundle: org.junit,
  org.eclipse.jst.standard.schemas,
  org.jboss.tools.vpe.ui.palette,
  org.eclipse.gef,
- org.eclipse.pde.ui
+ org.eclipse.pde.ui,
+ org.eclipse.wst.validation
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

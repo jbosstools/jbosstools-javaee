@@ -14,6 +14,7 @@ package org.jboss.tools.jsf.ui.test;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
+import org.eclipse.wst.validation.ValidationFramework;
 import org.jboss.tools.jsf.jsp.ca.test.CAForCompositeComponentTest;
 import org.jboss.tools.jsf.jsp.ca.test.CAForELinStyleTest;
 import org.jboss.tools.jsf.jsp.ca.test.CAForIDTest;
@@ -41,6 +42,8 @@ public class JsfUiAllTests {
 
 	public static Test suite() {
 		TestSuite suite = new TestSuite("JSF UI tests"); //$NON-NLS-1$
+
+		ValidationFramework.getDefault().suspendAllValidation(true);
 
 		suite.addTestSuite(NewJSFProjectTest.class);
 		suite.addTestSuite(CAForUnclosedELTest.class);
