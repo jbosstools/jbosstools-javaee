@@ -117,31 +117,22 @@ public class CDIProject extends CDIElement implements ICDIProject {
 	 * (non-Javadoc)
 	 * @see org.jboss.tools.cdi.core.IBeanManager#getBeans()
 	 */
-	public IBean[] getBeans() {
-		IBean[] result = new IBean[allBeans.size()];
-		synchronized (allBeans) {
-			int i=0;
-			for (IBean bean : allBeans) {
-				result[i++] = bean;
-			}
-		}
-		return result;
+	public synchronized IBean[] getBeans() {
+		return allBeans.toArray(new IBean[allBeans.size()]);
 	}
 
 	public List<INodeReference> getAlternativeClasses() {
 		List<INodeReference> result = new ArrayList<INodeReference>();
-		Set<INodeReference> typeAlternatives = allBeansXMLData.getTypeAlternatives();
-		synchronized (typeAlternatives) {
-			result.addAll(typeAlternatives);
+		synchronized (allBeansXMLData) {
+			result.addAll(allBeansXMLData.getTypeAlternatives());
 		}
 		return result;
 	}
 
 	public List<INodeReference> getAlternativeStereotypes() {
 		List<INodeReference> result = new ArrayList<INodeReference>();
-		Set<INodeReference> stereotypeAlternatives = allBeansXMLData.getStereotypeAlternatives();
-		synchronized (stereotypeAlternatives) {
-			result.addAll(stereotypeAlternatives);
+		synchronized (allBeansXMLData) {
+			result.addAll(allBeansXMLData.getStereotypeAlternatives());
 		}
 		return result;
 	}
@@ -159,13 +150,11 @@ public class CDIProject extends CDIElement implements ICDIProject {
 	public List<INodeReference> getAlternatives(String fullQualifiedTypeName) {
 		List<INodeReference> result = new ArrayList<INodeReference>();
 		Set<INodeReference> typeAlternatives = allBeansXMLData.getTypeAlternatives();
-		synchronized (typeAlternatives) {
+		Set<INodeReference> stereotypeAlternatives = allBeansXMLData.getStereotypeAlternatives();
+		synchronized (allBeansXMLData) {
 			for (INodeReference r: typeAlternatives) {
 				if(fullQualifiedTypeName.equals(r.getValue())) result.add(r);
 			}
-		}
-		Set<INodeReference> stereotypeAlternatives = allBeansXMLData.getStereotypeAlternatives();
-		synchronized (stereotypeAlternatives) {
 			for (INodeReference r: stereotypeAlternatives) {
 				if(fullQualifiedTypeName.equals(r.getValue())) result.add(r);
 			}
@@ -175,12 +164,9 @@ public class CDIProject extends CDIElement implements ICDIProject {
 
 	public IClassBean getBeanClass(IType type) {
 		IPath path = type.getPath();
-		Set<IBean> bs = null;
-		synchronized (beansByPath) {
-			bs = beansByPath.get(path);
-		}
-		if(bs != null) {
-			synchronized(bs) {
+		synchronized (this) {
+			Set<IBean> bs = beansByPath.get(path);
+			if(bs != null) {
 				for (IBean b: bs) {
 					if(b instanceof IClassBean) {
 						IClassBean result = (IClassBean)b;
@@ -200,7 +186,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		if(beans == null || beans.isEmpty()) {
 			return result;
 		}
-		synchronized (beans) {
+		synchronized (this) {
 			result.addAll(beans);
 		}
 		return getResolvedBeans(result, attemptToResolveAmbiguousNames);
@@ -285,7 +271,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		if(qualifiers != null) for (IQualifierDeclaration d: qualifiers) qs.add(d);
 		
 		Set<IBean> beans = new HashSet<IBean>();
-		synchronized(allBeans) {
+		synchronized(this) {
 			beans.addAll(allBeans);
 		}
 		for (IBean b: beans) {
@@ -348,7 +334,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		}
 	
 		Set<IBean> beans = new HashSet<IBean>();
-		synchronized(allBeans) {
+		synchronized(this) {
 			beans.addAll(allBeans);
 		}
 		boolean delegateInjectionPoint = injectionPoint.isDelegate();
@@ -586,9 +572,8 @@ public class CDIProject extends CDIElement implements ICDIProject {
 
 	public List<INodeReference> getDecoratorClasses() {
 		List<INodeReference> result = new ArrayList<INodeReference>();
-		Set<INodeReference> decorators = allBeansXMLData.getDecorators();
-		synchronized (decorators) {
-			result.addAll(decorators);
+		synchronized (allBeansXMLData) {
+			result.addAll(allBeansXMLData.getDecorators());
 		}
 		return result;
 	}
@@ -596,7 +581,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 	public List<INodeReference> getDecoratorClasses(String fullQualifiedTypeName) {
 		List<INodeReference> result = new ArrayList<INodeReference>();
 		Set<INodeReference> decorators = allBeansXMLData.getDecorators();
-		synchronized (decorators) {
+		synchronized (allBeansXMLData) {
 			for (INodeReference r: decorators) {
 				if(fullQualifiedTypeName.equals(r.getValue())) result.add(r);
 			}
@@ -606,9 +591,8 @@ public class CDIProject extends CDIElement implements ICDIProject {
 
 	public List<INodeReference> getInterceptorClasses() {
 		List<INodeReference> result = new ArrayList<INodeReference>();
-		Set<INodeReference> interceptors = allBeansXMLData.getInterceptors();
-		synchronized (interceptors) {
-			result.addAll(interceptors);
+		synchronized (allBeansXMLData) {
+			result.addAll(allBeansXMLData.getInterceptors());
 		}
 		return result;
 	}
@@ -617,7 +601,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 			String fullQualifiedTypeName) {
 		List<INodeReference> result = new ArrayList<INodeReference>();
 		Set<INodeReference> interceptors = allBeansXMLData.getInterceptors();
-		synchronized (interceptors) {
+		synchronized (allBeansXMLData) {
 			for (INodeReference r: interceptors) {
 				if(fullQualifiedTypeName.equals(r.getValue())) result.add(r);
 			}
@@ -660,72 +644,37 @@ public class CDIProject extends CDIElement implements ICDIProject {
 	 * (non-Javadoc)
 	 * @see org.jboss.tools.cdi.core.IBeanManager#getQualifiers()
 	 */
-	public IQualifier[] getQualifiers() {
-		IQualifier[] result = new IQualifier[qualifiers.size()];
-		synchronized (qualifiers) {
-			int i=0;
-			for (IQualifier q: qualifiers.values()) {
-				result[i++] = q;
-			}
-		}
-		return result;
+	public synchronized IQualifier[] getQualifiers() {
+		return qualifiers.values().toArray(new IQualifier[qualifiers.size()]);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * @see org.jboss.tools.cdi.core.IBeanManager#getStereotypes()
 	 */
-	public IStereotype[] getStereotypes() {
-		IStereotype[] result = new IStereotype[stereotypes.size()];
-		synchronized (stereotypes) {
-			int i=0;
-			for (IStereotype s: stereotypes.values()) {
-				result[i++] = s;
-			}
-		}
-		return result;
+	public synchronized IStereotype[] getStereotypes() {
+		return stereotypes.values().toArray(new IStereotype[stereotypes.size()]);
 	}
 
 	/* (non-Javadoc)
 	 * @see org.jboss.tools.cdi.core.IBeanManager#getAlternatives()
 	 */
-	public IBean[] getAlternatives() {
-		IBean[] result = new IBean[alternatives.size()];
-		synchronized (alternatives) {
-			int i=0;
-			for (IBean bean: alternatives) {
-				result[i++] = bean;
-			}
-		}
-		return result;
+	public synchronized IBean[] getAlternatives() {
+		return alternatives.toArray(new IBean[alternatives.size()]);
 	}
 
 	/* (non-Javadoc)
 	 * @see org.jboss.tools.cdi.core.IBeanManager#getDecorators()
 	 */
-	public IDecorator[] getDecorators() {
-		IDecorator[] result = new IDecorator[decorators.size()];
-		synchronized (decorators) {
-			int i=0;
-			for (IDecorator bean: decorators) {
-				result[i++] = bean;
-			}
-		}
-		return result;
+	public synchronized IDecorator[] getDecorators() {
+		return decorators.toArray(new IDecorator[decorators.size()]);
 	}
 
 	/* (non-Javadoc)
 	 * @see org.jboss.tools.cdi.core.IBeanManager#getInterceptors()
 	 */
 	public IInterceptor[] getInterceptors() {
-		IInterceptor[] result = new IInterceptor[interceptors.size()];
-		synchronized (interceptors) {
-			int i=0;
-			for (IInterceptor bean: interceptors) {
-				result[i++] = bean;
-			}
-		}
-		return result;
+		return interceptors.toArray(new IInterceptor[interceptors.size()]);
 	}
 
 	public boolean isNormalScope(IType annotationType) {
@@ -983,16 +932,8 @@ public class CDIProject extends CDIElement implements ICDIProject {
 	 * (non-Javadoc)
 	 * @see org.jboss.tools.cdi.core.IBeanManager#getInterceptorBindings()
 	 */
-	public IInterceptorBinding[] getInterceptorBindings() {
-		IInterceptorBinding[] result = new IInterceptorBinding[interceptorBindings.size()];
-		synchronized (interceptorBindings) {
-			int i=0;
-			for (IInterceptorBinding s: interceptorBindings.values()) {
-				result[i++] = s;
-			}
-		}
-		return result;
-	
+	public synchronized IInterceptorBinding[] getInterceptorBindings() {
+		return interceptorBindings.values().toArray(new IInterceptorBinding[interceptorBindings.size()]);
 	}
 
 	/*
@@ -1169,25 +1110,13 @@ public class CDIProject extends CDIElement implements ICDIProject {
 			}
 		}	
 
-		synchronized (beansByPath) {
+		synchronized (this) {
 			beansByPath.clear();
-		}
-		synchronized (beansByName) {
 			beansByName.clear();
-		}
-		synchronized (namedBeans) {
 			namedBeans.clear();
-		}
-		synchronized (alternatives) {
 			alternatives.clear();
-		}
-		synchronized (decorators) {
 			decorators.clear();
-		}
-		synchronized (interceptors) {
 			interceptors.clear();
-		}
-		synchronized (allBeans) {
 			allBeans.clear();
 		}
 
@@ -1210,14 +1139,12 @@ public class CDIProject extends CDIElement implements ICDIProject {
 			Set<IBean> bs = beansByName.get(name);
 			if(bs == null) {
 				bs = new HashSet<IBean>();
-				synchronized (beansByName) {
+				synchronized (this) {
 					beansByName.put(name, bs);				
 				}
 			}
-			synchronized (bs) {
+			synchronized (this) {
 				bs.add(bean);
-			}
-			synchronized (namedBeans) {
 				namedBeans.add(bean);
 			}
 		}
@@ -1225,25 +1152,25 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		Set<IBean> bs = beansByPath.get(path);
 		if(bs == null) {
 			bs = new HashSet<IBean>();
-			synchronized (beansByPath) {
+			synchronized (this) {
 				beansByPath.put(path, bs);
 			}
 		}
-		synchronized (bs) {
+		synchronized (this) {
 			bs.add(bean);
 		}
 		if(bean.isAlternative()) {
-			synchronized (alternatives) {
+			synchronized (this) {
 				alternatives.add(bean);
 			}
 		}
 		if(bean instanceof IDecorator) {
-			synchronized (decorators) {
+			synchronized (this) {
 				decorators.add((IDecorator)bean);
 			}
 		}
 		if(bean instanceof IInterceptor) {
-			synchronized (interceptors) {
+			synchronized (this) {
 				interceptors.add((IInterceptor)bean);
 			}
 		}
@@ -1254,7 +1181,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 				classBeans.put(t, c);
 			}
 		}
-		synchronized (allBeans) {
+		synchronized (this) {
 			allBeans.add(bean);
 		}
 	}
@@ -1312,7 +1239,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 	public Set<IBean> getNamedBeans(boolean attemptToResolveAmbiguousNames) {
 		//TODO use a cache for named beans with attemptToResolveAmbiguousNames==true
 		Set<IBean> result = new HashSet<IBean>();
-		synchronized (namedBeans) {
+		synchronized (this) {
 			if(attemptToResolveAmbiguousNames) {
 				Set<String> names = new HashSet<String>();
 				for (IBean bean : namedBeans) {
@@ -1342,7 +1269,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		Set<IBean> result = new HashSet<IBean>();
 		IParametedType type = beanType;
 		Set<IBean> beans = new HashSet<IBean>();
-		synchronized(allBeans) {
+		synchronized(this) {
 			beans.addAll(allBeans);
 		}
 		for (IBean b: beans) {

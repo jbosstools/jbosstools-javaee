@@ -20,28 +20,14 @@ public class BeansXMLData {
 	public BeansXMLData() {}
 
 	public void clean() {
-		synchronized(interceptors) {
+		synchronized(this) {
 			interceptors.clear();
-		}
-		synchronized (decorators) {
 			decorators.clear();
-		}
-		synchronized (stereotypeAlternatives) {
 			stereotypeAlternatives.clear();
-		}
-		synchronized (typeAlternatives) {
 			typeAlternatives.clear();
-		}
-		synchronized (interceptorTypes) {
 			interceptorTypes.clear();
-		}
-		synchronized (decoratorTypes) {
 			decoratorTypes.clear();
-		}
-		synchronized (stereotypeAlternativeTypes) {
 			stereotypeAlternativeTypes.clear();
-		}
-		synchronized (typeAlternativeTypes) {
 			typeAlternativeTypes.clear();
 		}
 	}
@@ -79,40 +65,29 @@ public class BeansXMLData {
 	}
 
 	public void addInterceptor(INodeReference r) {
-		synchronized (interceptors) {
+		synchronized (this) {
 			interceptors.add(r);
 		}
-		if (r.getValue() != null)
-			synchronized (interceptorTypes) {
+		if (r.getValue() != null) {
+			synchronized (this) {
 				interceptorTypes.add(r.getValue());
 			}
-	}
-
-	public void addDecorator(INodeReference r) {
-		synchronized (decorators) {
-			decorators.add(r);
-		}
-		synchronized (decoratorTypes) {
-			decoratorTypes.add(r.getValue());
 		}
 	}
 
-	public void addStereotypeAlternative(INodeReference r) {
-		synchronized (stereotypeAlternatives) {
-			stereotypeAlternatives.add(r);
-		}
-		synchronized (stereotypeAlternativeTypes) {
-			stereotypeAlternativeTypes.add(r.getValue());
-		}
+	public synchronized void addDecorator(INodeReference r) {
+		decorators.add(r);
+		decoratorTypes.add(r.getValue());
 	}
 
-	public void addTypeAlternative(INodeReference r) {
-		synchronized (typeAlternatives) {
-			typeAlternatives.add(r);
-		}
-		synchronized (typeAlternativeTypes) {
-			typeAlternativeTypes.add(r.getValue());
-		}
+	public synchronized void addStereotypeAlternative(INodeReference r) {
+		stereotypeAlternatives.add(r);
+		stereotypeAlternativeTypes.add(r.getValue());
+	}
+
+	public synchronized void addTypeAlternative(INodeReference r) {
+		typeAlternatives.add(r);
+		typeAlternativeTypes.add(r.getValue());
 	}
 
 }
