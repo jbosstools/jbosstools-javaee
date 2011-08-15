@@ -42,10 +42,12 @@ import org.eclipse.jdt.core.IType;
 import org.jboss.tools.common.EclipseUtil;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.plugin.ModelPlugin;
+import org.jboss.tools.common.model.project.ProjectHome;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.jsf.JSFModelPlugin;
 import org.jboss.tools.jsf.jsf2.bean.model.JSF2ProjectFactory;
 import org.jboss.tools.jsf.jsf2.bean.model.impl.DefinitionContext;
+import org.jboss.tools.jsf.jsf2.bean.model.impl.FacesConfigDefinition;
 import org.jboss.tools.jsf.jsf2.bean.model.impl.JSF2Project;
 import org.jboss.tools.jsf.jsf2.bean.model.impl.TypeDefinition;
 import org.jboss.tools.jsf.jsf2.bean.scanner.FileSet;
@@ -216,6 +218,16 @@ public class JSF2ProjectBuilder extends IncrementalProjectBuilder implements IIn
 				context.addType(f, type.getFullyQualifiedName(), def);
 			}
 		}
+		IFile facesConfig = fs.getFacesConfig();
+		if(facesConfig != null) {
+			FacesConfigDefinition def = new FacesConfigDefinition();
+			def.setPath(facesConfig.getFullPath());
+			XModelObject o = EclipseResourceUtil.createObjectForResource(facesConfig);
+			if(o != null) {
+				def.setObject(o);
+				context.setFacesConfig(def);
+			}
+		}
 	}
 
 	class SampleDeltaVisitor implements IResourceDeltaVisitor {
@@ -246,10 +258,12 @@ public class JSF2ProjectBuilder extends IncrementalProjectBuilder implements IIn
 		FileSet fileSet = new FileSet();
 		IPath[] outs = new IPath[0];
 		IPath[] srcs = new IPath[0];
+		IPath[] webinfs = new IPath[0];
 		Set<IPath> visited = new HashSet<IPath>();
 
 		public JSF2ResourceVisitor() {
 			getJavaSourceRoots(getProject());
+			webinfs = ProjectHome.getWebInfPaths(getProject());
 		}
 
 		void getJavaSourceRoots(IProject project) {
@@ -323,6 +337,12 @@ public class JSF2ProjectBuilder extends IncrementalProjectBuilder implements IIn
 						return false;
 					}
 				}
+				for (int i = 0; i < webinfs.length; i++) {
+					if(webinfs[i].isPrefixOf(path) && f.getName().equals("faces-config.xml")
+						&& path.removeLastSegments(1).equals(webinfs[i])) {
+						fileSet.setFacesConfig(f);
+					}
+				}
 				Set<IFile> ds = getDependentFiles(path, visited);
 				if(ds != null) for (IFile d: ds) visit(d);
 			}
@@ -340,6 +360,11 @@ public class JSF2ProjectBuilder extends IncrementalProjectBuilder implements IIn
 				}
 				if(resource == resource.getProject()) {
 					return true;
+				}
+				for (IPath webinf: webinfs) {
+					if(webinf.isPrefixOf(path) || path.isPrefixOf(webinf)) {
+						return true;
+					}
 				}
 				return false;
 			}

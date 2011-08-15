@@ -15,6 +15,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.Flags;
@@ -29,6 +30,8 @@ public class FileSet {
 	private Map<IPath, Set<IType>> interfaces = new HashMap<IPath, Set<IType>>();
 	private Map<IPath, Set<IType>> classes = new HashMap<IPath, Set<IType>>();
 	private Map<IPath, IPackageDeclaration> packages = new HashMap<IPath, IPackageDeclaration>();
+
+	private IFile facesConfig = null;
 
 	public FileSet() {}
 
@@ -98,6 +101,10 @@ public class FileSet {
 		packages.put(path, pkg);
 	}
 
+	public void setFacesConfig(IFile facesConfig) {
+		this.facesConfig = facesConfig;
+	}
+
 	public Set<IPath> getAllPaths() {
 		return allpaths;
 	}
@@ -120,6 +127,10 @@ public class FileSet {
 
 	public Map<IPath, IPackageDeclaration> getPackages() {
 		return packages;
+	}
+
+	public IFile getFacesConfig() {
+		return facesConfig;
 	}
 
 }

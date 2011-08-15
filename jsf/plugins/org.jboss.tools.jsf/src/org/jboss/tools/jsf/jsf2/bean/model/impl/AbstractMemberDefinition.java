@@ -44,8 +44,6 @@ public abstract class AbstractMemberDefinition implements IAnnotated {
 	protected Map<String, AnnotationDeclaration> annotationsByType = new HashMap<String, AnnotationDeclaration>();
 	protected IResource resource;
 	
-	protected ITextSourceReference originalDefinition = null;
-
 	public AbstractMemberDefinition() {}
 
 	protected void setAnnotatable(IAnnotatable member, IType contextType, DefinitionContext context, int flags) {
@@ -55,10 +53,6 @@ public abstract class AbstractMemberDefinition implements IAnnotated {
 		} catch (CoreException e) {
 			JSFModelPlugin.getDefault().logError(e);
 		}
-	}
-
-	public void setOriginalDefinition(ITextSourceReference def) {
-		originalDefinition = def;
 	}
 
 	public IAnnotatable getMember() {
@@ -126,7 +120,4 @@ public abstract class AbstractMemberDefinition implements IAnnotated {
 		return resource;
 	}
 
-	public ITextSourceReference getOriginalDefinition() {
-		return originalDefinition;
-	}
 }

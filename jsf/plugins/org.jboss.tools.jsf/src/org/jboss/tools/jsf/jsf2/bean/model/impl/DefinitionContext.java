@@ -37,6 +37,8 @@ public class DefinitionContext {
 	private Map<IPath, Set<String>> resources = new HashMap<IPath, Set<String>>();
 	private Map<String, TypeDefinition> typeDefinitions = new HashMap<String, TypeDefinition>();
 
+	FacesConfigDefinition facesConfig = null;
+
 	private DefinitionContext workingCopy;
 	private DefinitionContext original;
 
@@ -49,6 +51,7 @@ public class DefinitionContext {
 		if(!clean) {
 			copy.types.addAll(types);
 			copy.typeDefinitions.putAll(typeDefinitions);
+			copy.facesConfig = facesConfig;
 
 			for (IPath p: resources.keySet()) {
 				Set<String> set = resources.get(p);
@@ -93,6 +96,13 @@ public class DefinitionContext {
 		}
 	}
 
+	public void setFacesConfig(FacesConfigDefinition def) {
+		facesConfig = def;
+		if(def != null) {
+			addToParents(def.getPath());
+		}
+	}
+
 	public void addType(IPath file, String typeName) {
 		if(file != null) {
 			Set<String> ts = resources.get(file);
@@ -124,6 +134,7 @@ public class DefinitionContext {
 		childPaths.clear();
 		resources.clear();
 		types.clear();
+		facesConfig = null;
 		synchronized (typeDefinitions) {
 			typeDefinitions.clear();
 		}
@@ -134,6 +145,9 @@ public class DefinitionContext {
 		Set<String> ts = resources.remove(path);
 		if(ts != null) for (String t: ts) {
 			clean(t);
+		}
+		if(facesConfig != null && path.equals(facesConfig.getPath())) {
+			facesConfig = null;
 		}
 
 		Set<IPath> cs = childPaths.get(path);
@@ -227,6 +241,7 @@ public class DefinitionContext {
 		resources = workingCopy.resources;
 		childPaths = workingCopy.childPaths;
 		typeDefinitions = workingCopy.typeDefinitions;
+		facesConfig = workingCopy.facesConfig;
 
 		project.update();
 
@@ -253,5 +268,8 @@ public class DefinitionContext {
 		return typeDefinitions.get(fullyQualifiedName);
 	}
 
+	public FacesConfigDefinition getFacesConfig() {
+		return facesConfig;
+	}
 }
 

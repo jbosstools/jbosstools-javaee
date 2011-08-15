@@ -65,6 +65,8 @@ public class JSF2Project implements IJSF2Project {
 	private Map<String, Set<IJSF2ManagedBean>> beansByName = new HashMap<String, Set<IJSF2ManagedBean>>();
 	private Set<IJSF2ManagedBean> namedBeans = new HashSet<IJSF2ManagedBean>();
 
+	private boolean isMetadataComplete = false;
+
 	public JSF2Project() {
 		definitions.setProject(this);
 	}
@@ -94,6 +96,10 @@ public class JSF2Project implements IJSF2Project {
 			}
 		}
 		return result;
+	}
+
+	public boolean isMetadataComplete() {
+		return isMetadataComplete;
 	}
 
 	@Override
@@ -304,6 +310,10 @@ public class JSF2Project implements IJSF2Project {
 		for (IJSF2ManagedBean bean: beans) {
 			addBean(bean);
 		}
+	
+		FacesConfigDefinition fc = definitions.getFacesConfig();
+		isMetadataComplete = fc != null && fc.isMetadataComplete(); 
+		
 	}
 
 	public void addBean(IJSF2ManagedBean bean) {
