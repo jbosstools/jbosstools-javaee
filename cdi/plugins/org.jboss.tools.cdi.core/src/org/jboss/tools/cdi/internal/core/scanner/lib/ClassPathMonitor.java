@@ -198,26 +198,8 @@ public class ClassPathMonitor extends AbstractClassPathMonitor<CDICoreNature>{
 	}
 
 	private boolean updateServicesInSrcs() {
-		Set<IFolder> fs = EclipseResourceUtil.getSourceFolders(project.getProject());
-		IJavaProject javaProject = EclipseResourceUtil.getJavaProject(project.getProject());
-		if(javaProject == null) {
-			return false;
-		}
-		IClasspathEntry[] es = null;
-		try {
-			es = javaProject.getResolvedClasspath(true);
-		} catch (CoreException e) {
-			CDICorePlugin.getDefault().logError(e);
-			return false;
-		}
-		for (int i = 0; i < es.length; i++) {
-			if(es[i].getEntryKind() == IClasspathEntry.CPE_PROJECT) {
-				IProject p = ResourcesPlugin.getWorkspace().getRoot().getProject(es[i].getPath().lastSegment());
-				if(p != null && p.isAccessible()) {
-					fs.addAll(EclipseResourceUtil.getSourceFolders(p.getProject()));
-				}
-			}
-		}
+		Set<IFolder> fs = EclipseResourceUtil.getAllVisibleSourceFolders(project.getProject());
+
 		Map<FileAnyImpl, Long> newServices = new HashMap<FileAnyImpl, Long>();
 		boolean result = false;
 		for (IFolder folder: fs) {
