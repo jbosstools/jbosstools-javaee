@@ -10,7 +10,6 @@
  ******************************************************************************/ 
 package org.jboss.tools.cdi.internal.core.impl;
 
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -149,9 +148,9 @@ public class CDIProject extends CDIElement implements ICDIProject {
 
 	public List<INodeReference> getAlternatives(String fullQualifiedTypeName) {
 		List<INodeReference> result = new ArrayList<INodeReference>();
-		Set<INodeReference> typeAlternatives = allBeansXMLData.getTypeAlternatives();
-		Set<INodeReference> stereotypeAlternatives = allBeansXMLData.getStereotypeAlternatives();
 		synchronized (allBeansXMLData) {
+			Set<INodeReference> typeAlternatives = allBeansXMLData.getTypeAlternatives();
+			Set<INodeReference> stereotypeAlternatives = allBeansXMLData.getStereotypeAlternatives();
 			for (INodeReference r: typeAlternatives) {
 				if(fullQualifiedTypeName.equals(r.getValue())) result.add(r);
 			}
@@ -182,11 +181,11 @@ public class CDIProject extends CDIElement implements ICDIProject {
 
 	public Set<IBean> getBeans(String name,	boolean attemptToResolveAmbiguousNames) {
 		Set<IBean> result = new HashSet<IBean>();
-		Set<IBean> beans = beansByName.get(name);
-		if(beans == null || beans.isEmpty()) {
-			return result;
-		}
 		synchronized (this) {
+			Set<IBean> beans = beansByName.get(name);
+			if(beans == null || beans.isEmpty()) {
+				return result;
+			}
 			result.addAll(beans);
 		}
 		return getResolvedBeans(result, attemptToResolveAmbiguousNames);
@@ -397,7 +396,6 @@ public class CDIProject extends CDIElement implements ICDIProject {
 			if(((ParametedType)t).isAssignableTo((ParametedType)type, false)) {
 				return true;
 			}
-			
 		}
 		return false;
 	}
@@ -563,7 +561,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		return result.toString();
 	}
 
-	public Set<IBean> getBeans(IPath path) {
+	public synchronized Set<IBean> getBeans(IPath path) {
 		Set<IBean> result = new HashSet<IBean>();
 		Set<IBean> beans = beansByPath.get(path);
 		if(beans != null && !beans.isEmpty()) result.addAll(beans);
@@ -580,8 +578,8 @@ public class CDIProject extends CDIElement implements ICDIProject {
 
 	public List<INodeReference> getDecoratorClasses(String fullQualifiedTypeName) {
 		List<INodeReference> result = new ArrayList<INodeReference>();
-		Set<INodeReference> decorators = allBeansXMLData.getDecorators();
 		synchronized (allBeansXMLData) {
+			Set<INodeReference> decorators = allBeansXMLData.getDecorators();
 			for (INodeReference r: decorators) {
 				if(fullQualifiedTypeName.equals(r.getValue())) result.add(r);
 			}
@@ -600,8 +598,8 @@ public class CDIProject extends CDIElement implements ICDIProject {
 	public List<INodeReference> getInterceptorClasses(
 			String fullQualifiedTypeName) {
 		List<INodeReference> result = new ArrayList<INodeReference>();
-		Set<INodeReference> interceptors = allBeansXMLData.getInterceptors();
 		synchronized (allBeansXMLData) {
+			Set<INodeReference> interceptors = allBeansXMLData.getInterceptors();
 			for (INodeReference r: interceptors) {
 				if(fullQualifiedTypeName.equals(r.getValue())) result.add(r);
 			}
@@ -673,7 +671,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 	/* (non-Javadoc)
 	 * @see org.jboss.tools.cdi.core.IBeanManager#getInterceptors()
 	 */
-	public IInterceptor[] getInterceptors() {
+	public synchronized IInterceptor[] getInterceptors() {
 		return interceptors.toArray(new IInterceptor[interceptors.size()]);
 	}
 
@@ -775,24 +773,26 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		Set<IObserverMethod> result = new HashSet<IObserverMethod>();
 
 		IParametedType eventType = getEventType(injectionPoint);
-		
+
 		if(eventType != null) {
-			for (IBean ib: allBeans) {
-				if(!(ib instanceof IClassBean)) continue;
-				IClassBean b = (IClassBean)ib;
-				Set<IObserverMethod> ms = b.getObserverMethods();
-				for (IObserverMethod m: ms) {
-					IObserverMethod om = (IObserverMethod)m;
-					Set<IParameter> params = om.getObservedParameters();
-					if(!params.isEmpty()) {
-						IParameter param = params.iterator().next();
-						IParametedType paramType = param.getType();
-						if(((ParametedType)eventType).isAssignableTo((ParametedType)paramType, true)
-								&& areMatchingEventQualifiers(param, injectionPoint)) {
-							result.add(om);
+			synchronized(this) {
+				for (IBean ib: allBeans) {
+					if(!(ib instanceof IClassBean)) continue;
+					IClassBean b = (IClassBean)ib;
+					Set<IObserverMethod> ms = b.getObserverMethods();
+					for (IObserverMethod m: ms) {
+						IObserverMethod om = (IObserverMethod)m;
+						Set<IParameter> params = om.getObservedParameters();
+						if(!params.isEmpty()) {
+							IParameter param = params.iterator().next();
+							IParametedType paramType = param.getType();
+							if(((ParametedType)eventType).isAssignableTo((ParametedType)paramType, true)
+									&& areMatchingEventQualifiers(param, injectionPoint)) {
+								result.add(om);
+							}
 						}
-					}
-				}			
+					}			
+				}
 			}
 		}
 		return result;
@@ -828,25 +828,27 @@ public class CDIProject extends CDIElement implements ICDIProject {
 
 		if(observedEventParameter.getBeanMethod() instanceof IObserverMethod) {
 			IParametedType paramType = observedEventParameter.getType();
-			for (IBean ib: allBeans) {
-				if(!(ib instanceof IClassBean)) {
-					continue;
-				}
-				IClassBean b = (IClassBean)ib;
-				Set<IInjectionPoint> ps = b.getInjectionPoints();
-				for (IInjectionPoint p: ps) {
-					if(p instanceof IInjectionPointField) {
-						IParametedType eventType = getEventType(p);
-						if(eventType != null && ((ParametedType)eventType).isAssignableTo((ParametedType)paramType, true)) {
-							if(areMatchingEventQualifiers(observedEventParameter, p)) {
-								 result.put(((IInjectionPointField)p).getField(), p);
-							 }
+			synchronized(this) {
+				for (IBean ib: allBeans) {
+					if(!(ib instanceof IClassBean)) {
+						continue;
+					}
+					IClassBean b = (IClassBean)ib;
+					Set<IInjectionPoint> ps = b.getInjectionPoints();
+					for (IInjectionPoint p: ps) {
+						if(p instanceof IInjectionPointField) {
+							IParametedType eventType = getEventType(p);
+							if(eventType != null && ((ParametedType)eventType).isAssignableTo((ParametedType)paramType, true)) {
+								if(areMatchingEventQualifiers(observedEventParameter, p)) {
+									 result.put(((IInjectionPointField)p).getField(), p);
+								 }
+							}
 						}
 					}
 				}
-			}			
+			}
 		}
-		
+
 		return new HashSet<IInjectionPoint>(result.values());
 	}
 
@@ -960,7 +962,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		return qualifiersByPath.get(path);
 	}
 
-	public Set<String> getScopeNames() {
+	public synchronized Set<String> getScopeNames() {
 		Set<String> result = new HashSet<String>();
 		result.addAll(scopes.keySet());
 		return result;
@@ -999,7 +1001,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		CDICorePlugin.fire(new CDIProjectChangeEvent(this));
 	}
 
-	void rebuildAnnotationTypes() {
+	synchronized void rebuildAnnotationTypes() {
 		stereotypes.clear();
 		stereotypesByPath.clear();
 		interceptorBindings.clear();
@@ -1134,59 +1136,47 @@ public class CDIProject extends CDIElement implements ICDIProject {
 			//Prevented double bean from library common for this and used project
 			return;
 		}
-		String name = bean.getName();
-		if(name != null && name.length() > 0) {
-			Set<IBean> bs = beansByName.get(name);
-			if(bs == null) {
-				bs = new HashSet<IBean>();
-				synchronized (this) {
+		synchronized(this) {
+			String name = bean.getName();
+			if(name != null && name.length() > 0) {
+				Set<IBean> bs = beansByName.get(name);
+				if(bs == null) {
+					bs = new HashSet<IBean>();
 					beansByName.put(name, bs);				
 				}
-			}
-			synchronized (this) {
 				bs.add(bean);
 				namedBeans.add(bean);
 			}
-		}
-		IPath path = bean.getSourcePath();
-		Set<IBean> bs = beansByPath.get(path);
-		if(bs == null) {
-			bs = new HashSet<IBean>();
-			synchronized (this) {
+			IPath path = bean.getSourcePath();
+			Set<IBean> bs = beansByPath.get(path);
+			if(bs == null) {
+				bs = new HashSet<IBean>();
 				beansByPath.put(path, bs);
 			}
-		}
-		synchronized (this) {
-			bs.add(bean);
-		}
-		if(bean.isAlternative()) {
 			synchronized (this) {
+				bs.add(bean);
+			}
+			if(bean.isAlternative()) {
 				alternatives.add(bean);
 			}
-		}
-		if(bean instanceof IDecorator) {
-			synchronized (this) {
+			if(bean instanceof IDecorator) {
 				decorators.add((IDecorator)bean);
 			}
-		}
-		if(bean instanceof IInterceptor) {
-			synchronized (this) {
+			if(bean instanceof IInterceptor) {
 				interceptors.add((IInterceptor)bean);
 			}
-		}
-		if(bean instanceof IClassBean) {
-			IClassBean c = (IClassBean)bean;
-			IType t = c.getBeanClass();
-			if(t != null && !classBeans.containsKey(t)) {
-				classBeans.put(t, c);
+			if(bean instanceof IClassBean) {
+				IClassBean c = (IClassBean)bean;
+				IType t = c.getBeanClass();
+				if(t != null && !classBeans.containsKey(t)) {
+					classBeans.put(t, c);
+				}
 			}
-		}
-		synchronized (this) {
 			allBeans.add(bean);
 		}
 	}
 
-	void buildInjectionPoinsByType() {
+	synchronized void buildInjectionPoinsByType() {
 		injectionPointsByType.clear();
 		
 		for (IBean b: allBeans) {
@@ -1207,27 +1197,29 @@ public class CDIProject extends CDIElement implements ICDIProject {
 	}
 
 	void rebuildXML() {
-		allBeansXMLData.clean();
-		projectBeansXMLData.clean();
-		Set<BeansXMLDefinition> beanXMLs = n.getAllBeanXMLDefinitions();
-		for (BeansXMLDefinition b: beanXMLs) {
-			IPath p = b.getPath();
-			boolean t = (!p.lastSegment().endsWith(".jar") && p.segment(0).equals(getNature().getProject().getName()));
-			for (INodeReference r: b.getInterceptors()) {
-				allBeansXMLData.addInterceptor(r);
-				if(t) projectBeansXMLData.addInterceptor(r);
-			}
-			for (INodeReference r: b.getDecorators()) {
-				allBeansXMLData.addDecorator(r);
-				if(t) projectBeansXMLData.addDecorator(r);
-			}
-			for (INodeReference r: b.getStereotypeAlternatives()) {
-				allBeansXMLData.addStereotypeAlternative(r);
-				if(t) projectBeansXMLData.addStereotypeAlternative(r);
-			}
-			for (INodeReference r: b.getTypeAlternatives()) {
-				allBeansXMLData.addTypeAlternative(r);
-				if(t) projectBeansXMLData.addTypeAlternative(r);
+		synchronized(allBeansXMLData) {
+			allBeansXMLData.clean();
+			projectBeansXMLData.clean();
+			Set<BeansXMLDefinition> beanXMLs = n.getAllBeanXMLDefinitions();
+			for (BeansXMLDefinition b: beanXMLs) {
+				IPath p = b.getPath();
+				boolean t = (!p.lastSegment().endsWith(".jar") && p.segment(0).equals(getNature().getProject().getName()));
+				for (INodeReference r: b.getInterceptors()) {
+					allBeansXMLData.addInterceptor(r);
+					if(t) projectBeansXMLData.addInterceptor(r);
+				}
+				for (INodeReference r: b.getDecorators()) {
+					allBeansXMLData.addDecorator(r);
+					if(t) projectBeansXMLData.addDecorator(r);
+				}
+				for (INodeReference r: b.getStereotypeAlternatives()) {
+					allBeansXMLData.addStereotypeAlternative(r);
+					if(t) projectBeansXMLData.addStereotypeAlternative(r);
+				}
+				for (INodeReference r: b.getTypeAlternatives()) {
+					allBeansXMLData.addTypeAlternative(r);
+					if(t) projectBeansXMLData.addTypeAlternative(r);
+				}
 			}
 		}
 	}
@@ -1303,7 +1295,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 			type = getNature().getType(s);
 			if(type != null) qualifiers.add(type);
 		}
-		
+
 		return getBeans(attemptToResolveAmbiguousDependency, beanType, qualifiers.toArray(new IType[0]));
 	}
 
@@ -1343,10 +1335,8 @@ public class CDIProject extends CDIElement implements ICDIProject {
 				context.addBeanXML(f.getFullPath(), def);
 			}
 		}
-		
-		
+
 		context.applyWorkingCopy();
 		return old.isEmpty() ? null : old.iterator().next();
 	}
-
 }
