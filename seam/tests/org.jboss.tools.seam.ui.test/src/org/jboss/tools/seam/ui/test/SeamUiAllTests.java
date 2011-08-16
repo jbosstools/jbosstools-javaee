@@ -56,7 +56,8 @@ public class SeamUiAllTests {
 		TestSuite suite = new TestSuite("Seam UI tests");
 		
 		suite.addTestSuite(ELExprPartitionerTest.class);
-		suite.addTestSuite(ELReferencesQueryParticipantTest.class);
+		//suite.addTestSuite(ELReferencesQueryParticipantTest.class);
+		suite.addTest(new ProjectImportTestSetup(new TestSuite(ELReferencesQueryParticipantTest.class), "org.jboss.tools.seam.ui.test", new String[]{"projects/numberguess"}, new String[]{"numberguess"}));
 		suite.addTestSuite(OpenSeamComponentDialogTest.class);
 		suite.addTest(SeamComponentsViewAllTests.suite());
 		suite.addTest(SeamProjectNewWizardTest.suite());
