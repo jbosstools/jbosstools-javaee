@@ -40,9 +40,9 @@ import org.junit.runners.Suite.SuiteClasses;
  */
 @RunWith(RequirementAwareSuite.class)
 @SuiteClasses({
-	//CdiATWizardTest.class,
+	CdiATWizardTest.class,
 	CDIQuickFixTest.class,
-	//BeansEditorTest.class
+	BeansEditorTest.class
 	
 	})
 public class CDIAllBotTests {
