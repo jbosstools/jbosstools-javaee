@@ -89,9 +89,9 @@ public class JSF2Project implements IJSF2Project {
 	@Override
 	public Set<IJSF2ManagedBean> getManagedBeans(String name) {
 		Set<IJSF2ManagedBean> result = new HashSet<IJSF2ManagedBean>();
-		Set<IJSF2ManagedBean> beans = beansByName.get(name);
-		if(beans != null) {
-			synchronized(beans) {
+		synchronized(this) {
+			Set<IJSF2ManagedBean> beans = beansByName.get(name);
+			if(beans != null) {
 				result.addAll(beans);
 			}
 		}
@@ -175,10 +175,8 @@ public class JSF2Project implements IJSF2Project {
 		}
 	}
 
-	void addUsedProjectInternal(IJSF2Project project) {
-		synchronized (dependsOn) {
-			dependsOn.add((JSF2Project)project);
-		}
+	synchronized void addUsedProjectInternal(IJSF2Project project) {
+		dependsOn.add((JSF2Project)project);
 	}
 
 	public void addDependentProject(IJSF2Project project) {
@@ -190,7 +188,7 @@ public class JSF2Project implements IJSF2Project {
 		JSF2Project p = (JSF2Project)project;
 		if(!dependsOn.contains(p)) return;
 		p.usedBy.remove(this);
-		synchronized (dependsOn) {
+		synchronized (this) {
 			dependsOn.remove(p);
 		}
 	}
@@ -284,6 +282,9 @@ public class JSF2Project implements IJSF2Project {
 	}
 	
 	public void update() {
+		FacesConfigDefinition fc = definitions.getFacesConfig();
+		isMetadataComplete = fc != null && fc.isMetadataComplete(); 
+		
 		List<TypeDefinition> typeDefinitions = getAllTypeDefinitions();
 		List<IJSF2ManagedBean> beans = new ArrayList<IJSF2ManagedBean>();
 		for (TypeDefinition typeDefinition : typeDefinitions) {
@@ -294,57 +295,43 @@ public class JSF2Project implements IJSF2Project {
 			}
 			
 		}
-		synchronized (beansByPath) {
+		synchronized (this) {
 			beansByPath.clear();
-		}
-		synchronized (beansByName) {
 			beansByName.clear();
-		}
-		synchronized (namedBeans) {
 			namedBeans.clear();
-		}
-		synchronized (allBeans) {
 			allBeans.clear();
 		}
-
-		for (IJSF2ManagedBean bean: beans) {
-			addBean(bean);
-		}
-	
-		FacesConfigDefinition fc = definitions.getFacesConfig();
-		isMetadataComplete = fc != null && fc.isMetadataComplete(); 
 		
+		if(!isMetadataComplete) {
+			//No JSF2 beans in model when metadata is complete.
+			for (IJSF2ManagedBean bean: beans) {
+				addBean(bean);
+			}
+		}
+
 	}
 
 	public void addBean(IJSF2ManagedBean bean) {
 		String name = bean.getName();
 		if(name != null && name.length() > 0) {
-			Set<IJSF2ManagedBean> bs = beansByName.get(name);
-			if(bs == null) {
-				bs = new HashSet<IJSF2ManagedBean>();
-				synchronized (beansByName) {
+			synchronized (this) {
+				Set<IJSF2ManagedBean> bs = beansByName.get(name);
+				if(bs == null) {
+					bs = new HashSet<IJSF2ManagedBean>();
 					beansByName.put(name, bs);				
 				}
-			}
-			synchronized (bs) {
 				bs.add(bean);
-			}
-			synchronized (namedBeans) {
 				namedBeans.add(bean);
 			}
 		}
 		IPath path = bean.getSourcePath();
-		Set<IJSF2ManagedBean> bs = beansByPath.get(path);
-		if(bs == null) {
-			bs = new HashSet<IJSF2ManagedBean>();
-			synchronized (beansByPath) {
+		synchronized (this) {
+			Set<IJSF2ManagedBean> bs = beansByPath.get(path);
+			if(bs == null) {
+				bs = new HashSet<IJSF2ManagedBean>();
 				beansByPath.put(path, bs);
 			}
-		}
-		synchronized (bs) {
 			bs.add(bean);
-		}
-		synchronized (allBeans) {
 			allBeans.add(bean);
 		}
 	}

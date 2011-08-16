@@ -82,7 +82,7 @@ public class JSF2ElResolver extends AbstractELCompletionEngine<IJSF2ManagedBean>
 		Set<IJSF2ManagedBean> resolvedBeans = null;
 		if (varName != null) {
 			IJSF2Project manager = JSF2ProjectFactory.getJSF2ProjectWithProgress(project);
-			if (manager != null) {
+			if (manager != null && !manager.isMetadataComplete()) {
 				if(onlyEqualNames) {
 					resolvedBeans = manager.getManagedBeans(varName);
 					beans.addAll(resolvedBeans);
