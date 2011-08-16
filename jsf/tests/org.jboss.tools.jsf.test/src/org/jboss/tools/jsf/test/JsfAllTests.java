@@ -36,7 +36,15 @@ public class JsfAllTests {
 		TestSuite suite = new TestSuite("Test model loading for JSF projects"); //$NON-NLS-1$
 		suite.addTestSuite(JSFTemplateTest.class);
 		suite.addTestSuite(JSFFacetOnExistingProjectTest.class);
-		suite.addTestSuite(JSF2ModelTest.class);
+
+		TestSuite jsf2 = new TestSuite(JSF2ModelTest.class.getName());
+		jsf2.addTestSuite(JSF2ModelTest.class);
+		ProjectImportTestSetup testSetup = new ProjectImportTestSetup(jsf2,
+				"org.jboss.tools.jsf.test",
+				new String[]{"projects/JSF2Beans", "projects/JSF2Web"},
+				new String[]{"JSF2Beans", "JSF2Web"});
+		suite.addTest(testSetup);
+
 		TestSuite old = new TestSuite("Tests are using JSFKickStartOldFormat"); //$NON-NLS-1$
 		old.addTestSuite(JSFModelTest.class);
 		old.addTestSuite(ModelFormat_2_0_0_Test.class);
