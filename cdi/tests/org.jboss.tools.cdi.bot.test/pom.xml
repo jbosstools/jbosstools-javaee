@@ -49,6 +49,19 @@
 			<plugin>
 				<artifactId>maven-antrun-plugin</artifactId>
 				<version>${maven.antrun.plugin.version}</version>
+				<dependencies>
+					<dependency>
+						<groupId>ant-contrib</groupId>
+						<artifactId>ant-contrib</artifactId>
+						<version>1.0b3</version>
+						<exclusions>
+							<exclusion>
+								<groupId>ant</groupId>
+								<artifactId>ant</artifactId>
+							</exclusion>
+						</exclusions>
+					</dependency>
+				</dependencies>
 				<executions>
 					<execution>
 						<id>default-swtbot-config</id>
@@ -58,6 +71,15 @@
 						</goals>
 						<configuration>
 							<tasks>
+								<taskdef resource="net/sf/antcontrib/antcontrib.properties" />
+								<if>
+									<not>
+										<isset property="jboss.tools.jre.6"/>
+									</not>
+									<then>
+										<property name="jboss.tools.jre.6" value="${java.home}" />
+									</then>
+								</if>
 								<echo file="swtbot.properties" append="false">SERVER=JBOSS_AS,6.0,default,${requirement.build.root}/jboss-6.0.0.Final
 JAVA=1.6,${jboss.tools.jre.6}
 								</echo>
