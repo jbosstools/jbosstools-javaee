@@ -16,7 +16,7 @@ import org.eclipse.swtbot.swt.finder.widgets.SWTBotTree;
 import org.jboss.tools.struts.ui.bot.test.StrutsAllBotTests;
 import org.jboss.tools.ui.bot.ext.SWTEclipseExt;
 import org.jboss.tools.ui.bot.ext.SWTTestExt;
-import org.jboss.tools.ui.bot.ext.config.Annotations.SWTBotTestRequires;
+import org.jboss.tools.ui.bot.ext.config.Annotations.Require;
 import org.jboss.tools.ui.bot.ext.config.Annotations.Server;
 import org.jboss.tools.ui.bot.ext.config.Annotations.ServerState;
 import org.jboss.tools.ui.bot.ext.types.EntityType;
@@ -31,7 +31,7 @@ import org.junit.Test;
  * @author Lukas Jungmann
  * 
  */
-@SWTBotTestRequires(server = @Server(state = ServerState.NotRunning), perspective = "Web Development")
+@Require(server = @Server(state = ServerState.NotRunning), perspective = "Web Development")
 public class CreateNewStrutsProjectTest extends SWTTestExt {
 
 	/**

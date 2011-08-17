@@ -54,7 +54,7 @@ import org.jboss.tools.ui.bot.ext.RequirementAwareSuite;
 import org.jboss.tools.ui.bot.ext.SWTBotExt;
 import org.jboss.tools.ui.bot.ext.SWTEclipseExt;
 import org.jboss.tools.ui.bot.ext.SWTTestExt;
-import org.jboss.tools.ui.bot.ext.config.Annotations.SWTBotTestRequires;
+import org.jboss.tools.ui.bot.ext.config.Annotations.Require;
 import org.jboss.tools.ui.bot.ext.config.Annotations.Server;
 import org.jboss.tools.ui.bot.ext.config.Annotations.ServerState;
 import org.jboss.tools.ui.bot.ext.helper.ContextMenuHelper;
@@ -75,7 +75,7 @@ import org.junit.runners.Suite.SuiteClasses;
  * @author jlukas
  * @see <a href="http://download.jboss.org/jbosstools/nightly-docs/en/struts_tools_tutorial/html/index.html">Struts Tutorial</a>
  */
-@SWTBotTestRequires(server = @Server(state = ServerState.NotRunning), perspective = "Web Development")
+@Require(server = @Server(state = ServerState.NotRunning), perspective = "Web Development")
 @RunWith(RequirementAwareSuite.class)
 @SuiteClasses({TutorialTest.class})
 public class TutorialTest extends SWTTestExt {

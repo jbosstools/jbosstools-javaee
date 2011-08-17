@@ -19,7 +19,7 @@ import org.jboss.tools.ui.bot.ext.SWTTestExt;
 import org.jboss.tools.ui.bot.ext.SWTUtilExt;
 import org.jboss.tools.ui.bot.ext.config.Annotations.DB;
 import org.jboss.tools.ui.bot.ext.config.TestConfigurator;
-import org.jboss.tools.ui.bot.ext.config.Annotations.SWTBotTestRequires;
+import org.jboss.tools.ui.bot.ext.config.Annotations.Require;
 import org.jboss.tools.ui.bot.ext.config.Annotations.Seam;
 import org.jboss.tools.ui.bot.ext.config.Annotations.Server;
 import org.jboss.tools.ui.bot.ext.config.Annotations.ServerState;
@@ -33,7 +33,7 @@ import org.junit.experimental.categories.Category;
 
 
 //@SWTBotTestRequires(server=@Server(state=ServerState.NotRunning),perspective="Seam",seam=@Seam())
-@SWTBotTestRequires(server=@Server,perspective="Seam",seam=@Seam(),db=@DB)
+@Require(server=@Server,perspective="Seam",seam=@Seam(),db=@DB)
 public class CreateSeamProjects extends AbstractSeamTestBase {
   
 	protected static final String VALIDATION = "Validation";

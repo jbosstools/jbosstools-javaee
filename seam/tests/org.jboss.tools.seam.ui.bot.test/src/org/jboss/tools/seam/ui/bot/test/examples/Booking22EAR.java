@@ -1,11 +1,11 @@
 package org.jboss.tools.seam.ui.bot.test.examples;
 
-import org.jboss.tools.ui.bot.ext.config.Annotations.SWTBotTestRequires;
+import org.jboss.tools.ui.bot.ext.config.Annotations.Require;
 import org.jboss.tools.ui.bot.ext.config.Annotations.Seam;
 import org.jboss.tools.ui.bot.ext.config.Annotations.Server;
 import org.jboss.tools.ui.bot.ext.config.Annotations.ServerState;
 
-@SWTBotTestRequires(server=@Server(state=ServerState.Running),seam=@Seam(version="2.2"))
+@Require(server=@Server(state=ServerState.Running),seam=@Seam(version="2.2"))
 public class Booking22EAR extends SeamExample {
 
 	@Override
