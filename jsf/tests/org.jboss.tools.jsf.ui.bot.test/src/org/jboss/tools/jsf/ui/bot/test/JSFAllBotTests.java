@@ -1,8 +1,5 @@
 package org.jboss.tools.jsf.ui.bot.test;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
-
 import org.jboss.tools.jsf.ui.bot.test.cssdialog.jbide.CSSSelectorJBIDE3288;
 import org.jboss.tools.jsf.ui.bot.test.cssdialog.jbide.JBIDE3148and4441Test;
 import org.jboss.tools.jsf.ui.bot.test.cssdialog.jbide.JBIDE3577Test;
@@ -20,32 +17,34 @@ import org.jboss.tools.jsf.ui.bot.test.smoke.MarkersTest;
 import org.jboss.tools.jsf.ui.bot.test.smoke.OpenOnTest;
 import org.jboss.tools.jsf.ui.bot.test.templates.SetTemplateForUnknownTagTest;
 import org.jboss.tools.jsf.ui.bot.test.templates.UnknownTemplateTest;
+import org.jboss.tools.ui.bot.ext.RequirementAwareSuite;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite.SuiteClasses;
 
 /**
  * 
- * This is a sample swtbot testcase for an eclipse application.
+ * These are all JSF SWTBot tests for JBDS.
  * 
  */
+@RunWith(RequirementAwareSuite.class)
+@SuiteClasses ({
+  CreateNewJSFProjectTest.class,    
+  AddRemoveJSFCapabilitiesTest.class,
+  JBIDE3148and4441Test.class,
+  JBIDE4391Test.class,
+  JBIDE3577Test.class,
+  JBIDE3579Test.class,
+  JBIDE3920Test.class,
+  UnknownTemplateTest.class,
+  SetTemplateForUnknownTagTest.class,
+  CSSSelectorJBIDE3288.class,
+  JSF2MoveParticipantTest.class,
+  JSF2RenameParticipantTest.class,
+  JSF2AttributeRenameTest.class,
+  OpenOnTest.class,
+  CodeCompletionTest.class,
+  FacesConfigCodeCompletionTest.class,
+  MarkersTest.class
+})
 public class JSFAllBotTests{
-	public static Test suite(){
-		TestSuite suite = new TestSuite("JSF all tests"); //$NON-NLS-1$
-		suite.addTestSuite(CreateNewJSFProjectTest.class);		
-		suite.addTestSuite(AddRemoveJSFCapabilitiesTest.class);
-		suite.addTestSuite(JBIDE3148and4441Test.class);
-		suite.addTestSuite(JBIDE4391Test.class);
-		suite.addTestSuite(JBIDE3577Test.class);
-		suite.addTestSuite(JBIDE3579Test.class);
-		suite.addTestSuite(JBIDE3920Test.class);
-		suite.addTestSuite(UnknownTemplateTest.class);
-		suite.addTestSuite(SetTemplateForUnknownTagTest.class);
-		suite.addTestSuite(CSSSelectorJBIDE3288.class);
-		suite.addTestSuite(JSF2MoveParticipantTest.class);
-		suite.addTestSuite(JSF2RenameParticipantTest.class);
-		suite.addTestSuite(JSF2AttributeRenameTest.class);
-		suite.addTestSuite(OpenOnTest.class);
-		suite.addTestSuite(CodeCompletionTest.class);
-		suite.addTestSuite(FacesConfigCodeCompletionTest.class);
-  	suite.addTestSuite(MarkersTest.class);	
-		return suite;
-	}
 }
