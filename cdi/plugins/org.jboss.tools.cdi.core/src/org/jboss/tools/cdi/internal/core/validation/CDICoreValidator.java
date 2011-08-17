@@ -177,8 +177,7 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 	 */
 	public boolean shouldValidate(IProject project) {
 		try {
-			return project != null 
-					&& project.isAccessible() 
+			return project.isAccessible() 
 					&& project.hasNature(CDICoreNature.NATURE_ID) 
 					&& validateBuilderOrder(project)
 					&& isEnabled(project);
@@ -238,7 +237,7 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 			if(dd != null) {
 				for (IPath p: dd) {
 					IFile f = root.getFile(p);
-					if(f != null && f.exists() && !changedFiles.contains(f)) {
+					if(f.exists() && !changedFiles.contains(f)) {
 						resources.add(p);
 						collectAllRelatedInjections(f, resources);
 					}
@@ -292,9 +291,9 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 		Set<IFile> filesToValidate = new HashSet<IFile>();
 		for (IPath linkedResource : resources) {
 			IFile file = root.getFile(linkedResource);
-			if(file!=null && file.isAccessible()) {
+			if(file.isAccessible()) {
 				IProject pr = file.getProject();
-				if(pr!=null && !validationHelper.getValidationContextManager().projectHasBeenValidated(this, pr)) {
+				if(!validationHelper.getValidationContextManager().projectHasBeenValidated(this, pr)) {
 					filesToValidate.add(file);
 //					removeAllMessagesFromResource(file);
 				}
@@ -327,9 +326,6 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 	public IStatus validateAll(IProject project, ContextValidationHelper validationHelper, IProjectValidationContext context, ValidatorManager manager, IReporter reporter)
 			throws ValidationException {
 		init(project, validationHelper, context, manager, reporter);
-		if (cdiProject == null) {
-			return OK_STATUS;
-		}
 		
 		displaySubtask(CDIValidationMessages.VALIDATING_PROJECT, new String[] { projectName });
 
@@ -409,7 +405,7 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 	 * @param file
 	 */
 	private void validateResource(IFile file) {
-		if (reporter.isCancelled() || file == null || !file.isAccessible()) {
+		if (reporter.isCancelled() || !file.isAccessible()) {
 			return;
 		}
 		displaySubtask(CDIValidationMessages.VALIDATING_RESOURCE, new String[] {file.getProject().getName(), file.getName()});
