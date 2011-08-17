@@ -82,7 +82,7 @@ public class AddRemoveJSFCapabilitiesTest extends JSFAutoTestCase {
       
       bot.textWithLabel("web.xml Location:*").setText(webXmlFileLocation);
       bot.button(WidgetVariables.NEXT_BUTTON).click();
-      SWTJBTExt.addServerToServerViewOnWizardPage(bot, JBOSS_SERVER_GROUP, JBOSS_SERVER_TYPE);
+      // SWTJBTExt.addServerToServerViewOnWizardPage(bot, JBOSS_SERVER_GROUP, JBOSS_SERVER_TYPE);
       bot.sleep(1000L);
       bot.button(IDELabel.Button.FINISH).click();
       eclipse.closeWarningWindowIfOpened(true);

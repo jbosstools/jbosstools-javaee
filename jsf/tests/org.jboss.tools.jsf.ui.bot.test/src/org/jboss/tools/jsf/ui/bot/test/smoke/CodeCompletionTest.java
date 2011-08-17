@@ -391,7 +391,7 @@ public class CodeCompletionTest extends JSFAutoTestCase{
   }
   
   @Override
-  protected void tearDown() throws Exception {
+public void tearDown() throws Exception {
     if (editor != null){
       editor.setText(originalEditorText);
       editor.saveAndClose();

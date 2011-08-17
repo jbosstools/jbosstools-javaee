@@ -19,7 +19,7 @@ public class JSF2RenameParticipantTest extends JSF2AbstractRefactorTest {
 				.bot();
 		SWTBotTree tree = innerBot.tree();
 		tree
-				.expandNode(projectProperties.getProperty("JSFProjectName")).expandNode("WebContent").expandNode("resources").expandNode("mycomp").expandNode("echo.xhtml").select(); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+				.expandNode(JBT_TEST_PROJECT_NAME).expandNode("WebContent").expandNode("resources").expandNode("mycomp").expandNode("echo.xhtml").select(); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
 		bot.menu("Refactor").menu("Rename...").click(); //$NON-NLS-1$ //$NON-NLS-2$
 		bot.textWithLabel("New name:").setText("echo1.xhtml"); //$NON-NLS-1$ //$NON-NLS-2$
 		bot.button("Preview >").click(); //$NON-NLS-1$
@@ -33,7 +33,7 @@ public class JSF2RenameParticipantTest extends JSF2AbstractRefactorTest {
 				.bot();
 		SWTBotTree tree = innerBot.tree();
 		tree
-				.expandNode(projectProperties.getProperty("JSFProjectName")).expandNode("WebContent").expandNode(JSF2_Test_Page_Name + ".xhtml").doubleClick(); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				.expandNode(JBT_TEST_PROJECT_NAME).expandNode("WebContent").expandNode(JSF2_Test_Page_Name + ".xhtml").doubleClick(); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		delay();
 		SWTBotEclipseEditor editor = bot.editorByTitle(
 				JSF2_Test_Page_Name + ".xhtml").toTextEditor(); //$NON-NLS-1$
@@ -44,17 +44,17 @@ public class JSF2RenameParticipantTest extends JSF2AbstractRefactorTest {
 	}
 
 	@Override
-	protected void tearDown() throws Exception {
+	public void tearDown() throws Exception {
 		SWTBot innerBot = bot.viewByTitle(WidgetVariables.PACKAGE_EXPLORER)
 				.bot();
 		SWTBotTree tree = innerBot.tree();
 		tree
-				.expandNode(projectProperties.getProperty("JSFProjectName")).expandNode("WebContent").expandNode(JSF2_Test_Page_Name + ".xhtml").select(); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				.expandNode(JBT_TEST_PROJECT_NAME).expandNode("WebContent").expandNode(JSF2_Test_Page_Name + ".xhtml").select(); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		bot.menu("Edit").menu("Delete").click(); //$NON-NLS-1$ //$NON-NLS-2$
 		bot.button("OK").click(); //$NON-NLS-1$
 		delay();
 		tree
-				.expandNode(projectProperties.getProperty("JSFProjectName")).expandNode("WebContent").expandNode("resources").expandNode("mycomp").expandNode("echo1.xhtml").select(); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+				.expandNode(JBT_TEST_PROJECT_NAME).expandNode("WebContent").expandNode("resources").expandNode("mycomp").expandNode("echo1.xhtml").select(); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
 		bot.menu("Edit").menu("Delete").click(); //$NON-NLS-1$ //$NON-NLS-2$
 		bot.button("OK").click(); //$NON-NLS-1$
 		delay();
@@ -65,7 +65,7 @@ public class JSF2RenameParticipantTest extends JSF2AbstractRefactorTest {
 		delay();
 		SWTBotTree tree = bot.tree();
 		tree
-				.expandNode("Rename composite component changes").expandNode("jsf2TestPage.xhtml - " + projectProperties.getProperty("JSFProjectName") + "/WebContent").expandNode("Rename composite component"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+				.expandNode("Rename composite component changes").expandNode("jsf2TestPage.xhtml - " + JBT_TEST_PROJECT_NAME + "/WebContent").expandNode("Rename composite component"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
 	}
 
 }

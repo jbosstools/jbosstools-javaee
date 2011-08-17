@@ -30,7 +30,7 @@ public class FacesConfigCodeCompletionTest extends JSFAutoTestCase{
   private SWTBotEditor facesConfigEditor;
   
   @Override
-  protected void setUp() throws Exception {
+  public void setUp() throws Exception {
     super.setUp();
     facesConfigEditor = eclipse.openFile(VPEAutoTestCase.JBT_TEST_PROJECT_NAME, 
         "WebContent",
@@ -40,7 +40,7 @@ public class FacesConfigCodeCompletionTest extends JSFAutoTestCase{
       .selectPage(IDELabel.FacesConfigEditor.SOURCE_TAB_LABEL);
   }
   @Override
-  protected void tearDown() throws Exception {
+public void tearDown() throws Exception {
     if (facesConfigEditor != null){
       facesConfigEditor.saveAndClose();
     }

@@ -73,14 +73,14 @@ public class MarkersTest extends JSFAutoTestCase{
 	  }	  
 	}   
   @Override
-  protected void setUp() throws Exception {
+public void setUp() throws Exception {
     super.setUp();
     openPage(TEST_PAGE);
     editor = SWTTestExt.bot.swtBotEditorExtByTitle(TEST_PAGE);
     originalEditorText = editor.getText();
   }
   @Override
-  protected void tearDown() throws Exception {
+public void tearDown() throws Exception {
     if (editor != null){
       editor.setText(originalEditorText);
       editor.saveAndClose();

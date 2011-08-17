@@ -20,13 +20,13 @@ public class JBIDE3577Test extends JSFAutoTestCase{
 		SWTBot innerBot = bot.viewByTitle(WidgetVariables.PACKAGE_EXPLORER).bot();
 		SWTBotTree tree = innerBot.tree();
 		try {
-			tree.expandNode(projectProperties.getProperty("JSFProjectName")). //$NON-NLS-1$
+			tree.expandNode(JBT_TEST_PROJECT_NAME). //$NON-NLS-1$
 			getNode(CSS_FILE_NAME+".css").doubleClick(); //$NON-NLS-1$
 			bot.editorByTitle(CSS_FILE_NAME+".css").setFocus(); //$NON-NLS-1$
 			bot.menu("Edit").menu("Select All").click(); //$NON-NLS-1$ //$NON-NLS-2$
 			bot.menu("Edit").menu("Delete").click();  //$NON-NLS-1$//$NON-NLS-2$
 		} catch (WidgetNotFoundException e) {
-			tree.getTreeItem(projectProperties.getProperty("JSFProjectName")).select(); //$NON-NLS-1$
+			tree.getTreeItem(JBT_TEST_PROJECT_NAME).select(); //$NON-NLS-1$
 			open.newObject(ActionItem.NewObject.WebCSS.LABEL);
 			bot.shell("New CSS File").activate(); //$NON-NLS-1$
 			bot.textWithLabel("File name:").setText(CSS_FILE_NAME); //$NON-NLS-1$

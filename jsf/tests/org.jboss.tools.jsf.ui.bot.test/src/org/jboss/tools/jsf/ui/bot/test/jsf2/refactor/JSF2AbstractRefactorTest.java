@@ -16,33 +16,33 @@ public abstract class JSF2AbstractRefactorTest extends JSFAutoTestCase {
 				.bot();
 		SWTBotTree tree = innerBot.tree();
 		try {
-			tree.expandNode(projectProperties.getProperty("JSFProjectName")).expandNode("WebContent").expandNode("resources").select(); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			tree.expandNode(JBT_TEST_PROJECT_NAME).expandNode("WebContent").expandNode("resources").select(); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		} catch (WidgetNotFoundException e) {
-			tree.getTreeItem(projectProperties.getProperty("JSFProjectName")).expandNode("WebContent").select(); //$NON-NLS-1$ //$NON-NLS-2$
+			tree.getTreeItem(JBT_TEST_PROJECT_NAME).expandNode("WebContent").select(); //$NON-NLS-1$ //$NON-NLS-2$
 			bot.menu("File").menu("New").menu("Folder").click(); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			bot.textWithLabel("Folder name:").setText("resources"); //$NON-NLS-1$ //$NON-NLS-2$
 			bot.button("Finish").click(); //$NON-NLS-1$
 		}
 		try {
-			tree.expandNode(projectProperties.getProperty("JSFProjectName")).expandNode("WebContent").expandNode("resources").expandNode("mycomp").select(); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+			tree.expandNode(JBT_TEST_PROJECT_NAME).expandNode("WebContent").expandNode("resources").expandNode("mycomp").select(); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 		} catch (WidgetNotFoundException e) {
-			tree.getTreeItem(projectProperties.getProperty("JSFProjectName")).expandNode("WebContent").expandNode("resources").select(); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			tree.getTreeItem(JBT_TEST_PROJECT_NAME).expandNode("WebContent").expandNode("resources").select(); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			bot.menu("File").menu("New").menu("Folder").click(); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			bot.textWithLabel("Folder name:").setText("mycomp"); //$NON-NLS-1$ //$NON-NLS-2$
 			bot.button("Finish").click(); //$NON-NLS-1$
 		}
 		try {
-			tree.expandNode(projectProperties.getProperty("JSFProjectName")).expandNode("WebContent").expandNode("resources").expandNode("mycomp").select(); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+			tree.expandNode(JBT_TEST_PROJECT_NAME).expandNode("WebContent").expandNode("resources").expandNode("mycomp").select(); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 		} catch (WidgetNotFoundException e) {
-			tree.getTreeItem(projectProperties.getProperty("JSFProjectName")).expandNode("WebContent").expandNode("resources").select(); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			tree.getTreeItem(JBT_TEST_PROJECT_NAME).expandNode("WebContent").expandNode("resources").select(); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			bot.menu("File").menu("New").menu("Folder").click(); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			bot.textWithLabel("Folder name:").setText("mycomp"); //$NON-NLS-1$ //$NON-NLS-2$
 			bot.button("Finish").click(); //$NON-NLS-1$
 		}
 		try {
-			tree.expandNode(projectProperties.getProperty("JSFProjectName")).expandNode("WebContent").expandNode("resources").expandNode("mycomp").expandNode("echo.xhtml"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+			tree.expandNode(JBT_TEST_PROJECT_NAME).expandNode("WebContent").expandNode("resources").expandNode("mycomp").expandNode("echo.xhtml"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
 		} catch (WidgetNotFoundException e) {
-			tree.getTreeItem(projectProperties.getProperty("JSFProjectName")).expandNode("WebContent").expandNode("resources").expandNode("mycomp").select(); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+			tree.getTreeItem(JBT_TEST_PROJECT_NAME).expandNode("WebContent").expandNode("resources").expandNode("mycomp").select(); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 			bot.menu("File").menu("New").menu("Other...").click(); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			bot.shell("New").activate(); //$NON-NLS-1$
 			tree = bot.tree();
@@ -67,10 +67,10 @@ public abstract class JSF2AbstractRefactorTest extends JSFAutoTestCase {
 				.bot();
 		SWTBotTree tree = innerBot.tree();
 		try {
-			tree.expandNode(projectProperties.getProperty("JSFProjectName")).expandNode("WebContent"). //$NON-NLS-1$ //$NON-NLS-2$
+			tree.expandNode(JBT_TEST_PROJECT_NAME).expandNode("WebContent"). //$NON-NLS-1$ //$NON-NLS-2$
 					getNode(JSF2_Test_Page_Name + ".xhtml").doubleClick(); //$NON-NLS-1$
 		} catch (WidgetNotFoundException e) {
-			tree.getTreeItem(projectProperties.getProperty("JSFProjectName")).select(); //$NON-NLS-1$
+			tree.getTreeItem(JBT_TEST_PROJECT_NAME).select(); //$NON-NLS-1$
 			bot.menu("File").menu("New").menu("Other...").click(); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			bot.shell("New").activate(); //$NON-NLS-1$
 			tree = bot.tree();
