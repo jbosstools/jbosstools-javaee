@@ -14,6 +14,7 @@ import org.jboss.tools.cdi.bot.test.uiutils.wizards.CDIWizard;
 import org.jboss.tools.cdi.bot.test.uiutils.wizards.CDIWizardType;
 import org.jboss.tools.ui.bot.ext.SWTBotExt;
 import org.jboss.tools.ui.bot.ext.SWTUtilExt;
+import org.jboss.tools.ui.bot.ext.Timing;
 import org.jboss.tools.ui.bot.ext.helper.ContextMenuHelper;
 
 public class CDIUtil {
@@ -23,14 +24,14 @@ public class CDIUtil {
 		nodeContextMenu(tree, item, 
 				"Configure","Add CDI (Context and Dependency Injection) support...").click();
 		bot.activeShell().bot().button("OK").click();
-		bot.sleep(2000);
+		bot.sleep(Timing.time2S());
 		util.waitForNonIgnoredJobs();
 	}
 	
 	public static void resolveQuickFix(final SWTBotTree tree, SWTBotTreeItem item, SWTBotExt bot, SWTUtilExt util) {
 		nodeContextMenu(bot.tree(), item, "Quick Fix").click();
 		bot.activeShell().bot().button("Finish").click();
-		bot.sleep(2000);
+		bot.sleep(Timing.time2S());
 		util.waitForNonIgnoredJobs();
 	}
 	

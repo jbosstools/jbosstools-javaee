@@ -14,6 +14,7 @@ import org.jboss.tools.cdi.bot.test.uiutils.wizards.DynamicWebProjectWizard;
 import org.jboss.tools.ui.bot.ext.RequirementAwareSuite;
 import org.jboss.tools.ui.bot.ext.SWTEclipseExt;
 import org.jboss.tools.ui.bot.ext.SWTTestExt;
+import org.jboss.tools.ui.bot.ext.Timing;
 import org.jboss.tools.ui.bot.ext.config.Annotations.SWTBotTestRequires;
 import org.jboss.tools.ui.bot.ext.config.Annotations.Server;
 import org.jboss.tools.ui.bot.ext.config.Annotations.ServerState;
@@ -21,6 +22,7 @@ import org.jboss.tools.ui.bot.ext.entity.JavaClassEntity;
 import org.jboss.tools.ui.bot.ext.types.ViewType;
 import org.jboss.tools.ui.bot.ext.view.ProblemsView;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite.SuiteClasses;
@@ -43,11 +45,11 @@ public class CDIQuickFixTest extends SWTTestExt {
 	@Before
 	public void setUp() {
 		eclipse.showView(ViewType.PROJECT_EXPLORER);
+		createAndCheckCDIProject();
 	}
 
 	@Test
 	public void testSerializableQF() {
-		createAndCheckCDIProject();
 		CDIUtil.bean(PACKAGE_NAME, "B1", true, false, false, false, null, null,
 				null, null).finish();
 		util.waitForNonIgnoredJobs();
@@ -61,8 +63,6 @@ public class CDIQuickFixTest extends SWTTestExt {
 		CDIUtil.copyResourceToClass(ed, CDIQuickFixTest.class
 				.getResourceAsStream("/resources/cdi/B1.java.cdi"), false);
 		assertContains("@SessionScoped", ed.toTextEditor().getText());
-		SWTEclipseExt.showView(bot, ViewType.PROBLEMS);
-		bot.sleep(3 * TIME_1S);
 		SWTBotTreeItem[] warningTrees = ProblemsView.
 				getFilteredWarningsTreeItems(bot, "Managed bean B1 which", "/"
 						+ PROJECT_NAME, "B1.java", "CDI Problem");
@@ -80,6 +80,7 @@ public class CDIQuickFixTest extends SWTTestExt {
 				warningTrees.length == 0);	
 	}
 
+	
 	@Test
 	public void testMultipleBeansQF() {
 		CDIUtil.bean(PACKAGE_NAME, "Animal", true, false, false, false, null,
@@ -125,8 +126,6 @@ public class CDIQuickFixTest extends SWTTestExt {
 		assertTrue(code.contains("public class BrokenFarm {"));
 		assertTrue(code.contains("@Inject private Animal animal;"));
 
-		SWTEclipseExt.showView(bot, ViewType.PROBLEMS);
-		bot.sleep(3 * TIME_1S);
 		SWTBotTreeItem[] warningTrees = ProblemsView
 				.getFilteredWarningsTreeItems(bot, "Multiple beans are eligible", "/"
 						+ PROJECT_NAME, "BrokenFarm.java", "CDI Problem");
@@ -149,7 +148,7 @@ public class CDIQuickFixTest extends SWTTestExt {
 				bot.button("Finish").isEnabled());
 		bot.clickButton("Finish");
 		
-		bot.sleep(2*TIME_1S);
+		bot.sleep(Timing.time2S());
 		util.waitForNonIgnoredJobs();
 		code = ed.toTextEditor().getText();
 		assertTrue(code.contains("@Inject @Q1 private Animal animal;"));

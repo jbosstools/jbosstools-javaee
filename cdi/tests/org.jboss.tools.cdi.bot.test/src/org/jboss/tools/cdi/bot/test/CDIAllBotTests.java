@@ -43,7 +43,6 @@ import org.junit.runners.Suite.SuiteClasses;
 	CdiATWizardTest.class,
 	CDIQuickFixTest.class,
 	BeansEditorTest.class
-	
 	})
 public class CDIAllBotTests {
 }
