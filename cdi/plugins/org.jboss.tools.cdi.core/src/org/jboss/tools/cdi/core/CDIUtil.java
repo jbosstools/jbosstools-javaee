@@ -55,6 +55,7 @@ import org.eclipse.wst.common.project.facet.core.IFacetedProject;
 import org.eclipse.wst.common.project.facet.core.IProjectFacetVersion;
 import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
 import org.jboss.tools.cdi.internal.core.impl.ClassBean;
+import org.jboss.tools.cdi.internal.core.validation.AnnotationValidationDelegate;
 import org.jboss.tools.cdi.internal.core.validation.CDICoreValidator;
 import org.jboss.tools.common.EclipseUtil;
 import org.jboss.tools.common.java.IAnnotated;
@@ -1058,14 +1059,18 @@ public class CDIUtil {
 			for (Object q: os) {
 				String s = q.toString();
 				int i = s.lastIndexOf('.');
-				if(i >= 0) s = s.substring(i + 1);
-				result.add(s);
+				if(i >= 0 && AnnotationValidationDelegate.ELEMENT_TYPE_TYPE_NAME.equals(s.substring(0, i))) {
+					s = s.substring(i + 1);
+					result.add(s);
+				}
 			}
 		} else if(o != null) {
 			String s = o.toString();
 			int i = s.lastIndexOf('.');
-			if(i >= 0) s = s.substring(i + 1);
-			result.add(s);
+			if(i >= 0 && AnnotationValidationDelegate.ELEMENT_TYPE_TYPE_NAME.equals(s.substring(0, i))) {
+				s = s.substring(i + 1);
+				result.add(s);
+			}
 		}
 		return result;
 	}

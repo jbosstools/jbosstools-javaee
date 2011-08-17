@@ -36,10 +36,11 @@ import org.jboss.tools.common.java.IAnnotationType;
  */
 public class AnnotationValidationDelegate extends CDICoreValidationDelegate {
 
-	static final String TARGET_METHOD = "METHOD";
-	static final String TARGET_FIELD = "FIELD";
-	static final String TARGET_PARAMETER = "PARAMETER";
-	static final String TARGET_TYPE = "TYPE";
+	public static final String ELEMENT_TYPE_TYPE_NAME = "java.lang.annotation.ElementType";
+	public static final String TARGET_METHOD = "METHOD";
+	public static final String TARGET_FIELD = "FIELD";
+	public static final String TARGET_PARAMETER = "PARAMETER";
+	public static final String TARGET_TYPE = "TYPE";
 
 	static final String[] TMF = {TARGET_METHOD, TARGET_FIELD, TARGET_TYPE};
 	static final String[] MF = {TARGET_METHOD, TARGET_FIELD};
@@ -190,16 +191,8 @@ public class AnnotationValidationDelegate extends CDICoreValidationDelegate {
 		if(retention == null) {
 			validator.addError(message, CDIPreferences.MISSING_OR_INCORRECT_TARGET_OR_RETENTION_IN_ANNOTATION_TYPE, CDIUtil.convertToSourceReference(type.getSourceType().getNameRange(), resource), resource, message_id);
 		} else {
-			boolean ok = false;
 			Object o = retention.getMemberValue(null);
-			if(o != null) {
-				ok = true;
-				String s = o.toString();
-				int i = s.lastIndexOf('.');
-				if(i >= 0) s = s.substring(i + 1);
-				if(!"RUNTIME".equals(s)) ok = false;
-			}
-			if(!ok) {
+			if(o == null || !CDIConstants.RETENTION_POLICY_RUNTIME_TYPE_NAME.equals(o.toString())) {
 				validator.addError(message, CDIPreferences.MISSING_OR_INCORRECT_TARGET_OR_RETENTION_IN_ANNOTATION_TYPE, retention, resource, message_id);
 			}
 		}
