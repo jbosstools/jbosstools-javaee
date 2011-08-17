@@ -32,7 +32,7 @@ import org.jboss.tools.cdi.bot.test.uiutils.editor.BeansEditor;
 import org.jboss.tools.cdi.bot.test.uiutils.editor.BeansEditor.Item;
 import org.jboss.tools.ui.bot.ext.RequirementAwareSuite;
 import org.jboss.tools.ui.bot.ext.SWTTestExt;
-import org.jboss.tools.ui.bot.ext.config.Annotations.SWTBotTestRequires;
+import org.jboss.tools.ui.bot.ext.config.Annotations.Require;
 import org.jboss.tools.ui.bot.ext.config.Annotations.Server;
 import org.jboss.tools.ui.bot.ext.config.Annotations.ServerState;
 import org.jboss.tools.ui.bot.ext.view.ProjectExplorer;
@@ -50,7 +50,7 @@ import org.xml.sax.SAXException;
 /**
  * @author Lukas Jungmann
  */
-@SWTBotTestRequires(clearProjects = false, perspective = "Java EE", server = @Server(state = ServerState.NotRunning, version = "6.0", operator = ">="))
+@Require(clearProjects = false, perspective = "Java EE", server = @Server(state = ServerState.NotRunning, version = "6.0", operator = ">="))
 @RunWith(RequirementAwareSuite.class)
 @SuiteClasses({ BeansEditorTest.class })
 public class BeansEditorTest extends SWTTestExt {
