@@ -116,7 +116,7 @@ public class QualifierWithMembersTest extends TCKTest {
 	 * 
 	 * @throws CoreException
 	 */
-	public void _testQualifierCoincidingSimpleNameInInjectingBeanAndCoincidingSimpleNameInInjectedBeanResolved() throws CoreException {
+	public void testQualifierCoincidingSimpleNameInInjectingBeanAndCoincidingSimpleNameInInjectedBeanResolved() throws CoreException {
 		IInjectionPointField injection = getInjectionPointField("JavaSource/org/jboss/jsr299/tck/tests/jbt/resolution/coincidence/ObtainsInstanceBean.java", "cashPaymentProcessor");
 		Set<IBean> beans = cdiProject.getBeans(true, injection);
 		assertEquals("Wrong number of the beans", 1, beans.size());
