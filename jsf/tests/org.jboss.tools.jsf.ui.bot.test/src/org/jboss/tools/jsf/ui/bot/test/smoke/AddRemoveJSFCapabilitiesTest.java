@@ -42,7 +42,7 @@ public class AddRemoveJSFCapabilitiesTest extends JSFAutoTestCase {
     swtUtilExt = new SWTUtilExt(bot);
   }
   public void testAddRemoveJSFCapabilities() {
-    boolean jbdsIsRunning = SWTJBTExt.isJBDSRun(bot);
+    boolean jbdsIsRunning = SWTJBTExt.isJBDSRun();
     removeJSFCapabilities(jbdsIsRunning);
     addJSFCapabilities();
     // Test add/remove JSF capabilities after project is closed and reopened
