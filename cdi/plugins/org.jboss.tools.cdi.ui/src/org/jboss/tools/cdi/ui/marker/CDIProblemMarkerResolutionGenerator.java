@@ -36,13 +36,19 @@ import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.CDIUtil;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.ICDIProject;
+import org.jboss.tools.cdi.core.IDecorator;
 import org.jboss.tools.cdi.core.IInjectionPoint;
+import org.jboss.tools.cdi.core.IInterceptor;
+import org.jboss.tools.cdi.core.IStereotyped;
 import org.jboss.tools.cdi.internal.core.impl.CDIProject;
 import org.jboss.tools.cdi.internal.core.validation.CDIValidationErrorManager;
 import org.jboss.tools.cdi.ui.CDIUIPlugin;
 import org.jboss.tools.common.EclipseUtil;
+import org.jboss.tools.common.java.IAnnotated;
+import org.jboss.tools.common.java.IAnnotationDeclaration;
 import org.jboss.tools.common.model.util.EclipseJavaUtil;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
+import org.jboss.tools.common.text.ITextSourceReference;
 
 /**
  * @author Daniel Azarov
@@ -352,10 +358,29 @@ public class CDIProblemMarkerResolutionGenerator implements
 			}else if(messageId == CDIValidationErrorManager.INTERCEPTOR_HAS_NAME_ID ||
 					messageId == CDIValidationErrorManager.DECORATOR_HAS_NAME_ID){
 				TypeAndAnnotation ta = findTypeAndAnnotation(file, start, CDIConstants.NAMED_QUALIFIER_TYPE_NAME);
-				if(ta != null && ta.annotation != null && ta.type != null){
-					return new IMarkerResolution[] {
-						new DeleteAnnotationMarkerResolution(ta.type, CDIConstants.NAMED_QUALIFIER_TYPE_NAME)
-					};
+				if(ta != null && ta.type != null){
+					CDICoreNature cdiNature = CDIUtil.getCDINatureWithProgress(file.getProject());
+					if(cdiNature != null){
+						ICDIProject cdiProject = cdiNature.getDelegate();
+						IType declarationType = findNamedDeclarationType(cdiProject, ta.type, messageId == CDIValidationErrorManager.DECORATOR_HAS_NAME_ID);
+						ArrayList<IMarkerResolution> resolutions = new ArrayList<IMarkerResolution>();
+						if(declarationType != null){
+							IAnnotation annotation = getAnnotation(declarationType, CDIConstants.NAMED_QUALIFIER_TYPE_NAME);
+							if(annotation != null){
+								resolutions.add(new DeleteAnnotationMarkerResolution(declarationType, CDIConstants.NAMED_QUALIFIER_TYPE_NAME));
+							}
+							
+							if(!declarationType.equals(ta.type)){
+								annotation = getAnnotation(ta.type, declarationType.getFullyQualifiedName());
+								if(annotation != null){
+									resolutions.add(new DeleteAnnotationMarkerResolution(ta.type, declarationType.getFullyQualifiedName()));
+								}
+							}
+						}
+						if(!resolutions.isEmpty()){
+							return resolutions.toArray(new IMarkerResolution[]{});
+						}
+					}
 				}
 			}else if(messageId == CDIValidationErrorManager.STEREOTYPE_IS_ANNOTATED_TYPED_ID){
 				TypeAndAnnotation ta = findTypeAndAnnotation(file, start, CDIConstants.TYPED_ANNOTATION_TYPE_NAME);
@@ -442,6 +467,51 @@ public class CDIProblemMarkerResolutionGenerator implements
 			}
 		}
 		return new IMarkerResolution[] {};
+	}
+	
+	private IType findNamedDeclarationType(ICDIProject cdiProject, IType type, boolean isItDecorator){
+		IType declarationType = null;
+		IBean bean = null;
+		IAnnotationDeclaration declaration = null;
+		if(isItDecorator){
+			bean = findDecoratorByType(cdiProject.getDecorators(), type);
+		}else{
+			bean = findInterceptorByType(cdiProject.getInterceptors(), type);
+		}
+		if(bean != null){
+			declaration = findNamedDeclaration(bean);
+			if(declaration != null){
+				declarationType = declaration.getType(); 
+			}
+		}
+		return declarationType;
+	}
+	
+	private IDecorator findDecoratorByType(IDecorator[] decorators, IType type){
+		for(IDecorator decorator : decorators){
+			if(decorator.getBeanClass().equals(type))
+				return decorator;
+		}
+		return null;
+	}
+	
+	private IInterceptor findInterceptorByType(IInterceptor[] interceptors, IType type){
+		for(IInterceptor interceptor : interceptors){
+			if(interceptor.getBeanClass().equals(type))
+				return interceptor;
+		}
+		return null;
+	}
+	
+	private IAnnotationDeclaration findNamedDeclaration(IStereotyped stereotyped){
+		IAnnotationDeclaration declaration = stereotyped.getAnnotation(CDIConstants.NAMED_QUALIFIER_TYPE_NAME);
+//		if (declaration == null) {
+//			declaration = stereotyped.getAnnotation(CDIConstants.DECORATOR_STEREOTYPE_TYPE_NAME);
+//		}
+		if (declaration == null) {
+			declaration = CDIUtil.getNamedStereotypeDeclaration(stereotyped);
+		}
+		return declaration;
 	}
 	
 	private List<IBean> findLegalBeans(IInjectionPoint injectionPoint){

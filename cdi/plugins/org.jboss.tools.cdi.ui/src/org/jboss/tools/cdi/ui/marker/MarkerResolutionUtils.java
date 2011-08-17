@@ -559,7 +559,7 @@ public class MarkerResolutionUtils {
 			// check and delete import
 			IImportDeclaration importDeclaration = compilationUnit.getImport(qualifiedName);
 			IImportContainer importContainer = compilationUnit.getImportContainer();
-			if(importDeclaration != null && importContainer != null){
+			if(importDeclaration.exists() && importContainer.exists()){
 				int importSize = importContainer.getSourceRange().getOffset()+importContainer.getSourceRange().getLength();
 				String text = buffer.getText(importSize, buffer.getLength()-importSize);
 				if(checkImport(text, qualifiedName))
