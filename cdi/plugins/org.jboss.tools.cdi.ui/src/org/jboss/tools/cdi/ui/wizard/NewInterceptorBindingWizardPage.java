@@ -29,6 +29,7 @@ import org.jboss.tools.cdi.core.CDIUtil;
 import org.jboss.tools.cdi.core.ICDIAnnotation;
 import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.IInterceptorBinding;
+import org.jboss.tools.cdi.internal.core.validation.AnnotationValidationDelegate;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
 import org.jboss.tools.cdi.ui.CDIUIPlugin;
 import org.jboss.tools.common.java.IAnnotationDeclaration;
@@ -158,7 +159,7 @@ public class NewInterceptorBindingWizardPage extends NewCDIAnnotationWizardPage 
 		targetStatus = new StatusInfo();
 		if(interceptorBindings != null && target != null) {
 			String value = (String)target.getValue();
-			boolean hasMethodOrField = value != null && (value.indexOf("METHOD") >= 0 || value.indexOf("FIELD") >= 0);
+			boolean hasMethodOrField = value != null && (value.indexOf(AnnotationValidationDelegate.TARGET_METHOD) >= 0 || value.indexOf(AnnotationValidationDelegate.TARGET_FIELD) >= 0);
 			List list = (List)interceptorBindings.getValue();
 			for (Object o: list) {
 				if(o instanceof IInterceptorBinding) {
@@ -166,7 +167,7 @@ public class NewInterceptorBindingWizardPage extends NewCDIAnnotationWizardPage 
 					IAnnotationDeclaration target = a.getAnnotationDeclaration(CDIConstants.TARGET_ANNOTATION_TYPE_NAME);
 					if(target != null) {
 						Set<String> targets = CDIUtil.getTargetAnnotationValues(target);
-						if(targets != null && targets.size() == 1 && targets.contains("TYPE") && hasMethodOrField) {
+						if(targets != null && targets.size() == 1 && targets.contains(AnnotationValidationDelegate.TARGET_TYPE) && hasMethodOrField) {
 							String message = NLS.bind(CDIUIMessages.MESSAGE_INTERCEPTOR_BINDING_IS_NOT_COMPATIBLE, a.getSourceType().getElementName());
 //							String message = a.getSourceType().getElementName() + " annotated with @Target({TYPE}) is not compatible with target";
 							targetStatus.setWarning(message);

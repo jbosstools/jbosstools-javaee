@@ -204,7 +204,7 @@ public class NewStereotypeWizardPage extends NewCDIAnnotationWizardPage {
 			public void propertyChange(PropertyChangeEvent evt) {
 				Object o = evt.getNewValue();
 				if(o instanceof List && !((List)o).isEmpty()) {
-					target.setValue("TYPE");
+					target.setValue(AnnotationValidationDelegate.TARGET_TYPE);
 					target.setEnabled(false);
 				} else {
 					target.setEnabled(true);
@@ -320,7 +320,7 @@ public class NewStereotypeWizardPage extends NewCDIAnnotationWizardPage {
 		targetStatus = new StatusInfo();
 		if(stereotypes != null && target != null) {
 			String value = (String)target.getValue();
-			boolean hasMethodOrField = value != null && (value.indexOf("METHOD") >= 0 || value.indexOf("FIELD") >= 0);
+			boolean hasMethodOrField = value != null && (value.indexOf(AnnotationValidationDelegate.TARGET_METHOD) >= 0 || value.indexOf(AnnotationValidationDelegate.TARGET_FIELD) >= 0);
 			List list = (List)stereotypes.getValue();
 			for (Object o: list) {
 				if(o instanceof IStereotype) {
@@ -328,12 +328,12 @@ public class NewStereotypeWizardPage extends NewCDIAnnotationWizardPage {
 					IAnnotationDeclaration target = a.getAnnotationDeclaration(CDIConstants.TARGET_ANNOTATION_TYPE_NAME);
 					if(target != null) {
 						Set<String> targets = CDIUtil.getTargetAnnotationValues(target);
-						if(targets != null && targets.size() == 1 && targets.contains("TYPE") && hasMethodOrField) {
+						if(targets != null && targets.size() == 1 && targets.contains(AnnotationValidationDelegate.TARGET_TYPE) && hasMethodOrField) {
 							String message = NLS.bind(CDIUIMessages.MESSAGE_STEREOTYPE_IS_NOT_COMPATIBLE, a.getSourceType().getElementName());
 //							String message = a.getSourceType().getElementName() + " annotated with @Target({TYPE}) is not compatible with target";
 							targetStatus.setWarning(message);
 						}
-						if(targets != null && !targets.contains("TYPE")) {
+						if(targets != null && !targets.contains(AnnotationValidationDelegate.TARGET_TYPE)) {
 							String message = NLS.bind(CDIUIMessages.MESSAGE_STEREOTYPE_CANNOT_BE_APPLIED_TO_TYPE, a.getSourceType().getElementName());
 							targetStatus.setError(message);
 							return;
