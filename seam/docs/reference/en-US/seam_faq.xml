@@ -38,6 +38,15 @@
     <para>
       As these seam examples are non WTP projects, next you should enable Seam support for them. To do that, right click the project and go to <menuchoice><guimenuitem>Properties</guimenuitem><guimenuitem>Seam Settings.</guimenuitem></menuchoice>
     </para>
+	<important>
+		<para>
+			Projects are not directly deployable unless they are in the correct state, such as an archive created through <guilabel>Project Archives</guilabel>. As an alternative, working examples are provided for Seam by navigating to <menuchoice>
+                <guimenuitem>Help</guimenuitem>
+				<guimenuitem>Project Examples</guimenuitem>
+                <guimenuitem>Seam</guimenuitem>
+				</menuchoice>
+		</para>
+	</important>
   </section>
    
   <section id="seam_question_3">
