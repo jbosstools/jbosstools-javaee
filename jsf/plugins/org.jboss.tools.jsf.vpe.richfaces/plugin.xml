@@ -5,7 +5,7 @@
          point="org.jboss.tools.vpe.templates">
       <templates
             decsription="VPE Templates for RichFaces components"
-            name="ajax4jsf"
+            name="richfaces"
             path="templates/vpe-templates-richfaces.xml"/>
    </extension>
 
@@ -15,4 +15,14 @@
           resource="org/jboss/tools/jsf/vpe/richfaces/richfaces-palette.xml" priority="9">
     </contribution>
  </extension>
+ 
+ <extension point="org.eclipse.core.runtime.adapters">
+         <factory 
+            class="org.jboss.tools.jsf.vpe.richfaces.template.util.RichFacesAdapterFactory" 
+            adaptableType="org.jboss.tools.vpe.editor.template.VpeTemplateSafeWrapper">
+            <adapter type="org.jboss.tools.jsf.vpe.richfaces.template.RichFacesTogglePanelTemplate"/>
+            <adapter type="org.jboss.tools.jsf.vpe.richfaces.template.RichFacesCollapsibleSubTableTemplate"/>
+         </factory>
+ </extension>
+      
 </plugin>

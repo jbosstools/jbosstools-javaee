@@ -27,9 +27,10 @@ import org.jboss.tools.vpe.editor.mapping.VpeElementMapping;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
-import org.jboss.tools.vpe.editor.template.VpeTemplate;
+import org.jboss.tools.vpe.editor.template.VpeTemplateSafeWrapper;
 import org.jboss.tools.vpe.editor.template.VpeToggableTemplate;
 import org.jboss.tools.vpe.editor.util.Constants;
+import org.jboss.tools.vpe.editor.util.HTML;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.mozilla.interfaces.nsIDOMNode;
@@ -37,7 +38,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public class RichFacesToggleControlTemplate  extends VpeAbstractTemplate implements VpeToggableTemplate {
+public class RichFacesToggleControlTemplate extends VpeAbstractTemplate implements VpeToggableTemplate {
 
 	private static Map toggleMap = new HashMap();
 	private static nsIDOMElement storedSwitchSpan = null;
@@ -113,32 +114,34 @@ public class RichFacesToggleControlTemplate  extends VpeAbstractTemplate impleme
 	}
 
 	public void toggle(VpeVisualDomBuilder builder, Node sourceNode, String toggleId) {
+		/*
+		 * Actually, toggling mechanism should be updated for this template.
+		 * Because it's very old and not functioning now.
+		 */
 		toggleMap.put(sourceNode, toggleId);
-		
 		Element sourceElement = (Element)(sourceNode instanceof Element ? sourceNode : sourceNode.getParentNode());
-		
-		String forAttrName = "for"; //$NON-NLS-1$
-		if (!sourceElement.hasAttribute(forAttrName)) return;
-
-		String forIds = sourceElement.getAttribute(forAttrName);
+		if (!sourceElement.hasAttribute(HTML.ATTR_FOR)) {
+			return;
+		}
+		String forIds = sourceElement.getAttribute(HTML.ATTR_FOR);
 		StringTokenizer st = new StringTokenizer(forIds.trim(), ",", false); //$NON-NLS-1$
 		while (st.hasMoreElements()) {
 			String id = st.nextToken().trim();
-			if (null == id) continue;
-			
+			if (null == id) {
+				continue;
+			}
 			id = id.trim();
-			
 			List<Element> sourceElements = RichFaces.findElementsById(
 					(Element) sourceElement.getOwnerDocument()
 							.getDocumentElement(), id, ":togglePanel"); //$NON-NLS-1$
-			
 			for (Element el : sourceElements) {
 				if (builder != null) {
 					VpeElementMapping elementMapping = (VpeElementMapping)builder.getDomMapping().getNodeMapping(el);
 					if (elementMapping != null) {
-						VpeTemplate template = elementMapping.getTemplate(); 
-						if (template instanceof RichFacesTogglePanelTemplate) {
-							((RichFacesTogglePanelTemplate)template).toggle(el, toggleId);
+						RichFacesTogglePanelTemplate tpTemplate = (RichFacesTogglePanelTemplate) ((VpeTemplateSafeWrapper) 
+								elementMapping.getTemplate()).getAdapter(RichFacesTogglePanelTemplate.class);
+						if (tpTemplate != null) {
+							tpTemplate.toggle(el, toggleId);
 							builder.updateNode(el);
 						}
 					}

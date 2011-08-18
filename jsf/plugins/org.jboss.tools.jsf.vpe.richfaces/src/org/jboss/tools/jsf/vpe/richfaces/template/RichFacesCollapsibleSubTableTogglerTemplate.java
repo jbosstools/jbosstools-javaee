@@ -19,7 +19,7 @@ import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.mapping.VpeElementMapping;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
-import org.jboss.tools.vpe.editor.template.VpeTemplate;
+import org.jboss.tools.vpe.editor.template.VpeTemplateSafeWrapper;
 import org.jboss.tools.vpe.editor.template.VpeToggableTemplate;
 import org.jboss.tools.vpe.editor.util.HTML;
 import org.mozilla.interfaces.nsIDOMDocument;
@@ -30,12 +30,17 @@ import org.w3c.dom.Node;
 public class RichFacesCollapsibleSubTableTogglerTemplate extends
 		VpeAbstractTemplate implements VpeToggableTemplate {
 	
+	final private static String CSS_TOP_SPAN="rf-csttg";  //$NON-NLS-1$
+	final private static String CSS_SPAN_COLLAPSED="rf-csttg-colps";  //$NON-NLS-1$
+	final private static String CSS_SPAN_EXPANDED="rf-csttg-exp";  //$NON-NLS-1$
+	
 	@Override
 	public VpeCreationData create(VpePageContext pageContext, Node sourceNode,
 			nsIDOMDocument visualDocument) {
 		
 		nsIDOMElement topSpan = visualDocument.createElement(HTML.TAG_SPAN);
 		topSpan.setAttribute(VpeVisualDomBuilder.VPE_USER_TOGGLE_ID, "1"); //$NON-NLS-1$
+		topSpan.setAttribute(HTML.ATTR_CLASS, CSS_TOP_SPAN);
 		
 		nsIDOMElement imgSpan = visualDocument.createElement(HTML.TAG_SPAN);
 		imgSpan.setAttribute(VpeVisualDomBuilder.VPE_USER_TOGGLE_LOOKUP_PARENT, "true"); //$NON-NLS-1$
@@ -46,8 +51,10 @@ public class RichFacesCollapsibleSubTableTogglerTemplate extends
 		img.setAttribute(VpeVisualDomBuilder.VPE_USER_TOGGLE_ID, "3"); //$NON-NLS-1$
 		
 		if (RichFaces.readCollapsedStateFromSourceNode(sourceNode)) {
+			imgSpan.setAttribute(HTML.ATTR_CLASS, CSS_SPAN_COLLAPSED);
 			ComponentUtil.setImg(img, "/collapsibleSubTableToggler/upIcon.gif"); //$NON-NLS-1$
 		} else {
+			imgSpan.setAttribute(HTML.ATTR_CLASS, CSS_SPAN_EXPANDED);
 			ComponentUtil.setImg(img, "/collapsibleSubTableToggler/downIcon.gif"); //$NON-NLS-1$
 		}
 		imgSpan.appendChild(img);
@@ -56,14 +63,14 @@ public class RichFacesCollapsibleSubTableTogglerTemplate extends
 		VpeCreationData creationData = new VpeCreationData(topSpan);
 		return creationData;
 	}
-
+	
 	@Override
 	public void toggle(VpeVisualDomBuilder builder, Node sourceNode,
 			String toggleId) {
 		Element csttgElement =  (Element) sourceNode;
 		String forTable = ""; //$NON-NLS-1$
-		if (csttgElement.hasAttribute("for")) { //$NON-NLS-1$
-			forTable = csttgElement.getAttribute("for"); //$NON-NLS-1$
+		if (csttgElement.hasAttribute(HTML.ATTR_FOR)) {
+			forTable = csttgElement.getAttribute(HTML.ATTR_FOR);
 		}
 		if (!"".equalsIgnoreCase(forTable)) { //$NON-NLS-1$
 			List<Element> sourceElements = RichFaces.findElementsById(
@@ -73,9 +80,10 @@ public class RichFacesCollapsibleSubTableTogglerTemplate extends
 				if (builder != null) {
 					VpeElementMapping elementMapping = (VpeElementMapping)builder.getDomMapping().getNodeMapping(el);
 					if (elementMapping != null) {
-						VpeTemplate template = elementMapping.getTemplate();
-						if (template instanceof RichFacesCollapsibleSubTableTemplate) {
-							((RichFacesCollapsibleSubTableTemplate)template).toggle(el, toggleId);
+						RichFacesCollapsibleSubTableTemplate cstTemplate = (RichFacesCollapsibleSubTableTemplate) ((VpeTemplateSafeWrapper) 
+								elementMapping.getTemplate()).getAdapter(RichFacesCollapsibleSubTableTemplate.class);
+						if (cstTemplate != null) {
+							cstTemplate.toggle(el, toggleId);
 							if (RichFaces.readCollapsedStateFromSourceNode(sourceNode)) {
 								sourceNode.setUserData(RichFaces.COLLAPSED_STATE, "false", null); //$NON-NLS-1$
 							} else {
