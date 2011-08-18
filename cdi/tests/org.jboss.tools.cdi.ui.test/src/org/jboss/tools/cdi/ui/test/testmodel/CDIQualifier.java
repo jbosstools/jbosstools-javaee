@@ -65,5 +65,9 @@ public class CDIQualifier implements IQualifier{
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
+
+	@Override
+	public boolean exists() {
+		return false;
+	}
 }

@@ -138,4 +138,9 @@ public class CDIInjectionPoint implements IInjectionPoint {
 	public String getBeanName() {
 		return null;
 	}
+
+	@Override
+	public boolean exists() {
+		return false;
+	}
 }

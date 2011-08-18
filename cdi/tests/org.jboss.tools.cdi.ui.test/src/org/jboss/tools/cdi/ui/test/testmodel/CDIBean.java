@@ -265,4 +265,9 @@ public class CDIBean extends CDIElement implements IClassBean{
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public boolean exists() {
+		return true;
+	}
 }
