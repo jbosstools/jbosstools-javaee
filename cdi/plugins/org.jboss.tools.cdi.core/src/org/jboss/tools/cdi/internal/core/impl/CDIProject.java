@@ -104,12 +104,19 @@ public class CDIProject extends CDIElement implements ICDIProject {
 
 	public CDIProject() {}
 
+	@Override
 	public CDICoreNature getNature() {
 		return n;
 	}
 
+	@Override
 	public void setNature(CDICoreNature n) {
 		this.n = n;
+	}
+
+	@Override
+	public boolean exists() {
+		return n != null && n.getProject() != null && n.getProject().isAccessible();
 	}
 
 	/*

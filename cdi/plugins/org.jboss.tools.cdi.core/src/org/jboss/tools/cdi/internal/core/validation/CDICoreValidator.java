@@ -507,7 +507,7 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 		if (reporter.isCancelled()) {
 			return;
 		}
-		if(!shouldValidateType(bean.getBeanClass())) {
+		if(!bean.exists() || !shouldValidateType(bean.getBeanClass())) {
 			return;
 		}
 		String beanPath = bean.getResource().getFullPath().toOSString();
@@ -541,7 +541,9 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 			if(type!=null && !type.isBinary()) {
 				getValidationContext().addLinkedCoreResource(SHORT_ID, beanPath, type.getPath(), false);
 			}
-			validateInjectionPoint(point);
+			if(point.exists()) {
+				validateInjectionPoint(point);
+			}
 		}
 
 		if (bean instanceof IInterceptor) {
@@ -965,7 +967,7 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 		Set<IBeanMethod> boundDisposers = new HashSet<IBeanMethod>();
 		Set<IProducer> producers = bean.getProducers();
 		for (IProducer producer : producers) {
-			if (producer instanceof IProducerMethod) {
+			if (producer instanceof IProducerMethod && producer.exists()) {
 				IProducerMethod producerMethod = (IProducerMethod) producer;
 				Set<IBeanMethod> disposerMethods = producer.getCDIProject().resolveDisposers(producerMethod);
 				boundDisposers.addAll(disposerMethods);
@@ -985,6 +987,9 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 		}
 
 		for (IBeanMethod disposer : disposers) {
+			if(!disposer.exists()) {
+				continue;
+			}
 			List<IParameter> params = disposer.getParameters();
 
 			/*
@@ -994,7 +999,7 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 			Set<ITextSourceReference> disposerDeclarations = new HashSet<ITextSourceReference>();
 			for (IParameter param : params) {
 				ITextSourceReference declaration = param.getAnnotationPosition(CDIConstants.DISPOSES_ANNOTATION_TYPE_NAME);
-				if (declaration != null) {
+				if (declaration != null  && param.exists()) {
 					disposerDeclarations.add(declaration);
 				}
 			}
@@ -1016,7 +1021,7 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 			declarations.addAll(disposerDeclarations);
 			for (IParameter param : params) {
 				ITextSourceReference declaration = param.getAnnotationPosition(CDIConstants.OBSERVERS_ANNOTATION_TYPE_NAME);
-				if (declaration != null) {
+				if (declaration != null && param.exists()) {
 					declarations.add(declaration);
 					observesExists = true;
 				}

@@ -232,4 +232,8 @@ public abstract class AbstractMemberDefinition implements IAnnotated {
 	public ITextSourceReference getOriginalDefinition() {
 		return originalDefinition;
 	}
+
+	public boolean exists() {
+		return member instanceof IJavaElement && ((IJavaElement)member).exists();
+	}
 }

@@ -56,6 +56,11 @@ public class AbstractBeanElement extends CDIElement implements IAnnotated {
 
 	public AbstractBeanElement() {}
 
+	@Override
+	public boolean exists() {
+		return getDefinition().exists();
+	}
+
 	public void setDefinition(AbstractMemberDefinition definition) {
 		this.definition = definition;
 	}

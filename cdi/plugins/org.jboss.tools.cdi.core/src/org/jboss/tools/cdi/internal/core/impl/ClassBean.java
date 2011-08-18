@@ -66,6 +66,12 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 
 	public ClassBean() {}
 
+	@Override
+	public boolean exists() {
+		IType t = getBeanClass();
+		return t != null && t.exists();
+	}
+
 	public void setDefinition(TypeDefinition definition) {
 		setSourcePath(definition.getType().getPath());
 		super.setDefinition(definition);
@@ -131,7 +137,6 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 		}				
 		return result;
 	}
-
 
 	public Set<IBeanMethod> getBeanConstructors() {
 		Set<IBeanMethod> result = new HashSet<IBeanMethod>();

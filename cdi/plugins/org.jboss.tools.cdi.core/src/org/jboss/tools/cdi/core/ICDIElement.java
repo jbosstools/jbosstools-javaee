@@ -48,4 +48,12 @@ public interface ICDIElement {
 	 * @return resource 
 	 */
 	IResource getResource();
+
+	/**
+	 * Returns true while declarations of this object exist and can be found in sources
+	 * by stored handles.
+	 * 
+	 * @return
+	 */
+	boolean exists();
 }

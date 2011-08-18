@@ -31,10 +31,12 @@ public class CDIElement implements ICDIElement {
 	protected CDIElement parent;
 	protected IPath source;
 
+	@Override
 	public CDIProject getCDIProject() {
 		return parent != null ? parent.getCDIProject() : null;
 	}
 
+	@Override
 	public ICDIProject getDeclaringProject() {
 		return parent != null ? parent.getDeclaringProject() : null;
 	}
@@ -62,6 +64,7 @@ public class CDIElement implements ICDIElement {
 		return parent;
 	}
 
+	@Override
 	public IResource getResource() {
 		IPath path = getSourcePath();
 		if(path == null) return null;
@@ -70,6 +73,7 @@ public class CDIElement implements ICDIElement {
 		return r;
 	}
 
+	@Override
 	public IPath getSourcePath() {
 		return source != null ? source : parent != null ? parent.getSourcePath() : null;
 	}
@@ -78,4 +82,8 @@ public class CDIElement implements ICDIElement {
 		this.source = source;
 	}
 
+	@Override
+	public boolean exists() {
+		return parent != null && parent.exists();
+	}
 }
