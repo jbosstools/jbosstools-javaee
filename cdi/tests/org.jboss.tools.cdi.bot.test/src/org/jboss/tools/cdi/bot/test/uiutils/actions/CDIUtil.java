@@ -12,13 +12,31 @@ import org.eclipse.swtbot.swt.finder.widgets.SWTBotTree;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTreeItem;
 import org.jboss.tools.cdi.bot.test.uiutils.wizards.CDIWizard;
 import org.jboss.tools.cdi.bot.test.uiutils.wizards.CDIWizardType;
+import org.jboss.tools.cdi.bot.test.uiutils.wizards.DynamicWebProjectWizard;
 import org.jboss.tools.ui.bot.ext.SWTBotExt;
 import org.jboss.tools.ui.bot.ext.SWTUtilExt;
 import org.jboss.tools.ui.bot.ext.Timing;
 import org.jboss.tools.ui.bot.ext.helper.ContextMenuHelper;
+import org.jboss.tools.ui.bot.ext.view.ProjectExplorer;
 
 public class CDIUtil {
 	
+	
+	public static void createAndCheckCDIProject(SWTBotExt bot, SWTUtilExt util, ProjectExplorer projectExplorer, String projectName) {		
+		createCDIProject(util, projectName);		
+		projectExplorer.selectProject(projectName);
+		SWTBotTree tree = projectExplorer.bot().tree();	
+		SWTBotTreeItem item = tree.getTreeItem(projectName);
+		item.expand();
+		CDIUtil.addCDISupport(tree, item, bot, util);
+	}
+
+	public static void createCDIProject(SWTUtilExt util, String projectName) {
+		new NewFileWizardAction().run()
+				.selectTemplate("Web", "Dynamic Web Project").next();
+		new DynamicWebProjectWizard().setProjectName(projectName).finish();
+		util.waitForNonIgnoredJobs();
+	}
 
 	public static void addCDISupport(final SWTBotTree tree, SWTBotTreeItem item, SWTBotExt bot, SWTUtilExt util) {
 		nodeContextMenu(tree, item, 
@@ -28,8 +46,12 @@ public class CDIUtil {
 		util.waitForNonIgnoredJobs();
 	}
 	
-	public static void resolveQuickFix(final SWTBotTree tree, SWTBotTreeItem item, SWTBotExt bot, SWTUtilExt util) {
+	public static void openQuickFix(SWTBotTreeItem item, SWTBotExt bot, SWTUtilExt util) {
 		nodeContextMenu(bot.tree(), item, "Quick Fix").click();
+	}
+	
+	public static void resolveQuickFix(SWTBotTreeItem item, SWTBotExt bot, SWTUtilExt util) {
+		openQuickFix(item, bot, util);
 		bot.activeShell().bot().button("Finish").click();
 		bot.sleep(Timing.time2S());
 		util.waitForNonIgnoredJobs();

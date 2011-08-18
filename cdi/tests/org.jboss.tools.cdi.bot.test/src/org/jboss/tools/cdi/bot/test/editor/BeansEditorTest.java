@@ -36,6 +36,7 @@ import org.jboss.tools.ui.bot.ext.config.Annotations.Require;
 import org.jboss.tools.ui.bot.ext.config.Annotations.Server;
 import org.jboss.tools.ui.bot.ext.config.Annotations.ServerState;
 import org.jboss.tools.ui.bot.ext.view.ProjectExplorer;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -69,6 +70,11 @@ public class BeansEditorTest extends SWTTestExt {
 	@Before
 	public void setup() {
 		new ProjectExplorer().openFile(project, descPath.split("/"));
+	}
+	
+	@After
+	public void waitForJobs() {
+		util.waitForNonIgnoredJobs();
 	}
 	
 	@Test
