@@ -523,7 +523,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 			if (ps != null) for (IMemberValuePair p: ps) {
 				String n = p.getMemberName();
 				Object o = d.getMemberValue(n);
-				values.put(n, o.toString());
+				values.put(n, o == null ? "" : o.toString());
 
 			}
 			for (IMethod m: ms) {

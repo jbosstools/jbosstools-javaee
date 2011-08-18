@@ -1959,7 +1959,7 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 				IAnnotationDeclaration target = binding.getAnnotationDeclaration(CDIConstants.TARGET_ANNOTATION_TYPE_NAME);
 				if(target!=null) {
 					Object value = target.getMemberValue(null);
-					if(value != null && value instanceof Object[]) {
+					if(value instanceof Object[]) {
 						Object[] values = (Object[]) value;
 						if(values.length>1) {
 							Set<IBeanMethod> methods = interceptor.getAllMethods();
