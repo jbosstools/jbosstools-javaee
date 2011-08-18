@@ -182,6 +182,7 @@ public class CDISearchParticipantTest  extends TCKUITest {
 		matches.add(new MatchStructure(InjectionPointField.class, "FieldInjectionPointBean.injectedBean"));
 		matches.add(new MatchStructure(InjectionPointField.class, "NamedDecoratorBroken.logger"));
 		matches.add(new MatchStructure(InjectionPointField.class, "NamedStereotypedDecoratorBroken.logger"));
+		matches.add(new MatchStructure(InjectionPointField.class, "NamedStereotypedDecoratorBroken.logger"));
 		matches.add(new MatchStructure(InjectionPointField.class, "TransientFieldInjectionPointBean.injectedBean"));
 		matches.add(new MatchStructure(InjectionPointField.class, "SpecializingDecoratorBroken.logger"));
 		matches.add(new MatchStructure(InjectionPointField.class, "ObserverMethodInDecoratorBroken.logger"));

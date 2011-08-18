@@ -174,7 +174,7 @@ public class MarkerResolutionUtils {
 		
 		IMember workingCopyMember = (IMember) workingCopyElement;
 		
-		IAnnotation annotation = getAnnotation(workingCopyMember, qualifiedName);
+		IAnnotation annotation = findAnnotation(workingCopyMember, qualifiedName);
 		if(annotation != null && annotation.exists())
 			return;
 		
@@ -204,7 +204,7 @@ public class MarkerResolutionUtils {
 	public static void addQualifier(String qualifiedName, ICompilationUnit compilationUnit, IJavaElement element) throws JavaModelException{
 		if(!(element instanceof ISourceReference))
 			return;
-		IAnnotation annotation = getAnnotation(element, qualifiedName);
+		IAnnotation annotation = findAnnotation(element, qualifiedName);
 		if(annotation != null && annotation.exists())
 			return;
 
@@ -218,7 +218,7 @@ public class MarkerResolutionUtils {
 		if(duplicateShortName)
 			shortName = qualifiedName;
 		
-		annotation = getAnnotation(element, CDIConstants.INJECT_ANNOTATION_TYPE_NAME);
+		annotation = findAnnotation(element, CDIConstants.INJECT_ANNOTATION_TYPE_NAME);
 		if(annotation != null && annotation.exists())
 			buffer.replace(annotation.getSourceRange().getOffset()+annotation.getSourceRange().getLength(), 0, lineDelim+AT+shortName);
 		else
@@ -257,11 +257,11 @@ public class MarkerResolutionUtils {
 		return list;
 	}
 	
-	public static IAnnotation getAnnotation(IJavaElement element, String qualifiedName){
+	public static IAnnotation findAnnotation(IJavaElement element, String qualifiedName){
 		if(element instanceof IAnnotatable){
 			String name = getShortName(qualifiedName);
 			IAnnotation annotation = ((IAnnotatable)element).getAnnotation(qualifiedName);
-			if (annotation == null || !annotation.exists()) {
+			if (!annotation.exists()) {
 				annotation = ((IAnnotatable)element).getAnnotation(name);
 			}
 			IType type=null;
@@ -294,10 +294,10 @@ public class MarkerResolutionUtils {
 			String fullName = qualifier.getSourceType().getFullyQualifiedName();
 			String shortName = getShortName(fullName);
 			IAnnotation annotation = ((IAnnotatable)element).getAnnotation(fullName);
-			if(annotation == null || !annotation.exists()){
+			if(!annotation.exists()){
 				annotation = ((IAnnotatable)element).getAnnotation(shortName);
 			}
-			if(annotation != null && annotation.exists()){
+			if(annotation.exists()){
 				IBuffer buffer = compilationUnit.getBuffer();
 				
 				buffer.replace(annotation.getSourceRange().getOffset(), annotation.getSourceRange().getLength(), "");
@@ -538,7 +538,7 @@ public class MarkerResolutionUtils {
 		if(workingCopyElement == null)
 			return;
 		
-		IAnnotation annotation = getAnnotation(workingCopyElement, qualifiedName);
+		IAnnotation annotation = findAnnotation(workingCopyElement, qualifiedName);
 		if(annotation != null){
 			IBuffer buffer = compilationUnit.getBuffer();
 			

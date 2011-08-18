@@ -677,7 +677,7 @@ public class CDIProblemMarkerResolutionGenerator implements
 	
 	private boolean isMethodExists(IType interfaceType, IMethod method){
 		IMethod existingMethod = interfaceType.getMethod(method.getElementName(), method.getParameterTypes());
-		if(existingMethod != null && existingMethod.exists())
+		if(existingMethod.exists())
 			return true;
 		return false;
 	}
