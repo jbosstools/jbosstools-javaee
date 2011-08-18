@@ -33,8 +33,6 @@ public class SeamXMLTestSetup extends TestSetup {
 	protected void setUp() throws Exception {
 		project = ResourcesUtils.importProject(
 				"org.jboss.tools.seam.xml.test","/projects/Test" , new NullProgressMonitor());
-//		project.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
-//		EditorTestHelper.joinBackgroundActivities();
 		JobUtils.waitForIdle();
 	}
 

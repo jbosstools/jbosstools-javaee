@@ -25,22 +25,9 @@ import org.jboss.tools.test.util.JobUtils;
 public class SeamXMLModelTest extends TestCase {
 	IProject project = null;
 
-	public IProject getTestProject() {
-		if(project==null) {
-			try {
-				project = findTestProject();
-				assertNotNull("Project Test is not found.", project);
-				assertTrue("Project Test is not accessible.", project.isAccessible());
-			} catch (Exception e) {
-				e.printStackTrace();
-				fail("Can't import Seam XML test project: " + e.getMessage());
-			}
-		}
-		return project;
-	}
-
-	public static IProject findTestProject() {
-		return ResourcesPlugin.getWorkspace().getRoot().getProject("Test");
+	@Override
+	protected void setUp() throws Exception {
+		project = ResourcesPlugin.getWorkspace().getRoot().getProject("Test");
 	}
 
 	/**
@@ -48,8 +35,7 @@ public class SeamXMLModelTest extends TestCase {
 	 * It does not check interaction of xml declaration with other declarations.
 	 */
 	public void testXMLModel() {
-		IFile f = getTestProject().getFile(new Path("components22.xml"));
-		assertNotNull("File components22.xml is not found in Test project.", f);
+		IFile f = project.getFile(new Path("components22.xml"));
 		assertTrue("File components22.xml is not accessible in Test project.", f.isAccessible());
 
 		XModelObject fileObject = EclipseResourceUtil.createObjectForResource(f);
@@ -68,16 +54,13 @@ public class SeamXMLModelTest extends TestCase {
 	}
 
 	protected XModelObject getComponents22Object() {
-		assertNotNull(getTestProject());
-		IFile f = getTestProject().getFile(new Path("components22.xml"));
-		assertNotNull(f);
+		IFile f = project.getFile(new Path("components22.xml"));
 		assertTrue(f.exists());
 		return EclipseResourceUtil.createObjectForResource(f);
 	}
 
 	protected XModelObject getComponent22Object() {
-		assertNotNull(getTestProject());
-		IFile f = getTestProject().getFile(new Path("XYZ.component.xml"));
+		IFile f = project.getFile(new Path("XYZ.component.xml"));
 		assertNotNull(f);
 		assertTrue(f.exists());
 		return EclipseResourceUtil.createObjectForResource(f);
