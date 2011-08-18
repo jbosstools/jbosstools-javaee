@@ -76,7 +76,7 @@ public class CDISeamResourceLoadingHyperlinkDetector extends AbstractHyperlinkDe
 			IJavaElement element = cu.getElementAt(offset);
 			if(element != null){
 				if(element instanceof IField){
-					IAnnotation annotation = MarkerResolutionUtils.getAnnotation(element, RESOURCE_ANNOTATION);
+					IAnnotation annotation = MarkerResolutionUtils.findAnnotation(element, RESOURCE_ANNOTATION);
 					if(annotation != null && annotation.exists()){
 						IRegion annotationRegion = getAnnotationRegion(document, annotation);
 						String text = getValue(annotation);
