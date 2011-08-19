@@ -12,6 +12,7 @@
 package org.jboss.tools.jsf.ui.test;
 
 /**
+ * On fixing JBIDE-9427, this case suggests adding KB nature instead of JSF nature. 
  * 
  * @author yzhishko
  *
@@ -20,11 +21,8 @@ package org.jboss.tools.jsf.ui.test;
 public class JSFNaturesInfoDialog_JBIDE5701 extends NaturesInfoDialogTest {
 
 	private static final String testProjectName = "naturesCheckTest"; //$NON-NLS-1$
-	private static final String TEST_STRING = "JBoss Tools Editor might not fully work in project \""  //$NON-NLS-1$
-		+ testProjectName + 
-		"\" because it does not have JSF and code completion enabled completely.\n\n" + //$NON-NLS-1$
-		"Please use the Configure menu on the project or \"Add JSF Capabilities...\" fix button to enable JSF if " + //$NON-NLS-1$
-		"you want all features of the editor working."; //$NON-NLS-1$
+	private static final String TEST_STRING = "The project \"" + testProjectName + "\" does not have JSF code completion and validation enabled completely."
+	+ "\n\nPlease use \"Enable JSF Code Completion...\" fix button if you want these features working.";
 	
 	public JSFNaturesInfoDialog_JBIDE5701(String name) {
 		super(name);
