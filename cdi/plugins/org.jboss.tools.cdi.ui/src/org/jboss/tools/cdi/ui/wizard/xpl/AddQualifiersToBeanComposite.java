@@ -73,6 +73,7 @@ import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.core.IQualifier;
+import org.jboss.tools.cdi.core.IQualifierDeclaration;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
 import org.jboss.tools.cdi.ui.CDIUIPlugin;
 import org.jboss.tools.cdi.ui.marker.MarkerResolutionUtils;
@@ -88,16 +89,16 @@ public class AddQualifiersToBeanComposite extends Composite {
 	private Text pattern;
 
 	// original qualifiers on the bean
-	private ArrayList<IQualifier> originalQualifiers = new ArrayList<IQualifier>();
+	private ArrayList<ValuedQualifier> originalQualifiers = new ArrayList<ValuedQualifier>();
 
 	// qualifiers available to be added to the bean
-	private ArrayList<IQualifier> qualifiers = new ArrayList<IQualifier>();
+	private ArrayList<ValuedQualifier> qualifiers = new ArrayList<ValuedQualifier>();
 
 	// current qualifiers on the bean
-	private ArrayList<IQualifier> deployed = new ArrayList<IQualifier>();
+	private ArrayList<ValuedQualifier> deployed = new ArrayList<ValuedQualifier>();
 	
 	// original + deployed
-	ArrayList<IQualifier> total = new ArrayList<IQualifier>();
+	ArrayList<ValuedQualifier> total = new ArrayList<ValuedQualifier>();
 
 	private TableViewer availableTableViewer;
 	private TableViewer deployedTableViewer;
@@ -107,11 +108,11 @@ public class AddQualifiersToBeanComposite extends Composite {
 	
 	private Label nLabel;
 	
-	protected boolean isComplete = true;
+	protected boolean isComplete = false;
 	
 	private boolean hasDefaultQualifier = false;
 	
-	private IQualifier defaultQualifier, namedQualifier;
+	private ValuedQualifier defaultQualifier, namedQualifier;
 	
 	private ILabelProvider labelProvider = new QualifiersListLabelProvider();
 
@@ -129,12 +130,16 @@ public class AddQualifiersToBeanComposite extends Composite {
 	
 	public void init(IBean bean){
 		this.bean = bean;
-		originalQualifiers = new ArrayList<IQualifier>(bean.getQualifiers());
+		originalQualifiers = new ArrayList<ValuedQualifier>();
+		for(IQualifier q : bean.getQualifiers()){
+			String value = findQualifierValue(bean, q);
+			originalQualifiers.add(new ValuedQualifier(q, value));
+		}
 		
-		defaultQualifier = bean.getCDIProject().getQualifier(CDIConstants.DEFAULT_QUALIFIER_TYPE_NAME);
-		namedQualifier = bean.getCDIProject().getQualifier(CDIConstants.NAMED_QUALIFIER_TYPE_NAME);
+		defaultQualifier = new ValuedQualifier(bean.getCDIProject().getQualifier(CDIConstants.DEFAULT_QUALIFIER_TYPE_NAME));
+		namedQualifier = new ValuedQualifier(bean.getCDIProject().getQualifier(CDIConstants.NAMED_QUALIFIER_TYPE_NAME));
 		
-		for(IQualifier q : originalQualifiers){
+		for(ValuedQualifier q : originalQualifiers){
 			if(q.equals(defaultQualifier)){
 				hasDefaultQualifier = true;
 				break;
@@ -149,12 +154,12 @@ public class AddQualifiersToBeanComposite extends Composite {
 		availableTableViewer.setInput(qualifiers);
 		if(nLabel != null)
 			nLabel.setText(MessageFormat.format(CDIUIMessages.ADD_QUALIFIERS_TO_BEAN_WIZARD_MESSAGE,
-					new Object[]{bean.getBeanClass().getElementName()}));
+					new Object[]{bean.getSimpleJavaName()}));
 		refresh();
 	}
 	
-	private IQualifier loadAvailableQualifiers(){
-		IQualifier lastQualifier = null;
+	private ValuedQualifier loadAvailableQualifiers(){
+		ValuedQualifier lastQualifier = null;
 		String beanTypeName = bean.getBeanClass().getFullyQualifiedName();
 		String beanPackage = beanTypeName.substring(0,beanTypeName.lastIndexOf(MarkerResolutionUtils.DOT));
 		
@@ -166,7 +171,8 @@ public class AddQualifiersToBeanComposite extends Composite {
 		IQualifier[] qs = bean.getCDIProject().getQualifiers();
 		
 		for(IQualifier q : qs){
-			if(!contains(originalQualifiers, q) && !contains(qualifiers, q) && !contains(deployed, q)){
+			ValuedQualifier vq = new ValuedQualifier(q);
+			if(!contains(originalQualifiers, vq) && !contains(qualifiers, vq) && !contains(deployed, vq)){
 				boolean isPublic = true;
 				try{
 					isPublic = Flags.isPublic(q.getSourceType().getFlags());
@@ -176,19 +182,17 @@ public class AddQualifiersToBeanComposite extends Composite {
 				String qualifierTypeName = q.getSourceType().getFullyQualifiedName();
 				String qualifierPackage = qualifierTypeName.substring(0,qualifierTypeName.lastIndexOf(MarkerResolutionUtils.DOT));
 				if((isPublic || (samePackage && injectionPointPackage.equals(qualifierPackage))) ){
-					qualifiers.add(q);
-					lastQualifier = q;
+					qualifiers.add(vq);
+					lastQualifier = vq;
 				}
 			}
 		}
 		return lastQualifier;
 	}
 	
-	private boolean contains(ArrayList<IQualifier> qualifiers, IQualifier qualifier){
-		String qualifierText = labelProvider.getText(qualifier);
-		for(IQualifier q : qualifiers){
-			String qText = labelProvider.getText(q);
-			if(qText.equals(qualifierText))
+	private boolean contains(ArrayList<ValuedQualifier> qualifiers, ValuedQualifier qualifier){
+		for(ValuedQualifier q : qualifiers){
+			if(q.equals(qualifier))
 				return true;
 		}
 		return false;
@@ -217,21 +221,29 @@ public class AddQualifiersToBeanComposite extends Composite {
 		total.clear();
 		total.addAll(originalQualifiers);
 		total.addAll(deployed);
-		HashSet<IQualifier> qfs = new HashSet<IQualifier>(total);
+		HashSet<ValuedQualifier> qfs = new HashSet<ValuedQualifier>(total);
 		
 		for(IBean b: beans){
 			if(b.equals(bean))
 				continue;
-			if(checkBeanQualifiers(b, qfs))
+			if(checkValuedQualifiers(bean, b, qfs))
 				return false;
 				
 		}
 		return true;
 	}
 	
-	public static boolean checkBeanQualifiers(IBean bean, Set<IQualifier> qualifiers){
+	public static boolean checkBeanQualifiers(IBean selectedBean, IBean bean, Set<IQualifier> qualifiers){
+		HashSet<ValuedQualifier> valuedQualifiers = new HashSet<ValuedQualifier>();
 		for(IQualifier qualifier : qualifiers){
-			if(!isBeanContainQualifier(bean.getQualifiers(), qualifier)){
+			valuedQualifiers.add(new ValuedQualifier(qualifier));
+		}
+		return checkValuedQualifiers(selectedBean, bean, valuedQualifiers);
+	}
+	
+	private static boolean checkValuedQualifiers(IBean selectedBean, IBean bean, Set<ValuedQualifier> qualifiers){
+		for(ValuedQualifier qualifier : qualifiers){
+			if(!isBeanContainQualifier(bean, qualifier)){
 				return false;
 			}
 		}
@@ -240,12 +252,39 @@ public class AddQualifiersToBeanComposite extends Composite {
 		return false;
 	}
 	
-	public static boolean isBeanContainQualifier(Set<IQualifier> qualifiers, IQualifier qualifier){
+	private static boolean isBeanContainQualifier(IBean bean, ValuedQualifier valuedQualifier){
+		 
+		Set<IQualifier> qualifiers = bean.getQualifiers();
 		for(IQualifier q : qualifiers){
-			if(q.getSourceType().getFullyQualifiedName().equals(qualifier.getSourceType().getFullyQualifiedName()))
+			String value = findQualifierValue(bean, q);
+			if(q.getSourceType().getFullyQualifiedName().equals(valuedQualifier.getQualifier().getSourceType().getFullyQualifiedName()) &&
+					value.equals(valuedQualifier.getValue()))
 				return true;
 		}
 		return false;
+	}
+	
+	private static String findQualifierValue(IBean bean, IQualifier qualifier){
+		IQualifierDeclaration declaration = findQualifierDeclaration(bean, qualifier);
+		if(declaration == null)
+			return "";
+		
+		Object value = declaration.getMemberValue(null);
+		
+		return value == null ? "" : value.toString();
+	}
+	
+	private static IQualifierDeclaration findQualifierDeclaration(IBean bean, IQualifier qualifier){
+		Set<IQualifierDeclaration> declarations = bean.getQualifierDeclarations();
+		
+		if(declarations == null)
+			return null;
+		
+		for(IQualifierDeclaration declaration : declarations){
+			if(declaration.getQualifier().getSourceType().getFullyQualifiedName().equals(qualifier.getSourceType().getFullyQualifiedName()))
+				return declaration;
+		}
+		return null;
 	}
 
 	
@@ -275,7 +314,7 @@ public class AddQualifiersToBeanComposite extends Composite {
 		nLabel.setLayoutData(data);
 		if(bean != null)
 			nLabel.setText(MessageFormat.format(CDIUIMessages.ADD_QUALIFIERS_TO_BEAN_WIZARD_MESSAGE,
-				new Object[]{bean.getBeanClass().getElementName()}));
+				new Object[]{bean.getSimpleJavaName()}));
 		
 		Label label = new Label(this, SWT.NONE);
 		label.setText(CDIUIMessages.ADD_QUALIFIERS_TO_BEAN_WIZARD_ENTER_QUALIFIER_NAME);
@@ -472,10 +511,10 @@ public class AddQualifiersToBeanComposite extends Composite {
 						}
 					}
 					
-					IQualifier q = loadAvailableQualifiers();
+					ValuedQualifier q = loadAvailableQualifiers();
 					
 					if(q != null){
-						moveAll(new IQualifier[]{q}, true);
+						moveAll(new ValuedQualifier[]{q}, true);
 					}
 				}
 			}
@@ -486,22 +525,22 @@ public class AddQualifiersToBeanComposite extends Composite {
 		Dialog.applyDialogFont(this);
 	}
 
-	protected IQualifier[] getAvailableSelection() {
+	protected ValuedQualifier[] getAvailableSelection() {
 		IStructuredSelection sel = (IStructuredSelection) availableTableViewer.getSelection();
 		if (sel.isEmpty())
-			return new IQualifier[0];
+			return new ValuedQualifier[0];
 			
-		IQualifier[]  mss = new IQualifier[sel.size()];
+		ValuedQualifier[]  mss = new ValuedQualifier[sel.size()];
 		System.arraycopy(sel.toArray(), 0, mss, 0, sel.size());
 		return mss;
 	}
 
-	protected IQualifier[] getDeployedSelection() {
+	protected ValuedQualifier[] getDeployedSelection() {
 		IStructuredSelection sel = (IStructuredSelection) deployedTableViewer.getSelection();
 		if (sel.isEmpty())
-			return new IQualifier[0];
+			return new ValuedQualifier[0];
 		
-		IQualifier[]  mss = new IQualifier[sel.size()];
+		ValuedQualifier[]  mss = new ValuedQualifier[sel.size()];
 		System.arraycopy(sel.toArray(), 0, mss, 0, sel.size());
 		return mss;
 	}
@@ -509,13 +548,13 @@ public class AddQualifiersToBeanComposite extends Composite {
 	protected void setEnablement() {
 		isComplete = true;
 		
-		IQualifier[] ms = getAvailableSelection();
+		ValuedQualifier[] ms = getAvailableSelection();
 		if (ms == null ||  ms.length == 0) {
 			add.setEnabled(false);
 		} else {
 			boolean enabled = false;
 			for (int i = 0; i < ms.length; i++) {
-				IQualifier qualifier = ms[i];
+				ValuedQualifier qualifier = ms[i];
 				if (qualifier != null) {
 					if (contains(qualifiers, qualifier)) {
 						enabled = true;
@@ -535,7 +574,7 @@ public class AddQualifiersToBeanComposite extends Composite {
 		} else {
 			boolean enabled = false;
 			for (int i = 0; i < ms.length; i++) {
-				IQualifier qualifier = ms[i];
+				ValuedQualifier qualifier = ms[i];
 				if (qualifier != null && contains(deployed, qualifier)) {
 					enabled = true;
 				}
@@ -561,7 +600,7 @@ public class AddQualifiersToBeanComposite extends Composite {
 
 	protected void add(boolean all) {
 		if (all) {
-			IQualifier[] qualifiers2 = new IQualifier[qualifiers.size()];
+			ValuedQualifier[] qualifiers2 = new ValuedQualifier[qualifiers.size()];
 			qualifiers.toArray(qualifiers2);
 			moveAll(qualifiers2, true);
 		} else
@@ -570,10 +609,10 @@ public class AddQualifiersToBeanComposite extends Composite {
 
 	protected void remove(boolean all) {
 		if (all) {
-			ArrayList<IQualifier> list = new ArrayList<IQualifier>();
+			ArrayList<ValuedQualifier> list = new ArrayList<ValuedQualifier>();
 			list.addAll(deployed);
 			
-			IQualifier[] qualifiers2 = new IQualifier[list.size()];
+			ValuedQualifier[] qualifiers2 = new ValuedQualifier[list.size()];
 			list.toArray(qualifiers2);
 			
 			moveAll(qualifiers2, false);
@@ -581,9 +620,9 @@ public class AddQualifiersToBeanComposite extends Composite {
 			moveAll(getDeployedSelection(), false);
 	}
 
-	protected void moveAll(IQualifier[] mods, boolean add2) {
+	protected void moveAll(ValuedQualifier[] mods, boolean add2) {
 		int size = mods.length;
-		ArrayList<IQualifier> list = new ArrayList<IQualifier>();
+		ArrayList<ValuedQualifier> list = new ArrayList<ValuedQualifier>();
 		for (int i = 0; i < size; i++) {
 			if (!contains(list, mods[i]))
 				list.add(mods[i]);
@@ -591,7 +630,7 @@ public class AddQualifiersToBeanComposite extends Composite {
 		
 		Iterator iterator = list.iterator();
 		while (iterator.hasNext()) {
-			IQualifier qualifier = (IQualifier) iterator.next();
+			ValuedQualifier qualifier = (ValuedQualifier) iterator.next();
 			if (add2) {
 				qualifiers.remove(qualifier);
 				deployed.add(qualifier);
@@ -623,22 +662,22 @@ public class AddQualifiersToBeanComposite extends Composite {
 	}
 
 
-	public ArrayList<IQualifier> getQualifiersToRemove() {
-		ArrayList<IQualifier> list = new ArrayList<IQualifier>();
+	public ArrayList<ValuedQualifier> getQualifiersToRemove() {
+		ArrayList<ValuedQualifier> list = new ArrayList<ValuedQualifier>();
 		Iterator iterator = originalQualifiers.iterator();
 		while (iterator.hasNext()) {
-			IQualifier qualifier = (IQualifier) iterator.next();
+			ValuedQualifier qualifier = (ValuedQualifier) iterator.next();
 			if (!contains(deployed, qualifier))
 				list.add(qualifier);
 		}
 		return list;
 	}
 
-	public ArrayList<IQualifier> getQualifiersToAdd() {
-		ArrayList<IQualifier> list = new ArrayList<IQualifier>();
+	public ArrayList<ValuedQualifier> getQualifiersToAdd() {
+		ArrayList<ValuedQualifier> list = new ArrayList<ValuedQualifier>();
 		Iterator iterator = deployed.iterator();
 		while (iterator.hasNext()) {
-			IQualifier qualifier = (IQualifier) iterator.next();
+			ValuedQualifier qualifier = (ValuedQualifier) iterator.next();
 			if (!contains(originalQualifiers, qualifier))
 				list.add(qualifier);
 		}
@@ -653,22 +692,37 @@ public class AddQualifiersToBeanComposite extends Composite {
 		total.clear();
 		total.addAll(originalQualifiers);
 		total.addAll(deployed);
+		
+		ArrayList<IQualifier> result = new ArrayList<IQualifier>();
+		
+		for(ValuedQualifier vq : total){
+			result.add(vq.qualifier);
+		}
 
-		return total;
+		return result;
 	}
 	
-	public void deploy(IQualifier qualifier){
-		IQualifier[] qualifiers = new IQualifier[]{qualifier};
+	public void deploy(ValuedQualifier qualifier){
+		ValuedQualifier[] qualifiers = new ValuedQualifier[]{qualifier};
 		moveAll(qualifiers, true);
 	}
 
-	public void remove(IQualifier qualifier){
-		IQualifier[] qualifiers = new IQualifier[]{qualifier};
+	public void remove(ValuedQualifier qualifier){
+		ValuedQualifier[] qualifiers = new ValuedQualifier[]{qualifier};
 		moveAll(qualifiers, false);
 	}
 
+//	public ArrayList<ValuedQualifier> getAvailableValuedQualifiers(){
+//		return qualifiers;
+//	}
+	
 	public ArrayList<IQualifier> getAvailableQualifiers(){
-		return qualifiers;
+		ArrayList<IQualifier> result = new ArrayList<IQualifier>();
+		for(ValuedQualifier vq : qualifiers){
+			result.add(vq.getQualifier());
+		}
+		
+		return result;
 	}
 
 	class QualifiersListLabelProvider implements ILabelProvider, IColorProvider{
@@ -691,11 +745,11 @@ public class AddQualifiersToBeanComposite extends Composite {
 		}
 
 		public String getText(Object element) {
-			if(element instanceof IQualifier){
-				IQualifier qualifier = (IQualifier)element;
-				String qualifierTypeName = qualifier.getSourceType().getFullyQualifiedName();
+			if(element instanceof ValuedQualifier){
+				ValuedQualifier vq = (ValuedQualifier)element;
+				String qualifierTypeName = vq.getQualifier().getSourceType().getFullyQualifiedName();
 				String qualifierPackage = qualifierTypeName.substring(0,qualifierTypeName.lastIndexOf(MarkerResolutionUtils.DOT));
-				String name = qualifier.getSourceType().getElementName();
+				String name = vq.getQualifier().getSourceType().getElementName();
 
 				return name+" - "+qualifierPackage;
 			}
@@ -703,8 +757,8 @@ public class AddQualifiersToBeanComposite extends Composite {
 		}
 
 		public Color getForeground(Object element) {
-			if(element instanceof IQualifier){
-				if(contains(originalQualifiers, (IQualifier)element))
+			if(element instanceof ValuedQualifier){
+				if(contains(originalQualifiers, (ValuedQualifier)element))
 					return ColorConstants.lightGray;
 			}
 			return ColorConstants.black;
@@ -741,8 +795,8 @@ public class AddQualifiersToBeanComposite extends Composite {
 		public boolean select(Viewer viewer, Object parentElement,
 	            Object element) {
 			
-			if (element instanceof IQualifier) {
-				String qualifierTypeName = ((IQualifier)element).getSourceType().getFullyQualifiedName();
+			if (element instanceof ValuedQualifier) {
+				String qualifierTypeName = ((ValuedQualifier)element).getQualifier().getSourceType().getFullyQualifiedName();
 				if(pattern.getText().isEmpty())
 					patternMatcher.setPattern("*");
 				else
@@ -759,6 +813,34 @@ public class AddQualifiersToBeanComposite extends Composite {
 				}
 				return result;
 			}
+			return false;
+		}
+	}
+	
+	public static class ValuedQualifier{
+		private IQualifier qualifier;
+		private String value="";
+		
+		public ValuedQualifier(IQualifier qualifier){
+			this.qualifier = qualifier;
+		}
+		
+		public ValuedQualifier(IQualifier qualifier, String value){
+			this(qualifier);
+			this.value = value;
+		}
+		
+		public IQualifier getQualifier(){
+			return qualifier;
+		}
+		
+		public String getValue(){
+			return value;
+		}
+
+		public boolean equals(Object obj) {
+			if(obj instanceof ValuedQualifier)
+				return getQualifier().getSourceType().getFullyQualifiedName().equals(((ValuedQualifier)obj).getQualifier().getSourceType().getFullyQualifiedName());
 			return false;
 		}
 	}

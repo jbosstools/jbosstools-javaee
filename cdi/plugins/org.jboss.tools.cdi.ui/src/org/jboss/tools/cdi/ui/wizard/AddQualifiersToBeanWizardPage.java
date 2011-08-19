@@ -18,6 +18,7 @@ import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IQualifier;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
 import org.jboss.tools.cdi.ui.wizard.xpl.AddQualifiersToBeanComposite;
+import org.jboss.tools.cdi.ui.wizard.xpl.AddQualifiersToBeanComposite.ValuedQualifier;
 
 public class AddQualifiersToBeanWizardPage extends WizardPage{
 
@@ -46,11 +47,11 @@ public class AddQualifiersToBeanWizardPage extends WizardPage{
 	}
 	
 	public void deploy(IQualifier qualifier){
-		composite.deploy(qualifier);
+		composite.deploy(new ValuedQualifier(qualifier));
 	}
 
 	public void remove(IQualifier qualifier){
-		composite.remove(qualifier);
+		composite.remove(new ValuedQualifier(qualifier));
 	}
 	
 	public boolean checkBeans(){

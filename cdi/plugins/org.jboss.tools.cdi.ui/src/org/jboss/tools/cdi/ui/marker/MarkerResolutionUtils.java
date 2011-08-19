@@ -42,6 +42,8 @@ import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.core.Signature;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.IBean;
+import org.jboss.tools.cdi.core.IBeanField;
+import org.jboss.tools.cdi.core.IBeanMethod;
 import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.core.IInjectionPointField;
 import org.jboss.tools.cdi.core.IInjectionPointMethod;
@@ -424,6 +426,15 @@ public class MarkerResolutionUtils {
 	
 	public static void addQualifiersToBean(List<IQualifier> deployed, IBean bean){
 		IFile file = (IFile)bean.getBeanClass().getResource();
+		IJavaElement beanElement = null;
+		if(bean instanceof IBeanField){
+			beanElement = ((IBeanField) bean).getField();
+		}else if(bean instanceof IBeanMethod){
+			beanElement = ((IBeanMethod) bean).getMethod();
+		}else{
+			beanElement = bean.getBeanClass();
+		}
+		
 		try{
 			ICompilationUnit original = EclipseUtil.getCompilationUnit(file);
 			ICompilationUnit compilationUnit = original.getWorkingCopy(new NullProgressMonitor());
@@ -431,7 +442,7 @@ public class MarkerResolutionUtils {
 			for(IQualifier qualifier : deployed){
 				String qualifierName = qualifier.getSourceType().getFullyQualifiedName();
 				if(!qualifierName.equals(CDIConstants.ANY_QUALIFIER_TYPE_NAME) && !qualifierName.equals(CDIConstants.DEFAULT_QUALIFIER_TYPE_NAME)){
-					MarkerResolutionUtils.addAnnotation(qualifier.getSourceType().getFullyQualifiedName(), compilationUnit, bean.getBeanClass());
+					MarkerResolutionUtils.addAnnotation(qualifier.getSourceType().getFullyQualifiedName(), compilationUnit, beanElement);
 				}
 				
 			}

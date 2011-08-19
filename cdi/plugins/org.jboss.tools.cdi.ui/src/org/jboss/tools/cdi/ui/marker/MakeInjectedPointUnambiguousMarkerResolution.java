@@ -44,7 +44,7 @@ public class MakeInjectedPointUnambiguousMarkerResolution implements IMarkerReso
 		this.injectionPoint = injectionPoint;
 		this.beans = beans;
 		this.selectedBean = beans.get(index);
-		this.label = MessageFormat.format(CDIUIMessages.MAKE_INJECTED_POINT_UNAMBIGUOUS_TITLE, new Object[]{selectedBean.getBeanClass().getElementName()});
+		this.label = MessageFormat.format(CDIUIMessages.MAKE_INJECTED_POINT_UNAMBIGUOUS_TITLE, new Object[]{selectedBean.getSimpleJavaName()});
 	}
 
 	public String getLabel() {
@@ -104,7 +104,7 @@ public class MakeInjectedPointUnambiguousMarkerResolution implements IMarkerReso
 			ICDIProject cdiProject = selectedBean.getCDIProject();
 			IBean[] beans = cdiProject.getBeans();
 			for(IBean bean : beans){
-				if(bean.getBeanClass().getFullyQualifiedName().equals(selectedBean.getBeanClass().getFullyQualifiedName())){
+				if(bean.getBeanClass().getFullyQualifiedName().equals(selectedBean.getBeanClass().getFullyQualifiedName()) && bean.getSimpleJavaName().equals(selectedBean.getSimpleJavaName())){
 					selectedBean = bean;
 					break;
 				}
@@ -122,7 +122,7 @@ public class MakeInjectedPointUnambiguousMarkerResolution implements IMarkerReso
 		for(IBean bean: beans){
 			if(bean.equals(selectedBean))
 				continue;
-			if(AddQualifiersToBeanComposite.checkBeanQualifiers(bean, qualifiers))
+			if(AddQualifiersToBeanComposite.checkBeanQualifiers(selectedBean, bean, qualifiers))
 				return true;
 				
 		}

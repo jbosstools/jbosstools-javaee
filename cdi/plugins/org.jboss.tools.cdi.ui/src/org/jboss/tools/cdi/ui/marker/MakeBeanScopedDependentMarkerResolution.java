@@ -44,7 +44,7 @@ public class MakeBeanScopedDependentMarkerResolution implements IMarkerResolutio
 	private IFile file;
 	
 	public MakeBeanScopedDependentMarkerResolution(IBean bean, IFile file){
-		this.label = MessageFormat.format(CDIUIMessages.MAKE_BEAN_SCOPED_DEPENDENT_MARKER_RESOLUTION_TITLE, new Object[]{bean.getBeanClass().getElementName()});
+		this.label = MessageFormat.format(CDIUIMessages.MAKE_BEAN_SCOPED_DEPENDENT_MARKER_RESOLUTION_TITLE, new Object[]{bean.getSimpleJavaName()});
 		this.bean = bean;
 		this.file = file;
 	}
