@@ -21,7 +21,6 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.QualifiedName;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.JavaCore;
-import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IWindowListener;
 import org.eclipse.ui.IWorkbenchWindow;
@@ -33,7 +32,6 @@ import org.jboss.tools.jst.jsp.util.FileUtil;
 import org.jboss.tools.jst.web.kb.IKbProject;
 import org.jboss.tools.jst.web.kb.internal.KbBuilderMarker;
 import org.jboss.tools.jst.web.kb.internal.KbProject;
-import org.jboss.tools.jst.web.project.WebProject;
 
 /**
  * 
@@ -52,7 +50,6 @@ public class ProjectNaturesChecker implements IResourceChangeListener {
 	public static final QualifiedName IS_JSF_CHECK_NEED = new QualifiedName(
 			"", JsfUIMessages.IS_JSF_CHECK_NEED); //$NON-NLS-1$
 	private Set<IProject> projectsCollection;
-	private static final String STRUTS_NATURE_ID = "org.jboss.tools.struts.strutsnature"; //$NON-NLS-1$
 
 	private static ProjectNaturesChecker checker;
 
@@ -89,15 +86,8 @@ public class ProjectNaturesChecker implements IResourceChangeListener {
 	public void checkNatures(IProject project) throws CoreException {
 		if (project != null && project.isAccessible()) {
 			addProject(project);
-			boolean isJSFCheck = true;
-			boolean isJSFNaturesCheck = true;
-			boolean isKBNaturesCheck = true;
 			updateProjectPersistentProperties(project);
-			isJSFCheck = Boolean.parseBoolean(project
-					.getPersistentProperty(IS_JSF_CHECK_NEED));
-			isJSFNaturesCheck = Boolean.parseBoolean(project
-					.getPersistentProperty(IS_JSF_NATURES_CHECK_NEED));
-			isKBNaturesCheck = Boolean.parseBoolean(project
+			boolean isKBNaturesCheck = Boolean.parseBoolean(project
 					.getPersistentProperty(IS_KB_NATURES_CHECK_NEED));
 			KbProject.checkKBBuilderInstalled(project);
 			String missingNature = checkMissingNatures(project);
@@ -105,9 +95,6 @@ public class ProjectNaturesChecker implements IResourceChangeListener {
 				ProjectNaturesInfoDialog dialog = null;
 				if (KbProject.NATURE_ID.equals(missingNature) && isKBNaturesCheck) {
 					dialog = new KBNaturesInfoDialog(project);
-				} else if (WebProject.JSF_NATURE_ID.equals(missingNature)
-						&& isJSFNaturesCheck && isJSFCheck) {
-					dialog = new JSFNaturesInfoDialog(project);
 				}
 				if (dialog != null) {
 					dialog.open();
@@ -117,12 +104,6 @@ public class ProjectNaturesChecker implements IResourceChangeListener {
 	}
 
 	private String checkMissingNatures(IProject project) throws CoreException {
-		if (project.getNature(STRUTS_NATURE_ID) != null) {
-			return null;
-		}
-		if (project.getNature(WebProject.JSF_NATURE_ID) == null) {
-			return WebProject.JSF_NATURE_ID;
-		}
 		if (getKBProblemMarker(project) != null) {
 			return IKbProject.NATURE_ID;
 		}
