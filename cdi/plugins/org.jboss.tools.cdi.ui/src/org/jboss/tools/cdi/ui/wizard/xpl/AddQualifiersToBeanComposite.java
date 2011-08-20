@@ -132,7 +132,7 @@ public class AddQualifiersToBeanComposite extends Composite {
 		this.bean = bean;
 		originalQualifiers = new ArrayList<ValuedQualifier>();
 		for(IQualifier q : bean.getQualifiers()){
-			String value = findQualifierValue(bean, q);
+			String value = MarkerResolutionUtils.findQualifierValue(bean, q);
 			originalQualifiers.add(new ValuedQualifier(q, value));
 		}
 		
@@ -226,67 +226,12 @@ public class AddQualifiersToBeanComposite extends Composite {
 		for(IBean b: beans){
 			if(b.equals(bean))
 				continue;
-			if(checkValuedQualifiers(bean, b, qfs))
+			if(MarkerResolutionUtils.checkValuedQualifiers(bean, b, qfs))
 				return false;
 				
 		}
 		return true;
 	}
-	
-	public static boolean checkBeanQualifiers(IBean selectedBean, IBean bean, Set<IQualifier> qualifiers){
-		HashSet<ValuedQualifier> valuedQualifiers = new HashSet<ValuedQualifier>();
-		for(IQualifier qualifier : qualifiers){
-			valuedQualifiers.add(new ValuedQualifier(qualifier));
-		}
-		return checkValuedQualifiers(selectedBean, bean, valuedQualifiers);
-	}
-	
-	private static boolean checkValuedQualifiers(IBean selectedBean, IBean bean, Set<ValuedQualifier> qualifiers){
-		for(ValuedQualifier qualifier : qualifiers){
-			if(!isBeanContainQualifier(bean, qualifier)){
-				return false;
-			}
-		}
-		if(bean.getQualifiers().size() == qualifiers.size())
-			return true;
-		return false;
-	}
-	
-	private static boolean isBeanContainQualifier(IBean bean, ValuedQualifier valuedQualifier){
-		 
-		Set<IQualifier> qualifiers = bean.getQualifiers();
-		for(IQualifier q : qualifiers){
-			String value = findQualifierValue(bean, q);
-			if(q.getSourceType().getFullyQualifiedName().equals(valuedQualifier.getQualifier().getSourceType().getFullyQualifiedName()) &&
-					value.equals(valuedQualifier.getValue()))
-				return true;
-		}
-		return false;
-	}
-	
-	private static String findQualifierValue(IBean bean, IQualifier qualifier){
-		IQualifierDeclaration declaration = findQualifierDeclaration(bean, qualifier);
-		if(declaration == null)
-			return "";
-		
-		Object value = declaration.getMemberValue(null);
-		
-		return value == null ? "" : value.toString();
-	}
-	
-	private static IQualifierDeclaration findQualifierDeclaration(IBean bean, IQualifier qualifier){
-		Set<IQualifierDeclaration> declarations = bean.getQualifierDeclarations();
-		
-		if(declarations == null)
-			return null;
-		
-		for(IQualifierDeclaration declaration : declarations){
-			if(declaration.getQualifier().getSourceType().getFullyQualifiedName().equals(qualifier.getSourceType().getFullyQualifiedName()))
-				return declaration;
-		}
-		return null;
-	}
-
 	
 	protected void createControl() {
 		GridLayout layout = new GridLayout();
@@ -712,10 +657,6 @@ public class AddQualifiersToBeanComposite extends Composite {
 		moveAll(qualifiers, false);
 	}
 
-//	public ArrayList<ValuedQualifier> getAvailableValuedQualifiers(){
-//		return qualifiers;
-//	}
-	
 	public ArrayList<IQualifier> getAvailableQualifiers(){
 		ArrayList<IQualifier> result = new ArrayList<IQualifier>();
 		for(ValuedQualifier vq : qualifiers){

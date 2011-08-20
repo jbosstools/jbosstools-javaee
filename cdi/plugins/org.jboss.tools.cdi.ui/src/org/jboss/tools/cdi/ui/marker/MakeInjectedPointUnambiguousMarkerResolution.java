@@ -122,7 +122,7 @@ public class MakeInjectedPointUnambiguousMarkerResolution implements IMarkerReso
 		for(IBean bean: beans){
 			if(bean.equals(selectedBean))
 				continue;
-			if(AddQualifiersToBeanComposite.checkBeanQualifiers(selectedBean, bean, qualifiers))
+			if(MarkerResolutionUtils.checkBeanQualifiers(selectedBean, bean, qualifiers))
 				return true;
 				
 		}
