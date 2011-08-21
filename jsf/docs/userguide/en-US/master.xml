@@ -34,14 +34,11 @@
         <title>Visual Web Tools Reference Guide</title>
         
         <copyright>
-            <year>2007</year>
-            <year>2008</year>
-            <year>2009</year>
-            <year>2010</year>
+            <year>2011</year>
             <holder>JBoss by Red Hat</holder>
         </copyright>
         <releaseinfo>
-            Version: 3.0.1.GA
+            Version: 3.2.1.GA
            </releaseinfo>
 <!--<abstract>
    <title/>
