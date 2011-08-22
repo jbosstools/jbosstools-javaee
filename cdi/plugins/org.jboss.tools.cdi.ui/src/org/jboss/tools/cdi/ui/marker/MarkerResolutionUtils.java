@@ -296,6 +296,8 @@ public class MarkerResolutionUtils {
 			IAnnotation annotation = ((IAnnotatable)element).getAnnotation(qualifiedName);
 			if (!annotation.exists()) {
 				annotation = ((IAnnotatable)element).getAnnotation(name);
+			}else{
+				return annotation;
 			}
 			IType type=null;
 			if(element instanceof IType){
