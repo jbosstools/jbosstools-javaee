@@ -185,7 +185,7 @@
 					<configuration>
 						<sourceDirectory>${project.basedir}</sourceDirectory>
 		             <!-- <sourceDocumentName>${docname}.xml</sourceDocumentName> -->
-						<sourceDocumentName>{master}</sourceDocumentName>
+						<sourceDocumentName>master.xml</sourceDocumentName>
 						<masterTranslation>en-US</masterTranslation>
 						<imageResource>
 							<directory>${project.basedir}/en-US</directory>
