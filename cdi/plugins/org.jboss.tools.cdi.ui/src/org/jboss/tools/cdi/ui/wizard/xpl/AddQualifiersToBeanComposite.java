@@ -17,7 +17,6 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Set;
 
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -88,13 +87,13 @@ public class AddQualifiersToBeanComposite extends Composite {
 	private WizardPage wizard;
 	private Text pattern;
 
-	// original qualifiers on the bean
+	// original qualifiers on the bean without declarations it means they can not be deleted from bean
 	private ArrayList<ValuedQualifier> originalQualifiers = new ArrayList<ValuedQualifier>();
 
 	// qualifiers available to be added to the bean
 	private ArrayList<ValuedQualifier> qualifiers = new ArrayList<ValuedQualifier>();
 
-	// current qualifiers on the bean
+	// original qualifiers on the bean with declaration + currently added qualifiers on the bean
 	private ArrayList<ValuedQualifier> deployed = new ArrayList<ValuedQualifier>();
 	
 	// original + deployed
@@ -104,7 +103,7 @@ public class AddQualifiersToBeanComposite extends Composite {
 	private TableViewer deployedTableViewer;
 
 	private Button add, addAll;
-	private Button remove, removeAll;
+	private Button remove, editQualifierValue, removeAll;
 	
 	private Label nLabel;
 	
@@ -130,10 +129,19 @@ public class AddQualifiersToBeanComposite extends Composite {
 	
 	public void init(IBean bean){
 		this.bean = bean;
-		originalQualifiers = new ArrayList<ValuedQualifier>();
+		originalQualifiers.clear();
+		deployed.clear();
 		for(IQualifier q : bean.getQualifiers()){
-			String value = MarkerResolutionUtils.findQualifierValue(bean, q);
-			originalQualifiers.add(new ValuedQualifier(q, value));
+			IQualifierDeclaration declaration = MarkerResolutionUtils.findQualifierDeclaration(bean, q);
+			if(declaration != null){
+				String value = MarkerResolutionUtils.findQualifierValue(declaration);
+				ValuedQualifier vq = new ValuedQualifier(q, value);
+				//originalQualifiers.add(vq);
+				//deployedTableViewer.add(vq);
+				deployed.add(vq);
+			}else{
+				originalQualifiers.add(new ValuedQualifier(q, ""));
+			}
 		}
 		
 		defaultQualifier = new ValuedQualifier(bean.getCDIProject().getQualifier(CDIConstants.DEFAULT_QUALIFIER_TYPE_NAME));
@@ -146,7 +154,11 @@ public class AddQualifiersToBeanComposite extends Composite {
 			}
 		}
 		
-		deployedTableViewer.setInput(originalQualifiers);
+		total.clear();
+		total.addAll(originalQualifiers);
+		total.addAll(deployed);
+		
+		deployedTableViewer.setInput(total);
 		
 		qualifiers.clear();
 		
@@ -465,6 +477,18 @@ public class AddQualifiersToBeanComposite extends Composite {
 			}
 		});
 		
+		label = new Label(this, SWT.NONE);
+		label.setText("");
+		
+		label = new Label(this, SWT.NONE);
+		label.setText("");
+		
+		editQualifierValue = new Button(this, SWT.PUSH);
+		editQualifierValue.setText(CDIUIMessages.ADD_QUALIFIERS_TO_BEAN_WIZARD_EDIT_QUALIFIER_VALUE);
+		
+		editQualifierValue.addSelectionListener(new SelectionAdapter() {
+		});
+		
 		setEnablement();
 		
 		Dialog.applyDialogFont(this);
@@ -516,6 +540,7 @@ public class AddQualifiersToBeanComposite extends Composite {
 		ms = getDeployedSelection();
 		if (ms == null ||  ms.length == 0) {
 			remove.setEnabled(false);
+			editQualifierValue.setEnabled(false);
 		} else {
 			boolean enabled = false;
 			for (int i = 0; i < ms.length; i++) {
@@ -529,8 +554,13 @@ public class AddQualifiersToBeanComposite extends Composite {
 				}
 			}
 			remove.setEnabled(enabled);
+			
+			if(enabled && ms.length == 1){
+				editQualifierValue.setEnabled(true);
+			}else{
+				editQualifierValue.setEnabled(false);
+			}
 		}
-	
 		removeAll.setEnabled(deployed.size() > 0);
 		
 		// check uniqueness of qualifiers
@@ -542,7 +572,7 @@ public class AddQualifiersToBeanComposite extends Composite {
 		
 		wizard.setPageComplete(isComplete);
 	}
-
+	
 	protected void add(boolean all) {
 		if (all) {
 			ValuedQualifier[] qualifiers2 = new ValuedQualifier[qualifiers.size()];

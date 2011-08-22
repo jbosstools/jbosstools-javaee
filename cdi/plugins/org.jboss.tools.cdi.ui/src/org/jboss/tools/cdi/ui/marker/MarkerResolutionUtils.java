@@ -324,26 +324,6 @@ public class MarkerResolutionUtils {
 		return false;
 	}
 	
-	public static void deleteQualifierAnnotation(ICompilationUnit compilationUnit, IJavaElement element, IQualifier qualifier) throws JavaModelException{
-		if(element instanceof IAnnotatable){
-			String fullName = qualifier.getSourceType().getFullyQualifiedName();
-			String shortName = getShortName(fullName);
-			IAnnotation annotation = ((IAnnotatable)element).getAnnotation(fullName);
-			if(!annotation.exists()){
-				annotation = ((IAnnotatable)element).getAnnotation(shortName);
-			}
-			if(annotation.exists()){
-				IBuffer buffer = compilationUnit.getBuffer();
-				
-				buffer.replace(annotation.getSourceRange().getOffset(), annotation.getSourceRange().getLength(), "");
-				
-				synchronized(compilationUnit) {
-					compilationUnit.reconcile(ICompilationUnit.NO_AST, true, null, null);
-				}
-			}
-		}
-	}
-
 	private static List<IQualifier> findQualifiersToDelete(IInjectionPoint injectionPoint, Set<IQualifierDeclaration> qualifiers){
 		ArrayList<IQualifier> list = new ArrayList<IQualifier>();
 		Set<IQualifierDeclaration> declarations = injectionPoint.getQualifierDeclarations();
@@ -445,7 +425,7 @@ public class MarkerResolutionUtils {
 				List<IQualifier> toDelete = findQualifiersToDelete(injectionPoint, declarations);
 				
 				for(IQualifier qualifier : toDelete){
-						deleteQualifierAnnotation(compilationUnit, element, qualifier);
+						deleteAnnotation(qualifier.getSourceType().getFullyQualifiedName(), compilationUnit, element);
 				}
 				
 				for(IQualifierDeclaration declaration : declarations){
@@ -479,10 +459,19 @@ public class MarkerResolutionUtils {
 			ICompilationUnit original = EclipseUtil.getCompilationUnit(file);
 			ICompilationUnit compilationUnit = original.getWorkingCopy(new NullProgressMonitor());
 			
+			
+			for(IQualifierDeclaration declaration : bean.getQualifierDeclarations()){
+				IQualifier qualifier = declaration.getQualifier();
+				String qualifierName = qualifier.getSourceType().getFullyQualifiedName();
+				if(!deployed.contains(qualifier)){
+					deleteAnnotation(qualifierName, compilationUnit, beanElement);
+				}
+			}
+			
 			for(IQualifier qualifier : deployed){
 				String qualifierName = qualifier.getSourceType().getFullyQualifiedName();
 				if(!qualifierName.equals(CDIConstants.ANY_QUALIFIER_TYPE_NAME) && !qualifierName.equals(CDIConstants.DEFAULT_QUALIFIER_TYPE_NAME)){
-					MarkerResolutionUtils.addAnnotation(qualifier.getSourceType().getFullyQualifiedName(), compilationUnit, beanElement);
+					MarkerResolutionUtils.addAnnotation(qualifierName, compilationUnit, beanElement);
 				}
 				
 			}
@@ -616,6 +605,10 @@ public class MarkerResolutionUtils {
 				if(checkImport(text, qualifiedName))
 					importDeclaration.delete(false, new NullProgressMonitor());
 			}
+			
+			synchronized(compilationUnit) {
+				compilationUnit.reconcile(ICompilationUnit.NO_AST, true, null, null);
+			}
 		}
 	}
 	
@@ -675,13 +668,13 @@ public class MarkerResolutionUtils {
 		return findQualifierValue(declaration);
 	}
 	
-	private static String findQualifierValue(IQualifierDeclaration declaration){
+	public static String findQualifierValue(IQualifierDeclaration declaration){
 		Object value = declaration.getMemberValue(null);
 		
 		return value == null ? "" : value.toString();
 	}
 	
-	private static IQualifierDeclaration findQualifierDeclaration(IBean bean, IQualifier qualifier){
+	public static IQualifierDeclaration findQualifierDeclaration(IBean bean, IQualifier qualifier){
 		Set<IQualifierDeclaration> declarations = bean.getQualifierDeclarations();
 		
 		if(declarations == null)
