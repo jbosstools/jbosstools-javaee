@@ -5,7 +5,9 @@ import org.eclipse.swtbot.swt.finder.widgets.SWTBotTreeItem;
 import org.jboss.tools.cdi.bot.test.CDIAllBotTests;
 import org.jboss.tools.cdi.bot.test.uiutils.actions.CDIUtil;
 import org.jboss.tools.ui.bot.ext.RequirementAwareSuite;
+import org.jboss.tools.ui.bot.ext.SWTJBTExt;
 import org.jboss.tools.ui.bot.ext.SWTTestExt;
+import org.jboss.tools.ui.bot.ext.Timing;
 import org.jboss.tools.ui.bot.ext.config.Annotations.Require;
 import org.jboss.tools.ui.bot.ext.config.Annotations.Server;
 import org.jboss.tools.ui.bot.ext.config.Annotations.ServerState;
@@ -48,6 +50,7 @@ public class CDIHyperlinksTest extends SWTTestExt {
 	public void testInjectHyperlink() {		
 		CDIUtil.bean(PACKAGE_NAME, "Animal", true, false, false, false, null,
 				null, null, null).finish();
+		bot.sleep(Timing.time3S());
 		util.waitForNonIgnoredJobs();
 		
 		CDIUtil.bean(PACKAGE_NAME, "BrokenFarm", true, false, false, false, null,
@@ -56,12 +59,16 @@ public class CDIHyperlinksTest extends SWTTestExt {
 		SWTBotEditor ed = bot.activeEditor();
 		CDIUtil.copyResourceToClass(ed, CDIHyperlinksTest.class
 				.getResourceAsStream("/resources/cdi/BrokenFarm.java.cdi"), false);		
+		
 		SWTBotTreeItem warningNode = ProblemsView.getWarningsNode(bot);
 		assertNull("Warnings node should be empty.", warningNode);
-		/*
-		 * TODO - hyperlink on @Inject should redirect to correct class
-		 */
-		
+		String openOnString = "@Inject";
+		ed = SWTJBTExt.selectTextInSourcePane(bot, "BrokenFarm.java", openOnString, 1, openOnString.length()-1);
+		ed.setFocus();
+		bot.menu("Navigate").menu("Open Hyperlink").click();		
+		bot.activeShell().bot().table(0).click(1, 0);
+		bot.sleep(Timing.time1S());
+		ed = bot.activeEditor();
+		assertTrue("ERROR: redirected to " + ed.getTitle(), ed.getTitle().equals("Animal.java"));
 	}
-	
 }
