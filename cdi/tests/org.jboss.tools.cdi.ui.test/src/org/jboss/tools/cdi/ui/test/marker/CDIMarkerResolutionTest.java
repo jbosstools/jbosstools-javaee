@@ -805,6 +805,17 @@ public class CDIMarkerResolutionTest  extends TCKUITest {
 				CDIValidationErrorManager.DECORATOR_HAS_NAME_ID,
 				DeleteAnnotationMarkerResolution.class);
 	}
+	
+	public void testFullyQualifedNamedDecoratorResolution() throws CoreException{
+		checkResolution(tckProject,
+				new String[]{
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TD.java",
+				},
+				CDICoreValidator.PROBLEM_TYPE,
+				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
+				CDIValidationErrorManager.DECORATOR_HAS_NAME_ID,
+				DeleteAnnotationMarkerResolution.class);
+	}
 
 	public void testTypedInStereotypeResolution() throws CoreException{
 		checkResolution(tckProject,
