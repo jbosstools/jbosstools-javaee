@@ -22,7 +22,7 @@
 				<configuration>
 					<useUIThread>false</useUIThread>
 					<skip>${swtbot.test.skip}</skip>
-					<dependencies>
+					<dependencies combine.children="append">
 						<dependency>
 							<type>p2-installable-unit</type>
 							<artifactId>org.eclipse.jst.server_ui.feature.feature.group</artifactId>
@@ -80,7 +80,7 @@
 										<property name="jboss.tools.jre.6" value="${java.home}" />
 									</then>
 								</if>
-								<echo file="swtbot.properties" append="false">SERVER=JBOSS_AS,6.0,default,${requirement.build.root}/jboss-6.0.0.Final
+								<echo file="swtbot.properties" append="false">SERVER=AS,6.0,1.6,${requirement.build.root}/jboss-6.0.0.Final
 JAVA=1.6,${jboss.tools.jre.6}
 								</echo>
 							</tasks>
