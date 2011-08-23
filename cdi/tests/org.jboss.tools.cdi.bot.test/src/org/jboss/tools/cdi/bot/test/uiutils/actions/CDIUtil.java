@@ -7,6 +7,7 @@ import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotEclipseEditor;
 import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotEditor;
 import org.eclipse.swtbot.swt.finder.finders.UIThreadRunnable;
 import org.eclipse.swtbot.swt.finder.results.Result;
+import org.eclipse.swtbot.swt.finder.widgets.SWTBotCheckBox;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotMenu;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTree;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTreeItem;
@@ -46,12 +47,12 @@ public class CDIUtil {
 		util.waitForNonIgnoredJobs();
 	}
 	
-	public static void openQuickFix(SWTBotTreeItem item, SWTBotExt bot, SWTUtilExt util) {
+	public static void openQuickFix(SWTBotTreeItem item, SWTBotExt bot) {
 		nodeContextMenu(bot.tree(), item, "Quick Fix").click();
 	}
 	
 	public static void resolveQuickFix(SWTBotTreeItem item, SWTBotExt bot, SWTUtilExt util) {
-		openQuickFix(item, bot, util);
+		openQuickFix(item, bot);
 		bot.activeShell().bot().button("Finish").click();
 		bot.sleep(Timing.time2S());
 		util.waitForNonIgnoredJobs();
@@ -65,6 +66,39 @@ public class CDIUtil {
 		st.setText(code);
 		classEdit.save();
 		if (closeEdit) classEdit.close(); 		
+	}
+	
+	public static void replaceInEditor(SWTBotEclipseEditor ed, SWTBotExt bot, String target, String replacement) {
+		ed.selectRange(0, 0, ed.getText().length());
+		ed.setText(ed.getText().replace(target + 
+				(replacement.equals("")?System.getProperty("line.separator"):""), 
+				 replacement));
+		bot.sleep(Timing.time3S());
+		ed.save();
+	}
+	
+	public static void disableFolding(SWTBotExt bot, SWTUtilExt util) {
+		editFolding(bot, util, false);
+	}
+	
+	public static void enableFolding(SWTBotExt bot, SWTUtilExt util) {
+		editFolding(bot, util, true);
+	}
+	
+	public static void editFolding(SWTBotExt bot, SWTUtilExt util, boolean select) {
+		bot.menu("Window").menu("Preferences").click();
+		bot.shell("Preferences").activate();
+		SWTBotTreeItem item = bot.tree(0).expandNode("Java", "Editor");
+		item.select("Folding");
+		SWTBotCheckBox foldCheckBox = bot.checkBox("Enable folding");
+		if (select) {
+			foldCheckBox.select();
+		} else {
+			foldCheckBox.deselect();
+		}
+		bot.button("OK").click();
+		bot.sleep(Timing.time2S());
+		util.waitForNonIgnoredJobs();
 	}
 	
 	public static SWTBotMenu nodeContextMenu(final SWTBotTree tree,
