@@ -6,7 +6,8 @@
 <xi:include href="Preface.xml" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
 <xi:include href="intro.xml" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
 <xi:include href="creating_new_seam.xml" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
-<xi:include href="creating_mavenized_seam.xml" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
+<!--<xi:include href="creating_mavenized_seam.xml" xmlns:xi="http://www.w3.org/2001/XInclude">
+</xi:include>-->
 <xi:include href="directory_structure.xml" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
 <xi:include href="seam_menus_and_actions.xml" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
 <xi:include href="seam_wizards.xml" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
