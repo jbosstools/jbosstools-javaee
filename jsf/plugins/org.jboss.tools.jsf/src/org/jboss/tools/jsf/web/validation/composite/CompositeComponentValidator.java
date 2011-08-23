@@ -33,6 +33,10 @@ import org.eclipse.wst.validation.internal.provisional.core.IReporter;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMDocument;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMModel;
 import org.jboss.tools.common.el.core.resolver.ELContext;
+import org.jboss.tools.common.validation.ContextValidationHelper;
+import org.jboss.tools.common.validation.IProjectValidationContext;
+import org.jboss.tools.common.validation.IValidatingProjectTree;
+import org.jboss.tools.common.validation.ValidatorManager;
 import org.jboss.tools.jsf.JSFModelPlugin;
 import org.jboss.tools.jsf.project.JSFNature;
 import org.jboss.tools.jsf.web.validation.JSFSeverityPreferences;
@@ -41,15 +45,12 @@ import org.jboss.tools.jst.web.kb.IPageContext;
 import org.jboss.tools.jst.web.kb.KbProjectFactory;
 import org.jboss.tools.jst.web.kb.PageContextFactory;
 import org.jboss.tools.jst.web.kb.internal.KbBuilder;
-import org.jboss.tools.jst.web.kb.internal.validation.ContextValidationHelper;
-import org.jboss.tools.jst.web.kb.internal.validation.ValidatorManager;
+import org.jboss.tools.jst.web.kb.internal.validation.KBValidator;
 import org.jboss.tools.jst.web.kb.internal.validation.WebValidator;
 import org.jboss.tools.jst.web.kb.taglib.IComponent;
 import org.jboss.tools.jst.web.kb.taglib.ICompositeTagLibrary;
 import org.jboss.tools.jst.web.kb.taglib.ITagLibrary;
 import org.jboss.tools.jst.web.kb.taglib.TagLibraryManager;
-import org.jboss.tools.jst.web.kb.validation.IProjectValidationContext;
-import org.jboss.tools.jst.web.kb.validation.IValidatingProjectTree;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -320,7 +321,7 @@ public class CompositeComponentValidator extends WebValidator {
 	}
 
 	private boolean validateBuilderOrder(IProject project) throws CoreException {
-		return ValidatorManager.validateBuilderOrder(project, getBuilderId(), getId(), JSFSeverityPreferences.getInstance());
+		return KBValidator.validateBuilderOrder(project, getBuilderId(), getId(), JSFSeverityPreferences.getInstance());
 	}
 
 	/*

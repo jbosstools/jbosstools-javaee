@@ -14,7 +14,7 @@ import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.core.test.DependentProjectTest;
-import org.jboss.tools.jst.jsp.test.TestUtil;
+import org.jboss.tools.common.base.test.validation.TestUtil;
 import org.jboss.tools.test.util.ResourcesUtils;
 
 public class SeamPersistenceTest extends TestCase {

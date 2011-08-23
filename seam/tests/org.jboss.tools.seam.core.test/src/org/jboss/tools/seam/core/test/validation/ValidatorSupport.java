@@ -13,10 +13,10 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.wst.validation.internal.core.ValidationException;
 import org.eclipse.wst.validation.internal.provisional.core.IMessage;
 import org.eclipse.wst.validation.internal.provisional.core.IReporter;
-import org.jboss.tools.jst.web.kb.internal.validation.ContextValidationHelper;
-import org.jboss.tools.jst.web.kb.internal.validation.ValidatorManager;
-import org.jboss.tools.jst.web.kb.validation.IProjectValidationContext;
-import org.jboss.tools.jst.web.kb.validation.IValidator;
+import org.jboss.tools.common.validation.ContextValidationHelper;
+import org.jboss.tools.common.validation.IProjectValidationContext;
+import org.jboss.tools.common.validation.IValidator;
+import org.jboss.tools.common.validation.ValidatorManager;
 import org.jboss.tools.seam.core.SeamProjectsSet;
 import org.jboss.tools.seam.internal.core.validation.SeamCoreValidator;
 

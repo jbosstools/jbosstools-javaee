@@ -18,10 +18,10 @@ import org.eclipse.core.resources.IProject;
 import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.ICDIProject;
+import org.jboss.tools.common.validation.internal.ValidatingProjectSet;
 import org.jboss.tools.jst.web.kb.IKbProject;
 import org.jboss.tools.jst.web.kb.KbProjectFactory;
 import org.jboss.tools.jst.web.kb.internal.KbProject;
-import org.jboss.tools.jst.web.kb.internal.validation.ValidatingProjectSet;
 
 /**
  * @author Alexey Kazakov

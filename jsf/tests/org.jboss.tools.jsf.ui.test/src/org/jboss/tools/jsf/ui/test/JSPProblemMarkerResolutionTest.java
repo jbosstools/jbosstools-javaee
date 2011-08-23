@@ -6,7 +6,7 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.ui.IMarkerResolution;
-import org.jboss.tools.jst.jsp.test.TestUtil;
+import org.jboss.tools.common.base.test.validation.TestUtil;
 import org.jboss.tools.jst.web.ui.action.JSPProblemMarkerResolutionGenerator;
 import org.jboss.tools.tests.AbstractResourceMarkerTest;
 

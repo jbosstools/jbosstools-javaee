@@ -18,17 +18,17 @@ import org.eclipse.wst.validation.internal.core.ValidationException;
 import org.eclipse.wst.validation.internal.operations.WorkbenchReporter;
 import org.eclipse.wst.validation.internal.provisional.core.IMessage;
 import org.jboss.tools.common.preferences.SeverityPreferences;
+import org.jboss.tools.common.validation.ContextValidationHelper;
+import org.jboss.tools.common.validation.IProjectValidationContext;
+import org.jboss.tools.common.validation.IValidator;
+import org.jboss.tools.common.validation.ValidationErrorManager;
+import org.jboss.tools.common.validation.ValidatorManager;
+import org.jboss.tools.common.validation.internal.SimpleValidatingProjectTree;
 import org.jboss.tools.jsf.JSFModelPlugin;
 import org.jboss.tools.jst.web.kb.WebKbPlugin;
-import org.jboss.tools.jst.web.kb.internal.validation.ContextValidationHelper;
 import org.jboss.tools.jst.web.kb.internal.validation.ELValidationMessages;
 import org.jboss.tools.jst.web.kb.internal.validation.ELValidator;
-import org.jboss.tools.jst.web.kb.internal.validation.SimpleValidatingProjectTree;
-import org.jboss.tools.jst.web.kb.internal.validation.ValidationErrorManager;
-import org.jboss.tools.jst.web.kb.internal.validation.ValidatorManager;
 import org.jboss.tools.jst.web.kb.preferences.ELSeverityPreferences;
-import org.jboss.tools.jst.web.kb.validation.IProjectValidationContext;
-import org.jboss.tools.jst.web.kb.validation.IValidator;
 import org.jboss.tools.tests.AbstractResourceMarkerTest;
 
 public class ELValidatorTest extends AbstractResourceMarkerTest{

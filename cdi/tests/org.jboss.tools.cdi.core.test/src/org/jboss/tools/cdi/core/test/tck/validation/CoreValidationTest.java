@@ -19,11 +19,11 @@ import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.internal.core.validation.CDICoreValidator;
 import org.jboss.tools.cdi.internal.core.validation.CDIProjectSet;
 import org.jboss.tools.common.preferences.SeverityPreferences;
-import org.jboss.tools.jst.web.kb.internal.validation.LinkCollection;
-import org.jboss.tools.jst.web.kb.internal.validation.ProjectValidationContext;
-import org.jboss.tools.jst.web.kb.internal.validation.ValidationContext;
-import org.jboss.tools.jst.web.kb.internal.validation.ValidatorManager;
-import org.jboss.tools.jst.web.kb.validation.IValidator;
+import org.jboss.tools.common.validation.IValidator;
+import org.jboss.tools.common.validation.ValidationContext;
+import org.jboss.tools.common.validation.ValidatorManager;
+import org.jboss.tools.common.validation.internal.LinkCollection;
+import org.jboss.tools.common.validation.internal.ProjectValidationContext;
 
 /**
  * @author Alexey Kazakov

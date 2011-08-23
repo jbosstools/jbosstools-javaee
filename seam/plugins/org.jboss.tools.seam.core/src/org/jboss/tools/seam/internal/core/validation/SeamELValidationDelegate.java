@@ -12,11 +12,10 @@ package org.jboss.tools.seam.internal.core.validation;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
-import org.jboss.tools.jst.web.kb.internal.validation.ELValidator;
-import org.jboss.tools.jst.web.kb.internal.validation.ValidatorManager;
+import org.jboss.tools.common.validation.IELValidationDelegate;
+import org.jboss.tools.common.validation.IValidatingProjectTree;
+import org.jboss.tools.jst.web.kb.internal.validation.KBValidator;
 import org.jboss.tools.jst.web.kb.preferences.ELSeverityPreferences;
-import org.jboss.tools.jst.web.kb.validation.IELValidationDelegate;
-import org.jboss.tools.jst.web.kb.validation.IValidatingProjectTree;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCoreBuilder;
 import org.jboss.tools.seam.core.SeamCorePlugin;
@@ -25,6 +24,7 @@ import org.jboss.tools.seam.core.SeamCorePlugin;
  * @author Alexey Kazakov
  */
 public class SeamELValidationDelegate implements IELValidationDelegate {
+
 	public static final String ID = "org.jboss.tools.seam.core.SeamELValidationDelegate";
 
 	/* (non-Javadoc)
@@ -51,7 +51,7 @@ public class SeamELValidationDelegate implements IELValidationDelegate {
 
 	private boolean validateBuilderOrder(IProject project) throws CoreException {
 		//It's EL, hence EL preferences, not Seam preferences.
-		return ValidatorManager.validateBuilderOrder(project, getBuilderId(), getID(), ELSeverityPreferences.getInstance()); //$NON-NLS-1$
+		return KBValidator.validateBuilderOrder(project, getBuilderId(), getID(), ELSeverityPreferences.getInstance()); //$NON-NLS-1$
 	}
 
 	public String getBuilderId() {
@@ -61,5 +61,4 @@ public class SeamELValidationDelegate implements IELValidationDelegate {
 	public String getID() {
 		return ID;
 	}
-
 }

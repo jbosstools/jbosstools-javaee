@@ -890,7 +890,7 @@
 			class="org.jboss.tools.seam.ui.marker.SeamProblemMarkerResolutionGenerator"/>
   		<markerResolutionGenerator
      		class="org.jboss.tools.seam.ui.marker.SeamProblemMarkerResolutionGenerator"
-     		markerType="org.jboss.tools.jst.web.kb.kbproblemmarker"/>
+     		markerType="org.jboss.tools.common.validation.JBTValidationProblem"/>
   		<markerResolutionGenerator
      		class="org.jboss.tools.seam.ui.marker.SeamProblemMarkerResolutionGenerator"
      		markerType="org.jboss.tools.seam.core.seamproblem"/>

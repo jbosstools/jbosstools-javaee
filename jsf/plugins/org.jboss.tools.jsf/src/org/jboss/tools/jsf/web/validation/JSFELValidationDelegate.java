@@ -11,10 +11,10 @@
 package org.jboss.tools.jsf.web.validation;
 
 import org.eclipse.core.resources.IProject;
+import org.jboss.tools.common.validation.IELValidationDelegate;
+import org.jboss.tools.common.validation.IValidatingProjectTree;
 import org.jboss.tools.jst.web.kb.internal.KbProject;
 import org.jboss.tools.jst.web.kb.internal.validation.KBValidator;
-import org.jboss.tools.jst.web.kb.validation.IELValidationDelegate;
-import org.jboss.tools.jst.web.kb.validation.IValidatingProjectTree;
 
 /**
  * @author Alexey Kazakov

@@ -42,9 +42,9 @@ import org.jboss.tools.common.model.XJob.XRunnable;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.util.EclipseJavaUtil;
 import org.jboss.tools.common.util.FileUtil;
+import org.jboss.tools.common.validation.internal.ProjectValidationContext;
 import org.jboss.tools.common.xml.XMLUtilities;
 import org.jboss.tools.jst.web.kb.WebKbPlugin;
-import org.jboss.tools.jst.web.kb.internal.validation.ProjectValidationContext;
 import org.w3c.dom.Element;
 
 public class CDICoreNature implements IProjectNature {

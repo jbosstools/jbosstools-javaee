@@ -15,7 +15,7 @@ import junit.framework.TestCase;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.jboss.tools.cdi.seam.core.test.SeamCoreTestSetup;
-import org.jboss.tools.jst.jsp.test.TestUtil;
+import org.jboss.tools.common.base.test.validation.TestUtil;
 import org.jboss.tools.test.util.ResourcesUtils;
 
 /**

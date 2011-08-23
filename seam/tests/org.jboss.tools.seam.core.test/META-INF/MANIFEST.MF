@@ -30,13 +30,14 @@ Require-Bundle:
  org.eclipse.wst.validation.ui;bundle-version="1.2.104",
  org.jboss.tools.common.el.core,
  org.eclipse.jst.common.project.facet.core;bundle-version="1.4.1",
- org.jboss.tools.vpe;bundle-version="3.1.0",
- org.jboss.tools.jst.jsp;bundle-version="3.1.0",
- org.jboss.tools.jsf.text.ext.richfaces;bundle-version="3.1.0",
+ org.jboss.tools.vpe,
+ org.jboss.tools.jst.jsp,
+ org.jboss.tools.jsf.text.ext.richfaces,
  org.jboss.tools.seam.pages.xml,
  org.jboss.tools.seam.xml,
  org.eclipse.jst.standard.schemas,
  org.eclipse.wst.standard.schemas,
- org.jboss.tools.seam.base.test;bundle-version="1.0.0"
+ org.jboss.tools.seam.base.test,
+ org.jboss.tools.common.validation
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: J2SE-1.5

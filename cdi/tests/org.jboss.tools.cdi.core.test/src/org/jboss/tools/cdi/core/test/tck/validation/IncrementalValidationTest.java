@@ -13,7 +13,7 @@ package org.jboss.tools.cdi.core.test.tck.validation;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.jboss.tools.cdi.internal.core.validation.CDIValidationMessages;
-import org.jboss.tools.jst.jsp.test.TestUtil;
+import org.jboss.tools.common.base.test.validation.TestUtil;
 import org.jboss.tools.test.util.ResourcesUtils;
 import org.jboss.tools.tests.AbstractResourceMarkerTest;
 

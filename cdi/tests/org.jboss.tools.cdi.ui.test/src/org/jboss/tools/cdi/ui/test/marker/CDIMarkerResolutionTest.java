@@ -41,9 +41,9 @@ import org.jboss.tools.cdi.ui.marker.MakeMethodBusinessMarkerResolution;
 import org.jboss.tools.cdi.ui.marker.MakeMethodPublicMarkerResolution;
 import org.jboss.tools.cdi.ui.marker.TestableResolutionWithRefactoringProcessor;
 import org.jboss.tools.cdi.ui.test.TCKUITest;
+import org.jboss.tools.common.base.test.validation.TestUtil;
 import org.jboss.tools.common.util.FileUtil;
-import org.jboss.tools.jst.jsp.test.TestUtil;
-import org.jboss.tools.jst.web.kb.internal.validation.ValidatorManager;
+import org.jboss.tools.common.validation.ValidatorManager;
 
 /**
  * @author Daniel Azarov

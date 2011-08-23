@@ -16,7 +16,7 @@ import java.util.Set;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IPath;
-import org.jboss.tools.jst.web.kb.validation.IProjectValidationContext;
+import org.jboss.tools.common.validation.IProjectValidationContext;
 import org.jboss.tools.seam.core.event.ISeamProjectChangeListener;
 import org.jboss.tools.seam.core.project.facet.SeamRuntime;
 

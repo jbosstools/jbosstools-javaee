@@ -22,6 +22,7 @@ Require-Bundle: org.jboss.tools.tests,
  org.jboss.tools.cdi.xml,
  org.eclipse.jst.standard.schemas,
  org.jboss.tools.jst.jsp.test,
- org.eclipse.wst.validation
+ org.eclipse.wst.validation,
+ org.jboss.tools.common.base.test
 Export-Package: org.jboss.tools.cdi.seam.solder.core.test
 

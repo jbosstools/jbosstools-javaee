@@ -511,7 +511,7 @@
    </extension>
 
    <extension id="seamproblem" name="%KBProblemName" point="org.eclipse.core.resources.markers">
-      <super type="org.jboss.tools.jst.web.kb.kbproblemmarker">
+      <super type="org.jboss.tools.common.validation.JBTValidationProblem">
       </super>
       <persistent value="true">
       </persistent>
@@ -519,7 +519,7 @@
 
    <extension
          id="CoreValidator"
-         point="org.jboss.tools.jst.web.kb.validator">
+         point="org.jboss.tools.common.validation.validator">
          <validator
                class="org.jboss.tools.seam.internal.core.validation.SeamCoreValidator"
                name="%SeamCoreValidator"

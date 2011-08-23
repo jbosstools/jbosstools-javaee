@@ -11,7 +11,7 @@
 package org.jboss.tools.seam.internal.core.validation;
 
 import org.eclipse.core.resources.IProject;
-import org.jboss.tools.jst.web.kb.internal.validation.ValidationErrorManager;
+import org.jboss.tools.common.validation.ValidationErrorManager;
 import org.jboss.tools.seam.core.SeamPreferences;
 
 /**

@@ -21,9 +21,10 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.ui.IMarkerResolution;
 import org.eclipse.ui.ide.IDE;
 import org.jboss.tools.cdi.core.preferences.CDIPreferences;
+import org.jboss.tools.common.base.test.validation.TestUtil;
 import org.jboss.tools.common.preferences.SeverityPreferences;
-import org.jboss.tools.jst.jsp.test.TestUtil;
-import org.jboss.tools.jst.web.kb.internal.validation.ValidatorManager;
+import org.jboss.tools.common.validation.ValidatorManager;
+import org.jboss.tools.jst.web.kb.internal.validation.KBValidator;
 import org.jboss.tools.jst.web.kb.preferences.ELSeverityPreferences;
 import org.jboss.tools.test.util.ResourcesUtils;
 
@@ -65,7 +66,7 @@ public class BuilderOrderValidationTest extends TestCase {
 	}
 
 	private IMarker[] getBuilderOrderMarkers() throws CoreException {
-		return project.findMarkers(ValidatorManager.ORDER_PROBLEM_MARKER_TYPE, true, IResource.DEPTH_ZERO);
+		return project.findMarkers(KBValidator.ORDER_PROBLEM_MARKER_TYPE, true, IResource.DEPTH_ZERO);
 	}
 
 	public void testWrongBuildOrderPreference() throws CoreException {
@@ -98,7 +99,7 @@ public class BuilderOrderValidationTest extends TestCase {
 
 	public void testBuilderOrderResolution() throws CoreException {
 		checkResolution(project,
-				ValidatorManager.ORDER_PROBLEM_MARKER_TYPE,
+				KBValidator.ORDER_PROBLEM_MARKER_TYPE,
 				"org.jboss.tools.jst.web.kb.internal.validation.BuilderOrderResolution");
 	}
 }

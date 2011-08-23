@@ -15,11 +15,10 @@ import org.eclipse.core.runtime.CoreException;
 import org.jboss.tools.cdi.core.CDICoreBuilder;
 import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.CDICorePlugin;
-import org.jboss.tools.jst.web.kb.internal.validation.ELValidator;
-import org.jboss.tools.jst.web.kb.internal.validation.ValidatorManager;
+import org.jboss.tools.common.validation.IELValidationDelegate;
+import org.jboss.tools.common.validation.IValidatingProjectTree;
+import org.jboss.tools.jst.web.kb.internal.validation.KBValidator;
 import org.jboss.tools.jst.web.kb.preferences.ELSeverityPreferences;
-import org.jboss.tools.jst.web.kb.validation.IELValidationDelegate;
-import org.jboss.tools.jst.web.kb.validation.IValidatingProjectTree;
 
 /**
  * @author Alexey Kazakov
@@ -51,7 +50,7 @@ public class CDIELValidationDelegate implements IELValidationDelegate {
 
 	private boolean validateBuilderOrder(IProject project) throws CoreException {
 		//It's EL, hence EL preferences, not CDI preferences.
-		return ValidatorManager.validateBuilderOrder(project, getBuilderId(), getID(), ELSeverityPreferences.getInstance()); //$NON-NLS-1$
+		return KBValidator.validateBuilderOrder(project, getBuilderId(), getID(), ELSeverityPreferences.getInstance()); //$NON-NLS-1$
 	}
 
 	public String getID() {
@@ -61,5 +60,4 @@ public class CDIELValidationDelegate implements IELValidationDelegate {
 	public String getBuilderId() {
 		return CDICoreBuilder.BUILDER_ID;
 	}
-
 }

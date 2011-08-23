@@ -14,8 +14,8 @@ import java.util.List;
 
 import org.jboss.tools.cdi.core.test.tck.TCKTest;
 import org.jboss.tools.cdi.internal.core.validation.CDICoreValidator;
-import org.jboss.tools.jst.web.kb.internal.validation.ValidationContext;
-import org.jboss.tools.jst.web.kb.validation.IValidator;
+import org.jboss.tools.common.validation.IValidator;
+import org.jboss.tools.common.validation.ValidationContext;
 
 /**
  * @author Alexey Kazakov

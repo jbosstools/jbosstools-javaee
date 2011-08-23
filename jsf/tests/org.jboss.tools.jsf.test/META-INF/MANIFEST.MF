@@ -44,7 +44,9 @@ Require-Bundle:
  org.eclipse.jst.jee.ejb,
  org.eclipse.jst.jee.web,
  org.eclipse.jst.jsf.common,
- org.jboss.tools.jst.web.kb.test
+ org.jboss.tools.jst.web.kb.test,
+ org.jboss.tools.common.validation,
+ org.jboss.tools.common.base.test
 Bundle-Activator: org.jboss.tools.jsf.plugin.JsfTestPlugin
 Bundle-ActivationPolicy: lazy
 Bundle-Localization: plugin

@@ -15,12 +15,12 @@ import junit.framework.TestSuite;
 
 import org.eclipse.jdt.internal.core.JavaModelManager;
 import org.eclipse.wst.validation.ValidationFramework;
-import org.jboss.tools.cdi.core.test.tck.validation.ValidationExceptionTest;
 import org.jboss.tools.cdi.seam.core.test.international.BundleModelTest;
 import org.jboss.tools.cdi.seam.core.test.international.SeamResourceBundlesTest;
 import org.jboss.tools.cdi.seam.core.test.persistence.SeamPersistenceTest;
 import org.jboss.tools.cdi.seam.core.test.persistence.SeamPersistenceTestSetup;
 import org.jboss.tools.cdi.seam.core.test.servlet.SeamServletValidationTest;
+import org.jboss.tools.common.base.test.validation.ValidationExceptionTest;
 
 /**
  * @author Alexey Kazakov

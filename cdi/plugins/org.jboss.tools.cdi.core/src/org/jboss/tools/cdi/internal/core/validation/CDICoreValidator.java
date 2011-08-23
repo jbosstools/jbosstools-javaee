@@ -94,12 +94,13 @@ import org.jboss.tools.common.model.util.EclipseJavaUtil;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.text.INodeReference;
 import org.jboss.tools.common.text.ITextSourceReference;
-import org.jboss.tools.jst.web.kb.internal.validation.ContextValidationHelper;
-import org.jboss.tools.jst.web.kb.internal.validation.ValidatorManager;
-import org.jboss.tools.jst.web.kb.validation.IProjectValidationContext;
-import org.jboss.tools.jst.web.kb.validation.IValidatingProjectSet;
-import org.jboss.tools.jst.web.kb.validation.IValidatingProjectTree;
-import org.jboss.tools.jst.web.kb.validation.ValidationUtil;
+import org.jboss.tools.common.validation.ContextValidationHelper;
+import org.jboss.tools.common.validation.IProjectValidationContext;
+import org.jboss.tools.common.validation.IValidatingProjectSet;
+import org.jboss.tools.common.validation.IValidatingProjectTree;
+import org.jboss.tools.common.validation.ValidationUtil;
+import org.jboss.tools.common.validation.ValidatorManager;
+import org.jboss.tools.jst.web.kb.internal.validation.KBValidator;
 
 /**
  * @author Alexey Kazakov
@@ -188,7 +189,7 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 	}
 
 	private boolean validateBuilderOrder(IProject project) throws CoreException {
-		return ValidatorManager.validateBuilderOrder(project, getBuilderId(), getId(), CDIPreferences.getInstance());
+		return KBValidator.validateBuilderOrder(project, getBuilderId(), getId(), CDIPreferences.getInstance());
 	}
 
 	/*

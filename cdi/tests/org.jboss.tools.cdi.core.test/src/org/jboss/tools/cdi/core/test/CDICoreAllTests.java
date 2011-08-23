@@ -58,7 +58,7 @@ import org.jboss.tools.cdi.core.test.tck.validation.DeploymentProblemsValidation
 import org.jboss.tools.cdi.core.test.tck.validation.DisableCDISupportTest;
 import org.jboss.tools.cdi.core.test.tck.validation.ELValidationTest;
 import org.jboss.tools.cdi.core.test.tck.validation.IncrementalValidationTest;
-import org.jboss.tools.cdi.core.test.tck.validation.ValidationExceptionTest;
+import org.jboss.tools.common.base.test.validation.ValidationExceptionTest;
 import org.jboss.tools.test.util.ProjectImportTestSetup;
 
 /**

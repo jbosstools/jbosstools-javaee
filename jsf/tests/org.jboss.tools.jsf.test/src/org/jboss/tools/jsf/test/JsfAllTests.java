@@ -15,6 +15,7 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 
 import org.eclipse.jdt.internal.core.JavaModelManager;
+import org.jboss.tools.common.base.test.validation.ValidationProjectTestSetup;
 import org.jboss.tools.jsf.model.pv.test.JSFPromptingProviderTest;
 import org.jboss.tools.jsf.model.pv.test.JsfJbide7975Test;
 import org.jboss.tools.jsf.test.project.facet.JSFFacetOnExistingProjectTest;
@@ -26,7 +27,6 @@ import org.jboss.tools.jsf.test.validation.ELValidatorTest;
 import org.jboss.tools.jsf.test.validation.JSF2ComponentsInClassFolderTest;
 import org.jboss.tools.jsf.test.validation.JSF2ComponentsValidatorTest;
 import org.jboss.tools.jsf.test.validation.WebContentTest;
-import org.jboss.tools.jst.jsp.test.ValidationProjectTestSetup;
 import org.jboss.tools.test.util.ProjectImportTestSetup;
 
 public class JsfAllTests {

@@ -39,18 +39,19 @@ import org.jboss.tools.common.java.IJavaSourceReference;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.text.ITextSourceReference;
+import org.jboss.tools.common.validation.ContextValidationHelper;
+import org.jboss.tools.common.validation.IProjectValidationContext;
+import org.jboss.tools.common.validation.IValidatingProjectSet;
+import org.jboss.tools.common.validation.IValidatingProjectTree;
+import org.jboss.tools.common.validation.IValidator;
+import org.jboss.tools.common.validation.ValidationUtil;
+import org.jboss.tools.common.validation.ValidatorManager;
+import org.jboss.tools.common.validation.internal.SimpleValidatingProjectTree;
+import org.jboss.tools.common.validation.internal.ValidatingProjectSet;
 import org.jboss.tools.jst.web.kb.IKbProject;
 import org.jboss.tools.jst.web.kb.KbProjectFactory;
 import org.jboss.tools.jst.web.kb.internal.KbProject;
-import org.jboss.tools.jst.web.kb.internal.validation.ContextValidationHelper;
-import org.jboss.tools.jst.web.kb.internal.validation.SimpleValidatingProjectTree;
-import org.jboss.tools.jst.web.kb.internal.validation.ValidatingProjectSet;
-import org.jboss.tools.jst.web.kb.internal.validation.ValidatorManager;
-import org.jboss.tools.jst.web.kb.validation.IProjectValidationContext;
-import org.jboss.tools.jst.web.kb.validation.IValidatingProjectSet;
-import org.jboss.tools.jst.web.kb.validation.IValidatingProjectTree;
-import org.jboss.tools.jst.web.kb.validation.IValidator;
-import org.jboss.tools.jst.web.kb.validation.ValidationUtil;
+import org.jboss.tools.jst.web.kb.internal.validation.KBValidator;
 import org.jboss.tools.jst.web.model.project.ext.store.XMLValueInfo;
 import org.jboss.tools.seam.core.BijectedAttributeType;
 import org.jboss.tools.seam.core.IBijectedAttribute;
@@ -201,7 +202,7 @@ public class SeamCoreValidator extends SeamValidationErrorManager implements IVa
 	}
 
 	private boolean validateBuilderOrder(IProject project) throws CoreException {
-		return ValidatorManager.validateBuilderOrder(project, getBuilderId(), getId(), SeamPreferences.getInstance());
+		return KBValidator.validateBuilderOrder(project, getBuilderId(), getId(), SeamPreferences.getInstance());
 	}
 
 	/*

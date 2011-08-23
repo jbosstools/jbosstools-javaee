@@ -23,8 +23,8 @@ import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.seam.config.core.CDISeamConfigPreferences;
 import org.jboss.tools.cdi.seam.config.core.validation.SeamConfigValidationMessages;
+import org.jboss.tools.common.base.test.validation.TestUtil;
 import org.jboss.tools.common.preferences.SeverityPreferences;
-import org.jboss.tools.jst.jsp.test.TestUtil;
 import org.jboss.tools.test.util.ResourcesUtils;
 import org.jboss.tools.tests.AbstractResourceMarkerTest;
 

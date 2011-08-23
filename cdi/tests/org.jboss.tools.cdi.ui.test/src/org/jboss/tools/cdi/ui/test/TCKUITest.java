@@ -17,11 +17,11 @@ import org.jboss.tools.cdi.core.test.tck.TCKTest.PageFileFilter;
 import org.jboss.tools.cdi.core.test.tck.TCKTest.XmlFileFilter;
 import org.jboss.tools.cdi.core.test.tck.validation.CoreValidationTest;
 import org.jboss.tools.common.EclipseUtil;
+import org.jboss.tools.common.base.test.validation.TestUtil;
 import org.jboss.tools.common.java.IParametedType;
 import org.jboss.tools.common.model.util.EclipseJavaUtil;
 import org.jboss.tools.common.util.FileUtil;
-import org.jboss.tools.jst.jsp.test.TestUtil;
-import org.jboss.tools.jst.web.kb.internal.validation.ValidatorManager;
+import org.jboss.tools.common.validation.ValidatorManager;
 import org.jboss.tools.test.util.ResourcesUtils;
 import org.osgi.framework.Bundle;
 

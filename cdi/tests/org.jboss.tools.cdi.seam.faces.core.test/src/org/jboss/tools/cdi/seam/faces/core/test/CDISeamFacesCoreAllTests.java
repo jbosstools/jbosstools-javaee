@@ -15,7 +15,7 @@ import junit.framework.TestSuite;
 
 import org.eclipse.jdt.internal.core.JavaModelManager;
 import org.eclipse.wst.validation.ValidationFramework;
-import org.jboss.tools.cdi.core.test.tck.validation.ValidationExceptionTest;
+import org.jboss.tools.common.base.test.validation.ValidationExceptionTest;
 
 /**
  * @author Alexey Kazakov

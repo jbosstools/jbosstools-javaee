@@ -14,4 +14,6 @@ Require-Bundle: org.jboss.tools.cdi.seam.faces.core,
  org.jboss.tools.cdi.core,
  org.jboss.tools.jst.jsp.base.test,
  org.eclipse.wst.validation,
- org.jboss.tools.cdi.core.test
+ org.jboss.tools.cdi.core.test,
+ org.jboss.tools.common.validation,
+ org.jboss.tools.common.base.test
