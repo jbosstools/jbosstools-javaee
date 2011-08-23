@@ -156,34 +156,35 @@ public class ELRefactorContributionFactory extends AbstractContributionFactory {
 		if(context == null)
 			return null;
 		
-		ELReference[] references = context.getELReferences();
+		ELReference reference = context.getELReference(selection.getOffset());
+		if(reference == null)
+			return null;
+		
 		ELResolver[] resolvers = context.getElResolvers();
 		
-		for(ELReference reference : references){
-			for(ELExpression operand : reference.getEl()){
-				for (ELResolver resolver : resolvers) {
-					if (!(resolver instanceof ELCompletionEngine))
+		for(ELExpression operand : reference.getEl()){
+			for (ELResolver resolver : resolvers) {
+				if (!(resolver instanceof ELCompletionEngine))
+					continue;
+				
+				ELResolution resolution = resolver.resolve(context, operand, selection.getOffset());
+				
+				if(resolution == null)
+					continue;
+				
+				List<ELSegment> segments = resolution.getSegments();
+				
+				for(ELSegment segment : segments){
+					if(!segment.isResolved())
 						continue;
 					
-					ELResolution resolution = resolver.resolve(context, operand, selection.getOffset());
-					
-					if(resolution == null)
-						continue;
-					
-					List<ELSegment> segments = resolution.getSegments();
-					
-					for(ELSegment segment : segments){
-						if(!segment.isResolved())
-							continue;
-						
-						if(selection.getOffset() <= reference.getStartPosition()+segment.getSourceReference().getStartPosition() &&
-								selection.getOffset()+selection.getLength() >= reference.getStartPosition()+segment.getSourceReference().getStartPosition()+segment.getSourceReference().getLength()){
-							if(segment instanceof MessagePropertyELSegment || segment instanceof JavaMemberELSegment)
-								return segment;
-						}
+					if(selection.getOffset() <= reference.getStartPosition()+segment.getSourceReference().getStartPosition() &&
+							selection.getOffset()+selection.getLength() >= reference.getStartPosition()+segment.getSourceReference().getStartPosition()+segment.getSourceReference().getLength()){
+						if(segment instanceof MessagePropertyELSegment || segment instanceof JavaMemberELSegment)
+							return segment;
 					}
-
 				}
+
 			}
 		}
 		return null;
