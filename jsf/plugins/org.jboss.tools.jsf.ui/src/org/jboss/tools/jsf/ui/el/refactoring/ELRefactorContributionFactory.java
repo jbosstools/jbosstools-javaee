@@ -164,9 +164,6 @@ public class ELRefactorContributionFactory extends AbstractContributionFactory {
 		
 		for(ELExpression operand : reference.getEl()){
 			for (ELResolver resolver : resolvers) {
-				if (!(resolver instanceof ELCompletionEngine))
-					continue;
-				
 				ELResolution resolution = resolver.resolve(context, operand, selection.getOffset());
 				
 				if(resolution == null)
