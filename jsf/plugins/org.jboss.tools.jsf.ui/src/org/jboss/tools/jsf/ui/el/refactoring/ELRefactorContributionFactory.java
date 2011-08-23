@@ -173,11 +173,11 @@ public class ELRefactorContributionFactory extends AbstractContributionFactory {
 				
 				for(ELSegment segment : segments){
 					if(!segment.isResolved())
-						continue;
+						break;
 					
 					if(selection.getOffset() <= reference.getStartPosition()+segment.getSourceReference().getStartPosition() &&
-							selection.getOffset()+selection.getLength() >= reference.getStartPosition()+segment.getSourceReference().getStartPosition()+segment.getSourceReference().getLength()){
-						if(segment instanceof MessagePropertyELSegment || segment instanceof JavaMemberELSegment)
+						selection.getOffset()+selection.getLength() >= reference.getStartPosition()+segment.getSourceReference().getStartPosition()+segment.getSourceReference().getLength() &&
+						(segment instanceof MessagePropertyELSegment || segment instanceof JavaMemberELSegment)){
 							return segment;
 					}
 				}
