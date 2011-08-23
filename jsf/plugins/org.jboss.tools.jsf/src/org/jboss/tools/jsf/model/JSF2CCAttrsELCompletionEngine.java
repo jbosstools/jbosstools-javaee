@@ -639,13 +639,8 @@ public class JSF2CCAttrsELCompletionEngine extends AbstractELCompletionEngine<IV
 
 
 	public IRelevanceCheck createRelevanceCheck(IJavaElement element) {
-		return new IRelevanceCheck() {
-			public boolean isRelevant(String content) {
-				return false;
-			}
-		};
+		return IRRELEVANT;
 	}
-
 }
 
 class JSF2CCAttrELSegmentImpl extends ELSegmentImpl {

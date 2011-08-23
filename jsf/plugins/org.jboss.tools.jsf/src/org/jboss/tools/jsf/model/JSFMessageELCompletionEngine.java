@@ -702,11 +702,7 @@ public class JSFMessageELCompletionEngine extends AbstractELCompletionEngine<IVa
 	}
 
 	public IRelevanceCheck createRelevanceCheck(IJavaElement element) {
-		return new IRelevanceCheck() {
-			public boolean isRelevant(String content) {
-				return false;
-			}
-		};
+		return IRRELEVANT;
 	}
 
 }
