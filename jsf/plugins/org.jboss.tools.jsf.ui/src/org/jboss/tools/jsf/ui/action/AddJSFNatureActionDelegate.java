@@ -10,14 +10,30 @@
  ******************************************************************************/ 
 package org.jboss.tools.jsf.ui.action;
 
+import java.util.Set;
+
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.CoreException;
 import org.jboss.tools.common.meta.key.WizardKeys;
 import org.jboss.tools.common.model.ui.util.ExtensionPointUtils;
+import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.preference.PreferenceDialog;
 import org.eclipse.jface.wizard.IWizard;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.dialogs.PreferencesUtil;
+import org.eclipse.wst.common.project.facet.core.IFacetedProject;
+import org.eclipse.wst.common.project.facet.core.IFacetedProjectWorkingCopy;
+import org.eclipse.wst.common.project.facet.core.IProjectFacetVersion;
+import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
+import org.eclipse.wst.common.project.facet.ui.internal.ConvertProjectToFacetedFormRunnable;
+import org.eclipse.wst.common.project.facet.ui.internal.FacetsPropertyPage;
+import org.eclipse.wst.common.project.facet.ui.internal.SharedWorkingCopyManager;
 import org.jboss.tools.common.model.ui.ModelUIPlugin;
 import org.jboss.tools.common.model.ui.action.AddNatureActionDelegate;
+import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.jsf.JSFModelPlugin;
 import org.jboss.tools.jsf.project.JSFNature;
+import org.jboss.tools.jsf.ui.JsfUiPlugin;
 import org.jboss.tools.jsf.ui.wizard.project.ImportProjectWizard;
 
 public class AddJSFNatureActionDelegate extends AddNatureActionDelegate {
@@ -39,4 +55,56 @@ public class AddJSFNatureActionDelegate extends AddNatureActionDelegate {
 		return JSFNature.NATURE_ID;
 	}
 	
+	public void run(IAction action) {
+		ConvertProjectToFacetedFormRunnable.runInProgressDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), project);
+		try {
+			IFacetedProject fp = ProjectFacetsManager.create(project);
+			IFacetedProjectWorkingCopy wc = SharedWorkingCopyManager.getWorkingCopy(fp);
+
+			Set<IProjectFacetVersion> vs = wc.getProjectFacets();
+			IProjectFacetVersion web = null;
+			IProjectFacetVersion jsf = null;
+			for (IProjectFacetVersion v: vs) {
+				String id = v.getProjectFacet().getId();
+				if("jst.web".equals(id)) {
+					web = v;
+				} else if("jst.jsf".equals(id)) {
+					jsf = v;
+				}
+			}
+			
+			if(web != null && jsf != null && wc.validate().isOK()) {
+				EclipseResourceUtil.addNatureToProject(project, JSFNature.NATURE_ID);
+				SharedWorkingCopyManager.releaseWorkingCopy(fp);
+				return;
+			}
+
+			if(web == null) {
+				web = ProjectFacetsManager.getProjectFacet("jst.web").getLatestVersion();
+				wc.addProjectFacet(web);
+			}
+			String webVersion = web.getVersionString();
+			if("2.2".equals(webVersion)) {
+				web = ProjectFacetsManager.getProjectFacet("jst.web").getVersion("2.3");
+				wc.changeProjectFacetVersion(web);
+				webVersion = web.getVersionString();
+			}
+			if(jsf == null) {
+				jsf = ProjectFacetsManager.getProjectFacet("jst.jsf").getLatestVersion();
+				if("2.3".equals(webVersion) || "2.4".equals(webVersion)) {
+					jsf = ProjectFacetsManager.getProjectFacet("jst.jsf").getVersion("1.1");
+				}
+				wc.addProjectFacet(jsf);
+			}
+
+			PreferenceDialog dialog = PreferencesUtil.createPropertyDialogOn(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), project, FacetsPropertyPage.ID, new String[] {FacetsPropertyPage.ID}, null);
+			dialog.open();
+
+			SharedWorkingCopyManager.releaseWorkingCopy(fp);
+		} catch (CoreException e) {
+			JsfUiPlugin.getDefault().logError(e);
+		}
+
+	}
+
 }
