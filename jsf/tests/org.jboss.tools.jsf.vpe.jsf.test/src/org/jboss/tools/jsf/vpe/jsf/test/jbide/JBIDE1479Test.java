@@ -10,8 +10,11 @@
 ******************************************************************************/
 package org.jboss.tools.jsf.vpe.jsf.test.jbide;
 
+import java.io.IOException;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.WorkspaceJob;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
@@ -60,16 +63,15 @@ public class JBIDE1479Test extends VpeTest {
 		
 		Job job = new WorkspaceJob("Test JBIDE-1479"){ //$NON-NLS-1$
 			
-            @Override
+			@Override
 			public IStatus runInWorkspace(IProgressMonitor monitor) {
-                try {
-                    new FormatProcessorXML().formatFile(file);
-                }catch (Throwable exception){
-                /*
-                 * Here we test JBIDE-1479, if eclipse crashed we won't get any
-                 *  exception, so we just ignore it's.
-                 */
-                } 
+				try {
+					new FormatProcessorXML().formatFile(file);
+				} catch (CoreException e) {
+					TestUtil.fail(e);
+				} catch (IOException e) {
+					TestUtil.fail(e);
+				}
                 return Status.OK_STATUS;
             } 
 		};
