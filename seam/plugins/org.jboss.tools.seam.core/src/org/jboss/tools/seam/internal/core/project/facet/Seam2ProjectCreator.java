@@ -68,7 +68,8 @@ public class Seam2ProjectCreator extends SeamProjectCreator {
 		.include("jboss-deployers.jar") //$NON-NLS-1$
 		.include("test/thirdparty-all\\.jar") //$NON-NLS-1$
 		.include("thirdparty-all\\.jar") //$NON-NLS-1$
-		.include("core.jar") //$NON-NLS-1$
+		.include("core.*\\.jar") //$NON-NLS-1$
+		.include("ecj.*\\.jar") //$NON-NLS-1$
 		.exclude(".*/CVS") //$NON-NLS-1$
 		.exclude(".*/\\.svn"); //$NON-NLS-1$
 
