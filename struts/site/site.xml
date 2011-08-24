@@ -8,7 +8,7 @@
 	<feature url="features/org.jboss.tools.struts.feature_0.0.0.jar" id="org.jboss.tools.struts.feature" version="0.0.0">
 		<category name="JBoss Tools struts Nightly Build Update Site"/>
 	</feature>
-	<feature url="features/org.jboss.tools.struts.tests.feature_0.0.0.jar" id="org.jboss.tools.struts.tests.feature" version="0.0.0">
+	<feature url="features/org.jboss.tools.struts.test.feature_0.0.0.jar" id="org.jboss.tools.struts.test.feature" version="0.0.0">
 		<category name="JBoss Tools struts Nightly Build Update Site"/>
 	</feature>
 
