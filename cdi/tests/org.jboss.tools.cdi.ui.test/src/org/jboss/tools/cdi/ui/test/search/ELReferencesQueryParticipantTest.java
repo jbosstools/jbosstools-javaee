@@ -41,4 +41,47 @@ public class ELReferencesQueryParticipantTest extends TCKUITest{
 				new ELReferencesQueryParticipant(),
 				matches);
 	}
+	
+	public void testELReferencesQueryParticipantForType2() throws CoreException{
+		ArrayList<MatchStructure> matches = new ArrayList<MatchStructure>();
+		
+		matches.add(new MatchStructure("/tck/WebContent/search.jsp", "mySearchableBean"));
+		
+		QueryParticipantTestUtils.testSearchParticipant(tckProject,
+				"JavaSource/org/jboss/jsr299/tck/tests/jbt/search/MySearchableBean.java",
+				QueryParticipantTestUtils.TYPE_SEARCH,
+				"MySearchableBean",
+				"",
+				new ELReferencesQueryParticipant(),
+				matches);
+	}
+	
+	public void testELReferencesQueryParticipantForMethod2() throws CoreException{
+		ArrayList<MatchStructure> matches = new ArrayList<MatchStructure>();
+		
+		matches.add(new MatchStructure("/tck/WebContent/search.jsp", "sFoo1"));
+		
+		QueryParticipantTestUtils.testSearchParticipant(tckProject,
+				"JavaSource/org/jboss/jsr299/tck/tests/jbt/search/MySearchableBean.java",
+				QueryParticipantTestUtils.METHOD_SEARCH,
+				"sFoo1",
+				"",
+				new ELReferencesQueryParticipant(),
+				matches);
+	}
+
+	public void testELReferencesQueryParticipantForField() throws CoreException{
+		ArrayList<MatchStructure> matches = new ArrayList<MatchStructure>();
+		
+		matches.add(new MatchStructure("/tck/WebContent/search.jsp", "sFoo"));
+		
+		QueryParticipantTestUtils.testSearchParticipant(tckProject,
+				"JavaSource/org/jboss/jsr299/tck/tests/jbt/search/MySearchableBean.java",
+				QueryParticipantTestUtils.FIELD_SEARCH,
+				"sFoo",
+				"",
+				new ELReferencesQueryParticipant(),
+				matches);
+	}
+
 }
