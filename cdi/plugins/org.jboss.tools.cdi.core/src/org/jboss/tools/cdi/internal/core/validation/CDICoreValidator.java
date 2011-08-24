@@ -212,6 +212,8 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 			}
 			dependencies = nature.getDefinitions().getAllDependencies();
 			injectionValidationFeatures = nature.getExtensionManager().getFeatures(IInjectionPointValidatorFeature.class);
+		} else {
+			CDICorePlugin.getDefault().logError("Trying to validate " + rootProject + " but there is no CDI Nature in the project.");
 		}
 		projectName = projectSet.getRootProject().getName();
 		sourceFolders = null;
@@ -327,7 +329,11 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 	public IStatus validateAll(IProject project, ContextValidationHelper validationHelper, IProjectValidationContext context, ValidatorManager manager, IReporter reporter)
 			throws ValidationException {
 		init(project, validationHelper, context, manager, reporter);
-		
+
+		if (cdiProject == null) {
+			return OK_STATUS;
+		}
+
 		displaySubtask(CDIValidationMessages.VALIDATING_PROJECT, new String[] { projectName });
 
 		Set<IFile> filesToValidate = new HashSet<IFile>();
