@@ -17,6 +17,7 @@ import org.eclipse.jdt.core.IType;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.CDICorePlugin;
+import org.jboss.tools.cdi.core.CDIUtil;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.IClassBean;
@@ -31,6 +32,7 @@ import org.jboss.tools.common.java.IAnnotationDeclaration;
 import org.jboss.tools.jst.web.kb.IKbProject;
 import org.jboss.tools.jst.web.kb.KbProjectFactory;
 import org.jboss.tools.jst.web.kb.internal.KbProject;
+import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.ResourcesUtils;
 
 /**
@@ -317,6 +319,26 @@ public class DependentProjectTest extends TestCase {
 		assertEquals("org.jboss.cdi.test.example.Example", producerType.getFullyQualifiedName());
 		assertEquals("org.jboss.cdi.test.example.Example", injectionType.getFullyQualifiedName());
 		assertFalse(producerType.equals(injectionType));
+	}
+
+	public void testSwitchingCDICapabilities() throws CoreException {
+		CDICoreNature n1 = CDICorePlugin.getCDI(project1, true);
+		CDICoreNature n2 = CDICorePlugin.getCDI(project2, true);
+		CDICoreNature n3 = CDICorePlugin.getCDI(project3, true);
+		assertTrue(n1.getDependentProjects().contains(n2));
+		assertTrue(n3.getCDIProjects().contains(n2));
+		
+		CDIUtil.disableCDI(project2);
+		JobUtils.waitForIdle();
+		assertTrue(n1.getDependentProjects().isEmpty());
+		assertTrue(n3.getCDIProjects().isEmpty());
+
+		CDIUtil.enableCDI(project2, false, new NullProgressMonitor());
+		JobUtils.waitForIdle();
+		n2 = CDICorePlugin.getCDI(project2, true);
+		assertTrue(n1.getDependentProjects().contains(n2));
+		assertTrue(n3.getCDIProjects().contains(n2));
+
 	}
 
 	public void testCleanDependentProject() throws CoreException, IOException {
