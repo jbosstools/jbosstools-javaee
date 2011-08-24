@@ -17,7 +17,7 @@ import org.eclipse.jface.preference.IPersistentPreferenceStore;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.internal.core.validation.CDICoreValidator;
-import org.jboss.tools.cdi.internal.core.validation.CDIProjectSet;
+import org.jboss.tools.cdi.internal.core.validation.CDIProjectTree;
 import org.jboss.tools.common.preferences.SeverityPreferences;
 import org.jboss.tools.common.validation.IValidator;
 import org.jboss.tools.common.validation.ValidationContext;
@@ -65,7 +65,7 @@ public class CoreValidationTest extends ValidationTest {
 	 * https://issues.jboss.org/browse/JBIDE-7946
 	 */
 	public void testAllRelatedProjectsIncluded() {
-		CDIProjectSet set = new CDIProjectSet(tckProject);
+		CDIProjectTree set = new CDIProjectTree(tckProject);
 		assertTrue("TCKProject is not included in the set of CDI projects", set.getAllProjects().contains(tckProject));
 	}
 
