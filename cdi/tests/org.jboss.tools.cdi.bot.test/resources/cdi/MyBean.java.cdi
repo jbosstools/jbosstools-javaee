@@ -1,0 +1,16 @@
+package org.cdi.test;
+import javax.enterprise.inject.Produces;
+import javax.inject.Inject;
+public class MyBean {
+
+	@Inject
+	public MyBean(String aaa) {
+		// TODO Auto-generated constructor stub
+	}
+	
+	@Produces
+	public String produceString(String aa) {
+		return "test";
+	}
+
+}

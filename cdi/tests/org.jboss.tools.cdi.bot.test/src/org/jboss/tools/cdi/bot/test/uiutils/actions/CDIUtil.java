@@ -73,7 +73,7 @@ public class CDIUtil {
 		ed.setText(ed.getText().replace(target + 
 				(replacement.equals("")?System.getProperty("line.separator"):""), 
 				 replacement));
-		bot.sleep(Timing.time3S());
+		bot.sleep(Timing.time1S());
 		ed.save();
 	}
 	
