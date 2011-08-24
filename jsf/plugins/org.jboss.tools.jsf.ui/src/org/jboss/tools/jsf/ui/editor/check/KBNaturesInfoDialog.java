@@ -30,6 +30,7 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.internal.views.markers.MarkerSupportInternalUtilities;
 import org.eclipse.ui.views.markers.internal.MarkerMessages;
+import org.jboss.tools.common.model.options.Preference;
 import org.jboss.tools.jsf.ui.JsfUIMessages;
 import org.jboss.tools.jsf.ui.JsfUiPlugin;
 import org.jboss.tools.jsf.ui.editor.check.wizards.QuickFixWizard;
@@ -118,9 +119,8 @@ public class KBNaturesInfoDialog extends ProjectNaturesInfoDialog {
 	@Override
 	protected void skipButtonPressed() {
 		try {
-			project.setPersistentProperty(
-					ProjectNaturesChecker.IS_KB_NATURES_CHECK_NEED,
-					Boolean.toString(!isRemember));
+			String value = !isRemember ? "yes" : "no";
+			Preference.SHOW_NATURE_WARNING.setValue(value);
 		} catch (CoreException e) {
 		}
 	}

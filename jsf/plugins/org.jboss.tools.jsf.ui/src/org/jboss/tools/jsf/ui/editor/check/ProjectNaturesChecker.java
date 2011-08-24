@@ -25,6 +25,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IWindowListener;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
+import org.jboss.tools.common.model.options.Preference;
 import org.jboss.tools.common.reporting.ProblemReportingHelper;
 import org.jboss.tools.jsf.ui.JsfUIMessages;
 import org.jboss.tools.jst.jsp.JspEditorPlugin;
@@ -43,10 +44,6 @@ public class ProjectNaturesChecker implements IResourceChangeListener {
 
 	private ProjectNaturesPartListener partListener = new ProjectNaturesPartListener();
 	private static final String SEARCH_CLASS = "javax.faces.webapp.FacesServlet"; //$NON-NLS-1$
-	public static final QualifiedName IS_JSF_NATURES_CHECK_NEED = new QualifiedName(
-			"", JsfUIMessages.IS_JSF_NATURE_CHECK_NEED); //$NON-NLS-1$
-	public static final QualifiedName IS_KB_NATURES_CHECK_NEED = new QualifiedName(
-			"", JsfUIMessages.IS_KB_NATURE_CHECK_NEED); //$NON-NLS-1$
 	public static final QualifiedName IS_JSF_CHECK_NEED = new QualifiedName(
 			"", JsfUIMessages.IS_JSF_CHECK_NEED); //$NON-NLS-1$
 	private Set<IProject> projectsCollection;
@@ -86,9 +83,7 @@ public class ProjectNaturesChecker implements IResourceChangeListener {
 	public void checkNatures(IProject project) throws CoreException {
 		if (project != null && project.isAccessible()) {
 			addProject(project);
-			updateProjectPersistentProperties(project);
-			boolean isKBNaturesCheck = Boolean.parseBoolean(project
-					.getPersistentProperty(IS_KB_NATURES_CHECK_NEED));
+			boolean isKBNaturesCheck = Preference.SHOW_NATURE_WARNING.getValue().equals("yes");
 			KbProject.checkKBBuilderInstalled(project);
 			String missingNature = checkMissingNatures(project);
 			if (missingNature != null) {
@@ -127,19 +122,6 @@ public class ProjectNaturesChecker implements IResourceChangeListener {
 						ProblemReportingHelper.reportProblem(JspEditorPlugin.PLUGIN_ID, e);
 					}
 				}
-			}
-		}
-	}
-
-	private void updateProjectPersistentProperties(IProject project)
-			throws CoreException {
-		if (project.isAccessible()) {
-			updateProjectJSFPersistents(project);
-			if (project.getPersistentProperty(IS_JSF_NATURES_CHECK_NEED) == null) {
-				project.setPersistentProperty(IS_JSF_NATURES_CHECK_NEED, Boolean.TRUE.toString());
-			}
-			if (project.getPersistentProperty(IS_KB_NATURES_CHECK_NEED) == null) {
-				project.setPersistentProperty(IS_KB_NATURES_CHECK_NEED, Boolean.TRUE.toString());
 			}
 		}
 	}

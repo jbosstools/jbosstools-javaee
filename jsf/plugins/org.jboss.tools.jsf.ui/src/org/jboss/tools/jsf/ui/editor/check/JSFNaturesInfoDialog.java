@@ -17,6 +17,7 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.ui.PlatformUI;
+import org.jboss.tools.common.model.options.Preference;
 import org.jboss.tools.jsf.ui.JsfUIMessages;
 import org.jboss.tools.jsf.ui.editor.check.wizards.AddJSFCapabilitiesWizard;
 
@@ -53,9 +54,8 @@ public class JSFNaturesInfoDialog extends ProjectNaturesInfoDialog {
 	@Override
 	protected void skipButtonPressed() {
 		try {
-			project.setPersistentProperty(
-					ProjectNaturesChecker.IS_JSF_NATURES_CHECK_NEED,
-					Boolean.toString(!isRemember));
+			String value = !isRemember ? "yes" : "no";
+			Preference.SHOW_NATURE_WARNING.setValue(value);
 		} catch (CoreException e) {
 		}
 	}

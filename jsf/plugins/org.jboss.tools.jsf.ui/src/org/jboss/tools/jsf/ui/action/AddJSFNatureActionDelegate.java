@@ -14,6 +14,7 @@ import java.util.Set;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.jboss.tools.common.meta.key.WizardKeys;
 import org.jboss.tools.common.model.ui.util.ExtensionPointUtils;
 import org.eclipse.jface.action.IAction;
@@ -37,6 +38,13 @@ import org.jboss.tools.jsf.ui.JsfUiPlugin;
 import org.jboss.tools.jsf.ui.wizard.project.ImportProjectWizard;
 
 public class AddJSFNatureActionDelegate extends AddNatureActionDelegate {
+	boolean showDialog = true;
+	
+	public AddJSFNatureActionDelegate() {}
+	
+	public AddJSFNatureActionDelegate(boolean showDialog) {
+		this.showDialog = showDialog;
+	}
 	
 	protected IWizard getWizard(IProject project) {
 		ImportProjectWizard wizard = (ImportProjectWizard)ExtensionPointUtils.findImportWizardsItem(
@@ -97,8 +105,12 @@ public class AddJSFNatureActionDelegate extends AddNatureActionDelegate {
 				wc.addProjectFacet(jsf);
 			}
 
-			PreferenceDialog dialog = PreferencesUtil.createPropertyDialogOn(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), project, FacetsPropertyPage.ID, new String[] {FacetsPropertyPage.ID}, null);
-			dialog.open();
+			if(!showDialog) {
+				wc.commitChanges(new NullProgressMonitor());
+			} else {
+				PreferenceDialog dialog = PreferencesUtil.createPropertyDialogOn(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), project, FacetsPropertyPage.ID, new String[] {FacetsPropertyPage.ID}, null);
+				dialog.open();
+			}
 
 			SharedWorkingCopyManager.releaseWorkingCopy(fp);
 		} catch (CoreException e) {
