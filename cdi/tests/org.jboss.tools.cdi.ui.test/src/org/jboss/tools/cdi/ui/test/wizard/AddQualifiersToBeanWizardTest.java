@@ -18,13 +18,15 @@ import org.jboss.tools.cdi.ui.test.testmodel.CDIBean;
 import org.jboss.tools.cdi.ui.test.testmodel.CDIInjectionPoint;
 import org.jboss.tools.cdi.ui.test.testmodel.CDIProject;
 import org.jboss.tools.cdi.ui.wizard.AddQualifiersToBeanWizard;
+import org.jboss.tools.cdi.ui.wizard.xpl.AddQualifiersToBeanComposite.ValuedQualifier;
 
 
 public class AddQualifiersToBeanWizardTest extends TestCase{
 	private AddQualifiersToBeanWizard wizard;
 	private WizardDialog dialog;
 	private ICDIProject project;
-	private ArrayList<IQualifier> availableCheck, deployedCheck;
+	private ArrayList<ValuedQualifier> availableCheck;
+	private ArrayList<ValuedQualifier> deployedCheck;
 	
 	@Override
 	protected void setUp() throws Exception {
@@ -39,20 +41,20 @@ public class AddQualifiersToBeanWizardTest extends TestCase{
 		ArrayList<IBean> beans = new ArrayList<IBean>();
 		beans.add(bean);
 		
-		availableCheck = new ArrayList<IQualifier>();
+		availableCheck = new ArrayList<ValuedQualifier>();
 		
-		availableCheck.add(project.getQualifier(CDIConstants.NAMED_QUALIFIER_TYPE_NAME));
-		availableCheck.add(project.getQualifier(CDIConstants.NEW_QUALIFIER_TYPE_NAME));
-		availableCheck.add(project.getQualifier(CDIProject.QUALIFIER1));
-		availableCheck.add(project.getQualifier(CDIProject.QUALIFIER2));
-		availableCheck.add(project.getQualifier(CDIProject.QUALIFIER3));
-		availableCheck.add(project.getQualifier(CDIProject.QUALIFIER4));
-		availableCheck.add(project.getQualifier(CDIProject.QUALIFIER5));
+		availableCheck.add(new ValuedQualifier(project.getQualifier(CDIConstants.NAMED_QUALIFIER_TYPE_NAME)));
+		availableCheck.add(new ValuedQualifier(project.getQualifier(CDIConstants.NEW_QUALIFIER_TYPE_NAME)));
+		availableCheck.add(new ValuedQualifier(project.getQualifier(CDIProject.QUALIFIER1)));
+		availableCheck.add(new ValuedQualifier(project.getQualifier(CDIProject.QUALIFIER2)));
+		availableCheck.add(new ValuedQualifier(project.getQualifier(CDIProject.QUALIFIER3)));
+		availableCheck.add(new ValuedQualifier(project.getQualifier(CDIProject.QUALIFIER4)));
+		availableCheck.add(new ValuedQualifier(project.getQualifier(CDIProject.QUALIFIER5)));
 		
-		deployedCheck = new ArrayList<IQualifier>();
+		deployedCheck = new ArrayList<ValuedQualifier>();
 		
-		deployedCheck.add(project.getQualifier(CDIConstants.ANY_QUALIFIER_TYPE_NAME));
-		deployedCheck.add(project.getQualifier(CDIConstants.DEFAULT_QUALIFIER_TYPE_NAME));
+		deployedCheck.add(new ValuedQualifier(project.getQualifier(CDIConstants.ANY_QUALIFIER_TYPE_NAME)));
+		deployedCheck.add(new ValuedQualifier(project.getQualifier(CDIConstants.DEFAULT_QUALIFIER_TYPE_NAME)));
 
 		
 		Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
@@ -69,14 +71,25 @@ public class AddQualifiersToBeanWizardTest extends TestCase{
 		super.tearDown();
 	}
 	
-	private void checkQualifierLists(List<IQualifier> checkQualifiers, List<IQualifier> actualQualifiers){
-		for(IQualifier q : checkQualifiers){
-			if(!actualQualifiers.contains(q))
-				fail("Qualifier - "+q.getSourceType().getFullyQualifiedName()+" not found");
+	private void checkQualifierLists(List<ValuedQualifier> checkQualifiers, List<IQualifier> actualQualifiers){
+		for(ValuedQualifier vq : checkQualifiers){
+			if(!actualQualifiers.contains(vq.getQualifier()))
+				fail("Qualifier - "+vq.getQualifier().getSourceType().getFullyQualifiedName()+" not found");
 		}
 		for(IQualifier q : actualQualifiers){
-			if(!checkQualifiers.contains(q))
+			if(!checkQualifiers.contains(new ValuedQualifier(q)))
 				fail("Wrong Qualifier - "+q.getSourceType().getFullyQualifiedName()+" found");
+		}
+	}
+
+	private void checkValuedQualifierLists(List<ValuedQualifier> checkQualifiers, List<ValuedQualifier> actualQualifiers){
+		for(ValuedQualifier vq : checkQualifiers){
+			if(!actualQualifiers.contains(vq))
+				fail("Qualifier - "+vq.getQualifier().getSourceType().getFullyQualifiedName()+" not found");
+		}
+		for(ValuedQualifier q : actualQualifiers){
+			if(!checkQualifiers.contains(q))
+				fail("Wrong Qualifier - "+q.getQualifier().getSourceType().getFullyQualifiedName()+" found");
 		}
 	}
 	
@@ -85,13 +98,13 @@ public class AddQualifiersToBeanWizardTest extends TestCase{
 		
 		checkQualifierLists(availableCheck, available);
 		
-		List<IQualifier> deployed = wizard.getDeployedQualifiers();
+		List<ValuedQualifier> deployed = wizard.getDeployedQualifiers();
 
-		checkQualifierLists(deployedCheck, deployed);
+		checkValuedQualifierLists(deployedCheck, deployed);
 		
 		// Deploy qualifier
-		IQualifier qualifier = project.getQualifier(CDIProject.QUALIFIER1);
-		IQualifier defaultQualifier = project.getQualifier(CDIConstants.DEFAULT_QUALIFIER_TYPE_NAME);
+		ValuedQualifier qualifier = new ValuedQualifier(project.getQualifier(CDIProject.QUALIFIER1));
+		ValuedQualifier defaultQualifier = new ValuedQualifier(project.getQualifier(CDIConstants.DEFAULT_QUALIFIER_TYPE_NAME));
 		
 		wizard.deploy(qualifier);
 		
@@ -105,7 +118,7 @@ public class AddQualifiersToBeanWizardTest extends TestCase{
 		deployedCheck.add(qualifier);
 		deployedCheck.remove(defaultQualifier);
 		
-		checkQualifierLists(deployedCheck, deployed);
+		checkValuedQualifierLists(deployedCheck, deployed);
 	}
 	
 	public void testAddAndRemoveQualifier(){
@@ -113,13 +126,13 @@ public class AddQualifiersToBeanWizardTest extends TestCase{
 		
 		checkQualifierLists(availableCheck, available);
 		
-		List<IQualifier> deployed = wizard.getDeployedQualifiers();
+		List<ValuedQualifier> deployed = wizard.getDeployedQualifiers();
 
-		checkQualifierLists(deployedCheck, deployed);
+		checkValuedQualifierLists(deployedCheck, deployed);
 		
 		// Deploy qualifier
-		IQualifier qualifier = project.getQualifier(CDIProject.QUALIFIER2);
-		IQualifier defaultQualifier = project.getQualifier(CDIConstants.DEFAULT_QUALIFIER_TYPE_NAME);
+		ValuedQualifier qualifier = new ValuedQualifier(project.getQualifier(CDIProject.QUALIFIER2));
+		ValuedQualifier defaultQualifier = new ValuedQualifier(project.getQualifier(CDIConstants.DEFAULT_QUALIFIER_TYPE_NAME));
 		
 		wizard.deploy(qualifier);
 		
@@ -133,7 +146,7 @@ public class AddQualifiersToBeanWizardTest extends TestCase{
 		deployedCheck.add(qualifier);
 		deployedCheck.remove(defaultQualifier);
 		
-		checkQualifierLists(deployedCheck, deployed);
+		checkValuedQualifierLists(deployedCheck, deployed);
 		
 		// Remove qualifier
 		wizard.remove(qualifier);
@@ -148,7 +161,7 @@ public class AddQualifiersToBeanWizardTest extends TestCase{
 		deployedCheck.remove(qualifier);
 		deployedCheck.add(defaultQualifier);
 		
-		checkQualifierLists(deployedCheck, deployed);
+		checkValuedQualifierLists(deployedCheck, deployed);
 	}
 	
 	public void testAddNamedQualifier(){
@@ -156,12 +169,12 @@ public class AddQualifiersToBeanWizardTest extends TestCase{
 		
 		checkQualifierLists(availableCheck, available);
 		
-		List<IQualifier> deployed = wizard.getDeployedQualifiers();
+		List<ValuedQualifier> deployed = wizard.getDeployedQualifiers();
 
-		checkQualifierLists(deployedCheck, deployed);
+		checkValuedQualifierLists(deployedCheck, deployed);
 		
 		// Deploy @Named qualifier
-		IQualifier named = project.getQualifier(CDIConstants.NAMED_QUALIFIER_TYPE_NAME); 
+		ValuedQualifier named = new ValuedQualifier(project.getQualifier(CDIConstants.NAMED_QUALIFIER_TYPE_NAME)); 
 		
 		wizard.deploy(named);
 		
@@ -174,7 +187,7 @@ public class AddQualifiersToBeanWizardTest extends TestCase{
 		
 		deployedCheck.add(named);
 		
-		checkQualifierLists(deployedCheck, deployed);
+		checkValuedQualifierLists(deployedCheck, deployed);
 	}
 
 }

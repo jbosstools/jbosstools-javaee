@@ -30,6 +30,7 @@ import org.jboss.tools.cdi.core.IQualifier;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
 import org.jboss.tools.cdi.ui.wizard.AddQualifiersToBeanWizard;
 import org.jboss.tools.cdi.ui.wizard.xpl.AddQualifiersToBeanComposite;
+import org.jboss.tools.cdi.ui.wizard.xpl.AddQualifiersToBeanComposite.ValuedQualifier;
 
 /**
  * @author Daniel Azarov
@@ -65,7 +66,7 @@ public class MakeInjectedPointUnambiguousMarkerResolution implements IMarkerReso
 			AddQualifiersToBeanWizard wizard = new AddQualifiersToBeanWizard(injectionPoint, beans, selectedBean);
 			WizardDialog dialog = new WizardDialog(shell, wizard);
 			
-			List<IQualifier> deployed;
+			List<ValuedQualifier> deployed;
 			
 			if(test){
 				dialog.setBlockOnOpen(false);
@@ -78,7 +79,7 @@ public class MakeInjectedPointUnambiguousMarkerResolution implements IMarkerReso
 				for(IQualifier qualifier : qualifiers){
 					if(wizard.checkBeans())
 						break;
-					wizard.deploy(qualifier);
+					wizard.deploy(new ValuedQualifier(qualifier));
 				}
 				deployed = wizard.getDeployedQualifiers();
 				wizard.performCancel();

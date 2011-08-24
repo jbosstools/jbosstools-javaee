@@ -34,7 +34,7 @@ public class AddQualifiersToBeanWizardPage extends WizardPage{
 		setControl(composite);
 	}
 	
-	public ArrayList<IQualifier> getDeployedQualifiers(){
+	public ArrayList<ValuedQualifier> getDeployedQualifiers(){
 		return composite.getDeployedQualifiers();
 	}
 
@@ -46,12 +46,12 @@ public class AddQualifiersToBeanWizardPage extends WizardPage{
 		composite.init(bean);
 	}
 	
-	public void deploy(IQualifier qualifier){
-		composite.deploy(new ValuedQualifier(qualifier));
+	public void deploy(ValuedQualifier qualifier){
+		composite.deploy(qualifier);
 	}
 
-	public void remove(IQualifier qualifier){
-		composite.remove(new ValuedQualifier(qualifier));
+	public void remove(ValuedQualifier qualifier){
+		composite.remove(qualifier);
 	}
 	
 	public boolean checkBeans(){

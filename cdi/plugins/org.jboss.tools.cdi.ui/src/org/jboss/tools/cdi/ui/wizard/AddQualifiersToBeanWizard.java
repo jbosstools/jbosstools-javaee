@@ -16,6 +16,7 @@ import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.core.IQualifier;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
+import org.jboss.tools.cdi.ui.wizard.xpl.AddQualifiersToBeanComposite.ValuedQualifier;
 import org.jboss.tools.common.model.ui.ModelUIImages;
 
 public class AddQualifiersToBeanWizard extends AbstractModifyInjectionPointWizard{
@@ -38,7 +39,7 @@ public class AddQualifiersToBeanWizard extends AbstractModifyInjectionPointWizar
 		return true;
 	}
 	
-	public List<IQualifier> getDeployedQualifiers(){
+	public List<ValuedQualifier> getDeployedQualifiers(){
 		return page.getDeployedQualifiers();
 	}
 	
@@ -46,11 +47,11 @@ public class AddQualifiersToBeanWizard extends AbstractModifyInjectionPointWizar
 		return page.getAvailableQualifiers();
 	}
 	
-	public void deploy(IQualifier qualifier){
+	public void deploy(ValuedQualifier qualifier){
 		page.deploy(qualifier);
 	}
 
-	public void remove(IQualifier qualifier){
+	public void remove(ValuedQualifier qualifier){
 		page.remove(qualifier);
 	}
 	

@@ -27,6 +27,7 @@ import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.core.IQualifier;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
 import org.jboss.tools.cdi.ui.wizard.SelectBeanWizard;
+import org.jboss.tools.cdi.ui.wizard.xpl.AddQualifiersToBeanComposite.ValuedQualifier;
 
 /**
  * @author Daniel Azarov
@@ -60,7 +61,7 @@ public class SelectBeanMarkerResolution implements IMarkerResolution2, TestableR
 		WizardDialog dialog = new WizardDialog(shell, wizard);
 		
 		IBean selectedBean = null;
-		List<IQualifier> deployed;
+		List<ValuedQualifier> deployed;
 		
 		if(test){
 			if(beans.isEmpty())
@@ -80,7 +81,7 @@ public class SelectBeanMarkerResolution implements IMarkerResolution2, TestableR
 			for(IQualifier qualifier : qualifiers){
 				if(wizard.checkBeans())
 					break;
-				wizard.deploy(qualifier);
+				wizard.deploy(new ValuedQualifier(qualifier));
 			}
 			deployed = wizard.getDeployedQualifiers();
 			wizard.performCancel();

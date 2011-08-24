@@ -43,6 +43,7 @@ import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.core.IQualifier;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
 import org.jboss.tools.cdi.ui.marker.MarkerResolutionUtils;
+import org.jboss.tools.cdi.ui.wizard.xpl.AddQualifiersToBeanComposite.ValuedQualifier;
 import org.jboss.tools.common.model.ui.ModelUIImages;
 
 public class SelectBeanWizard extends AbstractModifyInjectionPointWizard{
@@ -62,7 +63,7 @@ public class SelectBeanWizard extends AbstractModifyInjectionPointWizard{
     	addPage(page);
     }
     
-	public java.util.List<IQualifier> getDeployedQualifiers(){
+	public java.util.List<ValuedQualifier> getDeployedQualifiers(){
 		return page.getDeployedQualifiers();
 	}
 	
@@ -74,7 +75,7 @@ public class SelectBeanWizard extends AbstractModifyInjectionPointWizard{
 		page.init(bean);
 	}
 	
-	public void deploy(IQualifier qualifier){
+	public void deploy(ValuedQualifier qualifier){
 		page.deploy(qualifier);
 	}
 	

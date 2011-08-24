@@ -167,6 +167,38 @@ public class MarkerResolutionUtils {
 		addAnnotation(qualifiedName, compilationUnit, element, "");
 	}
 	
+	public static void updateAnnotation(String qualifiedName, ICompilationUnit compilationUnit, IJavaElement element, String params) throws JavaModelException{
+		IJavaElement workingCopyElement = findWorkingCopy(compilationUnit, element);
+		if(workingCopyElement == null)
+			return;
+		
+		if(!(workingCopyElement instanceof IMember))
+			return;
+		
+		IMember workingCopyMember = (IMember) workingCopyElement;
+		
+		IAnnotation annotation = findAnnotation(workingCopyMember, qualifiedName);
+		if(annotation == null || !annotation.exists())
+			return;
+		
+		boolean duplicateShortName = addImport(qualifiedName, compilationUnit);
+		
+		IBuffer buffer = compilationUnit.getBuffer();
+		String shortName = getShortName(qualifiedName);
+		
+		if(duplicateShortName)
+			shortName = qualifiedName;
+		
+		String str = AT+shortName+params;
+		
+		buffer.replace(annotation.getSourceRange().getOffset(), annotation.getSourceRange().getLength(), str);
+		
+		synchronized(compilationUnit) {
+			compilationUnit.reconcile(ICompilationUnit.NO_AST, true, null, null);
+		}
+	}
+
+	
 	public static void addAnnotation(String qualifiedName, ICompilationUnit compilationUnit, IJavaElement element, String params) throws JavaModelException{
 		IJavaElement workingCopyElement = findWorkingCopy(compilationUnit, element);
 		if(workingCopyElement == null)
@@ -241,10 +273,8 @@ public class MarkerResolutionUtils {
 		IAnnotation annotation = findAnnotation(element, qualifiedName);
 		if(annotation == null || !annotation.exists())
 			return;
-
-		boolean duplicateShortName = addImport(qualifiedName, compilationUnit);
 		
-		//String lineDelim = SPACE;
+		boolean duplicateShortName = addImport(qualifiedName, compilationUnit);
 		
 		IBuffer buffer = compilationUnit.getBuffer();
 		String shortName = getShortName(qualifiedName);
@@ -444,7 +474,7 @@ public class MarkerResolutionUtils {
 		}
 	}
 	
-	public static void addQualifiersToBean(List<IQualifier> deployed, IBean bean){
+	public static void addQualifiersToBean(List<ValuedQualifier> deployed, IBean bean){
 		IFile file = (IFile)bean.getBeanClass().getResource();
 		IJavaElement beanElement = null;
 		if(bean instanceof IBeanField){
@@ -459,19 +489,24 @@ public class MarkerResolutionUtils {
 			ICompilationUnit original = EclipseUtil.getCompilationUnit(file);
 			ICompilationUnit compilationUnit = original.getWorkingCopy(new NullProgressMonitor());
 			
-			
 			for(IQualifierDeclaration declaration : bean.getQualifierDeclarations()){
 				IQualifier qualifier = declaration.getQualifier();
 				String qualifierName = qualifier.getSourceType().getFullyQualifiedName();
-				if(!deployed.contains(qualifier)){
+				if(!isQualifierNeeded(deployed, qualifier)){
 					deleteAnnotation(qualifierName, compilationUnit, beanElement);
 				}
 			}
 			
-			for(IQualifier qualifier : deployed){
-				String qualifierName = qualifier.getSourceType().getFullyQualifiedName();
+			for(ValuedQualifier vq : deployed){
+				String qualifierName = vq.getQualifier().getSourceType().getFullyQualifiedName();
+				String value = vq.getValue();
+				
+				if(!value.isEmpty())
+					value = "(\""+value+"\")";
+				
 				if(!qualifierName.equals(CDIConstants.ANY_QUALIFIER_TYPE_NAME) && !qualifierName.equals(CDIConstants.DEFAULT_QUALIFIER_TYPE_NAME)){
-					MarkerResolutionUtils.addAnnotation(qualifierName, compilationUnit, beanElement);
+					MarkerResolutionUtils.addAnnotation(qualifierName, compilationUnit, beanElement, value);
+					MarkerResolutionUtils.updateAnnotation(qualifierName, compilationUnit, beanElement, value);
 				}
 				
 			}
@@ -481,6 +516,14 @@ public class MarkerResolutionUtils {
 		}catch(CoreException ex){
 			CDIUIPlugin.getDefault().logError(ex);
 		}
+	}
+	
+	private static boolean isQualifierNeeded(List<ValuedQualifier> vQualifiers, IQualifier qualifier){
+		for(ValuedQualifier vq : vQualifiers){
+			if(vq.getQualifier().equals(qualifier))
+				return true;
+		}
+		return false;
 	}
 	
 	public static void addInterfaceToClass(ICompilationUnit compilationUnit, IType type, String qualifiedName) throws JavaModelException{
@@ -652,9 +695,8 @@ public class MarkerResolutionUtils {
 		 
 		Set<IQualifier> qualifiers = bean.getQualifiers();
 		for(IQualifier q : qualifiers){
-			String value = findQualifierValue(bean, q);
-			if(q.getSourceType().getFullyQualifiedName().equals(valuedQualifier.getQualifier().getSourceType().getFullyQualifiedName()) &&
-					value.equals(valuedQualifier.getValue()))
+			//String value = findQualifierValue(bean, q);
+			if(q.getSourceType().getFullyQualifiedName().equals(valuedQualifier.getQualifier().getSourceType().getFullyQualifiedName()))
 				return true;
 		}
 		return false;

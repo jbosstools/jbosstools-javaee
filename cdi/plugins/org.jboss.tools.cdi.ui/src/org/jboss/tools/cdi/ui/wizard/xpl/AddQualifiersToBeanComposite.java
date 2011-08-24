@@ -23,9 +23,11 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.jdt.core.Flags;
+import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IMessageProvider;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IColorProvider;
@@ -59,6 +61,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
@@ -487,6 +490,14 @@ public class AddQualifiersToBeanComposite extends Composite {
 		editQualifierValue.setText(CDIUIMessages.ADD_QUALIFIERS_TO_BEAN_WIZARD_EDIT_QUALIFIER_VALUE);
 		
 		editQualifierValue.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent event) {
+				ValuedQualifier[] vq = getDeployedSelection();
+				ValueDialog d = new ValueDialog(getShell(), vq[0].getValue());
+				int result = d.open();
+				if(result == MessageDialog.OK){
+					vq[0].setValue(d.getValue());
+				}
+			}
 		});
 		
 		setEnablement();
@@ -555,7 +566,7 @@ public class AddQualifiersToBeanComposite extends Composite {
 			}
 			remove.setEnabled(enabled);
 			
-			if(enabled && ms.length == 1){
+			if(enabled && ms.length == 1 && isEditEnabled(ms[0].qualifier)){
 				editQualifierValue.setEnabled(true);
 			}else{
 				editQualifierValue.setEnabled(false);
@@ -571,6 +582,20 @@ public class AddQualifiersToBeanComposite extends Composite {
 			wizard.setMessage(CDIUIMessages.ADD_QUALIFIERS_TO_BEAN_WIZARD_SET_IS_NOT_UNIQUE, IMessageProvider.ERROR);
 		
 		wizard.setPageComplete(isComplete);
+	}
+	
+	private boolean isEditEnabled(IQualifier qualifier){
+		IMethod method = qualifier.getSourceType().getMethod("value", new String[]{});
+		try{
+			if(method.exists()){
+				if(method.getReturnType().equals("Ljava.lang.String;"))
+					return true;
+			}
+		}catch(JavaModelException ex){
+			CDIUIPlugin.getDefault().logError(ex);
+		}
+		
+		return false;
 	}
 	
 	protected void add(boolean all) {
@@ -663,18 +688,12 @@ public class AddQualifiersToBeanComposite extends Composite {
 		return isComplete;
 	}
 	
-	public ArrayList<IQualifier> getDeployedQualifiers(){
+	public ArrayList<ValuedQualifier> getDeployedQualifiers(){
 		total.clear();
 		total.addAll(originalQualifiers);
 		total.addAll(deployed);
 		
-		ArrayList<IQualifier> result = new ArrayList<IQualifier>();
-		
-		for(ValuedQualifier vq : total){
-			result.add(vq.qualifier);
-		}
-
-		return result;
+		return total;
 	}
 	
 	public void deploy(ValuedQualifier qualifier){
@@ -808,11 +827,57 @@ public class AddQualifiersToBeanComposite extends Composite {
 		public String getValue(){
 			return value;
 		}
+		
+		public void setValue(String value){
+			this.value = value;
+		}
 
 		public boolean equals(Object obj) {
 			if(obj instanceof ValuedQualifier)
 				return getQualifier().getSourceType().getFullyQualifiedName().equals(((ValuedQualifier)obj).getQualifier().getSourceType().getFullyQualifiedName());
 			return false;
+		}
+	}
+	
+	static class ValueDialog extends MessageDialog{
+		String value;
+		Text text;
+
+		public ValueDialog(Shell shell, String value) {
+			super(shell, "Edit Qualifier Annotation Value", null, "",
+					MessageDialog.NONE, new String[]{"Ok", "Cancel"}, 0);
+			this.value = value;
+		}
+
+		protected Control createCustomArea(Composite parent) {
+			Composite composite = new Composite(parent, 0);
+			GridLayout layout = new GridLayout();
+			layout.numColumns = 2;
+			layout.marginHeight = 5;
+			layout.marginWidth = 5;
+			layout.horizontalSpacing = 5;
+			layout.verticalSpacing = 5;
+			composite.setLayout(layout);
+			composite.setLayoutData(new GridData(GridData.FILL_BOTH));
+
+			Label label = new Label(composite, SWT.NONE);
+			label.setText("Qualifier annotation value:");
+			
+			text = new Text(composite, SWT.BORDER);
+			GridData data = new GridData(GridData.FILL_HORIZONTAL);
+			text.setLayoutData(data);
+			text.setText(value);
+			text.addModifyListener(new ModifyListener(){
+				public void modifyText(ModifyEvent e) {
+					value = text.getText();
+				}
+			});
+
+			return composite;
+		}
+		
+		public String getValue(){
+			return value;
 		}
 	}
 
