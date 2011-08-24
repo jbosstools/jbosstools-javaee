@@ -102,6 +102,14 @@ public class CDIUtil {
 				}
 				project.refreshLocal(IResource.DEPTH_INFINITE, monitor);
 			}
+			
+			IProject[] ps = project.getWorkspace().getRoot().getProjects();
+			for (IProject p: ps) {
+				CDICoreNature n = CDICorePlugin.getCDI(p, false);
+				if(n != null && n.isStorageResolved()) {
+					n.getClassPath().validateProjectDependencies();
+				}
+			}
 		} catch (CoreException e) {
 			CDICorePlugin.getDefault().logError(e);
 		}

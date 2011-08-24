@@ -83,6 +83,14 @@ public class CDICoreNature implements IProjectNature {
 
 	public void deconfigure() throws CoreException {
 		removeFromBuildSpec(CDICoreBuilder.BUILDER_ID);
+		CDICoreNature[] ds = dependsOn.toArray(new CDICoreNature[0]);
+		for (CDICoreNature d: ds) {
+			removeCDIProject(d);
+		}
+		CDICoreNature[] us = usedBy.toArray(new CDICoreNature[0]);
+		for (CDICoreNature u: us) {
+			u.removeCDIProject(this);
+		}
 	}
 
 	public IProject getProject() {
