@@ -14,11 +14,12 @@ package org.jboss.tools.jsf.ui.editor.check;
 import java.text.MessageFormat;
 
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.ui.PlatformUI;
+import org.jboss.tools.common.model.XModelException;
 import org.jboss.tools.common.model.options.Preference;
 import org.jboss.tools.jsf.ui.JsfUIMessages;
+import org.jboss.tools.jsf.ui.JsfUiPlugin;
 import org.jboss.tools.jsf.ui.editor.check.wizards.AddJSFCapabilitiesWizard;
 
 /**
@@ -56,7 +57,8 @@ public class JSFNaturesInfoDialog extends ProjectNaturesInfoDialog {
 		try {
 			String value = !isRemember ? "yes" : "no";
 			Preference.SHOW_NATURE_WARNING.setValue(value);
-		} catch (CoreException e) {
+		} catch (XModelException e) {
+			JsfUiPlugin.getPluginLog().logError(e);
 		}
 	}
 

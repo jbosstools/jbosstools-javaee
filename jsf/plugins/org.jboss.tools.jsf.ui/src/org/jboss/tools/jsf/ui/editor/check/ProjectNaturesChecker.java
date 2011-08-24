@@ -21,6 +21,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.QualifiedName;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.JavaCore;
+import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IWindowListener;
 import org.eclipse.ui.IWorkbenchWindow;
@@ -28,6 +29,7 @@ import org.eclipse.ui.PlatformUI;
 import org.jboss.tools.common.model.options.Preference;
 import org.jboss.tools.common.reporting.ProblemReportingHelper;
 import org.jboss.tools.jsf.ui.JsfUIMessages;
+import org.jboss.tools.jsf.ui.JsfUiPlugin;
 import org.jboss.tools.jst.jsp.JspEditorPlugin;
 import org.jboss.tools.jst.jsp.util.FileUtil;
 import org.jboss.tools.jst.web.kb.IKbProject;
@@ -65,7 +67,6 @@ public class ProjectNaturesChecker implements IResourceChangeListener {
 		if(windows != null) for (IWorkbenchWindow window: windows) {
 			window.getPartService().addPartListener(partListener);
 		}
-		
 		PlatformUI.getWorkbench().addWindowListener(new WindowListener());
 	}
 
@@ -111,16 +112,16 @@ public class ProjectNaturesChecker implements IResourceChangeListener {
 			IResourceDelta resourceDelta = affectedChildren[i];
 			if (resourceDelta.getResource() instanceof IProject) {
 				IProject project = (IProject) resourceDelta.getResource();
-				if (resourceDelta.getKind() == IResourceDelta.ADDED) {
-					processAddProject(project);
-				} else 	if (resourceDelta.getKind() == IResourceDelta.REMOVED) {
-					processRemoveProject(project);
-				} else {
-					try {
-						updateProjectJSFPersistents(project);
-					} catch (CoreException e) {
-						ProblemReportingHelper.reportProblem(JspEditorPlugin.PLUGIN_ID, e);
+				try {
+					if (resourceDelta.getKind() == IResourceDelta.ADDED) {
+						processAddProject(project);
+					} else 	if (resourceDelta.getKind() == IResourceDelta.REMOVED) {
+						processRemoveProject(project);
+					} else {
+							updateProjectJSFPersistents(project);
 					}
+				} catch (CoreException e) {
+					ProblemReportingHelper.reportProblem(JspEditorPlugin.PLUGIN_ID, e);
 				}
 			}
 		}
@@ -141,13 +142,9 @@ public class ProjectNaturesChecker implements IResourceChangeListener {
 		projectsCollection.clear();
 	}
 
-	private void processAddProject(IProject project) {
+	private void processAddProject(IProject project) throws CoreException {
 		addProject(project);
-		try {
-			updateProjectJSFPersistents(project);
-		} catch (CoreException e) {
-			ProblemReportingHelper.reportProblem(JspEditorPlugin.PLUGIN_ID, e);
-		}
+		updateProjectJSFPersistents(project);
 	}
 
 	private void processRemoveProject(IProject project) {
@@ -159,31 +156,24 @@ public class ProjectNaturesChecker implements IResourceChangeListener {
 			IJavaElement javaElement = null;
 			try {
 				javaElement = FileUtil.searchForClass(JavaCore.create(project), SEARCH_CLASS);
-			} catch (CoreException e) {
-				// ignore
-			}
-			if (javaElement == null) {
-				project.setPersistentProperty(IS_JSF_CHECK_NEED, Boolean.FALSE.toString());
-			} else {
-				project.setPersistentProperty(IS_JSF_CHECK_NEED, Boolean.TRUE.toString());
+			} finally {
+				if (javaElement == null) {
+					project.setPersistentProperty(IS_JSF_CHECK_NEED, Boolean.FALSE.toString());
+				} else {
+					project.setPersistentProperty(IS_JSF_CHECK_NEED, Boolean.TRUE.toString());
+				}
 			}
 		}
 	}
 
-	private IMarker getKBProblemMarker(IProject project) {
+	private IMarker getKBProblemMarker(IProject project) throws CoreException {
 		IMarker kbProblemMarker = null;
-		try {
-			IMarker[] markers = project.findMarkers(null, false, 1);
-			for (int i = 0; i < markers.length; i++) {
-				IMarker marker = markers[i];
-				String _type = marker.getType();
-				if (_type != null
-						&& _type.equals(KbBuilderMarker.KB_BUILDER_PROBLEM_MARKER_TYPE)) {
-					kbProblemMarker = marker;
-					break;
-				}
+		IMarker[] markers = project.findMarkers(null, false, 1);
+		for (IMarker marker : markers ) {
+			if (KbBuilderMarker.KB_BUILDER_PROBLEM_MARKER_TYPE.equals(marker.getType())) {
+				kbProblemMarker = marker;
+				break;
 			}
-		} catch (CoreException e) {
 		}
 		return kbProblemMarker;
 	}
