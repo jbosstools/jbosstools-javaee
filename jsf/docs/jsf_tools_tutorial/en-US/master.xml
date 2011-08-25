@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+"http://www.docbook.org/xml/4.3/docbookx.dtd"
+
+[<!ENTITY introduction SYSTEM "introduction.xml">
+<!ENTITY jsf_application SYSTEM "jsf_application.xml">
+<!ENTITY adding_navigation SYSTEM "adding_navigation.xml">
+<!ENTITY adding_managed_bean SYSTEM "adding_managed_bean.xml">
+<!ENTITY jsp_view_files SYSTEM "jsp_view_files.xml">
+<!ENTITY start_page SYSTEM "start_page.xml">
+<!ENTITY running_application SYSTEM "running_application.xml">
+<!ENTITY relevant_resources SYSTEM "relevant_resources.xml">
+
+<!ENTITY seamlink "../../seam/html_single/index.html">
+<!ENTITY aslink "../../as/html_single/index.html">
+<!ENTITY esblink "../../esb_ref_guide/html_single/index.html">
+<!ENTITY gsglink "../../GettingStartedGuide/html_single/index.html">
+<!ENTITY hibernatelink "../../hibernatetools/html_single/index.html">
+<!ENTITY jbpmlink "../../jbpm/html_single/index.html">
+<!ENTITY jsflink "../../jsf/html_single/index.html">
+<!ENTITY jsfreflink "../../jsf_tools_ref_guide/html_single/index.html">
+<!ENTITY jsftutoriallink "../../jsf_tools_tutorial/html_single/index.html">
+<!ENTITY strutsreflink "../../struts_tools_ref_guide/html_single/index.html">
+<!ENTITY strutstutoriallink "../../struts_tools_tutorial/html_single/index.html"> 
+
+]>
+
+<book>
+    
+    <bookinfo>
+        <title>JSF Tools Tutorial</title>
+            <corpauthor>
+                <inlinemediaobject>
+                    <imageobject role="fo">
+                        <imagedata format="PNG" fileref="images/jbosstools_logo.png" />
+                    </imageobject>	
+                    <imageobject role="html">
+                        <imagedata/>
+                    </imageobject>	
+                </inlinemediaobject>           
+            </corpauthor>
+        <author><firstname>Anatoly</firstname><surname>Fedosik</surname></author>
+        <author><firstname>Olga</firstname><surname>Chikvina</surname></author>
+        <author><firstname>Svetlana</firstname><surname>Mukhina</surname><email>smukhina@exadel.com</email></author>
+    
+        <copyright>
+            <year>2011</year>
+            <holder>JBoss by Red Hat</holder>
+        </copyright>
+
+          <releaseinfo>
+              Version: 3.2.1.GA
+            </releaseinfo>
+
+
+<!--<abstract>
+   <title/>
+       <para>
+           <ulink url="http://download.jboss.org/jbosstools/nightly-docs/en/jsf_tools_tutorial/pdf/JSF_Tools_Tutorial.pdf">PDF version</ulink>
+       </para>
+</abstract>-->
+
+
+    </bookinfo>    
+    
+    <toc/>  
+    
+    
+    &introduction;
+    &jsf_application;
+    &adding_navigation;
+    &adding_managed_bean;
+    &jsp_view_files;
+    &start_page;
+    &running_application;    
+    &relevant_resources;        
+</book>    
