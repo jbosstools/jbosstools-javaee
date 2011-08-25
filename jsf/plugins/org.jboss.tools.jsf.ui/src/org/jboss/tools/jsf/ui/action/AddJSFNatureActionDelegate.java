@@ -36,6 +36,9 @@ import org.jboss.tools.jsf.JSFModelPlugin;
 import org.jboss.tools.jsf.project.JSFNature;
 import org.jboss.tools.jsf.ui.JsfUiPlugin;
 import org.jboss.tools.jsf.ui.wizard.project.ImportProjectWizard;
+import org.jboss.tools.jst.web.WebModelPlugin;
+import org.jboss.tools.jst.web.kb.internal.KbBuilder;
+import org.jboss.tools.jst.web.kb.internal.KbProject;
 
 public class AddJSFNatureActionDelegate extends AddNatureActionDelegate {
 	boolean showDialog = true;
@@ -82,6 +85,7 @@ public class AddJSFNatureActionDelegate extends AddNatureActionDelegate {
 			}
 			
 			if(web != null && jsf != null && wc.validate().isOK()) {
+				WebModelPlugin.addNatureToProjectWithValidationSupport(project, KbBuilder.BUILDER_ID, KbProject.NATURE_ID);
 				EclipseResourceUtil.addNatureToProject(project, JSFNature.NATURE_ID);
 				SharedWorkingCopyManager.releaseWorkingCopy(fp);
 				return;
