@@ -1,0 +1,644 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<chapter id="palette">
+<?dbhtml filename="palette.html"?>
+  <chapterinfo>
+    <keywordset>
+      <keyword>Jboss Tools palette</keyword>
+       
+      <keyword>tags</keyword>
+       
+      <keyword>JSP page</keyword>
+    </keywordset>
+  </chapterinfo>
+   <title>JBoss Tools Palette</title> 
+  <para>
+    This chapter will introduce you to the functionality provided by <guilabel>JBoss Tools Palette</guilabel>. The Palette allows you to quickly and easily create your <filename>JSP</filename> or <filename>JSF</filename> pages.
+  </para>
+   
+  <para>
+    The <guilabel>JBoss Tools Palette</guilabel> allows you to:
+  </para>
+   
+  <itemizedlist>
+    <listitem>
+      <para>
+        Insert tags into a <filename>JSP</filename> or <filename>JSF</filename> page with one click
+      </para>
+    </listitem>
+     
+    <listitem>
+      <para>
+        Add custom and 3rd party tags
+      </para>
+    </listitem>
+  </itemizedlist>
+   
+  <para>
+    The <guilabel>JBoss Tools Palette</guilabel> contains a developer's project tag libraries and provides possibility to add any tag libraries to it. Also you can choose a necessary one from the list of already existing tag libraries:
+  </para>
+   
+  <itemizedlist>
+    <listitem>
+      <para>
+        HTML
+      </para>
+    </listitem>
+     
+    <listitem>
+      <para>
+        JBoss
+      </para>
+    </listitem>
+     
+    <listitem>
+      <para>
+        JSF
+      </para>
+    </listitem>
+     
+    <listitem>
+      <para>
+        JSTL
+      </para>
+    </listitem>
+     
+    <listitem>
+      <para>
+        MyFaces
+      </para>
+    </listitem>
+     
+    <listitem>
+      <para>
+        Oracle ADF Faces
+      </para>
+    </listitem>
+     
+    <listitem>
+      <para>
+        Struts
+      </para>
+    </listitem>
+     
+    <listitem>
+      <para>
+        XHTML
+      </para>
+    </listitem>
+  </itemizedlist>
+   
+  <figure>
+    <title>Default View of The JBoss Tools Palette</title> 
+    <mediaobject>
+      <imageobject>
+        <imagedata fileref="images/palette/palette_1.png"/>
+      </imageobject>
+    </mediaobject>
+  </figure>
+   
+  <para>
+    By default the <guilabel>JBoss Tools Palette</guilabel> is not displayed. If you want to use it select <menuchoice><guimenuitem>Window</guimenuitem><guimenuitem>Show View Other...</guimenuitem><guimenuitem>JBoss Tools Web</guimenuitem><guimenuitem>JBoss Tools Palette</guimenuitem></menuchoice> from the menu bar.
+  </para>
+   
+  <para>
+    The standard <guilabel>Eclipse Palette</guilabel> is displayed by default in both <guilabel>Web Development</guilabel> and <guilabel>Seam</guilabel> perspectives. Now the standard <guilabel>Eclipse Palette</guilabel> is featured with all <guilabel>JBoss Tools Palette</guilabel> options and capabilities.
+  </para>
+   
+  <para>
+    To open the standard <guilabel>Eclipse Palette</guilabel> navigate to <menuchoice><guimenuitem>Window</guimenuitem><guimenuitem>Show View</guimenuitem><guimenuitem>Others</guimenuitem><guimenuitem>General</guimenuitem><guimenuitem>Palette</guimenuitem></menuchoice>.
+  </para>
+   
+  <para>
+    The differences between the two palettes are as follows:
+  </para>
+   
+  <itemizedlist>
+    <listitem>
+      <para>
+        The standard <guilabel>Eclipse Palette</guilabel> is blank by default. Content of the palette is available only if Visual Page Editor is open and active, while <guilabel>JBoss Tools Palette</guilabel> always contains a predefined set of components.
+      </para>
+    </listitem>
+     
+    <listitem>
+      <para>
+        The Expanded/Collapsed state of components in the standard <guilabel>Eclipse Palette</guilabel> is not global as in <guilabel>JBoss Tools Palette</guilabel>. State is associated with an instance of Visual Page Editor. It means that the state can be different for various files and each new file opened in Visual Page Editor will have the default state of Palette with all components collapsed.
+      </para>
+    </listitem>
+  </itemizedlist>
+   
+  <section id="PaletteOptions">
+<?dbhtml filename="PaletteOptions.html"?>
+    <title>Palette Options</title> 
+    <para>
+      The Palette can be customized by using the following buttons on the Palette toolbar, which provide the following functionality:
+    </para>
+     
+    <itemizedlist>
+      <listitem>
+        <para>
+          editing the palette content by adding, removing or changing the palette elements
+        </para>
+      </listitem>
+       
+      <listitem>
+        <para>
+          showing or hiding groups and subgroups
+        </para>
+      </listitem>
+       
+      <listitem>
+        <para>
+          importing groups and subgroups
+        </para>
+      </listitem>
+    </itemizedlist>
+     
+    <figure>
+      <title>Palette Buttons</title> 
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/palette/palette_9.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+     
+    <section id="PaletteEditor">
+<?dbhtml filename="PaletteEditor.html"?>
+      <title>Palette Editor</title> 
+      <para>
+        The <guilabel>JBoss Tools Palette</guilabel> contains existing libraries of tags, and the <guilabel>Palette editor</guilabel> provides a way to add a new library, or edit existing libraries.
+      </para>
+       
+      <para>
+        To open the editor, click on the <guilabel>Palette Editor</guilabel> icon ( 
+        <inlinemediaobject>
+          <imageobject>
+            <imagedata fileref="images/palette/palette_7.png"/>
+          </imageobject>
+        </inlinemediaobject>
+         ).
+      </para>
+       
+      <para>
+        The window has two parts. There is a reflected grouped list of components on the left side of the palette editor. Each group is divided into multiple groups, each of which is a tag library. To the right side of the palette editor is an editing window where it is possible to change values of group or tag library attributes that you have chosen on the left part of the window.
+      </para>
+       
+      <para>
+        It can also be done by right click and using <guimenuitem>Edit…</guimenuitem> option.
+      </para>
+       
+      <literallayout/>
+       
+      <para>
+        For example, <guilabel>JSF</guilabel> group consists of <guilabel>Core</guilabel>, <guilabel>Facelets</guilabel>, <guilabel>HTML</guilabel> tag libraries and the attributes as <guilabel>name</guilabel>, <guilabel>description</guilabel> and <guilabel>hidden</guilabel> which are available for editing:
+      </para>
+       
+      <figure>
+        <title>Tag Libraries of the JSF Group</title> 
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="images/palette/palette_24.png"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+       
+      <para>
+        The <guilabel>Palette Editor</guilabel> provides the following functionality when working with existing tags or icons:
+      </para>
+       
+      <itemizedlist>
+        <listitem>
+          <formalpara>
+            <title>To work with a set of icons</title> 
+            <para>
+              <guilabel>Icons</guilabel> is the root folder for the icon sets. The first step is creating the icon set. Right click on the <guilabel>Icons</guilabel> folder and select <menuchoice><guimenuitem>Create</guimenuitem><guimenuitem>Create Set...</guimenuitem></menuchoice>.
+            </para>
+          </formalpara>
+           
+          <para>
+            Set the value of the name in the <guilabel>Add Icons</guilabel> window and click the <guibutton> Finish </guibutton> button. A new element will appear in the list.
+          </para>
+           
+          <figure>
+            <title>Creating a Set of Icons</title> 
+            <mediaobject>
+              <imageobject>
+                <imagedata fileref="images/palette/palette_17.png"/>
+              </imageobject>
+            </mediaobject>
+          </figure>
+           
+          <para>
+            Also you can delete the set. Right click on the set of icons that you wish to remove and select the <guimenuitem>Delete</guimenuitem> option from the pop-up menu, or click the <keycap>Delete</keycap> keyboard button.
+          </para>
+        </listitem>
+         
+        <listitem>
+          <formalpara>
+            <title>To edit icons in the chosen set</title> 
+            <para>
+              When the set of icons is created, new icons can be imported to it. Choose the required set and select the option <menuchoice><guimenuitem>Create</guimenuitem><guimenuitem>Import Icon...</guimenuitem></menuchoice> from the pop-up menu that appears after you right-click on a folder.
+            </para>
+          </formalpara>
+           
+          <figure>
+            <title>Creating Icons</title> 
+            <mediaobject>
+              <imageobject>
+                <imagedata fileref="images/palette/palette_18.png"/>
+              </imageobject>
+            </mediaobject>
+          </figure>
+           
+          <para>
+            Set the name of the icon and the path and click the <guibutton> Finish </guibutton> button.
+          </para>
+        </listitem>
+         
+        <listitem>
+          <formalpara>
+            <title>To work with a group of tag libraries</title> 
+            <para>
+              The first step in working with the editor is creating a group of libraries. It&apos;s very easy to do, right click on the <guilabel>Palette</guilabel> folder and select <menuchoice><guimenuitem>Create</guimenuitem><guimenuitem>Create Group…</guimenuitem></menuchoice>
+            </para>
+          </formalpara>
+           
+          <para>
+            Set a name of a group in the <guilabel>Create Group</guilabel> window and click the <guibutton> OK </guibutton> button. A new element will appear at the end of the list.
+          </para>
+           
+          <figure>
+            <title>Creating a Group of Tag Libraries</title> 
+            <mediaobject>
+              <imageobject>
+                <imagedata fileref="images/palette/palette_19.png"/>
+              </imageobject>
+            </mediaobject>
+          </figure>
+           
+          <para>
+            You are allowed to edit or delete a group as well. If you&apos;d like to change attributes of a group, use the right editing window of the palette editor or the <guimenuitem>Edit...</guimenuitem> option, like it was mentioned before. In order to remove the group, right click on the group that you wish to remove and choose the <guimenuitem>Delete</guimenuitem> option or click the <keycap>Delete</keycap> keyboard button.
+          </para>
+           
+          <important>
+            <title>Important:</title> 
+            <para>
+              The removal option is enabled only for custom folders.
+            </para>
+          </important>
+        </listitem>
+         
+        <listitem>
+          <formalpara>
+            <title>To work with a tag library</title> 
+            <para>
+              The group maintains a list of tag libraries. If you would like to create your own library, right click on the group and select the <guimenuitem>Create Group…</guimenuitem> option.
+            </para>
+          </formalpara>
+           
+          <figure>
+            <title>Creating a tag library</title> 
+            <mediaobject>
+              <imageobject>
+                <imagedata fileref="images/palette/palette_20.png"/>
+              </imageobject>
+            </mediaobject>
+          </figure>
+           
+          <para>
+            After setting the attribute name and the path of the icon, click the <guibutton> OK </guibutton> button.
+          </para>
+           
+          <note>
+            <title>Note:</title> 
+            <para>
+              If you do not choose an icon the default one will be assigned.
+            </para>
+          </note>
+           
+          <para>
+            You are allowed to edit or delete the tag library, as well. If you&apos;d like to change attributes of the library or choose another icon, use the right editing window of the palette editor or the <guimenuitem>Edit...</guimenuitem> option. In order to remove the tag library, right click on the library that you wish to remove and chose the <guimenuitem>Delete</guimenuitem> option or click the <keycap>Delete</keycap> keyboard button.
+          </para>
+           
+          <important>
+            <title>Important:</title> 
+            <para>
+              The removal option is enabled only for custom tag libraries.
+            </para>
+          </important>
+        </listitem>
+         
+        <listitem>
+          <formalpara>
+            <title>To work with a tag element</title> 
+            <para>
+              When the library folder is created, new tags can be added to it. Choose the required library and select the <menuchoice><guimenuitem>Create</guimenuitem><guimenuitem>Create Macro…</guimenuitem></menuchoice> option from the pop-up menu that appears after you right-click on a folder.
+            </para>
+          </formalpara>
+           
+          <figure>
+            <title>Creating a tag element</title> 
+            <mediaobject>
+              <imageobject>
+                <imagedata fileref="images/palette/palette_21.png"/>
+              </imageobject>
+            </mediaobject>
+          </figure>
+           
+          <para>
+            In the <guilabel>Add Palette Macro</guilabel> window you can configure the tag element. The <guilabel>Name</guilabel> attribute is mandatory, as it defines the name of the tag element. Other settings are optional. You can choose the icon and set the <guilabel>Start Text</guilabel> and the <guilabel>End Text</guilabel> for your tag element. If your tag text is too long, use the <guibutton> Change... </guibutton> button to see it all. The pipe ("|") symbol can be used to control the cursors position for the <guilabel>start text</guilabel> and <guilabel>end text</guilabel> values.
+          </para>
+           
+          <figure>
+            <title>Parameters of the Palette element</title> 
+            <mediaobject>
+              <imageobject>
+                <imagedata fileref="images/palette/palette_23.png"/>
+              </imageobject>
+            </mediaobject>
+          </figure>
+           
+          <para>
+            After all the attributes are set, click the <guibutton> Finish </guibutton> button.
+          </para>
+           
+          <note>
+            <title>Note:</title> 
+            <para>
+              If you do not choose an icon the default one will be assigned.
+            </para>
+          </note>
+           
+          <para>
+            You are also allowed to edit or delete the tag. If you would like to change the attributes of the tag or choose another icon for it, use the right editing window of the palette editor or the <guimenuitem>Edit...</guimenuitem> option from the pop-up menu. In order to remove the tag, right click on the tag that you wish to remove and chose the <guimenuitem>Delete</guimenuitem> option, or click the <keycap>Delete</keycap> keyboard button.
+          </para>
+           
+          <important>
+            <title>Important:</title> 
+            <para>
+              The removal option is enabled only for custom tags. JBoss Palette tags can not be removed but can be modified.
+            </para>
+          </important>
+        </listitem>
+      </itemizedlist>
+       
+      <para>
+        If you have changed any object in the tree view and you don't like the final result you can always use the <guibutton> Restore Defaults </guibutton> button. Clicking this button will restore defaults for the object selected and for its children elements. Please remember that the button will only restore data for objects defined in the default palette. If selected object is created by you, the button will be disabled. Child objects added by you will not be removed.
+      </para>
+       
+      <para>
+        When updating JBoss Tools the palette content is not updated.
+      </para>
+    </section>
+     
+    <section id="show_hide">
+<?dbhtml filename="Show/Hide.html"?>
+      <title>Show/Hide</title> 
+      <para>
+        <guibutton> Show/Hide </guibutton> is a very useful feature that allows you to control the number of tag groups that are shown on the palette.
+      </para>
+       
+      <itemizedlist>
+        <listitem>
+          <para>
+            Click the <guibutton> Show/Hide </guibutton> button( 
+            <inlinemediaobject>
+              <imageobject>
+                <imagedata fileref="images/palette/palette_10.png"/>
+              </imageobject>
+            </inlinemediaobject>
+             ), at the top right side of the JBoss Tools Palette.
+          </para>
+        </listitem>
+      </itemizedlist>
+       
+      <itemizedlist>
+        <listitem>
+          <para>
+            In the dialog Show/Hide Drawers check the groups the libraries of which you want to be shown on the palette:
+          </para>
+        </listitem>
+      </itemizedlist>
+       
+      <figure>
+        <title>Show/Hide Drawers</title> 
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="images/palette/palette_11.png"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+       
+      <para>
+        If libraries are not displayed in the palette, check whether they are selected. Click the plus sign to expand the libraries of the group and make sure that a tick is put next to the wanted libraries.
+      </para>
+<!-- <para>(When you deactivate the group(s), the JBoss Palette remembers your last chose.
+                The libraries… )</para>
+            -->
+      <itemizedlist>
+        <listitem>
+          <para>
+            Click the <guibutton> OK </guibutton> button. The new groups will now be shown on the palette:
+          </para>
+        </listitem>
+      </itemizedlist>
+       
+      <figure>
+        <title>New Added Groups</title> 
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="images/palette/palette_12.png"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+       
+      <para>
+        The names of the elements are compound. The first part is the group name and the second is the library name.
+      </para>
+    </section>
+     
+    <section id="Import">
+<?dbhtml filename="Import.html"?>
+      <title>Import</title> 
+      <para>
+        The <guibutton> Import </guibutton> button lets you add a custom or 3rd party tag library to JBoss Tools Palette. Find out more information on how to add particular tags see the <xref
+                    linkend="ImportButton521"/> section.
+<!--<link linkend="CreatingAndWorkingCustomCapability">Learn how to import</link>. -->
+      </para>
+    </section>
+  </section>
+   
+  <section id="UsingThePaletteIncludingOneClickTagInsertion">
+<?dbhtml filename="UsingThePaletteIncludingOneClickTagInsertion.html"?>
+    <title>Using the Palette</title> 
+    <section id="InsertingTagsIntoAJSPFile">
+<?dbhtml filename="InsertingTagsIntoAJSPFile.html"?>
+      <title>Inserting Tags into a JSP File</title> 
+      <para>
+        A new tag can be added into any text file including <filename>JSP</filename>, <filename>HTM</filename>, <filename>HTML</filename> and <filename>XHTML</filename>.
+      </para>
+       
+      <para>
+        Open your <filename>JSP</filename> file, place the cursor in a place where you would like to add a tag, and then click that tag in the palette. In the <guilabel>Insert Tag</guilabel> window that appears, you can set the value of <guilabel>general</guilabel> and <guilabel>advanced</guilabel> attributes of the tag that you choose.
+      </para>
+       
+      <figure>
+        <title>Inserting Tag</title> 
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="images/palette/palette_25.png"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+       
+      <para>
+        In the example below the <guibutton> commandButton </guibutton> tag has been inserted.
+      </para>
+       
+      <figure>
+        <title>Inserting Tag</title> 
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="images/palette/palette_2.png" scale="80"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+       
+      <note>
+        <title>Tip:</title> 
+        <para>
+          If you place the cursor over any tag, a balloon hint is shown with all the tag attributes.
+        </para>
+      </note>
+       
+      <para>
+        The cursor position after adding a tag into a file is specified by &quot;|&quot; symbol in the tag template on the right in the Palette Editor window.
+      </para>
+       
+      <figure>
+        <title>Palette Editor</title> 
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="images/palette/palette_15.png"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+       
+      <para>
+        Above you can see where the cursor position for <menuchoice><guimenuitem>HTML</guimenuitem><guimenuitem>Form</guimenuitem><guimenuitem>input</guimenuitem></menuchoice> is set. After adding this tag into your file the cursor will be in the attribute <code>type</code>. At this point you can straight use the <keycombo><keycap>Ctrl</keycap><keycap>Space</keycap></keycombo> keyboard shortcut to display a list of possible values.
+      </para>
+       
+      <figure>
+        <title>Cursor position</title> 
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="images/palette/palette_16.png" scale="50"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+    </section>
+     
+    <section id="AddingCustomJSFTagsToTheRedHatPalette7433">
+<?dbhtml filename="AddingCustomJSFTagsToTheJBossToolsPalette.html"?>
+      <title>Adding Custom JSF Tags to the JBoss Tools Palette</title> 
+      <para>
+        There are two ways to add any custom (including custom Facelets libraries) or 3rd party tag library to the JBoss Tools Palette:
+      </para>
+       
+      <itemizedlist>
+        <listitem>
+          <para>
+            Drag-and-drop from the Web Projects view
+          </para>
+        </listitem>
+         
+        <listitem>
+          <para>
+            The Import button on the JBoss Tools Palette
+          </para>
+        </listitem>
+      </itemizedlist>
+       
+      <para>
+        Before you add your custom component library, you need to make sure it is included in your project. You need to either place the <filename>TLD</filename> file or the <filename>JAR</filename> that includes your tag library under the lib folder in your project. Or you can just add <filename>TLD</filename> or <filename>JAR</filename> file to the classpath and the library will be added to the Tag Library List in Web Projects View.
+      </para>
+       
+      <section id="Drag_and_Drop65332">
+<?dbhtml filename="DragAndDrop.html"?>
+        <title>Drag-and-Drop</title> 
+        <para>
+          Switch to the <guilabel>Web Projects</guilabel> view and expand the <guilabel>Tag Libraries</guilabel> folder. If the view is not active, select <menuchoice><guimenuitem>Window</guimenuitem><guimenuitem>Show View</guimenuitem><guimenuitem>Web Projects</guimenuitem></menuchoice> from the menu bar.
+        </para>
+         
+        <figure>
+          <title>Web Projects View</title> 
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="images/palette/palette_3.png"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
+         
+        <para>
+          Also make sure that the <guilabel>JBoss Tools Palette</guilabel> is open. Select the tag library that you want to add and simply drag-and-drop it on to the the <guilabel>JBoss Tools Palette</guilabel>.
+        </para>
+         
+        <para>
+          You will see the following dialog window. As you can see JBoss Developer Studio takes care of all the details. Chosen <guilabel>TLD file</guilabel>, <guilabel>name</guilabel> and <guilabel>prefix</guilabel> of the library and <guilabel>Library URL</guilabel> are detected thus just need to set the <guilabel>Group name</guilabel> to which you wish to place this tag library. You can either add this tag library to an existing Group or just create a new one.
+        </para>
+         
+        <figure>
+          <title>Import Tags From TLD File Form</title> 
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="images/palette/palette_4.png"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
+         
+        <para>
+          Once you are finished, you will see the new tag library added to the <guilabel>JBoss Tools Palette</guilabel>.
+        </para>
+         
+        <figure>
+          <title>JBoss Tools Palette with New Tag Library</title> 
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="images/palette/palette_5.png"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
+      </section>
+       
+      <section id="ImportButton521">
+<?dbhtml filename="ImportButton.html"?>
+        <title>Import Button</title> 
+        <para>
+          Tag libraries can also be imported with the <guibutton> Import </guibutton> button ( 
+          <inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="images/palette/palette_6.png"/>
+            </imageobject>
+          </inlinemediaobject>
+           ). This button is found at the top right side of the <guilabel>JBoss Tools Palette</guilabel>.
+        </para>
+         
+        <para>
+          By clicking on the <guibutton> Import </guibutton> button you will see the <guilabel>Import Tag</guilabel> window a similar like in the Drag-and-Drop method (see <xref linkend="Drag_and_Drop65332"/>). Set the name and prefix of the library and Library URL. You also need to set the Group name to which you&apos;d like to add your tag library.
+          </para>
+          <para>
+          Like in the previous method you can add it to an existing Group or create a new one. On this <guilabel>Import Tag</guilabel> form you can use <guibutton> Browse... </guibutton> button to locate the tag library that you want to add:
+        </para>
+         
+        <figure>
+          <title>Select TLD File</title> 
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="images/palette/palette_8.png"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
+      </section>
+    </section>
+  </section>
+</chapter>

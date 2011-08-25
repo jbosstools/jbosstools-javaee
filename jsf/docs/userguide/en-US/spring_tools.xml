@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter id="springTools">
+<?dbhtml filename="springTools.html"?>
+  <title>Spring Tools</title> 
+  <para>
+    JBoss Developer Studio is bundled with the <ulink url="http://springide.org/project">Spring IDE</ulink> for Eclipse. Visit Spring IDE site for the latest versions and documentation.
+  </para>
+   
+  <section>
+    <title><ulink url="http://springide.org/project/wiki/SpringideGuide">Spring IDE guide</ulink></title> 
+    <para>
+      The <ulink url="http://springide.org/project">Spring IDE</ulink> is a graphical user interface for the configuration files used by the <ulink url="http://www.springframework.org/">Spring Framework</ulink>. It is built as a set of plugins for the Eclipse platform.
+    </para>
+     
+    <section>
+      <title><ulink url="http://springide.org/project/wiki/SpringideGuide#AddProjectNature">Add Spring Project Nature</ulink></title>
+      <para/>
+    </section>
+     
+    <section>
+      <title><ulink url="http://springide.org/project/wiki/SpringideGuide#CreateNewProject">Create New Spring Project</ulink></title>
+      <para/>
+    </section>
+     
+    <section>
+      <title><ulink url="http://springide.org/project/wiki/SpringideGuide#AddProjectReferences">Add References To Other Spring Projects</ulink></title>
+      <para/>
+    </section>
+     
+    <section>
+      <title><ulink url="http://springide.org/project/wiki/SpringideGuide#AddBeansConfigs">Add Spring Beans Config Files</ulink></title>
+      <para/>
+    </section>
+     
+    <section>
+      <title><ulink url="http://springide.org/project/wiki/SpringideGuide#CreateBeansConfigSets">Create Spring Beans Config Sets</ulink></title>
+      <para/>
+    </section>
+     
+    <section>
+      <title><ulink url="http://springide.org/project/wiki/SpringideGuide#OpenSpringExplorer">Open Spring Explorer</ulink></title>
+      <para/>
+    </section>
+     
+    <section>
+      <title><ulink url="http://springide.org/project/wiki/SpringideGuide#ValidateBeansConfig">Validate Spring Beans Config</ulink></title>
+      <para/>
+    </section>
+     
+    <section>
+      <title><ulink url="http://springide.org/project/wiki/SpringideGuide#OpenBeansGraph">Open Spring Beans Graph</ulink></title>
+      <para/>
+    </section>
+     
+    <section>
+      <title><ulink url="http://springide.org/project/wiki/SpringideGuide#SearchBeans">Search Spring Beans</ulink></title>
+      <para/>
+    </section>
+  </section>
+</chapter>

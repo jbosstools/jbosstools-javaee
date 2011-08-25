@@ -1,0 +1,1610 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<chapter id="preferences">
+  <title>JBoss Tools Preferences</title> 
+  <para>
+    Configuring the various <property>JBoss Developer Studio</property> features is done via the <guilabel>Preferences</guilabel> screen by selecting <menuchoice><guimenuitem>Window</guimenuitem><guimenuitem>Preferences</guimenuitem><guimenuitem>JBoss Tools</guimenuitem></menuchoice> from the menu bar.
+  </para>
+   
+  <figure>
+    <title>Preferences are included in this dialog.</title> 
+    <mediaobject>
+      <imageobject>
+        <imagedata fileref="images/preferences/preferences_1.png"/>
+      </imageobject>
+    </mediaobject>
+  </figure>
+   
+  <para>
+    From this screen, you can select these more specific sets of <property>JBoss Tools preferences</property>:
+  </para>
+   
+  <itemizedlist>
+    <listitem>
+      <para>
+        <xref linkend="ProjectArchives"/>
+      </para>
+    </listitem>
+     
+    <listitem>
+      <para>
+        <xref linkend="Editors"/>
+      </para>
+    </listitem>
+     
+    <listitem>
+      <para>
+        <xref linkend="VisualPageEditor2"/>
+      </para>
+    </listitem>
+     
+    <listitem>
+      <para>
+        <xref linkend="el_variables"/>
+      </para>
+    </listitem>
+     
+    <listitem>
+      <para>
+        <xref linkend="JSF"/>
+      </para>
+    </listitem>
+     
+    <!--listitem>
+      <para>
+        <xref linkend="JSFPage"/>
+      </para>
+    </listitem-->
+     
+    <listitem>
+      <para>
+        <xref linkend="JSFPropject"/>
+      </para>
+    </listitem>
+     
+    <listitem>
+      <para>
+        <xref linkend="JSFFlowDiagram"/>
+      </para>
+    </listitem>
+     
+    <listitem>
+      <para>
+        <xref linkend="Seam"/>
+      </para>
+    </listitem>
+     
+    <listitem>
+      <para>
+        <xref linkend="SeamValidator"/>
+      </para>
+    </listitem>
+     
+    <listitem>
+      <para>
+        <xref linkend="Struts"/>
+      </para>
+    </listitem>
+     
+    <listitem>
+      <para>
+        <xref linkend="struts_automation"/>
+      </para>
+    </listitem>
+     
+    <listitem>
+      <para>
+        <xref linkend="Plug-inInsets"/>
+      </para>
+    </listitem>
+     
+    <listitem>
+      <para>
+        <xref linkend="ResourceInsets"/>
+      </para>
+    </listitem>
+     
+    <listitem>
+      <para>
+        <xref linkend="StrutsCustomization"/>
+      </para>
+    </listitem>
+     
+    <listitem>
+      <para>
+        <xref linkend="StrutsProject"/>
+      </para>
+    </listitem>
+     
+    <listitem>
+      <para>
+        <xref linkend="StrutsSupport"/>
+      </para>
+    </listitem>
+     
+    <!--listitem>
+      <para>
+        <xref linkend="StrutsPages"/>
+      </para>
+    </listitem-->
+     
+    <listitem>
+      <para>
+        <xref linkend="StrutsFlowDiagram"/>
+      </para>
+    </listitem>
+     
+    <listitem>
+      <para>
+        <xref linkend="tiles_diagram"/>
+      </para>
+    </listitem>
+     
+    <listitem>
+      <para>
+        <xref linkend="Verification"/>
+      </para>
+    </listitem>
+  </itemizedlist>
+   
+  <para>
+    The <guilabel>Preferences</guilabel> dialog (<menuchoice><guimenuitem>Window</guimenuitem><guimenuitem>Preferences</guimenuitem></menuchoice> ) also allows to adjust settings for <xref linkend="JBossServerPreferences"/> and <xref linkend="XDoclet"/> module.
+  </para>
+   
+  <section id="ProjectArchives">
+<?dbhtml filename="ProjectArchives.html"?>
+    <title>Project Archives</title> 
+    <para>
+      Click on the <guilabel>Project Archives</guilabel> to open the page for changing Project Archives preferences.
+    </para>
+     
+    <para>
+      Here you can determine settings for Core Preferences, Project Archives View, Project Explorer Preferences and Fileset Preferences.
+    </para>
+     
+    <figure>
+      <title>Project Archives</title> 
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/preferences/preferences_2.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+     
+    <para>
+      The next table lists all available preferences for Project Archives and their description.
+    </para>
+     
+    <table>
+      <title>Project Archives Preferences</title> 
+      <tgroup cols="3">
+        <colspec colnum="1" align="left" colwidth="2*"/>
+         
+        <colspec colnum="2" colwidth="4*"/>
+         
+        <colspec colnum="3" colwidth="2*"/>
+         
+        <thead>
+          <row>
+            <entry>
+              Option
+            </entry>
+             
+            <entry>
+              Description
+            </entry>
+             
+            <entry>
+              Default
+            </entry>
+          </row>
+        </thead>
+         
+        <tbody>
+          <row>
+            <entry>
+              Enable incremental builder
+            </entry>
+             
+            <entry>
+              Uncheck this option if you don&apos;t want to enable incremental builder for your resources
+            </entry>
+             
+            <entry>
+              On
+            </entry>
+          </row>
+           
+          <row>
+            <entry>
+              Show build error dialog
+            </entry>
+             
+            <entry>
+              If on, the Project Archives will show an error dialog in case of a build or incremental update fails.
+            </entry>
+             
+            <entry>
+              On
+            </entry>
+          </row>
+           
+          <row>
+            <entry>
+              Show output path next to packages
+            </entry>
+             
+            <entry>
+              This option allows you to show or hide an output path next to packages
+<!--(<link linkend="full_outputpath_for_packages">See the
+                            figure</link>)-->
+              .
+            </entry>
+             
+            <entry>
+              On
+            </entry>
+          </row>
+           
+          <row>
+            <entry>
+              Show the root directory of filesets
+            </entry>
+             
+            <entry>
+              If on, the root directory is displayed next to filesets. Otherwise, it&apos;s hidden
+<!--(<link
+                                linkend="full_rootdir_for_filesets">See the figure</link>)-->
+              .
+            </entry>
+             
+            <entry>
+              On
+            </entry>
+          </row>
+           
+          <row>
+            <entry>
+              Show project at the root
+            </entry>
+             
+            <entry>
+              This option allows you to choose whether to display a project name at the root of the packages or not. When checked, &apos;Show all projects that contain packages&apos; is enabled
+<!--(<link
+                                linkend="project_at_the_root">See the figure</link>)-->
+              .
+            </entry>
+             
+            <entry>
+              On
+            </entry>
+          </row>
+           
+          <row>
+            <entry>
+              Show all projects that contain packages
+            </entry>
+             
+            <entry>
+              Selecting this setting enables the Projects Archiving view to show or hide all projects that contain packages. The option is available when the previous one is checked.
+            </entry>
+             
+            <entry>
+              Off
+            </entry>
+          </row>
+           
+          <row>
+            <entry>
+              Show node in all projects
+            </entry>
+             
+            <entry>
+              Selecting this setting enables the Projects Archiving view to show node in all projects.
+            </entry>
+             
+            <entry>
+              Off
+            </entry>
+          </row>
+           
+          <row>
+            <entry>
+              Enable Default Excludes
+            </entry>
+             
+            <entry>
+              You can set the list of files which will be excluded by default. Other files will be omitted.
+            </entry>
+             
+            <entry>
+              On
+            </entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+<!--
+        <figure id="full_outputpath_for_packages">
+            <title>Show Full Output Path next to Packages</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="images/preferences/preferences_3.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+
+        <figure id="full_rootdir_for_filesets">
+            <title>Show the Full Root Directory of Filesets</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="images/preferences/preferences_4.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+
+        <figure id="project_at_the_root">
+            <title>Show Project at the root</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="images/preferences/preferences_5.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+-->
+  </section>
+<!--section id="CodeAssist">
+        <?dbhtml filename="CodeAssist.html"?>
+        <title>CodeAssist</title>
+        <para>Select <emphasis>
+                <property>JBoss Tools > XDoclet > Code Assist</property>
+            </emphasis> to see Code Assist preference page.</para>
+        <para>Here is what the Code Assist preference page looks like: </para>
+        <figure>
+            <title>CodeAssist</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="images/preferences/preferences_2.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+    </section-->
+  <section id="Editors">
+<?dbhtml filename="Editors.html"?>
+    <title>Editors</title> 
+    <para>
+      To adjust settings common for all editors supplied with <property>JBoss Developer Studio</property> you should select <menuchoice><guimenuitem>JBoss Tools</guimenuitem><guimenuitem>Web</guimenuitem><guimenuitem>Editors</guimenuitem></menuchoice>.
+    </para>
+     
+    <figure>
+      <title>Editors</title> 
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/preferences/preferences_6.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+     
+    <para>
+      On the Editors page the following preferences are available:
+    </para>
+     
+    <table>
+      <title>Editors Preferences</title> 
+      <tgroup cols="3">
+        <colspec colnum="1" align="left" colwidth="2*"/>
+         
+        <colspec colnum="2" colwidth="4*"/>
+         
+        <colspec colnum="3" colwidth="2*"/>
+         
+        <thead>
+          <row>
+            <entry>
+              Option
+            </entry>
+             
+            <entry>
+              Description
+            </entry>
+             
+            <entry>
+              Default
+            </entry>
+          </row>
+        </thead>
+         
+        <tbody>
+          <row>
+            <entry>
+              Always use JBoss Tools editors with Open option
+            </entry>
+             
+            <entry/>
+             
+            <entry>
+              On
+            </entry>
+          </row>
+           
+          <row>
+            <entry>
+              Show warning when project has no JBoss Tools capabilities
+            </entry>
+             
+            <entry>
+              Check this option to be sure that any JBoss Tools editor is fully available for a particular type of file. If no, you&apos;ll be warned about this.
+            </entry>
+             
+            <entry>
+              On
+            </entry>
+          </row>
+           
+          <row>
+            <entry>
+              Use Source tab as a default for multi-tab editors
+            </entry>
+             
+            <entry>
+              If on, an editor will open the files in the Source view by default
+            </entry>
+             
+            <entry>
+              Off
+            </entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+  </section>
+   
+  <section id="VisualPageEditor2">
+<?dbhtml filename="VisualPageEditor.html"?>
+    <title>Visual Page Editor</title> 
+    <para>
+      <menuchoice><guimenuitem>JBoss Tools</guimenuitem><guimenuitem>Web</guimenuitem><guimenuitem>Editors</guimenuitem><guimenuitem>Visual Page Editor</guimenuitem></menuchoice> screen allows you to control some aspects of the behavior of the <property>Visual Page Editor</property> (VPE) for JSF/HTML files.
+    </para>
+     
+    <figure>
+      <title>Visual Page Editor</title> 
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/preferences/preferences_7.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+     
+    <para>
+      The next table lists the possible settings that you can adjust on the <property>General tab</property> of the VPE Preferences page.
+    </para>
+     
+    <table>
+      <title>VPE General Preferences</title> 
+      <tgroup cols="3">
+        <colspec colnum="1" align="left" colwidth="2*"/>
+         
+        <colspec colnum="2" colwidth="4*"/>
+         
+        <colspec colnum="3" colwidth="2*"/>
+         
+        <thead>
+          <row>
+            <entry>
+              Option
+            </entry>
+             
+            <entry>
+              Description
+            </entry>
+             
+            <entry>
+              Default
+            </entry>
+          </row>
+        </thead>
+         
+        <tbody>
+          <row>
+            <entry>
+              Show border for unknown tags
+            </entry>
+             
+            <entry>
+              The option allows to place the border around unknown tags or undo this
+            </entry>
+             
+            <entry>
+              On
+            </entry>
+          </row>
+           
+          <row>
+            <entry>
+              Show non-visual tags
+            </entry>
+             
+            <entry>
+              Check this box, if you want the editor shows non-visual elements on the page you're editing
+            </entry>
+             
+            <entry>
+              Off
+            </entry>
+          </row>
+           
+          <row>
+            <entry>
+              Show selection tag bar
+            </entry>
+             
+            <entry>
+              The option allows to show/hide the Selection Bar
+            </entry>
+             
+            <entry>
+              On
+            </entry>
+          </row>
+           
+          <row>
+            <entry>
+              Show text formatting bar
+            </entry>
+             
+            <entry>
+              Check this box in order to show/hide the Text Formatting bar
+            </entry>
+             
+            <entry>
+              On
+            </entry>
+          </row>
+           
+          <row>
+            <entry>
+              Show resource bundles usage as EL expressions
+            </entry>
+             
+            <entry>
+              If the option is checked, the editor will show EL expressions instead of the resource values
+            </entry>
+             
+            <entry>
+              Off
+            </entry>
+          </row>
+           
+          <row>
+            <entry>
+              Ask for tag attributes during tag insert
+            </entry>
+             
+            <entry>
+              Having this option off, the dialog with possible attributes for inserting tag won&apos;t appear if all its attributes are optional
+            </entry>
+             
+            <entry>
+              On
+            </entry>
+          </row>
+           
+          <row>
+            <entry>
+              Ask for confirmation when closing the Selection Bar
+            </entry>
+             
+            <entry>
+              Check this box if you don&apos;t want the confirmation window appears when closing the Selection Bar
+            </entry>
+             
+            <entry>
+              On
+            </entry>
+          </row>
+           
+          <row>
+            <entry>
+              Select the default active editor&apos;s tab
+            </entry>
+             
+            <entry>
+              The option provides possibility to choose one of the following views - Visual/Source, Source or Preview, as default when opening the editor
+            </entry>
+             
+            <entry>
+              Visual/Source
+            </entry>
+          </row>
+           
+          <row>
+            <entry>
+              Visual/Source editors splitting
+            </entry>
+             
+            <entry>
+              The option allows to choose one of the following Visual,Source layouts - Vertical Source on top, Vertical Visual on top,Horizontal Source to the left or Horizontal Visual to the left, as a default one when opening the Visual/Source view
+            </entry>
+             
+            <entry>
+              Vertical splitting with Source Editor on the top
+            </entry>
+          </row>
+           
+          <row>
+            <entry>
+              Size of the Visual Editor pane (0 – 100%)
+            </entry>
+             
+            <entry>
+              With the help of this scroll bar you can adjust the percentage rating between the Source and Visual modes of the Visual/Source view
+            </entry>
+             
+            <entry>
+              50%
+            </entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+     
+    <para>
+      On the <property>Visual Templates</property> tab you can add, edit or remove <xref
+                linkend="vpe_templating"/>.
+    </para>
+     
+    <figure>
+      <title>Visual Page Editor Templates</title> 
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/preferences/preferences_8.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+     
+    <para>
+      Select a template for editing from the available list and press <emphasis> <property>Edit</property> </emphasis> button. It will pick up the <xref linkend="template_dialog"/> where you can adjust new settings.
+    </para>
+  </section>
+   
+  <section id="vpe_code_templates">
+    <title>Visual Page Editor Code Templates</title> 
+    <para>
+      On the <menuchoice><guimenuitem>JBoss Tools</guimenuitem><guimenuitem>Web</guimenuitem><guimenuitem>Editors</guimenuitem><guimenuitem>Visual Page Editor</guimenuitem><guimenuitem>Code Templates</guimenuitem></menuchoice> preferences page you can create new and edit existing XHTML templates. Such a template allows you to quickly insert an often used snippet of XHTML code.
+    </para>
+     
+    <figure>
+      <title>Visual Page Editor Code Templates</title> 
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/preferences/preferences_8a.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+     
+    <para>
+      VPE provides four predefined templates:
+    </para>
+     
+    <itemizedlist>
+      <listitem>
+        <para>
+          XHTML blank facelet page template
+        </para>
+      </listitem>
+       
+      <listitem>
+        <para>
+          Common facelet page template
+        </para>
+      </listitem>
+       
+      <listitem>
+        <para>
+          Form facelet page template
+        </para>
+      </listitem>
+       
+      <listitem>
+        <para>
+          New JSF composite component template
+        </para>
+      </listitem>
+    </itemizedlist>
+     
+    <para>
+      The following table lists the configuration options for the code templates.
+    </para>
+     
+    <table>
+      <title>VPE Code Templates Options</title> 
+      <tgroup cols="2">
+        <colspec colnum="1" align="left" colwidth="2*"/>
+         
+        <colspec colnum="2" colwidth="4*"/>
+         
+        <thead>
+          <row>
+            <entry>
+              Option
+            </entry>
+             
+            <entry>
+              Description
+            </entry>
+          </row>
+        </thead>
+         
+        <tbody>
+          <row>
+            <entry>
+              New
+            </entry>
+             
+            <entry>
+              Opens the dialog to create a new template.
+            </entry>
+          </row>
+           
+          <row>
+            <entry>
+              Edit
+            </entry>
+             
+            <entry>
+              Opens the dialog to edit the currently selected template.
+            </entry>
+          </row>
+           
+          <row>
+            <entry>
+              Remove
+            </entry>
+             
+            <entry>
+              Removes all selected templates.
+            </entry>
+          </row>
+           
+          <row>
+            <entry>
+              Restore Removed
+            </entry>
+             
+            <entry>
+              Restores the removed templates.
+            </entry>
+          </row>
+           
+          <row>
+            <entry>
+              Revert to Default
+            </entry>
+             
+            <entry>
+              Reverts the code templates list to default.
+            </entry>
+          </row>
+           
+          <row>
+            <entry>
+              Import
+            </entry>
+             
+            <entry>
+              Allows you to import templates from the file system.
+            </entry>
+          </row>
+           
+          <row>
+            <entry>
+              Export
+            </entry>
+             
+            <entry>
+              Allows you to export all selected templates to the file system.
+            </entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+  </section>
+   
+  <section id="el_variables">
+<?dbhtml filename="el_variables.html"?>
+    <title>EL Variables</title> 
+    <para>
+      To specify necessary EL variables globally, i. e. for all projects and resources in your workspace, you should go to <menuchoice><guimenuitem>JBoss Tools</guimenuitem><guimenuitem>Web</guimenuitem><guimenuitem>Expression Language</guimenuitem><guimenuitem>Variables</guimenuitem></menuchoice>.
+    </para>
+     
+    <figure>
+      <title>EL Variables</title> 
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/preferences/preferences_9.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+     
+    <para>
+      Click <guibutton>Add...</guibutton> to set value for a new EL variable. In the appeared wizard you should specify the global values and press <guibutton>Finish</guibutton>.
+    </para>
+     
+    <figure>
+      <title>Adding a Global EL Variable</title> 
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/preferences/preferences_10.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+     
+    <note>
+      <title>Tip:</title> 
+      <para>
+        If you specify an equal variable in <xref linkend="el_exp_para"/> and in Preference EL dialog, variable from preference dialog will have priority.
+      </para>
+    </note>
+  </section>
+<!--section id="JBossServers">
+        <?dbhtml filename="JBossServers.html"?>
+        <title>JBoss Servers</title>
+        <para>The following preferences can be changed on the <emphasis>
+                <property>JBoss Tools > JBoss Servers</property>
+            </emphasis> preference page.</para>
+        <para>Here is what the JBoss Servers preference page looks like:</para>
+        <figure>
+            <title>JBoss Servers</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="images/preferences/preferences_4.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+    </section-->
+  <section id="JSF">
+<?dbhtml filename="JSF.html"?>
+    <title>JSF</title> 
+    <para>
+      Select <menuchoice><guimenuitem>JBoss Tools</guimenuitem><guimenuitem>Web</guimenuitem><guimenuitem>JSF</guimenuitem></menuchoice>  to get to the JSF Project specific preferences.
+    </para>
+     
+    <figure>
+      <title>JSF</title> 
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/preferences/preferences_11.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+  </section>
+   
+  <!--section id="JSFPage">
+<?dbhtml filename="JSF Page.html"?>
+    <title>JSF Pages</title> 
+    <para>
+      By selecting <menuchoice><guimenuitem>JBoss Tools</guimenuitem><guimenuitem>Web</guimenuitem><guimenuitem>JSF</guimenuitem><guimenuitem>JSF Pages</guimenuitem></menuchoice> you can add jsf pages or remove existing ones.
+    </para>
+     
+    <figure>
+      <title>JSF Page</title> 
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/preferences/preferences_12.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+  </section-->
+   
+  <section id="JSFPropject">
+<?dbhtml filename="JSFPropject.html"?>
+    <title>JSF Project</title> 
+    <para>
+      Select <menuchoice><guimenuitem>JBoss Tools</guimenuitem><guimenuitem>Web</guimenuitem><guimenuitem>JSF</guimenuitem><guimenuitem>Project</guimenuitem></menuchoice> to see JSF Project preferences page.
+    </para>
+     
+    <para>
+      On the <guilabel>New Project</guilabel> tab you can set default values for New JSF Project wizard:
+    </para>
+     
+    <itemizedlist>
+      <listitem>
+        <para>
+          <guilabel>Version</guilabel> for setting the default JSF Environment
+        </para>
+      </listitem>
+       
+      <listitem>
+        <para>
+          <guilabel>Project Template</guilabel> so as <property>New JSF Project wizard</property> shows this template as default for the chosen JSF Environment
+        </para>
+      </listitem>
+       
+      <listitem>
+        <para>
+          <guilabel>Project Root</guilabel> for specifying default location for a new JSF project
+        </para>
+         
+        <para>
+          If you check <guilabel>Use Default Path</guilabel> here, this box will be also checked in the <guilabel>New JSF Project</guilabel> wizard.
+        </para>
+      </listitem>
+       
+      <listitem>
+        <para>
+          <guilabel>Servlet Version</guilabel> for setting the default Servlet version of a new JSF project
+        </para>
+         
+        <para>
+          Here it&apos;s also possible to define whether to register Web Context in <filename>server.xml</filename> while organizing a new project or not. Check the proper box in order to do that.
+        </para>
+      </listitem>
+    </itemizedlist>
+     
+    <figure>
+      <title>New JSF Project Preferences</title> 
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/preferences/preferences_13.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+     
+    <para>
+      On the <guilabel>Import Project</guilabel> tab in the JSF Project screen you can determine the default Servlet version for the Import JSF Project wizard and also whether to register Web Context in <filename>server.xml</filename> or not.
+    </para>
+     
+    <figure>
+      <title>Import JSF Project Preferences</title> 
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/preferences/preferences_14.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+  </section>
+   
+  <!--section id="JSFValidator">
+<?dbhtml filename="JSFValidator.html"?>
+    <title>JSF Validator</title> 
+    <para>
+      Select <menuchoice><guimenuitem>JBoss Tools</guimenuitem><guimenuitem>Web</guimenuitem><guimenuitem>JSF</guimenuitem><guimenuitem>Validator</guimenuitem></menuchoice> page to configure the validator behavior. On this page you can change the severity level for different jsf problems which are controlled by validator.
+    </para>
+     
+    <figure>
+      <title>JSF Validator</title> 
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/preferences/preferences_14a.png" />
+        </imageobject>
+      </mediaobject>
+    </figure>
+  </section-->
+   
+  <section id="JSFFlowDiagram">
+<?dbhtml filename="JSFFlowDiagram.html"?>
+    <title>JSF Flow Diagram</title> 
+    <para>
+      Selecting <menuchoice><guimenuitem>JBoss Tools</guimenuitem><guimenuitem>Web</guimenuitem><guimenuitem>Editors</guimenuitem><guimenuitem>Editors</guimenuitem><guimenuitem>JSF Flow Diagram</guimenuitem></menuchoice> allows you to specify some aspects of the Diagram mode of the JSF configuration file editor.
+    </para>
+     
+    <figure>
+      <title>JSF Flow Diagram</title> 
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/preferences/preferences_15.png" scale="75"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+     
+    <para>
+      The first two items control the background grid for the diagram. The next two items allow you to control the appearance of the labels for views (pages) and the transitions between views. For these two items clicking the <guibutton>Change...</guibutton>button allows you to assign a font with a dialog box.
+    </para>
+     
+    <para>
+      The first check box determines whether a view in the diagram that doesn't have a transition connecting it to another view yet should be written to the source code as a partial navigation rule. The next check box determines whether the diagram cursor reverts immediately to the standard selection mode after it's used in the transition-drawing mode to draw a transition. Finally the last two check boxes concern shortcuts. A shortcut is a transition that is there but isn't actually displayed in the diagram as going all the way to the target view it's connected to, in order to make the diagram clearer. With the check boxes you can decide whether to display a small shortcut icon as part of the shortcut and also whether to display the target view as a label or not.
+    </para>
+     
+    <figure>
+      <title>Add View</title> 
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/preferences/preferences_16.png" scale="75"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+     
+    <para>
+      Selecting the Add View tab in the JSF Flow Diagram screen allows you to determine the default template and file extension for views (pages) you add directly into the diagram using a context menu or the view-adding mode of the diagram cursor.
+    </para>
+  </section>
+   
+  <section id="label_decorations">
+    <title>Label Decorations</title> 
+    <para>
+      The Label Decorations page is opened from <menuchoice><guimenuitem>JBoss Tools</guimenuitem><guimenuitem>Web</guimenuitem><guimenuitem>Label Decorations</guimenuitem></menuchoice>. 
+    </para>
+     
+    <figure>
+      <title>Label Decorations</title> 
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/preferences/preferences_17.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+     
+    <para>
+      On this page you can determine the format for a text output near to the decoration label for different Web resources. To change the value for selected element, click <guibutton>Add Variable...</guibutton> button next to <guilabel>Format</guilabel> field. Appeared wizard will prompt you to select one from the available list.
+    </para>
+     
+    <figure>
+      <title>Label Decoration for Validator</title> 
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/preferences/preferences_18.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+  </section>
+   
+  <section id="Seam">
+<?dbhtml filename="Seam.html"?>
+    <title>Seam</title> 
+    <para>
+      The following preferences can be changed on the <menuchoice><guimenuitem>JBoss Tools</guimenuitem><guimenuitem>Web</guimenuitem><guimenuitem>Seam</guimenuitem></menuchoice> page.
+    </para>
+     
+    <para>
+      On <guilabel>Seam</guilabel> screen you can add and remove Seam runtimes.
+    </para>
+     
+    <para>
+      Here is what Seam preference page looks like:
+    </para>
+     
+    <figure>
+      <title>Seam preference page</title> 
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/preferences/preferences_19.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+  </section>
+   
+  <section id="SeamValidator">
+<?dbhtml filename="SeamValidator.html"?>
+    <title>Seam Validator</title> 
+    <para>
+      The following preferences can be changed on the <menuchoice><guimenuitem>JBoss Tools</guimenuitem><guimenuitem>Seam</guimenuitem><guimenuitem>Validator</guimenuitem></menuchoice> page.
+    </para>
+     
+    <para>
+      In <guilabel>Validator</guilabel> panel you configure seam problems that will be processed by validator.
+    </para>
+     
+    <figure>
+      <title>Seam Validator</title> 
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/preferences/preferences_20.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+  </section>
+   
+  <section id="SeamPagesDiagram">
+<?dbhtml filename="SeamPagesDiagram.html"?>
+    <title>Seam Pages Diagram</title> 
+    <para>
+      In order to customize the layout of the Diagram used for editing and composing <filename>page.xml</filename> file in <property>Graphical mode</property> of <property>Seam Pages Editor</property> you can go to <menuchoice><guimenuitem>Window</guimenuitem><guimenuitem>Preferences</guimenuitem><guimenuitem>JBoss Tools</guimenuitem><guimenuitem>Web</guimenuitem><guimenuitem>Editors</guimenuitem><guimenuitem>Seam Pages Diagram</guimenuitem></menuchoice>.
+    </para>
+     
+    <figure>
+      <title>Preferences of Seam Pages Diagram</title> 
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/preferences/preferences_44.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+  </section>
+   
+  <section id="Struts">
+<?dbhtml filename="Struts.html"?>
+    <title>Struts</title> 
+    <para>
+      By selecting <menuchoice><guimenuitem>JBoss Tools</guimenuitem><guimenuitem>Web</guimenuitem><guimenuitem>Struts</guimenuitem></menuchoice> you can configure Struts projects specific preferences.
+    </para>
+     
+    <figure>
+      <title>Struts projects preferences Page.</title> 
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/preferences/preferences_21.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+  </section>
+   
+  <section id="struts_automation">
+<?dbhtml filename="struts_automation.html"?>
+    <title>Struts Automation</title> 
+    <para>
+      On <guilabel>Automation</guilabel> panel you can modify default text for the Title Struts plug-in element, the Validator Struts plug-in element, and error message resource files.
+    </para>
+     
+    <figure>
+      <title>Struts Automatic</title> 
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/preferences/preferences_22.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+  </section>
+   
+  <section id="Plug-inInsets">
+<?dbhtml filename="Plug-inInsets.html"?>
+    <title>Plug-in Insets</title> 
+    <para>
+      By selecting <menuchoice><guimenuitem>Web</guimenuitem><guimenuitem>Struts</guimenuitem><guimenuitem>Automation</guimenuitem><guimenuitem>Plug-in Insets</guimenuitem></menuchoice> on tab Tiles you can define a default text for tiles plugin.
+    </para>
+     
+    <figure>
+      <title>Plug-in Insets</title> 
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/preferences/preferences_23.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+     
+    <para>
+      The same is done but for validator plugin on the tab Validators.
+    </para>
+     
+    <figure>
+      <title>Plug-in Insets of Validators</title> 
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/preferences/preferences_24.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+  </section>
+   
+  <section id="ResourceInsets">
+<?dbhtml filename="ResourceInsets.html"?>
+    <title>Resource Insets</title> 
+    <para>
+      To see Resource Insets preference page select <menuchoice><guimenuitem>JBoss Tools</guimenuitem><guimenuitem>Web</guimenuitem><guimenuitem>Struts</guimenuitem><guimenuitem>Automation</guimenuitem><guimenuitem>Resource Insets</guimenuitem></menuchoice>.
+    </para>
+     
+    <para>
+      On <guilabel>Resource Insets</guilabel> panel you determine default error messages for error resource files.
+    </para>
+     
+    <figure>
+      <title>Resource Insets</title> 
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/preferences/preferences_25.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+  </section>
+   
+  <section id="StrutsCustomization">
+<?dbhtml filename="StrutsCustomization"?>
+    <title>Struts Customization</title> 
+    <para>
+      The following preferences can be changed on the <menuchoice><guimenuitem>JBoss Tools</guimenuitem><guimenuitem>Web</guimenuitem><guimenuitem>Struts</guimenuitem><guimenuitem>Customization</guimenuitem></menuchoice> page.
+    </para>
+     
+    <para>
+      In the <guilabel>Customization</guilabel> screen you configure Link Recognizer for Struts tags.
+    </para>
+     
+    <figure>
+      <title>Struts Customization</title> 
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/preferences/preferences_26.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+  </section>
+   
+  <section id="StrutsProject">
+<?dbhtml filename="StrutsProject.html"?>
+    <title>Struts Project</title> 
+    <para>
+      You can change the following preferences on the <menuchoice><guimenuitem>JBoss Tools</guimenuitem><guimenuitem>Web</guimenuitem><guimenuitem>Struts</guimenuitem><guimenuitem>Project</guimenuitem></menuchoice> preference page:
+    </para>
+     
+    <para>
+      On <guilabel>Project</guilabel> panel you define a template for a new Struts created project: servlet version, page template and so on.
+    </para>
+     
+    <figure>
+      <title>Struts Project</title> 
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/preferences/preferences_27.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+     
+    <para>
+      Selecting the Import Project tab in the Struts Project screen allows you to determine the default servlet version and whether to register Web Context in <filename>server.xml</filename>.
+    </para>
+     
+    <figure>
+      <title>Import Struts Pages</title> 
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/preferences/preferences_28.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+  </section>
+   
+  <section id="StrutsSupport">
+<?dbhtml filename="StrutsSupport.html"?>
+    <title>Struts Support</title> 
+    <para>
+      The following preferences can be changed on the <menuchoice><guimenuitem>JBoss Tools</guimenuitem><guimenuitem>Web</guimenuitem><guimenuitem>Struts</guimenuitem><guimenuitem>Project</guimenuitem><guimenuitem>Struts Support</guimenuitem></menuchoice> page.
+    </para>
+     
+    <para>
+      Select <guilabel>Struts Support</guilabel> screen if you want to configure Struts versions support settings.
+    </para>
+     
+    <figure>
+      <title>Struts Support</title> 
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/preferences/preferences_29.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+  </section>
+   
+  <!--section id="StrutsPages">
+<?dbhtml filename="StrutsPages.html"?>
+    <title>Struts Pages</title> 
+    <para>
+      You can change the following preferences on the <menuchoice><guimenuitem>JBoss Tools</guimenuitem><guimenuitem>Web</guimenuitem><guimenuitem>Struts</guimenuitem><guimenuitem>Struts Pages</guimenuitem></menuchoice> preference page.
+    </para>
+     
+    <para>
+      On <guilabel>Struts Pages</guilabel> panel you can add or remove Struts pages.
+    </para>
+     
+    <figure>
+      <title>Struts Pages</title> 
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/preferences/preferences_30.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+  </section-->
+   
+  <section id="StrutsFlowDiagram">
+<?dbhtml filename="StrutsFlowDiagram.html"?>
+    <title>Struts Flow Diagram</title> 
+    <para>
+      Similarly to the JSF Flow Diagram screen, selecting <menuchoice><guimenuitem>JBoss Tools</guimenuitem><guimenuitem>Web</guimenuitem><guimenuitem>Editor</guimenuitem><guimenuitem>Struts Flow Diagram</guimenuitem></menuchoice> page allows you to specify aspects of the Diagram mode of the Struts configuration file editor. The Struts Flow Diagram screen adds an option to hide the Diagram tab and labeling settings for additional artifacts.
+    </para>
+     
+    <figure>
+      <title>Struts Flow Diagram</title> 
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/preferences/preferences_31.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+     
+    <para>
+      Selecting the Add Page tab in the Struts Flow Diagram screen allows you to determine the default template and file extension for views (pages) you add directly into the diagram using a context menu or the view-adding mode of the diagram cursor.
+    </para>
+     
+    <figure>
+      <title>Adding Page</title> 
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/preferences/preferences_32.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+  </section>
+   
+  <section id="tiles_diagram">
+<?dbhtml filename="titles_diagram.html"?>
+    <title>Tiles Diagram</title> 
+    <para>
+      <menuchoice><guimenuitem>JBoss Tools</guimenuitem><guimenuitem>Web</guimenuitem><guimenuitem>Editors</guimenuitem><guimenuitem>Title Diagram</guimenuitem></menuchoice> screen allows you control some settings for the placement of Tiles definitions in the Diagram mode of the JBoss Tools Tiles editor.
+    </para>
+     
+    <figure>
+      <title>Title Diagram</title> 
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/preferences/preferences_33.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+  </section>
+   
+  <section id="Verification">
+<?dbhtml filename="Verification.html"?>
+    <title>Verification</title> 
+    <para>
+      The following preferences can be changed on the <menuchoice><guimenuitem>JBoss Tools</guimenuitem><guimenuitem>Web</guimenuitem><guimenuitem>Verification</guimenuitem></menuchoice> page.
+    </para>
+     
+    <para>
+      On Rules Configuration tab of <guilabel>Verification</guilabel> panel you can determine JSF and Struts rules.
+    </para>
+     
+    <figure>
+      <title>Verification</title> 
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/preferences/preferences_34.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+     
+    <para>
+      On Options tab you can define a limit for the reported errors number.
+    </para>
+     
+    <figure>
+      <title>Options of Verification</title> 
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/preferences/preferences_35.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+  </section>
+   
+  <section id="JBossServerPreferences">
+<?dbhtml filename="View.html"?>
+    <title>Server Preferences</title> 
+    <para>
+      Preferences for <property>JBoss Server</property> and other servers can be changed on the <guilabel>Server</guilabel> page.
+    </para>
+     
+    <figure>
+      <title>Server Preferences</title> 
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/preferences/preferences_36.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+     
+    <para>
+      On the <menuchoice><guimenuitem>Server</guimenuitem><guimenuitem>Runtime Environments</guimenuitem></menuchoice> page you can add new or modify already defined Server Runtime.
+    </para>
+     
+    <figure>
+      <title>Runtime Environments</title> 
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/preferences/preferences_37.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+     
+    <para>
+      Server Launching preferences can be configured on the <menuchoice><guimenuitem>Server</guimenuitem><guimenuitem>Launching</guimenuitem></menuchoice> page.
+    </para>
+     
+    <figure>
+      <title>Server Launching Preferences</title> 
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/preferences/preferences_38.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+     
+    <para>
+      Going to <menuchoice><guimenuitem>Server</guimenuitem><guimenuitem>Audio</guimenuitem></menuchoice> you can enable or disable the sound notification for different Server states and actions and set the sound volume as well.
+    </para>
+     
+    <figure>
+      <title>Sound Notification Adjustment</title> 
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/preferences/preferences_40.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+  </section>
+   
+  <section id="XDoclet">
+<?dbhtml filename="XDoclet.html"?>
+    <title>XDoclet</title> 
+    <para>
+      The preferences for XDoclet can be changed if you click <menuchoice><guimenuitem>Java EE</guimenuitem><guimenuitem>XDocklet</guimenuitem></menuchoice> on the left navigation bar.
+    </para>
+     
+    <para>
+      On the <guilabel>XDoclet</guilabel> screen it is possible to enable or disable XDoclet builder by checking proper box, specify XDoclet home and determine XDoclet module version as well.
+    </para>
+     
+    <figure>
+      <title>XDoclet Runtime Preferences Page</title> 
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/preferences/preferences_41.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+     
+    <para>
+      Switch to <menuchoice><guimenuitem>Java EE</guimenuitem><guimenuitem>XDoclet</guimenuitem><guimenuitem>ejbdoclet</guimenuitem></menuchoice> page in order to adjust settings for EJB-specific sub-tasks.
+    </para>
+     
+    <figure>
+      <title>ejbdoclet</title> 
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/preferences/preferences_42.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+     
+    <para>
+      To configure settings for various web-specific XDoclet sub-tasks, follow to <menuchoice><guimenuitem>Java EE</guimenuitem><guimenuitem>XDoclet</guimenuitem><guimenuitem>webdoclet</guimenuitem></menuchoice> page.
+    </para>
+     
+    <figure>
+      <title>webdoclet</title> 
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/preferences/preferences_43.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+  </section>
+<!--section id="XDocletTemplates">
+        <?dbhtml filename="XDocletTemplates.html"?>
+        <title>XDoclet Templates</title>
+        <para>To see what XDoclet tags templates available for completion select <emphasis>
+                <property>JBoss Tools > XDoclet > Code Assist > Templates</property>
+            </emphasis>.</para>
+        <figure>
+            <title>XDoclet Templates</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="images/preferences/preferences_32.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+        <para>By right clicking on any tree element you can add a new template, remove or rename it
+            and also add a new tree.</para>
+        <para>Select, for example, <emphasis>
+                <property>Add</property>
+            </emphasis> and you&apos;ll be prompted by a list of available elements to
+            add.</para>
+        <figure>
+            <title>Add New XDoclet Template</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="images/preferences/preferences_33.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+        <para>By double-clicking some element a new list will be shown: now for available
+            methods.</para>
+        <figure>
+            <title>Select New Element</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="images/preferences/preferences_34.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+        <para>Choose any element from the list, then select an attribute.</para>
+        <figure>
+            <title>Select New Element</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="images/preferences/preferences_35.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+        <para>It will be added to the available templates.</para>
+        <figure>
+            <title>Select New Element</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="images/preferences/preferences_36.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+    </section>
+
+    <section id="XDocletsVariables">
+        <?dbhtml filename="XDocletsVariables.html"?>
+        <title>XDoclets Variables</title>
+        <para>By selecting <emphasis>
+                <property>JBoss Tools &gt; XDoclet &gt; Variables</property>
+            </emphasis> you define variables used in templates.</para>
+        <figure>
+            <title>XDoclets Variables</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="images/preferences/preferences_37.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+    </section>
+
+    <section id="ChangingDefaultEnvironmentDuringProjectCreation">
+        <?dbhtml filename="ChangingDefaultEnvironmentDuringProjectCreation.html"?>
+        <title>Changing Default Environment During Project Creation</title>
+
+        <para>To change the default environment and project template for either JSF or Struts new
+            project creation:</para>
+
+        <orderedlist>
+            <listitem>
+                <para>Select<emphasis>
+                        <property> Window &gt; Preferences &gt; JBoss Tools &gt; Web
+                            &gt; {JSF or Struts} &gt; Project</property>
+                    </emphasis></para>
+            </listitem>
+            <listitem>
+                <para>For Version set the environment you want to be the default one</para>
+            </listitem>
+            <listitem>
+                <para>For Project Template set the template you want to be the default one</para>
+            </listitem>
+        </orderedlist>
+
+        <figure>
+            <title>Changing Enviroment Template</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="images/preferences/preferences_36.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+    </section>
+
+    <section id="ChangingDefaultProjectTemplateDuringProjectCreatio8n">
+        <?dbhtml filename="ChangingDefaultEnvironmentDuringProjectCreation.html"?>
+        <title>Changing Default Project Template During Project Creation</title>
+
+        <para>To change the default project template for either JSF or Struts new project
+            creation:</para>
+
+        <orderedlist>
+            <listitem>
+                <para>Select<menuchoice><guimenuitem>Window</guimenuitem><guimenuitem>Preferences</guimenuitem><guimenuitem>JBoss Tools</guimenuitem><guimenuitem>Web</guimenuitem><guimenuitem>{JSF or Struts}</guimenuitem><guimenuitem>Project</guimenuitem></menuchoice></para>
+            </listitem>
+            <listitem>
+                <para>For Project Template set the template you want to be the default one</para>
+            </listitem>
+        </orderedlist>
+
+        <figure>
+            <title>Changing Project Template</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="images/preferences/preferences_37.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+    </section>
+-->
+</chapter>
