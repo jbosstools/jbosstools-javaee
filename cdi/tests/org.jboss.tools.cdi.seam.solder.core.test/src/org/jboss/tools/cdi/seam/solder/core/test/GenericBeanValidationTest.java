@@ -170,7 +170,7 @@ public class GenericBeanValidationTest extends SeamSolderTest {
 		AbstractResourceMarkerTest.assertMarkerIsCreated(file, CDIValidationMessages.DUPLCICATE_EL_NAME.substring(0, 11) + ".*", 10, 17);
 	}
 
-	static void writeFile(IProject project, String sourcePath, String targetPath) throws CoreException {
+	public static void writeFile(IProject project, String sourcePath, String targetPath) throws CoreException {
 		boolean saveAutoBuild = ResourcesUtils.setBuildAutomatically(false);
 		try {
 			IFile target = project.getFile(new Path(targetPath));
@@ -188,10 +188,14 @@ public class GenericBeanValidationTest extends SeamSolderTest {
 		}
 	}
 
-	void removeFile(String targetPath) throws CoreException {
+	public void removeFile(String targetPath) throws CoreException {
+		removeFile(getTestProject(), targetPath);
+	}
+
+	public static void removeFile(IProject project, String targetPath) throws CoreException {
 		boolean saveAutoBuild = ResourcesUtils.setBuildAutomatically(false);
 		try {
-			IFile target = getTestProject().getFile(new Path(targetPath));
+			IFile target = project.getFile(new Path(targetPath));
 			assertTrue(target.exists());
 			target.delete(true, new NullProgressMonitor());
 			TestUtil.validate(target);
