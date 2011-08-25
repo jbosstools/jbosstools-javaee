@@ -38,6 +38,11 @@ public class RichFacesSubTableTemplate extends VpeAbstractTemplate {
 	private static List<String> rowClasses;
 	private static List<String> columnClasses;
 	
+	private static final String ST_HEADER_CLASS = "dr-subtable-header rich-subtable-header";
+	private static final String ST_HEADER_CONTINUE_CLASS = "dr-subtable-header-continue rich-subtable-header-continue";
+	private static final String ST_FOOTER_CLASS = "dr-subtable-footer rich-subtable-footer";
+	private static final String ST_FOOTER_CONTINUE_CLASS = "dr-subtable-footer-continue rich-subtable-footer-continue";
+	
 	/** @deprecated no one another template should know about this template */
 	public static final RichFacesSubTableTemplate DEFAULT_INSTANCE = new RichFacesSubTableTemplate();
 
@@ -227,12 +232,10 @@ public class RichFacesSubTableTemplate extends VpeAbstractTemplate {
 			final nsIDOMElement parentVisualNode, final String facetName,
 			final String trClass, final String tdClass) {
 
-		final ArrayList<Element> columns = RichFacesDataTableTemplate
-				.getColumns(sourceElement);
+		final ArrayList<Element> columns = RichFaces.getColumns(sourceElement);
 		// final ArrayList<Element> columnsHeaders =
 		// ComponentUtil.getColumnsWithFacet(columns, facetName);
-		final boolean hasColumnWithFacet = RichFacesDataTableTemplate
-				.hasColumnWithFacet(columns, facetName);
+		final boolean hasColumnWithFacet = RichFaces.hasColumnWithFacet(columns, facetName);
 		if (hasColumnWithFacet) {
 			final nsIDOMElement tr = visualDocument.createElement(HTML.TAG_TR);
 			parentVisualNode.appendChild(tr);
@@ -260,21 +263,21 @@ public class RichFacesSubTableTemplate extends VpeAbstractTemplate {
 	}
 
 	protected String getHeaderClass() {
-		return "dr-subtable-header rich-subtable-header"; //$NON-NLS-1$
+		return ST_HEADER_CLASS;
 	}
 
 	protected String getHeaderContinueClass() {
-		return "dr-subtable-header-continue rich-subtable-header-continue"; //$NON-NLS-1$
+		return ST_HEADER_CONTINUE_CLASS;
 	}
 
 	protected String getFooterClass() {
-		return "dr-subtable-footer rich-subtable-footer"; //$NON-NLS-1$
+		return ST_FOOTER_CLASS;
 	}
 
 	protected String getFooterContinueClass() {
-		return "dr-subtable-footer-continue rich-subtable-footer-continue"; //$NON-NLS-1$
+		return ST_FOOTER_CONTINUE_CLASS;
 	}
-
+	
 	protected String getRowClass(final int row) {
 		String rowClass = DEAFAULT_CELL_CLASS;
 

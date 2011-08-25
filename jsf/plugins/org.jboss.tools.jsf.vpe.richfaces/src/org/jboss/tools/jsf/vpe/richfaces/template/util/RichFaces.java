@@ -14,9 +14,12 @@ package org.jboss.tools.jsf.vpe.richfaces.template.util;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.jboss.tools.jsf.vpe.richfaces.ComponentUtil;
+import org.jboss.tools.jsf.vpe.richfaces.template.RichFacesColumnTemplate;
 import org.jboss.tools.vpe.editor.template.expression.VpeExpression;
 import org.jboss.tools.vpe.editor.template.expression.VpeExpressionBuilder;
 import org.jboss.tools.vpe.editor.template.expression.VpeExpressionBuilderException;
+import org.jboss.tools.vpe.editor.util.Constants;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -166,12 +169,98 @@ public class RichFaces {
 		return list;
 	}
 
+	/**
+	 * Reads COLLAPSED_STATE attribute's value from the source node
+	 * 
+	 * @param sourceNode the verifiable source node
+	 * @return true, if node is collapsed
+	 */
 	public static boolean readCollapsedStateFromSourceNode(Node sourceNode) {
-		boolean colapsed = false;
+		boolean isCollapsed = false;
 		String collapsedState = (String) sourceNode.getUserData(COLLAPSED_STATE);
 		if ((collapsedState != null) && ("true".equalsIgnoreCase(collapsedState))){ //$NON-NLS-1$
-			colapsed = true;
+			isCollapsed = true;
 		}
-		return colapsed;
+		return isCollapsed;
 	}
+	
+	public static ArrayList<Element> getColumns(Node parentSourceElement) {
+		ArrayList<Element> columns = new ArrayList<Element>();
+		NodeList children = parentSourceElement.getChildNodes();
+		for(int i=0; i<children.getLength(); i++) {
+			Node child = children.item(i);
+			String nodeName = child.getNodeName();
+			if((child instanceof Element) && (nodeName.endsWith(TAG_COLUMN) 
+					|| nodeName.endsWith(TAG_COLUMNS))) {
+				columns.add((Element)child);
+			}
+		}
+		return columns;
+	}
+
+	/**
+	 * Returns true if and only if {@code columns} contains at least one column that have facet 
+	 * with given {@code facetName}.
+	 */
+	public static boolean hasColumnWithFacet(ArrayList<Element> columns, String facetName) {
+		for (Element column : columns) {
+			Node body = ComponentUtil.getFacet(column, facetName, true);
+			if(body!=null) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public static int getColumnsCount(Element sourceElement, ArrayList<Element> columns) {
+		int count = 0;
+		// check for exact value in component
+		try {
+			count = Integer.parseInt(sourceElement.getAttribute(ATTR_COLUMNS));
+		} catch (NumberFormatException e) {
+			count = calculateRowColumns(sourceElement, columns);
+		}
+		return count;
+	}
+
+	/*
+	 * Calculate max number of columns per row. 
+	 * For rows, recursive calculate max length.
+	 */
+	public static int calculateRowColumns(Element sourceElement, ArrayList<Element> columns) {
+		int count = 0;
+		int currentLength = 0;
+		for (Element column : columns) {
+			if (ComponentUtil.isRendered(column)) {
+				String nodeName = column.getNodeName();
+				if (nodeName.endsWith(TAG_COLUMN_GROUP)) {
+					// Store max calculated value of previous rows.
+					count = Math.max(currentLength,count);
+					// Calculate number of columns in row.
+					currentLength = calculateRowColumns(sourceElement, getColumns(column));
+					// Store max calculated value
+					count = Math.max(currentLength,count);
+					currentLength = 0;
+				} else if (nodeName.equals(sourceElement.getPrefix() + Constants.COLON + TAG_COLUMN) ||
+						nodeName.equals(sourceElement.getPrefix() + Constants.COLON + TAG_COLUMNS)) {
+					// For new row, save length of previous.
+					if (RichFacesColumnTemplate.isBreakBefore(column)) {
+						count = Math.max(currentLength,count);
+						currentLength = 0;
+					}
+					String colspanStr = column.getAttribute("colspan"); //$NON-NLS-1$
+					try {
+						currentLength += Integer.parseInt(colspanStr);
+					} catch (NumberFormatException e) {
+						currentLength++;
+					}
+				} else if (nodeName.endsWith(TAG_COLUMN)) {
+					// UIColumn always have colspan == 1.
+					currentLength++;
+				}
+			}
+		}
+		return Math.max(currentLength, count);
+	}
+	
 }

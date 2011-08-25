@@ -52,8 +52,8 @@ public class RichFacesDataTableTemplate extends VpeAbstractTemplate {
 		table.setAttribute(HTML.ATTR_CLASS, tableClass);
 
 		// Encode colgroup definition.
-		ArrayList<Element> columns = getColumns(sourceElement);
-		int columnsLength = getColumnsCount(sourceElement, columns);
+		ArrayList<Element> columns = RichFaces.getColumns(sourceElement);
+		int columnsLength = RichFaces.getColumnsCount(sourceElement, columns);
 		nsIDOMElement colgroup = visualDocument.createElement(HTML.TAG_COLGROUP);
 		colgroup.setAttribute(HTML.ATTR_SPAN, String.valueOf(columnsLength));
 		table.appendChild(colgroup);
@@ -87,13 +87,17 @@ public class RichFacesDataTableTemplate extends VpeAbstractTemplate {
 				sourceElement, RichFaces.NAME_FACET_HEADER);
 		Map<String, List<Node>> headerFacetChildren = VisualDomUtil.findFacetElements(header, pageContext);
 		boolean headerJsfElementPresents = headerFacetChildren.get(VisualDomUtil.FACET_JSF_TAG).size() > 0;
-		boolean hasColumnWithHeader = hasColumnWithFacet(columns, RichFaces.NAME_FACET_HEADER);
+		boolean hasColumnWithHeader = RichFaces.hasColumnWithFacet(columns, RichFaces.NAME_FACET_HEADER);
 		if(headerJsfElementPresents || hasColumnWithHeader) {
 			nsIDOMElement thead = visualDocument.createElement(HTML.TAG_THEAD);
 			table.appendChild(thead);
-			String headerClass = sourceElement.hasAttribute(RichFaces.ATTR_HEADER_CLASS) ? sourceElement.getAttribute(RichFaces.ATTR_HEADER_CLASS) : null;
+			String headerClass = sourceElement.hasAttribute(RichFaces.ATTR_HEADER_CLASS) 
+					? sourceElement.getAttribute(RichFaces.ATTR_HEADER_CLASS) : null;
 			if(headerJsfElementPresents) {
 				Node node = headerFacetChildren.get(VisualDomUtil.FACET_JSF_TAG).get(0);
+				/*
+				 * Encode Header for the whole table first 
+				 */
 				encodeTableHeaderOrFooterFacet(pageContext, creationData,
 						thead, columnsLength, visualDocument, node,
 						"dr-table-header rich-table-header", //$NON-NLS-1$
@@ -108,6 +112,9 @@ public class RichFacesDataTableTemplate extends VpeAbstractTemplate {
 				if(styleClass!=null) {
 					tr.setAttribute(HTML.ATTR_CLASS, styleClass);
 				}
+				/*
+				 * Encode Header for columns
+				 */
 				encodeHeaderOrFooterFacets(pageContext, creationData, tr,
 						visualDocument, columns,
 						"dr-table-subheadercell rich-table-subheadercell", //$NON-NLS-1$
@@ -122,11 +129,12 @@ public class RichFacesDataTableTemplate extends VpeAbstractTemplate {
 				sourceElement, RichFaces.NAME_FACET_FOOTER);
 		Map<String, List<Node>> footerFacetChildren = VisualDomUtil.findFacetElements(footer, pageContext);
 		boolean footerJsfElementPresents = footerFacetChildren.get(VisualDomUtil.FACET_JSF_TAG).size() > 0;
-		boolean hasColumnWithFooter = hasColumnWithFacet(columns, RichFaces.NAME_FACET_FOOTER);
+		boolean hasColumnWithFooter = RichFaces.hasColumnWithFacet(columns, RichFaces.NAME_FACET_FOOTER);
 		if (footerJsfElementPresents || hasColumnWithFooter) {
 			nsIDOMElement tfoot = visualDocument.createElement(HTML.TAG_TFOOT);
 			table.appendChild(tfoot);
-			String footerClass = sourceElement.hasAttribute(RichFaces.ATTR_FOOTER_CLASS) ? sourceElement.getAttribute(RichFaces.ATTR_FOOTER_CLASS) : null;
+			String footerClass = sourceElement.hasAttribute(RichFaces.ATTR_FOOTER_CLASS) 
+					? sourceElement.getAttribute(RichFaces.ATTR_FOOTER_CLASS) : null;
 			if(hasColumnWithFooter) {
 				nsIDOMElement tr = visualDocument.createElement(HTML.TAG_TR);
 				tfoot.appendChild(tr);
@@ -134,6 +142,9 @@ public class RichFacesDataTableTemplate extends VpeAbstractTemplate {
 				if(styleClass!=null) {
 					tr.setAttribute(HTML.ATTR_CLASS, styleClass);
 				}
+				/*
+				 * Encode Footer for columns first
+				 */
 				encodeHeaderOrFooterFacets(pageContext, creationData, tr,
 						visualDocument, columns,
 						"dr-table-subfootercell rich-table-subfootercell", //$NON-NLS-1$
@@ -141,6 +152,9 @@ public class RichFacesDataTableTemplate extends VpeAbstractTemplate {
 			}
 			if (footerJsfElementPresents) {
 				Node node = footerFacetChildren.get(VisualDomUtil.FACET_JSF_TAG).get(0);
+				/*
+				 * Encode Footer for the whole table
+				 */
 				encodeTableHeaderOrFooterFacet(pageContext, creationData,
 						tfoot, columnsLength, visualDocument, node,
 						"dr-table-footer rich-table-footer", //$NON-NLS-1$
@@ -283,90 +297,6 @@ public class RichFacesDataTableTemplate extends VpeAbstractTemplate {
 		}
 	}
 
-	public static ArrayList<Element> getColumns(Node parentSourceElement) {
-		ArrayList<Element> columns = new ArrayList<Element>();
-		NodeList children = parentSourceElement.getChildNodes();
-		for(int i=0; i<children.getLength(); i++) {
-			Node child = children.item(i);
-			String nodeName = child.getNodeName();
-			if((child instanceof Element) && (
-					nodeName.endsWith(RichFaces.TAG_COLUMN) ||
-					nodeName.endsWith(RichFaces.TAG_COLUMNS)
-					)) {
-				columns.add((Element)child);
-			}
-		}
-		return columns;
-	}
-
-	/**
-	 * Returns true if and only if {@code columns} contains at least one column that have facet 
-	 * with given {@code facetName}.
-	 */
-	public static boolean hasColumnWithFacet(ArrayList<Element> columns, String facetName) {
-		for (Element column : columns) {
-			Node body = ComponentUtil.getFacet(column, facetName, true);
-			if(body!=null) {
-				return true;
-			}
-		}
-		
-		return false;
-	}
-
-	protected int getColumnsCount(Element sourceElement, ArrayList<Element> columns) {
-		int count = 0;
-		// check for exact value in component
-		try {
-			count = Integer.parseInt(sourceElement.getAttribute(RichFaces.ATTR_COLUMNS));
-		} catch (NumberFormatException e) {
-			count = calculateRowColumns(sourceElement, columns);
-		}
-		return count;
-	}
-
-	/*
-	 * Calculate max number of columns per row. For rows, recursive calculate
-	 * max length.
-	 */
-	private int calculateRowColumns(Element sourceElement, ArrayList<Element> columns) {
-		int count = 0;
-		int currentLength = 0;
-		for (Element column : columns) {
-			if (ComponentUtil.isRendered(column)) {
-				String nodeName = column.getNodeName();
-				if (nodeName.endsWith(RichFaces.TAG_COLUMN_GROUP)) {
-					// Store max calculated value of previous rows.
-					count = Math.max(currentLength,count);
-					// Calculate number of columns in row.
-					currentLength = calculateRowColumns(sourceElement, getColumns(column));
-					// Store max calculated value
-					count = Math.max(currentLength,count);
-					currentLength = 0;
-				} else if (nodeName.equals(sourceElement.getPrefix() + Constants.COLON + RichFaces.TAG_COLUMN) ||
-						nodeName.equals(sourceElement.getPrefix() + Constants.COLON + RichFaces.TAG_COLUMNS)) {
-					// For new row, save length of previous.
-					if (RichFacesColumnTemplate.isBreakBefore(column)) {
-						count = Math.max(currentLength,count);
-						currentLength = 0;
-					}
-					String colspanStr = column.getAttribute("colspan"); //$NON-NLS-1$
-					try {
-						currentLength += Integer.parseInt(colspanStr);
-					} catch (NumberFormatException e) {
-						currentLength++;
-					}
-				} else if (nodeName.endsWith(RichFaces.TAG_COLUMN)) {
-					// UIColumn always have colspan == 1.
-					currentLength++;
-				}
-			}
-		}
-		return Math.max(currentLength,count);
-	}
-	
-	
-	
 	/**
 	 * @see org.jboss.tools.vpe.editor.template.VpeAbstractTemplate#validate(org.jboss.tools.vpe.editor.context.VpePageContext, org.w3c.dom.Node, org.mozilla.interfaces.nsIDOMDocument, org.jboss.tools.vpe.editor.template.VpeCreationData)
 	 */

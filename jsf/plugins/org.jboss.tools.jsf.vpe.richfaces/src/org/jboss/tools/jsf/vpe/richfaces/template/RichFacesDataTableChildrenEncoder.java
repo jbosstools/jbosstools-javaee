@@ -10,7 +10,9 @@
  ******************************************************************************/
 package org.jboss.tools.jsf.vpe.richfaces.template;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.jboss.tools.jsf.vpe.richfaces.ComponentUtil;
 import org.jboss.tools.jsf.vpe.richfaces.RichFacesTemplatesActivator;
@@ -21,6 +23,7 @@ import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.jboss.tools.vpe.editor.template.VpeCreatorUtil;
 import org.jboss.tools.vpe.editor.template.VpeTemplate;
 import org.jboss.tools.vpe.editor.util.HTML;
+import org.jboss.tools.vpe.editor.util.SourceDomUtil;
 import org.jboss.tools.vpe.editor.util.VisualDomUtil;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
@@ -67,16 +70,16 @@ class RichFacesDataTableChildrenEncoder {
 	private static final String TAG_SUB_TABLE_OR_COLUMN_GROUP_CONTAINER = "subTableOrColumnGroup-container"; //$NON-NLS-1$
 	private final VpeCreationData creationData;
 	private final nsIDOMDocument visualDocument;
-	private final Element sourceElement;
-	private final nsIDOMElement table;
+	private final Element tableSourceElement;
+	private final nsIDOMElement tableVisualTag;
 
 	public RichFacesDataTableChildrenEncoder(final VpeCreationData creationData,
-			final nsIDOMDocument visualDocument, final Element sourceElement,
-			final nsIDOMElement table) {
+			final nsIDOMDocument visualDocument, final Element tableSourceElement,
+			final nsIDOMElement tableVisualTag) {
 		this.creationData = creationData;
 		this.visualDocument = visualDocument;
-		this.sourceElement = sourceElement;
-		this.table = table;
+		this.tableSourceElement = tableSourceElement;
+		this.tableVisualTag = tableVisualTag;
 	}
 
 	/**
@@ -93,8 +96,8 @@ class RichFacesDataTableChildrenEncoder {
 		// except ones specified in another vpeChildrenInfo's
 		final VpeChildrenInfo childInfo = new VpeChildrenInfo(null);
 		creationData.addChildrenInfo(childInfo);
-		
-		final List<Node> children = ComponentUtil.getChildren(sourceElement);		
+
+		final List<Node> children = ComponentUtil.getChildren(tableSourceElement);		
 		boolean createNewRow = true;
 		for (final Node child : children) {
 			final String nodeName = child.getNodeName();
@@ -122,15 +125,16 @@ class RichFacesDataTableChildrenEncoder {
 		final nsIDOMNode visualNode = creationData.getNode();
 		fixSubTables(visualNode);
 	}
-	
+
 	/**
 	 * Creates a container for {@code subTableOrColumnGroupNode} in {@code table}
 	 * and adds an appropriate object of {@link VpeChildrenInfo} to {@code creationData}.
 	 * <BR/>The container is the tag {@link #TAG_SUB_TABLE_OR_COLUMN_GROUP_CONTAINER}.
 	 */
 	private nsIDOMElement addSubTableOrColumnGroupToTable(final Node subTableOrColumnGroupNode) {
-		final nsIDOMElement subTableOrColumnGroupContainer = visualDocument.createElement(TAG_SUB_TABLE_OR_COLUMN_GROUP_CONTAINER);
-		table.appendChild(subTableOrColumnGroupContainer);
+		final nsIDOMElement subTableOrColumnGroupContainer = visualDocument
+				.createElement(TAG_SUB_TABLE_OR_COLUMN_GROUP_CONTAINER);
+		tableVisualTag.appendChild(subTableOrColumnGroupContainer);
 		final VpeChildrenInfo childInfo = new VpeChildrenInfo(subTableOrColumnGroupContainer);
 		childInfo.addSourceChild(subTableOrColumnGroupNode);
 		creationData.addChildrenInfo(childInfo);
@@ -150,7 +154,7 @@ class RichFacesDataTableChildrenEncoder {
 	private nsIDOMElement addColumnToRow(final Node columnNode, final boolean createNewRow) {
 		if ( createNewRow || (currentRow == null) ) {
 			currentRow = visualDocument.createElement(HTML.TAG_TR);
-			table.appendChild(currentRow);
+			tableVisualTag.appendChild(currentRow);
 			currentRowChildrenInfo = new VpeChildrenInfo(currentRow);
 			creationData.addChildrenInfo(currentRowChildrenInfo);
 			rowNumber++;
@@ -172,7 +176,7 @@ class RichFacesDataTableChildrenEncoder {
 	 * */
 	private void addElementToTable(final Node node) {
 		final nsIDOMElement tr = this.visualDocument.createElement(HTML.TAG_TR);
-		table.appendChild(tr);
+		tableVisualTag.appendChild(tr);
 		final nsIDOMElement td = this.visualDocument.createElement(HTML.TAG_TD);
 
 		td.setAttribute(HTML.ATTR_COLSPAN, HTML.VALUE_COLSPAN_ALL);
@@ -200,8 +204,264 @@ class RichFacesDataTableChildrenEncoder {
 				final RuntimeException e = new RuntimeException("This is probably a bug. subTable-container should have one inner tag.");//$NON-NLS-1$
 				RichFacesTemplatesActivator.getPluginLog().logError(e);
 			}
-			
+
 			VisualDomUtil.replaceNodeByItsChildren(subTableContainer);
 		}
 	}	
+
+	/**
+	 * Encoded facets from columns to the table.
+	 * 
+	 * @param pageContext VpePageContext
+	 * @param columnsWithFacets list of the source elements for columns 
+	 * @param facetName {@code "header"} or {@code "footer"} or other
+	 * @param visualParentTR visal element to put {@code "<tr>"} to
+	 * @param visualElementForTD string name for facet cell (usually {@code <td>})
+	 * @param cellClass css class for the facet's cell
+	 * @param headerClass user defined css class for column's header
+	 */
+	public void encodeColumnsFacets(VpePageContext pageContext,
+			ArrayList<Element> columnsWithFacets, String facetName,
+			nsIDOMElement visualParentTR, String visualElementForTD,
+			String cellClass, String headerClass) {
+
+		for (Element column : columnsWithFacets) {
+			Element facet = SourceDomUtil.getFacetByName(pageContext,column, facetName);
+			/*
+			 * If facet is null unwanted cells might be added.
+			 * Thus do not add TD for such facets.
+			 */
+			if (null != facet) {
+				String classAttribute = facetName + "Class"; //$NON-NLS-1$
+
+				String columnHeaderClass = column.hasAttribute(classAttribute) ? column.getAttribute(classAttribute) : null;
+				nsIDOMElement td = visualDocument.createElement(visualElementForTD);
+				visualParentTR.appendChild(td);
+				String styleClass = ComponentUtil.encodeStyleClass(null, cellClass, headerClass, columnHeaderClass);
+				if (!RichFacesColumnTemplate.isVisible(column)) {
+					VisualDomUtil.setSubAttribute(td, HTML.ATTR_STYLE,
+							HTML.STYLE_PARAMETER_DISPLAY, HTML.STYLE_VALUE_NONE);
+				}
+				td.setAttribute(HTML.ATTR_CLASS, styleClass);
+				td.setAttribute(HTML.ATTR_SCOPE, HTML.TAG_COL);		    	
+				if(column.hasAttribute(HTML.ATTR_COLSPAN)) {
+					String colspan = column.getAttribute(HTML.ATTR_COLSPAN);
+					td.setAttribute(HTML.ATTR_COLSPAN, colspan);
+				}
+				if (RichFaces.NAME_FACET_HEADER.equals(facetName)) {
+					nsIDOMElement icon = RichFacesColumnTemplate.getHeaderIcon(pageContext, column, visualDocument);
+					if (icon != null) {
+						td.appendChild(icon);
+					}
+				}
+				/*
+				 * Add facet source here
+				 */
+				VpeChildrenInfo childrenInfo = new VpeChildrenInfo(td);
+				childrenInfo.addSourceChild(facet);
+				creationData.addChildrenInfo(childrenInfo);
+			}
+		}
+	}
+
+	/**
+	 * Adds the header or footer facets to the table
+	 * 
+	 * @param pageContext VpePageContext
+	 * @param visualTagForFacet {@code <thead>} or {@code <tfoot>} or any similar
+	 * @param innerFacetSourceNode single source elemen``t to be rendered inside facet
+	 * @param visualElementForTD string name for facet cell (usually {@code <td>})
+	 * @param facetTHeadClass css class for {@code <thead>} or {@code <tfoot>} or any similar
+	 * @param firstRowClass css class for the first facet row
+	 * @param rowClass css class for the facet's row
+	 * @param cellClass css class for the facet's cell
+	 */
+	public void encodeTableFacets(VpePageContext pageContext, 
+			nsIDOMElement visualTagForFacet, Element innerFacetSourceNode, 
+			String visualElementForTD, String facetTHeadClass, 
+			String firstRowClass, String rowClass, String cellClass) {
+
+		if (null == innerFacetSourceNode) {
+			RichFacesTemplatesActivator.getDefault().logError("Source element to be rendered inside facet is 'null' !"); //$NON-NLS-1$
+		}
+
+		boolean isColumnGroup = innerFacetSourceNode.getNodeName().endsWith(RichFaces.TAG_COLUMN_GROUP);
+		boolean isSubTable = innerFacetSourceNode.getNodeName().endsWith(RichFaces.TAG_SUB_TABLE);
+		if(isColumnGroup) {
+			RichFacesColumnGroupTemplate.DEFAULT_INSTANCE.encodeSubTable(pageContext, creationData, innerFacetSourceNode, visualDocument, visualTagForFacet);
+		} else if(isSubTable) {
+			RichFacesSubTableTemplate.DEFAULT_INSTANCE.encodeSubTable(pageContext, creationData, innerFacetSourceNode, visualDocument, visualTagForFacet);
+		} else {
+			nsIDOMElement tr = visualDocument.createElement(HTML.TAG_TR);
+			visualTagForFacet.appendChild(tr);
+			// TODO facetTHeadClass should be applied only once
+			// TODO rowClass is never applied
+			String styleClass = ComponentUtil.encodeStyleClass(null, firstRowClass, facetTHeadClass, null);
+			if(styleClass!=null) {
+				tr.setAttribute(HTML.ATTR_CLASS, styleClass);
+			}
+			String style = ComponentUtil.getHeaderBackgoundImgStyle();
+			tr.setAttribute(HTML.ATTR_STYLE, style);
+
+			nsIDOMElement td = visualDocument.createElement(visualElementForTD);
+			tr.appendChild(td);
+			// TODO facetTHeadClass should be applied only once
+			styleClass = ComponentUtil.encodeStyleClass(null, cellClass, facetTHeadClass, null);
+			if(styleClass!=null) {
+				td.setAttribute(HTML.ATTR_CLASS, styleClass);
+			}
+			// the cell spans the entire row
+			td.setAttribute(HTML.ATTR_COLSPAN, HTML.VALUE_COLSPAN_ALL);
+			td.setAttribute(HTML.ATTR_SCOPE, HTML.TAG_COLGROUP);
+			VpeChildrenInfo child = new VpeChildrenInfo(td);
+			child.addSourceChild(innerFacetSourceNode);
+			creationData.addChildrenInfo(child);
+		}
+	}
+
+	/**
+	 * Encodes the whole table's header and columns' header
+	 * 
+	 * @param pageContext VpePageContext
+	 * @param visualParentForFacetTHead visual node to put facet's {@code <thead>} or {@code <tfoot>} or similar
+	 * @param visualTagForFacetTHead what tag will be rendered: {@code <thead>} or {@code <tfoot>} or other
+	 * @param visualElementForTD string name for facet cell (usually {@code <td>})
+	 * @param facetName {@code "header"} or {@code "footer"} or other
+	 * @param customFacetClass user's class for columns' headers/footer
+	 * @param facetTHeadClass user's class for table's headers/footer
+	 * @param firstRowClass css class for the first row in table's headers/footer
+	 * @param rowClass css class for non-first row in table's headers/footer
+	 * @param cellClass css class for the facet's cell
+	 */
+	public void encodeTableHeader(VpePageContext pageContext,
+			nsIDOMElement visualParentForFacetTHead, 
+			String visualTagForFacetTHead, String visualElementForTD, 
+			String facetName, String customFacetClass, String facetTHeadClass, 
+			String firstRowClass, String rowClass, String cellClass) {
+
+		Element facetSourceElement = SourceDomUtil.getFacetByName(pageContext,
+				tableSourceElement, facetName);
+
+		ArrayList<Element> columns = RichFaces.getColumns(tableSourceElement);
+		int columnsLength = RichFaces.getColumnsCount(tableSourceElement, columns);
+
+		Map<String, List<Node>> facetChildren = VisualDomUtil.findFacetElements(facetSourceElement, pageContext);
+		boolean headerJsfElementPresents = facetChildren.get(VisualDomUtil.FACET_JSF_TAG).size() > 0;
+		boolean hasColumnWithFacets = RichFaces.hasColumnWithFacet(columns, facetName);
+		if(headerJsfElementPresents || hasColumnWithFacets) {
+			nsIDOMElement createdVisualTagForFacetTHead = null;
+			if ((null == visualTagForFacetTHead) || "".equalsIgnoreCase(visualTagForFacetTHead)) { //$NON-NLS-1$
+				/*
+				 * For subtables mostly:
+				 * Header won't be placed into separate thead or tfoot tag.
+				 * Then put it to the parent's visual node.
+				 */
+				createdVisualTagForFacetTHead = visualParentForFacetTHead;
+			} else {
+				createdVisualTagForFacetTHead = visualDocument.createElement(
+						visualTagForFacetTHead); //thead or tfoot
+				visualParentForFacetTHead.appendChild(createdVisualTagForFacetTHead);
+			}
+			String facetClass = null; 
+			if (tableSourceElement.hasAttribute(facetName + "Class")) { //$NON-NLS-1$
+				facetClass = tableSourceElement.getAttribute(facetName + "Class"); //$NON-NLS-1$
+			}
+			/*
+			 * Encode facet for the whole table 	
+			 */
+			if(headerJsfElementPresents) {
+				Element node = (Element) facetChildren.get(VisualDomUtil.FACET_JSF_TAG).get(0);
+				encodeTableFacets(pageContext,
+						createdVisualTagForFacetTHead, node, visualElementForTD, 
+						facetTHeadClass, firstRowClass, rowClass, cellClass);
+			}
+			/*
+			 * Encode facets for columns
+			 */
+			if(hasColumnWithFacets) {
+				nsIDOMElement visualParentTR = visualDocument.createElement(HTML.TAG_TR);
+				createdVisualTagForFacetTHead.appendChild(visualParentTR);
+				String styleClass = ComponentUtil.encodeStyleClass(null, customFacetClass, null, facetClass);
+				if(styleClass!=null) {
+					visualParentTR.setAttribute(HTML.ATTR_CLASS, styleClass);
+				}
+				encodeColumnsFacets(pageContext,
+						columns, facetName, visualParentTR, visualElementForTD, 
+						cellClass, facetClass);
+			}
+		}
+	}
+
+	/**
+	 * Encodes the whole table's footer and columns' footer
+	 * 
+	 * @param pageContext VpePageContext
+	 * @param visualParentForFacetTHead visual node to put facet's {@code <thead>} or {@code <tfoot>} or similar
+	 * @param visualTagForFacetTHead what tag will be rendered: {@code <thead>} or {@code <tfoot>} or other
+	 * @param visualElementForTD string name for facet cell (usually {@code <td>})
+	 * @param facetName {@code "header"} or {@code "footer"} or other
+	 * @param customFacetClass user's class for columns' headers/footer
+	 * @param facetTHeadClass user's class for table's headers/footer
+	 * @param firstRowClass css class for the first row in table's headers/footer
+	 * @param rowClass css class for non-first row in table's headers/footer
+	 * @param cellClass css class for the facet's cell
+	 */
+	public void encodeTableFooter(VpePageContext pageContext,
+			nsIDOMElement visualParentForFacetTHead, 
+			String visualTagForFacetTHead, String visualElementForTD, 
+			String facetName, String customFacetClass, String facetTHeadClass, 
+			String firstRowClass, String rowClass, String cellClass) {
+
+		Element facetSourceElement = SourceDomUtil.getFacetByName(pageContext,
+				tableSourceElement, facetName);
+
+		ArrayList<Element> columns = RichFaces.getColumns(tableSourceElement);
+		int columnsLength = RichFaces.getColumnsCount(tableSourceElement, columns);
+
+		Map<String, List<Node>> facetChildren = VisualDomUtil.findFacetElements(facetSourceElement, pageContext);
+		boolean headerJsfElementPresents = facetChildren.get(VisualDomUtil.FACET_JSF_TAG).size() > 0;
+		boolean hasColumnWithFacets = RichFaces.hasColumnWithFacet(columns, facetName);
+		if(headerJsfElementPresents || hasColumnWithFacets) {
+			nsIDOMElement createdVisualTagForFacetTHead = null;
+			if ((null == visualTagForFacetTHead) || "".equalsIgnoreCase(visualTagForFacetTHead)) { //$NON-NLS-1$
+				/*
+				 * For subtables mostly:
+				 * Header won't be placed into separate thead or tfoot tag.
+				 * Then put it to the parent's visual node.
+				 */
+				createdVisualTagForFacetTHead = visualParentForFacetTHead;
+			} else {
+				createdVisualTagForFacetTHead = visualDocument.createElement(
+						visualTagForFacetTHead); //thead or tfoot
+				visualParentForFacetTHead.appendChild(createdVisualTagForFacetTHead);
+			}
+			String facetClass = null; 
+			if (tableSourceElement.hasAttribute(facetName + "Class")) { //$NON-NLS-1$
+				facetClass = tableSourceElement.getAttribute(facetName + "Class"); //$NON-NLS-1$
+			} 
+			/*
+			 * Encode facets for columns first
+			 */
+			if(hasColumnWithFacets) {
+				nsIDOMElement visualParentTR = visualDocument.createElement(HTML.TAG_TR);
+				createdVisualTagForFacetTHead.appendChild(visualParentTR);
+				String styleClass = ComponentUtil.encodeStyleClass(null, customFacetClass, null, facetClass);
+				if(styleClass!=null) {
+					visualParentTR.setAttribute(HTML.ATTR_CLASS, styleClass);
+				}
+				encodeColumnsFacets(pageContext, 
+						columns, facetName, visualParentTR, visualElementForTD, 
+						cellClass, facetClass);
+			}
+			/*
+			 * Encode facet for the whole table 	
+			 */
+			if(headerJsfElementPresents) {
+				Element node = (Element) facetChildren.get(VisualDomUtil.FACET_JSF_TAG).get(0);
+				encodeTableFacets(pageContext,
+						createdVisualTagForFacetTHead, node, visualElementForTD, 
+						facetTHeadClass, firstRowClass, rowClass, cellClass);
+			}
+		}
+	}
 }
