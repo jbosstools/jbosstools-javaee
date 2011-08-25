@@ -89,6 +89,7 @@ public class SeamDefinitionBuilder {
 		IType type = Util.resolveType(element, project);
 		if(type == null) {
 			result.addUnresolvedNode(element, CDISeamConfigConstants.ERROR_UNRESOLVED_TYPE);
+			result.addPossibleTypeNames(Util.getPossibleTypeNames(element));
 			return;
 		}
 		TypeCheck typeCheck = new TypeCheck(type, element);

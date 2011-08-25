@@ -11,6 +11,7 @@
 package org.jboss.tools.cdi.seam.config.core.definition;
 
 import org.jboss.tools.cdi.internal.core.impl.definition.MethodDefinition;
+import org.jboss.tools.common.model.XModelObject;
 
 /**
  * 
@@ -19,8 +20,11 @@ import org.jboss.tools.cdi.internal.core.impl.definition.MethodDefinition;
  */
 public class ConfigMethodDefinition extends MethodDefinition implements IConfigDefinition {
 	protected SeamMethodDefinition config;
+	protected XModelObject file;
 
-	public ConfigMethodDefinition() {}
+	public ConfigMethodDefinition(XModelObject file) {
+		this.file = file;
+	}
 
 	public void setConfig(SeamMethodDefinition config) {
 		this.config = config;

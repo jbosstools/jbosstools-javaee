@@ -13,6 +13,7 @@ package org.jboss.tools.cdi.seam.config.core.definition;
 import org.jboss.tools.cdi.internal.core.impl.definition.FieldDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.MethodDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.TypeDefinition;
+import org.jboss.tools.common.model.XModelObject;
 
 /**
  * 
@@ -21,6 +22,7 @@ import org.jboss.tools.cdi.internal.core.impl.definition.TypeDefinition;
  */
 public class ConfigVirtualFieldDefinition extends TypeDefinition implements IConfigDefinition {
 	protected SeamVirtualFieldDefinition config;
+	protected XModelObject file;
 
 	public ConfigVirtualFieldDefinition() {}
 
@@ -29,16 +31,20 @@ public class ConfigVirtualFieldDefinition extends TypeDefinition implements ICon
 		setOriginalDefinition(new TextSourceReference(config.getResource(), config.getNode()));
 	}
 
+	public void setFileObject(XModelObject file) {
+		this.file = file;
+	}
+
 	public SeamVirtualFieldDefinition getConfig() {
 		return config;
 	}
 
 	protected FieldDefinition newFieldDefinition() {
-		return new ConfigFieldDefinition();
+		return new ConfigFieldDefinition(file);
 	}
 
 	protected MethodDefinition newMethodDefinition() {
-		return new ConfigMethodDefinition();
+		return new ConfigMethodDefinition(file);
 	}
 
 }

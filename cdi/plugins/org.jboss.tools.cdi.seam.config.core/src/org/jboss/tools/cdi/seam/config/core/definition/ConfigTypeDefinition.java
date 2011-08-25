@@ -13,6 +13,7 @@ package org.jboss.tools.cdi.seam.config.core.definition;
 import org.jboss.tools.cdi.internal.core.impl.definition.FieldDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.MethodDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.TypeDefinition;
+import org.jboss.tools.common.model.XModelObject;
 
 /**
  * 
@@ -21,8 +22,13 @@ import org.jboss.tools.cdi.internal.core.impl.definition.TypeDefinition;
  */
 public class ConfigTypeDefinition extends TypeDefinition implements IConfigDefinition {
 	protected SeamBeanDefinition config;
+	protected XModelObject file;
 
 	public ConfigTypeDefinition() {}
+
+	public void setFileObject(XModelObject file) {
+		this.file = file;
+	}
 
 	public void setConfig(SeamBeanDefinition config) {
 		this.config = config;
@@ -34,11 +40,11 @@ public class ConfigTypeDefinition extends TypeDefinition implements IConfigDefin
 	}
 
 	protected FieldDefinition newFieldDefinition() {
-		return new ConfigFieldDefinition();
+		return new ConfigFieldDefinition(file);
 	}
 
 	protected MethodDefinition newMethodDefinition() {
-		return new ConfigMethodDefinition();
+		return new ConfigMethodDefinition(file);
 	}
 
 }

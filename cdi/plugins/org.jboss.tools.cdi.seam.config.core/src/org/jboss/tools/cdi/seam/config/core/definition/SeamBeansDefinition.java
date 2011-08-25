@@ -30,6 +30,7 @@ import org.jboss.tools.cdi.seam.config.core.ConfigDefinitionContext;
 import org.jboss.tools.cdi.seam.config.core.xml.SAXNode;
 import org.jboss.tools.common.java.IAnnotationDeclaration;
 import org.jboss.tools.common.java.IJavaAnnotation;
+import org.jboss.tools.common.model.XModelObject;
 
 /**
  * 
@@ -38,18 +39,24 @@ import org.jboss.tools.common.java.IJavaAnnotation;
  */
 public class SeamBeansDefinition {
 	IResource resource;
+	XModelObject file;
 	Map<SAXNode, String> unresolvedNodes = new HashMap<SAXNode, String>();
+	Set<String> possibleTypeNames = new HashSet<String>();
 
 	Set<SeamBeanDefinition> beanDefinitions = new HashSet<SeamBeanDefinition>();
 	Set<SeamVirtualFieldDefinition> virtualFieldDefinitions = new HashSet<SeamVirtualFieldDefinition>();
 
 	List<TypeDefinition> typeDefinitions = new ArrayList<TypeDefinition>();
 	List<IType> replacedAndModified = new ArrayList<IType>();
-	
+
 	public SeamBeansDefinition() {}
 
 	public void setResource(IResource resource) {
 		this.resource = resource;
+	}
+
+	public void setFileObject(XModelObject file) {
+		this.file = file;
 	}
 
 	public IResource getResource() {
@@ -60,8 +67,21 @@ public class SeamBeansDefinition {
 		return unresolvedNodes;
 	}
 
+	/**
+	 * Returns type names that could resolve unresolved nodes if such types existed.
+	 * 
+	 * @return
+	 */
+	public Set<String> getPossibleTypeNames() {
+		return possibleTypeNames;
+	}
+
 	public void addUnresolvedNode(SAXNode node, String problem) {
 		unresolvedNodes.put(node, problem);
+	}
+
+	public void addPossibleTypeNames(Set<String> types) {
+		possibleTypeNames.addAll(types);
 	}
 
 	public void addBeanDefinition(SeamBeanDefinition def) {
@@ -90,6 +110,7 @@ public class SeamBeansDefinition {
 		for (SeamBeanDefinition def: beanDefinitions) {
 			IType type = def.getType();
 			ConfigTypeDefinition typeDef = new ConfigTypeDefinition();
+			typeDef.setFileObject(file);
 			boolean replaces = def.getReplacesLocation() != null;
 			boolean modifies = def.getModifiesLocation() != null;
 			if(replaces || modifies) {
@@ -112,6 +133,7 @@ public class SeamBeansDefinition {
 		for (SeamVirtualFieldDefinition def: virtualFieldDefinitions) {
 			IType type = def.getType();
 			ConfigVirtualFieldDefinition typeDef = new ConfigVirtualFieldDefinition();
+			typeDef.setFileObject(file);
 			typeDef.setConfig(def);
 			int flags = AbstractMemberDefinition.FLAG_NO_ANNOTATIONS;
 			typeDef.setType(type, context.getRootContext(), flags);

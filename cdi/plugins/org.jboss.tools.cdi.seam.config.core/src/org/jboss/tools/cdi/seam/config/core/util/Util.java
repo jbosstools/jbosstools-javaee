@@ -11,8 +11,10 @@
 package org.jboss.tools.cdi.seam.config.core.util;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.jdt.core.IField;
 import org.eclipse.jdt.core.IMember;
@@ -116,6 +118,30 @@ public class Util implements CDISeamConfigConstants {
 			}
 		}
 		return null;
+	}
+
+	/**
+	 * Computes possible type names that could resolve type for the element, 
+	 * if one of these types existed.
+	 * Returns empty set if a) element has no prefix, b) uri is not urn:java:,
+	 * c) package is 'ee'.
+	 * 
+	 * @param element
+	 * @return
+	 */
+	public static Set<String> getPossibleTypeNames(SAXElement element) {
+		Set<String> result = new HashSet<String>();
+		String name = element.getLocalName();
+		String uri = element.getURI();
+		if(uri != null && uri.startsWith(CDISeamConfigConstants.URI_PREFIX)) {
+			String[] packages = getPackages(uri);
+			for (String pkg: packages) {
+				if(pkg.length() > 0 && !pkg.equals(PACKAGE_EE)) {
+					result.add(pkg + "." + name);
+				}
+			}
+		}
+		return result;
 	}
 
 	public static IMember resolveMember(IType type, SAXElement element) throws JavaModelException {

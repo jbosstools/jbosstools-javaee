@@ -11,6 +11,7 @@
 package org.jboss.tools.cdi.seam.config.core.definition;
 
 import org.jboss.tools.cdi.internal.core.impl.definition.FieldDefinition;
+import org.jboss.tools.common.model.XModelObject;
 
 /**
  * 
@@ -19,8 +20,11 @@ import org.jboss.tools.cdi.internal.core.impl.definition.FieldDefinition;
  */
 public class ConfigFieldDefinition extends FieldDefinition implements IConfigDefinition {
 	protected SeamFieldDefinition config;
+	protected XModelObject file;
 
-	public ConfigFieldDefinition() {}
+	public ConfigFieldDefinition(XModelObject file) {
+		this.file = file;
+	}
 
 	public void setConfig(SeamFieldDefinition config) {
 		this.config = config;

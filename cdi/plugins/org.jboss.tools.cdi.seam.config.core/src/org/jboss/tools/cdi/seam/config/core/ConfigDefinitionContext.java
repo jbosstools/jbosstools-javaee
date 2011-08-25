@@ -36,6 +36,12 @@ public class ConfigDefinitionContext extends AbstractDefinitionContextExtension 
 
 	private Map<String, AnnotationDefinition> annotations = new HashMap<String, AnnotationDefinition>();
 
+	/**
+	 * Temporal map used by working copy, to detect bean xml files 
+	 * that should be rebuilt when new Java type is created.
+	 */
+	private Map<String, IPath> possibleTypes = new HashMap<String, IPath>();
+
 	public ConfigDefinitionContext getWorkingCopy() {
 		return (ConfigDefinitionContext)super.getWorkingCopy();
 	}
@@ -47,6 +53,7 @@ public class ConfigDefinitionContext extends AbstractDefinitionContextExtension 
 			copy.beanXMLs.putAll(beanXMLs);
 			copy.seambeanXMLs.putAll(seambeanXMLs);
 			copy.annotations.putAll(annotations);
+			copy.initPossibleTypes();
 			//TODO
 		}
 
@@ -125,6 +132,13 @@ public class ConfigDefinitionContext extends AbstractDefinitionContextExtension 
 		return result;
 	}
 
+	public Set<IPath> getAllPaths() {
+		Set<IPath> result = new HashSet<IPath>();
+		result.addAll(beanXMLs.keySet());
+		result.addAll(seambeanXMLs.keySet());
+		return result;
+	}
+
 	public SeamBeansDefinition getDefinition(IPath path) {
 		if(beanXMLs.containsKey(path)) return beanXMLs.get(path);
 		if(seambeanXMLs.containsKey(path)) return seambeanXMLs.get(path);
@@ -147,6 +161,21 @@ public class ConfigDefinitionContext extends AbstractDefinitionContextExtension 
 			result.addAll(def.getTypeDefinitions());
 		}
 		return result;
+	}
+
+	void initPossibleTypes() {
+		Set<IPath> ps = getAllPaths();
+		for (IPath p: ps) {
+			SeamBeansDefinition d = getDefinition(p);
+			Set<String> ns = d.getPossibleTypeNames();
+			for (String type: ns) {
+				possibleTypes.put(type, p);
+			}
+		}
+	}
+
+	public IPath getPathForPossibleType(String type) {
+		return possibleTypes.get(type);
 	}
 
 }

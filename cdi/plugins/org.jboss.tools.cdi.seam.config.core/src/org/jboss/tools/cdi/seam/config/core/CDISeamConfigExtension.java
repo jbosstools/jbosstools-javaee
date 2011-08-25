@@ -18,8 +18,11 @@ import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
+import org.eclipse.jdt.core.IType;
 import org.eclipse.jface.text.Document;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.osgi.util.NLS;
@@ -38,6 +41,7 @@ import org.jboss.tools.cdi.seam.config.core.validation.SeamConfigValidationMessa
 import org.jboss.tools.cdi.seam.config.core.xml.SAXAttribute;
 import org.jboss.tools.cdi.seam.config.core.xml.SAXElement;
 import org.jboss.tools.cdi.seam.config.core.xml.SAXNode;
+import org.jboss.tools.common.EclipseUtil;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.filesystems.impl.FileAnyImpl;
 import org.jboss.tools.common.model.filesystems.impl.FolderImpl;
@@ -77,6 +81,26 @@ public class CDISeamConfigExtension implements ICDIExtension, IBuildParticipantF
 			addBeansXML(file, fileSet);
 		} else if(webinf != null && webinf.isPrefixOf(path) && webinf.segmentCount() == path.segmentCount() - 1) {
 			addBeansXML(file, fileSet);
+		} else if(src != null && file.getName().endsWith(".java")) {
+			//Check that Java type appeared that may resolve a node in seam beans xml. 
+			try {
+				ICompilationUnit unit = EclipseUtil.getCompilationUnit(file);
+				if(unit != null) {
+					IType[] ts = unit.getTypes();
+					for (IType t: ts) {
+						String type = t.getFullyQualifiedName();
+						IPath p = context.getWorkingCopy().getPathForPossibleType(type);
+						if(p != null && fileSet.getBeanXML(p) == null) {
+							IFile f = context.getRootContext().getProject().getProject().getWorkspace().getRoot().getFile(p);
+							if(f.exists()) {
+								addBeansXML(f, fileSet);
+							}
+						}
+					}
+				}
+			} catch (CoreException e) {
+				CDISeamConfigCorePlugin.getDefault().logError(e);
+			}
 		}
 	}
 
@@ -111,6 +135,7 @@ public class CDISeamConfigExtension implements ICDIExtension, IBuildParticipantF
 				 SeamDefinitionBuilder builder = new SeamDefinitionBuilder();
 				 document.set(text);
 				 SeamBeansDefinition def = builder.createDefinition(resource, document, context.getRootContext().getProject(), context.getWorkingCopy());
+				 def.setFileObject(o);
 				 newDefinitions.add(def);
 				 if(isSeamBeans) {
 					 context.getWorkingCopy().addSeamBeanXML(p, def);
