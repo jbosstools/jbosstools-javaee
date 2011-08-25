@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<chapter id="compiling_and_running">
+    <?dbhtml filename="compiling_and_running.html"?>
+    <chapterinfo>
+        <keywordset>
+            <keyword>JBoss Tools</keyword>
+            <keyword>Struts</keyword>
+            <keyword>Struts Application</keyword>
+        </keywordset>
+    </chapterinfo>
+    
+    <title>Compiling the Classes and Running the Application</title>
+    
+        <para>As this is the Eclipse environment, no explicit compilation step is required. By
+        default, Eclipse compiles as you go.</para>
+
+        <para>Thus at this point everything is ready for running our application without having to leave JBoss
+            Developer Studio by using the JBoss Application Server engine that comes with the JBoss
+            Developer Studio. For controlling JBoss AS within JBoss Developer Studio, there is 
+            Servers view.</para>
+        <figure>
+            <title>Servers Panel</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="images/struts_application/struts_application_6.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+        <itemizedlist>
+            <listitem>
+                <para>Start up JBoss AS by clicking on the icon in Servers view. (If JBoss AS
+                    is already running, stop it by clicking on the red icon and then start it again.
+                    Remember, the Struts run-time requires restarting the servlet engine when any
+                    changes have been made.)</para>
+            </listitem>
+            <listitem>
+                <para>After the messages in the Console tabbed view stop scrolling, JBoss AS is
+                    available. At this point, right-click on the getName global forward in the
+                    struts-config.xml diagram view and select Run on Server.</para>
+            </listitem>
+        </itemizedlist>
+        <para>The browser should appear with the application started.</para>
+    </chapter>

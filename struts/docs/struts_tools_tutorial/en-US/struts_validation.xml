@@ -1,0 +1,499 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<chapter id="struts_validation">
+<?dbhtml filename="struts_validation.html"?>
+  <chapterinfo>
+    <keywordset>
+      <keyword>JBoss Developer Studio</keyword>
+       
+      <keyword>Struts</keyword>
+       
+      <keyword>Struts Validation</keyword>
+    </keywordset>
+  </chapterinfo>
+   <title>Struts Validation Examples</title> 
+  <para>
+    <property>Validation</property> of input is an important part of any Web application. All Apache Jakarta frameworks, including Struts, can use a common Jakarta Validation Framework for streamlining this aspect of Web application development. The Validation Framework allows you to define validation rules and then apply these rules on the client-side or the server-side.
+  </para>
+   
+  <para>
+    JBoss Developer Studio makes using the <property>Validation Framework</property> in Struts even easier with the help of a specialized editor for the XML files that controls validation in a project. In this document, we&apos;ll show you how this all works by creating some simple client-side validation and server-side validation examples.
+  </para>
+   
+  <section id="StartingPoint">
+<?dbhtml filename="StartingPoint.html"?>
+    <title>Starting Point</title> 
+    <para>
+      The example assumes that you have already created our sample &quot;StrutsHello&quot; application from the Getting Started Guide for Creating a Struts Application. You should have the JBoss Developer Studio perspective open on this StrutsHello project.
+    </para>
+  </section>
+   
+  <section id="DefiningTheValidationRule">
+<?dbhtml filename="DefiningTheValidationRule.html"?>
+    <title>Defining the Validation Rule</title> 
+    <para>
+      In these steps you will set up the validation that can be used for either client-side or server side validation. You need to enable validation as a part of the project, define an error message, and tie it into an appropriate part of the application.
+    </para>
+     
+    <itemizedlist>
+      <listitem>
+        <para>
+          Right-click on a &quot;plug-ins&quot; node under the <menuchoice><guimenuitem>StrutsHello</guimenuitem><guimenuitem>Configuration</guimenuitem><guimenuitem>default</guimenuitem><guimenuitem>struts-config.xml</guimenuitem></menuchoice> node in the Web Projects view and select <menuchoice><guimenuitem>Create Special Plugin</guimenuitem><guimenuitem>Validators</guimenuitem></menuchoice> from the context menu
+        </para>
+      </listitem>
+       
+      <listitem>
+        <para>
+          Further down in the Web Projects view, right-click on the <menuchoice><guimenuitem>StrutsHello</guimenuitem><guimenuitem>ResourceBundles</guimenuitem></menuchoice> node and select <menuchoice><guimenuitem>New</guimenuitem><guimenuitem>Properties File...</guimenuitem></menuchoice> from the context menu
+        </para>
+      </listitem>
+       
+      <listitem>
+        <para>
+          In the dialog box, click on the <emphasis><property>Browse...</property></emphasis>button next to the Folder field, expand the JavaSource folder in this next dialog box, select the sample subfolder, and click on the <emphasis><property>OK</property></emphasis> button
+        </para>
+      </listitem>
+       
+      <listitem>
+        <para>
+          Back in the first dialog box, type in &quot;applResources&quot; for the Name field and click on the <emphasis><property>Finish</property></emphasis> button
+        </para>
+      </listitem>
+       
+      <listitem>
+        <para>
+          Right-click on a newly created file and select <menuchoice><guimenuitem>New</guimenuitem><guimenuitem>Default Error Messages</guimenuitem></menuchoice> from the context menu
+        </para>
+      </listitem>
+       
+      <listitem>
+        <para>
+          Drag up the sample.applResources icon until you can drop it on the resources folder under struts-config.xml
+        </para>
+      </listitem>
+       
+      <listitem>
+        <para>
+          Select <menuchoice><guimenuitem>File</guimenuitem><guimenuitem>Save All</guimenuitem></menuchoice> from the menu bar
+        </para>
+      </listitem>
+       
+      <listitem>
+        <para>
+          Select validation.xml under the <menuchoice><guimenuitem>StrutsHello</guimenuitem><guimenuitem>Validation</guimenuitem></menuchoice> node and double-click it to open it with the JBoss Tools XML Editor
+        </para>
+      </listitem>
+       
+      <listitem>
+        <para>
+          Here you must create a Formset.
+        </para>
+      </listitem>
+       
+      <listitem>
+        <para>
+          In the validation.xml file editor click the button <emphasis><property>Create Formset</property></emphasis> on the panel <emphasis><property>Formsets</property></emphasis>
+        </para>
+      </listitem>
+       
+      <listitem>
+        <para>
+          In the dialog <emphasis><property>Add Formset</property></emphasis> fill the fields <emphasis><property>Language</property></emphasis> and <emphasis><property>Country</property></emphasis> or just leave them empty to create a default formset. Click <emphasis><property>OK</property></emphasis>
+        </para>
+      </listitem>
+    </itemizedlist>
+     
+    <figure>
+      <title>Create Formset</title> 
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/struts_validation/struts_validation.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+     
+    <itemizedlist>
+      <listitem>
+        <para>
+          Expand the &quot;form-beans&quot; node under the <menuchoice><guimenuitem>StrutsHello</guimenuitem><guimenuitem>Configuration</guimenuitem><guimenuitem>default</guimenuitem><guimenuitem>struts-config.xml node.</guimenuitem></menuchoice> Then, drag the form bean &quot;GetNameForm&quot; and drop it onto a formset in the <property>XML</property> Editor
+        </para>
+      </listitem>
+       
+      <listitem>
+        <para>
+          In the Validation Editor, expand the formset node, right-click GetNameForm, and select <emphasis><property>Create Field...</property></emphasis> from the context menu
+        </para>
+      </listitem>
+       
+      <listitem>
+        <para>
+          Enter a name for Property in the dialog box. A new property will be created:
+        </para>
+      </listitem>
+    </itemizedlist>
+     
+    <figure>
+      <title>New Property Is Added</title> 
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/struts_validation/struts_validation_2.png"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+     
+    <itemizedlist>
+      <listitem>
+        <para>
+          In the Properties view for the name field to the right of the &quot;tree&quot; for the validation.xml file, click on the <emphasis><property>Change...</property></emphasis>button next to the Depends entry field
+        </para>
+      </listitem>
+       
+      <listitem>
+        <para>
+          In the displayed double list, select <emphasis><property>required</property></emphasis> from the left list and then click <emphasis><property>Add</property></emphasis>
+        </para>
+      </listitem>
+       
+      <listitem>
+        <para>
+          Click <emphasis><property>Ok</property></emphasis>
+        </para>
+      </listitem>
+       
+      <listitem>
+        <para>
+          Right-click name and select <emphasis><property>Add Arg...</property></emphasis> from the context menu
+        </para>
+      </listitem>
+       
+      <listitem>
+        <para>
+          In the Add Arg dialog box, click on the <emphasis><property>Change...</property></emphasis>button next to the <emphasis><property>Key</property></emphasis> field
+        </para>
+      </listitem>
+       
+      <listitem>
+        <para>
+          In the Key dialog box that appears now, click on the <emphasis><property>Add</property></emphasis> button
+        </para>
+      </listitem>
+       
+      <listitem>
+        <para>
+          Enter &quot;name.required&quot; in the Name field, and enter a person&apos;s name in the Value field
+        </para>
+      </listitem>
+       
+      <listitem>
+        <para>
+          Click <emphasis><property>Finish</property></emphasis>, then <emphasis><property>Ok</property></emphasis>, and then <emphasis><property>Ok</property></emphasis> again
+        </para>
+      </listitem>
+       
+      <listitem>
+        <para>
+          Select <menuchoice><guimenuitem>File</guimenuitem><guimenuitem>Save All</guimenuitem></menuchoice> from the menu bar
+        </para>
+      </listitem>
+    </itemizedlist>
+  </section>
+   
+  <section id="Client-SideValidation">
+<?dbhtml filename="Client-SideValidation.html"?>
+    <title>Client-Side Validation</title> 
+    <para>
+      Client-side <property>validation</property> uses a scripting language (like JavaScript) running in the client browser to actually do the <property>validation</property>. In a Struts application using the <property>Validation</property> Framework, however, you don&apos;t actually have to do any of the script coding. The <property>Validation</property> Framework handles this.
+    </para>
+     
+    <para>
+      To see how this works in our application, you&apos;ll just need to make a couple of modifications to one of the JSP files.
+    </para>
+     
+    <itemizedlist>
+      <listitem>
+        <para>
+          Double-click inputname.jsp under <menuchoice><guimenuitem>StrutsHello</guimenuitem><guimenuitem>WEB-ROOT(WebContent)</guimenuitem><guimenuitem>pages</guimenuitem></menuchoice> to open it for editing
+        </para>
+      </listitem>
+       
+      <listitem>
+        <para>
+          Find the tag near the top and hit Return to make a new line under it
+        </para>
+      </listitem>
+       
+      <listitem>
+        <para>
+          In the JBoss Tools Palette view to the right, open the Struts HTML folder and click on the javascript tag
+        </para>
+      </listitem>
+       
+      <listitem>
+        <para>
+          Back in the editor, just in front of the closing slash for this inserted tag, hit Ctrl+Space and select &quot;formName&quot; from the prompting menu
+        </para>
+      </listitem>
+       
+      <listitem>
+        <para>
+          Over in the Web Projects view, select GetNameForm under the <menuchoice><guimenuitem>StrutsHello</guimenuitem><guimenuitem>Configuration</guimenuitem><guimenuitem>default</guimenuitem><guimenuitem>struts-config.xml</guimenuitem><guimenuitem>form-beans</guimenuitem></menuchoice> node, drag it, and drop it between the quotes in the editor
+        </para>
+      </listitem>
+       
+      <listitem>
+        <para>
+          Modify the <code>&lt;html:form&gt;</code> tag by inserting this attribute:
+        </para>
+      </listitem>
+    </itemizedlist>
+     
+    <programlisting role="XML">
+<![CDATA[onsubmit="return validateGetNameForm(this)"
+]]>
+    </programlisting>
+     
+    <para></para>
+     
+    <para>
+      The file should now look like this:
+    </para>
+     
+    <programlisting role="XML">
+<![CDATA[
+<%@ taglib uri="/WEB-INF/struts-html" prefix="html" %>
+
+<html:html >
+    <head>
+        <html:javascript formName="GetNameForm"/>
+	    <title></title>
+    </head>
+    <body>
+        <html:form action="/greeting.do" onsubmit="return validateGetNameForm(this)">
+            Input name:<html:text property="name"/><html:submit value="Say Hello!"/>
+         </html:form>
+    </body>
+</html:html>
+]]>
+    </programlisting>
+     
+    <itemizedlist>
+      <listitem>
+        <para>
+          Select <menuchoice><guimenuitem>File</guimenuitem><guimenuitem>Save</guimenuitem></menuchoice> from the menu bar
+        </para>
+      </listitem>
+       
+      <listitem>
+        <para>
+          Start JBoss Application Server by clicking on its icon (a right-pointing arrow) in the toolbar
+        </para>
+      </listitem>
+       
+      <listitem>
+        <para>
+          Click the Run icon(
+          <inlinemediaobject>
+            <imageobject>
+              <imagedata fileref="images/struts_validation/struts_validation_1.png"/>
+            </imageobject>
+          </inlinemediaobject>
+          ) or right click your project folder and select <menuchoice><guimenuitem>Run As</guimenuitem><guimenuitem>Run on Server</guimenuitem></menuchoice>
+        </para>
+      </listitem>
+    </itemizedlist>
+     
+    <itemizedlist>
+      <listitem>
+        <para>
+          In the browser window, click on the &quot;Say Hello!&quot; button without having entered any name in the form
+        </para>
+      </listitem>
+    </itemizedlist>
+     
+    <para>
+      A JavaScript error message should be displayed in an alert box.
+    </para>
+  </section>
+   
+  <section id="Server-SideValidation">
+<?dbhtml filename="Server-SideValidation.html"?>
+    <title>Server Side Validation</title> 
+    <para>
+      Server side validation does the validation inside the application on the server. In a Struts application using the Validation Framework, you still don&apos;t have to do any of the actual validation coding. The Validation Framework handles this. You will though have to make a few changes to the JSP file you modified for client-side validation along with a change to an action and a few changes to the form bean class.
+    </para>
+  </section>
+   
+  <section id="EditingTheJSPFile">
+<?dbhtml filename="EditingTheJSPFile.html"?>
+    <title>Editing the JSP File</title> 
+    <itemizedlist>
+      <listitem>
+        <para>
+          Reopen inputname.jsp for editing
+        </para>
+      </listitem>
+       
+      <listitem>
+        <para>
+          Delete the <emphasis role="italic"><property>&quot;onsubmit&quot;</property></emphasis> attribute in the <code>&lt;html:form&gt;</code> element that you put in for client-side validation
+        </para>
+      </listitem>
+       
+      <listitem>
+        <para>
+          Add an <code>&lt;html:errors/&gt;</code> tag after the <code>&lt;html:form&gt;</code> tag
+        </para>
+      </listitem>
+    </itemizedlist>
+     
+    <para>
+      The JSP file should now look like this:
+    </para>
+     
+    <programlisting role="XML">
+<![CDATA[<%@ taglib uri="/WEB-INF/struts-html" prefix="html" %>
+<html:html >
+<head>
+    <html:javascript formName="GetNameForm"/>
+    	<title></title>
+    </head>
+    <body>
+        <html:form action="/greeting.do" >Input name:<html:text property="name"/>
+            <html:submit value="Say Hello!"/>
+        </html:form>
+        <html:errors/>
+    </body>
+</html:html>
+]]>
+    </programlisting>
+  </section>
+   
+  <section id="EditingTheAction">
+<?dbhtml filename="EditingTheAction.html"?>
+    <title>Editing the Action</title> 
+    <itemizedlist>
+      <listitem>
+        <para>
+          In the Web Projects view, expand the node under the <menuchoice><guimenuitem>StrutsHello</guimenuitem><guimenuitem>Configuration</guimenuitem><guimenuitem>default</guimenuitem><guimenuitem>struts-config.xml</guimenuitem><guimenuitem>action-mappings</guimenuitem></menuchoice> node, right-click the <emphasis><property>/greeting</property></emphasis> action, and then select <emphasis><property>Properties...</property></emphasis>from the context menu
+        </para>
+      </listitem>
+       
+      <listitem>
+        <para>
+          In the Edit Properties window, insert the cursor into the value column for the input property and click on the <property>...</property> button
+        </para>
+      </listitem>
+       
+      <listitem>
+        <para>
+          In the dialog box, make sure the Pages tab is selected, select <menuchoice><guimenuitem>StrutsHello</guimenuitem><guimenuitem>WEB-ROOT(WebContent)</guimenuitem><guimenuitem>pages</guimenuitem><guimenuitem>inputname.jsp</guimenuitem></menuchoice>, click the <emphasis><property>Ok</property></emphasis> button, and then click on the <emphasis><property>Close</property></emphasis> button
+        </para>
+      </listitem>
+    </itemizedlist>
+  </section>
+   
+  <section id="EditingTheFormBean">
+<?dbhtml filename="EditingTheFormBean.html"?>
+    <title>Editing the Form Bean</title> 
+    <itemizedlist>
+      <listitem>
+        <para>
+          Right-click the <emphasis><property>/greeting</property></emphasis> action again and select Open Form-bean Source to open the GetNameForm.java file for editing
+        </para>
+      </listitem>
+       
+      <listitem>
+        <para>
+          Change the class that it extends from: <emphasis><property>org.apache.struts.action.ActionForm</property></emphasis> to <emphasis><property>org.apache.struts.validator.ValidatorForm</property></emphasis>
+        </para>
+      </listitem>
+       
+      <listitem>
+        <para>
+          Comment out a validate method
+        </para>
+      </listitem>
+    </itemizedlist>
+     
+    <para>
+      The file should now look like this:
+    </para>
+     
+    <programlisting role="JAVA">
+<![CDATA[package sample;
+import javax.servlet.http.HttpServletRequest;
+import org.apache.struts.action.ActionErrors;
+import org.apache.struts.action.ActionMapping;
+public class GetNameForm extends
+
+org.apache.struts.validator.ValidatorForm 
+{
+
+	private String name = "";
+	
+	/**
+	* @return Returns the name.
+	*/
+	public String getName() 
+	{
+		return name;
+	}
+	
+	/**
+	* @param name The name to set.
+	*/
+	public void setName(String name) 
+	{
+		this.name = name;
+	}
+	
+	public GetNameForm () 
+	{
+	}
+	
+	public void reset(ActionMapping actionMapping, 
+		HttpServletRequest request) 
+	{
+		this.name = "";
+	}
+	
+	// public ActionErrors validate(ActionMapping actionMapping,
+	//	HttpServletRequest request) 
+	//{
+	// ActionErrors errors = new ActionErrors();
+	// return errors;
+	// }
+    }
+]]>
+    </programlisting>
+     
+    <itemizedlist>
+      <listitem>
+        <para>
+          Select <menuchoice><guimenuitem>File</guimenuitem><guimenuitem>Save All</guimenuitem></menuchoice> from the menu bar
+        </para>
+      </listitem>
+       
+      <listitem>
+        <para>
+          Reload the application into JBoss AS by clicking on the &quot;Change Time Stamp&quot; icon (a finger pointing with a little star) in the toolbar
+        </para>
+      </listitem>
+       
+      <listitem>
+        <para>
+          Run the application
+        </para>
+      </listitem>
+       
+      <listitem>
+        <para>
+          In the browser window, click on the &quot;Say Hello!&quot; button without having entered any name in the form
+        </para>
+      </listitem>
+    </itemizedlist>
+     
+    <para>
+      The error message should appear in a refreshed version of the form.
+    </para>
+  </section>
+</chapter>

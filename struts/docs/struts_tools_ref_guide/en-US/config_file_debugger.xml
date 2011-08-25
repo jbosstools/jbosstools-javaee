@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter id="config_file_debugger">
+    <?dbhtml filename="config_file_debugger.html"?>
+    <chapterinfo>
+        <keywordset>
+            <keyword>JBoss Developer Studio</keyword>
+            <keyword>Eclipse</keyword>
+            <keyword>Struts Tools</keyword>
+            <keyword>Java</keyword>
+            <keyword>JBoss</keyword>
+        </keywordset>
+    </chapterinfo>
+    
+    <title>Struts Configuration File Debugger</title>
+    
+    <para>
+    	JBoss Tools come with <property>Struts configuration file debugger</property>. It allows you to set break points on Struts diagram and then simply launch the server in debug mode.
+    </para>
+    
+    <para>Simply right click an Action or a page and select Add <guimenuitem>Breakpoint</guimenuitem>.</para>
+    <figure>
+        <title>Adding Breakpoint</title>
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="images/struts/struts_50.png"/>
+            </imageobject>
+        </mediaobject>
+    </figure>
+</chapter>

@@ -1,0 +1,1420 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+"http://www.docbook.org/xml/4.3/docbookx.dtd"
+
+[<!ENTITY introduction SYSTEM "introduction.xml">
+<!ENTITY struts_application  SYSTEM "struts_application.xml">
+<!ENTITY generating_stub  SYSTEM "generating_stub.xml">
+<!ENTITY coding_files  SYSTEM "coding_files.xml">
+<!ENTITY compiling_and_running  SYSTEM "compiling_and_running.xml">
+<!ENTITY struts_validation  SYSTEM "struts_validation.xml">
+<!ENTITY relevant_resources  SYSTEM "relevant_resources.xml">
+
+<!ENTITY seamlink "../../seam/html_single/index.html">
+<!ENTITY aslink "../../as/html_single/index.html">
+<!ENTITY esblink "../../esb_ref_guide/html_single/index.html">
+<!ENTITY gsglink "../../GettingStartedGuide/html_single/index.html">
+<!ENTITY hibernatelink "../../hibernatetools/html_single/index.html">
+<!ENTITY jbpmlink "../../jbpm/html_single/index.html">
+<!ENTITY jsflink "../../jsf/html_single/index.html">
+<!ENTITY jsfreflink "../../jsf_tools_ref_guide/html_single/index.html">
+<!ENTITY jsftutoriallink "../../jsf_tools_tutorial/html_single/index.html">
+<!ENTITY strutsreflink "../../struts_tools_ref_guide/html_single/index.html">
+<!ENTITY strutstutoriallink "../../struts_tools_tutorial/html_single/index.html">                          
+
+]><book xmlns:diffmk="http://diffmk.sf.net/ns/diff">
+    
+    <bookinfo>
+        <title>Struts Tools Tutorial</title>
+        <corpauthor>
+            <inlinemediaobject>
+                <imageobject role="fo">
+                    <imagedata fileref="images/jbosstools_logo.png" format="PNG"></imagedata>
+                </imageobject>	
+                <imageobject role="html">
+                    <imagedata></imagedata>
+                </imageobject>	
+            </inlinemediaobject>           
+        </corpauthor>
+        <author><firstname>Anatoly</firstname><surname>Fedosik</surname></author>
+        <author><firstname>Olga</firstname><surname>Chikvina</surname></author>
+        <author><firstname>Svetlana</firstname><surname>Mukhina</surname><email>smukhina@exadel.com</email></author>
+        
+        <copyright>
+            <year>2007</year>
+            <year>2008</year>
+            <year>2009</year>
+            <year>2010</year>
+            <holder>JBoss by Red Hat</holder>
+        </copyright>
+        <releaseinfo><diffmk:wrapper diffmk:change="changed">
+            Version: 3.1.1.GA
+        </diffmk:wrapper></releaseinfo>
+
+<abstract>
+   <title></title>
+       <para>
+           <ulink url="http://download.jboss.org/jbosstools/nightly-docs/en/struts_tools_tutorial/pdf/Struts_Tools_Tutorial.pdf">PDF version</ulink>
+       </para>
+</abstract>
+
+
+    </bookinfo>    
+    
+    <toc></toc>  
+   
+    
+<chapter id="introduction" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/struts/docs/struts_tools_tutorial/en-US/introduction.xml" xreflabel="introduction">
+  <?dbhtml filename="introduction.html"?>
+  <chapterinfo>
+    <keywordset>
+      <keyword>JBoss Tools</keyword>
+      <keyword>Eclipse</keyword>
+      <keyword>Java</keyword>
+      <keyword>JBoss</keyword>
+    </keywordset>
+  </chapterinfo>
+  <title>Introduction</title>
+  <para>The following chapters describe how to deal with classic/old style of Struts development. We
+    recommend users to use JBoss Seam to
+    simplify development, but until then you can read about classical Struts usage here.</para>
+
+  <para>We are going to show you how to create a simple <emphasis>
+      <property moreinfo="none">Struts application</property>
+    </emphasis> using the JBoss Tools. The completed application will ask a user to enter
+    a name and click a button. The resulting new page will display the familiar message,
+    "Hello &lt;name&gt;!"</para>
+  <para>This document will show you how to create such an application from the beginning, along the
+    way demonstrating some of the powerful features of JBoss Tools. With the help of our tutorial you will design the
+    application, generate stub code for the application, fill in the stub coding, compile the
+    application, and finally run it all from inside the Eclipse.</para>
+  
+  <section>
+    <title>Key Features Struts Tools</title>
+  
+    <para>For a start, we propose you to look through the table of main features of Struts
+      Tools:</para>
+    <table>
+      
+      <title>Key Functionality of Struts Tools</title>
+      <tgroup cols="2">
+        
+        <colspec align="left" colnum="1" colwidth="2*"></colspec>
+        <colspec colnum="2" colwidth="4*"></colspec>
+        
+        
+        <thead>
+          <row>
+            <entry>Feature</entry>
+            <entry>Benefit</entry>
+           
+          </row>
+        </thead>
+        <tbody>
+          <row>
+            <entry><para>Struts Support</para></entry>
+            <entry><para>Step-by-step wizards for creating a new struts project with a number
+              of predefined templates, importing existing ones and adding struts
+              capabilities to non-struts web projects.</para></entry>
+            
+          </row>
+          
+          <row>
+            <entry><para>Support for Struts Configuration File</para></entry>
+            <entry><para>Working on file using three modes: diagram, tree and source.
+              Synchronization between the modes and full control over the code. Easy
+              moving around the diagram using the Diagram Navigator. Working with
+              struts projects that have multiple modules. Possibility to use Struts
+              configuration file debugger allowing to set break points on struts
+              diagram and then launch the server in debug mode.</para></entry>
+            
+          </row>
+          
+          <row>
+            <entry><para>Support for Struts modules</para></entry>
+            <entry><para>A Struts module (struts-config.xml) is automatically created while
+              creating a new project. There is also possibility to add new ones or edit
+              already existing modules in your existing project or while importing Struts project.</para></entry>
+            
+          </row>
+          
+          <row>
+            <entry><para>Verification and Validation</para></entry>
+            <entry><para>All occurring errors will be immediately reported by verification
+              feature, no matter in what view you are working. Constant validation and
+              errors checking allows to catch many of the errors during development
+              process that significantly reduces development time.</para></entry>
+            
+            
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+  </section>
+  
+  
+  
+  <section>
+    <title>Other relevant resources on the topic</title>
+    
+    <para>All JBoss Developer Studio/JBoss Tools release documentation you can find at<ulink url="http://docs.jboss.org/tools/">http://docs.jboss.org/tools</ulink> in the corresponding release directory.</para>
+    <para>The latest documentation builds are available at <ulink url="http://download.jboss.org/jbosstools/nightly-docs/">http://download.jboss.org/jbosstools/nightly-docs</ulink>.</para>
+    
+  </section>
+  
+</chapter>
+
+    
+<chapter id="struts_application" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/struts/docs/struts_tools_tutorial/en-US/struts_application.xml" xreflabel="struts_application">
+    <?dbhtml filename="struts_application.html"?>
+    <chapterinfo>
+        <keywordset>
+            <keyword>JBoss Tools</keyword>
+            <keyword>Struts</keyword>
+            <keyword>Struts Application</keyword>
+        </keywordset>
+    </chapterinfo>
+    
+    <title>Creating a Simple Struts Application</title>
+    
+    <para>Firstly, we assume that you have already launched Eclipse with <property moreinfo="none">JBoss Tools</property> installed and
+        also that the <property moreinfo="none">Web Development perspective</property> is the current perspective. (If not, make it
+        active by selecting <emphasis>
+            <property moreinfo="none">Window &gt; Open Perspective &gt; Other &gt; Web
+                Development</property>
+        </emphasis> from the menu bar.)</para>
+    
+    <section id="StartingUp">
+        <title>Starting Up</title>
+        <para>We are first going to create a new project for the application.</para>
+        <itemizedlist>
+            <listitem>
+                <para>Go to the menu bar and select <emphasis>
+                    <property moreinfo="none">File &gt; New &gt; Struts Project</property>
+                </emphasis></para>
+            </listitem>
+            <listitem>
+                <para>Next enter "StrutsHello" as the project name</para>
+            </listitem>
+            <listitem>
+                <para>Leave everything else as it is, and click <emphasis>
+                    <property moreinfo="none">Next</property>
+                </emphasis></para>
+            </listitem>
+            <listitem>
+                <para>If you have server runtime already defined, just pass to next point. Otherwise in the <emphasis>
+                    <property moreinfo="none">Runtime</property></emphasis> section click the <emphasis>
+                        <property moreinfo="none">New</property></emphasis> button and target at needed server runtime environment. Click <emphasis>
+                            <property moreinfo="none">Finish</property>.</emphasis></para>
+             </listitem>
+            <listitem>
+                <para>Click <emphasis>
+                    <property moreinfo="none">Next</property>
+                </emphasis></para>
+            </listitem>
+            <listitem>
+                <para>Make sure that <emphasis>
+                    <property moreinfo="none">struts-bean.tld</property>
+                </emphasis>, <emphasis>
+                    <property moreinfo="none">struts-html.tld</property>
+                </emphasis>, and <emphasis>
+                    <property moreinfo="none">struts-logic.tld</property>
+                </emphasis> are checked in the list of included tag libraries and then hit <emphasis>
+                    <property moreinfo="none">Finish</property>
+                </emphasis></para>
+            </listitem>
+        </itemizedlist>
+        <para>A "StrutsHello" node should appear in the <property moreinfo="none">Package
+            Explorer view</property>.</para>
+        <itemizedlist>
+            <listitem>
+                <para>Click the plus sign next to <emphasis>
+                    <property moreinfo="none">StrutsHello</property>
+                </emphasis> to reveal the child nodes</para>
+            </listitem>
+            <listitem>
+                <para>Click the plus sign next to <emphasis>
+                    <property moreinfo="none">WebContent</property>
+                </emphasis> under <emphasis>
+                    <property moreinfo="none">StrutsHello</property></emphasis></para>
+            </listitem>
+            <listitem>
+                <para>Click the plus sign next to <emphasis>
+                    <property moreinfo="none">WEB-INF</property>
+                </emphasis> under <emphasis>
+                    <property moreinfo="none">WebContent</property></emphasis></para>
+            </listitem>
+            <listitem>
+                <para>Then, double-click on the <emphasis>
+                    <property moreinfo="none">struts-config.xml</property>
+                </emphasis> node to display a diagram of the Struts application configuration
+                    file in the editing area</para>
+            </listitem>
+        </itemizedlist>
+        <para>At this point, its empty except for the background grid lines.</para>
+    </section>
+    
+    <section id="CreatingtheApplicationComponents">
+        <?dbhtml filename="CreatingtheApplicationComponents.html"?>
+        <title>Creating the Application Components</title>
+        <para>Now, we will design the application by creating the individual components as
+            placeholders first. (We don't have to complete all of the details inside the components
+            until afterwards.)</para>
+       <section id="CreatingJSPPagePlaceholders">
+            <title>Creating JSP Page Placeholders</title>
+            <para>Next, let's create and place two JSP pages. We will not write anything more than basic template code
+                for the files; they will serve only as placeholders so that we can create links to
+                them in the diagram. We will write some custom code a little bit later.</para>
+            <section id="CreatingthePagePlaceholders">
+                <title>Creating the Page Placeholders</title>
+                <itemizedlist>
+                    <listitem>
+                        <para>Bring the <property moreinfo="none">Web Projects view</property> to the front of the <property moreinfo="none">Package Explorer view</property>
+                            by selecting the <emphasis>
+                                <property moreinfo="none">Web Projects</property>
+                            </emphasis> tab next to that tab.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Right-click the <emphasis>
+                                <property moreinfo="none">StrutsHello &gt; WEB-ROOT (WebContent)</property>
+                            </emphasis> folder in the <property moreinfo="none">Web Projects view</property> and select <emphasis>
+                                <property moreinfo="none">New &gt; Folder...</property>
+                            </emphasis></para>
+                    </listitem>
+                    <listitem>
+                        <para>Enter <emphasis>
+                                <property moreinfo="none">pages</property>
+                            </emphasis> for a folder name and click <emphasis>
+                                <property moreinfo="none">Finish</property>
+                            </emphasis></para>
+                    </listitem>
+
+                    <listitem>
+                        <para>We will keep our presentation files in this folder</para>
+                    </listitem>
+
+                    <listitem>
+                        <para>Right-click the <emphasis>
+                            <property moreinfo="none">pages</property></emphasis> folder and select <emphasis>
+                                <property moreinfo="none">New &gt; File &gt; JSP...</property>
+                            </emphasis>
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para>For Name type in <emphasis>
+                                <property moreinfo="none">inputname</property>
+                            </emphasis> (the JSP extension will be automatically added to the file), and then click on the <emphasis>
+                                <property moreinfo="none">Next</property>
+                            </emphasis> button</para>
+                    </listitem>
+										<listitem>
+											<para>
+												Untick the <emphasis><property moreinfo="none">use JSP Template</property></emphasis> checkbox, and then click on the 
+												<emphasis><property moreinfo="none">Finish</property></emphasis> button
+											</para>
+										</listitem>
+                    <listitem>
+                        <para>Right-click the <emphasis>
+                            <property moreinfo="none">pages</property></emphasis> folder again and select <emphasis>
+                                <property moreinfo="none">New &gt; File &gt; JSP...</property>
+                            </emphasis></para>
+                    </listitem>
+                    <listitem>
+                        <para>For Name type in <emphasis>
+                                <property moreinfo="none">greeting</property>
+                        </emphasis>, and then click on the <emphasis>
+                                <property moreinfo="none">Next</property>
+                            </emphasis> button</para>
+                    </listitem>
+										<listitem>
+											<para>
+												Untick the <emphasis><property moreinfo="none">use JSP Template</property></emphasis> checkbox, and then click on the 
+												<emphasis><property moreinfo="none">Finish</property></emphasis> button
+											</para>
+										</listitem>
+                </itemizedlist>
+            </section>
+
+						<section id="UpdatingInputnameJSP">
+							<title>Adding Template Code to the inputname.jsp File</title>
+							<para>
+								The <emphasis><property moreinfo="none">inputname.jsp</property></emphasis> file needs to be populated with some template code. Click on the 
+								<emphasis><property moreinfo="none">inputname.jsp</property></emphasis> page in the <property moreinfo="none">Web Projects view</property>, and then modify the file so it looks like this:
+								<programlisting><![CDATA[&lt;%@ taglib uri=&quot;/WEB-INF/struts-html&quot; prefix=&quot;html&quot; %&gt;
+&lt;html:html&gt;
+&lt;head&gt;
+	&lt;title&gt;&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;html:form action=&quot;&quot;&gt;
+    &lt;/html:form&gt;
+&lt;/body&gt;
+&lt;/html:html&gt;]]></programlisting>
+							</para>
+						</section>
+
+            <section id="PlacingthePagePlaceholders">
+                <title>Placing the Page Placeholders</title>
+                <para>Lets now place the two pages just created on the diagram.</para>
+                <itemizedlist>
+                    <listitem>
+                        <para>Click on the <emphasis>
+                                <property moreinfo="none">struts-config.xml</property>
+                            </emphasis> tab in the editing area to bring the diagram to the
+                        front</para>
+                    </listitem>
+                    <listitem>
+                        <para>Click on the <emphasis>
+                                <property moreinfo="none">inputname.jsp</property>
+                            </emphasis> page in the <property moreinfo="none">Web Projects view</property>, drag it onto the diagram, and
+                            drop it</para>
+                    </listitem>
+                    <listitem><para>Click on the <emphasis>
+                            <property moreinfo="none">greeting.jsp</property>
+                        </emphasis> page in the <property moreinfo="none">Web Projects view</property>, drag it onto the diagram, and
+                        drop it to the right of the <emphasis>
+                            <property moreinfo="none">/pages/inputname.jsp</property>
+                        </emphasis> icon with some extra space</para></listitem>
+                </itemizedlist>
+                <para>You should now have two JSP pages in the diagram.</para>
+            </section>
+        </section>
+        <section id="CreatinganActionMappings">
+            <title>Creating an Action Mappings</title>
+            <para>Using a context menu on the diagram, we are next going to create an Action
+                mapping.</para>
+            <itemizedlist>
+                <listitem>
+                    <para>Right-click between the two icons and select <emphasis>
+                            <property moreinfo="none">New &gt; Action</property>
+                        </emphasis></para>
+                </listitem>
+                <listitem>
+                    <para>Enter the following values:</para>
+                </listitem>
+            </itemizedlist>
+            <table>
+                <title>Action values</title>
+                <tgroup cols="2">
+                    <tbody>
+                        <row>
+                            <entry>path</entry>
+                            <entry>/greeting</entry>
+                        </row>
+                        <row>
+                            <entry>name</entry>
+                            <entry>GetNameForm</entry>
+                        </row>
+                        <row>
+                            <entry>scope</entry>
+                            <entry>request</entry>
+                        </row>
+                        <row>
+                            <entry>type</entry>
+                            <entry>sample.GreetingAction</entry>
+                        </row>
+                        <row>
+                            <entry>validate</entry>
+                            <entry>&lt;leave blank&gt;</entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </table>
+            <para>("GetNameForm" is the name for a form bean that we will create
+                later.)</para>
+            <itemizedlist>
+                <listitem>
+                    <para>Click <emphasis>
+                            <property moreinfo="none">Finish</property>
+                        </emphasis></para>
+                </listitem>
+            </itemizedlist>
+
+            <para>The <emphasis>
+                    <property moreinfo="none">/greeting</property>
+                </emphasis> action should appear in four places, in the diagram, under the
+                <emphasis>
+                    <property moreinfo="none">action-mappings</property></emphasis> node, under the <emphasis>
+                        <property moreinfo="none">struts-config.xml</property></emphasis> node in Tree view, in <property moreinfo="none">Web Projects
+                view</property> and in the <property moreinfo="none">Outline view</property>. Also, note the asterisk to the right of the name,
+                <emphasis>
+                    <property moreinfo="none">struts-config.xml</property>,</emphasis> in the <property moreinfo="none">Outline view</property> showing that the file has been changed, but
+                not saved to disk.</para>
+        </section>
+        <section id="CreatingaLink">
+            <title>Creating a Link</title>
+            <para>Let's now create a link from the <emphasis>
+                <property moreinfo="none">inputname.jsp</property></emphasis> page to the action.</para>
+            <itemizedlist>
+                <listitem>
+                    <para>On the left-hand side of the diagram in the column of icons, click on the Create New Connection
+                        icon( <inlinemediaobject> 
+                            <imageobject>
+                                <imagedata fileref="images/struts_application/struts_application_1.png"></imagedata>
+                            </imageobject>
+                       </inlinemediaobject>).</para>
+                </listitem>
+            </itemizedlist>
+             <itemizedlist>
+                <listitem>
+                    <para>In the connect-the-components mode you are in now, click on the <emphasis>
+                            <property moreinfo="none">/pages/inputname.jsp</property>
+                        </emphasis> icon in the diagram and then click on the <emphasis>
+                            <property moreinfo="none">/greeting</property>
+                        </emphasis> action</para>
+                </listitem>
+            </itemizedlist>
+            <para>A link will be created from the page to the action.</para>
+        </section>
+        <section id="CreatingaForward">
+            <title>Creating a Forward</title>
+            <para>Next, we are going to create a forward for the action.</para>
+            <itemizedlist>
+                <listitem>
+                    <para>On the left-hand side of the diagram in the column of icons, click on 
+                        the Create New Connection
+                        icon( <inlinemediaobject> 
+                            <imageobject>
+                                <imagedata fileref="images/struts_application/struts_application_1.png"></imagedata>
+                            </imageobject>
+                        </inlinemediaobject>), again.</para>
+                </listitem>
+            </itemizedlist>
+           
+            <itemizedlist>
+                <listitem>
+                    <para>Click on the <emphasis>
+                            <property moreinfo="none">/greeting</property>
+                        </emphasis> action icon in the diagram and then click on the <emphasis>
+                            <property moreinfo="none">pages/greeting.jsp</property>
+                        </emphasis> icon</para>
+                </listitem>
+                <listitem>
+                    <para>That's it. A link will be drawn from the actions new greeting
+                        forward to the <emphasis>
+                            <property moreinfo="none">greeting.jsp</property></emphasis> JSP page. Note that the forwards name will be
+                        set based on the name of the target JSP file name. If you don't
+                        like it, you can easily change it</para>
+                </listitem>
+                <listitem>
+                    <para>Select the <emphasis>
+                            <property moreinfo="none">Tree</property>
+                        </emphasis> tab at the bottom of the editor window (between Diagram and
+                        Source)</para>
+                </listitem>
+                <listitem>
+                    <para>Expand the <emphasis>
+                            <property moreinfo="none">struts-config.xml/action-mappings/ /greeting</property>
+                        </emphasis> node and then select the greeting forward</para>
+                </listitem>
+                <listitem>
+                    <para>In the Properties Editor to the right, change the text to
+                        "sayHello" in the <emphasis>
+                            <property moreinfo="none">Name</property></emphasis> field</para>
+                </listitem>
+                <listitem>
+                    <para>Select the <emphasis>
+                            <property moreinfo="none">Diagram</property>
+                        </emphasis> tab at the bottom of the editor window and see how the diagram
+                        is also updated to reflect the change</para>
+                </listitem>
+            </itemizedlist>
+        </section>
+        <section id="CreatingaGlobalForward">
+            <title>Creating a Global Forward</title>
+            <para>One last component that we need to create in the diagram is a global forward.</para>
+            <itemizedlist>
+                <listitem>
+                    <para>Somewhere in the top-left corner of diagram, right-click and select <emphasis>
+                            <property moreinfo="none">New &gt; Global Forward</property>
+                        </emphasis></para>
+                </listitem>
+                <listitem>
+                    <para>Enter <emphasis>
+                            <property moreinfo="none">getName</property>
+                    </emphasis> in the <emphasis>
+                        <property moreinfo="none">Name</property></emphasis> field</para>
+                </listitem>
+                <listitem>
+                    <para>Select the <emphasis>
+                            <property moreinfo="none">Change...</property>
+                        </emphasis>button for Path</para>
+                </listitem>
+                <listitem>
+                    <para>In the Edit Path window, switch to the <emphasis>
+                            <property moreinfo="none">Pages</property>
+                        </emphasis> tab</para>
+                </listitem>
+                <listitem>
+                    <para>Expand the <emphasis>
+                            <property moreinfo="none">StrutsHello &gt; WEB-ROOT (WebContent) &gt; pages</property>
+                        </emphasis> node and then select the inputname.jsp page</para>
+                </listitem>
+                <listitem>
+                    <para>Click <emphasis>
+                            <property moreinfo="none">Ok</property>
+                        </emphasis>.</para>
+                </listitem>
+                <listitem>
+                    <para>Leave the rest of the fields blank and click <emphasis>
+                            <property moreinfo="none">OK</property>
+                        </emphasis></para>
+                </listitem>
+            </itemizedlist>
+            <para>A forward object now appears on the diagram and also in the global-forwards folder
+                in the Outline view.</para>
+            <itemizedlist>
+                <listitem>
+                    <para>Tidy up the diagram, by clicking and dragging around each icon, so that
+                        the diagram looks something like this:</para>
+                </listitem>
+            </itemizedlist>
+            <figure float="0">
+                <title>Diagram View</title>
+                <mediaobject>
+                    <imageobject>
+                        <imagedata fileref="images/struts_application/struts_application_2.png"></imagedata>
+                    </imageobject>
+                </mediaobject>
+            </figure>
+        </section>
+        <section id="CreatingaFormBean">
+            <title>Creating a Form Bean</title>
+            <para>One last thing that we need to do is to create a form bean.</para>
+            <itemizedlist>
+                <listitem>
+                    <para>Switch to the Tree viewer in the editor for the <emphasis>
+                        <property moreinfo="none">struts-config.xml</property></emphasis> file, by
+                        selecting the <emphasis>
+                            <property moreinfo="none">Tree</property>
+                        </emphasis> tab at the bottom of the editor window</para>
+                </listitem>
+                <listitem>
+                    <para>Right-click <emphasis>
+                            <property moreinfo="none">struts-config.xml &gt; form-beans</property>
+                        </emphasis> and select Create Form Bean</para>
+                </listitem>
+                <listitem>
+                    <para>Enter <emphasis>
+                            <property moreinfo="none">GetNameForm</property>
+                        </emphasis> in the name field and <emphasis>
+                            <property moreinfo="none">sample.GetNameForm</property>
+                        </emphasis> for type</para>
+                </listitem>
+                <listitem>
+                    <para>Click <emphasis>
+                            <property moreinfo="none">Finish</property>
+                        </emphasis></para>
+                </listitem>
+                <listitem>
+                    <para>To save your changes to struts-config.xml, select <emphasis>
+                            <property moreinfo="none">File &gt; Save</property>
+                        </emphasis> from the menu bar</para>
+                </listitem>
+            </itemizedlist>
+            <para>Note the disappearance of the asterisk next to the name, <emphasis>
+                <property moreinfo="none">struts-config.xml</property>.</emphasis></para>
+        </section>
+    </section>
+</chapter>
+    
+<chapter id="generating_stub" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/struts/docs/struts_tools_tutorial/en-US/generating_stub.xml" xreflabel="generating_stub">
+    <?dbhtml filename="generating_stub.html"?>
+    <chapterinfo>
+        <keywordset>
+            <keyword>JBoss Tools</keyword>
+            <keyword>Struts</keyword>
+            <keyword>Struts Application</keyword>
+        </keywordset>
+    </chapterinfo>
+    
+        <title>Generating Stub Coding</title>
+        <para>We are done with designing the application through the diagram. Now we need to write
+            code for the action component. We also need to write an action class for the <emphasis>
+                <property moreinfo="none">/greeting</property>
+            </emphasis> mapping along with a FormBean. To aid in the coding phase, JBoss Developer
+            Studio can generate Java class stubs for all of the components shown in the diagram.</para>
+        <itemizedlist>
+            <listitem>
+                <para>Switch back to the diagram, by selecting the <emphasis>
+                    <property moreinfo="none">Diagram</property>
+                </emphasis> tab at the bottom of the editor window</para>
+            </listitem>
+            <listitem>
+                <para>Right-click a blank space in the diagram and select <emphasis>
+                    <property moreinfo="none">Generate Java Code</property>
+                </emphasis></para>
+            </listitem>
+            <listitem>
+                <para>Leave everything as is in the dialog box and click <emphasis>
+                    <property moreinfo="none">Generate</property>
+                </emphasis></para>
+            </listitem>
+        </itemizedlist>
+        <para>You should see a screen that says:</para>
+        <para>Generated classes: 2</para>
+        <para>Actions: 1</para>
+        <para>Form beans: 1</para>
+        <itemizedlist>
+            <listitem>
+                <para>Click <emphasis>
+                    <property moreinfo="none">Finish</property>
+                </emphasis></para>
+            </listitem>
+        </itemizedlist>
+        <para>The Java files will be generated in a <emphasis>
+            <property moreinfo="none">JavaSource &gt; sample</property>
+        </emphasis> folder that you can see in the <property moreinfo="none">Package Explorer view</property> under the
+            "StrutsHello" node. One Action stub and one FormBean stub will have
+            been generated.</para>
+    </chapter>
+    
+<chapter id="coding_files" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/struts/docs/struts_tools_tutorial/en-US/coding_files.xml" xreflabel="coding_files">
+    <?dbhtml filename="coding_files.html"?>
+    <chapterinfo>
+        <keywordset>
+            <keyword>JBoss Tools</keyword>
+            <keyword>Struts</keyword>
+            <keyword>Struts Application</keyword>
+        </keywordset>
+    </chapterinfo>
+
+        <title>Coding the Various Files</title>
+        <para>We will now code both the Java stub classes just generated, the JSP files left in as
+            placeholders from previous steps, and a new start JSP page we will have to create.</para>
+        <section id="JavaStubClasses">
+            <title>Java Stub Classes</title>
+            <itemizedlist>
+                <listitem>
+                    <para>To finish the two Java classes, switch to the <emphasis>
+                            <property moreinfo="none">Package Explorer</property>
+                        </emphasis> view and expand the <emphasis>
+                            <property moreinfo="none">JavaSource &gt; sample</property>
+                        </emphasis> folder</para>
+                </listitem>
+            </itemizedlist>
+            <section id="GetNameForm.java">
+                <title>GetNameForm.java</title>
+                <itemizedlist>
+                    <listitem>
+                        <para>Double-click <emphasis>
+                                <property moreinfo="none">GetNameForm.java</property>
+                            </emphasis> for editing</para>
+                    </listitem>
+
+                    <listitem>
+                        <para>You are looking at a Java stub class that was generated by JBoss
+                            Tools. Now we are going to edit the file</para>
+                    </listitem>
+
+                    <listitem>
+                        <para>Add the following attributes at the beginning of the class:</para>
+                    </listitem>
+                </itemizedlist>
+                <programlisting format="linespecific" role="JAVA"><![CDATA[private String name = "";
+]]></programlisting>
+
+                <itemizedlist>
+                    <listitem>
+                        <para>Inside the reset method, delete the TO DO and throw lines and
+                        add:</para>
+                    </listitem>
+                </itemizedlist>
+                <programlisting format="linespecific" role="JAVA"><![CDATA[this.name = "";
+]]></programlisting>
+
+                <itemizedlist>
+                    <listitem>
+                        <para>Inside the validate method, delete the TO DO and throw lines and
+                        add:</para>
+                    </listitem>
+                </itemizedlist>
+                <programlisting format="linespecific" role="JAVA"><![CDATA[ActionErrors errors = new ActionErrors();
+     return errors;
+]]></programlisting>
+
+                <itemizedlist>
+                    <listitem>
+                        <para>Right-click and select <emphasis>
+                                <property moreinfo="none">Source &gt; Generate Getters and Setters</property>
+                            </emphasis>from the context menu</para>
+                    </listitem>
+                    <listitem>
+                        <para>In the dialog box, check the check box for <emphasis>
+                            <property moreinfo="none">name</property>,</emphasis>
+                            select First method for Insertion point, and click on the <emphasis>
+                                <property moreinfo="none">OK</property>
+                            </emphasis> button</para>
+                    </listitem>
+                </itemizedlist>
+                <para>The final <emphasis>
+                    <property moreinfo="none">GetNameForm.java</property></emphasis> file should look like this:</para>
+                <programlisting format="linespecific" role="JAVA"><![CDATA[package sample;
+import javax.servlet.http.HttpServletRequest;
+import org.apache.struts.action.ActionErrors;
+import org.apache.struts.action.ActionMapping;
+
+public class GetNameForm extends org.apache.struts.action.ActionForm 
+{
+	
+	private String name = "";
+	
+	public String getName() 
+	{
+		return name;
+	}
+	public void setName(String name) 
+	{
+		this.name = name;
+	}
+	
+	public GetNameForm() 
+	{
+	}
+	
+	public void reset(ActionMapping actionMapping, HttpServletRequest request) 
+	{
+		this.name = "";
+	}
+	
+	public ActionErrors validate(ActionMapping actionMapping, 
+	        HttpServletRequest request) 
+	{
+		ActionErrors errors = new ActionErrors();
+		return errors;
+	}
+}
+]]></programlisting>
+
+                <itemizedlist>
+                    <listitem>
+                        <para>Save the file</para>
+                    </listitem>
+                </itemizedlist>
+            </section>
+            <section id="GreetingAction.java">
+                <title>GreetingAction.java</title>
+                <itemizedlist>
+                    <listitem>
+                        <para>Open <emphasis>
+                            <property moreinfo="none">GreetingAction.java</property></emphasis> for editing</para>
+                    </listitem>
+                    <listitem>
+                        <para>Inside the execute method, delete the TO DO lines and add the
+                            following:</para>
+                    </listitem>
+                </itemizedlist>
+
+                <programlisting format="linespecific" role="JAVA"><![CDATA[String name = ((GetNameForm)form).getName();
+String greeting = "Hello, "+name+"!";
+((GetNameForm)form).setName(greeting);
+return mapping.findForward(FORWARD_sayHello);
+]]></programlisting>
+
+                <para>The final version of <emphasis>
+                    <property moreinfo="none">GreetingAction.java</property></emphasis> should look like this:</para>
+
+                <programlisting format="linespecific" role="JAVA"><![CDATA[package sample;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import org.apache.struts.action.ActionForm;
+import org.apache.struts.action.ActionForward;
+import org.apache.struts.action.ActionMapping;
+
+public class GreetingAction extends org.apache.struts.action.Action 
+{
+	
+	// Global Forwards
+	public static final String GLOBAL_FORWARD_getName = "getName";
+	
+	// Local Forwards
+	public static final String FORWARD_sayHello = "sayHello";
+	
+	public GreetingAction() 
+	{
+	}
+	public ActionForward execute(ActionMapping mapping, ActionForm form,
+	HttpServletRequest request, HttpServletResponse response) throws Exception 
+	{
+		String name = ((GetNameForm)form).getName();
+		String greeting = "Hello, "+name+"!";
+		((GetNameForm)form).setName(greeting);
+		return mapping.findForward(FORWARD_sayHello);
+	}
+}
+]]></programlisting>
+                <itemizedlist>
+                    <listitem>
+                        <para>Save the file</para>
+                    </listitem>
+                    <listitem>
+                        <para>Close the editors for the two Java files</para>
+                    </listitem>
+                </itemizedlist>
+                <para>The last thing left to do is to code the JSP files whose editors should still
+                    be open from having been created as placeholders.</para>
+            </section>
+        </section>
+        <section id="JSPPages">
+            <title>JSP Pages</title>
+            <section id="inputname.jsp">
+                <title>inputname.jsp</title>
+                <para>In this page, the user will enter any name and click the <emphasis>
+                        <property moreinfo="none">submit</property>
+                    </emphasis> button. Then, the greeting action will be called through the form.</para>
+                <itemizedlist>
+                    <listitem>
+                        <para>Click on the <emphasis>
+                                <property moreinfo="none">inputname.jsp</property>
+                            </emphasis> tab in the Editing area to bring its editor forward</para>
+                    </listitem>
+                    <listitem>
+                        <para>In the Web Projects view, expand <emphasis>
+                                <property moreinfo="none">StrutsHello &gt; Configuration &gt; default
+                                    &gt; struts-config.xml &gt; action-mappings</property>
+                            </emphasis> and select <emphasis>
+                                <property moreinfo="none">/greeting</property>
+                            </emphasis></para>
+                    </listitem>
+                    <listitem>
+                        <para>Drag it and drop it between the quotes for the <emphasis role="italic">
+                                <property moreinfo="none">"action"</property>
+                            </emphasis> attribute to the 
+                                <code>&lt;html:form&gt;</code>
+                            element in the Source pane of the editor</para>
+                    </listitem>
+                    <listitem>
+                        <para>Then type this text on a new line just below this line:</para>
+                        <programlisting format="linespecific" role="XML"><![CDATA[Input name:
+                        ]]></programlisting>
+                    </listitem>
+
+                    <listitem>
+                        <para>Select the <emphasis>
+                                <property moreinfo="none">Visual</property>
+                            </emphasis> pane of the editor</para>
+                    </listitem>
+                    <listitem>
+                        <para>Then, in the JBoss Tools Palette, expand the <emphasis>
+                                <property moreinfo="none">Struts Form</property>
+                            </emphasis> library, select <emphasis>
+                                <property moreinfo="none">text</property>
+                            </emphasis>, and drag it onto the box
+                            <note>
+                                <title>Note:</title>
+                                <para>By default there are only four groups on the JBoss Tools
+                                    Palette. If you wish to make some group visible click the <emphasis>
+                                        <property moreinfo="none">Show/Hide</property>
+                                    </emphasis> button on the top of palette and in the prompted
+                                    dialog check the group (or groups) you want to be shown.</para>
+                            </note>
+                        </para>
+                    </listitem>
+                </itemizedlist>
+                <figure float="0">
+                    <title>JBoss Tools Palette</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="images/struts_application/struts_application_3.png"></imagedata>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+                <itemizedlist>
+                    <listitem>
+                        <para>In the Insert Tag dialog box, type in name for property and select <emphasis>
+                                <property moreinfo="none">Finish</property>
+                            </emphasis></para>
+                    </listitem>
+                    <listitem>
+                        <para>In the StrutsForm library in the <property moreinfo="none">JBoss Tools Palette</property>, select <emphasis>
+                                <property moreinfo="none">submit</property>
+                            </emphasis>, and drag it to right after the text box in the Visual pane
+                            of the editor</para>
+                    </listitem>
+                    <listitem>
+                        <para>Right-click the <emphasis>
+                                <property moreinfo="none">submit</property>
+                            </emphasis> button and select 
+                                <code>&lt;html:submit&gt;</code>
+                             Attributes from the context menu</para>
+                    </listitem>
+                    <listitem>
+                        <para>In the Attributes dialog box, select the <emphasis>
+                                <property moreinfo="none">value</property>
+                            </emphasis> field and type in "Say Hello!" for its
+                            value</para>
+                    </listitem>
+                </itemizedlist>
+                <para>After tidying the page source, the Editor window for the file should look
+                    something like this:</para>
+                <figure float="0">
+                    <title>Editor Window</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="images/struts_application/struts_application_4.png"></imagedata>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+            </section>
+            <section id="greeting.jsp">
+                <title>greeting.jsp</title>
+                <para>Next, we will fill in the result page.</para>
+                <itemizedlist>
+                    <listitem>
+                        <para>Click on the <emphasis>
+                                <property moreinfo="none">greeting.jsp</property>
+                            </emphasis> tab in the Editing area to bring its editor forward</para>
+                    </listitem>
+                    <listitem>
+                        <para>Type in the following code:</para>
+                    </listitem>
+                </itemizedlist>
+                <programlisting format="linespecific" role="XML"><![CDATA[<html>
+<head>
+	<title>Greeting</title>
+</head>
+	<body>
+		<p>
+		</p>
+	</body>
+</html>
+]]></programlisting>
+
+                <para>To complete editing of this file, we will use macros from the <property moreinfo="none">JBoss Tools
+                    Palette</property>. This palette is a view that should be available to the right of the
+                    editing area.</para>
+                <itemizedlist>
+                    <listitem>
+                        <para>Click on the <emphasis>
+                                <property moreinfo="none">Struts Common</property>
+                            </emphasis> folder in the <property moreinfo="none">JBoss Tools Palette</property> to open it</para>
+                    </listitem>
+                    <listitem>
+                        <para>Position the cursor at the beginning of the <emphasis>
+                            <property moreinfo="none">greeting.jsp</property></emphasis> file in the
+                            Source pane and then click on <emphasis>
+                                <property moreinfo="none">bean taglib</property></emphasis> in the <property moreinfo="none">JBoss Tools
+                        Palette</property></para>
+                    </listitem>
+                </itemizedlist>
+                <para>This will insert the following line at the top of the file:</para>
+                <programlisting format="linespecific" role="JAVA"><![CDATA[
+<%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean" %>
+]]></programlisting>
+                <itemizedlist>
+                    <listitem>
+                        <para>Click on the <emphasis>
+                                <property moreinfo="none">Struts Bean</property>
+                            </emphasis> folder in the <property moreinfo="none">JBoss Tools Palette</property> to open it</para>
+                    </listitem>
+                    <listitem>
+                        <para>Position the cursor inside the 
+                                <code>&lt;p&gt;</code>
+                            element</para>
+                    </listitem>
+                    <listitem>
+                        <para>Click on <emphasis>
+                            <property moreinfo="none">write</property></emphasis> in the <property moreinfo="none">JBoss Tools Palette</property></para>
+                    </listitem>
+                    <listitem>
+                        <para>Type in "GetNameForm" for the <emphasis role="italic">
+                                <property moreinfo="none">name</property>
+                            </emphasis> attribute and add a <emphasis role="italic">
+                                <property moreinfo="none">property</property>
+                            </emphasis> attribute with "name" as its
+                        value</para>
+                    </listitem>
+                </itemizedlist>
+                <para>The editor should now look like this:</para>
+                <figure float="0">
+                    <title>Editor Window</title>
+                    <mediaobject>
+                        <imageobject>
+                            <imagedata fileref="images/struts_application/struts_application_5.png"></imagedata>
+                        </imageobject>
+                    </mediaobject>
+                </figure>
+            </section>
+            <section id="index.jsp">
+                <title>index.jsp</title>
+                <para>Finally, we will need to create and edit an <emphasis>
+                    <property moreinfo="none">index.jsp</property></emphasis> page. This page will use
+                    a Struts forward to simply redirect us to the getName global forward.</para>
+                <itemizedlist>
+                    <listitem>
+                        <para>In the Web Projects view, right-click on <emphasis>
+                                <property moreinfo="none">StrutsHello &gt; WEB-ROOT(WebContent)</property>
+                            </emphasis> node and select <emphasis>
+                                <property moreinfo="none">New &gt; File &gt; JSP</property>
+                            </emphasis></para>
+                    </listitem>
+                    <listitem>
+                        <para>Type <emphasis>
+                            <property moreinfo="none">index</property></emphasis> for Name and click on the <emphasis>
+                                <property moreinfo="none">Finish</property>
+                            </emphasis> button</para>
+                    </listitem>
+                    <listitem>
+                        <para>On the <property moreinfo="none">JBoss Tools Palette</property>, select the <emphasis>
+                                <property moreinfo="none">Struts Common</property>
+                            </emphasis> folder of macros by clicking on it in the palette</para>
+                    </listitem>
+                    <listitem>
+                        <para>Click on the <emphasis>
+                            <property moreinfo="none">logic taglib</property></emphasis> icon</para>
+                    </listitem>
+                    <listitem>
+                        <para>Press the <emphasis>
+                                <property moreinfo="none">Enter</property>
+                            </emphasis> key in the editor to go to the next line</para>
+                    </listitem>
+                    <listitem>
+                        <para>Back on the palette, select the <emphasis>
+                                <property moreinfo="none">Struts Logic</property>
+                            </emphasis> folder of macros</para>
+                    </listitem>
+                    <listitem>
+                        <para>Click on <emphasis>
+                            <property moreinfo="none">redirect</property></emphasis></para>
+                    </listitem>
+                    <listitem>
+                        <para>Delete the ending tag, put a forward slash in front of the closing
+                            angle bracket, and type "forward=getName" in front of
+                            the slash</para>
+                    </listitem>
+                </itemizedlist>
+                <para>The finished code for the page is shown below:</para>
+                <programlisting format="linespecific" role="JAVA"><![CDATA[<%@ taglib uri="/WEB-INF/struts-logic.tld" prefix="logic" %>
+<logic:redirect forward="getName"/>
+]]></programlisting>
+                <itemizedlist>
+                    <listitem>
+                        <para>To save all the edits to files, select <emphasis>
+                                <property moreinfo="none">File&gt;Save All</property>
+                            </emphasis> from the menu bar</para>
+                    </listitem>
+                </itemizedlist>
+            </section>
+        </section>
+    </chapter>
+    
+<chapter id="compiling_and_running" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/struts/docs/struts_tools_tutorial/en-US/compiling_and_running.xml" xreflabel="compiling_and_running">
+    <?dbhtml filename="compiling_and_running.html"?>
+    <chapterinfo>
+        <keywordset>
+            <keyword>JBoss Tools</keyword>
+            <keyword>Struts</keyword>
+            <keyword>Struts Application</keyword>
+        </keywordset>
+    </chapterinfo>
+    
+    <title>Compiling the Classes and Running the Application</title>
+    
+        <para>As this is the Eclipse environment, no explicit compilation step is required. By
+        default, Eclipse compiles as you go.</para>
+
+        <para><diffmk:wrapper diffmk:change="changed">Thus at this point everything is ready for running our application without having to leave JBoss
+            Developer Studio by using the JBoss Application Server engine that comes with the JBoss
+            Developer Studio. For controlling JBoss AS within JBoss Developer Studio, there is 
+            Servers view.</diffmk:wrapper></para>
+        <figure float="0">
+            <title><diffmk:wrapper diffmk:change="changed">Servers Panel</diffmk:wrapper></title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="images/struts_application/struts_application_6.png"></imagedata>
+                </imageobject>
+            </mediaobject>
+        </figure>
+        <itemizedlist>
+            <listitem>
+                <para><diffmk:wrapper diffmk:change="changed">Start up JBoss AS by clicking on the icon in Servers view. (If JBoss AS
+                    is already running, stop it by clicking on the red icon and then start it again.
+                    Remember, the Struts run-time requires restarting the servlet engine when any
+                    changes have been made.)</diffmk:wrapper></para>
+            </listitem>
+            <listitem>
+                <para>After the messages in the Console tabbed view stop scrolling, JBoss AS is
+                    available. At this point, right-click on the getName global forward in the
+                    struts-config.xml diagram view and select Run on Server.</para>
+            </listitem>
+        </itemizedlist>
+        <para>The browser should appear with the application started.</para>
+    </chapter>
+    
+<chapter id="struts_validation" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/struts/docs/struts_tools_tutorial/en-US/struts_validation.xml" xreflabel="struts_validation">
+  <?dbhtml filename="struts_validation.html"?>
+  <chapterinfo>
+        <keywordset>
+            <keyword>JBoss Developer Studio</keyword>
+            <keyword>Struts</keyword>
+            <keyword>Struts Validation</keyword>
+            </keywordset>
+    </chapterinfo>
+<title>Struts Validation Examples</title>
+
+<para><property moreinfo="none">Validation</property> of input is an important part of any Web application. All Apache Jakarta frameworks, 
+including Struts, can use a common Jakarta Validation Framework for streamlining this aspect of Web 
+application development. The Validation Framework allows you to define validation rules and then apply these rules on the client-side or the server-side.</para>
+
+    <para>JBoss Developer Studio makes using the <property moreinfo="none">Validation Framework</property> in Struts even easier with the help of a specialized editor for the XML files that controls validation in a project. In this document, we'll show you how this all works by creating some simple client-side validation and server-side validation examples.</para>
+
+<section id="StartingPoint">
+<?dbhtml filename="StartingPoint.html"?>
+<title>Starting Point</title>
+<para>The example assumes that you have already created our sample "StrutsHello" application from the 
+Getting Started Guide for Creating a Struts Application. You should have the JBoss Developer Studio perspective
+ open on this StrutsHello project.</para>
+</section>
+
+<section id="DefiningTheValidationRule">
+<?dbhtml filename="DefiningTheValidationRule.html"?>
+<title>Defining the Validation Rule</title>
+<para>In these steps you will set up the validation that can be used for either client-side or 
+server side validation. You need to enable validation as a part of the project, define an error message, and tie it into an appropriate part of the application.</para>
+
+<itemizedlist>
+<listitem><para>Right-click on a "plug-ins" node under the <emphasis><property moreinfo="none">StrutsHello &gt; Configuration &gt; default &gt; struts-config.xml</property></emphasis> node in the Web Projects view and select <emphasis><property moreinfo="none">Create Special Plugin &gt; Validators</property></emphasis> from the context menu</para></listitem>
+<listitem><para>Further down in the Web Projects view, right-click on the 
+<emphasis><property moreinfo="none">StrutsHello &gt; ResourceBundles</property></emphasis> node and select <emphasis><property moreinfo="none"> New &gt; Properties File...</property></emphasis>from the context menu</para></listitem>
+<listitem><para>In the dialog box, click on the <emphasis><property moreinfo="none">Browse...</property></emphasis>button next to the Folder field, expand the
+    JavaSource folder in this next dialog box, select the sample subfolder, and click on the <emphasis><property moreinfo="none">OK</property></emphasis> button</para></listitem>
+    <listitem><para>Back in the first dialog box, type in "applResources" for the Name field and click on the <emphasis><property moreinfo="none">Finish</property></emphasis> button</para></listitem>
+<listitem><para>Right-click on a newly created file and select <emphasis><property moreinfo="none"><diffmk:wrapper diffmk:change="changed">New &gt; Default Error Messages</diffmk:wrapper></property></emphasis>
+ from the context menu</para></listitem>
+
+<listitem><para>Drag up the sample.applResources icon until you can drop it on the resources folder under struts-config.xml</para></listitem>
+<listitem><para>Select<emphasis><property moreinfo="none"> File &gt; Save </property></emphasis>All from the menu bar</para></listitem>
+<listitem><para>Select validation.xml under the <emphasis><property moreinfo="none">StrutsHello &gt; Validation</property></emphasis> node and double-click it to open it with the JBoss Tools XML Editor</para></listitem>
+<listitem><para>Here you must create a Formset.</para></listitem>
+<listitem><para>In the validation.xml file editor click the button <emphasis><property moreinfo="none">Create Formset</property></emphasis> on the panel <emphasis><property moreinfo="none">Formsets</property></emphasis></para></listitem>
+<listitem><para>In the dialog <emphasis><property moreinfo="none">Add Formset</property></emphasis> fill the fields <emphasis><property moreinfo="none">Language</property></emphasis> and <emphasis><property moreinfo="none">Country</property></emphasis> or just leave them empty to create a default formset. Click <emphasis><property moreinfo="none">OK</property></emphasis></para></listitem>
+</itemizedlist>
+<figure float="0">
+    <title>Create Formset</title>
+<mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/struts_validation/struts_validation.png"></imagedata>
+        </imageobject>
+</mediaobject>
+</figure>
+<itemizedlist>
+<listitem><para>Expand the "form-beans" node under the <emphasis><property moreinfo="none">StrutsHello &gt; Configuration &gt; default &gt; struts-config.xml node.</property></emphasis> Then, drag the form bean "GetNameForm" and drop it onto a formset in the <property moreinfo="none">XML</property> Editor</para></listitem>
+<listitem><para>In the Validation Editor, expand the formset node, right-click GetNameForm, and select <emphasis><property moreinfo="none">Create Field...</property></emphasis> from the context menu</para></listitem>
+<listitem><para>Enter a name for Property in the dialog box. A new property will be created:</para></listitem>
+</itemizedlist>
+<figure float="0">
+    <title>New Property Is Added</title>
+<mediaobject> 
+        <imageobject>
+            <imagedata fileref="images/struts_validation/struts_validation_2.png"></imagedata>
+        </imageobject>
+</mediaobject>
+</figure>
+<itemizedlist>
+<listitem><para>In the Properties view for the name field to the right of the "tree" for the validation.xml file, click on the <emphasis><property moreinfo="none">Change...</property></emphasis>button next to the Depends entry field</para></listitem>
+<listitem><para>In the displayed double list, select <emphasis><property moreinfo="none">required</property></emphasis> from the left list and then click <emphasis><property moreinfo="none">Add</property></emphasis></para></listitem>
+    <listitem><para>Click <emphasis><property moreinfo="none">Ok</property></emphasis></para></listitem>
+<listitem><para>Right-click name and select <emphasis><property moreinfo="none">Add Arg...</property></emphasis> from the context menu</para></listitem>
+<listitem><para>In the Add Arg dialog box, click on the <emphasis><property moreinfo="none">Change...</property></emphasis>button next to the <emphasis><property moreinfo="none">Key</property></emphasis> field</para></listitem>
+    <listitem><para>In the Key dialog box that appears now, click on the <emphasis><property moreinfo="none">Add</property></emphasis> button</para></listitem>
+    <listitem><para>Enter "name.required" in the Name field, and enter a person's name in the Value field</para></listitem>
+    <listitem><para>Click <emphasis><property moreinfo="none">Finish</property></emphasis>, then <emphasis><property moreinfo="none">Ok</property></emphasis>, and then <emphasis><property moreinfo="none">Ok</property></emphasis> again</para></listitem>
+<listitem><para>Select <emphasis><property moreinfo="none">File &gt; Save All</property></emphasis> from the menu bar</para></listitem>
+</itemizedlist>
+</section>
+
+<section id="Client-SideValidation">
+<?dbhtml filename="Client-SideValidation.html"?>
+<title>Client-Side Validation</title>
+<para>Client-side <property moreinfo="none">validation</property> uses a scripting language (like JavaScript) running in the client browser to actually do the <property moreinfo="none">validation</property>. In a Struts application using the <property moreinfo="none">Validation</property> Framework, however, you don't actually have to do any of the script coding. The <property moreinfo="none">Validation</property> Framework handles this.</para>
+<para>To see how this works in our application, you'll just need to make a couple of modifications to one of the JSP files.</para>
+<itemizedlist>
+<listitem><para>Double-click inputname.jsp under <emphasis><property moreinfo="none">StrutsHello &gt; WEB-ROOT(WebContent) &gt; pages</property></emphasis> to open it for editing</para></listitem>
+<listitem><para>Find the  tag near the top and hit Return to make a new line under it</para></listitem>
+    <listitem><para>In the JBoss Tools Palette view to the right, open the Struts HTML folder and click on the javascript tag</para></listitem>
+<listitem><para>Back in the editor, just in front of the closing slash for this inserted tag, hit Ctrl+Space and select "formName" from the prompting menu</para></listitem>
+<listitem><para>Over in the Web Projects view, select GetNameForm under the <emphasis><property moreinfo="none">StrutsHello &gt; Configuration &gt; default &gt; struts-config.xml &gt; form-beans</property></emphasis> node, drag it, and drop it between the quotes in the editor</para></listitem>
+<listitem><para>Modify the <code>&lt;html:form&gt;</code> tag by inserting this attribute:</para></listitem>
+</itemizedlist>
+<programlisting format="linespecific" role="XML"><![CDATA[onsubmit="return validateGetNameForm(this)"
+]]></programlisting>
+<para></para>
+<para>The file should now look like this:</para>
+<programlisting format="linespecific" role="XML"><![CDATA[
+<%@ taglib uri="/WEB-INF/struts-html" prefix="html" %>
+
+<html:html >
+    <head>
+        <html:javascript formName="GetNameForm"/>
+	    <title></title>
+    </head>
+    <body>
+        <html:form action="/greeting.do" onsubmit="return validateGetNameForm(this)">
+            Input name:<html:text property="name"/><html:submit value="Say Hello!"/>
+         </html:form>
+    </body>
+</html:html>
+]]></programlisting>
+<itemizedlist>
+<listitem><para>Select<emphasis><property moreinfo="none"> File &gt; Save </property></emphasis>from the menu bar</para></listitem>
+<listitem><para>Start JBoss Application Server by clicking on its icon (a right-pointing arrow) in the toolbar</para></listitem>
+    <listitem><para>Click the Run icon(<inlinemediaobject> <imageobject>
+        <imagedata fileref="images/struts_validation/struts_validation_1.png"></imagedata>
+    </imageobject></inlinemediaobject>) or right click your project folder and select <emphasis><property moreinfo="none">Run As &gt; Run on Server</property></emphasis></para></listitem>
+</itemizedlist>
+
+<itemizedlist><listitem><para>In the browser window, click on the "Say Hello!" button without having entered any name in the form</para></listitem></itemizedlist>
+<para>A JavaScript error message should be displayed in an alert box.</para>
+</section>
+<section id="Server-SideValidation">
+<?dbhtml filename="Server-SideValidation.html"?>
+<title>Server Side Validation</title>
+<para>Server side validation does the validation inside the application on the server. In a Struts application using the Validation Framework, you still don't have to do any of the actual validation coding. The Validation Framework handles this. You will though have to make a few changes to the JSP file you modified for client-side validation along with a change to an action and a few changes to the form bean class.</para>
+</section>
+
+<section id="EditingTheJSPFile">
+<?dbhtml filename="EditingTheJSPFile.html"?>
+<title>Editing the JSP File</title>
+<itemizedlist>
+<listitem><para>Reopen inputname.jsp for editing</para></listitem>
+<listitem><para>Delete the <emphasis role="italic"><property moreinfo="none">"onsubmit"</property></emphasis> attribute in the <code>&lt;html:form&gt;</code> element that you put in for client-side validation</para></listitem>
+
+<listitem><para>Add an <code>&lt;html:errors/&gt;</code> tag after the 
+    <code>&lt;html:form&gt;</code>
+     tag</para></listitem>
+</itemizedlist>
+<para>The JSP file should now look like this:</para>
+
+    <programlisting format="linespecific" role="XML"><![CDATA[<%@ taglib uri="/WEB-INF/struts-html" prefix="html" %>
+<html:html >
+<head>
+    <html:javascript formName="GetNameForm"/>
+    	<title></title>
+    </head>
+    <body>
+        <html:form action="/greeting.do" >Input name:<html:text property="name"/>
+            <html:submit value="Say Hello!"/>
+        </html:form>
+        <html:errors/>
+    </body>
+</html:html>
+]]></programlisting>
+
+</section>
+
+<section id="EditingTheAction">
+<?dbhtml filename="EditingTheAction.html"?>
+<title>Editing the Action</title>
+<itemizedlist>
+<listitem><para>In the Web Projects view, expand the node under the <emphasis><property moreinfo="none">StrutsHello &gt; Configuration &gt; default &gt; struts-config.xml &gt; action-mappings</property></emphasis> node, right-click the <emphasis><property moreinfo="none">/greeting</property></emphasis> action, and then select <emphasis><property moreinfo="none">Properties...</property></emphasis>from the context menu</para></listitem>
+
+    <listitem><para>In the Edit Properties window, insert the cursor into the value column for the input property and click on the <property moreinfo="none">...</property> button</para></listitem>
+
+    <listitem><para>In the dialog box, make sure the Pages tab is selected, select <emphasis><property moreinfo="none">StrutsHello &gt; WEB-ROOT(WebContent) &gt; pages &gt; inputname.jsp</property></emphasis>, click the <emphasis><property moreinfo="none">Ok</property></emphasis> button, and then click on the <emphasis><property moreinfo="none">Close</property></emphasis> button</para></listitem>
+</itemizedlist>
+</section>
+<section id="EditingTheFormBean">
+<?dbhtml filename="EditingTheFormBean.html"?>
+
+<title>Editing the Form Bean</title>
+<itemizedlist>
+<listitem><para>Right-click the <emphasis><property moreinfo="none">/greeting</property></emphasis> action again and select Open Form-bean Source to open the GetNameForm.java file for editing</para></listitem>
+<listitem><para>Change the class that it extends from: <emphasis><property moreinfo="none">org.apache.struts.action.ActionForm</property></emphasis> to <emphasis><property moreinfo="none">org.apache.struts.validator.ValidatorForm</property></emphasis></para></listitem>
+<listitem><para>Comment out a validate method</para></listitem>
+</itemizedlist>
+<para>The file should now look like this:</para>
+<programlisting format="linespecific" role="JAVA"><![CDATA[package sample;
+import javax.servlet.http.HttpServletRequest;
+import org.apache.struts.action.ActionErrors;
+import org.apache.struts.action.ActionMapping;
+public class GetNameForm extends
+
+org.apache.struts.validator.ValidatorForm 
+{
+
+	private String name = "";
+	
+	/**
+	* @return Returns the name.
+	*/
+	public String getName() 
+	{
+		return name;
+	}
+	
+	/**
+	* @param name The name to set.
+	*/
+	public void setName(String name) 
+	{
+		this.name = name;
+	}
+	
+	public GetNameForm () 
+	{
+	}
+	
+	public void reset(ActionMapping actionMapping, 
+		HttpServletRequest request) 
+	{
+		this.name = "";
+	}
+	
+	// public ActionErrors validate(ActionMapping actionMapping,
+	//	HttpServletRequest request) 
+	//{
+	// ActionErrors errors = new ActionErrors();
+	// return errors;
+	// }
+    }
+]]></programlisting>
+
+<itemizedlist>
+<listitem><para>Select <emphasis><property moreinfo="none">File &gt; Save All </property></emphasis>from the menu bar</para></listitem>
+<listitem><para>Reload the application into JBoss AS by clicking on the "Change Time Stamp" icon (a finger pointing with a little star) in the toolbar</para></listitem>
+<listitem><para>Run the application</para></listitem>
+<listitem><para>In the browser window, click on the "Say Hello!" button without having entered any name in the form</para></listitem>
+</itemizedlist>
+<para>The error message should appear in a refreshed version of the form.</para>
+</section>
+
+</chapter>
+    
+<chapter id="relevant_resources" xml:base="file:///home/vchukhutsina/repos/ochik_jboss/struts/docs/struts_tools_tutorial/en-US/relevant_resources.xml" xreflabel="relevant_resources">
+    <?dbhtml filename="relevant_resources.html"?>
+    <chapterinfo>
+        <keywordset>
+            <keyword>JBoss Tools</keyword>
+            <keyword>Struts</keyword>
+            <keyword>Struts Application</keyword>
+        </keywordset>
+    </chapterinfo>
+
+    <title>Other Relevant Resources on the topic</title>
+
+    <para>Our reference: Struts Tools Reference Guide</para>
+    <para>Apache Struts: <ulink url="http://struts.apache.org/">Struts Technology</ulink></para>
+    <para>Struts 2: <ulink url="http://struts.apache.org/2.x/">Apache Struts 2</ulink></para>
+    <para>Get Started: <ulink url="http://struts.apache.org/2.x/docs/home.html">Struts Getting
+            Started</ulink></para>
+    <para>Struts on IBM: <ulink url="http://www.ibm.com/developerworks/library/j-struts/">Struts -
+            An open-source MVC implementation</ulink></para>
+    <para>FAQ: <ulink url="http://struts.apache.org/2.x/docs/faqs.html">Struts FAQ</ulink></para>
+    <para>Download: <ulink url="http://struts.apache.org/download.cgi#struts206">Release of Apache
+            Struts</ulink></para>
+
+    <para><diffmk:wrapper diffmk:change="changed">Thus, this tutorial should help you to execute the whole development circle for building a
+        sample Struts-based Web application using </diffmk:wrapper><property moreinfo="none">JBoss Tools</property> bundle of Eclipse
+        plugins starting from organizing a new Struts project and ending with the running and
+        deploying it onto the <property moreinfo="none">JBoss Server</property>.</para>
+
+    <para>To find out all the features of <property>JBoss Tools</property> for working with Struts
+        refer to our Struts Tools Reference Guide. If you
+        still have questions you are always welcome on <ulink
+            url="http://www.jboss.com/index.html?module=bb&amp;op=viewforum&amp;f=201">JBoss
+            Tools Forum</ulink>.</para>
+</chapter>
+
+    
+    
+</book>

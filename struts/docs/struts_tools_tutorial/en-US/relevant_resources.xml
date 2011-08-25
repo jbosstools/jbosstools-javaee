@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<chapter id="relevant_resources">
+    <?dbhtml filename="relevant_resources.html"?>
+    <chapterinfo>
+        <keywordset>
+            <keyword>JBoss Tools</keyword>
+            <keyword>Struts</keyword>
+            <keyword>Struts Application</keyword>
+        </keywordset>
+    </chapterinfo>
+
+    <title>Other Relevant Resources on the topic</title>
+
+    <para>Our reference: Struts Tools Reference Guide</para>
+    <para>Apache Struts: <ulink url="http://struts.apache.org/">Struts Technology</ulink></para>
+    <para>Struts 2: <ulink url="http://struts.apache.org/2.x/">Apache Struts 2</ulink></para>
+    <para>Get Started: <ulink url="http://struts.apache.org/2.x/docs/home.html">Struts Getting
+            Started</ulink></para>
+    <para>Struts on IBM: <ulink url="http://www.ibm.com/developerworks/library/j-struts/">Struts -
+            An open-source MVC implementation</ulink></para>
+    <para>FAQ: <ulink url="http://struts.apache.org/2.x/docs/faqs.html">Struts FAQ</ulink></para>
+    <para>Download: <ulink url="http://struts.apache.org/download.cgi#struts206">Release of Apache
+            Struts</ulink></para>
+
+    <para>Thus, this tutorial should help you to execute the whole development circle for building a
+        sample Struts-based Web application using <property>JBoss Tools</property> bundle of Eclipse
+        plugins starting from organizing a new Struts project and ending with the running and
+        deploying it onto the <property>JBoss Server</property>.</para>
+
+    <para>To find out all the features of <property>JBoss Tools</property> for working with Struts
+        refer to our Struts Tools Reference Guide. If you
+        still have questions you are always welcome on <ulink
+            url="http://www.jboss.com/index.html?module=bb&amp;op=viewforum&amp;f=201">JBoss
+            Tools Forum</ulink>.</para>
+</chapter>

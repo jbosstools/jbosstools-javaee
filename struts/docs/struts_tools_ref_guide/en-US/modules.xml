@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter id="modules">
+    <?dbhtml filename="modules.html"?>
+    <chapterinfo>
+        <keywordset>
+            <keyword>JBoss Developer Studio</keyword>
+            <keyword>Eclipse</keyword>
+            <keyword>Struts Tools</keyword>
+            <keyword>Java</keyword>
+            <keyword>JBoss</keyword>
+        </keywordset>
+    </chapterinfo>
+    
+    <title>Modules</title>
+    
+    <para>JBoss Tools supports working with Struts projects that have multiple modules. You can easily do the following:</para>
+    <itemizedlist>
+        <listitem>
+            <para>Add new modules</para>
+        </listitem>
+        <listitem>
+            <para>Edit modules for an existing project or during Struts project import</para>
+        </listitem>
+    </itemizedlist>
+    <para>Now, let&apos;s discuss this functionality in more detail.</para>
+    <section id="WhenImportingAStrutsProject432">
+        
+        <title>When Importing a Struts Project</title>
+        
+        <para>
+        	During Struts project import, if the project has multiple modules, you will see a screen with all existing modules. You can select each module and edit its details.
+        </para>
+        
+        <figure>
+            <title>Configuring Project Modules</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="images/struts/struts_40.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+    </section>
+    <section id="EditingModulesInAnExistingProject1">
+        
+        <title>Editing Modules in an Existing Project</title>
+        <para>To edit modules in an existing project, right click the project in Web Project view and select <menuchoice><guimenuitem>JBoss Tools Struts</guimenuitem><guimenuitem>Modules Configuration</guimenuitem></menuchoice> (or right click the project in Package Explorer view and select <menuchoice><guimenuitem>Configure</guimenuitem><guimenuitem>Modules Configuration</guimenuitem></menuchoice>).          
+        </para>
+           <figure>
+            <title>Choosing Modules Configuration</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="images/struts/struts_41.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+        <para>You will see the same screen as above where you will be able to select a module and edit its details.</para>
+        <figure>
+            <title>Modules Configuration</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="images/struts/struts_42.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+    </section>
+    <section id="AddingNewModules1">
+        
+        <title>Adding New Modules</title>
+        
+        <para>
+        	Adding a new module is very simple. First switch to Web Project view. Expand your project to the Configuration folder. Under that folder you should see the current modules. Right click on Configuration and select <menuchoice><guimenuitem>New</guimenuitem><guimenuitem>Struts Config</guimenuitem></menuchoice>.
+        </para>
+        <figure>
+            <title>Adding New Modules</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="images/struts/struts_43.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+        <para>
+        	You will see the screen below. You can specify a new module name and also add the new Struts configuration file to the <filename>web.xml</filename> file.
+        </para>
+        <figure>
+            <title>Adding New Modules</title>
+            <mediaobject>
+                <imageobject>
+                    <imagedata fileref="images/struts/struts_44.png"/>
+                </imageobject>
+            </mediaobject>
+        </figure>
+    </section>
+</chapter>

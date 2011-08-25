@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+"http://www.docbook.org/xml/4.3/docbookx.dtd"
+
+[<!ENTITY introduction SYSTEM "introduction.xml">
+<!ENTITY struts_application  SYSTEM "struts_application.xml">
+<!ENTITY generating_stub  SYSTEM "generating_stub.xml">
+<!ENTITY coding_files  SYSTEM "coding_files.xml">
+<!ENTITY compiling_and_running  SYSTEM "compiling_and_running.xml">
+<!ENTITY struts_validation  SYSTEM "struts_validation.xml">
+<!ENTITY relevant_resources  SYSTEM "relevant_resources.xml">
+
+<!ENTITY seamlink "../../seam/html_single/index.html">
+<!ENTITY aslink "../../as/html_single/index.html">
+<!ENTITY esblink "../../esb_ref_guide/html_single/index.html">
+<!ENTITY gsglink "../../GettingStartedGuide/html_single/index.html">
+<!ENTITY hibernatelink "../../hibernatetools/html_single/index.html">
+<!ENTITY jbpmlink "../../jbpm/html_single/index.html">
+<!ENTITY jsflink "../../jsf/html_single/index.html">
+<!ENTITY jsfreflink "../../jsf_tools_ref_guide/html_single/index.html">
+<!ENTITY jsftutoriallink "../../jsf_tools_tutorial/html_single/index.html">
+<!ENTITY strutsreflink "../../struts_tools_ref_guide/html_single/index.html">
+<!ENTITY strutstutoriallink "../../struts_tools_tutorial/html_single/index.html">                          
+
+]>
+
+<book>
+    
+    <bookinfo>
+        <title>Struts Tools Tutorial</title>
+        <corpauthor>
+            <inlinemediaobject>
+                <imageobject role="fo">
+                    <imagedata format="PNG" fileref="images/jbosstools_logo.png" />
+                </imageobject>	
+                <imageobject role="html">
+                    <imagedata/>
+                </imageobject>	
+            </inlinemediaobject>           
+        </corpauthor>
+        <author><firstname>Anatoly</firstname><surname>Fedosik</surname></author>
+        <author><firstname>Olga</firstname><surname>Chikvina</surname></author>
+        <author><firstname>Svetlana</firstname><surname>Mukhina</surname><email>smukhina@exadel.com</email></author>
+        
+        <copyright>
+            <year>2011</year>
+            <holder>JBoss by Red Hat</holder>
+        </copyright>
+        <releaseinfo>
+            Version: 3.2.1.GA
+        </releaseinfo>
+
+<!--<abstract>
+   <title/>
+       <para>
+           <ulink url="http://download.jboss.org/jbosstools/nightly-docs/en/struts_tools_tutorial/pdf/Struts_Tools_Tutorial.pdf">PDF version</ulink>
+       </para>
+</abstract>-->
+
+
+    </bookinfo>    
+    
+    <toc/>  
+   
+    &introduction;
+    &struts_application;
+    &generating_stub;
+    &coding_files;
+    &compiling_and_running;
+    &struts_validation;
+    &relevant_resources;
+    
+    
+</book>    
