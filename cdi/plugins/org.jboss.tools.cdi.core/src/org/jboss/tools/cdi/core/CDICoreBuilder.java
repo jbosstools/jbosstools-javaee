@@ -12,7 +12,6 @@ package org.jboss.tools.cdi.core;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -360,6 +359,13 @@ public class CDICoreBuilder extends IncrementalProjectBuilder {
 				return getResourceVisitor().visit(resource);
 			case IResourceDelta.REMOVED:
 				CDICoreNature p = getCDICoreNature();
+				CDIResourceVisitor v = getResourceVisitor();
+				Set<IFile> fs = getDependentFiles(resource.getFullPath(), v.visited);
+				for (IFile f: fs) {
+					if(f.exists()) {
+						v.visit(f);
+					}
+				}
 				if(p != null) p.getDefinitions().getWorkingCopy().clean(resource.getFullPath());
 				break;
 			case IResourceDelta.CHANGED:
