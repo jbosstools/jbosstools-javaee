@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter id="intro">
+    <?dbhtml filename="intro.html"?>
+    <chapterinfo>
+        <keywordset>
+            <keyword>JBoss Tools</keyword>
+            <keyword>Seam</keyword>
+            <keyword>JBDS</keyword>
+        </keywordset>
+    </chapterinfo>
+
+    <title>Introduction</title>
+
+    <section>
+
+        <title>What is Seam?</title>
+        <para>This introduction will help you to understand what is <property>Seam</property>.</para>
+        <para><property>Seam</property> is a fully featured application framework on top of Java EE
+            5. It is also one of the most popular enterprise Java frameworks today. Seam deeply
+            integrates many other standard-based or open source frameworks (e.g., JSF, EJB3, JMS,
+            Web Services, jBPM, JBoss Rules, Ajax4jsf, RichFaces, Facelets, Spring, iText, Quartz,
+            TestNG, etc.), and provides a single programming model for developers to
+            &quot;drive&quot; those underlying frameworks via simple annotated POJOs (Plain
+            Old Java Objects). It makes life easier for developers to tackle complex enterprise
+            applications with many component frameworks.</para>
+    </section>
+
+    <section><title>Key Features of JBoss Seam</title> 
+        <para>For a start, we propose you to look through the table of main features of JBoss Seam:</para>
+
+        <table>
+            
+            <title>Key Functionality for JBoss Seam</title>
+            <tgroup cols="3">
+                
+                <colspec colnum="1" align="left" colwidth="2*"/>
+                <colspec colnum="2" colwidth="4*"/>
+                <colspec colnum="3" align="left" colwidth="2*"/>
+                
+                <thead>
+                    <row>
+                        <entry>Feature</entry>
+                        <entry>Benefit</entry>
+                        <entry>Chapter</entry>
+                    </row>
+                </thead>
+                
+                <tbody>
+                    
+                    <row>
+                        <entry><para>Integrated JSF with EJB 3.0</para></entry>
+                        <entry><para>JBoss Seam combines the component models of EJB3 and JSF, eliminating glue code, and thus, letting the developer think about the business problem.</para></entry>
+                                          </row>
+                    
+                    <row>
+                        <entry><para>Integrated AJAX</para></entry>
+                        <entry><para>Developer can add AJAX capability to the user interface of his application  without the need to write any JavaScript code as Seam supports JBoss RichFaces and ICEfaces - the best open source JSF-based AJAX solutions.</para></entry>
+                                      </row>
+                    
+                    <row>
+                        <entry><para>Bijection</para></entry>
+                        <entry><para>Bijection allows auto-assembly of stateful components by the container. It even allows a component to safely and easily manipulate the value of a context variable, just by assigning it to an attribute of the component.</para></entry>
+                                            </row>
+                    
+                    <row>
+                        <entry><para>New Seam Project wizard</para></entry>
+                        <entry><para>An easy step-by-step wizard to create a stand alone Seam Web Project with a form to create runtime and server instances in order to get started creating, running, and debugging J2EE (only) applications. You may also add JSF capabilities.</para></entry>
+                        <entry>
+                            <xref linkend="create_seam"/>
+                        </entry>
+                    </row>
+                    
+                    <row>
+                        <entry><para>Seam component generations options </para></entry>
+                        <entry><para>All the Seam component generations options known from Seam-gen are available as wizards (with sensible auto-defaulting) for creating various common Seam components.</para></entry>
+                        <entry>
+                            <xref linkend="seam_wizards"/>
+                        </entry>
+                    </row>
+                    
+                    <row>
+                        <entry><para>Seam Editors</para></entry>
+                        <entry><para>Visual Page Editor,  Seam Pages Editor and Seam Components Editor provide you with a range of great possibilities and will be helpful when working with JBoss Seam.</para></entry>
+                        <entry>
+                            <xref linkend="seam_editors"/>
+                        </entry>
+                    </row>
+                    
+                    <row>
+                        <entry><para>Seam Validator</para></entry>
+                        <entry><para>A configured Seam Validator provides validation of various possible problematic definitions.</para></entry>
+                        <entry>
+                            <xref linkend="SeamValidation"/>
+                        </entry>
+                    </row>
+                    
+                    <row>
+                        <entry><para>CRUD Database Application Generation</para></entry>
+                        <entry><para>JBoss Seam allows adding CRUD support to a Seam Web application.</para></entry>
+                        <entry>
+                            <xref linkend="crud_database_application"/>
+                        </entry>
+                    </row>
+                    
+                    <row>
+                        <entry><para>TestNG Framework</para></entry>
+                        <entry><para>TestNG ("Testing, the Next Generation") is a Java unit testing framework that aims to overcome many limitations of JUnit.</para></entry>
+                        <entry>
+                            <xref linkend="testNG"/>
+                        </entry>
+                    </row>
+                    
+                </tbody>
+                
+            </tgroup>
+        </table>
+        
+        
+
+
+
+
+
+
+</section>
+
+    <section> 
+        <title>Installation into Eclipse</title>
+
+        <para>Here, we are going to explain how to install Seam plugin into Eclipse.</para>
+
+        <para>Seam is a one module of JBoss Tools project. Since Seam has a dependence on other JBoss Tools modules we recommend you to install
+            a bundle of all <ulink url="http://labs.jboss.com/tools/download.html">JBoss Tools plug-ins</ulink>. Installation instruction you can find on JBoss Wiki in <ulink url="http://labs.jboss.com/wiki/InstallingJBossTools">InstallingJBossTools</ulink> section.</para>
+        
+    </section>
+
+    <section>
+        <title>Other relevant resources on the topic</title>
+
+        <para>The <ulink url="http://seamframework.org/">Seam Framework</ulink> - Next generation enterprise Java development.</para>
+        <para>All JBoss Developer Studio/JBoss Tools release documentation you can find at <ulink url="http://docs.jboss.org/tools/">http://docs.jboss.org/tools</ulink> in the corresponding release directory.</para>
+        <para>There is some extra information on <ulink url="http://www.jboss.org/community/wiki/JBossSeam">JBoss Wiki. </ulink></para>
+        <para>The latest documentation builds are available at <ulink url="http://download.jboss.org/jbosstools/nightly-docs/">http://download.jboss.org/jbosstools/nightly-docs</ulink>.</para>
+    	<para>You can find a set of screencasts on how to search/find references and use Seam refactoring tools in the following Max Andersen&apos;s 
+    		<ulink url="http://in.relation.to/12524.lace">blog post</ulink>.</para>
+    </section>
+</chapter>

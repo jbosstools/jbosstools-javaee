@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter id="directory_str">
+<?dbhtml filename="directory_structure.html"?>
+  <chapterinfo>
+    <keywordset>
+      <keyword>JBoss Tools</keyword>
+       
+      <keyword>Seam</keyword>
+       
+      <keyword>Eclipse</keyword>
+    </keywordset>
+  </chapterinfo>
+   <title>Directory Structure of the Generated Project</title> 
+  <para>
+    In this chapter we describe where the Seam wizard puts the generated files for both EAR and WAR deployments.
+  </para>
+   
+  <para>
+    The Seam Project wizard generates projects like Eclipse WTP style in order to utilize Eclipse WTP features and to have a correct classpath. To be more precise it generates one project per artifact.
+  </para>
+   
+  <section id="WAR">
+    <title>WAR Deployment</title> 
+    <para>
+      The project layout for WAR projects is:
+    </para>
+     
+    <figure>
+      <title>Project Layout for WAR projects</title> 
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/directory_structure/directory_structure_1.png"
+                        scale="75"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+     
+    <para>
+      A WAR project can only use Seam JavaBean and JPA Entity bean components; it cannot use EJB3 Session beans etc.
+    </para>
+     
+    <para>
+      WAR projects are generated to enable Seam war hotdeploy feature. Classes put into <emphasis> <property>src/action</property> </emphasis> will be deployed to <emphasis> <property>WEB-INF/dev</property> </emphasis> from which Seam automatically will perform hotdeploy of new components.
+    </para>
+     
+    <note>
+      <title>Note:</title> 
+      <para>
+        Because of Eclipse WTP limits the hot deployed classes also existed in <emphasis> <property>WEB-INF/classes</property>, </emphasis> but since Seam gives <emphasis> <property>WEB-INF/dev</property> </emphasis> precedence it will work.
+      </para>
+    </note>
+     
+    <para>
+      Furthermore the Seam Project wizard generates a test project that is setup to run <xref linkend="testNG"/> directly against the proper libraries and server runtime libraries. When the TestNG plugin is installed you can just run your tests via <menuchoice><guimenuitem>Run As</guimenuitem><guimenuitem>TestNG Test.</guimenuitem></menuchoice>
+    </para>
+     
+    <para>
+      In order to deploy WAR project on server, right-click on the project and select <menuchoice><guimenuitem>Run As</guimenuitem><guimenuitem>Run on Server.</guimenuitem></menuchoice> Studio will deploy WAR project into one web application on server to <property>deploy</property> folder.
+    </para>
+  </section>
+   
+  <section id="EAR">
+    <title>EAR Deployment</title> 
+    <para>
+      The project layout for EAR projects is:
+    </para>
+     
+    <figure>
+      <title>Project Layout for EAR projects</title> 
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/directory_structure/directory_structure_2.png"
+                        scale="75"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+     
+    <para>
+      An EAR project can use the whole range of Seam components, including EJB3 Session beans.
+    </para>
+     
+    <para>
+      In order to deploy EAR project on server, right-click on the project with <property>-ear</property> postfix and select <menuchoice><guimenuitem>Run As</guimenuitem><guimenuitem>Run on Server.</guimenuitem></menuchoice> Studio will take care about all modules and deploy EAR project into one enterprise application on server to <property>deploy</property> folder. EAR application keeps <property>ejb</property> and <property>war</property> modules of the EAR project.
+    </para>
+     
+    <note>
+      <title>Note:</title> 
+      <para>
+        The <property>WAR</property> generated for <property>EARs</property> is now configured to utilize Seam hot-deployment (<emphasis><property>WEB-INF/dev</property></emphasis>) similar to standalone <property>WAR</property> projects.
+      </para>
+    </note>
+  </section>
+   
+  <section id="seam_version_changing">
+    <title>Changing the Seam Version</title> 
+    <para>
+      To upgrade or downgrade your projects Seam version use the facet preferences. You should right-click your project, open its <property>Properties</property> and choose <emphasis> <property>Project Facets</property> </emphasis> category. Next select <emphasis> <property>Seam</property> </emphasis> and change its version to needed one.
+    </para>
+     
+    <figure>
+      <title>Changing the Seam Facet Version</title> 
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/directory_structure/directory_structure_3.png"
+                        scale="75"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+     
+    <para>
+      After pressing <emphasis> <property>Apply</property> </emphasis> the wizard for adjusting new Seam runtime settings appears.
+    </para>
+     
+    <figure>
+      <title>Changing the Seam Facet Version</title> 
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/directory_structure/directory_structure_4.png"
+                        scale="75"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+     
+    <para>
+      If you need to update the libraries for you project, check the <emphasis> <property>Update libraries</property> </emphasis> option. All libraries you checked will be removed and the libraries from the new Seam distribution will be added after clicking <emphasis> <property>Ok</property>.</emphasis>
+    </para>
+     
+    <figure>
+      <title>Changing the Seam Facet Version</title> 
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/directory_structure/directory_structure_5.png"
+                        scale="75"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+     
+    <note>
+      <title>Note:</title> 
+      <para>
+        The note "Seam configuration files and their XSDs won&apos;t be changed" is meant that the libraries, Seam facet and runtime version will be changed, but configuration files that refer to the old version will have to be manually updated.
+      </para>
+    </note>
+  </section>
+   
+  <section id="changing_seam_parent_project">
+    <title>Changing Seam Parent Project</title> 
+    <para>
+      Starting from the 2.0.0.CR2 version of <property>JBoss Tools</property> it is possible to change the Seam parent project. In earlier versions this was only controllable at a project creation time, now it can be changed for existing projects too.
+    </para>
+     
+    <para>
+      Go to your project preferences and select <emphasis> <property>Seam Settings</property> </emphasis> category on the left. Press the <emphasis> <property>Browse</property> </emphasis> button next to the <emphasis> <property>Main Seam Project</property> </emphasis> section to select the other Seam parent project.
+    </para>
+     
+    <figure>
+      <title>Changing Seam Parent Project</title> 
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/directory_structure/directory_structure_6.png"
+                        scale="75"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+  </section>
+   
+  <section id="renaming_projects_folders">
+    <title>Renaming the Projects and Folders</title> 
+    <para>
+      If you need to rename one of the Seam Project artifacts (<emphasis>&lt;project_name&gt;</emphasis>, <emphasis>&lt;project_name&gt;-ear</emphasis>, <emphasis>&lt;project_name&gt;-ejb</emphasis> or <emphasis>&lt;project_name&gt;-test</emphasis>) or any entire folder like <emphasis>&lt;project_name&gt;/WebContent</emphasis>, <emphasis>&lt;project_name&gt;/ejbModule</emphasis>, <emphasis>&lt;project_name&gt;-test/test-src</emphasis>, or project name in packages <emphasis>org.domain.&lt;project_name&gt;.session</emphasis>, <emphasis>org.domain.&lt;project_name&gt;.entity</emphasis>, you can do this by brining the context menu and navigating <emphasis> <property>Refactor &gt; Rename...</property> </emphasis> or just pressing <emphasis> <property>Shift + Alt + R</property> </emphasis> under the chosen resource.
+    </para>
+     
+    <figure>
+      <title>Renaming the folder</title> 
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/directory_structure/directory_structure_7.png"
+                        scale="75"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+     
+    <para>
+      Use <emphasis> <property>Refactor &gt; Move...</property> </emphasis> (or <emphasis> <property>Shift + Alt + V</property> </emphasis>), if you need to move <emphasis>&lt;project_name&gt;/WebContent</emphasis> folder, <emphasis>&lt;project_name&gt;/ejbModule</emphasis> folder or <emphasis>&lt;project_name&gt;/test-src</emphasis> folder in the other place within the Project structure.
+    </para>
+     
+    <figure>
+      <title>Moving the folder</title> 
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="images/directory_structure/directory_structure_8.png"
+                        scale="75"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+  </section>
+</chapter>

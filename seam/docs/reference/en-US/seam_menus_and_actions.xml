@@ -1,0 +1,363 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter id="menus_and_actions">
+<?dbhtml filename="seam_menus_and_actions.html"?>
+  <chapterinfo>
+    <keywordset>
+      <keyword>JBoss Tools</keyword>
+       
+      <keyword>Seam</keyword>
+       
+      <keyword>JBDS</keyword>
+       
+      <keyword>menus</keyword>
+       
+      <keyword>actions</keyword>
+    </keywordset>
+  </chapterinfo>
+   <title>Seam Menus and Actions</title> 
+  <para>
+    In this chapter we provide a description of Seam actions that are available from
+  </para>
+   
+  <itemizedlist>
+    <listitem>
+      <para>
+        Menu bar
+      </para>
+    </listitem>
+     
+    <listitem>
+      <para>
+        Toolbar
+      </para>
+    </listitem>
+     
+    <listitem>
+      <para>
+        Context menus in views
+      </para>
+    </listitem>
+  </itemizedlist>
+   
+  <section id="file_menu">
+    <title>File Menu Actions</title> 
+    <para>
+      In a Seam perspective, by default there are the following actions in <menuchoice><guimenuitem>File</guimenuitem><guimenuitem>New</guimenuitem></menuchoice> submenu
+    </para>
+     
+    <table>
+      <title>Seam Actions in the New Submenu</title> 
+      <tgroup cols="2">
+        <colspec colnum="1" align="left" colwidth="1*"/>
+         
+        <colspec colnum="2" colwidth="4*"/>
+         
+        <thead>
+          <row>
+            <entry align="center">
+              <para>
+                Name
+              </para>
+            </entry>
+             
+            <entry align="center">
+              <para>
+                Function
+              </para>
+            </entry>
+          </row>
+        </thead>
+         
+        <tbody>
+          <row>
+            <entry>
+              <para>
+                <property>Seam Web Project</property>
+              </para>
+            </entry>
+             
+            <entry>
+              <para>
+                Runs <xref linkend="standaloneSeam"/> wizard for creating a new Seam project
+              </para>
+            </entry>
+          </row>
+           
+          <row>
+            <entry>
+              <para>
+                <property>Seam Action</property>
+              </para>
+            </entry>
+             
+            <entry>
+              <para>
+                Runs <xref linkend="seam_action"/> wizard for creating a new Seam action
+              </para>
+            </entry>
+          </row>
+           
+          <row>
+            <entry>
+              <para>
+                <property>Seam Form</property>
+              </para>
+            </entry>
+             
+            <entry>
+              <para>
+                Runs <xref linkend="seam_form"/> wizard for creating a new Seam form
+              </para>
+            </entry>
+          </row>
+           
+          <row>
+            <entry>
+              <para>
+                <property>Seam Entity</property>
+              </para>
+            </entry>
+             
+            <entry>
+              <para>
+                Runs <xref linkend="seam_entity"/> wizard for creating a new Seam entity
+              </para>
+            </entry>
+          </row>
+           
+          <row>
+            <entry>
+              <para>
+                <property>Seam Conversation</property>
+              </para>
+            </entry>
+             
+            <entry>
+              <para>
+                Runs <xref linkend="seam_conversation"/> wizard for creating a new Seam conversation
+              </para>
+            </entry>
+          </row>
+           
+          <row>
+            <entry>
+              <para>
+                <property>Seam Generate Entities</property>
+              </para>
+            </entry>
+             
+            <entry>
+              <para>
+                Runs <xref linkend="generate_entities"/> wizard
+              </para>
+            </entry>
+          </row>
+        </tbody>
+      </tgroup>
+    </table>
+  </section>
+   
+  <section id="navigate_menu">
+    <title>Navigate Menu Actions</title> 
+    <para>
+      In the next sections we are going to describe Seam actions which can help you to easily navigate through the source code.
+    </para>
+     
+    <section id="find_seam_ref_decl">
+      <title>Find Seam References/Declarations</title> 
+      <para>
+        To find EL expressions both in <emphasis> <property>.java</property> </emphasis> and <emphasis> <property>.xhtml</property> </emphasis> files use Find Seam References/Declarations actions. For that, in the main menu bar click on <menuchoice><guimenuitem>Search</guimenuitem><guimenuitem>Find Seam References</guimenuitem></menuchoice> or <emphasis><property>Find Seam Declarations</property>.</emphasis>
+      </para>
+       
+      <para>
+        Look at the description of the actions in the table below.
+      </para>
+       
+      <table>
+        <title>Find Seam References/Declarations actions</title> 
+        <tgroup cols="3">
+          <colspec colnum="1" align="left" colwidth="1*"/>
+           
+          <colspec colnum="2" colwidth="4*"/>
+           
+          <colspec colnum="3" colwidth="2*"/>
+           
+          <thead>
+            <row>
+              <entry align="center">
+                <para>
+                  Name
+                </para>
+              </entry>
+               
+              <entry align="center">
+                <para>
+                  Function
+                </para>
+              </entry>
+               
+              <entry align="center">
+                <para>
+                  Keyboard Shortcut
+                </para>
+              </entry>
+            </row>
+          </thead>
+           
+          <tbody>
+            <row>
+              <entry>
+                <para>
+                  <property>Find Seam References</property>
+                </para>
+                 
+                <para>
+                  <property>Find Seam Declarations</property>
+                </para>
+              </entry>
+               
+              <entry>
+                <para>
+                  Find all references and declarations to the selected element. It's available for EL expressions in both .java and .xhtml files. Differs from normal Eclipse Find References/Declarations by showing an EL or Seam references in the Search View.
+                </para>
+              </entry>
+               
+              <entry>
+                <para>
+                  Ctrl+G
+                </para>
+                 
+                <para>
+                  Ctrl+Shift+G
+                </para>
+                 
+                <para>
+                  also Ctrl + 1 for .java files
+                </para>
+              </entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+       
+      <para>
+        On the screenshot example below you could see that the search results are listed in the <property>Search view</property>.
+      </para>
+       
+      <figure>
+        <title>Find Seam Declaration for &quot;Identity&quot;</title> 
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="images/seam_menus_and_actions/menus_and_actions1.png"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+       
+      <para>
+        You can also use Ctrl + 1 in .java files to activate the actions:
+      </para>
+       
+      <figure>
+        <title>Find Seam References for &quot;Identity&quot;</title> 
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="images/seam_menus_and_actions/menus_and_actions2.png"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+    </section>
+     
+    <section id="open_seam_component">
+      <title>Open Seam Component</title> 
+      <para>
+        To open Seam Components click on <menuchoice><guimenuitem>Navigate</guimenuitem><guimenuitem>Open Seam Component</guimenuitem></menuchoice> in the main menu bar. This dialog is also available from toolbar icon or with hot keys combination "Ctrl+Shift+Z ".
+      </para>
+       
+      <figure>
+        <title>Open Seam Components icon</title> 
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="images/seam_menus_and_actions/menus_and_actions3_0.png"
+                        />
+          </imageobject>
+        </mediaobject>
+      </figure>
+       
+      <para>
+        In the table below read a description about the dialog.
+      </para>
+       
+      <table>
+        <title>Open Seam Components Dialog</title> 
+        <tgroup cols="3">
+          <colspec colnum="1" align="left" colwidth="1*"/>
+           
+          <colspec colnum="2" colwidth="4*"/>
+           
+          <colspec colnum="3" colwidth="2*"/>
+           
+          <thead>
+            <row>
+              <entry align="center">
+                <para>
+                  Name
+                </para>
+              </entry>
+               
+              <entry align="center">
+                <para>
+                  Function
+                </para>
+              </entry>
+               
+              <entry align="center">
+                <para>
+                  Keyboard Shortcut
+                </para>
+              </entry>
+            </row>
+          </thead>
+           
+          <tbody>
+            <row>
+              <entry>
+                <para>
+                  <property>Open Seam Components</property>
+                </para>
+              </entry>
+               
+              <entry>
+                <para>
+                  Brings up the Open Seam Component dialog to open a component in the editor. The Open Seam Component selection dialog shows all Seam components existing in the workspace. You can search the components via their short, imported or full name.
+                </para>
+              </entry>
+               
+              <entry>
+                <para>
+                  Ctrl+Shift+Z
+                </para>
+              </entry>
+            </row>
+          </tbody>
+        </tgroup>
+      </table>
+       
+      <para>
+        Enter a name in the text field and see the results as it shown on screenshot:
+      </para>
+       
+      <figure>
+        <title>Open Seam Components Dialog</title> 
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="images/seam_menus_and_actions/menus_and_actions3.png"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+       
+      <para>
+        You can also open Seam Component from the other component where the required one is declared in <code>@In </code> by using <xref linkend="OpenOn"/> (<property>Ctrl + left click</property> and select <property>Open Declaration of Seam Component for seam_component in Seam_class.java</property> ).
+      </para>
+    </section>
+  </section>
+</chapter>

@@ -1,0 +1,461 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter id="business_application">
+ <?dbhtml filename="business_application.html"?>
+  <chapterinfo>
+        <keywordset>
+            <keyword>Business process</keyword>
+            <keyword>Seam</keyword>
+            <keyword>JBoss Rules</keyword>
+            <keyword>CRUD-application</keyword>
+            </keywordset>
+    </chapterinfo>
+    
+    <title>Business process and rules application</title>
+    <para>Rules and business processes are important components in many enterprise applications. 
+    They help business analysts to get involved in the design and implementation of the software
+     project. Rules and business processes are also essential to complex internal states of large,
+      multi-user systems. The JBoss Rules engine (formerly known as Drools) and jBPM business 
+      process engine are two production-ready open source products supported by Red Hat. It is 
+      very easy to incorporate rules and business processes into a Seam web application using the 
+      JBoss Developer Studio. In this section, we further re-factor the CRUD application we
+       already have and add support for an &quot;order management&quot; process.User scenario is to 
+       simulate the following process and rules:</para>
+       <itemizedlist>
+       <listitem>The site administrator logs in and sees a list of outstanding orders</listitem>
+       <listitem>She goes through the inventory (by hand or using another computer system) and 
+       determines the availability of the products in each order. She enters that information to
+        each order.</listitem>
+        <listitem>She starts a process for each order, which determines whether to ship the order 
+        or refund the order based on a business rule applied to the availability status. For 
+        instance, an &quot;in stock&quot; status triggers a &quot;ship&quot; action while the &quot;back order&quot; status 
+        triggers a &quot;refund&quot; action.</listitem>
+        <listitem>When the business process reaches the &quot;ship&quot; or &quot;refund&quot; state, it will take 
+        appropriate actions (e.g., to submit shipping orders to Fedex or to contact the credit
+         card company for refund). In this simple case, we will just print out a message on the 
+         console to prove that we can execute any code in those stages.</listitem>
+         </itemizedlist>
+         <para>While this process sounds simple, it is the basis for very complex business
+          processes. In this section of the tutorial, we will show you how this is done via the 
+          following steps:</para>
+          <itemizedlist>
+          <listitem>Add a rule definition to the application</listitem>
+          <listitem>Add a business process that uses that rule to the application</listitem>
+          <listitem>Start the business process from a web action</listitem>
+          </itemizedlist>
+<section id="ImportConfigurationFilesAndJavaCode">
+<?dbhtml filename="ImportConfigurationFilesAndJavaCode.html"?>
+<title>Import configuration files and Java code</title>
+<para>Before we start, we need to import some configuration and Java files for the demo project. 
+Those files are very simple and we will review them as we go along with the tutorial. We import 
+them here to reduce potential typos and other errors in the tutorial.</para>
+<orderedlist>
+<listitem>Choose the <emphasis>File > Import ...</emphasis> menu and then select <emphasis>General > Existing</emphasis> project into workspace and 
+click on the Next button.</listitem>
+</orderedlist>
+<figure>
+<title>Importing Project</title>
+<mediaobject> 
+        <imageobject>
+         <imagedata fileref="images/business_application/business_application_1.png"/>
+        </imageobject>
+</mediaobject>
+</figure>
+<orderedlist continuation="continues">
+<listitem>To make this demo a little more manageable we have already created some demo code 
+that is available in the rules-bpm directory of your tutorial distribution code. It is
+ located in the root directory of the distribution.  Select the rules-bpm directory and check 
+ the &quot;Copy projects into the workspace&quot; directory check box.</listitem>
+</orderedlist>
+<para>You will have a different directory on your machine than the screen shot shown below.</para>
+<figure>
+<title>Selecting Directory To Import</title>
+<mediaobject> 
+        <imageobject>
+         <imagedata fileref="images/business_application/business_application_2.png"/>
+        </imageobject>
+</mediaobject>
+</figure>
+<orderedlist continuation="continues">
+<listitem>After this step you will see a new project called &quot;rules-bpm&quot;. If you expand that 
+directory, you will see numerous files as shown below. We will look at these files in this
+ section of the demo. We will first start by copying these files into our EclipseCon project.</listitem>
+</orderedlist>
+
+<figure>
+<title>Project Structure</title>
+<mediaobject> 
+        <imageobject>
+         <imagedata fileref="images/business_application/business_application_3.png"/>
+        </imageobject>
+</mediaobject>
+</figure>
+<orderedlist continuation="continues">
+<listitem>Right click on the rules-bpm/build.xml file, and select <emphasis>Run AS ... > Ant</emphasis> Build.</listitem>
+</orderedlist>
+
+<figure>
+<title>AntBuild</title>
+<mediaobject> 
+        <imageobject>
+         <imagedata fileref="images/business_application/business_application_4.png"/>
+        </imageobject>
+</mediaobject>
+</figure>
+<orderedlist continuation="continues">
+<listitem>Right click on the EclipseCon project and select Refresh from the menu to pick up
+ the changes made to the demo application. The rules-bpm/build.xml script copies a bunch of files
+  into your existing EclipseCon project. We will look at them soon.</listitem>
+</orderedlist>
+</section>
+<section id="CreateARuledefinition">
+<?dbhtml filename="CreateARuledefinition.html"?>
+<title>Create a rule definition</title>
+<para>In this section, we create a business rule that can be used in junction with the business
+ process. When the rule is executed, it checks the status of the currently selected order. If the
+  order status is &quot;in stock&quot;, meaning that a person has check off line and verified the 
+  availability of the product ordered, the system changes the order status to &quot;ship&quot;, meaning
+   that someone will now ship the product as the next step in the process. If the order status 
+   is &quot;back order&quot;, the rule changes the order status to &quot;refund&quot; automatically to trigger the
+    business process of refunding.</para>
+    <orderedlist>
+    <listitem>Select the<emphasis> EclipseCon/resources </emphasis>directory. That is where we are going to put the
+     rules definition file.</listitem>
+     <listitem>Select the following menu actions: <emphasis>File > New > Other ... > JBoss Rules > New
+      Rules Resource</emphasis> to bring up the JBoss Rules wizard.</listitem>
+    </orderedlist>
+    <figure>
+<title>New Rules File</title>
+<mediaobject> 
+        <imageobject>
+         <imagedata fileref="images/business_application/business_application_5.png"/>
+        </imageobject>
+</mediaobject>
+</figure>
+<orderedlist continuation="continues">
+<listitem>Fill out the above window with the following values.</listitem>
+</orderedlist>
+<table>
+         <title>Rule Table</title>
+         <tgroup cols="2">
+            <thead>
+               <row>
+                  <entry>Field Name</entry>
+                  <entry>Field Value</entry>
+               </row>
+            </thead>
+            <tbody>
+               <row>
+                  <entry>File Name</entry>
+                  <entry>process-order.drl</entry>
+               </row>
+               <row>
+                  <entry>Type of Rule Resource</entry>
+                  <entry>New DRL (rule package)</entry>
+               </row>
+               <row>
+                  <entry>Rule Package Name</entry>
+                  <entry>process.order</entry>
+               </row>
+            </tbody>
+         </tgroup>
+      </table>
+      <orderedlist continuation="continues">
+<listitem>Replace the content of the process-order.drl file with the follow rule.</listitem>
+</orderedlist>
+<programlisting role="JAVA"><![CDATA[package process.order
+		import com.mydomain.EclipseCon.Orders;
+
+rule "Ship order rule"	
+	when
+	    order : Orders(status == "in stock")
+	then 
+		order.setStatus("ship");
+end
+
+rule "Refund order rule"	
+	when
+	    order : Orders(status == "back order")
+	then 
+		order.setStatus("refund");		
+end
+]]></programlisting>
+<para>Notice that the IDE automatically highlights the syntax and provides auto-completion help.
+ You may wonder how Seam knows to load the process-order.drl file for the application.</para>
+ <para>If you look in the <emphasis><property>resources/WEB-INF/components.xml</property></emphasis> file we copied from the imported 
+ rules-bpm project. It has an element pointing to the process-order.drl file.</para>
+ <programlisting role="XML"><![CDATA[<drools:rule-base name="securityRules">
+       <drools:rule-files>
+           <value>/security.drl</value>           
+       </drools:rule-files>
+   </drools:rule-base>
+]]></programlisting>
+</section>
+<section id="CreateABusinessProcessDefinition">
+<?dbhtml filename="CreateABusinessProcessDefinition.html"?>
+<title>Create a business process definition</title>
+<para>Next, let&apos;s create a business process that manages the order process. The business process
+ essentially specifies a sequence of actions that has to happen before an order is shipped or 
+ refunded. Since the business analyst typically designs this process, it is very high level and 
+ can be drawn up in a GUI designer.</para>
+ <orderedlist>
+ <listitem>Select the<emphasis> EclipseCon/resources </emphasis>folder and select menu actions <emphasis>File > New > File</emphasis>.
+  Add a new file called process-order.jpdl.xml as shown below:</listitem>
+ </orderedlist>
+ <figure>
+<title>Creating New File Resource</title>
+<mediaobject> 
+        <imageobject>
+         <imagedata fileref="images/business_application/business_application_6.png"/>
+        </imageobject>
+</mediaobject>
+</figure>
+
+<orderedlist continuation="continues">
+<listitem>Add the following content to the process-order.jpdl.xml file. It is an empty jBPM 
+process definition, and allows us to use the jBPM visual designer to further edit it.</listitem>
+</orderedlist>
+<programlisting role="XML"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<process-definition
+  xmlns=""  name="process-order">
+</process-definition>
+]]></programlisting>
+<orderedlist continuation="continues">
+<listitem>Right click on the process-order.jpdl.xml file and select <emphasis>Open with ... > jBPM 
+Graphical Process Designer</emphasis>.</listitem>
+</orderedlist>
+<figure>
+<title>Opening Graphical Process Designer</title>
+<mediaobject> 
+        <imageobject>
+         <imagedata fileref="images/business_application/business_application_7.png"/>
+        </imageobject>
+</mediaobject>
+</figure>
+<orderedlist continuation="continues">
+<listitem>In the designer, drag and drop nodes and transition lines until you have a process
+ shown in the following image.  This is a high level process and aimed at business level non 
+ technical users.</listitem>
+</orderedlist>
+<para>To draw a node, click on the type of the node in the palette. You should be able to see 
+that based on the icon on the node as shown below. Draw a rectangle on the canvas and the
+ appropriate node will be rendered.</para>
+ <para>To draw a transition click on the transition icon in the palette, choose the source node
+  and then the destination node. This will draw a transition from the source to the destination.</para>
+  <para>To change the name on the node or transition, select the object and change the name in 
+  the properties view or simply double click on the node or the transition line to change it.</para>
+  <figure>
+<title>Diagram View</title>
+<mediaobject> 
+        <imageobject>
+         <imagedata fileref="images/business_application/business_application_8.png"/>
+        </imageobject>
+</mediaobject>
+</figure>
+<orderedlist continuation="continues">
+<listitem>Save this file. You can click on the Source tab to view the generated XML file for
+ the process.</listitem>
+</orderedlist>
+</section>
+<section id="AssociateProcessNodesWithJavaCode">
+<?dbhtml filename="AssociateProcessNodesWithJavaCode.html"?>
+<title>Associate process nodes with Java code</title>
+<para>With the business process in the designer, we can now associate each node with Java code.
+ The Java code is executed when the node is reached in the process, and the Java code determines
+  the outcome of each node – hence the next node in the process.</para>
+   <para>Let&apos;s go through the exercise for the &quot;Check Inventory&quot; node first.</para>
+   <orderedlist>
+   <listitem>Right click on the &quot;Check Inventory&quot; node in the designer and select <emphasis>Add 
+   Actions > Node Enter </emphasis>from the menu as shown below.</listitem>
+   </orderedlist>
+   <figure>
+<title>Node Entering</title>
+<mediaobject> 
+        <imageobject>
+         <imagedata fileref="images/business_application/business_application_9.png"/>
+        </imageobject>
+</mediaobject>
+</figure>
+<orderedlist continuation="continues">
+<listitem>In the Outline view tab, open the tree view of process-order > Check Inventory > 
+node enter, and you will see action1. The Outline view may be hidden or on the left side of the
+ IDE.</listitem>
+</orderedlist>
+<figure>
+<title>Outline View</title>
+<mediaobject> 
+        <imageobject>
+         <imagedata fileref="images/business_application/business_application_10.png"/>
+        </imageobject>
+</mediaobject>
+</figure>
+<orderedlist continuation="continues">
+<listitem>Double click on action1 to bring up the wizard. Select Handler on the left and enter
+ com.mydomain.EclipseCon.process. CheckInventoryAction as the class and bean as the type as shown
+  below. You can also search for the class by clicking on the <emphasis>Browse...</emphasis> button.</listitem>
+</orderedlist>
+<figure>
+<title>Action Handler</title>
+<mediaobject> 
+        <imageobject>
+         <imagedata fileref="images/business_application/business_application_11.png"/>
+        </imageobject>
+</mediaobject>
+</figure>
+<para>Explanation: Now, you must wonder where this 
+com.mydomain.EclipseCon.process.CheckInventoryAction class come from It comes from the 
+eclipsecon-rules-bpm project we imported. The Java class has a single method that is executed 
+when the &quot;Check Inventory&quot; node is reached in the process. The method just fires the rule we 
+previously defined in process-order.drl. After the rule is executed, it updates the 
+&quot;inventoryStatus&quot; component. Here is the method:</para>
+<programlisting role="JAVA"><![CDATA[public void execute(ExecutionContext ctx) throws Exception {
+
+  //get a handle to the rules engine
+  Component c = (Component) Contexts.getApplicationContext().get(
+			"orderWorkingMemory.component");
+              WorkingMemory wm = (WorkingMemory) ((ManagedWorkingMemory) c
+				.newInstance()).getWorkingMemory();
+
+  //get the ordersHome variable that was set in OrderProcessor.
+  OrdersHome order = (OrdersHome) ctx.getVariable("ordersHome");
+
+  //Assert Orders to working memory and fire rules
+  wm.assertObject(order.getInstance());
+  wm.fireAllRules();
+
+		
+  //persist the updated Orders object
+  order.persist();
+
+  //set inventory status so decision node knows what to do
+  ctx.setVariable("inventoryStatus", order.getInstance().getStatus());
+  System.out.println("CHECK INVENTORY - STATUS: "
+				+ order.getInstance().getStatus());
+}
+]]></programlisting>
+<para>The &quot;inventoryStatus&quot; component is then used in the &quot;Inventory Decision&quot; node to determine 
+which node to go to next. To do that, open the process-order.jpdl.xml file in the text editor and
+ change the node from this</para>
+ <programlisting role="XML"><![CDATA[<decision name="Inventory Decision">
+         <transition name="ship" to="Ship Order"></transition>
+         <transition name="refund" to="Refund Order"></transition>
+      </decision>
+]]></programlisting>
+<para>to this:</para>
+<programlisting role="XML"><![CDATA[<decision name="Inventory Decision" expression="#{inventoryStatus}">
+         <transition name="ship" to="Ship Order"></transition>
+         <transition name="refund" to="Refund Order"></transition>
+      </decision>
+]]></programlisting>
+<para>Now, let&apos;s repeat the exercise to assign handler Java classes to the &quot;Ship Order&quot; and &quot;Refund Order&quot; nodes. </para>
+<itemizedlist>
+<listitem>Associate &quot;Ship Order&quot; node with the com.mydomain.EclipseCon.process.ShipOrderAction 
+bean</listitem>
+<listitem>Associate &quot;Refund Order&quot; node with the com.mydomain.EclipseCon.process.SendRefundAction bean</listitem>
+</itemizedlist>
+<para>As we described earlier, in a real world system, those two nodes would invoke Java code
+ that perform real shipping and refunding tasks. But here we just print out a message as a proof
+  of concept. You can look into their Java classes if you have time.</para>
+</section>
+<section id="StartTheProcessFromAWebAction">
+<?dbhtml filename="StartTheProcessFromAWebAction.html"?>
+<title>Start the process from a web action</title>
+<para>Finally, we need  a &quot;hook&quot; to start the entire business process. We will add a new Process
+ Order button to the Orders.xhtml file.</para>
+ <para>You can add the new button right next to the existing &quot;Add orderdetails&quot; button. 
+ Copy/paste the following button code in the actionButtons region:</para>
+ <programlisting role="XML"><![CDATA[<s:button id="buttonId" value="Process Order"
+		  action="#{orderProcessor.startProcess}"
+		  view="/Orders.xhtml"/>
+]]></programlisting>
+<para>Explanation: When you click on the Process Order button, Seam invokes 
+the #{orderProcessor.startProcess} method, which in turn, starts the business process. The Java 
+code for the #{orderProcessor} component is in the com.mydomain.EclipseCon.process.OrderProcessor 
+class. Like other Java source files in the process package, the OrderProcessor.java is already 
+copied to the EclipseCon project when you run the build.xml script from the imported rules-bpm
+ project. Here is the content of the OrderProcessor.java file. The startProcess() method, which 
+ is invoked from the Process Order button, starts the process-order process we just created.</para>
+<programlisting role="JAVA"><![CDATA[@Name("orderProcessor")
+public class OrderProcessor {
+	
+	//Set the Orders object as a jBPM context variable
+	@In(create = true)
+	@Out(scope = ScopeType.BUSINESS_PROCESS)
+	OrdersHome ordersHome;
+
+	//Execute the jBPM process
+	@CreateProcess(definition = "process-order")
+	public String startProcess() {
+		return "success";
+	}
+}
+]]></programlisting>
+</section>
+<section id="TryItOut">
+<?dbhtml filename="TryItOut.html"?>
+<title>Try it out</title>
+<para>Now save the project and restart the server to make sure that it is properly re-deployed. 
+Navigate to the OrdersList page and enter &quot;In Process&quot; to the status field to search for 
+un-processed orders.</para>
+<para>Select one order and edit the order and change  the &quot;status&quot; field to &quot;in stock&quot; and 
+click &quot;Done&quot;. Please enter the case exactly as indicated here:</para>
+<figure>
+<title>Order Edit Page</title>
+<mediaobject> 
+        <imageobject>
+         <imagedata fileref="images/business_application/business_application_12.png"/>
+        </imageobject>
+</mediaobject>
+</figure>
+<para>Click the &quot;Process Order&quot; button.</para>
+<figure>
+<title>Order Details</title>
+<mediaobject> 
+        <imageobject>
+         <imagedata fileref="images/business_application/business_application_13.png"/>
+        </imageobject>
+</mediaobject>
+</figure>
+<para>The business process should lead to the ShipOrderAction bean, which will print out the
+ &quot;SHIP ORDER&quot; message in the console view tab at the bottom of the IDE screen.</para>
+ <figure>
+<title>Console View</title>
+<mediaobject> 
+        <imageobject>
+         <imagedata fileref="images/business_application/business_application_14.png"/>
+        </imageobject>
+</mediaobject>
+</figure>
+<para>Select one order and change  the &quot;status&quot; field to &quot;back order&quot; and click &quot;Done&quot;. Please 
+enter the case exactly as indicated here:</para>
+<figure>
+<title>Changing Status Field</title>
+<mediaobject> 
+        <imageobject>
+         <imagedata fileref="images/business_application/business_application_15.png"/>
+        </imageobject>
+</mediaobject>
+</figure>
+<para>Click the &quot;Process Order&quot; button.</para>
+<figure>
+<title>Invoking Process Order</title>
+<mediaobject> 
+        <imageobject>
+         <imagedata fileref="images/business_application/business_application_16.png"/>
+        </imageobject>
+</mediaobject>
+</figure>
+<para>The business process should invoke the SendRefundAction bean, which will print out the 
+&quot;SEND REFUND&quot; message in the console view tab at the bottom of the IDE screen.</para>
+<figure>
+<title>Console Panel</title>
+<mediaobject> 
+        <imageobject>
+         <imagedata fileref="images/business_application/business_application_17.png"/>
+        </imageobject>
+</mediaobject>
+</figure>
+<para>This example shows a simple example of the powerful jBPM and JBoss Rules runtimes 
+integrated in a Seam application. We have also see how easy it is build these kinds of 
+applications using the JBoss Developer Studio.</para>
+</section>
+    </chapter>
