@@ -1,0 +1,399 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter id="jsf_config_file" role="updated">
+	<?dbhtml filename="jsf_config_file.html"?>
+	<chapterinfo>
+		<keywordset>
+			<keyword>JBoss Developer Studio</keyword>
+			<keyword>Eclipse</keyword>
+			<keyword>JSF Tools</keyword>
+			<keyword>Java</keyword>
+			<keyword>JBoss</keyword>
+		</keywordset>
+	</chapterinfo>
+
+	<title>JSF Configuration File Editor</title>
+
+	<para>
+		First, we should mention that JSF configuration file (<filename>faces-config.xml</filename>) is intended for registering JSF application resources such as Converters, Validators, Managed Beans and page-to-page navigation rules.
+	</para>
+	<para>
+		Now, let&apos;s look at how you can easily configure this file by means of a special graphical editor for the JSF configuration file. The editor has three main views:
+	</para>
+
+	<itemizedlist>
+		<listitem>
+			<para>Diagram</para>
+		</listitem>
+		<listitem>
+			<para>Tree</para>
+		</listitem>
+		<listitem>
+			<para>Source</para>
+		</listitem>
+	</itemizedlist>
+
+	<para>They can be selected via the tabs at the bottom of the editor.</para>
+
+	<section id="Diagram9553">
+
+		<title>Diagram view</title>
+
+		<para>Here, we will show you how to work with JSF configuration file through the Diagram view of the editor.</para>
+		<para>As you can see on the figure below, the Diagram view displays the navigation rules container in the <filename>faces-config.xml</filename> file:</para>
+		<figure>
+			<title>Diagram View</title>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="images/jsf_support/jsf_support_21.png"/>
+				</imageobject>
+			</mediaobject>
+		</figure>
+
+		<para>
+			If you have a large diagram, make use of the Outline view. Within it you can switch to a <guilabel>Diagram Navigator</guilabel> mode by selecting the middle icon at the top of the view window. This allows you to easily move around the diagram. Just move the blue area in any direction, and the diagram on the left will also move:
+		</para>
+		<figure>
+			<title>Outline View for Diagram</title>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="images/jsf_support/jsf_support_32.png" scale="50"/>
+				</imageobject>
+			</mediaobject>
+		</figure>
+
+		<para>
+			To create a new page here, you should click the page icon (View Template) on the toolbar from the left and then click anywhere on the diagram. A New Page Wizard will appear.
+		</para>
+
+		<para>To create a transition for connecting pages:</para>
+
+		<itemizedlist>
+			<listitem>
+				<para>Select the transition icon from the toolbar (New Connection).</para>
+			</listitem>
+			<listitem>
+				<para>Click the source page.</para>
+			</listitem>
+			<listitem>
+				<para>Click the target page.</para>
+			</listitem>
+		</itemizedlist>
+
+		<para>A transition will appear between the two pages:</para>
+		<figure>
+			<title>Transition between JSP Pages</title>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="images/jsf_support/jsf_support_22.png"/>
+				</imageobject>
+			</mediaobject>
+		</figure>
+
+		<para>
+			It is also possible to create a new page with context menu by right-clicking anywhere on the diagram and selecting the  <guimenuitem>New View...</guimenuitem> option.
+		</para>
+		<figure>
+			<title>Creating a New View</title>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="images/jsf_support/jsf_support_23.png"/>
+				</imageobject>
+			</mediaobject>
+		</figure>
+
+		<para>
+			To edit an existing transition, first select the transition line. Then, place the mouse cursor over the last black dot (on the target page). The mouse cursor will change to a big +. At this point, drag the line to a new target page:
+		</para>
+		<figure>
+			<title>Editing Transition between Views</title>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="images/jsf_support/jsf_support_24.png"/>
+				</imageobject>
+			</mediaobject>
+		</figure>
+	</section>
+	<section id="TreeView11123" role="updated">
+
+		<title>Tree View</title>
+
+		<para>You can find it more convenient to edit your JSF Configuration file in the Tree view of the <guilabel>VPE</guilabel>.</para>
+
+		<para>
+			The view displays all JSF application artifacts referenced in the configuration file in a tree format. By selecting any node on the left, you can view and edit its properties which will appear in the right-hand area. Let&apos;s look at the structure of this tree more closely.
+		</para>
+
+		<itemizedlist>
+			<listitem>
+				<para>
+					Under the <guilabel>Application</guilabel> node you can adjust JSF application specific settings such as internationalization, extensions, adding property and variable resolvers, etc.
+				</para>
+			</listitem>
+		</itemizedlist>
+
+		<figure>
+			<title>JSF Application Specific Settings</title>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="images/jsf_support/jsf_support_24a.png"/>
+				</imageobject>
+			</mediaobject>
+		</figure>
+
+		<itemizedlist>
+			<listitem>
+				<para>
+					The <guilabel>Components</guilabel> node is for registering custom JSF components. Right-click and select <menuchoice><guimenuitem>New</guimenuitem><guimenuitem>Component</guimenuitem></menuchoice> or just click the <guibutton>Add</guibutton> button in the right-hand area to add a new component to the JSF Configuration file.
+				</para>
+			</listitem>
+		</itemizedlist>
+
+		<figure>
+			<title>Registering a New JSF Component</title>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="images/jsf_support/jsf_support_24b.png"/>
+				</imageobject>
+			</mediaobject>
+		</figure>
+
+		<para>
+			In the <guilabel>Add Component</guilabel> wizard you should set a component type and point to a component class by using the <guibutton>Browse</guibutton> button or create a new class for this component by using the <guilabel>Component-Class</guilabel> link.
+		</para>
+
+		<figure>
+			<title>Adding a New JSF Component to the JSF Configuration File</title>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="images/jsf_support/jsf_support_24c.png"/>
+				</imageobject>
+			</mediaobject>
+		</figure>
+
+		<itemizedlist>
+			<listitem>
+				<para>Use the <guilabel>Render Kit</guilabel> node to create and register a set of related renderers for custom JSF components.</para>
+			</listitem>
+		</itemizedlist>
+
+		<figure>
+			<title>Adding a New JSF Renderer Kit to the JSF Configuration File</title>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="images/jsf_support/jsf_support_24d.png"/>
+				</imageobject>
+			</mediaobject>
+		</figure>
+
+		<itemizedlist>
+			<listitem>
+				<para>
+					Under the <guilabel>Converters</guilabel> node you can create a converter class for your JSF application either with an id or for a proper class. For more information on this procedure see <xref linkend="CreateAndRegisterACustomConverter94230"/>.
+				</para>
+			</listitem>
+		</itemizedlist>
+
+		<figure>
+			<title>Creating a New Custom Converter</title>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="images/jsf_support/jsf_support_59.png"/>
+				</imageobject>
+			</mediaobject>
+		</figure>
+
+		<itemizedlist>
+			<listitem>
+				<para>
+					The <guilabel>Managed Bean</guilabel> node allows you to create and register Bean classes in your JSF application. Read more on the topic in <xref linkend="managed_beans"/>.
+				</para>
+			</listitem>
+		</itemizedlist>
+
+		<figure>
+			<title>Managed Beans</title>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="images/jsf_support/jsf_support_26.png"/>
+				</imageobject>
+			</mediaobject>
+		</figure>
+
+		<itemizedlist>
+			<listitem>
+				<para>
+					Use the <guilabel>Navigation Rules</guilabel> node to configure a navigation between the pages in your application. Here you can create a new navigation rule and adjust necessary properties for it in the right-hand area.
+				</para>
+			</listitem>
+		</itemizedlist>
+		<note>
+			<title>Tip:</title>
+			<para>The same you can do in the Diagram view of the JSF Configuration file editor (see <xref linkend="Diagram9553"/>).</para>
+		</note>
+
+		<figure>
+			<title>Configuring Navigation Rules</title>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="images/jsf_support/jsf_support_26a.png"/>
+				</imageobject>
+			</mediaobject>
+		</figure>
+
+		<itemizedlist>
+			<listitem>
+				<para>
+					Under the <guilabel>Referenced Beans</guilabel> node you can add a new Referenced Bean and configure various properties for it. To learn more on this refer to <xref linkend="referenced_beans"/>.
+					</para>
+			</listitem>
+		</itemizedlist>
+
+		<figure>
+			<title>Referenced Beans</title>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="images/jsf_support/jsf_support_26b.png"/>
+				</imageobject>
+			</mediaobject>
+		</figure>
+
+		<itemizedlist>
+			<listitem>
+				<para>
+					The <guilabel>Validators</guilabel> node is needed to create validator classes for organizing the validation of your application data. You can read more on the topic in <xref linkend="CreateAndRegisterACustomValidator5632"/>.
+				</para>
+			</listitem>
+		</itemizedlist>
+
+		<figure>
+			<title>Validators</title>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="images/jsf_support/jsf_support_26c.png"/>
+				</imageobject>
+			</mediaobject>
+		</figure>
+
+		<itemizedlist>
+			<listitem>
+				<para>The <guilabel>Extensions</guilabel> node is for setting extensions in your <filename>faces-config.xml</filename> file.
+				</para>
+			</listitem>
+		</itemizedlist>
+
+		<figure>
+			<title>Adding Extensions</title>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="images/jsf_support/jsf_support_26d.png"/>
+				</imageobject>
+			</mediaobject>
+		</figure>
+
+		<para>
+			In the <guilabel>Tree view</guilabel> you can also edit the properties of the selected element with the help of the <guilabel>Properties view</guilabel> as shown below:
+		</para>
+
+		<figure>
+			<title>Properties View </title>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="images/jsf_support/jsf_support_33.png" scale="75"/>
+				</imageobject>
+			</mediaobject>
+		</figure>
+
+	</section>
+	<section id="SourceView4643">
+
+		<title>Source View</title>
+
+		<para>
+			Here, we&apos;ll discuss how you can configure your <filename>faces-config.xml</filename> file with the help of the <guilabel>Source</guilabel> View.
+		</para>
+		<para>
+			The <guilabel>Source</guilabel> View for the editor displays the text content of the JSF configuration file. It is always synchronized with other two views, so any changes made in one of the views will immediately appear in the other:
+		</para>
+		<figure>
+			<title>Source View</title>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="images/jsf_support/jsf_support_27.png" scale="75"/>
+				</imageobject>
+			</mediaobject>
+		</figure>
+
+
+		<para>
+			You can also work in the <guilabel>Source</guilabel> View with the help of the <guilabel>Outline</guilabel> View. The <guilabel>Outline view</guilabel> shows a tree structure of the JSF configuration file. Simply select any element in the <guilabel>Outline</guilabel> View, and it will jump to the same place in the Source editor, so you can navigate through the source code with <guilabel>Outline</guilabel> View.
+		</para>
+		<figure>
+			<title>Outline View</title>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="images/jsf_support/jsf_support_31.png" scale="50"/>
+				</imageobject>
+			</mediaobject>
+		</figure>
+
+	</section>
+
+	<section id="jsf_editor_features">
+		<title>Editor Features</title>
+		<para>Here we&apos;ll discuss a very important features that JSF configuration file editor provides when working with JSF resources.</para>
+
+		<section id="jsf_openOn">
+			<title>Open On</title>
+			<para>
+				The JSF configuration file editor comes with the very useful OpenOn navigation feature. You can find more information on this feature in the Visual Web Tools Guide.
+			</para>
+		</section>
+
+		<section id="ContentAssist976">
+
+			<title>Code Assist</title>
+			<para>
+				Code Assist provides a pop-up tip to help you complete your code statements. It allows you to write your code faster and with more accuracy.
+			</para>
+			<para>Code assist is always available in the Source mode:</para>
+			<figure>
+				<title>Code Assist in Source View</title>
+				<mediaobject>
+					<imageobject>
+						<imagedata fileref="images/jsf_support/jsf_support_28.png" scale="65"/>
+					</imageobject>
+				</mediaobject>
+			</figure>
+
+		</section>
+
+		<section id="ErrorReporting3324">
+
+			<title>Error Reporting</title>
+			<para>
+				Constant error checking is provided while you are developing your project. This greatly reduces your development time as it allows you to catch many  errors during the development process.
+			</para>
+			<para>Errors will be reported by <xref linkend="jsf_project_verification"/> facility:</para>
+			<figure>
+				<title>Error Reporting in Source View</title>
+				<mediaobject>
+					<imageobject>
+						<imagedata fileref="images/jsf_support/jsf_support_29.png" scale="75"/>
+					</imageobject>
+				</mediaobject>
+			</figure>
+
+			<para>Other errors are also reported.</para>
+			<figure>
+				<title>Other Errors Reporting</title>
+				<mediaobject>
+					<imageobject>
+						<imagedata fileref="images/jsf_support/jsf_support_30.png" scale="75"/>
+					</imageobject>
+				</mediaobject>
+			</figure>
+
+		</section>
+	</section>
+
+</chapter>

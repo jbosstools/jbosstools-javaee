@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter id="jsf_project_verification">
+    <?dbhtml filename="struts_project_verification.html"?>
+
+    <chapterinfo>
+        <keywordset>
+            <keyword>JBoss Developer Studio</keyword>
+            <keyword>Eclipse</keyword>
+            <keyword>JSF Tools</keyword>
+            <keyword>Java</keyword>
+            <keyword>JBoss</keyword>
+        </keywordset>
+    </chapterinfo>
+
+    <title>JSF Project Verification</title>
+
+    <para>In this chapter we&apos;ll discuss a possible verification that you can take advantage
+        of.</para>
+    <!-- JBoss Developer Studio checks for many different rules for a JSF project -->
+    <para>
+    	Many different rules are checked for a JSF project that can be configured by selecting <menuchoice><guimenuitem>Window</guimenuitem><guimenuitem>Preferences</guimenuitem></menuchoice> from the menu bar, selecting <menuchoice><guimenuitem>JBoss Tools</guimenuitem><guimenuitem>Web</guimenuitem><guimenuitem>Verification</guimenuitem></menuchoice> from the Preferences dialog box and then expanding the JSF Rules node.
+    </para>
+    <figure>
+        <title>JSF Rules</title>
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="images/verif_valid/verif_valid_1.png"/>
+            </imageobject>
+        </mediaobject>
+    </figure>
+    <para>Suppose you are working in the Source viewer for a JSF configuration file as shown below:</para>
+    <figure>
+        <title>Faces-config.xml File</title>
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="images/verif_valid/verif_valid_2.png"/>
+            </imageobject>
+        </mediaobject>
+    </figure>
+    <para>While typing a class name, you might make a minor typo (like <emphasis role="italic">
+            <property>&quot;demo.Person9&quot;</property>
+        </emphasis> instead of <emphasis role="italic">
+            <property>&quot;demo.Person&quot;</property>
+        </emphasis>). After saving the file, verification checks to make sure everything is correct
+        and finds the error below:</para>
+    <figure>
+        <title>Error in Source View</title>
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="images/verif_valid/verif_valid_3.png" scale="75"/>
+            </imageobject>
+        </mediaobject>
+    </figure>
+    <para>Notice that the Package Explorer View shows a marked folder and a marked file where the
+        error is.</para>
+    <para>You can place the cursor over the line with an error message and get a detailed error
+        message:</para>
+    <figure>
+        <title>Error Message</title>
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="images/verif_valid/verif_valid_4.png"/>
+            </imageobject>
+        </mediaobject>
+    </figure>
+    <para>Verification also checks navigation rules:</para>
+    <figure>
+        <title>Checking Navigation Rules</title>
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="images/verif_valid/verif_valid_5.png"/>
+            </imageobject>
+        </mediaobject>
+    </figure>
+    <para>If you provide a page name that does not exist, verification will let you know about that:</para>
+    <figure>
+        <title>Page Name Verification</title>
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="images/verif_valid/verif_valid_6.png" scale="75"/>
+            </imageobject>
+        </mediaobject>
+    </figure>
+    <para>You can always call up verification explicitly by right-clicking any element in the tree
+        and selecting Verify from the context menu. This works from both the Tree and Diagram
+        viewers for the JSF configuration file editor. You can also invoke verification from the Web
+        Projects view. Below we are checking all of the elements in the configuration file.</para>
+    <figure>
+        <title>Verify Command</title>
+        <mediaobject>
+            <imageobject>
+                <imagedata fileref="images/verif_valid/verif_valid_7.png"/>
+            </imageobject>
+        </mediaobject>
+    </figure>
+
+    <para>In summary, this document highlights all the JSF-specific features of <property>JBoss Tools</property>
+        meant for enhancing the development of rich Web applications based on JSF technology. The
+        reference introduces you to wizards for creating and importing JSF projects, JSF
+        Configuration File editor features, functionality for enabling JSF capabilities and etc.</para>
+    
+    <para>If you have questions or good suggestions, please refer to <ulink
+            url="http://www.jboss.com/index.html?module=bb&amp;op=viewforum&amp;f=201">JBoss
+            Tools Forum</ulink>.</para>
+</chapter>
