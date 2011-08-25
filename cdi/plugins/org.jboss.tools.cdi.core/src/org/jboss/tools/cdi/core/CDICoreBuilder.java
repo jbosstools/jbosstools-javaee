@@ -342,7 +342,9 @@ public class CDICoreBuilder extends IncrementalProjectBuilder {
 		if(ps != null) for (IPath p: ps) {
 			if(visited.contains(p)) continue;
 			IFile f = root.getFile(p);
-			if(f != null && f.exists()) result.add(f);
+			if(f.exists()) {
+				result.add(f);
+			}
 		}
 		
 		return result;		
@@ -362,11 +364,11 @@ public class CDICoreBuilder extends IncrementalProjectBuilder {
 				CDIResourceVisitor v = getResourceVisitor();
 				Set<IFile> fs = getDependentFiles(resource.getFullPath(), v.visited);
 				for (IFile f: fs) {
-					if(f.exists()) {
-						v.visit(f);
-					}
+					v.visit(f);
 				}
-				if(p != null) p.getDefinitions().getWorkingCopy().clean(resource.getFullPath());
+				if(p != null) {
+					p.getDefinitions().getWorkingCopy().clean(resource.getFullPath());
+				}
 				break;
 			case IResourceDelta.CHANGED:
 				return getResourceVisitor().visit(resource);
