@@ -19,10 +19,12 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.Path;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.seam.config.core.CDISeamConfigPreferences;
 import org.jboss.tools.cdi.seam.config.core.validation.SeamConfigValidationMessages;
+import org.jboss.tools.cdi.seam.solder.core.test.GenericBeanValidationTest;
 import org.jboss.tools.common.base.test.validation.TestUtil;
 import org.jboss.tools.common.preferences.SeverityPreferences;
 import org.jboss.tools.test.util.ResourcesUtils;
@@ -95,6 +97,15 @@ public class SeamConfigValidationTest extends TestCase {
 	public void testAnnotationMemberResolution() throws CoreException {
 		AbstractResourceMarkerTest.assertMarkerIsCreated(f, MessageFormat.format(SeamConfigValidationMessages.UNRESOLVED_MEMBER, "v:field3"), 15);
 		AbstractResourceMarkerTest.assertMarkerIsNotCreated(f, MessageFormat.format(SeamConfigValidationMessages.UNRESOLVED_MEMBER, "v:field1"));
+	}
+
+	public void testAddClassToResolveNode() throws CoreException {
+		String path = "src/org/jboss/beans/validation/test/MyBean2.java";
+		GenericBeanValidationTest.writeFile(project, "src/org/jboss/beans/validation/test/MyBean2.template", path);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(f, MessageFormat.format(SeamConfigValidationMessages.UNRESOLVED_TYPE, "v:MyBean2"), 8);
+		
+		GenericBeanValidationTest.removeFile(project, path);
+		AbstractResourceMarkerTest.assertMarkerIsCreated(f, MessageFormat.format(SeamConfigValidationMessages.UNRESOLVED_TYPE, "v:MyBean2"), 8);
 	}
 
 	/**
