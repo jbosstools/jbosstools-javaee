@@ -1,12 +1,11 @@
 package org.jboss.tools.cdi.core.test.extension;
 
-import junit.extensions.TestSetup;
 import junit.framework.TestCase;
 
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.CDICorePlugin;
-import org.jboss.tools.cdi.core.test.DependentProjectTest;
 
 public class ExtensionsInSrsAndUsedProjectTest  extends TestCase {
 	protected static String PLUGIN_ID = "org.jboss.tools.cdi.core.test";
@@ -14,10 +13,11 @@ public class ExtensionsInSrsAndUsedProjectTest  extends TestCase {
 	IProject project2 = null;
 	IProject project3 = null;
 
-	public ExtensionsInSrsAndUsedProjectTest() {
-		project1 = DependentProjectTest.getTestProject(project1, "/projects/CDITest1", "CDITest1");
-		project2 = DependentProjectTest.getTestProject(project2, "/projects/CDITest2", "CDITest2");
-		project3 = DependentProjectTest.getTestProject(project3, "/projects/CDITest3", "CDITest3");
+	@Override
+	protected void setUp() throws Exception {
+		project1 = ResourcesPlugin.getWorkspace().getRoot().getProject("CDITest1");
+		project2 = ResourcesPlugin.getWorkspace().getRoot().getProject("CDITest2");
+		project3 = ResourcesPlugin.getWorkspace().getRoot().getProject("CDITest3");
 	}
 
 	public void testRuntimes() {
@@ -33,5 +33,4 @@ public class ExtensionsInSrsAndUsedProjectTest  extends TestCase {
 		//Extension declared in src of project1
 		assertTrue(cdi3.getExtensionManager().isCDIExtensionAvailable("a.b.c"));
 	}
-
 }

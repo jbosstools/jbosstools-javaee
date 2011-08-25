@@ -32,7 +32,6 @@ import org.jboss.tools.common.java.IAnnotationDeclaration;
 import org.jboss.tools.jst.web.kb.IKbProject;
 import org.jboss.tools.jst.web.kb.KbProjectFactory;
 import org.jboss.tools.jst.web.kb.internal.KbProject;
-import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.ResourcesUtils;
 
 /**
@@ -46,30 +45,11 @@ public class DependentProjectTest extends TestCase {
 	IProject project2 = null;
 	IProject project3 = null;
 
-	public DependentProjectTest() {
-		project1 = getTestProject(project1, "/projects/CDITest1", "CDITest1");
-		project2 = getTestProject(project2, "/projects/CDITest2", "CDITest2");
-		project3 = getTestProject(project3, "/projects/CDITest3", "CDITest3");
-	}
-
-	public static IProject getTestProject(IProject project, String projectPath, String projectName) {
-		if(project==null) {
-			try {
-				project = findTestProject(projectName);
-				if(project==null || !project.exists()) {
-					project = ResourcesUtils.importProject(PLUGIN_ID, projectPath);
-					project.build(IncrementalProjectBuilder.INCREMENTAL_BUILD, null);
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-				fail("Can't import CDI test project: " + e.getMessage());
-			}
-		}
-		return project;
-	}
-
-	public static IProject findTestProject(String projectName) {
-		return ResourcesPlugin.getWorkspace().getRoot().getProject(projectName);
+	@Override
+	protected void setUp() throws Exception {
+		project1 = ResourcesPlugin.getWorkspace().getRoot().getProject("CDITest1");
+		project2 = ResourcesPlugin.getWorkspace().getRoot().getProject("CDITest2");
+		project3 = ResourcesPlugin.getWorkspace().getRoot().getProject("CDITest3");
 	}
 
 	public void testProjectDependencyLoading() throws CoreException, IOException {
@@ -125,7 +105,7 @@ public class DependentProjectTest extends TestCase {
 		scope2File.setContents(scope21File.getContents(), IFile.FORCE, new NullProgressMonitor());
 		project1.build(IncrementalProjectBuilder.INCREMENTAL_BUILD, null);
 		ResourcesUtils.setBuildAutomatically(saveAutoBuild);
-		
+
 		producer = getProducer("/CDITest2/src/test/Test1.java");
 		scope = producer.getScope();
 		ns = scope.getAnnotationDeclaration(CDIConstants.NORMAL_SCOPE_ANNOTATION_TYPE_NAME);
@@ -327,18 +307,17 @@ public class DependentProjectTest extends TestCase {
 		CDICoreNature n3 = CDICorePlugin.getCDI(project3, true);
 		assertTrue(n1.getDependentProjects().contains(n2));
 		assertTrue(n3.getCDIProjects().contains(n2));
-		
+
 		CDIUtil.disableCDI(project2);
-		JobUtils.waitForIdle();
+		project2.build(IncrementalProjectBuilder.INCREMENTAL_BUILD, null);
 		assertTrue(n1.getDependentProjects().isEmpty());
 		assertTrue(n3.getCDIProjects().isEmpty());
 
 		CDIUtil.enableCDI(project2, false, new NullProgressMonitor());
-		JobUtils.waitForIdle();
+		project2.build(IncrementalProjectBuilder.INCREMENTAL_BUILD, null);
 		n2 = CDICorePlugin.getCDI(project2, true);
 		assertTrue(n1.getDependentProjects().contains(n2));
 		assertTrue(n3.getCDIProjects().contains(n2));
-
 	}
 
 	public void testCleanDependentProject() throws CoreException, IOException {

@@ -10,12 +10,15 @@
  ******************************************************************************/ 
 package org.jboss.tools.cdi.core.test;
 
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+
 import junit.extensions.TestSetup;
 import junit.framework.Test;
 
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.resources.IncrementalProjectBuilder;
+import org.eclipse.core.runtime.CoreException;
 import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.ResourcesUtils;
 
@@ -34,20 +37,24 @@ public class DependentProjectsTestSetup extends TestSetup {
 
 	@Override
 	protected void setUp() throws Exception {
-		project1 = DependentProjectTest.getTestProject(project1, "/projects/CDITest1", "CDITest1");
-		project2 = DependentProjectTest.getTestProject(project2, "/projects/CDITest2", "CDITest2");
-		project3 = DependentProjectTest.getTestProject(project3, "/projects/CDITest3", "CDITest3");
+		project1 = getTestProject("/projects/CDITest1", "CDITest1");
+		project2 = getTestProject("/projects/CDITest2", "CDITest2");
+		project3 = getTestProject("/projects/CDITest3", "CDITest3");
+	}
+
+	private static IProject getTestProject(String projectPath, String projectName) throws IOException, CoreException, InvocationTargetException, InterruptedException {
+		IProject project = ResourcesUtils.importProject(PLUGIN_ID, projectPath);
+		project.build(IncrementalProjectBuilder.INCREMENTAL_BUILD, null);
+		return project;
 	}
 
 	@Override
 	public void tearDown() throws Exception {
 		boolean saveAutoBuild = ResourcesUtils.setBuildAutomatically(false);
-		JobUtils.waitForIdle();
 		project1.delete(true, true, null);
 		project2.delete(true, true, null);
 		project3.delete(true, true, null);
 		JobUtils.waitForIdle();
 		ResourcesUtils.setBuildAutomatically(saveAutoBuild);
 	}
-
 }
