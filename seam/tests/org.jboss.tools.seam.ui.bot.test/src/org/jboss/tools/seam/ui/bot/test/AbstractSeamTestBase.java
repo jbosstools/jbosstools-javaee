@@ -7,8 +7,18 @@ import org.eclipse.swtbot.swt.finder.widgets.SWTBotCLabel;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotShell;
 import org.jboss.tools.ui.bot.ext.SWTTestExt;
 import org.jboss.tools.ui.bot.ext.Timing;
+import org.jboss.tools.ui.bot.ext.config.Annotations.DB;
+import org.jboss.tools.ui.bot.ext.config.Annotations.Require;
+import org.jboss.tools.ui.bot.ext.config.Annotations.Seam;
+import org.jboss.tools.ui.bot.ext.config.Annotations.Server;
 import org.jboss.tools.ui.bot.ext.helper.ContextMenuHelper;
 
+@Require(
+		server=@Server(),
+		seam=@Seam(),
+		db=@DB(),
+		perspective="Seam 2",
+		clearProjects=false)
 public abstract class AbstractSeamTestBase extends SWTTestExt {
 	
 	public static final String testProjectName = "SeamPrj";
@@ -27,7 +37,7 @@ public abstract class AbstractSeamTestBase extends SWTTestExt {
 
 	/**Creates any Seam Action, Form etc.	*/
 	public void createSeamUnit(String unitType, String type){
-		bot.menu("File").menu("New").menu("Seam " +unitType).click();
+		bot.menu("File").menu("New").menu("Seam 2 " +unitType).click();
 		SWTBotShell shell = bot.activeShell();
 		bot.textWithLabel("Seam Project:").setText(testProjectName + type);
 		if ("Entity".equals(unitType)) {

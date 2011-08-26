@@ -2,27 +2,14 @@ package org.jboss.tools.seam.ui.bot.test.create;
 
 import static org.eclipse.swtbot.swt.finder.waits.Conditions.shellCloses;
 
-import java.util.Properties;
-
-import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotView;
-import org.eclipse.swtbot.swt.finder.widgets.SWTBotBrowser;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotShell;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTreeItem;
 import org.jboss.tools.seam.ui.bot.test.AbstractSeamTestBase;
 import org.jboss.tools.seam.ui.bot.test.EARTests;
 import org.jboss.tools.seam.ui.bot.test.TestControl;
 import org.jboss.tools.seam.ui.bot.test.WARTests;
-import org.jboss.tools.ui.bot.ext.SWTBotExt;
 import org.jboss.tools.ui.bot.ext.SWTJBTExt;
-import org.jboss.tools.ui.bot.ext.SWTOpenExt;
 import org.jboss.tools.ui.bot.ext.SWTTestExt;
-import org.jboss.tools.ui.bot.ext.SWTUtilExt;
-import org.jboss.tools.ui.bot.ext.config.Annotations.DB;
-import org.jboss.tools.ui.bot.ext.config.TestConfigurator;
-import org.jboss.tools.ui.bot.ext.config.Annotations.Require;
-import org.jboss.tools.ui.bot.ext.config.Annotations.Seam;
-import org.jboss.tools.ui.bot.ext.config.Annotations.Server;
-import org.jboss.tools.ui.bot.ext.config.Annotations.ServerState;
 import org.jboss.tools.ui.bot.ext.gen.ActionItem;
 import org.jboss.tools.ui.bot.ext.parts.SWTBotBrowserExt;
 import org.jboss.tools.ui.bot.ext.parts.SWTBotRadioExt;
@@ -32,14 +19,11 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
 
-//@SWTBotTestRequires(server=@Server(state=ServerState.NotRunning),perspective="Seam",seam=@Seam())
-@Require(server=@Server,perspective="Seam",seam=@Seam(),db=@DB)
 public class CreateSeamProjects extends AbstractSeamTestBase {
   
 	protected static final String VALIDATION = "Validation";
 	protected static final String DEPLOY_SOURCE = "Deploying datasource to server";
 	protected static final String REG_IN_SERVER = "Register in server";
-	protected static final String CONN_PROFILE = "hsqldb18_internal";
 	
 		
   public CreateSeamProjects() {
@@ -76,7 +60,7 @@ public class CreateSeamProjects extends AbstractSeamTestBase {
 	
 	protected void createSeamProject(String type) {
 		SWTJBTBot bot = new SWTJBTBot();
-		bot.menu("File").menu("New").menu("Seam Web Project").click();
+		bot.menu("File").menu("New").menu("Seam 2 Web Project").click();
 		bot.textWithLabel("Project name:").setText(AbstractSeamTestBase.testProjectName + type);
 		bot.comboBoxInGroup("Target runtime").setSelection(SWTTestExt.configuredState.getServer().name);
 		bot.comboBoxInGroup("Target Server").setSelection(SWTTestExt.configuredState.getServer().name);
@@ -87,9 +71,9 @@ public class CreateSeamProjects extends AbstractSeamTestBase {
 		bot.button("Next >").click();
 		bot.button("Next >").click();
 		bot.button("Next >").click();
-		bot.comboBoxWithLabel("Seam Runtime:").setSelection(SWTTestExt.configuredState.getSeam().name);
+		bot.comboBoxWithLabel("Seam 2 Runtime:").setSelection(SWTTestExt.configuredState.getSeam().name);
 		new SWTBotRadioExt(bot.radio(type).widget).clickWithoutDeselectionEvent();
-		bot.comboBoxWithLabel("Connection profile:").setSelection(CONN_PROFILE);
+		bot.comboBoxWithLabel("Connection profile:").setSelection(SWTTestExt.configuredState.getDB().name);
 		
 		SWTBotShell seamPrjShell = bot.activeShell();		
 		bot.button("Finish").click();

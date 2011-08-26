@@ -30,7 +30,7 @@ public class ELExprValidator extends AbstractSeamTestBase {
 	private void testELExpr(String type) {
 		
 		SWTBotEclipseEditor editor = projectExplorer.openFile(testProjectName + type,
-				"Web Resources : WebContent", "home.xhtml").toTextEditor();
+				"Web Resources", "home.xhtml").toTextEditor();
 		
 		// add correct expression		
 		int idx = 0;

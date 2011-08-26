@@ -1,7 +1,5 @@
 package org.jboss.tools.seam.ui.bot.test.create;
 
-import java.util.Properties;
-
 import org.jboss.tools.seam.ui.bot.test.AbstractSeamTestBase;
 import org.jboss.tools.seam.ui.bot.test.EARTests;
 import org.jboss.tools.seam.ui.bot.test.TestControl;

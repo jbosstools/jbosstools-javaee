@@ -23,14 +23,11 @@ import org.jboss.tools.ui.bot.ext.RequirementAwareSuite;
  */
 
 @RunWith(RequirementAwareSuite.class)
-@ExcludeCategory(WARTests.class)
 @Suite.SuiteClasses({
-	//CreateServerRuntimes.class,
-	//CreateSeamRuntimes.class,
 	CreateSeamProjects.class,
-	//ReverseEngineering.class,	
-	//ComponentsValidator.class,
-	//ELExprValidator.class,
+	ReverseEngineering.class,
+	ComponentsValidator.class,
+	ELExprValidator.class,
 	CreateForms.class,
 	CreateActions.class,
 	CreateConversations.class,
@@ -39,13 +36,5 @@ import org.jboss.tools.ui.bot.ext.RequirementAwareSuite;
 	DeleteSeamProjects.class
 	})
 public class SeamAllBotTests {
-
-	/*
-    @Parameters
-    public static List<Properties[]> data() {
-            return TestControl.getParameters();
-
-    }
-    */
 	
 }
