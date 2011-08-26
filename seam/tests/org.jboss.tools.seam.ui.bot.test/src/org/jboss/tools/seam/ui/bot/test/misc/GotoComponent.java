@@ -1,11 +1,7 @@
 package org.jboss.tools.seam.ui.bot.test.misc;
 
-import static org.junit.Assert.assertTrue;
-
 import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotEditor;
-import org.eclipse.swtbot.swt.finder.widgets.SWTBotTabItem;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTableItem;
-import org.eclipse.ui.part.EditorActionBarContributor;
 import org.jboss.tools.seam.ui.bot.test.AbstractSeamTestBase;
 import org.jboss.tools.seam.ui.bot.test.EARTests;
 import org.jboss.tools.seam.ui.bot.test.TestControl;
@@ -15,7 +11,7 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
 
-public class GotoComponent {
+public class GotoComponent extends AbstractSeamTestBase {
 
     @Test
 	@Category(WARTests.class)
