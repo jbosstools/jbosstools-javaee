@@ -126,11 +126,6 @@ public class OpenOnTest extends JSFAutoTestCase{
     openedEditor = OpenOnHelper.checkOpenOnFileIsOpened(
         SWTTestExt.bot, facesConfigTitle, "<property-class>java.lang.String</property-class>", 18,
         0, 0, expectedOpenedFileName);
-    selectedTextInSourceEditor = openedEditor.toTextEditor().getSelection();
-    expectedSelectedTextInEditor = "String";
-    assertTrue("Selected text in editor has to be " + expectedSelectedTextInEditor +
-          " but is " + selectedTextInSourceEditor,
-          selectedTextInSourceEditor.equalsIgnoreCase(expectedSelectedTextInEditor));
     openedEditor.close();
     // Check open on for URI /pages/inputUserName.jsp within <from-view-id> tag
     expectedOpenedFileName = "inputUserName.jsp";
@@ -152,6 +147,7 @@ public class OpenOnTest extends JSFAutoTestCase{
    */
   public void testOpenOnForCompositeComponent() {
     eclipse.closeAllEditors();
+    createJSF2Project(JSF2_TEST_PROJECT_NAME);
     openPage(JSF2_TEST_PAGE,JSF2_TEST_PROJECT_NAME);
     // Check open on for <ez:input
     String expectedOpenedFileName = "input.xhtml";

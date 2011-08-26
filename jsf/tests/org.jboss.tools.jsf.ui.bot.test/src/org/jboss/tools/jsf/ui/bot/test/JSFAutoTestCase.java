@@ -103,5 +103,13 @@ public abstract class JSFAutoTestCase extends VPEAutoTestCase {
 		}
 		return builder.toString();
 	}
+  /**
+   * Returns CSS Editor text striped from spaces, tabs CR and EOL
+   * @param editorText
+   * @return String
+   */
+  protected static String stripCSSText(String editorText){
+    return editorText.replaceAll("\n", "").replaceAll("\t", "").replaceAll("\r", "").replaceAll(" ", "");
+  }
 
 }

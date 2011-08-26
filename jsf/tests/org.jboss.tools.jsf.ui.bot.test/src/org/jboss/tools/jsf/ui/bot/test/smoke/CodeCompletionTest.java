@@ -174,6 +174,7 @@ public class CodeCompletionTest extends JSFAutoTestCase{
    */
   public void testCodeCompletionOfCompositeComponent(){
     eclipse.closeAllEditors();
+    createJSF2Project(JSF2_TEST_PROJECT_NAME);
     openPage(JSF2_TEST_PAGE, JSF2_TEST_PROJECT_NAME);
     compositeComponentContainerEditor = SWTTestExt.bot.swtBotEditorExtByTitle(FACELETS_TEST_PAGE);
     origCompositeComponentContainerEditorText = compositeComponentContainerEditor.getText();

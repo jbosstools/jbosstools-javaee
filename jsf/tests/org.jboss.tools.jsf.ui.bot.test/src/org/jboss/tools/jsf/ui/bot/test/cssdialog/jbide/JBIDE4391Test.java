@@ -47,8 +47,8 @@ public class JBIDE4391Test extends JSFAutoTestCase{
 		bot.comboBoxWithLabel("Text Decoration:").setText(";;;;"); //$NON-NLS-1$ //$NON-NLS-2$
 		bot.comboBoxWithLabel("Font Weight:").setSelection("bold"); //$NON-NLS-1$ //$NON-NLS-2$
 		bot.button("Cancel").click(); //$NON-NLS-1$
-		assertEquals("cssclass{\r\tcolor:red;\r\t" + //$NON-NLS-1$
-		"background-color:green;\r}@CHARSET \"UTF-8\";", bot.editorByTitle(CSS_FILE_NAME+".css").toTextEditor().getText()); //$NON-NLS-1$ //$NON-NLS-2$
+		assertEquals(JSFAutoTestCase.stripCSSText("cssclass{\r\tcolor:red;\r\t" + "background-color:green;\r}@CHARSET \"UTF-8\";"),
+		    JSFAutoTestCase.stripCSSText(bot.editorByTitle(CSS_FILE_NAME+".css").toTextEditor().getText())); //$NON-NLS-1$ //$NON-NLS-2$
 		bot.editorByTitle(CSS_FILE_NAME+".css").close(); //$NON-NLS-1$
 		
 	}
