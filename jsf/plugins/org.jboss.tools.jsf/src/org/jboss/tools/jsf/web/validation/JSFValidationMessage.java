@@ -13,6 +13,8 @@ public class JSFValidationMessage {
 	public static String VALIDATING_RESOURCE;
 	public static String VALIDATING_PROJECT;
 
+	public static String XHTML_VALIDATION;
+
 	static {
 		NLS.initializeMessages(BUNDLE_NAME, JSFValidationMessage.class);
 	}

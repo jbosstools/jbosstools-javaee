@@ -17,11 +17,15 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringReader;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.wst.common.uriresolver.internal.provisional.URIResolverPlugin;
 import org.eclipse.wst.validation.ValidationResult;
+import org.eclipse.wst.validation.ValidationState;
 import org.eclipse.wst.xml.core.internal.validation.ValidatorHelper;
 import org.eclipse.wst.xml.core.internal.validation.XMLValidationConfiguration;
 import org.eclipse.wst.xml.core.internal.validation.XMLValidationInfo;
@@ -44,20 +48,50 @@ import org.xml.sax.ext.LexicalHandler;
  * @author Victor Rubezhny
  */
 public class XHTMLSyntaxValidator extends Validator {
+
+	IProgressMonitor monitor;
+
+	public void validationStarting(IProject project, ValidationState state, IProgressMonitor monitor) {
+		super.validationStarting(project, state, monitor);
+		this.monitor = monitor;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.wst.xml.core.internal.validation.core.AbstractNestedValidator#validate(org.eclipse.core.resources.IResource, int, org.eclipse.wst.validation.ValidationState, org.eclipse.core.runtime.IProgressMonitor)
+	 */
+	@Override
+	public ValidationResult validate(IResource resource, int kind, ValidationState state, IProgressMonitor monitor) {
+		displaySubtask(monitor, JSFValidationMessage.XHTML_VALIDATION, resource.getFullPath());
+		return super.validate(resource, kind, state, monitor);
+	}
+
+	private void displaySubtask(String message, Object... arguments) {
+		displaySubtask(monitor, MessageFormat.format(message, arguments));
+	}
+
+	private void displaySubtask(IProgressMonitor monitor, String message, Object... arguments) {
+		if(monitor!=null) {
+			monitor.subTask(MessageFormat.format(message, arguments));
+		}
+	}
+
 	/**
 	 * The method is overridden to setup our own XMLValidator to be used
 	 */
 	@Override
 	public ValidationReport validate(String uri, InputStream inputstream,
 		NestedValidatorContext context, ValidationResult result) {
-		
+
+		displaySubtask(JSFValidationMessage.XHTML_VALIDATION, uri);
+
 		long ct = 0;
 		if (JSFModelPlugin.getDefault().isDebugging()) {
 			ct = System.currentTimeMillis(); 
 		}
-			
+
 		XMLValidator validator = XMLValidator.getInstance();
-	
+
 		XMLValidationConfiguration configuration = new XMLValidationConfiguration();
 		try {
 			configuration.setFeature(
@@ -79,7 +113,7 @@ public class XHTMLSyntaxValidator extends Validator {
 		} else {
 			valreport = validator.validate(uri, null, configuration, context, result);
 		}
-	
+
 		if (JSFModelPlugin.getDefault().isDebugging()) {
 			long et = System.currentTimeMillis() - ct;
 			System.out.println("XHTMLSyntaxValidator: Elapsed time = " + (et) + " ms for " + uri);
@@ -87,14 +121,13 @@ public class XHTMLSyntaxValidator extends Validator {
 		return valreport;
 	}
 
-	  
 	/**
 	 * An XML validator specific to XHTML-files validation. This validator will wrap the internal
 	 * XML syntax validator.
 	 */
 	public static class XMLValidator extends org.eclipse.wst.xml.core.internal.validation.XMLValidator {
 		private static XMLValidator instance = null;
-	    
+
 	    /**
 	     * Return the one and only instance of the XML validator. The validator
 	     * can be reused and cannot be customized so there should only be one instance of it.
