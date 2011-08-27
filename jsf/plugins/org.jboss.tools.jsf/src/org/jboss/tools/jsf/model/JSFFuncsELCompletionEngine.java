@@ -100,7 +100,7 @@ public class JSFFuncsELCompletionEngine extends JSFELCompletionEngine {
 		}
 			
 		ITagLibrary[] libraries = TagLibraryManager.getLibraries(file.getProject());
-		if (libraries == null)
+		if (libraries.length==0)
 			return Collections.emptyList();;
 
 		List<IJSFVariable> result = new ArrayList<IJSFVariable>();
