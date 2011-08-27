@@ -34,6 +34,8 @@ Require-Bundle: org.junit,
  org.jboss.tools.vpe.ui.palette,
  org.eclipse.gef,
  org.eclipse.pde.ui,
- org.eclipse.wst.validation
+ org.eclipse.wst.validation,
+ org.eclipse.wst.html.core;bundle-version="1.1.500",
+ org.eclipse.wst.html.ui;bundle-version="1.0.600"
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

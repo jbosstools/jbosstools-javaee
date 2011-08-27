@@ -92,10 +92,10 @@ public class JsfUiAllTests {
 				"org.jboss.tools.jsf.ui.test",
 				new String[]{"projects/test_add_jsf_capabilities"},
 				new String[]{"test_add_jsf_capabilities"}));
-//		suite.addTest(new ValidationProjectTestSetup(new TestSuite(JSPProblemMarkerResolutionTest.class),
-//				"org.jboss.tools.jsf.ui.test",
-//				new String[]{"projects/test_jsf_project"},
-//				new String[]{"test_jsf_project"}));
+		suite.addTest(new ValidationProjectTestSetup(new TestSuite(JSPProblemMarkerResolutionTest.class),
+				"org.jboss.tools.jsf.ui.test",
+				new String[]{"projects/test_jsf_project"},
+				new String[]{"test_jsf_project"}));
  		suite.addTest(
 				new ProjectImportTestSetup(new TestSuite(TestPalette.class),
 				"org.jboss.tools.jsf.ui.test",
