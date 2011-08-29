@@ -77,6 +77,12 @@ public class CDIUtil {
 		ed.save();
 	}
 	
+	public static void insertInEditor(SWTBotEclipseEditor ed, SWTBotExt bot, int line, int row, String insertText) {
+		ed.toTextEditor().insertText(line , row, insertText);
+		bot.sleep(Timing.time1S());
+		ed.save();
+	}
+	
 	public static void disableFolding(SWTBotExt bot, SWTUtilExt util) {
 		editFolding(bot, util, false);
 	}

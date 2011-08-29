@@ -34,17 +34,17 @@ import org.junit.runners.Suite.SuiteClasses;
  *  JAVA=1.6,/space/java/sdk/jdk1.6.0_22
  *  
  *  
- *  Suite duration: aprox. 4min
+ *  Suite duration: aprox. 9min
  * 
  * @author Lukas Jungmann
  * @author Jaroslav Jankovic
  */
 @RunWith(RequirementAwareSuite.class)
 @SuiteClasses({
-	CdiATWizardTest.class,
-	BeansEditorTest.class,
+	//CdiATWizardTest.class,
+	//BeansEditorTest.class,
 	CDIQuickFixTest.class,
-	CDIHyperlinksTest.class
+	//CDIHyperlinksTest.class
 	})
 public class CDIAllBotTests {
 }

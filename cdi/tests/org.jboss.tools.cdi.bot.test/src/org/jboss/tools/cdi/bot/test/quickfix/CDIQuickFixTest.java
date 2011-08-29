@@ -7,7 +7,6 @@ import org.eclipse.swtbot.swt.finder.widgets.SWTBotTreeItem;
 import org.jboss.tools.cdi.bot.test.CDIAllBotTests;
 import org.jboss.tools.cdi.bot.test.uiutils.actions.CDIUtil;
 import org.jboss.tools.ui.bot.ext.RequirementAwareSuite;
-import org.jboss.tools.ui.bot.ext.SWTBotExt;
 import org.jboss.tools.ui.bot.ext.SWTTestExt;
 import org.jboss.tools.ui.bot.ext.Timing;
 import org.jboss.tools.ui.bot.ext.config.Annotations.Require;
@@ -17,7 +16,6 @@ import org.jboss.tools.ui.bot.ext.types.ViewType;
 import org.jboss.tools.ui.bot.ext.view.ProblemsView;
 import org.junit.After;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite.SuiteClasses;
@@ -38,7 +36,7 @@ public class CDIQuickFixTest extends SWTTestExt {
 	private static final String PACKAGE_NAME = "org.cdi.test";
 	private static SWTBotTreeItem[] problemsTrees;
 	private static final String LINE_SEPARATOR = System.getProperty("line.separator");
-	private enum ANNOTATIONS {TARGET, RETENTION, NAMED, TYPED,DISPOSES, OBSERVES}
+	private enum ANNOTATIONS {TARGET, RETENTION, NAMED, TYPED, DISPOSES, OBSERVES, INTERCEPTOR, DECORATOR}
 	private enum CDICOMPONENT {STEREOSCOPE, QUALIFIER, SCOPE, BEAN}
 	private SWTBotEclipseEditor ed; 
 
@@ -151,76 +149,89 @@ public class CDIQuickFixTest extends SWTTestExt {
 	
 	@Test
 	public void testStereoscopeQF() {
-		prepareCdiComponent(CDICOMPONENT.STEREOSCOPE, "S1");
+		String className = "S1";
+		prepareCdiComponent(CDICOMPONENT.STEREOSCOPE, className);
 		
 		// 1.QF - https://issues.jboss.org/browse/JBIDE-7630 
-		checkTargetAnnotation(CDICOMPONENT.STEREOSCOPE, ed);
+		checkTargetAnnotation(CDICOMPONENT.STEREOSCOPE, ed, className);
 		
 		// 2.QF - https://issues.jboss.org/browse/JBIDE-7631
-		checkRetentionAnnotation(CDICOMPONENT.STEREOSCOPE, ed);
+		checkRetentionAnnotation(CDICOMPONENT.STEREOSCOPE, ed, className);
 
 		// 3.QF - https://issues.jboss.org/browse/JBIDE-7634
-		checkNamedAnnotation(CDICOMPONENT.STEREOSCOPE, ed);
+		checkNamedAnnotation(CDICOMPONENT.STEREOSCOPE, ed, className);
 		
 		// 4.QF - https://issues.jboss.org/browse/JBIDE-7640
-		checkTypedAnnotation(CDICOMPONENT.STEREOSCOPE, ed);
+		checkTypedAnnotation(CDICOMPONENT.STEREOSCOPE, ed, className);
 	}
 	
 	@Test
 	public void testQualifiersQF() {
-		prepareCdiComponent(CDICOMPONENT.QUALIFIER, "Q2");
+		String className = "Q2";
+		prepareCdiComponent(CDICOMPONENT.QUALIFIER, className);
 		
 		// 1.QF - https://issues.jboss.org/browse/JBIDE-7631
-		checkRetentionAnnotation(CDICOMPONENT.QUALIFIER, ed);
+		checkRetentionAnnotation(CDICOMPONENT.QUALIFIER, ed, className);
 		
 		// 2.QF - https://issues.jboss.org/browse/JBIDE-7632
-		checkTargetAnnotation(CDICOMPONENT.QUALIFIER, ed);
+		checkTargetAnnotation(CDICOMPONENT.QUALIFIER, ed, className);
 	}
 	
 	@Test
 	public void testScopeQF() {
-		prepareCdiComponent(CDICOMPONENT.SCOPE, "Scope1");
+		String className = "Scope1";
+		prepareCdiComponent(CDICOMPONENT.SCOPE, className);
 		
 		// 1.QF - https://issues.jboss.org/browse/JBIDE-7631
-		checkRetentionAnnotation(CDICOMPONENT.SCOPE, ed);
+		checkRetentionAnnotation(CDICOMPONENT.SCOPE, ed, className);
 		
 		// 2.QF - https://issues.jboss.org/browse/JBIDE-7633
-		checkTargetAnnotation(CDICOMPONENT.SCOPE, ed);
+		checkTargetAnnotation(CDICOMPONENT.SCOPE, ed, className);
 	}
 	
 	@Test
 	public void testBeanQF() {
-		prepareCdiComponent(CDICOMPONENT.BEAN, "MyBean");
+		String className = "MyBean";
+		prepareCdiComponent(CDICOMPONENT.BEAN, className);
 		
 		// 1.QF - https://issues.jboss.org/browse/JBIDE-7664
-		checkConstructor(CDICOMPONENT.BEAN, ed);
+		checkConstructor(CDICOMPONENT.BEAN, ed, className);
 		
 		// 2.QF - https://issues.jboss.org/browse/JBIDE-7665
-		checkProducerMethod(CDICOMPONENT.BEAN, ed);
+		checkProducerMethod(CDICOMPONENT.BEAN, ANNOTATIONS.DISPOSES, ed, className);
 		
 		// 3.QF - https://issues.jboss.org/browse/JBIDE-7667
-		checkObserverDisposerMethod(CDICOMPONENT.BEAN, ed);
+		checkObserverDisposerMethod(CDICOMPONENT.BEAN, ed, className);
 		
 		// 4.QF - https://issues.jboss.org/browse/JBIDE-7668
+		checkObserWithDisposParamMethod(CDICOMPONENT.BEAN, ed, className);
 		
 		// 5.QF - https://issues.jboss.org/browse/JBIDE-7680
+		checkSessionBean(CDICOMPONENT.BEAN, ed, className);
 	}
-
-	@Ignore("not ready yet")
+	
 	@Test
 	public void testInterDecorQF() {
-		/*
-		 * 5 QF
-		 * 
-		 * tu vytvorim jednotnu metodu, s jednym parametrom - ci iner alebo
-		 * decor jediny zmysel pri vytvarani komponenty, potom by to malo byt
-		 * rovnake
-		 */
+		String className = "InterDecor";
+		prepareCdiComponent(CDICOMPONENT.BEAN, className);
+		
+		// 1.QF - https://issues.jboss.org/browse/JBIDE-7636
+		checkNamedAnnotation(CDICOMPONENT.BEAN, ed, className);
+		
+		// 2.QF - https://issues.jboss.org/browse/JBIDE-7683
+		checkProducerMethod(CDICOMPONENT.BEAN, ANNOTATIONS.INTERCEPTOR, ed, className);
+		
+		// 3.QF - https://issues.jboss.org/browse/JBIDE-7684
+		
+		
+		// 4.QF - https://issues.jboss.org/browse/JBIDE-7685
+		
+		
+		// 5.QF - https://issues.jboss.org/browse/JBIDE-7686
 	}
 	
 	private void prepareCdiComponent(CDICOMPONENT component, String name) {
 		createComponent(component, name);
-		checkStartupWarnings(bot);
 		switch (component) {
 		case QUALIFIER:
 			CDIUtil.replaceInEditor(ed, bot, "@Target({ TYPE, METHOD, PARAMETER, FIELD })",
@@ -230,8 +241,6 @@ public class CDIQuickFixTest extends SWTTestExt {
 		case SCOPE:
 			CDIUtil.replaceInEditor(ed, bot, "@Target({ TYPE, METHOD, FIELD })",
 					"@Target({TYPE, METHOD, FIELD})");
-			break;
-		default:
 			break;
 		}
 	}
@@ -252,39 +261,45 @@ public class CDIQuickFixTest extends SWTTestExt {
 			CDIUtil.bean(PACKAGE_NAME, name, true, false, false, false, null,
 					null, null, null).finish();
 			break;
-		default:
-			break;
 		}
 		util.waitForNonIgnoredJobs();
 		ed = bot.activeEditor().toTextEditor();
 	}
 	
-	private void prepareNamedAnnotation(SWTBotEclipseEditor ed, boolean add) {
-		if (add) {
-			ed.toTextEditor().insertText(ed.getLineCount()-4 , 0, 
-					"@Named(\"Name\")" + LINE_SEPARATOR);
-			ed.toTextEditor().insertText(6 , 0, "import javax.inject.Named;" + LINE_SEPARATOR);
+	private void prepareNamedAnnotation(SWTBotEclipseEditor ed, CDICOMPONENT comp, 
+			String className, boolean add) {
+		if (comp == CDICOMPONENT.BEAN) {
+			CDIUtil.insertInEditor(ed, bot, 1, 0, "import javax.inject.Named;" + LINE_SEPARATOR);
+			CDIUtil.insertInEditor(ed, bot, 3, 0, "@Named" + LINE_SEPARATOR);
+			if (add) {
+				CDIUtil.insertInEditor(ed, bot, 2, 0, "import javax.decorator.Decorator;" + LINE_SEPARATOR);
+				CDIUtil.insertInEditor(ed, bot, 4, 0, "@Decorator" + LINE_SEPARATOR);
+			} else {
+				CDIUtil.replaceInEditor(ed, bot, "import javax.decorator.Decorator;", 
+						"import javax.interceptor.Interceptor;");
+				CDIUtil.replaceInEditor(ed, bot, "@Decorator", "@Interceptor");
+			}
 		} else {
-			CDIUtil.replaceInEditor(ed, bot, "@Named", "");
-			CDIUtil.replaceInEditor(ed, bot,
-					"import javax.inject.Named;", "");
+			if (add) {
+				CDIUtil.insertInEditor(ed, bot, ed.getLineCount()-4, 0, "@Named(\"Name\")" + LINE_SEPARATOR);
+				CDIUtil.insertInEditor(ed, bot, 6 , 0, "import javax.inject.Named;" + LINE_SEPARATOR);
+			} else {
+				CDIUtil.replaceInEditor(ed, bot, "@Named", "");
+				CDIUtil.replaceInEditor(ed, bot,
+						"import javax.inject.Named;", "");
+			}
 		}
-		bot.sleep(Timing.time1S());
-		ed.save();
 	}
 	
 	private void prepareTypedAnnotation(SWTBotEclipseEditor ed) {
-		ed.toTextEditor().insertText(ed.getLineCount()-4 , 0, 
-					"@Typed" + LINE_SEPARATOR);
-		ed.toTextEditor().insertText(6 , 0, "import javax.enterprise.inject.Typed;" + LINE_SEPARATOR);
-		bot.sleep(Timing.time1S());
-		ed.save();
+		CDIUtil.insertInEditor(ed, bot, ed.getLineCount()-4 , 0, "@Typed" + LINE_SEPARATOR);
+		CDIUtil.insertInEditor(ed, bot, 6 , 0, "import javax.enterprise.inject.Typed;" + LINE_SEPARATOR);
 	}
 	
 	private void prepareInjectAnnot(SWTBotEclipseEditor ed) {
-		ed.toTextEditor().insertText(3 , 1, "@Inject" + LINE_SEPARATOR);
-		ed.toTextEditor().insertText(1 , 0, "import javax.inject.Inject;" + LINE_SEPARATOR);
-		ed.toTextEditor().insertText(6 , 15, "String aaa");
+		CDIUtil.insertInEditor(ed, bot, 3 , 1, "@Inject" + LINE_SEPARATOR);
+		CDIUtil.insertInEditor(ed, bot, 1 , 0, "import javax.inject.Inject;" + LINE_SEPARATOR);
+		CDIUtil.insertInEditor(ed, bot, 6 , 15, "String aaa");
 	}
 	
 	private void prepareProducer(SWTBotEclipseEditor ed) {
@@ -299,20 +314,35 @@ public class CDIQuickFixTest extends SWTTestExt {
 		CDIUtil.replaceInEditor(ed, bot, "String produceString", "void method");
 		CDIUtil.replaceInEditor(ed, bot, "return \"test\";", "");
 	}
+	
+	private void prepareObserWithDisposParam(SWTBotEclipseEditor ed) {
+		prepareProducer(ed);
+		CDIUtil.replaceInEditor(ed, bot, "import javax.inject.Inject;", "import javax.enterprise.event.Observes;" + 
+				LINE_SEPARATOR + "import javax.enterprise.inject.Disposes;" + LINE_SEPARATOR);
+		CDIUtil.replaceInEditor(ed, bot, "@Inject", "");
+		CDIUtil.replaceInEditor(ed, bot, "MyBean(String aaa)", 
+				"void method(@Observes String param1, @Disposes String param2)");
+	}
+	
+	private void prepareCheckSessionBean(String replacement) {
+		if (replacement.equals("@Decorator")) {
+			CDIUtil.insertInEditor(ed, bot, 3, 0, "import javax.decorator.Decorator;" + LINE_SEPARATOR);
+			CDIUtil.insertInEditor(ed, bot, 4, 0, "import javax.ejb.Stateless;" + LINE_SEPARATOR);
+			CDIUtil.insertInEditor(ed, bot, 5, 0, "@Decorator" + LINE_SEPARATOR);
+			CDIUtil.insertInEditor(ed, bot, 6, 0, "@Stateless" + LINE_SEPARATOR);
+		} else {
+			CDIUtil.copyResourceToClass(ed, CDIQuickFixTest.class
+					.getResourceAsStream("/resources/cdi/MyBean2.java.cdi"), false);
+		}
+	}
 
-	private void checkStartupWarnings(SWTBotExt bot) {
-		SWTBotTreeItem[] warningTrees = ProblemsView
-				.getFilteredWarningsTreeItems(bot, null, "/" + PROJECT_NAME,
-						"S1.java", "CDI Problem");
-		assertTrue(warningTrees.length == 0);
+	private void checkTargetAnnotation(CDICOMPONENT comp, SWTBotEclipseEditor ed, String className) {
+		checkTargetAnnotWithReplac(comp, ed, className, "@Target({TYPE, FIELD})");
+		checkTargetAnnotWithReplac(comp, ed, className, "");
 	}
 	
-	private void checkTargetAnnotation(CDICOMPONENT comp, SWTBotEclipseEditor ed) {
-		checkTargetAnnotWithReplac(comp, ed, "@Target({TYPE, FIELD})");
-		checkTargetAnnotWithReplac(comp, ed, "");
-	}
-	
-	private void checkTargetAnnotWithReplac(CDICOMPONENT comp, SWTBotEclipseEditor ed, String replacement) {
+	private void checkTargetAnnotWithReplac(CDICOMPONENT comp, SWTBotEclipseEditor ed, 
+			String className, String replacement) {
 		switch (comp) {
 		case STEREOSCOPE:
 		case SCOPE:
@@ -330,8 +360,6 @@ public class CDIQuickFixTest extends SWTTestExt {
 			CDIUtil.replaceInEditor(ed, bot, 
 					"import static java.lang.annotation.ElementType.PARAMETER;", "");
 			break;
-		default:
-			break;
 		}
 		CDIUtil.replaceInEditor(ed, bot,
 				"import static java.lang.annotation.ElementType.METHOD;", "");
@@ -343,15 +371,16 @@ public class CDIQuickFixTest extends SWTTestExt {
 			CDIUtil.replaceInEditor(ed, bot,
 					"import static java.lang.annotation.ElementType.FIELD;", "");
 		}
-		checkSimpleQuickFix(ANNOTATIONS.TARGET, comp, replacement, ed);
+		checkQuickFix(ANNOTATIONS.TARGET, comp, className, replacement, ed);
 	}
 	
-	private void checkRetentionAnnotation(CDICOMPONENT comp, SWTBotEclipseEditor ed) {
-		checkRetenAnnotWithReplac(comp, ed, "@Retention(CLASS)");
-		checkRetenAnnotWithReplac(comp, ed, "");
+	private void checkRetentionAnnotation(CDICOMPONENT comp, SWTBotEclipseEditor ed, String className) {
+		checkRetenAnnotWithReplac(comp, ed, className, "@Retention(CLASS)");
+		checkRetenAnnotWithReplac(comp, ed, className, "");
 	}
 
-	private void checkRetenAnnotWithReplac(CDICOMPONENT comp, SWTBotEclipseEditor ed, String replacement) {
+	private void checkRetenAnnotWithReplac(CDICOMPONENT comp, SWTBotEclipseEditor ed, 
+			String className, String replacement) {
 		CDIUtil.replaceInEditor(ed, bot, "@Retention(RUNTIME)", replacement);
 		if (replacement.equals("@Retention(CLASS)")) {
 			CDIUtil.replaceInEditor(ed, bot,
@@ -364,144 +393,197 @@ public class CDIQuickFixTest extends SWTTestExt {
 			CDIUtil.replaceInEditor(ed, bot,
 					"import java.lang.annotation.Retention;", "");
 		}
-		
-		checkSimpleQuickFix(ANNOTATIONS.RETENTION, comp, replacement, ed);
+		checkQuickFix(ANNOTATIONS.RETENTION, comp, className, replacement, ed);
 	}
 		
-	private void checkNamedAnnotation(CDICOMPONENT comp, SWTBotEclipseEditor ed) {
-		prepareNamedAnnotation(ed, true);
-		checkNamedAnnotWithReplac(comp, ed, "@Named");
-		prepareNamedAnnotation(ed, false);
-		prepareNamedAnnotation(ed, true);
-		checkNamedAnnotWithReplac(comp, ed, "");
-	}
-	
-	private void checkNamedAnnotWithReplac(CDICOMPONENT comp, SWTBotEclipseEditor ed, String replacement) {
-		checkSimpleQuickFix(ANNOTATIONS.NAMED, comp, replacement, ed);
-	}
-	
-	private void checkTypedAnnotation(CDICOMPONENT comp, SWTBotEclipseEditor ed) {
-		prepareTypedAnnotation(ed);
-		checkTypedAnnotWithReplac(comp, ed, "");
-	}
-	
-	private void checkTypedAnnotWithReplac(CDICOMPONENT comp, SWTBotEclipseEditor ed, String replacement) {
-		checkSimpleQuickFix(ANNOTATIONS.TYPED, comp, replacement, ed);
-	}
-	
-	private void checkConstructor(CDICOMPONENT comp, SWTBotEclipseEditor ed) {
-		prepareInjectAnnot(ed);
-		checkConstructorWithReplac(comp, ed, "@Disposes");
-		checkConstructorWithReplac(comp, ed, "@Observes");
-	}
-	
-	private void checkConstructorWithReplac(CDICOMPONENT comp, SWTBotEclipseEditor ed, 
-			String replacement) {
-		ed.toTextEditor().insertText(6 , 15, replacement + " ");
-		dispObserCompletion(comp, ed, replacement);
-	}
-	
-	private void checkProducerMethod(CDICOMPONENT comp, SWTBotEclipseEditor ed) {
-		prepareProducer(ed);
-		checkProducerWithReplac(comp, ed, "@Disposes");
-		checkProducerWithReplac(comp, ed, "@Observes");
-	}
-	
-	private void checkProducerWithReplac(CDICOMPONENT comp, SWTBotEclipseEditor ed, String replacement) {
-		ed.toTextEditor().insertText(11, 29, replacement + " ");
-		dispObserCompletion(comp, ed, replacement);
-	}
-	
-	private void checkObserverDisposerMethod(CDICOMPONENT comp, SWTBotEclipseEditor ed) {
-		prepareObserverDisposer(ed);
-		checkObserverDisposerWithReplac(comp, ed, "@Disposes");
-		checkObserverDisposerWithReplac(comp, ed, "@Observes");
-	}
-	
-	private void checkObserverDisposerWithReplac(CDICOMPONENT comp, 
-			SWTBotEclipseEditor ed, String replacement) {
-		ed.toTextEditor().insertText(10, 20, replacement + " ");
-		dispObserCompletion(comp, ed, replacement);
-	}
-	
-	private void dispObserCompletion(CDICOMPONENT comp, SWTBotEclipseEditor ed, String replacement) {
-		ed.toTextEditor().insertText(2 , 0, "import javax.enterprise." + 
-				(replacement.contains("Disposes")?"inject.":"event.") + 
-				(replacement.substring(1) + ";" + LINE_SEPARATOR));
-		bot.sleep(Timing.time1S());
-		ed.save();
-		ANNOTATIONS annonType = (replacement.equals("@Disposes")?ANNOTATIONS.DISPOSES:ANNOTATIONS.OBSERVES);
-		checkSimpleQuickFix(annonType, comp, replacement, ed);
-	}
-	
-	
-	private void checkSimpleQuickFix(ANNOTATIONS annonType, CDICOMPONENT comp, String replacement,
-			SWTBotEclipseEditor ed) {
-		String className = null;
-		setClassName(comp, className);
-		problemsTrees = getProblems(annonType, className);
-		assertTrue(problemsTrees.length != 0);
-		resolve(annonType, comp, replacement, ed);
-		problemsTrees = getProblems(annonType, className);
-		assertTrue(problemsTrees.length == 0);
-	}
-	
-	private void setClassName(CDICOMPONENT comp, String className) {
-		switch (comp) {
-		case STEREOSCOPE:
-			className = "S1.java";
-			break;
-		case QUALIFIER:
-			className = "Q2.java";
-			break;
-		case SCOPE:
-			className = "Scope1.java";
-			break;
-		case BEAN:
-			className = "MyBean.java";
-			break;
-		default:
-			break;
+	private void checkNamedAnnotation(CDICOMPONENT comp, SWTBotEclipseEditor ed,String className) {
+		if (className.equals("InterDecor")) {
+			prepareNamedAnnotation(ed, comp, className, true);
+			checkNamedAnnotWithReplac(comp, ed, className, "@Named");
+			prepareNamedAnnotation(ed, comp, className, false);
+			checkNamedAnnotWithReplac(comp, ed, className, "@Named");
+		} else {
+			prepareNamedAnnotation(ed, comp, className, true);
+			checkNamedAnnotWithReplac(comp, ed, className, "@Named");
+			prepareNamedAnnotation(ed, comp, className, false);
+			prepareNamedAnnotation(ed, comp, className, true);
+			checkNamedAnnotWithReplac(comp, ed, className, "");
 		}
 	}
 	
-	private SWTBotTreeItem[] getProblems(ANNOTATIONS annonType, String className) {
+	private void checkNamedAnnotWithReplac(CDICOMPONENT comp, SWTBotEclipseEditor ed, 
+			String className, String replacement) {
+		checkQuickFix(ANNOTATIONS.NAMED, comp, className, replacement, ed);
+	}
+	
+	private void checkTypedAnnotation(CDICOMPONENT comp, SWTBotEclipseEditor ed, String className) {
+		prepareTypedAnnotation(ed);
+		checkTypedAnnotWithReplac(comp, ed, className, "");
+	}
+	
+	private void checkTypedAnnotWithReplac(CDICOMPONENT comp, SWTBotEclipseEditor ed,
+			String className, String replacement) {
+		checkQuickFix(ANNOTATIONS.TYPED, comp, className, replacement, ed);
+	}
+	
+	private void checkConstructor(CDICOMPONENT comp, SWTBotEclipseEditor ed, String className) {
+		prepareInjectAnnot(ed);
+		checkConstructorWithReplac(comp, ed, className, "@Disposes");
+		checkConstructorWithReplac(comp, ed, className, "@Observes");
+	}
+	
+	private void checkConstructorWithReplac(CDICOMPONENT comp, SWTBotEclipseEditor ed, 
+			String className, String replacement) {
+		CDIUtil.insertInEditor(ed, bot, 6, 15, replacement + " ");
+		dispObserCompletion(comp, ed, className, replacement);
+	}
+	
+	private void checkProducerMethod(CDICOMPONENT comp, ANNOTATIONS annonType, SWTBotEclipseEditor ed,
+			String className) {
+		if (className.equals("InterDecor")) {
+			prepareProducer(ed);
+			CDIUtil.replaceInEditor(ed, bot, "MyBean", "InterDecor");
+			checkProducerWithReplac(comp, annonType, ed, className, "@Interceptor");
+			prepareProducer(ed);
+			CDIUtil.replaceInEditor(ed, bot, "MyBean", "InterDecor");
+			checkProducerWithReplac(comp, annonType, ed, className, "@Decorator");
+		} else {
+			prepareProducer(ed);
+			checkProducerWithReplac(comp, annonType, ed, className, "@Disposes");
+			checkProducerWithReplac(comp, annonType, ed, className, "@Observes");
+		}
+	}
+	
+	private void checkProducerWithReplac(CDICOMPONENT comp, ANNOTATIONS annonType, 
+			SWTBotEclipseEditor ed, String className, String replacement) {
+		if (className.equals("InterDecor")) {
+			String annot = replacement.equals("@Interceptor")?"@Interceptor":"@Decorator";
+			String importAnnot = replacement.equals("@Interceptor")?
+					"import javax.interceptor.Interceptor;":
+					"import javax.decorator.Decorator;";
+			CDIUtil.insertInEditor(ed, bot, 3, 0, annot + LINE_SEPARATOR);
+			CDIUtil.insertInEditor(ed, bot, 1, 0,  importAnnot + LINE_SEPARATOR);
+			checkQuickFix(replacement.equals("@Interceptor")?ANNOTATIONS.INTERCEPTOR:
+				ANNOTATIONS.DECORATOR, comp, className, replacement, ed);
+		} else {
+			CDIUtil.insertInEditor(ed, bot, 11, 29, replacement + " ");
+			dispObserCompletion(comp, ed, className, replacement);
+		}
+	}
+	
+	private void checkObserverDisposerMethod(CDICOMPONENT comp, SWTBotEclipseEditor ed, String className) {
+		prepareObserverDisposer(ed);
+		checkObserverDisposerWithReplac(comp, ed, className, "@Disposes");
+		checkObserverDisposerWithReplac(comp, ed, className, "@Observes");
+	}
+	
+	private void checkObserverDisposerWithReplac(CDICOMPONENT comp, 
+			SWTBotEclipseEditor ed, String className, String replacement) {
+		CDIUtil.insertInEditor(ed, bot, 10, 20, replacement + " ");
+		dispObserCompletion(comp, ed, className, replacement);
+	}
+	
+	private void checkObserWithDisposParamMethod(CDICOMPONENT comp, SWTBotEclipseEditor ed, String className) {
+		prepareObserWithDisposParam(ed);
+		checkObserWithDisposParamWithReplac(comp, ed, className, "@Disposes");
+		checkObserWithDisposParamWithReplac(comp, ed, className, "@Observes");
+	}
+	
+	private void checkObserWithDisposParamWithReplac(CDICOMPONENT comp, 
+			SWTBotEclipseEditor ed, String className, String replacement) {
+		if (replacement.equals("@Observes")) {
+			CDIUtil.insertInEditor(ed, bot, 3, 0, "import javax.enterprise.inject.Disposes;");
+			CDIUtil.insertInEditor(ed, bot, 6, 46, "@Disposes "); 
+		}
+		checkQuickFix(replacement.equals("@Disposes")?ANNOTATIONS.DISPOSES:ANNOTATIONS.OBSERVES, 
+				CDICOMPONENT.BEAN, className, "", ed);
+	}
+	
+	private void checkSessionBean(CDICOMPONENT comp, SWTBotEclipseEditor ed, String className) {
+		checkSessionBeanWithReplac(comp, ed, className, "@Decorator");
+		checkSessionBeanWithReplac(comp, ed, className, "@Interceptor");
+	}
+	
+	private void checkSessionBeanWithReplac(CDICOMPONENT comp, SWTBotEclipseEditor ed, 
+			String className, String replacement) {
+		prepareCheckSessionBean(replacement);
+		checkQuickFix(replacement.equals("@Decorator")?ANNOTATIONS.DECORATOR:ANNOTATIONS.INTERCEPTOR, 
+				comp, className, replacement, ed);
+	}
+	
+	private void dispObserCompletion(CDICOMPONENT comp, SWTBotEclipseEditor ed, String className, String replacement) {
+		CDIUtil.insertInEditor(ed, bot, 2 , 0, "import javax.enterprise." + 
+				(replacement.contains("Disposes")?"inject.":"event.") + 
+				(replacement.substring(1) + ";" + LINE_SEPARATOR));
+		ANNOTATIONS annonType = (replacement.equals("@Disposes")?ANNOTATIONS.DISPOSES:ANNOTATIONS.OBSERVES);
+		checkQuickFix(annonType, comp, className, replacement, ed);
+	}
+	
+	
+	private void checkQuickFix(ANNOTATIONS annonType, CDICOMPONENT comp, String className, String replacement,
+			SWTBotEclipseEditor ed) {
+		String componentClass = className + ".java";
+		problemsTrees = getProblems(annonType, comp, componentClass);
+		assertTrue(problemsTrees.length != 0);
+		resolveQuickFix(annonType, comp, replacement, ed);
+		problemsTrees = getProblems(annonType, comp, componentClass);
+		assertTrue(problemsTrees.length == 0);
+	}
+	
+	private SWTBotTreeItem[] getProblems(ANNOTATIONS annonType, CDICOMPONENT comp, String className) {
 		SWTBotTreeItem[] problemsTree;
+		boolean warningType = true;
 		switch (annonType) {
 		case NAMED:
+			warningType = ((comp == CDICOMPONENT.BEAN)?true:false);
+			break;
 		case TYPED:
 		case DISPOSES:
 		case OBSERVES:
-			problemsTree = ProblemsView.getFilteredErrorsTreeItems(bot, null, "/"
-					+ PROJECT_NAME, className, "CDI Problem");
+		case DECORATOR:
+		case INTERCEPTOR:
+			warningType = false;
 			break;
-		default:
-			problemsTree = ProblemsView.getFilteredWarningsTreeItems(bot, null, "/"
+		}
+		String problemsContains = null;
+		if (warningType) {
+			problemsTree = ProblemsView.getFilteredWarningsTreeItems(bot, problemsContains, "/"
 					+ PROJECT_NAME, className, "CDI Problem");
-			break;
+		} else {
+			if (className.equals("InterDecor.java")) {
+				problemsContains = "Producer cannot be declared in";
+			}
+			problemsTree = ProblemsView.getFilteredErrorsTreeItems(bot, problemsContains, "/"
+					+ PROJECT_NAME, className, "CDI Problem");
 		}
 		return problemsTree;
 	}
 	
-	private void resolve(ANNOTATIONS annonType, CDICOMPONENT comp, String replacement,
+	private void resolveQuickFix(ANNOTATIONS annonType, CDICOMPONENT comp, String replacement,
 			SWTBotEclipseEditor ed) {
+		int index = indexDetermine(annonType, comp, replacement);
+		resolve(annonType, replacement, index);
+	}
+	
+	private int indexDetermine(ANNOTATIONS annonType, CDICOMPONENT comp, String replacement) {
 		boolean chooseFirstOption = true;
 		if (annonType == ANNOTATIONS.NAMED && replacement.equals("")) {
 			chooseFirstOption = false;
-		} else {
-			if ((comp == CDICOMPONENT.BEAN && annonType == ANNOTATIONS.DISPOSES) ||
-				(comp == CDICOMPONENT.BEAN && annonType == ANNOTATIONS.OBSERVES)) {
-				if (problemsTrees[0].getText().contains("Producer method has a parameter annotated "
-						+ replacement) || 
-					problemsTrees[0].getText().contains("method cannot be annotated @Inject")) {
-					chooseFirstOption = false;
-				}
+		} 
+		if ((comp == CDICOMPONENT.BEAN && annonType == ANNOTATIONS.DISPOSES) ||
+			(comp == CDICOMPONENT.BEAN && annonType == ANNOTATIONS.OBSERVES)) {
+			if ((problemsTrees[0].getText().contains("Producer method has a parameter annotated "
+					+ replacement)) || 
+				(problemsTrees[0].getText().contains("method cannot be annotated @Inject")) ||
+				(annonType == ANNOTATIONS.OBSERVES && 
+					problemsTrees[0].getText().contains("Observer method has a parameter annotated @Disposes"))) {
+				chooseFirstOption = false;
 			}
 		}
-		resolveWithAnnonType(annonType, replacement, chooseFirstOption?0:1);
+		return chooseFirstOption?0:1;
 	}
 	
-	private void resolveWithAnnonType(ANNOTATIONS annonType, String replacement, int index) {
+	private void resolve(ANNOTATIONS annonType, String replacement, int index) {
 		CDIUtil.openQuickFix(problemsTrees[0], bot);
 		bot.table(0).click(index, 0);
 		assertFalse(bot.button("Finish").isEnabled());
@@ -510,15 +592,13 @@ public class CDIQuickFixTest extends SWTTestExt {
 		bot.clickButton("Finish");
 		bot.sleep(Timing.time1S());
 		util.waitForNonIgnoredJobs();
-		afterResolveclearImports(annonType, replacement);
+		clearImports(annonType, replacement);
 	}
 	
-	private void afterResolveclearImports(ANNOTATIONS annonType, String replacement) {
-		if (annonType == ANNOTATIONS.RETENTION) {
-			if (replacement.equals("@Retention(CLASS)")) {
-				CDIUtil.replaceInEditor(ed, bot, 
-						"import static java.lang.annotation.RetentionPolicy.CLASS;","");
-			}
+	private void clearImports(ANNOTATIONS annonType, String replacement) {
+		if (annonType == ANNOTATIONS.RETENTION && replacement.equals("@Retention(CLASS)")) {
+			CDIUtil.replaceInEditor(ed, bot, 
+					"import static java.lang.annotation.RetentionPolicy.CLASS;","");
 		}
 	}
 
