@@ -51,6 +51,11 @@ public class XHTMLSyntaxValidator extends Validator {
 
 	IProgressMonitor monitor;
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.wst.xml.core.internal.validation.eclipse.Validator#validationStarting(org.eclipse.core.resources.IProject, org.eclipse.wst.validation.ValidationState, org.eclipse.core.runtime.IProgressMonitor)
+	 */
+	@Override
 	public void validationStarting(IProject project, ValidationState state, IProgressMonitor monitor) {
 		super.validationStarting(project, state, monitor);
 		this.monitor = monitor;
@@ -94,25 +99,13 @@ public class XHTMLSyntaxValidator extends Validator {
 
 		XMLValidationConfiguration configuration = new XMLValidationConfiguration();
 		try {
-			configuration.setFeature(
-					XMLValidationConfiguration.INDICATE_NO_GRAMMAR, 0); // None.
-																		// No
-																		// grammar
-																		// indication
-																		// is
-																		// needed
+			configuration.setFeature(XMLValidationConfiguration.INDICATE_NO_GRAMMAR, 0); // None. No grammar indication is needed
 		} catch (Exception e) {
 			// Unable to set the preference. Log this problem.
 			JSFModelPlugin.log("XHTMLSyntaxValidator was unable to set the preference", e);
 		}
-	
-		XMLValidationReport valreport = null;
-		if (inputstream != null) {
-			valreport = validator.validate(uri, inputstream, configuration,
-					context, result);
-		} else {
-			valreport = validator.validate(uri, null, configuration, context, result);
-		}
+
+		XMLValidationReport valreport = validator.validate(uri, inputstream, configuration,	context, result);
 
 		if (JSFModelPlugin.getDefault().isDebugging()) {
 			long et = System.currentTimeMillis() - ct;
@@ -169,36 +162,36 @@ public class XHTMLSyntaxValidator extends Validator {
 	    	String grammarFile = "";
 	    	Reader reader1 = null; // Used for the preparse.
 	    	Reader reader2 = null; // Used for validation parse.
-	    
+
 	    	if (inputStream != null) {  
 	    		String string = createStringForInputStream(inputStream);
 	    		reader1 = new StringReader(string);
 	    		reader2 = new StringReader(string);
 	    	} 
-	        
+
 	    	XMLValidationInfo valinfo = new XMLValidationInfo(uri);
 	    	XHTMLEntityResolver entityResolver = new XHTMLEntityResolver(uriResolver, context);
 	    	XHTMLValidatorHelper helper = new XHTMLValidatorHelper(entityResolver);
-	    	
+
 	    	try {  
 	    		helper.computeValidationInformation(uri, reader1, uriResolver);
-	        
+
 	    		// The syntax validation is to be performed
 	    		valinfo.setDTDEncountered(false);  
 		        valinfo.setElementDeclarationCount(0);
 		        valinfo.setNamespaceEncountered(false);
 		        valinfo.setGrammarEncountered(false);
-		
+
 		        // No validation needed for native HTML files
 		        // The only XHTML files are to be validated here
 		        if (!helper.isXHTMLDoctype) {
 		        	return valinfo;
 		        }
-	        
+
 		        XMLReader reader = createXMLReader(valinfo, entityResolver);
 		        XMLErrorHandler errorhandler = new XMLErrorHandler(valinfo);
 		        reader.setErrorHandler(errorhandler);
-	        
+
 		        InputSource inputSource = new InputSource(uri);
 		        inputSource.setCharacterStream(reader2);
 		        reader.parse(inputSource);   
@@ -252,7 +245,7 @@ public class XHTMLSyntaxValidator extends Validator {
 		class XHTMLValidatorHelper extends ValidatorHelper {
 			public boolean isXHTMLDoctype = false;
 			private XHTMLEntityResolver entityResolver;
-	
+
 			public XHTMLValidatorHelper(XHTMLEntityResolver entityResolver) {
 				this.entityResolver = entityResolver;
 			}
@@ -260,7 +253,7 @@ public class XHTMLSyntaxValidator extends Validator {
 			protected XMLReader createXMLReader(String uri) throws SAXNotRecognizedException, SAXNotSupportedException
 			{     
 				XMLReader reader = super.createXMLReader(uri);
-	
+
 				reader.setFeature("http://xml.org/sax/features/namespaces", false);
 				reader.setFeature("http://xml.org/sax/features/namespace-prefixes", false);
 				reader.setFeature("http://xml.org/sax/features/validation", false);
@@ -268,33 +261,35 @@ public class XHTMLSyntaxValidator extends Validator {
 				reader.setFeature("http://apache.org/xml/features/validation/schema-full-checking", false);
 				reader.setFeature("http://apache.org/xml/features/validation/dynamic", false);
 				reader.setFeature("http://apache.org/xml/features/continue-after-fatal-error", false);
+				reader.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
+//				reader.setFeature("http://apache.org/xml/features/resolve-dtd-uris", false);
 
 		        LexicalHandler lexicalHandler = new LexicalHandler()
 	    	    {      
 	    	    	public void startDTD (String name, String publicId, String systemId) {
-	    	    		isGrammarEncountered = true;   
+	    	    		isGrammarEncountered = true;
 	    	    		isDTDEncountered = true;
 	    	    		if (publicId != null && publicId.indexOf("W3C") != -1 && 
 	    	    				publicId.indexOf("DTD") != -1 && publicId.indexOf("XHTML") != -1) {
 	    	    			isXHTMLDoctype = true;
 	    	    		}
 	    	    	}
-	
+
 	    	    	public void endDTD() throws SAXException {
 	    	    	}
-	
+
 	    	    	public void startEntity(String name) throws SAXException {
 	    	    	}
-	
+
 	    	    	public void endEntity(String name) throws SAXException {
 	    	    	}
-	
+
 	    	    	public void startCDATA() throws SAXException {
 	    	    	}
-	
+
 	    	    	public void endCDATA() throws SAXException {
 	    	    	}
-	    	 
+
 	    	    	public void comment (char ch[], int start, int length) throws SAXException {
 	    	    	}
 	    	    };

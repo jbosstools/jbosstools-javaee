@@ -118,31 +118,32 @@ public class XHTMLEntityResolver implements XMLEntityResolver {
 					}
 				}
 
-				is = new XMLInputSource(rid.getPublicId(), location, location);
-
-				// This block checks that the file exists. If it doesn't we need
-				// to throw
-				// an exception so Xerces will report an error. note: This may
-				// not be
-				// necessary with all versions of Xerces but has specifically
-				// been
-				// experienced with the version included in IBM's 1.4.2 JDK.
-				InputStream isTemp = null;
-				try {
-					isTemp = new URL(physical).openStream();
-				} catch (IOException e) {
-					// physical was a bad url, so cache it so we know next time
-					if (context instanceof XMLNestedValidatorContext) {
-						XMLNestedValidatorContext xmlContext = ((XMLNestedValidatorContext) context);
-						xmlContext.markURIInaccessible(physical);
-					}
-					throw e;
-				} finally {
-					if (isTemp != null) {
-						isTemp.close();
-					}
+//				// This block checks that the file exists. If it doesn't we need
+//				// to throw
+//				// an exception so Xerces will report an error. note: This may
+//				// not be
+//				// necessary with all versions of Xerces but has specifically
+//				// been
+//				// experienced with the version included in IBM's 1.4.2 JDK.
+//				InputStream isTemp = null;
+//				try {
+//					isTemp = new URL(physical).openStream();
+//				} catch (IOException e) {
+//					// physical was a bad url, so cache it so we know next time
+//					if (context instanceof XMLNestedValidatorContext) {
+//						XMLNestedValidatorContext xmlContext = ((XMLNestedValidatorContext) context);
+//						xmlContext.markURIInaccessible(physical);
+//					}
+//					throw e;
+//				} finally {
+//					if (isTemp != null) {
+//						isTemp.close();
+//					}
+//				}
+				if(physical.startsWith("file:")||physical.startsWith("jar:")) {
+					is = new XMLInputSource(rid.getPublicId(), location, location);
+					is.setByteStream(new LazyURLInputStream(physical));
 				}
-				is.setByteStream(new LazyURLInputStream(physical));
 			}
 		}
 		return is;
