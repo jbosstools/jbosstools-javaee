@@ -10,6 +10,8 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.seam.solder.core.generic;
 
+import org.jboss.tools.cdi.core.IBean;
+
 /**
  * 
  * Common interface for generic beans
@@ -17,6 +19,6 @@ package org.jboss.tools.cdi.seam.solder.core.generic;
  * @author daniel
  *
  */
-public interface IGenericBean {
+public interface IGenericBean extends IBean {
 
 }
