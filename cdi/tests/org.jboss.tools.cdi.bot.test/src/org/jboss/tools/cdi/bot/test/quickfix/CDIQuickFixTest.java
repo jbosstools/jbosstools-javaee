@@ -222,10 +222,10 @@ public class CDIQuickFixTest extends SWTTestExt {
 		checkProducerMethod(CDICOMPONENT.BEAN, ANNOTATIONS.INTERCEPTOR, ed, className);
 		
 		// 3.QF - https://issues.jboss.org/browse/JBIDE-7684
-		
+		checkDisposesAnnotation(CDICOMPONENT.BEAN, ed, className);
 		
 		// 4.QF - https://issues.jboss.org/browse/JBIDE-7685
-		
+		checkObserveAnnotation(CDICOMPONENT.BEAN, ed, className);
 		
 		// 5.QF - https://issues.jboss.org/browse/JBIDE-7686
 	}
@@ -334,6 +334,11 @@ public class CDIQuickFixTest extends SWTTestExt {
 			CDIUtil.copyResourceToClass(ed, CDIQuickFixTest.class
 					.getResourceAsStream("/resources/cdi/MyBean2.java.cdi"), false);
 		}
+	}
+	
+	private void prepareDisposesAnnot(SWTBotEclipseEditor ed) {
+		CDIUtil.copyResourceToClass(ed, CDIQuickFixTest.class
+				.getResourceAsStream("/resources/cdi/InterDecor.java.cdi"), false);
 	}
 
 	private void checkTargetAnnotation(CDICOMPONENT comp, SWTBotEclipseEditor ed, String className) {
@@ -519,6 +524,41 @@ public class CDIQuickFixTest extends SWTTestExt {
 		checkQuickFix(annonType, comp, className, replacement, ed);
 	}
 	
+	private void checkDisposesAnnotation(CDICOMPONENT comp, SWTBotEclipseEditor ed, String className) {
+		checkDisposesAnnotWithReplac(comp, ed, className, "@Decorator");
+		checkDisposesAnnotWithReplac(comp, ed, className, "@Interceptor");
+	}
+	
+	private void checkDisposesAnnotWithReplac(CDICOMPONENT comp, SWTBotEclipseEditor ed, 
+			String className, String replacement) {
+		prepareDisposesAnnot(ed);
+		String annot = replacement;
+		String importAnnot = "import javax." + replacement.substring(1).toLowerCase() 
+				+ "." + replacement.substring(1) + ";";
+		CDIUtil.insertInEditor(ed, bot, 2, 0, annot + LINE_SEPARATOR);
+		CDIUtil.insertInEditor(ed, bot, 1, 0, importAnnot + LINE_SEPARATOR);
+		checkQuickFix(ANNOTATIONS.DECORATOR, comp, className, replacement, ed);
+	}
+	
+	private void checkObserveAnnotation(CDICOMPONENT comp, SWTBotEclipseEditor ed, String className) {
+		checkObserveAnnotWithReplac(comp, ed, className, "@Decorator");
+		checkObserveAnnotWithReplac(comp, ed, className, "@Interceptor");
+	}
+	
+	private void checkObserveAnnotWithReplac(CDICOMPONENT comp, SWTBotEclipseEditor ed, 
+			String className, String replacement) {
+		prepareDisposesAnnot(ed);
+		CDIUtil.replaceInEditor(ed, bot, "@Disposes", "@Observes");
+		CDIUtil.replaceInEditor(ed, bot, "import javax.enterprise.inject.Disposes;", 
+				"import javax.enterprise.event.Observes;");
+		CDIUtil.replaceInEditor(ed, bot, "dispose", "observe");
+		String annot = replacement;
+		String importAnnot = "import javax." + replacement.substring(1).toLowerCase() 
+				+ "." + replacement.substring(1) + ";";
+		CDIUtil.insertInEditor(ed, bot, 2, 0, annot + LINE_SEPARATOR);
+		CDIUtil.insertInEditor(ed, bot, 1, 0, importAnnot + LINE_SEPARATOR);
+		checkQuickFix(ANNOTATIONS.DECORATOR, comp, className, replacement, ed);
+	}
 	
 	private void checkQuickFix(ANNOTATIONS annonType, CDICOMPONENT comp, String className, String replacement,
 			SWTBotEclipseEditor ed) {
@@ -551,7 +591,15 @@ public class CDIQuickFixTest extends SWTTestExt {
 					+ PROJECT_NAME, className, "CDI Problem");
 		} else {
 			if (className.equals("InterDecor.java")) {
-				problemsContains = "Producer cannot be declared in";
+				if (ed.toTextEditor().getText().contains("produceString")) {
+					problemsContains = "Producer cannot be declared in";
+				}
+				if (ed.toTextEditor().getText().contains("disposeMethod")) {
+					problemsContains = "has a method annotated @Disposes";
+				}
+				if (ed.toTextEditor().getText().contains("observeMethod")) {
+					problemsContains = "have a method with a parameter annotated @Observes";
+				}
 			}
 			problemsTree = ProblemsView.getFilteredErrorsTreeItems(bot, problemsContains, "/"
 					+ PROJECT_NAME, className, "CDI Problem");

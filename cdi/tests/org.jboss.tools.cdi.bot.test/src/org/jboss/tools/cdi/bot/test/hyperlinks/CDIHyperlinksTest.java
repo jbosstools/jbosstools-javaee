@@ -50,7 +50,7 @@ public class CDIHyperlinksTest extends SWTTestExt {
 	public void testInjectHyperlink() {		
 		CDIUtil.bean(PACKAGE_NAME, "Animal", true, false, false, false, null,
 				null, null, null).finish();
-		bot.sleep(Timing.time3S());
+		bot.sleep(Timing.time1S());
 		util.waitForNonIgnoredJobs();
 		
 		CDIUtil.bean(PACKAGE_NAME, "BrokenFarm", true, false, false, false, null,

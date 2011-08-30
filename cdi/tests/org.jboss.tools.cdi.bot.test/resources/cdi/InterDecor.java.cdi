@@ -1,0 +1,10 @@
+package org.cdi.test;
+import javax.enterprise.inject.Disposes;
+
+public class InterDecor {
+
+	public void disposeMethod(@Disposes String aa) {
+		
+	}
+
+}
