@@ -310,8 +310,10 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		if(type == null) {
 			return result;
 		}
+		
+		IType jType = type.getType();
 	
-		if(type.getType() != null && CDIConstants.EVENT_TYPE_NAME.equals(type.getType().getFullyQualifiedName())) {
+		if(jType != null && CDIConstants.EVENT_TYPE_NAME.equals(jType.getFullyQualifiedName())) {
 			List<? extends IParametedType> ps = type.getParameters();
 			if(ps.size() == 1) {
 				EventBean eventBean = new EventBean(type, injectionPoint);
@@ -322,7 +324,8 @@ public class CDIProject extends CDIElement implements ICDIProject {
 			}
 		}
 		
-		if(type.getType() != null && CDIConstants.INSTANCE_TYPE_NAME.equals(type.getType().getFullyQualifiedName())) {
+		if(jType != null && (CDIConstants.INSTANCE_TYPE_NAME.equals(jType.getFullyQualifiedName())
+						|| CDIConstants.PROVIDER_TYPE_NAME.equals(jType.getFullyQualifiedName()))) {
 			List<? extends IParametedType> ps = type.getParameters();
 			if(ps.size() == 1) {
 				type = ps.get(0);
@@ -361,8 +364,8 @@ public class CDIProject extends CDIElement implements ICDIProject {
 			if(isNew) {
 				//TODO improve
 				IType bType = b.getBeanClass();
-				if(bType != null && type.getType() != null 
-						&& bType.getFullyQualifiedName().equals(type.getType().getFullyQualifiedName())) {
+				if(bType != null && jType != null 
+						&& bType.getFullyQualifiedName().equals(jType.getFullyQualifiedName())) {
 					result.add(b);
 				}
 				continue;

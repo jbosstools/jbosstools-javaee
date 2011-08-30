@@ -36,8 +36,6 @@ public interface CDIConstants {
 	public String SCOPE_ANNOTATION_TYPE_NAME = "javax.inject.Scope";
 	public String NORMAL_SCOPE_ANNOTATION_TYPE_NAME = "javax.enterprise.context.NormalScope";
 
-	public String PROVIDER_ANNOTATION_TYPE_NAME = "javax.inject.Provider";
-
 	public String INJECT_ANNOTATION_TYPE_NAME = "javax.inject.Inject";
 
 	public String ALTERNATIVE_ANNOTATION_TYPE_NAME = "javax.enterprise.inject.Alternative";
@@ -81,6 +79,7 @@ public interface CDIConstants {
 	public String INTERCEPTOR_SIMPLE_NAME = "Interceptor";
 	public String INTERCEPTOR_TYPE_NAME = "javax.enterprise.inject.spi.Interceptor";
 
+	public String PROVIDER_TYPE_NAME = "javax.inject.Provider";
 	public String INSTANCE_TYPE_NAME = "javax.enterprise.inject.Instance";
 
 	public String PRE_DESTROY_TYPE_NAME = "javax.annotation.PreDestroy";
