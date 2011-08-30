@@ -391,6 +391,7 @@
       </listener>
    </extension>
 
+<!-- TODO https://issues.jboss.org/browse/JBIDE-9588
    <extension id="xhtml" name="%XHTML_Validator.name" 
    		point="org.eclipse.wst.validation.validatorV2">
       <validator
@@ -420,7 +421,7 @@
             </rules>
          </include>
       </validator>
-   </extension>
+   </extension -->
 
     <extension point="org.eclipse.wst.xml.core.catalogContributions">
       <catalogContribution id="default">
