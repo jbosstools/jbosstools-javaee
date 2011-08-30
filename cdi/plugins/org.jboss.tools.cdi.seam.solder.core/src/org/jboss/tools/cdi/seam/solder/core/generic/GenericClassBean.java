@@ -27,7 +27,7 @@ import org.jboss.tools.cdi.seam.solder.core.CDISeamSolderConstants;
  * @author Viacheslav Kabanovich
  *
  */
-public class GenericClassBean extends ClassBean {
+public class GenericClassBean extends ClassBean implements IGenericBean {
 	protected AbstractMemberDefinition genericProducerBean;
 	
 	public GenericClassBean() {}

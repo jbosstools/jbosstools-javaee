@@ -34,9 +34,9 @@
 </extension>
 <extension
       point="org.jboss.tools.cdi.ui.quickFixExtension">
-   <resolution_generator_extension
-         generator-extension-class="org.jboss.tools.cdi.seam.config.ui.marker.CDIMarkerResolutionGeneratorExtension"
-         id="org.jboss.tools.cdi.seam.config.ui.resolution_generator_extension">
-   </resolution_generator_extension>
+   <resolution-generator
+         class="org.jboss.tools.cdi.seam.config.ui.marker.CDIMarkerResolutionGeneratorExtension"
+         id="org.jboss.tools.cdi.seam.config.ui.resolution-generator">
+   </resolution-generator>
 </extension>
 </plugin>

@@ -18,7 +18,7 @@
       </annotation>
       <complexType>
          <sequence>
-            <element ref="resolution_generator_extension" minOccurs="1" maxOccurs="unbounded"/>
+            <element ref="resolution-generator" minOccurs="1" maxOccurs="unbounded"/>
          </sequence>
          <attribute name="point" type="string" use="required">
             <annotation>
@@ -47,7 +47,7 @@
       </complexType>
    </element>
 
-   <element name="resolution_generator_extension">
+   <element name="resolution-generator">
       <complexType>
          <attribute name="id" type="string" use="required">
             <annotation>
@@ -59,7 +59,7 @@
                </appInfo>
             </annotation>
          </attribute>
-         <attribute name="generator-extension-class" type="string" use="required">
+         <attribute name="class" type="string" use="required">
             <annotation>
                <documentation>
                   
@@ -86,13 +86,13 @@
          <meta.section type="examples"/>
       </appInfo>
       <documentation>
-         &lt;extension point=&quot;org.jboss.tools.cdi.ui.quickFixExtension&quot;&gt;
-   &lt;resolution_generator_extension
-         generator-extension-class = 			&quot;org.jboss.tools.cdi.seam.config.ui.marker.CDIMarkerResolutionGeneratorExtension&quot;
-         id=&quot;org.jboss.tools.cdi.seam.config.ui.resolution_generator_extension&quot;&gt;
-   &lt;/resolution_generator_extension&gt;
+         &lt;extension
+      point=&quot;org.jboss.tools.cdi.ui.quickFixExtension&quot;&gt;
+   &lt;resolution-generator
+         class=&quot;org.jboss.tools.cdi.seam.config.ui.marker.CDIMarkerResolutionGeneratorExtension&quot;
+         id=&quot;org.jboss.tools.cdi.seam.config.ui.resolution-generator&quot;&gt;
+   &lt;/resolution-generator&gt;
 &lt;/extension&gt;
-
       </documentation>
    </annotation>
 

@@ -16,24 +16,16 @@ import java.util.List;
 import org.eclipse.ui.IMarkerResolution;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.internal.core.validation.CDIValidationErrorManager;
-import org.jboss.tools.cdi.seam.solder.core.generic.GenericBeanProducerField;
-import org.jboss.tools.cdi.seam.solder.core.generic.GenericBeanProducerMethod;
-import org.jboss.tools.cdi.seam.solder.core.generic.GenericClassBean;
+import org.jboss.tools.cdi.seam.solder.core.generic.IGenericBean;
 import org.jboss.tools.cdi.ui.marker.ICDIMarkerResolutionGeneratorExtension;
 
 public class CDIMarkerResolutionGeneratorExtension implements
 		ICDIMarkerResolutionGeneratorExtension {
 
-	private boolean isBeanGeneric(IBean bean){
-		return (bean instanceof GenericClassBean ||
-				bean instanceof GenericBeanProducerField ||
-				bean instanceof GenericBeanProducerMethod);
-	}
-
 	@Override
 	public boolean shouldBeExtended(int id, IBean bean) {
 		return (id == CDIValidationErrorManager.AMBIGUOUS_INJECTION_POINTS_ID || id == CDIValidationErrorManager.UNSATISFIED_INJECTION_POINTS_ID) && 
-				isBeanGeneric(bean);
+				bean instanceof IGenericBean;
 	}
 
 	@Override

@@ -20,7 +20,7 @@ import org.jboss.tools.cdi.seam.solder.core.CDISeamSolderConstants;
  * @author Viacheslav Kabanovich
  *
  */
-public class GenericBeanProducerField extends ProducerField {
+public class GenericBeanProducerField extends ProducerField implements IGenericBean {
 
 	public GenericBeanProducerField() {}
 

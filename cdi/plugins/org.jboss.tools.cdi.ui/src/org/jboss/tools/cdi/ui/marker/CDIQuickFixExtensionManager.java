@@ -42,7 +42,7 @@ public class CDIQuickFixExtensionManager {
 			CDIQuickFixExtensionManager n = new CDIQuickFixExtensionManager();
 			n.id = e.getAttribute("id"); //$NON-NLS-1$
 			try{
-				n.extension = (ICDIMarkerResolutionGeneratorExtension)e.createExecutableExtension("generator-extension-class"); //$NON-NLS-1$
+				n.extension = (ICDIMarkerResolutionGeneratorExtension)e.createExecutableExtension("class"); //$NON-NLS-1$
 				list.add(n.extension);
 			}catch(CoreException ex){
 				ELCorePlugin.getDefault().logError(ex);
