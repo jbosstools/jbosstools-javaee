@@ -33,6 +33,13 @@ public class DynamicLookupTest extends TCKTest {
 		assertContainsBeanClass(beans, "org.jboss.jsr299.tck.tests.lookup.dynamic.AdvancedPaymentProcessor");
 	}
 
+	public void testObtainsInjectsProvider() throws CoreException {
+		IInjectionPointField injection = getInjectionPointField("JavaSource/org/jboss/jsr299/tck/tests/lookup/dynamic/ObtainsInstanceBean.java", "paymentProcessor2");
+		Set<IBean> beans = cdiProject.getBeans(true, injection);
+		assertEquals(1, beans.size());
+		assertContainsBeanClass(beans, "org.jboss.jsr299.tck.tests.lookup.dynamic.AdvancedPaymentProcessor");
+	}
+
 	/**
 	 * Section 5.6 - Programmatic lookup
 	 * @throws CoreException 

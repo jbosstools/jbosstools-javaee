@@ -21,11 +21,14 @@ import static org.jboss.jsr299.tck.tests.jbt.lookup.PayBy.PaymentMethod.CHEQUE;
 import javax.enterprise.inject.Any;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
+import javax.inject.Provider;
 
 class ObtainsInstanceBean {
    @Inject @PayBy(CHEQUE) Instance<AsynchronousPaymentProcessor> paymentProcessor;
+   @Inject @PayBy(CHEQUE) Provider<AsynchronousPaymentProcessor> paymentProcessor2;
 
    @Inject @Any Instance<PaymentProcessor> anyPaymentProcessor;
+   @Inject @Any Provider<PaymentProcessor> anyPaymentProcessor2;
 
    @Inject @Any PaymentProcessor anyPaymentProcessorBroken;
 
