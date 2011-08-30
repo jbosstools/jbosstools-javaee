@@ -44,11 +44,9 @@ import org.jboss.tools.cdi.internal.core.impl.CDIProject;
 import org.jboss.tools.cdi.internal.core.validation.CDIValidationErrorManager;
 import org.jboss.tools.cdi.ui.CDIUIPlugin;
 import org.jboss.tools.common.EclipseUtil;
-import org.jboss.tools.common.java.IAnnotated;
 import org.jboss.tools.common.java.IAnnotationDeclaration;
 import org.jboss.tools.common.model.util.EclipseJavaUtil;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
-import org.jboss.tools.common.text.ITextSourceReference;
 
 /**
  * @author Daniel Azarov
@@ -93,6 +91,8 @@ public class CDIProblemMarkerResolutionGenerator implements
 		if (attribute == null)
 			return new IMarkerResolution[] {};
 		final int start = attribute.intValue();
+		
+		ICDIMarkerResolutionGeneratorExtension[] extensions = CDIQuickFixExtensionManager.getInstances();
 
 		if (JAVA_EXTENSION.equals(file.getFileExtension())) {
 			if (messageId == CDIValidationErrorManager.ILLEGAL_PRODUCER_FIELD_IN_SESSION_BEAN_ID) {
@@ -135,39 +135,41 @@ public class CDIProblemMarkerResolutionGenerator implements
 							new DeleteAllInjectedConstructorsMarkerResolution(method, file)
 						};
 				}
-			}else if(messageId == CDIValidationErrorManager.AMBIGUOUS_INJECTION_POINTS_ID){
+			}else if(messageId == CDIValidationErrorManager.AMBIGUOUS_INJECTION_POINTS_ID ||
+					messageId == CDIValidationErrorManager.UNSATISFIED_INJECTION_POINTS_ID){
+				
+				List<IMarkerResolution> resolutions = new ArrayList<IMarkerResolution>();
+				
 				IInjectionPoint injectionPoint = findInjectionPoint(file, start);
 				if(injectionPoint != null){
-					List<IBean> beans = findBeans(injectionPoint);
-					if(beans.size() < MARKER_RESULUTION_NUMBER_LIMIT){
-						IMarkerResolution[] resolutions = new IMarkerResolution[beans.size()];
-						for(int i = 0; i < beans.size(); i++){
-							resolutions[i] = new MakeInjectedPointUnambiguousMarkerResolution(injectionPoint, beans, i);
-						}
-						return resolutions;
+					List<IBean> beans;
+					if(messageId == CDIValidationErrorManager.AMBIGUOUS_INJECTION_POINTS_ID){
+						beans = findBeans(injectionPoint);
 					}else{
-						IMarkerResolution[] resolutions = new IMarkerResolution[1];
-						resolutions[0] = new SelectBeanMarkerResolution(injectionPoint, beans);
-						return resolutions;
+						beans = findLegalBeans(injectionPoint);
 					}
-				}
-			}else if(messageId == CDIValidationErrorManager.UNSATISFIED_INJECTION_POINTS_ID){
-				IInjectionPoint injectionPoint = findInjectionPoint(file, start);
-				if(injectionPoint != null){
 					
-					List<IBean> beans = findLegalBeans(injectionPoint);
-			    	if(beans.size() < MARKER_RESULUTION_NUMBER_LIMIT){
-						IMarkerResolution[] resolutions = new IMarkerResolution[beans.size()];
-						for(int i = 0; i < beans.size(); i++){
-							resolutions[i] = new MakeInjectedPointUnambiguousMarkerResolution(injectionPoint, beans, i);
+					for(int i = beans.size()-1; i >= 0; i--){
+						IBean bean = beans.get(i);
+						for(ICDIMarkerResolutionGeneratorExtension extension : extensions){
+							if(extension.shouldBeExtended(messageId, bean)){
+								List<IMarkerResolution> addings = extension.getResolutions(messageId, bean);
+								resolutions.addAll(addings);
+								beans.remove(bean);
+								break;
+							}
 						}
-						return resolutions;
+					}
+					
+					if(beans.size() < MARKER_RESULUTION_NUMBER_LIMIT){
+						for(int i = 0; i < beans.size(); i++){
+							resolutions.add(new MakeInjectedPointUnambiguousMarkerResolution(injectionPoint, beans, i));
+						}
 					}else{
-						IMarkerResolution[] resolutions = new IMarkerResolution[1];
-						resolutions[0] = new SelectBeanMarkerResolution(injectionPoint, beans);
-						return resolutions;
+						resolutions.add(new SelectBeanMarkerResolution(injectionPoint, beans));
 					}
 				}
+				return resolutions.toArray(new IMarkerResolution[]{});
 			}else if(messageId == CDIValidationErrorManager.NOT_PASSIVATION_CAPABLE_BEAN_ID){
 				IType type = findTypeWithNoSerializable(file, start);
 				

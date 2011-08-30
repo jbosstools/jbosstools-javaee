@@ -2,6 +2,7 @@
 <?eclipse version="3.2"?>
 <plugin>
    <extension-point id="configBlockDescriptionProvider" name="Config Block Description Provider" schema="schema/configBlockDescriptionProvider.exsd"/>
+   <extension-point id="quickFixExtension" name="Quick Fix Extension" schema="schema/quickFixExtension.exsd"/>
  
    <extension
          point="org.eclipse.ui.propertyPages">
