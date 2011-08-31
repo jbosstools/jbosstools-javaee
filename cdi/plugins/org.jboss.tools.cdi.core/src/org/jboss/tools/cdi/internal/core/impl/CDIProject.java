@@ -1055,9 +1055,6 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		}
 	}
 	
-	static long q = 0;
-	static long time = 0;
-
 	void rebuildBeans() {
 		List<TypeDefinition> typeDefinitions = n.getAllTypeDefinitions();
 		List<IBean> beans = new ArrayList<IBean>();
