@@ -297,7 +297,7 @@ public class CDIProject implements ICDIProject{
 	}
 
 	@Override
-	public void update() {
+	public void update(boolean updateDependent) {
 	}
 
 }
