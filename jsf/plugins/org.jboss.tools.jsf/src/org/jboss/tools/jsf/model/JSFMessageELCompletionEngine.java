@@ -349,6 +349,7 @@ public class JSFMessageELCompletionEngine extends AbstractELCompletionEngine<IVa
 				if(!isFinal || onlyEqualNames) {
 					if(!name.equals(varName)) continue;
 				}
+				if(!name.startsWith(varName)) continue;
 				Variable v = new Variable(name, basename, file);
 				result.add(v);
 			}
