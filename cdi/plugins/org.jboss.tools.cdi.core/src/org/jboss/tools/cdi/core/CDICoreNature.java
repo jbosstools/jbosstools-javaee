@@ -13,9 +13,12 @@ package org.jboss.tools.cdi.core;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.core.resources.ICommand;
@@ -178,7 +181,7 @@ public class CDICoreNature implements IProjectNature {
 
 	public List<AnnotationDefinition> getAllAnnotations() {
 		Set<CDICoreNature> ps = getCDIProjects(false);
-		if(ps == null || ps.isEmpty()) {
+		if(ps == null || ps.isEmpty() || getCDIProjects(true).contains(this)) {
 			return getDefinitions().getAllAnnotations();
 		}
 		List<AnnotationDefinition> result = new ArrayList<AnnotationDefinition>();
@@ -236,6 +239,35 @@ public class CDICoreNature implements IProjectNature {
 		return usedBy;
 	}
 
+	public CDICoreNature[] getAllDependentProjects() {
+		Map<CDICoreNature, Integer> set = new HashMap<CDICoreNature, Integer>();
+		getAllDependentProjects(set, 0);
+		CDICoreNature[] result = set.keySet().toArray(new CDICoreNature[set.size()]);
+		Arrays.sort(result, new D(set));
+		return result;
+	}
+	private void getAllDependentProjects(Map<CDICoreNature, Integer> result, int level) {
+		if(level > 10) return;
+		for (CDICoreNature n:usedBy) {
+			if(!result.containsKey(n) || result.get(n).intValue() < level) {
+				result.put(n, level);
+				n.getAllDependentProjects(result, level + 1);
+			}
+		}
+	}
+	private static class D implements Comparator<CDICoreNature> {
+		Map<CDICoreNature, Integer> set;
+		D(Map<CDICoreNature, Integer> set) {
+			this.set = set;
+		}
+		@Override
+		public int compare(CDICoreNature o1, CDICoreNature o2) {
+			return set.get(o1).intValue() - set.get(o2).intValue();
+		}
+		
+	}
+
+
 	public void addCDIProject(final CDICoreNature p) {
 		if(dependsOn.contains(p)) return;
 		addUsedCDIProject(p);
@@ -246,7 +278,7 @@ public class CDICoreNature implements IProjectNature {
 				public void run() {
 					p.resolve();
 					if(p.getDelegate() != null) {
-						p.getDelegate().update();
+						p.getDelegate().update(true);
 					}
 				}
 				
@@ -361,7 +393,7 @@ public class CDICoreNature implements IProjectNature {
 
 		definitions.clean();
 		if(cdiProjectDelegate != null) {
-			cdiProjectDelegate.update();
+			cdiProjectDelegate.update(true);
 		}
 //		IPath[] ps = sourcePaths2.keySet().toArray(new IPath[0]);
 //		for (int i = 0; i < ps.length; i++) {

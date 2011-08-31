@@ -380,7 +380,7 @@ public class DefinitionContext implements IRootDefinitionContext {
 		//extensions may add to dependencies while they change
 		dependencies = workingCopy.dependencies;
 
-		project.getDelegate().update();
+		project.getDelegate().update(true);
 
 		workingCopy = null;
 	}
@@ -414,9 +414,15 @@ public class DefinitionContext implements IRootDefinitionContext {
 				|| (result.getType().getResource() != null && result.getType().getResource().getProject() != project.getProject())
 				) {
 			//3. Look in annotations loaded by used projects
-			Set<CDICoreNature> ns = project.getCDIProjects(true);
+			Set<CDICoreNature> ns = project.getCDIProjects(false);
+			Set<CDICoreNature> ns2 = project.getCDIProjects(true);
+			boolean cyclic = ns2.contains(project);
+			if(cyclic) {
+				ns = ns2;
+			}
 			for (CDICoreNature n: ns) {
-				AnnotationDefinition r = n.getDefinitions().getAnnotation(fullyQualifiedName);
+				DefinitionContext d = n.getDefinitions();
+				AnnotationDefinition r = (!cyclic) ? d.getAnnotation(fullyQualifiedName) : d.annotations.get(fullyQualifiedName);
 				if(r != null) {
 					result = r;
 					//4. Store result for the case if used project is cleaned.

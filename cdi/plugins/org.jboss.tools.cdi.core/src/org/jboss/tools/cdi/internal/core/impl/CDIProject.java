@@ -973,7 +973,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		return scopesByPath.get(path);
 	}
 
-	public void update() {
+	public void update(boolean updateDependent) {
 		rebuildXML();
 		rebuildAnnotationTypes();
 		rebuildBeans();
@@ -988,13 +988,15 @@ public class CDIProject extends CDIElement implements ICDIProject {
 				bp.buildBeans(this);
 			}
 		}
-		
-		CDICoreNature[] ps = n.getDependentProjects().toArray(new CDICoreNature[0]);
-		for (CDICoreNature p: ps) {
-			if(p.getProject() != null && p.getProject().isAccessible() && p.getDelegate() != null) {
-				p.getDelegate().update();
+
+		if(updateDependent) {
+			CDICoreNature[] ps = n.getAllDependentProjects();
+			for (CDICoreNature p: ps) {
+				if(p.getProject() != null && p.getProject().isAccessible() && p.getDelegate() != null) {
+					p.getDelegate().update(false);
+				}
 			}
-		}	
+		}
 		CDICorePlugin.fire(new CDIProjectChangeEvent(this));
 	}
 
