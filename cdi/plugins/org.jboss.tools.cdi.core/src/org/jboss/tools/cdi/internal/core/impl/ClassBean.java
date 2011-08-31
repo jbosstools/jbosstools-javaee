@@ -585,4 +585,9 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 	public IMember getSourceMember() {
 		return getBeanClass();
 	}
+
+	public void cleanCache() {
+		specializingClassBeans.clear();
+		scope = null;
+	}
 }
