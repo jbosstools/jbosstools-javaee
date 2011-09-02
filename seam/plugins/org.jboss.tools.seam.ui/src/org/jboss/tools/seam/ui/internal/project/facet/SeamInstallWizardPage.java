@@ -109,6 +109,8 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 			SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_EAR_PROJECT_NAME,
 			""); //$NON-NLS-1$
 	
+	private IFieldEditor libraryListEditor;
+	
 	private IFieldEditor jBossAsDeployAsEditor = IFieldEditorFactory.INSTANCE
 			.createRadioEditor(
 					ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS,
@@ -311,7 +313,9 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 				SeamProjectPreferences.JBOSS_AS_DEFAULT_DEPLOY_AS,
 				this.jBossAsDeployAsEditor.getValueAsString());
 		
-		model.setBooleanProperty(ISeamFacetDataModelProperties.SEAM_RUNTIME_LIBRARIES_COPYING, isNewProjectWizard());
+		model.setBooleanProperty(ISeamFacetDataModelProperties.SEAM_TEMPLATES_AND_LIBRARIES_COPYING, isNewProjectWizard());
+		
+		model.setBooleanProperty(ISeamFacetDataModelProperties.SEAM_RUNTIME_LIBRARIES_COPYING, libraryListEditor.getValueAsString().equals(SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_COPY_LIBRARIES) && isNewProjectWizard());
 	}
 	
 	/*
@@ -411,6 +415,18 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 		registerEditor(earProjectNameditor, generalGroup, 3);
 		earProjectNameditor.setEnabled(getDeployAsDefaultValue().equals(ISeamFacetDataModelProperties.DEPLOY_AS_EAR));
 		
+		List<String> providers = new ArrayList<String>();
+		providers.add(SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_COPY_LIBRARIES);
+		providers.add(SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_CONFIGURE_LATER);
+		
+		libraryListEditor = IFieldEditorFactory.INSTANCE.createComboEditor(
+				ISeamFacetDataModelProperties.SEAM_LIBRARY_PROVIDER,
+				SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_LIBRARIES,
+				providers,
+				providers.get(0));
+		
+		registerEditor(libraryListEditor, generalGroup, 3);
+		
 		jBossAsDeployAsEditor.addPropertyChangeListener(new PropertyChangeListener(){
 			public void propertyChange(PropertyChangeEvent arg0) {
 				Boolean value = jBossAsDeployAsEditor.getValue() == ISeamFacetDataModelProperties.DEPLOY_AS_EAR;
@@ -509,8 +525,6 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 					new ProjectNamesDuplicationValidator(
 							ISeamFacetDataModelProperties.SEAM_TEST_PROJECT));
 		}
-
-		
 
 		Dialog.applyDialogFont(parent);
 		initDefaultWizardProperties();

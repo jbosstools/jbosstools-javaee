@@ -399,7 +399,7 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 	protected void copyFilesToWarProject(IProject project, IProjectFacetVersion fv,
 			IDataModel model, IProgressMonitor monitor) throws CoreException {
 		
-		if(!shouldCopySeamRuntimeLibraries(model))
+		if(!shouldCopyLibrariesAndTemplates(model))
 			return;
 
 		final AntCopyUtils.FileSet viewFileSet = new AntCopyUtils.FileSet(VIEW_FILESET).dir(seamGenViewSource);
@@ -567,7 +567,7 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 		FilterSet earFilterSet =  new FilterSet();
 		earFilterSet.addFilter("projectName", project.getName() + ".ear"); //$NON-NLS-1$ //$NON-NLS-2$
 
-		if(shouldCopySeamRuntimeLibraries(model)){
+		if(shouldCopyLibrariesAndTemplates(model)){
 			AntCopyUtils.copyFileToFolder(
 				new File(seamGenResFolder, "META-INF/jboss-app.xml"), //$NON-NLS-1$
 				metaInfFolder, new FilterSetCollection(earFilterSet), false);
@@ -577,7 +577,7 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 			configureApplicationXml(project, monitor);
 		}
 		
-		if(shouldCopySeamRuntimeLibraries(model)){
+		if(shouldCopyLibrariesAndTemplates(model)){
 			// Copy configuration files from template
 			try {
 				AntCopyUtils.copyFilesAndFolders(
@@ -590,7 +590,7 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 
 		fillEarContents(project, model);
 
-		if(shouldCopySeamRuntimeLibraries(model)){
+		if(shouldCopyLibrariesAndTemplates(model)){
 			File resources = new File(earProjectFolder, "resources"); //$NON-NLS-1$
 			AntCopyUtils.copyFileToFile(
 				dataSourceDsFile, new File(resources, project.getName() + "-ds.xml"),  //$NON-NLS-1$
@@ -683,7 +683,7 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 			viewFilterSetCollection.addFilterSet(projectFilterSet);
 
 			File srcFile = src.getLocation().toFile();
-			if(shouldCopySeamRuntimeLibraries(model)){
+			if(shouldCopyLibrariesAndTemplates(model)){
 				// Copy sources to EJB project in case of EAR configuration
 				AntCopyUtils.copyFileToFile(
 					new File(seamGenHomeFolder, "src/Authenticator.java"), //$NON-NLS-1$
@@ -692,7 +692,7 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 			}
 
 			File persistentXml = new File(srcFile, "META-INF/persistence.xml"); //$NON-NLS-1$
-			if(!persistentXml.exists() && shouldCopySeamRuntimeLibraries(model)) {
+			if(!persistentXml.exists() && shouldCopyLibrariesAndTemplates(model)) {
 				AntCopyUtils.copyFileToFile(persistenceFile, new File(srcFile, "META-INF/persistence.xml"), //$NON-NLS-1$
 						viewFilterSetCollection, false);
 			} else {
@@ -705,12 +705,12 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 			}
 
 			AntCopyUtils.FileSet ejbSrcResourcesSet = new AntCopyUtils.FileSet(JBOOS_EJB_WEB_INF_CLASSES_SET).dir(seamGenResFolder);
-			if(shouldCopySeamRuntimeLibraries(model)){
+			if(shouldCopyLibrariesAndTemplates(model)){
 				AntCopyUtils.copyFilesAndFolders(seamGenResFolder, srcFile, new AntCopyUtils.FileSetFileFilter(ejbSrcResourcesSet), viewFilterSetCollection, false);
 			}
 
 			File ejbJarXml = new File(srcFile, "META-INF/ejb-jar.xml"); //$NON-NLS-1$
-			if(!ejbJarXml.exists() && shouldCopySeamRuntimeLibraries(model)) {
+			if(!ejbJarXml.exists() && shouldCopyLibrariesAndTemplates(model)) {
 				AntCopyUtils.copyFileToFolder(new File(seamGenResFolder, "META-INF/ejb-jar.xml"), //$NON-NLS-1$
 					new File(srcFile, "META-INF"), viewFilterSetCollection, false); //$NON-NLS-1$
 			} else {
@@ -718,7 +718,7 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 			}
 		}
 
-		if(shouldCopySeamRuntimeLibraries(model)){
+		if(shouldCopyLibrariesAndTemplates(model)){
 			AntCopyUtils.copyFileToFile(
 					hibernateConsoleLaunchFile,
 					new File(ejbProjectFolder, getLaunchCfgName(ejbProjectFolder.getName()) + ".launch"), //$NON-NLS-1$
@@ -1305,7 +1305,11 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 	
 	protected abstract SeamProjectCreator getProjectCreator(IDataModel model, IProject project);
 	
-	protected boolean shouldCopySeamRuntimeLibraries(IDataModel model){
+	protected boolean shouldCopyLibrariesAndTemplates(IDataModel model){
+		return model.getBooleanProperty(ISeamFacetDataModelProperties.SEAM_TEMPLATES_AND_LIBRARIES_COPYING);
+	}
+
+	protected boolean shouldCopyLibraries(IDataModel model){
 		return model.getBooleanProperty(ISeamFacetDataModelProperties.SEAM_RUNTIME_LIBRARIES_COPYING);
 	}
 }

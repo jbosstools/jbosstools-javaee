@@ -418,7 +418,9 @@ public class SeamProjectWizard extends WebProjectWizard {
 				String[] driverJars = (String[]) model.getProperty(ISeamFacetDataModelProperties.JDBC_DRIVER_JAR_PATH);
 				if(driverJars!=null) {
 					String configFolder = jbs.getConfigDirectory();
-					AntCopyUtils.copyFiles(driverJars, new File(configFolder, "lib"), false);
+					if(model.getStringProperty(ISeamFacetDataModelProperties.SEAM_LIBRARY_PROVIDER).equals(SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_COPY_LIBRARIES)){
+						AntCopyUtils.copyFiles(driverJars, new File(configFolder, "lib"), false);
+					}
 				}
 			} 
 			
@@ -433,7 +435,7 @@ public class SeamProjectWizard extends WebProjectWizard {
 			dsJob.schedule();
 		}
 	}
-
+    
     private void provideClassPath(List<IProject> projects, IProject ejbProject) throws CoreException {
     	if(ejbProject == null) return;
 		int k = 0;

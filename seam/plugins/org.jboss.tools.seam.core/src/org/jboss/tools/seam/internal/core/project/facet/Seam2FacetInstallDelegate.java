@@ -113,7 +113,7 @@ public class Seam2FacetInstallDelegate extends SeamFacetAbstractInstallDelegate{
 			IDataModel model, IProgressMonitor monitor) throws CoreException {
 		super.doExecuteForEjb(project, fv, model, monitor);
 		IResource src = getSrcFolder(project);
-		if(src!=null && seamHomeFolder!=null && shouldCopySeamRuntimeLibraries(model)) {
+		if(src!=null && seamHomeFolder!=null && shouldCopyLibrariesAndTemplates(model)) {
 			File srcFile = src.getLocation().toFile();
 			AntCopyUtils.copyFileToFolder(new File(seamGenResFolder, "security.drl"), srcFile, false); //$NON-NLS-1$
 		}
@@ -126,24 +126,24 @@ public class Seam2FacetInstallDelegate extends SeamFacetAbstractInstallDelegate{
 	@Override
 	protected void copyFilesToWarProject(final IProject project, IProjectFacetVersion fv,
 			IDataModel model, IProgressMonitor monitor) throws CoreException {
-		if(!shouldCopySeamRuntimeLibraries(model))
+		if(!shouldCopyLibrariesAndTemplates(model))
 			return;
 		
 		super.copyFilesToWarProject(project, fv, model, monitor);
 		final File droolsLibFolder = new File(seamHomePath, DROOLS_LIB_SEAM_RELATED_PATH);
 		if(isWarConfiguration(model)) {
-			if (!SeamCorePlugin.getDefault().hasM2Facet(project)) {
+			if (!SeamCorePlugin.getDefault().hasM2Facet(project) && shouldCopyLibraries(model)) {
 				AntCopyUtils.copyFiles(seamHomeFolder, webLibFolder, new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(JBOSS_WAR_LIB_FILESET_WAR_CONFIG).dir(seamHomeFolder)));
 				AntCopyUtils.copyFiles(seamLibFolder, webLibFolder, new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(JBOSS_WAR_LIB_FILESET_WAR_CONFIG).dir(seamLibFolder)));
 			}
 			final IContainer source = warActionSrcRootFolder.getUnderlyingFolder();
 			File actionsSrc = new File(project.getLocation().toFile(), source.getFullPath().removeFirstSegments(1).toString());
 			AntCopyUtils.copyFileToFolder(new File(seamGenResFolder, "seam.properties"), actionsSrc, true); //$NON-NLS-1$
-			if (!SeamCorePlugin.getDefault().hasM2Facet(project)) {
+			if (!SeamCorePlugin.getDefault().hasM2Facet(project) && shouldCopyLibraries(model)) {
 				AntCopyUtils.copyFiles(droolsLibFolder, webLibFolder, new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(JBOSS_WAR_LIB_FILESET_WAR_CONFIG).dir(droolsLibFolder)));
 			}
 		} else {
-			if (!SeamCorePlugin.getDefault().hasM2Facet(project)) {
+			if (!SeamCorePlugin.getDefault().hasM2Facet(project) && shouldCopyLibraries(model)) {
 				AntCopyUtils.copyFiles(seamHomeFolder, webLibFolder, new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(JBOSS_WAR_LIB_FILESET_EAR_CONFIG).dir(seamHomeFolder)));
 				AntCopyUtils.copyFiles(seamLibFolder, webLibFolder, new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(JBOSS_WAR_LIB_FILESET_EAR_CONFIG).dir(seamLibFolder)));
 				AntCopyUtils.copyFiles(droolsLibFolder, webLibFolder, new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(JBOSS_WAR_LIB_FILESET_EAR_CONFIG).dir(droolsLibFolder)));
@@ -157,15 +157,17 @@ public class Seam2FacetInstallDelegate extends SeamFacetAbstractInstallDelegate{
 	 */
 	@Override
 	protected void fillEarContents(IProject project, IDataModel model) {
-		if(!shouldCopySeamRuntimeLibraries(model))
+		if(!shouldCopyLibrariesAndTemplates(model))
 			return;
 		
 		if (!SeamCorePlugin.getDefault().hasM2Facet(project)) {
 			final File droolsLibFolder = new File(seamHomePath, DROOLS_LIB_SEAM_RELATED_PATH);
 			AntCopyUtils.copyFiles(seamHomeFolder, earContentsFolder, new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(JBOSS_EAR_CONTENT).dir(seamHomeFolder)), false);
-			AntCopyUtils.copyFiles(seamLibFolder, earContentsFolder, new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(JBOSS_EAR_CONTENT).dir(seamLibFolder)), false);
-			AntCopyUtils.copyFiles(seamLibFolder, earLibFolder, new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(JBOSS_EAR_LIB).dir(seamLibFolder)), false);
-			AntCopyUtils.copyFiles(droolsLibFolder, earContentsFolder, new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(JBOSS_EAR_CONTENT).dir(droolsLibFolder)), false);
+			if(shouldCopyLibraries(model)){
+				AntCopyUtils.copyFiles(seamLibFolder, earContentsFolder, new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(JBOSS_EAR_CONTENT).dir(seamLibFolder)), false);
+				AntCopyUtils.copyFiles(seamLibFolder, earLibFolder, new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(JBOSS_EAR_LIB).dir(seamLibFolder)), false);
+				AntCopyUtils.copyFiles(droolsLibFolder, earContentsFolder, new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(JBOSS_EAR_CONTENT).dir(droolsLibFolder)), false);
+			}
 			AntCopyUtils.copyFiles(seamGenResFolder, earContentsFolder, new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(JBOSS_EAR_CONTENT).dir(seamGenResFolder)), false);
 		}
 	}

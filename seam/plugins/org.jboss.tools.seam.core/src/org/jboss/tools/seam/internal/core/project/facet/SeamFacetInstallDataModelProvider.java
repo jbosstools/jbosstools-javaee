@@ -93,6 +93,8 @@ public class SeamFacetInstallDataModelProvider extends
 		names.add(CONFIGURE_DEFAULT_SEAM_RUNTIME);
 		names.add(CONFIGURE_WAR_PROJECT);
 		names.add(ISeamFacetDataModelProperties.SEAM_RUNTIME_LIBRARIES_COPYING);
+		names.add(ISeamFacetDataModelProperties.SEAM_TEMPLATES_AND_LIBRARIES_COPYING);
+		names.add(ISeamFacetDataModelProperties.SEAM_LIBRARY_PROVIDER);
 		
 		return names;
 	}
@@ -133,6 +135,10 @@ public class SeamFacetInstallDataModelProvider extends
 			return Boolean.TRUE;
 		} else if (SEAM_RUNTIME_LIBRARIES_COPYING.equals(propertyName)) {
 			return Boolean.TRUE;
+		} else if (SEAM_TEMPLATES_AND_LIBRARIES_COPYING.equals(propertyName)) {
+			return Boolean.TRUE;
+		} else if (SEAM_LIBRARY_PROVIDER.equals(propertyName)) {
+			return null;
 		}
 		return super.getDefaultProperty(propertyName);
 	}

@@ -90,7 +90,7 @@ public class Seam2ProjectCreator extends SeamProjectCreator {
 	@Override
 	protected void createEarProject() {
 		super.createEarProject();
-		if (!SeamCorePlugin.getDefault().hasM2Facet(seamWebProject) && shouldCopySeamRuntimeLibraries(model)) {
+		if (!SeamCorePlugin.getDefault().hasM2Facet(seamWebProject) && shouldCopyLibrariesAndTemplates(model) && shouldCopyLibraries(model)) {
 			File earContentsFolder = new File(earProjectFolder, "EarContent"); //$NON-NLS-1$
 			File earLibFolder = new File(earContentsFolder, "lib"); //$NON-NLS-1$
 			AntCopyUtils.copyFiles(seamLibFolder, earLibFolder, new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(Seam2FacetInstallDelegate.JBOSS_EAR_LIB).dir(seamLibFolder)));
@@ -99,7 +99,7 @@ public class Seam2ProjectCreator extends SeamProjectCreator {
 
 	@Override
 	protected boolean createTestProject() {
-		if(!(Boolean)model.getProperty(ISeamFacetDataModelProperties.TEST_PROJECT_CREATING) || !shouldCopySeamRuntimeLibraries(model))
+		if(!(Boolean)model.getProperty(ISeamFacetDataModelProperties.TEST_PROJECT_CREATING) || !shouldCopyLibrariesAndTemplates(model))
 			return false;
 		
 		File testProjectDir = new File(seamWebProject.getLocation().removeLastSegments(1).toFile(), testProjectName); //$NON-NLS-1$
@@ -228,7 +228,7 @@ public class Seam2ProjectCreator extends SeamProjectCreator {
 			}
 		}
 
-		if (!SeamCorePlugin.getDefault().hasM2Facet(seamWebProject)) {
+		if (!SeamCorePlugin.getDefault().hasM2Facet(seamWebProject) && shouldCopyLibraries(model)) {
 			AntCopyUtils.copyFiles(new File(seamRuntime.getHomeDir(), "lib"), //$NON-NLS-1$
 							testLibDir, new AntCopyUtils.FileSetFileFilter(includeLibs));
 
@@ -245,7 +245,7 @@ public class Seam2ProjectCreator extends SeamProjectCreator {
 	protected void createEjbProject() {
 		super.createEjbProject();
 		// Copy security.drl to source folder
-		if(shouldCopySeamRuntimeLibraries(model))
+		if(shouldCopyLibrariesAndTemplates(model))
 			AntCopyUtils.copyFileToFolder(new File(seamGenResFolder, "security.drl"), new File(ejbProjectFolder, "ejbModule/"), true); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 

@@ -311,4 +311,13 @@ public interface ISeamFacetDataModelProperties extends IActionConfigFactory {
 	 * Can be "true" or "false".
 	 */
 	String SEAM_RUNTIME_LIBRARIES_COPYING = "seam.runtime.libraries.copying"; //$NON-NLS-1$
+	
+	/**
+	 * This flag indicates that we should copy Seam templates and libraries from Seam Runtime to projects.
+	 * Can be "true" or "false".
+	 */
+	String SEAM_TEMPLATES_AND_LIBRARIES_COPYING = "seam.templates.copying"; //$NON-NLS-1$
+
+	String SEAM_LIBRARY_PROVIDER = "seam.runtime.library.provider"; //$NON-NLS-1$
+	
 }
