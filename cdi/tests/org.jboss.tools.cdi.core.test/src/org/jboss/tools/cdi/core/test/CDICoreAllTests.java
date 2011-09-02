@@ -38,6 +38,7 @@ import org.jboss.tools.cdi.core.test.tck.ObserverMethodResolutionTest;
 import org.jboss.tools.cdi.core.test.tck.ProducerMethodDefinitionTest;
 import org.jboss.tools.cdi.core.test.tck.QualifierDefinitionTest;
 import org.jboss.tools.cdi.core.test.tck.QualifierWithMembersTest;
+import org.jboss.tools.cdi.core.test.tck.ResolvedTypesCacheTest;
 import org.jboss.tools.cdi.core.test.tck.ScopeDefinitionTest;
 import org.jboss.tools.cdi.core.test.tck.SelectedAlternativeTest;
 import org.jboss.tools.cdi.core.test.tck.StereotypeDefinitionTest;
@@ -104,6 +105,7 @@ public class CDICoreAllTests {
 		suite.addTestSuite(DynamicLookupTest.class);
 		suite.addTestSuite(AmbiguousDependencyTest.class);
 		suite.addTestSuite(UnsatisfiedDependencyTest.class);
+		suite.addTestSuite(ResolvedTypesCacheTest.class);
 
 		// Validation tests
 		suite.addTestSuite(DefenitionErrorsValidationTest.class);
