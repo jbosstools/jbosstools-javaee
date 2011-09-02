@@ -97,6 +97,9 @@ public class CDIProject extends CDIElement implements ICDIProject {
 	private Set<IDecorator> decorators = new HashSet<IDecorator>();
 	private Set<IInterceptor> interceptors = new HashSet<IInterceptor>();
 
+	private Set<IType> allTypes = new HashSet<IType>();
+	private Map<TypeDefinition, ClassBean> definitionToClassbeans = new HashMap<TypeDefinition, ClassBean>();
+
 	private Map<String, Set<IInjectionPoint>> injectionPointsByType = new HashMap<String, Set<IInjectionPoint>>();
 
 	BeansXMLData allBeansXMLData = new BeansXMLData();
@@ -1058,17 +1061,22 @@ public class CDIProject extends CDIElement implements ICDIProject {
 	void rebuildBeans() {
 		List<TypeDefinition> typeDefinitions = n.getAllTypeDefinitions();
 		List<IBean> beans = new ArrayList<IBean>();
+
+		Set<IType> newAllTypes = new HashSet<IType>();
+		for (TypeDefinition d: typeDefinitions) {
+			newAllTypes.add(d.getType());
+		}
+		Map<TypeDefinition, ClassBean> newDefinitionToClassbeans = new HashMap<TypeDefinition, ClassBean>();
 		Map<IType, IClassBean> newClassBeans = new HashMap<IType, IClassBean>();
+		
+		int updateLevel = getUpdateLevel(newAllTypes);
 	
 		ImplementationCollector ic = new ImplementationCollector(typeDefinitions);
 
 		for (TypeDefinition typeDefinition : typeDefinitions) {
-			if(typeDefinition.isVetoed()) {
-				continue;
-			}
-
-			ClassBean bean = (ClassBean)classBeans.get(typeDefinition.getType());
-			if(bean != null && (bean.getDefinition() == typeDefinition)) {
+			ClassBean bean = definitionToClassbeans.get(typeDefinition);
+			if(bean != null && (bean.getDefinition() == typeDefinition)
+				&& (updateLevel == 0 || (updateLevel == 1 && typeDefinition.getType().isBinary()))) {
 				//Type definitions are rebuilt when changed, otherwise old bean should be reused.
 				bean.cleanCache();
 			} else {
@@ -1084,15 +1092,19 @@ public class CDIProject extends CDIElement implements ICDIProject {
 				bean.setParent(this);
 				bean.setDefinition(typeDefinition);
 			}
+			
+			newDefinitionToClassbeans.put(typeDefinition, bean);
 
-			if(typeDefinition.hasBeanConstructor()) {
-				beans.add(bean);
-				newClassBeans.put(typeDefinition.getType(), bean);
-			}
+			if(!typeDefinition.isVetoed()) {
+				if(typeDefinition.hasBeanConstructor()) {
+					beans.add(bean);
+					newClassBeans.put(typeDefinition.getType(), bean);
+				}
 
-			Set<IProducer> ps = bean.getProducers();
-			for (IProducer producer: ps) {
-				beans.add(producer);
+				Set<IProducer> ps = bean.getProducers();
+				for (IProducer producer: ps) {
+					beans.add(producer);
+				}
 			}
 		}
 	
@@ -1128,12 +1140,50 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		}
 
 		classBeans = newClassBeans;
+		definitionToClassbeans = newDefinitionToClassbeans;
+		allTypes = newAllTypes;
 		for (IBean bean: beans) {
 			addBean(bean);
 		}
 	
 		buildInjectionPoinsByType();
 
+	}
+
+	/**
+	 * Compares sets this.allTypes and newAllTypes
+	 * Returns 
+	 *     0 if sets are identical,
+	 *         all beans may be reused;
+	 *     2 if some binary type is present in exactly one of two sets
+	 *         no bean may be reused;
+	 *     1 otherwize (if some non-binary types present in exactly one of two sets)
+	 *         only beans based binary types may be reused.
+	 *     Note that bean will be reused, if its type definition object is not modified.
+	 * @param newAllTypes
+	 * @return
+	 */
+	private int getUpdateLevel(Set<IType> newAllTypes) {
+		int result = 0;
+		for (IType t: allTypes) {
+			if(!t.exists() || !newAllTypes.contains(t)) {
+				if(t.isBinary()) {
+					return 2;
+				} else {
+					result = 1;
+				}
+			}
+		}
+		for (IType t: newAllTypes) {
+			if(!allTypes.contains(t)) {
+				if(t.isBinary()) {
+					return 2;
+				} else {
+					result = 1;
+				}
+			}
+		}
+		return result;
 	}
 
 	public void addBean(IBean bean) {
