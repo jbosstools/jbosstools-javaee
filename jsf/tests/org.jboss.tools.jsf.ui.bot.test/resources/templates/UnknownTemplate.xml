@@ -1,23 +1,22 @@
-<BODY id="__content__area__">
-<DIV style="-moz-user-modify: read-write;">
-<DIV style="display: none; -moz-user-modify: read-only;" title="head">
+<BODY id="__content__area__" >
+<DIV >
+<DIV style="display: none; -moz-user-modify: read-only;" title="head" >
 </DIV>
-<DIV title="body">
-<TABLE style="border: 1px dotted rgb(255, 102, 0); padding: 5px; width: 100%;" title="f:view">
-<TR title="f:view">
-<TD title="f:view">
-<DIV title="f:view">
-<H1 style="-moz-user-modify: read-write;" title="h1">
-<SPAN class="vpe-text" title="h:outputText
-value: #{Message.header}">
-Hello Demo Application
+<DIV title="body" >
+<TABLE style="width: 100%; border: 1px dotted rgb(255, 102, 0); padding: 5px;" title="f:view" >
+<TR title="f:view" >
+<TD title="f:view" >
+<DIV title="f:view" >
+<H1 style="-moz-user-modify: read-write;" title="h1" >
+<SPAN class="vpe-text" title="h:outputText value: #{Message.header}" >
+ Hello Demo Application
 </SPAN>
 </H1>
-<DIV style="border: 1px solid green; -moz-user-modify: read-only;" title="h:unknowntag" >
+<DIV style="-moz-user-modify: read-only; border: 1px solid green;" title="h:unknowntag" >
 <DIV class="__any__tag__caption" style="" title="h:unknowntag" >
 h:unknowntag
 </DIV>
-<BR vpe:pseudo-element="yes" style="font-style: italic; color: green; -moz-user-modify: read-only;" >
+<BR style="font-style: italic; color: green; -moz-user-modify: read-only;" >
 </BR>
 </DIV>
 <UL style="color: red; -moz-user-modify: read-only;" title="h:messages style: color: red" >
@@ -44,6 +43,6 @@ Name:
 </TABLE>
 </DIV>
 </DIV>
-<IMG vpetemporarydndelement="true" id="dragIcon" src="file:////opt/jbdevstudio4.0.0.Beta2/studio/eclipse/plugins/org.jboss.tools.vpe_3.2.0.v201012050623R-H30-Beta2/ve/dragIcon.gif" style="position: absolute; cursor: move; left: 16px ! important; top: 17px ! important;" >
+<IMG vpetemporarydndelement="true" id="dragIcon" src="file:////opt/jbdevstudio5.0.0.M3/studio/plugins/org.jboss.tools.vpe_3.3.0.v20110901-0136-H11-M3/ve/dragIcon.gif" style="position: absolute; cursor: move; left: 16px ! important; top: 17px ! important;" >
 </IMG>
 </BODY>
