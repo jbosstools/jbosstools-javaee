@@ -14,3 +14,4 @@ Require-Bundle: org.eclipse.ui;bundle-version="3.7.0",
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.jboss.tools.cdi.seam.faces.core
+Bundle-Vendor: JBoss by Red Hat
