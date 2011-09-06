@@ -164,21 +164,88 @@ public class Seam2FacetInstallDelegateTest extends AbstractSeamFacetTest {
 		assertOnlyContainsTheseFiles(seamgenlibs, warLibs);
 	}
 	
+	
+	/**
+	 * if(SEAM_TEMPLATES_AND_LIBRARIES_COPYING){
+	 * 
+	 * 		COPY_TEMPLATES();
+	 * 
+	 *  	if(SEAM_RUNTIME_LIBRARIES_COPYING){
+	 *  		COPY_LIBRARIES();
+	 *  	}
+	 * }
+	 * 
+	 * Case 1. Add Seam Facet to new project + "Copy libraries From Seam Runtime to the project" option 
+	 * 
+	 * SEAM_TEMPLATES_AND_LIBRARIES_COPYING - true
+	 * SEAM_RUNTIME_LIBRARIES_COPYING       - true
+	 * 
+	 * Case 2. Add Seam Facet to new project + "Configure Later" option
+	 *
+  	 * SEAM_TEMPLATES_AND_LIBRARIES_COPYING - true
+	 * SEAM_RUNTIME_LIBRARIES_COPYING       - false
+	 * 
+	 * Case 3. Add Seam Facet to existing project
+	 * 
+  	 * SEAM_TEMPLATES_AND_LIBRARIES_COPYING - false
+	 * SEAM_RUNTIME_LIBRARIES_COPYING       - false
+	 * 
+	 */
+	
+	private final static int CASE_1 = 1;
+	private final static int CASE_2 = 2;
+	private final static int CASE_3 = 3;
+	
+	public void testWarTemplatesAndLibrariesCopying() throws CoreException{
+		checkWarLibrariesInSeamProject(CASE_1, "warTemplLibPrj");
+	}
+
+	public void testWarTemplatesAndLibrariesNotCopying() throws CoreException{
+		checkWarLibrariesInSeamProject(CASE_3, "warNoTemplLibPrj");
+	}
+
+	public void testEarTemplatesAndLibrariesCopying() throws CoreException{
+		checkEarLibrariesInSeamProject(CASE_1, "earTemplLibPrj");
+	}
+
 	public void testWarLibrariesCopying() throws CoreException{
-		checkWarLibrariesInSeamProject("warLibPrj", true);
+		checkWarLibrariesInSeamProject(CASE_1, "warLibPrj");
 	}
 
 	public void testWarLibrariesNotCopying() throws CoreException{
-		checkWarLibrariesInSeamProject("warNoLibPrj", false);
+		checkWarLibrariesInSeamProject(CASE_2, "warNoLibPrj");
 	}
 
 	public void testEarLibrariesCopying() throws CoreException{
-		checkEarLibrariesInSeamProject("earLibPrj", true);
+		checkEarLibrariesInSeamProject(CASE_1, "earLibPrj");
 	}
 
-	protected void checkWarLibrariesInSeamProject(String warName, Boolean copyLibraries) throws CoreException{
+	public void testEarLibrariesNotCopying() throws CoreException{
+		checkEarLibrariesInSeamProject(CASE_2, "earNoLibPrj");
+	}
+
+	protected void checkWarLibrariesInSeamProject(int caseNumber, String warName) throws CoreException{
 		IDataModel warModel = createSeamDataModel("war");
-		warModel.setBooleanProperty(ISeamFacetDataModelProperties.SEAM_RUNTIME_LIBRARIES_COPYING, copyLibraries);
+		
+		boolean copyTemplate = false;
+		boolean copyLibraries = false;
+		switch(caseNumber){
+		case CASE_1:
+			warModel.setBooleanProperty(ISeamFacetDataModelProperties.SEAM_TEMPLATES_AND_LIBRARIES_COPYING, true);
+			warModel.setBooleanProperty(ISeamFacetDataModelProperties.SEAM_RUNTIME_LIBRARIES_COPYING, true);
+			copyTemplate = true;
+			copyLibraries = true;
+			break;
+		case CASE_2:
+			warModel.setBooleanProperty(ISeamFacetDataModelProperties.SEAM_TEMPLATES_AND_LIBRARIES_COPYING, true);
+			warModel.setBooleanProperty(ISeamFacetDataModelProperties.SEAM_RUNTIME_LIBRARIES_COPYING, false);
+			copyTemplate = true;
+			break;
+		case CASE_3:
+			warModel.setBooleanProperty(ISeamFacetDataModelProperties.SEAM_TEMPLATES_AND_LIBRARIES_COPYING, false);
+			warModel.setBooleanProperty(ISeamFacetDataModelProperties.SEAM_RUNTIME_LIBRARIES_COPYING, false);
+			break;
+		}
 
 		IFacetedProject wProject = createSeamProject(warName, warModel);
 		IProject war = wProject.getProject();
@@ -194,9 +261,28 @@ public class Seam2FacetInstallDelegateTest extends AbstractSeamFacetTest {
 		}
 	}
 	
-	protected void checkEarLibrariesInSeamProject(String earName, Boolean copyLibraries) throws CoreException{
+	protected void checkEarLibrariesInSeamProject(int caseNumber, String earName) throws CoreException{
 		IDataModel earModel = createSeamDataModel("ear");
-		earModel.setBooleanProperty(ISeamFacetDataModelProperties.SEAM_RUNTIME_LIBRARIES_COPYING, copyLibraries);
+		
+		boolean copyTemplate = false;
+		boolean copyLibraries = false;
+		switch(caseNumber){
+		case CASE_1:
+			earModel.setBooleanProperty(ISeamFacetDataModelProperties.SEAM_TEMPLATES_AND_LIBRARIES_COPYING, true);
+			earModel.setBooleanProperty(ISeamFacetDataModelProperties.SEAM_RUNTIME_LIBRARIES_COPYING, true);
+			copyTemplate = true;
+			copyLibraries = true;
+			break;
+		case CASE_2:
+			earModel.setBooleanProperty(ISeamFacetDataModelProperties.SEAM_TEMPLATES_AND_LIBRARIES_COPYING, true);
+			earModel.setBooleanProperty(ISeamFacetDataModelProperties.SEAM_RUNTIME_LIBRARIES_COPYING, false);
+			copyTemplate = true;
+			break;
+		case CASE_3:
+			earModel.setBooleanProperty(ISeamFacetDataModelProperties.SEAM_TEMPLATES_AND_LIBRARIES_COPYING, false);
+			earModel.setBooleanProperty(ISeamFacetDataModelProperties.SEAM_RUNTIME_LIBRARIES_COPYING, false);
+			break;
+		}
 		
 		IFacetedProject eProject = createSeamProject(earName, earModel);
 		IProject war = eProject.getProject();
@@ -219,13 +305,15 @@ public class Seam2FacetInstallDelegateTest extends AbstractSeamFacetTest {
 		Set<String> onlyInEjbSrc = new HashSet<String>();
 		Set<String> onlyInEarMeta = new HashSet<String>();
 		
-		onlyInEarMeta.add("jboss-app.xml");
-		onlyInEarMeta.add("application.xml");
-
-		onlyInEjbSrc.add("security.drl");
-		onlyInEjbSrc.add("seam.properties");
-		onlyInEjbSrc.add("import.sql");
-		onlyInEjbSrc.add("components.properties");
+		if(caseNumber == CASE_1 || caseNumber == CASE_3){
+			onlyInEarMeta.add("jboss-app.xml");
+			onlyInEarMeta.add("application.xml");
+	
+			onlyInEjbSrc.add("security.drl");
+			onlyInEjbSrc.add("seam.properties");
+			onlyInEjbSrc.add("import.sql");
+			onlyInEjbSrc.add("components.properties");
+		}
 
 		onlyInEarSeam.add("jboss-seam.jar");
 		

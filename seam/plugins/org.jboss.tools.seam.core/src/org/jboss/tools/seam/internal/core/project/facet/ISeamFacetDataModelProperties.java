@@ -307,6 +307,33 @@ public interface ISeamFacetDataModelProperties extends IActionConfigFactory {
 	String SEAM_SETTINGS_CHANGED_BY_USER = "seam.settings.changed.by.user"; //$NON-NLS-1$
 	
 	/**
+	 * if(SEAM_TEMPLATES_AND_LIBRARIES_COPYING){
+	 * 
+	 * 		COPY_TEMPLATES();
+	 * 
+	 *  	if(SEAM_RUNTIME_LIBRARIES_COPYING){
+	 *  		COPY_LIBRARIES();
+	 *  	}
+	 * }
+	 * 
+	 * Case 1. Add Seam Facet to new project + "Copy libraries From Seam Runtime to the project" option 
+	 * 
+	 * SEAM_TEMPLATES_AND_LIBRARIES_COPYING - true
+	 * SEAM_RUNTIME_LIBRARIES_COPYING       - true
+	 * 
+	 * Case 2. Add Seam Facet to new project + "Configure Later" option
+	 *
+  	 * SEAM_TEMPLATES_AND_LIBRARIES_COPYING - true
+	 * SEAM_RUNTIME_LIBRARIES_COPYING       - false
+	 * 
+	 * Case 3. Add Seam Facet to existing project
+	 * 
+  	 * SEAM_TEMPLATES_AND_LIBRARIES_COPYING - false
+	 * SEAM_RUNTIME_LIBRARIES_COPYING       - false
+	 * 
+	 */
+	
+	/**
 	 * This flag indicates that we should copy libraries from Seam Runtime to projects.
 	 * Can be "true" or "false".
 	 */
