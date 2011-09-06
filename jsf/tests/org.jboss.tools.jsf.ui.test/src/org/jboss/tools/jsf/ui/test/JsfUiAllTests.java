@@ -16,6 +16,7 @@ import junit.framework.TestSuite;
 
 import org.eclipse.wst.validation.ValidationFramework;
 import org.jboss.tools.common.base.test.validation.ValidationProjectTestSetup;
+import org.jboss.tools.jsf.jsp.ca.test.CADefaultELStartingCharTest;
 import org.jboss.tools.jsf.jsp.ca.test.CAForCompositeComponentTest;
 import org.jboss.tools.jsf.jsp.ca.test.CAForELinStyleTest;
 import org.jboss.tools.jsf.jsp.ca.test.CAForIDTest;
@@ -113,6 +114,11 @@ public class JsfUiAllTests {
 				JspElFunctionsTest.class), "org.jboss.tools.jsf.ui.test", //$NON-NLS-1$
 				new String[] { "projects/testJSFProject", }, //$NON-NLS-1$
 				new String[] { "testJSFProject" })); //$NON-NLS-1$
+
+		suite.addTest(new ProjectImportTestSetup(new TestSuite(
+				CADefaultELStartingCharTest.class), "org.jboss.tools.jsf.ui.test", //$NON-NLS-1$
+				new String[] { "projects/JsfJbide1704Test", }, //$NON-NLS-1$
+				new String[] { "CAForCompositeComponentTest" })); //$NON-NLS-1$
 
 //		return new TestWizardsProject(suite);
 		return suite;

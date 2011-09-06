@@ -10,7 +10,7 @@
 		<f:loadBundle basename="resources" var="msg" />
 		
 		<strong>
-		<h:outputText value="#{msg.greeting}" />
+		<h:outputText value="#{msg.greeting}" id="pe" />
 		&nbsp;
 		<h:outputText value="#{person.name}" />
 		<h:outputText value="!" />
