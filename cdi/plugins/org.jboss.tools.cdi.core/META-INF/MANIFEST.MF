@@ -25,7 +25,8 @@ Require-Bundle: org.eclipse.ui;bundle-version="3.7.0",
  org.eclipse.jdt.ui;bundle-version="3.7.0",
  org.apache.ant;bundle-version="1.7.1",
  org.jboss.tools.jst.web,
- org.jboss.tools.common.validation
+ org.jboss.tools.common.validation,
+ org.jboss.tools.cdi.xml
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-Vendor: JBoss by Red Hat
