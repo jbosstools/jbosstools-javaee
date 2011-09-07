@@ -10,13 +10,13 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.ui.search;
 
+import java.util.HashSet;
 import java.util.Set;
 
-import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jdt.core.IJavaElement;
-import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.core.search.IJavaSearchConstants;
 import org.eclipse.jdt.ui.JavaUI;
@@ -31,12 +31,10 @@ import org.eclipse.osgi.util.NLS;
 import org.eclipse.search.ui.text.Match;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.PartInitException;
-import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.ICDIElement;
 import org.jboss.tools.cdi.core.ICDIProject;
-import org.jboss.tools.cdi.core.IClassBean;
 import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.core.IInjectionPointField;
 import org.jboss.tools.cdi.core.IInjectionPointMethod;
@@ -44,6 +42,7 @@ import org.jboss.tools.cdi.core.IInjectionPointParameter;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
 import org.jboss.tools.cdi.ui.CDIUIPlugin;
 import org.jboss.tools.cdi.ui.CDIUiImages;
+import org.jboss.tools.common.java.IParametedType;
 
 public class CDIBeanQueryParticipant implements IQueryParticipant{
 	static CDIBeanLabelProvider labelProvider = new CDIBeanLabelProvider();
@@ -53,53 +52,44 @@ public class CDIBeanQueryParticipant implements IQueryParticipant{
 			QuerySpecification querySpecification, IProgressMonitor monitor)
 			throws CoreException {
 		if(querySpecification instanceof ElementQuerySpecification){
-			if (!isSearchForReferences(querySpecification.getLimitTo()))
+			if (!isSearchForReferences(querySpecification.getLimitTo())) {
 				return;
+			}
 			
 			ElementQuerySpecification qs = (ElementQuerySpecification)querySpecification;
 			IJavaElement element = qs.getElement();
-			if(element instanceof IType){
-				IFile file = (IFile)element.getResource();
-				if(file == null)
-					return;
+			IProject project = element.getJavaProject().getProject();
+			ICDIProject cdiProject = CDICorePlugin.getCDIProject(project, true);
+			if(cdiProject == null) {
+				return;
+			}
+			Set<IBean> sourceBeans = cdiProject.getBeans(element);
+			
+			Set<IInjectionPoint> injectionPoints = new HashSet<IInjectionPoint>();
+			for (IBean b: sourceBeans) {
+				Set<IParametedType> ts = b.getLegalTypes();
+				for (IParametedType t: ts) {
+					injectionPoints.addAll(cdiProject.getInjections(t.getType().getFullyQualifiedName()));
+				}
+			}
+			
+			monitor.beginTask(CDIUIMessages.CDI_BEAN_QUERY_PARTICIPANT_TASK, injectionPoints.size());
 				
-				CDICoreNature cdiNature = CDICorePlugin.getCDI(file.getProject(), true);
-				
-				if(cdiNature == null)
-					return;
-				
-				ICDIProject cdiProject = cdiNature.getDelegate();
-				
-				if(cdiProject == null)
-					return;
-				
-				IClassBean sourceBean = cdiProject.getBeanClass((IType)element);
-				
-				IBean[] beans = cdiProject.getBeans();
-				
-				monitor.beginTask(CDIUIMessages.CDI_BEAN_QUERY_PARTICIPANT_TASK, beans.length);
-				
-				for(IBean bean : beans){
-					if(monitor.isCanceled())
+			for(IInjectionPoint injectionPoint : injectionPoints){
+				if(monitor.isCanceled())
+					break;
+				Set<IBean> resultBeans = cdiProject.getBeans(false, injectionPoint);
+				monitor.worked(1);
+					
+				for(IBean cBean : resultBeans){
+					if(sourceBeans.contains(cBean)){
+						Match match = new CDIMatch(injectionPoint);
+						requestor.reportMatch(match);
 						break;
-					
-					monitor.worked(1);
-					
-					Set<IInjectionPoint> injectionPoints = bean.getInjectionPoints();
-					
-					for(IInjectionPoint injectionPoint : injectionPoints){
-						Set<IBean> resultBeans = cdiProject.getBeans(false, injectionPoint);
-						
-						for(IBean cBean : resultBeans){
-							if(cBean == sourceBean){
-								Match match = new CDIMatch(injectionPoint);
-								requestor.reportMatch(match);
-							}
-						}
 					}
 				}
-				monitor.done();
 			}
+			monitor.done();
 		}
 	}
 	

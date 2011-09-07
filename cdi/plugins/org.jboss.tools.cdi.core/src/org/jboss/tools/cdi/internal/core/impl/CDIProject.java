@@ -29,6 +29,8 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.Flags;
 import org.eclipse.jdt.core.IField;
+import org.eclipse.jdt.core.IJavaElement;
+import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.IMemberValuePair;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IType;
@@ -65,6 +67,7 @@ import org.jboss.tools.cdi.internal.core.impl.definition.DefinitionContext;
 import org.jboss.tools.cdi.internal.core.impl.definition.TypeDefinition;
 import org.jboss.tools.cdi.internal.core.scanner.ImplementationCollector;
 import org.jboss.tools.common.java.IAnnotationDeclaration;
+import org.jboss.tools.common.java.IJavaMemberReference;
 import org.jboss.tools.common.java.IParametedType;
 import org.jboss.tools.common.java.ParametedType;
 import org.jboss.tools.common.model.XModelObject;
@@ -565,6 +568,21 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		Set<IBean> result = new HashSet<IBean>();
 		Set<IBean> beans = beansByPath.get(path);
 		if(beans != null && !beans.isEmpty()) result.addAll(beans);
+		return result;
+	}
+	
+	static int q = 0;
+
+	public synchronized Set<IBean> getBeans(IJavaElement element) {
+		Set<IBean> result = new HashSet<IBean>();
+		for (IBean bean: allBeans) {
+			if(bean instanceof IJavaMemberReference) {
+				IMember m = ((IJavaMemberReference)bean).getSourceMember();
+				if(((IJavaMemberReference)bean).getSourceMember().equals(element)) {
+					result.add(bean);
+				}
+			}
+		}
 		return result;
 	}
 

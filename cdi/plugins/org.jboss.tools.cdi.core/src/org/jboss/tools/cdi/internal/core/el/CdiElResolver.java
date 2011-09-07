@@ -11,11 +11,13 @@
 package org.jboss.tools.cdi.internal.core.el;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IMember;
 import org.eclipse.swt.graphics.Image;
 import org.jboss.tools.cdi.core.CDICoreNature;
@@ -24,11 +26,14 @@ import org.jboss.tools.cdi.core.CDIUtil;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IBeanManager;
 import org.jboss.tools.cdi.core.IBeanMember;
+import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.IClassBean;
 import org.jboss.tools.common.el.core.ca.AbstractELCompletionEngine;
+import org.jboss.tools.common.el.core.ca.DefaultJavaRelevanceCheck;
 import org.jboss.tools.common.el.core.model.ELInvocationExpression;
 import org.jboss.tools.common.el.core.parser.ELParserFactory;
 import org.jboss.tools.common.el.core.parser.ELParserUtil;
+import org.jboss.tools.common.el.core.resolver.IRelevanceCheck;
 import org.jboss.tools.common.el.core.resolver.TypeInfoCollector;
 import org.jboss.tools.common.el.core.resolver.TypeInfoCollector.MemberInfo;
 
@@ -149,5 +154,40 @@ public class CdiElResolver extends AbstractELCompletionEngine<IBean> {
 	@Override
 	protected boolean isStaticMethodsCollectingEnabled() {
 		return true;
+	}
+
+	public IRelevanceCheck createRelevanceCheck(IJavaElement element) {
+		return new BeanRelevanceCheck(element);
+	}
+
+}
+
+class BeanRelevanceCheck extends DefaultJavaRelevanceCheck {
+	Set<String> names = new HashSet<String>();
+	
+	public BeanRelevanceCheck(IJavaElement element) {
+		super(element);
+		IProject project = element.getJavaProject().getProject();
+		ICDIProject cdi = CDICorePlugin.getCDIProject(project, true);
+		if(cdi != null) {
+			Set<IBean> beans = cdi.getBeans(element);
+			for (IBean b: beans) {
+				if(b.getName() != null) {
+					names.add(b.getName());
+				}
+			}
+		}
+	}
+
+	public boolean isRelevant(String content) {
+		if(super.isRelevant(content)) {
+			return true;
+		}
+		for (String name: names) {
+			if(content.contains(name)) {
+				return true;
+			}
+		}
+		return false;
 	}
 }

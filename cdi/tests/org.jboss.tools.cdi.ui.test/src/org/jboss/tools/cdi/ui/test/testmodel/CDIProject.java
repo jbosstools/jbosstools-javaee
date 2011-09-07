@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IType;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.CDICoreNature;
@@ -298,6 +299,12 @@ public class CDIProject implements ICDIProject{
 
 	@Override
 	public void update(boolean updateDependent) {
+	}
+
+	@Override
+	public Set<IBean> getBeans(IJavaElement element) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
