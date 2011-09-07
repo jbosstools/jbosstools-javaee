@@ -26,6 +26,34 @@ public class ELReferencesQueryParticipantTest extends TCKUITest{
 				matches);
 	}
 	
+	public void testELReferencesQueryParticipantForProducerField() throws CoreException{
+		ArrayList<MatchStructure> matches = new ArrayList<MatchStructure>();
+		
+		matches.add(new MatchStructure("/tck/JavaSource/org/jboss/jsr299/tck/tests/lookup/typesafe/resolution/Zoo.java", "aaaf"));
+		
+		QueryParticipantTestUtils.testSearchParticipant(tckProject,
+				"JavaSource/org/jboss/jsr299/tck/tests/lookup/typesafe/resolution/Zoo.java",
+				QueryParticipantTestUtils.FIELD_SEARCH,
+				"petShop",
+				"",
+				new ELReferencesQueryParticipant(),
+				matches);
+	}
+	
+	public void testELReferencesQueryParticipantForProducerMethod() throws CoreException{
+		ArrayList<MatchStructure> matches = new ArrayList<MatchStructure>();
+		
+		matches.add(new MatchStructure("/tck/JavaSource/org/jboss/jsr299/tck/tests/lookup/typesafe/resolution/Zoo.java", "aaam"));
+		
+		QueryParticipantTestUtils.testSearchParticipant(tckProject,
+				"JavaSource/org/jboss/jsr299/tck/tests/lookup/typesafe/resolution/Zoo.java",
+				QueryParticipantTestUtils.METHOD_SEARCH,
+				"getPetShop",
+				"",
+				new ELReferencesQueryParticipant(),
+				matches);
+	}
+	
 	public void testELReferencesQueryParticipantForMethod() throws CoreException{
 		ArrayList<MatchStructure> matches = new ArrayList<MatchStructure>();
 		

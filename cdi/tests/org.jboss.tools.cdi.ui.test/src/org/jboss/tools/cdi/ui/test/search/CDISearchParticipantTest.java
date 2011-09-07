@@ -193,7 +193,7 @@ public class CDISearchParticipantTest  extends TCKUITest {
 		testSearchParticipant("JavaSource/org/jboss/jsr299/tck/tests/lookup/injectionpoint/BeanWithInjectionPointMetadata.java", TYPE_SEARCH, "BeanWithInjectionPointMetadata", "", new CDIBeanQueryParticipant(), matches);
 	}
 
-	public void testCDIBeanQueryParticipant2(){
+	public void testCDIBeanQueryParticipantAtProducerField(){
 		ArrayList<MatchStructure> matches = new ArrayList<MatchStructure>();
 		
 		matches.add(new MatchStructure(InjectionPointField.class, "Zoo.p"));
@@ -204,5 +204,18 @@ public class CDISearchParticipantTest  extends TCKUITest {
 		matches.add(new MatchStructure(InjectionPointField.class, "ObserverMethodInDecoratorBroken.logger"));
 		
 		testSearchParticipant("JavaSource/org/jboss/jsr299/tck/tests/lookup/typesafe/resolution/Zoo.java", FIELD_SEARCH, "petShop", "", new CDIBeanQueryParticipant(), matches);
+	}
+
+	public void testCDIBeanQueryParticipantAtProducerMethod(){
+		ArrayList<MatchStructure> matches = new ArrayList<MatchStructure>();
+		
+		matches.add(new MatchStructure(InjectionPointField.class, "Zoo.p"));
+		matches.add(new MatchStructure(InjectionPointField.class, "NamedDecoratorBroken.logger"));
+		matches.add(new MatchStructure(InjectionPointField.class, "NamedStereotypedDecoratorBroken.logger"));
+		matches.add(new MatchStructure(InjectionPointField.class, "NamedStereotypedDecoratorBroken.logger"));
+		matches.add(new MatchStructure(InjectionPointField.class, "SpecializingDecoratorBroken.logger"));
+		matches.add(new MatchStructure(InjectionPointField.class, "ObserverMethodInDecoratorBroken.logger"));
+		
+		testSearchParticipant("JavaSource/org/jboss/jsr299/tck/tests/lookup/typesafe/resolution/Zoo.java", METHOD_SEARCH, "getPetShop", "", new CDIBeanQueryParticipant(), matches);
 	}
 }

@@ -28,8 +28,10 @@ public class Zoo {
 	
 	@Produces @Named("aaaf") @Wild PetShop petShop;
 	
-//	@Produces @Named("aaaf") @Wild PetShop getPetShop() {
-//		return null;
-//	}
+	String str = "#{aaam.aslan}";
+
+	@Produces @Named("aaam") @Wild PetShop getPetShop() {
+		return null;
+	}
 
 }
