@@ -134,10 +134,14 @@ public class InjectedPointHyperlinkDetector extends AbstractHyperlinkDetector{
 		List<IBean> alternativeBeans = CDIUtil.getSortedBeans(cdiProject, false, injectionPoint);
 
 			
-		if(resultBeans.size() > 0){
-			hyperlinks.add(new InjectedPointHyperlink(region, resultBeans.get(0), document, true));
-			if(alternativeBeans.size() > 1)
+		if(alternativeBeans.size() > 0){
+			if(resultBeans.size() > 0){
+				hyperlinks.add(new InjectedPointHyperlink(region, resultBeans.get(0), document, true));
+			}
+			if(alternativeBeans.size() > 1) {
 				hyperlinks.add(new AlternativeInjectedPointListHyperlink(region, alternativeBeans, viewer, document));
+				hyperlinks.add(new AssignableBeansHyperlink(region, injectionPoint, document));
+			}
 		}
 	}
 }
