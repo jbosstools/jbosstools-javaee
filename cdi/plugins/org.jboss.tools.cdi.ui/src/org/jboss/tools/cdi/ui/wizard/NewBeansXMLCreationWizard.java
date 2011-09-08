@@ -25,6 +25,7 @@ import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
@@ -137,6 +138,11 @@ public class NewBeansXMLCreationWizard extends BasicNewResourceWizard {
 		public WizardNewBeansXMLFileCreationPage(String pageName, IStructuredSelection selection) {
 			super(pageName, selection);
 		}
+	
+		public void createControl(Composite parent) {
+			super.createControl(parent);
+			validatePage();
+		}
     	
 		protected void initialPopulateContainerNameField() {
 			super.initialPopulateContainerNameField();
@@ -152,20 +158,31 @@ public class NewBeansXMLCreationWizard extends BasicNewResourceWizard {
 					boolean needMetaInf = false;
 					IPath current = getContainerFullPath();
 					IProject p = r.getProject();
-					IPath path = ProjectHome.getWebInfPath(p);
-					if(current != null && current.equals(path)) return;
+					//Prefer location of existing beans.xml to any other location.
+					IPath path = getContainerWithExistingBeansXML(p);
+
 					if(path == null) {
-						
+						//If no beans.xml exist, prefer WEB-INF if it exists
+						path = ProjectHome.getWebInfPath(p);
+					}
+					if(current != null && current.equals(path)) {
+						return;
+					}
+					if(path == null) {
 						 Set<IFolder> fs = EclipseResourceUtil.getSourceFolders(p);
-						 if(fs != null) for (IFolder f: fs) {
+						 for (IFolder f: fs) {
 							 IFolder fm = f.getFolder("META-INF");
 							 if(!fm.exists()) {
 								 needMetaInf = true;
 								 fm = f;
 							 }
 							 IPath pth = fm.getFullPath();
-							 if(current != null && current.equals(pth)) return;
-							 if(path == null) path = pth;
+							 if(pth.equals(current) && !needMetaInf) {
+								 return;
+							 }
+							 if(path == null || pth.equals(current)) {
+								 path = pth;
+							 }
 						 }
 					}
 					if(path != null) {
@@ -210,7 +227,7 @@ public class NewBeansXMLCreationWizard extends BasicNewResourceWizard {
 		if(path == null) {
 			boolean needMetaInf = false;
 			 Set<IFolder> fs = EclipseResourceUtil.getSourceFolders(p);
-			 if(fs != null) for (IFolder f: fs) {
+			 for (IFolder f: fs) {
 				 IFolder fm = f.getFolder("META-INF");
 				 IPath pth = fm.getFullPath();
 				 if(path == null) {
@@ -223,6 +240,31 @@ public class NewBeansXMLCreationWizard extends BasicNewResourceWizard {
 			 }
 		}
 		return path;			
+	}
+
+	/**
+	 * Returns path to folder that contains existing beans.xml,
+	 * or null, if there is no beans.xml in WEB-INF or META-INF folders.
+	 *   
+	 * @param p
+	 * @return
+	 */
+	public static IPath getContainerWithExistingBeansXML(IProject p) {
+		IPath path = ProjectHome.getWebInfPath(p);
+		if(path != null) {
+			IFile f = p.getParent().getFile(path.append("beans.xml"));
+			if(f.exists()) {
+				return path;
+			}
+		}
+		Set<IFolder> fs = EclipseResourceUtil.getSourceFolders(p);
+		for (IFolder f: fs) {
+			 IFolder fm = f.getFolder("META-INF");
+			 if(fm.exists() && fm.getFile("beans.xml").exists()) {
+				 return fm.getFullPath();
+			 }
+		}
+		return null;			
 	}
 
 }
