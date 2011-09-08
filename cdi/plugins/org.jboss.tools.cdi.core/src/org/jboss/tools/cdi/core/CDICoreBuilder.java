@@ -402,7 +402,7 @@ public class CDICoreBuilder extends IncrementalProjectBuilder {
 				IClasspathEntry[] es = javaProject.getResolvedClasspath(true);
 				for (int i = 0; i < es.length; i++) {
 					if(es[i].getEntryKind() == IClasspathEntry.CPE_SOURCE) {
-						IResource findMember = ModelPlugin.getWorkspace().getRoot().findMember(es[i].getPath());
+						IResource findMember = ResourcesPlugin.getWorkspace().getRoot().findMember(es[i].getPath());
 						if(findMember != null && findMember.exists()) {
 							ps.add(findMember.getFullPath());
 						}

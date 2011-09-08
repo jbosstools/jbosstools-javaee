@@ -20,6 +20,7 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceDelta;
 import org.eclipse.core.resources.IResourceDeltaVisitor;
 import org.eclipse.core.resources.IResourceVisitor;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.IClasspathEntry;
@@ -119,7 +120,7 @@ public class SeamResourceVisitor implements IResourceVisitor, IResourceDeltaVisi
 			IClasspathEntry[] es = javaProject.getResolvedClasspath(true);
 			for (int i = 0; i < es.length; i++) {
 				if(es[i].getEntryKind() == IClasspathEntry.CPE_SOURCE) {
-					IResource findMember = ModelPlugin.getWorkspace().getRoot().findMember(es[i].getPath());
+					IResource findMember = ResourcesPlugin.getWorkspace().getRoot().findMember(es[i].getPath());
 					if(findMember != null && findMember.exists()) {
 						ps.add(findMember.getFullPath());
 					}
@@ -129,8 +130,8 @@ public class SeamResourceVisitor implements IResourceVisitor, IResourceDeltaVisi
 					}
 				} 
 			}
-			srcs = ps.toArray(new IPath[0]);
-			outs = os.toArray(new IPath[0]);
+			srcs = ps.toArray(new IPath[ps.size()]);
+			outs = os.toArray(new IPath[os.size()]);
 		} catch(CoreException ce) {
 			ModelPlugin.getPluginLog().logError("Error while locating java source roots for " + project, ce);
 		}
