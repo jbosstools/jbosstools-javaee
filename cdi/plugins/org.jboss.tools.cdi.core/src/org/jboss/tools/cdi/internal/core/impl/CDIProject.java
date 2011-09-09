@@ -463,7 +463,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 
 			TreeSet<String> injectionKeys = new TreeSet<String>();
 			for (IType d: injectionQualifiers) {
-				injectionKeys.add(d.getFullyQualifiedName());
+				injectionKeys.add(d.getFullyQualifiedName().replace('$', '.'));
 			}
 	
 			if(!injectionKeys.contains(CDIConstants.ANY_QUALIFIER_TYPE_NAME)) {
@@ -476,7 +476,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 					beanKeys.add(CDIConstants.DEFAULT_QUALIFIER_TYPE_NAME);
 				} else {
 					for (IAnnotationDeclaration d: beanQualifiers) {
-						beanKeys.add(d.getTypeName());
+						beanKeys.add(d.getTypeName().replace('$', '.'));
 					}
 				}
 				if(beanKeys.size() == 1 && beanKeys.iterator().next().startsWith(CDIConstants.NAMED_QUALIFIER_TYPE_NAME)) {
@@ -928,7 +928,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 	 * @see org.jboss.tools.cdi.core.IBeanManager#getStereotype(java.lang.String)
 	 */
 	public StereotypeElement getStereotype(String qualifiedName) {
-		return stereotypes.get(qualifiedName);
+		return stereotypes.get(qualifiedName.replace('$', '.'));
 	}
 
 	/*
@@ -961,7 +961,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 	 * @see org.jboss.tools.cdi.core.IBeanManager#getInterceptorBinding(java.lang.String)
 	 */
 	public InterceptorBindingElement getInterceptorBinding(String qualifiedName) {
-		return interceptorBindings.get(qualifiedName);
+		return interceptorBindings.get(qualifiedName.replace('$', '.'));
 	}
 
 	/*
@@ -973,7 +973,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 	}
 
 	public QualifierElement getQualifier(String qualifiedName) {
-		return qualifiers.get(qualifiedName);
+		return qualifiers.get(qualifiedName.replace('$', '.'));
 	}
 
 	public QualifierElement getQualifier(IPath path) {
@@ -987,7 +987,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 	}
 
 	public ScopeElement getScope(String qualifiedName) {
-		return scopes.get(qualifiedName);
+		return scopes.get(qualifiedName.replace('$', '.'));
 	}
 
 	public IScope getScope(IPath path) {
@@ -1035,7 +1035,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 			if((d.getKind() & AnnotationDefinition.STEREOTYPE) > 0) {
 				StereotypeElement s = new StereotypeElement();
 				initAnnotationElement(s, d);
-				stereotypes.put(d.getQualifiedName(), s);
+				stereotypes.put(d.getQualifiedName().replace('$', '.'), s);
 				if(d.getResource() != null && d.getResource().getFullPath() != null) {
 					stereotypesByPath.put(d.getResource().getFullPath(), s);
 				}
@@ -1043,7 +1043,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 			if((d.getKind() & AnnotationDefinition.INTERCEPTOR_BINDING) > 0) {
 				InterceptorBindingElement s = new InterceptorBindingElement();
 				initAnnotationElement(s, d);
-				interceptorBindings.put(d.getQualifiedName(), s);
+				interceptorBindings.put(d.getQualifiedName().replace('$', '.'), s);
 				if(d.getResource() != null && d.getResource().getFullPath() != null) {
 					interceptorBindingsByPath.put(d.getResource().getFullPath(), s);
 				}
@@ -1051,7 +1051,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 			if((d.getKind() & AnnotationDefinition.QUALIFIER) > 0) {
 				QualifierElement s = new QualifierElement();
 				initAnnotationElement(s, d);
-				qualifiers.put(d.getQualifiedName(), s);
+				qualifiers.put(d.getQualifiedName().replace('$', '.'), s);
 				if(d.getResource() != null && d.getResource().getFullPath() != null) {
 					qualifiersByPath.put(d.getResource().getFullPath(), s);
 				}
@@ -1059,7 +1059,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 			if((d.getKind() & AnnotationDefinition.SCOPE) > 0) {
 				ScopeElement s = new ScopeElement();
 				initAnnotationElement(s, d);
-				scopes.put(d.getQualifiedName(), s);
+				scopes.put(d.getQualifiedName().replace('$', '.'), s);
 				if(d.getResource() != null && d.getResource().getFullPath() != null) {
 					scopesByPath.put(d.getResource().getFullPath(), s);
 				}
