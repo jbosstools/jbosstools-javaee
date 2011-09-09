@@ -21,17 +21,25 @@ import java.util.TreeMap;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
+import org.eclipse.jface.internal.text.TableOwnerDrawSupport;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.viewers.CheckStateChangedEvent;
 import org.eclipse.jface.viewers.CheckboxTreeViewer;
+import org.eclipse.jface.viewers.DelegatingStyledCellLabelProvider;
+import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.ICheckStateListener;
 import org.eclipse.jface.viewers.ICheckStateProvider;
 import org.eclipse.jface.viewers.IColorProvider;
+import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.IFontProvider;
+import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.jface.viewers.StyledCellLabelProvider;
+import org.eclipse.jface.viewers.StyledString;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
@@ -141,7 +149,22 @@ public class AssignableBeansDialog extends TitleAreaDialog {
 		list.getControl().setLayoutData(g);
 		list.setContentProvider(new ListContent());
 		list.setLabelProvider(new LP());
+		TableOwnerDrawSupport.install(list.getTable());
 		list.setInput(injectionPoint);
+		list.addDoubleClickListener(new IDoubleClickListener() {
+			
+			@Override
+			public void doubleClick(DoubleClickEvent event) {
+				ISelection s = event.getSelection();
+				if(!s.isEmpty() && s instanceof IStructuredSelection) {
+					Object o = ((IStructuredSelection)s).getFirstElement();
+					if(o instanceof IBean) {
+						((IBean)o).open();
+					}
+				}
+				
+			}
+		});
 	}
 
 	void createFilterView(Composite parent) {
@@ -322,10 +345,13 @@ public class AssignableBeansDialog extends TitleAreaDialog {
 		
 	}
 
-	class LP extends LabelProvider implements ITableLabelProvider, IFontProvider, IColorProvider {
+	class LP extends StyledCellLabelProvider implements ITableLabelProvider, IFontProvider, IColorProvider, DelegatingStyledCellLabelProvider.IStyledLabelProvider {
 		public String getText(Object element) {
+			return getStyledText(element).getString();
+		}
+		public StyledString getStyledText(Object element) {
 			IBean b = (IBean)element;
-			StringBuffer sb = new StringBuffer();
+			StyledString sb = new StyledString();
 			if(b.isAlternative()) {
 				sb.append("@Alternative ");
 			}
@@ -347,8 +373,8 @@ public class AssignableBeansDialog extends TitleAreaDialog {
 				sb.append(b.getBeanClass().getElementName());
 			}
 			String pkg = b.getBeanClass().getPackageFragment().getElementName();
-			sb.append(" - ").append(pkg).append(" - ");
-			return sb.toString();
+			sb.append(" - ").append(pkg, StyledString.QUALIFIER_STYLER).append(" - ");
+			return sb;
 		}
 
 		@Override
@@ -384,6 +410,10 @@ public class AssignableBeansDialog extends TitleAreaDialog {
 		@Override
 		public String getColumnText(Object element, int columnIndex) {
 			return getText(element);
+		}
+		@Override
+		public Image getImage(Object element) {
+			return null;
 		}		
 	}
 
