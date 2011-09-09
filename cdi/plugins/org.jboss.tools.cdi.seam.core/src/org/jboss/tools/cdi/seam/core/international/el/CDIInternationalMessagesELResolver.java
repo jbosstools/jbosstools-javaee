@@ -52,13 +52,13 @@ import org.jboss.tools.common.el.core.resolver.ELResolutionImpl;
 import org.jboss.tools.common.el.core.resolver.ELSegmentImpl;
 import org.jboss.tools.common.el.core.resolver.IRelevanceCheck;
 import org.jboss.tools.common.el.core.resolver.IVariable;
-import org.jboss.tools.common.el.core.resolver.MessagePropertyELSegmentImpl;
 import org.jboss.tools.common.el.core.resolver.TypeInfoCollector.MemberInfo;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.util.PositionHolder;
 import org.jboss.tools.common.text.TextProposal;
 import org.jboss.tools.jst.web.kb.IPageContext;
 import org.jboss.tools.jst.web.kb.IResourceBundle;
+import org.jboss.tools.jst.web.kb.el.MessagePropertyELSegmentImpl;
 import org.jboss.tools.jst.web.kb.internal.ResourceBundle;
 
 /**
@@ -217,7 +217,7 @@ public class CDIInternationalMessagesELResolver extends AbstractELCompletionEngi
 					true); 	// is Final and equal names are because of 
 							// we have no more to resolve the parts of expression, 
 							// but we have to resolve arguments of probably a message component
-			if (resolvedVariables != null && !resolvedVariables.isEmpty()) {
+			if (!resolvedVariables.isEmpty()) {
 				resolution.setLastResolvedToken(left);
 
 				ELSegmentImpl segment = new MessagePropertyELSegmentImpl(combineLexicalTokensForExpression(left));

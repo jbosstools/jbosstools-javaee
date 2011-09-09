@@ -8,9 +8,9 @@ import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.jboss.tools.common.el.core.parser.LexicalToken;
-import org.jboss.tools.common.el.core.resolver.MessagePropertyELSegmentImpl;
 import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.jsf.el.refactoring.RenameMessagePropertyProcessor;
+import org.jboss.tools.jst.web.kb.el.MessagePropertyELSegmentImpl;
 import org.jboss.tools.test.util.ProjectImportTestSetup;
 import org.jboss.tools.tests.AbstractRefactorTest;
 
