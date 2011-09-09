@@ -8,6 +8,7 @@ import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.test.tck.TCKTest;
 import org.jboss.tools.cdi.text.ext.CDIExtensionsMessages;
 import org.jboss.tools.cdi.text.ext.hyperlink.AlternativeInjectedPointListHyperlink;
+import org.jboss.tools.cdi.text.ext.hyperlink.AssignableBeansHyperlink;
 import org.jboss.tools.cdi.text.ext.hyperlink.InjectedPointHyperlink;
 import org.jboss.tools.cdi.text.ext.hyperlink.InjectedPointHyperlinkDetector;
 import org.jboss.tools.cdi.text.ext.test.CDIHyperlinkTestUtil.TestRegion;
@@ -26,23 +27,23 @@ public class InjectedPointHyperlinkDetectorTest extends TCKTest {
 		ArrayList<TestRegion> regionList = new ArrayList<TestRegion>();
 		regionList.add(new TestRegion(/*115, 6*/"Inject",   new TestHyperlink[]{
 			new TestHyperlink(InjectedPointHyperlink.class, CDIExtensionsMessages.CDI_INJECTED_POINT_HYPERLINK_OPEN_INJECT_BEAN+ " BasicLogger", bean),
-			new TestHyperlink(AlternativeInjectedPointListHyperlink.class, CDIExtensionsMessages.CDI_INJECTED_POINT_HYPERLINK_SHOW_ALTERNATIVES)
+			new TestHyperlink(AssignableBeansHyperlink.class, CDIExtensionsMessages.CDI_INJECTED_POINT_HYPERLINK_SHOW_ASSIGNABLE)
 		})); // Inject
 		regionList.add(new TestRegion(/*133, 6*/"Logger",   new TestHyperlink[]{
 			new TestHyperlink(InjectedPointHyperlink.class, CDIExtensionsMessages.CDI_INJECTED_POINT_HYPERLINK_OPEN_INJECT_BEAN+ " BasicLogger", bean),
-			new TestHyperlink(AlternativeInjectedPointListHyperlink.class, CDIExtensionsMessages.CDI_INJECTED_POINT_HYPERLINK_SHOW_ALTERNATIVES)
+			new TestHyperlink(AssignableBeansHyperlink.class, CDIExtensionsMessages.CDI_INJECTED_POINT_HYPERLINK_SHOW_ASSIGNABLE)
 		})); // Logger
 		regionList.add(new TestRegion(/*140, 6*/"logger",   new TestHyperlink[]{
 			new TestHyperlink(InjectedPointHyperlink.class, CDIExtensionsMessages.CDI_INJECTED_POINT_HYPERLINK_OPEN_INJECT_BEAN+ " BasicLogger", bean),
-			new TestHyperlink(AlternativeInjectedPointListHyperlink.class, CDIExtensionsMessages.CDI_INJECTED_POINT_HYPERLINK_SHOW_ALTERNATIVES)
+			new TestHyperlink(AssignableBeansHyperlink.class, CDIExtensionsMessages.CDI_INJECTED_POINT_HYPERLINK_SHOW_ASSIGNABLE)
 		})); // logger
 		regionList.add(new TestRegion(/*196, 6*/"logger",   new TestHyperlink[]{
 			new TestHyperlink(InjectedPointHyperlink.class, CDIExtensionsMessages.CDI_INJECTED_POINT_HYPERLINK_OPEN_INJECT_BEAN+ " BasicLogger", bean),
-			new TestHyperlink(AlternativeInjectedPointListHyperlink.class, CDIExtensionsMessages.CDI_INJECTED_POINT_HYPERLINK_SHOW_ALTERNATIVES)
+			new TestHyperlink(AssignableBeansHyperlink.class, CDIExtensionsMessages.CDI_INJECTED_POINT_HYPERLINK_SHOW_ASSIGNABLE)
 		})); // logger
 		regionList.add(new TestRegion(/*250, 6*/"logger",   new TestHyperlink[]{
 			new TestHyperlink(InjectedPointHyperlink.class, CDIExtensionsMessages.CDI_INJECTED_POINT_HYPERLINK_OPEN_INJECT_BEAN+ " BasicLogger", bean),
-			new TestHyperlink(AlternativeInjectedPointListHyperlink.class, CDIExtensionsMessages.CDI_INJECTED_POINT_HYPERLINK_SHOW_ALTERNATIVES)
+			new TestHyperlink(AssignableBeansHyperlink.class, CDIExtensionsMessages.CDI_INJECTED_POINT_HYPERLINK_SHOW_ASSIGNABLE)
 		})); // logger
 		
 		CDIHyperlinkTestUtil.checkRegions(tckProject, "JavaSource/org/jboss/jsr299/tck/tests/lookup/injectionpoint/LoggerConsumer.java", regionList, new InjectedPointHyperlinkDetector());
