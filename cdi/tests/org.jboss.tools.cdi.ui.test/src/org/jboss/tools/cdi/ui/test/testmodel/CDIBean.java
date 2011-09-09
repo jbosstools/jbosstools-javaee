@@ -270,4 +270,10 @@ public class CDIBean extends CDIElement implements IClassBean{
 	public boolean exists() {
 		return true;
 	}
+
+	@Override
+	public void open() {
+		// TODO Auto-generated method stub
+		
+	}
 }
