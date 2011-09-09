@@ -58,7 +58,7 @@ public class CDIUIAllTests {
 		}
 		TestSuite suiteAll = new TestSuite("CDI UI Tests");
 		TestSuite suite = new TestSuite("TCK Tests");
-		
+
 		suiteAll.addTestSuite(CDIMarkerResolutionTest.class);
 
 		suiteAll.addTestSuite(CDIPerspectiveTest.class);
@@ -66,8 +66,8 @@ public class CDIUIAllTests {
 		suiteAll.addTestSuite(CDIPreferencePageTest.class);
 		suiteAll.addTestSuite(NewCDIWizardTest.class);
 		suiteAll.addTestSuite(CATest.class);
-		
-		
+		suiteAll.addTestSuite(CAELProposalFilteringTest.class);
+
 		suite.addTestSuite(CDISearchParticipantTest.class);
 		suite.addTestSuite(ELReferencesQueryParticipantTest.class);
 		suiteAll.addTest(new CDICoreTestSetup(suite) {

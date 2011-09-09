@@ -1,3 +1,13 @@
+/*******************************************************************************
+ * Copyright (c) 2011 Red Hat, Inc.
+ * Distributed under license by Red Hat, Inc. All rights reserved.
+ * This program is made available under the terms of the
+ * Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributor:
+ *     Red Hat, Inc. - initial API and implementation
+ ******************************************************************************/
 package org.jboss.tools.jsf.jsp.ca.test;
 
 import java.util.List;
@@ -9,12 +19,17 @@ import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jface.text.contentassist.ICompletionProposal;
 import org.jboss.tools.common.base.test.contentassist.CATestUtil;
-import org.jboss.tools.common.base.test.validation.TestUtil;
 import org.jboss.tools.jst.jsp.contentassist.AutoContentAssistantProposal;
 import org.jboss.tools.jst.jsp.test.ca.ContentAssistantTestCase;
 import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.ProjectImportTestSetup;
 
+/**
+ * Test case testing http://jira.jboss.com/jira/browse/JBIDE-9633 issue.
+ * 
+ * @author Victor V. Rubezhny
+ *
+ */
 public class CAJsfMessagesProposalsFilteringTest extends ContentAssistantTestCase {
 	private static final String PROJECT_NAME = "JSF2KickStartWithoutLibs";
 	private static final String PAGE_NAME = "WebContent/pages/inputname.xhtml";
