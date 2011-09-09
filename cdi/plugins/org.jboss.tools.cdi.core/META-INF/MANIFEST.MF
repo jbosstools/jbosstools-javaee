@@ -11,6 +11,7 @@ Require-Bundle: org.eclipse.ui;bundle-version="3.7.0",
  org.eclipse.jdt.core;bundle-version="3.7.0",
  org.eclipse.core.resources;bundle-version="3.7.100",
  org.jboss.tools.common.model,
+ org.jboss.tools.common.model.ui,
  org.eclipse.wst.common.project.facet.core;bundle-version="1.4.200",
  org.eclipse.wst.common.modulecore;bundle-version="1.2.100",
  org.eclipse.wst.common.frameworks;bundle-version="1.2.0",
@@ -26,7 +27,8 @@ Require-Bundle: org.eclipse.ui;bundle-version="3.7.0",
  org.apache.ant;bundle-version="1.7.1",
  org.jboss.tools.jst.web,
  org.jboss.tools.common.validation,
- org.jboss.tools.cdi.xml
+ org.jboss.tools.cdi.xml,
+ org.eclipse.ui.ide;bundle-version="3.7.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-Vendor: JBoss by Red Hat

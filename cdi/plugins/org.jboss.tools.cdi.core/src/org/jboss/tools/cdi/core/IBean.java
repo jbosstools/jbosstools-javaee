@@ -198,4 +198,10 @@ public interface IBean extends IScoped, IStereotyped, ICDIElement, IVariable, IA
     *        value, and <tt>false</tt> otherwise
     */
 	boolean isNullable();
+
+	/**
+	 * Opens this bean in editor.
+	 * 
+	 */
+	void open();
 }

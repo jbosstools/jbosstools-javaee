@@ -22,7 +22,16 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.IType;
+import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.core.Signature;
+import org.eclipse.jdt.ui.JavaUI;
+import org.eclipse.jface.text.TextSelection;
+import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.ide.IDE;
+import org.eclipse.ui.texteditor.ITextEditor;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.CDICorePlugin;
@@ -38,12 +47,16 @@ import org.jboss.tools.cdi.core.IStereotypeDeclaration;
 import org.jboss.tools.cdi.internal.core.impl.definition.AbstractMemberDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.AbstractTypeDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.AnnotationDefinition;
+import org.jboss.tools.common.CommonPlugin;
+import org.jboss.tools.common.editor.ObjectMultiPageEditor;
 import org.jboss.tools.common.java.IAnnotated;
 import org.jboss.tools.common.java.IAnnotationDeclaration;
+import org.jboss.tools.common.java.IJavaMemberReference;
 import org.jboss.tools.common.java.IParametedType;
 import org.jboss.tools.common.java.ITypeDeclaration;
 import org.jboss.tools.common.java.ParametedType;
 import org.jboss.tools.common.java.TypeDeclaration;
+import org.jboss.tools.common.model.ui.editor.EditorPartWrapper;
 import org.jboss.tools.common.text.ITextSourceReference;
 
 /**
@@ -355,6 +368,45 @@ public class AbstractBeanElement extends CDIElement implements IAnnotated {
 			}
 		}
 		return result;
+	}
+
+	public void open() {
+		if(getDefinition().getOriginalDefinition() != null) {
+			IEditorPart part = null;
+			ITextSourceReference source = getDefinition().getOriginalDefinition();
+			IFile resource = (IFile)source.getResource();
+			IWorkbenchWindow window = CDICorePlugin.getDefault().getWorkbench().getActiveWorkbenchWindow();
+			if (window == null)	return;
+			IWorkbenchPage page = window.getActivePage();
+			try {
+				part = IDE.openEditor(page, resource);
+			} catch (PartInitException e) {
+				CDICorePlugin.getDefault().logError(e);
+			}
+			if(part instanceof EditorPartWrapper) {
+				part = ((EditorPartWrapper)part).getEditor();
+			}
+			if(part instanceof ObjectMultiPageEditor) {
+				ObjectMultiPageEditor mpe = (ObjectMultiPageEditor)part;
+				ITextEditor textEditor = (ITextEditor)mpe.getAdapter(ITextEditor.class);
+				if(textEditor != null) {
+					mpe.setActiveEditor(textEditor);
+					part = textEditor;
+				}
+			}
+			if(part != null) {
+				part.getEditorSite().getSelectionProvider().setSelection(new TextSelection(source.getStartPosition(), source.getLength()));
+			}
+		} else if (this instanceof IJavaMemberReference) {
+			IMember member = ((IJavaMemberReference)this).getSourceMember();
+			try {
+				JavaUI.openInEditor(member);
+			} catch (PartInitException e) {
+				CommonPlugin.getDefault().logError(e);
+			} catch (JavaModelException e) {
+				CommonPlugin.getDefault().logError(e);
+			}
+		}
 	}
 	
 }
