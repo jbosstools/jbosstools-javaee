@@ -16,6 +16,7 @@ public class ELReferencesQueryParticipantTest extends TCKTest{
 		matches.add(new MatchStructure("/tck/WebContent/test.jsp", "sheep"));
 		matches.add(new MatchStructure("/tck/WebContent/el/integration/JSFTestPage.jsp", "sheep"));
 		matches.add(new MatchStructure("/tck/WebContent/tests/lookup/el/integration/JSFTestPage.jsp", "sheep"));
+		matches.add(new MatchStructure("/tck/WebContent/elValidation1.xhtml", "sheep"));
 		
 		QueryParticipantTestUtils.testSearchParticipant(tckProject,
 				"JavaSource/org/jboss/jsr299/tck/tests/lookup/el/integration/Sheep.java",
@@ -44,7 +45,7 @@ public class ELReferencesQueryParticipantTest extends TCKTest{
 		ArrayList<MatchStructure> matches = new ArrayList<MatchStructure>();
 		
 		matches.add(new MatchStructure("/tck/JavaSource/org/jboss/jsr299/tck/tests/lookup/typesafe/resolution/Zoo.java", "aaam"));
-		
+
 		QueryParticipantTestUtils.testSearchParticipant(tckProject,
 				"JavaSource/org/jboss/jsr299/tck/tests/lookup/typesafe/resolution/Zoo.java",
 				QueryParticipantTestUtils.METHOD_SEARCH,
@@ -60,7 +61,8 @@ public class ELReferencesQueryParticipantTest extends TCKTest{
 		matches.add(new MatchStructure("/tck/WebContent/test.jsp", "name"));
 		matches.add(new MatchStructure("/tck/WebContent/el/integration/JSFTestPage.jsp", "name"));
 		matches.add(new MatchStructure("/tck/WebContent/tests/lookup/el/integration/JSFTestPage.jsp", "name"));
-		
+		matches.add(new MatchStructure("/tck/WebContent/elValidation1.xhtml", "name"));
+
 		QueryParticipantTestUtils.testSearchParticipant(tckProject,
 				"JavaSource/org/jboss/jsr299/tck/tests/lookup/el/integration/Sheep.java",
 				QueryParticipantTestUtils.METHOD_SEARCH,
