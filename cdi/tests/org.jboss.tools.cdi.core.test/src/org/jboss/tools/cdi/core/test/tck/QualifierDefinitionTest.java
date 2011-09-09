@@ -218,4 +218,16 @@ public class QualifierDefinitionTest extends TCKTest {
 		assertContainsQualifierType(bean, "javax.enterprise.inject.Default");
 		assertContainsQualifierType(bean, "javax.enterprise.inject.Any");
 	}
+
+	public void testQualifierDeclaredWithInnerType() throws JavaModelException {
+		Set<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.qualifier.BeanWithInnerQualifier", 
+				"org.jboss.jsr299.tck.tests.definition.qualifier.BeanWithInnerQualifier.InnerQualifier");
+		assertEquals("Wrong number of beans with org.jboss.jsr299.tck.tests.definition.qualifier.BeanWithInnerQualifier type.", 1, beans.size());
+		IBean bean = beans.iterator().next();
+		Set<IQualifier> qualifiers = bean.getQualifiers();
+		assertEquals("Wrong number of qualifiers for org.jboss.jsr299.tck.tests.definition.qualifier.BeanWithInnerQualifier type.", 2, qualifiers.size());
+		assertContainsQualifierType(bean, "org.jboss.jsr299.tck.tests.definition.qualifier.BeanWithInnerQualifier$InnerQualifier");
+		assertContainsQualifierType(bean, "javax.enterprise.inject.Any");
+	}
+
 }
