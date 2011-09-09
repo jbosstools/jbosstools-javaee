@@ -12,21 +12,22 @@
 
 	<extension
 	      point="org.jboss.tools.cdi.core.cdiextensions">
-    <cdiextension
-          class="org.jboss.tools.cdi.seam.core.international.CDISeamInternationalExtension"
-          runtime="org.jboss.seam.international.status.TypedStatusMessageBundleExtension">
-    </cdiextension>
-    <cdiextension
-          class="org.jboss.tools.cdi.seam.core.persistence.CDISeamPersistenceExtension"
-          runtime="org.jboss.seam.persistence.ManagedPersistenceContextExtension">
-    </cdiextension>
-	</extension>
-
-	<extension
-	      point="org.jboss.tools.cdi.core.cdiextensions">
+    	<cdiextension
+	          class="org.jboss.tools.cdi.seam.core.international.CDISeamInternationalExtension"
+        	  runtime="org.jboss.seam.international.status.TypedStatusMessageBundleExtension">
+    	</cdiextension>
+	    <cdiextension
+        	  class="org.jboss.tools.cdi.seam.core.persistence.CDISeamPersistenceExtension"
+    	      runtime="org.jboss.seam.persistence.ManagedPersistenceContextExtension">
+	    </cdiextension>
 	    <cdiextension
 	          class="org.jboss.tools.cdi.seam.core.servlet.SeamServletExtension"
 	          runtime="org.jboss.seam.servlet.ServletExtension">
 	    </cdiextension>
+	    <cdiextension
+	          class="org.jboss.tools.cdi.seam.core.jms.JmsDestinationExtension"
+	          runtime="org.jboss.seam.jms.Seam3JmsExtension">
+	    </cdiextension>
 	</extension>
+
 </plugin>

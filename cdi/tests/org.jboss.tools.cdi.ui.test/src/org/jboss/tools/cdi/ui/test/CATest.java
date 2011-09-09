@@ -13,6 +13,7 @@ package org.jboss.tools.cdi.ui.test;
 import junit.framework.TestCase;
 
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.jboss.tools.cdi.core.test.tck.TCKTest;
 import org.jboss.tools.jst.jsp.test.ca.ContentAssistantTestCase;
 
@@ -27,14 +28,9 @@ public class CATest extends TestCase {
 	private String[] beanProposals = new String[] {"example", "example.com", "fishJBT", "game", "haddock", "salmon", "sheep", "tunaFarm", "whitefishJBT", "wolf"};
 	private String[] propertyProposals = new String[] {"game.value", "game.initialize()"};
 
-	public CATest() {
-		super();
-		try {
-			project = TCKUITest.importPreparedProject("/tests/lookup");
-			caTest.setProject(project);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	public void setUp() {
+		project = ResourcesPlugin.getWorkspace().getRoot().getProject(TCKTest.PROJECT_NAME);
+		caTest.setProject(project);
 	}
 
 	public void testEL() {

@@ -3,12 +3,12 @@ package org.jboss.tools.cdi.ui.test.search;
 import java.util.ArrayList;
 
 import org.eclipse.core.runtime.CoreException;
-import org.jboss.tools.cdi.ui.test.TCKUITest;
+import org.jboss.tools.cdi.core.test.tck.TCKTest;
 import org.jboss.tools.jst.web.kb.refactoring.ELReferencesQueryParticipant;
 import org.jboss.tools.jst.web.kb.test.QueryParticipantTestUtils;
 import org.jboss.tools.jst.web.kb.test.QueryParticipantTestUtils.MatchStructure;
 
-public class ELReferencesQueryParticipantTest extends TCKUITest{
+public class ELReferencesQueryParticipantTest extends TCKTest{
 	
 	public void testELReferencesQueryParticipantForType() throws CoreException{
 		ArrayList<MatchStructure> matches = new ArrayList<MatchStructure>();

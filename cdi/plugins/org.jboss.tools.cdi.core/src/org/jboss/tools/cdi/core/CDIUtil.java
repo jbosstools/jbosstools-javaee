@@ -394,7 +394,33 @@ public class CDIUtil {
 	}
 
 	/**
-	 * Return @Named declaration or the stereotype declaration if it declares @Named.
+	 * Returns the annotation declaration directly or indirectly declared for this element.
+	 * For instance some annotation directly declared for the element may declare wanted annotation then the method will return this declaration.
+	 * So the returned declaration may be from a resource other than the resource of the element.
+	 * Returns null if no declaration found.
+	 * 
+	 * @param injection
+	 * @param qualifierTypeName
+	 * @return
+	 */
+	public static IAnnotationDeclaration getAnnotationDeclaration(IAnnotated element, String annotationTypeName) {
+		List<IAnnotationDeclaration> declarations = element.getAnnotations();
+		for (IAnnotationDeclaration declaration : declarations) {
+			IAnnotationType type = declaration.getAnnotation();
+			if(type!=null) {
+				if(annotationTypeName.equals(type.getSourceType().getFullyQualifiedName())) {
+					return declaration;
+				}
+				if(type instanceof IAnnotated) {
+					return getAnnotationDeclaration((IAnnotated)type, annotationTypeName);					
+				}
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Returns @Named declaration or the stereotype declaration if it declares @Named.
 	 * 
 	 * @param stereotyped
 	 * @return

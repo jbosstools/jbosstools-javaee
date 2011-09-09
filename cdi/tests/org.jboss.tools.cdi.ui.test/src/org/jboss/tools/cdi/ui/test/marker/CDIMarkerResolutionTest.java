@@ -24,7 +24,7 @@ import org.eclipse.ltk.core.refactoring.RefactoringStatus;
 import org.eclipse.ltk.core.refactoring.participants.RefactoringProcessor;
 import org.eclipse.ui.IMarkerResolution;
 import org.eclipse.ui.ide.IDE;
-import org.jboss.tools.cdi.core.test.tck.validation.ValidationTest;
+import org.jboss.tools.cdi.core.test.tck.TCKTest;
 import org.jboss.tools.cdi.internal.core.validation.CDICoreValidator;
 import org.jboss.tools.cdi.internal.core.validation.CDIValidationErrorManager;
 import org.jboss.tools.cdi.ui.marker.AddAnnotationMarkerResolution;
@@ -40,16 +40,14 @@ import org.jboss.tools.cdi.ui.marker.MakeFieldStaticMarkerResolution;
 import org.jboss.tools.cdi.ui.marker.MakeMethodBusinessMarkerResolution;
 import org.jboss.tools.cdi.ui.marker.MakeMethodPublicMarkerResolution;
 import org.jboss.tools.cdi.ui.marker.TestableResolutionWithRefactoringProcessor;
-import org.jboss.tools.cdi.ui.test.TCKUITest;
 import org.jboss.tools.common.base.test.validation.TestUtil;
 import org.jboss.tools.common.util.FileUtil;
-import org.jboss.tools.common.validation.ValidatorManager;
 
 /**
  * @author Daniel Azarov
  * 
  */
-public class CDIMarkerResolutionTest  extends TCKUITest {
+public class CDIMarkerResolutionTest  extends TCKTest {
 	
 	private void checkResolution(IProject project, String[] fileNames, String markerType, String idName, int id, Class<? extends IMarkerResolution> resolutionClass) throws CoreException {
 		checkResolution(project, fileNames, new String[]{}, markerType, idName, id, resolutionClass);

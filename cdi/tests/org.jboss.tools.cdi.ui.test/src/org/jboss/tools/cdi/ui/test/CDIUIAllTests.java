@@ -65,21 +65,12 @@ public class CDIUIAllTests {
 		suiteAll.addTestSuite(NewCDIClassWizardFactoryTest.class);
 		suiteAll.addTestSuite(CDIPreferencePageTest.class);
 		suiteAll.addTestSuite(NewCDIWizardTest.class);
-		suiteAll.addTestSuite(CATest.class);
 		suiteAll.addTestSuite(CAELProposalFilteringTest.class);
 
 		suite.addTestSuite(CDISearchParticipantTest.class);
 		suite.addTestSuite(ELReferencesQueryParticipantTest.class);
-		suiteAll.addTest(new CDICoreTestSetup(suite) {
-			@Override
-			protected void setUp() throws Exception {
-				tckProject = TCKUITest.importPreparedProject("/");
-			}
-			protected void tearDown() throws Exception {
-				tckProject.delete(true, true, null);
-			}
-		}
-		);
+		suite.addTestSuite(CATest.class);
+		suiteAll.addTest(new CDICoreTestSetup(suite));
 
 		suiteAll.addTestSuite(AddQualifiersToBeanWizardTest.class);
 

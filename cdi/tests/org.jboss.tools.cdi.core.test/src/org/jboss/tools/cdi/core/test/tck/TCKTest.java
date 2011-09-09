@@ -31,7 +31,6 @@ import org.jboss.tools.cdi.core.IInjectionPointParameter;
 import org.jboss.tools.cdi.core.IProducer;
 import org.jboss.tools.cdi.core.IQualifier;
 import org.jboss.tools.cdi.core.IQualifierDeclaration;
-import org.jboss.tools.cdi.core.test.tck.validation.CoreValidationTest;
 import org.jboss.tools.cdi.internal.core.impl.AnnotationDeclaration;
 import org.jboss.tools.cdi.internal.core.impl.CDIProject;
 import org.jboss.tools.common.EclipseUtil;
@@ -42,8 +41,6 @@ import org.jboss.tools.common.java.impl.JavaAnnotation;
 import org.jboss.tools.common.model.util.EclipseJavaUtil;
 import org.jboss.tools.common.text.ITextSourceReference;
 import org.jboss.tools.common.util.FileUtil;
-import org.jboss.tools.common.validation.ValidatorManager;
-import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.ResourcesUtils;
 import org.osgi.framework.Bundle;
 
@@ -75,10 +72,10 @@ public class TCKTest extends TestCase {
 		if(tckProject==null) {
 			try {
 				tckProject = findTestProject();
-				if(tckProject==null || !tckProject.exists()) {
+				if(!tckProject.exists()) {
 //					ValidatorManager.setStatus(CoreValidationTest.VALIDATION_STATUS);
 					tckProject = importPreparedProject("/");
-					TestUtil._waitForValidation(tckProject);
+//					TestUtil._waitForValidation(tckProject);
 //					TestUtil.waitForValidation();
 				}
 			} catch (Exception e) {
@@ -101,7 +98,7 @@ public class TCKTest extends TestCase {
 	public static IProject importPreparedProject(String packPath) throws Exception {
 		Bundle b = Platform.getBundle(PLUGIN_ID);
 		IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(PROJECT_NAME);
-		if(project==null || !project.exists()) {
+		if(!project.exists()) {
 			project = ResourcesUtils.importProject(b, PROJECT_PATH);
 			project.build(IncrementalProjectBuilder.INCREMENTAL_BUILD, null);
 		}
@@ -120,7 +117,8 @@ public class TCKTest extends TestCase {
 			FileUtil.copyDir(from, webInfTo, true, true, true, new XmlFileFilter());
 		}
 		project.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
-		JobUtils.waitForIdle();
+		TestUtil._waitForValidation(project);
+//		JobUtils.waitForIdle();
 		return project;
 	}
 

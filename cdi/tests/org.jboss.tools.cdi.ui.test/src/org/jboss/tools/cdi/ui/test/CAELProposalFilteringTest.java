@@ -15,12 +15,13 @@ import java.util.List;
 import junit.framework.TestCase;
 
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.contentassist.ICompletionProposal;
+import org.jboss.tools.cdi.core.test.tck.TCKTest;
 import org.jboss.tools.common.base.test.contentassist.CATestUtil;
 import org.jboss.tools.jst.jsp.contentassist.AutoContentAssistantProposal;
 import org.jboss.tools.jst.jsp.test.ca.ContentAssistantTestCase;
-import org.jboss.tools.test.util.JobUtils;
 
 /**
  * Test case testing http://jira.jboss.com/jira/browse/JBIDE-9633 issue.
@@ -40,17 +41,8 @@ public class CAELProposalFilteringTest extends TestCase {
 	}
 	
 	public void setUp() {
-		if (project == null) {
-			try {
-				IProject testProject = TCKUITest.importPreparedProject("/tests/lookup");
-				testProject = TCKUITest.importPreparedProject("/tests/ca");
-				caTest.setProject(testProject);
-				project = testProject;
-			} catch (Exception e) {
-				project = null;
-				e.printStackTrace();
-			}
-		}		
+		project = ResourcesPlugin.getWorkspace().getRoot().getProject(TCKTest.PROJECT_NAME);
+		caTest.setProject(project);
 	}
 
 	public void testCAELProposalFilteringInJSP () {

@@ -30,10 +30,9 @@ import org.jboss.tools.cdi.internal.core.impl.ObserverMethod;
 import org.jboss.tools.cdi.ui.search.CDIBeanQueryParticipant;
 import org.jboss.tools.cdi.ui.search.CDIMatch;
 import org.jboss.tools.cdi.ui.search.InjectionPointQueryParticipant;
-import org.jboss.tools.cdi.ui.test.TCKUITest;
 import org.jboss.tools.common.EclipseUtil;
 
-public class CDISearchParticipantTest  extends TCKUITest {
+public class CDISearchParticipantTest  extends TCKTest {
 	private static final int FIELD_SEARCH = 1;
 	private static final int METHOD_SEARCH = 2;
 	private static final int TYPE_SEARCH = 3;

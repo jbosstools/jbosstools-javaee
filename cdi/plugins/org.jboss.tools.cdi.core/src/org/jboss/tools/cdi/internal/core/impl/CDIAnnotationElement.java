@@ -20,14 +20,16 @@ import org.eclipse.jdt.core.IType;
 import org.jboss.tools.cdi.core.ICDIAnnotation;
 import org.jboss.tools.cdi.internal.core.impl.definition.AnnotationDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.AnnotationMemberDefinition;
+import org.jboss.tools.common.java.IAnnotated;
 import org.jboss.tools.common.java.IAnnotationDeclaration;
+import org.jboss.tools.common.text.ITextSourceReference;
 
 /**
  * 
  * @author Viacheslav Kabanovich
  *
  */
-public class CDIAnnotationElement extends CDIElement implements ICDIAnnotation {
+public class CDIAnnotationElement extends CDIElement implements ICDIAnnotation, IAnnotated {
 
 	protected AnnotationDefinition definition;
 
@@ -88,9 +90,49 @@ public class CDIAnnotationElement extends CDIElement implements ICDIAnnotation {
 		return definition.getAnnotation(typeName);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.common.java.IAnnotated#getAnnotations()
+	 */
+	@Override
+	public List<IAnnotationDeclaration> getAnnotations() {
+		return definition.getAnnotations();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.common.java.IAnnotated#getAnnotation(java.lang.String)
+	 */
+	@Override
+	public IAnnotationDeclaration getAnnotation(String annotationTypeName) {
+		return definition.getAnnotation(annotationTypeName);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.common.java.IAnnotated#getAnnotationPosition(java.lang.String)
+	 */
+	@Override
+	public ITextSourceReference getAnnotationPosition(String annotationTypeName) {
+		return definition.getAnnotationPosition(annotationTypeName);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.common.java.IAnnotated#isAnnotationPresent(java.lang.String)
+	 */
+	@Override
+	public boolean isAnnotationPresent(String annotationTypeName) {
+		return definition.isAnnotationPresent(annotationTypeName);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
 	public String toString() {
 		String type = getSourceType() == null ? "" : getSourceType().getFullyQualifiedName();
 		return super.toString() + " type=" + type; 
 	}
-
 }

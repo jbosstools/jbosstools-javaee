@@ -10,11 +10,13 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.core;
 
+import org.jboss.tools.common.java.IAnnotated;
+
 /**
  * Represents a qualifier.
  * 
  * @author Viacheslav Kabanovich
  */
-public interface IQualifier extends ICDIAnnotation {
+public interface IQualifier extends ICDIAnnotation, IAnnotated {
 	
 }

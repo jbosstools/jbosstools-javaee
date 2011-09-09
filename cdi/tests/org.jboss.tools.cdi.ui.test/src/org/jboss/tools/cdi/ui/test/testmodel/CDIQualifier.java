@@ -10,6 +10,7 @@ import org.eclipse.jdt.core.IType;
 import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.IQualifier;
 import org.jboss.tools.common.java.IAnnotationDeclaration;
+import org.jboss.tools.common.text.ITextSourceReference;
 
 public class CDIQualifier implements IQualifier{
 	private ICDIProject project;
@@ -62,12 +63,31 @@ public class CDIQualifier implements IQualifier{
 
 	@Override
 	public ICDIProject getDeclaringProject() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public boolean exists() {
+		return false;
+	}
+
+	@Override
+	public List<IAnnotationDeclaration> getAnnotations() {
+		return null;
+	}
+
+	@Override
+	public IAnnotationDeclaration getAnnotation(String annotationTypeName) {
+		return null;
+	}
+
+	@Override
+	public ITextSourceReference getAnnotationPosition(String annotationTypeName) {
+		return null;
+	}
+
+	@Override
+	public boolean isAnnotationPresent(String annotationTypeName) {
 		return false;
 	}
 }
