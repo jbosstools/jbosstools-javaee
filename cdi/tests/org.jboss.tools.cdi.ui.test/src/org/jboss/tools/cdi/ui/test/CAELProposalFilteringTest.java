@@ -30,20 +30,27 @@ import org.jboss.tools.test.util.JobUtils;
  */
 public class CAELProposalFilteringTest extends TestCase {
 
-	private IProject project;
+	private IProject project = null;
 	private ContentAssistantTestCase caTest = new ContentAssistantTestCase();
 	private static final String JSP_PAGE_NAME = "WebContent/test.jsp";
 	private static final String XHTML_PAGE_NAME = "WebContent/elValidation1.xhtml";
 	
 	public CAELProposalFilteringTest() {
 		super();
-		try {
-			project = TCKUITest.importPreparedProject("/tests/lookup");
-			project = TCKUITest.importPreparedProject("/tests/ca");
-			caTest.setProject(project);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	}
+	
+	public void setUp() {
+		if (project == null) {
+			try {
+				IProject testProject = TCKUITest.importPreparedProject("/tests/lookup");
+				testProject = TCKUITest.importPreparedProject("/tests/ca");
+				caTest.setProject(testProject);
+				project = testProject;
+			} catch (Exception e) {
+				project = null;
+				e.printStackTrace();
+			}
+		}		
 	}
 
 	public void testCAELProposalFilteringInJSP () {
@@ -76,8 +83,6 @@ public class CAELProposalFilteringTest extends TestCase {
 		String documentContentToCompare = documentContent.substring(0, start + prefix.length()) +
 			compareString + documentContent.substring(start + prefix.length());
 		
-		JobUtils.waitForIdle();
-		
 		List<ICompletionProposal> res = CATestUtil.collectProposals(caTest.getContentAssistant(), caTest.getViewer(), offsetToTest);
 
 		assertTrue("Content Assistant returned no proposals", (res != null && res.size() > 0));
@@ -100,12 +105,7 @@ public class CAELProposalFilteringTest extends TestCase {
 		}
 		assertTrue("The proposal to apply not found.", bPropoosalToApplyFound);
 
-		try {
-			JobUtils.waitForIdle();
-		} catch (Exception e) {
-			e.printStackTrace();
-			assertTrue("Waiting for the jobs to complete has failed.", false);
-		} 
+//		JobUtils.waitForIdle();
 
 		String documentUpdatedContent = document.get();
 		assertTrue("The proposal replacement is failed.", documentContentToCompare.equals(documentUpdatedContent));
