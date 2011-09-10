@@ -17,6 +17,7 @@ import org.eclipse.jdt.internal.core.JavaModelManager;
 import org.eclipse.wst.validation.ValidationFramework;
 import org.jboss.tools.cdi.seam.core.test.international.BundleModelTest;
 import org.jboss.tools.cdi.seam.core.test.international.SeamResourceBundlesTest;
+import org.jboss.tools.cdi.seam.core.test.jms.SeamJmsValidationTest;
 import org.jboss.tools.cdi.seam.core.test.persistence.SeamPersistenceTest;
 import org.jboss.tools.cdi.seam.core.test.persistence.SeamPersistenceTestSetup;
 import org.jboss.tools.cdi.seam.core.test.servlet.SeamServletValidationTest;
@@ -41,6 +42,7 @@ public class CDISeamCoreAllTests {
 		suite.addTestSuite(SeamServletValidationTest.class);
 		suite.addTestSuite(SeamResourceBundlesTest.class);
 		suite.addTestSuite(BundleModelTest.class);
+		suite.addTestSuite(SeamJmsValidationTest.class);
 		suiteAll.addTest(new SeamCoreTestSetup(suite));
 
 		suite = new TestSuite("Seam Persistence Project Tests");
