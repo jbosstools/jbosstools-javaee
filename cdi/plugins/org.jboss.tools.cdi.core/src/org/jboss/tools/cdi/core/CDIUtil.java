@@ -412,7 +412,10 @@ public class CDIUtil {
 					return declaration;
 				}
 				if(type instanceof IAnnotated) {
-					return getAnnotationDeclaration((IAnnotated)type, annotationTypeName);					
+					IAnnotationDeclaration decl = getAnnotationDeclaration((IAnnotated)type, annotationTypeName);
+					if(decl!=null) {
+						return decl;
+					}
 				}
 			}
 		}
