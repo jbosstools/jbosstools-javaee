@@ -10,36 +10,48 @@
 </head>
 
 <body>
-<f:view>
-	<rich:tree adviseNodeOpened="#{treeModelBean.adviseNodeOpened}"
-		switchType="client">
-		<rich:treeNodesAdaptor id="project" nodes="#{loaderBean.projects}"
-			var="project">
-			<rich:treeNode>
-				<h:commandLink action="#{project.click}"
-					value="Project: #{project.name}" />
-			</rich:treeNode>
-			<rich:treeNodesAdaptor id="srcDir" var="srcDir"
-				nodes="#{project.srcDirs}">
+	<f:view>
+		<rich:tree adviseNodeOpened="#{treeModelBean.adviseNodeOpened}"
+			switchType="client">
+			<rich:treeNodesAdaptor id="project" nodes="#{loaderBean.projects}"
+				var="project">
 				<rich:treeNode>
-					<h:commandLink action="#{srcDir.click}"
-						value="Source directory: #{srcDir.name}" />
+					<h:commandLink action="#{project.click}"
+						value="Project: #{project.name}" />
 				</rich:treeNode>
-				<rich:treeNodesAdaptor id="pkg" var="pkg" nodes="#{srcDir.packages}">
+				<rich:treeNodesAdaptor id="srcDir" var="srcDir"
+					nodes="#{project.srcDirs}">
 					<rich:treeNode>
-						<h:commandLink action="#{pkg.click}" value="Package: #{pkg.name}" />
+						<h:commandLink action="#{srcDir.click}"
+							value="Source directory: #{srcDir.name}" />
 					</rich:treeNode>
-					<rich:treeNodesAdaptor id="class" var="class"
-						nodes="#{pkg.classes}">
+					<rich:treeNodesAdaptor id="pkg" var="pkg"
+						nodes="#{srcDir.packages}">
 						<rich:treeNode>
-							<h:commandLink action="#{class.click}"
-								value="Class: #{class.name}" />
+							<h:commandLink action="#{pkg.click}" value="Package: #{pkg.name}" />
 						</rich:treeNode>
+						<rich:treeNodesAdaptor id="class" var="class"
+							nodes="#{pkg.classes}">
+							<rich:treeNode>
+								<h:commandLink action="#{class.click}"
+									value="Class: #{class.name}" />
+							</rich:treeNode>
+						</rich:treeNodesAdaptor>
 					</rich:treeNodesAdaptor>
 				</rich:treeNodesAdaptor>
 			</rich:treeNodesAdaptor>
-		</rich:treeNodesAdaptor>
-	</rich:tree>
-</f:view>
+		</rich:tree>
+
+		<rich:tree toggleType="client" var="item">
+			<rich:treeModelRecursiveAdaptor id="tMRA"
+				roots="#{fileSystemBean.sourceRoots}" nodes="#{item.directories}">
+				<rich:treeNode>#{item.shortPath}</rich:treeNode>
+				<rich:treeModelAdaptor id="tMA" nodes="#{item.files}">
+					<rich:treeNode>#{item}</rich:treeNode>
+				</rich:treeModelAdaptor>
+			</rich:treeModelRecursiveAdaptor>
+		</rich:tree>
+
+	</f:view>
 </body>
 </html>

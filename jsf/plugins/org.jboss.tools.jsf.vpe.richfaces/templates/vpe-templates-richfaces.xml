@@ -393,7 +393,7 @@
 	</vpe:tag>
 
 	<vpe:tag name="rich:hashParam" case-sensitive="yes">
-		<vpe:template children="no" modify="no">
+		<vpe:template children="yes" modify="no">
 		</vpe:template>
 	</vpe:tag>
 	
@@ -968,7 +968,6 @@
 		</vpe:template>
 	</vpe:tag>
 
-
 	<vpe:tag name="rich:tree" case-sensitive="yes">
 		<vpe:template children="yes" modify="no"
 			class="org.jboss.tools.jsf.vpe.richfaces.template.RichFacesTreeTemplate">
@@ -988,6 +987,30 @@
 				<vpe:format type="BlockFormat" addChildren="deny" />
 			</vpe:textFormatting>
 			<vpe:pseudoContent defaultText="yes" />
+		</vpe:template>
+	</vpe:tag>
+
+<vpe:tag name="rich:treeModelAdaptor" case-sensitive="yes">
+		<vpe:template children="yes" modify="no"
+			class="org.jboss.tools.jsf.vpe.richfaces.template.RichFacesTreeNodesAdaptorTemplate">
+			<vpe:dnd>
+				<vpe:drag start-enable="yes" />
+				<vpe:drop container="yes">
+					<vpe:container-child tag-name="treeNode" />
+				</vpe:drop>
+			</vpe:dnd>
+		</vpe:template>
+	</vpe:tag>
+
+	<vpe:tag name="rich:treeModelRecursiveAdaptor" case-sensitive="yes">
+		<vpe:template children="yes" modify="no"
+			class="org.jboss.tools.jsf.vpe.richfaces.template.RichFacesRecursiveTreeNodesAdaptorTemplate">
+			<vpe:dnd>
+				<vpe:drag start-enable="yes" />
+				<vpe:drop container="yes">
+					<vpe:container-child tag-name="treeNode" />
+				</vpe:drop>
+			</vpe:dnd>
 		</vpe:template>
 	</vpe:tag>
 
