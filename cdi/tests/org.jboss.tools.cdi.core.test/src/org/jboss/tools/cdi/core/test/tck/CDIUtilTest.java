@@ -31,9 +31,6 @@ public class CDIUtilTest extends TCKTest {
 		assertNotNull("Can't find the bean.", bean);
 		Set<IInjectionPoint> injections = bean.getInjectionPoints();
 		for (IInjectionPoint injectionPoint : injections) {
-			if(injectionPoint instanceof IInjectionPointMethod) { // TODO Remove this check when https://issues.jboss.org/browse/JBIDE-9698 (Replace interface IInjectionPointMethod by IInitializerMethod) is fixed
-				continue;
-			}
 			IAnnotationDeclaration declaration = CDIUtil.getAnnotationDeclaration(injectionPoint, "org.jboss.jsr299.tck.tests.jbt.test.core.TestQualifier");
 			String elementName = injectionPoint.getSourceMember().getElementName();
 			if(elementName.equals("i4")) {
