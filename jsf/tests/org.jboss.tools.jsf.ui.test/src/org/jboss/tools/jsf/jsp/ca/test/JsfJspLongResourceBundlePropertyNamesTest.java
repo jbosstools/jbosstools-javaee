@@ -96,7 +96,7 @@ public class JsfJspLongResourceBundlePropertyNamesTest extends ContentAssistantT
 		
 	}
 	
-	public void _testJstJspLongResourceBundlePropertyNamesInTagAttributeValue() {
+	public void testJstJspLongResourceBundlePropertyNamesInTagAttributeValue() {
 		assertNotNull("Test project '" + PROJECT_NAME + "' is not prepared", project);
 		
 		openEditor(PAGE_NAME);
@@ -118,7 +118,7 @@ public class JsfJspLongResourceBundlePropertyNamesTest extends ContentAssistantT
 		}
 	}
 
-	public void _testJstJspLongResourceBundlePropertyNamesInText() {
+	public void testJstJspLongResourceBundlePropertyNamesInText() {
 		assertNotNull("Test project '" + PROJECT_NAME + "' is not prepared", project);
 		
 		openEditor(PAGE_NAME);
