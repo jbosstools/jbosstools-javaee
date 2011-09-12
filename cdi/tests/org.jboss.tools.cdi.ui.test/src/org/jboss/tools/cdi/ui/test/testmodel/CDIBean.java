@@ -13,6 +13,7 @@ import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IBeanMethod;
 import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.IClassBean;
+import org.jboss.tools.cdi.core.IInitializerMethod;
 import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.core.IInterceptorBinding;
 import org.jboss.tools.cdi.core.IInterceptorBindingDeclaration;
@@ -275,5 +276,11 @@ public class CDIBean extends CDIElement implements IClassBean{
 	public void open() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public Set<IInitializerMethod> getInitializers() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

@@ -60,6 +60,7 @@ import org.jboss.tools.cdi.core.ICDIAnnotation;
 import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.IClassBean;
 import org.jboss.tools.cdi.core.IDecorator;
+import org.jboss.tools.cdi.core.IInitializerMethod;
 import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.core.IInjectionPointField;
 import org.jboss.tools.cdi.core.IInjectionPointMethod;
@@ -697,6 +698,7 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 	}
 
 	private void validateClassBean(IClassBean bean) {
+		validateInitializers(bean);
 		validateDisposers(bean);
 		validateObserves(bean);
 		if (!(bean instanceof ISessionBean)) {
@@ -1458,6 +1460,43 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 		return false;
 	}
 
+	private void validateInitializers(IClassBean bean) {
+		Set<IInitializerMethod> initializers = bean.getInitializers();
+		for (IInitializerMethod initializer: initializers) {
+			try {
+				validateInitializerMethod(initializer);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	private void validateInitializerMethod(IInitializerMethod initializer) {
+		IAnnotationDeclaration named = initializer.getAnnotation(CDIConstants.NAMED_QUALIFIER_TYPE_NAME);
+		if (named != null) {
+			boolean valueExists = named.getMemberValue(null) != null;
+			if (!valueExists) {
+				addError(CDIValidationMessages.PARAM_INJECTION_DECLARES_EMPTY_NAME, CDIPreferences.PARAM_INJECTION_DECLARES_EMPTY_NAME, named, initializer.getResource());
+			}
+		}
+
+		IAnnotationDeclaration declaration = initializer.getInjectAnnotation();
+		/*
+		 * 3.9.1. Declaring an initializer method
+		 *  - generic method of a bean is annotated @Inject
+		 */
+		if(CDIUtil.isMethodGeneric(initializer)) {
+			addError(CDIValidationMessages.GENERIC_METHOD_ANNOTATED_INJECT, CDIPreferences.GENERIC_METHOD_ANNOTATED_INJECT, declaration, initializer.getResource());
+		}
+		/*
+		 * 3.9. Initializer methods
+		 *  - initializer method may not be static
+		 */
+		if(CDIUtil.isMethodStatic(initializer)) {
+			addError(CDIValidationMessages.STATIC_METHOD_ANNOTATED_INJECT, CDIPreferences.GENERIC_METHOD_ANNOTATED_INJECT, declaration, initializer.getResource());
+		}
+	}
+
 	private void validateInjectionPoint(IInjectionPoint injection) {
 		/*
 		 * 3.11. The qualifier @Named at injection points
@@ -1474,31 +1513,6 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 							named,
 							injection.getResource());
 				}
-			}
-		} else if (injection instanceof IInjectionPointMethod) {
-			IAnnotationDeclaration named = injection.getAnnotation(CDIConstants.NAMED_QUALIFIER_TYPE_NAME);
-			if (named != null) {
-				boolean valueExists = named.getMemberValue(null) != null;
-				if (!valueExists) {
-					addError(CDIValidationMessages.PARAM_INJECTION_DECLARES_EMPTY_NAME, CDIPreferences.PARAM_INJECTION_DECLARES_EMPTY_NAME, named, injection.getResource());
-				}
-			}
-
-			IInjectionPointMethod injectionMethod = (IInjectionPointMethod)injection;
-			IAnnotationDeclaration declaration = injection.getInjectAnnotation();
-			/*
-			 * 3.9.1. Declaring an initializer method
-			 *  - generic method of a bean is annotated @Inject
-			 */
-			if(CDIUtil.isMethodGeneric(injectionMethod)) {
-				addError(CDIValidationMessages.GENERIC_METHOD_ANNOTATED_INJECT, CDIPreferences.GENERIC_METHOD_ANNOTATED_INJECT, declaration, injection.getResource());
-			}
-			/*
-			 * 3.9. Initializer methods
-			 *  - initializer method may not be static
-			 */
-			if(CDIUtil.isMethodStatic(injectionMethod)) {
-				addError(CDIValidationMessages.STATIC_METHOD_ANNOTATED_INJECT, CDIPreferences.GENERIC_METHOD_ANNOTATED_INJECT, declaration, injection.getResource());
 			}
 		}
 

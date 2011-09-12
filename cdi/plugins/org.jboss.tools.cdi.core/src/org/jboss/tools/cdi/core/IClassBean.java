@@ -71,4 +71,10 @@ public interface IClassBean extends IBean, IInterceptorBinded, IJavaMemberRefere
 	 */
 	IClassBean getSuperClassBean();
 
+	/**
+	 * Obtains the initializer methods of the class bean.
+	 * 
+	 * @return the initializer methods of the class bean
+	 */
+	Set<IInitializerMethod> getInitializers();
 }

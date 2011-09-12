@@ -27,6 +27,7 @@ import org.jboss.tools.cdi.core.CDIUtil;
 import org.jboss.tools.cdi.core.IBeanMethod;
 import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.IClassBean;
+import org.jboss.tools.cdi.core.IInitializerMethod;
 import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.core.IInterceptorBinding;
 import org.jboss.tools.cdi.core.IInterceptorBindingDeclaration;
@@ -85,7 +86,7 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 			if(m.getProducesAnnotation() != null) {
 				bm = newProducerMethod(m);
 			} else if(m.getInjectAnnotation() != null) {
-				bm = new InjectionPointMethod();
+				bm = new InitializerMethod();
 			} else if(m.isObserver()) {
 				bm = new ObserverMethod();
 			} else {
@@ -293,6 +294,17 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 		return ((TypeDefinition)definition).getType();
 	}
 
+	@Override
+	public Set<IInitializerMethod> getInitializers() {
+		Set<IInitializerMethod> result = new HashSet<IInitializerMethod>();
+		for (BeanMethod m: methods) {
+			if(m instanceof IInitializerMethod) {
+				result.add((IInitializerMethod)m);
+			}
+		}
+		return result;
+	}
+
 	public Set<IInjectionPoint> getInjectionPoints() {
 		Set<IInjectionPoint> result = new HashSet<IInjectionPoint>();
 		for (BeanField f: fields) {
@@ -301,9 +313,9 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 			}
 		}
 		for (BeanMethod m: methods) {
-			if(m instanceof IInjectionPoint) {
-				result.add((IInjectionPoint)m);
-			}
+//			if(m instanceof IInjectionPoint) {
+//				result.add((IInjectionPoint)m);
+//			}
 			List<IParameter> ps = m.getParameters();
 			for (IParameter p: ps) {
 				if(p instanceof IInjectionPoint) {

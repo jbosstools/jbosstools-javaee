@@ -10,6 +10,8 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.core;
 
+import org.jboss.tools.common.java.IAnnotationDeclaration;
+
 /**
  * Represents an initializer method (a method annotated @Inject)
  * Each parameter of this method is an injection point.
@@ -18,4 +20,10 @@ package org.jboss.tools.cdi.core;
  */
 public interface IInitializerMethod extends IBeanMethod {
 
+	/**
+	 * Returns the @Inject annotation declaration
+	 * 
+	 * @return the @Inject annotation declaration.
+	 */
+	IAnnotationDeclaration getInjectAnnotation();
 }

@@ -16,6 +16,7 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.jdt.core.IMethod;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IClassBean;
+import org.jboss.tools.cdi.core.IInitializerMethod;
 import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.core.IInjectionPointField;
 import org.jboss.tools.cdi.core.IInjectionPointMethod;
@@ -125,18 +126,12 @@ public class ObserverMethodResolutionTest extends TCKTest {
 			}
 		}
 		assertNotNull(cb);
-		Set<IInjectionPoint> ps = cb.getInjectionPoints();
-		IInjectionPointMethod mp = null;
-		for (IInjectionPoint p: ps) {
-			if(p instanceof IInjectionPointMethod) {
-				mp = (IInjectionPointMethod)p;
-			}
-		}
+		Set<IInitializerMethod> ps = cb.getInitializers();
+		IInitializerMethod mp = ps.isEmpty() ? null : ps.iterator().next();
 		assertNotNull(mp);
 		assertEquals("foo", mp.getMethod().getElementName());
 		//no exception should happen on invoking resolveObserverMethods
-		cdiProject.resolveObserverMethods(mp);
-		
+//		cdiProject.resolveObserverMethods(mp); not applicable to initializer method		
 	}
 
 
