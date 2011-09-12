@@ -36,8 +36,10 @@ public class JsfJspLongResourceBundlePropertyNamesTest extends ContentAssistantT
 	private static final String PROPOSAL_TO_APPLY_STRING = "['org.jboss.long.named.Property']";
 	private static final String PREFIX_STRING = "#{msg.";
 	private static final String ATTR_PREFIX_STRING = "h:outputText";
+	private static final String NOT_CLOSED_ATTR_PREFIX_STRING = "h:outputLabel";
 	private static final String TEXT_PREFIX_STRING = "<ui:define name=\"body\"";
 	private static final String COMPARE_STRING = "#{msg['org.jboss.long.named.Property']";
+	private static final String NOT_CLOSED_COMPARE_STRING = "#{msg['org.jboss.long.named.Property']}\"";
 	
 	public void setUp() throws Exception {
 		project = ProjectImportTestSetup.loadProject(PROJECT_NAME);
@@ -48,6 +50,7 @@ public class JsfJspLongResourceBundlePropertyNamesTest extends ContentAssistantT
 		return new TestSuite(JsfJspLongResourceBundlePropertyNamesTest.class);
 	}
 
+	@SuppressWarnings("restriction")
 	private void doTestLongResourceBundlePropertyNames(String tagName, String prefix, String proposalToApply, String compareString) {
 		// Find start of <ui:composition> tag
 		String documentContent = document.get();
@@ -93,7 +96,7 @@ public class JsfJspLongResourceBundlePropertyNamesTest extends ContentAssistantT
 		
 	}
 	
-	public void testJstJspLongResourceBundlePropertyNamesInTagAttributeValue() {
+	public void _testJstJspLongResourceBundlePropertyNamesInTagAttributeValue() {
 		assertNotNull("Test project '" + PROJECT_NAME + "' is not prepared", project);
 		
 		openEditor(PAGE_NAME);
@@ -104,7 +107,18 @@ public class JsfJspLongResourceBundlePropertyNamesTest extends ContentAssistantT
 		}
 	}
 
-	public void testJstJspLongResourceBundlePropertyNamesInText() {
+	public void testJstJspLongResourceBundlePropertyNamesInNotClosedTagAttributeValue() {
+		assertNotNull("Test project '" + PROJECT_NAME + "' is not prepared", project);
+		
+		openEditor(PAGE_NAME);
+		try {
+			doTestLongResourceBundlePropertyNames(NOT_CLOSED_ATTR_PREFIX_STRING, PREFIX_STRING, PROPOSAL_TO_APPLY_STRING, NOT_CLOSED_COMPARE_STRING);
+		} finally {
+			closeEditor();
+		}
+	}
+
+	public void _testJstJspLongResourceBundlePropertyNamesInText() {
 		assertNotNull("Test project '" + PROJECT_NAME + "' is not prepared", project);
 		
 		openEditor(PAGE_NAME);
