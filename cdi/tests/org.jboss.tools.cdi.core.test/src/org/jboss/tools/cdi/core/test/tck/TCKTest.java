@@ -141,10 +141,15 @@ public class TCKTest extends TestCase {
 	}
 
 	protected IClassBean getClassBean(String path) {
+		return getClassBean(null, path);
+	}
+
+	protected IClassBean getClassBean(String fullyQualifiedTypeName, String path) {
 		IFile file = tckProject.getFile(path);
+		assertTrue(file.exists());
 		Set<IBean> beans = cdiProject.getBeans(file.getFullPath());
 		for (IBean bean : beans) {
-			if(bean instanceof IClassBean) {
+			if(bean instanceof IClassBean && (fullyQualifiedTypeName==null || fullyQualifiedTypeName.equals(bean.getBeanClass().getFullyQualifiedName()))) {
 				return (IClassBean)bean;
 			}
 		}

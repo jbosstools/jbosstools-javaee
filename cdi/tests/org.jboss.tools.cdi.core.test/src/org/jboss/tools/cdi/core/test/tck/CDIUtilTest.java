@@ -26,7 +26,7 @@ public class CDIUtilTest extends TCKTest {
 	 * See https://issues.jboss.org/browse/JBIDE-9685 Seam JMS: CDI validator should be aware of JMS resource injections
 	 */
 	public void testMethodParameter() {
-		IClassBean bean = getClassBean("JavaSource/org/jboss/jsr299/tck/tests/jbt/core/TestInjection.java");
+		IClassBean bean = getClassBean("org.jboss.jsr299.tck.tests.jbt.core.TestInjection", "JavaSource/org/jboss/jsr299/tck/tests/jbt/core/TestInjection.java");
 		assertNotNull("Can't find the bean.", bean);
 		Set<IInjectionPoint> injections = bean.getInjectionPoints();
 		assertEquals(9, injections.size());
