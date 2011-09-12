@@ -30,14 +30,14 @@ public class CDIUtilTest extends TCKTest {
 		Set<IInjectionPoint> injections = bean.getInjectionPoints();
 		assertEquals(9, injections.size());
 		for (IInjectionPoint injectionPoint : injections) {
-			IAnnotationDeclaration declaration = CDIUtil.getAnnotationDeclaration(injectionPoint, "org.jboss.jsr299.tck.tests.jbt.test.core.TestQualifier");
+			IAnnotationDeclaration declaration = CDIUtil.getAnnotationDeclaration(injectionPoint, "org.jboss.jsr299.tck.tests.jbt.core.TestQualifier");
 			String elementName = injectionPoint.getSourceMember().getElementName();
 			if(elementName.equals("i4")) {
 				assertNull("Have found @TestQualifier for " + elementName, declaration);
 			} else {
 				assertNotNull("Have not found @TestQualifier for " + elementName, declaration);
 			}
-			declaration = CDIUtil.getAnnotationDeclaration(injectionPoint, "org.jboss.jsr299.tck.tests.jbt.test.core.TestQualifier3");
+			declaration = CDIUtil.getAnnotationDeclaration(injectionPoint, "org.jboss.jsr299.tck.tests.jbt.core.TestQualifier3");
 			if(elementName.equals("i1") || elementName.equals("i2") || elementName.equals("i3") || elementName.equals("i7")) {
 				assertNull("Have found @TestQualifier3 for " + elementName, declaration);
 			} else {
