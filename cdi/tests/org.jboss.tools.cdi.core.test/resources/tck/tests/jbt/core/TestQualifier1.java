@@ -1,4 +1,4 @@
-package org.jboss.jsr299.tck.tests.jbt.test.core;
+package org.jboss.jsr299.tck.tests.jbt.core;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;

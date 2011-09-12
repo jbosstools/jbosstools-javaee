@@ -1,4 +1,4 @@
-package org.jboss.jsr299.tck.tests.jbt.test.core;
+package org.jboss.jsr299.tck.tests.jbt.core;
 
 import javax.inject.Inject;
 
