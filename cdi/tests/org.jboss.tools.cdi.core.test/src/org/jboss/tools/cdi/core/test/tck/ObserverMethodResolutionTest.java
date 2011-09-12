@@ -19,7 +19,6 @@ import org.jboss.tools.cdi.core.IClassBean;
 import org.jboss.tools.cdi.core.IInitializerMethod;
 import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.core.IInjectionPointField;
-import org.jboss.tools.cdi.core.IInjectionPointMethod;
 import org.jboss.tools.cdi.core.IInjectionPointParameter;
 import org.jboss.tools.cdi.core.IObserverMethod;
 import org.jboss.tools.cdi.core.IParameter;

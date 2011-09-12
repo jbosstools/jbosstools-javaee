@@ -63,7 +63,6 @@ import org.jboss.tools.cdi.core.IDecorator;
 import org.jboss.tools.cdi.core.IInitializerMethod;
 import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.core.IInjectionPointField;
-import org.jboss.tools.cdi.core.IInjectionPointMethod;
 import org.jboss.tools.cdi.core.IInjectionPointParameter;
 import org.jboss.tools.cdi.core.IInterceptor;
 import org.jboss.tools.cdi.core.IInterceptorBinded;
@@ -1463,11 +1462,7 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 	private void validateInitializers(IClassBean bean) {
 		Set<IInitializerMethod> initializers = bean.getInitializers();
 		for (IInitializerMethod initializer: initializers) {
-			try {
-				validateInitializerMethod(initializer);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			validateInitializerMethod(initializer);
 		}
 	}
 
@@ -1522,11 +1517,11 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 		 * 5.2.2. Legal injection point types
 		 *  - injection point type is a type variable
 		 */
-		if(!(injection instanceof IInjectionPointMethod) && CDIUtil.isTypeVariable(injection, false)) {
+		if(CDIUtil.isTypeVariable(injection, false)) {
 			addError(CDIValidationMessages.INJECTION_TYPE_IS_VARIABLE, CDIPreferences.INJECTION_TYPE_IS_VARIABLE, declaration, injection.getResource());
 		}
 
-		if(declaration!=null && !(injection instanceof IInjectionPointMethod)) {
+		if(declaration!=null) {
 			Set<IBean> beans = cdiProject.getBeans(true, injection);
 			ITextSourceReference reference = injection instanceof IInjectionPointParameter?injection:declaration;
 			/*

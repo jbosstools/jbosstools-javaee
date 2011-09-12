@@ -46,7 +46,6 @@ import org.jboss.tools.cdi.core.IBeanField;
 import org.jboss.tools.cdi.core.IBeanMethod;
 import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.core.IInjectionPointField;
-import org.jboss.tools.cdi.core.IInjectionPointMethod;
 import org.jboss.tools.cdi.core.IInjectionPointParameter;
 import org.jboss.tools.cdi.core.IQualifier;
 import org.jboss.tools.cdi.core.IQualifierDeclaration;
@@ -575,12 +574,12 @@ public class MarkerResolutionUtils {
 			IField f = t.getField(field.getElementName());
 			
 			return f;
-		}else if(injectionPoint instanceof IInjectionPointMethod){
-			IMethod method = ((IInjectionPointMethod)injectionPoint).getMethod();
+		}else if(injectionPoint instanceof IInjectionPointParameter){
+			IMethod method = ((IInjectionPointParameter)injectionPoint).getBeanMethod().getMethod();
 			IType type = method.getDeclaringType();
 			IType t = compilationUnit.getType(type.getElementName());
 			IMethod m = t.getMethod(method.getElementName(), method.getParameterTypes());
-			
+			// Why method? Why not Java element for parameter?
 			return m;
 		}
 		return null;

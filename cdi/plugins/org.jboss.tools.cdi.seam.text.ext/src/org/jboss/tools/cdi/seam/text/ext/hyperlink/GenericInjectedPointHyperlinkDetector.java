@@ -42,7 +42,6 @@ import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.IClassBean;
 import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.core.IInjectionPointField;
-import org.jboss.tools.cdi.core.IInjectionPointMethod;
 import org.jboss.tools.cdi.core.IInjectionPointParameter;
 import org.jboss.tools.cdi.seam.solder.core.CDISeamSolderConstants;
 import org.jboss.tools.cdi.seam.solder.core.generic.GenericClassBean;
@@ -181,9 +180,6 @@ public class GenericInjectedPointHyperlinkDetector extends AbstractHyperlinkDete
 			for (IInjectionPoint iPoint : injectionPoints) {
 				if (element instanceof IField && iPoint instanceof IInjectionPointField) {
 					if (((IInjectionPointField) iPoint).getField() != null && ((IInjectionPointField) iPoint).getField().getElementName().equals(element.getElementName()))
-						results.add(iPoint);
-				} else if (element instanceof IMethod && iPoint instanceof IInjectionPointMethod && position == 0) {
-					if (((IInjectionPointMethod) iPoint).getMethod() != null && ((IInjectionPointMethod) iPoint).getMethod().equals(element))
 						results.add(iPoint);
 				}else if(element instanceof ILocalVariable && iPoint instanceof IInjectionPointParameter){
 					if (((IInjectionPointParameter) iPoint).getName().equals(element.getElementName())) 

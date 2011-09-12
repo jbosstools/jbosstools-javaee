@@ -35,9 +35,9 @@ import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.ICDIElement;
 import org.jboss.tools.cdi.core.ICDIProject;
+import org.jboss.tools.cdi.core.IInitializerMethod;
 import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.core.IInjectionPointField;
-import org.jboss.tools.cdi.core.IInjectionPointMethod;
 import org.jboss.tools.cdi.core.IInjectionPointParameter;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
 import org.jboss.tools.cdi.ui.CDIUIPlugin;
@@ -171,7 +171,8 @@ public class CDIBeanQueryParticipant implements IQueryParticipant{
 				
 				if(cdiElement instanceof IInjectionPointField){
 					return NLS.bind(CDIUIMessages.CDI_BEAN_QUERY_PARTICIPANT_INJECT_FIELD, label);
-				}else if(cdiElement instanceof IInjectionPointMethod){
+				}else if(cdiElement instanceof IInitializerMethod){
+					//It is not an injection point, but it has annotation @Inject and contains injection point parameters
 					return NLS.bind(CDIUIMessages.CDI_BEAN_QUERY_PARTICIPANT_INJECT_METHOD, label);
 				}else if(cdiElement instanceof IInjectionPointParameter){
 					return NLS.bind(CDIUIMessages.CDI_BEAN_QUERY_PARTICIPANT_INJECT_PARAMETER, label);

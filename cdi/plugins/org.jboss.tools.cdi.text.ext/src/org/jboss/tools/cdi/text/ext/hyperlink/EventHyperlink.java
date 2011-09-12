@@ -22,7 +22,7 @@ import org.eclipse.ui.PartInitException;
 import org.jboss.tools.cdi.core.ICDIElement;
 import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.core.IInjectionPointField;
-import org.jboss.tools.cdi.core.IInjectionPointMethod;
+import org.jboss.tools.cdi.core.IInjectionPointParameter;
 import org.jboss.tools.cdi.core.IObserverMethod;
 import org.jboss.tools.cdi.text.ext.CDIExtensionsMessages;
 import org.jboss.tools.cdi.text.ext.CDIExtensionsPlugin;
@@ -59,8 +59,8 @@ public class EventHyperlink extends AbstractHyperlink implements ITestableCDIHyp
 			IJavaElement element = event.getClassBean().getBeanClass();
 			if(event instanceof IInjectionPointField)
 				element = ((IInjectionPointField)event).getField();
-			else if(event instanceof IInjectionPointMethod)
-				element = ((IInjectionPointMethod)event).getMethod();
+			else if(event instanceof IInjectionPointParameter)
+				element = ((IInjectionPointParameter)event).getBeanMethod().getMethod();
 			
 			if (part != null) {
 				JavaUI.revealInEditor(part, element);
@@ -74,10 +74,12 @@ public class EventHyperlink extends AbstractHyperlink implements ITestableCDIHyp
 	public String getHyperlinkText() {
 		String text = CDIExtensionsMessages.CDI_EVENT_HYPERLINK_OPEN_EVENT+" "+event.getClassBean().getBeanClass().getElementName();
 		
-		if(event instanceof IInjectionPointField)
+		if(event instanceof IInjectionPointField) {
 			text += "."+((IInjectionPointField)event).getField().getElementName();
-		else if(event instanceof IInjectionPointMethod)
-			text += "."+((IInjectionPointMethod)event).getMethod().getElementName();
+		} else if(event instanceof IInjectionPointParameter) {
+			IInjectionPointParameter p = (IInjectionPointParameter)event;
+			text += "." + p.getBeanMethod().getMethod().getElementName();
+		}
 		
 		return text;
 	}

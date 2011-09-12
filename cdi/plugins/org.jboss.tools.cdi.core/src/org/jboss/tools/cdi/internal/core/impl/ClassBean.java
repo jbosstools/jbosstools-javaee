@@ -313,9 +313,6 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 			}
 		}
 		for (BeanMethod m: methods) {
-//			if(m instanceof IInjectionPoint) {
-//				result.add((IInjectionPoint)m);
-//			}
 			List<IParameter> ps = m.getParameters();
 			for (IParameter p: ps) {
 				if(p instanceof IInjectionPoint) {

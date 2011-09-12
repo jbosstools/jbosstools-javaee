@@ -16,8 +16,8 @@ import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.graphics.Image;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.ICDIElement;
+import org.jboss.tools.cdi.core.IInitializerMethod;
 import org.jboss.tools.cdi.core.IInjectionPointField;
-import org.jboss.tools.cdi.core.IInjectionPointMethod;
 import org.jboss.tools.cdi.core.IInjectionPointParameter;
 import org.jboss.tools.cdi.core.IObserverMethod;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
@@ -39,7 +39,7 @@ public class InjectionPointLabelProvider implements ILabelProvider {
 				return NLS.bind(CDIUIMessages.INJECTION_POINT_LABEL_PROVIDER_OBSERVER_METHOD, label);
 			}else if(cdiElement instanceof IInjectionPointField){
 				return NLS.bind(CDIUIMessages.INJECTION_POINT_LABEL_PROVIDER_EVENT, label);
-			}else if(cdiElement instanceof IInjectionPointMethod){
+			}else if(cdiElement instanceof IInitializerMethod){
 				return NLS.bind(CDIUIMessages.INJECTION_POINT_LABEL_PROVIDER_EVENT, label);
 			}else if(cdiElement instanceof IInjectionPointParameter){
 				return NLS.bind(CDIUIMessages.INJECTION_POINT_LABEL_PROVIDER_EVENT, label);

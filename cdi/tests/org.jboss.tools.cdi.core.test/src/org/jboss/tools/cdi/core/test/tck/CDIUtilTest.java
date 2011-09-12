@@ -15,7 +15,6 @@ import java.util.Set;
 import org.jboss.tools.cdi.core.CDIUtil;
 import org.jboss.tools.cdi.core.IClassBean;
 import org.jboss.tools.cdi.core.IInjectionPoint;
-import org.jboss.tools.cdi.core.IInjectionPointMethod;
 import org.jboss.tools.common.java.IAnnotationDeclaration;
 
 /**

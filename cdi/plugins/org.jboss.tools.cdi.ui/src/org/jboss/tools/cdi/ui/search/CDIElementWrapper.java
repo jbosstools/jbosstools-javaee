@@ -17,11 +17,10 @@ import org.eclipse.jdt.core.Signature;
 import org.jboss.tools.cdi.core.CDIUtil;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.ICDIElement;
+import org.jboss.tools.cdi.core.IInitializerMethod;
 import org.jboss.tools.cdi.core.IInjectionPointField;
-import org.jboss.tools.cdi.core.IInjectionPointMethod;
 import org.jboss.tools.cdi.core.IInjectionPointParameter;
 import org.jboss.tools.cdi.core.IObserverMethod;
-import org.jboss.tools.cdi.ui.marker.MarkerResolutionUtils;
 
 public class CDIElementWrapper {
 	private static String SPACE = " ";
@@ -45,9 +44,9 @@ public class CDIElementWrapper {
 		}else if(element instanceof IInjectionPointField){
 			javaElement = ((IInjectionPointField)element).getField();
 			label = ((IInjectionPointField)element).getField().getDeclaringType().getElementName()+DOT+((IInjectionPointField)element).getField().getElementName();
-		}else if(element instanceof IInjectionPointMethod){
-			javaElement = ((IInjectionPointMethod)element).getMethod();
-			label = ((IInjectionPointMethod)element).getMethod().getDeclaringType().getElementName()+DOT+((IInjectionPointMethod)element).getMethod().getElementName()+BRACKETS;
+		}else if(element instanceof IInitializerMethod){
+			javaElement = ((IInitializerMethod)element).getMethod();
+			label = ((IInitializerMethod)element).getMethod().getDeclaringType().getElementName()+DOT+((IInitializerMethod)element).getMethod().getElementName()+BRACKETS;
 		}else if(element instanceof IInjectionPointParameter){
 			IMethod method = ((IInjectionPointParameter)element).getBeanMethod().getMethod();
 			javaElement = CDIUtil.getParameter(method, ((IInjectionPointParameter)element).getName());
