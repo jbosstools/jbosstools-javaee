@@ -1511,7 +1511,10 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 			}
 		}
 
-		IAnnotationDeclaration declaration = injection.getInjectAnnotation();
+		ITextSourceReference declaration = injection.getInjectAnnotation();
+		if(declaration == null && injection instanceof IInjectionPointParameter) {
+			declaration = injection;
+		}
 
 		/*
 		 * 5.2.2. Legal injection point types
