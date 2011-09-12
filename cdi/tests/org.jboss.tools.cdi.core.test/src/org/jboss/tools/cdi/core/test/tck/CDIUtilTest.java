@@ -29,19 +29,20 @@ public class CDIUtilTest extends TCKTest {
 		IClassBean bean = getClassBean("JavaSource/org/jboss/jsr299/tck/tests/jbt/core/TestInjection.java");
 		assertNotNull("Can't find the bean.", bean);
 		Set<IInjectionPoint> injections = bean.getInjectionPoints();
+		assertEquals(9, injections.size());
 		for (IInjectionPoint injectionPoint : injections) {
 			IAnnotationDeclaration declaration = CDIUtil.getAnnotationDeclaration(injectionPoint, "org.jboss.jsr299.tck.tests.jbt.test.core.TestQualifier");
 			String elementName = injectionPoint.getSourceMember().getElementName();
 			if(elementName.equals("i4")) {
-				assertNull(declaration);
+				assertNull("Have found @TestQualifier for " + elementName, declaration);
 			} else {
-				assertNotNull(declaration);
+				assertNotNull("Have not found @TestQualifier for " + elementName, declaration);
 			}
 			declaration = CDIUtil.getAnnotationDeclaration(injectionPoint, "org.jboss.jsr299.tck.tests.jbt.test.core.TestQualifier3");
-			if(elementName.equals("i1") || elementName.equals("i2") || elementName.equals("i3")) {
-				assertNull(declaration);
+			if(elementName.equals("i1") || elementName.equals("i2") || elementName.equals("i3") || elementName.equals("i7")) {
+				assertNull("Have found @TestQualifier3 for " + elementName, declaration);
 			} else {
-				assertNotNull(declaration);
+				assertNotNull("Have not found @TestQualifier3 for " + elementName, declaration);
 			}
 		}
 	}

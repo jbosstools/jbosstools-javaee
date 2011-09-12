@@ -11,7 +11,7 @@ public class TestInjection {
 
 	@Inject @TestQualifier3 @TestQualifier2 Test i5;  // has @TestQualifier, @TestQualifier1, @TestQualifier2 and @TestQualifier3
 	@Inject @TestQualifier2 @TestQualifier3 Test i6;  // has @TestQualifier, @TestQualifier1, @TestQualifier2 and @TestQualifier3
-	@Inject @TestQualifier Test i7;
+	@Inject @TestQualifier Test i7;                   // has @TestQualifier
 
 	@Inject @TestStereotype Test i8;   // has @TestQualifier, @TestQualifier1, @TestQualifier2 and @TestQualifier3
 
