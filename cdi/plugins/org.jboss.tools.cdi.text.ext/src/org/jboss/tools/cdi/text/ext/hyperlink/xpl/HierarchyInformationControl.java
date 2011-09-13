@@ -12,25 +12,27 @@
 package org.jboss.tools.cdi.text.ext.hyperlink.xpl;
 
 import org.eclipse.jdt.ui.actions.IJavaEditorActionDefinitionIds;
+import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.text.hyperlink.IHyperlink;
-import org.eclipse.jface.viewers.ILabelProvider;
-import org.eclipse.jface.viewers.ILabelProviderListener;
+import org.eclipse.jface.viewers.DelegatingStyledCellLabelProvider;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
+import org.eclipse.jface.viewers.StyledCellLabelProvider;
+import org.eclipse.jface.viewers.StyledString;
+import org.eclipse.jface.viewers.StyledString.Styler;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyAdapter;
-import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.TextStyle;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
-import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.dialogs.SearchPattern;
-import org.eclipse.ui.keys.KeySequence;
-import org.eclipse.ui.keys.SWTKeySupport;
 import org.jboss.tools.cdi.text.ext.hyperlink.IInformationItem;
 
 /**
@@ -44,36 +46,10 @@ public class HierarchyInformationControl extends AbstractInformationControl {
 	private BeanTableLabelProvider fLabelProvider;
 	private KeyAdapter fKeyAdapter;
 
-	private IHyperlink fFocus; // bean to filter for or null if type hierarchy
-
 	public HierarchyInformationControl(Shell parent, String title, int shellStyle, int tableStyle, IHyperlink[] hyperlinks) {
 		super(parent, shellStyle, tableStyle, IJavaEditorActionDefinitionIds.OPEN_HIERARCHY, true);
 		this.hyperlinks = hyperlinks;
 		setTitleText(title);
-	}
-
-	private KeyAdapter getKeyAdapter() {
-		if (fKeyAdapter == null) {
-			fKeyAdapter= new KeyAdapter() {
-				@Override
-				public void keyPressed(KeyEvent e) {
-					int accelerator = SWTKeySupport.convertEventToUnmodifiedAccelerator(e);
-					KeySequence keySequence = KeySequence.getInstance(SWTKeySupport.convertAcceleratorToKeyStroke(accelerator));
-					KeySequence[] sequences= getInvokingCommandKeySequences();
-					if (sequences == null)
-						return;
-
-					for (int i= 0; i < sequences.length; i++) {
-						if (sequences[i].equals(keySequence)) {
-							e.doit= false;
-							toggleHierarchy();
-							return;
-						}
-					}
-				}
-			};
-		}
-		return fKeyAdapter;
 	}
 
 	/**
@@ -83,15 +59,6 @@ public class HierarchyInformationControl extends AbstractInformationControl {
 	protected boolean hasHeader() {
 		return true;
 	}
-
-	@Override
-	protected Text createFilterText(Composite parent) {
-		// text set later
-		Text text= super.createFilterText(parent);
-		text.addKeyListener(getKeyAdapter());
-		return text;
-	}
-
 
 	/* (non-Javadoc)
 	 * @see org.eclipse.jdt.internal.ui.text.JavaOutlineInformationControl#createTableViewer(org.eclipse.swt.widgets.Composite, int)
@@ -108,30 +75,10 @@ public class HierarchyInformationControl extends AbstractInformationControl {
 		tableViewer.addFilter(new BeanFilter());
 
 		fLabelProvider= new BeanTableLabelProvider();
-		fLabelProvider.setFilter(new ViewerFilter() {
-			@Override
-			public boolean select(Viewer viewer, Object parentElement, Object element) {
-				return hasFocusBean((IHyperlink) element);
-			}
-		});
 
 		tableViewer.setLabelProvider(fLabelProvider);
 
-		tableViewer.getTable().addKeyListener(getKeyAdapter());
-		
 		return tableViewer;
-	}
-
-	protected boolean hasFocusBean(IHyperlink hyperlink) {
-		if (fFocus == null) {
-			return true;
-		}
-		if (hyperlink.equals(fFocus)) {
-			return true;
-		}
-
-		return false;
-
 	}
 
 	/**
@@ -152,24 +99,6 @@ public class HierarchyInformationControl extends AbstractInformationControl {
 
 		inputChanged(hyperlinks, hyperlinks[0]);
 	}
-
-	protected void toggleHierarchy() {
-		TableViewer tableViewer= getTableViewer();
-
-		tableViewer.getTable().setRedraw(false);
-
-		// reveal selection
-		Object selectedElement= getSelectedElement();
-		if (selectedElement != null)
-			getTableViewer().reveal(selectedElement);
-		else
-			selectFirstMatch();
-
-		tableViewer.getTable().setRedraw(true);
-
-		updateStatusFieldText();
-	}
-
 
 	/**
 	 * {@inheritDoc}
@@ -207,51 +136,6 @@ public class HierarchyInformationControl extends AbstractInformationControl {
 
 	}
 	
-	public static class BeanTableLabelProvider implements ILabelProvider{
-		@Override
-		public void addListener(ILabelProviderListener listener) {
-		}
-
-		public void setFilter(ViewerFilter viewerFilter) {
-		}
-
-		@Override
-		public void dispose() {
-		}
-
-		@Override
-		public boolean isLabelProperty(Object element, String property) {
-			return false;
-		}
-
-		@Override
-		public void removeListener(ILabelProviderListener listener) {
-		}
-
-		@Override
-		public Image getImage(Object element) {
-			if(element instanceof IInformationItem){
-				return ((IInformationItem)element).getImage();
-			}
-			return null;
-		}
-
-		@Override
-		public String getText(Object element) {
-			if(element instanceof IHyperlink){
-				if(element instanceof IInformationItem){
-					String info = ((IInformationItem)element).getInformation();
-					String qualifiedName = ((IInformationItem)element).getFullyQualifiedName();
-					String packageName = qualifiedName.substring(0, qualifiedName.lastIndexOf("."));
-					return info + " - " + packageName;
-				}
-				return ((IHyperlink)element).getHyperlinkText();
-			}
-			return "";
-		}
-		
-	}
-	
 	public class BeanFilter extends ViewerFilter {
 		SearchPattern patternMatcher = new SearchPattern();
 		public boolean isConsistentItem(Object item) {
@@ -272,6 +156,69 @@ public class HierarchyInformationControl extends AbstractInformationControl {
 			}else
 				return true;
 		}
+	}
+	
+	static Color gray = new Color(null, 128, 128, 128);
+	static Color black = new Color(null, 0, 0, 0);
+
+	static Styler NAME_STYLE = new DefaultStyler(black, false);
+	static Styler PACKAGE_STYLE = new DefaultStyler(gray, false);
+	
+	private static class DefaultStyler extends Styler {
+		private final Color foreground;
+		private final boolean italic;
+
+		public DefaultStyler(Color foreground, boolean italic) {
+			this.foreground = foreground;
+			this.italic = italic;
+		}
+
+		public void applyStyles(TextStyle textStyle) {
+			if (foreground != null) {
+				textStyle.foreground = foreground;
+			}
+			if(italic) {
+				textStyle.font = JFaceResources.getFontRegistry().getItalic(JFaceResources.DEFAULT_FONT);
+			}
+		}
+	}
+	
+	class BeanTableLabelProvider extends StyledCellLabelProvider implements DelegatingStyledCellLabelProvider.IStyledLabelProvider {
+		public void update(ViewerCell cell) {
+			Object element = cell.getElement();
+			StyledString styledString = getStyledText(element);
+			cell.setText(styledString.getString());
+			cell.setStyleRanges(styledString.getStyleRanges());
+			cell.setImage(getImage(element));
+
+			super.update(cell);
+		}
+
+		public String getText(Object element) {
+			return getStyledText(element).getString();
+		}
+		public StyledString getStyledText(Object element) {
+			StyledString sb = new StyledString();
+			if(element instanceof IHyperlink){
+				if(element instanceof IInformationItem){
+					String info = ((IInformationItem)element).getInformation();
+					String qualifiedName = ((IInformationItem)element).getFullyQualifiedName();
+					String packageName = qualifiedName.substring(0, qualifiedName.lastIndexOf("."));
+					sb.append(info, NAME_STYLE);
+					sb.append(" - ", PACKAGE_STYLE).append(packageName, PACKAGE_STYLE);
+				}else{
+					sb.append(((IHyperlink)element).getHyperlinkText(), NAME_STYLE);
+				}
+			}
+			return sb;
+		}
+
+		public Image getImage(Object element) {
+			if(element instanceof IInformationItem){
+				return ((IInformationItem)element).getImage();
+			}
+			return null;
+		}		
 	}
 }
 
