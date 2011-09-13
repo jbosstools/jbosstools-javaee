@@ -44,6 +44,7 @@ public class AssignableBeansHyperlink extends AbstractHyperlink implements ITest
 		dialog.setInjectionPoint(injectionPoint);
 		dialog.create();
 		dialog.getShell().setText(CDIExtensionsMessages.ASSIGNABLE_BEANS_DIALOG_TITLE);
+		dialog.getShell().setSize(700, 400);
 		dialog.open();
 	}
 

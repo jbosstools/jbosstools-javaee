@@ -18,10 +18,11 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
-import org.eclipse.jface.internal.text.TableOwnerDrawSupport;
+import org.eclipse.jface.resource.ColorRegistry;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.viewers.CheckStateChangedEvent;
 import org.eclipse.jface.viewers.CheckboxTreeViewer;
@@ -29,23 +30,24 @@ import org.eclipse.jface.viewers.DelegatingStyledCellLabelProvider;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.ICheckStateListener;
 import org.eclipse.jface.viewers.ICheckStateProvider;
-import org.eclipse.jface.viewers.IColorProvider;
 import org.eclipse.jface.viewers.IDoubleClickListener;
-import org.eclipse.jface.viewers.IFontProvider;
+import org.eclipse.jface.viewers.IOpenListener;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.ITreeContentProvider;
-import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.jface.viewers.OpenEvent;
 import org.eclipse.jface.viewers.StyledCellLabelProvider;
 import org.eclipse.jface.viewers.StyledString;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.viewers.ViewerCell;
+import org.eclipse.jface.viewers.StyledString.Styler;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.TextStyle;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -62,7 +64,9 @@ import org.jboss.tools.cdi.core.IProducer;
 import org.jboss.tools.cdi.core.IProducerField;
 import org.jboss.tools.cdi.core.IProducerMethod;
 import org.jboss.tools.cdi.core.IQualifierDeclaration;
+import org.jboss.tools.cdi.internal.core.impl.AbstractBeanElement;
 import org.jboss.tools.common.java.IParametedType;
+import org.jboss.tools.common.text.ITextSourceReference;
 
 public class AssignableBeansDialog extends TitleAreaDialog {
 	IInjectionPoint injectionPoint;
@@ -71,10 +75,12 @@ public class AssignableBeansDialog extends TitleAreaDialog {
 	Set<IBean> resolvedBeans = new HashSet<IBean>();
 
 	CheckboxTreeViewer filterView;
+
 	TableViewer list;
 
 	public AssignableBeansDialog(Shell parentShell) {
 		super(parentShell);
+		setShellStyle(getShellStyle() | SWT.RESIZE);
 	}
 
 	public void setInjectionPoint(IInjectionPoint injectionPoint) {
@@ -144,17 +150,16 @@ public class AssignableBeansDialog extends TitleAreaDialog {
 	}
 	
 	void createListView(Composite parent) {
-		list = new TableViewer(parent);
+		list = new TableViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER/* | SWT.VIRTUAL*/);
 		GridData g = new GridData(GridData.FILL_BOTH);
 		list.getControl().setLayoutData(g);
 		list.setContentProvider(new ListContent());
 		list.setLabelProvider(new LP());
-		TableOwnerDrawSupport.install(list.getTable());
+//		TableOwnerDrawSupport.install(list.getTable());
 		list.setInput(injectionPoint);
-		list.addDoubleClickListener(new IDoubleClickListener() {
-			
+		list.addOpenListener(new IOpenListener() {			
 			@Override
-			public void doubleClick(DoubleClickEvent event) {
+			public void open(OpenEvent event) {
 				ISelection s = event.getSelection();
 				if(!s.isEmpty() && s instanceof IStructuredSelection) {
 					Object o = ((IStructuredSelection)s).getFirstElement();
@@ -162,9 +167,14 @@ public class AssignableBeansDialog extends TitleAreaDialog {
 						((IBean)o).open();
 					}
 				}
-				
 			}
 		});
+		list.addDoubleClickListener(new IDoubleClickListener() {
+			@Override
+			public void doubleClick(DoubleClickEvent event) {
+			}
+		});
+		list.refresh();
 	}
 
 	void createFilterView(Composite parent) {
@@ -189,8 +199,7 @@ public class AssignableBeansDialog extends TitleAreaDialog {
 				list.refresh();
 			}
 		});
-		filterView.setCheckStateProvider(new ICheckStateProvider() {
-			
+		filterView.setCheckStateProvider(new ICheckStateProvider() {			
 			@Override
 			public boolean isGrayed(Object element) {
 				Checkbox c = (Checkbox)element;
@@ -313,12 +322,17 @@ public class AssignableBeansDialog extends TitleAreaDialog {
 		@Override
 		public Object[] getElements(Object inputElement) {
 			Set<IBean> bs = new HashSet<IBean>(beans);
+			Set<String> keys = new HashSet<String>();
 			LP p = new LP();
 			ROOT.filter(bs);
 			Map<String, IBean> map = new TreeMap<String, IBean>();
 			for (IBean b: bs) {
 				if(resolvedBeans.contains(b)) {
-					map.put(p.getText(b), b);
+					String key = p.getText(b);
+					if(!keys.contains(key)) {
+						map.put(key, b);
+						keys.add(key);
+					}
 				}
 			}
 			List<IBean> sorted = new ArrayList<IBean>();
@@ -328,7 +342,11 @@ public class AssignableBeansDialog extends TitleAreaDialog {
 
 			for (IBean b: bs) {
 				if(eligibleBeans.contains(b)) {
-					map.put(p.getText(b), b);
+					String key = p.getText(b);
+					if(!keys.contains(key)) {
+						map.put(key, b);
+						keys.add(key);
+					}
 				}
 			}
 			sorted.addAll(map.values());
@@ -336,7 +354,11 @@ public class AssignableBeansDialog extends TitleAreaDialog {
 			map.clear();
 
 			for (IBean b: bs) {
-				map.put(p.getText(b), b);
+				String key = p.getText(b);
+				if(!keys.contains(key)) {
+					map.put(key, b);
+					keys.add(key);
+				}
 			}
 			sorted.addAll(map.values());
 
@@ -345,74 +367,94 @@ public class AssignableBeansDialog extends TitleAreaDialog {
 		
 	}
 
-	class LP extends StyledCellLabelProvider implements ITableLabelProvider, IFontProvider, IColorProvider, DelegatingStyledCellLabelProvider.IStyledLabelProvider {
+	static Color gray = new Color(null, 128, 128, 128);
+	static Color black = new Color(null, 0, 0, 0);
+
+	static Styler ELIGIBLE_NAME = new DefaultStyler(black, false);
+	static Styler ELIGIBLE_QUALIFIER = new DefaultStyler(gray, true);
+	static Styler DISABLED = new DefaultStyler(gray, true);
+
+	private static class DefaultStyler extends Styler {
+		private final Color foreground;
+		private final boolean italic;
+
+		public DefaultStyler(Color foreground, boolean italic) {
+			this.foreground = foreground;
+			this.italic = italic;
+		}
+
+		public void applyStyles(TextStyle textStyle) {
+//			ColorRegistry colorRegistry = JFaceResources.getColorRegistry();
+			if (foreground != null) {
+				textStyle.foreground = foreground;
+			}
+			if(italic) {
+				textStyle.font = JFaceResources.getFontRegistry().getItalic(JFaceResources.DEFAULT_FONT);
+			}
+		}
+	}
+
+	class LP extends StyledCellLabelProvider implements DelegatingStyledCellLabelProvider.IStyledLabelProvider {
+		public void update(ViewerCell cell) {
+			ELIGIBLE_QUALIFIER = DISABLED;
+			Object element = cell.getElement();
+			StyledString styledString = getStyledText(element);
+			cell.setText(styledString.getString());
+			cell.setStyleRanges(styledString.getStyleRanges());
+			cell.setImage(getImage(element));
+
+			super.update(cell);
+		}
+
 		public String getText(Object element) {
 			return getStyledText(element).getString();
 		}
 		public StyledString getStyledText(Object element) {
 			IBean b = (IBean)element;
+			Styler nameStyler = eligibleBeans.contains(b) ? ELIGIBLE_NAME : DISABLED;
 			StyledString sb = new StyledString();
 			if(b.isAlternative()) {
-				sb.append("@Alternative ");
+				sb.append("@Alternative ", nameStyler);
 			}
 			if(b.isAnnotationPresent(CDIConstants.DECORATOR_STEREOTYPE_TYPE_NAME)) {
-				sb.append("@Decorator ");
+				sb.append("@Decorator ", nameStyler);
 			}
 			if(b.isAnnotationPresent(CDIConstants.INTERCEPTOR_ANNOTATION_TYPE_NAME)) {
-				sb.append("@Interceptor ");
+				sb.append("@Interceptor ", nameStyler);
 			}
 			if(b instanceof IProducer) {
-				sb.append("@Produces ");
-				sb.append(b.getBeanClass().getElementName()).append(".");
+				sb.append("@Produces ", nameStyler);
+				sb.append(b.getBeanClass().getElementName(), nameStyler).append(".", nameStyler);
 				if(b instanceof IProducerField) {
-					sb.append(((IProducerField)b).getField().getElementName());
+					sb.append(((IProducerField)b).getField().getElementName(), nameStyler);
 				} else {
-					sb.append(((IProducerMethod)b).getMethod().getElementName());
+					sb.append(((IProducerMethod)b).getMethod().getElementName(), nameStyler)
+					.append("()", nameStyler);
 				}
 			} else {
-				sb.append(b.getBeanClass().getElementName());
+				sb.append(b.getBeanClass().getElementName(), nameStyler);
 			}
-			String pkg = b.getBeanClass().getPackageFragment().getElementName();
-			sb.append(" - ").append(pkg, StyledString.QUALIFIER_STYLER).append(" - ");
+
+			Styler qualifierStyler = eligibleBeans.contains(b) ? ELIGIBLE_QUALIFIER : DISABLED;
+			
+			AbstractBeanElement e = (AbstractBeanElement)b;
+			ITextSourceReference origin = e.getDefinition().getOriginalDefinition();
+			if(origin != null) {
+				//If toString() is not enough, another interface should be introduced.
+				sb.append(" - ", qualifierStyler).append(origin.toString(), qualifierStyler);				
+			} else {			
+				String pkg = b.getBeanClass().getPackageFragment().getElementName();
+				sb.append(" - ", qualifierStyler).append(pkg, qualifierStyler).append(" - ", qualifierStyler);
+				IPath path = b.getBeanClass().getPackageFragment().getParent().getPath();
+				if(path != null) {
+					sb.append(path.toString(), qualifierStyler);
+				}
+			}
 			return sb;
 		}
 
-		@Override
-		public Font getFont(Object element) {
-			IBean b = (IBean)element;
-			if(eligibleBeans.contains(b)) {
-				return JFaceResources.getFontRegistry().getBold(JFaceResources.DEFAULT_FONT);
-			}
-			return JFaceResources.getFontRegistry().getItalic(JFaceResources.DEFAULT_FONT);
-		}
-		
-		Color gray = new Color(null, 128, 128, 128);
-
-		@Override
-		public Color getForeground(Object element) {
-			IBean b = (IBean)element;
-			if(!eligibleBeans.contains(b)) {
-				return gray;
-			}
-			return null;
-		}
-
-		@Override
-		public Color getBackground(Object element) {
-			return null;
-		}
-
-		@Override
-		public Image getColumnImage(Object element, int columnIndex) {
-			return null;
-		}
-
-		@Override
-		public String getColumnText(Object element, int columnIndex) {
-			return getText(element);
-		}
-		@Override
 		public Image getImage(Object element) {
+			//TODO
 			return null;
 		}		
 	}
