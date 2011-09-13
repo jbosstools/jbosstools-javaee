@@ -51,7 +51,6 @@ public class SeamDefinitionsTest extends SeamConfigTest {
 
 	/**
 	 * This test just checks that SAXParser class is in class path.
-	 * This test class should compile.
 	 */
 	public void testParser() throws Exception {
 		Bundle bundle = Platform.getBundle("org.jboss.tools.cdi.seam.config.core");
