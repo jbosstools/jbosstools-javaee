@@ -28,7 +28,7 @@ public class ConfigMethodDefinition extends MethodDefinition implements IConfigD
 
 	public void setConfig(SeamMethodDefinition config) {
 		this.config = config;
-		setOriginalDefinition(new TextSourceReference(config.getResource(), config.getNode()));
+		setOriginalDefinition(new TextSourceReference(file, config.getResource(), config.getNode()));
 	}
 
 	public SeamMethodDefinition getConfig() {

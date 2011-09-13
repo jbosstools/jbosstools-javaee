@@ -32,7 +32,7 @@ public class ConfigTypeDefinition extends TypeDefinition implements IConfigDefin
 
 	public void setConfig(SeamBeanDefinition config) {
 		this.config = config;
-		setOriginalDefinition(new TextSourceReference(config.getResource(), config.getNode()));
+		setOriginalDefinition(new TextSourceReference(file, config.getResource(), config.getNode()));
 	}
 
 	public SeamBeanDefinition getConfig() {

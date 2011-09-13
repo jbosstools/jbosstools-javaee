@@ -59,6 +59,10 @@ public class SeamBeansDefinition {
 		this.file = file;
 	}
 
+	public XModelObject getFileObject() {
+		return file;
+	}
+
 	public IResource getResource() {
 		return resource;
 	}

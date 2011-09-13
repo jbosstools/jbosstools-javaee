@@ -192,21 +192,21 @@ public class CDISeamConfigExtension implements ICDIExtension, IBuildParticipantF
 				if(CDISeamConfigConstants.ERROR_UNRESOLVED_TYPE.equals(problemId)) {
 					String name = node instanceof SAXElement ? ((SAXElement)node).getName() : node instanceof SAXAttribute ? ((SAXAttribute)node).getName() : null;
 					String message = NLS.bind(SeamConfigValidationMessages.UNRESOLVED_TYPE, name);
-					validator.addError(message, CDISeamConfigPreferences.UNRESOLVED_TYPE, new TextSourceReference(file, node), file);
+					validator.addError(message, CDISeamConfigPreferences.UNRESOLVED_TYPE, new TextSourceReference(def.getFileObject(), file, node), file);
 				} else if(CDISeamConfigConstants.ERROR_UNRESOLVED_MEMBER.equals(problemId)) {
 					String name = node instanceof SAXElement ? ((SAXElement)node).getName() : node instanceof SAXAttribute ? ((SAXAttribute)node).getName() : null;
 					String message = NLS.bind(SeamConfigValidationMessages.UNRESOLVED_MEMBER, name);
-					validator.addError(message, CDISeamConfigPreferences.UNRESOLVED_MEMBER, new TextSourceReference(file, node), file);
+					validator.addError(message, CDISeamConfigPreferences.UNRESOLVED_MEMBER, new TextSourceReference(def.getFileObject(), file, node), file);
 				} else if(CDISeamConfigConstants.ERROR_UNRESOLVED_METHOD.equals(problemId)) {
 					String message = NLS.bind(SeamConfigValidationMessages.UNRESOLVED_METHOD, ((SAXElement)node).getName());
-					validator.addError(message, CDISeamConfigPreferences.UNRESOLVED_METHOD, new TextSourceReference(file, node), file);
+					validator.addError(message, CDISeamConfigPreferences.UNRESOLVED_METHOD, new TextSourceReference(def.getFileObject(), file, node), file);
 				} else if(CDISeamConfigConstants.ERROR_UNRESOLVED_CONSTRUCTOR.equals(problemId)) {
 					String name = node instanceof SAXElement && ((SAXElement)node).getParent() != null ? ((SAXElement)node).getParent().getName() : null;
 					String message = NLS.bind(SeamConfigValidationMessages.UNRESOLVED_CONSTRUCTOR, name);
-					validator.addError(message, CDISeamConfigPreferences.UNRESOLVED_CONSTRUCTOR, new TextSourceReference(file, node), file);
+					validator.addError(message, CDISeamConfigPreferences.UNRESOLVED_CONSTRUCTOR, new TextSourceReference(def.getFileObject(), file, node), file);
 				} else if(CDISeamConfigConstants.ERROR_ANNOTATION_EXPECTED.equals(problemId)) {
 					String message = NLS.bind(SeamConfigValidationMessages.ANNOTATION_EXPECTED, null);
-					validator.addError(message, CDISeamConfigPreferences.ANNOTATION_EXPECTED, new TextSourceReference(file, node), file);
+					validator.addError(message, CDISeamConfigPreferences.ANNOTATION_EXPECTED, new TextSourceReference(def.getFileObject(), file, node), file);
 				}
 			}
 		}
