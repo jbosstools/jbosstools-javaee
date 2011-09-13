@@ -24,7 +24,7 @@ public class SeamConfigInjectedPointHyperlink extends InjectedPointHyperlink {
 		super(region, bean, document);
 	}
 
-	protected void doHyperlink(IRegion region) {
+	public void doHyperlink(IRegion region) {
 		bean.open();
 	}
 

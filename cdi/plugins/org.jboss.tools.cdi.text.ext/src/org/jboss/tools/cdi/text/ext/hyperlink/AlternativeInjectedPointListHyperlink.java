@@ -21,8 +21,8 @@ import org.jboss.tools.common.text.ext.hyperlink.AbstractHyperlink;
 
 public class AlternativeInjectedPointListHyperlink extends AbstractHyperlink{
 	private IRegion region;
-	private List<IBean> beans;
-	private ITextViewer viewer;
+	protected List<IBean> beans;
+	protected ITextViewer viewer;
 	
 	public AlternativeInjectedPointListHyperlink(IRegion region, List<IBean> beans, ITextViewer viewer, IDocument document){
 		this.beans = beans;

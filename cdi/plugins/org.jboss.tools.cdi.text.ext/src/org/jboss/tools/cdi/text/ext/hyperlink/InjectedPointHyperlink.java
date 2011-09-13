@@ -25,7 +25,6 @@ import org.jboss.tools.cdi.core.IDecorator;
 import org.jboss.tools.cdi.core.IInterceptor;
 import org.jboss.tools.cdi.core.IProducerField;
 import org.jboss.tools.cdi.core.IProducerMethod;
-import org.jboss.tools.cdi.internal.core.impl.CDIElement;
 import org.jboss.tools.cdi.text.ext.CDIExtensionsMessages;
 import org.jboss.tools.cdi.text.ext.CDIExtensionsPlugin;
 import org.jboss.tools.common.text.ext.hyperlink.AbstractHyperlink;
@@ -52,7 +51,7 @@ public class InjectedPointHyperlink extends AbstractHyperlink implements ITestab
 		return region;
 	}
 
-	protected void doHyperlink(IRegion region) {
+	public void doHyperlink(IRegion region) {
 		IEditorPart part = null;
 		
 		if(bean != null && bean.getBeanClass() != null){
