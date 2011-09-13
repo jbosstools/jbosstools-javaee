@@ -1493,6 +1493,10 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 	}
 
 	private void validateInjectionPoint(IInjectionPoint injection) {
+		if(injection instanceof IInjectionPointParameter && injection.isAnnotationPresent(CDIConstants.DISPOSES_ANNOTATION_TYPE_NAME)) {
+			//Disposer is validated separately
+			return;
+		}
 		/*
 		 * 3.11. The qualifier @Named at injection points
 		 *  - injection point other than injected field declares a @Named annotation that does not specify the value member
