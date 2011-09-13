@@ -17,8 +17,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.jdt.core.IMemberValuePair;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IType;
@@ -28,10 +28,7 @@ import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.IInterceptorBinding;
 import org.jboss.tools.cdi.core.IQualifier;
 import org.jboss.tools.cdi.core.IStereotype;
-import org.jboss.tools.cdi.core.extension.feature.IBuildParticipantFeature;
-import org.jboss.tools.cdi.internal.core.impl.BeanField;
 import org.jboss.tools.cdi.seam.config.core.CDISeamConfigConstants;
-import org.jboss.tools.cdi.seam.config.core.CDISeamConfigExtension;
 import org.jboss.tools.cdi.seam.config.core.ConfigDefinitionContext;
 import org.jboss.tools.cdi.seam.config.core.definition.SeamBeanDefinition;
 import org.jboss.tools.cdi.seam.config.core.definition.SeamBeansDefinition;
@@ -42,7 +39,7 @@ import org.jboss.tools.cdi.seam.config.core.definition.SeamVirtualFieldDefinitio
 import org.jboss.tools.cdi.seam.config.core.xml.Location;
 import org.jboss.tools.cdi.seam.solder.core.CDISeamSolderConstants;
 import org.jboss.tools.common.java.IJavaAnnotation;
-import org.jboss.tools.common.text.ITextSourceReference;
+import org.osgi.framework.Bundle;
 
 /**
  *   
@@ -51,6 +48,16 @@ import org.jboss.tools.common.text.ITextSourceReference;
  */
 public class SeamDefinitionsTest extends SeamConfigTest {
 	public SeamDefinitionsTest() {}
+
+	/**
+	 * This test just checks that SAXParser class is in class path.
+	 * This test class should compile.
+	 */
+	public void testParser() throws Exception {
+		Bundle bundle = Platform.getBundle("org.jboss.tools.cdi.seam.config.core");
+		Class cls = bundle.loadClass("org.apache.xerces.parsers.SAXParser");
+		assertNotNull(cls);
+	}
 
 	public void testLineNumber() {
 		ICDIProject cdi = CDICorePlugin.getCDIProject(project, true);
