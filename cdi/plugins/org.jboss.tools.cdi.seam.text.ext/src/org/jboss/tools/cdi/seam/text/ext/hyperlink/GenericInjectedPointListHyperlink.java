@@ -10,7 +10,6 @@
  ******************************************************************************/ 
 package org.jboss.tools.cdi.seam.text.ext.hyperlink;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.jface.text.IDocument;
@@ -21,7 +20,6 @@ import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.seam.text.ext.CDISeamExtMessages;
 import org.jboss.tools.cdi.text.ext.hyperlink.AlternativeInjectedPointListHyperlink;
 import org.jboss.tools.cdi.text.ext.hyperlink.InformationControlManager;
-import org.jboss.tools.cdi.text.ext.hyperlink.InjectedPointHyperlink;
 
 public class GenericInjectedPointListHyperlink extends
 		AlternativeInjectedPointListHyperlink {
@@ -42,27 +40,27 @@ public class GenericInjectedPointListHyperlink extends
 	}
 	
 	protected void doHyperlink(IRegion region) {
-		List<IHyperlink> hyperlinks = new ArrayList<IHyperlink>();
+		IHyperlink[] hyperlinks = new IHyperlink[beans.size()];
 		
 		int index=0;
 		for(IBean bean : beans){
-			hyperlinks.add(createHyperlink(region, bean));
+			hyperlinks[index++] = createHyperlink(region, bean);
 		}
 		
-		if(hyperlinks.size() == 0){
+		if(hyperlinks.length == 0){
 			openFileFailed();
 			return;
 		}
 		
-		if(hyperlinks.size() == 1){
-			hyperlinks.get(0).open();
+		if(hyperlinks.length == 1){
+			hyperlinks[0].open();
 		}else{
 			showHyperlinks(hyperlinks);
 		}
 	}
 	
-	private void showHyperlinks(List<IHyperlink> hyperlinks){
-		InformationControlManager.showHyperlinks(CDISeamExtMessages.CDI_SHOW_ALL_GENERIC_CONFIGURATION_POINTS_TITLE, viewer, hyperlinks);
+	private void showHyperlinks(IHyperlink[] hyperlinks){
+		InformationControlManager.showHyperlinks(CDISeamExtMessages.CDI_SHOW_GENERIC_CONFIGURATION_POINTS_TITLE, viewer, hyperlinks);
 	}
 
 }

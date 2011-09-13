@@ -10,6 +10,28 @@
  ******************************************************************************/ 
 package org.jboss.tools.cdi.text.ext.hyperlink;
 
-public interface IFilterable {
+import org.eclipse.swt.graphics.Image;
+
+public interface IInformationItem {
+	
+	/**
+	 * Returns the simple name of item
+	 * 
+	 * @return
+	 */
+	public String getInformation();
+	
+	/**
+	 * Returns the java element fully qualified name
+	 * 
+	 * @return
+	 */
 	public String getFullyQualifiedName();
+	
+	/**
+	 * Returns the icon image
+	 * 
+	 * @return
+	 */
+	public Image getImage();
 }

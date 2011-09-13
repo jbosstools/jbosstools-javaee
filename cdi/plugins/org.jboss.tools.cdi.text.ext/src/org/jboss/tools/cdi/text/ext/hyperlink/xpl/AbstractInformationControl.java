@@ -447,13 +447,6 @@ public abstract class AbstractInformationControl extends PopupDialog implements 
 	protected void inputChanged(Object newInput, Object newSelection) {
 		fFilterText.setText(""); //$NON-NLS-1$
 		fInitiallySelectedType= null;
-		if (newSelection instanceof IJavaElement) {
-			IJavaElement javaElement= ((IJavaElement)newSelection);
-			if (javaElement.getElementType() == IJavaElement.TYPE)
-				fInitiallySelectedType= (IType)javaElement;
-			else
-				fInitiallySelectedType= (IType)javaElement.getAncestor(IJavaElement.TYPE);
-		}
 		fTableViewer.setInput(newInput);
 		if (newSelection != null)
 			fTableViewer.setSelection(new StructuredSelection(newSelection));

@@ -11,8 +11,6 @@
  *******************************************************************************/
 package org.jboss.tools.cdi.text.ext.hyperlink.xpl;
 
-import java.util.List;
-
 import org.eclipse.jdt.ui.actions.IJavaEditorActionDefinitionIds;
 import org.eclipse.jface.text.hyperlink.IHyperlink;
 import org.eclipse.jface.viewers.ILabelProvider;
@@ -33,7 +31,7 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.dialogs.SearchPattern;
 import org.eclipse.ui.keys.KeySequence;
 import org.eclipse.ui.keys.SWTKeySupport;
-import org.jboss.tools.cdi.text.ext.hyperlink.IFilterable;
+import org.jboss.tools.cdi.text.ext.hyperlink.IInformationItem;
 
 /**
  * Show hierarchy in light-weight control.
@@ -41,14 +39,14 @@ import org.jboss.tools.cdi.text.ext.hyperlink.IFilterable;
  * @since 3.0
  */
 public class HierarchyInformationControl extends AbstractInformationControl {
-	private List<IHyperlink> hyperlinks;
+	private IHyperlink[] hyperlinks;
 
 	private BeanTableLabelProvider fLabelProvider;
 	private KeyAdapter fKeyAdapter;
 
 	private IHyperlink fFocus; // bean to filter for or null if type hierarchy
 
-	public HierarchyInformationControl(Shell parent, String title, int shellStyle, int tableStyle, List<IHyperlink> hyperlinks) {
+	public HierarchyInformationControl(Shell parent, String title, int shellStyle, int tableStyle, IHyperlink[] hyperlinks) {
 		super(parent, shellStyle, tableStyle, IJavaEditorActionDefinitionIds.OPEN_HIERARCHY, true);
 		this.hyperlinks = hyperlinks;
 		setTitleText(title);
@@ -120,7 +118,7 @@ public class HierarchyInformationControl extends AbstractInformationControl {
 		tableViewer.setLabelProvider(fLabelProvider);
 
 		tableViewer.getTable().addKeyListener(getKeyAdapter());
-
+		
 		return tableViewer;
 	}
 
@@ -141,18 +139,18 @@ public class HierarchyInformationControl extends AbstractInformationControl {
 	 */
 	@Override
 	public void setInput(Object information) {
-		if(!(information instanceof List)){
+		if(!(information instanceof IHyperlink[])){
 			inputChanged(null, null);
 			return;
 		}
 		
-		hyperlinks = (List<IHyperlink>)information;
+		hyperlinks = (IHyperlink[])information;
 
 		BeanTableContentProvider contentProvider= new BeanTableContentProvider(hyperlinks);
 		getTableViewer().setContentProvider(contentProvider);
 
 
-		inputChanged(hyperlinks, null);
+		inputChanged(hyperlinks, hyperlinks[0]);
 	}
 
 	protected void toggleHierarchy() {
@@ -188,9 +186,9 @@ public class HierarchyInformationControl extends AbstractInformationControl {
 	}
 	
 	public static class BeanTableContentProvider implements IStructuredContentProvider{
-		private List<IHyperlink> hyperlinks;
+		private IHyperlink[] hyperlinks;
 		
-		public BeanTableContentProvider(List<IHyperlink> beans){
+		public BeanTableContentProvider(IHyperlink[] beans){
 			this.hyperlinks = beans;
 		}
 
@@ -204,7 +202,7 @@ public class HierarchyInformationControl extends AbstractInformationControl {
 
 		@Override
 		public Object[] getElements(Object inputElement) {
-			return hyperlinks.toArray();
+			return hyperlinks;
 		}
 
 	}
@@ -232,12 +230,21 @@ public class HierarchyInformationControl extends AbstractInformationControl {
 
 		@Override
 		public Image getImage(Object element) {
+			if(element instanceof IInformationItem){
+				return ((IInformationItem)element).getImage();
+			}
 			return null;
 		}
 
 		@Override
 		public String getText(Object element) {
 			if(element instanceof IHyperlink){
+				if(element instanceof IInformationItem){
+					String info = ((IInformationItem)element).getInformation();
+					String qualifiedName = ((IInformationItem)element).getFullyQualifiedName();
+					String packageName = qualifiedName.substring(0, qualifiedName.lastIndexOf("."));
+					return info + " - " + packageName;
+				}
 				return ((IHyperlink)element).getHyperlinkText();
 			}
 			return "";
@@ -254,25 +261,16 @@ public class HierarchyInformationControl extends AbstractInformationControl {
 		public boolean select(Viewer viewer, Object parentElement,
 	            Object element) {
 			
-			if (element instanceof IFilterable) {
-				String beanTypeName = ((IFilterable)element).getFullyQualifiedName();
-				if(getFilterText().getText().isEmpty())
+			if (element instanceof IInformationItem) {
+				String information = ((IInformationItem)element).getInformation();
+				if(getFilterText().getText().isEmpty()){
 					patternMatcher.setPattern("*");
-				else
+				}else{
 					patternMatcher.setPattern(getFilterText().getText());
-				boolean result = patternMatcher.matches(beanTypeName);
-				if (!result) {
-					String pattern = patternMatcher.getPattern();
-					if (pattern.indexOf(".") < 0) {
-						int lastIndex = beanTypeName.lastIndexOf(".");
-						if (lastIndex >= 0
-								&& (lastIndex + 1) < beanTypeName.length())
-							return patternMatcher.matches(beanTypeName.substring(lastIndex + 1));
-					}
 				}
-				return result;
-			}
-			return false;
+				return patternMatcher.matches(information);
+			}else
+				return true;
 		}
 	}
 }

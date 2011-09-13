@@ -17,6 +17,7 @@ import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.ui.JavaUI;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PartInitException;
 import org.jboss.tools.cdi.core.IBean;
@@ -29,7 +30,7 @@ import org.jboss.tools.cdi.text.ext.CDIExtensionsMessages;
 import org.jboss.tools.cdi.text.ext.CDIExtensionsPlugin;
 import org.jboss.tools.common.text.ext.hyperlink.AbstractHyperlink;
 
-public class InjectedPointHyperlink extends AbstractHyperlink implements ITestableCDIHyperlink{
+public class InjectedPointHyperlink extends AbstractHyperlink implements ITestableCDIHyperlink, IInformationItem{
 	protected IBean bean;
 	IRegion region;
 	boolean first = false;
@@ -123,6 +124,18 @@ public class InjectedPointHyperlink extends AbstractHyperlink implements ITestab
 	}
 
 	public Set<? extends ICDIElement> getCDIElements() {
+		return null;
+	}
+
+	public String getFullyQualifiedName() {
+		return bean.getBeanClass().getFullyQualifiedName();
+	}
+
+	public String getInformation() {
+		return bean.getSimpleJavaName();
+	}
+
+	public Image getImage() {
 		return null;
 	}
 

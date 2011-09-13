@@ -10,8 +10,6 @@
  ******************************************************************************/ 
 package org.jboss.tools.cdi.text.ext.hyperlink;
 
-import java.util.List;
-
 import org.eclipse.jface.text.AbstractInformationControlManager;
 import org.eclipse.jface.text.IInformationControl;
 import org.eclipse.jface.text.IInformationControlCreator;
@@ -23,15 +21,15 @@ import org.jboss.tools.cdi.text.ext.hyperlink.xpl.HierarchyInformationControl;
 import org.jboss.tools.cdi.text.ext.hyperlink.xpl.InformationPresenter;
 
 public class InformationControlManager {
-	public static void showHyperlinks(String title, ITextViewer viwer, List<IHyperlink> hyperlinks){
-		InformationPresenter presenter= new InformationPresenter(viwer, getHierarchyPresenterControlCreator(title, hyperlinks));
+	public static void showHyperlinks(String title, ITextViewer viewer, IHyperlink[] hyperlinks){
+		InformationPresenter presenter= new InformationPresenter(viewer, getHierarchyPresenterControlCreator(title, hyperlinks));
 		presenter.setAnchor(AbstractInformationControlManager.ANCHOR_GLOBAL);
 		presenter.setSizeConstraints(60, 10, true, false);
-		presenter.install(viwer.getTextWidget());
+		presenter.install(viewer.getTextWidget());
 		presenter.showInformation();
 	}
 	
-	private static IInformationControlCreator getHierarchyPresenterControlCreator(final String title, final List<IHyperlink> hyperlinks) {
+	private static IInformationControlCreator getHierarchyPresenterControlCreator(final String title, final IHyperlink[] hyperlinks) {
 		return new IInformationControlCreator() {
 			public IInformationControl createInformationControl(Shell parent) {
 				int shellStyle= SWT.RESIZE;

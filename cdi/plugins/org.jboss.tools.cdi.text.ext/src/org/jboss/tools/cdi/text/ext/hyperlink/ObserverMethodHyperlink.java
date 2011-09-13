@@ -17,6 +17,7 @@ import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.ui.JavaUI;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PartInitException;
 import org.jboss.tools.cdi.core.ICDIElement;
@@ -25,7 +26,7 @@ import org.jboss.tools.cdi.text.ext.CDIExtensionsMessages;
 import org.jboss.tools.cdi.text.ext.CDIExtensionsPlugin;
 import org.jboss.tools.common.text.ext.hyperlink.AbstractHyperlink;
 
-public class ObserverMethodHyperlink extends AbstractHyperlink implements ITestableCDIHyperlink{
+public class ObserverMethodHyperlink extends AbstractHyperlink implements IInformationItem, ITestableCDIHyperlink{
 	IObserverMethod observerMethod;
 	IRegion region;
 	
@@ -34,9 +35,7 @@ public class ObserverMethodHyperlink extends AbstractHyperlink implements ITesta
 		this.region = region;
 		setDocument(document);
 	}
-	
 
-	@Override
 	protected IRegion doGetHyperlinkRegion(int offset) {
 		return region;
 	}
@@ -73,6 +72,18 @@ public class ObserverMethodHyperlink extends AbstractHyperlink implements ITesta
 	}
 
 	public Set<? extends ICDIElement> getCDIElements() {
+		return null;
+	}
+
+	public String getFullyQualifiedName() {
+		return observerMethod.getClassBean().getBeanClass().getFullyQualifiedName();
+	}
+
+	public String getInformation() {
+		return observerMethod.getClassBean().getBeanClass().getElementName()+"."+observerMethod.getMethod().getElementName()+"()";
+	}
+
+	public Image getImage() {
 		return null;
 	}
 

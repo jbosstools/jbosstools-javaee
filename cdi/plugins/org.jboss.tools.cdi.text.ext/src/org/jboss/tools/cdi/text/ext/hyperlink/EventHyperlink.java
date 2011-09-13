@@ -17,6 +17,7 @@ import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.ui.JavaUI;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PartInitException;
 import org.jboss.tools.cdi.core.ICDIElement;
@@ -28,7 +29,7 @@ import org.jboss.tools.cdi.text.ext.CDIExtensionsMessages;
 import org.jboss.tools.cdi.text.ext.CDIExtensionsPlugin;
 import org.jboss.tools.common.text.ext.hyperlink.AbstractHyperlink;
 
-public class EventHyperlink extends AbstractHyperlink implements ITestableCDIHyperlink{
+public class EventHyperlink extends AbstractHyperlink implements ITestableCDIHyperlink, IInformationItem{
 	IInjectionPoint event;
 	IRegion region;
 	
@@ -90,6 +91,28 @@ public class EventHyperlink extends AbstractHyperlink implements ITestableCDIHyp
 	}
 
 	public Set<? extends ICDIElement> getCDIElements() {
+		return null;
+	}
+
+	public String getFullyQualifiedName() {
+		return event.getClassBean().getBeanClass().getFullyQualifiedName();
+	}
+
+	public String getInformation() {
+		String text = event.getClassBean().getBeanClass().getElementName();
+		
+		if(event instanceof IInjectionPointField) {
+			text += "."+((IInjectionPointField)event).getField().getElementName();
+		} else if(event instanceof IInjectionPointParameter) {
+			IInjectionPointParameter p = (IInjectionPointParameter)event;
+			text += "." + p.getBeanMethod().getMethod().getElementName();
+		}
+		
+		return text;
+	}
+
+
+	public Image getImage() {
 		return null;
 	}
 

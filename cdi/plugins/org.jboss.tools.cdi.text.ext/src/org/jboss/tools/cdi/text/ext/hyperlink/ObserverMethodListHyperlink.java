@@ -54,7 +54,7 @@ public class ObserverMethodListHyperlink extends AbstractHyperlink implements IT
 		if(hyperlinks.length == 1){
 			((ObserverMethodHyperlink)hyperlinks[0]).doHyperlink(region);
 		}else{
-			MultipleHyperlinkPresenterManager.installAndShow(viewer, hyperlinks);
+			InformationControlManager.showHyperlinks(CDIExtensionsMessages.CDI_OBSERVER_METHODS_TITLE, viewer, hyperlinks);
 		}
 	}
 
