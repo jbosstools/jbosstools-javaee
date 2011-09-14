@@ -101,4 +101,12 @@ public class Parameter extends BeanMember implements IParameter {
 		return result;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.cdi.core.ICDIElement#getSimpleJavaName()
+	 */
+	@Override
+	public String getElementName() {
+		return getName();
+	}
 }

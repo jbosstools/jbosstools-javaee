@@ -576,7 +576,7 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 	 * @see org.jboss.tools.cdi.core.IBean#getSimpleJavaName()
 	 */
 	@Override
-	public String getSimpleJavaName() {
+	public String getElementName() {
 		return this.getBeanClass().getElementName();
 	}
 

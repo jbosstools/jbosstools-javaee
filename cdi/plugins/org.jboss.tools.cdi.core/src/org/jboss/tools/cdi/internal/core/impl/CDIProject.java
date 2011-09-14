@@ -1412,4 +1412,13 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		context.applyWorkingCopy();
 		return old.isEmpty() ? null : old.iterator().next();
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.cdi.core.ICDIElement#getSimpleJavaName()
+	 */
+	@Override
+	public String getElementName() {
+		return getNature().getProject().getName();
+	}
 }

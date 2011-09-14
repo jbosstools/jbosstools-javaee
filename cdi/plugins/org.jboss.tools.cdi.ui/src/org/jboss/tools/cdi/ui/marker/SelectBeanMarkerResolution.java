@@ -106,7 +106,7 @@ public class SelectBeanMarkerResolution implements IMarkerResolution2, TestableR
 		ICDIProject cdiProject = selectedBean.getCDIProject();
 		IBean[] beans = cdiProject.getBeans();
 		for(IBean bean : beans){
-			if(bean.getBeanClass().getFullyQualifiedName().equals(selectedBean.getBeanClass().getFullyQualifiedName()) && bean.getSimpleJavaName().equals(selectedBean.getSimpleJavaName())){
+			if(bean.getBeanClass().getFullyQualifiedName().equals(selectedBean.getBeanClass().getFullyQualifiedName()) && bean.getElementName().equals(selectedBean.getElementName())){
 				selectedBean = bean;
 				break;
 			}

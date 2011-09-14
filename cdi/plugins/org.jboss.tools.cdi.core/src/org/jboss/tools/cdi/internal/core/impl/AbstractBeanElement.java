@@ -10,7 +10,6 @@
  ******************************************************************************/ 
 package org.jboss.tools.cdi.internal.core.impl;
 
-
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -64,7 +63,7 @@ import org.jboss.tools.common.text.ITextSourceReference;
  * @author Viacheslav Kabanovich
  *
  */
-public class AbstractBeanElement extends CDIElement implements IAnnotated {
+public abstract class AbstractBeanElement extends CDIElement implements IAnnotated {
 	protected AbstractMemberDefinition definition;
 
 	public AbstractBeanElement() {}

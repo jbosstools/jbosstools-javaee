@@ -90,4 +90,9 @@ public class CDIQualifier implements IQualifier{
 	public boolean isAnnotationPresent(String annotationTypeName) {
 		return false;
 	}
+
+	@Override
+	public String getElementName() {
+		return null;
+	}
 }

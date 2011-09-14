@@ -598,11 +598,11 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 			if(beans.size()>1 && beans.contains(bean)) {
 				ITextSourceReference reference = bean.getNameLocation(true);
 				Set<String> names = new HashSet<String>();
-				String bName = bean.getSimpleJavaName();
+				String bName = bean.getElementName();
 				names.add(bName);
 				StringBuffer sb = new StringBuffer(bName);
 				for (IBean iBean : beans) {
-					bName = iBean.getSimpleJavaName();
+					bName = iBean.getElementName();
 					if(bean!=iBean && !names.contains(bName)) {
 						names.add(bName);
 						sb.append(", ").append(bName);
@@ -633,7 +633,7 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 									if(reference==null) {
 										reference = CDIUtil.getNamedDeclaration(bean);
 									}
-									addError(MessageFormat.format(CDIValidationMessages.UNRESOLVABLE_EL_NAME, name, yName, xNameAsString, xBeans.iterator().next().getSimpleJavaName()), CDIPreferences.AMBIGUOUS_EL_NAMES, reference, bean.getResource());
+									addError(MessageFormat.format(CDIValidationMessages.UNRESOLVABLE_EL_NAME, name, yName, xNameAsString, xBeans.iterator().next().getElementName()), CDIPreferences.AMBIGUOUS_EL_NAMES, reference, bean.getResource());
 									break;
 								}
 							}
@@ -834,11 +834,11 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 				IClassBean supperClassBean = (IClassBean)specializedBean;
 				Set<? extends IClassBean> allSpecializingBeans = supperClassBean.getSpecializingBeans();
 				if(allSpecializingBeans.size()>1) {
-					StringBuffer sb = new StringBuffer(bean.getSimpleJavaName());
+					StringBuffer sb = new StringBuffer(bean.getElementName());
 					boolean moreThanTwo = false;
 					for (IClassBean specializingBean : allSpecializingBeans) {
 						if(specializingBean!=bean && specializingBean.isEnabled()) {
-							sb.append(", ").append(specializingBean.getSimpleJavaName());
+							sb.append(", ").append(specializingBean.getElementName());
 							moreThanTwo = true;
 							if(shouldValidateType(specializingBean.getBeanClass())) {
 								getValidationContext().addLinkedCoreResource(SHORT_ID, specializingBean.getResource().getFullPath().toOSString(), bean.getSourcePath(), false);
@@ -848,7 +848,7 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 					}
 					if(moreThanTwo && specializesDeclaration!=null) {
 						addError(CDIValidationMessages.INCONSISTENT_SPECIALIZATION, CDIPreferences.INCONSISTENT_SPECIALIZATION,
-								new String[]{sb.toString(), supperClassBean.getSimpleJavaName()},
+								new String[]{sb.toString(), supperClassBean.getElementName()},
 								specializesDeclaration, bean.getResource());
 					}
 				}
@@ -1579,15 +1579,15 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 							String typeSignature = injection.getType().getSignature();
 							int kind = Signature.getTypeSignatureKind(typeSignature);
 							if(kind == Signature.ARRAY_TYPE_SIGNATURE) {
-								addError(MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_ARRAY_TYPE, injection.getType().getSimpleName(), bean.getSimpleJavaName()), CDIPreferences.UNPROXYABLE_BEAN_TYPE, reference, injection.getResource());
+								addError(MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_ARRAY_TYPE, injection.getType().getSimpleName(), bean.getElementName()), CDIPreferences.UNPROXYABLE_BEAN_TYPE, reference, injection.getResource());
 							} else if(injection.getType().isPrimitive()) {
 								// - Primitive types cannot be proxied by the container.
-								addError(MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_PRIMITIVE_TYPE, injection.getType().getSimpleName(), bean.getSimpleJavaName()), CDIPreferences.UNPROXYABLE_BEAN_TYPE, reference, injection.getResource());
+								addError(MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_PRIMITIVE_TYPE, injection.getType().getSimpleName(), bean.getElementName()), CDIPreferences.UNPROXYABLE_BEAN_TYPE, reference, injection.getResource());
 							} else if(bean instanceof IClassBean) {
 								try {
 									if(Flags.isFinal(bean.getBeanClass().getFlags())) {
 										// - Classes which are declared final cannot be proxied by the container.
-										addError(MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_FINAL_TYPE, injection.getType().getSimpleName(), bean.getSimpleJavaName()), CDIPreferences.UNPROXYABLE_BEAN_TYPE, reference, injection.getResource());
+										addError(MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_FINAL_TYPE, injection.getType().getSimpleName(), bean.getElementName()), CDIPreferences.UNPROXYABLE_BEAN_TYPE, reference, injection.getResource());
 									} else {
 										IMethod[] methods = bean.getBeanClass().getMethods();
 										boolean hasDefaultConstructor = false;
@@ -1597,14 +1597,14 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 											hasDefaultConstructor = hasDefaultConstructor || (method.isConstructor() && !Flags.isPrivate(method.getFlags()) && method.getParameterNames().length==0);
 											if(Flags.isFinal(method.getFlags())) {
 												// - Classes which have final methods cannot be proxied by the container.
-												addError(MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_TYPE_WITH_FM, injection.getType().getSimpleName(), bean.getSimpleJavaName()), CDIPreferences.UNPROXYABLE_BEAN_TYPE, reference, injection.getResource());
+												addError(MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_TYPE_WITH_FM, injection.getType().getSimpleName(), bean.getElementName()), CDIPreferences.UNPROXYABLE_BEAN_TYPE, reference, injection.getResource());
 												hasDefaultConstructor = true;
 												break;
 											}
 										}
 										if(!hasDefaultConstructor && hasConstructor) {
 											// - Classes which don't have a non-private constructor with no parameters cannot be proxied by the container.
-											addError(MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_TYPE_WITH_NPC, injection.getType().getSimpleName(), bean.getSimpleJavaName()), CDIPreferences.UNPROXYABLE_BEAN_TYPE, reference, injection.getResource());
+											addError(MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_TYPE_WITH_NPC, injection.getType().getSimpleName(), bean.getElementName()), CDIPreferences.UNPROXYABLE_BEAN_TYPE, reference, injection.getResource());
 										}
 									}
 								} catch (JavaModelException e) {
@@ -1619,7 +1619,7 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 									//	8.3. Decorator resolution 
 									//	- If a decorator matches a managed bean, and the managed bean class is declared final, the container automatically detects 
 									//	  the problem and treats it as a deployment problem.
-									addError(MessageFormat.format(CDIValidationMessages.DECORATOR_RESOLVES_TO_FINAL_CLASS, bean.getSimpleJavaName()), CDIPreferences.DECORATOR_RESOLVES_TO_FINAL_BEAN, reference, injection.getResource());
+									addError(MessageFormat.format(CDIValidationMessages.DECORATOR_RESOLVES_TO_FINAL_CLASS, bean.getElementName()), CDIPreferences.DECORATOR_RESOLVES_TO_FINAL_BEAN, reference, injection.getResource());
 								} else {
 									//	8.3. Decorator resolution 
 									//	- If a decorator matches a managed bean with a non-static, non-private, final method, and the decorator also implements that method,
@@ -1636,7 +1636,7 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 														int flags = beanMethod.getFlags();
 														if(!Flags.isPrivate(flags) && !Flags.isStatic(flags) && Flags.isFinal(flags)) {
 															String methodName = Signature.toString(beanMethod.getSignature(), beanMethod.getElementName(), beanMethod.getParameterNames(), false, false);
-															addError(MessageFormat.format(CDIValidationMessages.DECORATOR_RESOLVES_TO_FINAL_METHOD, bean.getSimpleJavaName(), methodName), CDIPreferences.DECORATOR_RESOLVES_TO_FINAL_BEAN, reference, injection.getResource());
+															addError(MessageFormat.format(CDIValidationMessages.DECORATOR_RESOLVES_TO_FINAL_METHOD, bean.getElementName(), methodName), CDIPreferences.DECORATOR_RESOLVES_TO_FINAL_BEAN, reference, injection.getResource());
 															reported = true;
 															break;
 														}
@@ -1914,7 +1914,7 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 						}
 						if(!passivatingCapable) {
 							ITextSourceReference reference = CDIUtil.convertToSourceReference(bean.getBeanClass().getNameRange(), bean.getResource());
-							addError(MessageFormat.format(CDIValidationMessages.NOT_PASSIVATION_CAPABLE_BEAN, bean.getSimpleJavaName(), scope.getSourceType().getElementName()), CDIPreferences.NOT_PASSIVATION_CAPABLE_BEAN, reference, bean.getResource(), NOT_PASSIVATION_CAPABLE_BEAN_ID);
+							addError(MessageFormat.format(CDIValidationMessages.NOT_PASSIVATION_CAPABLE_BEAN, bean.getElementName(), scope.getSourceType().getElementName()), CDIPreferences.NOT_PASSIVATION_CAPABLE_BEAN, reference, bean.getResource(), NOT_PASSIVATION_CAPABLE_BEAN_ID);
 						}
 					}
 				}

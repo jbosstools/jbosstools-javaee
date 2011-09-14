@@ -27,7 +27,7 @@ import org.jboss.tools.common.java.ParametedTypeFactory;
  * @author Viacheslav Kabanovich
  *
  */
-public class CDIElement implements ICDIElement {
+public abstract class CDIElement implements ICDIElement {
 	protected CDIElement parent;
 	protected IPath source;
 
@@ -40,7 +40,6 @@ public class CDIElement implements ICDIElement {
 	public ICDIProject getDeclaringProject() {
 		return parent != null ? parent.getDeclaringProject() : null;
 	}
-
 
 	public CDIExtensionManager getExtensionManager() {
 		CDIProject project = getCDIProject();

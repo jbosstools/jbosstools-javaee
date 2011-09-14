@@ -135,4 +135,13 @@ public class CDIAnnotationElement extends CDIElement implements ICDIAnnotation, 
 		String type = getSourceType() == null ? "" : getSourceType().getFullyQualifiedName();
 		return super.toString() + " type=" + type; 
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.cdi.core.ICDIElement#getSimpleJavaName()
+	 */
+	@Override
+	public String getElementName() {
+		return definition.getType().getElementName();
+	}
 }

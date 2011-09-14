@@ -47,4 +47,12 @@ public class BeanField extends BeanMember implements IBeanField {
 		return getField();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.cdi.core.ICDIElement#getSimpleJavaName()
+	 */
+	@Override
+	public String getElementName() {
+		return getClassBean().getBeanClass().getElementName() + "." + getField().getElementName();
+	}
 }

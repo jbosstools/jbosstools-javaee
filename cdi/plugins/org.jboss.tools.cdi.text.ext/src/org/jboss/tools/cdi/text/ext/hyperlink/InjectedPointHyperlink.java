@@ -132,7 +132,7 @@ public class InjectedPointHyperlink extends AbstractHyperlink implements ITestab
 	}
 
 	public String getInformation() {
-		return bean.getSimpleJavaName();
+		return bean.getElementName();
 	}
 
 	public Image getImage() {

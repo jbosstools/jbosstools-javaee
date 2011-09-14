@@ -143,4 +143,9 @@ public class CDIInjectionPoint implements IInjectionPoint {
 	public boolean exists() {
 		return false;
 	}
+
+	@Override
+	public String getElementName() {
+		return null;
+	}
 }

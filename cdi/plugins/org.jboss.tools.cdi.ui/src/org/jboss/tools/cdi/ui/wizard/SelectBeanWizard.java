@@ -229,7 +229,7 @@ public class SelectBeanWizard extends AbstractModifyInjectionPointWizard{
 				IBean bean = (IBean)element;
 				String beanTypeName = bean.getBeanClass().getFullyQualifiedName();
 				String beanPackage = beanTypeName.substring(0,beanTypeName.lastIndexOf(MarkerResolutionUtils.DOT));
-				String name = bean.getSimpleJavaName();
+				String name = bean.getElementName();
 
 				return name+" - "+beanPackage;
 			}

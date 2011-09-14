@@ -56,4 +56,14 @@ public interface ICDIElement {
 	 * @return
 	 */
 	boolean exists();
+
+	/**
+	 * Returns the text representation of this element.
+	 * For instance if the element is a class then the method is supposed to return the simple name of the class.
+	 * If the element is a field then the method will return "TypeName.fieldName".
+	 * If the bean is a method then the method will return "TypeName.methodName()".
+	 * For a method parameter, a name of the parameter will be return.
+	 * @return the text representation of this bean.
+	 */
+	String getElementName();
 }

@@ -68,7 +68,7 @@ public class DeploymentProblemsValidationTests extends ValidationTest {
 		
 		Set<String> keys = new HashSet<String>();
 		for(IBean b: bs) {
-			keys.add(b.getSimpleJavaName());
+			keys.add(b.getElementName());
 		}
 		assertTrue(keys.contains("TestNamed.foo4"));
 		assertTrue(keys.contains("TestNamed.foo4()"));

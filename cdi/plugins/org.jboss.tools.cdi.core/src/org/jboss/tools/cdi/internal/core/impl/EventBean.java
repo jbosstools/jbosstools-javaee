@@ -175,7 +175,8 @@ public class EventBean extends CDIElement implements IBean {
 	 * (non-Javadoc)
 	 * @see org.jboss.tools.cdi.core.IBean#getSimpleJavaName()
 	 */
-	public String getSimpleJavaName() {
+	@Override
+	public String getElementName() {
 		if(type!=null) {
 			return type.getSimpleName();
 		}

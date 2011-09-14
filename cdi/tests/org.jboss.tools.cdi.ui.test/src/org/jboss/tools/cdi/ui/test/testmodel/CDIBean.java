@@ -121,7 +121,7 @@ public class CDIBean extends CDIElement implements IClassBean{
 	}
 
 	@Override
-	public String getSimpleJavaName() {
+	public String getElementName() {
 		return null;
 	}
 

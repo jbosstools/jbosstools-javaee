@@ -131,7 +131,7 @@ public class ResolutionByTypeTest extends TCKTest {
 		Set<String> names = new HashSet<String>();
 		System.out.println(bs.size());
 		for (IBean b: bs) {
-			names.add(b.getSimpleJavaName());
+			names.add(b.getElementName());
 		}
 		names.contains("CurrentProject.getCurrent()");
 		names.contains("ProjectImpl");		

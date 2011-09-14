@@ -20,7 +20,6 @@ import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.CDIUtil;
 import org.jboss.tools.cdi.core.IBeanMethod;
 import org.jboss.tools.cdi.core.IInterceptorBinding;
-import org.jboss.tools.cdi.core.IInterceptorBindingDeclaration;
 import org.jboss.tools.cdi.core.IParameter;
 import org.jboss.tools.cdi.internal.core.impl.definition.MethodDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.ParameterDefinition;
@@ -109,5 +108,14 @@ public class BeanMethod extends BeanMember implements IBeanMethod {
 	 */
 	public Set<IInterceptorBinding> getInterceptorBindings() {
 		return CDIUtil.getAllInterceptorBindings(this);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.cdi.core.ICDIElement#getSimpleJavaName()
+	 */
+	@Override
+	public String getElementName() {
+		return getClassBean().getBeanClass().getElementName() + "." + getMethod().getElementName() + "()"; //$NON-NLS-1$
 	}
 }
