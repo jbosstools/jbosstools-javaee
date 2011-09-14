@@ -63,6 +63,9 @@ public interface ICDIElement {
 	 * If the element is a field then the method will return "TypeName.fieldName".
 	 * If the bean is a method then the method will return "TypeName.methodName()".
 	 * For a method parameter, a name of the parameter will be return.
+	 * 
+	 * Implementations may not return null.
+	 *  
 	 * @return the text representation of this bean.
 	 */
 	String getElementName();

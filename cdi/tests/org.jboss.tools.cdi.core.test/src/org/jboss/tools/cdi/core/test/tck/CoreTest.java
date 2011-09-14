@@ -41,9 +41,6 @@ public class CoreTest extends TCKTest {
 			for (IInjectionPoint point : points) {
 				assertElementName(point);
 				if(point.getType()!=null) {
-					if(point.getType().getSimpleName()==null) {
-						System.out.println("!!!");
-					}
 					assertNotNull(point.getType().getSimpleName());
 				}
 			}

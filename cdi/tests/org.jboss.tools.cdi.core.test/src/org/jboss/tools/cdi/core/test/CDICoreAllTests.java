@@ -26,6 +26,7 @@ import org.jboss.tools.cdi.core.test.tck.BeanDefinitionTest;
 import org.jboss.tools.cdi.core.test.tck.BeanSpecializationTest;
 import org.jboss.tools.cdi.core.test.tck.BuiltInBeanInjectionTest;
 import org.jboss.tools.cdi.core.test.tck.CDIUtilTest;
+import org.jboss.tools.cdi.core.test.tck.CoreTest;
 import org.jboss.tools.cdi.core.test.tck.DecoratorDefinitionTest;
 import org.jboss.tools.cdi.core.test.tck.DefaultNamedTest;
 import org.jboss.tools.cdi.core.test.tck.EnterpriseQualifierDefinitionTest;
@@ -108,6 +109,7 @@ public class CDICoreAllTests {
 		suite.addTestSuite(UnsatisfiedDependencyTest.class);
 		suite.addTestSuite(ResolvedTypesCacheTest.class);
 		suite.addTestSuite(CDIUtilTest.class);
+		suite.addTestSuite(CoreTest.class);
 
 		// Validation tests
 		suite.addTestSuite(DefenitionErrorsValidationTest.class);
