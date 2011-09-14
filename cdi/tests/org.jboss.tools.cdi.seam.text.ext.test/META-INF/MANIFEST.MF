@@ -24,7 +24,10 @@ Require-Bundle: org.junit,
  org.eclipse.jdt.ui,
  org.jboss.tools.cdi.seam.solder.core.test,
  org.jboss.tools.cdi.text.ext,
- org.eclipse.wst.validation
+ org.eclipse.wst.validation,
+ org.jboss.tools.common.base.test,
+ org.jboss.tools.cdi.seam.core.test,
+ org.jboss.tools.jst.text.ext
 Bundle-ActivationPolicy: lazy
 Bundle-Vendor: %Bundle-Vendor.0
 Export-Package: org.jboss.tools.cdi.seam.text.ext.test

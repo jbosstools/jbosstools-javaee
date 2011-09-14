@@ -12,7 +12,7 @@ package org.jboss.tools.cdi.seam.core.test.servlet;
 
 import org.eclipse.core.resources.IFile;
 import org.jboss.tools.cdi.internal.core.validation.CDIValidationMessages;
-import org.jboss.tools.cdi.seam.core.test.international.SeamCoreTest;
+import org.jboss.tools.cdi.seam.core.test.SeamCoreTest;
 import org.jboss.tools.tests.AbstractResourceMarkerTest;
 
 /**

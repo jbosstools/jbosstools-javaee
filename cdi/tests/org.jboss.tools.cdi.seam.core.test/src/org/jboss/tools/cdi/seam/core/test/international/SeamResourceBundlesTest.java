@@ -17,6 +17,7 @@ import org.eclipse.core.resources.IFile;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.seam.core.CDISeamCorePlugin;
 import org.jboss.tools.cdi.seam.core.international.el.CDIInternationalMessagesELResolver;
+import org.jboss.tools.cdi.seam.core.test.SeamCoreTest;
 import org.jboss.tools.common.el.core.resolver.ELContext;
 import org.jboss.tools.common.el.core.resolver.ELResolver;
 import org.jboss.tools.common.text.TextProposal;

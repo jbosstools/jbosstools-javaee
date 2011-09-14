@@ -17,6 +17,7 @@ import org.eclipse.jdt.internal.core.JavaModelManager;
 import org.eclipse.wst.validation.ValidationFramework;
 import org.jboss.tools.cdi.core.test.CDICoreTestSetup;
 import org.jboss.tools.cdi.seam.config.core.test.SeamConfigTestSetup;
+import org.jboss.tools.cdi.seam.core.test.SeamCoreTestSetup;
 import org.jboss.tools.cdi.seam.solder.core.test.SeamSolderTestSetup;
 
 public class CdiSeamTextExtAllTests {
@@ -30,8 +31,11 @@ public class CdiSeamTextExtAllTests {
 
 		TestSuite suite = new TestSuite("CDI Seam OpenOns Tests");
 		suite.addTestSuite(CDISeamResourceLoadingHyperlinkDetectorTest.class);
-		
 		suiteAll.addTest(new CDICoreTestSetup(suite));
+
+		TestSuite suiteSeam = new TestSuite("CDI Seam Resource Bundle Tests");
+		suiteSeam.addTestSuite(SeamResourceBundleHyperlinkTest.class);
+		suiteAll.addTest(new SeamCoreTestSetup(suiteSeam));
 
 		TestSuite suiteConfig = new TestSuite("CDI Seam Config OpenOns Tests");
 		suiteConfig.addTestSuite(SeamConfigTagNameHyperlinkTest.class);
@@ -45,7 +49,7 @@ public class CdiSeamTextExtAllTests {
 		suiteSolder.addTestSuite(SeamGenericInjectedPointHyperlinkTest.class);
 		
 		suiteAll.addTest(new SeamSolderTestSetup(suiteSolder));
-		
+
 		return suiteAll;
 	}
 }

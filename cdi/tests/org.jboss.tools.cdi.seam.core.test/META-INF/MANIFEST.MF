@@ -24,4 +24,5 @@ Require-Bundle: org.jboss.tools.cdi.seam.core,
  org.jboss.tools.jst.text.ext,
  org.jboss.tools.jst.text.ext.test,
  org.eclipse.wst.validation;bundle-version="1.2.300"
+Export-Package: org.jboss.tools.cdi.seam.core.test
 

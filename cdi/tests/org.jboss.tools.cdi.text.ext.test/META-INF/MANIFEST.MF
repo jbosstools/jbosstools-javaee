@@ -20,7 +20,10 @@ Require-Bundle: org.junit;bundle-version="3.8.2",
  org.jboss.tools.cdi.core,
  org.jboss.tools.common.el.core,
  org.jboss.tools.jst.web.ui,
- org.eclipse.wst.validation;bundle-version="1.2.300"
+ org.eclipse.wst.validation;bundle-version="1.2.300",
+ org.jboss.tools.jst.jsp,
+ org.jboss.tools.jst.web,
+ org.jboss.tools.jst.text.ext
 Bundle-ActivationPolicy: lazy
 Bundle-Vendor: %Bundle-Vendor.0
 Export-Package: org.jboss.tools.cdi.text.ext.test

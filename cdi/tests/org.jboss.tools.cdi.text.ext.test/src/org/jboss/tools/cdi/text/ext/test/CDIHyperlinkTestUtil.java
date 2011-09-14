@@ -20,7 +20,6 @@ import org.eclipse.jface.text.hyperlink.AbstractHyperlinkDetector;
 import org.eclipse.jface.text.hyperlink.IHyperlink;
 import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.ui.IEditorPart;
-import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
@@ -43,6 +42,9 @@ import org.jboss.tools.common.text.ext.hyperlink.AbstractHyperlink;
 import org.jboss.tools.common.text.ext.hyperlink.HyperlinkDetector;
 import org.jboss.tools.common.text.ext.hyperlink.IHyperlinkRegion;
 import org.jboss.tools.common.text.ext.util.AxisUtil;
+import org.jboss.tools.jst.jsp.jspeditor.JSPMultiPageEditor;
+import org.jboss.tools.jst.jsp.jspeditor.JSPMultiPageEditorPart;
+import org.jboss.tools.jst.text.ext.hyperlink.ELHyperlinkDetector;
 import org.jboss.tools.jst.web.ui.editors.WebCompoundEditor;
 
 public class CDIHyperlinkTestUtil extends TestCase{
@@ -137,7 +139,7 @@ public class CDIHyperlinkTestUtil extends TestCase{
 		documentProvider.disconnect(editorInput);
 	}
 	
-	private static void checkTestRegion(IHyperlink[] links, TestRegion testRegion){
+	public static void checkTestRegion(IHyperlink[] links, TestRegion testRegion){
 		for(IHyperlink link : links){
 			TestHyperlink testLink = findTestHyperlink(testRegion.hyperlinks, link);
 			assertNotNull("Unexpected hyperlink - "+link.getHyperlinkText(), testLink);
@@ -201,6 +203,20 @@ public class CDIHyperlinkTestUtil extends TestCase{
 	}
 
 	public static IHyperlink checkHyperLinkInXml(String fileName, IProject project, int offset, String hyperlinkClassName) throws Exception {
+		IHyperlink[] links = detectHyperlinks(fileName, project, offset);
+		
+		if(links!=null) {
+			for (IHyperlink hyperlink : links) {
+				if(hyperlink.getClass().getName().equals(hyperlinkClassName)) {
+					return hyperlink;
+				}
+			}
+		}
+		fail("Can't find HyperLink");
+		return null;
+	}
+
+	public static IHyperlink[] detectHyperlinks(String fileName, IProject project, int offset) {
 		Region region = new Region(offset, 0);
 		IFile file = project.getFile(fileName);
 
@@ -217,24 +233,52 @@ public class CDIHyperlinkTestUtil extends TestCase{
 			if(parts.length>0) {
 				viewer = ((StructuredTextEditor)parts[0]).getTextViewer();
 			}
+		} else if (part instanceof JSPMultiPageEditor) {
+			IEditorPart[] parts = ((JSPMultiPageEditorPart)part).findEditors(editorInput);
+			if(parts.length>0) {
+				viewer = ((StructuredTextEditor)parts[0]).getTextViewer();
+			}
 		} else if(part instanceof ObjectMultiPageEditor) {
 			viewer = ((ObjectMultiPageEditor)part).getSourceEditor().getTextViewer();
 		} else if(part instanceof StructuredTextEditor) {
 			viewer = ((StructuredTextEditor)part).getTextViewer();
 		}
 
-		IHyperlink[] links = HyperlinkDetector.getInstance().detectHyperlinks(viewer, region, true);
-		if(links!=null) {
-			for (IHyperlink hyperlink : links) {
-				if(hyperlink.getClass().getName().equals(hyperlinkClassName)) {
-					return hyperlink;
-				}
+		return HyperlinkDetector.getInstance().detectHyperlinks(viewer, region, true);
+	}
+	
+	public static IHyperlink[] detectELHyperlinks(String fileName, IProject project, int offset) {
+		Region region = new Region(offset, 0);
+		IFile file = project.getFile(fileName);
+
+		assertNotNull("The file \"" + fileName + "\" is not found", file);
+		assertTrue("The file \"" + fileName + "\" is not found", file.isAccessible());
+
+		FileEditorInput editorInput = new FileEditorInput(file);
+
+		IEditorPart part = openFileInEditor(file);
+		if(part instanceof EditorPartWrapper) part = ((EditorPartWrapper)part).getEditor();
+		ISourceViewer viewer = null;
+		if (part instanceof XMLMultiPageEditorPart) {
+			IEditorPart[] parts = ((XMLMultiPageEditorPart)part).findEditors(editorInput);
+			if(parts.length>0) {
+				viewer = ((StructuredTextEditor)parts[0]).getTextViewer();
 			}
+		} else if (part instanceof JSPMultiPageEditor) {
+			IEditorPart[] parts = ((JSPMultiPageEditorPart)part).findEditors(editorInput);
+			if(parts.length>0) {
+				viewer = ((StructuredTextEditor)parts[0]).getTextViewer();
+			}
+		} else if(part instanceof ObjectMultiPageEditor) {
+			viewer = ((ObjectMultiPageEditor)part).getSourceEditor().getTextViewer();
+		} else if(part instanceof StructuredTextEditor) {
+			viewer = ((StructuredTextEditor)part).getTextViewer();
 		}
-		fail("Can't find HyperLink");
-		return null;
+
+		return new ELHyperlinkDetector().detectHyperlinks(viewer, region, true);
 	}
 
+	
 	private static TestRegion findOffsetInRegions(int offset, List<TestRegion> regionList){
 		for(TestRegion testRegion : regionList){
 			if(offset >= testRegion.region.getOffset() && offset <= testRegion.region.getOffset()+testRegion.region.getLength())
@@ -409,6 +453,9 @@ public class CDIHyperlinkTestUtil extends TestCase{
 			for(TestHyperlink testHyperlink : testHyperlinks){
 				hyperlinks.add(testHyperlink);
 			}
+		}
+		public IRegion getRegion() {
+			return region;
 		}
 	}
 	

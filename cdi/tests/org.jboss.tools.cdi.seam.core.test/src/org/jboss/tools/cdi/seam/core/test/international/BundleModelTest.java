@@ -7,6 +7,7 @@ import org.jboss.tools.cdi.seam.core.international.IBundle;
 import org.jboss.tools.cdi.seam.core.international.IBundleModel;
 import org.jboss.tools.cdi.seam.core.international.ILocalizedValue;
 import org.jboss.tools.cdi.seam.core.international.IProperty;
+import org.jboss.tools.cdi.seam.core.test.SeamCoreTest;
 
 public class BundleModelTest extends SeamCoreTest {
 
