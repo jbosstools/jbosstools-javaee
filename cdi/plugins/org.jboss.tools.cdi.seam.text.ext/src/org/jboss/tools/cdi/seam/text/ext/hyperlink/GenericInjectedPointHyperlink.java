@@ -29,12 +29,10 @@ public class GenericInjectedPointHyperlink extends InjectedPointHyperlink{
 	public String getHyperlinkText() {
 		String text="";
 		if (bean != null) {
-			String name = bean.getBeanClass().getElementName();
+			String name = bean.getElementName();
 			if (bean instanceof IProducerField) {
-				name += "."+((IProducerField)bean).getField().getElementName();
 				text = NLS.bind(CDISeamExtMessages.OPEN_GENERIC_PRODUCER_BEAN, name);
 			} else if (bean instanceof IProducerMethod) {
-				name += "."+((IProducerMethod)bean).getMethod().getElementName()+"()";
 				text = NLS.bind(CDISeamExtMessages.OPEN_GENERIC_PRODUCER_BEAN, name);
 			} else {
 				text = NLS.bind(CDISeamExtMessages.OPEN_GENERIC_BEAN, name);
