@@ -1,0 +1,13 @@
+package org.cdi.test;
+import javax.decorator.Decorator;
+import javax.decorator.Delegate;
+import javax.enterprise.inject.Specializes;
+import javax.inject.Inject;
+
+@Decorator
+@Specializes
+public class TestBean extends AnyBean{
+	
+	@Inject @Delegate String str;
+	
+}
