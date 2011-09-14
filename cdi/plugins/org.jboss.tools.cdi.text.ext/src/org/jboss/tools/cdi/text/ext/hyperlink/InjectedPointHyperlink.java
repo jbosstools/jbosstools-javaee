@@ -94,17 +94,7 @@ public class InjectedPointHyperlink extends AbstractHyperlink implements ITestab
 					text = CDIExtensionsMessages.CDI_INJECTED_POINT_HYPERLINK_OPEN_BEAN+" ";
 
 			}
-			
-			
-			text += bean.getBeanClass().getElementName();
-			
-			if(bean instanceof IProducerField){
-				text += "."+((IProducerField)bean).getField().getElementName();
-			}else if(bean instanceof IProducerMethod){
-				text += "."+((IProducerMethod)bean).getMethod().getElementName()+"()";
-			}
-			
-
+			text += bean.getElementName();
 		}
 		return text;
 	}

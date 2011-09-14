@@ -24,7 +24,6 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.TextStyle;
@@ -44,7 +43,6 @@ public class HierarchyInformationControl extends AbstractInformationControl {
 	private IHyperlink[] hyperlinks;
 
 	private BeanTableLabelProvider fLabelProvider;
-	private KeyAdapter fKeyAdapter;
 
 	public HierarchyInformationControl(Shell parent, String title, int shellStyle, int tableStyle, IHyperlink[] hyperlinks) {
 		super(parent, shellStyle, tableStyle, IJavaEditorActionDefinitionIds.OPEN_HIERARCHY, true);

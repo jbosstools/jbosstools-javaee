@@ -24,7 +24,6 @@ import org.jboss.tools.cdi.core.ICDIElement;
 import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.core.IInjectionPointField;
 import org.jboss.tools.cdi.core.IInjectionPointParameter;
-import org.jboss.tools.cdi.core.IObserverMethod;
 import org.jboss.tools.cdi.text.ext.CDIExtensionsMessages;
 import org.jboss.tools.cdi.text.ext.CDIExtensionsPlugin;
 import org.jboss.tools.common.text.ext.hyperlink.AbstractHyperlink;
@@ -73,16 +72,7 @@ public class EventHyperlink extends AbstractHyperlink implements ITestableCDIHyp
 
 	@Override
 	public String getHyperlinkText() {
-		String text = CDIExtensionsMessages.CDI_EVENT_HYPERLINK_OPEN_EVENT+" "+event.getClassBean().getBeanClass().getElementName();
-		
-		if(event instanceof IInjectionPointField) {
-			text += "."+((IInjectionPointField)event).getField().getElementName();
-		} else if(event instanceof IInjectionPointParameter) {
-			IInjectionPointParameter p = (IInjectionPointParameter)event;
-			text += "." + p.getBeanMethod().getMethod().getElementName();
-		}
-		
-		return text;
+		return CDIExtensionsMessages.CDI_EVENT_HYPERLINK_OPEN_EVENT+" "+event.getElementName();
 	}
 
 
@@ -99,18 +89,8 @@ public class EventHyperlink extends AbstractHyperlink implements ITestableCDIHyp
 	}
 
 	public String getInformation() {
-		String text = event.getClassBean().getBeanClass().getElementName();
-		
-		if(event instanceof IInjectionPointField) {
-			text += "."+((IInjectionPointField)event).getField().getElementName();
-		} else if(event instanceof IInjectionPointParameter) {
-			IInjectionPointParameter p = (IInjectionPointParameter)event;
-			text += "." + p.getBeanMethod().getMethod().getElementName();
-		}
-		
-		return text;
+		return event.getElementName();
 	}
-
 
 	public Image getImage() {
 		return null;

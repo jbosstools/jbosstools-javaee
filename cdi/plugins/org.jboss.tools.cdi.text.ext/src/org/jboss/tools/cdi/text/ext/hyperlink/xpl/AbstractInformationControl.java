@@ -13,11 +13,9 @@ package org.jboss.tools.cdi.text.ext.hyperlink.xpl;
 
 import java.util.List;
 
-import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.internal.ui.JavaPlugin;
 import org.eclipse.jdt.internal.ui.util.StringMatcher;
-import org.eclipse.jdt.ui.actions.CustomFiltersActionGroup;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
@@ -90,8 +88,6 @@ public abstract class AbstractInformationControl extends PopupDialog implements 
 	 */
 	private Composite fViewMenuButtonComposite;
 
-	private CustomFiltersActionGroup fCustomFiltersActionGroup;
-
 	private IAction fShowViewMenuAction;
 	private HandlerSubmission fShowViewMenuHandlerSubmission;
 
@@ -152,8 +148,6 @@ public abstract class AbstractInformationControl extends PopupDialog implements 
 	@Override
 	protected Control createDialogArea(Composite parent) {
 		fTableViewer= createTableViewer(parent, fTableStyle);
-
-		fCustomFiltersActionGroup= new CustomFiltersActionGroup(getId(), fTableViewer);
 
 		final Table table= fTableViewer.getTable();
 		table.addKeyListener(new KeyListener() {
@@ -351,17 +345,6 @@ public abstract class AbstractInformationControl extends PopupDialog implements 
 		Object selectedElement= getSelectedElement();
 		if (selectedElement instanceof IHyperlink) {
 			((IHyperlink)selectedElement).open();
-//			IJavaElement jElement = CDIUtil.getJavaElement((IBean)selectedElement);
-//			if(jElement != null){
-//				try {
-//					dispose();
-//					IEditorPart part= EditorUtility.openInEditor(jElement, true);
-//					if (part != null)
-//						EditorUtility.revealInEditor(part, jElement);
-//				} catch (CoreException ex) {
-//					JavaPlugin.log(ex);
-//				}
-//			}
 		}
 	}
 

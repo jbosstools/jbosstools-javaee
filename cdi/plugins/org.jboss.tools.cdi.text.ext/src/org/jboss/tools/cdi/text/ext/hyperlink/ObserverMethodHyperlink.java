@@ -63,7 +63,7 @@ public class ObserverMethodHyperlink extends AbstractHyperlink implements IInfor
 
 	@Override
 	public String getHyperlinkText() {
-		return CDIExtensionsMessages.CDI_EVENT_HYPERLINK_OPEN_OBSERVER_METHOD+" "+observerMethod.getMethod().getElementName();
+		return CDIExtensionsMessages.CDI_EVENT_HYPERLINK_OPEN_OBSERVER_METHOD+" "+observerMethod.getElementName();
 	}
 
 
@@ -80,7 +80,7 @@ public class ObserverMethodHyperlink extends AbstractHyperlink implements IInfor
 	}
 
 	public String getInformation() {
-		return observerMethod.getClassBean().getBeanClass().getElementName()+"."+observerMethod.getMethod().getElementName()+"()";
+		return observerMethod.getElementName();
 	}
 
 	public Image getImage() {
