@@ -210,7 +210,7 @@ public class CDIUtil {
 	 * @param element
 	 */
 	public static IInjectionPoint findInjectionPoint(Set<IBean> beans, IJavaElement element, int position) {
-		if (!(element instanceof IField) && (element instanceof IMethod) && (element instanceof ILocalVariable)) {
+		if (!(element instanceof IField) && !(element instanceof IMethod) && !(element instanceof ILocalVariable)) {
 			return null;
 		}
 
