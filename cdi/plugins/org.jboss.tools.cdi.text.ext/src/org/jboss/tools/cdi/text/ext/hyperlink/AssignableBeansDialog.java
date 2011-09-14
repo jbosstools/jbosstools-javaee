@@ -21,6 +21,7 @@ import java.util.TreeMap;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jface.dialogs.IDialogConstants;
+import org.eclipse.jface.dialogs.PopupDialog;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.viewers.CheckStateChangedEvent;
@@ -66,7 +67,7 @@ import org.jboss.tools.cdi.internal.core.impl.AbstractBeanElement;
 import org.jboss.tools.common.java.IParametedType;
 import org.jboss.tools.common.text.ITextSourceReference;
 
-public class AssignableBeansDialog extends TitleAreaDialog {
+public class AssignableBeansDialog extends PopupDialog {// TitleAreaDialog {
 	IInjectionPoint injectionPoint;
 	Set<IBean> beans = new HashSet<IBean>();
 	Set<IBean> eligibleBeans = new HashSet<IBean>();
@@ -77,7 +78,10 @@ public class AssignableBeansDialog extends TitleAreaDialog {
 	TableViewer list;
 
 	public AssignableBeansDialog(Shell parentShell) {
-		super(parentShell);
+		// TitleAreaDialog
+//		super(parentShell);
+		//PopupDialog
+		super(parentShell, 0, true, true, true, true, true, "title", null);
 		setShellStyle(getShellStyle() | SWT.RESIZE);
 	}
 
@@ -122,7 +126,8 @@ public class AssignableBeansDialog extends TitleAreaDialog {
 
 	protected void buttonPressed(int buttonId) {
 		if(buttonId == IDialogConstants.CLOSE_ID) {
-			cancelPressed();
+			// TitleAreaDialog
+//			cancelPressed();
 		}
 	}
 
@@ -136,15 +141,18 @@ public class AssignableBeansDialog extends TitleAreaDialog {
 		composite.setLayout(layout);
 		composite.setLayoutData(new GridData(GridData.FILL_BOTH));
 		composite.setFont(parent.getFont());
-		setTitle(computeTitle());
+		// TitleAreaDialog
+//		setTitle(computeTitle());
+		// PopupDialog
+		setTitleText(computeTitle());
 		createListView(composite);
 		createFilterView(composite);
 		return composite;
 	}
 
 	protected void createButtonsForButtonBar(Composite parent) {
-		createButton(parent, IDialogConstants.CLOSE_ID, IDialogConstants.CLOSE_LABEL,
-				true);
+		// TitleAreaDialog
+//		createButton(parent, IDialogConstants.CLOSE_ID, IDialogConstants.CLOSE_LABEL, true);
 	}
 	
 	void createListView(Composite parent) {
