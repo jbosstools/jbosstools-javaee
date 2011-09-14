@@ -4,17 +4,52 @@ import java.util.ArrayList;
 import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.jdt.internal.ui.javaeditor.JavaEditor;
+import org.eclipse.jface.text.IDocument;
+import org.eclipse.jface.text.IInformationControl;
+import org.eclipse.jface.text.Region;
+import org.eclipse.jface.text.hyperlink.IHyperlink;
+import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.texteditor.ITextEditor;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.test.tck.TCKTest;
 import org.jboss.tools.cdi.text.ext.CDIExtensionsMessages;
 import org.jboss.tools.cdi.text.ext.hyperlink.AssignableBeansHyperlink;
+import org.jboss.tools.cdi.text.ext.hyperlink.InformationControlManager;
 import org.jboss.tools.cdi.text.ext.hyperlink.InjectedPointHyperlink;
 import org.jboss.tools.cdi.text.ext.hyperlink.InjectedPointHyperlinkDetector;
+import org.jboss.tools.cdi.text.ext.test.CDIHyperlinkTestUtil.TestHyperlink;
 import org.jboss.tools.cdi.text.ext.test.CDIHyperlinkTestUtil.TestRegion;
 import org.jboss.tools.common.util.FileUtil;
-import org.jboss.tools.cdi.text.ext.test.CDIHyperlinkTestUtil.TestHyperlink;
 
 public class InjectedPointHyperlinkDetectorTest extends TCKTest {
+	
+	public void testShowHyperlinksDialog() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/lookup/injectionpoint/BasicLogger.java");
+		
+		assertTrue("File must be exist", file.exists());
+		
+		IEditorPart part = CDIHyperlinkTestUtil.openFileInEditor(file);
+		if(part instanceof JavaEditor){
+			IDocument document = ((JavaEditor)part).getViewer().getDocument();
+			
+			assertNotNull("Document not found", document);
+			
+			IBean[] beans = cdiProject.getBeans();
+			IHyperlink[] hyperlinks = new IHyperlink[beans.length];
+			int index = 0;
+			for(IBean b : beans){
+				hyperlinks[index++] = new InjectedPointHyperlink(new Region(1,1), b, document);
+			}
+			
+			IInformationControl informationControl = InformationControlManager.showHyperlinks("Title", ((JavaEditor)part).getViewer(), hyperlinks, true);
+			
+			assertNotNull("InformationControl not found", informationControl);
+			informationControl.setVisible(false);
+		}else{
+			fail("Editor part must be instance of JavaEditor, was - "+part.getClass());
+		}
+	}
 
 	public void testInjectedPointHyperlinkDetector() throws Exception {
 		Set<IBean> beans = cdiProject.getBeans("/tck/JavaSource/org/jboss/jsr299/tck/tests/lookup/injectionpoint/BasicLogger.java",	true);

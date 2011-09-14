@@ -41,6 +41,10 @@ public class InformationPresenter extends AbstractInformationControlManager{
 
 	@Override
 	public void showInformation() {
+		showInformation_internal(false);
+	}
+	
+	private IInformationControl showInformation_internal(boolean test){
 		IInformationControl iControl = getInformationControl();
 		Point sizeConstraints= computeSizeConstraints(viwer.getTextWidget(), null, iControl);
 		iControl.setSizeConstraints(sizeConstraints.x, sizeConstraints.y);
@@ -58,7 +62,15 @@ public class InformationPresenter extends AbstractInformationControlManager{
 		size= Geometry.max(size, sizeConstraints);
 
 		iControl.setSize(size.x, size.y);
+		if(test){
+			((HierarchyInformationControl)iControl).setBlockOnOpen(false);
+		}
 		iControl.setVisible(true);
+		return iControl;
+	}
+	
+	public IInformationControl showInformationForTest(){
+		return showInformation_internal(true);
 	}
 
 	@Override

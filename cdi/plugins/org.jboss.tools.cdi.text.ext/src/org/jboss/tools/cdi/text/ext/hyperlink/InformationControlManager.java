@@ -21,12 +21,21 @@ import org.jboss.tools.cdi.text.ext.hyperlink.xpl.HierarchyInformationControl;
 import org.jboss.tools.cdi.text.ext.hyperlink.xpl.InformationPresenter;
 
 public class InformationControlManager {
-	public static void showHyperlinks(String title, ITextViewer viewer, IHyperlink[] hyperlinks){
+	public static IInformationControl showHyperlinks(String title, ITextViewer viewer, IHyperlink[] hyperlinks){
+		return showHyperlinks(title, viewer, hyperlinks, false);
+	}
+	
+	public static IInformationControl showHyperlinks(String title, ITextViewer viewer, IHyperlink[] hyperlinks, boolean test){
 		InformationPresenter presenter= new InformationPresenter(viewer, getHierarchyPresenterControlCreator(title, hyperlinks));
 		presenter.setAnchor(AbstractInformationControlManager.ANCHOR_GLOBAL);
 		presenter.setSizeConstraints(60, 10, true, false);
 		presenter.install(viewer.getTextWidget());
-		presenter.showInformation();
+		if(test){
+			return presenter.showInformationForTest();
+		} else {
+			presenter.showInformation();
+			return null;
+		}
 	}
 	
 	private static IInformationControlCreator getHierarchyPresenterControlCreator(final String title, final IHyperlink[] hyperlinks) {
