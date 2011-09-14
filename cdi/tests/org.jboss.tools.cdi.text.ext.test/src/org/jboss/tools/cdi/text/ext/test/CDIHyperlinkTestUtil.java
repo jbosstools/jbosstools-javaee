@@ -288,14 +288,17 @@ public class CDIHyperlinkTestUtil extends TestCase{
 	}
 	
 	private static String findRegionInformation(IDocument document, int offset, List<TestRegion> regionList) throws BadLocationException{
-		int index = 0;
+		int index = -1;
 		for(int i = 0; i < regionList.size(); i++){
 			TestRegion testRegion = regionList.get(i);
 			if(offset > testRegion.region.getOffset()+testRegion.region.getLength()){
 				index = i;
 			}
 		}
-		String info = "previous region - " + getRegionInformation(document, regionList.get(index));
+		String info = "";
+		if(index >= 0) {
+			info = "previous region - " + getRegionInformation(document, regionList.get(index));
+		}
 		if(index+1 < regionList.size())
 			info += " next region - " + getRegionInformation(document, regionList.get(index+1));
 		return info;

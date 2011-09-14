@@ -7,14 +7,12 @@ import org.eclipse.core.resources.IFile;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.test.tck.TCKTest;
 import org.jboss.tools.cdi.text.ext.CDIExtensionsMessages;
-import org.jboss.tools.cdi.text.ext.hyperlink.AlternativeInjectedPointListHyperlink;
 import org.jboss.tools.cdi.text.ext.hyperlink.AssignableBeansHyperlink;
 import org.jboss.tools.cdi.text.ext.hyperlink.InjectedPointHyperlink;
 import org.jboss.tools.cdi.text.ext.hyperlink.InjectedPointHyperlinkDetector;
 import org.jboss.tools.cdi.text.ext.test.CDIHyperlinkTestUtil.TestRegion;
 import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.cdi.text.ext.test.CDIHyperlinkTestUtil.TestHyperlink;
-
 
 public class InjectedPointHyperlinkDetectorTest extends TCKTest {
 
@@ -90,6 +88,14 @@ public class InjectedPointHyperlinkDetectorTest extends TCKTest {
 		regionList.add(new TestRegion(orderPosition, 15,   new TestHyperlink[]{
 			new TestHyperlink(InjectedPointHyperlink.class, CDIExtensionsMessages.CDI_INJECTED_POINT_HYPERLINK_OPEN_INJECT_BEAN+ " CustomProducerImpl.produce()", bean)
 		})); // order
+
+		//It may seem strange that we cannot start with "@Disposes"
+		String disposesParam = "Disposes Something toDispose";
+		int disposePosition = text.indexOf(disposesParam);
+		regionList.add(new TestRegion(disposePosition, disposesParam.length(),   new TestHyperlink[]{
+			new TestHyperlink(InjectedPointHyperlink.class, CDIExtensionsMessages.CDI_INJECTED_POINT_HYPERLINK_OPEN_INJECT_BEAN+ " CustomProducerImpl.produce()", bean)
+		})); // toDispose
+		
 		
 		CDIHyperlinkTestUtil.checkRegions(tckProject, "JavaSource/org/jboss/jsr299/tck/tests/jbt/openon/CustomProducerImpl.java", regionList, new InjectedPointHyperlinkDetector());
 	}

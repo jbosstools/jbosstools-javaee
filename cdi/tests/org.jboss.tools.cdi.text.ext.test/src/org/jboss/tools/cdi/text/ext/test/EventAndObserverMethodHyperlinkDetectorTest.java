@@ -6,6 +6,7 @@ import org.jboss.tools.cdi.core.test.tck.TCKTest;
 import org.jboss.tools.cdi.text.ext.CDIExtensionsMessages;
 import org.jboss.tools.cdi.text.ext.hyperlink.EventAndObserverMethodHyperlinkDetector;
 import org.jboss.tools.cdi.text.ext.hyperlink.EventListHyperlink;
+import org.jboss.tools.cdi.text.ext.hyperlink.InjectedPointHyperlink;
 import org.jboss.tools.cdi.text.ext.hyperlink.ObserverMethodListHyperlink;
 import org.jboss.tools.cdi.text.ext.test.CDIHyperlinkTestUtil.TestRegion;
 import org.jboss.tools.cdi.text.ext.test.CDIHyperlinkTestUtil.TestHyperlink;
