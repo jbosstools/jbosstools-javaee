@@ -9,7 +9,7 @@ public class TypeNames {
 	@Produces  long arg2;
 	@Produces Integer[] arg3;
 	@Produces Short arg4;
-	@Produces  Object arg5;
+	@Produces  Test arg5;
 
 	@Produces
 	public int[] getFoo() {
@@ -32,11 +32,13 @@ public class TypeNames {
 	}
 
 	@Produces
-	public Object getFoo4() {
+	public Test getFoo4() {
 		return null;
 	}
 
 	@Inject
-	private void injectFoo(int[] arg1, long arg2, Integer[] arg3, Short arg4, Object arg5) {
+	private void injectFoo(int[] arg1, long arg2, Integer[] arg3, Short arg4, Test arg5) {
 	}
+
+	public static class Test {}
 }
