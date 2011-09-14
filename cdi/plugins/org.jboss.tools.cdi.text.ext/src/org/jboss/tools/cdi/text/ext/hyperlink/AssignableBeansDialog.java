@@ -22,7 +22,6 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
-import org.eclipse.jface.resource.ColorRegistry;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.viewers.CheckStateChangedEvent;
 import org.eclipse.jface.viewers.CheckboxTreeViewer;
@@ -45,7 +44,6 @@ import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.jface.viewers.StyledString.Styler;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.TextStyle;
 import org.eclipse.swt.layout.GridData;
@@ -155,7 +153,6 @@ public class AssignableBeansDialog extends TitleAreaDialog {
 		list.getControl().setLayoutData(g);
 		list.setContentProvider(new ListContent());
 		list.setLabelProvider(new LP());
-//		TableOwnerDrawSupport.install(list.getTable());
 		list.setInput(injectionPoint);
 		list.addOpenListener(new IOpenListener() {			
 			@Override
@@ -165,6 +162,7 @@ public class AssignableBeansDialog extends TitleAreaDialog {
 					Object o = ((IStructuredSelection)s).getFirstElement();
 					if(o instanceof IBean) {
 						((IBean)o).open();
+						close();
 					}
 				}
 			}
@@ -371,8 +369,8 @@ public class AssignableBeansDialog extends TitleAreaDialog {
 	static Color black = new Color(null, 0, 0, 0);
 
 	static Styler ELIGIBLE_NAME = new DefaultStyler(black, false);
-	static Styler ELIGIBLE_QUALIFIER = new DefaultStyler(gray, true);
-	static Styler DISABLED = new DefaultStyler(gray, true);
+	static Styler ELIGIBLE_QUALIFIER = new DefaultStyler(gray, false);
+	static Styler DISABLED = new DefaultStyler(gray, false);
 
 	private static class DefaultStyler extends Styler {
 		private final Color foreground;
@@ -384,7 +382,6 @@ public class AssignableBeansDialog extends TitleAreaDialog {
 		}
 
 		public void applyStyles(TextStyle textStyle) {
-//			ColorRegistry colorRegistry = JFaceResources.getColorRegistry();
 			if (foreground != null) {
 				textStyle.foreground = foreground;
 			}
@@ -554,5 +551,4 @@ public class AssignableBeansDialog extends TitleAreaDialog {
 		}
 		
 	}
-
 }

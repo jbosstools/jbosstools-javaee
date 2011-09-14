@@ -14,6 +14,7 @@ import java.util.Set;
 
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Display;
 import org.jboss.tools.cdi.core.ICDIElement;
 import org.jboss.tools.cdi.core.IInjectionPoint;
@@ -44,7 +45,12 @@ public class AssignableBeansHyperlink extends AbstractHyperlink implements ITest
 		dialog.setInjectionPoint(injectionPoint);
 		dialog.create();
 		dialog.getShell().setText(CDIExtensionsMessages.ASSIGNABLE_BEANS_DIALOG_TITLE);
-		dialog.getShell().setSize(700, 400);
+		int width = 700;
+		int height = 400;
+		Rectangle b = display.getActiveShell().getBounds();
+		int x = b.x + (b.width - width) / 2;
+		int y = b.y + (b.height - height) / 2;
+		dialog.getShell().setBounds(x, y, width, height);
 		dialog.open();
 	}
 
