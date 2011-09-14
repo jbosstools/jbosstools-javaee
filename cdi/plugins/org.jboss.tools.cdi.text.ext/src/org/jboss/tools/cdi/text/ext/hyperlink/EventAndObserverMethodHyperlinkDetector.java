@@ -145,13 +145,13 @@ public class EventAndObserverMethodHyperlinkDetector extends AbstractHyperlinkDe
 				Set<IObserverMethod> observers = ((IClassBean)bean).getObserverMethods();
 				for (IObserverMethod bm: observers) {
 					ISourceRange sr = bm.getMethod().getSourceRange();
-//					if(sr.getOffset() <= offset && sr.getOffset() + sr.getLength() >= offset) {
+					if(sr.getOffset() <= offset && sr.getOffset() + sr.getLength() >= offset) {
 						IObserverMethod obs = (IObserverMethod)bm;
 						Set<IParameter> ps = obs.getObservedParameters();
 						if(!ps.isEmpty()) {
 							result.add(ps.iterator().next());
 						}
-//					}
+					}
 				}
 			}
 		}
