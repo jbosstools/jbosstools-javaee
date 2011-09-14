@@ -10,14 +10,15 @@
  ******************************************************************************/
 package org.jboss.tools.seam.xml.ui.editor.form;
 
-import java.util.*;
-import org.jboss.tools.common.model.util.ClassLoaderUtil;
-import org.jboss.tools.common.model.ui.forms.*;
+import java.util.Collections;
+import java.util.Map;
+
+import org.jboss.tools.common.model.ui.forms.ArrayToMap;
+import org.jboss.tools.common.model.ui.forms.IFormData;
+import org.jboss.tools.common.model.ui.forms.IFormLayoutData;
+import org.jboss.tools.common.model.ui.forms.ModelFormLayoutData;
 
 public class SeamXMLFormLayoutData implements IFormLayoutData {
-	static {
-		ClassLoaderUtil.init();
-	}
 	
 	public static String EMPTY_DESCRIPTION = ""; //$NON-NLS-1$
 

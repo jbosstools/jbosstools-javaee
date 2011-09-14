@@ -17,7 +17,6 @@ import org.jboss.tools.common.model.XModelConstants;
 import org.jboss.tools.common.model.XModelException;
 import org.jboss.tools.common.model.options.PreferenceModelUtilities;
 import org.jboss.tools.common.model.plugin.ModelPlugin;
-import org.jboss.tools.common.model.util.ClassLoaderUtil;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 
 /**
@@ -42,7 +41,6 @@ public class JSFModelPlugin extends BaseUIPlugin {
 		Properties p = new Properties();
 		p.setProperty(XModelConstants.WORKSPACE, EclipseResourceUtil.getInstallPath(this));
 		p.setProperty("initialModel", "true"); //$NON-NLS-1$ //$NON-NLS-2$
-		ClassLoaderUtil.init();
 		XModel initialModel = PreferenceModelUtilities.createPreferenceModel(p);
 		if (initialModel != null)
 		{

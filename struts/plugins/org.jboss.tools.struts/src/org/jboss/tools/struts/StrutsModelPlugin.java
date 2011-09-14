@@ -15,7 +15,6 @@ import org.jboss.tools.common.model.XModelConstants;
 import org.jboss.tools.common.model.XModelException;
 import org.jboss.tools.common.model.options.PreferenceModelUtilities;
 import org.jboss.tools.common.model.plugin.ModelPlugin;
-import org.jboss.tools.common.model.util.ClassLoaderUtil;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 
 /**
@@ -37,7 +36,6 @@ public class StrutsModelPlugin extends BaseUIPlugin {
 		p.setProperty(XModelConstants.WORKSPACE, EclipseResourceUtil.getInstallPath(this));
 		p.setProperty("initialModel", "true");
 		
-		ClassLoaderUtil.init();
 		XModel initialModel = PreferenceModelUtilities.createPreferenceModel(p);
 		if (initialModel != null)
 		{
