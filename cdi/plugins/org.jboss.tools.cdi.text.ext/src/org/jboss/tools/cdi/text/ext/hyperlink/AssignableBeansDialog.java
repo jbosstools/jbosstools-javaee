@@ -12,7 +12,6 @@ package org.jboss.tools.cdi.text.ext.hyperlink;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -20,23 +19,24 @@ import java.util.TreeMap;
 
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.IMethod;
+import org.eclipse.jface.action.Action;
+import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.dialogs.IDialogConstants;
+import org.eclipse.jface.dialogs.IDialogSettings;
 import org.eclipse.jface.dialogs.PopupDialog;
-import org.eclipse.jface.dialogs.TitleAreaDialog;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.viewers.CheckStateChangedEvent;
 import org.eclipse.jface.viewers.CheckboxTreeViewer;
 import org.eclipse.jface.viewers.DelegatingStyledCellLabelProvider;
-import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.ICheckStateListener;
 import org.eclipse.jface.viewers.ICheckStateProvider;
-import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.IOpenListener;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.OpenEvent;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.StyledCellLabelProvider;
 import org.eclipse.jface.viewers.StyledString;
 import org.eclipse.jface.viewers.TableViewer;
@@ -44,19 +44,24 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.jface.viewers.StyledString.Styler;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.MouseAdapter;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.MouseMoveListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.graphics.TextStyle;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Widget;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.IBean;
-import org.jboss.tools.cdi.core.IBeanMember;
-import org.jboss.tools.cdi.core.IClassBean;
 import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.core.IInjectionPointParameter;
 import org.jboss.tools.cdi.core.IProducer;
@@ -64,15 +69,27 @@ import org.jboss.tools.cdi.core.IProducerField;
 import org.jboss.tools.cdi.core.IProducerMethod;
 import org.jboss.tools.cdi.core.IQualifierDeclaration;
 import org.jboss.tools.cdi.internal.core.impl.AbstractBeanElement;
+import org.jboss.tools.cdi.text.ext.CDIExtensionsPlugin;
+import org.jboss.tools.cdi.text.ext.hyperlink.AssignableBeanFilters.Checkbox;
+import org.jboss.tools.cdi.text.ext.hyperlink.AssignableBeanFilters.Filter;
 import org.jboss.tools.common.java.IParametedType;
 import org.jboss.tools.common.text.ITextSourceReference;
 
+/**
+ * 
+ * @author Viacheslav Kabanovich
+ *
+ */
 public class AssignableBeansDialog extends PopupDialog {// TitleAreaDialog {
 	IInjectionPoint injectionPoint;
 	Set<IBean> beans = new HashSet<IBean>();
 	Set<IBean> eligibleBeans = new HashSet<IBean>();
 	Set<IBean> resolvedBeans = new HashSet<IBean>();
 
+	Composite composite;
+
+	boolean showHideOptions = true;
+	Group filterPanel;
 	CheckboxTreeViewer filterView;
 
 	TableViewer list;
@@ -83,14 +100,24 @@ public class AssignableBeansDialog extends PopupDialog {// TitleAreaDialog {
 		//PopupDialog
 		super(parentShell, 0, true, true, true, true, true, "title", null);
 		setShellStyle(getShellStyle() | SWT.RESIZE);
+		initSettings();
+	}
+
+	protected void initSettings() {
+		IDialogSettings settings = getDialogSettings();
+		showHideOptions = settings.getBoolean(SHOW_HIDE_PANEL);
+		for (Checkbox c: AssignableBeanFilters.ALL_OPTIONS) {
+			c.state = settings.getBoolean(FILTER_OPTION + c.id);
+		}
+		AssignableBeanFilters.ROOT.state = true;
 	}
 
 	public void setInjectionPoint(IInjectionPoint injectionPoint) {
 		this.injectionPoint = injectionPoint;
 		beans = injectionPoint.getCDIProject().getBeans(false, injectionPoint);
 		eligibleBeans = new HashSet<IBean>(beans);
-		for (int i = OPTION_UNAVAILABLE_BEANS + 1; i < OPTION_ELIMINATED_AMBIGUOUS; i++) {
-			Filter f = ALL_OPTIONS[i].filter;
+		for (int i = AssignableBeanFilters.OPTION_UNAVAILABLE_BEANS + 1; i < AssignableBeanFilters.OPTION_ELIMINATED_AMBIGUOUS; i++) {
+			Filter f = AssignableBeanFilters.ALL_OPTIONS[i].filter;
 			if(f != null) {
 				f.filter(eligibleBeans);
 			}
@@ -132,7 +159,7 @@ public class AssignableBeansDialog extends PopupDialog {// TitleAreaDialog {
 	}
 
 	protected Control createDialogArea(Composite parent) {
-		Composite composite = new Composite(parent, SWT.NONE);
+		composite = new Composite(parent, SWT.NONE);
 		GridLayout layout = new GridLayout(2, false);
 		layout.marginHeight = 0;
 		layout.marginWidth = 0;
@@ -146,7 +173,9 @@ public class AssignableBeansDialog extends PopupDialog {// TitleAreaDialog {
 		// PopupDialog
 		setTitleText(computeTitle());
 		createListView(composite);
-		createFilterView(composite);
+		if(showHideOptions) {
+			createFilterView(composite);
+		}
 		return composite;
 	}
 
@@ -156,7 +185,7 @@ public class AssignableBeansDialog extends PopupDialog {// TitleAreaDialog {
 	}
 	
 	void createListView(Composite parent) {
-		list = new TableViewer(parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER/* | SWT.VIRTUAL*/);
+		list = new TableViewer(parent, SWT.SINGLE | SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER/* | SWT.VIRTUAL*/);
 		GridData g = new GridData(GridData.FILL_BOTH);
 		list.getControl().setLayoutData(g);
 		list.setContentProvider(new ListContent());
@@ -175,25 +204,49 @@ public class AssignableBeansDialog extends PopupDialog {// TitleAreaDialog {
 				}
 			}
 		});
-		list.addDoubleClickListener(new IDoubleClickListener() {
-			@Override
-			public void doubleClick(DoubleClickEvent event) {
+
+		// PopupDialog
+		list.getTable().addMouseMoveListener(new MouseMoveListener() {
+			public void mouseMove(MouseEvent e) {
+				ViewerCell cell = list.getCell(new Point(e.x, e.y));
+				if(cell != null) {
+					Widget w = cell.getItem();
+					if(w != null && w.getData() != null) {
+						list.setSelection(new StructuredSelection(w.getData()));
+					}
+				}
+				list.getTable().setCursor(cell == null ? null : list.getTable().getDisplay().getSystemCursor(SWT.CURSOR_HAND));
 			}
 		});
+		list.getTable().addMouseListener(new MouseAdapter() {
+			public void mouseUp(MouseEvent e) {
+				ViewerCell cell = list.getCell(new Point(e.x, e.y));
+				if(cell != null) {
+					Widget w = cell.getItem();
+					if(w != null && w.getData() instanceof IBean) {
+						IBean bean = (IBean)w.getData();
+						bean.open();
+						close();
+					}
+				}
+			}
+		});
+
 		list.refresh();
 	}
 
 	void createFilterView(Composite parent) {
-		Group g = new Group(parent, 0);
+		Group g = filterPanel = new Group(parent, 0);
+		g.setBackground(parent.getBackground());
 		g.setText("Show/Hide");
 		g.setLayoutData(new GridData(GridData.FILL_VERTICAL | GridData.VERTICAL_ALIGN_BEGINNING));
 		g.setLayout(new GridLayout(1, false));
-		filterView = new CheckboxTreeViewer(g);
+		filterView = new CheckboxTreeViewer(g, 0);
 		filterView.setAutoExpandLevel(3);
 		filterView.setContentProvider(checkboxContentProvider);
-		filterView.setInput(ROOT);
-		for (int i = 1; i < ALL_OPTIONS.length; i++) {
-			filterView.setChecked(ALL_OPTIONS[i], true);
+		filterView.setInput(AssignableBeanFilters.ROOT);
+		for (int i = 1; i < AssignableBeanFilters.ALL_OPTIONS.length; i++) {
+			filterView.setChecked(AssignableBeanFilters.ALL_OPTIONS[i], true);
 		}
 		filterView.getControl().setBackground(g.getBackground());
 		g.setData(new GridData(GridData.FILL_BOTH));
@@ -220,68 +273,84 @@ public class AssignableBeansDialog extends PopupDialog {// TitleAreaDialog {
 		});
 	}
 
-	static int OPTION_UNAVAILABLE_BEANS = 1;
-	static int OPTION_DECORATOR = 2;
-	static int OPTION_INTERCEPTOR = 3;
-	static int OPTION_UNSELECTED_ALTERNATIVE = 4;
-	static int OPTION_PRODUCER_IN_UNAVAILABLE_BEAN = 5;
-	static int OPTION_SPECIALIZED_BEAN = 6;
-	static int OPTION_ELIMINATED_AMBIGUOUS = 7;
+	protected String getId() {
+		return AssignableBeansDialog.class.getName();
+	}
 
-	static class Checkbox {
-		int id;
-		String label;
-		Filter filter;
-		boolean state = true;
-		Checkbox(int id, String label, Filter filter) {
-			this.id = id;
-			this.label = label;
-			this.filter = filter;
-		}
-		Checkbox parent = null;
-		List<Checkbox> children = new ArrayList<Checkbox>();
+	protected Point getDefaultSize() {
+		return new Point(700, 400);
+	}
 
-		Checkbox add(int id, String label, Filter f) {
-			Checkbox c = new Checkbox(id, label, f);
-			ALL_OPTIONS[id] = c;
-			c.parent = this;
-			children.add(c);			
-			return c;
+	protected Point getDefaultLocation(Point size) {
+		Display display = Display.getCurrent();
+		if(display == null) {
+			display = Display.getDefault();
 		}
-	
-		public String toString() {
-			return label;
-		}
-	
-		public boolean isEnabled() {
-			return state && (parent == null || parent.isEnabled());
-		}
-	
-		public void filter(Set<IBean> beans) {
-			if(id == OPTION_ELIMINATED_AMBIGUOUS) filter = new EliminatedAmbiguousFilter();
-			if(!isEnabled() && filter != null) {
-				filter.filter(beans);
+		Rectangle b = display.getActiveShell().getBounds();
+		int x = b.x + (b.width - size.x) / 2;
+		int y = b.y + (b.height - size.y) / 2;
+		return new Point(x, y);
+	}
+
+	// PopupDialog
+	protected void fillDialogMenu(IMenuManager dialogMenu) {
+		super.fillDialogMenu(dialogMenu);
+		dialogMenu.add(new ShowHideAction());
+	}
+	protected IDialogSettings getDialogSettings() {
+		IDialogSettings settings = CDIExtensionsPlugin.getDefault().getDialogSettings().getSection(getId());
+		if(settings == null) {
+			settings = CDIExtensionsPlugin.getDefault().getDialogSettings().addNewSection(getId());
+			settings.put(SHOW_HIDE_PANEL, true);
+			for (Checkbox c: AssignableBeanFilters.ALL_OPTIONS) {
+				settings.put(FILTER_OPTION + c.id, c.state);
 			}
-			for (Checkbox c: children) {
-				c.filter(beans);
-			}
+		}
+		return settings;
+	}
+
+	public boolean close() {
+		saveFilterOptions();
+		return super.close();
+	}
+
+	private static final String SHOW_HIDE_PANEL = "SHOW_HIDE_PANEL";
+	private static final String FILTER_OPTION = "FILTER_OPTION_";
+
+	private void saveFilterOptions() {
+		IDialogSettings settings = getDialogSettings();
+		settings.put(SHOW_HIDE_PANEL, showHideOptions);
+		for (Checkbox c: AssignableBeanFilters.ALL_OPTIONS) {
+			settings.put(FILTER_OPTION + c.id, c.state);
 		}
 	}
 
-	static Checkbox[] ALL_OPTIONS = new Checkbox[8];
 
-	static Checkbox ROOT = new Checkbox(0, "", null);
-	
-	static {
-		Checkbox unavailable = ROOT.add(OPTION_UNAVAILABLE_BEANS, "Unavailable Beans", null);
-		unavailable.add(OPTION_DECORATOR, "@Decorator", new DecoratorFilter());
-		unavailable.add(OPTION_INTERCEPTOR, "@Interceptor", new InterceptorFilter());
-		unavailable.add(OPTION_UNSELECTED_ALTERNATIVE, "Unselected @Alternative", new UnselectedAlternativeFilter());
-		unavailable.add(OPTION_PRODUCER_IN_UNAVAILABLE_BEAN, "@Produces in unavailable bean", new ProducerFilter());
-		unavailable.add(OPTION_SPECIALIZED_BEAN, "Specialized beans", new SpecializedBeanFilter());
-		ROOT.add(OPTION_ELIMINATED_AMBIGUOUS, "Eliminated ambiguous", new EliminatedAmbiguousFilter());
+	class ShowHideAction extends Action {
+		public ShowHideAction() {
+			super("Show/Hide panel", Action.AS_CHECK_BOX);
+			setChecked(showHideOptions);
+		}
+		public void run() {
+			setFiltersEnabled(isChecked());
+		}
 	}
-	
+
+	protected void setFiltersEnabled(boolean enabled) {
+		if(enabled != showHideOptions) {
+			showHideOptions = enabled;
+			if(!enabled && filterPanel != null) {
+				filterPanel.dispose();
+				filterPanel = null;
+				filterView = null;
+			} else if(enabled && filterPanel == null) {
+				createFilterView(composite);
+			}
+			composite.update();
+			composite.layout(true);
+		}
+	}
+
 	static CheckboxContentProvider checkboxContentProvider = new CheckboxContentProvider();
 	
 	static class CheckboxContentProvider implements ITreeContentProvider {
@@ -330,7 +399,7 @@ public class AssignableBeansDialog extends PopupDialog {// TitleAreaDialog {
 			Set<IBean> bs = new HashSet<IBean>(beans);
 			Set<String> keys = new HashSet<String>();
 			LP p = new LP();
-			ROOT.filter(bs);
+			AssignableBeanFilters.ROOT.filter(bs);
 			Map<String, IBean> map = new TreeMap<String, IBean>();
 			for (IBean b: bs) {
 				if(resolvedBeans.contains(b)) {
@@ -464,99 +533,4 @@ public class AssignableBeansDialog extends PopupDialog {// TitleAreaDialog {
 		}		
 	}
 
-	static class Filter {
-		public void filter(Set<IBean> beans) {
-		}
-	}
-
-	static class DecoratorFilter extends Filter {
-		public void filter(Set<IBean> beans) {
-			Iterator<IBean> it = beans.iterator();
-			while(it.hasNext()) {
-				IBean b = it.next();
-				if(b.isAnnotationPresent(CDIConstants.DECORATOR_STEREOTYPE_TYPE_NAME)) {
-					it.remove();
-				}
-			}
-		}
-	}
-
-	static class InterceptorFilter extends Filter {
-		public void filter(Set<IBean> beans) {
-			Iterator<IBean> it = beans.iterator();
-			while(it.hasNext()) {
-				IBean b = it.next();
-				if(b.isAnnotationPresent(CDIConstants.INTERCEPTOR_ANNOTATION_TYPE_NAME)) {
-					it.remove();
-				}
-			}
-		}
-	}
-
-	static class UnselectedAlternativeFilter extends Filter {
-		public void filter(Set<IBean> beans) {
-			Iterator<IBean> it = beans.iterator();
-			while(it.hasNext()) {
-				IBean b = it.next();
-				if(b.isAlternative() && !b.isSelectedAlternative()) {
-					it.remove();
-				}
-			}
-		}
-	}
-
-	static class SpecializedBeanFilter extends Filter {
-		public void filter(Set<IBean> beans) {
-			Iterator<IBean> it = beans.iterator();
-			while(it.hasNext()) {
-				IBean b = it.next();
-				if(b instanceof IClassBean && !((IClassBean) b).getSpecializingBeans().isEmpty()) {
-					it.remove();
-				}
-			}
-		}
-	}
-
-	static class ProducerFilter extends Filter {
-		public void filter(Set<IBean> beans) {
-			Iterator<IBean> it = beans.iterator();
-			while(it.hasNext()) {
-				IBean b = it.next();
-				if(b instanceof IProducer && ((IProducer) b).getClassBean() != null && !((IProducer) b).getClassBean().isEnabled()) {
-					it.remove();
-				}
-			}
-		}
-	}
-
-	static class EliminatedAmbiguousFilter extends Filter {
-		public void filter(Set<IBean> beans) {
-			Set<IBean> eligible = new HashSet<IBean>(beans);
-			for (int i = OPTION_UNAVAILABLE_BEANS + 1; i < OPTION_ELIMINATED_AMBIGUOUS; i++) {
-				Filter f = ALL_OPTIONS[i].filter;
-				if(f != null) {
-					f.filter(eligible);
-				}
-			}
-			boolean hasAlternative = false;
-			for (IBean b: eligible) {
-				if(b.isEnabled() && b.isAlternative() && b.isSelectedAlternative()) {
-					hasAlternative = true;
-				}
-			}
-			if(hasAlternative) {
-				Iterator<IBean> it = beans.iterator();
-				while(it.hasNext()) {
-					IBean bean = it.next();
-					if(!eligible.contains(bean) || bean.isAlternative()) continue;
-					if(bean instanceof IProducer && bean instanceof IBeanMember) {
-						IBeanMember p = (IBeanMember)bean;
-						if(p.getClassBean() != null && p.getClassBean().isAlternative()) continue;
-					}
-					it.remove();
-				}
-			}
-		}
-		
-	}
 }
