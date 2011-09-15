@@ -16,6 +16,7 @@ import junit.framework.TestSuite;
 import org.eclipse.jdt.internal.core.JavaModelManager;
 import org.eclipse.wst.validation.ValidationFramework;
 import org.jboss.tools.cdi.seam.core.test.international.BundleModelTest;
+import org.jboss.tools.cdi.seam.core.test.international.SeamResourceBundleCdiElResolverTest;
 import org.jboss.tools.cdi.seam.core.test.international.SeamResourceBundlesTest;
 import org.jboss.tools.cdi.seam.core.test.jms.SeamJmsValidationTest;
 import org.jboss.tools.cdi.seam.core.test.persistence.SeamPersistenceTest;
@@ -43,12 +44,13 @@ public class CDISeamCoreAllTests {
 		suite.addTestSuite(SeamResourceBundlesTest.class);
 		suite.addTestSuite(BundleModelTest.class);
 		suite.addTestSuite(SeamJmsValidationTest.class);
+		suite.addTestSuite(SeamResourceBundleCdiElResolverTest.class);
 		suiteAll.addTest(new SeamCoreTestSetup(suite));
 
 		suite = new TestSuite("Seam Persistence Project Tests");
 		suite.addTestSuite(SeamPersistenceTest.class);
 		suiteAll.addTest(new SeamPersistenceTestSetup(suite));
-
+		
 		suiteAll.addTestSuite(ValidationExceptionTest.class); // This test should be added last!
 
 		return suiteAll;
