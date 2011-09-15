@@ -21,6 +21,9 @@
    <requires>
       <import feature="org.jboss.ide.eclipse.as.feature" version="1.0.0" match="greaterOrEqual"/>
       <import feature="org.hibernate.eclipse.feature" version="3.2.0" match="greaterOrEqual"/>
+      <import feature="org.jboss.tools.common.feature" version="3.3.0" match="greaterOrEqual"/>
+      <import feature="org.jboss.tools.jst.feature" version="3.3.0" match="greaterOrEqual"/>
+      <import feature="org.jboss.tools.jsf.feature" version="3.3.0" match="greaterOrEqual"/>
       <import feature="org.eclipse.datatools.connectivity.feature" version="1.6.1" match="greaterOrEqual"/>
       <import feature="org.eclipse.datatools.enablement.jdbc.feature" version="1.6.1" match="greaterOrEqual"/>
    </requires>

@@ -21,6 +21,11 @@ for a full listing of individual contributors.
       %license
    </license>
 
+   <requires>
+      <import feature="org.jboss.tools.common.feature" version="3.3.0" match="greaterOrEqual"/>
+      <import feature="org.jboss.tools.jst.feature" version="3.3.0" match="greaterOrEqual"/>
+   </requires>
+
    <plugin
          id="org.jboss.tools.cdi.core"
          download-size="0"
