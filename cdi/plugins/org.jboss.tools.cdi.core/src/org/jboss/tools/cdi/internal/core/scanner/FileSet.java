@@ -38,6 +38,12 @@ public class FileSet {
 		allpaths.add(path);
 		if(!checkType(type, path)) {
 			//do nothing, bug JDT
+		} else if(type.isAnonymous()) {
+			//is not bean
+		} else if(type.getDeclaringType() != null && !Flags.isStatic(type.getFlags())) {
+			//is not bean
+		} else if(type.getFullyQualifiedName().indexOf('$') > 0 && !Flags.isStatic(type.getFlags())) {
+			//is not bean
 		} else if(type.isAnnotation()) {
 			add(annotations, path, type);
 		} else if(type.isInterface()) {
