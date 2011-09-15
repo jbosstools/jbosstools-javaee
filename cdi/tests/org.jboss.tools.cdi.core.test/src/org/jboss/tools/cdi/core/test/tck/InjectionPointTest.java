@@ -66,6 +66,13 @@ public class InjectionPointTest extends TCKTest {
 		assertEquals(1, injections.size());
 	}
 
+	public void testDisposerMethodParameters() {
+		IClassBean bean = getClassBean("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/disposers/DisposerOk.java");
+		assertNotNull("Can't find the bean.", bean);
+		Set<IInjectionPoint> injections = bean.getInjectionPoints();
+		assertEquals(1, injections.size());
+	}
+
 	public void testGetInjections() {
 		Set<IInjectionPoint> ps = cdiProject.getInjections("org.jboss.jsr299.tck.tests.lookup.injection.Fox");
 		assertTrue(!ps.isEmpty());
