@@ -12,6 +12,7 @@ package org.jboss.tools.cdi.text.ext.hyperlink;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -21,6 +22,7 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuManager;
+import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.IDialogSettings;
 import org.eclipse.jface.dialogs.PopupDialog;
@@ -44,6 +46,10 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.jface.viewers.StyledString.Styler;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.events.KeyListener;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseMoveListener;
@@ -59,7 +65,9 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Widget;
+import org.eclipse.ui.dialogs.SearchPattern;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IInjectionPoint;
@@ -92,6 +100,7 @@ public class AssignableBeansDialog extends PopupDialog {// TitleAreaDialog {
 	Group filterPanel;
 	CheckboxTreeViewer filterView;
 
+	private Text fFilterText;
 	TableViewer list;
 
 	public AssignableBeansDialog(Shell parentShell) {
@@ -158,6 +167,12 @@ public class AssignableBeansDialog extends PopupDialog {// TitleAreaDialog {
 		}
 	}
 
+	protected Control createTitleMenuArea(Composite parent) {
+		Composite fViewMenuButtonComposite= (Composite) super.createTitleMenuArea(parent);
+		fFilterText = createFilterText(parent);
+		return fViewMenuButtonComposite;
+	}
+
 	protected Control createDialogArea(Composite parent) {
 		composite = new Composite(parent, SWT.NONE);
 		GridLayout layout = new GridLayout(2, false);
@@ -176,6 +191,7 @@ public class AssignableBeansDialog extends PopupDialog {// TitleAreaDialog {
 		if(showHideOptions) {
 			createFilterView(composite);
 		}
+		installFilter();
 		return composite;
 	}
 
@@ -220,19 +236,20 @@ public class AssignableBeansDialog extends PopupDialog {// TitleAreaDialog {
 		});
 		list.getTable().addMouseListener(new MouseAdapter() {
 			public void mouseUp(MouseEvent e) {
-				ViewerCell cell = list.getCell(new Point(e.x, e.y));
-				if(cell != null) {
-					Widget w = cell.getItem();
-					if(w != null && w.getData() instanceof IBean) {
-						IBean bean = (IBean)w.getData();
-						bean.open();
-						close();
-					}
-				}
+				gotoSelectedElement();
 			}
 		});
 
 		list.refresh();
+	}
+
+	protected void gotoSelectedElement() {
+		ISelection s = list.getSelection();
+		if(!s.isEmpty() && s instanceof IStructuredSelection) {
+			IBean b = (IBean)((IStructuredSelection)s).getFirstElement();
+			b.open();
+			close();
+		}
 	}
 
 	void createFilterView(Composite parent) {
@@ -269,6 +286,47 @@ public class AssignableBeansDialog extends PopupDialog {// TitleAreaDialog {
 			public boolean isChecked(Object element) {
 				Checkbox c = (Checkbox)element;
 				return c.state;
+			}
+		});
+	}
+
+	protected Text getFilterText() {
+		return fFilterText;
+	}
+
+	protected Text createFilterText(Composite parent) {
+		fFilterText= new Text(parent, SWT.NONE);
+		Dialog.applyDialogFont(fFilterText);
+
+		GridData data= new GridData(GridData.FILL_HORIZONTAL);
+		data.horizontalAlignment= GridData.FILL;
+		data.verticalAlignment= GridData.CENTER;
+		fFilterText.setLayoutData(data);
+
+		fFilterText.addKeyListener(new KeyListener() {
+			public void keyPressed(KeyEvent e) {
+				if (e.keyCode == 0x0D) // return
+					gotoSelectedElement();
+				if (e.keyCode == SWT.ARROW_DOWN)
+					list.getTable().setFocus();
+				if (e.keyCode == SWT.ARROW_UP)
+					list.getTable().setFocus();
+				if (e.character == 0x1B) // ESC
+					close();
+			}
+			public void keyReleased(KeyEvent e) {
+				// do nothing
+			}
+		});
+		return fFilterText;
+	}
+
+	private void installFilter() {
+		fFilterText.setText(""); //$NON-NLS-1$
+
+		fFilterText.addModifyListener(new ModifyListener() {
+			public void modifyText(ModifyEvent e) {
+				list.refresh();
 			}
 		});
 	}
@@ -383,7 +441,30 @@ public class AssignableBeansDialog extends PopupDialog {// TitleAreaDialog {
 			return !((Checkbox)element).children.isEmpty();
 		}
 	}
-	
+
+	TextFilter textFilter = new TextFilter();
+
+	class TextFilter implements Filter {
+		SearchPattern patternMatcher = new SearchPattern();
+		@Override
+		public void filter(Set<IBean> beans) {
+			if(fFilterText != null && !fFilterText.isDisposed()) {
+				String text = fFilterText.getText();
+				if(text.length() > 0) {
+					patternMatcher.setPattern(text);
+					Iterator<IBean> it = beans.iterator();
+					while(it.hasNext()) {
+						IBean bean = it.next();
+						if(!patternMatcher.matches(bean.getElementName())) {
+							it.remove();
+						}
+					}
+				}
+			}
+			
+		}
+		
+	}
 	class ListContent implements IStructuredContentProvider {
 
 		@Override
@@ -400,6 +481,7 @@ public class AssignableBeansDialog extends PopupDialog {// TitleAreaDialog {
 			Set<String> keys = new HashSet<String>();
 			LP p = new LP();
 			AssignableBeanFilters.ROOT.filter(bs);
+			textFilter.filter(bs);
 			Map<String, IBean> map = new TreeMap<String, IBean>();
 			for (IBean b: bs) {
 				if(resolvedBeans.contains(b)) {
@@ -506,6 +588,9 @@ public class AssignableBeansDialog extends PopupDialog {// TitleAreaDialog {
 					.append("()", nameStyler);
 				}
 			} else {
+				if(b.getBeanClass().getElementName().length() == 0) {
+					System.out.println("oops");
+				}
 				sb.append(b.getBeanClass().getElementName(), nameStyler);
 			}
 
