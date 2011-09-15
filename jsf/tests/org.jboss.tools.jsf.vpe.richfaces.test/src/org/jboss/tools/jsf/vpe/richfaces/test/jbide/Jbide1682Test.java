@@ -36,11 +36,6 @@ public class Jbide1682Test extends VpeTest {
 	}
 	
 	public void testJBIDE_1682_With_Popup() throws Throwable {
-		// wait
-		TestUtil.waitForJobs();
-		// set exception
-		setException(null);
-
 		// get test page path
 		IFile file = (IFile) TestUtil.getComponentPath(
 				TEST_PAGE_WITH_POPUP, RichFacesAllTests.IMPORT_PROJECT_NAME);
@@ -78,11 +73,6 @@ public class Jbide1682Test extends VpeTest {
 	}
 	
 	public void testJBIDE_1682_Without_Popup() throws Throwable {
-		// wait
-		TestUtil.waitForJobs();
-		// set exception
-		setException(null);
-		
 		// get test page path
 		IFile file = (IFile) TestUtil.getComponentPath(
 				TEST_PAGE_WITHOUT_POPUP, RichFacesAllTests.IMPORT_PROJECT_NAME);

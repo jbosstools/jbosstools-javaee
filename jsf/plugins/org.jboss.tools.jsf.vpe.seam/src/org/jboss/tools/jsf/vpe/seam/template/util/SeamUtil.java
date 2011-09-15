@@ -143,7 +143,7 @@ public class SeamUtil {
 	}
 
 	private static String parseFontStyleValue(Node sourceFontNode) {
-		StringBuffer styleAttrValue = new StringBuffer(""); //$NON-NLS-1$
+		StringBuilder styleAttrValue = new StringBuilder(); //$NON-NLS-1$
 		Element sourceFontElement = (Element) sourceFontNode;		
 		if (sourceFontElement.hasAttribute(HTML.ATTR_STYLE)) {
 			String stringValueToParse = sourceFontElement.getAttribute(HTML.ATTR_STYLE);

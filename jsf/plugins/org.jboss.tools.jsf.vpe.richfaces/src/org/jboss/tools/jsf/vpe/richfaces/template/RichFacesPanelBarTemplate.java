@@ -58,10 +58,12 @@ public class RichFacesPanelBarTemplate extends VpeAbstractTemplate implements Vp
         table.setAttribute(HTML.ATTR_CLASS, styleClass);
 
         // Set style attribute
-        StringBuffer styleValue = new StringBuffer("padding: 0px; "); //$NON-NLS-1$
-        styleValue.append(height(sourceElement)).append(Constants.WHITE_SPACE)
-                  .append(width(sourceElement)).append(Constants.WHITE_SPACE)
-                  .append(ComponentUtil.getAttribute(sourceElement, HTML.ATTR_STYLE));
+        String styleValue = "padding: 0px; " //$NON-NLS-1$
+        		+ height(sourceElement) 
+        		+ Constants.WHITE_SPACE 
+        		+ width(sourceElement) 
+        		+ Constants.WHITE_SPACE 
+        		+ ComponentUtil.getAttribute(sourceElement, HTML.ATTR_STYLE);
 
         // Encode Body
         List<Node> children = ComponentUtil.getChildren(sourceElement);

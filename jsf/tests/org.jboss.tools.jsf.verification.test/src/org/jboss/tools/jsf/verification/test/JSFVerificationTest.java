@@ -47,9 +47,9 @@ public class JSFVerificationTest extends TestCase {
 		ArrayList<TestDescription> tests = provider.getTestDescriptions(testName);
 		System.out.println(testName + " " + (tests == null ? -1 : tests.size()));
 		if(tests == null) return;
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		int errorCount = 0;
-		StringBuffer sb2 = new StringBuffer();
+		StringBuilder sb2 = new StringBuilder();
 		int errorCount2 = 0;
 		for (int i = 0; i < tests.size(); i++) {
 			TestDescription t = tests.get(i);

@@ -50,10 +50,6 @@ public class RichFacesPickListTemplateTestCase extends VpeTest {
      * Test simple pick list.
      */
     public void testSimplePickList() throws Throwable {
-            // wait
-    		TestUtil.waitForJobs();
-    		// set exception
-    		setException(null);
 
     		// get test page path
     		IFile file = (IFile) TestUtil.getComponentPath(FILE_NAME,

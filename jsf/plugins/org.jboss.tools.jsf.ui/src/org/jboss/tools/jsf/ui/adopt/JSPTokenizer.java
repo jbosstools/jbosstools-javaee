@@ -24,7 +24,7 @@ public class JSPTokenizer {
 	static int DOCTYPE = 7;
 
 	String text;
-	StringBuffer sb = new StringBuffer();
+	StringBuilder sb = new StringBuilder();
 	Token root;
 	
 	int selectionStart;
@@ -257,8 +257,8 @@ public class JSPTokenizer {
     	int VALUE = 2;
     	int state = 0;
     	char quote = '\0';
-    	StringBuffer name = new StringBuffer();
-    	StringBuffer value = new StringBuffer();
+    	StringBuilder name = new StringBuilder();
+    	StringBuilder value = new StringBuilder();
     	for (int i = 0; i < length; i++) {
     		char ch = text.charAt(i + off);
     		if(state == NOTHING) {

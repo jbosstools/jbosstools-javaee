@@ -97,7 +97,7 @@ public class OutputLinkWizard extends Wizard implements PropertyChangeListener, 
 	static String F_PREFIX  = "%prefix|http://java.sun.com/jsf/core|f%"; //$NON-NLS-1$
 	
 	public void setText(){
-		StringBuffer text = new StringBuffer();		
+		StringBuilder text = new StringBuilder();		
 			
 		if(page2.getText()==null || page2.getText().trim().length() == 0) {
 			return;
@@ -109,7 +109,7 @@ public class OutputLinkWizard extends Wizard implements PropertyChangeListener, 
 			fDropCommand.getProperties().setProperty("start text", text.toString()); //$NON-NLS-1$
 			
 			if (page2.isValue()) {
-				StringBuffer text2 = new StringBuffer();
+				StringBuilder text2 = new StringBuilder();
 				text2.append(fDropCommand.getProperties().getProperty("end text")); //$NON-NLS-1$
 				text2.append('|');
 				fDropCommand.getProperties().setProperty("end text", text2.toString()); //$NON-NLS-1$

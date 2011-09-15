@@ -44,11 +44,6 @@ public class JBIDE1713Test extends VpeTest {
 
 	// test method for JBIDE 1713 component
 	public void testJBIDE_1713() throws Throwable {
-		// wait
-		TestUtil.waitForJobs();
-		// set exception
-		setException(null);
-
 		// get test page path
 		IFile file = (IFile) TestUtil.getComponentPath(TEST_PAGE_NAME,
 				IMPORT_PROJECT_NAME);

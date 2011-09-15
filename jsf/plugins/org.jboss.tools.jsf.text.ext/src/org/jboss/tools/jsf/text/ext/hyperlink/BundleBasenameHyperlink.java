@@ -357,7 +357,7 @@ public class BundleBasenameHyperlink extends ClassHyperlink {
 			if (start > offset || end < offset) return null;
 
 			String text = getDocument().get(start, end - start);
-			StringBuffer sb = new StringBuffer(text);
+			StringBuilder sb = new StringBuilder(text);
 
 			//find start and end of path property
 			int bStart = 0;

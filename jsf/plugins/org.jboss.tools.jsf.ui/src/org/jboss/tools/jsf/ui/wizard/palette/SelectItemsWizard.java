@@ -99,7 +99,7 @@ public class SelectItemsWizard extends Wizard implements PropertyChangeListener,
 	static String F_PREFIX = "%prefix|http://java.sun.com/jsf/core|f%"; //$NON-NLS-1$
 
 	public void setText() {
-		StringBuffer text = new StringBuffer();
+		StringBuilder text = new StringBuilder();
 		if (page2.getText() != null && page2.getText().trim().length() > 0) {
 			text.append(fDropCommand.getProperties().getProperty("start text")); //$NON-NLS-1$
 			text.append("\n\t<" + F_PREFIX + "selectItems value=\"" //$NON-NLS-1$ //$NON-NLS-2$

@@ -118,8 +118,7 @@ public class RichFacesDataFilterSliderTemplate extends AbstractRichFacesTemplate
 		// create high level container DIV tag element
 		String style = ComponentUtil.getAttribute(sourceElement, RichFaces.ATTR_STYLE);
 		String styleClass = ComponentUtil.getAttribute(sourceElement, RichFaces.ATTR_STYLE_CLASS);
-		styleClass = new StringBuffer(DEFAULT_SLIDER_CONTAINER_STYLE).append(Constants.WHITE_SPACE).
-				append(RICH_DFS_CONTAINER_STYLE).append(Constants.WHITE_SPACE).append(styleClass).toString();
+		styleClass = DEFAULT_SLIDER_CONTAINER_STYLE + Constants.WHITE_SPACE + RICH_DFS_CONTAINER_STYLE + Constants.WHITE_SPACE + styleClass;
 		nsIDOMElement parentDiv = createDIV(visualDocument, styleClass, style);
 
 		// create RANGE container DIV tag element
@@ -127,40 +126,41 @@ public class RichFacesDataFilterSliderTemplate extends AbstractRichFacesTemplate
 		if (width == null || width.equals(Constants.EMPTY)) {
 			width = new Integer(DEFAULT_WIDTH).toString();
 		}
-		style = new StringBuffer(HTML.STYLE_PARAMETER_WIDTH).append(Constants.COLON).
-				append(width).append(Constants.PIXEL).append(Constants.SEMICOLON).toString();
+		style = HTML.STYLE_PARAMETER_WIDTH + Constants.COLON + width + Constants.PIXEL + Constants.SEMICOLON;
 		styleClass = ComponentUtil.getAttribute(sourceElement, RANGE_STYLE_CLASS_ATTR);
-		styleClass = new StringBuffer(DEFAULT_RANGE_STYLE).append(Constants.WHITE_SPACE).
-				append(RICH_DFS_RANGE_STYLE).append(Constants.WHITE_SPACE).append(styleClass).toString();
+		styleClass = DEFAULT_RANGE_STYLE + Constants.WHITE_SPACE
+						+ RICH_DFS_RANGE_STYLE + Constants.WHITE_SPACE + styleClass;
 		nsIDOMElement rangeDiv = createDIV(visualDocument, styleClass, style);
 
 		// create RANGE-DECOR container DIV tag element
-		styleClass = new StringBuffer(DEFAULT_RANGE_DECOR_STYLE).append(Constants.WHITE_SPACE).
-				append(RICH_DFS_RANGE_DECOR_STYLE).toString();
+		styleClass = DEFAULT_RANGE_DECOR_STYLE + Constants.WHITE_SPACE
+				+ RICH_DFS_RANGE_DECOR_STYLE;
 		nsIDOMElement rangeDecorDiv = createDIV(visualDocument, styleClass, null);
 
 		// create TRAILER container DIV tag element
-		style = new StringBuffer(HTML.STYLE_PARAMETER_LEFT).append(Constants.COLON).
-				append(TRAILER_LEFT_OFFSET).append(Constants.PIXEL).append(Constants.SEMICOLON).toString();
+		style = HTML.STYLE_PARAMETER_LEFT + Constants.COLON + TRAILER_LEFT_OFFSET + Constants.PIXEL + Constants.SEMICOLON;
 		styleClass = ComponentUtil.getAttribute(sourceElement, TRAILER_STYLE_CLASS_ATTR);
-		styleClass = new StringBuffer(DEFAULT_TRAILER_STYLE).append(Constants.WHITE_SPACE).
-				append(RICH_DFS_TRAILER_STYLE).append(Constants.WHITE_SPACE).append(styleClass).toString();
+		styleClass = DEFAULT_TRAILER_STYLE + Constants.WHITE_SPACE
+					+ RICH_DFS_TRAILER_STYLE + Constants.WHITE_SPACE +styleClass;
 		nsIDOMElement trailerDiv = createDIV(visualDocument, styleClass, style);
 
 		// create TRACK container DIV tag element
-		style = new StringBuffer(HTML.STYLE_PARAMETER_WIDTH).append(Constants.COLON).
-				append(DEFAULT_WIDTH).append(Constants.PIXEL).append(Constants.SEMICOLON).toString();
-		styleClass = ComponentUtil.getAttribute(sourceElement, TRACK_STYLE_CLASS_ATTR);
-		styleClass = new StringBuffer(DEFAULT_TRACK_STYLE).append(Constants.WHITE_SPACE).
-				append(RICH_DFS_TRACK_STYLE).append(Constants.WHITE_SPACE).append(styleClass).toString();
+		style = HTML.STYLE_PARAMETER_WIDTH + Constants.COLON + DEFAULT_WIDTH + Constants.PIXEL + Constants.SEMICOLON;
+		
+		styleClass = DEFAULT_TRACK_STYLE 
+				+ Constants.WHITE_SPACE 
+				+ RICH_DFS_TRACK_STYLE 
+				+ Constants.WHITE_SPACE 
+				+ ComponentUtil.getAttribute(sourceElement, TRACK_STYLE_CLASS_ATTR);
 		nsIDOMElement trackDiv = createDIV(visualDocument, styleClass, style);
 
 		// create HANDLE container DIV tag element
-		style = new StringBuffer(HTML.STYLE_PARAMETER_LEFT).append(Constants.COLON).
-				append(ZERO).append(Constants.PIXEL).append(Constants.SEMICOLON).toString();
-		styleClass = ComponentUtil.getAttribute(sourceElement, HANDLE_STYLE_CLASS_ATTR);
-		styleClass = new StringBuffer(DEFAULT_HANDLE_STYLE).append(Constants.WHITE_SPACE).
-				append(RICH_DFS_HANDLE_STYLE).append(Constants.WHITE_SPACE).append(styleClass).toString();
+		style = HTML.STYLE_PARAMETER_LEFT + Constants.COLON + ZERO + Constants.PIXEL + Constants.SEMICOLON;
+		styleClass = DEFAULT_HANDLE_STYLE 
+				+ Constants.WHITE_SPACE 
+				+ RICH_DFS_HANDLE_STYLE 
+				+ Constants.WHITE_SPACE 
+				+ ComponentUtil.getAttribute(sourceElement, HANDLE_STYLE_CLASS_ATTR);
 		nsIDOMElement handleDiv = createDIV(visualDocument, styleClass, style);
 
 		// create element that represents trailer element
@@ -177,8 +177,7 @@ public class RichFacesDataFilterSliderTemplate extends AbstractRichFacesTemplate
 
 		// create BR tag element
 		nsIDOMElement br = visualDocument.createElement(HTML.TAG_BR);
-		style = new StringBuffer(HTML.STYLE_PARAMETER_CLEAR).append(Constants.COLON).
-				append(HTML.VALUE_CLEAR_BOTH).append(Constants.SEMICOLON).toString();
+		style = HTML.STYLE_PARAMETER_CLEAR + Constants.COLON + HTML.VALUE_CLEAR_BOTH + Constants.SEMICOLON;
 		br.setAttribute(HTML.ATTR_STYLE, style);
 
 		// create DOM tree in correspondence order
@@ -223,8 +222,7 @@ public class RichFacesDataFilterSliderTemplate extends AbstractRichFacesTemplate
 	 */
 	private void setAttributesToInputElement(nsIDOMElement inputElement, Element sourceElement) {
 		String styleClass = ComponentUtil.getAttribute(sourceElement, FIELD_STYLE_CLASS_ATTR);
-		styleClass = new StringBuffer(DEFAULT_SLIDER_INPUT_FIELD_STYLE).append(Constants.WHITE_SPACE).
-				append(RICH_DFS_INPUT_FIELD_STYLE).append(Constants.WHITE_SPACE).append(styleClass).toString();
+		styleClass = DEFAULT_SLIDER_INPUT_FIELD_STYLE + Constants.WHITE_SPACE + RICH_DFS_INPUT_FIELD_STYLE + Constants.WHITE_SPACE + styleClass;
 		String value = getAttribute("handleValue", sourceElement); //$NON-NLS-1$
 		inputElement.setAttribute(HTML.ATTR_CLASS, styleClass);
 		inputElement.setAttribute(HTML.ATTR_VALUE, value);

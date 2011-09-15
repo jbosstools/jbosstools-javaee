@@ -28,11 +28,6 @@ public class JBIDE1579Test extends VpeTest {
 	}
 	
 	public void testJBIDE_1579_2buttons() throws Throwable{
-		// wait
-		TestUtil.waitForJobs();
-		// set exception
-		setException(null);
-
 		// get test page path
 		IFile file = (IFile) TestUtil.getComponentPath(
 				TEST_PAGE_NAME_2BUTTONS, RichFacesAllTests.IMPORT_PROJECT_NAME);
@@ -64,10 +59,6 @@ public class JBIDE1579Test extends VpeTest {
 	}
 	
 	public void testJBIDE_1579_4buttons() throws Throwable{
-		// wait
-		TestUtil.waitForJobs();
-		// set exception
-		setException(null);
 
 		// get test page path
 		IFile file = (IFile) TestUtil.getComponentPath(

@@ -54,11 +54,6 @@ public class Jbide1548Test extends VpeTest {
 
 	public void testJbide() throws Throwable {
 
-		// wait
-		TestUtil.waitForJobs();
-		// set exception
-		setException(null);
-
 		// get test page path
 		IFile file = (IFile) TestUtil.getComponentPath(
 				TEST_PAGE_NAME, RichFacesAllTests.IMPORT_PROJECT_NAME);

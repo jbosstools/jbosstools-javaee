@@ -126,7 +126,7 @@ public class JSFProjectCreationOperation extends WebProjectCreationOperation {
 
 		String servletVersion = getProperty(SERVLET_VERSION_ID);
 		String[] servletJars = WebUtils.getServletLibraries(template.getTemplatesBase(), servletVersion);
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < servletJars.length; sb.append(servletJars[i++]).append(';'));
 		Properties buildProperties = new Properties();
 		buildProperties.setProperty("classpath.external", sb.toString()); //$NON-NLS-1$

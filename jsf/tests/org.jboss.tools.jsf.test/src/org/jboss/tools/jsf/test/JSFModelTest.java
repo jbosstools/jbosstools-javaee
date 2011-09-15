@@ -64,7 +64,7 @@ public class JSFModelTest extends TestCase {
 		IFile f = project.getFile(new Path("/testCases.xml"));
 		ArrayList<TestDescription> tests = new TestDescriptionFactory(f).getTestDescriptions(testName);
 		System.out.println(testName + " " + (tests == null ? -1 : tests.size()));
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		int errorCount = 0;
 		
 		if(tests != null) for (int i = 0; i < tests.size(); i++) {
@@ -101,7 +101,7 @@ public class JSFModelTest extends TestCase {
 		IFile f = project.getFile(new Path("/testCases.xml"));
 		ArrayList<TestDescription> tests = new TestDescriptionFactory(f).getTestDescriptions(testName);
 		System.out.println(testName + " " + (tests == null ? -1 : tests.size()));
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		int errorCount = 0;
 		if(tests != null) for (int i = 0; i < tests.size(); i++) {
 			TestDescription t = tests.get(i);

@@ -84,7 +84,7 @@ public class TilesFileRegistration implements SpecialWizard {
 			servlet = WebAppHelper.findOrCreateServlet(webxml, JSFProjectTiles.TILES_SERVLET_CLASS, JSFProjectTiles.TILES_SERVLET_DEFAULT_NAME, 2);
 			s = WebAppHelper.getWebAppInitParamValueList(servlet, JSFProjectTiles.TILES_DEFINITIONS);
 		}
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		boolean replaced = false;
 		for (int i = 0; i < s.length; i++) {
 			String add = null;

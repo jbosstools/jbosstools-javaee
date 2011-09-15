@@ -317,7 +317,7 @@ public class JSF2ComponentModelManager {
 		try {
 			inputStream = file.getContents();
 			if (inputStream != null) {
-				StringBuffer buffer = new StringBuffer(""); //$NON-NLS-1$
+				StringBuilder buffer = new StringBuilder(); //$NON-NLS-1$
 				Scanner in = new Scanner(inputStream);
 				while (in.hasNextLine()) {
 					buffer.append(in.nextLine());

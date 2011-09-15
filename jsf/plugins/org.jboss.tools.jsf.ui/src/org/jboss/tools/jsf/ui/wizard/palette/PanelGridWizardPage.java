@@ -95,7 +95,7 @@ public class PanelGridWizardPage extends TagAttributesWizardPage {
 	
 	protected void updateTitle() {
 		TagProposal tagProposal = (TagProposal)getDropWizardModel().getTagProposal();
-		StringBuffer titleText = new StringBuffer();
+		StringBuilder titleText = new StringBuilder();
 		titleText.append("<"); //$NON-NLS-1$
 		if(!TagProposal.EMPTY_PREFIX.equals(tagProposal.getPrefix())) {
 			titleText

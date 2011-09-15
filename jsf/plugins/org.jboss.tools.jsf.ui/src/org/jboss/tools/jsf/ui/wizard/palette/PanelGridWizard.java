@@ -132,7 +132,7 @@ public class PanelGridWizard extends Wizard implements PropertyChangeListener, I
 
 	public void setOptionsString(boolean header, boolean footer) {
 
-		StringBuffer text = new StringBuffer();
+		StringBuilder text = new StringBuilder();
 
 		text.append(fDropCommand.getProperties().getProperty("start text")); //$NON-NLS-1$
 

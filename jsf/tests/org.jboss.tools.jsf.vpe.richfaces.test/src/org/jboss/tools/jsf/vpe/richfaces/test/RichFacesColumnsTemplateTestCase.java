@@ -16,6 +16,7 @@ package org.jboss.tools.jsf.vpe.richfaces.test;
 import static org.jboss.tools.vpe.base.test.TestUtil.performTestForRichFacesComponent;
 import static org.jboss.tools.vpe.xulrunner.util.XPCOM.queryInterface;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,45 +51,39 @@ public class RichFacesColumnsTemplateTestCase extends VpeTest {
 
     /**
      * Test columns with attributes.
+     * @throws Throwable 
+     * @throws IOException 
+     * @throws CoreException 
      */
-    public void testColumnsWithAttributes() {
-        try {
-            final nsIDOMElement rst = performTestForRichFacesComponent((IFile) TestUtil.getComponentPath(COLUMNS_WITH_ATTRIBUTES,
-            		RichFacesAllTests.IMPORT_PROJECT_NAME));
+    public void testColumnsWithAttributes() throws CoreException, IOException, Throwable {
+        final nsIDOMElement rst = performTestForRichFacesComponent((IFile) TestUtil.getComponentPath(COLUMNS_WITH_ATTRIBUTES,
+        		RichFacesAllTests.IMPORT_PROJECT_NAME));
 
-            final List<nsIDOMNode> elements = new ArrayList<nsIDOMNode>();
-            TestUtil.findAllElementsByName(rst, elements, HTML.TAG_TD);
+        final List<nsIDOMNode> elements = new ArrayList<nsIDOMNode>();
+        TestUtil.findAllElementsByName(rst, elements, HTML.TAG_TD);
 
-            nsIDOMElement divOne = queryInterface(elements.get(0), nsIDOMElement.class);
+        nsIDOMElement divOne = queryInterface(elements.get(0), nsIDOMElement.class);
 
-            assertEquals("Style class should be equals", "dr-table-cell rich-table-cell myClass", divOne.getAttribute(HTML.ATTR_CLASS));
-            assertEquals("Style should be equals ", "text-align: center;", divOne.getAttribute(HTML.ATTR_STYLE));
-            assertTrue("Style should contains of 52 value ", divOne.getAttribute("width").contains("52"));
-        } catch (CoreException e) {
-            fail(e.getMessage() + ":" + e);
-        } catch (Throwable e) {
-            fail(e.getMessage() + ":" + e);
-        }
-    }
+        assertEquals("Style class should be equals", "dr-table-cell rich-table-cell myClass", divOne.getAttribute(HTML.ATTR_CLASS));
+        assertEquals("Style should be equals ", "text-align: center;", divOne.getAttribute(HTML.ATTR_STYLE));
+        assertTrue("Style should contains of 52 value ", divOne.getAttribute("width").contains("52"));
+     }
 
     /**
      * Test simple columns.
+     * @throws Throwable 
+     * @throws IOException 
+     * @throws CoreException 
      */
-    public void testSimpleColumns() {
-        try {
-            final nsIDOMElement rst = performTestForRichFacesComponent((IFile) TestUtil.getComponentPath(COMPONENTS_COLUMNS_COLUMNS_XHTML,
-            		RichFacesAllTests.IMPORT_PROJECT_NAME));
+    public void testSimpleColumns() throws CoreException, IOException, Throwable {
+        final nsIDOMElement rst = performTestForRichFacesComponent((IFile) TestUtil.getComponentPath(COMPONENTS_COLUMNS_COLUMNS_XHTML,
+        		RichFacesAllTests.IMPORT_PROJECT_NAME));
 
-            final List<nsIDOMNode> elements = new ArrayList<nsIDOMNode>();
-            TestUtil.findAllElementsByName(rst, elements, HTML.TAG_TD);
+        final List<nsIDOMNode> elements = new ArrayList<nsIDOMNode>();
+        TestUtil.findAllElementsByName(rst, elements, HTML.TAG_TD);
 
-            nsIDOMElement divOne = queryInterface(elements.get(0), nsIDOMElement.class);
+        nsIDOMElement divOne = queryInterface(elements.get(0), nsIDOMElement.class);
 
-            assertEquals("Style class should be equals", "dr-table-cell rich-table-cell", divOne.getAttribute(HTML.ATTR_CLASS));
-        } catch (CoreException e) {
-            fail(e.getMessage() + ":" + e);
-        } catch (Throwable e) {
-            fail(e.getMessage() + ":" + e);
-        }
+        assertEquals("Style class should be equals", "dr-table-cell rich-table-cell", divOne.getAttribute(HTML.ATTR_CLASS));
     }
 }

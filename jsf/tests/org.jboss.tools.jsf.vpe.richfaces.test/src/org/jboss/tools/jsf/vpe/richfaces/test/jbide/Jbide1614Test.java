@@ -46,12 +46,6 @@ public class Jbide1614Test extends VpeTest {
     }
 
     public void testAbsolutePath() throws Throwable {
-
-	// wait
-	TestUtil.waitForJobs();
-	// set exception
-	setException(null);
-
 	// get test page path
 	IFile file = (IFile) TestUtil.getComponentPath(FILE_NAME1,
 			RichFacesAllTests.IMPORT_PROJECT_NAME);
@@ -87,12 +81,6 @@ public class Jbide1614Test extends VpeTest {
     }
 
     public void testRelatedPath() throws Throwable {
-
-	// wait
-	TestUtil.waitForJobs();
-	// set exception
-	setException(null);
-
 	// get test page path
 	IFile file = (IFile) TestUtil.getComponentPath(FILE_NAME2,
 			RichFacesAllTests.IMPORT_PROJECT_NAME);

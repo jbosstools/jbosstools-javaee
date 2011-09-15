@@ -43,8 +43,6 @@ public class RichFacesJBIDE1169Test extends VpeTest{
     	entries[0] = new ResourceReference(RICH_FACES_SKIN_KEY,ResourceReference.PROJECT_SCOPE);
     	entries[0].setProperties(SKIN_VALUE);
     	ELReferenceList.getInstance().setAllResources(testFile, entries);
-    	//clear exception
-    	setException(null);
     }
     
     public void testJBIDE1169() {  	

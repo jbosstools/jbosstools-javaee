@@ -895,7 +895,7 @@ public class ComponentUtil {
      */
     public static String encodeStyleClass(Object parentPredefined,
 	    Object predefined, Object parent, Object custom) {
-	StringBuffer styleClass = new StringBuffer();
+	StringBuilder styleClass = new StringBuilder();
 	// Construct predefined classes
 	if (null != parentPredefined) {
 	    styleClass.append(parentPredefined).append(Constants.WHITE_SPACE);

@@ -132,7 +132,7 @@ public class JSFWebHelper {
 		}
 		if(data.defaultList == null || data.defaultList.length == 0) return "";
 		if(data.defaultList.length == 1) return data.defaultList[0];
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < data.defaultList.length; i++) {
 			if(sb.length() > 0) sb.append(data.separator.charAt(0));
 			sb.append(data.defaultList[i]);
@@ -220,7 +220,7 @@ public class JSFWebHelper {
 		if(webxml == null) return;
 		XModelObject p = findInitParam(webxml, data.param);
 		if(p == null) return;
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		String[] cs = getConfigFilesList(webxml, data);
 		for (int i = 0; i < cs.length; i++) {
 			if(cs[i].toLowerCase().equals(path.toLowerCase())) continue;
@@ -240,7 +240,7 @@ public class JSFWebHelper {
 			}
 			return;
 		}
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		String[] cs = getConfigFilesList(webxml, data);
 		boolean done = false;
 		for (int i = 0; i < cs.length; i++) {

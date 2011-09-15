@@ -100,7 +100,7 @@ public class DataTableWizard extends Wizard implements PropertyChangeListener,
 	public void fillColumn(){
 		Properties properties = fDropCommand.getProperties();
 		String[] vs = page2.getSelectedProperties();
-		StringBuffer text = new StringBuffer();
+		StringBuilder text = new StringBuilder();
 		text.append(properties.getProperty("start text")); //$NON-NLS-1$
 		
 		String value = null;
@@ -129,7 +129,7 @@ public class DataTableWizard extends Wizard implements PropertyChangeListener,
 		fDropCommand.getProperties().setProperty("start text", text.toString());			 //$NON-NLS-1$
 	}
 	
-	private void fillin(StringBuffer text, String[] vs, String val) {
+	private void fillin(StringBuilder text, String[] vs, String val) {
 		for (int i = 0; i < vs.length; i++){
 			text.append("\n\t<" + H_PREFIX + "column>\n" + //$NON-NLS-1$ //$NON-NLS-2$
 				"\t\t<"+ H_PREFIX + "outputText value=\"#{" //$NON-NLS-1$ //$NON-NLS-2$

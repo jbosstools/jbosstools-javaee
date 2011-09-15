@@ -93,7 +93,7 @@ public class Ajax4JSFStatusTemplate extends VpeAbstractTemplate {
 			
 			// set class of the span to "{@styleClass} {@stopStyleClass}"
 			{
-				StringBuffer spanClass = new StringBuffer();
+				StringBuilder spanClass = new StringBuilder();
 				if (sourceElement.hasAttribute(RichFaces.ATTR_STYLE_CLASS)) {
 					String styleClass = sourceElement.getAttribute(RichFaces.ATTR_STYLE_CLASS);
 					spanClass.append(styleClass);
@@ -107,7 +107,7 @@ public class Ajax4JSFStatusTemplate extends VpeAbstractTemplate {
 
 			// set style of the span to "{@style};{@stopStyle}"
 			{
-				StringBuffer spanStyle = new StringBuffer();
+				StringBuilder spanStyle = new StringBuilder();
 				if (sourceElement.hasAttribute(RichFaces.ATTR_STYLE)) {
 					String style = sourceElement.getAttribute(RichFaces.ATTR_STYLE);
 					spanStyle.append(style).append(HTML.VALUE_STYLE_DELIMITER); 

@@ -103,7 +103,7 @@ public class CompositeComponentValidator extends WebValidator {
 					IContainer folder = file.getParent();
 					if(folder!=null) {
 						String[] segemnts = folder.getFullPath().segments();
-						StringBuffer libUri = new StringBuffer();
+						StringBuilder libUri = new StringBuilder();
 						for (String segment : segemnts) {
 							if(libUri.length()==0) {
 								if(segment.equalsIgnoreCase("resources")) {

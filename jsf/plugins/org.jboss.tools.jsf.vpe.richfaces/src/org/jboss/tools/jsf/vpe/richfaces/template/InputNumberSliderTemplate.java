@@ -133,9 +133,9 @@ public class InputNumberSliderTemplate extends AbstractEditableRichFacesTemplate
 
 		// create and initialize basic table element
 		nsIDOMElement basicTable = visualDocument.createElement(HTML.TAG_TABLE);
-		String style = new StringBuffer(HTML.STYLE_PARAMETER_WIDTH).append(Constants.COLON).
+		String style = new StringBuilder(HTML.STYLE_PARAMETER_WIDTH + Constants.COLON).
 			append(getNumberValue(sourceElement, RichFaces.ATTR_WIDTH, SLYDER_WIDTH_DEFAULT)).
-			append(Constants.PIXEL).append(Constants.SEMICOLON).
+			append(Constants.PIXEL + Constants.SEMICOLON).
 			append(getAttribute(sourceElement, RichFaces.ATTR_STYLE)).append(Constants.SEMICOLON).toString();
 		basicTable.setAttribute(HTML.ATTR_STYLE, style);
 		basicTable.setAttribute(HTML.ATTR_CLASS, styleClasses.get("style")); //$NON-NLS-1$
@@ -289,7 +289,7 @@ public class InputNumberSliderTemplate extends AbstractEditableRichFacesTemplate
 		} else {
 			inputClass = INPUT_LEFT_STYLE_CLASSES;
 		}
-		inputClass = new StringBuffer(inputClass).append(Constants.WHITE_SPACE).
+		inputClass = new StringBuilder(inputClass).append(Constants.WHITE_SPACE).
 			append(styleClasses.get("input")).toString(); //$NON-NLS-1$
 		inputField.setAttribute(HTML.ATTR_CLASS, inputClass);
 

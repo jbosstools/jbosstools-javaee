@@ -223,7 +223,7 @@ public class XHTMLSyntaxValidator extends Validator {
 
 	    final String createStringForInputStream(InputStream inputStream) {
 		    // Here we are reading the file and storing to a stringbuffer.
-		    StringBuffer fileString = new StringBuffer();
+	    	StringBuilder fileString = new StringBuilder();
 		    try {
 				InputStreamReader inputReader = new InputStreamReader(inputStream, "UTF-8");
 				BufferedReader reader = new BufferedReader(inputReader);

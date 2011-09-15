@@ -141,9 +141,7 @@ public class RichFacesInputNumberSpinnerTemplate extends
 		if (!tmp.equals(Constants.EMPTY)) {
 			table.setAttribute(HTML.ATTR_STYLE, tmp);
 		}
-		tmp = getAttribute(sourceElement, RichFaces.ATTR_STYLE_CLASS);
-		tmp = new StringBuffer(DEFAULT_CONTAINER_STYLE).append(Constants.WHITE_SPACE).
-				append(RICH_SPINNER_C_STYLE).append(Constants.WHITE_SPACE).append(tmp).toString();
+		tmp = DEFAULT_CONTAINER_STYLE + Constants.WHITE_SPACE + RICH_SPINNER_C_STYLE + Constants.WHITE_SPACE + getAttribute(sourceElement, RichFaces.ATTR_STYLE_CLASS);
 		table.setAttribute(HTML.ATTR_CLASS, tmp);
 
 		/*
@@ -264,8 +262,7 @@ public class RichFacesInputNumberSpinnerTemplate extends
 		if ((sourceElement).hasAttribute(RichFaces.ATTR_DISABLED)) {
 			String disabled = getAttribute(sourceElement, RichFaces.ATTR_DISABLED);
 			if (disabled != null && disabled.equals(Constants.TRUE)) {
-				returnValue = new StringBuffer().append(returnValue).append(Constants.SEMICOLON)
-						.append(DISABLED_INPUT_STYLE).toString();
+				returnValue += Constants.SEMICOLON + DISABLED_INPUT_STYLE;
 			}
 		}
 
@@ -302,7 +299,7 @@ public class RichFacesInputNumberSpinnerTemplate extends
 		// append custom input style class
 		String tmp = getAttribute(sourceElement, RichFaces.ATTR_INPUT_CLASS);
 		if (tmp.length() != 0) {
-			returnValue = new StringBuffer().append(returnValue).append(Constants.WHITE_SPACE).append(tmp).toString();
+			returnValue += Constants.WHITE_SPACE +tmp;
 		}
 		return returnValue;
 	}

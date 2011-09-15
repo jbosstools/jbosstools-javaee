@@ -107,25 +107,4 @@ public class RichFacesCollapsibleSubTableTogglerTemplate extends
 		 * Do nothing
 		 */
 	}
-
-	class CollapsedState {
-		/*
-		 * This attribute should be synchronized with the same one 
-		 * in RichFacesCollapsibleSubTableTemplate 
-		 */
-		private boolean collapsed = false;
-
-		public CollapsedState() {
-			super();
-		}
-
-		public boolean isCollapsed() {
-			return collapsed;
-		}
-
-		public void setCollapsed(boolean collapsed) {
-			this.collapsed = collapsed;
-		}
-	}
-	
 }

@@ -138,7 +138,7 @@ public class JSPAdoptHelper {
     
     public static String cutOffQuotes(String text) {
         if (text == null) return null;
-        StringBuffer buffer = new StringBuffer(text);
+        StringBuilder buffer = new StringBuilder(text);
         boolean doCutOff = false;
         if (buffer.charAt(0) == '"' && buffer.charAt(buffer.length() - 1) == '"') doCutOff = true;
         if (buffer.charAt(0) == '\'' && buffer.charAt(buffer.length() - 1) == '\'') doCutOff = true;
