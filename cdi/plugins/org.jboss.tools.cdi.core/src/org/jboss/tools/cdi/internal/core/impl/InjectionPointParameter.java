@@ -91,7 +91,6 @@ public class InjectionPointParameter extends Parameter implements
 	 */
 	@Override
 	public IBean getBean() {
-		// TODO we should return the actual bean that declares this injection point.
-		return getClassBean();
+		return (getBeanMethod() instanceof IBean) ? (IBean)getBeanMethod() : getClassBean();
 	}
 }
