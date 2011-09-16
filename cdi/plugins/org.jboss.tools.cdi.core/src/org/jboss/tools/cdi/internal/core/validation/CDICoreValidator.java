@@ -2056,7 +2056,7 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 			addError(CDIValidationMessages.PRODUCER_IN_DECORATOR, CDIPreferences.PRODUCER_IN_INTERCEPTOR_OR_DECORATOR, producer.getProducesAnnotation(), decorator.getResource(), PRODUCER_IN_DECORATOR_ID);
 		}
 
-		Set<IInjectionPoint> injections = decorator.getInjectionPoints();
+		Set<IInjectionPoint> injections = decorator.getInjectionPoints(true);
 		Set<ITextSourceReference> delegates = new HashSet<ITextSourceReference>();
 		IInjectionPoint delegate = null;
 		for (IInjectionPoint injection : injections) {

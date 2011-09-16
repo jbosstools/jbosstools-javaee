@@ -77,4 +77,16 @@ public interface IClassBean extends IBean, IInterceptorBinded, IJavaMemberRefere
 	 * @return the initializer methods of the class bean
 	 */
 	Set<IInitializerMethod> getInitializers();
+
+	/**
+	 * Returns injection points declared in the bean class.
+	 * If all = false, the result includes only injection points managed by this bean, and 
+	 * since injection points declared in producer methods are handled by producer method beans,
+	 * they are not included. In this case, result is the same as that of getInjectionPoints().
+	 * If all = true, the result includes injection points declared in producer methods.
+	 *
+	 * @param all
+	 * @return
+	 */
+	Set<IInjectionPoint> getInjectionPoints(boolean all);
 }

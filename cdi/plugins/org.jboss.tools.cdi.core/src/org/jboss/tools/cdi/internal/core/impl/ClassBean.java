@@ -24,6 +24,7 @@ import org.eclipse.jdt.core.JavaModelException;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.CDIUtil;
+import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IBeanMethod;
 import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.IClassBean;
@@ -308,6 +309,16 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 	}
 
 	public Set<IInjectionPoint> getInjectionPoints() {
+		return getInjectionPoints(true);
+	}
+
+	/**
+	 * If all=false, injection points of producer methods are not included.
+	 * 
+	 * @param all
+	 * @return
+	 */
+	public Set<IInjectionPoint> getInjectionPoints(boolean all) {
 		Set<IInjectionPoint> result = new HashSet<IInjectionPoint>();
 		for (BeanField f: fields) {
 			if(f instanceof IInjectionPoint) {
@@ -315,6 +326,9 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 			}
 		}
 		for (BeanMethod m: methods) {
+			if(!all && (m instanceof IBean)) {
+				continue;
+			}
 			List<IParameter> ps = m.getParameters();
 			for (IParameter p: ps) {
 				if(p instanceof IInjectionPoint) {
