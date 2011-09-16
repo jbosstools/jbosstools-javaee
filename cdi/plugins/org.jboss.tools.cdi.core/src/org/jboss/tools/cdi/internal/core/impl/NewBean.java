@@ -10,7 +10,14 @@
  ******************************************************************************/ 
 package org.jboss.tools.cdi.internal.core.impl;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.jboss.tools.cdi.core.CDIConstants;
+import org.jboss.tools.cdi.core.IBeanMethod;
+import org.jboss.tools.cdi.core.IObserverMethod;
+import org.jboss.tools.cdi.core.IProducer;
+import org.jboss.tools.cdi.core.IQualifier;
 
 /**
  * 
@@ -27,4 +34,32 @@ public class NewBean extends ClassBean {
 		return true;
 	}
 
+	public Set<IQualifier> getQualifiers() {
+		Set<IQualifier> result = new HashSet<IQualifier>();
+		IQualifier q = getCDIProject().getQualifier(CDIConstants.NEW_QUALIFIER_TYPE_NAME);
+		if(q != null) {
+			result.add(q);
+		}
+		return result;
+	}
+
+	public boolean isAlternative() {
+		return false;
+	}
+
+	public boolean isSelectedAlternative() {
+		return false;
+	}
+
+	public Set<IObserverMethod> getObserverMethods() {
+		return new HashSet<IObserverMethod>();
+	}
+
+	public Set<IProducer> getProducers() {
+		return new HashSet<IProducer>();
+	}
+
+	public Set<IBeanMethod> getDisposers() {
+		return new HashSet<IBeanMethod>();
+	}
 }
