@@ -58,12 +58,15 @@ import org.jboss.tools.cdi.core.IQualifier;
 import org.jboss.tools.cdi.core.IQualifierDeclaration;
 import org.jboss.tools.cdi.core.IScope;
 import org.jboss.tools.cdi.core.IStereotype;
+import org.jboss.tools.cdi.core.IStereotypeDeclaration;
 import org.jboss.tools.cdi.core.extension.feature.IAmbiguousBeanResolverFeature;
 import org.jboss.tools.cdi.core.extension.feature.IBuildParticipantFeature;
 import org.jboss.tools.cdi.internal.core.event.CDIProjectChangeEvent;
 import org.jboss.tools.cdi.internal.core.impl.definition.AnnotationDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.BeansXMLDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.DefinitionContext;
+import org.jboss.tools.cdi.internal.core.impl.definition.FieldDefinition;
+import org.jboss.tools.cdi.internal.core.impl.definition.MethodDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.TypeDefinition;
 import org.jboss.tools.cdi.internal.core.scanner.ImplementationCollector;
 import org.jboss.tools.common.java.IAnnotationDeclaration;
@@ -338,13 +341,14 @@ public class CDIProject extends CDIElement implements ICDIProject {
 			}
 		}
 		
-		boolean isNew = false;
-
 		Set<IQualifierDeclaration> qs = injectionPoint.getQualifierDeclarations();
 		for (IQualifierDeclaration d: qs) {
 			if(CDIConstants.NEW_QUALIFIER_TYPE_NAME.equals(d.getTypeName())) {
-				isNew = true;
-				break;
+				IBean b = createNewBean(type, d);
+				if(b != null) {
+					result.add(b);
+				}
+				return result;
 			}				
 		}
 	
@@ -367,15 +371,6 @@ public class CDIProject extends CDIElement implements ICDIProject {
 					CDICorePlugin.getDefault().logError(e);
 				}
 			}
-			if(isNew) {
-				//TODO improve
-				IType bType = b.getBeanClass();
-				if(bType != null && jType != null 
-						&& bType.getFullyQualifiedName().equals(jType.getFullyQualifiedName())) {
-					result.add(b);
-				}
-				continue;
-			}
 			Set<IParametedType> types = b.getLegalTypes();
 			if(containsType(types, type)) {
 				try {
@@ -397,6 +392,88 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		}
 
 		return getResolvedBeans(result, attemptToResolveAmbiguousDependency);
+	}
+
+	/**
+	 * Returns null if type is not managed bean.
+	 * 
+	 * @param type
+	 * @param newDeclaration
+	 * @return
+	 */
+	public IBean createNewBean(IParametedType type, IAnnotationDeclaration newDeclaration) {
+		IType t = type.getType();
+		if(t == null || !t.exists()) {
+			return null;
+		}
+		try {
+			if(newDeclaration.getJavaAnnotation() == null) {
+				return null;
+			}
+			IJavaElement dType = newDeclaration.getJavaAnnotation().getAncestor(IJavaElement.TYPE);
+			if(!(dType instanceof IType)) {
+				return null;
+			}
+			Object value = newDeclaration.getMemberValue(null);
+			if(value != null && value.toString().length() > 0) {
+				ParametedType p = getNature().getTypeFactory().getParametedType((IType)dType, "Q" + value.toString() + ";");
+				if(p != null && p.getType() != null && p.getType().getTypeParameters().length > 0) {
+					String s = type.getSignature();				
+					if(s.indexOf("<") >= 0 && s.lastIndexOf('>') > 0) {
+						String cls = value.toString() + s.substring(s.indexOf('<'), s.lastIndexOf('>') + 1);
+						ParametedType p1 = getNature().getTypeFactory().getParametedType((IType)dType, "Q" + cls + ";");
+						if(p1 != null) {
+							p = p1;
+						}
+					}
+				}
+				if(p == null) {
+					return null;
+				}
+				p.getAllTypes();
+				type = p;
+				t = p.getType();
+			}
+			if(t.isInterface()) {
+				return null;
+			}
+			TypeDefinition def = new TypeDefinition();
+			def.setType(type.getType(), getNature().getDefinitions(), 0);
+			def.setParametedType(type);
+			if(!def.hasBeanConstructor()) {
+				return null;
+			}
+			Iterator<MethodDefinition> ms = def.getMethods().iterator();
+			while(ms.hasNext()) {
+				MethodDefinition m = ms.next();
+				if(m.isObserver() || m.isDisposer() || m.isAnnotationPresent(CDIConstants.PRODUCES_ANNOTATION_TYPE_NAME)) {
+					ms.remove();
+				}
+			}
+			Iterator<FieldDefinition> fs = def.getFields().iterator();
+			while(fs.hasNext()) {
+				FieldDefinition f = fs.next();
+				if(f.isAnnotationPresent(CDIConstants.PRODUCES_ANNOTATION_TYPE_NAME)) {
+					fs.remove();
+				}
+			}
+			IAnnotationDeclaration[] as = def.getAnnotations().toArray(new IAnnotationDeclaration[0]);
+			for (IAnnotationDeclaration a: as) {
+				if(a instanceof IQualifierDeclaration || a instanceof IStereotypeDeclaration) {
+					def.removeAnnotation(a);
+				}
+			}
+			def.addAnnotation(((AnnotationDeclaration)newDeclaration).getDeclaration(), getNature().getDefinitions());
+			
+			ClassBean cb = new NewBean();
+			cb.setParent(this);
+			cb.setDefinition(def);
+			
+			return cb;
+		} catch (CoreException e) {
+			CDICorePlugin.getDefault().logError(e);
+		}
+		return null;
 	}
 
 	public static boolean containsType(Set<IParametedType> types, IParametedType type) {

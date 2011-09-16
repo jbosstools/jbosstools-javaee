@@ -87,6 +87,10 @@ public class AbstractTypeDefinition extends AbstractMemberDefinition {
 		return parametedType;
 	}
 
+	public void setParametedType(IParametedType t) {
+		parametedType = (ParametedType)t;
+	}
+
 	public Set<IParametedType> getInheritedTypes() {
 		return parametedType == null ? new HashSet<IParametedType>() : parametedType.getInheritedTypes();
 	}
