@@ -1,80 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<feature
-      id="org.jboss.tools.seam.feature"
-      label="%featureName"
-      version="3.3.0.qualifier"
-      provider-name="%providerName"
-      plugin="org.jboss.tools.seam.core">
+<feature id="org.jboss.tools.seam.feature" label="%featureName" version="3.3.0.qualifier" provider-name="%providerName" plugin="org.jboss.tools.seam.core">
 
-   <description url="http://www.jboss.org/tools">
+	<description url="http://www.jboss.org/tools">
       %description
    </description>
 
-   <copyright>
+	<copyright>
       %copyright
    </copyright>
 
-   <license url="%licenseURL">
+	<license url="%licenseURL">
       %license
    </license>
 
-   <requires>
-      <import feature="org.jboss.ide.eclipse.as.feature" version="1.0.0" match="greaterOrEqual"/>
-      <import feature="org.hibernate.eclipse.feature" version="3.2.0" match="greaterOrEqual"/>
-      <import feature="org.jboss.tools.common.feature" version="3.3.0" match="greaterOrEqual"/>
-      <import feature="org.jboss.tools.jst.feature" version="3.3.0" match="greaterOrEqual"/>
-      <import feature="org.jboss.tools.jsf.feature" version="3.3.0" match="greaterOrEqual"/>
-      <import feature="org.eclipse.datatools.connectivity.feature" version="1.6.1" match="greaterOrEqual"/>
-      <import feature="org.eclipse.datatools.enablement.jdbc.feature" version="1.6.1" match="greaterOrEqual"/>
-   </requires>
+	<requires>
+		<import feature="org.jboss.ide.eclipse.as.feature" version="1.0.0" match="greaterOrEqual" />
+		<import feature="org.hibernate.eclipse.feature" version="3.2.0" match="greaterOrEqual" />
+		<import feature="org.jboss.tools.common.feature" version="3.3.0" match="greaterOrEqual" />
+		<import feature="org.jboss.tools.jst.feature" version="3.3.0" match="greaterOrEqual" />
+		<import feature="org.jboss.tools.jsf.feature" version="3.3.0" match="greaterOrEqual" />
+		<import feature="org.eclipse.datatools.connectivity.feature" version="1.6.1" match="greaterOrEqual" />
+		<import feature="org.eclipse.datatools.enablement.jdbc.feature" version="1.6.1" match="greaterOrEqual" />
+	</requires>
 
-   <plugin
-         id="org.jboss.tools.seam.core"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.jboss.tools.seam.ui"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.jboss.tools.seam.xml"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.jboss.tools.seam.xml.ui"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.jboss.tools.seam.text.ext"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.jboss.tools.seam.pages.xml"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.jboss.tools.seam.ui.pages"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
+	<plugin id="org.jboss.tools.seam.core" download-size="0" install-size="0" version="0.0.0" unpack="false" />
+	<plugin id="org.jboss.tools.seam.ui" download-size="0" install-size="0" version="0.0.0" unpack="false" />
+	<plugin id="org.jboss.tools.seam.xml" download-size="0" install-size="0" version="0.0.0" unpack="false" />
+	<plugin id="org.jboss.tools.seam.xml.ui" download-size="0" install-size="0" version="0.0.0" unpack="false" />
+	<plugin id="org.jboss.tools.seam.text.ext" download-size="0" install-size="0" version="0.0.0" unpack="false" />
+	<plugin id="org.jboss.tools.seam.pages.xml" download-size="0" install-size="0" version="0.0.0" unpack="false" />
+	<plugin id="org.jboss.tools.seam.ui.pages" download-size="0" install-size="0" version="0.0.0" unpack="false" />
 </feature>

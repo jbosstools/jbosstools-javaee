@@ -1,20 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<feature
-      id="org.jboss.tools.jsf.feature"
-      label="%featureName"
-      version="3.3.0.qualifier"
-      provider-name="%providerName"
-      image="jsf.jpg">
+<feature id="org.jboss.tools.jsf.feature" label="%featureName" version="3.3.0.qualifier" provider-name="%providerName" image="jsf.jpg">
 
-   <description url="http://www.jboss.org/tools">
+	<description url="http://www.jboss.org/tools">
       %description
    </description>
 
-   <copyright>
+	<copyright>
       %copyright
    </copyright>
 
-   <license>
+	<license>
       Red Hat, Inc. licenses these features and plugins to you under
 certain open source licenses (or aggregations of such licenses), which
 in a particular case may include the Eclipse Public License, the GNU
@@ -22,93 +17,26 @@ Lesser General Public License, and/or certain other open source
 licenses. For precise licensing details, consult the corresponding
 source code, or contact Red Hat Legal Affairs, 1801 Varsity Drive,
 Raleigh NC 27606 USA.
-   </license>
+	</license>
 
-   <requires>
-      <import feature="org.jboss.tools.common.feature" version="3.3.0" match="greaterOrEqual"/>
-      <import feature="org.jboss.tools.jst.feature" version="3.3.0" match="greaterOrEqual"/>
-      <import feature="org.jboss.tools.vpe.feature" version="3.3.0" match="greaterOrEqual"/>
-   </requires>
+	<requires>
+		<import feature="org.jboss.tools.common.feature" version="3.3.0" match="greaterOrEqual" />
+		<import feature="org.jboss.tools.jst.feature" version="3.3.0" match="greaterOrEqual" />
+		<import feature="org.jboss.tools.vpe.feature" version="3.3.0" match="greaterOrEqual" />
+	</requires>
 
-   <plugin
-         id="org.jboss.tools.jsf"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"/>
-
-   <plugin
-         id="org.jboss.tools.jsf.ui"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"/>
-
-   <plugin
-         id="org.jboss.tools.jsf.verification"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"/>
-
-   <plugin
-         id="org.jboss.tools.jsf.text.ext"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"/>
-
-   <plugin
-         id="org.jboss.tools.jsf.text.ext.facelets"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"/>
-
-   <plugin
-         id="org.jboss.tools.jsf.text.ext.richfaces"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"/>
-
-   <plugin
-         id="org.jboss.tools.jsf.vpe.facelets"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"/>
-
-   <plugin
-         id="org.jboss.tools.jsf.vpe.richfaces"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"/>
-
-   <plugin
-         id="org.jboss.tools.jsf.vpe.seam"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"/>
-
-   <plugin
-         id="org.jboss.tools.jsf.vpe.ajax4jsf"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.jboss.tools.jsf.vpe.jsf"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.jboss.tools.jsf.vpe.myfaces"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.jboss.tools.jsf.vpe.jbpm"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"/>
-
+	<plugin id="org.jboss.tools.jsf" download-size="0" install-size="0" version="0.0.0" />
+	<plugin id="org.jboss.tools.jsf.ui" download-size="0" install-size="0" version="0.0.0" />
+	<plugin id="org.jboss.tools.jsf.verification" download-size="0" install-size="0" version="0.0.0" />
+	<plugin id="org.jboss.tools.jsf.text.ext" download-size="0" install-size="0" version="0.0.0" />
+	<plugin id="org.jboss.tools.jsf.text.ext.facelets" download-size="0" install-size="0" version="0.0.0" />
+	<plugin id="org.jboss.tools.jsf.text.ext.richfaces" download-size="0" install-size="0" version="0.0.0" />
+	<plugin id="org.jboss.tools.jsf.vpe.facelets" download-size="0" install-size="0" version="0.0.0" />
+	<plugin id="org.jboss.tools.jsf.vpe.richfaces" download-size="0" install-size="0" version="0.0.0" />
+	<plugin id="org.jboss.tools.jsf.vpe.seam" download-size="0" install-size="0" version="0.0.0" />
+	<plugin id="org.jboss.tools.jsf.vpe.ajax4jsf" download-size="0" install-size="0" version="0.0.0" unpack="false" />
+	<plugin id="org.jboss.tools.jsf.vpe.jsf" download-size="0" install-size="0" version="0.0.0" unpack="false" />
+	<plugin id="org.jboss.tools.jsf.vpe.myfaces" download-size="0" install-size="0" version="0.0.0" unpack="false" />
+	<plugin id="org.jboss.tools.jsf.vpe.jbpm" download-size="0" install-size="0" version="0.0.0" />
+	<plugin id="org.jboss.tools.jsf.vpe.jstl" download-size="0" install-size="0" version="0.0.0" unpack="false" />
 </feature>
