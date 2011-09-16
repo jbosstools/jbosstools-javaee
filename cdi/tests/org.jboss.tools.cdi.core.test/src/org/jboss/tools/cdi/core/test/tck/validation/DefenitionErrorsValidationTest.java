@@ -1039,6 +1039,20 @@ public class DefenitionErrorsValidationTest extends ValidationTest {
 	}
 
 	/**
+	 * 5.5.7. Injection point metadata
+	 *  - bean that declares any scope other than @Dependent has an injection point of type InjectionPoint and qualifier @Default
+	 *  
+	 * See https://issues.jboss.org/browse/JBIDE-9717
+	 * 
+	 * @throws Exception
+	 */
+	public void testBeansWithInjectionPointParams() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/inject/producer/ProducerWInjections.java");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, CDIValidationMessages.ILLEGAL_SCOPE_WHEN_TYPE_INJECTIONPOINT_IS_INJECTED, 14, 24, 28, 31);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, CDIValidationMessages.ILLEGAL_SCOPE_WHEN_TYPE_INJECTIONPOINT_IS_INJECTED, 18);
+	}
+
+	/**
 	 * 8.1.2. Decorator delegate injection points
 	 *  - decorator has more than one delegate injection point
 	 * 
