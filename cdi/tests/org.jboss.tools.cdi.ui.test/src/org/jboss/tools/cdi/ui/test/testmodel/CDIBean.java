@@ -172,6 +172,11 @@ public class CDIBean extends CDIElement implements IClassBean{
 	}
 
 	@Override
+	public Set<IInjectionPoint> getInjectionPoints(boolean all) {
+		return null;
+	}
+
+	@Override
 	public IBean getSpecializedBean() {
 		return null;
 	}
