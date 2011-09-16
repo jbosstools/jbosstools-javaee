@@ -37,6 +37,7 @@ import org.jboss.tools.jsf.jsp.ca.test.JsfJspJbide6259Test;
 import org.jboss.tools.jsf.jsp.ca.test.JsfJspLongResourceBundlePropertyNamesTest;
 import org.jboss.tools.jsf.jsp.ca.test.JspElFunctionsTest;
 import org.jboss.tools.jsf.jsp.ca.test.WebContentAssistProviderTest;
+import org.jboss.tools.jsf.jsp.hover.ELTooltipTest;
 import org.jboss.tools.jsf.ui.test.refactoring.ELReferencesRenameTest;
 import org.jboss.tools.test.util.ProjectImportTestSetup;
 
@@ -123,6 +124,11 @@ public class JsfUiAllTests {
 
 		suite.addTest(new ProjectImportTestSetup(new TestSuite(
 				CAJsfMessagesProposalsFilteringTest.class), "org.jboss.tools.jsf.test", //$NON-NLS-1$
+				new String[] { "projects/JSF2KickStartWithoutLibs", }, //$NON-NLS-1$
+				new String[] { "JSF2KickStartWithoutLibs" })); //$NON-NLS-1$
+
+		suite.addTest(new ProjectImportTestSetup(new TestSuite(
+				ELTooltipTest.class), "org.jboss.tools.jsf.test", //$NON-NLS-1$
 				new String[] { "projects/JSF2KickStartWithoutLibs", }, //$NON-NLS-1$
 				new String[] { "JSF2KickStartWithoutLibs" })); //$NON-NLS-1$
 
