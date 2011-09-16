@@ -30,6 +30,7 @@ import org.eclipse.ui.IMarkerResolution2;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
 import org.jboss.tools.cdi.ui.CDIUIPlugin;
+import org.jboss.tools.cdi.ui.CDIUiImages;
 import org.jboss.tools.common.EclipseUtil;
 import org.jboss.tools.common.model.util.EclipseJavaUtil;
 
@@ -125,7 +126,7 @@ public class AddLocalBeanMarkerResolution implements IMarkerResolution2 {
 	}
 
 	public Image getImage() {
-		return null;
+		return CDIUiImages.QUICKFIX_ADD;
 	}
 
 }

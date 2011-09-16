@@ -20,6 +20,7 @@ import org.eclipse.ltk.core.refactoring.participants.RefactoringProcessor;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.IMarkerResolution2;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
+import org.jboss.tools.cdi.ui.CDIUiImages;
 import org.jboss.tools.cdi.ui.wizard.DeletePreviewWizard;
 
 /**
@@ -58,7 +59,7 @@ public class DeleteAllDisposerDuplicantMarkerResolution implements IMarkerResolu
 	}
 
 	public Image getImage() {
-		return null;
+		return CDIUiImages.QUICKFIX_REMOVE;
 	}
 
 }

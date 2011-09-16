@@ -22,6 +22,7 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.IMarkerResolution2;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
 import org.jboss.tools.cdi.ui.CDIUIPlugin;
+import org.jboss.tools.cdi.ui.CDIUiImages;
 import org.jboss.tools.common.EclipseUtil;
 
 /**
@@ -69,7 +70,7 @@ public class AddSerializableInterfaceMarkerResolution  implements IMarkerResolut
 
 	@Override
 	public Image getImage() {
-		return null;
+		return CDIUiImages.QUICKFIX_ADD;
 	}
 
 }

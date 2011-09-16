@@ -28,6 +28,7 @@ import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.core.IQualifier;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
+import org.jboss.tools.cdi.ui.CDIUiImages;
 import org.jboss.tools.cdi.ui.wizard.AddQualifiersToBeanWizard;
 import org.jboss.tools.cdi.ui.wizard.xpl.AddQualifiersToBeanComposite;
 import org.jboss.tools.cdi.ui.wizard.xpl.AddQualifiersToBeanComposite.ValuedQualifier;
@@ -136,7 +137,7 @@ public class MakeInjectedPointUnambiguousMarkerResolution implements IMarkerReso
 	}
 
 	public Image getImage() {
-		return null;
+		return CDIUiImages.QUICKFIX_EDIT;
 	}
 
 }

@@ -33,6 +33,7 @@ import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IScopeDeclaration;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
 import org.jboss.tools.cdi.ui.CDIUIPlugin;
+import org.jboss.tools.cdi.ui.CDIUiImages;
 import org.jboss.tools.common.EclipseUtil;
 
 /**
@@ -145,7 +146,7 @@ public class MakeBeanScopedDependentMarkerResolution implements IMarkerResolutio
 
 	@Override
 	public Image getImage() {
-		return null;
+		return CDIUiImages.QUICKFIX_EDIT;
 	}
 
 }

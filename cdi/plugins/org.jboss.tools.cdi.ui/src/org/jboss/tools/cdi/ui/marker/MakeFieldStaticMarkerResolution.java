@@ -25,6 +25,7 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.IMarkerResolution2;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
 import org.jboss.tools.cdi.ui.CDIUIPlugin;
+import org.jboss.tools.cdi.ui.CDIUiImages;
 import org.jboss.tools.common.EclipseUtil;
 
 /**
@@ -90,7 +91,7 @@ public class MakeFieldStaticMarkerResolution implements IMarkerResolution2 {
 	}
 
 	public Image getImage() {
-		return null;
+		return CDIUiImages.QUICKFIX_EDIT;
 	}
 
 }

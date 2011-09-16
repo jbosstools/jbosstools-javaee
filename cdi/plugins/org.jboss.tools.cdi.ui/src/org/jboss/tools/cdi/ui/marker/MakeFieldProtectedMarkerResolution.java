@@ -27,6 +27,7 @@ import org.eclipse.ui.IMarkerResolution2;
 import org.eclipse.ui.PlatformUI;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
 import org.jboss.tools.cdi.ui.CDIUIPlugin;
+import org.jboss.tools.cdi.ui.CDIUiImages;
 import org.jboss.tools.common.EclipseUtil;
 
 /**
@@ -98,6 +99,6 @@ public class MakeFieldProtectedMarkerResolution implements IMarkerResolution2, T
 
 	@Override
 	public Image getImage() {
-		return null;
+		return CDIUiImages.QUICKFIX_EDIT;
 	}
 }

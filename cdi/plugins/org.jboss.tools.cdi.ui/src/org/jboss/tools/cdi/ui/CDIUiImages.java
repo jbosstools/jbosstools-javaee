@@ -33,6 +33,11 @@ public class CDIUiImages {
 	public static final Image CDI_BEAN_IMAGE = getImage("search/cdi_bean.gif"); //$NON-NLS-1$
 	public static final Image WELD_IMAGE = getImage("search/weld_icon_16x.gif"); //$NON-NLS-1$
 	
+	public static final Image QUICKFIX_ADD = getImage("quickfixes/cdi_add.png"); //$NON-NLS-1$
+	public static final Image QUICKFIX_REMOVE = getImage("quickfixes/cdi_remove.png"); //$NON-NLS-1$
+	public static final Image QUICKFIX_EDIT = getImage("quickfixes/cdi_edit.png"); //$NON-NLS-1$
+	public static final Image QUICKFIX_CHANGE = getImage("quickfixes/cdi_change.png"); //$NON-NLS-1$
+	
 	public static final String WELD_WIZARD_IMAGE_PATH = "wizard/WeldWizBan.gif"; //$NON-NLS-1$
 	
 	public static Image getImage(String key) {

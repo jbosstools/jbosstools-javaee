@@ -21,6 +21,7 @@ import org.eclipse.ui.IMarkerResolution2;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
 import org.jboss.tools.cdi.ui.CDIUIPlugin;
+import org.jboss.tools.cdi.ui.CDIUiImages;
 
 public class AddRetentionAnnotationMarkerResolution implements
 		IMarkerResolution2 {
@@ -57,6 +58,6 @@ public class AddRetentionAnnotationMarkerResolution implements
 	}
 
 	public Image getImage() {
-		return null;
+		return CDIUiImages.QUICKFIX_ADD;
 	}
 }

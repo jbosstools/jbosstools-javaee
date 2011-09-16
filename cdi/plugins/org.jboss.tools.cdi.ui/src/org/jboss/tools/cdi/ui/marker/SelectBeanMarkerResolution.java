@@ -26,6 +26,7 @@ import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.core.IQualifier;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
+import org.jboss.tools.cdi.ui.CDIUiImages;
 import org.jboss.tools.cdi.ui.wizard.SelectBeanWizard;
 import org.jboss.tools.cdi.ui.wizard.xpl.AddQualifiersToBeanComposite.ValuedQualifier;
 
@@ -119,6 +120,6 @@ public class SelectBeanMarkerResolution implements IMarkerResolution2, TestableR
 	}
 
 	public Image getImage() {
-		return null;
+		return CDIUiImages.QUICKFIX_EDIT;
 	}
 }
