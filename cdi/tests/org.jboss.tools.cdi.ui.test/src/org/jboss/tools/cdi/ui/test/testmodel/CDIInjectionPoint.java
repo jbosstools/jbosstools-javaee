@@ -6,6 +6,7 @@ import java.util.Set;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.IMember;
+import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.IClassBean;
 import org.jboss.tools.cdi.core.IInjectionPoint;
@@ -146,6 +147,11 @@ public class CDIInjectionPoint implements IInjectionPoint {
 
 	@Override
 	public String getElementName() {
+		return null;
+	}
+
+	@Override
+	public IBean getBean() {
 		return null;
 	}
 }

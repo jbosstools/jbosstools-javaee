@@ -1661,7 +1661,7 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 			 *  - bean that declares any scope other than @Dependent has an injection point of type InjectionPoint and qualifier @Default
 			 */
 			if(type!=null && CDIConstants.INJECTIONPOINT_TYPE_NAME.equals(type.getFullyQualifiedName())) {
-				IScope beanScope = injection.getClassBean().getScope();
+				IScope beanScope = injection.getBean().getScope();
 				if(injection.hasDefaultQualifier() && beanScope!=null && !CDIConstants.DEPENDENT_ANNOTATION_TYPE_NAME.equals(beanScope.getSourceType().getFullyQualifiedName())) {
 					addError(CDIValidationMessages.ILLEGAL_SCOPE_WHEN_TYPE_INJECTIONPOINT_IS_INJECTED, CDIPreferences.ILLEGAL_SCOPE_WHEN_TYPE_INJECTIONPOINT_IS_INJECTED, reference, injection.getResource());
 				}

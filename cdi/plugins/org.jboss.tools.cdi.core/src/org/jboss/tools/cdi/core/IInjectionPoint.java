@@ -24,6 +24,13 @@ import org.jboss.tools.common.text.ITextSourceReference;
 public interface IInjectionPoint extends ICDIElement, IBeanMember {
 
 	/**
+	 * Returns the bean that declares this injection point.
+	 * 
+	 * @return the bean that declares this injection point.
+	 */
+	IBean getBean();
+
+	/**
 	 * Returns the required type of this injection point.
 	 * 
 	 * @return the required type of this injection point.

@@ -14,6 +14,7 @@ import java.util.Set;
 
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.CDIUtil;
+import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IInjectionPointParameter;
 import org.jboss.tools.cdi.core.IQualifierDeclaration;
 import org.jboss.tools.common.java.IAnnotationDeclaration;
@@ -31,6 +32,7 @@ public class InjectionPointParameter extends Parameter implements
 	 * (non-Javadoc)
 	 * @see org.jboss.tools.cdi.core.IInjectionPoint#getDelegateAnnotation()
 	 */
+	@Override
 	public ITextSourceReference getDelegateAnnotation() {
 		return getAnnotationPosition(CDIConstants.DELEGATE_STEREOTYPE_TYPE_NAME);
 	}
@@ -39,6 +41,7 @@ public class InjectionPointParameter extends Parameter implements
 	 * (non-Javadoc)
 	 * @see org.jboss.tools.cdi.core.IInjectionPoint#getQualifierDeclarations()
 	 */
+	@Override
 	public Set<IQualifierDeclaration> getQualifierDeclarations() {
 		return super.getQualifierDeclarations();
 	}
@@ -47,6 +50,7 @@ public class InjectionPointParameter extends Parameter implements
 	 * (non-Javadoc)
 	 * @see org.jboss.tools.cdi.core.IInjectionPoint#isDelegate()
 	 */
+	@Override
 	public boolean isDelegate() {
 		return isAnnotationPresent(CDIConstants.DELEGATE_STEREOTYPE_TYPE_NAME);
 	}
@@ -55,6 +59,7 @@ public class InjectionPointParameter extends Parameter implements
 	 * (non-Javadoc)
 	 * @see org.jboss.tools.cdi.core.IInjectionPoint#getInjectAnnotation()
 	 */
+	@Override
 	public IAnnotationDeclaration getInjectAnnotation() {
 		return beanMethod.inject;
 	}
@@ -63,6 +68,7 @@ public class InjectionPointParameter extends Parameter implements
 	 * (non-Javadoc)
 	 * @see org.jboss.tools.cdi.core.IInjectionPoint#containsDefaultQualifier()
 	 */
+	@Override
 	public boolean hasDefaultQualifier() {
 		return CDIUtil.containsDefaultQualifier(this);
 	}
@@ -77,5 +83,15 @@ public class InjectionPointParameter extends Parameter implements
 			}
 		}
 		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.cdi.core.IInjectionPoint#getBean()
+	 */
+	@Override
+	public IBean getBean() {
+		// TODO we should return the actual bean that declares this injection point.
+		return getClassBean();
 	}
 }

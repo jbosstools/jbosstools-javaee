@@ -22,7 +22,7 @@ import org.jboss.tools.common.java.IParametedType;
 public interface IBeanMember extends IJavaSourceReference, IAnnotated, ICDIElement {
 
 	/**
-	 * Returns the class bean that declares this method.
+	 * Returns the class bean that declares this member.
 	 * 
 	 * @return
 	 */
