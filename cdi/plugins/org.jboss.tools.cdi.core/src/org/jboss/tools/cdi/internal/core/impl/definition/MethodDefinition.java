@@ -82,7 +82,8 @@ public class MethodDefinition extends BeanMemberDefinition {
 			pd.setMethodDefinition(this);
 			pd.index = i;
 			pd.setLocalVariable(ps[i], context, flags);		
-			if(pd.isAnnotationPresent(CDIConstants.OBSERVERS_ANNOTATION_TYPE_NAME)) {
+			if(pd.isAnnotationPresent(CDIConstants.OBSERVERS_ANNOTATION_TYPE_NAME)
+				|| pd.isAnnotationPresent(CDIConstants.DISPOSES_ANNOTATION_TYPE_NAME)) {
 				parametersAreInjectionPoints = true;
 			}
 			ds[i] = pd;
