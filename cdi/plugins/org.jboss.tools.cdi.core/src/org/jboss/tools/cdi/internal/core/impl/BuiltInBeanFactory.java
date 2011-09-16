@@ -43,6 +43,7 @@ public class BuiltInBeanFactory {
 		BUILT_IN.add(CDIConstants.VALIDATOR_TYPE_NAME);
 		BUILT_IN.add(CDIConstants.BEAN_MANAGER_TYPE_NAME);
 		BUILT_IN.add(CDIConstants.CONVERSATION_TYPE_NAME);
+		BUILT_IN.add(CDIConstants.INJECTIONPOINT_TYPE_NAME);
 	}
 
 	public static boolean isBuiltIn(IType type) {
