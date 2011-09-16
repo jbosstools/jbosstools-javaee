@@ -13,7 +13,6 @@ package org.jboss.tools.cdi.core;
 import java.util.Set;
 
 import org.jboss.tools.common.java.IJavaMemberReference;
-import org.jboss.tools.common.java.IParametedType;
 
 /**
  * Represents a class-based bean.
