@@ -83,7 +83,7 @@ public interface IClassBean extends IBean, IInterceptorBinded, IJavaMemberRefere
 	 * If all = false, the result includes only injection points managed by this bean, and 
 	 * since injection points declared in producer methods are handled by producer method beans,
 	 * they are not included. In this case, result is the same as that of getInjectionPoints().
-	 * If all = true, the result includes injection points declared in producer methods.
+	 * If all = true, the result includes injection points declared in all the producer methods declared in the class.
 	 *
 	 * @param all
 	 * @return
