@@ -460,11 +460,10 @@ public class AssignableBeansDialog extends PopupDialog {// TitleAreaDialog {
 						}
 					}
 				}
-			}
-			
-		}
-		
+			}			
+		}		
 	}
+
 	class ListContent implements IStructuredContentProvider {
 
 		@Override
@@ -520,8 +519,7 @@ public class AssignableBeansDialog extends PopupDialog {// TitleAreaDialog {
 			sorted.addAll(map.values());
 
 			return sorted.toArray(new IBean[0]);
-		}
-		
+		}		
 	}
 
 	static Color gray = new Color(null, 128, 128, 128);
@@ -588,10 +586,11 @@ public class AssignableBeansDialog extends PopupDialog {// TitleAreaDialog {
 					.append("()", nameStyler);
 				}
 			} else {
-				if(b.getBeanClass().getElementName().length() == 0) {
-					System.out.println("oops");
+				String name = b.getBeanClass().getElementName();
+				if(name.length() == 0) {
+					name = b.getBeanClass().getFullyQualifiedName();
 				}
-				sb.append(b.getBeanClass().getElementName(), nameStyler);
+				sb.append(name, nameStyler);
 			}
 
 			Styler qualifierStyler = eligibleBeans.contains(b) ? ELIGIBLE_QUALIFIER : DISABLED;
@@ -617,5 +616,4 @@ public class AssignableBeansDialog extends PopupDialog {// TitleAreaDialog {
 			return null;
 		}		
 	}
-
 }
