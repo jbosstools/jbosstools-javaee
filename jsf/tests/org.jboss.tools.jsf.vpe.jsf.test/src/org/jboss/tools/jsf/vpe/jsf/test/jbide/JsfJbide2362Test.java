@@ -77,7 +77,6 @@ public class JsfJbide2362Test extends VpeTest {
 	 */
 	public void testSimpleSourceSelection() throws Throwable {
 
-		// wait
 		TestUtil.waitForJobs();
 		// set exception
 		setException(null);
@@ -90,7 +89,7 @@ public class JsfJbide2362Test extends VpeTest {
 
 		// open and get editor
 		JSPMultiPageEditor part = openEditor(input);
-
+		TestUtil.getVpeController(part);
 		checkSourceSelection(part);
 
 		// check exception
