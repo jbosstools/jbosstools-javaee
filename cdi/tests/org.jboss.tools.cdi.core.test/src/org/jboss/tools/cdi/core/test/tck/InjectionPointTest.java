@@ -70,7 +70,7 @@ public class InjectionPointTest extends TCKTest {
 		IClassBean bean = getClassBean("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/disposers/DisposerOk.java");
 		assertNotNull("Can't find the bean.", bean);
 		Set<IInjectionPoint> injections = bean.getInjectionPoints();
-		assertEquals(1, injections.size());
+		assertEquals(2, injections.size());
 	}
 
 	public void testGetInjections() {

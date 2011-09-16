@@ -17,6 +17,6 @@ public class DisposerOk implements LocalInt {
 		return em;
 	}
 
-	public void disposeEntityManager(@Disposes EntityManager em) {
+	public void disposeEntityManager(@Disposes EntityManager em, EntityManager em2) {
 	}
 }
