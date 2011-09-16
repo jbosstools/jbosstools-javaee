@@ -93,7 +93,7 @@ public class InjectionPointField extends BeanField implements IInjectionPointFie
 	 */
 	@Override
 	public IBean getBean() {
-		// TODO we should return the actual bean that declares this injection point.
+		// Injected field may be declared in a class bean only. 
 		return getClassBean();
 	}
 }
