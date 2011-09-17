@@ -10,6 +10,7 @@
  ******************************************************************************/ 
 package org.jboss.tools.cdi.internal.core.impl.definition;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -92,11 +93,17 @@ public class AbstractTypeDefinition extends AbstractMemberDefinition {
 	}
 
 	public Set<IParametedType> getInheritedTypes() {
-		return parametedType == null ? new HashSet<IParametedType>() : parametedType.getInheritedTypes();
+		if(parametedType == null) {
+			return Collections.emptySet(); 
+		}
+		return parametedType.getInheritedTypes();
 	}
 
 	public Set<IParametedType> getAllTypes() {
-		return parametedType == null ? new HashSet<IParametedType>() : parametedType.getAllTypes();
+		if(parametedType == null) {
+			return Collections.emptySet(); 
+		} 
+		return parametedType.getAllTypes();
 	}
 
 	/**
