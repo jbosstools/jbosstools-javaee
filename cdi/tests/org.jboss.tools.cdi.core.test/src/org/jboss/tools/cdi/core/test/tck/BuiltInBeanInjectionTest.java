@@ -159,4 +159,22 @@ public class BuiltInBeanInjectionTest extends TCKTest {
 		assertTrue(b instanceof IBuiltInBean);
 	}
 
+	/**
+	 * Test built-in bean with type javax.enterprise.inject.spi.InjectionPoint
+	 * 5.5.7 Injection point metadata
+	 */
+	public void testBuiltInInjectionPointBean() {
+		IInjectionPointField field =  getInjectionPointField("JavaSource/org/jboss/jsr299/tck/tests/lookup/injectionpoint/BeanWithInjectionPointMetadata.java", "injectedMetadata");
+		assertNotNull(field);
+		
+		Set<IBean> beans = field.getCDIProject().getBeans(false, field);
+		assertFalse(beans.isEmpty());
+
+		IBean b = beans.iterator().next();
+		assertTrue(b instanceof IClassBean);
+		assertTrue(b instanceof IBuiltInBean);
+		IType t = b.getBeanClass();
+		assertEquals(CDIConstants.INJECTIONPOINT_TYPE_NAME, t.getFullyQualifiedName());
+	}
+
 }
