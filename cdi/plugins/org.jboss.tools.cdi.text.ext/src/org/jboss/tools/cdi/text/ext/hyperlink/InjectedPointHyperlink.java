@@ -28,6 +28,7 @@ import org.jboss.tools.cdi.core.IProducerField;
 import org.jboss.tools.cdi.core.IProducerMethod;
 import org.jboss.tools.cdi.text.ext.CDIExtensionsMessages;
 import org.jboss.tools.cdi.text.ext.CDIExtensionsPlugin;
+import org.jboss.tools.cdi.ui.CDIUiImages;
 import org.jboss.tools.common.text.ext.hyperlink.AbstractHyperlink;
 
 public class InjectedPointHyperlink extends AbstractHyperlink implements ITestableCDIHyperlink, IInformationItem{
@@ -126,7 +127,7 @@ public class InjectedPointHyperlink extends AbstractHyperlink implements ITestab
 	}
 
 	public Image getImage() {
-		return null;
+		return CDIUiImages.getImageByElement(bean);
 	}
 
 }

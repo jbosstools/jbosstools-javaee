@@ -26,6 +26,7 @@ import org.jboss.tools.cdi.core.IInjectionPointField;
 import org.jboss.tools.cdi.core.IInjectionPointParameter;
 import org.jboss.tools.cdi.text.ext.CDIExtensionsMessages;
 import org.jboss.tools.cdi.text.ext.CDIExtensionsPlugin;
+import org.jboss.tools.cdi.ui.CDIUiImages;
 import org.jboss.tools.common.text.ext.hyperlink.AbstractHyperlink;
 
 public class EventHyperlink extends AbstractHyperlink implements ITestableCDIHyperlink, IInformationItem{
@@ -93,7 +94,7 @@ public class EventHyperlink extends AbstractHyperlink implements ITestableCDIHyp
 	}
 
 	public Image getImage() {
-		return null;
+		return CDIUiImages.getImageByElement(event);
 	}
 
 }
