@@ -346,7 +346,10 @@ public class CDIProject extends CDIElement implements ICDIProject {
 			if(CDIConstants.NEW_QUALIFIER_TYPE_NAME.equals(d.getTypeName())) {
 				IBean b = createNewBean(type, d);
 				if(b != null) {
-					result.add(b);
+					Set<IParametedType> types = b.getLegalTypes();
+					if(containsType(types, type)) {
+						result.add(b);
+					}
 				}
 				return result;
 			}				
