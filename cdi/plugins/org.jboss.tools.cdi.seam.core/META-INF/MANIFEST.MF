@@ -19,4 +19,10 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Export-Package: org.jboss.tools.cdi.seam.core,
  org.jboss.tools.cdi.seam.core.international,
- org.jboss.tools.cdi.seam.core.international.el
+ org.jboss.tools.cdi.seam.core.international.el,
+ org.jboss.tools.cdi.seam.core.international.impl,
+ org.jboss.tools.cdi.seam.core.international.scanner,
+ org.jboss.tools.cdi.seam.core.jms,
+ org.jboss.tools.cdi.seam.core.persistence,
+ org.jboss.tools.cdi.seam.core.rest,
+ org.jboss.tools.cdi.seam.core.servlet

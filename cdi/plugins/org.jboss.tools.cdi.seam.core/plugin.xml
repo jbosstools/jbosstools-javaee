@@ -28,6 +28,10 @@
 	          class="org.jboss.tools.cdi.seam.core.jms.JmsDestinationExtension"
 	          runtime="org.jboss.seam.jms.Seam3JmsExtension">
 	    </cdiextension>
+	    <cdiextension
+	          class="org.jboss.tools.cdi.seam.core.rest.SeamRestExtension"
+	          runtime="org.jboss.seam.rest.client.RestClientExtension">
+	    </cdiextension>
 	</extension>
 
 </plugin>

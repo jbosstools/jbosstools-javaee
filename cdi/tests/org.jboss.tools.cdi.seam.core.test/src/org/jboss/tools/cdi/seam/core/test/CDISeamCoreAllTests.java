@@ -21,6 +21,7 @@ import org.jboss.tools.cdi.seam.core.test.international.SeamResourceBundlesTest;
 import org.jboss.tools.cdi.seam.core.test.jms.SeamJmsValidationTest;
 import org.jboss.tools.cdi.seam.core.test.persistence.SeamPersistenceTest;
 import org.jboss.tools.cdi.seam.core.test.persistence.SeamPersistenceTestSetup;
+import org.jboss.tools.cdi.seam.core.test.rest.SeamRestValidationTest;
 import org.jboss.tools.cdi.seam.core.test.servlet.SeamServletValidationTest;
 import org.jboss.tools.common.base.test.validation.ValidationExceptionTest;
 
@@ -45,12 +46,13 @@ public class CDISeamCoreAllTests {
 		suite.addTestSuite(BundleModelTest.class);
 		suite.addTestSuite(SeamJmsValidationTest.class);
 		suite.addTestSuite(SeamResourceBundleCdiElResolverTest.class);
+		suite.addTestSuite(SeamRestValidationTest.class);
 		suiteAll.addTest(new SeamCoreTestSetup(suite));
 
 		suite = new TestSuite("Seam Persistence Project Tests");
 		suite.addTestSuite(SeamPersistenceTest.class);
 		suiteAll.addTest(new SeamPersistenceTestSetup(suite));
-		
+
 		suiteAll.addTestSuite(ValidationExceptionTest.class); // This test should be added last!
 
 		return suiteAll;
