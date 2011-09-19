@@ -117,9 +117,9 @@ public class CDIUiImages {
 			return ANNOTATION_IMAGE;
 		}else if(element instanceof EventBean){
 			return CDI_EVENT_IMAGE;
-		}else if(element instanceof IProducerMethod || element instanceof IBeanMethod){
+		}else if(element instanceof IBeanMethod){
 			return BEAN_METHOD_IMAGE;
-		}else if(element instanceof IProducerField || element instanceof IBeanField){
+		}else if(element instanceof IBeanField){
 			return BEAN_FIELD_IMAGE;
 		}
 		return WELD_IMAGE;
