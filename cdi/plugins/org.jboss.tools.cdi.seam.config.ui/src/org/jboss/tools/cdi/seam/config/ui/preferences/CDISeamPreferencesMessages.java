@@ -12,6 +12,7 @@ public class CDISeamPreferencesMessages extends NLS {
 	public static String CDIValidatorConfigurationBlock_pb_unresolvedMethod_label;
 	public static String CDIValidatorConfigurationBlock_pb_unresolvedConstructor_label;
 	public static String CDIValidatorConfigurationBlock_pb_annotationExpected_label;
+	public static String CDIValidatorConfigurationBlock_pb_inlineBeanTypeMismatch_label;
 
 	//Section Solder
 	public static String CDIValidatorConfigurationBlock_section_solder;
