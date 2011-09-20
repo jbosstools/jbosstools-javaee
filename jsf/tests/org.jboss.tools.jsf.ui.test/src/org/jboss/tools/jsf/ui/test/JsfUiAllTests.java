@@ -17,6 +17,7 @@ import junit.framework.TestSuite;
 import org.eclipse.wst.validation.ValidationFramework;
 import org.jboss.tools.common.base.test.validation.ValidationProjectTestSetup;
 import org.jboss.tools.jsf.jsp.ca.test.CADefaultELStartingCharTest;
+import org.jboss.tools.jsf.jsp.ca.test.CAELInsideTagBodyInJspFileTest;
 import org.jboss.tools.jsf.jsp.ca.test.CAForCompositeComponentTest;
 import org.jboss.tools.jsf.jsp.ca.test.CAForELinStyleTest;
 import org.jboss.tools.jsf.jsp.ca.test.CAForIDTest;
@@ -131,6 +132,12 @@ public class JsfUiAllTests {
 				ELTooltipTest.class), "org.jboss.tools.jsf.test", //$NON-NLS-1$
 				new String[] { "projects/JSF2KickStartWithoutLibs", }, //$NON-NLS-1$
 				new String[] { "JSF2KickStartWithoutLibs" })); //$NON-NLS-1$
+
+		suite.addTest(new ProjectImportTestSetup(new TestSuite(
+				CAELInsideTagBodyInJspFileTest.class), "org.jboss.tools.jsf.ui.test", //$NON-NLS-1$
+				new String[] { "projects/Jbide3845Test", }, //$NON-NLS-1$
+				new String[] { "Jbide3845Test" })); //$NON-NLS-1$
+
 
 //		return new TestWizardsProject(suite);
 		return suite;
