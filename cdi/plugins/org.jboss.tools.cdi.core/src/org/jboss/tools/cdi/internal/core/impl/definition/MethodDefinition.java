@@ -74,7 +74,7 @@ public class MethodDefinition extends BeanMemberDefinition {
 		boolean parametersAreInjectionPoints = parametersAreInjectionPoints();
 
 		if(ps.length == 0) return;
-		if(contextType == null || contextType.isBinary()) return;
+		if(contextType == null) return;
 
 		ParameterDefinition[] ds = new ParameterDefinition[ps.length];
 		for (int i = 0; i < ps.length; i++) {
