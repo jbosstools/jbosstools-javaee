@@ -115,7 +115,6 @@ public class CDIImages {
 		}else if(element instanceof IBeanField){
 			return BEAN_FIELD_IMAGE;
 		}
-		System.out.println("NO IMAGE for - "+element.getClass());
 		return WELD_IMAGE;
 	}
 
