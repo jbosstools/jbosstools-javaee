@@ -22,6 +22,7 @@ import org.eclipse.jdt.core.IMember;
 import org.eclipse.swt.graphics.Image;
 import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.CDICorePlugin;
+import org.jboss.tools.cdi.core.CDIImages;
 import org.jboss.tools.cdi.core.CDIUtil;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IBeanManager;
@@ -36,6 +37,7 @@ import org.jboss.tools.common.el.core.parser.ELParserUtil;
 import org.jboss.tools.common.el.core.resolver.IRelevanceCheck;
 import org.jboss.tools.common.el.core.resolver.TypeInfoCollector;
 import org.jboss.tools.common.el.core.resolver.TypeInfoCollector.MemberInfo;
+import org.jboss.tools.common.text.TextProposal;
 
 /**
  * @author Alexey Kazakov
@@ -44,16 +46,16 @@ public class CdiElResolver extends AbstractELCompletionEngine<IBean> {
 
 	private static ELParserFactory factory = ELParserUtil.getJbossFactory();
 
-	public static final Image CDI_EL_PROPOSAL_IMAGE = 
-		CDICorePlugin.getDefault().getImage(CDICorePlugin.CA_CDI_EL_IMAGE_PATH);
-
-
 	/* (non-Javadoc)
 	 * @see org.jboss.tools.jst.web.kb.el.AbstractELCompletionEngine#getELProposalImage()
 	 */
 	@Override
 	public Image getELProposalImage() {
-		return CDI_EL_PROPOSAL_IMAGE;
+		return null;
+	}
+	
+	protected void setImage(TextProposal kbProposal, IBean var) {
+		kbProposal.setImage(CDIImages.getImageByElement(var));
 	}
 
 	/* (non-Javadoc)

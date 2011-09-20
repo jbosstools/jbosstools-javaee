@@ -40,13 +40,13 @@ import org.eclipse.ui.WorkbenchException;
 import org.eclipse.ui.XMLMemento;
 import org.eclipse.ui.dialogs.FilteredItemsSelectionDialog;
 import org.jboss.tools.cdi.core.CDICorePlugin;
+import org.jboss.tools.cdi.core.CDIImages;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.internal.core.event.CDIProjectChangeEvent;
 import org.jboss.tools.cdi.internal.core.event.ICDIProjectChangeListener;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
 import org.jboss.tools.cdi.ui.CDIUIPlugin;
-import org.jboss.tools.cdi.ui.CDIUiImages;
 
 /**
  * Open CDI Named Bean Dialog
@@ -336,7 +336,7 @@ public class OpenCDINamedBeanDialog extends FilteredItemsSelectionDialog {
 	public class CDINamedBeanLabelProvider implements ILabelProvider {
 
 		public Image getImage(Object element) {
-			return CDIUiImages.CDI_BEAN_IMAGE;
+			return CDIImages.CDI_BEAN_IMAGE;
 		}
 
 		public String getText(Object element) {

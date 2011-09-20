@@ -21,9 +21,9 @@ import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.IMarkerResolution2;
 import org.jboss.tools.cdi.core.CDIConstants;
+import org.jboss.tools.cdi.core.CDIImages;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
 import org.jboss.tools.cdi.ui.CDIUIPlugin;
-import org.jboss.tools.cdi.ui.CDIUiImages;
 
 public class ChangeAnnotationMarkerResolution implements
 		IMarkerResolution2 {
@@ -106,6 +106,6 @@ public class ChangeAnnotationMarkerResolution implements
 	}
 
 	public Image getImage() {
-		return CDIUiImages.QUICKFIX_CHANGE;
+		return CDIImages.QUICKFIX_CHANGE;
 	}
 }

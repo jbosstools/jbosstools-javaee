@@ -23,9 +23,9 @@ import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.Signature;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.IMarkerResolution2;
+import org.jboss.tools.cdi.core.CDIImages;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
 import org.jboss.tools.cdi.ui.CDIUIPlugin;
-import org.jboss.tools.cdi.ui.CDIUiImages;
 import org.jboss.tools.common.EclipseUtil;
 
 /**
@@ -90,7 +90,7 @@ public class MakeMethodPublicMarkerResolution implements IMarkerResolution2 {
 	}
 
 	public Image getImage() {
-		return CDIUiImages.QUICKFIX_EDIT;
+		return CDIImages.QUICKFIX_EDIT;
 	}
 
 }

@@ -9,7 +9,7 @@
  * Red Hat, Inc. - initial API and implementation 
  ******************************************************************************/ 
 
-package org.jboss.tools.cdi.ui;
+package org.jboss.tools.cdi.core;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -17,25 +17,17 @@ import java.net.URL;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
-import org.jboss.tools.cdi.core.IBeanField;
-import org.jboss.tools.cdi.core.IBeanMethod;
-import org.jboss.tools.cdi.core.ICDIAnnotation;
-import org.jboss.tools.cdi.core.ICDIElement;
-import org.jboss.tools.cdi.core.IClassBean;
-import org.jboss.tools.cdi.core.IInjectionPoint;
-import org.jboss.tools.cdi.core.IProducerField;
-import org.jboss.tools.cdi.core.IProducerMethod;
 import org.jboss.tools.cdi.internal.core.impl.EventBean;
 
-public class CDIUiImages {
+public class CDIImages {
 
-	private static CDIUiImages INSTANCE;
+	private static CDIImages INSTANCE;
 	
 	static {
 		try {
-			INSTANCE = new CDIUiImages(new URL(CDIUIPlugin.getDefault().getBundle().getEntry("/"), "icons/")); //$NON-NLS-1$ //$NON-NLS-2$
+			INSTANCE = new CDIImages(new URL(CDICorePlugin.getDefault().getBundle().getEntry("/"), "images/")); //$NON-NLS-1$ //$NON-NLS-2$
 		} catch (MalformedURLException e) {
-			CDIUIPlugin.getDefault().logError(e);
+			CDICorePlugin.getDefault().logError(e);
 		}
 	}
 	
@@ -68,21 +60,21 @@ public class CDIUiImages {
 		action.setImageDescriptor(INSTANCE.createImageDescriptor(iconName));
 	}
 	
-	public static CDIUiImages getInstance() {
+	public static CDIImages getInstance() {
 		return INSTANCE;
 	}
 
 	private URL baseUrl;
-	private CDIUiImages parentRegistry;
+	private CDIImages parentRegistry;
 	
-	protected CDIUiImages(URL registryUrl, CDIUiImages parent){
+	protected CDIImages(URL registryUrl, CDIImages parent){
 
-		if(registryUrl == null) throw new IllegalArgumentException(CDIUIMessages.CDI_UI_IMAGESBASE_URL_FOR_IMAGE_REGISTRY_CANNOT_BE_NULL);
+		if(registryUrl == null) throw new IllegalArgumentException(CDICoreMessages.CDI_IMAGESBASE_URL_FOR_IMAGE_REGISTRY_CANNOT_BE_NULL);
 		baseUrl = registryUrl;
 		parentRegistry = parent;
 	}
 	
-	protected CDIUiImages(URL url){
+	protected CDIImages(URL url){
 		this(url,null);		
 	}
 
@@ -104,11 +96,12 @@ public class CDIUiImages {
 	}
 
 	private URL makeIconFileURL(String name) throws MalformedURLException {
-		if (name == null) throw new MalformedURLException(CDIUIMessages.CDI_UI_IMAGESIMAGE_NAME_CANNOT_BE_NULL);
+		if (name == null) throw new MalformedURLException(CDICoreMessages.CDI_IMAGESIMAGE_NAME_CANNOT_BE_NULL);
 		return new URL(baseUrl, name);
 	}
 	
 	public static Image getImageByElement(ICDIElement element){
+		
 		if(element instanceof IClassBean){
 			return BEAN_CLASS_IMAGE;
 		}else if(element instanceof IInjectionPoint){
@@ -122,6 +115,7 @@ public class CDIUiImages {
 		}else if(element instanceof IBeanField){
 			return BEAN_FIELD_IMAGE;
 		}
+		System.out.println("NO IMAGE for - "+element.getClass());
 		return WELD_IMAGE;
 	}
 

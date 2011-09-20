@@ -21,6 +21,7 @@ import org.eclipse.jdt.internal.ui.JavaPluginImages;
 import org.eclipse.swt.graphics.Image;
 import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.CDICorePlugin;
+import org.jboss.tools.cdi.core.CDIImages;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.IClassBean;
@@ -94,7 +95,7 @@ public class BeansXmlProcessor {
 		for (IBean bean : alternatives) {
 			if(bean instanceof IClassBean) {
 				IType type = bean.getBeanClass();
-				addMatchedType(type, value, proposals);
+				addMatchedType(type, value, proposals, CDIImages.getImageByElement(bean));
 			}
 		}
 		return proposals.toArray(new TextProposal[0]);
@@ -107,7 +108,7 @@ public class BeansXmlProcessor {
 		for (IStereotype stereotype : alternatives) {
 			if(stereotype.isAlternative()) {
 				IType type = stereotype.getSourceType();
-				addMatchedType(type, value, proposals);
+				addMatchedType(type, value, proposals, CDIImages.getImageByElement(stereotype));
 			}
 		}
 		return proposals.toArray(new TextProposal[0]);
@@ -119,7 +120,7 @@ public class BeansXmlProcessor {
 		IDecorator[] decorators = cdiProject.getDecorators();
 		for (IDecorator bean : decorators) {
 			IType type = bean.getBeanClass();
-			addMatchedType(type, value, proposals);
+			addMatchedType(type, value, proposals, CDIImages.getImageByElement(bean));
 		}
 		return proposals.toArray(new TextProposal[0]);
 	}
@@ -130,7 +131,7 @@ public class BeansXmlProcessor {
 		IInterceptor[] interceptors = cdiProject.getInterceptors();
 		for (IInterceptor bean : interceptors) {
 			IType type = bean.getBeanClass();
-			addMatchedType(type, value, proposals);
+			addMatchedType(type, value, proposals, CDIImages.getImageByElement(bean));
 		}
 		return proposals.toArray(new TextProposal[0]);
 	}
@@ -145,7 +146,7 @@ public class BeansXmlProcessor {
 		return (st > 0) ? value.substring(st) : value;
 	}
 
-	private void addMatchedType(IType type, String value, List<TextProposal> proposals) {
+	private void addMatchedType(IType type, String value, List<TextProposal> proposals, Image image) {
 		String fullTypeName = type.getFullyQualifiedName();
 		if(fullTypeName.startsWith(value)) {
 			TextProposal proposal = new TextProposal();
@@ -154,16 +155,7 @@ public class BeansXmlProcessor {
 //			proposal.setLabel(fullTypeName);
 			proposal.setReplacementString(fullTypeName);
 			proposal.setPosition(fullTypeName.length());
-//			proposal.setImage(CdiElResolver.CDI_EL_PROPOSAL_IMAGE);
-			try {
-				if(type.isClass()) {
-					proposal.setImage(CLASS_PROPOSAL_IMAGE);
-				} else {
-					proposal.setImage(ANNOTATION_PROPOSAL_IMAGE);
-				}
-			} catch (JavaModelException e) {
-				CDICorePlugin.getDefault().logError(e);
-			}
+			proposal.setImage(image);
 			proposals.add(proposal);
 		}
 	}

@@ -21,12 +21,12 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IMarkerResolution2;
 import org.eclipse.ui.PlatformUI;
+import org.jboss.tools.cdi.core.CDIImages;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.core.IQualifier;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
-import org.jboss.tools.cdi.ui.CDIUiImages;
 import org.jboss.tools.cdi.ui.wizard.SelectBeanWizard;
 import org.jboss.tools.cdi.ui.wizard.xpl.AddQualifiersToBeanComposite.ValuedQualifier;
 
@@ -120,6 +120,6 @@ public class SelectBeanMarkerResolution implements IMarkerResolution2, TestableR
 	}
 
 	public Image getImage() {
-		return CDIUiImages.QUICKFIX_EDIT;
+		return CDIImages.QUICKFIX_EDIT;
 	}
 }

@@ -32,6 +32,7 @@ import org.eclipse.search.ui.text.Match;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.PartInitException;
 import org.jboss.tools.cdi.core.CDICorePlugin;
+import org.jboss.tools.cdi.core.CDIImages;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.ICDIElement;
 import org.jboss.tools.cdi.core.ICDIProject;
@@ -41,7 +42,6 @@ import org.jboss.tools.cdi.core.IInjectionPointField;
 import org.jboss.tools.cdi.core.IInjectionPointParameter;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
 import org.jboss.tools.cdi.ui.CDIUIPlugin;
-import org.jboss.tools.cdi.ui.CDIUiImages;
 import org.jboss.tools.common.java.IParametedType;
 
 public class CDIBeanQueryParticipant implements IQueryParticipant{
@@ -160,7 +160,10 @@ public class CDIBeanQueryParticipant implements IQueryParticipant{
 
 		@Override
 		public Image getImage(Object element) {
-			return CDIUiImages.WELD_IMAGE;
+			if(element instanceof ICDIElement){
+				CDIImages.getImageByElement((ICDIElement)element);
+			}
+			return CDIImages.WELD_IMAGE;
 		}
 
 		@Override

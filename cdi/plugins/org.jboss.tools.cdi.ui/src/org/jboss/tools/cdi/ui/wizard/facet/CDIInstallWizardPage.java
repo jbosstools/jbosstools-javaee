@@ -25,9 +25,9 @@ import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
 import org.eclipse.wst.common.frameworks.datamodel.IDataModelListener;
 import org.eclipse.wst.common.project.facet.ui.AbstractFacetWizardPage;
 import org.eclipse.wst.common.project.facet.ui.IFacetWizardPage;
+import org.jboss.tools.cdi.core.CDIImages;
 import org.jboss.tools.cdi.internal.core.project.facet.ICDIFacetDataModelProperties;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
-import org.jboss.tools.cdi.ui.CDIUiImages;
 import org.jboss.tools.common.ui.widget.editor.IFieldEditor;
 import org.jboss.tools.common.ui.widget.editor.IFieldEditorFactory;
 
@@ -44,7 +44,7 @@ public class CDIInstallWizardPage extends AbstractFacetWizardPage implements IFa
 	public CDIInstallWizardPage() {
 		super(CDIUIMessages.CDI_INSTALL_WIZARD_PAGE_FACET);
 		setTitle(CDIUIMessages.CDI_INSTALL_WIZARD_PAGE_FACET);
-		setImageDescriptor(CDIUiImages.getImageDescriptor(CDIUiImages.WELD_WIZARD_IMAGE_PATH));
+		setImageDescriptor(CDIImages.getImageDescriptor(CDIImages.WELD_WIZARD_IMAGE_PATH));
 		setDescription(CDIUIMessages.CDI_INSTALL_WIZARD_PAGE_CONFIGURE);
 	}
 

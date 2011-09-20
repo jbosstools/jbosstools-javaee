@@ -48,12 +48,12 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.PlatformUI;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.CDICorePlugin;
+import org.jboss.tools.cdi.core.CDIImages;
 import org.jboss.tools.cdi.core.ICDIAnnotation;
 import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.IQualifier;
 import org.jboss.tools.cdi.core.IScope;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
-import org.jboss.tools.cdi.ui.CDIUiImages;
 import org.jboss.tools.common.ui.widget.editor.CheckBoxFieldEditor;
 import org.jboss.tools.common.ui.widget.editor.CompositeEditor;
 import org.jboss.tools.common.ui.widget.editor.IFieldEditor;
@@ -89,7 +89,7 @@ public class NewBeanWizardPage extends NewClassWizardPage {
 	public NewBeanWizardPage() {
 		setTitle(CDIUIMessages.NEW_BEAN_WIZARD_PAGE_NAME);
 		setDescription(CDIUIMessages.NEW_BEAN_WIZARD_DESCRIPTION);
-		setImageDescriptor(CDIUiImages.getImageDescriptor(CDIUiImages.WELD_WIZARD_IMAGE_PATH));
+		setImageDescriptor(CDIImages.getImageDescriptor(CDIImages.WELD_WIZARD_IMAGE_PATH));
 	}
 
 	public void setMayBeRegisteredInBeansXML(boolean b) {

@@ -14,6 +14,7 @@ import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.graphics.Image;
+import org.jboss.tools.cdi.core.CDIImages;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.ICDIElement;
 import org.jboss.tools.cdi.core.IInitializerMethod;
@@ -21,12 +22,14 @@ import org.jboss.tools.cdi.core.IInjectionPointField;
 import org.jboss.tools.cdi.core.IInjectionPointParameter;
 import org.jboss.tools.cdi.core.IObserverMethod;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
-import org.jboss.tools.cdi.ui.CDIUiImages;
 
 public class InjectionPointLabelProvider implements ILabelProvider {
 
 	public Image getImage(Object element) {
-		return CDIUiImages.WELD_IMAGE;
+		if(element instanceof ICDIElement){
+			CDIImages.getImageByElement((ICDIElement)element);
+		}
+		return CDIImages.WELD_IMAGE;
 	}
 
 	public String getText(Object element) {

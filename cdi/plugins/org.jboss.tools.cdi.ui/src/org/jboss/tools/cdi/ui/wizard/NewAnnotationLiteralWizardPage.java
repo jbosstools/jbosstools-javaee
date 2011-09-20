@@ -52,11 +52,11 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.FilteredItemsSelectionDialog;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.CDICorePlugin;
+import org.jboss.tools.cdi.core.CDIImages;
 import org.jboss.tools.cdi.core.ICDIAnnotation;
 import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.IQualifier;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
-import org.jboss.tools.cdi.ui.CDIUiImages;
 import org.jboss.tools.common.java.IParametedType;
 import org.jboss.tools.common.java.generation.JavaBeanGenerator;
 import org.jboss.tools.common.ui.widget.editor.ButtonFieldEditor;
@@ -81,7 +81,7 @@ public class NewAnnotationLiteralWizardPage extends NewClassWizardPage {
 	public NewAnnotationLiteralWizardPage() {
 		setTitle(CDIUIMessages.NEW_ANNOTATION_LITERAL_WIZARD_PAGE_NAME);
 		setDescription(CDIUIMessages.NEW_ANNOTATION_LITERAL_WIZARD_DESCRIPTION);
-		setImageDescriptor(CDIUiImages.getImageDescriptor(CDIUiImages.WELD_WIZARD_IMAGE_PATH));
+		setImageDescriptor(CDIImages.getImageDescriptor(CDIImages.WELD_WIZARD_IMAGE_PATH));
 		
 		qualifiersProvider.setMulti(false);
 	}

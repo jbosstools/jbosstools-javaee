@@ -20,11 +20,11 @@ import org.eclipse.jface.text.IRegion;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PartInitException;
+import org.jboss.tools.cdi.core.CDIImages;
 import org.jboss.tools.cdi.core.ICDIElement;
 import org.jboss.tools.cdi.core.IObserverMethod;
 import org.jboss.tools.cdi.text.ext.CDIExtensionsMessages;
 import org.jboss.tools.cdi.text.ext.CDIExtensionsPlugin;
-import org.jboss.tools.cdi.ui.CDIUiImages;
 import org.jboss.tools.common.text.ext.hyperlink.AbstractHyperlink;
 
 public class ObserverMethodHyperlink extends AbstractHyperlink implements IInformationItem, ITestableCDIHyperlink{
@@ -85,7 +85,7 @@ public class ObserverMethodHyperlink extends AbstractHyperlink implements IInfor
 	}
 
 	public Image getImage() {
-		return CDIUiImages.getImageByElement(observerMethod);
+		return CDIImages.getImageByElement(observerMethod);
 	}
 
 }
