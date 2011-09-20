@@ -221,11 +221,15 @@ public class CDIUtil {
 					if (((IInjectionPointField) iPoint).getField() != null && ((IInjectionPointField) iPoint).getField().getElementName().equals(element.getElementName()))
 						return iPoint;
 				}else if(element instanceof ILocalVariable && iPoint instanceof IInjectionPointParameter){
-					if (((IInjectionPointParameter) iPoint).getName().equals(element.getElementName())) 
+					IInjectionPointParameter param = (IInjectionPointParameter)iPoint;
+					if (param.getBeanMethod().getMethod().equals(element.getParent())
+							&& param.getName().equals(element.getElementName())) {
 						return iPoint;
+					}
 				}else if(iPoint instanceof IInjectionPointParameter && position != 0){
-					if(iPoint.getStartPosition() <= position && (iPoint.getStartPosition()+iPoint.getLength()) >= position)
+					if(iPoint.getStartPosition() <= position && (iPoint.getStartPosition()+iPoint.getLength()) >= position) {
 						return iPoint;
+					}
 				}
 			}
 		}
