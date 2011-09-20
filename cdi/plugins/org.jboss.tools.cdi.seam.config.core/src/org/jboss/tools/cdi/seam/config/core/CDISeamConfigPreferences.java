@@ -16,6 +16,8 @@ public class CDISeamConfigPreferences extends SeverityPreferences {
 	public static final String UNRESOLVED_CONSTRUCTOR = INSTANCE.createSeverityOption("unresolvedConstructor");
 	public static final String ANNOTATION_EXPECTED = INSTANCE.createSeverityOption("annotationExpected");
 
+	public static final String INLINE_BEAN_TYPE_MISMATCH = INSTANCE.createSeverityOption("inlineBeanTypeMismatch");
+
 	public static CDISeamConfigPreferences getInstance() {
 		return INSTANCE;
 	}

@@ -18,6 +18,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IType;
 import org.jboss.tools.cdi.internal.core.impl.definition.AbstractMemberDefinition;
@@ -26,10 +27,16 @@ import org.jboss.tools.cdi.internal.core.impl.definition.FieldDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.MethodDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.ParameterDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.TypeDefinition;
+import org.jboss.tools.cdi.seam.config.core.CDISeamConfigCorePlugin;
 import org.jboss.tools.cdi.seam.config.core.ConfigDefinitionContext;
+import org.jboss.tools.cdi.seam.config.core.util.Util;
+import org.jboss.tools.cdi.seam.config.core.xml.SAXElement;
 import org.jboss.tools.cdi.seam.config.core.xml.SAXNode;
 import org.jboss.tools.common.java.IAnnotationDeclaration;
 import org.jboss.tools.common.java.IJavaAnnotation;
+import org.jboss.tools.common.java.IParametedType;
+import org.jboss.tools.common.java.ParametedType;
+import org.jboss.tools.common.java.TypeDeclaration;
 import org.jboss.tools.common.model.XModelObject;
 
 /**
@@ -128,6 +135,7 @@ public class SeamBeansDefinition {
 				flags |= AbstractMemberDefinition.FLAG_NO_ANNOTATIONS;
 			}
 			typeDef.setType(type, context.getRootContext(), flags);
+			def.setConfigType(typeDef);
 
 			mergeTypeDefinition(def, typeDef, context);
 
@@ -169,14 +177,72 @@ public class SeamBeansDefinition {
 		mergeAnnotations(def, typeDef, context);
 		
 		List<FieldDefinition> fieldDefs = typeDef.getFields();
+		//virtual field definitions are used for injections of inline beans as values of collections and maps.
+		List<FieldDefinition> virtualDefs = new ArrayList<FieldDefinition>();
 		for (FieldDefinition fieldDef:fieldDefs) {
 			String n = fieldDef.getField().getElementName();
 			SeamFieldDefinition f = def.getField(n);
 			if(f != null) {
+				ParametedType t = null;
+				IParametedType collection = null;
+				IParametedType map = null;
+				IParametedType object = null;
+				try {
+					String returnType = fieldDef.getField().getTypeSignature();
+					t = context.getRootContext().getProject().getTypeFactory().getParametedType(fieldDef.getField(), returnType);
+					object = context.getRootContext().getProject().getTypeFactory().getParametedType(fieldDef.getField(), "QObject;");
+				} catch (CoreException e) {
+					CDISeamConfigCorePlugin.getDefault().logError(e);
+				}
+				if(t != null && t.getType() != null) {
+					collection = getCollection(t);
+					map = getMap(t);
+				}
+				List<SeamFieldValueDefinition> vs = f.getValueDefinitions();
+				if(collection != null) {
+					List<? extends IParametedType> ps = t.getParameters();
+					IParametedType elementType = ps.isEmpty() ? object : ps.get(0);
+					for (SeamFieldValueDefinition v: vs) {
+						ConfigFieldDefinition virtual = new ConfigFieldDefinition(file);
+						virtual.setTypeDefinition(fieldDef.getTypeDefinition());
+						virtual.setField(fieldDef.getField(), context.getRootContext(), AbstractMemberDefinition.FLAG_NO_ANNOTATIONS);
+						virtual.setOverridenType(new TypeDeclaration((ParametedType)elementType, fieldDef.getField().getResource(), 0, 0));
+						virtual.setConfig(v);
+						virtualDefs.add(virtual);
+						v.setRequiredType(elementType);
+						mergeAnnotations(v, virtual, context);
+					}
+				} else if(map != null) {
+					List<? extends IParametedType> ps = t.getParameters();
+					IParametedType keyType = ps.isEmpty() ? object : ps.get(0);
+					IParametedType valueType = ps.size() < 2 ? object : ps.get(1);
+					for (SeamFieldValueDefinition v: vs) {
+						ConfigFieldDefinition virtual = new ConfigFieldDefinition(file);
+						virtual.setTypeDefinition(fieldDef.getTypeDefinition());
+						virtual.setField(fieldDef.getField(), context.getRootContext(), AbstractMemberDefinition.FLAG_NO_ANNOTATIONS);
+						IParametedType vType = Util.isKey((SAXElement)v.getNode()) ? keyType : valueType;
+						v.setRequiredType(vType);
+						virtual.setOverridenType(new TypeDeclaration((ParametedType)vType, fieldDef.getField().getResource(), 0, 0));
+						virtual.setConfig(v);
+						virtualDefs.add(virtual);
+						mergeAnnotations(v, virtual, context);
+					}
+				} else {
+					for (SeamFieldValueDefinition v: vs) {
+						v.setRequiredType(t);
+					}
+				}
+
 				((ConfigFieldDefinition)fieldDef).setConfig(f);
 				mergeAnnotations(f, fieldDef, context);
+				
+				if(!vs.isEmpty() && collection == null && map == null) {
+					mergeAnnotations(vs.get(0), fieldDef, context);
+				}
+				
 			}
 		}
+		fieldDefs.addAll(virtualDefs);
 	
 		List<MethodDefinition> methodDefs = typeDef.getMethods();
 		for (MethodDefinition methodDef: methodDefs) {
@@ -210,6 +276,32 @@ public class SeamBeansDefinition {
 			if(current != null) memberDef.removeAnnotation(current);
 			memberDef.addAnnotation(ja, context.getRootContext());
 		}
+	}
+
+	private IParametedType getCollection(ParametedType t) {
+		if("java.util.Collection".equals(t.getType().getFullyQualifiedName())) {
+			return t;
+		}
+		Set<IParametedType> is = t.getInheritedTypes();
+		for (IParametedType i: is) {
+			if("java.util.Collection".equals(i.getType().getFullyQualifiedName())) {
+				return i;
+			}
+		}
+		return null;
+	}
+
+	private IParametedType getMap(ParametedType t) {
+		if("java.util.Map".equals(t.getType().getFullyQualifiedName())) {
+			return t;
+		}
+		Set<IParametedType> is = t.getInheritedTypes();
+		for (IParametedType i: is) {
+			if("java.util.Map".equals(i.getType().getFullyQualifiedName())) {
+				return i;
+			}
+		}
+		return null;
 	}
 
 }

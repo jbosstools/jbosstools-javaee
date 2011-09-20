@@ -28,6 +28,11 @@ public class SeamBeanDefinition extends SeamMemberDefinition {
 	protected List<SeamFieldDefinition> fields = new ArrayList<SeamFieldDefinition>();
 	protected List<SeamMethodDefinition> methods = new ArrayList<SeamMethodDefinition>();
 
+	/**
+	 * Assigned to config type definition built on the base of this object;
+	 */
+	protected ConfigTypeDefinition configType = null;
+
 	public SeamBeanDefinition() {}
 
 	public SAXElement getElement() {
@@ -91,6 +96,18 @@ public class SeamBeanDefinition extends SeamMemberDefinition {
 			if(m.getNode().getLocation().includes(offset)) return m;
 		}
 		return null;
+	}
+
+	public List<SeamFieldDefinition> getFields() {
+		return fields;
+	}
+
+	public void setConfigType(ConfigTypeDefinition configType) {
+		this.configType = configType;
+	}
+
+	public ConfigTypeDefinition getConfigType() {
+		return configType;
 	}
 
 }

@@ -243,7 +243,7 @@ public class Util implements CDISeamConfigConstants {
 	public static IMethod findMethod(SeamMethodDefinition def, IType type, String name, IRootDefinitionContext context) throws JavaModelException {
 		IMethod[] ms = type.getMethods();
 		for (IMethod m: ms) {
-			if((name == null && m.isConstructor()) || name.equals(m.getElementName())) {
+			if((name == null && m.isConstructor()) || (name != null && name.equals(m.getElementName()))) {
 				if(sameParameterTypes(def, m, context)) return m;
 			}
 		}

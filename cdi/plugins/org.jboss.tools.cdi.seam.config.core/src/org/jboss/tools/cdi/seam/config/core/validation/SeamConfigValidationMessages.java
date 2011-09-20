@@ -11,6 +11,7 @@ public class SeamConfigValidationMessages {
 	public static String UNRESOLVED_METHOD;
 	public static String UNRESOLVED_CONSTRUCTOR;
 	public static String ANNOTATION_EXPECTED;
+	public static String INLINE_BEAN_TYPE_MISMATCH;
 
 	static {
 		NLS.initializeMessages(BUNDLE_NAME, SeamConfigValidationMessages.class);

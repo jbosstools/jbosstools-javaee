@@ -32,6 +32,7 @@ import org.jboss.tools.cdi.seam.config.core.definition.AbstractSeamFieldDefiniti
 import org.jboss.tools.cdi.seam.config.core.definition.SeamBeanDefinition;
 import org.jboss.tools.cdi.seam.config.core.definition.SeamBeansDefinition;
 import org.jboss.tools.cdi.seam.config.core.definition.SeamFieldDefinition;
+import org.jboss.tools.cdi.seam.config.core.definition.SeamFieldValueDefinition;
 import org.jboss.tools.cdi.seam.config.core.definition.SeamMethodDefinition;
 import org.jboss.tools.cdi.seam.config.core.definition.SeamParameterDefinition;
 import org.jboss.tools.cdi.seam.config.core.definition.SeamVirtualFieldDefinition;
@@ -264,10 +265,17 @@ public class SeamDefinitionBuilder {
 				SeamBeanDefinition inline = scanBean(c, type, true);
 				IJavaAnnotation q = createInlineBeanQualifier();
 				if(q != null) {
+					SeamFieldValueDefinition vdef = new SeamFieldValueDefinition();
+					vdef.setResource(resource);
+					vdef.setNode(element);
 					inline.addAnnotation(q);
-					def.addAnnotation(q);
+					vdef.addAnnotation(q);
+					vdef.setInlineBean(inline);
 					IJavaAnnotation inject = createInject(element);
-					if(inject != null) def.addAnnotation(inject);
+					if(inject != null) {
+						vdef.addAnnotation(inject);
+					}
+					def.addValueDefinition(vdef);
 				}
 			}
 		}

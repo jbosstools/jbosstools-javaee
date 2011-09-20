@@ -33,7 +33,11 @@ import org.jboss.tools.cdi.core.extension.feature.IValidatorFeature;
 import org.jboss.tools.cdi.internal.core.impl.CDIProject;
 import org.jboss.tools.cdi.internal.core.scanner.FileSet;
 import org.jboss.tools.cdi.internal.core.validation.CDICoreValidator;
+import org.jboss.tools.cdi.seam.config.core.definition.ConfigTypeDefinition;
+import org.jboss.tools.cdi.seam.config.core.definition.SeamBeanDefinition;
 import org.jboss.tools.cdi.seam.config.core.definition.SeamBeansDefinition;
+import org.jboss.tools.cdi.seam.config.core.definition.SeamFieldDefinition;
+import org.jboss.tools.cdi.seam.config.core.definition.SeamFieldValueDefinition;
 import org.jboss.tools.cdi.seam.config.core.definition.TextSourceReference;
 import org.jboss.tools.cdi.seam.config.core.scanner.ConfigFileSet;
 import org.jboss.tools.cdi.seam.config.core.scanner.SeamDefinitionBuilder;
@@ -42,6 +46,8 @@ import org.jboss.tools.cdi.seam.config.core.xml.SAXAttribute;
 import org.jboss.tools.cdi.seam.config.core.xml.SAXElement;
 import org.jboss.tools.cdi.seam.config.core.xml.SAXNode;
 import org.jboss.tools.common.EclipseUtil;
+import org.jboss.tools.common.java.IParametedType;
+import org.jboss.tools.common.java.ParametedType;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.filesystems.impl.FileAnyImpl;
 import org.jboss.tools.common.model.filesystems.impl.FolderImpl;
@@ -207,6 +213,28 @@ public class CDISeamConfigExtension implements ICDIExtension, IBuildParticipantF
 				} else if(CDISeamConfigConstants.ERROR_ANNOTATION_EXPECTED.equals(problemId)) {
 					String message = NLS.bind(SeamConfigValidationMessages.ANNOTATION_EXPECTED, null);
 					validator.addError(message, CDISeamConfigPreferences.ANNOTATION_EXPECTED, new TextSourceReference(def.getFileObject(), file, node), file);
+				}
+			}
+			Set<SeamBeanDefinition> bs = def.getBeanDefinitions();
+			for (SeamBeanDefinition b: bs) {
+				List<SeamFieldDefinition> fs = b.getFields();
+				for (SeamFieldDefinition f: fs) {
+					List<SeamFieldValueDefinition> vs = f.getValueDefinitions();
+					if(vs.isEmpty()) continue;
+					for (SeamFieldValueDefinition v: vs) {
+						IParametedType requiredType = v.getRequiredType();
+						SeamBeanDefinition inline = v.getInlineBean();
+						ConfigTypeDefinition d = inline.getConfigType();
+						IParametedType actualType = d.getParametedType();
+						if(requiredType != null && actualType != null) {
+							if(!((ParametedType)actualType).isAssignableTo((ParametedType)requiredType, true)) {
+								String actual = actualType.getSimpleName();
+								String required = requiredType.getSimpleName();
+								String message = NLS.bind(SeamConfigValidationMessages.INLINE_BEAN_TYPE_MISMATCH, actual, required);
+								validator.addError(message, CDISeamConfigPreferences.INLINE_BEAN_TYPE_MISMATCH, new TextSourceReference(def.getFileObject(), file, inline.getNode()), file);
+							}
+						}
+					}
 				}
 			}
 		}

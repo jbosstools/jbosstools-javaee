@@ -28,6 +28,8 @@ import org.jboss.tools.cdi.seam.config.core.xml.SAXText;
 public class AbstractSeamFieldDefinition extends SeamMemberDefinition {
 	protected List<SAXText> listValue = null;
 	protected Map<SAXText, SAXText> mapValue = null;
+	
+	protected List<SeamFieldValueDefinition> valueDefinitions = new ArrayList<SeamFieldValueDefinition>();
 
 	public AbstractSeamFieldDefinition() {}
 
@@ -61,4 +63,12 @@ public class AbstractSeamFieldDefinition extends SeamMemberDefinition {
 		return result;
 	}
 
+	public void addValueDefinition(SeamFieldValueDefinition def) {
+		valueDefinitions.add(def);
+		def.setParent(this);
+	}
+
+	public List<SeamFieldValueDefinition> getValueDefinitions() {
+		return valueDefinitions;
+	}
 }
