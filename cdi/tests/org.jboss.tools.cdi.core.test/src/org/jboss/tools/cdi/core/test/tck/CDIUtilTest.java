@@ -14,6 +14,8 @@ import java.util.Set;
 
 import org.eclipse.core.runtime.Path;
 import org.eclipse.jdt.core.IJavaElement;
+import org.eclipse.jdt.core.ILocalVariable;
+import org.eclipse.jdt.core.IMethod;
 import org.jboss.tools.cdi.core.CDIUtil;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IClassBean;
@@ -54,14 +56,30 @@ public class CDIUtilTest extends TCKTest {
 		String path = "JavaSource/org/jboss/jsr299/tck/tests/jbt/core/TestInjection2.java";
 		IClassBean bean = getClassBean("org.jboss.jsr299.tck.tests.jbt.core.TestInjection2", path);
 		Set<IBean> bs = cdiProject.getBeans(new Path("/tck/" + path));
-		Set<IInjectionPointParameter> ps = CDIUtil.getInjectionPointParameters(bean);
-		assertEquals(10, ps.size());
+		Set<IInjectionPointParameter> ps = CDIUtil.getInjectionPointParameters(bean); 
+		assertEquals("Unexpected number of injection points.", 10, ps.size());
+		int testcount = 0;
 		for (IInjectionPointParameter p: ps) {
-			for (int pos = p.getStartPosition(); pos < p.getStartPosition() + p.getLength(); pos++) {
+			for (int pos = p.getStartPosition(); pos <= p.getStartPosition() + p.getLength(); pos++) {
 				IJavaElement element = bean.getBeanClass().getCompilationUnit().getElementAt(pos);
 				IInjectionPoint p1 = CDIUtil.findInjectionPoint(bs, element, pos);
 				assertTrue("Injection point is wrong at position " + pos + " for element " + element, p == p1);
+				testcount++;
+				if(element instanceof IMethod) {
+					IMethod m = (IMethod)element;
+					ILocalVariable[] vs = m.getParameters();
+					for (ILocalVariable v: vs) {
+						if(v.getSourceRange().getOffset() <= pos && pos <= v.getSourceRange().getOffset() + v.getSourceRange().getLength()) {
+							IInjectionPoint p2 = CDIUtil.findInjectionPoint(bs, element, pos);
+							assertTrue("Injection point is wrong at position " + pos + " for element " + element, p == p2);
+							testcount++;
+						}
+					}
+				}
 			}
 		}
+		
+		//Double length of all injected parameter ranges.  
+		assertEquals("Unexpected double length of all injected parameter ranges.", 358, testcount);
 	}
 }
