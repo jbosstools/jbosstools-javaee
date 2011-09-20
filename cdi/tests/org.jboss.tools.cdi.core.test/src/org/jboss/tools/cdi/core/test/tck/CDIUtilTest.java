@@ -12,9 +12,13 @@ package org.jboss.tools.cdi.core.test.tck;
 
 import java.util.Set;
 
+import org.eclipse.core.runtime.Path;
+import org.eclipse.jdt.core.IJavaElement;
 import org.jboss.tools.cdi.core.CDIUtil;
+import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IClassBean;
 import org.jboss.tools.cdi.core.IInjectionPoint;
+import org.jboss.tools.cdi.core.IInjectionPointParameter;
 import org.jboss.tools.common.java.IAnnotationDeclaration;
 
 /**
@@ -42,6 +46,21 @@ public class CDIUtilTest extends TCKTest {
 				assertNull("Have found @TestQualifier3 for " + elementName, declaration);
 			} else {
 				assertNotNull("Have not found @TestQualifier3 for " + elementName, declaration);
+			}
+		}
+	}
+
+	public void testFindInjectionPoint() throws Exception {
+		String path = "JavaSource/org/jboss/jsr299/tck/tests/jbt/core/TestInjection2.java";
+		IClassBean bean = getClassBean("org.jboss.jsr299.tck.tests.jbt.core.TestInjection2", path);
+		Set<IBean> bs = cdiProject.getBeans(new Path("/tck/" + path));
+		Set<IInjectionPointParameter> ps = CDIUtil.getInjectionPointParameters(bean);
+		assertEquals(10, ps.size());
+		for (IInjectionPointParameter p: ps) {
+			for (int pos = p.getStartPosition(); pos < p.getStartPosition() + p.getLength(); pos++) {
+				IJavaElement element = bean.getBeanClass().getCompilationUnit().getElementAt(pos);
+				IInjectionPoint p1 = CDIUtil.findInjectionPoint(bs, element, pos);
+				assertTrue("Injection point is wrong at position " + pos + " for element " + element, p == p1);
 			}
 		}
 	}
