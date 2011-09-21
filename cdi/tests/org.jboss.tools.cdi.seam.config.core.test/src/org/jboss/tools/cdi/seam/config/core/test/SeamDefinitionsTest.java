@@ -265,9 +265,9 @@ public class SeamDefinitionsTest extends SeamConfigTest {
 		assertTrue(sword.isInline());
 		IJavaAnnotation a1 = sword.getAnnotation(CDISeamConfigConstants.INLINE_BEAN_QUALIFIER);
 		assertNotNull(a1);
-		IJavaAnnotation a2 = f.getAnnotation(CDISeamConfigConstants.INLINE_BEAN_QUALIFIER);
+		IJavaAnnotation a2 = f.getValueDefinitions().get(0).getAnnotation(CDISeamConfigConstants.INLINE_BEAN_QUALIFIER);
 		assertTrue(a1 == a2);
-		IJavaAnnotation inject = f.getAnnotation(CDIConstants.INJECT_ANNOTATION_TYPE_NAME);
+		IJavaAnnotation inject = f.getValueDefinitions().get(0).getAnnotation(CDIConstants.INJECT_ANNOTATION_TYPE_NAME);
 		assertNotNull(inject);
 	
 		SeamFieldDefinition swordType = sword.getField("type");
@@ -282,9 +282,9 @@ public class SeamDefinitionsTest extends SeamConfigTest {
 		assertTrue(horse.isInline());
 		a1 = horse.getAnnotation(CDISeamConfigConstants.INLINE_BEAN_QUALIFIER);
 		assertNotNull(a1);
-		a2 = f.getAnnotation(CDISeamConfigConstants.INLINE_BEAN_QUALIFIER);
+		a2 = f.getValueDefinitions().get(0).getAnnotation(CDISeamConfigConstants.INLINE_BEAN_QUALIFIER);
 		assertTrue(a1 == a2);
-		inject = f.getAnnotation(CDIConstants.INJECT_ANNOTATION_TYPE_NAME);
+		inject = f.getValueDefinitions().get(0).getAnnotation(CDIConstants.INJECT_ANNOTATION_TYPE_NAME);
 		assertNotNull(inject);
 
 		SeamFieldDefinition horseName = horse.getField("name");

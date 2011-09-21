@@ -51,4 +51,79 @@
 	</v:method1>
 </v:MyBean1>
 
+<v:MyBean3>
+	<s:replaces/>
+	<v:set1>
+		<s:value>
+			<s:String>111</s:String>
+		</s:value>
+		<s:value>112</s:value>
+		<s:value>
+			<s:Integer>
+				<s:parameters>
+					<s:String>113</s:String>
+				</s:parameters>
+			</s:Integer>
+		</s:value>
+		
+	</v:set1>
+	<v:set2>
+		<s:value>
+			<s:String>121</s:String>
+		</s:value>
+		<s:value>122</s:value>
+		<s:value>
+			<s:Integer>
+				<s:parameters>
+					<s:String>123</s:String>
+				</s:parameters>
+			</s:Integer>
+		</s:value>
+		
+	</v:set2>
+	<v:map>
+		<s:entry>
+			<s:key>
+				<s:Integer>
+					<s:parameters>
+						<s:String>211</s:String>
+					</s:parameters>
+				</s:Integer>
+			</s:key>
+			<s:value>
+				<s:Long>
+					<s:parameters>
+						<s:String>212</s:String>
+					</s:parameters>
+				</s:Long>
+			</s:value>
+		</s:entry>
+		<s:entry>
+			<s:key>
+				<s:Long>
+					<s:parameters>
+						<s:String>222</s:String>
+					</s:parameters>
+				</s:Long>
+			</s:key>
+			<s:value>
+				<s:Integer>
+					<s:parameters>
+						<s:String>221</s:String>
+					</s:parameters>
+				</s:Integer>
+			</s:value>
+		</s:entry>
+	</v:map>
+	<v:bean1>
+		<s:value>
+			<v:MyBean1></v:MyBean1>
+		</s:value>
+	</v:bean1>
+	<v:bean2>
+		<s:value>
+			<v:MyBean3></v:MyBean3>
+		</s:value>
+	</v:bean2>
+</v:MyBean3>
 </beans>

@@ -22,6 +22,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Path;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.ICDIProject;
+import org.jboss.tools.cdi.internal.core.validation.CDIValidationMessages;
 import org.jboss.tools.cdi.seam.config.core.CDISeamConfigPreferences;
 import org.jboss.tools.cdi.seam.config.core.validation.SeamConfigValidationMessages;
 import org.jboss.tools.cdi.seam.solder.core.test.GenericBeanValidationTest;
@@ -97,6 +98,27 @@ public class SeamConfigValidationTest extends TestCase {
 	public void testAnnotationMemberResolution() throws CoreException {
 		AbstractResourceMarkerTest.assertMarkerIsCreated(f, MessageFormat.format(SeamConfigValidationMessages.UNRESOLVED_MEMBER, "v:field3"), 15);
 		AbstractResourceMarkerTest.assertMarkerIsNotCreated(f, MessageFormat.format(SeamConfigValidationMessages.UNRESOLVED_MEMBER, "v:field1"));
+	}
+
+	public void testSettingInlineBeanValuesToBeanOrSetOrMap() throws CoreException {
+		//correct element of set assignment
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(f, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS, 75);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(f, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS, 57);
+		//correct bean assignment
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(f, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS, 119);
+
+		AbstractResourceMarkerTest.assertMarkerIsCreated(f, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS, 61, 71, 102, 109, 124);
+
+		//set
+		AbstractResourceMarkerTest.assertMarkerIsCreated(f, MessageFormat.format(SeamConfigValidationMessages.INLINE_BEAN_TYPE_MISMATCH, "Integer", "String"), 62);
+		AbstractResourceMarkerTest.assertMarkerIsCreated(f, MessageFormat.format(SeamConfigValidationMessages.INLINE_BEAN_TYPE_MISMATCH, "String", "Integer"), 72);
+		
+		//map
+		AbstractResourceMarkerTest.assertMarkerIsCreated(f, MessageFormat.format(SeamConfigValidationMessages.INLINE_BEAN_TYPE_MISMATCH, "Long", "Integer"), 103);
+		AbstractResourceMarkerTest.assertMarkerIsCreated(f, MessageFormat.format(SeamConfigValidationMessages.INLINE_BEAN_TYPE_MISMATCH, "Integer", "Long"), 110);
+
+		//bean
+		AbstractResourceMarkerTest.assertMarkerIsCreated(f, MessageFormat.format(SeamConfigValidationMessages.INLINE_BEAN_TYPE_MISMATCH, "MyBean3", "MyBean1"), 125);
 	}
 
 	public void testAddClassToResolveNode() throws CoreException {
