@@ -26,8 +26,8 @@ import org.jboss.tools.cdi.ui.CDIUIMessages;
 public class InjectionPointLabelProvider implements ILabelProvider {
 
 	public Image getImage(Object element) {
-		if(element instanceof ICDIElement){
-			CDIImages.getImageByElement((ICDIElement)element);
+		if(element instanceof CDIElementWrapper){
+			return CDIImages.getImageByElement(((CDIElementWrapper)element).getCDIElement());
 		}
 		return CDIImages.WELD_IMAGE;
 	}
