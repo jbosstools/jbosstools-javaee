@@ -53,7 +53,8 @@ public class CdiElResolver extends AbstractELCompletionEngine<IBean> {
 	public Image getELProposalImage() {
 		return null;
 	}
-	
+
+	@Override
 	protected void setImage(TextProposal kbProposal, IBean var) {
 		kbProposal.setImage(CDIImages.getImageByElement(var));
 	}
