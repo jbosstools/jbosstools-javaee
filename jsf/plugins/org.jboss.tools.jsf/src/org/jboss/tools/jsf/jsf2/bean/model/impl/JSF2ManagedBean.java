@@ -38,6 +38,12 @@ public class JSF2ManagedBean implements IJSF2ManagedBean {
 			if(m != null) {
 				result = m.toString();
 			}
+			if(result == null || result.length() == 0) {
+				result = typeDefinition.getType().getElementName();
+				if(result.length() > 0) {
+					result = result.substring(0, 1).toLowerCase() + result.substring(1);
+				}
+			}
 		}
 		return result;
 	}
