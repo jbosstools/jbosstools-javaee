@@ -47,9 +47,19 @@ public class JSF2ModelTest extends TestCase {
 		IJSF2Project jsf2 = JSF2ProjectFactory.getJSF2Project(project, true);
 		assertNotNull(jsf2);
 		Set<IJSF2ManagedBean> beans = jsf2.getManagedBeans("mybean1");
+		
+		//Test two beans with the same name
 		assertEquals(1, beans.size());
 		beans = jsf2.getManagedBeans("mybean2");
 		assertEquals(2, beans.size());
+		
+		//Test bean annotated @ManagedBean(name="")
+		beans = jsf2.getManagedBeans("bean4");
+		assertEquals(1, beans.size());
+		
+		//Test bean annotated @ManagedBean
+		beans = jsf2.getManagedBeans("bean5");
+		assertEquals(1, beans.size());
 	}
 	
 	/**
