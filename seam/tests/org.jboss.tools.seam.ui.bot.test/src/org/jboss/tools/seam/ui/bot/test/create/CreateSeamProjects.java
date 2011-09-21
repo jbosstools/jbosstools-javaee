@@ -10,6 +10,7 @@ import org.jboss.tools.seam.ui.bot.test.TestControl;
 import org.jboss.tools.seam.ui.bot.test.WARTests;
 import org.jboss.tools.ui.bot.ext.SWTJBTExt;
 import org.jboss.tools.ui.bot.ext.SWTTestExt;
+import org.jboss.tools.ui.bot.ext.Timing;
 import org.jboss.tools.ui.bot.ext.gen.ActionItem;
 import org.jboss.tools.ui.bot.ext.parts.SWTBotBrowserExt;
 import org.jboss.tools.ui.bot.ext.parts.SWTBotRadioExt;
@@ -41,6 +42,7 @@ public class CreateSeamProjects extends AbstractSeamTestBase {
     @Test
 	@Category(WARTests.class)
 	public void testCheckSeamProjectWar(){
+      bot.sleep(Timing.time3S());
     	checkSeamProject(TestControl.TYPE_WAR);
     }
 	
@@ -54,6 +56,7 @@ public class CreateSeamProjects extends AbstractSeamTestBase {
     @Test
 	@Category(EARTests.class)
     public void testCheckSeamProjectEar(){
+      bot.sleep(Timing.time3S());
     	checkSeamProject(TestControl.TYPE_EAR);
     }
     
@@ -87,7 +90,7 @@ public class CreateSeamProjects extends AbstractSeamTestBase {
 		
 		problems.show();
 		SWTBotTreeItem[] errors = ProblemsView.getFilteredErrorsTreeItems(bot, null, null, null, null);
-		assertNull("Errors in problem view.", errors);
+		assertTrue("Errors in problem view.", errors == null || errors.length == 0);
 		
 		open.viewOpen(ActionItem.View.GeneralInternalWebBrowser.LABEL);
 		

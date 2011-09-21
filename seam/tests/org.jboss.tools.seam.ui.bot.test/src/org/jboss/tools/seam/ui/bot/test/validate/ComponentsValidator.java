@@ -37,8 +37,8 @@ public class ComponentsValidator extends AbstractSeamTestBase {
 	
 	private void testAddComponentProperty(String type) {
 		// open components.xml
-		SWTBotEclipseEditor cEditor = projectExplorer.openFile(testProjectName + type,
-				"Web Resources : WebContent", "WEB-INF", "components.xml").toTextEditor();
+		SWTBotEclipseEditor cEditor = packageExplorer.openFile(testProjectName + type,
+				"WebContent", "WEB-INF", "components.xml").toTextEditor();
 		
 		
 		// add non-existing property		
@@ -86,7 +86,7 @@ public class ComponentsValidator extends AbstractSeamTestBase {
 		problems.show();
 		sProblems = problems.getFilteredErrorsTreeItems(bot, "does not have a setter or a field", 
 				"/" + testProjectName, "components.xml", "Seam Problem");
-		assertTrue("Seam problem still exists.", sProblems == null);
+		assertTrue("Seam problem still exists.", sProblems == null || sProblems.length == 0);
 		
 		cEditor.close();
 		aEditor.close();

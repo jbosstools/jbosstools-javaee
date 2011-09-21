@@ -1,13 +1,13 @@
 package org.jboss.tools.seam.ui.bot.test.validate;
 
 import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotEclipseEditor;
-import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotView;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTreeItem;
 import org.jboss.tools.seam.ui.bot.test.AbstractSeamTestBase;
 import org.jboss.tools.seam.ui.bot.test.EARTests;
 import org.jboss.tools.seam.ui.bot.test.TestControl;
 import org.jboss.tools.seam.ui.bot.test.WARTests;
 import org.jboss.tools.ui.bot.ext.SWTTestExt;
+import org.jboss.tools.ui.bot.ext.view.ProblemsView;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
@@ -29,8 +29,8 @@ public class ELExprValidator extends AbstractSeamTestBase {
 	
 	private void testELExpr(String type) {
 		
-		SWTBotEclipseEditor editor = projectExplorer.openFile(testProjectName + type,
-				"Web Resources", "home.xhtml").toTextEditor();
+		SWTBotEclipseEditor editor = packageExplorer.openFile(testProjectName + type,
+				"WebContent", "home.xhtml").toTextEditor();
 		
 		// add correct expression		
 		int idx = 0;
@@ -45,9 +45,9 @@ public class ELExprValidator extends AbstractSeamTestBase {
 		SWTTestExt.util.waitForNonIgnoredJobs(60000);	
 
 		// check that there is no problem
-		SWTBotView pBotView = problems.show();
-		SWTBotTreeItem[] sProblems = problems.getFilteredErrorsTreeItems(bot, "hasR", 
-				"/" + testProjectName, "home.xhtml", "JSF EL Problem");
+		problems.show();
+		SWTBotTreeItem[] sProblems = ProblemsView.getFilteredErrorsTreeItems(bot, "hasR", 
+				"/" + testProjectName + type, "home.xhtml", "JSF EL Problem");
 		assertTrue("JSF-EL problem found.", ( (sProblems == null) || (sProblems.length == 0) )); 
 		
 		// add incorrect expression		
@@ -56,11 +56,11 @@ public class ELExprValidator extends AbstractSeamTestBase {
 		SWTTestExt.util.waitForNonIgnoredJobs(60000);	
 			
 		// check that JSF EL Problem exists		
-		pBotView = problems.show();
-		sProblems = problems.getFilteredErrorsTreeItems(bot, "hasR", 
-				"/" + testProjectName, "home.xhtml", "JSF EL Problem");
-		assertTrue("No JSF-EL problem found.", ( (sProblems != null) && (sProblems.length > 0) )); 
-		assertTrue("More than oneJSF-EL problem found.", sProblems.length <= 1);
+		problems.show();
+		SWTBotTreeItem[] sWarnings = ProblemsView.getFilteredWarningsTreeItems(bot, "hasR", 
+				"/" + testProjectName + type, "home.xhtml", "EL Knowledge Base Problem");
+		assertTrue("No JSF-EL problem found.", ( (sWarnings != null) && (sWarnings.length > 0) )); 
+		assertTrue("More than oneJSF-EL problem found.", sWarnings.length <= 1);
 		
 		
 		editor.close();
