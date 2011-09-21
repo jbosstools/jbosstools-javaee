@@ -22,8 +22,8 @@
   </GROUP>
   <GROUP name="main">
    <GROUP name="cdi">
-    <ICON name="bean" path="images/struts/form_bean.gif"/>
-    <ICON name="file" path="plugin:org.jboss.tools.cdi.xml:images/weld_file.gif"/>
+    <ICON name="bean" path="plugin:org.jboss.tools.cdi.core:images/bean_class.png"/>
+    <ICON name="file" path="plugin:org.jboss.tools.cdi.core:images/beans_xml.png"/>
    </GROUP>
   </GROUP>
  </ICONS>
