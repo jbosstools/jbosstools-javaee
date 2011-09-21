@@ -336,7 +336,10 @@ public class OpenCDINamedBeanDialog extends FilteredItemsSelectionDialog {
 	public class CDINamedBeanLabelProvider implements ILabelProvider {
 
 		public Image getImage(Object element) {
-			return CDIImages.CDI_BEAN_IMAGE;
+			if (element instanceof CDINamedBeanWrapper) {
+				return CDIImages.getImageByElement(((CDINamedBeanWrapper)element).getBean());
+			}
+			return null;
 		}
 
 		public String getText(Object element) {

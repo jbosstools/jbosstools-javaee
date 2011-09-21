@@ -126,7 +126,7 @@
               	commandId="org.jboss.tools.cdi.ui.open.namedBean"
               	id="openNamedBean"
            		mnemonic="Z"
-		    	icon="$nl$/icons/open_cdi_named_bean.gif"
+		    	icon="$nl$/icons/open_cdi_named_bean.png"
               	label="Open CDI Named Bean"
               	tooltip="Open CDI Named Bean" >
        		</command> 
@@ -139,7 +139,7 @@
                   		commandId="org.jboss.tools.cdi.ui.open.namedBean"
                   		id="openNamedBean"
                   		mnemonic="Z"
-      					icon="$nl$/icons/open_cdi_named_bean.gif"
+      					icon="$nl$/icons/open_cdi_named_bean.png"
                   		label="Open CDI Named Bean"
                   		tooltip="Open CDI Named Bean" >
            			</command> 
