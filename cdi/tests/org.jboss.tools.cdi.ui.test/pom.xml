@@ -12,8 +12,8 @@
 	<packaging>eclipse-test-plugin</packaging>
 
 	<properties>
-		<emma.filter>org.jboss.tools.cdi*</emma.filter>
-		<emma.instrument.bundles>org.jboss.tools.cdi.core,org.jboss.tools.cdi.ui</emma.instrument.bundles>
+		<emma.filter>org.jboss.tools.cdi.ui*</emma.filter>
+		<emma.instrument.bundles>org.jboss.tools.cdi.ui</emma.instrument.bundles>
 	</properties>
 
 	<build>
