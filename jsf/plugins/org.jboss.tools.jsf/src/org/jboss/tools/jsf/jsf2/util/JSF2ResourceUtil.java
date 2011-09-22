@@ -261,7 +261,7 @@ public class JSF2ResourceUtil {
 		}
 		IVirtualComponent component = ComponentCore.createComponent(project);
 		if (component != null) {
-			IContainer[] folders = WebUtils.getWebRootFolders(project, false);
+			IContainer[] folders = WebUtils.getWebRootFolders(project);
 			if(folders == null || folders.length == 0)
 				return null;
 			IFolder webFolder = ResourcesPlugin.getWorkspace().getRoot()
