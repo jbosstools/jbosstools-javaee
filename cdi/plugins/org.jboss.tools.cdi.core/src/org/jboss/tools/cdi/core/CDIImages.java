@@ -18,6 +18,7 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
 import org.jboss.tools.cdi.internal.core.impl.EventBean;
+import org.jboss.tools.cdi.xml.CDIXMLImages;
 
 public class CDIImages {
 
@@ -34,7 +35,7 @@ public class CDIImages {
 	public static final Image CDI_BEAN_IMAGE = getImage("search/cdi_bean.gif"); //$NON-NLS-1$
 	public static final Image WELD_IMAGE = getImage("search/weld_icon_16x.gif"); //$NON-NLS-1$
 	
-	public static final Image BEAN_CLASS_IMAGE = getImage("bean_class.png"); //$NON-NLS-1$
+	public static final Image BEAN_CLASS_IMAGE = CDIXMLImages.BEAN_CLASS_IMAGE;
 	public static final Image BEAN_METHOD_IMAGE = getImage("bean_method.png"); //$NON-NLS-1$
 	public static final Image BEAN_FIELD_IMAGE = getImage("bean_field.png"); //$NON-NLS-1$
 	public static final Image INJECTION_POINT_IMAGE = getImage("injection_point.png"); //$NON-NLS-1$
