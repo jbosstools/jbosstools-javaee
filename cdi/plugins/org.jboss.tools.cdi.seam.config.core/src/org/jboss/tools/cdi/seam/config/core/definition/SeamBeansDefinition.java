@@ -279,10 +279,7 @@ public class SeamBeansDefinition {
 	}
 
 	private IParametedType getCollection(ParametedType t) {
-		if("java.util.Collection".equals(t.getType().getFullyQualifiedName())) {
-			return t;
-		}
-		Set<IParametedType> is = t.getInheritedTypes();
+		Set<IParametedType> is = t.getAllTypes();
 		for (IParametedType i: is) {
 			if("java.util.Collection".equals(i.getType().getFullyQualifiedName())) {
 				return i;
@@ -292,10 +289,7 @@ public class SeamBeansDefinition {
 	}
 
 	private IParametedType getMap(ParametedType t) {
-		if("java.util.Map".equals(t.getType().getFullyQualifiedName())) {
-			return t;
-		}
-		Set<IParametedType> is = t.getInheritedTypes();
+		Set<IParametedType> is = t.getAllTypes();
 		for (IParametedType i: is) {
 			if("java.util.Map".equals(i.getType().getFullyQualifiedName())) {
 				return i;
