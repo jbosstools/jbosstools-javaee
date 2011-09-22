@@ -183,7 +183,7 @@
       <wizard 
          category="org.jboss.tools.cdi.ui" 
          class="org.jboss.tools.cdi.ui.wizard.NewQualifierCreationWizard" 
-         icon="icons/wizard/annotation.png"
+         icon="platform:/plugin/org.jboss.tools.cdi.core/images/annotation.png"
          id="org.jboss.tools.cdi.ui.wizard.NewQualifierCreationWizard" 
          name="Qualifier Annotation" 
          project="false">
@@ -198,7 +198,7 @@
       <wizard 
          category="org.jboss.tools.cdi.ui" 
          class="org.jboss.tools.cdi.ui.wizard.NewStereotypeCreationWizard" 
-         icon="icons/wizard/annotation.png"
+         icon="platform:/plugin/org.jboss.tools.cdi.core/images/annotation.png"
          id="org.jboss.tools.cdi.ui.wizard.NewStereotypeCreationWizard" 
          name="Stereotype Annotation" 
          project="false">
@@ -213,7 +213,7 @@
       <wizard 
          category="org.jboss.tools.cdi.ui" 
          class="org.jboss.tools.cdi.ui.wizard.NewScopeCreationWizard" 
-         icon="icons/wizard/annotation.png"
+         icon="platform:/plugin/org.jboss.tools.cdi.core/images/annotation.png"
          id="org.jboss.tools.cdi.ui.wizard.NewScopeCreationWizard" 
          name="Scope Annotation" 
          project="false">
@@ -228,7 +228,7 @@
       <wizard 
          category="org.jboss.tools.cdi.ui" 
          class="org.jboss.tools.cdi.ui.wizard.NewInterceptorBindingCreationWizard" 
-         icon="icons/wizard/annotation.png"
+         icon="platform:/plugin/org.jboss.tools.cdi.core/images/annotation.png"
          id="org.jboss.tools.cdi.ui.wizard.NewInterceptorBindingCreationWizard" 
          name="Interceptor Binding Annotation" 
          project="false">
@@ -243,7 +243,7 @@
       <wizard 
          category="org.jboss.tools.cdi.ui" 
          class="org.jboss.tools.cdi.ui.wizard.NewInterceptorCreationWizard" 
-         icon="icons/wizard/bean_class.png"
+         icon="platform:/plugin/org.jboss.tools.cdi.xml/images/bean_class.png"
          id="org.jboss.tools.cdi.ui.wizard.NewInterceptorCreationWizard" 
          name="Interceptor" 
          project="false">
@@ -258,7 +258,7 @@
       <wizard 
          category="org.jboss.tools.cdi.ui" 
          class="org.jboss.tools.cdi.ui.wizard.NewDecoratorCreationWizard" 
-         icon="icons/wizard/bean_class.png"
+         icon="platform:/plugin/org.jboss.tools.cdi.xml/images/bean_class.png"
          id="org.jboss.tools.cdi.ui.wizard.NewDecoratorCreationWizard" 
          name="Decorator" 
          project="false">
@@ -273,7 +273,7 @@
       <wizard 
          category="org.jboss.tools.cdi.ui" 
          class="org.jboss.tools.cdi.ui.wizard.NewBeanCreationWizard" 
-         icon="icons/wizard/bean_class.png"
+         icon="platform:/plugin/org.jboss.tools.cdi.xml/images/bean_class.png"
          id="org.jboss.tools.cdi.ui.wizard.NewBeanCreationWizard" 
          name="Bean" 
          project="false">
@@ -288,7 +288,7 @@
       <wizard 
          category="org.jboss.tools.cdi.ui" 
          class="org.jboss.tools.cdi.ui.wizard.NewAnnotationLiteralCreationWizard" 
-         icon="icons/wizard/annotation.png"
+         icon="platform:/plugin/org.jboss.tools.cdi.core/images/annotation.png"
          id="org.jboss.tools.cdi.ui.wizard.NewAnnotationLiteralCreationWizard" 
          name="Annotation Literal" 
          project="false">
@@ -302,7 +302,7 @@
 
       <wizard
             name="%NewWizards.file"
-            icon="icons/wizard/beans_xml.png"
+            icon="platform:/plugin/org.jboss.tools.cdi.xml/images/beans_xml.png"
             category="org.jboss.tools.cdi.ui"
             class="org.jboss.tools.cdi.ui.wizard.NewBeansXMLCreationWizard"
             id="org.jboss.tools.cdi.ui.wizard.NewBeansXMLCreationWizard">
