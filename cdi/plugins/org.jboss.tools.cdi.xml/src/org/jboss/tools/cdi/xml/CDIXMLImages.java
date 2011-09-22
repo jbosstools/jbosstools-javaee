@@ -8,7 +8,6 @@
  * Contributors: 
  * Red Hat, Inc. - initial API and implementation 
  ******************************************************************************/ 
-
 package org.jboss.tools.cdi.xml;
 
 import java.net.MalformedURLException;
@@ -31,6 +30,7 @@ public class CDIXMLImages {
 	}
 	
 	public static final Image BEAN_CLASS_IMAGE = getImage("bean_class.png"); //$NON-NLS-1$
+	public static final Image ANNOTATION_IMAGE = getImage("annotation.png"); //$NON-NLS-1$
 
 	public static Image getImage(String key) {
 		return INSTANCE.createImageDescriptor(key).createImage();

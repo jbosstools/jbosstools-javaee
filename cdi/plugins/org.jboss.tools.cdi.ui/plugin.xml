@@ -183,7 +183,7 @@
       <wizard 
          category="org.jboss.tools.cdi.ui" 
          class="org.jboss.tools.cdi.ui.wizard.NewQualifierCreationWizard" 
-         icon="platform:/plugin/org.jboss.tools.cdi.core/images/annotation.png"
+         icon="platform:/plugin/org.jboss.tools.cdi.xml/images/annotation.png"
          id="org.jboss.tools.cdi.ui.wizard.NewQualifierCreationWizard" 
          name="Qualifier Annotation" 
          project="false">
@@ -198,7 +198,7 @@
       <wizard 
          category="org.jboss.tools.cdi.ui" 
          class="org.jboss.tools.cdi.ui.wizard.NewStereotypeCreationWizard" 
-         icon="platform:/plugin/org.jboss.tools.cdi.core/images/annotation.png"
+         icon="platform:/plugin/org.jboss.tools.cdi.xml/images/annotation.png"
          id="org.jboss.tools.cdi.ui.wizard.NewStereotypeCreationWizard" 
          name="Stereotype Annotation" 
          project="false">
@@ -213,7 +213,7 @@
       <wizard 
          category="org.jboss.tools.cdi.ui" 
          class="org.jboss.tools.cdi.ui.wizard.NewScopeCreationWizard" 
-         icon="platform:/plugin/org.jboss.tools.cdi.core/images/annotation.png"
+         icon="platform:/plugin/org.jboss.tools.cdi.xml/images/annotation.png"
          id="org.jboss.tools.cdi.ui.wizard.NewScopeCreationWizard" 
          name="Scope Annotation" 
          project="false">
@@ -228,7 +228,7 @@
       <wizard 
          category="org.jboss.tools.cdi.ui" 
          class="org.jboss.tools.cdi.ui.wizard.NewInterceptorBindingCreationWizard" 
-         icon="platform:/plugin/org.jboss.tools.cdi.core/images/annotation.png"
+         icon="platform:/plugin/org.jboss.tools.cdi.xml/images/annotation.png"
          id="org.jboss.tools.cdi.ui.wizard.NewInterceptorBindingCreationWizard" 
          name="Interceptor Binding Annotation" 
          project="false">
@@ -288,7 +288,7 @@
       <wizard 
          category="org.jboss.tools.cdi.ui" 
          class="org.jboss.tools.cdi.ui.wizard.NewAnnotationLiteralCreationWizard" 
-         icon="platform:/plugin/org.jboss.tools.cdi.core/images/annotation.png"
+         icon="platform:/plugin/org.jboss.tools.cdi.xml/images/annotation.png"
          id="org.jboss.tools.cdi.ui.wizard.NewAnnotationLiteralCreationWizard" 
          name="Annotation Literal" 
          project="false">

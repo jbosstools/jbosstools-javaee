@@ -23,7 +23,7 @@ import org.jboss.tools.cdi.xml.CDIXMLImages;
 public class CDIImages {
 
 	private static CDIImages INSTANCE;
-	
+
 	static {
 		try {
 			INSTANCE = new CDIImages(new URL(CDICorePlugin.getDefault().getBundle().getEntry("/"), "images/")); //$NON-NLS-1$ //$NON-NLS-2$
@@ -31,24 +31,24 @@ public class CDIImages {
 			CDICorePlugin.getDefault().logError(e);
 		}
 	}
-	
+
 	public static final Image CDI_BEAN_IMAGE = getImage("search/cdi_bean.gif"); //$NON-NLS-1$
 	public static final Image WELD_IMAGE = getImage("search/weld_icon_16x.gif"); //$NON-NLS-1$
-	
+
 	public static final Image BEAN_CLASS_IMAGE = CDIXMLImages.BEAN_CLASS_IMAGE;
 	public static final Image BEAN_METHOD_IMAGE = getImage("bean_method.png"); //$NON-NLS-1$
 	public static final Image BEAN_FIELD_IMAGE = getImage("bean_field.png"); //$NON-NLS-1$
 	public static final Image INJECTION_POINT_IMAGE = getImage("injection_point.png"); //$NON-NLS-1$
-	public static final Image ANNOTATION_IMAGE = getImage("annotation.png"); //$NON-NLS-1$
+	public static final Image ANNOTATION_IMAGE = CDIXMLImages.ANNOTATION_IMAGE;
 	public static final Image CDI_EVENT_IMAGE = getImage("event.png"); //$NON-NLS-1$
-	
+
 	public static final Image QUICKFIX_ADD = getImage("quickfixes/cdi_add.png"); //$NON-NLS-1$
 	public static final Image QUICKFIX_REMOVE = getImage("quickfixes/cdi_remove.png"); //$NON-NLS-1$
 	public static final Image QUICKFIX_EDIT = getImage("quickfixes/cdi_edit.png"); //$NON-NLS-1$
 	public static final Image QUICKFIX_CHANGE = getImage("quickfixes/cdi_change.png"); //$NON-NLS-1$
-	
+
 	public static final String WELD_WIZARD_IMAGE_PATH = "wizard/WeldWizBan.gif"; //$NON-NLS-1$
-	
+
 	public static Image getImage(String key) {
 		return INSTANCE.createImageDescriptor(key).createImage();
 	}
@@ -60,14 +60,14 @@ public class CDIImages {
 	public static void setImageDescriptors(IAction action, String iconName)	{
 		action.setImageDescriptor(INSTANCE.createImageDescriptor(iconName));
 	}
-	
+
 	public static CDIImages getInstance() {
 		return INSTANCE;
 	}
 
 	private URL baseUrl;
 	private CDIImages parentRegistry;
-	
+
 	protected CDIImages(URL registryUrl, CDIImages parent){
 
 		if(registryUrl == null) throw new IllegalArgumentException(CDICoreMessages.CDI_IMAGESBASE_URL_FOR_IMAGE_REGISTRY_CANNOT_BE_NULL);
@@ -102,7 +102,6 @@ public class CDIImages {
 	}
 	
 	public static Image getImageByElement(ICDIElement element){
-		
 		if(element instanceof IClassBean){
 			return BEAN_CLASS_IMAGE;
 		}else if(element instanceof IInjectionPoint){
@@ -118,5 +117,4 @@ public class CDIImages {
 		}
 		return WELD_IMAGE;
 	}
-
 }

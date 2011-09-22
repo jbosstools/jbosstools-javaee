@@ -24,6 +24,7 @@
    <GROUP name="cdi">
     <ICON name="bean" path="plugin:org.jboss.tools.cdi.xml:images/bean_class.png"/>
     <ICON name="file" path="plugin:org.jboss.tools.cdi.xml:images/beans_xml.png"/>
+    <ICON name="annotation" path="plugin:org.jboss.tools.cdi.xml:images/annotation.png"/>
    </GROUP>
   </GROUP>
  </ICONS>
@@ -221,7 +222,7 @@
   <XChildrenEntities/>
   <XEntityRenderer>
    <ICONS>
-    <ICON info="main.cdi.bean" type="main"/>
+    <ICON info="main.cdi.annotation" type="main"/>
    </ICONS>
   </XEntityRenderer>
   <XModelAttributes>
