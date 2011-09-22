@@ -147,7 +147,7 @@ public class CDICoreBuilder extends IncrementalProjectBuilder {
 				}
 			}
 
-			n.getTypeFactory().clean();
+			n.cleanTypeFactory();
 		
 			//1. Check class path.
 			boolean isClassPathUpdated = n.getClassPath().update();

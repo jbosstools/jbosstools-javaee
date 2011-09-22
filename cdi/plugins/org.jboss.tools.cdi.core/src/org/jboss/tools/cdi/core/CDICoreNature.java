@@ -401,6 +401,14 @@ public class CDICoreNature implements IProjectNature {
 //		}
 		fireChanges();
 	}
+
+	public void cleanTypeFactory() {
+		typeFactory.clean();
+		CDICoreNature[] ps = getAllDependentProjects();
+		for (CDICoreNature n: ps) {
+			n.cleanTypeFactory();
+		}
+	}
 	
 	/**
 	 * Stores results of last build, so that on exit/enter Eclipse
