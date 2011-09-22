@@ -320,6 +320,58 @@ public class DependentProjectTest extends TestCase {
 		assertTrue(n3.getCDIProjects().contains(n2));
 	}
 
+	/**
+	 * A dependent project creates its own bean objects for type definitions obtained from used projects.
+	 * These separate instances of the same bean should be actual after changes to bean type.
+	 * This test accesses an injection point in a bean through two different projects, 
+	 * one project (project2) declares that bean type and the other project (project3) depends on it.
+	 * Bean type is slightly modified - so that field type is resolved to Java type with the same 
+	 * element name, but in another package. 
+	 * 
+	 * Test checks that there is no 'sticking' of out-of-date type in bean instance 
+	 * of the dependent project.
+	 *  
+	 * @throws CoreException
+	 */
+	public void testResolvingInjections() throws CoreException {
+		ICDIProject cdi2 = CDICorePlugin.getCDIProject(project2, true);
+		ICDIProject cdi3 = CDICorePlugin.getCDIProject(project3, true);
+	
+		IInjectionPoint point2 = getInjectionPointField(cdi2, "/src/test/BeanI.java", "i");
+		assertNotNull(point2);
+		Set<IBean> bs2 = cdi2.getBeans(false, point2);
+		assertEquals(1, bs2.size());
+		
+		IInjectionPoint point3 = getInjectionPointField(cdi3, project2, "/src/test/BeanI.java", "i");
+		assertNotNull(point3);
+		Set<IBean> bs3 = cdi3.getBeans(false, point3);
+		assertEquals(1, bs3.size());
+		
+		RemoveJarFromClasspathTest.replaceFile(project2, "/src/test/BeanI.changed", "/src/test/BeanI.java");
+
+		point2 = getInjectionPointField(cdi2, "/src/test/BeanI.java", "i");
+		assertNotNull(point2);
+		bs2 = cdi2.getBeans(false, point2);
+		assertEquals(0, bs2.size());
+
+		point3 = getInjectionPointField(cdi3, project2, "/src/test/BeanI.java", "i");
+		assertNotNull(point3);
+		bs3 = cdi3.getBeans(false, point3);
+		assertEquals(0, bs3.size());
+
+		RemoveJarFromClasspathTest.replaceFile(project2, "/src/test/BeanI.original", "/src/test/BeanI.java");
+
+		point2 = getInjectionPointField(cdi2, "/src/test/BeanI.java", "i");
+		assertNotNull(point2);
+		bs2 = cdi2.getBeans(false, point2);
+		assertEquals(1, bs2.size());
+
+		point3 = getInjectionPointField(cdi3, project2, "/src/test/BeanI.java", "i");
+		assertNotNull(point3);
+		bs3 = cdi3.getBeans(false, point3);
+		assertEquals(1, bs3.size());
+	}
+
 	public void testCleanDependentProject() throws CoreException, IOException {
 		ICDIProject cdi2 = CDICorePlugin.getCDIProject(project2, true);
 		boolean saveAutoBuild = ResourcesUtils.setBuildAutomatically(false);
@@ -332,9 +384,12 @@ public class DependentProjectTest extends TestCase {
 
 		ResourcesUtils.setBuildAutomatically(saveAutoBuild);
 	}
-
 	public static IInjectionPointField getInjectionPointField(ICDIProject cdi, String beanClassFilePath, String fieldName) {
-		IFile file = cdi.getNature().getProject().getFile(beanClassFilePath);
+		return getInjectionPointField(cdi, cdi.getNature().getProject(), beanClassFilePath, fieldName);
+	}
+
+	public static IInjectionPointField getInjectionPointField(ICDIProject cdi, IProject project, String beanClassFilePath, String fieldName) {
+		IFile file = project.getFile(beanClassFilePath);
 		Set<IBean> beans = cdi.getBeans(file.getFullPath());
 		Iterator<IBean> it = beans.iterator();
 		while(it.hasNext()) {
