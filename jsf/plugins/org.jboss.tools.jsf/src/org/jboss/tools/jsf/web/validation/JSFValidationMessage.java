@@ -14,7 +14,9 @@ public class JSFValidationMessage {
 	public static String VALIDATING_PROJECT;
 
 	public static String XHTML_VALIDATION;
-
+	public static String XHTML_VALIDATION_NO_START_TAG;
+	public static String XHTML_VALIDATION_NO_END_TAG;
+	
 	static {
 		NLS.initializeMessages(BUNDLE_NAME, JSFValidationMessage.class);
 	}

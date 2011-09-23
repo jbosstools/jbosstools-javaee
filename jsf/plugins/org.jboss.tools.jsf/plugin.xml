@@ -391,16 +391,15 @@
       </listener>
    </extension>
 
-<!-- TODO https://issues.jboss.org/browse/JBIDE-9588
    <extension id="xhtml" name="%XHTML_Validator.name" 
    		point="org.eclipse.wst.validation.validatorV2">
       <validator
             build="true"
-            class="org.jboss.tools.jsf.web.validation.XHTMLSyntaxValidator"
+            class="org.jboss.tools.jsf.web.validation.XHTMLValidator"
             manual="true"
             sourceid="org.eclipse.wst.xml.ui.internal.validation.DelegatingSourceValidatorForXML"
             version="3"
-            markerId="org.eclipse.wst.xml.core.validationMarker"
+            markerId="org.jboss.tools.jsf.xhtmlsyntaxproblem"
             >
          <include>
             <rules>
@@ -421,7 +420,7 @@
             </rules>
          </include>
       </validator>
-   </extension -->
+   </extension>
 
     <extension point="org.eclipse.wst.xml.core.catalogContributions">
       <catalogContribution id="default">
@@ -494,6 +493,13 @@
 
    <extension id="compositeproblem" name="%ComponentCompositeProblemName" point="org.eclipse.core.resources.markers">
       <super type="org.jboss.tools.common.validation.JBTValidationProblem">
+      </super>
+      <persistent value="true">
+      </persistent>
+   </extension>
+
+   <extension id="xhtmlsyntaxproblem" name="%XHTMLSyntaxProblemName" point="org.eclipse.core.resources.markers">
+      <super type="org.eclipse.wst.xml.core.validationMarker">
       </super>
       <persistent value="true">
       </persistent>
