@@ -399,8 +399,7 @@
             manual="true"
             sourceid="org.eclipse.wst.xml.ui.internal.validation.DelegatingSourceValidatorForXML"
             version="3"
-            markerId="org.jboss.tools.jsf.xhtmlsyntaxproblem"
-            >
+            markerId="org.jboss.tools.jsf.xhtmlsyntaxproblem">
          <include>
             <rules>
             

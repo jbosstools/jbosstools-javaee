@@ -58,6 +58,7 @@ public class XHTMLValidator extends Validator {
 	private static final String START_TAG_STRATEGY = "START_TAG";
 	private static final String NO_START_TAG = "NO_START_TAG";
 	private static final String NO_END_TAG = "NO_END_TAG";
+	public static final String PROBLEM_ID = JSFModelPlugin.PLUGIN_ID + "xhtmlsyntaxproblem";
 	
 	IProgressMonitor monitor;
 	IResource resource;
