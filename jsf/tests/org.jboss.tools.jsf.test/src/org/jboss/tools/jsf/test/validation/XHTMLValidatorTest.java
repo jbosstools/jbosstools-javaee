@@ -7,11 +7,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.xerces.impl.dv.dtd.NOTATIONDatatypeValidator;
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceDelta;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
@@ -19,14 +16,9 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.wst.validation.ValidationResult;
 import org.eclipse.wst.validation.ValidationState;
 import org.eclipse.wst.validation.internal.core.Message;
-import org.eclipse.wst.validation.internal.provisional.core.IMessage;
-import org.eclipse.wst.xml.core.internal.validation.core.AbstractNestedValidator;
-import org.eclipse.wst.xml.core.internal.validation.core.ValidationReport;
 import org.jboss.tools.common.base.test.validation.TestUtil;
 import org.jboss.tools.jsf.web.validation.JSFValidationMessage;
 import org.jboss.tools.jsf.web.validation.XHTMLValidator;
-import org.jboss.tools.jsf.web.validation.i18n.I18nValidationComponent;
-import org.jboss.tools.jst.web.kb.preferences.ELSeverityPreferences;
 import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.ResourcesUtils;
 import org.jboss.tools.tests.AbstractResourceMarkerTest;
@@ -96,7 +88,7 @@ public class XHTMLValidatorTest extends AbstractResourceMarkerTest {
 			assertEquals("Wrong number of error messages reported", 0, messages == null ? 0 : messages.size());
 	
 			// Check that the difference between good and bad files validation time is not greater that NOT_BAD_DIFF_PERCENTAGE (%) of a good value
-			double diff = 100*(badValidationTime - goodValidationTime)/goodValidationTime;
+			double diff = 100*badValidationTime/goodValidationTime;
 			System.out.println("(With no errors) Validation time difference: " + diff + "%");
 			assertTrue("Validation time difference between good and wrong content is greater than " + NOT_BAD_DIFF_PERCENTAGE + "%", (diff < NOT_BAD_DIFF_PERCENTAGE));
 			
@@ -146,7 +138,7 @@ public class XHTMLValidatorTest extends AbstractResourceMarkerTest {
 				assertTrue("Unexpected error message found: " + message.getText(), localizedErrorMessages.contains(message.getText()));
 			}
 			// Check that the difference between good and bad files validation time is not greater that NOT_BAD_DIFF_PERCENTAGE (%) of a good value
-			diff = 100*(badValidationTime - goodValidationTime)/goodValidationTime;
+			diff = 100*badValidationTime/goodValidationTime;
 			System.out.println("(With errors) Validation time difference: " + diff + "%");
 			assertTrue("Validation time difference between good and wrong content is greater than " + NOT_BAD_DIFF_PERCENTAGE + "%", (diff < NOT_BAD_DIFF_PERCENTAGE));
 		} finally {
