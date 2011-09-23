@@ -148,7 +148,10 @@ public class CDISeamSolderGenericBeanExtension implements ICDIExtension, IBuildP
 				}
 				AnnotationDeclaration gd = f.getAnnotation(GENERIC_QUALIFIER_TYPE_NAME);
 				f.removeAnnotation(gd);
-				f.addAnnotation(createInjectGenericAnnotation(gd, context.getRootContext().getProject()), context.getRootContext());
+				IJavaAnnotation ja = createInjectGenericAnnotation(gd, context.getRootContext().getProject());
+				if(ja != null) {
+					f.addAnnotation(ja, context.getRootContext());
+				}
 			}
 		}
 		
@@ -167,7 +170,10 @@ public class CDISeamSolderGenericBeanExtension implements ICDIExtension, IBuildP
 						AnnotationDeclaration gd = p.getAnnotation(GENERIC_QUALIFIER_TYPE_NAME);
 						if(gd != null) {
 							p.removeAnnotation(gd);
-							p.addAnnotation(createInjectGenericAnnotation(gd, context.getRootContext().getProject()), context.getRootContext());
+							IJavaAnnotation ja = createInjectGenericAnnotation(gd, context.getRootContext().getProject());
+							if(ja != null) {
+								p.addAnnotation(ja, context.getRootContext());
+							}
 						}
 					}
 				}
