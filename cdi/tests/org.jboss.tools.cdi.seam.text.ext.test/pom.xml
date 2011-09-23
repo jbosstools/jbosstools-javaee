@@ -8,12 +8,10 @@
 	</parent>
 	<groupId>org.jboss.tools.cdi.tests</groupId>
 	<artifactId>org.jboss.tools.cdi.seam.text.ext.test</artifactId> 
-	
 	<packaging>eclipse-test-plugin</packaging>
 
 	<properties>
-		<emma.filter>org.jboss.tools.cdi.seam.text.ext*</emma.filter>
-		<emma.instrument.bundles>org.jboss.tools.cdi.seam.text.ext</emma.instrument.bundles>
+		<emma.instrument.bundles>org.jboss.tools.cdi.seam.text.ext,org.jboss.tools.cdi.core,org.jboss.tools.cdi.ui,org.jboss.tools.cdi.xml,org.jboss.tools.cdi.seam.config.core,org.jboss.tools.cdi.seam.solder.core</emma.instrument.bundles>
 	</properties>
 
 	<build>
