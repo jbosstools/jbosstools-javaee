@@ -11,7 +11,7 @@
 package org.jboss.tools.cdi.bot.test;
 
 import org.jboss.tools.cdi.bot.test.editor.BeansEditorTest;
-import org.jboss.tools.cdi.bot.test.hyperlinks.CDIHyperlinksTest;
+import org.jboss.tools.cdi.bot.test.openon.CDIOpenOnTest;
 import org.jboss.tools.cdi.bot.test.quickfix.CDIQuickFixTest;
 import org.jboss.tools.cdi.bot.test.wizard.CdiATWizardTest;
 import org.jboss.tools.ui.bot.ext.RequirementAwareSuite;
@@ -34,7 +34,7 @@ import org.junit.runners.Suite.SuiteClasses;
  *  JAVA=1.6,/space/java/sdk/jdk1.6.0_22
  *  
  *  
- *  Suite duration: aprox. 11min
+ *  Suite duration: aprox. 12min
  * 
  * @author Lukas Jungmann
  * @author Jaroslav Jankovic
@@ -44,7 +44,7 @@ import org.junit.runners.Suite.SuiteClasses;
 	CdiATWizardTest.class,
 	BeansEditorTest.class,
 	CDIQuickFixTest.class,
-	CDIHyperlinksTest.class
+	CDIOpenOnTest.class
 	})
 public class CDIAllBotTests {
 }

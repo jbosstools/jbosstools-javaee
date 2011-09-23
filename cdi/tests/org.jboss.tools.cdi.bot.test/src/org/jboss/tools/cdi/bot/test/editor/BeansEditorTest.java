@@ -28,6 +28,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
 import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotEditor;
+import org.jboss.tools.cdi.bot.test.CDIAllBotTests;
 import org.jboss.tools.cdi.bot.test.uiutils.editor.BeansEditor;
 import org.jboss.tools.cdi.bot.test.uiutils.editor.BeansEditor.Item;
 import org.jboss.tools.ui.bot.ext.RequirementAwareSuite;
@@ -53,7 +54,7 @@ import org.xml.sax.SAXException;
  */
 @Require(clearProjects = false, perspective = "Java EE", server = @Server(state = ServerState.NotRunning, version = "6.0", operator = ">="))
 @RunWith(RequirementAwareSuite.class)
-@SuiteClasses({ BeansEditorTest.class })
+@SuiteClasses({ CDIAllBotTests.class })
 public class BeansEditorTest extends SWTTestExt {
 
 	private static final String descPath = "WebContent/WEB-INF/beans.xml";

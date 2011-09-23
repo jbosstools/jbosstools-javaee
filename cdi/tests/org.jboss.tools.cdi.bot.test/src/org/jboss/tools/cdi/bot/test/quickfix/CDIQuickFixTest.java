@@ -16,7 +16,6 @@ import org.jboss.tools.ui.bot.ext.types.ViewType;
 import org.jboss.tools.ui.bot.ext.view.ProblemsView;
 import org.junit.After;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite.SuiteClasses;
@@ -38,8 +37,8 @@ public class CDIQuickFixTest extends SWTTestExt {
 	private static SWTBotTreeItem[] problemsTrees;
 	private static final String LINE_SEPARATOR = System.getProperty("line.separator");
 	private enum ANNOTATIONS {TARGET, RETENTION, NAMED, TYPED, DISPOSES, OBSERVES, INTERCEPTOR, 
-							  SPECIALIZES, DECORATOR}
-	private enum CDICOMPONENT {STEREOSCOPE, QUALIFIER, SCOPE, BEAN, ANNOTATION, INTERBINDING}
+							  SPECIALIZES, DECORATOR, NONBINDING}
+	private enum CDICOMPONENT {STEREOSCOPE, QUALIFIER, SCOPE, BEAN, ANNOTATION, INTERBINDING, INTERCEPTOR}
 	private SWTBotEclipseEditor ed; 
 
 	@BeforeClass
@@ -53,7 +52,7 @@ public class CDIQuickFixTest extends SWTTestExt {
 	public void waitForJobs() {
 		util.waitForNonIgnoredJobs();
 	}
-	 
+	
 	@Test
 	public void testSerializableQF() {
 		createComponent(CDICOMPONENT.BEAN, "B1");
@@ -148,7 +147,7 @@ public class CDIQuickFixTest extends SWTTestExt {
 				"BrokenFarm.java", "CDI Problem");
 		assertTrue(problemsTrees.length == 0);
 	}
-	 
+	
 	@Test
 	public void testStereoscopeQF() {
 		String className = "S1";
@@ -177,6 +176,10 @@ public class CDIQuickFixTest extends SWTTestExt {
 		
 		// 2.QF - https://issues.jboss.org/browse/JBIDE-7632
 		checkTargetAnnotation(CDICOMPONENT.QUALIFIER, className);
+		
+		// 3.QF - https://issues.jboss.org/browse/JBIDE-7641
+		checkNonBindingAnnotation(CDICOMPONENT.QUALIFIER, className);
+		
 	}
 	
 	@Test
@@ -232,7 +235,8 @@ public class CDIQuickFixTest extends SWTTestExt {
 		// 5.QF - https://issues.jboss.org/browse/JBIDE-7686
 		checkSpecializeAnnotation(CDICOMPONENT.BEAN, "TestBean");
 		
-		// https://issues.jboss.org/browse/JBIDE-7641 - NIE INTER DECOR
+		// 6.QF - https://issues.jboss.org/browse/JBIDE-7641
+		checkNonBindingAnnotation(CDICOMPONENT.INTERCEPTOR, "Interceptor");
 	}
 	
 	private void prepareCdiComponent(CDICOMPONENT component, String name) {
@@ -592,10 +596,39 @@ public class CDIQuickFixTest extends SWTTestExt {
 		checkQuickFix(ANNOTATIONS.SPECIALIZES, comp, className, replacement);
 	}
 	
+	private void checkNonBindingAnnotation(CDICOMPONENT comp, String className) {
+		checkNonBindingAnnotationWithAddon(comp, className, "Annotation");
+		checkNonBindingAnnotationWithAddon(comp, className, "Array");
+	}
+	
+	private void checkNonBindingAnnotationWithAddon(CDICOMPONENT comp, String className, 
+			String replacement) {	
+		if (comp == CDICOMPONENT.INTERCEPTOR) {
+			boolean interceptorCreated = projectExplorer.isFilePresent(PROJECT_NAME, 
+					"Java Resources", "src", PACKAGE_NAME, className + ".java"); 
+			if (!interceptorCreated) {
+				CDIUtil.binding(PACKAGE_NAME, className, null, false, false).finish();
+			}
+		}
+		if (replacement.equals("Annotation")) {
+			boolean annotationCreated = projectExplorer.isFilePresent(PROJECT_NAME, 
+					"Java Resources", "src", PACKAGE_NAME, "AAnnotation.java"); 
+			if (!annotationCreated) {
+				CDIUtil.annotation(open, util, PACKAGE_NAME, "AAnnotation");
+				bot.editorByTitle(className + ".java").show();
+				ed = bot.activeEditor().toTextEditor();
+			} 				
+			CDIUtil.insertInEditor(ed, bot, ed.getLineCount()-3, 1, "AAnnotation annotValue();" + LINE_SEPARATOR);			
+		}else {
+			CDIUtil.insertInEditor(ed, bot, ed.getLineCount()-3, 1, "String[] array();" + LINE_SEPARATOR);
+		}
+		checkQuickFix(ANNOTATIONS.NONBINDING, comp, className, replacement);
+	}
+	
 	private void checkQuickFix(ANNOTATIONS annonType, CDICOMPONENT comp, 
 			String className, String replacement) {
 		String componentClass = className + ".java";
-		problemsTrees = getProblems(annonType, comp, componentClass);
+		problemsTrees = getProblems(annonType, comp, componentClass);		
 		assertTrue(problemsTrees.length != 0);
 		resolveQuickFix(annonType, comp, replacement);
 		problemsTrees = getProblems(annonType, comp, componentClass);
@@ -605,7 +638,7 @@ public class CDIQuickFixTest extends SWTTestExt {
 	private SWTBotTreeItem[] getProblems(ANNOTATIONS annonType, CDICOMPONENT comp, String className) {
 		SWTBotTreeItem[] problemsTree;
 		boolean warningType = true;
-		switch (annonType) {
+		switch (annonType) {		
 		case NAMED:
 		case SPECIALIZES:
 			warningType = ((comp == CDICOMPONENT.BEAN)?true:false);
@@ -622,6 +655,9 @@ public class CDIQuickFixTest extends SWTTestExt {
 		if (warningType) {
 			if (annonType == ANNOTATIONS.SPECIALIZES) {
 				problemsContains = "@Specializes";
+			}
+			if (annonType == ANNOTATIONS.NONBINDING) {
+				problemsContains  = "@Nonbinding";
 			}
 			problemsTree = ProblemsView.getFilteredWarningsTreeItems(bot, problemsContains, "/"
 					+ PROJECT_NAME, className, "CDI Problem");

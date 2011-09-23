@@ -5,8 +5,10 @@ import java.util.Scanner;
 
 import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotEclipseEditor;
 import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotEditor;
+import org.eclipse.swtbot.swt.finder.SWTBot;
 import org.eclipse.swtbot.swt.finder.finders.UIThreadRunnable;
 import org.eclipse.swtbot.swt.finder.results.Result;
+import org.eclipse.swtbot.swt.finder.utils.SWTUtils;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotCheckBox;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotMenu;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTree;
@@ -15,8 +17,12 @@ import org.jboss.tools.cdi.bot.test.uiutils.wizards.CDIWizard;
 import org.jboss.tools.cdi.bot.test.uiutils.wizards.CDIWizardType;
 import org.jboss.tools.cdi.bot.test.uiutils.wizards.DynamicWebProjectWizard;
 import org.jboss.tools.ui.bot.ext.SWTBotExt;
+import org.jboss.tools.ui.bot.ext.SWTOpenExt;
 import org.jboss.tools.ui.bot.ext.SWTUtilExt;
 import org.jboss.tools.ui.bot.ext.Timing;
+import org.jboss.tools.ui.bot.ext.gen.ActionItem;
+import org.jboss.tools.ui.bot.ext.gen.ActionItem.NewObject;
+import org.jboss.tools.ui.bot.ext.gen.ActionItem.NewObject.JavaAnnotation;
 import org.jboss.tools.ui.bot.ext.helper.ContextMenuHelper;
 import org.jboss.tools.ui.bot.ext.view.ProjectExplorer;
 
@@ -176,9 +182,11 @@ public class CDIUtil {
 		if (method != null) {
 			w = w.setMethodName(method);
 		}
-		return w.addIBinding(ibinding);
+		if (ibinding != null) {
+			w = w.addIBinding(ibinding);
+		}
+		return w;
 	}
-	
 	
 	public static CDIWizard bean(String pkg, String name, boolean isPublic, boolean isAbstract,
 			boolean isFinal, boolean comments, String named,
@@ -201,6 +209,14 @@ public class CDIUtil {
 			w.addQualifier(qualifier);
 		}
 		return w;
+	}
+	
+	public static void annotation(SWTOpenExt open, SWTUtilExt util, String pkg, String name) {
+		SWTBot openWizard = open.newObject(JavaAnnotation.LABEL);
+		openWizard.textWithLabel("Name:").setText(name);
+		openWizard.textWithLabel("Package:").setText(pkg);
+		openWizard.button("Finish").click();		
+		util.waitForNonIgnoredJobs();
 	}
 	
 	public static CDIWizard annLiteral(String pkg, String name, boolean isPublic, boolean isAbstract,

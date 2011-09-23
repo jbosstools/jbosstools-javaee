@@ -17,6 +17,7 @@ import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotEditor;
 import org.eclipse.swtbot.swt.finder.SWTBot;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTree;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTreeItem;
+import org.jboss.tools.cdi.bot.test.CDIAllBotTests;
 import org.jboss.tools.cdi.bot.test.uiutils.actions.CDIUtil;
 import org.jboss.tools.cdi.bot.test.uiutils.actions.NewCDIFileWizard;
 import org.jboss.tools.cdi.bot.test.uiutils.actions.NewFileWizardAction;
@@ -37,7 +38,7 @@ import org.junit.runners.Suite.SuiteClasses;
 
 @Require(perspective = "Java EE", server = @Server(state = ServerState.NotRunning, version = "6.0", operator = ">="))
 @RunWith(RequirementAwareSuite.class)
-@SuiteClasses({ CdiATWizardTest.class })
+@SuiteClasses({ CDIAllBotTests.class })
 public class CdiATWizardTest extends SWTTestExt {
 
 	private static final String PROJECT_NAME = "CDIProject";
