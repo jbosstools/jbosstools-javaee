@@ -124,4 +124,70 @@ public class AssignabilityOfRawAndParameterizedTypesTest extends TCKTest {
 		assertEquals("Wrong number of the beans", 1, beans.size());
 		assertContainsBeanTypes(beans.iterator().next(), "org.jboss.jsr299.tck.tests.lookup.typesafe.resolution.parameterized.Result", "java.lang.Object");
 	}
+
+	public void testAssignabilityOfSophisticatedCases() {
+		String cls = "JavaSource/org/jboss/jsr299/tck/tests/jbt/resolution/parameters/Bean.java";
+
+		//@Inject Set<String> s1;
+		//@Produces <X> HashSet<X> getSet()
+		IInjectionPointField injection = getInjectionPointField(cls, "s1");
+		Set<IBean> beans = cdiProject.getBeans(true, injection);
+		assertEquals("Wrong number of the beans", 1, beans.size());
+		
+		//@Inject Set<? extends Set<String>> s2;
+		//@Produces <X> Set<HashSet<X>> getSetOfSet()
+		injection = getInjectionPointField(cls, "s2");
+		beans = cdiProject.getBeans(true, injection);
+		assertEquals("Wrong number of the beans", 1, beans.size());
+		
+		//@Inject Map<String, Set<String>> m1;
+		//@Produces <X,Y> HashMap<X,Y> getMap()
+		injection = getInjectionPointField(cls, "m1");
+		beans = cdiProject.getBeans(true, injection);
+		assertEquals("Wrong number of the beans", 1, beans.size());
+		
+		//@Inject Map<Integer, Set<Integer>> m2;
+		//@Produces <X> HashMap<X,Set<X>> getMap2()
+		injection = getInjectionPointField(cls, "m2");
+		beans = cdiProject.getBeans(true, injection);
+		assertEquals("Wrong number of the beans", 1, beans.size());
+		
+		//@Inject Map<Set<Integer>, Map<Long,Integer>> m3;
+		//@Produces <X,Y> HashMap<Set<X>,Map<Y,X>> getMap3()
+		injection = getInjectionPointField(cls, "m3");
+		beans = cdiProject.getBeans(true, injection);
+		assertEquals("Wrong number of the beans", 1, beans.size());
+		
+		//@Inject Map<Set<Integer>, Map<Long,Short>> m3a;
+		//@Produces <X,Y> HashMap<Set<X>,Map<Y,X>> getMap3()
+		//not resolved
+		injection = getInjectionPointField(cls, "m3a");
+		beans = cdiProject.getBeans(true, injection);
+		assertEquals("Wrong number of the beans", 0, beans.size());
+		
+		//@Inject Map<? extends Set<Integer>, Map<Long,Integer>> m3b;
+		//@Produces <X,Y> HashMap<Set<X>,Map<Y,X>> getMap3()
+		injection = getInjectionPointField(cls, "m3b");
+		beans = cdiProject.getBeans(true, injection);
+		assertEquals("Wrong number of the beans", 1, beans.size());
+		
+		//@Inject Map<Set<A>, Map<String,A>> m4;
+		//@Produces <X extends A,Y> HashMap<Set<X>,Map<Y,X>> getMap4()
+		injection = getInjectionPointField(cls, "m4");
+		beans = cdiProject.getBeans(true, injection);
+		assertEquals("Wrong number of the beans", 1, beans.size());
+		
+		//@Inject Map<Set<B>, Map<Set<A>,B>> m4a;
+		//@Produces <X extends A,Y> HashMap<Set<X>,Map<Y,X>> getMap4()
+		injection = getInjectionPointField(cls, "m4a");
+		beans = cdiProject.getBeans(true, injection);
+		assertEquals("Wrong number of the beans", 1, beans.size());
+		
+		//@Inject Map<Set<B>, Map<String,A>> m4b;
+		//@Produces <X extends A,Y> HashMap<Set<X>,Map<Y,X>> getMap4()
+		//not resolved
+		injection = getInjectionPointField(cls, "m4b");
+		beans = cdiProject.getBeans(true, injection);
+		assertEquals("Wrong number of the beans", 0, beans.size());
+	}
 }
