@@ -16,7 +16,6 @@ Require-Bundle: org.junit,
  org.eclipse.ltk.core.refactoring,
  org.eclipse.jst.j2ee,
  org.eclipse.jface.text,
- org.jboss.tools.jst.jsp.test,
  org.jboss.tools.jst.css,
  org.jboss.tools.jsf.text.ext,
  org.jboss.tools.jsf.text.ext.facelets,
@@ -36,6 +35,7 @@ Require-Bundle: org.junit,
  org.eclipse.pde.ui,
  org.eclipse.wst.validation,
  org.eclipse.wst.html.core;bundle-version="1.1.500",
- org.eclipse.wst.html.ui;bundle-version="1.0.600"
+ org.eclipse.wst.html.ui;bundle-version="1.0.600",
+ org.jboss.tools.jst.jsp.base.test;bundle-version="3.3.0"
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
