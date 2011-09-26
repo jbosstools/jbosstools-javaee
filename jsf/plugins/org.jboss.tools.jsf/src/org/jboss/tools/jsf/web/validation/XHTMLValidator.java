@@ -17,10 +17,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -81,14 +77,7 @@ public class XHTMLValidator extends Validator {
 			"http://apache.org/xml/features/continue-after-fatal-error"
 		};
 	
-	private void setSAXParserFeatures(SAXParser saxParser, String[] features, boolean set) {
-		XMLReader reader;
-		try {
-			reader = saxParser.getXMLReader();
-		} catch (SAXException e) {
-			JSFModelPlugin.getDefault().logError(e);
-			return;
-		}
+	private void setSAXParserFeatures(XMLReader reader, String[] features, boolean set) {
 		for (String feature : features) {
 			try {
 			    reader.setFeature(feature, set);
@@ -98,10 +87,8 @@ public class XHTMLValidator extends Validator {
 		}
 	}
 
-	private void setSAXParserProperty(SAXParser saxParser, String property, Object value) {
-		XMLReader reader;
+	private void setSAXParserProperty(XMLReader reader, String property, Object value) {
 		try {
-			reader = saxParser.getXMLReader();
     	    reader.setProperty(property, value);
 		} catch (SAXException e) {
 			JSFModelPlugin.getDefault().logError(e);
@@ -147,33 +134,30 @@ public class XHTMLValidator extends Validator {
 			NestedValidatorContext context, ValidationResult result) {
 		displaySubtask(JSFValidationMessage.XHTML_VALIDATION, uri);
 		XMLValidationInfo report = new XMLValidationInfo(uri);
-		SAXParserFactory factory = SAXParserFactory.newInstance();
 		XHTMLElementHandler handler = new XHTMLElementHandler(
 				(resource instanceof IFile ? getDocument((IFile)resource) : null),
 				report);
-		SAXParser saxParser = null;
+		XMLReader xmlReader = new org.apache.xerces.parsers.SAXParser();
+
 		try {
-			saxParser = factory.newSAXParser();
-			setSAXParserFeatures(saxParser, SAX_PARSER_FEATURES_TO_DISABLE, false);
-			setSAXParserFeatures(saxParser, SAX_PARSER_FEATURES_TO_ENABLE, true);
-    	    setSAXParserProperty(saxParser, "http://xml.org/sax/properties/lexical-handler", handler); 
+			setSAXParserFeatures(xmlReader, SAX_PARSER_FEATURES_TO_DISABLE, false);
+			setSAXParserFeatures(xmlReader, SAX_PARSER_FEATURES_TO_ENABLE, true);
+    	    setSAXParserProperty(xmlReader, "http://xml.org/sax/properties/lexical-handler", handler); 
+    	    xmlReader.setContentHandler(handler);
+    	    xmlReader.setDTDHandler(handler);
+    	    xmlReader.setErrorHandler(handler);
+
     	    isXHTMLDoctype = false;
-			if (inputstream != null) {
-				saxParser.parse(inputstream, handler);
-			} else {
-				saxParser.parse(uri, handler);
-			}
-		} catch (ParserConfigurationException e) {
+		
+			xmlReader.parse(uri);
+		} catch (IOException e) {
 			JSFModelPlugin.getDefault().logError(e);
 			report.addError(e.getLocalizedMessage(), 0, 0, uri);
 		} catch (SAXException e) {
 			JSFModelPlugin.getDefault().logError(e);
 			report.addError(e.getLocalizedMessage(), 0, 0, uri);
-		} catch (IOException e) {
-			JSFModelPlugin.getDefault().logError(e);
-			report.addError(e.getLocalizedMessage(), 0, 0, uri);
-		} 
-	 
+		}
+
 		List<ElementLocation> locations = handler.getNonPairedOpenElements();
 		if (!locations.isEmpty()) {
 			for (ElementLocation location : locations) {
