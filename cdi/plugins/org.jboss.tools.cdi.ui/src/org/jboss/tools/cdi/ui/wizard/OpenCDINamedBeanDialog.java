@@ -27,11 +27,17 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.jdt.core.IType;
 import org.eclipse.jface.dialogs.DialogSettings;
 import org.eclipse.jface.dialogs.IDialogSettings;
+import org.eclipse.jface.viewers.DelegatingStyledCellLabelProvider.IStyledLabelProvider;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ILabelProviderListener;
+import org.eclipse.jface.viewers.StyledString;
+import org.eclipse.jface.viewers.StyledString.Styler;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.TextStyle;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
@@ -62,6 +68,7 @@ public class OpenCDINamedBeanDialog extends FilteredItemsSelectionDialog {
 	private static final String BEAN_NAME = "BeanName"; //$NON-NLS-1$
 	private static final String DELETED = "Deleted"; //$NON-NLS-1$
 	private static final String SEPARATOR = " - "; //$NON-NLS-1$
+	private static final String DOT = "."; //$NON-NLS-1$
 	private static final String YES = "yes"; //$NON-NLS-1$
 	private static final String NO = "no"; //$NON-NLS-1$
 
@@ -267,7 +274,22 @@ public class OpenCDINamedBeanDialog extends FilteredItemsSelectionDialog {
 
 	public class CDINamedBeanFilter extends ItemsFilter {
 		public boolean isConsistentItem(Object item) {
-			return true;
+			if (item instanceof CDINamedBeanWrapper) {
+				CDINamedBeanWrapper beanWrapper = (CDINamedBeanWrapper) item;
+				String projectName = beanWrapper.getProjectName();
+				IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(projectName);
+				ICDIProject cdiProject = CDICorePlugin.getCDIProject(project, true);
+				if (cdiProject == null) {
+					return false;
+				}
+
+				String beanName = beanWrapper.getBeanName();
+				Set<IBean> beans = cdiProject
+						.getBeans(beanName, true);
+				IBean bean = (beans == null || beans.isEmpty() ? null : beans.iterator().next());
+				return (bean != null);
+			}
+			return false;
 		}
 
 		public boolean matchItem(Object item) {
@@ -333,7 +355,27 @@ public class OpenCDINamedBeanDialog extends FilteredItemsSelectionDialog {
 		}
 	}
 
-	public class CDINamedBeanLabelProvider implements ILabelProvider {
+	private static class CDIBeanStyler extends Styler {
+		private final Color foreground;
+
+		public CDIBeanStyler(Color foreground) {
+			this.foreground = foreground;
+		}
+
+		public void applyStyles(TextStyle textStyle) {
+			if (foreground != null) {
+				textStyle.foreground = foreground;
+			}
+		}
+	}
+
+	public class CDINamedBeanLabelProvider implements IStyledLabelProvider, ILabelProvider {
+		final Color gray = new Color(null, 128, 128, 128);
+		final Color black = new Color(null, 0, 0, 0);
+
+		final Styler NAME_STYLE = new CDIBeanStyler(black);
+		final Styler QUALIFIED_NAME_STYLE = new CDIBeanStyler(gray);
+		final Styler BEAN_PATH_STYLE = new CDIBeanStyler(gray);
 
 		public Image getImage(Object element) {
 			if (element instanceof CDINamedBeanWrapper) {
@@ -341,14 +383,48 @@ public class OpenCDINamedBeanDialog extends FilteredItemsSelectionDialog {
 			}
 			return null;
 		}
-
+		
 		public String getText(Object element) {
+			return getStyledText(element).getString();
+		}
+
+		public StyledString getStyledText(Object element) {
+			StyledString styledString = new StyledString();
+			
 			if (element instanceof CDINamedBeanWrapper) {
 				CDINamedBeanWrapper beanWrapper = (CDINamedBeanWrapper) element;
-				return beanWrapper.getBeanName() + SEPARATOR
-						+ beanWrapper.getProjectName();
+
+				styledString.append(beanWrapper.getBeanName(), NAME_STYLE);
+				
+				IBean b = beanWrapper.getBean();
+				if (b == null)
+					return styledString;
+				
+				IType t = b.getBeanClass();
+				
+				IPath beanPath = t.getPackageFragment().getParent().getPath();//beanWrapper.getBean().getBeanClass().getPackageFragment().getParent().getPath()
+				IPath beanProjectPath = b.getCDIProject().getNature().getProject().getFullPath();
+				if (beanProjectPath != null && beanPath != null && beanProjectPath.isPrefixOf(beanPath)) {
+					beanPath = beanPath.makeRelative();
+				}
+				
+				String elementName = b.getElementName();
+				String packageName = t.getPackageFragment().getElementName();
+
+				if (elementName != null) {
+					styledString.append(SEPARATOR, QUALIFIED_NAME_STYLE);
+					if (packageName != null && packageName.length() > 0) {
+						styledString.append(packageName, QUALIFIED_NAME_STYLE);
+						styledString.append(DOT, QUALIFIED_NAME_STYLE);
+					}
+					styledString.append(elementName, QUALIFIED_NAME_STYLE);
+				}
+				if (beanPath != null) {
+					styledString.append(SEPARATOR, BEAN_PATH_STYLE);
+					styledString.append(beanPath.toString(), BEAN_PATH_STYLE);
+				}
 			}
-			return null;
+			return styledString;
 		}
 
 		public void addListener(ILabelProviderListener listener) {
@@ -364,7 +440,7 @@ public class OpenCDINamedBeanDialog extends FilteredItemsSelectionDialog {
 		public void removeListener(ILabelProviderListener listener) {
 		}
 	}
-
+	
 	public class CDINamedBeanWrapper {
 		private String beanName;
 		private String projectName;
