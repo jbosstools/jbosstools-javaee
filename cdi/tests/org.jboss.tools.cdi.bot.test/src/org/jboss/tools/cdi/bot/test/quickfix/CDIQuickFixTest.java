@@ -1,6 +1,5 @@
 package org.jboss.tools.cdi.bot.test.quickfix;
 
-import java.util.logging.Logger;
 
 import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotEclipseEditor;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTreeItem;
@@ -21,7 +20,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite.SuiteClasses;
 
 /*
- * Test operates on quick fixes of CDI components
+ * Test operates on quick fixes of CDI components validation
  * 
  * @author Jaroslav Jankovic
  */
@@ -31,123 +30,60 @@ import org.junit.runners.Suite.SuiteClasses;
 @SuiteClasses({ CDIAllBotTests.class })
 public class CDIQuickFixTest extends SWTTestExt {
 
-	private static final Logger LOGGER = Logger.getLogger(CDIQuickFixTest.class.getName());
 	private static final String PROJECT_NAME = "CDIProject";
 	private static final String PACKAGE_NAME = "org.cdi.test";
 	private static SWTBotTreeItem[] problemsTrees;
 	private static final String LINE_SEPARATOR = System.getProperty("line.separator");
-	private enum ANNOTATIONS {TARGET, RETENTION, NAMED, TYPED, DISPOSES, OBSERVES, INTERCEPTOR, 
+	private enum PROBLEM_TYPE {WARNINGS, ERRORS}
+	private enum ANNOTATIONS {SERIALIZABLE, TARGET, RETENTION, NAMED, TYPED, DISPOSES, OBSERVES, INTERCEPTOR, 
 							  SPECIALIZES, DECORATOR, NONBINDING}
 	private enum CDICOMPONENT {STEREOSCOPE, QUALIFIER, SCOPE, BEAN, ANNOTATION, INTERBINDING, INTERCEPTOR}
 	private SWTBotEclipseEditor ed; 
 
+	
+	/*
+	 * init method "setup()" shows a project explorer view as default,
+	 * disable folding (due to easier source code editing) and add
+	 * cdi extension
+	 */
 	@BeforeClass
 	public static void setup() {
 		eclipse.showView(ViewType.PROJECT_EXPLORER);
 		CDIUtil.disableFolding(bot, util);
 		CDIUtil.createAndCheckCDIProject(bot, util, projectExplorer,PROJECT_NAME);
 	}
-
+	
+	/*
+	 * check problems (warnings and errors in Problems View)
+	 */
 	@After
 	public void waitForJobs() {
+		checkProjectAllProblems();
 		util.waitForNonIgnoredJobs();
 	}
 	
 	@Test
 	public void testSerializableQF() {
-		createComponent(CDICOMPONENT.BEAN, "B1");
-		assertTrue(("B1.java").equals(ed.getTitle()));
-		String code = ed.toTextEditor().getText();
-		LOGGER.fine(code);
-		assertTrue(code.contains("package " + PACKAGE_NAME + ";"));
-		assertTrue(code.contains("public class B1 {"));
-
-		CDIUtil.copyResourceToClass(ed, CDIQuickFixTest.class
-				.getResourceAsStream("/resources/cdi/B1.java.cdi"), false);
-		assertContains("@SessionScoped", ed.toTextEditor().getText());
-		problemsTrees = ProblemsView.getFilteredWarningsTreeItems(bot,
-				"Managed bean B1 which", "/" + PROJECT_NAME, "B1.java",
-				"CDI Problem");
-		assertTrue(problemsTrees.length == 1);
-
-		CDIUtil.resolveQuickFix(problemsTrees[0], bot, util);
-		SWTBotEclipseEditor eclEditor = ed.toTextEditor();
-		assertTrue(eclEditor.getText().contains("import java.io.Serializable;"));
-		problemsTrees = ProblemsView.getFilteredWarningsTreeItems(bot,
-				"Managed bean B1 which", "/" + PROJECT_NAME, "B1.java",
-				"CDI Problem");
-		assertTrue(problemsTrees.length == 0);
+		String className = "B1";
+		createComponent(CDICOMPONENT.BEAN, className);
+		
+		//
+		checkSerializableAnnotation(CDICOMPONENT.BEAN, className);
 	}
 	
 	@Test
 	public void testMultipleBeansQF() {
-		createComponent(CDICOMPONENT.BEAN, "Animal");
-		assertTrue(("Animal.java").equals(ed.getTitle()));
-		String code = ed.toTextEditor().getText();
-		assertTrue(code.contains("package " + PACKAGE_NAME + ";"));
-		assertTrue(code.contains("public class Animal {"));
-
-		createComponent(CDICOMPONENT.BEAN, "Dog");
-		CDIUtil.copyResourceToClass(ed, CDIQuickFixTest.class
-				.getResourceAsStream("/resources/cdi/Dog.java.cdi"), false);
-		assertTrue(("Dog.java").equals(ed.getTitle()));
-		code = ed.toTextEditor().getText();
-		LOGGER.fine(code);
-		assertTrue(code.contains("package " + PACKAGE_NAME + ";"));
-		assertTrue(code.contains("public class Dog extends Animal {"));
-
-		createComponent(CDICOMPONENT.QUALIFIER, "Q1");
-		assertTrue(("Q1.java").equals(ed.getTitle()));
-		code = ed.toTextEditor().getText();
-		LOGGER.fine(code);
-
-		createComponent(CDICOMPONENT.BEAN, "BrokenFarm");
-		CDIUtil.copyResourceToClass(ed, CDIQuickFixTest.class
-				.getResourceAsStream("/resources/cdi/BrokenFarm.java.cdi"),
-				false);
-		assertTrue(("BrokenFarm.java").equals(ed.getTitle()));
-		code = ed.toTextEditor().getText();
-		LOGGER.fine(code);
-		assertTrue(code.contains("package " + PACKAGE_NAME + ";"));
-		assertTrue(code.contains("public class BrokenFarm {"));
-		assertTrue(code.contains("@Inject private Animal animal;"));
-
-		problemsTrees = ProblemsView.getFilteredWarningsTreeItems(bot,
-				"Multiple beans are eligible", "/" + PROJECT_NAME,
-				"BrokenFarm.java", "CDI Problem");
-		assertTrue(problemsTrees.length == 1);
-
-		CDIUtil.openQuickFix(problemsTrees[0], bot);
-		String qualifBean = null;
-		if (bot.table(0).cell(0, 0).contains("Animal")) {
-			qualifBean = "Animal";
-		} else {
-			qualifBean = "Dog";
-		}
-		bot.activeShell().bot().button("Finish").click();
-		bot.sleep(Timing.time1S());
-		util.waitForNonIgnoredJobs();
-		assertFalse(bot.button("Add >").isEnabled());
-		assertFalse(bot.button("Finish").isEnabled());
-		bot.table(0).click(bot.table(0).indexOf("Q1 - " + PACKAGE_NAME), 0);
-		assertTrue(bot.button("Add >").isEnabled());
-		assertFalse(bot.button("Finish").isEnabled());
-		bot.clickButton("Add >");
-		assertTrue(bot.button("Finish").isEnabled());
-		bot.clickButton("Finish");
-
-		bot.sleep(Timing.time1S());
-		util.waitForNonIgnoredJobs();
-		code = ed.toTextEditor().getText();
-		assertTrue(code.contains("@Inject @Q1 private Animal animal;"));
-		code = bot.editorByTitle(qualifBean + ".java").toTextEditor().getText();
-		assertTrue(code.contains("@Q1"));
-		problemsTrees = ProblemsView.getFilteredWarningsTreeItems(bot,
-				"Multiple beans are eligible", "/" + PROJECT_NAME,
-				"BrokenFarm.java", "CDI Problem");
-		assertTrue(problemsTrees.length == 0);
+		String className = "BrokenFarm";
+		createComponent(CDICOMPONENT.BEAN, className);
+		
+		//
+		checkMultipleBeans(CDICOMPONENT.BEAN, className);
 	}
 	
+	/*
+	 * CDI Quick Fix test operates over validation 
+	 * concerning about Stereoscope component
+	 */
 	@Test
 	public void testStereoscopeQF() {
 		String className = "S1";
@@ -166,6 +102,10 @@ public class CDIQuickFixTest extends SWTTestExt {
 		checkTypedAnnotation(CDICOMPONENT.STEREOSCOPE, className);
 	}
 	
+	/*
+	 * CDI Quick Fix test operates over validation 
+	 * concerning about Qualifier component
+	 */
 	@Test
 	public void testQualifiersQF() {
 		String className = "Q2";
@@ -182,6 +122,10 @@ public class CDIQuickFixTest extends SWTTestExt {
 		
 	}
 	
+	/*
+	 * CDI Quick Fix test operates over validation 
+	 * concerning about Scope component
+	 */
 	@Test
 	public void testScopeQF() {
 		String className = "Scope1";
@@ -194,6 +138,10 @@ public class CDIQuickFixTest extends SWTTestExt {
 		checkTargetAnnotation(CDICOMPONENT.SCOPE, className);
 	}
 	
+	/*
+	 * CDI Quick Fix test operates over validation 
+	 * concerning about general Bean component
+	 */
 	@Test
 	public void testBeanQF() {
 		String className = "MyBean";
@@ -215,6 +163,10 @@ public class CDIQuickFixTest extends SWTTestExt {
 		checkSessionBean(CDICOMPONENT.BEAN, className);
 	}
 	
+	/*
+	 * CDI Quick Fix test operates over validation 
+	 * concerning about Interceptors/Interceptor Binding/Decorator component
+	 */
 	@Test
 	public void testInterDecorQF() {
 		String className = "InterDecor";
@@ -236,9 +188,13 @@ public class CDIQuickFixTest extends SWTTestExt {
 		checkSpecializeAnnotation(CDICOMPONENT.BEAN, "TestBean");
 		
 		// 6.QF - https://issues.jboss.org/browse/JBIDE-7641
-		checkNonBindingAnnotation(CDICOMPONENT.INTERCEPTOR, "Interceptor");
+		checkNonBindingAnnotation(CDICOMPONENT.INTERBINDING, "Interceptor");
 	}
 	
+	
+	/*
+	 * method edits default Target form because of "one space inconsistency"
+	 */
 	private void prepareCdiComponent(CDICOMPONENT component, String name) {
 		createComponent(component, name);
 		switch (component) {
@@ -278,6 +234,35 @@ public class CDIQuickFixTest extends SWTTestExt {
 		}
 		util.waitForNonIgnoredJobs();
 		ed = bot.activeEditor().toTextEditor();
+	}
+	
+	
+	/*
+	 ****************************************************************
+	 * 
+	 * "prepare" like methods which prepare structure of project
+	 * before testing itself
+	 * 
+	 ****************************************************************
+	 */
+	
+	private void prepareSerializableAnnotation() {
+		CDIUtil.copyResourceToClass(ed, CDIQuickFixTest.class
+				.getResourceAsStream("/resources/cdi/B1.java.cdi"), false);
+	}
+	
+	private void prepareMultipleBeans(String className) {
+		createComponent(CDICOMPONENT.BEAN, "Animal");
+		createComponent(CDICOMPONENT.BEAN, "Dog");
+		CDIUtil.copyResourceToClass(ed, CDIQuickFixTest.class
+				.getResourceAsStream("/resources/cdi/Dog.java.cdi"), false);
+		createComponent(CDICOMPONENT.QUALIFIER, "Q1");
+		bot.editorByTitle(className + ".java").show();
+		ed = bot.activeEditor().toTextEditor();
+		CDIUtil.copyResourceToClass(ed, CDIQuickFixTest.class
+				.getResourceAsStream("/resources/cdi/BrokenFarm.java.cdi"),
+				false);
+		
 	}
 	
 	private void prepareNamedAnnotation(CDICOMPONENT comp, 
@@ -362,6 +347,28 @@ public class CDIQuickFixTest extends SWTTestExt {
 		CDIUtil.copyResourceToClass(ed, CDIQuickFixTest.class
 				.getResourceAsStream("/resources/cdi/TestBean.java.cdi"), false);
 	}
+	
+	
+	/*
+	 ****************************************************************
+	 * 
+	 * "check" like methods which are the most general method to test
+	 * CDI components with various annotations, replacements and so on 
+	 * 
+	 ****************************************************************
+	 */
+	
+	
+	private void checkSerializableAnnotation(CDICOMPONENT comp, String className) {
+		prepareSerializableAnnotation();
+		checkQuickFix(ANNOTATIONS.SERIALIZABLE, comp, className, "Serializable");
+		cleanWarnings(className);
+	}
+	
+	private void checkMultipleBeans(CDICOMPONENT comp, String className) {
+		prepareMultipleBeans(className);
+		checkQuickFix(ANNOTATIONS.NAMED, comp, className, "MultipleBeans");
+	}
 
 	private void checkTargetAnnotation(CDICOMPONENT comp, String className) {
 		checkTargetAnnotWithAddon(comp, className, "@Target({TYPE, FIELD})");
@@ -421,6 +428,10 @@ public class CDIQuickFixTest extends SWTTestExt {
 					"import java.lang.annotation.Retention;", "");
 		}
 		checkQuickFix(ANNOTATIONS.RETENTION, comp, className, replacement);
+		if (replacement.equals("@Retention(CLASS)")) {
+			CDIUtil.replaceInEditor(ed, bot, 
+					"import static java.lang.annotation.RetentionPolicy.CLASS;","");
+		}
 	}
 		
 	private void checkNamedAnnotation(CDICOMPONENT comp, String className) {
@@ -564,6 +575,8 @@ public class CDIQuickFixTest extends SWTTestExt {
 	private void checkObserveAnnotation(CDICOMPONENT comp, String className) {
 		checkObserveAnnotWithAddon(comp, className, "@Decorator");
 		checkObserveAnnotWithAddon(comp, className, "@Interceptor");
+		CDIUtil.replaceInEditor(ed, bot, "@Interceptor", "");
+		CDIUtil.replaceInEditor(ed, bot, "import javax.interceptor.Interceptor;", "");
 	}
 	
 	private void checkObserveAnnotWithAddon(CDICOMPONENT comp, String className, 
@@ -585,6 +598,8 @@ public class CDIQuickFixTest extends SWTTestExt {
 		prepareComponentsForSpecializeAnnotation(className);
 		checkSpecializeAnnotWithAddon(comp, className, "@Interceptor");
 		checkSpecializeAnnotWithAddon(comp, className, "@Decorator");
+		CDIUtil.copyResourceToClass(ed, 
+				CDIQuickFixTest.class.getResourceAsStream("/resources/cdi/TestBean3.java.cdi"), false);
 	}
 	
 	private void checkSpecializeAnnotWithAddon(CDICOMPONENT comp, String className, 
@@ -599,17 +614,20 @@ public class CDIQuickFixTest extends SWTTestExt {
 	private void checkNonBindingAnnotation(CDICOMPONENT comp, String className) {
 		checkNonBindingAnnotationWithAddon(comp, className, "Annotation");
 		checkNonBindingAnnotationWithAddon(comp, className, "Array");
+		
 	}
 	
 	private void checkNonBindingAnnotationWithAddon(CDICOMPONENT comp, String className, 
 			String replacement) {	
-		if (comp == CDICOMPONENT.INTERCEPTOR) {
+		if (comp == CDICOMPONENT.INTERBINDING) {
 			boolean interceptorCreated = projectExplorer.isFilePresent(PROJECT_NAME, 
 					"Java Resources", "src", PACKAGE_NAME, className + ".java"); 
 			if (!interceptorCreated) {
 				CDIUtil.binding(PACKAGE_NAME, className, null, false, false).finish();
+				ed = bot.activeEditor().toTextEditor();
 			}
 		}
+		
 		if (replacement.equals("Annotation")) {
 			boolean annotationCreated = projectExplorer.isFilePresent(PROJECT_NAME, 
 					"Java Resources", "src", PACKAGE_NAME, "AAnnotation.java"); 
@@ -625,13 +643,24 @@ public class CDIQuickFixTest extends SWTTestExt {
 		checkQuickFix(ANNOTATIONS.NONBINDING, comp, className, replacement);
 	}
 	
+	/*
+	 ****************************************************************
+	 * 
+	 * checkQuickFix is the most important method in this class. It
+	 * gets validation error prior to component type, annotation and
+	 * class name, then it resolve validation error through quick fix
+	 * wizard and finally check if validation errors was fixed through
+	 * this wizard
+	 * 
+	 ****************************************************************
+	 */
+	
 	private void checkQuickFix(ANNOTATIONS annonType, CDICOMPONENT comp, 
 			String className, String replacement) {
-		String componentClass = className + ".java";
-		problemsTrees = getProblems(annonType, comp, componentClass);		
+		problemsTrees = getProblems(annonType, comp, className + ".java");		
 		assertTrue(problemsTrees.length != 0);
 		resolveQuickFix(annonType, comp, replacement);
-		problemsTrees = getProblems(annonType, comp, componentClass);
+		problemsTrees = getProblems(annonType, comp, className + ".java");
 		assertTrue(problemsTrees.length == 0);
 	}
 	
@@ -641,6 +670,7 @@ public class CDIQuickFixTest extends SWTTestExt {
 		switch (annonType) {		
 		case NAMED:
 		case SPECIALIZES:
+		case SERIALIZABLE:
 			warningType = ((comp == CDICOMPONENT.BEAN)?true:false);
 			break;
 		case TYPED:
@@ -653,11 +683,19 @@ public class CDIQuickFixTest extends SWTTestExt {
 		}
 		String problemsContains = null;
 		if (warningType) {
-			if (annonType == ANNOTATIONS.SPECIALIZES) {
+			switch (annonType) {
+			case SPECIALIZES:
 				problemsContains = "@Specializes";
-			}
-			if (annonType == ANNOTATIONS.NONBINDING) {
+				break;
+			case NONBINDING:
 				problemsContains  = "@Nonbinding";
+				break;
+			case SERIALIZABLE:
+				problemsContains = "declares a passivating scope SessionScoped";
+				break;
+			}
+			if (className.equals("BrokenFarm.java")) {
+				problemsContains = "Multiple beans are eligible";
 			}
 			problemsTree = ProblemsView.getFilteredWarningsTreeItems(bot, problemsContains, "/"
 					+ PROJECT_NAME, className, "CDI Problem");
@@ -680,8 +718,12 @@ public class CDIQuickFixTest extends SWTTestExt {
 	}
 	
 	private void resolveQuickFix(ANNOTATIONS annonType, CDICOMPONENT comp, String replacement) {
-		int index = indexDetermine(annonType, comp, replacement);
-		resolve(annonType, replacement, index);
+		if (replacement.equals("MultipleBeans")) {
+			resolveMultipleBeans();
+		}else {
+			int index = indexDetermine(annonType, comp, replacement);
+			resolve(annonType, replacement, index);
+		}
 	}
 	
 	private int indexDetermine(ANNOTATIONS annonType, CDICOMPONENT comp, String replacement) {
@@ -711,14 +753,70 @@ public class CDIQuickFixTest extends SWTTestExt {
 		bot.clickButton("Finish");
 		bot.sleep(Timing.time1S());
 		util.waitForNonIgnoredJobs();
-		clearImports(annonType, replacement);
+	}
+		
+	private void resolveMultipleBeans() {
+		CDIUtil.openQuickFix(problemsTrees[0], bot);
+		String qualifBean = null;
+		if (bot.table(0).cell(0, 0).contains("Animal")) {
+			qualifBean = "Animal";
+		} else {
+			qualifBean = "Dog";
+		}
+		bot.activeShell().bot().button("Finish").click();
+		bot.sleep(Timing.time1S());
+		util.waitForNonIgnoredJobs();
+		assertFalse(bot.button("Add >").isEnabled());
+		assertFalse(bot.button("Finish").isEnabled());
+		bot.table(0).click(bot.table(0).indexOf("Q1 - " + PACKAGE_NAME), 0);
+		assertTrue(bot.button("Add >").isEnabled());
+		assertFalse(bot.button("Finish").isEnabled());
+		bot.clickButton("Add >");
+		assertTrue(bot.button("Finish").isEnabled());
+		bot.clickButton("Finish");
+
+		bot.sleep(Timing.time1S());
+		util.waitForNonIgnoredJobs();
+		String code = ed.toTextEditor().getText();
+		assertTrue(code.contains("@Inject @Q1 private Animal animal;"));
+		code = bot.editorByTitle(qualifBean + ".java").toTextEditor().getText();
+		assertTrue(code.contains("@Q1"));
 	}
 	
-	private void clearImports(ANNOTATIONS annonType, String replacement) {
-		if (annonType == ANNOTATIONS.RETENTION && replacement.equals("@Retention(CLASS)")) {
-			CDIUtil.replaceInEditor(ed, bot, 
-					"import static java.lang.annotation.RetentionPolicy.CLASS;","");
-		}
+	/*
+	 * method gets all the problems by all classes in the project. 
+	 * Type of problems (warning, error) is chosen by proper value in parameter
+	 */
+	
+	private void checkProjectAllProblems() {
+		problemsTrees = getAllProblems(PROBLEM_TYPE.WARNINGS);
+		assertTrue(problemsTrees.length == 0);
+		problemsTrees = getAllProblems(PROBLEM_TYPE.ERRORS);
+		assertTrue(problemsTrees.length == 0);
 	}
-
+	
+	private SWTBotTreeItem[] getAllProblems(PROBLEM_TYPE problemType) {
+		SWTBotTreeItem[] problemsTree = null;
+		if (problemType == PROBLEM_TYPE.WARNINGS) {
+			problemsTree = ProblemsView.getFilteredWarningsTreeItems(bot, null, "/"
+					+ PROJECT_NAME, null, null);
+		}else if (problemType == PROBLEM_TYPE.ERRORS) {
+			problemsTree = ProblemsView.getFilteredErrorsTreeItems(bot, null, "/"
+					+ PROJECT_NAME, null, null);
+		}
+		return problemsTree;
+	}
+	
+	private void cleanWarnings(String className) {
+		problemsTrees = ProblemsView.getFilteredWarningsTreeItems(bot, null, "/"
+				+ PROJECT_NAME, className + ".java", null);
+		assertTrue(problemsTrees.length != 0);
+		CDIUtil.openQuickFix(problemsTrees[0], bot);
+		bot.clickButton("Finish");
+		bot.sleep(Timing.time1S());
+		bot.activeEditor().save();
+		problemsTrees = ProblemsView.getFilteredWarningsTreeItems(bot, null, "/"
+				+ PROJECT_NAME, className, "CDI Problem");
+		assertTrue(problemsTrees.length == 0);
+	}
 }
