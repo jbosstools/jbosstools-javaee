@@ -72,6 +72,7 @@ import org.eclipse.ui.dialogs.SearchPattern;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.CDICoreMessages;
 import org.jboss.tools.cdi.core.CDICorePlugin;
+import org.jboss.tools.cdi.core.CDIImages;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.core.IQualifier;
@@ -731,6 +732,9 @@ public class AddQualifiersToBeanComposite extends Composite {
 		}
 
 		public Image getImage(Object element) {
+			if(element instanceof ValuedQualifier){
+				return CDIImages.getImageByElement(((ValuedQualifier) element).qualifier);
+			}
 			return null;
 		}
 

@@ -22,6 +22,7 @@ import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ListViewer;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerComparator;
 import org.eclipse.jface.viewers.ViewerFilter;
@@ -36,8 +37,10 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.List;
+import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.dialogs.SearchPattern;
+import org.jboss.tools.cdi.core.CDIImages;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.core.IQualifier;
@@ -89,7 +92,7 @@ public class SelectBeanWizard extends AbstractModifyInjectionPointWizard{
 	}
 	
 	class SelectBeanWizardPage extends WizardPage{
-		ListViewer listViewer;
+		TableViewer tableViewer;
 		protected SelectBeanWizardPage(String pageName) {
 			super(pageName);
 			setTitle(CDIUIMessages.SELECT_BEAN_TITLE);
@@ -113,25 +116,25 @@ public class SelectBeanWizard extends AbstractModifyInjectionPointWizard{
 			pattern.setLayoutData(data);
 			pattern.addModifyListener(new ModifyListener(){
 				public void modifyText(ModifyEvent e){
-					listViewer.refresh();
+					tableViewer.refresh();
 				}
 			});
 			
 			label = new Label(composite, SWT.NONE);
 			label.setText(CDIUIMessages.SELECT_BEAN_WIZARD_SELECT_BEAN);
 			
-			List availableList = new List(composite, SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
+			Table availableList = new Table(composite, SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
 			data = new GridData(GridData.FILL_BOTH);
 			data.heightHint = 200;
 			data.widthHint = 150;
 			availableList.setLayoutData(data);
 			
-			listViewer = new ListViewer(availableList);
+			tableViewer = new TableViewer(availableList);
 			ILabelProvider labelProvider = new BeanListLabelProvider();
-			listViewer.setLabelProvider(labelProvider);
+			tableViewer.setLabelProvider(labelProvider);
 			IContentProvider contentProvider = new BeanListContentProvider();
-			listViewer.setContentProvider(contentProvider);
-			listViewer.setComparator(new ViewerComparator() {
+			tableViewer.setContentProvider(contentProvider);
+			tableViewer.setComparator(new ViewerComparator() {
 				public int compare(Viewer viewer, Object o1, Object o2) {
 					if (o1 instanceof IBean && o2 instanceof IBean) {
 						IBean b1 = (IBean) o1;
@@ -142,9 +145,9 @@ public class SelectBeanWizard extends AbstractModifyInjectionPointWizard{
 					return super.compare(viewer, o1, o2);
 				}
 			});
-			listViewer.setInput(beans);
+			tableViewer.setInput(beans);
 			
-			listViewer.addSelectionChangedListener(new ISelectionChangedListener() {
+			tableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
 				public void selectionChanged(SelectionChangedEvent event) {
 					bean = getSelection();
 					if(bean != null){
@@ -156,17 +159,17 @@ public class SelectBeanWizard extends AbstractModifyInjectionPointWizard{
 						setPageComplete(false);
 				}
 			});
-			listViewer.addDoubleClickListener(new IDoubleClickListener() {
+			tableViewer.addDoubleClickListener(new IDoubleClickListener() {
 				public void doubleClick(DoubleClickEvent event) {
 				}
 			});
-			listViewer.addFilter(new BeanFilter());
+			tableViewer.addFilter(new BeanFilter());
 			
 			setControl(composite);
 		}
 		
 		protected IBean getSelection() {
-			IStructuredSelection sel = (IStructuredSelection) listViewer.getSelection();
+			IStructuredSelection sel = (IStructuredSelection) tableViewer.getSelection();
 			if (sel.isEmpty())
 				return null;
 				
@@ -221,6 +224,9 @@ public class SelectBeanWizard extends AbstractModifyInjectionPointWizard{
 		}
 
 		public Image getImage(Object element) {
+			if(element instanceof IBean){
+				return CDIImages.getImageByElement((IBean)element);
+			}
 			return null;
 		}
 
