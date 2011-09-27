@@ -41,6 +41,7 @@ import org.eclipse.ui.XMLMemento;
 import org.eclipse.ui.dialogs.FilteredItemsSelectionDialog;
 import org.eclipse.ui.dialogs.SearchPattern;
 import org.jboss.tools.cdi.core.CDICorePlugin;
+import org.jboss.tools.cdi.core.CDIImages;
 import org.jboss.tools.cdi.core.ICDIAnnotation;
 import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.ui.CDIUIPlugin;
@@ -276,7 +277,10 @@ public class SelectCDIAnnotationDialog extends FilteredItemsSelectionDialog {
 	public class CDIAnnotationLabelProvider implements ILabelProvider {
 
 		public Image getImage(Object element) {
-			return null; //TODO
+			if (element instanceof CDIAnnotationWrapper) {
+				return CDIImages.getImageByElement(((CDIAnnotationWrapper) element).getComponent());
+			}
+			return null;
 		}
 
 		public String getText(Object element) {
