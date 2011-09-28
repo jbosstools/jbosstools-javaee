@@ -25,6 +25,7 @@ import org.jboss.tools.cdi.ui.test.search.ELReferencesQueryParticipantTest;
 import org.jboss.tools.cdi.ui.test.wizard.AddQualifiersToBeanWizardTest;
 import org.jboss.tools.cdi.ui.test.wizard.NewCDIClassWizardFactoryTest;
 import org.jboss.tools.cdi.ui.test.wizard.NewCDIWizardTest;
+import org.jboss.tools.cdi.ui.test.wizard.OpenCDINamedBeanDialogTest;
 import org.jboss.tools.test.util.ResourcesUtils;
 
 /**
@@ -50,11 +51,13 @@ public class CDIUIAllTests {
 		suiteAll.addTestSuite(NewCDIClassWizardFactoryTest.class);
 		suiteAll.addTestSuite(CDIPreferencePageTest.class);
 		suiteAll.addTestSuite(NewCDIWizardTest.class);
-		suite.addTestSuite(CAELProposalFilteringTest.class);
 
+		suite.addTestSuite(CAELProposalFilteringTest.class);
 		suite.addTestSuite(CDISearchParticipantTest.class);
 		suite.addTestSuite(ELReferencesQueryParticipantTest.class);
 		suite.addTestSuite(CATest.class);
+		suite.addTestSuite(OpenCDINamedBeanDialogTest.class);
+
 		suiteAll.addTest(new CDICoreTestSetup(suite));
 
 		suiteAll.addTestSuite(AddQualifiersToBeanWizardTest.class);
