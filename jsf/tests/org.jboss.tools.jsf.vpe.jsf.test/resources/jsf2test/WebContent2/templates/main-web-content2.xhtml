@@ -1,0 +1,26 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:rich="http://java.sun.com/jsf/composite/rich">
+<h:head>
+</h:head>
+<h:body>
+	<ui:composition>
+		<rich:page id="page">
+			<f:facet name="header">
+				<h1>Welcome to RichFaces demo!</h1>
+			</f:facet>
+			<f:facet name="sidebar">
+				<ui:include src="/templates/includes/navigation.xhtml" />
+			</f:facet>
+			<ui:insert name="body">
+		      	Body content missed
+       		</ui:insert>
+			<f:facet name="footer">
+				footer 
+			</f:facet>
+		</rich:page>
+	</ui:composition>
+</h:body>
+</html>

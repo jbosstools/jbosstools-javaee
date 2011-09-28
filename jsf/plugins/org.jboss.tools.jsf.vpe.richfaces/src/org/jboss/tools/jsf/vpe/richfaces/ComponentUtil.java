@@ -270,16 +270,16 @@ public class ComponentUtil {
 				.replaceFirst(
 						"^\\s*(\\#|\\$)\\{facesContext.externalContext.requestContextPath\\}", Constants.EMPTY); //$NON-NLS-1$
 
-		IFile file = null;
+		IFile baseFile = null;
 		if (pageContext.getVisualBuilder().getCurrentIncludeInfo() != null
 				&&(pageContext.getVisualBuilder().getCurrentIncludeInfo().getStorage() instanceof IFile)) {
-			file = (IFile) pageContext.getVisualBuilder().getCurrentIncludeInfo()
+			baseFile = (IFile) pageContext.getVisualBuilder().getCurrentIncludeInfo()
 					.getStorage();
 		}
-		if (file == null)
+		if (baseFile == null)
 			return resolvedValue;
 
-		resolvedValue = ElServiceUtil.replaceEl(file, resolvedValue);
+		resolvedValue = ElServiceUtil.replaceEl(baseFile, resolvedValue);
 
 		URI uri = null;
 		try {
@@ -291,9 +291,14 @@ public class ComponentUtil {
 				&& (uri.isAbsolute() || (new File(resolvedValue)).exists()))
 			return resolvedValue;
 
-		return Constants.FILE_PREFIX
-				+ FileUtil.getFile(resolvedValue, file).getLocation()
-						.toPortableString();
+		
+		
+		IFile resolvedFile = FileUtil.getFile(resolvedValue, baseFile);
+		if (resolvedFile != null ) {
+			return Constants.FILE_PREFIX + resolvedFile.getLocation().toPortableString();
+		} else {
+			return resolvedValue;
+		}
 	}
 
     /**
