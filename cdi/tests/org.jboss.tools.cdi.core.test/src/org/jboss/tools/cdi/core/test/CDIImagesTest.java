@@ -1,20 +1,19 @@
 package org.jboss.tools.cdi.core.test;
 
+import junit.framework.TestCase;
+
 import org.eclipse.swt.graphics.Image;
 import org.jboss.tools.cdi.core.CDIImages;
 import org.jboss.tools.cdi.core.ICDIElement;
 import org.jboss.tools.cdi.internal.core.impl.BeanField;
 import org.jboss.tools.cdi.internal.core.impl.BeanMethod;
 import org.jboss.tools.cdi.internal.core.impl.ClassBean;
-import org.jboss.tools.cdi.internal.core.impl.EventBean;
 import org.jboss.tools.cdi.internal.core.impl.InjectionPointField;
 import org.jboss.tools.cdi.internal.core.impl.InjectionPointParameter;
 import org.jboss.tools.cdi.internal.core.impl.InterceptorBindingElement;
 import org.jboss.tools.cdi.internal.core.impl.QualifierElement;
 import org.jboss.tools.cdi.internal.core.impl.ScopeElement;
 import org.jboss.tools.cdi.internal.core.impl.StereotypeElement;
-
-import junit.framework.TestCase;
 
 public class CDIImagesTest extends TestCase {
 	public CDIImagesTest(){
