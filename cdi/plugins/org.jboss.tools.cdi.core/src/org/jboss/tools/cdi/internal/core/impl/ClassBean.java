@@ -591,7 +591,11 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 	 */
 	@Override
 	public String getElementName() {
-		return this.getBeanClass().getElementName();
+		String result = getBeanClass().getElementName();
+		if(result.length() == 0) {
+			result = getBeanClass().getFullyQualifiedName();
+		}
+		return result;
 	}
 
 	/*
