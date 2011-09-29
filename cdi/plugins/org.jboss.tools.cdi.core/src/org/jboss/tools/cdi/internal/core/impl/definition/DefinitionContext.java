@@ -42,6 +42,8 @@ public class DefinitionContext implements IRootDefinitionContext {
 	private Map<String, AnnotationDefinition> annotations = new HashMap<String, AnnotationDefinition>();
 	private Map<String, AnnotationDefinition> usedAnnotations = new HashMap<String, AnnotationDefinition>();
 
+	private Set<String> vetoedTypes = new HashSet<String>();
+
 	private Set<String> packages = new HashSet<String>();
 	private Map<String, PackageDefinition> packageDefinitions = new HashMap<String, PackageDefinition>();
 
@@ -81,6 +83,7 @@ public class DefinitionContext implements IRootDefinitionContext {
 			copy.types.addAll(types);
 			copy.typeDefinitions.putAll(typeDefinitions);
 			copy.annotations.putAll(annotations);
+			copy.vetoedTypes.addAll(vetoedTypes);
 
 			copy.packages.addAll(packages);
 			copy.packageDefinitions.putAll(packageDefinitions);
@@ -121,22 +124,18 @@ public class DefinitionContext implements IRootDefinitionContext {
 		return javaProject;
 	}
 
-	public void addType(IPath file, String typeName, AbstractTypeDefinition def) {
+	public synchronized void addType(IPath file, String typeName, AbstractTypeDefinition def) {
 		addType(file, typeName);
 		if(def != null) {
 			if(def instanceof AnnotationDefinition) {
 				AnnotationDefinition newD = (AnnotationDefinition)def;
 				AnnotationDefinition oldD = annotations.get(def.getQualifiedName());
-				synchronized (annotations) {
-					annotations.put(def.getQualifiedName(), newD);
-				}
+				annotations.put(def.getQualifiedName(), newD);
 				if(oldD != null && oldD.getKind() != newD.getKind()) {
 					annotationKindChanged(typeName);
 				}
 			} else {
-				synchronized (typeDefinitions) {
-					typeDefinitions.put(def.getQualifiedName(), (TypeDefinition)def);
-				}
+				typeDefinitions.put(def.getQualifiedName(), (TypeDefinition)def);
 			}
 		}
 	}
@@ -153,14 +152,14 @@ public class DefinitionContext implements IRootDefinitionContext {
 			addToParents(file);
 		}
 		if(def != null) {
-			synchronized (packageDefinitions) {
+			synchronized (this) {
 				packageDefinitions.put(def.getQualifiedName(), def);
 			}
 		}
 	}
 
 	public void addBeanXML(IPath path, BeansXMLDefinition def) {
-		synchronized (beanXMLs) {
+		synchronized (this) {
 			beanXMLs.put(path, def);
 		}
 		addToParents(path);
@@ -193,23 +192,16 @@ public class DefinitionContext implements IRootDefinitionContext {
 		}
 	}
 
-	public void clean() {
+	public synchronized void clean() {
 		childPaths.clear();
 		resources.clear();
 		types.clear();
 		packages.clear();
-		synchronized (typeDefinitions) {
-			typeDefinitions.clear();
-		}
-		synchronized (annotations) {
-			annotations.clear();
-		}
-		synchronized (packageDefinitions) {
-			packageDefinitions.clear();
-		}
-		synchronized (beanXMLs) {
-			beanXMLs.clear();
-		}
+		typeDefinitions.clear();
+		vetoedTypes.clear();
+		annotations.clear();
+		packageDefinitions.clear();
+		beanXMLs.clear();
 	
 		for (IDefinitionContextExtension e: extensions) e.clean();
 		dependencies.clean();
@@ -220,7 +212,7 @@ public class DefinitionContext implements IRootDefinitionContext {
 		if(ts != null) for (String t: ts) {
 			clean(t);
 		}
-		synchronized (beanXMLs) {
+		synchronized (this) {
 			beanXMLs.remove(path);
 		}
 
@@ -238,18 +230,13 @@ public class DefinitionContext implements IRootDefinitionContext {
 		dependencies.clean(path);
 	}
 
-	public void clean(String typeName) {
+	public synchronized void clean(String typeName) {
 		types.remove(typeName);
-		synchronized (typeDefinitions) {
-			typeDefinitions.remove(typeName);
-		}
-		synchronized (annotations) {
-			annotations.remove(typeName);
-		}
+		typeDefinitions.remove(typeName);
+		vetoedTypes.remove(typeName);
+		annotations.remove(typeName);
 		packages.remove(typeName);
-		synchronized (packageDefinitions) {
-			packageDefinitions.remove(typeName);
-		}
+		packageDefinitions.remove(typeName);
 		for (IDefinitionContextExtension e: extensions) e.clean(typeName);
 	}
 
@@ -359,6 +346,7 @@ public class DefinitionContext implements IRootDefinitionContext {
 		resources = workingCopy.resources;
 		childPaths = workingCopy.childPaths;
 		typeDefinitions = workingCopy.typeDefinitions;
+		vetoedTypes = workingCopy.vetoedTypes;
 		annotations = workingCopy.annotations;
 		packages = workingCopy.packages;
 		packageDefinitions = workingCopy.packageDefinitions;
@@ -405,7 +393,7 @@ public class DefinitionContext implements IRootDefinitionContext {
 		AnnotationDefinition result = annotations.get(fullyQualifiedName);
 		//2. Validate result.
 		if(result != null && (!result.getType().exists())) {
-			synchronized (annotations) {
+			synchronized (this) {
 				annotations.remove(fullyQualifiedName);
 			}
 			result = null;
@@ -426,7 +414,7 @@ public class DefinitionContext implements IRootDefinitionContext {
 				if(r != null) {
 					result = r;
 					//4. Store result for the case if used project is cleaned.
-					synchronized (usedAnnotations) {
+					synchronized (this) {
 						usedAnnotations.put(fullyQualifiedName, result);
 					}
 					break;
@@ -438,7 +426,7 @@ public class DefinitionContext implements IRootDefinitionContext {
 			// The result may be out-of-date until used project is rebuilt.
 			result = usedAnnotations.get(fullyQualifiedName);
 			if(!result.getType().exists()) {
-				synchronized (usedAnnotations) {
+				synchronized (this) {
 					usedAnnotations.remove(fullyQualifiedName);
 				}
 				result = null;
@@ -455,22 +443,18 @@ public class DefinitionContext implements IRootDefinitionContext {
 	 * 
 	 * @return
 	 */
-	public List<AnnotationDefinition> getAllAnnotations() {
+	public synchronized List<AnnotationDefinition> getAllAnnotations() {
 		List<AnnotationDefinition> result = new ArrayList<AnnotationDefinition>();
 		//1. Add annotations loaded by this project.
-		synchronized (annotations) {
-			result.addAll(annotations.values());
-		}
+		result.addAll(annotations.values());
 		//2. Add stored annotations loaded by used projects. They may be out-of-date.
-		synchronized (usedAnnotations) {
-			result.addAll(usedAnnotations.values());
-		}
+		result.addAll(usedAnnotations.values());
 		return result;
 	}
 
 	public List<TypeDefinition> getTypeDefinitions() {
 		List<TypeDefinition> result = new ArrayList<TypeDefinition>();
-		synchronized (typeDefinitions) {
+		synchronized (this) {
 			result.addAll(typeDefinitions.values());
 		}
 		for (IDefinitionContextExtension e: extensions) {
@@ -482,7 +466,7 @@ public class DefinitionContext implements IRootDefinitionContext {
 
 	public Set<BeansXMLDefinition> getBeansXMLDefinitions() {
 		Set<BeansXMLDefinition> result = new HashSet<BeansXMLDefinition>();
-		synchronized (beanXMLs) {
+		synchronized (this) {
 			result.addAll(beanXMLs.values());
 		}
 		return result;
@@ -505,13 +489,35 @@ public class DefinitionContext implements IRootDefinitionContext {
 
 	public void veto(IType type) {
 		TypeDefinition d = typeDefinitions.get(type.getFullyQualifiedName());
-		if(d != null) d.veto();
-		
+		if(d != null) {
+			d.veto();
+		} else {
+			vetoedTypes.add(type.getFullyQualifiedName());
+		}		
 	}
 	
 	public void unveto(IType type) {
 		TypeDefinition d = typeDefinitions.get(type.getFullyQualifiedName());
-		if(d != null) d.unveto();
+		if(d != null) {
+			d.unveto();
+		} else {
+			vetoedTypes.remove(type.getFullyQualifiedName());
+		}
+	}
+
+	public Set<String> getVetoedTypes() {
+		return vetoedTypes;
+	}
+
+	/**
+	 * Returns true only if type was requested by this project to be vetoed, but its definition belongs to
+	 * another project, where it ma bey not vetoed.
+	 * @param type
+	 * @return
+	 */
+	public boolean isVetoedTypeFromUsedProject(IType type) {
+		TypeDefinition d = typeDefinitions.get(type.getFullyQualifiedName());
+		return d == null && vetoedTypes.contains(type.getFullyQualifiedName());
 	}
 
 	public void addDependency(IPath source, IPath target) {
