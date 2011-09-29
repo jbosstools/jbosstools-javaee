@@ -459,6 +459,19 @@ public class OpenCDINamedBeanDialog extends FilteredItemsSelectionDialog {
 			}
 			return bean;
 		}
+	
+		public boolean equals(Object obj) {
+			if(!(obj instanceof CDINamedBeanWrapper)) {
+				return false;
+			}
+			String s1 = new CDINamedBeanLabelProvider().getText(this);
+			String s2 = new CDINamedBeanLabelProvider().getText(obj);
+			return s1.equals(s2);
+		}
+	
+		public int hashCode() {
+			return new CDINamedBeanLabelProvider().getText(this).hashCode();
+		}
 	}
 	
 	public static void validateHistory(ICDIProject cdiProject) {
