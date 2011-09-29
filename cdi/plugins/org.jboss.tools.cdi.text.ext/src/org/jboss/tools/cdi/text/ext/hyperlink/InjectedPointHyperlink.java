@@ -27,6 +27,7 @@ import org.jboss.tools.cdi.core.IDecorator;
 import org.jboss.tools.cdi.core.IInterceptor;
 import org.jboss.tools.cdi.core.IProducerField;
 import org.jboss.tools.cdi.core.IProducerMethod;
+import org.jboss.tools.cdi.core.util.BeanPresentationUtil;
 import org.jboss.tools.cdi.text.ext.CDIExtensionsMessages;
 import org.jboss.tools.cdi.text.ext.CDIExtensionsPlugin;
 import org.jboss.tools.common.text.ext.hyperlink.AbstractHyperlink;
@@ -76,23 +77,19 @@ public class InjectedPointHyperlink extends AbstractHyperlink implements ITestab
 
 	@Override
 	public String getHyperlinkText() {
-		String text="";
+		String text = "";
 		if(bean != null){
 			if(first){
-				text = CDIExtensionsMessages.CDI_INJECTED_POINT_HYPERLINK_OPEN_INJECT_BEAN+" ";
+				text = CDIExtensionsMessages.CDI_INJECTED_POINT_HYPERLINK_OPEN_INJECT_BEAN + " ";
 			}else{
-				if(bean.isSelectedAlternative())
-					text = CDIExtensionsMessages.CDI_INJECTED_POINT_HYPERLINK_OPEN_SELECTED_ALTERNATIVE+" ";
-				else if(bean.isAlternative())
-					text = CDIExtensionsMessages.CDI_INJECTED_POINT_HYPERLINK_OPEN_ALTERNATIVE+" ";
-				else if(bean instanceof IProducerField || bean instanceof IProducerMethod)
-					text = CDIExtensionsMessages.CDI_INJECTED_POINT_HYPERLINK_OPEN_PRODUCER+" ";
-				else if(bean instanceof IDecorator)
-					text = CDIExtensionsMessages.CDI_INJECTED_POINT_HYPERLINK_OPEN_DECORATOR+" ";
-				else if(bean instanceof IInterceptor)
-					text = CDIExtensionsMessages.CDI_INJECTED_POINT_HYPERLINK_OPEN_INTERCEPTOR+" ";
-				else
-					text = CDIExtensionsMessages.CDI_INJECTED_POINT_HYPERLINK_OPEN_BEAN+" ";
+				text = CDIExtensionsMessages.CDI_INJECTED_POINT_HYPERLINK_OPEN_BEAN + " ";
+				String kind = BeanPresentationUtil.getBeanKind(bean);
+				if(kind != null) {
+					if(bean.isSelectedAlternative()) {
+						text += "*";
+					}
+					text += kind + " ";
+				}
 
 			}
 			text += bean.getElementName();

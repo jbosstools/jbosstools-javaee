@@ -78,6 +78,7 @@ import org.jboss.tools.cdi.core.IProducer;
 import org.jboss.tools.cdi.core.IProducerField;
 import org.jboss.tools.cdi.core.IProducerMethod;
 import org.jboss.tools.cdi.core.IQualifierDeclaration;
+import org.jboss.tools.cdi.core.util.BeanPresentationUtil;
 import org.jboss.tools.cdi.internal.core.impl.AbstractBeanElement;
 import org.jboss.tools.cdi.text.ext.CDIExtensionsPlugin;
 import org.jboss.tools.cdi.text.ext.hyperlink.AssignableBeanFilters.Checkbox;
@@ -569,47 +570,18 @@ public class AssignableBeansDialog extends PopupDialog {// TitleAreaDialog {
 			IBean b = (IBean)element;
 			Styler nameStyler = eligibleBeans.contains(b) ? ELIGIBLE_NAME : DISABLED;
 			StyledString sb = new StyledString();
-			if(b.isAlternative()) {
-				sb.append("@Alternative ", nameStyler);
-			}
-			if(b.isAnnotationPresent(CDIConstants.DECORATOR_STEREOTYPE_TYPE_NAME)) {
-				sb.append("@Decorator ", nameStyler);
-			}
-			if(b.isAnnotationPresent(CDIConstants.INTERCEPTOR_ANNOTATION_TYPE_NAME)) {
-				sb.append("@Interceptor ", nameStyler);
-			}
-			if(b instanceof IProducer) {
-				sb.append("@Produces ", nameStyler);
-				sb.append(b.getBeanClass().getElementName(), nameStyler).append(".", nameStyler);
-				if(b instanceof IProducerField) {
-					sb.append(((IProducerField)b).getField().getElementName(), nameStyler);
-				} else {
-					sb.append(((IProducerMethod)b).getMethod().getElementName(), nameStyler)
-					.append("()", nameStyler);
-				}
-			} else {
-				String name = b.getBeanClass().getElementName();
-				if(name.length() == 0) {
-					name = b.getBeanClass().getFullyQualifiedName();
-				}
-				sb.append(name, nameStyler);
-			}
 
-			Styler qualifierStyler = eligibleBeans.contains(b) ? ELIGIBLE_QUALIFIER : DISABLED;
-			
-			AbstractBeanElement e = (AbstractBeanElement)b;
-			ITextSourceReference origin = e.getDefinition().getOriginalDefinition();
-			if(origin != null) {
-				//If toString() is not enough, another interface should be introduced.
-				sb.append(" - ", qualifierStyler).append(origin.toString(), qualifierStyler);				
-			} else {			
-				String pkg = b.getBeanClass().getPackageFragment().getElementName();
-				sb.append(" - ", qualifierStyler).append(pkg, qualifierStyler).append(" - ", qualifierStyler);
-				IPath path = b.getBeanClass().getPackageFragment().getParent().getPath();
-				if(path != null) {
-					sb.append(path.toString(), qualifierStyler);
-				}
+			//1.bean kind
+			String kind = BeanPresentationUtil.getBeanKind(b);
+			if(kind != null) {
+				sb.append(kind, nameStyler).append(' ');
 			}
+			//2. bean element name
+			sb.append(b.getElementName(), nameStyler);
+
+			//3. bean location
+			Styler qualifierStyler = eligibleBeans.contains(b) ? ELIGIBLE_QUALIFIER : DISABLED;
+			sb.append(BeanPresentationUtil.getBeanLocation(b, false),qualifierStyler);
 			return sb;
 		}
 
