@@ -128,13 +128,19 @@ public class CDICoreNature implements IProjectNature {
 	}
 
 	public Set<CDICoreNature> getCDIProjects() {
-		return dependsOn;
+		return getCDIProjects(false);
 	}
 
 	public CDIExtensionManager getExtensionManager() {
 		return extensions;
 	}
 
+	/**
+	 * Returns all the project that are included into classpath of this project.
+	 * @param hierarchy If false then return the projects explicitly included into the project classpath.
+	 * If true then all the project from the entire hierarchy will be returned.
+	 * @return
+	 */
 	public Set<CDICoreNature> getCDIProjects(boolean hierarchy) {
 		if(hierarchy) {
 			if(dependsOn.isEmpty()) return dependsOn;
@@ -252,6 +258,10 @@ public class CDICoreNature implements IProjectNature {
 		return result;
 	}
 
+	/**
+	 * Returns all the CDI projects that include this project into their class path.
+	 * @return
+	 */
 	public Set<CDICoreNature> getDependentProjects() {
 		return usedBy;
 	}
