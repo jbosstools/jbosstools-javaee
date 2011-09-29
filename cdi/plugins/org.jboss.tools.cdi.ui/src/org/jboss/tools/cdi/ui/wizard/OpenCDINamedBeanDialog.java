@@ -49,6 +49,7 @@ import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.CDIImages;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.ICDIProject;
+import org.jboss.tools.cdi.core.util.BeanPresentationUtil;
 import org.jboss.tools.cdi.internal.core.event.CDIProjectChangeEvent;
 import org.jboss.tools.cdi.internal.core.event.ICDIProjectChangeListener;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
@@ -67,8 +68,6 @@ public class OpenCDINamedBeanDialog extends FilteredItemsSelectionDialog {
 	private static final String PROJECT_NAME = "ProjectName"; //$NON-NLS-1$
 	private static final String BEAN_NAME = "BeanName"; //$NON-NLS-1$
 	private static final String DELETED = "Deleted"; //$NON-NLS-1$
-	private static final String SEPARATOR = " - "; //$NON-NLS-1$
-	private static final String DOT = "."; //$NON-NLS-1$
 	private static final String YES = "yes"; //$NON-NLS-1$
 	private static final String NO = "no"; //$NON-NLS-1$
 
@@ -389,39 +388,16 @@ public class OpenCDINamedBeanDialog extends FilteredItemsSelectionDialog {
 		}
 
 		public StyledString getStyledText(Object element) {
-			StyledString styledString = new StyledString();
-			
+			StyledString styledString = new StyledString();			
 			if (element instanceof CDINamedBeanWrapper) {
 				CDINamedBeanWrapper beanWrapper = (CDINamedBeanWrapper) element;
-
+				//1. bean name
 				styledString.append(beanWrapper.getBeanName(), NAME_STYLE);
-				
+				//2. bean location
 				IBean b = beanWrapper.getBean();
-				if (b == null)
-					return styledString;
-				
-				IType t = b.getBeanClass();
-				
-				IPath beanPath = t.getPackageFragment().getParent().getPath();//beanWrapper.getBean().getBeanClass().getPackageFragment().getParent().getPath()
-				IPath beanProjectPath = b.getCDIProject().getNature().getProject().getFullPath();
-				if (beanProjectPath != null && beanPath != null && beanProjectPath.isPrefixOf(beanPath)) {
-					beanPath = beanPath.makeRelative();
-				}
-				
-				String elementName = b.getElementName();
-				String packageName = t.getPackageFragment().getElementName();
-
-				if (elementName != null) {
-					styledString.append(SEPARATOR, QUALIFIED_NAME_STYLE);
-					if (packageName != null && packageName.length() > 0) {
-						styledString.append(packageName, QUALIFIED_NAME_STYLE);
-						styledString.append(DOT, QUALIFIED_NAME_STYLE);
-					}
-					styledString.append(elementName, QUALIFIED_NAME_STYLE);
-				}
-				if (beanPath != null) {
-					styledString.append(SEPARATOR, BEAN_PATH_STYLE);
-					styledString.append(beanPath.toString(), BEAN_PATH_STYLE);
+				if (b != null) {
+					String beanLocation = BeanPresentationUtil.getBeanLocation(b, true);
+					styledString.append(beanLocation, BEAN_PATH_STYLE);
 				}
 			}
 			return styledString;
