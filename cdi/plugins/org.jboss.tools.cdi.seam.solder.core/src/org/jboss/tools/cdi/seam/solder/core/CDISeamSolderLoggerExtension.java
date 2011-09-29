@@ -68,10 +68,12 @@ public class CDISeamSolderLoggerExtension implements ICDIExtension, IBuildPartic
 				if(i.isAnnotationPresent(CDISeamSolderConstants.MESSAGE_LOGGER_ANNOTATION_TYPE_NAME)) {
 					TypeDefinition d = new TypeDefinition();
 					d.setType(t, workingCopy.getRootContext(), 0);
+					d.setBeanConstructor(true);
 					workingCopy.addMessageLogger(path, d);
 				} else if(i.isAnnotationPresent(CDISeamSolderConstants.MESSAGE_BUNDLE_ANNOTATION_TYPE_NAME)) {
 					TypeDefinition d = new TypeDefinition();
 					d.setType(t, workingCopy.getRootContext(), 0);
+					d.setBeanConstructor(true);
 					workingCopy.addMessageBundle(path, d);
 					AnnotationDeclaration ad = d.getAnnotation(CDISeamSolderConstants.MESSAGE_BUNDLE_ANNOTATION_TYPE_NAME);
 					if(ad.getMemberValue("projectCode") != null && ad.getMemberValue("projectCode").toString().length() > 0) {

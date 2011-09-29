@@ -87,6 +87,7 @@ public class CDISeamSolderGenericBeanExtension implements ICDIExtension, IBuildP
 			if(genericTypeDef != null) {
 				TypeDefinition fakeGenericType = new TypeDefinition();
 				fakeGenericType.setType(genericTypeDef.getType(), context.getRootContext(), 0);
+				fakeGenericType.setBeanConstructor(true);
 				ClassBean b = new ClassBean();
 				b.setDefinition(fakeGenericType);
 				b.setParent(p);

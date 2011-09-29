@@ -78,6 +78,7 @@ public class CDISeamSolderServiceHandlerExtension implements ICDIExtension, IBui
 					if(workingCopy.isServiceAnnotation(a.getType())) {
 						TypeDefinition d = new TypeDefinition();
 						d.setType(t, workingCopy.getRootContext(), 0);
+						d.setBeanConstructor(true);
 						workingCopy.addService(path, d);
 					}
 				}
