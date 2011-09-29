@@ -68,6 +68,7 @@ import org.jboss.tools.jsf.vpe.jsf.test.jbide.JsfJbide2170Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JsfJbide2362Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.MessageResolutionInPreviewTabTest;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.MozDirtyTest_JBIDE5105;
+import org.jboss.tools.jsf.vpe.jsf.test.jbide.MultipleWebRootFoldersTest_JBIDE9753;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.NullPointerWithStyleProperty_JBIDE5193;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.OpenOnCssClassTest_JBIDE4775;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.OpenOnInJarPackageFragment_JBIDE5682;
@@ -105,6 +106,7 @@ public class JsfAllImportantTests {
 		suite.addTestSuite(UnclosedELExpressionTest.class);
 		suite.addTestSuite(TestContextPathResolution.class);
 		suite.addTestSuite(JBIDE5920Test.class);
+		suite.addTestSuite(MultipleWebRootFoldersTest_JBIDE9753.class);
 		suite.addTestSuite(RenderFacetAndInsertChildrenTest.class);
 		suite.addTestSuite(EditFontFamilyTest_JBIDE5872.class);
 		suite.addTestSuite(ChangeMessageBundleTest_JBIDE5818.class);
