@@ -44,7 +44,7 @@ public class TypeDefinition extends AbstractTypeDefinition {
 	protected void init(IType contextType, IRootDefinitionContext context, int flags) throws CoreException {
 		super.init(contextType, context, flags);
 		boolean allMembers = (flags & FLAG_ALL_MEMBERS) > 0;
-		isAbstract = Flags.isAbstract(type.getFlags());
+		isAbstract = Flags.isAbstract(type.getFlags()) || type.isInterface();
 		for (IAnnotationDeclaration a: annotations) {
 			//provide initialization
 			context.getAnnotationKind(a.getType());
@@ -77,11 +77,13 @@ public class TypeDefinition extends AbstractTypeDefinition {
 			if(ms[i].isConstructor()) {
 				hasConstructor = true; 
 				if(ms[i].getNumberOfParameters() == 0 || m.getInjectAnnotation() != null) {
-					setBeanConstructor(true);
+					if(!isAbstract || isAnnotationPresent(CDIConstants.DECORATOR_STEREOTYPE_TYPE_NAME)) {
+						setBeanConstructor(true);
+					}
 				}
 			}
 		}
-		if(!hasConstructor) {
+		if(!hasConstructor && (!isAbstract || isAnnotationPresent(CDIConstants.DECORATOR_STEREOTYPE_TYPE_NAME))) {
 			setBeanConstructor(true);
 		}
 	}

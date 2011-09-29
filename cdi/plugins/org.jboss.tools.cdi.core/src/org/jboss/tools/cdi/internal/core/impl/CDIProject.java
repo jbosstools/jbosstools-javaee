@@ -364,16 +364,6 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		String injectionPointName = injectionPoint.getBeanName();
 
 		for (IBean b: beans) {
-			if(b instanceof ClassBean && !(b instanceof IBuiltInBean)) {
-				IType bType = b.getBeanClass();
-				try {
-					if(bType != null && Flags.isAbstract(bType.getFlags())) {
-						continue;
-					}
-				} catch (JavaModelException e) {
-					CDICorePlugin.getDefault().logError(e);
-				}
-			}
 			Set<IParametedType> types = b.getLegalTypes();
 			if(containsType(types, type)) {
 				try {
@@ -1158,6 +1148,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 	
 	void rebuildBeans() {
 		List<TypeDefinition> typeDefinitions = n.getAllTypeDefinitions();
+		Set<String> vetoedTypes = n.getAllVetoedTypes();
 		List<IBean> beans = new ArrayList<IBean>();
 
 		Set<IType> newAllTypes = new HashSet<IType>();
@@ -1193,10 +1184,16 @@ public class CDIProject extends CDIElement implements ICDIProject {
 			
 			newDefinitionToClassbeans.put(typeDefinition, bean);
 
-			if(!typeDefinition.isVetoed()) {
+			String typeName = typeDefinition.getType().getFullyQualifiedName();
+			if(!typeDefinition.isVetoed() 
+					    //Type is defined in another project and modified/replaced in config in this (dependent) project
+					    //We should reject type definition based on type, but we have to accept 
+					&& !(vetoedTypes.contains(typeName) && getNature().getDefinitions().getTypeDefinition(typeName) == null && typeDefinition.getOriginalDefinition() == null)) {
 				if(typeDefinition.hasBeanConstructor()) {
 					beans.add(bean);
 					newClassBeans.put(typeDefinition.getType(), bean);
+				} else {
+					beans.add(bean);
 				}
 
 				Set<IProducer> ps = bean.getProducers();
@@ -1211,6 +1208,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 			if(type != null && !newClassBeans.containsKey(type)) {
 				TypeDefinition t = new TypeDefinition();
 				t.setType(type, n.getDefinitions(), TypeDefinition.FLAG_NO_ANNOTATIONS);
+				t.setBeanConstructor(true);
 				ClassBean bean = BuiltInBeanFactory.newClassBean(this, t);
 				newClassBeans.put(t.getType(), bean);
 				beans.add(bean);
@@ -1235,6 +1233,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 			decorators.clear();
 			interceptors.clear();
 			allBeans.clear();
+			injectionPointsByType.clear();
 		}
 
 		classBeans = newClassBeans;
@@ -1244,8 +1243,6 @@ public class CDIProject extends CDIElement implements ICDIProject {
 			addBean(bean);
 		}
 	
-		buildInjectionPoinsByType();
-
 	}
 
 	/**
@@ -1291,23 +1288,26 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		}
 		synchronized(this) {
 			String name = bean.getName();
-			if(name != null && name.length() > 0) {
-				Set<IBean> bs = beansByName.get(name);
-				if(bs == null) {
-					bs = new HashSet<IBean>();
-					beansByName.put(name, bs);				
-				}
-				bs.add(bean);
-				namedBeans.add(bean);
-			}
 			IPath path = bean.getSourcePath();
 			Set<IBean> bs = beansByPath.get(path);
 			if(bs == null) {
 				bs = new HashSet<IBean>();
 				beansByPath.put(path, bs);
 			}
-			synchronized (this) {
-				bs.add(bean);
+			bs.add(bean);
+			buildInjectionPoinsByType(bean);
+			boolean isAbstract = (bean instanceof ClassBean) && !((ClassBean)bean).getDefinition().hasBeanConstructor();
+			if(isAbstract) {
+				return;
+			}
+			if(name != null && name.length() > 0) {
+				Set<IBean> bsn = beansByName.get(name);
+				if(bsn == null) {
+					bsn = new HashSet<IBean>();
+					beansByName.put(name, bsn);				
+				}
+				bsn.add(bean);
+				namedBeans.add(bean);
 			}
 			if(bean.isAlternative()) {
 				alternatives.add(bean);
@@ -1329,24 +1329,19 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		}
 	}
 
-	synchronized void buildInjectionPoinsByType() {
-		injectionPointsByType.clear();
-		
-		for (IBean b: allBeans) {
-			Set<IInjectionPoint> ps = b.getInjectionPoints();
-			for (IInjectionPoint p: ps) {
-				IParametedType t = p.getType();
-				if(t == null || t.getType() == null) continue;
-				String n = t.getType().getFullyQualifiedName();
-				Set<IInjectionPoint> s = injectionPointsByType.get(n);
-				if(s == null) {
-					s = new HashSet<IInjectionPoint>();
-					injectionPointsByType.put(n, s);
-				}
-				s.add(p);
+	synchronized void buildInjectionPoinsByType(IBean b) {
+		Set<IInjectionPoint> ps = b.getInjectionPoints();
+		for (IInjectionPoint p: ps) {
+			IParametedType t = p.getType();
+			if(t == null || t.getType() == null) continue;
+			String n = t.getType().getFullyQualifiedName();
+			Set<IInjectionPoint> s = injectionPointsByType.get(n);
+			if(s == null) {
+				s = new HashSet<IInjectionPoint>();
+				injectionPointsByType.put(n, s);
 			}
+			s.add(p);
 		}
-		
 	}
 
 	void rebuildXML() {
