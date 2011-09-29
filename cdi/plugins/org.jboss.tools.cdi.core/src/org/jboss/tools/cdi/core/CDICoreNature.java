@@ -209,6 +209,23 @@ public class CDICoreNature implements IProjectNature {
 		return result;
 	}
 
+	/**
+	 * Returns set of types that were to be marked as vetoed by CDI extensions, but 
+	 * for which it was impossible to set isVetoed=true on the type definition object,
+	 * because type is declared in another project where it is not vetoed.
+	 * 
+	 * @return
+	 */
+	public Set<String> getAllVetoedTypes() {
+		Set<String> result = new HashSet<String>();
+		result.addAll(definitions.getVetoedTypes());
+		Set<CDICoreNature> ps = getCDIProjects(true);
+		for (CDICoreNature n: ps) {
+			result.addAll(n.getDefinitions().getVetoedTypes());
+		}		
+		return result;
+	}
+
 	public Set<BeansXMLDefinition> getAllBeanXMLDefinitions() {
 		Set<CDICoreNature> ps = getCDIProjects(true);
 		if(ps == null || ps.isEmpty()) {
