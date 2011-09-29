@@ -27,7 +27,8 @@ public class EventAndObserverMethodHyperlinkDetectorTest extends TCKTest {
 				"/tck/JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/decorators/ObserverMethodInDecoratorBroken.java",
 				"/tck/JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/observers/ClassFragmentLogger.java",
 				"/tck/JavaSource/org/jboss/jsr299/tck/tests/implementation/simple/newSimpleBean/Fox.java",
-				"/tck/JavaSource/org/jboss/jsr299/tck/tests/event/broken/observer/beanNotManaged/AbstractBean.java",
+//Abstract class is not a bean, if we need its observer, we have to implement another way for that than throug beans.
+//				"/tck/JavaSource/org/jboss/jsr299/tck/tests/event/broken/observer/beanNotManaged/AbstractBean.java",
 				"/tck/JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TibetanTerrier_BrokenNoInterface.java",
 				"/tck/JavaSource/org/jboss/jsr299/tck/tests/event/StringObserver.java",
 				"/tck/JavaSource/org/jboss/jsr299/tck/tests/event/observer/transactional/Pomeranian.java",
