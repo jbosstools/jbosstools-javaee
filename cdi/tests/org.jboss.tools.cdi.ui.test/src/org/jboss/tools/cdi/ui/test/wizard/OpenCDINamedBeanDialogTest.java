@@ -12,11 +12,14 @@ package org.jboss.tools.cdi.ui.test.wizard;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PlatformUI;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.test.tck.TCKTest;
 import org.jboss.tools.cdi.ui.wizard.OpenCDINamedBeanDialog;
 import org.jboss.tools.cdi.ui.wizard.OpenCDINamedBeanDialog.CDINamedBeanWrapper;
+import org.jboss.tools.common.base.test.validation.TestUtil;
 import org.jboss.tools.test.util.JobUtils;
 
 /**
@@ -33,26 +36,27 @@ public class OpenCDINamedBeanDialogTest extends TCKTest {
 		project = ResourcesPlugin.getWorkspace().getRoot().getProject(TCKTest.PROJECT_NAME);
 	}
 	
-	public void testCDINamedBeanDialogSearch() {
-		find("spi", "SpiderSize", true);
-		find("bla", "blackWidow", false);
-		find("lady", "ladybirdSpider", false);
+	public void testCDINamedBeanDialogSearch() throws CoreException {
+		find("spi", "SpiderSize", "OtherSpiderProducer.java", true);
+		find("bla", "blackWidow", "BlackWidowProducer.java", false);
+		find("lady", "ladybirdSpider", "SpiderProducer.java", false);
 	}
 	
-	public void testCDINamedBeanDialogSearchShortHand() {
-		find("s*ze", "SpiderSize", true);
-		find("b*w", "blackWidow", false);
-		find("*dSp*r", "ladybirdSpider", false);
-		find("foo?", "foo3", false);
+	public void testCDINamedBeanDialogSearchShortHand() throws CoreException {
+		find("s*ze", "SpiderSize", "OtherSpiderProducer.java", true);
+		find("b*w", "blackWidow", "SpiderProducer.java", false);
+		find("*dSp*r", "ladybirdSpider", "SpiderProducer.java", false);
+		find("foo?", "foo3", "TestNamed.java", false);
 	}
 	
-	private void find(String pattern, String beanName, boolean wait){
+	private void find(String pattern, String beanName, String editorName, boolean wait) throws CoreException{
 		OpenCDINamedBeanDialog dialog = new OpenCDINamedBeanDialog(
 				PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell());
 		
 		dialog.setBlockOnOpen(false);
 		dialog.setInitialPattern(pattern);
 		dialog.open();
+		IBean bean = null;
 		try {
 			dialog.startSearch();
 			if(wait){
@@ -66,13 +70,18 @@ public class OpenCDINamedBeanDialogTest extends TCKTest {
 			
 			assertTrue("Component "+beanName+" not found", objects.length != 0);
 		
-			IBean bean = findNamedBean(objects, beanName);
+			bean = findNamedBean(objects, beanName);
 		
 			assertNotNull("Component "+beanName+" not found with " + pattern, bean);
 		} finally {
 			dialog.okPressed();
 			dialog.close();
 		}
+
+		bean.open();
+		TestUtil.waitForValidation();
+		IEditorPart resultEditor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
+		assertTrue("Unexpected editor is opened for CDI Named Bean '" + bean.getName() + "': " + resultEditor.getTitle(), editorName.equals(resultEditor.getTitle()));
 	}
 	
 	private IBean findNamedBean(Object[] objects, String beanName) {
