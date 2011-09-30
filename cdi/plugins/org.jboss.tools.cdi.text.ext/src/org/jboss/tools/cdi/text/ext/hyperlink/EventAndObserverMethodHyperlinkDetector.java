@@ -109,16 +109,26 @@ public class EventAndObserverMethodHyperlinkDetector extends AbstractHyperlinkDe
 				if(injectionPoint != null){
 					Set<IObserverMethod> observerMethods = cdiProject.resolveObserverMethods(injectionPoint);
 
-					if(observerMethods.size() > 0)
+					if(observerMethods.size() == 1){
+						for(IObserverMethod method : observerMethods){
+							hyperlinks.add(new ObserverMethodHyperlink(region, method, document));
+						}
+					}else if(observerMethods.size() > 0){
 						hyperlinks.add(new ObserverMethodListHyperlink(textViewer, region, observerMethods, document));
+					}
 					
 				} else if(param != null) {
 					Set<IInjectionPoint> events =  new HashSet<IInjectionPoint>();
 					for (IParameter p: param)
 						events.addAll(cdiProject.findObservedEvents(p));
-					
-					if(events.size() > 0)
+							
+					if(events.size() == 1){
+						for(IInjectionPoint event : events){
+							hyperlinks.add(new EventHyperlink(region, event, document));
+						}
+					}else if(events.size() > 0){
 						hyperlinks.add(new EventListHyperlink(textViewer, region, events, document));
+					}
 				}
 			}
 			
