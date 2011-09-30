@@ -71,9 +71,14 @@ public class OpenCDINamedBeanDialog extends FilteredItemsSelectionDialog {
 	private static final String NO = "no"; //$NON-NLS-1$
 
 	public OpenCDINamedBeanDialog(Shell shell) {
+		this(shell, false);
+	}
+
+	public OpenCDINamedBeanDialog(Shell shell, boolean disableHistory) {
 		super(shell);
 
-		setSelectionHistory(new CDINamedBeanSelectionHistory());
+		if (!disableHistory)
+			setSelectionHistory(new CDINamedBeanSelectionHistory());
 
 		setListLabelProvider(new CDINamedBeanLabelProvider());
 		setDetailsLabelProvider(new CDINamedBeanLabelProvider());
@@ -95,13 +100,16 @@ public class OpenCDINamedBeanDialog extends FilteredItemsSelectionDialog {
 
 	@Override
 	public int open() {
-		XMLMemento memento = loadMemento();
-		if (memento != null) {
-			getSelectionHistory().load(memento);
-			updateHistory(memento);
-			saveMemento(memento);
+		if (getSelectionHistory() != null) {
+			XMLMemento memento = loadMemento();
+			if (memento != null) {
+				getSelectionHistory().load(memento);
+				updateHistory(memento);
+				saveMemento(memento);
+			}
+			CDICorePlugin.addCDIProjectListener(cdiProjectListener);
 		}
-		CDICorePlugin.addCDIProjectListener(cdiProjectListener);
+			
 		return super.open();
 	}
 
@@ -480,7 +488,7 @@ public class OpenCDINamedBeanDialog extends FilteredItemsSelectionDialog {
 			saveMemento(memento);
 		}
 	}
-	
+
 	public static void validateHistory(ICDIProject cdiProject, XMLMemento memento) {
 		String cdiProjectName = cdiProject.getNature().getProject().getName(); 
 		XMLMemento historyMemento = (XMLMemento) memento

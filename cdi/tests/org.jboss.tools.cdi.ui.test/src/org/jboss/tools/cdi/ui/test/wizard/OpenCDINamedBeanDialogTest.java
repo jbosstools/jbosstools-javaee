@@ -51,7 +51,7 @@ public class OpenCDINamedBeanDialogTest extends TCKTest {
 	
 	private void find(String pattern, String beanName, String editorName, boolean wait) throws CoreException{
 		OpenCDINamedBeanDialog dialog = new OpenCDINamedBeanDialog(
-				PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell());
+				PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), true);
 		
 		dialog.setBlockOnOpen(false);
 		dialog.setInitialPattern(pattern);
@@ -79,7 +79,6 @@ public class OpenCDINamedBeanDialogTest extends TCKTest {
 		}
 
 		bean.open();
-		TestUtil.waitForValidation();
 		IEditorPart resultEditor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
 		assertTrue("Unexpected editor is opened for CDI Named Bean '" + bean.getName() + "': " + resultEditor.getTitle(), editorName.equals(resultEditor.getTitle()));
 	}
