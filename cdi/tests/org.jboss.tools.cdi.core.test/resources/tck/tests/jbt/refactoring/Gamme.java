@@ -11,7 +11,7 @@ import javax.naming.NamingException;
 
 @SessionScoped
 @Named
-public class Game implements Serializable
+public class Gamme implements Serializable
 {
 	private static final long serialVersionUID = 12L;
 
@@ -33,7 +33,7 @@ public class Game implements Serializable
 
    @Inject @Random Instance<Integer> randomNumber;
    
-   public Game() throws NamingException {}
+   public Gamme() throws NamingException {}
 
    public int getNumber()
    {

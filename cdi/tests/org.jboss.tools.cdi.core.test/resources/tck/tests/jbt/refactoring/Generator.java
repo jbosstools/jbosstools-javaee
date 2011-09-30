@@ -17,7 +17,7 @@ public class Generator implements Serializable
    
    java.util.Random getRandom()
    {
-	   String s = "#{game}";
+	   String s = "#{gamme}";
       return random;
    }
    

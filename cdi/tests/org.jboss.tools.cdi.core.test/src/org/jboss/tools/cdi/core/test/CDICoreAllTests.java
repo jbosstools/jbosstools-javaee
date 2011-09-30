@@ -37,6 +37,7 @@ import org.jboss.tools.cdi.core.test.tck.InjectionPointTest;
 import org.jboss.tools.cdi.core.test.tck.InjectionPointWithNewQualifierTest;
 import org.jboss.tools.cdi.core.test.tck.InterceptorDefinitionTest;
 import org.jboss.tools.cdi.core.test.tck.NameDefinitionTest;
+import org.jboss.tools.cdi.core.test.tck.NamedBeanRefactoringTest;
 import org.jboss.tools.cdi.core.test.tck.ObserverMethodResolutionTest;
 import org.jboss.tools.cdi.core.test.tck.ProducerMethodDefinitionTest;
 import org.jboss.tools.cdi.core.test.tck.QualifierDefinitionTest;
@@ -122,6 +123,9 @@ public class CDICoreAllTests {
 		suite.addTestSuite(CoreValidationTest.class);
 		suite.addTestSuite(ELValidationTest.class);
 		suite.addTestSuite(IncrementalValidationTest.class);
+		
+		// Refactoring test
+		suite.addTestSuite(NamedBeanRefactoringTest.class);
 
 		suiteAll.addTestSuite(TwoWebContentFoldersTest.class);
 		suiteAll.addTestSuite(RemoveJarFromClasspathTest.class);

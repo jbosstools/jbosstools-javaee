@@ -11,7 +11,7 @@
 	<body>
 		<f:view>
 			<h3>
-				<h:outputText value="#{game.biggest}" />!
+				<h:outputText value="#{gamme.biggest}" />!
 			</h3>
 		</f:view>
 	</body>

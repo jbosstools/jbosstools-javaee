@@ -18,10 +18,10 @@
             <input wicket:id="inputGuess" type="text" size="3"/>
             <input wicket:id="GuessButton" type="submit" value="Guess"/>
             <input wicket:id="RestartButton" type="submit" value="Reset"/>
-            <h:commandButton id="GuessButton" value="Guess" action="#{game.check}" disabled="false"/>
+            <h:commandButton id="GuessButton" value="Guess" action="#{gamme.check}" disabled="false"/>
          </div>
          <div>
-           <h:commandButton id="RestartButton" value="Reset" action="#{game.reset}" immediate="true"/>
+           <h:commandButton id="RestartButton" value="Reset" action="#{gamme.reset}" immediate="true"/>
          </div>
       </form>
    </body>
