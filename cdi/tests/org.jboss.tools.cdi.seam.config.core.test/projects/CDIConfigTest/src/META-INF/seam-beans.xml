@@ -155,4 +155,12 @@
 	</s:value>
 </test06:MyType1>
 
+<!-- Test 06-4 -->
+<test06:MyInterface>
+	<s:Produces/>
+	<s:value>
+		<test06:MyImpl></test06:MyImpl>
+	</s:value>
+</test06:MyInterface>
+
 </beans>

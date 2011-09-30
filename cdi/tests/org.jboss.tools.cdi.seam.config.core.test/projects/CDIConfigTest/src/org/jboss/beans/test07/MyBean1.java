@@ -1,4 +1,4 @@
-package org.jboss.beans.test01;
+package org.jboss.beans.test07;
 
 import javax.inject.Named;
 /**

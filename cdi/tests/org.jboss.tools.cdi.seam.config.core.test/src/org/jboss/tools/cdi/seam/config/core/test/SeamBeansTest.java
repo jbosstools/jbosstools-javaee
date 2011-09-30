@@ -649,8 +649,8 @@ public class SeamBeansTest extends SeamConfigTest {
 	 * 
 	 * ASSERT: Model contains 1 bean with type MyType1 and qualifier MyQualifier.
 	 * ASSERT: Qualifier has value member equal to "two".
-	 * ASSERT: Injection point field 'two' in MyBean1 is resolved to that bean.
-	 * ASSERT: Injection point field 'one' in MyBean1 is resolved to 2 beans.
+	 * ASSERT: Injection point field 'two' in MyBean2 is resolved to that bean.
+	 * ASSERT: Injection point field 'one' in MyBean2 is resolved to 2 beans.
 	 * ASSERT: One of them is the above-mentioned MyType1 bean.
 	 * ASSERT: The other of them is a bean with type MyType1 InlineBeanQualifier qualifier.
 	 */
@@ -713,6 +713,29 @@ public class SeamBeansTest extends SeamConfigTest {
 		assertNotNull(inlineIndex2);
 //see comment to inlineIndex1 above.
 //		assertEquals(inlineIndex1, inlineIndex2);		
+	}
+
+	public void testVirtualFieldProducerForInterface() {
+		Set<IBean> beans = cdiProject.getBeans(false, "org.jboss.beans.test06.MyInterface", 
+				new String[]{CDIConstants.DEFAULT_QUALIFIER_TYPE_NAME});
+		assertEquals(1, beans.size());
+		IBean b = beans.iterator().next();
+		assertTrue(b instanceof IClassBean); // we keep it as a class bean
+		
+		Set<IBean> beans1 = cdiProject.getBeans(false, "org.jboss.beans.test06.MyBean3", new String[0]);
+		assertEquals(1, beans1.size());
+		IBean b1 = beans1.iterator().next();
+
+		Set<IInjectionPoint> is = b1.getInjectionPoints();
+		assertEquals(1, is.size());
+		IInjectionPoint i = is.iterator().next();
+		
+		assertNotNull(i);
+	
+		Set<IBean> beansI = cdiProject.getBeans(false, i);
+		assertEquals(1, beansI.size());
+		assertTrue(beansI.contains(b));
+		
 	}
 
 	/**
