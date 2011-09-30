@@ -31,5 +31,6 @@ Require-Bundle: org.junit,
  org.eclipse.wst.validation;bundle-version="1.2.300",
  org.jboss.tools.jst.web.kb.test,
  org.jboss.tools.common.validation,
- org.jboss.tools.jst.jsp
+ org.jboss.tools.jst.jsp,
+ org.eclipse.ltk.ui.refactoring;bundle-version="3.6.0"
 Export-Package: org.jboss.tools.cdi.ui.test

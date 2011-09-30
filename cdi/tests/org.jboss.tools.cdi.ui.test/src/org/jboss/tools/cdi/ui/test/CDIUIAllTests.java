@@ -61,6 +61,8 @@ public class CDIUIAllTests {
 		suiteAll.addTest(new CDICoreTestSetup(suite));
 
 		suiteAll.addTestSuite(AddQualifiersToBeanWizardTest.class);
+		
+		suiteAll.addTestSuite(CDIRefactoringTest.class);
 
 		return suiteAll;
 	}
