@@ -80,6 +80,7 @@ import org.jboss.tools.cdi.core.IProducerMethod;
 import org.jboss.tools.cdi.core.IQualifierDeclaration;
 import org.jboss.tools.cdi.core.util.BeanPresentationUtil;
 import org.jboss.tools.cdi.internal.core.impl.AbstractBeanElement;
+import org.jboss.tools.cdi.text.ext.CDIExtensionsMessages;
 import org.jboss.tools.cdi.text.ext.CDIExtensionsPlugin;
 import org.jboss.tools.cdi.text.ext.hyperlink.AssignableBeanFilters.Checkbox;
 import org.jboss.tools.cdi.text.ext.hyperlink.AssignableBeanFilters.Filter;
@@ -174,6 +175,11 @@ public class AssignableBeansDialog extends PopupDialog {// TitleAreaDialog {
 		Composite fViewMenuButtonComposite= (Composite) super.createTitleMenuArea(parent);
 		fFilterText = createFilterText(parent);
 		return fViewMenuButtonComposite;
+	}
+
+	protected void configureShell(Shell newShell) {
+		super.configureShell(newShell);
+		newShell.setText(CDIExtensionsMessages.ASSIGNABLE_BEANS_DIALOG_TITLE);
 	}
 
 	protected Control createDialogArea(Composite parent) {
@@ -347,6 +353,9 @@ public class AssignableBeansDialog extends PopupDialog {// TitleAreaDialog {
 		if(display == null) {
 			display = Display.getDefault();
 		}
+		if(display.getActiveShell() == null) {
+			return super.getDefaultLocation(size);
+		}
 		Rectangle b = display.getActiveShell().getBounds();
 		int x = b.x + (b.width - size.x) / 2;
 		int y = b.y + (b.height - size.y) / 2;
@@ -386,6 +395,31 @@ public class AssignableBeansDialog extends PopupDialog {// TitleAreaDialog {
 		}
 	}
 
+	public List<IBean> getDisplayedBeans() {
+		List<IBean> bs = new ArrayList<IBean>();
+		int index = 0;
+		while(true) {
+			Object o = list.getElementAt(index);
+			if(o instanceof IBean) {
+				bs.add((IBean)o);
+			} else {
+				break;
+			}
+			index++;
+		}
+		return bs;
+	}
+
+	public boolean isFilterEnabled(int index) {
+		return AssignableBeanFilters.ALL_OPTIONS[index].state;
+	}
+
+	public void setFilterEnabled(int index, boolean value) {
+		AssignableBeanFilters.ALL_OPTIONS[index].state = value;
+		filterView.refresh();
+//		filterView.setChecked(AssignableBeanFilters.ALL_OPTIONS[index], value);
+		list.refresh();
+	}
 
 	class ShowHideAction extends Action {
 		public ShowHideAction() {

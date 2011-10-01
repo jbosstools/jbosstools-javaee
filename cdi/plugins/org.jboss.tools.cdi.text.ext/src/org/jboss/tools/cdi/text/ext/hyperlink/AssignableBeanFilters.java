@@ -33,13 +33,13 @@ public class AssignableBeanFilters {
 		public void filter(Set<IBean> beans);
 	}
 
-	static int OPTION_UNAVAILABLE_BEANS = 1;
-	static int OPTION_DECORATOR = 2;
-	static int OPTION_INTERCEPTOR = 3;
-	static int OPTION_UNSELECTED_ALTERNATIVE = 4;
-	static int OPTION_PRODUCER_IN_UNAVAILABLE_BEAN = 5;
-	static int OPTION_SPECIALIZED_BEAN = 6;
-	static int OPTION_ELIMINATED_AMBIGUOUS = 7;
+	public static int OPTION_UNAVAILABLE_BEANS = 1;
+	public static int OPTION_DECORATOR = 2;
+	public static int OPTION_INTERCEPTOR = 3;
+	public static int OPTION_UNSELECTED_ALTERNATIVE = 4;
+	public static int OPTION_PRODUCER_IN_UNAVAILABLE_BEAN = 5;
+	public static int OPTION_SPECIALIZED_BEAN = 6;
+	public static int OPTION_ELIMINATED_AMBIGUOUS = 7;
 
 	public static class Checkbox {
 		int id;
@@ -134,12 +134,15 @@ public class AssignableBeanFilters {
 	public static class SpecializedBeanFilter implements Filter {
 		public void filter(Set<IBean> beans) {
 			Iterator<IBean> it = beans.iterator();
+			Set<IBean> specialized = new HashSet<IBean>();
 			while(it.hasNext()) {
 				IBean b = it.next();
-				if(b instanceof IClassBean && !((IClassBean) b).getSpecializingBeans().isEmpty()) {
-					it.remove();
+				IBean bean = b.getSpecializedBean();
+				if(bean != null) {
+					specialized.add(bean);
 				}
 			}
+			beans.removeAll(specialized);
 		}
 	}
 

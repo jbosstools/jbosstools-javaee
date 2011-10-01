@@ -42,8 +42,6 @@ public class AssignableBeansHyperlink extends AbstractHyperlink implements ITest
 		}
 		AssignableBeansDialog dialog = new AssignableBeansDialog(display.getActiveShell());
 		dialog.setInjectionPoint(injectionPoint);
-		dialog.create();
-		dialog.getShell().setText(CDIExtensionsMessages.ASSIGNABLE_BEANS_DIALOG_TITLE);
 		dialog.open();
 	}
 
