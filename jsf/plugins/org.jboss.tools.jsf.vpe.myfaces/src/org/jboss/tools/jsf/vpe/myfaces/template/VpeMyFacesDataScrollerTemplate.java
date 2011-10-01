@@ -112,10 +112,6 @@ public class VpeMyFacesDataScrollerTemplate extends VpeAbstractTemplate {
 	public void removeAttribute(VpePageContext pageContext, Element sourceElement, Document visualDocument, Node visualNode, Object data, String name) {
 	}
 
-	public String[] getOutputAttributeNames() {
-		return null;
-	}
-
 	/* (non-Javadoc)
 	 * @see org.jboss.tools.vpe.editor.template.VpeAbstractTemplate#getOutputTextNode(org.jboss.tools.vpe.editor.context.VpePageContext, org.w3c.dom.Element, java.lang.Object)
 	 */
