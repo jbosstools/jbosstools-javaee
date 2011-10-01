@@ -24,9 +24,10 @@ public class CdiTextExtAllTests {
 
 		ValidationFramework.getDefault().suspendAllValidation(true);
 
-		TestSuite suiteAll = new TestSuite("CDI Core Tests");
+		TestSuite suiteAll = new TestSuite("CDI Text Ext Tests");
 
 		TestSuite suite = new TestSuite("CDI OpenOns Tests");
+		suite.addTestSuite(AssignableBeansDialogTest.class);
 		suite.addTestSuite(InjectedPointHyperlinkDetectorTest.class);
 		suite.addTestSuite(ProducerDisposerHyperlinkDetectorTest.class);
 		suite.addTestSuite(EventAndObserverMethodHyperlinkDetectorTest.class);
