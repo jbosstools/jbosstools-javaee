@@ -27,7 +27,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 		</profile>
 
 		<profile>
-			<id>cdi-tests-deafult</id>
+			<id>cdi-tests-default</id>
 			<activation>
 				<activeByDefault>true</activeByDefault>
 				<property>
@@ -52,7 +52,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 			<id>cdi-tests-coverage-report</id>
 			<activation>
 				<property>
-					<name>coverage</name>
+					<name>cdi-coverage</name>
 				</property>
 			</activation>
 			<modules>
