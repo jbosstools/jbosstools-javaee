@@ -181,11 +181,11 @@ public class CAForELJavaAndJSTCompareTest extends ContentAssistantTestCase {
 	private boolean compareJavaAndJSTProposals(ELProposalProcessor.Proposal javaProposal, AutoELContentAssistantProposal jstProposal) {
 		assertNotNull ("Display String of Java EL Proposal should not be a null", javaProposal.getDisplayString());
 		assertNotNull ("Display String of JST EL Proposal should not be a null", jstProposal.getDisplayString());
-		assertTrue("Display Strings must be equal (Java: ["+javaProposal.getDisplayString() +"] != JST: [" + jstProposal.getDisplayString() + "])", javaProposal.getDisplayString().equals(jstProposal.getDisplayString()));
+		assertEquals("Display Strings must be equal", jstProposal.getDisplayString(), javaProposal.getDisplayString());
 
 		assertNotNull ("Additional Info String of Java EL Proposal should not be a null", javaProposal.getAdditionalProposalInfo());
 		assertNotNull ("Additional Info String of JST EL Proposal should not be a null", jstProposal.getAdditionalProposalInfo());
-		assertTrue("Additional Info Strings must be equal (Java: ["+javaProposal.getAdditionalProposalInfo() +"] != JST: [" + jstProposal.getAdditionalProposalInfo() + "])", javaProposal.getAdditionalProposalInfo().equals(jstProposal.getAdditionalProposalInfo()));
+		assertEquals("Additional Info Strings must be equal", jstProposal.getAdditionalProposalInfo(), javaProposal.getAdditionalProposalInfo());
 		return true;
 	}
 }
