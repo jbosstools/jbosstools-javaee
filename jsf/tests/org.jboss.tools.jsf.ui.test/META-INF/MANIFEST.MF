@@ -36,6 +36,8 @@ Require-Bundle: org.junit,
  org.eclipse.wst.validation,
  org.eclipse.wst.html.core;bundle-version="1.1.500",
  org.eclipse.wst.html.ui;bundle-version="1.0.600",
- org.jboss.tools.jst.jsp.base.test;bundle-version="3.3.0"
+ org.jboss.tools.jst.jsp.base.test;bundle-version="3.3.0",
+ org.jboss.tools.common.el.ui;bundle-version="3.3.0",
+ org.eclipse.jdt.ui;bundle-version="3.7.0"
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

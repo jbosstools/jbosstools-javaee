@@ -20,6 +20,7 @@ import javax.faces.bean.SessionScoped;
 @SessionScoped
 public class User {
 	private String name;
+	private String testString = "#{user.name}";
 
 	public User() {
 	}
