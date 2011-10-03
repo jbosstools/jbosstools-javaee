@@ -66,29 +66,28 @@ public class CAForELJavaAndJSTCompareTest extends ContentAssistantTestCase {
 		for (String prefix : PREFIXES) {
 			ELProposalProcessor.Proposal javaProposals[] = getJavaEditorProposals(prefix);
 			assertFalse ("No EL Proposals found in Java file: " + JAVA_FILENAME, (javaProposals == null || javaProposals.length == 0));
-			assertTrue ("Content Assist in returned more than 1 proposal for Java file: " + JAVA_FILENAME + 
-					". Test project and/or data should be verfied/updated.", (javaProposals.length == 1));
+			assertEquals ("Content Assist in returned more than 1 proposal for Java file: " + JAVA_FILENAME + 
+					". Test project and/or data should be verfied/updated.", 1,  javaProposals.length);
 			
 			AutoELContentAssistantProposal jstProposals[] = getJSTProposals(prefix);
 			assertFalse ("No EL Proposals found in Web page: " + PAGE_NAME, (jstProposals == null || jstProposals.length == 0));
-			assertTrue ("Content Assist in returned more than 1 proposal for Web page: " + PAGE_NAME + 
-					". Test project and/or data should be verfied/updated.", (jstProposals.length == 1));
+			assertEquals ("Content Assist in returned more than 1 proposal for Web page: " + PAGE_NAME + 
+					". Test project and/or data should be verfied/updated.", 1, jstProposals.length);
 			
 			compareJavaAndJSTProposals(javaProposals[0], jstProposals[0]);
 		}
 	}
 	
 	private ELProposalProcessor.Proposal[] getJavaEditorProposals(String prefix) {
-		assertTrue("Test project \"" + PROJECT_NAME + "\" is not loaded", (project != null));
+		assertNotNull("Test project \"" + PROJECT_NAME + "\" is not loaded", project);
 		 
 		IFolder srcRoot = (IFolder)EclipseResourceUtil.getJavaSourceRoot(project);
 		IFile javaFile = (srcRoot == null ? null : (IFile)srcRoot.findMember(JAVA_FILENAME));  
 
-		assertTrue("The file \"" + JAVA_FILENAME + "\" is not found", (javaFile != null));
+		assertNotNull("The file \"" + JAVA_FILENAME + "\" is not found", javaFile);
 		assertTrue("The file \"" + JAVA_FILENAME + "\" is not found", (javaFile.exists()));
 
 		FileEditorInput editorInput = new FileEditorInput(javaFile);
-		Throwable exception = null;
 		IEditorPart editorPart = null;
 
 		try {
@@ -115,26 +114,21 @@ public class CAForELJavaAndJSTCompareTest extends ContentAssistantTestCase {
 			SourceViewerConfiguration config = CATestUtil.getSourceViewerConfiguration(javaEditor);
 			IContentAssistant contentAssistant = (config == null ? null : config.getContentAssistant(viewer));
 	
-			assertTrue("Cannot get the Content Assistant instance for the editor for file  \"" + JAVA_FILENAME + "\"", (contentAssistant != null));
+			assertNotNull("Cannot get the Content Assistant instance for the editor for file  \"" + JAVA_FILENAME + "\"", contentAssistant);
 			
 			String documentContent = document.get();
 			int start = (documentContent == null ? -1 : documentContent.indexOf(prefix));
 			int offsetToTest = start + prefix.length();
 			
-			assertTrue("Cannot find the starting point in the test file  \"" + JAVA_FILENAME + "\"", (start != -1));
+			assertNotSame("Cannot find the starting point in the test file  \"" + JAVA_FILENAME + "\"", -1, start);
 	
 			ICompletionProposal[] result= null;
-			String errorMessage = null;
 	
 			IContentAssistProcessor p= CATestUtil.getProcessor(viewer, offsetToTest, contentAssistant);
 			if (p != null) {
 				result= p.computeCompletionProposals(viewer, offsetToTest);
 			}
 			
-	//		if (errorMessage != null && errorMessage.trim().length() > 0) {
-	//			System.out.println("#" + offsetToTest + ": ERROR MESSAGE: " + errorMessage);
-	//		}
-	
 			assertTrue("Content Assistant peturned no proposals", (result != null && result.length > 0));
 
 			Set<ELProposalProcessor.Proposal> javaProposals = new HashSet<ELProposalProcessor.Proposal>();
