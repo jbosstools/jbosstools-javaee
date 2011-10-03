@@ -57,7 +57,9 @@ public class JBIDE2219Test extends VpeTest {
 		//sets caret in the begining of text
 		styledText.setCaretOffset(0);
 		assertTrue("Char count should be a 0", styledText.getCharCount()==0); //$NON-NLS-1$
+		assertFalse(part.isDirty());
 		styledText.insert("Test "); //$NON-NLS-1$
+		assertTrue(part.isDirty());
 		styledText.setSelection(0, 1);
 		assertTrue("Char count shouldn't be a 0",styledText.getCharCount()>2); //$NON-NLS-1$
 		TestUtil.delay();
