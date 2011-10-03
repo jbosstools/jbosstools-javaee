@@ -43,7 +43,7 @@ public class PackageNamesTest extends TestCase{
 	
 	@Override
 	protected void tearDown() {
-		wizard.getDataModel().setStringProperty(IFacetDataModelProperties.FACET_PROJECT_NAME, "");
+		wizard.getDataModel().setStringProperty(IFacetDataModelProperties.FACET_PROJECT_NAME, "default");
 		wizard.performCancel();
 		dialog.close();
 	}
