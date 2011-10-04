@@ -165,5 +165,33 @@ public class OpenOnTest extends JSFAutoTestCase{
         selectedText.equalsIgnoreCase(expectedSelectedText));
     compositeComponentEditor.close();
   }
-
+  /**
+   * Test Open On functionality for Referenced Template within JSF2 project
+   */
+  public void testOpenOnForReferencedTemplateJsf2() {
+    eclipse.closeAllEditors();
+    createJSF2Project(JSF2_TEST_PROJECT_NAME);
+    openPage(JSF2_TEST_PAGE,JSF2_TEST_PROJECT_NAME);
+    // Check open on for <ez:input
+    String expectedOpenedFileName = "common.xhtml";
+    SWTBotEditor compositeComponentEditor = OpenOnHelper.checkOpenOnFileIsOpened(
+        SWTTestExt.bot, JSF2_TEST_PAGE, "<ui:composition template=\"/templates/common.xhtml\"", 30,
+        0, 0, expectedOpenedFileName);
+    compositeComponentEditor.close();
+  }
+  
+  /**
+   * Test Open On functionality for Referenced Template within JSF facelets project
+   */
+  public void testOpenOnForReferencedTemplateFacelets() {
+    eclipse.closeAllEditors();
+    openPage(FACELETS_TEST_PAGE,FACELETS_TEST_PROJECT_NAME);
+    // Check open on for <ez:input
+    String expectedOpenedFileName = "common.xhtml";
+    SWTBotEditor compositeComponentEditor = OpenOnHelper.checkOpenOnFileIsOpened(
+        SWTTestExt.bot, FACELETS_TEST_PAGE, "<ui:composition template=\"/templates/common.xhtml\"", 30,
+        0, 0, expectedOpenedFileName);
+    compositeComponentEditor.close();
+  }
+  
 }

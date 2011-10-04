@@ -173,11 +173,7 @@ public class CodeCompletionTest extends JSFAutoTestCase{
    * Test Code Completion functionality for Composite Component
    */
   public void testCodeCompletionOfCompositeComponent(){
-    eclipse.closeAllEditors();
-    createJSF2Project(JSF2_TEST_PROJECT_NAME);
-    openPage(JSF2_TEST_PAGE, JSF2_TEST_PROJECT_NAME);
-    compositeComponentContainerEditor = SWTTestExt.bot.swtBotEditorExtByTitle(FACELETS_TEST_PAGE);
-    origCompositeComponentContainerEditorText = compositeComponentContainerEditor.getText();
+    initJSF2PageTest();
     ContentAssistBot contentAssist = compositeComponentContainerEditor.contentAssist();
     SWTJBTExt.selectTextInSourcePane(SWTTestExt.bot, 
         JSF2_TEST_PAGE,
@@ -262,6 +258,52 @@ public class CodeCompletionTest extends JSFAutoTestCase{
     compositeComponentDefEditor.save();
   }
   /**
+   * Test Code Completion functionality for Managed Bean 
+   * referenced via @ManagedBean annotation  
+   */
+  public void testCodeCompletionOfReferencedManagedBean(){
+    initJSF2PageTest();
+    String textForSelection = "value=\"#{user.name}\"";
+    List<String> expectedProposals = new LinkedList<String>();
+    expectedProposals.add("msgs");
+    expectedProposals.add("user : User");
+    expectedProposals.add("\"#{user.name}\"");
+    expectedProposals.add("applicationScope");
+    expectedProposals.add("cc");
+    expectedProposals.add("component");
+    expectedProposals.add("cookie");
+    expectedProposals.add("facesContext");
+    expectedProposals.add("flash");
+    expectedProposals.add("header");
+    expectedProposals.add("headerValues");
+    expectedProposals.add("initParam");
+    expectedProposals.add("param");
+    expectedProposals.add("paramValues");
+    expectedProposals.add("requestScope");
+    expectedProposals.add("resource");
+    expectedProposals.add("sessionScope");
+    expectedProposals.add("view");
+    expectedProposals.add("viewScope");
+    // Check content assist for #{ prefix
+    ContentAssistHelper.checkContentAssistContent(SWTTestExt.bot, 
+        JSF2_TEST_PAGE,
+        textForSelection, 
+        9, 
+        0, 
+        expectedProposals);
+    // Check content assist for ${user. prefix
+    expectedProposals.clear();
+    expectedProposals.add("name : String - User");
+    expectedProposals.add("sayHello() : String - User");
+    expectedProposals.add("\"#{user.name}\"");
+    ContentAssistHelper.checkContentAssistContent(SWTTestExt.bot, 
+        FACELETS_TEST_PAGE,
+        textForSelection, 
+        14, 
+        0, 
+        expectedProposals);
+  }
+  /**
    * Initialize test which are using facelets test page
    */
 	private void initFaceletsPageTest() {
@@ -270,6 +312,17 @@ public class CodeCompletionTest extends JSFAutoTestCase{
     editor = SWTTestExt.bot.swtBotEditorExtByTitle(FACELETS_TEST_PAGE);
     originalEditorText = editor.getText();
 	}
+	
+  /**
+   * Initialize test which are using JSF2 test page
+   */
+  private void initJSF2PageTest() {
+    eclipse.closeAllEditors();
+    createJSF2Project(JSF2_TEST_PROJECT_NAME);
+    openPage(JSF2_TEST_PAGE, JSF2_TEST_PROJECT_NAME);
+    compositeComponentContainerEditor = SWTTestExt.bot.swtBotEditorExtByTitle(FACELETS_TEST_PAGE);
+    origCompositeComponentContainerEditorText = compositeComponentContainerEditor.getText();
+  } 
 	/**
 	 * Returns list of expected Content Assist proposals for Input tag
 	 * @return
