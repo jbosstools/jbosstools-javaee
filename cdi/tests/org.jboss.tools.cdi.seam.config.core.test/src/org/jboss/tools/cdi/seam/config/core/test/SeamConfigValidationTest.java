@@ -121,6 +121,15 @@ public class SeamConfigValidationTest extends TestCase {
 		AbstractResourceMarkerTest.assertMarkerIsCreated(f, MessageFormat.format(SeamConfigValidationMessages.INLINE_BEAN_TYPE_MISMATCH, "MyBean3", "MyBean1"), 125);
 	}
 
+	public void testConfiguringAbstractTypes() throws CoreException {
+		AbstractResourceMarkerTest.assertMarkerIsCreated(f, MessageFormat.format(SeamConfigValidationMessages.TYPE_IS_ABSTRACT, "MyAbstract"), 130);
+		AbstractResourceMarkerTest.assertMarkerIsCreated(f, MessageFormat.format(SeamConfigValidationMessages.TYPE_IS_ABSTRACT, "MyInterface"), 131);
+	}
+
+	public void testNoBeanConstructor() throws CoreException {
+		AbstractResourceMarkerTest.assertMarkerIsCreated(f, MessageFormat.format(SeamConfigValidationMessages.NO_BEAN_CONSTRUCTOR, "MyBean4"), 132);
+	}
+
 	public void testAddClassToResolveNode() throws CoreException {
 		String path = "src/org/jboss/beans/validation/test/MyBean2.java";
 		GenericBeanValidationTest.writeFile(project, "src/org/jboss/beans/validation/test/MyBean2.template", path);

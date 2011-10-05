@@ -126,4 +126,9 @@
 		</s:value>
 	</v:bean2>
 </v:MyBean3>
+
+<v:MyAbstract></v:MyAbstract>
+<v:MyInterface></v:MyInterface>
+<v:MyBean4></v:MyBean4>
+
 </beans>
