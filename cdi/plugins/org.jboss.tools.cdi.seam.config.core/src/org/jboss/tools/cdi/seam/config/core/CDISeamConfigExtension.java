@@ -31,6 +31,7 @@ import org.jboss.tools.cdi.core.extension.ICDIExtension;
 import org.jboss.tools.cdi.core.extension.feature.IBuildParticipantFeature;
 import org.jboss.tools.cdi.core.extension.feature.IValidatorFeature;
 import org.jboss.tools.cdi.internal.core.impl.CDIProject;
+import org.jboss.tools.cdi.internal.core.impl.definition.TypeDefinition;
 import org.jboss.tools.cdi.internal.core.scanner.FileSet;
 import org.jboss.tools.cdi.internal.core.validation.CDICoreValidator;
 import org.jboss.tools.cdi.seam.config.core.definition.ConfigTypeDefinition;
@@ -234,6 +235,20 @@ public class CDISeamConfigExtension implements ICDIExtension, IBuildParticipantF
 								validator.addError(message, CDISeamConfigPreferences.INLINE_BEAN_TYPE_MISMATCH, new TextSourceReference(def.getFileObject(), file, inline.getNode()), file);
 							}
 						}
+					}
+				}
+			}
+			List<TypeDefinition> ds = def.getTypeDefinitions();
+			for (TypeDefinition d: ds) {
+				if(!d.hasBeanConstructor()) {
+					ConfigTypeDefinition cd = (ConfigTypeDefinition)d;
+					SAXNode n = cd.getConfig().getNode();
+					if(d.isAbstract()) {
+						String message = NLS.bind(SeamConfigValidationMessages.TYPE_IS_ABSTRACT, cd.getParametedType().getSimpleName());
+						validator.addError(message, CDISeamConfigPreferences.ABSTRACT_TYPE_IS_CONFIGURED_AS_BEAN, new TextSourceReference(def.getFileObject(), file, n), file);
+					} else {
+						String message = NLS.bind(SeamConfigValidationMessages.NO_BEAN_CONSTRUCTOR, cd.getParametedType().getSimpleName());
+						validator.addError(message, CDISeamConfigPreferences.BEAN_CONSTRUCTOR_IS_MISSING, new TextSourceReference(def.getFileObject(), file, n), file);
 					}
 				}
 			}

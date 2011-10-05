@@ -17,6 +17,8 @@ public class CDISeamConfigPreferences extends SeverityPreferences {
 	public static final String ANNOTATION_EXPECTED = INSTANCE.createSeverityOption("annotationExpected");
 
 	public static final String INLINE_BEAN_TYPE_MISMATCH = INSTANCE.createSeverityOption("inlineBeanTypeMismatch");
+	public static final String ABSTRACT_TYPE_IS_CONFIGURED_AS_BEAN = INSTANCE.createSeverityOption("abstractTypeIsConfiguredAsBean");
+	public static final String BEAN_CONSTRUCTOR_IS_MISSING = INSTANCE.createSeverityOption("beanConstructorIsMissing");
 
 	public static CDISeamConfigPreferences getInstance() {
 		return INSTANCE;
