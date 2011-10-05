@@ -8,62 +8,33 @@ import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotEditor;
 import org.eclipse.swtbot.swt.finder.SWTBot;
 import org.eclipse.swtbot.swt.finder.finders.UIThreadRunnable;
 import org.eclipse.swtbot.swt.finder.results.Result;
-import org.eclipse.swtbot.swt.finder.utils.SWTUtils;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotCheckBox;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotMenu;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTree;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTreeItem;
 import org.jboss.tools.cdi.bot.test.uiutils.wizards.CDIWizard;
 import org.jboss.tools.cdi.bot.test.uiutils.wizards.CDIWizardType;
-import org.jboss.tools.cdi.bot.test.uiutils.wizards.DynamicWebProjectWizard;
 import org.jboss.tools.ui.bot.ext.SWTBotExt;
 import org.jboss.tools.ui.bot.ext.SWTOpenExt;
 import org.jboss.tools.ui.bot.ext.SWTUtilExt;
 import org.jboss.tools.ui.bot.ext.Timing;
-import org.jboss.tools.ui.bot.ext.gen.ActionItem;
-import org.jboss.tools.ui.bot.ext.gen.ActionItem.NewObject;
 import org.jboss.tools.ui.bot.ext.gen.ActionItem.NewObject.JavaAnnotation;
 import org.jboss.tools.ui.bot.ext.helper.ContextMenuHelper;
-import org.jboss.tools.ui.bot.ext.view.ProjectExplorer;
 
 public class CDIUtil {
-	
-	
-	public static void createAndCheckCDIProject(SWTBotExt bot, SWTUtilExt util, ProjectExplorer projectExplorer, String projectName) {		
-		createCDIProject(util, projectName);		
-		projectExplorer.selectProject(projectName);
-		SWTBotTree tree = projectExplorer.bot().tree();	
-		SWTBotTreeItem item = tree.getTreeItem(projectName);
-		item.expand();
-		CDIUtil.addCDISupport(tree, item, bot, util);
-	}
 
-	public static void createCDIProject(SWTUtilExt util, String projectName) {
-		new NewFileWizardAction().run()
-				.selectTemplate("Web", "Dynamic Web Project").next();
-		new DynamicWebProjectWizard().setProjectName(projectName).finish();
-		util.waitForNonIgnoredJobs();
-	}
-
-	public static void addCDISupport(final SWTBotTree tree, SWTBotTreeItem item, SWTBotExt bot, SWTUtilExt util) {
-		nodeContextMenu(tree, item, 
-				"Configure","Add CDI (Context and Dependency Injection) support...").click();
-		bot.activeShell().bot().button("OK").click();
-		bot.sleep(Timing.time2S());
-		util.waitForNonIgnoredJobs();
-	}
-	
 	public static void openQuickFix(SWTBotTreeItem item, SWTBotExt bot) {
 		nodeContextMenu(bot.tree(), item, "Quick Fix").click();
 	}
-	
-	public static void resolveQuickFix(SWTBotTreeItem item, SWTBotExt bot, SWTUtilExt util) {
+
+	public static void resolveQuickFix(SWTBotTreeItem item, SWTBotExt bot,
+			SWTUtilExt util) {
 		openQuickFix(item, bot);
 		bot.activeShell().bot().button("Finish").click();
 		bot.sleep(Timing.time2S());
 		util.waitForNonIgnoredJobs();
 	}
-	
+
 	public static void copyResourceToClass(SWTBotEditor classEdit,
 			InputStream resource, boolean closeEdit) {
 		SWTBotEclipseEditor st = classEdit.toTextEditor();
@@ -71,33 +42,39 @@ public class CDIUtil {
 		String code = readStream(resource);
 		st.setText(code);
 		classEdit.save();
-		if (closeEdit) classEdit.close(); 		
+		if (closeEdit)
+			classEdit.close();
 	}
-	
-	public static void replaceInEditor(SWTBotEclipseEditor ed, SWTBotExt bot, String target, String replacement) {
+
+	public static void replaceInEditor(SWTBotEclipseEditor ed, SWTBotExt bot,
+			String target, String replacement) {
 		ed.selectRange(0, 0, ed.getText().length());
-		ed.setText(ed.getText().replace(target + 
-				(replacement.equals("")?System.getProperty("line.separator"):""), 
-				 replacement));
+		ed.setText(ed.getText().replace(
+				target
+						+ (replacement.equals("") ? System
+								.getProperty("line.separator") : ""),
+				replacement));
 		bot.sleep(Timing.time1S());
 		ed.save();
 	}
-	
-	public static void insertInEditor(SWTBotEclipseEditor ed, SWTBotExt bot, int line, int row, String insertText) {
-		ed.toTextEditor().insertText(line , row, insertText);
+
+	public static void insertInEditor(SWTBotEclipseEditor ed, SWTBotExt bot,
+			int line, int row, String insertText) {
+		ed.toTextEditor().insertText(line, row, insertText);
 		bot.sleep(Timing.time1S());
 		ed.save();
 	}
-	
+
 	public static void disableFolding(SWTBotExt bot, SWTUtilExt util) {
 		editFolding(bot, util, false);
 	}
-	
+
 	public static void enableFolding(SWTBotExt bot, SWTUtilExt util) {
 		editFolding(bot, util, true);
 	}
-	
-	public static void editFolding(SWTBotExt bot, SWTUtilExt util, boolean select) {
+
+	public static void editFolding(SWTBotExt bot, SWTUtilExt util,
+			boolean select) {
 		bot.menu("Window").menu("Preferences").click();
 		bot.shell("Preferences").activate();
 		SWTBotTreeItem item = bot.tree(0).expandNode("Java", "Editor");
@@ -112,7 +89,7 @@ public class CDIUtil {
 		bot.sleep(Timing.time2S());
 		util.waitForNonIgnoredJobs();
 	}
-	
+
 	public static SWTBotMenu nodeContextMenu(final SWTBotTree tree,
 			SWTBotTreeItem item, final String... menu) {
 		assert menu.length > 0;
@@ -129,12 +106,11 @@ public class CDIUtil {
 			}
 		});
 	}
-	
-	public static CDIWizard qualifier(String pkg, String name, boolean inherited,
-			boolean comments) {
+
+	public static CDIWizard qualifier(String pkg, String name,
+			boolean inherited, boolean comments) {
 		return create(CDIWizardType.QUALIFIER, pkg, name, inherited, comments);
 	}
-	
 
 	public static CDIWizard scope(String pkg, String name, boolean inherited,
 			boolean comments, boolean normalScope, boolean passivating) {
@@ -143,7 +119,6 @@ public class CDIUtil {
 		w = w.setNormalScope(normalScope);
 		return normalScope ? w.setPassivating(passivating) : w;
 	}
-	
 
 	public static CDIWizard binding(String pkg, String name, String target,
 			boolean inherited, boolean comments) {
@@ -151,7 +126,6 @@ public class CDIUtil {
 				inherited, comments);
 		return target != null ? w.setTarget(target) : w;
 	}
-	
 
 	public static CDIWizard stereotype(String pkg, String name, String scope,
 			String target, boolean inherited, boolean named,
@@ -163,18 +137,18 @@ public class CDIUtil {
 		}
 		return target != null ? w.setTarget(target) : w;
 	}
-	
 
-	public static CDIWizard decorator(String pkg, String name, String intf, String fieldName,
-			boolean isPublic, boolean isAbstract, boolean isFinal, boolean comments) {
+	public static CDIWizard decorator(String pkg, String name, String intf,
+			String fieldName, boolean isPublic, boolean isAbstract,
+			boolean isFinal, boolean comments) {
 		CDIWizard w = create(CDIWizardType.DECORATOR, pkg, name, comments);
-		w = w.addInterface(intf).setPublic(isPublic).setFinal(isFinal).setAbstract(isAbstract);
+		w = w.addInterface(intf).setPublic(isPublic).setFinal(isFinal)
+				.setAbstract(isAbstract);
 		return fieldName != null ? w.setFieldName(fieldName) : w;
 	}
-	
-	
-	public static CDIWizard interceptor(String pkg, String name, String ibinding,
-			String superclass, String method, boolean comments) {
+
+	public static CDIWizard interceptor(String pkg, String name,
+			String ibinding, String superclass, String method, boolean comments) {
 		CDIWizard w = create(CDIWizardType.INTERCEPTOR, pkg, name, comments);
 		if (superclass != null) {
 			w = w.setSuperclass(superclass);
@@ -187,10 +161,10 @@ public class CDIUtil {
 		}
 		return w;
 	}
-	
-	public static CDIWizard bean(String pkg, String name, boolean isPublic, boolean isAbstract,
-			boolean isFinal, boolean comments, String named,
-			String interfaces, String scope, String qualifier) {
+
+	public static CDIWizard bean(String pkg, String name, boolean isPublic,
+			boolean isAbstract, boolean isFinal, boolean comments,
+			String named, String interfaces, String scope, String qualifier) {
 		CDIWizard w = create(CDIWizardType.BEAN, pkg, name, comments);
 		if (named != null) {
 			w.setNamed(true);
@@ -210,38 +184,47 @@ public class CDIUtil {
 		}
 		return w;
 	}
-	
-	public static void annotation(SWTOpenExt open, SWTUtilExt util, String pkg, String name) {
+
+	public static void annotation(SWTOpenExt open, SWTUtilExt util, String pkg,
+			String name) {
 		SWTBot openWizard = open.newObject(JavaAnnotation.LABEL);
 		openWizard.textWithLabel("Name:").setText(name);
 		openWizard.textWithLabel("Package:").setText(pkg);
-		openWizard.button("Finish").click();		
+		openWizard.button("Finish").click();
 		util.waitForNonIgnoredJobs();
 	}
-	
-	public static CDIWizard annLiteral(String pkg, String name, boolean isPublic, boolean isAbstract,
-			boolean isFinal, boolean comments, String qualifier) {
-		assert qualifier != null && !"".equals(qualifier.trim()) : "Qualifier has to be set"; 
-		CDIWizard w = create(CDIWizardType.ANNOTATION_LITERAL, pkg, name, comments);
-		return w.setPublic(isPublic).setFinal(isFinal).setAbstract(isAbstract).addQualifier(qualifier);
+
+	public static CDIWizard annLiteral(String pkg, String name,
+			boolean isPublic, boolean isAbstract, boolean isFinal,
+			boolean comments, String qualifier) {
+		assert qualifier != null && !"".equals(qualifier.trim()) : "Qualifier has to be set";
+		CDIWizard w = create(CDIWizardType.ANNOTATION_LITERAL, pkg, name,
+				comments);
+		return w.setPublic(isPublic).setFinal(isFinal).setAbstract(isAbstract)
+				.addQualifier(qualifier);
 	}
-	
-	private static CDIWizard create(CDIWizardType type, String pkg, String name,
+
+	public static CDIWizard beansXML(String pkg) {
+		CDIWizard w = new NewCDIFileWizard(CDIWizardType.BEANS_XML).run();
+		w.setSourceFolder(pkg);		
+		return w;		
+	}
+
+	public static CDIWizard create(CDIWizardType type, String pkg, String name,
 			boolean inherited, boolean comments) {
 		return create(type, pkg, name, comments).setInherited(inherited);
 	}
 
-	private  static CDIWizard create(CDIWizardType type, String pkg, String name, boolean comments) {
+	public static CDIWizard create(CDIWizardType type, String pkg, String name,
+			boolean comments) {
 		CDIWizard p = new NewCDIFileWizard(type).run();
 		return p.setPackage(pkg).setName(name).setGenerateComments(comments);
 	}
-	
-	private static String readStream(InputStream is) {
+
+	public static String readStream(InputStream is) {
 		// we don't care about performance in tests too much, so this should be
 		// OK
 		return new Scanner(is).useDelimiter("\\A").next();
 	}
-	
-	
 
 }

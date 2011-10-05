@@ -58,7 +58,7 @@ import org.xml.sax.SAXException;
 public class BeansEditorTest extends SWTTestExt {
 
 	private static final String descPath = "WebContent/WEB-INF/beans.xml";
-	private static final String project = "CDIProject";
+	private static final String project = "CDIProject1";
 	private static final Logger LOGGER = Logger.getLogger(BeansEditorTest.class.getName());
 	
 	@BeforeClass

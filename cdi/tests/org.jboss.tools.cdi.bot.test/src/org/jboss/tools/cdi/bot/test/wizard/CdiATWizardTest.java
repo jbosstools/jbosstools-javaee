@@ -14,23 +14,16 @@ import java.util.logging.Logger;
 
 import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
 import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotEditor;
-import org.eclipse.swtbot.swt.finder.SWTBot;
-import org.eclipse.swtbot.swt.finder.widgets.SWTBotTree;
-import org.eclipse.swtbot.swt.finder.widgets.SWTBotTreeItem;
 import org.jboss.tools.cdi.bot.test.CDIAllBotTests;
+import org.jboss.tools.cdi.bot.test.uiutils.actions.CDIBase;
 import org.jboss.tools.cdi.bot.test.uiutils.actions.CDIUtil;
 import org.jboss.tools.cdi.bot.test.uiutils.actions.NewCDIFileWizard;
-import org.jboss.tools.cdi.bot.test.uiutils.actions.NewFileWizardAction;
 import org.jboss.tools.cdi.bot.test.uiutils.wizards.CDIWizard;
 import org.jboss.tools.cdi.bot.test.uiutils.wizards.CDIWizardType;
-import org.jboss.tools.cdi.bot.test.uiutils.wizards.DynamicWebProjectWizard;
 import org.jboss.tools.ui.bot.ext.RequirementAwareSuite;
-import org.jboss.tools.ui.bot.ext.SWTEclipseExt;
-import org.jboss.tools.ui.bot.ext.SWTTestExt;
 import org.jboss.tools.ui.bot.ext.config.Annotations.Require;
 import org.jboss.tools.ui.bot.ext.config.Annotations.Server;
 import org.jboss.tools.ui.bot.ext.config.Annotations.ServerState;
-import org.jboss.tools.ui.bot.ext.types.ViewType;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -39,9 +32,9 @@ import org.junit.runners.Suite.SuiteClasses;
 @Require(perspective = "Java EE", server = @Server(state = ServerState.NotRunning, version = "6.0", operator = ">="))
 @RunWith(RequirementAwareSuite.class)
 @SuiteClasses({ CDIAllBotTests.class })
-public class CdiATWizardTest extends SWTTestExt {
+public class CdiATWizardTest extends CDIBase {
 
-	private static final String PROJECT_NAME = "CDIProject";
+	private static final String PROJECT_NAME = "CDIProject1";
 	private static final Logger L = Logger.getLogger(CdiATWizardTest.class.getName());
 
 	@After
@@ -51,18 +44,7 @@ public class CdiATWizardTest extends SWTTestExt {
 
 	@Test
 	public void createProject() {
-		new NewFileWizardAction().run()
-				.selectTemplate("Web", "Dynamic Web Project").next();
-		new DynamicWebProjectWizard().setProjectName(PROJECT_NAME).finish();
-		util.waitForNonIgnoredJobs();
-		SWTBot v = eclipse.showView(ViewType.PROJECT_EXPLORER);
-		SWTBotTree tree = v.tree();
-		tree.setFocus();
-		assertTrue("Project " + PROJECT_NAME + " was not created properly.",
-				SWTEclipseExt.treeContainsItemWithLabel(tree, PROJECT_NAME));
-		SWTBotTreeItem t = tree.getTreeItem(PROJECT_NAME);
-		t.expand();
-		CDIUtil.addCDISupport(tree, t, bot, util);
+		createAndCheckCDIProject(bot, util, projectExplorer, PROJECT_NAME);
 	}
 
 	@Test
