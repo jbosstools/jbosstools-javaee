@@ -71,11 +71,9 @@ public class XHTMLValidator extends Validator {
 			"http://apache.org/xml/features/nonvalidating/load-external-dtd",
 			"http://apache.org/xml/features/nonvalidating/load-dtd-grammar",
 			"http://apache.org/xml/features/xinclude",
-			"http://xml.org/sax/features/resolve-dtd-uris"
-		};  
-	private String[] SAX_PARSER_FEATURES_TO_ENABLE = {
+			"http://xml.org/sax/features/resolve-dtd-uris",
 			"http://apache.org/xml/features/continue-after-fatal-error"
-		};
+		};  
 	
 	private void setSAXParserFeatures(XMLReader reader, String[] features, boolean set) {
 		for (String feature : features) {
@@ -139,22 +137,19 @@ public class XHTMLValidator extends Validator {
 				report);
 		XMLReader xmlReader = new org.apache.xerces.parsers.SAXParser();
 
-		try {
-			setSAXParserFeatures(xmlReader, SAX_PARSER_FEATURES_TO_DISABLE, false);
-			setSAXParserFeatures(xmlReader, SAX_PARSER_FEATURES_TO_ENABLE, true);
-    	    setSAXParserProperty(xmlReader, "http://xml.org/sax/properties/lexical-handler", handler); 
-    	    xmlReader.setContentHandler(handler);
-    	    xmlReader.setDTDHandler(handler);
-    	    xmlReader.setErrorHandler(handler);
+		setSAXParserFeatures(xmlReader, SAX_PARSER_FEATURES_TO_DISABLE, false);
+	    setSAXParserProperty(xmlReader, "http://xml.org/sax/properties/lexical-handler", handler); 
+	    xmlReader.setContentHandler(handler);
+	    xmlReader.setDTDHandler(handler);
+	    xmlReader.setErrorHandler(handler);
+	    isXHTMLDoctype = false;
 
-    	    isXHTMLDoctype = false;
-		
+		try {
 			xmlReader.parse(uri);
 		} catch (IOException e) {
 			JSFModelPlugin.getDefault().logError(e);
 			report.addError(e.getLocalizedMessage(), 0, 0, uri);
 		} catch (SAXException e) {
-			JSFModelPlugin.getDefault().logError(e);
 			report.addError(e.getLocalizedMessage(), 0, 0, uri);
 		}
 
