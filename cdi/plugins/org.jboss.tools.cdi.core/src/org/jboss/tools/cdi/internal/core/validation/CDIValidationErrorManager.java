@@ -61,6 +61,14 @@ abstract public class CDIValidationErrorManager extends KBValidator {
 	public static final int OBSERVER_IN_INTERCEPTOR_ID = 40;
 	public static final int SESSION_BEAN_ANNOTATED_INTERCEPTOR_ID = 41;
 	public static final int SESSION_BEAN_ANNOTATED_DECORATOR_ID = 42;
+	public static final int UNKNOWN_ALTERNATIVE_BEAN_CLASS_NAME_ID = 43;
+	public static final int UNKNOWN_ALTERNATIVE_ANNOTATION_NAME_ID = 44;
+	public static final int ILLEGAL_ALTERNATIVE_BEAN_CLASS_ID = 45;
+	public static final int ILLEGAL_ALTERNATIVE_ANNOTATION_ID = 46;
+	public static final int UNKNOWN_DECORATOR_BEAN_CLASS_NAME_ID = 47;
+	public static final int UNKNOWN_INTERCEPTOR_CLASS_NAME_ID = 48;
+	public static final int ILLEGAL_DECORATOR_BEAN_CLASS_ID = 49;
+	public static final int ILLEGAL_INTERCEPTOR_CLASS_ID = 50;
 
 
 	/*

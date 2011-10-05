@@ -184,7 +184,7 @@ public class BeansXmlValidationDelegate extends CDICoreValidationDelegate {
 					List<TypeNode> typeNodes = getTypeElements((Element)parentNode, typeValidator.getTypeElementName());
 					Map<String, TypeNode> uniqueTypes = new HashMap<String, TypeNode>();
 					for (TypeNode typeNode : typeNodes) {
-						IType type = getType(beansXml, typeNode, typeValidator.getUnknownTypeErrorMessage());
+						IType type = getType(beansXml, typeNode, typeValidator.getUnknownTypeErrorMessage(), typeValidator.getUnknownTypeErrorMessageId());
 						if(type!=null) {
 							if(!type.isBinary()) {
 								validator.getValidationContext().addLinkedCoreResource(CDICoreValidator.SHORT_ID, beansXml.getFullPath().toOSString(), type.getPath(), false);
@@ -199,17 +199,17 @@ public class BeansXmlValidationDelegate extends CDICoreValidationDelegate {
 							}
 							if(!typeValidator.validateKindOfType(type)) {
 								validator.addError(typeValidator.getIllegalTypeErrorMessage(), CDIPreferences.ILLEGAL_TYPE_NAME_IN_BEANS_XML,
-										new String[]{}, typeNode.getLength(), typeNode.getStartOffset(), beansXml);
+										new String[]{}, typeNode.getLength(), typeNode.getStartOffset(), beansXml, typeValidator.getIllegalTypeErrorMessageId());
 							} else if(type.isBinary()) {
 								if(!typeValidator.validateBinaryType(type)) {
 									validator.addError(typeValidator.getIllegalTypeErrorMessage(), CDIPreferences.ILLEGAL_TYPE_NAME_IN_BEANS_XML,
-											new String[]{}, typeNode.getLength(), typeNode.getStartOffset(), beansXml);
+											new String[]{}, typeNode.getLength(), typeNode.getStartOffset(), beansXml, typeValidator.getIllegalTypeErrorMessageId());
 								}
 								continue;
 							} else {
 								if(!typeValidator.validateSourceType(type)) {
 									validator.addError(typeValidator.getIllegalTypeErrorMessage(), CDIPreferences.ILLEGAL_TYPE_NAME_IN_BEANS_XML,
-											new String[]{}, typeNode.getLength(), typeNode.getStartOffset(), beansXml);
+											new String[]{}, typeNode.getLength(), typeNode.getStartOffset(), beansXml, typeValidator.getIllegalTypeErrorMessageId());
 								}
 							}
 							TypeNode node = uniqueTypes.get(typeNode.getTypeName());
@@ -252,7 +252,7 @@ public class BeansXmlValidationDelegate extends CDICoreValidationDelegate {
 		return null;
 	}
 
-	private IType getType(IFile beansXml, TypeNode node, String errorMessage) {
+	private IType getType(IFile beansXml, TypeNode node, String errorMessage, int errorMessageId) {
 		IType type = null;
 		if(node.getTypeName()!=null) {
 			try {
@@ -268,7 +268,7 @@ public class BeansXmlValidationDelegate extends CDICoreValidationDelegate {
 		if(type==null) {
 			addLinkedResourcesForUnknownType(beansXml, node.getTypeName());
 			validator.addError(errorMessage, CDIPreferences.ILLEGAL_TYPE_NAME_IN_BEANS_XML,
-					new String[]{}, node.getLength(), node.getStartOffset(), beansXml);
+					new String[]{}, node.getLength(), node.getStartOffset(), beansXml, errorMessageId);
 		}
 		return type;
 	}
@@ -389,8 +389,12 @@ public class BeansXmlValidationDelegate extends CDICoreValidationDelegate {
 		String getParrentElementname();
 
 		String getUnknownTypeErrorMessage();
+		
+		int getUnknownTypeErrorMessageId();
 
 		String getIllegalTypeErrorMessage();
+		
+		int getIllegalTypeErrorMessageId();
 
 		String getDuplicateTypeErrorMessage();
 	}
@@ -432,9 +436,17 @@ public class BeansXmlValidationDelegate extends CDICoreValidationDelegate {
 		public String getUnknownTypeErrorMessage() {
 			return CDIValidationMessages.UNKNOWN_ALTERNATIVE_BEAN_CLASS_NAME;
 		}
+		
+		public int getUnknownTypeErrorMessageId() {
+			return CDIValidationErrorManager.UNKNOWN_ALTERNATIVE_BEAN_CLASS_NAME_ID;
+		}
 
 		public String getIllegalTypeErrorMessage() {
 			return CDIValidationMessages.ILLEGAL_ALTERNATIVE_BEAN_CLASS;
+		}
+
+		public int getIllegalTypeErrorMessageId() {
+			return CDIValidationErrorManager.ILLEGAL_ALTERNATIVE_BEAN_CLASS_ID;
 		}
 
 		public String getDuplicateTypeErrorMessage() {
@@ -472,8 +484,16 @@ public class BeansXmlValidationDelegate extends CDICoreValidationDelegate {
 			return CDIValidationMessages.UNKNOWN_ALTERNATIVE_ANNOTATION_NAME;
 		}
 
+		public int getUnknownTypeErrorMessageId() {
+			return CDIValidationErrorManager.UNKNOWN_ALTERNATIVE_ANNOTATION_NAME_ID;
+		}
+
 		public String getIllegalTypeErrorMessage() {
 			return CDIValidationMessages.ILLEGAL_ALTERNATIVE_ANNOTATION;
+		}
+
+		public int getIllegalTypeErrorMessageId() {
+			return CDIValidationErrorManager.ILLEGAL_ALTERNATIVE_ANNOTATION_ID;
 		}
 
 		public String getDuplicateTypeErrorMessage() {
@@ -500,9 +520,17 @@ public class BeansXmlValidationDelegate extends CDICoreValidationDelegate {
 		public String getUnknownTypeErrorMessage() {
 			return CDIValidationMessages.UNKNOWN_DECORATOR_BEAN_CLASS_NAME;
 		}
+		
+		public int getUnknownTypeErrorMessageId() {
+			return CDIValidationErrorManager.UNKNOWN_DECORATOR_BEAN_CLASS_NAME_ID;
+		}
 
 		public String getIllegalTypeErrorMessage() {
 			return CDIValidationMessages.ILLEGAL_DECORATOR_BEAN_CLASS;
+		}
+
+		public int getIllegalTypeErrorMessageId() {
+			return CDIValidationErrorManager.ILLEGAL_DECORATOR_BEAN_CLASS_ID;
 		}
 
 		public String getDuplicateTypeErrorMessage() {
@@ -529,9 +557,17 @@ public class BeansXmlValidationDelegate extends CDICoreValidationDelegate {
 		public String getUnknownTypeErrorMessage() {
 			return CDIValidationMessages.UNKNOWN_INTERCEPTOR_CLASS_NAME;
 		}
+		
+		public int getUnknownTypeErrorMessageId() {
+			return CDIValidationErrorManager.UNKNOWN_INTERCEPTOR_CLASS_NAME_ID;
+		}
 
 		public String getIllegalTypeErrorMessage() {
 			return CDIValidationMessages.ILLEGAL_INTERCEPTOR_CLASS;
+		}
+
+		public int getIllegalTypeErrorMessageId() {
+			return CDIValidationErrorManager.ILLEGAL_INTERCEPTOR_CLASS_ID;
 		}
 
 		public String getDuplicateTypeErrorMessage() {
