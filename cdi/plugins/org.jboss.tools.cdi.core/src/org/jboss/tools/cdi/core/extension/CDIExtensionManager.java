@@ -40,6 +40,11 @@ public class CDIExtensionManager {
 	 * Mapping of extension ids (class names) to instances.
 	 */
 	Map<String, ICDIExtension> instances = new HashMap<String, ICDIExtension>();
+
+	/**
+	 * Mapping of runtime extension class names to instances.
+	 */
+	Map<String, ICDIExtension> instancesByRuntime = new HashMap<String, ICDIExtension>();
 	
 	/**
 	 * Mapping of feature ids to extension instances.
@@ -95,6 +100,7 @@ public class CDIExtensionManager {
 				ICDIExtension ext = factory.createExtensionInstance(cls);
 				if(ext == null) continue;
 				instances.put(cls, ext);
+				instancesByRuntime.put(runtime, ext);
 				for (Class<?> feature: CDIExtensionFactory.getInstance().getFeatures(ext)) {
 					Set<ICDIExtension> es = featureToExtensions.get(feature);
 					if(es == null) {
@@ -110,6 +116,7 @@ public class CDIExtensionManager {
 
 	private void deleteRuntime(String runtime) {
 		allRuntimes.remove(runtime);
+		instancesByRuntime.remove(runtime);
 		Set<String> clss = CDIExtensionFactory.getInstance().getExtensionClassesByRuntime(runtime);
 		if(clss != null) {
 			for (String cls: clss) {
@@ -135,6 +142,10 @@ public class CDIExtensionManager {
 
 	public Set<ICDIExtension> getExtensions(Class<?> feature) {
 		return featureToExtensions.containsKey(feature) ? featureToExtensions.get(feature) : EMPTY;
+	}
+
+	public ICDIExtension getExtensionByRuntime(String runtime) {
+		return instancesByRuntime.get(runtime);
 	}
 
 	public Set<IProcessAnnotatedMemberFeature> getProcessAnnotatedMemberFeatures() {
