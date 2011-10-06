@@ -537,6 +537,11 @@ public class SeamConfigXmlCompletionProposalComputer extends AbstractXMLModelQue
 				IType t = EclipseJavaUtil.findType(javaProject, cls);
 				if(accept(t, annotationsOnly, classesOnly)) result.put(name, t);
 			}
+			for (String name: Util.EE_TYPES_30.keySet()) {
+				String cls = Util.EE_TYPES_30.get(name);
+				IType t = EclipseJavaUtil.findType(javaProject, cls);
+				if(accept(t, annotationsOnly, classesOnly)) result.put(name, t);
+			}
 		} else if(javaProject != null) {
 			IPackageFragmentRoot[] rs = javaProject.getAllPackageFragmentRoots();
 			for (IPackageFragmentRoot r: rs) {
