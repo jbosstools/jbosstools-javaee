@@ -48,10 +48,10 @@ public class CDISeamSolderCoreAllTests {
 		suite31.addTestSuite(DefaultBeanTest.class);
 		suite31.addTestSuite(UnwrapsTest.class);
 
-		suiteAll.addTest(suite31);
+		suiteAll.addTest(suite);
 
 		suiteAll.addTestSuite(ValidationExceptionTest.class); // This test should be added last!
 		
-		return suite;
+		return suiteAll;
 	}
 }
