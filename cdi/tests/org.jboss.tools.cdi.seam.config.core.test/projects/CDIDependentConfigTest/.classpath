@@ -4,7 +4,8 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="/CDIConfigTest/lib/cdi-api.jar"/>
 	<classpathentry kind="lib" path="/CDIConfigTest/lib/javax.inject.jar"/>
-	<classpathentry kind="lib" path="/CDIConfigTest/lib/seam-config-xml.jar"/>
+	<classpathentry kind="lib" path="/CDIConfigTest/lib/solder-api.jar"/>
+	<classpathentry kind="lib" path="/CDIConfigTest/lib/solder-impl.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/CDIConfigTest"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
