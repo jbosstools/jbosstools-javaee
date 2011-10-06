@@ -122,6 +122,10 @@ public class CDIExtensionFactory {
 		for (Class<?> c: is) {
 			getFeatures(c, result);
 		}
+		if(!cls.isInterface()) {
+			Class<?> s = cls.getSuperclass();
+			if(s != null) getFeatures(s, result);
+		}
 	}
 
 	boolean isFeature(Class<?> cls) {
