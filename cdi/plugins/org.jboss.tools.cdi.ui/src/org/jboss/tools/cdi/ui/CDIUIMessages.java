@@ -108,6 +108,10 @@ public class CDIUIMessages extends NLS{
 	public static String ADD_ANNOTATION_MARKER_RESOLUTION_TITLE;
 	public static String DELETE_ANNOTATION_MARKER_RESOLUTION_TITLE;
 	public static String CHANGE_ANNOTATION_MARKER_RESOLUTION_TITLE;
+	public static String CREATE_BEAN_CLASS_TITLE;
+	public static String CREATE_STEREOTYPE_TITLE;
+	public static String CREATE_INTERCEPTOR_TITLE;
+	public static String CREATE_DECORATOR_TITLE;
 	
 	public static String QUESTION;
 	public static String DECREASING_FIELD_VISIBILITY_MAY_CAUSE_COMPILATION_PROBLEMS;

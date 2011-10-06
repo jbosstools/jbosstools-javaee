@@ -301,6 +301,16 @@ public class MarkerResolutionUtils {
 		return name;
 	}
 	
+	public static String getPackageName(String qualifiedName){
+		int lastDot = qualifiedName.lastIndexOf(DOT);
+		String name;
+		if(lastDot < 0)
+			name = "";
+		else
+			name = qualifiedName.substring(0, lastDot);
+		return name;
+	}
+	
 	public static String[] getShortNames(String[] qualifiedNames){
 		String[] shortNames = new String[qualifiedNames.length];
 		for(int i = 0; i < qualifiedNames.length; i++){

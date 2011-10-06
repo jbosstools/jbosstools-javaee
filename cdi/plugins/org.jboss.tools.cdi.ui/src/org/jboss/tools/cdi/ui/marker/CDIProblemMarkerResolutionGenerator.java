@@ -29,8 +29,13 @@ import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
+import org.eclipse.jface.text.BadLocationException;
+import org.eclipse.jface.text.IDocument;
 import org.eclipse.ui.IMarkerResolution;
 import org.eclipse.ui.IMarkerResolutionGenerator2;
+import org.eclipse.ui.part.FileEditorInput;
+import org.eclipse.ui.texteditor.DocumentProviderRegistry;
+import org.eclipse.ui.texteditor.IDocumentProvider;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.CDIUtil;
@@ -47,6 +52,7 @@ import org.jboss.tools.common.EclipseUtil;
 import org.jboss.tools.common.java.IAnnotationDeclaration;
 import org.jboss.tools.common.model.util.EclipseJavaUtil;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
+import org.jboss.tools.jst.web.ui.WebUiPlugin;
 
 /**
  * @author Daniel Azarov
@@ -54,6 +60,7 @@ import org.jboss.tools.common.model.util.EclipseResourceUtil;
 public class CDIProblemMarkerResolutionGenerator implements
 		IMarkerResolutionGenerator2 {
 	private static final String JAVA_EXTENSION = "java"; //$NON-NLS-1$
+	private static final String XML_EXTENSION = "xml"; //$NON-NLS-1$
 	private static final int MARKER_RESULUTION_NUMBER_LIMIT = 7;
 
 	public IMarkerResolution[] getResolutions(IMarker marker) {
@@ -91,6 +98,11 @@ public class CDIProblemMarkerResolutionGenerator implements
 		if (attribute == null)
 			return new IMarkerResolution[] {};
 		final int start = attribute.intValue();
+		
+		attribute = ((Integer) marker.getAttribute(IMarker.CHAR_END));
+		if (attribute == null)
+			return new IMarkerResolution[] {};
+		final int end = attribute.intValue();
 		
 		ICDIMarkerResolutionGeneratorExtension[] extensions = CDIQuickFixExtensionManager.getInstances();
 
@@ -466,6 +478,49 @@ public class CDIProblemMarkerResolutionGenerator implements
 						};
 					}
 				}
+			}
+		}else if (XML_EXTENSION.equals(file.getFileExtension())){
+			FileEditorInput input = new FileEditorInput(file);
+			IDocumentProvider provider = DocumentProviderRegistry.getDefault().getDocumentProvider(input);
+			try {
+				provider.connect(input);
+			} catch (CoreException e) {
+				CDIUIPlugin.getDefault().logError(e);
+			}
+			
+			IDocument document = provider.getDocument(input);
+			
+			String text="";
+			try {
+				text = document.get(start, end-start);
+			} catch (BadLocationException e) {
+				CDIUIPlugin.getDefault().logError(e);
+			}
+			
+			if(messageId == CDIValidationErrorManager.UNKNOWN_ALTERNATIVE_BEAN_CLASS_NAME_ID){
+				return new IMarkerResolution[] {
+					new CreateCDIElementMarkerResolution(file.getProject(), text, CreateCDIElementMarkerResolution.CREATE_BEAN_CLASS)
+				};
+			}else if(messageId == CDIValidationErrorManager.UNKNOWN_ALTERNATIVE_ANNOTATION_NAME_ID){
+				return new IMarkerResolution[] {
+					new CreateCDIElementMarkerResolution(file.getProject(), text, CreateCDIElementMarkerResolution.CREATE_STEREOTYPE)
+				};
+			}else if(messageId == CDIValidationErrorManager.ILLEGAL_ALTERNATIVE_BEAN_CLASS_ID){
+				return new IMarkerResolution[] {
+					new AddAnnotationMarkerResolution(text, CDIConstants.ALTERNATIVE_ANNOTATION_TYPE_NAME)
+				};
+			}else if(messageId == CDIValidationErrorManager.ILLEGAL_ALTERNATIVE_ANNOTATION_ID){
+				return new IMarkerResolution[] {
+					new AddAnnotationMarkerResolution(text, CDIConstants.ALTERNATIVE_ANNOTATION_TYPE_NAME)
+				};
+			}else if(messageId == CDIValidationErrorManager.UNKNOWN_DECORATOR_BEAN_CLASS_NAME_ID){
+				return new IMarkerResolution[] {
+					new CreateCDIElementMarkerResolution(file.getProject(), text, CreateCDIElementMarkerResolution.CREATE_DECORATOR)
+				};
+			}else if(messageId == CDIValidationErrorManager.UNKNOWN_INTERCEPTOR_CLASS_NAME_ID){
+				return new IMarkerResolution[] {
+					new CreateCDIElementMarkerResolution(file.getProject(), text, CreateCDIElementMarkerResolution.CREATE_INTERCEPTOR)
+				};
 			}
 		}
 		return new IMarkerResolution[] {};

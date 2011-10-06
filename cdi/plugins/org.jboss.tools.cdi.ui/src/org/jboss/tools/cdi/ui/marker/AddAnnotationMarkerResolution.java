@@ -50,6 +50,11 @@ public class AddAnnotationMarkerResolution implements
 			
 		label = NLS.bind(CDIUIMessages.ADD_ANNOTATION_MARKER_RESOLUTION_TITLE, new String[]{shortName, element.getElementName(), type});
 	}
+	
+	public AddAnnotationMarkerResolution(String classQualifiedName, String annotationQualifiedName){
+		this.qualifiedName = annotationQualifiedName;
+		
+	}
 
 	public String getLabel() {
 		return label;
