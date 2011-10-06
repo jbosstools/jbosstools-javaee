@@ -8,7 +8,7 @@
           runtime="org.jboss.solder.config.xml.bootstrap.XmlConfigExtension">
     </cdiextension>
     <cdiextension
-          class="org.jboss.tools.cdi.seam.config.core.CDISeamConfigExtension"
+          class="org.jboss.tools.cdi.seam.config.core.CDISeamConfig30Extension"
           runtime="org.jboss.seam.config.xml.bootstrap.XmlConfigExtension">
     </cdiextension>
 	</extension>
