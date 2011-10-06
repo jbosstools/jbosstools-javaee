@@ -185,6 +185,7 @@ public class CDISearchParticipantTest  extends TCKTest {
 		matches.add(new MatchStructure(InjectionPointField.class, "TransientFieldInjectionPointBean.injectedBean"));
 		matches.add(new MatchStructure(InjectionPointField.class, "SpecializingDecoratorBroken.logger"));
 		matches.add(new MatchStructure(InjectionPointField.class, "ObserverMethodInDecoratorBroken.logger"));
+		matches.add(new MatchStructure(InjectionPointField.class, "ObjectInjection.object"));
 		
 		matches.add(new MatchStructure(InjectionPointParameter.class, "ConstructorInjectionPointBean.ConstructorInjectionPointBean(BeanWithInjectionPointMetadata injectedBean)"));
 		matches.add(new MatchStructure(InjectionPointParameter.class, "MethodInjectionPointBean.methodWithInjectedMetadata(BeanWithInjectionPointMetadata injectedBean)"));
@@ -201,6 +202,7 @@ public class CDISearchParticipantTest  extends TCKTest {
 		matches.add(new MatchStructure(InjectionPointField.class, "NamedStereotypedDecoratorBroken.logger"));
 		matches.add(new MatchStructure(InjectionPointField.class, "SpecializingDecoratorBroken.logger"));
 		matches.add(new MatchStructure(InjectionPointField.class, "ObserverMethodInDecoratorBroken.logger"));
+		matches.add(new MatchStructure(InjectionPointField.class, "ObjectInjection.object"));
 		
 		testSearchParticipant("JavaSource/org/jboss/jsr299/tck/tests/lookup/typesafe/resolution/Zoo.java", FIELD_SEARCH, "petShop", "", new CDIBeanQueryParticipant(), matches);
 	}
@@ -214,6 +216,7 @@ public class CDISearchParticipantTest  extends TCKTest {
 		matches.add(new MatchStructure(InjectionPointField.class, "NamedStereotypedDecoratorBroken.logger"));
 		matches.add(new MatchStructure(InjectionPointField.class, "SpecializingDecoratorBroken.logger"));
 		matches.add(new MatchStructure(InjectionPointField.class, "ObserverMethodInDecoratorBroken.logger"));
+		matches.add(new MatchStructure(InjectionPointField.class, "ObjectInjection.object"));
 		
 		testSearchParticipant("JavaSource/org/jboss/jsr299/tck/tests/lookup/typesafe/resolution/Zoo.java", METHOD_SEARCH, "getPetShop", "", new CDIBeanQueryParticipant(), matches);
 	}
