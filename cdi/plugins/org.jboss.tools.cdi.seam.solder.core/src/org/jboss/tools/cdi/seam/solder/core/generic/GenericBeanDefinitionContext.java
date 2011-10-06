@@ -10,7 +10,6 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.seam.solder.core.generic;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -21,6 +20,7 @@ import org.jboss.tools.cdi.core.extension.AbstractDefinitionContextExtension;
 import org.jboss.tools.cdi.internal.core.impl.definition.AnnotationDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.TypeDefinition;
 import org.jboss.tools.cdi.seam.solder.core.CDISeamSolderConstants;
+import org.jboss.tools.cdi.seam.solder.core.Version;
 
 /**
  * 
@@ -29,9 +29,18 @@ import org.jboss.tools.cdi.seam.solder.core.CDISeamSolderConstants;
  */
 public class GenericBeanDefinitionContext extends AbstractDefinitionContextExtension {
 	Map<String, GenericConfiguration> genericConfiguartions = new HashMap<String, GenericConfiguration>();
+	Version version;
+
+	public GenericBeanDefinitionContext(Version version) {
+		this.version = version;
+	}
+
+	public Version getVersion() {
+		return version;
+	}
 
 	protected AbstractDefinitionContextExtension copy(boolean clean) {
-		GenericBeanDefinitionContext copy = new GenericBeanDefinitionContext();
+		GenericBeanDefinitionContext copy = new GenericBeanDefinitionContext(version);
 		copy.root = root;
 		if(!clean) {
 			copy.genericConfiguartions.putAll(genericConfiguartions);
@@ -79,7 +88,7 @@ public class GenericBeanDefinitionContext extends AbstractDefinitionContextExten
 
 	@Override
 	public void computeAnnotationKind(AnnotationDefinition annotation) {
-		if(annotation.isAnnotationPresent(CDISeamSolderConstants.GENERIC_TYPE_ANNOTATION_TYPE_NAME)) {
+		if(annotation.isAnnotationPresent(version.getGenericTypeAnnotationTypeName())) {
 			annotation.setExtendedKind(CDISeamSolderConstants.GENERIC_ANNOTATION_KIND);
 			String qn = annotation.getType().getFullyQualifiedName();
 			GenericConfiguration c = getGenericConfiguration(qn);
@@ -91,7 +100,7 @@ public class GenericBeanDefinitionContext extends AbstractDefinitionContextExten
 					getRootContext().addDependency(p, newPath);
 					getRootContext().addDependency(newPath, p);
 				}
-				ps.add(newPath);				
+				ps.add(newPath);
 			}
 		}
 	}

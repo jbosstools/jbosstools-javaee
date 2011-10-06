@@ -18,26 +18,29 @@ import org.jboss.tools.cdi.core.CDIConstants;
  *
  */
 public interface CDISeamSolderConstants extends CDIConstants {
-	public String EXACT_ANNOTATION_TYPE_NAME = "org.jboss.seam.solder.core.Exact";
-	public String FULLY_QUALIFIED_ANNOTATION_TYPE_NAME = "org.jboss.seam.solder.core.FullyQualified";
-	public String REQUIRES_ANNOTATION_TYPE_NAME = "org.jboss.seam.solder.core.Requires";
-	public String VETO_ANNOTATION_TYPE_NAME = "org.jboss.seam.solder.core.Veto";
+	public String PACKAGE_NAME = "org.jboss.solder";
 
-	public String MESSAGE_LOGGER_ANNOTATION_TYPE_NAME = "org.jboss.seam.solder.logging.MessageLogger";
-	public String MESSAGE_BUNDLE_ANNOTATION_TYPE_NAME = "org.jboss.seam.solder.messages.MessageBundle";
+	public String EXACT_ANNOTATION_TYPE_NAME = PACKAGE_NAME + ".core.Exact";
 
-	public String SERVICE_HANDLER_TYPE_ANNOTATION_TYPE_NAME = "org.jboss.seam.solder.serviceHandler.ServiceHandlerType";
+	public String FULLY_QUALIFIED_ANNOTATION_TYPE_NAME = PACKAGE_NAME + ".core.FullyQualified";
+	public String REQUIRES_ANNOTATION_TYPE_NAME = PACKAGE_NAME + ".core.Requires";
+	public String VETO_ANNOTATION_TYPE_NAME = PACKAGE_NAME + ".core.Veto";
+
+	public String MESSAGE_LOGGER_ANNOTATION_TYPE_NAME = PACKAGE_NAME + ".logging.MessageLogger";
+	public String MESSAGE_BUNDLE_ANNOTATION_TYPE_NAME = PACKAGE_NAME + ".messages.MessageBundle";
+
+	public String SERVICE_HANDLER_TYPE_ANNOTATION_TYPE_NAME = PACKAGE_NAME + ".serviceHandler.ServiceHandlerType";
 	public String SERVICE_ANNOTATION_KIND = "serviceAnnotation";
 
-	public String DEFAULT_BEAN_ANNOTATION_TYPE_NAME = "org.jboss.seam.solder.bean.defaultbean.DefaultBean";
+	public String DEFAULT_BEAN_ANNOTATION_TYPE_NAME = PACKAGE_NAME + ".bean.defaultbean.DefaultBean";
 
-	public String UNWRAPS_ANNOTATION_TYPE_NAME = "org.jboss.seam.solder.unwraps.Unwraps";
+	public String UNWRAPS_ANNOTATION_TYPE_NAME = PACKAGE_NAME + ".unwraps.Unwraps";
 
-	public String GENERIC_TYPE_ANNOTATION_TYPE_NAME = "org.jboss.seam.solder.bean.generic.GenericType";
+	public String GENERIC_TYPE_ANNOTATION_TYPE_NAME = PACKAGE_NAME + ".bean.generic.GenericType";
 	public String GENERIC_ANNOTATION_KIND = "genericAnnotation";
-	public String GENERIC_QUALIFIER_TYPE_NAME = "org.jboss.seam.solder.bean.generic.Generic";
-	public String GENERIC_CONFIGURATION_ANNOTATION_TYPE_NAME = "org.jboss.seam.solder.bean.generic.GenericConfiguration";
-	public String APPLY_SCOPE_ANNOTATION_TYPE_NAME = "org.jboss.seam.solder.bean.generic.ApplyScope";
-	public String INJECT_GENERIC_ANNOTATION_TYPE_NAME = "org.jboss.seam.solder.bean.generic.InjectGeneric";
+	public String GENERIC_QUALIFIER_TYPE_NAME = PACKAGE_NAME + ".bean.generic.Generic";
+	public String GENERIC_CONFIGURATION_ANNOTATION_TYPE_NAME = PACKAGE_NAME + ".bean.generic.GenericConfiguration";
+	public String APPLY_SCOPE_ANNOTATION_TYPE_NAME = PACKAGE_NAME + ".bean.generic.ApplyScope";
+	public String INJECT_GENERIC_ANNOTATION_TYPE_NAME = PACKAGE_NAME + ".bean.generic.InjectGeneric";
 
 }

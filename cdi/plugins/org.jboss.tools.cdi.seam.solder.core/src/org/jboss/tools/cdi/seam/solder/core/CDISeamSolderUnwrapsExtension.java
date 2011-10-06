@@ -33,9 +33,13 @@ import org.jboss.tools.common.java.impl.AnnotationLiteral;
  */
 public class CDISeamSolderUnwrapsExtension implements ICDIExtension, IProcessAnnotatedMemberFeature {
 
+	protected Version getVersion() {
+		return Version.instance;
+	}
+
 	public void processAnnotatedMember(BeanMemberDefinition memberDefinition, IRootDefinitionContext context) {
 		if(memberDefinition instanceof MethodDefinition) {
-			if(memberDefinition.isAnnotationPresent(CDISeamSolderConstants.UNWRAPS_ANNOTATION_TYPE_NAME)) {
+			if(memberDefinition.isAnnotationPresent(getVersion().getUnwrapsAnnotationTypeName())) {
 				IJavaAnnotation ja = createFakeProducesAnnotation(memberDefinition, context);
 				if(ja != null) {
 					memberDefinition.addAnnotation(ja, context);
@@ -55,7 +59,7 @@ public class CDISeamSolderUnwrapsExtension implements ICDIExtension, IProcessAnn
 	 */
 	IJavaAnnotation createFakeProducesAnnotation(AbstractMemberDefinition def, IRootDefinitionContext context) {
 		IJavaAnnotation result = null;
-		IAnnotationDeclaration a = def.getAnnotation(CDISeamSolderConstants.UNWRAPS_ANNOTATION_TYPE_NAME);
+		IAnnotationDeclaration a = def.getAnnotation(getVersion().getUnwrapsAnnotationTypeName());
 		if(a != null) {
 			IType producesAnnotation = context.getProject().getType(CDIConstants.PRODUCES_ANNOTATION_TYPE_NAME);
 			if (producesAnnotation != null) {

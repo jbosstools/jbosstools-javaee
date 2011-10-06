@@ -20,7 +20,7 @@ import org.jboss.tools.cdi.internal.core.impl.ProducerMethod;
 import org.jboss.tools.cdi.internal.core.impl.definition.AbstractMemberDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.FieldDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.MethodDefinition;
-import org.jboss.tools.cdi.seam.solder.core.CDISeamSolderConstants;
+import org.jboss.tools.cdi.seam.solder.core.Version;
 
 /**
  * 
@@ -29,17 +29,24 @@ import org.jboss.tools.cdi.seam.solder.core.CDISeamSolderConstants;
  */
 public class GenericClassBean extends ClassBean implements IGenericBean {
 	protected AbstractMemberDefinition genericProducerBean;
+	Version version;
 	
-	public GenericClassBean() {}
+	public GenericClassBean(Version version) {
+		this.version = version;
+	}
+
+	public Version getVersion() {
+		return version;
+	}
 
 	@Override
 	protected ProducerMethod newProducerMethod(MethodDefinition m) {
-		return new GenericBeanProducerMethod();
+		return new GenericBeanProducerMethod(version);
 	}
 
 	@Override
 	protected ProducerField newProducerField(FieldDefinition f) {
-		return new GenericBeanProducerField();
+		return new GenericBeanProducerField(version);
 	}
 
 	public void setGenericProducerBeanDefinition(AbstractMemberDefinition def) {
@@ -60,7 +67,7 @@ public class GenericClassBean extends ClassBean implements IGenericBean {
 
 	@Override
 	protected void computeScope() {
-		if(definition.isAnnotationPresent(CDISeamSolderConstants.APPLY_SCOPE_ANNOTATION_TYPE_NAME)) {
+		if(definition.isAnnotationPresent(version.getApplyScopeAnnotationTypeName())) {
 			IBean generic = getGenericProducerBean();
 			if(generic != null) {
 				scope = generic.getScope();

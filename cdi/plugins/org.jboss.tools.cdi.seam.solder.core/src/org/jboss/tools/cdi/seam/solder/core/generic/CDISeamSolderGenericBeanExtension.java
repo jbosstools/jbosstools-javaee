@@ -21,6 +21,7 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
+import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.IProducer;
 import org.jboss.tools.cdi.core.IQualifierDeclaration;
@@ -41,9 +42,9 @@ import org.jboss.tools.cdi.internal.core.impl.definition.ParameterDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.TypeDefinition;
 import org.jboss.tools.cdi.internal.core.scanner.FileSet;
 import org.jboss.tools.cdi.internal.core.validation.CDICoreValidator;
-import org.jboss.tools.cdi.seam.solder.core.CDISeamSolderConstants;
 import org.jboss.tools.cdi.seam.solder.core.CDISeamSolderCorePlugin;
 import org.jboss.tools.cdi.seam.solder.core.CDISeamSolderPreferences;
+import org.jboss.tools.cdi.seam.solder.core.Version;
 import org.jboss.tools.common.java.IAnnotationDeclaration;
 import org.jboss.tools.common.java.IJavaAnnotation;
 import org.jboss.tools.common.java.ParametedType;
@@ -56,8 +57,15 @@ import org.jboss.tools.common.preferences.SeverityPreferences;
  * @author Viacheslav Kabanovich
  *
  */
-public class CDISeamSolderGenericBeanExtension implements ICDIExtension, IBuildParticipantFeature, IProcessAnnotatedTypeFeature, IValidatorFeature, CDISeamSolderConstants {
-	GenericBeanDefinitionContext context = new GenericBeanDefinitionContext();
+public class CDISeamSolderGenericBeanExtension implements ICDIExtension, IBuildParticipantFeature, IProcessAnnotatedTypeFeature, IValidatorFeature, CDIConstants {
+	GenericBeanDefinitionContext context = new GenericBeanDefinitionContext(getVersion());
+
+	public CDISeamSolderGenericBeanExtension() {
+	}
+
+	protected Version getVersion() {
+		return Version.instance;
+	}
 
 	public IDefinitionContextExtension getContext() {
 		return context;
@@ -109,7 +117,7 @@ public class CDISeamSolderGenericBeanExtension implements ICDIExtension, IBuildP
 					List<MethodDefinition> ps = ti.getMethods();
 					for (MethodDefinition m: ps) {
 						if(m.isAnnotationPresent(PRODUCES_ANNOTATION_TYPE_NAME)
-								|| m.isAnnotationPresent(UNWRAPS_ANNOTATION_TYPE_NAME)) {
+								|| m.isAnnotationPresent(getVersion().getUnwrapsAnnotationTypeName())) {
 							for (IAnnotationDeclaration d: list) {
 								m.addAnnotation(((AnnotationDeclaration)d).getDeclaration(), context.getRootContext());
 							}
@@ -125,7 +133,7 @@ public class CDISeamSolderGenericBeanExtension implements ICDIExtension, IBuildP
 					}
 					replaceGenericInjections(ti, list);
 
-					GenericClassBean cb = new GenericClassBean();
+					GenericClassBean cb = new GenericClassBean(getVersion());
 					cb.setGenericProducerBeanDefinition(gp);
 					cb.setParent(p);
 					cb.setDefinition(ti);
@@ -143,11 +151,11 @@ public class CDISeamSolderGenericBeanExtension implements ICDIExtension, IBuildP
 	private void replaceGenericInjections(TypeDefinition ti, List<IQualifierDeclaration> list) {
 		List<FieldDefinition> fs = ti.getFields();
 		for (FieldDefinition f: fs) {
-			if(f.isAnnotationPresent(INJECT_ANNOTATION_TYPE_NAME) && f.isAnnotationPresent(GENERIC_QUALIFIER_TYPE_NAME)) {
+			if(f.isAnnotationPresent(INJECT_ANNOTATION_TYPE_NAME) && f.isAnnotationPresent(getVersion().getGenericQualifierAnnotationTypeName())) {
 				for (IAnnotationDeclaration d: list) {
 					f.addAnnotation(((AnnotationDeclaration)d).getDeclaration(), context.getRootContext());
 				}
-				AnnotationDeclaration gd = f.getAnnotation(GENERIC_QUALIFIER_TYPE_NAME);
+				AnnotationDeclaration gd = f.getAnnotation(getVersion().getGenericQualifierAnnotationTypeName());
 				f.removeAnnotation(gd);
 				IJavaAnnotation ja = createInjectGenericAnnotation(gd, context.getRootContext().getProject());
 				if(ja != null) {
@@ -160,15 +168,15 @@ public class CDISeamSolderGenericBeanExtension implements ICDIExtension, IBuildP
 		for (MethodDefinition m: ms) {
 			boolean isObserver = m.isObserver();
 			if(m.isAnnotationPresent(INJECT_ANNOTATION_TYPE_NAME) || isObserver) {
-				boolean isMethodGeneric = m.isAnnotationPresent(GENERIC_QUALIFIER_TYPE_NAME);
+				boolean isMethodGeneric = m.isAnnotationPresent(getVersion().getGenericQualifierAnnotationTypeName());
 				List<ParameterDefinition> ps = m.getParameters();
 				for (ParameterDefinition p: ps) {
-					if(isMethodGeneric || p.isAnnotationPresent(GENERIC_QUALIFIER_TYPE_NAME)
+					if(isMethodGeneric || p.isAnnotationPresent(getVersion().getGenericQualifierAnnotationTypeName())
 						|| (isObserver && p.isAnnotationPresent(OBSERVERS_ANNOTATION_TYPE_NAME))) {
 						for (IAnnotationDeclaration d: list) {
 							p.addAnnotation(((AnnotationDeclaration)d).getDeclaration(), context.getRootContext());
 						}
-						AnnotationDeclaration gd = p.getAnnotation(GENERIC_QUALIFIER_TYPE_NAME);
+						AnnotationDeclaration gd = p.getAnnotation(getVersion().getGenericQualifierAnnotationTypeName());
 						if(gd != null) {
 							p.removeAnnotation(gd);
 							IJavaAnnotation ja = createInjectGenericAnnotation(gd, context.getRootContext().getProject());
@@ -183,7 +191,7 @@ public class CDISeamSolderGenericBeanExtension implements ICDIExtension, IBuildP
 	}
 
 	private IJavaAnnotation createInjectGenericAnnotation(AnnotationDeclaration genericAnnotation, CDICoreNature project) {
-		IType type =  project.getType(INJECT_GENERIC_ANNOTATION_TYPE_NAME);
+		IType type =  project.getType(getVersion().getInjectGenericAnnotationTypeName());
 		return (type != null) ? new AnnotationLiteral(genericAnnotation.getResource(), 
 				genericAnnotation.getStartPosition(), genericAnnotation.getLength(), null, 0, type)
 			: null;
@@ -191,11 +199,11 @@ public class CDISeamSolderGenericBeanExtension implements ICDIExtension, IBuildP
 
 	@Override
 	public void processAnnotatedType(TypeDefinition typeDefinition, IRootDefinitionContext context) {
-		if(typeDefinition.isAnnotationPresent(VETO_ANNOTATION_TYPE_NAME)) {
+		if(typeDefinition.isAnnotationPresent(getVersion().getVetoAnnotationTypeName())) {
 			//ignore
-		} else if(typeDefinition.isAnnotationPresent(GENERIC_CONFIGURATION_ANNOTATION_TYPE_NAME)) {
+		} else if(typeDefinition.isAnnotationPresent(getVersion().getGenericConfigurationAnnotationTypeName())) {
 			typeDefinition.veto();
-			IAnnotationDeclaration d = typeDefinition.getAnnotation(GENERIC_CONFIGURATION_ANNOTATION_TYPE_NAME);
+			IAnnotationDeclaration d = typeDefinition.getAnnotation(getVersion().getGenericConfigurationAnnotationTypeName());
 			Object o = d.getMemberValue(null);
 			if(o != null) {
 				String s = o.toString();
@@ -266,7 +274,7 @@ public class CDISeamSolderGenericBeanExtension implements ICDIExtension, IBuildP
 		for (IAnnotationDeclaration d: ds) {
 			if(d.getTypeName() != null) {
 				AnnotationDefinition a = context.getRootContext().getAnnotation(d.getTypeName());
-				if(a != null && a.isAnnotationPresent(GENERIC_TYPE_ANNOTATION_TYPE_NAME)) {
+				if(a != null && a.isAnnotationPresent(getVersion().getGenericTypeAnnotationTypeName())) {
 					return d;
 				}
 			}
@@ -275,7 +283,7 @@ public class CDISeamSolderGenericBeanExtension implements ICDIExtension, IBuildP
 	}
 
 	public void validateResource(IFile file, CDICoreValidator validator) {
-		new GenericBeanValidator().validateResource(file, validator, context.getRootContext().getProject(), context);
+		new GenericBeanValidator(getVersion()).validateResource(file, validator, context.getRootContext().getProject(), context);
 	}
 
 	public SeverityPreferences getSeverityPreferences() {

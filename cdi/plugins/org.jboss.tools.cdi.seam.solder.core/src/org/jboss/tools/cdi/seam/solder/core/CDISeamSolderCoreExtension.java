@@ -52,6 +52,13 @@ import org.jboss.tools.common.util.EclipseJavaUtil;
  */
 public class CDISeamSolderCoreExtension implements ICDIExtension, IProcessAnnotatedTypeFeature {
 
+	public CDISeamSolderCoreExtension() {
+	}
+
+	protected Version getVersion() {
+		return Version.instance;
+	}
+
 	public void processAnnotatedType(TypeDefinition typeDefinition, IRootDefinitionContext context) {
 
 		if(processVeto(typeDefinition, context)) {
@@ -71,11 +78,11 @@ public class CDISeamSolderCoreExtension implements ICDIExtension, IProcessAnnota
 	// @Veto
 	private boolean processVeto(TypeDefinition typeDefinition, IRootDefinitionContext context) {
 		if (typeDefinition
-				.isAnnotationPresent(CDISeamSolderConstants.VETO_ANNOTATION_TYPE_NAME)
+				.isAnnotationPresent(getVersion().getVetoAnnotationTypeName())
 				|| (typeDefinition.getPackageDefinition() != null && typeDefinition
 						.getPackageDefinition()
 						.isAnnotationPresent(
-								CDISeamSolderConstants.VETO_ANNOTATION_TYPE_NAME))) {
+								getVersion().getVetoAnnotationTypeName()))) {
 			typeDefinition.veto();
 			return true;
 		}
@@ -108,7 +115,7 @@ public class CDISeamSolderCoreExtension implements ICDIExtension, IProcessAnnota
 		IAnnotationDeclaration fullyQualifiedOnPackage = null;
 		if(p != null) {
 			namedOnPackage = p.getAnnotation(CDIConstants.NAMED_QUALIFIER_TYPE_NAME);
-			fullyQualifiedOnPackage = p.getAnnotation(CDISeamSolderConstants.FULLY_QUALIFIED_ANNOTATION_TYPE_NAME);
+			fullyQualifiedOnPackage = p.getAnnotation(getVersion().getFullyQualifiedAnnotationTypeName());
 		}
 
 		processNames(typeDefinition, context, namedOnPackage, fullyQualifiedOnPackage, p);
@@ -132,7 +139,7 @@ public class CDISeamSolderCoreExtension implements ICDIExtension, IProcessAnnota
 	private void processNames(AbstractMemberDefinition d, IRootDefinitionContext context,
 			IAnnotationDeclaration namedOnPackage, IAnnotationDeclaration fullyQualifiedOnPackage, PackageDefinition p) {
 		IAnnotationDeclaration named = d.getAnnotation(CDIConstants.NAMED_QUALIFIER_TYPE_NAME);
-		IAnnotationDeclaration fullyQualified = d.getAnnotation(CDISeamSolderConstants.FULLY_QUALIFIED_ANNOTATION_TYPE_NAME);
+		IAnnotationDeclaration fullyQualified = d.getAnnotation(getVersion().getFullyQualifiedAnnotationTypeName());
 
 		String beanName = null;
 
@@ -160,7 +167,7 @@ public class CDISeamSolderCoreExtension implements ICDIExtension, IProcessAnnota
 
 	private List<String> getRequiredClasses(IAnnotated d) {
 		IAnnotationDeclaration requires = d
-				.getAnnotation(CDISeamSolderConstants.REQUIRES_ANNOTATION_TYPE_NAME);
+				.getAnnotation(getVersion().getRequiresAnnotationTypeName());
 		return requires != null ? getArrayValue(requires) : new ArrayList<String>();
 	}
 
@@ -202,7 +209,7 @@ public class CDISeamSolderCoreExtension implements ICDIExtension, IProcessAnnota
 	}
 
 	private TypeDeclaration getExactType(IAnnotated annotated, TypeDefinition declaringType, IRootDefinitionContext context) {
-		IAnnotationDeclaration a = annotated.getAnnotation(CDISeamSolderConstants.EXACT_ANNOTATION_TYPE_NAME);
+		IAnnotationDeclaration a = annotated.getAnnotation(getVersion().getExactAnnotationTypeName());
 		if(a != null) {
 			Object o = a.getMemberValue(null);
 			if(o != null) {

@@ -32,9 +32,9 @@ import org.jboss.tools.cdi.internal.core.impl.definition.AbstractMemberDefinitio
 import org.jboss.tools.cdi.internal.core.impl.definition.AnnotationDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.TypeDefinition;
 import org.jboss.tools.cdi.internal.core.validation.CDICoreValidator;
-import org.jboss.tools.cdi.seam.solder.core.CDISeamSolderConstants;
 import org.jboss.tools.cdi.seam.solder.core.CDISeamSolderCorePlugin;
 import org.jboss.tools.cdi.seam.solder.core.CDISeamSolderPreferences;
+import org.jboss.tools.cdi.seam.solder.core.Version;
 import org.jboss.tools.cdi.seam.solder.core.validation.SeamSolderValidationMessages;
 import org.jboss.tools.common.java.IAnnotationDeclaration;
 import org.jboss.tools.common.java.IParametedType;
@@ -46,6 +46,11 @@ import org.jboss.tools.common.text.ITextSourceReference;
  *
  */
 public class GenericBeanValidator {
+	Version version;
+
+	public GenericBeanValidator(Version version) {
+		this.version = version;
+	}
 
 	public void validateResource(IFile file, CDICoreValidator validator, CDICoreNature project, GenericBeanDefinitionContext context) {
 		Map<String, GenericConfiguration> cs = context.getGenericConfigurations();
@@ -68,14 +73,14 @@ public class GenericBeanValidator {
 			String n = c.getGenericTypeName();
 			for (TypeDefinition d: c.getGenericBeans()) {
 				if(d.getResource() != null && d.getResource().equals(file)) {
-					IAnnotationDeclaration a = d.getAnnotation(CDISeamSolderConstants.GENERIC_CONFIGURATION_ANNOTATION_TYPE_NAME);
+					IAnnotationDeclaration a = d.getAnnotation(version.getGenericConfigurationAnnotationTypeName());
 					validator.addError(SeamSolderValidationMessages.WRONG_GENERIC_CONFIGURATION_ANNOTATION_REFERENCE, 
 						CDISeamSolderPreferences.WRONG_GENERIC_CONFIGURATION_ANNOTATION_REFERENCE, new String[]{n}, a, file);
 				}
 			}
 		} else if(file.equals(genericType.getResource())) {
 			if(t != null && context.isGenericBean(t.getType().getFullyQualifiedName())) {
-				IAnnotationDeclaration a = genericType.getAnnotation(CDISeamSolderConstants.GENERIC_TYPE_ANNOTATION_TYPE_NAME);
+				IAnnotationDeclaration a = genericType.getAnnotation(version.getGenericTypeAnnotationTypeName());
 				validator.addError(SeamSolderValidationMessages.GENERIC_CONFIGURATION_TYPE_IS_A_GENERIC_BEAN, 
 						CDISeamSolderPreferences.GENERIC_CONFIGURATION_TYPE_IS_A_GENERIC_BEAN, new String[0], a, file);
 			}

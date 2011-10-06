@@ -19,7 +19,6 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.SourceRange;
-import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.extension.AbstractDefinitionContextExtension;
 import org.jboss.tools.cdi.core.extension.ICDIExtension;
 import org.jboss.tools.cdi.core.extension.IDefinitionContextExtension;
@@ -40,6 +39,10 @@ import org.jboss.tools.common.model.XModelObject;
  */
 public class CDISeamSolderLoggerExtension implements ICDIExtension, IBuildParticipantFeature {
 	LoggerDefinitionContext context = new LoggerDefinitionContext();
+
+	protected Version getVersion() {
+		return Version.instance;
+	}
 
 	public IDefinitionContextExtension getContext() {
 		return context;
@@ -65,17 +68,17 @@ public class CDISeamSolderLoggerExtension implements ICDIExtension, IBuildPartic
 			Set<IType> ts = is.get(path);
 			for (IType t: ts) {
 				InterfaceDefinition i = new InterfaceDefinition(t, context);
-				if(i.isAnnotationPresent(CDISeamSolderConstants.MESSAGE_LOGGER_ANNOTATION_TYPE_NAME)) {
+				if(i.isAnnotationPresent(getVersion().getMessageLoggerAnnotationTypeName())) {
 					TypeDefinition d = new TypeDefinition();
 					d.setType(t, workingCopy.getRootContext(), 0);
 					d.setBeanConstructor(true);
 					workingCopy.addMessageLogger(path, d);
-				} else if(i.isAnnotationPresent(CDISeamSolderConstants.MESSAGE_BUNDLE_ANNOTATION_TYPE_NAME)) {
+				} else if(i.isAnnotationPresent(getVersion().getMessageBundleAnnotationTypeName())) {
 					TypeDefinition d = new TypeDefinition();
 					d.setType(t, workingCopy.getRootContext(), 0);
 					d.setBeanConstructor(true);
 					workingCopy.addMessageBundle(path, d);
-					AnnotationDeclaration ad = d.getAnnotation(CDISeamSolderConstants.MESSAGE_BUNDLE_ANNOTATION_TYPE_NAME);
+					AnnotationDeclaration ad = d.getAnnotation(getVersion().getMessageBundleAnnotationTypeName());
 					if(ad.getMemberValue("projectCode") != null && ad.getMemberValue("projectCode").toString().length() > 0) {
 						String text = d.getContent();
 						int st = ad.getStartPosition();

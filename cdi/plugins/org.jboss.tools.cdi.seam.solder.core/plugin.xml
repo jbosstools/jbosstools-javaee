@@ -5,31 +5,61 @@
 	      point="org.jboss.tools.cdi.core.cdiextensions">
     <cdiextension
           class="org.jboss.tools.cdi.seam.solder.core.CDISeamSolderCoreExtension"
-          runtime="org.jboss.seam.solder.core.CoreExtension">
+          runtime="org.jboss.solder.core.CoreExtension">
     </cdiextension>
 
     <cdiextension
           class="org.jboss.tools.cdi.seam.solder.core.CDISeamSolderLoggerExtension"
-          runtime="org.jboss.seam.solder.logging.TypedMessageLoggerExtension">
+          runtime="org.jboss.solder.logging.TypedMessageLoggerExtension">
     </cdiextension>
     
     <cdiextension
           class="org.jboss.tools.cdi.seam.solder.core.CDISeamSolderServiceHandlerExtension"
-          runtime="org.jboss.seam.solder.serviceHandler.ServiceHandlerExtension">
+          runtime="org.jboss.solder.serviceHandler.ServiceHandlerExtension">
     </cdiextension>
 
     <cdiextension
           class="org.jboss.tools.cdi.seam.solder.core.CDISeamSolderDefaultBeanExtension"
-          runtime="org.jboss.seam.solder.bean.defaultbean.DefaultBeanExtension">
+          runtime="org.jboss.solder.bean.defaultbean.DefaultBeanExtension">
     </cdiextension>
 
     <cdiextension
           class="org.jboss.tools.cdi.seam.solder.core.CDISeamSolderUnwrapsExtension"
-          runtime="org.jboss.seam.solder.unwraps.UnwrapsExtension">
+          runtime="org.jboss.solder.unwraps.UnwrapsExtension">
     </cdiextension>
 
     <cdiextension
           class="org.jboss.tools.cdi.seam.solder.core.generic.CDISeamSolderGenericBeanExtension"
+          runtime="org.jboss.solder.bean.generic.GenericBeanExtension">
+    </cdiextension>
+
+    <cdiextension
+          class="org.jboss.tools.cdi.seam.solder.core.CDISeamSolder30CoreExtension"
+          runtime="org.jboss.seam.solder.core.CoreExtension">
+    </cdiextension>
+
+    <cdiextension
+          class="org.jboss.tools.cdi.seam.solder.core.CDISeamSolder30LoggerExtension"
+          runtime="org.jboss.seam.solder.logging.TypedMessageLoggerExtension">
+    </cdiextension>
+    
+    <cdiextension
+          class="org.jboss.tools.cdi.seam.solder.core.CDISeamSolder30ServiceHandlerExtension"
+          runtime="org.jboss.seam.solder.serviceHandler.ServiceHandlerExtension">
+    </cdiextension>
+
+    <cdiextension
+          class="org.jboss.tools.cdi.seam.solder.core.CDISeamSolder30DefaultBeanExtension"
+          runtime="org.jboss.seam.solder.bean.defaultbean.DefaultBeanExtension">
+    </cdiextension>
+
+    <cdiextension
+          class="org.jboss.tools.cdi.seam.solder.core.CDISeamSolder30UnwrapsExtension"
+          runtime="org.jboss.seam.solder.unwraps.UnwrapsExtension">
+    </cdiextension>
+
+    <cdiextension
+          class="org.jboss.tools.cdi.seam.solder.core.generic.CDISeamSolder30GenericBeanExtension"
           runtime="org.jboss.seam.solder.bean.generic.GenericBeanExtension">
     </cdiextension>
 

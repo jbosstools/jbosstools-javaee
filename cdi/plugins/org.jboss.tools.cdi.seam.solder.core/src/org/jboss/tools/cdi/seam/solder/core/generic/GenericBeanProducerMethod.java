@@ -13,7 +13,7 @@ package org.jboss.tools.cdi.seam.solder.core.generic;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IScope;
 import org.jboss.tools.cdi.internal.core.impl.ProducerMethod;
-import org.jboss.tools.cdi.seam.solder.core.CDISeamSolderConstants;
+import org.jboss.tools.cdi.seam.solder.core.Version;
 
 /**
  * 
@@ -21,13 +21,16 @@ import org.jboss.tools.cdi.seam.solder.core.CDISeamSolderConstants;
  *
  */
 public class GenericBeanProducerMethod extends ProducerMethod implements IGenericBean {
+	Version version;
 
-	public GenericBeanProducerMethod() {}
+	public GenericBeanProducerMethod(Version version) {
+		this.version = version;
+	}
 
 	@Override
 	public IScope getScope() {
 		IScope result = null;
-		if(definition.isAnnotationPresent(CDISeamSolderConstants.APPLY_SCOPE_ANNOTATION_TYPE_NAME)) {
+		if(definition.isAnnotationPresent(version.getApplyScopeAnnotationTypeName())) {
 			if(getParent() instanceof GenericClassBean) {
 				IBean generic = ((GenericClassBean)getParent()).getGenericProducerBean();
 				if(generic != null) {

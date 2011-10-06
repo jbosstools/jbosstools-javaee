@@ -23,7 +23,6 @@ import org.jboss.tools.cdi.core.IQualifierDeclaration;
 import org.jboss.tools.cdi.internal.core.impl.definition.AbstractMemberDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.AnnotationDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.TypeDefinition;
-import org.jboss.tools.cdi.seam.solder.core.CDISeamSolderConstants;
 import org.jboss.tools.cdi.seam.solder.core.CDISeamSolderCorePlugin;
 import org.jboss.tools.common.java.IAnnotationDeclaration;
 import org.jboss.tools.common.java.IParametedType;
@@ -74,7 +73,7 @@ public class GenericConfiguration {
 
 	public void setGenericTypeDefinition(AnnotationDefinition genericType, GenericBeanDefinitionContext context) {
 		this.genericType = genericType;
-		IAnnotationDeclaration g = genericType.getAnnotation(CDISeamSolderConstants.GENERIC_TYPE_ANNOTATION_TYPE_NAME);
+		IAnnotationDeclaration g = genericType.getAnnotation(context.getVersion().getGenericTypeAnnotationTypeName());
 		Object o = g.getMemberValue(null);
 		if(o != null) {
 			String configTypeName = EclipseJavaUtil.resolveType(genericType.getType(), o.toString());

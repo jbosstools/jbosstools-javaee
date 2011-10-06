@@ -46,8 +46,12 @@ import org.jboss.tools.common.java.impl.AnnotationLiteral;
  */
 public class CDISeamSolderDefaultBeanExtension implements ICDIExtension, IProcessAnnotatedTypeFeature, IAmbiguousBeanResolverFeature {
 
+	protected Version getVersion() {
+		return Version.instance;
+	}
+
 	public void processAnnotatedType(TypeDefinition typeDefinition, IRootDefinitionContext context) {
-		boolean defaultBean = typeDefinition.isAnnotationPresent(CDISeamSolderConstants.DEFAULT_BEAN_ANNOTATION_TYPE_NAME);
+		boolean defaultBean = typeDefinition.isAnnotationPresent(getVersion().getDefaultBeanAnnotationTypeName());
 		IJavaAnnotation beanTyped = null;
 		if(defaultBean) {
 			beanTyped = createFakeTypedAnnotation(typeDefinition, context);
@@ -58,7 +62,7 @@ public class CDISeamSolderDefaultBeanExtension implements ICDIExtension, IProces
 		List<MethodDefinition> ms = typeDefinition.getMethods();
 		for (MethodDefinition m: ms) {
 			if(m.isAnnotationPresent(CDIConstants.PRODUCES_ANNOTATION_TYPE_NAME)) {
-				if(defaultBean || m.isAnnotationPresent(CDISeamSolderConstants.DEFAULT_BEAN_ANNOTATION_TYPE_NAME)) {
+				if(defaultBean || m.isAnnotationPresent(getVersion().getDefaultBeanAnnotationTypeName())) {
 					IJavaAnnotation methodTyped = createFakeTypedAnnotation(m, context);
 					if(methodTyped != null) {
 						m.addAnnotation(methodTyped, context);
@@ -69,7 +73,7 @@ public class CDISeamSolderDefaultBeanExtension implements ICDIExtension, IProces
 		List<FieldDefinition> fs = typeDefinition.getFields();
 		for (FieldDefinition f: fs) {
 			if(f.isAnnotationPresent(CDIConstants.PRODUCES_ANNOTATION_TYPE_NAME)) {
-				if(defaultBean || f.isAnnotationPresent(CDISeamSolderConstants.DEFAULT_BEAN_ANNOTATION_TYPE_NAME)) {
+				if(defaultBean || f.isAnnotationPresent(getVersion().getDefaultBeanAnnotationTypeName())) {
 					IJavaAnnotation fieldTyped = createFakeTypedAnnotation(f, context);
 					if(fieldTyped != null) {
 						f.addAnnotation(fieldTyped, context);
@@ -81,7 +85,7 @@ public class CDISeamSolderDefaultBeanExtension implements ICDIExtension, IProces
 
 	IJavaAnnotation createFakeTypedAnnotation(AbstractMemberDefinition def, IRootDefinitionContext context) {
 		IJavaAnnotation result = null;
-		IAnnotationDeclaration a = def.getAnnotation(CDISeamSolderConstants.DEFAULT_BEAN_ANNOTATION_TYPE_NAME);
+		IAnnotationDeclaration a = def.getAnnotation(getVersion().getDefaultBeanAnnotationTypeName());
 		if(a != null) {
 			Object n = a.getMemberValue(null);
 			if(n != null && n.toString().length() > 0) {
@@ -99,12 +103,12 @@ public class CDISeamSolderDefaultBeanExtension implements ICDIExtension, IProces
 	public Set<IBean> getResolvedBeans(Set<IBean> result) {
 		Set<IBean> defaultBeans = new HashSet<IBean>();
 		for (IBean b: result) {
-			if(b.getAnnotation(CDISeamSolderConstants.DEFAULT_BEAN_ANNOTATION_TYPE_NAME) != null) {
+			if(b.getAnnotation(getVersion().getDefaultBeanAnnotationTypeName()) != null) {
 				defaultBeans.add(b);
 			} else if(b instanceof IProducer) {
 				IProducer producer = (IProducer)b;
 				IClassBean parent = producer.getClassBean();
-				if(parent != null && parent.getAnnotation(CDISeamSolderConstants.DEFAULT_BEAN_ANNOTATION_TYPE_NAME) != null) {
+				if(parent != null && parent.getAnnotation(getVersion().getDefaultBeanAnnotationTypeName()) != null) {
 					defaultBeans.add(b);
 				}
 			}

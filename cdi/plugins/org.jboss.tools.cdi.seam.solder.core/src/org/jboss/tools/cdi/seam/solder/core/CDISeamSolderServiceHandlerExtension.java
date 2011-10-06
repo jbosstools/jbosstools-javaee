@@ -20,7 +20,6 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.IType;
-import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.extension.AbstractDefinitionContextExtension;
 import org.jboss.tools.cdi.core.extension.ICDIExtension;
 import org.jboss.tools.cdi.core.extension.IDefinitionContextExtension;
@@ -48,6 +47,10 @@ import org.jboss.tools.common.model.XModelObject;
  */
 public class CDISeamSolderServiceHandlerExtension implements ICDIExtension, IBuildParticipantFeature {
 	ServiceHandlerDefinitionContext context = new ServiceHandlerDefinitionContext();
+
+	protected Version getVersion() {
+		return Version.instance;
+	}
 
 	public IDefinitionContextExtension getContext() {
 		return context;
@@ -144,7 +147,7 @@ public class CDISeamSolderServiceHandlerExtension implements ICDIExtension, IBui
 
 		@Override
 		public void computeAnnotationKind(AnnotationDefinition annotation) {
-			if(annotation.isAnnotationPresent(CDISeamSolderConstants.SERVICE_HANDLER_TYPE_ANNOTATION_TYPE_NAME)) {
+			if(annotation.isAnnotationPresent(getVersion().getHandlerTypeAnnotationTypeName())) {
 				annotation.setExtendedKind(CDISeamSolderConstants.SERVICE_ANNOTATION_KIND);
 				serviceAnnotations.add(annotation.getType().getFullyQualifiedName());
 			}
