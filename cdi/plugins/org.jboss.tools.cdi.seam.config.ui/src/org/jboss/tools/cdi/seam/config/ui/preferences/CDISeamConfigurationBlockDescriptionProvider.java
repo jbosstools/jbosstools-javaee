@@ -21,6 +21,8 @@ public class CDISeamConfigurationBlockDescriptionProvider implements IConfigurat
 			{CDISeamConfigPreferences.UNRESOLVED_METHOD, CDISeamPreferencesMessages.CDIValidatorConfigurationBlock_pb_unresolvedMethod_label},
 			{CDISeamConfigPreferences.ANNOTATION_EXPECTED, CDISeamPreferencesMessages.CDIValidatorConfigurationBlock_pb_annotationExpected_label},
 			{CDISeamConfigPreferences.INLINE_BEAN_TYPE_MISMATCH, CDISeamPreferencesMessages.CDIValidatorConfigurationBlock_pb_inlineBeanTypeMismatch_label},
+			{CDISeamConfigPreferences.ABSTRACT_TYPE_IS_CONFIGURED_AS_BEAN, CDISeamPreferencesMessages.CDIValidatorConfigurationBlock_pb_abstractTypeIsConfiguredAsBean_label},
+			{CDISeamConfigPreferences.BEAN_CONSTRUCTOR_IS_MISSING, CDISeamPreferencesMessages.CDIValidatorConfigurationBlock_pb_beanConstructorIsMissing_label},
 		},
 		CDISeamConfigCorePlugin.PLUGIN_ID
 	);
