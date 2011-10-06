@@ -38,6 +38,7 @@ import org.jboss.tools.common.java.IParametedType;
  */
 public class Util implements CDISeamConfigConstants {
 	public static Map<String, String> EE_TYPES = new HashMap<String, String>();
+	public static Map<String, String> EE_TYPES_30 = new HashMap<String, String>();
 	
 	static {
 		EE_TYPES.put("int", "java.lang.Integer");
@@ -86,7 +87,10 @@ public class Util implements CDISeamConfigConstants {
 		// In Seam3 doc, item 6.7. Overriding the type of an injection point is devoted to @Exact,
 		// but item 6.1 does not mentions its package in namespace urn:java:ee.
 		String[] SEAM_SOLDER = {"Exact"};
-		for (String s: SEAM_SOLDER) EE_TYPES.put(s, "org.jboss.seam.solder.core." + s);
+		for (String s: SEAM_SOLDER) {
+			EE_TYPES.put(s, "org.jboss.solder.core." + s);
+			EE_TYPES_30.put(s, "org.jboss.seam.solder.core." + s);
+		}
 		
 	}
 
@@ -109,6 +113,9 @@ public class Util implements CDISeamConfigConstants {
 			String typeName = null;
 			if(pkg.equals(PACKAGE_EE)) {
 				typeName = Util.EE_TYPES.get(name);
+				if(typeName == null) {
+					typeName = Util.EE_TYPES_30.get(name);
+				}
 			} else {
 				typeName = pkg + "." + name;
 			}

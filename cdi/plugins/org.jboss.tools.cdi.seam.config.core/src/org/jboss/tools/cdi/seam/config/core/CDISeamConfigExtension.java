@@ -61,14 +61,19 @@ import org.jboss.tools.common.preferences.SeverityPreferences;
  *
  */
 public class CDISeamConfigExtension implements ICDIExtension, IBuildParticipantFeature, IValidatorFeature {
+	private static String ID = "org.jboss.solder.config.xml.bootstrap.XmlConfigExtension"; 
+	private static String ID_30 = "org.jboss.seam.config.xml.bootstrap.XmlConfigExtension"; 
 	ConfigDefinitionContext context = new ConfigDefinitionContext();
 
 	ConfigFileSet fileSet = new ConfigFileSet();
 
 	public static CDISeamConfigExtension getExtension(CDICoreNature project) {
-		Set<ICDIExtension> es = project.getExtensionManager().getExtensions(IBuildParticipantFeature.class);
-		for (ICDIExtension ext: es) {
-			if(ext instanceof CDISeamConfigExtension) return (CDISeamConfigExtension)ext;
+		ICDIExtension result = project.getExtensionManager().getExtensionByRuntime(ID);
+		if(result == null) {
+			result = project.getExtensionManager().getExtensionByRuntime(ID_30);
+		}
+		if(result instanceof CDISeamConfigExtension) {
+			return (CDISeamConfigExtension)result;
 		}
 		return null;
 	}

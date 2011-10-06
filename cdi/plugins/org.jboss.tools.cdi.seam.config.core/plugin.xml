@@ -5,6 +5,10 @@
 	      point="org.jboss.tools.cdi.core.cdiextensions">
     <cdiextension
           class="org.jboss.tools.cdi.seam.config.core.CDISeamConfigExtension"
+          runtime="org.jboss.solder.config.xml.bootstrap.XmlConfigExtension">
+    </cdiextension>
+    <cdiextension
+          class="org.jboss.tools.cdi.seam.config.core.CDISeamConfigExtension"
           runtime="org.jboss.seam.config.xml.bootstrap.XmlConfigExtension">
     </cdiextension>
 	</extension>

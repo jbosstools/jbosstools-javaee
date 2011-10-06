@@ -56,5 +56,6 @@ public interface CDISeamConfigConstants extends CDIConstants {
 
 	public String ATTR_DIMENSIONS = "dimensions";
 
-	public String INLINE_BEAN_QUALIFIER = "org.jboss.seam.config.xml.fieldset.InlineBeanQualifier";
+	public String INLINE_BEAN_QUALIFIER = "org.jboss.solder.config.xml.fieldset.InlineBeanQualifier";
+	public String INLINE_BEAN_QUALIFIER_30 = "org.jboss.seam.config.xml.fieldset.InlineBeanQualifier";
 }

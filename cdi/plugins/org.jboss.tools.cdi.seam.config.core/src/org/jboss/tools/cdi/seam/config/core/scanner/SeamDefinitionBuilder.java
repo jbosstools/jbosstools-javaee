@@ -495,6 +495,9 @@ public class SeamDefinitionBuilder {
 	IJavaAnnotation createInlineBeanQualifier() {
 		IType type = project.getType(CDISeamConfigConstants.INLINE_BEAN_QUALIFIER);
 		if(type == null) {
+			type = project.getType(CDISeamConfigConstants.INLINE_BEAN_QUALIFIER_30);
+		}
+		if(type == null) {
 			return null;
 		}
 		long id = inlineBeanCount++;
