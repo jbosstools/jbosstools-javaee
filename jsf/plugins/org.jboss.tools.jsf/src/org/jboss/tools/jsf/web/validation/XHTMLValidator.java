@@ -353,19 +353,11 @@ public class XHTMLValidator extends Validator {
 			}
 			return qName.toString();
 		}
-		
-		@Override
-		public void error(SAXParseException e) throws SAXException {
-		}
-
-		@Override
-		public void fatalError(SAXParseException e) throws SAXException {
-		}
 
 		List<ElementLocation> getNonPairedOpenElements() {
 			return nonPairedOpenElements;
 		}
-		
+
 		List<ElementLocation> getNonPairedCloseElements() {
 			return nonPairedCloseElements;
 		}
@@ -373,7 +365,7 @@ public class XHTMLValidator extends Validator {
 		private int getCurrentLocation() {
 			if (locator == null) 
 				return 0;
-				
+
 			int line = locator.getLineNumber() - 1;
 			int lineOffset = locator.getColumnNumber() - 1;
 			try {
