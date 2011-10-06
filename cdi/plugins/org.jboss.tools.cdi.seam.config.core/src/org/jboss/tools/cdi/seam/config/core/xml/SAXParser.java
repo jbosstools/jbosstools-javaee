@@ -29,6 +29,16 @@ import org.xml.sax.helpers.XMLReaderFactory;
  *
  */
 public class SAXParser extends SAXValidator {
+	/**
+	 * If this limit is set to 0, parser will abort on the very first fatal error.
+	 * In that case, the completing of parsing process is guaranteed, though parser
+	 * will not be so smart as to extract maximum of correct data for the model.
+	 * 
+	 * If this limit is set to a positive number, parser will be smart, but is not 
+	 * secured against making a mistake.
+	 * 
+	 */
+	static int SUPPRESSED_FATAL_ERROR_LIMIT = 0;
 
 	/**
 	 * 
@@ -47,7 +57,7 @@ public class SAXParser extends SAXValidator {
 		setFeature(parserInstance, VALIDATION_SCHEMA_FEATURE_ID, true);
 		setFeature(parserInstance, VALIDATION_SCHEMA_CHECKING_FEATURE_ID, false);
 		setFeature(parserInstance, VALIDATION_DYNAMIC_FEATURE_ID, false);
-		setFeature(parserInstance, FATAL_ERROR_PROCESSING_FEATURE_ID, true);
+		setFeature(parserInstance, FATAL_ERROR_PROCESSING_FEATURE_ID, SUPPRESSED_FATAL_ERROR_LIMIT > 0);
 
 		try {
 			parserInstance.setProperty(ENTITY_RESOLVER_PROPERTY_ID, new XMLEntityResolverImpl());
@@ -81,7 +91,7 @@ public class SAXParser extends SAXValidator {
 		} catch (IOException e) {
 			CommonPlugin.getDefault().logError(e);
 		} catch (SAXException e) {
-			CommonPlugin.getDefault().logError(e);
+			//ignore, that is user data error that will be shown as error marker.
 		}
 		
 		return handler.getRootElement();
@@ -205,6 +215,7 @@ public class SAXParser extends SAXValidator {
 		public void fatalError(SAXParseException e) throws SAXException {
 			String message = e.getMessage();
 			errors.add(message);
+			if(errors.size() > SUPPRESSED_FATAL_ERROR_LIMIT) throw e;
 		}
 
 		/**
