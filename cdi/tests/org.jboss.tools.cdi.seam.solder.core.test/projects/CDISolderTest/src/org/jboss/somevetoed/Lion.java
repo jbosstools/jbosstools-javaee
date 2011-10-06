@@ -2,7 +2,7 @@ package org.jboss.somevetoed;
 
 import javax.inject.Named;
 
-import org.jboss.seam.solder.core.Veto;
+import org.jboss.solder.core.Veto;
 
 @Veto
 @Named("lion")

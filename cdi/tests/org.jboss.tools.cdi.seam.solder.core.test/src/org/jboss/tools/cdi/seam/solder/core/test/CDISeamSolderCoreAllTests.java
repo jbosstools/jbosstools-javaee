@@ -15,6 +15,7 @@ import junit.framework.TestSuite;
 
 import org.eclipse.jdt.internal.core.JavaModelManager;
 import org.eclipse.wst.validation.ValidationFramework;
+import org.jboss.tools.cdi.seam.solder.core.test.v30.CDISeamSolderCoreAllTests30;
 import org.jboss.tools.common.base.test.validation.ValidationExceptionTest;
 /**
  * @author Viacheslav Kabanovich
@@ -30,20 +31,27 @@ public class CDISeamSolderCoreAllTests {
 		ValidationExceptionTest.initLogger();
 
 		TestSuite suiteAll = new TestSuite("CDI Solder Core Tests");
-		SeamSolderTestSetup suite = new SeamSolderTestSetup(suiteAll);
 
-		suiteAll.addTestSuite(GenericBeanTest.class);
-		suiteAll.addTestSuite(GenericBeanValidationTest.class);
-		suiteAll.addTestSuite(BeanNamingTest.class);
-		suiteAll.addTestSuite(VetoTest.class);
-		suiteAll.addTestSuite(ExactTest.class);
-		suiteAll.addTestSuite(MessageLoggerTest.class);
-		suiteAll.addTestSuite(ServiceHandlerTest.class);
-		suiteAll.addTestSuite(DefaultBeanTest.class);
-		suiteAll.addTestSuite(UnwrapsTest.class);
+		suiteAll.addTest(CDISeamSolderCoreAllTests30.suite());
+
+		TestSuite suite31 = new TestSuite("CDI Solder Core 3.1 Tests");
+
+		SeamSolderTestSetup suite = new SeamSolderTestSetup(suite31);
+
+		suite31.addTestSuite(GenericBeanTest.class);
+		suite31.addTestSuite(GenericBeanValidationTest.class);
+		suite31.addTestSuite(BeanNamingTest.class);
+		suite31.addTestSuite(VetoTest.class);
+		suite31.addTestSuite(ExactTest.class);
+		suite31.addTestSuite(MessageLoggerTest.class);
+		suite31.addTestSuite(ServiceHandlerTest.class);
+		suite31.addTestSuite(DefaultBeanTest.class);
+		suite31.addTestSuite(UnwrapsTest.class);
+
+		suiteAll.addTest(suite31);
 
 		suiteAll.addTestSuite(ValidationExceptionTest.class); // This test should be added last!
-
+		
 		return suite;
 	}
 }

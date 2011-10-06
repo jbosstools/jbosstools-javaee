@@ -2,7 +2,7 @@ package org.jboss.logger;
 
 import javax.inject.Named;
 
-import org.jboss.seam.solder.logging.MessageLogger;
+import org.jboss.solder.logging.MessageLogger;
 
 @MessageLogger
 @Named("logger1")

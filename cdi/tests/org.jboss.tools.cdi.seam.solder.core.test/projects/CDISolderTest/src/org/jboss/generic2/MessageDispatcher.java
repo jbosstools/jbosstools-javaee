@@ -1,6 +1,6 @@
 package org.jboss.generic2;
 
-import org.jboss.seam.solder.messages.Message;
+import org.jboss.solder.messages.Message;
 
 public interface MessageDispatcher {
 

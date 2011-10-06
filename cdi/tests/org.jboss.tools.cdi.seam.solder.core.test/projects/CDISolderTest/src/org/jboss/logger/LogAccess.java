@@ -2,7 +2,7 @@ package org.jboss.logger;
 
 import javax.inject.Inject;
 
-import org.jboss.seam.solder.messages.MessageBundle;
+import org.jboss.solder.messages.MessageBundle;
 
 public class LogAccess {
 	@Inject MyLogger logger;

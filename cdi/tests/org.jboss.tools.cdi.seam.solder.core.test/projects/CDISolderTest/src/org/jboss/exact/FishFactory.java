@@ -3,7 +3,7 @@ package org.jboss.exact;
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 
-import org.jboss.seam.solder.core.Exact;
+import org.jboss.solder.core.Exact;
 
 public class FishFactory {
 	@Inject

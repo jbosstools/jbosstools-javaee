@@ -4,7 +4,7 @@ import javax.enterprise.inject.Produces;
 import javax.inject.Named;
 
 import org.jboss.fullyqualified.Elephant;
-import org.jboss.seam.solder.core.FullyQualified;
+import org.jboss.solder.core.FullyQualified;
 
 public class Dog {
 

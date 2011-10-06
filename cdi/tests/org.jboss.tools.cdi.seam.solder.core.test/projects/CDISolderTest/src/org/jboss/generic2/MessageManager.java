@@ -3,9 +3,9 @@ package org.jboss.generic2;
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 
-import org.jboss.seam.solder.bean.generic.ApplyScope;
-import org.jboss.seam.solder.bean.generic.Generic;
-import org.jboss.seam.solder.bean.generic.GenericConfiguration;
+import org.jboss.solder.bean.generic.ApplyScope;
+import org.jboss.solder.bean.generic.Generic;
+import org.jboss.solder.bean.generic.GenericConfiguration;
 
 @GenericConfiguration(ACMEQueue.class)
 class MessageManager {

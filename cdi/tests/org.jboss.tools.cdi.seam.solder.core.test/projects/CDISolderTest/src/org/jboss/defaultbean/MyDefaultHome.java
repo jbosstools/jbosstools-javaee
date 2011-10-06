@@ -2,7 +2,7 @@ package org.jboss.defaultbean;
 
 import javax.enterprise.inject.Produces;
 
-import org.jboss.seam.solder.bean.defaultbean.DefaultBean;
+import org.jboss.solder.bean.defaultbean.DefaultBean;
 
 @DefaultBean(Home.class)
 @Small

@@ -2,7 +2,7 @@ package org.jboss.unwraps;
 
 import javax.inject.Inject;
 
-import org.jboss.seam.solder.unwraps.Unwraps;
+import org.jboss.solder.unwraps.Unwraps;
 
 public class Unwrapped {
 	

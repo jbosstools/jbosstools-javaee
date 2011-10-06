@@ -1,5 +1,5 @@
 @Veto
 package org.jboss.vetoed;
 
-import org.jboss.seam.solder.core.Veto;
+import org.jboss.solder.core.Veto;
 

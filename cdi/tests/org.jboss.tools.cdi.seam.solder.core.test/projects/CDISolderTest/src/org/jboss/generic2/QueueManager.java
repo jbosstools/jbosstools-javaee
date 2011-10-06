@@ -4,9 +4,9 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 
-import org.jboss.seam.solder.bean.generic.ApplyScope;
-import org.jboss.seam.solder.bean.generic.Generic;
-import org.jboss.seam.solder.bean.generic.GenericConfiguration;
+import org.jboss.solder.bean.generic.ApplyScope;
+import org.jboss.solder.bean.generic.Generic;
+import org.jboss.solder.bean.generic.GenericConfiguration;
 import java.io.Serializable;
 
 @GenericConfiguration(ACMEQueue.class)
