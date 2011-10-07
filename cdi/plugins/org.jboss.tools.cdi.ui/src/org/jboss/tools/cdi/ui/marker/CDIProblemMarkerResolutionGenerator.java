@@ -501,13 +501,19 @@ public class CDIProblemMarkerResolutionGenerator implements
 			}
 			
 			if(messageId == CDIValidationErrorManager.UNKNOWN_ALTERNATIVE_BEAN_CLASS_NAME_ID){
-				return new IMarkerResolution[] {
-					new CreateCDIElementMarkerResolution(file.getProject(), text, CreateCDIElementMarkerResolution.CREATE_BEAN_CLASS)
-				};
+				IJavaElement element = findJavaElementByQualifiedName(file.getProject(), text);
+				if(element == null){
+					return new IMarkerResolution[] {
+						new CreateCDIElementMarkerResolution(file.getProject(), text, CreateCDIElementMarkerResolution.CREATE_BEAN_CLASS)
+					};
+				}
 			}else if(messageId == CDIValidationErrorManager.UNKNOWN_ALTERNATIVE_ANNOTATION_NAME_ID){
-				return new IMarkerResolution[] {
-					new CreateCDIElementMarkerResolution(file.getProject(), text, CreateCDIElementMarkerResolution.CREATE_STEREOTYPE)
-				};
+				IJavaElement element = findJavaElementByQualifiedName(file.getProject(), text);
+				if(element == null){
+					return new IMarkerResolution[] {
+						new CreateCDIElementMarkerResolution(file.getProject(), text, CreateCDIElementMarkerResolution.CREATE_STEREOTYPE)
+					};
+				}
 			}else if(messageId == CDIValidationErrorManager.ILLEGAL_ALTERNATIVE_BEAN_CLASS_ID){
 				IJavaElement element = findJavaElementByQualifiedName(file.getProject(), text);
 				if(element != null){
@@ -523,13 +529,19 @@ public class CDIProblemMarkerResolutionGenerator implements
 					};
 				}
 			}else if(messageId == CDIValidationErrorManager.UNKNOWN_DECORATOR_BEAN_CLASS_NAME_ID){
-				return new IMarkerResolution[] {
-					new CreateCDIElementMarkerResolution(file.getProject(), text, CreateCDIElementMarkerResolution.CREATE_DECORATOR)
-				};
+				IJavaElement element = findJavaElementByQualifiedName(file.getProject(), text);
+				if(element == null){
+					return new IMarkerResolution[] {
+						new CreateCDIElementMarkerResolution(file.getProject(), text, CreateCDIElementMarkerResolution.CREATE_DECORATOR)
+					};
+				}
 			}else if(messageId == CDIValidationErrorManager.UNKNOWN_INTERCEPTOR_CLASS_NAME_ID){
-				return new IMarkerResolution[] {
-					new CreateCDIElementMarkerResolution(file.getProject(), text, CreateCDIElementMarkerResolution.CREATE_INTERCEPTOR)
-				};
+				IJavaElement element = findJavaElementByQualifiedName(file.getProject(), text);
+				if(element == null){
+					return new IMarkerResolution[] {
+						new CreateCDIElementMarkerResolution(file.getProject(), text, CreateCDIElementMarkerResolution.CREATE_INTERCEPTOR)
+					};
+				}
 			}
 		}
 		return new IMarkerResolution[] {};
