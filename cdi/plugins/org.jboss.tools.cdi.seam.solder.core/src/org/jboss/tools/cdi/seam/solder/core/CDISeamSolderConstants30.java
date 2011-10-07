@@ -10,8 +10,6 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.seam.solder.core;
 
-import org.jboss.tools.cdi.core.CDIConstants;
-
 /**
  * 
  * @author Viacheslav Kabanovich

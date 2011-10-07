@@ -34,6 +34,11 @@
     </cdiextension>
 
     <cdiextension
+          class="org.jboss.tools.cdi.seam.solder.core.CDISeamSolderServletExtension"
+          runtime="org.jboss.solder.servlet.ServletExtension">
+    </cdiextension>
+
+    <cdiextension
           class="org.jboss.tools.cdi.seam.solder.core.CDISeamSolder30CoreExtension"
           runtime="org.jboss.seam.solder.core.CoreExtension">
     </cdiextension>
