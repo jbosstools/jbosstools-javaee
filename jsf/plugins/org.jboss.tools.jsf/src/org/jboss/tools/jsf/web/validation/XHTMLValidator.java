@@ -668,8 +668,10 @@ public class XHTMLValidator extends Validator {
                 }
 			} catch (MalformedURLException e) {
 				// Ignore (null will be returned as result)
+				JSFModelPlugin.getPluginLog().logError(e);
 			} catch (IOException e) {
 				// Ignore (null will be returned as result)
+				JSFModelPlugin.getPluginLog().logError(e);
 			}
             return stream;
 		}
