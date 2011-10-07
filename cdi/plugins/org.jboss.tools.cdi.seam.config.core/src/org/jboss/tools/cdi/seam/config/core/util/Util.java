@@ -110,16 +110,15 @@ public class Util implements CDISeamConfigConstants {
 		String[] packages = getPackages(uri);
 		for (String pkg: packages) {
 			if(pkg.length() == 0) continue;
-			String typeName = null;
+			IType type = null;
 			if(pkg.equals(PACKAGE_EE)) {
-				typeName = Util.EE_TYPES.get(name);
-				if(typeName == null) {
-					typeName = Util.EE_TYPES_30.get(name);
+				type = project.getType(Util.EE_TYPES.get(name));
+				if(type == null) {
+					type = project.getType(Util.EE_TYPES_30.get(name));
 				}
 			} else {
-				typeName = pkg + "." + name;
+				type = project.getType(pkg + "." + name);
 			}
-			IType type = project.getType(typeName);
 			if(type != null) {
 				return type;
 			}
