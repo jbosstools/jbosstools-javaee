@@ -38,6 +38,7 @@ public class CDISeamConfigCoreAllTests {
 		TestSuite suite31 = new TestSuite("CDI Config Core 3.1 Tests");
 
 		TestSuite suiteCore = new TestSuite("CDI Config Model Tests");
+		suiteCore.addTestSuite(ParserTest.class);
 		suiteCore.addTestSuite(ExtensionTest.class);
 		suiteCore.addTestSuite(SeamDefinitionsTest.class);
 		suiteCore.addTestSuite(SeamBeansTest.class);
@@ -48,9 +49,9 @@ public class CDISeamConfigCoreAllTests {
 		suiteValidation.addTestSuite(SeamConfigValidationTest.class);
 		suite31.addTest(new SeamConfigValidationTestSetup(suiteValidation));
 
-		suiteAll.addTestSuite(ValidationExceptionTest.class); // This test should be added last!
-
 		suiteAll.addTest(suite31);
+
+		suiteAll.addTestSuite(ValidationExceptionTest.class); // This test should be added last!
 
 		return suiteAll;
 	}
