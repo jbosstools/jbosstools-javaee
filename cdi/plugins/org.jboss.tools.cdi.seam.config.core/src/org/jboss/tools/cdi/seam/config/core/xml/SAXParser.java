@@ -38,7 +38,11 @@ public class SAXParser extends SAXValidator {
 	 * secured against making a mistake.
 	 * 
 	 */
-	static int SUPPRESSED_FATAL_ERROR_LIMIT = 0;
+	int supperssedFatalErrorLimit = 0;
+
+	public void setSupperssedFatalErrorLimit(int c) {
+		supperssedFatalErrorLimit = c;
+	}
 
 	/**
 	 * 
@@ -57,7 +61,7 @@ public class SAXParser extends SAXValidator {
 		setFeature(parserInstance, VALIDATION_SCHEMA_FEATURE_ID, true);
 		setFeature(parserInstance, VALIDATION_SCHEMA_CHECKING_FEATURE_ID, false);
 		setFeature(parserInstance, VALIDATION_DYNAMIC_FEATURE_ID, false);
-		setFeature(parserInstance, FATAL_ERROR_PROCESSING_FEATURE_ID, SUPPRESSED_FATAL_ERROR_LIMIT > 0);
+		setFeature(parserInstance, FATAL_ERROR_PROCESSING_FEATURE_ID, supperssedFatalErrorLimit > 0);
 
 		try {
 			parserInstance.setProperty(ENTITY_RESOLVER_PROPERTY_ID, new XMLEntityResolverImpl());
@@ -73,6 +77,7 @@ public class SAXParser extends SAXValidator {
 	}
 
 	private String errorMessage = null;
+	List<String> errors = new ArrayList<String>();
 
 	public SAXElement parse(InputStream input, IDocument document) {
 		InputSource s = new InputSource(input);
@@ -94,7 +99,13 @@ public class SAXParser extends SAXValidator {
 			//ignore, that is user data error that will be shown as error marker.
 		}
 		
+		errors = handler.errors;
+		
 		return handler.getRootElement();
+	}
+
+	public List<String> getErrors() {
+		return errors;
 	}
 
 	class ConfigHanlder extends DefaultHandler {
@@ -215,7 +226,7 @@ public class SAXParser extends SAXValidator {
 		public void fatalError(SAXParseException e) throws SAXException {
 			String message = e.getMessage();
 			errors.add(message);
-			if(errors.size() > SUPPRESSED_FATAL_ERROR_LIMIT) throw e;
+			if(errors.size() > supperssedFatalErrorLimit) throw e;
 		}
 
 		/**
