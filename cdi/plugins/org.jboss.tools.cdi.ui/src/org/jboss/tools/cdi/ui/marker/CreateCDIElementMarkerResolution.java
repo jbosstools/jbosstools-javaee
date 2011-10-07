@@ -28,7 +28,7 @@ import org.jboss.tools.cdi.ui.wizard.NewInterceptorCreationWizard;
 import org.jboss.tools.cdi.ui.wizard.NewStereotypeCreationWizard;
 import org.jboss.tools.common.model.ui.wizards.NewTypeWizardAdapter;
 
-public class CreateCDIElementMarkerResolution implements IMarkerResolution2{
+public class CreateCDIElementMarkerResolution implements IMarkerResolution2, TestableResolutionWithDialog{
 	private static final String OBJECT = "java.lang.Object";
 	
 	public static final int CREATE_BEAN_CLASS = 1;
@@ -61,8 +61,16 @@ public class CreateCDIElementMarkerResolution implements IMarkerResolution2{
 		return "";
 	}
 
+	public void run(IMarker marker){
+		internal_run(marker, false);
+	}
+
 	@Override
-	public void run(IMarker marker) {
+	public void runForTest(IMarker marker) {
+		internal_run(marker, true);
+	}
+	
+	private void internal_run(IMarker marker, boolean test) {
 		Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
 		NewCDIElementWizard wizard = null;
 		switch(id){
@@ -90,7 +98,16 @@ public class CreateCDIElementMarkerResolution implements IMarkerResolution2{
 		wizard.init(PlatformUI.getWorkbench(), new StructuredSelection(new Object[]{}));
 		WizardDialog dialog = new WizardDialog(shell, wizard);
 		
+		if(test){
+			dialog.setBlockOnOpen(false);
+		}
+		
 		dialog.open();
+		
+		if(test){
+			wizard.performFinish();
+			dialog.close();
+		}
 	}
 
 	@Override
@@ -102,5 +119,6 @@ public class CreateCDIElementMarkerResolution implements IMarkerResolution2{
 	public Image getImage() {
 		return CDIImages.QUICKFIX_EDIT;
 	}
+
 
 }

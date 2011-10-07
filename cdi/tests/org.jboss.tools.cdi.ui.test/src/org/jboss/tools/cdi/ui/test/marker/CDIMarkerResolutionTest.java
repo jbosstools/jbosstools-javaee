@@ -33,12 +33,14 @@ import org.jboss.tools.cdi.ui.marker.AddRetentionAnnotationMarkerResolution;
 import org.jboss.tools.cdi.ui.marker.AddSerializableInterfaceMarkerResolution;
 import org.jboss.tools.cdi.ui.marker.AddTargetAnnotationMarkerResolution;
 import org.jboss.tools.cdi.ui.marker.ChangeAnnotationMarkerResolution;
+import org.jboss.tools.cdi.ui.marker.CreateCDIElementMarkerResolution;
 import org.jboss.tools.cdi.ui.marker.DeleteAllDisposerDuplicantMarkerResolution;
 import org.jboss.tools.cdi.ui.marker.DeleteAllInjectedConstructorsMarkerResolution;
 import org.jboss.tools.cdi.ui.marker.DeleteAnnotationMarkerResolution;
 import org.jboss.tools.cdi.ui.marker.MakeFieldStaticMarkerResolution;
 import org.jboss.tools.cdi.ui.marker.MakeMethodBusinessMarkerResolution;
 import org.jboss.tools.cdi.ui.marker.MakeMethodPublicMarkerResolution;
+import org.jboss.tools.cdi.ui.marker.TestableResolutionWithDialog;
 import org.jboss.tools.cdi.ui.marker.TestableResolutionWithRefactoringProcessor;
 import org.jboss.tools.common.base.test.validation.TestUtil;
 import org.jboss.tools.common.util.FileUtil;
@@ -102,6 +104,8 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 									CompositeChange rootChange = (CompositeChange)processor.createChange(new NullProgressMonitor());
 
 									rootChange.perform(new NullProgressMonitor());
+								} else if(resolution instanceof TestableResolutionWithDialog){
+									((TestableResolutionWithDialog) resolution).runForTest(marker);
 								} else {
 									resolution.run(marker);
 								}
@@ -944,5 +948,38 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
 				CDIValidationErrorManager.SESSION_BEAN_ANNOTATED_INTERCEPTOR_ID,
 				DeleteAnnotationMarkerResolution.class);
+	}
+
+	public void testCreateBeanClassResolution() throws CoreException{
+		checkResolution(tckProject,
+				new String[]{
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/beans.xml"
+				},
+				CDICoreValidator.PROBLEM_TYPE,
+				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
+				CDIValidationErrorManager.UNKNOWN_ALTERNATIVE_BEAN_CLASS_NAME_ID,
+				CreateCDIElementMarkerResolution.class);
+	}
+
+	public void testCreateStereotypeResolution() throws CoreException{
+		checkResolution(tckProject,
+				new String[]{
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/beans.xml"
+				},
+				CDICoreValidator.PROBLEM_TYPE,
+				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
+				CDIValidationErrorManager.UNKNOWN_ALTERNATIVE_ANNOTATION_NAME_ID,
+				CreateCDIElementMarkerResolution.class);
+	}
+
+	public void testCreateInterceptorResolution() throws CoreException{
+		checkResolution(tckProject,
+				new String[]{
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/beans.xml"
+				},
+				CDICoreValidator.PROBLEM_TYPE,
+				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
+				CDIValidationErrorManager.UNKNOWN_INTERCEPTOR_CLASS_NAME_ID,
+				CreateCDIElementMarkerResolution.class);
 	}
 }
