@@ -381,6 +381,9 @@ public class NewDecoratorWizardPage extends NewClassWizardPage {
 	}
 
 	protected void updateStatus(IStatus[] status) {
+		if(!CDIUIMessages.NEW_DECORATOR_WIZARD_DESCRIPTION.equals(getDescription())) {
+			setDescription(CDIUIMessages.NEW_DECORATOR_WIZARD_DESCRIPTION);
+		}
 		IStatus[] ns = new IStatus[status.length + 1];
 		System.arraycopy(status, 0, ns, 0, status.length);
 		ns[status.length] = fieldNameStatus;
@@ -439,4 +442,15 @@ public class NewDecoratorWizardPage extends NewClassWizardPage {
 		return false;
 	}
 
+	@Override
+	public void setVisible(boolean visible) {
+		if(!getControl().isVisible() && visible && fSuperInterfacesStatus.matches(IStatus.ERROR) && !fTypeNameStatus.matches(IStatus.ERROR)) {
+			setDescription(fSuperInterfacesStatus.getMessage());
+		}
+		super.setVisible(visible);
+	}
+
+	protected String getSuperInterfacesLabel() {
+		return CDIUIMessages.NEW_DECORATOR_WIZARD_INTERFACES_LABEL;
+	}
 }
