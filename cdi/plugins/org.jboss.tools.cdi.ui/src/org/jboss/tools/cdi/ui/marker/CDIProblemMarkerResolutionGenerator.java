@@ -496,6 +496,8 @@ public class CDIProblemMarkerResolutionGenerator implements
 				text = document.get(start, end-start);
 			} catch (BadLocationException e) {
 				CDIUIPlugin.getDefault().logError(e);
+			} finally {
+				provider.disconnect(input);
 			}
 			
 			if(messageId == CDIValidationErrorManager.UNKNOWN_ALTERNATIVE_BEAN_CLASS_NAME_ID){
