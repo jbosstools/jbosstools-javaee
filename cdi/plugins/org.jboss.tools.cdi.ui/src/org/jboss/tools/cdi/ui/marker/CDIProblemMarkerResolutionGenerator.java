@@ -17,6 +17,7 @@ import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.Flags;
 import org.eclipse.jdt.core.IAnnotatable;
@@ -24,6 +25,7 @@ import org.eclipse.jdt.core.IAnnotation;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IField;
 import org.eclipse.jdt.core.IJavaElement;
+import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.ILocalVariable;
 import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.IMethod;
@@ -52,7 +54,6 @@ import org.jboss.tools.common.EclipseUtil;
 import org.jboss.tools.common.java.IAnnotationDeclaration;
 import org.jboss.tools.common.model.util.EclipseJavaUtil;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
-import org.jboss.tools.jst.web.ui.WebUiPlugin;
 
 /**
  * @author Daniel Azarov
@@ -506,13 +507,19 @@ public class CDIProblemMarkerResolutionGenerator implements
 					new CreateCDIElementMarkerResolution(file.getProject(), text, CreateCDIElementMarkerResolution.CREATE_STEREOTYPE)
 				};
 			}else if(messageId == CDIValidationErrorManager.ILLEGAL_ALTERNATIVE_BEAN_CLASS_ID){
-				return new IMarkerResolution[] {
-					new AddAnnotationMarkerResolution(text, CDIConstants.ALTERNATIVE_ANNOTATION_TYPE_NAME)
-				};
+				IJavaElement element = findJavaElementByQualifiedName(file.getProject(), text);
+				if(element != null){
+					return new IMarkerResolution[] {
+						new AddAnnotationMarkerResolution(element, CDIConstants.ALTERNATIVE_ANNOTATION_TYPE_NAME)
+					};
+				}
 			}else if(messageId == CDIValidationErrorManager.ILLEGAL_ALTERNATIVE_ANNOTATION_ID){
-				return new IMarkerResolution[] {
-					new AddAnnotationMarkerResolution(text, CDIConstants.ALTERNATIVE_ANNOTATION_TYPE_NAME)
-				};
+				IJavaElement element = findJavaElementByQualifiedName(file.getProject(), text);
+				if(element != null){
+					return new IMarkerResolution[] {
+						new AddAnnotationMarkerResolution(element, CDIConstants.ALTERNATIVE_ANNOTATION_TYPE_NAME)
+					};
+				}
 			}else if(messageId == CDIValidationErrorManager.UNKNOWN_DECORATOR_BEAN_CLASS_NAME_ID){
 				return new IMarkerResolution[] {
 					new CreateCDIElementMarkerResolution(file.getProject(), text, CreateCDIElementMarkerResolution.CREATE_DECORATOR)
@@ -524,6 +531,17 @@ public class CDIProblemMarkerResolutionGenerator implements
 			}
 		}
 		return new IMarkerResolution[] {};
+	}
+	
+	private IJavaElement findJavaElementByQualifiedName(IProject project, String qualifiedName){
+		IJavaProject javaProject = EclipseUtil.getJavaProject(project);
+		try {
+			return javaProject.findType(qualifiedName);
+		} catch (JavaModelException ex) {
+			CDIUIPlugin.getDefault().logError(ex);
+		}
+		
+		return null;
 	}
 	
 	private IType findNamedDeclarationType(ICDIProject cdiProject, IType type, boolean isItDecorator){

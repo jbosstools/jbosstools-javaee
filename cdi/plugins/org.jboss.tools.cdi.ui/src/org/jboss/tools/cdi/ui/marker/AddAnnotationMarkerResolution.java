@@ -17,7 +17,6 @@ import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IField;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.ILocalVariable;
-import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.osgi.util.NLS;
@@ -51,11 +50,6 @@ public class AddAnnotationMarkerResolution implements
 		label = NLS.bind(CDIUIMessages.ADD_ANNOTATION_MARKER_RESOLUTION_TITLE, new String[]{shortName, element.getElementName(), type});
 	}
 	
-	public AddAnnotationMarkerResolution(String classQualifiedName, String annotationQualifiedName){
-		this.qualifiedName = annotationQualifiedName;
-		
-	}
-
 	public String getLabel() {
 		return label;
 	}
