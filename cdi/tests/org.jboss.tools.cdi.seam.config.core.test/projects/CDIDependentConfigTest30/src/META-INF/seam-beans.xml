@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<beans xmlns="http://java.sun.com/xml/ns/javaee"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xmlns:s="urn:java:ee" 
+   xmlns:test07="urn:java:org.jboss.beans.test07"
+   xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://jboss.org/schema/cdi/beans_1_0.xsd">
+
+<!-- Test 07-1 -->
+<test07:MyBean1>
+	<s:modifies/>
+	<s:Named>test07-1-b</s:Named>
+</test07:MyBean1>
+
+</beans>

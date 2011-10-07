@@ -1,0 +1,166 @@
+<?xml version="1.0"?>
+<beans xmlns="http://java.sun.com/xml/ns/javaee"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xmlns:s="urn:java:ee" 
+   xmlns:test01="urn:java:org.jboss.beans.test01"
+   xmlns:test02="urn:java:org.jboss.beans.test02"
+   xmlns:test03="urn:java:org.jboss.beans.test03"
+   xmlns:test04="urn:java:org.jboss.beans.test04"
+   xmlns:test05="urn:java:org.jboss.beans.test05"
+   xmlns:test06="urn:java:org.jboss.beans.test06"
+   xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://jboss.org/schema/cdi/beans_1_0.xsd">
+
+<!-- Test 01-1 -->
+<test01:MyBean1>
+	<s:modifies/>
+</test01:MyBean1>
+
+<!-- Test 01-2 -->
+<test01:MyBean2>
+	<s:replaces/>
+</test01:MyBean2>
+
+<!-- Test 01-3 -->
+<test01:MyBean3>
+</test01:MyBean3>
+
+<!-- Test 01-4 -->
+<test01:MyBean4>
+</test01:MyBean4>
+<test01:MyBean4>
+</test01:MyBean4>
+
+<!-- Test 02-1 -->
+<test02:MyBean1>
+	<s:modifies/>
+	<test02:MyQualifier2/>
+</test02:MyBean1>
+
+<!-- Test 02-2 -->
+<test02:MyBean2>
+	<s:replaces/>
+	<test02:MyQualifier2/>
+</test02:MyBean2>
+
+<!-- Test 02-3 -->
+<test02:MyBean3>
+	<test02:MyQualifier1/>
+</test02:MyBean3>
+<test02:MyBean3>
+	<test02:MyQualifier2/>
+</test02:MyBean3>
+
+<!-- Test 03-1 -->
+<test03:MyBean1>
+	<s:modifies/>
+	<s:Named>test03-1-b</s:Named>
+</test03:MyBean1>
+
+<!-- Test 03-2 -->
+<test03:MyBean2>
+	<s:replaces/>
+	<s:Named>test03-2-b</s:Named>
+</test03:MyBean2>
+
+<!-- Test 03-3 -->
+<test03:MyBean3>
+	<s:Named>test03-3-b</s:Named>
+</test03:MyBean3>
+<test03:MyBean3>
+	<s:Named>test03-3-c</s:Named>
+</test03:MyBean3>
+
+<!-- Test 04-1 -->
+<test04:MyBean1>
+	<s:modifies/>
+</test04:MyBean1>
+
+<!-- Test 04-2 -->
+<test04:MyBean2>
+	<s:modifies/>
+	<test04:myType2>
+		<s:Named>test04-2-a</s:Named>
+	</test04:myType2>
+</test04:MyBean2>
+
+<!-- Test 04-3 -->
+<test04:MyBean3>
+	<s:modifies/>
+	<test04:myType3>
+ 		<s:Produces/>
+ 	</test04:myType3>
+</test04:MyBean3>
+
+<!-- Test 04-4 -->
+<test04:MyBean4>
+	<s:replaces/>
+</test04:MyBean4>
+
+<!-- Test 04-5 -->
+<test04:MyBean5>
+	<s:replaces/>
+	<test04:myType5>
+		<s:Inject/>
+		<test04:MyQualifier kind="kind-04-5-a"/>
+	</test04:myType5>
+</test04:MyBean5>
+
+<!-- Test 04-6 -->
+<test04:MyBean6>
+	<test04:MyQualifier kind="kind-04-6"/>
+	<test04:myType6>
+		<s:Produces/>
+	</test04:myType6>
+</test04:MyBean6>
+
+<!-- Test 05-1 -->
+<test05:MyBean1>
+	<s:modifies/>
+	<test05:createType>
+		<s:Produces/>
+		<test05:MyQualifier/>
+		<s:parameters>
+			<test05:MyType1>
+ 			</test05:MyType1>
+		</s:parameters>
+	</test05:createType>
+</test05:MyBean1>
+
+<!-- Test 05-2 -->
+<test05:MyBean2>
+	<s:parameters>
+		<test05:MyType1>
+		</test05:MyType1>
+	</s:parameters>
+</test05:MyBean2>
+
+<!-- Test 06-1 -->
+<s:String>
+	<s:Produces/>
+	<test06:MyQualifier>one</test06:MyQualifier>
+</s:String>
+
+<!-- Test 06-2 and Test 06-3 -->
+<test06:MyType1>
+	<s:Produces/>
+	<test06:MyQualifier>two</test06:MyQualifier>
+	<s:value>
+		<test06:MyType1>
+			<s:parameters>
+				<s:String>
+					<test06:MyQualifier>one</test06:MyQualifier>
+				</s:String>
+			</s:parameters>
+		</test06:MyType1>
+	</s:value>
+</test06:MyType1>
+
+<!-- Test 06-4 -->
+<test06:MyInterface>
+	<s:Produces/>
+	<s:value>
+		<test06:MyImpl></test06:MyImpl>
+	</s:value>
+</test06:MyInterface>
+
+</beans>

@@ -8,49 +8,33 @@
  * Contributors: 
  * Red Hat, Inc. - initial API and implementation 
  ******************************************************************************/ 
-package org.jboss.tools.cdi.seam.config.core.test;
+package org.jboss.tools.cdi.seam.config.core.test.v30;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
 import org.eclipse.jdt.internal.core.JavaModelManager;
 import org.eclipse.wst.validation.ValidationFramework;
-import org.jboss.tools.cdi.seam.config.core.test.v30.CDISeamConfigCoreAllTests30;
 import org.jboss.tools.common.base.test.validation.ValidationExceptionTest;
 
 /**
  * @author Viacheslav Kabanovich
  */
-public class CDISeamConfigCoreAllTests {
+public class CDISeamConfigCoreAllTests30 {
 
 	public static Test suite() {
-		// it could be done here because it is not needed to be enabled back
-		JavaModelManager.getIndexManager().disable();
-
-		ValidationFramework.getDefault().suspendAllValidation(true);
-
-		ValidationExceptionTest.initLogger();
-
-		TestSuite suiteAll = new TestSuite("CDI Config Core Tests");
-		
-		suiteAll.addTest(CDISeamConfigCoreAllTests30.suite());
-
-		TestSuite suite31 = new TestSuite("CDI Config Core 3.1 Tests");
+		TestSuite suiteAll = new TestSuite("CDI Config Core 3.0 Tests");
 
 		TestSuite suiteCore = new TestSuite("CDI Config Model Tests");
 		suiteCore.addTestSuite(ExtensionTest.class);
 		suiteCore.addTestSuite(SeamDefinitionsTest.class);
 		suiteCore.addTestSuite(SeamBeansTest.class);
 		suiteCore.addTestSuite(ConfigBeansInjectionTest.class);
-		suite31.addTest(new SeamConfigTestSetup(suiteCore));
+		suiteAll.addTest(new SeamConfigTestSetup(suiteCore));
 
 		TestSuite suiteValidation = new TestSuite("CDI Config Validation Tests");
 		suiteValidation.addTestSuite(SeamConfigValidationTest.class);
-		suite31.addTest(new SeamConfigValidationTestSetup(suiteValidation));
-
-		suiteAll.addTestSuite(ValidationExceptionTest.class); // This test should be added last!
-
-		suiteAll.addTest(suite31);
+		suiteAll.addTest(new SeamConfigValidationTestSetup(suiteValidation));
 
 		return suiteAll;
 	}

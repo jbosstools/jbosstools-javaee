@@ -1,0 +1,181 @@
+<?xml version="1.0"?>
+<beans xmlns="http://java.sun.com/xml/ns/javaee"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xmlns:s="urn:java:ee" 
+   xmlns:config="urn:java:org.jboss.test.config"
+   xmlns:test602="urn:java:org.jboss.test602.report"
+   xmlns:test603="urn:java:org.jboss.test603"
+   xmlns:test6041="urn:java:org.jboss.test6041"
+   xmlns:test6042="urn:java:org.jboss.test6042"
+   xmlns:test605="urn:java:org.jboss.test605"
+   xmlns:test606="urn:java:org.jboss.test606"
+   xmlns:test607="urn:java:org.jboss.test607"
+   xmlns:test608="urn:java:org.jboss.test608"
+   xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://jboss.org/schema/cdi/beans_1_0.xsd"> 
+<config:MyAnnotation>
+	 <s:Qualifier1/>
+</config:MyAnnotation>
+
+<!-- 6.2. Adding, replacing and modifying beans -->
+<test602:Report>
+    <s:modifies/>
+    <test602:NewQualifier/>
+</test602:Report>
+
+<test602:ReportDatasource>
+    <s:replaces/>
+    <test602:NewQualifier/>
+</test602:ReportDatasource>
+
+<!-- 6.3. Applying annotations using XML -->
+<test603:QualifiedBean1>
+        <test603:OtherQualifier value1="AA" value2="1">false</test603:OtherQualifier>
+</test603:QualifiedBean1>    
+
+<test603:QualifiedBean2>
+    <test603:OtherQualifier value1="BB" value2="2" value="true" />
+</test603:QualifiedBean2>
+
+<!-- 6.4. Configuring Fields -->
+<test6041:RobotFactory>
+    <test6041:robot>
+        <s:Produces/>
+    </test6041:robot>
+</test6041:RobotFactory>
+
+<!-- 6.4.1. Initial Field Values -->
+<test6041:MyBean>
+    <test6041:SomeQualifier/>
+    <test6041:company>Red Hat Inc</test6041:company>
+</test6041:MyBean>
+
+<test6041:MyBean>
+    <test6041:company>
+        <s:value>Red Hat Inc</s:value>
+        <test6041:SomeQualifier/>
+     </test6041:company>
+</test6041:MyBean>
+
+<test6041:ArrayFieldValue>
+    <test6041:intArrayField>
+        <s:value>1</s:value>
+        <s:value>2</s:value>
+    </test6041:intArrayField>
+    <test6041:classArrayField>
+        <s:value>java.lang.Integer</s:value>
+        <s:value>java.lang.Long</s:value>
+    </test6041:classArrayField>
+    <test6041:stringArrayField>
+        <s:value>hello</s:value>
+        <s:value>world</s:value>
+    </test6041:stringArrayField>
+</test6041:ArrayFieldValue>
+
+<!-- 6.4.2. Inline Bean Declarations -->
+<test6042:Knight>
+  <test6042:sword>
+     <s:value>
+        <test6042:Sword type="sharp"/>
+     </s:value>
+  </test6042:sword>
+  <test6042:horse>
+     <s:value>
+        <test6042:Horse>
+           <test6042:name>
+              <s:value>billy</s:value>
+           </test6042:name>
+           <test6042:shoe>
+              <s:Inject/>
+           </test6042:shoe>
+        </test6042:Horse>
+     </s:value>
+  </test6042:horse>
+</test6042:Knight>
+
+<!-- 6.5. Configuring methods -->
+<test605:MethodBean>
+    <test605:doStuff>
+        <s:Produces/>
+    </test605:doStuff>      
+
+    <test605:doStuff>
+        <s:Produces/>
+        <test605:Qualifier1/>
+        <s:parameters>
+            <s:Long>
+                <test605:Qualifier2/>
+            </s:Long>
+        </s:parameters>
+    </test605:doStuff>
+
+    <test605:doStuff>
+        <s:Produces/>
+        <test605:Qualifier1/>
+        <s:parameters>
+            <s:array dimensions="2">
+                <test605:Qualifier2/>
+                <s:Long/>
+            </s:array>
+        </s:parameters>
+    </test605:doStuff>
+</test605:MethodBean>
+
+<test605:MethodBean3>
+    <test605:name>
+    </test605:name>
+</test605:MethodBean3>
+
+<test605:MethodBean4>
+    <test605:name>
+      <s:parameters/>
+    </test605:name>
+</test605:MethodBean4>
+
+<test605:MethodBean2>
+    <test605:method>
+        <s:array>
+            <s:String/>
+        </s:array>
+    </test605:method>
+</test605:MethodBean2>
+
+<!-- 6.6. Configuring the bean constructor -->
+<test606:MyBean>
+   <s:parameters>
+       <s:Integer>
+           <test606:MyQualifier/>
+       </s:Integer>
+   </s:parameters>
+</test606:MyBean>
+
+<!-- 6.7. Overriding the type of an injection point -->
+<test607:SomeBean>
+    <test607:someField>
+        <s:Inject/>
+        <s:Exact>org.jboss.test607.MyInterface</s:Exact>
+    </test607:someField>
+</test607:SomeBean>
+
+<!-- 6.8. Configuring Meta Annotations -->
+<test608:SomeStereotype>
+    <s:Stereotype/>
+    <test608:MyInterceptorBinding/>
+    <s:Named/>
+</test608:SomeStereotype>
+
+<test608:SomeQualifier>
+    <s:Qualifier/>
+</test608:SomeQualifier>
+
+<test608:SomeInterceptorBinding>
+    <s:InterceptorBinding/>
+</test608:SomeInterceptorBinding>
+
+<!-- 6.9. Virtual Producer Fields -->
+<s:String>
+  <s:Produces/>
+  <test606:MyQualifier />
+  <s:value>Version 1.23</s:value>
+</s:String>
+
+</beans>
