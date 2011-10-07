@@ -159,7 +159,6 @@ public class XHTMLValidator extends Validator {
 			if (!handler.isWellFormedXHTML()) {
 				SAXParseException ex = handler.getException();
 				if (ex != null) {
-					JSFModelPlugin.getDefault().logError(ex);
 					report.addError(ex.getLocalizedMessage(), ex.getLineNumber(), ex.getColumnNumber(), uri);
 				}
 				return report;
@@ -183,16 +182,14 @@ public class XHTMLValidator extends Validator {
 			xmlReader.parse(uri);
 		} catch (IOException e) {
 			JSFModelPlugin.getDefault().logError(e);
-			report.addError(e.getLocalizedMessage(), 0, 0, uri);
 		} catch (SAXNotRecognizedException e) {
 			JSFModelPlugin.getDefault().logError(e);
 		} catch (SAXNotSupportedException e) {
 			JSFModelPlugin.getDefault().logError(e);
 		} catch (SAXException e) {
 			report.addError(e.getLocalizedMessage(), 0, 0, uri);
-		} catch (Throwable x) {
-			x.printStackTrace();
 		}
+		
 		List<ElementLocation> locations = handler.getNonPairedOpenElements();
 		if (!locations.isEmpty()) {
 			for (ElementLocation location : locations) {
@@ -670,11 +667,9 @@ public class XHTMLValidator extends Validator {
                     stream = new FilteredInputStream(connect.getInputStream());
                 }
 			} catch (MalformedURLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				// Ignore (null will be returned as result)
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				// Ignore (null will be returned as result)
 			}
             return stream;
 		}
