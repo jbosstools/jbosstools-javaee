@@ -340,19 +340,9 @@
    </extension>
 
    <extension
-         point="org.eclipse.ui.perspectives">
-      <perspective
-            class="org.jboss.tools.cdi.ui.CDIPerspectiveFactory"
-            icon="$nl$/icons/cdi16.png"
-            id="org.jboss.tools.cdi.ui.CDIPerspective"
-            name="%perspective.name">
-      </perspective>
-   </extension>
-
-   <extension
          point="org.eclipse.ui.perspectiveExtensions">
       <perspectiveExtension
-            targetID="org.jboss.tools.cdi.ui.CDIPerspective">
+            targetID="org.eclipse.jst.j2ee.J2EEPerspective">
          <newWizardShortcut
                id="org.jboss.tools.cdi.ui.wizard.NewBeanCreationWizard">
          </newWizardShortcut>
@@ -385,22 +375,138 @@
                id="org.jboss.tools.jst.web.ui.WebDevelopmentPerspective">
          </perspectiveShortcut>
          <perspectiveShortcut
-               id="org.eclipse.jdt.ui.JavaPerspective">
-         </perspectiveShortcut>
-         <perspectiveShortcut
-               id="org.eclipse.jdt.ui.JavaBrowsingPerspective">
-         </perspectiveShortcut>
-         <perspectiveShortcut
-               id="org.eclipse.debug.ui.DebugPerspective">
-         </perspectiveShortcut>
-         <perspectiveShortcut
                id="org.hibernate.eclipse.console.HibernateConsolePerspective">
          </perspectiveShortcut>
-         <actionSet
-               id="org.eclipse.debug.ui.breakpointActionSet">
-         </actionSet>
-         <actionSet id="org.eclipse.wst.server.ui.internal.webbrowser.actionSet"/>
       </perspectiveExtension>
+   </extension>
+
+	<extension point="org.eclipse.ui.navigator.navigatorContent">
+	    <commonWizard
+	       menuGroupId="org.jboss.tools.cdi.ui"
+           type="new"
+           wizardId="org.jboss.tools.cdi.ui.wizard.NewBeanCreationWizard">
+				<enablement>
+					<or>
+						<adapt type="org.eclipse.core.resources.IFile" />	
+						<adapt type="org.eclipse.core.resources.IFolder" />
+	         			<adapt type="org.eclipse.core.resources.IProject" /> 
+	               		<adapt type="org.eclipse.core.resources.IWorkspaceRoot" />
+	               		<adapt type="org.eclipse.jdt.core.IJavaElement" />
+					</or>
+		         </enablement>
+	    </commonWizard>
+	    <commonWizard
+	       menuGroupId="org.jboss.tools.cdi.ui"
+           type="new"
+           wizardId="org.jboss.tools.cdi.ui.wizard.NewQualifierCreationWizard">
+				<enablement>
+					<or>
+						<adapt type="org.eclipse.core.resources.IFile" />	
+						<adapt type="org.eclipse.core.resources.IFolder" />
+	         			<adapt type="org.eclipse.core.resources.IProject" /> 
+	               		<adapt type="org.eclipse.core.resources.IWorkspaceRoot" />
+	               		<adapt type="org.eclipse.jdt.core.IJavaElement" />
+					</or>
+		         </enablement>
+	    </commonWizard>
+	    <commonWizard
+	       menuGroupId="org.jboss.tools.cdi.ui"
+           type="new"
+           wizardId="org.jboss.tools.cdi.ui.wizard.NewStereotypeCreationWizard">
+				<enablement>
+					<or>
+						<adapt type="org.eclipse.core.resources.IFile" />	
+						<adapt type="org.eclipse.core.resources.IFolder" />
+	         			<adapt type="org.eclipse.core.resources.IProject" /> 
+	               		<adapt type="org.eclipse.core.resources.IWorkspaceRoot" />
+	               		<adapt type="org.eclipse.jdt.core.IJavaElement" />
+					</or>
+		         </enablement>
+	    </commonWizard>
+	    <commonWizard
+	       menuGroupId="org.jboss.tools.cdi.ui"
+           type="new"
+           wizardId="org.jboss.tools.cdi.ui.wizard.NewScopeCreationWizard">
+				<enablement>
+					<or>
+						<adapt type="org.eclipse.core.resources.IFile" />	
+						<adapt type="org.eclipse.core.resources.IFolder" />
+	         			<adapt type="org.eclipse.core.resources.IProject" /> 
+	               		<adapt type="org.eclipse.core.resources.IWorkspaceRoot" />
+	               		<adapt type="org.eclipse.jdt.core.IJavaElement" />
+					</or>
+		         </enablement>
+	    </commonWizard>
+	    <commonWizard
+	       menuGroupId="org.jboss.tools.cdi.ui"
+           type="new"
+           wizardId="org.jboss.tools.cdi.ui.wizard.NewInterceptorBindingCreationWizard">
+				<enablement>
+					<or>
+						<adapt type="org.eclipse.core.resources.IFile" />	
+						<adapt type="org.eclipse.core.resources.IFolder" />
+	         			<adapt type="org.eclipse.core.resources.IProject" /> 
+	               		<adapt type="org.eclipse.core.resources.IWorkspaceRoot" />
+	               		<adapt type="org.eclipse.jdt.core.IJavaElement" />
+					</or>
+		         </enablement>
+	    </commonWizard>
+	    <commonWizard
+	       menuGroupId="org.jboss.tools.cdi.ui"
+           type="new"
+           wizardId="org.jboss.tools.cdi.ui.wizard.NewInterceptorCreationWizard">
+				<enablement>
+					<or>
+						<adapt type="org.eclipse.core.resources.IFile" />	
+						<adapt type="org.eclipse.core.resources.IFolder" />
+	         			<adapt type="org.eclipse.core.resources.IProject" /> 
+	               		<adapt type="org.eclipse.core.resources.IWorkspaceRoot" />
+	               		<adapt type="org.eclipse.jdt.core.IJavaElement" />
+					</or>
+		         </enablement>
+	    </commonWizard>
+	    <commonWizard
+	       menuGroupId="org.jboss.tools.cdi.ui"
+           type="new"
+           wizardId="org.jboss.tools.cdi.ui.wizard.NewDecoratorCreationWizard">
+				<enablement>
+					<or>
+						<adapt type="org.eclipse.core.resources.IFile" />	
+						<adapt type="org.eclipse.core.resources.IFolder" />
+	         			<adapt type="org.eclipse.core.resources.IProject" /> 
+	               		<adapt type="org.eclipse.core.resources.IWorkspaceRoot" />
+	               		<adapt type="org.eclipse.jdt.core.IJavaElement" />
+					</or>
+		         </enablement>
+	    </commonWizard>
+	    <commonWizard
+	       menuGroupId="org.jboss.tools.cdi.ui"
+           type="new"
+           wizardId="org.jboss.tools.cdi.ui.wizard.NewAnnotationLiteralCreationWizard">
+				<enablement>
+					<or>
+						<adapt type="org.eclipse.core.resources.IFile" />	
+						<adapt type="org.eclipse.core.resources.IFolder" />
+	         			<adapt type="org.eclipse.core.resources.IProject" /> 
+	               		<adapt type="org.eclipse.core.resources.IWorkspaceRoot" />
+	               		<adapt type="org.eclipse.jdt.core.IJavaElement" />
+					</or>
+		         </enablement>
+	    </commonWizard>
+	    <commonWizard
+	       menuGroupId="org.jboss.tools.cdi.ui"
+           type="new"
+           wizardId="org.jboss.tools.cdi.ui.wizard.NewBeansXMLCreationWizard">
+				<enablement>
+					<or>
+						<adapt type="org.eclipse.core.resources.IFile" />	
+						<adapt type="org.eclipse.core.resources.IFolder" />
+	         			<adapt type="org.eclipse.core.resources.IProject" /> 
+	               		<adapt type="org.eclipse.core.resources.IWorkspaceRoot" />
+	               		<adapt type="org.eclipse.jdt.core.IJavaElement" />
+					</or>
+		         </enablement>
+	    </commonWizard>
    </extension>
 
    <extension
