@@ -43,9 +43,11 @@ import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.CDIUtil;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.ICDIProject;
+import org.jboss.tools.cdi.core.IClassBean;
 import org.jboss.tools.cdi.core.IDecorator;
 import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.core.IInterceptor;
+import org.jboss.tools.cdi.core.IStereotype;
 import org.jboss.tools.cdi.core.IStereotyped;
 import org.jboss.tools.cdi.internal.core.impl.CDIProject;
 import org.jboss.tools.cdi.internal.core.validation.CDIValidationErrorManager;
@@ -515,14 +517,14 @@ public class CDIProblemMarkerResolutionGenerator implements
 					};
 				}
 			}else if(messageId == CDIValidationErrorManager.ILLEGAL_ALTERNATIVE_BEAN_CLASS_ID){
-				IJavaElement element = findJavaElementByQualifiedName(file.getProject(), text);
+				IJavaElement element = getTypeToAddAlternativeToBean(file.getProject(), text);
 				if(element != null){
 					return new IMarkerResolution[] {
 						new AddAnnotationMarkerResolution(element, CDIConstants.ALTERNATIVE_ANNOTATION_TYPE_NAME)
 					};
 				}
 			}else if(messageId == CDIValidationErrorManager.ILLEGAL_ALTERNATIVE_ANNOTATION_ID){
-				IJavaElement element = findJavaElementByQualifiedName(file.getProject(), text);
+				IJavaElement element = getTypeToAddAlternativeToStereotype(file.getProject(), text);
 				if(element != null){
 					return new IMarkerResolution[] {
 						new AddAnnotationMarkerResolution(element, CDIConstants.ALTERNATIVE_ANNOTATION_TYPE_NAME)
@@ -545,6 +547,56 @@ public class CDIProblemMarkerResolutionGenerator implements
 			}
 		}
 		return new IMarkerResolution[] {};
+	}
+	
+	private IType getTypeToAddAlternativeToBean(IProject project, String qualifiedName){
+		IJavaProject javaProject = EclipseUtil.getJavaProject(project);
+		IType type = null;
+		try {
+			type =  javaProject.findType(qualifiedName);
+		} catch (JavaModelException ex) {
+			CDIUIPlugin.getDefault().logError(ex);
+		}
+		
+		if(type != null){
+			CDICoreNature cdiNature = CDIUtil.getCDINatureWithProgress(project);
+			if(cdiNature != null){
+				ICDIProject cdiProject = cdiNature.getDelegate();
+				
+				if(cdiProject != null){
+					IClassBean classBean = cdiProject.getBeanClass(type);
+					if(classBean != null && !classBean.isAlternative()){
+						return type;
+					}
+				}
+			}
+		}
+		return null;
+	}
+
+	private IType getTypeToAddAlternativeToStereotype(IProject project, String qualifiedName){
+		IJavaProject javaProject = EclipseUtil.getJavaProject(project);
+		IType type = null;
+		try {
+			type =  javaProject.findType(qualifiedName);
+		} catch (JavaModelException ex) {
+			CDIUIPlugin.getDefault().logError(ex);
+		}
+		
+		if(type != null){
+			CDICoreNature cdiNature = CDIUtil.getCDINatureWithProgress(project);
+			if(cdiNature != null){
+				ICDIProject cdiProject = cdiNature.getDelegate();
+				
+				if(cdiProject != null){
+					IStereotype stereotype = cdiProject.getStereotype(qualifiedName);
+					if(stereotype != null && !stereotype.isAlternative()){
+						return type;
+					}
+				}
+			}
+		}
+		return null;
 	}
 	
 	private IJavaElement findJavaElementByQualifiedName(IProject project, String qualifiedName){
@@ -651,7 +703,6 @@ public class CDIProblemMarkerResolutionGenerator implements
 		CDICoreNature cdiNature = CDIUtil.getCDINatureWithProgress(file.getProject());
 		if(cdiNature == null)
 			return null;
-
 		
 		ICDIProject cdiProject = cdiNature.getDelegate();
 		
