@@ -35,7 +35,7 @@ public class CAForJSF2BeansInJavaTest extends JavaContentAssistantTestCase{
 	 */
 	public void testCAForJSF2Beans(){
 		String[] proposals = {
-			"mybean1 : Bean1", "mybean2 : Bean2"
+			"mybean1 : Bean1", "mybean2 : Bean3"
 		};
 
 		checkProposals(PAGE_NAME, "#{}", 2, proposals, false);
