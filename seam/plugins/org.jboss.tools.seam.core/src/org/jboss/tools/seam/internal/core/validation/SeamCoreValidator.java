@@ -744,7 +744,6 @@ public class SeamCoreValidator extends SeamValidationErrorManager implements IVa
 							} else {
 								addError(SeamValidationMessages.UNKNOWN_COMPONENT_CLASS_NAME, SeamPreferences.UNKNOWN_COMPONENT_CLASS_NAME_GUESS, new String[]{className}, location, declaration.getResource());
 							}
-							return;
 						} else if(!type.isBinary()) {
 							validationContext.addLinkedCoreResource(SHORT_ID, componentName, type.getResource().getFullPath(), true);
 						}
