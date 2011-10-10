@@ -18,27 +18,28 @@ public class CAForJSF2BeansInJavaTest extends JavaContentAssistantTestCase{
 	boolean makeCopy = true;
 	private static final String PROJECT_NAME = "JSF2Beans";
 	private static final String PAGE_NAME = "/src/test/beans/Bean1.java";
-	
+
+	@Override
 	public void setUp() throws Exception {
 		provider = new TestProjectProvider("org.jboss.tools.jsf.test", null, PROJECT_NAME, makeCopy); 
 		project = provider.getProject();
 	}
 
+	@Override
 	protected void tearDown() throws Exception {
 		if(provider != null) {
 			provider.dispose();
 		}
 	}
-	
+
 	/**
 	 * JBIDE-9362
 	 */
 	public void testCAForJSF2Beans(){
 		String[] proposals = {
-			"mybean1 : Bean1", "mybean2 : Bean3"
+			"mybean1 : Bean1", "bean4 : Bean4", "bean5 : Bean5"
 		};
 
 		checkProposals(PAGE_NAME, "#{}", 2, proposals, false);
-
 	}
 }
