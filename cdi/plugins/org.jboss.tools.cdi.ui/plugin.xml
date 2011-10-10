@@ -377,6 +377,10 @@
          <perspectiveShortcut
                id="org.hibernate.eclipse.console.HibernateConsolePerspective">
          </perspectiveShortcut>
+         <view relative="org.eclipse.ui.views.ContentOutline"
+         	   relationship="stack"
+               id="org.eclipse.gef.ui.palette_view">
+         </view>
       </perspectiveExtension>
    </extension>
 
