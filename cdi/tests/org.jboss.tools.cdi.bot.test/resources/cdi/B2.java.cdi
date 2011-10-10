@@ -1,0 +1,19 @@
+package org.cdi.test;
+
+import java.net.URL;
+
+import javax.inject.Inject;
+
+import org.jboss.seam.solder.resourceLoader.Resource;
+
+public class B2 {
+
+	@Inject
+	@Resource("WEB-INF/beans.xml")
+	URL beansXml;
+	
+	public ResourceBean() {
+		// TODO Auto-generated constructor stub
+	}
+
+}

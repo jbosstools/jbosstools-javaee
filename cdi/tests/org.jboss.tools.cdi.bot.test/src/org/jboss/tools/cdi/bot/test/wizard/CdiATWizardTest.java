@@ -15,6 +15,7 @@ import java.util.logging.Logger;
 import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
 import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotEditor;
 import org.jboss.tools.cdi.bot.test.CDIAllBotTests;
+import org.jboss.tools.cdi.bot.test.CDISmokeBotTests;
 import org.jboss.tools.cdi.bot.test.uiutils.actions.CDIBase;
 import org.jboss.tools.cdi.bot.test.uiutils.actions.CDIUtil;
 import org.jboss.tools.cdi.bot.test.uiutils.actions.NewCDIFileWizard;
@@ -31,7 +32,7 @@ import org.junit.runners.Suite.SuiteClasses;
 
 @Require(perspective = "Java EE", server = @Server(state = ServerState.NotRunning, version = "6.0", operator = ">="))
 @RunWith(RequirementAwareSuite.class)
-@SuiteClasses({ CDIAllBotTests.class })
+@SuiteClasses({ CDIAllBotTests.class, CDISmokeBotTests.class })
 public class CdiATWizardTest extends CDIBase {
 
 	private static final String PROJECT_NAME = "CDIProject1";
@@ -175,7 +176,7 @@ public class CdiATWizardTest extends CDIBase {
 
 	@Test
 	public void testStereotype() {
-		CDIWizard w = CDIUtil.stereotype("cdi", "S1", null, null, false, false, false,
+		CDIWizard w = CDIUtil.stereotype("cdi", "S1", null, null, false, false, false, false,
 				false);
 		assertEquals(9, w.getScopes().size());
 		assertEquals(5, w.getTargets().size());
@@ -193,7 +194,7 @@ public class CdiATWizardTest extends CDIBase {
 		assertFalse(code.contains("@Inherited"));
 		assertFalse(code.startsWith("/**"));
 
-		CDIUtil.stereotype("cdi", "S2", "@Scope3", "FIELD", true, true, true, true)
+		CDIUtil.stereotype("cdi", "S2", "@Scope3", "FIELD", true, true, true, false, true)
 				.finish();
 		util.waitForNonIgnoredJobs();
 		ed = new SWTWorkbenchBot().activeEditor();
@@ -209,7 +210,7 @@ public class CdiATWizardTest extends CDIBase {
 		assertTrue(code.contains("@Target({ FIELD })"));
 		assertTrue(code.startsWith("/**"));
 
-		w = CDIUtil.stereotype("cdi", "S3", null, null, false, false, true, false);
+		w = CDIUtil.stereotype("cdi", "S3", null, null, false, false, true, false, false);
 		w.addIBinding("cdi.B1");
 		w.addStereotype("cdi.S1");
 		w.finish();
@@ -312,7 +313,7 @@ public class CdiATWizardTest extends CDIBase {
 	
 	@Test
 	public void testBean() {
-		CDIWizard w = CDIUtil.bean("cdi", "Bean1", true, true, false, false, null, null, null, null);
+		CDIWizard w = CDIUtil.bean("cdi", "Bean1", true, true, false, false, false, false, null, null, null, null);
 		w.finish();
 		util.waitForNonIgnoredJobs();
 		SWTBotEditor ed = new SWTWorkbenchBot().activeEditor();
@@ -325,7 +326,7 @@ public class CdiATWizardTest extends CDIBase {
 		assertFalse(code.contains("final"));
 		assertFalse(code.startsWith("/**"));
 		
-		w = CDIUtil.bean("cdi", "Bean2", false, false, true, true, "", null, "@Dependent", null);
+		w = CDIUtil.bean("cdi", "Bean2", false, false, true, true, false, false, "", null, "@Dependent", null);
 		w.finish();
 		util.waitForNonIgnoredJobs();
 		ed = new SWTWorkbenchBot().activeEditor();
@@ -339,7 +340,7 @@ public class CdiATWizardTest extends CDIBase {
 		assertTrue(code.contains("final class Bean2 {"));
 		assertTrue(code.startsWith("/**"));
 
-		w = CDIUtil.bean("cdi", "Bean3", true, false, false, true, "TestedBean", null, "@Scope2", "Q1");
+		w = CDIUtil.bean("cdi", "Bean3", true, false, false, true, false, false, "TestedBean", null, "@Scope2", "Q1");
 		w.finish();
 		util.waitForNonIgnoredJobs();
 		ed = new SWTWorkbenchBot().activeEditor();

@@ -15,16 +15,10 @@ import java.util.List;
 
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swtbot.swt.finder.SWTBot;
-import org.eclipse.swtbot.swt.finder.finders.UIThreadRunnable;
-import org.eclipse.swtbot.swt.finder.results.Result;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotCheckBox;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotCombo;
-import org.eclipse.swtbot.swt.finder.widgets.SWTBotMenu;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotRadio;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotShell;
-import org.eclipse.swtbot.swt.finder.widgets.SWTBotTree;
-import org.eclipse.swtbot.swt.finder.widgets.SWTBotTreeItem;
-import org.jboss.tools.ui.bot.ext.helper.ContextMenuHelper;
 
 public class CDIWizard extends Wizard {
 
@@ -120,6 +114,7 @@ public class CDIWizard extends Wizard {
 	public CDIWizard setAlternative(boolean set) {
 		switch (type) {
 		case STEREOTYPE:
+		case BEAN:
 			setCheckbox("Add @Alternative", set);
 			break;
 		default:
@@ -131,7 +126,30 @@ public class CDIWizard extends Wizard {
 	public boolean isAlternative() {
 		switch (type) {
 		case STEREOTYPE:
+		case BEAN:
 			return isCheckboxSet("Add @Alternative");
+		default:
+			return false;
+		}
+	}
+	
+	public CDIWizard setRegisterInBeansXml(boolean set) {
+		switch (type) {
+		case STEREOTYPE:
+		case BEAN:
+			setCheckbox("Register in beans.xml", set);
+			break;
+		default:
+			throw new UnsupportedOperationException();
+		}
+		return this;
+	}
+	
+	public boolean isRegisteredInBeansXML() {
+		switch (type) {
+		case STEREOTYPE:
+		case BEAN:
+			return isCheckboxSet("Register in beans.xml");
 		default:
 			return false;
 		}

@@ -129,11 +129,14 @@ public class CDIUtil {
 
 	public static CDIWizard stereotype(String pkg, String name, String scope,
 			String target, boolean inherited, boolean named,
-			boolean alternative, boolean comments) {
+			boolean alternative, boolean regInBeansXML, boolean comments) {
 		CDIWizard w = create(CDIWizardType.STEREOTYPE, pkg, name, inherited,
 				comments).setAlternative(alternative).setNamed(named);
 		if (scope != null) {
 			w = w.setScope(scope);
+		}
+		if (alternative && regInBeansXML) {
+			w.setRegisterInBeansXml(regInBeansXML);
 		}
 		return target != null ? w.setTarget(target) : w;
 	}
@@ -163,7 +166,8 @@ public class CDIUtil {
 	}
 
 	public static CDIWizard bean(String pkg, String name, boolean isPublic,
-			boolean isAbstract, boolean isFinal, boolean comments,
+			boolean isAbstract, boolean isFinal, boolean comments, 
+			boolean alternative, boolean registerInBeansXML,
 			String named, String interfaces, String scope, String qualifier) {
 		CDIWizard w = create(CDIWizardType.BEAN, pkg, name, comments);
 		if (named != null) {
@@ -172,7 +176,7 @@ public class CDIUtil {
 				w.setNamedName(named);
 			}
 		}
-		w = w.setPublic(isPublic).setFinal(isFinal).setAbstract(isAbstract);
+		w = w.setPublic(isPublic).setFinal(isFinal).setAbstract(isAbstract).setAlternative(alternative);
 		if (interfaces != null && !"".equals(interfaces.trim())) {
 			w.addInterface(interfaces);
 		}
@@ -181,6 +185,9 @@ public class CDIUtil {
 		}
 		if (qualifier != null && !"".equals(qualifier.trim())) {
 			w.addQualifier(qualifier);
+		}
+		if (alternative && registerInBeansXML) {
+			w.setRegisterInBeansXml(registerInBeansXML);
 		}
 		return w;
 	}
