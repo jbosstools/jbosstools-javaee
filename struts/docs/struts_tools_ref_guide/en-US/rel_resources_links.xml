@@ -16,7 +16,7 @@
 	<para>More information on Struts can be found on the <ulink url="http://struts.apache.org/">Struts website</ulink>.</para>
 
 	<para>
-		This reference has been designed to help you become familiar with those parts of <property>JBoss Tools</property> which assist in developing using Struts technology. It covers how to create and import Struts projects, enable Struts capabilities for an existing web project, as well as organize and edit all necessary the necessary files in your Struts application using the views and editors provided by <property>JBoss Tools</property>.
+		This reference has been designed to help you become familiar with those parts of <property>JBoss Tools</property> which assist in developing using Struts technology. It covers how to create and import Struts projects, enable Struts capabilities for an existing web project, as well as organize and edit all the necessary files in your Struts application using the views and editors provided by <property>JBoss Tools</property>.
 	</para>
 
 	<para>

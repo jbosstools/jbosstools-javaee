@@ -61,7 +61,7 @@
                         <entry><para>Support for Struts Configuration File</para></entry>
                         <entry>
                         	<para>
-                        		Working on files using three modes: diagram, tree and source. Synchronization between the modes and full control over the code. Easily move around the diagram using the Diagram Navigator. Working with struts projects that have multiple modules. The option to use thee Struts configuration file debugger, which allows break points to be set on a Struts diagram and then launch the server in debug mode.
+                        		Working on files using three modes: diagram, tree and source. Synchronization between the modes and full control over the code. Easily move around the diagram using the Diagram Navigator. Working with struts projects that have multiple modules. The option to use the Struts configuration file debugger, which allows break points to be set on a Struts diagram and then launch the server in debug mode.
                         	</para>
                         </entry>
                         <entry>
@@ -104,9 +104,9 @@
         <title>Other relevant resources on the topic</title>
         
         <para>
-        	All JBoss Developer Studio/JBoss Tools documentation you can find on<ulink url="http://docs.jboss.org/tools/">JBoss Tools project page </ulink>.
+        	All JBoss Developer Studio/JBoss Tools documentation you can find on <ulink url="http://docs.jboss.org/tools/">JBoss Tools project page </ulink>.
         </para>
-        <para>The latest documentation builds are available on<ulink url="http://download.jboss.org/jbosstools/nightly-docs/">nightly docs page</ulink>.</para>
+        <para>The latest documentation builds are available on <ulink url="http://download.jboss.org/jbosstools/nightly-docs/">nightly docs page</ulink>.</para>
         
     </section>
     
