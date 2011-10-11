@@ -62,6 +62,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		assertTrue(newContentFile.exists());
 		super.copyContentsFile(originalFile, newContentFile);
 		if("xml".equalsIgnoreCase(originalFile.getFileExtension())) {
+			// Workaroud for an issue in XModel. If we change a XML to fast then its timestamp may not be changed. So XModel may not load the changed file.
 			originalFile.setLocalTimeStamp(originalFile.getModificationStamp() + 3000);
 		}
 		project.build(IncrementalProjectBuilder.INCREMENTAL_BUILD, null);
@@ -242,14 +243,6 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		validator.validate(targetFile);
 		assertTrue("Error marker not found", validator.isMessageCreated(markerTemplate, parameters));
 		assertTrue("Error marker has wrong line number", validator.isMessageCreatedOnLine(markerTemplate, parameters,lineNumber));
-//if(!validator.isMessageCreated(markerTemplate, parameters)) {
-//	System.out.println("!!!");
-////	testDuplicateComponents();
-//}
-//if(!validator.isMessageCreatedOnLine(markerTemplate, parameters,lineNumber)) {
-//	System.out.println("!!!");
-////	validator.validate(targetFile);
-//}
 	}
 
 	private void assertMarkerIsNotCreatedForFile(String target, String newContent, String markerTemplate,
