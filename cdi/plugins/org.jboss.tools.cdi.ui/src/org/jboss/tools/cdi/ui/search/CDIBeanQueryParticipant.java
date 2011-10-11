@@ -27,19 +27,16 @@ import org.eclipse.jdt.ui.search.ISearchRequestor;
 import org.eclipse.jdt.ui.search.QuerySpecification;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ILabelProviderListener;
-import org.eclipse.osgi.util.NLS;
 import org.eclipse.search.ui.text.Match;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.PartInitException;
+import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.CDIImages;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.ICDIElement;
 import org.jboss.tools.cdi.core.ICDIProject;
-import org.jboss.tools.cdi.core.IInitializerMethod;
 import org.jboss.tools.cdi.core.IInjectionPoint;
-import org.jboss.tools.cdi.core.IInjectionPointField;
-import org.jboss.tools.cdi.core.IInjectionPointParameter;
 import org.jboss.tools.cdi.core.util.BeanPresentationUtil;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
 import org.jboss.tools.cdi.ui.CDIUIPlugin;
@@ -60,38 +57,57 @@ public class CDIBeanQueryParticipant implements IQueryParticipant{
 			ElementQuerySpecification qs = (ElementQuerySpecification)querySpecification;
 			IJavaElement element = qs.getElement();
 			IProject project = element.getJavaProject().getProject();
+			
 			ICDIProject cdiProject = CDICorePlugin.getCDIProject(project, true);
+			
+			
+			
 			if(cdiProject == null) {
 				return;
 			}
-			Set<IBean> sourceBeans = cdiProject.getBeans(element);
 			
-			Set<IInjectionPoint> injectionPoints = new HashSet<IInjectionPoint>();
-			for (IBean b: sourceBeans) {
-				Set<IParametedType> ts = b.getLegalTypes();
-				for (IParametedType t: ts) {
-					injectionPoints.addAll(cdiProject.getInjections(t.getType().getFullyQualifiedName()));
+			searchInProject(requestor, querySpecification, cdiProject, monitor, element);
+			
+			CDICoreNature[] natures = cdiProject.getNature().getAllDependentProjects();
+			for(CDICoreNature nature : natures){
+				ICDIProject p = nature.getDelegate();
+				if(p != null){
+					searchInProject(requestor, querySpecification, p, monitor, element);
 				}
 			}
 			
-			monitor.beginTask(CDIUIMessages.CDI_BEAN_QUERY_PARTICIPANT_TASK, injectionPoints.size());
-				
-			for(IInjectionPoint injectionPoint : injectionPoints){
-				if(monitor.isCanceled())
-					break;
-				Set<IBean> resultBeans = cdiProject.getBeans(false, injectionPoint);
-				monitor.worked(1);
-					
-				for(IBean cBean : resultBeans){
-					if(sourceBeans.contains(cBean)){
-						Match match = new CDIMatch(injectionPoint);
-						requestor.reportMatch(match);
-						break;
-					}
-				}
-			}
-			monitor.done();
 		}
+	}
+	
+	private void searchInProject(ISearchRequestor requestor, QuerySpecification querySpecification, ICDIProject cdiProject, IProgressMonitor monitor, IJavaElement element){
+		Set<IBean> sourceBeans = cdiProject.getBeans(element);
+		
+		Set<IInjectionPoint> injectionPoints = new HashSet<IInjectionPoint>();
+		for (IBean b: sourceBeans) {
+			Set<IParametedType> ts = b.getLegalTypes();
+			for (IParametedType t: ts) {
+				injectionPoints.addAll(cdiProject.getInjections(t.getType().getFullyQualifiedName()));
+			}
+		}
+		
+		monitor.beginTask(CDIUIMessages.CDI_BEAN_QUERY_PARTICIPANT_TASK, injectionPoints.size());
+			
+		for(IInjectionPoint injectionPoint : injectionPoints){
+			if(monitor.isCanceled())
+				break;
+			Set<IBean> resultBeans = cdiProject.getBeans(false, injectionPoint);
+			monitor.worked(1);
+				
+			for(IBean cBean : resultBeans){
+				if(sourceBeans.contains(cBean) && InjectionPointQueryParticipant.containsInSearchScope(querySpecification, cBean)){
+					Match match = new CDIMatch(injectionPoint);
+					requestor.reportMatch(match);
+					break;
+				}
+			}
+		}
+		monitor.done();
+		
 	}
 	
 	public boolean isSearchForReferences(int limitTo) {

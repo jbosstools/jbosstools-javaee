@@ -15,7 +15,9 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jdt.core.IField;
 import org.eclipse.jdt.core.IJavaElement;
@@ -23,6 +25,7 @@ import org.eclipse.jdt.core.ILocalVariable;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.core.search.IJavaSearchConstants;
+import org.eclipse.jdt.core.search.IJavaSearchScope;
 import org.eclipse.jdt.ui.search.ElementQuerySpecification;
 import org.eclipse.jdt.ui.search.IMatchPresentation;
 import org.eclipse.jdt.ui.search.IQueryParticipant;
@@ -32,7 +35,7 @@ import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.CDIUtil;
 import org.jboss.tools.cdi.core.IBean;
-import org.jboss.tools.cdi.core.IBeanMethod;
+import org.jboss.tools.cdi.core.ICDIElement;
 import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.IClassBean;
 import org.jboss.tools.cdi.core.IInjectionPoint;
@@ -49,11 +52,26 @@ public class InjectionPointQueryParticipant implements IQueryParticipant{
 	public IMatchPresentation getUIParticipant() {
 		return new InjectionPointMatchPresentation();
 	}
+	
+	private static boolean containsInSearchScope(QuerySpecification querySpecification, IPath projectPath){
+		IJavaSearchScope searchScope = querySpecification.getScope();
+		if(searchScope == null)
+			return true;
+		IPath[] paths = searchScope.enclosingProjectsAndJars();
+		for(IPath path : paths){
+			if(path.equals(projectPath))
+				return true;
+		}
+		return false;
+	}
+	
+	public static boolean containsInSearchScope(QuerySpecification querySpecification, ICDIElement element){
+		return containsInSearchScope(querySpecification, element.getResource().getProject().getFullPath());
+	}
 
 	public void search(ISearchRequestor requestor,
 			QuerySpecification querySpecification, IProgressMonitor monitor)
 			throws CoreException {
-		
 		objects.clear();
 		
 		if(querySpecification instanceof ElementQuerySpecification){
@@ -84,7 +102,7 @@ public class InjectionPointQueryParticipant implements IQueryParticipant{
 					Set<IBean> resultBeanSet = cdiProject.getBeans(false, injectionPoint);
 					List<IBean> resultBeanList = CDIUtil.sortBeans(resultBeanSet);
 					for(IBean bean : resultBeanList){
-						if(bean != null){
+						if(bean != null && containsInSearchScope(querySpecification, bean)){
 							CDIMatch match = new CDIMatch(bean);
 							if(!objects.contains(match.getPath())){
 								requestor.reportMatch(match);
@@ -94,11 +112,13 @@ public class InjectionPointQueryParticipant implements IQueryParticipant{
 					}
 					Set<IObserverMethod> observerMethods = cdiProject.resolveObserverMethods(injectionPoint);
 					for(IObserverMethod observerMethod : observerMethods){
-						// match observer method
-						CDIMatch match = new CDIMatch(observerMethod);
-						if(!objects.contains(match.getPath())){
-							requestor.reportMatch(match);
-							objects.add(match.getPath());
+						if(containsInSearchScope(querySpecification, observerMethod)){
+							// match observer method
+							CDIMatch match = new CDIMatch(observerMethod);
+							if(!objects.contains(match.getPath())){
+								requestor.reportMatch(match);
+								objects.add(match.getPath());
+							}
 						}
 					}
 				}
@@ -107,11 +127,13 @@ public class InjectionPointQueryParticipant implements IQueryParticipant{
 					if(param != null){
 						Set<IInjectionPoint> events = cdiProject.findObservedEvents(param);
 						for(IInjectionPoint event : events){
-							// match event
-							CDIMatch match = new CDIMatch(event);
-							if(!objects.contains(match.getPath())){
-								requestor.reportMatch(match);
-								objects.add(match.getPath());
+							if(containsInSearchScope(querySpecification, event)){
+								// match event
+								CDIMatch match = new CDIMatch(event);
+								if(!objects.contains(match.getPath())){
+									requestor.reportMatch(match);
+									objects.add(match.getPath());
+								}
 							}
 						}
 					}
