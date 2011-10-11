@@ -25,7 +25,7 @@ import org.jboss.tools.jst.jsp.test.ca.ContentAssistantTestCase;
 import org.jboss.tools.test.util.ProjectImportTestSetup;
 
 /**
- * The JUnit test cases for JBIDE-9448 issue 
+ * The JUnit test cases for JBIDE-9448, JBIDE-9731 issues 
  * 
  * @author Victor Rubezhny
  */
@@ -33,8 +33,14 @@ public class ELTooltipTest extends ContentAssistantTestCase {
 	private static final String PROJECT_NAME = "JSF2KickStartWithoutLibs";
 	private static final String PAGE_NAME = "WebContent/pages/inputname.xhtml";
 
-	private static final String EL_PREFIX[] = {"value=\"#{user", "value=\"#{user.name", "action=\"#{user.sayHello"};
-	private static final String EL_VALUE[] = {"user", "name", "sayHello"};
+	private static final String EL_PREFIX[] = {
+				"value=\"#{user", 
+				"value=\"#{user.name", 
+				"action=\"#{user.sayHello",
+				"label=\"${msgs",
+				"label=\"${msgs.prompt"
+			};
+	private static final String EL_VALUE[] = {"user", "name", "sayHello", "msgs", "prompt"};
 	private static final String EL_TOOLTIP_TEXT[] = {
 		"<html><body text=\"#000000\" bgcolor=\"#ffffe1\"><h5><img style='position: relative; width: 16px; height: 16px; top: 2px; left: 2px; ' src='file:/home/jeremy/projects/junit-workspace/.metadata/.plugins/org.eclipse.jdt.ui/jdt-images/0.png'>\n" + 
 				"<span style='word-wrap:break-word;margin-left: 2px; margin-top: 2px; '>demo.User</span></span></h5><p>Created by JBoss Tools</body></html>",
@@ -42,7 +48,10 @@ public class ELTooltipTest extends ContentAssistantTestCase {
 				"<span style='word-wrap:break-word;margin-left: 2px; margin-top: 2px; '>void demo.<a class='header' href='eclipse-javadoc:%E2%98%82=JSF2KickStartWithoutLibs/JavaSource%3Cdemo%7BUser.java%E2%98%83User'>User</a>.setName(<a class='header' href='eclipse-javadoc:%E2%98%82=JSF2KickStartWithoutLibs/JavaSource%3Cdemo%7BUser.java%E2%98%83User~setName~QString;%E2%98%82String'>String</a> name)</span></span></h5><br/><h5><img style='position: relative; width: 16px; height: 16px; top: 2px; left: 2px; ' src='file:/home/jeremy/projects/junit-workspace/.metadata/.plugins/org.eclipse.jdt.ui/jdt-images/1.png'>\n" +
 				"<span style='word-wrap:break-word;margin-left: 2px; margin-top: 2px; '><a class='header' href='eclipse-javadoc:%E2%98%82=JSF2KickStartWithoutLibs/JavaSource%3Cdemo%7BUser.java%E2%98%83User~getName%E2%98%82String'>String</a> demo.<a class='header' href='eclipse-javadoc:%E2%98%82=JSF2KickStartWithoutLibs/JavaSource%3Cdemo%7BUser.java%E2%98%83User'>User</a>.getName()</span></span></h5></body></html>",
 		"<html><body text=\"#000000\" bgcolor=\"#ffffe1\"><h5><img style='position: relative; width: 16px; height: 16px; top: 2px; left: 2px; ' src='file:/home/jeremy/projects/junit-workspace/.metadata/.plugins/org.eclipse.jdt.ui/jdt-images/1.png'>\n" +
-				"<span style='word-wrap:break-word;margin-left: 2px; margin-top: 2px; '><a class='header' href='eclipse-javadoc:%E2%98%82=JSF2KickStartWithoutLibs/JavaSource%3Cdemo%7BUser.java%E2%98%83User~sayHello%E2%98%82String'>String</a> demo.<a class='header' href='eclipse-javadoc:%E2%98%82=JSF2KickStartWithoutLibs/JavaSource%3Cdemo%7BUser.java%E2%98%83User'>User</a>.sayHello()</span></span></h5></body></html>"
+				"<span style='word-wrap:break-word;margin-left: 2px; margin-top: 2px; '><a class='header' href='eclipse-javadoc:%E2%98%82=JSF2KickStartWithoutLibs/JavaSource%3Cdemo%7BUser.java%E2%98%83User~sayHello%E2%98%82String'>String</a> demo.<a class='header' href='eclipse-javadoc:%E2%98%82=JSF2KickStartWithoutLibs/JavaSource%3Cdemo%7BUser.java%E2%98%83User'>User</a>.sayHello()</span></span></h5></body></html>",
+		"Base Name: resources<br><br>Resource Bundle: /JSF2KickStartWithoutLibs/JavaSource/resources.properties<br>",
+		"Property: prompt<br>Base Name: resources<br><br>Resource Bundle: /JSF2KickStartWithoutLibs/JavaSource/resources.properties<br>Value: Your Name:<br><br>"
+				
 	};
 	
 	public void setUp() throws Exception {

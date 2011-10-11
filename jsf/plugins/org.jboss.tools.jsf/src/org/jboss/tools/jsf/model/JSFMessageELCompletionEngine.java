@@ -274,9 +274,6 @@ public class JSFMessageELCompletionEngine extends AbstractELCompletionEngine<IVa
 		if (resolution.getLastResolvedToken() == operand) {
 			// First segment is the last one
 			Set<TextProposal> proposals = new TreeSet<TextProposal>(TextProposal.KB_PROPOSAL_ORDER);
-			ELSegmentImpl segment = new ELSegmentImpl(operand.getFirstToken());
-			segment.setResolved(true);
-			resolution.addSegment(segment);
 
 			for (Variable var : resolvedVariables) {
 				String varName = var.getName();
@@ -293,7 +290,7 @@ public class JSFMessageELCompletionEngine extends AbstractELCompletionEngine<IVa
 					setImage(proposal);
 					proposals.add(proposal);
 				}
-				segment.getVariables().add(var);
+				resolution.getLastSegment().getVariables().add(var);
 			}
 			resolution.setLastResolvedToken(expr);
 			resolution.setProposals(proposals);

@@ -56,7 +56,6 @@ import org.jboss.tools.common.el.core.resolver.TypeInfoCollector.MemberInfo;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.util.PositionHolder;
 import org.jboss.tools.common.text.TextProposal;
-import org.jboss.tools.jst.web.kb.IPageContext;
 import org.jboss.tools.jst.web.kb.IResourceBundle;
 import org.jboss.tools.jst.web.kb.el.MessagePropertyELSegmentImpl;
 import org.jboss.tools.jst.web.kb.internal.ResourceBundle;
@@ -250,16 +249,16 @@ public class CDIInternationalMessagesELResolver extends AbstractELCompletionEngi
 						segment.getVariables().add(variable);						
 					}
 					resolution.addSegment(segment);
-					if(left.getLastToken() != left.getFirstToken()) {
-						LexicalToken combined = left.getFirstToken().getNextToken().getCombinedToken(left.getLastToken());
-						segment = new MessagePropertyELSegmentImpl(combined);
-						processMessageBundleSegment(expr, (MessagePropertyELSegmentImpl)segment, resolvedVariables);
-						segment.setResolved(true);
-						for (Variable variable : resolvedVars) {
-							segment.getVariables().add(variable);						
-						}
-						resolution.addSegment(segment);
-					}
+//					if(left.getLastToken() != left.getFirstToken()) {
+//						LexicalToken combined = left.getFirstToken().getNextToken().getCombinedToken(left.getLastToken());
+//						segment = new MessagePropertyELSegmentImpl(combined);
+//						processMessageBundleSegment(expr, (MessagePropertyELSegmentImpl)segment, resolvedVariables);
+//						segment.setResolved(true);
+//						for (Variable variable : resolvedVars) {
+//							segment.getVariables().add(variable);						
+//						}
+//						resolution.addSegment(segment);
+//					}
 
 					break;
 				}
@@ -303,9 +302,6 @@ public class CDIInternationalMessagesELResolver extends AbstractELCompletionEngi
 		if (resolution.getLastResolvedToken() == operand) {
 			// First segment is the last one
 			Set<TextProposal> proposals = new TreeSet<TextProposal>(TextProposal.KB_PROPOSAL_ORDER);
-			ELSegmentImpl segment = new ELSegmentImpl(operand.getFirstToken());
-			segment.setResolved(true);
-			resolution.addSegment(segment);
 
 			for (Variable var : resolvedVariables) {
 				String varName = var.getName();
@@ -322,7 +318,7 @@ public class CDIInternationalMessagesELResolver extends AbstractELCompletionEngi
 					setImage(proposal);
 					proposals.add(proposal);
 				}
-				segment.getVariables().add(var);
+				resolution.getLastSegment().getVariables().add(var);
 			}
 			resolution.setLastResolvedToken(expr);
 			resolution.setProposals(proposals);
