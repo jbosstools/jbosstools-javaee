@@ -12,8 +12,6 @@ package org.jboss.tools.cdi.seam.config.core;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
@@ -35,6 +33,7 @@ import org.jboss.tools.cdi.internal.core.impl.definition.TypeDefinition;
 import org.jboss.tools.cdi.internal.core.scanner.FileSet;
 import org.jboss.tools.cdi.internal.core.validation.CDICoreValidator;
 import org.jboss.tools.cdi.seam.config.core.definition.ConfigTypeDefinition;
+import org.jboss.tools.cdi.seam.config.core.definition.SAXNodeProblem;
 import org.jboss.tools.cdi.seam.config.core.definition.SeamBeanDefinition;
 import org.jboss.tools.cdi.seam.config.core.definition.SeamBeansDefinition;
 import org.jboss.tools.cdi.seam.config.core.definition.SeamFieldDefinition;
@@ -43,8 +42,6 @@ import org.jboss.tools.cdi.seam.config.core.definition.TextSourceReference;
 import org.jboss.tools.cdi.seam.config.core.scanner.ConfigFileSet;
 import org.jboss.tools.cdi.seam.config.core.scanner.SeamDefinitionBuilder;
 import org.jboss.tools.cdi.seam.config.core.validation.SeamConfigValidationMessages;
-import org.jboss.tools.cdi.seam.config.core.xml.SAXAttribute;
-import org.jboss.tools.cdi.seam.config.core.xml.SAXElement;
 import org.jboss.tools.cdi.seam.config.core.xml.SAXNode;
 import org.jboss.tools.common.EclipseUtil;
 import org.jboss.tools.common.java.IParametedType;
@@ -54,6 +51,7 @@ import org.jboss.tools.common.model.filesystems.impl.FileAnyImpl;
 import org.jboss.tools.common.model.filesystems.impl.FolderImpl;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.preferences.SeverityPreferences;
+import org.jboss.tools.common.text.ITextSourceReference;
 
 /**
  * 
@@ -197,28 +195,22 @@ public class CDISeamConfigExtension implements ICDIExtension, IBuildParticipantF
 	public void validateResource(IFile file, CDICoreValidator validator) {
 		SeamBeansDefinition def = context.getDefinition(file.getFullPath());
 		if(def != null) {
-			Map<SAXNode, String> nodes = def.getUnresolvedNodes();
-			for (Entry<SAXNode, String> entry: nodes.entrySet()) {
-				SAXNode node = entry.getKey();
-				String problemId = entry.getValue();
+			Set<SAXNodeProblem> nodes = def.getUnresolvedNodes();
+			for (SAXNodeProblem problem: nodes) {
+				SAXNode node = problem.getNode();
+				String problemId = problem.getProblemId();
+				String message = problem.getMessage();
+				ITextSourceReference ref = new TextSourceReference(def.getFileObject(), file, node);
 				if(CDISeamConfigConstants.ERROR_UNRESOLVED_TYPE.equals(problemId)) {
-					String name = node instanceof SAXElement ? ((SAXElement)node).getName() : node instanceof SAXAttribute ? ((SAXAttribute)node).getName() : null;
-					String message = NLS.bind(SeamConfigValidationMessages.UNRESOLVED_TYPE, name);
-					validator.addError(message, CDISeamConfigPreferences.UNRESOLVED_TYPE, new TextSourceReference(def.getFileObject(), file, node), file);
+					validator.addError(message, CDISeamConfigPreferences.UNRESOLVED_TYPE, ref, file);
 				} else if(CDISeamConfigConstants.ERROR_UNRESOLVED_MEMBER.equals(problemId)) {
-					String name = node instanceof SAXElement ? ((SAXElement)node).getName() : node instanceof SAXAttribute ? ((SAXAttribute)node).getName() : null;
-					String message = NLS.bind(SeamConfigValidationMessages.UNRESOLVED_MEMBER, name);
-					validator.addError(message, CDISeamConfigPreferences.UNRESOLVED_MEMBER, new TextSourceReference(def.getFileObject(), file, node), file);
+					validator.addError(message, CDISeamConfigPreferences.UNRESOLVED_MEMBER, ref, file);
 				} else if(CDISeamConfigConstants.ERROR_UNRESOLVED_METHOD.equals(problemId)) {
-					String message = NLS.bind(SeamConfigValidationMessages.UNRESOLVED_METHOD, ((SAXElement)node).getName());
-					validator.addError(message, CDISeamConfigPreferences.UNRESOLVED_METHOD, new TextSourceReference(def.getFileObject(), file, node), file);
+					validator.addError(message, CDISeamConfigPreferences.UNRESOLVED_METHOD, ref, file);
 				} else if(CDISeamConfigConstants.ERROR_UNRESOLVED_CONSTRUCTOR.equals(problemId)) {
-					String name = node instanceof SAXElement && ((SAXElement)node).getParent() != null ? ((SAXElement)node).getParent().getName() : null;
-					String message = NLS.bind(SeamConfigValidationMessages.UNRESOLVED_CONSTRUCTOR, name);
-					validator.addError(message, CDISeamConfigPreferences.UNRESOLVED_CONSTRUCTOR, new TextSourceReference(def.getFileObject(), file, node), file);
+					validator.addError(message, CDISeamConfigPreferences.UNRESOLVED_CONSTRUCTOR, ref, file);
 				} else if(CDISeamConfigConstants.ERROR_ANNOTATION_EXPECTED.equals(problemId)) {
-					String message = NLS.bind(SeamConfigValidationMessages.ANNOTATION_EXPECTED, null);
-					validator.addError(message, CDISeamConfigPreferences.ANNOTATION_EXPECTED, new TextSourceReference(def.getFileObject(), file, node), file);
+					validator.addError(message, CDISeamConfigPreferences.ANNOTATION_EXPECTED, ref, file);
 				}
 			}
 			Set<SeamBeanDefinition> bs = def.getBeanDefinitions();

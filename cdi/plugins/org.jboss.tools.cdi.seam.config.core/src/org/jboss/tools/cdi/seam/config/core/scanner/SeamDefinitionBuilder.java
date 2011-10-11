@@ -22,6 +22,7 @@ import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jface.text.IDocument;
+import org.eclipse.osgi.util.NLS;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.internal.core.impl.definition.AnnotationDefinition;
@@ -37,6 +38,7 @@ import org.jboss.tools.cdi.seam.config.core.definition.SeamMethodDefinition;
 import org.jboss.tools.cdi.seam.config.core.definition.SeamParameterDefinition;
 import org.jboss.tools.cdi.seam.config.core.definition.SeamVirtualFieldDefinition;
 import org.jboss.tools.cdi.seam.config.core.util.Util;
+import org.jboss.tools.cdi.seam.config.core.validation.SeamConfigValidationMessages;
 import org.jboss.tools.cdi.seam.config.core.xml.SAXAttribute;
 import org.jboss.tools.cdi.seam.config.core.xml.SAXElement;
 import org.jboss.tools.cdi.seam.config.core.xml.SAXParser;
@@ -89,7 +91,7 @@ public class SeamDefinitionBuilder {
 
 		IType type = Util.resolveType(element, project);
 		if(type == null) {
-			result.addUnresolvedNode(element, CDISeamConfigConstants.ERROR_UNRESOLVED_TYPE);
+			reportUnresolvedType(element);
 			result.addPossibleTypeNames(Util.getPossibleTypeNames(element));
 			return;
 		}
@@ -105,6 +107,19 @@ public class SeamDefinitionBuilder {
 			
 		} else {
 			scanBean(element, type, false);
+		}
+	}
+
+	private void reportUnresolvedType(SAXElement element) {
+		Set<String> ps = Util.getPossibleTypeNames(element);
+		if(ps.size() == 1) {
+			String type = ps.iterator().next();
+			String message = NLS.bind(SeamConfigValidationMessages.UNRESOLVED_TYPE, type);
+			result.addUnresolvedNode(element, CDISeamConfigConstants.ERROR_UNRESOLVED_TYPE, message);
+		} else {
+			String type = element.getLocalName();
+			String message = NLS.bind(SeamConfigValidationMessages.UNRESOLVED_TYPE, type);
+			result.addUnresolvedNode(element, CDISeamConfigConstants.ERROR_UNRESOLVED_TYPE, message);
 		}
 	}
 
@@ -170,7 +185,7 @@ public class SeamDefinitionBuilder {
 				SeamMethodDefinition md = scanMethod(c, type);
 				if(md != null) def.addMethod(md);
 			} else {
-				result.addUnresolvedNode(c, CDISeamConfigConstants.ERROR_UNRESOLVED_MEMBER);
+				reportUnresolvedMember(c, type);
 			}
 		}
 		Set<String> as = element.getAttributeNames();
@@ -178,12 +193,37 @@ public class SeamDefinitionBuilder {
 			SAXAttribute a = element.getAttribute(name);
 			IField f = type.getField(name);
 			if(f == null || !f.exists()) {
-				result.addUnresolvedNode(a, CDISeamConfigConstants.ERROR_UNRESOLVED_MEMBER);
+				reportUnresolvedField(a, type);
 			} else {
 				def.addField(scanField(a, f));
 			}
 		}
 		return def;
+	}
+
+	void reportUnresolvedMember(SAXElement c, IType type) {
+		String message = NLS.bind(SeamConfigValidationMessages.UNRESOLVED_MEMBER, c.getLocalName(), type.getElementName());
+		result.addUnresolvedNode(c, CDISeamConfigConstants.ERROR_UNRESOLVED_MEMBER, message);
+	}
+
+	void reportUnresolvedMethod(SAXElement c, IType type, String params) {
+		String message = NLS.bind(SeamConfigValidationMessages.UNRESOLVED_METHOD, c.getLocalName() + "(" + params + ")", type.getElementName());
+		result.addUnresolvedNode(c, CDISeamConfigConstants.ERROR_UNRESOLVED_METHOD, message);
+	}
+
+	void reportUnresolvedConstructor(SAXElement c, IType type, String params) {
+		String message = NLS.bind(SeamConfigValidationMessages.UNRESOLVED_CONSTRUCTOR, type.getElementName() + "(" + params + ")");
+		result.addUnresolvedNode(c, CDISeamConfigConstants.ERROR_UNRESOLVED_CONSTRUCTOR, message);
+	}
+
+	void reportUnresolvedField(SAXAttribute c, IType type) {
+		String message = NLS.bind(SeamConfigValidationMessages.UNRESOLVED_FIELD, c.getName(), type.getElementName());
+		result.addUnresolvedNode(c, CDISeamConfigConstants.ERROR_UNRESOLVED_MEMBER, message);
+	}
+
+	void reportUnresolvedMethod(SAXAttribute c, IType type) {
+		String message = NLS.bind(SeamConfigValidationMessages.UNRESOLVED_METHOD, c.getName() + "()", type.getElementName());
+		result.addUnresolvedNode(c, CDISeamConfigConstants.ERROR_UNRESOLVED_METHOD, message);
 	}
 
 	private SeamVirtualFieldDefinition scanVirtualProducerField(SAXElement element) {
@@ -192,7 +232,7 @@ public class SeamDefinitionBuilder {
 		def.setNode(element);
 		IType type = Util.resolveType(element, project);
 		if(type == null) {
-			result.addUnresolvedNode(element, CDISeamConfigConstants.ERROR_UNRESOLVED_TYPE);
+			reportUnresolvedType(element);
 			return null;
 		}
 		def.setType(type);
@@ -233,7 +273,7 @@ public class SeamDefinitionBuilder {
 				if(a != null) def.addAnnotation(a);
 				continue;
 			} else {
-				result.addUnresolvedNode(c, CDISeamConfigConstants.ERROR_UNRESOLVED_TYPE);
+				reportUnresolvedType(c);
 			}
 		
 		}		
@@ -311,18 +351,19 @@ public class SeamDefinitionBuilder {
 		SeamMethodDefinition def = new SeamMethodDefinition();
 		def.setResource(resource);
 		def.setNode(element);
+		StringBuilder paramPresentation = new StringBuilder();
 		List<SAXElement> es = element.getChildElements();
 		for (SAXElement c: es) {
 			if(!Util.isConfigRelevant(c)) continue;
 			if(Util.isParameters(c)) {
 				List<SAXElement> ps = c.getChildElements();
 				for (SAXElement p: ps) {
-					SeamParameterDefinition pd = scanParameter(p);
+					SeamParameterDefinition pd = scanParameter(p, paramPresentation);
 					if(pd != null) def.addParameter(pd);
 				}
 				continue;
 			} else if(Util.isArray(c)) {
-				SeamParameterDefinition pd = scanParameter(c);
+				SeamParameterDefinition pd = scanParameter(c, paramPresentation);
 				if(pd != null) def.addParameter(pd);
 				continue;
 			}
@@ -332,7 +373,7 @@ public class SeamDefinitionBuilder {
 				if(a != null) def.addAnnotation(a);
 				continue;
 			} else {
-				result.addUnresolvedNode(c, CDISeamConfigConstants.ERROR_UNRESOLVED_TYPE);
+				reportUnresolvedType(c);
 			}
 		
 		}		
@@ -345,7 +386,7 @@ public class SeamDefinitionBuilder {
 		if(method != null) {
 			def.setMethod(method);
 		} else {
-			result.addUnresolvedNode(element, CDISeamConfigConstants.ERROR_UNRESOLVED_METHOD);
+			reportUnresolvedMethod(element, type, paramPresentation.toString());
 			def = null;
 		}
 		return def;
@@ -355,14 +396,15 @@ public class SeamDefinitionBuilder {
 		SeamMethodDefinition def = new SeamMethodDefinition();
 		def.setResource(resource);
 		def.setNode(element);
+		StringBuilder paramPresentation = new StringBuilder();
 		if(Util.isParameters(element)) {
 			List<SAXElement> ps = element.getChildElements();
 			for (SAXElement p: ps) {
-				SeamParameterDefinition pd = scanParameter(p);
+				SeamParameterDefinition pd = scanParameter(p, paramPresentation);
 				if(pd != null) def.addParameter(pd);
 			}
 		} else if(Util.isArray(element)) {
-			SeamParameterDefinition pd = scanParameter(element);
+			SeamParameterDefinition pd = scanParameter(element, paramPresentation);
 			if(pd != null) def.addParameter(pd);
 		}
 		IJavaAnnotation inject = createInject(element);
@@ -376,14 +418,14 @@ public class SeamDefinitionBuilder {
 		if(method != null) {
 			def.setMethod(method);
 		} else {
-			result.addUnresolvedNode(element, CDISeamConfigConstants.ERROR_UNRESOLVED_CONSTRUCTOR);
+			reportUnresolvedConstructor(element, type, paramPresentation.toString());
 			def = null;
 		}
 		
 		return def;
 	}
 
-	private SeamParameterDefinition scanParameter(SAXElement element) {
+	private SeamParameterDefinition scanParameter(SAXElement element, StringBuilder paramPresentation) {
 		if(!Util.isConfigRelevant(element)) return null;
 		SeamParameterDefinition def = new SeamParameterDefinition();
 		def.setResource(resource);
@@ -397,9 +439,14 @@ public class SeamDefinitionBuilder {
 			List<SAXElement> es = element.getChildElements();
 			for (SAXElement c: es) {
 				if(!Util.isConfigRelevant(c)) continue;
+
+				if(paramPresentation.length() > 0) paramPresentation.append(",");
+				paramPresentation.append(c.getLocalName());
+				for (int q = 0; q < def.getDimensions(); q++) paramPresentation.append("[]");
+
 				IType type = Util.resolveType(c, project);
 				if(type == null) {
-					result.addUnresolvedNode(c, CDISeamConfigConstants.ERROR_UNRESOLVED_TYPE);
+					reportUnresolvedType(c);
 					continue;
 				}
 				TypeCheck typeCheck = new TypeCheck(type, c);
@@ -412,9 +459,12 @@ public class SeamDefinitionBuilder {
 				}
 			}
 		} else {
+			if(paramPresentation.length() > 0) paramPresentation.append(",");
+			paramPresentation.append(element.getLocalName());
+
 			IType type = Util.resolveType(element, project);
 			if(type == null) {
-				result.addUnresolvedNode(element, CDISeamConfigConstants.ERROR_UNRESOLVED_TYPE);
+				reportUnresolvedType(element);
 				return null;
 			}
 			def.setType(type);
@@ -442,7 +492,7 @@ public class SeamDefinitionBuilder {
 		IType type = Util.resolveType(element, project);
 		if(type == null) {
 			if(contextKind == IN_ANNOTATION_TYPE) {
-				result.addUnresolvedNode(element, CDISeamConfigConstants.ERROR_UNRESOLVED_TYPE);
+				reportUnresolvedType(element);
 			}
 			return null;
 		}
@@ -466,12 +516,12 @@ public class SeamDefinitionBuilder {
 				literal.addMemberValuePair(n, v, IMemberValuePair.K_STRING);
 				IMethod m = type.getMethod(n, new String[0]);
 				if(!m.exists()) {
-					result.addUnresolvedNode(attr, CDISeamConfigConstants.ERROR_UNRESOLVED_MEMBER);
+					reportUnresolvedMethod(attr, type);
 				}
 			}
 			return literal;
 		} else if(contextKind == IN_ANNOTATION_TYPE) {
-			result.addUnresolvedNode(element, CDISeamConfigConstants.ERROR_ANNOTATION_EXPECTED);
+			result.addUnresolvedNode(element, CDISeamConfigConstants.ERROR_ANNOTATION_EXPECTED, SeamConfigValidationMessages.ANNOTATION_EXPECTED);
 		}		
 		return null;
 	}
@@ -484,7 +534,7 @@ public class SeamDefinitionBuilder {
 				isAnnotation = type.isAnnotation();
 			} catch (JavaModelException e) {
 				CDISeamConfigCorePlugin.getDefault().logError(e);
-				result.addUnresolvedNode(element, CDISeamConfigConstants.ERROR_UNRESOLVED_TYPE);
+				reportUnresolvedType(element);
 				isCorrupted = true;
 			}
 		}

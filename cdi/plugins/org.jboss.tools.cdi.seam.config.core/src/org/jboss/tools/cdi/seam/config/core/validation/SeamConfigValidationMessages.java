@@ -8,6 +8,7 @@ public class SeamConfigValidationMessages {
 	
 	public static String UNRESOLVED_TYPE;
 	public static String UNRESOLVED_MEMBER;
+	public static String UNRESOLVED_FIELD;
 	public static String UNRESOLVED_METHOD;
 	public static String UNRESOLVED_CONSTRUCTOR;
 	public static String ANNOTATION_EXPECTED;

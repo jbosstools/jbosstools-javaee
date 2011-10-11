@@ -11,7 +11,6 @@
 package org.jboss.tools.cdi.seam.config.core.definition;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -47,7 +46,7 @@ import org.jboss.tools.common.model.XModelObject;
 public class SeamBeansDefinition {
 	IResource resource;
 	XModelObject file;
-	Map<SAXNode, String> unresolvedNodes = new HashMap<SAXNode, String>();
+	Set<SAXNodeProblem> unresolvedNodes = new HashSet<SAXNodeProblem>();
 	Set<String> possibleTypeNames = new HashSet<String>();
 
 	Set<SeamBeanDefinition> beanDefinitions = new HashSet<SeamBeanDefinition>();
@@ -74,7 +73,7 @@ public class SeamBeansDefinition {
 		return resource;
 	}
 
-	public Map<SAXNode, String> getUnresolvedNodes() {
+	public Set<SAXNodeProblem> getUnresolvedNodes() {
 		return unresolvedNodes;
 	}
 
@@ -87,8 +86,12 @@ public class SeamBeansDefinition {
 		return possibleTypeNames;
 	}
 
-	public void addUnresolvedNode(SAXNode node, String problem) {
-		unresolvedNodes.put(node, problem);
+	public void addUnresolvedNode(SAXNodeProblem problem) {
+		unresolvedNodes.add(problem);
+	}
+
+	public void addUnresolvedNode(SAXNode node, String problemId, String message) {
+		addUnresolvedNode(new SAXNodeProblem(node, problemId, message));
 	}
 
 	public void addPossibleTypeNames(Set<String> types) {
