@@ -13,6 +13,13 @@ package org.jboss.tools.cdi.core.util;
 import org.eclipse.core.runtime.IPath;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.IBean;
+import org.jboss.tools.cdi.core.IBeanField;
+import org.jboss.tools.cdi.core.IBeanMember;
+import org.jboss.tools.cdi.core.IBeanMethod;
+import org.jboss.tools.cdi.core.ICDIElement;
+import org.jboss.tools.cdi.core.IInitializerMethod;
+import org.jboss.tools.cdi.core.IInjectionPoint;
+import org.jboss.tools.cdi.core.IParameter;
 import org.jboss.tools.cdi.core.IProducer;
 import org.jboss.tools.cdi.internal.core.impl.AbstractBeanElement;
 import org.jboss.tools.common.text.ITextSourceReference;
@@ -74,6 +81,35 @@ public class BeanPresentationUtil {
 		}
 		
 		return sb.toString();
+	}
+	
+	public static String getCDIElementKind(ICDIElement element){
+		if(element instanceof IBean){
+			return getBeanKind((IBean)element);
+		}else if(element instanceof IInjectionPoint){
+			return "Injection Point";
+		}else if(element instanceof IInitializerMethod){
+			return "Injection Point";
+		}else if(element instanceof IBeanMethod){
+			return "Bean Method";
+		}else if(element instanceof IBeanField){
+			return "Bean Field";
+		}else if(element instanceof IParameter){
+			return "Parameter";
+		
+		}
+		return null;
+	}
+	
+	public static String getCDIElementLocation(ICDIElement element, boolean includeElementName){
+		if(element instanceof IBean){
+			return getBeanLocation((IBean)element, includeElementName);
+		}else if(element instanceof IInjectionPoint){
+			return getBeanLocation(((IInjectionPoint) element).getBean(), includeElementName);
+		}else if(element instanceof IBeanMember){
+			return getBeanLocation(((IBeanMember) element).getClassBean(), includeElementName);
+		}
+		return null;
 	}
 
 }

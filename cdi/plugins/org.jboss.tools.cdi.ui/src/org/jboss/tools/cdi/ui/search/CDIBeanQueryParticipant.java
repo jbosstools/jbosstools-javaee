@@ -40,6 +40,7 @@ import org.jboss.tools.cdi.core.IInitializerMethod;
 import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.core.IInjectionPointField;
 import org.jboss.tools.cdi.core.IInjectionPointParameter;
+import org.jboss.tools.cdi.core.util.BeanPresentationUtil;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
 import org.jboss.tools.cdi.ui.CDIUIPlugin;
 import org.jboss.tools.common.java.IParametedType;
@@ -170,16 +171,12 @@ public class CDIBeanQueryParticipant implements IQueryParticipant{
 		public String getText(Object element) {
 			if(element instanceof CDIElementWrapper){
 				ICDIElement cdiElement = ((CDIElementWrapper)element).getCDIElement();
-				String label = ((CDIElementWrapper)element).getLabel();
-				
-				if(cdiElement instanceof IInjectionPointField){
-					return NLS.bind(CDIUIMessages.CDI_BEAN_QUERY_PARTICIPANT_INJECT_FIELD, label);
-				}else if(cdiElement instanceof IInitializerMethod){
-					//It is not an injection point, but it has annotation @Inject and contains injection point parameters
-					return NLS.bind(CDIUIMessages.CDI_BEAN_QUERY_PARTICIPANT_INJECT_METHOD, label);
-				}else if(cdiElement instanceof IInjectionPointParameter){
-					return NLS.bind(CDIUIMessages.CDI_BEAN_QUERY_PARTICIPANT_INJECT_PARAMETER, label);
+				String kind = BeanPresentationUtil.getCDIElementKind(cdiElement);
+				String text = "";
+				if(kind != null){
+					text = kind+" ";
 				}
+				return text+cdiElement.getElementName()+BeanPresentationUtil.getCDIElementLocation(cdiElement, false);
 			}
 			return ""; //$NON-NLS-1$
 

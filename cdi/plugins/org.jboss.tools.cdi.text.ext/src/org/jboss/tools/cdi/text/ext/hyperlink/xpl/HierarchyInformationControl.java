@@ -32,6 +32,9 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.ui.dialogs.SearchPattern;
+import org.jboss.tools.cdi.core.CDIImages;
+import org.jboss.tools.cdi.core.ICDIElement;
+import org.jboss.tools.cdi.core.util.BeanPresentationUtil;
 import org.jboss.tools.cdi.text.ext.hyperlink.IInformationItem;
 
 /**
@@ -144,13 +147,13 @@ public class HierarchyInformationControl extends AbstractInformationControl {
 	            Object element) {
 			
 			if (element instanceof IInformationItem) {
-				String information = ((IInformationItem)element).getInformation();
+				String name = ((IInformationItem)element).getCDIElement().getElementName();
 				if(getFilterText().getText().isEmpty()){
 					patternMatcher.setPattern("*");
 				}else{
 					patternMatcher.setPattern(getFilterText().getText());
 				}
-				return patternMatcher.matches(information);
+				return patternMatcher.matches(name);
 			}else
 				return true;
 		}
@@ -199,11 +202,11 @@ public class HierarchyInformationControl extends AbstractInformationControl {
 			StyledString sb = new StyledString();
 			if(element instanceof IHyperlink){
 				if(element instanceof IInformationItem){
-					String info = ((IInformationItem)element).getInformation();
-					String qualifiedName = ((IInformationItem)element).getFullyQualifiedName();
-					String packageName = qualifiedName.substring(0, qualifiedName.lastIndexOf("."));
-					sb.append(info, NAME_STYLE);
-					sb.append(" - ", PACKAGE_STYLE).append(packageName, PACKAGE_STYLE);
+					ICDIElement cdiElement = ((IInformationItem)element).getCDIElement();
+					String name = cdiElement.getElementName();
+					String location = BeanPresentationUtil.getCDIElementLocation(cdiElement, false);
+					sb.append(name, NAME_STYLE);
+					sb.append(location, PACKAGE_STYLE);
 				}else{
 					sb.append(((IHyperlink)element).getHyperlinkText(), NAME_STYLE);
 				}
@@ -213,7 +216,8 @@ public class HierarchyInformationControl extends AbstractInformationControl {
 
 		public Image getImage(Object element) {
 			if(element instanceof IInformationItem){
-				return ((IInformationItem)element).getImage();
+				ICDIElement cdiElement = ((IInformationItem)element).getCDIElement();
+				return CDIImages.getImageByElement(cdiElement);
 			}
 			return null;
 		}		

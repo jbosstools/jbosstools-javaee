@@ -17,14 +17,10 @@ import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.ui.JavaUI;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
-import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PartInitException;
-import org.jboss.tools.cdi.core.CDIImages;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.ICDIElement;
-import org.jboss.tools.cdi.core.IDecorator;
-import org.jboss.tools.cdi.core.IInterceptor;
 import org.jboss.tools.cdi.core.IProducerField;
 import org.jboss.tools.cdi.core.IProducerMethod;
 import org.jboss.tools.cdi.core.util.BeanPresentationUtil;
@@ -114,17 +110,4 @@ public class InjectedPointHyperlink extends AbstractHyperlink implements ITestab
 	public Set<? extends ICDIElement> getCDIElements() {
 		return null;
 	}
-
-	public String getFullyQualifiedName() {
-		return bean.getBeanClass().getFullyQualifiedName();
-	}
-
-	public String getInformation() {
-		return bean.getElementName();
-	}
-
-	public Image getImage() {
-		return CDIImages.getImageByElement(bean);
-	}
-
 }

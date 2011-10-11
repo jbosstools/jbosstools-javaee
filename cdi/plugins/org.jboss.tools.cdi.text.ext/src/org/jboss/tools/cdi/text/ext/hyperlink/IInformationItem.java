@@ -10,28 +10,15 @@
  ******************************************************************************/ 
 package org.jboss.tools.cdi.text.ext.hyperlink;
 
-import org.eclipse.swt.graphics.Image;
+import org.jboss.tools.cdi.core.ICDIElement;
 
 public interface IInformationItem {
 	
 	/**
-	 * Returns the simple name of item
+	 * Returns CDI element
 	 * 
 	 * @return
 	 */
-	public String getInformation();
+	public ICDIElement getCDIElement();
 	
-	/**
-	 * Returns the java element fully qualified name
-	 * 
-	 * @return
-	 */
-	public String getFullyQualifiedName();
-	
-	/**
-	 * Returns the icon image
-	 * 
-	 * @return
-	 */
-	public Image getImage();
 }

@@ -17,10 +17,8 @@ import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.ui.JavaUI;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
-import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PartInitException;
-import org.jboss.tools.cdi.core.CDIImages;
 import org.jboss.tools.cdi.core.ICDIElement;
 import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.core.IInjectionPointField;
@@ -84,17 +82,4 @@ public class EventHyperlink extends AbstractHyperlink implements ITestableCDIHyp
 	public Set<? extends ICDIElement> getCDIElements() {
 		return null;
 	}
-
-	public String getFullyQualifiedName() {
-		return event.getClassBean().getBeanClass().getFullyQualifiedName();
-	}
-
-	public String getInformation() {
-		return event.getElementName();
-	}
-
-	public Image getImage() {
-		return CDIImages.getImageByElement(event);
-	}
-
 }
