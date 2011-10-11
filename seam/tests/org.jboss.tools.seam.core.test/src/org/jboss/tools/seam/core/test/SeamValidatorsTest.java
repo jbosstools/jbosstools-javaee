@@ -34,7 +34,6 @@ import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamComponentMethod;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamComponentMethodType;
-import org.jboss.tools.seam.core.SeamCoreBuilder;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.SeamPreferences;
 import org.jboss.tools.seam.core.test.validation.ELValidatorWrapper;
@@ -43,7 +42,6 @@ import org.jboss.tools.seam.core.test.validation.SeamCoreValidatorWrapper;
 import org.jboss.tools.seam.internal.core.SeamProject;
 import org.jboss.tools.seam.internal.core.validation.SeamValidationErrorManager;
 import org.jboss.tools.seam.internal.core.validation.SeamValidationMessages;
-import org.jboss.tools.test.util.JUnitUtils;
 import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.ProjectImportTestSetup;
 import org.jboss.tools.tests.AbstractResourceMarkerTest;
@@ -76,19 +74,14 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 				}
 			}
 		}
-		project.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
-		JobUtils.waitForIdle();
-		originalFile.getProject().build(IncrementalProjectBuilder.INCREMENTAL_BUILD, "org.eclipse.jdt.internal.core.builder.JavaBuilder", null, null);
-		JobUtils.waitForIdle();
-		originalFile.getProject().build(IncrementalProjectBuilder.INCREMENTAL_BUILD, SeamCoreBuilder.BUILDER_ID, null, null);
-//		originalFile.getProject().build(IncrementalProjectBuilder.INCREMENTAL_BUILD, null);
-		JobUtils.waitForIdle();
+		originalFile.getProject().refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
+		originalFile.getProject().build(IncrementalProjectBuilder.INCREMENTAL_BUILD, null);
 	}
 
+	@Override
 	protected void setUp() throws Exception {
-		JobUtils.waitForIdle();
-		IResource project = ResourcesPlugin.getWorkspace().getRoot().findMember("SeamWebWarTestProject");
-		if(project == null) {
+		project = ResourcesPlugin.getWorkspace().getRoot().getProject("SeamWebWarTestProject");
+		if(!project.exists()) {
 			ProjectImportTestSetup setup = new ProjectImportTestSetup(
 					this,
 					"org.jboss.tools.seam.core.test",
@@ -96,24 +89,14 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 					"SeamWebWarTestProject");
 			project = setup.importProject();
 		}
-		this.project = project.getProject();
-//		JobUtils.waitForIdle();
 	}
-	
+
 	@Override
 	protected void tearDown() throws Exception {
-
 	}
 
-	private ISeamProject getSeamProject(IProject project) {
-		refreshProject(project);
-		
-		ISeamProject seamProject = null;
-		try {
-			seamProject = (ISeamProject)project.getNature(SeamProject.NATURE_ID);
-		} catch (Exception e) {
-			JUnitUtils.fail("Cannot get seam nature.",e);
-		}
+	private ISeamProject getSeamProject(IProject project) throws CoreException {
+		ISeamProject seamProject = (ISeamProject)project.getNature(SeamProject.NATURE_ID);
 		assertNotNull("Seam project is null", seamProject);
 		return seamProject;
 	}
@@ -129,12 +112,11 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 
 		SeamCoreValidatorWrapper seamValidator = new SeamCoreValidatorWrapper(project);
 		seamValidator.validate(componentFile);
-		
+
 		assertTrue("Error marker not found", seamValidator.isMessageCreated(SeamValidationMessages.UNKNOWN_FACTORY_NAME, new String[]{"somethings"}));
 		copyContentsFile(componentFile, "src/action/org/domain/SeamWebWarTestProject/session/FactoryTest.original");
 	}
 
-	
 	/**
 	 * Test for https://jira.jboss.org/jira/browse/JBIDE-784
 	 * @throws CoreException 
@@ -186,7 +168,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 
 		seamValidator = new SeamCoreValidatorWrapper(project);
 		seamValidator.validate(subclassComponentFile);
-		
+
 		assertTrue("We changed super class of component but it still don't see changes.", seamValidator.getMessages().size()==0);
 	}
 
@@ -194,28 +176,28 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		// Test for http://jira.jboss.com/jira/browse/JBIDE-1631
 		IFile jbide1631XHTMLFile =  project.getFile("WebContent/JBIDE-1631.xhtml");
 		IFile jbide1631XHTMLFile2 =  project.getFile("WebContent/JBIDE-1631.1");
-		
+
 		copyContentsFile(jbide1631XHTMLFile, jbide1631XHTMLFile2);
-		
+
 		ELValidatorWrapper elValidator = new ELValidatorWrapper(project);
 		elValidator.validate(jbide1631XHTMLFile);
-		
+
 		assertTrue("Error marker not found", elValidator.isMessageCreated(ELValidationMessages.UNKNOWN_EL_VARIABLE_NAME, new Object[]{"foo1"}));
 		assertTrue("Error marker not found", elValidator.isMessageCreated(ELValidationMessages.UNKNOWN_EL_VARIABLE_NAME, new Object[]{"foo2"}));
 	}
-	
+
 	public void testDuplicateComponentNameValidator() throws CoreException, ValidationException {
 		copyContentsFile(
 				"src/action/org/domain/SeamWebWarTestProject/session/BbcComponent.java",
 				"src/action/org/domain/SeamWebWarTestProject/session/BbcComponent.original");		
 		IFile bbcComponentFile = project
 				.getFile("src/action/org/domain/SeamWebWarTestProject/session/BbcComponent.java");
-		
+
 		SeamCoreValidatorWrapper seamValidator = new SeamCoreValidatorWrapper(project);
 		seamValidator.validate(bbcComponentFile);
 		assertFalse("Error marker was found", seamValidator.isMessageCreated(
 				SeamValidationMessages.NONUNIQUE_COMPONENT_NAME_MESSAGE, new Object[]{"abcComponent"}));
-		
+
 		// Duplicate component name
 		copyContentsFile(
 				"src/action/org/domain/SeamWebWarTestProject/session/BbcComponent.java",
@@ -224,20 +206,18 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		seamValidator.validate(bbcComponentFile);		
 		assertTrue("Error marker not found", seamValidator.isMessageCreated(
 				SeamValidationMessages.NONUNIQUE_COMPONENT_NAME_MESSAGE, new Object[]{"abcComponent"}));
-		
+
 		// restore file content
 		copyContentsFile(
 				"src/action/org/domain/SeamWebWarTestProject/session/BbcComponent.java",
 				"src/action/org/domain/SeamWebWarTestProject/session/BbcComponent.original");
 	}
-	
+
 	public void testStatefulComponentWithoutRemoveMethodValidator() throws CoreException, ValidationException {
 		IFile statefulComponentFile = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/StatefulComponent.java");
-		
+
 		String markerText = "Stateful component \"statefulComponent\" must have a method marked @Remove";
-		
-//		assertMarkerIsNotCreated(statefulComponentFile, MARKER_TYPE, markerText);
-		
+
 		// Stateful component does not contain @Remove method
 		assertMarkerIsCreatedForLine("src/action/org/domain/SeamWebWarTestProject/session/StatefulComponent.java",
 				"src/action/org/domain/SeamWebWarTestProject/session/StatefulComponent.2",
@@ -245,7 +225,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 				new Object[]{"statefulComponent"},
 				16);
 	}
-	
+
 	private void assertMarkerIsCreatedForLine(String target, String newContent, String markerTemplate,
 		Object[] parameters,int lineNumber) throws CoreException, ValidationException {
 		IValidatorSupport validator = new SeamCoreValidatorWrapper(project);
@@ -293,7 +273,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		IValidatorSupport validator = new SeamCoreValidatorWrapper(project);
 		assertMarkerIsNotCreatedForFile(validator, target, markerTemplate, parameters);
 	}
-	
+
 	private void assertMarkerIsNotCreatedForFile(IValidatorSupport validator, String target, String markerTemplate, Object[] parameters)
 		throws ValidationException, CoreException {
 		IFile targetFile = project.getFile(target);
@@ -309,7 +289,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 				new Object[] {"statefulComponent"},
 				16);
 	}
-	
+
 	public void testStatefulComponentHasWrongScopeValidator() throws CoreException, ValidationException {
 		// Stateful component has wrong scope
 		assertMarkerIsCreatedForLine(
@@ -319,7 +299,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 				new Object[] {"statefulComponent"},
 				16);
 	}
-	
+
 	public void testComponentTypeValidator() throws CoreException, ValidationException {
 		// Component class name cannot be resolved to a type
 		assertMarkerIsCreatedForLine(
@@ -329,7 +309,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 				new Object[] {"org.domain.SeamWebWarTestProject.session.StateComponent"},
 				15);
 	}
-	
+
 	public void testComponentWithoutSetterValidator() throws CoreException, ValidationException {
 		// Component class does not contain setter for property
 		assertMarkerIsCreatedForLine(
@@ -349,25 +329,21 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 				new Object[]{"abcEntity"}, 15);
 	}
 
-	final String TARGET_FILE_NAME 
-	= "src/action/org/domain/SeamWebWarTestProject/session/StatefulComponent.java";
-	
+	final String TARGET_FILE_NAME = "src/action/org/domain/SeamWebWarTestProject/session/StatefulComponent.java";
+
 	public void testDuplicateDestroyMethodValidator() throws CoreException, ValidationException {
 		final String NEW_CONTENT_FILE_NAME6 = "src/action/org/domain/SeamWebWarTestProject/session/StatefulComponent.6";
-
 		assertMarkerIsCreatedForLine(
 				TARGET_FILE_NAME, 
 				NEW_CONTENT_FILE_NAME6, 
 				SeamValidationMessages.DUPLICATE_DESTROY,new Object[]{"destroyMethod"}, 34);
-		
 		assertMarkerIsCreatedForLine(
 				TARGET_FILE_NAME,
 				SeamValidationMessages.DUPLICATE_DESTROY,new Object[]{"destroyMethod2"}, 39);
 	}
-	
+
 	public void testDuplicateCreateMethodValidator() throws CoreException, ValidationException {
 		// Duplicate @Create method
-
 		final String NEW_CONTENT_FILE_NAME7 = "src/action/org/domain/SeamWebWarTestProject/session/StatefulComponent.7";
 
 		assertMarkerIsCreatedForLine(
@@ -379,7 +355,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 				TARGET_FILE_NAME, SeamValidationMessages.DUPLICATE_CREATE,
 				new Object[]{"createMethod2"}, 41);
 	}
-	
+
 	public void testDuplicateUnwrapMethodValidator() throws CoreException, ValidationException {
 		// Duplicate @Unwrap method
 
@@ -393,7 +369,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 				TARGET_FILE_NAME, SeamValidationMessages.DUPLICATE_UNWRAP,
 				new Object[] { "unwrapMethod2"}, 45);
 	}
-	
+
 	public void testOnlyJavaBeansAndStatefulSessionBeansSupportDestroyMethodValidator() throws CoreException, ValidationException {
 		// Only JavaBeans and stateful session beans support @Destroy methods
 
@@ -405,10 +381,9 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 				new Object[] {"destroyMethod"}, 
 				25);
 	}
-	
+
 	public void testOnlyComponentClassCanHaveCreateMethodValidator() throws CoreException, ValidationException {
 		// Only component class can have @Create method
-
 		final String NEW_CONTENT_FILE_NAME10 = "src/action/org/domain/SeamWebWarTestProject/session/StatefulComponent.10";
 
 		assertMarkerIsCreatedForLine(
@@ -418,7 +393,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 				new Object[]{"createMethod"},
 				25);
 	}
-	
+
 	public void testOnlyComponentClassCanHaveUnwrapMethodValidator() throws CoreException, ValidationException {
 		// Only component class can have @Unwrap method
 
@@ -429,10 +404,9 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 				NEW_CONTENT_FILE_NAME11, 
 				SeamValidationMessages.UNWRAP_DOESNT_BELONG_TO_COMPONENT, new Object[] {"unwrapMethod"}, 26);
 	}
-	
+
 	public void testOnlyComponentClassCanHaveObserverMethodValidator() throws CoreException, ValidationException {
 		// Only component class can have @Observer method
-		
 		final String NEW_CONTENT_FILE_NAME12 = "src/action/org/domain/SeamWebWarTestProject/session/StatefulComponent.12";
 
 		assertMarkerIsCreatedForLine(
@@ -440,7 +414,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 				NEW_CONTENT_FILE_NAME12, 
 				SeamValidationMessages.OBSERVER_DOESNT_BELONG_TO_COMPONENT, new Object[] {"observerMethod"}, 26);
 	}
-	
+
 	public void testDuplicateRemoveMethodValidator() throws CoreException, ValidationException {
 		// Duplicate @Remove method
 
@@ -482,7 +456,6 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 	 */
 	protected void assertMarkerIsCreated(String targetPath,
 			String pattern, int line) throws CoreException {
-		
 		IFile targetFile = project.getFile(targetPath);
 		assertMarkerIsCreated(targetFile, MARKER_TYPE, pattern, line);
 	}
@@ -490,8 +463,9 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 	/**
 	 * The validator should check duplicate @Remove methods only in stateful session bean component
 	 * This method tests usual component (not stateful sessian bean) with two @Remove methods. It must not have error markers.  
+	 * @throws CoreException 
 	 */
-	public void testDuplicateRemoveMethodInComponent_Validator() {
+	public void testDuplicateRemoveMethodInComponent_Validator() throws CoreException {
 		getSeamProject(project);
 		IFile componentFile = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/UsualComponent.java");
 		int number = getMarkersNumberByGroupName(componentFile, SeamValidationErrorManager.MARKED_SEAM_PROJECT_MESSAGE_GROUP);
@@ -503,9 +477,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 				"src/action/org/domain/SeamWebWarTestProject/session/Component12.java",
 				SeamValidationMessages.UNKNOWN_FACTORY_NAME,
 				new Object[] {"messageList2"});
-		
 		// Unknown factory name
-		
 		assertMarkerIsCreatedForLine(
 				"src/action/org/domain/SeamWebWarTestProject/session/Component12.java",
 				"src/action/org/domain/SeamWebWarTestProject/session/Component12.2",
@@ -513,7 +485,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 				new Object[] {"messageList2"},
 				24);
 	}
-	
+
 	public void testDuplicateFactoryNameValidator() throws CoreException, ValidationException {
 		assertMarkerIsNotCreatedForFile(
 			"src/action/org/domain/SeamWebWarTestProject/session/DuplicateFactory.java",
@@ -535,30 +507,29 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 	}
 
 	public void testMultipleDataBinderValidator() throws CoreException, ValidationException {
-		
 		assertMarkerIsNotCreatedForFile(
 				"src/action/org/domain/SeamWebWarTestProject/session/SelectionTest.java",
 				SeamValidationMessages.MULTIPLE_DATA_BINDER,
 				new Object[] {});
-		
+
 		assertMarkerIsNotCreatedForFile(
 				"src/action/org/domain/SeamWebWarTestProject/session/SelectionIndexTest.java",
 				SeamValidationMessages.MULTIPLE_DATA_BINDER,
 				new Object[] {});
-		
+
 		assertMarkerIsCreatedForLine(
 				"src/action/org/domain/SeamWebWarTestProject/session/SelectionTest.java",
 				"src/action/org/domain/SeamWebWarTestProject/session/SelectionTest.2",
 				SeamValidationMessages.MULTIPLE_DATA_BINDER,
 				new Object[] {},
 				21);
-		
+
 		assertMarkerIsCreatedForLine(
 				"src/action/org/domain/SeamWebWarTestProject/session/SelectionTest.java",
 				SeamValidationMessages.MULTIPLE_DATA_BINDER,
 				new Object[] {},
 				24);
-		
+
 		assertMarkerIsCreatedForLine(
 				"src/action/org/domain/SeamWebWarTestProject/session/SelectionIndexTest.java",
 				"src/action/org/domain/SeamWebWarTestProject/session/SelectionIndexTest.2",
@@ -572,19 +543,19 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 				new Object[] {},
 				24);
 	}
-	
+
 	public void testUnknownDataModelNameValidator() throws CoreException, ValidationException {
 		IFile selectionTestFile = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/SelectionTest.java");
 		IFile selectionIndexTestFile = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/SelectionIndexTest.java");
 		// Unknown @DataModel/@Out name
-		
+
 		assertMarkerIsCreatedForLine(
 				"src/action/org/domain/SeamWebWarTestProject/session/SelectionTest.java",
 				"src/action/org/domain/SeamWebWarTestProject/session/SelectionTest.3",
 				SeamValidationMessages.UNKNOWN_DATA_MODEL,
 				new Object[] {"messageList2"},
 				27);
-		
+
 		assertMarkerIsCreatedForLine(
 				"src/action/org/domain/SeamWebWarTestProject/session/SelectionIndexTest.java",
 				"src/action/org/domain/SeamWebWarTestProject/session/SelectionIndexTest.3",
@@ -595,12 +566,12 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 
 	public void testDuplicateVariableName_Validator() throws CoreException, ValidationException {
 		modifyPreferences();
-		
+
 		assertMarkerIsNotCreatedForFile(
 				"src/action/org/domain/SeamWebWarTestProject/session/ContextVariableTest.java",
 				SeamValidationMessages.DUPLICATE_VARIABLE_NAME,
 				new Object[] {"messageList"});
-		
+
 		assertMarkerIsCreatedForLine(
 				"src/action/org/domain/SeamWebWarTestProject/session/ContextVariableTest.java",
 				"src/action/org/domain/SeamWebWarTestProject/session/ContextVariableTest.2",
@@ -614,16 +585,15 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 				new Object[] {"messageList"},
 				41);
 	}
-	
+
 	public void testUnknownVariableNameValidator() throws CoreException, ValidationException {
 		IFile contextVariableTestFile = project.getFile("src/action/org/domain/SeamWebWarTestProject/session/ContextVariableTest.java");
-		
+
 		String markerText = "Unknown context variable name: \"messageList5\"";
-		
+
 		assertMarkerIsNotCreated(contextVariableTestFile, MARKER_TYPE, markerText);
-		
+
 		// Unknown variable name
-		
 		assertMarkerIsCreatedForLine(
 				"src/action/org/domain/SeamWebWarTestProject/session/ContextVariableTest.java",
 				"src/action/org/domain/SeamWebWarTestProject/session/ContextVariableTest.3",
@@ -638,24 +608,22 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 				"WebContent/abcComponent.xhtml",
 				ELValidationMessages.UNKNOWN_EL_VARIABLE_NAME,
 				new Object[]{"bcComponent"});
-		
+
 		// Context variable cannot be resolved
-		
 		assertMarkerIsCreatedForLine(new ELValidatorWrapper(project),
 				"WebContent/abcComponent.xhtml",
 				"WebContent/abcComponent.2",
 				ELValidationMessages.UNKNOWN_EL_VARIABLE_NAME,
 				new Object[]{"bcComponent"}, 22);
 	}
-	
+
 	public void testPropertyCannotBeResolvedValidator() throws CoreException, ValidationException {
-		
 		assertMarkerIsNotCreatedForFile(
 			new ELValidatorWrapper(project),
 			"WebContent/abcComponent.xhtml",
 			ELValidationMessages.UNKNOWN_EL_VARIABLE_PROPERTY_NAME,
 			new Object[]{"actionType2"});
-		
+
 		// Property cannot be resolved
 		assertMarkerIsCreatedForLine(
 			new ELValidatorWrapper(project),
@@ -665,7 +633,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 			new Object[]{"actionType2"},
 			22);
 	}
-	
+
 	public void testPropertyHasOnlySetterValidator() throws CoreException, ValidationException {
 		// Unpaired Getter/Setter
 		try {
@@ -692,7 +660,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 //					ELValidationMessages.UNPAIRED_GETTER_OR_SETTER,
 //					new Object[] {"actionType","Setter","Getter"},
 //					true);
-	
+
 			assertMarkerIsCreatedForLine(
 					wrapper,
 					"WebContent/abcComponent.xhtml",
@@ -704,7 +672,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 			enableUnpairGetterOrSetterValidation(false);
 		}
 	}
-	
+
 	public void testPropertyHasOnlyGetterValidator() throws CoreException, ValidationException {
 		//I am not sure that we need build here. If test is stable, lets remove this.
 //		project.build(IncrementalProjectBuilder.FULL_BUILD, null);
@@ -726,7 +694,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 //					ELValidationMessages.UNPAIRED_GETTER_OR_SETTER,
 //					new Object[] {"actionType", "Getter", "Setter"}, 
 //					true);
-	
+
 			assertMarkerIsCreatedForLine(
 					wrapper,
 					"WebContent/abcComponent.xhtml",
@@ -751,7 +719,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		}
 	}
 
-	public void testInheritedMethods() {
+	public void testInheritedMethods() throws CoreException {
 		ISeamProject seamProject = getSeamProject(project);
 
 		ISeamComponent c = seamProject.getComponent("inheritedComponent");
@@ -770,7 +738,6 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 
 	// See https://jira.jboss.org/jira/browse/JBIDE-4393
 	public void testDuplicateComponents() throws CoreException, ValidationException {
-		
 		assertMarkerIsCreatedForLine(
 				"WebContent/WEB-INF/components.xml",
 				"WebContent/WEB-INF/duplicateComponents.test",
@@ -789,10 +756,13 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 				SeamValidationMessages.NONUNIQUE_COMPONENT_NAME_MESSAGE,
 				new Object[] {"duplicateJavaAndXmlComponentName"},
 				5);
-		
 	}
 
-	// See https://jira.jboss.org/browse/JBIDE-6352
+	/**
+	 * See https://jira.jboss.org/browse/JBIDE-6352
+	 * @throws CoreException
+	 * @throws ValidationException
+	 */
 	public void testErrorMarkerForEL() throws CoreException, ValidationException{
 		assertMarkerIsCreatedForLine(
 			new ELValidatorWrapper(project),
@@ -804,7 +774,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 
 	public void testErrorMarkerInPagesXML() throws CoreException, ValidationException {
 		SeamCoreValidatorWrapper seamValidator = new SeamCoreValidatorWrapper(project);
-		
+
 		assertMarkerIsCreatedForLine(
 				seamValidator, 
 				"WebContent/WEB-INF/pages.xml", 
@@ -870,7 +840,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 			}
 		}
 	}
-	
+
 	private void modifyPreference(String name, String value){
 		IPreferenceStore store = SeamCorePlugin.getDefault().getPreferenceStore();
 
@@ -894,18 +864,10 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		}
 	}
 
-	private void refreshProject(IProject project){
-		JobUtils.waitForIdle();
-	}
-
 	public static class SeamMarkerFilter implements IMarkerFilter {
 		public boolean accept(IMarker marker) {
 			String groupName = marker.getAttribute("groupName", null);
 			return groupName!=null && (groupName.equals(SeamValidationErrorManager.MARKED_SEAM_PROJECT_MESSAGE_GROUP) || groupName.equals(IValidator.MARKED_RESOURCE_MESSAGE_GROUP));
 		}
-	}
-	
-	private void invokeIncrementalBuild() throws CoreException {
-		project.build(IncrementalProjectBuilder.INCREMENTAL_BUILD, null);
 	}
 }
