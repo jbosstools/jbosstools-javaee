@@ -11,7 +11,6 @@
 package org.jboss.tools.seam.core.test;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
@@ -21,12 +20,10 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jface.preference.IPersistentPreferenceStore;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.wst.validation.internal.core.ValidationException;
 import org.jboss.tools.common.validation.IValidator;
-import org.jboss.tools.jst.web.kb.PageContextFactory;
 import org.jboss.tools.jst.web.kb.WebKbPlugin;
 import org.jboss.tools.jst.web.kb.internal.validation.ELValidationMessages;
 import org.jboss.tools.jst.web.kb.preferences.ELSeverityPreferences;
@@ -59,23 +56,15 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		super(name);
 	}
 
-	protected void copyContentsFile(IFile originalFile, IFile newContentFile) throws CoreException{
-		PageContextFactory.getInstance().cleanUp(originalFile);
-		InputStream is = null;
-		try{
-			is = newContentFile.getContents();
-			originalFile.setContents(is, true, false, null);
-		} finally {
-			if(is!=null) {
-				try {
-					is.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
+	@Override
+	protected void copyContentsFile(IFile originalFile, IFile newContentFile) throws CoreException {
+		assertTrue(originalFile.exists());
+		assertTrue(newContentFile.exists());
+		super.copyContentsFile(originalFile, newContentFile);
+		if("xml".equalsIgnoreCase(originalFile.getFileExtension())) {
+			originalFile.setLocalTimeStamp(originalFile.getModificationStamp() + 3000);
 		}
-		originalFile.getProject().refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
-		originalFile.getProject().build(IncrementalProjectBuilder.INCREMENTAL_BUILD, null);
+		project.build(IncrementalProjectBuilder.INCREMENTAL_BUILD, null);
 	}
 
 	@Override
@@ -89,6 +78,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 					"SeamWebWarTestProject");
 			project = setup.importProject();
 		}
+		project.build(IncrementalProjectBuilder.INCREMENTAL_BUILD, null);
 	}
 
 	@Override
@@ -252,6 +242,14 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		validator.validate(targetFile);
 		assertTrue("Error marker not found", validator.isMessageCreated(markerTemplate, parameters));
 		assertTrue("Error marker has wrong line number", validator.isMessageCreatedOnLine(markerTemplate, parameters,lineNumber));
+//if(!validator.isMessageCreated(markerTemplate, parameters)) {
+//	System.out.println("!!!");
+////	testDuplicateComponents();
+//}
+//if(!validator.isMessageCreatedOnLine(markerTemplate, parameters,lineNumber)) {
+//	System.out.println("!!!");
+////	validator.validate(targetFile);
+//}
 	}
 
 	private void assertMarkerIsNotCreatedForFile(String target, String newContent, String markerTemplate,
