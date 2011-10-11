@@ -20,6 +20,7 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.osgi.util.NLS;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.internal.core.validation.CDIValidationMessages;
@@ -73,31 +74,37 @@ public class SeamConfigValidationTest extends TestCase {
 	}
 
 	public void testBeanResolution() throws CoreException {
-		AbstractResourceMarkerTest.assertMarkerIsCreated(f, MessageFormat.format(SeamConfigValidationMessages.UNRESOLVED_TYPE, "v:MyBean2"), 8);
-		AbstractResourceMarkerTest.assertMarkerIsNotCreated(f, MessageFormat.format(SeamConfigValidationMessages.UNRESOLVED_TYPE, "v:MyBean1"));
+		String message = NLS.bind(SeamConfigValidationMessages.UNRESOLVED_TYPE, "org.jboss.beans.validation.test.MyBean2");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(f, message, 8);
+		message = NLS.bind(SeamConfigValidationMessages.UNRESOLVED_TYPE, "org.jboss.beans.validation.test.MyBean1");
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(f, message);
 	}
 
 	public void testFieldResolution() throws CoreException {
-		AbstractResourceMarkerTest.assertMarkerIsCreated(f, MessageFormat.format(SeamConfigValidationMessages.UNRESOLVED_MEMBER, "param"), 21);
-		AbstractResourceMarkerTest.assertMarkerIsNotCreated(f, MessageFormat.format(SeamConfigValidationMessages.UNRESOLVED_MEMBER, "value"), 28);
+		String message = NLS.bind(SeamConfigValidationMessages.UNRESOLVED_MEMBER, "field3", "MyBean1");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(f, message, 15);
+		message = NLS.bind(SeamConfigValidationMessages.UNRESOLVED_MEMBER, "field1", "MyBean1");
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(f, message);
 	}
 
 	public void testMethodResolution() throws CoreException {
 		//It is unresolved member because no member with that name is found. 
-		AbstractResourceMarkerTest.assertMarkerIsCreated(f, MessageFormat.format(SeamConfigValidationMessages.UNRESOLVED_MEMBER, "v:method2"), 38);
+		String message = NLS.bind(SeamConfigValidationMessages.UNRESOLVED_MEMBER, "method2", "MyBean1");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(f, message, 38);
 
-		AbstractResourceMarkerTest.assertMarkerIsNotCreated(f, MessageFormat.format(SeamConfigValidationMessages.UNRESOLVED_MEMBER, "v:method1"), 34);
-		AbstractResourceMarkerTest.assertMarkerIsNotCreated(f, MessageFormat.format(SeamConfigValidationMessages.UNRESOLVED_METHOD, "v:method1"), 34);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(f, ".*", 34);
 
-		AbstractResourceMarkerTest.assertMarkerIsNotCreated(f, MessageFormat.format(SeamConfigValidationMessages.UNRESOLVED_MEMBER, "v:method1"), 42);
-		AbstractResourceMarkerTest.assertMarkerIsNotCreated(f, MessageFormat.format(SeamConfigValidationMessages.UNRESOLVED_METHOD, "v:method1"), 42);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(f, ".*", 42);
 
-		AbstractResourceMarkerTest.assertMarkerIsCreated(f, MessageFormat.format(SeamConfigValidationMessages.UNRESOLVED_METHOD, "v:method1"), 47);
+		message = NLS.bind(SeamConfigValidationMessages.UNRESOLVED_METHOD, "method1(Boolean)", "MyBean1");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(f, message, 47);
 	}
 
 	public void testAnnotationMemberResolution() throws CoreException {
-		AbstractResourceMarkerTest.assertMarkerIsCreated(f, MessageFormat.format(SeamConfigValidationMessages.UNRESOLVED_MEMBER, "v:field3"), 15);
-		AbstractResourceMarkerTest.assertMarkerIsNotCreated(f, MessageFormat.format(SeamConfigValidationMessages.UNRESOLVED_MEMBER, "v:field1"));
+		String message = NLS.bind(SeamConfigValidationMessages.UNRESOLVED_METHOD, "param()", "Named");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(f, message, 21);
+		message = NLS.bind(SeamConfigValidationMessages.UNRESOLVED_METHOD, "value()", "Named");
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(f, message, 28);
 	}
 
 	public void testSettingInlineBeanValuesToBeanOrSetOrMap() throws CoreException {
@@ -136,7 +143,8 @@ public class SeamConfigValidationTest extends TestCase {
 		AbstractResourceMarkerTest.assertMarkerIsNotCreated(f, MessageFormat.format(SeamConfigValidationMessages.UNRESOLVED_TYPE, "v:MyBean2"), 8);
 		
 		GenericBeanValidationTest.removeFile(project, path);
-		AbstractResourceMarkerTest.assertMarkerIsCreated(f, MessageFormat.format(SeamConfigValidationMessages.UNRESOLVED_TYPE, "v:MyBean2"), 8);
+		String message = NLS.bind(SeamConfigValidationMessages.UNRESOLVED_TYPE, "org.jboss.beans.validation.test.MyBean2");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(f, message, 8);
 	}
 
 	/**
@@ -147,8 +155,8 @@ public class SeamConfigValidationTest extends TestCase {
 	 * @throws CoreException
 	 */
 	public void testPreference() throws CoreException {
-		String pattern1 = MessageFormat.format(SeamConfigValidationMessages.UNRESOLVED_METHOD, "v:method1");
-		String pattern2 = MessageFormat.format(SeamConfigValidationMessages.UNRESOLVED_MEMBER, "v:method2");
+		String pattern1 = MessageFormat.format(SeamConfigValidationMessages.UNRESOLVED_METHOD, "method1(Boolean)", "MyBean1");
+		String pattern2 = MessageFormat.format(SeamConfigValidationMessages.UNRESOLVED_MEMBER, "method2", "MyBean1");
 		AbstractResourceMarkerTest.assertMarkerIsCreated(f, pattern1, 47);
 		AbstractResourceMarkerTest.assertMarkerIsCreated(f, pattern2, 38);
 
