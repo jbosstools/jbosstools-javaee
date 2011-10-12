@@ -37,7 +37,7 @@
          name="%PreferencePage_Validator">
       </page>
       <page
-            category="org.jboss.tools.common.model.ui"
+            category="org.jboss.tools.common.model.ui.MainPreferencePage"
             class="org.jboss.tools.cdi.ui.preferences.CDIPreferencePage"
             id="org.jboss.tools.common.model.ui.cdi"
             name="%PreferencePage_CDI">
