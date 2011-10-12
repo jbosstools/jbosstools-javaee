@@ -13,15 +13,20 @@ package org.jboss.tools.cdi.core.util;
 import org.eclipse.core.runtime.IPath;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.IBean;
-import org.jboss.tools.cdi.core.IBeanField;
 import org.jboss.tools.cdi.core.IBeanMember;
-import org.jboss.tools.cdi.core.IBeanMethod;
 import org.jboss.tools.cdi.core.ICDIElement;
-import org.jboss.tools.cdi.core.IInitializerMethod;
 import org.jboss.tools.cdi.core.IInjectionPoint;
+import org.jboss.tools.cdi.core.IInjectionPointField;
+import org.jboss.tools.cdi.core.IInjectionPointParameter;
 import org.jboss.tools.cdi.core.IParameter;
 import org.jboss.tools.cdi.core.IProducer;
 import org.jboss.tools.cdi.internal.core.impl.AbstractBeanElement;
+import org.jboss.tools.cdi.internal.core.impl.DisposerMethod;
+import org.jboss.tools.cdi.internal.core.impl.EventBean;
+import org.jboss.tools.cdi.internal.core.impl.InitializerMethod;
+import org.jboss.tools.cdi.internal.core.impl.ObserverMethod;
+import org.jboss.tools.cdi.internal.core.impl.ProducerField;
+import org.jboss.tools.cdi.internal.core.impl.ProducerMethod;
 import org.jboss.tools.common.text.ITextSourceReference;
 
 /**
@@ -53,14 +58,22 @@ public class BeanPresentationUtil {
 		if(bean instanceof IProducer) {
 			return "@Produces";
 		}
+		if(bean instanceof EventBean) {
+			return "Event";
+		}
 		return null;
 	}
 
 	public static String getBeanLocation(IBean bean, boolean includeElementName) {
 		StringBuilder sb = new StringBuilder();
 		sb.append(SEPARATOR);
-		AbstractBeanElement e = (AbstractBeanElement)bean;
-		ITextSourceReference origin = e.getDefinition().getOriginalDefinition();
+		
+		ITextSourceReference origin = null;
+		if(bean instanceof AbstractBeanElement){
+			AbstractBeanElement e = (AbstractBeanElement)bean;
+			origin = e.getDefinition().getOriginalDefinition();
+		}
+		
 		if(origin != null) {
 			//If toString() is not enough, another interface should be introduced.
 			sb.append(origin.toString());				
@@ -86,14 +99,20 @@ public class BeanPresentationUtil {
 	public static String getCDIElementKind(ICDIElement element){
 		if(element instanceof IBean){
 			return getBeanKind((IBean)element);
-		}else if(element instanceof IInjectionPoint){
-			return "Injection Point";
-		}else if(element instanceof IInitializerMethod){
-			return "Injection Point";
-		}else if(element instanceof IBeanMethod){
-			return "Bean Method";
-		}else if(element instanceof IBeanField){
-			return "Bean Field";
+		}else if(element instanceof IInjectionPointField){
+			return "Injection Point Field";
+		}else if(element instanceof IInjectionPointParameter){
+			return "Injection Point Parameter";
+		}else if(element instanceof DisposerMethod){
+			return "Disposer Method";
+		}else if(element instanceof InitializerMethod){
+			return "Initializer Method";
+		}else if(element instanceof ObserverMethod){
+			return "Observer Method";
+		}else if(element instanceof ProducerMethod){
+			return "Producer Method";
+		}else if(element instanceof ProducerField){
+			return "Producer Field";
 		}else if(element instanceof IParameter){
 			return "Parameter";
 		

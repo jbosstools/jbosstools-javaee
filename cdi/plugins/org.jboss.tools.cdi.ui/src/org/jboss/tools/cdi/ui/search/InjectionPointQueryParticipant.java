@@ -15,7 +15,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -110,33 +109,57 @@ public class InjectionPointQueryParticipant implements IQueryParticipant{
 							}
 						}
 					}
-					Set<IObserverMethod> observerMethods = cdiProject.resolveObserverMethods(injectionPoint);
-					for(IObserverMethod observerMethod : observerMethods){
-						if(containsInSearchScope(querySpecification, observerMethod)){
-							// match observer method
-							CDIMatch match = new CDIMatch(observerMethod);
-							if(!objects.contains(match.getPath())){
-								requestor.reportMatch(match);
-								objects.add(match.getPath());
-							}
-						}
+					Set<CDICoreNature> natures = cdiProject.getNature().getCDIProjects(true);
+					for(CDICoreNature nature : natures){
+						resolveObserverMethods(nature.getDelegate(), injectionPoint, requestor, querySpecification);
+					}
+					CDICoreNature[] naturesArray = cdiProject.getNature().getAllDependentProjects();
+					for(CDICoreNature nature : naturesArray){
+						resolveObserverMethods(nature.getDelegate(), injectionPoint, requestor, querySpecification);
 					}
 				}
 				if(element instanceof IMethod){
 					IParameter param = findObserverParameter(beans, (IMethod)element);
 					if(param != null){
-						Set<IInjectionPoint> events = cdiProject.findObservedEvents(param);
-						for(IInjectionPoint event : events){
-							if(containsInSearchScope(querySpecification, event)){
-								// match event
-								CDIMatch match = new CDIMatch(event);
-								if(!objects.contains(match.getPath())){
-									requestor.reportMatch(match);
-									objects.add(match.getPath());
-								}
-							}
+						Set<CDICoreNature> natures = cdiProject.getNature().getCDIProjects(true);
+						for(CDICoreNature nature : natures){
+							findObservedEvents(nature.getDelegate(), param, requestor, querySpecification);
+						}
+						CDICoreNature[] naturesArray = cdiProject.getNature().getAllDependentProjects();
+						for(CDICoreNature nature : naturesArray){
+							findObservedEvents(nature.getDelegate(), param, requestor, querySpecification);
 						}
 					}
+				}
+			}
+		}
+	}
+	
+	private void resolveObserverMethods(ICDIProject cdiProject, IInjectionPoint injectionPoint, ISearchRequestor requestor,
+			QuerySpecification querySpecification){
+		Set<IObserverMethod> observerMethods = cdiProject.resolveObserverMethods(injectionPoint);
+		for(IObserverMethod observerMethod : observerMethods){
+			if(containsInSearchScope(querySpecification, observerMethod)){
+				// match observer method
+				CDIMatch match = new CDIMatch(observerMethod);
+				if(!objects.contains(match.getPath())){
+					requestor.reportMatch(match);
+					objects.add(match.getPath());
+				}
+			}
+		}
+	}
+	
+	private void findObservedEvents(ICDIProject cdiProject, IParameter param, ISearchRequestor requestor,
+			QuerySpecification querySpecification){
+		Set<IInjectionPoint> events = cdiProject.findObservedEvents(param);
+		for(IInjectionPoint event : events){
+			if(containsInSearchScope(querySpecification, event)){
+				// match event
+				CDIMatch match = new CDIMatch(event);
+				if(!objects.contains(match.getPath())){
+					requestor.reportMatch(match);
+					objects.add(match.getPath());
 				}
 			}
 		}
