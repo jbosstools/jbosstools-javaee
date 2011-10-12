@@ -1,0 +1,40 @@
+.evenRow {
+	text-align: center;
+	background-color: green;
+	font-style: italic;
+	
+}
+
+.oddRow{
+	text-align: right;
+	background-color: blue;
+	font-style: oblique;
+	
+}
+
+.btn {
+	text-align: center;
+	color: DodgerBlue;
+	font-size: x-large;
+	font-style: italic;
+	background-color: Turquoise;
+	border-style: ridge;
+	border-color: DarkViolet;
+	text-decoration: overline;
+	font-weight: bolder;
+	border-width: thick;
+}
+
+
+.btn {
+	
+}
+
+.vpe-text {
+	color:red;
+}
+
+#editor {
+	background-color: red;
+	
+}

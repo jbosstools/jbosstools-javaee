@@ -19,20 +19,28 @@ public class JsfTextExtAllTests {
 
 	public static Test suite() {
 		TestSuite suite = new TestSuite(JsfTextExtAllTests.class.getName());
+
 		suite.addTest(new ProjectImportTestSetup(new TestSuite(OpenOnsTest.class),
 				"org.jboss.tools.jsf.text.ext.test",
 				new String[]{"projects/HiperlinksTestProject"},
 				new String[]{"HiperlinksTestProject"}));
 		suite.addTest(new ProjectImportTestSetup(new TestSuite(
-					JSF2CompositeOpenOnTest.class, 
-					JSF2CompositeLibOpenOnTest.class,
-					JSF2MessagesOpenOnTest.class,
-					JSF2CSSStylesheetOpenOnTest.class,
-					JSF2CCAttrsOpenOnTest.class,
-					JSF2XMLOpenOnTest.class),
-				"org.jboss.tools.jsf.text.ext.test",
-				new String[]{"projects/JSF2CompositeOpenOn"},
-				new String[]{"JSF2CompositeOpenOn"}));
+				JSF2CompositeOpenOnTest.class, 
+				JSF2CompositeLibOpenOnTest.class,
+				JSF2MessagesOpenOnTest.class,
+				JSF2CSSStylesheetOpenOnTest.class,
+				JSF2CCAttrsOpenOnTest.class,
+				JSF2XMLOpenOnTest.class),
+			"org.jboss.tools.jsf.text.ext.test",
+			new String[]{"projects/JSF2CompositeOpenOn"},
+			new String[]{"JSF2CompositeOpenOn"}));
+
+		suite.addTest(new ProjectImportTestSetup(new TestSuite(
+				JSPStylesheetRelLinkHyperlinkTest.class), 
+			"org.jboss.tools.jsf.text.ext.test",
+			new String[]{"projects/jsfHyperlinkTests"},
+			new String[]{"jsfHyperlinkTests"}));
+		
 		return suite;
 	}
 }

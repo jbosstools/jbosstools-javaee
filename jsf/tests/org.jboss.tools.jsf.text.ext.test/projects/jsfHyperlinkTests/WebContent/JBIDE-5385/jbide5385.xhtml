@@ -1,0 +1,276 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:rich="http://richfaces.org/rich" 
+      xmlns:a4j="http://richfaces.org/a4j">
+<f:loadBundle var="msg" basename="dataTable.columns.messages"/>
+<f:loadBundle var="message" basename="extendedDataTable.messages"/>
+
+<link rel="stylesheet" href="${facesContext.externalContext.requestContextPath}/JBIDE-5385/main.css" 
+type="text/css"/>
+      	<a4j:form>
+      	<rich:panel style="width : 1087px; height : 4012px;" styleClass="btn">
+      	 <f:facet name="header">
+            <h:outputText value="Main Table"/>
+        </f:facet>
+        <f:facet name="footer">
+        	<h:outputText value="End of components" />
+        </f:facet>
+        	<table>
+   				<tr>
+					<td width="30%">Component</td>
+					<td align="center" style="background-color: black; font: bold; color: white;">Problems</td>
+				</tr>
+				<tr>
+					<td>
+					<rich:panel>
+						<f:facet name="header">
+							<h:outputText value="Tooltip" />
+						</f:facet>
+						 <h:panelGrid columns="2">
+    						<rich:panel id="sample1" styleClass="tooltip-text" bodyClass="rich-laguna-panel-no-header">
+        						<p>
+            						Here you can see <b>default client-side</b> tool-tip
+        						</p>
+        						<rich:toolTip>
+            						<span style="white-space:nowrap">
+                						This tool-tip content was <strong>pre-rendered</strong> to the page.<br/>
+                						The look of this tool-tip is 100% defined by skin.
+            						</span>
+        						</rich:toolTip>
+    						</rich:panel>
+   							<rich:panel id="sample2" styleClass="tooltip-text" bodyClass="rich-laguna-panel-no-header">
+        						<p>
+            						This tool-tip will <b>follow mouse</b>. Also this tool-tip has a <b>delay 0.5 sec</b>,
+             						so be patient!
+        						</p>
+        						<rich:toolTip followMouse="true" direction="top-right" showDelay="500" styleClass="tooltip">
+            						<span  style="white-space:nowrap">
+                						This tool-tip content also <strong>pre-rendered</strong> to the page.<br/>
+                						However, the look of this tool-tip is customized<br/>
+                						by styleClass attribute.
+            						</span>
+        						</rich:toolTip>
+    						</rich:panel>
+	    					<h:form>
+    							<rich:panel  id="sample3" styleClass="tooltip-text" bodyClass="rich-laguna-panel-no-header">
+        							<p>
+            							This tool-tip rendered on server <b>in separate request</b>.
+        							</p>
+        							<rich:toolTip direction="top-right" mode="ajax" styleClass="tooltip" layout="block">
+            							<f:facet name="defaultContent">
+                							<strong>Wait...</strong>
+            							</f:facet>
+            							<span   style="white-space:nowrap">This tool-tip content was <strong>rendered on server</strong>
+             							</span>
+            							<h:panelGrid columns="2">
+                							<h:outputText   style="white-space:nowrap" value="tooltips requested:" />
+                							<h:outputText value="#{toolTipData.tooltipCounter}" styleClass="tooltipData" />
+            							</h:panelGrid>
+        							</rich:toolTip>
+    							</rich:panel> 
+    						</h:form>
+    						<h:form>
+    							<rich:panel  id="sample4" styleClass="tooltip-text" bodyClass="rich-laguna-panel-no-header">
+        							<p>
+            							This tool-tip will be <b>activated on mouse click</b>. It also has a <b>bottom-left</b> position.
+        							</p>
+        							<rich:toolTip showEvent="onclick" direction="bottom-left" mode="ajax" styleClass="tooltip" layout="block">
+            							<f:facet name="defaultContent">
+                							<strong>Wait...</strong>
+            							</f:facet>
+            							<span   style="white-space:nowrap">This tool-tip content was <strong>rendered on server</strong><br/></span>
+            							<h:panelGrid columns="2">
+                							<h:outputText  style="white-space:nowrap" value="tooltips requested:" />
+                							<h:outputText value="#{toolTipData.tooltipCounter}" styleClass="tooltipData" />
+           							 	</h:panelGrid>
+        							</rich:toolTip>
+    							</rich:panel>
+    						</h:form>
+						</h:panelGrid>
+					</rich:panel>
+					</td>
+					<td>
+						<ul>
+							<li>
+								There no problems
+							</li>
+						</ul>
+					</td>
+				</tr>
+				<tr>
+					<td>
+					<rich:panel>
+						<f:facet name="header">
+							<h:outputText value="Tool Bar &amp; Tool Bar  Group" />
+						</f:facet>
+						<rich:toolBar contentClass="btn" height="26" itemSeparator="line" separatorClass="btn" styleClass="btn">
+	  						<rich:toolBarGroup style="font-style:italic;background-color:Cornsilk;text-decoration:overline;font-family:Arial Narrow;font-weight:bolder;" width="500">
+		  						<h:graphicImage value="images/icons/create_doc.gif" styleClass="pic"/>
+		  						<h:graphicImage value="images/icons/create_folder.gif" styleClass="pic"/>
+		  						<h:graphicImage value="images/icons/copy.gif" styleClass="pic"/>
+	  						</rich:toolBarGroup>
+	  						<rich:toolBarGroup location="right">
+		  						<h:graphicImage value="images/icons/save.gif" styleClass="pic"/>
+		  						<h:graphicImage value="images/icons/save_as.gif" styleClass="pic"/>
+		  						<h:graphicImage value="images/icons/save_all.gif" styleClass="pic"/>
+	  						</rich:toolBarGroup>
+	  						<rich:toolBarGroup location="right">
+		  						<h:graphicImage value="images/icons/find.gif" styleClass="pic"/>
+		  						<h:graphicImage value="images/icons/filter.gif" styleClass="pic"/>
+	  						</rich:toolBarGroup>
+						</rich:toolBar>
+						<h:form>
+		<rich:toolBar height="34" contentStyle="color:PaleVioletRed;font-size:medium;font-style:italic;background-color:FloralWhite;font-family:Arial TUR;font-weight:bolder;" 
+			itemSeparator="line" styleClass="evenRow" separatorClass="btn">
+			<rich:toolBarGroup itemSeparator="grid">
+			  <h:graphicImage id="edit" value="images/icons/edit.gif" />
+			  <h:outputLabel value="Edit" for="edit" />
+			</rich:toolBarGroup>
+			<rich:toolBarGroup>						  
+			  <h:graphicImage id="find" value="images/icons/find.gif" />
+			  <h:outputLabel value="Find" for="find" />
+			</rich:toolBarGroup>
+			<rich:toolBarGroup>						  
+			  <h:graphicImage id="filter" value="images/icons/filter.gif" />
+			  <h:outputLabel value="Filter" for="filter" />
+			</rich:toolBarGroup>
+			<rich:toolBarGroup location="right">
+				<h:inputText styleClass="barsearch" />
+				<h:commandButton styleClass="barsearchbutton" onclick="return false;"  value="Search" />
+			</rich:toolBarGroup>
+		</rich:toolBar>
+		</h:form>
+		<h:form>
+		<h:panelGrid columns="3" width="100%" cellpadding="0" cellspacing="0" style="margin-bottom : 4px">
+			<rich:panel bodyClass="rich-laguna-panel-no-header">
+				<h:panelGrid columns="8">
+				<h:outputText value="Group Separator:" />
+				 <a4j:commandLink value="Line" reRender="bar">
+				 	<a4j:actionparam name="gs" value="line" assignTo="#{tbBean.groupSeparator}" />
+				 </a4j:commandLink>
+				 
+				 <a4j:commandLink value="Grid" reRender="bar">
+				 	<a4j:actionparam name="gs" value="grid" assignTo="#{tbBean.groupSeparator}" />
+				 </a4j:commandLink>
+				 
+				 <a4j:commandLink value="Disc" reRender="bar">
+				 	<a4j:actionparam name="gs" value="disc" assignTo="#{tbBean.groupSeparator}" />
+				 </a4j:commandLink>
+				 
+				 <a4j:commandLink value="Square" reRender="bar">
+				 	<a4j:actionparam name="gs" value="square" assignTo="#{tbBean.groupSeparator}" />
+				 </a4j:commandLink>
+				 
+				 <a4j:commandLink value="None" reRender="bar">
+				 	<a4j:actionparam name="gs" value="none" assignTo="#{tbBean.groupSeparator}" />
+				 </a4j:commandLink>
+				 </h:panelGrid>
+			</rich:panel>
+			<h:panelGroup style="padding-left : 4px">
+				<br/>
+			</h:panelGroup>
+			<rich:panel bodyClass="rich-laguna-panel-no-header">
+				<h:panelGrid columns="8">
+				<h:outputText value="Group Item Separator:" />
+				 <a4j:commandLink value="Line" reRender="bar">
+				 	<a4j:actionparam name="gs" value="line" assignTo="#{tbBean.groupItemSeparator}" />
+				 </a4j:commandLink>
+				 
+				 <a4j:commandLink value="Grid" reRender="bar">
+				 	<a4j:actionparam name="gs" value="grid" assignTo="#{tbBean.groupItemSeparator}" />
+				 </a4j:commandLink>
+
+				 <a4j:commandLink value="Disc" reRender="bar">
+				 	<a4j:actionparam name="gs" value="disc" assignTo="#{tbBean.groupItemSeparator}" />
+				 </a4j:commandLink>
+				 
+				 <a4j:commandLink value="Square" reRender="bar">
+				 	<a4j:actionparam name="gs" value="square" assignTo="#{tbBean.groupItemSeparator}" />
+				 </a4j:commandLink>
+				 
+				 <a4j:commandLink value="None" reRender="bar">
+				 	<a4j:actionparam name="gs" value="none" assignTo="#{tbBean.groupItemSeparator}" />
+				 </a4j:commandLink>
+				 </h:panelGrid>
+			</rich:panel>
+		</h:panelGrid>				
+	</h:form>	
+
+	<rich:toolBar contentClass="btn" contentStyle="color:PaleVioletRed;font-size:medium;font-style:italic;background-color:FloralWhite;font-family:Arial TUR;font-weight:bolder;" id="bar" height="30" itemSeparator="#{tbBean.groupSeparator}" style="color:Cornsilk;font-style:italic;background-color:Orchid;text-decoration:underline;font-family:Arial Narrow,Bodoni MT;font-weight:bold;">
+		<rich:toolBarGroup itemSeparator="#{tbBean.groupItemSeparator}">
+			<h:outputText value="Group1.1"></h:outputText>
+			<h:outputText value="Group1.2"></h:outputText>
+			<h:outputText value="Group1.3"></h:outputText>
+		</rich:toolBarGroup>
+		<rich:toolBarGroup itemSeparator="#{tbBean.groupItemSeparator}">
+			<h:outputText value="Group2.1"></h:outputText>
+			<h:outputText value="Group2.2"></h:outputText>
+		</rich:toolBarGroup>
+		<rich:toolBarGroup location="right"   itemSeparator="#{tbBean.groupItemSeparator}">
+			<h:outputText value="Group3.1"></h:outputText>
+			<h:outputText value="Group3.2"></h:outputText>
+		</rich:toolBarGroup>
+	</rich:toolBar>
+					</rich:panel>
+					</td>
+					<td>
+						<ul>
+							<li>
+								There no problems
+							</li>
+						</ul>
+					</td>
+				</tr>
+				<tr>
+					<td>
+					<rich:panel>
+						<f:facet name="header">
+							<h:outputText value="Tooltip" />
+						</f:facet>
+						<rich:togglePanel id="panel" initialState="panelB" switchType="client"
+
+                        stateOrder="panelA,panelB,panelC">
+
+        <f:facet name="panelA">
+
+            ...
+
+        </f:facet>
+
+        <f:facet name="panelB">
+
+            ...
+
+        </f:facet>
+
+        <f:facet name="panelC">
+
+            ...
+
+        </f:facet>
+
+    </rich:togglePanel> 
+
+    <rich:toggleControl for="panel" value="Switch" style=""/>
+					</rich:panel>
+					</td>
+					<td>
+						<ul>
+							<li>
+								There no problems
+							</li>
+						</ul>
+					</td>
+				</tr>
+   			</table>
+   			</rich:panel>
+   			<rich:panel style="text-align:center">
+   				<h:outputLink value="${facesContext.externalContext.requestContextPath}/pages/allComponents3.jsf">
+									<f:verbatim>PREVIUOS PAGE</f:verbatim>
+				</h:outputLink>
+   			</rich:panel>				
+   			</a4j:form>
+</ui:composition>
