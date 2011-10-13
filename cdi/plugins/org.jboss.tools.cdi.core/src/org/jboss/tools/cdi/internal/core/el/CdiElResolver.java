@@ -51,7 +51,7 @@ public class CdiElResolver extends AbstractELCompletionEngine<IBean> {
 	 */
 	@Override
 	public Image getELProposalImage() {
-		return null;
+		return CDIImages.BEAN_METHOD_IMAGE;
 	}
 
 	@Override
