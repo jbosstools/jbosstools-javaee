@@ -562,17 +562,20 @@ public class AssignableBeansDialog extends PopupDialog {// TitleAreaDialog {
 	static Color gray = new Color(null, 128, 128, 128);
 	static Color black = new Color(null, 0, 0, 0);
 
-	static Styler ELIGIBLE_NAME = new DefaultStyler(black, false);
-	static Styler ELIGIBLE_QUALIFIER = new DefaultStyler(gray, false);
-	static Styler DISABLED = new DefaultStyler(gray, false);
+	static Styler RESOLVED_NAME = new DefaultStyler(black, true, false);
+	static Styler ELIGIBLE_NAME = new DefaultStyler(black, false, false);
+	static Styler ELIGIBLE_QUALIFIER = new DefaultStyler(gray, false, false);
+	static Styler DISABLED = new DefaultStyler(gray, false, false);
 
 	private static class DefaultStyler extends Styler {
-		private final Color foreground;
-		private final boolean italic;
+		private Color foreground;
+		private boolean bold;
+		private boolean italic;
 
-		public DefaultStyler(Color foreground, boolean italic) {
+		public DefaultStyler(Color foreground, boolean bold, boolean italic) {
 			this.foreground = foreground;
 			this.italic = italic;
+			this.bold = bold;
 		}
 
 		public void applyStyles(TextStyle textStyle) {
@@ -581,6 +584,9 @@ public class AssignableBeansDialog extends PopupDialog {// TitleAreaDialog {
 			}
 			if(italic) {
 				textStyle.font = JFaceResources.getFontRegistry().getItalic(JFaceResources.DEFAULT_FONT);
+			}
+			if(bold) {
+				textStyle.font = JFaceResources.getFontRegistry().getBold(JFaceResources.DEFAULT_FONT);
 			}
 		}
 	}
@@ -602,7 +608,9 @@ public class AssignableBeansDialog extends PopupDialog {// TitleAreaDialog {
 		}
 		public StyledString getStyledText(Object element) {
 			IBean b = (IBean)element;
-			Styler nameStyler = eligibleBeans.contains(b) ? ELIGIBLE_NAME : DISABLED;
+			RESOLVED_NAME = new DefaultStyler(black, true, false);
+			Styler nameStyler = resolvedBeans.contains(b) ? RESOLVED_NAME 
+					: eligibleBeans.contains(b) ? ELIGIBLE_NAME : DISABLED;
 			StyledString sb = new StyledString();
 
 			//1.bean kind
