@@ -43,10 +43,10 @@ public class CDISeamCoreAllTests {
 		TestSuite suite = new TestSuite("Seam Core Project Tests");
 		suite.addTestSuite(SeamServletValidationTest.class);
 		suite.addTestSuite(SeamResourceBundlesTest.class);
-		suite.addTestSuite(BundleModelTest.class);
 		suite.addTestSuite(SeamJmsValidationTest.class);
 		suite.addTestSuite(SeamResourceBundleCdiElResolverTest.class);
 		suite.addTestSuite(SeamRestValidationTest.class);
+		suite.addTestSuite(BundleModelTest.class); // should be the last in this suite because it removes/adds seam-international.jar
 		suiteAll.addTest(new SeamCoreTestSetup(suite));
 
 		suite = new TestSuite("Seam Persistence Project Tests");
