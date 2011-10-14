@@ -158,7 +158,7 @@ public class GenericInjectedPointHyperlinkDetector extends AbstractHyperlinkDete
 						resultBeanSet2.add(gpb);
 					}
 				} else if(injectionPoint.getClassBean() instanceof GenericClassBean
-					&& injectionPoint.isAnnotationPresent(CDISeamSolderConstants.INJECT_GENERIC_ANNOTATION_TYPE_NAME)) {
+					&& injectionPoint.isAnnotationPresent(((GenericClassBean)injectionPoint.getClassBean()).getVersion().getInjectGenericAnnotationTypeName())) {
 					resultBeanSet2.add(b);
 				}
 			}
