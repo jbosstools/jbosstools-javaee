@@ -12,9 +12,12 @@ package org.jboss.tools.cdi.seam.solder.core.test;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.jdt.internal.core.builder.JavaBuilder;
+import org.eclipse.wst.validation.ValidationFramework;
 import org.jboss.tools.cdi.internal.core.validation.CDIValidationMessages;
 import org.jboss.tools.cdi.seam.solder.core.validation.SeamSolderValidationMessages;
 import org.jboss.tools.common.base.test.validation.TestUtil;
@@ -181,6 +184,9 @@ public class GenericBeanValidationTest extends SeamSolderTest {
 			} else {
 				target.setContents(source.getContents(), true, false, new NullProgressMonitor());
 			}
+			if(targetPath.endsWith(".jar")) {
+				kickJava(project);
+			}
 			TestUtil.validate(target);
 		} finally {
 			ResourcesUtils.setBuildAutomatically(saveAutoBuild);
@@ -198,10 +204,17 @@ public class GenericBeanValidationTest extends SeamSolderTest {
 			IFile target = project.getFile(new Path(targetPath));
 			assertTrue(target.exists());
 			target.delete(true, new NullProgressMonitor());
+			if(targetPath.endsWith(".jar")) {
+				kickJava(project);
+			}
 			TestUtil.validate(target);
 		} finally {
 			ResourcesUtils.setBuildAutomatically(saveAutoBuild);
 			JobUtils.waitForIdle();
 		}
+	}
+
+	static void kickJava(IProject project) throws CoreException {
+		project.build(IncrementalProjectBuilder.INCREMENTAL_BUILD, "org.eclipse.jdt.core.javabuilder", null, new NullProgressMonitor());
 	}
 }
