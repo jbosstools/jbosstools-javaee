@@ -21,6 +21,9 @@ import org.eclipse.wst.validation.ValidationFramework;
 import org.jboss.tools.cdi.internal.core.validation.CDIValidationMessages;
 import org.jboss.tools.cdi.seam.solder.core.validation.SeamSolderValidationMessages;
 import org.jboss.tools.common.base.test.validation.TestUtil;
+import org.jboss.tools.common.model.filesystems.FileSystemsHelper;
+import org.jboss.tools.common.model.filesystems.impl.Libs;
+import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.ResourcesUtils;
 import org.jboss.tools.tests.AbstractResourceMarkerTest;
@@ -216,5 +219,10 @@ public class GenericBeanValidationTest extends SeamSolderTest {
 
 	static void kickJava(IProject project) throws CoreException {
 		project.build(IncrementalProjectBuilder.INCREMENTAL_BUILD, "org.eclipse.jdt.core.javabuilder", null, new NullProgressMonitor());
+		Libs libs = FileSystemsHelper.getLibs(EclipseResourceUtil.createObjectForResource(project));
+		if(libs != null) {
+			libs.requestForUpdate();
+			libs.update();
+		}
 	}
 }
