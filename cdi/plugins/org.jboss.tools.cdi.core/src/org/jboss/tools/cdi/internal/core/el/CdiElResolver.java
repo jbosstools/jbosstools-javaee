@@ -37,6 +37,7 @@ import org.jboss.tools.common.el.core.parser.ELParserUtil;
 import org.jboss.tools.common.el.core.resolver.IRelevanceCheck;
 import org.jboss.tools.common.el.core.resolver.TypeInfoCollector;
 import org.jboss.tools.common.el.core.resolver.TypeInfoCollector.MemberInfo;
+import org.jboss.tools.common.el.core.resolver.TypeInfoCollector.MemberPresentation;
 import org.jboss.tools.common.text.TextProposal;
 
 /**
@@ -46,14 +47,28 @@ public class CdiElResolver extends AbstractELCompletionEngine<IBean> {
 
 	private static ELParserFactory factory = ELParserUtil.getJbossFactory();
 
-	/* (non-Javadoc)
-	 * @see org.jboss.tools.jst.web.kb.el.AbstractELCompletionEngine#getELProposalImage()
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.common.el.core.ca.AbstractELCompletionEngine#getELProposalImageForMember(org.jboss.tools.common.el.core.resolver.TypeInfoCollector.MemberInfo)
 	 */
 	@Override
-	public Image getELProposalImage() {
-		return CDIImages.BEAN_METHOD_IMAGE;
+	public Image getELProposalImageForMember(MemberInfo memberInfo) {
+		return (memberInfo instanceof TypeInfoCollector.FieldInfo)?CDIImages.BEAN_FIELD_IMAGE:CDIImages.BEAN_METHOD_IMAGE;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.common.el.core.ca.AbstractELCompletionEngine#getELProposalImage(org.jboss.tools.common.el.core.resolver.TypeInfoCollector.MemberPresentation)
+	 */
+	@Override
+	protected Image getELProposalImage(MemberPresentation memberPresentation) {
+		return memberPresentation.isProperty()?CDIImages.BEAN_FIELD_IMAGE:CDIImages.BEAN_METHOD_IMAGE;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.common.el.core.ca.AbstractELCompletionEngine#setImage(org.jboss.tools.common.text.TextProposal, org.jboss.tools.common.el.core.resolver.IVariable)
+	 */
 	@Override
 	protected void setImage(TextProposal kbProposal, IBean var) {
 		kbProposal.setImage(CDIImages.getImageByElement(var));
@@ -154,11 +169,20 @@ public class CdiElResolver extends AbstractELCompletionEngine<IBean> {
 		return factory;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.common.el.core.ca.AbstractELCompletionEngine#isStaticMethodsCollectingEnabled()
+	 */
 	@Override
 	protected boolean isStaticMethodsCollectingEnabled() {
 		return true;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.common.el.core.ca.AbstractELCompletionEngine#createRelevanceCheck(org.eclipse.jdt.core.IJavaElement)
+	 */
+	@Override
 	public IRelevanceCheck createRelevanceCheck(IJavaElement element) {
 		return new BeanRelevanceCheck(element);
 	}
@@ -182,6 +206,11 @@ class BeanRelevanceCheck extends DefaultJavaRelevanceCheck {
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.common.el.core.ca.DefaultJavaRelevanceCheck#isRelevant(java.lang.String)
+	 */
+	@Override
 	public boolean isRelevant(String content) {
 		if(super.isRelevant(content)) {
 			return true;

@@ -39,6 +39,7 @@ import org.jboss.tools.common.el.core.resolver.ELSegment;
 import org.jboss.tools.common.el.core.resolver.ElVarSearcher;
 import org.jboss.tools.common.el.core.resolver.JavaMemberELSegment;
 import org.jboss.tools.common.el.core.resolver.TypeInfoCollector;
+import org.jboss.tools.common.el.core.resolver.TypeInfoCollector.MemberInfo;
 import org.jboss.tools.common.el.core.resolver.Var;
 import org.jboss.tools.common.text.TextProposal;
 import org.jboss.tools.seam.core.IBijectedAttribute;
@@ -75,9 +76,10 @@ public final class SeamELCompletionEngine extends AbstractELCompletionEngine<ISe
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.jboss.tools.jst.web.kb.el.AbstractELCompletionEngine#getELProposalImage()
+	 * @see org.jboss.tools.common.el.core.ca.AbstractELCompletionEngine#getELProposalImageForMember(org.jboss.tools.common.el.core.resolver.TypeInfoCollector.MemberInfo)
 	 */
-	public Image getELProposalImage() {
+	@Override
+	public Image getELProposalImageForMember(MemberInfo memberInfo) {
 		return SEAM_EL_PROPOSAL_IMAGE;
 	}
 
@@ -162,7 +164,7 @@ public final class SeamELCompletionEngine extends AbstractELCompletionEngine<ISe
 		if (isSeamMessagesComponentVariable((ISeamContextVariable)var)) {
 			proposal.setImage(SEAM_MESSAGES_PROPOSAL_IMAGE);
 		} else {
-			proposal.setImage(getELProposalImage());
+			proposal.setImage(getELProposalImageForMember(null));
 		}
 	}
 

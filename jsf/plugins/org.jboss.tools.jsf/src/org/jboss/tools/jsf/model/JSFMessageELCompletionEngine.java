@@ -66,9 +66,10 @@ public class JSFMessageELCompletionEngine extends AbstractELCompletionEngine<IVa
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.jboss.tools.common.el.core.ca.AbstractELCompletionEngine#getELProposalImage()
+	 * @see org.jboss.tools.common.el.core.ca.AbstractELCompletionEngine#getELProposalImageForMember(org.jboss.tools.common.el.core.resolver.TypeInfoCollector.MemberInfo)
 	 */
-	public Image getELProposalImage() {
+	@Override
+	public Image getELProposalImageForMember(MemberInfo memberInfo) {
 		return JSF_EL_MESSAGES_PROPOSAL_IMAGE;
 	}
 
@@ -259,7 +260,7 @@ public class JSFMessageELCompletionEngine extends AbstractELCompletionEngine<IVa
 					if(varName.startsWith(operand.getText())) {
 						TextProposal proposal = new TextProposal();
 						proposal.setReplacementString(varName.substring(operand.getLength()));
-						setImage(proposal);
+						proposal.setImage(getELProposalImageForMember(null));
 						proposals.add(proposal);
 					}
 				}
@@ -281,13 +282,13 @@ public class JSFMessageELCompletionEngine extends AbstractELCompletionEngine<IVa
 					TextProposal proposal = new TextProposal();
 					proposal.setReplacementString(varName.substring(operand.getLength()));
 					proposal.setLabel(varName);
-					setImage(proposal);
+					proposal.setImage(getELProposalImageForMember(null));
 					proposals.add(proposal);
 				} else if(returnEqualedVariablesOnly) {
 					TextProposal proposal = new TextProposal();
 					proposal.setReplacementString(varName);
 					proposal.setLabel(varName);
-					setImage(proposal);
+					proposal.setImage(getELProposalImageForMember(null));
 					proposals.add(proposal);
 				}
 				resolution.getLastSegment().getVariables().add(var);
@@ -355,10 +356,6 @@ public class JSFMessageELCompletionEngine extends AbstractELCompletionEngine<IVa
 		return result;
 	}
 
-	protected void setImage(TextProposal kbProposal) {
-		kbProposal.setImage(getELProposalImage());
-	}
-	
 	protected void resolveLastSegment(ELInvocationExpression expr, 
 			List<Variable> members,
 			ELResolutionImpl resolution,
@@ -400,7 +397,7 @@ public class JSFMessageELCompletionEngine extends AbstractELCompletionEngine<IVa
 						TextProposal kbProposal = new TextProposal();
 						kbProposal.setReplacementString(proposal);
 						kbProposal.setLabel(proposal);
-						setImage(kbProposal);
+						kbProposal.setImage(getELProposalImageForMember(null));
 
 						kbProposals.add(kbProposal);
 
@@ -411,7 +408,7 @@ public class JSFMessageELCompletionEngine extends AbstractELCompletionEngine<IVa
 					TextProposal kbProposal = new TextProposal();
 					kbProposal.setReplacementString(proposal.substring(filter.length()));
 					kbProposal.setLabel(proposal);
-					kbProposal.setImage(getELProposalImage());
+					kbProposal.setImage(getELProposalImageForMember(null));
 					
 					kbProposals.add(kbProposal);
 				}
@@ -452,7 +449,7 @@ public class JSFMessageELCompletionEngine extends AbstractELCompletionEngine<IVa
 						TextProposal kbProposal = new TextProposal();
 						kbProposal.setReplacementString(proposal);
 						kbProposal.setLabel(proposal);
-						setImage(kbProposal);
+						kbProposal.setImage(getELProposalImageForMember(null));
 
 						kbProposals.add(kbProposal);
 
@@ -469,7 +466,7 @@ public class JSFMessageELCompletionEngine extends AbstractELCompletionEngine<IVa
 
 					kbProposal.setReplacementString(replacementString);
 					kbProposal.setLabel(proposal);
-					kbProposal.setImage(getELProposalImage());
+					kbProposal.setImage(getELProposalImageForMember(null));
 
 					kbProposals.add(kbProposal);
 				}
@@ -620,14 +617,14 @@ public class JSFMessageELCompletionEngine extends AbstractELCompletionEngine<IVa
 				TextProposal proposal = new TextProposal();
 				proposal.setReplacementString("['" + key + "']"); //$NON-NLS-1$ //$NON-NLS-2$
 				proposal.setLabel("['" + key + "']");
-				setImage(proposal);
+				proposal.setImage(getELProposalImageForMember(null));
 				
 				kbProposals.add(proposal);
 			} else {
 				TextProposal proposal = new TextProposal();
 				proposal.setReplacementString(key);
 				proposal.setLabel(key);
-				setImage(proposal);
+				proposal.setImage(getELProposalImageForMember(null));
 				
 				kbProposals.add(proposal);
 			}

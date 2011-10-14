@@ -1,5 +1,5 @@
 /******************************************************************************* 
- * Copyright (c) 2010 Red Hat, Inc. 
+ * Copyright (c) 2011 Red Hat, Inc. 
  * Distributed under license by Red Hat, Inc. All rights reserved. 
  * This program is made available under the terms of the 
  * Eclipse Public License v1.0 which accompanies this distribution, 
@@ -8,7 +8,6 @@
  * Contributors: 
  * Red Hat, Inc. - initial API and implementation 
  ******************************************************************************/ 
-
 package org.jboss.tools.cdi.core;
 
 import java.net.MalformedURLException;
@@ -42,6 +41,8 @@ public class CDIImages {
 	public static final Image ANNOTATION_IMAGE = CDIXMLImages.ANNOTATION_IMAGE;
 	public static final Image CDI_EVENT_IMAGE = getImage("event.png"); //$NON-NLS-1$
 
+	public static final Image MESSAGE_BUNDLE_IMAGE = getImage("message_bundle.gif"); //$NON-NLS-1$
+
 	public static final Image QUICKFIX_ADD = getImage("quickfixes/cdi_add.png"); //$NON-NLS-1$
 	public static final Image QUICKFIX_REMOVE = getImage("quickfixes/cdi_remove.png"); //$NON-NLS-1$
 	public static final Image QUICKFIX_EDIT = getImage("quickfixes/cdi_edit.png"); //$NON-NLS-1$
@@ -69,7 +70,6 @@ public class CDIImages {
 	private CDIImages parentRegistry;
 
 	protected CDIImages(URL registryUrl, CDIImages parent){
-
 		if(registryUrl == null) throw new IllegalArgumentException(CDICoreMessages.CDI_IMAGESBASE_URL_FOR_IMAGE_REGISTRY_CANNOT_BE_NULL);
 		baseUrl = registryUrl;
 		parentRegistry = parent;
@@ -92,7 +92,6 @@ public class CDIImages {
 			} else {
 				return parentRegistry.createImageDescriptor(key);
 			}
-			
 		}		
 	}
 

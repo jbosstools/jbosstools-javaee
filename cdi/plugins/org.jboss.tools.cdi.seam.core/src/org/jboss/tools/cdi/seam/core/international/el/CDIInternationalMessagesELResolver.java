@@ -26,6 +26,7 @@ import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.swt.graphics.Image;
 import org.jboss.tools.cdi.core.CDICorePlugin;
+import org.jboss.tools.cdi.core.CDIImages;
 import org.jboss.tools.cdi.seam.core.CDISeamCorePlugin;
 import org.jboss.tools.cdi.seam.core.international.BundleModelFactory;
 import org.jboss.tools.cdi.seam.core.international.IBundle;
@@ -66,15 +67,14 @@ import org.jboss.tools.jst.web.kb.internal.ResourceBundle;
  *
  */
 public class CDIInternationalMessagesELResolver extends AbstractELCompletionEngine<IVariable> {
-	private static final Image CDI_INTERNATIONAL_MESSAGE_PROPOSAL_IMAGE = 
-			CDISeamCorePlugin.getDefault().getImage(CDISeamCorePlugin.CA_CDI_MESSAGE_IMAGE_PATH);
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.jboss.tools.common.el.core.ca.AbstractELCompletionEngine#getELProposalImage()
+	 * @see org.jboss.tools.common.el.core.ca.AbstractELCompletionEngine#getELProposalImageForMember(org.jboss.tools.common.el.core.resolver.TypeInfoCollector.MemberInfo)
 	 */
-	public Image getELProposalImage() {
-		return CDI_INTERNATIONAL_MESSAGE_PROPOSAL_IMAGE;
+	@Override
+	public Image getELProposalImageForMember(MemberInfo memberInfo) {
+		return CDIImages.MESSAGE_BUNDLE_IMAGE;
 	}
 
 	private static ELParserFactory factory = ELParserUtil.getDefaultFactory();
@@ -85,6 +85,7 @@ public class CDIInternationalMessagesELResolver extends AbstractELCompletionEngi
 	 * (non-Javadoc)
 	 * @see org.jboss.tools.common.el.core.resolver.ELResolver#getParserFactory()
 	 */
+	@Override
 	public ELParserFactory getParserFactory() {
 		return factory;
 	}
@@ -93,6 +94,7 @@ public class CDIInternationalMessagesELResolver extends AbstractELCompletionEngi
 	 * (non-Javadoc)
 	 * @see org.jboss.tools.common.el.core.ca.AbstractELCompletionEngine#log(java.lang.Exception)
 	 */
+	@Override
 	protected void log(Exception e) {
 		CDISeamCorePlugin.getDefault().logError(e);
 	}
@@ -101,22 +103,23 @@ public class CDIInternationalMessagesELResolver extends AbstractELCompletionEngi
 	 * (non-Javadoc)
 	 * @see org.jboss.tools.common.el.core.resolver.ELResolver2#getProposals(org.jboss.tools.common.el.core.resolver.ELContext, java.lang.String)
 	 */
+	@Override
 	public List<TextProposal> getProposals(ELContext context, String el, int offset) {
 		return getCompletions(el, false, 0, context);
 	}
 
 	public List<TextProposal> getCompletions(String elString,
 			boolean returnEqualedVariablesOnly, int position, ELContext context) {
-		
+
 		IProject project = context == null ? null :
 			context.getResource() == null ? null :
 				context.getResource().getProject();
 		if (project == null)
 			return null;
-		
+
 		if (!CDICorePlugin.getCDI(project, true).getExtensionManager().isCDIExtensionAvailable(CDISeamCorePlugin.CDI_INTERNATIONAL_RUNTIME_EXTENTION))
 			return null;
-		
+
 		IBundleModel bundleModel = BundleModelFactory.getBundleModel(project);
 		IResourceBundle[] bundles = bundleModel == null ? null : findResourceBundles(bundleModel);
 		if (bundles == null) 
@@ -137,6 +140,7 @@ public class CDIInternationalMessagesELResolver extends AbstractELCompletionEngi
 	 * (non-Javadoc)
 	 * @see org.jboss.tools.common.el.core.resolver.ELResolver2#resolve(org.jboss.tools.common.el.core.resolver.ELContext, org.jboss.tools.common.el.core.model.ELExpression)
 	 */
+	@Override
 	public ELResolution resolve(ELContext context, ELExpression operand, int offset) {
 		ELResolutionImpl resolution = resolveELOperand(operand, context, true);
 		if(resolution != null)
@@ -152,7 +156,7 @@ public class CDIInternationalMessagesELResolver extends AbstractELCompletionEngi
 				context.getResource().getProject();
 		if (project == null)
 			return null;
-		
+
 		if (!CDICorePlugin.getCDI(project, true).getExtensionManager().isCDIExtensionAvailable(CDISeamCorePlugin.CDI_INTERNATIONAL_RUNTIME_EXTENTION))
 			return null;
 
@@ -183,6 +187,11 @@ public class CDIInternationalMessagesELResolver extends AbstractELCompletionEngi
 		return completions;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.common.el.core.ca.AbstractELCompletionEngine#parseOperand(java.lang.String)
+	 */
+	@Override
 	public ELExpression parseOperand(String operand) {
 		if(operand == null) return null;
 		String el = (operand.indexOf("#{") < 0 && operand.indexOf("${") < 0) ? "#{" + operand + "}" : operand; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
@@ -243,7 +252,7 @@ public class CDIInternationalMessagesELResolver extends AbstractELCompletionEngi
 
 					ELSegmentImpl segment = new MessagePropertyELSegmentImpl(combineLexicalTokensForExpression(left));
 					processMessageBundleSegment(expr, (MessagePropertyELSegmentImpl)segment, resolvedVariables);
-					
+
 					segment.setResolved(true);
 					for (Variable variable : resolvedVars) {
 						segment.getVariables().add(variable);						
@@ -278,16 +287,16 @@ public class CDIInternationalMessagesELResolver extends AbstractELCompletionEngi
 			if (left != null) {
 				ELSegmentImpl segment = new MessagePropertyELSegmentImpl(left.getFirstToken());
 				processMessageBundleSegment(expr, (MessagePropertyELSegmentImpl)segment, resolvedVariables);
-				
+
 				segment.setResolved(false);
 				resolution.addSegment(segment);
-	
+
 				for (Variable var : resolvedVariables) {
 					String varName = var.getName();
 					if(varName.startsWith(operand.getText())) {
 						TextProposal proposal = new TextProposal();
 						proposal.setReplacementString(varName.substring(operand.getLength()));
-						setImage(proposal);
+						proposal.setImage(getELProposalImageForMember(null));
 						proposals.add(proposal);
 					}
 				}
@@ -309,13 +318,13 @@ public class CDIInternationalMessagesELResolver extends AbstractELCompletionEngi
 					TextProposal proposal = new TextProposal();
 					proposal.setReplacementString(varName.substring(operand.getLength()));
 					proposal.setLabel(varName);
-					setImage(proposal);
+					proposal.setImage(getELProposalImageForMember(null));
 					proposals.add(proposal);
 				} else if(returnEqualedVariablesOnly) {
 					TextProposal proposal = new TextProposal();
 					proposal.setReplacementString(varName);
 					proposal.setLabel(varName);
-					setImage(proposal);
+					proposal.setImage(getELProposalImageForMember(null));
 					proposals.add(proposal);
 				}
 				resolution.getLastSegment().getVariables().add(var);
@@ -364,10 +373,6 @@ public class CDIInternationalMessagesELResolver extends AbstractELCompletionEngi
 		return result;
 	}
 
-	protected void setImage(TextProposal kbProposal) {
-		kbProposal.setImage(getELProposalImage());
-	}
-	
 	protected void resolveLastSegment(ELInvocationExpression expr, 
 			List<Variable> members,
 			ELResolutionImpl resolution,
@@ -409,7 +414,7 @@ public class CDIInternationalMessagesELResolver extends AbstractELCompletionEngi
 						TextProposal kbProposal = new TextProposal();
 						kbProposal.setReplacementString(proposal);
 						kbProposal.setLabel(proposal);
-						setImage(kbProposal);
+						kbProposal.setImage(getELProposalImageForMember(null));
 
 						kbProposals.add(kbProposal);
 
@@ -420,8 +425,8 @@ public class CDIInternationalMessagesELResolver extends AbstractELCompletionEngi
 					TextProposal kbProposal = new TextProposal();
 					kbProposal.setReplacementString(proposal.substring(filter.length()));
 					kbProposal.setLabel(proposal);
-					kbProposal.setImage(getELProposalImage());
-					
+					kbProposal.setImage(getELProposalImageForMember(null));
+
 					kbProposals.add(kbProposal);
 				}
 			}
@@ -461,7 +466,7 @@ public class CDIInternationalMessagesELResolver extends AbstractELCompletionEngi
 						TextProposal kbProposal = new TextProposal();
 						kbProposal.setReplacementString(proposal);
 						kbProposal.setLabel(proposal);
-						setImage(kbProposal);
+						kbProposal.setImage(getELProposalImageForMember(null));
 
 						kbProposals.add(kbProposal);
 
@@ -478,7 +483,7 @@ public class CDIInternationalMessagesELResolver extends AbstractELCompletionEngi
 
 					kbProposal.setReplacementString(replacementString);
 					kbProposal.setLabel(proposal);
-					kbProposal.setImage(getELProposalImage());
+					kbProposal.setImage(getELProposalImageForMember(null));
 
 					kbProposals.add(kbProposal);
 				}
@@ -489,7 +494,7 @@ public class CDIInternationalMessagesELResolver extends AbstractELCompletionEngi
 			resolution.setLastResolvedToken(expr);
 		}
 	}
-	
+
 	private void processMessageBundleSegment(ELInvocationExpression expr, MessagePropertyELSegmentImpl segment, List<Variable> variables) {
 		if(segment.getToken() == null)
 			return;
@@ -509,7 +514,6 @@ public class CDIInternationalMessagesELResolver extends AbstractELCompletionEngi
 				for (XModelObject o: os.values()) {
 					segment.addObject(o);
 				}
-				
 			}
 		}
 	}
@@ -529,7 +533,7 @@ public class CDIInternationalMessagesELResolver extends AbstractELCompletionEngi
 		}
 		return ok;
 	}
-	
+
 	private void processMessagePropertySegment(ELInvocationExpression expr, MessagePropertyELSegmentImpl segment, List<Variable> variables){
 		if(segment.getToken() == null)
 			return;
@@ -540,9 +544,9 @@ public class CDIInternationalMessagesELResolver extends AbstractELCompletionEngi
 				IBundle bundle = bundleModel.getBundle(variable.basename);
 				if(bundle == null)
 					return;
-				
+
 				String propertyName = segment.getToken().getText();
-				
+
 				IProperty prop = bundle.getProperty(trimQuotes(propertyName));
 				if(prop == null) continue;
 				Map<String, LocalizedValue> values = ((PropertyImpl)prop).getValues();
@@ -563,7 +567,7 @@ public class CDIInternationalMessagesELResolver extends AbstractELCompletionEngi
 			}
 		}
 	}
-	
+
 	public boolean findPropertyLocation(XModelObject property, String content, MessagePropertyELSegmentImpl segment) {
 		String name = property.getAttributeValue("name"); //$NON-NLS-1$
 		String nvs = property.getAttributeValue("name-value-separator"); //$NON-NLS-1$
@@ -572,7 +576,7 @@ public class CDIInternationalMessagesELResolver extends AbstractELCompletionEngi
 		segment.setMessagePropertySourceReference(i, name.length());
 		return true;
 	}
-	
+
 	protected void processSingularMember(Variable mbr, Set<TextProposal> kbProposals) {
 		// Surround the "long" keys containing the dots with [' '] 
 		TreeSet<String> keys = new TreeSet<String>(String.CASE_INSENSITIVE_ORDER);
@@ -586,15 +590,15 @@ public class CDIInternationalMessagesELResolver extends AbstractELCompletionEngi
 				TextProposal proposal = new TextProposal();
 				proposal.setReplacementString("['" + key + "']"); //$NON-NLS-1$ //$NON-NLS-2$
 				proposal.setLabel("['" + key + "']");
-				setImage(proposal);
-				
+				proposal.setImage(getELProposalImageForMember(null));
+
 				kbProposals.add(proposal);
 			} else {
 				TextProposal proposal = new TextProposal();
 				proposal.setReplacementString(key);
 				proposal.setLabel(key);
-				setImage(proposal);
-				
+				proposal.setImage(getELProposalImageForMember(null));
+
 				kbProposals.add(proposal);
 			}
 		}
@@ -618,6 +622,11 @@ public class CDIInternationalMessagesELResolver extends AbstractELCompletionEngi
 			this.f = f;
 		}
 
+		/*
+		 * (non-Javadoc)
+		 * @see org.jboss.tools.common.el.core.resolver.IVariable#getName()
+		 */
+		@Override
 		public String getName() {
 			return name;
 		}
@@ -659,11 +668,20 @@ public class CDIInternationalMessagesELResolver extends AbstractELCompletionEngi
 		return null;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.common.el.core.ca.AbstractELCompletionEngine#isStaticMethodsCollectingEnabled()
+	 */
 	@Override
 	protected boolean isStaticMethodsCollectingEnabled() {
 		return false;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.common.el.core.ca.AbstractELCompletionEngine#createRelevanceCheck(org.eclipse.jdt.core.IJavaElement)
+	 */
+	@Override
 	public IRelevanceCheck createRelevanceCheck(IJavaElement element) {
 		return IRRELEVANT;
 	}
@@ -677,5 +695,4 @@ public class CDIInternationalMessagesELResolver extends AbstractELCompletionEngi
 		}
 		return result.values().toArray(new IResourceBundle[0]);
 	}
-
 }

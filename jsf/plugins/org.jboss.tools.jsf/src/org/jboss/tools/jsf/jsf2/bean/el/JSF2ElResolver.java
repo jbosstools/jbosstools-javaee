@@ -38,12 +38,12 @@ public class JSF2ElResolver extends AbstractELCompletionEngine<IJSF2ManagedBean>
 	public static final Image JSF_EL_PROPOSAL_IMAGE = 
 		JSFModelPlugin.getDefault().getImage(JSFModelPlugin.CA_JSF_EL_IMAGE_PATH);
 
-
-	/* (non-Javadoc)
-	 * @see org.jboss.tools.jst.web.kb.el.AbstractELCompletionEngine#getELProposalImage()
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.common.el.core.ca.AbstractELCompletionEngine#getELProposalImageForMember(org.jboss.tools.common.el.core.resolver.TypeInfoCollector.MemberInfo)
 	 */
 	@Override
-	public Image getELProposalImage() {
+	public Image getELProposalImageForMember(MemberInfo memberInfo) {
 		return JSF_EL_PROPOSAL_IMAGE;
 	}
 

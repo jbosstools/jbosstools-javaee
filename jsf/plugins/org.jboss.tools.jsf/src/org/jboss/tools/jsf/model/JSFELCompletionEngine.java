@@ -26,6 +26,7 @@ import org.jboss.tools.common.el.core.parser.ELParserFactory;
 import org.jboss.tools.common.el.core.parser.ELParserUtil;
 import org.jboss.tools.common.el.core.resolver.IVariable;
 import org.jboss.tools.common.el.core.resolver.TypeInfoCollector;
+import org.jboss.tools.common.el.core.resolver.TypeInfoCollector.MemberInfo;
 import org.jboss.tools.common.model.project.IModelNature;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.jsf.JSFModelPlugin;
@@ -43,9 +44,10 @@ public class JSFELCompletionEngine extends AbstractELCompletionEngine<JSFELCompl
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.jboss.tools.jst.web.kb.el.AbstractELCompletionEngine#getELProposalImage()
+	 * @see org.jboss.tools.common.el.core.ca.AbstractELCompletionEngine#getELProposalImageForMember(org.jboss.tools.common.el.core.resolver.TypeInfoCollector.MemberInfo)
 	 */
-	public Image getELProposalImage() {
+	@Override
+	public Image getELProposalImageForMember(MemberInfo memberInfo) {
 		return JSF_EL_PROPOSAL_IMAGE;
 	}
 
