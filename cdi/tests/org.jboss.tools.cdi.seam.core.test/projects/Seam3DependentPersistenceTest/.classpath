@@ -7,7 +7,8 @@
 	<classpathentry kind="lib" path="/Seam3PersistenceTest/lib/hibernate3.jar"/>
 	<classpathentry kind="lib" path="/Seam3PersistenceTest/lib/javax.inject.jar"/>
 	<classpathentry kind="lib" path="/Seam3PersistenceTest/lib/seam-persistence.jar"/>
-	<classpathentry kind="lib" path="/Seam3PersistenceTest/lib/seam-solder.jar"/>
+	<classpathentry kind="lib" path="/Seam3PersistenceTest/lib/solder-api.jar"/>
+	<classpathentry kind="lib" path="/Seam3PersistenceTest/lib/solder-impl.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Seam3PersistenceTest"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

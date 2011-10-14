@@ -7,6 +7,7 @@
 	<classpathentry kind="lib" path="lib/hibernate3.jar"/>
 	<classpathentry kind="lib" path="lib/javax.inject.jar"/>
 	<classpathentry kind="lib" path="lib/seam-persistence.jar"/>
-	<classpathentry kind="lib" path="lib/seam-solder.jar"/>
+	<classpathentry kind="lib" path="lib/solder-api.jar"/>
+	<classpathentry kind="lib" path="lib/solder-impl.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
