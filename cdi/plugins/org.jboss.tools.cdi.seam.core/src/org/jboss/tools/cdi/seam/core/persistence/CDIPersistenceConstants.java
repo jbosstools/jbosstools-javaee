@@ -16,7 +16,8 @@ package org.jboss.tools.cdi.seam.core.persistence;
  *
  */
 public interface CDIPersistenceConstants {
-	public String EXTENSION_MANAGED_ANNOTATION_TYPE_NAME = "org.jboss.seam.solder.core.ExtensionManaged";
+	public String EXTENSION_MANAGED_ANNOTATION_TYPE_NAME = "org.jboss.solder.core.ExtensionManaged";
+	public String EXTENSION_MANAGED_ANNOTATION_TYPE_NAME_30 = "org.jboss.seam.solder.core.ExtensionManaged";
 
 	public String ENTITY_MANAGER_FACTORY_TYPE_NAME = "javax.persistence.EntityManagerFactory";
 	public String ENTITY_MANAGER_TYPE_NAME = "javax.persistence.EntityManager";

@@ -19,7 +19,6 @@ import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
 import org.jboss.tools.cdi.core.CDIConstants;
-import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.IProducer;
 import org.jboss.tools.cdi.core.extension.AbstractDefinitionContextExtension;
 import org.jboss.tools.cdi.core.extension.ICDIExtension;
@@ -28,12 +27,12 @@ import org.jboss.tools.cdi.core.extension.feature.IBuildParticipantFeature;
 import org.jboss.tools.cdi.internal.core.impl.BeanMember;
 import org.jboss.tools.cdi.internal.core.impl.CDIProject;
 import org.jboss.tools.cdi.internal.core.impl.ClassBean;
-import org.jboss.tools.cdi.internal.core.impl.definition.BeanMemberDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.FieldDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.MethodDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.TypeDefinition;
 import org.jboss.tools.cdi.internal.core.scanner.FileSet;
 import org.jboss.tools.cdi.seam.core.CDISeamCorePlugin;
+import org.jboss.tools.common.java.IAnnotated;
 import org.jboss.tools.common.java.ParametedType;
 import org.jboss.tools.common.java.TypeDeclaration;
 import org.jboss.tools.common.model.XModelObject;
@@ -102,7 +101,7 @@ public class CDISeamPersistenceExtension implements ICDIExtension, IBuildPartici
 			bean.setDefinition(def);
 			Set<IProducer> ps = bean.getProducers();
 			for (IProducer p: ps) {
-				if(p.getAnnotation(CDIPersistenceConstants.EXTENSION_MANAGED_ANNOTATION_TYPE_NAME) != null) {
+				if(isArtefact(p)) {
 					BeanMember m = (BeanMember)p;
 					TypeDeclaration d = m.getTypeDeclaration();
 					
@@ -140,9 +139,10 @@ public class CDISeamPersistenceExtension implements ICDIExtension, IBuildPartici
 		return false;
 	}
 
-	boolean isArtefact(BeanMemberDefinition m) {
-		return m.isAnnotationPresent(CDIConstants.PRODUCES_ANNOTATION_TYPE_NAME)
-				&& m.isAnnotationPresent(CDIPersistenceConstants.EXTENSION_MANAGED_ANNOTATION_TYPE_NAME);
+	boolean isArtefact(IAnnotated m) {
+		return (m instanceof IProducer || m.isAnnotationPresent(CDIConstants.PRODUCES_ANNOTATION_TYPE_NAME))
+				&& (m.isAnnotationPresent(CDIPersistenceConstants.EXTENSION_MANAGED_ANNOTATION_TYPE_NAME)
+					|| m.isAnnotationPresent(CDIPersistenceConstants.EXTENSION_MANAGED_ANNOTATION_TYPE_NAME_30));
 	}
 
 	private ParametedType getType(String name, CDIProject project) {
