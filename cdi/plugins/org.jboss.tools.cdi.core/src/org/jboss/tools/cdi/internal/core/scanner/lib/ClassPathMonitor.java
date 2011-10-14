@@ -72,6 +72,8 @@ public class ClassPathMonitor extends AbstractClassPathMonitor<CDICoreNature>{
 			}
 			project.getExtensionManager().pathRemoved(p);
 		}
+		boolean newRuntimeDetected = false;
+		Set<String> processed = new HashSet<String>(processedPaths);
 		for (int i = 0; i < paths.size(); i++) {
 			String p = paths.get(i);
 			if(!requestForLoad(p)) continue;
@@ -83,24 +85,40 @@ public class ClassPathMonitor extends AbstractClassPathMonitor<CDICoreNature>{
 			if(o == null) continue;
 
 			//Load cdi extensions. Do we need beans.xml to look for extensions?
-			project.getExtensionManager().setRuntimes(p, readRuntimes(o));
+			boolean nrd = project.getExtensionManager().setRuntimes(p, readRuntimes(o));
+			if(nrd) newRuntimeDetected = true;
 
 			newJars.getFileSystems().put(p, o);
 
 			XModelObject b = o.getChildByPath("META-INF/beans.xml");
-			if(b == null) {
-				continue;
+			if(b != null) {
+				newJars.getBeanModules().put(p, b);
 			}
-			newJars.getBeanModules().put(p, b);
 		}
 	
 		for (FileAnyImpl s: servicesInSrc.keySet()) {
 			IResource r = (IResource)s.getAdapter(IResource.class);
 			if(r != null && r.exists()) {
-				project.getExtensionManager().setRuntimes(r.getFullPath().toString(), readRuntimesInService(s));
+				boolean nrd = project.getExtensionManager().setRuntimes(r.getFullPath().toString(), readRuntimesInService(s));
+				if(nrd) newRuntimeDetected = true;
 			}
 		}
 		
+		if(newRuntimeDetected) {
+			for (String p: processed) {
+				String fileName = new File(p).getName();
+				if(EclipseResourceUtil.SYSTEM_JAR_SET.contains(fileName)) continue;
+				XModelObject o = FileSystemsHelper.getLibs(model).getLibrary(p);
+				if(o != null) {
+					newJars.getFileSystems().put(p, o);
+					XModelObject b = o.getChildByPath("META-INF/beans.xml");
+					if(b != null) {
+						newJars.getBeanModules().put(p, b);
+					}
+				}
+			}
+		}
+	
 		validateProjectDependencies();
 		return newJars;
 	}

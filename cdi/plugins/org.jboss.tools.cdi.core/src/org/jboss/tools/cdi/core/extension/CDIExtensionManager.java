@@ -72,23 +72,29 @@ public class CDIExtensionManager {
 		}
 	}
 
-	public void setRuntimes(String path, Set<String> newRuntimes) {
+	public boolean setRuntimes(String path, Set<String> newRuntimes) {
 		Set<String> oldRuntimes = runtimes.get(path);
 		if(oldRuntimes == null) {
-			if(newRuntimes.isEmpty()) return;
+			if(newRuntimes.isEmpty()) {
+				return false;
+			}
 			oldRuntimes = new HashSet<String>();
 		}
+		boolean result = false;
 		for (String runtime: oldRuntimes) {
 			if(!newRuntimes.contains(runtime)) {
 				deleteRuntime(runtime);
+				result = true;
 			}
 		}
 		for (String runtime: newRuntimes) {
 			if(!oldRuntimes.contains(runtime)) {
 				addRuntime(runtime);
+				result = true;
 			}
 		}
 		if(newRuntimes.isEmpty()) runtimes.remove(path); else runtimes.put(path, newRuntimes);
+		return result;
 	}
 
 	private void addRuntime(String runtime) {
