@@ -35,9 +35,15 @@ public class BundleModelTest extends SeamCoreTest {
 	}
 
 	public void testIncrementalBuildAtAddRemoveExtension() throws Exception {
+		IBundleModel originalBundleModel = BundleModelFactory.getBundleModel(getTestProject());
+		assertNotNull(originalBundleModel);
+
+		Set<String> originalBundles = originalBundleModel.getAllAvailableBundles();
+		assertFalse(originalBundles.isEmpty());
+
 		String path = "WebContent/WEB-INF/lib/seam-international.jar";
 		String original = "WebContent/WEB-INF/lib/seam-international.original";
-		
+
 		GenericBeanValidationTest.removeFile(getTestProject(), path);
 		
 		IBundleModel bundleModel = BundleModelFactory.getBundleModel(getTestProject());
@@ -47,6 +53,8 @@ public class BundleModelTest extends SeamCoreTest {
 		bundleModel = BundleModelFactory.getBundleModel(getTestProject());
 		assertNotNull(bundleModel);
 		Set<String> bundles = bundleModel.getAllAvailableBundles();
-		assertTrue(bundles.contains("com.sun.corba.se.impl.logging.LogStrings"));
+		for (String string : originalBundles) {
+			assertTrue(bundles.contains(string));
+		}
 	}
 }
