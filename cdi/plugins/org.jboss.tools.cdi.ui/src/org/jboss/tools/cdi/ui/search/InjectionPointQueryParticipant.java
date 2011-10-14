@@ -109,26 +109,12 @@ public class InjectionPointQueryParticipant implements IQueryParticipant{
 							}
 						}
 					}
-					Set<CDICoreNature> natures = cdiProject.getNature().getCDIProjects(true);
-					for(CDICoreNature nature : natures){
-						resolveObserverMethods(nature.getDelegate(), injectionPoint, requestor, querySpecification);
-					}
-					CDICoreNature[] naturesArray = cdiProject.getNature().getAllDependentProjects();
-					for(CDICoreNature nature : naturesArray){
-						resolveObserverMethods(nature.getDelegate(), injectionPoint, requestor, querySpecification);
-					}
+					resolveObserverMethods(cdiProject, injectionPoint, requestor, querySpecification);
 				}
 				if(element instanceof IMethod){
 					IParameter param = findObserverParameter(beans, (IMethod)element);
 					if(param != null){
-						Set<CDICoreNature> natures = cdiProject.getNature().getCDIProjects(true);
-						for(CDICoreNature nature : natures){
-							findObservedEvents(nature.getDelegate(), param, requestor, querySpecification);
-						}
-						CDICoreNature[] naturesArray = cdiProject.getNature().getAllDependentProjects();
-						for(CDICoreNature nature : naturesArray){
-							findObservedEvents(nature.getDelegate(), param, requestor, querySpecification);
-						}
+						findObservedEvents(cdiProject, param, requestor, querySpecification);
 					}
 				}
 			}
