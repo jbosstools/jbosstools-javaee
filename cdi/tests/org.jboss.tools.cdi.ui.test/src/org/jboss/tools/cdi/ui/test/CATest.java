@@ -14,6 +14,8 @@ import junit.framework.TestCase;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.swt.graphics.Image;
+import org.jboss.tools.cdi.core.CDIImages;
 import org.jboss.tools.cdi.core.test.tck.TCKTest;
 import org.jboss.tools.jst.jsp.test.ca.ContentAssistantTestCase;
 
@@ -26,7 +28,9 @@ public class CATest extends TestCase {
 	private ContentAssistantTestCase caTest = new ContentAssistantTestCase();
 	private static final String PAGE_NAME = "WebContent/test.jsp";
 	private String[] beanProposals = new String[] {"example", "example.com", "fishJBT", "game", "haddock", "salmon", "sheep", "tunaFarm", "whitefishJBT", "wolf"};
+	private Image[] beanImages = new Image[] {CDIImages.BEAN_CLASS_IMAGE, CDIImages.BEAN_CLASS_IMAGE, CDIImages.BEAN_CLASS_IMAGE, CDIImages.BEAN_CLASS_IMAGE, CDIImages.BEAN_CLASS_IMAGE, CDIImages.BEAN_CLASS_IMAGE, CDIImages.BEAN_CLASS_IMAGE, CDIImages.BEAN_CLASS_IMAGE, CDIImages.BEAN_CLASS_IMAGE, CDIImages.BEAN_CLASS_IMAGE};
 	private String[] propertyProposals = new String[] {"game.value", "game.initialize()"};
+	private Image[] propertyImages = new Image[] {CDIImages.BEAN_FIELD_IMAGE, CDIImages.BEAN_METHOD_IMAGE};
 
 	public void setUp() {
 		project = ResourcesPlugin.getWorkspace().getRoot().getProject(TCKTest.PROJECT_NAME);
@@ -34,7 +38,16 @@ public class CATest extends TestCase {
 	}
 
 	public void testEL() {
-		caTest.checkProposals(PAGE_NAME, "value=\"#{", 9, beanProposals, false);
-		caTest.checkProposals(PAGE_NAME, "rendered=\"#{(game.", 18, propertyProposals, false);
+//		System.out.println("BEAN_CLASS_IMAGE - "+CDIImages.BEAN_CLASS_IMAGE);
+//		System.out.println("BEAN_METHOD_IMAGE - "+CDIImages.BEAN_METHOD_IMAGE);
+//		System.out.println("BEAN_FIELD_IMAGE - "+CDIImages.BEAN_FIELD_IMAGE);
+//		
+//		System.out.println("INJECTION_POINT_IMAGE - "+CDIImages.INJECTION_POINT_IMAGE);
+//		System.out.println("ANNOTATION_IMAGE - "+CDIImages.ANNOTATION_IMAGE);
+//		System.out.println("CDI_EVENT_IMAGE - "+CDIImages.CDI_EVENT_IMAGE);
+//		System.out.println("MESSAGE_BUNDLE_IMAGE - "+CDIImages.MESSAGE_BUNDLE_IMAGE);
+		
+		caTest.checkProposals(PAGE_NAME, "value=\"#{", 9, beanProposals, beanImages, false);
+		caTest.checkProposals(PAGE_NAME, "rendered=\"#{(game.", 18, propertyProposals, propertyImages, false);
 	}
 }
