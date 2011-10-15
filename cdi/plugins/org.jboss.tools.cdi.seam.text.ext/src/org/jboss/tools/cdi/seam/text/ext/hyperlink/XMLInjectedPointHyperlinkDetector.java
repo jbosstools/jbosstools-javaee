@@ -105,7 +105,7 @@ public class XMLInjectedPointHyperlinkDetector extends InjectedPointHyperlinkDet
 			}
 			
 		if(elementFile != null)
-			findInjectedBeans(cdiNature, element, offset, elementFile, hyperlinks);
+			findInjectedBeans(cdiNature, element, offset, elementFile.getFullPath(), hyperlinks);
 		
 			if (hyperlinks != null && !hyperlinks.isEmpty()) {
 				return (IHyperlink[])hyperlinks.toArray(new IHyperlink[hyperlinks.size()]);

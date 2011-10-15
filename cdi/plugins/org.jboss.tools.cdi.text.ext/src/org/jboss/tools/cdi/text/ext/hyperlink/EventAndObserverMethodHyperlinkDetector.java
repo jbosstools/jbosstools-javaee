@@ -14,14 +14,14 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.ICodeAssist;
-import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.ISourceRange;
 import org.eclipse.jdt.core.IType;
+import org.eclipse.jdt.core.ITypeRoot;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.internal.ui.javaeditor.EditorUtility;
 import org.eclipse.jdt.internal.ui.javaeditor.JavaEditor;
@@ -53,11 +53,8 @@ public class EventAndObserverMethodHyperlinkDetector extends AbstractHyperlinkDe
 		
 		int offset= region.getOffset();
 		
-		IJavaElement input= EditorUtility.getEditorInputJavaElement(textEditor, false);
+		IJavaElement input= EditorUtility.getEditorInputJavaElement(textEditor, true);
 		if (input == null)
-			return null;
-
-		if (input.getResource() == null || input.getResource().getProject() == null)
 			return null;
 
 		IDocument document= textEditor.getDocumentProvider().getDocument(textEditor.getEditorInput());
@@ -65,19 +62,14 @@ public class EventAndObserverMethodHyperlinkDetector extends AbstractHyperlinkDe
 		if (wordRegion == null)
 			return null;
 		
-		IFile file = null;
+		IProject project = null;
 		
-		try {
-			IResource resource = input.getCorrespondingResource();
-			if (resource instanceof IFile)
-				file = (IFile) resource;
-		} catch (JavaModelException e) {
-			CDIExtensionsPlugin.log(e);
-		}
+		project = input.getJavaProject().getProject();
 		
-		if(file == null)
+		if(project == null)
 			return null;
-		CDICoreNature cdiNature = CDIUtil.getCDINatureWithProgress(file.getProject());
+		
+		CDICoreNature cdiNature = CDIUtil.getCDINatureWithProgress(project);
 		if(cdiNature == null)
 			return null;
 		
@@ -93,8 +85,10 @@ public class EventAndObserverMethodHyperlinkDetector extends AbstractHyperlinkDe
 			ArrayList<IHyperlink> hyperlinks = new ArrayList<IHyperlink>();
 			int position = 0;
 			if(elements[0] instanceof IType){
-				ICompilationUnit cUnit = (ICompilationUnit)input;
-				elements[0] = cUnit.getElementAt(wordRegion.getOffset());
+				if(input instanceof ITypeRoot){
+					ITypeRoot cUnit = (ITypeRoot)input;
+					elements[0] = cUnit.getElementAt(wordRegion.getOffset());
+				}
 				if(elements[0] == null)
 					return null;
 				
@@ -104,8 +98,8 @@ public class EventAndObserverMethodHyperlinkDetector extends AbstractHyperlinkDe
 			}
 			ICDIProject cdiProject = cdiNature.getDelegate();
 			if(cdiProject != null){
-				IInjectionPoint injectionPoint = findInjectedPoint(cdiProject, elements[0], position, file);
-				Set<IParameter> param = findObserverParameter(cdiProject, elements[0], offset, file);
+				IInjectionPoint injectionPoint = findInjectedPoint(cdiProject, elements[0], position, input.getPath());
+				Set<IParameter> param = findObserverParameter(cdiProject, elements[0], offset, input.getPath());
 				if(injectionPoint != null){
 					Set<IObserverMethod> observerMethods = cdiProject.resolveObserverMethods(injectionPoint);
 
@@ -137,15 +131,15 @@ public class EventAndObserverMethodHyperlinkDetector extends AbstractHyperlinkDe
 		return null;
 	}
 	
-	private IInjectionPoint findInjectedPoint(ICDIProject cdiProject, IJavaElement element, int offset, IFile file){
-		Set<IBean> beans = cdiProject.getBeans(file.getFullPath());
+	private IInjectionPoint findInjectedPoint(ICDIProject cdiProject, IJavaElement element, int offset, IPath path){
+		Set<IBean> beans = cdiProject.getBeans(path);
 		
 		return CDIUtil.findInjectionPoint(beans, element, offset);
 	}
 	
-	private Set<IParameter> findObserverParameter(ICDIProject cdiProject, IJavaElement element, int offset, IFile file) throws JavaModelException {
+	private Set<IParameter> findObserverParameter(ICDIProject cdiProject, IJavaElement element, int offset, IPath path) throws JavaModelException {
 		HashSet<IParameter> result = new HashSet<IParameter>();
-		Set<IBean> beans = cdiProject.getBeans(file.getFullPath());
+		Set<IBean> beans = cdiProject.getBeans(path);
 		for (IBean bean: beans) {
 			if(bean instanceof IClassBean) {
 				Set<IObserverMethod> observers = ((IClassBean)bean).getObserverMethods();

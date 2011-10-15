@@ -14,13 +14,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.ICodeAssist;
-import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IType;
+import org.eclipse.jdt.core.ITypeRoot;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.internal.ui.javaeditor.EditorUtility;
 import org.eclipse.jdt.internal.ui.javaeditor.JavaEditor;
@@ -52,11 +52,8 @@ public class ProducerDisposerHyperlinkDetector extends AbstractHyperlinkDetector
 		
 		int offset= region.getOffset();
 		
-		IJavaElement input= EditorUtility.getEditorInputJavaElement(textEditor, false);
+		IJavaElement input= EditorUtility.getEditorInputJavaElement(textEditor, true);
 		if (input == null)
-			return null;
-
-		if (input.getResource() == null || input.getResource().getProject() == null)
 			return null;
 
 		IDocument document= textEditor.getDocumentProvider().getDocument(textEditor.getEditorInput());
@@ -64,20 +61,14 @@ public class ProducerDisposerHyperlinkDetector extends AbstractHyperlinkDetector
 		if (wordRegion == null)
 			return null;
 		
-		IFile file = null;
+		IProject project = null;
 		
-		try {
-			IResource resource = input.getCorrespondingResource();
-			if (resource instanceof IFile)
-				file = (IFile) resource;
-		} catch (JavaModelException e) {
-			CDIExtensionsPlugin.log(e);
-		}
+		project = input.getJavaProject().getProject();
 		
-		if(file == null)
+		if(project == null)
 			return null;
 		
-		Set<IBean> beans = getBeans(file);
+		Set<IBean> beans = getBeans(project, input.getPath());
 		
 		if(beans == null)
 			return null;
@@ -94,8 +85,10 @@ public class ProducerDisposerHyperlinkDetector extends AbstractHyperlinkDetector
 			ArrayList<IHyperlink> hyperlinks = new ArrayList<IHyperlink>();
 			if(elements[0] instanceof IType){
 				if(CDIConstants.PRODUCES_ANNOTATION_TYPE_NAME.equals(((IType) elements[0]).getFullyQualifiedName())){
-					ICompilationUnit cUnit = (ICompilationUnit)input;
-					elements[0] = cUnit.getElementAt(wordRegion.getOffset());
+					if(input instanceof ITypeRoot){
+						ITypeRoot cUnit = (ITypeRoot)input;
+						elements[0] = cUnit.getElementAt(wordRegion.getOffset());
+					}
 					if(elements[0] == null)
 						return null;
 				}
@@ -132,8 +125,8 @@ public class ProducerDisposerHyperlinkDetector extends AbstractHyperlinkDetector
 		return null;
 	}
 	
-	private Set<IBean> getBeans(IFile file){
-		CDICoreNature cdiNature = CDIUtil.getCDINatureWithProgress(file.getProject());
+	private Set<IBean> getBeans(IProject project, IPath path){
+		CDICoreNature cdiNature = CDIUtil.getCDINatureWithProgress(project);
 		
 		if(cdiNature == null)
 			return null;
@@ -145,7 +138,7 @@ public class ProducerDisposerHyperlinkDetector extends AbstractHyperlinkDetector
 			return null;
 		
 		
-		Set<IBean> beans = cdiProject.getBeans(file.getFullPath());
+		Set<IBean> beans = cdiProject.getBeans(path);
 		return beans;
 	}
 	
