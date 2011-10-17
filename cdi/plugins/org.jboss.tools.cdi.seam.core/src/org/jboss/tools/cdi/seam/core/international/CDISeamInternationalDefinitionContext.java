@@ -12,6 +12,7 @@ package org.jboss.tools.cdi.seam.core.international;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -49,47 +50,47 @@ public class CDISeamInternationalDefinitionContext extends AbstractDefinitionCon
 		allBundles = copy.allBundles;
 	}
 
-	public void clean() {
-		synchronized(bundles) {
-			bundles.clear();
-		}
-		synchronized (allBundles) {
-			allBundles.clear();
-		}
+	public synchronized void clean() {
+		bundles.clear();
+		allBundles.clear();
 	}
 
-	public void clean(IPath path) {
+	public synchronized void clean(IPath path) {
 		Set<XModelObject> bs = null;
-		synchronized(bundles) {
-			bs = bundles.remove(path);
-		}
+		bs = bundles.remove(path);
 		if(bs != null) {
-			synchronized (allBundles) {
-				allBundles.removeAll(bs);
-			}
+			allBundles.removeAll(bs);
 		}
 	}
 
-	public void addDefinitions(BundleFileSet fileSet) {
+	public synchronized void addDefinitions(BundleFileSet fileSet) {
 		for (IPath path: fileSet.getAllPaths()) {
+			clean(path);
 			Set<XModelObject> bs = fileSet.getBundles(path);
-			synchronized(bundles) {
-				bundles.put(path, bs);
-			}
-			synchronized (allBundles) {
-				allBundles.addAll(bs);
-			}
+			bundles.put(path, bs);
+			allBundles.addAll(bs);
 		}
 	}
 
-	public Set<XModelObject> getAllBundles() {
+	synchronized Set<XModelObject> getBundles() {
+		//filter out obsolete objects.
+		Iterator<XModelObject> i = allBundles.iterator();
+		while(i.hasNext()) {
+			if(!i.next().isActive()) {
+				i.remove();
+			}
+		}
+		return allBundles;
+	}
+
+	public synchronized Set<XModelObject> getAllBundles() {
 		Set<XModelObject> result = new HashSet<XModelObject>();
-		result.addAll(allBundles);
+		result.addAll(getBundles());
 		Set<CDICoreNature> ns = root.getProject().getCDIProjects(true);
 		for (CDICoreNature n: ns) {
 			CDISeamInternationalExtension extension = CDISeamInternationalExtension.getExtension(n);
 			if(extension != null) {
-				result.addAll(extension.getContext().allBundles);
+				result.addAll(extension.getContext().getBundles());
 			}
 		}
 		return result;
