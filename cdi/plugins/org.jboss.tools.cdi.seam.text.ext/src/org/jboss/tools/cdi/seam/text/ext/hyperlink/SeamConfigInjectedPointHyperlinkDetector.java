@@ -15,7 +15,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.eclipse.core.resources.IFile;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jface.text.hyperlink.IHyperlink;
 import org.jboss.tools.cdi.core.CDICoreNature;
@@ -30,14 +30,14 @@ import org.jboss.tools.common.text.ITextSourceReference;
 
 public class SeamConfigInjectedPointHyperlinkDetector extends GenericInjectedPointHyperlinkDetector {
 
-	protected void findInjectedBeans(CDICoreNature nature, IJavaElement element, int offset, IFile file, ArrayList<IHyperlink> hyperlinks){
+	protected void findInjectedBeans(CDICoreNature nature, IJavaElement element, int offset, IPath path, ArrayList<IHyperlink> hyperlinks){
 		ICDIProject cdiProject = nature.getDelegate();
 		
 		if(cdiProject == null) {
 			return;
 		}
 		
-		Set<IBean> beans = cdiProject.getBeans(file.getFullPath());
+		Set<IBean> beans = cdiProject.getBeans(path);
 		
 		Set<IInjectionPoint> injectionPoints = GenericInjectedPointHyperlinkDetector.findInjectionPoints(beans, element, offset);
 		if(injectionPoints.isEmpty()) {

@@ -15,8 +15,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.ICodeAssist;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IField;
@@ -43,7 +43,6 @@ import org.jboss.tools.cdi.core.IClassBean;
 import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.core.IInjectionPointField;
 import org.jboss.tools.cdi.core.IInjectionPointParameter;
-import org.jboss.tools.cdi.seam.solder.core.CDISeamSolderConstants;
 import org.jboss.tools.cdi.seam.solder.core.generic.GenericClassBean;
 import org.jboss.tools.cdi.text.ext.CDIExtensionsPlugin;
 
@@ -67,27 +66,19 @@ public class GenericInjectedPointHyperlinkDetector extends AbstractHyperlinkDete
 		if (input == null)
 			return null;
 
-		if (input.getResource() == null || input.getResource().getProject() == null)
-			return null;
-
 		document= textEditor.getDocumentProvider().getDocument(textEditor.getEditorInput());
 		IRegion wordRegion= JavaWordFinder.findWord(document, offset);
 		if (wordRegion == null)
 			return null;
 		
-		IFile file = null;
+		IProject project = null;
 		
-		try {
-			IResource resource = input.getCorrespondingResource();
-			if (resource instanceof IFile)
-				file = (IFile) resource;
-		} catch (JavaModelException e) {
-			CDIExtensionsPlugin.log(e);
-		}
+		project = input.getJavaProject().getProject();
 		
-		if(file == null)
+		if(project == null)
 			return null;
-		CDICoreNature cdiNature = CDIUtil.getCDINatureWithProgress(file.getProject());
+		
+		CDICoreNature cdiNature = CDIUtil.getCDINatureWithProgress(project);
 		if(cdiNature == null)
 			return null;
 		
@@ -113,7 +104,7 @@ public class GenericInjectedPointHyperlinkDetector extends AbstractHyperlinkDete
 				}
 			}
 
-			findInjectedBeans(cdiNature, elements[0], position, file, hyperlinks);
+			findInjectedBeans(cdiNature, elements[0], position, input.getPath(), hyperlinks);
 			
 			if (hyperlinks != null && !hyperlinks.isEmpty()) {
 				return (IHyperlink[])hyperlinks.toArray(new IHyperlink[hyperlinks.size()]);
@@ -124,14 +115,14 @@ public class GenericInjectedPointHyperlinkDetector extends AbstractHyperlinkDete
 		return null;
 	}
 	
-	protected void findInjectedBeans(CDICoreNature nature, IJavaElement element, int offset, IFile file, ArrayList<IHyperlink> hyperlinks){
+	protected void findInjectedBeans(CDICoreNature nature, IJavaElement element, int offset, IPath path, ArrayList<IHyperlink> hyperlinks){
 		ICDIProject cdiProject = nature.getDelegate();
 		
 		if(cdiProject == null) {
 			return;
 		}
 		
-		Set<IBean> beans = cdiProject.getBeans(file.getFullPath());
+		Set<IBean> beans = cdiProject.getBeans(path);
 		
 		Set<IInjectionPoint> injectionPoints = findInjectionPoints(beans, element, offset);
 		if(injectionPoints.isEmpty()) {
