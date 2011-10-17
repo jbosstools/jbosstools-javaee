@@ -15,6 +15,7 @@ import org.jboss.tools.jsf.ui.bot.test.smoke.CreateNewJSFProjectTest;
 import org.jboss.tools.jsf.ui.bot.test.smoke.FacesConfigCodeCompletionTest;
 import org.jboss.tools.jsf.ui.bot.test.smoke.MarkersTest;
 import org.jboss.tools.jsf.ui.bot.test.smoke.OpenOnTest;
+import org.jboss.tools.jsf.ui.bot.test.smoke.WebXmlEditorTest;
 import org.jboss.tools.jsf.ui.bot.test.templates.SetTemplateForUnknownTagTest;
 import org.jboss.tools.jsf.ui.bot.test.templates.UnknownTemplateTest;
 import org.jboss.tools.ui.bot.ext.RequirementAwareSuite;
@@ -44,7 +45,8 @@ import org.junit.runners.Suite.SuiteClasses;
   OpenOnTest.class,
   CodeCompletionTest.class,
   FacesConfigCodeCompletionTest.class,
-  MarkersTest.class
+  MarkersTest.class,
+  WebXmlEditorTest.class
 })
 public class JSFAllBotTests{
 }
