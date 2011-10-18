@@ -1,0 +1,9 @@
+package org.cdi.generic;
+
+@MyGenericType("third")
+@Qualifier2
+public class MyExtendedConfiguration extends MyConfiguration {
+	public MyExtendedConfiguration() {
+		super("");
+	}
+}

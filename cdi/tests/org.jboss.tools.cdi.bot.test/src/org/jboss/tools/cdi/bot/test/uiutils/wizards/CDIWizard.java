@@ -19,6 +19,7 @@ import org.eclipse.swtbot.swt.finder.widgets.SWTBotCheckBox;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotCombo;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotRadio;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotShell;
+import org.jboss.tools.ui.bot.ext.Timing;
 
 public class CDIWizard extends Wizard {
 
@@ -312,7 +313,7 @@ public class CDIWizard extends Wizard {
 			bot().button("Add...", 0).click();
 			SWTBotShell sh = bot().activeShell();
 			sh.bot().text().setText(intf);
-			sh.bot().sleep(1000);
+			sh.bot().sleep(Timing.time2S());
 			sh.bot().table().getTableItem(0).select();
 			sh.bot().button("OK").click();
 			setFocus();
@@ -337,7 +338,7 @@ public class CDIWizard extends Wizard {
 		}
 		SWTBotShell sh = bot().activeShell();
 		sh.bot().text().setText(qualifier);
-		sh.bot().sleep(1000);
+		sh.bot().sleep(Timing.time2S());
 		sh.bot().table().getTableItem(0).select();
 		sh.bot().button("OK").click();
 		setFocus();

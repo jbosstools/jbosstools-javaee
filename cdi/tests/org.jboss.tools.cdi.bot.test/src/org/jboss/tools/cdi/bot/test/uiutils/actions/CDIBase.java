@@ -1,3 +1,13 @@
+/*******************************************************************************
+ * Copyright (c) 2010 Red Hat, Inc.
+ * Distributed under license by Red Hat, Inc. All rights reserved.
+ * This program is made available under the terms of the
+ * Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ * Red Hat, Inc. - initial API and implementation
+ ******************************************************************************/
 package org.jboss.tools.cdi.bot.test.uiutils.actions;
 
 import java.io.File;
@@ -9,8 +19,10 @@ import java.nio.channels.FileChannel;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotEclipseEditor;
 import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotEditor;
+import org.eclipse.swtbot.swt.finder.SWTBot;
 import org.eclipse.swtbot.swt.finder.keyboard.Keystrokes;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotMenu;
+import org.eclipse.swtbot.swt.finder.widgets.SWTBotShell;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTable;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTree;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTreeItem;
@@ -51,8 +63,14 @@ public class CDIBase extends SWTTestExt {
 		} else {			
 			createCDIComponent(component, name, packageName, necessaryParam);						
 		}
-		util.waitForNonIgnoredJobs();		
-		setEd(bot.activeEditor().toTextEditor());
+		util.waitForNonIgnoredJobs();
+		/*
+		 * if beans.xml is created as first component in project,
+		 * it is not opened as default ==> there is no active editor
+		 */
+		if (component != CDICOMPONENT.BEANSXML) {
+			setEd(bot.activeEditor().toTextEditor());
+		}		
 	}
 
 	private void createCDIComponent(CDICOMPONENT component, String name,
@@ -211,6 +229,37 @@ public class CDIBase extends SWTTestExt {
 						
 		if (inChannel != null) inChannel.close();
 		if (outChannel != null) outChannel.close();		 	    	   
+	}
+	
+	/*
+	 * check if library with name libraryName is set on classpath of project with name
+	 * projectName
+	 */
+	public static void isLibraryInProjectClassPath(String projectName, String libraryName) {
+		SWTBotTree tree = projectExplorer.bot().tree();
+					
+		ContextMenuHelper.prepareTreeItemForContextMenu(tree);
+	    new SWTBotMenu(ContextMenuHelper.getContextMenu(tree,"Properties",false)).click();
+	    
+	    SWTBotShell shell = bot.shell("Properties for " + projectName);
+	    SWTBot bot = shell.bot();
+	    	   
+	    bot.tree().expandNode("Java Build Path").select();
+	   
+	    bot.tabItem("Libraries").activate();
+	    	
+	    boolean libraryInProject = false;
+	    for (int i = 0; i < bot.tree(1).rowCount(); i++) {
+	    	if (bot.tree(1).getAllItems()[i].getText().contains(libraryName)) {
+	    		libraryInProject = true;
+	    		break;
+	    	}
+	    }	  	    	   
+	    assertTrue("Library " + libraryName + "is not on classPath of project " 
+	    			+ projectName,libraryInProject);
+	    
+	    bot.button(IDELabel.Button.CANCEL).click();	    
+	    bot.sleep(TIME_1S);
 	}
 
 }

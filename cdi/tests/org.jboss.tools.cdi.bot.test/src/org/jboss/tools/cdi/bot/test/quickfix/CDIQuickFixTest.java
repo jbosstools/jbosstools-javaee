@@ -1,3 +1,13 @@
+/*******************************************************************************
+ * Copyright (c) 2010 Red Hat, Inc.
+ * Distributed under license by Red Hat, Inc. All rights reserved.
+ * This program is made available under the terms of the
+ * Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ * Red Hat, Inc. - initial API and implementation
+ ******************************************************************************/
 package org.jboss.tools.cdi.bot.test.quickfix;
 
 
@@ -10,10 +20,8 @@ import org.jboss.tools.ui.bot.ext.Timing;
 import org.jboss.tools.ui.bot.ext.config.Annotations.Require;
 import org.jboss.tools.ui.bot.ext.config.Annotations.Server;
 import org.jboss.tools.ui.bot.ext.config.Annotations.ServerState;
-import org.jboss.tools.ui.bot.ext.types.ViewType;
 import org.jboss.tools.ui.bot.ext.view.ProblemsView;
 import org.junit.After;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite.SuiteClasses;
@@ -33,17 +41,6 @@ public class CDIQuickFixTest extends CDIBase {
 	private static final String PACKAGE_NAME = "org.cdi.test";
 	private static SWTBotTreeItem[] problemsTrees;
 	private static final String LINE_SEPARATOR = System.getProperty("line.separator");	
-	
-	/*
-	 * init method "setup()" shows a project explorer view as default,
-	 * disable folding (due to easier source code editing) and add
-	 * cdi extension
-	 */
-	@BeforeClass
-	public static void setup() {
-		eclipse.showView(ViewType.PROJECT_EXPLORER);
-		CDIUtil.disableFolding(bot, util);	
-	}
 	
 	/*
 	 * check problems (warnings and errors in Problems View)

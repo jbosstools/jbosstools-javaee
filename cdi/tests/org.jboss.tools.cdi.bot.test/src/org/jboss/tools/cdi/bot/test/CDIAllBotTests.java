@@ -13,8 +13,13 @@ package org.jboss.tools.cdi.bot.test;
 import org.jboss.tools.cdi.bot.test.editor.BeansEditorTest;
 import org.jboss.tools.cdi.bot.test.openon.CDIOpenOnTest;
 import org.jboss.tools.cdi.bot.test.quickfix.CDIQuickFixTest;
+import org.jboss.tools.cdi.bot.test.seam3.CDISeam3Test;
+import org.jboss.tools.cdi.bot.test.uiutils.actions.CDIBase;
+import org.jboss.tools.cdi.bot.test.uiutils.actions.CDIUtil;
 import org.jboss.tools.cdi.bot.test.wizard.CdiATWizardTest;
 import org.jboss.tools.ui.bot.ext.RequirementAwareSuite;
+import org.jboss.tools.ui.bot.ext.types.ViewType;
+import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite.SuiteClasses;
 
@@ -34,7 +39,7 @@ import org.junit.runners.Suite.SuiteClasses;
  *  JAVA=1.6,/space/java/sdk/jdk1.6.0_22
  *  
  *  
- *  Suite duration: aprox. 12min
+ *  Suite duration: aprox. 14min
  * 
  * @author Lukas Jungmann
  * @author Jaroslav Jankovic
@@ -44,7 +49,20 @@ import org.junit.runners.Suite.SuiteClasses;
 	CdiATWizardTest.class,
 	BeansEditorTest.class,
 	CDIQuickFixTest.class,
-	CDIOpenOnTest.class
+	CDIOpenOnTest.class,
+	CDISeam3Test.class
 	})
-public class CDIAllBotTests {
+public class CDIAllBotTests extends CDIBase{
+	
+	
+	/*
+	 * init method "setup()" shows a project explorer view as default,
+	 * disable folding (due to easier source code editing)
+	 */
+	@BeforeClass
+	public static void setUpSuite() {
+		eclipse.showView(ViewType.PROJECT_EXPLORER);
+		CDIUtil.disableFolding(bot, util);
+	}
+	
 }

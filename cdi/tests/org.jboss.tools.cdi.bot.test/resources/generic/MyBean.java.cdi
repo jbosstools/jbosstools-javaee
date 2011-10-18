@@ -1,0 +1,7 @@
+package org.cdi.generic;
+
+public class MyBeanX {
+	
+	public MyBeanX(String s) {}
+
+}

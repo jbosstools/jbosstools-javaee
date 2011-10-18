@@ -1,3 +1,13 @@
+/*******************************************************************************
+ * Copyright (c) 2010 Red Hat, Inc.
+ * Distributed under license by Red Hat, Inc. All rights reserved.
+ * This program is made available under the terms of the
+ * Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ * Red Hat, Inc. - initial API and implementation
+ ******************************************************************************/
 package org.jboss.tools.cdi.bot.test.uiutils.actions;
 
 import java.io.InputStream;
@@ -42,16 +52,16 @@ public class CDIUtil {
 		String code = readStream(resource);
 		st.setText(code);
 		classEdit.save();
-		if (closeEdit)
+		if (closeEdit) {
 			classEdit.close();
+		}
 	}
 
 	public static void replaceInEditor(SWTBotEclipseEditor ed, SWTBotExt bot,
 			String target, String replacement) {
 		ed.selectRange(0, 0, ed.getText().length());
 		ed.setText(ed.getText().replace(
-				target
-						+ (replacement.equals("") ? System
+				target + (replacement.equals("") ? System
 								.getProperty("line.separator") : ""),
 				replacement));
 		bot.sleep(Timing.time1S());
