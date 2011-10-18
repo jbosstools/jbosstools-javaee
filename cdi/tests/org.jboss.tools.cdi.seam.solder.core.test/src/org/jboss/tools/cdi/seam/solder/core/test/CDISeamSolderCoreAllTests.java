@@ -46,6 +46,7 @@ public class CDISeamSolderCoreAllTests {
 		suite31.addTestSuite(MessageLoggerTest.class);
 		suite31.addTestSuite(ServiceHandlerTest.class);
 		suite31.addTestSuite(DefaultBeanTest.class);
+		suite31.addTestSuite(DefaultBeanValidationTest.class);
 		suite31.addTestSuite(UnwrapsTest.class);
 		suite31.addTestSuite(SeamServletValidationTest.class);
 
