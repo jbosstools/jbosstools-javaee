@@ -1,0 +1,25 @@
+package org.cdi.test;
+
+import javax.enterprise.inject.Disposes;
+import javax.enterprise.inject.Produces;
+import javax.inject.Inject;
+
+public class Disposes1 {
+	
+	@Inject
+	MyBean mybean;
+	
+	public Disposes1() {
+		
+	}
+	
+	public void disposeMethod(@Disposes MyBean myBean) {
+		
+	}
+	
+	@Produces
+	public MyBean produceMethod() {
+		return mybean;
+	}
+		
+}

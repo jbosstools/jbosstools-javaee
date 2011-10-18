@@ -124,26 +124,22 @@ public class CDIOpenOnTest extends CDIBase {
 	 * https://issues.jboss.org/browse/JBIDE-6251
 	 */
 	@Test
-	public void testDisposerOpenOn() {
-		/*
-		 * not implemented yet
-		 */
+	public void testDisposerProducerOpenOn() {
 		
+		String testedBean = "DisposerProducerBean";
+		createComponent(CDICOMPONENT.BEAN, "MyBean", PACKAGE_NAME, null);
+		createComponent(CDICOMPONENT.BEAN, testedBean, PACKAGE_NAME, null);
+		CDIUtil.copyResourceToClass(getEd(), CDIOpenOnTest.class
+				.getResourceAsStream("/resources/cdi/" + testedBean + ".java.cdi"),
+				false);
+		openOn("disposeMethod", testedBean + ".java", "Open Bound Producer");
+		assertTrue(getEd().toTextEditor().getSelection().equals("produceMethod"));
+		
+		openOn("produceMethod", testedBean + ".java", "Open Bound Disposer");
+		assertTrue(getEd().toTextEditor().getSelection().equals("disposeMethod"));
 	}
 	
-	/*
-	 * https://issues.jboss.org/browse/JBIDE-6311
-	 * https://issues.jboss.org/browse/JBIDE-6251
-	 * https://issues.jboss.org/browse/JBIDE-5928
-	 */
-	@Test
-	public void testProducerOpenOn() {
-		/*
-		 * not implemented yet
-		 */
-		
-	}
-	
+
 	@Test
 	public void testObserverOpenOn() {
 		/*

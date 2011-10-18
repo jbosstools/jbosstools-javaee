@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotEditor;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTree;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTreeItem;
 import org.jboss.tools.cdi.bot.test.CDIAllBotTests;
@@ -22,6 +23,7 @@ import org.jboss.tools.cdi.bot.test.quickfix.CDIQuickFixTest;
 import org.jboss.tools.cdi.bot.test.uiutils.actions.CDIBase;
 import org.jboss.tools.cdi.bot.test.uiutils.actions.CDIUtil;
 import org.jboss.tools.ui.bot.ext.RequirementAwareSuite;
+import org.jboss.tools.ui.bot.ext.SWTJBTExt;
 import org.jboss.tools.ui.bot.ext.config.Annotations.Require;
 import org.jboss.tools.ui.bot.ext.config.Annotations.Server;
 import org.jboss.tools.ui.bot.ext.config.Annotations.ServerState;
@@ -62,6 +64,7 @@ public class CDISeam3Test extends CDIBase {
 	/*
 	 * https://issues.jboss.org/browse/JBIDE-8202
 	 */	
+	
 	@Test
 	public void testResourceOpenOn() {
 			
@@ -218,67 +221,66 @@ public class CDISeam3Test extends CDIBase {
 		checkThirdOpenOnAndGeneric();
 	}
 			
-	private void checkMyGenericBean() {
-		
+	private void checkMyGenericBean() {		
+								
 	}
 
 	private void checkMyGenericBean2() {
 	
 	}
 	private void checkFirstOpenOnAndGeneric() {
-		checkOpenOnAndGeneric("first1", "Generic Configuration Point", 
+		checkOpenOnAndGeneric("first1", "MyBeanInjections.java", "Generic Configuration Point", 
 				"MyConfigurationProducer.java", "getOneConfig");
-		checkOpenOnAndGeneric("first1", "@Inject Bean", 
+		checkOpenOnAndGeneric("first1", "MyBeanInjections.java", "@Inject Bean", 
 				"MyGenericBean.java", "createMyFirstBean");	
 		
-		checkOpenOnAndGeneric("first2", "Generic Configuration Point", 
+		checkOpenOnAndGeneric("first2", "MyBeanInjections.java", "Generic Configuration Point", 
 				"MyConfigurationProducer.java", "getSecondConfig");
-		checkOpenOnAndGeneric("first2", "@Inject Bean", 
+		checkOpenOnAndGeneric("first2", "MyBeanInjections.java", "@Inject Bean", 
 				"MyGenericBean.java", "createMyFirstBean");
 		
-		checkOpenOnAndGeneric("first3", "Generic Configuration Point", 
+		checkOpenOnAndGeneric("first3", "MyBeanInjections.java", "Generic Configuration Point", 
 				"MyExtendedConfiguration.java", "MyExtendedConfiguration");
-		checkOpenOnAndGeneric("first3", "@Inject Bean", 
+		checkOpenOnAndGeneric("first3", "MyBeanInjections.java", "@Inject Bean", 
 				"MyGenericBean.java", "createMyFirstBean");
 	}
 	
 	private void checkSecondOpenOnAndGeneric() {
-		checkOpenOnAndGeneric("second1", "Generic Configuration Point", 
+		checkOpenOnAndGeneric("second1", "MyBeanInjections.java", "Generic Configuration Point", 
 				"MyConfigurationProducer.java", "getOneConfig");
-		checkOpenOnAndGeneric("second1", "@Inject Bean", 
+		checkOpenOnAndGeneric("second1", "MyBeanInjections.java", "@Inject Bean", 
 				"MyGenericBean2.java", "createMySecondBean");	
 		
-		checkOpenOnAndGeneric("second2", "Generic Configuration Point", 
+		checkOpenOnAndGeneric("second2", "MyBeanInjections.java", "Generic Configuration Point", 
 				"MyConfigurationProducer.java", "getSecondConfig");
-		checkOpenOnAndGeneric("second2", "@Inject Bean", 
+		checkOpenOnAndGeneric("second2", "MyBeanInjections.java", "@Inject Bean", 
 				"MyGenericBean2.java", "createMySecondBean");
 		
-		checkOpenOnAndGeneric("second3", "Generic Configuration Point", 
+		checkOpenOnAndGeneric("second3", "MyBeanInjections.java", "Generic Configuration Point", 
 				"MyExtendedConfiguration.java", "MyExtendedConfiguration");
-		checkOpenOnAndGeneric("second3", "@Inject Bean", 
+		checkOpenOnAndGeneric("second3", "MyBeanInjections.java", "@Inject Bean", 
 				"MyGenericBean2.java", "createMySecondBean");
 	}
 	
 	private void checkThirdOpenOnAndGeneric() {
-		checkOpenOnAndGeneric("third1", "Generic Configuration Point", 
+		checkOpenOnAndGeneric("third1", "MyBeanInjections.java", "Generic Configuration Point", 
 				"MyConfigurationProducer.java", "getOneConfig");
-		checkOpenOnAndGeneric("third1", "@Inject Bean", 
+		checkOpenOnAndGeneric("third1", "MyBeanInjections.java", "@Inject Bean", 
 				"MyGenericBean.java", "myThirdBean");	
 		
-		checkOpenOnAndGeneric("third2", "Generic Configuration Point", 
+		checkOpenOnAndGeneric("third2", "MyBeanInjections.java", "Generic Configuration Point", 
 				"MyConfigurationProducer.java", "getSecondConfig");
-		checkOpenOnAndGeneric("third2", "@Inject Bean", 
+		checkOpenOnAndGeneric("third2", "MyBeanInjections.java", "@Inject Bean", 
 				"MyGenericBean.java", "myThirdBean");
 		
-		checkOpenOnAndGeneric("third3", "Generic Configuration Point", 
+		checkOpenOnAndGeneric("third3", "MyBeanInjections.java", "Generic Configuration Point", 
 				"MyExtendedConfiguration.java", "MyExtendedConfiguration");
-		checkOpenOnAndGeneric("third3", "@Inject Bean", 
+		checkOpenOnAndGeneric("third3", "MyBeanInjections.java", "@Inject Bean", 
 				"MyGenericBean.java", "myThirdBean");
 	}
 	
-	private void checkOpenOnAndGeneric(String openOnString, String chosenOption, 
-			String afterOpenOnTitleName, String injectSelectionAtribute) {
-		String titleName = "MyBeanInjections.java";
+	private void checkOpenOnAndGeneric(String openOnString, String titleName, String chosenOption, 
+			String afterOpenOnTitleName, String injectSelectionAtribute) {		
 		openOn(openOnString, titleName, chosenOption);
 		String activeEditor = bot.activeEditor().getTitle();
 		String selectedString = bot.activeEditor().toTextEditor().getSelection();
