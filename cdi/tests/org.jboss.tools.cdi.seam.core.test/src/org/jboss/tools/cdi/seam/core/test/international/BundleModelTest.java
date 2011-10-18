@@ -34,6 +34,24 @@ public class BundleModelTest extends SeamCoreTest {
 		assertEquals("About this example application", value.getValue());
 	}
 
+	public void testIncrementalBuildAtJarModification() throws Exception {
+		IBundleModel bundleModel = BundleModelFactory.getBundleModel(getTestProject());
+		assertNotNull(bundleModel);
+
+		Set<String> bundles = bundleModel.getAllAvailableBundles();
+		assertTrue(bundles.contains("test1.xxm"));
+
+		String path = "WebContent/WEB-INF/lib/a.jar";
+		String empty = "WebContent/WEB-INF/lib/a.empty";
+		
+		GenericBeanValidationTest.writeFile(getTestProject(), empty, path);
+
+		bundleModel = BundleModelFactory.getBundleModel(getTestProject());
+		assertNotNull(bundleModel);
+		bundles = bundleModel.getAllAvailableBundles();
+		assertFalse(bundles.contains("test1.xxm"));
+	}
+
 	public void testIncrementalBuildAtAddRemoveExtension() throws Exception {
 		IBundleModel originalBundleModel = BundleModelFactory.getBundleModel(getTestProject());
 		assertNotNull(originalBundleModel);
@@ -57,4 +75,5 @@ public class BundleModelTest extends SeamCoreTest {
 			assertTrue(bundles.contains(string));
 		}
 	}
+
 }
