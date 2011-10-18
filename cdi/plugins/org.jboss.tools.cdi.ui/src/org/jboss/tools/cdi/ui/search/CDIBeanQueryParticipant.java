@@ -60,8 +60,6 @@ public class CDIBeanQueryParticipant implements IQueryParticipant{
 			
 			ICDIProject cdiProject = CDICorePlugin.getCDIProject(project, true);
 			
-			
-			
 			if(cdiProject == null) {
 				return;
 			}

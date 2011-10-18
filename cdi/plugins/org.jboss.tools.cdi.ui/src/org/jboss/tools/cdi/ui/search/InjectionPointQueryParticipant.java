@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -80,11 +80,11 @@ public class InjectionPointQueryParticipant implements IQueryParticipant{
 			ElementQuerySpecification qs = (ElementQuerySpecification)querySpecification;
 			IJavaElement element = qs.getElement();
 			if(element instanceof IMethod || element instanceof IField || element instanceof ILocalVariable){
-				IFile file = (IFile)element.getResource();
-				if(file == null)
+				IProject project = element.getJavaProject().getProject();
+				if(project == null)
 					return;
 				
-				CDICoreNature cdiNature = CDICorePlugin.getCDI(file.getProject(), true);
+				CDICoreNature cdiNature = CDICorePlugin.getCDI(project, true);
 				
 				if(cdiNature == null)
 					return;
@@ -94,7 +94,7 @@ public class InjectionPointQueryParticipant implements IQueryParticipant{
 				if(cdiProject == null)
 					return;
 				
-				Set<IBean> beans = cdiProject.getBeans(file.getFullPath());
+				Set<IBean> beans = cdiProject.getBeans(element.getPath());
 				
 				IInjectionPoint injectionPoint = CDIUtil.findInjectionPoint(beans, element, 0);
 				if(injectionPoint != null){
