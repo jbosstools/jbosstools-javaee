@@ -24,6 +24,7 @@ import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.ILocalVariable;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IType;
+import org.eclipse.jdt.core.ITypeRoot;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.internal.ui.javaeditor.EditorUtility;
 import org.eclipse.jdt.internal.ui.javaeditor.JavaEditor;
@@ -62,7 +63,7 @@ public class GenericInjectedPointHyperlinkDetector extends AbstractHyperlinkDete
 		
 		int offset= region.getOffset();
 		
-		IJavaElement input = EditorUtility.getEditorInputJavaElement(textEditor, false);
+		ITypeRoot input = EditorUtility.getEditorInputJavaElement(textEditor, false);
 		if (input == null)
 			return null;
 
@@ -85,7 +86,7 @@ public class GenericInjectedPointHyperlinkDetector extends AbstractHyperlinkDete
 		IJavaElement[] elements = null;
 		
 		try {
-			elements = ((ICodeAssist)input).codeSelect(wordRegion.getOffset(), wordRegion.getLength());
+			elements = input.codeSelect(wordRegion.getOffset(), wordRegion.getLength());
 			if (elements == null) 
 				return null;
 			if(elements.length != 1)
@@ -94,8 +95,7 @@ public class GenericInjectedPointHyperlinkDetector extends AbstractHyperlinkDete
 			ArrayList<IHyperlink> hyperlinks = new ArrayList<IHyperlink>();
 			int position = 0;
 			if(elements[0] instanceof IType){
-				ICompilationUnit cUnit = (ICompilationUnit)input;
-				elements[0] = cUnit.getElementAt(wordRegion.getOffset());
+				elements[0] = input.getElementAt(wordRegion.getOffset());
 				if(elements[0] == null)
 					return null;
 				

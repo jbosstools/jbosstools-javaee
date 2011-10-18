@@ -19,6 +19,7 @@ import org.eclipse.jdt.core.IField;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IMemberValuePair;
 import org.eclipse.jdt.core.ISourceRange;
+import org.eclipse.jdt.core.ITypeRoot;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.internal.ui.javaeditor.EditorUtility;
 import org.eclipse.jdt.internal.ui.javaeditor.JavaEditor;
@@ -42,18 +43,15 @@ public class CDISeamResourceLoadingHyperlinkDetector extends AbstractHyperlinkDe
 	public IHyperlink[] detectHyperlinks(ITextViewer textViewer,
 			IRegion region, boolean canShowMultipleHyperlinks) {
 		ITextEditor textEditor= (ITextEditor)getAdapter(ITextEditor.class);
-		if (region == null || !canShowMultipleHyperlinks || !(textEditor instanceof JavaEditor))
+		if (region == null || !(textEditor instanceof JavaEditor))
 			return null;
 		
 		int offset = region.getOffset();
 		
-		IJavaElement input= EditorUtility.getEditorInputJavaElement(textEditor, false);
+		ITypeRoot input = EditorUtility.getEditorInputJavaElement(textEditor, false);
 		if (input == null)
 			return null;
 
-		if (input.getResource() == null)
-			return null;
-		
 		IDocument document= textEditor.getDocumentProvider().getDocument(textEditor.getEditorInput());
 
 		IFile file = null;

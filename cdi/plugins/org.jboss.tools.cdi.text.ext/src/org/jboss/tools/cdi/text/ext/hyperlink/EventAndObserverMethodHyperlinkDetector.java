@@ -16,7 +16,6 @@ import java.util.Set;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IPath;
-import org.eclipse.jdt.core.ICodeAssist;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.ISourceRange;
@@ -48,12 +47,12 @@ public class EventAndObserverMethodHyperlinkDetector extends AbstractHyperlinkDe
 	public IHyperlink[] detectHyperlinks(ITextViewer textViewer,
 			IRegion region, boolean canShowMultipleHyperlinks) {
 		ITextEditor textEditor= (ITextEditor)getAdapter(ITextEditor.class);
-		if (region == null || !canShowMultipleHyperlinks || !(textEditor instanceof JavaEditor))
+		if (region == null || !(textEditor instanceof JavaEditor))
 			return null;
 		
 		int offset= region.getOffset();
 		
-		IJavaElement input= EditorUtility.getEditorInputJavaElement(textEditor, true);
+		ITypeRoot input= EditorUtility.getEditorInputJavaElement(textEditor, true);
 		if (input == null)
 			return null;
 
@@ -76,19 +75,20 @@ public class EventAndObserverMethodHyperlinkDetector extends AbstractHyperlinkDe
 		IJavaElement[] elements = null;
 		
 		try {
-			elements = ((ICodeAssist)input).codeSelect(wordRegion.getOffset(), wordRegion.getLength());
+			elements = input.codeSelect(wordRegion.getOffset(), wordRegion.getLength());
+			
 			if (elements == null) 
 				return null;
+			
 			if(elements.length != 1)
 				return null;
 			
 			ArrayList<IHyperlink> hyperlinks = new ArrayList<IHyperlink>();
 			int position = 0;
+			
 			if(elements[0] instanceof IType){
-				if(input instanceof ITypeRoot){
-					ITypeRoot cUnit = (ITypeRoot)input;
-					elements[0] = cUnit.getElementAt(wordRegion.getOffset());
-				}
+				elements[0] = input.getElementAt(wordRegion.getOffset());
+				
 				if(elements[0] == null)
 					return null;
 				
