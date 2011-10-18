@@ -1,7 +1,5 @@
 package org.jboss.tools.cdi.seam.config.ui.preferences;
 
-import org.jboss.tools.cdi.core.CDICorePlugin;
-import org.jboss.tools.cdi.core.preferences.CDIPreferences;
 import org.jboss.tools.cdi.seam.config.core.CDISeamConfigCorePlugin;
 import org.jboss.tools.cdi.seam.config.core.CDISeamConfigPreferences;
 import org.jboss.tools.cdi.seam.solder.core.CDISeamSolderCorePlugin;
@@ -34,6 +32,8 @@ public class CDISeamConfigurationBlockDescriptionProvider implements IConfigurat
 			{CDISeamSolderPreferences.AMBIGUOUS_GENERIC_CONFIGURATION_POINT, CDISeamPreferencesMessages.CDIValidatorConfigurationBlock_pb_ambiguousGenericConfigurationPoint_label},
 			{CDISeamSolderPreferences.WRONG_TYPE_OF_GENERIC_CONFIGURATION_POINT, CDISeamPreferencesMessages.CDIValidatorConfigurationBlock_pb_wrongTypeOfGenericConfigurationPoint_label},
 			{CDISeamSolderPreferences.GENERIC_CONFIGURATION_TYPE_IS_A_GENERIC_BEAN, CDISeamPreferencesMessages.CDIValidatorConfigurationBlock_pb_genericConfigurationTypeIsGenericBean_label},
+			{CDISeamSolderPreferences.DEFAULT_PRODUCER_FIELD_ON_NORMAL_SCOPED_BEAN, CDISeamPreferencesMessages.CDIValidatorConfigurationBlock_pb_defaultProducerFieldOnNormalScopedBean_label},
+			{CDISeamSolderPreferences.IDENTICAL_DEFAULT_BEANS, CDISeamPreferencesMessages.CDIValidatorConfigurationBlock_pb_identicalDefaultBeans_label},
 		},
 		CDISeamSolderCorePlugin.PLUGIN_ID
 	);

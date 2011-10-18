@@ -22,6 +22,8 @@ public class CDISeamPreferencesMessages extends NLS {
 	public static String CDIValidatorConfigurationBlock_pb_wrongTypeOfGenericConfigurationPoint_label;
 	public static String CDIValidatorConfigurationBlock_pb_wrongGenericConfigurationAnnotationReference_label;
 	public static String CDIValidatorConfigurationBlock_pb_genericConfigurationTypeIsGenericBean_label;
+	public static String CDIValidatorConfigurationBlock_pb_defaultProducerFieldOnNormalScopedBean_label;
+	public static String CDIValidatorConfigurationBlock_pb_identicalDefaultBeans_label;
 
 	public static String CDI_SEAM_VALIDATOR_PREFERENCE_PAGE_TITLE;
 	
