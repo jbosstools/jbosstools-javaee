@@ -26,6 +26,9 @@ public class SeamSolderValidationMessages {
 	public static String WRONG_GENERIC_CONFIGURATION_ANNOTATION_REFERENCE;
 	public static String GENERIC_CONFIGURATION_TYPE_IS_A_GENERIC_BEAN;
 
+	public static String DEFAULT_PRODUCER_FIELD_ON_NORMAL_SCOPED_BEAN;
+	public static String IDENTICAL_DEFAULT_BEANS;
+
 	static {
 		NLS.initializeMessages(BUNDLE_NAME, SeamSolderValidationMessages.class);
 	}

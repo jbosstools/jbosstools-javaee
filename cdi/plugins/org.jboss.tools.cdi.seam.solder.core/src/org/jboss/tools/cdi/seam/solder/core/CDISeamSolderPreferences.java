@@ -29,6 +29,9 @@ public class CDISeamSolderPreferences extends SeverityPreferences {
 	public static final String WRONG_TYPE_OF_GENERIC_CONFIGURATION_POINT = INSTANCE.createSeverityOption("wrongTypeOfGenericConfigurationPoint");
 	public static final String WRONG_GENERIC_CONFIGURATION_ANNOTATION_REFERENCE = INSTANCE.createSeverityOption("wrongGenericConfigurationAnnotationReference");
 	public static final String GENERIC_CONFIGURATION_TYPE_IS_A_GENERIC_BEAN = INSTANCE.createSeverityOption("genericConfigurationTypeIsGenericBean");
+	
+	public static final String DEFAULT_PRODUCER_FIELD_ON_NORMAL_SCOPED_BEAN = INSTANCE.createSeverityOption("defaultProducerFieldOnNormalScopedBean");
+	public static final String IDENTICAL_DEFAULT_BEANS = INSTANCE.createSeverityOption("identicalDefaultBeans");
 
 	public static CDISeamSolderPreferences getInstance() {
 		return INSTANCE;

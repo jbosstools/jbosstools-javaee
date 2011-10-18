@@ -14,23 +14,38 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.IMemberValuePair;
 import org.eclipse.jdt.core.IType;
+import org.eclipse.osgi.util.NLS;
 import org.jboss.tools.cdi.core.CDIConstants;
+import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.IBean;
+import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.IClassBean;
 import org.jboss.tools.cdi.core.IProducer;
+import org.jboss.tools.cdi.core.IProducerField;
+import org.jboss.tools.cdi.core.IQualifierDeclaration;
 import org.jboss.tools.cdi.core.IRootDefinitionContext;
+import org.jboss.tools.cdi.core.IScope;
 import org.jboss.tools.cdi.core.extension.ICDIExtension;
 import org.jboss.tools.cdi.core.extension.feature.IAmbiguousBeanResolverFeature;
 import org.jboss.tools.cdi.core.extension.feature.IProcessAnnotatedTypeFeature;
+import org.jboss.tools.cdi.core.extension.feature.IValidatorFeature;
+import org.jboss.tools.cdi.internal.core.impl.CDIProject;
 import org.jboss.tools.cdi.internal.core.impl.definition.AbstractMemberDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.FieldDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.MethodDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.TypeDefinition;
+import org.jboss.tools.cdi.internal.core.validation.CDICoreValidator;
+import org.jboss.tools.cdi.seam.solder.core.validation.SeamSolderValidationMessages;
 import org.jboss.tools.common.java.IAnnotationDeclaration;
 import org.jboss.tools.common.java.IJavaAnnotation;
+import org.jboss.tools.common.java.IParametedType;
+import org.jboss.tools.common.java.ParametedTypeFactory;
 import org.jboss.tools.common.java.impl.AnnotationLiteral;
+import org.jboss.tools.common.preferences.SeverityPreferences;
 
 /**
  * Implements support for org.jboss.seam.solder.bean.defaultbean.DefaultBeanExtension.
@@ -44,7 +59,7 @@ import org.jboss.tools.common.java.impl.AnnotationLiteral;
  * @author Viacheslav Kabanovich
  *
  */
-public class CDISeamSolderDefaultBeanExtension implements ICDIExtension, IProcessAnnotatedTypeFeature, IAmbiguousBeanResolverFeature {
+public class CDISeamSolderDefaultBeanExtension implements ICDIExtension, IProcessAnnotatedTypeFeature, IAmbiguousBeanResolverFeature, IValidatorFeature {
 
 	protected Version getVersion() {
 		return Version.instance;
@@ -117,6 +132,60 @@ public class CDISeamSolderDefaultBeanExtension implements ICDIExtension, IProces
 			result.removeAll(defaultBeans);
 		}
 		return result;
+	}
+
+	public void validateResource(IFile file, CDICoreValidator validator) {
+		String defaultBeanAnnotationTypeName = getVersion().getDefaultBeanAnnotationTypeName();
+		ICDIProject cdiProject = CDICorePlugin.getCDIProject(file.getProject(), true);
+		Set<IBean> bs = cdiProject.getBeans(file.getFullPath());
+		for (IBean bean: bs) {
+			IAnnotationDeclaration a = bean.getAnnotation(defaultBeanAnnotationTypeName);
+			if(a != null) {
+				if(bean instanceof IProducerField) {
+					IClassBean cb = ((IProducerField) bean).getClassBean();
+					IScope scope = cb.getScope();
+					if(scope != null && scope.isNorlmalScope()) {
+						validator.addError(SeamSolderValidationMessages.DEFAULT_PRODUCER_FIELD_ON_NORMAL_SCOPED_BEAN, 
+								CDISeamSolderPreferences.DEFAULT_PRODUCER_FIELD_ON_NORMAL_SCOPED_BEAN, new String[]{}, a, file);
+					}
+				}
+				IQualifierDeclaration[] qs = bean.getQualifierDeclarations().toArray(new IQualifierDeclaration[0]);
+				Set<IParametedType> ts = bean.getLegalTypes();
+				if(ts.size() < 3) {
+					IParametedType type = null;
+					for (IParametedType t: ts) {
+						if(!"java.lang.Object".equals(t.getType().getFullyQualifiedName())) {
+							type = t;
+						}
+					}
+					if(type != null) {
+						Set<IBean> bs2 = cdiProject.getBeans(false, type, qs);
+						StringBuilder otherDefaultBeans = new StringBuilder();
+						for (IBean b: bs2) {
+							try {
+							if(b != bean && b.isAnnotationPresent(defaultBeanAnnotationTypeName)
+									&& CDIProject.areMatchingQualifiers(bean.getQualifierDeclarations(), b.getQualifierDeclarations(true))) {
+								if(otherDefaultBeans.length() > 0) {
+									otherDefaultBeans.append(", ");
+								}
+								otherDefaultBeans.append(b.getElementName());
+							}
+							} catch (CoreException e) {
+								CDISeamSolderCorePlugin.getDefault().logError(e);
+							}
+						}
+						if(otherDefaultBeans.length() > 0) {
+							String message = NLS.bind(SeamSolderValidationMessages.IDENTICAL_DEFAULT_BEANS, otherDefaultBeans);
+							validator.addError(message, CDISeamSolderPreferences.IDENTICAL_DEFAULT_BEANS, new String[]{}, a, file);
+						}
+					}
+				}
+			}
+		}
+	}
+
+	public SeverityPreferences getSeverityPreferences() {
+		return CDISeamSolderPreferences.getInstance();
 	}
 
 }
