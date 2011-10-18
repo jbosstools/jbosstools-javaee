@@ -77,6 +77,7 @@ public class ClassPathMonitor extends AbstractClassPathMonitor<CDICoreNature>{
 		for (int i = 0; i < paths.size(); i++) {
 			String p = paths.get(i);
 			if(!requestForLoad(p)) continue;
+			removedPaths.add(new Path(p));
 
 			String fileName = new File(p).getName();
 			if(EclipseResourceUtil.SYSTEM_JAR_SET.contains(fileName)) continue;
@@ -261,4 +262,11 @@ public class ClassPathMonitor extends AbstractClassPathMonitor<CDICoreNature>{
 		}
 		return result;
 	}
+
+	public synchronized void libraryChanged(String path) {
+		super.libraryChanged(path);
+		removedPaths.add(new Path(path));
+		project.getExtensionManager().pathRemoved(path);
+	}
+
 }
