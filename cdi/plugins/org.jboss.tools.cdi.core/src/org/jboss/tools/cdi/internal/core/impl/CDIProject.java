@@ -876,19 +876,19 @@ public class CDIProject extends CDIElement implements ICDIProject {
 					}
 				}
 			}
-		}
-		for (IProject p: ResourcesPlugin.getWorkspace().getRoot().getProjects()) {
-			if(p.isAccessible()) {
-				CDICorePlugin.getCDI(p, true);
+			for (IProject p: ResourcesPlugin.getWorkspace().getRoot().getProjects()) {
+				if(p.isAccessible()) {
+					CDICorePlugin.getCDI(p, true);
+				}
 			}
-		}
-		CDICoreNature[] ns = getNature().getAllDependentProjects();
-		for (CDICoreNature n: ns) {
-			if(n.getDelegate() instanceof CDIProject) {
-				CDIProject p = (CDIProject)n.getDelegate();
-				for (IBean b: p.getDeclaredBeans()) {
-					if(b instanceof IClassBean) {
-						collectObserverMethods((IClassBean)b, eventType, injectionPoint, result);
+			CDICoreNature[] ns = getNature().getAllDependentProjects();
+			for (CDICoreNature n: ns) {
+				if(n.getDelegate() instanceof CDIProject) {
+					CDIProject p = (CDIProject)n.getDelegate();
+					for (IBean b: p.getDeclaredBeans()) {
+						if(b instanceof IClassBean) {
+							collectObserverMethods((IClassBean)b, eventType, injectionPoint, result);
+						}
 					}
 				}
 			}
@@ -907,7 +907,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 					result.add(m);
 				}
 			}
-		}			
+		}
 	}
 
 	/**
