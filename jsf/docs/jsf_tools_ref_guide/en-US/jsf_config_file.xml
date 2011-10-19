@@ -345,7 +345,7 @@
 		<section id="jsf_openOn">
 			<title>Open On</title>
 			<para>
-				The JSF configuration file editor comes with the very useful OpenOn navigation feature. You can find more information on this feature in the Visual Web Tools Guide.
+				The JSF configuration file editor comes with the very useful OpenOn navigation feature. You can find more information on this feature in the Visual Web Tools Reference Guide.
 			</para>
 		</section>
 
