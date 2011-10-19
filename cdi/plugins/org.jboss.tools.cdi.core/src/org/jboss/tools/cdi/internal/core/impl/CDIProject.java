@@ -23,18 +23,17 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
-import org.eclipse.jdt.core.Flags;
 import org.eclipse.jdt.core.IField;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.IMemberValuePair;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IType;
-import org.eclipse.jdt.core.JavaModelException;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.CDICorePlugin;
@@ -95,6 +94,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 	private Map<IPath, ScopeElement> scopesByPath = new HashMap<IPath, ScopeElement>();
 
 	private Set<IBean> allBeans = new HashSet<IBean>();
+	private Set<IBean> declaredBeans = new HashSet<IBean>();
 	private Map<IPath, Set<IBean>> beansByPath = new HashMap<IPath, Set<IBean>>();
 	private Map<String, Set<IBean>> beansByName = new HashMap<String, Set<IBean>>();
 	private Set<IBean> namedBeans = new HashSet<IBean>();
@@ -134,6 +134,10 @@ public class CDIProject extends CDIElement implements ICDIProject {
 	 */
 	public synchronized IBean[] getBeans() {
 		return allBeans.toArray(new IBean[allBeans.size()]);
+	}
+
+	public synchronized Set<IBean> getDeclaredBeans() {
+		return new HashSet<IBean>(declaredBeans);
 	}
 
 	public List<INodeReference> getAlternativeClasses() {
@@ -857,33 +861,53 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		return result;
 	}
 
+	/**
+	 * This method looks for observed methods in all the set of related projects.
+	 * To this end, it activates all CDI projects in workspace. 
+	 */
 	public Set<IObserverMethod> resolveObserverMethods(IInjectionPoint injectionPoint) {
 		Set<IObserverMethod> result = new HashSet<IObserverMethod>();
-
 		IParametedType eventType = getEventType(injectionPoint);
-
 		if(eventType != null) {
 			synchronized(this) {
-				for (IBean ib: allBeans) {
-					if(!(ib instanceof IClassBean)) continue;
-					IClassBean b = (IClassBean)ib;
-					Set<IObserverMethod> ms = b.getObserverMethods();
-					for (IObserverMethod m: ms) {
-						IObserverMethod om = (IObserverMethod)m;
-						Set<IParameter> params = om.getObservedParameters();
-						if(!params.isEmpty()) {
-							IParameter param = params.iterator().next();
-							IParametedType paramType = param.getType();
-							if(((ParametedType)eventType).isAssignableTo((ParametedType)paramType, true)
-									&& areMatchingEventQualifiers(param, injectionPoint)) {
-								result.add(om);
-							}
-						}
-					}			
+				for (IBean b: allBeans) {
+					if(b instanceof IClassBean) {
+						collectObserverMethods((IClassBean)b, eventType, injectionPoint, result);
+					}
+				}
+			}
+		}
+		for (IProject p: ResourcesPlugin.getWorkspace().getRoot().getProjects()) {
+			if(p.isAccessible()) {
+				CDICorePlugin.getCDI(p, true);
+			}
+		}
+		CDICoreNature[] ns = getNature().getAllDependentProjects();
+		for (CDICoreNature n: ns) {
+			if(n.getDelegate() instanceof CDIProject) {
+				CDIProject p = (CDIProject)n.getDelegate();
+				for (IBean b: p.getDeclaredBeans()) {
+					if(b instanceof IClassBean) {
+						collectObserverMethods((IClassBean)b, eventType, injectionPoint, result);
+					}
 				}
 			}
 		}
 		return result;
+	}
+
+	private void collectObserverMethods(IClassBean b, IParametedType eventType, IInjectionPoint injectionPoint, Set<IObserverMethod> result) {
+		for (IObserverMethod m: b.getObserverMethods()) {
+			Set<IParameter> params = m.getObservedParameters();
+			if(!params.isEmpty()) {
+				IParameter param = params.iterator().next();
+				IParametedType paramType = param.getType();
+				if(((ParametedType)eventType).isAssignableTo((ParametedType)paramType, true)
+						&& areMatchingEventQualifiers(param, injectionPoint)) {
+					result.add(m);
+				}
+			}
+		}			
 	}
 
 	/**
@@ -911,33 +935,54 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		return false;
 	}
 
+	/**
+	 * This method looks for observed events in all the set of related projects.
+	 * To this end, it activates all CDI projects in workspace. 
+	 */
 	public Set<IInjectionPoint> findObservedEvents(IParameter observedEventParameter) {
 		Map<IField, IInjectionPoint> result = new HashMap<IField, IInjectionPoint>();
 
 		if(observedEventParameter.getBeanMethod() instanceof IObserverMethod) {
-			IParametedType paramType = observedEventParameter.getType();
 			synchronized(this) {
-				for (IBean ib: allBeans) {
-					if(!(ib instanceof IClassBean)) {
-						continue;
-					}
-					IClassBean b = (IClassBean)ib;
-					Set<IInjectionPoint> ps = b.getInjectionPoints();
-					for (IInjectionPoint p: ps) {
-						if(p instanceof IInjectionPointField) {
-							IParametedType eventType = getEventType(p);
-							if(eventType != null && ((ParametedType)eventType).isAssignableTo((ParametedType)paramType, true)) {
-								if(areMatchingEventQualifiers(observedEventParameter, p)) {
-									 result.put(((IInjectionPointField)p).getField(), p);
-								 }
-							}
-						}
+				for (IBean b: allBeans) {
+					if(b instanceof IClassBean) {
+						collectObserverEvents((IClassBean)b, observedEventParameter, result);
 					}
 				}
+			}
+			for (IProject p: ResourcesPlugin.getWorkspace().getRoot().getProjects()) {
+				if(p.isAccessible()) {
+					CDICorePlugin.getCDI(p, true);
+				}
+			}
+			CDICoreNature[] ns = getNature().getAllDependentProjects();
+			for (CDICoreNature n: ns) {
+				if(n.getDelegate() instanceof CDIProject) {
+					CDIProject p = (CDIProject)n.getDelegate();
+					for (IBean b: p.getDeclaredBeans()) {
+						if(b instanceof IClassBean) {
+							collectObserverEvents((IClassBean)b, observedEventParameter, result);
+						}
+					}
+				}					
 			}
 		}
 
 		return new HashSet<IInjectionPoint>(result.values());
+	}
+
+	private void collectObserverEvents(IClassBean b, IParameter observedEventParameter, Map<IField, IInjectionPoint> result) {
+		Set<IInjectionPoint> ps = b.getInjectionPoints();
+		for (IInjectionPoint p: ps) {
+			if(p instanceof IInjectionPointField) {
+				IParametedType eventType = getEventType(p);
+				if(eventType != null && ((ParametedType)eventType).isAssignableTo((ParametedType)observedEventParameter.getType(), true)) {
+					if(areMatchingEventQualifiers(observedEventParameter, p)) {
+						 result.put(((IInjectionPointField)p).getField(), p);
+					 }
+				}
+			}
+		}
 	}
 
 	public Set<IBeanMethod> resolveDisposers(IProducerMethod producer) {
@@ -1233,6 +1278,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 			decorators.clear();
 			interceptors.clear();
 			allBeans.clear();
+			declaredBeans.clear();
 			injectionPointsByType.clear();
 		}
 
@@ -1326,6 +1372,9 @@ public class CDIProject extends CDIElement implements ICDIProject {
 				}
 			}
 			allBeans.add(bean);
+			if(bean.getDeclaringProject() == this) {
+				declaredBeans.add(bean);
+			}
 		}
 	}
 
