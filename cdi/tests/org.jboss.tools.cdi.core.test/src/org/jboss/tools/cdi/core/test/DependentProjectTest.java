@@ -389,6 +389,16 @@ public class DependentProjectTest extends TestCase {
 		assertTrue(p.getDeclaringProject() == CDICorePlugin.getCDIProject(project2, true));
 	}
 
+	/**
+	 * This test checks that method resolveObserverMethods does not fail with exception (see JBIDE-9951)
+	 */
+	public void testNonrelevantInjectionPointAtResolvingObserverMethods() {
+		ICDIProject cdi1 = CDICorePlugin.getCDIProject(project1, true);
+		IInjectionPointField tamingEvent =  getInjectionPointField(cdi1, "/src/cdi/test/observers/CDIBeanTest.java", "point");
+		Set<IObserverMethod> observers = tamingEvent.getCDIProject().resolveObserverMethods(tamingEvent);
+		assertTrue(observers.isEmpty());
+	}
+
 	public void testCleanDependentProject() throws CoreException, IOException {
 		ICDIProject cdi2 = CDICorePlugin.getCDIProject(project2, true);
 		boolean saveAutoBuild = ResourcesUtils.setBuildAutomatically(false);

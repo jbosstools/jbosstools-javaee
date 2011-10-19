@@ -22,6 +22,9 @@ import javax.inject.Inject;
 
 class DogWhisperer
 {
+   @Inject @Tame @Role("Master")
+   TamingCommand tamingCommand;
+
    @Inject @Any @Tame @Role("Master") 
    Event<TamingCommand> tamingEvent;
    

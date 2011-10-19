@@ -29,6 +29,12 @@ import org.jboss.tools.cdi.core.IQualifier;
  */
 public class ObserverMethodResolutionTest extends TCKTest {
 
+	public void testNonrelevantInjectionPoint() {
+		IInjectionPointField tamingEvent =  getInjectionPointField("JavaSource/org/jboss/jsr299/tck/tests/event/fires/DogWhisperer.java", "tamingCommand");
+		Set<IObserverMethod> observers = tamingEvent.getCDIProject().resolveObserverMethods(tamingEvent);
+		assertTrue(observers.isEmpty());
+	}
+
 	public void testObserverMethodResolution() {
 		IInjectionPointField tamingEvent =  getInjectionPointField("JavaSource/org/jboss/jsr299/tck/tests/event/fires/DogWhisperer.java", "tamingEvent");
 		assertNotNull(tamingEvent);
