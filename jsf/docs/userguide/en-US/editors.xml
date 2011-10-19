@@ -1491,7 +1491,20 @@ two elements with equal id has been used, but should be used only one -->
           </imageobject>
         </mediaobject>
       </figure>
-       
+	  
+	  <para>
+		When you make a selection of tags in the source part of the editor, they will all be selected in the visual part of the editor as well. This makes it easy to link code that you have written, with the visual output.  
+	  </para> 
+	  
+	  <figure>
+		  <title>All tags from the source selection are selected in the visual part</title> 
+		  <mediaobject>
+			  <imageobject>
+				  <imagedata fileref="images/visual_page/visual_page_26.png"/>
+			  </imageobject>
+		  </mediaobject>
+	  </figure>
+	  
       <section id="comments">
         <title>Commenting out Code</title> 
         <para>
