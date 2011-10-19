@@ -23,6 +23,7 @@ import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.IClassBean;
 import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.core.IInjectionPointField;
+import org.jboss.tools.cdi.core.IObserverMethod;
 import org.jboss.tools.cdi.core.IProducer;
 import org.jboss.tools.cdi.core.IProducerMethod;
 import org.jboss.tools.cdi.core.IQualifier;
@@ -370,6 +371,22 @@ public class DependentProjectTest extends TestCase {
 		assertNotNull(point3);
 		bs3 = cdi3.getBeans(false, point3);
 		assertEquals(1, bs3.size());
+	}
+
+	public void testFindObservedEvents() throws CoreException {
+		ICDIProject cdi1 = CDICorePlugin.getCDIProject(project1, true);
+		Set<IBean> bs = cdi1.getBeans(new Path("/CDITest1/src/cdi/test/observers/CDIBeanTest.java"));
+		assertFalse(bs.isEmpty());
+		IBean b = bs.iterator().next();
+		assertTrue(b instanceof IClassBean);
+		IClassBean cb = (IClassBean)b;
+		Set<IObserverMethod> ms = cb.getObserverMethods();
+		assertEquals(1, ms.size());
+		IObserverMethod m = ms.iterator().next();
+		Set<IInjectionPoint> ps = cdi1.findObservedEvents(m.getObservedParameters().iterator().next());
+		assertEquals(1, ps.size());
+		IInjectionPoint p = ps.iterator().next();
+		assertTrue(p.getDeclaringProject() == CDICorePlugin.getCDIProject(project2, true));
 	}
 
 	public void testCleanDependentProject() throws CoreException, IOException {
