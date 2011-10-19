@@ -131,7 +131,17 @@
         </imageobject>
       </mediaobject>
     </figure>
-     
+	<para>
+		The <guilabel>JBoss RichFaces</guilabel> menu in the <guilabel>JBoss Tools Palette</guilabel> contains all items relevant for RichFaces 4, by default. If you are using RichFaces 3 or earlier, you will need to add the <guilabel>RichFaces 3</guilabel> menu item to the <guilabel>JBoss Tools Palette</guilabel> through the <guilabel>Show/Hide</guilabel> menu. To access this menu see <xref linkend="show_hide" />.
+	</para>
+	<figure>
+		<title>RichFaces 3 palette menu</title> 
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="images/palette/palette_26.png"/>
+			</imageobject>
+		</mediaobject>
+	</figure>
     <para>
       To insert a <property>RichFaces</property> component on a page:
     </para>
