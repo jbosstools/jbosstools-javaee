@@ -40,6 +40,12 @@ public class JsfTextExtAllTests {
 			"org.jboss.tools.jsf.text.ext.test",
 			new String[]{"projects/jsfHyperlinkTests"},
 			new String[]{"jsfHyperlinkTests"}));
+
+		suite.addTest(new ProjectImportTestSetup(new TestSuite(
+				JSPELHyperlinkTestForELInTagBodyTest.class), 
+			"org.jboss.tools.jsf.text.ext.test",
+			new String[]{"projects/jsfHyperlinkTests"},
+			new String[]{"jsfHyperlinkTests"}));
 		
 		return suite;
 	}
