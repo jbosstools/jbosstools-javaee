@@ -14,7 +14,7 @@ public class ELReferencesQueryParticipantTest extends TCKTest{
 		ArrayList<MatchStructure> matches = new ArrayList<MatchStructure>();
 		
 		matches.add(new MatchStructure("/tck/WebContent/test.jsp", "sheep"));
-		//matches.add(new MatchStructure("/tck/WebContent/el/integration/JSFTestPage.jsp", "sheep"));
+		matches.add(new MatchStructure("/tck/WebContent/tests/lookup/el/integration/JSPTestPage.jsp", "sheep"));
 		matches.add(new MatchStructure("/tck/WebContent/tests/lookup/el/integration/JSFTestPage.jsp", "sheep"));
 		matches.add(new MatchStructure("/tck/WebContent/elValidation1.xhtml", "sheep"));
 		
@@ -59,7 +59,7 @@ public class ELReferencesQueryParticipantTest extends TCKTest{
 		ArrayList<MatchStructure> matches = new ArrayList<MatchStructure>();
 		
 		matches.add(new MatchStructure("/tck/WebContent/test.jsp", "name"));
-		//matches.add(new MatchStructure("/tck/WebContent/el/integration/JSFTestPage.jsp", "name"));
+		matches.add(new MatchStructure("/tck/WebContent/tests/lookup/el/integration/JSPTestPage.jsp", "name"));
 		matches.add(new MatchStructure("/tck/WebContent/tests/lookup/el/integration/JSFTestPage.jsp", "name"));
 		matches.add(new MatchStructure("/tck/WebContent/elValidation1.xhtml", "name"));
 
