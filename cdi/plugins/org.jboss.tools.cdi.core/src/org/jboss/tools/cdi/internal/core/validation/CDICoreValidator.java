@@ -80,6 +80,7 @@ import org.jboss.tools.cdi.core.ISessionBean;
 import org.jboss.tools.cdi.core.IStereotype;
 import org.jboss.tools.cdi.core.IStereotypeDeclaration;
 import org.jboss.tools.cdi.core.IStereotyped;
+import org.jboss.tools.cdi.core.extension.feature.IBeanKeyProvider;
 import org.jboss.tools.cdi.core.extension.feature.IInjectionPointValidatorFeature;
 import org.jboss.tools.cdi.core.extension.feature.IValidatorFeature;
 import org.jboss.tools.cdi.core.preferences.CDIPreferences;
@@ -661,11 +662,18 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 		if(beans.isEmpty()) {
 			return Collections.emptySet();
 		}
+		Set<IBeanKeyProvider> ps = cdiProject.getNature().getExtensionManager().getFeatures(IBeanKeyProvider.class);
 		Set<String> result = new HashSet<String>();
 		for (IBean bean : beans) {
 			String name = bean.getName();
 			if(name!=null) {
 				result.add(name);
+			}
+			for (IBeanKeyProvider p: ps) {
+				String key = p.getKey(bean);
+				if(key != null) {
+					result.add(key);
+				}
 			}
 		}
 		return result;
@@ -2204,13 +2212,7 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 						}
 					}
 					if (!typeWasFound) {
-						String message = bean instanceof IClassBean
-							? CDIValidationMessages.ILLEGAL_TYPE_IN_TYPED_DECLARATION_IN_BEAN_CLASS
-							: bean instanceof IProducerField
-							? CDIValidationMessages.ILLEGAL_TYPE_IN_TYPED_DECLARATION_IN_PRODUCER_FIELD
-							: bean instanceof IProducerMethod
-							? CDIValidationMessages.ILLEGAL_TYPE_IN_TYPED_DECLARATION_IN_PRODUCER_METHOD
-							: CDIValidationMessages.ILLEGAL_TYPE_IN_TYPED_DECLARATION;
+						String message = CDIValidationMessages.ILLEGAL_TYPE_IN_TYPED_DECLARATION;
 						addError(message, CDIPreferences.ILLEGAL_TYPE_IN_TYPED_DECLARATION, typedDeclaration, bean.getResource());
 					}
 				}
