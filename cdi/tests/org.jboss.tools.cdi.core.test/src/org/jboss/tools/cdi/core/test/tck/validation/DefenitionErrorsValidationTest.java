@@ -34,7 +34,7 @@ public class DefenitionErrorsValidationTest extends ValidationTest {
 	 */
 	public void testLegalTypesInTyped() throws Exception {
 		IFile petShopFile = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/lookup/typesafe/resolution/PetShop.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(petShopFile, CDIValidationMessages.ILLEGAL_TYPE_IN_TYPED_DECLARATION_IN_PRODUCER_FIELD, 25);
+		AbstractResourceMarkerTest.assertMarkerIsCreated(petShopFile, CDIValidationMessages.ILLEGAL_TYPE_IN_TYPED_DECLARATION, 25);
 	}
 
 	/**
