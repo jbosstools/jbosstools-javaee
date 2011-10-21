@@ -33,9 +33,18 @@ public class TestInjection2 {
 	@Inject
 	public void initialize(FooBean children, TestBean children2) {
 	}
+	
+	@Inject TestBean children;
+	@Inject FooBean children2;
 
-	static class TestBean {}
+	static class TestBean {
+		@Inject TestBean children;
+		@Inject FooBean children2;
+	}
 
-	static class FooBean {}
+	static class FooBean {
+		@Inject TestBean children2;
+		@Inject FooBean children;
+	}
 
 }

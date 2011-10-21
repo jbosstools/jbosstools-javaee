@@ -10,17 +10,20 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.core.test.tck;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import org.eclipse.core.runtime.Path;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.ILocalVariable;
+import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.IMethod;
 import org.jboss.tools.cdi.core.CDIUtil;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IClassBean;
 import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.core.IInjectionPointParameter;
+import org.jboss.tools.cdi.internal.core.impl.Parameter;
 import org.jboss.tools.common.java.IAnnotationDeclaration;
 
 /**
@@ -82,4 +85,23 @@ public class CDIUtilTest extends TCKTest {
 		//Double length of all injected parameter ranges.  
 		assertEquals("Unexpected double length of all injected parameter ranges.", 358, testcount);
 	}
+
+	public void testFindInjectionPoint2() throws Exception {
+		String path = "JavaSource/org/jboss/jsr299/tck/tests/jbt/core/TestInjection2.java";
+		Set<IBean> bs = cdiProject.getBeans(new Path("/tck/" + path));
+		Set<IInjectionPoint> ps = new HashSet<IInjectionPoint>();
+		for (IBean b: bs) {
+			ps.addAll(b.getInjectionPoints());
+		}
+		IInjectionPoint[] array = ps.toArray(new IInjectionPoint[ps.size()]);
+		for (int i = 0; i < array.length; i++) {
+			IJavaElement element = array[i] instanceof Parameter 
+					? ((Parameter)array[i]).getDefinition().getVariable()
+					: array[i].getSourceMember();
+			for (int j = 0; j < array.length; j++) {
+				assertEquals(i == j, array[j].isDeclaredFor(element));
+			}
+		}		
+	}
+
 }
