@@ -15,37 +15,32 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotEditor;
-import org.eclipse.swtbot.swt.finder.widgets.SWTBotTree;
-import org.eclipse.swtbot.swt.finder.widgets.SWTBotTreeItem;
 import org.jboss.tools.cdi.bot.test.CDIAllBotTests;
 import org.jboss.tools.cdi.bot.test.quickfix.CDIQuickFixTest;
 import org.jboss.tools.cdi.bot.test.uiutils.actions.CDIBase;
 import org.jboss.tools.cdi.bot.test.uiutils.actions.CDIUtil;
 import org.jboss.tools.ui.bot.ext.RequirementAwareSuite;
-import org.jboss.tools.ui.bot.ext.SWTJBTExt;
 import org.jboss.tools.ui.bot.ext.config.Annotations.Require;
 import org.jboss.tools.ui.bot.ext.config.Annotations.Server;
 import org.jboss.tools.ui.bot.ext.config.Annotations.ServerState;
-import org.jboss.tools.ui.bot.ext.helper.TreeHelper;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite.SuiteClasses;
 
-/*
+/**
  * Test operates on seam3 features using CDI tools
  * 
  * @author Jaroslav Jankovic
  */
 
-@Require(perspective = "Java EE", server = @Server(state = ServerState.NotRunning, version = "6.0", operator = ">="))
+@Require(clearProjects = false, perspective = "Java EE", server = @Server(state = ServerState.NotRunning, version = "6.0", operator = ">="))
 @RunWith(RequirementAwareSuite.class)
 @SuiteClasses({ CDIAllBotTests.class })
 public class CDISeam3Test extends CDIBase {
 
 	private static final Logger LOGGER = Logger.getLogger(CDISeam3Test.class.getName());
-	private static final String PROJECT_NAME = "CDISeamProject";
+	private static final String PROJECT_NAME = "CDIProject";
 	private static final String PACKAGE_NAME = "org.cdi.test";
 	private static final String GENERIC_PACKAGE_NAME = "org.cdi.generic";
 	
@@ -56,7 +51,10 @@ public class CDISeam3Test extends CDIBase {
 
 	@Test
 	public void testCreateProjectWithSeamLibraries() {
-		createAndCheckCDIProject(bot, util, projectExplorer, PROJECT_NAME);
+		if (!projectExists(PROJECT_NAME)) {
+			createAndCheckCDIProject(bot, util, projectExplorer,PROJECT_NAME);
+		}
+		assertTrue(projectExists(PROJECT_NAME));
 		addLibrary("seam-solder.jar");
 		checkLibrary("seam-solder.jar");
 	}
@@ -123,24 +121,6 @@ public class CDISeam3Test extends CDIBase {
 		 * 	3. MyGenericBean - atribute config - Show all Generic Configuration Type
 		 *  4. MyGenericBean2 - atributes config, c1, c2, c3 + set Method
 		 */
-	}
-	
-	
-	private void moveFileInProjectExplorer(String file, String sourceFolder, String destFolder) {
-		SWTBotTree tree = projectExplorer.bot().tree();
-		SWTBotTreeItem item = projectExplorer.selectTreeItem(file, sourceFolder.split("/"));
-		
-		CDIUtil.nodeContextMenu(tree, item, "Move...").click();
-		
-		assertFalse(bot.button("OK").isEnabled());
-		
-		tree = bot.tree();	
-		tree.collapseNode(destFolder.split("/")[0]);	
-		
-		TreeHelper.expandNode(bot, destFolder.split("/")).select();		
-
-		assertTrue(bot.button("OK").isEnabled());
-		bot.button("OK").click();		
 	}
 	
 	private void addLibrary(String libraryName) {

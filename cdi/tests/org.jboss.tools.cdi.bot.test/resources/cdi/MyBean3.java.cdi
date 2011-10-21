@@ -1,0 +1,16 @@
+package org.cdi.test;
+
+import javax.enterprise.event.Event;
+import javax.inject.Inject;
+
+public class MyBean3 {
+
+	public MyBean3() {
+		
+	}
+	
+	@Inject
+	@Q1
+	Event<MyBean4> event;
+
+}

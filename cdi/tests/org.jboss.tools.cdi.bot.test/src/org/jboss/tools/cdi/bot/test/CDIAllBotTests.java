@@ -53,16 +53,15 @@ import org.junit.runners.Suite.SuiteClasses;
 	CDISeam3Test.class
 	})
 public class CDIAllBotTests extends CDIBase{
-	
-	
+		
 	/*
 	 * init method "setup()" shows a project explorer view as default,
 	 * disable folding (due to easier source code editing)
 	 */
 	@BeforeClass
-	public static void setUpSuite() {
+	public static void setUpSuite() {		
 		eclipse.showView(ViewType.PROJECT_EXPLORER);
-		CDIUtil.disableFolding(bot, util);
+		CDIUtil.disableFolding(bot, util);		
 	}
 	
 }

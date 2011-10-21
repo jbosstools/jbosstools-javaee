@@ -10,8 +10,12 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.bot.test;
 
+import org.jboss.tools.cdi.bot.test.uiutils.actions.CDIBase;
+import org.jboss.tools.cdi.bot.test.uiutils.actions.CDIUtil;
 import org.jboss.tools.cdi.bot.test.wizard.CdiATWizardTest;
 import org.jboss.tools.ui.bot.ext.RequirementAwareSuite;
+import org.jboss.tools.ui.bot.ext.types.ViewType;
+import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite.SuiteClasses;
 
@@ -33,12 +37,21 @@ import org.junit.runners.Suite.SuiteClasses;
  *  
  *  Suite duration: aprox. 12min
  * 
- * @author Lukas Jungmann
  * @author Jaroslav Jankovic
  */
 @RunWith(RequirementAwareSuite.class)
 @SuiteClasses({
 	CdiATWizardTest.class,	
 	})
-public class CDISmokeBotTests {
+public class CDISmokeBotTests extends CDIBase {
+	
+	/*
+	 * init method "setup()" shows a project explorer view as default,
+	 * disable folding (due to easier source code editing)
+	 */
+	@BeforeClass
+	public static void setUpSuite() {
+		eclipse.showView(ViewType.PROJECT_EXPLORER);
+		CDIUtil.disableFolding(bot, util);
+	}
 }

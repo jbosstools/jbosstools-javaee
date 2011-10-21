@@ -21,11 +21,12 @@ import org.jboss.tools.ui.bot.ext.config.Annotations.Require;
 import org.jboss.tools.ui.bot.ext.config.Annotations.Server;
 import org.jboss.tools.ui.bot.ext.config.Annotations.ServerState;
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite.SuiteClasses;
 
-/*
+/**
  * Test operates on hyperlinks-openons using CDI tools
  * 
  * @author Jaroslav Jankovic
@@ -39,23 +40,31 @@ import org.junit.runners.Suite.SuiteClasses;
  * 
  */
 
-@Require(perspective = "Java EE", server = @Server(state = ServerState.NotRunning, version = "6.0", operator = ">="))
+@Require(clearProjects = false, perspective = "Java EE", server = @Server(state = ServerState.NotRunning, version = "6.0", operator = ">="))
 @RunWith(RequirementAwareSuite.class)
 @SuiteClasses({ CDIAllBotTests.class })
 public class CDIOpenOnTest extends CDIBase {
 
 	private static final Logger LOGGER = Logger.getLogger(CDIQuickFixTest.class.getName());
-	private static final String PROJECT_NAME = "CDIProject3";
+	private static final String PROJECT_NAME = "CDIProject";
 	private static final String PACKAGE_NAME = "org.cdi.test";
 	
 	@After
 	public void waitForJobs() {
 		util.waitForNonIgnoredJobs();
 	}
-
+	
+	@AfterClass
+	public static void clean() {				
+		removeObjectInProjectExplorer("beans.xml", PROJECT_NAME + "/WebContent/WEB-INF");
+	}
+	
 	@Test
-	public void testCreateProject() {
-		createAndCheckCDIProject(bot, util, projectExplorer, PROJECT_NAME);
+	public void testCheckProjectExists() {	
+		if (!projectExists(PROJECT_NAME)) {
+			createAndCheckCDIProject(bot, util, projectExplorer,PROJECT_NAME);
+		}
+		assertTrue(projectExists(PROJECT_NAME));
 	}
 	
 	@Test
@@ -136,27 +145,30 @@ public class CDIOpenOnTest extends CDIBase {
 		assertTrue(getEd().toTextEditor().getSelection().equals("produceMethod"));
 		
 		openOn("produceMethod", testedBean + ".java", "Open Bound Disposer");
-		assertTrue(getEd().toTextEditor().getSelection().equals("disposeMethod"));
+		assertTrue(getEd().toTextEditor().getSelection().equals("disposeMethod"));		
 	}
-	
-
+		
 	@Test
 	public void testObserverOpenOn() {
-		/*
-		 * not implemented yet
-		 * 
-		 * Bean 1
-		 * 	@Inject
-		 *	@Qualifier1
-		 *	Event<MyBean> event2;
-		 *
-		 * Bean 2
-		 *  void myObserver(@Observes MyBean bean) {
-		 *
-		 *	}
-		 * 
-		 */
+		createComponent(CDICOMPONENT.QUALIFIER, "Q1", PACKAGE_NAME, null);
+		createComponent(CDICOMPONENT.BEAN, "MyBean3", PACKAGE_NAME, null);
+		CDIUtil.copyResourceToClass(getEd(), CDIOpenOnTest.class
+				.getResourceAsStream("/resources/cdi/MyBean3.java.cdi"),
+				false);
+		createComponent(CDICOMPONENT.BEAN, "MyBean4", PACKAGE_NAME, null);
+		CDIUtil.copyResourceToClass(getEd(), CDIOpenOnTest.class
+				.getResourceAsStream("/resources/cdi/MyBean4.java.cdi"),
+				false);	
 		
+		bot.editorByTitle("MyBean3.java").show();
+		setEd(bot.activeEditor().toTextEditor());
+		CDIUtil.replaceInEditor(getEd(), bot, " event", " event");
+		
+		openOn("observerMethod", "MyBean4.java", "Open CDI Events");
+		assertTrue(getEd().toTextEditor().getSelection().equals("event"));
+		
+		openOn("Event<MyBean4> event", "MyBean3.java", "Open CDI Observer Methods");
+		assertTrue(getEd().toTextEditor().getSelection().equals("observerMethod"));				
 	}
 	
 	

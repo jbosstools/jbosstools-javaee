@@ -20,6 +20,7 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotEclipseEditor;
 import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotEditor;
 import org.eclipse.swtbot.swt.finder.SWTBot;
+import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
 import org.eclipse.swtbot.swt.finder.keyboard.Keystrokes;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotMenu;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotShell;
@@ -34,6 +35,7 @@ import org.jboss.tools.ui.bot.ext.SWTTestExt;
 import org.jboss.tools.ui.bot.ext.SWTUtilExt;
 import org.jboss.tools.ui.bot.ext.Timing;
 import org.jboss.tools.ui.bot.ext.helper.ContextMenuHelper;
+import org.jboss.tools.ui.bot.ext.helper.TreeHelper;
 import org.jboss.tools.ui.bot.ext.types.IDELabel;
 import org.jboss.tools.ui.bot.ext.view.ProjectExplorer;
 
@@ -260,6 +262,47 @@ public class CDIBase extends SWTTestExt {
 	    
 	    bot.button(IDELabel.Button.CANCEL).click();	    
 	    bot.sleep(TIME_1S);
+	}
+	
+	public void moveFileInProjectExplorer(String file, String sourceFolder, String destFolder) {
+		SWTBotTree tree = projectExplorer.bot().tree();
+		SWTBotTreeItem item = projectExplorer.selectTreeItem(file, sourceFolder.split("/"));
+		
+		CDIUtil.nodeContextMenu(tree, item, "Move...").click();
+		
+		assertFalse(bot.button("OK").isEnabled());
+		
+		tree = bot.tree();	
+		tree.collapseNode(destFolder.split("/")[0]);	
+		
+		TreeHelper.expandNode(bot, destFolder.split("/")).select();		
+
+		assertTrue(bot.button("OK").isEnabled());
+		bot.button("OK").click();		
+	}
+	
+	public static void removeObjectInProjectExplorer(String object, String sourceFolder) {
+		SWTBotTree tree = projectExplorer.bot().tree();
+		SWTBotTreeItem item = projectExplorer.selectTreeItem(object, sourceFolder.split("/"));
+		
+		CDIUtil.nodeContextMenu(tree, item, "Delete").click();
+		
+		assertTrue(bot.button("OK").isEnabled());
+		
+		bot.button("OK").click();
+		
+		bot.sleep(TIME_1S*2);
+	}
+	
+	public boolean projectExists(String projectName) {
+		SWTBotTree tree = projectExplorer.bot().tree();
+		boolean projectExists = false;
+		try {
+			tree.getTreeItem(projectName);
+			projectExists = true;
+		}catch (WidgetNotFoundException exc) {
+		}
+		return projectExists;
 	}
 
 }

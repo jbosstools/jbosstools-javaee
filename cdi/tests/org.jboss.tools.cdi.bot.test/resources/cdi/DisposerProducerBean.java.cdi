@@ -4,12 +4,12 @@ import javax.enterprise.inject.Disposes;
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 
-public class Disposes1 {
+public class DisposesProducerBean {
 	
 	@Inject
 	MyBean mybean;
 	
-	public Disposes1() {
+	public DisposesProducerBean() {
 		
 	}
 	

@@ -22,22 +22,23 @@ import org.jboss.tools.ui.bot.ext.config.Annotations.Server;
 import org.jboss.tools.ui.bot.ext.config.Annotations.ServerState;
 import org.jboss.tools.ui.bot.ext.view.ProblemsView;
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite.SuiteClasses;
 
-/*
+/**
  * Test operates on quick fixes of CDI components validation
  * 
  * @author Jaroslav Jankovic
  */
 
-@Require(perspective = "Java EE", server = @Server(state = ServerState.NotRunning, version = "6.0", operator = ">="))
+@Require(clearProjects = false, perspective = "Java EE", server = @Server(state = ServerState.NotRunning, version = "6.0", operator = ">="))
 @RunWith(RequirementAwareSuite.class)
 @SuiteClasses({ CDIAllBotTests.class })
 public class CDIQuickFixTest extends CDIBase {
 
-	private static final String PROJECT_NAME = "CDIProject2";
+	private static final String PROJECT_NAME = "CDIProject";
 	private static final String PACKAGE_NAME = "org.cdi.test";
 	private static SWTBotTreeItem[] problemsTrees;
 	private static final String LINE_SEPARATOR = System.getProperty("line.separator");	
@@ -51,9 +52,17 @@ public class CDIQuickFixTest extends CDIBase {
 		util.waitForNonIgnoredJobs();
 	}
 	
+	@AfterClass
+	public static void clean() {		
+		removeObjectInProjectExplorer(PACKAGE_NAME, PROJECT_NAME + "/Java Resources/src");		
+	}
+	
 	@Test
-	public void testCreateProject() {
-		createAndCheckCDIProject(bot, util, projectExplorer,PROJECT_NAME);
+	public void testCheckProjectExists() {	
+		if (!projectExists(PROJECT_NAME)) {
+			createAndCheckCDIProject(bot, util, projectExplorer,PROJECT_NAME);
+		}
+		assertTrue(projectExists(PROJECT_NAME));
 	}
 	
 	@Test

@@ -29,15 +29,16 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
 import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotEditor;
 import org.jboss.tools.cdi.bot.test.CDIAllBotTests;
+import org.jboss.tools.cdi.bot.test.uiutils.actions.CDIBase;
 import org.jboss.tools.cdi.bot.test.uiutils.editor.BeansEditor;
 import org.jboss.tools.cdi.bot.test.uiutils.editor.BeansEditor.Item;
 import org.jboss.tools.ui.bot.ext.RequirementAwareSuite;
-import org.jboss.tools.ui.bot.ext.SWTTestExt;
 import org.jboss.tools.ui.bot.ext.config.Annotations.Require;
 import org.jboss.tools.ui.bot.ext.config.Annotations.Server;
 import org.jboss.tools.ui.bot.ext.config.Annotations.ServerState;
 import org.jboss.tools.ui.bot.ext.view.ProjectExplorer;
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -51,21 +52,29 @@ import org.xml.sax.SAXException;
 
 /**
  * @author Lukas Jungmann
+ * @author jjankovi
  */
 @Require(clearProjects = false, perspective = "Java EE", server = @Server(state = ServerState.NotRunning, version = "6.0", operator = ">="))
 @RunWith(RequirementAwareSuite.class)
 @SuiteClasses({ CDIAllBotTests.class })
-public class BeansEditorTest extends SWTTestExt {
+public class BeansEditorTest extends CDIBase {
 
 	private static final String descPath = "WebContent/WEB-INF/beans.xml";
-	private static final String project = "CDIProject1";
+	private static final String project = "CDIProject";
+	private static final String PACKAGE_NAME = "org.cdi.test";
 	private static final Logger LOGGER = Logger.getLogger(BeansEditorTest.class.getName());
 	
 	@BeforeClass
 	public static void prepare() {
 		copyResource("resources/beans.xml", descPath);
-		copyResource("resources/Foo.jav_", "src/cdi/Foo.java");
-		copyResource("resources/Bar.jav_", "src/cdi/Bar.java");
+		copyResource("resources/Foo.jav_", "src/" + PACKAGE_NAME + "/Foo.java");
+		copyResource("resources/Bar.jav_", "src/" + PACKAGE_NAME + "/Bar.java");
+	}
+	
+	@AfterClass
+	public static void clean() {		
+		removeObjectInProjectExplorer(PACKAGE_NAME, project + "/Java Resources/src");
+		removeObjectInProjectExplorer("beans.xml", project + "/WebContent/WEB-INF");
 	}
 	
 	@Before
@@ -80,32 +89,32 @@ public class BeansEditorTest extends SWTTestExt {
 	
 	@Test
 	public void testInterceptors() {
-		addItem(Item.INTERCEPTOR, "cdi.I1");
-		removeItem(Item.INTERCEPTOR, "cdi.I1");
-		addItem(Item.INTERCEPTOR, "cdi.I2");
+		addItem(Item.INTERCEPTOR, PACKAGE_NAME + ".I1");
+		removeItem(Item.INTERCEPTOR, PACKAGE_NAME + ".I1");
+		addItem(Item.INTERCEPTOR, PACKAGE_NAME + ".I2");
 	}
 
 	@Test
 	public void testDecorators() {
-		addItem(Item.DECORATOR, "cdi.MapDecorator");
-		addItem(Item.DECORATOR, "cdi.ComparableDecorator");
-		removeItem(Item.DECORATOR, "cdi.ComparableDecorator");
+		addItem(Item.DECORATOR, PACKAGE_NAME + ".MapDecorator");
+		addItem(Item.DECORATOR, PACKAGE_NAME + ".ComparableDecorator");
+		removeItem(Item.DECORATOR, PACKAGE_NAME + ".ComparableDecorator");
 	}
 	
 	@Test
 	public void testClasses() {
-		addItem(Item.CLASS, "cdi.Foo");
-		addItem(Item.CLASS, "cdi.Bar");
-		removeItem(Item.CLASS, "cdi.Foo");
+		addItem(Item.CLASS, PACKAGE_NAME + ".Foo");
+		addItem(Item.CLASS, PACKAGE_NAME + ".Bar");
+		removeItem(Item.CLASS, PACKAGE_NAME + ".Foo");
 	}
 	
 	@Test
 	public void testStereotypes() {
-		addItem(Item.STEREOTYPE, "cdi.S2");
-		addItem(Item.STEREOTYPE, "cdi.S3");
-		removeItem(Item.STEREOTYPE, "cdi.S3");
-		addItem(Item.STEREOTYPE, "cdi.S1");
-		removeItem(Item.STEREOTYPE, "cdi.S2");
+		addItem(Item.STEREOTYPE, PACKAGE_NAME + ".S2");
+		addItem(Item.STEREOTYPE, PACKAGE_NAME + ".S3");
+		removeItem(Item.STEREOTYPE, PACKAGE_NAME + ".S3");
+		addItem(Item.STEREOTYPE, PACKAGE_NAME + ".S1");
+		removeItem(Item.STEREOTYPE, PACKAGE_NAME + ".S2");
 	}
 	
 	@Test
@@ -116,19 +125,19 @@ public class BeansEditorTest extends SWTTestExt {
 		String text = be.toTextEditor().getText();
 		List<Node> nl = getItems(text, Item.INTERCEPTOR);
 		assertEquals(1, nl.size());
-		assertTrue(containsItem(nl, "cdi.I2"));
+		assertTrue(containsItem(nl, PACKAGE_NAME + ".I2"));
 
 		nl = getItems(text, Item.DECORATOR);
 		assertEquals(1, nl.size());
-		assertTrue(containsItem(nl, "cdi.MapDecorator"));
+		assertTrue(containsItem(nl, PACKAGE_NAME + ".MapDecorator"));
 
 		nl = getItems(text, Item.CLASS);
 		assertEquals(1, nl.size());
-		assertTrue(containsItem(nl, "cdi.Bar"));
+		assertTrue(containsItem(nl, PACKAGE_NAME + ".Bar"));
 
 		nl = getItems(text, Item.STEREOTYPE);
 		assertEquals(1, nl.size());
-		assertTrue(containsItem(nl, "cdi.S1"));
+		assertTrue(containsItem(nl, PACKAGE_NAME + ".S1"));
 	}
 	
 	private void addItem(Item item, String name) {
