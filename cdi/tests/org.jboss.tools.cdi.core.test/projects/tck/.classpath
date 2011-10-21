@@ -13,5 +13,6 @@
 			<attribute name="owner.project.facets" value="jst.java"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry combineaccessrules="false" kind="src" path="/tck-parent"/>
 	<classpathentry kind="output" path="WebContent/WEB-INF/classes"/>
 </classpath>

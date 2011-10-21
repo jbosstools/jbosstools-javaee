@@ -2,8 +2,10 @@ package org.jboss.tools.cdi.core.test.tck;
 
 import java.io.File;
 import java.io.FileFilter;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import junit.framework.TestCase;
@@ -46,8 +48,10 @@ import org.osgi.framework.Bundle;
 
 public class TCKTest extends TestCase {
 	protected final static String PLUGIN_ID = "org.jboss.tools.cdi.core.test";
-	public final static String PROJECT_NAME = "tck";
-	protected final static String PROJECT_PATH = "/projects/tck";
+	public final static String MAIN_PROJECT_NAME = "tck";
+	public final static String[] PROJECT_NAMES = {"tck-parent", MAIN_PROJECT_NAME, "tck-child"};
+	private final static String MAIN_PROJECT_PATH = "/projects/tck";
+	private final static String[] PROJECT_PATHS = {"/projects/tck-parent", MAIN_PROJECT_PATH, "/projects/tck-child"};
 
 	public final static String JAVA_SOURCE_SUFFIX = "/JavaSource";
 	public final static String WEB_CONTENT_SUFFIX = "/WebContent";
@@ -61,11 +65,21 @@ public class TCKTest extends TestCase {
 	protected static String TCK_RESOURCES_PREFIX = "/resources/tck";
 
 	protected IProject tckProject;
+	protected IProject rootProject;
+	protected IProject parentProject;
 	protected ICDIProject cdiProject;
 
 	public TCKTest() {
 		tckProject = getTestProject();
+		parentProject = ResourcesPlugin.getWorkspace().getRoot().getProject(PROJECT_NAMES[0]);
+		rootProject = ResourcesPlugin.getWorkspace().getRoot().getProject(PROJECT_NAMES[2]);
 		cdiProject = CDICorePlugin.getCDIProject(tckProject, false);
+	}
+
+	protected void deleteTestProject() throws Exception {
+		rootProject.delete(true, true, null);
+		tckProject.delete(true, true, null);
+		parentProject.delete(true, true, null);
 	}
 
 	public IProject getTestProject() {
@@ -92,19 +106,37 @@ public class TCKTest extends TestCase {
 	}
 
 	public static IProject findTestProject() {
-		return ResourcesPlugin.getWorkspace().getRoot().getProject(PROJECT_NAME);
+		return ResourcesPlugin.getWorkspace().getRoot().getProject(MAIN_PROJECT_NAME);
+	}
+
+	public static IProject[] importPreparedProjects() throws Exception {
+		List<IProject> projects = new ArrayList<IProject>();
+		importPreparedProject("/");
+		for (String name : PROJECT_NAMES) {
+			IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(name);
+			assertTrue(project.exists());
+			projects.add(project);
+		}
+		return projects.toArray(new IProject[projects.size()]);		
 	}
 
 	public static IProject importPreparedProject(String packPath) throws Exception {
 		Bundle b = Platform.getBundle(PLUGIN_ID);
-		IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(PROJECT_NAME);
-		if(!project.exists()) {
-			project = ResourcesUtils.importProject(b, PROJECT_PATH);
-			project.build(IncrementalProjectBuilder.INCREMENTAL_BUILD, null);
+		IProject tckP = ResourcesPlugin.getWorkspace().getRoot().getProject(MAIN_PROJECT_NAME);
+		if(!tckP.exists()) {
+			for (String name : PROJECT_NAMES) {
+				IProject p = ResourcesPlugin.getWorkspace().getRoot().getProject(name);
+				assertFalse("Error during importing TCK Project. Project " + p.getName() + " already exists.", p.exists());
+			}
+
+			for (String path : PROJECT_PATHS) {
+				IProject project = ResourcesUtils.importProject(b, path);
+				project.build(IncrementalProjectBuilder.INCREMENTAL_BUILD, null);
+			}
 		}
-		String projectPath = project.getLocation().toOSString();
+		String projectPath = tckP.getLocation().toOSString();
 		String resourcePath = FileLocator.resolve(b.getEntry(TCK_RESOURCES_PREFIX)).getFile();
-		
+
 		File from = new File(resourcePath + packPath);
 		if(from.isDirectory()) {
 			File javaSourceTo = new File(projectPath + JAVA_SOURCE_SUFFIX + PACKAGE + packPath);
@@ -116,10 +148,10 @@ public class TCKTest extends TestCase {
 			File webInfTo = new File(projectPath + WEB_CONTENT_SUFFIX + WEB_INF_SUFFIX);
 			FileUtil.copyDir(from, webInfTo, true, true, true, new XmlFileFilter());
 		}
-		project.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
-		TestUtil._waitForValidation(project);
+		tckP.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
+		TestUtil._waitForValidation(tckP);
 //		JobUtils.waitForIdle();
-		return project;
+		return tckP;
 	}
 
 	protected Set<IBean> getBeans(String typeName, String... qualifierNames) throws JavaModelException {
@@ -486,10 +518,11 @@ public class TCKTest extends TestCase {
 		assertEquals("Wrong length", length, reference.getLength());
 	}
 
+	/*
 	public static void cleanProject(String _resourcePath) throws Exception {
 		Bundle b = Platform.getBundle(PLUGIN_ID);
 		String projectPath = FileLocator.resolve(b.getEntry(PROJECT_PATH)).getFile();
-		
+
 		File javaSourceTo = new File(projectPath + JAVA_SOURCE_SUFFIX);
 		File[] fs = javaSourceTo.listFiles();
 		if(fs != null) for (int i = 0; i < fs.length; i++) {
@@ -516,4 +549,5 @@ public class TCKTest extends TestCase {
 			FileUtil.remove(fs[i]);
 		}
 	}
+	*/
 }

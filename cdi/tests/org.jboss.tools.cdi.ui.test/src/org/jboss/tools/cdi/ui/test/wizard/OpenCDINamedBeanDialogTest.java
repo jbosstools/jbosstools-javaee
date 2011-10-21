@@ -11,7 +11,6 @@
 package org.jboss.tools.cdi.ui.test.wizard;
 
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PlatformUI;
@@ -19,7 +18,6 @@ import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.test.tck.TCKTest;
 import org.jboss.tools.cdi.ui.wizard.OpenCDINamedBeanDialog;
 import org.jboss.tools.cdi.ui.wizard.OpenCDINamedBeanDialog.CDINamedBeanWrapper;
-import org.jboss.tools.common.base.test.validation.TestUtil;
 import org.jboss.tools.test.util.JobUtils;
 
 /**
@@ -33,7 +31,7 @@ public class OpenCDINamedBeanDialogTest extends TCKTest {
 	
 	@Override
 	protected void setUp() throws Exception {
-		project = ResourcesPlugin.getWorkspace().getRoot().getProject(TCKTest.PROJECT_NAME);
+		project = TCKTest.findTestProject();
 	}
 	
 	public void testCDINamedBeanDialogSearch() throws CoreException {

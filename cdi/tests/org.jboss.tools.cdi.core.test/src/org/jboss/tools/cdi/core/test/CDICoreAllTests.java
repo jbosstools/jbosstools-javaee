@@ -82,6 +82,7 @@ public class CDICoreAllTests {
 		suiteAll.addTestSuite(CDIImagesTest.class);
 		suiteAll.addTestSuite(TypeTest.class);
 		TestSuite suite = new TestSuite("TCK Tests");
+		// TCK project tests
 		suite.addTestSuite(ResolutionByNameTest.class);
 		suite.addTestSuite(BeanDefinitionTest.class);
 		suite.addTestSuite(NameDefinitionTest.class);
@@ -127,6 +128,9 @@ public class CDICoreAllTests {
 		// Refactoring test
 		suite.addTestSuite(NamedBeanRefactoringTest.class);
 
+		suiteAll.addTestSuite(DisableCDISupportTest.class); // This test removes tck test projects. It's better to run it after all main TCK tests.
+
+		// Not TCK tests
 		suiteAll.addTestSuite(TwoWebContentFoldersTest.class);
 		suiteAll.addTestSuite(RemoveJarFromClasspathTest.class);
 		suiteAll.addTestSuite(ExtensionFactoryTest.class);
@@ -149,8 +153,6 @@ public class CDICoreAllTests {
 				new String[]{"projects/CDITestBrokenBuilderOrder"},
 				new String[]{"CDITestBrokenBuilderOrder"});
 		suiteAll.addTest(testSetup);
-
-		suiteAll.addTestSuite(DisableCDISupportTest.class);
 
 		suiteAll.addTestSuite(ValidationExceptionTest.class); // This test should be added last!
 		return suiteAll;

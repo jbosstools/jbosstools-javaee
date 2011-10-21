@@ -41,7 +41,7 @@ public class CAELProposalFilteringTest extends TestCase {
 	}
 	
 	public void setUp() {
-		project = ResourcesPlugin.getWorkspace().getRoot().getProject(TCKTest.PROJECT_NAME);
+		project = TCKTest.findTestProject();
 		caTest.setProject(project);
 	}
 

@@ -33,7 +33,7 @@ public class CATest extends TestCase {
 	private Image[] propertyImages = new Image[] {CDIImages.BEAN_FIELD_IMAGE, CDIImages.BEAN_METHOD_IMAGE};
 
 	public void setUp() {
-		project = ResourcesPlugin.getWorkspace().getRoot().getProject(TCKTest.PROJECT_NAME);
+		project = TCKTest.findTestProject();
 		caTest.setProject(project);
 	}
 

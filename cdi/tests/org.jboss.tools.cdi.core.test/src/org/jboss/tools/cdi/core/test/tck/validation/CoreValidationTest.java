@@ -67,15 +67,17 @@ public class CoreValidationTest extends ValidationTest {
 	public void testAllRelatedProjectsIncluded() {
 		CDIProjectTree set = new CDIProjectTree(tckProject);
 		assertTrue("TCKProject is not included in the set of CDI projects", set.getAllProjects().contains(tckProject));
+		assertTrue("TCKProject is not included in the set of CDI projects", set.getAllProjects().contains(rootProject));
+		assertTrue("TCKProject is not included in the set of CDI projects", set.getAllProjects().contains(parentProject));
 	}
 
 	/**
 	 * https://issues.jboss.org/browse/JBIDE-7961
 	 */
 	public void testValidationContext() {
-		LinkCollection collection = getCoreLinks(tckProject);
+		LinkCollection collection = getCoreLinks(rootProject);
 		assertFalse("Validation context for CDIproject is empty", collection.isEmpty());
-		collection = getCoreLinks(tckProject, "jboss.seam");
+		collection = getCoreLinks(rootProject, "jboss.seam");
 		assertTrue("Validation context for CDIproject with wrong ID is not empty", collection.isEmpty());
 	}
 
