@@ -5,6 +5,7 @@ import java.util.Set;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IMember;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.ICDIProject;
@@ -153,5 +154,10 @@ public class CDIInjectionPoint implements IInjectionPoint {
 	@Override
 	public IBean getBean() {
 		return null;
+	}
+
+	@Override
+	public boolean isDeclaredFor(IJavaElement element) {
+		return false;
 	}
 }
