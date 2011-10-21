@@ -10,6 +10,7 @@
  ******************************************************************************/ 
 package org.jboss.tools.cdi.seam.solder.core.test;
 
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -24,6 +25,7 @@ import org.jboss.tools.cdi.core.IClassBean;
 import org.jboss.tools.cdi.core.IInjectionPointField;
 import org.jboss.tools.cdi.core.IProducerField;
 import org.jboss.tools.cdi.core.IProducerMethod;
+import org.jboss.tools.common.java.IParametedType;
 
 /**
  *   
@@ -42,6 +44,37 @@ public class DefaultBeanTest extends SeamSolderTest {
 	public void testDefaultBeanInDependentProject() throws CoreException {
 		ICDIProject dependent = getDependentCDIProject();
 		doTestDefaultBeanInDependentProject(dependent, "src/org/jboss/defaultbean/Town2.java");
+	}
+
+	public void testLegalTypesOfDefaultProducerBeanWithoutDefaultBeanAnnotation() throws CoreException {
+		ICDIProject cdi = CDICorePlugin.getCDIProject(getTestProject(), true);
+		IInjectionPointField injection = getInjectionPointField(cdi, "src/org/jboss/defaultbean/producer/Test1.java", "a");
+		Set<IBean> bs = cdi.getBeans(false, injection);
+		assertEquals(1, bs.size());
+		IBean b = bs.iterator().next();
+		assertTrue(b instanceof IProducerField);
+		Set<IParametedType> ts = b.getLegalTypes();
+		Set<String> ss = new HashSet<String>();
+		for (IParametedType t: ts) {
+			ss.add(t.getType().getFullyQualifiedName());
+		}
+		assertTrue(ss.contains("org.jboss.defaultbean.producer.TypeA"));
+		assertTrue(ss.contains("java.lang.Object"));
+		assertEquals(2, ss.size());
+
+		injection = getInjectionPointField(cdi, "src/org/jboss/defaultbean/producer/Test1.java", "b");
+		bs = cdi.getBeans(false, injection);
+		assertEquals(1, bs.size());
+		b = bs.iterator().next();
+		assertTrue(b instanceof IProducerMethod);
+		ts = b.getLegalTypes();
+		ss = new HashSet<String>();
+		for (IParametedType t: ts) {
+			ss.add(t.getType().getFullyQualifiedName());
+		}
+		assertTrue(ss.contains("org.jboss.defaultbean.producer.TypeB"));
+		assertTrue(ss.contains("java.lang.Object"));
+		assertEquals(2, ss.size());
 	}
 
 	/**
