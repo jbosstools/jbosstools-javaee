@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.IMethod;
 import org.jboss.tools.cdi.core.CDIConstants;
@@ -117,5 +118,31 @@ public class BeanMethod extends BeanMember implements IBeanMethod {
 	@Override
 	public String getElementName() {
 		return getClassBean().getBeanClass().getElementName() + "." + getMethod().getElementName() + "()"; //$NON-NLS-1$
+	}
+
+	@Override
+	public boolean isDeclaredFor(IJavaElement element) {
+		if(getMethod() == element) {
+			return true;
+		}
+		if(element instanceof IMethod) {
+			IMethod other = (IMethod)element;
+			return getMethod().getElementName().equals(other.getElementName()) 
+					&& getMethod().getDeclaringType().getFullyQualifiedName().equals(other.getDeclaringType().getFullyQualifiedName())
+					&& equalArrays(getMethod().getParameterTypes(), other.getParameterTypes());
+		}
+		return false;
+	}
+
+	private boolean equalArrays(String[] a1, String[] a2) {
+		if(a1.length != a2.length) {
+			return false;
+		}
+		for (int i = 0; i < a1.length; i++) {
+			if(!a1[i].equals(a2[i])) {
+				return false;
+			}
+		}
+		return true;
 	}
 }

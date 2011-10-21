@@ -217,16 +217,9 @@ public class CDIUtil {
 		for (IBean bean : beans) {
 			Set<IInjectionPoint> injectionPoints = bean.getInjectionPoints();
 			for (IInjectionPoint iPoint : injectionPoints) {
-				if (element instanceof IField && iPoint instanceof IInjectionPointField) {
-					if (((IInjectionPointField) iPoint).getField() != null && ((IInjectionPointField) iPoint).getField().getElementName().equals(element.getElementName()))
+				if (element != null && iPoint.isDeclaredFor(element)) {
 						return iPoint;
-				}else if(element instanceof ILocalVariable && iPoint instanceof IInjectionPointParameter){
-					IInjectionPointParameter param = (IInjectionPointParameter)iPoint;
-					if (param.getBeanMethod().getMethod().equals(element.getParent())
-							&& param.getName().equals(element.getElementName())) {
-						return iPoint;
-					}
-				}else if(iPoint instanceof IInjectionPointParameter && position != 0){
+				} else if(iPoint instanceof IInjectionPointParameter && position != 0){
 					if(iPoint.getStartPosition() <= position && (iPoint.getStartPosition()+iPoint.getLength()) >= position) {
 						return iPoint;
 					}

@@ -11,6 +11,7 @@
 package org.jboss.tools.cdi.internal.core.impl;
 
 import org.eclipse.jdt.core.IField;
+import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IMember;
 import org.jboss.tools.cdi.core.IBeanField;
 import org.jboss.tools.cdi.internal.core.impl.definition.FieldDefinition;
@@ -54,5 +55,17 @@ public class BeanField extends BeanMember implements IBeanField {
 	@Override
 	public String getElementName() {
 		return getClassBean().getBeanClass().getElementName() + "." + getField().getElementName();
+	}
+
+	@Override
+	public boolean isDeclaredFor(IJavaElement element) {
+		if(getField() == element) {
+			return true;
+		}
+		if(element instanceof IField && element.exists() && field.exists()) {
+			return element.getElementName().equals(getField().getElementName()) 
+				&& ((IField)element).getDeclaringType().getFullyQualifiedName().equals(getField().getDeclaringType().getFullyQualifiedName());
+		}
+		return false;
 	}
 }

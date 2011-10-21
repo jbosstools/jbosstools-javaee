@@ -10,6 +10,7 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.core;
 
+import org.eclipse.jdt.core.IJavaElement;
 import org.jboss.tools.common.java.IAnnotated;
 import org.jboss.tools.common.java.IJavaSourceReference;
 import org.jboss.tools.common.java.IParametedType;
@@ -34,4 +35,12 @@ public interface IBeanMember extends IJavaSourceReference, IAnnotated, ICDIEleme
 	 * @return
 	 */
 	IParametedType getMemberType();
+
+	/**
+	 * Returns true if this element references the same Java element and false otherwise.
+	 * 
+	 * @param element
+	 * @return
+	 */
+	boolean isDeclaredFor(IJavaElement element);
 }

@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.ILocalVariable;
 import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.ISourceReference;
@@ -108,5 +109,17 @@ public class Parameter extends BeanMember implements IParameter {
 	@Override
 	public String getElementName() {
 		return getName();
+	}
+
+	@Override
+	public boolean isDeclaredFor(IJavaElement element) {
+		if(getDefinition().getVariable() == element) {
+			return true;
+		}
+		if(element instanceof ILocalVariable) {
+			ILocalVariable vThat = (ILocalVariable)element;
+			return getName().equals(vThat.getElementName()) && getBeanMethod().isDeclaredFor(vThat.getDeclaringMember());
+		}
+		return false;
 	}
 }
