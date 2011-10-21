@@ -13,6 +13,7 @@ package org.jboss.tools.cdi.seam.solder.core;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
@@ -31,10 +32,13 @@ import org.jboss.tools.cdi.core.IRootDefinitionContext;
 import org.jboss.tools.cdi.core.IScope;
 import org.jboss.tools.cdi.core.extension.ICDIExtension;
 import org.jboss.tools.cdi.core.extension.feature.IAmbiguousBeanResolverFeature;
+import org.jboss.tools.cdi.core.extension.feature.IBeanKeyProvider;
 import org.jboss.tools.cdi.core.extension.feature.IProcessAnnotatedTypeFeature;
 import org.jboss.tools.cdi.core.extension.feature.IValidatorFeature;
+import org.jboss.tools.cdi.internal.core.impl.BeanMember;
 import org.jboss.tools.cdi.internal.core.impl.CDIProject;
 import org.jboss.tools.cdi.internal.core.impl.definition.AbstractMemberDefinition;
+import org.jboss.tools.cdi.internal.core.impl.definition.BeanMemberDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.FieldDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.MethodDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.TypeDefinition;
@@ -43,9 +47,10 @@ import org.jboss.tools.cdi.seam.solder.core.validation.SeamSolderValidationMessa
 import org.jboss.tools.common.java.IAnnotationDeclaration;
 import org.jboss.tools.common.java.IJavaAnnotation;
 import org.jboss.tools.common.java.IParametedType;
-import org.jboss.tools.common.java.ParametedTypeFactory;
+import org.jboss.tools.common.java.ITypeDeclaration;
 import org.jboss.tools.common.java.impl.AnnotationLiteral;
 import org.jboss.tools.common.preferences.SeverityPreferences;
+import org.jboss.tools.common.text.ITextSourceReference;
 
 /**
  * Implements support for org.jboss.seam.solder.bean.defaultbean.DefaultBeanExtension.
@@ -59,14 +64,15 @@ import org.jboss.tools.common.preferences.SeverityPreferences;
  * @author Viacheslav Kabanovich
  *
  */
-public class CDISeamSolderDefaultBeanExtension implements ICDIExtension, IProcessAnnotatedTypeFeature, IAmbiguousBeanResolverFeature, IValidatorFeature {
+public class CDISeamSolderDefaultBeanExtension implements ICDIExtension, IProcessAnnotatedTypeFeature, IAmbiguousBeanResolverFeature, IValidatorFeature, IBeanKeyProvider {
 
 	protected Version getVersion() {
 		return Version.instance;
 	}
 
 	public void processAnnotatedType(TypeDefinition typeDefinition, IRootDefinitionContext context) {
-		boolean defaultBean = typeDefinition.isAnnotationPresent(getVersion().getDefaultBeanAnnotationTypeName());
+		String defaultBeanAnnotationTypeName = getVersion().getDefaultBeanAnnotationTypeName();
+		boolean defaultBean = typeDefinition.isAnnotationPresent(defaultBeanAnnotationTypeName);
 		IJavaAnnotation beanTyped = null;
 		if(defaultBean) {
 			beanTyped = createFakeTypedAnnotation(typeDefinition, context);
@@ -77,7 +83,7 @@ public class CDISeamSolderDefaultBeanExtension implements ICDIExtension, IProces
 		List<MethodDefinition> ms = typeDefinition.getMethods();
 		for (MethodDefinition m: ms) {
 			if(m.isAnnotationPresent(CDIConstants.PRODUCES_ANNOTATION_TYPE_NAME)) {
-				if(defaultBean || m.isAnnotationPresent(getVersion().getDefaultBeanAnnotationTypeName())) {
+				if(defaultBean || m.isAnnotationPresent(defaultBeanAnnotationTypeName)) {
 					IJavaAnnotation methodTyped = createFakeTypedAnnotation(m, context);
 					if(methodTyped != null) {
 						m.addAnnotation(methodTyped, context);
@@ -88,7 +94,7 @@ public class CDISeamSolderDefaultBeanExtension implements ICDIExtension, IProces
 		List<FieldDefinition> fs = typeDefinition.getFields();
 		for (FieldDefinition f: fs) {
 			if(f.isAnnotationPresent(CDIConstants.PRODUCES_ANNOTATION_TYPE_NAME)) {
-				if(defaultBean || f.isAnnotationPresent(getVersion().getDefaultBeanAnnotationTypeName())) {
+				if(defaultBean || f.isAnnotationPresent(defaultBeanAnnotationTypeName)) {
 					IJavaAnnotation fieldTyped = createFakeTypedAnnotation(f, context);
 					if(fieldTyped != null) {
 						f.addAnnotation(fieldTyped, context);
@@ -110,6 +116,14 @@ public class CDISeamSolderDefaultBeanExtension implements ICDIExtension, IProces
 					result = new AnnotationLiteral(def.getResource(), a.getStartPosition(), a.getLength(), defaultType, IMemberValuePair.K_CLASS, typedAnnotation);
 				}
 			}
+		} else if(def instanceof BeanMemberDefinition) {
+			ITypeDeclaration type = BeanMember.getTypeDeclaration(def, context.getProject().getTypeFactory());
+			if(type != null) {
+				IType typedAnnotation = context.getProject().getType(CDIConstants.TYPED_ANNOTATION_TYPE_NAME);
+				if (typedAnnotation != null) { 
+					result = new AnnotationLiteral(def.getResource(), type.getStartPosition(), type.getLength(), type.getType().getFullyQualifiedName(), IMemberValuePair.K_CLASS, typedAnnotation);
+				}
+			}
 		}
 		return result;
 	 
@@ -118,14 +132,8 @@ public class CDISeamSolderDefaultBeanExtension implements ICDIExtension, IProces
 	public Set<IBean> getResolvedBeans(Set<IBean> result) {
 		Set<IBean> defaultBeans = new HashSet<IBean>();
 		for (IBean b: result) {
-			if(b.getAnnotation(getVersion().getDefaultBeanAnnotationTypeName()) != null) {
+			if(isBeanDefault(b)) {
 				defaultBeans.add(b);
-			} else if(b instanceof IProducer) {
-				IProducer producer = (IProducer)b;
-				IClassBean parent = producer.getClassBean();
-				if(parent != null && parent.getAnnotation(getVersion().getDefaultBeanAnnotationTypeName()) != null) {
-					defaultBeans.add(b);
-				}
 			}
 		}
 		if(!defaultBeans.isEmpty() && defaultBeans.size() < result.size()) {
@@ -134,13 +142,35 @@ public class CDISeamSolderDefaultBeanExtension implements ICDIExtension, IProces
 		return result;
 	}
 
+	private boolean isBeanDefault(IBean bean) {
+		String defaultBeanAnnotationTypeName = getVersion().getDefaultBeanAnnotationTypeName();
+		if(bean.isAnnotationPresent(defaultBeanAnnotationTypeName)) {
+			return true;
+		} else if(bean instanceof IProducer) {
+			IProducer producer = (IProducer)bean;
+			IClassBean parent = producer.getClassBean();
+			if(parent != null && parent.isAnnotationPresent(defaultBeanAnnotationTypeName)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	public void validateResource(IFile file, CDICoreValidator validator) {
 		String defaultBeanAnnotationTypeName = getVersion().getDefaultBeanAnnotationTypeName();
 		ICDIProject cdiProject = CDICorePlugin.getCDIProject(file.getProject(), true);
 		Set<IBean> bs = cdiProject.getBeans(file.getFullPath());
 		for (IBean bean: bs) {
-			IAnnotationDeclaration a = bean.getAnnotation(defaultBeanAnnotationTypeName);
-			if(a != null) {
+			if(isBeanDefault(bean)) {
+				ITextSourceReference a = bean.getAnnotation(defaultBeanAnnotationTypeName);
+				if(a == null) {
+					Set<ITypeDeclaration> ds = bean.getAllTypeDeclarations();
+					if(!ds.isEmpty()) {
+						a = ds.iterator().next();
+					} else {
+						continue;
+					}
+				}
 				if(bean instanceof IProducerField) {
 					IClassBean cb = ((IProducerField) bean).getClassBean();
 					IScope scope = cb.getScope();
@@ -150,34 +180,27 @@ public class CDISeamSolderDefaultBeanExtension implements ICDIExtension, IProces
 					}
 				}
 				IQualifierDeclaration[] qs = bean.getQualifierDeclarations().toArray(new IQualifierDeclaration[0]);
-				Set<IParametedType> ts = bean.getLegalTypes();
-				if(ts.size() < 3) {
-					IParametedType type = null;
-					for (IParametedType t: ts) {
-						if(!"java.lang.Object".equals(t.getType().getFullyQualifiedName())) {
-							type = t;
+				IParametedType type = getDefaultType(bean);
+				if(type != null) {
+					validator.getValidationContext().addLinkedCoreResource(CDICoreValidator.SHORT_ID, createKey(type, bean.getQualifierDeclarations(true)), file.getFullPath(), true);
+					Set<IBean> bs2 = cdiProject.getBeans(false, type, qs);
+					StringBuilder otherDefaultBeans = new StringBuilder();
+					for (IBean b: bs2) {
+						try {
+						if(b != bean && isBeanDefault(b)
+								&& CDIProject.areMatchingQualifiers(bean.getQualifierDeclarations(), b.getQualifierDeclarations(true))) {
+							if(otherDefaultBeans.length() > 0) {
+								otherDefaultBeans.append(", ");
+							}
+							otherDefaultBeans.append(b.getElementName());
+						}
+						} catch (CoreException e) {
+							CDISeamSolderCorePlugin.getDefault().logError(e);
 						}
 					}
-					if(type != null) {
-						Set<IBean> bs2 = cdiProject.getBeans(false, type, qs);
-						StringBuilder otherDefaultBeans = new StringBuilder();
-						for (IBean b: bs2) {
-							try {
-							if(b != bean && b.isAnnotationPresent(defaultBeanAnnotationTypeName)
-									&& CDIProject.areMatchingQualifiers(bean.getQualifierDeclarations(), b.getQualifierDeclarations(true))) {
-								if(otherDefaultBeans.length() > 0) {
-									otherDefaultBeans.append(", ");
-								}
-								otherDefaultBeans.append(b.getElementName());
-							}
-							} catch (CoreException e) {
-								CDISeamSolderCorePlugin.getDefault().logError(e);
-							}
-						}
-						if(otherDefaultBeans.length() > 0) {
-							String message = NLS.bind(SeamSolderValidationMessages.IDENTICAL_DEFAULT_BEANS, otherDefaultBeans);
-							validator.addError(message, CDISeamSolderPreferences.IDENTICAL_DEFAULT_BEANS, new String[]{}, a, file);
-						}
+					if(otherDefaultBeans.length() > 0) {
+						String message = NLS.bind(SeamSolderValidationMessages.IDENTICAL_DEFAULT_BEANS, otherDefaultBeans);
+						validator.addError(message, CDISeamSolderPreferences.IDENTICAL_DEFAULT_BEANS, new String[]{}, a, file);
 					}
 				}
 			}
@@ -186,6 +209,46 @@ public class CDISeamSolderDefaultBeanExtension implements ICDIExtension, IProces
 
 	public SeverityPreferences getSeverityPreferences() {
 		return CDISeamSolderPreferences.getInstance();
+	}
+
+	private IParametedType getDefaultType(IBean bean) {
+		Set<IParametedType> ts = bean.getLegalTypes();
+		if(ts.size() < 3) {
+			for (IParametedType t: ts) {
+				if(!"java.lang.Object".equals(t.getType().getFullyQualifiedName())) {
+					return t;
+				}
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public String getKey(IBean bean) {
+		IAnnotationDeclaration a = bean.getAnnotation(getVersion().getDefaultBeanAnnotationTypeName());
+		if(a != null) {
+			IParametedType type = getDefaultType(bean);
+			if(type != null) {
+				return createKey(type, bean.getQualifierDeclarations(true));
+			}
+		}		
+		return null;
+	}
+
+	private String createKey(IParametedType type, Set<IQualifierDeclaration> qs) {
+		Set<String> ss = new TreeSet<String>();
+		for (IQualifierDeclaration q: qs) {
+			if(!q.getTypeName().equals(CDIConstants.ANY_QUALIFIER_TYPE_NAME)
+					&& !q.getTypeName().equals(CDIConstants.DEFAULT_QUALIFIER_TYPE_NAME)) {
+				ss.add(q.getTypeName());
+			}
+		}
+		StringBuilder sb = new StringBuilder();
+		sb.append("#DefaultBean_").append(type.getType().getFullyQualifiedName());
+		for (String s: ss) {
+			sb.append(':').append(s);
+		}
+		return sb.toString();
 	}
 
 }
