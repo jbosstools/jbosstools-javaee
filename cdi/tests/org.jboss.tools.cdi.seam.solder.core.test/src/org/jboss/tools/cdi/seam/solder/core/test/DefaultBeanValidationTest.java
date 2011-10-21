@@ -31,8 +31,12 @@ public class DefaultBeanValidationTest extends SeamSolderTest {
 	}
 
 	public void testIdenticalDefaultBeans() throws CoreException {
+		String messageMask = SeamSolderValidationMessages.IDENTICAL_DEFAULT_BEANS.substring(0, 50) + ".*";
 		IFile file = getTestProject().getFile(new Path("src/org/jboss/defaultbean/IdenticalDefaultBeans.java"));
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, SeamSolderValidationMessages.IDENTICAL_DEFAULT_BEANS.substring(0, 50) + ".*", 7, 12, 17);
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, messageMask, 7, 12, 17);
+		
+		file = getTestProject().getFile(new Path("src/org/jboss/defaultbean/validation/Test3.java"));
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, messageMask, 7, 13, 17);
 	}
 
 	public void testIncrementalValidationForIdenticalDefaultBeans() throws CoreException {
