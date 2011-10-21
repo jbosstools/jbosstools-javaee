@@ -17,11 +17,7 @@ import java.util.Set;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IPath;
-import org.eclipse.jdt.core.ICodeAssist;
-import org.eclipse.jdt.core.ICompilationUnit;
-import org.eclipse.jdt.core.IField;
 import org.eclipse.jdt.core.IJavaElement;
-import org.eclipse.jdt.core.ILocalVariable;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.ITypeRoot;
@@ -42,7 +38,6 @@ import org.jboss.tools.cdi.core.IBeanMember;
 import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.IClassBean;
 import org.jboss.tools.cdi.core.IInjectionPoint;
-import org.jboss.tools.cdi.core.IInjectionPointField;
 import org.jboss.tools.cdi.core.IInjectionPointParameter;
 import org.jboss.tools.cdi.seam.solder.core.generic.GenericClassBean;
 import org.jboss.tools.cdi.text.ext.CDIExtensionsPlugin;
@@ -169,13 +164,9 @@ public class GenericInjectedPointHyperlinkDetector extends AbstractHyperlinkDete
 		for (IBean bean : beans) {
 			Set<IInjectionPoint> injectionPoints = bean.getInjectionPoints();
 			for (IInjectionPoint iPoint : injectionPoints) {
-				if (element instanceof IField && iPoint instanceof IInjectionPointField) {
-					if (((IInjectionPointField) iPoint).getField() != null && ((IInjectionPointField) iPoint).getField().getElementName().equals(element.getElementName()))
-						results.add(iPoint);
-				}else if(element instanceof ILocalVariable && iPoint instanceof IInjectionPointParameter){
-					if (((IInjectionPointParameter) iPoint).getName().equals(element.getElementName())) 
-						results.add(iPoint);
-				}else if(iPoint instanceof IInjectionPointParameter && position != 0){
+				if(element != null && iPoint.isDeclaredFor(element)) {
+					results.add(iPoint);
+				} else if(iPoint instanceof IInjectionPointParameter && position != 0) {
 					if(iPoint.getStartPosition() <= position && (iPoint.getStartPosition()+iPoint.getLength()) >= position)
 						results.add(iPoint);
 				}
