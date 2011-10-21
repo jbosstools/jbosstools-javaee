@@ -299,6 +299,10 @@ public class AssignableBeansDialog extends PopupDialog {// TitleAreaDialog {
 		});
 	}
 
+	protected Control getFocusControl() {
+		return getFilterText();
+	}
+
 	protected Text getFilterText() {
 		return fFilterText;
 	}
