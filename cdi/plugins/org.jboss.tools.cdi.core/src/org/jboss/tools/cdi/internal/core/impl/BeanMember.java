@@ -22,9 +22,11 @@ import org.eclipse.jdt.core.JavaModelException;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.IBeanMember;
 import org.jboss.tools.cdi.core.IClassBean;
+import org.jboss.tools.cdi.internal.core.impl.definition.AbstractMemberDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.BeanMemberDefinition;
 import org.jboss.tools.common.java.IParametedType;
 import org.jboss.tools.common.java.ParametedType;
+import org.jboss.tools.common.java.ParametedTypeFactory;
 import org.jboss.tools.common.java.TypeDeclaration;
 
 /**
@@ -43,6 +45,11 @@ public abstract class BeanMember extends AbstractBeanElement implements IBeanMem
 	}
 
 	protected void setMember(IJavaElement member) {
+		typeDeclaration = getTypeDeclaration(getDefinition(), getCDIProject().getNature().getTypeFactory());
+	}
+
+	public static TypeDeclaration getTypeDeclaration(AbstractMemberDefinition definition, ParametedTypeFactory typeFactory) {
+		IJavaElement member = (IJavaElement)definition.getMember();
 		try {
 			String returnType = null;
 			IMember currentMember = null;
@@ -57,12 +64,12 @@ public abstract class BeanMember extends AbstractBeanElement implements IBeanMem
 				currentMember = ((ILocalVariable)member).getDeclaringMember();
 			}
 			if(returnType != null) {
-				ParametedType p = getCDIProject().getNature().getTypeFactory().getParametedType(currentMember, returnType);
+				ParametedType p = typeFactory.getParametedType(currentMember, returnType);
 				if(p != null) {
 
 					int offset = -1;
 					int length = 0;
-					String content = getDefinition().getTypeDefinition().getContent();
+					String content = definition.getTypeDefinition().getContent();
 					if(content != null) {
 						ISourceRange sr = ((ISourceReference)member).getSourceRange();
 						ISourceRange nr = ((ISourceReference)member).getNameRange();
@@ -88,12 +95,13 @@ public abstract class BeanMember extends AbstractBeanElement implements IBeanMem
 						}
 					}
 
-					typeDeclaration = new TypeDeclaration(p, member.getResource(), offset, length);
+					return new TypeDeclaration(p, member.getResource(), offset, length);
 				}
 			}
 		} catch (JavaModelException e) {
 			CDICorePlugin.getDefault().logError(e);
 		}
+		return null;
 	}
 
 	/**
