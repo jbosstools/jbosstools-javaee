@@ -21,6 +21,7 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.jdt.core.IField;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IType;
+import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IInjectionPointField;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
@@ -56,6 +57,7 @@ public class ResolvedTypesCacheTest extends TCKTest {
 	static String PATH_C = "JavaSource/org/jboss/jsr299/tck/tests/jbt/resolution/cache/C.java";
 
 	public void testCache() throws CoreException, IOException {
+		cdiProject = CDICorePlugin.getCDIProject(tckProject, false);
 		IJavaProject javaProject = EclipseResourceUtil.getJavaProject(tckProject);
 		IType t = EclipseJavaUtil.findType(javaProject, "org.jboss.jsr299.tck.tests.jbt.resolution.cache.A");
 		assertEquals("org.jboss.jsr299.tck.tests.jbt.resolution.cache.C.D", EclipseJavaUtil.resolveType(t, "B.D"));
