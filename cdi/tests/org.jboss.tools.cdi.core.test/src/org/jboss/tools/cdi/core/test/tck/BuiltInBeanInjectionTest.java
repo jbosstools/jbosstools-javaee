@@ -16,6 +16,7 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.IType;
 import org.jboss.tools.cdi.core.CDIConstants;
+import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IBuiltInBean;
 import org.jboss.tools.cdi.core.IClassBean;
@@ -132,6 +133,7 @@ public class BuiltInBeanInjectionTest extends TCKTest {
 	 * that is visible to our model, our built-in bean is replaced by it.  
 	 */
 	public void testBuiltInConversationBeanCustomImplementation() throws CoreException {
+		cdiProject = CDICorePlugin.getCDIProject(tckProject, false);
 		String c = "JavaSource/org/jboss/jsr299/tck/tests/jbt/builtin/ConversationImpl.java";
 		String c_active = "JavaSource/org/jboss/jsr299/tck/tests/jbt/builtin/ConversationImpl.changed";
 		String c_original = "JavaSource/org/jboss/jsr299/tck/tests/jbt/builtin/ConversationImpl.original";
