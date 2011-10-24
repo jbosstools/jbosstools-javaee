@@ -28,6 +28,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
 import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotEditor;
+import org.eclipse.swtbot.swt.finder.SWTBot;
 import org.jboss.tools.cdi.bot.test.CDIAllBotTests;
 import org.jboss.tools.cdi.bot.test.uiutils.actions.CDIBase;
 import org.jboss.tools.cdi.bot.test.uiutils.editor.BeansEditor;
@@ -36,6 +37,7 @@ import org.jboss.tools.ui.bot.ext.RequirementAwareSuite;
 import org.jboss.tools.ui.bot.ext.config.Annotations.Require;
 import org.jboss.tools.ui.bot.ext.config.Annotations.Server;
 import org.jboss.tools.ui.bot.ext.config.Annotations.ServerState;
+import org.jboss.tools.ui.bot.ext.types.EntityType;
 import org.jboss.tools.ui.bot.ext.view.ProjectExplorer;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -51,6 +53,11 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 /**
+ * prerequisite - CDIAtWizardTest
+ * 
+ * 
+ * TO DO - copy resources into right location - PACKAGE_NAME
+ * 
  * @author Lukas Jungmann
  * @author jjankovi
  */
@@ -61,16 +68,21 @@ public class BeansEditorTest extends CDIBase {
 
 	private static final String descPath = "WebContent/WEB-INF/beans.xml";
 	private static final String project = "CDIProject";
-	private static final String PACKAGE_NAME = "org.cdi.test";
+	private static final String PACKAGE_NAME = "cdi";
 	private static final Logger LOGGER = Logger.getLogger(BeansEditorTest.class.getName());
 	
 	@BeforeClass
 	public static void prepare() {
+		if (!projectExists(project)) {
+			createAndCheckCDIProject(bot, util, projectExplorer, project);	
+			createPackage(PACKAGE_NAME);
+		}
+						
 		copyResource("resources/beans.xml", descPath);
 		copyResource("resources/Foo.jav_", "src/" + PACKAGE_NAME + "/Foo.java");
-		copyResource("resources/Bar.jav_", "src/" + PACKAGE_NAME + "/Bar.java");
+		copyResource("resources/Bar.jav_", "src/" + PACKAGE_NAME + "/Bar.java");		
 	}
-	
+		
 	@AfterClass
 	public static void clean() {		
 		removeObjectInProjectExplorer(PACKAGE_NAME, project + "/Java Resources/src");
@@ -86,6 +98,13 @@ public class BeansEditorTest extends CDIBase {
 	public void waitForJobs() {
 		util.waitForNonIgnoredJobs();
 	}
+		
+	@Test
+	public void testClasses() {		
+		addItem(Item.CLASS, PACKAGE_NAME + ".Foo");
+		addItem(Item.CLASS, PACKAGE_NAME + ".Bar");
+		removeItem(Item.CLASS, PACKAGE_NAME + ".Foo");
+	}
 	
 	@Test
 	public void testInterceptors() {
@@ -94,19 +113,14 @@ public class BeansEditorTest extends CDIBase {
 		addItem(Item.INTERCEPTOR, PACKAGE_NAME + ".I2");
 	}
 
+	
 	@Test
 	public void testDecorators() {
 		addItem(Item.DECORATOR, PACKAGE_NAME + ".MapDecorator");
 		addItem(Item.DECORATOR, PACKAGE_NAME + ".ComparableDecorator");
 		removeItem(Item.DECORATOR, PACKAGE_NAME + ".ComparableDecorator");
 	}
-	
-	@Test
-	public void testClasses() {
-		addItem(Item.CLASS, PACKAGE_NAME + ".Foo");
-		addItem(Item.CLASS, PACKAGE_NAME + ".Bar");
-		removeItem(Item.CLASS, PACKAGE_NAME + ".Foo");
-	}
+		
 	
 	@Test
 	public void testStereotypes() {
@@ -231,6 +245,16 @@ public class BeansEditorTest extends CDIBase {
 			}
 		}
 		return false;
+	}
+	
+	private static void createPackage(String packageName) {
+		projectExplorer.selectProject(project);
+		eclipse.createNew(EntityType.JAVA_PACKAGE);
+		SWTBot packageDialogBot = bot.activeShell().bot();
+		packageDialogBot.textWithLabel("Name:").typeText(packageName);
+		packageDialogBot.button("Finish").click();
+		util.waitForNonIgnoredJobs();
+		LOGGER.info("Package " + PACKAGE_NAME + " created");
 	}
 	
 	private static void copyResource(String src, String target) {

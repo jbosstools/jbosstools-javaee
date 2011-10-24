@@ -12,7 +12,8 @@ package org.jboss.tools.cdi.bot.test;
 
 import org.jboss.tools.cdi.bot.test.uiutils.actions.CDIBase;
 import org.jboss.tools.cdi.bot.test.uiutils.actions.CDIUtil;
-import org.jboss.tools.cdi.bot.test.wizard.CdiATWizardTest;
+import org.jboss.tools.cdi.bot.test.wizard.CDIATWizardTest;
+import org.jboss.tools.cdi.bot.test.wizard.CDIPerspectiveTest;
 import org.jboss.tools.ui.bot.ext.RequirementAwareSuite;
 import org.jboss.tools.ui.bot.ext.types.ViewType;
 import org.junit.BeforeClass;
@@ -41,7 +42,8 @@ import org.junit.runners.Suite.SuiteClasses;
  */
 @RunWith(RequirementAwareSuite.class)
 @SuiteClasses({
-	CdiATWizardTest.class,	
+	CDIPerspectiveTest.class,
+	CDIATWizardTest.class,	
 	})
 public class CDISmokeBotTests extends CDIBase {
 	

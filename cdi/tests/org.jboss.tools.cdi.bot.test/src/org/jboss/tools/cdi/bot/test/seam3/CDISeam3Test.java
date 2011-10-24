@@ -24,6 +24,7 @@ import org.jboss.tools.ui.bot.ext.config.Annotations.Require;
 import org.jboss.tools.ui.bot.ext.config.Annotations.Server;
 import org.jboss.tools.ui.bot.ext.config.Annotations.ServerState;
 import org.junit.After;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite.SuiteClasses;
@@ -42,21 +43,27 @@ public class CDISeam3Test extends CDIBase {
 	private static final Logger LOGGER = Logger.getLogger(CDISeam3Test.class.getName());
 	private static final String PROJECT_NAME = "CDIProject";
 	private static final String PACKAGE_NAME = "org.cdi.test";
-	private static final String GENERIC_PACKAGE_NAME = "org.cdi.generic";
+	private static final String GENERIC_PACKAGE_NAME = "cdi";
+	
+	
+	@BeforeClass
+	public static void checkAndCreateProject() {
+		if (!projectExists(PROJECT_NAME)) {
+			createAndCheckCDIProject(bot, util, projectExplorer,PROJECT_NAME);
+		}
+		addLibrary("seam-solder.jar");
+		checkLibrary("seam-solder.jar");
+	}
 	
 	@After
 	public void waitForJobs() {
 		util.waitForNonIgnoredJobs();
 	}
+		
 
 	@Test
-	public void testCreateProjectWithSeamLibraries() {
-		if (!projectExists(PROJECT_NAME)) {
-			createAndCheckCDIProject(bot, util, projectExplorer,PROJECT_NAME);
-		}
-		assertTrue(projectExists(PROJECT_NAME));
-		addLibrary("seam-solder.jar");
-		checkLibrary("seam-solder.jar");
+	public void testCreateProjectWithSeamLibraries() {		
+		
 	}
 	
 	/*
@@ -123,7 +130,7 @@ public class CDISeam3Test extends CDIBase {
 		 */
 	}
 	
-	private void addLibrary(String libraryName) {
+	private static void addLibrary(String libraryName) {
 		try {
 			addLibraryIntoProject(PROJECT_NAME, libraryName);
 			LOGGER.info("Library: \"" + libraryName + "\" copied");
@@ -134,7 +141,7 @@ public class CDISeam3Test extends CDIBase {
 		}		
 	}
 	
-	private void checkLibrary(String libraryName) {
+	private static void checkLibrary(String libraryName) {
 		isLibraryInProjectClassPath(PROJECT_NAME, libraryName);		
 	}
 	

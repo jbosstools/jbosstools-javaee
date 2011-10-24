@@ -26,6 +26,7 @@ import org.jboss.tools.ui.bot.ext.config.Annotations.Require;
 import org.jboss.tools.ui.bot.ext.config.Annotations.Server;
 import org.jboss.tools.ui.bot.ext.config.Annotations.ServerState;
 import org.junit.After;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite.SuiteClasses;
@@ -34,25 +35,27 @@ import org.junit.runners.Suite.SuiteClasses;
  * @author Lukas Jungmann
  * @author jjankovi
  */
-@Require(perspective = "Java EE", server = @Server(state = ServerState.NotRunning, version = "6.0", operator = ">="))
+@Require(clearProjects = false, perspective = "Java EE", server = @Server(state = ServerState.NotRunning, version = "6.0", operator = ">="))
 @RunWith(RequirementAwareSuite.class)
 @SuiteClasses({ CDIAllBotTests.class, CDISmokeBotTests.class })
-public class CdiATWizardTest extends CDIBase {
+public class CDIATWizardTest extends CDIBase {
 
 	private static final String PROJECT_NAME = "CDIProject";
-	private static final String PACKAGE_NAME = "org.cdi.test";
-	private static final Logger L = Logger.getLogger(CdiATWizardTest.class.getName());
+	private static final String PACKAGE_NAME = "cdi";
+	private static final Logger L = Logger.getLogger(CDIATWizardTest.class.getName());
 
 	@After
 	public void waitForJobs() {
 		util.waitForNonIgnoredJobs();
 	}
 	
-	@Test
-	public void createProject() {
-		createAndCheckCDIProject(bot, util, projectExplorer, PROJECT_NAME);
+	@BeforeClass
+	public static void checkAndCreateProject() {
+		if (!projectExists(PROJECT_NAME)) {
+			createAndCheckCDIProject(bot, util, projectExplorer,PROJECT_NAME);
+		}
 	}
-
+		
 	@Test
 	public void testQualifier() {
 		CDIUtil.qualifier(PACKAGE_NAME, "Q1", false, false).finish();
@@ -79,7 +82,7 @@ public class CdiATWizardTest extends CDIBase {
 		assertTrue(code.contains("@Inherited"));
 		assertTrue(code.startsWith("/**"));
 	}
-
+	
 	@Test
 	public void testScope() {
 		CDIUtil.scope(PACKAGE_NAME, "Scope1", true, false, true, false).finish();
@@ -122,7 +125,7 @@ public class CdiATWizardTest extends CDIBase {
 		assertFalse(code.contains("@Inherited"));
 		assertTrue(code.startsWith("/**"));
 	}
-
+	
 	@Test
 	public void testIBinding() {
 		CDIWizard w = CDIUtil.binding(PACKAGE_NAME, "B1", null, true, false);
@@ -178,7 +181,7 @@ public class CdiATWizardTest extends CDIBase {
 		assertFalse(code.startsWith("/**"));
 		assertTrue(code.contains("@B2"));
 	}
-
+	
 	@Test
 	public void testStereotype() {
 		CDIWizard w = CDIUtil.stereotype(PACKAGE_NAME, "S1", null, null, false, false, false, false,
@@ -235,7 +238,7 @@ public class CdiATWizardTest extends CDIBase {
 		assertFalse(code.contains("@Inherited"));
 		assertFalse(code.startsWith("/**"));
 	}
-
+	
 	@Test
 	public void testDecorator() {
 		CDIWizard w = CDIUtil.decorator(PACKAGE_NAME, "", "java.lang.Comparable", null, true, true, false, false);
@@ -307,12 +310,12 @@ public class CdiATWizardTest extends CDIBase {
 	public void testBeansXml() {
 		CDIWizard w = new NewCDIFileWizard(CDIWizardType.BEANS_XML).run();
 		w.setSourceFolder(PROJECT_NAME + "/WebContent/WEB-INF");
-		assertFalse(w.canFinish());
+		assertFalse(w.canFinish());		
 		w.setSourceFolder(PROJECT_NAME + "/src/" + PACKAGE_NAME.replaceAll(".", "/"));
 		assertTrue(w.canFinish());
 		w.cancel();
 		w = new NewCDIFileWizard(CDIWizardType.BEANS_XML).run();
-		assertFalse(w.canFinish());
+		assertFalse(w.canFinish());		
 		w.cancel();
 	}
 	
@@ -325,7 +328,7 @@ public class CdiATWizardTest extends CDIBase {
 		assertTrue(("Bean1.java").equals(ed.getTitle()));
 		String code = ed.toTextEditor().getText();
 		L.fine(code);
-		assertTrue(code.contains("package org.cdi.test;"));
+		assertTrue(code.contains("package cdi;"));
 		assertTrue(code.contains("public abstract class Bean1 {"));
 		assertFalse(code.contains("@Named"));
 		assertFalse(code.contains("final"));
@@ -338,7 +341,7 @@ public class CdiATWizardTest extends CDIBase {
 		assertTrue(("Bean2.java").equals(ed.getTitle()));
 		code = ed.toTextEditor().getText();
 		L.fine(code);
-		assertTrue(code.contains("package org.cdi.test;"));
+		assertTrue(code.contains("package cdi;"));
 		assertTrue(code.contains("@Named"));
 		assertFalse(code.contains("@Named("));
 		assertTrue(code.contains("@Dependent"));
@@ -352,7 +355,7 @@ public class CdiATWizardTest extends CDIBase {
 		assertTrue(("Bean3.java").equals(ed.getTitle()));
 		code = ed.toTextEditor().getText();
 		L.fine(code);
-		assertTrue(code.contains("package org.cdi.test;"));
+		assertTrue(code.contains("package cdi;"));
 		assertTrue(code.contains("@Named(\"TestedBean\")"));
 		assertTrue(code.contains("@Scope2"));
 		assertTrue(code.contains("@Q1"));
@@ -370,7 +373,7 @@ public class CdiATWizardTest extends CDIBase {
 		assertTrue(("AnnL1.java").equals(ed.getTitle()));
 		String code = ed.toTextEditor().getText();
 		L.info(code);
-		assertTrue(code.contains("package org.cdi.test;"));
+		assertTrue(code.contains("package cdi;"));
 		assertTrue(code.contains("public final class AnnL1 extends AnnotationLiteral<Q1> implements Q1"));
 		assertTrue(code.contains("public static final Q1 INSTANCE = new AnnL1();"));
 		assertFalse(code.contains("abstract"));
@@ -383,7 +386,7 @@ public class CdiATWizardTest extends CDIBase {
 		assertTrue(("AnnL2.java").equals(ed.getTitle()));
 		code = ed.toTextEditor().getText();
 		L.info(code);
-		assertTrue(code.contains("package org.cdi.test;"));
+		assertTrue(code.contains("package cdi;"));
 		assertTrue(code.contains("abstract class AnnL2 extends AnnotationLiteral<Q2> implements Q2 {"));
 		assertTrue(code.contains("public static final Q2 INSTANCE = new AnnL2();"));
 		assertFalse(code.substring(code.indexOf("final") + 5).contains("final"));

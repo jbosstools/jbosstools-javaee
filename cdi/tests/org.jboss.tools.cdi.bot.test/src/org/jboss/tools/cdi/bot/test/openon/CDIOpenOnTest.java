@@ -22,6 +22,7 @@ import org.jboss.tools.ui.bot.ext.config.Annotations.Server;
 import org.jboss.tools.ui.bot.ext.config.Annotations.ServerState;
 import org.junit.After;
 import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite.SuiteClasses;
@@ -47,11 +48,13 @@ public class CDIOpenOnTest extends CDIBase {
 
 	private static final Logger LOGGER = Logger.getLogger(CDIQuickFixTest.class.getName());
 	private static final String PROJECT_NAME = "CDIProject";
-	private static final String PACKAGE_NAME = "org.cdi.test";
-	
-	@After
-	public void waitForJobs() {
-		util.waitForNonIgnoredJobs();
+	private static final String PACKAGE_NAME = "cdi";
+		
+	@BeforeClass
+	public static void checkAndCreateProject() {
+		if (!projectExists(PROJECT_NAME)) {
+			createAndCheckCDIProject(bot, util, projectExplorer,PROJECT_NAME);
+		}
 	}
 	
 	@AfterClass
@@ -59,14 +62,11 @@ public class CDIOpenOnTest extends CDIBase {
 		removeObjectInProjectExplorer("beans.xml", PROJECT_NAME + "/WebContent/WEB-INF");
 	}
 	
-	@Test
-	public void testCheckProjectExists() {	
-		if (!projectExists(PROJECT_NAME)) {
-			createAndCheckCDIProject(bot, util, projectExplorer,PROJECT_NAME);
-		}
-		assertTrue(projectExists(PROJECT_NAME));
+	@After
+	public void waitForJobs() {
+		util.waitForNonIgnoredJobs();
 	}
-	
+		
 	@Test
 	public void testBeanInjectOpenOn() {
 

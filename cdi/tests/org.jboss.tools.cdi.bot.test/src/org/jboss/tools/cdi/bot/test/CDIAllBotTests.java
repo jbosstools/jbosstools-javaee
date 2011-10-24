@@ -11,12 +11,14 @@
 package org.jboss.tools.cdi.bot.test;
 
 import org.jboss.tools.cdi.bot.test.editor.BeansEditorTest;
+import org.jboss.tools.cdi.bot.test.openon.CDIFindObserverForEventTest;
 import org.jboss.tools.cdi.bot.test.openon.CDIOpenOnTest;
 import org.jboss.tools.cdi.bot.test.quickfix.CDIQuickFixTest;
 import org.jboss.tools.cdi.bot.test.seam3.CDISeam3Test;
 import org.jboss.tools.cdi.bot.test.uiutils.actions.CDIBase;
 import org.jboss.tools.cdi.bot.test.uiutils.actions.CDIUtil;
-import org.jboss.tools.cdi.bot.test.wizard.CdiATWizardTest;
+import org.jboss.tools.cdi.bot.test.wizard.CDIATWizardTest;
+import org.jboss.tools.cdi.bot.test.wizard.CDIPerspectiveTest;
 import org.jboss.tools.ui.bot.ext.RequirementAwareSuite;
 import org.jboss.tools.ui.bot.ext.types.ViewType;
 import org.junit.BeforeClass;
@@ -45,18 +47,20 @@ import org.junit.runners.Suite.SuiteClasses;
  * @author Jaroslav Jankovic
  */
 @RunWith(RequirementAwareSuite.class)
-@SuiteClasses({
-	CdiATWizardTest.class,
+@SuiteClasses({	
+	CDIPerspectiveTest.class,
+	CDIATWizardTest.class,
 	BeansEditorTest.class,
 	CDIQuickFixTest.class,
 	CDIOpenOnTest.class,
+	CDIFindObserverForEventTest.class, 
 	CDISeam3Test.class
 	})
-public class CDIAllBotTests extends CDIBase{
+public class CDIAllBotTests extends CDIBase {
 		
 	/*
 	 * init method "setup()" shows a project explorer view as default,
-	 * disable folding (due to easier source code editing)
+	 * disable folding ( to easier source code editing)
 	 */
 	@BeforeClass
 	public static void setUpSuite() {		

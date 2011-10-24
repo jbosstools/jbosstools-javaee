@@ -132,7 +132,7 @@ public class CDIBase extends SWTTestExt {
 		
 	}
 
-	public void createAndCheckCDIProject(SWTBotExt bot, SWTUtilExt util,
+	public static void createAndCheckCDIProject(SWTBotExt bot, SWTUtilExt util,
 			ProjectExplorer projectExplorer, String projectName) {
 		createCDIProject(util, projectName);
 		projectExplorer.selectProject(projectName);
@@ -142,20 +142,20 @@ public class CDIBase extends SWTTestExt {
 		addCDISupport(tree, item, bot, util);
 	}
 
-	public void createCDIProject(SWTUtilExt util, String projectName) {
+	public static void createCDIProject(SWTUtilExt util, String projectName) {
 		new NewFileWizardAction().run()
 				.selectTemplate("Web", "Dynamic Web Project").next();
 		new DynamicWebProjectWizard().setProjectName(projectName).finish();
-		util.waitForNonIgnoredJobs();
+		util.waitForNonIgnoredJobs();		
 	}
 
-	public void addCDISupport(final SWTBotTree tree, SWTBotTreeItem item,
+	public static void addCDISupport(final SWTBotTree tree, SWTBotTreeItem item,
 			SWTBotExt bot, SWTUtilExt util) {
 		CDIUtil.nodeContextMenu(tree, item, "Configure",
 				"Add CDI (Context and Dependency Injection) support...")
 				.click();
 		bot.activeShell().bot().button("OK").click();
-		bot.sleep(Timing.time2S());
+		bot.sleep(Timing.time2S());		
 		util.waitForNonIgnoredJobs();
 	}
 	
@@ -168,9 +168,9 @@ public class CDIBase extends SWTTestExt {
 				openOnString, offset, openOnString.length() - offset));
 		if (chosenOption != null) {			
 			SWTBotMenu navigateMenu = bot.menu("Navigate");
-			bot.sleep(TIME_500MS);
+			bot.sleep(Timing.time500MS());
 			navigateMenu.menu("Open Hyperlink").click();
-			bot.sleep(TIME_500MS);
+			bot.sleep(Timing.time500MS());
 			SWTBotTable table = bot.activeShell().bot().table(0);
 			for (int i = 0; i < table.rowCount(); i++) {
 				if (table.getTableItem(i).getText().contains(chosenOption)) {
@@ -180,14 +180,14 @@ public class CDIBase extends SWTTestExt {
 			}							
 		} else {							
 			getEd().setFocus();	
-			bot.sleep(TIME_500MS);
+			bot.sleep(Timing.time500MS());
 			getEd().pressShortcut(Keystrokes.F3);			
 		}		
 		bot.sleep(Timing.time1S());
 		setEd(bot.activeEditor().toTextEditor());		
 	}
 		
-	public void addLibraryToProjectsClassPath(String projectName, String libraryName) {
+	public static void addLibraryToProjectsClassPath(String projectName, String libraryName) {
 		SWTBotTree tree = projectExplorer.bot().tree();
 			
 		ContextMenuHelper.prepareTreeItemForContextMenu(tree);
@@ -199,14 +199,14 @@ public class CDIBase extends SWTTestExt {
 	    bot.tree().expandNode("Java Build Path").select();
 	    bot.tabItem("Libraries").activate();
 	    bot.button("Add JARs...").click();
-	    bot.sleep(TIME_500MS);
+	    bot.sleep(Timing.time500MS());
 	    String file = libraryName;
 	    bot.tree().expandNode(projectName).expandNode(file).select();
 	    
 	    bot.button(IDELabel.Button.OK).click();
-	    bot.sleep(TIME_1S);
+	    bot.sleep(Timing.time1S());
 	    bot.button(IDELabel.Button.OK).click();
-	    bot.sleep(TIME_1S);
+	    bot.sleep(Timing.time1S());
 	}
 
 	/*
@@ -261,7 +261,7 @@ public class CDIBase extends SWTTestExt {
 	    			+ projectName,libraryInProject);
 	    
 	    bot.button(IDELabel.Button.CANCEL).click();	    
-	    bot.sleep(TIME_1S);
+	    bot.sleep(Timing.time1S());
 	}
 	
 	public void moveFileInProjectExplorer(String file, String sourceFolder, String destFolder) {
@@ -291,10 +291,10 @@ public class CDIBase extends SWTTestExt {
 		
 		bot.button("OK").click();
 		
-		bot.sleep(TIME_1S*2);
+		bot.sleep(Timing.time2S());
 	}
 	
-	public boolean projectExists(String projectName) {
+	public static boolean projectExists(String projectName) {
 		SWTBotTree tree = projectExplorer.bot().tree();
 		boolean projectExists = false;
 		try {

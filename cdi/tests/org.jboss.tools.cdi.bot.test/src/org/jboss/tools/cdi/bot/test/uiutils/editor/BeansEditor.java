@@ -10,6 +10,7 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.bot.test.uiutils.editor;
 
+import org.apache.log4j.Level;
 import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
 import org.eclipse.swtbot.swt.finder.SWTBot;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotButton;
@@ -17,6 +18,7 @@ import org.eclipse.swtbot.swt.finder.widgets.SWTBotShell;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTable;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotText;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTree;
+import org.eclipse.swtbot.swt.finder.widgets.SWTBotTreeItem;
 import org.eclipse.ui.IEditorReference;
 import org.jboss.tools.ui.bot.ext.SWTBotExt;
 import org.jboss.tools.ui.bot.ext.widgets.SWTBotMultiPageEditor;
@@ -70,7 +72,11 @@ public class BeansEditor extends SWTBotMultiPageEditor {
 	}
 	
 	private BeansEditor modify(Item item, String name, String actionLabel, DialogHandler h) {
-		SWTBotTree tree = bot.tree();
+		SWTBotTree tree = bot.tree(1);		
+		for (SWTBotTreeItem ti:tree.getAllItems()) {
+			log.setLevel(Level.FATAL);
+			log.fatal(ti.getText());
+		}
 		tree.expandNode(ROOT_NODE, item.getNode()).select().click();
 		selectItem(item, name);
 		getItemButton(item, actionLabel).click();

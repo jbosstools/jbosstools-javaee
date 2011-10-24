@@ -1,4 +1,4 @@
-package org.cdi.test;
+package cdi;
 
 public class Dog extends Animal {
 

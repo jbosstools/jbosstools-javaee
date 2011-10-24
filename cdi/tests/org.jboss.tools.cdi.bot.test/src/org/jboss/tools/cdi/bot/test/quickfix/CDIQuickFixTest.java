@@ -23,6 +23,7 @@ import org.jboss.tools.ui.bot.ext.config.Annotations.ServerState;
 import org.jboss.tools.ui.bot.ext.view.ProblemsView;
 import org.junit.After;
 import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite.SuiteClasses;
@@ -39,9 +40,22 @@ import org.junit.runners.Suite.SuiteClasses;
 public class CDIQuickFixTest extends CDIBase {
 
 	private static final String PROJECT_NAME = "CDIProject";
-	private static final String PACKAGE_NAME = "org.cdi.test";
+	private static final String PACKAGE_NAME = "cdi";
 	private static SWTBotTreeItem[] problemsTrees;
 	private static final String LINE_SEPARATOR = System.getProperty("line.separator");	
+	
+	
+	@BeforeClass
+	public static void checkAndCreateProject() {
+		if (!projectExists(PROJECT_NAME)) {
+			createAndCheckCDIProject(bot, util, projectExplorer,PROJECT_NAME);
+		}
+	}
+	
+	@AfterClass
+	public static void clean() {		
+		removeObjectInProjectExplorer(PACKAGE_NAME, PROJECT_NAME + "/Java Resources/src");		
+	}
 	
 	/*
 	 * check problems (warnings and errors in Problems View)
@@ -52,18 +66,6 @@ public class CDIQuickFixTest extends CDIBase {
 		util.waitForNonIgnoredJobs();
 	}
 	
-	@AfterClass
-	public static void clean() {		
-		removeObjectInProjectExplorer(PACKAGE_NAME, PROJECT_NAME + "/Java Resources/src");		
-	}
-	
-	@Test
-	public void testCheckProjectExists() {	
-		if (!projectExists(PROJECT_NAME)) {
-			createAndCheckCDIProject(bot, util, projectExplorer,PROJECT_NAME);
-		}
-		assertTrue(projectExists(PROJECT_NAME));
-	}
 	
 	@Test
 	public void testSerializableQF() {
@@ -89,6 +91,7 @@ public class CDIQuickFixTest extends CDIBase {
 	 * CDI Quick Fix test operates over validation 
 	 * concerning about Stereoscope component
 	 */
+	
 	@Test
 	public void testStereoscopeQF() {
 		String className = "S1";
@@ -111,6 +114,7 @@ public class CDIQuickFixTest extends CDIBase {
 	 * CDI Quick Fix test operates over validation 
 	 * concerning about Qualifier component
 	 */
+	
 	@Test
 	public void testQualifiersQF() {
 		String className = "Q2";
@@ -131,6 +135,7 @@ public class CDIQuickFixTest extends CDIBase {
 	 * CDI Quick Fix test operates over validation 
 	 * concerning about Scope component
 	 */
+	
 	@Test
 	public void testScopeQF() {
 		String className = "Scope1";
@@ -172,6 +177,7 @@ public class CDIQuickFixTest extends CDIBase {
 	 * CDI Quick Fix test operates over validation 
 	 * concerning about Interceptors/Interceptor Binding/Decorator component
 	 */
+	
 	@Test
 	public void testInterDecorQF() {
 		String className = "InterDecor";
