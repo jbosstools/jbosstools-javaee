@@ -62,32 +62,13 @@
          			<axis path="*/[http://jboss.com/products/seam/taglib]:link/action/" />
          		</partitionType>
          	</contentType>
-         	<contentType id="org.jboss.tools.jst.jsp.jspincludesource">
-         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
-         			<axis path="*/[http://jboss.com/products/seam/taglib]:button/action/" />
-         			<axis path="*/[http://jboss.com/products/seam/taglib]:link/action/" />
-         		</partitionType>
-         	</contentType>
          	<contentType id="org.eclipse.wst.html.core.htmlsource">
          		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
          			<axis path="*/[http://jboss.com/products/seam/taglib]:button/action/" />
          			<axis path="*/[http://jboss.com/products/seam/taglib]:link/action/" />
          		</partitionType>
          	</contentType>
-         	<contentType id="jsf.facelet">
-         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
-         			<axis path="*/[http://jboss.com/products/seam/taglib]:button/action/" />
-         			<axis path="*/[http://jboss.com/products/seam/taglib]:link/action/" />
-         		</partitionType>
-         	</contentType>
-         	<contentType id="jsf.facelet.composite">
-         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
-         			<axis path="*/[http://jboss.com/products/seam/taglib]:button/action/" />
-         			<axis path="*/[http://jboss.com/products/seam/taglib]:link/action/" />
-         		</partitionType>
-         	</contentType>
 		</hyperlinkPartitioner>
-
 
 		<hyperlinkPartitioner 
          	class="org.jboss.tools.common.text.ext.hyperlink.xml.XMLElementHyperlinkPartitioner" 
@@ -135,88 +116,6 @@
          	</contentType>
 		</hyperlinkPartitioner> 
 
-		<!--hyperlinkPartitioner 
-         	id="org.jboss.tools.seam.text.ext.hyperlink.SeamBeanHyperlinkPartitioner"
-         	class="org.jboss.tools.seam.text.ext.hyperlink.SeamBeanHyperlinkPartitioner">
-         	<contentType id="org.eclipse.jst.jsp.core.jspsource">
-         		<partitionType id="org.jboss.tools.common.text.ext.jsp.JSP_EXPRESSION" />
-         	</contentType>
-         	<contentType id="org.jboss.tools.jst.jsp.jspincludesource">
-         		<partitionType id="org.jboss.tools.common.text.ext.jsp.JSP_EXPRESSION" />
-         	</contentType>
-         	<contentType id="org.eclipse.wst.html.core.htmlsource">
-         		<partitionType id="org.jboss.tools.common.text.ext.jsp.JSP_EXPRESSION" />
-         	</contentType>
-         	<contentType id="jsf.facelet">
-         		<partitionType id="org.jboss.tools.common.text.ext.jsp.JSP_EXPRESSION" />
-         	</contentType>
-         	<contentType id="jsf.facelet.composite">
-         		<partitionType id="org.jboss.tools.common.text.ext.jsp.JSP_EXPRESSION" />
-         	</contentType>
-         	<contentType id="org.eclipse.core.runtime.xml">
-         		<partitionType id="org.jboss.tools.common.text.ext.jsp.JSP_EXPRESSION" />
-         	</contentType>
-         	<contentType id="org.jboss.tools.common.model.ui.xml">
-         		<partitionType id="org.jboss.tools.common.text.ext.jsp.JSP_EXPRESSION" />
-         	</contentType>
-         	<contentType id="org.jboss.tools.seam.xml.ui.pages12xmlsource">
-         		<partitionType id="org.jboss.tools.common.text.ext.jsp.JSP_EXPRESSION"/>
-         	</contentType>
-         	<contentType id="org.jboss.tools.seam.xml.ui.page12xmlsource">
-         		<partitionType id="org.jboss.tools.common.text.ext.jsp.JSP_EXPRESSION"/>
-         	</contentType>
-         	<contentType id="org.jboss.tools.seam.xml.ui.pages20xmlsource">
-         		<partitionType id="org.jboss.tools.common.text.ext.jsp.JSP_EXPRESSION"/>
-         	</contentType>
-         	<contentType id="org.jboss.tools.seam.xml.ui.page20xmlsource">
-         		<partitionType id="org.jboss.tools.common.text.ext.jsp.JSP_EXPRESSION"/>
-         	</contentType>
-         	<contentType id="org.jboss.tools.seam.xml.ui.pages21xmlsource">
-         		<partitionType id="org.jboss.tools.common.text.ext.jsp.JSP_EXPRESSION"/>
-         	</contentType>
-         	<contentType id="org.jboss.tools.seam.xml.ui.page21xmlsource">
-         		<partitionType id="org.jboss.tools.common.text.ext.jsp.JSP_EXPRESSION"/>
-         	</contentType>
-		</hyperlinkPartitioner-->
-
-		<!--hyperlinkPartitioner 
-	         id="org.jboss.tools.common.text.ext.jsf.hyperlink.JSPExprHyperlinkPartitioner1"
-   	      class="org.jboss.tools.jsf.text.ext.hyperlink.JSPExprHyperlinkPartitioner">
-
-         	<contentType id="org.eclipse.core.runtime.xml">
-         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE" />
-         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_TEXT" />
-         	</contentType>
-         	<contentType id="org.jboss.tools.common.model.ui.xml">
-         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE" />
-         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_TEXT" />
-         	</contentType>
-         	<contentType id="org.jboss.tools.seam.xml.ui.pages12xmlsource">
-         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE" />
-         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_TEXT" />
-         	</contentType>
-         	<contentType id="org.jboss.tools.seam.xml.ui.page12xmlsource">
-         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE" />
-         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_TEXT" />
-         	</contentType>
-         	<contentType id="org.jboss.tools.seam.xml.ui.pages20xmlsource">
-         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE" />
-         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_TEXT" />
-         	</contentType>
-         	<contentType id="org.jboss.tools.seam.xml.ui.page20xmlsource">
-         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE" />
-         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_TEXT" />
-         	</contentType>
-         	<contentType id="org.jboss.tools.seam.xml.ui.pages21xmlsource">
-         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE" />
-         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_TEXT" />
-         	</contentType>
-         	<contentType id="org.jboss.tools.seam.xml.ui.page21xmlsource">
-         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE" />
-         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_TEXT" />
-         	</contentType>
-		</hyperlinkPartitioner-->
-		
 		<hyperlinkPartitioner 
          	id="org.jboss.tools.seam.text.ext.hyperlink.SeamViewHyperlinkPartitioner"
          	class="org.jboss.tools.seam.text.ext.hyperlink.SeamViewHyperlinkPartitioner">
@@ -226,25 +125,7 @@
          			<axis path="*/[http://jboss.com/products/seam/taglib]:link/view/" />
          		</partitionType>
          	</contentType>
-         	<contentType id="org.jboss.tools.jst.jsp.jspincludesource">
-         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
-         			<axis path="*/[http://jboss.com/products/seam/taglib]:button/view/" />
-         			<axis path="*/[http://jboss.com/products/seam/taglib]:link/view/" />
-         		</partitionType>
-         	</contentType>
          	<contentType id="org.eclipse.wst.html.core.htmlsource">
-         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
-         			<axis path="*/[http://jboss.com/products/seam/taglib]:button/view/" />
-         			<axis path="*/[http://jboss.com/products/seam/taglib]:link/view/" />
-         		</partitionType>
-         	</contentType>
-         	<contentType id="jsf.facelet">
-         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
-         			<axis path="*/[http://jboss.com/products/seam/taglib]:button/view/" />
-         			<axis path="*/[http://jboss.com/products/seam/taglib]:link/view/" />
-         		</partitionType>
-         	</contentType>
-         	<contentType id="jsf.facelet.composite">
          		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
          			<axis path="*/[http://jboss.com/products/seam/taglib]:button/view/" />
          			<axis path="*/[http://jboss.com/products/seam/taglib]:link/view/" />
@@ -272,29 +153,13 @@
          			<axis path="*/[http://jboss.com/products/seam/taglib]:graphicImage/value/" />
          		</partitionType>
          	</contentType>
-         	<contentType id="org.jboss.tools.jst.jsp.jspincludesource">
-         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
-         			<axis path="*/[http://jboss.com/products/seam/taglib]:graphicImage/value/" />
-         		</partitionType>
-         	</contentType>
          	<contentType id="org.eclipse.wst.html.core.htmlsource">
          		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
          			<axis path="*/[http://jboss.com/products/seam/taglib]:graphicImage/value/" />
          		</partitionType>
          	</contentType>
-         	<contentType id="jsf.facelet">
-         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
-         			<axis path="*/[http://jboss.com/products/seam/taglib]:graphicImage/value/" />
-         		</partitionType>
-         	</contentType>
-         	<contentType id="jsf.facelet.composite">
-         		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_ATTRIBUTE_VALUE">
-         			<axis path="*/[http://jboss.com/products/seam/taglib]:graphicImage/value/" />
-         		</partitionType>
-         	</contentType>
 		</hyperlinkPartitioner>
-		
-		
+
 		<!-- 
 			The following definitions are subject to move into another plugin
 			bacause of bpm and drools are not the basics of seam 
