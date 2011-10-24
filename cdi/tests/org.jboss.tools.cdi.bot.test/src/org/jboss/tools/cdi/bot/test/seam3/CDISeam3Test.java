@@ -42,8 +42,8 @@ public class CDISeam3Test extends CDIBase {
 
 	private static final Logger LOGGER = Logger.getLogger(CDISeam3Test.class.getName());
 	private static final String PROJECT_NAME = "CDIProject";
-	private static final String PACKAGE_NAME = "org.cdi.test";
-	private static final String GENERIC_PACKAGE_NAME = "cdi";
+	private static final String PACKAGE_NAME = "cdi";
+	private static final String GENERIC_PACKAGE_NAME = "org.cdi.generic";
 	
 	
 	@BeforeClass
