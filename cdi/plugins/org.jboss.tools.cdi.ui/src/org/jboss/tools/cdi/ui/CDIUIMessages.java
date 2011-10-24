@@ -114,6 +114,14 @@ public class CDIUIMessages extends NLS{
 	public static String CREATE_INTERCEPTOR_TITLE;
 	public static String CREATE_DECORATOR_TITLE;
 	
+	public static String CDI_QUICK_FIXES_ANNOTATION;
+	public static String CDI_QUICK_FIXES_INTERFACE;
+	public static String CDI_QUICK_FIXES_CLASS;
+	public static String CDI_QUICK_FIXES_TYPE;
+	public static String CDI_QUICK_FIXES_METHOD;
+	public static String CDI_QUICK_FIXES_FIELD;
+	public static String CDI_QUICK_FIXES_PARAMETER;
+	
 	public static String QUESTION;
 	public static String DECREASING_FIELD_VISIBILITY_MAY_CAUSE_COMPILATION_PROBLEMS;
 	
