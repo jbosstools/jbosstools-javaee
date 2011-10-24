@@ -13,6 +13,7 @@ package org.jboss.tools.cdi.ui.wizard;
 import java.util.ArrayList;
 
 import org.eclipse.jface.wizard.WizardPage;
+import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.widgets.Composite;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IQualifier;
@@ -26,7 +27,7 @@ public class AddQualifiersToBeanWizardPage extends WizardPage{
 	
 	protected AddQualifiersToBeanWizardPage(String pageName) {
 		super(pageName);
-		setTitle(CDIUIMessages.ADD_QUALIFIERS_TO_BEAN_WIZARD_TITLE);
+		setTitle(pageName);
 	}
 
 	public void createControl(Composite parent) {
@@ -44,6 +45,7 @@ public class AddQualifiersToBeanWizardPage extends WizardPage{
 	
 	public void init(IBean bean){
 		composite.init(bean);
+		setTitle(NLS.bind(CDIUIMessages.ADD_QUALIFIERS_TO_BEAN_WIZARD_TITLE, bean.getElementName()));
 	}
 	
 	public void deploy(ValuedQualifier qualifier){

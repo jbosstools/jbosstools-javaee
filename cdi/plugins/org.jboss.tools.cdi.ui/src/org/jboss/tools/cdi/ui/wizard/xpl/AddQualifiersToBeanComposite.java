@@ -100,9 +100,6 @@ public class AddQualifiersToBeanComposite extends Composite {
 	// original qualifiers on the bean with declaration + currently added qualifiers on the bean
 	private ArrayList<ValuedQualifier> deployed = new ArrayList<ValuedQualifier>();
 	
-	// original + deployed
-	ArrayList<ValuedQualifier> total = new ArrayList<ValuedQualifier>();
-
 	private TableViewer availableTableViewer;
 	private TableViewer deployedTableViewer;
 
@@ -140,8 +137,6 @@ public class AddQualifiersToBeanComposite extends Composite {
 			if(declaration != null){
 				String value = MarkerResolutionUtils.findQualifierValue(declaration);
 				ValuedQualifier vq = new ValuedQualifier(q, value);
-				//originalQualifiers.add(vq);
-				//deployedTableViewer.add(vq);
 				deployed.add(vq);
 			}else{
 				originalQualifiers.add(new ValuedQualifier(q, ""));
@@ -158,7 +153,7 @@ public class AddQualifiersToBeanComposite extends Composite {
 			}
 		}
 		
-		total.clear();
+		ArrayList<ValuedQualifier> total = new ArrayList<ValuedQualifier>();
 		total.addAll(originalQualifiers);
 		total.addAll(deployed);
 		
@@ -167,6 +162,7 @@ public class AddQualifiersToBeanComposite extends Composite {
 		qualifiers.clear();
 		
 		loadAvailableQualifiers();
+		
 		availableTableViewer.setInput(qualifiers);
 		if(nLabel != null)
 			nLabel.setText(MessageFormat.format(CDIUIMessages.ADD_QUALIFIERS_TO_BEAN_WIZARD_MESSAGE,
@@ -199,6 +195,7 @@ public class AddQualifiersToBeanComposite extends Composite {
 				String qualifierPackage = qualifierTypeName.substring(0,qualifierTypeName.lastIndexOf(MarkerResolutionUtils.DOT));
 				if((isPublic || (samePackage && injectionPointPackage.equals(qualifierPackage))) ){
 					qualifiers.add(vq);
+					availableTableViewer.add(vq);
 					lastQualifier = vq;
 				}
 			}
@@ -234,7 +231,7 @@ public class AddQualifiersToBeanComposite extends Composite {
 	}
 	
 	public boolean checkBeans(){
-		total.clear();
+		ArrayList<ValuedQualifier> total = new ArrayList<ValuedQualifier>();
 		total.addAll(originalQualifiers);
 		total.addAll(deployed);
 		HashSet<ValuedQualifier> qfs = new HashSet<ValuedQualifier>(total);
@@ -428,12 +425,6 @@ public class AddQualifiersToBeanComposite extends Composite {
 			}
 		});
 		
-		label = new Label(this, SWT.NONE);
-		label.setText("");
-
-		label = new Label(this, SWT.NONE);
-		label.setText("");
-		
 		final Button createQualifier = new Button(this, SWT.PUSH);
 		createQualifier.setText(CDIUIMessages.ADD_QUALIFIERS_TO_BEAN_WIZARD_CREATE_NEW_QUALIFIER);
 		
@@ -472,17 +463,10 @@ public class AddQualifiersToBeanComposite extends Composite {
 						}
 					}
 					
-					ValuedQualifier q = loadAvailableQualifiers();
-					
-					if(q != null){
-						moveAll(new ValuedQualifier[]{q}, true);
-					}
+					loadAvailableQualifiers();
 				}
 			}
 		});
-		
-		label = new Label(this, SWT.NONE);
-		label.setText("");
 		
 		label = new Label(this, SWT.NONE);
 		label.setText("");
@@ -690,7 +674,7 @@ public class AddQualifiersToBeanComposite extends Composite {
 	}
 	
 	public ArrayList<ValuedQualifier> getDeployedQualifiers(){
-		total.clear();
+		ArrayList<ValuedQualifier> total = new ArrayList<ValuedQualifier>();
 		total.addAll(originalQualifiers);
 		total.addAll(deployed);
 		

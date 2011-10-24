@@ -12,6 +12,7 @@ package org.jboss.tools.cdi.ui.wizard;
 
 import java.util.List;
 
+import org.eclipse.osgi.util.NLS;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.core.IQualifier;
@@ -30,7 +31,7 @@ public class AddQualifiersToBeanWizard extends AbstractModifyInjectionPointWizar
 	}
 	
     public void addPages() {
-    	page = new AddQualifiersToBeanWizardPage("");
+    	page = new AddQualifiersToBeanWizardPage(NLS.bind(CDIUIMessages.ADD_QUALIFIERS_TO_BEAN_WIZARD_TITLE, bean.getElementName()));
     	addPage(page);
     }
 
