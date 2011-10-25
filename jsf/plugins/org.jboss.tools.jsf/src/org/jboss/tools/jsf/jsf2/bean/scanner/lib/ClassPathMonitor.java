@@ -167,4 +167,9 @@ public class ClassPathMonitor extends AbstractClassPathMonitor<IJSF2Project>{
 		return list;
 	}
 
+	public synchronized void libraryChanged(String path) {
+		super.libraryChanged(path);
+		removedPaths.add(new Path(path));
+	}
+
 }
