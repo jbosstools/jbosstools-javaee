@@ -97,12 +97,8 @@ public class JsfOutputFormatTemplate extends AbstractOutputJsfTemplate {
 	}
 
 	@Override
-	protected String prepareAttrValue(VpePageContext pageContext,
-			Element parent, Attr attr) {
-		String newString = prepareAttrValueByParams(attr.getNodeValue(),
-				getParams(parent));
-		
-		return newString;
+	protected String prepareAttrValue(VpePageContext pageContext, Element parent, Attr attr) {
+		return prepareAttrValueByParams(attr.getNodeValue(), getParams(parent));
 	}
 
 	/**
@@ -112,39 +108,26 @@ public class JsfOutputFormatTemplate extends AbstractOutputJsfTemplate {
 	 * @param paramList
 	 * @return
 	 */
-	private String prepareAttrValueByParams(String nodeValue,
-			List<Element> paramList) {
-
+	private String prepareAttrValueByParams(String nodeValue, List<Element> paramList) {
 		// matcher
-		Matcher matcher = Pattern.compile(MESSAGE_FORMAT_ELEMENTS_PATTERN)
-				.matcher(nodeValue);
-
+		Matcher matcher = Pattern.compile(MESSAGE_FORMAT_ELEMENTS_PATTERN).matcher(nodeValue);
 		int lastPos = 0;
 		StringBuilder sb = new StringBuilder();
-
 		while (matcher.find()) {
-
 			// get next message format elements
 			String messageFormatElement = matcher.group();
 			// set end and start
 			int start = matcher.start();
 			int end = matcher.end();
-
 			// get value of message format element
-			String value = parseMessageFormatElement(messageFormatElement,
-					paramList);
-
+			String value = parseMessageFormatElement(messageFormatElement, paramList);
 			// update value
 			sb.append(nodeValue.substring(lastPos, start));
 			sb.append(value);
-
 			lastPos = end;
 		}
-
 		sb.append(nodeValue.substring(lastPos));
-
 		return sb.toString();
-
 	}
 
 	/**
@@ -196,10 +179,8 @@ public class JsfOutputFormatTemplate extends AbstractOutputJsfTemplate {
 				// illegal param value
 			}
 		}
-
 		// return or value or starting value
 		return value != null ? value : messageFormatElement;
-
 	}
 
 	/**
@@ -209,19 +190,15 @@ public class JsfOutputFormatTemplate extends AbstractOutputJsfTemplate {
 	 * @return
 	 */
 	private String getChoice(String choiceString) {
-
 		// separate all choices
 		String[] choices = choiceString.split(CHOICES_SEPARATOR);
-
 		// separate first choice pair(choice value / choice string)
 		String[] choice = choices[0].split(CHOICE_PAIR_SEPARATOR);
-
 		// return choice string
-		if (choice.length > 1)
+		if (choice.length > 1) {
 			return choice[1];
-
+		}
 		return null;
-
 	}
 
 	/**
@@ -231,21 +208,14 @@ public class JsfOutputFormatTemplate extends AbstractOutputJsfTemplate {
 	 * @return
 	 */
 	private List<Element> getParams(Element sourcElement) {
-
 		NodeList nodeList = sourcElement.getChildNodes();
-
 		List<Element> params = new ArrayList<Element>();
-
 		for (int i = 0; i < nodeList.getLength(); i++) {
-
 			Node child = nodeList.item(i);
-
-			if (JSF.TAG_PARAM.equals(child.getLocalName()))
+			if (JSF.TAG_PARAM.equals(child.getLocalName())) {
 				params.add((Element) child);
-
+			}
 		}
-
 		return params;
-
 	}
 }
