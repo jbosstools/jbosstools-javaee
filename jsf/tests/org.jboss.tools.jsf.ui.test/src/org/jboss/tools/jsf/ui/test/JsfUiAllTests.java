@@ -27,6 +27,7 @@ import org.jboss.tools.jsf.jsp.ca.test.CAForJSF2BeansInJavaTest;
 import org.jboss.tools.jsf.jsp.ca.test.CAForJSF2BeansTest;
 import org.jboss.tools.jsf.jsp.ca.test.CAForUnclosedELTest;
 import org.jboss.tools.jsf.jsp.ca.test.CAJsfMessagesProposalsFilteringTest;
+import org.jboss.tools.jsf.jsp.ca.test.CAJsfMessagesProposalsTest;
 import org.jboss.tools.jsf.jsp.ca.test.CANotEmptyWhenThereIsNoSpaceBetweenInvertedCommandsInAttributeJBIDE1759Test;
 import org.jboss.tools.jsf.jsp.ca.test.CASuggestsNotOnlyELProposalsJBIDE2437Test;
 import org.jboss.tools.jsf.jsp.ca.test.CAUnnecessaryElementsForDirAttributeInXHTMLPageJBIDE1813Test;
@@ -103,6 +104,11 @@ public class JsfUiAllTests {
 				new String[]{"test_jsf_project"}));
  		suite.addTest(
 				new ProjectImportTestSetup(new TestSuite(TestPalette.class),
+				"org.jboss.tools.jsf.ui.test",
+				new String[] { "projects/testJSFProject", }, //$NON-NLS-1$
+				new String[] { "testJSFProject" })); //$NON-NLS-1$
+ 		suite.addTest(
+				new ProjectImportTestSetup(new TestSuite(CAJsfMessagesProposalsTest.class),
 				"org.jboss.tools.jsf.ui.test",
 				new String[] { "projects/testJSFProject", }, //$NON-NLS-1$
 				new String[] { "testJSFProject" })); //$NON-NLS-1$
