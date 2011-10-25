@@ -5,6 +5,7 @@
 	<classpathentry kind="lib" path="lib/cdi-api.jar"/>
 	<classpathentry kind="lib" path="lib/javax.inject.jar"/>
 	<classpathentry kind="lib" path="lib/jboss-interceptor-api.jar"/>
-	<classpathentry kind="lib" path="lib/seam-faces-3.0.0.Final.jar" sourcepath="/home/igels/.m2/repository/org/jboss/seam/faces/seam-faces/3.0.0.Final/seam-faces-3.0.0.Final-sources.jar"/>
+	<classpathentry kind="lib" path="lib/seam-faces-api.jar"/>
+	<classpathentry kind="lib" path="lib/seam-faces.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
