@@ -52,17 +52,33 @@ public class OpenKeyHelper {
 	public XModelObject[] findBundles(XModel model, String bundle, String locale) {
 		ArrayList<XModelObject> l = new ArrayList<XModelObject>();
 		if(locale == null || locale.length() == 0) locale = getDeafultLocale(model);
+		String pathPrefix = "/" + bundle.replace('.', '/');
 		while(locale != null && locale.length() > 0) {
-			String path = "/" + bundle.replace('.', '/') + "_" + locale + ".properties"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			String path = pathPrefix + "_" + locale + ".properties"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			XModelObject o = model.getByPath(path);
 			if(o != null) l.add(o);
 			int i = locale.lastIndexOf('_');
 			if(i < 0) break;
 			locale = locale.substring(0, i);
 		}
-		String path = "/" + bundle.replace('.', '/') + ".properties"; //$NON-NLS-1$ //$NON-NLS-2$
+		String path = pathPrefix + ".properties"; //$NON-NLS-1$ //$NON-NLS-2$
 		XModelObject o = model.getByPath(path);
 		if(o != null) l.add(o);
+		if(!l.isEmpty()) {
+			if(o == null) o = l.get(0);
+			int i = bundle.lastIndexOf('.');
+			String name = (i < 0) ? bundle : bundle.substring(i + 1);
+			XModelObject[] ps = o.getParent().getChildren();
+			for (XModelObject c: ps) {
+				if(!l.contains(c)) {
+					String pp = c.getPathPart();
+					if(pp.endsWith(".properties") && (pp.startsWith(name + ".") || pp.startsWith(name + "_"))) {
+						l.add(c);
+					}
+				}
+				
+			}
+		}
 		return l.toArray(new XModelObject[0]);
 	}
 
