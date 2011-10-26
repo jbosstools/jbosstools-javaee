@@ -110,12 +110,12 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 	public static final String ID = "org.jboss.tools.cdi.core.CoreValidator"; //$NON-NLS-1$
 	public static final String PROBLEM_TYPE = "org.jboss.tools.cdi.core.cdiproblem"; //$NON-NLS-1$
 
-	ICDIProject cdiProject;
-	String projectName;
+	ICDIProject rootCdiProject;
+	Map<IProject, CDIValidationContext> cdiContexts = new HashMap<IProject, CDIValidationContext>();
+	String rootProjectName;
 	IValidatingProjectTree projectTree;
 	IValidatingProjectSet projectSet;
 	Set<IFolder> sourceFolders;
-	Dependencies dependencies;
 
 	private Set<IInjectionPointValidatorFeature> injectionValidationFeatures;
 
@@ -123,6 +123,64 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 	private AnnotationValidationDelegate annotationValidator = new AnnotationValidationDelegate(this);
 
 	public static final String SHORT_ID = "jboss.cdi.core"; //$NON-NLS-1$
+
+	public static class CDIValidationContext {
+		private ICDIProject cdiProject;
+		private IProject project;
+		private Dependencies dependencies;
+		private Set<IValidatorFeature> extensions;
+
+		public CDIValidationContext(IProject project) {
+			this.project = project;
+			CDICoreNature nature = CDICorePlugin.getCDI(project, true);
+			cdiProject =  nature.getDelegate();
+			dependencies = nature.getDefinitions().getAllDependencies();
+
+			extensions = nature.getExtensionManager().getValidatorFeatures();
+			Set<CDICoreNature> ns = nature.getCDIProjects();
+			for (CDICoreNature n: ns) {
+				extensions.addAll(n.getExtensionManager().getValidatorFeatures());
+			}
+		}
+
+		/**
+		 * @return the cdiProject
+		 */
+		public ICDIProject getCdiProject() {
+			return cdiProject;
+		}
+
+		/**
+		 * @return the project
+		 */
+		public IProject getProject() {
+			return project;
+		}
+
+		/**
+		 * @return the dependencies
+		 */
+		public Dependencies getDependencies() {
+			return dependencies;
+		}
+
+		/**
+		 * @return the extensions
+		 */
+		public Set<IValidatorFeature> getExtensions() {
+			return extensions;
+		}
+	}
+
+	CDIValidationContext getCDIContext(IResource resource) {
+		IProject project = resource.getProject();
+		CDIValidationContext context = cdiContexts.get(project);
+		if(context==null) {
+			context = new CDIValidationContext(project);
+			cdiContexts.put(project, context);
+		}
+		return context;
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -204,20 +262,19 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 		setMessageIdQuickFixAttributeName(MESSAGE_ID_ATTRIBUTE_NAME);
 		projectTree = validationHelper.getValidationContextManager().getValidatingProjectTree(this);
 		projectSet = projectTree.getBrunches().get(rootProject);
-		cdiProject = null;
+		rootCdiProject = null;
 		CDICoreNature nature = CDICorePlugin.getCDI(projectSet.getRootProject(), true);
 		if(nature!=null) {
-			cdiProject =  nature.getDelegate();
-			if(cdiProject==null) {
+			rootCdiProject =  nature.getDelegate();
+			if(rootCdiProject==null) {
 				CDICorePlugin.getDefault().logError("Trying to validate " + rootProject + " but CDI Tools model for the project is not built.");
 			}
-			dependencies = nature.getDefinitions().getAllDependencies();
 			injectionValidationFeatures = nature.getExtensionManager().getFeatures(IInjectionPointValidatorFeature.class);
 		} else {
 			CDICorePlugin.getDefault().logError("Trying to validate " + rootProject + " but there is no CDI Nature in the project.");
 		}
-		projectName = projectSet.getRootProject().getName();
-		sourceFolders = null;
+		rootProjectName = projectSet.getRootProject().getName();
+		cdiContexts.clear();
 	}
 
 	/*
@@ -228,7 +285,7 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 			throws ValidationException {
 		init(project, validationHelper, context, manager, reporter);
 		displaySubtask(CDIValidationMessages.SEARCHING_RESOURCES, new String[]{project.getName()});
-		if (cdiProject == null) {
+		if (rootCdiProject == null) {
 			return OK_STATUS;
 		}
 		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
@@ -237,7 +294,7 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 		Set<IPath> resourcesToClean = new HashSet<IPath>(); // Resource which we should remove from validation context
 		for(IFile file: changedFiles) {
 			resourcesToClean.add(file.getFullPath());
-			Set<IPath> dd = dependencies.getDirectDependencies(file.getFullPath());
+			Set<IPath> dd = getCDIContext(file).getDependencies().getDirectDependencies(file.getFullPath());
 			if(dd != null) {
 				for (IPath p: dd) {
 					IFile f = root.getFile(p);
@@ -256,7 +313,7 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 			if (ValidationUtil.checkFileExtensionForJavaAndXml(currentFile)) {
 				resources.add(currentFile.getFullPath());
 
-				Set<String> newElNamesOfChangedFile = getELNamesByResource(currentFile.getFullPath());
+				Set<String> newElNamesOfChangedFile = getELNamesByResource(getCDIContext(currentFile), currentFile.getFullPath());
 				for (String newElName : newElNamesOfChangedFile) {
 					// Collect resources that had EL names (in previous validation session) declared in this changed resource.
 					Set<IPath> linkedResources = validationContext.getCoreResourcesByVariableName(SHORT_ID, newElName, true);
@@ -331,15 +388,15 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 			throws ValidationException {
 		init(project, validationHelper, context, manager, reporter);
 
-		if (cdiProject == null) {
+		if (rootCdiProject == null) {
 			return OK_STATUS;
 		}
 
-		displaySubtask(CDIValidationMessages.VALIDATING_PROJECT, new String[] { projectName });
+		displaySubtask(CDIValidationMessages.VALIDATING_PROJECT, new String[] {rootProjectName});
 
 		Set<IFile> filesToValidate = new HashSet<IFile>();
 
-		IBean[] beans = cdiProject.getBeans();
+		IBean[] beans = rootCdiProject.getBeans();
 		for (IBean bean : beans) {
 			IResource resource = bean.getResource();
 			if(resource!=null && shouldValidateType(bean.getBeanClass()) && notValidatedYet(resource)) {
@@ -347,7 +404,7 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 			}
 		}
 
-		IStereotype[] stereotypes = cdiProject.getStereotypes();
+		IStereotype[] stereotypes = rootCdiProject.getStereotypes();
 		for (IStereotype stereotype : stereotypes) {
 			IResource resource = stereotype.getResource();
 			if(shouldValidateResourceOfElement(resource) && notValidatedYet(resource)) {
@@ -355,7 +412,7 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 			}
 		}
 
-		IQualifier[] qualifiers = cdiProject.getQualifiers();
+		IQualifier[] qualifiers = rootCdiProject.getQualifiers();
 		for (IQualifier qualifier : qualifiers) {
 			IResource resource = qualifier.getResource();
 			if(shouldValidateResourceOfElement(resource) && notValidatedYet(resource)) {
@@ -363,7 +420,7 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 			}
 		}
 
-		IInterceptorBinding[] bindings = cdiProject.getInterceptorBindings();
+		IInterceptorBinding[] bindings = rootCdiProject.getInterceptorBindings();
 		for (IInterceptorBinding binding : bindings) {
 			IResource resource = binding.getResource();
 			if(shouldValidateResourceOfElement(resource) && notValidatedYet(resource)) {
@@ -371,9 +428,9 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 			}
 		}
 		
-		Set<String> scopes = cdiProject.getScopeNames();
+		Set<String> scopes = rootCdiProject.getScopeNames();
 		for (String scopeName: scopes) {
-			IScope scope = cdiProject.getScope(scopeName);
+			IScope scope = rootCdiProject.getScope(scopeName);
 			IResource resource = scope.getResource();
 			if(shouldValidateResourceOfElement(resource) && notValidatedYet(resource)) {
 				filesToValidate.add((IFile)resource);
@@ -406,7 +463,7 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 	public static void cleanProject(IProject project) {
 		WorkbenchReporter.removeAllMessages(project, new String[]{CDICoreValidator.class.getName()}, null);
 	}
-
+	
 	/**
 	 * Validates a resource.
 	 * 
@@ -419,11 +476,11 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 		displaySubtask(CDIValidationMessages.VALIDATING_RESOURCE, new String[] {file.getProject().getName(), file.getName()});
 		coreHelper.getValidationContextManager().addValidatedProject(this, file.getProject());
 
-		Set<IPath> dd = dependencies.getDirectDependencies(file.getFullPath());
+		Set<IPath> dd = getCDIContext(file).getDependencies().getDirectDependencies(file.getFullPath());
 		if(dd != null && !dd.isEmpty()) {
 			Set<IPath> resources = new HashSet<IPath>();
 			for (IPath p: dd) {
-				IFile f = cdiProject.getNature().getProject().getParent().getFile(p);
+				IFile f = ResourcesPlugin.getWorkspace().getRoot().getFile(p);
 				if(f.exists()) {
 					resources.add(p);
 					collectAllRelatedInjections(f, resources);
@@ -434,13 +491,15 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 			}					
 		}
 
+		CDIValidationContext context = getCDIContext(file);
+		ICDIProject cdiProject = context.getCdiProject();
 		if("beans.xml".equalsIgnoreCase(file.getName()) && CDIPreferences.shouldValidateBeansXml(file.getProject())) {
 			// TODO should we check the path of the beans.xml? Or it's better to check the every beans.xml even if it is not in META-INF or WEB-INF.
-			beansXmlValidator.validateBeansXml(file);
+			beansXmlValidator.validateBeansXml(context, file);
 		} else {
 			Set<IBean> beans = cdiProject.getBeans(file.getFullPath());
 			for (IBean bean : beans) {
-				validateBean(bean);
+				validateBean(context, bean);
 			}
 			IStereotype stereotype = cdiProject.getStereotype(file.getFullPath());
 			validateStereotype(stereotype);
@@ -454,11 +513,7 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 			IInterceptorBinding binding = cdiProject.getInterceptorBinding(file.getFullPath());
 			validateInterceptorBinding(binding);
 		}
-		Set<IValidatorFeature> extensions = cdiProject.getNature().getExtensionManager().getValidatorFeatures();
-		Set<CDICoreNature> ns = cdiProject.getNature().getCDIProjects();
-		for (CDICoreNature n: ns) {
-			extensions.addAll(n.getExtensionManager().getValidatorFeatures());
-		}
+		Set<IValidatorFeature> extensions = context.getExtensions();
 		for (IValidatorFeature v: extensions) {
 			setSeverityPreferences(v.getSeverityPreferences());
 			v.validateResource(file, this);
@@ -511,7 +566,7 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 	 * 
 	 * @param bean
 	 */
-	private void validateBean(IBean bean) {
+	private void validateBean(CDIValidationContext context, IBean bean) {
 		if (reporter.isCancelled()) {
 			return;
 		}
@@ -540,7 +595,7 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 		validateBeanScope(bean);
 
 		if (bean instanceof IProducer) {
-			validateProducer((IProducer) bean);
+			validateProducer(context, (IProducer) bean);
 		}
 
 		Set<IInjectionPoint> points = bean.getInjectionPoints();
@@ -550,7 +605,7 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 				getValidationContext().addLinkedCoreResource(SHORT_ID, beanPath, type.getPath(), false);
 			}
 			if(point.exists()) {
-				validateInjectionPoint(point);
+				validateInjectionPoint(context, point);
 			}
 		}
 
@@ -559,7 +614,7 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 		}
 
 		if (bean instanceof IDecorator) {
-			validateDecorator((IDecorator) bean);
+			validateDecorator(context, (IDecorator) bean);
 		}
 
 		if (bean instanceof IClassBean) {
@@ -575,7 +630,7 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 
 		validateSpecializingBean(bean);
 
-		validateBeanName(bean);
+		validateBeanName(context, bean);
 	}
 
 	/**
@@ -583,7 +638,7 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 	 * 
 	 * @param bean
 	 */
-	private void validateBeanName(IBean bean) {
+	private void validateBeanName(CDIValidationContext context, IBean bean) {
 		String name = bean.getName();
 		if(name!=null && !name.startsWith("/")) {
 			// Collect all relations between the bean and other CDI elements.
@@ -595,7 +650,7 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 			 *    Suppose two beans are both available for injection in a certain war, and either:
 			 *     • the two beans have the same EL name and the name is not resolvable, or
 			 */
-			Set<IBean> beans = cdiProject.getBeans(name, true);
+			Set<IBean> beans = context.getCdiProject().getBeans(name, true);
 			if(beans.size()>1 && beans.contains(bean)) {
 				ITextSourceReference reference = bean.getNameLocation(true);
 				Set<String> names = new HashSet<String>();
@@ -625,7 +680,7 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 						xName.append(st.nextToken());
 						if(st.hasMoreTokens()) {
 							String xNameAsString = xName.toString();
-							Set<IBean> xBeans = cdiProject.getBeans(xNameAsString, true);
+							Set<IBean> xBeans = context.getCdiProject().getBeans(xNameAsString, true);
 							if(!xBeans.isEmpty()) {
 								String yName = name.substring(xNameAsString.length()+1);
 								IStatus status = JavaConventions.validateJavaTypeName(yName, CompilerOptions.VERSION_1_6, CompilerOptions.VERSION_1_6);
@@ -657,12 +712,12 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 	/*
 	 * Returns set of EL names which are declared in the resource
 	 */
-	private Set<String> getELNamesByResource(IPath resourcePath) {
-		Set<IBean> beans = cdiProject.getBeans(resourcePath);
+	private Set<String> getELNamesByResource(CDIValidationContext context, IPath resourcePath) {
+		Set<IBean> beans = context.getCdiProject().getBeans(resourcePath);
 		if(beans.isEmpty()) {
 			return Collections.emptySet();
 		}
-		Set<IBeanKeyProvider> ps = cdiProject.getNature().getExtensionManager().getFeatures(IBeanKeyProvider.class);
+		Set<IBeanKeyProvider> ps = context.getCdiProject().getNature().getExtensionManager().getFeatures(IBeanKeyProvider.class);
 		Set<String> result = new HashSet<String>();
 		for (IBean bean : beans) {
 			String name = bean.getName();
@@ -1155,7 +1210,7 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 
 	private static final String[] RESOURCE_ANNOTATIONS = { CDIConstants.RESOURCE_ANNOTATION_TYPE_NAME, CDIConstants.WEB_SERVICE_REF_ANNOTATION_TYPE_NAME, CDIConstants.EJB_ANNOTATION_TYPE_NAME, CDIConstants.PERSISTENCE_CONTEXT_ANNOTATION_TYPE_NAME, CDIConstants.PERSISTENCE_UNIT_ANNOTATION_TYPE_NAME };
 
-	private void validateProducer(IProducer producer) {
+	private void validateProducer(CDIValidationContext context, IProducer producer) {
 		try {
 			Set<ITypeDeclaration> typeDeclarations = producer.getAllTypeDeclarations();
 			String[] typeVariables = producer.getBeanClass().getTypeParameterSignatures();
@@ -1351,7 +1406,7 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 									}
 								}
 							} else {
-								Set<IBean> beans = cdiProject.getBeans(superType.getResource().getFullPath());
+								Set<IBean> beans = context.getCdiProject().getBeans(superType.getResource().getFullPath());
 								for (IBean iBean : beans) {
 									if(iBean instanceof IProducerMethod) {
 										IProducerMethod prMethod = (IProducerMethod)iBean;
@@ -1406,6 +1461,8 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 	}
 
 	private void collectAllRelatedInjections(IFile validatingResource, Set<IPath> relatedResources) {
+		CDIValidationContext context = getCDIContext(validatingResource);
+		ICDIProject cdiProject = context.getCdiProject();
 		collectAllRelatedInjectionsForBean(validatingResource, relatedResources);
 		if("beans.xml".equals(validatingResource.getName().toLowerCase())) {
 			List<INodeReference> nodes = cdiProject.getAlternativeClasses();
@@ -1435,6 +1492,8 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 	}
 
 	public void collectAllRelatedInjectionsForBean(IFile validatingResource, Set<IPath> relatedResources) {
+		CDIValidationContext context = getCDIContext(validatingResource);
+		ICDIProject cdiProject = context.getCdiProject();
 		Set<IBean> beans = cdiProject.getBeans(validatingResource.getFullPath());
 		for (IBean bean : beans) {
 			Set<IParametedType> types = bean.getAllTypes();
@@ -1500,7 +1559,8 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 		}
 	}
 
-	private void validateInjectionPoint(IInjectionPoint injection) {
+	private void validateInjectionPoint(CDIValidationContext context, IInjectionPoint injection) {
+		ICDIProject cdiProject = context.getCdiProject();
 		if(injection instanceof IInjectionPointParameter && injection.isAnnotationPresent(CDIConstants.DISPOSES_ANNOTATION_TYPE_NAME)) {
 			//Disposer is validated separately
 			return;
@@ -2020,7 +2080,7 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 		}
 	}
 
-	private void validateDecorator(IDecorator decorator) {
+	private void validateDecorator(CDIValidationContext context, IDecorator decorator) {
 		/*
 		 * 2.5.3. Beans with no EL name
 		 *  - decorator has a name (Non-Portable behavior)
@@ -2114,7 +2174,7 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 			if(delegateParametedType!=null) {
 				IType delegateType = delegateParametedType.getType();
 				if(delegateType != null) {
-					if(!checkTheOnlySuper(decorator, delegateParametedType)) {
+					if(!checkTheOnlySuper(context, decorator, delegateParametedType)) {
 						Set<IParametedType> decoratedParametedTypes = decorator.getDecoratedTypes();
 						List<String> supers = null;
 						if(shouldValidateType(delegateType)) {
@@ -2157,7 +2217,8 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 		}
 	}
 
-	private boolean checkTheOnlySuper(IDecorator decorator, IParametedType delegatedType) {
+	private boolean checkTheOnlySuper(CDIValidationContext context, IDecorator decorator, IParametedType delegatedType) {
+		ICDIProject cdiProject = context.getCdiProject();
 		try {
 			String superClassSignature = decorator.getBeanClass().getSuperclassTypeSignature();
 			String[] superInterfaceSignatures = decorator.getBeanClass().getSuperInterfaceTypeSignatures();

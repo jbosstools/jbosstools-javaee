@@ -96,7 +96,7 @@ public class BeansXmlValidationDelegate extends CDICoreValidationDelegate {
 		return interceptorTypeValidator;
 	}
 
-	public void validateBeansXml(IFile beansXml) {
+	public void validateBeansXml(CDICoreValidator.CDIValidationContext context, IFile beansXml) {
 		IModelManager manager = StructuredModelManager.getModelManager();
 		if(manager == null) {
 			// this may happen if plug-in org.eclipse.wst.sse.core 
@@ -120,10 +120,7 @@ public class BeansXmlValidationDelegate extends CDICoreValidationDelegate {
 				 *  - If the same type is listed twice under the <alternatives> element, the container automatically detects the problem and
 				 *    treats it as a deployment problem.
 				 */
-				validateTypeBeanForBeansXml(
-						getAlternativeClassValidator(),
-						document,
-						beansXml);
+				validateTypeBeanForBeansXml(context, getAlternativeClassValidator(), document, beansXml);
 
 				/*
 				 * 5.1.1. Declaring selected alternatives for a bean archive
@@ -133,10 +130,7 @@ public class BeansXmlValidationDelegate extends CDICoreValidationDelegate {
 				 *  - If the same type is listed twice under the <alternatives> element, the container automatically detects the problem and
 				 *    treats it as a deployment problem. 
 				 */
-				validateTypeBeanForBeansXml(
-						getAlternativeStereotypeValidator(),
-						document,
-						beansXml);
+				validateTypeBeanForBeansXml(context, getAlternativeStereotypeValidator(), document,	beansXml);
 
 				/*
 				 * 8.2. Decorator enablement and ordering
@@ -146,10 +140,7 @@ public class BeansXmlValidationDelegate extends CDICoreValidationDelegate {
 				 *  - If the same class is listed twice under the <decorators> element, the container automatically detects the problem and
 				 *    treats it as a deployment problem.
 				 */
-				validateTypeBeanForBeansXml(
-						getDecoratorTypeValidator(),
-						document,
-						beansXml);
+				validateTypeBeanForBeansXml(context, getDecoratorTypeValidator(), document, beansXml);
 
 				/*
 				 * 9.4. Interceptor enablement and ordering
@@ -159,10 +150,7 @@ public class BeansXmlValidationDelegate extends CDICoreValidationDelegate {
 				 *  - If the same class is listed twice under the <interceptors> element, the container automatically detects the problem and treats it as
 				 *    a deployment problem.
 				 */
-				validateTypeBeanForBeansXml(
-						getInterceptorTypeValidator(),
-						document,
-						beansXml);
+				validateTypeBeanForBeansXml(context, getInterceptorTypeValidator(), document, beansXml);
 			}
 		} catch (CoreException e) {
 			CDICorePlugin.getDefault().logError(e);
@@ -175,7 +163,7 @@ public class BeansXmlValidationDelegate extends CDICoreValidationDelegate {
 		}
 	}
 
-	private void validateTypeBeanForBeansXml(TypeValidator typeValidator, IDOMDocument document, IFile beansXml) {
+	private void validateTypeBeanForBeansXml(CDICoreValidator.CDIValidationContext context, TypeValidator typeValidator, IDOMDocument document, IFile beansXml) {
 		try {
 			NodeList parentNodeList = document.getElementsByTagName(typeValidator.getParrentElementname());
 			for (int i = 0; i < parentNodeList.getLength(); i++) {
@@ -207,7 +195,7 @@ public class BeansXmlValidationDelegate extends CDICoreValidationDelegate {
 								}
 								continue;
 							} else {
-								if(!typeValidator.validateSourceType(type)) {
+								if(!typeValidator.validateSourceType(context, type)) {
 									validator.addError(typeValidator.getIllegalTypeErrorMessage(), CDIPreferences.ILLEGAL_TYPE_NAME_IN_BEANS_XML,
 											new String[]{}, typeNode.getLength(), typeNode.getStartOffset(), beansXml, typeValidator.getIllegalTypeErrorMessageId());
 								}
@@ -372,7 +360,7 @@ public class BeansXmlValidationDelegate extends CDICoreValidationDelegate {
 
 	private static interface TypeValidator {
 
-		boolean validateSourceType(IType type);
+		boolean validateSourceType(CDICoreValidator.CDIValidationContext context, IType type);
 
 		boolean validateBinaryType(IType type) throws JavaModelException;
 
@@ -424,8 +412,8 @@ public class BeansXmlValidationDelegate extends CDICoreValidationDelegate {
 
 	private class AlternativeClassValidator extends AbstractTypeValidator {
 
-		public boolean validateSourceType(IType type) {
-			IClassBean classBean = validator.cdiProject.getBeanClass(type);
+		public boolean validateSourceType(CDICoreValidator.CDIValidationContext context, IType type) {
+			IClassBean classBean = context.getCdiProject().getBeanClass(type);
 			return classBean!=null && classBean.isAlternative();
 		}
 
@@ -461,8 +449,8 @@ public class BeansXmlValidationDelegate extends CDICoreValidationDelegate {
 
 	private class AlternativeStereotypeValidator extends AbstractTypeValidator {
 
-		public boolean validateSourceType(IType type) {
-			IStereotype stereotype = validator.cdiProject.getStereotype(type);
+		public boolean validateSourceType(CDICoreValidator.CDIValidationContext context, IType type) {
+			IStereotype stereotype = context.getCdiProject().getStereotype(type);
 			return stereotype!=null && stereotype.isAlternative();
 		}
 
@@ -508,8 +496,8 @@ public class BeansXmlValidationDelegate extends CDICoreValidationDelegate {
 
 	private class DecoratorTypeValidator extends AbstractTypeValidator {
 
-		public boolean validateSourceType(IType type) {
-			IClassBean classBean = validator.cdiProject.getBeanClass(type);
+		public boolean validateSourceType(CDICoreValidator.CDIValidationContext context, IType type) {
+			IClassBean classBean = context.getCdiProject().getBeanClass(type);
 			return classBean instanceof IDecorator;
 		}
 
@@ -545,8 +533,8 @@ public class BeansXmlValidationDelegate extends CDICoreValidationDelegate {
 
 	private class InterceptorTypeValidator extends AbstractTypeValidator {
 
-		public boolean validateSourceType(IType type) {
-			IClassBean classBean = validator.cdiProject.getBeanClass(type);
+		public boolean validateSourceType(CDICoreValidator.CDIValidationContext context, IType type) {
+			IClassBean classBean = context.getCdiProject().getBeanClass(type);
 			return classBean instanceof IInterceptor;
 		}
 
