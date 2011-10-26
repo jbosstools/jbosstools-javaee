@@ -117,8 +117,6 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 	IValidatingProjectSet projectSet;
 	Set<IFolder> sourceFolders;
 
-	private Set<IInjectionPointValidatorFeature> injectionValidationFeatures;
-
 	private BeansXmlValidationDelegate beansXmlValidator = new BeansXmlValidationDelegate(this);
 	private AnnotationValidationDelegate annotationValidator = new AnnotationValidationDelegate(this);
 
@@ -129,6 +127,7 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 		private IProject project;
 		private Dependencies dependencies;
 		private Set<IValidatorFeature> extensions;
+		private Set<IInjectionPointValidatorFeature> injectionValidationFeatures;
 
 		public CDIValidationContext(IProject project) {
 			this.project = project;
@@ -141,6 +140,7 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 			for (CDICoreNature n: ns) {
 				extensions.addAll(n.getExtensionManager().getValidatorFeatures());
 			}
+			injectionValidationFeatures = nature.getExtensionManager().getFeatures(IInjectionPointValidatorFeature.class);
 		}
 
 		/**
@@ -169,6 +169,13 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 		 */
 		public Set<IValidatorFeature> getExtensions() {
 			return extensions;
+		}
+
+		/**
+		 * @return the injection validation features
+		 */
+		public Set<IInjectionPointValidatorFeature> getInjectionValidationFeatures() {
+			return injectionValidationFeatures;
 		}
 	}
 
@@ -269,7 +276,6 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 			if(rootCdiProject==null) {
 				CDICorePlugin.getDefault().logError("Trying to validate " + rootProject + " but CDI Tools model for the project is not built.");
 			}
-			injectionValidationFeatures = nature.getExtensionManager().getFeatures(IInjectionPointValidatorFeature.class);
 		} else {
 			CDICorePlugin.getDefault().logError("Trying to validate " + rootProject + " but there is no CDI Nature in the project.");
 		}
@@ -1517,7 +1523,8 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 	 * @param injection
 	 * @return
 	 */
-	private boolean shouldIgnoreInjection(IType typeOfInjectionPoint, IInjectionPoint injection) {
+	private boolean shouldIgnoreInjection(CDIValidationContext context, IType typeOfInjectionPoint, IInjectionPoint injection) {
+		Set<IInjectionPointValidatorFeature> injectionValidationFeatures = context.getInjectionValidationFeatures();
 		for (IInjectionPointValidatorFeature feature : injectionValidationFeatures) {
 			if(feature.shouldIgnoreInjection(typeOfInjectionPoint, injection)) {
 				return true;
@@ -1604,7 +1611,7 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 			 *  - If an unsatisfied or unresolvable ambiguous dependency exists, the container automatically detects the problem and treats it as a deployment problem.
 			 */
 			IType type = getTypeOfInjection(injection);
-			if(!shouldIgnoreInjection(type, injection)) {
+			if(!shouldIgnoreInjection(context, type, injection)) {
 				boolean instance = type!=null && CDIConstants.INSTANCE_TYPE_NAME.equals(type.getFullyQualifiedName());
 				Set<IBean> allBeans = cdiProject.getBeans(false, injection);
 				for (IBean bean : allBeans) {
