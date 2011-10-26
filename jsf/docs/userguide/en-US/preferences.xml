@@ -1433,7 +1433,7 @@
 <?dbhtml filename="XDoclet.html"?>
     <title>XDoclet</title> 
     <para>
-      The preferences for XDoclet can be changed if you click <menuchoice><guimenuitem>Java EE</guimenuitem><guimenuitem>XDocklet</guimenuitem></menuchoice> on the left navigation bar.
+      The preferences for XDoclet can be changed if you click <menuchoice><guimenuitem>Java EE</guimenuitem><guimenuitem>XDoclet</guimenuitem></menuchoice> on the left navigation bar.
     </para>
      
     <para>
