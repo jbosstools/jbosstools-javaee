@@ -25,9 +25,9 @@ import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.ProjectImportTestSetup;
 
 /**
- * The JUnit test cases for https://issues.jboss.org/browse/JBIDE-9414 issue 
+ * The JUnit test cases for https://issues.jboss.org/browse/JBIDE-10021 issue 
  * 
- * @author Victor V. Rubezhny
+ * @author Viacheslav Kabanovich
  *
  */
 public class CAJsfMessagesProposalsTest extends ContentAssistantTestCase {
@@ -47,7 +47,7 @@ public class CAJsfMessagesProposalsTest extends ContentAssistantTestCase {
 		return new TestSuite(CAJsfMessagesProposalsTest.class);
 	}
 
-	private void doTestLongResourceBundlePropertyNames(String tagName, String prefix, String proposalToApply, String compareString) {
+	private void doMessagesInLocalizedBundles(String tagName, String prefix, String proposalToApply, String compareString) {
 		String documentContent = document.get();
 		int start = (documentContent == null ? -1 : documentContent.indexOf(tagName));
 		assertFalse("Required node '" + tagName + "' not found in document", (start == -1));
@@ -77,12 +77,12 @@ public class CAJsfMessagesProposalsTest extends ContentAssistantTestCase {
 
 	}
 	
-	public void testJstJspLongResourceBundlePropertyNamesInTagAttributeValue() {
+	public void testMessagesInLocalizedBundles() {
 		assertNotNull("Test project '" + PROJECT_NAME + "' is not prepared", project);
 		
 		openEditor(PAGE_NAME);
 		try {
-			doTestLongResourceBundlePropertyNames(TAG_STRING, PREFIX_STRING, PROPOSAL_TO_APPLY_STRING, COMPARE_STRING);
+			doMessagesInLocalizedBundles(TAG_STRING, PREFIX_STRING, PROPOSAL_TO_APPLY_STRING, COMPARE_STRING);
 		} finally {
 			closeEditor();
 		}
