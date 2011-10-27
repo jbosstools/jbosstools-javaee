@@ -27,8 +27,11 @@ public class SeamCoreTestSetup extends TestSetup {
 	public static final String PLUGIN_ID = "org.jboss.tools.cdi.seam.core.test";
 	public static final String PROJECT_NAME = "SeamCoreTest";
 	public static final String PROJECT_PATH = "/projects/SeamCoreTest";
+	public static final String ROOT_PROJECT_NAME = "SeamCoreRootTest";
+	public static final String ROOT_PROJECT_PATH = "/projects/SeamCoreRootTest";
 
 	protected IProject project;
+	protected IProject rootProject;
 
 	public SeamCoreTestSetup(Test test) {
 		super(test);
@@ -40,6 +43,10 @@ public class SeamCoreTestSetup extends TestSetup {
 		if(!project.exists()) {
 			project = ResourcesUtils.importProject(PLUGIN_ID, PROJECT_PATH);
 			TestUtil._waitForValidation(project);
+			rootProject = ResourcesUtils.importProject(PLUGIN_ID, ROOT_PROJECT_PATH);
+			TestUtil._waitForValidation(rootProject);
+		} else {
+			assertTrue(ResourcesPlugin.getWorkspace().getRoot().getProject(ROOT_PROJECT_NAME).exists());
 		}
 	}
 
@@ -47,6 +54,7 @@ public class SeamCoreTestSetup extends TestSetup {
 	protected void tearDown() throws Exception {
 		boolean saveAutoBuild = ResourcesUtils.setBuildAutomatically(false);
 		project.delete(true, true, null);
+		rootProject.delete(true, true, null);
 		JobUtils.waitForIdle();
 		ResourcesUtils.setBuildAutomatically(saveAutoBuild);
 	}
