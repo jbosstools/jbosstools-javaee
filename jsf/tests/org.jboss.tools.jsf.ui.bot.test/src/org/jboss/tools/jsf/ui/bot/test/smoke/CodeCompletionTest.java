@@ -50,7 +50,7 @@ public class CodeCompletionTest extends JSFAutoTestCase{
         9, 
         0, 
         expectedProposals);
-    // Check content assist for ${msg. prefix
+    // Check content assist for #{msg. prefix
     expectedProposals.clear();
     expectedProposals.add("name : String - Person");
     ContentAssistHelper.checkContentAssistContent(SWTTestExt.bot, 
@@ -76,7 +76,7 @@ public class CodeCompletionTest extends JSFAutoTestCase{
         0);
     contentAssist.checkContentAssist("msg", false);
     contentAssist.checkContentAssist("person : Person", false);
-    // Check content assist for ${msg. prefix
+    // Check content assist for #{msg. prefix
     SWTJBTExt.selectTextInSourcePane(SWTTestExt.bot, 
         FACELETS_TEST_PAGE,
         textForSelection, 
@@ -235,7 +235,7 @@ public class CodeCompletionTest extends JSFAutoTestCase{
     bot.sleep(Timing.time2S());
     compositeComponentDefEditor.save();
     currentLineText = compositeComponentDefEditor.getTextOnCurrentLine();
-    expectedInsertedText = "${cc.attrs}";
+    expectedInsertedText = "#{cc.attrs}";
     assertTrue("Inserted text should be " + expectedInsertedText + " but is not.\n" 
         + "Current line text is " + currentLineText,
       currentLineText.toLowerCase().contains(expectedInsertedText.toLowerCase()));
@@ -244,14 +244,14 @@ public class CodeCompletionTest extends JSFAutoTestCase{
     // Check content assist menu content for Composite Components attributes    
     ContentAssistHelper.checkContentAssistContent(SWTTestExt.bot, 
         compositeComponentFileName,
-        "${cc.attrs.}", 
+        "#{cc.attrs.}", 
         11, 
         0, 
         getCompositeComponentsAttributeDefProposalList());
     // check inserting of "submitlabel" content assist
     String contentAssistToUse = "submitlabel";
     contentAssist.checkContentAssist(contentAssistToUse, true);
-    expectedInsertedText = "<h:commandButton action=\"${cc.attrs." + contentAssistToUse + "}\"";
+    expectedInsertedText = "<h:commandButton action=\"#{cc.attrs." + contentAssistToUse + "}\"";
     assertTrue("Editor has to contain text '" + expectedInsertedText + "' but it doesn't\n" +
         "Editor Text is\n" + compositeComponentDefEditor.getText(),
         compositeComponentDefEditor.getText().toLowerCase().contains(expectedInsertedText.toLowerCase()));
@@ -291,7 +291,7 @@ public class CodeCompletionTest extends JSFAutoTestCase{
         9, 
         0, 
         expectedProposals);
-    // Check content assist for ${user. prefix
+    // Check content assist for #{user. prefix
     expectedProposals.clear();
     expectedProposals.add("name : String - User");
     expectedProposals.add("sayHello() : String - User");
@@ -554,7 +554,7 @@ public void tearDown() throws Exception {
     result.add("onmouseup");
     result.add("submitlabel");
     result.add("value");
-    result.add("\"${cc.attrs.}\"");    
+    result.add("\"#{cc.attrs.}\"");    
     return result;
   }
 
