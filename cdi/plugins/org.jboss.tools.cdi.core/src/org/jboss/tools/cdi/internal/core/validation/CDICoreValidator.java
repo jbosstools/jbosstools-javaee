@@ -134,12 +134,7 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 			CDICoreNature nature = CDICorePlugin.getCDI(project, true);
 			cdiProject =  nature.getDelegate();
 			dependencies = nature.getDefinitions().getAllDependencies();
-
 			extensions = nature.getExtensionManager().getValidatorFeatures();
-			Set<CDICoreNature> ns = nature.getCDIProjects();
-			for (CDICoreNature n: ns) {
-				extensions.addAll(n.getExtensionManager().getValidatorFeatures());
-			}
 			injectionValidationFeatures = nature.getExtensionManager().getFeatures(IInjectionPointValidatorFeature.class);
 		}
 
@@ -664,6 +659,7 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 				names.add(bName);
 				StringBuffer sb = new StringBuffer(bName);
 				for (IBean iBean : beans) {
+					getValidationContext().addLinkedCoreResource(SHORT_ID, name, iBean.getSourcePath(), true);
 					bName = iBean.getElementName();
 					if(bean!=iBean && !names.contains(bName)) {
 						names.add(bName);
