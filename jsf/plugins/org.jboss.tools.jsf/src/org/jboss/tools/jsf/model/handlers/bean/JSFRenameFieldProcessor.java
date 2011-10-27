@@ -14,7 +14,6 @@ import org.jboss.tools.jsf.model.handlers.refactoring.JSFRenameProcessor;
 
 public class JSFRenameFieldProcessor extends JSFRenameProcessor {
 	public static final String IDENTIFIER = "org.jboss.tools.jsf.renameFieldProcesso"; //$NON-NLS-1$
-	private boolean updateReferences = true;
 
 	public JSFRenameFieldProcessor() {}
 
@@ -28,14 +27,6 @@ public class JSFRenameFieldProcessor extends JSFRenameProcessor {
 	
 	public boolean canEnableUpdateReferences() {
 		return true;
-	}
-
-	public void setUpdateReferences(boolean update) {
-		updateReferences = update;
-	}
-
-	public boolean getUpdateReferences() {
-		return updateReferences;
 	}
 
 }
