@@ -1,7 +1,96 @@
 <tests>
 	<test id="id1">
-		<SPAN CLASS="vpe-text">
+		<DIV CLASS="vpe-text" STYLE="display: inline;">
 			cout_value
-        </SPAN>
+		</DIV>
 	</test>
+
+	<test id="id2">
+		<DIV CLASS="vpe-text" STYLE="display: inline;">
+			escaped symbols defult behavior ==[ &lt;,&gt;,&amp;,' ]==
+		</DIV>
+	</test>
+
+	<test id="id3">
+		<DIV CLASS="vpe-text" STYLE="display: inline;">
+			escaped quotes defult behavior ==[ " ]==
+		</DIV>
+	</test>
+
+	<test id="id4">
+		<DIV CLASS="vpe-text" STYLE="display: inline;">
+			<SPAN CLASS="vpe-text">
+				escaped symbols attr set to false ==[ &lt;,&gt;,&amp;,' ]==
+			</SPAN>
+		</DIV>
+	</test>
+
+	<test id="id5">
+		<DIV CLASS="vpe-text" STYLE="display: inline;">
+			<SPAN CLASS="vpe-text">
+				escaped quotes attr set to false ==[ " ]==
+			</SPAN>
+		</DIV>
+	</test>
+
+	<test id="id6">
+		<DIV CLASS="vpe-text" STYLE="display: inline;">
+			escaped symbols defult behavior ==[ &lt;xml&gt;&lt;book&gt; some&amp;xml'inside &lt;/book&gt;&lt;/xml&gt; ]==
+		</DIV>
+	</test>
+
+	<test id="id7">
+		<DIV CLASS="vpe-text" STYLE="display: inline;">
+			escaped quotes defult behavior ==[ &lt;xml&gt;&lt;book&gt; "some xml inside" &lt;/book&gt;&lt;/xml&gt; ]==
+		</DIV>
+	</test>
+
+	<test id="id8">
+		<DIV CLASS="vpe-text" STYLE="display: inline;">
+			<SPAN CLASS="vpe-text">
+				escaped symbols attr set to false ==[
+			</SPAN>
+			<DIV STYLE="-moz-user-modify: read-only; border: 1px solid green;">
+				<DIV CLASS="__any__tag__caption" STYLE="">
+					xml
+				</DIV>
+				<DIV STYLE="-moz-user-modify: read-only; border: 1px solid green;">
+					<DIV CLASS="__any__tag__caption" STYLE="">
+						book
+					</DIV>
+					<SPAN CLASS="vpe-text">
+						some&amp;xml'inside
+					</SPAN>
+				</DIV>
+			</DIV>
+			<SPAN CLASS="vpe-text">
+				]==
+			</SPAN>
+		</DIV>
+	</test>
+
+	<test id="id9">
+		<DIV CLASS="vpe-text" STYLE="display: inline;">
+			<SPAN CLASS="vpe-text">
+				escaped quotes attr set to false ==[
+			</SPAN>
+			<DIV STYLE="-moz-user-modify: read-only; border: 1px solid green;">
+				<DIV CLASS="__any__tag__caption" STYLE="">
+					xml
+				</DIV>
+				<DIV STYLE="-moz-user-modify: read-only; border: 1px solid green;">
+					<DIV CLASS="__any__tag__caption" STYLE="">
+						book
+					</DIV>
+					<SPAN CLASS="vpe-text">
+						"some xml inside"
+					</SPAN>
+				</DIV>
+			</DIV>
+			<SPAN CLASS="vpe-text">
+				]==
+			</SPAN>
+		</DIV>
+	</test>
+
 </tests>

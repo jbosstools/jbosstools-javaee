@@ -13,12 +13,12 @@ package org.jboss.tools.jsf.vpe.jstl.template;
 import org.jboss.tools.jsf.vpe.jsf.template.AbstractOutputJsfTemplate;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
+import org.jboss.tools.vpe.editor.util.HTML;
 import org.jboss.tools.vpe.editor.util.VisualDomUtil;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMElement;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
-
 
 /**
  * Class for creating Out content
@@ -27,27 +27,17 @@ import org.w3c.dom.Node;
  */
 public class JstlOutTemplate extends AbstractOutputJsfTemplate {
 
-    /**
-     * Create html instead c:out component.
-     *
-     * @param pageContext
-     *            Contains the information on edited page.
-     * @param sourceNode
-     *            The current node of the source tree.
-     * @param visualDocument
-     *            The document of the visual tree.
-     * @return The information on the created node of the visual tree.
-     */
+	@Override
     public VpeCreationData create(VpePageContext pageContext, Node sourceNode, nsIDOMDocument visualDocument) {
-        // convert to Element
         Element sourceElement = (Element) sourceNode;
-        // create span element
-        nsIDOMElement span = VisualDomUtil.createBorderlessContainer(visualDocument);
-
+        nsIDOMElement span = VisualDomUtil.createBorderlessContainer(visualDocument, HTML.TAG_DIV);
+        span.setAttribute(HTML.ATTR_STYLE, "display: inline"); //$NON-NLS-1$
         VpeCreationData creationData = new VpeCreationData(span);
-
+        /*
+         * https://issues.jboss.org/browse/JBIDE-9417
+         */
+        setEscapeAttributeName("escapeXml"); //$NON-NLS-1$
 		processOutputAttribute(pageContext, visualDocument, sourceElement, span, creationData);
-
         return creationData;
     }
 }

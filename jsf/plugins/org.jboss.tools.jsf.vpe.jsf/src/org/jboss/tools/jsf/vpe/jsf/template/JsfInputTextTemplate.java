@@ -29,11 +29,8 @@ public class JsfInputTextTemplate extends AbstractEditableJsfTemplate {
 
 	public VpeCreationData create(VpePageContext pageContext, Node sourceNode,
 			nsIDOMDocument visualDocument) {
-
 		Element sourceElement = (Element) sourceNode;
-
 		nsIDOMElement input = visualDocument.createElement(HTML.TAG_INPUT);
-
 		/*
          * https://jira.jboss.org/jira/browse/JBIDE-3225
          * Component should render its children.
@@ -41,29 +38,19 @@ public class JsfInputTextTemplate extends AbstractEditableJsfTemplate {
 		VpeCreationData creationData = VisualDomUtil
 				.createTemplateWithTextContainer(sourceElement,
 						input, HTML.TAG_SPAN, visualDocument);
-
 		copyGeneralJsfAttributes(sourceElement, input);
 		ComponentUtil.copyDisabled(sourceElement, input);
-
 		copyAttribute(input, sourceElement, JSF.ATTR_VALUE, HTML.ATTR_VALUE);
 		copyAttribute(input, sourceElement, JSF.ATTR_SIZE, HTML.ATTR_SIZE);
 		copyAttribute(input, sourceElement, JSF.ATTR_DIR, HTML.ATTR_DIR);
-
 		VpeElementData elementData = new VpeElementData();
 		if (sourceElement.hasAttribute(JSF.ATTR_VALUE)) {
-
 			Attr attr = sourceElement.getAttributeNode(JSF.ATTR_VALUE);
-			elementData
-					.addNodeData(new AttributeData(attr, input, true));
-
+			elementData.addNodeData(new AttributeData(attr, input, true));
 		} else {
-
-			elementData.addNodeData(new AttributeData(JSF.ATTR_VALUE,
-					input, true));
-
+			elementData.addNodeData(new AttributeData(JSF.ATTR_VALUE, input, true));
 		}
 		creationData.setElementData(elementData);
-
 		return creationData;
 	}
 

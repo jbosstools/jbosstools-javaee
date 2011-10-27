@@ -12,5 +12,16 @@
 	<c:out value="cout_value" id="id1">
 		some out
 	</c:out>
+
+	<c:out value="escaped symbols defult behavior ==[ <,>,&,' ]==" id="id2"/>
+	<c:out value='escaped quotes defult behavior ==[ " ]==' id="id3" />
+	<c:out value="escaped symbols attr set to false ==[ <,>,&,' ]==" escapeXml="false" id="id4" />
+	<c:out value='escaped quotes attr set to false ==[ " ]==' escapeXml="false" id="id5" />
+	
+	<c:out value="escaped symbols defult behavior ==[ <xml><book> some&xml'inside </book></xml> ]==" id="id6" />
+	<c:out value='escaped quotes defult behavior ==[ <xml><book> "some xml inside" </book></xml> ]==' id="id7" />
+	<c:out value="escaped symbols attr set to false ==[ <xml><book> some&xml'inside </book></xml> ]==" escapeXml="false" id="id8" />
+	<c:out value='escaped quotes attr set to false ==[ <xml><book> "some xml inside" </book></xml> ]==' escapeXml="false" id="id9" />
+	
 </body>
 </html>
