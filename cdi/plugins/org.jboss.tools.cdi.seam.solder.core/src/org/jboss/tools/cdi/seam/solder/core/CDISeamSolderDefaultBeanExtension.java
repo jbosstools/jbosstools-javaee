@@ -10,8 +10,10 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.seam.solder.core;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -33,6 +35,7 @@ import org.jboss.tools.cdi.core.IScope;
 import org.jboss.tools.cdi.core.extension.ICDIExtension;
 import org.jboss.tools.cdi.core.extension.feature.IAmbiguousBeanResolverFeature;
 import org.jboss.tools.cdi.core.extension.feature.IBeanKeyProvider;
+import org.jboss.tools.cdi.core.extension.feature.IBeanStoreFeature;
 import org.jboss.tools.cdi.core.extension.feature.IProcessAnnotatedTypeFeature;
 import org.jboss.tools.cdi.core.extension.feature.IValidatorFeature;
 import org.jboss.tools.cdi.internal.core.impl.BeanMember;
@@ -64,7 +67,9 @@ import org.jboss.tools.common.text.ITextSourceReference;
  * @author Viacheslav Kabanovich
  *
  */
-public class CDISeamSolderDefaultBeanExtension implements ICDIExtension, IProcessAnnotatedTypeFeature, IAmbiguousBeanResolverFeature, IValidatorFeature, IBeanKeyProvider {
+public class CDISeamSolderDefaultBeanExtension implements ICDIExtension, IProcessAnnotatedTypeFeature, IAmbiguousBeanResolverFeature, IValidatorFeature, IBeanKeyProvider, IBeanStoreFeature {
+	
+	protected Map<String, Set<IBean>> defaultBeansByKey = new HashMap<String, Set<IBean>>();
 
 	protected Version getVersion() {
 		return Version.instance;
@@ -182,7 +187,16 @@ public class CDISeamSolderDefaultBeanExtension implements ICDIExtension, IProces
 				IQualifierDeclaration[] qs = bean.getQualifierDeclarations().toArray(new IQualifierDeclaration[0]);
 				IParametedType type = getDefaultType(bean);
 				if(type != null) {
-					validator.getValidationContext().addLinkedCoreResource(CDICoreValidator.SHORT_ID, createKey(type, bean.getQualifierDeclarations(true)), file.getFullPath(), true);
+					String key = createKey(type, bean.getQualifierDeclarations(true));
+					Set<IBean> linked = defaultBeansByKey.get(key);
+					if(linked != null) {
+						for (IBean link: linked) {
+							if(link.getSourcePath() != null) {
+								validator.getValidationContext().addLinkedCoreResource(CDICoreValidator.SHORT_ID, key, link.getSourcePath(), true);
+								System.out.println(key + ":" + link.getSourcePath());
+							}
+						}
+					}
 					Set<IBean> bs2 = cdiProject.getBeans(false, type, qs);
 					StringBuilder otherDefaultBeans = new StringBuilder();
 					for (IBean b: bs2) {
@@ -225,8 +239,7 @@ public class CDISeamSolderDefaultBeanExtension implements ICDIExtension, IProces
 
 	@Override
 	public String getKey(IBean bean) {
-		IAnnotationDeclaration a = bean.getAnnotation(getVersion().getDefaultBeanAnnotationTypeName());
-		if(a != null) {
+		if(isBeanDefault(bean)) {
 			IParametedType type = getDefaultType(bean);
 			if(type != null) {
 				return createKey(type, bean.getQualifierDeclarations(true));
@@ -249,6 +262,24 @@ public class CDISeamSolderDefaultBeanExtension implements ICDIExtension, IProces
 			sb.append(':').append(s);
 		}
 		return sb.toString();
+	}
+
+	public synchronized void updateCaches(ICDIProject project) {
+		Map<String, Set<IBean>> map = new HashMap<String, Set<IBean>>();
+
+		IBean[] beans = project.getBeans();
+		for (IBean b: beans) {
+			String key = getKey(b);
+			if(key != null) {
+				Set<IBean> bs = map.get(key);
+				if(bs == null) {
+					bs = new HashSet<IBean>();
+					map.put(key, bs);
+				}
+				bs.add(b);
+			}
+		}
+		defaultBeansByKey = map;
 	}
 
 }
