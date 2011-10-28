@@ -59,6 +59,7 @@ import org.jboss.tools.cdi.core.IScope;
 import org.jboss.tools.cdi.core.IStereotype;
 import org.jboss.tools.cdi.core.IStereotypeDeclaration;
 import org.jboss.tools.cdi.core.extension.feature.IAmbiguousBeanResolverFeature;
+import org.jboss.tools.cdi.core.extension.feature.IBeanStoreFeature;
 import org.jboss.tools.cdi.core.extension.feature.IBuildParticipantFeature;
 import org.jboss.tools.cdi.internal.core.event.CDIProjectChangeEvent;
 import org.jboss.tools.cdi.internal.core.impl.definition.AnnotationDefinition;
@@ -1123,6 +1124,11 @@ public class CDIProject extends CDIElement implements ICDIProject {
 			for (IBuildParticipantFeature bp: bs) {
 				bp.buildBeans(this);
 			}
+		}
+		
+		Set<IBeanStoreFeature> beanStores = n.getExtensionManager().getFeatures(IBeanStoreFeature.class);
+		for (IBeanStoreFeature bp: beanStores) {
+			bp.updateCaches(this);
 		}
 
 		if(updateDependent) {

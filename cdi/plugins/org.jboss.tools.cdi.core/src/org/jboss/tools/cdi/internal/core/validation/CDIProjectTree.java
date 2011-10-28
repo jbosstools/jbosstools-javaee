@@ -53,7 +53,7 @@ public class CDIProjectTree implements IValidatingProjectTree {
 			allProjects.add(project);
 			if(!validatingProjects.contains(project)) {
 				validatingProjects.add(project);
-				CDICoreNature currentNature = CDICorePlugin.getCDI(project, false);
+				CDICoreNature currentNature = CDICorePlugin.getCDI(project, true); //because we do not store it
 				if(currentNature!=null) {
 					Set<CDICoreNature> roots = getRootProjects(currentNature);
 					for (CDICoreNature root : roots) {

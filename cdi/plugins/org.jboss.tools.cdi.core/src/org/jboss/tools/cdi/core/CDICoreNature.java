@@ -47,6 +47,7 @@ import org.jboss.tools.common.util.EclipseJavaUtil;
 import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.common.validation.internal.ProjectValidationContext;
 import org.jboss.tools.common.xml.XMLUtilities;
+import org.jboss.tools.jst.web.kb.KbProjectFactory;
 import org.jboss.tools.jst.web.kb.WebKbPlugin;
 import org.w3c.dom.Element;
 
@@ -363,6 +364,7 @@ public class CDICoreNature implements IProjectNature {
 		if(load) {
 			load();
 		} else {
+			loadProjectDependenciesFromKBProject();
 			isStorageResolved = true;
 		}
 	}
@@ -588,6 +590,7 @@ public class CDICoreNature implements IProjectNature {
 				if(p == null || p.trim().length() == 0) continue;
 				IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(p);
 				if(project == null || !project.isAccessible()) continue;
+				KbProjectFactory.getKbProject(project, true, true);
 				CDICoreNature sp = CDICorePlugin.getCDI(project, false);
 				if(sp != null) {
 					addUsedCDIProject(sp);
@@ -604,6 +607,7 @@ public class CDICoreNature implements IProjectNature {
 				if(p == null || p.trim().length() == 0) continue;
 				IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(p);
 				if(project == null || !project.isAccessible()) continue;
+				KbProjectFactory.getKbProject(project, true, true);
 				CDICoreNature sp = CDICorePlugin.getCDI(project, false);
 				if(sp != null) {
 					addDependentCDIProject(sp);
