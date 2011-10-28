@@ -180,7 +180,7 @@ public class CDIBase extends SWTTestExt {
 			}							
 		} else {							
 			getEd().setFocus();	
-			bot.sleep(Timing.time500MS());
+			bot.sleep(Timing.time2S());
 			getEd().pressShortcut(Keystrokes.F3);			
 		}		
 		bot.sleep(Timing.time1S());

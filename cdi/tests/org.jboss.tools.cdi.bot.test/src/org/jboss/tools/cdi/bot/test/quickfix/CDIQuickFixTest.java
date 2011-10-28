@@ -152,6 +152,7 @@ public class CDIQuickFixTest extends CDIBase {
 	 * CDI Quick Fix test operates over validation 
 	 * concerning about general Bean component
 	 */
+	
 	@Test
 	public void testBeanQF() {
 		String className = "MyBean";
@@ -655,8 +656,7 @@ public class CDIQuickFixTest extends CDIBase {
 		case SPECIALIZES:
 		case SERIALIZABLE:
 			warningType = ((comp == CDICOMPONENT.BEAN)?true:false);
-			break;
-		case TYPED:
+			break;		
 		case DISPOSES:
 		case OBSERVES:
 		case DECORATOR:
@@ -676,7 +676,10 @@ public class CDIQuickFixTest extends CDIBase {
 			case SERIALIZABLE:
 				problemsContains = "declares a passivating scope SessionScoped";
 				break;
+			case NAMED:
+				problemsContains = "should not have a name";
 			}
+			
 			if (className.equals("BrokenFarm.java")) {
 				problemsContains = "Multiple beans are eligible";
 			}

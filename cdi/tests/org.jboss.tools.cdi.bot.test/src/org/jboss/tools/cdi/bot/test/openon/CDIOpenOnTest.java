@@ -66,7 +66,7 @@ public class CDIOpenOnTest extends CDIBase {
 	public void waitForJobs() {
 		util.waitForNonIgnoredJobs();
 	}
-		
+	
 	@Test
 	public void testBeanInjectOpenOn() {
 
@@ -103,7 +103,7 @@ public class CDIOpenOnTest extends CDIBase {
 		bot.editorByTitle("beans.xml").show();
 		bot.cTabItem("Source").activate();
 		openOn(PACKAGE_NAME + ".D1", "beans.xml", null);
-		assertTrue("ERROR: redirected to " + getEd(),
+		assertTrue("ERROR: redirected to " + getEd().getTitle(),
 				getEd().getTitle().equals("D1.java"));
 		
 		createComponent(CDICOMPONENT.INTERCEPTOR, "Interceptor1", PACKAGE_NAME,
@@ -132,6 +132,7 @@ public class CDIOpenOnTest extends CDIBase {
 	/*
 	 * https://issues.jboss.org/browse/JBIDE-6251
 	 */
+	
 	@Test
 	public void testDisposerProducerOpenOn() {
 		
@@ -164,10 +165,10 @@ public class CDIOpenOnTest extends CDIBase {
 		setEd(bot.activeEditor().toTextEditor());
 		CDIUtil.replaceInEditor(getEd(), bot, " event", " event");
 		
-		openOn("observerMethod", "MyBean4.java", "Open CDI Events");
+		openOn("observerMethod", "MyBean4.java", "Open CDI Event");
 		assertTrue(getEd().toTextEditor().getSelection().equals("event"));
 		
-		openOn("Event<MyBean4> event", "MyBean3.java", "Open CDI Observer Methods");
+		openOn("Event<MyBean4> event", "MyBean3.java", "Open CDI Observer Method");
 		assertTrue(getEd().toTextEditor().getSelection().equals("observerMethod"));				
 	}
 	

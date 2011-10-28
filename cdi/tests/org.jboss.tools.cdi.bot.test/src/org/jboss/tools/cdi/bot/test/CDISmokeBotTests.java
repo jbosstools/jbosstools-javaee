@@ -42,7 +42,7 @@ import org.junit.runners.Suite.SuiteClasses;
  */
 @RunWith(RequirementAwareSuite.class)
 @SuiteClasses({
-	CDIPerspectiveTest.class,
+	//CDIPerspectiveTest.class,
 	CDIATWizardTest.class,	
 	})
 public class CDISmokeBotTests extends CDIBase {
