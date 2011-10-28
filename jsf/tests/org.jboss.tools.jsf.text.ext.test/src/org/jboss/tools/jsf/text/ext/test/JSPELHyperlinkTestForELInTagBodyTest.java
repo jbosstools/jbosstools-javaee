@@ -29,15 +29,24 @@ import org.jboss.tools.jst.text.ext.hyperlink.ELHyperlinkDetector;
 import org.jboss.tools.test.util.WorkbenchUtils;
 
 /**
- * The JUnit test cases for JBIDE-5385 issue 
+ * The JUnit test cases for JBIDE-5385, JBIDE-9930 issues 
  * 
  * @author Victor Rubezhny
  */
 public class JSPELHyperlinkTestForELInTagBodyTest  extends TestCase {
 	private static final String PROJECT_NAME = "jsfHyperlinkTests";
-	private static final String PAGE_NAME =  PROJECT_NAME+"/WebContent/JBIDE-9930/elInTagBody.jsp";
-	private static final String[] TEXT_TO_FIND = new String [] {"bean1", "bean1.property1"};
-	private static final String[] RESULT_EDITORS = new String [] {"Bean1.java", "Bean1.java"};
+	private static final String[] PAGE_NAMES =  new String[] {
+		PROJECT_NAME+"/WebContent/JBIDE-9930/elInTagBody.jsp", 
+		PROJECT_NAME+"/WebContent/JBIDE-9930/anotherELInTagBody.jsp", 
+	};
+	private static final String[][] TEXT_TO_FIND = new String [][] {
+		{"bean1", "bean1.property1"},
+		{"msgs", "msgs.greeting"}
+	};
+	private static final String[][] RESULT_EDITORS = new String [][] {
+		{"Bean1.java", "Bean1.java"},
+		{"resources.properties", "resources.properties"}
+	};
 	
 	public IProject project = null;
 	public String naturesCheckProperty;
@@ -64,20 +73,22 @@ public class JSPELHyperlinkTestForELInTagBodyTest  extends TestCase {
 	
 	public void testJSPELHyperlinkTestForELInTagBody() throws PartInitException, BadLocationException {
 		try {
-			for (int i = 0; i < TEXT_TO_FIND.length; i++) {
-				doJSPELHyperlinkTestForELInTagBodyTest(TEXT_TO_FIND[i], RESULT_EDITORS[i]);
+			for (int i = 0; i < PAGE_NAMES.length; i++) {
+				for (int j = 0; j < TEXT_TO_FIND.length; j++) {
+					doJSPELHyperlinkTestForELInTagBodyTest(PAGE_NAMES[i], TEXT_TO_FIND[i][j], RESULT_EDITORS[i][j]);
+				}
 			}
 		} finally {
 			WorkbenchUtils.closeAllEditors();
 		}
 	}
 	
-	private void doJSPELHyperlinkTestForELInTagBodyTest(String template, String editorName) throws BadLocationException {
-		IEditorPart editor = WorkbenchUtils.openEditor(PAGE_NAME);
+	private void doJSPELHyperlinkTestForELInTagBodyTest(String pageName, String template, String editorName) throws BadLocationException {
+		IEditorPart editor = WorkbenchUtils.openEditor(pageName);
 		assertTrue(editor instanceof JSPMultiPageEditor);
 		JSPMultiPageEditor jspMultyPageEditor = (JSPMultiPageEditor) editor;
 		ISourceViewer viewer = jspMultyPageEditor.getSourceEditor().getTextViewer(); 
-		assertNotNull("Viewer couldn't be found for " + PAGE_NAME, viewer);
+		assertNotNull("Viewer couldn't be found for " + pageName, viewer);
 		IDocument document = viewer.getDocument();
 		IRegion reg = new FindReplaceDocumentAdapter(document).find(0,
 				template, true, true, false, false);

@@ -122,4 +122,10 @@
    <to-view-id>/page3.jsp</to-view-id>
   </navigation-case>
  </navigation-rule>
+ <application>
+  <resource-bundle>
+   <base-name>resources</base-name>
+   <var>msgs</var>
+  </resource-bundle>
+ </application>
 </faces-config>
