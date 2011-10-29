@@ -2734,7 +2734,7 @@
     <XActionItem ICON="action.newattribute" displayName="File" group="1"
      kind="list" name="CreateFiles">
      <XActionItem displayName="Datasources" kind="list" name="DS">
-      <XActionItem HIDE="always" HandlerClassName="%SpecialWizard%"
+      <XActionItem HandlerClassName="%SpecialWizard%"
        ICON="action.new.seam.faces-config"
        PROPERTIES="entity=FileDSDatasources;extensions=.xml.;validator.addfile=true;support=org.jboss.tools.common.model.files.handlers.CreateFileSupport;extension=xml;entityVersion=DSDatasources"
        displayName="Datasources File..." kind="action" name="CreateFileDatasources">
@@ -2745,7 +2745,7 @@
         <AttributeData AttributeName="version"/>
        </EntityData>
       </XActionItem>
-      <XActionItem HandlerClassName="%WizardInvoker%"
+      <XActionItem HIDE="always" HandlerClassName="%WizardInvoker%"
        ICON="action.new.seam.faces-config"
        PROPERTIES="plugin=org.jboss.tools.seam.xml.ui;wizard=org.jboss.tools.seam.xml.ui.wizard.newfile.NewSeamComponentsFileWizard"
        displayName="Datasources File..." kind="action" name="CreateFileDatasourcesV"/>
