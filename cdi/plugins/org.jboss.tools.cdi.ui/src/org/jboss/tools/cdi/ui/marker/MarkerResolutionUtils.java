@@ -40,6 +40,15 @@ import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.ITypeParameter;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.core.Signature;
+import org.eclipse.jdt.internal.ui.javaeditor.EditorUtility;
+import org.eclipse.ltk.core.refactoring.CompositeChange;
+import org.eclipse.ltk.core.refactoring.TextFileChange;
+import org.eclipse.text.edits.MultiTextEdit;
+import org.eclipse.text.edits.ReplaceEdit;
+import org.eclipse.text.edits.TextEdit;
+import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IWorkbenchWindow;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IBeanField;
@@ -60,9 +69,11 @@ import org.jboss.tools.common.model.util.EclipseJavaUtil;
 public class MarkerResolutionUtils {
 	public static final String DOT = ".";  //$NON-NLS-1$
 	public static final String COMMA = ",";  //$NON-NLS-1$
+	public static final String SEMICOLON = ";";  //$NON-NLS-1$
 	public static final String SPACE = " ";  //$NON-NLS-1$
 	public static final String AT = "@";  //$NON-NLS-1$
 	public static final String IMPLEMENTS = "implements";  //$NON-NLS-1$
+	public static final String IMPORT = "import";  //$NON-NLS-1$
 	public static final String EXTENDS = "extends";  //$NON-NLS-1$
 	public static final String OPEN_BRACE = "{"; //$NON-NLS-1$
 	public static final String CLOSE_BRACE = "}"; //$NON-NLS-1$
@@ -97,7 +108,11 @@ public class MarkerResolutionUtils {
 	 * @throws JavaModelException
 	 */
 	public static boolean addImport(String qualifiedName, ICompilationUnit compilationUnit) throws JavaModelException{
-		return addImport(qualifiedName, compilationUnit, false);
+		return addImport(qualifiedName, compilationUnit, false, null);
+	}
+	
+	public static boolean addImport(String qualifiedName, ICompilationUnit compilationUnit, MultiTextEdit rootEdit) throws JavaModelException{
+		return addImport(qualifiedName, compilationUnit, false, rootEdit);
 	}
 	
 	/**
@@ -109,6 +124,10 @@ public class MarkerResolutionUtils {
 	 * @throws JavaModelException
 	 */
 	public static boolean addImport(String qualifiedName, ICompilationUnit compilationUnit, boolean staticFlag) throws JavaModelException{
+		return addImport(qualifiedName, compilationUnit, staticFlag, null);
+	}
+	
+	public static boolean addImport(String qualifiedName, ICompilationUnit compilationUnit, boolean staticFlag, MultiTextEdit rootEdit) throws JavaModelException{
 		if(primitives.contains(qualifiedName))
 			return false;
 		
@@ -154,10 +173,16 @@ public class MarkerResolutionUtils {
 					return true;
 				
 			}
-			if(staticFlag)
-				compilationUnit.createImport(qualifiedName, null, Flags.AccStatic, new NullProgressMonitor());
-			else
-				compilationUnit.createImport(qualifiedName, null, new NullProgressMonitor());
+			if(rootEdit == null){
+				if(staticFlag){
+					compilationUnit.createImport(qualifiedName, null, Flags.AccStatic, new NullProgressMonitor());
+				}else{
+					compilationUnit.createImport(qualifiedName, null, new NullProgressMonitor());
+				}
+			}else{
+				TextEdit edit = new ReplaceEdit(compilationUnit.getImportContainer().getSourceRange().getOffset()+compilationUnit.getImportContainer().getSourceRange().getLength(), 0, compilationUnit.findRecommendedLineSeparator()+IMPORT+SPACE+qualifiedName+SEMICOLON);
+				rootEdit.addChild(edit);
+			}
 		}
 		return false;
 	}
@@ -165,11 +190,15 @@ public class MarkerResolutionUtils {
 	public static void addAnnotation(String qualifiedName, ICompilationUnit compilationUnit, IJavaElement element) throws JavaModelException{
 		addAnnotation(qualifiedName, compilationUnit, element, "");
 	}
-	
 	public static void updateAnnotation(String qualifiedName, ICompilationUnit compilationUnit, IJavaElement element, String params) throws JavaModelException{
+		updateAnnotation(qualifiedName, compilationUnit, element, params, null);
+	}
+	
+	public static void updateAnnotation(String qualifiedName, ICompilationUnit compilationUnit, IJavaElement element, String params, MultiTextEdit rootEdit) throws JavaModelException{
 		IJavaElement workingCopyElement = findWorkingCopy(compilationUnit, element);
-		if(workingCopyElement == null)
+		if(workingCopyElement == null){
 			return;
+		}
 		
 		if(!(workingCopyElement instanceof IMember))
 			return;
@@ -180,7 +209,7 @@ public class MarkerResolutionUtils {
 		if(annotation == null || !annotation.exists())
 			return;
 		
-		boolean duplicateShortName = addImport(qualifiedName, compilationUnit);
+		boolean duplicateShortName = addImport(qualifiedName, compilationUnit, null);
 		
 		IBuffer buffer = compilationUnit.getBuffer();
 		String shortName = getShortName(qualifiedName);
@@ -190,18 +219,27 @@ public class MarkerResolutionUtils {
 		
 		String str = AT+shortName+params;
 		
-		buffer.replace(annotation.getSourceRange().getOffset(), annotation.getSourceRange().getLength(), str);
-		
-		synchronized(compilationUnit) {
-			compilationUnit.reconcile(ICompilationUnit.NO_AST, true, null, null);
+		if(rootEdit != null){
+			TextEdit edit = new ReplaceEdit(annotation.getSourceRange().getOffset(), annotation.getSourceRange().getLength(), str);
+			rootEdit.addChild(edit);
+		}else{
+			buffer.replace(annotation.getSourceRange().getOffset(), annotation.getSourceRange().getLength(), str);
+			
+			synchronized(compilationUnit) {
+				compilationUnit.reconcile(ICompilationUnit.NO_AST, true, null, null);
+			}
 		}
 	}
 
-	
 	public static void addAnnotation(String qualifiedName, ICompilationUnit compilationUnit, IJavaElement element, String params) throws JavaModelException{
+		addAnnotation(qualifiedName, compilationUnit, element, params, null);
+	}
+	
+	public static void addAnnotation(String qualifiedName, ICompilationUnit compilationUnit, IJavaElement element, String params, MultiTextEdit rootEdit) throws JavaModelException{
 		IJavaElement workingCopyElement = findWorkingCopy(compilationUnit, element);
-		if(workingCopyElement == null)
+		if(workingCopyElement == null){
 			return;
+		}
 		
 		if(!(workingCopyElement instanceof IMember))
 			return;
@@ -212,7 +250,7 @@ public class MarkerResolutionUtils {
 		if(annotation != null && annotation.exists())
 			return;
 		
-		boolean duplicateShortName = addImport(qualifiedName, compilationUnit);
+		boolean duplicateShortName = addImport(qualifiedName, compilationUnit, rootEdit);
 		
 		IBuffer buffer = compilationUnit.getBuffer();
 		String shortName = getShortName(qualifiedName);
@@ -228,21 +266,29 @@ public class MarkerResolutionUtils {
 			str += SPACE;
 		}
 		
-		buffer.replace(workingCopyMember.getSourceRange().getOffset(), 0, str);
-		
-		synchronized(compilationUnit) {
-			compilationUnit.reconcile(ICompilationUnit.NO_AST, true, null, null);
+		if(rootEdit != null){
+			TextEdit edit = new ReplaceEdit(workingCopyMember.getSourceRange().getOffset(), 0, str);
+			rootEdit.addChild(edit);
+		}else{
+			buffer.replace(workingCopyMember.getSourceRange().getOffset(), 0, str);
+			
+			synchronized(compilationUnit) {
+				compilationUnit.reconcile(ICompilationUnit.NO_AST, true, null, null);
+			}
 		}
+		
+		
+		
 	}
 
-	public static void addQualifier(String qualifiedName, String value, ICompilationUnit compilationUnit, IJavaElement element) throws JavaModelException{
+	public static void addQualifier(String qualifiedName, String value, ICompilationUnit compilationUnit, IJavaElement element, MultiTextEdit rootEdit) throws JavaModelException{
 		if(!(element instanceof ISourceReference))
 			return;
 		IAnnotation annotation = findAnnotation(element, qualifiedName);
 		if(annotation != null && annotation.exists())
 			return;
 
-		boolean duplicateShortName = addImport(qualifiedName, compilationUnit);
+		boolean duplicateShortName = addImport(qualifiedName, compilationUnit, rootEdit);
 		
 		String lineDelim = SPACE;
 		
@@ -256,24 +302,36 @@ public class MarkerResolutionUtils {
 			shortName = qualifiedName;
 		
 		annotation = findAnnotation(element, CDIConstants.INJECT_ANNOTATION_TYPE_NAME);
-		if(annotation != null && annotation.exists())
-			buffer.replace(annotation.getSourceRange().getOffset()+annotation.getSourceRange().getLength(), 0, lineDelim+AT+shortName+value);
-		else
-			buffer.replace(((ISourceReference)element).getSourceRange().getOffset(), 0, AT+shortName+value+lineDelim);
 		
-		synchronized(compilationUnit) {
-			compilationUnit.reconcile(ICompilationUnit.NO_AST, true, null, null);
+		if(rootEdit != null){
+			if(annotation != null && annotation.exists()){
+				TextEdit edit = new ReplaceEdit(annotation.getSourceRange().getOffset()+annotation.getSourceRange().getLength(), 0, lineDelim+AT+shortName+value);
+				rootEdit.addChild(edit);
+			}else{
+				TextEdit edit = new ReplaceEdit(((ISourceReference)element).getSourceRange().getOffset(), 0, AT+shortName+value+lineDelim);
+				rootEdit.addChild(edit);
+			}
+		}else{
+			if(annotation != null && annotation.exists()){
+				buffer.replace(annotation.getSourceRange().getOffset()+annotation.getSourceRange().getLength(), 0, lineDelim+AT+shortName+value);
+			}else{
+				buffer.replace(((ISourceReference)element).getSourceRange().getOffset(), 0, AT+shortName+value+lineDelim);
+			}
+			
+			synchronized(compilationUnit) {
+				compilationUnit.reconcile(ICompilationUnit.NO_AST, true, null, null);
+			}
 		}
 	}
 
-	public static void updateQualifier(String qualifiedName, String value, ICompilationUnit compilationUnit, IJavaElement element) throws JavaModelException{
+	public static void updateQualifier(String qualifiedName, String value, ICompilationUnit compilationUnit, IJavaElement element, MultiTextEdit rootEdit) throws JavaModelException{
 		if(!(element instanceof ISourceReference))
 			return;
 		IAnnotation annotation = findAnnotation(element, qualifiedName);
 		if(annotation == null || !annotation.exists())
 			return;
 		
-		boolean duplicateShortName = addImport(qualifiedName, compilationUnit);
+		boolean duplicateShortName = addImport(qualifiedName, compilationUnit, rootEdit);
 		
 		IBuffer buffer = compilationUnit.getBuffer();
 		String shortName = getShortName(qualifiedName);
@@ -284,10 +342,15 @@ public class MarkerResolutionUtils {
 		if(duplicateShortName)
 			shortName = qualifiedName;
 		
-		buffer.replace(annotation.getSourceRange().getOffset(), annotation.getSourceRange().getLength(), AT+shortName+value);
-		
-		synchronized(compilationUnit) {
-			compilationUnit.reconcile(ICompilationUnit.NO_AST, true, null, null);
+		if(rootEdit != null){
+			TextEdit edit = new ReplaceEdit(annotation.getSourceRange().getOffset(), annotation.getSourceRange().getLength(), AT+shortName+value);
+			rootEdit.addChild(edit);
+		}else{
+			buffer.replace(annotation.getSourceRange().getOffset(), annotation.getSourceRange().getLength(), AT+shortName+value);
+			
+			synchronized(compilationUnit) {
+				compilationUnit.reconcile(ICompilationUnit.NO_AST, true, null, null);
+			}
 		}
 	}
 	
@@ -357,15 +420,15 @@ public class MarkerResolutionUtils {
 		return null;
 	}
 	
-	private static boolean contains(IQualifierDeclaration declaration, Set<IQualifierDeclaration> declarations){
-		for(IQualifierDeclaration d : declarations){
+	private static boolean contains(IQualifierDeclaration declaration, List<ValuedQualifier> declarations){
+		for(ValuedQualifier d : declarations){
 			if(declaration.getQualifier().getSourceType().getFullyQualifiedName().equals(d.getQualifier().getSourceType().getFullyQualifiedName()))
 				return true;
 		}
 		return false;
 	}
 	
-	private static List<IQualifier> findQualifiersToDelete(IInjectionPoint injectionPoint, Set<IQualifierDeclaration> qualifiers){
+	private static List<IQualifier> findQualifiersToDelete(IInjectionPoint injectionPoint, List<ValuedQualifier> qualifiers){
 		ArrayList<IQualifier> list = new ArrayList<IQualifier>();
 		Set<IQualifierDeclaration> declarations = injectionPoint.getQualifierDeclarations();
 		for(IQualifierDeclaration declaration : declarations){
@@ -375,17 +438,17 @@ public class MarkerResolutionUtils {
 		return list;
 	}
 	
-	private static void addQualifiersToParameter(ICompilationUnit compilationUnit, IInjectionPoint injectionPoint, Set<IQualifierDeclaration> declarations){
+	private static void addQualifiersToParameter(ICompilationUnit compilationUnit, IInjectionPoint injectionPoint, List<ValuedQualifier>  declarations, MultiTextEdit rootEdit){
 		HashMap<IQualifier, Boolean> duplicants = new HashMap<IQualifier, Boolean>();
 		if(!(injectionPoint instanceof IInjectionPointParameter))
 			return;
 		try{
-			for(IQualifierDeclaration declaration : declarations){
+			for(ValuedQualifier declaration : declarations){
 				String qualifierName = declaration.getQualifier().getSourceType().getFullyQualifiedName();
 				boolean duplicant = false;
 				if(!qualifierName.equals(CDIConstants.ANY_QUALIFIER_TYPE_NAME) &&
 					!qualifierName.equals(CDIConstants.DEFAULT_QUALIFIER_TYPE_NAME)){
-						duplicant = addImport(qualifierName, compilationUnit);
+						duplicant = addImport(qualifierName, compilationUnit, rootEdit);
 				}
 				duplicants.put(declaration.getQualifier(), new Boolean(duplicant));
 			}
@@ -404,9 +467,9 @@ public class MarkerResolutionUtils {
 					StringBuffer b = new StringBuffer();
 					if(index > 0)
 						b.append(SPACE);
-					for(IQualifierDeclaration declaration : declarations){
+					for(ValuedQualifier declaration : declarations){
 						String qualifierName = declaration.getQualifier().getSourceType().getFullyQualifiedName();
-						String value = findQualifierValue(declaration);
+						String value = declaration.getValue();
 						
 						if(!value.isEmpty())
 							value = "(\""+value+"\")";
@@ -416,15 +479,21 @@ public class MarkerResolutionUtils {
 							String annotation = getShortName(qualifierName);
 							if(duplicant)
 								annotation = qualifierName;
-							//if(qualifierName.equals(CDIConstants.NAMED_QUALIFIER_TYPE_NAME))
-							//	b.append(AT+annotation+"(\""+parameters[index].getElementName()+"\")"+SPACE);
-							//else
 								b.append(AT+annotation+value+SPACE);
 						}
 					}
 					b.append(Signature.getSignatureSimpleName(parameters[index].getTypeSignature())+SPACE);
 					b.append(parameters[index].getElementName());
-					buffer.replace(parameters[index].getSourceRange().getOffset(), parameters[index].getSourceRange().getLength(), b.toString());
+					if(rootEdit != null){
+						TextEdit edit = new ReplaceEdit(parameters[index].getSourceRange().getOffset(), parameters[index].getSourceRange().getLength(), b.toString());
+						rootEdit.addChild(edit);
+					}else{
+						buffer.replace(parameters[index].getSourceRange().getOffset(), parameters[index].getSourceRange().getLength(), b.toString());
+						
+						synchronized(compilationUnit) {
+							compilationUnit.reconcile(ICompilationUnit.NO_AST, true, null, null);
+						}
+					}
 				}
 			}
 			
@@ -449,13 +518,21 @@ public class MarkerResolutionUtils {
 		return null;
 	}
 	
-	public static void addQualifiersToInjectionPoint(IInjectionPoint injectionPoint, IBean bean){
+	public static void addQualifiersToInjectionPoint(List<ValuedQualifier> deployed, IInjectionPoint injectionPoint, CompositeChange change){
+		IFile file = (IFile)injectionPoint.getClassBean().getResource();
+		TextFileChange fileChange = new TextFileChange(file.getName(), file);
+		
+		if(isEditorOpened(file))
+			fileChange.setSaveMode(TextFileChange.LEAVE_DIRTY);
+		else
+			fileChange.setSaveMode(TextFileChange.FORCE_SAVE);
+		
+		MultiTextEdit edit = new MultiTextEdit();
 		try{
 			ICompilationUnit original = injectionPoint.getClassBean().getBeanClass().getCompilationUnit();
 			ICompilationUnit compilationUnit = original.getWorkingCopy(new NullProgressMonitor());
-			Set<IQualifierDeclaration> declarations = bean.getQualifierDeclarations();
 			if(injectionPoint instanceof IInjectionPointParameter){
-				addQualifiersToParameter(compilationUnit, injectionPoint, declarations);
+				addQualifiersToParameter(compilationUnit, injectionPoint, deployed, edit);
 			}else{
 				IJavaElement element = getInjectedJavaElement(compilationUnit, injectionPoint);
 				if(element == null || !element.exists())
@@ -463,30 +540,41 @@ public class MarkerResolutionUtils {
 				
 				// delete unneeded qualifiers
 				
-				List<IQualifier> toDelete = findQualifiersToDelete(injectionPoint, declarations);
+				List<IQualifier> toDelete = findQualifiersToDelete(injectionPoint, deployed);
 				
 				for(IQualifier qualifier : toDelete){
-						deleteAnnotation(qualifier.getSourceType().getFullyQualifiedName(), compilationUnit, element);
+						deleteAnnotation(qualifier.getSourceType().getFullyQualifiedName(), compilationUnit, element, edit);
 				}
 				
-				for(IQualifierDeclaration declaration : declarations){
+				for(ValuedQualifier declaration : deployed){
 					String qualifierName = declaration.getQualifier().getSourceType().getFullyQualifiedName();
-					String value = findQualifierValue(declaration);
+					String value = declaration.getValue();
 					if(!qualifierName.equals(CDIConstants.ANY_QUALIFIER_TYPE_NAME) && !qualifierName.equals(CDIConstants.DEFAULT_QUALIFIER_TYPE_NAME)){
-						MarkerResolutionUtils.addQualifier(qualifierName, value, compilationUnit, element);
-						MarkerResolutionUtils.updateQualifier(qualifierName, value, compilationUnit, element);
+						addQualifier(qualifierName, value, compilationUnit, element, edit);
+						updateQualifier(qualifierName, value, compilationUnit, element, edit);
 					}
 				}
 			}
-			compilationUnit.commitWorkingCopy(false, new NullProgressMonitor());
 			compilationUnit.discardWorkingCopy();
+			original.discardWorkingCopy();
 		}catch(CoreException ex){
 			CDIUIPlugin.getDefault().logError(ex);
 		}
+		fileChange.setEdit(edit);
+		if(edit.getChildrenSize() > 0)
+			change.add(fileChange);
 	}
 	
-	public static void addQualifiersToBean(List<ValuedQualifier> deployed, IBean bean){
+	public static void addQualifiersToBean(List<ValuedQualifier> deployed, IBean bean, CompositeChange change){
 		IFile file = (IFile)bean.getBeanClass().getResource();
+		TextFileChange fileChange = new TextFileChange(file.getName(), file);
+		
+		if(isEditorOpened(file))
+			fileChange.setSaveMode(TextFileChange.LEAVE_DIRTY);
+		else
+			fileChange.setSaveMode(TextFileChange.FORCE_SAVE);
+
+		MultiTextEdit edit = new MultiTextEdit();
 		IJavaElement beanElement = null;
 		if(bean instanceof IBeanField){
 			beanElement = ((IBeanField) bean).getField();
@@ -504,7 +592,7 @@ public class MarkerResolutionUtils {
 				IQualifier qualifier = declaration.getQualifier();
 				String qualifierName = qualifier.getSourceType().getFullyQualifiedName();
 				if(!isQualifierNeeded(deployed, qualifier)){
-					deleteAnnotation(qualifierName, compilationUnit, beanElement);
+					deleteAnnotation(qualifierName, compilationUnit, beanElement, edit);
 				}
 			}
 			
@@ -516,17 +604,19 @@ public class MarkerResolutionUtils {
 					value = "(\""+value+"\")";
 				
 				if(!qualifierName.equals(CDIConstants.ANY_QUALIFIER_TYPE_NAME) && !qualifierName.equals(CDIConstants.DEFAULT_QUALIFIER_TYPE_NAME)){
-					MarkerResolutionUtils.addAnnotation(qualifierName, compilationUnit, beanElement, value);
-					MarkerResolutionUtils.updateAnnotation(qualifierName, compilationUnit, beanElement, value);
+					addAnnotation(qualifierName, compilationUnit, beanElement, value, edit);
+					updateAnnotation(qualifierName, compilationUnit, beanElement, value, edit);
 				}
 				
 			}
-			
-			compilationUnit.commitWorkingCopy(false, new NullProgressMonitor());
 			compilationUnit.discardWorkingCopy();
+			original.discardWorkingCopy();
 		}catch(CoreException ex){
 			CDIUIPlugin.getDefault().logError(ex);
 		}
+		fileChange.setEdit(edit);
+		if(edit.getChildrenSize() > 0)
+			change.add(fileChange);
 	}
 	
 	private static boolean isQualifierNeeded(List<ValuedQualifier> vQualifiers, IQualifier qualifier){
@@ -550,7 +640,7 @@ public class MarkerResolutionUtils {
 		}
 		
 		if(workingType != null){
-			addImport(qualifiedName, compilationUnit);
+			addImport(qualifiedName, compilationUnit, null);
 			
 			IBuffer buffer = compilationUnit.getBuffer();
 			
@@ -628,9 +718,14 @@ public class MarkerResolutionUtils {
 	}
 	
 	public static void deleteAnnotation(String qualifiedName, ICompilationUnit compilationUnit, IJavaElement element) throws JavaModelException{
+		deleteAnnotation(qualifiedName, compilationUnit, element, null);
+	}
+	
+	public static void deleteAnnotation(String qualifiedName, ICompilationUnit compilationUnit, IJavaElement element, MultiTextEdit rootEdit) throws JavaModelException{
 		IJavaElement workingCopyElement = findWorkingCopy(compilationUnit, element);
-		if(workingCopyElement == null)
+		if(workingCopyElement == null){
 			return;
+		}
 		
 		IAnnotation annotation = findAnnotation(workingCopyElement, qualifiedName);
 		if(annotation != null){
@@ -648,7 +743,12 @@ public class MarkerResolutionUtils {
 			}
 			
 			// delete annotation
-			buffer.replace(annotation.getSourceRange().getOffset(), annotation.getSourceRange().getLength()+numberOfSpaces, "");
+			if(rootEdit != null){
+				TextEdit edit = new ReplaceEdit(annotation.getSourceRange().getOffset(), annotation.getSourceRange().getLength()+numberOfSpaces, "");
+				rootEdit.addChild(edit);
+			}else{
+				buffer.replace(annotation.getSourceRange().getOffset(), annotation.getSourceRange().getLength()+numberOfSpaces, "");
+			}
 			
 			// check and delete import
 			IImportDeclaration importDeclaration = compilationUnit.getImport(qualifiedName);
@@ -656,12 +756,20 @@ public class MarkerResolutionUtils {
 			if(importDeclaration.exists() && importContainer.exists()){
 				int importSize = importContainer.getSourceRange().getOffset()+importContainer.getSourceRange().getLength();
 				String text = buffer.getText(importSize, buffer.getLength()-importSize);
-				if(checkImport(text, qualifiedName))
-					importDeclaration.delete(false, new NullProgressMonitor());
+				if(checkImport(text, qualifiedName)){
+					if(rootEdit != null){
+						TextEdit edit = new ReplaceEdit(importDeclaration.getSourceRange().getOffset(), importDeclaration.getSourceRange().getLength()+numberOfSpaces, "");
+						rootEdit.addChild(edit);
+					}else{
+						importDeclaration.delete(false, new NullProgressMonitor());
+					}
+				}
 			}
 			
-			synchronized(compilationUnit) {
-				compilationUnit.reconcile(ICompilationUnit.NO_AST, true, null, null);
+			if(rootEdit == null){
+				synchronized(compilationUnit) {
+					compilationUnit.reconcile(ICompilationUnit.NO_AST, true, null, null);
+				}
 			}
 		}
 	}
@@ -738,6 +846,18 @@ public class MarkerResolutionUtils {
 				return declaration;
 		}
 		return null;
+	}
+	
+	public static boolean isEditorOpened(IFile file){
+		IEditorInput ii = EditorUtility.getEditorInput(file);
+		
+		IWorkbenchWindow[] windows = CDIUIPlugin.getDefault().getWorkbench().getWorkbenchWindows();
+		for(IWorkbenchWindow window : windows){
+			IEditorPart editor = window.getActivePage().findEditor(ii);
+			if(editor != null)
+				return true;
+		}
+		return false;
 	}
 
 }

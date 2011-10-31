@@ -17,6 +17,8 @@ import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.wizard.WizardDialog;
+import org.eclipse.ltk.core.refactoring.CompositeChange;
+import org.eclipse.ltk.core.refactoring.participants.ProcessorBasedRefactoring;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IMarkerResolution2;
@@ -27,6 +29,7 @@ import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.core.IQualifier;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
+import org.jboss.tools.cdi.ui.wizard.AddQualifiersToBeanWizard;
 import org.jboss.tools.cdi.ui.wizard.SelectBeanWizard;
 import org.jboss.tools.cdi.ui.wizard.xpl.AddQualifiersToBeanComposite.ValuedQualifier;
 
@@ -57,62 +60,71 @@ public class SelectBeanMarkerResolution implements IMarkerResolution2, TestableR
 	}
 
 	private void internal_run(IMarker marker, boolean test) {
-		Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
-		SelectBeanWizard wizard = new SelectBeanWizard(injectionPoint, beans);
-		WizardDialog dialog = new WizardDialog(shell, wizard);
+		//CompositeChange rootChange = new CompositeChange(label);
 		
-		IBean selectedBean = null;
-		List<ValuedQualifier> deployed;
+		AddQualifiersToBeanProcessor processor = new AddQualifiersToBeanProcessor(label, injectionPoint, beans, null);
+		ProcessorBasedRefactoring refactoring = new ProcessorBasedRefactoring(processor);
+		SelectBeanWizard wizard = new SelectBeanWizard(refactoring);
+		//RefactoringWizardOpenOperation op = new RefactoringWizardOpenOperation(wizard);
+		wizard.showWizard();
+
 		
-		if(test){
-			if(beans.isEmpty())
-				return;
-			
-			dialog.setBlockOnOpen(false);
-			dialog.open();
-			
-			selectedBean = beans.get(0);
-			
-			wizard.init(selectedBean);
-			
-			List<IQualifier> qualifiers = new ArrayList<IQualifier>();
-			qualifiers.addAll(wizard.getAvailableQualifiers());
-			if(qualifiers.isEmpty())
-				return;
-			for(IQualifier qualifier : qualifiers){
-				if(wizard.checkBeans())
-					break;
-				wizard.deploy(new ValuedQualifier(qualifier));
-			}
-			deployed = wizard.getDeployedQualifiers();
-			wizard.performCancel();
-			dialog.close();
-		}else{
-			int status = dialog.open();
-			
-			if(status != WizardDialog.OK)
-				return;
+//		Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+//		SelectBeanWizard wizard = new SelectBeanWizard(injectionPoint, beans);
+//		WizardDialog dialog = new WizardDialog(shell, wizard);
 		
-			selectedBean = wizard.getBean();
-			deployed = wizard.getDeployedQualifiers();
-		}
-		
-		MarkerResolutionUtils.addQualifiersToBean(deployed, selectedBean);
-		try {
-			Job.getJobManager().join(ResourcesPlugin.FAMILY_AUTO_BUILD, null);
-		} catch (InterruptedException e) {
-			// do nothing
-		}
-		// reload selectedBean
-		ICDIProject cdiProject = selectedBean.getCDIProject();
-		IBean[] beans = cdiProject.getBeans();
-		for(IBean bean : beans){
-			if(bean.getBeanClass().getFullyQualifiedName().equals(selectedBean.getBeanClass().getFullyQualifiedName()) && bean.getElementName().equals(selectedBean.getElementName())){
-				selectedBean = bean;
-				break;
-			}
-		}
-		MarkerResolutionUtils.addQualifiersToInjectionPoint(injectionPoint, selectedBean);
+//		IBean selectedBean = null;
+//		List<ValuedQualifier> deployed;
+//		
+//		if(test){
+//			if(beans.isEmpty())
+//				return;
+//			
+//			dialog.setBlockOnOpen(false);
+//			dialog.open();
+//			
+//			selectedBean = beans.get(0);
+//			
+//			wizard.init(selectedBean);
+//			
+//			List<IQualifier> qualifiers = new ArrayList<IQualifier>();
+//			qualifiers.addAll(wizard.getAvailableQualifiers());
+//			if(qualifiers.isEmpty())
+//				return;
+//			for(IQualifier qualifier : qualifiers){
+//				if(wizard.checkBeans())
+//					break;
+//				wizard.deploy(new ValuedQualifier(qualifier));
+//			}
+//			deployed = wizard.getDeployedQualifiers();
+//			wizard.performCancel();
+//			dialog.close();
+//		}else{
+//			int status = dialog.open();
+//			
+//			if(status != WizardDialog.OK)
+//				return;
+//		
+//			selectedBean = wizard.getBean();
+//			deployed = wizard.getDeployedQualifiers();
+//		}
+//		
+//		MarkerResolutionUtils.addQualifiersToBean(deployed, selectedBean, rootChange);
+//		try {
+//			Job.getJobManager().join(ResourcesPlugin.FAMILY_AUTO_BUILD, null);
+//		} catch (InterruptedException e) {
+//			// do nothing
+//		}
+//		// reload selectedBean
+//		ICDIProject cdiProject = selectedBean.getCDIProject();
+//		IBean[] beans = cdiProject.getBeans();
+//		for(IBean bean : beans){
+//			if(bean.getBeanClass().getFullyQualifiedName().equals(selectedBean.getBeanClass().getFullyQualifiedName()) && bean.getElementName().equals(selectedBean.getElementName())){
+//				selectedBean = bean;
+//				break;
+//			}
+//		}
+//		MarkerResolutionUtils.addQualifiersToInjectionPoint(injectionPoint, selectedBean, rootChange);
 	}
 	
 	public String getDescription() {

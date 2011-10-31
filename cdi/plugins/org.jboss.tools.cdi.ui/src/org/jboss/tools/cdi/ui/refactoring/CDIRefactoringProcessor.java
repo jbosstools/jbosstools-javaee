@@ -8,7 +8,7 @@
  * Contributors:
  *     Red Hat, Inc. - initial API and implementation
  ******************************************************************************/
-package org.jboss.tools.cdi.ui.marker;
+package org.jboss.tools.cdi.ui.refactoring;
 
 import java.util.Set;
 
@@ -17,7 +17,6 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.OperationCanceledException;
-import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.internal.ui.javaeditor.EditorUtility;
 import org.eclipse.ltk.core.refactoring.Change;
 import org.eclipse.ltk.core.refactoring.CompositeChange;
@@ -39,10 +38,9 @@ import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.IClassBean;
 import org.jboss.tools.cdi.ui.CDIUIPlugin;
 
-public abstract class MarkerResolutionRefactoringProcessor extends RefactoringProcessor {
+public abstract class CDIRefactoringProcessor extends RefactoringProcessor {
 	protected static final RefactoringParticipant[] EMPTY_REF_PARTICIPANT = new  RefactoringParticipant[0];	
 	protected IFile file;
-	protected IMethod method;
 	protected RefactoringStatus status;
 	protected String label;
 	
@@ -51,9 +49,12 @@ public abstract class MarkerResolutionRefactoringProcessor extends RefactoringPr
 	protected IClassBean bean;
 
 	
-	public MarkerResolutionRefactoringProcessor(IFile file, IMethod method, String label){
+	public CDIRefactoringProcessor(IFile file, String label){
+		this(label);
 		this.file = file;
-		this.method = method;
+	}
+	
+	public CDIRefactoringProcessor(String label){
 		this.label = label;
 	}
 	
@@ -61,7 +62,7 @@ public abstract class MarkerResolutionRefactoringProcessor extends RefactoringPr
 		rootChange = new CompositeChange(label);
 		change = new TextFileChange(file.getName(), file);
 		
-		if(isEditorOpened())
+		if(isEditorOpened(file))
 			change.setSaveMode(TextFileChange.LEAVE_DIRTY);
 		else
 			change.setSaveMode(TextFileChange.FORCE_SAVE);
@@ -72,7 +73,7 @@ public abstract class MarkerResolutionRefactoringProcessor extends RefactoringPr
 		rootChange.markAsSynthetic();
 	}
 	
-	private boolean isEditorOpened(){
+	protected boolean isEditorOpened(IFile file){
 		IEditorInput ii = EditorUtility.getEditorInput(file);
 		
 		IWorkbenchWindow[] windows = CDIUIPlugin.getDefault().getWorkbench().getWorkbenchWindows();
@@ -103,7 +104,6 @@ public abstract class MarkerResolutionRefactoringProcessor extends RefactoringPr
 		
 		return null;
 	}
-	
 	
 	private boolean isFileCorrect(IFile file){
 		if(!file.isSynchronized(IResource.DEPTH_ZERO)){

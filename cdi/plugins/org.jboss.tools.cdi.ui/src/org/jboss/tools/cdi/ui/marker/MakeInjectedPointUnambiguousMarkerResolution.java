@@ -11,27 +11,17 @@
 package org.jboss.tools.cdi.ui.marker;
 
 import java.text.MessageFormat;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import org.eclipse.core.resources.IMarker;
-import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.jobs.Job;
-import org.eclipse.jface.wizard.WizardDialog;
+import org.eclipse.ltk.core.refactoring.participants.ProcessorBasedRefactoring;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IMarkerResolution2;
-import org.eclipse.ui.PlatformUI;
 import org.jboss.tools.cdi.core.CDIImages;
 import org.jboss.tools.cdi.core.IBean;
-import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.IInjectionPoint;
-import org.jboss.tools.cdi.core.IQualifier;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
 import org.jboss.tools.cdi.ui.wizard.AddQualifiersToBeanWizard;
-import org.jboss.tools.cdi.ui.wizard.xpl.AddQualifiersToBeanComposite;
-import org.jboss.tools.cdi.ui.wizard.xpl.AddQualifiersToBeanComposite.ValuedQualifier;
 
 /**
  * @author Daniel Azarov
@@ -62,74 +52,26 @@ public class MakeInjectedPointUnambiguousMarkerResolution implements IMarkerReso
 	}
 
 	private void internal_run(IMarker marker, boolean test) {
-		if(checkBeans()){
-			Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
-			AddQualifiersToBeanWizard wizard = new AddQualifiersToBeanWizard(injectionPoint, beans, selectedBean);
-			WizardDialog dialog = new WizardDialog(shell, wizard);
-			
-			List<ValuedQualifier> deployed;
-			
-			if(test){
-				dialog.setBlockOnOpen(false);
-				dialog.open();
-				
-				List<IQualifier> qualifiers = new ArrayList<IQualifier>();
-				qualifiers.addAll(wizard.getAvailableQualifiers());
-				if(qualifiers.isEmpty())
-					return;
-				for(IQualifier qualifier : qualifiers){
-					if(wizard.checkBeans())
-						break;
-					wizard.deploy(new ValuedQualifier(qualifier));
-				}
-				deployed = wizard.getDeployedQualifiers();
-				wizard.performCancel();
-				dialog.close();
-			}else{
-				int status = dialog.open();
-				
-				if(status != WizardDialog.OK)
-					return;
-			
-				deployed = wizard.getDeployedQualifiers();
-			}
-
-			
-			deployed = wizard.getDeployedQualifiers();
-			MarkerResolutionUtils.addQualifiersToBean(deployed, selectedBean);
-			try {
-				Job.getJobManager().join(ResourcesPlugin.FAMILY_AUTO_BUILD, null);
-			} catch (InterruptedException e) {
-				// do nothing
-			}
-			// reload selectedBean
-			ICDIProject cdiProject = selectedBean.getCDIProject();
-			IBean[] beans = cdiProject.getBeans();
-			for(IBean bean : beans){
-				if(bean.getBeanClass().getFullyQualifiedName().equals(selectedBean.getBeanClass().getFullyQualifiedName()) && bean.getElementName().equals(selectedBean.getElementName())){
-					selectedBean = bean;
-					break;
-				}
-			}
-			
-		}
-		MarkerResolutionUtils.addQualifiersToInjectionPoint(injectionPoint, selectedBean);
+		AddQualifiersToBeanProcessor processor = new AddQualifiersToBeanProcessor(label, injectionPoint, beans, selectedBean);
+		ProcessorBasedRefactoring refactoring = new ProcessorBasedRefactoring(processor);
+		AddQualifiersToBeanWizard wizard = new AddQualifiersToBeanWizard(refactoring);
+		wizard.showWizard();
 	}
 	
-	private boolean checkBeans(){
-		Set<IQualifier> qualifiers = selectedBean.getQualifiers();
-		if(qualifiers.size() == 0)
-			return true;
-		
-		for(IBean bean: beans){
-			if(bean.equals(selectedBean))
-				continue;
-			if(MarkerResolutionUtils.checkBeanQualifiers(selectedBean, bean, qualifiers))
-				return true;
-				
-		}
-		return false;
-	}
+//	private boolean checkBeans(){
+//		Set<IQualifier> qualifiers = selectedBean.getQualifiers();
+//		if(qualifiers.size() == 0)
+//			return true;
+//		
+//		for(IBean bean: beans){
+//			if(bean.equals(selectedBean))
+//				continue;
+//			if(MarkerResolutionUtils.checkBeanQualifiers(selectedBean, bean, qualifiers))
+//				return true;
+//				
+//		}
+//		return false;
+//	}
 	
 	
 	public String getDescription() {

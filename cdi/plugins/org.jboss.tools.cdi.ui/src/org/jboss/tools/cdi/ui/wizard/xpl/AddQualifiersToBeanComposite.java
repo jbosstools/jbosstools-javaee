@@ -45,7 +45,7 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerComparator;
 import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.jface.wizard.WizardDialog;
-import org.eclipse.jface.wizard.WizardPage;
+import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
@@ -81,6 +81,7 @@ import org.jboss.tools.cdi.ui.CDIUIMessages;
 import org.jboss.tools.cdi.ui.CDIUIPlugin;
 import org.jboss.tools.cdi.ui.marker.MarkerResolutionUtils;
 import org.jboss.tools.cdi.ui.wizard.AbstractModifyInjectionPointWizard;
+import org.jboss.tools.cdi.ui.wizard.AddQualifiersToBeanWizardPage;
 import org.jboss.tools.cdi.ui.wizard.NewQualifierCreationWizard;
 
 public class AddQualifiersToBeanComposite extends Composite {
@@ -88,7 +89,7 @@ public class AddQualifiersToBeanComposite extends Composite {
 	private IInjectionPoint injectionPoint;
 	private IBean bean;
 	private java.util.List<IBean> beans;
-	private WizardPage wizard;
+	private AddQualifiersToBeanWizardPage page;
 	private Text pattern;
 
 	// original qualifiers on the bean without declarations it means they can not be deleted from bean
@@ -116,12 +117,12 @@ public class AddQualifiersToBeanComposite extends Composite {
 	
 	private ILabelProvider labelProvider = new QualifiersListLabelProvider();
 
-	public AddQualifiersToBeanComposite(Composite parent, WizardPage wizard) {
+	public AddQualifiersToBeanComposite(Composite parent, AddQualifiersToBeanWizardPage page) {
 		super(parent, SWT.NONE);
-		this.wizard = wizard;
-		this.injectionPoint = ((AbstractModifyInjectionPointWizard)wizard.getWizard()).getInjectionPoint();
-		this.bean = ((AbstractModifyInjectionPointWizard)wizard.getWizard()).getBean();
-		this.beans = ((AbstractModifyInjectionPointWizard)wizard.getWizard()).getBeans();
+		this.page = page;
+		this.injectionPoint = ((AbstractModifyInjectionPointWizard)page.getWizard()).getInjectionPoint();
+		this.bean = ((AbstractModifyInjectionPointWizard)page.getWizard()).getSelectedBean();
+		this.beans = ((AbstractModifyInjectionPointWizard)page.getWizard()).getBeans();
 		
 		createControl();
 		if(bean != null)
@@ -211,14 +212,7 @@ public class AddQualifiersToBeanComposite extends Composite {
 		return false;
 	}
 
-	public void setVisible(boolean visible) {
-		if (visible)
-			this.refresh();
-		super.setVisible(visible);
-	}
-
 	public void refresh() {
-
 		Display.getDefault().syncExec(new Runnable() {
 			public void run() {
 				if (availableTableViewer == null || availableTableViewer.getControl().isDisposed())
@@ -562,11 +556,11 @@ public class AddQualifiersToBeanComposite extends Composite {
 		// check uniqueness of qualifiers
 		isComplete = checkBeans();
 		if(isComplete)
-			wizard.setMessage("");
+			page.setMessage("");
 		else
-			wizard.setMessage(CDIUIMessages.ADD_QUALIFIERS_TO_BEAN_WIZARD_SET_IS_NOT_UNIQUE, IMessageProvider.ERROR);
+			page.setMessage(NLS.bind(CDIUIMessages.ADD_QUALIFIERS_TO_BEAN_WIZARD_SET_IS_NOT_UNIQUE, bean.getElementName(), injectionPoint.getElementName()), IMessageProvider.ERROR);
 		
-		wizard.setPageComplete(isComplete);
+		page.setPageComplete(isComplete);
 	}
 	
 	private boolean isEditEnabled(IQualifier qualifier){
@@ -644,6 +638,7 @@ public class AddQualifiersToBeanComposite extends Composite {
 		}
 
 		setEnablement();
+		page.setDeployedQualifiers(getDeployedQualifiers());
 	}
 
 

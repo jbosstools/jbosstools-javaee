@@ -28,13 +28,15 @@ import org.jboss.tools.cdi.core.IBeanMethod;
 import org.jboss.tools.cdi.core.IClassBean;
 import org.jboss.tools.cdi.core.IProducer;
 import org.jboss.tools.cdi.core.IProducerMethod;
+import org.jboss.tools.cdi.ui.refactoring.CDIRefactoringProcessor;
 import org.jboss.tools.common.text.ITextSourceReference;
 
-public class DeleteAllDisposerAnnotationsProcessor extends MarkerResolutionRefactoringProcessor {
-
+public class DeleteAllDisposerAnnotationsProcessor extends CDIRefactoringProcessor {
+	private IMethod method;
 	
 	public DeleteAllDisposerAnnotationsProcessor(IFile file, IMethod method, String label){
-		super(file, method, label);
+		super(file, label);
+		this.method = method;
 	}
 	
 	private void changeDisposers(IClassBean bean) {

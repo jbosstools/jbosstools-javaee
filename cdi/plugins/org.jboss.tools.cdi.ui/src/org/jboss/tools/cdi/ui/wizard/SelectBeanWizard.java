@@ -26,8 +26,8 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerComparator;
 import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.jface.wizard.IWizardPage;
-import org.eclipse.jface.wizard.WizardPage;
-import org.eclipse.osgi.util.NLS;
+import org.eclipse.ltk.core.refactoring.participants.ProcessorBasedRefactoring;
+import org.eclipse.ltk.ui.refactoring.UserInputWizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
@@ -41,7 +41,6 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.dialogs.SearchPattern;
 import org.jboss.tools.cdi.core.CDIImages;
 import org.jboss.tools.cdi.core.IBean;
-import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.core.IQualifier;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
 import org.jboss.tools.cdi.ui.marker.MarkerResolutionUtils;
@@ -52,14 +51,14 @@ public class SelectBeanWizard extends AbstractModifyInjectionPointWizard{
 	private AddQualifiersToBeanWizardPage page;
 	private Text pattern;
 	
-	public SelectBeanWizard(IInjectionPoint injectionPoint, java.util.List<IBean> beans){
-		super(injectionPoint, beans);
+	public SelectBeanWizard(ProcessorBasedRefactoring refactoring){
+		super(refactoring);
 		setWindowTitle(CDIUIMessages.SELECT_BEAN_WIZARD_TITLE);
 		
 		setDefaultPageImageDescriptor(ModelUIImages.getImageDescriptor(ModelUIImages.WIZARD_DEFAULT));
 	}
 	
-    public void addPages() {
+    public void addUserInputPages() {
     	addPage(new SelectBeanWizardPage(""));
     	page = new AddQualifiersToBeanWizardPage("");
     	addPage(page);
@@ -90,7 +89,7 @@ public class SelectBeanWizard extends AbstractModifyInjectionPointWizard{
 		return true;
 	}
 	
-	class SelectBeanWizardPage extends WizardPage{
+	class SelectBeanWizardPage extends UserInputWizardPage{
 		TableViewer tableViewer;
 		protected SelectBeanWizardPage(String pageName) {
 			super(pageName);
@@ -144,16 +143,17 @@ public class SelectBeanWizard extends AbstractModifyInjectionPointWizard{
 					return super.compare(viewer, o1, o2);
 				}
 			});
-			tableViewer.setInput(beans);
+			tableViewer.setInput(getBeans());
 			
 			tableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
 				public void selectionChanged(SelectionChangedEvent event) {
-					bean = getSelection();
+					IBean bean = getSelection();
 					if(bean != null){
 						setPageComplete(true);
 						IWizardPage next = getNextPage();
 						if(next instanceof AddQualifiersToBeanWizardPage)
 							((AddQualifiersToBeanWizardPage)next).init(bean);
+						setSelectedBean(bean);
 					}else
 						setPageComplete(false);
 				}

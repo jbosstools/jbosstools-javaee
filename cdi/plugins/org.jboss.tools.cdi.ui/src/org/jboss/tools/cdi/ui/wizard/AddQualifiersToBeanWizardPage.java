@@ -12,16 +12,18 @@ package org.jboss.tools.cdi.ui.wizard;
 
 import java.util.ArrayList;
 
-import org.eclipse.jface.wizard.WizardPage;
+import org.eclipse.ltk.core.refactoring.participants.ProcessorBasedRefactoring;
+import org.eclipse.ltk.ui.refactoring.UserInputWizardPage;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.widgets.Composite;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IQualifier;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
+import org.jboss.tools.cdi.ui.marker.AddQualifiersToBeanProcessor;
 import org.jboss.tools.cdi.ui.wizard.xpl.AddQualifiersToBeanComposite;
 import org.jboss.tools.cdi.ui.wizard.xpl.AddQualifiersToBeanComposite.ValuedQualifier;
 
-public class AddQualifiersToBeanWizardPage extends WizardPage{
+public class AddQualifiersToBeanWizardPage extends UserInputWizardPage{
 
 	private AddQualifiersToBeanComposite composite;
 	
@@ -58,5 +60,9 @@ public class AddQualifiersToBeanWizardPage extends WizardPage{
 	
 	public boolean checkBeans(){
 		return composite.checkBeans();
+	}
+	
+	public void setDeployedQualifiers(ArrayList<ValuedQualifier> qualifiers){
+		((AddQualifiersToBeanProcessor)((ProcessorBasedRefactoring)getRefactoring()).getProcessor()).setDeployedQualifiers(qualifiers);
 	}
 }

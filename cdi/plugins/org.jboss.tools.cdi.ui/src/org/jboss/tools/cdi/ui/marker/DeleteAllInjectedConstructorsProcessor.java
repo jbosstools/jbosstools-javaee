@@ -25,13 +25,15 @@ import org.eclipse.text.edits.TextEdit;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.IBeanMethod;
 import org.jboss.tools.cdi.core.IClassBean;
+import org.jboss.tools.cdi.ui.refactoring.CDIRefactoringProcessor;
 import org.jboss.tools.common.java.IAnnotationDeclaration;
 
-public class DeleteAllInjectedConstructorsProcessor extends MarkerResolutionRefactoringProcessor {
-
+public class DeleteAllInjectedConstructorsProcessor extends CDIRefactoringProcessor {
+	private IMethod method;
 	
 	public DeleteAllInjectedConstructorsProcessor(IFile file, IMethod method, String label){
-		super(file, method, label);
+		super(file, label);
+		this.method = method;
 	}
 	
 	private void changeConstructors(IClassBean bean) {
