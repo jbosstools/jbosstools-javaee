@@ -25,6 +25,7 @@ import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.swt.graphics.Image;
 import org.jboss.tools.common.el.core.ca.AbstractELCompletionEngine;
+import org.jboss.tools.common.el.core.ca.MessagesELTextProposal;
 import org.jboss.tools.common.el.core.model.ELExpression;
 import org.jboss.tools.common.el.core.model.ELInstance;
 import org.jboss.tools.common.el.core.model.ELInvocationExpression;
@@ -41,7 +42,12 @@ import org.jboss.tools.common.el.core.resolver.JavaMemberELSegment;
 import org.jboss.tools.common.el.core.resolver.TypeInfoCollector;
 import org.jboss.tools.common.el.core.resolver.TypeInfoCollector.MemberInfo;
 import org.jboss.tools.common.el.core.resolver.Var;
+import org.jboss.tools.common.model.XModel;
+import org.jboss.tools.common.model.XModelObject;
+import org.jboss.tools.common.model.project.IModelNature;
+import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.text.TextProposal;
+import org.jboss.tools.jsf.model.helpers.converter.OpenKeyHelper;
 import org.jboss.tools.seam.core.IBijectedAttribute;
 import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamContextShortVariable;
@@ -194,21 +200,25 @@ public final class SeamELCompletionEngine extends AbstractELCompletionEngine<ISe
 				String key = sortedKeys.next();
 				if (key == null || key.length() == 0)
 					continue;
+				
+				MessagesELTextProposal proposal = new MessagesELTextProposal();
 				if (key.indexOf('.') != -1) {
-					TextProposal proposal = new TextProposal();
 					proposal.setReplacementString("['" + key + "']");
 					proposal.setLabel("['" + key + "']");
-					proposal.setImage(SEAM_MESSAGES_PROPOSAL_IMAGE);
-					
-					kbProposals.add(proposal);
 				} else {
-					TextProposal proposal = new TextProposal();
 					proposal.setReplacementString(key);
 					proposal.setLabel(key);
-					proposal.setImage(SEAM_MESSAGES_PROPOSAL_IMAGE);
-					
-					kbProposals.add(proposal);
 				}
+				proposal.setImage(SEAM_MESSAGES_PROPOSAL_IMAGE);
+
+				/* Setup basename, propertyName and List<XModelObject> describing the property here:
+				 *  
+				proposal.setBaseName(mbr.basename);
+				proposal.setPropertyName(key);
+				proposal.setObjects(objects);
+				*/
+				
+				kbProposals.add(proposal);
 			}
 		}
 	}
