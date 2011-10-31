@@ -1584,7 +1584,31 @@ two elements with equal id has been used, but should be used only one -->
           </mediaobject>
         </figure>
       </section>
-       
+	  <section id="JSF2_component_creation">
+		  <title>Creating a JSF2 component from the Source view</title>
+		  <para>
+			  You can now create a JSF2 component while in the <guilabel>Source</guilabel> view. To do this, highlight the code you wish to create into a JSF2 component and then right-click the highlighted code segment to bring up the context menu.  
+		  </para>
+		  <figure>
+			  <title>Collapsed Code</title> 
+			  <mediaobject>
+				  <imageobject>
+					  <imagedata fileref="images/visual_page/visual_page_27a.png"/>
+				  </imageobject>
+			  </mediaobject>
+		  </figure>
+		  <para>
+			  Within the context menu, select <guimenuitem>Create JSF2 composite</guimenuitem>. A new component will now be created containing the highlighted code.
+		  </para>
+		  <figure>
+			  <title>Collapsed Code</title> 
+			  <mediaobject>
+				  <imageobject>
+					  <imagedata fileref="images/visual_page/visual_page_27b.png"/>
+				  </imageobject>
+			  </mediaobject>
+		  </figure>
+	  </section>
       <section id="JSPsyntaxvalidation84">
         <title>JSP Syntax Validation</title> 
         <para>
