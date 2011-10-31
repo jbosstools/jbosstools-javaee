@@ -17,7 +17,7 @@ public class MyGenericBean2 {
 	MyBean c;
 	
 	@Inject
-	void setMyBean(@Generic MyBean c) {}
+	void setMyBean(@Generic MyBean parameter1) {}
 
 	@Inject
 	@Generic

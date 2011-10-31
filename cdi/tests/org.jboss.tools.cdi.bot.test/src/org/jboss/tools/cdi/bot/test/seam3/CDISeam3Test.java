@@ -15,11 +15,14 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.swtbot.swt.finder.keyboard.Keystrokes;
+import org.eclipse.swtbot.swt.finder.widgets.SWTBotTable;
 import org.jboss.tools.cdi.bot.test.CDIAllBotTests;
 import org.jboss.tools.cdi.bot.test.quickfix.CDIQuickFixTest;
 import org.jboss.tools.cdi.bot.test.uiutils.actions.CDIBase;
 import org.jboss.tools.cdi.bot.test.uiutils.actions.CDIUtil;
 import org.jboss.tools.ui.bot.ext.RequirementAwareSuite;
+import org.jboss.tools.ui.bot.ext.Timing;
 import org.jboss.tools.ui.bot.ext.config.Annotations.Require;
 import org.jboss.tools.ui.bot.ext.config.Annotations.Server;
 import org.jboss.tools.ui.bot.ext.config.Annotations.ServerState;
@@ -44,6 +47,9 @@ public class CDISeam3Test extends CDIBase {
 	private static final String PROJECT_NAME = "CDIProject";
 	private static final String PACKAGE_NAME = "cdi";
 	private static final String GENERIC_PACKAGE_NAME = "org.cdi.generic";
+	private final String genericPoint1 = "MyExtendedConfiguration ";	
+	private final String genericPoint2 = "MyConfigurationProducer.getOneConfig()";	
+	private final String genericPoint3 = "MyConfigurationProducer.getSecondConfig()";
 	
 	
 	@BeforeClass
@@ -59,17 +65,10 @@ public class CDISeam3Test extends CDIBase {
 	public void waitForJobs() {
 		util.waitForNonIgnoredJobs();
 	}
-		
-
-	@Test
-	public void testCreateProjectWithSeamLibraries() {		
-		
-	}
 	
 	/*
 	 * https://issues.jboss.org/browse/JBIDE-8202
 	 */	
-	
 	@Test
 	public void testResourceOpenOn() {
 			
@@ -100,34 +99,17 @@ public class CDISeam3Test extends CDIBase {
 	
 	/*
 	 * https://issues.jboss.org/browse/JBIDE-8692
-	 */	
+	 */		
 	@Test
 	public void testGenericOpenOn() {
 
-		/*
-		 * create all necessary components
-		 */
 		prepareGenericOpenOn();
-		/*
-		 * test openon for inject and generic 
-		 * configuration point in class "MyBeanInjections"
-		 */
-		checkMyBeanInjections();
-		/*
-		 * not implemented yet
-		 */
-		checkMyGenericBean();
-		/*
-		 * not implemented yet
-		 */
-		checkMyGenericBean2();
 		
-		/*		 
-		 * what will I test: 
-		 * 	2. MyBeanInjections - three beany with different generic configuration
-		 * 	3. MyGenericBean - atribute config - Show all Generic Configuration Type
-		 *  4. MyGenericBean2 - atributes config, c1, c2, c3 + set Method
-		 */
+		checkMyBeanInjections();
+
+		checkMyGenericBean();
+
+		checkMyGenericBean2();		
 	}
 	
 	private static void addLibrary(String libraryName) {
@@ -144,7 +126,10 @@ public class CDISeam3Test extends CDIBase {
 	private static void checkLibrary(String libraryName) {
 		isLibraryInProjectClassPath(PROJECT_NAME, libraryName);		
 	}
-	
+
+	/**
+	 * create all necessary components for this test
+	 */
 	private void prepareGenericOpenOn() {
 		/*
 		 * injectable beans + qualifiers + generic configuration components
@@ -208,12 +193,25 @@ public class CDISeam3Test extends CDIBase {
 		checkThirdOpenOnAndGeneric();
 	}
 			
-	private void checkMyGenericBean() {		
-								
+	private void checkMyGenericBean() {	
+		String parameter = "MyConfiguration config";
+		String classTitle = "MyGenericBean.java";
+		checkAllGenericPointsForAtribute(parameter, classTitle);		
 	}
 
-	private void checkMyGenericBean2() {
-	
+	private void checkMyGenericBean2() {		
+		String classTitle = "MyGenericBean2.java";
+				
+		checkAllGenericPointsForAtribute("MyConfiguration config", classTitle);
+		
+		checkAllGenericPointsForAtribute("MyBean c", classTitle);
+		
+		checkAllGenericPointsForAtribute("MyBean2 c2", classTitle);
+		
+		checkAllGenericPointsForAtribute("MyBean3 c3", classTitle);
+		
+		checkAllGenericPointsForAtribute("MyBean parameter1", classTitle);		
+		
 	}
 	private void checkFirstOpenOnAndGeneric() {
 		checkOpenOnAndGeneric("first1", "MyBeanInjections.java", "Generic Configuration Point", 
@@ -273,6 +271,37 @@ public class CDISeam3Test extends CDIBase {
 		String selectedString = bot.activeEditor().toTextEditor().getSelection();
 		assertTrue(activeEditor, activeEditor.equals(afterOpenOnTitleName));
 		assertTrue(selectedString, selectedString.equals(injectSelectionAtribute));
+	}
+	
+	private void checkAllGenericPointsForAtribute(String parameter, String classTitle) {		
+		openOn(parameter, classTitle, "Show All Generic Configuration Points...");	
+		bot.sleep(Timing.time1S());
+		SWTBotTable genericPointTable = bot.table(0);
+		assertTrue(checkAllGenericConfPoints(genericPointTable));	
+		getEd().pressShortcut(Keystrokes.ESC);	
+		bot.sleep(Timing.time2S());
+	}
+	
+	private boolean checkAllGenericConfPoints(SWTBotTable genericPointTable) {
+		boolean isGenericPoint1Present = false;
+		boolean isGenericPoint2Present = false;
+		boolean isGenericPoint3Present = false;
+		for (int rowIterator = 0; rowIterator < genericPointTable.rowCount(); rowIterator++) {
+			String itemInTable = genericPointTable.getTableItem(rowIterator).getText(); 
+			if (itemInTable.contains(genericPoint1)) {
+				isGenericPoint1Present = true;						
+				continue;
+			} 
+			if (itemInTable.contains(genericPoint2)) {
+				isGenericPoint2Present = true;				
+				continue;
+			}
+			if (itemInTable.contains(genericPoint3)) {
+				isGenericPoint3Present = true;					
+				continue;
+			}
+		}
+		return isGenericPoint1Present && isGenericPoint2Present && isGenericPoint3Present;
 	}
 	
 }

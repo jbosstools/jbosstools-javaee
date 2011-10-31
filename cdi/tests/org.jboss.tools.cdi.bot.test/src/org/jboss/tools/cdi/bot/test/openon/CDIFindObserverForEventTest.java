@@ -61,12 +61,20 @@ public class CDIFindObserverForEventTest extends CDIBase {
 	//not implemented yet
 	@Test
 	public void testSimpleObserverFinding() {	
+		prepareSimpleObserverFinding();
 				
 	}
 	//not implemented yet	
 	@Test
 	public void testComplexObserverFinding() {	
-				
+		prepareComplexObserverFinding();		
 	}
 	
+	private void prepareSimpleObserverFinding() {
+		
+	}
+	
+	private void prepareComplexObserverFinding() {
+		
+	}
 }
