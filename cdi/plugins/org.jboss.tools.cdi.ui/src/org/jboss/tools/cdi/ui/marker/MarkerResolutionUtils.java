@@ -522,10 +522,10 @@ public class MarkerResolutionUtils {
 		IFile file = (IFile)injectionPoint.getClassBean().getResource();
 		TextFileChange fileChange = new TextFileChange(file.getName(), file);
 		
-		if(isEditorOpened(file))
-			fileChange.setSaveMode(TextFileChange.LEAVE_DIRTY);
-		else
-			fileChange.setSaveMode(TextFileChange.FORCE_SAVE);
+//		if(isEditorOpened(file))
+//			fileChange.setSaveMode(TextFileChange.LEAVE_DIRTY);
+//		else
+//			fileChange.setSaveMode(TextFileChange.FORCE_SAVE);
 		
 		MultiTextEdit edit = new MultiTextEdit();
 		try{
@@ -569,10 +569,10 @@ public class MarkerResolutionUtils {
 		IFile file = (IFile)bean.getBeanClass().getResource();
 		TextFileChange fileChange = new TextFileChange(file.getName(), file);
 		
-		if(isEditorOpened(file))
-			fileChange.setSaveMode(TextFileChange.LEAVE_DIRTY);
-		else
-			fileChange.setSaveMode(TextFileChange.FORCE_SAVE);
+//		if(isEditorOpened(file))
+//			fileChange.setSaveMode(TextFileChange.LEAVE_DIRTY);
+//		else
+//			fileChange.setSaveMode(TextFileChange.FORCE_SAVE);
 
 		MultiTextEdit edit = new MultiTextEdit();
 		IJavaElement beanElement = null;
