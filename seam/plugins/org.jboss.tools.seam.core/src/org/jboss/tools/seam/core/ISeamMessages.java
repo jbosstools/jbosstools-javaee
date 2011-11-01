@@ -11,9 +11,11 @@
 package org.jboss.tools.seam.core;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.core.resources.IResource;
+import org.jboss.tools.common.model.XModelObject;
 
 /**
  * @author Viacheslav Kabanovich
@@ -32,10 +34,11 @@ public interface ISeamMessages extends ISeamContextVariable {
 	 */
 	public Collection<ISeamProperty> getProperties();
 
-	/** 
+	/**
+	 * Intruduced instead of getProperties() - as much more lightweight in implementation.
 	 * 
-	 * @return map of properties and corresponding resources
+	 * @return
 	 */
-	public Map<String, IResource> getResourcesMap();
+	public Map<String, List<XModelObject>> getPropertiesMap();
 
 }

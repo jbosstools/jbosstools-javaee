@@ -10,23 +10,20 @@
   ******************************************************************************/
 package org.jboss.tools.seam.internal.core;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 import java.util.Set;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
+import org.jboss.tools.common.model.XModelObject;
+import org.jboss.tools.common.model.XModelObjectConstants;
+import org.jboss.tools.common.model.filesystems.impl.FileAnyImpl;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamElement;
@@ -42,10 +39,19 @@ import org.jboss.tools.seam.core.event.ISeamValueString;
  * @author Viacheslav Kabanovich
  */
 public class SeamMessagesLoader {
-	static Map<String, IResource> EMPTY = new HashMap<String, IResource>();
-	Map<String, IResource> resources = EMPTY; // Maps the bundleName to the IResource
+	static class MessageBundle {
+		String bundle;
+		List<XModelObject> files = new ArrayList<XModelObject>();
+		 MessageBundle(String bundle, List<XModelObject> files) {
+			 this.bundle = bundle;
+			 this.files = files;
+		 }
+	}
+	static List<MessageBundle> EMPTY = new ArrayList<MessageBundle>();
+	List<MessageBundle> resources = EMPTY; // Maps the bundleName to the IResource
 	Map<String, Long> timestamps = null;
 	Set<String> keys = null;
+	Map<String, List<XModelObject>> properties = null;
 	
 	ISeamElement object;
 	
@@ -61,40 +67,55 @@ public class SeamMessagesLoader {
 	}
 
 	public void revalidate() {
-		Map<String, IResource> resources2 = getResources();
+		List<MessageBundle> resources2 = getResources();
 		if(changed(resources2)) {
 			timestamps = new HashMap<String, Long>();
-			for (String n : resources2.keySet()) {
-				IResource r = resources2.get(n);
-				timestamps.put(n, r.getLocalTimeStamp());
+			for (int i = 0; i < resources2.size(); i++) {
+				List<XModelObject> r = resources2.get(i).files;
+				long q = 0;
+				for (XModelObject o: r) q += o.getTimeStamp();
+				timestamps.put(resources2.get(i).bundle, q);
 			}
 			resources = resources2;
 			keys = null;
+			properties = null;
 		}
 	}
 	
-	private boolean changed(Map<String, IResource> resources2) {
+	private boolean changed(List<MessageBundle> resources2) {
 		if(resources == resources2) return false;
 		if(resources2.size() != resources.size()) return true;
 		if(timestamps == null) return true;
-		for (String s: resources2.keySet()) {
-			IResource r2 = resources2.get(s);
-			IResource r1 = resources.get(s);
-			if(r1 == null || !r2.equals(r1)) return true;
-			long l1 = r1.getLocalTimeStamp();
-			Long l2 = timestamps.get(s);
+		for (int i = 0; i < resources2.size(); i++) {
+			List<XModelObject> r2 = resources2.get(i).files;
+			List<XModelObject> r1 = resources.get(i).files;
+			if(r1 == null || r2.size() == r1.size()) return true;
+			long l1 = 0;
+			for (XModelObject o: r1) l1 += o.getTimeStamp();
+			Long l2 = timestamps.get(resources2.get(i).bundle);
 			if(l2 == null || l1 != l2.longValue()) return true;
 		}
 		
 		return false;		
 	}	
 	
-	public Map<String, IResource> getResources() {
+	public List<MessageBundle> getResources() {
 		ISeamProject p = object.getSeamProject();
 		if(p == null) return EMPTY;
 		IResource[] srcs = EclipseResourceUtil.getJavaSourceRoots(p.getProject());
+		List<String> names = getNames();
+		return names.isEmpty() ? EMPTY : getResources(names, srcs);
+	}
+
+	private List<String> getNames() {
+		ISeamProject p = object.getSeamProject();
+		if(p == null) {
+			return new ArrayList<String>();
+		}
 		ISeamComponent c = p.getComponent(resourceComponent);
-		if(c == null) return EMPTY;
+		if(c == null) {
+			return new ArrayList<String>();
+		}
 		List<String> names = new ArrayList<String>();
 		Set<ISeamXmlComponentDeclaration> ds = c.getXmlDeclarations();
 		for (ISeamXmlComponentDeclaration d: ds) {
@@ -123,46 +144,37 @@ public class SeamMessagesLoader {
 		if(ds.isEmpty()) {
 			names.add("messages");
 		}
-		return getResources(names, srcs);
+		return names;
 	}
 
 	public Collection<ISeamProperty> getProperties() {
 		throw new IllegalStateException("Not implemented");
 	}
 
-	public Collection<String> getPropertyNames() {
-		if(keys == null) {
-			keys = new HashSet<String>();
-			for (IResource r: resources.values()) {
-				IPath p = r.getLocation();
-				if(p == null) continue;
-				File f = p.toFile();
-				Properties properties = new Properties();
-				FileInputStream is = null;
-				try {
-					is = new FileInputStream(f); 
-					properties.load(is);
-				} catch (IOException e) {
-					//ignore 
-					//TODO keep error for validation
-				} finally {
-					if(is!=null) {
-						try {
-							is.close();
-						} catch (IOException e) {
-							// ignore
+	public Map<String, List<XModelObject>> getPropertiesMap() {
+		if(properties == null) {
+			properties = new HashMap<String, List<XModelObject>>();
+			for (int i = 0; i < resources.size(); i++) {
+				List<XModelObject> list = resources.get(i).files;
+				for (XModelObject o: list) {
+					XModelObject[] ps = o.getChildren();
+					for (XModelObject p: ps) {
+						String propertyName = p.getAttributeValue(XModelObjectConstants.ATTR_NAME);
+						List<XModelObject> vs = properties.get(propertyName);
+						if(vs == null) {
+							vs = new ArrayList<XModelObject>();
+							properties.put(propertyName, vs);
 						}
+						vs.add(p);
 					}
 				}
-				Set<?> s = properties.keySet();
-				for (Object o : s) keys.add((String)o);
 			}
 		}
-		return keys;
+		return properties;
 	}
 	
-	private Map<String, IResource> getResources(List<String> names, IResource[] srcs) {
-		Map<String, IResource> rs = new HashMap<String, IResource>();
+	private List<MessageBundle> getResources(List<String> names, IResource[] srcs) {
+		List<MessageBundle> rs = new ArrayList<MessageBundle>();
 		for (String name: names) {
 			String n = name.replace('.', '/');
 			int k = n.lastIndexOf('/');
@@ -173,7 +185,19 @@ public class SeamMessagesLoader {
 				result = find(p, n, srcs[j]);
 			}
 			if(result != null) {
-				rs.put(name, result);
+				List<XModelObject> l = new ArrayList<XModelObject>();
+				XModelObject o = EclipseResourceUtil.createObjectForResource(result);
+				if(o != null) {
+					XModelObject[] os = o.getParent().getChildren();
+					String dn = o.getAttributeValue(XModelObjectConstants.ATTR_NAME);
+					for (XModelObject c: os) {
+						String fileName = FileAnyImpl.toFileName(c);
+						if(fileName.endsWith(".properties") && (c == o || fileName.startsWith(dn + "_"))) {
+							l.add(c);
+						}
+					}
+					rs.add(new MessageBundle(name, l));
+				}
 			}
 		}
 		return rs;

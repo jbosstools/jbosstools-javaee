@@ -16,6 +16,7 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.eclipse.core.resources.IResource;
+import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.project.ext.event.Change;
 import org.jboss.tools.seam.core.ISeamElement;
 import org.jboss.tools.seam.core.ISeamMessages;
@@ -34,7 +35,11 @@ public class SeamMessagesComponent extends SeamComponent implements ISeamMessage
 	}
 	
 	public Collection<String> getPropertyNames() {
-		return messagesLoader.getPropertyNames();
+		return messagesLoader.getPropertiesMap().keySet();
+	}
+
+	public Map<String, List<XModelObject>> getPropertiesMap() {
+		return messagesLoader.getPropertiesMap();
 	}
 
 	public SeamMessagesComponent clone() throws CloneNotSupportedException {
@@ -52,8 +57,4 @@ public class SeamMessagesComponent extends SeamComponent implements ISeamMessage
 		return changes;
 	}
 	
-	public Map<String, IResource> getResourcesMap() {
-		return messagesLoader.getResources();
-	}
-
 }

@@ -16,6 +16,7 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.eclipse.core.resources.IResource;
+import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.project.ext.event.Change;
 import org.jboss.tools.seam.core.ISeamElement;
 import org.jboss.tools.seam.core.ISeamMessages;
@@ -38,14 +39,14 @@ public class SeamMessages extends SeamAnnotatedFactory implements ISeamMessages 
 		return messagesLoader.getProperties();
 	}
 
-	public Collection<String> getPropertyNames() {
-		return messagesLoader.getPropertyNames();
-	}
-	
-	public Map<String, IResource> getResourcesMap() {
-		return messagesLoader.getResources();
+	public Map<String, List<XModelObject>> getPropertiesMap() {
+		return messagesLoader.getPropertiesMap();
 	}
 
+	public Collection<String> getPropertyNames() {
+		return messagesLoader.getPropertiesMap().keySet();
+	}
+	
 	public SeamMessages clone() throws CloneNotSupportedException {
 		SeamMessages c = (SeamMessages)super.clone();
 		return c;

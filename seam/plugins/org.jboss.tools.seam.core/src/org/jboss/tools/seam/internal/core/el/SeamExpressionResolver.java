@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
@@ -39,6 +40,7 @@ import org.jboss.tools.common.el.core.resolver.TypeInfoCollector.Type;
 import org.jboss.tools.common.el.core.resolver.TypeInfoCollector.TypeInfo;
 import org.jboss.tools.common.el.core.resolver.TypeInfoCollector.TypeMemberInfo;
 import org.jboss.tools.common.java.IJavaSourceReference;
+import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.seam.core.BijectedAttributeType;
 import org.jboss.tools.seam.core.IBijectedAttribute;
@@ -252,6 +254,16 @@ public class SeamExpressionResolver {
 		 */
 		public Collection<String> getKeys() {
 			return messages.getPropertyNames();
+		}
+		
+		/**
+		 * Returns mapping of property name to all model objects that represent it, 
+		 * for all locales and all bundles.
+		 * 
+		 * @return
+		 */
+		public Map<String, List<XModelObject>> getPropertiesMap() {
+			return messages.getPropertiesMap();
 		}
 	}
 

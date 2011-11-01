@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -26,6 +27,7 @@ import org.eclipse.jface.text.IRegion;
 import org.eclipse.swt.graphics.Image;
 import org.jboss.tools.common.el.core.ca.AbstractELCompletionEngine;
 import org.jboss.tools.common.el.core.ca.MessagesELTextProposal;
+import org.jboss.tools.common.el.core.model.ELArgumentInvocation;
 import org.jboss.tools.common.el.core.model.ELExpression;
 import org.jboss.tools.common.el.core.model.ELInstance;
 import org.jboss.tools.common.el.core.model.ELInvocationExpression;
@@ -36,18 +38,18 @@ import org.jboss.tools.common.el.core.parser.ELParser;
 import org.jboss.tools.common.el.core.parser.ELParserFactory;
 import org.jboss.tools.common.el.core.parser.ELParserUtil;
 import org.jboss.tools.common.el.core.resolver.ELResolution;
+import org.jboss.tools.common.el.core.resolver.ELResolutionImpl;
 import org.jboss.tools.common.el.core.resolver.ELSegment;
 import org.jboss.tools.common.el.core.resolver.ElVarSearcher;
 import org.jboss.tools.common.el.core.resolver.JavaMemberELSegment;
 import org.jboss.tools.common.el.core.resolver.TypeInfoCollector;
 import org.jboss.tools.common.el.core.resolver.TypeInfoCollector.MemberInfo;
 import org.jboss.tools.common.el.core.resolver.Var;
-import org.jboss.tools.common.model.XModel;
 import org.jboss.tools.common.model.XModelObject;
-import org.jboss.tools.common.model.project.IModelNature;
-import org.jboss.tools.common.model.util.EclipseResourceUtil;
+import org.jboss.tools.common.model.XModelObjectConstants;
+import org.jboss.tools.common.model.filesystems.FileSystemsHelper;
 import org.jboss.tools.common.text.TextProposal;
-import org.jboss.tools.jsf.model.helpers.converter.OpenKeyHelper;
+import org.jboss.tools.jst.web.kb.el.MessagePropertyELSegmentImpl;
 import org.jboss.tools.seam.core.IBijectedAttribute;
 import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamContextShortVariable;
@@ -190,43 +192,201 @@ public final class SeamELCompletionEngine extends AbstractELCompletionEngine<ISe
 		return (mbr instanceof MessagesInfo);
 	}
 
+	protected void resolveLastSegment(ELInvocationExpression expr, 
+			List<TypeInfoCollector.MemberInfo> members,
+			ELResolutionImpl resolution,
+			boolean returnEqualedVariablesOnly, boolean varIsUsed) {
+		if(resolveLastSegmentInMessages(expr, members, resolution, returnEqualedVariablesOnly, varIsUsed)) {
+			return;
+		} else {
+			super.resolveLastSegment(expr, members, resolution, returnEqualedVariablesOnly, varIsUsed);
+		}
+	}
+
+	private boolean resolveLastSegmentInMessages(ELInvocationExpression expr, 
+			List<TypeInfoCollector.MemberInfo> members,
+			ELResolutionImpl resolution,
+			boolean returnEqualedVariablesOnly, boolean varIsUsed) {
+		if(members.isEmpty() || !(members.get(0) instanceof MessagesInfo)) {
+			return false;
+		}
+		MessagesInfo messagesInfo = ((MessagesInfo)members.get(0));
+		MessagePropertyELSegmentImpl segment = null;
+		if(expr instanceof ELPropertyInvocation) {
+			segment = new MessagePropertyELSegmentImpl(((ELPropertyInvocation)expr).getName());
+		} else if (expr instanceof ELArgumentInvocation) {
+			segment = new MessagePropertyELSegmentImpl(((ELArgumentInvocation)expr).getArgument().getOpenArgumentToken().getNextToken());
+		}
+		if(segment.getToken() == null) {
+			return false;
+		}
+		
+		Set<TextProposal> kbProposals = new TreeSet<TextProposal>(TextProposal.KB_PROPOSAL_ORDER);
+
+		String propertyName = segment.getToken().getText();
+		Map<String, List<XModelObject>> properties = messagesInfo.getPropertiesMap();
+		List<XModelObject> os = properties.get(propertyName);
+		if(os != null) {
+			for(XModelObject o: os) {
+				segment.addObject(o);
+			}
+			if(!os.isEmpty()) {
+				segment.setBaseName(getBundle(os.get(0)));
+			} else {
+				segment.setBaseName("messages");
+			}
+		}
+		
+		if(segment.getToken()!=null) {
+			resolution.addSegment(segment);
+		}
+			resolution.setProposals(kbProposals);
+			if (expr.getType() == ELObjectType.EL_PROPERTY_INVOCATION && ((ELPropertyInvocation)expr).getName() == null) {
+			// return all the methods + properties
+			for (TypeInfoCollector.MemberInfo mbr : members) {
+				processSingularMember(mbr, kbProposals);
+			}
+		} else
+			if(expr.getType() != ELObjectType.EL_ARGUMENT_INVOCATION) {
+			Set<String> proposalsToFilter = new TreeSet<String>(); 
+			for (TypeInfoCollector.MemberInfo mbr : members) {
+					filterSingularMember((MessagesInfo)mbr, proposalsToFilter);
+			}
+			for (String proposal : proposalsToFilter) {
+				// We do expect nothing but name for method tokens (No round brackets)
+				String filter = expr.getMemberName();
+				if(filter == null) filter = ""; //$NON-NLS-1$
+				if(returnEqualedVariablesOnly) {
+					// This is used for validation.
+					if (proposal.equals(filter)) {
+						MessagesELTextProposal kbProposal = createProposal(messagesInfo, proposal);
+						kbProposals.add(kbProposal);
+						break;
+					}
+				} else if (proposal.startsWith(filter)) {
+					// This is used for CA.
+					MessagesELTextProposal kbProposal = createProposal(messagesInfo, proposal);
+					kbProposal.setReplacementString(proposal.substring(filter.length()));
+					kbProposals.add(kbProposal);
+				}
+			}
+		} else if(expr.getType() == ELObjectType.EL_ARGUMENT_INVOCATION) {
+			Set<String> proposalsToFilter = new TreeSet<String>();
+			boolean isMessages = false;
+			for (TypeInfoCollector.MemberInfo mbr : members) {
+				isMessages = true;
+				filterSingularMember((MessagesInfo)mbr, proposalsToFilter);
+			}
+			String filter = expr.getMemberName();
+			boolean bSurroundWithQuotes = false;
+			if(filter == null) {
+				filter = ""; //$NON-NLS-1$
+				bSurroundWithQuotes = true;
+			} else {
+				boolean b = filter.startsWith("'") || filter.startsWith("\""); //$NON-NLS-1$ //$NON-NLS-2$
+				boolean e = filter.endsWith("'") || filter.endsWith("\""); //$NON-NLS-1$ //$NON-NLS-2$
+				if((b) && (e)) {
+					filter = filter.length() == 1 ? "" : filter.substring(1, filter.length() - 1); //$NON-NLS-1$
+				} else if(b && !returnEqualedVariablesOnly) {
+					filter = filter.substring(1);
+				} else {
+					//Value is set as expression itself, we cannot compute it
+					if(isMessages) {
+						resolution.setMapOrCollectionOrBundleAmoungTheTokens(true);
+					}
+					return true;
+				}
+			}
+
+			for (String proposal : proposalsToFilter) {
+				if(returnEqualedVariablesOnly) {
+					// This is used for validation.
+					if (proposal.equals(filter)) {
+						MessagesELTextProposal kbProposal = createProposal(messagesInfo, proposal);
+						kbProposals.add(kbProposal);
+						break;
+					}
+				} else if (proposal.startsWith(filter)) {
+					// This is used for CA.
+					MessagesELTextProposal kbProposal = createProposal(messagesInfo, proposal);
+					String replacementString = proposal.substring(filter.length());
+					if (bSurroundWithQuotes) {
+						replacementString = "'" + replacementString + "']"; //$NON-NLS-1$ //$NON-NLS-2$
+					}
+					kbProposal.setReplacementString(replacementString);
+						kbProposals.add(kbProposal);
+				}
+			}
+		}
+		segment.setResolved(!kbProposals.isEmpty());
+		if (resolution.isResolved()){
+			resolution.setLastResolvedToken(expr);
+		}			
+		return true;
+	}
+
 	protected void processSingularMember(TypeInfoCollector.MemberInfo mbr, Set<TextProposal> kbProposals) {
 		if (mbr instanceof MessagesInfo) {
-			// Surround the "long" keys containing the dots with [' '] 
+			// Surround the "long" keys containing the dots with [' ']
+			Map<String, List<XModelObject>> properties = ((MessagesInfo)mbr).getPropertiesMap();
 			TreeSet<String> keys = new TreeSet<String>(String.CASE_INSENSITIVE_ORDER);
-			keys.addAll(((MessagesInfo)mbr).getKeys());
+			keys.addAll(properties.keySet());
 			Iterator<String> sortedKeys = keys.iterator();
 			while(sortedKeys.hasNext()) {
 				String key = sortedKeys.next();
 				if (key == null || key.length() == 0)
 					continue;
-				
-				MessagesELTextProposal proposal = new MessagesELTextProposal();
-				if (key.indexOf('.') != -1) {
-					proposal.setReplacementString("['" + key + "']");
-					proposal.setLabel("['" + key + "']");
-				} else {
-					proposal.setReplacementString(key);
-					proposal.setLabel(key);
-				}
-				proposal.setImage(SEAM_MESSAGES_PROPOSAL_IMAGE);
-
-				/* Setup basename, propertyName and List<XModelObject> describing the property here:
-				 *  
-				proposal.setBaseName(mbr.basename);
-				proposal.setPropertyName(key);
-				proposal.setObjects(objects);
-				*/
-				
+				MessagesELTextProposal proposal = createProposal((MessagesInfo)mbr, key);
 				kbProposals.add(proposal);
 			}
 		}
+	}
+
+	private MessagesELTextProposal createProposal(MessagesInfo mbr, String proposal) {
+		Map<String, List<XModelObject>> properties = mbr.getPropertiesMap();
+		List<XModelObject> ps = properties.get(proposal);
+		String bundle = ps.isEmpty() ? "messages" : getBundle(ps.get(0));
+		
+		MessagesELTextProposal kbProposal = new MessagesELTextProposal();
+		kbProposal.setBaseName(bundle);
+		kbProposal.setObjects(ps);
+
+		if (proposal.indexOf('.') != -1) {
+			kbProposal.setReplacementString("['" + proposal + "']");
+			kbProposal.setLabel("['" + proposal + "']");
+		} else {
+			kbProposal.setReplacementString(proposal);
+			kbProposal.setLabel(proposal);
+		}
+		kbProposal.setImage(SEAM_MESSAGES_PROPOSAL_IMAGE);
+		return kbProposal;
+	}
+
+	private String getBundle(XModelObject o) {
+		StringBuilder sb = new StringBuilder();
+		XModelObject f = FileSystemsHelper.getFile(o);
+		if(f != null) {
+			sb.append(f.getAttributeValue(XModelObjectConstants.ATTR_NAME));
+			f = f.getParent();
+			while(f != null && f.getFileType() == XModelObject.FOLDER) {
+				sb.insert(0,  ".").insert(0, f.getAttributeValue(XModelObjectConstants.ATTR_NAME));
+				f = f.getParent();
+			}
+		}
+		return sb.toString();
 	}
 
 	protected void filterSingularMember(TypeInfoCollector.MemberInfo mbr, Set<TypeInfoCollector.MemberPresentation> proposalsToFilter) {
 		Collection<String> keys = ((MessagesInfo)mbr).getKeys();
 		for (String key : keys) {
 			proposalsToFilter.add(new TypeInfoCollector.MemberPresentation(key, key, mbr));
+		}
+	}
+
+	protected void filterSingularMember(MessagesInfo mbr, Set<String> proposalsToFilter) {
+		Collection<String> keys = ((MessagesInfo)mbr).getKeys();
+		for (String key : keys) {
+			proposalsToFilter.add(key);
 		}
 	}
 
