@@ -225,7 +225,7 @@ public final class SeamELCompletionEngine extends AbstractELCompletionEngine<ISe
 
 		String propertyName = segment.getToken().getText();
 		Map<String, List<XModelObject>> properties = messagesInfo.getPropertiesMap();
-		List<XModelObject> os = properties.get(propertyName);
+		List<XModelObject> os = properties.get(trimQuotes(propertyName));
 		if(os != null) {
 			for(XModelObject o: os) {
 				segment.addObject(o);
