@@ -84,11 +84,6 @@ public class SelectBeanWizard extends AbstractModifyInjectionPointWizard{
 		return page.checkBeans();
 	}
 	
-	@Override
-	public boolean performFinish() {
-		return true;
-	}
-	
 	class SelectBeanWizardPage extends UserInputWizardPage{
 		TableViewer tableViewer;
 		protected SelectBeanWizardPage(String pageName) {

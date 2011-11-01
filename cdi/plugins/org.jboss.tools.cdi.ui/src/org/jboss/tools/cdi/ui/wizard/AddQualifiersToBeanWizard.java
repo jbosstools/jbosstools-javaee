@@ -34,11 +34,6 @@ public class AddQualifiersToBeanWizard extends AbstractModifyInjectionPointWizar
     	addPage(page);
     }
 
-	@Override
-	public boolean performFinish() {
-		return true;
-	}
-	
 	public List<ValuedQualifier> getDeployedQualifiers(){
 		return page.getDeployedQualifiers();
 	}
