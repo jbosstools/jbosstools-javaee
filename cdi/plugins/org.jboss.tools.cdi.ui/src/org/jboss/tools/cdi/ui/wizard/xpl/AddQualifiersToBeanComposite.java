@@ -23,6 +23,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.jdt.core.Flags;
+import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jface.dialogs.Dialog;
@@ -175,9 +176,11 @@ public class AddQualifiersToBeanComposite extends Composite {
 		ValuedQualifier lastQualifier = null;
 		String beanTypeName = bean.getBeanClass().getFullyQualifiedName();
 		String beanPackage = beanTypeName.substring(0,beanTypeName.lastIndexOf(MarkerResolutionUtils.DOT));
+		IJavaProject beanJavaProject = bean.getBeanClass().getJavaProject();
 		
 		String injectionPointTypeName = injectionPoint.getClassBean().getBeanClass().getFullyQualifiedName();
 		String injectionPointPackage = injectionPointTypeName.substring(0,injectionPointTypeName.lastIndexOf(MarkerResolutionUtils.DOT));
+		IJavaProject injectionPointJavaProject = injectionPoint.getBean().getBeanClass().getJavaProject();
 		
 		boolean samePackage = beanPackage.equals(injectionPointPackage);
 		
@@ -186,19 +189,22 @@ public class AddQualifiersToBeanComposite extends Composite {
 		for(IQualifier q : qs){
 			ValuedQualifier vq = new ValuedQualifier(q);
 			if(!contains(originalQualifiers, vq) && !contains(qualifiers, vq) && !contains(deployed, vq)){
-				boolean isPublic = true;
 				try{
-					isPublic = Flags.isPublic(q.getSourceType().getFlags());
-				}catch(JavaModelException ex){
+					boolean isPublic = Flags.isPublic(q.getSourceType().getFlags());
+					
+					String qualifierTypeName = q.getSourceType().getFullyQualifiedName();
+					String qualifierPackage = qualifierTypeName.substring(0,qualifierTypeName.lastIndexOf(MarkerResolutionUtils.DOT));
+					if((isPublic || (samePackage && injectionPointPackage.equals(qualifierPackage))) ){
+						if(beanJavaProject.findType(qualifierTypeName) != null && injectionPointJavaProject.findType(qualifierTypeName) != null){
+							qualifiers.add(vq);
+							availableTableViewer.add(vq);
+							lastQualifier = vq;
+						}
+					}
+				} catch (JavaModelException ex) {
 					CDIUIPlugin.getDefault().logError(ex);
 				}
-				String qualifierTypeName = q.getSourceType().getFullyQualifiedName();
-				String qualifierPackage = qualifierTypeName.substring(0,qualifierTypeName.lastIndexOf(MarkerResolutionUtils.DOT));
-				if((isPublic || (samePackage && injectionPointPackage.equals(qualifierPackage))) ){
-					qualifiers.add(vq);
-					availableTableViewer.add(vq);
-					lastQualifier = vq;
-				}
+				
 			}
 		}
 		return lastQualifier;
