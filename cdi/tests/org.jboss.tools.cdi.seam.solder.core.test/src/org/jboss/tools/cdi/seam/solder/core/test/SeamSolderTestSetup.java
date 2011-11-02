@@ -26,6 +26,7 @@ public class SeamSolderTestSetup extends TestSetup {
 
 	protected IProject project;
 	protected IProject dependentProject;
+	protected IProject dependentProject2;
 
 	public SeamSolderTestSetup(Test test) {
 		super(test);
@@ -43,6 +44,11 @@ public class SeamSolderTestSetup extends TestSetup {
 			dependentProject = ResourcesUtils.importProject(SeamSolderTest.PLUGIN_ID, SeamSolderTest.DEPENDENT_PROJECT_PATH);
 			TestUtil._waitForValidation(dependentProject);
 		}
+		dependentProject2 = ResourcesPlugin.getWorkspace().getRoot().getProject(SeamSolderTest.DEPENDENT_PROJECT2_NAME);
+		if(dependentProject2 == null || !dependentProject2.exists()) {
+			dependentProject2 = ResourcesUtils.importProject(SeamSolderTest.PLUGIN_ID, SeamSolderTest.DEPENDENT_PROJECT2_PATH);
+			TestUtil._waitForValidation(dependentProject2);
+		}
 	}
 
 	@Override
@@ -50,6 +56,7 @@ public class SeamSolderTestSetup extends TestSetup {
 		boolean saveAutoBuild = ResourcesUtils.setBuildAutomatically(false);
 		project.delete(true, true, null);
 		dependentProject.delete(true, true, null);
+		dependentProject2.delete(true, true, null);
 		JobUtils.waitForIdle();
 		ResourcesUtils.setBuildAutomatically(saveAutoBuild);
 	}

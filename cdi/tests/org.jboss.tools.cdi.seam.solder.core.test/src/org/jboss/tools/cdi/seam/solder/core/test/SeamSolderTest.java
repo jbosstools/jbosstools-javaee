@@ -30,12 +30,17 @@ public class SeamSolderTest extends TestCase {
 	protected static String PROJECT_PATH = "/projects/CDISolderTest";
 	protected static String DEPENDENT_PROJECT_NAME = "CDIDependentSolderTest";
 	protected static String DEPENDENT_PROJECT_PATH = "/projects/CDIDependentSolderTest";
+	protected static String DEPENDENT_PROJECT2_NAME = "CDIDependentSolderTest2";
+	protected static String DEPENDENT_PROJECT2_PATH = "/projects/CDIDependentSolderTest2";
 
 	private ICDIProject cdiProject;
 	private IProject project;
 
 	private IProject dependentProject;
 	private ICDIProject cdiDependentProject;
+
+	private IProject dependentProject2;
+	private ICDIProject cdiDependentProject2;
 
 	public IProject getTestProject() {
 		if(cdiProject==null) {
@@ -53,6 +58,14 @@ public class SeamSolderTest extends TestCase {
 		return dependentProject;
 	}
 
+	public IProject getDependentTestProject2() {
+		if(cdiDependentProject2 == null) {
+			dependentProject2 = findTestProject(DEPENDENT_PROJECT2_NAME);
+			cdiDependentProject2 = CDICorePlugin.getCDIProject(dependentProject2, true);
+		}
+		return dependentProject2;
+	}
+
 	public ICDIProject getCDIProject() {
 		if(cdiProject==null) {
 			getTestProject();
@@ -65,6 +78,13 @@ public class SeamSolderTest extends TestCase {
 			getDependentTestProject();
 		}
 		return cdiDependentProject;
+	}
+
+	public ICDIProject getDependentCDIProject2() {
+		if(cdiDependentProject2 == null) {
+			getDependentTestProject2();
+		}
+		return cdiDependentProject2;
 	}
 
 	public static IProject findTestProject(String name) {

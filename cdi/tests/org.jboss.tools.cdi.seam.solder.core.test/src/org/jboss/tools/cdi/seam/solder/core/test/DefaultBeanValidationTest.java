@@ -61,4 +61,31 @@ public class DefaultBeanValidationTest extends SeamSolderTest {
 		AbstractResourceMarkerTest.assertMarkerIsCreated(file2, messageMask, 9);
 	}
 
+	public void testIncrementalValidationForIdenticalDefaultBeans2() throws CoreException {
+		String messageMask = SeamSolderValidationMessages.IDENTICAL_DEFAULT_BEANS.substring(0, 50) + ".*";
+
+		String path11 = "src/org/jboss/defaultbean/Test21.java";
+		String path12 = "src/org/jboss/defaultbean/Test22.java";
+		String path2 = "src/org/jboss/defaultbean/validation2/Test2.java";
+		String path2modified = "src/org/jboss/defaultbean/validation2/Test2.modified";
+		String path2original = "src/org/jboss/defaultbean/validation2/Test2.original";
+
+		IFile file11 = getDependentTestProject().getFile(path11);
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file11, messageMask, 9);
+		IFile file12 = getDependentTestProject2().getFile(path12);
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file12, messageMask, 9);
+		IFile file2 = getTestProject().getFile(path2);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file2, messageMask);
+		
+		GenericBeanValidationTest.writeFile(getTestProject(), path2modified, path2);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file11, messageMask);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file12, messageMask);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file2, messageMask);
+
+		GenericBeanValidationTest.writeFile(getTestProject(), path2original, path2);
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file11, messageMask, 9);
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file12, messageMask, 9);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file2, messageMask);
+	}
+
 }
