@@ -47,6 +47,7 @@ public class CdiSeamTextExtAllTests {
 		TestSuite suiteSolder = new TestSuite("CDI Seam Solder Tests");
 		suiteSolder.addTestSuite(InjectedPointHyperlinkTest.class);
 		suiteSolder.addTestSuite(SeamGenericInjectedPointHyperlinkTest.class);
+		suiteSolder.addTestSuite(AssignableBeansDialogTest.class);
 		
 		suiteAll.addTest(new SeamSolderTestSetup(suiteSolder));
 
