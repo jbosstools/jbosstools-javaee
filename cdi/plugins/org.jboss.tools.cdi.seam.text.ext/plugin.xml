@@ -80,4 +80,10 @@
 	
 </extension>
 
+<extension 
+	point="org.jboss.tools.cdi.text.ext.assignableBeanFilterContributors">
+	<contributor class="org.jboss.tools.cdi.seam.text.ext.hyperlink.SolderDefaultBeanFilterContributor"/>
+</extension>
+	
+
 </plugin>
