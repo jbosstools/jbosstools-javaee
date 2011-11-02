@@ -105,11 +105,12 @@ public abstract class CDIRefactoringProcessor extends RefactoringProcessor {
 		return null;
 	}
 	
-	private boolean isFileCorrect(IFile file){
+	protected boolean isFileCorrect(IFile file){
 		if(!file.isSynchronized(IResource.DEPTH_ZERO)){
-			status.addFatalError(NLS.bind(CDICoreMessages.CDI_RENAME_PROCESSOR_OUT_OF_SYNC_PROJECT, file.getProject().getFullPath().toString()));
+			status.addFatalError(NLS.bind(CDICoreMessages.CDI_RENAME_PROCESSOR_ERROR_OUT_OF_SYNC_PROJECT, file.getProject().getFullPath().toString()));
 			return false;
 		}else if(file.isPhantom()){
+			status.addFatalError(NLS.bind(CDICoreMessages.CDI_RENAME_PROCESSOR_ERROR_PHANTOM_FILE, file.getFullPath().toString()));
 			return false;
 		}else if(file.isReadOnly()){
 			status.addFatalError(NLS.bind(CDICoreMessages.CDI_RENAME_PROCESSOR_ERROR_READ_ONLY_FILE, file.getFullPath().toString()));
@@ -146,7 +147,7 @@ public abstract class CDIRefactoringProcessor extends RefactoringProcessor {
 		if(isFileCorrect(file)){
 			bean = findClassBean();
 		}else
-			status.addFatalError("CDI Bean Class not found");
+			status.addFatalError(CDICoreMessages.CDI_RENAME_PROCESSOR_ERROR_BEAN_NOT_FOUND);
 		
 		return status;
 	}

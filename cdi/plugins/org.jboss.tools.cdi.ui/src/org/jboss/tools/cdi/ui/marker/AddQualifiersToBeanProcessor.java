@@ -13,12 +13,14 @@ package org.jboss.tools.cdi.ui.marker;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.ltk.core.refactoring.CompositeChange;
 import org.eclipse.ltk.core.refactoring.RefactoringStatus;
 import org.eclipse.ltk.core.refactoring.participants.CheckConditionsContext;
+import org.jboss.tools.cdi.core.CDICoreMessages;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.ui.refactoring.CDIRefactoringProcessor;
@@ -41,6 +43,15 @@ public class AddQualifiersToBeanProcessor extends CDIRefactoringProcessor {
 	public RefactoringStatus checkInitialConditions(IProgressMonitor pm)
 			throws CoreException, OperationCanceledException {
 		status = new RefactoringStatus();
+
+		if(injectionPoint == null){
+			status.addFatalError(CDICoreMessages.CDI_RENAME_PROCESSOR_ERROR_INJECTION_POINT_NOT_FOUND);
+			return status;
+		}
+		
+		IFile injectionPointFile = (IFile)injectionPoint.getClassBean().getResource();
+		
+		isFileCorrect(injectionPointFile);
 		
 		return status;
 	}
@@ -49,6 +60,17 @@ public class AddQualifiersToBeanProcessor extends CDIRefactoringProcessor {
 	public RefactoringStatus checkFinalConditions(IProgressMonitor pm,
 			CheckConditionsContext context) throws CoreException,
 			OperationCanceledException {
+		
+		if(selectedBean == null){
+			status.addFatalError(CDICoreMessages.CDI_RENAME_PROCESSOR_ERROR_BEAN_NOT_FOUND);
+			return status;
+		}
+		
+		IFile beanFile = (IFile)selectedBean.getBeanClass().getResource();
+		
+		if(!isFileCorrect(beanFile)){
+			return status;
+		}
 		
 		createRootChange();
 

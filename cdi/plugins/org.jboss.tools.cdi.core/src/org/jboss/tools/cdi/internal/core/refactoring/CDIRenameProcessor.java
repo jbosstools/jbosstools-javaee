@@ -170,7 +170,7 @@ public abstract class CDIRenameProcessor extends RenameProcessor {
 
 		@Override
 		protected void outOfSynch(IProject project) {
-			status.addFatalError(NLS.bind(CDICoreMessages.CDI_RENAME_PROCESSOR_OUT_OF_SYNC_PROJECT, project.getFullPath().toString()));
+			status.addFatalError(NLS.bind(CDICoreMessages.CDI_RENAME_PROCESSOR_ERROR_OUT_OF_SYNC_PROJECT, project.getFullPath().toString()));
 		}
 
 		@Override
