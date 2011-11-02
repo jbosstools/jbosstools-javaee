@@ -30,7 +30,7 @@ import org.jboss.tools.cdi.text.ext.hyperlink.AssignableBeanFilters.FilterContri
  *
  */
 public class SolderDefaultBeanFilterContributor implements FilterContributor {
-	static final int OPTION_DEFAULT_BEAN = 21;
+	public static final int OPTION_DEFAULT_BEAN = 21;
 
 	@Override
 	public void contribute(AssignableBeanFilters filters, IInjectionPoint injectionPoint) {
