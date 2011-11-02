@@ -149,6 +149,7 @@ public class SelectBeanWizard extends AbstractModifyInjectionPointWizard{
 						if(next instanceof AddQualifiersToBeanWizardPage)
 							((AddQualifiersToBeanWizardPage)next).init(bean);
 						setSelectedBean(bean);
+						page.setDeployedQualifiers(page.getDeployedQualifiers());
 					}else
 						setPageComplete(false);
 				}

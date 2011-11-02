@@ -75,7 +75,7 @@ public class AddQualifiersToBeanProcessor extends CDIRefactoringProcessor {
 		createRootChange();
 
 		MarkerResolutionUtils.addQualifiersToBean(qualifiers, selectedBean, rootChange);
-		
+	
 		MarkerResolutionUtils.addQualifiersToInjectionPoint(qualifiers, injectionPoint, rootChange);
 		
 		return status;

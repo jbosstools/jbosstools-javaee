@@ -549,9 +549,10 @@ public class MarkerResolutionUtils {
 				}
 			}
 			
-			fileChange.setEdit(edit);
-			if(edit.getChildrenSize() > 0)
+			if(edit.getChildrenSize() > 0){
+				fileChange.setEdit(edit);
 				change.add(fileChange);
+			}
 		}catch(CoreException ex){
 			CDIUIPlugin.getDefault().logError(ex);
 		}
@@ -599,9 +600,10 @@ public class MarkerResolutionUtils {
 				
 			}
 			
-			fileChange.setEdit(edit);
-			if(edit.getChildrenSize() > 0)
+			if(edit.getChildrenSize() > 0){
+				fileChange.setEdit(edit);
 				change.add(fileChange);
+			}
 		}catch(CoreException ex){
 			CDIUIPlugin.getDefault().logError(ex);
 		}
