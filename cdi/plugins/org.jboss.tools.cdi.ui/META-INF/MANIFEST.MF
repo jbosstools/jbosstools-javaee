@@ -34,7 +34,8 @@ Require-Bundle: org.eclipse.ui;bundle-version="3.7.0",
  org.eclipse.debug.ui;bundle-version="3.7.0",
  org.eclipse.ui.navigator;bundle-version="3.5.0",
  org.eclipse.ui.navigator.resources;bundle-version="3.4.300",
- org.eclipse.draw2d;bundle-version="3.7.0"
+ org.eclipse.draw2d;bundle-version="3.7.0",
+ org.eclipse.jdt.core.manipulation;bundle-version="1.4.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-Vendor: %Bundle-Vendor.0

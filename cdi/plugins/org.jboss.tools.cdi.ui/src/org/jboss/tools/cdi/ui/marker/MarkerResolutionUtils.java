@@ -40,9 +40,12 @@ import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.ITypeParameter;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.core.Signature;
+import org.eclipse.jdt.core.refactoring.CompilationUnitChange;
 import org.eclipse.jdt.internal.ui.javaeditor.EditorUtility;
 import org.eclipse.ltk.core.refactoring.CompositeChange;
 import org.eclipse.ltk.core.refactoring.TextFileChange;
+import org.eclipse.text.edits.DeleteEdit;
+import org.eclipse.text.edits.InsertEdit;
 import org.eclipse.text.edits.MultiTextEdit;
 import org.eclipse.text.edits.ReplaceEdit;
 import org.eclipse.text.edits.TextEdit;
@@ -180,7 +183,7 @@ public class MarkerResolutionUtils {
 					compilationUnit.createImport(qualifiedName, null, new NullProgressMonitor());
 				}
 			}else{
-				TextEdit edit = new ReplaceEdit(compilationUnit.getImportContainer().getSourceRange().getOffset()+compilationUnit.getImportContainer().getSourceRange().getLength(), 0, compilationUnit.findRecommendedLineSeparator()+IMPORT+SPACE+qualifiedName+SEMICOLON);
+				TextEdit edit = new InsertEdit(compilationUnit.getImportContainer().getSourceRange().getOffset()+compilationUnit.getImportContainer().getSourceRange().getLength(), compilationUnit.findRecommendedLineSeparator()+IMPORT+SPACE+qualifiedName+SEMICOLON);
 				rootEdit.addChild(edit);
 			}
 		}
@@ -267,7 +270,7 @@ public class MarkerResolutionUtils {
 		}
 		
 		if(rootEdit != null){
-			TextEdit edit = new ReplaceEdit(workingCopyMember.getSourceRange().getOffset(), 0, str);
+			TextEdit edit = new InsertEdit(workingCopyMember.getSourceRange().getOffset(), str);
 			rootEdit.addChild(edit);
 		}else{
 			buffer.replace(workingCopyMember.getSourceRange().getOffset(), 0, str);
@@ -305,10 +308,10 @@ public class MarkerResolutionUtils {
 		
 		if(rootEdit != null){
 			if(annotation != null && annotation.exists()){
-				TextEdit edit = new ReplaceEdit(annotation.getSourceRange().getOffset()+annotation.getSourceRange().getLength(), 0, lineDelim+AT+shortName+value);
+				TextEdit edit = new InsertEdit(annotation.getSourceRange().getOffset()+annotation.getSourceRange().getLength(), lineDelim+AT+shortName+value);
 				rootEdit.addChild(edit);
 			}else{
-				TextEdit edit = new ReplaceEdit(((ISourceReference)element).getSourceRange().getOffset(), 0, AT+shortName+value+lineDelim);
+				TextEdit edit = new InsertEdit(((ISourceReference)element).getSourceRange().getOffset(), AT+shortName+value+lineDelim);
 				rootEdit.addChild(edit);
 			}
 		}else{
@@ -520,17 +523,19 @@ public class MarkerResolutionUtils {
 	
 	public static void addQualifiersToInjectionPoint(List<ValuedQualifier> deployed, IInjectionPoint injectionPoint, CompositeChange change){
 		IFile file = (IFile)injectionPoint.getClassBean().getResource();
-		TextFileChange fileChange = new TextFileChange(file.getName(), file);
-		
-//		if(isEditorOpened(file))
-//			fileChange.setSaveMode(TextFileChange.LEAVE_DIRTY);
-//		else
-//			fileChange.setSaveMode(TextFileChange.FORCE_SAVE);
-		
-		MultiTextEdit edit = new MultiTextEdit();
 		try{
 			ICompilationUnit original = injectionPoint.getClassBean().getBeanClass().getCompilationUnit();
 			ICompilationUnit compilationUnit = original.getWorkingCopy(new NullProgressMonitor());
+			
+			TextFileChange fileChange = new CompilationUnitChange(file.getName(), original);
+			
+//			if(isEditorOpened(file))
+//				fileChange.setSaveMode(TextFileChange.LEAVE_DIRTY);
+//			else
+//				fileChange.setSaveMode(TextFileChange.FORCE_SAVE);
+			
+			MultiTextEdit edit = new MultiTextEdit();
+			
 			if(injectionPoint instanceof IInjectionPointParameter){
 				addQualifiersToParameter(compilationUnit, injectionPoint, deployed, edit);
 			}else{
@@ -556,25 +561,26 @@ public class MarkerResolutionUtils {
 				}
 			}
 			compilationUnit.discardWorkingCopy();
-			original.discardWorkingCopy();
+			
+			fileChange.setEdit(edit);
+			if(edit.getChildrenSize() > 0)
+				change.add(fileChange);
 		}catch(CoreException ex){
 			CDIUIPlugin.getDefault().logError(ex);
 		}
-		fileChange.setEdit(edit);
-		if(edit.getChildrenSize() > 0)
-			change.add(fileChange);
+		
 	}
 	
 	public static void addQualifiersToBean(List<ValuedQualifier> deployed, IBean bean, CompositeChange change){
 		IFile file = (IFile)bean.getBeanClass().getResource();
-		TextFileChange fileChange = new TextFileChange(file.getName(), file);
+		
 		
 //		if(isEditorOpened(file))
 //			fileChange.setSaveMode(TextFileChange.LEAVE_DIRTY);
 //		else
 //			fileChange.setSaveMode(TextFileChange.FORCE_SAVE);
 
-		MultiTextEdit edit = new MultiTextEdit();
+		
 		IJavaElement beanElement = null;
 		if(bean instanceof IBeanField){
 			beanElement = ((IBeanField) bean).getField();
@@ -587,6 +593,10 @@ public class MarkerResolutionUtils {
 		try{
 			ICompilationUnit original = EclipseUtil.getCompilationUnit(file);
 			ICompilationUnit compilationUnit = original.getWorkingCopy(new NullProgressMonitor());
+			
+			TextFileChange fileChange = new CompilationUnitChange(file.getName(), original);
+			
+			MultiTextEdit edit = new MultiTextEdit();
 			
 			for(IQualifierDeclaration declaration : bean.getQualifierDeclarations()){
 				IQualifier qualifier = declaration.getQualifier();
@@ -610,13 +620,14 @@ public class MarkerResolutionUtils {
 				
 			}
 			compilationUnit.discardWorkingCopy();
-			original.discardWorkingCopy();
+			
+			fileChange.setEdit(edit);
+			if(edit.getChildrenSize() > 0)
+				change.add(fileChange);
 		}catch(CoreException ex){
 			CDIUIPlugin.getDefault().logError(ex);
 		}
-		fileChange.setEdit(edit);
-		if(edit.getChildrenSize() > 0)
-			change.add(fileChange);
+		
 	}
 	
 	private static boolean isQualifierNeeded(List<ValuedQualifier> vQualifiers, IQualifier qualifier){
@@ -744,7 +755,7 @@ public class MarkerResolutionUtils {
 			
 			// delete annotation
 			if(rootEdit != null){
-				TextEdit edit = new ReplaceEdit(annotation.getSourceRange().getOffset(), annotation.getSourceRange().getLength()+numberOfSpaces, "");
+				TextEdit edit = new DeleteEdit(annotation.getSourceRange().getOffset(), annotation.getSourceRange().getLength()+numberOfSpaces);
 				rootEdit.addChild(edit);
 			}else{
 				buffer.replace(annotation.getSourceRange().getOffset(), annotation.getSourceRange().getLength()+numberOfSpaces, "");
@@ -758,7 +769,7 @@ public class MarkerResolutionUtils {
 				String text = buffer.getText(importSize, buffer.getLength()-importSize);
 				if(checkImport(text, qualifiedName)){
 					if(rootEdit != null){
-						TextEdit edit = new ReplaceEdit(importDeclaration.getSourceRange().getOffset(), importDeclaration.getSourceRange().getLength()+numberOfSpaces, "");
+						TextEdit edit = new DeleteEdit(importDeclaration.getSourceRange().getOffset(), importDeclaration.getSourceRange().getLength()+numberOfSpaces);
 						rootEdit.addChild(edit);
 					}else{
 						importDeclaration.delete(false, new NullProgressMonitor());
