@@ -59,6 +59,13 @@ public class Wizard extends SWTBotShell {
 	public boolean canFinish() {
 		return canClick("Finish");
 	}
+	
+	public Wizard setCDIPreset() {
+		bot().comboBoxInGroup("Configuration", 0).
+			setSelection("Dynamic Web Project with CDI (Context and Dependency Injection)");			
+		return this;
+	}
+	
 
 	protected void clickButton(String text) {
 		bot().button(text).click();
@@ -70,7 +77,7 @@ public class Wizard extends SWTBotShell {
 		t.setFocus();
 		t.setText(text);
 	}
-	
+		
 	protected boolean canClick(String button) {
 		return bot().button(button).isEnabled();
 	}

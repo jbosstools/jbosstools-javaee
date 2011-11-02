@@ -148,7 +148,7 @@ public class CDIOpenOnTest extends CDIBase {
 		openOn("produceMethod", testedBean + ".java", "Open Bound Disposer");
 		assertTrue(getEd().toTextEditor().getSelection().equals("disposeMethod"));		
 	}
-		
+	
 	@Test
 	public void testObserverOpenOn() {
 		createComponent(CDICOMPONENT.QUALIFIER, "Q1", PACKAGE_NAME, null);

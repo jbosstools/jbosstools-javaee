@@ -11,15 +11,8 @@
 package org.jboss.tools.cdi.bot.test.openon;
 
 
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import org.jboss.tools.cdi.bot.test.CDIAllBotTests;
-import org.jboss.tools.cdi.bot.test.CDISmokeBotTests;
-import org.jboss.tools.cdi.bot.test.quickfix.CDIQuickFixTest;
 import org.jboss.tools.cdi.bot.test.uiutils.actions.CDIBase;
-import org.jboss.tools.cdi.bot.test.uiutils.actions.CDIUtil;
 import org.jboss.tools.ui.bot.ext.RequirementAwareSuite;
 import org.jboss.tools.ui.bot.ext.config.Annotations.Require;
 import org.jboss.tools.ui.bot.ext.config.Annotations.Server;
@@ -41,9 +34,9 @@ import org.junit.runners.Suite.SuiteClasses;
 @SuiteClasses({ CDIAllBotTests.class })
 public class CDIFindObserverForEventTest extends CDIBase {
 
-	private static final Logger LOGGER = Logger.getLogger(CDIFindObserverForEventTest.class.getName());
+	//private static final Logger LOGGER = Logger.getLogger(CDIFindObserverForEventTest.class.getName());
 	private static final String PROJECT_NAME = "CDIProject";
-	private static final String PACKAGE_NAME = "cdi";	
+	//private static final String PACKAGE_NAME = "cdi";	
 	
 	
 	@BeforeClass

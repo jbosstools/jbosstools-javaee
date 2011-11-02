@@ -148,6 +148,13 @@ public class CDIBase extends SWTTestExt {
 		new DynamicWebProjectWizard().setProjectName(projectName).finish();
 		util.waitForNonIgnoredJobs();		
 	}
+	
+	public static void createCDIProjectWithCDIPreset(SWTUtilExt util, String projectName) {
+		new NewFileWizardAction().run()
+				.selectTemplate("Web", "Dynamic Web Project").next();
+		new DynamicWebProjectWizard().setProjectName(projectName).setCDIPreset().finish();
+		util.waitForNonIgnoredJobs();		
+	}
 
 	public static void addCDISupport(final SWTBotTree tree, SWTBotTreeItem item,
 			SWTBotExt bot, SWTUtilExt util) {

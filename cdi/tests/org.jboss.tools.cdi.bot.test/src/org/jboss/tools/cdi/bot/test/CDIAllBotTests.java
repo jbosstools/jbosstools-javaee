@@ -18,6 +18,7 @@ import org.jboss.tools.cdi.bot.test.seam3.CDISeam3Test;
 import org.jboss.tools.cdi.bot.test.uiutils.actions.CDIBase;
 import org.jboss.tools.cdi.bot.test.uiutils.actions.CDIUtil;
 import org.jboss.tools.cdi.bot.test.wizard.CDIATWizardTest;
+import org.jboss.tools.cdi.bot.test.wizard.CDIConfigurationPresetTest;
 import org.jboss.tools.cdi.bot.test.wizard.CDIPerspectiveTest;
 import org.jboss.tools.ui.bot.ext.RequirementAwareSuite;
 import org.jboss.tools.ui.bot.ext.types.ViewType;
@@ -49,6 +50,7 @@ import org.junit.runners.Suite.SuiteClasses;
 @RunWith(RequirementAwareSuite.class)
 @SuiteClasses({	
 	//CDIPerspectiveTest.class,
+	CDIConfigurationPresetTest.class, 
 	CDIATWizardTest.class,
 	BeansEditorTest.class,
 	CDIQuickFixTest.class,
