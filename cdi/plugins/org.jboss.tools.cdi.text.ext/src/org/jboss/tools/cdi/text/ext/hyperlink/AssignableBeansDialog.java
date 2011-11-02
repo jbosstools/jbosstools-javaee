@@ -11,6 +11,7 @@
 package org.jboss.tools.cdi.text.ext.hyperlink;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -18,7 +19,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
-import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuManager;
@@ -68,24 +68,18 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Widget;
 import org.eclipse.ui.dialogs.SearchPattern;
-import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.CDIImages;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.ICDIElement;
 import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.core.IInjectionPointParameter;
-import org.jboss.tools.cdi.core.IProducer;
-import org.jboss.tools.cdi.core.IProducerField;
-import org.jboss.tools.cdi.core.IProducerMethod;
 import org.jboss.tools.cdi.core.IQualifierDeclaration;
 import org.jboss.tools.cdi.core.util.BeanPresentationUtil;
-import org.jboss.tools.cdi.internal.core.impl.AbstractBeanElement;
 import org.jboss.tools.cdi.text.ext.CDIExtensionsMessages;
 import org.jboss.tools.cdi.text.ext.CDIExtensionsPlugin;
 import org.jboss.tools.cdi.text.ext.hyperlink.AssignableBeanFilters.Checkbox;
 import org.jboss.tools.cdi.text.ext.hyperlink.AssignableBeanFilters.Filter;
 import org.jboss.tools.common.java.IParametedType;
-import org.jboss.tools.common.text.ITextSourceReference;
 
 /**
  * 
@@ -94,6 +88,7 @@ import org.jboss.tools.common.text.ITextSourceReference;
  */
 public class AssignableBeansDialog extends PopupDialog {// TitleAreaDialog {
 	IInjectionPoint injectionPoint;
+	AssignableBeanFilters filters = null;
 	Set<IBean> beans = new HashSet<IBean>();
 	Set<IBean> eligibleBeans = new HashSet<IBean>();
 	Set<IBean> resolvedBeans = new HashSet<IBean>();
@@ -113,24 +108,27 @@ public class AssignableBeansDialog extends PopupDialog {// TitleAreaDialog {
 		//PopupDialog
 		super(parentShell, 0, true, true, true, true, true, "title", null);
 		setShellStyle(getShellStyle() | SWT.RESIZE);
-		initSettings();
+		filters = new AssignableBeanFilters();
 	}
 
 	protected void initSettings() {
 		IDialogSettings settings = getDialogSettings();
 		showHideOptions = settings.getBoolean(SHOW_HIDE_PANEL);
-		for (Checkbox c: AssignableBeanFilters.ALL_OPTIONS) {
-			c.state = settings.getBoolean(FILTER_OPTION + c.id);
+		for (Checkbox c: filters.getAllOptions().values()) {
+			String name = FILTER_OPTION + c.id;
+			c.state = !"false".equals(settings.get(name));
 		}
-		AssignableBeanFilters.ROOT.state = true;
+		filters.getRoot().state = true;
 	}
 
 	public void setInjectionPoint(IInjectionPoint injectionPoint) {
 		this.injectionPoint = injectionPoint;
+		filters.init(injectionPoint);
+		initSettings();
 		beans = injectionPoint.getCDIProject().getBeans(false, injectionPoint);
 		eligibleBeans = new HashSet<IBean>(beans);
 		for (int i = AssignableBeanFilters.OPTION_UNAVAILABLE_BEANS + 1; i < AssignableBeanFilters.OPTION_ELIMINATED_AMBIGUOUS; i++) {
-			Filter f = AssignableBeanFilters.ALL_OPTIONS[i].filter;
+			Filter f = filters.getFilter(i);
 			if(f != null) {
 				f.filter(eligibleBeans);
 			}
@@ -270,9 +268,9 @@ public class AssignableBeansDialog extends PopupDialog {// TitleAreaDialog {
 		filterView = new CheckboxTreeViewer(g, 0);
 		filterView.setAutoExpandLevel(3);
 		filterView.setContentProvider(checkboxContentProvider);
-		filterView.setInput(AssignableBeanFilters.ROOT);
-		for (int i = 1; i < AssignableBeanFilters.ALL_OPTIONS.length; i++) {
-			filterView.setChecked(AssignableBeanFilters.ALL_OPTIONS[i], true);
+		filterView.setInput(filters.getRoot());
+		for (Checkbox c: filters.getAllOptions().values()) {
+			filterView.setChecked(c, true);
 		}
 		filterView.getControl().setBackground(g.getBackground());
 		g.setData(new GridData(GridData.FILL_BOTH));
@@ -373,11 +371,11 @@ public class AssignableBeansDialog extends PopupDialog {// TitleAreaDialog {
 	}
 	protected IDialogSettings getDialogSettings() {
 		IDialogSettings settings = CDIExtensionsPlugin.getDefault().getDialogSettings().getSection(getId());
-		if(settings == null) {
+		if(settings == null && filters != null && injectionPoint != null) {
 			settings = CDIExtensionsPlugin.getDefault().getDialogSettings().addNewSection(getId());
 			settings.put(SHOW_HIDE_PANEL, true);
-			for (Checkbox c: AssignableBeanFilters.ALL_OPTIONS) {
-				settings.put(FILTER_OPTION + c.id, c.state);
+			for (Checkbox c: filters.getAllOptions().values()) {
+				settings.put(FILTER_OPTION + c.id, "" + c.state);
 			}
 		}
 		return settings;
@@ -394,8 +392,8 @@ public class AssignableBeansDialog extends PopupDialog {// TitleAreaDialog {
 	private void saveFilterOptions() {
 		IDialogSettings settings = getDialogSettings();
 		settings.put(SHOW_HIDE_PANEL, showHideOptions);
-		for (Checkbox c: AssignableBeanFilters.ALL_OPTIONS) {
-			settings.put(FILTER_OPTION + c.id, c.state);
+		for (Checkbox c: filters.getAllOptions().values()) {
+			settings.put(FILTER_OPTION + c.id, "" + c.state);
 		}
 	}
 
@@ -415,14 +413,21 @@ public class AssignableBeansDialog extends PopupDialog {// TitleAreaDialog {
 	}
 
 	public boolean isFilterEnabled(int index) {
-		return AssignableBeanFilters.ALL_OPTIONS[index].state;
+		Checkbox c = filters.getOption(index);
+		return c != null && c.state;
 	}
 
 	public void setFilterEnabled(int index, boolean value) {
-		AssignableBeanFilters.ALL_OPTIONS[index].state = value;
+		Checkbox c = filters.getOption(index);
+		if(c == null) return;
+		c.state = value;
 		filterView.refresh();
 //		filterView.setChecked(AssignableBeanFilters.ALL_OPTIONS[index], value);
 		list.refresh();
+	}
+
+	public Collection<Checkbox> getOptions() {
+		return filters.getAllOptions().values();
 	}
 
 	class ShowHideAction extends Action {
@@ -520,7 +525,7 @@ public class AssignableBeansDialog extends PopupDialog {// TitleAreaDialog {
 			Set<IBean> bs = new HashSet<IBean>(beans);
 			Set<String> keys = new HashSet<String>();
 			LP p = new LP();
-			AssignableBeanFilters.ROOT.filter(bs);
+			filters.getRoot().filter(bs);
 			textFilter.filter(bs);
 			Map<String, IBean> map = new TreeMap<String, IBean>();
 			for (IBean b: bs) {
