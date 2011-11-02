@@ -147,7 +147,7 @@ public class CDISeamSolderDefaultBeanExtension implements ICDIExtension, IProces
 		return result;
 	}
 
-	private boolean isBeanDefault(IBean bean) {
+	public boolean isBeanDefault(IBean bean) {
 		String defaultBeanAnnotationTypeName = getVersion().getDefaultBeanAnnotationTypeName();
 		if(bean.isAnnotationPresent(defaultBeanAnnotationTypeName)) {
 			return true;
