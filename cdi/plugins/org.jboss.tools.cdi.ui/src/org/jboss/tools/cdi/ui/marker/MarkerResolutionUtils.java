@@ -40,8 +40,6 @@ import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.ITypeParameter;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.core.Signature;
-import org.eclipse.jdt.core.refactoring.CompilationUnitChange;
-import org.eclipse.jdt.internal.ui.javaeditor.EditorUtility;
 import org.eclipse.ltk.core.refactoring.CompositeChange;
 import org.eclipse.ltk.core.refactoring.TextFileChange;
 import org.eclipse.text.edits.DeleteEdit;
@@ -49,9 +47,6 @@ import org.eclipse.text.edits.InsertEdit;
 import org.eclipse.text.edits.MultiTextEdit;
 import org.eclipse.text.edits.ReplaceEdit;
 import org.eclipse.text.edits.TextEdit;
-import org.eclipse.ui.IEditorInput;
-import org.eclipse.ui.IEditorPart;
-import org.eclipse.ui.IWorkbenchWindow;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IBeanField;
@@ -524,15 +519,9 @@ public class MarkerResolutionUtils {
 	public static void addQualifiersToInjectionPoint(List<ValuedQualifier> deployed, IInjectionPoint injectionPoint, CompositeChange change){
 		IFile file = (IFile)injectionPoint.getClassBean().getResource();
 		try{
-			ICompilationUnit original = injectionPoint.getClassBean().getBeanClass().getCompilationUnit();
-			ICompilationUnit compilationUnit = original.getWorkingCopy(new NullProgressMonitor());
+			ICompilationUnit compilationUnit = injectionPoint.getClassBean().getBeanClass().getCompilationUnit();
 			
-			TextFileChange fileChange = new CompilationUnitChange(file.getName(), original);
-			
-//			if(isEditorOpened(file))
-//				fileChange.setSaveMode(TextFileChange.LEAVE_DIRTY);
-//			else
-//				fileChange.setSaveMode(TextFileChange.FORCE_SAVE);
+			TextFileChange fileChange = new TextFileChange(file.getName(), file);
 			
 			MultiTextEdit edit = new MultiTextEdit();
 			
@@ -544,7 +533,6 @@ public class MarkerResolutionUtils {
 					return;
 				
 				// delete unneeded qualifiers
-				
 				List<IQualifier> toDelete = findQualifiersToDelete(injectionPoint, deployed);
 				
 				for(IQualifier qualifier : toDelete){
@@ -560,7 +548,6 @@ public class MarkerResolutionUtils {
 					}
 				}
 			}
-			compilationUnit.discardWorkingCopy();
 			
 			fileChange.setEdit(edit);
 			if(edit.getChildrenSize() > 0)
@@ -574,13 +561,6 @@ public class MarkerResolutionUtils {
 	public static void addQualifiersToBean(List<ValuedQualifier> deployed, IBean bean, CompositeChange change){
 		IFile file = (IFile)bean.getBeanClass().getResource();
 		
-		
-//		if(isEditorOpened(file))
-//			fileChange.setSaveMode(TextFileChange.LEAVE_DIRTY);
-//		else
-//			fileChange.setSaveMode(TextFileChange.FORCE_SAVE);
-
-		
 		IJavaElement beanElement = null;
 		if(bean instanceof IBeanField){
 			beanElement = ((IBeanField) bean).getField();
@@ -591,10 +571,9 @@ public class MarkerResolutionUtils {
 		}
 		
 		try{
-			ICompilationUnit original = EclipseUtil.getCompilationUnit(file);
-			ICompilationUnit compilationUnit = original.getWorkingCopy(new NullProgressMonitor());
+			ICompilationUnit compilationUnit = EclipseUtil.getCompilationUnit(file);
 			
-			TextFileChange fileChange = new CompilationUnitChange(file.getName(), original);
+			TextFileChange fileChange = new TextFileChange(file.getName(), file);
 			
 			MultiTextEdit edit = new MultiTextEdit();
 			
@@ -619,7 +598,6 @@ public class MarkerResolutionUtils {
 				}
 				
 			}
-			compilationUnit.discardWorkingCopy();
 			
 			fileChange.setEdit(edit);
 			if(edit.getChildrenSize() > 0)
@@ -766,15 +744,22 @@ public class MarkerResolutionUtils {
 			IImportContainer importContainer = compilationUnit.getImportContainer();
 			if(importDeclaration.exists() && importContainer.exists()){
 				int importSize = importContainer.getSourceRange().getOffset()+importContainer.getSourceRange().getLength();
-				String text = buffer.getText(importSize, buffer.getLength()-importSize);
-				if(checkImport(text, qualifiedName)){
+				
 					if(rootEdit != null){
-						TextEdit edit = new DeleteEdit(importDeclaration.getSourceRange().getOffset(), importDeclaration.getSourceRange().getLength()+numberOfSpaces);
-						rootEdit.addChild(edit);
+						int annotationStart = annotation.getSourceRange().getOffset();
+						int annotationEnd = annotationStart+annotation.getSourceRange().getLength();
+						String textBefore = buffer.getText(importSize, annotationStart-importSize);
+						String textAfter = buffer.getText(annotationEnd, buffer.getLength()-annotationEnd);
+						if(checkImport(textBefore, qualifiedName) && checkImport(textAfter, qualifiedName)){
+							TextEdit edit = new DeleteEdit(importDeclaration.getSourceRange().getOffset(), importDeclaration.getSourceRange().getLength());
+							rootEdit.addChild(edit);
+						}
 					}else{
-						importDeclaration.delete(false, new NullProgressMonitor());
+						String text = buffer.getText(importSize, buffer.getLength()-importSize);
+						if(checkImport(text, qualifiedName)){
+							importDeclaration.delete(false, new NullProgressMonitor());
+						}
 					}
-				}
 			}
 			
 			if(rootEdit == null){
@@ -825,7 +810,6 @@ public class MarkerResolutionUtils {
 		 
 		Set<IQualifier> qualifiers = bean.getQualifiers();
 		for(IQualifier q : qualifiers){
-			//String value = findQualifierValue(bean, q);
 			if(q.getSourceType().getFullyQualifiedName().equals(valuedQualifier.getQualifier().getSourceType().getFullyQualifiedName()))
 				return true;
 		}
@@ -858,17 +842,4 @@ public class MarkerResolutionUtils {
 		}
 		return null;
 	}
-	
-	public static boolean isEditorOpened(IFile file){
-		IEditorInput ii = EditorUtility.getEditorInput(file);
-		
-		IWorkbenchWindow[] windows = CDIUIPlugin.getDefault().getWorkbench().getWorkbenchWindows();
-		for(IWorkbenchWindow window : windows){
-			IEditorPart editor = window.getActivePage().findEditor(ii);
-			if(editor != null)
-				return true;
-		}
-		return false;
-	}
-
 }
