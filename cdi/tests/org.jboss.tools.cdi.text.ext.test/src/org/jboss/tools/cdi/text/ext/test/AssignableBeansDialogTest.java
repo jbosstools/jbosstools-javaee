@@ -46,10 +46,10 @@ public class AssignableBeansDialogTest extends TCKTest {
 		
 		List<IBean> bs = dialog.getDisplayedBeans();
 		int allBeans = bs.size();
-		for (int i = 0; i < AssignableBeanFilters.ALL_OPTIONS.length; i++) {
+		for (int i = 0; i < dialog.getOptions().size(); i++) {
 			dialog.setFilterEnabled(i, true);
 		}
-		for (int i = 0; i < AssignableBeanFilters.ALL_OPTIONS.length; i++) {
+		for (int i = 0; i < dialog.getOptions().size(); i++) {
 			boolean b = dialog.isFilterEnabled(i);
 			dialog.setFilterEnabled(i, !b);
 			bs = dialog.getDisplayedBeans();
