@@ -14,6 +14,7 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 
 import org.jboss.tools.common.model.util.test.XProjectImportTestSetUp;
+import org.jboss.tools.jsf.kb.test.WebWithModuleTest;
 import org.jboss.tools.test.util.ProjectImportTestSetup;
 
 /**
@@ -22,6 +23,7 @@ import org.jboss.tools.test.util.ProjectImportTestSetup;
 public class JsfKbAllTests {
 
 	public static Test suite() {
+		TestSuite suiteAll = new TestSuite("JSF Core Tests");
 		TestSuite suite = new TestSuite(JsfKbAllTests.class.getName());
 		suite.addTestSuite(FaceletsKbModelTest.class);
 		suite.addTestSuite(KbModelTest.class);
@@ -29,6 +31,14 @@ public class JsfKbAllTests {
 				"org.jboss.tools.jsf.test",
 				new String[]{"projects/TestKbModel"},
 				new String[]{"TestKbModel"});
+		suiteAll.addTest(testSetup);
+		suite = new TestSuite(WebWithModuleTest.class.getName());
+		suite.addTestSuite(WebWithModuleTest.class);
+		testSetup = new XProjectImportTestSetUp(suite,
+				"org.jboss.tools.jst.web.kb.test",
+				new String[]{"projects/utility", "projects/webapp"},
+				new String[]{"utility", "webapp"});
+		suiteAll.addTest(testSetup);
 		return testSetup;
 	}
 }
