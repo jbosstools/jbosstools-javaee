@@ -17,7 +17,9 @@ import java.util.Set;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.wizard.IWizardPage;
+import org.eclipse.jst.servlet.ui.project.facet.WebProjectFirstPage;
 import org.eclipse.jst.servlet.ui.project.facet.WebProjectWizard;
+import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
 import org.eclipse.wst.common.project.facet.core.FacetedProjectFramework;
 import org.eclipse.wst.common.project.facet.core.IFacetedProjectTemplate;
 import org.eclipse.wst.common.project.facet.core.IFacetedProjectWorkingCopy;
@@ -27,6 +29,7 @@ import org.eclipse.wst.common.project.facet.core.IProjectFacetVersion;
 import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
 import org.eclipse.wst.common.project.facet.core.runtime.IRuntime;
 import org.jboss.tools.cdi.core.CDIImages;
+import org.jboss.tools.cdi.internal.core.project.facet.ICDIFacetDataModelProperties;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
 
 /**
@@ -96,12 +99,7 @@ public class CDIProjectWizard extends WebProjectWizard {
 	 */
 	@Override
 	protected IWizardPage createFirstPage() {
-		IWizardPage page = super.createFirstPage();
-
-		page.setTitle(CDIUIMessages.CDI_PROJECT_WIZARD_NEW_PROJECT_TITLE);
-		page.setDescription(CDIUIMessages.CDI_PROJECT_WIZARD_NEW_PROJECT_DESCRIPTION);
-		page.setImageDescriptor(getDefaultPageImageDescriptor());
-
+		IWizardPage page = new FirstPage(model, "first.page"); //$NON-NLS-1$
 		return page;
 	}
 
@@ -113,4 +111,43 @@ public class CDIProjectWizard extends WebProjectWizard {
 	protected ImageDescriptor getDefaultPageImageDescriptor() {
 		return CDIImages.getImageDescriptor(CDIImages.WELD_WIZARD_IMAGE_PATH);
 	}
+
+    class FirstPage extends WebProjectFirstPage {
+
+		public FirstPage(IDataModel model, String pageName) {
+			super(model, pageName);
+
+			setTitle(CDIUIMessages.CDI_PROJECT_WIZARD_NEW_PROJECT_TITLE);
+			setDescription(CDIUIMessages.CDI_PROJECT_WIZARD_NEW_PROJECT_DESCRIPTION);
+			setImageDescriptor(CDIProjectWizard.this.getDefaultPageImageDescriptor());
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * @see org.eclipse.jface.wizard.WizardPage#isPageComplete()
+		 */
+		@Override
+	    public boolean isPageComplete() {
+			boolean pageComplete = super.isPageComplete();
+
+			IProjectFacet pFacet = ProjectFacetsManager.getProjectFacet(ICDIFacetDataModelProperties.CDI_FACET_ID);
+	    	IFacetedProjectWorkingCopy fProject = getFacetedProjectWorkingCopy();
+	    	if(fProject!=null) {
+	        	IProjectFacetVersion cdiFacet = fProject.getProjectFacetVersion(pFacet);
+	        	if(cdiFacet==null) {
+	        		if(pageComplete) {
+		        		this.setErrorMessage(CDIUIMessages.CDI_PROJECT_WIZARD_PAGE1_CDI_FACET_MUST_BE_SPECIFIED);
+		        		return false;
+	        		}
+	        	} else {
+	        		if(pageComplete) {
+	        			this.setErrorMessage(null);
+	        		} else if(CDIUIMessages.CDI_PROJECT_WIZARD_PAGE1_CDI_FACET_MUST_BE_SPECIFIED.equals(getErrorMessage())) {
+	        			this.setErrorMessage(null);
+	        		}
+	        	}
+	    	}
+	    	return pageComplete;
+	    }
+    }
 }
