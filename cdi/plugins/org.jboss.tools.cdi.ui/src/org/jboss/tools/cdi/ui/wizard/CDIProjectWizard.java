@@ -15,6 +15,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jst.servlet.ui.project.facet.WebProjectWizard;
 import org.eclipse.wst.common.project.facet.core.FacetedProjectFramework;
 import org.eclipse.wst.common.project.facet.core.IFacetedProjectTemplate;
@@ -24,6 +26,7 @@ import org.eclipse.wst.common.project.facet.core.IProjectFacet;
 import org.eclipse.wst.common.project.facet.core.IProjectFacetVersion;
 import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
 import org.eclipse.wst.common.project.facet.core.runtime.IRuntime;
+import org.jboss.tools.cdi.core.CDIImages;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
 
 /**
@@ -86,4 +89,28 @@ public class CDIProjectWizard extends WebProjectWizard {
 			dm.setSelectedPreset(FacetedProjectFramework.DEFAULT_CONFIGURATION_PRESET_ID);
 		}
     }
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.jst.servlet.ui.project.facet.WebProjectWizard#createFirstPage()
+	 */
+	@Override
+	protected IWizardPage createFirstPage() {
+		IWizardPage page = super.createFirstPage();
+
+		page.setTitle(CDIUIMessages.CDI_PROJECT_WIZARD_NEW_PROJECT_TITLE);
+		page.setDescription(CDIUIMessages.CDI_PROJECT_WIZARD_NEW_PROJECT_DESCRIPTION);
+		page.setImageDescriptor(getDefaultPageImageDescriptor());
+
+		return page;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.jst.servlet.ui.project.facet.WebProjectWizard#getDefaultPageImageDescriptor()
+	 */
+	@Override
+	protected ImageDescriptor getDefaultPageImageDescriptor() {
+		return CDIImages.getImageDescriptor(CDIImages.WELD_WIZARD_IMAGE_PATH);
+	}
 }
