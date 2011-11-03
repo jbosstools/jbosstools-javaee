@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 
+import org.eclipse.core.internal.resources.Workspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.jobs.IJobChangeEvent;
@@ -448,16 +449,14 @@ public class AddQualifiersToBeanComposite extends Composite {
 							PlatformUI.getWorkbench().getProgressService().busyCursorWhile(new IRunnableWithProgress(){
 								public void run(IProgressMonitor monitor)
 										throws InvocationTargetException, InterruptedException {
-									monitor.beginTask(CDICoreMessages.CDI_UTIL_BUILD_CDI_MODEL, 10);
-									monitor.worked(3);
-
-									try {
-										Job.getJobManager().join(ResourcesPlugin.FAMILY_AUTO_BUILD, null);
-									} catch (InterruptedException e) {
-										// do nothing
+									Job autoBuildJob = null;
+									Job[] jobs = Job.getJobManager().find(ResourcesPlugin.FAMILY_AUTO_BUILD);
+									for(Job j : jobs){
+										autoBuildJob = j;
 									}
-									
-									monitor.worked(7);
+									if(autoBuildJob != null && autoBuildJob.getState() == Job.RUNNING){
+										Job.getJobManager().join(ResourcesPlugin.FAMILY_AUTO_BUILD, null);
+									}
 								}
 							});
 						}catch(InterruptedException ie){
