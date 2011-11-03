@@ -450,9 +450,7 @@ public class AddQualifiersToBeanComposite extends Composite {
 										throws InvocationTargetException, InterruptedException {
 									monitor.beginTask(CDICoreMessages.CDI_UTIL_BUILD_CDI_MODEL, 10);
 									monitor.worked(3);
-									
-									//waitForIdle(1000, 5000);
-									delay(1000);
+
 									try {
 										Job.getJobManager().join(ResourcesPlugin.FAMILY_AUTO_BUILD, null);
 									} catch (InterruptedException e) {
@@ -460,45 +458,6 @@ public class AddQualifiersToBeanComposite extends Composite {
 									}
 									
 									monitor.worked(7);
-								}
-								
-//								public void waitForIdle(long delay, long maxIdle) {
-//									long start = System.currentTimeMillis();
-//									while (!Job.getJobManager().isIdle()) {
-//										delay(delay);
-//										if ((System.currentTimeMillis() - start) > maxIdle) {
-//											Job[] jobs = Job.getJobManager().find(null);
-//											StringBuffer str = new StringBuffer();
-//											for (Job job : jobs) {
-//												if (job.getThread() != null) {
-//													str.append("\n").append(job.getName()).append(" (")
-//															.append(job.getClass()).append(")");
-//												}
-//											}
-//											throw new RuntimeException(
-//													"Long running tasks detected:" + str.toString()); //$NON-NLS-1$
-//										}
-//									}
-//								}
-
-								public void delay(long waitTimeMillis) {
-									Display display = Display.getCurrent();
-									if (display != null) {
-										long endTimeMillis = System.currentTimeMillis() + waitTimeMillis;
-										while (System.currentTimeMillis() < endTimeMillis) {
-											if (!display.readAndDispatch())
-												display.sleep();
-										}
-										display.update();
-									}
-									// Otherwise, perform a simple sleep.
-									else {
-										try {
-											Thread.sleep(waitTimeMillis);
-										} catch (InterruptedException e) {
-											// Ignored.
-										}
-									}
 								}
 							});
 						}catch(InterruptedException ie){
