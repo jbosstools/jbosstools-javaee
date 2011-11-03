@@ -67,6 +67,21 @@
          	</or>
          </constraint>
       </project-facet-version>
+
+      <template
+            id="template.jboss.tools.cdi10">
+         <label>
+            CDI Web Project
+         </label>
+         <fixed
+               facet="jst.java"/>
+         <fixed
+               facet="jst.web"/>
+         <preset
+               id="jboss.jst.cdi.preset">
+         </preset>
+      </template>
+      
       <action
             facet="jst.cdi"
             id="jst.cdi.1.0.install"

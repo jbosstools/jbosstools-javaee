@@ -15,7 +15,7 @@ import org.eclipse.osgi.util.NLS;
 
 public class CDIUIMessages extends NLS{
 	private static final String BUNDLE_NAME = "org.jboss.tools.cdi.ui.CDIUIMessages"; //$NON-NLS-1$
-	
+
 	static {
 		NLS.initializeMessages(BUNDLE_NAME, CDIUIMessages.class);
 	}
@@ -152,4 +152,6 @@ public class CDIUIMessages extends NLS{
 	
 	public static String OPEN_CDI_NAMED_BEAN_ACTION_NAME;
 	public static String OPEN_CDI_NAMED_BEAN_ACTION_MESSAGE;
+
+	public static String CDI_PROJECT_WIZARD_NEW_PROJECT;
 }
