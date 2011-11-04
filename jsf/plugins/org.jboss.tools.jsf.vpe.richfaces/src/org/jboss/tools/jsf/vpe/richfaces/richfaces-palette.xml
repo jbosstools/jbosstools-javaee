@@ -8,6 +8,26 @@
 				SCOPE="project" URI="http://richfaces.org/rich" add_taglib="true"
 				library-version="" model-entity="SharableGroupHTML">
     <MacroHTML
+     DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;rich:editor&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/rich:editor&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>&lt;/code>"
+     ENDTEXT="&lt;/editor>" ICON="" NAME="editor" REFORMAT="yes"
+     SCOPE="project" STARTTEXT="&lt;editor>" large-icon="" model-entity="SharableMacroHTML"/>
+    <MacroHTML
+     DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;rich:notifyMessages&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/rich:notifyMessages&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>&lt;/code>"
+     ENDTEXT="&lt;/notifyMessages>" ICON="" NAME="notifyMessages"
+     REFORMAT="yes" SCOPE="project" STARTTEXT="&lt;notifyMessages>"
+     large-icon="" model-entity="SharableMacroHTML"/>
+    <MacroHTML
+     DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;rich:orderingList&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/rich:orderingList&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>activeItem, ajaxKeys, binding, bottomControlLabel, captionLabel, columnClasses, componentState, controlsHorizontalAlign, controlsType, controlsVerticalAlign, converter, downControlLabel, fastOrderControlsVisible, id, immediate, listHeight, listWidth, onbottomclick, onclick, ondblclick, ondownclick, onheaderclick, onmousemove, onmouseout, onmouseover, onorderchanged, ontopclick, onupclick, orderControlsVisible, rendered, required, rowClasses, rowKeyConverter, rowKeyVar, rows, selection, showButtonLabels, style, styleClass, topControlLabel, upControlLabel, validator, value, valueChangeListener, var&lt;/code>"
+     ENDTEXT="&lt;/orderingList>"
+     ICON="%Icons%/JBoss RichFaces/orderingList" NAME="orderingList"
+     REFORMAT="yes" SCOPE="project" STARTTEXT="&lt;orderingList>"
+     large-icon="" model-entity="SharableMacroHTML"/>
+    <MacroHTML
+     DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;rich:pickList&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/rich:pickList&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>binding, controlClass, converter, converterMessage, copyAllControlLabel, copyControlLabel, disabled, disabledStyle, disabledStyleClass, enabledStyle, enabledStyleClass, id, immediate, listClass, listsHeight, moveControlsVerticalAlign, onblur, onclick, ondblclick, onfocus, onkeydown, onkeypress, onkeyup, onlistchanged, onmousedown, onmousemove, onmouseout, onmouseover, onmouseup, removeAllControlLabel, removeControlLabel, rendered, required, requiredMessage, showButtonsLabel, sourceListWidth, style, styleClass, switchByClick, targetListWidth, title, validator, validatorMessage, value, valueChangeListener&lt;/code>"
+     ENDTEXT="&lt;/pickList>" ICON="%Icons%/JBoss RichFaces/pickList"
+     NAME="pickList" REFORMAT="yes" SCOPE="project"
+     STARTTEXT="&lt;pickList>" large-icon="" model-entity="SharableMacroHTML"/>
+    <MacroHTML
      DESCRIPTION="&lt;b>Syntax:&lt;/b>&lt;br>&lt;code>&amp;lt;rich:treeModelAdaptor&amp;gt;&lt;/code>&lt;br>&lt;code>&amp;lt;/rich:treeModelAdaptor&amp;gt;&lt;/code>&lt;br>&lt;b>Attributes:&lt;/b>&lt;br>&lt;code>&lt;/code>"
      ENDTEXT="&lt;/treeModelAdaptor>" ICON="" NAME="treeModelAdaptor"
      REFORMAT="yes" SCOPE="project" STARTTEXT="&lt;treeModelAdaptor>"
