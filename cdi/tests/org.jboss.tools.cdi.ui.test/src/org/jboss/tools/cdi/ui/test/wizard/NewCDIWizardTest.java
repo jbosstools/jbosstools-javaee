@@ -519,5 +519,4 @@ public class NewCDIWizardTest extends TestCase {
 			context.close();
 		}
 	}
-
 }

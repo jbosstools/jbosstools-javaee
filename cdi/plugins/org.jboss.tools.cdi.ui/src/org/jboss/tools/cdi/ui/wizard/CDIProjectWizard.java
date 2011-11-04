@@ -39,6 +39,7 @@ public class CDIProjectWizard extends WebProjectWizard {
 
 	private static final String CDI_TEMPALTE = "template.jboss.tools.cdi10";
 	private IPreset oldPreset;
+	public static final String ID = "org.jboss.tools.cdi.ui.wizard.NewCDIProjectWizard";
 
 	public CDIProjectWizard() {
 		super();
