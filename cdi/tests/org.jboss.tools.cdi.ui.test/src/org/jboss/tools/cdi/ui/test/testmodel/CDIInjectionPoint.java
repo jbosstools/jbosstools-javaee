@@ -153,7 +153,7 @@ public class CDIInjectionPoint implements IInjectionPoint {
 
 	@Override
 	public IBean getBean() {
-		return null;
+		return bean;
 	}
 
 	@Override

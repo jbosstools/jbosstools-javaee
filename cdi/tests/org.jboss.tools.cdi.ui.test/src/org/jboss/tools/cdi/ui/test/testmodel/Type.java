@@ -29,11 +29,13 @@ import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.core.WorkingCopyOwner;
 import org.eclipse.jdt.internal.compiler.classfmt.ClassFileConstants;
 
-public class CDIClass extends CDIElement implements IType {
+public class Type extends CDIElement implements IType {
 	private String qualifiedName;
+	private JavaProject project;
 	
-	public CDIClass(String qualifiedName){
+	public Type(String qualifiedName){
 		this.qualifiedName = qualifiedName;
+		project = new JavaProject();
 	}
 
 	@Override
@@ -140,8 +142,7 @@ public class CDIClass extends CDIElement implements IType {
 
 	@Override
 	public IJavaProject getJavaProject() {
-		// TODO Auto-generated method stub
-		return null;
+		return project;
 	}
 
 	@Override

@@ -5,7 +5,12 @@ import java.util.List;
 
 import junit.framework.TestCase;
 
-import org.eclipse.jface.wizard.WizardDialog;
+import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.ltk.core.refactoring.RefactoringStatus;
+import org.eclipse.ltk.core.refactoring.RefactoringStatusEntry;
+import org.eclipse.ltk.core.refactoring.participants.ProcessorBasedRefactoring;
+import org.eclipse.ltk.internal.ui.refactoring.RefactoringWizardDialog;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 import org.jboss.tools.cdi.core.CDIConstants;
@@ -14,6 +19,7 @@ import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.IClassBean;
 import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.core.IQualifier;
+import org.jboss.tools.cdi.ui.marker.AddQualifiersToBeanProcessor;
 import org.jboss.tools.cdi.ui.test.testmodel.CDIBean;
 import org.jboss.tools.cdi.ui.test.testmodel.CDIInjectionPoint;
 import org.jboss.tools.cdi.ui.test.testmodel.CDIProject;
@@ -22,11 +28,12 @@ import org.jboss.tools.cdi.ui.wizard.xpl.AddQualifiersToBeanComposite.ValuedQual
 
 
 public class AddQualifiersToBeanWizardTest extends TestCase{
-	private AddQualifiersToBeanWizard wizard;
-	private WizardDialog dialog;
 	private ICDIProject project;
 	private ArrayList<ValuedQualifier> availableCheck;
 	private ArrayList<ValuedQualifier> deployedCheck;
+	private AddQualifiersToBeanProcessor processor;
+	private AddQualifiersToBeanWizard wizard;
+	private Dialog dialog;
 	
 	@Override
 	protected void setUp() throws Exception {
@@ -56,13 +63,24 @@ public class AddQualifiersToBeanWizardTest extends TestCase{
 		deployedCheck.add(new ValuedQualifier(project.getQualifier(CDIConstants.ANY_QUALIFIER_TYPE_NAME)));
 		deployedCheck.add(new ValuedQualifier(project.getQualifier(CDIConstants.DEFAULT_QUALIFIER_TYPE_NAME)));
 
+		processor = new AddQualifiersToBeanProcessor("", injectionPoint, beans, bean);
+		ProcessorBasedRefactoring refactoring = new ProcessorBasedRefactoring(processor);
+		wizard = new AddQualifiersToBeanWizard(refactoring);
 		
-		Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
-		wizard = null;//new AddQualifiersToBeanWizard(injectionPoint, beans, bean);
-		dialog = new WizardDialog(shell, wizard);
-		
-		dialog.setBlockOnOpen(false);
-		dialog.open();
+		Shell parent = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+		RefactoringStatus fInitialConditions= processor.checkInitialConditions(new NullProgressMonitor());
+		if (fInitialConditions.hasFatalError()) {
+			for(RefactoringStatusEntry entry : fInitialConditions.getEntries()){
+				if(entry.getSeverity() == RefactoringStatus.FATAL)
+				fail("Fatal Error - "+entry.getMessage());
+			}
+		} else {
+			wizard.setInitialConditionCheckingStatus(fInitialConditions);
+			dialog= new RefactoringWizardDialog(parent, wizard);
+			dialog.setBlockOnOpen(false);
+			dialog.create();
+			dialog.open();
+		}
 	}
 
 	@Override
@@ -94,100 +112,100 @@ public class AddQualifiersToBeanWizardTest extends TestCase{
 	}
 	
 	public void testAddQualifier(){
-//		List<IQualifier> available = wizard.getAvailableQualifiers();
-//		
-//		checkQualifierLists(availableCheck, available);
-//		
-//		List<ValuedQualifier> deployed = wizard.getDeployedQualifiers();
-//
-//		checkValuedQualifierLists(deployedCheck, deployed);
-//		
-//		// Deploy qualifier
-//		ValuedQualifier qualifier = new ValuedQualifier(project.getQualifier(CDIProject.QUALIFIER1));
-//		ValuedQualifier defaultQualifier = new ValuedQualifier(project.getQualifier(CDIConstants.DEFAULT_QUALIFIER_TYPE_NAME));
-//		
-//		wizard.deploy(qualifier);
-//		
-//		available = wizard.getAvailableQualifiers();
-//		availableCheck.remove(qualifier);
-//		
-//		checkQualifierLists(availableCheck, available);
-//		
-//		deployed = wizard.getDeployedQualifiers();
-//		
-//		deployedCheck.add(qualifier);
-//		deployedCheck.remove(defaultQualifier);
-//		
-//		checkValuedQualifierLists(deployedCheck, deployed);
+		List<IQualifier> available = wizard.getAvailableQualifiers();
+		
+		checkQualifierLists(availableCheck, available);
+		
+		List<ValuedQualifier> deployed = wizard.getDeployedQualifiers();
+
+		checkValuedQualifierLists(deployedCheck, deployed);
+		
+		// Deploy qualifier
+		ValuedQualifier qualifier = new ValuedQualifier(project.getQualifier(CDIProject.QUALIFIER1));
+		ValuedQualifier defaultQualifier = new ValuedQualifier(project.getQualifier(CDIConstants.DEFAULT_QUALIFIER_TYPE_NAME));
+		
+		wizard.deploy(qualifier);
+		
+		available = wizard.getAvailableQualifiers();
+		availableCheck.remove(qualifier);
+		
+		checkQualifierLists(availableCheck, available);
+		
+		deployed = wizard.getDeployedQualifiers();
+		
+		deployedCheck.add(qualifier);
+		deployedCheck.remove(defaultQualifier);
+		
+		checkValuedQualifierLists(deployedCheck, deployed);
 	}
 	
 	public void testAddAndRemoveQualifier(){
-//		List<IQualifier> available = wizard.getAvailableQualifiers();
-//		
-//		checkQualifierLists(availableCheck, available);
-//		
-//		List<ValuedQualifier> deployed = wizard.getDeployedQualifiers();
-//
-//		checkValuedQualifierLists(deployedCheck, deployed);
-//		
-//		// Deploy qualifier
-//		ValuedQualifier qualifier = new ValuedQualifier(project.getQualifier(CDIProject.QUALIFIER2));
-//		ValuedQualifier defaultQualifier = new ValuedQualifier(project.getQualifier(CDIConstants.DEFAULT_QUALIFIER_TYPE_NAME));
-//		
-//		wizard.deploy(qualifier);
-//		
-//		available = wizard.getAvailableQualifiers();
-//		availableCheck.remove(qualifier);
-//		
-//		checkQualifierLists(availableCheck, available);
-//		
-//		deployed = wizard.getDeployedQualifiers();
-//		
-//		deployedCheck.add(qualifier);
-//		deployedCheck.remove(defaultQualifier);
-//		
-//		checkValuedQualifierLists(deployedCheck, deployed);
-//		
-//		// Remove qualifier
-//		wizard.remove(qualifier);
-//		
-//		available = wizard.getAvailableQualifiers();
-//		availableCheck.add(qualifier);
-//		
-//		checkQualifierLists(availableCheck, available);
-//		
-//		deployed = wizard.getDeployedQualifiers();
-//		
-//		deployedCheck.remove(qualifier);
-//		deployedCheck.add(defaultQualifier);
-//		
-//		checkValuedQualifierLists(deployedCheck, deployed);
+		List<IQualifier> available = wizard.getAvailableQualifiers();
+		
+		checkQualifierLists(availableCheck, available);
+		
+		List<ValuedQualifier> deployed = wizard.getDeployedQualifiers();
+
+		checkValuedQualifierLists(deployedCheck, deployed);
+		
+		// Deploy qualifier
+		ValuedQualifier qualifier = new ValuedQualifier(project.getQualifier(CDIProject.QUALIFIER2));
+		ValuedQualifier defaultQualifier = new ValuedQualifier(project.getQualifier(CDIConstants.DEFAULT_QUALIFIER_TYPE_NAME));
+		
+		wizard.deploy(qualifier);
+		
+		available = wizard.getAvailableQualifiers();
+		availableCheck.remove(qualifier);
+		
+		checkQualifierLists(availableCheck, available);
+		
+		deployed = wizard.getDeployedQualifiers();
+		
+		deployedCheck.add(qualifier);
+		deployedCheck.remove(defaultQualifier);
+		
+		checkValuedQualifierLists(deployedCheck, deployed);
+		
+		// Remove qualifier
+		wizard.remove(qualifier);
+		
+		available = wizard.getAvailableQualifiers();
+		availableCheck.add(qualifier);
+		
+		checkQualifierLists(availableCheck, available);
+		
+		deployed = wizard.getDeployedQualifiers();
+		
+		deployedCheck.remove(qualifier);
+		deployedCheck.add(defaultQualifier);
+		
+		checkValuedQualifierLists(deployedCheck, deployed);
 	}
 	
 	public void testAddNamedQualifier(){
-//		List<IQualifier> available = wizard.getAvailableQualifiers();
-//		
-//		checkQualifierLists(availableCheck, available);
-//		
-//		List<ValuedQualifier> deployed = wizard.getDeployedQualifiers();
-//
-//		checkValuedQualifierLists(deployedCheck, deployed);
-//		
-//		// Deploy @Named qualifier
-//		ValuedQualifier named = new ValuedQualifier(project.getQualifier(CDIConstants.NAMED_QUALIFIER_TYPE_NAME)); 
-//		
-//		wizard.deploy(named);
-//		
-//		available = wizard.getAvailableQualifiers();
-//		availableCheck.remove(named);
-//		
-//		checkQualifierLists(availableCheck, available);
-//		
-//		deployed = wizard.getDeployedQualifiers();
-//		
-//		deployedCheck.add(named);
-//		
-//		checkValuedQualifierLists(deployedCheck, deployed);
+		List<IQualifier> available = wizard.getAvailableQualifiers();
+		
+		checkQualifierLists(availableCheck, available);
+		
+		List<ValuedQualifier> deployed = wizard.getDeployedQualifiers();
+
+		checkValuedQualifierLists(deployedCheck, deployed);
+		
+		// Deploy @Named qualifier
+		ValuedQualifier named = new ValuedQualifier(project.getQualifier(CDIConstants.NAMED_QUALIFIER_TYPE_NAME)); 
+		
+		wizard.deploy(named);
+		
+		available = wizard.getAvailableQualifiers();
+		availableCheck.remove(named);
+		
+		checkQualifierLists(availableCheck, available);
+		
+		deployed = wizard.getDeployedQualifiers();
+		
+		deployedCheck.add(named);
+		
+		checkValuedQualifierLists(deployedCheck, deployed);
 	}
 
 }

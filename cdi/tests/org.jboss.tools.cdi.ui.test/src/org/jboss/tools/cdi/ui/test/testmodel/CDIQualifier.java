@@ -14,11 +14,11 @@ import org.jboss.tools.common.text.ITextSourceReference;
 
 public class CDIQualifier implements IQualifier{
 	private ICDIProject project;
-	private CDIClass cdiClass;
+	private Type cdiClass;
 	
 	public CDIQualifier(ICDIProject project, String qualifiedName){
 		this.project = project;
-		this.cdiClass = new CDIClass(qualifiedName);
+		this.cdiClass = new Type(qualifiedName);
 	}
 
 	@Override

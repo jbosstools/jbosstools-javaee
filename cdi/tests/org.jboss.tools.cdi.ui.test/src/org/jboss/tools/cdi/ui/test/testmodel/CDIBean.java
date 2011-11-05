@@ -32,7 +32,8 @@ import org.jboss.tools.common.text.ITextSourceReference;
 public class CDIBean extends CDIElement implements IClassBean{
 	private ICDIProject project;
 	private HashSet<IQualifier> qualifiers;
-	private CDIClass cdiClass;
+	private Type cdiClass;
+	private File cdiFile;
 
 	public CDIBean(ICDIProject project, String qualifiedName){
 		this.project = project;
@@ -41,7 +42,8 @@ public class CDIBean extends CDIElement implements IClassBean{
 		IQualifier defaultQualifier = project.getQualifier(CDIConstants.DEFAULT_QUALIFIER_TYPE_NAME);
 		qualifiers.add(anyQualifier);
 		qualifiers.add(defaultQualifier);
-		cdiClass = new CDIClass(qualifiedName);
+		cdiClass = new Type(qualifiedName);
+		cdiFile = new File();
 	}
 	
 	@Override
@@ -92,7 +94,7 @@ public class CDIBean extends CDIElement implements IClassBean{
 
 	@Override
 	public IResource getResource() {
-		return null;
+		return cdiFile;
 	}
 
 	@Override
