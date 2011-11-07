@@ -449,14 +449,14 @@ public class AddQualifiersToBeanComposite extends Composite {
 							PlatformUI.getWorkbench().getProgressService().busyCursorWhile(new IRunnableWithProgress(){
 								public void run(IProgressMonitor monitor)
 										throws InvocationTargetException, InterruptedException {
-									Job autoBuildJob = null;
-									Job[] jobs = Job.getJobManager().find(ResourcesPlugin.FAMILY_AUTO_BUILD);
-									for(Job j : jobs){
-										autoBuildJob = j;
-									}
-									if(autoBuildJob != null && autoBuildJob.getState() == Job.RUNNING){
+//									Job autoBuildJob = null;
+//									Job[] jobs = Job.getJobManager().find(ResourcesPlugin.FAMILY_AUTO_BUILD);
+//									for(Job j : jobs){
+//										autoBuildJob = j;
+//									}
+//									if(autoBuildJob != null && autoBuildJob.getState() == Job.RUNNING){
 										Job.getJobManager().join(ResourcesPlugin.FAMILY_AUTO_BUILD, null);
-									}
+//									}
 								}
 							});
 						}catch(InterruptedException ie){

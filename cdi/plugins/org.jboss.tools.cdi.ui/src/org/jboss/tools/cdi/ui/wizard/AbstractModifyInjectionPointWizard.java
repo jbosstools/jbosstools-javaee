@@ -13,8 +13,8 @@ package org.jboss.tools.cdi.ui.wizard;
 import java.util.List;
 
 import org.eclipse.ltk.core.refactoring.participants.ProcessorBasedRefactoring;
+import org.eclipse.ltk.internal.ui.refactoring.RefactoringWizardDialog;
 import org.eclipse.ltk.ui.refactoring.RefactoringWizard;
-import org.eclipse.ltk.ui.refactoring.RefactoringWizardOpenOperation;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.jboss.tools.cdi.core.IBean;
@@ -28,12 +28,8 @@ public abstract class AbstractModifyInjectionPointWizard extends RefactoringWiza
 	
 	public boolean showWizard() {
 		final IWorkbenchWindow win = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
-		RefactoringWizardOpenOperation op = new RefactoringWizardOpenOperation(this);
-		try {
-			op.run(win.getShell(), getWindowTitle());
-		} catch (final InterruptedException irex) {
-			return false;
-		}
+		RefactoringWizardDialog dialog = new RefactoringWizardDialog(win.getShell(),this);
+		dialog.open();
 		return true;
 	}
 
