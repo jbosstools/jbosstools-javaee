@@ -14,8 +14,8 @@
     <section>
         <title>Seam Components View</title>
         
-        <para>This chapter introduces you with Seam Components View.</para>
-        <para>The <property>Seam Components View</property> is available from Seam perspective. It provides a list of seam components found in a project.</para>
+		<para>This chapter introduces you with <guilabel>Seam Components</guilabel> View.</para>
+		<para>The <guilabel>Seam Components</guilabel> view is available from Seam perspective. It provides a list of seam components found in a project.</para>
                 
         <figure>
             <title>Seam Components View</title>
@@ -25,8 +25,21 @@
                 </imageobject>
             </mediaobject>
         </figure>
+		
+		<para>
+			By right-clicking on a project and bringing up the context menu, you can create a new Seam project, action, conversation, form or entity. You can also generate entities from this menu and it is all able to be done from the <guilabel>Seam Components</guilabel> view. 
+		</para>
         
-        <para>The Seam Components View can show a components default scope in two ways:</para>
+		<figure>
+			<title>Seam Components View</title>
+			<mediaobject> 
+				<imageobject>
+					<imagedata fileref="images/seam_view/seam_view_1a.png"/>
+				</imageobject>
+			</mediaobject>
+		</figure>
+		
+		<para>The <guilabel>Seam Components</guilabel> View can show a components default scope in two ways:</para>
         
         <itemizedlist>
             <listitem><para>as labels on each component (click on the triangular symbol at the top of the Seam Components View page and select <menuchoice><guimenuitem>Scope Presentation</guimenuitem><guimenuitem>Label</guimenuitem></menuchoice>)</para></listitem>
@@ -82,7 +95,7 @@
             </mediaobject>
         </figure>
                        
-        <para>The Seam Component View can be filtered by choosing <property>Customize View</property>.</para>
+		<para>The <guilabel>Seam Components</guilabel> view can be filtered by choosing <property>Customize View</property>.</para>
             
         <figure>
             <title>Customize View</title>
