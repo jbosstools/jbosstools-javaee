@@ -18,11 +18,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 
-import org.eclipse.core.internal.resources.Workspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.jobs.IJobChangeEvent;
-import org.eclipse.core.runtime.jobs.IJobChangeListener;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.jdt.core.Flags;
@@ -74,7 +71,6 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.SearchPattern;
 import org.jboss.tools.cdi.core.CDIConstants;
-import org.jboss.tools.cdi.core.CDICoreMessages;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.CDIImages;
 import org.jboss.tools.cdi.core.IBean;
@@ -449,14 +445,7 @@ public class AddQualifiersToBeanComposite extends Composite {
 							PlatformUI.getWorkbench().getProgressService().busyCursorWhile(new IRunnableWithProgress(){
 								public void run(IProgressMonitor monitor)
 										throws InvocationTargetException, InterruptedException {
-//									Job autoBuildJob = null;
-//									Job[] jobs = Job.getJobManager().find(ResourcesPlugin.FAMILY_AUTO_BUILD);
-//									for(Job j : jobs){
-//										autoBuildJob = j;
-//									}
-//									if(autoBuildJob != null && autoBuildJob.getState() == Job.RUNNING){
-										Job.getJobManager().join(ResourcesPlugin.FAMILY_AUTO_BUILD, null);
-//									}
+									Job.getJobManager().join(ResourcesPlugin.FAMILY_AUTO_BUILD, null);
 								}
 							});
 						}catch(InterruptedException ie){
