@@ -73,7 +73,10 @@ public class ClassPathMonitor extends AbstractClassPathMonitor<CDICoreNature>{
 			project.getExtensionManager().pathRemoved(p);
 		}
 		boolean newRuntimeDetected = false;
-		Set<String> processed = new HashSet<String>(processedPaths);
+		Set<String> processed = new HashSet<String>();
+		synchronized(this) {
+			processed.addAll(processedPaths);
+		}
 		for (int i = 0; i < paths.size(); i++) {
 			String p = paths.get(i);
 			if(!requestForLoad(p)) continue;
