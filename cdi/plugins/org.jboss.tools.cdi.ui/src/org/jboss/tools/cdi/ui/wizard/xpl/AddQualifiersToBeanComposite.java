@@ -20,6 +20,8 @@ import java.util.Iterator;
 
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.OperationCanceledException;
+import org.eclipse.core.runtime.jobs.IJobManager;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.jdt.core.Flags;
@@ -48,6 +50,7 @@ import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.BusyIndicator;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.ModifyEvent;
@@ -431,31 +434,34 @@ public class AddQualifiersToBeanComposite extends Composite {
 		
 		createQualifier.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent event) {
-				Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
-				NewQualifierCreationWizard wizard = new NewQualifierCreationWizard();
-				StructuredSelection selection = new StructuredSelection(new Object[]{bean.getBeanClass()});
-				
-				wizard.init(PlatformUI.getWorkbench(), selection);
-				WizardDialog dialog = new WizardDialog(shell, wizard);
-				int status = dialog.open();
-				if(status == WizardDialog.OK){
-					// reload qualifiers
-					if (Display.getCurrent() != null) {
-						try{
-							PlatformUI.getWorkbench().getProgressService().busyCursorWhile(new IRunnableWithProgress(){
-								public void run(IProgressMonitor monitor)
-										throws InvocationTargetException, InterruptedException {
+				final Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
+				final IJobManager manager= Job.getJobManager();
+				// reload qualifiers
+				if (Display.getCurrent() != null) {
+					BusyIndicator.showWhile(Display.getCurrent(), new Runnable(){
+						public void run(){
+							manager.endRule(ResourcesPlugin.getWorkspace().getRoot());
+							
+							NewQualifierCreationWizard wizard = new NewQualifierCreationWizard();
+							StructuredSelection selection = new StructuredSelection(new Object[]{bean.getBeanClass()});
+							
+							wizard.init(PlatformUI.getWorkbench(), selection);
+							WizardDialog dialog = new WizardDialog(shell, wizard);
+							int status = dialog.open();
+							if(status == WizardDialog.OK){
+								try {
 									Job.getJobManager().join(ResourcesPlugin.FAMILY_AUTO_BUILD, null);
+								} catch (OperationCanceledException e) {
+									CDICorePlugin.getDefault().logError(e);
+								} catch (InterruptedException e) {
+									CDICorePlugin.getDefault().logError(e);
 								}
-							});
-						}catch(InterruptedException ie){
-							CDICorePlugin.getDefault().logError(ie);
-						}catch(InvocationTargetException ite){
-							CDICorePlugin.getDefault().logError(ite);
+								loadAvailableQualifiers();
+							}
+							manager.beginRule(ResourcesPlugin.getWorkspace().getRoot(), null);
 						}
-					}
-					
-					loadAvailableQualifiers();
+						
+					});
 				}
 			}
 		});

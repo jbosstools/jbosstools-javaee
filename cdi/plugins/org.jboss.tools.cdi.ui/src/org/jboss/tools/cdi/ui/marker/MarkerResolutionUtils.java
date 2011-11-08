@@ -215,18 +215,21 @@ public class MarkerResolutionUtils {
 		if(duplicateShortName)
 			shortName = qualifiedName;
 		
-		String str = AT+shortName+params;
+		String newValue = AT+shortName+params;
 		
-		if(rootEdit != null){
-			TextEdit edit = new ReplaceEdit(annotation.getSourceRange().getOffset(), annotation.getSourceRange().getLength(), str);
-			rootEdit.addChild(edit);
-		}else{
-			buffer.replace(annotation.getSourceRange().getOffset(), annotation.getSourceRange().getLength(), str);
-			
-			synchronized(compilationUnit) {
-				compilationUnit.reconcile(ICompilationUnit.NO_AST, true, null, null);
+		if(!annotation.getSource().equals(newValue)){
+			if(rootEdit != null){
+				TextEdit edit = new ReplaceEdit(annotation.getSourceRange().getOffset(), annotation.getSourceRange().getLength(), newValue);
+				rootEdit.addChild(edit);
+			}else{
+				buffer.replace(annotation.getSourceRange().getOffset(), annotation.getSourceRange().getLength(), newValue);
+				
+				synchronized(compilationUnit) {
+					compilationUnit.reconcile(ICompilationUnit.NO_AST, true, null, null);
+				}
 			}
 		}
+		
 	}
 
 	public static void addAnnotation(String qualifiedName, ICompilationUnit compilationUnit, IJavaElement element, String params) throws JavaModelException{
@@ -340,14 +343,18 @@ public class MarkerResolutionUtils {
 		if(duplicateShortName)
 			shortName = qualifiedName;
 		
-		if(rootEdit != null){
-			TextEdit edit = new ReplaceEdit(annotation.getSourceRange().getOffset(), annotation.getSourceRange().getLength(), AT+shortName+value);
-			rootEdit.addChild(edit);
-		}else{
-			buffer.replace(annotation.getSourceRange().getOffset(), annotation.getSourceRange().getLength(), AT+shortName+value);
-			
-			synchronized(compilationUnit) {
-				compilationUnit.reconcile(ICompilationUnit.NO_AST, true, null, null);
+		String newValue = AT+shortName+value;
+		
+		if(!annotation.getSource().equals(newValue)){
+			if(rootEdit != null){
+				TextEdit edit = new ReplaceEdit(annotation.getSourceRange().getOffset(), annotation.getSourceRange().getLength(), newValue);
+				rootEdit.addChild(edit);
+			}else{
+				buffer.replace(annotation.getSourceRange().getOffset(), annotation.getSourceRange().getLength(), newValue);
+				
+				synchronized(compilationUnit) {
+					compilationUnit.reconcile(ICompilationUnit.NO_AST, true, null, null);
+				}
 			}
 		}
 	}
@@ -482,14 +489,19 @@ public class MarkerResolutionUtils {
 					}
 					b.append(Signature.getSignatureSimpleName(parameters[index].getTypeSignature())+SPACE);
 					b.append(parameters[index].getElementName());
-					if(rootEdit != null){
-						TextEdit edit = new ReplaceEdit(parameters[index].getSourceRange().getOffset(), parameters[index].getSourceRange().getLength(), b.toString());
-						rootEdit.addChild(edit);
-					}else{
-						buffer.replace(parameters[index].getSourceRange().getOffset(), parameters[index].getSourceRange().getLength(), b.toString());
-						
-						synchronized(compilationUnit) {
-							compilationUnit.reconcile(ICompilationUnit.NO_AST, true, null, null);
+					
+					String newValue = b.toString();
+					
+					if(!parameters[index].getSource().equals(newValue)){
+						if(rootEdit != null){
+							TextEdit edit = new ReplaceEdit(parameters[index].getSourceRange().getOffset(), parameters[index].getSourceRange().getLength(), b.toString());
+							rootEdit.addChild(edit);
+						}else{
+							buffer.replace(parameters[index].getSourceRange().getOffset(), parameters[index].getSourceRange().getLength(), b.toString());
+							
+							synchronized(compilationUnit) {
+								compilationUnit.reconcile(ICompilationUnit.NO_AST, true, null, null);
+							}
 						}
 					}
 				}
@@ -735,7 +747,7 @@ public class MarkerResolutionUtils {
 			
 			// delete annotation
 			if(rootEdit != null){
-				TextEdit edit = new DeleteEdit(annotation.getSourceRange().getOffset(), annotation.getSourceRange().getLength()+numberOfSpaces);
+				TextEdit edit = new DeleteEdit(annotation.getSourceRange().getOffset(), annotation.getSourceRange().getLength());
 				rootEdit.addChild(edit);
 			}else{
 				buffer.replace(annotation.getSourceRange().getOffset(), annotation.getSourceRange().getLength()+numberOfSpaces, "");
