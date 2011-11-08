@@ -47,7 +47,7 @@ public class SeamResourceBundleHyperlinkTest extends SeamCoreTest {
 				assertTrue("Hyperlink found is not EL Hyperlink", (hyperlink instanceof ELHyperlink));
 			}
 
-			CDIHyperlinkTestUtil.checkTestRegion(hyperlinks, testRegion);
+			CDIHyperlinkTestUtil.checkTestRegion(hyperlinks, testRegion, "");
 		}
 	}
 }
