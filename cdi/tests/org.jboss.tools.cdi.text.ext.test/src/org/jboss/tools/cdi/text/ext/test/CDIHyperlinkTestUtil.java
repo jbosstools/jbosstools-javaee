@@ -9,6 +9,9 @@ import junit.framework.TestCase;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.IType;
+import org.eclipse.jdt.internal.ui.javaeditor.EditorUtility;
 import org.eclipse.jdt.internal.ui.javaeditor.JavaEditor;
 import org.eclipse.jdt.internal.ui.text.JavaWordFinder;
 import org.eclipse.jface.text.BadLocationException;
@@ -19,14 +22,13 @@ import org.eclipse.jface.text.Region;
 import org.eclipse.jface.text.hyperlink.AbstractHyperlinkDetector;
 import org.eclipse.jface.text.hyperlink.IHyperlink;
 import org.eclipse.jface.text.source.ISourceViewer;
+import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.part.FileEditorInput;
-import org.eclipse.ui.texteditor.DocumentProviderRegistry;
-import org.eclipse.ui.texteditor.IDocumentProvider;
 import org.eclipse.ui.texteditor.ITextEditor;
 import org.eclipse.wst.sse.core.StructuredModelManager;
 import org.eclipse.wst.sse.core.internal.provisional.IModelManager;
@@ -35,6 +37,7 @@ import org.eclipse.wst.sse.ui.StructuredTextEditor;
 import org.eclipse.wst.xml.ui.internal.tabletree.XMLMultiPageEditorPart;
 import org.jboss.tools.cdi.core.ICDIElement;
 import org.jboss.tools.cdi.text.ext.hyperlink.ITestableCDIHyperlink;
+import org.jboss.tools.common.EclipseUtil;
 import org.jboss.tools.common.editor.ObjectMultiPageEditor;
 import org.jboss.tools.common.model.ui.editor.EditorPartWrapper;
 import org.jboss.tools.common.model.ui.texteditors.XMLTextEditorStandAlone;
@@ -49,32 +52,51 @@ import org.jboss.tools.jst.web.ui.editors.WebCompoundEditor;
 
 public class CDIHyperlinkTestUtil extends TestCase{
 	
-	public static void checkRegions(IProject project, String fileName, List<TestRegion> regionList, AbstractHyperlinkDetector elPartitioner) throws Exception {
+	public static void checkRegionsInJar(IProject project, String fullyQualifiedName, List<TestRegion> regionList, AbstractHyperlinkDetector hlDetector) throws Exception {
+		IJavaProject javaProject = EclipseUtil.getJavaProject(project);
+		assertNotNull("Java Project is null", javaProject);
+		
+		IType type = javaProject.findType(fullyQualifiedName);
+		assertNotNull("Type is not found", type);
+		assertTrue("Type must be exist", type.exists());
+		
+		IEditorInput editorInput = EditorUtility.getEditorInput(type);
+		IEditorPart editorPart = EditorUtility.openInEditor(type);
+		
+		checkRegions(fullyQualifiedName, editorInput, editorPart, regionList, hlDetector);
+	}
+	
+	public static void checkRegions(IProject project, String fileName, List<TestRegion> regionList, AbstractHyperlinkDetector hlDetector) throws Exception {
 		IFile file = project.getFile(fileName);
 
 		assertNotNull("The file \"" + fileName + "\" is not found", file);
 		assertTrue("The file \"" + fileName + "\" is not found", file.isAccessible());
 
-		FileEditorInput editorInput = new FileEditorInput(file);
+		IEditorInput editorInput = new FileEditorInput(file);
+		IEditorPart editorPart = openFileInEditor(file);
 
-		IDocumentProvider documentProvider = null;
-		try {
-			documentProvider = DocumentProviderRegistry.getDefault().getDocumentProvider(editorInput);
-		} catch (Exception x) {
-			x.printStackTrace();
-			fail("An exception caught: " + x.getMessage());
-		}
+		checkRegions(fileName, editorInput, editorPart, regionList, hlDetector);
+	}
+	
+	private static void checkRegions(String fileName, IEditorInput editorInput, IEditorPart editorPart, List<TestRegion> regionList, AbstractHyperlinkDetector hlDetector) throws Exception {
+		
+		ISourceViewer viewer = null;
+		if(editorPart instanceof JavaEditor){
+			viewer = ((JavaEditor)editorPart).getViewer();
+			hlDetector.setContext(new TestContext((ITextEditor)editorPart));
+		}else if(editorPart instanceof EditorPartWrapper){
+			if(((EditorPartWrapper)editorPart).getEditor() instanceof WebCompoundEditor){
+				WebCompoundEditor wce = (WebCompoundEditor)((EditorPartWrapper)editorPart).getEditor();
+				viewer = wce.getSourceEditor().getTextViewer();
+				hlDetector.setContext(new TestContext(wce.getSourceEditor()));
+			}else if(((EditorPartWrapper)editorPart).getEditor() instanceof XMLTextEditorStandAlone){
+				XMLTextEditorStandAlone xtesa = (XMLTextEditorStandAlone)((EditorPartWrapper)editorPart).getEditor();
+				viewer = xtesa.getTextViewer();
+				hlDetector.setContext(new TestContext(xtesa));
+			}else fail("unsupported editor type - "+((EditorPartWrapper)editorPart).getEditor().getClass());
+		}else fail("unsupported editor type - "+editorPart.getClass());
 
-		assertNotNull("The document provider for the file \"" + fileName + "\" is not loaded", documentProvider);
-
-		try {
-			documentProvider.connect(editorInput);
-		} catch (Exception x) {
-			x.printStackTrace();
-			fail("The document provider is not able to be initialized with the editor input\nAn exception caught: "+x.getMessage());
-		}
-
-		IDocument document = documentProvider.getDocument(editorInput);
+		IDocument document = viewer.getDocument();
 		
 		assertNotNull("The document for the file \"" + fileName + "\" is not loaded", document);
 		
@@ -84,25 +106,6 @@ public class CDIHyperlinkTestUtil extends TestCase{
 		int expected = 0;
 		for(TestRegion testRegion : regionList)
 			expected += testRegion.region.getLength()+1;
-		
-		IEditorPart part = openFileInEditor(file);
-		ISourceViewer viewer = null;
-		if(part instanceof JavaEditor){
-			viewer = ((JavaEditor)part).getViewer();
-			elPartitioner.setContext(new TestContext((ITextEditor)part));
-		}else if(part instanceof EditorPartWrapper){
-			if(((EditorPartWrapper)part).getEditor() instanceof WebCompoundEditor){
-				WebCompoundEditor wce = (WebCompoundEditor)((EditorPartWrapper)part).getEditor();
-				viewer = wce.getSourceEditor().getTextViewer();
-				elPartitioner.setContext(new TestContext(wce.getSourceEditor()));
-			}else if(((EditorPartWrapper)part).getEditor() instanceof XMLTextEditorStandAlone){
-				XMLTextEditorStandAlone xtesa = (XMLTextEditorStandAlone)((EditorPartWrapper)part).getEditor();
-				viewer = xtesa.getTextViewer();
-				elPartitioner.setContext(new TestContext(xtesa));
-			}else fail("unsupported editor type - "+((EditorPartWrapper)part).getEditor().getClass());
-		}else fail("unsupported editor type - "+part.getClass());
-
-		
 
 		int counter = 0;
 		for (int i = 0; i < document.getLength(); i++) {
@@ -111,18 +114,18 @@ public class CDIHyperlinkTestUtil extends TestCase{
 			lineNumber++;
 			
 			TestData testData = new TestData(document, i);
-			IHyperlink[] links = elPartitioner.detectHyperlinks(viewer, testData.getHyperlinkRegion(), true);
+			IHyperlink[] links = hlDetector.detectHyperlinks(viewer, testData.getHyperlinkRegion(), true);
 
 			boolean recognized = links != null;
 
 			if (recognized) {
 				counter++;
-				TestRegion testRegion = findOffsetInRegions(i, regionList); 
+				TestRegion testRegion = findOffsetInRegions(i, regionList);
+				String information = findRegionInformation(document, i, regionList);
 				if(testRegion == null){
-					String information = findRegionInformation(document, i, regionList);
 					fail("Wrong detection for offset - "+i+" (line - "+lineNumber+" position - "+position+") "+information);
 				}else{
-					checkTestRegion(links, testRegion);
+					checkTestRegion(links, testRegion, information);
 				}
 			} 
 			else {
@@ -135,21 +138,19 @@ public class CDIHyperlinkTestUtil extends TestCase{
 		}
 
 		assertEquals("Wrong recognized region count: ", expected,  counter);
-
-		documentProvider.disconnect(editorInput);
 	}
 	
-	public static void checkTestRegion(IHyperlink[] links, TestRegion testRegion){
+	public static void checkTestRegion(IHyperlink[] links, TestRegion testRegion, String information){
 		for(IHyperlink link : links){
 			TestHyperlink testLink = findTestHyperlink(testRegion.hyperlinks, link);
-			assertNotNull("Unexpected hyperlink - "+link.getHyperlinkText(), testLink);
-			assertEquals("Unexpected hyperlink type", testLink.hyperlink, link.getClass());
-			assertTrue("Validation fails for hyperlink - "+link.getHyperlinkText(), testLink.validateHyperlink(link));
+			assertNotNull("Unexpected hyperlink - "+link.getHyperlinkText()+" "+information, testLink);
+			assertEquals("Unexpected hyperlink type "+information, testLink.hyperlink, link.getClass());
+			assertTrue("Validation fails for hyperlink - "+link.getHyperlinkText()+" "+information, testLink.validateHyperlink(link));
 			if(testLink.fileName != null){
-				assertTrue("HyperLink must be inherited from AbstractHyperlink", link instanceof AbstractHyperlink);
+				assertTrue("HyperLink must be inherited from AbstractHyperlink "+information, link instanceof AbstractHyperlink);
 				
 				IFile f = ((AbstractHyperlink)link).getReadyToOpenFile();
-				assertNotNull("HyperLink must return not null file", f);
+				assertNotNull("HyperLink must return not null file "+information, f);
 				assertEquals(testLink.fileName, f.getName());
 				
 			}
@@ -157,7 +158,7 @@ public class CDIHyperlinkTestUtil extends TestCase{
 		
 		for(TestHyperlink testLink : testRegion.hyperlinks){
 			IHyperlink link = findHyperlink(links, testLink);
-			assertNotNull("Hyperlink - "+testLink.name+" not found", link);
+			assertNotNull("Hyperlink - "+testLink.name+" not found "+information, link);
 		}
 	}
 	

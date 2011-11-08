@@ -10,7 +10,6 @@ import org.eclipse.jface.text.IInformationControl;
 import org.eclipse.jface.text.Region;
 import org.eclipse.jface.text.hyperlink.IHyperlink;
 import org.eclipse.ui.IEditorPart;
-import org.eclipse.ui.texteditor.ITextEditor;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.test.tck.TCKTest;
 import org.jboss.tools.cdi.text.ext.CDIExtensionsMessages;
@@ -170,6 +169,32 @@ public class InjectedPointHyperlinkDetectorTest extends TCKTest {
 		regionList.add(new TestRegion(/*1014, 3*/"fox", new TestHyperlink[]{new TestHyperlink(InjectedPointHyperlink.class, CDIExtensionsMessages.CDI_INJECTED_POINT_HYPERLINK_OPEN_INJECT_BEAN+ " Fox", bean)}));
 
 		CDIHyperlinkTestUtil.checkRegions(tckProject, "JavaSource/org/jboss/jsr299/tck/tests/context/dependent/FoxHole.java", regionList, new InjectedPointHyperlinkDetector());
+	}
+	
+	public void testInjectedPointHyperlinkDetectorForJAR() throws Exception {
+		ArrayList<TestRegion> regionList = new ArrayList<TestRegion>();
+		regionList.add(new TestRegion(/*115, 6*/"Inject",   new TestHyperlink[]{
+			new TestHyperlink(InjectedPointHyperlink.class, CDIExtensionsMessages.CDI_INJECTED_POINT_HYPERLINK_OPEN_INJECT_BEAN+ " JarBasicLogger"/*, bean*/),
+			new TestHyperlink(AssignableBeansHyperlink.class, CDIExtensionsMessages.CDI_INJECTED_POINT_HYPERLINK_SHOW_ASSIGNABLE)
+		})); // Inject
+		regionList.add(new TestRegion(/*133, 6*/"JarLogger",   new TestHyperlink[]{
+			new TestHyperlink(InjectedPointHyperlink.class, CDIExtensionsMessages.CDI_INJECTED_POINT_HYPERLINK_OPEN_INJECT_BEAN+ " JarBasicLogger"/*, bean*/),
+			new TestHyperlink(AssignableBeansHyperlink.class, CDIExtensionsMessages.CDI_INJECTED_POINT_HYPERLINK_SHOW_ASSIGNABLE)
+		})); // Logger
+		regionList.add(new TestRegion(/*140, 6*/"logger",   new TestHyperlink[]{
+			new TestHyperlink(InjectedPointHyperlink.class, CDIExtensionsMessages.CDI_INJECTED_POINT_HYPERLINK_OPEN_INJECT_BEAN+ " JarBasicLogger"/*, bean*/),
+			new TestHyperlink(AssignableBeansHyperlink.class, CDIExtensionsMessages.CDI_INJECTED_POINT_HYPERLINK_SHOW_ASSIGNABLE)
+		})); // logger
+		regionList.add(new TestRegion(/*196, 6*/"logger",   new TestHyperlink[]{
+			new TestHyperlink(InjectedPointHyperlink.class, CDIExtensionsMessages.CDI_INJECTED_POINT_HYPERLINK_OPEN_INJECT_BEAN+ " JarBasicLogger"/*, bean*/),
+			new TestHyperlink(AssignableBeansHyperlink.class, CDIExtensionsMessages.CDI_INJECTED_POINT_HYPERLINK_SHOW_ASSIGNABLE)
+		})); // logger
+		regionList.add(new TestRegion(/*250, 6*/"logger",   new TestHyperlink[]{
+			new TestHyperlink(InjectedPointHyperlink.class, CDIExtensionsMessages.CDI_INJECTED_POINT_HYPERLINK_OPEN_INJECT_BEAN+ " JarBasicLogger"/*, bean*/),
+			new TestHyperlink(AssignableBeansHyperlink.class, CDIExtensionsMessages.CDI_INJECTED_POINT_HYPERLINK_SHOW_ASSIGNABLE)
+		})); // logger
+		
+		CDIHyperlinkTestUtil.checkRegionsInJar(tckProject, "org.jar.test.openon.JarLoggerConsumer", regionList, new InjectedPointHyperlinkDetector());
 	}
 
 }

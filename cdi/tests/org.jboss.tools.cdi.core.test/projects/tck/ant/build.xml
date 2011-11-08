@@ -19,6 +19,7 @@
         <pathelement path ="${webinf.dir}/lib/jsf-impl.jar"/>
         <pathelement path ="${webinf.dir}/lib/jstl.jar"/>
         <pathelement path ="${webinf.dir}/lib/standard.jar"/>
+    	<pathelement path ="${webinf.dir}/lib/openon_test.jar"/>
         <pathelement path ="${webinf.dir}/classes"/>
         <pathelement path ="${classpath.external}"/>
         <pathelement path ="${classpath}"/>
