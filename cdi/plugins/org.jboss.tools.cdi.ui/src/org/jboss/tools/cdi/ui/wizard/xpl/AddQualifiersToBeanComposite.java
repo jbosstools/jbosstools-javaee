@@ -12,14 +12,12 @@
  *******************************************************************************/
 package org.jboss.tools.cdi.ui.wizard.xpl;
 
-import java.lang.reflect.InvocationTargetException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.core.runtime.jobs.IJobManager;
 import org.eclipse.core.runtime.jobs.Job;
@@ -31,7 +29,6 @@ import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IColorProvider;
 import org.eclipse.jface.viewers.IContentProvider;
@@ -434,21 +431,19 @@ public class AddQualifiersToBeanComposite extends Composite {
 		
 		createQualifier.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent event) {
-				final Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
 				final IJobManager manager= Job.getJobManager();
 				// reload qualifiers
 				if (Display.getCurrent() != null) {
 					BusyIndicator.showWhile(Display.getCurrent(), new Runnable(){
 						public void run(){
-							manager.endRule(ResourcesPlugin.getWorkspace().getRoot());
-							
 							NewQualifierCreationWizard wizard = new NewQualifierCreationWizard();
 							StructuredSelection selection = new StructuredSelection(new Object[]{bean.getBeanClass()});
 							
 							wizard.init(PlatformUI.getWorkbench(), selection);
-							WizardDialog dialog = new WizardDialog(shell, wizard);
+							WizardDialog dialog = new WizardDialog(getShell(), wizard);
 							int status = dialog.open();
 							if(status == WizardDialog.OK){
+								manager.endRule(ResourcesPlugin.getWorkspace().getRoot());
 								try {
 									Job.getJobManager().join(ResourcesPlugin.FAMILY_AUTO_BUILD, null);
 								} catch (OperationCanceledException e) {
@@ -457,10 +452,9 @@ public class AddQualifiersToBeanComposite extends Composite {
 									CDICorePlugin.getDefault().logError(e);
 								}
 								loadAvailableQualifiers();
+								manager.beginRule(ResourcesPlugin.getWorkspace().getRoot(), null);
 							}
-							manager.beginRule(ResourcesPlugin.getWorkspace().getRoot(), null);
 						}
-						
 					});
 				}
 			}
