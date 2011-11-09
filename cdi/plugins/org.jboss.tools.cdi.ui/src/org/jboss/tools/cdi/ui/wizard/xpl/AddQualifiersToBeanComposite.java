@@ -169,7 +169,7 @@ public class AddQualifiersToBeanComposite extends Composite {
 		availableTableViewer.setInput(qualifiers);
 		if(nLabel != null)
 			nLabel.setText(MessageFormat.format(CDIUIMessages.ADD_QUALIFIERS_TO_BEAN_WIZARD_MESSAGE,
-					new Object[]{bean.getElementName()}));
+					new Object[]{bean.getElementName(), injectionPoint.getElementName()}));
 		refresh();
 	}
 	
@@ -273,7 +273,7 @@ public class AddQualifiersToBeanComposite extends Composite {
 		nLabel.setLayoutData(data);
 		if(bean != null)
 			nLabel.setText(MessageFormat.format(CDIUIMessages.ADD_QUALIFIERS_TO_BEAN_WIZARD_MESSAGE,
-				new Object[]{bean.getElementName()}));
+				new Object[]{bean.getElementName(), injectionPoint.getElementName()}));
 		
 		Label label = new Label(this, SWT.NONE);
 		label.setText(CDIUIMessages.ADD_QUALIFIERS_TO_BEAN_WIZARD_ENTER_QUALIFIER_NAME);
