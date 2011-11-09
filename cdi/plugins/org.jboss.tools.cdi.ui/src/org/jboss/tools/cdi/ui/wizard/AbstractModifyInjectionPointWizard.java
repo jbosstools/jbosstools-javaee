@@ -12,6 +12,8 @@ package org.jboss.tools.cdi.ui.wizard;
 
 import java.util.List;
 
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.ltk.core.refactoring.participants.ProcessorBasedRefactoring;
 import org.eclipse.ltk.ui.refactoring.RefactoringWizard;
 import org.eclipse.ltk.ui.refactoring.RefactoringWizardOpenOperation;
@@ -19,6 +21,7 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IInjectionPoint;
+import org.jboss.tools.cdi.ui.CDIUIPlugin;
 import org.jboss.tools.cdi.ui.marker.AddQualifiersToBeanProcessor;
 
 public abstract class AbstractModifyInjectionPointWizard extends RefactoringWizard {
@@ -27,6 +30,14 @@ public abstract class AbstractModifyInjectionPointWizard extends RefactoringWiza
 	}
 	
 	public boolean showWizard() {
+		if(!CDIUIPlugin.getDefault().getWorkbench().getActiveWorkbenchWindow().getActivePage().saveAllEditors(true))
+			return false;
+		
+		try {
+			Job.getJobManager().join(ResourcesPlugin.FAMILY_AUTO_BUILD, null);
+		} catch (InterruptedException e) {
+			// do nothing
+		}
 		final IWorkbenchWindow win = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
 		RefactoringWizardOpenOperation op = new RefactoringWizardOpenOperation(this);
 		try {
