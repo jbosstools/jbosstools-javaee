@@ -106,7 +106,10 @@ public abstract class CDIRefactoringProcessor extends RefactoringProcessor {
 	}
 	
 	protected boolean isFileCorrect(IFile file){
-		if(!file.isSynchronized(IResource.DEPTH_ZERO)){
+		if(file == null){
+			status.addFatalError(CDICoreMessages.CDI_RENAME_PROCESSOR_ERROR_FILE_NOT_FOUND);
+			return false;
+		}else if(!file.isSynchronized(IResource.DEPTH_ZERO)){
 			status.addFatalError(NLS.bind(CDICoreMessages.CDI_RENAME_PROCESSOR_ERROR_OUT_OF_SYNC_PROJECT, file.getProject().getFullPath().toString()));
 			return false;
 		}else if(file.isPhantom()){

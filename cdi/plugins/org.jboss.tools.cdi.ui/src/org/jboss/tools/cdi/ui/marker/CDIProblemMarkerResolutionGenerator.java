@@ -687,7 +687,7 @@ public class CDIProblemMarkerResolutionGenerator implements
     			else
     				beanPackage = beanTypeName.substring(0,dotLastIndex);
     			
-    			if(isPublic || injectionPointPackage.equals(beanPackage))
+    			if((isPublic || injectionPointPackage.equals(beanPackage)) && bean.getBeanClass().getResource() != null)
     				beans.add(bean);
     		}
     	}
@@ -719,7 +719,13 @@ public class CDIProblemMarkerResolutionGenerator implements
 	
 	private List<IBean> findBeans(IInjectionPoint injectionPoint){
 		ICDIProject cdiProject = injectionPoint.getCDIProject();
-		return CDIUtil.getSortedBeans(cdiProject, false, injectionPoint);
+		List<IBean> beans = CDIUtil.getSortedBeans(cdiProject, false, injectionPoint);
+		for(int i = beans.size()-1;i>= 0;i--){
+			if(beans.get(i).getBeanClass().getResource() == null)
+				beans.remove(i);
+		}
+		
+		return beans;
 	}
 	
 	private IMethod findMethod(IFile file, int start){
