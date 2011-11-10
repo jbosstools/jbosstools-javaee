@@ -22,6 +22,8 @@ import org.jboss.tools.cdi.ui.test.perspective.CDIPerspectiveTest;
 import org.jboss.tools.cdi.ui.test.preferences.CDIPreferencePageTest;
 import org.jboss.tools.cdi.ui.test.search.CDISearchParticipantTest;
 import org.jboss.tools.cdi.ui.test.search.ELReferencesQueryParticipantTest;
+import org.jboss.tools.cdi.ui.test.search.FiveDependentProjectsSearchParticipantTest;
+import org.jboss.tools.cdi.ui.test.search.FiveDependentProjectsTestSetup;
 import org.jboss.tools.cdi.ui.test.wizard.AddQualifiersToBeanWizardTest;
 import org.jboss.tools.cdi.ui.test.wizard.NewCDIClassWizardFactoryTest;
 import org.jboss.tools.cdi.ui.test.wizard.NewCDIWebProjectWizardTest;
@@ -65,6 +67,11 @@ public class CDIUIAllTests {
 		suiteAll.addTestSuite(AddQualifiersToBeanWizardTest.class);
 
 		suiteAll.addTestSuite(CDIRefactoringTest.class);
+		
+		TestSuite dependentSuite = new TestSuite("Dependent Projects Tests");
+		dependentSuite.addTestSuite(FiveDependentProjectsSearchParticipantTest.class);
+		FiveDependentProjectsTestSetup dependent = new FiveDependentProjectsTestSetup(dependentSuite);
+		suiteAll.addTest(dependent);
 
 		return suiteAll;
 	}
