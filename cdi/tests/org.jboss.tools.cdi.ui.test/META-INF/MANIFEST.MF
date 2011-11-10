@@ -39,5 +39,6 @@ Require-Bundle: org.junit,
  org.eclipse.wst.common.frameworks,
  org.eclipse.jst.jsf.ui,
  org.eclipse.jst.jsf.core,
- org.eclipse.wst.common.frameworks.ui
+ org.eclipse.wst.common.frameworks.ui,
+ org.jboss.tools.common.ui
 Export-Package: org.jboss.tools.cdi.ui.test

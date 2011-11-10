@@ -17,6 +17,7 @@ import junit.framework.TestCase;
 
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.WorkbenchException;
+import org.jboss.tools.common.ui.JBossPerspectiveFactory;
 import org.jboss.tools.test.util.WorkbenchUtils;
 
 /**
@@ -28,9 +29,24 @@ public class CDIPerspectiveTest extends TestCase {
 	 * Tests JEE perspective has CDI/JSF stuff
 	 * @throws WorkbenchException
 	 */
-	public void testPerspective() throws WorkbenchException {
+	public void testJEEPerspective() throws WorkbenchException {
 		IWorkbenchPage page = WorkbenchUtils.getWorkbench().getActiveWorkbenchWindow().openPage("org.eclipse.jst.j2ee.J2EEPerspective", null);
 		assertNotNull(page);
+		assertShortcuts(page);
+	}
+
+	/**
+	 * Tests JBoss perspective has CDI/JSF stuff
+	 * See https://issues.jboss.org/browse/JBIDE-10141
+	 * @throws WorkbenchException
+	 */
+	public void testJBossPerspective() throws WorkbenchException {
+		IWorkbenchPage page = WorkbenchUtils.getWorkbench().getActiveWorkbenchWindow().openPage(JBossPerspectiveFactory.PERSPECTIVE_ID, null);
+		assertNotNull(page);
+		assertShortcuts(page);
+	}
+
+	private void assertShortcuts(IWorkbenchPage page) {
 		String[] shortcuts = page.getNewWizardShortcuts();
 		Set<String> shortcutSet = new HashSet<String>();
 		for (String shortcut : shortcuts) {
