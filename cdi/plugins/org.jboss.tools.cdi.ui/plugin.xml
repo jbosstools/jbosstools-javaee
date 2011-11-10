@@ -186,7 +186,7 @@
             icon="platform:/plugin/org.jboss.tools.cdi.core/images/cdi16.png"
             id="org.jboss.tools.cdi.ui.wizard.NewCDIProjectWizard"
             name="CDI Web Project"
-            preferredPerspectives="org.eclipse.jst.j2ee.J2EEPerspective,org.jboss.tools.jst.web.ui.WebDevelopmentPerspective"
+            preferredPerspectives="org.jboss.tools.common.ui.JBossPerspective,org.eclipse.jst.j2ee.J2EEPerspective,org.jboss.tools.jst.web.ui.WebDevelopmentPerspective"
             project="true">
          <description>
             Create a CDI Web Project
@@ -357,6 +357,40 @@
    <extension
          point="org.eclipse.ui.perspectiveExtensions">
       <perspectiveExtension
+            targetID="org.jboss.tools.common.ui.JBossPerspective">
+         <newWizardShortcut
+               id="org.jboss.tools.cdi.ui.wizard.NewCDIProjectWizard">
+         </newWizardShortcut>
+         <newWizardShortcut
+               id="org.jboss.tools.cdi.ui.wizard.NewBeanCreationWizard">
+         </newWizardShortcut>
+         <newWizardShortcut
+               id="org.jboss.tools.cdi.ui.wizard.NewQualifierCreationWizard">
+         </newWizardShortcut>
+         <newWizardShortcut
+               id="org.jboss.tools.cdi.ui.wizard.NewStereotypeCreationWizard">
+         </newWizardShortcut>
+         <newWizardShortcut
+               id="org.jboss.tools.cdi.ui.wizard.NewScopeCreationWizard">
+         </newWizardShortcut>
+         <newWizardShortcut
+               id="org.jboss.tools.cdi.ui.wizard.NewInterceptorBindingCreationWizard">
+         </newWizardShortcut>
+         <newWizardShortcut
+               id="org.jboss.tools.cdi.ui.wizard.NewInterceptorCreationWizard">
+         </newWizardShortcut>
+         <newWizardShortcut
+               id="org.jboss.tools.cdi.ui.wizard.NewDecoratorCreationWizard">
+         </newWizardShortcut>
+         <newWizardShortcut
+               id="org.jboss.tools.cdi.ui.wizard.NewAnnotationLiteralCreationWizard">
+         </newWizardShortcut>
+         <newWizardShortcut
+               id="org.jboss.tools.cdi.ui.wizard.NewBeansXMLCreationWizard">
+         </newWizardShortcut>
+      </perspectiveExtension>
+
+      <perspectiveExtension
             targetID="org.eclipse.jst.j2ee.J2EEPerspective">
          <newWizardShortcut
                id="org.jboss.tools.cdi.ui.wizard.NewCDIProjectWizard">
@@ -388,17 +422,6 @@
          <newWizardShortcut
                id="org.jboss.tools.cdi.ui.wizard.NewBeansXMLCreationWizard">
          </newWizardShortcut>
-         <actionSet id="org.hibernate.eclipse.launch.actionset"/>
-         <perspectiveShortcut
-               id="org.jboss.tools.jst.web.ui.WebDevelopmentPerspective">
-         </perspectiveShortcut>
-         <perspectiveShortcut
-               id="org.hibernate.eclipse.console.HibernateConsolePerspective">
-         </perspectiveShortcut>
-         <view relative="org.eclipse.ui.views.ContentOutline"
-         	   relationship="stack"
-               id="org.eclipse.gef.ui.palette_view">
-         </view>
       </perspectiveExtension>
    </extension>
 
