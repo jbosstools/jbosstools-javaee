@@ -49,6 +49,7 @@ import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.XModelObjectConstants;
 import org.jboss.tools.common.model.filesystems.FileSystemsHelper;
 import org.jboss.tools.common.text.TextProposal;
+import org.jboss.tools.common.util.StringUtil;
 import org.jboss.tools.jst.web.kb.el.MessagePropertyELSegmentImpl;
 import org.jboss.tools.seam.core.IBijectedAttribute;
 import org.jboss.tools.seam.core.ISeamComponent;
@@ -217,26 +218,26 @@ public final class SeamELCompletionEngine extends AbstractELCompletionEngine<ISe
 		} else if (expr instanceof ELArgumentInvocation) {
 			segment = new MessagePropertyELSegmentImpl(((ELArgumentInvocation)expr).getArgument().getOpenArgumentToken().getNextToken());
 		}
-		if(segment.getToken() == null) {
-			return false;
-		}
 		
 		Set<TextProposal> kbProposals = new TreeSet<TextProposal>(TextProposal.KB_PROPOSAL_ORDER);
 
-		String propertyName = segment.getToken().getText();
-		Map<String, List<XModelObject>> properties = messagesInfo.getPropertiesMap();
-		List<XModelObject> os = properties.get(trimQuotes(propertyName));
-		if(os != null) {
-			for(XModelObject o: os) {
-				segment.addObject(o);
+		if (segment.getToken() != null) {
+			String propertyName = segment.getToken().getText();
+			Map<String, List<XModelObject>> properties = messagesInfo.getPropertiesMap();
+			List<XModelObject> os = properties.get(StringUtil.trimQuotes(propertyName));
+			if(os != null) {
+				for(XModelObject o: os) {
+					segment.addObject(o);
+				}
+				
+				// Using 'base name' in seam is not a good idea.
+	//			if(!os.isEmpty()) {
+	//				segment.setBaseName(getBundle(os.get(0)));
+	//			} else {
+	//				segment.setBaseName("messages");
+	//			}
 			}
-			if(!os.isEmpty()) {
-				segment.setBaseName(getBundle(os.get(0)));
-			} else {
-				segment.setBaseName("messages");
-			}
-		}
-		
+		}		
 		if(segment.getToken()!=null) {
 			resolution.addSegment(segment);
 		}
@@ -248,73 +249,66 @@ public final class SeamELCompletionEngine extends AbstractELCompletionEngine<ISe
 			}
 		} else
 			if(expr.getType() != ELObjectType.EL_ARGUMENT_INVOCATION) {
-			Set<String> proposalsToFilter = new TreeSet<String>(); 
+			String filter = (expr.getMemberName() == null ? "" : expr.getMemberName());
+
 			for (TypeInfoCollector.MemberInfo mbr : members) {
-					filterSingularMember((MessagesInfo)mbr, proposalsToFilter);
-			}
-			for (String proposal : proposalsToFilter) {
-				// We do expect nothing but name for method tokens (No round brackets)
-				String filter = expr.getMemberName();
-				if(filter == null) filter = ""; //$NON-NLS-1$
-				if(returnEqualedVariablesOnly) {
-					// This is used for validation.
-					if (proposal.equals(filter)) {
-						MessagesELTextProposal kbProposal = createProposal(messagesInfo, proposal);
+				Collection<String> keys = ((MessagesInfo)mbr).getKeys();
+				for (String key : keys) {
+					if(returnEqualedVariablesOnly) {
+						// This is used for validation.
+						if (key.equals(filter)) {
+							MessagesELTextProposal kbProposal = createProposal(messagesInfo, key);
+							kbProposals.add(kbProposal);
+							break;
+						}
+					} else if (key.startsWith(filter)) {
+						// This is used for CA.
+						MessagesELTextProposal kbProposal = createProposal(messagesInfo, key);
+						if (key.indexOf('.') == -1)	kbProposal.setReplacementString(key.substring(filter.length()));
+						else kbProposal.setReplacementString('[' + kbProposal.getReplacementString());
 						kbProposals.add(kbProposal);
-						break;
 					}
-				} else if (proposal.startsWith(filter)) {
-					// This is used for CA.
-					MessagesELTextProposal kbProposal = createProposal(messagesInfo, proposal);
-					kbProposal.setReplacementString(proposal.substring(filter.length()));
-					kbProposals.add(kbProposal);
 				}
 			}
 		} else if(expr.getType() == ELObjectType.EL_ARGUMENT_INVOCATION) {
-			Set<String> proposalsToFilter = new TreeSet<String>();
-			boolean isMessages = false;
+			String filter = expr.getMemberName() == null ? "" : expr.getMemberName();
+			boolean b = filter.startsWith("'") || filter.startsWith("\""); //$NON-NLS-1$ //$NON-NLS-2$
+			filter = StringUtil.trimQuotes(filter);
+
 			for (TypeInfoCollector.MemberInfo mbr : members) {
-				isMessages = true;
-				filterSingularMember((MessagesInfo)mbr, proposalsToFilter);
-			}
-			String filter = expr.getMemberName();
-			boolean bSurroundWithQuotes = false;
-			if(filter == null) {
-				filter = ""; //$NON-NLS-1$
-				bSurroundWithQuotes = true;
-			} else {
-				boolean b = filter.startsWith("'") || filter.startsWith("\""); //$NON-NLS-1$ //$NON-NLS-2$
-				boolean e = filter.endsWith("'") || filter.endsWith("\""); //$NON-NLS-1$ //$NON-NLS-2$
-				if((b) && (e)) {
-					filter = filter.length() == 1 ? "" : filter.substring(1, filter.length() - 1); //$NON-NLS-1$
-				} else if(b && !returnEqualedVariablesOnly) {
-					filter = filter.substring(1);
-				} else {
+				if (!b && filter.length() > 0) {
 					//Value is set as expression itself, we cannot compute it
-					if(isMessages) {
-						resolution.setMapOrCollectionOrBundleAmoungTheTokens(true);
-					}
+					resolution.setMapOrCollectionOrBundleAmoungTheTokens(true);
 					return true;
 				}
-			}
 
-			for (String proposal : proposalsToFilter) {
-				if(returnEqualedVariablesOnly) {
-					// This is used for validation.
-					if (proposal.equals(filter)) {
-						MessagesELTextProposal kbProposal = createProposal(messagesInfo, proposal);
+				Collection<String> keys = ((MessagesInfo)mbr).getKeys();
+				for (String key : keys) {
+					if(returnEqualedVariablesOnly) {
+						// This is used for validation.
+						if (key.equals(filter)) {
+							MessagesELTextProposal kbProposal = createProposal(messagesInfo, key);
+							kbProposals.add(kbProposal);
+							break;
+						}
+					} else if (key.startsWith(filter)) {
+						// This is used for CA.
+						MessagesELTextProposal kbProposal = createProposal(messagesInfo, key);
+						String existingString = expr.getMemberName() == null ? "" : expr.getMemberName();
+						// Because we're in argument invocation we should fix the proposal by surrounding it with quotes as needed
+						String replacement = kbProposal.getReplacementString();
+						String label = kbProposal.getLabel();
+						if (!replacement.startsWith("'")) {
+							replacement = '\'' + key + '\'';
+							label = "['" + key + "']";
+						}
+						replacement = replacement.substring(existingString.length());
+
+						kbProposal.setReplacementString(replacement);
+						kbProposal.setLabel(label);
+
 						kbProposals.add(kbProposal);
-						break;
 					}
-				} else if (proposal.startsWith(filter)) {
-					// This is used for CA.
-					MessagesELTextProposal kbProposal = createProposal(messagesInfo, proposal);
-					String replacementString = proposal.substring(filter.length());
-					if (bSurroundWithQuotes) {
-						replacementString = "'" + replacementString + "']"; //$NON-NLS-1$ //$NON-NLS-2$
-					}
-					kbProposal.setReplacementString(replacementString);
-						kbProposals.add(kbProposal);
 				}
 			}
 		}
@@ -336,29 +330,40 @@ public final class SeamELCompletionEngine extends AbstractELCompletionEngine<ISe
 				String key = sortedKeys.next();
 				if (key == null || key.length() == 0)
 					continue;
+
 				MessagesELTextProposal proposal = createProposal((MessagesInfo)mbr, key);
+				if (key.indexOf('.') != -1) {
+					proposal.setReplacementString("['" + key + "']"); //$NON-NLS-1$ //$NON-NLS-2$
+					proposal.setLabel("['" + key + "']");
+				} else {
+					proposal.setReplacementString(key);
+					proposal.setLabel(key);
+				}
 				kbProposals.add(proposal);
 			}
 		}
 	}
 
 	private MessagesELTextProposal createProposal(MessagesInfo mbr, String proposal) {
-		Map<String, List<XModelObject>> properties = mbr.getPropertiesMap();
-		List<XModelObject> ps = properties.get(proposal);
-		String bundle = ps.isEmpty() ? "messages" : getBundle(ps.get(0));
-		
 		MessagesELTextProposal kbProposal = new MessagesELTextProposal();
-		kbProposal.setBaseName(bundle);
-		kbProposal.setObjects(ps);
-
 		if (proposal.indexOf('.') != -1) {
-			kbProposal.setReplacementString("['" + proposal + "']");
+			kbProposal.setReplacementString('\'' + proposal + '\'');
 			kbProposal.setLabel("['" + proposal + "']");
 		} else {
 			kbProposal.setReplacementString(proposal);
 			kbProposal.setLabel(proposal);
 		}
+		kbProposal.setAlternateMatch(proposal);
 		kbProposal.setImage(SEAM_MESSAGES_PROPOSAL_IMAGE);
+
+		Map<String, List<XModelObject>> properties = mbr.getPropertiesMap();
+		List<XModelObject> ps = properties.get(proposal);
+//		String bundle = ps.isEmpty() ? "messages" : getBundle(ps.get(0)); // Using 'base name' in seam is not a good idea.
+		
+//		kbProposal.setBaseName(bundle); // Using 'base name' in seam is not a good idea.
+		kbProposal.setPropertyName(proposal);
+		kbProposal.setObjects(ps);
+
 		return kbProposal;
 	}
 
@@ -380,13 +385,6 @@ public final class SeamELCompletionEngine extends AbstractELCompletionEngine<ISe
 		Collection<String> keys = ((MessagesInfo)mbr).getKeys();
 		for (String key : keys) {
 			proposalsToFilter.add(new TypeInfoCollector.MemberPresentation(key, key, mbr));
-		}
-	}
-
-	protected void filterSingularMember(MessagesInfo mbr, Set<String> proposalsToFilter) {
-		Collection<String> keys = ((MessagesInfo)mbr).getKeys();
-		for (String key : keys) {
-			proposalsToFilter.add(key);
 		}
 	}
 

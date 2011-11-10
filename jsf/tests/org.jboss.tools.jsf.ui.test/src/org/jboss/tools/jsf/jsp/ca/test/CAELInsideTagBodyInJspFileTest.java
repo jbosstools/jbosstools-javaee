@@ -69,7 +69,12 @@ public class CAELInsideTagBodyInJspFileTest extends ContentAssistantTestCase {
 				continue;
 			AutoContentAssistantProposal existingProposal = (AutoContentAssistantProposal)p;
 			String proposalString = existingProposal.getReplacementString();
-
+			
+			// We have to compare full proposalString if proposal is not a name (f.e. EL like "#{}"),
+			// but we have to compare only name in case of proposal is name (f.e. EL like "user").
+			if (proposal.indexOf('}') == -1 && proposalString.indexOf('}') != -1)
+				proposalString = proposalString.substring(0, proposalString.indexOf('}'));
+			
 			if (proposal.equals(proposalString)) {
 				return true;
 			}
