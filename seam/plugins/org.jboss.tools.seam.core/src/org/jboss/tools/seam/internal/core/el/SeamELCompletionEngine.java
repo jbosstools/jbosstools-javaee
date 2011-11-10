@@ -273,10 +273,11 @@ public final class SeamELCompletionEngine extends AbstractELCompletionEngine<ISe
 		} else if(expr.getType() == ELObjectType.EL_ARGUMENT_INVOCATION) {
 			String filter = expr.getMemberName() == null ? "" : expr.getMemberName();
 			boolean b = filter.startsWith("'") || filter.startsWith("\""); //$NON-NLS-1$ //$NON-NLS-2$
+			boolean e = filter.length() > 1 && filter.endsWith("'") || filter.endsWith("\"");//$NON-NLS-1$ //$NON-NLS-2$
 			filter = StringUtil.trimQuotes(filter);
 
 			for (TypeInfoCollector.MemberInfo mbr : members) {
-				if (!b && filter.length() > 0) {
+				if ((!b && filter.length() > 0) || (b && e && filter.length() == 0)) {
 					//Value is set as expression itself, we cannot compute it
 					resolution.setMapOrCollectionOrBundleAmoungTheTokens(true);
 					return true;
@@ -302,7 +303,9 @@ public final class SeamELCompletionEngine extends AbstractELCompletionEngine<ISe
 							replacement = '\'' + key + '\'';
 							label = "['" + key + "']";
 						}
-						replacement = replacement.substring(existingString.length());
+						replacement = replacement.startsWith(existingString) ? 
+								replacement.substring(existingString.length()) :
+									replacement;
 
 						kbProposal.setReplacementString(replacement);
 						kbProposal.setLabel(label);

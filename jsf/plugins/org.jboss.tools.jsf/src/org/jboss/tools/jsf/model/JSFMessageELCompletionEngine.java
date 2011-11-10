@@ -454,10 +454,11 @@ public class JSFMessageELCompletionEngine extends AbstractELCompletionEngine<IVa
 		} else if(expr.getType() == ELObjectType.EL_ARGUMENT_INVOCATION) {
 			String filter = expr.getMemberName() == null ? "" : expr.getMemberName();
 			boolean b = filter.startsWith("'") || filter.startsWith("\""); //$NON-NLS-1$ //$NON-NLS-2$
+			boolean e = filter.length() > 1 && filter.endsWith("'") || filter.endsWith("\"");//$NON-NLS-1$ //$NON-NLS-2$
 			filter = StringUtil.trimQuotes(filter);
-			
+
 			for (Variable mbr : members) {
-				if (!b && filter.length() > 0) {
+				if ((!b && filter.length() > 0) || (b && e && filter.length() == 0)) {
 					//Value is set as expression itself, we cannot compute it
 					resolution.setMapOrCollectionOrBundleAmoungTheTokens(true);
 					return;
