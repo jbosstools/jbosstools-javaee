@@ -37,10 +37,12 @@ public class JBossPerspectiveTest extends TestCase {
 		assertNotNull(page);
 		IViewReference[] viewReferences = page.getViewReferences();
 		Set<String> viewIds = new HashSet<String>();
+		StringBuffer sb = new StringBuffer("[");
 		for (IViewReference viewReference : viewReferences) {
-			System.out.println("View ID: " + viewReference.getId());
+			sb.append(viewReference.getId()).append(", ");
 			viewIds.add(viewReference.getId());
 		}
-		assertTrue("Have not found " + PaletteView.ID + " in " + JBossPerspectiveFactory.PERSPECTIVE_ID + ".", viewIds.contains(PaletteView.ID));
+		sb.append("]");
+		assertTrue("Have not found " + PaletteView.ID + " in " + JBossPerspectiveFactory.PERSPECTIVE_ID + ". Found Views: " + sb.toString(), viewIds.contains(PaletteView.ID));
 	}
 }
