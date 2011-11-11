@@ -32,7 +32,6 @@ import org.jboss.tools.seam.ui.test.hyperlink.SeamViewHyperlinkPartitionerTest;
 import org.jboss.tools.seam.ui.test.jbide.JBide3989Test;
 import org.jboss.tools.seam.ui.test.marker.SeamMarkerResolutionTest;
 import org.jboss.tools.seam.ui.test.preferences.SeamPreferencesPageTest;
-import org.jboss.tools.seam.ui.test.preferences.SeamSettingsPreferencesPageTest;
 import org.jboss.tools.seam.ui.test.view.SeamComponentsViewAllTests;
 import org.jboss.tools.seam.ui.test.wizard.OpenSeamComponentDialogTest;
 import org.jboss.tools.seam.ui.test.wizard.PackageNamesTest;
@@ -54,7 +53,8 @@ public class SeamUiAllTests {
 
 	public static Test suite() {
 		TestSuite suite = new TestSuite("Seam UI tests");
-		
+
+		suite.addTestSuite(JBossPerspectiveTest.class);
 		suite.addTestSuite(ELExprPartitionerTest.class);
 		//suite.addTestSuite(ELReferencesQueryParticipantTest.class);
 		suite.addTest(new ProjectImportTestSetup(new TestSuite(ELReferencesQueryParticipantTest.class), "org.jboss.tools.seam.ui.test", new String[]{"projects/numberguess"}, new String[]{"numberguess"}));

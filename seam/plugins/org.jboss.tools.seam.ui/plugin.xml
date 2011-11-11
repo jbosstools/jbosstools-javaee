@@ -172,6 +172,16 @@
       </perspectiveExtension>
    </extension>
 
+   <extension
+         point="org.eclipse.ui.perspectiveExtensions">
+      <perspectiveExtension
+            targetID="org.jboss.tools.common.ui.JBossPerspective">
+         <newWizardShortcut
+               id="org.jboss.tools.seam.ui.wizards.SeamProjectWizard">
+         </newWizardShortcut>
+      </perspectiveExtension>
+   </extension>
+
 	<extension point="org.eclipse.ui.navigator.viewer">
 	  <viewerContentBinding viewerId="org.jboss.tools.seam.ui.views.SeamComponentsNavigator">
 	    <includes>
