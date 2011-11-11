@@ -42,4 +42,27 @@ public class CAForJSF2BeansInJavaTest extends JavaContentAssistantTestCase{
 
 		checkProposals(PAGE_NAME, "#{}", 2, proposals, false);
 	}
+
+	/**
+	 * JBIDE-10159
+	 */
+	public void testCAoutsideExpression(){
+		String[] proposals = {
+			"mybean1 : Bean1", "bean4 : Bean4", "bean5 : Bean5"
+		};
+
+		checkProposals(PAGE_NAME, "#{ mybean1}", 2, proposals, false);
+		checkProposals(PAGE_NAME, "#{ mybean1  }", 12, proposals, false);
+	}
+
+	/**
+	 * JBIDE-10159
+	 */
+	public void testCAMemberafterWhitespace(){
+		String[] proposals = {
+			"name : String - Bean1"
+		};
+
+		checkProposals(PAGE_NAME, "#{ mybean1.  }", 13, proposals, true);
+	}
 }
