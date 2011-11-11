@@ -8,4 +8,8 @@ public class Bean1 {
 		return "#{}";
 	}
 
+	String s1 = "#{ mybean1}";
+	String s2 = "#{ mybean1.  }";
+	String s3 = "#{ mybean1  }";
+
 }
