@@ -34,10 +34,11 @@ Require-Bundle: org.junit,
  org.eclipse.gef,
  org.eclipse.pde.ui,
  org.eclipse.wst.validation,
- org.eclipse.wst.html.core;bundle-version="1.1.500",
- org.eclipse.wst.html.ui;bundle-version="1.0.600",
- org.jboss.tools.jst.jsp.base.test;bundle-version="3.3.0",
- org.jboss.tools.common.el.ui;bundle-version="3.3.0",
- org.eclipse.jdt.ui;bundle-version="3.7.0"
+ org.eclipse.wst.html.core,
+ org.eclipse.wst.html.ui,
+ org.jboss.tools.jst.jsp.base.test,
+ org.jboss.tools.common.el.ui,
+ org.eclipse.jdt.ui,
+ org.jboss.tools.common.ui
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

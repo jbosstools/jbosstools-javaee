@@ -51,6 +51,7 @@ public class JsfUiAllTests {
 
 		ValidationFramework.getDefault().suspendAllValidation(true);
 
+		suite.addTestSuite(JBossPerspectiveTest.class);
 		suite.addTestSuite(NewJSFProjectTest.class);
 		suite.addTestSuite(CAForUnclosedELTest.class);
 		suite.addTestSuite(CAForCompositeComponentTest.class);
