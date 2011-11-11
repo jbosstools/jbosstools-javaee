@@ -414,8 +414,19 @@
          </newWizardShortcut>
       </perspectiveExtension>
    </extension>
-   
-  <extension
+
+   <extension
+         point="org.eclipse.ui.perspectiveExtensions">
+      <perspectiveExtension
+            targetID="org.jboss.tools.common.ui.JBossPerspective">
+            <view relative="org.eclipse.ui.views.ContentOutline"
+         	   relationship="stack"
+               id="org.eclipse.gef.ui.palette_view">
+         </view>
+      </perspectiveExtension>
+   </extension>
+
+   <extension
          point="org.eclipse.ltk.core.refactoring.renameParticipants">
          <renameParticipant
             class="org.jboss.tools.jsf.ui.el.refactoring.RenameMethodParticipant"
