@@ -92,7 +92,7 @@ public class SeamUiAllTests {
 				ValidatorManager.addProjectBuildValidationSupport(project);
 				project.build(IncrementalProjectBuilder.FULL_BUILD,
 						new NullProgressMonitor());
-				
+
 				JobUtils.waitForIdle();
 			}
 		} );
