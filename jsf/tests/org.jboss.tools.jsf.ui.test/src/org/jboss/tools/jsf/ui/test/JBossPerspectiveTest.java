@@ -15,7 +15,7 @@ import java.util.Set;
 
 import junit.framework.TestCase;
 
-import org.eclipse.ui.IViewPart;
+import org.eclipse.gef.ui.views.palette.PaletteView;
 import org.eclipse.ui.IViewReference;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.WorkbenchException;
@@ -35,14 +35,12 @@ public class JBossPerspectiveTest extends TestCase {
 	public void testJBossPerspective() throws WorkbenchException {
 		IWorkbenchPage page = WorkbenchUtils.getWorkbench().getActiveWorkbenchWindow().openPage(JBossPerspectiveFactory.PERSPECTIVE_ID, null);
 		assertNotNull(page);
-		IViewPart[] views = page.getViews();
-		System.out.println("Views number: " + views.length);
 		IViewReference[] viewReferences = page.getViewReferences();
 		Set<String> viewIds = new HashSet<String>();
 		for (IViewReference viewReference : viewReferences) {
 			System.out.println("View ID: " + viewReference.getId());
 			viewIds.add(viewReference.getId());
 		}
-		assertTrue("Have not found org.eclipse.gef.ui.palette_view in org.eclipse.jst.j2ee.J2EEPerspective.", viewIds.contains("org.eclipse.gef.ui.palette_view"));
+		assertTrue("Have not found " + PaletteView.ID + " in " + JBossPerspectiveFactory.PERSPECTIVE_ID + ".", viewIds.contains(PaletteView.ID));
 	}
 }
