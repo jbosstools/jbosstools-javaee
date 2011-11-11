@@ -116,6 +116,7 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 	IValidatingProjectTree projectTree;
 	IValidatingProjectSet projectSet;
 	Set<IFolder> sourceFolders;
+	List<IFile> allBeansXmls;
 
 	private BeansXmlValidationDelegate beansXmlValidator = new BeansXmlValidationDelegate(this);
 	private AnnotationValidationDelegate annotationValidator = new AnnotationValidationDelegate(this);
@@ -265,6 +266,7 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 		projectTree = validationHelper.getValidationContextManager().getValidatingProjectTree(this);
 		projectSet = projectTree.getBrunches().get(rootProject);
 		rootCdiProject = null;
+		allBeansXmls = null;
 		CDICoreNature nature = CDICorePlugin.getCDI(projectSet.getRootProject(), true);
 		if(nature!=null) {
 			rootCdiProject =  nature.getDelegate();
@@ -495,8 +497,10 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 		CDIValidationContext context = getCDIContext(file);
 		ICDIProject cdiProject = context.getCdiProject();
 		if("beans.xml".equalsIgnoreCase(file.getName()) && CDIPreferences.shouldValidateBeansXml(file.getProject())) {
-			// TODO should we check the path of the beans.xml? Or it's better to check the every beans.xml even if it is not in META-INF or WEB-INF.
-			beansXmlValidator.validateBeansXml(context, file);
+			List<IFile> allBaensXmls = getAllBeansXmls();
+			if(allBaensXmls.contains(file)) { // See https://issues.jboss.org/browse/JBIDE-10166
+				beansXmlValidator.validateBeansXml(context, file);
+			}
 		} else {
 			Set<IBean> beans = cdiProject.getBeans(file.getFullPath());
 			for (IBean bean : beans) {
@@ -539,27 +543,29 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 	 * @return
 	 */
 	private List<IFile> getAllBeansXmls() {
-		List<IFile> beansXmls = new ArrayList<IFile>();
-		// From source folders
-		Set<IFolder> sourceFolders = getSourceFoldersForProjectsSet();
-		for (IFolder source : sourceFolders) {
-			IResource beansXml = source.findMember(new Path("/META-INF/beans.xml")); //$NON-NLS-1$
-			if(beansXml!=null && beansXml instanceof IFile) {
-				beansXmls.add((IFile)beansXml);
+		if(allBeansXmls==null) {
+			allBeansXmls = new ArrayList<IFile>();
+			// From source folders
+			Set<IFolder> sourceFolders = getSourceFoldersForProjectsSet();
+			for (IFolder source : sourceFolders) {
+				IResource beansXml = source.findMember(new Path("/META-INF/beans.xml")); //$NON-NLS-1$
+				if(beansXml!=null && beansXml instanceof IFile) {
+					allBeansXmls.add((IFile)beansXml);
+				}
 			}
-		}
-		Set<IProject> allProjects = projectSet.getAllProjects();
-		for (IProject project : allProjects) {
-			// From WEB-INF folder
-			IVirtualComponent com = ComponentCore.createComponent(project);
-			if(com!=null) {
-				IVirtualFile beansXml = com.getRootFolder().getFile(new Path("/WEB-INF/beans.xml")); //$NON-NLS-1$
-				if(beansXml!=null && beansXml.getUnderlyingFile().isAccessible()) {
-					beansXmls.add(beansXml.getUnderlyingFile());
+			Set<IProject> allProjects = projectSet.getAllProjects();
+			for (IProject project : allProjects) {
+				// From WEB-INF folder
+				IVirtualComponent com = ComponentCore.createComponent(project);
+				if(com!=null) {
+					IVirtualFile beansXml = com.getRootFolder().getFile(new Path("/WEB-INF/beans.xml")); //$NON-NLS-1$
+					if(beansXml!=null && beansXml.getUnderlyingFile().isAccessible()) {
+						allBeansXmls.add(beansXml.getUnderlyingFile());
+					}
 				}
 			}
 		}
-		return beansXmls;
+		return allBeansXmls;
 	}
 
 	/**
