@@ -313,7 +313,7 @@ public class JSF2ComponentModelManager {
 	public static IDOMDocument getReadableDOMDocument(JarEntryFile file) {
 		IDOMDocument document = null;
 		IStructuredModel model = null;
-		InputStream inputStream;
+		InputStream inputStream = null;
 		try {
 			inputStream = file.getContents();
 			if (inputStream != null) {
@@ -333,6 +333,13 @@ public class JSF2ComponentModelManager {
 		} catch (CoreException e) {
 			JSFModelPlugin.getPluginLog().logError(e);
 		} finally {
+			if(inputStream!=null) {
+				try {
+					inputStream.close();
+				} catch (IOException e) {
+					// Ignore
+				}
+			}
 			model = null;
 		}
 		return document;
