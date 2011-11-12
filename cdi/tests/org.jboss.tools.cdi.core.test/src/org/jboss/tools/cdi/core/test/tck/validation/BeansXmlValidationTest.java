@@ -27,6 +27,13 @@ public class BeansXmlValidationTest extends ValidationTest {
 	static int FORD_INTERCEPTOR_1_LINE = CAT_INTERCEPTOR_LINE + 3; // <class>org.jboss.jsr299.tck.tests.interceptors.definition.broken.sameClassListedTwiceInBeansXml.FordInterceptor</class>
 	static int FORD_INTERCEPTOR_2_LINE = FORD_INTERCEPTOR_1_LINE + 1; // 
 
+	public void testBeansXMLInBin() throws Exception {
+		IFile file = tckProject.getFile("JavaSource/META-INF/beans.xml");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, CDIValidationMessages.UNKNOWN_ALTERNATIVE_BEAN_CLASS_NAME, false, 6);
+		file = tckProject.getFile("WebContent/WEB-INF/classes/META-INF/beans.xml");
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, CDIValidationMessages.UNKNOWN_ALTERNATIVE_BEAN_CLASS_NAME, 6);
+	}
+
 	/**
 	 * 5.1.1. Declaring selected alternatives for a bean archive
 	 *  - Each child <class> element must specify the name of an alternative bean class. If there is no class with the specified
