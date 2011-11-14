@@ -1,0 +1,67 @@
+package cdi;
+
+import javax.enterprise.inject.Produces;
+
+public class MyBean3 {
+
+	public MyBean3() {
+		
+	}
+	
+	@Produces
+	public MyBean1 getMyBean1() {
+		return new MyBean1();
+	}
+	
+	@Produces
+	public MyBean2 getMyBean2() {
+		return new MyBean2();
+	}
+	
+	@Produces
+	public MyBean1 getMyBean1WithIMB2() {
+		return new MyBean2();
+	}
+	
+	
+	
+	@Produces
+	@Q1
+	public MyBean1 getMyBean1WithQ1() {
+		return new MyBean1();
+	}
+	
+	@Produces
+	@Q2
+	public MyBean1 getMyBean1WithQ2() {
+		return new MyBean1();
+	}
+	
+	
+	
+	@Produces
+	@Q1
+	public MyBean2 getMyBean2WithQ1() {
+		return new MyBean2();
+	}
+	
+	@Produces
+	@Q2
+	public MyBean2 getMyBean2WithQ2() {
+		return new MyBean2();
+	}
+	
+	
+	@Produces
+	@Q1
+	public MyBean1 getMyBean1WithIMB2Q1() {
+		return new MyBean2();
+	}
+	
+	@Produces
+	@Q2
+	public MyBean1 getMyBean1WithIMB2Q2() {
+		return new MyBean2();
+	}
+
+}

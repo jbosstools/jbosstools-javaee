@@ -1,0 +1,29 @@
+package cdi;
+
+import javax.enterprise.inject.Any;
+import javax.inject.Inject;
+
+public class MainBean {
+
+	@Inject private MyBean1 myBean1;
+	
+	@Inject private MyBean2 myBean2;
+	
+	@Inject @Q1 private MyBean1 myBean3;
+	
+	@Inject @Q1 private MyBean2 myBean4;
+	
+	@Inject @Q2 private MyBean1 myBean5;
+	
+	@Inject @Q2 private MyBean2 myBean6;
+	
+	@Inject @Any private MyBean1 myBean7;
+	
+	@Inject @Any private MyBean2 myBean8;
+	
+	@Inject @Q1 @Q2 private MyBean1 myBean9;
+	
+	@Inject @Q1 @Q2 private MyBean2 myBean10;
+	
+	@Inject @Q1 @Q2 private MyBean4 myBean11;
+}

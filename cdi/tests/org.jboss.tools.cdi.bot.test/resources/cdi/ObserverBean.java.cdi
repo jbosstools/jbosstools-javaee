@@ -1,0 +1,15 @@
+package cdi;
+
+import javax.enterprise.event.Observes;
+
+public class ObserverBean {
+
+	public ObserverBean() {
+		
+	}
+	
+	public void observerMethod(@Observes ObserverBean bean) {		 
+		
+	}
+
+}

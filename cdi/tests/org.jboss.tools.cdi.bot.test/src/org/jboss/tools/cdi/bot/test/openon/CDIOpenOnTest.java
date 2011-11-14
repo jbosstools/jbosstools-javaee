@@ -12,11 +12,13 @@ package org.jboss.tools.cdi.bot.test.openon;
 
 import java.util.logging.Logger;
 
+import org.eclipse.swtbot.swt.finder.widgets.SWTBotTable;
 import org.jboss.tools.cdi.bot.test.CDIAllBotTests;
 import org.jboss.tools.cdi.bot.test.quickfix.CDIQuickFixTest;
 import org.jboss.tools.cdi.bot.test.uiutils.actions.CDIBase;
 import org.jboss.tools.cdi.bot.test.uiutils.actions.CDIUtil;
 import org.jboss.tools.ui.bot.ext.RequirementAwareSuite;
+import org.jboss.tools.ui.bot.ext.Timing;
 import org.jboss.tools.ui.bot.ext.config.Annotations.Require;
 import org.jboss.tools.ui.bot.ext.config.Annotations.Server;
 import org.jboss.tools.ui.bot.ext.config.Annotations.ServerState;
@@ -29,12 +31,6 @@ import org.junit.runners.Suite.SuiteClasses;
  * 
  * @author Jaroslav Jankovic
  * 
- * 
- * TO DO 
- * 
- * - Classes indication for Open Injected Class works
- * 
- * 
  */
 
 @Require(clearProjects = true, perspective = "Java EE", server = @Server(state = ServerState.NotRunning, version = "6.0", operator = ">="))
@@ -42,7 +38,7 @@ import org.junit.runners.Suite.SuiteClasses;
 @SuiteClasses({ CDIAllBotTests.class })
 public class CDIOpenOnTest extends CDIBase {
 
-	private static final Logger LOGGER = Logger.getLogger(CDIQuickFixTest.class.getName());
+	private static final Logger LOGGER = Logger.getLogger(CDIQuickFixTest.class.getName());	
 		
 	@Override
 	public String getProjectName() {
@@ -52,22 +48,15 @@ public class CDIOpenOnTest extends CDIBase {
 	@Test
 	public void testBeanInjectOpenOn() {
 
-		createComponent(CDICOMPONENT.BEAN, "Animal", getPackageName(), null);
-
-		createComponent(CDICOMPONENT.BEAN, "BrokenFarm", getPackageName(), null);
-
-		CDIUtil.copyResourceToClass(getEd(), CDIOpenOnTest.class
-				.getResourceAsStream("/resources/cdi/BrokenFarm.java.cdi"),
-				false);
-		LOGGER.info("Content of \"BrokenFarm.java.cdi\" copied to BrokenFarm");
-		openOn("@Inject", "BrokenFarm.java", "@Inject");
-		assertTrue("ERROR: redirected to " + getEd().getTitle(), getEd()
-				.getTitle().equals("Animal.java"));
+		prepareInjectedPointsComponents();
+		
+		testInjectedPoints();
+		
 	}
-	
+		
 	/*
 	 * https://issues.jboss.org/browse/JBIDE-7025
-	 */
+	 */	
 	@Test
 	public void testBeansXMLClassesOpenOn() {
 		
@@ -113,8 +102,7 @@ public class CDIOpenOnTest extends CDIBase {
 	
 	/*
 	 * https://issues.jboss.org/browse/JBIDE-6251
-	 */
-	
+	 */	
 	@Test
 	public void testDisposerProducerOpenOn() {
 		
@@ -132,27 +120,199 @@ public class CDIOpenOnTest extends CDIBase {
 	}
 	
 	@Test
-	public void testObserverOpenOn() {
-		createComponent(CDICOMPONENT.QUALIFIER, "Q1", getPackageName(), null);
-		createComponent(CDICOMPONENT.BEAN, "MyBean3", getPackageName(), null);
+	public void testObserverOpenOn() {		
+		createComponent(CDICOMPONENT.BEAN, "EventBean", getPackageName(), null);
 		CDIUtil.copyResourceToClass(getEd(), CDIOpenOnTest.class
-				.getResourceAsStream("/resources/cdi/MyBean3.java.cdi"),
+				.getResourceAsStream("/resources/cdi/EventBean.java.cdi"),
 				false);
-		createComponent(CDICOMPONENT.BEAN, "MyBean4", getPackageName(), null);
+		createComponent(CDICOMPONENT.BEAN, "ObserverBean", getPackageName(), null);
 		CDIUtil.copyResourceToClass(getEd(), CDIOpenOnTest.class
-				.getResourceAsStream("/resources/cdi/MyBean4.java.cdi"),
+				.getResourceAsStream("/resources/cdi/ObserverBean.java.cdi"),
 				false);	
 		
-		bot.editorByTitle("MyBean3.java").show();
+		bot.editorByTitle("EventBean.java").show();
 		setEd(bot.activeEditor().toTextEditor());
 		CDIUtil.replaceInEditor(getEd(), bot, " event", " event");
 		
-		openOn("observerMethod", "MyBean4.java", "Open CDI Event");
+		openOn("observerMethod", "ObserverBean.java", "Open CDI Event");
 		assertTrue(getEd().toTextEditor().getSelection().equals("event"));
 		
-		openOn("Event<MyBean4> event", "MyBean3.java", "Open CDI Observer Method");
+		openOn("Event<ObserverBean> event", "EventBean.java", "Open CDI Observer Method");
 		assertTrue(getEd().toTextEditor().getSelection().equals("observerMethod"));				
 	}
 	
+	private void prepareInjectedPointsComponents() {
+		createComponent(CDICOMPONENT.QUALIFIER, "Q1", getPackageName(), null);
+		
+		createComponent(CDICOMPONENT.QUALIFIER, "Q2", getPackageName(), null);
+		
+		createComponent(CDICOMPONENT.BEAN, "MyBean1", getPackageName(), null);
+		
+		createComponent(CDICOMPONENT.BEAN, "MyBean2", getPackageName(), null);
+		CDIUtil.copyResourceToClass(getEd(), CDIOpenOnTest.class
+				.getResourceAsStream("/resources/injectedPoints/MyBean2.java.cdi"),
+				false);
+		
+		createComponent(CDICOMPONENT.BEAN, "MyBean3", getPackageName(), null);
+		CDIUtil.copyResourceToClass(getEd(), CDIOpenOnTest.class
+				.getResourceAsStream("/resources/injectedPoints/MyBean3.java.cdi"),
+				false);
+		
+		createComponent(CDICOMPONENT.BEAN, "MyBean4", getPackageName(), null);
+		CDIUtil.copyResourceToClass(getEd(), CDIOpenOnTest.class
+				.getResourceAsStream("/resources/injectedPoints/MyBean4.java.cdi"),
+				false);
+		
+		createComponent(CDICOMPONENT.BEAN, "MyBean5", getPackageName(), null);
+		CDIUtil.copyResourceToClass(getEd(), CDIOpenOnTest.class
+				.getResourceAsStream("/resources/injectedPoints/MyBean5.java.cdi"),
+				false);
+		
+		createComponent(CDICOMPONENT.BEAN, "MainBean", getPackageName(), null);
+		CDIUtil.copyResourceToClass(getEd(), CDIOpenOnTest.class
+				.getResourceAsStream("/resources/injectedPoints/MainBean.java.cdi"),
+				false);
+	}
+	
+	private void testInjectedPoints() {
+		String injectOption = null;
+		for (int i = 1; i < 12; i++) {
+			injectOption = "Show All Assignable Beans...";
+			String injectPoint = "myBean" + i;
+			if (i > 8) injectOption = "Open @Inject Bean";			
+			checkInjectedPoint(injectPoint, injectOption);
+		}
+		
+	}
+	
+	private void checkInjectedPoint(String injectedPoint, String option) {
+		openOn(injectedPoint, "MainBean.java", option);
+		bot.sleep(Timing.time1S());
+		if (option.equals("Open @Inject Bean")) {
+			LOGGER.info("Testing injected point: \"" + injectedPoint + "\" started");
+			assertTrue(getEd().getTitle().equals("MyBean4.java"));
+			assertTrue(getEd().toTextEditor().getSelection().equals("MyBean4"));
+			LOGGER.info("Testing injected point: \"" + injectedPoint + "\" ended");
+		} else {
+			SWTBotTable assignBeans = bot.table(0);			
+			assertTrue(checkAllAssignBeans(injectedPoint, assignBeans)); 
+		}
+	}
+
+	private boolean checkAllAssignBeans(String injectedPoint,
+			SWTBotTable assignBeans) {
+		String packageProjectPath = getPackageName() + " - /" + getProjectName() + "/src";
+		String paramAssignBean = "XXX - " + packageProjectPath;
+		String prodInjPoint = "@Produces MyBean3.getMyBeanXXX()";
+		boolean allassignBeans = false;	
+		String indexOfInjPoint = injectedPoint.split("myBean")[1];
+		int intIndexOfInjPoint = Integer.parseInt(indexOfInjPoint);
+		LOGGER.info("Testing injected point: \"" + injectedPoint + "\" started");
+		switch (intIndexOfInjPoint) {
+		case 1:				
+			if (assignBeans.containsItem(paramAssignBean.replace("XXX", "MyBean1")) &&
+				assignBeans.containsItem(paramAssignBean.replace("XXX", "MyBean2")) &&
+				assignBeans.containsItem(paramAssignBean.replace(
+						"XXX", prodInjPoint.replace("XXX", "1")))&& 
+				assignBeans.containsItem(paramAssignBean.replace(
+						"XXX", prodInjPoint.replace("XXX", "1WithIMB2")))&&
+				assignBeans.containsItem(paramAssignBean.replace(
+						"XXX", prodInjPoint.replace("XXX", "2")))) {
+				allassignBeans = true;
+			}
+			break;
+		case 2:
+			if (assignBeans.containsItem(paramAssignBean.replace("XXX", "MyBean2")) &&
+				assignBeans.containsItem(paramAssignBean.replace(
+						"XXX", prodInjPoint.replace("XXX", "2")))) {
+				allassignBeans = true;
+			}
+			break;
+		case 3:
+			if (assignBeans.containsItem(paramAssignBean.replace("XXX", "MyBean4")) &&
+				assignBeans.containsItem(paramAssignBean.replace(
+						"XXX", prodInjPoint.replace("XXX", "1WithQ1")))&& 
+				assignBeans.containsItem(paramAssignBean.replace(
+						"XXX", prodInjPoint.replace("XXX", "1WithIMB2Q1")))&&
+				assignBeans.containsItem(paramAssignBean.replace(
+						"XXX", prodInjPoint.replace("XXX", "2WithQ1")))) {
+				allassignBeans = true;
+			}	
+			break;
+		case 4:
+			if (assignBeans.containsItem(paramAssignBean.replace("XXX", "MyBean4")) &&					
+				assignBeans.containsItem(paramAssignBean.replace(
+						"XXX", prodInjPoint.replace("XXX", "2WithQ1")))) {
+				allassignBeans = true;
+			}					
+			break;
+		case 5:
+			if (assignBeans.containsItem(paramAssignBean.replace("XXX", "MyBean4")) &&					
+				assignBeans.containsItem(paramAssignBean.replace("XXX", "MyBean5")) &&
+				assignBeans.containsItem(paramAssignBean.replace(
+						"XXX", prodInjPoint.replace("XXX", "1WithQ2"))) &&
+				assignBeans.containsItem(paramAssignBean.replace(
+						"XXX", prodInjPoint.replace("XXX", "2WithQ2"))) && 
+				assignBeans.containsItem(paramAssignBean.replace(
+						"XXX", prodInjPoint.replace("XXX", "1WithIMB2Q2")))) {
+				allassignBeans = true;
+			}	
+			break;
+		case 6:
+			if (assignBeans.containsItem(paramAssignBean.replace("XXX", "MyBean4")) &&					
+				assignBeans.containsItem(paramAssignBean.replace("XXX", "MyBean5")) &&
+				assignBeans.containsItem(paramAssignBean.replace(
+						"XXX", prodInjPoint.replace("XXX", "2WithQ2")))) {
+				allassignBeans = true;
+			}	
+			break;
+		case 7:
+			if (assignBeans.containsItem(paramAssignBean.replace("XXX", "MyBean1")) &&
+				assignBeans.containsItem(paramAssignBean.replace("XXX", "MyBean2")) &&
+				assignBeans.containsItem(paramAssignBean.replace("XXX", "MyBean4")) &&					
+				assignBeans.containsItem(paramAssignBean.replace("XXX", "MyBean5")) &&
+				assignBeans.containsItem(paramAssignBean.replace(
+						"XXX", prodInjPoint.replace("XXX", "1"))) &&
+				assignBeans.containsItem(paramAssignBean.replace(
+						"XXX", prodInjPoint.replace("XXX", "1WithIMB2"))) &&
+				assignBeans.containsItem(paramAssignBean.replace(
+						"XXX", prodInjPoint.replace("XXX", "1WithIMB2Q1"))) &&
+				assignBeans.containsItem(paramAssignBean.replace(
+						"XXX", prodInjPoint.replace("XXX", "1WithIMB2Q2"))) &&
+				assignBeans.containsItem(paramAssignBean.replace(
+						"XXX", prodInjPoint.replace("XXX", "1WithQ1"))) &&
+				assignBeans.containsItem(paramAssignBean.replace(
+						"XXX", prodInjPoint.replace("XXX", "1WithQ2"))) &&
+				assignBeans.containsItem(paramAssignBean.replace(
+						"XXX", prodInjPoint.replace("XXX", "2"))) && 
+				assignBeans.containsItem(paramAssignBean.replace(
+						"XXX", prodInjPoint.replace("XXX", "2WithQ1"))) &&
+				assignBeans.containsItem(paramAssignBean.replace(
+						"XXX", prodInjPoint.replace("XXX", "2WithQ2")))) {
+				allassignBeans = true;
+			}
+			break;
+		case 8:
+			if (assignBeans.containsItem(paramAssignBean.replace("XXX", "MyBean2")) &&
+				assignBeans.containsItem(paramAssignBean.replace("XXX", "MyBean4")) &&					
+				assignBeans.containsItem(paramAssignBean.replace("XXX", "MyBean5")) &&
+				assignBeans.containsItem(paramAssignBean.replace(
+						"XXX", prodInjPoint.replace("XXX", "2"))) &&
+				assignBeans.containsItem(paramAssignBean.replace(
+						"XXX", prodInjPoint.replace("XXX", "2WithQ1"))) &&
+				assignBeans.containsItem(paramAssignBean.replace(
+						"XXX", prodInjPoint.replace("XXX", "2WithQ2")))) {
+				allassignBeans = true;
+			}	
+			break;
+		case 9:
+		case 10:
+		case 11:			
+			throw new IllegalStateException("Injection Point \"" + injectedPoint + "\" should " +
+					"have been tested earlier!!");							
+		}	
+		LOGGER.info("Testing injected point: \"" + injectedPoint + "\" ended");
+		return allassignBeans;		
+	}
 	
 }
