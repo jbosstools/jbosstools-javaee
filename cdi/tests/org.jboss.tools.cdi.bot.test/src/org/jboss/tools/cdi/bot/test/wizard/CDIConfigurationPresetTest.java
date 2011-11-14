@@ -23,7 +23,6 @@ import org.jboss.tools.ui.bot.ext.config.Annotations.Require;
 import org.jboss.tools.ui.bot.ext.config.Annotations.Server;
 import org.jboss.tools.ui.bot.ext.config.Annotations.ServerState;
 import org.jboss.tools.ui.bot.ext.helper.ContextMenuHelper;
-import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite.SuiteClasses;
@@ -40,18 +39,23 @@ import org.junit.runners.Suite.SuiteClasses;
 public class CDIConfigurationPresetTest extends CDIBase {
 
 	private static final Logger LOGGER = Logger.getLogger(CDIConfigurationPresetTest.class.getName());
-	private static final String PROJECT_NAME = "CDIPresetProject";	
-		
-	@After
-	public void waitForJobs() {		
-		jbt.deleteProject(PROJECT_NAME);
+	
+	@Override	
+	public void checkAndCreateProject() {
+		if (!projectExists(getProjectName())) {
+			createCDIProjectWithCDIPreset(util, getProjectName());
+		}
 	}
 	
+	@Override
+	public String getProjectName() {
+		return "CDIPresetProject";
+	}
+			
 	@Test
 	public void testCDIPreset() {
-		createCDIProjectWithCDIPreset(util, PROJECT_NAME);
 		LOGGER.info("Dynamic Web Project with CDI Configuration Preset created");
-		assertTrue(checkCDISupport(PROJECT_NAME));
+		assertTrue(checkCDISupport(getProjectName()));
 	}
 	
 	private boolean checkCDISupport(String projectName) {

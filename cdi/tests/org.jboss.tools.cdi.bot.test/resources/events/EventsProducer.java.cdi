@@ -1,0 +1,67 @@
+package cdi;
+
+import javax.ejb.Stateless;
+import javax.enterprise.event.Event;
+import javax.enterprise.inject.Any;
+import javax.inject.Inject;
+
+@Stateless
+public class EventsProducer {
+
+	public EventsProducer() {
+
+	}
+	
+	@Inject
+	@Q1
+	Event<MyBean1> myBean1Q1Event;
+	
+	@Inject
+	@Any
+	Event<MyBean1> myBean1AnyEvent;
+	
+
+	@Inject
+	@Q1
+	Event<MyBean2> myBean2Q1Event;
+	
+	@Inject
+	@Any
+	Event<MyBean2> myBean2AnyEvent;
+	
+	@Inject
+	@Q2
+	Event<MyBean1> myBean1Q2Event;
+	
+	@Inject
+	@Q2
+	Event<MyBean2> myBean2Q2Event;
+	
+	public void fireEvent1() {
+		myBean1Q1Event.fire(new MyBean1());
+	}
+	
+	public void fireEvent2() {
+		myBean1AnyEvent.fire(new MyBean1());
+	}
+	
+	public void fireEvent3() {
+		myBean2Q1Event.fire(new MyBean2());
+	}
+	
+	public void fireEvent4() {
+		myBean2AnyEvent.fire(new MyBean2());
+	}
+	
+	public void fireEvent5() {
+		myBean1Q2Event.fire(new MyBean1());
+	}
+	
+	public void fireEvent6() {
+		myBean2Q2Event.fire(new MyBean2());
+	}
+	
+	public void fireEvent7() {
+		myBean1AnyEvent.fire(new MyBean2());
+	}		
+}

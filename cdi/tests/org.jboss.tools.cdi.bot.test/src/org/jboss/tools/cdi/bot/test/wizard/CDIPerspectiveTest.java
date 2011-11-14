@@ -26,7 +26,6 @@ import org.jboss.tools.ui.bot.ext.config.Annotations.Require;
 import org.jboss.tools.ui.bot.ext.config.Annotations.Server;
 import org.jboss.tools.ui.bot.ext.config.Annotations.ServerState;
 import org.jboss.tools.ui.bot.ext.types.PerspectiveType;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite.SuiteClasses;
@@ -37,28 +36,31 @@ import org.junit.runners.Suite.SuiteClasses;
 * @author Jaroslav Jankovic
 */
 
-@Require(clearProjects = false, perspective = "Java EE", server = @Server(state = ServerState.NotRunning, version = "6.0", operator = ">="))
+@Require(clearProjects = true, perspective = "Java EE", server = @Server(state = ServerState.NotRunning, version = "6.0", operator = ">="))
 @RunWith(RequirementAwareSuite.class)
 @SuiteClasses({ CDIAllBotTests.class, CDISmokeBotTests.class })
 public class CDIPerspectiveTest extends CDIBase {
 
 	private static final Logger LOGGER = Logger.getLogger(CDIPerspectiveTest.class.getName());
-	private static final String PROJECT_NAME = "CDIProject";
 	private enum CDIARTIFACTS {
 		BEAN, QUALIFIER, STEREOTYPE, SCOPE, INTERBINDING, INTERCEPTOR, DECORATOR, ANNOTLITERAL, BEANSXML
 	}
 	
-	
-	@BeforeClass
-	public static void checkAndCreateProject() {
-		if (!projectExists(PROJECT_NAME)) {
-			createAndCheckCDIProject(bot, util, projectExplorer, PROJECT_NAME);
+	@Override
+	public void checkAndCreateProject() {
+		if (!projectExists(getProjectName())) {
+			createAndCheckCDIProject(bot, util, projectExplorer, getProjectName());
+			eclipse.openPerspective(PerspectiveType.CDI);
+			LOGGER.info("CDI perspective selected");
+			bot.sleep(Timing.time2S());
 		}	
-		eclipse.openPerspective(PerspectiveType.CDI);
-		LOGGER.info("CDI perspective selected");
-		bot.sleep(Timing.time2S());
 	}
 	
+	@Override
+	public String getProjectName() {
+		return "CDIPerspectiveTest";
+	}
+		
 	@Test
 	public void testCDIArtifactBeanWizard() {	
 							
@@ -104,7 +106,7 @@ public class CDIPerspectiveTest extends CDIBase {
 	private boolean openCDIArtifactsWizard(CDIARTIFACTS artifact) {
 		
 		SWTBotTree tree = packageExplorer.bot().tree();
-		SWTBotTreeItem item = tree.getTreeItem(PROJECT_NAME);
+		SWTBotTreeItem item = tree.getTreeItem(getProjectName());
 		item.expand();
 		boolean artifactWizardExists = true;
 		try {

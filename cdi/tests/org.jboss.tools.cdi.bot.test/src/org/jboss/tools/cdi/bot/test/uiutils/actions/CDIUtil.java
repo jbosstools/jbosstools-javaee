@@ -10,9 +10,15 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.bot.test.uiutils.actions;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.Scanner;
 
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotEclipseEditor;
 import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotEditor;
 import org.eclipse.swtbot.swt.finder.SWTBot;
@@ -22,6 +28,7 @@ import org.eclipse.swtbot.swt.finder.widgets.SWTBotCheckBox;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotMenu;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTree;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTreeItem;
+import org.jboss.tools.cdi.bot.test.editor.CDIBeansEditorTest;
 import org.jboss.tools.cdi.bot.test.uiutils.wizards.CDIWizard;
 import org.jboss.tools.cdi.bot.test.uiutils.wizards.CDIWizardType;
 import org.jboss.tools.ui.bot.ext.SWTBotExt;
@@ -33,6 +40,12 @@ import org.jboss.tools.ui.bot.ext.helper.ContextMenuHelper;
 
 public class CDIUtil {
 
+	private CDIUtil() {
+		// this class servers only for static related methods
+		// it should not be instantiated
+		throw new AssertionError();
+	}
+	
 	public static void openQuickFix(SWTBotTreeItem item, SWTBotExt bot) {
 		nodeContextMenu(bot.tree(), item, "Quick Fix").click();
 	}
@@ -54,6 +67,31 @@ public class CDIUtil {
 		classEdit.save();
 		if (closeEdit) {
 			classEdit.close();
+		}
+	}
+	
+	public static void copyResource(String src, String target) {
+		IProject project = ResourcesPlugin.getWorkspace().getRoot().getProjects()[0];
+		IFile f = project.getFile(target);
+		if (f.exists()) {			
+			try {
+				f.delete(true, new NullProgressMonitor());
+			} catch (CoreException ce) {				
+			}
+		}
+		InputStream is = null;
+		try {
+			is = CDIBeansEditorTest.class.getResourceAsStream(src);
+			f.create(is, true, new NullProgressMonitor());
+		} catch (CoreException ce) {			
+		} finally {
+			if (is != null) {
+				try {
+					is.close();
+				} catch (IOException ioe) {
+					//ignore
+				}
+			}
 		}
 	}
 
@@ -187,6 +225,7 @@ public class CDIUtil {
 			}
 		}
 		w = w.setPublic(isPublic).setFinal(isFinal).setAbstract(isAbstract).setAlternative(alternative);
+		//w = w.setPublic(isPublic).setFinal(isFinal).setAbstract(isAbstract);
 		if (interfaces != null && !"".equals(interfaces.trim())) {
 			w.addInterface(interfaces);
 		}

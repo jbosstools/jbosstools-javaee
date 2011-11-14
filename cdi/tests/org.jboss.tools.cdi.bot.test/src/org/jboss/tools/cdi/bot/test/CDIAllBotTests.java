@@ -10,7 +10,7 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.bot.test;
 
-import org.jboss.tools.cdi.bot.test.editor.BeansEditorTest;
+import org.jboss.tools.cdi.bot.test.editor.CDIBeansEditorTest;
 import org.jboss.tools.cdi.bot.test.openon.CDIFindObserverForEventTest;
 import org.jboss.tools.cdi.bot.test.openon.CDIOpenOnTest;
 import org.jboss.tools.cdi.bot.test.quickfix.CDIQuickFixTest;
@@ -19,7 +19,7 @@ import org.jboss.tools.cdi.bot.test.uiutils.actions.CDIBase;
 import org.jboss.tools.cdi.bot.test.uiutils.actions.CDIUtil;
 import org.jboss.tools.cdi.bot.test.wizard.CDIATWizardTest;
 import org.jboss.tools.cdi.bot.test.wizard.CDIConfigurationPresetTest;
-import org.jboss.tools.cdi.bot.test.wizard.CDIPerspectiveTest;
+import org.jboss.tools.cdi.bot.test.wizard.CDIFacetTest;
 import org.jboss.tools.ui.bot.ext.RequirementAwareSuite;
 import org.jboss.tools.ui.bot.ext.types.ViewType;
 import org.junit.BeforeClass;
@@ -42,7 +42,7 @@ import org.junit.runners.Suite.SuiteClasses;
  *  JAVA=1.6,/space/java/sdk/jdk1.6.0_22
  *  
  *  
- *  Suite duration: aprox. 14min
+ *  Suite duration: aprox. 19min
  * 
  * @author Lukas Jungmann
  * @author Jaroslav Jankovic
@@ -50,9 +50,10 @@ import org.junit.runners.Suite.SuiteClasses;
 @RunWith(RequirementAwareSuite.class)
 @SuiteClasses({	
 	//CDIPerspectiveTest.class,
-	CDIConfigurationPresetTest.class, 
+	CDIConfigurationPresetTest.class,
+	CDIFacetTest.class, 
 	CDIATWizardTest.class,
-	BeansEditorTest.class,
+	CDIBeansEditorTest.class,
 	CDIQuickFixTest.class,
 	CDIOpenOnTest.class,
 	CDIFindObserverForEventTest.class, 

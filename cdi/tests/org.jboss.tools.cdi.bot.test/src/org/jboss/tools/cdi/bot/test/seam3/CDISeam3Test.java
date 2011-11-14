@@ -27,7 +27,6 @@ import org.jboss.tools.ui.bot.ext.config.Annotations.Require;
 import org.jboss.tools.ui.bot.ext.config.Annotations.Server;
 import org.jboss.tools.ui.bot.ext.config.Annotations.ServerState;
 import org.junit.After;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite.SuiteClasses;
@@ -38,27 +37,33 @@ import org.junit.runners.Suite.SuiteClasses;
  * @author Jaroslav Jankovic
  */
 
-@Require(clearProjects = false, perspective = "Java EE", server = @Server(state = ServerState.NotRunning, version = "6.0", operator = ">="))
+@Require(clearProjects = true, perspective = "Java EE", server = @Server(state = ServerState.NotRunning, version = "6.0", operator = ">="))
 @RunWith(RequirementAwareSuite.class)
 @SuiteClasses({ CDIAllBotTests.class })
 public class CDISeam3Test extends CDIBase {
 
 	private static final Logger LOGGER = Logger.getLogger(CDISeam3Test.class.getName());
-	private static final String PROJECT_NAME = "CDIProject";
-	private static final String PACKAGE_NAME = "cdi";
-	private static final String GENERIC_PACKAGE_NAME = "org.cdi.generic";
 	private final String genericPoint1 = "MyExtendedConfiguration ";	
 	private final String genericPoint2 = "MyConfigurationProducer.getOneConfig()";	
 	private final String genericPoint3 = "MyConfigurationProducer.getSecondConfig()";
 	
 	
-	@BeforeClass
-	public static void checkAndCreateProject() {
-		if (!projectExists(PROJECT_NAME)) {
-			createAndCheckCDIProject(bot, util, projectExplorer,PROJECT_NAME);
+	@Override
+	public void checkAndCreateProject() {
+		if (!projectExists(getProjectName())) {
+			createAndCheckCDIProject(bot, util, projectExplorer,getProjectName());
+			addLibrary("seam-solder.jar");
+			checkLibrary("seam-solder.jar");
 		}
-		addLibrary("seam-solder.jar");
-		checkLibrary("seam-solder.jar");
+	}
+	
+	@Override
+	public String getProjectName() {
+		return "CDISeam3Test";
+	}
+		
+	private String getGenericPackageName() {
+		return "org.cdi.generic";
 	}
 	
 	@After
@@ -72,9 +77,9 @@ public class CDISeam3Test extends CDIBase {
 	@Test
 	public void testResourceOpenOn() {
 			
-		createComponent(CDICOMPONENT.BEANSXML, "beans.xml", PROJECT_NAME + "/WebContent/WEB-INF", null);		
+		createComponent(CDICOMPONENT.BEANSXML, "beans.xml", getProjectName() + "/WebContent/WEB-INF", null);		
 		
-		createComponent(CDICOMPONENT.BEAN, "B2", PACKAGE_NAME, null);
+		createComponent(CDICOMPONENT.BEAN, "B2", getPackageName(), null);
 		CDIUtil.copyResourceToClass(getEd(), CDIQuickFixTest.class
 				.getResourceAsStream("/resources/cdi/B2.java.cdi"), false);
 		LOGGER.info("Content of \"B2.java.cdi\" copied to B2");
@@ -83,8 +88,8 @@ public class CDISeam3Test extends CDIBase {
 		assertTrue("ERROR: redirected to " + destinationFile,
 					destinationFile.equals("beans.xml"));
 
-		moveFileInProjectExplorer("beans.xml", PROJECT_NAME + "/WebContent/WEB-INF",
-								  PROJECT_NAME + "/WebContent/META-INF");
+		moveFileInProjectExplorer("beans.xml", getProjectName() + "/WebContent/WEB-INF",
+								  getProjectName() + "/WebContent/META-INF");
 		LOGGER.info("bean.xml was moved to META-INF");
 		
 		setEd(bot.swtBotEditorExtByTitle("B2.java"));
@@ -112,19 +117,20 @@ public class CDISeam3Test extends CDIBase {
 		checkMyGenericBean2();		
 	}
 	
-	private static void addLibrary(String libraryName) {
+	private void addLibrary(String libraryName) {
 		try {
-			addLibraryIntoProject(PROJECT_NAME, libraryName);
+			addLibraryIntoProject(getProjectName(), libraryName);			
 			LOGGER.info("Library: \"" + libraryName + "\" copied");
-			addLibraryToProjectsClassPath(PROJECT_NAME, libraryName);
-			LOGGER.info("Library: \"" + libraryName + "\" on class path of project\"" + PROJECT_NAME + "\"");
+			util.waitForNonIgnoredJobs();
+			addLibraryToProjectsClassPath(getProjectName(), libraryName);
+			LOGGER.info("Library: \"" + libraryName + "\" on class path of project\"" + getProjectName() + "\"");
 		} catch (IOException exc) {
 			LOGGER.log(Level.SEVERE, "Error while adding seam solder library into project");
 		}		
 	}
 	
-	private static void checkLibrary(String libraryName) {
-		isLibraryInProjectClassPath(PROJECT_NAME, libraryName);		
+	private void checkLibrary(String libraryName) {
+		isLibraryInProjectClassPath(getProjectName(), libraryName);		
 	}
 
 	/**
@@ -134,38 +140,38 @@ public class CDISeam3Test extends CDIBase {
 		/*
 		 * injectable beans + qualifiers + generic configuration components
 		 */
-		createComponent(CDICOMPONENT.BEAN, "MyBean", GENERIC_PACKAGE_NAME, null);
+		createComponent(CDICOMPONENT.BEAN, "MyBean", getGenericPackageName(), null);
 		CDIUtil.copyResourceToClass(getEd(), CDISeam3Test.class
 				.getResourceAsStream("/resources/generic/MyBean.java.cdi"), false);
 		CDIUtil.replaceInEditor(getEd(), bot, "MyBeanX", "MyBean");
 				
-		createComponent(CDICOMPONENT.BEAN, "MyBean2", GENERIC_PACKAGE_NAME, null);
+		createComponent(CDICOMPONENT.BEAN, "MyBean2", getGenericPackageName(), null);
 		CDIUtil.copyResourceToClass(getEd(), CDISeam3Test.class
 				.getResourceAsStream("/resources/generic/MyBean.java.cdi"), false);
 		CDIUtil.replaceInEditor(getEd(), bot, "MyBeanX", "MyBean2");
 				
-		createComponent(CDICOMPONENT.BEAN, "MyBean3", GENERIC_PACKAGE_NAME, null);
+		createComponent(CDICOMPONENT.BEAN, "MyBean3", getGenericPackageName(), null);
 		CDIUtil.copyResourceToClass(getEd(), CDISeam3Test.class
 				.getResourceAsStream("/resources/generic/MyBean.java.cdi"), false);
 		CDIUtil.replaceInEditor(getEd(), bot, "MyBeanX", "MyBean3");
 		
-		createComponent(CDICOMPONENT.BEAN, "MyConfiguration", GENERIC_PACKAGE_NAME, null);
+		createComponent(CDICOMPONENT.BEAN, "MyConfiguration", getGenericPackageName(), null);
 		CDIUtil.copyResourceToClass(getEd(), CDISeam3Test.class
 				.getResourceAsStream("/resources/generic/MyBean.java.cdi"), false);
 		CDIUtil.replaceInEditor(getEd(), bot, "MyBeanX", "MyConfiguration");					
 		
-		createComponent(CDICOMPONENT.BEAN, "MyGenericType", GENERIC_PACKAGE_NAME, null);
+		createComponent(CDICOMPONENT.BEAN, "MyGenericType", getGenericPackageName(), null);
 		CDIUtil.copyResourceToClass(getEd(), CDISeam3Test.class
 				.getResourceAsStream("/resources/generic/MyGenericType.java.cdi"), false);
 		
-		createComponent(CDICOMPONENT.QUALIFIER, "Qualifier1", GENERIC_PACKAGE_NAME, null);
-		createComponent(CDICOMPONENT.QUALIFIER, "Qualifier2", GENERIC_PACKAGE_NAME, null);
+		createComponent(CDICOMPONENT.QUALIFIER, "Qualifier1", getGenericPackageName(), null);
+		createComponent(CDICOMPONENT.QUALIFIER, "Qualifier2", getGenericPackageName(), null);
 		
-		createComponent(CDICOMPONENT.BEAN, "MyExtendedConfiguration", GENERIC_PACKAGE_NAME, null);
+		createComponent(CDICOMPONENT.BEAN, "MyExtendedConfiguration", getGenericPackageName(), null);
 		CDIUtil.copyResourceToClass(getEd(), CDISeam3Test.class
 				.getResourceAsStream("/resources/generic/MyExtendConfig.java.cdi"), false);
 		
-		createComponent(CDICOMPONENT.BEAN, "MyConfigurationProducer", GENERIC_PACKAGE_NAME, null);
+		createComponent(CDICOMPONENT.BEAN, "MyConfigurationProducer", getGenericPackageName(), null);
 		CDIUtil.copyResourceToClass(getEd(), CDISeam3Test.class
 				.getResourceAsStream("/resources/generic/MyConfigProd.java.cdi"), false);			
 		
@@ -174,15 +180,15 @@ public class CDISeam3Test extends CDIBase {
 		 * generic configurations 
 		 */
 		
-		createComponent(CDICOMPONENT.BEAN, "MyBeanInjections", GENERIC_PACKAGE_NAME, null);
+		createComponent(CDICOMPONENT.BEAN, "MyBeanInjections", getGenericPackageName(), null);
 		CDIUtil.copyResourceToClass(getEd(), CDISeam3Test.class
 				.getResourceAsStream("/resources/generic/MyBeanInjections.java.cdi"), false);
 		
-		createComponent(CDICOMPONENT.BEAN, "MyGenericBean", GENERIC_PACKAGE_NAME, null);
+		createComponent(CDICOMPONENT.BEAN, "MyGenericBean", getGenericPackageName(), null);
 		CDIUtil.copyResourceToClass(getEd(), CDISeam3Test.class
 				.getResourceAsStream("/resources/generic/MyGenericBean.java.cdi"), false);
 		
-		createComponent(CDICOMPONENT.BEAN, "MyGenericBean2", GENERIC_PACKAGE_NAME, null);
+		createComponent(CDICOMPONENT.BEAN, "MyGenericBean2", getGenericPackageName(), null);
 		CDIUtil.copyResourceToClass(getEd(), CDISeam3Test.class
 				.getResourceAsStream("/resources/generic/MyGenericBean2.java.cdi"), false);
 	}

@@ -1,0 +1,41 @@
+package cdi;
+
+import javax.enterprise.event.Observes;
+import javax.enterprise.inject.Any;
+
+public class ObserverBean {
+	
+	
+	public void observeNoQualifierMyBean1(@Observes MyBean1 bean) {
+		
+	}
+	
+	public void observeAnyMyBean1(@Observes @Any MyBean1 bean) {
+		
+	}
+		
+	public void observeQ1MyBean1(@Observes @Q1 MyBean1 bean) {
+		
+	}
+	
+	public void observeNoQualifierMyBean2(@Observes MyBean2 bean) {
+		
+	}
+	
+	public void observeAnyMyBean2(@Observes @Any MyBean2 bean) {
+		
+	}
+	
+	public void observeQ1MyBean2(@Observes @Q1 MyBean2 bean) {
+		
+	}
+	
+	public void observeQ2MyBean1(@Observes @Q2 MyBean1 bean) {
+		
+	}
+	
+	public void observeQ2MyBean2(@Observes @Q2 MyBean2 bean) {
+		
+	}
+
+}

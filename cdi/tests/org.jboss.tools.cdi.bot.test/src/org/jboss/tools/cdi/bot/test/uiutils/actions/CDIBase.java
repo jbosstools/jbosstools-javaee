@@ -2,7 +2,7 @@
  * Copyright (c) 2010 Red Hat, Inc.
  * Distributed under license by Red Hat, Inc. All rights reserved.
  * This program is made available under the terms of the
- * Eclipse Public License v1.0 which accompanies this distribution,
+ * Eclipse public License v1.0 which accompanies this distribution,
  * and is available at http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
@@ -38,8 +38,33 @@ import org.jboss.tools.ui.bot.ext.helper.ContextMenuHelper;
 import org.jboss.tools.ui.bot.ext.helper.TreeHelper;
 import org.jboss.tools.ui.bot.ext.types.IDELabel;
 import org.jboss.tools.ui.bot.ext.view.ProjectExplorer;
+import org.junit.After;
+import org.junit.Before;
 
 public class CDIBase extends SWTTestExt {
+	
+	private String projectName = "CDIProject";
+	private String packageName = "cdi";
+	
+	@Before
+	public void checkAndCreateProject() {
+		if (!projectExists(getProjectName())) {
+			createAndCheckCDIProject(bot, util, projectExplorer, getProjectName());
+		}
+	}
+	
+	@After
+	public void waitForJobs() {
+		util.waitForNonIgnoredJobs();
+	}
+		
+	public  String getProjectName() {
+		return projectName;
+	}
+	
+	public String getPackageName() {
+		return packageName;
+	}
 
 	public enum CDICOMPONENT {
 		STEREOSCOPE, QUALIFIER, SCOPE, BEAN, INTERBINDING, DECORATOR, INTERCEPTOR, ANNLITERAL, BEANSXML
@@ -132,7 +157,7 @@ public class CDIBase extends SWTTestExt {
 		
 	}
 
-	public static void createAndCheckCDIProject(SWTBotExt bot, SWTUtilExt util,
+	public void createAndCheckCDIProject(SWTBotExt bot, SWTUtilExt util,
 			ProjectExplorer projectExplorer, String projectName) {
 		createCDIProject(util, projectName);
 		projectExplorer.selectProject(projectName);
@@ -142,21 +167,29 @@ public class CDIBase extends SWTTestExt {
 		addCDISupport(tree, item, bot, util);
 	}
 
-	public static void createCDIProject(SWTUtilExt util, String projectName) {
+	public void createCDIProject(SWTUtilExt util, String projectName) {
 		new NewFileWizardAction().run()
 				.selectTemplate("Web", "Dynamic Web Project").next();
 		new DynamicWebProjectWizard().setProjectName(projectName).finish();
 		util.waitForNonIgnoredJobs();		
 	}
 	
-	public static void createCDIProjectWithCDIPreset(SWTUtilExt util, String projectName) {
+	public void createCDIProjectWithCDIPreset(SWTUtilExt util, String projectName) {
 		new NewFileWizardAction().run()
 				.selectTemplate("Web", "Dynamic Web Project").next();
 		new DynamicWebProjectWizard().setProjectName(projectName).setCDIPreset().finish();
 		util.waitForNonIgnoredJobs();		
 	}
+	
+	public void createCDIProjectWithCDIFacets(SWTUtilExt util, String projectName) {
+		new NewFileWizardAction().run()
+				.selectTemplate("Web", "Dynamic Web Project").next();
+		new DynamicWebProjectWizard().setProjectName(projectName).setCDIFacet().finish();
+		bot.sleep(Timing.time5S());		
+		util.waitForNonIgnoredJobs();		
+	}
 
-	public static void addCDISupport(final SWTBotTree tree, SWTBotTreeItem item,
+	public void addCDISupport(final SWTBotTree tree, SWTBotTreeItem item,
 			SWTBotExt bot, SWTUtilExt util) {
 		CDIUtil.nodeContextMenu(tree, item, "Configure",
 				"Add CDI (Context and Dependency Injection) support...")
@@ -194,7 +227,7 @@ public class CDIBase extends SWTTestExt {
 		setEd(bot.activeEditor().toTextEditor());		
 	}
 		
-	public static void addLibraryToProjectsClassPath(String projectName, String libraryName) {
+	public void addLibraryToProjectsClassPath(String projectName, String libraryName) {
 		SWTBotTree tree = projectExplorer.bot().tree();
 			
 		ContextMenuHelper.prepareTreeItemForContextMenu(tree);
@@ -220,7 +253,7 @@ public class CDIBase extends SWTTestExt {
 	 * copy library located in PROJECT_NAME/resources/libraries into project
 	 * libraryName must include extension: seam-solder.jar
 	 */
-	public static void addLibraryIntoProject(String projectName, String libraryName) throws IOException {
+	public void addLibraryIntoProject(String projectName, String libraryName) throws IOException {
 		File in = null;
 		FileChannel inChannel = null;
 		FileChannel outChannel = null;
@@ -244,7 +277,7 @@ public class CDIBase extends SWTTestExt {
 	 * check if library with name libraryName is set on classpath of project with name
 	 * projectName
 	 */
-	public static void isLibraryInProjectClassPath(String projectName, String libraryName) {
+	public void isLibraryInProjectClassPath(String projectName, String libraryName) {
 		SWTBotTree tree = projectExplorer.bot().tree();
 					
 		ContextMenuHelper.prepareTreeItemForContextMenu(tree);
@@ -288,7 +321,7 @@ public class CDIBase extends SWTTestExt {
 		bot.button("OK").click();		
 	}
 	
-	public static void removeObjectInProjectExplorer(String object, String sourceFolder) {
+	public void removeObjectInProjectExplorer(String object, String sourceFolder) {
 		SWTBotTree tree = projectExplorer.bot().tree();
 		SWTBotTreeItem item = projectExplorer.selectTreeItem(object, sourceFolder.split("/"));
 		
@@ -301,7 +334,7 @@ public class CDIBase extends SWTTestExt {
 		bot.sleep(Timing.time2S());
 	}
 	
-	public static boolean projectExists(String projectName) {
+	public boolean projectExists(String projectName) {
 		SWTBotTree tree = projectExplorer.bot().tree();
 		boolean projectExists = false;
 		try {

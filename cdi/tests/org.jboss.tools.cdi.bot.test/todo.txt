@@ -1,3 +1,32 @@
+/**
+ * what tests have to be done(JBDS50_0010):
+ *  1. Classes indication for Open Injected Class works
+ *  2. CDI Facets can create beans.xml file when selected
+ *  3. Code completion works in beans.xml
+ *  4. Classes in beans.xml are validated
+ *  5. Complex test from Weld is working in JBDS and CDI functionality works without errors
+ *  6. CDI @Named beans are renamed via refactoring and shows up correctly 
+ *     when using Find References for EL Expressions
+ *  8. Create new decorator from existing Web Bean
+ *  9. EL refactoring for @Named beans works
+ *  
+ *  
+ *  what tests have to be done(JBDS50_0015):
+ *  1. OpenOn works for injected classes
+ *  2. OpenOn works in Seam Config for given beans
+ *  3. OpenOn works for Bean injected into java source files declard in seam-config.xml can be navigated
+ *  4. Seam-beans.xml validation works
+ *  5. Seam3 not-trivial example works with JBDS without errors and as expected
+ *  6. Wel extension(beans_1_1.xsd) is now supported by beans.xml editor
+ *  7. Non-serializable passivating-scoped beans are now validated correctly
+ *  8. Code completion and validation works in seam config for annotated CDI beans
+ *  9. Seam3 features is enabled automatically for CDI support enabled project containing corresponding Seam module
+ *  10.CDI supports Seam3 annotations (@Veto,@Requires,@Exact,@MessageLogger,@MessageBundle 
+ *     @DefaultBean,@Unwraps,@ServiceHandlerType,@FullyQualified,@Resource)
+ *  11.CDI tools can work with generic beans and validation, code completion, hyperlinks, 
+ *     refactoring is working as expected   
+ */
+
 UI tests to implement for CDI (based on F2F meeting)
 
 hyperlinks (...open ons etc)

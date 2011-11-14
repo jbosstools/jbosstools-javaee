@@ -21,9 +21,6 @@ import org.jboss.tools.ui.bot.ext.config.Annotations.Require;
 import org.jboss.tools.ui.bot.ext.config.Annotations.Server;
 import org.jboss.tools.ui.bot.ext.config.Annotations.ServerState;
 import org.jboss.tools.ui.bot.ext.view.ProblemsView;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite.SuiteClasses;
@@ -34,45 +31,39 @@ import org.junit.runners.Suite.SuiteClasses;
  * @author Jaroslav Jankovic
  */
 
-@Require(clearProjects = false, perspective = "Java EE", server = @Server(state = ServerState.NotRunning, version = "6.0", operator = ">="))
+@Require(clearProjects = true, perspective = "Java EE", server = @Server(state = ServerState.NotRunning, version = "6.0", operator = ">="))
 @RunWith(RequirementAwareSuite.class)
 @SuiteClasses({ CDIAllBotTests.class })
 public class CDIQuickFixTest extends CDIBase {
 
-	private static final String PROJECT_NAME = "CDIProject";
-	private static final String PACKAGE_NAME = "cdi";
 	private static SWTBotTreeItem[] problemsTrees;
 	private static final String LINE_SEPARATOR = System.getProperty("line.separator");	
 	
-	
-	@BeforeClass
-	public static void checkAndCreateProject() {
-		if (!projectExists(PROJECT_NAME)) {
-			createAndCheckCDIProject(bot, util, projectExplorer,PROJECT_NAME);
-		}
-	}
-	
-	@AfterClass
-	public static void clean() {		
-		removeObjectInProjectExplorer(PACKAGE_NAME, PROJECT_NAME + "/Java Resources/src");		
+	@Override
+	public String getProjectName() {
+		return "CDIQuickFixTest";
 	}
 	
 	/*
 	 * check problems (warnings and errors in Problems View)
 	 */
-	@After
+	@Override
 	public void waitForJobs() {
 		checkProjectAllProblems();
 		util.waitForNonIgnoredJobs();
+		/**
+		 * needed for creating non-dependant components
+		 */
+		projectExplorer.selectProject(getProjectName());
 	}
-	
+			
 	
 	@Test
 	public void testSerializableQF() {
 		
 		
 		String className = "B1";
-		createComponent(CDICOMPONENT.BEAN, className, PACKAGE_NAME, null);
+		createComponent(CDICOMPONENT.BEAN, className, getPackageName(), null);
 		
 		// https://issues.jboss.org/browse/JBIDE-8550
 		checkSerializableAnnotation(CDICOMPONENT.BEAN, className);
@@ -81,7 +72,7 @@ public class CDIQuickFixTest extends CDIBase {
 	@Test
 	public void testMultipleBeansQF() {
 		String className = "BrokenFarm";
-		createComponent(CDICOMPONENT.BEAN, className, PACKAGE_NAME, null);
+		createComponent(CDICOMPONENT.BEAN, className, getPackageName(), null);
 		
 		// https://issues.jboss.org/browse/JBIDE-7635
 		checkMultipleBeans(CDICOMPONENT.BEAN, className);
@@ -208,7 +199,7 @@ public class CDIQuickFixTest extends CDIBase {
 	 * method edits default Target form because of "one space inconsistency"
 	 */
 	private void prepareCdiComponent(CDICOMPONENT component, String name) {
-		createComponent(component, name, PACKAGE_NAME, null);
+		createComponent(component, name, getPackageName(), null);
 		switch (component) {
 		case QUALIFIER:
 			CDIUtil.replaceInEditor(getEd(), bot, "@Target({ TYPE, METHOD, PARAMETER, FIELD })",
@@ -237,11 +228,11 @@ public class CDIQuickFixTest extends CDIBase {
 	}
 	
 	private void prepareMultipleBeans(String className) {
-		createComponent(CDICOMPONENT.BEAN, "Animal", PACKAGE_NAME, null);
-		createComponent(CDICOMPONENT.BEAN, "Dog", PACKAGE_NAME, null);
+		createComponent(CDICOMPONENT.BEAN, "Animal", getPackageName(), null);
+		createComponent(CDICOMPONENT.BEAN, "Dog", getPackageName(), null);
 		CDIUtil.copyResourceToClass(getEd(), CDIQuickFixTest.class
 				.getResourceAsStream("/resources/cdi/Dog.java.cdi"), false);
-		createComponent(CDICOMPONENT.QUALIFIER, "Q1", PACKAGE_NAME, null);
+		createComponent(CDICOMPONENT.QUALIFIER, "Q1", getPackageName(), null);
 		bot.editorByTitle(className + ".java").show();
 		setEd(bot.activeEditor().toTextEditor());
 		CDIUtil.copyResourceToClass(getEd(), CDIQuickFixTest.class
@@ -326,9 +317,9 @@ public class CDIQuickFixTest extends CDIBase {
 	}
 	
 	private void prepareComponentsForSpecializeAnnotation(String testBeanName) {
-		createComponent(CDICOMPONENT.BEAN, "AnyBean", PACKAGE_NAME, null);
-		createComponent(CDICOMPONENT.INTERBINDING, "AnyBinding", PACKAGE_NAME, null);		
-		createComponent(CDICOMPONENT.BEAN, testBeanName, PACKAGE_NAME, null);
+		createComponent(CDICOMPONENT.BEAN, "AnyBean", getPackageName(), null);
+		createComponent(CDICOMPONENT.INTERBINDING, "AnyBinding", getPackageName(), null);		
+		createComponent(CDICOMPONENT.BEAN, testBeanName, getPackageName(), null);
 		CDIUtil.copyResourceToClass(getEd(), CDIQuickFixTest.class
 				.getResourceAsStream("/resources/cdi/TestBean.java.cdi"), false);
 	}
@@ -605,18 +596,18 @@ public class CDIQuickFixTest extends CDIBase {
 	private void checkNonBindingAnnotationWithAddon(CDICOMPONENT comp, String className, 
 			String replacement) {	
 		if (comp == CDICOMPONENT.INTERBINDING) {
-			boolean interceptorCreated = projectExplorer.isFilePresent(PROJECT_NAME, 
-					"Java Resources", "src", PACKAGE_NAME, className + ".java"); 
+			boolean interceptorCreated = projectExplorer.isFilePresent(getProjectName(), 
+					"Java Resources", "src", getPackageName(), className + ".java"); 
 			if (!interceptorCreated) {
-				createComponent(CDICOMPONENT.INTERBINDING, className, PACKAGE_NAME, null);
+				createComponent(CDICOMPONENT.INTERBINDING, className, getPackageName(), null);
 			}
 		}
 		
 		if (replacement.equals("Annotation")) {
-			boolean annotationCreated = projectExplorer.isFilePresent(PROJECT_NAME, 
-					"Java Resources", "src", PACKAGE_NAME, "AAnnotation.java"); 
+			boolean annotationCreated = projectExplorer.isFilePresent(getProjectName(), 
+					"Java Resources", "src", getPackageName(), "AAnnotation.java"); 
 			if (!annotationCreated) {
-				createComponent(null, "AAnnotation", PACKAGE_NAME, null);				
+				createComponent(null, "AAnnotation", getPackageName(), null);				
 			} 			
 			bot.editorByTitle(className + ".java").show();
 			setEd(bot.activeEditor().toTextEditor());
@@ -684,7 +675,7 @@ public class CDIQuickFixTest extends CDIBase {
 				problemsContains = "Multiple beans are eligible";
 			}
 			problemsTree = ProblemsView.getFilteredWarningsTreeItems(bot, problemsContains, "/"
-					+ PROJECT_NAME, className, "CDI Problem");
+					+ getProjectName(), className, "CDI Problem");
 		} else {
 			if (className.equals("InterDecor.java")) {
 				if (getEd().toTextEditor().getText().contains("produceString")) {
@@ -698,7 +689,7 @@ public class CDIQuickFixTest extends CDIBase {
 				}
 			}
 			problemsTree = ProblemsView.getFilteredErrorsTreeItems(bot, problemsContains, "/"
-					+ PROJECT_NAME, className, "CDI Problem");
+					+ getProjectName(), className, "CDI Problem");
 		}
 		return problemsTree;
 	}
@@ -754,7 +745,7 @@ public class CDIQuickFixTest extends CDIBase {
 		util.waitForNonIgnoredJobs();
 		assertFalse(bot.button("Add >").isEnabled());
 		assertFalse(bot.button("Finish").isEnabled());
-		bot.table(0).click(bot.table(0).indexOf("Q1 - " + PACKAGE_NAME), 0);
+		bot.table(0).click(bot.table(0).indexOf("Q1 - " + getPackageName()), 0);
 		assertTrue(bot.button("Add >").isEnabled());
 		assertFalse(bot.button("Finish").isEnabled());
 		bot.clickButton("Add >");
@@ -785,24 +776,24 @@ public class CDIQuickFixTest extends CDIBase {
 		SWTBotTreeItem[] problemsTree = null;
 		if (problemType == PROBLEM_TYPE.WARNINGS) {
 			problemsTree = ProblemsView.getFilteredWarningsTreeItems(bot, null, "/"
-					+ PROJECT_NAME, null, null);
+					+ getProjectName(), null, null);
 		}else if (problemType == PROBLEM_TYPE.ERRORS) {
 			problemsTree = ProblemsView.getFilteredErrorsTreeItems(bot, null, "/"
-					+ PROJECT_NAME, null, null);
+					+ getProjectName(), null, null);
 		}
 		return problemsTree;
 	}
 	
 	private void cleanWarnings(String className) {
 		problemsTrees = ProblemsView.getFilteredWarningsTreeItems(bot, null, "/"
-				+ PROJECT_NAME, className + ".java", null);
+				+ getProjectName(), className + ".java", null);
 		assertTrue(problemsTrees.length != 0);
 		CDIUtil.openQuickFix(problemsTrees[0], bot);
 		bot.clickButton("Finish");
 		bot.sleep(Timing.time1S());
 		bot.activeEditor().save();
 		problemsTrees = ProblemsView.getFilteredWarningsTreeItems(bot, null, "/"
-				+ PROJECT_NAME, className, "CDI Problem");
+				+ getProjectName(), className, "CDI Problem");
 		assertTrue(problemsTrees.length == 0);
 	}
 }

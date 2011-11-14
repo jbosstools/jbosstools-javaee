@@ -22,11 +22,10 @@ import org.jboss.tools.cdi.bot.test.uiutils.actions.NewCDIFileWizard;
 import org.jboss.tools.cdi.bot.test.uiutils.wizards.CDIWizard;
 import org.jboss.tools.cdi.bot.test.uiutils.wizards.CDIWizardType;
 import org.jboss.tools.ui.bot.ext.RequirementAwareSuite;
+import org.jboss.tools.ui.bot.ext.Timing;
 import org.jboss.tools.ui.bot.ext.config.Annotations.Require;
 import org.jboss.tools.ui.bot.ext.config.Annotations.Server;
 import org.jboss.tools.ui.bot.ext.config.Annotations.ServerState;
-import org.junit.After;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite.SuiteClasses;
@@ -35,30 +34,29 @@ import org.junit.runners.Suite.SuiteClasses;
  * @author Lukas Jungmann
  * @author jjankovi
  */
-@Require(clearProjects = false, perspective = "Java EE", server = @Server(state = ServerState.NotRunning, version = "6.0", operator = ">="))
+@Require(clearProjects = true, perspective = "Java EE", server = @Server(state = ServerState.NotRunning, version = "6.0", operator = ">="))
 @RunWith(RequirementAwareSuite.class)
 @SuiteClasses({ CDIAllBotTests.class, CDISmokeBotTests.class })
 public class CDIATWizardTest extends CDIBase {
 
-	private static final String PROJECT_NAME = "CDIProject";
-	private static final String PACKAGE_NAME = "cdi";
 	private static final Logger L = Logger.getLogger(CDIATWizardTest.class.getName());
 
-	@After
-	public void waitForJobs() {
-		util.waitForNonIgnoredJobs();
+	public String getProjectName() {
+		return "CDIWizardTest";
 	}
 	
-	@BeforeClass
-	public static void checkAndCreateProject() {
-		if (!projectExists(PROJECT_NAME)) {
-			createAndCheckCDIProject(bot, util, projectExplorer,PROJECT_NAME);
-		}
+	@Override
+	public void waitForJobs() {
+		util.waitForNonIgnoredJobs();
+		/**
+		 * needed for creating non-dependant components
+		 */
+		projectExplorer.selectProject(getProjectName());
 	}
 		
 	@Test
 	public void testQualifier() {
-		CDIUtil.qualifier(PACKAGE_NAME, "Q1", false, false).finish();
+		CDIUtil.qualifier(getPackageName(), "Q1", false, false).finish();
 		util.waitForNonIgnoredJobs();
 		SWTBotEditor ed = new SWTWorkbenchBot().activeEditor();
 		assertTrue(("Q1.java").equals(ed.getTitle()));
@@ -70,7 +68,7 @@ public class CDIATWizardTest extends CDIBase {
 		assertFalse(code.contains("@Inherited"));
 		assertFalse(code.startsWith("/**"));
 
-		CDIUtil.qualifier(PACKAGE_NAME, "Q2", true, true).finish();
+		CDIUtil.qualifier(getPackageName(), "Q2", true, true).finish();
 		util.waitForNonIgnoredJobs();
 		ed = new SWTWorkbenchBot().activeEditor();
 		assertTrue(("Q2.java").equals(ed.getTitle()));
@@ -85,7 +83,7 @@ public class CDIATWizardTest extends CDIBase {
 	
 	@Test
 	public void testScope() {
-		CDIUtil.scope(PACKAGE_NAME, "Scope1", true, false, true, false).finish();
+		CDIUtil.scope(getPackageName(), "Scope1", true, false, true, false).finish();
 		util.waitForNonIgnoredJobs();
 		SWTBotEditor ed = new SWTWorkbenchBot().activeEditor();
 		assertTrue(("Scope1.java").equals(ed.getTitle()));
@@ -99,7 +97,7 @@ public class CDIATWizardTest extends CDIBase {
 		assertTrue(code.contains("@Inherited"));
 		assertFalse(code.startsWith("/**"));
 
-		CDIUtil.scope(PACKAGE_NAME, "Scope2", false, true, true, true).finish();
+		CDIUtil.scope(getPackageName(), "Scope2", false, true, true, true).finish();
 		util.waitForNonIgnoredJobs();
 		ed = new SWTWorkbenchBot().activeEditor();
 		assertTrue(("Scope2.java").equals(ed.getTitle()));
@@ -112,7 +110,7 @@ public class CDIATWizardTest extends CDIBase {
 		assertFalse(code.contains("@Inherited"));
 		assertTrue(code.startsWith("/**"));
 
-		CDIUtil.scope(PACKAGE_NAME, "Scope3", false, true, false, false).finish();
+		CDIUtil.scope(getPackageName(), "Scope3", false, true, false, false).finish();
 		util.waitForNonIgnoredJobs();
 		ed = new SWTWorkbenchBot().activeEditor();
 		assertTrue(("Scope3.java").equals(ed.getTitle()));
@@ -128,7 +126,7 @@ public class CDIATWizardTest extends CDIBase {
 	
 	@Test
 	public void testIBinding() {
-		CDIWizard w = CDIUtil.binding(PACKAGE_NAME, "B1", null, true, false);
+		CDIWizard w = CDIUtil.binding(getPackageName(), "B1", null, true, false);
 		assertEquals(2, w.getTargets().size());
 		w.finish();
 		util.waitForNonIgnoredJobs();
@@ -142,7 +140,7 @@ public class CDIATWizardTest extends CDIBase {
 		assertTrue(code.contains("@Inherited"));
 		assertFalse(code.startsWith("/**"));
 
-		CDIUtil.binding(PACKAGE_NAME, "B2", "TYPE", false, true).finish();
+		CDIUtil.binding(getPackageName(), "B2", "TYPE", false, true).finish();
 		util.waitForNonIgnoredJobs();
 		ed = new SWTWorkbenchBot().activeEditor();
 		assertTrue(("B2.java").equals(ed.getTitle()));
@@ -154,7 +152,7 @@ public class CDIATWizardTest extends CDIBase {
 		assertFalse(code.contains("@Inherited"));
 		assertTrue(code.startsWith("/**"));
 
-		CDIUtil.binding(PACKAGE_NAME, "B3", "TYPE", false, true).finish();
+		CDIUtil.binding(getPackageName(), "B3", "TYPE", false, true).finish();
 		util.waitForNonIgnoredJobs();
 		ed = new SWTWorkbenchBot().activeEditor();
 		assertTrue(("B3.java").equals(ed.getTitle()));
@@ -166,8 +164,8 @@ public class CDIATWizardTest extends CDIBase {
 		assertFalse(code.contains("@Inherited"));
 		assertTrue(code.startsWith("/**"));
 
-		w = CDIUtil.binding(PACKAGE_NAME, "B4", "TYPE", true, false);
-		w.addIBinding(PACKAGE_NAME + ".B2");
+		w = CDIUtil.binding(getPackageName(), "B4", "TYPE", true, false);
+		w.addIBinding(getPackageName() + ".B2");
 		w.finish();
 		util.waitForNonIgnoredJobs();
 		ed = new SWTWorkbenchBot().activeEditor();
@@ -184,7 +182,7 @@ public class CDIATWizardTest extends CDIBase {
 	
 	@Test
 	public void testStereotype() {
-		CDIWizard w = CDIUtil.stereotype(PACKAGE_NAME, "S1", null, null, false, false, false, false,
+		CDIWizard w = CDIUtil.stereotype(getPackageName(), "S1", null, null, false, false, false, false,
 				false);
 		assertEquals(9, w.getScopes().size());
 		assertEquals(5, w.getTargets().size());
@@ -202,7 +200,7 @@ public class CDIATWizardTest extends CDIBase {
 		assertFalse(code.contains("@Inherited"));
 		assertFalse(code.startsWith("/**"));
 
-		CDIUtil.stereotype(PACKAGE_NAME, "S2", "@Scope3", "FIELD", true, true, true, false, true)
+		CDIUtil.stereotype(getPackageName(), "S2", "@Scope3", "FIELD", true, true, true, false, true)
 				.finish();
 		util.waitForNonIgnoredJobs();
 		ed = new SWTWorkbenchBot().activeEditor();
@@ -218,9 +216,9 @@ public class CDIATWizardTest extends CDIBase {
 		assertTrue(code.contains("@Target({ FIELD })"));
 		assertTrue(code.startsWith("/**"));
 
-		w = CDIUtil.stereotype(PACKAGE_NAME, "S3", null, null, false, false, true, false, false);
-		w.addIBinding(PACKAGE_NAME + ".B1");
-		w.addStereotype(PACKAGE_NAME + ".S1");
+		w = CDIUtil.stereotype(getPackageName(), "S3", null, null, false, false, true, false, false);
+		w.addIBinding(getPackageName() + ".B1");
+		w.addStereotype(getPackageName() + ".S1");
 		w.finish();
 		util.waitForNonIgnoredJobs();
 		ed = new SWTWorkbenchBot().activeEditor();
@@ -241,7 +239,8 @@ public class CDIATWizardTest extends CDIBase {
 	
 	@Test
 	public void testDecorator() {
-		CDIWizard w = CDIUtil.decorator(PACKAGE_NAME, "", "java.lang.Comparable", null, true, true, false, false);
+		bot.sleep(Timing.time1S());
+		CDIWizard w = CDIUtil.decorator(getPackageName(), "", "java.lang.Comparable", null, true, true, false, false);
 		w.finish();
 		util.waitForNonIgnoredJobs();
 		SWTBotEditor ed = new SWTWorkbenchBot().editorByTitle("ComparableDecorator.java");
@@ -257,7 +256,7 @@ public class CDIATWizardTest extends CDIBase {
 		assertFalse(code.contains("final"));
 		assertFalse(code.startsWith("/**"));
 
-		w = CDIUtil.decorator(PACKAGE_NAME, "", "java.util.Map", "field", false, false, true, true);
+		w = CDIUtil.decorator(getPackageName(), "", "java.util.Map", "field", false, false, true, true);
 		w.finish();
 		util.waitForNonIgnoredJobs();
 		ed = new SWTWorkbenchBot().editorByTitle("MapDecorator.java");
@@ -276,7 +275,7 @@ public class CDIATWizardTest extends CDIBase {
 	
 	@Test
 	public void testInterceptor() {
-		CDIWizard w = CDIUtil.interceptor(PACKAGE_NAME, "I1", "B2", null, null, false);
+		CDIWizard w = CDIUtil.interceptor(getPackageName(), "I1", "B2", null, null, false);
 		w.finish();
 		util.waitForNonIgnoredJobs();
 		SWTBotEditor ed = new SWTWorkbenchBot().editorByTitle("I1.java");
@@ -290,7 +289,7 @@ public class CDIATWizardTest extends CDIBase {
 		assertFalse(code.contains("final"));
 		assertFalse(code.startsWith("/**"));
 		
-		w = CDIUtil.interceptor(PACKAGE_NAME, "I2", "B4", "java.util.Date", "sample", true);
+		w = CDIUtil.interceptor(getPackageName(), "I2", "B4", "java.util.Date", "sample", true);
 		w.finish();
 		util.waitForNonIgnoredJobs();
 		ed = new SWTWorkbenchBot().editorByTitle("I2.java");
@@ -309,9 +308,9 @@ public class CDIATWizardTest extends CDIBase {
 	@Test
 	public void testBeansXml() {
 		CDIWizard w = new NewCDIFileWizard(CDIWizardType.BEANS_XML).run();
-		w.setSourceFolder(PROJECT_NAME + "/WebContent/WEB-INF");
+		w.setSourceFolder(getProjectName() + "/WebContent/WEB-INF");
 		assertFalse(w.canFinish());		
-		w.setSourceFolder(PROJECT_NAME + "/src/" + PACKAGE_NAME.replaceAll(".", "/"));
+		w.setSourceFolder(getProjectName() + "/src/" + getPackageName().replaceAll(".", "/"));
 		assertTrue(w.canFinish());
 		w.cancel();
 		w = new NewCDIFileWizard(CDIWizardType.BEANS_XML).run();
@@ -321,7 +320,7 @@ public class CDIATWizardTest extends CDIBase {
 	
 	@Test
 	public void testBean() {
-		CDIWizard w = CDIUtil.bean(PACKAGE_NAME, "Bean1", true, true, false, false, false, false, null, null, null, null);
+		CDIWizard w = CDIUtil.bean(getPackageName(), "Bean1", true, true, false, false, false, false, null, null, null, null);
 		w.finish();
 		util.waitForNonIgnoredJobs();
 		SWTBotEditor ed = new SWTWorkbenchBot().activeEditor();
@@ -334,7 +333,7 @@ public class CDIATWizardTest extends CDIBase {
 		assertFalse(code.contains("final"));
 		assertFalse(code.startsWith("/**"));
 		
-		w = CDIUtil.bean(PACKAGE_NAME, "Bean2", false, false, true, true, false, false, "", null, "@Dependent", null);
+		w = CDIUtil.bean(getPackageName(), "Bean2", false, false, true, true, false, false, "", null, "@Dependent", null);
 		w.finish();
 		util.waitForNonIgnoredJobs();
 		ed = new SWTWorkbenchBot().activeEditor();
@@ -348,7 +347,7 @@ public class CDIATWizardTest extends CDIBase {
 		assertTrue(code.contains("final class Bean2 {"));
 		assertTrue(code.startsWith("/**"));
 
-		w = CDIUtil.bean(PACKAGE_NAME, "Bean3", true, false, false, true, false, false, "TestedBean", null, "@Scope2", "Q1");
+		w = CDIUtil.bean(getPackageName(), "Bean3", true, false, false, true, false, false, "TestedBean", null, "@Scope2", "Q1");
 		w.finish();
 		util.waitForNonIgnoredJobs();
 		ed = new SWTWorkbenchBot().activeEditor();
@@ -366,7 +365,7 @@ public class CDIATWizardTest extends CDIBase {
 	
 	@Test
 	public void testAnnLiteral() {
-		CDIWizard w = CDIUtil.annLiteral(PACKAGE_NAME, "AnnL1", true, false, true, false, PACKAGE_NAME + ".Q1");
+		CDIWizard w = CDIUtil.annLiteral(getPackageName(), "AnnL1", true, false, true, false, getPackageName() + ".Q1");
 		w.finish();
 		util.waitForNonIgnoredJobs();
 		SWTBotEditor ed = new SWTWorkbenchBot().activeEditor();
@@ -379,7 +378,7 @@ public class CDIATWizardTest extends CDIBase {
 		assertFalse(code.contains("abstract"));
 		assertFalse(code.startsWith("/**"));
 		
-		w = CDIUtil.annLiteral(PACKAGE_NAME, "AnnL2", false, true, false, true, "Q2");
+		w = CDIUtil.annLiteral(getPackageName(), "AnnL2", false, true, false, true, "Q2");
 		w.finish();
 		util.waitForNonIgnoredJobs();
 		ed = new SWTWorkbenchBot().activeEditor();
