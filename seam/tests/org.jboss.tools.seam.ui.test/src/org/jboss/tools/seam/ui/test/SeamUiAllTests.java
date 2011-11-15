@@ -22,6 +22,7 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.wst.validation.internal.operations.ValidatorManager;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
+import org.jboss.tools.seam.ui.test.ca.CASeamAddInfoInELMessagesTest;
 import org.jboss.tools.seam.ui.test.ca.SeamELContentAssistJbide1645Test;
 import org.jboss.tools.seam.ui.test.ca.SeamELContentAssistJbide1676Test;
 import org.jboss.tools.seam.ui.test.ca.SeamELContentAssistTest;
@@ -96,6 +97,11 @@ public class SeamUiAllTests {
 				JobUtils.waitForIdle();
 			}
 		} );
+		
+		suite.addTest(new ProjectImportTestSetup(new TestSuite(
+				CASeamAddInfoInELMessagesTest.class), "org.jboss.tools.seam.ui.test", //$NON-NLS-1$
+				new String[] { "projects/TestSeamELContentAssist", }, //$NON-NLS-1$
+				new String[] { "TestSeamELContentAssist" })); //$NON-NLS-1$
 
 		return suite;
 	}
