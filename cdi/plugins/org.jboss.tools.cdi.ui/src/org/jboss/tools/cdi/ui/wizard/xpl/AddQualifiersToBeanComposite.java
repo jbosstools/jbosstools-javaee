@@ -133,6 +133,7 @@ public class AddQualifiersToBeanComposite extends Composite {
 	
 	public void init(IBean bean){
 		this.bean = bean;
+		String beanName = MarkerResolutionUtils.getELName(bean);
 		originalQualifiers.clear();
 		deployed.clear();
 		for(IQualifier q : bean.getQualifiers()){
@@ -148,6 +149,7 @@ public class AddQualifiersToBeanComposite extends Composite {
 		
 		defaultQualifier = new ValuedQualifier(bean.getCDIProject().getQualifier(CDIConstants.DEFAULT_QUALIFIER_TYPE_NAME));
 		namedQualifier = new ValuedQualifier(bean.getCDIProject().getQualifier(CDIConstants.NAMED_QUALIFIER_TYPE_NAME));
+		namedQualifier.setValue(beanName);
 		
 		for(ValuedQualifier q : originalQualifiers){
 			if(q.equals(defaultQualifier)){
@@ -174,6 +176,8 @@ public class AddQualifiersToBeanComposite extends Composite {
 	}
 	
 	private ValuedQualifier loadAvailableQualifiers(){
+		String beanName = MarkerResolutionUtils.getELName(bean);
+		
 		ValuedQualifier lastQualifier = null;
 		String beanTypeName = bean.getBeanClass().getFullyQualifiedName();
 		String beanPackage = beanTypeName.substring(0,beanTypeName.lastIndexOf(MarkerResolutionUtils.DOT));
@@ -197,6 +201,8 @@ public class AddQualifiersToBeanComposite extends Composite {
 					String qualifierPackage = qualifierTypeName.substring(0,qualifierTypeName.lastIndexOf(MarkerResolutionUtils.DOT));
 					if((isPublic || (samePackage && injectionPointPackage.equals(qualifierPackage))) ){
 						if(beanJavaProject.findType(qualifierTypeName) != null && injectionPointJavaProject.findType(qualifierTypeName) != null){
+							if(q.getSourceType().getFullyQualifiedName().equals(CDIConstants.NAMED_QUALIFIER_TYPE_NAME))
+								vq.setValue(beanName);
 							qualifiers.add(vq);
 							availableTableViewer.add(vq);
 							lastQualifier = vq;

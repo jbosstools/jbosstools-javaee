@@ -18,7 +18,6 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jdt.core.Flags;
@@ -40,8 +39,6 @@ import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.ITypeParameter;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.core.Signature;
-import org.eclipse.ltk.core.refactoring.CompositeChange;
-import org.eclipse.ltk.core.refactoring.TextFileChange;
 import org.eclipse.text.edits.DeleteEdit;
 import org.eclipse.text.edits.InsertEdit;
 import org.eclipse.text.edits.MultiTextEdit;
@@ -58,8 +55,8 @@ import org.jboss.tools.cdi.core.IQualifier;
 import org.jboss.tools.cdi.core.IQualifierDeclaration;
 import org.jboss.tools.cdi.ui.CDIUIPlugin;
 import org.jboss.tools.cdi.ui.wizard.xpl.AddQualifiersToBeanComposite.ValuedQualifier;
-import org.jboss.tools.common.EclipseUtil;
 import org.jboss.tools.common.model.util.EclipseJavaUtil;
+import org.jboss.tools.common.util.BeanUtil;
 
 /**
  * @author Daniel Azarov
@@ -178,9 +175,20 @@ public class MarkerResolutionUtils {
 					compilationUnit.createImport(qualifiedName, null, new NullProgressMonitor());
 				}
 			}else{
-				TextEdit edit = new InsertEdit(compilationUnit.getImportContainer().getSourceRange().getOffset()+compilationUnit.getImportContainer().getSourceRange().getLength(), compilationUnit.findRecommendedLineSeparator()+IMPORT+SPACE+qualifiedName+SEMICOLON);
-				rootEdit.addChild(edit);
+				String text = compilationUnit.findRecommendedLineSeparator()+IMPORT+SPACE+qualifiedName+SEMICOLON;
+				if(!isDuplicate(rootEdit, text)){
+					TextEdit edit = new InsertEdit(compilationUnit.getImportContainer().getSourceRange().getOffset()+compilationUnit.getImportContainer().getSourceRange().getLength(), text);
+					rootEdit.addChild(edit);
+				}
 			}
+		}
+		return false;
+	}
+	
+	private static boolean isDuplicate(MultiTextEdit rootEdit, String text){
+		for(TextEdit edit : rootEdit.getChildren()){
+			if(edit instanceof InsertEdit && ((InsertEdit) edit).getText().equals(text))
+				return true;
 		}
 		return false;
 	}
@@ -528,15 +536,8 @@ public class MarkerResolutionUtils {
 		return null;
 	}
 	
-	public static void addQualifiersToInjectionPoint(List<ValuedQualifier> deployed, IInjectionPoint injectionPoint, CompositeChange change){
-		IFile file = (IFile)injectionPoint.getClassBean().getResource();
+	public static void addQualifiersToInjectionPoint(List<ValuedQualifier> deployed, IInjectionPoint injectionPoint, ICompilationUnit compilationUnit, MultiTextEdit edit){
 		try{
-			ICompilationUnit compilationUnit = injectionPoint.getClassBean().getBeanClass().getCompilationUnit();
-			
-			TextFileChange fileChange = new TextFileChange(file.getName(), file);
-			
-			MultiTextEdit edit = new MultiTextEdit();
-			
 			if(injectionPoint instanceof IInjectionPointParameter){
 				addQualifiersToParameter(compilationUnit, injectionPoint, deployed, edit);
 			}else{
@@ -560,20 +561,13 @@ public class MarkerResolutionUtils {
 					}
 				}
 			}
-			
-			if(edit.getChildrenSize() > 0){
-				fileChange.setEdit(edit);
-				change.add(fileChange);
-			}
 		}catch(CoreException ex){
 			CDIUIPlugin.getDefault().logError(ex);
 		}
 		
 	}
 	
-	public static void addQualifiersToBean(List<ValuedQualifier> deployed, IBean bean, CompositeChange change){
-		IFile file = (IFile)bean.getBeanClass().getResource();
-		
+	public static void addQualifiersToBean(List<ValuedQualifier> deployed, IBean bean, ICompilationUnit compilationUnit, MultiTextEdit edit){
 		IJavaElement beanElement = null;
 		if(bean instanceof IBeanField){
 			beanElement = ((IBeanField) bean).getField();
@@ -584,12 +578,6 @@ public class MarkerResolutionUtils {
 		}
 		
 		try{
-			ICompilationUnit compilationUnit = EclipseUtil.getCompilationUnit(file);
-			
-			TextFileChange fileChange = new TextFileChange(file.getName(), file);
-			
-			MultiTextEdit edit = new MultiTextEdit();
-			
 			for(IQualifierDeclaration declaration : bean.getQualifierDeclarations()){
 				IQualifier qualifier = declaration.getQualifier();
 				String qualifierName = qualifier.getSourceType().getFullyQualifiedName();
@@ -610,11 +598,6 @@ public class MarkerResolutionUtils {
 					updateAnnotation(qualifierName, compilationUnit, beanElement, value, edit);
 				}
 				
-			}
-			
-			if(edit.getChildrenSize() > 0){
-				fileChange.setEdit(edit);
-				change.add(fileChange);
 			}
 		}catch(CoreException ex){
 			CDIUIPlugin.getDefault().logError(ex);
@@ -855,5 +838,24 @@ public class MarkerResolutionUtils {
 				return declaration;
 		}
 		return null;
+	}
+	
+	public static String getELName(IBean bean){
+		String name;
+		if(bean instanceof IBeanField){
+			name = ((IBeanField) bean).getField().getElementName();
+		}else if(bean instanceof IBeanMethod){
+			name = ((IBeanMethod) bean).getMethod().getElementName();
+			if(BeanUtil.isGetter(((IBeanMethod) bean).getMethod())) {
+				return BeanUtil.getPropertyName(name);
+			}
+		}else{
+			name = bean.getBeanClass().getElementName();
+			if(name.length() > 0) {
+				name = name.substring(0, 1).toLowerCase() + name.substring(1);
+			}
+		}
+		
+		return name;
 	}
 }

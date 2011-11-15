@@ -17,14 +17,19 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.OperationCanceledException;
+import org.eclipse.jdt.core.ICompilationUnit;
+import org.eclipse.jdt.core.refactoring.CompilationUnitChange;
 import org.eclipse.ltk.core.refactoring.CompositeChange;
 import org.eclipse.ltk.core.refactoring.RefactoringStatus;
+import org.eclipse.ltk.core.refactoring.TextFileChange;
 import org.eclipse.ltk.core.refactoring.participants.CheckConditionsContext;
+import org.eclipse.text.edits.MultiTextEdit;
 import org.jboss.tools.cdi.core.CDICoreMessages;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.ui.refactoring.CDIRefactoringProcessor;
 import org.jboss.tools.cdi.ui.wizard.xpl.AddQualifiersToBeanComposite.ValuedQualifier;
+import org.jboss.tools.common.EclipseUtil;
 
 public class AddQualifiersToBeanProcessor extends CDIRefactoringProcessor {
 	protected IBean selectedBean;
@@ -73,11 +78,37 @@ public class AddQualifiersToBeanProcessor extends CDIRefactoringProcessor {
 		}
 		
 		createRootChange();
-
-		MarkerResolutionUtils.addQualifiersToBean(qualifiers, selectedBean, rootChange);
-	
-		MarkerResolutionUtils.addQualifiersToInjectionPoint(qualifiers, injectionPoint, rootChange);
 		
+		IFile file = (IFile)selectedBean.getBeanClass().getResource();
+		ICompilationUnit compilationUnit = EclipseUtil.getCompilationUnit(file);
+		
+		CompilationUnitChange fileChange = new CompilationUnitChange(file.getName(), compilationUnit);
+		
+		MultiTextEdit edit = new MultiTextEdit();
+
+		MarkerResolutionUtils.addQualifiersToBean(qualifiers, selectedBean, compilationUnit, edit);
+		
+		IFile file2 = (IFile)injectionPoint.getClassBean().getResource();
+		ICompilationUnit compilationUnit2 = injectionPoint.getClassBean().getBeanClass().getCompilationUnit();
+		
+		if(!compilationUnit.equals(compilationUnit2)){
+			if(edit.getChildrenSize() > 0){
+				fileChange.setEdit(edit);
+				rootChange.add(fileChange);
+			}
+			fileChange = new CompilationUnitChange(file2.getName(), compilationUnit2);
+			
+			edit = new MultiTextEdit();
+		}else{
+			compilationUnit2 = compilationUnit;
+		}
+	
+		MarkerResolutionUtils.addQualifiersToInjectionPoint(qualifiers, injectionPoint, compilationUnit2, edit);
+		
+		if(edit.getChildrenSize() > 0){
+			fileChange.setEdit(edit);
+			rootChange.add(fileChange);
+		}
 		return status;
 	}
 	
