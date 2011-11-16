@@ -18,7 +18,7 @@ import org.jboss.tools.jst.web.browser.wtp.RunOnServerContext;
 import org.jboss.tools.jst.web.model.helpers.WebAppHelper;
 
 public class PatternLoader {
-	static String DEFAULT_FILE_SUFFIX = ".jsp";
+	public static final String[] DEFAULT_SUFFIXES = {".jsp", ".xhtml", ".jspx"};
 	public static JSFUrlPattern DEFAULT_PATTERN = new PostfixUrlPattern();
 	static JSFUrlPattern[] DEFAULT_PATTERNS = new JSFUrlPattern[]{DEFAULT_PATTERN};
 	CompoundPattern pattern = new CompoundPattern();
@@ -37,7 +37,7 @@ public class PatternLoader {
 			pattern.setPatterns(DEFAULT_PATTERNS);
 			return;
 		}
-		String fileSuffix = getFileSuffix(webxml);
+		String[] fileSuffixes = getFileSuffix(webxml);
 		ArrayList<JSFUrlPattern> list = new ArrayList<JSFUrlPattern>();
 		String servletName = getFacesServletName(webxml);
 		for (int i = 0; i < mappings.length; i++) {
@@ -46,18 +46,18 @@ public class PatternLoader {
 			String pattern = mappings[i].getAttributeValue("url-pattern");
 			JSFUrlPattern up = load(pattern);
 			if(up instanceof PostfixUrlPattern) {
-				((PostfixUrlPattern)up).setFileSuffix(fileSuffix);
+				((PostfixUrlPattern)up).setFileSuffixes(fileSuffixes);
 			}
 			if(up != null) {
 				list.add(up);
 			}
 		}
-		if(list.size() == 0 && fileSuffix.equals(DEFAULT_FILE_SUFFIX)) {
+		if(list.size() == 0 && fileSuffixes == DEFAULT_SUFFIXES) {
 			pattern.setPatterns(DEFAULT_PATTERNS);
 		} else if(list.size() == 0) {
 			JSFUrlPattern[] ps = new JSFUrlPattern[1];
 			ps[0] = new PostfixUrlPattern();
-			((PostfixUrlPattern)ps[0]).setFileSuffix(fileSuffix);
+			((PostfixUrlPattern)ps[0]).setFileSuffixes(fileSuffixes);
 			pattern.setPatterns(ps);
 		} else {
 			pattern.setPatterns((JSFUrlPattern[])list.toArray(new JSFUrlPattern[0])); 
@@ -70,9 +70,9 @@ public class PatternLoader {
     	return (s != null) ? s.getAttributeValue("servlet-name") : "FacesServlet";
     }
     
-    String getFileSuffix(XModelObject webxml) {
+    String[] getFileSuffix(XModelObject webxml) {
     	String[] list = WebAppHelper.getWebAppContextParamValueList(webxml, "javax.faces.DEFAULT_SUFFIX");
-    	return list == null || list.length == 0 || !list[0].startsWith(".") ? DEFAULT_FILE_SUFFIX : list[0];
+    	return list == null || list.length == 0 || !list[0].startsWith(".") ? DEFAULT_SUFFIXES : list;
     }
     
     JSFUrlPattern load(String p) {

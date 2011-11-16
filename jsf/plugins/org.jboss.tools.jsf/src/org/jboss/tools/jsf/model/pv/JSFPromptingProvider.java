@@ -160,8 +160,13 @@ public class JSFPromptingProvider implements IWebPromptingProvider {
 		} else if(JSF_CONVERT_URL_TO_PATH.equals(id)) {
 			if(!EclipseResourceUtil.hasNature(model, JSFNature.NATURE_ID)) return EMPTY_LIST;
 			ArrayList<Object> list = new ArrayList<Object>();
-			String path = JSFWebProject.getInstance(model).getUrlPattern().getJSFPath(prefix);
-			if(path != null && path.length() > 0) list.add(path);
+			List<String> paths = JSFWebProject.getInstance(model).getUrlPattern().getJSFPaths(prefix);
+			if(!paths.isEmpty()) {
+				list.addAll(paths);
+			} else {
+				String path = JSFWebProject.getInstance(model).getUrlPattern().getJSFPath(prefix);
+				if(path != null && path.length() > 0) list.add(path);
+			}
 			return list;
 		} else if(JSF_GET_TAGLIBS.equals(id)) {
 			ArrayList<Object> list = new ArrayList<Object>();

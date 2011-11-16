@@ -15,24 +15,19 @@ import java.util.List;
 
 public class PostfixUrlPattern implements JSFUrlPattern {
 	protected String postfix = ".jsf";
-	protected String fileSuffix = ".jsp";
 	/*
 	 * Fixes https://jira.jboss.org/jira/browse/JBIDE-5577
 	 * Fixes https://jira.jboss.org/jira/browse/JBIDE-5635
 	 * JSF files could be mapped to xhtml or jspx files also.
 	 * All of this extensions should be checked.
 	 */
-	protected String[] fileExtensions = {".jsp", ".xhtml", ".jspx"};
+	protected String[] fileExtensions = PatternLoader.DEFAULT_SUFFIXES;
 
 	public void setPostfix(String postfix) {
 		this.postfix = postfix;
 	}
 	
-	public void setFileSuffix(String s) {
-		fileSuffix = s;
-	}
-
-	public void setFileExtentions(String[] fileExtentions) {
+	public void setFileSuffixes(String[] fileExtentions) {
 		this.fileExtensions = fileExtentions;
 	}
 	
@@ -41,12 +36,21 @@ public class PostfixUrlPattern implements JSFUrlPattern {
 	}
 		
 	public boolean isJSFUrl(String path) {
-		return (path.endsWith(postfix) || path.endsWith(fileSuffix));
+		if(path.endsWith(postfix)) {
+			return true;
+		}
+		for (String fileSuffix: fileExtensions) {
+			if(path.endsWith(fileSuffix)) {
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	public String getJSFPath(String url) {
 		if(url == null || url.length() == 0) return url;
-		return (url.endsWith(postfix)) ? url.substring(0, url.length() - postfix.length()) + fileSuffix : url;
+		List<String> ps = getJSFPaths(url);
+		return (ps.isEmpty()) ? url : ps.get(0);
 	}
 	
 	public List<String> getJSFPaths(String url) {
