@@ -14,14 +14,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.jdt.core.ICompilationUnit;
+import org.eclipse.jdt.core.IJavaElement;
+import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.refactoring.CompilationUnitChange;
+import org.eclipse.ltk.core.refactoring.Change;
 import org.eclipse.ltk.core.refactoring.CompositeChange;
 import org.eclipse.ltk.core.refactoring.RefactoringStatus;
-import org.eclipse.ltk.core.refactoring.TextFileChange;
 import org.eclipse.ltk.core.refactoring.participants.CheckConditionsContext;
 import org.eclipse.text.edits.MultiTextEdit;
 import org.jboss.tools.cdi.core.CDICoreMessages;
@@ -76,11 +80,28 @@ public class AddQualifiersToBeanProcessor extends CDIRefactoringProcessor {
 		if(!isFileCorrect(beanFile)){
 			return status;
 		}
+		return status;
+	}
+	
+	private ICompilationUnit getCompilationUnit(IFile file) throws CoreException{
+		IProject project = file.getProject();
+		IJavaProject javaProject = (IJavaProject)project.getNature(JavaCore.NATURE_ID);
+		IJavaElement element = javaProject.findElement(file.getProjectRelativePath());
+		if(element instanceof ICompilationUnit)
+			return (ICompilationUnit)element;
 		
-		createRootChange();
+		return null;
+	}
+	
+	@Override
+	public Change createChange(IProgressMonitor pm) throws CoreException,
+			OperationCanceledException {
+		rootChange = new CompositeChange(label);
 		
 		IFile file = (IFile)selectedBean.getBeanClass().getResource();
-		ICompilationUnit compilationUnit = EclipseUtil.getCompilationUnit(file);
+		ICompilationUnit original = EclipseUtil.getCompilationUnit(file);
+		
+		ICompilationUnit compilationUnit = original.getWorkingCopy(pm);
 		
 		CompilationUnitChange fileChange = new CompilationUnitChange(file.getName(), compilationUnit);
 		
@@ -89,9 +110,11 @@ public class AddQualifiersToBeanProcessor extends CDIRefactoringProcessor {
 		MarkerResolutionUtils.addQualifiersToBean(qualifiers, selectedBean, compilationUnit, edit);
 		
 		IFile file2 = (IFile)injectionPoint.getClassBean().getResource();
-		ICompilationUnit compilationUnit2 = injectionPoint.getClassBean().getBeanClass().getCompilationUnit();
+		ICompilationUnit original2 = injectionPoint.getClassBean().getBeanClass().getCompilationUnit();
+		ICompilationUnit compilationUnit2 = original2.getWorkingCopy(pm);
 		
-		if(!compilationUnit.equals(compilationUnit2)){
+		if(!original.equals(original2)){
+			compilationUnit.discardWorkingCopy();
 			if(edit.getChildrenSize() > 0){
 				fileChange.setEdit(edit);
 				rootChange.add(fileChange);
@@ -109,11 +132,12 @@ public class AddQualifiersToBeanProcessor extends CDIRefactoringProcessor {
 			fileChange.setEdit(edit);
 			rootChange.add(fileChange);
 		}
-		return status;
+		compilationUnit.discardWorkingCopy();
+		return rootChange;
 	}
 	
 	protected void createRootChange(){
-		rootChange = new CompositeChange(label);
+		
 	}
 	
 	public IBean getSelectedBean(){
