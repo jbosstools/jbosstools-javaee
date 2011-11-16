@@ -317,10 +317,24 @@ public class CDIInternationalMessagesELResolver extends AbstractELCompletionEngi
 			for (Variable var : resolvedVariables) {
 				String varName = var.getName();
 				if(operand.getLength()<=varName.length()) {
-					TextProposal proposal = new TextProposal();
+					MessagesELTextProposal proposal = new MessagesELTextProposal();
 					proposal.setReplacementString(varName.substring(operand.getLength()));
 					proposal.setLabel(varName);
+					proposal.setPropertyName(null); // Since it's not a property
 					proposal.setImage(getELProposalImageForMember(null));
+
+					List<XModelObject> objects = new ArrayList<XModelObject>();
+					IBundleModel bundleModel = BundleModelFactory.getBundleModel(var.f.getProject());
+					if(bundleModel != null && bundleModel.getBundle(var.basename) != null) {
+						IBundle bundle = bundleModel.getBundle(var.basename);
+						if(bundle == null)
+							continue;
+						Map<String, XModelObject> os = ((BundleImpl)bundle).getObjects();
+						for (XModelObject o: os.values()) {
+							if (o != null) objects.add(o);
+						}
+					}
+					proposal.setObjects(objects);
 					proposals.add(proposal);
 				} else if(returnEqualedVariablesOnly) {
 					TextProposal proposal = new TextProposal();
