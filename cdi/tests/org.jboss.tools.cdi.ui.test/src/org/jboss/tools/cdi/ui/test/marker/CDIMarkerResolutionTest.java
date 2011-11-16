@@ -953,7 +953,8 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 	public void testCreateBeanClassResolution() throws CoreException{
 		checkResolution(tckProject,
 				new String[]{
-					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/beans.xml"
+					//"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/beans.xml"
+					"WebContent/WEB-INF/beans.xml"
 				},
 				CDICoreValidator.PROBLEM_TYPE,
 				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
@@ -964,7 +965,8 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 	public void testCreateStereotypeResolution() throws CoreException{
 		checkResolution(tckProject,
 				new String[]{
-					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/beans.xml"
+					//"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/beans.xml"
+					"WebContent/WEB-INF/beans.xml"
 				},
 				CDICoreValidator.PROBLEM_TYPE,
 				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
@@ -975,7 +977,8 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 	public void testCreateInterceptorResolution() throws CoreException{
 		checkResolution(tckProject,
 				new String[]{
-					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/beans.xml"
+					//"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/beans.xml"
+					"WebContent/WEB-INF/beans.xml"
 				},
 				CDICoreValidator.PROBLEM_TYPE,
 				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
