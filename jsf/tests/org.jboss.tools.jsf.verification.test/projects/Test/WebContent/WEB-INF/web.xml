@@ -43,4 +43,16 @@
   <exception-type>java.lang.Exception</exception-type>
   <location>/error2</location>
  </error-page>
+ <error-page>
+  <error-code>404</error-code>
+  <location>pages/404.jsf</location>  
+ </error-page>
+ <error-page>
+  <error-code>405</error-code>
+  <location>pages/405.jsf</location>  
+ </error-page>
+ <error-page>
+  <error-code>400</error-code>
+  <location>pages/400.jsf</location>  
+ </error-page>
 </web-app>

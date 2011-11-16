@@ -54,6 +54,10 @@ public class WebVerificationTest extends TestCase {
 		AbstractResourceMarkerTest.assertMarkerIsNotCreated(web, MARKER_TYPE, "error: Attribute location references to /error that does not exist in web content", 40);
 		AbstractResourceMarkerTest.assertMarkerIsCreated(web, MARKER_TYPE, "error: Attribute location references to /error2 that does not exist in web content", 44);
 
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(web, MARKER_TYPE, "error: Attribute location references to .* that does not exist in web content", 48);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(web, MARKER_TYPE, "error: Attribute location references to .* that does not exist in web content", 52);
+		AbstractResourceMarkerTest.assertMarkerIsCreated(web, MARKER_TYPE, "error: Attribute location references to pages/400.* that does not exist in web content", 56);
+
 		IMarker[] markers = web.findMarkers(null, true, IResource.DEPTH_INFINITE);
 		for (IMarker marker: markers) {
 			int line = marker.getAttribute(IMarker.LINE_NUMBER, -1);
