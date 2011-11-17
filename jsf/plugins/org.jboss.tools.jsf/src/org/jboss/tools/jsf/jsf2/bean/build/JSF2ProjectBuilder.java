@@ -44,6 +44,7 @@ import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.plugin.ModelPlugin;
 import org.jboss.tools.common.model.project.ProjectHome;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
+import org.jboss.tools.common.web.WebUtils;
 import org.jboss.tools.jsf.JSFModelPlugin;
 import org.jboss.tools.jsf.jsf2.bean.model.JSF2ProjectFactory;
 import org.jboss.tools.jsf.jsf2.bean.model.impl.DefinitionContext;
@@ -263,7 +264,7 @@ public class JSF2ProjectBuilder extends IncrementalProjectBuilder implements IIn
 
 		public JSF2ResourceVisitor() {
 			getJavaSourceRoots(getProject());
-			webinfs = ProjectHome.getWebInfPaths(getProject());
+			webinfs = WebUtils.getWebInfPaths(getProject());
 		}
 
 		void getJavaSourceRoots(IProject project) {
