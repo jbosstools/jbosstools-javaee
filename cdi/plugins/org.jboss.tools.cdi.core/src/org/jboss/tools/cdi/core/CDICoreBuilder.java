@@ -54,6 +54,7 @@ import org.jboss.tools.common.model.plugin.ModelPlugin;
 import org.jboss.tools.common.model.project.ProjectHome;
 import org.jboss.tools.common.model.util.EclipseJavaUtil;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
+import org.jboss.tools.common.web.WebUtils;
 
 public class CDICoreBuilder extends IncrementalProjectBuilder {
 	public static String BUILDER_ID = "org.jboss.tools.cdi.core.cdibuilder";
@@ -387,7 +388,7 @@ public class CDICoreBuilder extends IncrementalProjectBuilder {
 		Set<IPath> visited = new HashSet<IPath>();
 		
 		CDIResourceVisitor() {
-			webinfs = ProjectHome.getWebInfPaths(getProject());
+			webinfs = WebUtils.getWebInfPaths(getProject());
 			getJavaSourceRoots(getProject());
 		}
 
