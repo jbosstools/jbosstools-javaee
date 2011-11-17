@@ -22,17 +22,12 @@ import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
-import org.eclipse.jdt.core.refactoring.CompilationUnitChange;
-import org.eclipse.jface.text.BadLocationException;
-import org.eclipse.jface.text.IDocument;
 import org.eclipse.ltk.core.refactoring.Change;
 import org.eclipse.ltk.core.refactoring.CompositeChange;
 import org.eclipse.ltk.core.refactoring.RefactoringStatus;
 import org.eclipse.ltk.core.refactoring.TextFileChange;
 import org.eclipse.ltk.core.refactoring.participants.CheckConditionsContext;
-import org.eclipse.text.edits.MalformedTreeException;
 import org.eclipse.text.edits.MultiTextEdit;
-import org.eclipse.text.edits.UndoEdit;
 import org.jboss.tools.cdi.core.CDICoreMessages;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IInjectionPoint;
@@ -108,8 +103,8 @@ public class AddQualifiersToBeanProcessor extends CDIRefactoringProcessor {
 		
 		ICompilationUnit compilationUnit = original.getWorkingCopy(pm);
 		
-		TextFileChange fileChange = new TextFileChange(file.getName(), file);
-		if(isEditorOpened(file))
+		TextFileChange fileChange = new CDIFileChange(file.getName(), file);
+		if(getEditor(file) != null)
 			fileChange.setSaveMode(TextFileChange.LEAVE_DIRTY);
 		else
 			fileChange.setSaveMode(TextFileChange.FORCE_SAVE);
@@ -128,8 +123,8 @@ public class AddQualifiersToBeanProcessor extends CDIRefactoringProcessor {
 				fileChange.setEdit(edit);
 				rootChange.add(fileChange);
 			}
-			fileChange = new TextFileChange(file2.getName(), file2);
-			if(isEditorOpened(file2))
+			fileChange = new CDIFileChange(file2.getName(), file2);
+			if(getEditor(file2) != null)
 				fileChange.setSaveMode(TextFileChange.LEAVE_DIRTY);
 			else
 				fileChange.setSaveMode(TextFileChange.FORCE_SAVE);
@@ -172,4 +167,5 @@ public class AddQualifiersToBeanProcessor extends CDIRefactoringProcessor {
 	public void setDeployedQualifiers(ArrayList<ValuedQualifier> qualifiers){
 		this.qualifiers = qualifiers;
 	}
+	
 }

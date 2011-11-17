@@ -10,14 +10,20 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.ui.refactoring;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.jdt.internal.ui.javaeditor.EditorUtility;
+import org.eclipse.jface.dialogs.ProgressMonitorDialog;
+import org.eclipse.jface.operation.IRunnableContext;
+import org.eclipse.jface.operation.IRunnableWithProgress;
+import org.eclipse.jface.text.IDocument;
 import org.eclipse.ltk.core.refactoring.Change;
 import org.eclipse.ltk.core.refactoring.CompositeChange;
 import org.eclipse.ltk.core.refactoring.RefactoringStatus;
@@ -30,6 +36,7 @@ import org.eclipse.text.edits.MultiTextEdit;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PlatformUI;
 import org.jboss.tools.cdi.core.CDICoreMessages;
 import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.CDICorePlugin;
@@ -60,9 +67,9 @@ public abstract class CDIRefactoringProcessor extends RefactoringProcessor {
 	
 	protected void createRootChange(){
 		rootChange = new CompositeChange(label);
-		change = new TextFileChange(file.getName(), file);
+		change = new CDIFileChange(file.getName(), file);
 		
-		if(isEditorOpened(file))
+		if(getEditor(file) != null)
 			change.setSaveMode(TextFileChange.LEAVE_DIRTY);
 		else
 			change.setSaveMode(TextFileChange.FORCE_SAVE);
@@ -73,16 +80,16 @@ public abstract class CDIRefactoringProcessor extends RefactoringProcessor {
 		rootChange.markAsSynthetic();
 	}
 	
-	protected boolean isEditorOpened(IFile file){
+	protected IEditorPart getEditor(IFile file){
 		IEditorInput ii = EditorUtility.getEditorInput(file);
 		
 		IWorkbenchWindow[] windows = CDIUIPlugin.getDefault().getWorkbench().getWorkbenchWindows();
 		for(IWorkbenchWindow window : windows){
 			IEditorPart editor = window.getActivePage().findEditor(ii);
 			if(editor != null)
-				return true;
+				return editor;
 		}
-		return false;
+		return null;
 	}
 	
 	private IClassBean findClassBean(){
@@ -165,6 +172,40 @@ public abstract class CDIRefactoringProcessor extends RefactoringProcessor {
 	public RefactoringParticipant[] loadParticipants(RefactoringStatus status,
 			SharableParticipants sharedParticipants) throws CoreException {
 		return EMPTY_REF_PARTICIPANT;
+	}
+	
+	protected class CDIFileChange extends TextFileChange{
+
+		public CDIFileChange(String name, IFile file) {
+			super(name, file);
+		}
+
+		protected void releaseDocument(IDocument document, IProgressMonitor pm)
+				throws CoreException {
+			super.releaseDocument(document, pm);
+			
+			final IEditorPart editor = getEditor(getFile());
+			
+			IRunnableContext context = new ProgressMonitorDialog(editor.getSite().getShell());
+
+			IRunnableWithProgress resolutionsRunnable = new IRunnableWithProgress() {
+				public void run(IProgressMonitor monitor) {
+					IEditorPart editor = getEditor(getFile());
+					if(editor != null){
+						editor.doSave(new NullProgressMonitor());
+					}
+				}
+			};
+			try {
+				PlatformUI.getWorkbench().getProgressService().runInUI(context,
+						resolutionsRunnable, null);
+			} catch (InvocationTargetException e) {
+				CDIUIPlugin.getDefault().logError(e);
+			} catch (InterruptedException e) {
+				CDIUIPlugin.getDefault().logError(e);
+			}
+		}
+		
 	}
 
 }
