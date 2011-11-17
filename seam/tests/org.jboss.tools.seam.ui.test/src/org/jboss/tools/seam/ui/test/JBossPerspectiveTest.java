@@ -15,10 +15,12 @@ import java.util.Set;
 
 import junit.framework.TestCase;
 
+import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.WorkbenchException;
 import org.jboss.tools.common.ui.JBossPerspectiveFactory;
-import org.jboss.tools.test.util.WorkbenchUtils;
 
 /**
  * @author Alexey Kazakov
@@ -31,7 +33,9 @@ public class JBossPerspectiveTest extends TestCase {
 	 * @throws WorkbenchException
 	 */
 	public void testJBossPerspective() throws WorkbenchException {
-		IWorkbenchPage page = WorkbenchUtils.getWorkbench().getActiveWorkbenchWindow().openPage(JBossPerspectiveFactory.PERSPECTIVE_ID, null);
+		IWorkbench workbench = PlatformUI.getWorkbench();
+		IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
+		IWorkbenchPage page = workbench.showPerspective(JBossPerspectiveFactory.PERSPECTIVE_ID, window);
 		assertNotNull(page);
 		String[] shortcuts = page.getNewWizardShortcuts();
 		Set<String> shortcutSet = new HashSet<String>();
