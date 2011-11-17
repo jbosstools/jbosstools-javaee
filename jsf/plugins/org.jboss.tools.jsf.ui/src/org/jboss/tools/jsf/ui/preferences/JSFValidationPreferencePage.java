@@ -14,13 +14,14 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.preferences.IWorkbenchPreferenceContainer;
 import org.jboss.tools.common.ui.preferences.SeverityPreferencePage;
 import org.jboss.tools.jsf.JSFModelPlugin;
+import org.jboss.tools.jsf.web.validation.composite.CompositeComponentValidator;
 
 /**
  * @author Alexey Kazakov
  */
 public class JSFValidationPreferencePage extends SeverityPreferencePage {
 
-	public static final String PREF_ID = "org.jboss.tools.jsf.ui.preferences.JSFValidationPreferencePage"; //$NON-NLS-1$
+	public static final String PREF_ID = CompositeComponentValidator.PREFERENCE_PAGE_ID;
 	public static final String PROP_ID = "org.jboss.tools.jsf.ui.propertyPages.JSFValidationPreferencePage"; //$NON-NLS-1$
 
 	public JSFValidationPreferencePage() {

@@ -15,12 +15,13 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.preferences.IWorkbenchPreferenceContainer;
 import org.jboss.tools.common.ui.preferences.SeverityPreferencePage;
 import org.jboss.tools.seam.core.SeamCorePlugin;
+import org.jboss.tools.seam.internal.core.validation.SeamValidationErrorManager;
 
 /**
  * @author Viacheslav Kabanovich
  */
 public class SeamValidatorPreferencePage extends SeverityPreferencePage {
-	public static final String PREF_ID = "org.jboss.tools.seam.ui.preferences.SeamValidatorPreferencePage"; //$NON-NLS-1$
+	public static final String PREF_ID = SeamValidationErrorManager.PREFERENCE_PAGE_ID; 
 	public static final String PROP_ID = "org.jboss.tools.seam.ui.propertyPages.SeamValidatorPreferencePage"; //$NON-NLS-1$
 
 	public SeamValidatorPreferencePage() {

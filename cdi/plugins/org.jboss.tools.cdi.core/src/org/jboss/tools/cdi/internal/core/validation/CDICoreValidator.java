@@ -109,6 +109,7 @@ import org.jboss.tools.jst.web.kb.internal.validation.KBValidator;
 public class CDICoreValidator extends CDIValidationErrorManager {
 	public static final String ID = "org.jboss.tools.cdi.core.CoreValidator"; //$NON-NLS-1$
 	public static final String PROBLEM_TYPE = "org.jboss.tools.cdi.core.cdiproblem"; //$NON-NLS-1$
+	public static final String PREFERENCE_PAGE_ID = "org.jboss.tools.cdi.ui.preferences.CDIValidatorPreferencePage"; //$NON-NLS-1$
 
 	ICDIProject rootCdiProject;
 	Map<IProject, CDIValidationContext> cdiContexts = new HashMap<IProject, CDIValidationContext>();
@@ -2520,7 +2521,7 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 
 	@Override
 	protected String getPreferencePageId() {
-		return "org.jboss.tools.cdi.ui.preferences.CDIValidatorPreferencePage";
+		return PREFERENCE_PAGE_ID;
 	}
 	
 }

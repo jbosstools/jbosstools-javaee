@@ -66,6 +66,7 @@ public class CompositeComponentValidator extends WebValidator {
 	public static final String ID = "org.jboss.tools.jsf.CompositeComponentValidator"; //$NON-NLS-1$
 	public static final String PROBLEM_TYPE = "org.jboss.tools.jsf.compositeproblem"; //$NON-NLS-1$
 	public static final String SHORT_ID = "jboss.jsf.core"; //$NON-NLS-1$
+	public static final String PREFERENCE_PAGE_ID = "org.jboss.tools.jsf.ui.preferences.JSFValidationPreferencePage"; //$NON-NLS-1$
 
 	private static final String COMPOSITE_COMPONENT_URI_PREFIX = "http://java.sun.com/jsf/composite/"; //$NON-NLS-1$
 	
@@ -380,6 +381,6 @@ public class CompositeComponentValidator extends WebValidator {
 
 	@Override
 	protected String getPreferencePageId() {
-		return "org.jboss.tools.jsf.ui.preferences.JSFValidationPreferencePage";
+		return PREFERENCE_PAGE_ID;
 	}
 }

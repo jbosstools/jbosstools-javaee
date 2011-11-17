@@ -20,6 +20,7 @@ import org.jboss.tools.seam.core.SeamPreferences;
 abstract public class SeamValidationErrorManager extends ValidationErrorManager {
 
 	public static final String MARKED_SEAM_PROJECT_MESSAGE_GROUP = "markedSeamProject"; //$NON-NLS-1$
+	public static final String PREFERENCE_PAGE_ID = "org.jboss.tools.seam.ui.preferences.SeamValidatorPreferencePage"; //$NON-NLS-1$
 
 	/* (non-Javadoc)
 	 * @see org.jboss.tools.jst.web.kb.internal.validation.ValidationErrorManager#getPreference(org.eclipse.core.resources.IProject, java.lang.String)
@@ -40,6 +41,6 @@ abstract public class SeamValidationErrorManager extends ValidationErrorManager 
 	
 	@Override
 	protected String getPreferencePageId() {
-		return "org.jboss.tools.seam.ui.preferences.SeamValidatorPreferencePage";
+		return PREFERENCE_PAGE_ID;
 	}
 }

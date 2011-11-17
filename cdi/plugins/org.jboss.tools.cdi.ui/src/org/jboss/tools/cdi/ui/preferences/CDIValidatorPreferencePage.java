@@ -13,6 +13,7 @@ package org.jboss.tools.cdi.ui.preferences;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.preferences.IWorkbenchPreferenceContainer;
 import org.jboss.tools.cdi.core.CDICorePlugin;
+import org.jboss.tools.cdi.internal.core.validation.CDICoreValidator;
 import org.jboss.tools.common.ui.preferences.SeverityPreferencePage;
 
 /**
@@ -20,7 +21,7 @@ import org.jboss.tools.common.ui.preferences.SeverityPreferencePage;
  */
 public class CDIValidatorPreferencePage extends SeverityPreferencePage {
 
-	public static final String PREF_ID = "org.jboss.tools.cdi.ui.preferences.CDIValidatorPreferencePage"; //$NON-NLS-1$
+	public static final String PREF_ID = CDICoreValidator.PREFERENCE_PAGE_ID;
 	public static final String PROP_ID = "org.jboss.tools.cdi.ui.propertyPages.CDIValidatorPreferencePage"; //$NON-NLS-1$
 
 	public CDIValidatorPreferencePage() {
