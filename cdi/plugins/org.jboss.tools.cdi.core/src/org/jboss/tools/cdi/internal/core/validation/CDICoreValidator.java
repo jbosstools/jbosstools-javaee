@@ -2517,5 +2517,10 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 			CDICorePlugin.getDefault().logError(e);
 		}
 	}
+
+	@Override
+	protected String getPreferencePageId() {
+		return "org.jboss.tools.cdi.ui.preferences.CDIValidatorPreferencePage";
+	}
 	
 }

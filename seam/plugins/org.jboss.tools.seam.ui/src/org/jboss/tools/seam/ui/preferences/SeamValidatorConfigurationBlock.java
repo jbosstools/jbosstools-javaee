@@ -180,4 +180,9 @@ public class SeamValidatorConfigurationBlock extends SeverityConfigurationBlock 
 	protected IDialogSettings getDialogSettings() {
 		return SeamCorePlugin.getDefault().getDialogSettings().getSection(SETTINGS_SECTION_NAME);
 	}
+
+	@Override
+	protected String getQualifier() {
+		return SeamCorePlugin.PLUGIN_ID;
+	}
 }

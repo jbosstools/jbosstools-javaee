@@ -37,4 +37,9 @@ abstract public class SeamValidationErrorManager extends ValidationErrorManager 
 	public int getMaxNumberOfMarkersPerFile(IProject project) {
 		return SeamPreferences.getMaxNumberOfProblemMarkersPerFile(project);
 	}
+	
+	@Override
+	protected String getPreferencePageId() {
+		return "org.jboss.tools.seam.ui.preferences.SeamValidatorPreferencePage";
+	}
 }

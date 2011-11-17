@@ -84,4 +84,9 @@ public class JSFValidationConfigurationBlock extends SeverityConfigurationBlock 
 		protected IDialogSettings getDialogSettings() {
 			return JSFModelPlugin.getDefault().getDialogSettings().getSection(SETTINGS_SECTION_NAME);
 		}
+
+		@Override
+		protected String getQualifier() {
+			return JSFModelPlugin.PLUGIN_ID;
+		}
 	}

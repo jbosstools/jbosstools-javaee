@@ -69,4 +69,9 @@ public class CDIConfigurationBlock extends SeverityConfigurationBlock {
 	protected IDialogSettings getDialogSettings() {
 		return CDICorePlugin.getDefault().getDialogSettings().getSection(SETTINGS_SECTION_NAME);
 	}
+
+	@Override
+	protected String getQualifier() {
+		return CDICorePlugin.PLUGIN_ID;
+	}
 }

@@ -377,4 +377,9 @@ public class CompositeComponentValidator extends WebValidator {
 	protected boolean shouldValidateJavaSources() {
 		return false;
 	}
+
+	@Override
+	protected String getPreferencePageId() {
+		return "org.jboss.tools.jsf.ui.preferences.JSFValidationPreferencePage";
+	}
 }
