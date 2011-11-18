@@ -115,6 +115,15 @@ public abstract class AbstractSeamContentProvider implements ITreeContentProvide
 	}
 
 	public Object[] getElements(Object inputElement) {
+		if(inputElement instanceof IProject) {
+			ISeamProject p = SeamCorePlugin.getSeamProject((IProject)inputElement, false);
+			if (p == null) return new Object[0];
+			if(!processed.contains(p)) {
+				processed.add(p);
+				p.addSeamProjectListener(this);
+			}
+			return new Object[]{p};
+		}
 		return getChildren(inputElement);
 	}
 	

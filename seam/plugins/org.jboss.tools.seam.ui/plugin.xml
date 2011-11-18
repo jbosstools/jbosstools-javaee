@@ -204,12 +204,14 @@
 	            id="org.jboss.tools.seam.ui.views.rootContent">         
 	    <triggerPoints>
 	      <or>         
+	        <instanceof value="org.eclipse.core.resources.IProject" /> 
 	        <instanceof value="org.eclipse.core.resources.IWorkspaceRoot" /> 
 	        <instanceof value="org.jboss.tools.seam.core.ISeamElement" /> 
 	      </or>
 	    </triggerPoints>
 	    <possibleChildren>
 	       <or>
+	        <instanceof value="org.eclipse.core.resources.IProject" /> 
 	          <instanceof value="org.eclipse.core.resources.IWorkspaceRoot" /> 
 	          <instanceof value="org.jboss.tools.seam.core.ISeamElement" /> 
 	       </or>
