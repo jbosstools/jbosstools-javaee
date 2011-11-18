@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.jboss.tools.common.model.XModelException;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.util.XModelObjectUtil;
 import org.jboss.tools.jst.web.model.ReferenceObject;
@@ -26,6 +25,7 @@ public class SeamPagesDiagramHelper implements SeamPagesConstants {
 	private Set<String> pageViewIds = new HashSet<String>();
 	private Map<String,XModelObject> exceptionItems = new HashMap<String,XModelObject>();
 	private Map<String,XModelObject> targets = new HashMap<String,XModelObject>();
+	private Set<String> changedTargets = new HashSet<String>();
 
 	public SeamPagesDiagramHelper(XModelObject diagram) {
 		this.diagram = diagram;
@@ -40,6 +40,7 @@ public class SeamPagesDiagramHelper implements SeamPagesConstants {
 		pageViewIds.clear();
 		exceptionItems.clear();
 		targets.clear();
+		changedTargets.clear();
 		this.config = diagram.getParent();
 	}
 
@@ -92,6 +93,11 @@ public class SeamPagesDiagramHelper implements SeamPagesConstants {
 			if(og != null) {
 				String opp = og.getPathPart();
 				if(!pp.equals(opp)) {
+					XModelObject og1 = diagram.getChildByPath(pp);
+					if(og1 != null) {
+						og1.removeFromParent();
+						changedTargets.add(toNavigationRulePathPart(og1.getAttributeValue(ATTR_PATH)));
+					}
 					pageItems.remove(opp);
 					og.setAttributeValue(ATTR_NAME, pp);
 				}
@@ -173,6 +179,7 @@ public class SeamPagesDiagramHelper implements SeamPagesConstants {
 			g.setAttributeValue(ATTR_PATH, path);
 			g.setAttributeValue(ATTR_TYPE, type);
 			diagram.addChild(g);
+			changedTargets.add(pp);
 		}
 		return g;
 	}
@@ -432,6 +439,9 @@ public class SeamPagesDiagramHelper implements SeamPagesConstants {
 //		String fvi = findBestMatch(path);
 		XModelObject g = getPage(path);
 		String target = (g == null) ? "" : g.getPathPart();
+		if(target != null && target.equals(output.getAttributeValue(ATTR_TARGET)) && changedTargets.contains(target)) {
+			output.setAttributeValue(ATTR_TARGET, "");
+		}
 		output.setAttributeValue(ATTR_TARGET, target);
 	}
 	
