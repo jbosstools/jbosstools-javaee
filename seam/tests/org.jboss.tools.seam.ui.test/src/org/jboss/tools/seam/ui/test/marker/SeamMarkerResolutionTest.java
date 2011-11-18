@@ -27,6 +27,7 @@ import org.eclipse.jface.preference.IPersistentPreferenceStore;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.ui.IMarkerResolution;
 import org.eclipse.ui.ide.IDE;
+import org.jboss.tools.common.ui.marker.ConfigureProblemSeverityMarkerResolution;
 import org.jboss.tools.jst.web.kb.PageContextFactory;
 import org.jboss.tools.seam.core.SeamCoreBuilder;
 import org.jboss.tools.seam.core.SeamCorePlugin;
@@ -48,6 +49,14 @@ public class SeamMarkerResolutionTest extends TestCase {
 	//public static final String TEXT_MARKER_TYPE = "org.eclipse.wst.validation.textmarker";
 
 	private IProject project;
+	
+	private void checkForConfigureProblemSeverity(IMarkerResolution[] resolutions){
+		for(IMarkerResolution resolution : resolutions){
+			if(resolution.getClass().equals(ConfigureProblemSeverityMarkerResolution.class))
+				return;
+		}
+		fail("Configure Problem Severity marker resolution not found");
+	}
 
 	@Override
 	protected void setUp() throws Exception {
@@ -325,6 +334,7 @@ public class SeamMarkerResolutionTest extends TestCase {
 			IMarker marker = markers[i];
 			IMarkerResolution[] resolutions = IDE.getMarkerHelpRegistry()
 					.getResolutions(marker);
+			checkForConfigureProblemSeverity(resolutions);
 			for (int j = 0; j < resolutions.length; j++) {
 				IMarkerResolution resolution = resolutions[j];
 				if (resolution instanceof DeleteAnnotationMarkerResolution) {
@@ -357,6 +367,7 @@ public class SeamMarkerResolutionTest extends TestCase {
 			IMarker marker = markers[i];
 			IMarkerResolution[] resolutions = IDE.getMarkerHelpRegistry()
 					.getResolutions(marker);
+			checkForConfigureProblemSeverity(resolutions);
 			for (int j = 0; j < resolutions.length; j++) {
 				IMarkerResolution resolution = resolutions[j];
 				if (resolution instanceof AddAnnotatedMethodMarkerResolution) {
@@ -385,6 +396,7 @@ public class SeamMarkerResolutionTest extends TestCase {
 			IMarker marker = markers[i];
 			IMarkerResolution[] resolutions = IDE.getMarkerHelpRegistry()
 					.getResolutions(marker);
+			checkForConfigureProblemSeverity(resolutions);
 			for (int j = 0; j < resolutions.length; j++) {
 				IMarkerResolution resolution = resolutions[j];
 				if (resolution instanceof AddAnnotatedMethodMarkerResolution) {
@@ -413,6 +425,7 @@ public class SeamMarkerResolutionTest extends TestCase {
 			IMarker marker = markers[i];
 			IMarkerResolution[] resolutions = IDE.getMarkerHelpRegistry()
 					.getResolutions(marker);
+			checkForConfigureProblemSeverity(resolutions);
 			for (int j = 0; j < resolutions.length; j++) {
 				IMarkerResolution resolution = resolutions[j];
 				if (resolution instanceof ChangeScopeMarkerResolution) {
@@ -437,6 +450,7 @@ public class SeamMarkerResolutionTest extends TestCase {
 			IMarker marker = markers[i];
 			IMarkerResolution[] resolutions = IDE.getMarkerHelpRegistry()
 					.getResolutions(marker);
+			checkForConfigureProblemSeverity(resolutions);
 			for (int j = 0; j < resolutions.length; j++) {
 				IMarkerResolution resolution = resolutions[j];
 				if (resolution instanceof ChangeScopeMarkerResolution) {
@@ -469,6 +483,7 @@ public class SeamMarkerResolutionTest extends TestCase {
 			IMarker marker = markers[i];
 			IMarkerResolution[] resolutions = IDE.getMarkerHelpRegistry()
 					.getResolutions(marker);
+			checkForConfigureProblemSeverity(resolutions);
 			for (int j = 0; j < resolutions.length; j++) {
 				IMarkerResolution resolution = resolutions[j];
 				if (resolution instanceof AddSetterMarkerResolution) {
