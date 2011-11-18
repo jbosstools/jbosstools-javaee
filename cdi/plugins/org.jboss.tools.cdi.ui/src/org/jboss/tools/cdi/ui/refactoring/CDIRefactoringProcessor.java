@@ -185,24 +185,25 @@ public abstract class CDIRefactoringProcessor extends RefactoringProcessor {
 			super.releaseDocument(document, pm);
 			
 			final IEditorPart editor = getEditor(getFile());
-			
-			IRunnableContext context = new ProgressMonitorDialog(editor.getSite().getShell());
-
-			IRunnableWithProgress resolutionsRunnable = new IRunnableWithProgress() {
-				public void run(IProgressMonitor monitor) {
-					IEditorPart editor = getEditor(getFile());
-					if(editor != null){
-						editor.doSave(new NullProgressMonitor());
+			if(editor != null){
+				IRunnableContext context = new ProgressMonitorDialog(editor.getSite().getShell());
+	
+				IRunnableWithProgress resolutionsRunnable = new IRunnableWithProgress() {
+					public void run(IProgressMonitor monitor) {
+						IEditorPart editor = getEditor(getFile());
+						if(editor != null){
+							editor.doSave(new NullProgressMonitor());
+						}
 					}
+				};
+				try {
+					PlatformUI.getWorkbench().getProgressService().runInUI(context,
+							resolutionsRunnable, null);
+				} catch (InvocationTargetException e) {
+					CDIUIPlugin.getDefault().logError(e);
+				} catch (InterruptedException e) {
+					CDIUIPlugin.getDefault().logError(e);
 				}
-			};
-			try {
-				PlatformUI.getWorkbench().getProgressService().runInUI(context,
-						resolutionsRunnable, null);
-			} catch (InvocationTargetException e) {
-				CDIUIPlugin.getDefault().logError(e);
-			} catch (InterruptedException e) {
-				CDIUIPlugin.getDefault().logError(e);
 			}
 		}
 		
