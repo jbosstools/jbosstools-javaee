@@ -43,6 +43,7 @@ import org.jboss.tools.cdi.ui.marker.MakeMethodPublicMarkerResolution;
 import org.jboss.tools.cdi.ui.marker.TestableResolutionWithDialog;
 import org.jboss.tools.cdi.ui.marker.TestableResolutionWithRefactoringProcessor;
 import org.jboss.tools.common.base.test.validation.TestUtil;
+import org.jboss.tools.common.ui.marker.ConfigureProblemSeverityMarkerResolution;
 import org.jboss.tools.common.util.FileUtil;
 
 /**
@@ -50,6 +51,14 @@ import org.jboss.tools.common.util.FileUtil;
  * 
  */
 public class CDIMarkerResolutionTest  extends TCKTest {
+	
+	private void checkForConfigureProblemSeverity(IMarkerResolution[] resolutions){
+		for(IMarkerResolution resolution : resolutions){
+			if(resolution.getClass().equals(ConfigureProblemSeverityMarkerResolution.class))
+				return;
+		}
+		fail("Configure Problem Severity marker resolution not found");
+	}
 	
 	private void checkResolution(IProject project, String[] fileNames, String markerType, String idName, int id, Class<? extends IMarkerResolution> resolutionClass) throws CoreException {
 		checkResolution(project, fileNames, new String[]{}, markerType, idName, id, resolutionClass);
@@ -76,6 +85,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 					if(messageId == id){
 						IMarkerResolution[] resolutions = IDE.getMarkerHelpRegistry()
 								.getResolutions(marker);
+						checkForConfigureProblemSeverity(resolutions);
 						for (int j = 0; j < resolutions.length; j++) {
 							IMarkerResolution resolution = resolutions[j];
 							if (resolution.getClass().equals(resolutionClass)) {
