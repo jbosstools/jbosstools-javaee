@@ -9,7 +9,7 @@ import org.eclipse.ui.navigator.resources.ProjectExplorer;
 
 public class SeamPerspectiveFactory implements IPerspectiveFactory {
 
-	private static final String SEAM_COMPONENTS_NAVIGATOR = "org.jboss.tools.seam.ui.views.SeamComponentsNavigator"; //$NON-NLS-1$
+	private static final String SEAM_COMPONENTS_NAVIGATOR = ISeamUiConstants.SEAM_COMPONENTS_VIEW_ID;
 	private static String JBOSS_SERVERS_VIEW = "org.jboss.ide.eclipse.as.ui.views.JBossServerView";  //$NON-NLS-1$
 	private static String WTP_SERVERS_VIEW = "org.eclipse.wst.server.ui.ServersView"; //$NON-NLS-1$
 	

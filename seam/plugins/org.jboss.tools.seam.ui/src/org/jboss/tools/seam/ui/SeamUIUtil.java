@@ -22,7 +22,7 @@ import org.eclipse.ui.navigator.CommonNavigator;
 
 public class SeamUIUtil {
 	public static void refreshSeamComponentView(){
-		CommonNavigator navigator = (CommonNavigator)Workbench.getInstance().getActiveWorkbenchWindow().getActivePage().findView("org.jboss.tools.seam.ui.views.SeamComponentsNavigator");
+		CommonNavigator navigator = (CommonNavigator)Workbench.getInstance().getActiveWorkbenchWindow().getActivePage().findView(ISeamUiConstants.SEAM_COMPONENTS_VIEW_ID);
 		if(navigator != null)
 			navigator.getCommonViewer().refresh();
 	}
