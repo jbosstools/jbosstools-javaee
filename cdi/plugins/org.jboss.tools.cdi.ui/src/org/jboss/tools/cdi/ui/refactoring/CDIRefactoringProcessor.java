@@ -10,7 +10,6 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.ui.refactoring;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
@@ -20,9 +19,6 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.jdt.internal.ui.javaeditor.EditorUtility;
-import org.eclipse.jface.dialogs.ProgressMonitorDialog;
-import org.eclipse.jface.operation.IRunnableContext;
-import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.ltk.core.refactoring.Change;
 import org.eclipse.ltk.core.refactoring.CompositeChange;
@@ -32,11 +28,13 @@ import org.eclipse.ltk.core.refactoring.participants.RefactoringParticipant;
 import org.eclipse.ltk.core.refactoring.participants.RefactoringProcessor;
 import org.eclipse.ltk.core.refactoring.participants.SharableParticipants;
 import org.eclipse.osgi.util.NLS;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.text.edits.MultiTextEdit;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.wst.sse.ui.StructuredTextEditor;
 import org.jboss.tools.cdi.core.CDICoreMessages;
 import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.CDICorePlugin;
@@ -44,6 +42,7 @@ import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.IClassBean;
 import org.jboss.tools.cdi.ui.CDIUIPlugin;
+import org.jboss.tools.common.text.ext.IMultiPageEditor;
 
 public abstract class CDIRefactoringProcessor extends RefactoringProcessor {
 	protected static final RefactoringParticipant[] EMPTY_REF_PARTICIPANT = new  RefactoringParticipant[0];	
@@ -180,33 +179,17 @@ public abstract class CDIRefactoringProcessor extends RefactoringProcessor {
 			super(name, file);
 		}
 
-		protected void releaseDocument(IDocument document, IProgressMonitor pm)
+		@Override
+		protected void releaseDocument(final IDocument document, IProgressMonitor pm)
 				throws CoreException {
 			super.releaseDocument(document, pm);
-			
-			final IEditorPart editor = getEditor(getFile());
-			if(editor != null){
-				IRunnableContext context = new ProgressMonitorDialog(editor.getSite().getShell());
-	
-				IRunnableWithProgress resolutionsRunnable = new IRunnableWithProgress() {
-					public void run(IProgressMonitor monitor) {
-						IEditorPart editor = getEditor(getFile());
-						if(editor != null){
-							editor.doSave(new NullProgressMonitor());
-						}
-					}
-				};
-				try {
-					PlatformUI.getWorkbench().getProgressService().runInUI(context,
-							resolutionsRunnable, null);
-				} catch (InvocationTargetException e) {
-					CDIUIPlugin.getDefault().logError(e);
-				} catch (InterruptedException e) {
-					CDIUIPlugin.getDefault().logError(e);
+			Display.getDefault().asyncExec(new Runnable() {
+				public void run() {
+					IEditorPart editor =  getEditor(getFile());
+					editor.doSave(new NullProgressMonitor());
 				}
-			}
+				
+			});
 		}
-		
 	}
-
 }

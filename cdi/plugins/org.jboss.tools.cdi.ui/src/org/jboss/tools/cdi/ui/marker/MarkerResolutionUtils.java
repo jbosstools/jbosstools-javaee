@@ -589,9 +589,13 @@ public class MarkerResolutionUtils {
 			for(ValuedQualifier vq : deployed){
 				String qualifierName = vq.getQualifier().getSourceType().getFullyQualifiedName();
 				String value = vq.getValue();
+				String elName = getELName(bean);
 				
-				if(!value.isEmpty())
+				if(!value.isEmpty() && (!value.equals(elName) || !qualifierName.equals(CDIConstants.NAMED_QUALIFIER_TYPE_NAME))){
 					value = "(\""+value+"\")";
+				}else{
+					value = "";
+				}
 				
 				if(!qualifierName.equals(CDIConstants.ANY_QUALIFIER_TYPE_NAME) && !qualifierName.equals(CDIConstants.DEFAULT_QUALIFIER_TYPE_NAME)){
 					addAnnotation(qualifierName, compilationUnit, beanElement, value, edit);
