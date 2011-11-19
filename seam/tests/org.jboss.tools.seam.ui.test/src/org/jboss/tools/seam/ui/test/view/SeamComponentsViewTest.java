@@ -84,6 +84,22 @@ public class SeamComponentsViewTest extends TestCase {
 		this.project.build(IncrementalProjectBuilder.FULL_BUILD, null);
 		JobUtils.waitForIdle();
 	}
+
+	public void testViewInNewWindow() throws CoreException{
+		int itemCount = 0;
+		SeamCorePlugin.getSeamProject(project, true);
+		IWorkbench workbench = PlatformUI.getWorkbench();
+		IWorkbenchPage page = workbench.getActiveWorkbenchWindow().openPage(SeamPerspectiveFactory.PERSPECTIVE_ID, project);
+		try {
+			CommonNavigator navigator = getSeamComponentsView();
+			navigator.getCommonViewer().expandAll();
+			Tree tree = navigator.getCommonViewer().getTree();
+			itemCount = tree.getItemCount();
+		} finally {
+			page.getWorkbenchWindow().close();
+		}
+		assertEquals(1, itemCount);
+	}
 	
 	public void testAddComponentInXmlFile() throws CoreException{
 		CommonNavigator navigator = getSeamComponentsView();
