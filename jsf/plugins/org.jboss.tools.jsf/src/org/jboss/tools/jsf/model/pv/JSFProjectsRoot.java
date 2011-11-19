@@ -15,6 +15,7 @@ import org.eclipse.core.resources.*;
 import org.eclipse.core.runtime.CoreException;
 
 import org.jboss.tools.common.model.XModelObject;
+import org.jboss.tools.common.model.XModelObjectConstants;
 import org.jboss.tools.common.model.event.XModelTreeEvent;
 import org.jboss.tools.common.model.filesystems.FileSystemsHelper;
 import org.jboss.tools.common.model.impl.ExtraRootImpl;
@@ -84,9 +85,15 @@ public class JSFProjectsRoot extends ExtraRootImpl implements WebProjectNode {
 		if(fs == null) return new XModelObject[0];
 		webroot = fs.getChildByPath("WEB-ROOT");
 		webxml = WebAppHelper.getWebApp(getModel());
-		XModelObject[] cs = getChildren();
 		List<XModelObject> list = new ArrayList<XModelObject>();
 		if(webroot != null) list.add(webroot);
+		XModelObject[] ss = fs.getChildren("FileSystemFolder");
+		for (XModelObject s: ss) {
+			if(s.getAttributeValue(XModelObjectConstants.ATTR_NAME).startsWith("WEB-ROOT-")) {
+				list.add(s);
+			}
+		}
+		XModelObject[] cs = getChildren();
 		for (int i = 0; i < cs.length; i++) list.add(cs[i]);
 		if(webxml != null) list.add(webxml);
 		treeChildren = list.toArray(new XModelObject[0]);
