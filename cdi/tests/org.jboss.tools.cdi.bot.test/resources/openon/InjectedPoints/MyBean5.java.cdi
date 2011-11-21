@@ -1,0 +1,6 @@
+package cdi;
+
+@Q2
+public class MyBean5 extends MyBean2 {
+
+}

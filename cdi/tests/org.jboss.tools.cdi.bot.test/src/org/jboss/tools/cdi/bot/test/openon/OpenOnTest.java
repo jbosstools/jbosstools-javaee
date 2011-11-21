@@ -153,27 +153,27 @@ public class OpenOnTest extends CDITestBase {
 		
 		wizard.createComponent(CDIWizardType.BEAN, "MyBean2", getPackageName(), null);
 		editResourceUtil.replaceClassContentByResource(OpenOnTest.class
-				.getResourceAsStream("/resources/openon/injectedPoints/MyBean2.java.cdi"),
+				.getResourceAsStream("/resources/openon/InjectedPoints/MyBean2.java.cdi"),
 				false);
 		
 		wizard.createComponent(CDIWizardType.BEAN, "MyBean3", getPackageName(), null);
 		editResourceUtil.replaceClassContentByResource(OpenOnTest.class
-				.getResourceAsStream("/resources/openon/injectedPoints/MyBean3.java.cdi"),
+				.getResourceAsStream("/resources/openon/InjectedPoints/MyBean3.java.cdi"),
 				false);
 		
 		wizard.createComponent(CDIWizardType.BEAN, "MyBean4", getPackageName(), null);
 		editResourceUtil.replaceClassContentByResource(OpenOnTest.class
-				.getResourceAsStream("/resources/openon/injectedPoints/MyBean4.java.cdi"),
+				.getResourceAsStream("/resources/openon/InjectedPoints/MyBean4.java.cdi"),
 				false);
 		
 		wizard.createComponent(CDIWizardType.BEAN, "MyBean5", getPackageName(), null);
 		editResourceUtil.replaceClassContentByResource(OpenOnTest.class
-				.getResourceAsStream("/resources/openon/injectedPoints/MyBean5.java.cdi"),
+				.getResourceAsStream("/resources/openon/InjectedPoints/MyBean5.java.cdi"),
 				false);
 		
 		wizard.createComponent(CDIWizardType.BEAN, "MainBean", getPackageName(), null);
 		editResourceUtil.replaceClassContentByResource(OpenOnTest.class
-				.getResourceAsStream("/resources/openon/injectedPoints/MainBean.java.cdi"),
+				.getResourceAsStream("/resources/openon/InjectedPoints/MainBean.java.cdi"),
 				false);
 	}
 	

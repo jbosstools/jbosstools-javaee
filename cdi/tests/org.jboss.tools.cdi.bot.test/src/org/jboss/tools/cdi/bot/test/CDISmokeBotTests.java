@@ -33,7 +33,7 @@ import org.junit.runners.Suite.SuiteClasses;
  *  
  *  Sample swtbot.properties file:
  *
- *  SERVER=JBOSS_AS,6.0,default,/home/lukas/latest/jboss-6.0.0.Final
+ *  SERVER=JBOSS_AS,6.0,default,/home/jjankovi/Dokumenty/Red_Hat_Stuff/Runtimes/jboss-6.0.0.Final
  *  JAVA=1.6,/space/java/sdk/jdk1.6.0_22
  *  
  *  

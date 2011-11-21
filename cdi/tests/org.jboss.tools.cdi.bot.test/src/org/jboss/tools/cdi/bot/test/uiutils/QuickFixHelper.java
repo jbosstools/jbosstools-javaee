@@ -10,8 +10,6 @@ public class QuickFixHelper extends CDITestBase{
 	
 	protected AbstractValidationProvider validationErrorsProvider;
 	
-	public static SWTBotTreeItem[] problemsTrees;	
-	
 	/**
 	 * Method open context menu for given tree item and opens Quick Fix option
 	 * @param item
@@ -37,6 +35,10 @@ public class QuickFixHelper extends CDITestBase{
 		return problemsTree;
 	}
 	
+	/**
+	 * Method gets allProblems in problemsView as array of SWTBotTreeItem
+	 * @return
+	 */
 	public SWTBotTreeItem[] getAllProblems() {
 		
 		SWTBotTreeItem[] warningProblemsTree = getProblems(ProblemsType.WARNINGS);
@@ -46,6 +48,12 @@ public class QuickFixHelper extends CDITestBase{
 		return joinTwoArrays(warningProblemsTree, errorProblemsTree);
 	}
 	
+	/**
+	 * Method joins two arrays and returns them as one joined array
+	 * @param aArray
+	 * @param bArray
+	 * @return
+	 */
 	private SWTBotTreeItem[] joinTwoArrays(SWTBotTreeItem[] aArray, SWTBotTreeItem[] bArray) {
 		
 		SWTBotTreeItem[] bigArray = new SWTBotTreeItem[aArray.length + bArray.length];

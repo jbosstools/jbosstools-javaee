@@ -133,7 +133,11 @@ public class QuickFixTestBase extends QuickFixHelper {
 		util.waitForNonIgnoredJobs();
 	}
 
-		
+	/**
+	 * Method resolves one validation problem in one test case in
+	 * BeanValidationQuickFixTest - it is too specific method, not usable
+	 * in general, only in this case	
+	 */
 	public void resolveMultipleBeans() {
 		
 		SWTBotTreeItem validationProblem = getProblem(CDIAnnotationsType.INJECT,
@@ -158,6 +162,10 @@ public class QuickFixTestBase extends QuickFixHelper {
 		util.waitForNonIgnoredJobs();
 	}
 	
+	/**
+	 * Method checks if specific validation problem was resolved by 
+	 * quick fix - not usable in general, only in this case
+	 */
 	public void checkMultipleBean() {
 		String code = getEd().toTextEditor().getText();
 		assertTrue(code.contains("@Inject @Q1 private Animal animal;"));

@@ -13,15 +13,25 @@ public class SWTEclipseCDIExtUtil extends SWTEclipseExt {
 		throw new AssertionError();
 	}
 	
+	/**
+	 * Method disables folding used in editor in eclipse
+	 * @param bot
+	 * @param util
+	 */
 	public static void disableFolding(SWTBotExt bot, SWTUtilExt util) {
 		editFolding(bot, util, false);
 	}
 
+	/**
+	 * Method enable folding used in editor in eclipse
+	 * @param bot
+	 * @param util
+	 */
 	public static void enableFolding(SWTBotExt bot, SWTUtilExt util) {
 		editFolding(bot, util, true);
 	}
 
-	public static void editFolding(SWTBotExt bot, SWTUtilExt util,
+	private static void editFolding(SWTBotExt bot, SWTUtilExt util,
 			boolean select) {
 		bot.menu("Window").menu("Preferences").click();
 		bot.shell("Preferences").activate();

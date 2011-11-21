@@ -1,0 +1,10 @@
+package cdi;
+@Q1
+@Q2
+public class MyBean4 extends MyBean2{
+
+	public MyBean4() {
+	
+	}
+
+}

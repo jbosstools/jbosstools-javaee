@@ -88,7 +88,7 @@ public class BeanValidationQuickFixTest extends QuickFixTestBase {
 		checkMultipleBean();
 	}
 
-	@Ignore
+	
 	// https://issues.jboss.org/browse/JBIDE-7664
 	@Test
 	public void testConstructor() {
@@ -113,7 +113,7 @@ public class BeanValidationQuickFixTest extends QuickFixTestBase {
 		
 		checkQuickFix(CDIAnnotationsType.OBSERVES, CDIWizardType.BEAN);
 	}
-	@Ignore
+	
 	// https://issues.jboss.org/browse/JBIDE-7665
 	@Test
 	public void testProducer() {
@@ -139,7 +139,7 @@ public class BeanValidationQuickFixTest extends QuickFixTestBase {
 		checkQuickFix(CDIAnnotationsType.OBSERVES, CDIWizardType.BEAN);
 		
 	}
-	@Ignore
+	
 	// https://issues.jboss.org/browse/JBIDE-7667
 	@Test
 	public void testInjectDisposer() {
@@ -155,7 +155,7 @@ public class BeanValidationQuickFixTest extends QuickFixTestBase {
 		checkQuickFix(CDIAnnotationsType.DISPOSES, CDIWizardType.BEAN);
 				
 	}
-	@Ignore
+	
 	// https://issues.jboss.org/browse/JBIDE-7667
 	@Test
 	public void testInjectObserver() {
@@ -174,7 +174,7 @@ public class BeanValidationQuickFixTest extends QuickFixTestBase {
 		checkQuickFix(CDIAnnotationsType.OBSERVES, CDIWizardType.BEAN);
 		
 	}
-	@Ignore
+	
 	// https://issues.jboss.org/browse/JBIDE-7667
 	@Test
 	public void testInjectProducer() {
@@ -191,7 +191,7 @@ public class BeanValidationQuickFixTest extends QuickFixTestBase {
 		checkQuickFix(CDIAnnotationsType.PRODUCES, CDIWizardType.BEAN);
 			
 	}
-	@Ignore
+	
 	// https://issues.jboss.org/browse/JBIDE-7668
 	@Test
 	public void testObserverWithDisposer() {

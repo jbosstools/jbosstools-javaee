@@ -21,12 +21,19 @@ import org.jboss.tools.ui.bot.ext.Timing;
 
 public class CDIProjectHelper extends CDIBase{
 	
-	
+	/**
+	 * Method creates new CDI Project - Dynamic Web Project + CDI Support
+	 * @param projectName
+	 */
 	public void createCDIProject(String projectName) {
 		createDynamicWebProject(projectName);
 		addCDISupport(projectName);
 	}
 	
+	/**
+	 * Method creates new Dynamic Web Project with CDI Preset checked
+	 * @param projectName
+	 */
 	public void createDynamicWebProjectWithCDIPreset(String projectName) {
 		new NewFileWizardAction().run()
 				.selectTemplate("Web", "Dynamic Web Project").next();
@@ -34,6 +41,10 @@ public class CDIProjectHelper extends CDIBase{
 		util.waitForNonIgnoredJobs();		
 	}
 	
+	/**
+	 * Method creates new Dynamic Web Project with CDI Facets checked
+	 * @param projectName
+	 */
 	public void createDynamicWebProjectWithCDIFacets(String projectName) {
 		new NewFileWizardAction().run()
 				.selectTemplate("Web", "Dynamic Web Project").next();
@@ -42,6 +53,11 @@ public class CDIProjectHelper extends CDIBase{
 		util.waitForNonIgnoredJobs();		
 	}
 	
+	/**
+	 * Methods checks if project with entered name exists in actual workspace
+	 * @param projectName
+	 * @return 
+	 */
 	public boolean projectExists(String projectName) {
 		SWTBotTree tree = projectExplorer.bot().tree();
 		boolean projectExists = false;
@@ -53,6 +69,10 @@ public class CDIProjectHelper extends CDIBase{
 		return projectExists;
 	}
 
+	/**
+	 * Method creates new Dynamic Web Project
+	 * @param projectName
+	 */
 	private void createDynamicWebProject(String projectName) {
 		new NewFileWizardAction().run()
 				.selectTemplate("Web", "Dynamic Web Project").next();
@@ -60,6 +80,10 @@ public class CDIProjectHelper extends CDIBase{
 		util.waitForNonIgnoredJobs();		
 	}
 	
+	/**
+	 * Method adds CDI support to project with entered name
+	 * @param projectName
+	 */
 	private void addCDISupport(String projectName) {
 		projectExplorer.selectProject(projectName);
 		SWTBotTree tree = projectExplorer.bot().tree();
