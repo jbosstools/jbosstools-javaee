@@ -1,0 +1,20 @@
+package cdi;
+
+import javax.enterprise.inject.Disposes;
+import javax.interceptor.AroundInvoke;
+import javax.interceptor.Interceptor;
+import javax.interceptor.InvocationContext;
+
+@Interceptor
+public class InterceptorComponent {
+
+	@AroundInvoke
+	public Object manage(InvocationContext ic) throws Exception {
+		return null;
+	}
+	
+	public void method(@Disposes String value) {
+		
+	}
+
+}

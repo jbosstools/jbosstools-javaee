@@ -9,20 +9,8 @@
  * Red Hat, Inc. - initial API and implementation
  ******************************************************************************/
 
-package org.jboss.tools.cdi.bot.test.uiutils.wizards;
+package org.jboss.tools.cdi.bot.test.annotations;
 
-import org.eclipse.swtbot.swt.finder.SWTBot;
-
-public class DynamicWebProjectWizard extends Wizard {
-
-	public DynamicWebProjectWizard() {
-		super(new SWTBot().activeShell().widget);
-		assert "New Dynamic Web Project".equals(getText());
-	}
-
-	public DynamicWebProjectWizard setProjectName(String name) {
-		setText("Project name:", name);
-		return this;
-	}
-
+public enum ProblemsType {
+	WARNINGS, ERRORS
 }

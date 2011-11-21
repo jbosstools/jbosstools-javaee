@@ -1,0 +1,17 @@
+package cdi;
+
+import javax.enterprise.inject.Disposes;
+import javax.enterprise.inject.Produces;
+
+public class BeanComponent {
+
+	@Produces
+	public String getValue(@Disposes String value) {
+		return null;
+	}
+
+	@Produces
+	public String getValue2() {
+		return null;
+	}
+}

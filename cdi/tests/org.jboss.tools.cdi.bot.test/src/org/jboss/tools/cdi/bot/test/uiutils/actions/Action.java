@@ -8,6 +8,7 @@
  * Contributors:
  * Red Hat, Inc. - initial API and implementation
  ******************************************************************************/
+
 package org.jboss.tools.cdi.bot.test.uiutils.actions;
 
 import org.eclipse.swtbot.swt.finder.SWTBot;

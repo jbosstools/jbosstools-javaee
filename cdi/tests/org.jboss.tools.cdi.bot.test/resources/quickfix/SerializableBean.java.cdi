@@ -1,0 +1,14 @@
+package cdi;
+
+import javax.enterprise.context.SessionScoped;
+
+@SessionScoped
+public class BeanComponent {
+
+	private static final long serialVersionUID = 1L;
+
+	public BeanComponent() {
+		
+	}
+
+}

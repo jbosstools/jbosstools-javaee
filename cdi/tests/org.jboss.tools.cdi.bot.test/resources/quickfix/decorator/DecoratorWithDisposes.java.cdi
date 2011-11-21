@@ -1,0 +1,23 @@
+package cdi;
+
+import java.util.Set;
+
+import javax.decorator.Decorator;
+import javax.decorator.Delegate;
+import javax.enterprise.inject.Any;
+import javax.enterprise.inject.Disposes;
+import javax.inject.Inject;
+
+@Decorator
+public abstract class DecoratorComponent implements Set<String> {
+
+	@Inject
+	@Delegate
+	@Any
+	private Set<String> set;
+	
+	public void method(@Disposes String value) {
+		
+	}
+
+}

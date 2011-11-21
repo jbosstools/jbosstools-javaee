@@ -1,0 +1,14 @@
+package cdi;
+
+import javax.enterprise.inject.Produces;
+import javax.inject.Inject;
+
+public class BeanComponent {
+
+	@Inject
+	@Produces
+	public int getInt() {
+		return 0;
+	}
+
+}

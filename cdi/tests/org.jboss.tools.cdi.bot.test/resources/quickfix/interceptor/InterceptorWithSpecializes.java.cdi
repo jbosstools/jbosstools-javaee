@@ -1,0 +1,17 @@
+package cdi;
+
+import javax.enterprise.inject.Specializes;
+import javax.interceptor.AroundInvoke;
+import javax.interceptor.Interceptor;
+import javax.interceptor.InvocationContext;
+
+@Interceptor
+@Specializes
+public class InterceptorComponent {
+
+	@AroundInvoke
+	public Object manage(InvocationContext ic) throws Exception {
+		return null;
+	}
+
+}

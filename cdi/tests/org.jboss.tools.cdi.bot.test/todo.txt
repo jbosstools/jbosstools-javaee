@@ -1,7 +1,7 @@
 /**
  * what tests have to be done(JBDS50_0010):
- *  1. Classes indication for Open Injected Class works
- *  2. CDI Facets can create beans.xml file when selected
+ *  1. Validations works good for Inconsistent specialization, 
+       Ambiguous EL names, Unproxyable bean types, Decorator resolution
  *  3. Code completion works in beans.xml
  *  4. Classes in beans.xml are validated
  *  5. Complex test from Weld is working in JBDS and CDI functionality works without errors

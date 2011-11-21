@@ -1,0 +1,16 @@
+package cdi;
+
+import javax.enterprise.event.Observes;
+import javax.enterprise.inject.Disposes;
+import javax.enterprise.inject.Produces;
+
+public class BeanComponent {
+	@Produces
+	public long produce(){
+		return 0;
+	}
+	
+	public void method(@Observes long param1, @Disposes long param2){
+		
+	}
+}

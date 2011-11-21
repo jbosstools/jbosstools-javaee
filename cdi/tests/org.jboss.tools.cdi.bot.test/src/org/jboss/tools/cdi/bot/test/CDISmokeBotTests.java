@@ -10,12 +10,11 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.bot.test;
 
-import org.jboss.tools.cdi.bot.test.editor.CDIBeansEditorTest;
-import org.jboss.tools.cdi.bot.test.uiutils.actions.CDIBase;
-import org.jboss.tools.cdi.bot.test.uiutils.actions.CDIUtil;
-import org.jboss.tools.cdi.bot.test.wizard.CDIATWizardTest;
-import org.jboss.tools.cdi.bot.test.wizard.CDIConfigurationPresetTest;
-import org.jboss.tools.cdi.bot.test.wizard.CDIFacetTest;
+import org.jboss.tools.cdi.bot.test.editor.BeansEditorTest;
+import org.jboss.tools.cdi.bot.test.uiutils.SWTEclipseCDIExtUtil;
+import org.jboss.tools.cdi.bot.test.wizard.WizardTest;
+import org.jboss.tools.cdi.bot.test.wizard.ConfigurationPresetTest;
+import org.jboss.tools.cdi.bot.test.wizard.FacetTest;
 import org.jboss.tools.ui.bot.ext.RequirementAwareSuite;
 import org.jboss.tools.ui.bot.ext.types.ViewType;
 import org.junit.BeforeClass;
@@ -44,13 +43,13 @@ import org.junit.runners.Suite.SuiteClasses;
  */
 @RunWith(RequirementAwareSuite.class)
 @SuiteClasses({	
-	//CDIPerspectiveTest.class,	 
-	CDIConfigurationPresetTest.class,
-	CDIFacetTest.class, 
-	CDIATWizardTest.class,	
-	CDIBeansEditorTest.class,
+	//PerspectiveTest.class,	 
+	ConfigurationPresetTest.class,
+	FacetTest.class, 
+	WizardTest.class,	
+	BeansEditorTest.class,
 	})
-public class CDISmokeBotTests extends CDIBase {
+public class CDISmokeBotTests extends CDITestBase {
 	
 	/*
 	 * init method "setup()" shows a project explorer view as default,
@@ -59,6 +58,6 @@ public class CDISmokeBotTests extends CDIBase {
 	@BeforeClass
 	public static void setUpSuite() {
 		eclipse.showView(ViewType.PROJECT_EXPLORER);
-		CDIUtil.disableFolding(bot, util);
+		SWTEclipseCDIExtUtil.disableFolding(bot, util);
 	}
 }

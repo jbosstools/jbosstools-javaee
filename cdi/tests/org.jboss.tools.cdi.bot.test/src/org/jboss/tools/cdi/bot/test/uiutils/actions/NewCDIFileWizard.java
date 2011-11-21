@@ -8,10 +8,11 @@
  * Contributors:
  * Red Hat, Inc. - initial API and implementation
  ******************************************************************************/
+
 package org.jboss.tools.cdi.bot.test.uiutils.actions;
 
-import org.jboss.tools.cdi.bot.test.uiutils.wizards.CDIWizard;
-import org.jboss.tools.cdi.bot.test.uiutils.wizards.CDIWizardType;
+import org.jboss.tools.cdi.bot.test.annotations.CDIWizardType;
+import org.jboss.tools.cdi.bot.test.uiutils.wizards.CDIWizardBase;
 import org.jboss.tools.cdi.bot.test.uiutils.wizards.Wizard;
 
 public class NewCDIFileWizard extends NewFileWizardAction {
@@ -24,11 +25,11 @@ public class NewCDIFileWizard extends NewFileWizardAction {
 	}
 
 	@Override
-	public CDIWizard run() {
+	public CDIWizardBase run() {
 		Wizard w = super.run();
 		w.selectTemplate("CDI (Context and Dependency Injection)", type.getAnnotationType());
 		w.next();
-		return new CDIWizard(type);
+		return new CDIWizardBase(type);
 	}
 
 }
