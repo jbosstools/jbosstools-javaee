@@ -15,7 +15,6 @@ import java.util.logging.Logger;
 
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTable;
 import org.jboss.tools.cdi.bot.test.CDIAllBotTests;
-import org.jboss.tools.cdi.bot.test.CDITestBase;
 import org.jboss.tools.cdi.bot.test.annotations.CDIWizardType;
 import org.jboss.tools.ui.bot.ext.RequirementAwareSuite;
 import org.jboss.tools.ui.bot.ext.Timing;
@@ -36,7 +35,7 @@ import org.junit.runners.Suite.SuiteClasses;
 @Require(clearProjects = true, perspective = "Java EE", server = @Server(state = ServerState.NotRunning, version = "6.0", operator = ">="))
 @RunWith(RequirementAwareSuite.class)
 @SuiteClasses({ CDIAllBotTests.class })
-public class OpenOnTest extends CDITestBase {
+public class OpenOnTest extends OpenOnBase {
 
 	private static final Logger LOGGER = Logger.getLogger(OpenOnTest.class.getName());	
 		
@@ -50,58 +49,30 @@ public class OpenOnTest extends CDITestBase {
 
 		prepareInjectedPointsComponents();
 		
-		testInjectedPoints();
-		
-	}
-		
-	/**
-	 * https://issues.jboss.org/browse/JBIDE-7025
-	 */	
-	@Test
-	public void testBeansXMLClassesOpenOn() {
-		
-		/**
-		 * check if beans.xml was not wizard.created in previous tests. If so, I cannot wizard.create 
-		 * beans.xml into getProjectName()/WebContent/WEB-INF/beans.xml.
-		 */
-		if (!projectExplorer.isFilePresent(getProjectName(), 
-				"WebContent/META-INF/beans.xml".split("/")) && 
-			!projectExplorer.isFilePresent(getProjectName(), 
-				"WebContent/WEB-INF/beans.xml".split("/"))) {
-			wizard.createComponent(CDIWizardType.BEANS_XML, null, getProjectName() + "/WebContent/WEB-INF", null);			
+		String injectOption = null;
+		for (int i = 1; i < 12; i++) {
+			String injectPoint = "myBean" + i;
+			injectOption = "Show All Assignable Beans...";			
+			if (i > 8) injectOption = "Open @Inject Bean";			
+			checkInjectedPoint(injectPoint, injectOption);
 		}
-		
-		wizard.createComponent(CDIWizardType.DECORATOR, "D1", getPackageName(),
-				"java.util.Set");
-		bot.editorByTitle("beans.xml").show();
-		bot.cTabItem("Source").activate();
-		openOnUtil.openOnDirect(getPackageName() + ".D1", "beans.xml");
-		assertTrue("ERROR: redirected to " + getEd().getTitle(),
-				getEd().getTitle().equals("D1.java"));
-		
-		wizard.createComponent(CDIWizardType.INTERCEPTOR, "Interceptor1", getPackageName(),
-				null);
-		bot.editorByTitle("beans.xml").show();
-		openOnUtil.openOnDirect(getPackageName() + ".Interceptor1", "beans.xml");
-		assertTrue("ERROR: redirected to " + getEd(),
-					getEd().getTitle().equals("Interceptor1.java"));
-		
-		wizard.createComponent(CDIWizardType.BEAN, "B1", getPackageName(),
-				"alternative+beansxml");
-		bot.editorByTitle("beans.xml").show();
-		openOnUtil.openOnDirect(getPackageName() + ".B1", "beans.xml");
-		assertTrue("ERROR: redirected to " + getEd(),
-					getEd().getTitle().equals("B1.java"));
-		
-		wizard.createComponent(CDIWizardType.STEREOTYPE, "S1", getPackageName(),
-				"alternative+beansxml");
-		bot.editorByTitle("beans.xml").show();
-		openOnUtil.openOnDirect(getPackageName() + ".S1", "beans.xml");
-		assertTrue("ERROR: redirected to " + getEd(),
-					getEd().getTitle().equals("S1.java"));		
 		
 	}
 	
+	// https://issues.jboss.org/browse/JBIDE-7025	 
+	@Test
+	public void testBeansXMLClassesOpenOn() {
+		
+		beansHelper.createClearBeansXML(getProjectName());
+				
+		assertTrue(checkBeanXMLDecoratorOpenOn(getProjectName(), "D1"));
+		
+		assertTrue(checkBeanXMLInterceptorOpenOn(getProjectName(), "I1"));
+		
+		assertTrue(checkBeanXMLAlternativeOpenOn(getProjectName(), "A1"));
+		
+	}
+
 	/**
 	 * https://issues.jboss.org/browse/JBIDE-6251
 	 */	
@@ -110,7 +81,7 @@ public class OpenOnTest extends CDITestBase {
 		
 		String className = "Bean1";
 		
-		wizard.createComponent(CDIWizardType.BEAN, className, getPackageName(), null);
+		wizard.createCDIComponent(CDIWizardType.BEAN, className, getPackageName(), null);
 		editResourceUtil.replaceClassContentByResource(OpenOnTest.class
 				.getResourceAsStream("/resources/openon/BeanWithDisposerAndProducer.java.cdi"),
 				false);
@@ -124,11 +95,11 @@ public class OpenOnTest extends CDITestBase {
 	
 	@Test
 	public void testObserverOpenOn() {		
-		wizard.createComponent(CDIWizardType.BEAN, "EventBean", getPackageName(), null);
+		wizard.createCDIComponent(CDIWizardType.BEAN, "EventBean", getPackageName(), null);
 		editResourceUtil.replaceClassContentByResource(OpenOnTest.class
 				.getResourceAsStream("/resources/openon/EventBean.java.cdi"),
 				false);
-		wizard.createComponent(CDIWizardType.BEAN, "ObserverBean", getPackageName(), null);
+		wizard.createCDIComponent(CDIWizardType.BEAN, "ObserverBean", getPackageName(), null);
 		editResourceUtil.replaceClassContentByResource(OpenOnTest.class
 				.getResourceAsStream("/resources/openon/ObserverBean.java.cdi"),
 				false);	
@@ -145,47 +116,36 @@ public class OpenOnTest extends CDITestBase {
 	}
 	
 	private void prepareInjectedPointsComponents() {
-		wizard.createComponent(CDIWizardType.QUALIFIER, "Q1", getPackageName(), null);
+		wizard.createCDIComponent(CDIWizardType.QUALIFIER, "Q1", getPackageName(), null);
 		
-		wizard.createComponent(CDIWizardType.QUALIFIER, "Q2", getPackageName(), null);
+		wizard.createCDIComponent(CDIWizardType.QUALIFIER, "Q2", getPackageName(), null);
 		
-		wizard.createComponent(CDIWizardType.BEAN, "MyBean1", getPackageName(), null);
+		wizard.createCDIComponent(CDIWizardType.BEAN, "MyBean1", getPackageName(), null);
 		
-		wizard.createComponent(CDIWizardType.BEAN, "MyBean2", getPackageName(), null);
+		wizard.createCDIComponent(CDIWizardType.BEAN, "MyBean2", getPackageName(), null);
 		editResourceUtil.replaceClassContentByResource(OpenOnTest.class
 				.getResourceAsStream("/resources/openon/InjectedPoints/MyBean2.java.cdi"),
 				false);
 		
-		wizard.createComponent(CDIWizardType.BEAN, "MyBean3", getPackageName(), null);
+		wizard.createCDIComponent(CDIWizardType.BEAN, "MyBean3", getPackageName(), null);
 		editResourceUtil.replaceClassContentByResource(OpenOnTest.class
 				.getResourceAsStream("/resources/openon/InjectedPoints/MyBean3.java.cdi"),
 				false);
 		
-		wizard.createComponent(CDIWizardType.BEAN, "MyBean4", getPackageName(), null);
+		wizard.createCDIComponent(CDIWizardType.BEAN, "MyBean4", getPackageName(), null);
 		editResourceUtil.replaceClassContentByResource(OpenOnTest.class
 				.getResourceAsStream("/resources/openon/InjectedPoints/MyBean4.java.cdi"),
 				false);
 		
-		wizard.createComponent(CDIWizardType.BEAN, "MyBean5", getPackageName(), null);
+		wizard.createCDIComponent(CDIWizardType.BEAN, "MyBean5", getPackageName(), null);
 		editResourceUtil.replaceClassContentByResource(OpenOnTest.class
 				.getResourceAsStream("/resources/openon/InjectedPoints/MyBean5.java.cdi"),
 				false);
 		
-		wizard.createComponent(CDIWizardType.BEAN, "MainBean", getPackageName(), null);
+		wizard.createCDIComponent(CDIWizardType.BEAN, "MainBean", getPackageName(), null);
 		editResourceUtil.replaceClassContentByResource(OpenOnTest.class
 				.getResourceAsStream("/resources/openon/InjectedPoints/MainBean.java.cdi"),
 				false);
-	}
-	
-	private void testInjectedPoints() {
-		String injectOption = null;
-		for (int i = 1; i < 12; i++) {
-			String injectPoint = "myBean" + i;
-			injectOption = "Show All Assignable Beans...";			
-			if (i > 8) injectOption = "Open @Inject Bean";			
-			checkInjectedPoint(injectPoint, injectOption);
-		}
-		
 	}
 	
 	private void checkInjectedPoint(String injectedPoint, String option) {

@@ -19,7 +19,6 @@ import org.jboss.tools.ui.bot.ext.RequirementAwareSuite;
 import org.jboss.tools.ui.bot.ext.config.Annotations.Require;
 import org.jboss.tools.ui.bot.ext.config.Annotations.Server;
 import org.jboss.tools.ui.bot.ext.config.Annotations.ServerState;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite.SuiteClasses;
@@ -47,7 +46,7 @@ public class BeanValidationQuickFixTest extends QuickFixTestBase {
 		
 		String className = "ManagedBean";
 		
-		wizard.createComponent(CDIWizardType.BEAN, className, getPackageName(), null);
+		wizard.createCDIComponent(CDIWizardType.BEAN, className, getPackageName(), null);
 		editResourceUtil.replaceClassContentByResource( BeanValidationQuickFixTest.class
 				.getResourceAsStream("/resources/quickfix/SerializableBean.java.cdi"), false);
 		editResourceUtil.replaceInEditor("BeanComponent", className);		
@@ -64,13 +63,13 @@ public class BeanValidationQuickFixTest extends QuickFixTestBase {
 		String brokenFarmClassName = "BrokenFarm";
 		
 		
-		wizard.createComponent(CDIWizardType.BEAN, brokenFarmClassName, getPackageName(), null);
+		wizard.createCDIComponent(CDIWizardType.BEAN, brokenFarmClassName, getPackageName(), null);
 		
-		wizard.createComponent(CDIWizardType.QUALIFIER, "Q1", getPackageName(), null);
+		wizard.createCDIComponent(CDIWizardType.QUALIFIER, "Q1", getPackageName(), null);
 		
-		wizard.createComponent(CDIWizardType.BEAN, animalClassName, getPackageName(), null);
+		wizard.createCDIComponent(CDIWizardType.BEAN, animalClassName, getPackageName(), null);
 		
-		wizard.createComponent(CDIWizardType.BEAN, dogClassName, getPackageName(), null);
+		wizard.createCDIComponent(CDIWizardType.BEAN, dogClassName, getPackageName(), null);
 		editResourceUtil.replaceClassContentByResource(BeanValidationQuickFixTest.class
 				.getResourceAsStream("/resources/quickfix/Dog.java.cdi"), false);
 		

@@ -51,7 +51,7 @@ public class BeansXMLCompletionTest extends CDITestBase {
 	
 	@Test
 	public void testPossibleCompletionInBeansXML() {
-		wizard.createClearBeansXML(getPackageName());
+		beansHelper.createClearBeansXML(getPackageName());
 		LOGGER.info("Clear beans.xml was created");
 				
 		List<String> autoCompletion = getAutoCompletion(3, 0, "<");
@@ -65,7 +65,7 @@ public class BeansXMLCompletionTest extends CDITestBase {
 
 		prepareInterceptors();
 
-		wizard.createClearBeansXML(getPackageName());
+		beansHelper.createClearBeansXML(getPackageName());
 		LOGGER.info("Clear beans.xml was created");
 				
 	}
@@ -75,7 +75,7 @@ public class BeansXMLCompletionTest extends CDITestBase {
 		
 		prepareDecorators();
 		
-		wizard.createClearBeansXML(getPackageName());
+		beansHelper.createClearBeansXML(getPackageName());
 		LOGGER.info("Clear beans.xml was created");
 
 	}
@@ -85,46 +85,46 @@ public class BeansXMLCompletionTest extends CDITestBase {
 		
 		prepareAlternatives();
 		
-		wizard.createClearBeansXML(getPackageName());
+		beansHelper.createClearBeansXML(getPackageName());
 		LOGGER.info("Clear beans.xml was created");
 
 	}
 
 	private void prepareInterceptors() {
 
-		wizard.createComponent(CDIWizardType.INTERCEPTOR, "Interceptor1",
+		wizard.createCDIComponent(CDIWizardType.INTERCEPTOR, "Interceptor1",
 				getPackageName(), null);
 
-		wizard.createComponent(CDIWizardType.INTERCEPTOR, "Interceptor2",
+		wizard.createCDIComponent(CDIWizardType.INTERCEPTOR, "Interceptor2",
 				getPackageName(), null);
 
-		wizard.createComponent(CDIWizardType.INTERCEPTOR, "Interceptor3",
+		wizard.createCDIComponent(CDIWizardType.INTERCEPTOR, "Interceptor3",
 				getPackageName(), null);		
 
 	}
 	
 	private void prepareDecorators() {
 
-		wizard.createComponent(CDIWizardType.DECORATOR, "Decorator1", 
+		wizard.createCDIComponent(CDIWizardType.DECORATOR, "Decorator1", 
 				getPackageName(), "java.util.Set");
 		
-		wizard.createComponent(CDIWizardType.DECORATOR, "Decorator2", 
+		wizard.createCDIComponent(CDIWizardType.DECORATOR, "Decorator2", 
 				getPackageName(), "java.util.Set");
 		
-		wizard.createComponent(CDIWizardType.DECORATOR, "Decorator3", 
+		wizard.createCDIComponent(CDIWizardType.DECORATOR, "Decorator3", 
 				getPackageName(), "java.util.Set");
 
 	}
 	
 	private void prepareAlternatives() {
 		
-		wizard.createComponent(CDIWizardType.BEAN, "Alternative1", 
+		wizard.createCDIComponent(CDIWizardType.BEAN, "Alternative1", 
 				getPackageName(), "alternative");
 		
-		wizard.createComponent(CDIWizardType.BEAN, "Alternative2", 
+		wizard.createCDIComponent(CDIWizardType.BEAN, "Alternative2", 
 				getPackageName(), "alternative");
 		
-		wizard.createComponent(CDIWizardType.BEAN, "Alternative3", 
+		wizard.createCDIComponent(CDIWizardType.BEAN, "Alternative3", 
 				getPackageName(), "alternative");
 		
 	}

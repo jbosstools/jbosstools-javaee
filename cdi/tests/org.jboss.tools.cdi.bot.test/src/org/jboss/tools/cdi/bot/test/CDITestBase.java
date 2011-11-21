@@ -10,6 +10,7 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.bot.test;
 
+import org.jboss.tools.cdi.bot.test.uiutils.BeansXMLValidationHelper;
 import org.jboss.tools.cdi.bot.test.uiutils.CDIProjectHelper;
 import org.jboss.tools.cdi.bot.test.uiutils.EditorResourceHelper;
 import org.jboss.tools.cdi.bot.test.uiutils.LibraryHelper;
@@ -22,13 +23,14 @@ public class CDITestBase extends CDIBase {
 	
 	private String projectName = "CDIProject";
 	private String packageName = "cdi";
-	public final String LINE_SEPARATOR = System.getProperty("line.separator");
+	protected final String LINE_SEPARATOR = System.getProperty("line.separator");
 	
-	public static CDIProjectHelper projectHelper = new CDIProjectHelper(); 
-	public static CDIWizard wizard = new CDIWizard();
-	public static OpenOnHelper openOnUtil = new OpenOnHelper();
-	public static LibraryHelper libraryUtil = new LibraryHelper();
-	public static EditorResourceHelper editResourceUtil = new EditorResourceHelper();
+	protected static CDIProjectHelper projectHelper = new CDIProjectHelper(); 
+	protected static BeansXMLValidationHelper beansHelper = new BeansXMLValidationHelper();
+	protected static CDIWizard wizard = new CDIWizard();
+	protected static OpenOnHelper openOnUtil = new OpenOnHelper();
+	protected static LibraryHelper libraryUtil = new LibraryHelper();
+	protected static EditorResourceHelper editResourceUtil = new EditorResourceHelper();
 	
 	@Before
 	public void checkAndCreateProject() {

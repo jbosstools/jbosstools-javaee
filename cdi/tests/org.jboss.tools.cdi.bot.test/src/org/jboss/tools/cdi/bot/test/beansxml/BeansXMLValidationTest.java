@@ -11,17 +11,15 @@
 
 package org.jboss.tools.cdi.bot.test.beansxml;
 
-import java.util.logging.Logger;
-
-import org.eclipse.swtbot.swt.finder.widgets.SWTBotTreeItem;
 import org.jboss.tools.cdi.bot.test.CDIAllBotTests;
 import org.jboss.tools.cdi.bot.test.CDITestBase;
+import org.jboss.tools.cdi.bot.test.annotations.BeansXMLValidationErrors;
 import org.jboss.tools.cdi.bot.test.annotations.CDIWizardType;
 import org.jboss.tools.ui.bot.ext.RequirementAwareSuite;
 import org.jboss.tools.ui.bot.ext.config.Annotations.Require;
 import org.jboss.tools.ui.bot.ext.config.Annotations.Server;
 import org.jboss.tools.ui.bot.ext.config.Annotations.ServerState;
-import org.jboss.tools.ui.bot.ext.view.ProblemsView;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite.SuiteClasses;
@@ -38,93 +36,117 @@ import org.junit.runners.Suite.SuiteClasses;
 @SuiteClasses({ CDIAllBotTests.class })
 public class BeansXMLValidationTest extends CDITestBase {
 
-	private static final Logger LOGGER = Logger
-			.getLogger(BeansXMLValidationTest.class.getName());	
-
+	private final String someBean = "Bean1";
+	private final String nonExistingPackage = "somePackage";
+	
 	@Override
 	public String getProjectName() {
 		return "CDIBeansValidation";
 	}
 	
+	@BeforeClass
+	public static void setup() {
+		problems.show();		
+	}
+	
 	@Test
 	public void testClearBeansXMLValidation() {
 		
-		wizard.createClearBeansXML(getProjectName());
-		LOGGER.info("Clear beans.xml was created");
-		
-		SWTBotTreeItem[] validationErrors = getBeansXMLValidationErrors();
-		
-		assertTrue(validationErrors.length == 0);
+		beansHelper.createClearBeansXML(getProjectName());		
+			
+		assertTrue(beansHelper.getBeansXMLValidationErrors(
+				getProjectName()).length == 0);
 		
 	}
 	
 	@Test
 	public void testInterceptorsValidation() {
 		
-		String firstPackage = getPackageName() + ".test1";
-		String secondPackage = getPackageName() + ".test2";
-		String nonExistingPackage = getPackageName() + ".test3";
+		String className = "I1";
 		
-		prepareTwoInterceptors(firstPackage, secondPackage);
+		if (!projectExplorer.isFilePresent(getProjectName(),  
+				("Java Resources/src/" + getPackageName() + 
+				"/" + someBean + ".java").split("/"))) {
+			wizard.createCDIComponent(CDIWizardType.BEAN, someBean, getPackageName(), null);
+		}
+		
+		wizard.createCDIComponent(CDIWizardType.INTERCEPTOR, className, getPackageName(), null);
 
-		wizard.createClearBeansXML(getProjectName());
-		LOGGER.info("Clear beans.xml was created");
-		
-		String interceptorTag = "<interceptors>" + LINE_SEPARATOR + 											
-								"</interceptors>" + LINE_SEPARATOR;
-		String firstInterceptor = "<class>" + firstPackage + ".I1</class>" + LINE_SEPARATOR;								
-								 
-		editResourceUtil.insertInEditor(3, 0, interceptorTag);
-		editResourceUtil.insertInEditor(4, 0, firstInterceptor);
-		assertTrue(getBeansXMLValidationErrors().length == 0);
-		
-		String secondDecorator = "<class>" + secondPackage + ".I2</class>" + LINE_SEPARATOR;
-		editResourceUtil.insertInEditor(5, 0, secondDecorator);
-		assertTrue(getBeansXMLValidationErrors().length == 0);
+		assertTrue(beansHelper.checkInterceptorInBeansXML(getProjectName(), 
+				getPackageName(), className));
 		
 		
-		editResourceUtil.replaceInEditor(firstPackage, nonExistingPackage);
+		assertFalse(beansHelper.checkInterceptorInBeansXML(getProjectName(), 
+				nonExistingPackage, className));		
+		assertTrue(beansHelper.checkValidationErrorInBeansXML(getProjectName(), 
+				BeansXMLValidationErrors.NO_SUCH_CLASS));
 		
-		SWTBotTreeItem[] validationErrors = getBeansXMLValidationErrors();
-		assertTrue(validationErrors.length == 1);
-		assertTrue(validationErrors[0].getText().contains("There is no class with the specified name"));
 		
-		wizard.createComponent(CDIWizardType.BEAN, "Bean1", firstPackage, null);
-		bot.editorByTitle("beans.xml").show();
-		bot.editorByTitle("beans.xml").setFocus();
-		setEd(bot.activeEditor().toTextEditor());
-		editResourceUtil.replaceInEditor(nonExistingPackage + ".I1", firstPackage + ".Bean1");
-		
-		validationErrors = getBeansXMLValidationErrors();
-		assertTrue(validationErrors.length == 1);
-		assertTrue(validationErrors[0].getText().contains("must specify the name of an interceptor class"));
+		assertFalse(beansHelper.checkInterceptorInBeansXML(getProjectName(), 
+				getPackageName(), someBean));		
+		assertTrue(beansHelper.checkValidationErrorInBeansXML(getProjectName(),
+				BeansXMLValidationErrors.INTERCEPTOR));
 	}
 	
 	@Test
 	public void testDecoratorsValidation() {
+		
+		String className = "D1";
+		
+		if (!projectExplorer.isFilePresent(getProjectName(),  
+				("Java Resources/src/" + getPackageName() + 
+				"/" + someBean + ".java").split("/"))) {
+			wizard.createCDIComponent(CDIWizardType.BEAN, someBean, getPackageName(), null);
+		}
+		
+		wizard.createCDIComponent(CDIWizardType.DECORATOR, className, 
+				getPackageName(), "java.util.Set");
 
+		assertTrue(beansHelper.checkDecoratorInBeansXML(getProjectName(), 
+				getPackageName(), className));
+		
+		
+		assertFalse(beansHelper.checkDecoratorInBeansXML(getProjectName(), 
+				nonExistingPackage, className));		
+		assertTrue(beansHelper.checkValidationErrorInBeansXML(getProjectName(),
+				BeansXMLValidationErrors.NO_SUCH_CLASS));
+
+		
+		assertFalse(beansHelper.checkDecoratorInBeansXML(getProjectName(), 
+				getPackageName(), someBean));		
+		assertTrue(beansHelper.checkValidationErrorInBeansXML(getProjectName(),
+				BeansXMLValidationErrors.DECORATOR));
 	}
 	
 	@Test
 	public void testAlternativesValidation() {
+		
+		String className = "A1";
+		
+		if (!projectExplorer.isFilePresent(getProjectName(),  
+				("Java Resources/src/" + getPackageName() + 
+				"/" + someBean + ".java").split("/"))) {
+			wizard.createCDIComponent(CDIWizardType.BEAN, someBean, getPackageName(), null);
+		}
+		
+		wizard.createCDIComponent(CDIWizardType.BEAN, className, 
+				getPackageName(), "alternative");
 
-	}
-	
-	@Test
-	public void testNotSupportedCDIComponentsValidation() {
+		assertTrue(beansHelper.checkAlternativeInBeansXML(getProjectName(), 
+				getPackageName(), className));
+		
+		
+		assertFalse(beansHelper.checkAlternativeInBeansXML(getProjectName(), 
+				nonExistingPackage, className));		
+		assertTrue(beansHelper.checkValidationErrorInBeansXML(getProjectName(),
+				BeansXMLValidationErrors.NO_SUCH_CLASS));
+		
+		
+		assertFalse(beansHelper.checkAlternativeInBeansXML(getProjectName(), 
+				getPackageName(), someBean));		
+		assertTrue(beansHelper.checkValidationErrorInBeansXML(getProjectName(),
+				BeansXMLValidationErrors.ALTERNATIVE));
 		
 	}
 	
-	private SWTBotTreeItem[] getBeansXMLValidationErrors() {
-		return ProblemsView.getFilteredErrorsTreeItems(bot, null, "/"
-				+ getProjectName() + "/WebContent/WEB-INF", "beans.xml", "CDI Problem");
-	}
-	
-	private void prepareTwoInterceptors(String firstPackage, String secondPackage) {
-		
-		wizard.createComponent(CDIWizardType.INTERCEPTOR, "I1", firstPackage, null);
-		
-		wizard.createComponent(CDIWizardType.INTERCEPTOR, "I2", secondPackage, null);
-		
-	}
 }

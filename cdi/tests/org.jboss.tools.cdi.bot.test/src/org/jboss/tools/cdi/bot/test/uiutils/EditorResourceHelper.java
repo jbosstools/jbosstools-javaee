@@ -90,8 +90,7 @@ public class EditorResourceHelper extends CDIBase {
 		getEd().setText(getEd().getText().replace(
 				target + (replacement.equals("") ? System
 								.getProperty("line.separator") : ""),
-				replacement));
-		bot.sleep(Timing.time1S());
+				replacement));		
 		getEd().save();
 	}
 
@@ -121,6 +120,7 @@ public class EditorResourceHelper extends CDIBase {
 		
 		NodeContextUtil.nodeContextMenu(tree, item, "Move...").click();
 		
+		bot.sleep(Timing.time2S());
 		tree = bot.tree();	
 		tree.collapseNode(destFolder.split("/")[0]);	
 		

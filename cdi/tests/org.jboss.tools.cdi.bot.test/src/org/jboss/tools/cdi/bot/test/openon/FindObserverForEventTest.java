@@ -48,7 +48,28 @@ public class FindObserverForEventTest extends OpenOnBase {
 
 		prepareSimpleObserverFinding();
 
-		testSimpleObserverFinding(); 
+		for (int i = 0; i < events.length; i++) {			
+			String eventsClass = "EventsProducer.java";
+			
+			String showObserverOption = "Show CDI Observer Methods...";
+			
+			checkEventsAndObserver(events[i], eventsClass, showObserverOption);
+		}
+		
+
+		for (int i = 0; i < observers.length; i++) {
+			String observerClass = "ObserverBean.java";
+			
+			/**
+			 * there are two observer methods for which there is only one
+			 * event, so there will be no "Show CDI Events" option, instead
+			 * of that, there will be "Open CDI Event" option
+			 */
+			String showObserverOption = ((observers[i].equals("observeQ1MyBean2")) || 
+							(observers[i].equals("observeQ2MyBean2"))) ? "Open CDI Event" : "Show CDI Events...";
+			
+			checkEventsAndObserver(observers[i], observerClass, showObserverOption);
+		} 
 
 	}
 
@@ -63,68 +84,30 @@ public class FindObserverForEventTest extends OpenOnBase {
 
 	private void prepareSimpleObserverFinding() {
 
-		wizard.createComponent(CDIWizardType.QUALIFIER, "Q1", getPackageName(), null);
+		wizard.createCDIComponent(CDIWizardType.QUALIFIER, "Q1", getPackageName(), null);
 
-		wizard.createComponent(CDIWizardType.QUALIFIER, "Q2", getPackageName(), null);
+		wizard.createCDIComponent(CDIWizardType.QUALIFIER, "Q2", getPackageName(), null);
 
-		wizard.createComponent(CDIWizardType.BEAN, "MyBean1", getPackageName(), null);
+		wizard.createCDIComponent(CDIWizardType.BEAN, "MyBean1", getPackageName(), null);
 		editResourceUtil.replaceClassContentByResource(FindObserverForEventTest.class
 				.getResourceAsStream("/resources/events/MyBean1.java.cdi"),
 				false);
 
-		wizard.createComponent(CDIWizardType.BEAN, "MyBean2", getPackageName(), null);
+		wizard.createCDIComponent(CDIWizardType.BEAN, "MyBean2", getPackageName(), null);
 		editResourceUtil.replaceClassContentByResource(FindObserverForEventTest.class
 				.getResourceAsStream("/resources/events/MyBean2.java.cdi"),
 				false);
 
-		wizard.createComponent(CDIWizardType.BEAN, "EventsProducer", getPackageName(), null);
+		wizard.createCDIComponent(CDIWizardType.BEAN, "EventsProducer", getPackageName(), null);
 		editResourceUtil.replaceClassContentByResource(FindObserverForEventTest.class
 				.getResourceAsStream("/resources/events/EventsProducer.java.cdi"),
 				false);
 
-		wizard.createComponent(CDIWizardType.BEAN, "ObserverBean", getPackageName(), null);
+		wizard.createCDIComponent(CDIWizardType.BEAN, "ObserverBean", getPackageName(), null);
 		editResourceUtil.replaceClassContentByResource(FindObserverForEventTest.class
 				.getResourceAsStream("/resources/events/ObserverBean.java.cdi"),
 				false);
 		util.waitForNonIgnoredJobs();
-	}
-
-	private void testSimpleObserverFinding() {
-
-		
-		for (int i = 0; i < events.length; i++) {			
-			checkObserverMethodsForEvent(events[i]);
-		}
-		
-
-		for (int i = 0; i < observers.length; i++) {
-			checkEventsForObserverMethods(observers[i]);
-		}
-	}
-
-	private void checkObserverMethodsForEvent(String eventName) {
-		
-		String eventsClass = "EventsProducer.java";
-		
-		String showObserverOption = "Show CDI Observer Methods...";
-		
-		checkEventsAndObserver(eventName, eventsClass, showObserverOption);
-		
-	}
-
-	private void checkEventsForObserverMethods(String observerName) {
-		
-		String observerClass = "ObserverBean.java";
-		
-		/**
-		 * there are two observer methods for which there is only one
-		 * event, so there will be no "Show CDI Events" option, instead
-		 * of that, there will be "Open CDI Event" option
-		 */
-		String showObserverOption = ((observerName.equals("observeQ1MyBean2")) || 
-						(observerName.equals("observeQ2MyBean2"))) ? "Open CDI Event" : "Show CDI Events...";
-		
-		checkEventsAndObserver(observerName, observerClass, showObserverOption);
 	}
 
 	private void checkEventsAndObserver(String name, String className,
