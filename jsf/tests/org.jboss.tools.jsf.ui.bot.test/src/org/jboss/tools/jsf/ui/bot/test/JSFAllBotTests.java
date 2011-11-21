@@ -13,6 +13,7 @@ import org.jboss.tools.jsf.ui.bot.test.smoke.AddRemoveJSFCapabilitiesTest;
 import org.jboss.tools.jsf.ui.bot.test.smoke.CodeCompletionTest;
 import org.jboss.tools.jsf.ui.bot.test.smoke.CreateNewJSFProjectTest;
 import org.jboss.tools.jsf.ui.bot.test.smoke.FacesConfigCodeCompletionTest;
+import org.jboss.tools.jsf.ui.bot.test.smoke.FacesConfigEditingTest;
 import org.jboss.tools.jsf.ui.bot.test.smoke.MarkersTest;
 import org.jboss.tools.jsf.ui.bot.test.smoke.OpenOnTest;
 import org.jboss.tools.jsf.ui.bot.test.smoke.WebXmlEditorTest;
@@ -45,6 +46,7 @@ import org.junit.runners.Suite.SuiteClasses;
   JSF2AttributeRenameTest.class,
   OpenOnTest.class,
   CodeCompletionTest.class,
+  FacesConfigEditingTest.class,
   FacesConfigCodeCompletionTest.class,
   MarkersTest.class,
   WebXmlEditorTest.class,
