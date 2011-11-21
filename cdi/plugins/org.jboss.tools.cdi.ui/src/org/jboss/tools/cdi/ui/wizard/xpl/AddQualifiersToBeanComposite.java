@@ -139,7 +139,7 @@ public class AddQualifiersToBeanComposite extends Composite {
 		for(IQualifier q : bean.getQualifiers()){
 			IQualifierDeclaration declaration = MarkerResolutionUtils.findQualifierDeclaration(bean, q);
 			if(declaration != null){
-				String value = MarkerResolutionUtils.findQualifierValue(declaration);
+				String value = MarkerResolutionUtils.findQualifierValue(bean, declaration);
 				ValuedQualifier vq = new ValuedQualifier(q, value);
 				deployed.add(vq);
 			}else{

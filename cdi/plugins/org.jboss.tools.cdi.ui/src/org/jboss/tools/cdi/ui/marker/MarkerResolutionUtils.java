@@ -822,13 +822,18 @@ public class MarkerResolutionUtils {
 		if(declaration == null)
 			return "";
 		
-		return findQualifierValue(declaration);
+		return findQualifierValue(bean, declaration);
 	}
 	
-	public static String findQualifierValue(IQualifierDeclaration declaration){
+	public static String findQualifierValue(IBean bean, IQualifierDeclaration declaration){
 		Object value = declaration.getMemberValue(null);
 		
-		return value == null ? "" : value.toString();
+		String result =  value == null ? "" : value.toString();
+		
+		if("".equals(result) && declaration.getQualifier().getSourceType().getFullyQualifiedName().equals(CDIConstants.NAMED_QUALIFIER_TYPE_NAME))
+			result = getELName(bean);
+		
+		return result;
 	}
 	
 	public static IQualifierDeclaration findQualifierDeclaration(IBean bean, IQualifier qualifier){
