@@ -120,7 +120,7 @@ public class QuickFixTestBase extends QuickFixHelper {
 	/**
 	 * Method resolves particular validation problem (parameter ti).
 	 * It simply open context menu for param "ti", open menu "Quick Fix" and
-	 * chooses first option and confirms it
+	 * chooses first option and confirms it (resolve it)
 	 * 
 	 * @param ti
 	 */

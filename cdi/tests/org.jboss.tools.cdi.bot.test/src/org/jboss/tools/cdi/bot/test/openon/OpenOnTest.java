@@ -26,7 +26,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite.SuiteClasses;
 
 /**
- * Test operates on hyperlinks-openons using CDI tools
+ * Test operates on hyperlinks-openons using CDI support
  * 
  * @author Jaroslav Jankovic
  * 
@@ -73,9 +73,8 @@ public class OpenOnTest extends OpenOnBase {
 		
 	}
 
-	/**
-	 * https://issues.jboss.org/browse/JBIDE-6251
-	 */	
+	
+	// https://issues.jboss.org/browse/JBIDE-6251	
 	@Test
 	public void testDisposerProducerOpenOn() {
 		

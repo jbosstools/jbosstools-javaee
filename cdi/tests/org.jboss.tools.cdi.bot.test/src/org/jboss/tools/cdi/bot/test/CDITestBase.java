@@ -44,11 +44,11 @@ public class CDITestBase extends CDIBase {
 		util.waitForNonIgnoredJobs();
 	}
 		
-	public  String getProjectName() {
+	protected String getProjectName() {
 		return projectName;
 	}
 	
-	public String getPackageName() {
+	protected String getPackageName() {
 		return packageName;
 	}
 	

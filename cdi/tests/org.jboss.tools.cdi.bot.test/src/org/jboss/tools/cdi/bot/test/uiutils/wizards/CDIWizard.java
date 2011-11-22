@@ -20,6 +20,7 @@ public class CDIWizard extends CDITestBase{
 	
 	/**
 	 * Method creates Java Annotation with selected name and package
+	 * 
 	 * @param name
 	 * @param packageName
 	 */
@@ -29,7 +30,8 @@ public class CDIWizard extends CDITestBase{
 	
 	/**
 	 * Method creates CDI component with workaround for beans.xml - 
-	 * if component is beans.xml, editor is not set
+	 * if component is beans.xml, editor is not set (there is no active editor by default)
+	 * 
 	 * @param component
 	 * @param name
 	 * @param packageName
@@ -50,6 +52,7 @@ public class CDIWizard extends CDITestBase{
 	
 	/**
 	 * Method creates larger number("amount") of the same component. 
+	 * 
 	 * @param component
 	 * @param amount
 	 * @param baseName
@@ -69,6 +72,7 @@ public class CDIWizard extends CDITestBase{
 	
 	/**
 	 * Method that actually creates CDI component according to parameter
+	 * 
 	 * @param component
 	 * @param name
 	 * @param packageName

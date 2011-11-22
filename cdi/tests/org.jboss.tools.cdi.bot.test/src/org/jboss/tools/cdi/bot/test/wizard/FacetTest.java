@@ -25,7 +25,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite.SuiteClasses;
 
 /**
-* Test checks if beans.xml is created when selectin CDI Facet
+* Test checks if beans.xml is created when selecting CDI Facet
 * 
 * @author Jaroslav Jankovic
 */

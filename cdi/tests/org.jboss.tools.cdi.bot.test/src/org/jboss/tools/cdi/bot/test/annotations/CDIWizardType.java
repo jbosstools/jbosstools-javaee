@@ -9,6 +9,7 @@
  * Contributors:
  * Red Hat, Inc. - initial API and implementation
  ******************************************************************************/
+
 package org.jboss.tools.cdi.bot.test.annotations;
 
 public enum CDIWizardType {

@@ -31,7 +31,14 @@ public class OpenOnBase extends CDITestBase{
 			"observeNoQualifierMyBean2", "observeAnyMyBean2",
 			"observeQ1MyBean2", "observeQ2MyBean1", "observeQ2MyBean2" };
 	
-	
+	/**
+	 * Method creates Decorator component with entered name and package name.
+	 * Then it opens beans.xml and simulates direct openOn through method openOnDirect.
+	 * Finally it checks if the class which was opened-on to is correct.
+	 * @param packageName
+	 * @param className
+	 * @return
+	 */
 	protected boolean checkBeanXMLDecoratorOpenOn(String packageName, String className) {
 		wizard.createCDIComponent(CDIWizardType.DECORATOR, className, packageName,
 				"java.util.Set");
@@ -41,6 +48,15 @@ public class OpenOnBase extends CDITestBase{
 		return getEd().getTitle().equals(className + ".java");
 	}
 	
+	
+	/**
+	 * Method creates Interceptor component with entered name and package name.
+	 * Then it opens beans.xml and simulates direct openOn through method openOnDirect.
+	 * Finally it checks if the class which was opened-on to is correct.
+	 * @param packageName
+	 * @param className
+	 * @return
+	 */
 	protected boolean checkBeanXMLInterceptorOpenOn(String packageName, String className) {
 		wizard.createCDIComponent(CDIWizardType.INTERCEPTOR, className, packageName,
 				null);
@@ -50,6 +66,14 @@ public class OpenOnBase extends CDITestBase{
 		return getEd().getTitle().equals(className + ".java");
 	}
 	
+	/**
+	 * Method creates Alternative Bean component with entered name and package name.
+	 * Then it opens beans.xml and simulates direct openOn through method openOnDirect.
+	 * Finally it checks if the class which was opened-on to is correct.
+	 * @param packageName
+	 * @param className
+	 * @return
+	 */
 	protected boolean checkBeanXMLAlternativeOpenOn(String packageName, String className) {
 		wizard.createCDIComponent(CDIWizardType.BEAN, className, packageName,
 				"alternative+beansxml");

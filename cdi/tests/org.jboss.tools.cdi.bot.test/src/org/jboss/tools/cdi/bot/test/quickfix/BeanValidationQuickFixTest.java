@@ -24,7 +24,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite.SuiteClasses;
 
 /**
- * Test operates on quick fixes of CDI components validation
+ * Test operates on quick fixes used for validation errors of CDI bean component
  * 
  * @author Jaroslav Jankovic
  */

@@ -26,7 +26,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite.SuiteClasses;
 
 /**
- * Test operates on CDI perspective
+ * Test operates on finding right observer for event and vice versa
  * 
  * @author Jaroslav Jankovic
  */
