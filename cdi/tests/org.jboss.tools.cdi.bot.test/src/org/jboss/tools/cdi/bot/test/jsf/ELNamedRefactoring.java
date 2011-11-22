@@ -4,19 +4,14 @@
  * This program is made available under the terms of the
  * Eclipse Public License v1.0 which accompanies this distribution,
  * and is available at http://www.eclipse.org/legal/epl-v10.html
- *
+ * 
  * Contributors:
  * Red Hat, Inc. - initial API and implementation
  ******************************************************************************/
 
-package org.jboss.tools.cdi.bot.test.wizard;
-
-
-import java.util.logging.Logger;
+package org.jboss.tools.cdi.bot.test.jsf;
 
 import org.jboss.tools.cdi.bot.test.CDIAllBotTests;
-import org.jboss.tools.cdi.bot.test.CDISmokeBotTests;
-import org.jboss.tools.cdi.bot.test.CDITestBase;
 import org.jboss.tools.ui.bot.ext.RequirementAwareSuite;
 import org.jboss.tools.ui.bot.ext.config.Annotations.Require;
 import org.jboss.tools.ui.bot.ext.config.Annotations.Server;
@@ -26,34 +21,28 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite.SuiteClasses;
 
 /**
-* Test checks if CDI configuration preset sets CDI support correctly
-* 
-* @author Jaroslav Jankovic
-*/
+ * Test operates on EL named refactoring  
+ * 
+ * @author Jaroslav Jankovic
+ * 
+ */
 
 @Require(clearProjects = true, perspective = "Java EE", server = @Server(state = ServerState.NotRunning, version = "6.0", operator = ">="))
 @RunWith(RequirementAwareSuite.class)
-@SuiteClasses({ CDIAllBotTests.class , CDISmokeBotTests.class })
-public class ConfigurationPresetTest extends CDITestBase {
-
-	private static final Logger LOGGER = Logger.getLogger(ConfigurationPresetTest.class.getName());
-	
-	@Override	
-	public void checkAndCreateProject() {
-		if (!projectHelper.projectExists(getProjectName())) {
-			projectHelper.createDynamicWebProjectWithCDIPreset(getProjectName());
-		}
-	}
+@SuiteClasses({ CDIAllBotTests.class })
+public class ELNamedRefactoring extends JSFTestBase {
 	
 	@Override
 	public String getProjectName() {
-		return "CDIPresetProject";
+		return "CDIRefactoring";
 	}
-			
+				
 	@Test
-	public void testCDIPreset() {
-		LOGGER.info("Dynamic Web Project with CDI Configuration Preset created");
+	public void testCreateJSFBlankProject() {
+		
+		assertTrue(projectHelper.projectExists(getProjectName()));
 		assertTrue(projectHelper.checkCDISupport(getProjectName()));
+				
 	}
 	
 }

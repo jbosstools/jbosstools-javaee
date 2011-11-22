@@ -12,7 +12,6 @@
 package org.jboss.tools.cdi.bot.test.uiutils.wizards;
 
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swtbot.swt.finder.SWTBot;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotShell;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotText;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTree;
@@ -62,38 +61,10 @@ public class Wizard extends SWTBotShell {
 	public boolean canFinish() {
 		return canClick("Finish");
 	}
-	
-	public Wizard setCDIPreset() {
-		bot().comboBoxInGroup("Configuration", 0).
-			setSelection("Dynamic Web Project with CDI (Context and Dependency Injection)");			
-		return this;
-	}
-	
-	public Wizard setCDIFacet() {
-		clickButton("Modify...");
-		SWTBot bot = bot().shell("Project Facets").bot();
-		setCDIFacet(bot);
-		bot().sleep(Timing.time1S());
-		return this;
-	}
-	
-	private void setCDIFacet(SWTBot bot) {
-		SWTBotTree tree= bot.tree();
-		for (SWTBotTreeItem ti: tree.getAllItems())  {							
-			if (ti.cell(0).contains("CDI (Contexts and Dependency Injection)")) {				
-				ti.check();
-				break;
-			}
-		}
-		bot.sleep(Timing.time1S());
-		bot.button("OK").click();
-	}
-	
-	
-
+		
 	protected void clickButton(String text) {
 		bot().button(text).click();
-		bot().sleep(500);
+		bot().sleep(Timing.time500MS());
 	}
 
 	protected void setText(String label, String text) {
@@ -104,5 +75,10 @@ public class Wizard extends SWTBotShell {
 		
 	protected boolean canClick(String button) {
 		return bot().button(button).isEnabled();
+	}
+	
+	protected void setTextInCombobox(String combobox, String text) {
+		bot().comboBoxWithLabel(combobox).setSelection(text);
+		bot().sleep(Timing.time500MS());		
 	}
 }

@@ -12,6 +12,7 @@ package org.jboss.tools.cdi.bot.test;
 
 import org.jboss.tools.cdi.bot.test.beansxml.BeansXMLValidationTest;
 import org.jboss.tools.cdi.bot.test.editor.BeansEditorTest;
+import org.jboss.tools.cdi.bot.test.jsf.ELNamedRefactoring;
 import org.jboss.tools.cdi.bot.test.openon.FindObserverForEventTest;
 import org.jboss.tools.cdi.bot.test.openon.OpenOnTest;
 import org.jboss.tools.cdi.bot.test.quickfix.BeanValidationQuickFixTest;
@@ -48,7 +49,7 @@ import org.junit.runners.Suite.SuiteClasses;
  *  JAVA=1.6,/space/java/sdk/jdk1.6.0_22
  *  
  *  
- *  Suite duration: aprox. 21min
+ *  Suite duration: aprox. 22min
  * 
  * @author Lukas Jungmann
  * @author Jaroslav Jankovic
@@ -60,6 +61,7 @@ import org.junit.runners.Suite.SuiteClasses;
 	FacetTest.class, 
 	WizardTest.class,
 	BeansEditorTest.class,
+	ELNamedRefactoring.class, 
 	BeansXMLValidationTest.class,
 //	BeansXMLCompletionTest.class,
 	StereotypeValidationQuickFixTest.class,

@@ -12,6 +12,9 @@
 package org.jboss.tools.cdi.bot.test.uiutils.wizards;
 
 import org.eclipse.swtbot.swt.finder.SWTBot;
+import org.eclipse.swtbot.swt.finder.widgets.SWTBotTree;
+import org.eclipse.swtbot.swt.finder.widgets.SWTBotTreeItem;
+import org.jboss.tools.ui.bot.ext.Timing;
 
 public class DynamicWebProjectWizard extends Wizard {
 
@@ -23,6 +26,32 @@ public class DynamicWebProjectWizard extends Wizard {
 	public DynamicWebProjectWizard setProjectName(String name) {
 		setText("Project name:", name);
 		return this;
+	}
+	
+	public DynamicWebProjectWizard setCDIPreset() {
+		bot().comboBoxInGroup("Configuration", 0).
+			setSelection("Dynamic Web Project with CDI (Context and Dependency Injection)");			
+		return this;
+	}
+	
+	public DynamicWebProjectWizard setCDIFacet() {
+		clickButton("Modify...");
+		SWTBot bot = bot().shell("Project Facets").bot();
+		setCDIFacetInFacets(bot);
+		bot().sleep(Timing.time1S());
+		return this;
+	}
+	
+	private void setCDIFacetInFacets(SWTBot bot) {
+		SWTBotTree tree= bot.tree();
+		for (SWTBotTreeItem ti: tree.getAllItems())  {							
+			if (ti.cell(0).contains("CDI (Contexts and Dependency Injection)")) {				
+				ti.check();
+				break;
+			}
+		}
+		bot.sleep(Timing.time1S());
+		bot.button("OK").click();
 	}
 
 }

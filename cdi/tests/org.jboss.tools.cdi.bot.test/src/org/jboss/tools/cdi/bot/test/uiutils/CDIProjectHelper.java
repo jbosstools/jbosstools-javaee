@@ -12,12 +12,14 @@
 package org.jboss.tools.cdi.bot.test.uiutils;
 
 import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
+import org.eclipse.swtbot.swt.finder.widgets.SWTBotMenu;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTree;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTreeItem;
 import org.jboss.tools.cdi.bot.test.CDIBase;
 import org.jboss.tools.cdi.bot.test.uiutils.actions.NewFileWizardAction;
 import org.jboss.tools.cdi.bot.test.uiutils.wizards.DynamicWebProjectWizard;
 import org.jboss.tools.ui.bot.ext.Timing;
+import org.jboss.tools.ui.bot.ext.helper.ContextMenuHelper;
 
 public class CDIProjectHelper extends CDIBase{
 	
@@ -84,7 +86,7 @@ public class CDIProjectHelper extends CDIBase{
 	 * Method adds CDI support to project with entered name
 	 * @param projectName
 	 */
-	private void addCDISupport(String projectName) {
+	public void addCDISupport(String projectName) {
 		projectExplorer.selectProject(projectName);
 		SWTBotTree tree = projectExplorer.bot().tree();
 		SWTBotTreeItem item = tree.getTreeItem(projectName);
@@ -95,6 +97,24 @@ public class CDIProjectHelper extends CDIBase{
 		bot.activeShell().bot().button("OK").click();
 		bot.sleep(Timing.time2S());		
 		util.waitForNonIgnoredJobs();
+	}
+	
+	/**
+	 * Method checks if entered project has CDI support set	
+	 * @param projectName
+	 * @return
+	 */
+	public boolean checkCDISupport(String projectName) {
+		projectExplorer.selectProject(projectName);
+		
+		SWTBotTree tree = projectExplorer.bot().tree();
+		ContextMenuHelper.prepareTreeItemForContextMenu(tree);
+	    new SWTBotMenu(ContextMenuHelper.getContextMenu(tree,"Properties",false)).click();
+	    
+	    bot.tree().expandNode("CDI (Context and Dependency Injection) Settings").select();	    	    
+		boolean isCDISupported = bot.checkBox().isChecked();
+		bot.button("Cancel").click();
+		return isCDISupported;
 	}
 	
 }

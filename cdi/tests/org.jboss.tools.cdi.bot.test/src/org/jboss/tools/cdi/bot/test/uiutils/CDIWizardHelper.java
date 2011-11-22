@@ -9,18 +9,18 @@
  * Red Hat, Inc. - initial API and implementation
  ******************************************************************************/
 
-package org.jboss.tools.cdi.bot.test.uiutils.wizards;
+package org.jboss.tools.cdi.bot.test.uiutils;
 
 import org.jboss.tools.cdi.bot.test.CDITestBase;
 import org.jboss.tools.cdi.bot.test.annotations.CDIWizardType;
+import org.jboss.tools.cdi.bot.test.uiutils.wizards.CDIWizardBaseExt;
 
-public class CDIWizard extends CDITestBase{
+public class CDIWizardHelper extends CDITestBase{
 	
 	private CDIWizardBaseExt wizardExt = new CDIWizardBaseExt();
 	
 	/**
-	 * Method creates Java Annotation with selected name and package
-	 * 
+	 * Method creates Java Annotation with selected name and package	 
 	 * @param name
 	 * @param packageName
 	 */
@@ -30,8 +30,7 @@ public class CDIWizard extends CDITestBase{
 	
 	/**
 	 * Method creates CDI component with workaround for beans.xml - 
-	 * if component is beans.xml, editor is not set (there is no active editor by default)
-	 * 
+	 * if component is beans.xml, editor is not set (there is no active editor by default)	 
 	 * @param component
 	 * @param name
 	 * @param packageName
@@ -51,8 +50,7 @@ public class CDIWizard extends CDITestBase{
 	}
 	
 	/**
-	 * Method creates larger number("amount") of the same component. 
-	 * 
+	 * Method creates larger number("amount") of the same component. 	 
 	 * @param component
 	 * @param amount
 	 * @param baseName
@@ -72,7 +70,6 @@ public class CDIWizard extends CDITestBase{
 	
 	/**
 	 * Method that actually creates CDI component according to parameter
-	 * 
 	 * @param component
 	 * @param name
 	 * @param packageName

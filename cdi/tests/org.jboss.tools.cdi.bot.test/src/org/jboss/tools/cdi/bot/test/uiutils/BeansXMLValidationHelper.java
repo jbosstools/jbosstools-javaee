@@ -29,8 +29,7 @@ public class BeansXMLValidationHelper extends CDITestBase {
 	
 	/**
 	 * Method checks if there is validation problem with text 
-	 * specified by parameter validationErrors for entered project
-	 * 
+	 * specified by parameter validationErrors for entered project	 
 	 * @param validationError
 	 * @return
 	 */
@@ -59,8 +58,7 @@ public class BeansXMLValidationHelper extends CDITestBase {
 	/**
 	 * Method checks if there is no validation problem when 
 	 * creating interceptor component with entered className
-	 * packageName for project with name projectName 
-	 * 
+	 * packageName for project with name projectName 	
 	 * @param projectName
 	 * @param packageName
 	 * @param className
@@ -76,7 +74,6 @@ public class BeansXMLValidationHelper extends CDITestBase {
 	 * Method checks if there is no validation problem when 
 	 * creating decorator component with entered className
 	 * packageName for project with name projectName 
-	 * 
 	 * @param projectName
 	 * @param packageName
 	 * @param className
@@ -91,8 +88,7 @@ public class BeansXMLValidationHelper extends CDITestBase {
 	/**
 	 * Method checks if there is no validation problem when 
 	 * creating alternative bean component with entered className
-	 * packageName for project with name projectName 
-	 * 
+	 * packageName for project with name projectName 	 
 	 * @param projectName
 	 * @param packageName
 	 * @param className
@@ -107,7 +103,6 @@ public class BeansXMLValidationHelper extends CDITestBase {
 	/**
 	 * Method gets all beans.xml validation errors showed in Problems View
 	 * for entered project 
-	 * 
 	 * @return
 	 */
 	public SWTBotTreeItem[] getBeansXMLValidationErrors(String projectName) {
@@ -116,8 +111,7 @@ public class BeansXMLValidationHelper extends CDITestBase {
 	}
 	
 	/**
-	 * Methods creates beans.xml with no tags for entered project.	
-	 * 
+	 * Methods creates beans.xml with no tags for entered project.		 
 	 * @param projectName
 	 */
 	public void createClearBeansXML(String projectName) {
@@ -129,8 +123,7 @@ public class BeansXMLValidationHelper extends CDITestBase {
 	/**
 	 * Methods creates beans.xml with interceptor tags in it for entered project.
 	 * Package and interceptor component name which should be showed in tag is 
-	 * determined by parameters
-	 * 
+	 * determined by parameters	 
 	 * @param projectName
 	 * @param packageName
 	 * @param className
@@ -147,8 +140,7 @@ public class BeansXMLValidationHelper extends CDITestBase {
 	/**
 	 * Methods creates beans.xml with decorator tags in it for entered project.
 	 * Package and decorator component name which should be showed in tag is 
-	 * determined by parameters
-	 * 
+	 * determined by parameters	 
 	 * @param projectName
 	 * @param packageName
 	 * @param className
@@ -164,8 +156,7 @@ public class BeansXMLValidationHelper extends CDITestBase {
 	/**
 	 * Methods creates beans.xml with alternative tags in it for entered project.
 	 * Package and alternative bean component name which should be showed in tag is 
-	 * determined by parameters
-	 * 
+	 * determined by parameters	 
 	 * @param projectName
 	 * @param packageName
 	 * @param className
@@ -181,8 +172,7 @@ public class BeansXMLValidationHelper extends CDITestBase {
 	/**
 	 * Methods create beans.xml for entered project with content of file
 	 * determined by parameter path. If there is beans.xml in project, its
-	 * content is simply replaced
-	 * 
+	 * content is simply replaced	
 	 * @param projectName
 	 * @param path
 	 */

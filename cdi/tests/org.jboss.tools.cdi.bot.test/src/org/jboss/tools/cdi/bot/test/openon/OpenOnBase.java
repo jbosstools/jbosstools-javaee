@@ -14,7 +14,14 @@ package org.jboss.tools.cdi.bot.test.openon;
 import org.jboss.tools.cdi.bot.test.CDITestBase;
 import org.jboss.tools.cdi.bot.test.annotations.CDIWizardType;
 
-public class OpenOnBase extends CDITestBase{
+/**
+ * test base for OpenOn-like CDI tests
+ * 
+ * @author jjankovi
+ *
+ */
+
+public class OpenOnBase extends CDITestBase {
 	
 	protected static final String[] events = { "myBean1Q1Event", "myBean1AnyEvent",
 			"myBean2Q1Event", "myBean2AnyEvent", "myBean1Q2Event",
