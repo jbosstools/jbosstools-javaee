@@ -89,7 +89,7 @@ public class StereotypeValidationQuickFixTest extends QuickFixTestBase {
 		checkQuickFix(CDIAnnotationsType.NAMED, CDIWizardType.STEREOTYPE);
 		
 	}
-		
+	
 	// https://issues.jboss.org/browse/JBIDE-7640
 	@Test	
 	public void testTypedAnnotation() {

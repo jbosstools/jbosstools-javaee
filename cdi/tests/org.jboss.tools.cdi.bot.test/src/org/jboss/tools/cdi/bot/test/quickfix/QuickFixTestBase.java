@@ -14,6 +14,7 @@ package org.jboss.tools.cdi.bot.test.quickfix;
 
 import java.util.ArrayList;
 
+import org.eclipse.swtbot.swt.finder.widgets.SWTBotTableItem;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTreeItem;
 import org.jboss.tools.cdi.bot.test.annotations.CDIAnnotationsType;
 import org.jboss.tools.cdi.bot.test.annotations.CDIWizardType;
@@ -26,6 +27,7 @@ import org.jboss.tools.cdi.bot.test.quickfix.validators.QualifierValidationProvi
 import org.jboss.tools.cdi.bot.test.quickfix.validators.ScopeValidationProvider;
 import org.jboss.tools.cdi.bot.test.quickfix.validators.StereotypeValidationProvider;
 import org.jboss.tools.cdi.bot.test.uiutils.QuickFixHelper;
+import org.jboss.tools.cdi.bot.test.uiutils.wizards.QuickFixDialogWizard;
 import org.jboss.tools.ui.bot.ext.Timing;
 import org.junit.BeforeClass;
 
@@ -126,10 +128,14 @@ public class QuickFixTestBase extends QuickFixHelper {
 	 */
 	private void resolveQuickFix(SWTBotTreeItem ti) {
 		openQuickFix(ti);
-		bot.table(0).click(0, 0);		
-		bot.table(1).getTableItem(0).check();		
-		bot.clickButton("Finish");
-		bot.sleep(Timing.time1S());
+		
+		QuickFixDialogWizard qfWizard = new QuickFixDialogWizard();
+		
+		SWTBotTableItem firstFix = qfWizard.getFixes()[0];				
+		SWTBotTableItem firstResource = qfWizard.getResources()[0];
+		
+		qfWizard.setFix(firstFix).setResource(firstResource).finish();
+		
 		util.waitForNonIgnoredJobs();
 	}
 

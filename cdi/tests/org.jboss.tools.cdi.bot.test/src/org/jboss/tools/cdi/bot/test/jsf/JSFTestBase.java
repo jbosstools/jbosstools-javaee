@@ -45,7 +45,7 @@ public class JSFTestBase extends CDITestBase {
 		new NewJSFProjectWizard().run().
 			setName(getProjectName()).
 			setEnvironment(env).
-			setJSFTemplate(JSFTemplate.BLANK).finish();
+			setJSFTemplate(JSFTemplate.KICKSTART).finish();
 		util.waitForNonIgnoredJobs();
 	}
 				
