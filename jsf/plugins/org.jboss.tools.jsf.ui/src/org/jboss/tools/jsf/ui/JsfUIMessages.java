@@ -48,6 +48,9 @@ public class JsfUIMessages extends NLS {
 	public static String MESSAGES_FILE_RENAME_PARTICIPANT_UPDATE_MESSAGE_BUNDLE_REFERENCES;
 	public static String MESSAGES_FILE_RENAME_PARTICIPANT_FILE_NAME_SHOULD_BE_WITH_THE_SAME_EXTENSION;
 	
+	public static String DISABLE_FACELET_HTML_VALIDATOR_MARKER_RESOLUTION_FOR_WORKSPACE;
+	public static String DISABLE_FACELET_HTML_VALIDATOR_MARKER_RESOLUTION_FOR_PROJECT;
+	
 	static {
 		// initialize resource bundle
 		NLS.initializeMessages(BUNDLE_NAME, JsfUIMessages.class);

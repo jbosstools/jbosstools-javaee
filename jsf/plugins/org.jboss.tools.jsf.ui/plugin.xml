@@ -465,5 +465,11 @@
           locationURI="popup:org.eclipse.ui.popup.any?after=save">
     </menuContribution>
 	</extension>
-
+	
+   	<extension point="org.eclipse.ui.ide.markerResolution">
+		<markerResolutionGenerator
+        class="org.jboss.tools.jsf.ui.marker.DisableFaceletHTMLValidatorResolutionGenerator"
+        markerType="org.eclipse.jst.jsf.facelet.ui.FaceletValidationMarker"/>
+	</extension>
+	
 </plugin>
