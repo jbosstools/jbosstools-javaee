@@ -32,6 +32,16 @@ public class JSFSeverityPreferences extends SeverityPreferences {
 	// Mark attribute which can't be found.
 	public static final String UNKNOWN_COMPOSITE_COMPONENT_ATTRIBUTE = INSTANCE.createSeverityOption("unknownAttribute"); //$NON-NLS-1$
 
+	//Faces Config
+		//Application
+	public static final String INVALID_ACTION_LISTENER = INSTANCE.createSeverityOption("invalidActionListener"); //$NON-NLS-1$
+	public static final String INVALID_NAVIGATION_HANDLER = INSTANCE.createSeverityOption("invalidNavigationHandler"); //$NON-NLS-1$
+	public static final String INVALID_PROPERTY_RESOLVER = INSTANCE.createSeverityOption("invalidPropertyResolver"); //$NON-NLS-1$
+	public static final String INVALID_STATE_MANAGER = INSTANCE.createSeverityOption("invalidStateManager"); //$NON-NLS-1$
+	public static final String INVALID_VARIABLE_RESOLVER = INSTANCE.createSeverityOption("invalidVariableResolver"); //$NON-NLS-1$
+	public static final String INVALID_VIEW_HANDLER = INSTANCE.createSeverityOption("invalidViewHandler"); //$NON-NLS-1$
+	
+	
 	/**
 	 * @return the only instance of JSFSeverityPreferences
 	 */

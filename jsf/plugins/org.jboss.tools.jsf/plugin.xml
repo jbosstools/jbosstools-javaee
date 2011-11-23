@@ -497,6 +497,13 @@
       </persistent>
    </extension>
 
+   <extension id="facesconfigproblem" name="%FacesConfigProblemName" point="org.eclipse.core.resources.markers">
+      <super type="org.jboss.tools.common.validation.JBTValidationProblem">
+      </super>
+      <persistent value="true">
+      </persistent>
+   </extension>
+
    <extension id="xhtmlsyntaxproblem" name="%XHTMLSyntaxProblemName" point="org.eclipse.core.resources.markers">
       <super type="org.eclipse.wst.xml.core.validationMarker">
       </super>
@@ -511,6 +518,15 @@
                class="org.jboss.tools.jsf.web.validation.composite.CompositeComponentValidator"
                name="%ComponentCompositeValidator"
                id="org.jboss.tools.jsf.CompositeComponentValidator">
+         </validator>
+   </extension>
+
+   <extension
+         point="org.jboss.tools.common.validation.validator">
+         <validator
+               class="org.jboss.tools.jsf.web.validation.FacesConfigValidator"
+               name="%FacesConfigValidator"
+               id="org.jboss.tools.jsf.web.validation.FacesConfigValidator">
          </validator>
    </extension>
 

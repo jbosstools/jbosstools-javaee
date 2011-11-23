@@ -31,10 +31,8 @@ public class JSFSeverityPreferenceInitializer extends AbstractPreferenceInitiali
 		defaultPreferences.putBoolean(SeverityPreferences.ENABLE_BLOCK_PREFERENCE_NAME, true);
 		defaultPreferences.put(SeverityPreferences.WRONG_BUILDER_ORDER_PREFERENCE_NAME, JSFSeverityPreferences.ERROR);
 		for (String name : JSFSeverityPreferences.SEVERITY_OPTION_NAMES) {
-			defaultPreferences.put(name, SeverityPreferences.ERROR);
+			defaultPreferences.put(name, SeverityPreferences.WARNING);
 		}
-		defaultPreferences.put(JSFSeverityPreferences.UNKNOWN_COMPOSITE_COMPONENT_ATTRIBUTE, JSFSeverityPreferences.WARNING);
-		defaultPreferences.put(JSFSeverityPreferences.UNKNOWN_COMPOSITE_COMPONENT_NAME, JSFSeverityPreferences.WARNING);
 		defaultPreferences.putInt(SeverityPreferences.MAX_NUMBER_OF_MARKERS_PREFERENCE_NAME, SeverityPreferences.DEFAULT_MAX_NUMBER_OF_MARKERS_PER_FILE);
 	}
 }
