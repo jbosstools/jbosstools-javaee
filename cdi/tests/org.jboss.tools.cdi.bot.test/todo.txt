@@ -1,30 +1,31 @@
-/**
- * what tests have to be done(JBDS50_0010):
- *  1. Validations works good for Inconsistent specialization, 
-       Ambiguous EL names, Unproxyable bean types, Decorator resolution
- *  2. Code completion works in beans.xml
- *  3. Complex test from Weld is working in JBDS and CDI functionality works without errors
- *  4. CDI @Named beans are renamed via refactoring and shows up correctly 
- *     when using Find References for EL Expressions
- *  5. Create new decorator from existing Web Bean
- *  6. EL refactoring for @Named beans works
- *  
- *  
- *  what tests have to be done(JBDS50_0015):
- *  1. OpenOn works for injected classes
- *  2. OpenOn works in Seam Config for given beans
- *  3. OpenOn works for Bean injected into java source files declard in seam-config.xml can be navigated
- *  4. Seam-beans.xml validation works
- *  5. Seam3 not-trivial example works with JBDS without errors and as expected
- *  6. Wel extension(beans_1_1.xsd) is now supported by beans.xml editor
- *  7. Non-serializable passivating-scoped beans are now validated correctly
- *  8. Code completion and validation works in seam config for annotated CDI beans
- *  9. Seam3 features is enabled automatically for CDI support enabled project containing corresponding Seam module
- *  10.CDI supports Seam3 annotations (@Veto,@Requires,@Exact,@MessageLogger,@MessageBundle 
- *     @DefaultBean,@Unwraps,@ServiceHandlerType,@FullyQualified,@Resource)
- *  11.CDI tools can work with generic beans and validation, code completion, hyperlinks, 
- *     refactoring is working as expected   
- */
+
+  what tests have to be done(JBDS50_0010):
+   * Validations works good for Inconsistent specialization, 
+     Ambiguous EL names, Unproxyable bean types, Decorator resolution
+   * Code completion works in beans.xml
+   * Quick fixes for problem markers in beans.xml(https://issues.jboss.org/browse/JBIDE-9833)
+   * Complex test from Weld is working in JBDS and CDI functionality works without errors
+   * CDI @Named beans are renamed via refactoring and shows up correctly 
+      when using Find References for EL Expressions
+   * Create new decorator from existing Web Bean
+   * EL refactoring for @Named beans works
+   
+   
+   what tests have to be done(JBDS50_0015):
+   * OpenOn works for injected classes
+   * OpenOn works in Seam Config for given beans
+   * OpenOn works for Bean injected into java source files declard in seam-config.xml can be navigated
+   * Seam-beans.xml validation works
+   * Seam3 not-trivial example works with JBDS without errors and as expected
+   * Wel extension(beans_1_1.xsd) is now supported by beans.xml editor
+   * Non-serializable passivating-scoped beans are now validated correctly
+   * Code completion and validation works in seam config for annotated CDI beans
+   * Seam3 features is enabled automatically for CDI support enabled project containing corresponding Seam module
+   * CDI supports Seam3 annotations (@Veto,@Requires,@Exact,@MessageLogger,@MessageBundle 
+      @DefaultBean,@Unwraps,@ServiceHandlerType,@FullyQualified,@Resource)
+   * CDI tools can work with generic beans and validation, code completion, hyperlinks, 
+     refactoring is working as expected   
+ 
 
 UI tests to implement for CDI (based on F2F meeting)
 

@@ -48,7 +48,9 @@ import org.xml.sax.SAXException;
  * @author Lukas Jungmann
  * @author jjankovi
  */
-@Require(clearProjects = false, perspective = "Java EE", server = @Server(state = ServerState.NotRunning, version = "6.0", operator = ">="))
+@Require(clearProjects = true, perspective = "Java EE", 
+		server = @Server(state = ServerState.NotRunning, 
+		version = "6.0", operator = ">="))
 @RunWith(RequirementAwareSuite.class)
 @SuiteClasses({ CDIAllBotTests.class })
 public class BeansEditorTest extends CDITestBase {

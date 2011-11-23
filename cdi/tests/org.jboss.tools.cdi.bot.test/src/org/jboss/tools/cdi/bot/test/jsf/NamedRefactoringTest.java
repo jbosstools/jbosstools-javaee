@@ -12,7 +12,9 @@
 package org.jboss.tools.cdi.bot.test.jsf;
 
 import org.jboss.tools.cdi.bot.test.CDIAllBotTests;
+import org.jboss.tools.cdi.bot.test.annotations.CDIWizardType;
 import org.jboss.tools.ui.bot.ext.RequirementAwareSuite;
+import org.jboss.tools.ui.bot.ext.Timing;
 import org.jboss.tools.ui.bot.ext.config.Annotations.Require;
 import org.jboss.tools.ui.bot.ext.config.Annotations.Server;
 import org.jboss.tools.ui.bot.ext.config.Annotations.ServerState;
@@ -27,10 +29,12 @@ import org.junit.runners.Suite.SuiteClasses;
  * 
  */
 
-@Require(clearProjects = true, perspective = "Java EE", server = @Server(state = ServerState.NotRunning, version = "6.0", operator = ">="))
+@Require(clearProjects = true, perspective = "Web Development", 
+		 server = @Server(state = ServerState.NotRunning, 
+		 version = "6.0", operator = ">="))
 @RunWith(RequirementAwareSuite.class)
 @SuiteClasses({ CDIAllBotTests.class })
-public class ELNamedRefactoring extends JSFTestBase {
+public class NamedRefactoringTest extends JSFTestBase {
 	
 	@Override
 	public String getProjectName() {
@@ -38,11 +42,18 @@ public class ELNamedRefactoring extends JSFTestBase {
 	}
 				
 	@Test
-	public void testCreateJSFBlankProject() {
+	public void testNamedAnnotation() {
 		
-		assertTrue(projectHelper.projectExists(getProjectName()));
-		assertTrue(projectHelper.checkCDISupport(getProjectName()));
-				
+		wizard.createCDIComponent(CDIWizardType.BEAN, "ManagedBean", getPackageName(), null);
+		editResourceUtil.replaceClassContentByResource(NamedRefactoringTest.class.
+				getResourceAsStream("/resources/jsf/ManagedBean.java.cdi"), false);
+		
+		createXHTMLPage("index.xhtml");		
+		editResourceUtil.replaceClassContentByResource(NamedRefactoringTest.class.
+				getResourceAsStream("/resources/jsf/index.xhtml.cdi"), false);
+
+		
+		
 	}
 	
 }

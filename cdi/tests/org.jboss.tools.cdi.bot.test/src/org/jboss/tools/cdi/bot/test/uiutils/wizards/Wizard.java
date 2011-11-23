@@ -62,6 +62,16 @@ public class Wizard extends SWTBotShell {
 		return canClick("Finish");
 	}
 		
+	protected void checkCheckbox(String text) {
+		bot().checkBoxWithLabel(text).select();
+		bot().sleep(Timing.time500MS());
+	}
+	
+	protected void uncheckCheckbox(String text) {
+		bot().checkBoxWithLabel(text).deselect();
+		bot().sleep(Timing.time500MS());
+	}
+	
 	protected void clickButton(String text) {
 		bot().button(text).click();
 		bot().sleep(Timing.time500MS());

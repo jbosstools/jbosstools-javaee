@@ -15,11 +15,14 @@ import org.jboss.tools.cdi.bot.test.CDITestBase;
 import org.jboss.tools.cdi.bot.test.annotations.JSFEnvironment;
 import org.jboss.tools.cdi.bot.test.annotations.JSFTemplate;
 import org.jboss.tools.cdi.bot.test.uiutils.actions.NewJSFProjectWizard;
+import org.jboss.tools.cdi.bot.test.uiutils.actions.NewXHTMLFileWizard;
+import org.jboss.tools.cdi.bot.test.uiutils.wizards.XHTMLDialogWizard;
+import org.jboss.tools.ui.bot.ext.Timing;
 import org.junit.Before;
 
 public class JSFTestBase extends CDITestBase {
 	
-	private JSFEnvironment env = JSFEnvironment.JSF_11;
+	private JSFEnvironment env = JSFEnvironment.JSF_20;
 	
 	public JSFEnvironment getEnv() {
 		return env; 
@@ -33,6 +36,14 @@ public class JSFTestBase extends CDITestBase {
 		}
 		
 	}
+	
+	protected void createXHTMLPage(String pageName) {
+		XHTMLDialogWizard xhtmlWizard = new NewXHTMLFileWizard().run();
+		xhtmlWizard.setName(pageName).finish();
+		bot.sleep(Timing.time3S());
+		util.waitForNonIgnoredJobs();
+		setEd(bot.activeEditor().toTextEditor());
+	}
 
 	private void createJSFProjectWithCDISupport(String projectName, JSFEnvironment env) {
 		
@@ -45,7 +56,7 @@ public class JSFTestBase extends CDITestBase {
 		new NewJSFProjectWizard().run().
 			setName(getProjectName()).
 			setEnvironment(env).
-			setJSFTemplate(JSFTemplate.KICKSTART).finish();
+			setJSFTemplate(JSFTemplate.BLANK_LIBS).finish();
 		util.waitForNonIgnoredJobs();
 	}
 				

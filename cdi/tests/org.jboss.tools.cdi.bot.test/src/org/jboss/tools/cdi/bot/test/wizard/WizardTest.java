@@ -35,7 +35,9 @@ import org.junit.runners.Suite.SuiteClasses;
  * @author Lukas Jungmann
  * @author jjankovi
  */
-@Require(clearProjects = true, perspective = "Java EE", server = @Server(state = ServerState.NotRunning, version = "6.0", operator = ">="))
+@Require(clearProjects = true, perspective = "Java EE", 
+		server = @Server(state = ServerState.NotRunning, 
+		version = "6.0", operator = ">="))
 @RunWith(RequirementAwareSuite.class)
 @SuiteClasses({ CDIAllBotTests.class, CDISmokeBotTests.class })
 public class WizardTest extends CDITestBase {
