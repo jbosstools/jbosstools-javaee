@@ -16,7 +16,13 @@ public class JSFValidationMessage {
 	public static String XHTML_VALIDATION;
 	public static String XHTML_VALIDATION_NO_START_TAG;
 	public static String XHTML_VALIDATION_NO_END_TAG;
-	
+
+	public static String VIEW_ID_NO_SLASH;
+	public static String TO_VIEW_ID_EMPTY;
+	public static String TO_VIEW_ID_STAR;
+	public static String VIEW_NOT_EXISTS;
+	public static String INVALID_FACES_CONFIG_REFERENCE;
+
 	static {
 		NLS.initializeMessages(BUNDLE_NAME, JSFValidationMessage.class);
 	}

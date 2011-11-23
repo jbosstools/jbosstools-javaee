@@ -40,7 +40,35 @@ public class JSFSeverityPreferences extends SeverityPreferences {
 	public static final String INVALID_STATE_MANAGER = INSTANCE.createSeverityOption("invalidStateManager"); //$NON-NLS-1$
 	public static final String INVALID_VARIABLE_RESOLVER = INSTANCE.createSeverityOption("invalidVariableResolver"); //$NON-NLS-1$
 	public static final String INVALID_VIEW_HANDLER = INSTANCE.createSeverityOption("invalidViewHandler"); //$NON-NLS-1$
-	
+	//Component
+	public static final String INVALID_COMPONENT_CLASS = INSTANCE.createSeverityOption("invalidComponentClass"); //$NON-NLS-1$
+	//Converter
+	public static final String INVALID_CONVERTER_CLASS = INSTANCE.createSeverityOption("invalidConverterClass"); //$NON-NLS-1$
+	public static final String INVALID_CONVERTER_FOR_CLASS = INSTANCE.createSeverityOption("invalidConverterForClass"); //$NON-NLS-1$
+	//Factory
+	public static final String INVALID_APPLICATION_FACTORY = INSTANCE.createSeverityOption("invalidApplicationFactory"); //$NON-NLS-1$
+	public static final String INVALID_FACES_CONTEXT_FACTORY = INSTANCE.createSeverityOption("invalidFacesContextFactory"); //$NON-NLS-1$
+	public static final String INVALID_LIFECYCLE_FACTORY = INSTANCE.createSeverityOption("invalidLifecycleFactory"); //$NON-NLS-1$
+	public static final String INVALID_RENDER_KIT_FACTORY = INSTANCE.createSeverityOption("invalidRenderKitFactory"); //$NON-NLS-1$
+	//List/Map entries
+	public static final String INVALID_VALUE_CLASS = INSTANCE.createSeverityOption("invalidValueClass"); //$NON-NLS-1$
+	public static final String INVALID_KEY_CLASS = INSTANCE.createSeverityOption("invalidKeyClass"); //$NON-NLS-1$
+	//Beans
+	public static final String INVALID_BEAN_CLASS = INSTANCE.createSeverityOption("invalidBeanClass"); //$NON-NLS-1$
+	public static final String INVALID_PROPERTY_CLASS = INSTANCE.createSeverityOption("invalidPropertyClass"); //$NON-NLS-1$
+	//Phase Listener
+	public static final String INVALID_PHASE_LISTENER = INSTANCE.createSeverityOption("invalidPhaseListener"); //$NON-NLS-1$
+	//Render Kit
+	public static final String INVALID_RENDER_KIT_CLASS = INSTANCE.createSeverityOption("invalidRenderKitClass"); //$NON-NLS-1$
+	//Renderer
+	public static final String INVALID_RENDERER_CLASS = INSTANCE.createSeverityOption("invalidRendererClass"); //$NON-NLS-1$
+	//Validator
+	public static final String INVALID_VALIDATOR_CLASS = INSTANCE.createSeverityOption("invalidValidatorClass"); //$NON-NLS-1$
+	//web.xml
+	public static final String INVALID_CONFIG_FILES = INSTANCE.createSeverityOption("invalidConfigFiles"); //$NON-NLS-1$
+	//Navigation
+	public static final String INVALID_FROM_VIEW_ID = INSTANCE.createSeverityOption("invalidFromViewId"); //$NON-NLS-1$
+	public static final String INVALID_TO_VIEW_ID = INSTANCE.createSeverityOption("invalidToViewId"); //$NON-NLS-1$
 	
 	/**
 	 * @return the only instance of JSFSeverityPreferences
