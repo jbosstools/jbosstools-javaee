@@ -1,12 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2011 Exadel, Inc. and Red Hat, Inc.
+ * Copyright (c) 2011 Red Hat, Inc.
  * Distributed under license by Red Hat, Inc. All rights reserved.
  * This program is made available under the terms of the
  * Eclipse Public License v1.0 which accompanies this distribution,
  * and is available at http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *     Exadel, Inc. and Red Hat, Inc. - initial API and implementation
+ *     Red Hat, Inc. - initial API and implementation
  ******************************************************************************/ 
 package org.jboss.tools.jsf.text.ext.hyperlink;
 
@@ -24,12 +24,10 @@ import org.eclipse.jface.text.hyperlink.IHyperlink;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMAttr;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMElement;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMNode;
-import org.jboss.tools.common.core.resources.XModelObjectEditorInput;
 import org.jboss.tools.common.el.core.resolver.ELContext;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.text.ext.util.StructuredModelWrapper;
 import org.jboss.tools.common.text.ext.util.Utils;
-import org.jboss.tools.jst.jsp.jspeditor.JSPTextEditor;
 import org.jboss.tools.jst.jsp.jspeditor.JSPTextEditor.JSPStructuredTextViewer;
 import org.jboss.tools.jst.text.ext.util.TaglibManagerWrapper;
 import org.jboss.tools.jst.web.kb.IPageContext;
@@ -47,6 +45,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
+@SuppressWarnings("restriction")
 public class JsfJSPTagNameHyperlinkDetector extends AbstractHyperlinkDetector {
 
 	public IHyperlink[] detectHyperlinks(ITextViewer textViewer,
@@ -55,90 +54,85 @@ public class JsfJSPTagNameHyperlinkDetector extends AbstractHyperlinkDetector {
 		if(!(textViewer instanceof JSPStructuredTextViewer))
 			return null;
 		
-		JSPStructuredTextViewer viewer = (JSPStructuredTextViewer) textViewer;
-		
-		JSPTextEditor editor = viewer.getEditor();
-		
-		XModelObjectEditorInput xInput = (XModelObjectEditorInput) editor.getEditorInput();
-		
-		IFile file = xInput.getFile();
-		
 		StructuredModelWrapper smw = new StructuredModelWrapper();
 		smw.init(textViewer.getDocument());
-		
-		Document xmlDocument = smw.getDocument();
-		if (xmlDocument == null)
-			return null;
-		
-		Node n = Utils.findNodeForOffset(xmlDocument, region.getOffset());
-		
-		IRegion reg = getRegion(n, region.getOffset());
-		
-		if(reg != null && n instanceof IDOMElement) {
-			String tagName = n.getNodeName();
-			int i = tagName.indexOf(":");
-			KbQuery query = new KbQuery();
-			query.setType(KbQuery.Type.TAG_NAME);
+		try {
+			Document xmlDocument = smw.getDocument();
+			if (xmlDocument == null)
+				return null;
 			
-			if(i > 0) query.setPrefix(tagName.substring(0, i));
-			else query.setPrefix("");
+			Node n = Utils.findNodeForOffset(xmlDocument, region.getOffset());
 			
-			query.setOffset(reg.getOffset());
-			query.setValue(tagName);
-			query.setUri(getURI(region, textViewer.getDocument()));
-			query.setMask(false);
+			IRegion reg = getRegion(n, region.getOffset());
 			
-			ELContext context = PageContextFactory.createPageContext(file);
-			
-			if(context instanceof IPageContext){
-				IComponent[] components = PageProcessor.getInstance().getComponents(query, (IPageContext)context);
-				ArrayList<IHyperlink> hyperlinks = new ArrayList<IHyperlink>();
-				for(IComponent component : components){
-					if(!component.isExtended() && validateComponent(component, ((IPageContext)context).getNameSpaces(reg.getOffset()), query.getPrefix())){
-						TLDTagHyperlink link = new TLDTagHyperlink((AbstractComponent)component, reg);
-						link.setDocument(textViewer.getDocument());
-						hyperlinks.add(link);
+			if(reg != null && n instanceof IDOMElement) {
+				String tagName = n.getNodeName();
+				int i = tagName.indexOf(":");
+				KbQuery query = new KbQuery();
+				query.setType(KbQuery.Type.TAG_NAME);
+				
+				if(i > 0) query.setPrefix(tagName.substring(0, i));
+				else query.setPrefix("");
+				
+				query.setOffset(reg.getOffset());
+				query.setValue(tagName);
+				query.setUri(getURI(region, textViewer.getDocument()));
+				query.setMask(false);
+				
+				ELContext context = PageContextFactory.createPageContext(textViewer.getDocument());
+				
+				if(context instanceof IPageContext){
+					IComponent[] components = PageProcessor.getInstance().getComponents(query, (IPageContext)context);
+					ArrayList<IHyperlink> hyperlinks = new ArrayList<IHyperlink>();
+					for(IComponent component : components){
+						if(!component.isExtended() && validateComponent(component, ((IPageContext)context).getNameSpaces(reg.getOffset()), query.getPrefix())){
+							TLDTagHyperlink link = new TLDTagHyperlink((AbstractComponent)component, reg);
+							link.setDocument(textViewer.getDocument());
+							hyperlinks.add(link);
+						}
 					}
+					sortHyperlinks(hyperlinks);
+					if(hyperlinks.size() > 0)
+						return (IHyperlink[]) hyperlinks.toArray(new IHyperlink[hyperlinks.size()]);
 				}
-				sortHyperlinks(hyperlinks);
-				if(hyperlinks.size() > 0)
-					return (IHyperlink[]) hyperlinks.toArray(new IHyperlink[hyperlinks.size()]);
-			}
-		} else if(reg != null && n instanceof IDOMAttr) {
-			String tagName = ((IDOMAttr)n).getOwnerElement().getNodeName();
-			int i = tagName.indexOf(":");
-			KbQuery query = new KbQuery();
-			query.setType(KbQuery.Type.ATTRIBUTE_NAME);
-			
-			if(i > 0) query.setPrefix(tagName.substring(0, i));
-			else query.setPrefix("");
-			
-			query.setUri(getURI(region, textViewer.getDocument()));
-			query.setParentTags(new String[]{tagName});
-			query.setParent(tagName);
-			query.setOffset(reg.getOffset());
-			query.setValue(n.getNodeName());
-			query.setMask(false);
-			
-			ELContext context = PageContextFactory.createPageContext(file);
-			
-			if(context instanceof IPageContext){
-				IAttribute[] attributes = PageProcessor.getInstance().getAttributes(query, (IPageContext)context);
-				ArrayList<IHyperlink> hyperlinks = new ArrayList<IHyperlink>();
-				for(IAttribute attribute : attributes){
-					if(!attribute.isExtended() && validateComponent(attribute.getComponent(), ((IPageContext)context).getNameSpaces(reg.getOffset()), query.getPrefix()) && attribute instanceof AbstractAttribute){
-						TLDAttributeHyperlink link = new TLDAttributeHyperlink((AbstractAttribute)attribute, reg);
-						link.setDocument(textViewer.getDocument());
-						hyperlinks.add(link);
+			} else if(reg != null && n instanceof IDOMAttr) {
+				String tagName = ((IDOMAttr)n).getOwnerElement().getNodeName();
+				int i = tagName.indexOf(":");
+				KbQuery query = new KbQuery();
+				query.setType(KbQuery.Type.ATTRIBUTE_NAME);
+				
+				if(i > 0) query.setPrefix(tagName.substring(0, i));
+				else query.setPrefix("");
+				
+				query.setUri(getURI(region, textViewer.getDocument()));
+				query.setParentTags(new String[]{tagName});
+				query.setParent(tagName);
+				query.setOffset(reg.getOffset());
+				query.setValue(n.getNodeName());
+				query.setMask(false);
+				
+				ELContext context = PageContextFactory.createPageContext(textViewer.getDocument());
+				
+				if(context instanceof IPageContext){
+					IAttribute[] attributes = PageProcessor.getInstance().getAttributes(query, (IPageContext)context);
+					ArrayList<IHyperlink> hyperlinks = new ArrayList<IHyperlink>();
+					for(IAttribute attribute : attributes){
+						if(!attribute.isExtended() && validateComponent(attribute.getComponent(), ((IPageContext)context).getNameSpaces(reg.getOffset()), query.getPrefix()) && attribute instanceof AbstractAttribute){
+							TLDAttributeHyperlink link = new TLDAttributeHyperlink((AbstractAttribute)attribute, reg);
+							link.setDocument(textViewer.getDocument());
+							hyperlinks.add(link);
+						}
 					}
+					sortHyperlinks(hyperlinks);
+					if(hyperlinks.size() > 0)
+						return (IHyperlink[]) hyperlinks.toArray(new IHyperlink[hyperlinks.size()]);
 				}
-				sortHyperlinks(hyperlinks);
-				if(hyperlinks.size() > 0)
-					return (IHyperlink[]) hyperlinks.toArray(new IHyperlink[hyperlinks.size()]);
 			}
+			
+			return parse(textViewer.getDocument(), xmlDocument, region);
+		} finally {
+			smw.dispose();
 		}
-		
-		return parse(textViewer.getDocument(), xmlDocument, region);
 	}
 	
 	private boolean validateComponent(IComponent component, Map<String, List<INameSpace>> nameSpaces, String prefix){
