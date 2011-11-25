@@ -2,6 +2,7 @@ package org.jboss.tools.jsf.ui.bot.test;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Platform;
@@ -91,17 +92,23 @@ public abstract class JSFAutoTestCase extends VPEAutoTestCase {
 		File file = new File(getPathToResources(resourceRelativePath));
 		StringBuilder builder = new StringBuilder(""); //$NON-NLS-1$
 		Scanner scanner = null;
-		try {
-			scanner = new Scanner(file);
-			while (scanner.hasNextLine()) {
-				builder.append(scanner.nextLine()+"\n"); //$NON-NLS-1$
-			}
-		} catch (IOException e) {
-			if (scanner != null) {
-				scanner.close();
-			}
-		}
-		return builder.toString();
+    try {
+      scanner = new Scanner(file);
+      while (scanner.hasNextLine()) {
+        builder.append(scanner.nextLine() + "\n"); //$NON-NLS-1$
+      }
+    } 
+    catch (IllegalStateException e) {
+      if (scanner != null) {
+        scanner.close();
+      }
+    }
+    catch (NoSuchElementException e) {
+      if (scanner != null) {
+        scanner.close();
+      }
+    }
+    return builder.toString();
 	}
   /**
    * Returns CSS Editor text striped from spaces, tabs CR and EOL
