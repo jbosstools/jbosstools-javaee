@@ -1,28 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<feature id="org.jboss.tools.richfaces.feature" label="%featureName" version="3.3.0.qualifier" provider-name="%providerName" plugin="org.jboss.tools.vpe">
+<feature
+      id="org.jboss.tools.richfaces.feature"
+      label="%featureName"
+      version="3.3.0.qualifier"
+      provider-name="%providerName"
+      plugin="org.jboss.tools.vpe">
 
-	<description url="http://www.jboss.org/tools">
+   <description url="http://www.jboss.org/tools">
       %description
    </description>
 
-	<copyright>
+   <copyright>
       %copyright
    </copyright>
 
-	<license url="license.html">
+   <license url="license.html">
       Red Hat, Inc. licenses these features and plugins to you under certain open source licenses (or aggregations of such licenses), which in a particular case may include the Eclipse Public License, the GNU Lesser General Public License, and/or certain other open source licenses. For precise licensing details, consult the corresponding source code, or contact Red Hat Legal Affairs, 1801 Varsity Drive, Raleigh NC 27606 USA.
-   	</license>
+   </license>
 
-	<includes id="org.jboss.tools.common.feature" version="3.3.0" match="greaterOrEqual" />
-	<includes id="org.jboss.tools.common.core.feature" version="3.3.0" match="greaterOrEqual" />
-	<includes id="org.jboss.tools.common.text.ext.feature" version="3.3.0" match="greaterOrEqual" />
-	<includes id="org.jboss.tools.common.ui.feature" version="3.3.0" match="greaterOrEqual" />
-	<includes id="org.jboss.tools.common.verification.feature" version="3.3.0" match="greaterOrEqual" />
-	<includes id="org.jboss.tools.jsf.feature" version="3.3.0" match="greaterOrEqual" />
-	<includes id="org.jboss.tools.jst.feature" version="3.3.0" match="greaterOrEqual" />
-	<includes id="org.jboss.tools.vpe.feature" version="3.3.0" match="greaterOrEqual" />
-	
-	<requires>
-		<import plugin="org.jboss.tools.xulrunner.initializer" version="3.1.0" match="greaterOrEqual" />
-	</requires>
+   <includes
+         id="org.jboss.tools.common.feature"
+         version="3.3.0" />
+
+   <includes
+         id="org.jboss.tools.common.core.feature"
+         version="3.3.0" />
+
+   <includes
+         id="org.jboss.tools.common.text.ext.feature"
+         version="3.3.0" />
+
+   <includes
+         id="org.jboss.tools.common.ui.feature"
+         version="3.3.0" />
+
+   <includes
+         id="org.jboss.tools.common.verification.feature"
+         version="3.3.0" />
+
+   <includes
+         id="org.jboss.tools.jsf.feature"
+         version="3.3.0" />
+
+   <includes
+         id="org.jboss.tools.jst.feature"
+         version="3.3.0" />
+
+   <includes
+         id="org.jboss.tools.vpe.feature"
+         version="3.3.0" />
+
+   <requires>
+      <import plugin="org.jboss.tools.xulrunner.initializer" version="3.1.0" match="greaterOrEqual"/>
+   </requires>
+
 </feature>
