@@ -11,6 +11,8 @@
 
 package org.jboss.tools.cdi.bot.test.uiutils;
 
+import java.util.List;
+
 import org.jboss.tools.cdi.bot.test.CDITestBase;
 import org.jboss.tools.cdi.bot.test.annotations.CDIWizardType;
 import org.jboss.tools.cdi.bot.test.uiutils.wizards.CDIWizardBaseExt;
@@ -64,6 +66,32 @@ public class CDIWizardHelper extends CDITestBase{
 		for (int i = 1; i <= amount; i++) {
 			String packageName = (differentPackages) ? packageBaseName + i : packageBaseName;
 			createCDIComponent(component, baseName + i, packageName, necessaryParam);
+		}
+		
+	}
+	
+	/**
+	 * Method creates larger number("amount") of the same component with using 
+	 * List of class names
+	 * @param component
+	 * @param packageBaseName
+	 * @param classNames
+	 * @param necessaryParam
+	 * @param differentPackages
+	 */
+	public void createCDIComponents(CDIWizardType component, String packageBaseName, 
+			List<String> classNames, String necessaryParam, boolean differentPackages) {
+		if (classNames == null) {
+			throw new IllegalArgumentException("List with class names should not be " +
+					"null");
+		}
+		if (classNames.size() == 0) {
+			throw new IllegalArgumentException("List with class names should not be " +
+					"empty");
+		}
+		for (int i = 0; i < classNames.size(); i++) {
+			String packageName = (differentPackages) ? packageBaseName + i : packageBaseName;
+			createCDIComponent(component, classNames.get(i), packageName, necessaryParam);
 		}
 		
 	}

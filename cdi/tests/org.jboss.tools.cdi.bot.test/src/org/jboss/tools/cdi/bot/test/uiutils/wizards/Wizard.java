@@ -82,13 +82,22 @@ public class Wizard extends SWTBotShell {
 		t.setFocus();
 		t.setText(text);
 	}
+	
+	protected void setTextInCombobox(String combobox, String text) {
+		bot().comboBoxWithLabel(combobox).setSelection(text);
+		bot().sleep(Timing.time500MS());		
+	}
 		
 	protected boolean canClick(String button) {
 		return bot().button(button).isEnabled();
 	}
 	
-	protected void setTextInCombobox(String combobox, String text) {
-		bot().comboBoxWithLabel(combobox).setSelection(text);
-		bot().sleep(Timing.time500MS());		
+	protected boolean canCheckInCombobox(String combobox, String text) {		
+		for (int i = 0; i < bot().comboBoxWithLabel(combobox).itemCount(); i++) {
+			if (bot().comboBoxWithLabel(combobox).items()[i].equals(text)) {
+				return true;
+			}
+		}
+		return false;
 	}
 }

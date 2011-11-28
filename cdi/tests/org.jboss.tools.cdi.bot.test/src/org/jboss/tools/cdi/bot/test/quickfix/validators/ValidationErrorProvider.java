@@ -57,4 +57,5 @@ public interface ValidationErrorProvider {
 	 * @return
 	 */
 	ArrayList<CDIAnnotationsType> getAllErrorsAnnotation();
+
 }

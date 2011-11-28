@@ -33,7 +33,9 @@ public class JSFWebProjectWizard extends Wizard {
 	}
 	
 	public JSFWebProjectWizard setJSFTemplate(JSFTemplate template) {
-		setTextInCombobox("Template*", template.getName());
+		if (canCheckInCombobox("Template*", template.getName())) {
+			setTextInCombobox("Template*", template.getName());
+		}
 		return this;
 	}
 	

@@ -10,9 +10,9 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.bot.test;
 
+import org.jboss.tools.cdi.bot.test.beansxml.BeansXMLCompletionTest;
 import org.jboss.tools.cdi.bot.test.beansxml.BeansXMLValidationTest;
 import org.jboss.tools.cdi.bot.test.editor.BeansEditorTest;
-import org.jboss.tools.cdi.bot.test.jsf.NamedRefactoringTest;
 import org.jboss.tools.cdi.bot.test.openon.FindObserverForEventTest;
 import org.jboss.tools.cdi.bot.test.openon.OpenOnTest;
 import org.jboss.tools.cdi.bot.test.quickfix.BeanValidationQuickFixTest;
@@ -49,7 +49,7 @@ import org.junit.runners.Suite.SuiteClasses;
  *  JAVA=1.6,/space/java/sdk/jdk1.6.0_22
  *  
  *  
- *  Suite duration: aprox. 22min
+ *  Suite duration: aprox. 24min
  * 
  * @author Lukas Jungmann
  * @author Jaroslav Jankovic
@@ -57,23 +57,23 @@ import org.junit.runners.Suite.SuiteClasses;
 @RunWith(RequirementAwareSuite.class)
 @SuiteClasses({	
 //	PerspectiveTest.class,
-//	ConfigurationPresetTest.class,
-//	FacetTest.class, 
-//	WizardTest.class,
-//	BeansEditorTest.class,
-	NamedRefactoringTest.class, 
-//	BeansXMLValidationTest.class,
-//	BeansXMLCompletionTest.class,
-//	StereotypeValidationQuickFixTest.class,
-//	QualifierValidationQuickFixTest.class,
-//	ScopeValidationQuickFixTest.class,
-//	BeanValidationQuickFixTest.class,
-//	InterceptorValidationQuickFixTest.class,
-//	DecoratorValidationQuickFixTest.class,
-//	IBindingValidationQuickFixTest.class,
-//	OpenOnTest.class,
-//	FindObserverForEventTest.class, 
-//	Seam3Test.class
+	ConfigurationPresetTest.class,
+	FacetTest.class, 
+	WizardTest.class,
+	BeansEditorTest.class,
+//	NamedRefactoringTest.class, 
+	BeansXMLValidationTest.class,
+	BeansXMLCompletionTest.class,
+	StereotypeValidationQuickFixTest.class,
+	QualifierValidationQuickFixTest.class,
+	ScopeValidationQuickFixTest.class,
+	BeanValidationQuickFixTest.class,
+	InterceptorValidationQuickFixTest.class,
+	DecoratorValidationQuickFixTest.class,
+	IBindingValidationQuickFixTest.class,
+	OpenOnTest.class,
+	FindObserverForEventTest.class, 
+	Seam3Test.class
 	})
 public class CDIAllBotTests extends CDITestBase {
 		

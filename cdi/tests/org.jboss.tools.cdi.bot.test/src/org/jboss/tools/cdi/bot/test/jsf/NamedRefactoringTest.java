@@ -14,7 +14,6 @@ package org.jboss.tools.cdi.bot.test.jsf;
 import org.jboss.tools.cdi.bot.test.CDIAllBotTests;
 import org.jboss.tools.cdi.bot.test.annotations.CDIWizardType;
 import org.jboss.tools.ui.bot.ext.RequirementAwareSuite;
-import org.jboss.tools.ui.bot.ext.Timing;
 import org.jboss.tools.ui.bot.ext.config.Annotations.Require;
 import org.jboss.tools.ui.bot.ext.config.Annotations.Server;
 import org.jboss.tools.ui.bot.ext.config.Annotations.ServerState;
@@ -23,26 +22,26 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite.SuiteClasses;
 
 /**
- * Test operates on EL named refactoring  
+ * Test operates on @Named refactoring  
  * 
  * @author Jaroslav Jankovic
  * 
  */
 
-@Require(clearProjects = true, perspective = "Web Development", 
+@Require(clearProjects = true, perspective = "Java EE", 
 		 server = @Server(state = ServerState.NotRunning, 
 		 version = "6.0", operator = ">="))
 @RunWith(RequirementAwareSuite.class)
 @SuiteClasses({ CDIAllBotTests.class })
 public class NamedRefactoringTest extends JSFTestBase {
-	
+
 	@Override
 	public String getProjectName() {
 		return "CDIRefactoring";
 	}
 				
 	@Test
-	public void testNamedAnnotation() {
+	public void testNamedAnnotationRefactor() {
 		
 		wizard.createCDIComponent(CDIWizardType.BEAN, "ManagedBean", getPackageName(), null);
 		editResourceUtil.replaceClassContentByResource(NamedRefactoringTest.class.
@@ -52,7 +51,9 @@ public class NamedRefactoringTest extends JSFTestBase {
 		editResourceUtil.replaceClassContentByResource(NamedRefactoringTest.class.
 				getResourceAsStream("/resources/jsf/index.xhtml.cdi"), false);
 
-		
+		bot.editorByTitle("ManagedBean.java").show();
+		setEd(bot.activeEditor().toTextEditor());
+		contextMenuForTextInEditor("@Named(\"bean\")", "Open With", "Other...");
 		
 	}
 	

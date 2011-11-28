@@ -11,20 +11,23 @@
 
 package org.jboss.tools.cdi.bot.test.beansxml;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
 
-import org.eclipse.swtbot.swt.finder.keyboard.Keystrokes;
 import org.jboss.tools.cdi.bot.test.CDIAllBotTests;
 import org.jboss.tools.cdi.bot.test.CDITestBase;
 import org.jboss.tools.cdi.bot.test.annotations.CDIWizardType;
 import org.jboss.tools.ui.bot.ext.RequirementAwareSuite;
+import org.jboss.tools.ui.bot.ext.SWTJBTExt;
+import org.jboss.tools.ui.bot.ext.SWTTestExt;
 import org.jboss.tools.ui.bot.ext.Timing;
 import org.jboss.tools.ui.bot.ext.config.Annotations.Require;
 import org.jboss.tools.ui.bot.ext.config.Annotations.Server;
 import org.jboss.tools.ui.bot.ext.config.Annotations.ServerState;
-import org.junit.Ignore;
+import org.jboss.tools.ui.bot.ext.helper.ContentAssistHelper;
+import org.jboss.tools.ui.bot.ext.parts.ContentAssistBot;
+import org.jboss.tools.ui.bot.ext.parts.SWTBotEditorExt;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite.SuiteClasses;
@@ -45,6 +48,21 @@ public class BeansXMLCompletionTest extends CDITestBase {
 
 	private static final Logger LOGGER = Logger
 			.getLogger(BeansXMLCompletionTest.class.getName());
+	
+	private static final List<String> BEANS_XML_TAGS = Arrays.asList(
+			"alternatives", "decorators", "interceptors");
+	private static final List<String> INTERCEPTOR_NAMES = Arrays.asList(
+			"I1", "I2", "I3");
+	private static final List<String> DECORATORS_NAMES = Arrays.asList(
+			"D1", "D2", "D3");
+	private static final List<String> ALTERNATIVES_NAMES = Arrays.asList(
+			"A1", "A2", "A3");
+	private static final List<String> STEREOTYPES_NAMES = Arrays.asList(
+			"S1", "S2", "S3");
+	private static final String BEANS_XML = "beans.xml";	
+	private static final String CLASS_END_TAG = "</class>";
+	private static final String STEREOTYPE_END_TAG = "</stereotype>";
+	
 
 	@Override
 	public String getProjectName() {
@@ -53,97 +71,146 @@ public class BeansXMLCompletionTest extends CDITestBase {
 	
 	@Test
 	public void testPossibleCompletionInBeansXML() {
-		beansHelper.createClearBeansXML(getPackageName());
+		beansHelper.createClearBeansXML(getProjectName());
 		LOGGER.info("Clear beans.xml was created");
 				
-		List<String> autoCompletion = getAutoCompletion(3, 0, "<");
-		
-		assertTrue("Error: Size of auto completion proposals should be 3 " +
-				"instead of " + autoCompletion.size(), autoCompletion.size() == 3);
+		checkAutoCompletion(3, 0, "<>", BEANS_XML, BEANS_XML_TAGS);				
 	}
-	@Ignore
+	
 	@Test
 	public void testInterceptorsCompletion() {
 
-		prepareInterceptors();
-
-		beansHelper.createClearBeansXML(getPackageName());
-		LOGGER.info("Clear beans.xml was created");
+		wizard.createCDIComponents(CDIWizardType.INTERCEPTOR, getPackageName(), 
+				INTERCEPTOR_NAMES, null, false);
 				
+		beansHelper.createBeansXMLWithInterceptor(getProjectName(), getPackageName(), null);
+		LOGGER.info("Beans.xml with interceptors tag was created");
+				
+		List<String> proposalList = getProposalList(BEANS_XML, CLASS_END_TAG, 0, 0);
+		for (String interceptor : INTERCEPTOR_NAMES) {
+			assertTrue(proposalList.contains(interceptor + " - " + getPackageName()));
+		}
 	}
-	@Ignore
+	
 	@Test
 	public void testDecoratorsCompletion() {
 		
-		prepareDecorators();
-		
-		beansHelper.createClearBeansXML(getPackageName());
-		LOGGER.info("Clear beans.xml was created");
+		wizard.createCDIComponents(CDIWizardType.DECORATOR, getPackageName(), 
+				DECORATORS_NAMES, "java.util.Set", false);
+				
+		beansHelper.createBeansXMLWithDecorator(getProjectName(), getPackageName(), null);
+		LOGGER.info("Beans.xml with decorators tag was created");
+			
+		List<String> proposalList = getProposalList(BEANS_XML, CLASS_END_TAG, 0, 0);
+		for (String decorator : DECORATORS_NAMES) {
+			assertTrue(proposalList.contains(decorator + " - " + getPackageName()));
+		}
 
 	}
-	@Ignore
+	
+	@Test
+	public void testStereotypesCompletion() {
+		
+		wizard.createCDIComponents(CDIWizardType.STEREOTYPE, getPackageName(), 
+				STEREOTYPES_NAMES, "alternative", false);
+				
+		beansHelper.createBeansXMLWithStereotype(getProjectName(), getPackageName(), null);
+		LOGGER.info("Beans.xml with stereotype tag was created");
+			
+		List<String> proposalList = getProposalList(BEANS_XML, STEREOTYPE_END_TAG, 0, 0);
+		for (String stereotype : STEREOTYPES_NAMES) {
+			assertTrue(proposalList.contains(stereotype + " - " + getPackageName()));
+		}
+
+	}
+	
 	@Test
 	public void testAlternativesCompletion() {
 		
-		prepareAlternatives();
+		wizard.createCDIComponents(CDIWizardType.BEAN, getPackageName(), 
+				ALTERNATIVES_NAMES, "alternative", false);
+				
+		beansHelper.createBeansXMLWithAlternative(getProjectName(), getPackageName(), null);
+		LOGGER.info("Beans.xml with alternative tag was created");
 		
-		beansHelper.createClearBeansXML(getPackageName());
-		LOGGER.info("Clear beans.xml was created");
-
-	}
-
-	private void prepareInterceptors() {
-
-		wizard.createCDIComponent(CDIWizardType.INTERCEPTOR, "Interceptor1",
-				getPackageName(), null);
-
-		wizard.createCDIComponent(CDIWizardType.INTERCEPTOR, "Interceptor2",
-				getPackageName(), null);
-
-		wizard.createCDIComponent(CDIWizardType.INTERCEPTOR, "Interceptor3",
-				getPackageName(), null);		
-
-	}
-	
-	private void prepareDecorators() {
-
-		wizard.createCDIComponent(CDIWizardType.DECORATOR, "Decorator1", 
-				getPackageName(), "java.util.Set");
-		
-		wizard.createCDIComponent(CDIWizardType.DECORATOR, "Decorator2", 
-				getPackageName(), "java.util.Set");
-		
-		wizard.createCDIComponent(CDIWizardType.DECORATOR, "Decorator3", 
-				getPackageName(), "java.util.Set");
-
-	}
-	
-	private void prepareAlternatives() {
-		
-		wizard.createCDIComponent(CDIWizardType.BEAN, "Alternative1", 
-				getPackageName(), "alternative");
-		
-		wizard.createCDIComponent(CDIWizardType.BEAN, "Alternative2", 
-				getPackageName(), "alternative");
-		
-		wizard.createCDIComponent(CDIWizardType.BEAN, "Alternative3", 
-				getPackageName(), "alternative");
-		
-	}
-
-		//not complete yet
-	private List<String> getAutoCompletion(int row, int column, String text) {
-		List<String> listOfCompletion = new ArrayList<String>();
-		getEd().navigateTo(row, column);
-		bot.sleep(Timing.time500MS());
-		getEd().typeText(text);
-		bot.sleep(Timing.time500MS());
-		getEd().pressShortcut(Keystrokes.CTRL, Keystrokes.SPACE);
-		bot.sleep(Timing.time1S());
-		for (int i = 0; i < bot.table().rowCount(); i++) {
-			listOfCompletion.add(bot.table().getTableItem(i).getText());
+		List<String> proposalList = getProposalList(BEANS_XML, CLASS_END_TAG, 0, 0);
+		for (String alternative : ALTERNATIVES_NAMES) {
+			assertTrue(proposalList.contains(alternative + " - " + getPackageName()));
 		}
-		return listOfCompletion;
+
+	}
+	
+	@Test
+	public void testNonSupportedComponentCompletion() {
+		
+		String[] components = {"AL1", "Q1", "B1", "IB1", "Sc1"};
+		
+		wizard.createCDIComponent(CDIWizardType.ANNOTATION_LITERAL, components[0], 
+				getPackageName(), null);
+		wizard.createCDIComponent(CDIWizardType.QUALIFIER, components[1], 
+				getPackageName(), null);
+		wizard.createCDIComponent(CDIWizardType.BEAN, components[2], 
+				getPackageName(), null);
+		wizard.createCDIComponent(CDIWizardType.INTERCEPTOR_BINDING, components[3], 
+				getPackageName(), null);
+		wizard.createCDIComponent(CDIWizardType.SCOPE, components[4], 
+				getPackageName(), null);
+		
+		beansHelper.createClearBeansXMLWithEmptyTag(getProjectName());
+		LOGGER.info("Clear beans.xml with empty tag was created");
+		
+		List<String> proposalList = getProposalList(BEANS_XML, "<>", 1, 0);
+		List<String> nonSupportedComponents = Arrays.asList(components);
+		
+		for (String nonSupportedComponent : nonSupportedComponents) {
+			for (String proposalOption : proposalList) {				
+				assertFalse((nonSupportedComponent + " - " + getPackageName()).
+						equals(proposalOption));
+			}
+		}
+		
+	}
+	
+	/**
+	 * Method checks auto completion proposals. First, it 
+	 * types provided text on location provided by parameters.
+	 * Then checks all items in proposal list by 
+	 * ContentAssistHelper.checkContentAssistContent() method.
+	 * At the end, it removes inserted text(due to possible formating error) 
+	 * @param row
+	 * @param column
+	 * @param text
+	 * @param expectedProposalList
+	 */
+	private void checkAutoCompletion(int row, int column, String text, String editorTitle,
+			List<String> expectedProposalList) {
+		getEd().navigateTo(row, column);
+		getEd().typeText(text);
+		ContentAssistHelper.checkContentAssistContent(bot, 
+				editorTitle, text, 1, 0, expectedProposalList);		
+		editResourceUtil.replaceInEditor(text, "");
+	}
+	
+	/**
+	 * Method returns proposal list for given text on given position
+	 * @param editorTitle
+	 * @param textToSelect
+	 * @param selectionOffset
+	 * @param selectionLength
+	 * @return
+	 */
+	private List<String> getProposalList(String editorTitle, String textToSelect, int selectionOffset,
+			int selectionLength) {
+		SWTJBTExt.selectTextInSourcePane(bot,
+		        editorTitle, textToSelect, selectionOffset, selectionLength,
+		        0);
+
+		bot.sleep(Timing.time1S());
+		    
+		SWTBotEditorExt editor = SWTTestExt.bot.swtBotEditorExtByTitle(editorTitle);
+		ContentAssistBot contentAssist = editor.contentAssist();
+		List<String> currentProposalList = contentAssist.getProposalList();
+		return currentProposalList;
 	}
 
 }

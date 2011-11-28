@@ -16,6 +16,7 @@ import org.jboss.tools.cdi.bot.test.CDITestBase;
 import org.jboss.tools.cdi.bot.test.annotations.BeansXMLValidationErrors;
 import org.jboss.tools.cdi.bot.test.annotations.CDIWizardType;
 import org.jboss.tools.cdi.bot.test.openon.OpenOnTest;
+import org.jboss.tools.ui.bot.ext.Timing;
 import org.jboss.tools.ui.bot.ext.view.ProblemsView;
 
 /**
@@ -121,9 +122,20 @@ public class BeansXMLValidationHelper extends CDITestBase {
 	}
 	
 	/**
+	 * Methods creates beans.xml with empty tag <> for entered project.
+	 * @param projectName
+	 */
+	public void createClearBeansXMLWithEmptyTag(String projectName) {
+		
+		createBeansXMLWithContent(projectName, "/resources/beansXML/" +
+				"beansXmlWithEmptyTag.xml.cdi");
+	}
+	
+	/**
 	 * Methods creates beans.xml with interceptor tags in it for entered project.
 	 * Package and interceptor component name which should be showed in tag is 
-	 * determined by parameters	 
+	 * determined by parameters. If className is null, then Component text will be
+	 * removed
 	 * @param projectName
 	 * @param packageName
 	 * @param className
@@ -132,15 +144,21 @@ public class BeansXMLValidationHelper extends CDITestBase {
 			String className) {
 		
 		createBeansXMLWithContent(projectName, "/resources/beansXML/" +
-				"beansXmlWithInterceptor.xml.cdi");
-		editResourceUtil.replaceInEditor("Component", packageName + "." + className);
+				"beansXmlWithInterceptor.xml.cdi");		
+		if (className == null || className.length() == 0) {
+			editResourceUtil.replaceInEditor("<class>Component</class>", 
+					"<class></class>");			
+		} else {
+			editResourceUtil.replaceInEditor("Component", packageName + "." + className);
+		}
 		
 	}
 	
 	/**
 	 * Methods creates beans.xml with decorator tags in it for entered project.
 	 * Package and decorator component name which should be showed in tag is 
-	 * determined by parameters	 
+	 * determined by parameters. If className is null, then Component text will be
+	 * removed
 	 * @param projectName
 	 * @param packageName
 	 * @param className
@@ -150,13 +168,43 @@ public class BeansXMLValidationHelper extends CDITestBase {
 		
 		createBeansXMLWithContent(projectName, "/resources/beansXML/" +
 				"beansXmlWithDecorator.xml.cdi");
-		editResourceUtil.replaceInEditor("Component", packageName + "." + className);
+		if (className == null || className.length() == 0) {
+			editResourceUtil.replaceInEditor("<class>Component</class>", 
+					"<class></class>");			
+		} else {
+			editResourceUtil.replaceInEditor("Component", packageName + "." + className);
+		}
+		
+	}
+	
+	/**
+	 * Methods creates beans.xml with stereotype tags in it for entered project.
+	 * Package and stereotype component name which should be showed in tag is 
+	 * determined by parameters. If className is null, then Component text will be
+	 * removed
+	 * @param projectName
+	 * @param packageName
+	 * @param className
+	 */
+	public void createBeansXMLWithStereotype(String projectName, String packageName, 
+			String className) {
+		
+		createBeansXMLWithContent(projectName, "/resources/beansXML/" +
+				"beansXmlWithStereotype.xml.cdi");
+		if (className == null || className.length() == 0) {
+			editResourceUtil.replaceInEditor("<stereotype>Component</stereotype>", 
+					"<stereotype></stereotype>");			
+		} else {
+			editResourceUtil.replaceInEditor("Component", packageName + "." + className);
+		}
+		
 	}
 	
 	/**
 	 * Methods creates beans.xml with alternative tags in it for entered project.
 	 * Package and alternative bean component name which should be showed in tag is 
-	 * determined by parameters	 
+	 * determined by parameters. If className is null, then Component text will be
+	 * removed
 	 * @param projectName
 	 * @param packageName
 	 * @param className
@@ -166,7 +214,12 @@ public class BeansXMLValidationHelper extends CDITestBase {
 		
 		createBeansXMLWithContent(projectName, "/resources/beansXML/" +
 				"beansXmlWithAlternative.xml.cdi");
-		editResourceUtil.replaceInEditor("Component", packageName + "." + className);
+		if (className == null || className.length() == 0) {
+			editResourceUtil.replaceInEditor("<class>Component</class>", 
+					"<class></class>");			
+		} else {
+			editResourceUtil.replaceInEditor("Component", packageName + "." + className);
+		}
 	}
 	
 	/**
@@ -195,6 +248,7 @@ public class BeansXMLValidationHelper extends CDITestBase {
 		editResourceUtil.replaceClassContentByResource(OpenOnTest.class
 					.getResourceAsStream(path), 
 					false);
+		bot.sleep(Timing.time500MS());
 	}
 
 }

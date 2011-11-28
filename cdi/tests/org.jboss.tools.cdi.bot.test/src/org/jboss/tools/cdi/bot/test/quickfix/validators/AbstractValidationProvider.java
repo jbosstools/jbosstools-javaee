@@ -19,11 +19,11 @@ import org.jboss.tools.cdi.bot.test.annotations.CDIAnnotationsType;
 
 public abstract class AbstractValidationProvider implements ValidationErrorProvider {
 
-	protected Map<String, ArrayList<String>> validationErrors = null;
-	protected ArrayList<String> warningsForAnnotationType = null;
-	protected ArrayList<String> errorsForAnnotationType = null;
-	protected ArrayList<CDIAnnotationsType> warningsAnnotation = null;
-	protected ArrayList<CDIAnnotationsType> errorsAnnotation = null;
+	protected static Map<String, ArrayList<String>> validationErrors = null;
+	protected static ArrayList<String> warningsForAnnotationType = null;
+	protected static ArrayList<String> errorsForAnnotationType = null;
+	protected static ArrayList<CDIAnnotationsType> warningsAnnotation = null;
+	protected static ArrayList<CDIAnnotationsType> errorsAnnotation = null;
 	
 	public AbstractValidationProvider() {
 		validationErrors = new LinkedHashMap<String, ArrayList<String>>();
