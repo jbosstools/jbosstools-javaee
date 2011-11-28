@@ -200,6 +200,10 @@ public class AddRemoveJSFCapabilitiesTest extends JSFAutoTestCase {
         IDELabel.Menu.ADD_JSF_CAPABILITIES).click();
     }
 
+    bot.shell("Add JSF Capabilities").activate();
+    bot.button(WidgetVariables.NEXT_BUTTON).click();
+    bot.button(WidgetVariables.FINISH_BUTTON).click();
+    
     delay();
 
     assertTrue("JSF Capabilities were not added to project "

@@ -11,35 +11,34 @@
 package org.jboss.tools.jsf.ui.bot.test.smoke;
 
 import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotEditor;
-import org.jboss.tools.vpe.ui.bot.test.VPEAutoTestCase;
 /** Test Editing of faces-config.xml file for JSF 1.2 project
  * @author Vladimir Pakan
  *
  */
-public class FacesConfigEditingTest extends AbstractFacesConfigEditingTest{
+public class FacesConfigEditingTestJSF2 extends AbstractFacesConfigEditingTest{
   
   @Override
   protected SWTBotEditor getFacesConfigEditor() {
     return eclipse.openFile(getTestProjectName(), 
         "WebContent",
         "WEB-INF",
-        FacesConfigEditingTest.FACES_CONFIG_FILE_NAME);
+        FacesConfigEditingTestJSF2.FACES_CONFIG_FILE_NAME);
   }
   @Override
   protected String getTestProjectName(){
-    return VPEAutoTestCase.JBT_TEST_PROJECT_NAME;
+    return JSF2_TEST_PROJECT_NAME;
   }
   @Override
   protected void intializeTestProject() {
-    // This test is using default JSF 1.2 project which is already created
+    createJSF2Project(getTestProjectName());
   }
   @Override
   protected TestProjectType getTestProjectType() {
-    return TestProjectType.JSF;
+    return TestProjectType.JSF2;
   }
   @Override
   protected boolean getCheckForExistingManagedBeanClass() {
-    return true;
+    return false;
   }
 }
   

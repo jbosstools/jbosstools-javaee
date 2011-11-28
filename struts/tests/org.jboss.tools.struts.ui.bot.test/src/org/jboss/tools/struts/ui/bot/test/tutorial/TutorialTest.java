@@ -45,7 +45,6 @@ import org.eclipse.swtbot.swt.finder.widgets.SWTBotTree;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTreeItem;
 import org.eclipse.ui.IEditorReference;
 import org.hamcrest.Description;
-import org.jboss.tools.struts.ui.bot.test.utils.DndSupport;
 import org.jboss.tools.struts.ui.bot.test.utils.PartMatcher;
 import org.jboss.tools.struts.ui.bot.test.utils.StrutsUIEditorBot;
 import org.jboss.tools.struts.ui.bot.test.utils.ValidationUIEditorBot;
@@ -58,6 +57,7 @@ import org.jboss.tools.ui.bot.ext.config.Annotations.Require;
 import org.jboss.tools.ui.bot.ext.config.Annotations.Server;
 import org.jboss.tools.ui.bot.ext.config.Annotations.ServerState;
 import org.jboss.tools.ui.bot.ext.helper.ContextMenuHelper;
+import org.jboss.tools.ui.bot.ext.helper.DragAndDropHelper;
 import org.jboss.tools.ui.bot.ext.parts.SWTBotBrowserExt;
 import org.jboss.tools.ui.bot.ext.types.EntityType;
 import org.jboss.tools.ui.bot.ext.types.IDELabel;
@@ -158,11 +158,11 @@ public class TutorialTest extends SWTTestExt {
         Widget w1 = s.widget;
         s.select();
 
-        DndSupport.dnd((TreeItem) w1, (FigureCanvas) c);
+        DragAndDropHelper.dnd((TreeItem) w1, (FigureCanvas) c);
         s = webRootNode.getNode("pages").getNode("greeting.jsp");
         s.select();
         w1 = s.widget;
-        DndSupport.dnd((TreeItem) w1, (FigureCanvas) c);
+        DragAndDropHelper.dnd((TreeItem) w1, (FigureCanvas) c);
         bot.sleep(500);
         ge.clickContextMenu("Auto-Layout");
         SWTBotShell sh = bot.activeShell();
@@ -375,7 +375,7 @@ public class TutorialTest extends SWTTestExt {
         sh.bot().button("Finish").click();
         SWTBotTreeItem item = projectNode.getNode("Resource Bundles").getNode("sample.applResources");
         nodeContextMenu(tree, item, "New", "Default Error Messages").click();
-        DndSupport.dnd(item.widget, config.getNode("resources").widget);
+        DragAndDropHelper.dnd(item.widget, config.getNode("resources").widget);
         nodeContextMenu(tree, projectNode.expandNode("Validation").getNode("validation.xml"), "Open").click();
         
         SWTBotEditor editor = bot.activeEditor();
@@ -392,7 +392,7 @@ public class TutorialTest extends SWTTestExt {
                 return config.expandNode("form-beans");
             }
         }).getNode("GetNameForm").select();
-        DndSupport.dnd(item.widget, ti.widget);
+        DragAndDropHelper.dnd(item.widget, ti.widget);
         ti = t.expandNode("formset (default)").getNode("GetNameForm").select();
         vb.toolbarButton("Create Field").click();
         sh = bot.activeShell();

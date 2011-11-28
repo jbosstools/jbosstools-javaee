@@ -14,6 +14,7 @@ import org.jboss.tools.jsf.ui.bot.test.smoke.CodeCompletionTest;
 import org.jboss.tools.jsf.ui.bot.test.smoke.CreateNewJSFProjectTest;
 import org.jboss.tools.jsf.ui.bot.test.smoke.FacesConfigCodeCompletionTest;
 import org.jboss.tools.jsf.ui.bot.test.smoke.FacesConfigEditingTest;
+import org.jboss.tools.jsf.ui.bot.test.smoke.FacesConfigEditingTestJSF2;
 import org.jboss.tools.jsf.ui.bot.test.smoke.MarkersTest;
 import org.jboss.tools.jsf.ui.bot.test.smoke.OpenOnTest;
 import org.jboss.tools.jsf.ui.bot.test.smoke.WebXmlEditorTest;
@@ -47,6 +48,7 @@ import org.junit.runners.Suite.SuiteClasses;
   OpenOnTest.class,
   CodeCompletionTest.class,
   FacesConfigEditingTest.class,
+  FacesConfigEditingTestJSF2.class,
   FacesConfigCodeCompletionTest.class,
   MarkersTest.class,
   WebXmlEditorTest.class,
