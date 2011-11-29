@@ -42,9 +42,6 @@ import org.jboss.tools.common.web.WebUtils;
 import org.jboss.tools.jst.web.WebModelPlugin;
 import org.jboss.tools.jst.web.model.helpers.WebAppHelper;
 import org.jboss.tools.jst.web.validation.Check;
-import org.jboss.tools.jst.web.validation.CheckClass;
-import org.jboss.tools.jst.web.validation.CheckResource;
-import org.jboss.tools.jst.web.webapp.model.WebAppConstants;
 import org.jboss.tools.struts.StrutsConstants;
 import org.jboss.tools.struts.StrutsModelPlugin;
 import org.jboss.tools.struts.StrutsProject;
@@ -54,7 +51,7 @@ import org.jboss.tools.struts.StrutsProject;
  */
 public class StrutsCoreValidator extends ValidationErrorManager implements IValidator, StrutsConstants {
 	public static final String ID = "org.jboss.tools.struts.validation.StrutsCoreValidator"; //$NON-NLS-1$
-	public static final String PROBLEM_TYPE = "org.jboss.tools.jst.web.webxmlproblem"; //$NON-NLS-1$
+	public static final String PROBLEM_TYPE = "org.jboss.tools.struts.strutsproblem"; //$NON-NLS-1$
 	public static final String PREFERENCE_PAGE_ID = "org.jboss.tools.struts.ui.StrutsValidatorPreferencePage"; //$NON-NLS-1$
 
 	public static String SHORT_ID = "verification"; //$NON-NLS-1$

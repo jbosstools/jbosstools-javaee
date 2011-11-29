@@ -411,6 +411,12 @@
     </contribution>
  </extension>
 
+   <extension id="strutsproblem" name="%StrutsProblemName" point="org.eclipse.core.resources.markers">
+      <super type="org.jboss.tools.common.validation.JBTValidationProblem">
+      </super>
+      <persistent value="true">
+      </persistent>
+   </extension>
    <extension point="org.eclipse.core.runtime.preferences">
       <initializer class="org.jboss.tools.struts.validation.StrutsPreferenceInitializer"/>
    </extension>
