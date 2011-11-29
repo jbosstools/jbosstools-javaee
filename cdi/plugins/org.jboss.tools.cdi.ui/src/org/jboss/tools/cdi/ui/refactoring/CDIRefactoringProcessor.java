@@ -33,8 +33,6 @@ import org.eclipse.text.edits.MultiTextEdit;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchWindow;
-import org.eclipse.ui.PlatformUI;
-import org.eclipse.wst.sse.ui.StructuredTextEditor;
 import org.jboss.tools.cdi.core.CDICoreMessages;
 import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.CDICorePlugin;
@@ -42,7 +40,6 @@ import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.IClassBean;
 import org.jboss.tools.cdi.ui.CDIUIPlugin;
-import org.jboss.tools.common.text.ext.IMultiPageEditor;
 
 public abstract class CDIRefactoringProcessor extends RefactoringProcessor {
 	protected static final RefactoringParticipant[] EMPTY_REF_PARTICIPANT = new  RefactoringParticipant[0];	
@@ -186,7 +183,9 @@ public abstract class CDIRefactoringProcessor extends RefactoringProcessor {
 			Display.getDefault().asyncExec(new Runnable() {
 				public void run() {
 					IEditorPart editor =  getEditor(getFile());
-					editor.doSave(new NullProgressMonitor());
+					if(editor != null){
+						editor.doSave(new NullProgressMonitor());
+					}
 				}
 				
 			});

@@ -177,12 +177,30 @@ public class MarkerResolutionUtils {
 			}else{
 				String text = compilationUnit.findRecommendedLineSeparator()+IMPORT+SPACE+qualifiedName+SEMICOLON;
 				if(!isDuplicate(rootEdit, text)){
-					TextEdit edit = new InsertEdit(compilationUnit.getImportContainer().getSourceRange().getOffset()+compilationUnit.getImportContainer().getSourceRange().getLength(), text);
+					int importPosition = findPositionForImport(compilationUnit);
+					TextEdit edit = new InsertEdit(importPosition, text);
 					rootEdit.addChild(edit);
 				}
 			}
 		}
 		return false;
+	}
+	
+	
+	private static int findPositionForImport(ICompilationUnit compilationUnit) throws JavaModelException{
+		if(compilationUnit.getImportContainer().exists()){
+			return compilationUnit.getImportContainer().getSourceRange().getOffset()+compilationUnit.getImportContainer().getSourceRange().getLength();
+		}else{
+			IPackageDeclaration[] packageDeclarations = compilationUnit.getPackageDeclarations();
+			if(packageDeclarations.length == 0){
+				return 0;
+			}
+			int position = 0;
+			for(IPackageDeclaration declaration : packageDeclarations){
+				position = declaration.getSourceRange().getOffset()+declaration.getSourceRange().getLength();
+			}
+			return position;
+		}
 	}
 	
 	private static boolean isDuplicate(MultiTextEdit rootEdit, String text){
