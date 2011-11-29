@@ -29,6 +29,7 @@ public class DisableFaceletHTMLValidatorResolutionGenerator implements
 		IMarkerResolutionGenerator2 {
 	private static final String ATTRIBUTE_NAME = "ValidationId";
 	public static final String VALIDATOR_ID = "org.eclipse.jst.jsf.facelet.ui.FaceletHTMLValidator";
+	private static final String MESSAGE = "converter id is not registered.";
 
 	public IMarkerResolution[] getResolutions(IMarker marker) {
 		if(isNeedToCreate(marker)){
@@ -55,8 +56,9 @@ public class DisableFaceletHTMLValidatorResolutionGenerator implements
 	}
 	
 	private boolean isNeedToCreate(IMarker marker){
+		String message = marker.getAttribute(IMarker.MESSAGE, "");
 		String attribute = marker.getAttribute(ATTRIBUTE_NAME, "");
-		if(attribute.equals(VALIDATOR_ID) && marker.getResource() instanceof IFile){
+		if(attribute.equals(VALIDATOR_ID) && marker.getResource() instanceof IFile && message.endsWith(MESSAGE)){
 			return true;
 		}
 		return false;
