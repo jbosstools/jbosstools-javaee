@@ -411,4 +411,16 @@
     </contribution>
  </extension>
 
+   <extension point="org.eclipse.core.runtime.preferences">
+      <initializer class="org.jboss.tools.struts.validation.StrutsPreferenceInitializer"/>
+   </extension>
+  <extension
+         point="org.jboss.tools.common.validation.validator">
+         <validator
+               class="org.jboss.tools.struts.validation.StrutsCoreValidator"
+               name="%StrutsCoreValidator"
+               id="org.jboss.tools.struts.validation.StrutsCoreValidator">
+         </validator>
+   </extension>
+
 </plugin>
