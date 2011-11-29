@@ -15,8 +15,8 @@ import java.util.List;
 import org.eclipse.ltk.core.refactoring.participants.ProcessorBasedRefactoring;
 import org.eclipse.osgi.util.NLS;
 import org.jboss.tools.cdi.core.IQualifier;
+import org.jboss.tools.cdi.internal.core.refactoring.ValuedQualifier;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
-import org.jboss.tools.cdi.ui.wizard.xpl.AddQualifiersToBeanComposite.ValuedQualifier;
 import org.jboss.tools.common.model.ui.ModelUIImages;
 
 public class AddQualifiersToBeanWizard extends AbstractModifyInjectionPointWizard{

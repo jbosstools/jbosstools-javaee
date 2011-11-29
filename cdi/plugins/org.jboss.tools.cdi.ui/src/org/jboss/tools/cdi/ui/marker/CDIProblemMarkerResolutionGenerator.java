@@ -50,6 +50,7 @@ import org.jboss.tools.cdi.core.IInterceptor;
 import org.jboss.tools.cdi.core.IStereotype;
 import org.jboss.tools.cdi.core.IStereotyped;
 import org.jboss.tools.cdi.internal.core.impl.CDIProject;
+import org.jboss.tools.cdi.internal.core.refactoring.MarkerResolutionUtils;
 import org.jboss.tools.cdi.internal.core.validation.CDIValidationErrorManager;
 import org.jboss.tools.cdi.ui.CDIUIPlugin;
 import org.jboss.tools.common.EclipseUtil;

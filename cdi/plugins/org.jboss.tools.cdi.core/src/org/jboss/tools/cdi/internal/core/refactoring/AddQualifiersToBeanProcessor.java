@@ -8,7 +8,7 @@
  * Contributors:
  *     Red Hat, Inc. - initial API and implementation
  ******************************************************************************/
-package org.jboss.tools.cdi.ui.marker;
+package org.jboss.tools.cdi.internal.core.refactoring;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,8 +31,6 @@ import org.eclipse.text.edits.MultiTextEdit;
 import org.jboss.tools.cdi.core.CDICoreMessages;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IInjectionPoint;
-import org.jboss.tools.cdi.ui.refactoring.CDIRefactoringProcessor;
-import org.jboss.tools.cdi.ui.wizard.xpl.AddQualifiersToBeanComposite.ValuedQualifier;
 import org.jboss.tools.common.EclipseUtil;
 
 public class AddQualifiersToBeanProcessor extends CDIRefactoringProcessor {

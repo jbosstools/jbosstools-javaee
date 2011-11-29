@@ -8,7 +8,7 @@
  * Contributors:
  *     Red Hat, Inc. - initial API and implementation
  ******************************************************************************/
-package org.jboss.tools.cdi.ui.refactoring;
+package org.jboss.tools.cdi.internal.core.refactoring;
 
 import java.util.Set;
 
@@ -39,7 +39,6 @@ import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.IClassBean;
-import org.jboss.tools.cdi.ui.CDIUIPlugin;
 
 public abstract class CDIRefactoringProcessor extends RefactoringProcessor {
 	protected static final RefactoringParticipant[] EMPTY_REF_PARTICIPANT = new  RefactoringParticipant[0];	
@@ -79,7 +78,7 @@ public abstract class CDIRefactoringProcessor extends RefactoringProcessor {
 	protected IEditorPart getEditor(IFile file){
 		IEditorInput ii = EditorUtility.getEditorInput(file);
 		
-		IWorkbenchWindow[] windows = CDIUIPlugin.getDefault().getWorkbench().getWorkbenchWindows();
+		IWorkbenchWindow[] windows = CDICorePlugin.getDefault().getWorkbench().getWorkbenchWindows();
 		for(IWorkbenchWindow window : windows){
 			IEditorPart editor = window.getActivePage().findEditor(ii);
 			if(editor != null)

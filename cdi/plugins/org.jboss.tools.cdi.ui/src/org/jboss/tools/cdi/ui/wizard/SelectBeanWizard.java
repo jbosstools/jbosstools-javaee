@@ -42,9 +42,9 @@ import org.eclipse.ui.dialogs.SearchPattern;
 import org.jboss.tools.cdi.core.CDIImages;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IQualifier;
+import org.jboss.tools.cdi.internal.core.refactoring.MarkerResolutionUtils;
+import org.jboss.tools.cdi.internal.core.refactoring.ValuedQualifier;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
-import org.jboss.tools.cdi.ui.marker.MarkerResolutionUtils;
-import org.jboss.tools.cdi.ui.wizard.xpl.AddQualifiersToBeanComposite.ValuedQualifier;
 import org.jboss.tools.common.model.ui.ModelUIImages;
 
 public class SelectBeanWizard extends AbstractModifyInjectionPointWizard{

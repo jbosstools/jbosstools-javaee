@@ -21,6 +21,7 @@ import org.eclipse.ltk.core.refactoring.participants.RefactoringProcessor;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.IMarkerResolution2;
 import org.jboss.tools.cdi.core.CDIImages;
+import org.jboss.tools.cdi.internal.core.refactoring.DeleteAllInjectedConstructorsProcessor;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
 import org.jboss.tools.cdi.ui.wizard.DeletePreviewWizard;
 

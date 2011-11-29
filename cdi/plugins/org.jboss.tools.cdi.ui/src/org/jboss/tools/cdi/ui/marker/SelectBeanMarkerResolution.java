@@ -10,28 +10,18 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.ui.marker;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.core.resources.IMarker;
-import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.jobs.Job;
-import org.eclipse.jface.wizard.WizardDialog;
-import org.eclipse.ltk.core.refactoring.CompositeChange;
 import org.eclipse.ltk.core.refactoring.participants.ProcessorBasedRefactoring;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IMarkerResolution2;
-import org.eclipse.ui.PlatformUI;
 import org.jboss.tools.cdi.core.CDIImages;
 import org.jboss.tools.cdi.core.IBean;
-import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.IInjectionPoint;
-import org.jboss.tools.cdi.core.IQualifier;
+import org.jboss.tools.cdi.internal.core.refactoring.AddQualifiersToBeanProcessor;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
-import org.jboss.tools.cdi.ui.wizard.AddQualifiersToBeanWizard;
 import org.jboss.tools.cdi.ui.wizard.SelectBeanWizard;
-import org.jboss.tools.cdi.ui.wizard.xpl.AddQualifiersToBeanComposite.ValuedQualifier;
 
 /**
  * @author Daniel Azarov

@@ -77,9 +77,10 @@ import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.core.IQualifier;
 import org.jboss.tools.cdi.core.IQualifierDeclaration;
+import org.jboss.tools.cdi.internal.core.refactoring.MarkerResolutionUtils;
+import org.jboss.tools.cdi.internal.core.refactoring.ValuedQualifier;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
 import org.jboss.tools.cdi.ui.CDIUIPlugin;
-import org.jboss.tools.cdi.ui.marker.MarkerResolutionUtils;
 import org.jboss.tools.cdi.ui.wizard.AbstractModifyInjectionPointWizard;
 import org.jboss.tools.cdi.ui.wizard.AddQualifiersToBeanWizardPage;
 import org.jboss.tools.cdi.ui.wizard.NewQualifierCreationWizard;
@@ -549,7 +550,7 @@ public class AddQualifiersToBeanComposite extends Composite {
 			}
 			remove.setEnabled(enabled);
 			
-			if(enabled && ms.length == 1 && isEditEnabled(ms[0].qualifier)){
+			if(enabled && ms.length == 1 && isEditEnabled(ms[0].getQualifier())){
 				editQualifierValue.setEnabled(true);
 			}else{
 				editQualifierValue.setEnabled(false);
@@ -716,7 +717,7 @@ public class AddQualifiersToBeanComposite extends Composite {
 
 		public Image getImage(Object element) {
 			if(element instanceof ValuedQualifier){
-				return CDIImages.getImageByElement(((ValuedQualifier) element).qualifier);
+				return CDIImages.getImageByElement(((ValuedQualifier) element).getQualifier());
 			}
 			return null;
 		}
@@ -794,37 +795,6 @@ public class AddQualifiersToBeanComposite extends Composite {
 		}
 	}
 	
-	public static class ValuedQualifier{
-		private IQualifier qualifier;
-		private String value="";
-		
-		public ValuedQualifier(IQualifier qualifier){
-			this.qualifier = qualifier;
-		}
-		
-		public ValuedQualifier(IQualifier qualifier, String value){
-			this(qualifier);
-			this.value = value;
-		}
-		
-		public IQualifier getQualifier(){
-			return qualifier;
-		}
-		
-		public String getValue(){
-			return value;
-		}
-		
-		public void setValue(String value){
-			this.value = value;
-		}
-
-		public boolean equals(Object obj) {
-			if(obj instanceof ValuedQualifier)
-				return getQualifier().getSourceType().getFullyQualifiedName().equals(((ValuedQualifier)obj).getQualifier().getSourceType().getFullyQualifiedName());
-			return false;
-		}
-	}
 	
 	static class ValueDialog extends MessageDialog{
 		String value;

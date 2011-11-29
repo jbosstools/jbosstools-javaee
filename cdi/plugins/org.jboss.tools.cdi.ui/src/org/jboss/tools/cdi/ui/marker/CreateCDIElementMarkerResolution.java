@@ -20,6 +20,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IMarkerResolution2;
 import org.eclipse.ui.PlatformUI;
 import org.jboss.tools.cdi.core.CDIImages;
+import org.jboss.tools.cdi.internal.core.refactoring.MarkerResolutionUtils;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
 import org.jboss.tools.cdi.ui.wizard.NewBeanCreationWizard;
 import org.jboss.tools.cdi.ui.wizard.NewCDIElementWizard;

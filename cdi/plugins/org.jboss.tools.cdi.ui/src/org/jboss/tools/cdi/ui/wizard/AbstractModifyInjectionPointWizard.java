@@ -21,8 +21,8 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IInjectionPoint;
+import org.jboss.tools.cdi.internal.core.refactoring.AddQualifiersToBeanProcessor;
 import org.jboss.tools.cdi.ui.CDIUIPlugin;
-import org.jboss.tools.cdi.ui.marker.AddQualifiersToBeanProcessor;
 
 public abstract class AbstractModifyInjectionPointWizard extends RefactoringWizard {
 	public AbstractModifyInjectionPointWizard(ProcessorBasedRefactoring refactoring){

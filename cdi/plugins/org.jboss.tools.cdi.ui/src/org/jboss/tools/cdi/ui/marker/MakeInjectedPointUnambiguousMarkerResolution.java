@@ -20,6 +20,7 @@ import org.eclipse.ui.IMarkerResolution2;
 import org.jboss.tools.cdi.core.CDIImages;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IInjectionPoint;
+import org.jboss.tools.cdi.internal.core.refactoring.AddQualifiersToBeanProcessor;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
 import org.jboss.tools.cdi.ui.wizard.AddQualifiersToBeanWizard;
 

@@ -26,6 +26,7 @@ import org.eclipse.jdt.core.Signature;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.IMarkerResolution2;
 import org.jboss.tools.cdi.core.CDIImages;
+import org.jboss.tools.cdi.internal.core.refactoring.MarkerResolutionUtils;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
 import org.jboss.tools.cdi.ui.CDIUIPlugin;
 import org.jboss.tools.common.EclipseUtil;

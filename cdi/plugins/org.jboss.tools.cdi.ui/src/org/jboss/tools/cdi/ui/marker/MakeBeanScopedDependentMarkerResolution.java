@@ -32,6 +32,7 @@ import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.CDIImages;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IScopeDeclaration;
+import org.jboss.tools.cdi.internal.core.refactoring.MarkerResolutionUtils;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
 import org.jboss.tools.cdi.ui.CDIUIPlugin;
 import org.jboss.tools.common.EclipseUtil;

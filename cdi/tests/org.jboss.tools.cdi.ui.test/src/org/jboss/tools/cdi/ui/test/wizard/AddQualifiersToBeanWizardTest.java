@@ -19,12 +19,12 @@ import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.IClassBean;
 import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.core.IQualifier;
-import org.jboss.tools.cdi.ui.marker.AddQualifiersToBeanProcessor;
+import org.jboss.tools.cdi.internal.core.refactoring.AddQualifiersToBeanProcessor;
+import org.jboss.tools.cdi.internal.core.refactoring.ValuedQualifier;
 import org.jboss.tools.cdi.ui.test.testmodel.CDIBean;
 import org.jboss.tools.cdi.ui.test.testmodel.CDIInjectionPoint;
 import org.jboss.tools.cdi.ui.test.testmodel.CDIProject;
 import org.jboss.tools.cdi.ui.wizard.AddQualifiersToBeanWizard;
-import org.jboss.tools.cdi.ui.wizard.xpl.AddQualifiersToBeanComposite.ValuedQualifier;
 
 
 public class AddQualifiersToBeanWizardTest extends TestCase{

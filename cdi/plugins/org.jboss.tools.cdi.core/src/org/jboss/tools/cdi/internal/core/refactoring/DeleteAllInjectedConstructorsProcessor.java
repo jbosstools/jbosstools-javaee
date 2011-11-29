@@ -8,7 +8,7 @@
  * Contributors:
  *     Red Hat, Inc. - initial API and implementation
  ******************************************************************************/
-package org.jboss.tools.cdi.ui.marker;
+package org.jboss.tools.cdi.internal.core.refactoring;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -25,7 +25,6 @@ import org.eclipse.text.edits.TextEdit;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.IBeanMethod;
 import org.jboss.tools.cdi.core.IClassBean;
-import org.jboss.tools.cdi.ui.refactoring.CDIRefactoringProcessor;
 import org.jboss.tools.common.java.IAnnotationDeclaration;
 
 public class DeleteAllInjectedConstructorsProcessor extends CDIRefactoringProcessor {
