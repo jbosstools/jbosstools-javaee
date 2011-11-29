@@ -16,9 +16,13 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IMarkerResolution2;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.wst.validation.IMutableValidator;
 import org.eclipse.wst.validation.MutableProjectSettings;
 import org.eclipse.wst.validation.MutableWorkspaceSettings;
@@ -33,50 +37,86 @@ public class DisableFaceletHTMLValidatorMarkerResolution implements
 		IMarkerResolution2 {
 	private static final String MARKER_TYPE = "org.eclipse.jst.jsf.facelet.ui.FaceletValidationMarker";
 	private IFile file;
-	private boolean global;
+	private boolean forProject;
 	private String label;
 	
-	public DisableFaceletHTMLValidatorMarkerResolution(IFile file, boolean global){
+	public DisableFaceletHTMLValidatorMarkerResolution(IFile file, boolean forProject){
 		this.file = file;
-		this.global = global;
-		if(global){
-			label = JsfUIMessages.DISABLE_FACELET_HTML_VALIDATOR_MARKER_RESOLUTION_FOR_WORKSPACE;
-		}else{
-			label = NLS.bind(JsfUIMessages.DISABLE_FACELET_HTML_VALIDATOR_MARKER_RESOLUTION_FOR_PROJECT, file.getProject().getName());
-		}
+		this.forProject = forProject;
+		label = JsfUIMessages.DISABLE_FACELET_HTML_VALIDATOR_MARKER_RESOLUTION_TITLE;
 	}
 
 	public String getLabel() {
 		return label;
 	}
+	
+	public static Shell getShell() {
+		IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
+		if (window == null) {
+			IWorkbenchWindow[] windows = PlatformUI.getWorkbench().getWorkbenchWindows();
+			if (windows.length > 0) {
+				return windows[0].getShell();
+			}
+		}
+		else {
+			return window.getShell();
+		}
+		return null;
+	}
 
 	public void run(IMarker marker) {
-		IMutableValidator[] validators;
-		if(global){
-			try {
-				MutableWorkspaceSettings workspaceSettings = ValidationFramework.getDefault().getWorkspaceSettings();
-				validators = workspaceSettings.getValidators();
-				if(disableValidator(validators, DisableFaceletHTMLValidatorResolutionGenerator.VALIDATOR_ID)){
-					ValidationFramework.getDefault().applyChanges(workspaceSettings, true);
-					try {
-						file.getProject().getParent().deleteMarkers(MARKER_TYPE, true, IResource.DEPTH_INFINITE);
-					} catch (CoreException e) {
-						JsfUiPlugin.getPluginLog().logError(e);
-					}
-				}
-			} catch (InvocationTargetException e) {
-				JsfUiPlugin.getPluginLog().logError(e);
-			}
+		MessageDialog dialog = null;
+		if(forProject){
+			dialog = new MessageDialog(getShell(), label, null,
+					NLS.bind(JsfUIMessages.DISABLE_FACELET_HTML_VALIDATOR_MARKER_RESOLUTION_MESSAGE, file.getName())+
+					NLS.bind(JsfUIMessages.DISABLE_FACELET_HTML_VALIDATOR_MARKER_RESOLUTION_PROJECT_QUESTION, file.getProject().getName()),
+					MessageDialog.QUESTION_WITH_CANCEL,
+					new String[]{"Cancel", "Workspace", file.getProject().getName()},
+					0);
 		}else{
-			MutableProjectSettings projectSettings = ValidationFramework.getDefault().getProjectSettings(file.getProject());
-			validators = projectSettings.getValidators();
+			dialog = new MessageDialog(getShell(), label, null,
+					NLS.bind(JsfUIMessages.DISABLE_FACELET_HTML_VALIDATOR_MARKER_RESOLUTION_MESSAGE, file.getName())+
+					JsfUIMessages.DISABLE_FACELET_HTML_VALIDATOR_MARKER_RESOLUTION_WORKSPACE_QUESTION,
+					MessageDialog.QUESTION_WITH_CANCEL,
+					new String[]{"Cancel", "Ok"},
+					0);
+			
+		}
+		int result = dialog.open();
+		if(result == 1){
+			disableOnWorkspace();
+		}else if(result == 2){
+			disableOnProject();
+		}
+	}
+	
+	private void disableOnWorkspace(){
+		IMutableValidator[] validators;
+		try {
+			MutableWorkspaceSettings workspaceSettings = ValidationFramework.getDefault().getWorkspaceSettings();
+			validators = workspaceSettings.getValidators();
 			if(disableValidator(validators, DisableFaceletHTMLValidatorResolutionGenerator.VALIDATOR_ID)){
-				ValidationFramework.getDefault().applyChanges(projectSettings, true);
+				ValidationFramework.getDefault().applyChanges(workspaceSettings, true);
 				try {
-					file.getProject().deleteMarkers(MARKER_TYPE, true, IResource.DEPTH_INFINITE);
+					file.getProject().getParent().deleteMarkers(MARKER_TYPE, true, IResource.DEPTH_INFINITE);
 				} catch (CoreException e) {
 					JsfUiPlugin.getPluginLog().logError(e);
 				}
+			}
+		} catch (InvocationTargetException e) {
+			JsfUiPlugin.getPluginLog().logError(e);
+		}
+	}
+	
+	private void disableOnProject(){
+		MutableProjectSettings projectSettings = ValidationFramework.getDefault().getProjectSettings(file.getProject());
+		IMutableValidator[] validators = projectSettings.getValidators();
+		if(disableValidator(validators, DisableFaceletHTMLValidatorResolutionGenerator.VALIDATOR_ID)){
+			ValidationFramework.getDefault().applyChanges(projectSettings, true);
+			try {
+				file.getProject().deleteMarkers(MARKER_TYPE, true, IResource.DEPTH_INFINITE);
+			} catch (CoreException e) {
+				JsfUiPlugin.getPluginLog().logError(e);
 			}
 		}
 	}

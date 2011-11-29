@@ -11,7 +11,6 @@
 package org.jboss.tools.jsf.ui.marker;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
@@ -32,27 +31,27 @@ public class DisableFaceletHTMLValidatorResolutionGenerator implements
 	public static final String VALIDATOR_ID = "org.eclipse.jst.jsf.facelet.ui.FaceletHTMLValidator";
 
 	public IMarkerResolution[] getResolutions(IMarker marker) {
-		ArrayList<IMarkerResolution> resolutions = new ArrayList<IMarkerResolution>();
 		if(isNeedToCreate(marker)){
+			boolean forProject = false; 
 			IFile file = (IFile)marker.getResource();
 			IMutableValidator[] validators;
-			
+			MutableProjectSettings projectSettings = ValidationFramework.getDefault().getProjectSettings(file.getProject());
+			validators = projectSettings.getValidators();
+			if(DisableFaceletHTMLValidatorMarkerResolution.findValidator(validators, VALIDATOR_ID) != null){
+				forProject = true;
+			}
 			try {
 				MutableWorkspaceSettings workspaceSettings = ValidationFramework.getDefault().getWorkspaceSettings();
 				validators = workspaceSettings.getValidators();
 				if(DisableFaceletHTMLValidatorMarkerResolution.findValidator(validators, VALIDATOR_ID) != null){
-					resolutions.add(new DisableFaceletHTMLValidatorMarkerResolution((IFile)marker.getResource(), true));
+					return new IMarkerResolution[] {new DisableFaceletHTMLValidatorMarkerResolution((IFile)marker.getResource(), forProject)};
 				}
 			} catch (InvocationTargetException e) {
 				JsfUiPlugin.getPluginLog().logError(e);
 			}
-			MutableProjectSettings projectSettings = ValidationFramework.getDefault().getProjectSettings(file.getProject());
-			validators = projectSettings.getValidators();
-			if(DisableFaceletHTMLValidatorMarkerResolution.findValidator(validators, VALIDATOR_ID) != null){
-				resolutions.add(new DisableFaceletHTMLValidatorMarkerResolution((IFile)marker.getResource(), false));
-			}
+			
 		}
-		return resolutions.toArray(new IMarkerResolution[] {});
+		return new IMarkerResolution[] {};
 	}
 	
 	private boolean isNeedToCreate(IMarker marker){
