@@ -185,6 +185,11 @@ public class RichFacesPickListTemplate extends VpeAbstractTemplate {
     /** value of width attribute of target list. */
     private String targetListsWidth;
 
+	private static final String REMOVE_ALL_CONTROL = "\u21D0"; //$NON-NLS-1$
+	private static final String REMOVE_CONTROL = "\u2190"; //$NON-NLS-1$
+	private static final String COPY_CONTROL = "\u2192"; //$NON-NLS-1$
+	private static final String COPY_ALL_CONTROL = "\u21D2"; //$NON-NLS-1$
+    
     private enum LabelKey {
         COPY_ALL_CONTROL("copyAllControl"), //$NON-NLS-1$
         COPY_CONTROL("copyControl"), //$NON-NLS-1$
@@ -400,17 +405,18 @@ public class RichFacesPickListTemplate extends VpeAbstractTemplate {
         nsIDOMElement buttonContent = visualDocument.createElement(HTML.TAG_DIV);
         buttonContent.setAttribute(HTML.ATTR_CLASS, RICH_LIST_PICKLIST_BUTTON_CONTENT_CSS_CLASS); 
 
-        nsIDOMElement buttonImage = visualDocument.createElement(HTML.TAG_IMG);
-
-        buttonImage.setAttribute(HTML.ATTR_WIDTH, WIDTH_15);
-        buttonImage.setAttribute(HTML.ATTR_HEIGHT, WIDTH_15); 
-        ComponentUtil.setImg(buttonImage, buttonImages.get(buttonId));
-        buttonContent.appendChild(buttonImage);
+//        nsIDOMElement buttonImage = visualDocument.createElement(HTML.TAG_IMG);
+//        buttonImage.setAttribute(HTML.ATTR_WIDTH, WIDTH_15);
+//        buttonImage.setAttribute(HTML.ATTR_HEIGHT, WIDTH_15); 
+//        ComponentUtil.setImg(buttonImage, buttonImages.get(buttonId));
+//        buttonContent.appendChild(buttonImage);
 
         if (isShowButtonLabels) {
-            nsIDOMText buttonText = visualDocument.createTextNode(labels.get(buttonId.getValue()));
-
-            buttonContent.appendChild(buttonText);
+            buttonContent.appendChild(visualDocument.createTextNode(
+            		buttonImages.get(buttonId) + " " + labels.get(buttonId.getValue()))); //$NON-NLS-1$
+        } else {
+        	buttonContent.appendChild(visualDocument.createTextNode(
+        			buttonImages.get(buttonId)));
         }
 
         buttonSpace.appendChild(metaButton);
@@ -517,10 +523,15 @@ public class RichFacesPickListTemplate extends VpeAbstractTemplate {
      */
     private void initButtonImagesMap() {
         // images of the first set of buttons
-        buttonImages.put(LabelKey.COPY_ALL_CONTROL, getCssExtension() + "/arrow_copy_all.gif"); //$NON-NLS-1$ 
-        buttonImages.put(LabelKey.COPY_CONTROL, getCssExtension() + "/arrow_copy.gif"); //$NON-NLS-1$ 
-        buttonImages.put(LabelKey.REMOVE_CONTROL, getCssExtension() + "/arrow_remove.gif"); //$NON-NLS-1$ 
-        buttonImages.put(LabelKey.REMOVE_ALL_CONTROL, getCssExtension() + "/arrow_remove_all.gif"); //$NON-NLS-1$
+//        buttonImages.put(LabelKey.COPY_ALL_CONTROL, getCssExtension() + "/arrow_copy_all.gif"); //$NON-NLS-1$ 
+//        buttonImages.put(LabelKey.COPY_CONTROL, getCssExtension() + "/arrow_copy.gif"); //$NON-NLS-1$ 
+//        buttonImages.put(LabelKey.REMOVE_CONTROL, getCssExtension() + "/arrow_remove.gif"); //$NON-NLS-1$ 
+//        buttonImages.put(LabelKey.REMOVE_ALL_CONTROL, getCssExtension() + "/arrow_remove_all.gif"); //$NON-NLS-1$
+
+        buttonImages.put(LabelKey.COPY_ALL_CONTROL, COPY_ALL_CONTROL);
+        buttonImages.put(LabelKey.COPY_CONTROL, COPY_CONTROL);
+        buttonImages.put(LabelKey.REMOVE_CONTROL, REMOVE_CONTROL);
+        buttonImages.put(LabelKey.REMOVE_ALL_CONTROL, REMOVE_ALL_CONTROL);
 
     }
 

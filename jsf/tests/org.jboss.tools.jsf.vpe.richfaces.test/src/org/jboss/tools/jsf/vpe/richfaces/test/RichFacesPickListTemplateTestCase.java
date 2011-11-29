@@ -80,10 +80,7 @@ public class RichFacesPickListTemplateTestCase extends VpeTest {
             elements.clear();
             TestUtil.findAllElementsByName(element, elements, HTML.TAG_DIV);
             assertEquals("Count of divs should be 15", 15, elements.size()); //$NON-NLS-1$
-
             elements.clear();
-            TestUtil.findAllElementsByName(element, elements, HTML.TAG_IMG);
-            assertEquals("Count of img should be 4", 4, elements.size()); //$NON-NLS-1$
     }
 
 }

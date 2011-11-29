@@ -1,43 +1,40 @@
 <tests>
 	<test id="editor">
-		<DIV CLASS="dr-pnl rich-panel">
-			<DIV CLASS="dr-pnl-h rich-panel-header"
-				STYLE="/background-image: url\(.*resources/common/background.gif\);/">
-				<SPAN CLASS="vpe-text">
-					Editor
-				</SPAN>
-			</DIV>
-			<DIV CLASS="dr-pnl-b rich-panel-body">
-				<SPAN CLASS="richfacesSimpleSkin" STYLE="display: table; background-color: red;">
-					<TABLE CELLSPACING="0" CELLPADDING="0" CLASS="mceLayout"
-						STYLE="width: 264px; height: 200px;">
-						<TR STYLE="height: 100%;">
-							<TD>
-								<DIV CLASS="mceIframeContainer" STYLE="height: 100%;">
-									<TABLE BORDER="0" STYLE="width: 100%; height: 100%;">
-										<TR>
-											<TD>
-											</TD>
-										</TR>
-									</TABLE>
+		<SPAN STYLE="width: 264px;" CLASS="cke_skin_richfaces">
+			<SPAN CLASS="cke_wrapper">
+				<TABLE CLASS="cke_editor">
+					<TBODY>
+						<TR>
+							<TD CLASS="cke_top">
+								<DIV CLASS="cke_toolbox">
+									<SPAN CLASS="cke_toolbar">
+										<SPAN CLASS="cke_toolgroup">
+											<SPAN CLASS="jbds_rf_editor_toolbar_image_internal_css_class">
+											</SPAN>
+										</SPAN>
+									</SPAN>
 								</DIV>
+								<SPAN CLASS="cke_toolbox_collapser">
+								</SPAN>
 							</TD>
 						</TR>
 						<TR>
-							<TD CLASS="mceToolbar">
-								<TABLE CELLSPACING="0" CELLPADDING="0" CLASS="mceToolbarTable">
-									<TR>
-										<TD>
-											<DIV CLASS="mce_panel">
-											</DIV>
-										</TD>
-									</TR>
-								</TABLE>
+							<TD STYLE="height: 200px;" CLASS="cke_contents">
+								<TEXTAREA CLASS="jbds_rf_editor_content_textarea_internal_css_class">
+								</TEXTAREA>
 							</TD>
 						</TR>
-					</TABLE>
-				</SPAN>
-			</DIV>
-		</DIV>
+						<TR>
+							<TD CLASS="cke_bottom">
+								<DIV CLASS="cke_resizer">
+								</DIV>
+								<DIV CLASS="cke_path">
+								</DIV>
+							</TD>
+						</TR>
+					</TBODY>
+				</TABLE>
+			</SPAN>
+		</SPAN>
 	</test>
 </tests>

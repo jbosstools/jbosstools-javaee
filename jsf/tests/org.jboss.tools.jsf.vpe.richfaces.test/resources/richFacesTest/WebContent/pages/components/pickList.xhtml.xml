@@ -36,39 +36,28 @@
 							<DIV CLASS="rich-picklist-control-button-class">
 								<DIV STYLE="/.*/resources/pickList/button.gif/" CLASS="rich-list-picklist-button">
 									<DIV CLASS="rich-list-picklist-button-content">
-										<IMG WIDTH="15" HEIGHT="15" SRC="/.*/pickList/arrow_copy_all.gif/" />
-
-										Copy all
+										&#8658; Copy all
 									</DIV>
 								</DIV>
 							</DIV>
 							<DIV CLASS="rich-picklist-control-button-class">
 								<DIV STYLE="/.*/resources/pickList/button.gif/" CLASS="rich-list-picklist-button">
 									<DIV CLASS="rich-list-picklist-button-content">
-										<IMG WIDTH="15" HEIGHT="15"
-											SRC="/.*/resources/pickList/arrow_copy.gif/" />
-
-										Copy
+										&#8594; Copy
 									</DIV>
 								</DIV>
 							</DIV>
 							<DIV CLASS="rich-picklist-control-button-class">
 								<DIV STYLE="/.*/resources/pickList/button.gif/" CLASS="rich-list-picklist-button">
 									<DIV CLASS="rich-list-picklist-button-content">
-										<IMG WIDTH="15" HEIGHT="15"
-											SRC="/.*/resources/pickList/arrow_remove.gif/" />
-
-										Remove
+										&#8592; Remove
 									</DIV>
 								</DIV>
 							</DIV>
 							<DIV CLASS="rich-picklist-control-button-class">
 								<DIV STYLE="/.*/resources/pickList/button.gif/" CLASS="rich-list-picklist-button">
 									<DIV CLASS="rich-list-picklist-button-content">
-										<IMG WIDTH="15" HEIGHT="15"
-											SRC="/.*/resources/pickList/arrow_remove_all.gif/" />
-
-										Remove All
+										&#8656; Remove All
 									</DIV>
 								</DIV>
 							</DIV>

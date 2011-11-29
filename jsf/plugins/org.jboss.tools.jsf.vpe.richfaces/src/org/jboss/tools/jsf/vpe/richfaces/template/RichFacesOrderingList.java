@@ -44,6 +44,11 @@ public class RichFacesOrderingList extends VpeAbstractTemplate {
 	private static final String HEADER = "header"; //$NON-NLS-1$
 	private static final String HEADER_CLASS = "headerClass"; //$NON-NLS-1$
 
+	private static final String ARROW_TOP = "\u21D1";  //$NON-NLS-1$
+	private static final String ARROW_UP = "\u2191";  //$NON-NLS-1$
+	private static final String ARROW_DOWN = "\u2193"; //$NON-NLS-1$
+	private static final String ARROW_BOTTOM = "\u21D3"; //$NON-NLS-1$
+	
 	private static final String TOP_CONTROL_IMG = "orderingList/top.gif"; //$NON-NLS-1$
 	private static final String UP_CONTROL_IMG = "orderingList/up.gif"; //$NON-NLS-1$
 	private static final String DOWN_CONTROL_IMG = "orderingList/down.gif"; //$NON-NLS-1$
@@ -266,7 +271,7 @@ public class RichFacesOrderingList extends VpeAbstractTemplate {
 			String topControlLabel = sourceElement.hasAttribute(TOP_CONTROL_LABEL) ? sourceElement.getAttribute(TOP_CONTROL_LABEL) : TOP_CONTROL_LABEL_DEFAULT;
 			
 			nsIDOMElement btnTopDiv = createSingleButtonDiv(pageContext, creationData, visualDocument,
-					topControlLabel, TOP_CONTROL_IMG, showButtonLabels, top_control_facet, 
+					topControlLabel, ARROW_TOP, showButtonLabels, top_control_facet, 
 							CSS_TOP_CONTROL_CLASS, topControlClass);
 			
 			buttonsDiv.appendChild(btnTopDiv);
@@ -278,10 +283,10 @@ public class RichFacesOrderingList extends VpeAbstractTemplate {
 			String downControlLabel = sourceElement.hasAttribute(DOWN_CONTROL_LABEL) ? sourceElement.getAttribute(DOWN_CONTROL_LABEL) : DOWN_CONTROL_LABEL_DEFAULT;
 			
 			nsIDOMElement btnUpDiv = createSingleButtonDiv(pageContext, creationData, visualDocument,
-					upControlLabel, UP_CONTROL_IMG, showButtonLabels, up_control_facet,
+					upControlLabel, ARROW_UP, showButtonLabels, up_control_facet,
 							CSS_UP_CONTROL_CLASS, upControlClass);			
 			nsIDOMElement btnDownDiv = createSingleButtonDiv(pageContext, creationData, visualDocument,
-					downControlLabel, DOWN_CONTROL_IMG, showButtonLabels, down_control_facet, 
+					downControlLabel, ARROW_DOWN, showButtonLabels, down_control_facet, 
 							CSS_DOWN_CONTROL_CLASS, downControlClass);
 			
 			buttonsDiv.appendChild(btnUpDiv);
@@ -293,7 +298,7 @@ public class RichFacesOrderingList extends VpeAbstractTemplate {
 			String bottomControlLabel = sourceElement.hasAttribute(BOTTOM_CONTROL_LABEL) ? sourceElement.getAttribute(BOTTOM_CONTROL_LABEL) : BOTTOM_CONTROL_LABEL_DEFAULT;
 						
 			nsIDOMElement btnBottomDiv = createSingleButtonDiv(pageContext, creationData, visualDocument,
-					bottomControlLabel, BOTTOM_CONTROL_IMG, showButtonLabels, bottom_control_facet, 
+					bottomControlLabel, ARROW_BOTTOM, showButtonLabels, bottom_control_facet, 
 							CSS_BOTTOM_CONTROL_CLASS, bottomControlClass);
 			
 			buttonsDiv.appendChild(btnBottomDiv);
@@ -309,7 +314,7 @@ public class RichFacesOrderingList extends VpeAbstractTemplate {
 	 * @param creationData the creation data
 	 * @param visualDocument the visual document
 	 * @param btnName the btn name
-	 * @param imgName the img name
+	 * @param arrowName the img name
 	 * @param showButtonLabels the show button labels
 	 * @param buttonFacet the button facet
 	 * @param cssStyleName the css style name
@@ -318,15 +323,15 @@ public class RichFacesOrderingList extends VpeAbstractTemplate {
 	 * @return the element
 	 */
 	private nsIDOMElement createSingleButtonDiv(final VpePageContext pageContext, VpeCreationData creationData,
-			nsIDOMDocument visualDocument, String btnName, String imgName,
+			nsIDOMDocument visualDocument, String btnName, String arrowName,
 			boolean showButtonLabels, Element buttonFacet, String cssStyleName,
 			String customStyleClass) {
 		
 		nsIDOMElement div1 = visualDocument.createElement(HTML.TAG_DIV);
 		nsIDOMElement div2 = visualDocument.createElement(HTML.TAG_DIV);
-		nsIDOMElement a = visualDocument.createElement(HTML.TAG_A);
+//		nsIDOMElement a = visualDocument.createElement(HTML.TAG_A);
 		nsIDOMElement div3 = visualDocument.createElement(HTML.TAG_DIV);
-		nsIDOMElement img = visualDocument.createElement(HTML.TAG_IMG);
+//		nsIDOMElement arrowImg = visualDocument.createElement(HTML.TAG_IMG);
 		
 		div1.setAttribute(HTML.ATTR_CLASS,
 						"dr-buttons-border" + " " + cssStyleName //$NON-NLS-1$ //$NON-NLS-2$
@@ -349,18 +354,21 @@ public class RichFacesOrderingList extends VpeAbstractTemplate {
 			/*
 			 * Creating button with image and label
 			 */
-			ComponentUtil.setImg(img, imgName);
-			img.setAttribute(HTML.ATTR_WIDTH, "15"); //$NON-NLS-1$
-			img.setAttribute(HTML.ATTR_HEIGHT, "15"); //$NON-NLS-1$
-			div3.appendChild(img);
+//			ComponentUtil.setImg(arrowImg, arrowName);
+//			arrowImg.setAttribute(HTML.ATTR_WIDTH, "15"); //$NON-NLS-1$
+//			arrowImg.setAttribute(HTML.ATTR_HEIGHT, "15"); //$NON-NLS-1$
+//			div3.appendChild(arrowImg);
 			if (showButtonLabels) {
-				div3.appendChild(visualDocument.createTextNode(btnName));
+				div3.appendChild(visualDocument.createTextNode(arrowName
+						+ Constants.WHITE_SPACE + btnName));
+			} else {
+				div3.appendChild(visualDocument.createTextNode(arrowName));
 			}
 			
-			a.setAttribute(HTML.ATTR_CLASS, CSS_BUTTON_SELECTION_CLASS);
-			div3.setAttribute(HTML.ATTR_CLASS, CSS_BUTTON_CONTENT_CLASS);
-			a.appendChild(div3);
-			div2.appendChild(a);
+//			a.setAttribute(HTML.ATTR_CLASS, CSS_BUTTON_SELECTION_CLASS);
+//			a.appendChild(div3);
+			div3.setAttribute(HTML.ATTR_CLASS, CSS_BUTTON_SELECTION_CLASS + " " + CSS_BUTTON_CONTENT_CLASS); //$NON-NLS-1$
+			div2.appendChild(div3);
 		}
 		return div1;
 	}

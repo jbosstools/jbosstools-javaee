@@ -314,7 +314,7 @@
 	<vpe:tag name="rich:editor" case-sensitive="yes">
 		<vpe:if test="tld_version('min=3.3')">
 			<vpe:template children="no" modify="no"
-				class="org.jboss.tools.jsf.vpe.richfaces.template.RichFacesEditorTemplate">
+				class="org.jboss.tools.jsf.vpe.richfaces.template.RichFaces4EditorTemplate">
 				<vpe:resize>
 					<vpe:width width-attr="width" />
 					<vpe:height height-attr="height" />

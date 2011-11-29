@@ -1,0 +1,93 @@
+.cke_skin_richfaces {
+    border-color: #C4C0B9;
+    border-style: solid;
+    border-width: 1px;
+    display: block;
+}
+
+.cke_wrapper {
+	overflow: hidden;
+    background-color: #D4CFC7;
+    background-image: url("sprites.png");
+    background-position: 0 -1950px;
+    background-repeat: repeat-x;
+    display: block;
+    padding: 1px;
+}
+
+.cke_editor {
+    display: inline-table;
+    width: 100%;
+}
+
+.cke_toolbox {
+    clear: both;
+    padding-bottom: 1px;
+}
+
+.cke_toolbar {
+    display: block;
+    float: left;
+}
+
+.cke_toolgroup {
+    background-position: 0 -500px;
+    background-repeat: repeat-x;
+    display: inline;
+    float: left;
+    margin-bottom: 5px;
+    margin-right: 6px;
+    padding: 2px;
+}
+
+.cke_editor {
+    display: inline-table;
+    width: 100%;
+}
+
+.cke_toolbox_collapser {
+    background-image: url("sprites.png");
+    background-position: 3px -1366px;
+    background-repeat: no-repeat;
+    border: 1px outset #D3D3D3;
+    cursor: pointer;
+    float: right;
+    height: 11px;
+    margin: 11px 0 2px;
+    width: 11px;
+}
+
+.cke_resizer {
+    background-image: url("sprites.png");
+    background-position: 0 -1428px;
+    background-repeat: no-repeat;
+    cursor: se-resize;
+    display: block;
+    float: right;
+    height: 12px;
+    margin-top: 5px;
+    width: 12px;
+}
+
+.cke_path {
+    display: inline-block;
+    float: left;
+    margin-top: 5px;
+}
+
+.cke_contents {
+    margin: 5px;
+}
+
+.jbds_rf_editor_toolbar_image_internal_css_class {
+	display: block;
+	height:25px;
+	width:200px;
+	background-repeat: no-repeat;
+	background-image: url(richEditorToolbar.png);
+}
+
+.jbds_rf_editor_content_textarea_internal_css_class {
+    height: 100%;
+    width: 100%;
+}

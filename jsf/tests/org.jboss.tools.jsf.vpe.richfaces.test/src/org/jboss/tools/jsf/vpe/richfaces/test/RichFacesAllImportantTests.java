@@ -1,6 +1,5 @@
 package org.jboss.tools.jsf.vpe.richfaces.test;
 
-import org.jboss.tools.jsf.vpe.richfaces.test.jbide.JBIDE1579Test;
 import org.jboss.tools.jsf.vpe.richfaces.test.jbide.JBIDE1606Test;
 import org.jboss.tools.jsf.vpe.richfaces.test.jbide.JBIDE1613Test;
 import org.jboss.tools.jsf.vpe.richfaces.test.jbide.JBIDE1713Test;
@@ -25,7 +24,6 @@ public class RichFacesAllImportantTests {
 		TestSuite suite = new TestSuite(
 				RichFacesAllImportantTests.class.getName());
 		//$JUnit-BEGIN$
-		suite.addTestSuite(JBIDE1579Test.class);
 		suite.addTestSuite(Jbide1580Test.class);
 		suite.addTestSuite(JBIDE1613Test.class);
 		suite.addTestSuite(Jbide1614Test.class);

@@ -1,6 +1,5 @@
 <tests>
 	<test id="orderingList">
-
 		<TABLE WIDTH="300px" HEIGHT="200px" CLASS="rich-ordering-list-body">
 			<TBODY>
 				<TR>
@@ -52,49 +51,105 @@
 							<DIV CLASS="dr-buttons-border rich-ordering-control-top">
 								<DIV CLASS="rich-ordering-list-button"
 									STYLE="/width: 100%; background-image: url\(.*resources/orderingList/button_bg.gif\);/">
-									<A CLASS="rich-ordering-list-button-selection">
-										<DIV CLASS="rich-ordering-list-button-content">
-											<IMG WIDTH="15" HEIGHT="15"
-												SRC="/.*resources/orderingList/top.gif/" />
-											First
+										<DIV CLASS="rich-ordering-list-button-selection rich-ordering-list-button-content">
+											&#8657; First
 										</DIV>
-									</A>
 								</DIV>
 							</DIV>
 							<DIV CLASS="dr-buttons-border rich-ordering-control-up">
 								<DIV CLASS="rich-ordering-list-button"
 									STYLE="/width: 100%; background-image: url\(.*resources/orderingList/button_bg.gif\);/">
-									<A CLASS="rich-ordering-list-button-selection">
-										<DIV CLASS="rich-ordering-list-button-content">
-											<IMG WIDTH="15" HEIGHT="15"
-												SRC="/.*resources/orderingList/up.gif/" />
-											Up
+										<DIV CLASS="rich-ordering-list-button-selection rich-ordering-list-button-content">
+											&#8593; Up
 										</DIV>
-									</A>
 								</DIV>
 							</DIV>
 							<DIV CLASS="dr-buttons-border rich-ordering-control-down">
 								<DIV CLASS="rich-ordering-list-button"
 									STYLE="/width: 100%; background-image: url\(.*resources/orderingList/button_bg.gif\);/">
-									<A CLASS="rich-ordering-list-button-selection">
-										<DIV CLASS="rich-ordering-list-button-content">
-											<IMG WIDTH="15" HEIGHT="15"
-												SRC="/.*resources/orderingList/down.gif/" />
-											Down
+										<DIV CLASS="rich-ordering-list-button-selection rich-ordering-list-button-content">
+											&#8595; Down
 										</DIV>
-									</A>
 								</DIV>
 							</DIV>
 							<DIV CLASS="dr-buttons-border rich-ordering-control-bottom">
 								<DIV CLASS="rich-ordering-list-button"
 									STYLE="/width: 100%; background-image: url\(.*resources/orderingList/button_bg.gif\);/">
-									<A CLASS="rich-ordering-list-button-selection">
-										<DIV CLASS="rich-ordering-list-button-content">
-											<IMG WIDTH="15" HEIGHT="15"
-												SRC="/.*resources/orderingList/bottom.gif/" />
-											Last
+										<DIV CLASS="rich-ordering-list-button-selection rich-ordering-list-button-content">
+											&#8659; Last
 										</DIV>
-									</A>
+								</DIV>
+							</DIV>
+						</DIV>
+					</TD>
+				</TR>
+			</TBODY>
+		</TABLE>
+	</test>
+	
+	<test id="orderingList1">
+		<TABLE WIDTH="300px" HEIGHT="200px" CLASS="rich-ordering-list-body">
+			<TBODY>
+				<TR>
+					<TD CLASS="rich-ordering-list-caption">
+						<DIV>
+						</DIV>
+					</TD>
+				</TR>
+				<TR>
+					<TD>
+						<DIV STYLE="overflow: scroll;"
+							CLASS="rich-ordering-list-output rich-ordering-list-content">
+							<TABLE CELLSPACING="1" CLASS="rich-ordering-list-items "
+								ID="orderingList1" LISTHEIGHT="300" LISTWIDTH="350" STYLE="width: 100%;">
+								<THEAD>
+									<TR
+										CLASS="rich-ordering-list-header rich-ordering-list-table-header  ">
+										<TD BACKGROUND="/.*resources/orderingList/table_header_cell_bg.gif/"
+											CLASS="rich-ordering-list-table-header-cell ">
+											<SPAN CLASS="vpe-text">
+												Song Name
+</SPAN>
+										</TD>
+										<TD BACKGROUND="/.*resources/orderingList/table_header_cell_bg.gif/"
+											CLASS="rich-ordering-list-table-header-cell ">
+											<SPAN CLASS="vpe-text">
+												Artist Name
+</SPAN>
+										</TD>
+									</TR>
+								</THEAD>
+								<TR CLASS="rich-ordering-list-row">
+									<TD WIDTH="180" CLASS="dr-table-cell rich-table-cell">
+										<SPAN CLASS="vpe-text">
+											You must be evil
+</SPAN>
+									</TD>
+									<TD CLASS="dr-table-cell rich-table-cell">
+										<SPAN CLASS="vpe-text">
+											Chris Rea
+</SPAN>
+									</TD>
+								</TR>
+							</TABLE>
+						</DIV>
+					</TD>
+					<TD ALIGN="center" CLASS="rich-ordering-list-button-valign">
+						<DIV CLASS="rich-ordering-controls rich-ordering-list-button-layout">
+							<DIV CLASS="dr-buttons-border rich-ordering-control-up">
+								<DIV CLASS="rich-ordering-list-button"
+									STYLE="/width: 100%; background-image: url\(.*resources/orderingList/button_bg.gif\);/">
+										<DIV CLASS="rich-ordering-list-button-selection rich-ordering-list-button-content">
+											&#8593; Up
+										</DIV>
+								</DIV>
+							</DIV>
+							<DIV CLASS="dr-buttons-border rich-ordering-control-down">
+								<DIV CLASS="rich-ordering-list-button"
+									STYLE="/width: 100%; background-image: url\(.*resources/orderingList/button_bg.gif\);/">
+										<DIV CLASS="rich-ordering-list-button-selection rich-ordering-list-button-content">
+											&#8595; Down
+										</DIV>
 								</DIV>
 							</DIV>
 						</DIV>
