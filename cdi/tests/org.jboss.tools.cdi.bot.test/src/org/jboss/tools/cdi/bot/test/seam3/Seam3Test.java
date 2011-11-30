@@ -77,9 +77,8 @@ public class Seam3Test extends CDITestBase {
 		
 		wizard.createCDIComponent(CDIWizardType.BEANS_XML, "beans.xml", getProjectName() + "/WebContent/WEB-INF", null);		
 		
-		wizard.createCDIComponent(CDIWizardType.BEAN, className, getPackageName(), null);
-		editResourceUtil.replaceClassContentByResource(Seam3Test.class
-				.getResourceAsStream("/resources/seam3/Bean.java.cdi"), false);
+		wizard.createCDIComponentWithContent(CDIWizardType.BEAN, className, 
+				getPackageName(), null, "/resources/seam3/Bean.java.cdi");
 		editResourceUtil.replaceInEditor("BeanComponent", className);		
 		
 		openOnUtil.openOnByOption("beansXml", className + ".java", "Open Resource");
@@ -140,57 +139,47 @@ public class Seam3Test extends CDITestBase {
 		/**
 		 * injectable beans + qualifiers + generic configuration components
 		 */
-		wizard.createCDIComponent(CDIWizardType.BEAN, "MyBean", getGenericPackageName(), null);
-		editResourceUtil.replaceClassContentByResource(Seam3Test.class
-				.getResourceAsStream("/resources/generic/MyBean.java.cdi"), false);
+		wizard.createCDIComponentWithContent(CDIWizardType.BEAN, "MyBean", 
+				getGenericPackageName(), null, "/resources/generic/MyBean.java.cdi");
 		editResourceUtil.replaceInEditor("MyBeanX", "MyBean");
 				
-		wizard.createCDIComponent(CDIWizardType.BEAN, "MyBean2", getGenericPackageName(), null);
-		editResourceUtil.replaceClassContentByResource(Seam3Test.class
-				.getResourceAsStream("/resources/generic/MyBean.java.cdi"), false);
+		wizard.createCDIComponentWithContent(CDIWizardType.BEAN, "MyBean2", 
+				getGenericPackageName(), null, "/resources/generic/MyBean.java.cdi");		
 		editResourceUtil.replaceInEditor("MyBeanX", "MyBean2");
 				
-		wizard.createCDIComponent(CDIWizardType.BEAN, "MyBean3", getGenericPackageName(), null);
-		editResourceUtil.replaceClassContentByResource(Seam3Test.class
-				.getResourceAsStream("/resources/generic/MyBean.java.cdi"), false);
+		wizard.createCDIComponentWithContent(CDIWizardType.BEAN, "MyBean3", 
+				getGenericPackageName(), null, "/resources/generic/MyBean.java.cdi");		
 		editResourceUtil.replaceInEditor("MyBeanX", "MyBean3");
 		
-		wizard.createCDIComponent(CDIWizardType.BEAN, "MyConfiguration", getGenericPackageName(), null);
-		editResourceUtil.replaceClassContentByResource(Seam3Test.class
-				.getResourceAsStream("/resources/generic/MyBean.java.cdi"), false);
+		wizard.createCDIComponentWithContent(CDIWizardType.BEAN, "MyConfiguration", 
+				getGenericPackageName(), null, "/resources/generic/MyBean.java.cdi");
 		editResourceUtil.replaceInEditor("MyBeanX", "MyConfiguration");					
 		
-		wizard.createCDIComponent(CDIWizardType.BEAN, "MyGenericType", getGenericPackageName(), null);
-		editResourceUtil.replaceClassContentByResource(Seam3Test.class
-				.getResourceAsStream("/resources/generic/MyGenericType.java.cdi"), false);
+		wizard.createCDIComponentWithContent(CDIWizardType.BEAN, "MyGenericType", 
+				getGenericPackageName(), null, "/resources/generic/MyGenericType.java.cdi");
 		
 		wizard.createCDIComponent(CDIWizardType.QUALIFIER, "Qualifier1", getGenericPackageName(), null);
 		wizard.createCDIComponent(CDIWizardType.QUALIFIER, "Qualifier2", getGenericPackageName(), null);
 		
-		wizard.createCDIComponent(CDIWizardType.BEAN, "MyExtendedConfiguration", getGenericPackageName(), null);
-		editResourceUtil.replaceClassContentByResource(Seam3Test.class
-				.getResourceAsStream("/resources/generic/MyExtendConfig.java.cdi"), false);
+		wizard.createCDIComponentWithContent(CDIWizardType.BEAN, "MyExtendedConfiguration", 
+				getGenericPackageName(), null, "/resources/generic/MyExtendConfig.java.cdi");
 		
-		wizard.createCDIComponent(CDIWizardType.BEAN, "MyConfigurationProducer", getGenericPackageName(), null);
-		editResourceUtil.replaceClassContentByResource(Seam3Test.class
-				.getResourceAsStream("/resources/generic/MyConfigProd.java.cdi"), false);			
+		wizard.createCDIComponentWithContent(CDIWizardType.BEAN, "MyConfigurationProducer", 
+				getGenericPackageName(), null, "/resources/generic/MyConfigProd.java.cdi");
 		
 		/**
 		 * beans which include atributes suggesting opening all the available 
 		 * generic configurations 
 		 */
 		
-		wizard.createCDIComponent(CDIWizardType.BEAN, "MyBeanInjections", getGenericPackageName(), null);
-		editResourceUtil.replaceClassContentByResource(Seam3Test.class
-				.getResourceAsStream("/resources/generic/MyBeanInjections.java.cdi"), false);
+		wizard.createCDIComponentWithContent(CDIWizardType.BEAN, "MyBeanInjections", 
+				getGenericPackageName(), null, "/resources/generic/MyBeanInjections.java.cdi");
 		
-		wizard.createCDIComponent(CDIWizardType.BEAN, "MyGenericBean", getGenericPackageName(), null);
-		editResourceUtil.replaceClassContentByResource(Seam3Test.class
-				.getResourceAsStream("/resources/generic/MyGenericBean.java.cdi"), false);
+		wizard.createCDIComponentWithContent(CDIWizardType.BEAN, "MyGenericBean", 
+				getGenericPackageName(), null, "/resources/generic/MyGenericBean.java.cdi");
 		
-		wizard.createCDIComponent(CDIWizardType.BEAN, "MyGenericBean2", getGenericPackageName(), null);
-		editResourceUtil.replaceClassContentByResource(Seam3Test.class
-				.getResourceAsStream("/resources/generic/MyGenericBean2.java.cdi"), false);
+		wizard.createCDIComponentWithContent(CDIWizardType.BEAN, "MyGenericBean2", 
+				getGenericPackageName(), null, "/resources/generic/MyGenericBean2.java.cdi");	
 	}
 	
 	private void checkMyBeanInjections() {

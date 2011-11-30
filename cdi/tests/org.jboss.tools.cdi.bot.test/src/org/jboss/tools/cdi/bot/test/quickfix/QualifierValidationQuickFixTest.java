@@ -84,10 +84,10 @@ public class QualifierValidationQuickFixTest extends QuickFixTestBase {
 		String className = "Qualifier3";
 		
 		wizard.createAnnotation("AAnnotation", getPackageName());
-		wizard.createCDIComponent(CDIWizardType.QUALIFIER, className, getPackageName(), null);
+		wizard.createCDIComponentWithContent(CDIWizardType.QUALIFIER, className, 
+				getPackageName(), null, "/resources/quickfix/" +
+						"qualifier/QualifierWithAnnotation.java.cdi");
 	
-		editResourceUtil.replaceClassContentByResource(QuickFixTestBase.class
-				.getResourceAsStream("/resources/quickfix/qualifier/QualifierWithAnnotation.java.cdi"), false);
 		editResourceUtil.replaceInEditor("QualifierComponent", className);
 	
 		checkQuickFix(CDIAnnotationsType.NONBINDING, CDIWizardType.QUALIFIER);

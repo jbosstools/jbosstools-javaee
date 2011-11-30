@@ -49,12 +49,10 @@ public class IBindingValidationQuickFixTest extends QuickFixTestBase {
 		String className = "IBinding1";
 			
 		wizard.createAnnotation("AAnnotation", getPackageName());
-		wizard.createCDIComponent(CDIWizardType.INTERCEPTOR_BINDING, 
-				className, getPackageName(), null);
-		
-		editResourceUtil.replaceClassContentByResource(QuickFixTestBase.class
-				.getResourceAsStream("/resources/quickfix/interceptorBinding/" +
-						"IBindingWithAnnotation.java.cdi"), false);
+		wizard.createCDIComponentWithContent(CDIWizardType.INTERCEPTOR_BINDING, 
+				className, getPackageName(), null, "/resources/quickfix/interceptorBinding/" +
+						"IBindingWithAnnotation.java.cdi");
+
 		editResourceUtil.replaceInEditor("IBindingComponent", className);
 		
 		checkQuickFix(CDIAnnotationsType.NONBINDING, CDIWizardType.INTERCEPTOR_BINDING);

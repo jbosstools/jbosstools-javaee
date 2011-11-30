@@ -82,10 +82,9 @@ public class OpenOnTest extends OpenOnBase {
 		
 		String className = "Bean1";
 		
-		wizard.createCDIComponent(CDIWizardType.BEAN, className, getPackageName(), null);
-		editResourceUtil.replaceClassContentByResource(OpenOnTest.class
-				.getResourceAsStream("/resources/openon/BeanWithDisposerAndProducer.java.cdi"),
-				false);
+		wizard.createCDIComponentWithContent(CDIWizardType.BEAN, className, 
+				getPackageName(), null, "/resources/openon/BeanWithDisposerAndProducer.java.cdi");
+		
 		editResourceUtil.replaceInEditor("BeanComponent", className);
 		openOnUtil.openOnByOption("disposeMethod", className + ".java", "Open Bound Producer");
 		assertTrue(getEd().toTextEditor().getSelection().equals("produceMethod"));
@@ -96,14 +95,11 @@ public class OpenOnTest extends OpenOnBase {
 	
 	@Test
 	public void testObserverOpenOn() {		
-		wizard.createCDIComponent(CDIWizardType.BEAN, "EventBean", getPackageName(), null);
-		editResourceUtil.replaceClassContentByResource(OpenOnTest.class
-				.getResourceAsStream("/resources/openon/EventBean.java.cdi"),
-				false);
-		wizard.createCDIComponent(CDIWizardType.BEAN, "ObserverBean", getPackageName(), null);
-		editResourceUtil.replaceClassContentByResource(OpenOnTest.class
-				.getResourceAsStream("/resources/openon/ObserverBean.java.cdi"),
-				false);	
+		wizard.createCDIComponentWithContent(CDIWizardType.BEAN, "EventBean", 
+				getPackageName(), null, "/resources/openon/EventBean.java.cdi");
+
+		wizard.createCDIComponentWithContent(CDIWizardType.BEAN, "ObserverBean", 
+				getPackageName(), null, "/resources/openon/ObserverBean.java.cdi");
 		
 		bot.editorByTitle("EventBean.java").show();
 		setEd(bot.activeEditor().toTextEditor());
@@ -123,30 +119,21 @@ public class OpenOnTest extends OpenOnBase {
 		
 		wizard.createCDIComponent(CDIWizardType.BEAN, "MyBean1", getPackageName(), null);
 		
-		wizard.createCDIComponent(CDIWizardType.BEAN, "MyBean2", getPackageName(), null);
-		editResourceUtil.replaceClassContentByResource(OpenOnTest.class
-				.getResourceAsStream("/resources/openon/InjectedPoints/MyBean2.java.cdi"),
-				false);
+		wizard.createCDIComponentWithContent(CDIWizardType.BEAN, "MyBean2", 
+				getPackageName(), null, "/resources/openon/InjectedPoints/MyBean2.java.cdi");
 		
-		wizard.createCDIComponent(CDIWizardType.BEAN, "MyBean3", getPackageName(), null);
-		editResourceUtil.replaceClassContentByResource(OpenOnTest.class
-				.getResourceAsStream("/resources/openon/InjectedPoints/MyBean3.java.cdi"),
-				false);
+		wizard.createCDIComponentWithContent(CDIWizardType.BEAN, "MyBean3", 
+				getPackageName(), null, "/resources/openon/InjectedPoints/MyBean3.java.cdi");
 		
-		wizard.createCDIComponent(CDIWizardType.BEAN, "MyBean4", getPackageName(), null);
-		editResourceUtil.replaceClassContentByResource(OpenOnTest.class
-				.getResourceAsStream("/resources/openon/InjectedPoints/MyBean4.java.cdi"),
-				false);
+		wizard.createCDIComponentWithContent(CDIWizardType.BEAN, "MyBean4", 
+				getPackageName(), null, "/resources/openon/InjectedPoints/MyBean4.java.cdi");
 		
-		wizard.createCDIComponent(CDIWizardType.BEAN, "MyBean5", getPackageName(), null);
-		editResourceUtil.replaceClassContentByResource(OpenOnTest.class
-				.getResourceAsStream("/resources/openon/InjectedPoints/MyBean5.java.cdi"),
-				false);
+		wizard.createCDIComponentWithContent(CDIWizardType.BEAN, "MyBean5",
+				getPackageName(), null, "/resources/openon/InjectedPoints/MyBean5.java.cdi");
 		
-		wizard.createCDIComponent(CDIWizardType.BEAN, "MainBean", getPackageName(), null);
-		editResourceUtil.replaceClassContentByResource(OpenOnTest.class
-				.getResourceAsStream("/resources/openon/InjectedPoints/MainBean.java.cdi"),
-				false);
+		wizard.createCDIComponentWithContent(CDIWizardType.BEAN, "MainBean", 
+				getPackageName(), null, "/resources/openon/InjectedPoints/MainBean.java.cdi");
+		
 	}
 	
 	private void checkInjectedPoint(String injectedPoint, String option) {

@@ -90,25 +90,18 @@ public class FindObserverForEventTest extends OpenOnBase {
 
 		wizard.createCDIComponent(CDIWizardType.QUALIFIER, "Q2", getPackageName(), null);
 
-		wizard.createCDIComponent(CDIWizardType.BEAN, "MyBean1", getPackageName(), null);
-		editResourceUtil.replaceClassContentByResource(FindObserverForEventTest.class
-				.getResourceAsStream("/resources/events/MyBean1.java.cdi"),
-				false);
+		wizard.createCDIComponentWithContent(CDIWizardType.BEAN, "MyBean1", 
+				getPackageName(), null, "/resources/events/MyBean1.java.cdi");		
 
-		wizard.createCDIComponent(CDIWizardType.BEAN, "MyBean2", getPackageName(), null);
-		editResourceUtil.replaceClassContentByResource(FindObserverForEventTest.class
-				.getResourceAsStream("/resources/events/MyBean2.java.cdi"),
-				false);
+		wizard.createCDIComponentWithContent(CDIWizardType.BEAN, "MyBean2", 
+				getPackageName(), null, "/resources/events/MyBean2.java.cdi");
 
-		wizard.createCDIComponent(CDIWizardType.BEAN, "EventsProducer", getPackageName(), null);
-		editResourceUtil.replaceClassContentByResource(FindObserverForEventTest.class
-				.getResourceAsStream("/resources/events/EventsProducer.java.cdi"),
-				false);
-
-		wizard.createCDIComponent(CDIWizardType.BEAN, "ObserverBean", getPackageName(), null);
-		editResourceUtil.replaceClassContentByResource(FindObserverForEventTest.class
-				.getResourceAsStream("/resources/events/ObserverBean.java.cdi"),
-				false);
+		wizard.createCDIComponentWithContent(CDIWizardType.BEAN, "EventsProducer", 
+				getPackageName(), null, "/resources/events/EventsProducer.java.cdi");
+		
+		wizard.createCDIComponentWithContent(CDIWizardType.BEAN, "ObserverBean", 
+				getPackageName(), null, "/resources/events/ObserverBean.java.cdi");
+		
 		util.waitForNonIgnoredJobs();
 	}
 

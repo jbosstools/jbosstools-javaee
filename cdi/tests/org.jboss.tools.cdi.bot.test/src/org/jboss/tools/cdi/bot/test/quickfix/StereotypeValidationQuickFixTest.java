@@ -83,9 +83,9 @@ public class StereotypeValidationQuickFixTest extends QuickFixTestBase {
 		
 		String className = "Stereotype3";
 		
-		wizard.createCDIComponent(CDIWizardType.STEREOTYPE, className, getPackageName(), null);
-		editResourceUtil.replaceClassContentByResource(QuickFixTestBase.class
-				.getResourceAsStream("/resources/quickfix/stereotype/StereotypeWithNamed.java.cdi"), false);
+		wizard.createCDIComponentWithContent(CDIWizardType.STEREOTYPE, className, 
+				getPackageName(), null, "/resources/quickfix/stereotype/StereotypeWithNamed.java.cdi");
+	
 		editResourceUtil.replaceInEditor("StereotypeComponent", className);
 		
 		checkQuickFix(CDIAnnotationsType.NAMED, CDIWizardType.STEREOTYPE);
@@ -98,10 +98,9 @@ public class StereotypeValidationQuickFixTest extends QuickFixTestBase {
 		
 		String className = "Stereotype4";
 		
-		wizard.createCDIComponent(CDIWizardType.STEREOTYPE, className, getPackageName(), null);
+		wizard.createCDIComponentWithContent(CDIWizardType.STEREOTYPE, className, 
+				getPackageName(), null, "/resources/quickfix/stereotype/StereotypeWithTyped.java.cdi");
 		
-		editResourceUtil.replaceClassContentByResource(QuickFixTestBase.class
-				.getResourceAsStream("/resources/quickfix/stereotype/StereotypeWithTyped.java.cdi"), false);
 		editResourceUtil.replaceInEditor("StereotypeComponent", className);
 		
 		checkQuickFix(CDIAnnotationsType.TYPED, CDIWizardType.STEREOTYPE);

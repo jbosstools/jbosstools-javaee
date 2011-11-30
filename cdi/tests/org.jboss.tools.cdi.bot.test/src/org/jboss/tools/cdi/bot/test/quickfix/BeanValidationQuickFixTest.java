@@ -96,13 +96,11 @@ public class BeanValidationQuickFixTest extends QuickFixTestBase {
 		
 		String className = "Bean1";
 		
-		wizard.createCDIComponent(CDIWizardType.BEAN, className, getPackageName(), null);
-		editResourceUtil.replaceClassContentByResource(QuickFixTestBase.class
-				.getResourceAsStream("/resources/quickfix/bean/ConstructorWithParam.java.cdi"), false);
+		wizard.createCDIComponentWithContent(CDIWizardType.BEAN, className, 
+				getPackageName(), null, "/resources/quickfix/bean/ConstructorWithParam.java.cdi");		
 		editResourceUtil.replaceInEditor("BeanComponent", className);		
 		
 		checkQuickFix(CDIAnnotationsType.DISPOSES, CDIWizardType.BEAN);
-		
 		
 		editResourceUtil.replaceClassContentByResource(QuickFixTestBase.class
 				.getResourceAsStream("/resources/quickfix/bean/ConstructorWithParam.java.cdi"), false);
@@ -121,10 +119,9 @@ public class BeanValidationQuickFixTest extends QuickFixTestBase {
 		
 		String className = "Bean2";
 		
-		wizard.createCDIComponent(CDIWizardType.BEAN, className, getPackageName(), null);
+		wizard.createCDIComponentWithContent(CDIWizardType.BEAN, className, 
+				getPackageName(), null, "/resources/quickfix/bean/ProducerWithParam.java.cdi");
 		
-		editResourceUtil.replaceClassContentByResource(QuickFixTestBase.class
-				.getResourceAsStream("/resources/quickfix/bean/ProducerWithParam.java.cdi"), false);
 		editResourceUtil.replaceInEditor("BeanComponent", className);
 		
 		checkQuickFix(CDIAnnotationsType.DISPOSES, CDIWizardType.BEAN);
@@ -147,10 +144,9 @@ public class BeanValidationQuickFixTest extends QuickFixTestBase {
 			
 		String className = "Bean3";
 		
-		wizard.createCDIComponent(CDIWizardType.BEAN, className, getPackageName(), null);
+		wizard.createCDIComponentWithContent(CDIWizardType.BEAN, className, 
+				getPackageName(), null, "/resources/quickfix/bean/BeanInjectDisposes.java.cdi");
 		
-		editResourceUtil.replaceClassContentByResource(QuickFixTestBase.class
-				.getResourceAsStream("/resources/quickfix/bean/BeanInjectDisposes.java.cdi"), false);
 		editResourceUtil.replaceInEditor("BeanComponent", className);
 		
 		checkQuickFix(CDIAnnotationsType.DISPOSES, CDIWizardType.BEAN);
@@ -163,10 +159,9 @@ public class BeanValidationQuickFixTest extends QuickFixTestBase {
 		
 		String className = "Bean4";
 		
-		wizard.createCDIComponent(CDIWizardType.BEAN, className, getPackageName(), null);
+		wizard.createCDIComponentWithContent(CDIWizardType.BEAN, className, 
+				getPackageName(), null, "/resources/quickfix/bean/BeanInjectDisposes.java.cdi");
 		
-		editResourceUtil.replaceClassContentByResource(QuickFixTestBase.class
-				.getResourceAsStream("/resources/quickfix/bean/BeanInjectDisposes.java.cdi"), false);
 		editResourceUtil.replaceInEditor("import javax.enterprise.inject.Disposes;", 
 				"import javax.enterprise.event.Observes;");
 		editResourceUtil.replaceInEditor("@Disposes", "@Observes");
@@ -182,10 +177,8 @@ public class BeanValidationQuickFixTest extends QuickFixTestBase {
 		
 		String className = "Bean5";
 		
-		wizard.createCDIComponent(CDIWizardType.BEAN, className, getPackageName(), null);
-		
-		editResourceUtil.replaceClassContentByResource(QuickFixTestBase.class
-				.getResourceAsStream("/resources/quickfix/bean/BeanInjectProducer.java.cdi"), false);
+		wizard.createCDIComponentWithContent(CDIWizardType.BEAN, className, 
+				getPackageName(), null, "/resources/quickfix/bean/BeanInjectProducer.java.cdi");
 		
 		editResourceUtil.replaceInEditor("BeanComponent", className);
 			
@@ -199,11 +192,8 @@ public class BeanValidationQuickFixTest extends QuickFixTestBase {
 			
 		String className = "Bean6";
 		
-		wizard.createCDIComponent(CDIWizardType.BEAN, className, getPackageName(), null);
-		
-		editResourceUtil.replaceClassContentByResource(QuickFixTestBase.class
-				.getResourceAsStream("/resources/quickfix/bean/ObserverWithDisposer.java.cdi"), 
-				false);
+		wizard.createCDIComponentWithContent(CDIWizardType.BEAN, className, 
+				getPackageName(), null, "/resources/quickfix/bean/ObserverWithDisposer.java.cdi");
 		
 		editResourceUtil.replaceInEditor("BeanComponent", className);
 			

@@ -48,14 +48,10 @@ public class InterceptorValidationQuickFixTest extends QuickFixTestBase {
 			
 		String className = "Interceptor1";
 		
-		wizard.createCDIComponent(CDIWizardType.INTERCEPTOR, className, getPackageName(), null);
-		bot.editorByTitle(className + ".java").show();
-		setEd(bot.activeEditor().toTextEditor());
-		
-		
-		editResourceUtil.replaceClassContentByResource(QuickFixTestBase.class
-				.getResourceAsStream("/resources/quickfix/interceptor/" +
-						"InterceptorWithStateless.java.cdi"), false);
+		wizard.createCDIComponentWithContent(CDIWizardType.INTERCEPTOR, className, 
+				getPackageName(), null, "/resources/quickfix/interceptor/" +
+						"InterceptorWithStateless.java.cdi");
+
 		editResourceUtil.replaceInEditor("InterceptorComponent", className);
 		
 		checkQuickFix(CDIAnnotationsType.STATELESS, CDIWizardType.INTERCEPTOR);
@@ -68,14 +64,10 @@ public class InterceptorValidationQuickFixTest extends QuickFixTestBase {
 		
 		String className = "Interceptor2";
 		
-		wizard.createCDIComponent(CDIWizardType.INTERCEPTOR, className, getPackageName(), null);
-		bot.editorByTitle(className + ".java").show();
-		setEd(bot.activeEditor().toTextEditor());
-		
-		
-		editResourceUtil.replaceClassContentByResource(QuickFixTestBase.class
-				.getResourceAsStream("/resources/quickfix/interceptor/" +
-						"InterceptorWithNamed.java.cdi"), false);
+		wizard.createCDIComponentWithContent(CDIWizardType.INTERCEPTOR, className, 
+				getPackageName(), null, "/resources/quickfix/interceptor/" +
+						"InterceptorWithNamed.java.cdi");
+
 		editResourceUtil.replaceInEditor("InterceptorComponent", className);
 		
 		checkQuickFix(CDIAnnotationsType.NAMED, CDIWizardType.INTERCEPTOR);
@@ -88,14 +80,10 @@ public class InterceptorValidationQuickFixTest extends QuickFixTestBase {
 		
 		String className = "Interceptor3";
 		
-		wizard.createCDIComponent(CDIWizardType.INTERCEPTOR, className, getPackageName(), null);
-		bot.editorByTitle(className + ".java").show();
-		setEd(bot.activeEditor().toTextEditor());
-		
-		
-		editResourceUtil.replaceClassContentByResource(QuickFixTestBase.class
-				.getResourceAsStream("/resources/quickfix/interceptor/" +
-						"InterceptorWithProducer.java.cdi"), false);
+		wizard.createCDIComponentWithContent(CDIWizardType.INTERCEPTOR, className, 
+				getPackageName(), null, "/resources/quickfix/interceptor/" +
+						"InterceptorWithProducer.java.cdi");
+
 		editResourceUtil.replaceInEditor("InterceptorComponent", className);
 		
 		checkQuickFix(CDIAnnotationsType.PRODUCES, CDIWizardType.INTERCEPTOR);
@@ -108,14 +96,10 @@ public class InterceptorValidationQuickFixTest extends QuickFixTestBase {
 		
 		String className = "Interceptor4";
 		
-		wizard.createCDIComponent(CDIWizardType.INTERCEPTOR, className, getPackageName(), null);
-		bot.editorByTitle(className + ".java").show();
-		setEd(bot.activeEditor().toTextEditor());
-		
-		
-		editResourceUtil.replaceClassContentByResource(QuickFixTestBase.class
-				.getResourceAsStream("/resources/quickfix/interceptor/" +
-						"InterceptorWithDisposes.java.cdi"), false);
+		wizard.createCDIComponentWithContent(CDIWizardType.INTERCEPTOR, className, 
+				getPackageName(), null, "/resources/quickfix/interceptor/" +
+						"InterceptorWithDisposes.java.cdi");
+
 		editResourceUtil.replaceInEditor("InterceptorComponent", className);
 		
 		checkQuickFix(CDIAnnotationsType.DISPOSES, CDIWizardType.INTERCEPTOR);
@@ -128,14 +112,10 @@ public class InterceptorValidationQuickFixTest extends QuickFixTestBase {
 		
 		String className = "Interceptor5";
 		
-		wizard.createCDIComponent(CDIWizardType.INTERCEPTOR, className, getPackageName(), null);
-		bot.editorByTitle(className + ".java").show();
-		setEd(bot.activeEditor().toTextEditor());
+		wizard.createCDIComponentWithContent(CDIWizardType.INTERCEPTOR, className, 
+				getPackageName(), null, "/resources/quickfix/interceptor/" +
+						"InterceptorWithDisposes.java.cdi");
 		
-		
-		editResourceUtil.replaceClassContentByResource(QuickFixTestBase.class
-				.getResourceAsStream("/resources/quickfix/interceptor/" +
-						"InterceptorWithDisposes.java.cdi"), false);
 		editResourceUtil.replaceInEditor("import javax.enterprise.inject.Disposes;", 
 				"import javax.enterprise.event.Observes;");
 		editResourceUtil.replaceInEditor("@Disposes", "@Observes");
@@ -151,14 +131,10 @@ public class InterceptorValidationQuickFixTest extends QuickFixTestBase {
 		
 		String className = "Interceptor6";
 		
-		wizard.createCDIComponent(CDIWizardType.INTERCEPTOR, className, getPackageName(), null);
-		bot.editorByTitle(className + ".java").show();
-		setEd(bot.activeEditor().toTextEditor());
-		
-		
-		editResourceUtil.replaceClassContentByResource(QuickFixTestBase.class
-				.getResourceAsStream("/resources/quickfix/interceptor/" +
-						"InterceptorWithSpecializes.java.cdi"), false);
+		wizard.createCDIComponentWithContent(CDIWizardType.INTERCEPTOR, className, 
+				getPackageName(), null, "/resources/quickfix/interceptor/" +
+						"InterceptorWithSpecializes.java.cdi");
+
 		editResourceUtil.replaceInEditor("InterceptorComponent", className);
 		
 		checkQuickFix(CDIAnnotationsType.SPECIALIZES, CDIWizardType.INTERCEPTOR);

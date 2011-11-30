@@ -48,15 +48,10 @@ public class DecoratorValidationQuickFixTest extends QuickFixTestBase {
 			
 		String className = "Decorator1";
 		
-		wizard.createCDIComponent(CDIWizardType.DECORATOR, className, 
-				getPackageName(), "java.util.set");
-		bot.editorByTitle(className + ".java").show();
-		setEd(bot.activeEditor().toTextEditor());
+		wizard.createCDIComponentWithContent(CDIWizardType.DECORATOR, className, 
+				getPackageName(), "java.util.set", "/resources/quickfix/decorator/" +
+						"DecoratorWithStateless.java.cdi");
 		
-		
-		editResourceUtil.replaceClassContentByResource(QuickFixTestBase.class
-				.getResourceAsStream("/resources/quickfix/decorator/" +
-						"DecoratorWithStateless.java.cdi"), false);
 		editResourceUtil.replaceInEditor("DecoratorComponent", className);
 		
 		checkQuickFix(CDIAnnotationsType.STATELESS, CDIWizardType.DECORATOR);
@@ -69,15 +64,10 @@ public class DecoratorValidationQuickFixTest extends QuickFixTestBase {
 		
 		String className = "Decorator2";
 		
-		wizard.createCDIComponent(CDIWizardType.DECORATOR, className, 
-				getPackageName(), "java.util.set");
-		bot.editorByTitle(className + ".java").show();
-		setEd(bot.activeEditor().toTextEditor());
-		
-		
-		editResourceUtil.replaceClassContentByResource(QuickFixTestBase.class
-				.getResourceAsStream("/resources/quickfix/decorator/" +
-						"DecoratorWithNamed.java.cdi"), false);
+		wizard.createCDIComponentWithContent(CDIWizardType.DECORATOR, className, 
+				getPackageName(), "java.util.set", "/resources/quickfix/decorator/" +
+						"DecoratorWithNamed.java.cdi");
+	
 		editResourceUtil.replaceInEditor("DecoratorComponent", className);
 		
 		checkQuickFix(CDIAnnotationsType.NAMED, CDIWizardType.DECORATOR);
@@ -90,15 +80,10 @@ public class DecoratorValidationQuickFixTest extends QuickFixTestBase {
 		
 		String className = "Decorator3";
 		
-		wizard.createCDIComponent(CDIWizardType.DECORATOR, className, 
-				getPackageName(), "java.util.set");
-		bot.editorByTitle(className + ".java").show();
-		setEd(bot.activeEditor().toTextEditor());
+		wizard.createCDIComponentWithContent(CDIWizardType.DECORATOR, className, 
+				getPackageName(), "java.util.set", "/resources/quickfix/decorator/" +
+						"DecoratorWithProducer.java.cdi");
 		
-		
-		editResourceUtil.replaceClassContentByResource(QuickFixTestBase.class
-				.getResourceAsStream("/resources/quickfix/decorator/" +
-						"DecoratorWithProducer.java.cdi"), false);
 		editResourceUtil.replaceInEditor("DecoratorComponent", className);
 		
 		checkQuickFix(CDIAnnotationsType.PRODUCES, CDIWizardType.DECORATOR);
@@ -111,15 +96,10 @@ public class DecoratorValidationQuickFixTest extends QuickFixTestBase {
 		
 		String className = "Decorator4";
 		
-		wizard.createCDIComponent(CDIWizardType.DECORATOR, className, 
-				getPackageName(), "java.util.set");
-		bot.editorByTitle(className + ".java").show();
-		setEd(bot.activeEditor().toTextEditor());
+		wizard.createCDIComponentWithContent(CDIWizardType.DECORATOR, className, 
+				getPackageName(), "java.util.set", "/resources/quickfix/decorator/" +
+						"DecoratorWithDisposes.java.cdi");
 		
-		
-		editResourceUtil.replaceClassContentByResource(QuickFixTestBase.class
-				.getResourceAsStream("/resources/quickfix/decorator/" +
-						"DecoratorWithDisposes.java.cdi"), false);
 		editResourceUtil.replaceInEditor("DecoratorComponent", className);
 		
 		checkQuickFix(CDIAnnotationsType.DISPOSES, CDIWizardType.DECORATOR);
@@ -132,15 +112,10 @@ public class DecoratorValidationQuickFixTest extends QuickFixTestBase {
 		
 		String className = "Decorator5";
 		
-		wizard.createCDIComponent(CDIWizardType.DECORATOR, className, 
-				getPackageName(), "java.util.set");
-		bot.editorByTitle(className + ".java").show();
-		setEd(bot.activeEditor().toTextEditor());
+		wizard.createCDIComponentWithContent(CDIWizardType.DECORATOR, className, 
+				getPackageName(), "java.util.set", "/resources/quickfix/decorator/" +
+				"DecoratorWithDisposes.java.cdi");
 		
-		
-		editResourceUtil.replaceClassContentByResource(QuickFixTestBase.class
-				.getResourceAsStream("/resources/quickfix/decorator/" +
-						"DecoratorWithDisposes.java.cdi"), false);
 		editResourceUtil.replaceInEditor("import javax.enterprise.inject.Disposes;", 
 				"import javax.enterprise.event.Observes;");
 		editResourceUtil.replaceInEditor("@Disposes", "@Observes");
@@ -156,15 +131,10 @@ public class DecoratorValidationQuickFixTest extends QuickFixTestBase {
 		
 		String className = "Decorator6";
 		
-		wizard.createCDIComponent(CDIWizardType.DECORATOR, className, 
-				getPackageName(), "java.util.set");
-		bot.editorByTitle(className + ".java").show();
-		setEd(bot.activeEditor().toTextEditor());
+		wizard.createCDIComponentWithContent(CDIWizardType.DECORATOR, className, 
+				getPackageName(), "java.util.set", "/resources/quickfix/decorator/" +
+						"DecoratorWithSpecializes.java.cdi");
 		
-		
-		editResourceUtil.replaceClassContentByResource(QuickFixTestBase.class
-				.getResourceAsStream("/resources/quickfix/decorator/" +
-						"DecoratorWithSpecializes.java.cdi"), false);
 		editResourceUtil.replaceInEditor("DecoratorComponent", className);
 		
 		checkQuickFix(CDIAnnotationsType.SPECIALIZES, CDIWizardType.DECORATOR);

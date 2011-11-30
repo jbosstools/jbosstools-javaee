@@ -28,6 +28,18 @@ import org.jboss.tools.ui.bot.ext.view.ProblemsView;
 
 public class BeansXMLValidationHelper extends CDITestBase {
 	
+	private static final String CLEAR_BEANS_XML = "/resources/beansXML/beans.xml.cdi"; 
+	private static final String CLEAR_BEANS_XML_WITH_TAG = "/resources/beansXML/" +
+			"beansXmlWithEmptyTag.xml.cdi";
+	private static final String BEANS_XML_WITH_INTERCEPTOR = "/resources/beansXML/" +
+			"beansXmlWithInterceptor.xml.cdi";
+	private static final String BEANS_XML_WITH_DECORATOR = "/resources/beansXML/" +
+			"beansXmlWithDecorator.xml.cdi";
+	private static final String BEANS_XML_WITH_STEREOTYPE = "/resources/beansXML/" +
+			"beansXmlWithStereotype.xml.cdi";
+	private static final String BEANS_XML_WITH_ALTERNATIVE = "/resources/beansXML/" +
+			"beansXmlWithAlternative.xml.cdi";
+	
 	/**
 	 * Method checks if there is validation problem with text 
 	 * specified by parameter validationErrors for entered project	 
@@ -59,7 +71,8 @@ public class BeansXMLValidationHelper extends CDITestBase {
 	/**
 	 * Method checks if there is no validation problem when 
 	 * creating interceptor component with entered className
-	 * packageName for project with name projectName 	
+	 * packageName for project with name projectName and 
+	 * insert tag containing this interceptor	
 	 * @param projectName
 	 * @param packageName
 	 * @param className
@@ -74,7 +87,8 @@ public class BeansXMLValidationHelper extends CDITestBase {
 	/**
 	 * Method checks if there is no validation problem when 
 	 * creating decorator component with entered className
-	 * packageName for project with name projectName 
+	 * packageName for project with name projectName and 
+	 * insert tag containing this decorator	
 	 * @param projectName
 	 * @param packageName
 	 * @param className
@@ -89,7 +103,8 @@ public class BeansXMLValidationHelper extends CDITestBase {
 	/**
 	 * Method checks if there is no validation problem when 
 	 * creating alternative bean component with entered className
-	 * packageName for project with name projectName 	 
+	 * packageName for project with name projectName and 
+	 * insert tag containing this alternative		 
 	 * @param projectName
 	 * @param packageName
 	 * @param className
@@ -117,7 +132,7 @@ public class BeansXMLValidationHelper extends CDITestBase {
 	 */
 	public void createClearBeansXML(String projectName) {
 		
-		createBeansXMLWithContent(projectName, "/resources/beansXML/beans.xml.cdi");
+		createBeansXMLWithContent(projectName, CLEAR_BEANS_XML);
 		
 	}
 	
@@ -127,8 +142,7 @@ public class BeansXMLValidationHelper extends CDITestBase {
 	 */
 	public void createClearBeansXMLWithEmptyTag(String projectName) {
 		
-		createBeansXMLWithContent(projectName, "/resources/beansXML/" +
-				"beansXmlWithEmptyTag.xml.cdi");
+		createBeansXMLWithContent(projectName, CLEAR_BEANS_XML_WITH_TAG);
 	}
 	
 	/**
@@ -143,8 +157,7 @@ public class BeansXMLValidationHelper extends CDITestBase {
 	public void createBeansXMLWithInterceptor(String projectName, String packageName, 
 			String className) {
 		
-		createBeansXMLWithContent(projectName, "/resources/beansXML/" +
-				"beansXmlWithInterceptor.xml.cdi");		
+		createBeansXMLWithContent(projectName, BEANS_XML_WITH_INTERCEPTOR);		
 		if (className == null || className.length() == 0) {
 			editResourceUtil.replaceInEditor("<class>Component</class>", 
 					"<class></class>");			
@@ -166,8 +179,7 @@ public class BeansXMLValidationHelper extends CDITestBase {
 	public void createBeansXMLWithDecorator(String projectName, String packageName, 
 			String className) {
 		
-		createBeansXMLWithContent(projectName, "/resources/beansXML/" +
-				"beansXmlWithDecorator.xml.cdi");
+		createBeansXMLWithContent(projectName, BEANS_XML_WITH_DECORATOR);
 		if (className == null || className.length() == 0) {
 			editResourceUtil.replaceInEditor("<class>Component</class>", 
 					"<class></class>");			
@@ -189,8 +201,7 @@ public class BeansXMLValidationHelper extends CDITestBase {
 	public void createBeansXMLWithStereotype(String projectName, String packageName, 
 			String className) {
 		
-		createBeansXMLWithContent(projectName, "/resources/beansXML/" +
-				"beansXmlWithStereotype.xml.cdi");
+		createBeansXMLWithContent(projectName, BEANS_XML_WITH_STEREOTYPE);
 		if (className == null || className.length() == 0) {
 			editResourceUtil.replaceInEditor("<stereotype>Component</stereotype>", 
 					"<stereotype></stereotype>");			
@@ -212,8 +223,7 @@ public class BeansXMLValidationHelper extends CDITestBase {
 	public void createBeansXMLWithAlternative(String projectName, String packageName, 
 			String className) {
 		
-		createBeansXMLWithContent(projectName, "/resources/beansXML/" +
-				"beansXmlWithAlternative.xml.cdi");
+		createBeansXMLWithContent(projectName, BEANS_XML_WITH_ALTERNATIVE);
 		if (className == null || className.length() == 0) {
 			editResourceUtil.replaceInEditor("<class>Component</class>", 
 					"<class></class>");			
@@ -235,7 +245,8 @@ public class BeansXMLValidationHelper extends CDITestBase {
 				"WebContent/META-INF/beans.xml".split("/")) && 
 			!projectExplorer.isFilePresent(projectName, 
 				"WebContent/WEB-INF/beans.xml".split("/"))) {
-			wizard.createCDIComponent(CDIWizardType.BEANS_XML, null, projectName + "/WebContent/WEB-INF", null);			
+			wizard.createCDIComponent(CDIWizardType.BEANS_XML, null, 
+					projectName + "/WebContent/WEB-INF", null);			
 		}
 		if (!projectExplorer.isFilePresent(projectName, 
 				"WebContent/META-INF/beans.xml".split("/"))) {
