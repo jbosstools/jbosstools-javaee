@@ -15,7 +15,7 @@ import java.util.Set;
 
 import org.eclipse.core.resources.IProject;
 import org.jboss.tools.common.preferences.SeverityPreferences;
-import org.jboss.tools.jst.web.WebModelPlugin;
+import org.jboss.tools.struts.StrutsModelPlugin;
 
 /**
  * @author Viacheslav Kabanovich
@@ -65,7 +65,7 @@ public class StrutsPreferences extends SeverityPreferences {
 	 */
 	@Override
 	protected String getPluginId() {
-		return WebModelPlugin.PLUGIN_ID;
+		return StrutsModelPlugin.PLUGIN_ID;
 	}
 
 	/* (non-Javadoc)

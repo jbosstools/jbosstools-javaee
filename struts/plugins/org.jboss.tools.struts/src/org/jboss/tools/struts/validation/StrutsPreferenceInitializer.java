@@ -15,7 +15,7 @@ import org.eclipse.core.runtime.preferences.DefaultScope;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.core.runtime.preferences.IScopeContext;
 import org.jboss.tools.common.preferences.SeverityPreferences;
-import org.jboss.tools.jst.web.WebModelPlugin;
+import org.jboss.tools.struts.StrutsModelPlugin;
 
 /**
  * @author Viacheslav Kabanovich
@@ -27,7 +27,7 @@ public class StrutsPreferenceInitializer extends AbstractPreferenceInitializer {
 	 */
 	@Override
 	public void initializeDefaultPreferences() {
-		IEclipsePreferences defaultPreferences = ((IScopeContext) new DefaultScope()).getNode(WebModelPlugin.PLUGIN_ID);
+		IEclipsePreferences defaultPreferences = ((IScopeContext) new DefaultScope()).getNode(StrutsModelPlugin.PLUGIN_ID);
 		defaultPreferences.putBoolean(SeverityPreferences.ENABLE_BLOCK_PREFERENCE_NAME, true);
 		for (String name : StrutsPreferences.SEVERITY_OPTION_NAMES) {
 			defaultPreferences.put(name, SeverityPreferences.WARNING);
