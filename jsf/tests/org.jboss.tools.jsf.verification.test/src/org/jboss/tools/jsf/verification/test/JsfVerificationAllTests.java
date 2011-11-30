@@ -20,8 +20,9 @@ public class JsfVerificationAllTests {
 		TestSuite suite = new TestSuite("Test for default package");
 		//$JUnit-BEGIN$
 
-		suite.addTestSuite(JSFVerificationTest.class);
-		suite.addTestSuite(WebVerificationTest.class);
+		//verification removed, see JBIDE-10190
+//		suite.addTestSuite(JSFVerificationTest.class);
+//		suite.addTestSuite(WebVerificationTest.class);
 		
 		//$JUnit-END$
 		return suite;

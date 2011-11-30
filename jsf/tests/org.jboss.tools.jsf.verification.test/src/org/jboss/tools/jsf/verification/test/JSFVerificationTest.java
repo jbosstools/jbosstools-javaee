@@ -36,7 +36,8 @@ public class JSFVerificationTest extends TestCase {
 		project = provider.getProject();
 	}
 	
-	public void testPaths() {
+	//verification removed, see JBIDE-10190
+	public void _testPaths() {
 		IModelNature n = EclipseResourceUtil.getModelNature(project);
 		try {
 			XJob.waitForJob();

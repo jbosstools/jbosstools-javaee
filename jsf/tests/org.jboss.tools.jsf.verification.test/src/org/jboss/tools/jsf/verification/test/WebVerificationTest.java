@@ -48,7 +48,8 @@ public class WebVerificationTest extends TestCase {
 		ResourcesUtils.setBuildAutomatically(saveAutoBuild);
 	}
 
-	public void testWebVerification() throws CoreException {
+	//verification removed, see JBIDE-10190
+	public void _testWebVerification() throws CoreException {
 		IFile web = (IFile)project.getFile(new Path("WebContent/WEB-INF/web.xml"));
 		
 		AbstractResourceMarkerTest.assertMarkerIsNotCreated(web, MARKER_TYPE, "error: Attribute location references to /error that does not exist in web content", 40);
