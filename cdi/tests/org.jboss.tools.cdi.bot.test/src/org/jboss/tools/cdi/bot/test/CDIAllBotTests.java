@@ -50,7 +50,7 @@ import org.junit.runners.Suite.SuiteClasses;
  *  JAVA=1.6,/space/java/sdk/jdk1.6.0_22
  *  
  *  
- *  Suite duration: aprox. 25min
+ *  Suite duration: aprox. 28min
  * 
  * @author Lukas Jungmann
  * @author Jaroslav Jankovic

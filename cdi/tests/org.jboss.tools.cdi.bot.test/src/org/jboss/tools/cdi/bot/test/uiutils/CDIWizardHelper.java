@@ -52,6 +52,21 @@ public class CDIWizardHelper extends CDITestBase{
 	}
 	
 	/**
+	 * Method creates CDI component with content of resource
+	 * @param component
+	 * @param name
+	 * @param packageName
+	 * @param necessaryParam
+	 * @param resource
+	 */
+	public void createCDIComponentWithContent(CDIWizardType component, String name,
+			String packageName, String necessaryParam, String resource) {			
+		createCDIComponent(component, name, packageName, necessaryParam);
+		editResourceUtil.replaceClassContentByResource(CDIWizardHelper.class.
+				getResourceAsStream(resource), false);
+	}
+	
+	/**
 	 * Method creates larger number("amount") of the same component. 	 
 	 * @param component
 	 * @param amount

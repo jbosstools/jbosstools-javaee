@@ -11,6 +11,11 @@ public class XHTMLDialogWizard extends Wizard {
 		assert ("New XHTML Page").equals(getText());			
 	}
 	
+	public XHTMLDialogWizard setDestination(String destination) {
+		setText("Enter or select the parent folder:", destination);
+		return this;
+	}
+	
 	public XHTMLDialogWizard setName(String nameOfPage) {
 		setText("File name:", nameOfPage);
 		return this;

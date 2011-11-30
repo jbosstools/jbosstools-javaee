@@ -1,0 +1,16 @@
+package cdi;
+
+import javax.inject.Named;
+
+@Named
+public class ManagedBean2 {
+
+	public ManagedBean2() {
+		
+	}
+	
+	public String submit() {
+		return "OK";
+	}
+
+}

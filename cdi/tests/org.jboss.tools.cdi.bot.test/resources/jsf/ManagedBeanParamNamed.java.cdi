@@ -3,9 +3,9 @@ package cdi;
 import javax.inject.Named;
 
 @Named("bean")
-public class ManagedBean {
+public class ManagedBean1 {
 
-	public ManagedBean() {
+	public ManagedBean1() {
 		
 	}
 	

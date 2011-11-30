@@ -21,6 +21,7 @@ import org.jboss.tools.ui.bot.ext.RequirementAwareSuite;
 import org.jboss.tools.ui.bot.ext.config.Annotations.Require;
 import org.jboss.tools.ui.bot.ext.config.Annotations.Server;
 import org.jboss.tools.ui.bot.ext.config.Annotations.ServerState;
+import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite.SuiteClasses;
@@ -38,32 +39,41 @@ import org.junit.runners.Suite.SuiteClasses;
 @SuiteClasses({ CDIAllBotTests.class })
 public class NamedRefactoringTest extends JSFTestBase {
 
-	private static final String MANAGED_BEAN = "ManagedBean"; 
-	private static final String INDEX_XHTML= "index.xhtml";
+	private static final String MANAGED_BEAN_1 = "ManagedBean1";
+	private static final String MANAGED_BEAN_2 = "ManagedBean2";
+	private static final String INDEX_XHTML_1= "index1.xhtml";
+	private static final String INDEX_XHTML_2= "index2.xhtml";
+	private static final String INDEX_XHTML_3= "index3.xhtml";
+	private static final String NEW_NAMED_PARAM = "bean2";		
 	
 	@Override
 	public String getProjectName() {
 		return "CDIRefactoring";
 	}
-				
+			
+	@After
+	public void waitForJobs() {
+		editResourceUtil.deletePackage(getProjectName(), getPackageName());
+		editResourceUtil.deleteWebFolder(getProjectName(), WEB_FOLDER);
+		util.waitForNonIgnoredJobs();
+	}
+	
 	@Test
-	public void testNamedAnnotationRefactor() {
+	public void testNamedAnnotationWithParamRefactor() {
+				
+		wizard.createCDIComponentWithContent(CDIWizardType.BEAN, MANAGED_BEAN_1, 
+				getPackageName(), null, "/resources/jsf/ManagedBeanParamNamed.java.cdi");		
 		
-		wizard.createCDIComponent(CDIWizardType.BEAN, MANAGED_BEAN, getPackageName(), null);
-		editResourceUtil.replaceClassContentByResource(NamedRefactoringTest.class.
-				getResourceAsStream("/resources/jsf/ManagedBean.java.cdi"), false);
+		createXHTMLPageWithContent(INDEX_XHTML_1, "/resources/jsf/index1.xhtml.cdi");
+		createXHTMLPageWithContent(INDEX_XHTML_3, "/resources/jsf/index3.xhtml.cdi");
 		
-		createXHTMLPage("index.xhtml");		
-		editResourceUtil.replaceClassContentByResource(NamedRefactoringTest.class.
-				getResourceAsStream("/resources/jsf/index.xhtml.cdi"), false);
-
-		bot.editorByTitle(MANAGED_BEAN + ".java").show();
+		bot.editorByTitle(MANAGED_BEAN_1 + ".java").show();
 		setEd(bot.activeEditor().toTextEditor());
-
-		String newNamed = "bean2";		
-		Collection<String> affectedFiles = changeNamedAnnotation(MANAGED_BEAN, newNamed);
+		
+		Collection<String> affectedFiles = changeNamedAnnotation(MANAGED_BEAN_1, 
+				NEW_NAMED_PARAM);
 		Collection<String> expectedAffectedFiles = Arrays.asList(
-				MANAGED_BEAN + ".java", INDEX_XHTML);
+				MANAGED_BEAN_1 + ".java", INDEX_XHTML_1, INDEX_XHTML_3);
 	
 		for (String affectedFile : affectedFiles) {
 			bot.editorByTitle(affectedFile).save();
@@ -73,12 +83,80 @@ public class NamedRefactoringTest extends JSFTestBase {
 		assertTrue(CollectionsUtil.compareTwoCollectionsEquality(
 				expectedAffectedFiles, affectedFiles));
 		
-		assertTrue(bot.editorByTitle(MANAGED_BEAN + ".java").toTextEditor().getText().
-			contains("@Named(\"" + newNamed + "\""));
+		assertTrue(bot.editorByTitle(MANAGED_BEAN_1 + ".java").toTextEditor().getText().
+			contains("@Named(\"" + NEW_NAMED_PARAM + "\""));
 		
-		assertTrue(bot.editorByTitle(INDEX_XHTML).toTextEditor().getText().
-				contains("#{" + newNamed + ".submit()}"));
+		assertTrue(bot.editorByTitle(INDEX_XHTML_1).toTextEditor().getText().
+				contains("#{" + NEW_NAMED_PARAM));
 		
+		assertTrue(bot.editorByTitle(INDEX_XHTML_3).toTextEditor().getText().
+				contains("#{" + NEW_NAMED_PARAM));
+		
+	}
+	
+	@Test
+	public void testNamedAnnotationWithoutParamRefactor() {
+		
+		wizard.createCDIComponentWithContent(CDIWizardType.BEAN, MANAGED_BEAN_2, 
+				getPackageName(), null, "/resources/jsf/ManagedBeanNoParamNamed.java.cdi");	
+		
+		createXHTMLPageWithContent(INDEX_XHTML_2, "/resources/jsf/index2.xhtml.cdi");
+		createXHTMLPageWithContent(INDEX_XHTML_3, "/resources/jsf/index3.xhtml.cdi");
+		
+		bot.editorByTitle(MANAGED_BEAN_2 + ".java").show();
+		setEd(bot.activeEditor().toTextEditor());
+
+		Collection<String> affectedFiles = changeNamedAnnotation(MANAGED_BEAN_2, NEW_NAMED_PARAM);
+		Collection<String> expectedAffectedFiles = Arrays.asList(
+				MANAGED_BEAN_2 + ".java", INDEX_XHTML_2, INDEX_XHTML_3);
+	
+		for (String affectedFile : affectedFiles) {
+			bot.editorByTitle(affectedFile).save();
+		}
+	
+		assertEquals(expectedAffectedFiles.size(), affectedFiles.size());
+		assertTrue(CollectionsUtil.compareTwoCollectionsEquality(
+				expectedAffectedFiles, affectedFiles));
+		
+		assertTrue(bot.editorByTitle(MANAGED_BEAN_2 + ".java").toTextEditor().getText().
+			contains("@Named(\"" + NEW_NAMED_PARAM + "\""));
+		
+		assertTrue(bot.editorByTitle(INDEX_XHTML_2).toTextEditor().getText().
+				contains("#{" + NEW_NAMED_PARAM));
+		
+		assertTrue(bot.editorByTitle(INDEX_XHTML_3).toTextEditor().getText().
+				contains("#{" + NEW_NAMED_PARAM));
+		
+	}
+	
+	@Test
+	public void testNamedAnnotationWithoutELRefactoring() {
+		
+		wizard.createCDIComponentWithContent(CDIWizardType.BEAN, MANAGED_BEAN_2, 
+				getPackageName(), null, "/resources/jsf/ManagedBeanNoParamNamed.java.cdi");	
+		
+		createXHTMLPageWithContent(INDEX_XHTML_2, "/resources/jsf/index1.xhtml.cdi");		
+		
+		bot.editorByTitle(MANAGED_BEAN_2 + ".java").show();
+		setEd(bot.activeEditor().toTextEditor());
+			
+		Collection<String> affectedFiles = changeNamedAnnotation(MANAGED_BEAN_2, NEW_NAMED_PARAM);
+		Collection<String> expectedAffectedFiles = Arrays.asList(MANAGED_BEAN_2 + ".java");
+	
+		for (String affectedFile : affectedFiles) {
+			bot.editorByTitle(affectedFile).save();
+		}
+	
+		assertEquals(expectedAffectedFiles.size(), affectedFiles.size());
+		assertTrue(CollectionsUtil.compareTwoCollectionsEquality(
+				expectedAffectedFiles, affectedFiles));
+		
+		assertTrue(bot.editorByTitle(MANAGED_BEAN_2 + ".java").toTextEditor().getText().
+			contains("@Named(\"" + NEW_NAMED_PARAM + "\""));
+		
+		assertTrue(!bot.editorByTitle(INDEX_XHTML_2).toTextEditor().getText().
+				contains("#{" + NEW_NAMED_PARAM));
+				
 	}
 
 	

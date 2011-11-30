@@ -32,10 +32,9 @@ import org.junit.Before;
 public class JSFTestBase extends CDITestBase {
 	
 	private static final Logger LOGGER = Logger.getLogger(JSFTestBase.class.getName());
-	
 	private JSFEnvironment env = JSFEnvironment.JSF_20;
-	
 	private JSFTemplate template = JSFTemplate.BLANK_LIBS;
+	protected static final String WEB_FOLDER = "pages";
 	
 	public JSFEnvironment getEnv() {
 		return env; 
@@ -60,11 +59,23 @@ public class JSFTestBase extends CDITestBase {
 	 */
 	protected void createXHTMLPage(String pageName) {
 		XHTMLDialogWizard xhtmlWizard = new NewXHTMLFileWizard().run();
-		xhtmlWizard.setName(pageName).finish();
+		xhtmlWizard.setDestination(getProjectName() + "/WebContent/" + WEB_FOLDER).
+					setName(pageName).finish();
 		bot.sleep(Timing.time3S());
 		util.waitForNonIgnoredJobs();
 		setEd(bot.activeEditor().toTextEditor());
 	}
+	
+	/**
+	 * Method created new XHTML page with content of resource
+	 * @param pageName
+	 */
+	protected void createXHTMLPageWithContent(String pageName, String resource) {
+		createXHTMLPage(pageName);
+		editResourceUtil.replaceClassContentByResource(JSFTestBase.class.
+				getResourceAsStream(resource), false);
+	}
+	
 	
 	/**
 	 * Method opens context menu for CDI Refactor for selected class

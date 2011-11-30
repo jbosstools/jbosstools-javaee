@@ -130,6 +130,45 @@ public class EditorResourceHelper extends CDIBase {
 	}
 	
 	/**
+	 * Method deletes whole package with given name for entered project
+	 * @param projectName
+	 * @param packageName
+	 */
+	public void deletePackage(String projectName, String packageName) {
+		
+		String[] path = {projectName, "Java Resources", "JavaSource"};
+		deleteFolderInProjectExplorer(packageName, path);
+		
+	}
+	
+	/**
+	 * Method deletes whole web folder with given name for entered project
+	 * @param projectName
+	 * @param packageName
+	 */
+	public void deleteWebFolder(String projectName, String folder) {
+		
+		String[] path = {projectName, "WebContent"};
+		deleteFolderInProjectExplorer(folder, path);
+		
+	}
+	
+	/**
+	 * Method deletes folder with given name and path
+	 * @param folderName
+	 * @param path
+	 */
+	public void deleteFolderInProjectExplorer(String folderName, String... path) {
+				
+		SWTBotTree tree = projectExplorer.bot().tree();
+		SWTBotTreeItem item = projectExplorer.selectTreeItem(folderName, path); 				
+		
+		NodeContextUtil.nodeContextMenu(tree, item, "Delete").click();
+		bot.sleep(Timing.time1S());
+		bot.shell("Confirm Delete").bot().button("OK").click();
+	}
+	
+	/**
 	 * Method removes the object which is located in "sourceFolder" 
 	 * is deleted 
 	 * @param object
