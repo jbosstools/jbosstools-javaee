@@ -11,8 +11,12 @@
 
 package org.jboss.tools.cdi.bot.test.jsf;
 
+import java.util.Arrays;
+import java.util.Collection;
+
 import org.jboss.tools.cdi.bot.test.CDIAllBotTests;
 import org.jboss.tools.cdi.bot.test.annotations.CDIWizardType;
+import org.jboss.tools.cdi.bot.test.uiutils.CollectionsUtil;
 import org.jboss.tools.ui.bot.ext.RequirementAwareSuite;
 import org.jboss.tools.ui.bot.ext.config.Annotations.Require;
 import org.jboss.tools.ui.bot.ext.config.Annotations.Server;
@@ -27,14 +31,16 @@ import org.junit.runners.Suite.SuiteClasses;
  * @author Jaroslav Jankovic
  * 
  */
-
 @Require(clearProjects = true, perspective = "Java EE", 
-		 server = @Server(state = ServerState.NotRunning, 
-		 version = "6.0", operator = ">="))
+		server = @Server(state = ServerState.NotRunning, 
+		version = "6.0", operator = ">=")) 
 @RunWith(RequirementAwareSuite.class)
 @SuiteClasses({ CDIAllBotTests.class })
 public class NamedRefactoringTest extends JSFTestBase {
 
+	private static final String MANAGED_BEAN = "ManagedBean"; 
+	private static final String INDEX_XHTML= "index.xhtml";
+	
 	@Override
 	public String getProjectName() {
 		return "CDIRefactoring";
@@ -43,7 +49,7 @@ public class NamedRefactoringTest extends JSFTestBase {
 	@Test
 	public void testNamedAnnotationRefactor() {
 		
-		wizard.createCDIComponent(CDIWizardType.BEAN, "ManagedBean", getPackageName(), null);
+		wizard.createCDIComponent(CDIWizardType.BEAN, MANAGED_BEAN, getPackageName(), null);
 		editResourceUtil.replaceClassContentByResource(NamedRefactoringTest.class.
 				getResourceAsStream("/resources/jsf/ManagedBean.java.cdi"), false);
 		
@@ -51,10 +57,30 @@ public class NamedRefactoringTest extends JSFTestBase {
 		editResourceUtil.replaceClassContentByResource(NamedRefactoringTest.class.
 				getResourceAsStream("/resources/jsf/index.xhtml.cdi"), false);
 
-		bot.editorByTitle("ManagedBean.java").show();
+		bot.editorByTitle(MANAGED_BEAN + ".java").show();
 		setEd(bot.activeEditor().toTextEditor());
-		contextMenuForTextInEditor("@Named(\"bean\")", "Open With", "Other...");
+
+		String newNamed = "bean2";		
+		Collection<String> affectedFiles = changeNamedAnnotation(MANAGED_BEAN, newNamed);
+		Collection<String> expectedAffectedFiles = Arrays.asList(
+				MANAGED_BEAN + ".java", INDEX_XHTML);
+	
+		for (String affectedFile : affectedFiles) {
+			bot.editorByTitle(affectedFile).save();
+		}
+	
+		assertEquals(expectedAffectedFiles.size(), affectedFiles.size());
+		assertTrue(CollectionsUtil.compareTwoCollectionsEquality(
+				expectedAffectedFiles, affectedFiles));
+		
+		assertTrue(bot.editorByTitle(MANAGED_BEAN + ".java").toTextEditor().getText().
+			contains("@Named(\"" + newNamed + "\""));
+		
+		assertTrue(bot.editorByTitle(INDEX_XHTML).toTextEditor().getText().
+				contains("#{" + newNamed + ".submit()}"));
 		
 	}
+
 	
+
 }

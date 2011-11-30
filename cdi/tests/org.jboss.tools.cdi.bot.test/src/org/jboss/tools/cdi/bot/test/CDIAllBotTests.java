@@ -10,23 +10,8 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.bot.test;
 
-import org.jboss.tools.cdi.bot.test.beansxml.BeansXMLCompletionTest;
-import org.jboss.tools.cdi.bot.test.beansxml.BeansXMLValidationTest;
-import org.jboss.tools.cdi.bot.test.editor.BeansEditorTest;
-import org.jboss.tools.cdi.bot.test.openon.FindObserverForEventTest;
-import org.jboss.tools.cdi.bot.test.openon.OpenOnTest;
-import org.jboss.tools.cdi.bot.test.quickfix.BeanValidationQuickFixTest;
-import org.jboss.tools.cdi.bot.test.quickfix.DecoratorValidationQuickFixTest;
-import org.jboss.tools.cdi.bot.test.quickfix.IBindingValidationQuickFixTest;
-import org.jboss.tools.cdi.bot.test.quickfix.InterceptorValidationQuickFixTest;
-import org.jboss.tools.cdi.bot.test.quickfix.QualifierValidationQuickFixTest;
-import org.jboss.tools.cdi.bot.test.quickfix.ScopeValidationQuickFixTest;
-import org.jboss.tools.cdi.bot.test.quickfix.StereotypeValidationQuickFixTest;
-import org.jboss.tools.cdi.bot.test.seam3.Seam3Test;
+import org.jboss.tools.cdi.bot.test.jsf.NamedRefactoringTest;
 import org.jboss.tools.cdi.bot.test.uiutils.SWTEclipseCDIExtUtil;
-import org.jboss.tools.cdi.bot.test.wizard.ConfigurationPresetTest;
-import org.jboss.tools.cdi.bot.test.wizard.FacetTest;
-import org.jboss.tools.cdi.bot.test.wizard.WizardTest;
 import org.jboss.tools.ui.bot.ext.RequirementAwareSuite;
 import org.jboss.tools.ui.bot.ext.types.ViewType;
 import org.junit.BeforeClass;
@@ -49,7 +34,7 @@ import org.junit.runners.Suite.SuiteClasses;
  *  JAVA=1.6,/space/java/sdk/jdk1.6.0_22
  *  
  *  
- *  Suite duration: aprox. 24min
+ *  Suite duration: aprox. 25min
  * 
  * @author Lukas Jungmann
  * @author Jaroslav Jankovic
@@ -57,23 +42,23 @@ import org.junit.runners.Suite.SuiteClasses;
 @RunWith(RequirementAwareSuite.class)
 @SuiteClasses({	
 //	PerspectiveTest.class,
-	ConfigurationPresetTest.class,
-	FacetTest.class, 
-	WizardTest.class,
-	BeansEditorTest.class,
-//	NamedRefactoringTest.class, 
-	BeansXMLValidationTest.class,
-	BeansXMLCompletionTest.class,
-	StereotypeValidationQuickFixTest.class,
-	QualifierValidationQuickFixTest.class,
-	ScopeValidationQuickFixTest.class,
-	BeanValidationQuickFixTest.class,
-	InterceptorValidationQuickFixTest.class,
-	DecoratorValidationQuickFixTest.class,
-	IBindingValidationQuickFixTest.class,
-	OpenOnTest.class,
-	FindObserverForEventTest.class, 
-	Seam3Test.class
+//	ConfigurationPresetTest.class,
+//	FacetTest.class, 
+//	WizardTest.class,
+//	BeansEditorTest.class,
+	NamedRefactoringTest.class, 
+//	BeansXMLValidationTest.class,
+//	BeansXMLCompletionTest.class,
+//	StereotypeValidationQuickFixTest.class,
+//	QualifierValidationQuickFixTest.class,
+//	ScopeValidationQuickFixTest.class,
+//	BeanValidationQuickFixTest.class,
+//	InterceptorValidationQuickFixTest.class,
+//	DecoratorValidationQuickFixTest.class,
+//	IBindingValidationQuickFixTest.class,
+//	OpenOnTest.class,
+//	FindObserverForEventTest.class, 
+//	Seam3Test.class
 	})
 public class CDIAllBotTests extends CDITestBase {
 		
