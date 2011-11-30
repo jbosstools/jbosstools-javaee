@@ -150,6 +150,12 @@
       <page category="org.jboss.tools.common.xstudio.editors" class="org.jboss.tools.struts.ui.preferences.WebFlowTabbedPreferencesPage" id="org.jboss.tools.common.xstudio.editors.webflowdiagram" 
             name="%PreferencePage_WebFlow">
       </page>
+      <page 
+         category="org.jboss.tools.common.xstudio" 
+         class="org.jboss.tools.struts.ui.preferences.StrutsConfigValidatorPreferencePage" 
+         id="org.jboss.tools.struts.ui.StrutsValidatorPreferencePage" 
+         name="%PreferencePage_StrutsCore_Validator">
+      </page>
    </extension>
    <!--extension point="org.eclipse.ui.perspectives">
       <perspective class="org.jboss.tools.struts.ui.XStudioPerspectiveFactory" icon="$nl$/images/xstudio/perspective.gif" id="org.jboss.tools.common.model.ui.XStudioPerspective" name="%perspective.name">
