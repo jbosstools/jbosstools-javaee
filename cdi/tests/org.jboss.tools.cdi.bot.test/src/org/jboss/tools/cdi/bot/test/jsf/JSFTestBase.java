@@ -55,7 +55,7 @@ public class JSFTestBase extends CDITestBase {
 	}
 	
 	/**
-	 * 
+	 * Method created new XHTML page with selected name
 	 * @param pageName
 	 */
 	protected void createXHTMLPage(String pageName) {
@@ -67,9 +67,9 @@ public class JSFTestBase extends CDITestBase {
 	}
 	
 	/**
-	 * 
+	 * Method opens context menu for CDI Refactor for selected class
 	 * @param className
-	 * @throws AnnotationException
+	 * @throws AnnotationException if no menu for CDI Refactor was found
 	 */
 	protected void openContextMenuForCDIRefactor(String className) throws AnnotationException {
 		String text = getNamedAnnotationForClass(className);
@@ -86,7 +86,7 @@ public class JSFTestBase extends CDITestBase {
 	}
 	
 	/**
-	 * 
+	 * Method returns @Named annotation or null if there is no such annotation
 	 * @param className
 	 * @return
 	 */
@@ -109,7 +109,7 @@ public class JSFTestBase extends CDITestBase {
 	}
 
 	/**
-	 * 
+	 * Method parses @Named annotation and returns correct EL name for class
 	 * @param className
 	 * @param text
 	 * @return
@@ -124,7 +124,7 @@ public class JSFTestBase extends CDITestBase {
 	}
 
 	/**
-	 * 
+	 * Method opens context menu for text in eclipse editor
 	 * @param text
 	 * @param menu
 	 */
@@ -139,10 +139,10 @@ public class JSFTestBase extends CDITestBase {
 	}
 	
 	/**
-	 * 
+	 * Method changes @Named annotation to "newNamed" for selected class
 	 * @param className
 	 * @param newNamed
-	 * @return
+	 * @return all affected files by CDI refactoring
 	 */
 	protected List<String> changeNamedAnnotation(String className, String newNamed) {
 		List<String> affectedFiles = new ArrayList<String>();
@@ -164,7 +164,8 @@ public class JSFTestBase extends CDITestBase {
 	}
 	
 	/**
-	 * 
+	 * Methods creates new JSF Project with selected name, environment and template. Finnaly
+	 * it adds CDI support to this project.
 	 * @param projectName
 	 * @param env
 	 * @param template
@@ -178,7 +179,7 @@ public class JSFTestBase extends CDITestBase {
 	}
 
 	/**
-	 * 
+	 * Methods creates new JSF Project with selected name, environment and template.
 	 * @param projectName
 	 * @param env
 	 * @param template
