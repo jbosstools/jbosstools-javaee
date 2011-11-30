@@ -17,24 +17,29 @@ import org.jboss.tools.cdi.bot.test.annotations.JSFTemplate;
 
 public class JSFWebProjectWizard extends Wizard {
 
+	private static final String JSF_NEW_PROJECT_LABEL = "New JSF Project";
+	private static final String JSF_PROJECT_NAME_LABEL = "Project Name*";
+	private static final String JSF_ENV_LABEL = "JSF Environment*";
+	private static final String JSF_TEMPL_LABEL = "Template*";
+	
 	public JSFWebProjectWizard() {		 
 		super(new SWTBot().activeShell().widget);
-		assert ("New JSF Project").equals(getText());		
+		assert (JSF_NEW_PROJECT_LABEL).equals(getText());		
 	}
 
 	public JSFWebProjectWizard setName(String name) {				
-		setText("Project Name*", name);
+		setText(JSF_PROJECT_NAME_LABEL, name);
 		return this;		
 	}
 
 	public JSFWebProjectWizard setEnvironment(JSFEnvironment env) {
-		setTextInCombobox("JSF Environment*", env.getName());
+		setTextInCombobox(JSF_ENV_LABEL, env.getName());
 		return this;
 	}
 	
 	public JSFWebProjectWizard setJSFTemplate(JSFTemplate template) {
-		if (canCheckInCombobox("Template*", template.getName())) {
-			setTextInCombobox("Template*", template.getName());
+		if (canCheckInCombobox(JSF_TEMPL_LABEL, template.getName())) {
+			setTextInCombobox(JSF_TEMPL_LABEL, template.getName());
 		}
 		return this;
 	}

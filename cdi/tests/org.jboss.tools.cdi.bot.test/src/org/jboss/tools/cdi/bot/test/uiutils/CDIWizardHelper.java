@@ -62,6 +62,10 @@ public class CDIWizardHelper extends CDITestBase{
 	public void createCDIComponentWithContent(CDIWizardType component, String name,
 			String packageName, String necessaryParam, String resource) {			
 		createCDIComponent(component, name, packageName, necessaryParam);
+		if (!bot.activeEditor().getTitle().equals(name + ".java")) {
+			bot.editorByTitle(name + ".java").show();
+			setEd(bot.activeEditor().toTextEditor());
+		}
 		editResourceUtil.replaceClassContentByResource(CDIWizardHelper.class.
 				getResourceAsStream(resource), false);
 	}

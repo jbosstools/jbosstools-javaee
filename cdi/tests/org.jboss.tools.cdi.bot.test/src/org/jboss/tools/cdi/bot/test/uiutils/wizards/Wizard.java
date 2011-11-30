@@ -20,6 +20,11 @@ import org.jboss.tools.ui.bot.ext.Timing;
 
 public class Wizard extends SWTBotShell {
 
+	private static final String NEXT = "Next >";
+	private static final String BACK = "< Back";
+	private static final String CANCEL = "Cancel";
+	private static final String FINISH = "Finish";
+	
 	public Wizard(Shell shell) {
 		super(shell);
 		assert getText().contains("New ");
@@ -41,25 +46,29 @@ public class Wizard extends SWTBotShell {
 	}
 
 	public Wizard back() {
-		clickButton("< Back");
+		clickButton(BACK);
 		return this;
 	}
 
 	public Wizard next() {
-		clickButton("Next >");
+		clickButton(NEXT);
 		return this;
 	}
 
 	public void cancel() {
-		clickButton("Cancel");
+		clickButton(CANCEL);
 	}
 
 	public void finish() {
-		clickButton("Finish");
+		clickButton(FINISH);
 	}
 	
 	public boolean canFinish() {
-		return canClick("Finish");
+		return canClick(FINISH);
+	}
+	
+	public boolean canNext() {
+		return canClick(NEXT);
 	}
 		
 	protected void checkCheckbox(String text) {

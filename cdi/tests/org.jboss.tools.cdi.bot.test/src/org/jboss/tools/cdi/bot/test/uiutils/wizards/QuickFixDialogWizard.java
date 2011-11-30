@@ -17,9 +17,11 @@ import org.eclipse.swtbot.swt.finder.widgets.SWTBotTableItem;
 
 public class QuickFixDialogWizard extends Wizard {
 
+	private static final String QUICK_FIX_TITLE = "Quick Fix";
+	
 	public QuickFixDialogWizard() {		 
 		super(new SWTBot().activeShell().widget);
-		assert ("Quick Fix").equals(getText());		
+		assert (QUICK_FIX_TITLE).equals(getText());		
 	}
 	
 	public QuickFixDialogWizard setFix(SWTBotTableItem fix) {

@@ -6,23 +6,28 @@ import org.eclipse.swtbot.swt.finder.widgets.SWTBotTableItem;
 
 public class XHTMLDialogWizard extends Wizard {
 
+	private static final String XHTML_NEW_PAGE_TITLE = "New XHTML Page";
+	private static final String PARENT_FOLDER_LABEL = "Enter or select the parent folder:";
+	private static final String FILE_NAME_LABEL = "File name:";
+	private static final String XHTML_TEMPL_CHECK_BOX = "Use XHTML Template";
+	
 	public XHTMLDialogWizard() {
 		super(new SWTBot().activeShell().widget);
-		assert ("New XHTML Page").equals(getText());			
+		assert (XHTML_NEW_PAGE_TITLE).equals(getText());			
 	}
 	
 	public XHTMLDialogWizard setDestination(String destination) {
-		setText("Enter or select the parent folder:", destination);
+		setText(PARENT_FOLDER_LABEL, destination);
 		return this;
 	}
 	
 	public XHTMLDialogWizard setName(String nameOfPage) {
-		setText("File name:", nameOfPage);
+		setText(FILE_NAME_LABEL, nameOfPage);
 		return this;
 	}
 	
 	public XHTMLDialogWizard checkXHTMLTemplate() {
-		checkCheckbox("Use XHTML Template");
+		checkCheckbox(XHTML_TEMPL_CHECK_BOX);
 		return this;
 	}
 	

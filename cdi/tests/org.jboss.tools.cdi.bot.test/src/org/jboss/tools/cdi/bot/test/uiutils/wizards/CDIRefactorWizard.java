@@ -9,6 +9,8 @@ import org.eclipse.swtbot.swt.finder.widgets.SWTBotTreeItem;
 public class CDIRefactorWizard extends Wizard{
 
 	private List<String> affectedFiles;
+	private static final String NAMED_TEXT_LABEL = "@Named Bean Name";
+	private static final String RENAME_TEXT_LABEL = "Rename @Named Bean";
 	
 	public CDIRefactorWizard() {		 
 		super(new SWTBot().activeShell().widget);
@@ -17,7 +19,7 @@ public class CDIRefactorWizard extends Wizard{
 	}
 
 	public CDIRefactorWizard setName(String name) {				
-		setText("@Named Bean Name", name);
+		setText(NAMED_TEXT_LABEL, name);
 		return this;		
 	}
 	
@@ -32,7 +34,7 @@ public class CDIRefactorWizard extends Wizard{
 	 */
 	public List<String> getAffectedFiles() {
 		String temp = null;
-		for (SWTBotTreeItem ti : bot().tree().getTreeItem("Rename @Named Bean").getItems()) {
+		for (SWTBotTreeItem ti : bot().tree().getTreeItem(RENAME_TEXT_LABEL).getItems()) {
 			temp = ti.getText().split("-")[0];
 			affectedFiles.add(temp.substring(0, temp.length() - 1));
 		}

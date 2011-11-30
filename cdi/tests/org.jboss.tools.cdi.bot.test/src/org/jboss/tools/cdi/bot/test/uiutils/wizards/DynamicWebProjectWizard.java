@@ -20,19 +20,24 @@ import org.jboss.tools.ui.bot.ext.Timing;
 
 public class DynamicWebProjectWizard extends Wizard {
 
+	private static final String PROJECT_NAME = "Project name:";
+	private static final String CDI_PRESET = "Dynamic Web Project " +
+			"with CDI (Context and Dependency Injection)";
+	private static final String CDI_FACET = "CDI (Contexts and Dependency Injection)";
+	
 	public DynamicWebProjectWizard() {
 		super(new SWTBot().activeShell().widget);
 		assert "New Dynamic Web Project".equals(getText());
 	}
 
 	public DynamicWebProjectWizard setProjectName(String name) {
-		setText("Project name:", name);
+		setText(PROJECT_NAME, name);
 		return this;
 	}
 	
 	public DynamicWebProjectWizard setCDIPreset() {
 		bot().comboBoxInGroup("Configuration", 0).
-			setSelection("Dynamic Web Project with CDI (Context and Dependency Injection)");			
+			setSelection(CDI_PRESET);			
 		return this;
 	}
 	
@@ -48,7 +53,7 @@ public class DynamicWebProjectWizard extends Wizard {
 		SWTBot facetsBot = bot.activeShell().bot();
 		SWTBotTree tree= facetsBot.tree();
 		for (SWTBotTreeItem ti: tree.getAllItems())  {							
-			if (ti.cell(0).contains("CDI (Contexts and Dependency Injection)")) {				
+			if (ti.cell(0).contains(CDI_FACET)) {				
 				ti.check();
 				break;
 			}
