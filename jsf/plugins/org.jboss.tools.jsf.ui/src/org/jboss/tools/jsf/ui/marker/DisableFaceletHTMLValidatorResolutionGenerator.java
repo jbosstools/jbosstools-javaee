@@ -17,7 +17,6 @@ import org.eclipse.core.resources.IMarker;
 import org.eclipse.ui.IMarkerResolution;
 import org.eclipse.ui.IMarkerResolutionGenerator2;
 import org.eclipse.wst.validation.IMutableValidator;
-import org.eclipse.wst.validation.MutableProjectSettings;
 import org.eclipse.wst.validation.MutableWorkspaceSettings;
 import org.eclipse.wst.validation.ValidationFramework;
 import org.jboss.tools.jsf.ui.JsfUiPlugin;
@@ -33,19 +32,12 @@ public class DisableFaceletHTMLValidatorResolutionGenerator implements
 
 	public IMarkerResolution[] getResolutions(IMarker marker) {
 		if(isNeedToCreate(marker)){
-			boolean forProject = false; 
-			IFile file = (IFile)marker.getResource();
 			IMutableValidator[] validators;
-			MutableProjectSettings projectSettings = ValidationFramework.getDefault().getProjectSettings(file.getProject());
-			validators = projectSettings.getValidators();
-			if(DisableFaceletHTMLValidatorMarkerResolution.findValidator(validators, VALIDATOR_ID) != null){
-				forProject = true;
-			}
 			try {
 				MutableWorkspaceSettings workspaceSettings = ValidationFramework.getDefault().getWorkspaceSettings();
 				validators = workspaceSettings.getValidators();
 				if(DisableFaceletHTMLValidatorMarkerResolution.findValidator(validators, VALIDATOR_ID) != null){
-					return new IMarkerResolution[] {new DisableFaceletHTMLValidatorMarkerResolution((IFile)marker.getResource(), forProject)};
+					return new IMarkerResolution[] {new DisableFaceletHTMLValidatorMarkerResolution((IFile)marker.getResource())};
 				}
 			} catch (InvocationTargetException e) {
 				JsfUiPlugin.getPluginLog().logError(e);

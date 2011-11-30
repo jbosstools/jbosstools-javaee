@@ -37,12 +37,10 @@ public class DisableFaceletHTMLValidatorMarkerResolution implements
 		IMarkerResolution2 {
 	private static final String MARKER_TYPE = "org.eclipse.jst.jsf.facelet.ui.FaceletValidationMarker";
 	private IFile file;
-	private boolean forProject;
 	private String label;
 	
-	public DisableFaceletHTMLValidatorMarkerResolution(IFile file, boolean forProject){
+	public DisableFaceletHTMLValidatorMarkerResolution(IFile file){
 		this.file = file;
-		this.forProject = forProject;
 		label = JsfUIMessages.DISABLE_FACELET_HTML_VALIDATOR_MARKER_RESOLUTION_TITLE;
 	}
 
@@ -66,22 +64,12 @@ public class DisableFaceletHTMLValidatorMarkerResolution implements
 
 	public void run(IMarker marker) {
 		MessageDialog dialog = null;
-		if(forProject){
-			dialog = new MessageDialog(getShell(), label, null,
-					NLS.bind(JsfUIMessages.DISABLE_FACELET_HTML_VALIDATOR_MARKER_RESOLUTION_MESSAGE, file.getName())+
-					NLS.bind(JsfUIMessages.DISABLE_FACELET_HTML_VALIDATOR_MARKER_RESOLUTION_PROJECT_QUESTION, file.getProject().getName()),
-					MessageDialog.QUESTION_WITH_CANCEL,
-					new String[]{"Cancel", "Workspace", file.getProject().getName()},
-					0);
-		}else{
-			dialog = new MessageDialog(getShell(), label, null,
-					NLS.bind(JsfUIMessages.DISABLE_FACELET_HTML_VALIDATOR_MARKER_RESOLUTION_MESSAGE, file.getName())+
-					JsfUIMessages.DISABLE_FACELET_HTML_VALIDATOR_MARKER_RESOLUTION_WORKSPACE_QUESTION,
-					MessageDialog.QUESTION_WITH_CANCEL,
-					new String[]{"Cancel", "Ok"},
-					0);
-			
-		}
+		dialog = new MessageDialog(getShell(), label, null,
+				NLS.bind(JsfUIMessages.DISABLE_FACELET_HTML_VALIDATOR_MARKER_RESOLUTION_MESSAGE, file.getName())+
+				NLS.bind(JsfUIMessages.DISABLE_FACELET_HTML_VALIDATOR_MARKER_RESOLUTION_PROJECT_QUESTION, file.getProject().getName()),
+				MessageDialog.QUESTION_WITH_CANCEL,
+				new String[]{"Cancel", "Workspace", file.getProject().getName()},
+				0);
 		int result = dialog.open();
 		if(result == 1){
 			disableOnWorkspace();
@@ -110,8 +98,30 @@ public class DisableFaceletHTMLValidatorMarkerResolution implements
 	
 	private void disableOnProject(){
 		MutableProjectSettings projectSettings = ValidationFramework.getDefault().getProjectSettings(file.getProject());
+		projectSettings.setOverride(true);
 		IMutableValidator[] validators = projectSettings.getValidators();
-		if(disableValidator(validators, DisableFaceletHTMLValidatorResolutionGenerator.VALIDATOR_ID)){
+		if(!disableValidator(validators, DisableFaceletHTMLValidatorResolutionGenerator.VALIDATOR_ID)){
+			projectSettings = null;
+			MutableWorkspaceSettings workspaceSettings=null;
+			try {
+				workspaceSettings = ValidationFramework.getDefault().getWorkspaceSettings();
+			} catch (InvocationTargetException e) {
+				JsfUiPlugin.getPluginLog().logError(e);
+			}
+			if(workspaceSettings != null){
+				IMutableValidator[] workspaceValidators = workspaceSettings.getValidators();
+				IMutableValidator faceletHTMLValidator = findValidator(workspaceValidators, DisableFaceletHTMLValidatorResolutionGenerator.VALIDATOR_ID);
+				if(faceletHTMLValidator != null){
+					faceletHTMLValidator.setBuildValidation(false);
+					faceletHTMLValidator.setManualValidation(false);
+					validators = new IMutableValidator[1];
+					validators[0] = faceletHTMLValidator;
+					projectSettings = new MutableProjectSettings(file.getProject(), validators);
+					projectSettings.setOverride(true);
+				}
+			}
+		}
+		if(projectSettings != null){
 			ValidationFramework.getDefault().applyChanges(projectSettings, true);
 			try {
 				file.getProject().deleteMarkers(MARKER_TYPE, true, IResource.DEPTH_INFINITE);
