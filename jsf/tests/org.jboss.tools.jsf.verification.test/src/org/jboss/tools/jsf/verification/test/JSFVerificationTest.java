@@ -35,6 +35,10 @@ public class JSFVerificationTest extends TestCase {
 		provider = new TestProjectProvider("org.jboss.tools.jsf.verification.test", null, "TestJSFVerification", makeCopy); 
 		project = provider.getProject();
 	}
+
+	public void testDummy() {
+		//for automatic test to have non-empty set
+	}
 	
 	//verification removed, see JBIDE-10190
 	public void _testPaths() {

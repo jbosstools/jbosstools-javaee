@@ -21,7 +21,7 @@ public class JsfVerificationAllTests {
 		//$JUnit-BEGIN$
 
 		//verification removed, see JBIDE-10190
-//		suite.addTestSuite(JSFVerificationTest.class);
+		suite.addTestSuite(JSFVerificationTest.class);
 //		suite.addTestSuite(WebVerificationTest.class);
 		
 		//$JUnit-END$
