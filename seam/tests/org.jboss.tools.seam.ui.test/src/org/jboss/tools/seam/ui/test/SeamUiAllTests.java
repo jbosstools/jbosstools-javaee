@@ -55,7 +55,8 @@ public class SeamUiAllTests {
 	public static Test suite() {
 		TestSuite suite = new TestSuite("Seam UI tests");
 
-		suite.addTestSuite(JBossPerspectiveTest.class);
+//      https://issues.jboss.org/browse/JBIDE-10149 Remove Seam 2 from the JBoss Perspective actions
+//		suite.addTestSuite(JBossPerspectiveTest.class);
 		suite.addTestSuite(ELExprPartitionerTest.class);
 		//suite.addTestSuite(ELReferencesQueryParticipantTest.class);
 		suite.addTest(new ProjectImportTestSetup(new TestSuite(ELReferencesQueryParticipantTest.class), "org.jboss.tools.seam.ui.test", new String[]{"projects/numberguess"}, new String[]{"numberguess"}));
