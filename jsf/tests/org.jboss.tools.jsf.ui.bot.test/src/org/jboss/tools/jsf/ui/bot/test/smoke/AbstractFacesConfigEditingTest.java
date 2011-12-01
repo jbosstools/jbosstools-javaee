@@ -427,7 +427,7 @@ public abstract class AbstractFacesConfigEditingTest extends JSFAutoTestCase{
     
   }
   /**
-   * Returns XNL Source striped from spaces, tabs and EOL
+   * Returns XML Source striped from spaces, tabs and EOL
    * 
    * @return String
    */

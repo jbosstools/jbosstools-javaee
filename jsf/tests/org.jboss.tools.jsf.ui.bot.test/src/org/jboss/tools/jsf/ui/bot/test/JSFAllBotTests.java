@@ -17,6 +17,7 @@ import org.jboss.tools.jsf.ui.bot.test.smoke.FacesConfigEditingTest;
 import org.jboss.tools.jsf.ui.bot.test.smoke.FacesConfigEditingTestJSF2;
 import org.jboss.tools.jsf.ui.bot.test.smoke.MarkersTest;
 import org.jboss.tools.jsf.ui.bot.test.smoke.OpenOnTest;
+import org.jboss.tools.jsf.ui.bot.test.smoke.PropertiesEditorTest;
 import org.jboss.tools.jsf.ui.bot.test.smoke.WebXmlEditorTest;
 import org.jboss.tools.jsf.ui.bot.test.templates.CreateNewTemplateFromJSFProject;
 import org.jboss.tools.jsf.ui.bot.test.templates.SetTemplateForUnknownTagTest;
@@ -52,7 +53,8 @@ import org.junit.runners.Suite.SuiteClasses;
   FacesConfigCodeCompletionTest.class,
   MarkersTest.class,
   WebXmlEditorTest.class,
-  CreateNewTemplateFromJSFProject.class
+  CreateNewTemplateFromJSFProject.class,
+  PropertiesEditorTest.class
 })
 public class JSFAllBotTests{
 }
