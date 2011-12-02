@@ -34,16 +34,10 @@ public class JsfOutputTextTemplate extends AbstractOutputJsfTemplate {
 	 * 
 	 * @see #isSpanNeeding(Element)
 	 */
-	private static final String[] spanMarkers = {
+	private static final String[] SPAN_MARKERS = {
 			JSF.ATTR_STYLE, JSF.ATTR_STYLE_CLASS, JSF.ATTR_ID,
 			JSF.ATTR_DIR, JSF.ATTR_TITLE, JSF.ATTR_LANG};
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.jboss.tools.vpe.editor.template.VpeTemplate#create(org.jboss.tools.vpe.editor.context.VpePageContext,
-	 *      org.w3c.dom.Node, org.mozilla.interfaces.nsIDOMDocument)
-	 */
 	public VpeCreationData create(VpePageContext pageContext, Node sourceNode,
 			nsIDOMDocument visualDocument) {
 
@@ -74,10 +68,10 @@ public class JsfOutputTextTemplate extends AbstractOutputJsfTemplate {
 	 * Returns {@code true} if given {@code element} should be
 	 * rendered in {@code SPAN} tag, otherwise returns {@code false}.
 	 * 
-	 * @see #spanMarkers
+	 * @see #SPAN_MARKERS
 	 */
 	private boolean isSpanNeeding(Element element) {
-		for (String spanMarker : spanMarkers) {
+		for (String spanMarker : SPAN_MARKERS) {
 			if (element.hasAttribute(spanMarker)) {
 				return true;
 			}
