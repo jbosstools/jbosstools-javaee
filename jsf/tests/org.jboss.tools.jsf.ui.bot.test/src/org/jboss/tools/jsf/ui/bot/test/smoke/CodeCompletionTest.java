@@ -14,7 +14,9 @@ import java.awt.event.KeyEvent;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.eclipse.swtbot.swt.finder.widgets.SWTBotShell;
 import org.jboss.tools.jsf.ui.bot.test.JSFAutoTestCase;
+import org.jboss.tools.ui.bot.ext.Assertions;
 import org.jboss.tools.ui.bot.ext.SWTJBTExt;
 import org.jboss.tools.ui.bot.ext.SWTTestExt;
 import org.jboss.tools.ui.bot.ext.Timing;
@@ -302,6 +304,46 @@ public class CodeCompletionTest extends JSFAutoTestCase{
         14, 
         0, 
         expectedProposals);
+  }
+  /**
+   * Test Code Completion functionality for msgs[
+   */
+  public void testCodeCompletionOfMsgsWithBrackets(){
+    initFaceletsPageTest();
+    SWTJBTExt.selectTextInSourcePane(SWTTestExt.bot, 
+        FACELETS_TEST_PAGE,
+        "<h:message ", 
+        0, 
+        0, 
+        0);
+    editor.insertText("\n");
+    String textToInsert = "<h:outputText value=\"#{msg[";
+    final SWTBotShell[] shellsBefore = bot.shells();
+    editor.typeText(textToInsert);
+    bot.sleep(Timing.time2S());
+    // Check Content Assist invoked by typing
+    ContentAssistBot contentAssist = editor.contentAssist();
+    final List<String> caProposals = contentAssist.getProposalList(shellsBefore, bot.shells(), true);
+    String useCodeAssist = "greeting";
+    assertTrue("Content assist has to contain item " + useCodeAssist +
+        " but it does not.",
+      caProposals.contains(useCodeAssist));
+    useCodeAssist = "prompt";
+    assertTrue("Content assist has to contain item " + useCodeAssist +
+        " but it does not.",
+      caProposals.contains(useCodeAssist));
+    // Check Content Assist invoked by Ctrl-Space
+    useCodeAssist = "greeting";
+    contentAssist.checkContentAssist(useCodeAssist, false);
+    useCodeAssist = "prompt";
+    contentAssist.checkContentAssist(useCodeAssist, true);
+    final String textToInsertAtEnd = "\"/>";
+    editor.insertText(editor.cursorPosition().line, 
+      editor.cursorPosition().column + 2,
+      textToInsertAtEnd);
+    Assertions.assertSourceEditorContains(editor.getText(), 
+      textToInsert + "'" + useCodeAssist + "']}" + textToInsertAtEnd,
+      FACELETS_TEST_PAGE);
   }
   /**
    * Initialize test which are using facelets test page
