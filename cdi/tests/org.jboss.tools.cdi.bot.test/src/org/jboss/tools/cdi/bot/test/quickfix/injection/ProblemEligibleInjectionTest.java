@@ -13,6 +13,7 @@ package org.jboss.tools.cdi.bot.test.quickfix.injection;
 
 import org.jboss.tools.cdi.bot.test.CDIAllBotTests;
 import org.jboss.tools.cdi.bot.test.annotations.CDIWizardType;
+import org.jboss.tools.cdi.bot.test.quickfix.base.EligibleInjectionQuickFixTestBase;
 import org.jboss.tools.ui.bot.ext.RequirementAwareSuite;
 import org.jboss.tools.ui.bot.ext.config.Annotations.Require;
 import org.jboss.tools.ui.bot.ext.config.Annotations.Server;
@@ -27,7 +28,7 @@ import org.junit.runners.Suite.SuiteClasses;
 		 version = "6.0", operator = ">="))
 @RunWith(RequirementAwareSuite.class)
 @SuiteClasses({ CDIAllBotTests.class })
-public class ProblemEligibleInjectionTest extends EligibleInjectionTestBase {
+public class ProblemEligibleInjectionTest extends EligibleInjectionQuickFixTestBase {
 	
 	private final String ANIMAL = "Animal";
 	private final String DOG = "Dog";

@@ -19,6 +19,7 @@ import org.jboss.tools.cdi.bot.test.annotations.CDIAnnotationsType;
 import org.jboss.tools.cdi.bot.test.annotations.CDIWizardType;
 import org.jboss.tools.cdi.bot.test.annotations.ProblemsType;
 import org.jboss.tools.cdi.bot.test.quickfix.validators.BeanValidationProvider;
+import org.jboss.tools.cdi.bot.test.quickfix.validators.BeansXmlValidationProvider;
 import org.jboss.tools.cdi.bot.test.quickfix.validators.DecoratorValidationProvider;
 import org.jboss.tools.cdi.bot.test.quickfix.validators.InterceptorBindingValidationProvider;
 import org.jboss.tools.cdi.bot.test.quickfix.validators.InterceptorValidationProvider;
@@ -96,6 +97,9 @@ public class QuickFixTestBase extends QuickFixHelper {
 			break;
 		case INTERCEPTOR_BINDING:
 			validationErrorsProvider = new InterceptorBindingValidationProvider();
+			break;
+		case BEANS_XML:
+			validationErrorsProvider = new BeansXmlValidationProvider();
 			break;
 		}
 		ArrayList<String> validationProblems = null;

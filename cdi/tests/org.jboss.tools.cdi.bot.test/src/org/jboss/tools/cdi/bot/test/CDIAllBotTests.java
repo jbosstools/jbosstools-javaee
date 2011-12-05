@@ -18,6 +18,7 @@ import org.jboss.tools.cdi.bot.test.openon.FindObserverForEventTest;
 import org.jboss.tools.cdi.bot.test.openon.OpenOnTest;
 import org.jboss.tools.cdi.bot.test.quickfix.injection.ProblemEligibleInjectionTest;
 import org.jboss.tools.cdi.bot.test.quickfix.test.BeanValidationQuickFixTest;
+import org.jboss.tools.cdi.bot.test.quickfix.test.BeansXMLValidationQuickFixTest;
 import org.jboss.tools.cdi.bot.test.quickfix.test.DecoratorValidationQuickFixTest;
 import org.jboss.tools.cdi.bot.test.quickfix.test.IBindingValidationQuickFixTest;
 import org.jboss.tools.cdi.bot.test.quickfix.test.InterceptorValidationQuickFixTest;
@@ -67,6 +68,7 @@ import org.junit.runners.Suite.SuiteClasses;
 	BeansXMLValidationTest.class,
 	BeansXMLCompletionTest.class,
 	ProblemEligibleInjectionTest.class, 
+	BeansXMLValidationQuickFixTest.class, 
 	StereotypeValidationQuickFixTest.class,
 	QualifierValidationQuickFixTest.class,
 	ScopeValidationQuickFixTest.class,

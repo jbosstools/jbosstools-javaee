@@ -34,17 +34,7 @@ public class ScopeValidationProvider extends AbstractValidationProvider {
 	
 	public ArrayList<String> getAllWarningForAnnotationType(
 			CDIAnnotationsType annotationType) {
-		int warningIndex = 0;
-		switch(annotationType) {
-		case RETENTION:
-			warningIndex = 0;
-			break;
-		case TARGET:
-			warningIndex = 1;
-			break;
-		}
-		warningsForAnnotationType.add(validationErrors.get("Warnings").get(warningIndex));
-		return warningsForAnnotationType;
+		return validationErrors.get("Warnings");
 	}
 	
 }

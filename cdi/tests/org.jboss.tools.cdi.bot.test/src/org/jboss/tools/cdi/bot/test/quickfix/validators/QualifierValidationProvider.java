@@ -39,22 +39,7 @@ public class QualifierValidationProvider extends AbstractValidationProvider {
 
 	public ArrayList<String> getAllWarningForAnnotationType(
 			CDIAnnotationsType annotationType) {
-		int warningIndex = 0;
-		switch(annotationType) {
-		case RETENTION:
-			warningIndex = 0;
-			break;
-		case TARGET:
-			warningIndex = 1;
-			break;
-		case NONBINDING:
-			warningIndex = 2;
-			warningsForAnnotationType.add(validationErrors.get("Warnings").get(warningIndex));
-			warningIndex = 3;
-			break;
-		}
-		warningsForAnnotationType.add(validationErrors.get("Warnings").get(warningIndex));
-		return warningsForAnnotationType;
+		return validationErrors.get("Warnings");
 	}
 	
 }

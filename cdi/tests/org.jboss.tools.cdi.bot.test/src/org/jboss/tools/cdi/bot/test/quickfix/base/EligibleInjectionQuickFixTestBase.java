@@ -9,17 +9,17 @@
  * Red Hat, Inc. - initial API and implementation
  ******************************************************************************/
 
-package org.jboss.tools.cdi.bot.test.quickfix.injection;
+package org.jboss.tools.cdi.bot.test.quickfix.base;
 
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTreeItem;
 import org.jboss.tools.cdi.bot.test.annotations.CDIAnnotationsType;
 import org.jboss.tools.cdi.bot.test.annotations.CDIWizardType;
-import org.jboss.tools.cdi.bot.test.quickfix.base.QuickFixTestBase;
+import org.jboss.tools.cdi.bot.test.quickfix.injection.QualifierOperation;
 import org.jboss.tools.cdi.bot.test.uiutils.wizards.QuickFixDialogWizard;
 import org.jboss.tools.cdi.bot.test.uiutils.wizards.SpecifyBeanDialogWizard;
 import org.jboss.tools.ui.bot.ext.Timing;
 
-public class EligibleInjectionTestBase extends QuickFixTestBase{
+public class EligibleInjectionQuickFixTestBase extends QuickFixTestBase{
 	
 	/**
 	 * Method resolves multiple bean injection problem. By setting class which

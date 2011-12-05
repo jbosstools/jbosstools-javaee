@@ -33,16 +33,7 @@ public class InterceptorBindingValidationProvider extends AbstractValidationProv
 	
 	public ArrayList<String> getAllWarningForAnnotationType(
 			CDIAnnotationsType annotationType) {
-		int warningIndex = 0;
-		switch(annotationType) {
-		case NONBINDING:
-			warningIndex = 0;
-			warningsForAnnotationType.add(validationErrors.get("Warnings").get(warningIndex));
-			warningIndex = 1;
-			break;	
-		}
-		warningsForAnnotationType.add(validationErrors.get("Warnings").get(warningIndex));
-		return warningsForAnnotationType;
+		return validationErrors.get("Warnings");
 	}
 	
 }
