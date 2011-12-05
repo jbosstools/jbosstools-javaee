@@ -11,7 +11,7 @@
    <extension
          point="org.eclipse.ui.newWizards">
       <category
-            name="Seam 2"
+            name="Seam"
             id="org.jboss.tools.seam.ui">
       </category>
       <wizard
@@ -20,11 +20,11 @@
             finalPerspective="org.jboss.tools.seam.ui.SeamPerspective"
             icon="$nl$/icons/view/seam_project_new.gif"
             id="org.jboss.tools.seam.ui.wizards.SeamProjectWizard"
-            name="Seam 2 Web Project"
+            name="Seam Web Project"
             preferredPerspectives="org.jboss.tools.seam.ui.SeamPerspective, org.jboss.tools.jst.web.ui.WebDevelopmentPerspective"
             project="true">
          <description>
-            Create a Seam 2 Web Project
+            Create a Seam Web Project
          </description>
          <selection
                class="org.eclipse.core.resources.IResource">
@@ -35,9 +35,9 @@
             class="org.jboss.tools.seam.ui.wizard.SeamActionWizard"
             icon="$nl$/icons/seam16.png"
             id="org.jboss.tools.seam.ui.wizard.SeamActionWizard"
-            name="Seam 2 Action">
+            name="Seam Action">
          <description>
-            Create a Seam 2 Action
+            Create a Seam Action
          </description>
          <selection
                class="org.eclipse.core.resources.IResource">
@@ -48,9 +48,9 @@
             class="org.jboss.tools.seam.ui.wizard.SeamFormWizard"
             icon="$nl$/icons/seam16.png"
             id="org.jboss.tools.seam.ui.wizard.SeamFormWizard"
-            name="Seam 2 Form">
+            name="Seam Form">
          <description>
-            Create a Seam 2 Form
+            Create a Seam Form
          </description>
          <selection
                class="org.eclipse.core.resources.IResource">
@@ -61,9 +61,9 @@
             class="org.jboss.tools.seam.ui.wizard.SeamConversationWizard"
             icon="$nl$/icons/seam16.png"
             id="org.jboss.tools.seam.ui.wizard.SeamConversationWizard"
-            name="Seam 2 Conversation">
+            name="Seam Conversation">
          <description>
-            Create a Seam 2 Conversation
+            Create a Seam Conversation
          </description>
          <selection
                class="org.eclipse.core.resources.IResource">
@@ -75,9 +75,9 @@
             class="org.jboss.tools.seam.ui.wizard.SeamEntityWizard"
             icon="$nl$/icons/seam16.png"
             id="org.jboss.tools.seam.ui.wizard.SeamEntityWizard"
-            name="Seam 2 Entity">
+            name="Seam Entity">
          <description>
-            Create a Seam 2 Entity
+            Create a Seam Entity
          </description>
          <selection
                class="org.eclipse.core.resources.IResource">
@@ -762,8 +762,8 @@
                  id="openComponent"
               mnemonic="Z"
      icon="$nl$/icons/open_seam_component.gif"
-              label="Open Seam 2 Component"
-              tooltip="Open Seam 2 Component" >
+              label="Open Seam Component"
+              tooltip="Open Seam Component" >
        </command> 
   </menuContribution>
   <menuContribution
@@ -775,8 +775,8 @@
                   id="openComponent"
                   mnemonic="Z"
       icon="$nl$/icons/open_seam_component.gif"
-                  label="Open Seam 2 Component"
-                  tooltip="Open Seam 2 Component" >
+                  label="Open Seam Component"
+                  tooltip="Open Seam Component" >
            </command> 
          </toolbar>
   </menuContribution>
@@ -798,16 +798,16 @@
                   id="findReferences"
                   mnemonic="G"
       icon="$nl$/icons/find_seam_references.gif"
-                  label="Find Seam 2 References"
-                  tooltip="Find Seam 2 References" >
+                  label="Find Seam References"
+                  tooltip="Find Seam References" >
            </command> 
            <command
                   commandId="org.jboss.tools.seam.ui.find.declarations"
                   id="findDeclarations"
                   mnemonic="G"
                   icon="$nl$/icons/open_seam_component.gif"
-                  label="Find Seam 2 Declarations"
-                  tooltip="Find Seam 2 Declarations" >
+                  label="Find Seam Declarations"
+                  tooltip="Find Seam Declarations" >
            </command> 
                   
     <separator name="fileSearchContextMenuActionsGroup"/> <!-- to be used by clients      -->

@@ -4,7 +4,7 @@
 		<PageTabHTML DESCRIPTION="" EDITOR_TYPE="" HIDDEN="no"
 			NAME="JBoss" NATURE_TYPE="" SCOPE="project" TABTYPE="HTML"
 			model-entity="SharablePageTabHTML">
-			<GroupHTML HIDDEN="no" ICON="" NAME="Seam 2" PREFIX="s"
+			<GroupHTML HIDDEN="no" ICON="" NAME="Seam" PREFIX="s"
 				SCOPE="project" URI="http://jboss.com/products/seam/taglib"
 				add_taglib="true" library-version="" model-entity="SharableGroupHTML">
 				<MacroHTML

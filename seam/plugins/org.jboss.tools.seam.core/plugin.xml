@@ -15,7 +15,7 @@
    </extension>
    <extension
          id="seamnature"
-         name="Seam 2 Project Nature"
+         name="Seam Project Nature"
          point="org.eclipse.core.resources.natures">
       <runtime>
          <run
@@ -39,10 +39,10 @@
       <project-facet
             id="jst.seam">
          <label>
-            Seam 2
+            Seam
          </label>
          <description>
-            Enables the project to work with JBoss Seam 2           
+            Enables the project to work with JBoss Seam           
          </description>
       </project-facet>
       <project-facet-version
