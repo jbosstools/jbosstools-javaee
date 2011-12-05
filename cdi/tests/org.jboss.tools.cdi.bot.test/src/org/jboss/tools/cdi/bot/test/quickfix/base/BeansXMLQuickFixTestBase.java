@@ -19,6 +19,11 @@ import org.jboss.tools.cdi.bot.test.uiutils.wizards.QuickFixDialogWizard;
 
 public class BeansXMLQuickFixTestBase extends QuickFixTestBase {
 
+	/**
+	 * Method firstly gets beans.xml validation problem. Then
+	 * it opens quick fix wizard, selects default value and
+	 * press finish button
+	 */
 	private void openBeanXMLValidationProblem() {
 		
 		SWTBotTreeItem validationProblem = getProblem(CDIAnnotationsType.INJECT,
@@ -31,10 +36,22 @@ public class BeansXMLQuickFixTestBase extends QuickFixTestBase {
 		qfWizard.finish();
 	}
 	
+	/**
+	 * Method checks if there is no beans.xml validation error
+	 * @return
+	 */
 	public boolean isBeanXMLValidationProblemsEmpty() {
 		return getProblem(CDIAnnotationsType.INJECT, CDIWizardType.BEANS_XML) == null;
 	}
 	
+	/**
+	 * Method resolves validation error where there is no such Alternative as 
+	 * configured in beans.xml. It opens quick fix and through finish button
+	 * the Bean Wizard dialog is opened where both parameters are used to create
+	 * the new alternative bean
+	 * @param name
+	 * @param pkg
+	 */
 	public void resolveAddNewAlternative(String name, String pkg) {
 		
 		openBeanXMLValidationProblem();
@@ -47,6 +64,14 @@ public class BeansXMLQuickFixTestBase extends QuickFixTestBase {
 		
 	}
 	
+	/**
+	 * Method resolves validation error where there is no such Stereotype as 
+	 * configured in beans.xml. It opens quick fix and through finish button
+	 * the Stereotype Wizard dialog is opened where both parameters are used to create
+	 * the new stereotype annotation
+	 * @param name
+	 * @param pkg
+	 */
 	public void resolveAddNewStereotype(String name, String pkg) {
 		
 		openBeanXMLValidationProblem();
@@ -59,6 +84,14 @@ public class BeansXMLQuickFixTestBase extends QuickFixTestBase {
 		
 	}
 	
+	/**
+	 * Method resolves validation error where there is no such decorator as 
+	 * configured in beans.xml. It opens quick fix and through finish button
+	 * the Decorator Wizard dialog is opened where both parameters are used to create
+	 * the new decorator. Interface "java.util.List" is automatically used. 
+	 * @param name
+	 * @param pkg
+	 */
 	public void resolveAddNewDecorator(String name, String pkg) {
 		
 		openBeanXMLValidationProblem();
@@ -72,6 +105,14 @@ public class BeansXMLQuickFixTestBase extends QuickFixTestBase {
 		
 	}
 	
+	/**
+	 * Method resolves validation error where there is no such Interceptor as 
+	 * configured in beans.xml. It opens quick fix and through finish button
+	 * the Interceptor Wizard dialog is opened where both parameters are used to create
+	 * the new Interceptor
+	 * @param name
+	 * @param pkg
+	 */
 	public void resolveAddNewInterceptor(String name, String pkg) {
 		
 		openBeanXMLValidationProblem();
@@ -84,7 +125,13 @@ public class BeansXMLQuickFixTestBase extends QuickFixTestBase {
 		
 	}
 	
-	public void resolveAddAlternativeToExistingComponent(String name, String pkg) {
+	/**
+	 * Method corrects Bean or Stereotype which has no @Alternative annotation in it 
+	 * by adding these parameter.
+	 * @param name
+	 * @param pkg
+	 */
+	public void resolveAddAlternativeToExistingComponent(String name) {
 		
 		openBeanXMLValidationProblem();
 		String content = bot.editorByTitle(name + ".java").toTextEditor().getText();

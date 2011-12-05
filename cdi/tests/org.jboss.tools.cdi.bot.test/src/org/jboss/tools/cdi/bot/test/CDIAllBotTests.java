@@ -52,7 +52,7 @@ import org.junit.runners.Suite.SuiteClasses;
  *  JAVA=1.6,/space/java/sdk/jdk1.6.0_22
  *  
  *  
- *  Suite duration: aprox. 27min
+ *  Suite duration: aprox. 28min
  * 
  * @author Lukas Jungmann
  * @author Jaroslav Jankovic
@@ -79,7 +79,7 @@ import org.junit.runners.Suite.SuiteClasses;
 	OpenOnTest.class,
 	FindObserverForEventTest.class, 
 	Seam3Test.class
-	})
+})
 public class CDIAllBotTests extends CDITestBase {
 		
 	/*

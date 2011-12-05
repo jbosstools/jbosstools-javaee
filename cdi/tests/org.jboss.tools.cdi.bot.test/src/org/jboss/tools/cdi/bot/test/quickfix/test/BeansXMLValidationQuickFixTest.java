@@ -72,7 +72,7 @@ public class BeansXMLValidationQuickFixTest extends BeansXMLQuickFixTestBase {
 		
 		beansHelper.createBeansXMLWithAlternative(getProjectName(), getPackageName(), bean);
 		
-		resolveAddAlternativeToExistingComponent(bean, getPackageName());
+		resolveAddAlternativeToExistingComponent(bean);
 		
 		assertTrue(isBeanXMLValidationProblemsEmpty());	
 		
@@ -87,7 +87,7 @@ public class BeansXMLValidationQuickFixTest extends BeansXMLQuickFixTestBase {
 		
 		beansHelper.createBeansXMLWithStereotype(getProjectName(), getPackageName(), stereotype);
 		
-		resolveAddAlternativeToExistingComponent(stereotype, getPackageName());
+		resolveAddAlternativeToExistingComponent(stereotype);
 		
 		assertTrue(isBeanXMLValidationProblemsEmpty());	
 		

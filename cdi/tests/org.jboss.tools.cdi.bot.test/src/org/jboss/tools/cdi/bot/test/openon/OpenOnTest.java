@@ -74,7 +74,6 @@ public class OpenOnTest extends OpenOnBase {
 		assertTrue(checkBeanXMLAlternativeOpenOn(getProjectName(), "A1"));
 		
 	}
-
 	
 	// https://issues.jboss.org/browse/JBIDE-6251	
 	@Test
