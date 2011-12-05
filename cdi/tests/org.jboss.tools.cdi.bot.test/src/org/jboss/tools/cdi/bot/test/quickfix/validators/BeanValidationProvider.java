@@ -27,6 +27,8 @@ public class BeanValidationProvider extends AbstractValidationProvider {
 				"must be passivation capable");
 		validationErrors.get("Warnings").add("Multiple beans are eligible for injection to " +
 				"the injection point");
+		validationErrors.get("Warnings").add("No bean is eligible for injection to " +
+				"the injection point");
 		validationErrors.get("Errors").add("Bean constructor cannot have a parameter annotated " +
 				"@Disposes");
 		validationErrors.get("Errors").add("Bean constructor cannot have a parameter annotated " +
@@ -83,6 +85,8 @@ public class BeanValidationProvider extends AbstractValidationProvider {
 			break;		
 		case INJECT:
 			warningIndex = 1;
+			warningsForAnnotationType.add(validationErrors.get("Warnings").get(warningIndex));
+			warningIndex = 2;
 			break;
 		}
 		warningsForAnnotationType.add(validationErrors.get("Warnings").get(warningIndex));
