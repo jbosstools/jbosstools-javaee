@@ -131,5 +131,19 @@ public class ProblemEligibleInjectionTest extends QuickFixTestBase {
 		code = bot.editorByTitle(dogClassName + ".java").toTextEditor().getText();
 		assertTrue(code.contains("@" + qualifierClassName));
 	}
+	
+	@Test
+	public void testNoBeanEligibleAddingExistingQualifier() {
+		
+		
+		
+	}
+	
+	@Test
+	public void testNoBeanEligibleAddingNonExistingQualifier() {
+		
+		
+		
+	}
 
 }
