@@ -68,6 +68,19 @@ public class AddJSFNatureActionDelegate extends AddNatureActionDelegate {
 	
 	public void run(IAction action) {
 		ConvertProjectToFacetedFormRunnable.runInProgressDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(), project);
+		addJSFNature(project, showDialog);
+	}
+
+	/**
+	 * Convenience method that adds JBoss Tools JSF nature to the project.
+	 * These are the limitations for the use of the method.
+	 * 1) It should be run from UI thread.
+	 * 2) It should be run on a faceted project.
+	 * 
+	 * @param project
+	 * @param showDialog
+	 */
+	public static void addJSFNature(IProject project, boolean showDialog) {
 		try {
 			IFacetedProject fp = ProjectFacetsManager.create(project);
 			IFacetedProjectWorkingCopy wc = SharedWorkingCopyManager.getWorkingCopy(fp);
@@ -77,9 +90,9 @@ public class AddJSFNatureActionDelegate extends AddNatureActionDelegate {
 			IProjectFacetVersion jsf = null;
 			for (IProjectFacetVersion v: vs) {
 				String id = v.getProjectFacet().getId();
-				if("jst.web".equals(id)) {
+				if("jst.web".equals(id)) { //$NON-NLS-1$
 					web = v;
-				} else if("jst.jsf".equals(id)) {
+				} else if("jst.jsf".equals(id)) { //$NON-NLS-1$
 					jsf = v;
 				}
 			}
@@ -92,19 +105,19 @@ public class AddJSFNatureActionDelegate extends AddNatureActionDelegate {
 			}
 
 			if(web == null) {
-				web = ProjectFacetsManager.getProjectFacet("jst.web").getLatestVersion();
+				web = ProjectFacetsManager.getProjectFacet("jst.web").getLatestVersion(); //$NON-NLS-1$
 				wc.addProjectFacet(web);
 			}
 			String webVersion = web.getVersionString();
-			if("2.2".equals(webVersion)) {
-				web = ProjectFacetsManager.getProjectFacet("jst.web").getVersion("2.3");
+			if("2.2".equals(webVersion)) { //$NON-NLS-1$
+				web = ProjectFacetsManager.getProjectFacet("jst.web").getVersion("2.3"); //$NON-NLS-1$ //$NON-NLS-2$
 				wc.changeProjectFacetVersion(web);
 				webVersion = web.getVersionString();
 			}
 			if(jsf == null) {
-				jsf = ProjectFacetsManager.getProjectFacet("jst.jsf").getLatestVersion();
-				if("2.3".equals(webVersion) || "2.4".equals(webVersion)) {
-					jsf = ProjectFacetsManager.getProjectFacet("jst.jsf").getVersion("1.1");
+				jsf = ProjectFacetsManager.getProjectFacet("jst.jsf").getLatestVersion(); //$NON-NLS-1$
+				if("2.3".equals(webVersion) || "2.4".equals(webVersion)) { //$NON-NLS-1$ //$NON-NLS-2$
+					jsf = ProjectFacetsManager.getProjectFacet("jst.jsf").getVersion("1.1"); //$NON-NLS-1$ //$NON-NLS-2$
 				}
 				wc.addProjectFacet(jsf);
 			}
