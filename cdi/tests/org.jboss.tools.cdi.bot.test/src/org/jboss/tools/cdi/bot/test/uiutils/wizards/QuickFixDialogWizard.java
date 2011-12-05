@@ -11,43 +11,46 @@
 
 package org.jboss.tools.cdi.bot.test.uiutils.wizards;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.swtbot.swt.finder.SWTBot;
-import org.eclipse.swtbot.swt.finder.widgets.SWTBotTable;
-import org.eclipse.swtbot.swt.finder.widgets.SWTBotTableItem;
 
 public class QuickFixDialogWizard extends Wizard {
 
 	private static final String QUICK_FIX_TITLE = "Quick Fix";
+	private List<String> availableFixes = null;
+	private List<String> resources = null;
 	
 	public QuickFixDialogWizard() {		 
 		super(new SWTBot().activeShell().widget);
-		assert (QUICK_FIX_TITLE).equals(getText());		
+		assert (QUICK_FIX_TITLE).equals(getText());	
+		availableFixes = new ArrayList<String>();
+		resources = new ArrayList<String>();
 	}
 	
-	public QuickFixDialogWizard setFix(SWTBotTableItem fix) {
-		fix.select();
+	public QuickFixDialogWizard setFix(String fix) {
+		bot().table(0).select(fix);
 		return this;
 	}
 	
-	public SWTBotTableItem[] getFixes() {
-		SWTBotTable fixTable = bot().table(0);
-		SWTBotTableItem[] fixes = new SWTBotTableItem[fixTable.rowCount()];
-		for (int i = 0; i < fixTable.rowCount(); i++) {
-			fixes[i] = fixTable.getTableItem(i);
+	public List<String> getAvailableFixes() {
+		int tableItemsCount = bot().table(0).rowCount();
+		for (int i = 0; i < tableItemsCount; i++) {
+			availableFixes.add(bot().table(0).getTableItem(i).getText());
 		}
-		return fixes;
+		return availableFixes;
 	}
 
-	public QuickFixDialogWizard setResource(SWTBotTableItem resource) {
-		resource.check();
+	public QuickFixDialogWizard setResource(String resource) {
+		bot().table(1).select(resource);
 		return this;
 	}
 	
-	public SWTBotTableItem[] getResources() {
-		SWTBotTable resourceTable = bot().table(1);
-		SWTBotTableItem[] resources = new SWTBotTableItem[resourceTable.rowCount()];
-		for (int i = 0; i < resourceTable.rowCount(); i++) {
-			resources[i] = resourceTable.getTableItem(i);
+	public List<String> getResources() {
+		int tableItemsCount = bot().table(1).rowCount();
+		for (int i = 0; i < tableItemsCount; i++) {
+			resources.add(bot().table(1).getTableItem(i).getText());
 		}
 		return resources;
 	}
