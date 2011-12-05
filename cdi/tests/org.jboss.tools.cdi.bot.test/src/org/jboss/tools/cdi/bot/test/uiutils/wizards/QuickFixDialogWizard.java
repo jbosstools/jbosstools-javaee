@@ -43,7 +43,7 @@ public class QuickFixDialogWizard extends Wizard {
 	}
 
 	public QuickFixDialogWizard setResource(String resource) {
-		bot().table(1).select(resource);
+		bot().table(1).getTableItem(resource).check();
 		return this;
 	}
 	

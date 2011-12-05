@@ -9,16 +9,16 @@
  * Red Hat, Inc. - initial API and implementation
  ******************************************************************************/
 
-package org.jboss.tools.cdi.bot.test.quickfix;
+package org.jboss.tools.cdi.bot.test.quickfix.base;
 
 
 import java.util.ArrayList;
 
-import org.eclipse.swtbot.swt.finder.widgets.SWTBotTableItem;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTreeItem;
 import org.jboss.tools.cdi.bot.test.annotations.CDIAnnotationsType;
 import org.jboss.tools.cdi.bot.test.annotations.CDIWizardType;
 import org.jboss.tools.cdi.bot.test.annotations.ProblemsType;
+import org.jboss.tools.cdi.bot.test.quickfix.injection.QualifierOperation;
 import org.jboss.tools.cdi.bot.test.quickfix.validators.BeanValidationProvider;
 import org.jboss.tools.cdi.bot.test.quickfix.validators.DecoratorValidationProvider;
 import org.jboss.tools.cdi.bot.test.quickfix.validators.InterceptorBindingValidationProvider;
@@ -28,6 +28,7 @@ import org.jboss.tools.cdi.bot.test.quickfix.validators.ScopeValidationProvider;
 import org.jboss.tools.cdi.bot.test.quickfix.validators.StereotypeValidationProvider;
 import org.jboss.tools.cdi.bot.test.uiutils.QuickFixHelper;
 import org.jboss.tools.cdi.bot.test.uiutils.wizards.QuickFixDialogWizard;
+import org.jboss.tools.cdi.bot.test.uiutils.wizards.SpecifyBeanDialogWizard;
 import org.jboss.tools.ui.bot.ext.Timing;
 import org.junit.BeforeClass;
 
@@ -123,7 +124,6 @@ public class QuickFixTestBase extends QuickFixHelper {
 	 * Method resolves particular validation problem (parameter ti).
 	 * It simply open context menu for param "ti", open menu "Quick Fix" and
 	 * chooses first option and confirms it (resolve it)
-	 * 
 	 * @param ti
 	 */
 	private void resolveQuickFix(SWTBotTreeItem ti) {
@@ -131,8 +131,8 @@ public class QuickFixTestBase extends QuickFixHelper {
 		
 		QuickFixDialogWizard qfWizard = new QuickFixDialogWizard();
 		
-		SWTBotTableItem firstFix = qfWizard.getFixes()[0];				
-		SWTBotTableItem firstResource = qfWizard.getResources()[0];
+		String firstFix = qfWizard.getAvailableFixes().get(0);				
+		String firstResource = qfWizard.getResources().get(0);
 		
 		qfWizard.setFix(firstFix).setResource(firstResource).finish();
 		
@@ -140,44 +140,53 @@ public class QuickFixTestBase extends QuickFixHelper {
 	}
 
 	/**
-	 * Method resolves one validation problem in one test case in
-	 * BeanValidationQuickFixTest - it is too specific method, not usable
-	 * in general, only in this case	
+	 * Method resolves multiple bean injection problem. By setting class which
+	 * should be more qualified and qualifier name it resolves this problem.
+	 * If qualifier doesn't exist, by using qualifier wizard it creates the new
+	 * one and uses it to resolve problem
+	 * @param classToQualify
+	 * @param qualifier
 	 */
-	public void resolveMultipleBeans() {
+	public void resolveMultipleBeans(String classToQualify, String qualifier, 
+			QualifierOperation operation) {
 		
 		SWTBotTreeItem validationProblem = getProblem(CDIAnnotationsType.INJECT,
 				CDIWizardType.BEAN);		
 
 		openQuickFix(validationProblem);
-		int indexOfAnimalBean = 0;
-		if (!bot.table(0).cell(0, 0).contains("Animal")) {
-			indexOfAnimalBean++;
+		QuickFixDialogWizard quickFixWizard = new QuickFixDialogWizard();
+		for (String availableFix : quickFixWizard.getAvailableFixes()) {
+			if (availableFix.contains(classToQualify)) {
+				quickFixWizard.setFix(availableFix).
+				setResource(quickFixWizard.getResources().get(0)).
+				finish();
+			}
+		}
+	
+		SpecifyBeanDialogWizard spBeanDialogWizard = new SpecifyBeanDialogWizard();
+		if (operation == QualifierOperation.ADD) {
+			for (String availQualifer : spBeanDialogWizard.getAvailableQualifiers()) {
+				if (availQualifer.equals(qualifier + " - " + getPackageName())) {
+					spBeanDialogWizard.addQualifier(availQualifer);
+				}
+			}
+			// there was no such qualifer, it has to be created
+			if (!spBeanDialogWizard.canFinish()) {
+				spBeanDialogWizard.createNewQualifier(qualifier, getPackageName()).
+				setName(qualifier).finish();
+			}
+		} else {
+			for (String inBeanQualifer : spBeanDialogWizard.getInBeanQualifiers()) {
+				if (inBeanQualifer.equals(qualifier + " - " + getPackageName())) {
+					spBeanDialogWizard.removeQualifier(inBeanQualifer);
+				}
+			}
 		}
 		
-		bot.table(0).click(indexOfAnimalBean, 0);
-		bot.table(1).getTableItem(0).check();
-		bot.activeShell().bot().button("Finish").click();
-		bot.sleep(Timing.time1S());
-		util.waitForNonIgnoredJobs();		
+		spBeanDialogWizard.finish();
 		
-		bot.table(0).click(bot.table(0).indexOf("Q1 - " + getPackageName()), 0);		
-		bot.clickButton("Add >");		
-		bot.clickButton("Finish");
 		bot.sleep(Timing.time1S());
 		util.waitForNonIgnoredJobs();
 	}
-	
-	/**
-	 * Method checks if specific validation problem was resolved by 
-	 * quick fix - not usable in general, only in this case
-	 */
-	public void checkMultipleBean() {
-		String code = getEd().toTextEditor().getText();
-		assertTrue(code.contains("@Inject @Q1 private Animal animal;"));
-		code = bot.editorByTitle("Animal.java").toTextEditor().getText();
-		assertTrue(code.contains("@Q1"));
-	}
-	
 	
 }

@@ -16,13 +16,14 @@ import org.jboss.tools.cdi.bot.test.editor.BeansEditorTest;
 import org.jboss.tools.cdi.bot.test.jsf.NamedRefactoringTest;
 import org.jboss.tools.cdi.bot.test.openon.FindObserverForEventTest;
 import org.jboss.tools.cdi.bot.test.openon.OpenOnTest;
-import org.jboss.tools.cdi.bot.test.quickfix.BeanValidationQuickFixTest;
-import org.jboss.tools.cdi.bot.test.quickfix.DecoratorValidationQuickFixTest;
-import org.jboss.tools.cdi.bot.test.quickfix.IBindingValidationQuickFixTest;
-import org.jboss.tools.cdi.bot.test.quickfix.InterceptorValidationQuickFixTest;
-import org.jboss.tools.cdi.bot.test.quickfix.QualifierValidationQuickFixTest;
-import org.jboss.tools.cdi.bot.test.quickfix.ScopeValidationQuickFixTest;
-import org.jboss.tools.cdi.bot.test.quickfix.StereotypeValidationQuickFixTest;
+import org.jboss.tools.cdi.bot.test.quickfix.injection.ProblemEligibleInjectionTest;
+import org.jboss.tools.cdi.bot.test.quickfix.test.BeanValidationQuickFixTest;
+import org.jboss.tools.cdi.bot.test.quickfix.test.DecoratorValidationQuickFixTest;
+import org.jboss.tools.cdi.bot.test.quickfix.test.IBindingValidationQuickFixTest;
+import org.jboss.tools.cdi.bot.test.quickfix.test.InterceptorValidationQuickFixTest;
+import org.jboss.tools.cdi.bot.test.quickfix.test.QualifierValidationQuickFixTest;
+import org.jboss.tools.cdi.bot.test.quickfix.test.ScopeValidationQuickFixTest;
+import org.jboss.tools.cdi.bot.test.quickfix.test.StereotypeValidationQuickFixTest;
 import org.jboss.tools.cdi.bot.test.seam3.Seam3Test;
 import org.jboss.tools.cdi.bot.test.uiutils.SWTEclipseCDIExtUtil;
 import org.jboss.tools.cdi.bot.test.wizard.ConfigurationPresetTest;
@@ -65,6 +66,7 @@ import org.junit.runners.Suite.SuiteClasses;
 	NamedRefactoringTest.class, 
 	BeansXMLValidationTest.class,
 	BeansXMLCompletionTest.class,
+	ProblemEligibleInjectionTest.class, 
 	StereotypeValidationQuickFixTest.class,
 	QualifierValidationQuickFixTest.class,
 	ScopeValidationQuickFixTest.class,

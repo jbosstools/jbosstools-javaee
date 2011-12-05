@@ -20,10 +20,10 @@ import org.jboss.tools.ui.bot.ext.Timing;
 
 public class Wizard extends SWTBotShell {
 
-	private static final String NEXT = "Next >";
-	private static final String BACK = "< Back";
-	private static final String CANCEL = "Cancel";
-	private static final String FINISH = "Finish";
+	protected static final String NEXT = "Next >";
+	protected static final String BACK = "< Back";
+	protected static final String CANCEL = "Cancel";
+	protected static final String FINISH = "Finish";
 	
 	public Wizard(Shell shell) {
 		super(shell);

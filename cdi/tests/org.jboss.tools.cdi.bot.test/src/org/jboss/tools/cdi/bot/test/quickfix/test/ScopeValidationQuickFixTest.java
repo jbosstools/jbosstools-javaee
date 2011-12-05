@@ -9,12 +9,13 @@
  * Red Hat, Inc. - initial API and implementation
  ******************************************************************************/
 
-package org.jboss.tools.cdi.bot.test.quickfix;
+package org.jboss.tools.cdi.bot.test.quickfix.test;
 
 
 import org.jboss.tools.cdi.bot.test.CDIAllBotTests;
 import org.jboss.tools.cdi.bot.test.annotations.CDIAnnotationsType;
 import org.jboss.tools.cdi.bot.test.annotations.CDIWizardType;
+import org.jboss.tools.cdi.bot.test.quickfix.base.QuickFixTestBase;
 import org.jboss.tools.ui.bot.ext.RequirementAwareSuite;
 import org.jboss.tools.ui.bot.ext.config.Annotations.Require;
 import org.jboss.tools.ui.bot.ext.config.Annotations.Server;
@@ -24,7 +25,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite.SuiteClasses;
 
 /**
- * Test operates on quick fixes used for validation errors of CDI Qualifier component
+ * Test operates on quick fixes used for validation errors of CDI Scope component
  * 
  * @author Jaroslav Jankovic
  */
@@ -34,66 +35,47 @@ import org.junit.runners.Suite.SuiteClasses;
 		version = "6.0", operator = ">="))
 @RunWith(RequirementAwareSuite.class)
 @SuiteClasses({ CDIAllBotTests.class })
-public class QualifierValidationQuickFixTest extends QuickFixTestBase {
+public class ScopeValidationQuickFixTest extends QuickFixTestBase {
 	
 	@Override
 	public String getProjectName() {
-		return "CDIQuickFixQualifierTest";
+		return "CDIQuickFixScopeTest";
 	}
 	
-	// https://issues.jboss.org/browse/JBIDE-7630
+	// https://issues.jboss.org/browse/JBIDE-7633
 	@Test
 	public void testTargetAnnotation() {
 		
-		String className = "Qualifier1";
+		String className = "Scope1";
 		
-		wizard.createCDIComponent(CDIWizardType.QUALIFIER, className, getPackageName(), null);
+		wizard.createCDIComponent(CDIWizardType.SCOPE, className, getPackageName(), null);
 		
-		editResourceUtil.replaceInEditor("@Target({ TYPE, METHOD, PARAMETER, FIELD })", 
+		editResourceUtil.replaceInEditor("@Target({ TYPE, METHOD, FIELD })", 
 				"@Target({ TYPE, FIELD })");
 		
-		checkQuickFix(CDIAnnotationsType.TARGET, CDIWizardType.QUALIFIER);
+		checkQuickFix(CDIAnnotationsType.TARGET, CDIWizardType.SCOPE);
 		
-		editResourceUtil.replaceInEditor("@Target({TYPE, METHOD, FIELD, PARAMETER})", "");
+		editResourceUtil.replaceInEditor("@Target({TYPE, METHOD, FIELD})", "");
 		
-		checkQuickFix(CDIAnnotationsType.TARGET, CDIWizardType.QUALIFIER);
+		checkQuickFix(CDIAnnotationsType.TARGET, CDIWizardType.SCOPE);
 	}
 	
 	// https://issues.jboss.org/browse/JBIDE-7631
 	@Test
 	public void testRetentionAnnotation() {
 		
-		String className = "Qualifier2";
+		String className = "Scope2";
 
-		wizard.createCDIComponent(CDIWizardType.QUALIFIER, className, getPackageName(), null);
+		wizard.createCDIComponent(CDIWizardType.SCOPE, className, getPackageName(), null);
 				
 		editResourceUtil.replaceInEditor("@Retention(RUNTIME)", "@Retention(CLASS)");
 		
-		checkQuickFix(CDIAnnotationsType.RETENTION, CDIWizardType.QUALIFIER);
+		checkQuickFix(CDIAnnotationsType.RETENTION, CDIWizardType.SCOPE);
 		
 		editResourceUtil.replaceInEditor("@Retention(RUNTIME)", "");
 		
-		checkQuickFix(CDIAnnotationsType.RETENTION, CDIWizardType.QUALIFIER);
+		checkQuickFix(CDIAnnotationsType.RETENTION, CDIWizardType.SCOPE);
 		
 	}
 	
-	// https://issues.jboss.org/browse/JBIDE-7641
-	@Test
-	public void testNonbindingAnnotation() {
-	
-		String className = "Qualifier3";
-		
-		wizard.createAnnotation("AAnnotation", getPackageName());
-		wizard.createCDIComponentWithContent(CDIWizardType.QUALIFIER, className, 
-				getPackageName(), null, "/resources/quickfix/" +
-						"qualifier/QualifierWithAnnotation.java.cdi");
-	
-		editResourceUtil.replaceInEditor("QualifierComponent", className);
-	
-		checkQuickFix(CDIAnnotationsType.NONBINDING, CDIWizardType.QUALIFIER);
-				
-		editResourceUtil.replaceInEditor("@Nonbinding AAnnotation", "String[]");
-		
-		checkQuickFix(CDIAnnotationsType.NONBINDING, CDIWizardType.QUALIFIER);
-	}
 }

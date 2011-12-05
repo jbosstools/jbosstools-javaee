@@ -9,12 +9,13 @@
  * Red Hat, Inc. - initial API and implementation
  ******************************************************************************/
 
-package org.jboss.tools.cdi.bot.test.quickfix;
+package org.jboss.tools.cdi.bot.test.quickfix.test;
 
 
 import org.jboss.tools.cdi.bot.test.CDIAllBotTests;
 import org.jboss.tools.cdi.bot.test.annotations.CDIAnnotationsType;
 import org.jboss.tools.cdi.bot.test.annotations.CDIWizardType;
+import org.jboss.tools.cdi.bot.test.quickfix.base.QuickFixTestBase;
 import org.jboss.tools.ui.bot.ext.RequirementAwareSuite;
 import org.jboss.tools.ui.bot.ext.config.Annotations.Require;
 import org.jboss.tools.ui.bot.ext.config.Annotations.Server;
@@ -48,47 +49,14 @@ public class BeanValidationQuickFixTest extends QuickFixTestBase {
 		
 		String className = "ManagedBean";
 		
-		wizard.createCDIComponent(CDIWizardType.BEAN, className, getPackageName(), null);
-		editResourceUtil.replaceClassContentByResource( BeanValidationQuickFixTest.class
-				.getResourceAsStream("/resources/quickfix/SerializableBean.java.cdi"), false);
+		wizard.createCDIComponentWithContent(CDIWizardType.BEAN, className, 
+				getPackageName(), null, "/resources/quickfix/bean/SerializableBean.java.cdi");
 		editResourceUtil.replaceInEditor("BeanComponent", className);		
 		
 		checkQuickFix(CDIAnnotationsType.SERIALIZABLE, CDIWizardType.BEAN);
 		
 	}
 	
-	// https://issues.jboss.org/browse/JBIDE-7635
-	@Test	
-	public void testMultipleBeansQF() {
-		String animalClassName = "Animal";
-		String dogClassName = "Dog";
-		String brokenFarmClassName = "BrokenFarm";
-		
-		
-		wizard.createCDIComponent(CDIWizardType.BEAN, brokenFarmClassName, getPackageName(), null);
-		
-		wizard.createCDIComponent(CDIWizardType.QUALIFIER, "Q1", getPackageName(), null);
-		
-		wizard.createCDIComponent(CDIWizardType.BEAN, animalClassName, getPackageName(), null);
-		
-		wizard.createCDIComponent(CDIWizardType.BEAN, dogClassName, getPackageName(), null);
-		editResourceUtil.replaceClassContentByResource(BeanValidationQuickFixTest.class
-				.getResourceAsStream("/resources/quickfix/Dog.java.cdi"), false);
-		
-		bot.editorByTitle(brokenFarmClassName + ".java").show();
-		setEd(bot.activeEditor().toTextEditor());
-		editResourceUtil.replaceClassContentByResource(BeanValidationQuickFixTest.class
-				.getResourceAsStream("/resources/quickfix/BrokenFarm.java.cdi"),
-				false);
-		
-		bot.sleep(TIME_1S);
-		util.waitForNonIgnoredJobs();
-		
-		resolveMultipleBeans();
-		
-		checkMultipleBean();
-	}
-
 	
 	// https://issues.jboss.org/browse/JBIDE-7664
 	@Test

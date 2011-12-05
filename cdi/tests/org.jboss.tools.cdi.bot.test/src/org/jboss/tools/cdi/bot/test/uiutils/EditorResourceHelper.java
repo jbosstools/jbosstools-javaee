@@ -135,10 +135,13 @@ public class EditorResourceHelper extends CDIBase {
 	 * @param packageName
 	 */
 	public void deletePackage(String projectName, String packageName) {
-		
-		String[] path = {projectName, "Java Resources", "JavaSource"};
-		deleteFolderInProjectExplorer(packageName, path);
-		
+		if (projectExplorer.isFilePresent(projectName, "Java Resources", "JavaSource")) {	
+			String[] path = {projectName, "Java Resources", "JavaSource", "src"};
+			deleteFolderInProjectExplorer(packageName, path);
+		}else {
+			String[] path = {projectName, "Java Resources", "src"};
+			deleteFolderInProjectExplorer(packageName, path);
+		}		
 	}
 	
 	/**
