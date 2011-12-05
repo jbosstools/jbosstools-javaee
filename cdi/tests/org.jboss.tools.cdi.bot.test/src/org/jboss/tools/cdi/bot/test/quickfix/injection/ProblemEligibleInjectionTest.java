@@ -30,6 +30,11 @@ import org.junit.runners.Suite.SuiteClasses;
 @SuiteClasses({ CDIAllBotTests.class })
 public class ProblemEligibleInjectionTest extends QuickFixTestBase {
 	
+	private final String ANIMAL = "Animal";
+	private final String DOG = "Dog";
+	private final String BROKEN_FARM = "BrokenFarm";
+	private final String QUALIFIER = "Q1";
+	
 	@Override
 	public String getProjectName() {
 		return "CDIMultipleInjections";
@@ -43,106 +48,133 @@ public class ProblemEligibleInjectionTest extends QuickFixTestBase {
 	
 	@Test
 	public void testMultipleBeansAddingExistingQualifier() {
-		String animalClassName = "Animal";
-		String dogClassName = "Dog";
-		String brokenFarmClassName = "BrokenFarm";
-		String qualifierClassName = "Q1";
-
-		wizard.createCDIComponent(CDIWizardType.QUALIFIER, qualifierClassName,
+		
+		wizard.createCDIComponent(CDIWizardType.QUALIFIER, QUALIFIER,
 				getPackageName(), null);
 		
-		wizard.createCDIComponent(CDIWizardType.BEAN, animalClassName,
+		wizard.createCDIComponent(CDIWizardType.BEAN, ANIMAL,
 				getPackageName(), null);
 		
-		wizard.createCDIComponentWithContent(CDIWizardType.BEAN, dogClassName,
+		wizard.createCDIComponentWithContent(CDIWizardType.BEAN, DOG,
 				getPackageName(), null, "/resources/quickfix/" +
 						"injection/addQualifier/Dog.java.cdi");
 
 		
-		wizard.createCDIComponentWithContent(CDIWizardType.BEAN, brokenFarmClassName,
+		wizard.createCDIComponentWithContent(CDIWizardType.BEAN, BROKEN_FARM,
 				getPackageName(), null,  "/resources/quickfix/" +
 						"injection/addQualifier/BrokenFarm.java.cdi");
 
-		resolveMultipleBeans(dogClassName, qualifierClassName, QualifierOperation.ADD);
+		resolveMultipleBeans(DOG, QUALIFIER, QualifierOperation.ADD);
 
-		String code = bot.editorByTitle(brokenFarmClassName + ".java").
+		String code = bot.editorByTitle(BROKEN_FARM + ".java").
 				toTextEditor().getText();
-		assertTrue(code.contains("@Inject @" + qualifierClassName));
-		code = bot.editorByTitle(dogClassName + ".java").toTextEditor().getText();
-		assertTrue(code.contains("@" + qualifierClassName));
+		assertTrue(code.contains("@Inject @" + QUALIFIER));
+		code = bot.editorByTitle(DOG + ".java").toTextEditor().getText();
+		assertTrue(code.contains("@" + QUALIFIER));
 	}
 	
 	@Test
 	public void testMultipleBeansRemovingExistingQualifier() {
-		String animalClassName = "Animal";
-		String dogClassName = "Dog";
-		String brokenFarmClassName = "BrokenFarm";
-		String qualifierClassName = "Q1";
 
-		wizard.createCDIComponent(CDIWizardType.QUALIFIER, qualifierClassName,
+		wizard.createCDIComponent(CDIWizardType.QUALIFIER, QUALIFIER,
 				getPackageName(), null);
 		
-		wizard.createCDIComponentWithContent(CDIWizardType.BEAN, animalClassName,
+		wizard.createCDIComponentWithContent(CDIWizardType.BEAN, ANIMAL,
 				getPackageName(), null,  "/resources/quickfix/" +
 						"injection/removeQualifier/Animal.java.cdi");
 		
-		wizard.createCDIComponentWithContent(CDIWizardType.BEAN, dogClassName,
+		wizard.createCDIComponentWithContent(CDIWizardType.BEAN, DOG,
 				getPackageName(), null, "/resources/quickfix/" +
 						"injection/removeQualifier/Dog.java.cdi");
 
 		
-		wizard.createCDIComponentWithContent(CDIWizardType.BEAN, brokenFarmClassName,
+		wizard.createCDIComponentWithContent(CDIWizardType.BEAN, BROKEN_FARM,
 				getPackageName(), null,  "/resources/quickfix/" +
 						"injection/removeQualifier/BrokenFarm.java.cdi");
 
-		resolveMultipleBeans(dogClassName, qualifierClassName, QualifierOperation.REMOVE);
+		resolveMultipleBeans(DOG, QUALIFIER, QualifierOperation.REMOVE);
 		
-		String code = bot.editorByTitle(brokenFarmClassName + ".java").
+		String code = bot.editorByTitle(BROKEN_FARM + ".java").
 				toTextEditor().getText();
 		assertTrue(code.contains("@Inject private"));
-		code = bot.editorByTitle(dogClassName + ".java").toTextEditor().getText();
-		assertTrue(!code.contains("@" + qualifierClassName));
+		code = bot.editorByTitle(DOG + ".java").toTextEditor().getText();
+		assertTrue(!code.contains("@" + QUALIFIER));
 	}
 	
 	@Test
 	public void testMultipleBeansAddingNonExistingQualifier() {
-		String animalClassName = "Animal";
-		String dogClassName = "Dog";
-		String brokenFarmClassName = "BrokenFarm";
-		String qualifierClassName = "Q1";
 
-		wizard.createCDIComponent(CDIWizardType.BEAN, animalClassName,
+		wizard.createCDIComponent(CDIWizardType.BEAN, ANIMAL,
 				getPackageName(), null);
 		
-		wizard.createCDIComponentWithContent(CDIWizardType.BEAN, dogClassName,
+		wizard.createCDIComponentWithContent(CDIWizardType.BEAN, DOG,
 				getPackageName(), null, "/resources/quickfix/" +
 						"injection/addQualifier/Dog.java.cdi");
 
 		
-		wizard.createCDIComponentWithContent(CDIWizardType.BEAN, brokenFarmClassName,
+		wizard.createCDIComponentWithContent(CDIWizardType.BEAN, BROKEN_FARM,
 				getPackageName(), null,  "/resources/quickfix/" +
 						"injection/addQualifier/BrokenFarm.java.cdi");
 		
-		resolveMultipleBeans(dogClassName, qualifierClassName, QualifierOperation.ADD);
+		resolveMultipleBeans(DOG, QUALIFIER, QualifierOperation.ADD);
 
-		String code = bot.editorByTitle(brokenFarmClassName + ".java").
+		String code = bot.editorByTitle(BROKEN_FARM + ".java").
 				toTextEditor().getText();
-		assertTrue(code.contains("@Inject @" + qualifierClassName));
-		code = bot.editorByTitle(dogClassName + ".java").toTextEditor().getText();
-		assertTrue(code.contains("@" + qualifierClassName));
+		assertTrue(code.contains("@Inject @" + QUALIFIER));
+		code = bot.editorByTitle(DOG + ".java").toTextEditor().getText();
+		assertTrue(code.contains("@" + QUALIFIER));
 	}
 	
 	@Test
 	public void testNoBeanEligibleAddingExistingQualifier() {
+
+		wizard.createCDIComponent(CDIWizardType.QUALIFIER, QUALIFIER,
+				getPackageName(), null);
 		
+		wizard.createCDIComponent(CDIWizardType.BEAN, ANIMAL,
+				getPackageName(), null);
 		
+		wizard.createCDIComponentWithContent(CDIWizardType.BEAN, DOG,
+				getPackageName(), null, "/resources/quickfix/" +
+						"injection/addQualifier/Dog.java.cdi");
+
+		
+		wizard.createCDIComponentWithContent(CDIWizardType.BEAN, BROKEN_FARM,
+				getPackageName(), null,  "/resources/quickfix/" +
+						"injection/addQualifier/BrokenFarmWithQualifier.java.cdi");
+
+		resolveMultipleBeans(DOG, QUALIFIER, QualifierOperation.ADD);
+
+		String code = bot.editorByTitle(BROKEN_FARM + ".java").
+				toTextEditor().getText();
+		assertTrue(code.contains("@Inject @" + QUALIFIER));
+		code = bot.editorByTitle(DOG + ".java").toTextEditor().getText();
+		assertTrue(code.contains("@" + QUALIFIER));
 		
 	}
 	
 	@Test
 	public void testNoBeanEligibleAddingNonExistingQualifier() {
 		
+		wizard.createCDIComponent(CDIWizardType.BEAN, ANIMAL,
+				getPackageName(), null);
 		
+		wizard.createCDIComponentWithContent(CDIWizardType.BEAN, DOG,
+				getPackageName(), null, "/resources/quickfix/" +
+						"injection/addQualifier/Dog.java.cdi");
+
+		
+		wizard.createCDIComponentWithContent(CDIWizardType.BEAN, BROKEN_FARM,
+				getPackageName(), null,  "/resources/quickfix/" +
+						"injection/addQualifier/BrokenFarmWithQualifier.java.cdi");
+
+		resolveMultipleBeans(DOG, QUALIFIER, QualifierOperation.ADD);
+
+		String code = bot.editorByTitle(BROKEN_FARM + ".java").
+				toTextEditor().getText();
+		assertTrue(code.contains("@Inject @" + QUALIFIER));
+		code = bot.editorByTitle(DOG + ".java").toTextEditor().getText();
+		assertTrue(code.contains("@" + QUALIFIER));
 		
 	}
 
