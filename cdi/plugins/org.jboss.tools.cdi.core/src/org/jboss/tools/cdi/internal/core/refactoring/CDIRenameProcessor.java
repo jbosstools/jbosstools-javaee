@@ -89,6 +89,12 @@ public abstract class CDIRenameProcessor extends RenameProcessor {
 			}
 		}
 		lastChange = new CDIFileChange(file.getName(), file);
+		
+		if(CDIFileChange.getEditor(file) != null)
+			lastChange.setSaveMode(TextFileChange.LEAVE_DIRTY);
+		else
+			lastChange.setSaveMode(TextFileChange.FORCE_SAVE);
+		
 		MultiTextEdit root = new MultiTextEdit();
 		lastChange.setEdit(root);
 		rootChange.add(lastChange);
