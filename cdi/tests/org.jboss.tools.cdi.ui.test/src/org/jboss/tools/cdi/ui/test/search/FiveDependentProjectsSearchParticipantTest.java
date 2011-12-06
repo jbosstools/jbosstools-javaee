@@ -35,6 +35,9 @@ import org.jboss.tools.cdi.ui.search.CDIBeanQueryParticipant;
 import org.jboss.tools.cdi.ui.search.CDIMatch;
 import org.jboss.tools.cdi.ui.search.InjectionPointQueryParticipant;
 import org.jboss.tools.common.EclipseUtil;
+import org.jboss.tools.jst.web.kb.refactoring.ELReferencesQueryParticipant;
+import org.jboss.tools.jst.web.kb.test.QueryParticipantTestUtils;
+import org.jboss.tools.jst.web.kb.test.QueryParticipantTestUtils.MatchStructure;
 
 public class FiveDependentProjectsSearchParticipantTest extends TestCase {
 	IProject project1 = null;
@@ -56,7 +59,7 @@ public class FiveDependentProjectsSearchParticipantTest extends TestCase {
 	private static final int TYPE_SEARCH = 3;
 	private static final int PARAMETER_SEARCH = 4;
 	
-	private void testSearchParticipant(IProject project, String fileName, int searchType, String elementName, String parameterName, IQueryParticipant participant, List<MatchStructure> matches){
+	private void testSearchParticipant(IProject project, String fileName, int searchType, String elementName, String parameterName, IQueryParticipant participant, List<MStructure> matches){
 		IFile file = project.getFile(fileName);
 		assertNotNull("File - "+fileName+" not found", file);
 		try{
@@ -105,25 +108,25 @@ public class FiveDependentProjectsSearchParticipantTest extends TestCase {
 		return null;
 	}
 	
-	private void checkMatches(List<Match> matchesForCheck, List<MatchStructure> matchList) throws CoreException {
+	private void checkMatches(List<Match> matchesForCheck, List<MStructure> matchList) throws CoreException {
 //		for(Match match : matchesForCheck){
 //			System.out.println(("Match found (class - "+((CDIMatch)match).getCDIElement().getClass()+" name - "+((CDIMatch)match).getLabel()+")"));
 //		}
 		
 		for(Match match : matchesForCheck){
 			assertTrue("Match must be CDIMatch", match instanceof CDIMatch);
-			MatchStructure ms = findMatch(matchList, (CDIMatch)match);
+			MStructure ms = findMatch(matchList, (CDIMatch)match);
 			assertNotNull("Unexpected match found (class - "+((CDIMatch)match).getCDIElement().getClass()+" name - "+((CDIMatch)match).getLabel()+")", ms);
 			ms.checked = true;
 		}
 		
-		for(MatchStructure ms : matchList){
+		for(MStructure ms : matchList){
 			assertTrue("Match not found (class - "+ms.type+" name - "+ms.name, ms.checked);
 		}
 	}
 	
-	protected MatchStructure findMatch(List<MatchStructure> matchList, CDIMatch match){
-		for(MatchStructure ms : matchList){
+	protected MStructure findMatch(List<MStructure> matchList, CDIMatch match){
+		for(MStructure ms : matchList){
 			if(!ms.checked && ms.type.equals(match.getCDIElement().getClass()) && ms.name.equals(match.getLabel()))
 				return ms;
 		}
@@ -143,12 +146,12 @@ public class FiveDependentProjectsSearchParticipantTest extends TestCase {
 		}
 	}
 	
-	class MatchStructure{
+	class MStructure{
 		Class<? extends ICDIElement> type;
 		String name; // label
 		boolean checked;
 		
-		public MatchStructure(Class<? extends ICDIElement> type, String name){
+		public MStructure(Class<? extends ICDIElement> type, String name){
 			this.type = type;
 			this.name = name;
 			checked = false;
@@ -156,117 +159,138 @@ public class FiveDependentProjectsSearchParticipantTest extends TestCase {
 	}
 	
 	public void testInjectionPointQueryParticipantInProject1(){
-		ArrayList<MatchStructure> matches = new ArrayList<MatchStructure>();
+		ArrayList<MStructure> matches = new ArrayList<MStructure>();
 		
-		matches.add(new MatchStructure(ClassBean.class, "Base1"));
+		matches.add(new MStructure(ClassBean.class, "Base1"));
 		
 		testSearchParticipant(project1, "src/cdi/test/search1/Bean1.java", FIELD_SEARCH, "field1", "", new InjectionPointQueryParticipant(), matches);
 	}
 
 	public void testInjectionPointQueryParticipantInProject2(){
-		ArrayList<MatchStructure> matches = new ArrayList<MatchStructure>();
+		ArrayList<MStructure> matches = new ArrayList<MStructure>();
 		
-		matches.add(new MatchStructure(ClassBean.class, "Base1"));
-		matches.add(new MatchStructure(ClassBean.class, "Base2"));
+		matches.add(new MStructure(ClassBean.class, "Base1"));
+		matches.add(new MStructure(ClassBean.class, "Base2"));
 		
 		testSearchParticipant(project2, "src/cdi/test/search2/Bean2.java", FIELD_SEARCH, "field2", "", new InjectionPointQueryParticipant(), matches);
 	}
 	
 	public void testInjectionPointQueryParticipantInProject3(){
-		ArrayList<MatchStructure> matches = new ArrayList<MatchStructure>();
+		ArrayList<MStructure> matches = new ArrayList<MStructure>();
 		
-		matches.add(new MatchStructure(ClassBean.class, "Base1"));
-		matches.add(new MatchStructure(ClassBean.class, "Base2"));
-		matches.add(new MatchStructure(ClassBean.class, "Base3"));
+		matches.add(new MStructure(ClassBean.class, "Base1"));
+		matches.add(new MStructure(ClassBean.class, "Base2"));
+		matches.add(new MStructure(ClassBean.class, "Base3"));
 		
 		testSearchParticipant(project3, "src/cdi/test/search3/Bean3.java", FIELD_SEARCH, "field3", "", new InjectionPointQueryParticipant(), matches);
 	}
 	
 	public void testInjectionPointQueryParticipantInProject4(){
-		ArrayList<MatchStructure> matches = new ArrayList<MatchStructure>();
+		ArrayList<MStructure> matches = new ArrayList<MStructure>();
 		
-		matches.add(new MatchStructure(ClassBean.class, "Base1"));
-		matches.add(new MatchStructure(ClassBean.class, "Base2"));
-		matches.add(new MatchStructure(ClassBean.class, "Base4"));
+		matches.add(new MStructure(ClassBean.class, "Base1"));
+		matches.add(new MStructure(ClassBean.class, "Base2"));
+		matches.add(new MStructure(ClassBean.class, "Base4"));
 		
 		testSearchParticipant(project4, "src/cdi/test/search4/Bean4.java", FIELD_SEARCH, "field4", "", new InjectionPointQueryParticipant(), matches);
 	}
 	
 	public void testInjectionPointQueryParticipantInProject5(){
-		ArrayList<MatchStructure> matches = new ArrayList<MatchStructure>();
+		ArrayList<MStructure> matches = new ArrayList<MStructure>();
 		
-		matches.add(new MatchStructure(ClassBean.class, "Base1"));
-		matches.add(new MatchStructure(ClassBean.class, "Base2"));
-		matches.add(new MatchStructure(ClassBean.class, "Base4"));
-		matches.add(new MatchStructure(ClassBean.class, "Base5"));
+		matches.add(new MStructure(ClassBean.class, "Base1"));
+		matches.add(new MStructure(ClassBean.class, "Base2"));
+		matches.add(new MStructure(ClassBean.class, "Base4"));
+		matches.add(new MStructure(ClassBean.class, "Base5"));
 		
 		testSearchParticipant(project5, "src/cdi/test/search5/Bean5.java", FIELD_SEARCH, "field5", "", new InjectionPointQueryParticipant(), matches);
 	}
 
 	public void testCDIBeanQueryParticipantInProject1(){
-		ArrayList<MatchStructure> matches = new ArrayList<MatchStructure>();
+		ArrayList<MStructure> matches = new ArrayList<MStructure>();
 		
-		matches.add(new MatchStructure(InjectionPointField.class, "Bean1.field1"));
-		matches.add(new MatchStructure(InjectionPointField.class, "Bean2.field2"));
-		matches.add(new MatchStructure(InjectionPointField.class, "Bean3.field3"));
-		matches.add(new MatchStructure(InjectionPointField.class, "Bean4.field4"));
-		matches.add(new MatchStructure(InjectionPointField.class, "Bean5.field5"));
+		matches.add(new MStructure(InjectionPointField.class, "Bean1.field1"));
+		matches.add(new MStructure(InjectionPointField.class, "Bean2.field2"));
+		matches.add(new MStructure(InjectionPointField.class, "Bean3.field3"));
+		matches.add(new MStructure(InjectionPointField.class, "Bean4.field4"));
+		matches.add(new MStructure(InjectionPointField.class, "Bean5.field5"));
 		
-		matches.add(new MatchStructure(InjectionPointParameter.class, "Bean1.method_1(BaseDecoratedInterface param1)"));
-		matches.add(new MatchStructure(InjectionPointParameter.class, "Bean2.method_2(BaseDecoratedInterface param2)"));
-		matches.add(new MatchStructure(InjectionPointParameter.class, "Bean3.method_3(BaseDecoratedInterface param3)"));
-		matches.add(new MatchStructure(InjectionPointParameter.class, "Bean4.method_4(BaseDecoratedInterface param4)"));
-		matches.add(new MatchStructure(InjectionPointParameter.class, "Bean5.method_5(BaseDecoratedInterface param5)"));
+		matches.add(new MStructure(InjectionPointParameter.class, "Bean1.method_1(BaseDecoratedInterface param1)"));
+		matches.add(new MStructure(InjectionPointParameter.class, "Bean2.method_2(BaseDecoratedInterface param2)"));
+		matches.add(new MStructure(InjectionPointParameter.class, "Bean3.method_3(BaseDecoratedInterface param3)"));
+		matches.add(new MStructure(InjectionPointParameter.class, "Bean4.method_4(BaseDecoratedInterface param4)"));
+		matches.add(new MStructure(InjectionPointParameter.class, "Bean5.method_5(BaseDecoratedInterface param5)"));
 		
 		testSearchParticipant(project1, "src/cdi/test/search1/Base1.java", TYPE_SEARCH, "Base1", "", new CDIBeanQueryParticipant(), matches);
 	}
 	
 	public void testCDIBeanQueryParticipantInProject2(){
-		ArrayList<MatchStructure> matches = new ArrayList<MatchStructure>();
+		ArrayList<MStructure> matches = new ArrayList<MStructure>();
 		
-		matches.add(new MatchStructure(InjectionPointField.class, "Bean2.field2"));
-		matches.add(new MatchStructure(InjectionPointField.class, "Bean3.field3"));
-		matches.add(new MatchStructure(InjectionPointField.class, "Bean4.field4"));
-		matches.add(new MatchStructure(InjectionPointField.class, "Bean5.field5"));
+		matches.add(new MStructure(InjectionPointField.class, "Bean2.field2"));
+		matches.add(new MStructure(InjectionPointField.class, "Bean3.field3"));
+		matches.add(new MStructure(InjectionPointField.class, "Bean4.field4"));
+		matches.add(new MStructure(InjectionPointField.class, "Bean5.field5"));
 		
-		matches.add(new MatchStructure(InjectionPointParameter.class, "Bean2.method_2(BaseDecoratedInterface param2)"));
-		matches.add(new MatchStructure(InjectionPointParameter.class, "Bean3.method_3(BaseDecoratedInterface param3)"));
-		matches.add(new MatchStructure(InjectionPointParameter.class, "Bean4.method_4(BaseDecoratedInterface param4)"));
-		matches.add(new MatchStructure(InjectionPointParameter.class, "Bean5.method_5(BaseDecoratedInterface param5)"));
+		matches.add(new MStructure(InjectionPointParameter.class, "Bean2.method_2(BaseDecoratedInterface param2)"));
+		matches.add(new MStructure(InjectionPointParameter.class, "Bean3.method_3(BaseDecoratedInterface param3)"));
+		matches.add(new MStructure(InjectionPointParameter.class, "Bean4.method_4(BaseDecoratedInterface param4)"));
+		matches.add(new MStructure(InjectionPointParameter.class, "Bean5.method_5(BaseDecoratedInterface param5)"));
 		
 		testSearchParticipant(project2, "src/cdi/test/search2/Base2.java", TYPE_SEARCH, "Base2", "", new CDIBeanQueryParticipant(), matches);
 	}
 	
 	public void testCDIBeanQueryParticipantInProject3(){
-		ArrayList<MatchStructure> matches = new ArrayList<MatchStructure>();
+		ArrayList<MStructure> matches = new ArrayList<MStructure>();
 		
-		matches.add(new MatchStructure(InjectionPointField.class, "Bean3.field3"));
+		matches.add(new MStructure(InjectionPointField.class, "Bean3.field3"));
 		
-		matches.add(new MatchStructure(InjectionPointParameter.class, "Bean3.method_3(BaseDecoratedInterface param3)"));
+		matches.add(new MStructure(InjectionPointParameter.class, "Bean3.method_3(BaseDecoratedInterface param3)"));
 		
 		testSearchParticipant(project3, "src/cdi/test/search3/Base3.java", TYPE_SEARCH, "Base3", "", new CDIBeanQueryParticipant(), matches);
 	}
 	
 	public void testCDIBeanQueryParticipantInProject4(){
-		ArrayList<MatchStructure> matches = new ArrayList<MatchStructure>();
+		ArrayList<MStructure> matches = new ArrayList<MStructure>();
 		
-		matches.add(new MatchStructure(InjectionPointField.class, "Bean4.field4"));
-		matches.add(new MatchStructure(InjectionPointField.class, "Bean5.field5"));
+		matches.add(new MStructure(InjectionPointField.class, "Bean4.field4"));
+		matches.add(new MStructure(InjectionPointField.class, "Bean5.field5"));
 		
-		matches.add(new MatchStructure(InjectionPointParameter.class, "Bean4.method_4(BaseDecoratedInterface param4)"));
-		matches.add(new MatchStructure(InjectionPointParameter.class, "Bean5.method_5(BaseDecoratedInterface param5)"));
+		matches.add(new MStructure(InjectionPointParameter.class, "Bean4.method_4(BaseDecoratedInterface param4)"));
+		matches.add(new MStructure(InjectionPointParameter.class, "Bean5.method_5(BaseDecoratedInterface param5)"));
 		
 		testSearchParticipant(project4, "src/cdi/test/search4/Base4.java", TYPE_SEARCH, "Base4", "", new CDIBeanQueryParticipant(), matches);
 	}
 	
 	public void testCDIBeanQueryParticipantInProject5(){
-		ArrayList<MatchStructure> matches = new ArrayList<MatchStructure>();
+		ArrayList<MStructure> matches = new ArrayList<MStructure>();
 		
-		matches.add(new MatchStructure(InjectionPointField.class, "Bean5.field5"));
+		matches.add(new MStructure(InjectionPointField.class, "Bean5.field5"));
 		
-		matches.add(new MatchStructure(InjectionPointParameter.class, "Bean5.method_5(BaseDecoratedInterface param5)"));
+		matches.add(new MStructure(InjectionPointParameter.class, "Bean5.method_5(BaseDecoratedInterface param5)"));
 		
 		testSearchParticipant(project5, "src/cdi/test/search5/Base5.java", TYPE_SEARCH, "Base5", "", new CDIBeanQueryParticipant(), matches);
+	}
+	
+	public void testELReferencesQueryParticipantForNamedBean() throws CoreException{
+		ArrayList<MatchStructure> matches = new ArrayList<MatchStructure>();
+		
+		matches.add(new MatchStructure("/CDITest2/src/cdi/test/search2/Check2.java", "customer"));
+		matches.add(new MatchStructure("/CDITest3/src/cdi/test/search3/Check3.java", "customer"));
+		matches.add(new MatchStructure("/CDITest4/src/cdi/test/search4/Check4.java", "customer"));
+		matches.add(new MatchStructure("/CDITest5/src/cdi/test/search5/Check5.java", "customer"));
+		matches.add(new MatchStructure("/CDITest2/WebContent/test.jsp", "customer"));
+		matches.add(new MatchStructure("/CDITest3/WebContent/test.jsp", "customer"));
+		matches.add(new MatchStructure("/CDITest4/WebContent/test.jsp", "customer"));
+		matches.add(new MatchStructure("/CDITest5/WebContent/test.jsp", "customer"));
+		
+		QueryParticipantTestUtils.testSearchParticipant(project2,
+				"src/cdi/test/search2/Bean2.java",
+				QueryParticipantTestUtils.TYPE_SEARCH,
+				"customer",
+				"",
+				new ELReferencesQueryParticipant(),
+				matches);
 	}
 
 }
