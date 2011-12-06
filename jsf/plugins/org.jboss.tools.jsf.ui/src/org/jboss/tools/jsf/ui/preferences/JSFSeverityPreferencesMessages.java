@@ -42,6 +42,7 @@ public class JSFSeverityPreferencesMessages extends NLS {
 	public static String JSFValidationConfigurationBlock_pb_invalidPropertyResolver_label;
 	public static String JSFValidationConfigurationBlock_pb_invalidStateManager_label;
 	public static String JSFValidationConfigurationBlock_pb_invalidVariableResolver_label;
+	public static String JSFValidationConfigurationBlock_pb_invalidViewHandler_label;
 	////Component
 	public static String JSFValidationConfigurationBlock_section_component;
 	public static String JSFValidationConfigurationBlock_pb_invalidComponentClass_label;

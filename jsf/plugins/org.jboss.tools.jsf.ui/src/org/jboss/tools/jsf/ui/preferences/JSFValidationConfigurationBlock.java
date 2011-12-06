@@ -48,7 +48,7 @@ public class JSFValidationConfigurationBlock extends SeverityConfigurationBlock 
 			{JSFSeverityPreferences.INVALID_PROPERTY_RESOLVER, JSFSeverityPreferencesMessages.JSFValidationConfigurationBlock_pb_invalidPropertyResolver_label},
 			{JSFSeverityPreferences.INVALID_STATE_MANAGER, JSFSeverityPreferencesMessages.JSFValidationConfigurationBlock_pb_invalidStateManager_label},
 			{JSFSeverityPreferences.INVALID_VARIABLE_RESOLVER, JSFSeverityPreferencesMessages.JSFValidationConfigurationBlock_pb_invalidVariableResolver_label},
-			{JSFSeverityPreferences.INVALID_VIEW_HANDLER, JSFSeverityPreferencesMessages.JSFValidationConfigurationBlock_pb_invalidActionListener_label},
+			{JSFSeverityPreferences.INVALID_VIEW_HANDLER, JSFSeverityPreferencesMessages.JSFValidationConfigurationBlock_pb_invalidViewHandler_label},
 		},
 		JSFModelPlugin.PLUGIN_ID
 	);
