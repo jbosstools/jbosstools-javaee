@@ -21,6 +21,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PartInitException;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 
 public class CDIFileChange extends TextFileChange{
@@ -44,16 +45,28 @@ public class CDIFileChange extends TextFileChange{
 		});
 	}
 	
+	public static IEditorPart getAndReloadEditor(IFile file){
+		IEditorInput input = EditorUtility.getEditorInput(file);
+		
+		if(EditorUtility.isOpenInEditor(input) != null){
+			try {
+				return EditorUtility.openInEditor(input, false);
+			} catch (PartInitException e) {
+				CDICorePlugin.getDefault().logError(e);
+			}
+		}
+		return null;
+	}
+	
 	public static IEditorPart getEditor(IFile file){
-		IEditorInput ii = EditorUtility.getEditorInput(file);
+		IEditorInput input = EditorUtility.getEditorInput(file);
 		
 		IWorkbenchWindow[] windows = CDICorePlugin.getDefault().getWorkbench().getWorkbenchWindows();
 		for(IWorkbenchWindow window : windows){
-			IEditorPart editor = window.getActivePage().findEditor(ii);
+			IEditorPart editor = window.getActivePage().findEditor(input);
 			if(editor != null)
 				return editor;
 		}
 		return null;
 	}
-
 }

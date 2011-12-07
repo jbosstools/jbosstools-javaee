@@ -57,7 +57,7 @@ public abstract class CDIRefactoringProcessor extends RefactoringProcessor {
 		rootChange = new CompositeChange(label);
 		change = new CDIFileChange(file.getName(), file);
 		
-		if(CDIFileChange.getEditor(file) != null)
+		if(CDIFileChange.getAndReloadEditor(file) != null)
 			change.setSaveMode(TextFileChange.LEAVE_DIRTY);
 		else
 			change.setSaveMode(TextFileChange.FORCE_SAVE);

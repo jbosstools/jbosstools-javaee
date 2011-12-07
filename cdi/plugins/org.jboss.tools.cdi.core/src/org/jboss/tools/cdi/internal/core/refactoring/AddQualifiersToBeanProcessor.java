@@ -102,7 +102,7 @@ public class AddQualifiersToBeanProcessor extends CDIRefactoringProcessor {
 		ICompilationUnit compilationUnit = original.getWorkingCopy(pm);
 		
 		TextFileChange fileChange = new CDIFileChange(file.getName(), file);
-		if(CDIFileChange.getEditor(file) != null)
+		if(CDIFileChange.getAndReloadEditor(file) != null)
 			fileChange.setSaveMode(TextFileChange.LEAVE_DIRTY);
 		else
 			fileChange.setSaveMode(TextFileChange.FORCE_SAVE);
@@ -122,7 +122,7 @@ public class AddQualifiersToBeanProcessor extends CDIRefactoringProcessor {
 				rootChange.add(fileChange);
 			}
 			fileChange = new CDIFileChange(file2.getName(), file2);
-			if(CDIFileChange.getEditor(file2) != null)
+			if(CDIFileChange.getAndReloadEditor(file2) != null)
 				fileChange.setSaveMode(TextFileChange.LEAVE_DIRTY);
 			else
 				fileChange.setSaveMode(TextFileChange.FORCE_SAVE);
