@@ -18,11 +18,9 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.ltk.core.refactoring.CompositeChange;
+import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.ltk.core.refactoring.RefactoringStatus;
 import org.eclipse.ltk.core.refactoring.TextFileChange;
-import org.eclipse.ltk.core.refactoring.participants.RefactoringParticipant;
-import org.eclipse.ltk.core.refactoring.participants.RenameProcessor;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.text.edits.MultiTextEdit;
 import org.eclipse.text.edits.ReplaceEdit;
@@ -32,18 +30,12 @@ import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.common.el.core.model.ELInvocationExpression;
 import org.jboss.tools.common.el.core.model.ELPropertyInvocation;
 import org.jboss.tools.common.model.project.ProjectHome;
-import org.jboss.tools.common.text.ITextSourceReference;
 import org.jboss.tools.jst.web.kb.refactoring.RefactorSearcher;
 
 /**
  * @author Daniel Azarov
  */
-public abstract class CDIRenameProcessor extends RenameProcessor {
-	protected static final RefactoringParticipant[] EMPTY_REF_PARTICIPANT = new  RefactoringParticipant[0];	
-	
-	protected RefactoringStatus status;
-	
-	protected CompositeChange rootChange;
+public abstract class CDIRenameProcessor extends AbstractCDIProcessor {
 	protected TextFileChange lastChange;
 	protected IFile declarationFile=null;
 	
@@ -52,7 +44,23 @@ public abstract class CDIRenameProcessor extends RenameProcessor {
 	
 	private CDISearcher searcher = null;
 	protected IBean bean;
+
+	public CDIRenameProcessor(String label, IBean bean) {
+		super(label);
+		this.bean = bean;
+		setOldName(bean.getName());
+	}
 	
+	@Override
+	public RefactoringStatus checkInitialConditions(IProgressMonitor pm)
+			throws CoreException, OperationCanceledException {
+		RefactoringStatus result = new RefactoringStatus();
+		if(bean==null) {
+			result.addFatalError(CDICoreMessages.RENAME_NAMED_BEAN_PROCESSOR_ERROR);
+		}
+		return result;
+	}
+
 	protected CDISearcher getSearcher(){
 		if(searcher == null){
 			searcher = new CDISearcher(declarationFile, getOldName());
@@ -102,64 +110,15 @@ public abstract class CDIRenameProcessor extends RenameProcessor {
 		return lastChange;
 	}
 	
-	protected void findDeclarations(IBean bean) throws CoreException{
-		changeDeclarations(bean);
-	}
 	
-	
-	private void changeDeclarations(IBean bean) throws CoreException{
-		declarationFile = (IFile)bean.getResource();
-		
-		if(declarationFile == null){
-			status.addFatalError(CDICoreMessages.CDI_RENAME_PROCESSOR_BEAN_HAS_NO_FILE);
-			return;
-		}
-		
-		//1. Get @Named declared directly, not in stereotype.
-		ITextSourceReference nameLocation = bean.getNameLocation(false);
-		//2. Get stereotype declaration declaring @Named, if @Named is not declared directly.
-		ITextSourceReference stereotypeLocation = nameLocation != null ? null : bean.getNameLocation(true);
-		
-		if(nameLocation == null && stereotypeLocation == null) {
-			status.addFatalError(CDICoreMessages.CDI_RENAME_PROCESSOR_BEAN_HAS_NO_NAME_LOCATION);
-			return;
-		}
-		
-		String newText = "@Named(\""+getNewName()+"\")"; //$NON-NLS-1$ //$NON-NLS-2$
-		if(nameLocation != null) {
-			change(declarationFile, nameLocation.getStartPosition(), nameLocation.getLength(), newText);
-		} else if(stereotypeLocation != null) {
-			change(declarationFile, stereotypeLocation.getStartPosition() + stereotypeLocation.getLength(), 0, " " + newText);
-		}
-	}
-	
-	protected void renameBean(IProgressMonitor pm, IBean bean)throws CoreException{
-		pm.beginTask("", 3);
-		
-		clearChanges();
-		
-		this.bean = bean;
-		
-		findDeclarations(bean);
-		
-		if(status.hasFatalError())
-			return;
-		
-		pm.worked(1);
-		
-		getSearcher().findELReferences();
-		
-		pm.done();
-	}
 	
 	ArrayList<String> keys = new ArrayList<String>();
 	
-	private void clearChanges(){
+	protected void clearChanges(){
 		keys.clear();
 	}
 	
-	private void change(IFile file, int offset, int length, String text){
-		//System.out.println("change file - "+file.getFullPath()+" offset - "+offset+" len - "+length+" text"+text);
+	protected void change(IFile file, int offset, int length, String text){
 		String key = file.getFullPath().toString()+" "+offset;
 		if(!keys.contains(key)){
 			TextFileChange change = getChange(file);
@@ -220,5 +179,15 @@ public abstract class CDIRenameProcessor extends RenameProcessor {
 			
 			return null;
 		}
+	}
+	
+	@Override
+	public boolean isApplicable() throws CoreException {
+		return bean!=null;
+	}
+	
+	@Override
+	public Object[] getElements() {
+		return new IBean[]{bean};
 	}
 }

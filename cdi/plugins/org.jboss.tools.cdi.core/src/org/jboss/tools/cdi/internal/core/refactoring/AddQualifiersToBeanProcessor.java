@@ -14,14 +14,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.jdt.core.ICompilationUnit;
-import org.eclipse.jdt.core.IJavaElement;
-import org.eclipse.jdt.core.IJavaProject;
-import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.ltk.core.refactoring.Change;
 import org.eclipse.ltk.core.refactoring.CompositeChange;
 import org.eclipse.ltk.core.refactoring.RefactoringStatus;
@@ -81,20 +77,10 @@ public class AddQualifiersToBeanProcessor extends CDIRefactoringProcessor {
 		return status;
 	}
 	
-	private ICompilationUnit getCompilationUnit(IFile file) throws CoreException{
-		IProject project = file.getProject();
-		IJavaProject javaProject = (IJavaProject)project.getNature(JavaCore.NATURE_ID);
-		IJavaElement element = javaProject.findElement(file.getProjectRelativePath());
-		if(element instanceof ICompilationUnit)
-			return (ICompilationUnit)element;
-		
-		return null;
-	}
-	
 	@Override
 	public Change createChange(IProgressMonitor pm) throws CoreException,
 			OperationCanceledException {
-		rootChange = new CompositeChange(label);
+		rootChange = new CompositeChange(getLabel());
 		
 		IFile file = (IFile)selectedBean.getBeanClass().getResource();
 		ICompilationUnit original = EclipseUtil.getCompilationUnit(file);

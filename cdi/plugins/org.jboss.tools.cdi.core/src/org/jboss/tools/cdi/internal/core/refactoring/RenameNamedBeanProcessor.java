@@ -10,46 +10,29 @@
   ******************************************************************************/
 package org.jboss.tools.cdi.internal.core.refactoring;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.OperationCanceledException;
-import org.eclipse.ltk.core.refactoring.Change;
 import org.eclipse.ltk.core.refactoring.CompositeChange;
 import org.eclipse.ltk.core.refactoring.RefactoringStatus;
 import org.eclipse.ltk.core.refactoring.participants.CheckConditionsContext;
-import org.eclipse.ltk.core.refactoring.participants.RefactoringParticipant;
-import org.eclipse.ltk.core.refactoring.participants.SharableParticipants;
 import org.jboss.tools.cdi.core.CDICoreMessages;
 import org.jboss.tools.cdi.core.IBean;
+import org.jboss.tools.common.text.ITextSourceReference;
 
 /**
  * @author Daniel Azarov
  */
 public class RenameNamedBeanProcessor extends CDIRenameProcessor {
-	private IBean bean;
+	
 	/**
-	 * @param component Renamed component
+	 * @param bean Renamed bean
 	 */
 	public RenameNamedBeanProcessor(IBean bean) {
-		super();
-		setBean(bean);
+		super(CDICoreMessages.RENAME_NAMED_BEAN_PROCESSOR_TITLE, bean);
 	}
 
-	public IBean getBean() {
-		return bean;
-	}
-
-	public void setBean(IBean bean) {
-		this.bean = bean;
-		setOldName(bean.getName());
-	}
-	
-	
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.ltk.core.refactoring.participants.RefactoringProcessor#checkFinalConditions(org.eclipse.core.runtime.IProgressMonitor, org.eclipse.ltk.core.refactoring.participants.CheckConditionsContext)
-	 */
 	@Override
 	public RefactoringStatus checkFinalConditions(IProgressMonitor pm,
 			CheckConditionsContext context) throws CoreException,
@@ -58,80 +41,52 @@ public class RenameNamedBeanProcessor extends CDIRenameProcessor {
 		if(bean != null){
 			rootChange = new CompositeChange(CDICoreMessages.RENAME_NAMED_BEAN_PROCESSOR_TITLE);
 			
-			renameBean(pm, bean);
+			renameBean(pm);
 		}
 		return status;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.ltk.core.refactoring.participants.RefactoringProcessor#checkInitialConditions(org.eclipse.core.runtime.IProgressMonitor)
-	 */
-	@Override
-	public RefactoringStatus checkInitialConditions(IProgressMonitor pm)
-			throws CoreException, OperationCanceledException {
-		RefactoringStatus result = new RefactoringStatus();
-		if(bean==null) {
-			result.addFatalError(CDICoreMessages.RENAME_NAMED_BEAN_PROCESSOR_ERROR);
-		}
-		return result;
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.ltk.core.refactoring.participants.RefactoringProcessor#createChange(org.eclipse.core.runtime.IProgressMonitor)
-	 */
-	@Override
-	public Change createChange(IProgressMonitor pm) throws CoreException,
-			OperationCanceledException {
+	private void renameBean(IProgressMonitor pm)throws CoreException{
+		pm.beginTask("", 3);
 		
-		return rootChange;
+		clearChanges();
+		
+		changeDeclarations();
+		
+		if(status.hasFatalError())
+			return;
+		
+		pm.worked(1);
+		
+		getSearcher().findELReferences();
+		
+		pm.done();
 	}
 	
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.ltk.core.refactoring.participants.RefactoringProcessor#getElements()
-	 */
-	@Override
-	public Object[] getElements() {
-		return new IBean[]{bean};
+	private void changeDeclarations() throws CoreException{
+		declarationFile = (IFile)bean.getResource();
+		
+		if(declarationFile == null){
+			status.addFatalError(CDICoreMessages.CDI_RENAME_PROCESSOR_BEAN_HAS_NO_FILE);
+			return;
+		}
+		
+		//1. Get @Named declared directly, not in stereotype.
+		ITextSourceReference nameLocation = bean.getNameLocation(false);
+		//2. Get stereotype declaration declaring @Named, if @Named is not declared directly.
+		ITextSourceReference stereotypeLocation = nameLocation != null ? null : bean.getNameLocation(true);
+		
+		if(nameLocation == null && stereotypeLocation == null) {
+			status.addFatalError(CDICoreMessages.CDI_RENAME_PROCESSOR_BEAN_HAS_NO_NAME_LOCATION);
+			return;
+		}
+		
+		String newText = "@Named(\""+getNewName()+"\")"; //$NON-NLS-1$ //$NON-NLS-2$
+		if(nameLocation != null) {
+			change(declarationFile, nameLocation.getStartPosition(), nameLocation.getLength(), newText);
+		} else if(stereotypeLocation != null) {
+			change(declarationFile, stereotypeLocation.getStartPosition() + stereotypeLocation.getLength(), 0, " " + newText);
+		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.ltk.core.refactoring.participants.RefactoringProcessor#getIdentifier()
-	 */
-	@Override
-	public String getIdentifier() {
-		return getClass().getName();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.ltk.core.refactoring.participants.RefactoringProcessor#getProcessorName()
-	 */
-	@Override
-	public String getProcessorName() {
-		return CDICoreMessages.RENAME_NAMED_BEAN_PROCESSOR_TITLE;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.ltk.core.refactoring.participants.RefactoringProcessor#isApplicable()
-	 */
-	@Override
-	public boolean isApplicable() throws CoreException {
-		return bean!=null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.ltk.core.refactoring.participants.RefactoringProcessor#loadParticipants(org.eclipse.ltk.core.refactoring.RefactoringStatus, org.eclipse.ltk.core.refactoring.participants.SharableParticipants)
-	 */
-	@Override
-	public RefactoringParticipant[] loadParticipants(RefactoringStatus status,
-			SharableParticipants sharedParticipants) throws CoreException {
-		return EMPTY_REF_PARTICIPANT;
-	}
 }

@@ -13,18 +13,12 @@ package org.jboss.tools.cdi.internal.core.refactoring;
 import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.OperationCanceledException;
-import org.eclipse.ltk.core.refactoring.Change;
 import org.eclipse.ltk.core.refactoring.CompositeChange;
 import org.eclipse.ltk.core.refactoring.RefactoringStatus;
 import org.eclipse.ltk.core.refactoring.TextFileChange;
-import org.eclipse.ltk.core.refactoring.participants.RefactoringParticipant;
-import org.eclipse.ltk.core.refactoring.participants.RefactoringProcessor;
-import org.eclipse.ltk.core.refactoring.participants.SharableParticipants;
-import org.eclipse.osgi.util.NLS;
 import org.eclipse.text.edits.MultiTextEdit;
 import org.jboss.tools.cdi.core.CDICoreMessages;
 import org.jboss.tools.cdi.core.CDICoreNature;
@@ -33,28 +27,23 @@ import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.IClassBean;
 
-public abstract class CDIRefactoringProcessor extends RefactoringProcessor {
-	protected static final RefactoringParticipant[] EMPTY_REF_PARTICIPANT = new  RefactoringParticipant[0];	
+public abstract class CDIRefactoringProcessor extends AbstractCDIProcessor {
 	protected IFile file;
-	protected RefactoringStatus status;
-	protected String label;
 	
-	protected CompositeChange rootChange;
 	protected TextFileChange change;
 	protected IClassBean bean;
 
-	
 	public CDIRefactoringProcessor(IFile file, String label){
-		this(label);
+		super(label);
 		this.file = file;
 	}
 	
 	public CDIRefactoringProcessor(String label){
-		this.label = label;
+		super(label);
 	}
 	
 	protected void createRootChange(){
-		rootChange = new CompositeChange(label);
+		rootChange = new CompositeChange(getLabel());
 		change = new CDIFileChange(file.getName(), file);
 		
 		if(CDIFileChange.getAndReloadEditor(file) != null)
@@ -67,7 +56,6 @@ public abstract class CDIRefactoringProcessor extends RefactoringProcessor {
 		rootChange.add(change);
 		rootChange.markAsSynthetic();
 	}
-	
 	
 	private IClassBean findClassBean(){
 		CDICoreNature cdiNature = CDICorePlugin.getCDI(file.getProject(), true);
@@ -88,42 +76,10 @@ public abstract class CDIRefactoringProcessor extends RefactoringProcessor {
 		
 		return null;
 	}
-	
-	protected boolean isFileCorrect(IFile file){
-		if(file == null){
-			status.addFatalError(CDICoreMessages.CDI_RENAME_PROCESSOR_ERROR_FILE_NOT_FOUND);
-			return false;
-		}else if(!file.isSynchronized(IResource.DEPTH_ZERO)){
-			status.addFatalError(NLS.bind(CDICoreMessages.CDI_RENAME_PROCESSOR_ERROR_OUT_OF_SYNC_PROJECT, file.getProject().getFullPath().toString()));
-			return false;
-		}else if(file.isPhantom()){
-			status.addFatalError(NLS.bind(CDICoreMessages.CDI_RENAME_PROCESSOR_ERROR_PHANTOM_FILE, file.getFullPath().toString()));
-			return false;
-		}else if(file.isReadOnly()){
-			status.addFatalError(NLS.bind(CDICoreMessages.CDI_RENAME_PROCESSOR_ERROR_READ_ONLY_FILE, file.getFullPath().toString()));
-			return false;
-		}
-		return true;
-	}
 
 	@Override
 	public Object[] getElements() {
 		return new Object[]{file};
-	}
-
-	@Override
-	public String getIdentifier() {
-		return "";
-	}
-
-	@Override
-	public String getProcessorName() {
-		return label;
-	}
-
-	@Override
-	public boolean isApplicable() throws CoreException {
-		return true;
 	}
 
 	@Override
@@ -137,17 +93,5 @@ public abstract class CDIRefactoringProcessor extends RefactoringProcessor {
 			status.addFatalError(CDICoreMessages.CDI_RENAME_PROCESSOR_ERROR_BEAN_NOT_FOUND);
 		
 		return status;
-	}
-
-	@Override
-	public Change createChange(IProgressMonitor pm) throws CoreException,
-			OperationCanceledException {
-		return rootChange;
-	}
-
-	@Override
-	public RefactoringParticipant[] loadParticipants(RefactoringStatus status,
-			SharableParticipants sharedParticipants) throws CoreException {
-		return EMPTY_REF_PARTICIPANT;
 	}
 }
