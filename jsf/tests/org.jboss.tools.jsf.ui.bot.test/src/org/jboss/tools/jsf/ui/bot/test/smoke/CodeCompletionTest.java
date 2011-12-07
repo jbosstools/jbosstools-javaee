@@ -340,10 +340,12 @@ public class CodeCompletionTest extends JSFAutoTestCase{
     contentAssist.checkContentAssist(useCodeAssist, false);
     useCodeAssist = "prompt";
     contentAssist.checkContentAssist(useCodeAssist, true);
-    final String textToInsertAtEnd = "\"/>";
+    final String textToInsertAtEnd = "/>";
     editor.insertText(editor.cursorPosition().line, 
-      editor.cursorPosition().column + 2,
+      editor.cursorPosition().column + 3,
       textToInsertAtEnd);
+    editor.save();
+    bot.sleep(Timing.time1S());
     Assertions.assertSourceEditorContains(editor.getText(), 
       textToInsert + "'" + useCodeAssist + "']}" + textToInsertAtEnd,
       FACELETS_TEST_PAGE);
@@ -667,7 +669,7 @@ public class CodeCompletionTest extends JSFAutoTestCase{
   private void removeRichFacesFromJSF2ProjectClassPath(){
     if (addedVariableRichfacesUiLocation != null){
       BuildPathHelper.removeVariable(JSF2_TEST_PROJECT_NAME, addedVariableRichfacesUiLocation, true);
+      eclipse.cleanAllProjects();
     }
-    eclipse.cleanAllProjects();
   }
 }
