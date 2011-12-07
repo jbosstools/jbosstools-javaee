@@ -20,11 +20,13 @@ import org.jboss.tools.ui.bot.ext.Assertions;
 import org.jboss.tools.ui.bot.ext.SWTJBTExt;
 import org.jboss.tools.ui.bot.ext.SWTTestExt;
 import org.jboss.tools.ui.bot.ext.Timing;
+import org.jboss.tools.ui.bot.ext.helper.BuildPathHelper;
 import org.jboss.tools.ui.bot.ext.helper.ContentAssistHelper;
 import org.jboss.tools.ui.bot.ext.helper.KeyboardHelper;
 import org.jboss.tools.ui.bot.ext.helper.OpenOnHelper;
 import org.jboss.tools.ui.bot.ext.parts.ContentAssistBot;
 import org.jboss.tools.ui.bot.ext.parts.SWTBotEditorExt;
+import org.jboss.tools.vpe.ui.bot.test.VPEAutoTestCase;
 /** * Test Code Completion functionality of JSF components within xhtml page
  * @author Vladimir Pakan
  *
@@ -36,6 +38,7 @@ public class CodeCompletionTest extends JSFAutoTestCase{
   private String originalEditorText;
   private String compositeComponentDefEditorText;
   private String origCompositeComponentContainerEditorText;
+  private String addedVariableRichfacesUiLocation = null;
   /**
    * Test Code Completion functionality for managed bean
    */
@@ -346,6 +349,39 @@ public class CodeCompletionTest extends JSFAutoTestCase{
       FACELETS_TEST_PAGE);
   }
   /**
+   * Test Code Completion functionality of src attribute for tags <link>, <h:link> and <a:loadStyle>
+   */
+  public void testCodeCompletionOfSrcAttriubute(){
+    initJSF2PageTest();
+    addRichFacesToJSF2ProjectClassPath();
+    SWTJBTExt.selectTextInSourcePane(SWTTestExt.bot, 
+        JSF2_TEST_PAGE,
+        "xmlns:f=\"http://java.sun.com/jsf/core\"", 
+        0, 
+        0, 
+        0);
+    compositeComponentContainerEditor.insertText("xmlns:a4j=\"http://richfaces.org/a4j\" \n");
+    SWTJBTExt.selectTextInSourcePane(SWTTestExt.bot, 
+        JSF2_TEST_PAGE,
+        "<h:message ", 
+        0, 
+        0, 
+        0);
+    compositeComponentContainerEditor.insertText("\n");
+    final String a4jLoadStyleTag = "<a4j:loadStyle src=\"";
+    compositeComponentContainerEditor.insertText(a4jLoadStyleTag + "\"/>\n");
+    final String linkTag = "<link href=\"";
+    compositeComponentContainerEditor.insertText(linkTag + "\"/>\n");
+    final String hLinkTag = "<h:link value=\"";
+    compositeComponentContainerEditor.insertText(hLinkTag + "\"/>\n");
+    compositeComponentContainerEditor.save();
+    bot.sleep(Timing.time2S());
+    checkCodeCompletionOfSourceAttribute(linkTag);
+    checkCodeCompletionOfSourceAttribute(hLinkTag);
+    checkCodeCompletionOfSourceAttribute(a4jLoadStyleTag);
+  }
+
+  /**
    * Initialize test which are using facelets test page
    */
 	private void initFaceletsPageTest() {
@@ -487,7 +523,7 @@ public class CodeCompletionTest extends JSFAutoTestCase{
   }
   
   @Override
-public void tearDown() throws Exception {
+  public void tearDown() throws Exception {
     if (editor != null){
       editor.setText(originalEditorText);
       editor.saveAndClose();
@@ -500,6 +536,9 @@ public void tearDown() throws Exception {
       compositeComponentContainerEditor.setText(origCompositeComponentContainerEditorText);
       compositeComponentContainerEditor.saveAndClose();
     }
+    util.waitForNonIgnoredJobs();
+    removeRichFacesFromJSF2ProjectClassPath();
+
     super.tearDown();
   }
   /**
@@ -599,6 +638,36 @@ public void tearDown() throws Exception {
     result.add("\"#{cc.attrs.}\"");    
     return result;
   }
-
-
+  /**
+   * Check Code Completion of src attribute of tagToCheck tag
+   * @param tagToCheck 
+   */
+  private void checkCodeCompletionOfSourceAttribute(String tagToCheck){
+    SWTJBTExt.selectTextInSourcePane(SWTTestExt.bot, 
+        JSF2_TEST_PAGE,
+        tagToCheck, 
+        tagToCheck.length(), 
+        0, 
+        0);
+    ContentAssistBot contentAssist = compositeComponentContainerEditor.contentAssist();
+    contentAssist.checkContentAssist("/pages", false);
+    contentAssist.checkContentAssist("/resources", false);
+    contentAssist.checkContentAssist("/templates", false);
+  }
+  /**
+   * Add RichFaces library to JSF2 project classpath
+   */
+  private void addRichFacesToJSF2ProjectClassPath(){
+    addedVariableRichfacesUiLocation = BuildPathHelper.addExternalJar(VPEAutoTestCase.RICH_FACES_UI_JAR_LOCATION, 
+      JSF2_TEST_PROJECT_NAME);
+  }
+  /**
+   * Remove previously added RichFaces library from JSF2 project classpath
+   */
+  private void removeRichFacesFromJSF2ProjectClassPath(){
+    if (addedVariableRichfacesUiLocation != null){
+      BuildPathHelper.removeVariable(JSF2_TEST_PROJECT_NAME, addedVariableRichfacesUiLocation, true);
+    }
+    eclipse.cleanAllProjects();
+  }
 }
