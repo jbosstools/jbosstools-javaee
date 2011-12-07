@@ -29,6 +29,7 @@ import org.jboss.tools.ui.bot.ext.SWTEclipseExt;
 import org.jboss.tools.ui.bot.ext.Timing;
 import org.jboss.tools.ui.bot.ext.gen.ActionItem;
 import org.jboss.tools.ui.bot.ext.helper.DragAndDropHelper;
+import org.jboss.tools.ui.bot.ext.helper.TableHelper;
 import org.jboss.tools.ui.bot.ext.parts.SWTBotEditorExt;
 import org.jboss.tools.ui.bot.ext.types.IDELabel;
 import org.jboss.tools.ui.bot.ext.view.ProblemsView;
@@ -137,6 +138,34 @@ public abstract class AbstractFacesConfigEditingTest extends JSFAutoTestCase{
      .setText(managedBeanClass);
     facesConfigEditorExt.save();
     bot.sleep(Timing.time1S());
+    // Delete Managed Bean and add it back via New Managed Bean Form
+    tiManagedbean.select();
+    editorBot.table().select(managedBeanName);
+    editorBot.button(IDELabel.Button.REMOVE_WITH_DOTS).click();
+    bot.shell(IDELabel.Shell.CONFIRMATION).activate();
+    bot.checkBox(IDELabel.FacesConfigEditor.DELETE_JAVA_SOURCE_CHECK_BOX).deselect();
+    bot.button(IDELabel.Button.OK).click();
+    editorBot.button(IDELabel.Button.ADD).click();
+    bot.shell(AbstractFacesConfigEditingTest.getAddManagedBeanDialogTitle(getTestProjectType())).activate();
+    bot.button(IDELabel.Button.BROWSE).click();
+    bot.shell(IDELabel.Shell.SELECT_CLASS).activate();
+    bot.text().setText(managedBeanClass);
+    bot.sleep(Timing.time2S());
+    final String selectedClassLabel = TableHelper.getSelectionText(bot.table());
+    assertTrue ("Selected item in table has to start with " + managedBeanClass +
+        "\n but is:\n" + selectedClassLabel,
+      selectedClassLabel.startsWith(managedBeanClass));
+    bot.button(IDELabel.Button.OK).click();
+    bot.textWithLabel(IDELabel.FacesConfigEditor.NEW_MANAGED_BEAN_NAME_LABEL)
+      .setText(managedBeanName);
+    bot.button(IDELabel.Button.FINISH).click();
+    facesConfigEditorExt.save();
+    bot.sleep(Timing.time1S());
+    Assertions.assertSourceEditorContains(stripXMLSourceText(facesConfigEditorExt.getText()),
+        "<managed-bean><managed-bean-name>" + managedBeanName + "</managed-bean-name>" +
+        "<managed-bean-class>" + managedBeanClass + "</managed-bean-class>" +
+        "<managed-bean-scope>request</managed-bean-scope></managed-bean>",
+        AbstractFacesConfigEditingTest.FACES_CONFIG_FILE_NAME);
     // Delete Managed Bean
     tiManagedbean.select();
     editorBot.table().select(managedBeanName);
