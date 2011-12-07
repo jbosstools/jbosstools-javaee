@@ -9,13 +9,14 @@
  * Red Hat, Inc. - initial API and implementation
  ******************************************************************************/
 
-package org.jboss.tools.cdi.bot.test.jsf;
+package org.jboss.tools.cdi.bot.test.named;
 
 import java.util.Arrays;
 import java.util.Collection;
 
 import org.jboss.tools.cdi.bot.test.CDIAllBotTests;
 import org.jboss.tools.cdi.bot.test.annotations.CDIWizardType;
+import org.jboss.tools.cdi.bot.test.jsf.JSFTestBase;
 import org.jboss.tools.cdi.bot.test.uiutils.CollectionsUtil;
 import org.jboss.tools.ui.bot.ext.RequirementAwareSuite;
 import org.jboss.tools.ui.bot.ext.config.Annotations.Require;

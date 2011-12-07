@@ -47,7 +47,9 @@ public class SearchNamedDialogWizard extends Wizard {
 	public List<String> matchingItems() {
 		int tableItemsCount = bot().table(0).rowCount();
 		for (int i = 0; i < tableItemsCount; i++) {
-			matchingItems.add(bot().table(0).getTableItem(i).getText());
+			String itemInTable = bot().table(0).getTableItem(i).getText();
+			if (itemInTable.contains("Workspace matches")) continue;
+			matchingItems.add(itemInTable);
 		}
 		return matchingItems;
 	}

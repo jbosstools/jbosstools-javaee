@@ -25,8 +25,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite.SuiteClasses;
 
 /**
- * Test operates on beans validation in config file 
- * beans.xml
+ * Test operates on beans validation in beans.xml 
  * 
  * @author Jaroslav Jankovic
  * 

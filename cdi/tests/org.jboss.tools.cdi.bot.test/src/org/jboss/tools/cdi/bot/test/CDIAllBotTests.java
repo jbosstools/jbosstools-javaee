@@ -13,7 +13,8 @@ package org.jboss.tools.cdi.bot.test;
 import org.jboss.tools.cdi.bot.test.beansxml.BeansXMLCompletionTest;
 import org.jboss.tools.cdi.bot.test.beansxml.BeansXMLValidationTest;
 import org.jboss.tools.cdi.bot.test.editor.BeansEditorTest;
-import org.jboss.tools.cdi.bot.test.jsf.NamedRefactoringTest;
+import org.jboss.tools.cdi.bot.test.named.NamedComponentsSearchingTest;
+import org.jboss.tools.cdi.bot.test.named.NamedRefactoringTest;
 import org.jboss.tools.cdi.bot.test.openon.FindObserverForEventTest;
 import org.jboss.tools.cdi.bot.test.openon.OpenOnTest;
 import org.jboss.tools.cdi.bot.test.quickfix.injection.ProblemEligibleInjectionTest;
@@ -64,7 +65,8 @@ import org.junit.runners.Suite.SuiteClasses;
 	FacetTest.class, 
 	WizardTest.class,
 	BeansEditorTest.class,
-	NamedRefactoringTest.class, 
+	NamedRefactoringTest.class,
+	NamedComponentsSearchingTest.class,
 	BeansXMLValidationTest.class,
 	BeansXMLCompletionTest.class,
 	ProblemEligibleInjectionTest.class, 

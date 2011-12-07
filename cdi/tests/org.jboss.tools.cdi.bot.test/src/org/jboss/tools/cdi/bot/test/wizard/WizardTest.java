@@ -32,6 +32,8 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite.SuiteClasses;
 
 /**
+ * Test checks all CDI components Wizards
+ * 
  * @author Lukas Jungmann
  * @author jjankovi
  */

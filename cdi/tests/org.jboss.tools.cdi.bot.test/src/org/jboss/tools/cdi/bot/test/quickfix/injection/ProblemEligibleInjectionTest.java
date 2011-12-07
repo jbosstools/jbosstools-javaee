@@ -23,6 +23,13 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite.SuiteClasses;
 
+/**
+ * Test checks if Quick Fix provides useful operations when 
+ * ambiguous injection points
+ * @author jjankovi
+ *
+ */
+
 @Require(clearProjects = true, perspective = "Java EE", 
 		 server = @Server(state = ServerState.NotRunning, 
 		 version = "6.0", operator = ">="))
