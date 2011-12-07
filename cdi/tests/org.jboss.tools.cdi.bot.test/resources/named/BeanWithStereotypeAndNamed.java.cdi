@@ -1,0 +1,13 @@
+package cdi;
+
+import javax.inject.Named;
+
+@Stereotype1
+@Named("someBean")
+public class Bean1 {
+
+	public Bean1() {
+		// TODO Auto-generated constructor stub
+	}
+
+}
