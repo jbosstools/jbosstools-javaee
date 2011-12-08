@@ -184,9 +184,9 @@ public class JsfJbide2362Test extends VpeTest {
 					TestUtil.delay();
 				}
 
-				// wait
-				TestUtil.delay(700);
-				// wait
+				TestUtil.delay(VpeController.DEFAULT_UPDATE_DELAY_TIME * 2); // ensure that vpe is started to update
+				TestUtil.waitForJobs();
+
 				assertNotNull(xulRunnerEditor.getSelectedElement());
 			}
 		}
