@@ -364,7 +364,9 @@ public class CDICoreNature implements IProjectNature {
 			load();
 		} else {
 			loadProjectDependenciesFromKBProject();
-			isStorageResolved = true;
+			synchronized(this) {
+				isStorageResolved = true;
+			}
 		}
 	}
 
@@ -381,7 +383,10 @@ public class CDICoreNature implements IProjectNature {
 	 */	
 	public void load() {
 		if(isStorageResolved) return;
-		isStorageResolved = true;
+		synchronized(this) {
+			if(isStorageResolved) return;
+			isStorageResolved = true;
+		}
 		try {
 			getProject().build(IncrementalProjectBuilder.FULL_BUILD, CDICoreBuilder.BUILDER_ID, new HashMap(), new NullProgressMonitor());
 		} catch (CoreException e) {
