@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -54,6 +55,7 @@ import org.eclipse.wst.common.componentcore.resources.IVirtualFolder;
 import org.eclipse.wst.common.project.facet.core.IFacetedProject;
 import org.eclipse.wst.common.project.facet.core.IProjectFacetVersion;
 import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
+import org.jboss.tools.cdi.internal.core.impl.CDIProject;
 import org.jboss.tools.cdi.internal.core.impl.ClassBean;
 import org.jboss.tools.cdi.internal.core.validation.AnnotationValidationDelegate;
 import org.jboss.tools.cdi.internal.core.validation.CDICoreValidator;
@@ -946,7 +948,20 @@ public class CDIUtil {
 	 */
 	public static CDICoreNature getCDINatureWithProgress(final IProject project){
 		final CDICoreNature cdiNature = CDICorePlugin.getCDI(project, false);
-		if(cdiNature != null && !cdiNature.isStorageResolved()){
+		if(cdiNature == null) {
+			return null;
+		}
+		boolean resolved = cdiNature.isStorageResolved();
+		if(resolved) {
+			Set<CDICoreNature> ps = cdiNature.getCDIProjects(true);
+			for (CDICoreNature p: ps) {
+				if(!p.isStorageResolved()) {
+					resolved = false;
+					break;
+				}
+			}
+		}
+		if(!resolved){
 			if (Display.getCurrent() != null) {
 				try{
 					PlatformUI.getWorkbench().getProgressService().busyCursorWhile(new IRunnableWithProgress(){
@@ -955,7 +970,21 @@ public class CDIUtil {
 							monitor.beginTask(CDICoreMessages.CDI_UTIL_BUILD_CDI_MODEL, 10);
 							monitor.worked(3);
 							cdiNature.resolve();
-							monitor.worked(7);
+							Set<CDICoreNature> ps = cdiNature.getCDIProjects(true);
+							Iterator<CDICoreNature> it = ps.iterator();
+							while(it.hasNext()) {
+								CDICoreNature n = it.next();
+								if(n.isStorageResolved()) it.remove();
+							}
+							if(ps.isEmpty()) {
+								monitor.worked(7);
+							} else {
+								int delta = (ps.size() == 1) ? 7 : ps.size() == 2 ? 3 : ps.size() == 3 ? 2 : 1;
+								for (CDICoreNature p: ps) {
+									p.resolve();
+									monitor.worked(delta);
+								}
+							}
 						}
 					});
 				}catch(InterruptedException ie){

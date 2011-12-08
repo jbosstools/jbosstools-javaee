@@ -104,7 +104,11 @@ public class CDICorePlugin extends BaseUIPlugin {
 		CDICoreNature n = null;
 		try {
 			n = (CDICoreNature)project.getNature(CDICoreNature.NATURE_ID);
-			if(resolve) n.resolve();
+			if(resolve) {
+				n.resolve();
+			} else {
+				n.loadProjectDependencies();
+			}
 		} catch (CoreException e) {
 			getDefault().logError(e);
 		}

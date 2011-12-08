@@ -295,7 +295,6 @@ public class CDICoreNature implements IProjectNature {
 		
 	}
 
-
 	public void addCDIProject(final CDICoreNature p) {
 		if(dependsOn.contains(p)) return;
 		addUsedCDIProject(p);
@@ -561,10 +560,24 @@ public class CDICoreNature implements IProjectNature {
 	public void reloadProjectDependencies() {
 		dependsOn.clear();
 		usedBy.clear();
+		synchronized (this) {
+			projectDependenciesLoaded = false;
+		}
+		loadProjectDependenciesFromKBProject();
+	}
+
+	boolean projectDependenciesLoaded = false;
+
+	public void loadProjectDependencies() {
 		loadProjectDependenciesFromKBProject();
 	}
 
 	private void loadProjectDependenciesFromKBProject() {
+		if(projectDependenciesLoaded) return;
+		synchronized(this) {
+			if(projectDependenciesLoaded) return;
+			projectDependenciesLoaded = true;
+		}
 		Element root = null;
 		File file = getKBStorageFile();
 		if(file != null && file.isFile()) {
