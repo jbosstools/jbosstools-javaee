@@ -383,21 +383,25 @@
           	<contentType id="org.eclipse.jst.jsf.facesconfig.facesConfigFile">
          		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_TEXT">
          			<axis path="/faces-config/application/message-bundle/" />
+         			<axis path="/faces-config/application/resource-bundle/base-name/" />
          		</partitionType>
          	</contentType>
          	<contentType id="org.eclipse.wst.xml.core.xmlsource">
          		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_TEXT">
          			<axis path="/faces-config/application/message-bundle/" />
+         			<axis path="/faces-config/application/resource-bundle/base-name/" />
          		</partitionType>
          	</contentType>
          	<contentType id="org.eclipse.core.runtime.xml">
          		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_TEXT">
          			<axis path="/faces-config/application/message-bundle/" />
+         			<axis path="/faces-config/application/resource-bundle/base-name/" />
          		</partitionType>
          	</contentType>
          	<contentType id="org.jboss.tools.common.model.ui.xml">
          		<partitionType id="org.jboss.tools.common.text.ext.xml.XML_TEXT">
          			<axis path="/faces-config/application/message-bundle/" />
+         			<axis path="/faces-config/application/resource-bundle/base-name/" />
          		</partitionType>
          	</contentType>
 		</hyperlinkPartitioner>

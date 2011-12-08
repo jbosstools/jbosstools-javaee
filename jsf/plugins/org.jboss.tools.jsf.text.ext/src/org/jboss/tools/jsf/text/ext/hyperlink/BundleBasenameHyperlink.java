@@ -13,6 +13,7 @@ package org.jboss.tools.jsf.text.ext.hyperlink;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Properties;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
@@ -33,6 +34,7 @@ import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.model.util.FindObjectHelper;
 import org.jboss.tools.common.model.util.XModelObjectLoaderUtil;
 import org.jboss.tools.common.text.ext.hyperlink.ClassHyperlink;
+import org.jboss.tools.common.text.ext.hyperlink.XModelBasedHyperlink;
 import org.jboss.tools.common.text.ext.hyperlink.xpl.Messages;
 import org.jboss.tools.common.text.ext.util.StructuredModelWrapper;
 import org.jboss.tools.common.text.ext.util.Utils;
@@ -41,6 +43,7 @@ import org.jboss.tools.jsf.model.pv.JSFProjectsRoot;
 import org.jboss.tools.jsf.model.pv.JSFProjectsTree;
 import org.jboss.tools.jsf.text.ext.JSFExtensionsPlugin;
 import org.jboss.tools.jst.web.model.pv.WebProjectNode;
+import org.jboss.tools.jst.web.project.list.WebPromptingProvider;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -49,29 +52,27 @@ import org.w3c.dom.Text;
 /**
  * @author Jeremy
  */
-public class BundleBasenameHyperlink extends ClassHyperlink {
-	private static final String FILESYSTEMS = "/FileSystems/"; //$NON-NLS-1$
-	
-	protected void doHyperlink(IRegion region) {
-		try {
-			String fileName = getBundleBasename(region);
-			XModelObject mo = getXModelObjectToOpen(fileName);
-			if (mo != null) {
-				// Open XModelObject in editor
-				FindObjectHelper.findModelObject(mo, FindObjectHelper.IN_EDITOR_ONLY);
-			} else {
-				IFile fileToOpen = getFileToOpen(fileName, "properties"); //$NON-NLS-1$
-				if (fileToOpen != null) {
-					IWorkbenchPage workbenchPage = JSFExtensionsPlugin.getDefault().getWorkbench().getActiveWorkbenchWindow().getActivePage();
-					IDE.openEditor(workbenchPage,fileToOpen,true);
-				} else {
-					super.doHyperlink(region);
-				}
+public class BundleBasenameHyperlink extends XModelBasedHyperlink {
+	protected String getRequestMethod() {
+		return WebPromptingProvider.JSF_OPEN_BUNDLE;
+	}
+
+	protected Properties getRequestProperties(IRegion region) {
+		Properties p = new Properties();
+
+		String value = getBundleBasename(region);
+		value = (value == null? "" : value); //$NON-NLS-1$
+		p.setProperty(WebPromptingProvider.BUNDLE, value);
+
+		String[] locales = getOrderedLocales();
+		if(locales != null && locales.length > 0) {
+			value = locales[0];
+			if (value != null) {
+				p.setProperty(WebPromptingProvider.LOCALE, value);
 			}
-		} catch (CoreException x) {
-			// could not open editor
-			openFileFailed();
 		}
+
+		return p;
 	}
 	
 	private String getBundleBasename(IRegion region) {
@@ -238,153 +239,6 @@ public class BundleBasenameHyperlink extends ClassHyperlink {
 		supportedLocales.addAll(langs);
 		supportedLocales.add(""); //$NON-NLS-1$
 		return supportedLocales.toArray(new String[0]);
-	}
-	
-	private XModelObject getXModelObjectToOpen(String fileName) {
-		// Search thru the XModelObject for Faces Config
-		String baseLocation = getBaseLocation();
-		if (baseLocation == null)
-			return null;
-		
-		int index = baseLocation.indexOf(FILESYSTEMS);
-		if (index == -1)
-			return null;
-		
-		String projectName = baseLocation.substring(1, index);
-		String path = baseLocation.substring(index + 1);
-
-		IProject project = null;
-		try {
-			project = ResourcesPlugin.getWorkspace().getRoot().getProject(projectName);
-		} catch (Throwable x) {
-			return null;
-		}
-		IModelNature modelNature = EclipseResourceUtil.getModelNature(project);
-		if (modelNature == null || modelNature.getModel() == null)
-			return null;
-		
-		XModelObject xmo = modelNature.getModel().getByPath(path);
-		
-		if (xmo instanceof FileFacesConfigImpl) {
-			XModelObject fcObject = xmo;
-		
-			String[] orderedLocales = getOrderedLocales(fcObject);
-			XModelObject[] bundles = getBundles(fcObject);
-			for (int l = 0; orderedLocales != null && l < orderedLocales.length; l++) {
-				String name = fileName + (orderedLocales[l].length() == 0 ? "" : //$NON-NLS-1$
-								"_" + orderedLocales[l]); //$NON-NLS-1$
-
-				for (int i = 0; bundles != null && i < bundles.length; i++) {
-					String bundleName = XModelObjectLoaderUtil.getResourcePath(bundles[i]);
-
-					if (bundleName.equals(name)) {
-							return bundles[i];
-					}
-				}
-			}
-		}
-		
-		return null;
-	}
-	
-	private IFile getFileToOpen(String fileName, String fileExt) {
-		if (fileName == null)
-			return null;
-		
-		String[] orderedLocales = getOrderedLocales();
-		String[] bundles = getBundles();
-
-		for (int l = 0; orderedLocales != null && l < orderedLocales.length; l++) {
-			String name = fileName + (orderedLocales[l].length() == 0 ? "" : //$NON-NLS-1$
-							"_" + orderedLocales[l]); //$NON-NLS-1$
-
-			for (int i = 0; bundles != null && i < bundles.length; i++) {
-				if (bundles[i].equals(name)) {
-					IFile file = findFile(name.replace('.','/')+
-			                (fileExt != null ? "." + fileExt : "")); //$NON-NLS-1$ //$NON-NLS-2$
-					if (file != null)
-						return file;
-				}
-			}
-		}
-		return null;
-	}
-
-	private IFile findFile(String name) {
-		IFile documentFile = getFile();
-		try {	
-			IProject project = documentFile.getProject();
-		
-			if(project == null || !project.isOpen()) return null;
-			if(!project.hasNature(JavaCore.NATURE_ID)) return null;
-			IJavaProject javaProject = JavaCore.create(project);		
-			IClasspathEntry[] es = javaProject.getResolvedClasspath(true);
-			for (int i = 0; i < es.length; i++) {
-				if(es[i].getEntryKind() != IClasspathEntry.CPE_SOURCE) continue;
-				IFile file = (IFile)project.getFile(es[i].getPath().removeFirstSegments(1) + "/" + name); //$NON-NLS-1$
-				if(file != null && file.exists()) return file;
-			}
-			return null;
-		} catch (CoreException x) {
-			JSFExtensionsPlugin.log("", x); //$NON-NLS-1$
-			return null;
-		}
-	}
-
-	IRegion fLastRegion = null;
-	/** 
-	 * @see com.ibm.sse.editor.AbstractHyperlink#doGetHyperlinkRegion(int)
-	 */
-	protected IRegion doGetHyperlinkRegion(int offset) {
-		fLastRegion = getRegion(offset);
-		return fLastRegion;
-	}
-
-	public IRegion getRegion(int offset) {
-		StructuredModelWrapper smw = new StructuredModelWrapper();
-		smw.init(getDocument());
-		try {
-			Document xmlDocument = smw.getDocument();
-			if (xmlDocument == null) return null;
-			
-			Node n = Utils.findNodeForOffset(xmlDocument, offset);
-
-			if (n == null || !(n instanceof Attr || n instanceof Text)) return null;
-			
-			int start = Utils.getValueStart(n);
-			int end = Utils.getValueEnd(n);
-
-			if (start > offset || end < offset) return null;
-
-			String text = getDocument().get(start, end - start);
-			StringBuilder sb = new StringBuilder(text);
-
-			//find start and end of path property
-			int bStart = 0;
-			int bEnd = text.length() - 1;
-
-			while (bStart < bEnd && (Character.isWhitespace(sb.charAt(bStart)) 
-					|| sb.charAt(bStart) == '\"' || sb.charAt(bStart) == '\"')) { 
-				bStart++;
-			}
-			while (bEnd > bStart && (Character.isWhitespace(sb.charAt(bEnd)) 
-					|| sb.charAt(bEnd) == '\"' || sb.charAt(bEnd) == '\"')) { 
-				bEnd--;
-			}
-			bEnd++;
-
-			final int propStart = bStart + start;
-			final int propLength = bEnd - bStart;
-			
-			if (propStart > offset || propStart + propLength < offset) return null;
-	
-			return new Region(propStart,propLength);
-		} catch (BadLocationException x) {
-			JSFExtensionsPlugin.log("", x); //$NON-NLS-1$
-			return null;
-		} finally {
-			smw.dispose();
-		}
 	}
 	
 	/*
