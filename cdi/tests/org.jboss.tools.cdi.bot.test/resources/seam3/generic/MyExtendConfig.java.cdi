@@ -1,4 +1,4 @@
-package org.cdi.generic;
+package cdi.seam;
 
 @MyGenericType("third")
 @Qualifier2

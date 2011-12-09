@@ -1,4 +1,4 @@
-package org.cdi.generic;
+package cdi.seam;
 
 import org.jboss.seam.solder.bean.generic.GenericType;
 

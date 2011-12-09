@@ -1,4 +1,4 @@
-package cdi;
+package cdi.seam;
 
 import java.net.URL;
 
@@ -12,8 +12,4 @@ public class BeanComponent {
 	@Resource("WEB-INF/beans.xml")
 	URL beansXml;
 	
-	public ResourceBean() {
-		// TODO Auto-generated constructor stub
-	}
-
 }

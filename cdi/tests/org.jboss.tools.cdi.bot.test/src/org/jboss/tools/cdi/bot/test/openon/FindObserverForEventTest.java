@@ -11,19 +11,10 @@
 
 package org.jboss.tools.cdi.bot.test.openon;
 
-import java.util.logging.Logger;
-
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTable;
-import org.jboss.tools.cdi.bot.test.CDIAllBotTests;
 import org.jboss.tools.cdi.bot.test.annotations.CDIWizardType;
-import org.jboss.tools.ui.bot.ext.RequirementAwareSuite;
 import org.jboss.tools.ui.bot.ext.Timing;
-import org.jboss.tools.ui.bot.ext.config.Annotations.Require;
-import org.jboss.tools.ui.bot.ext.config.Annotations.Server;
-import org.jboss.tools.ui.bot.ext.config.Annotations.ServerState;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite.SuiteClasses;
 
 /**
  * Test operates on finding right observer for event and vice versa
@@ -31,14 +22,7 @@ import org.junit.runners.Suite.SuiteClasses;
  * @author Jaroslav Jankovic
  */
 
-@Require(clearProjects = true, perspective = "Java EE", 
-		server = @Server(state = ServerState.NotRunning, 
-		version = "6.0", operator = ">="))
-@RunWith(RequirementAwareSuite.class)
-@SuiteClasses({ CDIAllBotTests.class })
 public class FindObserverForEventTest extends OpenOnBase {
-
-	private static final Logger LOGGER = Logger.getLogger(FindObserverForEventTest.class.getName());
 
 	@Override
 	public String getProjectName() {

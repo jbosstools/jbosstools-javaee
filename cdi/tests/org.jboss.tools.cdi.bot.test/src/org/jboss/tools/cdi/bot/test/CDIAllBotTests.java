@@ -26,7 +26,8 @@ import org.jboss.tools.cdi.bot.test.quickfix.test.InterceptorValidationQuickFixT
 import org.jboss.tools.cdi.bot.test.quickfix.test.QualifierValidationQuickFixTest;
 import org.jboss.tools.cdi.bot.test.quickfix.test.ScopeValidationQuickFixTest;
 import org.jboss.tools.cdi.bot.test.quickfix.test.StereotypeValidationQuickFixTest;
-import org.jboss.tools.cdi.bot.test.seam3.Seam3Test;
+import org.jboss.tools.cdi.bot.test.seam3.Seam3GenericOpenOnTest;
+import org.jboss.tools.cdi.bot.test.seam3.Seam3ResourceOpenOnTest;
 import org.jboss.tools.cdi.bot.test.uiutils.SWTEclipseCDIExtUtil;
 import org.jboss.tools.cdi.bot.test.wizard.ConfigurationPresetTest;
 import org.jboss.tools.cdi.bot.test.wizard.FacetTest;
@@ -53,7 +54,7 @@ import org.junit.runners.Suite.SuiteClasses;
  *  JAVA=1.6,/space/java/sdk/jdk1.6.0_22
  *  
  *  
- *  Suite duration: aprox. 28min
+ *  Suite duration: aprox. 29min
  * 
  * @author Lukas Jungmann
  * @author Jaroslav Jankovic
@@ -80,7 +81,8 @@ import org.junit.runners.Suite.SuiteClasses;
 	IBindingValidationQuickFixTest.class,
 	OpenOnTest.class,
 	FindObserverForEventTest.class, 
-	Seam3Test.class
+	Seam3ResourceOpenOnTest.class,
+	Seam3GenericOpenOnTest.class,
 })
 public class CDIAllBotTests extends CDITestBase {
 		

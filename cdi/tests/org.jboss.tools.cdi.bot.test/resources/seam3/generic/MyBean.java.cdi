@@ -1,4 +1,4 @@
-package org.cdi.generic;
+package cdi.seam;
 
 public class MyBeanX {
 	

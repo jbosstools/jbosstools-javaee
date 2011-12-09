@@ -16,7 +16,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -24,6 +23,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
 import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotEditor;
 import org.jboss.tools.cdi.bot.test.CDIAllBotTests;
+import org.jboss.tools.cdi.bot.test.CDISmokeBotTests;
 import org.jboss.tools.cdi.bot.test.CDITestBase;
 import org.jboss.tools.cdi.bot.test.editor.BeansEditor.Item;
 import org.jboss.tools.ui.bot.ext.RequirementAwareSuite;
@@ -50,14 +50,13 @@ import org.xml.sax.SAXException;
  * @author jjankovi
  */
 @Require(clearProjects = false, perspective = "Java EE", 
-		server = @Server(state = ServerState.NotRunning, 
-		version = "6.0", operator = ">="))
+server = @Server(state = ServerState.NotRunning, 
+version = "6.0", operator = ">="))
 @RunWith(RequirementAwareSuite.class)
-@SuiteClasses({ CDIAllBotTests.class })
+@SuiteClasses({ CDIAllBotTests.class, CDISmokeBotTests.class })
 public class BeansEditorTest extends CDITestBase {
 
 	private static final String descPath = "WebContent/WEB-INF/beans.xml";
-	private static final Logger LOGGER = Logger.getLogger(BeansEditorTest.class.getName());
 		
 	@BeforeClass
 	public static void setup() {

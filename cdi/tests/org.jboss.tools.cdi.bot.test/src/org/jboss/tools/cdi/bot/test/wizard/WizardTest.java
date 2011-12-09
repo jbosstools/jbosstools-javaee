@@ -11,8 +11,6 @@
 
 package org.jboss.tools.cdi.bot.test.wizard;
 
-import java.util.logging.Logger;
-
 import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
 import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotEditor;
 import org.jboss.tools.cdi.bot.test.CDIAllBotTests;
@@ -22,13 +20,8 @@ import org.jboss.tools.cdi.bot.test.annotations.CDIWizardType;
 import org.jboss.tools.cdi.bot.test.uiutils.actions.NewCDIFileWizard;
 import org.jboss.tools.cdi.bot.test.uiutils.wizards.CDIWizardBase;
 import org.jboss.tools.cdi.bot.test.uiutils.wizards.CDIWizardBaseExt;
-import org.jboss.tools.ui.bot.ext.RequirementAwareSuite;
 import org.jboss.tools.ui.bot.ext.Timing;
-import org.jboss.tools.ui.bot.ext.config.Annotations.Require;
-import org.jboss.tools.ui.bot.ext.config.Annotations.Server;
-import org.jboss.tools.ui.bot.ext.config.Annotations.ServerState;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.junit.runners.Suite.SuiteClasses;
 
 /**
@@ -37,14 +30,10 @@ import org.junit.runners.Suite.SuiteClasses;
  * @author Lukas Jungmann
  * @author jjankovi
  */
-@Require(clearProjects = true, perspective = "Java EE", 
-		server = @Server(state = ServerState.NotRunning, 
-		version = "6.0", operator = ">="))
-@RunWith(RequirementAwareSuite.class)
+
 @SuiteClasses({ CDIAllBotTests.class, CDISmokeBotTests.class })
 public class WizardTest extends CDITestBase {
 
-	private static final Logger L = Logger.getLogger(WizardTest.class.getName());
 	private final CDIWizardBaseExt wizard = new CDIWizardBaseExt();
 
 	public String getProjectName() {
@@ -67,7 +56,7 @@ public class WizardTest extends CDITestBase {
 		SWTBotEditor ed = new SWTWorkbenchBot().activeEditor();
 		assertTrue(("Q1.java").equals(ed.getTitle()));
 		String code = ed.toTextEditor().getText();
-		L.fine(code);
+		LOGGER.fine(code);
 		assertTrue(code.contains("@Qualifier"));
 		assertTrue(code.contains("@Retention(RUNTIME)"));
 		assertTrue(code.contains("@Target({ TYPE, METHOD, PARAMETER, FIELD })"));
@@ -79,7 +68,7 @@ public class WizardTest extends CDITestBase {
 		ed = new SWTWorkbenchBot().activeEditor();
 		assertTrue(("Q2.java").equals(ed.getTitle()));
 		code = ed.toTextEditor().getText();
-		L.fine(code);
+		LOGGER.fine(code);
 		assertTrue(code.contains("@Qualifier"));
 		assertTrue(code.contains("@Retention(RUNTIME)"));
 		assertTrue(code.contains("@Target({ TYPE, METHOD, PARAMETER, FIELD })"));
@@ -94,7 +83,7 @@ public class WizardTest extends CDITestBase {
 		SWTBotEditor ed = new SWTWorkbenchBot().activeEditor();
 		assertTrue(("Scope1.java").equals(ed.getTitle()));
 		String code = ed.toTextEditor().getText();
-		L.fine(code);
+		LOGGER.fine(code);
 		assertTrue(code.contains("@NormalScope"));
 		assertFalse(code.contains("@Scope"));
 		assertFalse(code.contains("passivating"));
@@ -108,7 +97,7 @@ public class WizardTest extends CDITestBase {
 		ed = new SWTWorkbenchBot().activeEditor();
 		assertTrue(("Scope2.java").equals(ed.getTitle()));
 		code = ed.toTextEditor().getText();
-		L.fine(code);
+		LOGGER.fine(code);
 		assertTrue(code.contains("@NormalScope(passivating = true)"));
 		assertFalse(code.contains("@Scope"));
 		assertTrue(code.contains("@Retention(RUNTIME)"));
@@ -121,7 +110,7 @@ public class WizardTest extends CDITestBase {
 		ed = new SWTWorkbenchBot().activeEditor();
 		assertTrue(("Scope3.java").equals(ed.getTitle()));
 		code = ed.toTextEditor().getText();
-		L.fine(code);
+		LOGGER.fine(code);
 		assertTrue(code.contains("@Scope"));
 		assertFalse(code.contains("@NormalScope"));
 		assertTrue(code.contains("@Retention(RUNTIME)"));
@@ -139,7 +128,7 @@ public class WizardTest extends CDITestBase {
 		SWTBotEditor ed = new SWTWorkbenchBot().activeEditor();
 		assertTrue(("B1.java").equals(ed.getTitle()));
 		String code = ed.toTextEditor().getText();
-		L.fine(code);
+		LOGGER.fine(code);
 		assertTrue(code.contains("@InterceptorBinding"));
 		assertTrue(code.contains("@Retention(RUNTIME)"));
 		assertTrue(code.contains("@Target({ TYPE, METHOD })"));
@@ -151,7 +140,7 @@ public class WizardTest extends CDITestBase {
 		ed = new SWTWorkbenchBot().activeEditor();
 		assertTrue(("B2.java").equals(ed.getTitle()));
 		code = ed.toTextEditor().getText();
-		L.fine(code);
+		LOGGER.fine(code);
 		assertTrue(code.contains("@InterceptorBinding"));
 		assertTrue(code.contains("@Retention(RUNTIME)"));
 		assertTrue(code.contains("@Target({ TYPE })"));
@@ -163,7 +152,7 @@ public class WizardTest extends CDITestBase {
 		ed = new SWTWorkbenchBot().activeEditor();
 		assertTrue(("B3.java").equals(ed.getTitle()));
 		code = ed.toTextEditor().getText();
-		L.fine(code);
+		LOGGER.fine(code);
 		assertTrue(code.contains("@InterceptorBinding"));
 		assertTrue(code.contains("@Retention(RUNTIME)"));
 		assertTrue(code.contains("@Target({ TYPE })"));
@@ -177,7 +166,7 @@ public class WizardTest extends CDITestBase {
 		ed = new SWTWorkbenchBot().activeEditor();
 		assertTrue(("B4.java").equals(ed.getTitle()));
 		code = ed.toTextEditor().getText();
-		L.fine(code);
+		LOGGER.fine(code);
 		assertTrue(code.contains("@InterceptorBinding"));
 		assertTrue(code.contains("@Retention(RUNTIME)"));
 		assertTrue(code.contains("@Target({ TYPE })"));
@@ -197,7 +186,7 @@ public class WizardTest extends CDITestBase {
 		SWTBotEditor ed = new SWTWorkbenchBot().activeEditor();
 		assertTrue(("S1.java").equals(ed.getTitle()));
 		String code = ed.toTextEditor().getText();
-		L.fine(code);
+		LOGGER.fine(code);
 		assertTrue(code.contains("@Stereotype"));
 		assertTrue(code.contains("@Retention(RUNTIME)"));
 		assertTrue(code.contains("@Target({ TYPE, METHOD, FIELD })"));
@@ -212,7 +201,7 @@ public class WizardTest extends CDITestBase {
 		ed = new SWTWorkbenchBot().activeEditor();
 		assertTrue(("S2.java").equals(ed.getTitle()));
 		code = ed.toTextEditor().getText();
-		L.fine(code);
+		LOGGER.fine(code);
 		assertTrue(code.contains("@Stereotype"));
 		assertTrue(code.contains("@Scope3"));
 		assertTrue(code.contains("@Named"));
@@ -230,7 +219,7 @@ public class WizardTest extends CDITestBase {
 		ed = new SWTWorkbenchBot().activeEditor();
 		assertTrue(("S3.java").equals(ed.getTitle()));
 		code = ed.toTextEditor().getText();
-		L.fine(code);
+		LOGGER.fine(code);
 		assertTrue(code.contains("@Stereotype"));
 		assertFalse(code.contains("@Scope3"));
 		assertFalse(code.contains("@Named"));
@@ -252,7 +241,7 @@ public class WizardTest extends CDITestBase {
 		SWTBotEditor ed = new SWTWorkbenchBot().editorByTitle("ComparableDecorator.java");
 		assertTrue(("ComparableDecorator.java").equals(ed.getTitle()));
 		String code = ed.toTextEditor().getText();
-		L.fine(code);
+		LOGGER.fine(code);
 		assertTrue(code.contains("@Decorator"));
 		assertTrue(code.contains("abstract class"));
 		assertTrue(code.contains("@Delegate"));
@@ -268,7 +257,7 @@ public class WizardTest extends CDITestBase {
 		ed = new SWTWorkbenchBot().editorByTitle("MapDecorator.java");
 		assertTrue(("MapDecorator.java").equals(ed.getTitle()));
 		code = ed.toTextEditor().getText();
-		L.fine(code);
+		LOGGER.fine(code);
 		assertTrue(code.contains("@Decorator"));
 		assertFalse(code.contains("abstract"));
 		assertTrue(code.contains("@Delegate"));
@@ -287,7 +276,7 @@ public class WizardTest extends CDITestBase {
 		SWTBotEditor ed = new SWTWorkbenchBot().editorByTitle("I1.java");
 		assertTrue(("I1.java").equals(ed.getTitle()));
 		String code = ed.toTextEditor().getText();
-		L.fine(code);
+		LOGGER.fine(code);
 		assertTrue(code.contains("@B2"));
 		assertTrue(code.contains("@Interceptor"));
 		assertTrue(code.contains("@AroundInvoke"));
@@ -301,7 +290,7 @@ public class WizardTest extends CDITestBase {
 		ed = new SWTWorkbenchBot().editorByTitle("I2.java");
 		assertTrue(("I2.java").equals(ed.getTitle()));
 		code = ed.toTextEditor().getText();
-		L.fine(code);
+		LOGGER.fine(code);
 		assertTrue(code.contains("@B4"));
 		assertTrue(code.contains("@Interceptor"));
 		assertTrue(code.contains("@AroundInvoke"));
@@ -332,7 +321,7 @@ public class WizardTest extends CDITestBase {
 		SWTBotEditor ed = new SWTWorkbenchBot().activeEditor();
 		assertTrue(("Bean1.java").equals(ed.getTitle()));
 		String code = ed.toTextEditor().getText();
-		L.fine(code);
+		LOGGER.fine(code);
 		assertTrue(code.contains("package cdi;"));
 		assertTrue(code.contains("public abstract class Bean1 {"));
 		assertFalse(code.contains("@Named"));
@@ -345,7 +334,7 @@ public class WizardTest extends CDITestBase {
 		ed = new SWTWorkbenchBot().activeEditor();
 		assertTrue(("Bean2.java").equals(ed.getTitle()));
 		code = ed.toTextEditor().getText();
-		L.fine(code);
+		LOGGER.fine(code);
 		assertTrue(code.contains("package cdi;"));
 		assertTrue(code.contains("@Named"));
 		assertFalse(code.contains("@Named("));
@@ -359,7 +348,7 @@ public class WizardTest extends CDITestBase {
 		ed = new SWTWorkbenchBot().activeEditor();
 		assertTrue(("Bean3.java").equals(ed.getTitle()));
 		code = ed.toTextEditor().getText();
-		L.fine(code);
+		LOGGER.fine(code);
 		assertTrue(code.contains("package cdi;"));
 		assertTrue(code.contains("@Named(\"TestedBean\")"));
 		assertTrue(code.contains("@Scope2"));
@@ -377,7 +366,7 @@ public class WizardTest extends CDITestBase {
 		SWTBotEditor ed = new SWTWorkbenchBot().activeEditor();
 		assertTrue(("AnnL1.java").equals(ed.getTitle()));
 		String code = ed.toTextEditor().getText();
-		L.info(code);
+		LOGGER.info(code);
 		assertTrue(code.contains("package cdi;"));
 		assertTrue(code.contains("public final class AnnL1 extends AnnotationLiteral<Q1> implements Q1"));
 		assertTrue(code.contains("public static final Q1 INSTANCE = new AnnL1();"));
@@ -390,7 +379,7 @@ public class WizardTest extends CDITestBase {
 		ed = new SWTWorkbenchBot().activeEditor();
 		assertTrue(("AnnL2.java").equals(ed.getTitle()));
 		code = ed.toTextEditor().getText();
-		L.info(code);
+		LOGGER.info(code);
 		assertTrue(code.contains("package cdi;"));
 		assertTrue(code.contains("abstract class AnnL2 extends AnnotationLiteral<Q2> implements Q2 {"));
 		assertTrue(code.contains("public static final Q2 INSTANCE = new AnnL2();"));

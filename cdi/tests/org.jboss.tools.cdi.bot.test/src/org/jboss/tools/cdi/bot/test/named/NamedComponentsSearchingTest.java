@@ -15,20 +15,13 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.jboss.tools.cdi.bot.test.CDIAllBotTests;
 import org.jboss.tools.cdi.bot.test.CDITestBase;
 import org.jboss.tools.cdi.bot.test.annotations.CDIWizardType;
 import org.jboss.tools.cdi.bot.test.uiutils.wizards.CDIWizardBaseExt;
 import org.jboss.tools.cdi.bot.test.uiutils.wizards.SearchNamedDialogWizard;
-import org.jboss.tools.ui.bot.ext.RequirementAwareSuite;
 import org.jboss.tools.ui.bot.ext.Timing;
-import org.jboss.tools.ui.bot.ext.config.Annotations.Require;
-import org.jboss.tools.ui.bot.ext.config.Annotations.Server;
-import org.jboss.tools.ui.bot.ext.config.Annotations.ServerState;
 import org.junit.After;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite.SuiteClasses;
 
 /**
  * Test operates on @Named searching  
@@ -36,11 +29,7 @@ import org.junit.runners.Suite.SuiteClasses;
  * @author Jaroslav Jankovic
  * 
  */
-@Require(clearProjects = true, perspective = "Java EE", 
-		server = @Server(state = ServerState.NotRunning, 
-		version = "6.0", operator = ">=")) 
-@RunWith(RequirementAwareSuite.class)
-@SuiteClasses({ CDIAllBotTests.class })
+
 public class NamedComponentsSearchingTest extends CDITestBase {
 
 	private final CDIWizardBaseExt wizardExt = new CDIWizardBaseExt();

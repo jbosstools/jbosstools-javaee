@@ -13,24 +13,16 @@ package org.jboss.tools.cdi.bot.test.beansxml;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.logging.Logger;
 
-import org.jboss.tools.cdi.bot.test.CDIAllBotTests;
 import org.jboss.tools.cdi.bot.test.CDITestBase;
 import org.jboss.tools.cdi.bot.test.annotations.CDIWizardType;
-import org.jboss.tools.ui.bot.ext.RequirementAwareSuite;
 import org.jboss.tools.ui.bot.ext.SWTJBTExt;
 import org.jboss.tools.ui.bot.ext.SWTTestExt;
 import org.jboss.tools.ui.bot.ext.Timing;
-import org.jboss.tools.ui.bot.ext.config.Annotations.Require;
-import org.jboss.tools.ui.bot.ext.config.Annotations.Server;
-import org.jboss.tools.ui.bot.ext.config.Annotations.ServerState;
 import org.jboss.tools.ui.bot.ext.helper.ContentAssistHelper;
 import org.jboss.tools.ui.bot.ext.parts.ContentAssistBot;
 import org.jboss.tools.ui.bot.ext.parts.SWTBotEditorExt;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite.SuiteClasses;
 
 /**
  * Test operates on code completion in beans.xml
@@ -39,15 +31,7 @@ import org.junit.runners.Suite.SuiteClasses;
  * 
  */
 
-@Require(clearProjects = true, perspective = "Java EE", 
-		server = @Server(state = ServerState.NotRunning, 
-		version = "6.0", operator = ">="))
-@RunWith(RequirementAwareSuite.class)
-@SuiteClasses({ CDIAllBotTests.class })
 public class BeansXMLCompletionTest extends CDITestBase {
-
-	private static final Logger LOGGER = Logger
-			.getLogger(BeansXMLCompletionTest.class.getName());
 	
 	private static final List<String> BEANS_XML_TAGS = Arrays.asList(
 			"alternatives", "decorators", "interceptors");

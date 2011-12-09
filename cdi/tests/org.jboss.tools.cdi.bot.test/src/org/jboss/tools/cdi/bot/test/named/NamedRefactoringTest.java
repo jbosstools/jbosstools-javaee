@@ -14,18 +14,11 @@ package org.jboss.tools.cdi.bot.test.named;
 import java.util.Arrays;
 import java.util.Collection;
 
-import org.jboss.tools.cdi.bot.test.CDIAllBotTests;
 import org.jboss.tools.cdi.bot.test.annotations.CDIWizardType;
 import org.jboss.tools.cdi.bot.test.jsf.JSFTestBase;
 import org.jboss.tools.cdi.bot.test.uiutils.CollectionsUtil;
-import org.jboss.tools.ui.bot.ext.RequirementAwareSuite;
-import org.jboss.tools.ui.bot.ext.config.Annotations.Require;
-import org.jboss.tools.ui.bot.ext.config.Annotations.Server;
-import org.jboss.tools.ui.bot.ext.config.Annotations.ServerState;
 import org.junit.After;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite.SuiteClasses;
 
 /**
  * Test operates on @Named refactoring  
@@ -33,11 +26,7 @@ import org.junit.runners.Suite.SuiteClasses;
  * @author Jaroslav Jankovic
  * 
  */
-@Require(clearProjects = true, perspective = "Java EE", 
-		server = @Server(state = ServerState.NotRunning, 
-		version = "6.0", operator = ">=")) 
-@RunWith(RequirementAwareSuite.class)
-@SuiteClasses({ CDIAllBotTests.class })
+
 public class NamedRefactoringTest extends JSFTestBase {
 
 	private static final String MANAGED_BEAN_1 = "ManagedBean1";

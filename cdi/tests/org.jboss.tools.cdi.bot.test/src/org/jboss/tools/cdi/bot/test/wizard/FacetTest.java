@@ -11,17 +11,10 @@
 
 package org.jboss.tools.cdi.bot.test.wizard;
 
-import java.util.logging.Logger;
-
 import org.jboss.tools.cdi.bot.test.CDIAllBotTests;
 import org.jboss.tools.cdi.bot.test.CDISmokeBotTests;
 import org.jboss.tools.cdi.bot.test.CDITestBase;
-import org.jboss.tools.ui.bot.ext.RequirementAwareSuite;
-import org.jboss.tools.ui.bot.ext.config.Annotations.Require;
-import org.jboss.tools.ui.bot.ext.config.Annotations.Server;
-import org.jboss.tools.ui.bot.ext.config.Annotations.ServerState;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.junit.runners.Suite.SuiteClasses;
 
 /**
@@ -30,16 +23,9 @@ import org.junit.runners.Suite.SuiteClasses;
 * @author Jaroslav Jankovic
 */
 
-@Require(clearProjects = true, perspective = "Java EE", 
-		server = @Server(state = ServerState.NotRunning, 
-		version = "6.0", operator = ">="))
-@RunWith(RequirementAwareSuite.class)
 @SuiteClasses({ CDIAllBotTests.class , CDISmokeBotTests.class })
 public class FacetTest extends CDITestBase {
 
-	private static final Logger LOGGER = Logger.getLogger(FacetTest.class.getName());
-	
-	
 	@Override	
 	public void checkAndCreateProject() {
 		if (!projectHelper.projectExists(getProjectName())) {
