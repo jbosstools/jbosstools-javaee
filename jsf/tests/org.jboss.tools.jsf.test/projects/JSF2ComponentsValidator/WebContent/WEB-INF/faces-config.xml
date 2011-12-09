@@ -2,6 +2,7 @@
 <faces-config version="1.2" xmlns="http://java.sun.com/xml/ns/javaee"
  xmlns:xi="http://www.w3.org/2001/XInclude"
  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_1_2.xsd">
+ 
  <managed-bean>
   <managed-bean-name>person</managed-bean-name>
   <managed-bean-class>demo.Person</managed-bean-class>
@@ -18,9 +19,23 @@
    <to-view-id>/pages/greeting.xhtml</to-view-id>
   </navigation-case>
  </navigation-rule>
+ <navigation-rule>
+  <from-view-id>pages/inputname2.xhtml</from-view-id>
+  <navigation-case>
+   <from-outcome>greeting</from-outcome>
+   <to-view-id>/*</to-view-id>
+  </navigation-case>
+  <navigation-case>
+   <from-outcome>greeting</from-outcome>
+   <to-view-id>/pages/greeting3.xhtml</to-view-id>
+  </navigation-case>
+  <navigation-case>
+   <from-outcome>greeting</from-outcome>
+   <to-view-id>pages/greeting.xhtml</to-view-id>
+  </navigation-case>
+ </navigation-rule>
  <application>
-  <view-handler>com.sun.facelets.FaceletViewHandler</view-handler>
-  <locale-config/>
+  <action-listener>actionListener</action-listener>
  </application>
  <factory/>
  <lifecycle/>

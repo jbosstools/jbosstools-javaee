@@ -24,6 +24,7 @@ import org.jboss.tools.jsf.test.refactoring.JSF2RefactoringTest;
 import org.jboss.tools.jsf.test.refactoring.MessagePropertyRefactoringTest;
 import org.jboss.tools.jsf.test.refactoring.MethodRefactoringTest;
 import org.jboss.tools.jsf.test.validation.ELValidatorTest;
+import org.jboss.tools.jsf.test.validation.FacesConfigValidatorTest;
 import org.jboss.tools.jsf.test.validation.JSF2ComponentsInClassFolderTest;
 import org.jboss.tools.jsf.test.validation.JSF2ComponentsValidatorTest;
 import org.jboss.tools.jsf.test.validation.WebContentTest;
@@ -83,7 +84,8 @@ public class JsfAllTests {
 				new String[] { "JSFKickStartOldFormat" })); //$NON-NLS-1$
 		suite.addTest(new ValidationProjectTestSetup(new TestSuite(
 				JSF2ComponentsValidatorTest.class,
-				JSF2ComponentsInClassFolderTest.class), "org.jboss.tools.jsf.test", //$NON-NLS-1$
+				JSF2ComponentsInClassFolderTest.class,
+				FacesConfigValidatorTest.class), "org.jboss.tools.jsf.test", //$NON-NLS-1$
 				new String[] { "projects/JSF2ComponentsValidator" }, //$NON-NLS-1$
 				new String[] { "JSF2ComponentsValidator" })); //$NON-NLS-1$
 		suite.addTest(new ProjectImportTestSetup(new TestSuite(
