@@ -50,7 +50,7 @@ public class ManagedBeanPropertyForm extends ExpandableForm {
 
 	private XAttributeSupport support;
 	private XModelObject xmo;
-	private IWidgetSettings settings = new WhiteSettings();
+	private IWidgetSettings settings = WhiteSettings.getWhite();
 	
 	private Composite switchComposite;
 	private Control anyLabel;

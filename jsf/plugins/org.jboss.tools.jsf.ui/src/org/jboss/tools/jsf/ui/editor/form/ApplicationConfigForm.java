@@ -43,7 +43,7 @@ public class ApplicationConfigForm extends ExpandableForm {
 	private ChildTable messageBundleTable;
 	private ChildTable resourceBundleTable;
 
-	private IWidgetSettings settings = new WhiteSettings();
+	private IWidgetSettings settings = WhiteSettings.getWhite();
 
 	public ApplicationConfigForm() {
 		support = new XAttributeSupport(settings);

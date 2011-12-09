@@ -51,7 +51,7 @@ public class MapEntries extends ExpandableForm {
 	private IPropertyEditor valueClass;
 	private IPropertyEditor keyClass;
 
-	private IWidgetSettings settings = new WhiteSettings();
+	private IWidgetSettings settings = WhiteSettings.getWhite();
 
 	public MapEntries() {
 		support = new XAttributeSupport(settings);

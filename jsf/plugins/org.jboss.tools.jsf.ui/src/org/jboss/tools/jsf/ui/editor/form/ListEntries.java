@@ -44,7 +44,7 @@ public class ListEntries extends ExpandableForm {
 	private TableStructuredEditor tableEditor;
 	private XChildrenTableStructuredAdapter tableAdapter;
 	private IPropertyEditor valueClass;
-	private IWidgetSettings settings = new WhiteSettings();
+	private IWidgetSettings settings = WhiteSettings.getWhite();
 
 	public ListEntries() {
 		support = new XAttributeSupport(settings);

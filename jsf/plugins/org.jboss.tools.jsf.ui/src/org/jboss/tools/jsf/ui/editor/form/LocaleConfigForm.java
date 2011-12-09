@@ -44,7 +44,7 @@ public class LocaleConfigForm extends ExpandableForm {
 
 	private IPropertyEditor defaultLocale;
 
-	private IWidgetSettings settings = new WhiteSettings();
+	private IWidgetSettings settings = WhiteSettings.getWhite();
 
 	public LocaleConfigForm() {
 		support = new XAttributeSupport(settings);
