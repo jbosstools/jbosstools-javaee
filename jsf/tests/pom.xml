@@ -11,21 +11,57 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 	<name>jsf.tests</name>
 	
 	<packaging>pom</packaging>
-	<modules>
-		<module>org.jboss.tools.jsf.test</module>
-		<module>org.jboss.tools.jsf.text.ext.test</module>
-		<module>org.jboss.tools.jsf.ui.bot.test</module>
-		<module>org.jboss.tools.jsf.ui.test</module>
-		<module>org.jboss.tools.jsf.verification.test</module>
-		<module>org.jboss.tools.jsf.vpe.ajax4jsf.test</module>
-		<module>org.jboss.tools.jsf.vpe.facelets.test</module>
-		<module>org.jboss.tools.jsf.vpe.jbpm.test</module>
-		<module>org.jboss.tools.jsf.vpe.jsf.test</module>
-		<module>org.jboss.tools.jsf.vpe.jstl.test</module>
-		<module>org.jboss.tools.jsf.vpe.myfaces.test</module>
-		<module>org.jboss.tools.jsf.vpe.richfaces.test</module>
-		<module>org.jboss.tools.jsf.vpe.seam.test</module>
-	</modules>
+
+	<profiles>
+		<profile>
+			<id>jsf-tests-libs</id>
+			<activation>
+				<property>
+					<name>jsf-coverage</name>
+				</property>
+			</activation>
+			<modules>
+				<module>../../build/libs</module>
+			</modules>
+		</profile>
+
+		<profile>
+			<id>jsf-tests-default</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+				<property>
+					<name>jsf-coverage</name>
+				</property>
+			</activation>
+			<modules>
+				<module>org.jboss.tools.jsf.test</module>
+				<module>org.jboss.tools.jsf.text.ext.test</module>
+				<module>org.jboss.tools.jsf.ui.bot.test</module>
+				<module>org.jboss.tools.jsf.ui.test</module>
+				<module>org.jboss.tools.jsf.verification.test</module>
+				<module>org.jboss.tools.jsf.vpe.ajax4jsf.test</module>
+				<module>org.jboss.tools.jsf.vpe.facelets.test</module>
+				<module>org.jboss.tools.jsf.vpe.jbpm.test</module>
+				<module>org.jboss.tools.jsf.vpe.jsf.test</module>
+				<module>org.jboss.tools.jsf.vpe.jstl.test</module>
+				<module>org.jboss.tools.jsf.vpe.myfaces.test</module>
+				<module>org.jboss.tools.jsf.vpe.richfaces.test</module>
+				<module>org.jboss.tools.jsf.vpe.seam.test</module>
+			</modules>
+		</profile>
+
+		<profile>
+			<id>cdi-tests-coverage-report</id>
+			<activation>
+				<property>
+					<name>jsf-coverage</name>
+				</property>
+			</activation>
+			<modules>
+				<module>../../build/reports/emma-coverage</module>
+			</modules>
+		</profile>
+	</profiles>
 	<build>
 		<plugins>
 			<plugin>
