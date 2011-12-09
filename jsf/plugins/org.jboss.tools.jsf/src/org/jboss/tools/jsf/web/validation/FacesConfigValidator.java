@@ -25,12 +25,15 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.jdt.core.ICompilationUnit;
+import org.eclipse.jdt.core.IType;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.wst.common.project.facet.core.IFacetedProject;
 import org.eclipse.wst.common.project.facet.core.IProjectFacet;
 import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
 import org.eclipse.wst.validation.internal.core.ValidationException;
 import org.eclipse.wst.validation.internal.provisional.core.IReporter;
+import org.jboss.tools.common.EclipseUtil;
 import org.jboss.tools.common.model.XModel;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.impl.XModelImpl;
@@ -46,6 +49,7 @@ import org.jboss.tools.common.validation.internal.ProjectValidationContext;
 import org.jboss.tools.common.validation.internal.SimpleValidatingProjectTree;
 import org.jboss.tools.common.validation.internal.ValidatingProjectSet;
 import org.jboss.tools.common.web.WebUtils;
+import org.jboss.tools.jsf.JSFModelPlugin;
 import org.jboss.tools.jsf.model.JSFConstants;
 import org.jboss.tools.jsf.model.pv.JSFProjectsTree;
 import org.jboss.tools.jsf.web.JSFWebHelper;
@@ -53,6 +57,8 @@ import org.jboss.tools.jsf.web.JSFWebProject;
 import org.jboss.tools.jsf.web.pattern.JSFUrlPattern;
 import org.jboss.tools.jsf.web.validation.composite.CompositeComponentValidator;
 import org.jboss.tools.jst.web.WebModelPlugin;
+import org.jboss.tools.jst.web.kb.IKbProject;
+import org.jboss.tools.jst.web.kb.KbProjectFactory;
 import org.jboss.tools.jst.web.model.helpers.WebAppHelper;
 import org.jboss.tools.jst.web.model.pv.WebProjectNode;
 import org.jboss.tools.jst.web.validation.Check;
@@ -66,7 +72,7 @@ public class FacesConfigValidator extends ValidationErrorManager implements IVal
 	public static final String PROBLEM_TYPE = "org.jboss.tools.jsf.facesconfigproblem"; //$NON-NLS-1$
 	public static final String PREFERENCE_PAGE_ID = CompositeComponentValidator.PREFERENCE_PAGE_ID;
 
-	public static String SHORT_ID = "verification"; //$NON-NLS-1$
+	public static String SHORT_ID = "jsf-verification"; //$NON-NLS-1$
 
 	static String XML_EXT = ".xml"; //$NON-NLS-1$
 
@@ -108,15 +114,27 @@ public class FacesConfigValidator extends ValidationErrorManager implements IVal
 		}
 	}
 
+	static class JSFCheckClass extends CheckClass {
+
+		public JSFCheckClass(ValidationErrorManager manager, String preference, String attr, boolean allowsPrimitive, String implementsType, String extendsType) {
+			super(manager, preference, attr, allowsPrimitive, implementsType, extendsType);
+		}
+
+		protected String getShortId() {
+			return SHORT_ID;
+		}
+		
+	}
+
 	void createChecks() {
 		String ENT_APP = "JSFApplication", ENT_APP_12 = ENT_APP + SUFF_12, ENT_APP_20 = ENT_APP + SUFF_20;
-		addCheck(new CheckClass(this, JSFSeverityPreferences.INVALID_ACTION_LISTENER, "action-listener", false, "javax.faces.event.ActionListener", null), ENT_APP, ENT_APP_12, ENT_APP_20);
-		addCheck(new CheckClass(this, JSFSeverityPreferences.INVALID_NAVIGATION_HANDLER, "navigation-handler", false, "javax.faces.application.NavigationHandler", null), ENT_APP, ENT_APP_12, ENT_APP_20);
-		addCheck(new CheckClass(this, JSFSeverityPreferences.INVALID_PROPERTY_RESOLVER, "class name", false, "javax.faces.el.PropertyResolver", null).setVisualAttribute("property-resolver"), "JSFPropertyResolver");
-		addCheck(new CheckClass(this, JSFSeverityPreferences.INVALID_STATE_MANAGER, "state-manager", false, "javax.faces.application.StateManager", null), ENT_APP, ENT_APP_12, ENT_APP_20);
-		addCheck(new CheckClass(this, JSFSeverityPreferences.INVALID_VARIABLE_RESOLVER, "class name", false, "javax.el.ELResolver", null).setVisualAttribute("el-resolver"), "JSFELResolver");
-		addCheck(new CheckClass(this, JSFSeverityPreferences.INVALID_VARIABLE_RESOLVER, "class name", false, "javax.faces.el.VariableResolver", null).setVisualAttribute("variable-resolver"), "JSFVariableResolver");
-		addCheck(new CheckClass(this, JSFSeverityPreferences.INVALID_VIEW_HANDLER, "view-handler", false, "javax.faces.application.ViewHandler", null), ENT_APP, ENT_APP_12, ENT_APP_20);
+		addCheck(new JSFCheckClass(this, JSFSeverityPreferences.INVALID_ACTION_LISTENER, "action-listener", false, "javax.faces.event.ActionListener", null), ENT_APP, ENT_APP_12, ENT_APP_20);
+		addCheck(new JSFCheckClass(this, JSFSeverityPreferences.INVALID_NAVIGATION_HANDLER, "navigation-handler", false, "javax.faces.application.NavigationHandler", null), ENT_APP, ENT_APP_12, ENT_APP_20);
+		addCheck(new JSFCheckClass(this, JSFSeverityPreferences.INVALID_PROPERTY_RESOLVER, "class name", false, "javax.faces.el.PropertyResolver", null).setVisualAttribute("property-resolver"), "JSFPropertyResolver");
+		addCheck(new JSFCheckClass(this, JSFSeverityPreferences.INVALID_STATE_MANAGER, "state-manager", false, "javax.faces.application.StateManager", null), ENT_APP, ENT_APP_12, ENT_APP_20);
+		addCheck(new JSFCheckClass(this, JSFSeverityPreferences.INVALID_VARIABLE_RESOLVER, "class name", false, null, "javax.el.ELResolver").setVisualAttribute("el-resolver"), "JSFELResolver");
+		addCheck(new JSFCheckClass(this, JSFSeverityPreferences.INVALID_VARIABLE_RESOLVER, "class name", false, "javax.faces.el.VariableResolver", null).setVisualAttribute("variable-resolver"), "JSFVariableResolver");
+		addCheck(new JSFCheckClass(this, JSFSeverityPreferences.INVALID_VIEW_HANDLER, "view-handler", false, "javax.faces.application.ViewHandler", null), ENT_APP, ENT_APP_12, ENT_APP_20);
 
 		String ENT_COMPONENT = "JSFComponent", ENT_COMPONENT_11 = ENT_COMPONENT + SUFF_11;
 		addCheck(new CheckClass(this, JSFSeverityPreferences.INVALID_COMPONENT_CLASS, "component-class", false, null, "javax.faces.component.UIComponent"), ENT_COMPONENT, ENT_COMPONENT_11);
@@ -175,7 +193,12 @@ public class FacesConfigValidator extends ValidationErrorManager implements IVal
 	public IValidatingProjectTree getValidatingProjects(IProject project) {
 		IProjectValidationContext rootContext = contexts.get(project);
 		if(rootContext == null) {
-			rootContext = new ProjectValidationContext();
+			IKbProject kb = KbProjectFactory.getKbProject(project, true);
+			if(kb != null) {
+				rootContext = kb.getValidationContext();
+			} else {
+				rootContext = new ProjectValidationContext();
+			}
 			contexts.put(project, rootContext);
 		}
 
@@ -221,6 +244,20 @@ public class FacesConfigValidator extends ValidationErrorManager implements IVal
 			ContextValidationHelper validationHelper, IProjectValidationContext context, ValidatorManager manager,
 			IReporter reporter) throws ValidationException {
 		init(project, validationHelper, context, manager, reporter);
+
+		Set<IPath> resourcesToClean = new HashSet<IPath>(); // Resource which we should remove from validation context
+		for (IFile file: changedFiles) {
+			resourcesToClean.add(file.getFullPath());
+		}
+
+		changedFiles = collectFiles(project, changedFiles, context);
+		
+		for(IFile file: changedFiles) {
+			removeAllMessagesFromResource(file);
+			resourcesToClean.add(file.getFullPath());
+		}
+
+		getValidationContext().removeLinkedCoreResources(SHORT_ID, resourcesToClean);
 
 		for (IFile file: changedFiles) {
 			if(file.getName().endsWith(XML_EXT)) {
@@ -314,6 +351,81 @@ public class FacesConfigValidator extends ValidationErrorManager implements IVal
 		return PREFERENCE_PAGE_ID;
 	}
 
+	private Set<IFile> collectFiles(IProject project, Set<IFile> changedFiles, IProjectValidationContext context) {
+		Set<IFile> files = new HashSet<IFile>();
+		if(context == null) {
+			files.addAll(changedFiles);
+			return files;
+		}
+		Set<IFile> direct = new HashSet<IFile>();
+		Set<IFile> dependent = new HashSet<IFile>();
+		for (IFile f: changedFiles) {
+			if(f != null && f.getProject() == project) {
+				Set<IPath> paths = context.getCoreResourcesByVariableName(SHORT_ID, f.getFullPath().toOSString(), true);
+				String name = f.getName();
+				
+				if(name.endsWith(".java")) {
+					try {
+						ICompilationUnit unit = EclipseUtil.getCompilationUnit(f);
+						if(unit != null) {
+							IType[] ts = unit.getTypes();
+							for (IType t: ts) {
+								String type = t.getFullyQualifiedName();
+								Set<IPath> paths1 = context.getCoreResourcesByVariableName(SHORT_ID, type, true);
+								if(paths1 != null) {
+									if(paths != null) {
+										paths.addAll(paths1);
+									} else {
+										paths = paths1;
+									}
+								}
+							}
+						}
+					} catch (CoreException e) {
+						JSFModelPlugin.getDefault().logError(e);
+					}
+				} else {
+					IPath[] ps = WebUtils.getWebContentPaths(project);
+					for (IPath rootPath: ps) {
+						if(rootPath.isPrefixOf(f.getFullPath())) {
+							String s = f.getFullPath().removeFirstSegments(rootPath.segmentCount()).toString();
+							if(!s.startsWith("/")) s = "/" + s;
+							Set<IPath> paths1 = context.getCoreResourcesByVariableName(SHORT_ID, s, true);
+							if(paths1 != null) {
+								if(paths != null) {
+									paths.addAll(paths1);
+								} else {
+									paths = paths1;
+								}
+							}
+						}
+					}
+				}
+
+				if(name.endsWith(".xml") && f.exists()) { //$NON-NLS-1$
+					if(!direct.contains(f) && !dependent.contains(f)) {
+						files.add(f);
+					}
+					direct.add(f);
+					dependent.remove(f);
+				}
+
+				if(paths != null) {
+					for (IPath path: paths) {
+						IFile f1 = project.getParent().getFile(path);
+						if(f1.exists()) {
+							if(direct.contains(f1) || dependent.contains(f1)) continue;
+							dependent.add(f1);
+							files.add(f1);
+						}
+					}
+				}
+			}
+		}
+
+		return files;
+	}
+
 }
 
 class JSFCheckFromViewId extends Check {
@@ -368,11 +480,26 @@ class JSFCheckToViewId extends Check {
 				o = model.getByPath(value);
 			}
 		}
+
+		IFile f = (IFile)object.getAdapter(IFile.class);
+		if(f != null) {
+			IProjectValidationContext context = manager.getValidationContext();
+			if(context != null) {
+				context.addLinkedCoreResource(FacesConfigValidator.SHORT_ID, value, f.getFullPath(), true);
+			}
+		}
+
 		if(o != null) {
-			IFile f = (IFile)o.getAdapter(IFile.class);
-			if(f != null) {
-				String path = f.getLocation().toOSString().replace('\\', '/');
-				if(path.endsWith(value)) return;
+			IFile f2 = (IFile)o.getAdapter(IFile.class);
+			if(f2 != null) {
+				String path = f2.getLocation().toOSString().replace('\\', '/');
+				IProjectValidationContext context = manager.getValidationContext();
+				if(context != null) {
+					context.addLinkedCoreResource(FacesConfigValidator.SHORT_ID, f2.getFullPath().toOSString(), f.getFullPath(), true);
+				}
+				if(path.endsWith(value)) {
+					return;
+				}
 			}
 		} else if(checkTiles(model, value)) {
 			return;
