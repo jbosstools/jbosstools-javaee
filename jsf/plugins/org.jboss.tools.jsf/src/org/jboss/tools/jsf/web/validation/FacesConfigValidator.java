@@ -112,9 +112,10 @@ public class FacesConfigValidator extends ValidationErrorManager implements IVal
 		String ENT_APP = "JSFApplication", ENT_APP_12 = ENT_APP + SUFF_12, ENT_APP_20 = ENT_APP + SUFF_20;
 		addCheck(new CheckClass(this, JSFSeverityPreferences.INVALID_ACTION_LISTENER, "action-listener", false, "javax.faces.event.ActionListener", null), ENT_APP, ENT_APP_12, ENT_APP_20);
 		addCheck(new CheckClass(this, JSFSeverityPreferences.INVALID_NAVIGATION_HANDLER, "navigation-handler", false, "javax.faces.application.NavigationHandler", null), ENT_APP, ENT_APP_12, ENT_APP_20);
-		addCheck(new CheckClass(this, JSFSeverityPreferences.INVALID_PROPERTY_RESOLVER, "property-resolver", false, "javax.faces.el.PropertyResolver", null), ENT_APP, ENT_APP_12, ENT_APP_20);
+		addCheck(new CheckClass(this, JSFSeverityPreferences.INVALID_PROPERTY_RESOLVER, "class name", false, "javax.faces.el.PropertyResolver", null).setVisualAttribute("property-resolver"), "JSFPropertyResolver");
 		addCheck(new CheckClass(this, JSFSeverityPreferences.INVALID_STATE_MANAGER, "state-manager", false, "javax.faces.application.StateManager", null), ENT_APP, ENT_APP_12, ENT_APP_20);
-		addCheck(new CheckClass(this, JSFSeverityPreferences.INVALID_VARIABLE_RESOLVER, "variable-resolver", false, "javax.faces.el.VariableResolver", null), ENT_APP, ENT_APP_12, ENT_APP_20);
+		addCheck(new CheckClass(this, JSFSeverityPreferences.INVALID_VARIABLE_RESOLVER, "class name", false, "javax.el.ELResolver", null).setVisualAttribute("el-resolver"), "JSFELResolver");
+		addCheck(new CheckClass(this, JSFSeverityPreferences.INVALID_VARIABLE_RESOLVER, "class name", false, "javax.faces.el.VariableResolver", null).setVisualAttribute("variable-resolver"), "JSFVariableResolver");
 		addCheck(new CheckClass(this, JSFSeverityPreferences.INVALID_VIEW_HANDLER, "view-handler", false, "javax.faces.application.ViewHandler", null), ENT_APP, ENT_APP_12, ENT_APP_20);
 
 		String ENT_COMPONENT = "JSFComponent", ENT_COMPONENT_11 = ENT_COMPONENT + SUFF_11;
@@ -363,7 +364,7 @@ class JSFCheckToViewId extends Check {
 		if(o == null) {
 			JSFUrlPattern pattern = JSFWebProject.getInstance(model).getUrlPattern();
 			if(pattern != null && pattern.isJSFUrl(value)) {
-				attr = pattern.getJSFPath(value);
+				value = pattern.getJSFPath(value);
 				o = model.getByPath(value);
 			}
 		}
