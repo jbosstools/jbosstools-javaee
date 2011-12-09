@@ -6,6 +6,7 @@ import org.jboss.tools.jsf.ui.bot.test.cssdialog.jbide.JBIDE3577Test;
 import org.jboss.tools.jsf.ui.bot.test.cssdialog.jbide.JBIDE3579Test;
 import org.jboss.tools.jsf.ui.bot.test.cssdialog.jbide.JBIDE3920Test;
 import org.jboss.tools.jsf.ui.bot.test.cssdialog.jbide.JBIDE4391Test;
+import org.jboss.tools.jsf.ui.bot.test.jsf2.CreateJSF2CompositeComponentMenuTest;
 import org.jboss.tools.jsf.ui.bot.test.jsf2.refactor.JSF2AttributeRenameTest;
 import org.jboss.tools.jsf.ui.bot.test.jsf2.refactor.JSF2MoveParticipantTest;
 import org.jboss.tools.jsf.ui.bot.test.jsf2.refactor.JSF2RenameParticipantTest;
@@ -54,7 +55,8 @@ import org.junit.runners.Suite.SuiteClasses;
   MarkersTest.class,
   WebXmlEditorTest.class,
   CreateNewTemplateFromJSFProject.class,
-  PropertiesEditorTest.class
+  PropertiesEditorTest.class,
+  CreateJSF2CompositeComponentMenuTest.class
 })
 public class JSFAllBotTests{
 }
