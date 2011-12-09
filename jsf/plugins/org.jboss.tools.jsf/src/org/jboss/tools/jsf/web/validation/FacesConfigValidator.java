@@ -140,34 +140,34 @@ public class FacesConfigValidator extends ValidationErrorManager implements IVal
 		addCheck(new CheckClass(this, JSFSeverityPreferences.INVALID_COMPONENT_CLASS, "component-class", false, null, "javax.faces.component.UIComponent"), ENT_COMPONENT, ENT_COMPONENT_11);
 
 		String ENT_CONVERTER = "JSFConverter";
-		addCheck(new CheckClass(this, JSFSeverityPreferences.INVALID_CONVERTER_CLASS, "converter-class", false, "javax.faces.convert.Converter", null), ENT_CONVERTER);
-		addCheck(new CheckClass(this, JSFSeverityPreferences.INVALID_CONVERTER_FOR_CLASS, "converter-for-class", true, null, null), ENT_CONVERTER);
+		addCheck(new JSFCheckClass(this, JSFSeverityPreferences.INVALID_CONVERTER_CLASS, "converter-class", false, "javax.faces.convert.Converter", null), ENT_CONVERTER);
+		addCheck(new JSFCheckClass(this, JSFSeverityPreferences.INVALID_CONVERTER_FOR_CLASS, "converter-for-class", true, null, null), ENT_CONVERTER);
 
 		String ENT_FACTORY = "JSFFactory", ENT_FACTORY_20 = ENT_FACTORY + SUFF_20;
-		addCheck(new CheckClass(this, JSFSeverityPreferences.INVALID_APPLICATION_FACTORY, "application-factory", false, null, "javax.faces.application.ApplicationFactory"), ENT_FACTORY, ENT_FACTORY_20);
-		addCheck(new CheckClass(this, JSFSeverityPreferences.INVALID_FACES_CONTEXT_FACTORY, "faces-context-factory", false, null, "javax.faces.context.FacesContextFactory"), ENT_FACTORY, ENT_FACTORY_20);
-		addCheck(new CheckClass(this, JSFSeverityPreferences.INVALID_LIFECYCLE_FACTORY, "lifecycle-factory", false, null, "javax.faces.lifecycle.LifecycleFactory"), ENT_FACTORY, ENT_FACTORY_20);
-		addCheck(new CheckClass(this, JSFSeverityPreferences.INVALID_RENDER_KIT_FACTORY, "render-kit-factory", false, null, "javax.faces.render.RenderKitFactory"), ENT_FACTORY, ENT_FACTORY_20);
+		addCheck(new JSFCheckClass(this, JSFSeverityPreferences.INVALID_APPLICATION_FACTORY, "application-factory", false, null, "javax.faces.application.ApplicationFactory"), ENT_FACTORY, ENT_FACTORY_20);
+		addCheck(new JSFCheckClass(this, JSFSeverityPreferences.INVALID_FACES_CONTEXT_FACTORY, "faces-context-factory", false, null, "javax.faces.context.FacesContextFactory"), ENT_FACTORY, ENT_FACTORY_20);
+		addCheck(new JSFCheckClass(this, JSFSeverityPreferences.INVALID_LIFECYCLE_FACTORY, "lifecycle-factory", false, null, "javax.faces.lifecycle.LifecycleFactory"), ENT_FACTORY, ENT_FACTORY_20);
+		addCheck(new JSFCheckClass(this, JSFSeverityPreferences.INVALID_RENDER_KIT_FACTORY, "render-kit-factory", false, null, "javax.faces.render.RenderKitFactory"), ENT_FACTORY, ENT_FACTORY_20);
 
 		String ENT_LIST_ENTRIES = "JSFListEntries", ENT_MAP_ENTRIES = "JSFMapEntries";
-		addCheck(new CheckClass(this, JSFSeverityPreferences.INVALID_KEY_CLASS, "key-class", true, null, null), ENT_MAP_ENTRIES);
-		addCheck(new CheckClass(this, JSFSeverityPreferences.INVALID_KEY_CLASS, "value-class", true, null, null), ENT_LIST_ENTRIES, ENT_MAP_ENTRIES);
+		addCheck(new JSFCheckClass(this, JSFSeverityPreferences.INVALID_KEY_CLASS, "key-class", true, null, null), ENT_MAP_ENTRIES);
+		addCheck(new JSFCheckClass(this, JSFSeverityPreferences.INVALID_KEY_CLASS, "value-class", true, null, null), ENT_LIST_ENTRIES, ENT_MAP_ENTRIES);
 
 		String ENT_MANAGED_BEAN = "JSFManagedBean", ENT_MANAGED_BEAN_20 = ENT_MANAGED_BEAN + SUFF_20;
-		addCheck(new CheckClass(this, JSFSeverityPreferences.INVALID_BEAN_CLASS, "managed-bean-class", false, null, null), ENT_MANAGED_BEAN, ENT_MANAGED_BEAN_20);
+		addCheck(new JSFCheckClass(this, JSFSeverityPreferences.INVALID_BEAN_CLASS, "managed-bean-class", false, null, null), ENT_MANAGED_BEAN, ENT_MANAGED_BEAN_20);
 		String ENT_MANAGED_PROPERTY = "JSFManagedProperty";
-		addCheck(new CheckClass(this, JSFSeverityPreferences.INVALID_PROPERTY_CLASS, "property-class", false, null, null), ENT_MANAGED_PROPERTY);
+		addCheck(new JSFCheckClass(this, JSFSeverityPreferences.INVALID_PROPERTY_CLASS, "property-class", false, null, null), ENT_MANAGED_PROPERTY);
 		String ENT_REFERENCED_BEAN = "JSFReferencedBean";
 		addCheck(new CheckClass(this, JSFSeverityPreferences.INVALID_BEAN_CLASS, "referenced-bean-class", false, null, null), ENT_REFERENCED_BEAN);
 
 		String ENT_PHASE_LISTENER = "JSFPhaseListener";
-		addCheck(new CheckClass(this, JSFSeverityPreferences.INVALID_PHASE_LISTENER, "phase-listener", false, null, "javax.faces.event.PhaseListener"), ENT_PHASE_LISTENER);
+		addCheck(new JSFCheckClass(this, JSFSeverityPreferences.INVALID_PHASE_LISTENER, "phase-listener", false, null, "javax.faces.event.PhaseListener"), ENT_PHASE_LISTENER);
 		String ENT_RENDER_KIT = "JSFRenderKit", ENT_RENDER_KIT_11 = ENT_RENDER_KIT + SUFF_11, ENT_RENDER_KIT_12 = ENT_RENDER_KIT + SUFF_12, ENT_RENDER_KIT_20 = ENT_RENDER_KIT + SUFF_20;
-		addCheck(new CheckClass(this, JSFSeverityPreferences.INVALID_RENDER_KIT_CLASS, "render-kit-class", false, null, "javax.faces.render.RenderKit"), ENT_RENDER_KIT, ENT_RENDER_KIT_11, ENT_RENDER_KIT_12, ENT_RENDER_KIT_20);
+		addCheck(new JSFCheckClass(this, JSFSeverityPreferences.INVALID_RENDER_KIT_CLASS, "render-kit-class", false, null, "javax.faces.render.RenderKit"), ENT_RENDER_KIT, ENT_RENDER_KIT_11, ENT_RENDER_KIT_12, ENT_RENDER_KIT_20);
 		String ENT_RENDERER = "JSFRenderer", ENT_RENDERER_11 = ENT_RENDERER + SUFF_11;
-		addCheck(new CheckClass(this, JSFSeverityPreferences.INVALID_RENDERER_CLASS, "renderer-class", false, null, "javax.faces.render.Renderer"), ENT_RENDERER, ENT_RENDERER_11);
+		addCheck(new JSFCheckClass(this, JSFSeverityPreferences.INVALID_RENDERER_CLASS, "renderer-class", false, null, "javax.faces.render.Renderer"), ENT_RENDERER, ENT_RENDERER_11);
 		String ENT_VALIDATOR = "JSFValidator", ENT_VALIDATOR_12 = ENT_VALIDATOR + SUFF_12;
-		addCheck(new CheckClass(this, JSFSeverityPreferences.INVALID_VALIDATOR_CLASS, "validator-class", false, null, "javax.faces.validator.Validator"), ENT_VALIDATOR, ENT_VALIDATOR_12);
+		addCheck(new JSFCheckClass(this, JSFSeverityPreferences.INVALID_VALIDATOR_CLASS, "validator-class", false, null, "javax.faces.validator.Validator"), ENT_VALIDATOR, ENT_VALIDATOR_12);
 
 		addCheck(new JSFCheckFromViewId(this), new String[]{ENT_NAVIGATION_CASE, ENT_NAVIGATION_CASE_20, ENT_NAVIGATION_RULE, ENT_NAVIGATION_RULE_20});
 		addCheck(new JSFCheckToViewId(this), new String[]{ENT_NAVIGATION_CASE, ENT_NAVIGATION_CASE_20, ENT_NAVIGATION_RULE, ENT_NAVIGATION_RULE_20});
