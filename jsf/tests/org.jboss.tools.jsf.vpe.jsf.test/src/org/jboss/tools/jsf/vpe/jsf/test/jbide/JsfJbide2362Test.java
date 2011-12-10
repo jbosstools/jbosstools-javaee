@@ -181,11 +181,10 @@ public class JsfJbide2362Test extends VpeTest {
 				for (int j = 0; j < insertedString.length(); j++) {
 					styledText.setCaretOffset(offset + j);
 					styledText.insert(String.valueOf(insertedString.charAt(j)));
-					TestUtil.delay();
 				}
 
 				TestUtil.delay(VpeController.DEFAULT_UPDATE_DELAY_TIME * 2); // ensure that vpe is started to update
-				TestUtil.waitForJobs();
+				TestUtil.waitForIdle();
 
 				assertNotNull(xulRunnerEditor.getSelectedElement());
 			}
