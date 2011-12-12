@@ -19,6 +19,7 @@ import java.util.Properties;
 import java.util.Set;
 
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
@@ -725,4 +726,8 @@ public class SeamJavaComponentDeclaration extends SeamComponentDeclaration
 		context.remove(SeamXMLConstants.ATTR_TYPE);
 	}
 
+	@Override
+	public IJavaElement getSourceElement() {
+		return getSourceMember();
+	}
 }

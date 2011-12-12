@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
@@ -613,6 +614,15 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 	@Override
 	public IMember getSourceMember() {
 		return getBeanClass();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.common.java.IJavaReference#getSourceElement()
+	 */
+	@Override
+	public IJavaElement getSourceElement() {
+		return getSourceMember();
 	}
 
 	public void cleanCache() {

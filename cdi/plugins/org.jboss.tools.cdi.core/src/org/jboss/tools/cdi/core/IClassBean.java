@@ -12,14 +12,14 @@ package org.jboss.tools.cdi.core;
 
 import java.util.Set;
 
-import org.jboss.tools.common.java.IJavaMemberReference;
+import org.jboss.tools.common.java.IJavaReference;
 
 /**
  * Represents a class-based bean.
  * 
  * @author Alexey Kazakov
  */
-public interface IClassBean extends IBean, IInterceptorBinded, IJavaMemberReference {
+public interface IClassBean extends IBean, IInterceptorBinded, IJavaReference {
 
 	/**
 	 * Returns a set of producers that are declared in this bean class.

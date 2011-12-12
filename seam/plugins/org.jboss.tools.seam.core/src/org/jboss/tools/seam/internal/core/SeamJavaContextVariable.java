@@ -17,6 +17,7 @@ import java.util.Properties;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.IField;
+import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IType;
@@ -41,7 +42,11 @@ public abstract class SeamJavaContextVariable extends AbstractContextVariable im
 	public IMember getSourceMember() {
 		return javaSource;
 	}
-	
+
+	public IJavaElement getSourceElement() {
+		return getSourceMember();
+	}
+
 	public void setSourceMember(IMember javaSource) {
 		this.javaSource = javaSource;
 	}

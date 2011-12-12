@@ -63,7 +63,7 @@ import org.jboss.tools.common.EclipseUtil;
 import org.jboss.tools.common.java.IAnnotated;
 import org.jboss.tools.common.java.IAnnotationDeclaration;
 import org.jboss.tools.common.java.IAnnotationType;
-import org.jboss.tools.common.java.IJavaMemberReference;
+import org.jboss.tools.common.java.IJavaReference;
 import org.jboss.tools.common.java.IParametedType;
 import org.jboss.tools.common.model.util.EclipseJavaUtil;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
@@ -1191,8 +1191,8 @@ public class CDIUtil {
 	}
 	
 	public static IJavaElement getJavaElement(ICDIElement cdiElement){
-		if(cdiElement instanceof IJavaMemberReference)
-			return ((IJavaMemberReference)cdiElement).getSourceMember();
+		if(cdiElement instanceof IJavaReference)
+			return ((IJavaReference)cdiElement).getSourceMember();
 		if(cdiElement instanceof IBean)
 			return ((IBean)cdiElement).getBeanClass();
 		else if(cdiElement instanceof IInjectionPointParameter){

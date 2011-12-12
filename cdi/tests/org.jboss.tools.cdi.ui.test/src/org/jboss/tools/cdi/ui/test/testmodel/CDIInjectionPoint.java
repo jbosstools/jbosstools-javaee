@@ -37,13 +37,11 @@ public class CDIInjectionPoint implements IInjectionPoint {
 
 	@Override
 	public IPath getSourcePath() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public IResource getResource() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -54,85 +52,71 @@ public class CDIInjectionPoint implements IInjectionPoint {
 
 	@Override
 	public IParametedType getMemberType() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public IMember getSourceMember() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public int getStartPosition() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	public int getLength() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	public List<IAnnotationDeclaration> getAnnotations() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public IAnnotationDeclaration getAnnotation(String annotationTypeName) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public ITextSourceReference getAnnotationPosition(String annotationTypeName) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public boolean isAnnotationPresent(String annotationTypeName) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public IParametedType getType() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Set<IQualifierDeclaration> getQualifierDeclarations() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public boolean hasDefaultQualifier() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean isDelegate() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public ITextSourceReference getDelegateAnnotation() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public IAnnotationDeclaration getInjectAnnotation() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -159,5 +143,10 @@ public class CDIInjectionPoint implements IInjectionPoint {
 	@Override
 	public boolean isDeclaredFor(IJavaElement element) {
 		return false;
+	}
+
+	@Override
+	public IJavaElement getSourceElement() {
+		return getSourceMember();
 	}
 }

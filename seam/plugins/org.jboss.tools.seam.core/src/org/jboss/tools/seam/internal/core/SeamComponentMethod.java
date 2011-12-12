@@ -16,6 +16,7 @@ import java.util.Properties;
 import java.util.Set;
 
 import org.eclipse.core.resources.IResource;
+import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.JavaModelException;
 import org.jboss.tools.common.model.project.ext.event.Change;
@@ -149,4 +150,8 @@ public class SeamComponentMethod extends SeamObject implements ISeamComponentMet
 		}
 	}
 
+	@Override
+	public IJavaElement getSourceElement() {
+		return getSourceMember();
+	}
 }

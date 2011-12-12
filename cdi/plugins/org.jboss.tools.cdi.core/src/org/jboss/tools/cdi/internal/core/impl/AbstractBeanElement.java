@@ -50,7 +50,7 @@ import org.jboss.tools.common.CommonPlugin;
 import org.jboss.tools.common.editor.ObjectMultiPageEditor;
 import org.jboss.tools.common.java.IAnnotated;
 import org.jboss.tools.common.java.IAnnotationDeclaration;
-import org.jboss.tools.common.java.IJavaMemberReference;
+import org.jboss.tools.common.java.IJavaReference;
 import org.jboss.tools.common.java.IParametedType;
 import org.jboss.tools.common.java.ITypeDeclaration;
 import org.jboss.tools.common.java.ParametedType;
@@ -396,8 +396,8 @@ public abstract class AbstractBeanElement extends CDIElement implements IAnnotat
 			if(part != null) {
 				part.getEditorSite().getSelectionProvider().setSelection(new TextSelection(source.getStartPosition(), source.getLength()));
 			}
-		} else if (this instanceof IJavaMemberReference) {
-			IMember member = ((IJavaMemberReference)this).getSourceMember();
+		} else if (this instanceof IJavaReference) {
+			IMember member = ((IJavaReference)this).getSourceMember();
 			try {
 				JavaUI.openInEditor(member);
 			} catch (PartInitException e) {

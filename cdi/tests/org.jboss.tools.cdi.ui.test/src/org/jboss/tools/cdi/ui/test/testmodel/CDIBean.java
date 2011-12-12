@@ -6,6 +6,7 @@ import java.util.Set;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.IType;
 import org.jboss.tools.cdi.core.CDIConstants;
@@ -211,55 +212,46 @@ public class CDIBean extends CDIElement implements IClassBean{
 	@Override
 	public Set<IInterceptorBindingDeclaration> getInterceptorBindingDeclarations(
 			boolean includeInherited) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Set<IInterceptorBinding> getInterceptorBindings() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Set<IProducer> getProducers() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Set<IBeanMethod> getDisposers() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Set<IBeanMethod> getBeanConstructors() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Set<IBeanMethod> getAllMethods() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Set<IObserverMethod> getObserverMethods() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Set<? extends IClassBean> getSpecializingBeans() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public IClassBean getSuperClassBean() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -270,7 +262,6 @@ public class CDIBean extends CDIElement implements IClassBean{
 
 	@Override
 	public ICDIProject getDeclaringProject() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -281,13 +272,15 @@ public class CDIBean extends CDIElement implements IClassBean{
 
 	@Override
 	public void open() {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public Set<IInitializerMethod> getInitializers() {
-		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public IJavaElement getSourceElement() {
+		return getSourceMember();
 	}
 }

@@ -40,12 +40,18 @@ public abstract class BeanMember extends AbstractBeanElement implements IBeanMem
 
 	public BeanMember() {}
 
+	@Override
 	public BeanMemberDefinition getDefinition() {
 		return (BeanMemberDefinition)definition;
 	}
 
 	protected void setMember(IJavaElement member) {
 		typeDeclaration = getTypeDeclaration(getDefinition(), getCDIProject().getNature().getTypeFactory());
+	}
+
+	@Override
+	public IJavaElement getSourceElement() {
+		return (IJavaElement)getDefinition().getMember();
 	}
 
 	public static TypeDeclaration getTypeDeclaration(AbstractMemberDefinition definition, ParametedTypeFactory typeFactory) {
