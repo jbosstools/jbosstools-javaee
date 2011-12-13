@@ -40,9 +40,14 @@ public class FacetTest extends CDITestBase {
 	
 	@Test
 	public void testCDIFacet() {
-		LOGGER.info("Dynamic Web Project with CDI Facet created");		
-		assertTrue("Error: beans.xml should be created when selecting CDI Facet", 
-				projectExplorer.isFilePresent(getProjectName(), "WebContent/WEB-INF/beans.xml".split("/")));
+		if (projectHelper.projectExists(getProjectName())) {
+			LOGGER.info("Dynamic Web Project with CDI Facet created");		
+			assertTrue("Error: beans.xml should be created when selecting CDI Facet", 
+					projectExplorer.isFilePresent(getProjectName(), "WebContent/WEB-INF/beans.xml".split("/")));
+		} else {
+			fail("CDI project was not succesfully created with Dynamic Web Project wizard with CDI facet");
+		}
+		;
 	}
 		
 }

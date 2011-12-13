@@ -50,7 +50,7 @@ public class CDITestBase extends CDIBase {
 	@Before
 	public void checkAndCreateProject() {
 		if (!projectHelper.projectExists(getProjectName())) {
-			projectHelper.createCDIProject(getProjectName());
+			projectHelper.createCDIProjectWithCDIWizard(getProjectName());
 		}
 	}
 	

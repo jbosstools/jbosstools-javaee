@@ -12,6 +12,7 @@ package org.jboss.tools.cdi.bot.test;
 
 import org.jboss.tools.cdi.bot.test.editor.BeansEditorTest;
 import org.jboss.tools.cdi.bot.test.uiutils.SWTEclipseCDIExtUtil;
+import org.jboss.tools.cdi.bot.test.wizard.CDIProjectWithDynamicWizardTest;
 import org.jboss.tools.cdi.bot.test.wizard.WizardTest;
 import org.jboss.tools.cdi.bot.test.wizard.ConfigurationPresetTest;
 import org.jboss.tools.cdi.bot.test.wizard.FacetTest;
@@ -46,6 +47,7 @@ import org.junit.runners.Suite.SuiteClasses;
 	//PerspectiveTest.class,	 
 	ConfigurationPresetTest.class,
 	FacetTest.class, 
+	CDIProjectWithDynamicWizardTest.class,
 	WizardTest.class,	
 	BeansEditorTest.class,
 	})

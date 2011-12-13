@@ -25,7 +25,7 @@ public class Seam3ResourceOpenOnTest extends Seam3TestBase {
 
 	@Override
 	public String getProjectName() {
-		return "Seam3ResourceOpenOnTest";
+		return "Seam3ResourceOpenOn";
 	}
 
 	/**

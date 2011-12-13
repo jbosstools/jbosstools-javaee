@@ -26,9 +26,11 @@ import org.jboss.tools.cdi.bot.test.quickfix.test.InterceptorValidationQuickFixT
 import org.jboss.tools.cdi.bot.test.quickfix.test.QualifierValidationQuickFixTest;
 import org.jboss.tools.cdi.bot.test.quickfix.test.ScopeValidationQuickFixTest;
 import org.jboss.tools.cdi.bot.test.quickfix.test.StereotypeValidationQuickFixTest;
+import org.jboss.tools.cdi.bot.test.seam3.Seam3ConfigValidationTest;
 import org.jboss.tools.cdi.bot.test.seam3.Seam3GenericOpenOnTest;
 import org.jboss.tools.cdi.bot.test.seam3.Seam3ResourceOpenOnTest;
 import org.jboss.tools.cdi.bot.test.uiutils.SWTEclipseCDIExtUtil;
+import org.jboss.tools.cdi.bot.test.wizard.CDIProjectWithDynamicWizardTest;
 import org.jboss.tools.cdi.bot.test.wizard.ConfigurationPresetTest;
 import org.jboss.tools.cdi.bot.test.wizard.FacetTest;
 import org.jboss.tools.cdi.bot.test.wizard.WizardTest;
@@ -37,6 +39,7 @@ import org.jboss.tools.ui.bot.ext.types.ViewType;
 import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite.SuiteClasses;
+import org.test.DummyTest;
 
 /**
  * This test suite requires JBoss AS 6 or newer
@@ -54,7 +57,7 @@ import org.junit.runners.Suite.SuiteClasses;
  *  JAVA=1.6,/space/java/sdk/jdk1.6.0_22
  *  
  *  
- *  Suite duration: aprox. 29min
+ *  Suite duration: aprox. 30min
  * 
  * @author Lukas Jungmann
  * @author Jaroslav Jankovic
@@ -64,6 +67,7 @@ import org.junit.runners.Suite.SuiteClasses;
 //	PerspectiveTest.class,
 	ConfigurationPresetTest.class,
 	FacetTest.class, 
+	CDIProjectWithDynamicWizardTest.class,
 	WizardTest.class,
 	BeansEditorTest.class,
 	NamedRefactoringTest.class,
@@ -83,6 +87,7 @@ import org.junit.runners.Suite.SuiteClasses;
 	FindObserverForEventTest.class, 
 	Seam3ResourceOpenOnTest.class,
 	Seam3GenericOpenOnTest.class,
+	Seam3ConfigValidationTest.class,
 })
 public class CDIAllBotTests extends CDITestBase {
 		

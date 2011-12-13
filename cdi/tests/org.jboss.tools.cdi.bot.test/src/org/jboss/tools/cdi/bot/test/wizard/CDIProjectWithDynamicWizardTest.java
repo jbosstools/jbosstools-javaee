@@ -11,44 +11,37 @@
 
 package org.jboss.tools.cdi.bot.test.wizard;
 
-
 import org.jboss.tools.cdi.bot.test.CDIAllBotTests;
 import org.jboss.tools.cdi.bot.test.CDISmokeBotTests;
 import org.jboss.tools.cdi.bot.test.CDITestBase;
 import org.junit.Test;
 import org.junit.runners.Suite.SuiteClasses;
 
-/**
-* Test checks if CDI configuration preset sets CDI support correctly
-* 
-* @author Jaroslav Jankovic
-*/
-
 @SuiteClasses({ CDIAllBotTests.class , CDISmokeBotTests.class })
-public class ConfigurationPresetTest extends CDITestBase {
-
+public class CDIProjectWithDynamicWizardTest extends CDITestBase {
+	
 	@Override	
 	public void checkAndCreateProject() {
 		if (!projectHelper.projectExists(getProjectName())) {
-			projectHelper.createDynamicWebProjectWithCDIPreset(getProjectName());
+			projectHelper.createCDIProjectWithDynamicWizard(getProjectName());
 		}
 	}
 	
 	@Override
 	public String getProjectName() {
-		return "CDIPresetProject";
+		return "CDIDynamicWizardProject";
 	}
-			
+	
 	@Test
-	public void testCDIPreset() {
+	public void testCDIFacet() {
 		if (projectHelper.projectExists(getProjectName())) {
-			LOGGER.info("Dynamic Web Project with CDI Configuration Preset created");
+			LOGGER.info("CDI project was sucessfully created by Dynamic Web Project wizard");
 			assertTrue(projectHelper.checkCDISupport(getProjectName()));
 			LOGGER.info("Project has correctly set CDI support");
 		} else {
-			fail("CDI project was not succesfully created with Dynamic Web Project wizard with CDI preset");
+			fail("CDI project was not succesfully created with Dynamic Web Project wizard");
 		}
 		
 	}
-	
+
 }

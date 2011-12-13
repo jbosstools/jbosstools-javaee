@@ -47,16 +47,26 @@ public class EligibleInjectionQuickFixTestBase extends QuickFixTestBase{
 	
 		SpecifyBeanDialogWizard spBeanDialogWizard = new SpecifyBeanDialogWizard();
 		if (operation == QualifierOperation.ADD) {
+			boolean qualifFound = false;
 			for (String availQualifer : spBeanDialogWizard.getAvailableQualifiers()) {
 				if (availQualifer.equals(qualifier + " - " + getPackageName())) {
+					qualifFound = true;
 					spBeanDialogWizard.addQualifier(availQualifer);
 				}
 			}
-			// there was no such qualifer, it has to be created
-			if (!spBeanDialogWizard.canFinish()) {
+			// there was no such qualifer, it has to be created, after creation it 
+			// has to be added to in Bean qualifiers
+			if (!qualifFound) {
 				spBeanDialogWizard.createNewQualifier(qualifier, getPackageName()).
 				setName(qualifier).finish();
+				bot.sleep(Timing.time2S());
+				for (String availQualifer : spBeanDialogWizard.getAvailableQualifiers()) {
+					if (availQualifer.equals(qualifier + " - " + getPackageName())) {						
+						spBeanDialogWizard.addQualifier(availQualifer);
+					}
+				}
 			}
+			
 		} else {
 			for (String inBeanQualifer : spBeanDialogWizard.getInBeanQualifiers()) {
 				if (inBeanQualifer.equals(qualifier + " - " + getPackageName())) {

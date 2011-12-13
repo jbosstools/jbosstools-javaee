@@ -31,7 +31,7 @@ public class Seam3GenericOpenOnTest extends Seam3TestBase {
 	
 	@Override
 	public String getProjectName() {
-		return "Seam3GenericOpenOnTest";
+		return "Seam3GenericOpenOn";
 	}
 	
 	/**

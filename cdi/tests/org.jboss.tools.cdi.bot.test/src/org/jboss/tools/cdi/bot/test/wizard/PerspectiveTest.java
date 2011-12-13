@@ -37,7 +37,7 @@ public class PerspectiveTest extends CDITestBase {
 	@Override
 	public void checkAndCreateProject() {
 		if (!projectHelper.projectExists(getProjectName())) {
-			projectHelper.createCDIProject(getProjectName());
+			projectHelper.createCDIProjectWithCDIWizard(getProjectName());
 			eclipse.openPerspective(PerspectiveType.CDI);
 			LOGGER.info("CDI perspective selected");
 			bot.sleep(Timing.time2S());

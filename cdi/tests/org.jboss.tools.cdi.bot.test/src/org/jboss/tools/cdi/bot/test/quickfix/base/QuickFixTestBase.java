@@ -38,13 +38,6 @@ import org.junit.BeforeClass;
 
 public class QuickFixTestBase extends QuickFixHelper {
 	
-	@Override
-	public void checkAndCreateProject() {
-		if (!projectHelper.projectExists(getProjectName())) {
-			projectHelper.createCDIProject(getProjectName());
-		}
-	}		
-	
 	@BeforeClass
 	public static void setup() {
 		problems.show();

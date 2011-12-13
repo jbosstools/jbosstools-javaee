@@ -24,10 +24,23 @@ import org.jboss.tools.ui.bot.ext.helper.ContextMenuHelper;
 public class CDIProjectHelper extends CDIBase{
 	
 	/**
-	 * Method creates new CDI Project - Dynamic Web Project + CDI Support
+	 * Method creates new CDI Project with CDI Web Project wizard
 	 * @param projectName
 	 */
-	public void createCDIProject(String projectName) {
+	public void createCDIProjectWithCDIWizard(String projectName) {
+		
+		new NewFileWizardAction().run()
+			.selectTemplate("CDI (Context and Dependency Injection)", "CDI Web Project").next();
+		new DynamicWebProjectWizard().setProjectName(projectName).finish();
+		util.waitForNonIgnoredJobs();		
+	}
+	
+	/**
+	 * Method creates new CDI Project with Dynamic Web Project, after that it 
+	 * adds CDI Support
+	 * @param projectName
+	 */
+	public void createCDIProjectWithDynamicWizard(String projectName) {
 		createDynamicWebProject(projectName);
 		addCDISupport(projectName);
 	}
