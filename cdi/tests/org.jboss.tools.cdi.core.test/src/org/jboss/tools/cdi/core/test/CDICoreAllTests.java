@@ -63,6 +63,7 @@ import org.jboss.tools.cdi.core.test.tck.validation.DeploymentProblemsValidation
 import org.jboss.tools.cdi.core.test.tck.validation.DisableCDISupportTest;
 import org.jboss.tools.cdi.core.test.tck.validation.ELValidationTest;
 import org.jboss.tools.cdi.core.test.tck.validation.IncrementalValidationTest;
+import org.jboss.tools.cdi.core.test.tck.validation.SuppressWarningsTests;
 import org.jboss.tools.common.base.test.validation.ValidationExceptionTest;
 import org.jboss.tools.test.util.ProjectImportTestSetup;
 
@@ -121,6 +122,7 @@ public class CDICoreAllTests {
 		suite.addTestSuite(DeploymentProblemsValidationTests.class);
 		suite.addTestSuite(BeansXmlValidationTest.class);
 		suite.addTestSuite(AnnotationsValidationTest.class);
+		suite.addTestSuite(SuppressWarningsTests.class);
 		suite.addTestSuite(CoreValidationTest.class);
 		suite.addTestSuite(ELValidationTest.class);
 		suite.addTestSuite(IncrementalValidationTest.class);
