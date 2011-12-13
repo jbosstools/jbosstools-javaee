@@ -43,6 +43,7 @@ import org.jboss.tools.cdi.ui.marker.MakeMethodPublicMarkerResolution;
 import org.jboss.tools.cdi.ui.marker.TestableResolutionWithDialog;
 import org.jboss.tools.cdi.ui.marker.TestableResolutionWithRefactoringProcessor;
 import org.jboss.tools.common.base.test.validation.TestUtil;
+import org.jboss.tools.common.ui.marker.AddSuppressWarningsMarkerResolution;
 import org.jboss.tools.common.ui.marker.ConfigureProblemSeverityMarkerResolution;
 import org.jboss.tools.common.util.FileUtil;
 
@@ -58,6 +59,16 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 				return;
 		}
 		fail("Configure Problem Severity marker resolution not found");
+	}
+
+	private void checkForAddSuppressWarnings(IFile file, IMarkerResolution[] resolutions){
+		if(file.getFileExtension().equals("java")){
+			for(IMarkerResolution resolution : resolutions){
+				if(resolution.getClass().equals(AddSuppressWarningsMarkerResolution.class))
+					return;
+			}
+			fail("Add @SuppressWarnings marker resolution not found");
+		}
 	}
 	
 	private void checkResolution(IProject project, String[] fileNames, String markerType, String idName, int id, Class<? extends IMarkerResolution> resolutionClass) throws CoreException {
@@ -86,6 +97,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 						IMarkerResolution[] resolutions = IDE.getMarkerHelpRegistry()
 								.getResolutions(marker);
 						checkForConfigureProblemSeverity(resolutions);
+						checkForAddSuppressWarnings(file, resolutions);
 						for (int j = 0; j < resolutions.length; j++) {
 							IMarkerResolution resolution = resolutions[j];
 							if (resolution.getClass().equals(resolutionClass)) {
