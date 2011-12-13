@@ -388,7 +388,7 @@ public class CDICoreNature implements IProjectNature {
 			isStorageResolved = true;
 		}
 		try {
-			getProject().build(IncrementalProjectBuilder.FULL_BUILD, CDICoreBuilder.BUILDER_ID, new HashMap(), new NullProgressMonitor());
+			new CDICoreBuilder(this);
 		} catch (CoreException e) {
 			CDICorePlugin.getDefault().logError(e);
 		}

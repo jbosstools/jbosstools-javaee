@@ -30,6 +30,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.jdt.core.IClassFile;
 import org.eclipse.jdt.core.IClasspathEntry;
@@ -77,12 +78,29 @@ public class CDICoreBuilder extends IncrementalProjectBuilder {
 	Set<IBuildParticipantFeature> buildParticipants = null;
 	Set<IBuildParticipant2Feature> buildParticipants2 = null;
 
+	/**
+	 * Set only for instance created to initially load cdi model.
+	 */
+	CDICoreNature cdi;
+
 	public CDICoreBuilder() {}
 
+	public CDICoreBuilder(CDICoreNature cdi) throws CoreException {
+		this.cdi = cdi;
+		build(IncrementalProjectBuilder.FULL_BUILD, null, new NullProgressMonitor());
+	}
+
 	CDICoreNature getCDICoreNature() {
+		if(cdi != null) {
+			return cdi;
+		}
 		IProject p = getProject();
 		if(p == null) return null;
 		return CDICorePlugin.getCDI(p, false);
+	}
+
+	IProject getCurrentProject() {
+		return cdi != null ? cdi.getProject() : getProject();
 	}
 
 	CDIResourceVisitor getResourceVisitor() {
@@ -96,7 +114,7 @@ public class CDICoreBuilder extends IncrementalProjectBuilder {
 		Set<ICDIBuilderDelegate> ds = getDelegates();
 		int relevance = 0;
 		for (ICDIBuilderDelegate d: ds) {
-			int r = d.computeRelevance(getProject());
+			int r = d.computeRelevance(getCurrentProject());
 			if(r > relevance) {
 				builderDelegate = d;
 				relevance = r;
@@ -199,7 +217,7 @@ public class CDICoreBuilder extends IncrementalProjectBuilder {
 			if (kind == FULL_BUILD) {
 				fullBuild(monitor);
 			} else {
-				IResourceDelta delta = getDelta(getProject());
+				IResourceDelta delta = getDelta(getCurrentProject());
 				if (delta == null) {
 					fullBuild(monitor);
 				} else {
@@ -233,7 +251,7 @@ public class CDICoreBuilder extends IncrementalProjectBuilder {
 		try {
 			CDIResourceVisitor rv = getResourceVisitor();
 			rv.incremental = false;
-			getProject().accept(rv);
+			getCurrentProject().accept(rv);
 			FileSet fs = rv.fileSet;
 			invokeBuilderDelegates(fs, getCDICoreNature());
 			
@@ -305,7 +323,7 @@ public class CDICoreBuilder extends IncrementalProjectBuilder {
 	}
 
 	void addBasicTypes(FileSet fs) throws CoreException {
-		IJavaProject jp = EclipseResourceUtil.getJavaProject(getProject());
+		IJavaProject jp = EclipseResourceUtil.getJavaProject(getCurrentProject());
 		if(jp == null) return;
 		for (String s: AnnotationHelper.SCOPE_ANNOTATION_TYPES) {
 			IType type = EclipseJavaUtil.findType(jp, s);
@@ -388,8 +406,8 @@ public class CDICoreBuilder extends IncrementalProjectBuilder {
 		Set<IPath> visited = new HashSet<IPath>();
 		
 		CDIResourceVisitor() {
-			webinfs = WebUtils.getWebInfPaths(getProject());
-			getJavaSourceRoots(getProject());
+			webinfs = WebUtils.getWebInfPaths(getCurrentProject());
+			getJavaSourceRoots(getCurrentProject());
 		}
 
 		void getJavaSourceRoots(IProject project) {

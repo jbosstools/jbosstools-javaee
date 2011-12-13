@@ -69,6 +69,11 @@ public class CDIProjectTree implements IValidatingProjectTree {
 								rootContext = root.getValidationContext();
 							}
 							requiredProjects.add(root.getProject());
+							
+							for (IProject p: requiredProjects) {
+								CDICorePlugin.getCDI(p, true); //all should be active.
+							}
+							
 							IValidatingProjectSet brunch = new ValidatingProjectSet(root.getProject(), requiredProjects, rootContext);
 							brunches.put(rootProject, brunch);
 							allProjects.addAll(brunch.getAllProjects());

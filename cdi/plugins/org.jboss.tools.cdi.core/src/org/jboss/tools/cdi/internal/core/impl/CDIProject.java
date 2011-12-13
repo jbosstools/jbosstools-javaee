@@ -1110,7 +1110,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 		return scopesByPath.get(path);
 	}
 
-	public void update(boolean updateDependent) {
+	public synchronized void update(boolean updateDependent) {
 		rebuildXML();
 		rebuildAnnotationTypes();
 		rebuildBeans();
