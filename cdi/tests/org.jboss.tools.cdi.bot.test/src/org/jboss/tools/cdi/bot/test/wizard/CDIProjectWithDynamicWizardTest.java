@@ -33,7 +33,7 @@ public class CDIProjectWithDynamicWizardTest extends CDITestBase {
 	}
 	
 	@Test
-	public void testCDIFacet() {
+	public void testDynamicWizard() {
 		if (projectHelper.projectExists(getProjectName())) {
 			LOGGER.info("CDI project was sucessfully created by Dynamic Web Project wizard");
 			assertTrue(projectHelper.checkCDISupport(getProjectName()));
