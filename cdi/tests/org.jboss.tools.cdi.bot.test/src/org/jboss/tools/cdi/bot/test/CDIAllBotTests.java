@@ -39,7 +39,6 @@ import org.jboss.tools.ui.bot.ext.types.ViewType;
 import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite.SuiteClasses;
-import org.test.DummyTest;
 
 /**
  * This test suite requires JBoss AS 6 or newer
