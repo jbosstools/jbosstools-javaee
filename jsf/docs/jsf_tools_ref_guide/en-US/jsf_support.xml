@@ -138,34 +138,6 @@
 			</table>
 		</section>
 		<section>
-			<title>Adding JSF Facelets to any existing project</title>
-			<para>
-				JSF capability can be added to any existing project, and no pre-existing <filename>web.xml</filename> file is necessary. To enable JSF support for a project, right-click on the project in the <guilabel>Project Explorer</guilabel>, bringing up the context menu. From this menu navigate to <menuchoice><guimenuitem>Configure</guimenuitem><guimenuitem>Add JSF Capabilities</guimenuitem></menuchoice>.
-			</para>
-			<figure>
-				<title>Add JSF Capabilities menu item</title>
-				<mediaobject>
-					<imageobject>
-						<imagedata fileref="images/troubleshooting/JSF_existing_project_01.png"/>
-					</imageobject>
-				</mediaobject>
-			</figure>
-			<para>
-				This will open the <guilabel>Project Facets</guilabel> dialog for the project. Click the checkbox next to <guilabel>JavaServer Faces</guilabel>. You undertake further configuration by clicking the <guilabel>Further configuration available</guilabel> button at the bottom of the dialog; this will allow you to define specific configuration options. Click <guibutton>Apply</guibutton> and then the <guibutton>OK</guibutton> on the <guilabel>Project Facets</guilabel> dialog when you are finished.  
-			</para>
-			<figure>
-				<title>Project Facets dialog</title>
-				<mediaobject>
-					<imageobject>
-						<imagedata fileref="images/troubleshooting/JSF_existing_project_02.png"/>
-					</imageobject>
-				</mediaobject>
-			</figure>
-			<para>
-				The project will now contain a new node (visible through the <guilabel>Project Explorer</guilabel>) named <guilabel>Web Resources</guilabel>. This node contains all your JSF files for the project.
-			</para>
-		</section>
-		<section>
 			<title>Facelets components</title>
 
 			<para>

@@ -204,23 +204,40 @@
 	</section>
 	<section id="add_jsf_capability">
 
-		<title>Adding JSF Capability to Any Existing Eclipse Project</title>
+		<title>Adding JSF Capability to Any Existing Project</title>
 
 		<para>
-			It is also possible to add <productname>JSF</productname> capabilities (JSF libraries, tag libraries) to any existing Eclipse project in your workspace. After that you will be able to make use of features such as the JSF configuration editor, JBoss Tools JSP editor and any others.
+			It is also possible to add <productname>JSF</productname> capabilities (JSF libraries, tag libraries) to any existing project in your workspace. After that you will be able to make use of features such as the JSF configuration editor, JBoss Tools JSP editor and any others. No pre-existing <filename>web.xml</filename> file is necessary.
 		</para>
 		<para>
-			Right click the project and select <menuchoice><guimenuitem>JBoss Tools</guimenuitem><guimenuitem>Add JSF Capabilities</guimenuitem></menuchoice> from the context menu. This will start the process of adding the necessary libraries and files to convert the project into a Web JSF project.
+		Right-click on the project in the <guilabel>Project Explorer</guilabel>, bringing up the context menu. From this menu navigate to <menuchoice>
+                <guimenuitem>Configure</guimenuitem>
+                <guimenuitem>Add JSF Capabilities</guimenuitem>
+            </menuchoice>.
 		</para>
 		<figure>
-			<title>Adding JSF Capabilities</title>
+			<title>Add JSF Capabilities menu item</title>
 			<mediaobject>
 				<imageobject>
-					<imagedata fileref="images/jsf_support/jsf_support_16.png"/>
+					<imagedata fileref="images/jsf_support/jsf_existing_project_01.png"/>
 				</imageobject>
 			</mediaobject>
 		</figure>
-		<para>The wizard will first ask you to define location of the <filename>web.xml</filename> file and the project name.</para>
+		<para>
+			This will open the <guilabel>Project Facets</guilabel> dialog for the project. Click the checkbox next to <guilabel>JavaServer Faces</guilabel>. You undertake further configuration by clicking the <guilabel>Further configuration available</guilabel> button at the bottom of the dialog; this will allow you to define specific configuration options. Click <guibutton>Apply</guibutton> and then the <guibutton>OK</guibutton> on the <guilabel>Project Facets</guilabel> dialog when you are finished.  
+		</para>
+		<figure>
+			<title>Project Facets dialog</title>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="images/jsf_support/jsf_existing_project_02.png"/>
+				</imageobject>
+			</mediaobject>
+		</figure>
+		<para>
+			The project will now contain a new node (visible through the <guilabel>Project Explorer</guilabel>) named <guilabel>Web Resources</guilabel>.You will also notice new files within the <guilabel>WebContent</guilabel> folder.
+		</para>
+	<!--	<para>The wizard will first ask you to define location of the <filename>web.xml</filename> file and the project name.</para>
 		<figure>
 			<title>Project Location</title>
 			<mediaobject>
@@ -252,14 +269,14 @@
 		</figure>
 		<para>
 			Once your project is imported you can see that JSF related libraries <filename>jsf-api.jar</filename> and <filename>jsf-impl.jar</filename> have been added to your project.
-		</para>                                                    
+		</para>        -->                                            
 		<note>
 			<title>Note:</title>
 			<para>
 				Some application servers provide their own JSF implementation libraries. To avoid conflicts you should not add JSF libraries while adding JSF capabilities.
 			</para>
 		</note>
-		<para>You are now ready to work with JSF by creating a new JSF configuration file:</para>
+	<!--	<para>You are now ready to work with JSF by creating a new JSF configuration file:</para>
 
 		<figure>
 			<title>Creating a New JSF Configuration File</title>
@@ -268,9 +285,9 @@
 					<imagedata fileref="images/jsf_support/jsf_support_19.png"/>
 				</imageobject>
 			</mediaobject>
-		</figure>
+		</figure> -->
 
-		<para>Once the file has been created, it should be opened in a special editor (see <xref linkend="jsf_config_file"/>).</para>
+   <para>You can now open the new <filename>faces-config.xml</filename> file, that is found under your projects <menuchoice><guimenuitem>WebContent</guimenuitem><guimenuitem>WEB-INF</guimenuitem></menuchoice> folder. This file can be opened in a unique editor (see <xref linkend="jsf_config_file"/>).</para>
 	</section>
 	<section id="AddingYourOwnProjectTemplates853">
 
