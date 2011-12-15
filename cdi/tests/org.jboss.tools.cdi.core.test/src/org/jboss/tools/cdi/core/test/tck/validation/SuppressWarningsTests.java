@@ -84,9 +84,9 @@ public class SuppressWarningsTests extends ValidationTest {
 			modifyPreferences();
 			boolean saveAutoBuild = ResourcesUtils.setBuildAutomatically(false);
 			IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/suppresswarnings/Fish.java");
+			TestUtil.validate(file);
 			AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS, 27);
 			AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, CDIValidationMessages.PRODUCER_ANNOTATED_INJECT, 26);
-			TestUtil.validate(file);
 			ResourcesUtils.setBuildAutomatically(saveAutoBuild);
 		} finally {
 			restorePreferences();
@@ -96,9 +96,9 @@ public class SuppressWarningsTests extends ValidationTest {
 	public void testErrorSuppress() throws Exception {
 		boolean saveAutoBuild = ResourcesUtils.setBuildAutomatically(false);
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/suppresswarnings/Fish.java");
-		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS, 27);
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, CDIValidationMessages.PRODUCER_ANNOTATED_INJECT, 26);
 		TestUtil.validate(file);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS, 27);
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, CDIValidationMessages.PRODUCER_ANNOTATED_INJECT, 19, 26);
 		ResourcesUtils.setBuildAutomatically(saveAutoBuild);
 	}
 }
