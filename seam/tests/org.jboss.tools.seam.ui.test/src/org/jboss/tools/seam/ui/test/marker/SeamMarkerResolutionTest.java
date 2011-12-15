@@ -59,8 +59,9 @@ public class SeamMarkerResolutionTest extends TestCase {
 		fail("Configure Problem Severity marker resolution not found");
 	}
 	
-	private void checkForAddSuppressWarnings(IFile file, IMarkerResolution[] resolutions){
-		if(file.getFileExtension().equals("java")){
+	private void checkForAddSuppressWarnings(IFile file, IMarker marker, IMarkerResolution[] resolutions){
+		int severity = marker.getAttribute(IMarker.SEVERITY, 0);
+		if(file.getFileExtension().equals("java") && severity == IMarker.SEVERITY_WARNING){
 			for(IMarkerResolution resolution : resolutions){
 				if(resolution.getClass().equals(AddSuppressWarningsMarkerResolution.class))
 					return;
@@ -346,7 +347,7 @@ public class SeamMarkerResolutionTest extends TestCase {
 			IMarkerResolution[] resolutions = IDE.getMarkerHelpRegistry()
 					.getResolutions(marker);
 			checkForConfigureProblemSeverity(resolutions);
-			checkForAddSuppressWarnings(file, resolutions);
+			checkForAddSuppressWarnings(file, marker, resolutions);
 			for (int j = 0; j < resolutions.length; j++) {
 				IMarkerResolution resolution = resolutions[j];
 				if (resolution instanceof DeleteAnnotationMarkerResolution) {
@@ -380,7 +381,7 @@ public class SeamMarkerResolutionTest extends TestCase {
 			IMarkerResolution[] resolutions = IDE.getMarkerHelpRegistry()
 					.getResolutions(marker);
 			checkForConfigureProblemSeverity(resolutions);
-			checkForAddSuppressWarnings(file, resolutions);
+			checkForAddSuppressWarnings(file, marker, resolutions);
 			for (int j = 0; j < resolutions.length; j++) {
 				IMarkerResolution resolution = resolutions[j];
 				if (resolution instanceof AddAnnotatedMethodMarkerResolution) {
@@ -410,7 +411,7 @@ public class SeamMarkerResolutionTest extends TestCase {
 			IMarkerResolution[] resolutions = IDE.getMarkerHelpRegistry()
 					.getResolutions(marker);
 			checkForConfigureProblemSeverity(resolutions);
-			checkForAddSuppressWarnings(file, resolutions);
+			checkForAddSuppressWarnings(file, marker, resolutions);
 			for (int j = 0; j < resolutions.length; j++) {
 				IMarkerResolution resolution = resolutions[j];
 				if (resolution instanceof AddAnnotatedMethodMarkerResolution) {
@@ -440,7 +441,7 @@ public class SeamMarkerResolutionTest extends TestCase {
 			IMarkerResolution[] resolutions = IDE.getMarkerHelpRegistry()
 					.getResolutions(marker);
 			checkForConfigureProblemSeverity(resolutions);
-			checkForAddSuppressWarnings(file, resolutions);
+			checkForAddSuppressWarnings(file, marker, resolutions);
 			for (int j = 0; j < resolutions.length; j++) {
 				IMarkerResolution resolution = resolutions[j];
 				if (resolution instanceof ChangeScopeMarkerResolution) {
@@ -466,7 +467,7 @@ public class SeamMarkerResolutionTest extends TestCase {
 			IMarkerResolution[] resolutions = IDE.getMarkerHelpRegistry()
 					.getResolutions(marker);
 			checkForConfigureProblemSeverity(resolutions);
-			checkForAddSuppressWarnings(file, resolutions);
+			checkForAddSuppressWarnings(file, marker, resolutions);
 			for (int j = 0; j < resolutions.length; j++) {
 				IMarkerResolution resolution = resolutions[j];
 				if (resolution instanceof ChangeScopeMarkerResolution) {
@@ -500,7 +501,7 @@ public class SeamMarkerResolutionTest extends TestCase {
 			IMarkerResolution[] resolutions = IDE.getMarkerHelpRegistry()
 					.getResolutions(marker);
 			checkForConfigureProblemSeverity(resolutions);
-			checkForAddSuppressWarnings(file, resolutions);
+			checkForAddSuppressWarnings(file, marker, resolutions);
 			for (int j = 0; j < resolutions.length; j++) {
 				IMarkerResolution resolution = resolutions[j];
 				if (resolution instanceof AddSetterMarkerResolution) {
