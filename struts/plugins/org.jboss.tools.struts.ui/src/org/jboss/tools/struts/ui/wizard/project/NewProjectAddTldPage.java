@@ -49,7 +49,7 @@ public class NewProjectAddTldPage extends WizardPage {
 
 		checkListAdapter = new CheckListAdapter();
 		checkListAdapter.setTags(templates.getTldTemplates(lastStrutsVersion));
-		checkListEditor = new CheckListEditor(new DefaultSettings());
+		checkListEditor = new CheckListEditor(DefaultSettings.getDefault());
 		checkListEditor.setLabelText("TLDs");
 		checkListEditor.setInput(checkListAdapter);
 	}

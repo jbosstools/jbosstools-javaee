@@ -49,7 +49,7 @@ public class AdoptProjectStepModulesView extends AbstractSpecialWizardStep imple
 	protected AdoptProjectContext context = null;
 	
     public AdoptProjectStepModulesView() {
-		tableSelectionEditor = new TableSelectionEditor(new DefaultSettings());
+		tableSelectionEditor = new TableSelectionEditor(DefaultSettings.getDefault());
 		tableAdapter = new LocalTableAdapter();
 		tableSelectionEditor.setInput(tableAdapter);
 		tableSelectionEditor.setLabelText("Provide information about your modules");

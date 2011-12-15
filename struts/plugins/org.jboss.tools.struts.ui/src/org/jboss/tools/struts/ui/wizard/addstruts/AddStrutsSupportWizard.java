@@ -33,7 +33,7 @@ public class AddStrutsSupportWizard extends Wizard {
 		dialog.create();
 		dialog.getShell().setText("Add Struts Support");
 		dialog.setTitle("Struts Project");
-		dialog.setTitleImage(ModelUIImages.getImageDescriptor(ModelUIImages.WIZARD_DEFAULT).createImage(null));
+		dialog.setTitleImage(ModelUIImages.getImage(ModelUIImages.WIZARD_DEFAULT));
 		return dialog.open();		
 	}
 	
