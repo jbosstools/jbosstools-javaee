@@ -258,7 +258,7 @@ public class SeamBeansDefinition {
 				List<ParameterDefinition> psDefs = methodDef.getParameters();
 				List<SeamParameterDefinition> ps = m.getParameters();
 				if(ps.size() != psDefs.size()) {
-					System.out.println("different number of parameters in MethodDefinition and SeamMethodDefinition for method " + method.getDeclaringType().getElementName() + "." + method.getElementName());
+					//do nothing
 				} else {
 					for (int i = 0; i < ps.size(); i++) {
 						mergeAnnotations(ps.get(i), psDefs.get(i), context);
