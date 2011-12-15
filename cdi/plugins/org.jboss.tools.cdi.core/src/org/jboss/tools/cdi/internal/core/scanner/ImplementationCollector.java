@@ -28,14 +28,11 @@ public class ImplementationCollector {
 
 	public ImplementationCollector(List<TypeDefinition> typeDefinitions) {
 		this.typeDefinitions = typeDefinitions;
-//		long t = System.currentTimeMillis();
 		try {
 			process();
 		} catch (JavaModelException e) {
 			CDICorePlugin.getDefault().logError(e);
 		}
-//		long dt = System.currentTimeMillis() - t;
-//		System.out.println("ImplementationCollector: " + dt + " ms for " + typeDefinitions.size() + " types.");
 	}
 
 	void process() throws JavaModelException {
