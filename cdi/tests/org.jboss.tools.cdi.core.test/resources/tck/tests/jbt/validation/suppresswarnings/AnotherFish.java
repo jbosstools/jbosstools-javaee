@@ -27,4 +27,6 @@ public class AnotherFish { // BROKEN
 	@Produces
 	public void setFish3(Fish fishBROKEN) {
 	}
+
+	@Inject Fish fish3BROKEN;
 }

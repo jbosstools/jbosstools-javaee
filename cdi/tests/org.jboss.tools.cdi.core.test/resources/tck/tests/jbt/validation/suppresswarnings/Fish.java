@@ -30,4 +30,7 @@ public class Fish {
 	@Produces
 	public void setFish3(Fish fishBROKEN) {
 	}
+
+	@SuppressWarnings("unsatisfiedInjectionPoints")
+	@Inject Fish fish3OK;
 }
