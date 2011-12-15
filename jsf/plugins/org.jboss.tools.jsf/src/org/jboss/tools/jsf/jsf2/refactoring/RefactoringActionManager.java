@@ -64,7 +64,6 @@ public class RefactoringActionManager {
 	}
 
 	public Set<String> getAvailableActionIDs(EvaluationContext context) {
-		System.out.println(context.getDefaultVariable());
 		Set<String> ids = new HashSet<String>();
 		return ids;
 	}

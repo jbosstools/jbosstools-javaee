@@ -16,6 +16,7 @@ import org.eclipse.core.resources.IResource;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.filesystems.FileSystemsHelper;
 import org.jboss.tools.common.model.filesystems.impl.Libs;
+import org.jboss.tools.jsf.JSFModelPlugin;
 import org.jboss.tools.jst.web.model.helpers.WebAppHelper;
 import org.jboss.tools.jst.web.tld.model.TLDUtil;
 
@@ -91,7 +92,6 @@ public class JSFProjectTagLibs extends JSFProjectResourceBundles {
 
 	protected boolean acceptFile(XModelObject o) {
 		if(o.getParent() == null) {
-			System.out.println("Null parent " + o);
 			return false;
 		}
 		if("META-INF".equals(o.getParent().getAttributeValue("name"))) {
