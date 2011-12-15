@@ -193,7 +193,6 @@ public class CDISeamSolderDefaultBeanExtension implements ICDIExtension, IProces
 						for (IBean link: linked) {
 							if(link.getSourcePath() != null) {
 								validator.getValidationContext().addLinkedCoreResource(CDICoreValidator.SHORT_ID, key, link.getSourcePath(), true);
-//								System.out.println(key + ":" + link.getSourcePath());
 							}
 						}
 					}
