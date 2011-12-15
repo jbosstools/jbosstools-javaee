@@ -793,14 +793,14 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 		try {
 			if(hasConflictedInterceptorBindings(bean)) {
 				//TODO consider putting markers to interceptor bindings/stereotype declarations.
-				ITextSourceReference reference = CDIUtil.convertToSourceReference(bean.getBeanClass().getNameRange(), bean.getResource());
+				ITextSourceReference reference = CDIUtil.convertToSourceReference(bean.getBeanClass().getNameRange(), bean.getResource(), bean.getBeanClass());
 				addError(CDIValidationMessages.CONFLICTING_INTERCEPTOR_BINDINGS, CDIPreferences.CONFLICTING_INTERCEPTOR_BINDINGS, reference, bean.getResource());
 			}
 			Set<IBeanMethod> methods = bean.getAllMethods();
 			for (IBeanMethod method : methods) {
 				if(hasConflictedInterceptorBindings(method)) {
 					//TODO consider putting markers to interceptor bindings/stereotype declarations.
-					ITextSourceReference reference = CDIUtil.convertToSourceReference(method.getMethod().getNameRange(), bean.getResource());
+					ITextSourceReference reference = CDIUtil.convertToSourceReference(method.getMethod().getNameRange(), bean.getResource(), method.getMethod());
 					addError(CDIValidationMessages.CONFLICTING_INTERCEPTOR_BINDINGS, CDIPreferences.CONFLICTING_INTERCEPTOR_BINDINGS, reference, bean.getResource());
 				}
 			}
@@ -1873,7 +1873,7 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 				IField[] fields = type.getFields();
 				for (IField field : fields) {
 					if (Flags.isPublic(field.getFlags()) && !Flags.isStatic(field.getFlags())) {
-						ITextSourceReference fieldReference = CDIUtil.convertToSourceReference(field.getNameRange(), bean.getResource());
+						ITextSourceReference fieldReference = CDIUtil.convertToSourceReference(field.getNameRange(), bean.getResource(), field);
 						addError(CDIValidationMessages.ILLEGAL_SCOPE_FOR_MANAGED_BEAN_WITH_PUBLIC_FIELD, CDIPreferences.ILLEGAL_SCOPE_FOR_BEAN,
 								fieldReference, bean.getResource(), ILLEGAL_SCOPE_FOR_MANAGED_BEAN_WITH_PUBLIC_FIELD_ID);
 					}
@@ -1941,14 +1941,14 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 			Set<IInterceptorBinding> bindings = bean.getInterceptorBindings();
 			if(!bindings.isEmpty()) {
 				if(Flags.isFinal(bean.getBeanClass().getFlags())) {
-					ITextSourceReference reference = CDIUtil.convertToSourceReference(bean.getBeanClass().getNameRange(), bean.getResource());
+					ITextSourceReference reference = CDIUtil.convertToSourceReference(bean.getBeanClass().getNameRange(), bean.getResource(), bean.getBeanClass());
 					addError(CDIValidationMessages.ILLEGAL_INTERCEPTOR_BINDING_CLASS, CDIPreferences.ILLEGAL_INTERCEPTOR_BINDING_METHOD, reference, bean.getResource());
 				} else {
 					IMethod[] methods = bean.getBeanClass().getMethods();
 					for (int i = 0; i < methods.length; i++) {
 						int flags = methods[i].getFlags();
 						if(Flags.isFinal(flags) && !Flags.isStatic(flags) && !Flags.isPrivate(flags)) {
-							ITextSourceReference reference = CDIUtil.convertToSourceReference(methods[i].getNameRange(), bean.getResource());
+							ITextSourceReference reference = CDIUtil.convertToSourceReference(methods[i].getNameRange(), bean.getResource(), methods[i]);
 							addError(CDIValidationMessages.ILLEGAL_INTERCEPTOR_BINDING_METHOD, CDIPreferences.ILLEGAL_INTERCEPTOR_BINDING_METHOD, reference, bean.getResource());
 						}
 					}
@@ -1958,13 +1958,13 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 				for (IBeanMethod method : beanMethods) {
 					if(!method.getInterceptorBindings().isEmpty()) {
 						if(Flags.isFinal(bean.getBeanClass().getFlags())) {
-							ITextSourceReference reference = CDIUtil.convertToSourceReference(bean.getBeanClass().getNameRange(), bean.getResource());
+							ITextSourceReference reference = CDIUtil.convertToSourceReference(bean.getBeanClass().getNameRange(), bean.getResource(), bean.getBeanClass());
 							addError(CDIValidationMessages.ILLEGAL_INTERCEPTOR_BINDING_CLASS, CDIPreferences.ILLEGAL_INTERCEPTOR_BINDING_METHOD, reference, bean.getResource());
 						} else {
 							IMethod sourceMethod = method.getMethod();
 							int flags = sourceMethod.getFlags();
 							if(Flags.isFinal(flags) && !Flags.isStatic(flags) && !Flags.isPrivate(flags)) {
-								ITextSourceReference reference = CDIUtil.convertToSourceReference(sourceMethod.getNameRange(), bean.getResource());
+								ITextSourceReference reference = CDIUtil.convertToSourceReference(sourceMethod.getNameRange(), bean.getResource(), sourceMethod);
 								addError(CDIValidationMessages.ILLEGAL_INTERCEPTOR_BINDING_METHOD, CDIPreferences.ILLEGAL_INTERCEPTOR_BINDING_METHOD, reference, bean.getResource());
 							}
 						}
@@ -1991,7 +1991,7 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 							}
 						}
 						if(!passivatingCapable) {
-							ITextSourceReference reference = CDIUtil.convertToSourceReference(bean.getBeanClass().getNameRange(), bean.getResource());
+							ITextSourceReference reference = CDIUtil.convertToSourceReference(bean.getBeanClass().getNameRange(), bean.getResource(), bean.getBeanClass());
 							addError(MessageFormat.format(CDIValidationMessages.NOT_PASSIVATION_CAPABLE_BEAN, bean.getElementName(), scope.getSourceType().getElementName()), CDIPreferences.NOT_PASSIVATION_CAPABLE_BEAN, reference, bean.getResource(), NOT_PASSIVATION_CAPABLE_BEAN_ID);
 						}
 					}
@@ -2492,7 +2492,7 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 				int kind = Signature.getTypeSignatureKind(returnTypeSignature);
 				if(kind == Signature.ARRAY_TYPE_SIGNATURE) {
 					if(!annotation.getNonBindingMethods().contains(method)) {
-						ITextSourceReference reference = CDIUtil.convertToSourceReference(method.getNameRange(), annotation.getResource());
+						ITextSourceReference reference = CDIUtil.convertToSourceReference(method.getNameRange(), annotation.getResource(), method);
 						addError(arrayMessageErrorKey, preferencesKey, reference, annotation.getResource(), arrayMessageId);
 					}
 				} else if(kind == Signature.CLASS_TYPE_SIGNATURE) {
@@ -2507,7 +2507,7 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 						IType memberType = type.getJavaProject().findType(typeName);
 						if(memberType!=null && memberType.isAnnotation()) {
 							if(!annotation.getNonBindingMethods().contains(method)) {
-								ITextSourceReference reference = CDIUtil.convertToSourceReference(method.getNameRange(), annotation.getResource());
+								ITextSourceReference reference = CDIUtil.convertToSourceReference(method.getNameRange(), annotation.getResource(), method);
 								addError(annotationValueErrorKey, preferencesKey, reference, annotation.getResource(), annotationValueId);
 							}
 						}

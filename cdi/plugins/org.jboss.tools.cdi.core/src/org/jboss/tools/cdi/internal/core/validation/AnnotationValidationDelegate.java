@@ -189,7 +189,7 @@ public class AnnotationValidationDelegate extends CDICoreValidationDelegate {
 	void validateRetentionAnnotation(ICDIAnnotation type, String message, IResource resource, int message_id) throws JavaModelException {
 		IAnnotationDeclaration retention = type.getAnnotationDeclaration(CDIConstants.RETENTION_ANNOTATION_TYPE_NAME);
 		if(retention == null) {
-			validator.addError(message, CDIPreferences.MISSING_OR_INCORRECT_TARGET_OR_RETENTION_IN_ANNOTATION_TYPE, CDIUtil.convertToSourceReference(type.getSourceType().getNameRange(), resource), resource, message_id);
+			validator.addError(message, CDIPreferences.MISSING_OR_INCORRECT_TARGET_OR_RETENTION_IN_ANNOTATION_TYPE, CDIUtil.convertToSourceReference(type.getSourceType().getNameRange(), resource, type.getSourceType()), resource, message_id);
 		} else {
 			Object o = retention.getMemberValue(null);
 			if(o == null || !CDIConstants.RETENTION_POLICY_RUNTIME_TYPE_NAME.equals(o.toString())) {
@@ -214,7 +214,7 @@ public class AnnotationValidationDelegate extends CDICoreValidationDelegate {
 	private void validateTargetAnnotation(ICDIAnnotation annotationType, String[][] variants, String message, IResource resource, int message_id) throws JavaModelException {
 		IAnnotationDeclaration target = annotationType.getAnnotationDeclaration(CDIConstants.TARGET_ANNOTATION_TYPE_NAME);
 		if(target==null) {
-			validator.addError(message, CDIPreferences.MISSING_OR_INCORRECT_TARGET_OR_RETENTION_IN_ANNOTATION_TYPE, CDIUtil.convertToSourceReference(annotationType.getSourceType().getNameRange(), resource), resource, message_id);
+			validator.addError(message, CDIPreferences.MISSING_OR_INCORRECT_TARGET_OR_RETENTION_IN_ANNOTATION_TYPE, CDIUtil.convertToSourceReference(annotationType.getSourceType().getNameRange(), resource, annotationType.getSourceType()), resource, message_id);
 		} else if(!CDIUtil.checkTargetAnnotation(target, variants)) {
 			validator.addError(message, CDIPreferences.MISSING_OR_INCORRECT_TARGET_OR_RETENTION_IN_ANNOTATION_TYPE, target, resource, message_id);
 		}
