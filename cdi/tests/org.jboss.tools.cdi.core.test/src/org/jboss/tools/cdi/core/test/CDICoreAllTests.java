@@ -122,9 +122,9 @@ public class CDICoreAllTests {
 		suite.addTestSuite(DeploymentProblemsValidationTests.class);
 		suite.addTestSuite(BeansXmlValidationTest.class);
 		suite.addTestSuite(AnnotationsValidationTest.class);
-		suite.addTestSuite(SuppressWarningsTests.class);
 		suite.addTestSuite(CoreValidationTest.class);
 		suite.addTestSuite(ELValidationTest.class);
+		suite.addTestSuite(SuppressWarningsTests.class);
 		suite.addTestSuite(IncrementalValidationTest.class);
 		
 		// Refactoring test
