@@ -37,6 +37,7 @@ public class ValuedQualifier{
 		this.value = value;
 	}
 
+	@Override
 	public boolean equals(Object obj) {
 		if(obj instanceof ValuedQualifier)
 			return getQualifier().getSourceType().getFullyQualifiedName().equals(((ValuedQualifier)obj).getQualifier().getSourceType().getFullyQualifiedName());

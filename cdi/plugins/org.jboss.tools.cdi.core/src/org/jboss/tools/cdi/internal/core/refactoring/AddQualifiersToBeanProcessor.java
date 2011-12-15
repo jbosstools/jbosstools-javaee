@@ -128,6 +128,7 @@ public class AddQualifiersToBeanProcessor extends CDIRefactoringProcessor {
 		return rootChange;
 	}
 	
+	@Override
 	protected void createRootChange(){
 		
 	}

@@ -146,6 +146,7 @@ public abstract class CDIRenameProcessor extends AbstractCDIProcessor {
 				change(file, offset, length, newName);
 		}
 		
+		@Override
 		protected ELInvocationExpression findComponentReference(ELInvocationExpression invocationExpression){
 			if(bean != null)
 				return invocationExpression;

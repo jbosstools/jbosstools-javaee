@@ -20,8 +20,8 @@ import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.text.TextSelection;
 import org.eclipse.ltk.core.refactoring.participants.RenameRefactoring;
-import org.eclipse.ltk.internal.core.refactoring.Messages;
 import org.eclipse.ltk.ui.refactoring.RefactoringWizardOpenOperation;
+import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.internal.services.IWorkbenchLocationService;
@@ -148,10 +148,11 @@ public class CDIRefactorContributionFactory extends AbstractContributionFactory 
 	class RenameNamedBeanAction extends Action{
 		IBean bean;
 		public RenameNamedBeanAction(IBean bean){
-			super(Messages.format(CDIUIMessages.CDI_REFACTOR_CONTRIBUTOR_RENAME_NAMED_BEAN_ACTION_NAME, bean.getName()));
+			super(NLS.bind(CDIUIMessages.CDI_REFACTOR_CONTRIBUTOR_RENAME_NAMED_BEAN_ACTION_NAME, bean.getName()));
 			this.bean = bean;
 		}
 
+		@Override
 		public void run(){
 			saveAndBuild();
 
