@@ -89,7 +89,7 @@ public class GenericBeanValidator {
 		Map<AbstractMemberDefinition, List<IQualifierDeclaration>> bs = c.getGenericConfigurationPoints();
 		for (AbstractMemberDefinition d: bs.keySet()) {
 			if(d.getResource() != null && d.getResource().equals(file) && !d.getTypeDefinition().isVetoed()) {
-				ITextSourceReference reference = CDIUtil.convertToSourceReference(((IMember)d.getMember()).getNameRange(), file);
+				ITextSourceReference reference = CDIUtil.convertToSourceReference(((IMember)d.getMember()).getNameRange(), file, (IMember)d.getMember());
 				
 				/*
 				 * If several generic configuration points have the same set of qualifiers,
