@@ -327,18 +327,18 @@ public class CodeCompletionTest extends JSFAutoTestCase{
     // Check Content Assist invoked by typing
     ContentAssistBot contentAssist = editor.contentAssist();
     final List<String> caProposals = contentAssist.getProposalList(shellsBefore, bot.shells(), true);
-    String useCodeAssist = "greeting";
+    String useCodeAssist = "['greeting']";
     assertTrue("Content assist has to contain item " + useCodeAssist +
         " but it does not.",
       caProposals.contains(useCodeAssist));
-    useCodeAssist = "prompt";
+    useCodeAssist = "['prompt']";
     assertTrue("Content assist has to contain item " + useCodeAssist +
         " but it does not.",
       caProposals.contains(useCodeAssist));
     // Check Content Assist invoked by Ctrl-Space
-    useCodeAssist = "greeting";
+    useCodeAssist = "['greeting']";
     contentAssist.checkContentAssist(useCodeAssist, false);
-    useCodeAssist = "prompt";
+    useCodeAssist = "['prompt']";
     contentAssist.checkContentAssist(useCodeAssist, true);
     final String textToInsertAtEnd = "/>";
     editor.insertText(editor.cursorPosition().line, 
