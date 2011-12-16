@@ -19,11 +19,13 @@ import java.util.TreeSet;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.IMemberValuePair;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.osgi.util.NLS;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.CDICorePlugin;
+import org.jboss.tools.cdi.core.CDIUtil;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.IClassBean;
@@ -49,6 +51,7 @@ import org.jboss.tools.cdi.internal.core.validation.CDICoreValidator;
 import org.jboss.tools.cdi.seam.solder.core.validation.SeamSolderValidationMessages;
 import org.jboss.tools.common.java.IAnnotationDeclaration;
 import org.jboss.tools.common.java.IJavaAnnotation;
+import org.jboss.tools.common.java.IJavaReference;
 import org.jboss.tools.common.java.IParametedType;
 import org.jboss.tools.common.java.ITypeDeclaration;
 import org.jboss.tools.common.java.impl.AnnotationLiteral;
@@ -171,7 +174,8 @@ public class CDISeamSolderDefaultBeanExtension implements ICDIExtension, IProces
 				if(a == null) {
 					Set<ITypeDeclaration> ds = bean.getAllTypeDeclarations();
 					if(!ds.isEmpty()) {
-						a = ds.iterator().next();
+						IMember e = bean instanceof IJavaReference ? ((IJavaReference)bean).getSourceMember() : bean.getBeanClass();
+						a = CDIUtil.convertToJavaSourceReference(ds.iterator().next(), e);
 					} else {
 						continue;
 					}
