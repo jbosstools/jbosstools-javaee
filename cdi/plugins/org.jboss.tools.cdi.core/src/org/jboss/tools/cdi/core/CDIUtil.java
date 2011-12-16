@@ -67,6 +67,7 @@ import org.jboss.tools.common.java.IAnnotationType;
 import org.jboss.tools.common.java.IJavaReference;
 import org.jboss.tools.common.java.IJavaSourceReference;
 import org.jboss.tools.common.java.IParametedType;
+import org.jboss.tools.common.java.ITypeDeclaration;
 import org.jboss.tools.common.model.util.EclipseJavaUtil;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.text.ITextSourceReference;
@@ -941,6 +942,39 @@ public class CDIUtil {
 				}
 			};
 		}
+	}
+
+	/**
+	 * Converts ITypeDeclaration reference to IJavaSourceReference if
+	 * 1) javaElement is not null,
+	 * 2) reference and javaElement are declared in the same resource
+	 * 
+	 * @param reference
+	 * @param javaElement
+	 * @return
+	 */
+	public static ITextSourceReference convertToJavaSourceReference(final ITextSourceReference reference, final IMember javaElement) {
+		if(reference instanceof IJavaSourceReference || javaElement == null
+				|| (reference.getResource() != null && !(reference.getResource().equals(javaElement.getResource())))) {
+			return reference;
+		}
+		return new IJavaSourceReference() {
+			public IMember getSourceMember() {
+				return javaElement;
+			}
+			public IJavaElement getSourceElement() {
+				return javaElement;
+			}
+			public int getStartPosition() {
+				return reference.getStartPosition();
+			}
+			public IResource getResource() {
+				return reference.getResource();
+			}
+			public int getLength() {
+				return reference.getLength();
+			}
+		};
 	}
 
 	/**

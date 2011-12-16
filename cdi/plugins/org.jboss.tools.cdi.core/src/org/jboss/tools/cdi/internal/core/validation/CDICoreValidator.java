@@ -34,6 +34,8 @@ import org.eclipse.jdt.core.Flags;
 import org.eclipse.jdt.core.IAnnotation;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IField;
+import org.eclipse.jdt.core.IJavaElement;
+import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.ISourceRange;
 import org.eclipse.jdt.core.IType;
@@ -88,9 +90,11 @@ import org.jboss.tools.cdi.internal.core.impl.CDIProject;
 import org.jboss.tools.cdi.internal.core.impl.SessionBean;
 import org.jboss.tools.cdi.internal.core.impl.definition.Dependencies;
 import org.jboss.tools.common.java.IAnnotationDeclaration;
+import org.jboss.tools.common.java.IJavaReference;
 import org.jboss.tools.common.java.IParametedType;
 import org.jboss.tools.common.java.ITypeDeclaration;
 import org.jboss.tools.common.java.ParametedType;
+import org.jboss.tools.common.java.TypeDeclaration;
 import org.jboss.tools.common.model.util.EclipseJavaUtil;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.text.INodeReference;
@@ -1224,6 +1228,7 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 			Set<ITypeDeclaration> typeDeclarations = producer.getAllTypeDeclarations();
 			String[] typeVariables = producer.getBeanClass().getTypeParameterSignatures();
 			ITypeDeclaration typeDeclaration = null;
+			ITextSourceReference typeDeclarationReference = null;
 			if (!typeDeclarations.isEmpty()) {
 				/*
 				 * 3.3. Producer methods
@@ -1236,16 +1241,20 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 				 *  - producer field type contains a wildcard type parameter
 				 */
 				typeDeclaration = typeDeclarations.iterator().next();
+				
+				typeDeclarationReference = CDIUtil.convertToJavaSourceReference(typeDeclaration, producer.getSourceMember());
+				
+				
 				String[] paramTypes = Signature.getTypeArguments(typeDeclaration.getSignature());
 				boolean variable = false;
 				for (String paramType : paramTypes) {
 					if (Signature.getTypeSignatureKind(paramType) == Signature.WILDCARD_TYPE_SIGNATURE) {
 						if (producer instanceof IProducerField) {
-							addError(CDIValidationMessages.PRODUCER_FIELD_TYPE_HAS_WILDCARD, CDIPreferences.PRODUCER_METHOD_RETURN_TYPE_HAS_WILDCARD_OR_VARIABLE, typeDeclaration,
+							addError(CDIValidationMessages.PRODUCER_FIELD_TYPE_HAS_WILDCARD, CDIPreferences.PRODUCER_METHOD_RETURN_TYPE_HAS_WILDCARD_OR_VARIABLE, typeDeclarationReference,
 									producer.getResource());
 						} else {
 							addError(CDIValidationMessages.PRODUCER_METHOD_RETURN_TYPE_HAS_WILDCARD, CDIPreferences.PRODUCER_METHOD_RETURN_TYPE_HAS_WILDCARD_OR_VARIABLE,
-									typeDeclaration, producer.getResource());
+									typeDeclarationReference, producer.getResource());
 						}
 					} else if(!variable && isTypeVariable(producer, Signature.toString(paramType), typeVariables)) {
 						/*
@@ -1306,7 +1315,7 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 					for (String variableSig : typeVariables) {
 						String variableName = Signature.getTypeVariable(variableSig);
 						if (typeString.equals(variableName)) {
-							addError(CDIValidationMessages.PRODUCER_FIELD_TYPE_IS_VARIABLE, CDIPreferences.PRODUCER_METHOD_RETURN_TYPE_HAS_WILDCARD_OR_VARIABLE,	typeDeclaration != null ? typeDeclaration : producer, producer.getResource());
+							addError(CDIValidationMessages.PRODUCER_FIELD_TYPE_IS_VARIABLE, CDIPreferences.PRODUCER_METHOD_RETURN_TYPE_HAS_WILDCARD_OR_VARIABLE,	typeDeclaration != null ? typeDeclarationReference : producer, producer.getResource());
 						}
 					}
 				}
@@ -1372,7 +1381,7 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 				String typeString = Signature.toString(typeSign);
 				if(isTypeVariable(producerMethod, typeString, typeVariables)) {
 					addError(CDIValidationMessages.PRODUCER_METHOD_RETURN_TYPE_IS_VARIABLE, CDIPreferences.PRODUCER_METHOD_RETURN_TYPE_HAS_WILDCARD_OR_VARIABLE,
-							typeDeclaration != null ? typeDeclaration : producer, producer.getResource());
+							typeDeclaration != null ? typeDeclarationReference : producer, producer.getResource());
 				}
 				/*
 				 * 3.3.2. Declaring a producer method
@@ -2214,7 +2223,7 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 							} else {
 								ITextSourceReference declaration = delegate.getDelegateAnnotation();
 								if(delegateParametedType instanceof ITypeDeclaration) {
-									declaration = (ITypeDeclaration)delegateParametedType;
+									declaration = CDIUtil.convertToJavaSourceReference((ITypeDeclaration)delegateParametedType, delegate.getSourceMember());
 								}
 								String typeName = Signature.getSignatureSimpleName(decoratedParametedType.getSignature());
 								addError(MessageFormat.format(CDIValidationMessages.DELEGATE_HAS_ILLEGAL_TYPE, typeName), CDIPreferences.DELEGATE_HAS_ILLEGAL_TYPE, declaration, decorator.getResource());
@@ -2270,7 +2279,7 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 	 */
 	private void validateTyped(IBean bean) {
 		Set<ITypeDeclaration> typedDeclarations = bean.getRestrictedTypeDeclaratios();
-		if (!typedDeclarations.isEmpty()) {
+		if (!typedDeclarations.isEmpty()) { 
 			Set<IParametedType> allTypes = bean.getAllTypes();
 			for (ITypeDeclaration typedDeclaration : typedDeclarations) {
 				IType typedType = typedDeclaration.getType();
@@ -2283,8 +2292,11 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 						}
 					}
 					if (!typeWasFound) {
+						IMember e = bean instanceof IJavaReference ? ((IJavaReference)bean).getSourceMember() : bean.getBeanClass();
+						ITextSourceReference typedDeclarationReference = CDIUtil.convertToJavaSourceReference(typedDeclaration, e);
+						
 						String message = CDIValidationMessages.ILLEGAL_TYPE_IN_TYPED_DECLARATION;
-						addError(message, CDIPreferences.ILLEGAL_TYPE_IN_TYPED_DECLARATION, typedDeclaration, bean.getResource());
+						addError(message, CDIPreferences.ILLEGAL_TYPE_IN_TYPED_DECLARATION, typedDeclarationReference, bean.getResource());
 					}
 				}
 			}

@@ -18,6 +18,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.IType;
@@ -57,6 +58,7 @@ import org.jboss.tools.common.java.ParametedType;
 import org.jboss.tools.common.java.TypeDeclaration;
 import org.jboss.tools.common.model.ui.editor.EditorPartWrapper;
 import org.jboss.tools.common.text.ITextSourceReference;
+import org.jboss.tools.common.util.FileUtil;
 
 /**
  * 
@@ -292,7 +294,13 @@ public abstract class AbstractBeanElement extends CDIElement implements IAnnotat
 				String txt = null;
 				if(s >= 0 && typed.getResource() instanceof IFile) {
 					AbstractTypeDefinition td = getDefinition().getTypeDefinition();
-					if(td != null) {
+					if(getDefinition().getOriginalDefinition() != null) {
+						ITextSourceReference r = getDefinition().getOriginalDefinition();
+						String content = FileUtil.readStream((IFile)r.getResource());
+						if(content != null && content.length() > s + l) {
+							txt = content.substring(s);
+						}
+					} else if(td != null) {
 						String content = td.getContent();
 						if(content != null && content.length() > s + l) {
 							txt = content.substring(s, s + l);
