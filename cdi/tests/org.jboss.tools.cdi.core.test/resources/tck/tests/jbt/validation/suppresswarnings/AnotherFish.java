@@ -29,4 +29,8 @@ public class AnotherFish { // BROKEN
 	}
 
 	@Inject Fish fish3BROKEN;
+
+	public void useEL() {
+		String s = "#{fishDulipcatedNameSecond.abc}";
+	}
 }

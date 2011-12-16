@@ -33,4 +33,9 @@ public class Fish {
 
 	@SuppressWarnings("unsatisfiedInjectionPoints")
 	@Inject Fish fish3OK;
+
+	@SuppressWarnings("unknownElVariablePropertyName")
+	public void useEL() {
+		String s = "#{fishDulipcatedName.abc}";
+	}
 }
