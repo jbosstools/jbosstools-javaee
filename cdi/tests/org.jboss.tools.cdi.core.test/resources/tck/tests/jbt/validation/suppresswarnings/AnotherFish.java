@@ -36,6 +36,6 @@ public class AnotherFish { // BROKEN
 
 	@Produces
 	@Named("fishDulipcatedNameSecond")
-	public void setFish3BROLEN(Fish fishOK) {
+	public void setFish3BROKEN(Fish fishBROKEN) {
 	}
 }
