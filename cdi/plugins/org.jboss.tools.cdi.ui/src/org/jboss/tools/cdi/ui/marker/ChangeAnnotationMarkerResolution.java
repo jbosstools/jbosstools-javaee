@@ -14,15 +14,18 @@ import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jdt.core.IAnnotation;
-import org.eclipse.jdt.core.IBuffer;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.JavaModelException;
+import org.eclipse.jdt.core.refactoring.CompilationUnitChange;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.text.edits.MultiTextEdit;
+import org.eclipse.text.edits.ReplaceEdit;
+import org.eclipse.text.edits.TextEdit;
 import org.eclipse.ui.IMarkerResolution2;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.CDIImages;
-import org.jboss.tools.cdi.internal.core.refactoring.MarkerResolutionUtils;
+import org.jboss.tools.cdi.internal.core.refactoring.CDIMarkerResolutionUtils;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
 import org.jboss.tools.cdi.ui.CDIUIPlugin;
 
@@ -31,7 +34,7 @@ public class ChangeAnnotationMarkerResolution implements
 	private IAnnotation annotation;
 	
 	private String sourceString = "";
-	private String changeString = MarkerResolutionUtils.AT;
+	private String changeString = CDIMarkerResolutionUtils.AT;
 	private boolean useBraces = true;
 	
 	private String[] qualifiedNames = new String[0];
@@ -52,7 +55,7 @@ public class ChangeAnnotationMarkerResolution implements
 		this(annotation);
 		
 		qualifiedNames = new String[]{parameter};
-		String shortName = MarkerResolutionUtils.getShortName(parameter);
+		String shortName = CDIMarkerResolutionUtils.getShortName(parameter);
 		
 		changeString += "("+shortName+")";
 	}
@@ -61,10 +64,10 @@ public class ChangeAnnotationMarkerResolution implements
 		this(annotation);
 		
 		this.qualifiedNames = typeNames;
-		String[] shortNames = MarkerResolutionUtils.getShortNames(qualifiedNames);
-		String totalList = MarkerResolutionUtils.getTotalList(shortNames);
+		String[] shortNames = CDIMarkerResolutionUtils.getShortNames(qualifiedNames);
+		String totalList = CDIMarkerResolutionUtils.getTotalList(shortNames);
 		if(useBraces)
-			totalList = MarkerResolutionUtils.OPEN_BRACE+totalList+MarkerResolutionUtils.CLOSE_BRACE;
+			totalList = CDIMarkerResolutionUtils.OPEN_BRACE+totalList+CDIMarkerResolutionUtils.CLOSE_BRACE;
 		
 		changeString += "("+totalList+")";
 	}
@@ -74,38 +77,52 @@ public class ChangeAnnotationMarkerResolution implements
 		this.useBraces = useBraces;
 	}
 
+	@Override
 	public String getLabel() {
 		return NLS.bind(CDIUIMessages.CHANGE_ANNOTATION_MARKER_RESOLUTION_TITLE, sourceString, changeString);
 	}
 
+	@Override
 	public void run(IMarker marker) {
 		try{
-			ICompilationUnit original = MarkerResolutionUtils.getJavaMember(annotation).getCompilationUnit();
+			ICompilationUnit original = CDIMarkerResolutionUtils.getJavaMember(annotation).getCompilationUnit();
 			ICompilationUnit compilationUnit = original.getWorkingCopy(new NullProgressMonitor());
+
+			CompilationUnitChange change = new CompilationUnitChange("", compilationUnit);
 			
-			MarkerResolutionUtils.addImport(CDIConstants.TARGET_ANNOTATION_TYPE_NAME, compilationUnit);
+			MultiTextEdit edit = new MultiTextEdit();
+			
+			change.setEdit(edit);
+			CDIMarkerResolutionUtils.addImport(CDIConstants.TARGET_ANNOTATION_TYPE_NAME, compilationUnit, edit);
 			
 			for(String qualifiedName : qualifiedNames){
-				MarkerResolutionUtils.addImport(qualifiedName, compilationUnit, true);
+				CDIMarkerResolutionUtils.addImport(qualifiedName, compilationUnit, true, edit);
 			}
 			
-			IAnnotation workingCopyAnnotation = MarkerResolutionUtils.findWorkingCopy(compilationUnit, annotation);
+			IAnnotation workingCopyAnnotation = CDIMarkerResolutionUtils.findWorkingCopy(compilationUnit, annotation);
 			
-			IBuffer buffer = compilationUnit.getBuffer();
+			//IBuffer buffer = compilationUnit.getBuffer();
+			TextEdit re = new ReplaceEdit(workingCopyAnnotation.getSourceRange().getOffset(), workingCopyAnnotation.getSourceRange().getLength(), changeString);
+			edit.addChild(re);
 			
-			buffer.replace(workingCopyAnnotation.getSourceRange().getOffset(), workingCopyAnnotation.getSourceRange().getLength(), changeString);
+			//buffer.replace(workingCopyAnnotation.getSourceRange().getOffset(), workingCopyAnnotation.getSourceRange().getLength(), changeString);
 			
-			compilationUnit.commitWorkingCopy(false, new NullProgressMonitor());
+			if(edit.hasChildren()){
+				change.perform(new NullProgressMonitor());
+				original.reconcile(ICompilationUnit.NO_AST, false, null, new NullProgressMonitor());
+			}
 			compilationUnit.discardWorkingCopy();
 		}catch(CoreException ex){
 			CDIUIPlugin.getDefault().logError(ex);
 		}
 	}
 
+	@Override
 	public String getDescription() {
 		return NLS.bind(CDIUIMessages.CHANGE_ANNOTATION_MARKER_RESOLUTION_TITLE, sourceString, changeString);
 	}
 
+	@Override
 	public Image getImage() {
 		return CDIImages.QUICKFIX_CHANGE;
 	}

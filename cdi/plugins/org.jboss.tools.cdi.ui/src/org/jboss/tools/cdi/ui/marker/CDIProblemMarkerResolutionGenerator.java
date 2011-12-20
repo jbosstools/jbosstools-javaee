@@ -50,7 +50,7 @@ import org.jboss.tools.cdi.core.IInterceptor;
 import org.jboss.tools.cdi.core.IStereotype;
 import org.jboss.tools.cdi.core.IStereotyped;
 import org.jboss.tools.cdi.internal.core.impl.CDIProject;
-import org.jboss.tools.cdi.internal.core.refactoring.MarkerResolutionUtils;
+import org.jboss.tools.cdi.internal.core.refactoring.CDIMarkerResolutionUtils;
 import org.jboss.tools.cdi.internal.core.validation.CDIValidationErrorManager;
 import org.jboss.tools.cdi.ui.CDIUIPlugin;
 import org.jboss.tools.common.EclipseUtil;
@@ -67,6 +67,7 @@ public class CDIProblemMarkerResolutionGenerator implements
 	private static final String XML_EXTENSION = "xml"; //$NON-NLS-1$
 	private static final int MARKER_RESULUTION_NUMBER_LIMIT = 7;
 
+	@Override
 	public IMarkerResolution[] getResolutions(IMarker marker) {
 		try {
 			return findResolutions(marker);
@@ -662,7 +663,7 @@ public class CDIProblemMarkerResolutionGenerator implements
 		String injectionPointTypeName = injectionPoint.getClassBean().getBeanClass().getFullyQualifiedName();
 		String injectionPointPackage = null;
 		
-		int dotLastIndex = injectionPointTypeName.lastIndexOf(MarkerResolutionUtils.DOT);
+		int dotLastIndex = injectionPointTypeName.lastIndexOf(CDIMarkerResolutionUtils.DOT);
 		
 		if(dotLastIndex < 0)
 			injectionPointPackage = "";
@@ -681,7 +682,7 @@ public class CDIProblemMarkerResolutionGenerator implements
     			String beanTypeName = bean.getBeanClass().getFullyQualifiedName();
     			String beanPackage = null;
     			
-    			dotLastIndex = beanTypeName.lastIndexOf(MarkerResolutionUtils.DOT);
+    			dotLastIndex = beanTypeName.lastIndexOf(CDIMarkerResolutionUtils.DOT);
     			
     			if(dotLastIndex < 0)
     				beanPackage = "";
@@ -744,7 +745,7 @@ public class CDIProblemMarkerResolutionGenerator implements
 		if(javaElement != null && javaElement instanceof IType){
 			IType type = (IType)javaElement;
 			if(!type.isBinary()){
-				String shortName = MarkerResolutionUtils.getShortName(AddSerializableInterfaceMarkerResolution.SERIALIZABLE);
+				String shortName = CDIMarkerResolutionUtils.getShortName(AddSerializableInterfaceMarkerResolution.SERIALIZABLE);
 				String[] interfaces = type.getSuperInterfaceNames();
 				for(String name : interfaces){
 					if(name.equals(shortName))
@@ -859,6 +860,7 @@ public class CDIProblemMarkerResolutionGenerator implements
 		return null;
 	}
 	
+	@Override
 	public boolean hasResolutions(IMarker marker) {
 		try {
 			return getMessageID(marker) >= 0;
@@ -870,7 +872,7 @@ public class CDIProblemMarkerResolutionGenerator implements
 	
 	private IAnnotation getAnnotation(IJavaElement element, String annotationQualifiedName){
 		if(element instanceof IAnnotatable){
-			String shortName = MarkerResolutionUtils.getShortName(annotationQualifiedName);
+			String shortName = CDIMarkerResolutionUtils.getShortName(annotationQualifiedName);
 			IAnnotation[] annotations;
 			try {
 				annotations = ((IAnnotatable)element).getAnnotations();

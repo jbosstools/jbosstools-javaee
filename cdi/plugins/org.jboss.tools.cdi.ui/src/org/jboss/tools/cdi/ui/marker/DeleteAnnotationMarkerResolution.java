@@ -20,11 +20,13 @@ import org.eclipse.jdt.core.ILocalVariable;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
+import org.eclipse.jdt.core.refactoring.CompilationUnitChange;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.text.edits.MultiTextEdit;
 import org.eclipse.ui.IMarkerResolution2;
 import org.jboss.tools.cdi.core.CDIImages;
-import org.jboss.tools.cdi.internal.core.refactoring.MarkerResolutionUtils;
+import org.jboss.tools.cdi.internal.core.refactoring.CDIMarkerResolutionUtils;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
 import org.jboss.tools.cdi.ui.CDIUIPlugin;
 
@@ -37,7 +39,7 @@ public class DeleteAnnotationMarkerResolution implements
 	public DeleteAnnotationMarkerResolution(IJavaElement element, String qualifiedName){
 		this.element = element;
 		this.qualifiedName = qualifiedName;
-		String shortName = MarkerResolutionUtils.getShortName(qualifiedName);
+		String shortName = CDIMarkerResolutionUtils.getShortName(qualifiedName);
 		String type = "";
 		if(element instanceof IType){
 			try {
@@ -63,28 +65,41 @@ public class DeleteAnnotationMarkerResolution implements
 		label = NLS.bind(CDIUIMessages.DELETE_ANNOTATION_MARKER_RESOLUTION_TITLE, new String[]{shortName, element.getElementName(), type});
 	}
 
+	@Override
 	public String getLabel() {
 		return label;
 	}
 
+	@Override
 	public void run(IMarker marker) {
 		try{
-			ICompilationUnit original = MarkerResolutionUtils.getJavaMember(element).getCompilationUnit();
+			ICompilationUnit original = CDIMarkerResolutionUtils.getJavaMember(element).getCompilationUnit();
 			ICompilationUnit compilationUnit = original.getWorkingCopy(new NullProgressMonitor());
+
+			CompilationUnitChange change = new CompilationUnitChange("", compilationUnit);
 			
-			MarkerResolutionUtils.deleteAnnotation(qualifiedName, compilationUnit, element);
+			MultiTextEdit edit = new MultiTextEdit();
 			
-			compilationUnit.commitWorkingCopy(false, new NullProgressMonitor());
+			change.setEdit(edit);
+			
+			CDIMarkerResolutionUtils.deleteAnnotation(qualifiedName, compilationUnit, element, edit);
+			
+			if(edit.hasChildren()){
+				change.perform(new NullProgressMonitor());
+				original.reconcile(ICompilationUnit.NO_AST, false, null, new NullProgressMonitor());
+			}
 			compilationUnit.discardWorkingCopy();
 		}catch(CoreException ex){
 			CDIUIPlugin.getDefault().logError(ex);
 		}
 	}
 	
+	@Override
 	public String getDescription() {
 		return label;
 	}
 
+	@Override
 	public Image getImage() {
 		return CDIImages.QUICKFIX_REMOVE;
 	}

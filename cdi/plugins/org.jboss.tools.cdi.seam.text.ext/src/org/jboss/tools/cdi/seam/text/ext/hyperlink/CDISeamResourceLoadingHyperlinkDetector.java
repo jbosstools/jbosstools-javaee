@@ -31,7 +31,7 @@ import org.eclipse.jface.text.Region;
 import org.eclipse.jface.text.hyperlink.AbstractHyperlinkDetector;
 import org.eclipse.jface.text.hyperlink.IHyperlink;
 import org.eclipse.ui.texteditor.ITextEditor;
-import org.jboss.tools.cdi.internal.core.refactoring.MarkerResolutionUtils;
+import org.jboss.tools.cdi.internal.core.refactoring.CDIMarkerResolutionUtils;
 import org.jboss.tools.cdi.seam.text.ext.CDISeamExtPlugin;
 import org.jboss.tools.common.EclipseUtil;
 
@@ -74,7 +74,7 @@ public class CDISeamResourceLoadingHyperlinkDetector extends AbstractHyperlinkDe
 			IJavaElement element = cu.getElementAt(offset);
 			if(element != null){
 				if(element instanceof IField){
-					IAnnotation annotation = MarkerResolutionUtils.findAnnotation(element, RESOURCE_ANNOTATION);
+					IAnnotation annotation = CDIMarkerResolutionUtils.findAnnotation(element, RESOURCE_ANNOTATION);
 					if(annotation != null && annotation.exists()){
 						IRegion annotationRegion = getAnnotationRegion(document, annotation);
 						String text = getValue(annotation);

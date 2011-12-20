@@ -15,12 +15,14 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IType;
+import org.eclipse.jdt.core.refactoring.CompilationUnitChange;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.text.edits.MultiTextEdit;
 import org.eclipse.ui.IMarkerResolution2;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.CDIImages;
-import org.jboss.tools.cdi.internal.core.refactoring.MarkerResolutionUtils;
+import org.jboss.tools.cdi.internal.core.refactoring.CDIMarkerResolutionUtils;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
 import org.jboss.tools.cdi.ui.CDIUIPlugin;
 
@@ -35,27 +37,37 @@ public class AddTargetAnnotationMarkerResolution implements
 	public AddTargetAnnotationMarkerResolution(IType type, String[] typeNames){
 		this.qualifiedNames = typeNames;
 		this.type = type;
-		shortNames = MarkerResolutionUtils.getShortNames(qualifiedNames);
-		totalList = MarkerResolutionUtils.OPEN_BRACE+MarkerResolutionUtils.getTotalList(shortNames)+MarkerResolutionUtils.CLOSE_BRACE;
+		shortNames = CDIMarkerResolutionUtils.getShortNames(qualifiedNames);
+		totalList = CDIMarkerResolutionUtils.OPEN_BRACE+CDIMarkerResolutionUtils.getTotalList(shortNames)+CDIMarkerResolutionUtils.CLOSE_BRACE;
 		label = NLS.bind(CDIUIMessages.ADD_TARGET_MARKER_RESOLUTION_TITLE, totalList, type.getElementName());
 	}
 
+	@Override
 	public String getLabel() {
 		return label;
 	}
 
+	@Override
 	public void run(IMarker marker) {
 		try{
 			ICompilationUnit original = type.getCompilationUnit();
 			ICompilationUnit compilationUnit = original.getWorkingCopy(new NullProgressMonitor());
 			
+			CompilationUnitChange change = new CompilationUnitChange("", compilationUnit);
+			
+			MultiTextEdit edit = new MultiTextEdit();
+			
+			change.setEdit(edit);
 			for(String qualifiedName : qualifiedNames){
-				MarkerResolutionUtils.addImport(qualifiedName, compilationUnit, true);
+				CDIMarkerResolutionUtils.addImport(qualifiedName, compilationUnit, true, edit);
 			}
 			
-			MarkerResolutionUtils.addAnnotation(CDIConstants.TARGET_ANNOTATION_TYPE_NAME, compilationUnit, type, "("+totalList+")");
+			CDIMarkerResolutionUtils.addAnnotation(CDIConstants.TARGET_ANNOTATION_TYPE_NAME, compilationUnit, type, "("+totalList+")", edit);
 			
-			compilationUnit.commitWorkingCopy(false, new NullProgressMonitor());
+			if(edit.hasChildren()){
+				change.perform(new NullProgressMonitor());
+				original.reconcile(ICompilationUnit.NO_AST, false, null, new NullProgressMonitor());
+			}
 			compilationUnit.discardWorkingCopy();
 		}catch(CoreException ex){
 			CDIUIPlugin.getDefault().logError(ex);
@@ -64,10 +76,12 @@ public class AddTargetAnnotationMarkerResolution implements
 	
 	
 	
+	@Override
 	public String getDescription() {
 		return label;
 	}
 
+	@Override
 	public Image getImage() {
 		return CDIImages.QUICKFIX_ADD;
 	}

@@ -20,9 +20,13 @@ import org.eclipse.jdt.core.Flags;
 import org.eclipse.jdt.core.IBuffer;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IField;
+import org.eclipse.jdt.core.refactoring.CompilationUnitChange;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.text.edits.MultiTextEdit;
+import org.eclipse.text.edits.ReplaceEdit;
+import org.eclipse.text.edits.TextEdit;
 import org.eclipse.ui.IMarkerResolution2;
 import org.eclipse.ui.PlatformUI;
 import org.jboss.tools.cdi.core.CDIImages;
@@ -72,7 +76,12 @@ public class MakeFieldProtectedMarkerResolution implements IMarkerResolution2, T
 		try{
 			ICompilationUnit original = EclipseUtil.getCompilationUnit(file);
 			ICompilationUnit compilationUnit = original.getWorkingCopy(new NullProgressMonitor());
+
+			CompilationUnitChange change = new CompilationUnitChange("", compilationUnit);
 			
+			MultiTextEdit edit = new MultiTextEdit();
+			
+			change.setEdit(edit);
 			IBuffer buffer = compilationUnit.getBuffer();
 			
 			int flag = field.getFlags();
@@ -82,10 +91,15 @@ public class MakeFieldProtectedMarkerResolution implements IMarkerResolution2, T
 			int position = field.getSourceRange().getOffset();
 			if((flag & Flags.AccPublic) != 0){
 				position += text.indexOf(PUBLIC);
-				buffer.replace(position, PUBLIC.length(), PROTECTED);
+				TextEdit re = new ReplaceEdit(position, PUBLIC.length(), PROTECTED);
+				edit.addChild(re);
+				//buffer.replace(position, PUBLIC.length(), PROTECTED);
 			}
 			
-			compilationUnit.commitWorkingCopy(false, new NullProgressMonitor());
+			if(edit.hasChildren()){
+				change.perform(new NullProgressMonitor());
+				original.reconcile(ICompilationUnit.NO_AST, false, null, new NullProgressMonitor());
+			}
 			compilationUnit.discardWorkingCopy();
 		}catch(CoreException ex){
 			CDIUIPlugin.getDefault().logError(ex);

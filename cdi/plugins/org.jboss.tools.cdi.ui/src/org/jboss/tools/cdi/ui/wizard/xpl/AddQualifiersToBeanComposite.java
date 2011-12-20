@@ -77,7 +77,7 @@ import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.core.IQualifier;
 import org.jboss.tools.cdi.core.IQualifierDeclaration;
-import org.jboss.tools.cdi.internal.core.refactoring.MarkerResolutionUtils;
+import org.jboss.tools.cdi.internal.core.refactoring.CDIMarkerResolutionUtils;
 import org.jboss.tools.cdi.internal.core.refactoring.ValuedQualifier;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
 import org.jboss.tools.cdi.ui.CDIUIPlugin;
@@ -134,13 +134,13 @@ public class AddQualifiersToBeanComposite extends Composite {
 	
 	public void init(IBean bean){
 		this.bean = bean;
-		String beanName = MarkerResolutionUtils.getELName(bean);
+		String beanName = CDIMarkerResolutionUtils.getELName(bean);
 		originalQualifiers.clear();
 		deployed.clear();
 		for(IQualifier q : bean.getQualifiers()){
-			IQualifierDeclaration declaration = MarkerResolutionUtils.findQualifierDeclaration(bean, q);
+			IQualifierDeclaration declaration = CDIMarkerResolutionUtils.findQualifierDeclaration(bean, q);
 			if(declaration != null){
-				String value = MarkerResolutionUtils.findQualifierValue(bean, declaration);
+				String value = CDIMarkerResolutionUtils.findQualifierValue(bean, declaration);
 				ValuedQualifier vq = new ValuedQualifier(q, value);
 				deployed.add(vq);
 			}else{
@@ -177,15 +177,15 @@ public class AddQualifiersToBeanComposite extends Composite {
 	}
 	
 	private ValuedQualifier loadAvailableQualifiers(){
-		String beanName = MarkerResolutionUtils.getELName(bean);
+		String beanName = CDIMarkerResolutionUtils.getELName(bean);
 		
 		ValuedQualifier lastQualifier = null;
 		String beanTypeName = bean.getBeanClass().getFullyQualifiedName();
-		String beanPackage = beanTypeName.substring(0,beanTypeName.lastIndexOf(MarkerResolutionUtils.DOT));
+		String beanPackage = beanTypeName.substring(0,beanTypeName.lastIndexOf(CDIMarkerResolutionUtils.DOT));
 		IJavaProject beanJavaProject = bean.getBeanClass().getJavaProject();
 		
 		String injectionPointTypeName = injectionPoint.getClassBean().getBeanClass().getFullyQualifiedName();
-		String injectionPointPackage = injectionPointTypeName.substring(0,injectionPointTypeName.lastIndexOf(MarkerResolutionUtils.DOT));
+		String injectionPointPackage = injectionPointTypeName.substring(0,injectionPointTypeName.lastIndexOf(CDIMarkerResolutionUtils.DOT));
 		IJavaProject injectionPointJavaProject = injectionPoint.getBean().getBeanClass().getJavaProject();
 		
 		boolean samePackage = beanPackage.equals(injectionPointPackage);
@@ -199,7 +199,7 @@ public class AddQualifiersToBeanComposite extends Composite {
 					boolean isPublic = Flags.isPublic(q.getSourceType().getFlags());
 					
 					String qualifierTypeName = q.getSourceType().getFullyQualifiedName();
-					String qualifierPackage = qualifierTypeName.substring(0,qualifierTypeName.lastIndexOf(MarkerResolutionUtils.DOT));
+					String qualifierPackage = qualifierTypeName.substring(0,qualifierTypeName.lastIndexOf(CDIMarkerResolutionUtils.DOT));
 					if((isPublic || (samePackage && injectionPointPackage.equals(qualifierPackage))) ){
 						if(beanJavaProject.findType(qualifierTypeName) != null && injectionPointJavaProject.findType(qualifierTypeName) != null){
 							if(q.getSourceType().getFullyQualifiedName().equals(CDIConstants.NAMED_QUALIFIER_TYPE_NAME))
@@ -247,7 +247,7 @@ public class AddQualifiersToBeanComposite extends Composite {
 		for(IBean b: beans){
 			if(b.equals(bean))
 				continue;
-			if(MarkerResolutionUtils.checkValuedQualifiers(bean, b, qfs))
+			if(CDIMarkerResolutionUtils.checkValuedQualifiers(bean, b, qfs))
 				return false;
 				
 		}
@@ -726,7 +726,7 @@ public class AddQualifiersToBeanComposite extends Composite {
 			if(element instanceof ValuedQualifier){
 				ValuedQualifier vq = (ValuedQualifier)element;
 				String qualifierTypeName = vq.getQualifier().getSourceType().getFullyQualifiedName();
-				String qualifierPackage = qualifierTypeName.substring(0,qualifierTypeName.lastIndexOf(MarkerResolutionUtils.DOT));
+				String qualifierPackage = qualifierTypeName.substring(0,qualifierTypeName.lastIndexOf(CDIMarkerResolutionUtils.DOT));
 				String name = vq.getQualifier().getSourceType().getElementName();
 
 				return name+" - "+qualifierPackage;

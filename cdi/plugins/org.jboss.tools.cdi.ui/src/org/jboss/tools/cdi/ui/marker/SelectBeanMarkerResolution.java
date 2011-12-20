@@ -37,14 +37,17 @@ public class SelectBeanMarkerResolution implements IMarkerResolution2, TestableR
 		this.beans = beans;;
 	}
 
+	@Override
 	public String getLabel() {
 		return label;
 	}
 
+	@Override
 	public void runForTest(IMarker marker){
 		internal_run(marker, true);
 	}
 	
+	@Override
 	public void run(IMarker marker) {
 		internal_run(marker, false);
 	}
@@ -117,10 +120,12 @@ public class SelectBeanMarkerResolution implements IMarkerResolution2, TestableR
 //		MarkerResolutionUtils.addQualifiersToInjectionPoint(injectionPoint, selectedBean, rootChange);
 	}
 	
+	@Override
 	public String getDescription() {
 		return label;
 	}
 
+	@Override
 	public Image getImage() {
 		return CDIImages.QUICKFIX_EDIT;
 	}

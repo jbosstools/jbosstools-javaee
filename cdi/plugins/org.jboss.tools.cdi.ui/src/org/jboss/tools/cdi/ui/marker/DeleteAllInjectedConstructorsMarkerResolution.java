@@ -48,11 +48,13 @@ public class DeleteAllInjectedConstructorsMarkerResolution implements IMarkerRes
 		this.file = file;
 	}
 
+	@Override
 	public String getLabel() {
 		return label;
 	}
 	
 
+	@Override
 	public void run(IMarker marker) {
 		DeleteAllInjectedConstructorsProcessor processor = new DeleteAllInjectedConstructorsProcessor(file, method, label);
 		ProcessorBasedRefactoring refactoring = new ProcessorBasedRefactoring(processor);
@@ -61,14 +63,17 @@ public class DeleteAllInjectedConstructorsMarkerResolution implements IMarkerRes
 		wizard.showWizard();
 	}
 	
+	@Override
 	public RefactoringProcessor getRefactoringProcessor(){
 		return new DeleteAllInjectedConstructorsProcessor(file, method, label);
 	}
 	
+	@Override
 	public String getDescription() {
 		return label;
 	}
 
+	@Override
 	public Image getImage() {
 		return CDIImages.QUICKFIX_REMOVE;
 	}

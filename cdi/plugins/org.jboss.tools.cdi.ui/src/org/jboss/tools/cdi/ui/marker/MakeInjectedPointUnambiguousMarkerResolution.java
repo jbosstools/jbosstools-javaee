@@ -40,14 +40,17 @@ public class MakeInjectedPointUnambiguousMarkerResolution implements IMarkerReso
 		this.label = MessageFormat.format(CDIUIMessages.MAKE_INJECTED_POINT_UNAMBIGUOUS_TITLE, new Object[]{selectedBean.getElementName()});
 	}
 
+	@Override
 	public String getLabel() {
 		return label;
 	}
 	
+	@Override
 	public void runForTest(IMarker marker){
 		internal_run(marker, true);
 	}
 	
+	@Override
 	public void run(IMarker marker) {
 		internal_run(marker, false);
 	}
@@ -75,10 +78,12 @@ public class MakeInjectedPointUnambiguousMarkerResolution implements IMarkerReso
 //	}
 	
 	
+	@Override
 	public String getDescription() {
 		return label;
 	}
 
+	@Override
 	public Image getImage() {
 		return CDIImages.QUICKFIX_EDIT;
 	}

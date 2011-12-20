@@ -26,7 +26,7 @@ import org.eclipse.jdt.core.Signature;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.IMarkerResolution2;
 import org.jboss.tools.cdi.core.CDIImages;
-import org.jboss.tools.cdi.internal.core.refactoring.MarkerResolutionUtils;
+import org.jboss.tools.cdi.internal.core.refactoring.CDIMarkerResolutionUtils;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
 import org.jboss.tools.cdi.ui.CDIUIPlugin;
 import org.jboss.tools.common.EclipseUtil;
@@ -54,10 +54,12 @@ public class MakeMethodBusinessMarkerResolution implements IMarkerResolution2 {
 		this.file = file;
 	}
 
+	@Override
 	public String getLabel() {
 		return label;
 	}
 
+	@Override
 	public void run(IMarker marker) {
 		try{
 			ICompilationUnit original = EclipseUtil.getCompilationUnit(file);
@@ -138,14 +140,16 @@ public class MakeMethodBusinessMarkerResolution implements IMarkerResolution2 {
 	
 	private void addImport(IType originalType, String simpleName, ICompilationUnit compilationUnit) throws JavaModelException{
 		String qualifiedName = EclipseJavaUtil.resolveType(originalType, simpleName);
-		MarkerResolutionUtils.addImport(qualifiedName, compilationUnit);
+		CDIMarkerResolutionUtils.addImport(qualifiedName, compilationUnit);
 	}
 	
 
+	@Override
 	public String getDescription() {
 		return label;
 	}
 
+	@Override
 	public Image getImage() {
 		return CDIImages.QUICKFIX_ADD;
 	}

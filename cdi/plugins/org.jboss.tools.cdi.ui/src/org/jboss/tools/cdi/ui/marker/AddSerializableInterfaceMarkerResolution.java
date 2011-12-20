@@ -18,10 +18,12 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IType;
+import org.eclipse.jdt.core.refactoring.CompilationUnitChange;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.text.edits.MultiTextEdit;
 import org.eclipse.ui.IMarkerResolution2;
 import org.jboss.tools.cdi.core.CDIImages;
-import org.jboss.tools.cdi.internal.core.refactoring.MarkerResolutionUtils;
+import org.jboss.tools.cdi.internal.core.refactoring.CDIMarkerResolutionUtils;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
 import org.jboss.tools.cdi.ui.CDIUIPlugin;
 import org.jboss.tools.common.EclipseUtil;
@@ -54,11 +56,19 @@ public class AddSerializableInterfaceMarkerResolution  implements IMarkerResolut
 			ICompilationUnit original = EclipseUtil.getCompilationUnit(file);
 			ICompilationUnit compilationUnit = original.getWorkingCopy(new NullProgressMonitor());
 			
-			MarkerResolutionUtils.addInterfaceToClass(compilationUnit, type, SERIALIZABLE);
+			CompilationUnitChange change = new CompilationUnitChange("", compilationUnit);
 			
-			compilationUnit.commitWorkingCopy(false, new NullProgressMonitor());
+			MultiTextEdit edit = new MultiTextEdit();
+			
+			change.setEdit(edit);
+			
+			CDIMarkerResolutionUtils.addInterfaceToClass(compilationUnit, type, SERIALIZABLE, edit);
+			
+			if(edit.hasChildren()){
+				change.perform(new NullProgressMonitor());
+				original.reconcile(ICompilationUnit.NO_AST, false, null, new NullProgressMonitor());
+			}
 			compilationUnit.discardWorkingCopy();
-			
 		}catch(CoreException ex){
 			CDIUIPlugin.getDefault().logError(ex);
 		}

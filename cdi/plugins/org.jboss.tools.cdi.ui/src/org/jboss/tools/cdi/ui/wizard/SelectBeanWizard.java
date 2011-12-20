@@ -42,7 +42,7 @@ import org.eclipse.ui.dialogs.SearchPattern;
 import org.jboss.tools.cdi.core.CDIImages;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IQualifier;
-import org.jboss.tools.cdi.internal.core.refactoring.MarkerResolutionUtils;
+import org.jboss.tools.cdi.internal.core.refactoring.CDIMarkerResolutionUtils;
 import org.jboss.tools.cdi.internal.core.refactoring.ValuedQualifier;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
 import org.jboss.tools.common.model.ui.ModelUIImages;
@@ -229,7 +229,7 @@ public class SelectBeanWizard extends AbstractModifyInjectionPointWizard{
 			if(element instanceof IBean){
 				IBean bean = (IBean)element;
 				String beanTypeName = bean.getBeanClass().getFullyQualifiedName();
-				String beanPackage = beanTypeName.substring(0,beanTypeName.lastIndexOf(MarkerResolutionUtils.DOT));
+				String beanPackage = beanTypeName.substring(0,beanTypeName.lastIndexOf(CDIMarkerResolutionUtils.DOT));
 				String name = bean.getElementName();
 
 				return name+" - "+beanPackage;

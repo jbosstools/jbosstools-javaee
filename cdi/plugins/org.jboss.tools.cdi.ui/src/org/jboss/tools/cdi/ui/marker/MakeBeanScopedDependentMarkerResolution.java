@@ -26,13 +26,18 @@ import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IImportContainer;
 import org.eclipse.jdt.core.IImportDeclaration;
 import org.eclipse.jdt.core.IType;
+import org.eclipse.jdt.core.refactoring.CompilationUnitChange;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.text.edits.DeleteEdit;
+import org.eclipse.text.edits.MultiTextEdit;
+import org.eclipse.text.edits.ReplaceEdit;
+import org.eclipse.text.edits.TextEdit;
 import org.eclipse.ui.IMarkerResolution2;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.CDIImages;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IScopeDeclaration;
-import org.jboss.tools.cdi.internal.core.refactoring.MarkerResolutionUtils;
+import org.jboss.tools.cdi.internal.core.refactoring.CDIMarkerResolutionUtils;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
 import org.jboss.tools.cdi.ui.CDIUIPlugin;
 import org.jboss.tools.common.EclipseUtil;
@@ -65,20 +70,29 @@ public class MakeBeanScopedDependentMarkerResolution implements IMarkerResolutio
 			ICompilationUnit original = EclipseUtil.getCompilationUnit(file);
 			ICompilationUnit compilationUnit = original.getWorkingCopy(new NullProgressMonitor());
 
-			MarkerResolutionUtils.addImport(CDIConstants.DEPENDENT_ANNOTATION_TYPE_NAME, compilationUnit);
+			CompilationUnitChange change = new CompilationUnitChange("", compilationUnit);
+			
+			MultiTextEdit edit = new MultiTextEdit();
+			
+			change.setEdit(edit);
+			
+			CDIMarkerResolutionUtils.addImport(CDIConstants.DEPENDENT_ANNOTATION_TYPE_NAME, compilationUnit, edit);
 			
 			IAnnotation workingCopyAnnotation = getWorkingCopyAnnotation(originalAnnotation, compilationUnit);
 			
 			if(workingCopyAnnotation != null){
-				String shortName = MarkerResolutionUtils.getShortName(CDIConstants.DEPENDENT_ANNOTATION_TYPE_NAME);
+				String shortName = CDIMarkerResolutionUtils.getShortName(CDIConstants.DEPENDENT_ANNOTATION_TYPE_NAME);
+				
+				TextEdit re = new ReplaceEdit(workingCopyAnnotation.getSourceRange().getOffset(), workingCopyAnnotation.getSourceRange().getLength(), CDIMarkerResolutionUtils.AT+shortName);
+				edit.addChild(re);
 				
 				IBuffer buffer = compilationUnit.getBuffer();
 				
-				buffer.replace(workingCopyAnnotation.getSourceRange().getOffset(), workingCopyAnnotation.getSourceRange().getLength(), MarkerResolutionUtils.AT+shortName);
+				//buffer.replace(workingCopyAnnotation.getSourceRange().getOffset(), workingCopyAnnotation.getSourceRange().getLength(), CDIMarkerResolutionUtils.AT+shortName);
 				
-				synchronized(compilationUnit) {
-					compilationUnit.reconcile(ICompilationUnit.NO_AST, true, null, null);
-				}
+				//synchronized(compilationUnit) {
+				//	compilationUnit.reconcile(ICompilationUnit.NO_AST, true, null, null);
+				//}
 				
 				// delete import
 				String qualifiedName = getFullyQualifiedName();
@@ -88,13 +102,19 @@ public class MakeBeanScopedDependentMarkerResolution implements IMarkerResolutio
 					if(importDeclaration != null && importContainer != null){
 						int importSize = importContainer.getSourceRange().getOffset()+importContainer.getSourceRange().getLength();
 						String text = buffer.getText(importSize, buffer.getLength()-importSize);
-						if(checkImport(text, originalAnnotation.getElementName()))
-							importDeclaration.delete(false, new NullProgressMonitor());
+						if(checkImport(text, originalAnnotation.getElementName())){
+							TextEdit de = new DeleteEdit(importDeclaration.getSourceRange().getOffset(), importDeclaration.getSourceRange().getLength());
+							edit.addChild(de);
+							//importDeclaration.delete(false, new NullProgressMonitor());
+						}
 					}
 				}
 			}
 			
-			compilationUnit.commitWorkingCopy(false, new NullProgressMonitor());
+			if(edit.hasChildren()){
+				change.perform(new NullProgressMonitor());
+				original.reconcile(ICompilationUnit.NO_AST, false, null, new NullProgressMonitor());
+			}
 			compilationUnit.discardWorkingCopy();
 		}catch(CoreException ex){
 			CDIUIPlugin.getDefault().logError(ex);

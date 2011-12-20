@@ -38,11 +38,13 @@ public class DeleteAllDisposerDuplicantMarkerResolution implements IMarkerResolu
 		this.file = file;
 	}
 
+	@Override
 	public String getLabel() {
 		return label;
 	}
 	
 
+	@Override
 	public void run(IMarker marker) {
 		DeleteAllDisposerAnnotationsProcessor processor = new DeleteAllDisposerAnnotationsProcessor(file, method, label);
 		ProcessorBasedRefactoring refactoring = new ProcessorBasedRefactoring(processor);
@@ -51,14 +53,17 @@ public class DeleteAllDisposerDuplicantMarkerResolution implements IMarkerResolu
 		wizard.showWizard();
 	}
 	
+	@Override
 	public RefactoringProcessor getRefactoringProcessor(){
 		return new DeleteAllDisposerAnnotationsProcessor(file, method, label);
 	}
 	
+	@Override
 	public String getDescription() {
 		return label;
 	}
 
+	@Override
 	public Image getImage() {
 		return CDIImages.QUICKFIX_REMOVE;
 	}

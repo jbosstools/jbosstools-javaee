@@ -21,7 +21,10 @@ import org.eclipse.jdt.core.IBuffer;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IField;
 import org.eclipse.jdt.core.Signature;
+import org.eclipse.jdt.core.refactoring.CompilationUnitChange;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.text.edits.InsertEdit;
+import org.eclipse.text.edits.MultiTextEdit;
 import org.eclipse.ui.IMarkerResolution2;
 import org.jboss.tools.cdi.core.CDIImages;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
@@ -48,15 +51,22 @@ public class MakeFieldStaticMarkerResolution implements IMarkerResolution2 {
 		this.file = file;
 	}
 
+	@Override
 	public String getLabel() {
 		return label;
 	}
 
+	@Override
 	public void run(IMarker marker) {
 		try{
 			ICompilationUnit original = EclipseUtil.getCompilationUnit(file);
 			ICompilationUnit compilationUnit = original.getWorkingCopy(new NullProgressMonitor());
+
+			CompilationUnitChange change = new CompilationUnitChange("", compilationUnit);
 			
+			MultiTextEdit edit = new MultiTextEdit();
+			
+			change.setEdit(edit);
 			IBuffer buffer = compilationUnit.getBuffer();
 			
 			int flag = field.getFlags();
@@ -66,30 +76,43 @@ public class MakeFieldStaticMarkerResolution implements IMarkerResolution2 {
 			int position = field.getSourceRange().getOffset();
 			if((flag & Flags.AccPublic) != 0){
 				position += text.indexOf(PUBLIC)+PUBLIC.length();
-				buffer.replace(position, 0, SPACE+STATIC);
+				InsertEdit ie = new InsertEdit(position, SPACE+STATIC);
+				edit.addChild(ie);
+				//buffer.replace(position, 0, SPACE+STATIC);
 			}else if((flag & Flags.AccPrivate) != 0){
 				position += text.indexOf(PRIVATE)+PRIVATE.length();
-				buffer.replace(position, 0, SPACE+STATIC);
+				InsertEdit ie = new InsertEdit(position, SPACE+STATIC);
+				edit.addChild(ie);
+				//buffer.replace(position, 0, SPACE+STATIC);
 			}else if((flag & Flags.AccProtected) != 0){
 				position += text.indexOf(PROTECTED)+PROTECTED.length();
-				buffer.replace(position, 0, SPACE+STATIC);
+				InsertEdit ie = new InsertEdit(position, SPACE+STATIC);
+				edit.addChild(ie);
+				//buffer.replace(position, 0, SPACE+STATIC);
 			}else{
 				String type = Signature.getSignatureSimpleName(field.getTypeSignature());
 				position += text.indexOf(type);
-				buffer.replace(position, 0, STATIC+SPACE);
+				InsertEdit ie = new InsertEdit(position, SPACE+STATIC);
+				edit.addChild(ie);
+				//buffer.replace(position, 0, STATIC+SPACE);
 			}
 			
-			compilationUnit.commitWorkingCopy(false, new NullProgressMonitor());
+			if(edit.hasChildren()){
+				change.perform(new NullProgressMonitor());
+				original.reconcile(ICompilationUnit.NO_AST, false, null, new NullProgressMonitor());
+			}
 			compilationUnit.discardWorkingCopy();
 		}catch(CoreException ex){
 			CDIUIPlugin.getDefault().logError(ex);
 		}
 	}
 
+	@Override
 	public String getDescription() {
 		return label;
 	}
 
+	@Override
 	public Image getImage() {
 		return CDIImages.QUICKFIX_EDIT;
 	}

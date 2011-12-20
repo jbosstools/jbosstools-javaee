@@ -20,7 +20,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IMarkerResolution2;
 import org.eclipse.ui.PlatformUI;
 import org.jboss.tools.cdi.core.CDIImages;
-import org.jboss.tools.cdi.internal.core.refactoring.MarkerResolutionUtils;
+import org.jboss.tools.cdi.internal.core.refactoring.CDIMarkerResolutionUtils;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
 import org.jboss.tools.cdi.ui.wizard.NewBeanCreationWizard;
 import org.jboss.tools.cdi.ui.wizard.NewCDIElementWizard;
@@ -62,6 +62,7 @@ public class CreateCDIElementMarkerResolution implements IMarkerResolution2, Tes
 		return "";
 	}
 
+	@Override
 	public void run(IMarker marker){
 		internal_run(marker, false);
 	}
@@ -91,7 +92,7 @@ public class CreateCDIElementMarkerResolution implements IMarkerResolution2, Tes
 		}
 		
 		NewTypeWizardAdapter adapter = new NewTypeWizardAdapter(project);
-		adapter.setRawPackageName(MarkerResolutionUtils.getPackageName(qualifiedName));
+		adapter.setRawPackageName(CDIMarkerResolutionUtils.getPackageName(qualifiedName));
 		adapter.setRawClassName(qualifiedName);
 		adapter.setRawSuperClassName(OBJECT);
 		wizard.setAdapter(adapter);

@@ -15,12 +15,14 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IType;
+import org.eclipse.jdt.core.refactoring.CompilationUnitChange;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.text.edits.MultiTextEdit;
 import org.eclipse.ui.IMarkerResolution2;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.CDIImages;
-import org.jboss.tools.cdi.internal.core.refactoring.MarkerResolutionUtils;
+import org.jboss.tools.cdi.internal.core.refactoring.CDIMarkerResolutionUtils;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
 import org.jboss.tools.cdi.ui.CDIUIPlugin;
 
@@ -34,30 +36,43 @@ public class AddRetentionAnnotationMarkerResolution implements
 		label = NLS.bind(CDIUIMessages.ADD_RETENTION_MARKER_RESOLUTION_TITLE, type.getElementName());
 	}
 
+	@Override
 	public String getLabel() {
 		return label;
 	}
 
+	@Override
 	public void run(IMarker marker) {
 		try{
 			ICompilationUnit original = type.getCompilationUnit();
 			ICompilationUnit compilationUnit = original.getWorkingCopy(new NullProgressMonitor());
 			
-			MarkerResolutionUtils.addImport(CDIConstants.RETENTION_POLICY_RUNTIME_TYPE_NAME, compilationUnit, true);
+			CompilationUnitChange change = new CompilationUnitChange("", compilationUnit);
 			
-			MarkerResolutionUtils.addAnnotation(CDIConstants.RETENTION_ANNOTATION_TYPE_NAME, compilationUnit, type, "(RUNTIME)");
+			MultiTextEdit edit = new MultiTextEdit();
 			
-			compilationUnit.commitWorkingCopy(false, new NullProgressMonitor());
+			change.setEdit(edit);
+			
+			CDIMarkerResolutionUtils.addImport(CDIConstants.RETENTION_POLICY_RUNTIME_TYPE_NAME, compilationUnit, true, edit);
+			
+			CDIMarkerResolutionUtils.addAnnotation(CDIConstants.RETENTION_ANNOTATION_TYPE_NAME, compilationUnit, type, "(RUNTIME)", edit);
+			
+			if(edit.hasChildren()){
+				change.perform(new NullProgressMonitor());
+				original.reconcile(ICompilationUnit.NO_AST, false, null, new NullProgressMonitor());
+			}
 			compilationUnit.discardWorkingCopy();
 		}catch(CoreException ex){
 			CDIUIPlugin.getDefault().logError(ex);
 		}
 	}
 	
+	@Override
 	public String getDescription() {
 		return label;
 	}
 
+	@Override
 	public Image getImage() {
 		return CDIImages.QUICKFIX_ADD;
 	}

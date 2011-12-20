@@ -95,7 +95,7 @@ public class AddQualifiersToBeanProcessor extends CDIRefactoringProcessor {
 		
 		MultiTextEdit edit = new MultiTextEdit();
 
-		MarkerResolutionUtils.addQualifiersToBean(qualifiers, selectedBean, compilationUnit, edit);
+		CDIMarkerResolutionUtils.addQualifiersToBean(qualifiers, selectedBean, compilationUnit, edit);
 		
 		IFile file2 = (IFile)injectionPoint.getClassBean().getResource();
 		ICompilationUnit original2 = injectionPoint.getClassBean().getBeanClass().getCompilationUnit();
@@ -118,7 +118,7 @@ public class AddQualifiersToBeanProcessor extends CDIRefactoringProcessor {
 			compilationUnit2 = compilationUnit;
 		}
 	
-		MarkerResolutionUtils.addQualifiersToInjectionPoint(qualifiers, injectionPoint, compilationUnit2, edit);
+		CDIMarkerResolutionUtils.addQualifiersToInjectionPoint(qualifiers, injectionPoint, compilationUnit2, edit);
 		
 		if(edit.getChildrenSize() > 0){
 			fileChange.setEdit(edit);

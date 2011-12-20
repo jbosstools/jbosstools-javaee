@@ -53,10 +53,12 @@ public class AddLocalBeanMarkerResolution implements IMarkerResolution2 {
 		this.file = file;
 	}
 
+	@Override
 	public String getLabel() {
 		return label;
 	}
 
+	@Override
 	public void run(IMarker marker) {
 		try{
 			ICompilationUnit original = EclipseUtil.getCompilationUnit(file);
@@ -121,10 +123,12 @@ public class AddLocalBeanMarkerResolution implements IMarkerResolution2 {
 		
 	}
 
+	@Override
 	public String getDescription() {
 		return label;
 	}
 
+	@Override
 	public Image getImage() {
 		return CDIImages.QUICKFIX_ADD;
 	}
