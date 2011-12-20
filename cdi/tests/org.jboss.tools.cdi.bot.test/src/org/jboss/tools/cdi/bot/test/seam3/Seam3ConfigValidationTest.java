@@ -11,12 +11,19 @@
 
 package org.jboss.tools.cdi.bot.test.seam3;
 
+import org.junit.Test;
+
 
 public class Seam3ConfigValidationTest extends Seam3TestBase {
 	
 	@Override
 	public String getProjectName() {
 		return "Seam3ConfigValidation";
+	}
+	
+	@Test
+	public void testConfig() {
+		
 	}
 	
 }
