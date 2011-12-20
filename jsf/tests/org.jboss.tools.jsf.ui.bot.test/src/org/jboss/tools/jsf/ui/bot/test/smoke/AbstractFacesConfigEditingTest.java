@@ -132,7 +132,7 @@ public abstract class AbstractFacesConfigEditingTest extends JSFAutoTestCase{
     facesConfigEditorExt.save();
     bot.sleep(Timing.time1S());
     if (getCheckForExistingManagedBeanClass()){
-      assertFacesConfigXmlHasErrors(botExt);
+      assertFacesConfigXmlHasValidationProblems(botExt);
     }      
     editorBot.textWithLabel(IDELabel.FacesConfigEditor.MANAGED_BEAN_CLASS_LABEL)
      .setText(managedBeanClass);
@@ -283,12 +283,17 @@ public abstract class AbstractFacesConfigEditingTest extends JSFAutoTestCase{
    * Asserts if faces-config.xml has errors 
    * @param botExt
    */
-  protected static void assertFacesConfigXmlHasErrors (SWTBotExt botExt){
+  protected static void assertFacesConfigXmlHasValidationProblems (SWTBotExt botExt){
     
-    SWTBotTreeItem[] errors = ProblemsView.getFilteredErrorsTreeItems(botExt, null, null, AbstractFacesConfigEditingTest.FACES_CONFIG_FILE_NAME, null);
-    boolean areThereErrors = ((errors != null) && (errors.length > 0));
-    assertTrue("There are missing errors in Problems view for " + AbstractFacesConfigEditingTest.FACES_CONFIG_FILE_NAME + " file.",
-        areThereErrors);
+    SWTBotTreeItem[] problems = ProblemsView.getFilteredErrorsTreeItems(botExt, null, null, AbstractFacesConfigEditingTest.FACES_CONFIG_FILE_NAME, null);
+    boolean areThereProblems = ((problems != null) && (problems.length > 0));
+    if (!areThereProblems){
+      problems = ProblemsView.getFilteredWarningsTreeItems(botExt, "references to non-existent class", null,
+        AbstractFacesConfigEditingTest.FACES_CONFIG_FILE_NAME, null);
+      areThereProblems = ((problems != null) && (problems.length > 0));
+    }
+    assertTrue("There are missing problems in Problems view for " + AbstractFacesConfigEditingTest.FACES_CONFIG_FILE_NAME + " file.",
+        areThereProblems);
   }
   /**
    * Check editing of particular tree node within Face Config Editor Tree
@@ -330,7 +335,7 @@ public abstract class AbstractFacesConfigEditingTest extends JSFAutoTestCase{
     facesConfigEditorExt.save();
     bot.sleep(Timing.time1S());
     if (checkForValdiationErrors){
-      assertFacesConfigXmlHasErrors(botExt);  
+      assertFacesConfigXmlHasValidationProblems(botExt);  
     }    
     final String selectedNode = tree.selection().get(0,0);
     assertTrue ("Selected node has to have label '" + typeTextValue +"'\n" +

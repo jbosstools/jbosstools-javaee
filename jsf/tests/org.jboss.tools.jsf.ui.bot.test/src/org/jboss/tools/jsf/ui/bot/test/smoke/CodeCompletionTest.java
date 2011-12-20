@@ -320,9 +320,9 @@ public class CodeCompletionTest extends JSFAutoTestCase{
         0, 
         0);
     editor.insertText("\n");
-    String textToInsert = "<h:outputText value=\"#{msg[";
+    String textToInsert = "<h:outputText value=\"#{msg";
     final SWTBotShell[] shellsBefore = bot.shells();
-    editor.typeText(textToInsert);
+    editor.typeText(textToInsert + "[");
     bot.sleep(Timing.time2S());
     // Check Content Assist invoked by typing
     ContentAssistBot contentAssist = editor.contentAssist();
@@ -342,12 +342,12 @@ public class CodeCompletionTest extends JSFAutoTestCase{
     contentAssist.checkContentAssist(useCodeAssist, true);
     final String textToInsertAtEnd = "/>";
     editor.insertText(editor.cursorPosition().line, 
-      editor.cursorPosition().column + 3,
+      editor.cursorPosition().column + 2,
       textToInsertAtEnd);
     editor.save();
     bot.sleep(Timing.time1S());
     Assertions.assertSourceEditorContains(editor.getText(), 
-      textToInsert + "'" + useCodeAssist + "']}" + textToInsertAtEnd,
+      textToInsert + useCodeAssist + "}" + textToInsertAtEnd,
       FACELETS_TEST_PAGE);
   }
   /**
