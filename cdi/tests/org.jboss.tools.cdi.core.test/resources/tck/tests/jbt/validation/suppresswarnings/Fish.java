@@ -31,11 +31,17 @@ public class Fish {
 	public void setFish3(Fish fishBROKEN) {
 	}
 
-	@SuppressWarnings("cdi-ambiguous-dependency")
+	@SuppressWarnings("all")
 	@Inject Fish fish3OK;
 
 	@SuppressWarnings("el-unresolved")
 	public void useELOK() {
 		String s = "#{fishDulipcatedName.abc}";
+	}
+
+	@SuppressWarnings("cdi-ambiguous-dependency")
+	@Produces
+	@Named("fishDulipcatedName")
+	public void setFish3OK(Fish fishOK) {
 	}
 }

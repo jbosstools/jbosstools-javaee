@@ -30,7 +30,12 @@ public class AnotherFish { // BROKEN
 
 	@Inject Fish fish3BROKEN;
 
-	public void useEL() {
+	public void useELBROKEN() {
 		String s = "#{fishDulipcatedNameSecond.abc}";
+	}
+
+	@Produces
+	@Named("fishDulipcatedNameSecond")
+	public void setFish3BROLEN(Fish fishOK) {
 	}
 }

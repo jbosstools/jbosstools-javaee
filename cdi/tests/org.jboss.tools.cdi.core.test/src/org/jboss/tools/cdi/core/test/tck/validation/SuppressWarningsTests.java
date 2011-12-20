@@ -55,7 +55,7 @@ public class SuppressWarningsTests extends ValidationTest {
 		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, MessageFormat.format(CDIValidationMessages.DUPLCICATE_EL_NAME, ".*"), 8);
 
 		file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/suppresswarnings/AnotherFish.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, MessageFormat.format(CDIValidationMessages.DUPLCICATE_EL_NAME, ".*"), 7, 12);
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, MessageFormat.format(CDIValidationMessages.DUPLCICATE_EL_NAME, ".*"), 7, 12, 38);
 	}
 
 	public void testFieldWithSuppressInParentElement() throws Exception {
@@ -112,7 +112,7 @@ public class SuppressWarningsTests extends ValidationTest {
 		ResourcesUtils.setBuildAutomatically(saveAutoBuild);
 	}
 
-	public void testShortName() throws Exception {
+	public void testNameAll() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/suppresswarnings/Fish.java");
 		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS, 35);
 
