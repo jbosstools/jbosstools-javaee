@@ -18,5 +18,6 @@ import javax.enterprise.util.Nonbinding;
 @Documented
 @Qualifier
 public @interface TestQualifier5 {
-	@Nonbinding AAnnotation abc();
+	@Nonbinding
+	AAnnotation abc();
 }

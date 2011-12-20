@@ -17,5 +17,6 @@ import javax.enterprise.util.Nonbinding;
 @Documented
 @Qualifier
 public @interface TestQualifier6 {
-	@Nonbinding String[] abc();
+	@Nonbinding
+	String[] abc();
 }

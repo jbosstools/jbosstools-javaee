@@ -16,5 +16,6 @@ import javax.enterprise.util.Nonbinding;
 @Target( { TYPE, METHOD })
 @Retention(RUNTIME)
 public @interface TestInterceptor1 {
-	@Nonbinding AAnnotation abc();
+	@Nonbinding
+	AAnnotation abc();
 }
