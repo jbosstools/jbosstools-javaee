@@ -74,4 +74,14 @@
       <initializer class="org.jboss.tools.cdi.seam.solder.core.CDISeamSolderPreferenceInitializer"/>
    </extension>
 
+   <extension
+   		 id="SolderWarnings"
+         point="org.jboss.tools.common.validation.warnings">
+         <map
+               class="org.jboss.tools.cdi.seam.solder.core.validation.SolderSuppressWarningsMap"
+               warningGroupID="solder"
+               preferenceGroupID="org.jboss.tools.cdi.seam.solder.core.validator.problem">
+         </map>
+   </extension>
+
 </plugin>

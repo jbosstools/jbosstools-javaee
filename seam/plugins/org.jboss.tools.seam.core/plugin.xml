@@ -528,6 +528,16 @@
    </extension>
 
    <extension
+   		 id="SeamWarnings"
+         point="org.jboss.tools.common.validation.warnings">
+         <map
+               class="org.jboss.tools.seam.internal.core.validation.SeamSuppressWarningsMap"
+               warningGroupID="seam"
+               preferenceGroupID="org.jboss.tools.seam.core.validator.problem">
+         </map>
+   </extension>
+
+   <extension
          id="SeamELValidationDelegate"
          point="org.jboss.tools.jst.web.kb.elValidationDelegate">
          <delegate

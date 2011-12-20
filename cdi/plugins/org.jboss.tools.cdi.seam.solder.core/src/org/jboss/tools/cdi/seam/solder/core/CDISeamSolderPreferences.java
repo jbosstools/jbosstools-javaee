@@ -13,31 +13,49 @@ package org.jboss.tools.cdi.seam.solder.core;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.jboss.tools.common.preferences.SeverityPreferences;
+import org.jboss.tools.cdi.core.preferences.CDIPreferences;
+import org.jboss.tools.common.validation.ValidationSeverityPreferences;
 
 /**
  * 
  * @author Viacheslav Kabanovich
  *
  */
-public class CDISeamSolderPreferences extends SeverityPreferences {
+public class CDISeamSolderPreferences extends ValidationSeverityPreferences {
+
 	public static final Set<String> SEVERITY_OPTION_NAMES = new HashSet<String>();
 
 	private static CDISeamSolderPreferences INSTANCE = new CDISeamSolderPreferences();
 
-	public static final String AMBIGUOUS_GENERIC_CONFIGURATION_POINT = INSTANCE.createSeverityOption("ambiguousGenericConfigurationPoint");
-	public static final String WRONG_TYPE_OF_GENERIC_CONFIGURATION_POINT = INSTANCE.createSeverityOption("wrongTypeOfGenericConfigurationPoint");
-	public static final String WRONG_GENERIC_CONFIGURATION_ANNOTATION_REFERENCE = INSTANCE.createSeverityOption("wrongGenericConfigurationAnnotationReference");
-	public static final String GENERIC_CONFIGURATION_TYPE_IS_A_GENERIC_BEAN = INSTANCE.createSeverityOption("genericConfigurationTypeIsGenericBean");
+	public static final String WARNING_GROUP_ID = "solder";
+
+	public static final String AMBIGUOUS_GENERIC_CONFIGURATION_POINT = INSTANCE.createSeverityOption("ambiguousGenericConfigurationPoint", "ambiguous-generic");
+	public static final String WRONG_TYPE_OF_GENERIC_CONFIGURATION_POINT = INSTANCE.createSeverityOption("wrongTypeOfGenericConfigurationPoint", "type");
+	public static final String WRONG_GENERIC_CONFIGURATION_ANNOTATION_REFERENCE = INSTANCE.createSeverityOption("wrongGenericConfigurationAnnotationReference", "annotation");
+	public static final String GENERIC_CONFIGURATION_TYPE_IS_A_GENERIC_BEAN = INSTANCE.createSeverityOption("genericConfigurationTypeIsGenericBean", "generic-bean");
 	
-	public static final String DEFAULT_PRODUCER_FIELD_ON_NORMAL_SCOPED_BEAN = INSTANCE.createSeverityOption("defaultProducerFieldOnNormalScopedBean");
-	public static final String IDENTICAL_DEFAULT_BEANS = INSTANCE.createSeverityOption("identicalDefaultBeans");
+	public static final String DEFAULT_PRODUCER_FIELD_ON_NORMAL_SCOPED_BEAN = INSTANCE.createSeverityOption("defaultProducerFieldOnNormalScopedBean", "normal-scoped");
+	public static final String IDENTICAL_DEFAULT_BEANS = INSTANCE.createSeverityOption("identicalDefaultBeans", "default-bean");
 
 	public static CDISeamSolderPreferences getInstance() {
 		return INSTANCE;
 	}
 
 	private CDISeamSolderPreferences() {}
+
+	@Override
+	public String getWarningGroupID() {
+		return WARNING_GROUP_ID;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.common.validation.ValidationSeverityPreferences#getParentWarningGroupIDs()
+	 */
+	@Override
+	protected String[] getParentWarningGroupIDs() {
+		return new String[]{CDIPreferences.WARNING_GROUP_ID};
+	}
 
 	@Override
 	protected Set<String> getSeverityOptionNames() {
@@ -55,5 +73,4 @@ public class CDISeamSolderPreferences extends SeverityPreferences {
 	protected String getPluginId() {
 		return CDISeamSolderCorePlugin.PLUGIN_ID;
 	}
-
 }

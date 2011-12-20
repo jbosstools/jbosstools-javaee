@@ -14,7 +14,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.eclipse.core.resources.IProject;
-import org.jboss.tools.common.preferences.SeverityPreferences;
+import org.jboss.tools.common.validation.ValidationSeverityPreferences;
 
 /**
  * Constants for names of seam preferences.
@@ -36,76 +36,78 @@ import org.jboss.tools.common.preferences.SeverityPreferences;
  * 
  * @author Viacheslav Kabanovich
  */
-public class SeamPreferences extends SeverityPreferences {
+public class SeamPreferences extends ValidationSeverityPreferences {
 
 	public static final Set<String> SEVERITY_OPTION_NAMES = new HashSet<String>();
 
 	private static SeamPreferences INSTANCE = new SeamPreferences();
 
+	public static final String WARNING_GROUP_ID = "seam";
+
 	//Components
 
 	// Duplicate names found in @Name annotations will be marked
-	public static final String NONUNIQUE_COMPONENT_NAME = INSTANCE.createSeverityOption("nonUniqueComponentName"); //$NON-NLS-1$
+	public static final String NONUNIQUE_COMPONENT_NAME = INSTANCE.createSeverityOption("nonUniqueComponentName", "duplicated-component"); //$NON-NLS-1$
 	// Components with @Stateful and without @Remove methods will be marked
-	public static final String STATEFUL_COMPONENT_DOES_NOT_CONTENT_REMOVE = INSTANCE.createSeverityOption("statefulComponentDoesNotContainRemove"); //$NON-NLS-1$
+	public static final String STATEFUL_COMPONENT_DOES_NOT_CONTENT_REMOVE = INSTANCE.createSeverityOption("statefulComponentDoesNotContainRemove", "remove"); //$NON-NLS-1$
 	// Components with @Stateful and without @Destroy methods will be marked
-	public static final String STATEFUL_COMPONENT_DOES_NOT_CONTENT_DESTROY = INSTANCE.createSeverityOption("statefulComponentDoesNotContainDestroy"); //$NON-NLS-1$
+	public static final String STATEFUL_COMPONENT_DOES_NOT_CONTENT_DESTROY = INSTANCE.createSeverityOption("statefulComponentDoesNotContainDestroy", "destroy"); //$NON-NLS-1$
 	// Components with @Stateful can't have PAGE or STATELESS scopes. If it has wrong scope then component will be marked.
-	public static final String STATEFUL_COMPONENT_WRONG_SCOPE = INSTANCE.createSeverityOption("statefulComponentHasWrongScope"); //$NON-NLS-1$
+	public static final String STATEFUL_COMPONENT_WRONG_SCOPE = INSTANCE.createSeverityOption("statefulComponentHasWrongScope", "scope"); //$NON-NLS-1$
 	// If className ('component' element) contains unknown class name then component.xml will be marked.
-	public static final String UNKNOWN_COMPONENT_CLASS_NAME = INSTANCE.createSeverityOption("unknownComponentClassName"); //$NON-NLS-1$
+	public static final String UNKNOWN_COMPONENT_CLASS_NAME = INSTANCE.createSeverityOption("unknownComponentClassName", "unknown-component"); //$NON-NLS-1$
 
-	public static final String UNKNOWN_COMPONENT_CLASS_NAME_GUESS = INSTANCE.createSeverityOption("unknownComponentClassNameGuess"); //$NON-NLS-1$
+	public static final String UNKNOWN_COMPONENT_CLASS_NAME_GUESS = INSTANCE.createSeverityOption("unknownComponentClassNameGuess", "unknown-component"); //$NON-NLS-1$
 	// If component/property@name contains some property name which does not have setter then mark it.
-	public static final String UNKNOWN_COMPONENT_PROPERTY = INSTANCE.createSeverityOption("unknownComponentProperty"); //$NON-NLS-1$
+	public static final String UNKNOWN_COMPONENT_PROPERTY = INSTANCE.createSeverityOption("unknownComponentProperty", "unknown-property"); //$NON-NLS-1$
 
 	//Entities
 
 	// Component marked as @Entity can't have STATELESS scope. If it has wrong scope mark it.
-	public static final String ENTITY_COMPONENT_WRONG_SCOPE = INSTANCE.createSeverityOption("entityComponentHasWrongScope"); //$NON-NLS-1$
+	public static final String ENTITY_COMPONENT_WRONG_SCOPE = INSTANCE.createSeverityOption("entityComponentHasWrongScope", "entity"); //$NON-NLS-1$
 	// Mark any duplicated @Remove methods within one component.
-	public static final String DUPLICATE_REMOVE = INSTANCE.createSeverityOption("duplicateRemove"); //$NON-NLS-1$
+	public static final String DUPLICATE_REMOVE = INSTANCE.createSeverityOption("duplicateRemove", "remove"); //$NON-NLS-1$
 
 	//Component life-cycle methods
 
 	// Mark duplicated @Destroy methods within one component.
-	public static final String DUPLICATE_DESTROY = INSTANCE.createSeverityOption("duplicateDestroy"); //$NON-NLS-1$
+	public static final String DUPLICATE_DESTROY = INSTANCE.createSeverityOption("duplicateDestroy", "duplicated-method"); //$NON-NLS-1$
 	// Mark duplicated @Create methods within one component.
-	public static final String DUPLICATE_CREATE = INSTANCE.createSeverityOption("duplicateCreate"); //$NON-NLS-1$
+	public static final String DUPLICATE_CREATE = INSTANCE.createSeverityOption("duplicateCreate", "duplicated-method"); //$NON-NLS-1$
 	// Mark duplicated @Unwrap methods within one component.
-	public static final String DUPLICATE_UNWRAP = INSTANCE.createSeverityOption("duplicateUnwrap"); //$NON-NLS-1$
+	public static final String DUPLICATE_UNWRAP = INSTANCE.createSeverityOption("duplicateUnwrap", "duplicated-method"); //$NON-NLS-1$
 	// Mark all @Destroy methods which are not declared in components' classes.
-	public static final String DESTROY_METHOD_BELONGS_TO_STATELESS_SESSION_BEAN = INSTANCE.createSeverityOption("destroyMethodBelongsToStatelessSessionBean"); //$NON-NLS-1$
+	public static final String DESTROY_METHOD_BELONGS_TO_STATELESS_SESSION_BEAN = INSTANCE.createSeverityOption("destroyMethodBelongsToStatelessSessionBean", "destroy"); //$NON-NLS-1$
 	// Mark all @Create methods which are not declared in components' classes.
-	public static final String CREATE_DOESNT_BELONG_TO_COMPONENT = INSTANCE.createSeverityOption("createDoesNotBelongToComponent"); //$NON-NLS-1$
+	public static final String CREATE_DOESNT_BELONG_TO_COMPONENT = INSTANCE.createSeverityOption("createDoesNotBelongToComponent", "unused-method"); //$NON-NLS-1$
 	// Mark all @Unwrap methods which are not declared in components' classes.
-	public static final String UNWRAP_DOESNT_BELONG_TO_COMPONENT = INSTANCE.createSeverityOption("unwrapDoesNotBelongToComponent"); //$NON-NLS-1$
+	public static final String UNWRAP_DOESNT_BELONG_TO_COMPONENT = INSTANCE.createSeverityOption("unwrapDoesNotBelongToComponent", "unused-method"); //$NON-NLS-1$
 	// Mark all @Observer methods which are not declared in components' classes.
-	public static final String OBSERVER_DOESNT_BELONG_TO_COMPONENT = INSTANCE.createSeverityOption("observerDoesNotBelongToComponent"); //$NON-NLS-1$
+	public static final String OBSERVER_DOESNT_BELONG_TO_COMPONENT = INSTANCE.createSeverityOption("observerDoesNotBelongToComponent", "unused-method"); //$NON-NLS-1$
 
 	//Factories
 
 	// Factory method with a void return type must have an associated @Out/Databinder. Mark factory otherwise.
-	public static final String UNKNOWN_FACTORY_NAME = INSTANCE.createSeverityOption("unknownFactoryName"); //$NON-NLS-1$
+	public static final String UNKNOWN_FACTORY_NAME = INSTANCE.createSeverityOption("unknownFactoryName", "factory"); //$NON-NLS-1$
 
 	//Bijections
 
 	// @DataModelSelection and @DataModelSelectionIndex without name requires the only one @DataModel in the component. Mark @DataModelSelection or @DataModelSelectionIndex otherwise.
-	public static final String MULTIPLE_DATA_BINDER = INSTANCE.createSeverityOption("multipleDataBinder"); //$NON-NLS-1$
+	public static final String MULTIPLE_DATA_BINDER = INSTANCE.createSeverityOption("multipleDataBinder", "ambiguous-data"); //$NON-NLS-1$
 	// Mark @DataModelSelection or @DataModelSelectionIndex with unknown name. We should have @DataModel or @Out with the same name.
-	public static final String UNKNOWN_DATA_MODEL = INSTANCE.createSeverityOption("unknownDataModel"); //$NON-NLS-1$
+	public static final String UNKNOWN_DATA_MODEL = INSTANCE.createSeverityOption("unknownDataModel", "ambiguous-data"); //$NON-NLS-1$
 
 	//Context variables
 
 	// If factory uses a name of any components (roles) or other factories then mark all these context variables' names. 
-	public static final String DUPLICATE_VARIABLE_NAME = INSTANCE.createSeverityOption("duplicateVariableName"); //$NON-NLS-1$
+	public static final String DUPLICATE_VARIABLE_NAME = INSTANCE.createSeverityOption("duplicateVariableName", "duplicated-variable"); //$NON-NLS-1$
 	// If @In uses a unknown context variable name then mark it.
-	public static final String UNKNOWN_VARIABLE_NAME = INSTANCE.createSeverityOption("unknownVariableName"); //$NON-NLS-1$
+	public static final String UNKNOWN_VARIABLE_NAME = INSTANCE.createSeverityOption("unknownVariableName", "unresolved-variable"); //$NON-NLS-1$
 
 	//pages.xml
 
-	public static final String UNRESOLVED_VIEW_ID = INSTANCE.createSeverityOption("unresolvedViewID"); //$NON-NLS-1$
-	
+	public static final String UNRESOLVED_VIEW_ID = INSTANCE.createSeverityOption("unresolvedViewID", "unresolved-view"); //$NON-NLS-1$
+
 	// Seam project settings
 
 	// Mark seam project if it has any invalid seam setting.
@@ -120,6 +122,15 @@ public class SeamPreferences extends SeverityPreferences {
 	}
 
 	private SeamPreferences() {		
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.common.validation.ValidationSeverityPreferences#getWarningGroupID()
+	 */
+	@Override
+	public String getWarningGroupID() {
+		return WARNING_GROUP_ID;
 	}
 
 	/* (non-Javadoc)

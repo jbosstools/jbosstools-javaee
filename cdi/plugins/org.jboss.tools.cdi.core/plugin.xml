@@ -163,6 +163,16 @@
    </extension>
 
    <extension
+   		 id="CDIWarnings"
+         point="org.jboss.tools.common.validation.warnings">
+         <map
+               class="org.jboss.tools.cdi.internal.core.validation.CDISuppressWarningsMap"
+               warningGroupID="cdi"
+               preferenceGroupID="org.jboss.tools.cdi.core.validator.problem">
+         </map>
+   </extension>
+
+   <extension
    		 id="CDIELValidationDelegate"
          point="org.jboss.tools.jst.web.kb.elValidationDelegate">
          <delegate
