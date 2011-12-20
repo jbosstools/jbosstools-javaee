@@ -4,11 +4,11 @@ import javax.enterprise.context.SessionScoped;
 import javax.enterprise.inject.Produces;
 import javax.enterprise.inject.Typed;
 
-@SuppressWarnings("notPassivationCapableBean") 
+@SuppressWarnings("cdi-not-passivation-capable") 
 @SessionScoped
 public class Rabbit {
 
-	@SuppressWarnings("illegalTypeInTypedDeclaration")
+	@SuppressWarnings("cdi-typed")
 	@Produces
 	@Typed(Integer.class)
 	String s;
