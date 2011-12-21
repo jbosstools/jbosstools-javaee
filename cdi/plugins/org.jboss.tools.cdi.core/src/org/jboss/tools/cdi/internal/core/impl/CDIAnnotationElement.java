@@ -22,7 +22,7 @@ import org.jboss.tools.cdi.internal.core.impl.definition.AnnotationDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.AnnotationMemberDefinition;
 import org.jboss.tools.common.java.IAnnotated;
 import org.jboss.tools.common.java.IAnnotationDeclaration;
-import org.jboss.tools.common.text.ITextSourceReference;
+import org.jboss.tools.common.java.IJavaSourceReference;
 
 /**
  * 
@@ -113,7 +113,7 @@ public class CDIAnnotationElement extends CDIElement implements ICDIAnnotation, 
 	 * @see org.jboss.tools.common.java.IAnnotated#getAnnotationPosition(java.lang.String)
 	 */
 	@Override
-	public ITextSourceReference getAnnotationPosition(String annotationTypeName) {
+	public IJavaSourceReference getAnnotationPosition(String annotationTypeName) {
 		return definition.getAnnotationPosition(annotationTypeName);
 	}
 

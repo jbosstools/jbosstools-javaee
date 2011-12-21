@@ -15,6 +15,7 @@ import org.jboss.tools.cdi.core.IScope;
 import org.jboss.tools.cdi.core.IScopeDeclaration;
 import org.jboss.tools.cdi.core.IStereotypeDeclaration;
 import org.jboss.tools.common.java.IAnnotationDeclaration;
+import org.jboss.tools.common.java.IJavaSourceReference;
 import org.jboss.tools.common.java.IParametedType;
 import org.jboss.tools.common.java.ITypeDeclaration;
 import org.jboss.tools.common.text.ITextSourceReference;
@@ -60,7 +61,7 @@ public class EventBean extends CDIElement implements IBean {
 		return null;
 	}
 
-	public ITextSourceReference getAnnotationPosition(String annotationTypeName) {
+	public IJavaSourceReference getAnnotationPosition(String annotationTypeName) {
 		return null;
 	}
 
@@ -185,7 +186,5 @@ public class EventBean extends CDIElement implements IBean {
 
 	@Override
 	public void open() {
-		// TODO Auto-generated method stub
-		
 	}
 }

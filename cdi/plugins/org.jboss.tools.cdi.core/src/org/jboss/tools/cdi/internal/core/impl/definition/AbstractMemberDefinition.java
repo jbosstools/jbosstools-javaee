@@ -36,6 +36,7 @@ import org.jboss.tools.cdi.internal.core.impl.StereotypeDeclaration;
 import org.jboss.tools.common.java.IAnnotated;
 import org.jboss.tools.common.java.IAnnotationDeclaration;
 import org.jboss.tools.common.java.IJavaAnnotation;
+import org.jboss.tools.common.java.IJavaSourceReference;
 import org.jboss.tools.common.java.impl.JavaAnnotation;
 import org.jboss.tools.common.text.ITextSourceReference;
 
@@ -195,9 +196,9 @@ public abstract class AbstractMemberDefinition implements IAnnotated {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.jboss.tools.cdi.core.IAnnotated#getAnnotationPosition(java.lang.String)
+	 * @see org.jboss.tools.common.java.IAnnotated#getAnnotationPosition(java.lang.String)
 	 */
-	public ITextSourceReference getAnnotationPosition(String annotationTypeName) {
+	public IJavaSourceReference getAnnotationPosition(String annotationTypeName) {
 		return getAnnotation(annotationTypeName);
 	}
 

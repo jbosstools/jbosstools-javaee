@@ -52,6 +52,7 @@ import org.jboss.tools.common.editor.ObjectMultiPageEditor;
 import org.jboss.tools.common.java.IAnnotated;
 import org.jboss.tools.common.java.IAnnotationDeclaration;
 import org.jboss.tools.common.java.IJavaReference;
+import org.jboss.tools.common.java.IJavaSourceReference;
 import org.jboss.tools.common.java.IParametedType;
 import org.jboss.tools.common.java.ITypeDeclaration;
 import org.jboss.tools.common.java.ParametedType;
@@ -109,7 +110,7 @@ public abstract class AbstractBeanElement extends CDIElement implements IAnnotat
 	 * (non-Javadoc)
 	 * @see org.jboss.tools.cdi.core.IAnnotated#getAnnotationPosition(java.lang.String)
 	 */
-	public ITextSourceReference getAnnotationPosition(String annotationTypeName) {
+	public IJavaSourceReference getAnnotationPosition(String annotationTypeName) {
 		return getAnnotation(annotationTypeName);
 	}
 

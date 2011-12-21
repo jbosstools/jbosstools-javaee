@@ -23,7 +23,7 @@ import org.jboss.tools.cdi.core.IScopeDeclaration;
 import org.jboss.tools.cdi.core.IStereotype;
 import org.jboss.tools.cdi.core.IStereotypeDeclaration;
 import org.jboss.tools.common.java.IAnnotationDeclaration;
-import org.jboss.tools.common.text.ITextSourceReference;
+import org.jboss.tools.common.java.IJavaSourceReference;
 
 /**
  * 
@@ -148,7 +148,7 @@ public class StereotypeElement extends CDIAnnotationElement implements IStereoty
 	 * (non-Javadoc)
 	 * @see org.jboss.tools.cdi.core.IAnnotated#getAnnotationPosition(java.lang.String)
 	 */
-	public ITextSourceReference getAnnotationPosition(String annotationTypeName) {
+	public IJavaSourceReference getAnnotationPosition(String annotationTypeName) {
 		return getAnnotation(annotationTypeName);
 	}
 
