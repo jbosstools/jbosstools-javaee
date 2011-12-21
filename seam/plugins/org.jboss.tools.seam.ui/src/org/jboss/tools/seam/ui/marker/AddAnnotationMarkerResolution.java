@@ -26,7 +26,7 @@ public class AddAnnotationMarkerResolution extends
 	}
 	
 	public void run(IMarker marker) {
-		addAnnotation("@"+getShortName(), insertName); //$NON-NLS-1$
+		addAnnotation("", insertName); //$NON-NLS-1$
 	}
 
 }

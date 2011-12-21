@@ -21,7 +21,6 @@ import org.eclipse.ui.IMarkerResolution;
 import org.eclipse.ui.IMarkerResolutionGenerator2;
 import org.jboss.tools.common.text.ITextSourceReference;
 import org.jboss.tools.seam.core.ISeamComponent;
-import org.jboss.tools.seam.core.ISeamComponentDeclaration;
 import org.jboss.tools.seam.core.ISeamJavaComponentDeclaration;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.ISeamProperty;

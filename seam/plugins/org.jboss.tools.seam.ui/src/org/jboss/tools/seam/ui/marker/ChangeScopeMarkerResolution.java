@@ -30,6 +30,6 @@ public class ChangeScopeMarkerResolution extends
 	}
 	
 	public void run(IMarker marker) {
-		renameAnnotation("@Scope("+scopeName+")", "org.jboss.seam.ScopeType", false); //$NON-NLS-1$
+		renameAnnotation("("+scopeName+")", "org.jboss.seam.ScopeType", false); //$NON-NLS-1$
 	}
 }

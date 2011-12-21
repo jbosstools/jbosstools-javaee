@@ -11,27 +11,24 @@
 package org.jboss.tools.seam.ui.marker;
 
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.jdt.core.IAnnotatable;
-import org.eclipse.jdt.core.IAnnotation;
 import org.eclipse.jdt.core.IBuffer;
 import org.eclipse.jdt.core.ICompilationUnit;
-import org.eclipse.jdt.core.IImportContainer;
 import org.eclipse.jdt.core.IImportDeclaration;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IType;
+import org.eclipse.jdt.core.refactoring.CompilationUnitChange;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.text.edits.MultiTextEdit;
 import org.eclipse.ui.IMarkerResolution2;
 import org.jboss.tools.common.EclipseUtil;
-import org.jboss.tools.common.model.util.EclipseJavaUtil;
+import org.jboss.tools.common.refactoring.MarkerResolutionUtils;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.ui.SeamGuiPlugin;
@@ -62,31 +59,21 @@ public abstract class AbstractSeamMarkerResolution implements
 			ICompilationUnit compilationUnit = original.getWorkingCopy(new NullProgressMonitor());
 			
 			IJavaElement javaElement = compilationUnit.getElementAt(start);
-			IType type = compilationUnit.findPrimaryType();
-			if(javaElement != null && type != null){
-				if(javaElement instanceof IAnnotatable){
-					IAnnotation annotation = EclipseJavaUtil.findAnnotation(type, (IAnnotatable)javaElement, qualifiedName);
-					if(annotation != null){
-						IBuffer buffer = compilationUnit.getBuffer();
-						
-						// delete annotation
-						buffer.replace(annotation.getSourceRange().getOffset(), annotation.getSourceRange().getLength(), "");
-						
-						// check and delete import
-						IImportDeclaration importDeclaration = compilationUnit.getImport(qualifiedName);
-						IImportContainer importContainer = compilationUnit.getImportContainer();
-						if(importDeclaration != null && importContainer != null){
-							int importSize = importContainer.getSourceRange().getOffset()+importContainer.getSourceRange().getLength();
-							String text = buffer.getText(importSize, buffer.getLength()-importSize);
-							if(checkImport(text))
-								importDeclaration.delete(false, new NullProgressMonitor());
-						}
-						compilationUnit.commitWorkingCopy(false, new NullProgressMonitor());
-						compilationUnit.discardWorkingCopy();
-					}
+			if(javaElement != null){
+				CompilationUnitChange change = new CompilationUnitChange("", compilationUnit);
+				
+				MultiTextEdit edit = new MultiTextEdit();
+				
+				change.setEdit(edit);
+				
+				MarkerResolutionUtils.deleteAnnotation(qualifiedName, compilationUnit, javaElement, edit);
+				
+				if(edit.hasChildren()){
+					change.perform(new NullProgressMonitor());
+					original.reconcile(ICompilationUnit.NO_AST, false, null, new NullProgressMonitor());
 				}
 			}
-			
+			compilationUnit.discardWorkingCopy();
 		}catch(CoreException ex){
 			SeamGuiPlugin.getPluginLog().logError(ex);
 		}
@@ -102,23 +89,7 @@ public abstract class AbstractSeamMarkerResolution implements
 		return null;
 	}
 	
-	private boolean checkImport(String text){
-		String name = getShortName();
-		
-		Pattern p = Pattern.compile(".*\\W"+name+"\\W.*",Pattern.DOTALL); //$NON-NLS-1$ //$NON-NLS-2$
-		Matcher m = p.matcher(text);
-		return !m.matches();
-	}
 	
-	protected String getShortName(){
-		int lastDot = qualifiedName.lastIndexOf('.');
-		String name;
-		if(lastDot < 0)
-			name = qualifiedName;
-		else
-			name = qualifiedName.substring(lastDot+1);
-		return name;
-	}
 	
 	protected boolean validateComponentName(String value){
 		ISeamProject seamProject = getSeamProject();
@@ -151,26 +122,29 @@ public abstract class AbstractSeamMarkerResolution implements
 			ICompilationUnit original = EclipseUtil.getCompilationUnit(file);
 			ICompilationUnit compilationUnit = original.getWorkingCopy(new NullProgressMonitor());
 			
-			final String lineDelim= compilationUnit.findRecommendedLineSeparator();
-			
 			IJavaElement javaElement = compilationUnit.getElementAt(start);
-			IType type = getType(javaElement);
-			if(type != null){
-				IImportDeclaration importDeclaration = compilationUnit.getImport(qualifiedName); 
-				if(importDeclaration == null || !importDeclaration.exists())
-					compilationUnit.createImport(qualifiedName, null, new NullProgressMonitor());
-				
-				IBuffer buffer = compilationUnit.getBuffer();
-				
-				String name="";
+			if(javaElement != null){
+				javaElement = compilationUnit.findPrimaryType();
+				String param = "";
 				if(insertName){
-					name="(\""+generateComponentName(compilationUnit.findPrimaryType().getElementName())+"\")";
+					param= "(\""+generateComponentName(compilationUnit.findPrimaryType().getElementName())+"\")";
 				}
 				
-				buffer.replace(type.getSourceRange().getOffset(), 0, annotationString+name+lineDelim);
-				compilationUnit.commitWorkingCopy(false, new NullProgressMonitor());
-				compilationUnit.discardWorkingCopy();
+				CompilationUnitChange change = new CompilationUnitChange("", compilationUnit);
+				
+				MultiTextEdit edit = new MultiTextEdit();
+				
+				change.setEdit(edit);
+				
+				MarkerResolutionUtils.addAnnotation(qualifiedName, compilationUnit, javaElement, param, edit);
+				
+				
+				if(edit.hasChildren()){
+					change.perform(new NullProgressMonitor());
+					original.reconcile(ICompilationUnit.NO_AST, false, null, new NullProgressMonitor());
+				}
 			}
+			compilationUnit.discardWorkingCopy();
 		}catch(CoreException ex){
 			SeamGuiPlugin.getPluginLog().logError(ex);
 		}
@@ -189,7 +163,7 @@ public abstract class AbstractSeamMarkerResolution implements
 				if(importDeclaration == null || !importDeclaration.exists())
 					compilationUnit.createImport(qualifiedName, null, new NullProgressMonitor());
 				
-				String annotation = getShortName();
+				String annotation = MarkerResolutionUtils.getShortName(qualifiedName);
 				String methodName = annotation.toLowerCase();
 				
 				IMethod oldMethod = type.getMethod(methodName, new String[]{});
@@ -215,43 +189,36 @@ public abstract class AbstractSeamMarkerResolution implements
 		}
 	}
 	
-	protected void renameAnnotation(String annotationString, String importName, boolean generate){
+	protected void renameAnnotation(String param, String importName, boolean generate){
 		try{
 			ICompilationUnit original = EclipseUtil.getCompilationUnit(file);
 			ICompilationUnit compilationUnit = original.getWorkingCopy(new NullProgressMonitor());
 			
 			IJavaElement javaElement = compilationUnit.getElementAt(start);
-			IType type = getType(javaElement);
-			if(type != null){
-				IAnnotation annotation = EclipseJavaUtil.findAnnotation(type, type, qualifiedName);
-				if(annotation != null){
-					IImportDeclaration importDeclaration = compilationUnit.getImport(qualifiedName);
-					if(importDeclaration == null || !importDeclaration.exists())
-						compilationUnit.createImport(qualifiedName, null, new NullProgressMonitor());
-					if(importName != null){
-						importDeclaration = compilationUnit.getImport(importName); 
-						if(importDeclaration == null || !importDeclaration.exists())
-							compilationUnit.createImport(importName, null, new NullProgressMonitor());
-						
-					}
+			if(javaElement != null){
+				if(generate){
+					param= "(\""+generateComponentName(compilationUnit.findPrimaryType().getElementName())+"\")";
+				}
 				
-					IBuffer buffer = compilationUnit.getBuffer();
-					
-					String name = "";
-					if(generate)
-						name= "(\""+generateComponentName(compilationUnit.findPrimaryType().getElementName())+"\")";
-					
-					buffer.replace(annotation.getSourceRange().getOffset(), annotation.getSourceRange().getLength(), annotationString+name);
-					compilationUnit.commitWorkingCopy(false, new NullProgressMonitor());
-					compilationUnit.discardWorkingCopy();
+				CompilationUnitChange change = new CompilationUnitChange("", compilationUnit);
+				
+				MultiTextEdit edit = new MultiTextEdit();
+				
+				change.setEdit(edit);
+				
+				MarkerResolutionUtils.updateAnnotation(qualifiedName, compilationUnit, javaElement, param, edit);
+				
+				
+				if(edit.hasChildren()){
+					change.perform(new NullProgressMonitor());
+					original.reconcile(ICompilationUnit.NO_AST, false, null, new NullProgressMonitor());
 				}
 			}
+			compilationUnit.discardWorkingCopy();
 		}catch(CoreException ex){
 			SeamGuiPlugin.getPluginLog().logError(ex);
 		}
 	}
-	
-	
 
 	public String getLabel() {
 		return label;

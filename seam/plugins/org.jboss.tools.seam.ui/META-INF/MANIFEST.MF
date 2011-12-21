@@ -42,7 +42,8 @@ Require-Bundle: org.eclipse.ui.ide;bundle-version="3.7.0",
  org.jboss.tools.common.ui,
  org.jboss.tools.common.el.ui,
  org.hibernate.eclipse.libs;bundle-version="3.4.0",
- org.jboss.tools.common.validation
+ org.jboss.tools.common.validation,
+ org.eclipse.jdt.core.manipulation;bundle-version="1.4.0"
 Bundle-ActivationPolicy: lazy
 Export-Package: org.jboss.tools.seam.ui,
  org.jboss.tools.seam.ui.actions,
