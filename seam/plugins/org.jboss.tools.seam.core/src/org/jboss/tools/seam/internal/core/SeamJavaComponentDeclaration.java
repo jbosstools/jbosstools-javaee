@@ -18,18 +18,21 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.ui.JavaUI;
+import org.jboss.tools.common.java.IJavaSourceReference;
 import org.jboss.tools.common.meta.action.impl.SpecialWizardSupport;
 import org.jboss.tools.common.model.ServiceDialog;
 import org.jboss.tools.common.model.options.PreferenceModelUtilities;
 import org.jboss.tools.common.model.project.ext.IValueInfo;
 import org.jboss.tools.common.model.project.ext.event.Change;
 import org.jboss.tools.common.model.util.EclipseJavaUtil;
+import org.jboss.tools.common.text.ITextSourceReference;
 import org.jboss.tools.common.xml.XMLUtilities;
 import org.jboss.tools.jst.web.model.project.ext.store.XMLStoreHelper;
 import org.jboss.tools.seam.core.BeanType;
@@ -81,6 +84,33 @@ public class SeamJavaComponentDeclaration extends SeamComponentDeclaration
 			}
 		}
 		return result;
+	}
+
+	@Override
+	public ITextSourceReference getLocationFor(String path) {
+		final IValueInfo valueInfo = attributes.get(path);
+		IJavaSourceReference reference = new IJavaSourceReference() {
+			public int getLength() {
+				return valueInfo != null ? valueInfo.getLength() : 0;
+			}
+
+			public int getStartPosition() {
+				return valueInfo != null ? valueInfo.getStartPosition() : 0;
+			}
+
+			public IResource getResource() {
+				return resource;
+			}
+
+			public IMember getSourceMember() {
+				return type;
+			}
+
+			public IJavaElement getSourceElement() {
+				return SeamJavaComponentDeclaration.this.getSourceElement();
+			}
+		};
+		return reference;
 	}
 
 	private void lookUpForVariable(String importname, String name, Set<ISeamContextVariable> result) {
