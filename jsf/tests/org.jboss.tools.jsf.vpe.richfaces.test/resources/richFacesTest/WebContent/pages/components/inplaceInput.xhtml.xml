@@ -8,8 +8,7 @@
 				STYLE="display: inline;">
 				click to enter your name
 </SPAN>
-			<BR VPE:PSEUDO-ELEMENT="yes"
-				STYLE="font-style: italic; color: green; -moz-user-modify: read-only;" />
+			<BR VPE:PSEUDO-ELEMENT="yes"/>
 
 		</SPAN>
 	</test>
@@ -31,8 +30,7 @@
 								CLASS="rich-inplace rich-inplace-view btn" STYLE="display: inline;">
 								click to enter your NamE
 						</SPAN>
-							<BR VPE:PSEUDO-ELEMENT="yes"
-								STYLE="font-style: italic; color: green; -moz-user-modify: read-only;" />
+							<BR VPE:PSEUDO-ELEMENT="yes"/>
 						</SPAN>
 					</TD>
 				</TR>
@@ -50,8 +48,7 @@
 								CLASS="rich-inplace rich-inplace-view evenRow" STYLE="display: inline;">
 								click to enter your email
 						</SPAN>
-							<BR VPE:PSEUDO-ELEMENT="yes"
-								STYLE="font-style: italic; color: green; -moz-user-modify: read-only;" />
+							<BR VPE:PSEUDO-ELEMENT="yes"/>
 						</SPAN>
 					</TD>
 				</TR>

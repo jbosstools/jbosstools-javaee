@@ -33,8 +33,7 @@
 							<TR>
 								<TD>
 									<DIV CLASS="pageBody" STYLE="-moz-user-modify: read-only;">
-										<BR VPE:PSEUDO-ELEMENT="yes"
-											STYLE="font-style: italic; color: green; -moz-user-modify: read-only;" />
+										<BR VPE:PSEUDO-ELEMENT="yes"/>
 
 									</DIV>
 								</TD>

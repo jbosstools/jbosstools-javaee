@@ -11,7 +11,7 @@ Default namespace detection test page
 <DIV STYLE="border: 1px solid green; -moz-user-modify: read-only;">
 <DIV CLASS="__any__tag__caption" STYLE="">
 h1
-</DIV><BR VPE:PSEUDO-ELEMENT="yes" STYLE="font-style: italic; color: green; -moz-user-modify: read-only;"/>
+</DIV><BR VPE:PSEUDO-ELEMENT="yes"/>
 
 </DIV>
 <INPUT VALUE="Test"/>

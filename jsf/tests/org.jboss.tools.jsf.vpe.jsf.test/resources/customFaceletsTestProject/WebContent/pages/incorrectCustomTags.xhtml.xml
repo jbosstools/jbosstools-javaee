@@ -10,17 +10,17 @@ ma:test<BR VPE:PSEUDO-ELEMENT="yes" />
 <DIV STYLE="border: 1px solid green; -moz-user-modify: read-only;">
 <DIV CLASS="__any__tag__caption" STYLE="">
 mo:paginator
-</DIV><BR VPE:PSEUDO-ELEMENT="yes" STYLE="font-style: italic; color: green; -moz-user-modify: read-only;"/>
+</DIV><BR VPE:PSEUDO-ELEMENT="yes"/>
 
 </DIV>
 <DIV STYLE="border: 1px solid green; -moz-user-modify: read-only;">
 <DIV CLASS="__any__tag__caption" STYLE="">
 mo:test
-</DIV><BR VPE:PSEUDO-ELEMENT="yes" STYLE="font-style: italic; color: green; -moz-user-modify: read-only;"/>
+</DIV><BR VPE:PSEUDO-ELEMENT="yes"/>
 
 </DIV>
 <DIV VPE:INCLUDE-ELEMENT="yes">
-ma:test1<BR VPE:PSEUDO-ELEMENT="yes" STYLE="font-style: italic; color: green; -moz-user-modify: read-only;"/>
+ma:test1<BR VPE:PSEUDO-ELEMENT="yes"/>
 
 </DIV>
 </DIV>

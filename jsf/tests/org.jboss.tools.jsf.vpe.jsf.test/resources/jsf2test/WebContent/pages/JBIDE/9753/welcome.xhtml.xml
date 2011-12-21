@@ -43,8 +43,7 @@
 																		<TR STYLE="-moz-user-modify: read-only;">
 																			<TD CLASS="menu_col rich-page-sidebar #{cc.attrs.sidebarClass}" STYLE="-moz-user-modify: read-only;">
 																				<DIV CLASS="menu_width spacer" STYLE="-moz-user-modify: read-only;">
-																					<BR VPE:PSEUDO-ELEMENT="yes"
-																						STYLE="font-style: italic; color: green; -moz-user-modify: read-only;" />
+																					<BR VPE:PSEUDO-ELEMENT="yes"/>
 
 																				</DIV>
 																				<SPAN STYLE="-moz-user-modify: read-only;">

@@ -1,7 +1,7 @@
 <tests>
 	<test id="head1">
 		<DIV STYLE="display: none; -moz-user-modify: read-only;">
-			<BR VPE:PSEUDO-ELEMENT="yes" STYLE="font-style: italic; color: green; -moz-user-modify: read-only;"/>
+			<BR VPE:PSEUDO-ELEMENT="yes"/>
 		</DIV>
 	</test>
 </tests>

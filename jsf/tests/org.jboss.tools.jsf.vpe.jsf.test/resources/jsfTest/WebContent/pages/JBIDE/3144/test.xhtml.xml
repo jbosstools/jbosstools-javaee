@@ -13,8 +13,7 @@
 					</SPAN>
 					<DIV
 						STYLE="width: 109px; height: 106px; background-color: green; -moz-user-modify: read-write;">
-						<BR VPE:PSEUDO-ELEMENT="yes"
-							STYLE="font-style: italic; color: green; -moz-user-modify: read-only;" />
+						<BR VPE:PSEUDO-ELEMENT="yes"/>
 
 					</DIV>
 					<SPAN CLASS="vpe-text">

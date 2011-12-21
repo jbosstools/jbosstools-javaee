@@ -1,7 +1,7 @@
 <tests>
 <test id="iceFacesTextProcessing">
 <SPAN STYLE="color: blue;">
-Ice Test Output Text<BR VPE:PSEUDO-ELEMENT="yes" STYLE="font-style: italic; color: green; -moz-user-modify: read-only;"/>
+Ice Test Output Text<BR VPE:PSEUDO-ELEMENT="yes"/>
 </SPAN>
 </test>
 </tests>

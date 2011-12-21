@@ -124,8 +124,7 @@
 						<TD CLASS="dr-table-cell rich-table-cell col3">
 							<SPAN>
 								Validation message
-								<BR VPE:PSEUDO-ELEMENT="yes"
-									STYLE="font-style: italic; color: green; -moz-user-modify: read-only;" />
+								<BR VPE:PSEUDO-ELEMENT="yes"/>
 
 							</SPAN>
 							<BR STYLE="-moz-user-modify: read-write;" />

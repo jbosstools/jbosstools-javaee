@@ -4,7 +4,7 @@
 <DIV VPE:INCLUDE-ELEMENT="yes" STYLE="-moz-user-modify: read-only;">
 <DIV STYLE="-moz-user-modify: read-only;">
 <DIV STYLE="display: none; -moz-user-modify: read-only;">
-<BR VPE:PSEUDO-ELEMENT="yes" STYLE="font-style: italic; color: green; -moz-user-modify: read-only;"/>
+<BR VPE:PSEUDO-ELEMENT="yes"/>
 </DIV>
 <DIV STYLE="-moz-user-modify: read-only;">
 <DIV VPE:INCLUDE-ELEMENT="yes" STYLE="-moz-user-modify: read-only;">

@@ -1,8 +1,7 @@
 <tests>
 	<test id="id1">
 		<SPAN CLASS="vpe-text" STYLE="-moz-user-modify: read-write;">
-			<BR VPE:PSEUDO-ELEMENT="yes"
-				STYLE="font-style: italic; color: green; -moz-user-modify: read-only;" />
+			<BR VPE:PSEUDO-ELEMENT="yes"/>
 		</SPAN>
 	</test>
 	<test id="id2">
