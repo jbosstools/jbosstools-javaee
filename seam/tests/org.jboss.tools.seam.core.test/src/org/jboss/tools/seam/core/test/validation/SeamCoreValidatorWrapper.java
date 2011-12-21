@@ -7,6 +7,7 @@ import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.ui.editors.text.TextFileDocumentProvider;
 import org.eclipse.wst.validation.internal.core.ValidationException;
 import org.jboss.tools.seam.internal.core.validation.SeamCoreValidator;
 
@@ -17,6 +18,14 @@ public class SeamCoreValidatorWrapper extends SeamCoreValidator implements IVali
 	public SeamCoreValidatorWrapper(IProject project) {
 		this.validatorSupport = new ValidatorSupport(project,this);
 	}
+
+	@Override
+	public IMarker addError(String message, int severity, Object[] messageArguments, int lineNumber, int length, int offset, IResource target, TextFileDocumentProvider documentProvider, String markerId, Class markerOwner) {
+		IMarker marker = super.addError(message, severity, messageArguments, lineNumber, length, offset, target, documentProvider, markerId, markerOwner);
+		validatorSupport.add(marker);
+		return marker;
+	}
+
 	@Override
 	public IMarker addError(String message, int severity,
 			String[] messageArguments, int lineNumber, int length, int offset,
