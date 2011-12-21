@@ -44,4 +44,11 @@ public class Fish {
 	@Named("fishDulipcatedName")
 	public void setFish3OK(Fish fishOK) {
 	}
+
+	@SuppressWarnings("cdi")
+	@Inject Fish fish4OK;
+
+	@Inject
+	public void initializeBROKEN(@SuppressWarnings({"cdi-annotated-observer", "cdi-ambiguous-dependency"}) @javax.enterprise.event.Observes String stringOK) {
+	}
 }

@@ -38,4 +38,10 @@ public class AnotherFish { // BROKEN
 	@Named("fishDulipcatedNameSecond")
 	public void setFish3BROKEN(Fish fishBROKEN) {
 	}
+
+	@Inject Fish fish4BROKEN;
+
+	@Inject
+	public void initializeBROKEN(@javax.enterprise.event.Observes String stringBROKEN) {
+	}
 }
