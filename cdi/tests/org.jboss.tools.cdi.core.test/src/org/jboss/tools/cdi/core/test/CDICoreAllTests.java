@@ -61,6 +61,7 @@ import org.jboss.tools.cdi.core.test.tck.validation.DefenitionErrorsValidationTe
 import org.jboss.tools.cdi.core.test.tck.validation.DependentProjectValidationTest;
 import org.jboss.tools.cdi.core.test.tck.validation.DeploymentProblemsValidationTests;
 import org.jboss.tools.cdi.core.test.tck.validation.DisableCDISupportTest;
+import org.jboss.tools.cdi.core.test.tck.validation.ELReferenceTest;
 import org.jboss.tools.cdi.core.test.tck.validation.ELValidationTest;
 import org.jboss.tools.cdi.core.test.tck.validation.IncrementalValidationTest;
 import org.jboss.tools.cdi.core.test.tck.validation.SuppressWarningsTests;
@@ -84,6 +85,7 @@ public class CDICoreAllTests {
 		suiteAll.addTestSuite(TypeTest.class);
 		TestSuite suite = new TestSuite("TCK Tests");
 		// TCK project tests
+		suite.addTestSuite(ELReferenceTest.class);
 		suite.addTestSuite(ResolutionByNameTest.class);
 		suite.addTestSuite(BeanDefinitionTest.class);
 		suite.addTestSuite(NameDefinitionTest.class);
