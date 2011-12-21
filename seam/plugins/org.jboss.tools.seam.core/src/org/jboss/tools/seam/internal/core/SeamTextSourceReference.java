@@ -11,20 +11,24 @@
 package org.jboss.tools.seam.internal.core;
 
 import org.eclipse.core.resources.IResource;
-import org.jboss.tools.common.text.ITextSourceReference;
+import org.eclipse.jdt.core.IJavaElement;
+import org.eclipse.jdt.core.IMember;
+import org.jboss.tools.common.java.IJavaSourceReference;
 
 /**
  * @author Alexey Kazakov
  */
-public class SeamTextSourceReference implements ITextSourceReference {
+public class SeamTextSourceReference implements IJavaSourceReference {
 	private IResource resource;
 	private int length;
 	private int startPosition;
+	private IMember member;
 
-	public SeamTextSourceReference(int length, int startPosition, IResource resource) {
+	public SeamTextSourceReference(IMember member, int length, int startPosition, IResource resource) {
 		this.length = length;
 		this.startPosition = startPosition;
 		this.resource = resource;
+		this.member = member;
 	}
 
 	/* (non-Javadoc)
@@ -59,4 +63,11 @@ public class SeamTextSourceReference implements ITextSourceReference {
 		return resource;
 	}
 
+	public IMember getSourceMember() {
+		return member;
+	}
+
+	public IJavaElement getSourceElement() {
+		return member;
+	}
 }

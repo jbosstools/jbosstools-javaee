@@ -798,7 +798,7 @@ public class SeamCoreValidator extends SeamValidationErrorManager implements IVa
 		return location;
 	}
 
-	private ITextSourceReference getNameLocation(IJavaSourceReference source) {
+	private IJavaSourceReference getNameLocation(IJavaSourceReference source) {
 		int length = 0;
 		int offset = 0;
 		try {
@@ -807,7 +807,7 @@ public class SeamCoreValidator extends SeamValidationErrorManager implements IVa
 		} catch (JavaModelException e) {
 			SeamCorePlugin.getDefault().logError(SeamCoreMessages.SEAM_CORE_VALIDATOR_ERROR_VALIDATING_SEAM_CORE, e);
 		}
-		return new SeamTextSourceReference(length, offset, source.getResource());
+		return new SeamTextSourceReference(source.getSourceMember(), length, offset, source.getResource());
 	}
 
 	private void validateStatefulComponent(ISeamComponent component) {
