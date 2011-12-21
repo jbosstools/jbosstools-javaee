@@ -13,6 +13,7 @@ import org.jboss.tools.cdi.core.IClassBean;
 import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.core.IQualifierDeclaration;
 import org.jboss.tools.common.java.IAnnotationDeclaration;
+import org.jboss.tools.common.java.IJavaSourceReference;
 import org.jboss.tools.common.java.IParametedType;
 import org.jboss.tools.common.text.ITextSourceReference;
 
@@ -81,7 +82,7 @@ public class CDIInjectionPoint implements IInjectionPoint {
 	}
 
 	@Override
-	public ITextSourceReference getAnnotationPosition(String annotationTypeName) {
+	public IJavaSourceReference getAnnotationPosition(String annotationTypeName) {
 		return null;
 	}
 

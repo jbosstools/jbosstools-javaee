@@ -26,6 +26,7 @@ import org.jboss.tools.cdi.core.IScope;
 import org.jboss.tools.cdi.core.IScopeDeclaration;
 import org.jboss.tools.cdi.core.IStereotypeDeclaration;
 import org.jboss.tools.common.java.IAnnotationDeclaration;
+import org.jboss.tools.common.java.IJavaSourceReference;
 import org.jboss.tools.common.java.IParametedType;
 import org.jboss.tools.common.java.ITypeDeclaration;
 import org.jboss.tools.common.text.ITextSourceReference;
@@ -73,7 +74,7 @@ public class CDIBean extends CDIElement implements IClassBean{
 	}
 
 	@Override
-	public ITextSourceReference getAnnotationPosition(
+	public IJavaSourceReference getAnnotationPosition(
 			String annotationTypeName) {
 		return null;
 	}
