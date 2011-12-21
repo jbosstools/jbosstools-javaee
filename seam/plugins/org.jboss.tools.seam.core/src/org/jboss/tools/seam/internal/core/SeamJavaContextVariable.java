@@ -8,7 +8,6 @@
  * Contributors: 
  * Red Hat, Inc. - initial API and implementation 
  ******************************************************************************/ 
-
 package org.jboss.tools.seam.internal.core;
 
 import java.util.List;
@@ -27,7 +26,9 @@ import org.jboss.tools.common.java.IJavaSourceReference;
 import org.jboss.tools.common.meta.action.impl.SpecialWizardSupport;
 import org.jboss.tools.common.model.ServiceDialog;
 import org.jboss.tools.common.model.options.PreferenceModelUtilities;
+import org.jboss.tools.common.model.project.ext.IValueInfo;
 import org.jboss.tools.common.model.project.ext.event.Change;
+import org.jboss.tools.common.text.ITextSourceReference;
 import org.jboss.tools.common.xml.XMLUtilities;
 import org.jboss.tools.jst.web.model.project.ext.store.XMLStoreHelper;
 import org.jboss.tools.seam.core.ISeamElement;
@@ -51,6 +52,7 @@ public abstract class SeamJavaContextVariable extends AbstractContextVariable im
 		this.javaSource = javaSource;
 	}
 
+	@Override
 	public int getLength() {
 		if(javaSource == null) return 0;
 		try {
@@ -62,10 +64,12 @@ public abstract class SeamJavaContextVariable extends AbstractContextVariable im
 		}
 	}
 
+	@Override
 	public IResource getResource() {
 		return javaSource == null || javaSource.getTypeRoot().getResource() == null ? super.getResource() : javaSource.getTypeRoot().getResource();
 	}
 
+	@Override
 	public int getStartPosition() {
 		if(javaSource == null) return 0;
 		try {
@@ -90,13 +94,42 @@ public abstract class SeamJavaContextVariable extends AbstractContextVariable im
 		return changes;
 	}
 
+	@Override
 	public SeamJavaContextVariable clone() throws CloneNotSupportedException {
 		SeamJavaContextVariable c = (SeamJavaContextVariable)super.clone();
 		return c;
 	}
-	
+
+	@Override
+	public ITextSourceReference getLocationFor(String path) {
+		final IValueInfo valueInfo = attributes.get(path);
+		IJavaSourceReference reference = new IJavaSourceReference() {
+			public int getLength() {
+				return valueInfo != null ? valueInfo.getLength() : 0;
+			}
+
+			public int getStartPosition() {
+				return valueInfo != null ? valueInfo.getStartPosition() : 0;
+			}
+
+			public IResource getResource() {
+				return resource;
+			}
+
+			public IMember getSourceMember() {
+				return javaSource;
+			}
+
+			public IJavaElement getSourceElement() {
+				return javaSource;
+			}
+		};
+		return reference;
+	}
+
 	static String TAG_JAVA_SOURCE = "java-source";
 
+	@Override
 	public Element toXML(Element parent, Properties context) {
 		Element element = super.toXML(parent, context);
 		
@@ -112,7 +145,8 @@ public abstract class SeamJavaContextVariable extends AbstractContextVariable im
 
 		return element;
 	}
-	
+
+	@Override
 	public void loadXML(Element element, Properties context) {
 		super.loadXML(element, context);
 		
@@ -130,6 +164,7 @@ public abstract class SeamJavaContextVariable extends AbstractContextVariable im
 
 	}
 
+	@Override
 	public void open() {
 		if(javaSource == null) return;
 		if(!javaSource.exists()) {
@@ -143,5 +178,4 @@ public abstract class SeamJavaContextVariable extends AbstractContextVariable im
 			SeamCorePlugin.getPluginLog().logError(e);
 		}
 	}
-	
 }
