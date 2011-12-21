@@ -22,6 +22,7 @@ public class Parameter extends BeanMember implements IParameter {
 
 	public Parameter() {}
 
+	@Override
 	public ParameterDefinition getDefinition() {
 		return (ParameterDefinition)definition;
 	}
@@ -44,10 +45,12 @@ public class Parameter extends BeanMember implements IParameter {
 		return getDefinition().getName();
 	}
 
+	@Override
 	public IParametedType getMemberType() {
 		return getDefinition().getType();
 	}
 
+	@Override
 	public IParametedType getType() {
 		if(getDefinition().getOverridenType() != null) {
 			return getDefinition().getOverridenType();
@@ -55,6 +58,7 @@ public class Parameter extends BeanMember implements IParameter {
 		return getDefinition().getType();
 	}
 
+	@Override
 	public IClassBean getClassBean() {
 		return beanMethod.getClassBean();
 	}
@@ -63,6 +67,12 @@ public class Parameter extends BeanMember implements IParameter {
 		return getDefinition().getMethodDefinition().getMethod();
 	}
 
+	@Override
+	public IJavaElement getSourceElement() {
+		return getDefinition().getVariable();
+	}
+
+	@Override
 	protected ISourceReference getSourceReference() {
 		return getDefinition().getVariable();
 	}
