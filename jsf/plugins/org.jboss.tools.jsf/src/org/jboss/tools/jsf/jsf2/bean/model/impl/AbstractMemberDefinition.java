@@ -24,9 +24,9 @@ import org.eclipse.jdt.core.IType;
 import org.jboss.tools.common.java.IAnnotated;
 import org.jboss.tools.common.java.IAnnotationDeclaration;
 import org.jboss.tools.common.java.IJavaAnnotation;
+import org.jboss.tools.common.java.IJavaSourceReference;
 import org.jboss.tools.common.java.impl.AnnotationDeclaration;
 import org.jboss.tools.common.java.impl.JavaAnnotation;
-import org.jboss.tools.common.text.ITextSourceReference;
 import org.jboss.tools.jsf.JSFModelPlugin;
 import org.jboss.tools.jsf.jsf2.bean.model.JSF2Constants;
 
@@ -104,7 +104,7 @@ public abstract class AbstractMemberDefinition implements IAnnotated {
 		return annotationsByType.get(typeName);
 	}
 
-	public ITextSourceReference getAnnotationPosition(String annotationTypeName) {
+	public IJavaSourceReference getAnnotationPosition(String annotationTypeName) {
 		return getAnnotation(annotationTypeName);
 	}
 
@@ -119,5 +119,4 @@ public abstract class AbstractMemberDefinition implements IAnnotated {
 	public IResource getResource() {
 		return resource;
 	}
-
 }
