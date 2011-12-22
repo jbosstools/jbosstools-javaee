@@ -382,12 +382,12 @@
          <newWizardShortcut
                id="org.jboss.tools.cdi.ui.wizard.NewDecoratorCreationWizard">
          </newWizardShortcut>
-         <newWizardShortcut
+         <!--newWizardShortcut
                id="org.jboss.tools.cdi.ui.wizard.NewAnnotationLiteralCreationWizard">
          </newWizardShortcut>
          <newWizardShortcut
                id="org.jboss.tools.cdi.ui.wizard.NewBeansXMLCreationWizard">
-         </newWizardShortcut>
+         </newWizardShortcut-->
       </perspectiveExtension>
 
       <perspectiveExtension
