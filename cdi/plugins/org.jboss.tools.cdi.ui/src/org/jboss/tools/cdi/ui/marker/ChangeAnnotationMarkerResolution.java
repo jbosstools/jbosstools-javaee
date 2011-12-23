@@ -101,11 +101,8 @@ public class ChangeAnnotationMarkerResolution implements
 			
 			IAnnotation workingCopyAnnotation = CDIMarkerResolutionUtils.findWorkingCopy(compilationUnit, annotation);
 			
-			//IBuffer buffer = compilationUnit.getBuffer();
 			TextEdit re = new ReplaceEdit(workingCopyAnnotation.getSourceRange().getOffset(), workingCopyAnnotation.getSourceRange().getLength(), changeString);
 			edit.addChild(re);
-			
-			//buffer.replace(workingCopyAnnotation.getSourceRange().getOffset(), workingCopyAnnotation.getSourceRange().getLength(), changeString);
 			
 			if(edit.hasChildren()){
 				change.perform(new NullProgressMonitor());
