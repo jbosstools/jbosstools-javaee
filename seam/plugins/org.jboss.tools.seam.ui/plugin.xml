@@ -169,6 +169,7 @@
                id="org.eclipse.debug.ui.breakpointActionSet">
          </actionSet>
          <actionSet id="org.eclipse.wst.server.ui.internal.webbrowser.actionSet"/>
+         <actionSet id="org.jboss.tools.seam.ui.actionSet" />
       </perspectiveExtension>
    </extension>
 
@@ -764,6 +765,18 @@
      icon="$nl$/icons/open_seam_component.gif"
               label="Open Seam Component"
               tooltip="Open Seam Component" >
+				<visibleWhen
+                    checkEnabled="false">
+                 <with
+                       variable="activeContexts">
+                    <iterate
+                          operator="or">
+                       <equals
+                             value="org.jboss.tools.seam.ui.actionSet">
+                       </equals>
+                    </iterate>
+                 </with>
+              </visibleWhen>
        </command> 
   </menuContribution>
   <menuContribution
@@ -777,6 +790,18 @@
       icon="$nl$/icons/open_seam_component.gif"
                   label="Open Seam Component"
                   tooltip="Open Seam Component" >
+					<visibleWhen
+                    checkEnabled="false">
+                 <with
+                       variable="activeContexts">
+                    <iterate
+                          operator="or">
+                       <equals
+                             value="org.jboss.tools.seam.ui.actionSet">
+                       </equals>
+                    </iterate>
+                 </with>
+              </visibleWhen>
            </command> 
          </toolbar>
   </menuContribution>
@@ -800,6 +825,18 @@
       icon="$nl$/icons/find_seam_references.gif"
                   label="Find Seam References"
                   tooltip="Find Seam References" >
+					<visibleWhen
+                    checkEnabled="false">
+                 <with
+                       variable="activeContexts">
+                    <iterate
+                          operator="or">
+                       <equals
+                             value="org.jboss.tools.seam.ui.actionSet">
+                       </equals>
+                    </iterate>
+                 </with>
+              </visibleWhen>
            </command> 
            <command
                   commandId="org.jboss.tools.seam.ui.find.declarations"
@@ -808,6 +845,18 @@
                   icon="$nl$/icons/open_seam_component.gif"
                   label="Find Seam Declarations"
                   tooltip="Find Seam Declarations" >
+					<visibleWhen
+                    checkEnabled="false">
+                 <with
+                       variable="activeContexts">
+                    <iterate
+                          operator="or">
+                       <equals
+                             value="org.jboss.tools.seam.ui.actionSet">
+                       </equals>
+                    </iterate>
+                 </with>
+              </visibleWhen>
            </command> 
                   
     <separator name="fileSearchContextMenuActionsGroup"/> <!-- to be used by clients      -->
@@ -817,6 +866,17 @@
           </menu>
   </menuContribution>
  </extension>
+ 
+   <extension
+         point="org.eclipse.ui.actionSets">
+      <actionSet
+            description="%ActionSetSeamUIDescription"
+            id="org.jboss.tools.seam.ui.actionSet"
+            label="%ActionSetSeamUILabel"
+            visible="false">
+      </actionSet>
+   </extension>
+
  <extension
        point="org.eclipse.ui.handlers">
     <handler
