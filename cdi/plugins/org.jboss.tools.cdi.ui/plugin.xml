@@ -129,6 +129,19 @@
 		    	icon="$nl$/icons/open_cdi_named_bean.png"
               	label="Open CDI Named Bean"
               	tooltip="Open CDI Named Bean" >
+              	<visibleWhen
+                    checkEnabled="false">
+                 <with
+                       variable="activeContexts">
+                    <iterate
+                          operator="or">
+                       <equals
+                             value="org.jboss.tools.cdi.ui.actionSet">
+                       </equals>
+                    </iterate>
+                 </with>
+              </visibleWhen>
+              	
        		</command> 
   		</menuContribution>
   		<menuContribution
@@ -142,11 +155,33 @@
       					icon="$nl$/icons/open_cdi_named_bean.png"
                   		label="Open CDI Named Bean"
                   		tooltip="Open CDI Named Bean" >
+		              	<visibleWhen
+		                    checkEnabled="false">
+		                 <with
+		                       variable="activeContexts">
+		                    <iterate
+		                          operator="or">
+		                       <equals
+		                             value="org.jboss.tools.cdi.ui.actionSet">
+		                       </equals>
+		                    </iterate>
+		                 </with>
+		              </visibleWhen>
            			</command> 
          		</toolbar>
   		</menuContribution>
 	
 	</extension> 
+   	
+   <extension
+         point="org.eclipse.ui.actionSets">
+      <actionSet
+            description="%ActionSetCDIUIDescription"
+            id="org.jboss.tools.cdi.ui.actionSet"
+            label="%ActionSetCDIUILabel"
+            visible="false">
+      </actionSet>
+   </extension>
    	
    	<extension
        point="org.eclipse.ui.handlers">
@@ -388,6 +423,7 @@
          <newWizardShortcut
                id="org.jboss.tools.cdi.ui.wizard.NewBeansXMLCreationWizard">
          </newWizardShortcut-->
+		 <actionSet id="org.jboss.tools.cdi.ui.actionSet" />
       </perspectiveExtension>
 
       <perspectiveExtension
@@ -422,6 +458,12 @@
          <newWizardShortcut
                id="org.jboss.tools.cdi.ui.wizard.NewBeansXMLCreationWizard">
          </newWizardShortcut>
+         <actionSet id="org.jboss.tools.cdi.ui.actionSet" />
+      </perspectiveExtension>
+      
+      <perspectiveExtension
+            targetID="org.eclipse.debug.ui.DebugPerspective">
+         <actionSet id="org.jboss.tools.cdi.ui.actionSet" />
       </perspectiveExtension>
    </extension>
 
