@@ -10,10 +10,23 @@
  ******************************************************************************/
 package org.jboss.tools.jsf.vpe.jsf.template;
 
+import org.jboss.tools.vpe.editor.context.VpePageContext;
+import org.w3c.dom.Element;
+
 /**
  * Template for h:link
  * 
  * @author yradtsevich
  */
 public class JsfLinkTemplate extends AbstarctLinkJsfTemplate {
+
+	@Override
+	protected boolean hasParentForm(VpePageContext pageContext, Element sourceElement) {
+		/*
+		 * Fixes https://issues.jboss.org/browse/JBIDE-8009
+		 * <h:link> should not depend on <form> tag
+		 */
+		return true;
+	}
+	
 }

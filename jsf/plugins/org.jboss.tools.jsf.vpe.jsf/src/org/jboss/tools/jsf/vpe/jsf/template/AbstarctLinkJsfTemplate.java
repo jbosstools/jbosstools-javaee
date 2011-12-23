@@ -10,6 +10,9 @@
  ******************************************************************************/
 package org.jboss.tools.jsf.vpe.jsf.template;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.jboss.tools.jsf.vpe.jsf.template.util.ComponentUtil;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
@@ -30,10 +33,12 @@ import org.w3c.dom.Node;
  */
 public abstract class AbstarctLinkJsfTemplate extends AbstractOutputJsfTemplate {
 
-    private static final String H_FORM = "h:form"; //$NON-NLS-1$
-    private static final String A4J_FORM = "a4j:form"; //$NON-NLS-1$
     private static final String OUTSIDE_FORM_TEXT = ": This link is disabled as it is not nested within a JSF form."; //$NON-NLS-1$
-    
+    private static Set<String> forms = new HashSet<String>();
+    static {
+    	forms.add("h:form"); //$NON-NLS-1$
+    	forms.add("a4j:form"); //$NON-NLS-1$
+    }
     public VpeCreationData create(VpePageContext pageContext, Node sourceNode,
 	    nsIDOMDocument visualDocument) {
 
@@ -81,17 +86,25 @@ public abstract class AbstarctLinkJsfTemplate extends AbstractOutputJsfTemplate 
 
     }
 
-    private boolean hasParentForm(VpePageContext pageContext, Element sourceElement) {
-	Node parent = sourceElement.getParentNode();
-	while (parent != null && parent instanceof Element && parent.getNodeName() != null) {
-		String parentTemplateName = VpeTemplateManager.getInstance().getTemplateName(pageContext, parent);
-	    if (H_FORM.equals(parentTemplateName)
-		    || A4J_FORM.equals(parentTemplateName)) {
-		return true;
-	    }
-	    parent = parent.getParentNode();
-	}
-	return false;
+    /**
+     * Check if the link has <code>form</code> parent
+     * 
+     * @param pageContext
+     * @param sourceElement
+     * @return true if <code>form</code> was found
+     */
+    protected boolean hasParentForm(VpePageContext pageContext, Element sourceElement) {
+    	Node parent = sourceElement.getParentNode();
+    	while (parent != null && parent instanceof Element
+    			&& parent.getNodeName() != null) {
+    		String parentTemplateName = VpeTemplateManager.getInstance()
+    				.getTemplateName(pageContext, parent);
+    		if (forms.contains(parentTemplateName)) {
+    			return true;
+    		}
+    		parent = parent.getParentNode();
+    	}
+    	return false;
     }
     
     @Override
