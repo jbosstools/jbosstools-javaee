@@ -1,0 +1,28 @@
+<tests>
+	<test id="id1">
+		<DIV ID="id1" STYLE="-moz-user-modify: read-write;">
+			<A>link1</A>
+			<SPAN CLASS="vpe-text">
+				<SPAN CLASS="vpe-text">
+					link2
+				</SPAN>
+				<SPAN CLASS="vpe-text">
+					: This link is disabled as it is not nested within a JSF form.
+				</SPAN>
+			</SPAN>
+		</DIV>
+	</test>
+	<test id="id2">
+		<FORM ID="id2" STYLE="-moz-user-modify: read-write;">
+			<A>link1</A>
+			<SPAN CLASS="vpe-text">
+				<SPAN CLASS="vpe-text">
+					link2
+				</SPAN>
+				<SPAN CLASS="vpe-text">
+					: This link is disabled as it is not nested within a JSF form.
+				</SPAN>
+			</SPAN>
+		</FORM>
+	</test>
+</tests>

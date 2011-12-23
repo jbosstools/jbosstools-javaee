@@ -66,6 +66,7 @@ import org.jboss.tools.jsf.vpe.jsf.test.jbide.JsfJbide1568Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JsfJbide1718Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JsfJbide2170Test;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.JsfJbide2362Test;
+import org.jboss.tools.jsf.vpe.jsf.test.jbide.JsfLinkAndCommandLinkTest_JBIDE8009;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.MessageResolutionInPreviewTabTest;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.MozDirtyTest_JBIDE5105;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.NullPointerWithStyleProperty_JBIDE5193;
@@ -189,6 +190,8 @@ public class JsfAllImportantTests {
 		suite.addTestSuite(RefreshBundles_JBIDE5460.class);
 		suite.addTestSuite(ExceptionInVPEComments_JBIDE5143.class);
 		suite.addTestSuite(VisualRefreshComment_JBIDE6067.class);
+		suite.addTestSuite(JsfLinkAndCommandLinkTest_JBIDE8009.class);
+		
 
 		//$JUnit-END$
 		return suite;
