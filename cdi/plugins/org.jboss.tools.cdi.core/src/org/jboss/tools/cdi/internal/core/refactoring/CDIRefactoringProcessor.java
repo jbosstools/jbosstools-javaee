@@ -18,7 +18,6 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.ltk.core.refactoring.CompositeChange;
 import org.eclipse.ltk.core.refactoring.RefactoringStatus;
-import org.eclipse.ltk.core.refactoring.TextFileChange;
 import org.eclipse.text.edits.MultiTextEdit;
 import org.jboss.tools.cdi.core.CDICoreMessages;
 import org.jboss.tools.cdi.core.CDICoreNature;
@@ -30,7 +29,7 @@ import org.jboss.tools.cdi.core.IClassBean;
 public abstract class CDIRefactoringProcessor extends AbstractCDIProcessor {
 	protected IFile file;
 	
-	protected TextFileChange change;
+	protected CDIFileChange change;
 	protected IClassBean bean;
 
 	public CDIRefactoringProcessor(IFile file, String label){
@@ -44,17 +43,12 @@ public abstract class CDIRefactoringProcessor extends AbstractCDIProcessor {
 	
 	protected void createRootChange(){
 		rootChange = new CompositeChange(getLabel());
-		change = new CDIFileChange(file.getName(), file);
-		
-		if(CDIFileChange.getAndReloadEditor(file) != null)
-			change.setSaveMode(TextFileChange.LEAVE_DIRTY);
-		else
-			change.setSaveMode(TextFileChange.FORCE_SAVE);
+		change = new CDIFileChange(file);
 		
 		MultiTextEdit root = new MultiTextEdit();
 		change.setEdit(root);
 		rootChange.add(change);
-		rootChange.markAsSynthetic();
+		//rootChange.markAsSynthetic();
 	}
 	
 	private IClassBean findClassBean(){

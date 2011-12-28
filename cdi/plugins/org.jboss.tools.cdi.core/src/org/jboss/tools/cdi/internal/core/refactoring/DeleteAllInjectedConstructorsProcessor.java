@@ -10,22 +10,22 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.internal.core.refactoring;
 
-import java.util.HashSet;
 import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.OperationCanceledException;
+import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IMethod;
+import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.ltk.core.refactoring.RefactoringStatus;
 import org.eclipse.ltk.core.refactoring.participants.CheckConditionsContext;
-import org.eclipse.text.edits.ReplaceEdit;
-import org.eclipse.text.edits.TextEdit;
+import org.eclipse.text.edits.MultiTextEdit;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.IBeanMethod;
 import org.jboss.tools.cdi.core.IClassBean;
-import org.jboss.tools.common.java.IAnnotationDeclaration;
 
 public class DeleteAllInjectedConstructorsProcessor extends CDIRefactoringProcessor {
 	private IMethod method;
@@ -35,22 +35,26 @@ public class DeleteAllInjectedConstructorsProcessor extends CDIRefactoringProces
 		this.method = method;
 	}
 	
-	private void changeConstructors(IClassBean bean) {
+	private void changeConstructors(IClassBean bean) throws JavaModelException {
 		Set<IBeanMethod> constructors = bean.getBeanConstructors();
 		if(constructors.size()>1) {
-			Set<IAnnotationDeclaration> injects = new HashSet<IAnnotationDeclaration>();
+			//Set<IAnnotationDeclaration> injects = new HashSet<IAnnotationDeclaration>();
+			ICompilationUnit original = constructors.iterator().next().getMethod().getCompilationUnit();
+			ICompilationUnit compilationUnit = original.getWorkingCopy(new NullProgressMonitor());
 			for (IBeanMethod constructor : constructors) {
 				if(!constructor.getMethod().isSimilar(method)){
-					IAnnotationDeclaration inject = constructor.getAnnotation(CDIConstants.INJECT_ANNOTATION_TYPE_NAME);
-					if(inject!=null) {
-						injects.add(inject);
-					}
+					CDIMarkerResolutionUtils.deleteAnnotation(CDIConstants.INJECT_ANNOTATION_TYPE_NAME, compilationUnit, constructor.getMethod(), (MultiTextEdit)change.getEdit());
+					//IAnnotationDeclaration inject = constructor.getAnnotation(CDIConstants.INJECT_ANNOTATION_TYPE_NAME);
+					//if(inject!=null) {
+					//	injects.add(inject);
+					//}
 				}
 			}
-			for (IAnnotationDeclaration inject : injects) {
-				TextEdit edit = new ReplaceEdit(inject.getStartPosition(), inject.getLength(), "");
-				change.addEdit(edit);
-			}
+			compilationUnit.discardWorkingCopy();
+			//for (IAnnotationDeclaration inject : injects) {
+			//	TextEdit edit = new ReplaceEdit(inject.getStartPosition(), inject.getLength(), "");
+			//	change.addEdit(edit);
+			//}
 		}
 	}
 

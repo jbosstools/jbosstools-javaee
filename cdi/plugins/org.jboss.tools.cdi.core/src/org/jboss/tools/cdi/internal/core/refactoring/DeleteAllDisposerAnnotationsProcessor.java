@@ -16,19 +16,19 @@ import java.util.Set;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.OperationCanceledException;
+import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IMethod;
+import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.ltk.core.refactoring.RefactoringStatus;
 import org.eclipse.ltk.core.refactoring.participants.CheckConditionsContext;
-import org.eclipse.text.edits.ReplaceEdit;
-import org.eclipse.text.edits.TextEdit;
+import org.eclipse.text.edits.MultiTextEdit;
 import org.jboss.tools.cdi.core.CDIConstants;
-import org.jboss.tools.cdi.core.CDIUtil;
 import org.jboss.tools.cdi.core.IBeanMethod;
 import org.jboss.tools.cdi.core.IClassBean;
 import org.jboss.tools.cdi.core.IProducer;
 import org.jboss.tools.cdi.core.IProducerMethod;
-import org.jboss.tools.common.text.ITextSourceReference;
 
 public class DeleteAllDisposerAnnotationsProcessor extends CDIRefactoringProcessor {
 	private IMethod method;
@@ -38,7 +38,7 @@ public class DeleteAllDisposerAnnotationsProcessor extends CDIRefactoringProcess
 		this.method = method;
 	}
 	
-	private void changeDisposers(IClassBean bean) {
+	private void changeDisposers(IClassBean bean) throws JavaModelException {
 		Set<IBeanMethod> disposers = bean.getDisposers();
 		if (disposers.isEmpty()) {
 			return;
@@ -51,15 +51,19 @@ public class DeleteAllDisposerAnnotationsProcessor extends CDIRefactoringProcess
 				IProducerMethod producerMethod = (IProducerMethod) producer;
 				Set<IBeanMethod> disposerMethods = producer.getCDIProject().resolveDisposers(producerMethod);
 				boundDisposers.addAll(disposerMethods);
+				ICompilationUnit original = producerMethod.getMethod().getCompilationUnit();
+				ICompilationUnit compilationUnit = original.getWorkingCopy(new NullProgressMonitor());
 				for (IBeanMethod disposerMethod : disposerMethods) {
 					if(!disposerMethod.getMethod().isSimilar(method)){
-						Set<ITextSourceReference> disposerDeclarations = CDIUtil.getAnnotationPossitions(disposerMethod, CDIConstants.DISPOSES_ANNOTATION_TYPE_NAME);
-						for (ITextSourceReference declaration : disposerDeclarations) {
-							TextEdit edit = new ReplaceEdit(declaration.getStartPosition(), declaration.getLength(), "");
-							change.addEdit(edit);
-						}
+						CDIMarkerResolutionUtils.deleteAnnotation(CDIConstants.DISPOSES_ANNOTATION_TYPE_NAME, compilationUnit, disposerMethod.getMethod().getParameters()[0], (MultiTextEdit)change.getEdit());
+//						Set<ITextSourceReference> disposerDeclarations = CDIUtil.getAnnotationPossitions(disposerMethod, CDIConstants.DISPOSES_ANNOTATION_TYPE_NAME);
+//						for (ITextSourceReference declaration : disposerDeclarations) {
+//							TextEdit edit = new ReplaceEdit(declaration.getStartPosition(), declaration.getLength(), "");
+//							change.addEdit(edit);
+//						}
 					}
 				}
+				compilationUnit.discardWorkingCopy();
 			}
 		}
 	}

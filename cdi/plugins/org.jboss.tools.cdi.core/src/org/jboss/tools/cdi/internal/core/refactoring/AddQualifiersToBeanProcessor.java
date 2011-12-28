@@ -21,7 +21,6 @@ import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.ltk.core.refactoring.Change;
 import org.eclipse.ltk.core.refactoring.CompositeChange;
 import org.eclipse.ltk.core.refactoring.RefactoringStatus;
-import org.eclipse.ltk.core.refactoring.TextFileChange;
 import org.eclipse.ltk.core.refactoring.participants.CheckConditionsContext;
 import org.eclipse.text.edits.MultiTextEdit;
 import org.jboss.tools.cdi.core.CDICoreMessages;
@@ -87,11 +86,7 @@ public class AddQualifiersToBeanProcessor extends CDIRefactoringProcessor {
 		
 		ICompilationUnit compilationUnit = original.getWorkingCopy(pm);
 		
-		TextFileChange fileChange = new CDIFileChange(file.getName(), file);
-		if(CDIFileChange.getAndReloadEditor(file) != null)
-			fileChange.setSaveMode(TextFileChange.LEAVE_DIRTY);
-		else
-			fileChange.setSaveMode(TextFileChange.FORCE_SAVE);
+		CDIFileChange fileChange = new CDIFileChange(file);
 		
 		MultiTextEdit edit = new MultiTextEdit();
 
@@ -107,11 +102,7 @@ public class AddQualifiersToBeanProcessor extends CDIRefactoringProcessor {
 				fileChange.setEdit(edit);
 				rootChange.add(fileChange);
 			}
-			fileChange = new CDIFileChange(file2.getName(), file2);
-			if(CDIFileChange.getAndReloadEditor(file2) != null)
-				fileChange.setSaveMode(TextFileChange.LEAVE_DIRTY);
-			else
-				fileChange.setSaveMode(TextFileChange.FORCE_SAVE);
+			fileChange = new CDIFileChange(file2);
 			
 			edit = new MultiTextEdit();
 		}else{

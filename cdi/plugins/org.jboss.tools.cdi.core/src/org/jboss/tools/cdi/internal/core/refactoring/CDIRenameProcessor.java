@@ -20,7 +20,6 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.ltk.core.refactoring.RefactoringStatus;
-import org.eclipse.ltk.core.refactoring.TextFileChange;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.text.edits.MultiTextEdit;
 import org.eclipse.text.edits.ReplaceEdit;
@@ -36,7 +35,7 @@ import org.jboss.tools.jst.web.kb.refactoring.RefactorSearcher;
  * @author Daniel Azarov
  */
 public abstract class CDIRenameProcessor extends AbstractCDIProcessor {
-	protected TextFileChange lastChange;
+	protected CDIFileChange lastChange;
 	protected IFile declarationFile=null;
 	
 	private String newName;
@@ -85,23 +84,18 @@ public abstract class CDIRenameProcessor extends AbstractCDIProcessor {
 	}
 	
 	// lets collect all changes for the same files in one MultiTextEdit
-	protected TextFileChange getChange(IFile file){
+	protected CDIFileChange getChange(IFile file){
 		if(lastChange != null && lastChange.getFile().equals(file))
 			return lastChange;
 		
 		for(int i=0; i < rootChange.getChildren().length; i++){
-			TextFileChange change = (TextFileChange)rootChange.getChildren()[i];
+			CDIFileChange change = (CDIFileChange)rootChange.getChildren()[i];
 			if(change.getFile().equals(file)){
 				lastChange = change;
 				return lastChange;
 			}
 		}
-		lastChange = new CDIFileChange(file.getName(), file);
-		
-		if(CDIFileChange.getAndReloadEditor(file) != null)
-			lastChange.setSaveMode(TextFileChange.LEAVE_DIRTY);
-		else
-			lastChange.setSaveMode(TextFileChange.FORCE_SAVE);
+		lastChange = new CDIFileChange(file);
 		
 		MultiTextEdit root = new MultiTextEdit();
 		lastChange.setEdit(root);
@@ -121,7 +115,7 @@ public abstract class CDIRenameProcessor extends AbstractCDIProcessor {
 	protected void change(IFile file, int offset, int length, String text){
 		String key = file.getFullPath().toString()+" "+offset;
 		if(!keys.contains(key)){
-			TextFileChange change = getChange(file);
+			CDIFileChange change = getChange(file);
 			TextEdit edit = new ReplaceEdit(offset, length, text);
 			change.addEdit(edit);
 			keys.add(key);

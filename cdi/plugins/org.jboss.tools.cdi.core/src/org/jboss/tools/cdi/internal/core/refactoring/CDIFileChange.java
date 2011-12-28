@@ -13,60 +13,85 @@ package org.jboss.tools.cdi.internal.core.refactoring;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.jdt.internal.ui.javaeditor.EditorUtility;
+import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.jface.text.IDocument;
+import org.eclipse.ltk.core.refactoring.Change;
+import org.eclipse.ltk.core.refactoring.MultiStateTextFileChange;
+import org.eclipse.ltk.core.refactoring.RefactoringStatus;
+import org.eclipse.ltk.core.refactoring.TextChange;
 import org.eclipse.ltk.core.refactoring.TextFileChange;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.ui.IEditorInput;
-import org.eclipse.ui.IEditorPart;
-import org.eclipse.ui.IWorkbenchWindow;
-import org.eclipse.ui.PartInitException;
-import org.jboss.tools.cdi.core.CDICorePlugin;
+import org.eclipse.text.edits.TextEdit;
+import org.eclipse.text.edits.UndoEdit;
 
-public class CDIFileChange extends TextFileChange{
+public class CDIFileChange extends MultiStateTextFileChange{
+	private IFile file;
+	private CDITextChange rootChange = null;
 
-	public CDIFileChange(String name, IFile file) {
-		super(name, file);
-	}
-
-	@Override
-	protected void releaseDocument(final IDocument document, IProgressMonitor pm)
-			throws CoreException {
-		super.releaseDocument(document, pm);
-		Display.getDefault().asyncExec(new Runnable() {
-			public void run() {
-				IEditorPart editor =  getEditor(getFile());
-				if(editor != null){
-					editor.doSave(new NullProgressMonitor());
-				}
-			}
-			
-		});
+	public CDIFileChange(IFile file) {
+		super(file.getName(), file);
+		this.file = file;
+		setSaveMode(TextFileChange.FORCE_SAVE);
 	}
 	
-	public static IEditorPart getAndReloadEditor(IFile file){
-		IEditorInput input = EditorUtility.getEditorInput(file);
-		
-		if(EditorUtility.isOpenInEditor(input) != null){
-			try {
-				return EditorUtility.openInEditor(input, false);
-			} catch (PartInitException e) {
-				CDICorePlugin.getDefault().logError(e);
-			}
-		}
-		return null;
+	public IFile getFile(){
+		return file;
 	}
 	
-	public static IEditorPart getEditor(IFile file){
-		IEditorInput input = EditorUtility.getEditorInput(file);
-		
-		IWorkbenchWindow[] windows = CDICorePlugin.getDefault().getWorkbench().getWorkbenchWindows();
-		for(IWorkbenchWindow window : windows){
-			IEditorPart editor = window.getActivePage().findEditor(input);
-			if(editor != null)
-				return editor;
+	public void setEdit(TextEdit edit) {
+		rootChange = new CDITextChange();
+		rootChange.setEdit(edit);
+		super.addChange(rootChange);
+	}
+	
+	public TextEdit getEdit(){
+		return rootChange.getEdit();
+	}
+	
+	public void addEdit(TextEdit edit){
+		rootChange.addEdit(edit);
+	}
+	
+	class CDITextChange extends TextChange{
+
+		protected CDITextChange() {
+			super("");
 		}
-		return null;
+
+		@Override
+		protected IDocument acquireDocument(IProgressMonitor pm)
+				throws CoreException {
+			return null;
+		}
+
+		@Override
+		protected void commit(IDocument document, IProgressMonitor pm)
+				throws CoreException {
+		}
+
+		@Override
+		protected void releaseDocument(IDocument document, IProgressMonitor pm)
+				throws CoreException {
+		}
+
+		@Override
+		protected Change createUndoChange(UndoEdit edit) {
+			return null;
+		}
+
+		@Override
+		public void initializeValidationData(IProgressMonitor pm) {
+		}
+
+		@Override
+		public RefactoringStatus isValid(IProgressMonitor pm)
+				throws CoreException, OperationCanceledException {
+			return null;
+		}
+
+		@Override
+		public Object getModifiedElement() {
+			return null;
+		}
+		
 	}
 }
