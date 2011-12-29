@@ -19,9 +19,12 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.ltk.core.refactoring.Change;
 import org.eclipse.ltk.core.refactoring.CompositeChange;
 import org.eclipse.ltk.core.refactoring.RefactoringStatus;
+import org.eclipse.ltk.core.refactoring.TextFileChange;
 import org.eclipse.ltk.core.refactoring.participants.RefactoringProcessor;
+import org.eclipse.text.edits.MultiTextEdit;
 import org.eclipse.ui.IMarkerResolution;
 import org.eclipse.ui.ide.IDE;
 import org.jboss.tools.cdi.core.test.tck.TCKTest;
@@ -43,9 +46,11 @@ import org.jboss.tools.cdi.ui.marker.MakeMethodPublicMarkerResolution;
 import org.jboss.tools.cdi.ui.marker.TestableResolutionWithDialog;
 import org.jboss.tools.cdi.ui.marker.TestableResolutionWithRefactoringProcessor;
 import org.jboss.tools.common.base.test.validation.TestUtil;
+import org.jboss.tools.common.refactoring.JBDSFileChange;
 import org.jboss.tools.common.ui.marker.AddSuppressWarningsMarkerResolution;
 import org.jboss.tools.common.ui.marker.ConfigureProblemSeverityMarkerResolution;
 import org.jboss.tools.common.util.FileUtil;
+import org.jboss.tools.tests.AbstractRefactorTest.TestChangeStructure;
 
 /**
  * @author Daniel Azarov
@@ -125,7 +130,13 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 									assertNull("Rename processor returns fatal error", status.getEntryMatchingSeverity(RefactoringStatus.FATAL));
 
 									CompositeChange rootChange = (CompositeChange)processor.createChange(new NullProgressMonitor());
-
+									
+									for(Change fileChange : rootChange.getChildren()){
+										if(fileChange instanceof JBDSFileChange){
+											((JBDSFileChange)fileChange).setSaveMode(TextFileChange.FORCE_SAVE);
+										}
+									}
+									
 									rootChange.perform(new NullProgressMonitor());
 								} else if(resolution instanceof TestableResolutionWithDialog){
 									((TestableResolutionWithDialog) resolution).runForTest(marker);

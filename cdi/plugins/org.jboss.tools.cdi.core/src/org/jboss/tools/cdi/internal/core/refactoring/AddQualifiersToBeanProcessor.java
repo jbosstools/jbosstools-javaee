@@ -27,6 +27,7 @@ import org.jboss.tools.cdi.core.CDICoreMessages;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.common.EclipseUtil;
+import org.jboss.tools.common.refactoring.JBDSFileChange;
 
 public class AddQualifiersToBeanProcessor extends CDIRefactoringProcessor {
 	protected IBean selectedBean;
@@ -86,7 +87,7 @@ public class AddQualifiersToBeanProcessor extends CDIRefactoringProcessor {
 		
 		ICompilationUnit compilationUnit = original.getWorkingCopy(pm);
 		
-		CDIFileChange fileChange = new CDIFileChange(file);
+		JBDSFileChange fileChange = new JBDSFileChange(file);
 		
 		MultiTextEdit edit = new MultiTextEdit();
 
@@ -102,7 +103,7 @@ public class AddQualifiersToBeanProcessor extends CDIRefactoringProcessor {
 				fileChange.setEdit(edit);
 				rootChange.add(fileChange);
 			}
-			fileChange = new CDIFileChange(file2);
+			fileChange = new JBDSFileChange(file2);
 			
 			edit = new MultiTextEdit();
 		}else{

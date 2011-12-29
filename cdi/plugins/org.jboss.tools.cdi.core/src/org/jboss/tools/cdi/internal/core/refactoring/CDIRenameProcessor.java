@@ -29,13 +29,14 @@ import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.common.el.core.model.ELInvocationExpression;
 import org.jboss.tools.common.el.core.model.ELPropertyInvocation;
 import org.jboss.tools.common.model.project.ProjectHome;
+import org.jboss.tools.common.refactoring.JBDSFileChange;
 import org.jboss.tools.jst.web.kb.refactoring.RefactorSearcher;
 
 /**
  * @author Daniel Azarov
  */
 public abstract class CDIRenameProcessor extends AbstractCDIProcessor {
-	protected CDIFileChange lastChange;
+	protected JBDSFileChange lastChange;
 	protected IFile declarationFile=null;
 	
 	private String newName;
@@ -84,18 +85,18 @@ public abstract class CDIRenameProcessor extends AbstractCDIProcessor {
 	}
 	
 	// lets collect all changes for the same files in one MultiTextEdit
-	protected CDIFileChange getChange(IFile file){
+	protected JBDSFileChange getChange(IFile file){
 		if(lastChange != null && lastChange.getFile().equals(file))
 			return lastChange;
 		
 		for(int i=0; i < rootChange.getChildren().length; i++){
-			CDIFileChange change = (CDIFileChange)rootChange.getChildren()[i];
+			JBDSFileChange change = (JBDSFileChange)rootChange.getChildren()[i];
 			if(change.getFile().equals(file)){
 				lastChange = change;
 				return lastChange;
 			}
 		}
-		lastChange = new CDIFileChange(file);
+		lastChange = new JBDSFileChange(file);
 		
 		MultiTextEdit root = new MultiTextEdit();
 		lastChange.setEdit(root);
@@ -115,7 +116,7 @@ public abstract class CDIRenameProcessor extends AbstractCDIProcessor {
 	protected void change(IFile file, int offset, int length, String text){
 		String key = file.getFullPath().toString()+" "+offset;
 		if(!keys.contains(key)){
-			CDIFileChange change = getChange(file);
+			JBDSFileChange change = getChange(file);
 			TextEdit edit = new ReplaceEdit(offset, length, text);
 			change.addEdit(edit);
 			keys.add(key);
