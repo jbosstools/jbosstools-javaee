@@ -13,6 +13,7 @@ package org.jboss.tools.struts.ui.preferences;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.preferences.IWorkbenchPreferenceContainer;
 import org.jboss.tools.common.ui.preferences.SeverityPreferencePage;
+import org.jboss.tools.common.ui.preferences.SeverityConfigurationBlock.SectionDescription;
 import org.jboss.tools.struts.StrutsModelPlugin;
 import org.jboss.tools.struts.validation.StrutsCoreValidator;
 
@@ -51,5 +52,10 @@ public class StrutsConfigValidatorPreferencePage extends SeverityPreferencePage 
 		fConfigurationBlock = new StrutsConfigConfigurationBlock(getNewStatusChangedListener(), getProject(), container);
 
 		super.createControl(parent);
+	}
+	
+	@Override
+	protected SectionDescription[] getAllSections() {
+		return StrutsConfigConfigurationBlock.ALL_SECTIONS;
 	}
 }

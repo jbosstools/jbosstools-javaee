@@ -14,6 +14,7 @@ package org.jboss.tools.seam.ui.preferences;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.preferences.IWorkbenchPreferenceContainer;
 import org.jboss.tools.common.ui.preferences.SeverityPreferencePage;
+import org.jboss.tools.common.ui.preferences.SeverityConfigurationBlock.SectionDescription;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.internal.core.validation.SeamValidationErrorManager;
 
@@ -45,5 +46,10 @@ public class SeamValidatorPreferencePage extends SeverityPreferencePage {
 		fConfigurationBlock = new SeamValidatorConfigurationBlock(getNewStatusChangedListener(), getProject(), container);
 
 		super.createControl(parent);
+	}
+	
+	@Override
+	protected SectionDescription[] getAllSections() {
+		return SeamValidatorConfigurationBlock.ALL_SECTIONS;
 	}
 }

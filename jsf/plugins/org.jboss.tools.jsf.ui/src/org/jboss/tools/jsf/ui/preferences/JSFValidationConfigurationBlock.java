@@ -152,7 +152,7 @@ public class JSFValidationConfigurationBlock extends SeverityConfigurationBlock 
 		JSFModelPlugin.PLUGIN_ID
 	);
 
-	private static SectionDescription[] ALL_SECTIONS = new SectionDescription[] {
+	public static SectionDescription[] ALL_SECTIONS = new SectionDescription[] {
 		SECTION_COMPOSITE_COMPONENTS,
 		SECTION_FACES_CONFIG
 	};

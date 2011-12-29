@@ -18,9 +18,7 @@ import org.eclipse.jface.dialogs.IDialogSettings;
 import org.eclipse.ui.preferences.IWorkbenchPreferenceContainer;
 import org.jboss.tools.common.preferences.SeverityPreferences;
 import org.jboss.tools.common.ui.preferences.SeverityConfigurationBlock;
-import org.jboss.tools.common.ui.preferences.SeverityConfigurationBlock.SectionDescription;
 import org.jboss.tools.jst.web.ui.WebUiPlugin;
-import org.jboss.tools.jst.web.validation.WebXMLPreferences;
 import org.jboss.tools.struts.StrutsModelPlugin;
 import org.jboss.tools.struts.validation.StrutsPreferences;
 
@@ -56,7 +54,7 @@ public class StrutsConfigConfigurationBlock extends SeverityConfigurationBlock {
 		StrutsModelPlugin.PLUGIN_ID
 	);
 		
-	private static SectionDescription[] ALL_SECTIONS = new SectionDescription[]{
+	public static SectionDescription[] ALL_SECTIONS = new SectionDescription[]{
 		SECTION_STRUTS_CONFIG,
 		SECTION_WEB_XML,
 	};

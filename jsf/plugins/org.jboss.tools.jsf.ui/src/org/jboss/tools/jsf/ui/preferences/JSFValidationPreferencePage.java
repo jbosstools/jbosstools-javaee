@@ -13,6 +13,7 @@ package org.jboss.tools.jsf.ui.preferences;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.preferences.IWorkbenchPreferenceContainer;
 import org.jboss.tools.common.ui.preferences.SeverityPreferencePage;
+import org.jboss.tools.common.ui.preferences.SeverityConfigurationBlock.SectionDescription;
 import org.jboss.tools.jsf.JSFModelPlugin;
 import org.jboss.tools.jsf.web.validation.composite.CompositeComponentValidator;
 
@@ -55,5 +56,10 @@ public class JSFValidationPreferencePage extends SeverityPreferencePage {
 		fConfigurationBlock = new JSFValidationConfigurationBlock(getNewStatusChangedListener(), getProject(), container);
 
 		super.createControl(parent);
+	}
+	
+	@Override
+	protected SectionDescription[] getAllSections() {
+		return JSFValidationConfigurationBlock.ALL_SECTIONS;
 	}
 }

@@ -126,7 +126,7 @@ public class SeamValidatorConfigurationBlock extends SeverityConfigurationBlock 
 		SeamCorePlugin.PLUGIN_ID
 	);
 
-	private static SectionDescription[] ALL_SECTIONS = new SectionDescription[]{
+	public static SectionDescription[] ALL_SECTIONS = new SectionDescription[]{
 		SECTION_COMPONENT,
 		SECTION_ENTITY,
 		SECTION_LIFECYCLE, 

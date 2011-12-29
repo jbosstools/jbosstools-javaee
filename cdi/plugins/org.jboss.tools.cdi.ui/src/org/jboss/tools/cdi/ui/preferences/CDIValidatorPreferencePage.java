@@ -15,6 +15,7 @@ import org.eclipse.ui.preferences.IWorkbenchPreferenceContainer;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.internal.core.validation.CDICoreValidator;
 import org.jboss.tools.common.ui.preferences.SeverityPreferencePage;
+import org.jboss.tools.common.ui.preferences.SeverityConfigurationBlock.SectionDescription;
 
 /**
  * @author Alexey Kazakov
@@ -51,5 +52,10 @@ public class CDIValidatorPreferencePage extends SeverityPreferencePage {
 		fConfigurationBlock = new CDIConfigurationBlock(getNewStatusChangedListener(), getProject(), container);
 
 		super.createControl(parent);
+	}
+	
+	@Override
+	protected SectionDescription[] getAllSections() {
+		return CDIConfigurationBlockDescriptionProvider.getInstance().getSections();
 	}
 }
