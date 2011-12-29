@@ -18,7 +18,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 
-public class DeletePreviewWizard extends RefactoringWizard {
+public class DeletePreviewWizard extends CDIRefactoringWizard {
 
 	public DeletePreviewWizard(Refactoring refactoring) {
 		super(refactoring, RefactoringWizard.WIZARD_BASED_USER_INTERFACE);

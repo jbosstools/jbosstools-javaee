@@ -30,7 +30,7 @@ public class CDIFileChange extends MultiStateTextFileChange{
 	public CDIFileChange(IFile file) {
 		super(file.getName(), file);
 		this.file = file;
-		setSaveMode(TextFileChange.FORCE_SAVE);
+		setSaveMode(TextFileChange.LEAVE_DIRTY);
 	}
 	
 	public IFile getFile(){
