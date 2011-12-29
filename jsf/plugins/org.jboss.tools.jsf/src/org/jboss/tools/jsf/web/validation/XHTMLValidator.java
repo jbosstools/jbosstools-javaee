@@ -348,8 +348,8 @@ public class XHTMLValidator extends Validator {
 			InputStream stream = null;
 			try {
 				URL location = new URL(getSystemId());
-				String protocal = location.getProtocol();
-				if(!"http".equalsIgnoreCase(protocal) && !"https".equalsIgnoreCase(protocal)) {
+				String protocol = location.getProtocol();
+				if(!"http".equalsIgnoreCase(protocol) && !"https".equalsIgnoreCase(protocol)) {
 	                URLConnection connect = location.openConnection();
 	                if (!(connect instanceof HttpURLConnection)) {
 	                    stream = connect.getInputStream();
