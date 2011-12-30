@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: JSF Base Test Plugin
+Bundle-SymbolicName: org.jboss.tools.jsf.base.test
+Bundle-Version: 3.3.0.qualifier
+Bundle-Vendor: JBoss by RedHat
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Eclipse-BundleShape: dir
+Bundle-ClassPath: .
