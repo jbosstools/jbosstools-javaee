@@ -131,11 +131,11 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 
 									CompositeChange rootChange = (CompositeChange)processor.createChange(new NullProgressMonitor());
 									
-									for(Change fileChange : rootChange.getChildren()){
-										if(fileChange instanceof JBDSFileChange){
-											((JBDSFileChange)fileChange).setSaveMode(TextFileChange.FORCE_SAVE);
-										}
-									}
+//									for(Change fileChange : rootChange.getChildren()){
+//										if(fileChange instanceof JBDSFileChange){
+//											((JBDSFileChange)fileChange).setSaveMode(TextFileChange.FORCE_SAVE);
+//										}
+//									}
 									
 									rootChange.perform(new NullProgressMonitor());
 								} else if(resolution instanceof TestableResolutionWithDialog){
