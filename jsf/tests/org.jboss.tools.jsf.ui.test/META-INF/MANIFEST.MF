@@ -1,8 +1,9 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name.0
-Bundle-SymbolicName: org.jboss.tools.jsf.ui.test
+Bundle-SymbolicName: org.jboss.tools.jsf.ui.test;singleton:=true
 Bundle-Version: 3.3.0.qualifier
+Eclipse-BundleShape: dir
 Bundle-Vendor: %Bundle-Vendor.0
 Require-Bundle: org.junit,
  org.jboss.tools.tests,
@@ -28,7 +29,6 @@ Require-Bundle: org.junit,
  org.jboss.tools.jst.web,
  org.jboss.tools.jst.web.kb,
  org.jboss.tools.jsf,
- org.jboss.tools.jsf.test,
  org.eclipse.jst.standard.schemas,
  org.jboss.tools.vpe.ui.palette,
  org.eclipse.gef,
@@ -40,6 +40,7 @@ Require-Bundle: org.junit,
  org.jboss.tools.common.el.ui,
  org.eclipse.jdt.ui,
  org.jboss.tools.common.ui,
- org.jboss.tools.common.gef
+ org.jboss.tools.common.gef,
+ org.jboss.tools.jsf.base.test;bundle-version="3.3.0"
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

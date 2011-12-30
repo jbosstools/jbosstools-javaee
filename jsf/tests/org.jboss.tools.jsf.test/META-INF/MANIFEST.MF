@@ -2,6 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name.0
 Bundle-SymbolicName: org.jboss.tools.jsf.test;singleton:=true
+Eclipse-BundleShape: dir
 Bundle-Version: 3.3.0.qualifier
 Bundle-ClassPath: lib/xmlunit1.0.jar,
  .
@@ -45,7 +46,8 @@ Require-Bundle:
  org.eclipse.jst.jsf.common,
  org.jboss.tools.jst.web.kb.test,
  org.jboss.tools.common.validation,
- org.jboss.tools.common.base.test
+ org.jboss.tools.common.base.test,
+ org.jboss.tools.jsf.base.test;bundle-version="3.3.0"
 Bundle-Activator: org.jboss.tools.jsf.plugin.JsfTestPlugin
 Bundle-ActivationPolicy: lazy
 Bundle-Localization: plugin

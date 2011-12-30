@@ -21,7 +21,7 @@ public class CAForJSF2BeansInJavaTest extends JavaContentAssistantTestCase{
 
 	@Override
 	public void setUp() throws Exception {
-		provider = new TestProjectProvider("org.jboss.tools.jsf.test", null, PROJECT_NAME, makeCopy); 
+		provider = new TestProjectProvider("org.jboss.tools.jsf.base.test", null, PROJECT_NAME, makeCopy); 
 		project = provider.getProject();
 	}
 

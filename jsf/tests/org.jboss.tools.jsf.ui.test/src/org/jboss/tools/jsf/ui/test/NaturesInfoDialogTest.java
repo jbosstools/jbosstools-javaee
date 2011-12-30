@@ -21,6 +21,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.part.FileEditorInput;
+import org.jboss.tools.jsf.ui.JsfUiPlugin;
 import org.jboss.tools.jst.jsp.JspEditorPlugin;
 import org.jboss.tools.jst.jsp.jspeditor.JSPMultiPageEditorPart;
 import org.jboss.tools.jst.jsp.preferences.IVpePreferencesPage;
@@ -41,6 +42,7 @@ public abstract class NaturesInfoDialogTest extends TestCase{
 	
 	protected NaturesInfoDialogTest(String name) {
 		super(name);
+		JsfUiPlugin.getDefault();
 	}
 
 	protected final class ResultObject {
@@ -117,8 +119,6 @@ public abstract class NaturesInfoDialogTest extends TestCase{
 		isCheckNeed = false;
 		
 		assertNotNull("Editor is not opened", part); //$NON-NLS-1$
-
-		TestUtil.delay(3000);
 		
 	}
 	

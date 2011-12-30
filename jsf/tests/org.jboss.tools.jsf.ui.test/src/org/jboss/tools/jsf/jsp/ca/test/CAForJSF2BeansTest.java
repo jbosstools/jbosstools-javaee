@@ -10,7 +10,7 @@ public class CAForJSF2BeansTest extends ContentAssistantTestCase{
 	private static final String PAGE_NAME = "/src/test/beans/inputname.xhtml";
 	
 	public void setUp() throws Exception {
-		provider = new TestProjectProvider("org.jboss.tools.jsf.test", null, PROJECT_NAME, makeCopy); 
+		provider = new TestProjectProvider("org.jboss.tools.jsf.base.test", null, PROJECT_NAME, makeCopy); 
 		project = provider.getProject();
 	}
 

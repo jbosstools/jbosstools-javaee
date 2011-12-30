@@ -47,6 +47,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 				<module>org.jboss.tools.jsf.vpe.myfaces.test</module>
 				<module>org.jboss.tools.jsf.vpe.richfaces.test</module>
 				<module>org.jboss.tools.jsf.vpe.seam.test</module>
+				<module>org.jboss.tools.jsf.base.test</module>
 			</modules>
 		</profile>
 

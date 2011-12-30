@@ -134,17 +134,17 @@ public class JsfUiAllTests {
 				new String[] { "JsfJbide1704Test" })); //$NON-NLS-1$
 
 		suite.addTest(new ProjectImportTestSetup(new TestSuite(
-				CAJsfMessagesProposalsFilteringTest.class), "org.jboss.tools.jsf.test", //$NON-NLS-1$
+				CAJsfMessagesProposalsFilteringTest.class), "org.jboss.tools.jsf.base.test", //$NON-NLS-1$
 				new String[] { "projects/JSF2KickStartWithoutLibs", }, //$NON-NLS-1$
 				new String[] { "JSF2KickStartWithoutLibs" })); //$NON-NLS-1$
 
 		suite.addTest(new ProjectImportTestSetup(new TestSuite(
-				ELTooltipTest.class), "org.jboss.tools.jsf.test", //$NON-NLS-1$
+				ELTooltipTest.class), "org.jboss.tools.jsf.base.test", //$NON-NLS-1$
 				new String[] { "projects/JSF2KickStartWithoutLibs", }, //$NON-NLS-1$
 				new String[] { "JSF2KickStartWithoutLibs" })); //$NON-NLS-1$
 
 		suite.addTest(new ProjectImportTestSetup(new TestSuite(
-				CAForELJavaAndJSTCompareTest.class), "org.jboss.tools.jsf.test", //$NON-NLS-1$
+				CAForELJavaAndJSTCompareTest.class), "org.jboss.tools.jsf.base.test", //$NON-NLS-1$
 				new String[] { "projects/JSF2KickStartWithoutLibs", }, //$NON-NLS-1$
 				new String[] { "JSF2KickStartWithoutLibs" })); //$NON-NLS-1$
 
@@ -154,16 +154,15 @@ public class JsfUiAllTests {
 				new String[] { "Jbide3845Test" })); //$NON-NLS-1$
 
 		suite.addTest(new ProjectImportTestSetup(new TestSuite(
-				CAJsfAddInfoInELMessagesTest.class), "org.jboss.tools.jsf.test", //$NON-NLS-1$
+				CAJsfAddInfoInELMessagesTest.class), "org.jboss.tools.jsf.base.test", //$NON-NLS-1$
 				new String[] { "projects/JSF2KickStartWithoutLibs", }, //$NON-NLS-1$
 				new String[] { "JSF2KickStartWithoutLibs" })); //$NON-NLS-1$
 
 		suite.addTest(new ProjectImportTestSetup(new TestSuite(
-				CAJsfResourceBundlePropertyApplyTest.class), "org.jboss.tools.jsf.test", //$NON-NLS-1$
+				CAJsfResourceBundlePropertyApplyTest.class), "org.jboss.tools.jsf.base.test", //$NON-NLS-1$
 				new String[] { "projects/JSF2KickStartWithoutLibs", }, //$NON-NLS-1$
 				new String[] { "JSF2KickStartWithoutLibs" })); //$NON-NLS-1$
 
-//		return new TestWizardsProject(suite);
 		return suite;
 	}
 }

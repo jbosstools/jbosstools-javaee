@@ -43,7 +43,7 @@ public class JsfAllTests {
 		TestSuite jsf2 = new TestSuite(JSF2ModelTest.class.getName());
 		jsf2.addTestSuite(JSF2ModelTest.class);
 		ProjectImportTestSetup testSetup = new ProjectImportTestSetup(jsf2,
-				"org.jboss.tools.jsf.test",
+				"org.jboss.tools.jsf.base.test",
 				new String[]{"projects/JSF2Beans", "projects/JSF2Web"},
 				new String[]{"JSF2Beans", "JSF2Web"});
 		suite.addTest(testSetup);
