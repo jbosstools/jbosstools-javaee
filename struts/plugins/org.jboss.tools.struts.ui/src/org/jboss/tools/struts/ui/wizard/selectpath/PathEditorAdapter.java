@@ -13,21 +13,16 @@ package org.jboss.tools.struts.ui.wizard.selectpath;
 import java.util.*;
 import org.jboss.tools.common.meta.*;
 import org.jboss.tools.common.meta.action.*;
-import org.jboss.tools.common.meta.constraint.impl.XAttributeConstraintProperties;
 import org.jboss.tools.common.model.*;
 import org.jboss.tools.common.model.filesystems.XFileObject;
 import org.jboss.tools.struts.model.helpers.*;
 import org.jboss.tools.struts.model.helpers.path.*;
 import org.jboss.tools.common.model.ui.actions.IActionProvider;
-import org.jboss.tools.struts.ui.StrutsUIPlugin;
 import org.jboss.tools.struts.webprj.model.helpers.WebModulesHelper;
 import org.jboss.tools.struts.webprj.pattern.UrlPattern;
 
 import org.jboss.tools.common.model.ui.*;
 import org.jboss.tools.common.model.ui.attribute.adapter.*;
-import org.eclipse.jface.action.Action;
-import org.eclipse.jface.action.IAction;
-import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.swt.widgets.Control;
 
 public class PathEditorAdapter extends DefaultValueAdapter implements IActionHelper {
@@ -37,13 +32,11 @@ public class PathEditorAdapter extends DefaultValueAdapter implements IActionHel
 	protected String attrname = "";
 	Set<String> tiles = new TreeSet<String>();
 	ActionsTree actions = null;
-	Properties p = null;
 
 	public void dispose() {
 		super.dispose();
 		if (tiles!=null) tiles.clear();
 		tiles = null;
-		p = null;
 		if (actions!=null) actions.dispose();
 		actions = null;
 	}
@@ -59,23 +52,19 @@ public class PathEditorAdapter extends DefaultValueAdapter implements IActionHel
 
 	public Object getAdapter(Class adapter) {
 		if (adapter == IActionHelper.class) return this;
-		if (adapter == IActionProvider.class) return actionProvider;
 		return super.getAdapter(adapter);
 	}
 	
 	public void setConstraints(XAttribute a, XModelObject o) {
 		XAttribute attr = a;
 		attrname = attr.getName();
-		if(a.getConstraint() instanceof XAttributeConstraintProperties) {
-			p = ((XAttributeConstraintProperties)a.getConstraint()).getProperties();
-		}
 		object = o;
 		if(object != null && isTileDefinition(object)) {
 			contextProcess = object;
 		} else {
 			updateContextProcess();
 		}
-		createActionProvider();
+		getActionProvider();
 	}
 
 	private boolean isTileDefinition(XModelObject o) {
@@ -158,60 +147,4 @@ public class PathEditorAdapter extends DefaultValueAdapter implements IActionHel
 	
 	//link action support
 	
-	private IActionProvider actionProvider;
-	private XActionWrapper labelAction;
-
-	private void createActionProvider() {
-		actionProvider = new ActionProvider();
-		String actionPath = (p == null) ? null : p.getProperty("linkAction");
-		XAction xaction = (actionPath == null) ? null : XActionInvoker.getAction(actionPath, modelObject);
-		labelAction = (xaction != null) ? new XActionWrapper(xaction) : null;
-		if(labelAction != null) labelAction.setXModelObject(object);
-	}
-	
-	class XActionWrapper extends Action {
-		private XAction xaction = null;
-//		private XModelObject xmo = null;
-		
-		public XActionWrapper(XAction xaction) {
-			this.xaction = xaction;		
-		}
-		
-		public void setXModelObject(XModelObject xmo) {
-//			this.xmo = xmo;
-			if (xmo!=null && xaction!=null) {
-				this.setEnabled(xaction.isEnabled(xmo));
-				this.setEnabled(Boolean.TRUE.booleanValue());
-			} else {
-				this.setEnabled(Boolean.FALSE.booleanValue());
-			}
-		}
-		
-		public void run() {
-			if (xaction!=null) {
-				try {
-					XActionInvoker.invoke(xaction.getPath(), modelObject, new Properties());
-				} catch (Exception e) {
-					StrutsUIPlugin.getPluginLog().logError(e);
-				}
-			}
-		}
-	}
-	
-	class ActionProvider implements IActionProvider {
-		private static final String STRING_BUTTON_ACTION = "Label.Selected";
-
-		public IAction getAction(String actionName) {
-			if (STRING_BUTTON_ACTION.equals(actionName)) {
-				return labelAction;
-			}
-			return null;
-		}
-
-		public IAction[] getActions() {
-			return new IAction[] {labelAction};
-		}
-		public void update(ISelection selection) {}
-	}
-
 }
