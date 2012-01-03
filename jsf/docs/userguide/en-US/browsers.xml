@@ -21,8 +21,13 @@
 	  </mediaobject>
   </figure>
 	  <para>
-		  A new tab will launch in your workbench, displaying the contents of the page you selected. This web browser is only for testing, contents may appear diferently depending on the browser used to view your page or site outside of the workbench environment. 
+		  A new tab will launch in your workbench, displaying the contents of the page you selected.
 	  </para>
+	  <note>
+		  <para>
+			  This web browser is only for testing, contents may appear diferently depending on the browser used to view your page or site outside of the workbench environment. 
+		  </para>
+	  </note>
   </section>
   <section>
 	  <title>Mobile web browser</title>
@@ -43,5 +48,10 @@
 	  <para>
 		  A new window will launch, displaying the contents of the page you selected as it will appear on mobile devices. 
 	  </para>
+	  <note>
+		  <para>
+			  This web browser is only for testing, contents may appear diferently depending on the browser used to view your page or site outside of the workbench environment. 
+		  </para>
+	  </note>
   </section>
 </chapter>
