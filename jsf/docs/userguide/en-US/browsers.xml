@@ -7,13 +7,27 @@
   <section>
 	  <title>Generic web browser</title>
 	  <para>
-		  
+		  A generic web browser is available for testing within your workbench environment. To access the browser, right-click on your <filename>HTML</filename>, <filename>XHTML</filename> or other web page extention file and navigate through the context menu to <menuchoice>
+			  <guimenuitem>Open With</guimenuitem>
+			  <guimenuitem>Web Browser</guimenuitem>
+		  </menuchoice>. 
+	  </para>
+  <figure>
+	  <title>Mobile web browser simulator</title> 
+	  <mediaobject>
+		  <imageobject>
+			  <imagedata fileref="images/browsers/mobile_browser_02.png"/>
+		  </imageobject>
+	  </mediaobject>
+  </figure>
+	  <para>
+		  A new tab will launch in your workbench, displaying the contents of the page you selected. This web browser is only for testing, contents may appear diferently depending on the browser used to view your page or site outside of the workbench environment. 
 	  </para>
   </section>
   <section>
 	  <title>Mobile web browser</title>
 	  <para>
-		  The moblie web browser, called <guilabel>BrowserSim</guilabel>, simulates a mobile web browser so you can see how your web page or site will be viewable on mobile devices. 
+		  <guilabel>BrowserSim</guilabel> simulates a mobile web browser so you can see how your web page or site will be viewable on mobile devices. 
 	  </para>
 	  <para>
 		  To test your page or site using <guilabel>BrowserSim</guilabel>, right-click on your <filename>HTML</filename>, <filename>XHTML</filename> or other web page extention file and navigate through the context menu to <menuchoice><guimenuitem>Open With</guimenuitem><guimenuitem>BrowserSim</guimenuitem></menuchoice>.
