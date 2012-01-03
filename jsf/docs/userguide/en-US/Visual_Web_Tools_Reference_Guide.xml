@@ -7,6 +7,8 @@
 <xi:include href="Visual_Web_Tools.xml" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
 <!--<xi:include href="spring_tools.xml" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include> -->
 <xi:include href="editors.xml" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
+<xi:include href="browsers.xml" xmlns:xi="http://www.w3.org/2001/XInclude">
+</xi:include>
 <xi:include href="palette.xml" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
 <xi:include href="css_perspective.xml" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
 <xi:include href="richfaces_support.xml" xmlns:xi="http://www.w3.org/2001/XInclude"></xi:include>
