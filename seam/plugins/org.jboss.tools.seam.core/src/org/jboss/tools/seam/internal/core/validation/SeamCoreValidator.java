@@ -298,7 +298,7 @@ public class SeamCoreValidator extends SeamValidationErrorManager implements IVa
 		// We have to remove markers from all collected source files first
 		for (IPath linkedResource : resources) {
 			IFile file = root.getFile(linkedResource);
-			if(file!=null && file.isAccessible()) {
+			if(file!=null && shouldBeValidated(file)) {
 				filesToValidate.add(file);
 				removeAllMessagesFromResource(file);
 			}

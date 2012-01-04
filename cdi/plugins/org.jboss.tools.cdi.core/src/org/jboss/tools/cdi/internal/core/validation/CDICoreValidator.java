@@ -34,7 +34,6 @@ import org.eclipse.jdt.core.Flags;
 import org.eclipse.jdt.core.IAnnotation;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IField;
-import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.ISourceRange;
@@ -94,7 +93,6 @@ import org.jboss.tools.common.java.IJavaReference;
 import org.jboss.tools.common.java.IParametedType;
 import org.jboss.tools.common.java.ITypeDeclaration;
 import org.jboss.tools.common.java.ParametedType;
-import org.jboss.tools.common.java.TypeDeclaration;
 import org.jboss.tools.common.model.util.EclipseJavaUtil;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.text.INodeReference;
@@ -360,7 +358,7 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 		Set<IFile> filesToValidate = new HashSet<IFile>();
 		for (IPath linkedResource : resources) {
 			IFile file = root.getFile(linkedResource);
-			if(file.isAccessible()) {
+			if(shouldBeValidated(file)) {
 				IProject pr = file.getProject();
 				if(!validationHelper.getValidationContextManager().projectHasBeenValidated(this, pr)) {
 					filesToValidate.add(file);
@@ -2361,6 +2359,9 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 
 	boolean shouldValidateResourceOfElement(IResource resource) {
 		// validate existing sources only
+		if(resource instanceof IFile && !shouldBeValidated((IFile)resource)) {
+			return false;
+		}
 		return resource != null && resource.exists() && resource.getName().toLowerCase().endsWith(".java");
 	}
 
