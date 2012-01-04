@@ -12,16 +12,11 @@ package org.jboss.tools.cdi.ui.refactoring;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.Map;
 
-import org.eclipse.core.resources.IProject;
-import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.ltk.core.refactoring.Refactoring;
 import org.eclipse.ltk.core.refactoring.RefactoringStatus;
-import org.eclipse.ltk.ui.refactoring.RefactoringWizard;
 import org.eclipse.ltk.ui.refactoring.UserInputWizardPage;
-import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -29,7 +24,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.internal.core.refactoring.RenameNamedBeanProcessor;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
-import org.jboss.tools.common.ui.IValidator;
 import org.jboss.tools.common.ui.refactoring.JBDSRefactoringWizard;
 import org.jboss.tools.common.ui.widget.editor.CompositeEditor;
 import org.jboss.tools.common.ui.widget.editor.IFieldEditor;
