@@ -362,7 +362,6 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 				IProject pr = file.getProject();
 				if(!validationHelper.getValidationContextManager().projectHasBeenValidated(this, pr)) {
 					filesToValidate.add(file);
-//					removeAllMessagesFromResource(file);
 				}
 			}
 		}
@@ -2536,5 +2535,4 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 	protected String getPreferencePageId() {
 		return PREFERENCE_PAGE_ID;
 	}
-	
 }
