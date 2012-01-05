@@ -150,7 +150,7 @@ public abstract class ELRenameProcessor extends RenameProcessor {
 		
 		@Override
 		protected IContainer getViewFolder(IProject project) {
-			IPath path = ProjectHome.getFirstWebContentPath(baseFile.getProject());
+			IPath path = ProjectHome.getFirstWebContentPath(project);
 			
 			if(path != null)
 				return project.getFolder(path.removeFirstSegments(1));
