@@ -7,9 +7,9 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.jboss.tools.common.base.test.AbstractRefactorTest;
 import org.jboss.tools.jsf.el.refactoring.RenameELVariableProcessor;
 import org.jboss.tools.test.util.ProjectImportTestSetup;
-import org.jboss.tools.tests.AbstractRefactorTest;
 
 public class ELVariableRefactoringTest extends AbstractRefactorTest {
 	static String projectName = "JSFKickStartOldFormat";

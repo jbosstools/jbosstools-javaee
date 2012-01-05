@@ -10,9 +10,9 @@ import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.internal.core.refactoring.RenameNamedBeanProcessor;
-import org.jboss.tools.tests.AbstractRefactorTest;
-import org.jboss.tools.tests.AbstractRefactorTest.TestChangeStructure;
-import org.jboss.tools.tests.AbstractRefactorTest.TestTextChange;
+import org.jboss.tools.common.base.test.AbstractRefactorTest;
+import org.jboss.tools.common.base.test.AbstractRefactorTest.TestChangeStructure;
+import org.jboss.tools.common.base.test.AbstractRefactorTest.TestTextChange;
 
 public class NamedBeanRefactoringTest extends TCKTest {
 	private static final String FILE_NAME1 = "JavaSource/org/jboss/jsr299/tck/tests/jbt/refactoring/Gamme.java";

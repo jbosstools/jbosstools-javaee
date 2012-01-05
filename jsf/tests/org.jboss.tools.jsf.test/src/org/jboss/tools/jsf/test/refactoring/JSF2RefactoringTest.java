@@ -10,9 +10,9 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.ltk.internal.core.refactoring.resource.MoveResourcesProcessor;
 import org.eclipse.ltk.internal.core.refactoring.resource.RenameResourceProcessor;
+import org.jboss.tools.common.base.test.AbstractRefactorTest;
 import org.jboss.tools.jsf.jsf2.refactoring.JSF2RenameParticipant;
 import org.jboss.tools.jsf.jsf2.refactoring.JSf2MoveParticipant;
-import org.jboss.tools.tests.AbstractRefactorTest;
 
 public class JSF2RefactoringTest extends AbstractRefactorTest  {
 	static String PROJECT_NAME = "JSF2ComponentsValidator";
