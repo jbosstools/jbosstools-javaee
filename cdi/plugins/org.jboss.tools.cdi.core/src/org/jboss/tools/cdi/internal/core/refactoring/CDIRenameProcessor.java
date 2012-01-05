@@ -165,16 +165,6 @@ public abstract class CDIRenameProcessor extends AbstractCDIProcessor {
 		protected IProject[] getProjects() {
 			return new IProject[]{baseFile.getProject()};
 		}
-		
-		@Override
-		protected IContainer getViewFolder(IProject project) {
-			IPath path = ProjectHome.getFirstWebContentPath(project);
-			
-			if(path != null)
-				return project.getFolder(path.removeFirstSegments(1));
-			
-			return null;
-		}
 	}
 	
 	@Override

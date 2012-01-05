@@ -203,12 +203,7 @@ public class RenameMethodParticipant extends RenameParticipant implements IShara
 				return projectSet.getViewFolder(project);
 			}
 			
-			IPath path = ProjectHome.getFirstWebContentPath(project);
-			
-			if(path != null)
-				return project.getFolder(path.removeFirstSegments(1));
-			
-			return null;
+			return super.getViewFolder(project);
 		}
 	}
 
