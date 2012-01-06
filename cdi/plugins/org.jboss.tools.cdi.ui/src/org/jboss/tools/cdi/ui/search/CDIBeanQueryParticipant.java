@@ -66,7 +66,7 @@ public class CDIBeanQueryParticipant implements IQueryParticipant{
 			
 			searchInProject(requestor, querySpecification, cdiProject, monitor, element);
 			
-			CDICoreNature[] natures = cdiProject.getNature().getAllDependentProjects();
+			CDICoreNature[] natures = cdiProject.getNature().getAllDependentProjects(true);
 			for(CDICoreNature nature : natures){
 				ICDIProject p = nature.getDelegate();
 				if(p != null){
