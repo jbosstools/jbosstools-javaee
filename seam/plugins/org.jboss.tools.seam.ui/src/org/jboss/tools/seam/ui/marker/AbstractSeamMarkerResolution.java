@@ -56,6 +56,9 @@ public abstract class AbstractSeamMarkerResolution implements
 	protected void deleteAnnotation(){
 		try{
 			ICompilationUnit original = EclipseUtil.getCompilationUnit(file);
+			if(original == null) {
+				return;
+			}
 			ICompilationUnit compilationUnit = original.getWorkingCopy(new NullProgressMonitor());
 			
 			IJavaElement javaElement = compilationUnit.getElementAt(start);
@@ -120,6 +123,9 @@ public abstract class AbstractSeamMarkerResolution implements
 	protected void addAnnotation(String annotationString, boolean insertName){
 		try{
 			ICompilationUnit original = EclipseUtil.getCompilationUnit(file);
+			if(original == null) {
+				return;
+			}
 			ICompilationUnit compilationUnit = original.getWorkingCopy(new NullProgressMonitor());
 			
 			IJavaElement javaElement = compilationUnit.getElementAt(start);
@@ -153,6 +159,9 @@ public abstract class AbstractSeamMarkerResolution implements
 	protected void addAnnotatedMethod(){
 		try{
 			ICompilationUnit original = EclipseUtil.getCompilationUnit(file);
+			if(original == null) {
+				return;
+			}
 			ICompilationUnit compilationUnit = original.getWorkingCopy(new NullProgressMonitor());
 			
 			final String lineDelim= compilationUnit.findRecommendedLineSeparator();
@@ -192,6 +201,9 @@ public abstract class AbstractSeamMarkerResolution implements
 	protected void renameAnnotation(String param, String importName, boolean generate){
 		try{
 			ICompilationUnit original = EclipseUtil.getCompilationUnit(file);
+			if(original == null) {
+				return;
+			}
 			ICompilationUnit compilationUnit = original.getWorkingCopy(new NullProgressMonitor());
 			
 			IJavaElement javaElement = compilationUnit.getElementAt(start);

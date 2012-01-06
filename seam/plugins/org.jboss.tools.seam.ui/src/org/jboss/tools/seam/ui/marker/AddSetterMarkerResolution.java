@@ -57,6 +57,9 @@ public class AddSetterMarkerResolution implements IMarkerResolution2{
 		IFile file = (IFile)javaDeclaration.getResource();
 		try{
 			ICompilationUnit original = EclipseUtil.getCompilationUnit(file);
+			if(original == null) {
+				return;
+			}
 			ICompilationUnit compilationUnit = original.getWorkingCopy(new NullProgressMonitor());
 			
 			String lineDelim= JavaPropertyGenerator.getLineDelimiterUsed(compilationUnit);
