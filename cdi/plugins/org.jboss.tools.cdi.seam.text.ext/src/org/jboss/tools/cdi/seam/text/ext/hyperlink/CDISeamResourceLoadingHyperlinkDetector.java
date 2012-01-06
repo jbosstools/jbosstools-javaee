@@ -71,7 +71,7 @@ public class CDISeamResourceLoadingHyperlinkDetector extends AbstractHyperlinkDe
 			
 			ICompilationUnit cu = EclipseUtil.getCompilationUnit(file);
 			
-			IJavaElement element = cu.getElementAt(offset);
+			IJavaElement element = cu == null ? null : cu.getElementAt(offset);
 			if(element != null){
 				if(element instanceof IField){
 					IAnnotation annotation = CDIMarkerResolutionUtils.findAnnotation(element, RESOURCE_ANNOTATION);
