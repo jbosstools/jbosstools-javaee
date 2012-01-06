@@ -26,13 +26,12 @@ import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IExecutableExtension;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Preferences;
-import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jdt.core.IClasspathContainer;
 import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IJavaProject;
@@ -100,7 +99,7 @@ import org.jboss.tools.seam.ui.internal.project.facet.SeamInstallWizardPage;
  *
  */
 @SuppressWarnings("restriction")
-public class SeamProjectWizard extends WebProjectWizard {
+public class SeamProjectWizard extends WebProjectWizard implements IExecutableExtension {
 
 	private SeamWebProjectFirstPage firstPage;
 	private String seamConfigTemplate;
@@ -285,9 +284,13 @@ public class SeamProjectWizard extends WebProjectWizard {
 		return null;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.jst.servlet.ui.project.facet.WebProjectWizard#getFinalPerspectiveID()
+	 */
 	@Override
 	protected String getFinalPerspectiveID() {
-		return "org.jboss.tools.seam.ui.SeamPerspective"; //$NON-NLS-1$
+		return null;
 	}
 
 	protected IFacetedProjectTemplate getTemplate() {
