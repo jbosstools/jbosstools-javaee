@@ -882,7 +882,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 					CDICorePlugin.getCDI(p, true);
 				}
 			}
-			CDICoreNature[] ns = getNature().getAllDependentProjects();
+			CDICoreNature[] ns = getNature().getAllDependentProjects(true);
 			for (CDICoreNature n: ns) {
 				if(n.getDelegate() instanceof CDIProject) {
 					CDIProject p = (CDIProject)n.getDelegate();
@@ -956,7 +956,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 					CDICorePlugin.getCDI(p, true);
 				}
 			}
-			CDICoreNature[] ns = getNature().getAllDependentProjects();
+			CDICoreNature[] ns = getNature().getAllDependentProjects(true);
 			for (CDICoreNature n: ns) {
 				if(n.getDelegate() instanceof CDIProject) {
 					CDIProject p = (CDIProject)n.getDelegate();

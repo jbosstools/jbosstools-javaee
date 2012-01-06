@@ -470,8 +470,12 @@ public class CDICoreBuilder extends IncrementalProjectBuilder {
 										}
 									}
 								} else {
+									try {
 									IType[] ts = unit.getTypes();
 									fileSet.add(f.getFullPath(), ts);
+									} catch (Exception e) {
+										e.printStackTrace();
+									}
 								}
 							}
 						}

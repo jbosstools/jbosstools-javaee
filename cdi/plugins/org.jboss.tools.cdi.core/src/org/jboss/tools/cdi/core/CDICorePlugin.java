@@ -15,6 +15,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IResourceChangeEvent;
+import org.eclipse.core.resources.IResourceChangeListener;
+import org.eclipse.core.resources.IResourceDelta;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.jboss.tools.cdi.internal.core.event.CDIProjectChangeEvent;
@@ -39,6 +44,7 @@ public class CDICorePlugin extends BaseUIPlugin {
 	 * The constructor
 	 */
 	public CDICorePlugin() {
+		plugin = this;
 	}
 
 	/*
@@ -47,7 +53,7 @@ public class CDICorePlugin extends BaseUIPlugin {
 	 */
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
-		plugin = this;
+		ResourcesPlugin.getWorkspace().addResourceChangeListener(resourceChangeListener);
 	}
 
 	/*
@@ -55,10 +61,35 @@ public class CDICorePlugin extends BaseUIPlugin {
 	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext)
 	 */
 	public void stop(BundleContext context) throws Exception {
-		plugin = null;
+		ResourcesPlugin.getWorkspace().removeResourceChangeListener(resourceChangeListener);
 		super.stop(context);
 	}
 
+	IResourceChangeListener resourceChangeListener = new RCL();
+
+	class RCL implements IResourceChangeListener {
+
+		public void resourceChanged(IResourceChangeEvent event) {
+			if(event.getType() == IResourceChangeEvent.PRE_DELETE || event.getType() == IResourceChangeEvent.PRE_CLOSE) {
+				IResource r = event.getResource();
+				if(r instanceof IProject) {
+					IProject p = (IProject)r;
+					CDICoreNature n = (CDICoreNature)getCDINature(p);
+					if(n != null) {
+						n.dispose();
+					}
+				}
+			} else if(event.getType() == IResourceChangeEvent.POST_CHANGE) {
+				IResourceDelta[] cs = event.getDelta().getAffectedChildren(IResourceDelta.CHANGED);
+				for (IResourceDelta c: cs) {
+					if((c.getFlags() & IResourceDelta.OPEN) != 0 && c.getResource() instanceof IProject) {
+						IProject p = (IProject)c.getResource();
+						getCDI(p, true);
+					}
+				}
+			}
+		}
+	}
 	/**
 	 * Returns the shared instance
 	 *
@@ -93,7 +124,7 @@ public class CDICorePlugin extends BaseUIPlugin {
 		return null;
 	}
 
-	public static CDICoreNature getCDI(IProject project, boolean resolve) {
+	private static CDICoreNature getCDINature(IProject project) {
 		if(project == null || !project.exists() || !project.isOpen()) return null;
 		try {
 			if(!project.hasNature(CDICoreNature.NATURE_ID)) return null;
@@ -104,13 +135,20 @@ public class CDICorePlugin extends BaseUIPlugin {
 		CDICoreNature n = null;
 		try {
 			n = (CDICoreNature)project.getNature(CDICoreNature.NATURE_ID);
+		} catch (CoreException e) {
+			getDefault().logError(e);
+		}
+		return n;
+	}
+
+	public static CDICoreNature getCDI(IProject project, boolean resolve) {
+		CDICoreNature n = getCDINature(project);
+		if(n != null) {
 			if(resolve) {
 				n.resolve();
 			} else {
 				n.loadProjectDependencies();
 			}
-		} catch (CoreException e) {
-			getDefault().logError(e);
 		}
 		return n;
 	}

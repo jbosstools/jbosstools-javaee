@@ -109,7 +109,7 @@ public class CDIProjectTree implements IValidatingProjectTree {
 
 	private Set<CDICoreNature> getRootProjects(CDICoreNature project) {
 		Set<CDICoreNature> result = new HashSet<CDICoreNature>();
-		CDICoreNature[] dependentProjects = project.getAllDependentProjects();
+		CDICoreNature[] dependentProjects = project.getAllDependentProjects(true);
 		if(dependentProjects.length == 0) {
 			result.add(project);
 		} else {
