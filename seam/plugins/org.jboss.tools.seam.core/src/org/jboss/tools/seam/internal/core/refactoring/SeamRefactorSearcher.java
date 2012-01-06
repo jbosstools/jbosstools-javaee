@@ -117,9 +117,6 @@ public abstract class SeamRefactorSearcher extends RefactorSearcher {
 				.getResolvers(file);
 
 		for (ELResolver resolver : resolvers) {
-			if (!(resolver instanceof ELCompletionEngine))
-				continue;
-
 			SimpleELContext context = new SimpleELContext();
 
 			context.setResource(file);

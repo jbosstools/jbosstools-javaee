@@ -188,9 +188,6 @@ public class RenameMessagePropertyProcessor extends ELRenameProcessor {
 				int offset = reference.getStartPosition();
 				for(ELExpression operand : reference.getEl()){
 					for (ELResolver resolver : resolvers) {
-						if (!(resolver instanceof ELCompletionEngine))
-							continue;
-						
 						ELResolution resolution = resolver.resolve(context, operand, offset);
 						
 						if(resolution == null)
@@ -205,9 +202,6 @@ public class RenameMessagePropertyProcessor extends ELRenameProcessor {
 					for(ELObject child : operand.getChildren()){
 						if(child instanceof ELExpression){
 							for (ELResolver resolver : resolvers) {
-								if (!(resolver instanceof ELCompletionEngine))
-									continue;
-								
 								ELResolution resolution = resolver.resolve(context, (ELExpression)child, offset);
 								
 								if(resolution == null)
