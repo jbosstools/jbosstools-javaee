@@ -84,6 +84,9 @@ public class AddQualifiersToBeanProcessor extends CDIRefactoringProcessor {
 		
 		IFile file = (IFile)selectedBean.getBeanClass().getResource();
 		ICompilationUnit original = EclipseUtil.getCompilationUnit(file);
+		if(original == null) {
+			return rootChange;
+		}
 		
 		ICompilationUnit compilationUnit = original.getWorkingCopy(pm);
 		
