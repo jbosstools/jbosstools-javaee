@@ -43,6 +43,9 @@ public class CDISearchParticipantTest  extends TCKTest {
 		assertNotNull("File - "+fileName+" not found", file);
 		try{
 			ICompilationUnit compilationUnit = EclipseUtil.getCompilationUnit(file);
+
+			assertNotNull("CompilationUnit not found", compilationUnit);
+
 			IJavaElement element = null;
 			
 			IType type = compilationUnit.findPrimaryType();
