@@ -60,6 +60,9 @@ public class MakeFieldStaticMarkerResolution implements IMarkerResolution2 {
 	public void run(IMarker marker) {
 		try{
 			ICompilationUnit original = EclipseUtil.getCompilationUnit(file);
+			if(original == null) {
+				return;
+			}
 			ICompilationUnit compilationUnit = original.getWorkingCopy(new NullProgressMonitor());
 
 			CompilationUnitChange change = new CompilationUnitChange("", compilationUnit);

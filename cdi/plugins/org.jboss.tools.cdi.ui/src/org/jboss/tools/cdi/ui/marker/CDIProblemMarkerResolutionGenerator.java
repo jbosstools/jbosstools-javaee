@@ -790,7 +790,7 @@ public class CDIProblemMarkerResolutionGenerator implements
 		try{
 			ICompilationUnit compilationUnit = EclipseUtil.getCompilationUnit(file);
 			
-			return compilationUnit.getElementAt(start);
+			return compilationUnit == null ? null : compilationUnit.getElementAt(start);
 		}catch(CoreException ex){
 			CDIUIPlugin.getDefault().logError(ex);
 		}

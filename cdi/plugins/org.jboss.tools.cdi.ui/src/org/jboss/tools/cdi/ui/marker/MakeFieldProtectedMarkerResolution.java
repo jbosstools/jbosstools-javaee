@@ -75,6 +75,9 @@ public class MakeFieldProtectedMarkerResolution implements IMarkerResolution2, T
 		}
 		try{
 			ICompilationUnit original = EclipseUtil.getCompilationUnit(file);
+			if(original == null) {
+				return;
+			}
 			ICompilationUnit compilationUnit = original.getWorkingCopy(new NullProgressMonitor());
 
 			CompilationUnitChange change = new CompilationUnitChange("", compilationUnit);
