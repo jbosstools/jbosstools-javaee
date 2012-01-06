@@ -15,6 +15,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IExecutableExtension;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jst.servlet.ui.project.facet.WebProjectFirstPage;
@@ -35,7 +36,7 @@ import org.jboss.tools.cdi.ui.CDIUIMessages;
 /**
  * @author Alexey Kazakov
  */
-public class CDIProjectWizard extends WebProjectWizard {
+public class CDIProjectWizard extends WebProjectWizard implements IExecutableExtension {
 
 	private static final String CDI_TEMPALTE = "template.jboss.tools.cdi10";
 	private IPreset oldPreset;
@@ -111,6 +112,15 @@ public class CDIProjectWizard extends WebProjectWizard {
 	@Override
 	protected ImageDescriptor getDefaultPageImageDescriptor() {
 		return CDIImages.getImageDescriptor(CDIImages.WELD_WIZARD_IMAGE_PATH);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.jst.servlet.ui.project.facet.WebProjectWizard#getFinalPerspectiveID()
+	 */
+	@Override
+	protected String getFinalPerspectiveID() {
+		return null;
 	}
 
     class FirstPage extends WebProjectFirstPage {
