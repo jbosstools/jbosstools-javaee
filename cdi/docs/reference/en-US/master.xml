@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3CR3//EN"
+"http://www.oasis-open.org/docbook/xml/4.3CR3/docbookx.dtd"
+
+[
+<!ENTITY Revision_History SYSTEM "Revision_History.xml">
+]>
+
+<book>
+    
+     <bookinfo>
+         <title>CDI Tools Reference Guide</title>
+             <corpauthor>
+                 <inlinemediaobject>
+                     <imageobject role="fo">
+                         <imagedata format="PNG" fileref="images/jbosstools_logo.png" />
+                     </imageobject>	
+                     <imageobject role="html">
+                         <imagedata/>
+                     </imageobject>	
+                 </inlinemediaobject>           
+             </corpauthor>
+         
+         <author>
+		<firstname>Isaac</firstname>
+		<surname>Rooskov</surname>
+		<email>irooskov@redhat.com</email>
+	</author>        
+      
+	     <copyright>
+	          <year>2012</year>
+	          <holder>JBoss by Red Hat</holder>
+	     </copyright>
+         <releaseinfo>
+             Version: 3.3.0.M5
+         </releaseinfo>
+    </bookinfo>
+    
+    <toc/> 
+    &Revision_History;
+
+</book> 

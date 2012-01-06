@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE bookinfo PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+]>
+	<bookinfo id="book-CDI_Tools_Reference_Guide-CDI_Tools_Reference_Guide">
+		<title>CDI Tools Reference Guide</title> 
+  <subtitle>
+	  Placeholder text
+  </subtitle>
+   
+  <productname>JBoss Developer Studio</productname>
+   
+  <productnumber>5.0</productnumber>
+   
+  <edition>5.0.0</edition>
+   
+  <pubsnumber>1</pubsnumber>
+   
+  <abstract>
+    <para>
+      Placeholder text
+    </para>
+  </abstract>
+   
+  <corpauthor>
+    <inlinemediaobject>
+      <imageobject>
+        <imagedata fileref="Common_Content/images/title_logo.svg" format="SVG" />
+      </imageobject>
+    </inlinemediaobject>
+  </corpauthor>
+   
+  <xi:include href="Common_Content/Legal_Notice.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+   
+  <xi:include href="Author_Group.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+</bookinfo>
