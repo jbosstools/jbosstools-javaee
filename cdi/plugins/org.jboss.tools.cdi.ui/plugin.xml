@@ -222,6 +222,7 @@
             id="org.jboss.tools.cdi.ui.wizard.NewCDIProjectWizard"
             name="CDI Web Project"
             preferredPerspectives="org.jboss.tools.common.ui.JBossPerspective,org.eclipse.jst.j2ee.J2EEPerspective,org.jboss.tools.jst.web.ui.WebDevelopmentPerspective"
+            finalPerspective="org.jboss.tools.common.ui.JBossPerspective"
             project="true">
          <description>
             Create a CDI Web Project
