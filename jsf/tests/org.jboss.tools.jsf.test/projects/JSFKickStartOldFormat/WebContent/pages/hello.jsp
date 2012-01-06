@@ -11,6 +11,7 @@
 	<body>
 		<f:view>
 			<h3>
+				<h:outputText value="#{user.name + Message.hello_message}" />,
 				<h:outputText value="#{Message.hello_message}" />,
 				<h:outputText value="#{user.name}" />!
 			</h3>

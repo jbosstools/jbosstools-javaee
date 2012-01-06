@@ -29,6 +29,7 @@ import org.eclipse.text.edits.TextEdit;
 import org.jboss.tools.common.el.core.ELReference;
 import org.jboss.tools.common.el.core.ElCoreMessages;
 import org.jboss.tools.common.el.core.model.ELExpression;
+import org.jboss.tools.common.el.core.model.ELObject;
 import org.jboss.tools.common.el.core.resolver.ELCompletionEngine;
 import org.jboss.tools.common.el.core.resolver.ELContext;
 import org.jboss.tools.common.el.core.resolver.ELResolution;
@@ -199,6 +200,25 @@ public class RenameMessagePropertyProcessor extends ELRenameProcessor {
 						
 						for(ELSegment segment : segments){
 							match(file, offset+segment.getSourceReference().getStartPosition(), segment.getSourceReference().getLength());
+						}
+					}
+					for(ELObject child : operand.getChildren()){
+						if(child instanceof ELExpression){
+							for (ELResolver resolver : resolvers) {
+								if (!(resolver instanceof ELCompletionEngine))
+									continue;
+								
+								ELResolution resolution = resolver.resolve(context, (ELExpression)child, offset);
+								
+								if(resolution == null)
+									continue;
+			
+								List<ELSegment> segments = resolution.findSegmentsByMessageProperty(segment.getBaseName(), propertyName);
+								
+								for(ELSegment segment : segments){
+									match(file, offset+segment.getSourceReference().getStartPosition(), segment.getSourceReference().getLength());
+								}
+							}
 						}
 					}
 				}

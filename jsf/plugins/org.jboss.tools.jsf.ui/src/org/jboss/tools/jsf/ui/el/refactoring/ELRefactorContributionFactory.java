@@ -32,7 +32,7 @@ import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.services.IServiceLocator;
 import org.jboss.tools.common.el.core.ELReference;
 import org.jboss.tools.common.el.core.model.ELExpression;
-import org.jboss.tools.common.el.core.resolver.ELCompletionEngine;
+import org.jboss.tools.common.el.core.model.ELObject;
 import org.jboss.tools.common.el.core.resolver.ELContext;
 import org.jboss.tools.common.el.core.resolver.ELResolution;
 import org.jboss.tools.common.el.core.resolver.ELResolver;
@@ -163,26 +163,43 @@ public class ELRefactorContributionFactory extends AbstractContributionFactory {
 		ELResolver[] resolvers = context.getElResolvers();
 		
 		for(ELExpression operand : reference.getEl()){
-			for (ELResolver resolver : resolvers) {
-				ELResolution resolution = resolver.resolve(context, operand, selection.getOffset());
-				
-				if(resolution == null)
-					continue;
-				
-				List<ELSegment> segments = resolution.getSegments();
-				
-				for(ELSegment segment : segments){
-					if(!segment.isResolved())
-						break;
-					
-					if(selection.getOffset() <= reference.getStartPosition()+segment.getSourceReference().getStartPosition() &&
-						selection.getOffset()+selection.getLength() >= reference.getStartPosition()+segment.getSourceReference().getStartPosition()+segment.getSourceReference().getLength() &&
-						(segment instanceof MessagePropertyELSegment || segment instanceof JavaMemberELSegment)){
-							return segment;
+			ELSegment segment = getSegment(resolvers, context, selection, reference, operand);
+			if(segment != null){
+				return segment;
+			}
+			for(ELObject child : operand.getChildren()){
+				if(child instanceof ELExpression){
+					segment = getSegment(resolvers, context, selection, reference, (ELExpression)child);
+					if(segment != null){
+						return segment;
 					}
 				}
-
 			}
+		}
+		return null;
+	}
+	
+	private ELSegment getSegment(ELResolver[] resolvers, ELContext context, TextSelection selection, ELReference reference, ELExpression operand){
+		for (ELResolver resolver : resolvers) {
+			ELResolution resolution = resolver.resolve(context, operand, selection.getOffset());
+			
+			if(resolution == null)
+				continue;
+			
+			List<ELSegment> segments = resolution.getSegments();
+			
+			for(ELSegment segment : segments){
+				if(!segment.isResolved())
+					break;
+				
+				if(segment.getSourceReference().getStartPosition() >= 0 && segment.getSourceReference().getLength() >= 0 &&
+						selection.getOffset() <= reference.getStartPosition()+segment.getSourceReference().getStartPosition() &&
+					selection.getOffset()+selection.getLength() >= reference.getStartPosition()+segment.getSourceReference().getStartPosition()+segment.getSourceReference().getLength() &&
+					(segment instanceof MessagePropertyELSegment || segment instanceof JavaMemberELSegment)){
+						return segment;
+				}
+			}
+
 		}
 		return null;
 	}

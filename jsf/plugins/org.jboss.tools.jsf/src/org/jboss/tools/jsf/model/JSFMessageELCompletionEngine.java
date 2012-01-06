@@ -560,7 +560,7 @@ public class JSFMessageELCompletionEngine extends AbstractELCompletionEngine<IVa
 					if(property == null) continue;
 					segment.addObject(property);
 
-					PositionHolder h = PositionHolder.getPosition(p, null);
+					PositionHolder h = PositionHolder.getPosition(property, null);
 					h.update();
 					segment.setMessagePropertySourceReference(h.getStart(), name.length());
 
