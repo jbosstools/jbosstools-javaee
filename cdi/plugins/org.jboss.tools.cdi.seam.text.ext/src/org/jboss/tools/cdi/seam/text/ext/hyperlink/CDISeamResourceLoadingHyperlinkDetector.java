@@ -14,7 +14,6 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.IAnnotation;
-import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IField;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IMemberValuePair;
@@ -33,7 +32,6 @@ import org.eclipse.jface.text.hyperlink.IHyperlink;
 import org.eclipse.ui.texteditor.ITextEditor;
 import org.jboss.tools.cdi.internal.core.refactoring.CDIMarkerResolutionUtils;
 import org.jboss.tools.cdi.seam.text.ext.CDISeamExtPlugin;
-import org.jboss.tools.common.EclipseUtil;
 
 public class CDISeamResourceLoadingHyperlinkDetector extends AbstractHyperlinkDetector{
 	public static final String RESOURCE_ANNOTATION = "org.jboss.seam.solder.resourceLoader.Resource";
@@ -54,24 +52,15 @@ public class CDISeamResourceLoadingHyperlinkDetector extends AbstractHyperlinkDe
 
 		IDocument document= textEditor.getDocumentProvider().getDocument(textEditor.getEditorInput());
 
-		IFile file = null;
-		
-		try {
-			IResource resource = input.getCorrespondingResource();
-			if (resource instanceof IFile)
-				file = (IFile) resource;
-		} catch (JavaModelException e) {
-			CDISeamExtPlugin.log(e);
-		}
-		
-		if(file == null)
+		IResource r = input.getResource();
+		if(!(r instanceof IFile) || !r.exists() || r.getName().endsWith(".jar")) {
 			return null;
+		}
+		IFile file = (IFile)r;
 		
 		try {
 			
-			ICompilationUnit cu = EclipseUtil.getCompilationUnit(file);
-			
-			IJavaElement element = cu == null ? null : cu.getElementAt(offset);
+			IJavaElement element = input.getElementAt(offset);
 			if(element != null){
 				if(element instanceof IField){
 					IAnnotation annotation = CDIMarkerResolutionUtils.findAnnotation(element, RESOURCE_ANNOTATION);
