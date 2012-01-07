@@ -10,6 +10,7 @@
       <h:outputText value="#{mySearchableBean.sFoo2()}"/>
       <h:outputText value="#{sFoo}"/>
       <h:outputText value="#{sFoo1}"/>
+      <h:outputText value="#{sFoo + mySearchableBean.sFoo2()}"/>
      </h1>
    </f:view>
  </body>

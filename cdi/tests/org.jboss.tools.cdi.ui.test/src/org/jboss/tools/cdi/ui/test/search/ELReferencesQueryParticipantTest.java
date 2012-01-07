@@ -76,6 +76,7 @@ public class ELReferencesQueryParticipantTest extends TCKTest{
 		ArrayList<MatchStructure> matches = new ArrayList<MatchStructure>();
 		
 		matches.add(new MatchStructure("/tck/WebContent/search.jsp", "mySearchableBean"));
+		matches.add(new MatchStructure("/tck/WebContent/search.jsp", "mySearchableBean"));
 		
 		QueryParticipantTestUtils.testSearchParticipant(tckProject,
 				"JavaSource/org/jboss/jsr299/tck/tests/jbt/search/MySearchableBean.java",
@@ -103,6 +104,7 @@ public class ELReferencesQueryParticipantTest extends TCKTest{
 	public void testELReferencesQueryParticipantForField() throws CoreException{
 		ArrayList<MatchStructure> matches = new ArrayList<MatchStructure>();
 		
+		matches.add(new MatchStructure("/tck/WebContent/search.jsp", "sFoo"));
 		matches.add(new MatchStructure("/tck/WebContent/search.jsp", "sFoo"));
 		
 		QueryParticipantTestUtils.testSearchParticipant(tckProject,
