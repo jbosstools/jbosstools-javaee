@@ -18,6 +18,7 @@
     <h1><h:outputText value="#{Message.question}" /></h1>
     <f:view>
     <h:form styleClass="niceform">
+    <h:outputText value="#{numberGuess.possibilities + numberGuess.remainingGuesses}"/>
       <h:outputText value="#{Message.info_start}" /><h:outputText value="#{numberGuess.remainingGuesses}"/><h:outputText value="#{Message.info_finish}" />
       <h:commandButton value="#{Message.button_yes}" action="yes"/>
       <h:commandButton value="#{Message.button_no}" action="no"/>

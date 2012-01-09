@@ -23,6 +23,8 @@ public class ELReferencesQueryParticipantTest extends TestCase{
 
 		matches.add(new MatchStructure("/numberguess/web/giveup.jspx", "numberGuess"));
 		matches.add(new MatchStructure("/numberguess/web/giveup.jspx", "numberGuess"));
+		matches.add(new MatchStructure("/numberguess/web/giveup.jspx", "numberGuess"));
+		matches.add(new MatchStructure("/numberguess/web/giveup.jspx", "numberGuess"));
 
 		QueryParticipantTestUtils.testSearchParticipant(project,
 				"src/org/jboss/seam/example/numberguess/NumberGuess.java",
@@ -37,6 +39,7 @@ public class ELReferencesQueryParticipantTest extends TestCase{
 		ArrayList<MatchStructure> matches = new ArrayList<MatchStructure>();
 
 		matches.add(new MatchStructure("/numberguess/web/giveup.jspx", "remainingGuesses"));
+		matches.add(new MatchStructure("/numberguess/web/giveup.jspx", "remainingGuesses"));
 
 		QueryParticipantTestUtils.testSearchParticipant(project,
 				"src/org/jboss/seam/example/numberguess/NumberGuess.java",
@@ -50,6 +53,7 @@ public class ELReferencesQueryParticipantTest extends TestCase{
 	public void testELReferencesQueryParticipantForMethod2() throws CoreException{
 		ArrayList<MatchStructure> matches = new ArrayList<MatchStructure>();
 
+		matches.add(new MatchStructure("/numberguess/web/giveup.jspx", "possibilities"));
 		matches.add(new MatchStructure("/numberguess/web/giveup.jspx", "possibilities"));
 
 		QueryParticipantTestUtils.testSearchParticipant(project,
