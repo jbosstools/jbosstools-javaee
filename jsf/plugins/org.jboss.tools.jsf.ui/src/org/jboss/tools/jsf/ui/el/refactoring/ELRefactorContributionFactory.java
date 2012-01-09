@@ -150,7 +150,7 @@ public class ELRefactorContributionFactory extends AbstractContributionFactory {
 	}
 	
 	
-	private ELSegment findELSegment(IFile file, TextSelection selection){
+	public static ELSegment findELSegment(IFile file, TextSelection selection){
 		ELContext context = PageContextFactory.createPageContext(file);
 		
 		if(context == null)
@@ -179,7 +179,7 @@ public class ELRefactorContributionFactory extends AbstractContributionFactory {
 		return null;
 	}
 	
-	private ELSegment getSegment(ELResolver[] resolvers, ELContext context, TextSelection selection, ELReference reference, ELExpression operand){
+	private static ELSegment getSegment(ELResolver[] resolvers, ELContext context, TextSelection selection, ELReference reference, ELExpression operand){
 		for (ELResolver resolver : resolvers) {
 			ELResolution resolution = resolver.resolve(context, operand, selection.getOffset());
 			

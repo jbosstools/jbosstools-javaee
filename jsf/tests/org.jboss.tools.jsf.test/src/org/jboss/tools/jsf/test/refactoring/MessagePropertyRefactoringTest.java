@@ -7,11 +7,13 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.jface.text.TextSelection;
 import org.jboss.tools.common.base.test.AbstractRefactorTest;
-import org.jboss.tools.common.el.core.parser.LexicalToken;
+import org.jboss.tools.common.el.core.resolver.ELSegment;
+import org.jboss.tools.common.el.core.resolver.MessagePropertyELSegment;
 import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.jsf.el.refactoring.RenameMessagePropertyProcessor;
-import org.jboss.tools.jst.web.kb.el.MessagePropertyELSegmentImpl;
+import org.jboss.tools.jsf.ui.el.refactoring.ELRefactorContributionFactory;
 import org.jboss.tools.test.util.ProjectImportTestSetup;
 
 public class MessagePropertyRefactoringTest extends AbstractRefactorTest{
@@ -58,14 +60,19 @@ public class MessagePropertyRefactoringTest extends AbstractRefactorTest{
 		structure.addTextChange(change);
 		list.add(structure);
 		
-		MessagePropertyELSegmentImpl segment = new MessagePropertyELSegmentImpl(new LexicalToken(position,13,"hello_message",-1000));
-		segment.setMessageBundleResource(propertyFile);
-		segment.setBaseName("demo.Messages");
-		segment.setMessagePropertySourceReference(0,10);
-		RenameMessagePropertyProcessor processor = new RenameMessagePropertyProcessor(sourceFile, segment);
-		processor.setNewName(NEW_NAME);
+		//MessagePropertyELSegmentImpl segment = new MessagePropertyELSegmentImpl(new LexicalToken(position,13,"hello_message",-1000));
+		//segment.setMessageBundleResource(propertyFile);
+		//segment.setBaseName("demo.Messages");
+		//segment.setMessagePropertySourceReference(0,10);
+		ELSegment segment = ELRefactorContributionFactory.findELSegment(sourceFile, new TextSelection(position, 13));
+		if(segment instanceof MessagePropertyELSegment){
+			RenameMessagePropertyProcessor processor = new RenameMessagePropertyProcessor(sourceFile, (MessagePropertyELSegment)segment);
+			processor.setNewName(NEW_NAME);
 
-		checkRename(processor, list);
+			checkRename(processor, list);
+		}else{
+			fail("segment must be instance of MessagePropertyELSegment");
+		}
 	}
 
 }
