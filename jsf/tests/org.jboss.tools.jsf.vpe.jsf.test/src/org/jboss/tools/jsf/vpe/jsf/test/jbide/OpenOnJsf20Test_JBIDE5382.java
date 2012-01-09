@@ -30,22 +30,16 @@ import org.w3c.dom.Node;
  * @author Yahor Radtsevich (yradtsevich)
  */
 public class OpenOnJsf20Test_JBIDE5382 extends VpeTest {
-	private static final String OUTPUT_STYLESHEET_ELEMENT_ID
-			= "outputStylesheet1"; //$NON-NLS-1$
-	private static final String OUTPUT_STYLESHEET_LIB_ELEMENT_ID
-			= "outputStylesheet2"; //$NON-NLS-1$
-	private static final String OUTPUT_SCRIPT_ELEMENT_ID
-			= "outputScript1"; //$NON-NLS-1$
-	private static final String OUTPUT_SCRIPT_LIB_ELEMENT_ID
-			= "outputScript2"; //$NON-NLS-1$
+	private static final String OUTPUT_STYLESHEET_ELEMENT_ID = "outputStylesheet1"; //$NON-NLS-1$
+	private static final String OUTPUT_STYLESHEET_LIB_ELEMENT_ID = "outputStylesheet2"; //$NON-NLS-1$
+	private static final String OUTPUT_SCRIPT_ELEMENT_ID = "outputScript1"; //$NON-NLS-1$
+	private static final String OUTPUT_SCRIPT_LIB_ELEMENT_ID = "outputScript2"; //$NON-NLS-1$
 	private static final String SCRIPT_FILE_NAME = "f1.js"; //$NON-NLS-1$
 	private static final String SCRIPT_LIB_FILE_NAME = "f2.js"; //$NON-NLS-1$
-	private static final String STYLESHEET_FILE_NAME
-			= "stylesRed.css"; //$NON-NLS-1$
-	private static final String STYLESHEET_LIB_FILE_NAME
-			= "stylesBlue.css"; //$NON-NLS-1$
-	private static final String TEST_FILE_PATH
-			= "JBIDE/5382/OpenOnJsf20.xhtml"; //$NON-NLS-1$
+	private static final String STYLESHEET_FILE_NAME = "stylesRed.css"; //$NON-NLS-1$
+	private static final String STYLESHEET_LIB_FILE_NAME = "stylesBlue.css"; //$NON-NLS-1$
+	private static final String TEST_FILE_PATH = "JBIDE/5382/OpenOnJsf20.xhtml"; //$NON-NLS-1$
+	private static final String JSF_HTML_TLD = "html_basic.tld"; //$NON-NLS-1$
 	private VpeController vpeController;
 	private Document sourceDocument;
 
@@ -89,13 +83,27 @@ public class OpenOnJsf20Test_JBIDE5382 extends VpeTest {
 	public void testVisualOpenOnOutputStylesheet() {
 		showInvisibleTags();
 		openOnCorrespondingVisualNode(getOutputStylesheetNode());
-		assertActiveEditorInputNameEquals(STYLESHEET_FILE_NAME);
+		/*
+		 * https://issues.jboss.org/browse/JBIDE-10600
+		 * OpenOn for visual nodes is not available.
+		 * OpenOn will be performed on corresponding source node in any case:
+		 * For this  invisible tag -- on the whole source node, but not on its attribute.
+		 * For h:outputStyleSheet "html_basic.tld" will be opened.
+		 */
+		assertActiveEditorInputNameEquals(JSF_HTML_TLD);
 	}
 	
 	public void testVisualOpenOnOutputScript() {
 		showInvisibleTags();
 		openOnCorrespondingVisualNode(getOutputScriptNode());
-		assertActiveEditorInputNameEquals(SCRIPT_FILE_NAME);
+		/*
+		 * https://issues.jboss.org/browse/JBIDE-10600
+		 * OpenOn for visual nodes is not available.
+		 * OpenOn will be performed on corresponding source node in any case:
+		 * for this invisible tag -- on the whole source node, but not on its attribute.
+		 * For h:outputScript "html_basic.tld" will be opened.
+		 */
+		assertActiveEditorInputNameEquals(JSF_HTML_TLD);
 	}
 
 	////////////////////////////////////////////////////////////////////////////
