@@ -17,9 +17,9 @@ import org.eclipse.ltk.ui.refactoring.RefactoringWizard;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
-import org.jboss.tools.common.ui.refactoring.JBDSRefactoringWizard;
+import org.jboss.tools.common.ui.refactoring.BaseRefactoringWizard;
 
-public class DeletePreviewWizard extends JBDSRefactoringWizard {
+public class DeletePreviewWizard extends BaseRefactoringWizard {
 
 	public DeletePreviewWizard(Refactoring refactoring) {
 		super(refactoring, RefactoringWizard.WIZARD_BASED_USER_INTERFACE);

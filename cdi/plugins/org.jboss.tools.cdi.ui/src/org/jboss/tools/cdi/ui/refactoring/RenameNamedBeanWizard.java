@@ -24,7 +24,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.internal.core.refactoring.RenameNamedBeanProcessor;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
-import org.jboss.tools.common.ui.refactoring.JBDSRefactoringWizard;
+import org.jboss.tools.common.ui.refactoring.BaseRefactoringWizard;
 import org.jboss.tools.common.ui.widget.editor.CompositeEditor;
 import org.jboss.tools.common.ui.widget.editor.IFieldEditor;
 import org.jboss.tools.common.ui.widget.editor.IFieldEditorFactory;
@@ -32,7 +32,7 @@ import org.jboss.tools.common.ui.widget.editor.IFieldEditorFactory;
 /**
  * @author Daniel Azarov
  */
-public class RenameNamedBeanWizard extends JBDSRefactoringWizard {
+public class RenameNamedBeanWizard extends BaseRefactoringWizard {
 
 	private IBean bean;
 	private String componentName;

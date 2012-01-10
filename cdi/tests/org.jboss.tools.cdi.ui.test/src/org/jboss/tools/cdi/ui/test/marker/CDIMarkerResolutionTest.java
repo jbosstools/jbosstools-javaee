@@ -47,7 +47,7 @@ import org.jboss.tools.cdi.ui.marker.TestableResolutionWithDialog;
 import org.jboss.tools.cdi.ui.marker.TestableResolutionWithRefactoringProcessor;
 import org.jboss.tools.common.base.test.AbstractRefactorTest.TestChangeStructure;
 import org.jboss.tools.common.base.test.validation.TestUtil;
-import org.jboss.tools.common.refactoring.JBDSFileChange;
+import org.jboss.tools.common.refactoring.BaseFileChange;
 import org.jboss.tools.common.ui.marker.AddSuppressWarningsMarkerResolution;
 import org.jboss.tools.common.ui.marker.ConfigureProblemSeverityMarkerResolution;
 import org.jboss.tools.common.util.FileUtil;

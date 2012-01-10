@@ -23,9 +23,9 @@ import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.internal.core.refactoring.AddQualifiersToBeanProcessor;
 import org.jboss.tools.cdi.ui.CDIUIPlugin;
-import org.jboss.tools.common.ui.refactoring.JBDSRefactoringWizard;
+import org.jboss.tools.common.ui.refactoring.BaseRefactoringWizard;
 
-public abstract class AbstractModifyInjectionPointWizard extends JBDSRefactoringWizard {
+public abstract class AbstractModifyInjectionPointWizard extends BaseRefactoringWizard {
 	public AbstractModifyInjectionPointWizard(ProcessorBasedRefactoring refactoring){
 		super(refactoring, RefactoringWizard.WIZARD_BASED_USER_INTERFACE);
 	}

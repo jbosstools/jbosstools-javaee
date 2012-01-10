@@ -25,12 +25,12 @@ import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.IClassBean;
-import org.jboss.tools.common.refactoring.JBDSFileChange;
+import org.jboss.tools.common.refactoring.BaseFileChange;
 
 public abstract class CDIRefactoringProcessor extends AbstractCDIProcessor {
 	protected IFile file;
 	
-	protected JBDSFileChange change;
+	protected BaseFileChange change;
 	protected IClassBean bean;
 
 	public CDIRefactoringProcessor(IFile file, String label){
@@ -44,7 +44,7 @@ public abstract class CDIRefactoringProcessor extends AbstractCDIProcessor {
 	
 	protected void createRootChange(){
 		rootChange = new CompositeChange(getLabel());
-		change = new JBDSFileChange(file);
+		change = new BaseFileChange(file);
 		
 		MultiTextEdit root = new MultiTextEdit();
 		change.setEdit(root);
