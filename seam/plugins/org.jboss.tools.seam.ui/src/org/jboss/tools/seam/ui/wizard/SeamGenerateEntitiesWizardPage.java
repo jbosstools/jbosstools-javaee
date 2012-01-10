@@ -18,6 +18,7 @@ import java.util.Map;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IPath;
@@ -219,6 +220,7 @@ public class SeamGenerateEntitiesWizardPage extends WizardPage implements Proper
 		if(ISeamParameter.SEAM_PROJECT_NAME.equals(event.getPropertyName()) &&
 				event.getNewValue()!=null &&
 				!event.getNewValue().equals(event.getOldValue())) {
+			rootSeamProject = SeamWizardUtils.getRootSeamProject(getSelectedProject());
 			String consoleConfigName = getConsoleConfigurationName(event.getNewValue().toString());
 			if(consoleConfigName!=null) {
 				configEditor.setValue(consoleConfigName);
@@ -226,7 +228,18 @@ public class SeamGenerateEntitiesWizardPage extends WizardPage implements Proper
 		}
 		wizardChanged();
 	}
-	
+
+	public IProject getSelectedProject() {
+		String projectName = projectEditor.getValueAsString();
+		if(projectName!=null && projectName.trim().length()>0) {
+			IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(projectName);
+			if(project.exists()) {
+				return (IProject)project;
+			}
+		}
+		return null;
+	}
+
 	public void wizardChanged(){
 		existingReveng.setEnabled("reverse".equals(radios.getValue()));
 		reverseEngineeringSettings.setEnabled(existingReveng.isEnabled() && existingReveng.isSelected());
