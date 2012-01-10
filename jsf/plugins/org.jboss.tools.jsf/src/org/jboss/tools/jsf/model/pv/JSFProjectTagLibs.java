@@ -16,7 +16,6 @@ import org.eclipse.core.resources.IResource;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.filesystems.FileSystemsHelper;
 import org.jboss.tools.common.model.filesystems.impl.Libs;
-import org.jboss.tools.jsf.JSFModelPlugin;
 import org.jboss.tools.jst.web.model.helpers.WebAppHelper;
 import org.jboss.tools.jst.web.tld.model.TLDUtil;
 
@@ -25,11 +24,11 @@ public class JSFProjectTagLibs extends JSFProjectResourceBundles {
 
 	protected Iterator<XModelObject> getRoots() {
 		List<XModelObject> list = new ArrayList<XModelObject>();
-		XModelObject r = getModel().getByPath("FileSystems/WEB-INF");
+		XModelObject r = FileSystemsHelper.getWebInf(getModel());
 		if(r != null) list.add(r);
-		XModelObject fss = getModel().getByPath("FileSystems");
+		XModelObject fss = FileSystemsHelper.getFileSystems(getModel());
 		if(fss == null) return list.iterator();
-		XModelObject[] fs = fss.getChildren("FileSystemJar");
+		XModelObject[] fs = fss.getChildren();
 		for (int i = 0; i < fs.length; i++) {
 			if(!fs[i].getAttributeValue("name").startsWith(Libs.LIB_PREFIX)) continue;
 			r = fs[i].getChildByPath("META-INF");
@@ -107,7 +106,7 @@ public class JSFProjectTagLibs extends JSFProjectResourceBundles {
 
 	public Object getAdapter(Class adapter) {
 		if(adapter == IResource.class) {
-			XModelObject o = getModel().getByPath("FileSystems/WEB-INF");
+			XModelObject o = FileSystemsHelper.getWebInf(getModel());
 			return (o != null) ? o.getAdapter(adapter) : null;
 		}
 		return super.getAdapter(adapter);
