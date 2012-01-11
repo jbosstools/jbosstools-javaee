@@ -81,12 +81,31 @@ public class DefinitionContext implements IRootDefinitionContext {
 		}
 		if(!clean) {
 			copy.types.addAll(types);
-			copy.typeDefinitions.putAll(typeDefinitions);
-			copy.annotations.putAll(annotations);
+			for (String qn: typeDefinitions.keySet()) {
+				TypeDefinition d = typeDefinitions.get(qn);
+				if(d.exists()) {
+					copy.typeDefinitions.put(qn, d);
+				} else {
+					copy.types.remove(qn);
+				}
+			}
+			for (String qn: annotations.keySet()) {
+				AnnotationDefinition d = annotations.get(qn);
+				if(d.exists()) {
+					copy.annotations.put(qn, d);
+				}
+			}
 			copy.vetoedTypes.addAll(vetoedTypes);
 
 			copy.packages.addAll(packages);
-			copy.packageDefinitions.putAll(packageDefinitions);
+			for (String qn: packageDefinitions.keySet()) {
+				PackageDefinition d = packageDefinitions.get(qn);
+				if(d.exists()) {
+					copy.packageDefinitions.put(qn, d);
+				} else {
+					packages.remove(qn);
+				}
+			}
 
 			for (IPath p: resources.keySet()) {
 				Set<String> set = resources.get(p);
