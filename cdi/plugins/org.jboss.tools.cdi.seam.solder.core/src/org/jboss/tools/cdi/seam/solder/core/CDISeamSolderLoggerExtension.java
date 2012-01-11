@@ -123,8 +123,18 @@ public class CDISeamSolderLoggerExtension implements ICDIExtension, IBuildPartic
 			LoggerDefinitionContext copy = new LoggerDefinitionContext();
 			copy.root = root;
 			if(!clean) {
-				copy.messageLoggers.putAll(messageLoggers);
-				copy.messageBundles.putAll(messageBundles);
+				for (String qn: messageLoggers.keySet()) {
+					TypeDefinition d = messageLoggers.get(qn);
+					if(d.exists()) {
+						copy.messageLoggers.put(qn, d);
+					}
+				}
+				for (String qn: messageBundles.keySet()) {
+					TypeDefinition d = messageBundles.get(qn);
+					if(d.exists()) {
+						copy.messageBundles.put(qn, d);
+					}
+				}
 			}
 
 			return copy;

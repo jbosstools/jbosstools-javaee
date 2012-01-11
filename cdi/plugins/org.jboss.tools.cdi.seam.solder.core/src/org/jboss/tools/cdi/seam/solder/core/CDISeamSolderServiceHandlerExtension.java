@@ -110,7 +110,12 @@ public class CDISeamSolderServiceHandlerExtension implements ICDIExtension, IBui
 			ServiceHandlerDefinitionContext copy = new ServiceHandlerDefinitionContext();
 			copy.root = root;
 			if(!clean) {
-				copy.services.putAll(services);
+				for (String qn: services.keySet()) {
+					TypeDefinition d = services.get(qn);
+					if(d.exists()) {
+						copy.services.put(qn, d);
+					}
+				}
 				copy.serviceAnnotations.addAll(serviceAnnotations);
 			}
 
