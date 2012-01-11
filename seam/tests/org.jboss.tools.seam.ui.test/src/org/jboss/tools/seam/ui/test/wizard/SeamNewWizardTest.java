@@ -45,7 +45,7 @@ public class SeamNewWizardTest extends TestCase {
 		testSeamBaseNewWizardInstanceIsInitialized(ISeamUiConstants.NEW_SEAM_ENTITY_WIZARD_ID);
 	}
 
-	public void testSeamBaseNewWizardInstanceIsInitialized(String wizardId) {
+	private void testSeamBaseNewWizardInstanceIsInitialized(String wizardId) {
 		IWizard
 		aWizard = WorkbenchUtils.findWizardByDefId(wizardId);
 
