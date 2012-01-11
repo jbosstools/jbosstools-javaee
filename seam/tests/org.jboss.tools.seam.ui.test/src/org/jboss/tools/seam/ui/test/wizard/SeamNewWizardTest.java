@@ -79,7 +79,7 @@ public class SeamNewWizardTest extends TestCase {
 			SeamGenerateEntitiesWizardPage page = (SeamGenerateEntitiesWizardPage)dialog.getSelectedPage();
 
 			page.getProjectEditor().setValue("Test1-ear");
-			assertEquals("Seam web parent project was not initialized for Seam EAR project.", "Test1", page.getRootSeamProject());
+			assertEquals("Seam web parent project was not initialized for Seam EAR project.", "Test1", page.getRootSeamProject().getName());
 		} finally {
 			dialog.close();
 		}
