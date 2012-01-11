@@ -18,7 +18,6 @@ import java.util.Map;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IPath;
@@ -170,6 +169,20 @@ public class SeamGenerateEntitiesWizardPage extends WizardPage implements Proper
 
 	protected IPath getReverseEngineeringSettingsFile() {
 		return PathHelper.pathOrNull(reverseEngineeringSettings.getText() );
+	}
+
+	/**
+	 * @return the projectEditor
+	 */
+	public IFieldEditor getProjectEditor() {
+		return projectEditor;
+	}
+
+	/**
+	 * @return the rootSeamProject
+	 */
+	public IProject getRootSeamProject() {
+		return rootSeamProject;
 	}
 
 	private static String getConsoleConfigurationName(String seamWebProjectName) {

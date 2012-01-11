@@ -38,9 +38,9 @@ import org.jboss.tools.seam.ui.test.wizard.OpenSeamComponentDialogTest;
 import org.jboss.tools.seam.ui.test.wizard.PackageNamesTest;
 import org.jboss.tools.seam.ui.test.wizard.Seam20XCreateTestProjectTest;
 import org.jboss.tools.seam.ui.test.wizard.Seam20XProjectNamesTest;
-import org.jboss.tools.seam.ui.test.wizard.SeamActionNewWizardTest;
 import org.jboss.tools.seam.ui.test.wizard.SeamCreateTestProjectTest;
 import org.jboss.tools.seam.ui.test.wizard.SeamFormNewWizardTest;
+import org.jboss.tools.seam.ui.test.wizard.SeamNewWizardTest;
 import org.jboss.tools.seam.ui.test.wizard.SeamProjectNamesTest;
 import org.jboss.tools.seam.ui.test.wizard.SeamProjectNewWizardTest;
 import org.jboss.tools.test.util.JobUtils;
@@ -64,7 +64,9 @@ public class SeamUiAllTests {
 		suite.addTest(SeamComponentsViewAllTests.suite());
 		suite.addTest(SeamProjectNewWizardTest.suite());
 
-		suite.addTest(new ProjectImportTestSetup(new TestSuite(SeamActionNewWizardTest.class), "org.jboss.tools.seam.base.test", new String[]{"projects/Test1-ear", "projects/Test1-ejb", "projects/Test1"}, new String[]{"Test1-ear", "Test1-ejb", "Test1"}));
+		TestSuite wizards = new TestSuite("Seam Wizards tests");
+		wizards.addTestSuite(SeamNewWizardTest.class);
+		suite.addTest(new ProjectImportTestSetup(wizards, "org.jboss.tools.seam.base.test", new String[]{"projects/Test1-ear", "projects/Test1-ejb", "projects/Test1"}, new String[]{"Test1-ear", "Test1-ejb", "Test1"}));
 
 		suite.addTestSuite(SeamFormNewWizardTest.class);
 		suite.addTestSuite(SeamPreferencesPageTest.class);		

@@ -18,21 +18,36 @@ import org.eclipse.ui.PlatformUI;
 import org.jboss.tools.seam.ui.ISeamUiConstants;
 import org.jboss.tools.seam.ui.wizard.ISeamParameter;
 import org.jboss.tools.seam.ui.wizard.SeamBaseWizardPage;
+import org.jboss.tools.seam.ui.wizard.SeamGenerateEntitiesWizardPage;
 import org.jboss.tools.test.util.WorkbenchUtils;
 
 /**
  * @author eskimo
- *
  */
-public class SeamActionNewWizardTest extends TestCase {
+public class SeamNewWizardTest extends TestCase {
 
 	/**
 	 * https://jira.jboss.org/jira/browse/JBIDE-3752
 	 */
 	public void testSeamActionNewWizardInstanceIsInitialized() {
+		testSeamBaseNewWizardInstanceIsInitialized(ISeamUiConstants.NEW_SEAM_ACTION_WIZARD_ID);
+	}
+
+	public void testSeamConversationNewWizardInstanceIsInitialized() {
+		testSeamBaseNewWizardInstanceIsInitialized(ISeamUiConstants.NEW_SEAM_CONVERSATION_WIZARD_ID);
+	}
+
+	public void testSeamFormNewWizardInstanceIsInitialized() {
+		testSeamBaseNewWizardInstanceIsInitialized(ISeamUiConstants.NEW_SEAM_FORM_WIZARD_ID);
+	}
+
+	public void testSeamEntityNewWizardInstanceIsInitialized() {
+		testSeamBaseNewWizardInstanceIsInitialized(ISeamUiConstants.NEW_SEAM_ENTITY_WIZARD_ID);
+	}
+
+	public void testSeamBaseNewWizardInstanceIsInitialized(String wizardId) {
 		IWizard
-		aWizard = WorkbenchUtils.findWizardByDefId(
-				ISeamUiConstants.NEW_SEAM_ACTION_WIZARD_ID);
+		aWizard = WorkbenchUtils.findWizardByDefId(wizardId);
 
 		WizardDialog dialog = new WizardDialog(
 				PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
@@ -43,6 +58,27 @@ public class SeamActionNewWizardTest extends TestCase {
 			SeamBaseWizardPage page = (SeamBaseWizardPage)dialog.getSelectedPage();
 
 			page.getEditor(ISeamParameter.SEAM_PROJECT_NAME).setValue("Test1-ear");
+			assertEquals("Seam web parent project was not initialized for Seam EAR project.", "Test1", page.getRootSeamProject());
+		} finally {
+			dialog.close();
+		}
+	}
+
+	/**
+	 * https://jira.jboss.org/jira/browse/JBIDE-10606
+	 */
+	public void testSeamGenerateEntitiesNewWizardInstanceIsInitialized() {
+		IWizard
+		aWizard = WorkbenchUtils.findWizardByDefId(ISeamUiConstants.NEW_GENERATE_SEAM_ENTITY_WIZARD_ID);
+		WizardDialog dialog = new WizardDialog(
+				PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell(),
+				aWizard);
+		dialog.setBlockOnOpen(false);
+		dialog.open();
+		try {
+			SeamGenerateEntitiesWizardPage page = (SeamGenerateEntitiesWizardPage)dialog.getSelectedPage();
+
+			page.getProjectEditor().setValue("Test1-ear");
 			assertEquals("Seam web parent project was not initialized for Seam EAR project.", "Test1", page.getRootSeamProject());
 		} finally {
 			dialog.close();
