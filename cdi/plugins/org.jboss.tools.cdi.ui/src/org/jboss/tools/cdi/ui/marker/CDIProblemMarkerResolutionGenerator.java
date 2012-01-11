@@ -483,6 +483,16 @@ public class CDIProblemMarkerResolutionGenerator implements
 						};
 					}
 				}
+			}else if(messageId == CDIValidationErrorManager.PARAM_INJECTION_DECLARES_EMPTY_NAME_ID){
+				ILocalVariable parameter = findParameter(file, start);
+				if(parameter != null){
+					IAnnotation namedAnnotation = getAnnotation(parameter, CDIConstants.NAMED_QUALIFIER_TYPE_NAME);
+					if(namedAnnotation != null){
+						return new IMarkerResolution[] {
+							new AddNameMarkerResolution(namedAnnotation, parameter.getElementName())
+						};
+					}
+				}
 			}
 		}else if (XML_EXTENSION.equals(file.getFileExtension())){
 			FileEditorInput input = new FileEditorInput(file);
@@ -796,6 +806,22 @@ public class CDIProblemMarkerResolutionGenerator implements
 		}
 		return null;
 		
+	}
+	
+	private ILocalVariable findParameter(IFile file, int start){
+		IJavaElement element = findJavaElement(file, start);
+		if(element instanceof IMethod){
+			try {
+				for(ILocalVariable parameter : ((IMethod) element).getParameters()){
+					if(parameter.getSourceRange().getOffset() <= start && parameter.getSourceRange().getOffset()+parameter.getSourceRange().getLength() > start){
+						return parameter;
+					}
+				}
+			} catch (JavaModelException ex) {
+				CDIUIPlugin.getDefault().logError(ex);
+			}
+		}
+		return null;
 	}
 	
 	private List<IType> findLocalAnnotattedInterfaces(IMethod method) throws JavaModelException{

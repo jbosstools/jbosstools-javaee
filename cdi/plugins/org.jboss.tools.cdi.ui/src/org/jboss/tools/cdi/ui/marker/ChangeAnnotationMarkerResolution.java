@@ -23,7 +23,6 @@ import org.eclipse.text.edits.MultiTextEdit;
 import org.eclipse.text.edits.ReplaceEdit;
 import org.eclipse.text.edits.TextEdit;
 import org.eclipse.ui.IMarkerResolution2;
-import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.CDIImages;
 import org.jboss.tools.cdi.internal.core.refactoring.CDIMarkerResolutionUtils;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
@@ -33,8 +32,8 @@ public class ChangeAnnotationMarkerResolution implements
 		IMarkerResolution2 {
 	private IAnnotation annotation;
 	
-	private String sourceString = "";
-	private String changeString = CDIMarkerResolutionUtils.AT;
+	protected String sourceString = "";
+	protected String changeString = CDIMarkerResolutionUtils.AT;
 	private boolean useBraces = true;
 	
 	private String[] qualifiedNames = new String[0];
@@ -93,7 +92,6 @@ public class ChangeAnnotationMarkerResolution implements
 			MultiTextEdit edit = new MultiTextEdit();
 			
 			change.setEdit(edit);
-			CDIMarkerResolutionUtils.addImport(CDIConstants.TARGET_ANNOTATION_TYPE_NAME, compilationUnit, edit);
 			
 			for(String qualifiedName : qualifiedNames){
 				CDIMarkerResolutionUtils.addImport(qualifiedName, compilationUnit, true, edit);

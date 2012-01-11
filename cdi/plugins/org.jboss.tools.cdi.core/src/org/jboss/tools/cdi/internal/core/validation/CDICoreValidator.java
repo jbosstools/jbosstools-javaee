@@ -1554,7 +1554,7 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 		if (named != null) {
 			boolean valueExists = named.getMemberValue(null) != null;
 			if (!valueExists) {
-				addError(CDIValidationMessages.PARAM_INJECTION_DECLARES_EMPTY_NAME, CDIPreferences.PARAM_INJECTION_DECLARES_EMPTY_NAME, named, initializer.getResource());
+				addError(CDIValidationMessages.PARAM_INJECTION_DECLARES_EMPTY_NAME, CDIPreferences.PARAM_INJECTION_DECLARES_EMPTY_NAME, named, initializer.getResource(), PARAM_INJECTION_DECLARES_EMPTY_NAME_ID);
 			}
 		}
 
@@ -1594,7 +1594,8 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 					addError(CDIValidationMessages.PARAM_INJECTION_DECLARES_EMPTY_NAME, 
 							CDIPreferences.PARAM_INJECTION_DECLARES_EMPTY_NAME, 
 							named,
-							injection.getResource());
+							injection.getResource(),
+							PARAM_INJECTION_DECLARES_EMPTY_NAME_ID);
 				}
 			}
 		}
