@@ -35,9 +35,9 @@ import org.jboss.tools.cdi.ui.search.CDIBeanQueryParticipant;
 import org.jboss.tools.cdi.ui.search.CDIMatch;
 import org.jboss.tools.cdi.ui.search.InjectionPointQueryParticipant;
 import org.jboss.tools.common.EclipseUtil;
+import org.jboss.tools.common.base.test.kb.QueryParticipantTestUtils;
+import org.jboss.tools.common.base.test.kb.QueryParticipantTestUtils.MatchStructure;
 import org.jboss.tools.jst.web.kb.refactoring.ELReferencesQueryParticipant;
-import org.jboss.tools.jst.web.kb.test.QueryParticipantTestUtils;
-import org.jboss.tools.jst.web.kb.test.QueryParticipantTestUtils.MatchStructure;
 
 public class FiveDependentProjectsSearchParticipantTest extends TestCase {
 	IProject project1 = null;

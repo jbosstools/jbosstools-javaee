@@ -13,8 +13,7 @@ package org.jboss.tools.jsf.kb.test;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-import org.jboss.tools.common.model.util.test.XProjectImportTestSetUp;
-import org.jboss.tools.jsf.kb.test.WebWithModuleTest;
+import org.jboss.tools.common.base.test.model.XProjectImportTestSetUp;
 import org.jboss.tools.test.util.ProjectImportTestSetup;
 
 /**

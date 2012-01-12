@@ -7,9 +7,9 @@ import junit.framework.TestCase;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.jboss.tools.common.base.test.kb.QueryParticipantTestUtils;
+import org.jboss.tools.common.base.test.kb.QueryParticipantTestUtils.MatchStructure;
 import org.jboss.tools.jst.web.kb.refactoring.ELReferencesQueryParticipant;
-import org.jboss.tools.jst.web.kb.test.QueryParticipantTestUtils;
-import org.jboss.tools.jst.web.kb.test.QueryParticipantTestUtils.MatchStructure;
 
 public class ELReferencesQueryParticipantTest extends TestCase{
 	IProject project = null;

@@ -8,9 +8,9 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.jboss.tools.common.base.test.kb.QueryParticipantTestUtils;
+import org.jboss.tools.common.base.test.kb.QueryParticipantTestUtils.MatchStructure;
 import org.jboss.tools.jst.web.kb.refactoring.ELReferencesQueryParticipant;
-import org.jboss.tools.jst.web.kb.test.QueryParticipantTestUtils;
-import org.jboss.tools.jst.web.kb.test.QueryParticipantTestUtils.MatchStructure;
 import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.ProjectImportTestSetup;
 
