@@ -1,0 +1,256 @@
+<?xml version='1.0' encoding='utf-8' ?>
+
+   <chapter id="chap-CDI_Tools_Reference_Guide-Creating_a_CDI_Web_Project">
+	<title>Creating a CDI Web Project</title>
+	<para>
+		From the workbench go to <menuchoice><guimenuitem>File</guimenuitem><guimenuitem>New</guimenuitem><guimenuitem>Other</guimenuitem></menuchoice>. 
+	</para>
+	<figure id="project_creation_01">
+		<title>Selecting the CDI Web Project wizard</title>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="images/Creating_a_CDI_Web_Project/project_creation_01.png" format="PNG" />
+			</imageobject>
+			<textobject>
+				<phrase>
+					Wizard selection screen with the CDI Web Project wizard selected.
+				</phrase>
+			</textobject>
+		</mediaobject>
+	</figure>
+	<para>
+		The first screen of the wizard will ask you to define the attributes according to the options outlined in <xref linkend="table-jbt-new_cdi_web_project_01"/>. Click the <guibutton>Next</guibutton> button after defining the attributes in order to continue customizing your project or click the <guibutton>Finish</guibutton> button to accept all other defaults and create your application.
+	</para>
+	<figure id="project_creation_02">
+		<title>Main project creation screen</title>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="images/Creating_a_CDI_Web_Project/project_creation_02.png" format="PNG" />
+			</imageobject>
+			<textobject>
+				<phrase>
+					The main options to define and select for your project.
+				</phrase>
+			</textobject>
+		</mediaobject>
+	</figure>
+	<table id="table-jbt-new_cdi_web_project_01" frame='all'>
+		<title>New CDI Web Project</title>
+		<tgroup cols='4' align='left' colsep='1' rowsep='1'>
+			<colspec colname='c1' colwidth="1*"/>
+			<colspec colname='c2' colwidth="1*"/>
+			<colspec colname='c3' colwidth="3*"/>
+			<colspec colname='c4' colwidth="3*"/>
+			<thead>
+				<row>
+					<entry>Field</entry>
+					<entry>Mandatory</entry>
+					<entry>Instruction</entry>
+					<entry>Description</entry>
+				</row>
+			</thead> 
+			
+			<tbody>
+				<row>
+					<entry>Project name</entry>
+					<entry>yes</entry>
+					<entry>Enter a project name.</entry>
+					<entry>The project name can be any name you define.</entry>
+				</row>
+				<row>
+					<entry>Project location</entry>
+					<entry>yes</entry>
+					<entry>The <guilabel>Use default location</guilabel> checkbox will be selected automatically to define the project location as the Eclipse workspace. However you can define a custom path in the <guilabel>Location</guilabel> field be deselecting the <guilabel>Use default location</guilabel> checkbox.</entry>
+					<entry>The default location corresponds to the Eclipse workspace.</entry>
+				</row>
+				<row>
+					<entry>Target runtime</entry>
+					<entry>no</entry>
+					<entry>Select a pre-configured runtime from the available options or configure a new runtime environment.</entry>
+					<entry>
+						<para>
+							The target runtime defines the server to which the application will be deployed.
+						</para>
+					</entry>
+				</row>
+				<row>
+					<entry>Dynamic web module version</entry>
+					<entry>yes</entry>
+					<entry>Select the required web module version.</entry>
+					<entry>
+						<para>
+							This option adds support for the Java Servlet API with module versions corresponding to JEE or J2EE levels as listed in <xref linkend="table-jbt-new_cdi_web_project_02"/>.
+						</para>
+					</entry>
+				</row>
+				<row>
+					<entry>Configuration</entry>
+					<entry>yes</entry>
+					<entry>Select the project configuration from the available options.</entry>
+					<entry>
+						<para>
+							The project can be based on either a custom or a set of pre-defined configurations as described in <xref linkend="table-jbt-new_cdi_web_project_03"/>.
+						</para>
+					</entry>
+				</row>
+				<row>
+					<entry>EAR membership</entry>
+					<entry>no</entry>
+					<entry>Add the project to an existing EAR project.</entry>
+					<entry>
+						<para>
+							The project can be added to an existing EAR project by selecting the checkbox. Once checked, a new EAR project can be defined by clicking the <guibutton>New Project</guibutton> button.
+						</para>
+					</entry>
+				</row>
+				<row>
+					<entry>Working sets</entry>
+					<entry>no</entry>
+					<entry>Add the project to an existing working set.</entry>
+					<entry>
+						<para>
+							A working set provides the ability to group projects or project attributes in a customized way to improve access. A new working set can be defined once the <guibutton>Select</guibutton> button has been clicked.
+						</para>
+					</entry>
+				</row>
+			</tbody>
+		</tgroup>
+	</table>
+	<table id="table-jbt-new_cdi_web_project_02" frame="all">
+		<!--   <table id="NewJSFProject_Web_ServletVersion" frame='all'> -->
+			<title>New Dynamic Project - Dynamic web module version</title>
+			<tgroup cols='2' align='left' colsep='1' rowsep='1'>
+				<colspec colname='c1' colwidth="1*"/>
+				<colspec colname='c2' colwidth="4*"/>
+				<thead>
+					<row>
+						<entry>Option</entry>
+						<entry>Description</entry>
+					</row>
+				</thead>
+				<tbody>
+					<row>
+						<entry>3.0</entry>
+						<entry>This web module version corresponds to the JEE 6 implementation.</entry>
+					</row>
+					<row>
+						<entry>2.5</entry>
+						<entry>This web module version corresponds to the JEE 5 implementation.</entry>
+					</row>
+					<row>
+						<entry>2.4</entry>
+						<entry>This web module version corresponds to the J2EE 1.4 implementation.</entry>
+					</row>
+					<row>
+						<entry>2.3</entry>
+						<entry>This web module version corresponds to the J2EE 1.3 implementation.</entry>
+					</row>
+					<row>
+						<entry>2.2</entry>
+						<entry>This web module version corresponds to the J2EE 1.2 implementation.</entry>
+					</row>
+				</tbody>
+			</tgroup>
+		</table> 
+		
+		<table id="table-jbt-new_cdi_web_project_03">
+			<title>CDI Web Project - Configuration</title>
+			<tgroup cols='2' align='left' colsep='1' rowsep='1'>
+				<colspec colname='c1' colwidth="1*"/>
+				<colspec colname='c2' colwidth="2*"/>
+				<thead>
+					<row>
+						<entry>Option</entry>
+						<entry>Description</entry>
+					</row>
+				</thead>
+				<tbody>
+					<row>
+						<entry>Dynamic Web Project with CDI</entry>
+						<entry>The default configuration option. Choosing this configuration will create a Dynamic Web Project with the CDI facet enabled.</entry>
+					</row>
+					<row>
+						<entry>Default configuration for the runtime specified in <guilabel>Target runtime</guilabel></entry>
+						<entry>Depending on the runtime configuration, you may have to manually add CDI facet support through the <guibutton>Modify</guibutton> button.</entry>
+					</row>
+					<row>
+						<entry>JavaServer Faces v2.0 Project</entry>
+						<entry>Configures a project to use JSF v2.0. You will need to manually add CDI support to this configuration through th <guibutton>Modify</guibutton> button. </entry>
+					</row>
+					<row>
+						<entry>Minimal Configuration</entry>
+						<entry>The minimum required facets are installed. You will need to manually add CDI support to this configuration through th <guibutton>Modify</guibutton> button.</entry>
+					</row>
+					<row>
+						<entry>&lt;custom&gt;</entry>
+						<entry>Total manual configuration is required through the <guibutton>Modify</guibutton> button. Ensure you enable the CDI facet for CDI Web Project creation to succeed.</entry>
+					</row>
+				</tbody>
+			</tgroup>
+		</table>
+		<para>
+			The <guilabel>Java</guilabel> configuration screen allows you to define <guilabel>Source folders on the build path</guilabel> and the <guilabel>Default output folder</guilabel>. The defaults for each are recommended, however you have the option to change them as you see fit.
+		</para>
+		<figure id="project_creation_03">
+			<title>Java configuration screen</title>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="images/Creating_a_CDI_Web_Project/project_creation_03.png" format="PNG" />
+				</imageobject>
+				<textobject>
+					<phrase>
+						Java configuration screen for your project.
+					</phrase>
+				</textobject>
+			</mediaobject>
+		</figure>
+		<para>
+			The <guilabel>Web Module</guilabel> configuration screen allows you to define the <guilabel>Context root</guilabel> and the <guilabel>Content directory</guilabel> to be created, the option to <guilabel>Generate web.xml deployment descriptor</guilabel> is selected by default. The defaults for each are recommended, however you have the option to change them as you see fit.
+		</para>
+		<figure id="project_creation_04">
+			<title>Web Module configuration screen</title>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="images/Creating_a_CDI_Web_Project/project_creation_04.png" format="PNG" />
+				</imageobject>
+				<textobject>
+					<phrase>
+						Web Module configuration screen for your project.
+					</phrase>
+				</textobject>
+			</mediaobject>
+		</figure>
+		<para>
+			The <guilabel>Context and Dependency Injection (CDI) Facet</guilabel> settings configuration screen allows you to <guilabel>Generate beans.xml file</guilabel>, selected by default. The <filename>beans.xml</filename> file is a bean archive descriptor that allows you to enable CDI services for a bean archive. It is recommended that you leave the option selected.
+		</para>
+		<figure id="project_creation_05">
+			<title>Web Module configuration screen</title>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="images/Creating_a_CDI_Web_Project/project_creation_05.png" format="PNG" />
+				</imageobject>
+				<textobject>
+					<phrase>
+						Web Module configuration screen for your project.
+					</phrase>
+				</textobject>
+			</mediaobject>
+		</figure>
+		<para>
+			The final wizard screen pertains to <guilabel>JSF Capabilities</guilabel> configuration. 
+		</para>
+		<figure id="project_creation_06">
+			<title>Web Module configuration screen</title>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="images/Creating_a_CDI_Web_Project/project_creation_06.png" format="PNG" />
+				</imageobject>
+				<textobject>
+					<phrase>
+						JSF Capabilities configuration screen for your project.
+					</phrase>
+				</textobject>
+			</mediaobject>
+		</figure>
+</chapter>
+
