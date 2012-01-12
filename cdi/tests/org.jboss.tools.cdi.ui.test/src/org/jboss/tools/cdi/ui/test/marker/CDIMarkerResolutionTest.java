@@ -19,12 +19,9 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.ltk.core.refactoring.Change;
 import org.eclipse.ltk.core.refactoring.CompositeChange;
 import org.eclipse.ltk.core.refactoring.RefactoringStatus;
-import org.eclipse.ltk.core.refactoring.TextFileChange;
 import org.eclipse.ltk.core.refactoring.participants.RefactoringProcessor;
-import org.eclipse.text.edits.MultiTextEdit;
 import org.eclipse.ui.IMarkerResolution;
 import org.eclipse.ui.ide.IDE;
 import org.jboss.tools.cdi.core.test.tck.TCKTest;
@@ -32,6 +29,7 @@ import org.jboss.tools.cdi.internal.core.validation.CDICoreValidator;
 import org.jboss.tools.cdi.internal.core.validation.CDIValidationErrorManager;
 import org.jboss.tools.cdi.ui.marker.AddAnnotationMarkerResolution;
 import org.jboss.tools.cdi.ui.marker.AddLocalBeanMarkerResolution;
+import org.jboss.tools.cdi.ui.marker.AddNameMarkerResolution;
 import org.jboss.tools.cdi.ui.marker.AddRetentionAnnotationMarkerResolution;
 import org.jboss.tools.cdi.ui.marker.AddSerializableInterfaceMarkerResolution;
 import org.jboss.tools.cdi.ui.marker.AddTargetAnnotationMarkerResolution;
@@ -45,9 +43,7 @@ import org.jboss.tools.cdi.ui.marker.MakeMethodBusinessMarkerResolution;
 import org.jboss.tools.cdi.ui.marker.MakeMethodPublicMarkerResolution;
 import org.jboss.tools.cdi.ui.marker.TestableResolutionWithDialog;
 import org.jboss.tools.cdi.ui.marker.TestableResolutionWithRefactoringProcessor;
-import org.jboss.tools.common.base.test.AbstractRefactorTest.TestChangeStructure;
 import org.jboss.tools.common.base.test.validation.TestUtil;
-import org.jboss.tools.common.refactoring.BaseFileChange;
 import org.jboss.tools.common.ui.marker.AddSuppressWarningsMarkerResolution;
 import org.jboss.tools.common.ui.marker.ConfigureProblemSeverityMarkerResolution;
 import org.jboss.tools.common.util.FileUtil;
@@ -1018,5 +1014,16 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
 				CDIValidationErrorManager.UNKNOWN_INTERCEPTOR_CLASS_NAME_ID,
 				CreateCDIElementMarkerResolution.class);
+	}
+	
+	public void testAddNameResolution() throws CoreException{
+		checkResolution(tckProject,
+				new String[]{
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/NamedInjectionBroken.java"
+				},
+				CDICoreValidator.PROBLEM_TYPE,
+				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
+				CDIValidationErrorManager.PARAM_INJECTION_DECLARES_EMPTY_NAME_ID,
+				AddNameMarkerResolution.class);
 	}
 }
