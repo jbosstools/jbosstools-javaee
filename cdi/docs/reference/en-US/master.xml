@@ -38,7 +38,7 @@
     </bookinfo>
     
     <toc/> 
-    &Revision_History;
 	&CDI_Web_Project;
+    &Revision_History;
 
 </book> 
