@@ -484,15 +484,8 @@ public class CDIProblemMarkerResolutionGenerator implements
 					}
 				}
 			}else if(messageId == CDIValidationErrorManager.PARAM_INJECTION_DECLARES_EMPTY_NAME_ID){
-				ILocalVariable parameter = findParameter(file, start);
-				if(parameter != null){
-					IAnnotation namedAnnotation = getAnnotation(parameter, CDIConstants.NAMED_QUALIFIER_TYPE_NAME);
-					if(namedAnnotation != null){
-						return new IMarkerResolution[] {
-							new AddNameMarkerResolution(namedAnnotation, parameter.getElementName())
-						};
-					}
-				}
+				List<IMarkerResolution> resolutions = getAddNameResolutions(file, start);
+				return resolutions.toArray(new IMarkerResolution[]{});
 			}
 		}else if (XML_EXTENSION.equals(file.getFileExtension())){
 			FileEditorInput input = new FileEditorInput(file);
@@ -559,6 +552,47 @@ public class CDIProblemMarkerResolutionGenerator implements
 			}
 		}
 		return new IMarkerResolution[] {};
+	}
+	
+	private List<IMarkerResolution> getAddNameResolutions(IFile file, int start){
+		List<IMarkerResolution> resolutions = new ArrayList<IMarkerResolution>();
+		ILocalVariable parameter = findParameter(file, start);
+		if(parameter != null){
+			IAnnotation namedAnnotation = getAnnotation(parameter, CDIConstants.NAMED_QUALIFIER_TYPE_NAME);
+			if(namedAnnotation != null){
+				CDICoreNature cdiNature = CDIUtil.getCDINatureWithProgress(file.getProject());
+				if(cdiNature == null)
+					return resolutions;
+				
+				ICDIProject cdiProject = cdiNature.getDelegate();
+				
+				if(cdiProject == null){
+					return resolutions;
+				}
+				
+				Set<IBean> allBeans = CDIUtil.getFilteredBeans(cdiProject, file.getFullPath());
+				
+				IInjectionPoint ip = CDIUtil.findInjectionPoint(allBeans, parameter, start);
+				if(ip != null){
+					List<IBean> beans;
+					beans = findLegalBeans(ip);
+					if(beans.size() == 0){
+						beans = findBeans(ip);
+					}
+					if(beans.size() < MARKER_RESULUTION_NUMBER_LIMIT){
+						for(IBean bean : beans){
+							if(bean.getName() != null && !bean.getName().isEmpty()){
+								resolutions.add(new AddNameMarkerResolution(namedAnnotation, bean.getName()));
+							}
+						}
+					}
+				}
+			}
+			if(resolutions.size() == 0){
+				resolutions.add(new AddNameMarkerResolution(namedAnnotation, parameter.getElementName()));
+			}
+		}
+		return resolutions;
 	}
 	
 	private IType getTypeToAddAlternativeToBean(IProject project, String qualifiedName){
