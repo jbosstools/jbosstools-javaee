@@ -480,10 +480,15 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 			}
 		});
 		
-		createTestProjectCheckboxeditor.setEnabled(isNewProjectWizard());
-		
 		registerEditor(testProjectNameditor, generationGroup, 3);
 		registerEditor(testsPkgNameditor, generationGroup, 3);
+		
+		if(!isNewProjectWizard()){
+			createTestProjectCheckboxeditor.setValue(false);
+			createTestProjectCheckboxeditor.setEnabled(false);
+			testProjectNameditor.setEnabled(false);
+			testsPkgNameditor.setEnabled(false);
+		}
 
 		setControl(root);
 
