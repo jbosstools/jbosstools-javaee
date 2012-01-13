@@ -81,7 +81,9 @@ public class QualifierValidationQuickFixTest extends QuickFixTestBase {
 	
 		checkQuickFix(CDIAnnotationsType.NONBINDING, CDIWizardType.QUALIFIER);
 				
-		editResourceUtil.replaceInEditor("@Nonbinding AAnnotation", "String[]");
+		editResourceUtil.replaceClassContentByResource(QuickFixTestBase.class
+				.getResourceAsStream("/resources/quickfix/qualifier/QualifierWithStringArray.java.cdi"), false);
+		editResourceUtil.replaceInEditor("QualifierComponent", className);
 		
 		checkQuickFix(CDIAnnotationsType.NONBINDING, CDIWizardType.QUALIFIER);
 	}

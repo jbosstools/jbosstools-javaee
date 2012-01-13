@@ -46,7 +46,10 @@ public class IBindingValidationQuickFixTest extends QuickFixTestBase {
 		
 		checkQuickFix(CDIAnnotationsType.NONBINDING, CDIWizardType.INTERCEPTOR_BINDING);
 				
-		editResourceUtil.replaceInEditor("@Nonbinding AAnnotation", "String[]");
+		editResourceUtil.replaceClassContentByResource(QuickFixTestBase.class
+				.getResourceAsStream("/resources/quickfix/interceptorBinding/IBindingWithStringArray.java.cdi"), 
+				false);
+		editResourceUtil.replaceInEditor("IBindingComponent", className);
 			
 		checkQuickFix(CDIAnnotationsType.NONBINDING, CDIWizardType.INTERCEPTOR_BINDING);
 	}
