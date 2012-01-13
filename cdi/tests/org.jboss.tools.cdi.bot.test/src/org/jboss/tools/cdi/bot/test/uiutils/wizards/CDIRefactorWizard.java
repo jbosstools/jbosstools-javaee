@@ -32,11 +32,9 @@ public class CDIRefactorWizard extends Wizard{
 	 * Method gets all files which will be affected by CDI refactoring
 	 * @return
 	 */
-	public List<String> getAffectedFiles() {
-		String temp = null;
-		for (SWTBotTreeItem ti : bot().tree().getTreeItem(RENAME_TEXT_LABEL).getItems()) {
-			temp = ti.getText().split("-")[0];
-			affectedFiles.add(temp.substring(0, temp.length() - 1));
+	public List<String> getAffectedFiles() {		
+		for (SWTBotTreeItem ti : bot().tree().getTreeItem(RENAME_TEXT_LABEL).getItems()) {			
+			affectedFiles.add(ti.getText());
 		}
 		return affectedFiles;
 	}
