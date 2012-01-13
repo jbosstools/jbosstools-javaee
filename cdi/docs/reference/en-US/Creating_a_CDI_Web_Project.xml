@@ -118,7 +118,7 @@
 	</table>
 	<table id="table-jbt-new_cdi_web_project_02" frame="all">
 		<!--   <table id="NewJSFProject_Web_ServletVersion" frame='all'> -->
-			<title>New Dynamic Project - Dynamic web module version</title>
+			<title>New CDI Web Project - Dynamic web module version</title>
 			<tgroup cols='2' align='left' colsep='1' rowsep='1'>
 				<colspec colname='c1' colwidth="1*"/>
 				<colspec colname='c2' colwidth="4*"/>
@@ -154,7 +154,7 @@
 		</table> 
 		
 		<table id="table-jbt-new_cdi_web_project_03">
-			<title>CDI Web Project - Configuration</title>
+			<title>New CDI Web Project - Configuration</title>
 			<tgroup cols='2' align='left' colsep='1' rowsep='1'>
 				<colspec colname='c1' colwidth="1*"/>
 				<colspec colname='c2' colwidth="2*"/>
@@ -237,7 +237,7 @@
 			</mediaobject>
 		</figure>
 		<para>
-			The final wizard screen pertains to <guilabel>JSF Capabilities</guilabel> configuration. 
+			The final screen of the wizard pertains to <guilabel>JSF Capabilities</guilabel> configuration. 
 		</para>
 		<figure id="project_creation_06">
 			<title>Web Module configuration screen</title>
@@ -252,5 +252,112 @@
 				</textobject>
 			</mediaobject>
 		</figure>
+		<table id="table-jbt-new_cdi_web_project_04" frame='all'>
+			<title>JSF Capabilities</title>
+			<tgroup cols='4' align='left' colsep='1' rowsep='1'>
+				<colspec colname='c1' colwidth="1*"/>
+				<colspec colname='c2' colwidth="1*"/>
+				<colspec colname='c3' colwidth="3*"/>
+				<colspec colname='c4' colwidth="3*"/>
+				<thead>
+					<row>
+						<entry>Field</entry>
+						<entry>Mandatory</entry>
+						<entry>Instruction</entry>
+						<entry>Description</entry>
+					</row>
+				</thead> 
+				
+				<tbody>
+					<row>
+						<entry>JSF Implementation Library Type</entry>
+						<entry>yes</entry>
+						<entry>Select an implementation library from the list provided.</entry>
+						<entry>This option adds support for the JSF implementation library, required for the project to function correctly. For a description of available options see: <xref linkend="table-jbt-new_cdi_web_project_05"/>.
+                    </entry>
+					</row>
+					<row>
+						<entry>Configure JSF servlet in deployment descriptor</entry>
+						<entry>no</entry>
+						<entry>Selected by default, decide whether to configure the deployment descriptor for the JSF servlet or not.</entry>
+						<entry>This option, if selected, opens up the ability to configure various deployment descriptor fields. For a description of fields see: <xref linkend="table-jbt-new_cdi_web_project_06"/>.
+					</entry>
+				</row>
+				</tbody>
+			</tgroup>
+		</table>
+		<table id="table-jbt-new_cdi_web_project_05" frame="all">
+				<title>JSF Capabilities - JSF Implementation Library</title>
+				<tgroup cols='2' align='left' colsep='1' rowsep='1'>
+					<colspec colname='c1' colwidth="1*"/>
+					<colspec colname='c2' colwidth="4*"/>
+					<thead>
+						<row>
+							<entry>Option</entry>
+							<entry>Description</entry>
+						</row>
+					</thead>
+					<tbody>
+						<row>
+							<entry>Library Provided by Target Runtime</entry>
+							<entry>If you selected a target runtime on the first screen, this option will configure the project to use the required facet library that is provided by the target runtime.</entry>
+						</row>
+						<row>
+							<entry>User Library</entry>
+							<entry>Selecting the <guilabel>User Library</guilabel> option allows you to specify one or more custom user libraries to be used. At least one must be selected for the wizard to complete successfully.</entry>
+						</row>
+						<row>
+							<entry>Disable Library Configuration</entry>
+							<entry>If you choose to disable library configuration you will have to configure the project classpath at a later time, by alternate means, before running the project.</entry>
+						</row>
+					</tbody>
+				</tgroup>
+			</table> 
+			<table id="table-jbt-new_cdi_web_project_06" frame="all">
+				<title>JSF Capabilities - JSF Servlet Configuration</title>
+				<tgroup cols='4' align='left' colsep='1' rowsep='1'>
+					<colspec colname='c1' colwidth="1*"/>
+					<colspec colname='c2' colwidth="1*"/>
+					<colspec colname='c3' colwidth="3*"/>
+					<colspec colname='c4' colwidth="3*"/>
+					<thead>
+						<row>
+							<entry>Field</entry>
+							<entry>Mandatory</entry>
+							<entry>Instruction</entry>
+							<entry>Description</entry>
+						</row>
+					</thead> 
+					<tbody>
+						<row>
+							<entry>JSF Configuration File</entry>
+							<entry>Yes</entry>
+							<entry>Enter the location of the JSF configuration file (the default is usually correct).</entry>
+							<entry>You must specify where the JSF configuration file is located.</entry>
+						</row>
+						<row>
+							<entry>JSF Servlet Name</entry>
+							<entry>Yes</entry>
+							<entry>Specify a name for your JSF servlet</entry>
+							<entry>The name of the servlet.</entry>
+						</row>
+						<row>
+							<entry>JSF Servlet Class Name</entry>
+							<entry>No</entry>
+							<entry>Specify a name for your servlet class.</entry>
+							<entry>Naming your servlet class will allow for easy reference to it when you are coding for your project in the future.</entry>
+						</row>
+						<row>
+							<entry>URL Mapping Patters</entry>
+							<entry>No</entry>
+							<entry>A default mapping pattern is provided. You are able to remove and add patterns as you wish.</entry>
+							<entry>This option allows for the creation of constant, readable URLs, based on patterns, that map to your project.</entry>
+						</row>
+					</tbody>
+				</tgroup>
+			</table>
+			<para>
+				Click the <guibutton>Finish</guibutton> button to create your CDI Web Project.
+			</para>
 </chapter>
 
