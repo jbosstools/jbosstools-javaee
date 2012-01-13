@@ -18,7 +18,7 @@ import org.junit.Test;
 import org.junit.runners.Suite.SuiteClasses;
 
 @SuiteClasses({ CDIAllBotTests.class , CDISmokeBotTests.class })
-public class CDIProjectWithDynamicWizardTest extends CDITestBase {
+public class CDISupportTest extends CDITestBase {
 	
 	@Override	
 	public void checkAndCreateProject() {
