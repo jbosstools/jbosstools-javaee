@@ -105,5 +105,5 @@ public class BeansXMLValidationQuickFixTest extends BeansXMLQuickFixTestBase {
 		assertTrue(isBeanXMLValidationProblemsEmpty());		
 		
 	}
-
+	
 }

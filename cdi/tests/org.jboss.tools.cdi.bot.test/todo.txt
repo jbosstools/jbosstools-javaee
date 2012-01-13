@@ -2,9 +2,7 @@
   what tests have to be done(JBDS50_0010):
    * Validations works good for Inconsistent specialization, 
      Ambiguous EL names, Unproxyable bean types, Decorator resolution
-   * Code completion works in beans.xml
    * Quick fixes for problem markers in beans.xml(https://issues.jboss.org/browse/JBIDE-9833)
-   * Complex test from Weld is working in JBDS and CDI functionality works without errors
    * CDI @Named beans are renamed via refactoring and shows up correctly 
       when using Find References for EL Expressions
    * Create new decorator from existing Web Bean
