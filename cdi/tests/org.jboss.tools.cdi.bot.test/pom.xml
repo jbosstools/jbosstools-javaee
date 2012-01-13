@@ -11,7 +11,8 @@
 	
 	<packaging>eclipse-test-plugin</packaging>
 	<properties>
-		<systemProperties>-Dswtbot.test.properties.file=./swtbot.properties</systemProperties>
+		<systemProperties>-Dswtbot.test.properties.file=${swtbot.properties}</systemProperties>
+		<test.suite.class>org.jboss.tools.cdi.bot.test.CDIAllBotTests</test.suite.class>
 	</properties>
 
 	<build>
@@ -20,19 +21,11 @@
 				<groupId>org.eclipse.tycho</groupId>
 				<artifactId>tycho-surefire-plugin</artifactId>
 				<configuration>
+					<testSuite>org.jboss.tools.cdi.bot.test</testSuite>
+					<testClass>${test.suite.class}</testClass>
 					<useUIThread>false</useUIThread>
 					<skip>${swtbot.test.skip}</skip>
 					<dependencies combine.children="append">
-						<dependency>
-							<type>p2-installable-unit</type>
-							<artifactId>org.eclipse.jst.server_ui.feature.feature.group</artifactId>
-							<version>0.0.0</version>
-						</dependency>
-						<dependency>
-							<type>p2-installable-unit</type>
-							<artifactId>org.jboss.ide.eclipse.as.feature.feature.group</artifactId>
-							<version>0.0.0</version>
-						</dependency>
 						<dependency>
 							<type>p2-installable-unit</type>
 							<artifactId>org.jboss.tools.cdi.feature.feature.group</artifactId>
@@ -40,12 +33,50 @@
 						</dependency>
 						<dependency>
 							<type>p2-installable-unit</type>
+							<artifactId>org.jboss.ide.eclipse.as.feature.feature.group</artifactId>
+							<version>0.0.0</version>
+						</dependency>
+                        <dependency>
+							<type>p2-installable-unit</type>
+							<artifactId>org.jboss.tools.jsf.feature.feature.group</artifactId>
+							<version>0.0.0</version>
+						</dependency>
+						<dependency>
+							<type>p2-installable-unit</type>
+							<artifactId>org.jboss.tools.cdi.seam.feature.feature.group</artifactId>
+							<version>0.0.0</version>
+						</dependency>
+
+						<!--
+						<dependency>
+							<type>p2-installable-unit</type>
+							<artifactId>org.eclipse.jst.server_ui.feature.feature.group</artifactId>
+							<version>0.0.0</version>
+						</dependency>
+						<dependency>
+							<type>p2-installable-unit</type>
 							<artifactId>org.jboss.tools.richfaces.feature.feature.group</artifactId>
 							<version>0.0.0</version>
 						</dependency>
+						-->
 					</dependencies>
 				</configuration>
 			</plugin>
 		</plugins>
 	</build>
+	
+	<profiles>
+		<profile>
+			<id>smoke-bot-tests</id>			
+			<properties>
+				<test.suite.class>org.jboss.tools.cdi.bot.test.CDISmokeBotTests</test.suite.class>
+			</properties>				
+		</profile>
+		<profile>
+			<id>seam3-bot-tests</id>			
+			<properties>
+				<test.suite.class>org.jboss.tools.cdi.bot.test.CDISeam3AllBotTests</test.suite.class>
+			</properties>
+		</profile>
+	</profiles>
 </project>
