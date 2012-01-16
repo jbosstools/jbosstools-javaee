@@ -13,6 +13,7 @@ package org.jboss.tools.cdi.bot.test.uiutils;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.MessageFormat;
 import java.util.Scanner;
 
 import org.eclipse.core.resources.IFile;
@@ -47,6 +48,23 @@ public class EditorResourceHelper extends CDIBase {
 		if (closeEdit) {
 			getEd().close();
 		}
+	}
+	
+	/**
+	 * Method copies resource to class opened in SWTBotEditor with entered parameters
+	 * @param classEdit
+	 * @param resource
+	 * @param closeEdit
+	 * @param param
+	 */
+	public void replaceClassContentByResource(InputStream resource, boolean closeEdit, Object... param) {
+		SWTBotEclipseEditor classEdit = getEd().toTextEditor();
+		String s = readStream(resource);
+		String code = MessageFormat.format(s, param);
+		classEdit.toTextEditor().selectRange(0, 0, classEdit.toTextEditor().getText().length());
+		classEdit.toTextEditor().setText(code);
+		classEdit.save();
+		if (closeEdit) classEdit.close();
 	}
 	
 	/**
