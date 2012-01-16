@@ -19,6 +19,7 @@ import org.jboss.tools.cdi.bot.test.uiutils.EditorResourceHelper;
 import org.jboss.tools.cdi.bot.test.uiutils.LibraryHelper;
 import org.jboss.tools.cdi.bot.test.uiutils.OpenOnHelper;
 import org.jboss.tools.cdi.bot.test.uiutils.QuickFixHelper;
+import org.jboss.tools.cdi.bot.test.uiutils.wizards.CDIWizardBaseExt;
 import org.jboss.tools.ui.bot.ext.SWTTestExt;
 
 public class CDIBase extends SWTTestExt {
@@ -27,6 +28,7 @@ public class CDIBase extends SWTTestExt {
 	protected static CDIProjectHelper projectHelper = new CDIProjectHelper(); 
 	protected static BeansXMLValidationHelper beansHelper = new BeansXMLValidationHelper();
 	protected static CDIWizardHelper wizard = new CDIWizardHelper();
+	protected static CDIWizardBaseExt wizardExt = new CDIWizardBaseExt();
 	protected static OpenOnHelper openOnUtil = new OpenOnHelper();
 	protected static LibraryHelper libraryUtil = new LibraryHelper();
 	protected static EditorResourceHelper editResourceUtil = new EditorResourceHelper();
