@@ -11,9 +11,8 @@
 
 package org.jboss.tools.cdi.bot.test.quickfix.validators;
 
-import java.util.ArrayList;
-
-import org.jboss.tools.cdi.bot.test.annotations.CDIAnnotationsType;
+import org.jboss.tools.cdi.bot.test.annotations.ProblemsType;
+import org.jboss.tools.cdi.bot.test.annotations.ValidationType;
 
 public class StereotypeValidationProvider extends AbstractValidationProvider {
 	
@@ -23,47 +22,19 @@ public class StereotypeValidationProvider extends AbstractValidationProvider {
 	
 	@Override
 	void init() {
-		validationErrors.get("Warnings").add("Stereotype annotation type must be annotated with one of");
-		validationErrors.get("Warnings").add("Stereotype annotation type must be annotated " +
-				"with @Retention(RUNTIME)");
-		validationErrors.get("Warnings").add("A stereotype should not be annotated @Typed");
-		validationErrors.get("Errors").add("Stereotype declares a non-empty @Named annotation");
 		
-		warningsAnnotation.add(CDIAnnotationsType.TARGET);
-		warningsAnnotation.add(CDIAnnotationsType.RETENTION);
-		warningsAnnotation.add(CDIAnnotationsType.TYPED);		
+		problems.add(new ValidationProblem(ProblemsType.WARNINGS, ValidationType.TARGET, 
+				"Stereotype annotation type must be annotated with one of"));
 		
-		errorsAnnotation.add(CDIAnnotationsType.NAMED);
-	}
-	
-	public ArrayList<String> getAllErrorsForAnnotationType(
-			CDIAnnotationsType annotationType) {
-		int errorIndex = 0;
-		switch (annotationType) {
-		case NAMED:
-			errorIndex = 0;
-			break;
-		}
-		errorsForAnnotationType.add(validationErrors.get("Errors").get(errorIndex));
-		return errorsForAnnotationType;
-	}
-
-	public ArrayList<String> getAllWarningForAnnotationType(
-			CDIAnnotationsType annotationType) {
-		int warningIndex = 0;
-		switch(annotationType) {
-		case TARGET:
-			warningIndex = 0;
-			break;
-		case RETENTION:
-			warningIndex = 1;
-			break;
-		case TYPED:
-			warningIndex = 2;
-			break;
-		}
-		warningsForAnnotationType.add(validationErrors.get("Warnings").get(warningIndex));
-		return warningsForAnnotationType;
+		problems.add(new ValidationProblem(ProblemsType.WARNINGS, ValidationType.RETENTION,
+				"Stereotype annotation type must be annotated with @Retention(RUNTIME)"));
+		
+		problems.add(new ValidationProblem(ProblemsType.WARNINGS, ValidationType.TYPED,
+				"A stereotype should not be annotated @Typed"));
+		
+		problems.add(new ValidationProblem(ProblemsType.ERRORS, ValidationType.NAMED, 
+				"Stereotype declares a non-empty @Named annotation"));
+						
 	}
 		
 }

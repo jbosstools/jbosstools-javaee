@@ -14,21 +14,29 @@ package org.jboss.tools.cdi.bot.test.quickfix.validators;
 import org.jboss.tools.cdi.bot.test.annotations.ProblemsType;
 import org.jboss.tools.cdi.bot.test.annotations.ValidationType;
 
-public class InterceptorBindingValidationProvider extends AbstractValidationProvider {
+public class ValidationProblem {
+	
+	private ProblemsType problemType;
+	
+	private ValidationType validationType;
+	
+	private String message;
+	
+	public ValidationProblem(ProblemsType problemType, ValidationType validationType, String message) {
+		this.problemType = problemType;
+		this.validationType = validationType;
+		this.message = message;
+	}
 
-	public InterceptorBindingValidationProvider() {
-		super();
+	public ProblemsType getProblemType() {
+		return problemType;
 	}
-	
-	@Override
-	void init() {
-		
-		problems.add(new ValidationProblem(ProblemsType.WARNINGS, ValidationType.NONBINDING, 
-				"Annotation-valued member of an interceptor binding type should be annotated @Nonbinding"));
-		
-		problems.add(new ValidationProblem(ProblemsType.WARNINGS, ValidationType.NONBINDING,
-				"Array-valued member of an interceptor binding type must be annotated @Nonbinding"));
-		
+
+	public ValidationType getValidationType() {
+		return validationType;
 	}
-	
+
+	public String getMessage() {
+		return message;
+	}
 }

@@ -12,7 +12,8 @@
 package org.jboss.tools.cdi.bot.test.quickfix.injection;
 
 import org.jboss.tools.cdi.bot.test.annotations.CDIWizardType;
-import org.jboss.tools.cdi.bot.test.quickfix.base.EligibleInjectionQuickFixTestBase;
+import org.jboss.tools.cdi.bot.test.annotations.ValidationType;
+import org.jboss.tools.cdi.bot.test.quickfix.EligibleInjectionQuickFixTestBase;
 import org.junit.After;
 import org.junit.Test;
 
@@ -52,14 +53,39 @@ public class ProblemEligibleInjectionTest extends EligibleInjectionQuickFixTestB
 		
 		wizard.createCDIComponentWithContent(CDIWizardType.BEAN, DOG,
 				getPackageName(), null, "/resources/quickfix/" +
-						"injection/addQualifier/Dog.java.cdi");
+						"injection/Dog.java.cdi");
 
 		
 		wizard.createCDIComponentWithContent(CDIWizardType.BEAN, BROKEN_FARM,
 				getPackageName(), null,  "/resources/quickfix/" +
-						"injection/addQualifier/BrokenFarm.java.cdi");
+						"injection/BrokenFarm.java.cdi");
 
-		resolveMultipleBeans(DOG, QUALIFIER, QualifierOperation.ADD);
+		resolveMultipleBeans(ValidationType.MULTIPLE_BEAN_ELIGIBLE, DOG, QUALIFIER, QualifierOperation.ADD);
+
+		bot.editorByTitle(BROKEN_FARM + ".java").show();
+		setEd(bot.activeEditor().toTextEditor());
+		String code = getEd().getText();
+		assertTrue(code.contains("@Inject @" + QUALIFIER));
+		code = bot.editorByTitle(DOG + ".java").toTextEditor().getText();
+		assertTrue(code.contains("@" + QUALIFIER));
+	}
+	
+	@Test
+	public void testMultipleBeansAddingNonExistingQualifier() {
+
+		wizard.createCDIComponent(CDIWizardType.BEAN, ANIMAL,
+				getPackageName(), null);
+		
+		wizard.createCDIComponentWithContent(CDIWizardType.BEAN, DOG,
+				getPackageName(), null, "/resources/quickfix/" +
+						"injection/Dog.java.cdi");
+
+		
+		wizard.createCDIComponentWithContent(CDIWizardType.BEAN, BROKEN_FARM,
+				getPackageName(), null,  "/resources/quickfix/" +
+						"injection/BrokenFarm.java.cdi");
+		
+		resolveMultipleBeans(ValidationType.MULTIPLE_BEAN_ELIGIBLE, DOG, QUALIFIER, QualifierOperation.ADD);
 
 		bot.editorByTitle(BROKEN_FARM + ".java").show();
 		setEd(bot.activeEditor().toTextEditor());
@@ -77,17 +103,17 @@ public class ProblemEligibleInjectionTest extends EligibleInjectionQuickFixTestB
 		
 		wizard.createCDIComponentWithContent(CDIWizardType.BEAN, ANIMAL,
 				getPackageName(), null,  "/resources/quickfix/" +
-						"injection/removeQualifier/Animal.java.cdi");
+						"injection/AnimalWithQualifier.java.cdi");
 		
 		wizard.createCDIComponentWithContent(CDIWizardType.BEAN, DOG,
 				getPackageName(), null, "/resources/quickfix/" +
-						"injection/removeQualifier/Dog.java.cdi");
+						"injection/DogWithQualifier.java.cdi");
 
 		wizard.createCDIComponentWithContent(CDIWizardType.BEAN, BROKEN_FARM,
 				getPackageName(), null,  "/resources/quickfix/" +
-						"injection/removeQualifier/BrokenFarm.java.cdi");
+						"injection/BrokenFarmWithQualifier.java.cdi");
 
-		resolveMultipleBeans(DOG, QUALIFIER, QualifierOperation.REMOVE);
+		resolveMultipleBeans(ValidationType.MULTIPLE_BEAN_ELIGIBLE, DOG, QUALIFIER, QualifierOperation.REMOVE);
 		
 		bot.editorByTitle(BROKEN_FARM + ".java").show();
 		setEd(bot.activeEditor().toTextEditor());
@@ -95,31 +121,6 @@ public class ProblemEligibleInjectionTest extends EligibleInjectionQuickFixTestB
 		assertTrue(code.contains("@Inject private") || code.contains("@Inject  private"));
 		code = bot.editorByTitle(DOG + ".java").toTextEditor().getText();
 		assertTrue(!code.contains("@" + QUALIFIER));
-	}
-	
-	@Test
-	public void testMultipleBeansAddingNonExistingQualifier() {
-
-		wizard.createCDIComponent(CDIWizardType.BEAN, ANIMAL,
-				getPackageName(), null);
-		
-		wizard.createCDIComponentWithContent(CDIWizardType.BEAN, DOG,
-				getPackageName(), null, "/resources/quickfix/" +
-						"injection/addQualifier/Dog.java.cdi");
-
-		
-		wizard.createCDIComponentWithContent(CDIWizardType.BEAN, BROKEN_FARM,
-				getPackageName(), null,  "/resources/quickfix/" +
-						"injection/addQualifier/BrokenFarm.java.cdi");
-		
-		resolveMultipleBeans(DOG, QUALIFIER, QualifierOperation.ADD);
-
-		bot.editorByTitle(BROKEN_FARM + ".java").show();
-		setEd(bot.activeEditor().toTextEditor());
-		String code = getEd().getText();
-		assertTrue(code.contains("@Inject @" + QUALIFIER));
-		code = bot.editorByTitle(DOG + ".java").toTextEditor().getText();
-		assertTrue(code.contains("@" + QUALIFIER));
 	}
 	
 	@Test
@@ -133,14 +134,14 @@ public class ProblemEligibleInjectionTest extends EligibleInjectionQuickFixTestB
 		
 		wizard.createCDIComponentWithContent(CDIWizardType.BEAN, DOG,
 				getPackageName(), null, "/resources/quickfix/" +
-						"injection/addQualifier/Dog.java.cdi");
+						"injection/Dog.java.cdi");
 
 		
 		wizard.createCDIComponentWithContent(CDIWizardType.BEAN, BROKEN_FARM,
 				getPackageName(), null,  "/resources/quickfix/" +
-						"injection/addQualifier/BrokenFarmWithQualifier.java.cdi");
+						"injection/BrokenFarmWithQualifier.java.cdi");
 
-		resolveMultipleBeans(DOG, QUALIFIER, QualifierOperation.ADD);
+		resolveMultipleBeans(ValidationType.NO_BEAN_ELIGIBLE, DOG, QUALIFIER, QualifierOperation.ADD);
 
 		bot.editorByTitle(BROKEN_FARM + ".java").show();
 		setEd(bot.activeEditor().toTextEditor());
@@ -152,28 +153,32 @@ public class ProblemEligibleInjectionTest extends EligibleInjectionQuickFixTestB
 	}
 	
 	@Test
-	public void testNoBeanEligibleAddingNonExistingQualifier() {
+	public void testNoBeanEligibleRemovingExistingQualifier() {
 		
-		wizard.createCDIComponent(CDIWizardType.BEAN, ANIMAL,
+		wizard.createCDIComponent(CDIWizardType.QUALIFIER, QUALIFIER, 
 				getPackageName(), null);
+		
+		wizard.createCDIComponentWithContent(CDIWizardType.BEAN, ANIMAL,
+				getPackageName(), null, "/resources/quickfix/" +
+						"injection/AnimalWithQualifier.java.cdi");
 		
 		wizard.createCDIComponentWithContent(CDIWizardType.BEAN, DOG,
 				getPackageName(), null, "/resources/quickfix/" +
-						"injection/addQualifier/Dog.java.cdi");
+						"injection/DogWithQualifier.java.cdi");
 
 		
 		wizard.createCDIComponentWithContent(CDIWizardType.BEAN, BROKEN_FARM,
 				getPackageName(), null,  "/resources/quickfix/" +
-						"injection/addQualifier/BrokenFarmWithQualifier.java.cdi");
+						"injection/BrokenFarm.java.cdi");
 
-		resolveMultipleBeans(DOG, QUALIFIER, QualifierOperation.ADD);
+		resolveMultipleBeans(ValidationType.NO_BEAN_ELIGIBLE, DOG, QUALIFIER, QualifierOperation.REMOVE);
 
 		bot.editorByTitle(BROKEN_FARM + ".java").show();
 		setEd(bot.activeEditor().toTextEditor());
 		String code = getEd().getText();
-		assertTrue(code.contains("@Inject @" + QUALIFIER));
+		assertTrue(code.contains("@Inject private") || code.contains("@Inject  private"));
 		code = bot.editorByTitle(DOG + ".java").toTextEditor().getText();
-		assertTrue(code.contains("@" + QUALIFIER));
+		assertFalse(code.contains("@" + QUALIFIER));
 		
 	}
 

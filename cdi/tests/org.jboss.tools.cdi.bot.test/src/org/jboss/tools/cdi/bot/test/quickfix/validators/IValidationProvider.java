@@ -11,18 +11,19 @@
 
 package org.jboss.tools.cdi.bot.test.quickfix.validators;
 
-import org.jboss.tools.cdi.bot.test.annotations.CDIAnnotationsType;
+import java.util.List;
 
-import java.util.ArrayList;
-import java.util.Map;
+import org.jboss.tools.cdi.bot.test.annotations.ValidationType;
 
-public interface ValidationErrorProvider {
-	
+public interface IValidationProvider {
+		
 	/**
-	 * Method gets all validation errors showed in Problems View for actual component
+	 * Method gets all validation problems type for component
+	 *  
+	 * @param annotationType
 	 * @return
 	 */
-	Map<String, ArrayList<String>> getAllValidationErrors();
+	List<ValidationType> getAllValidationProblemsType();
 	
 	/**
 	 * Method gets all validation errors showed in Problems View as warnings 
@@ -31,7 +32,7 @@ public interface ValidationErrorProvider {
 	 * @param annotationType
 	 * @return
 	 */
-	ArrayList<String> getAllWarningForAnnotationType(CDIAnnotationsType annotationType);
+	List<String> getAllWarningForAnnotationType(ValidationType annotationType);
 		
 	/**
 	 * Method gets all validation errors showed in Problems View as errors 
@@ -40,7 +41,7 @@ public interface ValidationErrorProvider {
 	 * @param annotationType
 	 * @return
 	 */
-	ArrayList<String> getAllErrorsForAnnotationType(CDIAnnotationsType annotationType);
+	List<String> getAllErrorsForAnnotationType(ValidationType annotationType);
 
 	/**
 	 * Method gets all annotations for which exist validation errors showed in Problems View
@@ -48,7 +49,7 @@ public interface ValidationErrorProvider {
 	 *  	
 	 * @return
 	 */
-	ArrayList<CDIAnnotationsType> getAllWarningsAnnotation();
+	List<ValidationType> getAllWarningsAnnotation();
 	
 	/**
 	 * Method gets all annotations for which exist validation errors showed in Problems View
@@ -56,6 +57,6 @@ public interface ValidationErrorProvider {
 	 * 
 	 * @return
 	 */
-	ArrayList<CDIAnnotationsType> getAllErrorsAnnotation();
+	List<ValidationType> getAllErrorsAnnotation();
 
 }

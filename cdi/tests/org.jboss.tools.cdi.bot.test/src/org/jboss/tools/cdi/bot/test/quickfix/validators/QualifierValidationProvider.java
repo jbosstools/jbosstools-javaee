@@ -11,9 +11,8 @@
 
 package org.jboss.tools.cdi.bot.test.quickfix.validators;
 
-import java.util.ArrayList;
-
-import org.jboss.tools.cdi.bot.test.annotations.CDIAnnotationsType;
+import org.jboss.tools.cdi.bot.test.annotations.ProblemsType;
+import org.jboss.tools.cdi.bot.test.annotations.ValidationType;
 
 public class QualifierValidationProvider extends AbstractValidationProvider {
 
@@ -23,23 +22,19 @@ public class QualifierValidationProvider extends AbstractValidationProvider {
 	
 	@Override
 	void init() {
-		validationErrors.get("Warnings").add("Qualifier annotation type must be annotated " +
-				"with @Retention(RUNTIME)");
-		validationErrors.get("Warnings").add("Qualifier annotation type must be annotated with " +
-				"@Target");
-		validationErrors.get("Warnings").add("Annotation-valued member of a qualifier type " +
-				"should be annotated @Nonbinding");
-		validationErrors.get("Warnings").add("Array-valued member of a qualifier type " +
-				"should be annotated @Nonbinding");
 		
-		warningsAnnotation.add(CDIAnnotationsType.RETENTION);
-		warningsAnnotation.add(CDIAnnotationsType.TARGET);
-		warningsAnnotation.add(CDIAnnotationsType.NONBINDING);
+		problems.add(new ValidationProblem(ProblemsType.WARNINGS, ValidationType.RETENTION, 
+				"Qualifier annotation type must be annotated with @Retention(RUNTIME)"));
+		
+		problems.add(new ValidationProblem(ProblemsType.WARNINGS, ValidationType.TARGET,
+				"Qualifier annotation type must be annotated with @Target"));
+		
+		problems.add(new ValidationProblem(ProblemsType.WARNINGS, ValidationType.NONBINDING,
+				"Annotation-valued member of a qualifier type should be annotated @Nonbinding"));
+		
+		problems.add(new ValidationProblem(ProblemsType.WARNINGS, ValidationType.NONBINDING,
+				"Array-valued member of a qualifier type should be annotated @Nonbinding"));
+				
 	}
 
-	public ArrayList<String> getAllWarningForAnnotationType(
-			CDIAnnotationsType annotationType) {
-		return validationErrors.get("Warnings");
-	}
-	
 }

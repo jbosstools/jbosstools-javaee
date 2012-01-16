@@ -12,54 +12,72 @@
 package org.jboss.tools.cdi.bot.test.quickfix.validators;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.List;
 
-import org.jboss.tools.cdi.bot.test.annotations.CDIAnnotationsType;
+import org.jboss.tools.cdi.bot.test.annotations.ProblemsType;
+import org.jboss.tools.cdi.bot.test.annotations.ValidationType;
 
-public abstract class AbstractValidationProvider implements ValidationErrorProvider {
+public abstract class AbstractValidationProvider implements IValidationProvider {
 
-	protected static Map<String, ArrayList<String>> validationErrors = null;
-	protected static ArrayList<String> warningsForAnnotationType = null;
-	protected static ArrayList<String> errorsForAnnotationType = null;
-	protected static ArrayList<CDIAnnotationsType> warningsAnnotation = null;
-	protected static ArrayList<CDIAnnotationsType> errorsAnnotation = null;
+	protected static List<ValidationProblem> problems = null;
 	
-	public AbstractValidationProvider() {
-		validationErrors = new LinkedHashMap<String, ArrayList<String>>();
-		warningsForAnnotationType = new ArrayList<String>();
-		errorsForAnnotationType = new ArrayList<String>();
-		warningsAnnotation = new ArrayList<CDIAnnotationsType>();
-		errorsAnnotation = new ArrayList<CDIAnnotationsType>();
-		
-		validationErrors.put("Warnings", new ArrayList<String>());
-		validationErrors.put("Errors", new ArrayList<String>());
-		
+	public AbstractValidationProvider() {		
+		problems = new ArrayList<ValidationProblem>();		
 		init();
 	}
 	
 	abstract void init();
 
-	public Map<String, ArrayList<String>> getAllValidationErrors() {
-		return validationErrors;
+	public List<String> getAllErrorsForAnnotationType(
+			ValidationType annotationType) {
+		List<String> messages = new ArrayList<String>();
+		for (ValidationProblem problem: problems) {
+			if (problem.getProblemType() == ProblemsType.ERRORS && 
+				problem.getValidationType() == annotationType) {
+				messages.add(problem.getMessage());
+			}
+		}
+		return messages;
 	}
 	
-	public ArrayList<String> getAllErrorsForAnnotationType(
-			CDIAnnotationsType annotationType) {
-		return errorsForAnnotationType;
+	public List<String> getAllWarningForAnnotationType(
+			ValidationType annotationType) {
+		List<String> messages = new ArrayList<String>();
+		for (ValidationProblem problem: problems) {
+			if (problem.getProblemType() == ProblemsType.WARNINGS && 
+				problem.getValidationType() == annotationType) {
+				messages.add(problem.getMessage());
+			}
+		}
+		return messages;
 	}
-
-	public ArrayList<String> getAllWarningForAnnotationType(
-			CDIAnnotationsType annotationType) {
-		return warningsForAnnotationType;
+	
+	public List<ValidationType> getAllWarningsAnnotation() {
+		List<ValidationType> annotations = new ArrayList<ValidationType>();
+		for (ValidationProblem problem: problems) {
+			if (problem.getProblemType() == ProblemsType.WARNINGS) {
+				annotations.add(problem.getValidationType());
+			}
+		}
+		return annotations;
 	}
-
-	public ArrayList<CDIAnnotationsType> getAllWarningsAnnotation() {
-		return warningsAnnotation;
+	
+	public List<ValidationType> getAllErrorsAnnotation() {
+		List<ValidationType> annotations = new ArrayList<ValidationType>();
+		for (ValidationProblem problem: problems) {
+			if (problem.getProblemType() == ProblemsType.ERRORS) {
+				annotations.add(problem.getValidationType());
+			}
+		}
+		return annotations;
 	}
-
-	public ArrayList<CDIAnnotationsType> getAllErrorsAnnotation() {
-		return errorsAnnotation;
+	
+	public List<ValidationType> getAllValidationProblemsType() {
+		List<ValidationType> annotations = new ArrayList<ValidationType>();
+		for (ValidationProblem problem: problems) {
+			annotations.add(problem.getValidationType());
+		}
+		return annotations;
 	}
 	
 }

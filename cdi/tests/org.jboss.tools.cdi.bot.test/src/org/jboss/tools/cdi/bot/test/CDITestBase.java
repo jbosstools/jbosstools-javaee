@@ -11,6 +11,8 @@
 
 package org.jboss.tools.cdi.bot.test;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.logging.Logger;
 
 import org.jboss.tools.ui.bot.ext.RequirementAwareSuite;
@@ -28,6 +30,14 @@ import org.junit.runners.Suite.SuiteClasses;
 		 @RunWith(RequirementAwareSuite.class)
 		 @SuiteClasses({ CDIAllBotTests.class })
 public class CDITestBase extends CDIBase {
+	
+	protected static final String BEANS_XML = "beans.xml";	
+	protected static final String CLASS_END_TAG = "</class>";
+	protected static final String CLASS_OPEN_TAG = "<class>";
+	protected static final String STEREOTYPE_END_TAG = "</stereotype>";
+	protected static final String STEREOTYPE_OPEN_TAG = "<stereotype>";
+	protected static final List<String> BEANS_XML_TAGS = Arrays.asList(
+			"alternatives", "decorators", "interceptors");
 	
 	private String projectName = "CDIProject";
 	private String packageName = "cdi";

@@ -9,17 +9,24 @@
  * Red Hat, Inc. - initial API and implementation
  ******************************************************************************/
 
-package org.jboss.tools.cdi.bot.test.quickfix.base;
+package org.jboss.tools.cdi.bot.test.quickfix;
 
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTreeItem;
-import org.jboss.tools.cdi.bot.test.annotations.CDIAnnotationsType;
-import org.jboss.tools.cdi.bot.test.annotations.CDIWizardType;
+import org.jboss.tools.cdi.bot.test.annotations.ValidationType;
 import org.jboss.tools.cdi.bot.test.quickfix.injection.QualifierOperation;
+import org.jboss.tools.cdi.bot.test.quickfix.validators.BeanValidationProvider;
+import org.jboss.tools.cdi.bot.test.quickfix.validators.IValidationProvider;
 import org.jboss.tools.cdi.bot.test.uiutils.wizards.QuickFixDialogWizard;
 import org.jboss.tools.cdi.bot.test.uiutils.wizards.SpecifyBeanDialogWizard;
 import org.jboss.tools.ui.bot.ext.Timing;
 
 public class EligibleInjectionQuickFixTestBase extends QuickFixTestBase{
+	
+	private static IValidationProvider validationProvider = new BeanValidationProvider();
+	
+	public IValidationProvider validationProvider() {
+		return validationProvider;
+	}
 	
 	/**
 	 * Method resolves multiple bean injection problem. By setting class which
@@ -29,12 +36,12 @@ public class EligibleInjectionQuickFixTestBase extends QuickFixTestBase{
 	 * @param classToQualify
 	 * @param qualifier
 	 */
-	public void resolveMultipleBeans(String classToQualify, String qualifier, 
-			QualifierOperation operation) {
+	public void resolveMultipleBeans(ValidationType validationType, String classToQualify, 
+			String qualifier, QualifierOperation operation) {
 		
-		SWTBotTreeItem validationProblem = getProblem(CDIAnnotationsType.INJECT,
-				CDIWizardType.BEAN);		
-
+		SWTBotTreeItem validationProblem = getProblem(validationType);		
+		assertNotNull(validationProblem);
+		
 		quickFixHelper.openQuickFix(validationProblem);
 		QuickFixDialogWizard quickFixWizard = new QuickFixDialogWizard();
 		for (String availableFix : quickFixWizard.getAvailableFixes()) {

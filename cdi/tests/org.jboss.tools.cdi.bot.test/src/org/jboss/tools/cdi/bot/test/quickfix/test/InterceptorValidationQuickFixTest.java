@@ -12,9 +12,11 @@
 package org.jboss.tools.cdi.bot.test.quickfix.test;
 
 
-import org.jboss.tools.cdi.bot.test.annotations.CDIAnnotationsType;
 import org.jboss.tools.cdi.bot.test.annotations.CDIWizardType;
-import org.jboss.tools.cdi.bot.test.quickfix.base.QuickFixTestBase;
+import org.jboss.tools.cdi.bot.test.annotations.ValidationType;
+import org.jboss.tools.cdi.bot.test.quickfix.QuickFixTestBase;
+import org.jboss.tools.cdi.bot.test.quickfix.validators.IValidationProvider;
+import org.jboss.tools.cdi.bot.test.quickfix.validators.InterceptorValidationProvider;
 import org.junit.Test;
 
 /**
@@ -25,10 +27,15 @@ import org.junit.Test;
 
 public class InterceptorValidationQuickFixTest extends QuickFixTestBase {
 	
-
+	private static IValidationProvider validationProvider = new InterceptorValidationProvider();
+	
 	@Override
 	public String getProjectName() {
 		return "CDIQuickFixInterceptorTest";
+	}
+	
+	public IValidationProvider validationProvider() {
+		return validationProvider;
 	}
 	
 	// https://issues.jboss.org/browse/JBIDE-7680
@@ -43,7 +50,7 @@ public class InterceptorValidationQuickFixTest extends QuickFixTestBase {
 
 		editResourceUtil.replaceInEditor("InterceptorComponent", className);
 		
-		checkQuickFix(CDIAnnotationsType.STATELESS, CDIWizardType.INTERCEPTOR);
+		checkQuickFix(ValidationType.STATELESS);
 			
 	}
 	
@@ -59,7 +66,7 @@ public class InterceptorValidationQuickFixTest extends QuickFixTestBase {
 
 		editResourceUtil.replaceInEditor("InterceptorComponent", className);
 		
-		checkQuickFix(CDIAnnotationsType.NAMED, CDIWizardType.INTERCEPTOR);
+		checkQuickFix(ValidationType.NAMED);
 		
 	}
 	
@@ -75,7 +82,7 @@ public class InterceptorValidationQuickFixTest extends QuickFixTestBase {
 
 		editResourceUtil.replaceInEditor("InterceptorComponent", className);
 		
-		checkQuickFix(CDIAnnotationsType.PRODUCES, CDIWizardType.INTERCEPTOR);
+		checkQuickFix(ValidationType.PRODUCES);
 		
 	}
 	
@@ -91,7 +98,7 @@ public class InterceptorValidationQuickFixTest extends QuickFixTestBase {
 
 		editResourceUtil.replaceInEditor("InterceptorComponent", className);
 		
-		checkQuickFix(CDIAnnotationsType.DISPOSES, CDIWizardType.INTERCEPTOR);
+		checkQuickFix(ValidationType.DISPOSES);
 		
 	}
 	
@@ -110,7 +117,7 @@ public class InterceptorValidationQuickFixTest extends QuickFixTestBase {
 		editResourceUtil.replaceInEditor("@Disposes", "@Observes");
 		editResourceUtil.replaceInEditor("InterceptorComponent", className);
 		
-		checkQuickFix(CDIAnnotationsType.OBSERVES, CDIWizardType.INTERCEPTOR);
+		checkQuickFix(ValidationType.OBSERVES);
 			
 	}
 	
@@ -126,7 +133,7 @@ public class InterceptorValidationQuickFixTest extends QuickFixTestBase {
 
 		editResourceUtil.replaceInEditor("InterceptorComponent", className);
 		
-		checkQuickFix(CDIAnnotationsType.SPECIALIZES, CDIWizardType.INTERCEPTOR);
+		checkQuickFix(ValidationType.SPECIALIZES);
 			
 	}
 	

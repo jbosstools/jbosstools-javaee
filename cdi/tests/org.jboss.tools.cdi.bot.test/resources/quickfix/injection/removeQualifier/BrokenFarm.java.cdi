@@ -1,9 +1,0 @@
-package cdi;
-
-import javax.inject.Inject;
-
-public class BrokenFarm {
-	@SuppressWarnings("unused")
-	@Inject @Q1 private Animal animal;
-
-}

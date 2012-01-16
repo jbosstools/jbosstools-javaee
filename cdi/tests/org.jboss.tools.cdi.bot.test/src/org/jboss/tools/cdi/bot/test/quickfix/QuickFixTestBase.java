@@ -9,25 +9,16 @@
  * Red Hat, Inc. - initial API and implementation
  ******************************************************************************/
 
-package org.jboss.tools.cdi.bot.test.quickfix.base;
+package org.jboss.tools.cdi.bot.test.quickfix;
 
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTreeItem;
 import org.jboss.tools.cdi.bot.test.CDITestBase;
-import org.jboss.tools.cdi.bot.test.annotations.CDIAnnotationsType;
-import org.jboss.tools.cdi.bot.test.annotations.CDIWizardType;
 import org.jboss.tools.cdi.bot.test.annotations.ProblemsType;
-import org.jboss.tools.cdi.bot.test.quickfix.validators.AbstractValidationProvider;
-import org.jboss.tools.cdi.bot.test.quickfix.validators.BeanValidationProvider;
-import org.jboss.tools.cdi.bot.test.quickfix.validators.BeansXmlValidationProvider;
-import org.jboss.tools.cdi.bot.test.quickfix.validators.DecoratorValidationProvider;
-import org.jboss.tools.cdi.bot.test.quickfix.validators.InterceptorBindingValidationProvider;
-import org.jboss.tools.cdi.bot.test.quickfix.validators.InterceptorValidationProvider;
-import org.jboss.tools.cdi.bot.test.quickfix.validators.QualifierValidationProvider;
-import org.jboss.tools.cdi.bot.test.quickfix.validators.ScopeValidationProvider;
-import org.jboss.tools.cdi.bot.test.quickfix.validators.StereotypeValidationProvider;
+import org.jboss.tools.cdi.bot.test.annotations.ValidationType;
+import org.jboss.tools.cdi.bot.test.quickfix.validators.IValidationProvider;
 import org.jboss.tools.cdi.bot.test.uiutils.wizards.QuickFixDialogWizard;
 import org.junit.BeforeClass;
 
@@ -37,74 +28,48 @@ import org.junit.BeforeClass;
  * @author Jaroslav Jankovic
  */
 
-public class QuickFixTestBase extends CDITestBase {
-	
-	protected AbstractValidationProvider validationErrorsProvider;
+public abstract class QuickFixTestBase extends CDITestBase {
 	
 	@BeforeClass
 	public static void setup() {
-		problems.show();
+		problems.show();		
 	}
 	
-
+	protected abstract IValidationProvider validationProvider();
+	
 	/**
 	 * checkQuickFix is the most important method in this class. It
 	 * gets validation error prior to component type and annotation type,
 	 * then it resolve validation error through quick fix
 	 * wizard and finally check if validation errors was fixed through
 	 * this wizard
-	 * @param annonType
+	 * @param validationType
 	 * @param compType
 	 */
-	public void checkQuickFix(CDIAnnotationsType annonType, CDIWizardType compType) {
-		SWTBotTreeItem validationProblem = getProblem(annonType, compType);		
+	public void checkQuickFix(ValidationType validationType) {
+		SWTBotTreeItem validationProblem = getProblem(validationType);		
 		assertNotNull(validationProblem);
 		resolveQuickFix(validationProblem);
-		validationProblem = getProblem(annonType, compType);		
+		validationProblem = getProblem(validationType);		
 		assertNull(validationProblem);
 	}
 	
 	/**
 	 * Methods gets the particular validation problem located in Problems View by
 	 * using specific ValidationErrorsProvider
-	 * @param annonType
+	 * @param validationType
 	 * @param compType
 	 * @return
 	 */
-	protected SWTBotTreeItem getProblem(CDIAnnotationsType annonType, CDIWizardType compType) {		
-		switch (compType) {
-		case STEREOTYPE:
-			validationErrorsProvider = new StereotypeValidationProvider();
-			break;
-		case QUALIFIER:
-			validationErrorsProvider = new QualifierValidationProvider();
-			break;
-		case SCOPE:
-			validationErrorsProvider = new ScopeValidationProvider();
-			break;
-		case BEAN:
-			validationErrorsProvider = new BeanValidationProvider();
-			break;
-		case INTERCEPTOR:
-			validationErrorsProvider = new InterceptorValidationProvider();
-			break;
-		case DECORATOR:
-			validationErrorsProvider = new DecoratorValidationProvider();
-			break;
-		case INTERCEPTOR_BINDING:
-			validationErrorsProvider = new InterceptorBindingValidationProvider();
-			break;
-		case BEANS_XML:
-			validationErrorsProvider = new BeansXmlValidationProvider();
-			break;
-		}
-		ArrayList<String> validationProblems = null;
+	protected SWTBotTreeItem getProblem(ValidationType validationType) {		
+		IValidationProvider validationErrorsProvider = validationProvider();
+		List<String> validationProblems = null;
 		SWTBotTreeItem[] problemsInProblemsView = null;
-		if (validationErrorsProvider.getAllWarningsAnnotation().contains(annonType)) {
-			validationProblems = validationErrorsProvider.getAllWarningForAnnotationType(annonType);
+		if (validationErrorsProvider.getAllWarningsAnnotation().contains(validationType)) {
+			validationProblems = validationErrorsProvider.getAllWarningForAnnotationType(validationType);
 			problemsInProblemsView = quickFixHelper.getProblems(ProblemsType.WARNINGS, getProjectName());
 		} else {
-			validationProblems = validationErrorsProvider.getAllErrorsForAnnotationType(annonType);
+			validationProblems = validationErrorsProvider.getAllErrorsForAnnotationType(validationType);
 			problemsInProblemsView = quickFixHelper.getProblems(ProblemsType.ERRORS, getProjectName());
 		}
 		for (SWTBotTreeItem ti: problemsInProblemsView) {

@@ -34,7 +34,7 @@ import org.junit.runners.Suite.SuiteClasses;
 public class WizardTest extends CDITestBase {
 
 	public String getProjectName() {
-		return "CDIwizardExtTest";
+		return "CDIWizardTest";
 	}
 	
 	@Override

@@ -13,6 +13,19 @@ package org.jboss.tools.cdi.bot.test.annotations;
 
 public enum BeansXMLValidationErrors {
 
-	ALTERNATIVE, DECORATOR, INTERCEPTOR, NO_SUCH_CLASS
+	ALTERNATIVE("must specify the name of an alternative bean class"), 
+	DECORATOR("must specify the name of a decorator bean class"), 
+	INTERCEPTOR("must specify the name of an interceptor class"), 
+	NO_SUCH_CLASS("There is no class with the specified name");
+	
+	private String validationError;
+	
+	private BeansXMLValidationErrors(String validationError) {
+		this.validationError = validationError;
+	}
+	
+	public String message() {
+		return validationError;
+	}
 	
 }

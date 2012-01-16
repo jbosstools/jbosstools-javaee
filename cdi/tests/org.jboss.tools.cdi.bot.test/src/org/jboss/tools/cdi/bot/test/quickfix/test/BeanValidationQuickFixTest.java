@@ -12,9 +12,11 @@
 package org.jboss.tools.cdi.bot.test.quickfix.test;
 
 
-import org.jboss.tools.cdi.bot.test.annotations.CDIAnnotationsType;
 import org.jboss.tools.cdi.bot.test.annotations.CDIWizardType;
-import org.jboss.tools.cdi.bot.test.quickfix.base.QuickFixTestBase;
+import org.jboss.tools.cdi.bot.test.annotations.ValidationType;
+import org.jboss.tools.cdi.bot.test.quickfix.QuickFixTestBase;
+import org.jboss.tools.cdi.bot.test.quickfix.validators.BeanValidationProvider;
+import org.jboss.tools.cdi.bot.test.quickfix.validators.IValidationProvider;
 import org.junit.Test;
 
 /**
@@ -25,10 +27,15 @@ import org.junit.Test;
 
 public class BeanValidationQuickFixTest extends QuickFixTestBase {
 	
+	private static IValidationProvider validationProvider = new BeanValidationProvider();
 
 	@Override
 	public String getProjectName() {
 		return "CDIQuickFixBeanTest";
+	}
+		
+	public IValidationProvider validationProvider() {
+		return validationProvider;
 	}
 	
 	// https://issues.jboss.org/browse/JBIDE-8550
@@ -41,10 +48,9 @@ public class BeanValidationQuickFixTest extends QuickFixTestBase {
 				getPackageName(), null, "/resources/quickfix/bean/SerializableBean.java.cdi");
 		editResourceUtil.replaceInEditor("BeanComponent", className);		
 		
-		checkQuickFix(CDIAnnotationsType.SERIALIZABLE, CDIWizardType.BEAN);
+		checkQuickFix(ValidationType.SERIALIZABLE);
 		
 	}
-	
 	
 	// https://issues.jboss.org/browse/JBIDE-7664
 	@Test
@@ -56,7 +62,7 @@ public class BeanValidationQuickFixTest extends QuickFixTestBase {
 				getPackageName(), null, "/resources/quickfix/bean/ConstructorWithParam.java.cdi");		
 		editResourceUtil.replaceInEditor("BeanComponent", className);		
 		
-		checkQuickFix(CDIAnnotationsType.DISPOSES, CDIWizardType.BEAN);
+		checkQuickFix(ValidationType.DISPOSES);
 		
 		editResourceUtil.replaceClassContentByResource(QuickFixTestBase.class
 				.getResourceAsStream("/resources/quickfix/bean/ConstructorWithParam.java.cdi"), false);
@@ -66,7 +72,7 @@ public class BeanValidationQuickFixTest extends QuickFixTestBase {
 				"import javax.enterprise.event.Observes;");
 		editResourceUtil.replaceInEditor("BeanComponent", className);		
 		
-		checkQuickFix(CDIAnnotationsType.OBSERVES, CDIWizardType.BEAN);
+		checkQuickFix(ValidationType.OBSERVES);
 	}
 	
 	// https://issues.jboss.org/browse/JBIDE-7665
@@ -80,7 +86,7 @@ public class BeanValidationQuickFixTest extends QuickFixTestBase {
 		
 		editResourceUtil.replaceInEditor("BeanComponent", className);
 		
-		checkQuickFix(CDIAnnotationsType.DISPOSES, CDIWizardType.BEAN);
+		checkQuickFix(ValidationType.DISPOSES);
 		
 		editResourceUtil.replaceClassContentByResource(QuickFixTestBase.class
 				.getResourceAsStream("/resources/quickfix/bean/ProducerWithParam.java.cdi"), false);
@@ -90,7 +96,7 @@ public class BeanValidationQuickFixTest extends QuickFixTestBase {
 		editResourceUtil.replaceInEditor("import javax.enterprise.inject.Disposes;", 
 				"import javax.enterprise.event.Observes;");
 		
-		checkQuickFix(CDIAnnotationsType.OBSERVES, CDIWizardType.BEAN);
+		checkQuickFix(ValidationType.OBSERVES);
 		
 	}
 	
@@ -105,7 +111,7 @@ public class BeanValidationQuickFixTest extends QuickFixTestBase {
 		
 		editResourceUtil.replaceInEditor("BeanComponent", className);
 		
-		checkQuickFix(CDIAnnotationsType.DISPOSES, CDIWizardType.BEAN);
+		checkQuickFix(ValidationType.DISPOSES);
 				
 	}
 	
@@ -123,7 +129,7 @@ public class BeanValidationQuickFixTest extends QuickFixTestBase {
 		editResourceUtil.replaceInEditor("@Disposes", "@Observes");
 		editResourceUtil.replaceInEditor("BeanComponent", className);
 		
-		checkQuickFix(CDIAnnotationsType.OBSERVES, CDIWizardType.BEAN);
+		checkQuickFix(ValidationType.OBSERVES);
 		
 	}
 	
@@ -138,7 +144,7 @@ public class BeanValidationQuickFixTest extends QuickFixTestBase {
 		
 		editResourceUtil.replaceInEditor("BeanComponent", className);
 			
-		checkQuickFix(CDIAnnotationsType.PRODUCES, CDIWizardType.BEAN);
+		checkQuickFix(ValidationType.PRODUCES);
 			
 	}
 	
@@ -153,7 +159,7 @@ public class BeanValidationQuickFixTest extends QuickFixTestBase {
 		
 		editResourceUtil.replaceInEditor("BeanComponent", className);
 			
-		checkQuickFix(CDIAnnotationsType.OBSERVES, CDIWizardType.BEAN);
+		checkQuickFix(ValidationType.OBSERVES);
 			
 	}
 	

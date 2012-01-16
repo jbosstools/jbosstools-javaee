@@ -11,9 +11,8 @@
 
 package org.jboss.tools.cdi.bot.test.quickfix.validators;
 
-import java.util.ArrayList;
-
-import org.jboss.tools.cdi.bot.test.annotations.CDIAnnotationsType;
+import org.jboss.tools.cdi.bot.test.annotations.ProblemsType;
+import org.jboss.tools.cdi.bot.test.annotations.ValidationType;
 
 
 public class BeansXmlValidationProvider extends AbstractValidationProvider {
@@ -24,19 +23,19 @@ public class BeansXmlValidationProvider extends AbstractValidationProvider {
 
 	@Override
 	void init() {
-		validationErrors.get("Errors").add("There is no class with the specified name");
-		validationErrors.get("Errors").add("There is no annotation with the specified name");
-		validationErrors.get("Errors").add("<class> element must specify the name of an " +
-				"alternative bean class");
-		validationErrors.get("Errors").add("<stereotype> element must specify the name of " +
-				"an @Alternative stereotype annotation");		
 		
-		errorsAnnotation.add(CDIAnnotationsType.INJECT);
-	}
-	
-	public ArrayList<String> getAllErrorsForAnnotationType(
-			CDIAnnotationsType annotationType) {		
-		return validationErrors.get("Errors");
+		problems.add(new ValidationProblem(ProblemsType.ERRORS, ValidationType.NO_CLASS, 
+				"There is no class with the specified name"));
+		
+		problems.add(new ValidationProblem(ProblemsType.ERRORS, ValidationType.NO_ANNOTATION,
+				"There is no annotation with the specified name"));
+		
+		problems.add(new ValidationProblem(ProblemsType.ERRORS, ValidationType.ALTERNATIVE_BEAN_XML,
+				"<class> element must specify the name of an alternative bean class"));
+		
+		problems.add(new ValidationProblem(ProblemsType.ERRORS, ValidationType.ALTERNATIVE_STEREOTYPE_BEAN_XML,
+				"<stereotype> element must specify the name of an @Alternative stereotype annotation"));
+		
 	}
 	
 }

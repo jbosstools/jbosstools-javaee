@@ -9,26 +9,34 @@
  * Red Hat, Inc. - initial API and implementation
  ******************************************************************************/
 
-package org.jboss.tools.cdi.bot.test.quickfix.base;
+package org.jboss.tools.cdi.bot.test.quickfix;
 
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTreeItem;
-import org.jboss.tools.cdi.bot.test.annotations.CDIAnnotationsType;
 import org.jboss.tools.cdi.bot.test.annotations.CDIWizardType;
+import org.jboss.tools.cdi.bot.test.annotations.ValidationType;
+import org.jboss.tools.cdi.bot.test.quickfix.validators.BeansXmlValidationProvider;
+import org.jboss.tools.cdi.bot.test.quickfix.validators.IValidationProvider;
 import org.jboss.tools.cdi.bot.test.uiutils.wizards.CDIWizardBase;
 import org.jboss.tools.cdi.bot.test.uiutils.wizards.QuickFixDialogWizard;
 
 public class BeansXMLQuickFixTestBase extends QuickFixTestBase {
 
+	private static IValidationProvider validationProvider = new BeansXmlValidationProvider();
+	
+	public IValidationProvider validationProvider() {
+		return validationProvider;
+	}
+	
 	/**
 	 * Method firstly gets beans.xml validation problem. Then
 	 * it opens quick fix wizard, selects default value and
 	 * press finish button
 	 */
-	private void openBeanXMLValidationProblem() {
+	private void openBeanXMLValidationProblem(ValidationType validationProblemType) {
 		
-		SWTBotTreeItem validationProblem = getProblem(CDIAnnotationsType.INJECT,
-				CDIWizardType.BEANS_XML);		
-
+		SWTBotTreeItem validationProblem = getProblem(validationProblemType);		
+		assertNotNull(validationProblem);
+		
 		quickFixHelper.openQuickFix(validationProblem);	
 		QuickFixDialogWizard qfWizard = new QuickFixDialogWizard();
 		qfWizard.setFix(qfWizard.getAvailableFixes().get(0));
@@ -41,7 +49,12 @@ public class BeansXMLQuickFixTestBase extends QuickFixTestBase {
 	 * @return
 	 */
 	public boolean isBeanXMLValidationProblemsEmpty() {
-		return getProblem(CDIAnnotationsType.INJECT, CDIWizardType.BEANS_XML) == null;
+		for (ValidationType validationType: validationProvider().getAllValidationProblemsType()) {
+			if (getProblem(validationType) != null) {
+				return false;
+			}
+		}
+		return true;
 	}
 	
 	/**
@@ -54,7 +67,7 @@ public class BeansXMLQuickFixTestBase extends QuickFixTestBase {
 	 */
 	public void resolveAddNewAlternative(String name, String pkg) {
 		
-		openBeanXMLValidationProblem();
+		openBeanXMLValidationProblem(ValidationType.NO_CLASS);
 		CDIWizardBase cdiWizardBase = new CDIWizardBase(CDIWizardType.BEAN);
 		if (cdiWizardBase.isAlternative() && cdiWizardBase.canFinish()) {
 			cdiWizardBase.setName(name).setPackage(pkg).finish();
@@ -74,7 +87,7 @@ public class BeansXMLQuickFixTestBase extends QuickFixTestBase {
 	 */
 	public void resolveAddNewStereotype(String name, String pkg) {
 		
-		openBeanXMLValidationProblem();
+		openBeanXMLValidationProblem(ValidationType.NO_ANNOTATION);
 		CDIWizardBase cdiWizardBase = new CDIWizardBase(CDIWizardType.STEREOTYPE);
 		if (cdiWizardBase.isAlternative() && cdiWizardBase.canFinish()) {
 			cdiWizardBase.setName(name).setPackage(pkg).finish();
@@ -94,7 +107,7 @@ public class BeansXMLQuickFixTestBase extends QuickFixTestBase {
 	 */
 	public void resolveAddNewDecorator(String name, String pkg) {
 		
-		openBeanXMLValidationProblem();
+		openBeanXMLValidationProblem(ValidationType.NO_CLASS);
 		CDIWizardBase cdiWizardBase = new CDIWizardBase(CDIWizardType.DECORATOR);		
 		cdiWizardBase.addInterface("java.util.List");
 		if (cdiWizardBase.canFinish()) {
@@ -115,7 +128,7 @@ public class BeansXMLQuickFixTestBase extends QuickFixTestBase {
 	 */
 	public void resolveAddNewInterceptor(String name, String pkg) {
 		
-		openBeanXMLValidationProblem();
+		openBeanXMLValidationProblem(ValidationType.NO_CLASS);
 		CDIWizardBase cdiWizardBase = new CDIWizardBase(CDIWizardType.INTERCEPTOR);
 		if (cdiWizardBase.canFinish()) {
 			cdiWizardBase.setName(name).setPackage(pkg).finish();
@@ -126,14 +139,28 @@ public class BeansXMLQuickFixTestBase extends QuickFixTestBase {
 	}
 	
 	/**
-	 * Method corrects Bean or Stereotype which has no @Alternative annotation in it 
+	 * Method corrects Bean which has no @Alternative annotation in it 
 	 * by adding these parameter.
 	 * @param name
 	 * @param pkg
 	 */
-	public void resolveAddAlternativeToExistingComponent(String name) {
+	public void resolveAddAlternativeToBean(String name) {
 		
-		openBeanXMLValidationProblem();
+		openBeanXMLValidationProblem(ValidationType.ALTERNATIVE_BEAN_XML);
+		String content = bot.editorByTitle(name + ".java").toTextEditor().getText();
+		assertTrue(content.contains("@Alternative"));
+		
+	}
+	
+	/**
+	 * Method corrects Stereotype which has no @Alternative annotation in it 
+	 * by adding these parameter.
+	 * @param name
+	 * @param pkg
+	 */
+	public void resolveAddAlternativeToStereotype(String name) {
+		
+		openBeanXMLValidationProblem(ValidationType.ALTERNATIVE_STEREOTYPE_BEAN_XML);
 		String content = bot.editorByTitle(name + ".java").toTextEditor().getText();
 		assertTrue(content.contains("@Alternative"));
 		

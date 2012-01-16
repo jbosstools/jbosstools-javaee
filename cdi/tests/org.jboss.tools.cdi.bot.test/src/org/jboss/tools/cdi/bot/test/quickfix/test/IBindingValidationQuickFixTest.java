@@ -12,9 +12,11 @@
 package org.jboss.tools.cdi.bot.test.quickfix.test;
 
 
-import org.jboss.tools.cdi.bot.test.annotations.CDIAnnotationsType;
 import org.jboss.tools.cdi.bot.test.annotations.CDIWizardType;
-import org.jboss.tools.cdi.bot.test.quickfix.base.QuickFixTestBase;
+import org.jboss.tools.cdi.bot.test.annotations.ValidationType;
+import org.jboss.tools.cdi.bot.test.quickfix.QuickFixTestBase;
+import org.jboss.tools.cdi.bot.test.quickfix.validators.IValidationProvider;
+import org.jboss.tools.cdi.bot.test.quickfix.validators.InterceptorBindingValidationProvider;
 import org.junit.Test;
 
 /**
@@ -25,10 +27,15 @@ import org.junit.Test;
 
 public class IBindingValidationQuickFixTest extends QuickFixTestBase {
 	
+	private static IValidationProvider validationProvider = new InterceptorBindingValidationProvider();
 
 	@Override
 	public String getProjectName() {
 		return "CDIQuickFixIBindingTest";
+	}
+	
+	public IValidationProvider validationProvider() {
+		return validationProvider;
 	}
 	
 	// https://issues.jboss.org/browse/JBIDE-7641
@@ -44,14 +51,14 @@ public class IBindingValidationQuickFixTest extends QuickFixTestBase {
 
 		editResourceUtil.replaceInEditor("IBindingComponent", className);
 		
-		checkQuickFix(CDIAnnotationsType.NONBINDING, CDIWizardType.INTERCEPTOR_BINDING);
+		checkQuickFix(ValidationType.NONBINDING);
 				
 		editResourceUtil.replaceClassContentByResource(QuickFixTestBase.class
 				.getResourceAsStream("/resources/quickfix/interceptorBinding/IBindingWithStringArray.java.cdi"), 
 				false);
 		editResourceUtil.replaceInEditor("IBindingComponent", className);
 			
-		checkQuickFix(CDIAnnotationsType.NONBINDING, CDIWizardType.INTERCEPTOR_BINDING);
+		checkQuickFix(ValidationType.NONBINDING);
 	}
 	
 }

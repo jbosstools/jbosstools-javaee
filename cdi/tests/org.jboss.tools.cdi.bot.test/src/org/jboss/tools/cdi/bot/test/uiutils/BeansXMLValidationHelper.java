@@ -48,24 +48,9 @@ public class BeansXMLValidationHelper extends CDIBase {
 	 */
 	public boolean checkValidationErrorInBeansXML(String projectName, 
 			BeansXMLValidationErrors validationError) {
-		SWTBotTreeItem[] validationErrors = getBeansXMLValidationErrors(projectName);
-		String error = null; 
-		switch (validationError) {
-		case NO_SUCH_CLASS:
-			error = "There is no class with the specified name";
-			break;
-		case ALTERNATIVE:
-			error = "must specify the name of an alternative bean class";
-			break;			
-		case DECORATOR:
-			error = "must specify the name of a decorator bean class";
-			break;
-		case INTERCEPTOR:
-			error = "must specify the name of an interceptor class";
-			break;		
-		}
+		SWTBotTreeItem[] validationErrors = getBeansXMLValidationErrors(projectName);		
 		return ((validationErrors.length == 1) && 
-				(validationErrors[0].getText().contains(error)));
+				(validationErrors[0].getText().contains(validationError.message())));
 	}
 	
 	/**
@@ -123,7 +108,7 @@ public class BeansXMLValidationHelper extends CDIBase {
 	 */
 	public SWTBotTreeItem[] getBeansXMLValidationErrors(String projectName) {
 		return ProblemsView.getFilteredErrorsTreeItems(bot, null, "/"
-				+ projectName + "/WebContent/WEB-INF", "beans.xml", "CDI Problem");
+				+ projectName, "beans.xml", "CDI Problem");
 	}
 	
 	/**

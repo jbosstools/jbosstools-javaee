@@ -12,9 +12,11 @@
 package org.jboss.tools.cdi.bot.test.quickfix.test;
 
 
-import org.jboss.tools.cdi.bot.test.annotations.CDIAnnotationsType;
 import org.jboss.tools.cdi.bot.test.annotations.CDIWizardType;
-import org.jboss.tools.cdi.bot.test.quickfix.base.QuickFixTestBase;
+import org.jboss.tools.cdi.bot.test.annotations.ValidationType;
+import org.jboss.tools.cdi.bot.test.quickfix.QuickFixTestBase;
+import org.jboss.tools.cdi.bot.test.quickfix.validators.ScopeValidationProvider;
+import org.jboss.tools.cdi.bot.test.quickfix.validators.IValidationProvider;
 import org.junit.Test;
 
 /**
@@ -25,9 +27,15 @@ import org.junit.Test;
 
 public class ScopeValidationQuickFixTest extends QuickFixTestBase {
 	
+	private static IValidationProvider validationProvider = new ScopeValidationProvider();
+	
 	@Override
 	public String getProjectName() {
 		return "CDIQuickFixScopeTest";
+	}
+	
+	public IValidationProvider validationProvider() {
+		return validationProvider;
 	}
 	
 	// https://issues.jboss.org/browse/JBIDE-7633
@@ -41,11 +49,11 @@ public class ScopeValidationQuickFixTest extends QuickFixTestBase {
 		editResourceUtil.replaceInEditor("@Target({ TYPE, METHOD, FIELD })", 
 				"@Target({ TYPE, FIELD })");
 		
-		checkQuickFix(CDIAnnotationsType.TARGET, CDIWizardType.SCOPE);
+		checkQuickFix(ValidationType.TARGET);
 		
 		editResourceUtil.replaceInEditor("@Target({TYPE, METHOD, FIELD})", "");
 		
-		checkQuickFix(CDIAnnotationsType.TARGET, CDIWizardType.SCOPE);
+		checkQuickFix(ValidationType.TARGET);
 	}
 	
 	// https://issues.jboss.org/browse/JBIDE-7631
@@ -58,11 +66,11 @@ public class ScopeValidationQuickFixTest extends QuickFixTestBase {
 				
 		editResourceUtil.replaceInEditor("@Retention(RUNTIME)", "@Retention(CLASS)");
 		
-		checkQuickFix(CDIAnnotationsType.RETENTION, CDIWizardType.SCOPE);
+		checkQuickFix(ValidationType.RETENTION);
 		
 		editResourceUtil.replaceInEditor("@Retention(RUNTIME)", "");
 		
-		checkQuickFix(CDIAnnotationsType.RETENTION, CDIWizardType.SCOPE);
+		checkQuickFix(ValidationType.RETENTION);
 		
 	}
 	

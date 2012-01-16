@@ -33,8 +33,6 @@ import org.junit.Test;
 
 public class BeansXMLCompletionTest extends CDITestBase {
 	
-	private static final List<String> BEANS_XML_TAGS = Arrays.asList(
-			"alternatives", "decorators", "interceptors");
 	private static final List<String> INTERCEPTOR_NAMES = Arrays.asList(
 			"I1", "I2", "I3");
 	private static final List<String> DECORATORS_NAMES = Arrays.asList(
@@ -43,10 +41,6 @@ public class BeansXMLCompletionTest extends CDITestBase {
 			"A1", "A2", "A3");
 	private static final List<String> STEREOTYPES_NAMES = Arrays.asList(
 			"S1", "S2", "S3");
-	private static final String BEANS_XML = "beans.xml";	
-	private static final String CLASS_END_TAG = "</class>";
-	private static final String STEREOTYPE_END_TAG = "</stereotype>";
-	
 
 	@Override
 	public String getProjectName() {

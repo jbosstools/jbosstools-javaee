@@ -12,9 +12,11 @@
 package org.jboss.tools.cdi.bot.test.quickfix.test;
 
 
-import org.jboss.tools.cdi.bot.test.annotations.CDIAnnotationsType;
 import org.jboss.tools.cdi.bot.test.annotations.CDIWizardType;
-import org.jboss.tools.cdi.bot.test.quickfix.base.QuickFixTestBase;
+import org.jboss.tools.cdi.bot.test.annotations.ValidationType;
+import org.jboss.tools.cdi.bot.test.quickfix.QuickFixTestBase;
+import org.jboss.tools.cdi.bot.test.quickfix.validators.StereotypeValidationProvider;
+import org.jboss.tools.cdi.bot.test.quickfix.validators.IValidationProvider;
 import org.junit.Test;
 
 /**
@@ -25,9 +27,15 @@ import org.junit.Test;
 
 public class StereotypeValidationQuickFixTest extends QuickFixTestBase {
 	
+	private static IValidationProvider validationProvider = new StereotypeValidationProvider();
+	
 	@Override
 	public String getProjectName() {
 		return "CDIQuickFixStereotypeTest";
+	}
+	
+	public IValidationProvider validationProvider() {
+		return validationProvider;
 	}
 	
 	// https://issues.jboss.org/browse/JBIDE-7630
@@ -41,11 +49,11 @@ public class StereotypeValidationQuickFixTest extends QuickFixTestBase {
 		editResourceUtil.replaceInEditor("@Target({ TYPE, METHOD, FIELD })", 
 				"@Target({ TYPE, FIELD })");
 		
-		checkQuickFix(CDIAnnotationsType.TARGET, CDIWizardType.STEREOTYPE);
+		checkQuickFix(ValidationType.TARGET);
 
 		editResourceUtil.replaceInEditor("@Target({TYPE, METHOD, FIELD})", "");
 		
-		checkQuickFix(CDIAnnotationsType.TARGET, CDIWizardType.STEREOTYPE);
+		checkQuickFix(ValidationType.TARGET);
 	}
 	
 	// https://issues.jboss.org/browse/JBIDE-7631
@@ -58,11 +66,11 @@ public class StereotypeValidationQuickFixTest extends QuickFixTestBase {
 		
 		editResourceUtil.replaceInEditor("@Retention(RUNTIME)", "@Retention(CLASS)");
 		
-		checkQuickFix(CDIAnnotationsType.RETENTION, CDIWizardType.STEREOTYPE);
+		checkQuickFix(ValidationType.RETENTION);
 				
 		editResourceUtil.replaceInEditor("@Retention(RUNTIME)", "");
 		
-		checkQuickFix(CDIAnnotationsType.RETENTION, CDIWizardType.STEREOTYPE);
+		checkQuickFix(ValidationType.RETENTION);
 		
 	}
 	
@@ -77,7 +85,7 @@ public class StereotypeValidationQuickFixTest extends QuickFixTestBase {
 	
 		editResourceUtil.replaceInEditor("StereotypeComponent", className);
 		
-		checkQuickFix(CDIAnnotationsType.NAMED, CDIWizardType.STEREOTYPE);
+		checkQuickFix(ValidationType.NAMED);
 		
 	}
 	
@@ -92,7 +100,7 @@ public class StereotypeValidationQuickFixTest extends QuickFixTestBase {
 		
 		editResourceUtil.replaceInEditor("StereotypeComponent", className);
 		
-		checkQuickFix(CDIAnnotationsType.TYPED, CDIWizardType.STEREOTYPE);
+		checkQuickFix(ValidationType.TYPED);
 		
 	}	
 

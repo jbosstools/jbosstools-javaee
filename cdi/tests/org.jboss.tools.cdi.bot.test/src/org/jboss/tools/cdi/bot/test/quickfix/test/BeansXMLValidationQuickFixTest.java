@@ -12,7 +12,7 @@
 package org.jboss.tools.cdi.bot.test.quickfix.test;
 
 import org.jboss.tools.cdi.bot.test.annotations.CDIWizardType;
-import org.jboss.tools.cdi.bot.test.quickfix.base.BeansXMLQuickFixTestBase;
+import org.jboss.tools.cdi.bot.test.quickfix.BeansXMLQuickFixTestBase;
 import org.junit.Test;
 
 /**
@@ -60,7 +60,7 @@ public class BeansXMLValidationQuickFixTest extends BeansXMLQuickFixTestBase {
 		
 		beansHelper.createBeansXMLWithAlternative(getProjectName(), getPackageName(), bean);
 		
-		resolveAddAlternativeToExistingComponent(bean);
+		resolveAddAlternativeToBean(bean);
 		
 		assertTrue(isBeanXMLValidationProblemsEmpty());	
 		
@@ -75,7 +75,7 @@ public class BeansXMLValidationQuickFixTest extends BeansXMLQuickFixTestBase {
 		
 		beansHelper.createBeansXMLWithStereotype(getProjectName(), getPackageName(), stereotype);
 		
-		resolveAddAlternativeToExistingComponent(stereotype);
+		resolveAddAlternativeToStereotype(stereotype);
 		
 		assertTrue(isBeanXMLValidationProblemsEmpty());	
 		

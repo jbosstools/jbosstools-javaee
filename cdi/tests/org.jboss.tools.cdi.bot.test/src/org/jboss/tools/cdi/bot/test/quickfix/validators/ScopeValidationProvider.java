@@ -11,9 +11,8 @@
 
 package org.jboss.tools.cdi.bot.test.quickfix.validators;
 
-import java.util.ArrayList;
-
-import org.jboss.tools.cdi.bot.test.annotations.CDIAnnotationsType;
+import org.jboss.tools.cdi.bot.test.annotations.ProblemsType;
+import org.jboss.tools.cdi.bot.test.annotations.ValidationType;
 
 public class ScopeValidationProvider extends AbstractValidationProvider {
 
@@ -23,18 +22,13 @@ public class ScopeValidationProvider extends AbstractValidationProvider {
 	
 	@Override
 	void init() {
-		validationErrors.get("Warnings").add("Scope annotation type must be annotated " +
-				"with @Retention(RUNTIME)");
-		validationErrors.get("Warnings").add("Scope annotation type must be annotated with " +
-				"@Target");
 		
-		warningsAnnotation.add(CDIAnnotationsType.RETENTION);
-		warningsAnnotation.add(CDIAnnotationsType.TARGET);
-	}
-	
-	public ArrayList<String> getAllWarningForAnnotationType(
-			CDIAnnotationsType annotationType) {
-		return validationErrors.get("Warnings");
+		problems.add(new ValidationProblem(ProblemsType.WARNINGS, ValidationType.RETENTION, 
+				"Scope annotation type must be annotated with @Retention(RUNTIME)"));
+		
+		problems.add(new ValidationProblem(ProblemsType.WARNINGS, ValidationType.TARGET,
+				"Scope annotation type must be annotated with @Target"));
+				
 	}
 	
 }

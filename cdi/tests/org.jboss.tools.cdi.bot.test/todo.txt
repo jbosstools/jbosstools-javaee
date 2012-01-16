@@ -2,12 +2,7 @@
   what tests have to be done(JBDS50_0010):
    * Validations works good for Inconsistent specialization, 
      Ambiguous EL names, Unproxyable bean types, Decorator resolution
-   * Quick fixes for problem markers in beans.xml(https://issues.jboss.org/browse/JBIDE-9833)
-   * CDI @Named beans are renamed via refactoring and shows up correctly 
-      when using Find References for EL Expressions
    * Create new decorator from existing Web Bean
-   * EL refactoring for @Named beans works
-   
    
    what tests have to be done(JBDS50_0015):
    * OpenOn works for injected classes
