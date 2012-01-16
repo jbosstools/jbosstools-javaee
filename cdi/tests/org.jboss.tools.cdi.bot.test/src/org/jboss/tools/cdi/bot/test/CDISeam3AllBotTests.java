@@ -14,11 +14,7 @@ package org.jboss.tools.cdi.bot.test;
 import org.jboss.tools.cdi.bot.test.seam3.Seam3ConfigValidationTest;
 import org.jboss.tools.cdi.bot.test.seam3.Seam3GenericOpenOnTest;
 import org.jboss.tools.cdi.bot.test.seam3.Seam3ResourceOpenOnTest;
-import org.jboss.tools.cdi.bot.test.seam3.Seam3TestBase;
-import org.jboss.tools.cdi.bot.test.uiutils.SWTEclipseCDIExtUtil;
 import org.jboss.tools.ui.bot.ext.RequirementAwareSuite;
-import org.jboss.tools.ui.bot.ext.types.ViewType;
-import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite.SuiteClasses;
 
@@ -48,15 +44,6 @@ import org.junit.runners.Suite.SuiteClasses;
 	Seam3GenericOpenOnTest.class,
 	Seam3ConfigValidationTest.class,
 	})
-public class CDISeam3AllBotTests extends Seam3TestBase {
+public class CDISeam3AllBotTests extends AbstractTestSuite {
 	
-	/*
-	 * init method "setup()" shows a project explorer view as default,
-	 * disable folding (due to easier source code editing)
-	 */
-	@BeforeClass
-	public static void setUpSuite() {
-		eclipse.showView(ViewType.PROJECT_EXPLORER);
-		SWTEclipseCDIExtUtil.disableFolding(bot, util);
-	}
 }

@@ -29,14 +29,11 @@ import org.jboss.tools.cdi.bot.test.quickfix.test.StereotypeValidationQuickFixTe
 import org.jboss.tools.cdi.bot.test.seam3.Seam3ConfigValidationTest;
 import org.jboss.tools.cdi.bot.test.seam3.Seam3GenericOpenOnTest;
 import org.jboss.tools.cdi.bot.test.seam3.Seam3ResourceOpenOnTest;
-import org.jboss.tools.cdi.bot.test.uiutils.SWTEclipseCDIExtUtil;
 import org.jboss.tools.cdi.bot.test.wizard.CDISupportTest;
 import org.jboss.tools.cdi.bot.test.wizard.ConfigurationPresetTest;
 import org.jboss.tools.cdi.bot.test.wizard.FacetTest;
 import org.jboss.tools.cdi.bot.test.wizard.WizardTest;
 import org.jboss.tools.ui.bot.ext.RequirementAwareSuite;
-import org.jboss.tools.ui.bot.ext.types.ViewType;
-import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite.SuiteClasses;
 
@@ -88,16 +85,6 @@ import org.junit.runners.Suite.SuiteClasses;
 	Seam3GenericOpenOnTest.class,
 	Seam3ConfigValidationTest.class,
 })
-public class CDIAllBotTests extends CDITestBase {
+public class CDIAllBotTests extends AbstractTestSuite {
 		
-	/*
-	 * init method "setup()" shows a project explorer view as default,
-	 * disable folding (to easier source code editing)
-	 */
-	@BeforeClass
-	public static void setUpSuite() {		
-		eclipse.showView(ViewType.PROJECT_EXPLORER);
-		SWTEclipseCDIExtUtil.disableFolding(bot, util);		
-	}
-	
 }

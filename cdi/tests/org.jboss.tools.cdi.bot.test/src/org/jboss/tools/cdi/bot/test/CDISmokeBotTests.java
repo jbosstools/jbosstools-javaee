@@ -11,14 +11,11 @@
 package org.jboss.tools.cdi.bot.test;
 
 import org.jboss.tools.cdi.bot.test.editor.BeansEditorTest;
-import org.jboss.tools.cdi.bot.test.uiutils.SWTEclipseCDIExtUtil;
 import org.jboss.tools.cdi.bot.test.wizard.CDISupportTest;
-import org.jboss.tools.cdi.bot.test.wizard.WizardTest;
 import org.jboss.tools.cdi.bot.test.wizard.ConfigurationPresetTest;
 import org.jboss.tools.cdi.bot.test.wizard.FacetTest;
+import org.jboss.tools.cdi.bot.test.wizard.WizardTest;
 import org.jboss.tools.ui.bot.ext.RequirementAwareSuite;
-import org.jboss.tools.ui.bot.ext.types.ViewType;
-import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite.SuiteClasses;
 
@@ -51,15 +48,6 @@ import org.junit.runners.Suite.SuiteClasses;
 	WizardTest.class,	
 	BeansEditorTest.class,
 	})
-public class CDISmokeBotTests extends CDITestBase {
+public class CDISmokeBotTests extends AbstractTestSuite {
 	
-	/*
-	 * init method "setup()" shows a project explorer view as default,
-	 * disable folding (due to easier source code editing)
-	 */
-	@BeforeClass
-	public static void setUpSuite() {
-		eclipse.showView(ViewType.PROJECT_EXPLORER);
-		SWTEclipseCDIExtUtil.disableFolding(bot, util);
-	}
 }
