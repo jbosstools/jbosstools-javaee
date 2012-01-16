@@ -43,7 +43,7 @@ public class Seam3TestBase extends CDITestBase {
 	}
 	
 	@Override
-	public void checkAndCreateProject() {
+	public void prepareWorkspace() {
 		if (!projectHelper.projectExists(getProjectName())) {
 			projectHelper.createCDIProjectWithDynamicWizard(getProjectName());
 			addSeamSolderLibrary();

@@ -66,7 +66,7 @@ public class BeansEditorTest extends CDITestBase {
 	}
 	
 	@Override
-	public void checkAndCreateProject() {
+	public void prepareWorkspace() {
 		new ProjectExplorer().openFile(getProjectName(), descPath.split("/"));								
 	}
 	

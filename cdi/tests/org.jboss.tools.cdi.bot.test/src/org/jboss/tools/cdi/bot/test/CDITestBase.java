@@ -13,12 +13,6 @@ package org.jboss.tools.cdi.bot.test;
 
 import java.util.logging.Logger;
 
-import org.jboss.tools.cdi.bot.test.uiutils.BeansXMLValidationHelper;
-import org.jboss.tools.cdi.bot.test.uiutils.CDIProjectHelper;
-import org.jboss.tools.cdi.bot.test.uiutils.CDIWizardHelper;
-import org.jboss.tools.cdi.bot.test.uiutils.EditorResourceHelper;
-import org.jboss.tools.cdi.bot.test.uiutils.LibraryHelper;
-import org.jboss.tools.cdi.bot.test.uiutils.OpenOnHelper;
 import org.jboss.tools.ui.bot.ext.RequirementAwareSuite;
 import org.jboss.tools.ui.bot.ext.config.Annotations.Require;
 import org.jboss.tools.ui.bot.ext.config.Annotations.Server;
@@ -40,15 +34,8 @@ public class CDITestBase extends CDIBase {
 	protected final String LINE_SEPARATOR = System.getProperty("line.separator");
 	protected static final Logger LOGGER = Logger.getLogger(CDITestBase.class.getName());
 	
-	protected static CDIProjectHelper projectHelper = new CDIProjectHelper(); 
-	protected static BeansXMLValidationHelper beansHelper = new BeansXMLValidationHelper();
-	protected static CDIWizardHelper wizard = new CDIWizardHelper();
-	protected static OpenOnHelper openOnUtil = new OpenOnHelper();
-	protected static LibraryHelper libraryUtil = new LibraryHelper();
-	protected static EditorResourceHelper editResourceUtil = new EditorResourceHelper();
-	
 	@Before
-	public void checkAndCreateProject() {
+	public void prepareWorkspace() {
 		if (!projectHelper.projectExists(getProjectName())) {
 			projectHelper.createCDIProjectWithCDIWizard(getProjectName());
 		}

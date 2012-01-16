@@ -15,9 +15,11 @@ package org.jboss.tools.cdi.bot.test.quickfix.base;
 import java.util.ArrayList;
 
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTreeItem;
+import org.jboss.tools.cdi.bot.test.CDITestBase;
 import org.jboss.tools.cdi.bot.test.annotations.CDIAnnotationsType;
 import org.jboss.tools.cdi.bot.test.annotations.CDIWizardType;
 import org.jboss.tools.cdi.bot.test.annotations.ProblemsType;
+import org.jboss.tools.cdi.bot.test.quickfix.validators.AbstractValidationProvider;
 import org.jboss.tools.cdi.bot.test.quickfix.validators.BeanValidationProvider;
 import org.jboss.tools.cdi.bot.test.quickfix.validators.BeansXmlValidationProvider;
 import org.jboss.tools.cdi.bot.test.quickfix.validators.DecoratorValidationProvider;
@@ -26,7 +28,6 @@ import org.jboss.tools.cdi.bot.test.quickfix.validators.InterceptorValidationPro
 import org.jboss.tools.cdi.bot.test.quickfix.validators.QualifierValidationProvider;
 import org.jboss.tools.cdi.bot.test.quickfix.validators.ScopeValidationProvider;
 import org.jboss.tools.cdi.bot.test.quickfix.validators.StereotypeValidationProvider;
-import org.jboss.tools.cdi.bot.test.uiutils.QuickFixHelper;
 import org.jboss.tools.cdi.bot.test.uiutils.wizards.QuickFixDialogWizard;
 import org.junit.BeforeClass;
 
@@ -36,7 +37,9 @@ import org.junit.BeforeClass;
  * @author Jaroslav Jankovic
  */
 
-public class QuickFixTestBase extends QuickFixHelper {
+public class QuickFixTestBase extends CDITestBase {
+	
+	protected AbstractValidationProvider validationErrorsProvider;
 	
 	@BeforeClass
 	public static void setup() {
@@ -99,10 +102,10 @@ public class QuickFixTestBase extends QuickFixHelper {
 		SWTBotTreeItem[] problemsInProblemsView = null;
 		if (validationErrorsProvider.getAllWarningsAnnotation().contains(annonType)) {
 			validationProblems = validationErrorsProvider.getAllWarningForAnnotationType(annonType);
-			problemsInProblemsView = getProblems(ProblemsType.WARNINGS);
+			problemsInProblemsView = quickFixHelper.getProblems(ProblemsType.WARNINGS, getProjectName());
 		} else {
 			validationProblems = validationErrorsProvider.getAllErrorsForAnnotationType(annonType);
-			problemsInProblemsView = getProblems(ProblemsType.ERRORS);
+			problemsInProblemsView = quickFixHelper.getProblems(ProblemsType.ERRORS, getProjectName());
 		}
 		for (SWTBotTreeItem ti: problemsInProblemsView) {
 			for (String validationProblem: validationProblems) {					
@@ -121,7 +124,7 @@ public class QuickFixTestBase extends QuickFixHelper {
 	 * @param ti
 	 */
 	private void resolveQuickFix(SWTBotTreeItem ti) {
-		openQuickFix(ti);
+		quickFixHelper.openQuickFix(ti);
 		
 		QuickFixDialogWizard qfWizard = new QuickFixDialogWizard();
 		

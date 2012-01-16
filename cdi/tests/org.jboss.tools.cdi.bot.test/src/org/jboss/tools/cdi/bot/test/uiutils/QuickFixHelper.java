@@ -1,14 +1,11 @@
 package org.jboss.tools.cdi.bot.test.uiutils;
 
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTreeItem;
-import org.jboss.tools.cdi.bot.test.CDITestBase;
+import org.jboss.tools.cdi.bot.test.CDIBase;
 import org.jboss.tools.cdi.bot.test.annotations.ProblemsType;
-import org.jboss.tools.cdi.bot.test.quickfix.validators.AbstractValidationProvider;
 import org.jboss.tools.ui.bot.ext.view.ProblemsView;
 
-public class QuickFixHelper extends CDITestBase{
-	
-	protected AbstractValidationProvider validationErrorsProvider;
+public class QuickFixHelper extends CDIBase {
 	
 	/**
 	 * Method open context menu for given tree item and opens Quick Fix option
@@ -23,14 +20,14 @@ public class QuickFixHelper extends CDITestBase{
 	 * @param problemType
 	 * @return array of problems of given type
 	 */
-	public SWTBotTreeItem[] getProblems(ProblemsType problemType) {
+	public SWTBotTreeItem[] getProblems(ProblemsType problemType, String projectName) {
 		SWTBotTreeItem[] problemsTree = null;
 		if (problemType == ProblemsType.WARNINGS) {
 			problemsTree = ProblemsView.getFilteredWarningsTreeItems(bot, null, "/"
-					+ getProjectName(), null, null);
+					+ projectName, null, null);
 		}else if (problemType == ProblemsType.ERRORS) {
 			problemsTree = ProblemsView.getFilteredErrorsTreeItems(bot, null, "/"
-					+ getProjectName(), null, null);
+					+ projectName, null, null);
 		}
 		return problemsTree;
 	}
@@ -39,11 +36,11 @@ public class QuickFixHelper extends CDITestBase{
 	 * Method gets allProblems in problemsView as array of SWTBotTreeItem
 	 * @return
 	 */
-	public SWTBotTreeItem[] getAllProblems() {
+	public SWTBotTreeItem[] getAllProblems(String projectName) {
 		
-		SWTBotTreeItem[] warningProblemsTree = getProblems(ProblemsType.WARNINGS);
+		SWTBotTreeItem[] warningProblemsTree = getProblems(ProblemsType.WARNINGS, projectName);
 		
-		SWTBotTreeItem[] errorProblemsTree = getProblems(ProblemsType.ERRORS);
+		SWTBotTreeItem[] errorProblemsTree = getProblems(ProblemsType.ERRORS, projectName);
 		
 		return joinTwoArrays(warningProblemsTree, errorProblemsTree);
 	}

@@ -35,7 +35,7 @@ import org.junit.runners.Suite.SuiteClasses;
 public class PerspectiveTest extends CDITestBase {
 
 	@Override
-	public void checkAndCreateProject() {
+	public void prepareWorkspace() {
 		if (!projectHelper.projectExists(getProjectName())) {
 			projectHelper.createCDIProjectWithCDIWizard(getProjectName());
 			eclipse.openPerspective(PerspectiveType.CDI);

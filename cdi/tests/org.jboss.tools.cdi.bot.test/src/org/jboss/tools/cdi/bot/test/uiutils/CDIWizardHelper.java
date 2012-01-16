@@ -13,11 +13,11 @@ package org.jboss.tools.cdi.bot.test.uiutils;
 
 import java.util.List;
 
-import org.jboss.tools.cdi.bot.test.CDITestBase;
+import org.jboss.tools.cdi.bot.test.CDIBase;
 import org.jboss.tools.cdi.bot.test.annotations.CDIWizardType;
 import org.jboss.tools.cdi.bot.test.uiutils.wizards.CDIWizardBaseExt;
 
-public class CDIWizardHelper extends CDITestBase{
+public class CDIWizardHelper extends CDIBase{
 	
 	private CDIWizardBaseExt wizardExt = new CDIWizardBaseExt();
 	

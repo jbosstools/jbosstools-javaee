@@ -29,7 +29,7 @@ public class BeansXMLQuickFixTestBase extends QuickFixTestBase {
 		SWTBotTreeItem validationProblem = getProblem(CDIAnnotationsType.INJECT,
 				CDIWizardType.BEANS_XML);		
 
-		openQuickFix(validationProblem);	
+		quickFixHelper.openQuickFix(validationProblem);	
 		QuickFixDialogWizard qfWizard = new QuickFixDialogWizard();
 		qfWizard.setFix(qfWizard.getAvailableFixes().get(0));
 		qfWizard.setResource(qfWizard.getResources().get(0));

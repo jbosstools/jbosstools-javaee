@@ -28,7 +28,7 @@ import org.junit.runners.Suite.SuiteClasses;
 public class ConfigurationPresetTest extends CDITestBase {
 
 	@Override	
-	public void checkAndCreateProject() {
+	public void prepareWorkspace() {
 		if (!projectHelper.projectExists(getProjectName())) {
 			projectHelper.createDynamicWebProjectWithCDIPreset(getProjectName());
 		}

@@ -25,11 +25,11 @@ import org.junit.runners.Suite.SuiteClasses;
 
 @SuiteClasses({ CDIAllBotTests.class , CDISmokeBotTests.class })
 public class FacetTest extends CDITestBase {
-
+	
 	@Override	
-	public void checkAndCreateProject() {
+	public void prepareWorkspace() {
 		if (!projectHelper.projectExists(getProjectName())) {
-			projectHelper.createDynamicWebProjectWithCDIFacets(getProjectName());
+			projectHelper.createDynamicWebProjectWithCDIFacets(getProjectName());			
 		}
 	}
 	
@@ -41,13 +41,13 @@ public class FacetTest extends CDITestBase {
 	@Test
 	public void testCDIFacet() {
 		if (projectHelper.projectExists(getProjectName())) {
-			LOGGER.info("Dynamic Web Project with CDI Facet created");	
+			LOGGER.info("Dynamic Web Project with CDI Facet created");			
 			assertTrue("Error: beans.xml should be created when selecting CDI Facet", 
 					projectExplorer.isFilePresent(getProjectName(), "WebContent/WEB-INF/beans.xml".split("/")));
 		} else {
 			fail("CDI project was not succesfully created with Dynamic Web Project wizard with CDI facet");
 		}
-		;
+		
 	}
 		
 }

@@ -12,7 +12,7 @@
 package org.jboss.tools.cdi.bot.test.uiutils;
 
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTreeItem;
-import org.jboss.tools.cdi.bot.test.CDITestBase;
+import org.jboss.tools.cdi.bot.test.CDIBase;
 import org.jboss.tools.cdi.bot.test.annotations.BeansXMLValidationErrors;
 import org.jboss.tools.cdi.bot.test.annotations.CDIWizardType;
 import org.jboss.tools.cdi.bot.test.openon.OpenOnTest;
@@ -26,7 +26,7 @@ import org.jboss.tools.ui.bot.ext.view.ProblemsView;
  * 
  */
 
-public class BeansXMLValidationHelper extends CDITestBase {
+public class BeansXMLValidationHelper extends CDIBase {
 	
 	private static final String CLEAR_BEANS_XML = "/resources/beansXML/beans.xml.cdi"; 
 	private static final String CLEAR_BEANS_XML_WITH_TAG = "/resources/beansXML/" +

@@ -35,7 +35,7 @@ public class EligibleInjectionQuickFixTestBase extends QuickFixTestBase{
 		SWTBotTreeItem validationProblem = getProblem(CDIAnnotationsType.INJECT,
 				CDIWizardType.BEAN);		
 
-		openQuickFix(validationProblem);
+		quickFixHelper.openQuickFix(validationProblem);
 		QuickFixDialogWizard quickFixWizard = new QuickFixDialogWizard();
 		for (String availableFix : quickFixWizard.getAvailableFixes()) {
 			if (availableFix.contains(classToQualify)) {

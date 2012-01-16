@@ -61,7 +61,7 @@ public class NamedComponentsSearchingTest extends CDITestBase {
 		assertTrue(bot.activeEditor().toTextEditor().getSelection().equals(beanName));
 		
 	}
-	/*
+	
 	@Test
 	public void testSearchNamedParameterBean() {
 		
@@ -224,7 +224,7 @@ public class NamedComponentsSearchingTest extends CDITestBase {
 		assertTrue(bot.activeEditor().getTitle().equals(beanName + ".java"));
 		assertTrue(bot.activeEditor().toTextEditor().getSelection().equals(beanName));
 	}
-	*/
+	
 	
 	private SearchNamedDialogWizard openSearchNamedDialog() {		
 		bot.menu("Navigate").menu("Open CDI Named Bean").click();
