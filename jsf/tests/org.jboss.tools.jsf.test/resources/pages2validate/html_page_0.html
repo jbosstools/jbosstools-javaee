@@ -1,0 +1,70 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+
+<html>
+<head>
+          <title>some title</title>
+</head>
+
+<body>
+<h2>some heading.</h2>
+
+SOME TEST!!!!<br>
+MORE TEXT
+
+<script type="text/javascript" language="javascript" >
+// A comment
+
+function GetCookie (name) {
+  var arg = name + "=";
+  var alen = arg.length;
+  var clen = document.cookie.length;
+  var i = 0;
+ while (i < clen) {
+    var j = i + alen;
+    if (document.cookie.substring(i, j) == arg)
+      return getCookieVal (j);
+    i = document.cookie.indexOf(" ", i) + 1;
+    if (i == 0) break;
+          } 
+return null;
+}
+
+function getCookieVal (offset) {
+  var endstr = document.cookie.indexOf (";", offset);
+ if (endstr == -1)
+    endstr = document.cookie.length;
+  return document.cookie.substring(offset, endstr);
+}
+
+//comment
+var xyz = GetCookie('xyz'); // Comments
+
+var datum = new Date();
+
+var d1 = datum.getTime().toString();
+// comment "" bla
+var d2 = "100";  
+// comment
+var d3 = "dba";  
+// comment
+var abc = 999; 
+// comment
+
+function urlEncode (string) {
+                    string = string.replace(/ /g, '+');
+                           return escape(string);
+          }
+
+// comment
+// comment
+if(cookie != "" && cookie != null ){
+          document.write("<img src=\"http://example.com./xxx?bla=" + xyz + "&bar="+abc+"&d1=" +urlEncode(d1)+ "&d2=" +urlEncode(d2) +"&d3=" +urlEncode(d3)+"\" alt=\"\" width=\"1\" height=\"1\" border=\"0\" >"); 
+}
+else {
+var cookie = "kaz" 
+}
+</script>
+
+
+</body>
+</html>
