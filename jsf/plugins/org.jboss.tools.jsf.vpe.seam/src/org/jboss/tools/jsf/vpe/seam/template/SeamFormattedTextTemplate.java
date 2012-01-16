@@ -12,9 +12,9 @@ package org.jboss.tools.jsf.vpe.seam.template;
 
 import java.io.StringReader;
 
-import org.jboss.seam.text.xpl.SeamTextLexer;
-import org.jboss.seam.text.xpl.SeamTextParser;
 import org.jboss.tools.jsf.vpe.seam.SeamTemplatesActivator;
+import org.jboss.tools.jsf.vpe.seam.text.xpl.SeamTextLexer;
+import org.jboss.tools.jsf.vpe.seam.text.xpl.SeamTextParser;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
