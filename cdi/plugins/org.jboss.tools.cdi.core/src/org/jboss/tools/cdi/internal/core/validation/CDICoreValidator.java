@@ -997,7 +997,7 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 			 */
 			if(declarations.size()>1) {
 				for (ITextSourceReference declaration : declarations) {
-					addError(CDIValidationMessages.MULTIPLE_OBSERVING_PARAMETERS, CDIPreferences.MULTIPLE_OBSERVING_PARAMETERS, declaration, bean.getResource());
+					addError(CDIValidationMessages.MULTIPLE_OBSERVING_PARAMETERS, CDIPreferences.MULTIPLE_OBSERVING_PARAMETERS, declaration, bean.getResource(), MULTIPLE_OBSERVING_PARAMETERS_ID);
 				}
 			}
 			/*
@@ -1086,7 +1086,7 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 			}
 			if (disposerDeclarations.size() > 1) {
 				for (ITextSourceReference declaration : disposerDeclarations) {
-					addError(CDIValidationMessages.MULTIPLE_DISPOSING_PARAMETERS, CDIPreferences.MULTIPLE_DISPOSING_PARAMETERS, declaration, bean.getResource());
+					addError(CDIValidationMessages.MULTIPLE_DISPOSING_PARAMETERS, CDIPreferences.MULTIPLE_DISPOSING_PARAMETERS, declaration, bean.getResource(), MULTIPLE_DISPOSING_PARAMETERS_ID);
 				}
 			}
 

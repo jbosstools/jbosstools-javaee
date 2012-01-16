@@ -486,6 +486,20 @@ public class CDIProblemMarkerResolutionGenerator implements
 			}else if(messageId == CDIValidationErrorManager.PARAM_INJECTION_DECLARES_EMPTY_NAME_ID){
 				List<IMarkerResolution> resolutions = getAddNameResolutions(file, start);
 				return resolutions.toArray(new IMarkerResolution[]{});
+			}else if(messageId == CDIValidationErrorManager.MULTIPLE_DISPOSING_PARAMETERS_ID){
+				ILocalVariable parameter = findParameter(file, start);
+				if(parameter != null){
+					return new IMarkerResolution[] {
+						new DeleteAllOtherAnnotationsFromParametersMarkerResolution(CDIConstants.DISPOSES_ANNOTATION_TYPE_NAME, parameter, file)
+					};
+				}
+			}else if(messageId == CDIValidationErrorManager.MULTIPLE_OBSERVING_PARAMETERS_ID){
+				ILocalVariable parameter = findParameter(file, start);
+				if(parameter != null){
+					return new IMarkerResolution[] {
+						new DeleteAllOtherAnnotationsFromParametersMarkerResolution(CDIConstants.OBSERVERS_ANNOTATION_TYPE_NAME, parameter, file)
+					};
+				}
 			}
 		}else if (XML_EXTENSION.equals(file.getFileExtension())){
 			FileEditorInput input = new FileEditorInput(file);

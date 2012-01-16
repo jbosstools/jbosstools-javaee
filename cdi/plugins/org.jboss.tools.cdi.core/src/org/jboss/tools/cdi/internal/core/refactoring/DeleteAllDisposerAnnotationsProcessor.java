@@ -56,11 +56,6 @@ public class DeleteAllDisposerAnnotationsProcessor extends CDIRefactoringProcess
 				for (IBeanMethod disposerMethod : disposerMethods) {
 					if(!disposerMethod.getMethod().isSimilar(method)){
 						CDIMarkerResolutionUtils.deleteAnnotation(CDIConstants.DISPOSES_ANNOTATION_TYPE_NAME, compilationUnit, disposerMethod.getMethod().getParameters()[0], (MultiTextEdit)change.getEdit());
-//						Set<ITextSourceReference> disposerDeclarations = CDIUtil.getAnnotationPossitions(disposerMethod, CDIConstants.DISPOSES_ANNOTATION_TYPE_NAME);
-//						for (ITextSourceReference declaration : disposerDeclarations) {
-//							TextEdit edit = new ReplaceEdit(declaration.getStartPosition(), declaration.getLength(), "");
-//							change.addEdit(edit);
-//						}
 					}
 				}
 				compilationUnit.discardWorkingCopy();

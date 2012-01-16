@@ -70,6 +70,8 @@ abstract public class CDIValidationErrorManager extends KBValidator {
 	public static final int ILLEGAL_DECORATOR_BEAN_CLASS_ID = 49;
 	public static final int ILLEGAL_INTERCEPTOR_CLASS_ID = 50;
 	public static final int PARAM_INJECTION_DECLARES_EMPTY_NAME_ID = 51;
+	public static final int MULTIPLE_DISPOSING_PARAMETERS_ID = 52;
+	public static final int MULTIPLE_OBSERVING_PARAMETERS_ID = 53;
 
 
 	/*

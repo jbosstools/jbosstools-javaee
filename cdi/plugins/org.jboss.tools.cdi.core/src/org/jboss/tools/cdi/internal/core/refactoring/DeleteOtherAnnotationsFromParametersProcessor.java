@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2010 Red Hat, Inc.
+ * Copyright (c) 2011 Red Hat, Inc.
  * Distributed under license by Red Hat, Inc. All rights reserved.
  * This program is made available under the terms of the
  * Eclipse Public License v1.0 which accompanies this distribution,
@@ -10,45 +10,42 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.internal.core.refactoring;
 
-import java.util.Set;
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.jdt.core.ICompilationUnit;
+import org.eclipse.jdt.core.ILocalVariable;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.ltk.core.refactoring.RefactoringStatus;
 import org.eclipse.ltk.core.refactoring.participants.CheckConditionsContext;
 import org.eclipse.text.edits.MultiTextEdit;
-import org.jboss.tools.cdi.core.CDIConstants;
-import org.jboss.tools.cdi.core.IBeanMethod;
-import org.jboss.tools.cdi.core.IClassBean;
 
-public class DeleteAllInjectedConstructorsProcessor extends CDIRefactoringProcessor {
-	private IMethod method;
+public class DeleteOtherAnnotationsFromParametersProcessor extends CDIRefactoringProcessor {
+	private ILocalVariable parameter;
+	private String annotationName;
 	
-	public DeleteAllInjectedConstructorsProcessor(IFile file, IMethod method, String label){
+	public DeleteOtherAnnotationsFromParametersProcessor(IFile file, String annotationName, ILocalVariable parameter, String label){
 		super(file, label);
-		this.method = method;
+		this.parameter = parameter;
+		this.annotationName = annotationName;
 	}
 	
-	private void changeConstructors(IClassBean bean) throws JavaModelException {
-		Set<IBeanMethod> constructors = bean.getBeanConstructors();
-		if(constructors.size()>1) {
-			ICompilationUnit original = constructors.iterator().next().getMethod().getCompilationUnit();
+	private void change() throws JavaModelException {
+		if(parameter.getParent() instanceof IMethod){
+			IMethod method = (IMethod)parameter.getParent();
+			ICompilationUnit original = method.getCompilationUnit();
 			ICompilationUnit compilationUnit = original.getWorkingCopy(new NullProgressMonitor());
-			for (IBeanMethod constructor : constructors) {
-				if(!constructor.getMethod().isSimilar(method)){
-					CDIMarkerResolutionUtils.deleteAnnotation(CDIConstants.INJECT_ANNOTATION_TYPE_NAME, compilationUnit, constructor.getMethod(), (MultiTextEdit)change.getEdit());
+			for (ILocalVariable param : method.getParameters()) {
+				if(!param.getTypeSignature().equals(parameter.getTypeSignature()) || !param.getElementName().equals(parameter.getElementName())){
+					CDIMarkerResolutionUtils.deleteAnnotation(annotationName, compilationUnit, param, (MultiTextEdit)change.getEdit());
 				}
 			}
 			compilationUnit.discardWorkingCopy();
 		}
 	}
-
 	
 	@Override
 	public RefactoringStatus checkFinalConditions(IProgressMonitor pm,
@@ -56,9 +53,8 @@ public class DeleteAllInjectedConstructorsProcessor extends CDIRefactoringProces
 			OperationCanceledException {
 		
 		createRootChange();
-		
-		if(bean != null)
-			changeConstructors(bean);
+
+		change();
 		
 		return status;
 	}

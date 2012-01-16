@@ -14,37 +14,31 @@ import java.text.MessageFormat;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
-import org.eclipse.jdt.core.IMethod;
-import org.eclipse.jdt.core.Signature;
+import org.eclipse.jdt.core.ILocalVariable;
 import org.eclipse.ltk.core.refactoring.participants.ProcessorBasedRefactoring;
 import org.eclipse.ltk.core.refactoring.participants.RefactoringProcessor;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.IMarkerResolution2;
 import org.jboss.tools.cdi.core.CDIImages;
-import org.jboss.tools.cdi.internal.core.refactoring.DeleteAllInjectedConstructorsProcessor;
+import org.jboss.tools.cdi.internal.core.refactoring.CDIMarkerResolutionUtils;
+import org.jboss.tools.cdi.internal.core.refactoring.DeleteOtherAnnotationsFromParametersProcessor;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
 import org.jboss.tools.cdi.ui.wizard.DeletePreviewWizard;
 
 /**
  * @author Daniel Azarov
  */
-public class DeleteAllInjectedConstructorsMarkerResolution implements IMarkerResolution2, TestableResolutionWithRefactoringProcessor {
+public class DeleteAllOtherAnnotationsFromParametersMarkerResolution implements IMarkerResolution2, TestableResolutionWithRefactoringProcessor {
 	private String label;
-	private IMethod method;
+	private String annotationName;
+	private ILocalVariable parameter;
 	private IFile file;
 	
-	public DeleteAllInjectedConstructorsMarkerResolution(IMethod method, IFile file){
-		StringBuffer buffer = new StringBuffer();
-		buffer.append(method.getElementName()+"(");
-		String[] types = method.getParameterTypes();
-		for(int i = 0; i < types.length; i++){
-			if(i > 0)
-				buffer.append(", ");
-			buffer.append(Signature.getSignatureSimpleName(types[i]));
-		}
-		buffer.append(")");
-		this.label = MessageFormat.format(CDIUIMessages.DELETE_ALL_INJECTED_CONSTRUCTORS_MARKER_RESOLUTION_TITLE, new Object[]{buffer.toString()});
-		this.method = method;
+	public DeleteAllOtherAnnotationsFromParametersMarkerResolution(String annotationName, ILocalVariable parameter, IFile file){
+		String shortName = CDIMarkerResolutionUtils.AT + CDIMarkerResolutionUtils.getShortName(annotationName);
+		this.label = MessageFormat.format(CDIUIMessages.DELETE_ALL_OTHER_ANNOTATIONS_MARKER_RESOLUTION_TITLE, new Object[]{shortName, parameter.getElementName()});
+		this.annotationName = annotationName;
+		this.parameter = parameter;
 		this.file = file;
 	}
 
@@ -56,7 +50,7 @@ public class DeleteAllInjectedConstructorsMarkerResolution implements IMarkerRes
 
 	@Override
 	public void run(IMarker marker) {
-		DeleteAllInjectedConstructorsProcessor processor = new DeleteAllInjectedConstructorsProcessor(file, method, label);
+		DeleteOtherAnnotationsFromParametersProcessor processor = new DeleteOtherAnnotationsFromParametersProcessor(file, annotationName, parameter, label);
 		ProcessorBasedRefactoring refactoring = new ProcessorBasedRefactoring(processor);
 		DeletePreviewWizard wizard = new DeletePreviewWizard(refactoring);
 		wizard.showWizard();
@@ -64,7 +58,7 @@ public class DeleteAllInjectedConstructorsMarkerResolution implements IMarkerRes
 	
 	@Override
 	public RefactoringProcessor getRefactoringProcessor(){
-		return new DeleteAllInjectedConstructorsProcessor(file, method, label);
+		return new DeleteOtherAnnotationsFromParametersProcessor(file, annotationName, parameter, label);
 	}
 	
 	@Override
