@@ -146,10 +146,10 @@ public class XHTMLValidator extends Validator {
 		IDocument doc = resource instanceof IFile ? getDocument((IFile)resource) : null;
 		
 		if (doc == null || !isXHTML(doc)) {
-			System.out.println("XHTML is NOT Detected: " + resource.getFullPath().toString());
+//			System.out.println("XHTML is NOT Detected: " + resource.getFullPath().toString());
 			return report;
 		} else {
-			System.out.println("XHTML is Detected: " + resource.getFullPath().toString());
+//			System.out.println("XHTML is Detected: " + resource.getFullPath().toString());
 		}
 		
 		XHTMLElementHandler handler = new XHTMLElementHandler(uri,
@@ -194,7 +194,7 @@ public class XHTMLValidator extends Validator {
 		return report;
 	}
 
-	boolean isXHTML(IDocument document) {
+	public boolean isXHTML(IDocument document) {
 		XHTMLDetector detector = new XHTMLDetector(new StringReader(document.get()));
 		return detector.detect();
 	}

@@ -28,6 +28,7 @@ import org.jboss.tools.jsf.test.validation.FacesConfigValidatorTest;
 import org.jboss.tools.jsf.test.validation.JSF2ComponentsInClassFolderTest;
 import org.jboss.tools.jsf.test.validation.JSF2ComponentsValidatorTest;
 import org.jboss.tools.jsf.test.validation.WebContentTest;
+import org.jboss.tools.jsf.test.validation.XHTMLDetectorAndValidatorTest;
 import org.jboss.tools.jsf.test.validation.XHTMLValidatorTest;
 import org.jboss.tools.jsf.web.validation.XHTMLValidator;
 import org.jboss.tools.test.util.ProjectImportTestSetup;
@@ -54,6 +55,7 @@ public class JsfAllTests {
 		old.addTestSuite(JSFBeansTest.class);
 		suite.addTestSuite(WebContentTest.class);
 		suite.addTestSuite(XHTMLValidatorTest.class);
+		suite.addTestSuite(XHTMLDetectorAndValidatorTest.class);
 		suite.addTestSuite(XMLCatalogTest.class);
 		suite.addTestSuite(JSFPaletteTest.class);
 		suite.addTest(new ProjectImportTestSetup(old,
