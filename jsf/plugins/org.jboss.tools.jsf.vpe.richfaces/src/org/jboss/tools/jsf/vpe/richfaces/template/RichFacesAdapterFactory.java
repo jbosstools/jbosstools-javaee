@@ -8,11 +8,9 @@
  * Contributors:
  *     Exadel, Inc. and Red Hat, Inc. - initial API and implementation
  ******************************************************************************/
-package org.jboss.tools.jsf.vpe.richfaces.template.util;
+package org.jboss.tools.jsf.vpe.richfaces.template;
 
 import org.eclipse.core.runtime.IAdapterFactory;
-import org.jboss.tools.jsf.vpe.richfaces.template.RichFacesCollapsibleSubTableTemplate;
-import org.jboss.tools.jsf.vpe.richfaces.template.RichFacesTogglePanelTemplate;
 import org.jboss.tools.vpe.editor.template.VpeTemplateSafeWrapper;
 
 public class RichFacesAdapterFactory implements IAdapterFactory {

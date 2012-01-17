@@ -18,7 +18,6 @@ import static org.jboss.tools.vpe.xulrunner.util.XPCOM.queryInterface;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.jboss.tools.jsf.vpe.seam.template.util.SeamUtil;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.jboss.tools.vpe.editor.util.HTML;

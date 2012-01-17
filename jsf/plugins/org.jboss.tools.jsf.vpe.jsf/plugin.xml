@@ -10,7 +10,7 @@
    <extension
          point="org.jboss.tools.jst.jsp.localeProvider">
       <localeProvider
-            class="org.jboss.tools.jsf.vpe.jsf.i18n.JsfLocaleProvider">
+            class="org.jboss.tools.jsf.vpe.jsf.JsfLocaleProvider">
       </localeProvider>
       <nature
             id="org.jboss.tools.jsf.jsfnature">

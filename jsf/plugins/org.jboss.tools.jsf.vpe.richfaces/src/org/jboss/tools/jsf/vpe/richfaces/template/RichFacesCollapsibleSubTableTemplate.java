@@ -10,7 +10,6 @@
  ******************************************************************************/
 package org.jboss.tools.jsf.vpe.richfaces.template;
 
-import org.jboss.tools.jsf.vpe.richfaces.template.util.RichFaces;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;

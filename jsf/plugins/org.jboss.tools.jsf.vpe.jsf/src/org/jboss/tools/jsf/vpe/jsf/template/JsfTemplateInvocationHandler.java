@@ -9,7 +9,7 @@
  *     Red Hat, Inc. - initial API and implementation
  ******************************************************************************/
 
-package org.jboss.tools.jsf.vpe.jsf.template.util.proxy;
+package org.jboss.tools.jsf.vpe.jsf.template;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;

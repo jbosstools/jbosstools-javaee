@@ -12,8 +12,7 @@ package org.jboss.tools.jsf.vpe.seam.template;
 
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.Region;
-import org.jboss.tools.jsf.vpe.jsf.template.util.ComponentUtil;
-import org.jboss.tools.jsf.vpe.seam.template.util.SeamUtil;
+import org.jboss.tools.jsf.vpe.jsf.template.ComponentUtil;
 import org.jboss.tools.jst.jsp.util.NodesManagingUtil;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;

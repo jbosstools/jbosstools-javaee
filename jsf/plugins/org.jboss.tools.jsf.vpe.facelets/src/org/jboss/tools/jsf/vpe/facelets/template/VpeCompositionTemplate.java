@@ -13,9 +13,8 @@ package org.jboss.tools.jsf.vpe.facelets.template;
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.Region;
 import org.eclipse.osgi.util.NLS;
-import org.jboss.tools.jsf.vpe.facelets.template.messages.Messages;
-import org.jboss.tools.jsf.vpe.facelets.template.util.Facelets;
-import org.jboss.tools.jsf.vpe.facelets.util.FaceletsUtil;
+import org.jboss.tools.jsf.vpe.facelets.Facelets;
+import org.jboss.tools.jsf.vpe.facelets.Messages;
 import org.jboss.tools.jst.jsp.util.NodesManagingUtil;
 import org.jboss.tools.vpe.editor.VpeVisualDomBuilder;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
@@ -50,7 +49,7 @@ public class VpeCompositionTemplate extends VpeDefineContainerTemplate {
 		if (fileName != null) {
 			container.setAttribute(HTML.ATTR_STYLE, "border: 1px dashed #2A7F00"); //$NON-NLS-1$
 			String message = NLS.bind(Messages.TEMPLATE_NOT_FOUND, fileName);
-			container.appendChild(FaceletsUtil.createErrorMessageElement(
+			container.appendChild(Facelets.createErrorMessageElement(
 					visualDocument, sourceElement.getNodeName(), message));
 		}
 

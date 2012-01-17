@@ -12,7 +12,7 @@ package org.jboss.tools.jsf.vpe.jsf.test.jbide;
 
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PlatformUI;
-import org.jboss.tools.jsf.vpe.jsf.template.util.JSF;
+import org.jboss.tools.jsf.vpe.jsf.template.JSF;
 import org.jboss.tools.jsf.vpe.jsf.test.JsfAllTests;
 import org.jboss.tools.jst.jsp.util.NodesManagingUtil;
 import org.jboss.tools.vpe.base.test.OpenOnUtil;

@@ -8,7 +8,7 @@
  * Contributors:
  *     Red Hat, Inc. - initial API and implementation
  ******************************************************************************/
-package org.jboss.tools.jsf.vpe.seam.template.util;
+package org.jboss.tools.jsf.vpe.seam.template;
 
 import java.io.File;
 import java.util.ArrayList;

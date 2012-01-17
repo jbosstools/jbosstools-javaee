@@ -27,7 +27,7 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.editors.text.ILocationProvider;
-import org.jboss.tools.jsf.vpe.richfaces.template.util.RichFaces;
+import org.jboss.tools.jsf.vpe.richfaces.template.RichFaces;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.util.Constants;
 import org.jboss.tools.vpe.editor.util.ElService;

@@ -13,9 +13,7 @@ package org.jboss.tools.jsf.vpe.jsf.template;
 
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMAttr;
-import org.jboss.tools.jsf.vpe.jsf.template.util.JSF;
-import org.jboss.tools.jsf.vpe.jsf.template.util.NodeProxyUtil;
-import org.jboss.tools.jsf.vpe.jsf.template.util.model.VpeElementProxyData;
+import org.jboss.tools.jsf.vpe.jsf.VpeElementProxyData;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.mapping.AttributeData;
 import org.jboss.tools.vpe.editor.mapping.NodeData;

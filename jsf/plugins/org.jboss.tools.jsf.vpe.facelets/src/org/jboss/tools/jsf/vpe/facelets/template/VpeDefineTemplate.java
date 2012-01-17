@@ -11,9 +11,8 @@
 package org.jboss.tools.jsf.vpe.facelets.template;
 
 import org.eclipse.osgi.util.NLS;
-import org.jboss.tools.jsf.vpe.facelets.template.messages.Messages;
-import org.jboss.tools.jsf.vpe.facelets.template.util.Facelets;
-import org.jboss.tools.jsf.vpe.facelets.util.FaceletsUtil;
+import org.jboss.tools.jsf.vpe.facelets.Facelets;
+import org.jboss.tools.jsf.vpe.facelets.Messages;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
@@ -71,7 +70,7 @@ public class VpeDefineTemplate extends VpeAbstractTemplate {
 			message = Messages.NAME_NOT_SPECIFIED;
 		}
 
-		container.appendChild(FaceletsUtil.createErrorMessageElement(
+		container.appendChild(Facelets.createErrorMessageElement(
 				visualDocument, sourceElement.getNodeName(), message));
 
 		return new VpeCreationData(container);

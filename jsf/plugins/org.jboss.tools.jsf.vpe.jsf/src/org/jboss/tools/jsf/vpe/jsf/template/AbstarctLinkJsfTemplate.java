@@ -13,7 +13,6 @@ package org.jboss.tools.jsf.vpe.jsf.template;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.jboss.tools.jsf.vpe.jsf.template.util.ComponentUtil;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;

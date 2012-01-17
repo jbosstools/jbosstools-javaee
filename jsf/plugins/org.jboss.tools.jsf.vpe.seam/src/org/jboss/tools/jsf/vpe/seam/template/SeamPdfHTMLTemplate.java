@@ -15,10 +15,9 @@ package org.jboss.tools.jsf.vpe.seam.template;
  */
 
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMAttr;
+import org.jboss.tools.jsf.vpe.jsf.VpeElementProxyData;
 import org.jboss.tools.jsf.vpe.jsf.template.AbstractOutputJsfTemplate;
-import org.jboss.tools.jsf.vpe.jsf.template.util.NodeProxyUtil;
-import org.jboss.tools.jsf.vpe.jsf.template.util.model.VpeElementProxyData;
-import org.jboss.tools.jsf.vpe.seam.template.util.SeamUtil;
+import org.jboss.tools.jsf.vpe.jsf.template.NodeProxyUtil;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.mapping.AttributeData;
 import org.jboss.tools.vpe.editor.template.VpeChildrenInfo;

@@ -11,7 +11,7 @@
 package org.jboss.tools.jsf.vpe.jsf.template.selectitem;
 
 import org.eclipse.wst.xml.core.internal.document.ElementImpl;
-import org.jboss.tools.jsf.vpe.jsf.template.util.JSF;
+import org.jboss.tools.jsf.vpe.jsf.template.JSF;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
 import org.jboss.tools.vpe.editor.util.Constants;

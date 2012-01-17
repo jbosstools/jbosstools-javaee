@@ -13,7 +13,7 @@ package org.jboss.tools.jsf.vpe.facelets.template;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.jboss.tools.jsf.vpe.facelets.template.util.Facelets;
+import org.jboss.tools.jsf.vpe.facelets.Facelets;
 import org.jboss.tools.vpe.editor.VpeIncludeInfo;
 import org.jboss.tools.vpe.editor.VpeVisualDomBuilder;
 import org.jboss.tools.vpe.editor.context.VpePageContext;

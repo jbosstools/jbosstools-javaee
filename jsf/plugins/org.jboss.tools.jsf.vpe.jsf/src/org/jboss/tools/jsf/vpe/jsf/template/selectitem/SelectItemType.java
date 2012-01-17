@@ -11,8 +11,8 @@
 package org.jboss.tools.jsf.vpe.jsf.template.selectitem;
 
 import org.jboss.tools.jsf.vpe.jsf.template.AbstractOutputJsfTemplate;
-import org.jboss.tools.jsf.vpe.jsf.template.util.ComponentUtil;
-import org.jboss.tools.jsf.vpe.jsf.template.util.JSF;
+import org.jboss.tools.jsf.vpe.jsf.template.ComponentUtil;
+import org.jboss.tools.jsf.vpe.jsf.template.JSF;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
 

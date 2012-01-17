@@ -12,8 +12,7 @@ package org.jboss.tools.jsf.vpe.seam.template;
 
 import java.util.List;
 
-import org.jboss.tools.jsf.vpe.jsf.template.util.ComponentUtil;
-import org.jboss.tools.jsf.vpe.seam.template.util.SeamUtil;
+import org.jboss.tools.jsf.vpe.jsf.template.ComponentUtil;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;

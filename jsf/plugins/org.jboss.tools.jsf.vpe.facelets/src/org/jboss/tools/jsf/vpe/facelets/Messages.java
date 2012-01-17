@@ -8,7 +8,7 @@
  * Contributor:
  *     Red Hat, Inc. - initial API and implementation
  ******************************************************************************/
-package org.jboss.tools.jsf.vpe.facelets.template.messages;
+package org.jboss.tools.jsf.vpe.facelets;
 
 import org.eclipse.osgi.util.NLS;
 
@@ -18,7 +18,7 @@ import org.eclipse.osgi.util.NLS;
  */
 public class Messages extends NLS {
 	private static final String BUNDLE_NAME
-			= "org.jboss.tools.jsf.vpe.facelets.template.messages.messages";//$NON-NLS-1$
+			= "org.jboss.tools.jsf.vpe.facelets.messages";//$NON-NLS-1$
 	static {
 		// load message values from bundle file
 		NLS.initializeMessages(BUNDLE_NAME, Messages.class);		

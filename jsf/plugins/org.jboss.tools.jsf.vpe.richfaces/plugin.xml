@@ -18,7 +18,7 @@
  
  <extension point="org.eclipse.core.runtime.adapters">
          <factory 
-            class="org.jboss.tools.jsf.vpe.richfaces.template.util.RichFacesAdapterFactory" 
+            class="org.jboss.tools.jsf.vpe.richfaces.template.RichFacesAdapterFactory" 
             adaptableType="org.jboss.tools.vpe.editor.template.VpeTemplateSafeWrapper">
             <adapter type="org.jboss.tools.jsf.vpe.richfaces.template.RichFacesTogglePanelTemplate"/>
             <adapter type="org.jboss.tools.jsf.vpe.richfaces.template.RichFacesCollapsibleSubTableTemplate"/>

@@ -22,7 +22,6 @@ import org.mozilla.interfaces.nsIDOMElement;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.jboss.tools.jsf.vpe.richfaces.template.util.RichFaces;
 import org.jboss.tools.vpe.editor.util.HTML;
 
 public class RichFacesDataOrderedListTemplate  extends VpeAbstractTemplate {

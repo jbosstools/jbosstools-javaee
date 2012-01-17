@@ -12,7 +12,6 @@ package org.jboss.tools.jsf.vpe.jsf.template;
 
 import java.util.List;
 
-import org.jboss.tools.jsf.vpe.jsf.template.util.JSF;
 import org.jboss.tools.jst.web.tld.TaglibData;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeAbstractTemplate;

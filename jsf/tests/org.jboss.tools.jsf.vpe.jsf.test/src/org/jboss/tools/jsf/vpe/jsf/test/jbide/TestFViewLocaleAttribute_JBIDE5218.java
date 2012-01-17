@@ -25,7 +25,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.part.FileEditorInput;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
-import org.jboss.tools.jsf.vpe.jsf.template.util.ComponentUtil;
+import org.jboss.tools.jsf.vpe.jsf.template.ComponentUtil;
 import org.jboss.tools.jsf.vpe.jsf.test.JsfAllTests;
 import org.jboss.tools.jst.jsp.jspeditor.JSPMultiPageEditor;
 import org.jboss.tools.test.util.JobUtils;

@@ -12,16 +12,17 @@ package org.jboss.tools.jsf.vpe.facelets.template;
 
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.Region;
-import org.jboss.tools.jsf.vpe.facelets.template.util.Facelets;
+import org.jboss.tools.jsf.vpe.facelets.Facelets;
 import org.jboss.tools.jst.jsp.util.NodesManagingUtil;
 import org.jboss.tools.vpe.editor.context.VpePageContext;
 import org.jboss.tools.vpe.editor.template.VpeCreationData;
+import org.jboss.tools.vpe.editor.template.VpeDefineContainerTemplate;
 import org.mozilla.interfaces.nsIDOMDocument;
 import org.mozilla.interfaces.nsIDOMNode;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-public class VpeDecorateTemplate extends org.jboss.tools.vpe.editor.template.VpeDefineContainerTemplate{
+public class VpeDecorateTemplate extends VpeDefineContainerTemplate{
 	
 	public VpeCreationData create(VpePageContext pageContext,
 		Node sourceNode, nsIDOMDocument visualDocument) {

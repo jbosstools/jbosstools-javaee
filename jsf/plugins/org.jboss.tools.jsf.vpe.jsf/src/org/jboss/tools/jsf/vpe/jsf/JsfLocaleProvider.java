@@ -8,7 +8,7 @@
  * Contributor:
  *     Red Hat, Inc. - initial API and implementation
  ******************************************************************************/
-package org.jboss.tools.jsf.vpe.jsf.i18n;
+package org.jboss.tools.jsf.vpe.jsf;
 
 import java.util.Locale;
 
