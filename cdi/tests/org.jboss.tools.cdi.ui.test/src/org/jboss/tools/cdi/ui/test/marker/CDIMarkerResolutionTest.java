@@ -37,6 +37,7 @@ import org.jboss.tools.cdi.ui.marker.ChangeAnnotationMarkerResolution;
 import org.jboss.tools.cdi.ui.marker.CreateCDIElementMarkerResolution;
 import org.jboss.tools.cdi.ui.marker.DeleteAllDisposerDuplicantMarkerResolution;
 import org.jboss.tools.cdi.ui.marker.DeleteAllInjectedConstructorsMarkerResolution;
+import org.jboss.tools.cdi.ui.marker.DeleteAllOtherAnnotationsFromParametersMarkerResolution;
 import org.jboss.tools.cdi.ui.marker.DeleteAnnotationMarkerResolution;
 import org.jboss.tools.cdi.ui.marker.MakeFieldStaticMarkerResolution;
 import org.jboss.tools.cdi.ui.marker.MakeMethodBusinessMarkerResolution;
@@ -1025,5 +1026,27 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
 				CDIValidationErrorManager.PARAM_INJECTION_DECLARES_EMPTY_NAME_ID,
 				AddNameMarkerResolution.class);
+	}
+
+	public void testDeleteAllOtherDisposerParametersResolution() throws CoreException{
+		checkResolution(tckProject,
+				new String[]{
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/MultipleDisposers.java"
+				},
+				CDICoreValidator.PROBLEM_TYPE,
+				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
+				CDIValidationErrorManager.MULTIPLE_DISPOSING_PARAMETERS_ID,
+				DeleteAllOtherAnnotationsFromParametersMarkerResolution.class);
+	}
+
+	public void testDeleteAllOtherObserverParametersResolution() throws CoreException{
+		checkResolution(tckProject,
+				new String[]{
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/MultipleObservers.java"
+				},
+				CDICoreValidator.PROBLEM_TYPE,
+				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
+				CDIValidationErrorManager.MULTIPLE_OBSERVING_PARAMETERS_ID,
+				DeleteAllOtherAnnotationsFromParametersMarkerResolution.class);
 	}
 }
