@@ -25,7 +25,8 @@ Require-Bundle: org.junit,
  org.jboss.tools.jsf.ui,
  org.eclipse.jst.standard.schemas,
  org.jboss.tools.jst.text.ext.test;bundle-version="3.3.0",
- org.eclipse.jdt.ui;bundle-version="3.7.0"
+ org.eclipse.jdt.ui;bundle-version="3.7.0",
+ org.jboss.tools.jsf;bundle-version="3.3.0"
 Bundle-ActivationPolicy: lazy
 Bundle-Vendor: %Bundle-Vendor.0
 Export-Package: org.jboss.tools.jsf.text.ext.test

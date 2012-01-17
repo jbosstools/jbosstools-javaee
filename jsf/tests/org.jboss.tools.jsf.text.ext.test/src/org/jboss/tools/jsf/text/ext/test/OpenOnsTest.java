@@ -3,6 +3,7 @@ package org.jboss.tools.jsf.text.ext.test;
 import junit.framework.TestCase;
 
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.text.BadLocationException;
@@ -10,6 +11,7 @@ import org.eclipse.jface.text.FindReplaceDocumentAdapter;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.ITextSelection;
+import org.eclipse.jface.text.Region;
 import org.eclipse.jface.text.hyperlink.IHyperlink;
 import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.ui.IEditorPart;
@@ -19,6 +21,7 @@ import org.eclipse.ui.PlatformUI;
 import org.jboss.tools.common.model.ui.editor.EditorPartWrapper;
 import org.jboss.tools.common.model.ui.editors.multipage.DefaultMultipageEditor;
 import org.jboss.tools.common.text.ext.hyperlink.HyperlinkDetector;
+import org.jboss.tools.jsf.jsf2.bean.model.JSF2ProjectFactory;
 import org.jboss.tools.jsf.text.ext.hyperlink.JsfJSPTagNameHyperlinkDetector;
 import org.jboss.tools.jsf.text.ext.hyperlink.TLDTagHyperlink;
 import org.jboss.tools.jst.jsp.jspeditor.JSPMultiPageEditor;
@@ -36,6 +39,11 @@ public class OpenOnsTest extends TestCase {
 		project = ResourcesPlugin.getWorkspace().getRoot().getProject(
 				OPENON_TEST_PROJECT);
 		PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().closeAllEditors(false);
+		try {
+			project.build(IncrementalProjectBuilder.FULL_BUILD, null);
+		} catch (CoreException e) {
+			throw new RuntimeException(e);
+		}
 		IWorkbench workbench = PlatformUI.getWorkbench();
 	}
 	
@@ -638,6 +646,30 @@ public class OpenOnsTest extends TestCase {
 		assertTrue("myLibrary.tld".equals(fileName));
 		
 		assertModelObjectSelection(links[0], "myattr");
+	}
+	
+	public static final String CONVERTER_TEST_FILE = OPENON_TEST_PROJECT + "/WebContent/converterHiperlinkTest.jsp";
+	
+	public void testConverterTagOpenOn() throws BadLocationException {
+		IEditorPart editor = WorkbenchUtils.openEditor(CONVERTER_TEST_FILE);
+		assertTrue(editor instanceof JSPMultiPageEditor);
+		JSPMultiPageEditor jspMultyPageEditor = (JSPMultiPageEditor) editor;
+		ISourceViewer viewer = jspMultyPageEditor.getSourceEditor().getTextViewer();
+		IDocument document = jspMultyPageEditor.getSourceEditor().getTextViewer().getDocument();
+		IRegion reg = new FindReplaceDocumentAdapter(document).find(0,
+				"testConverter", true, true, false, false);
+		JSF2ProjectFactory.getJSF2Project(ResourcesPlugin.getWorkspace().getRoot().getProject(OPENON_TEST_PROJECT),true);
+		JobUtils.waitForIdle();
+		IHyperlink[] links = new HyperlinkDetector().detectHyperlinks(viewer, reg, true);
+		assertNotNull(links);
+		assertTrue(links.length!=0);
+		//assertNotNull(links[0].getHyperlinkText());
+		assertNotNull(links[0].toString());
+		links[0].open();
+		
+		editor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
+		
+		// TODO: add assert for opened faces-config.xml editor with converter selected
 	}
 
 	void assertModelObjectSelection(IHyperlink link, String name) {
