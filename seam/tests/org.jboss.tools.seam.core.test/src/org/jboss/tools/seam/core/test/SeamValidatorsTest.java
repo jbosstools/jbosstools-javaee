@@ -11,6 +11,7 @@
 package org.jboss.tools.seam.core.test;
 
 import java.io.IOException;
+import java.text.MessageFormat;
 import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
@@ -23,6 +24,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.preference.IPersistentPreferenceStore;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.wst.validation.internal.core.ValidationException;
+import org.jboss.tools.common.base.test.validation.TestUtil;
 import org.jboss.tools.common.validation.IValidator;
 import org.jboss.tools.jst.web.kb.WebKbPlugin;
 import org.jboss.tools.jst.web.kb.internal.validation.ELValidationMessages;
@@ -132,13 +134,11 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 	public void testVarAttributes() throws CoreException, ValidationException {
 		// Test for http://jira.jboss.com/jira/browse/JBIDE-999
 		IFile file = project.getFile("WebContent/varAttributes.xhtml");
+
+		TestUtil.validate(file);
+		String messagePattern = MessageFormat.format(ELValidationMessages.UNKNOWN_EL_VARIABLE_PROPERTY_NAME, new Object[]{"nonExistingBroken"});
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, messagePattern, false, 49, 50);
 		int number = getMarkersNumberByGroupName(file, SeamValidationErrorManager.MARKED_SEAM_PROJECT_MESSAGE_GROUP);
-//		assertMarkerIsCreatedForLineOfFile("WebContent/varAttributes.xhtml", ELValidationMessages.UNKNOWN_EL_VARIABLE_PROPERTY_NAME,
-//				new Object[]{"nonExistingBroken"},
-//				49);
-		assertMarkerIsCreatedForLineOfFile("WebContent/varAttributes.xhtml", ELValidationMessages.UNKNOWN_EL_VARIABLE_PROPERTY_NAME,
-				new Object[]{"nonExistingBroken"},
-				50);
 
 		assertEquals(2, number);
 	}
