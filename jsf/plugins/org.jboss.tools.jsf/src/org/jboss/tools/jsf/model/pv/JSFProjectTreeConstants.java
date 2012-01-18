@@ -13,4 +13,6 @@ package org.jboss.tools.jsf.model.pv;
 public interface JSFProjectTreeConstants {
 	public String CONFIGURATION = "Configuration"; //$NON-NLS-1$
 	public String BEANS = "Beans"; //$NON-NLS-1$
+	public String RESOURCE_BUNDLES = "Resource Bundles"; //$NON-NLS-1$
+	public String TAG_LIBRARIES = "Tag Libraries"; //$NON-NLS-1$
 }

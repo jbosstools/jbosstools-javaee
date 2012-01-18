@@ -59,9 +59,10 @@ public class JsfTreeListener implements XModelTreeListener {
 			if("FilePROPERTIES".equals(c.getModelEntity().getName())) {
 				invalidateBundles(source.getModel());
 			} else if(JSFProjectTagLibs.isTLDFile(c) || 
-                      "FileSystemJar".equals(entity)) {
+                      "FileSystemJar".equals(entity) || ("FileSystemFolder".equals(entity) && c.getAttributeValue("name").startsWith("src"))) {
 				invalidateTagLibs(source.getModel());
 				invalidateConfig(source.getModel());
+				invalidateBundles(source.getModel());
 			} else if(entity.startsWith(JSFConstants.ENT_FACESCONFIG)) {
 				invalidateConfig(source.getModel());
 			} else if("JSFManagedBean".equals(entity) || "JSFManagedBean20".equals(entity)) {
@@ -82,6 +83,7 @@ public class JsfTreeListener implements XModelTreeListener {
 				return;
 			} else if("FileSystems".equals(entity)) {
 				invalidateTagLibs(source.getModel());
+				invalidateBundles(source.getModel());
 			} else if("JSFManagedBeans".equals(entity) || "JSFManagedBean20".equals(entity)) {
 				invalidateFolder(source.getModel(), JSFProjectTreeConstants.BEANS);
 			} else if("JSFReferencedBeans".equals(entity)) {
@@ -96,11 +98,11 @@ public class JsfTreeListener implements XModelTreeListener {
 	}
 	
 	private void invalidateBundles(XModel model) {
-		invalidateFolder(model, "Resource Bundles");
+		invalidateFolder(model, JSFProjectTreeConstants.RESOURCE_BUNDLES);
 	}
 
 	private void invalidateTagLibs(XModel model) {
-		invalidateFolder(model, "Tag Libraries");
+		invalidateFolder(model, JSFProjectTreeConstants.TAG_LIBRARIES);
 	}
 
 	private void invalidateConfig(XModel model) {

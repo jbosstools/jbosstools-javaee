@@ -192,7 +192,7 @@ public class JSFPromptingProvider implements IWebPromptingProvider {
 	public List<Object> getBundles(XModel model) {
 		JSFProjectsRoot root = JSFProjectsTree.getProjectsRoot(model);
 		if(root == null) return EMPTY_LIST;
-		WebProjectNode n = (WebProjectNode)root.getChildByPath("Resource Bundles"); //$NON-NLS-1$
+		WebProjectNode n = (WebProjectNode)root.getChildByPath(JSFProjectTreeConstants.RESOURCE_BUNDLES);
 		if(n == null) return EMPTY_LIST;
 		XModelObject[] os = n.getTreeChildren();
 		List<Object> list = new ArrayList<Object>();
