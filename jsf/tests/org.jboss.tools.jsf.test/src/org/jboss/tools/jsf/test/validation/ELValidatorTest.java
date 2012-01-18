@@ -17,6 +17,7 @@ import org.eclipse.wst.validation.ValidationFramework;
 import org.eclipse.wst.validation.internal.core.ValidationException;
 import org.eclipse.wst.validation.internal.operations.WorkbenchReporter;
 import org.eclipse.wst.validation.internal.provisional.core.IMessage;
+import org.jboss.tools.common.base.test.validation.TestUtil;
 import org.jboss.tools.common.preferences.SeverityPreferences;
 import org.jboss.tools.common.validation.ContextValidationHelper;
 import org.jboss.tools.common.validation.IProjectValidationContext;
@@ -24,7 +25,6 @@ import org.jboss.tools.common.validation.IValidator;
 import org.jboss.tools.common.validation.ValidationErrorManager;
 import org.jboss.tools.common.validation.ValidatorManager;
 import org.jboss.tools.common.validation.internal.SimpleValidatingProjectTree;
-import org.jboss.tools.jsf.JSFModelPlugin;
 import org.jboss.tools.jst.web.kb.WebKbPlugin;
 import org.jboss.tools.jst.web.kb.internal.validation.ELValidationMessages;
 import org.jboss.tools.jst.web.kb.internal.validation.ELValidator;
@@ -245,6 +245,25 @@ public class ELValidatorTest extends AbstractResourceMarkerTest{
 		} finally {
 			store.setValue(ELSeverityPreferences.UNKNOWN_EL_VARIABLE_NAME, ELSeverityPreferences.IGNORE);
 		}
+	}
+
+	/**
+	 * See https://jira.jboss.org/browse/JBIDE-10661 
+	 * @throws CoreException
+	 * @throws ValidationException 
+	 */
+	public void testSyntaxErrors() throws CoreException, ValidationException {
+		IFile file = project.getFile("WebContent/pages/syntaxErrors.jsp");
+
+		TestUtil.validate(file);
+
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, ELValidationMessages.EL_SYNTAX_ERROR, true, 7, 8);
+
+		String messagePattern = MessageFormat.format(ELValidationMessages.UNKNOWN_EL_VARIABLE_NAME, new Object[]{"abc."});
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, messagePattern, 7);
+
+		messagePattern = MessageFormat.format(ELValidationMessages.UNKNOWN_EL_VARIABLE_PROPERTY_NAME, new Object[]{"broken"});
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, messagePattern, false, 8);
 	}
 
 	private long validateFile(String fileName, int numberOfMarkers) throws ValidationException {
