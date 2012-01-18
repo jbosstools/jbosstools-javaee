@@ -129,11 +129,18 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		assertMarkerIsNotCreated(testJSP, MARKER_TYPE, "actor cannot be resolved");
 	}
 
-	public void testVarAttributes() throws CoreException {
+	public void testVarAttributes() throws CoreException, ValidationException {
 		// Test for http://jira.jboss.com/jira/browse/JBIDE-999
 		IFile file = project.getFile("WebContent/varAttributes.xhtml");
 		int number = getMarkersNumberByGroupName(file, SeamValidationErrorManager.MARKED_SEAM_PROJECT_MESSAGE_GROUP);
-		assertEquals(1, number);
+		assertMarkerIsCreatedForLineOfFile("WebContent/varAttributes.xhtml", ELValidationMessages.UNKNOWN_EL_VARIABLE_PROPERTY_NAME,
+				new Object[]{"nonExistingBroken"},
+				49);
+		assertMarkerIsCreatedForLineOfFile("WebContent/varAttributes.xhtml", ELValidationMessages.UNKNOWN_EL_VARIABLE_PROPERTY_NAME,
+				new Object[]{"nonExistingBroken"},
+				50);
+
+		assertEquals(2, number);
 	}
 
 	public void testMessageBundles() throws CoreException {
@@ -215,6 +222,11 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 				SeamValidationMessages.STATEFUL_COMPONENT_DOES_NOT_CONTAIN_REMOVE,
 				new Object[]{"statefulComponent"},
 				16);
+	}
+
+	private void assertMarkerIsCreatedForLineOfFile(String path, String markerTemplate, Object[] parameters, int lineNumber) throws CoreException, ValidationException {
+		IValidatorSupport validator = new SeamCoreValidatorWrapper(project);
+		assertMarkerIsCreatedForLine(validator,path,markerTemplate,parameters,lineNumber);
 	}
 
 	private void assertMarkerIsCreatedForLine(String target, String newContent, String markerTemplate,
