@@ -43,7 +43,6 @@ import org.jboss.tools.seam.core.test.validation.SeamCoreValidatorWrapper;
 import org.jboss.tools.seam.internal.core.SeamProject;
 import org.jboss.tools.seam.internal.core.validation.SeamValidationErrorManager;
 import org.jboss.tools.seam.internal.core.validation.SeamValidationMessages;
-import org.jboss.tools.test.util.JUnitUtils;
 import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.ProjectImportTestSetup;
 import org.jboss.tools.tests.AbstractResourceMarkerTest;
@@ -157,18 +156,14 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		assertEquals(sb.toString(), 2, markers.size());
 	}
 
-	private List<IMarker> getMarkersByGroupName(IResource resource, String messageGroup) {
+	private List<IMarker> getMarkersByGroupName(IResource resource, String messageGroup) throws CoreException {
 		List<IMarker> ms = new ArrayList<IMarker>();
-		try {
-			IMarker[] markers = resource.findMarkers(MARKER_TYPE, true, IResource.DEPTH_INFINITE);
-			for (int i = 0; i < markers.length; i++) {
-				String groupName = markers[i].getAttribute("groupName", null);
-				if(groupName==null || (!groupName.equals(messageGroup) && !groupName.equals("markedKbResource"))) {
-					ms.add(markers[i]);
-				}
+		IMarker[] markers = resource.findMarkers(MARKER_TYPE, true, IResource.DEPTH_INFINITE);
+		for (int i = 0; i < markers.length; i++) {
+			String groupName = markers[i].getAttribute("groupName", null);
+			if(groupName!=null && (groupName.equals(messageGroup) || groupName.equals("markedKbResource"))) {
+				ms.add(markers[i]);
 			}
-		}catch(CoreException ex){
-			JUnitUtils.fail("Can'r get problem markers", ex);
 		}
 		return ms;
 	}
