@@ -12,6 +12,8 @@ package org.jboss.tools.seam.core.test;
 
 import java.io.IOException;
 import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
@@ -41,6 +43,7 @@ import org.jboss.tools.seam.core.test.validation.SeamCoreValidatorWrapper;
 import org.jboss.tools.seam.internal.core.SeamProject;
 import org.jboss.tools.seam.internal.core.validation.SeamValidationErrorManager;
 import org.jboss.tools.seam.internal.core.validation.SeamValidationMessages;
+import org.jboss.tools.test.util.JUnitUtils;
 import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.ProjectImportTestSetup;
 import org.jboss.tools.tests.AbstractResourceMarkerTest;
@@ -138,9 +141,36 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		TestUtil.validate(file);
 		String messagePattern = MessageFormat.format(ELValidationMessages.UNKNOWN_EL_VARIABLE_PROPERTY_NAME, new Object[]{"nonExistingBroken"});
 		AbstractResourceMarkerTest.assertMarkerIsCreated(file, messagePattern, false, 49, 50);
-		int number = getMarkersNumberByGroupName(file, SeamValidationErrorManager.MARKED_SEAM_PROJECT_MESSAGE_GROUP);
+		List<IMarker> markers = getMarkersByGroupName(file, SeamValidationErrorManager.MARKED_SEAM_PROJECT_MESSAGE_GROUP);
 
-		assertEquals(2, number);
+		StringBuffer sb = new StringBuffer("Here is a list of found markers in ").append(file.getFullPath().toOSString()).append(markers.size()==0?" : [": " : [\r\n"); //$NON-NLS-1$ //$NON-NLS-2$");
+		int i = 0;
+		for (IMarker marker : markers) {
+			String message = marker.getAttribute(IMarker.MESSAGE, ""); //$NON-NLS-1$
+			marker.getAttribute(IMarker.MESSAGE, ""); //$NON-NLS-1$
+			int line = marker.getAttribute(IMarker.LINE_NUMBER, -1);
+			String mType = marker.getType();
+			sb.append(i).append(") line=\"").append(line).append("\"; type=\"").append(mType).append("\"; message=\"").append(message).append("\";\r\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+			i++;
+		}
+		sb.append("]"); //$NON-NLS-1$
+		assertEquals(sb.toString(), 2, markers.size());
+	}
+
+	private List<IMarker> getMarkersByGroupName(IResource resource, String messageGroup) {
+		List<IMarker> ms = new ArrayList<IMarker>();
+		try {
+			IMarker[] markers = resource.findMarkers(MARKER_TYPE, true, IResource.DEPTH_INFINITE);
+			for (int i = 0; i < markers.length; i++) {
+				String groupName = markers[i].getAttribute("groupName", null);
+				if(groupName==null || (!groupName.equals(messageGroup) && !groupName.equals("markedKbResource"))) {
+					ms.add(markers[i]);
+				}
+			}
+		}catch(CoreException ex){
+			JUnitUtils.fail("Can'r get problem markers", ex);
+		}
+		return ms;
 	}
 
 	public void testMessageBundles() throws CoreException {
