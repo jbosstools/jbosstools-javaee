@@ -18,6 +18,7 @@ import org.eclipse.wst.validation.internal.core.ValidationException;
 import org.eclipse.wst.validation.internal.operations.WorkbenchReporter;
 import org.eclipse.wst.validation.internal.provisional.core.IMessage;
 import org.jboss.tools.common.base.test.validation.TestUtil;
+import org.jboss.tools.common.el.core.ElCoreMessages;
 import org.jboss.tools.common.preferences.SeverityPreferences;
 import org.jboss.tools.common.validation.ContextValidationHelper;
 import org.jboss.tools.common.validation.IProjectValidationContext;
@@ -257,9 +258,10 @@ public class ELValidatorTest extends AbstractResourceMarkerTest{
 
 		TestUtil.validate(file);
 
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, ELValidationMessages.EL_SYNTAX_ERROR, true, 7, 8);
+		String messagePattern = MessageFormat.format(ELValidationMessages.UNKNOWN_EL_VARIABLE_NAME, new Object[]{ElCoreMessages.ExpressionRule_ExpectingJavaName});
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, messagePattern, false, 7, 8);
 
-		String messagePattern = MessageFormat.format(ELValidationMessages.UNKNOWN_EL_VARIABLE_NAME, new Object[]{"abc."});
+		messagePattern = MessageFormat.format(ELValidationMessages.UNKNOWN_EL_VARIABLE_NAME, new Object[]{"abc."});
 		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, messagePattern, 7);
 
 		messagePattern = MessageFormat.format(ELValidationMessages.UNKNOWN_EL_VARIABLE_PROPERTY_NAME, new Object[]{"broken"});

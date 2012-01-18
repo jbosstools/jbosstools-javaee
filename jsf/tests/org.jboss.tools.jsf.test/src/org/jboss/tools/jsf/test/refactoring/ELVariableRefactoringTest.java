@@ -70,7 +70,7 @@ public class ELVariableRefactoringTest extends AbstractRefactorTest {
 
 		sourceFile = project.getProject().getFile("/WebContent/pages/syntaxErrors.xhtml");
 		sourceFileContent = FileUtil.getContentFromEditorOrFile(sourceFile);
-		position = sourceFileContent.indexOf("user.name");
+		position = sourceFileContent.indexOf("user");
 		structure = new TestChangeStructure(project, "/WebContent/pages/syntaxErrors.xhtml");
 		change = new TestTextChange(position, NAME_LEN, NEW_NAME);
 		structure.addTextChange(change);
