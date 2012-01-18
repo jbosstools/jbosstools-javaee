@@ -258,7 +258,7 @@ public class ELValidatorTest extends AbstractResourceMarkerTest{
 
 		TestUtil.validate(file);
 
-		String messagePattern = MessageFormat.format(ELValidationMessages.UNKNOWN_EL_VARIABLE_NAME, new Object[]{ElCoreMessages.ExpressionRule_ExpectingJavaName});
+		String messagePattern = MessageFormat.format(ELValidationMessages.EL_SYNTAX_ERROR, new Object[]{ElCoreMessages.ExpressionRule_ExpectingJavaName});
 		AbstractResourceMarkerTest.assertMarkerIsCreated(file, messagePattern, false, 7, 8);
 
 		messagePattern = MessageFormat.format(ELValidationMessages.UNKNOWN_EL_VARIABLE_NAME, new Object[]{"abc."});
