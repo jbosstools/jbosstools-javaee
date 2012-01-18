@@ -17,6 +17,7 @@ import org.eclipse.jface.text.Document;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.wst.validation.ValidationResult;
 import org.eclipse.wst.validation.ValidationState;
+import org.eclipse.wst.validation.internal.core.Message;
 import org.jboss.tools.common.base.test.validation.TestUtil;
 import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.jsf.JSFModelPlugin;
@@ -34,24 +35,6 @@ public class XHTMLDetectorAndValidatorTest extends AbstractResourceMarkerTest {
 	protected static final String XHTML_FILE_NAME = "/XHTMLDetectorAndValidatorTest.xhtml";
 	protected static final String HTML_FILE_NAME = "/XHTMLDetectorAndValidatorTest.html";
 
-	/*
-	protected static Set<String> LOCALIZED_ERROR_MESSAGES = new HashSet<String>();
-	static {
-		LOCALIZED_ERROR_MESSAGES.add(MessageFormat.format(JSFValidationMessage.XHTML_VALIDATION_NO_END_TAG, 
-				XHTMLValidationTestMessages.XHTML_GOOD_TAGNAME));
-		LOCALIZED_ERROR_MESSAGES.add(MessageFormat.format(JSFValidationMessage.XHTML_VALIDATION_NO_START_TAG, 
-				XHTMLValidationTestMessages.XHTML_WRONG_TAGNAME));
-	}
-	protected static Set<String> LOCALIZED_LARGE_ERROR_MESSAGES = new HashSet<String>();
-	static {
-		LOCALIZED_LARGE_ERROR_MESSAGES.add(MessageFormat.format(JSFValidationMessage.XHTML_VALIDATION_NO_END_TAG, 
-				XHTMLValidationTestMessages.XHTML_LARGE_GOOD_TAGNAME));
-		LOCALIZED_LARGE_ERROR_MESSAGES.add(MessageFormat.format(JSFValidationMessage.XHTML_VALIDATION_NO_START_TAG, 
-				XHTMLValidationTestMessages.XHTML_LARGE_WRONG_TAGNAME));
-	}
-	protected static String LOCALIZED_BROKEN_ERROR_MESSAGE = XHTMLValidationTestMessages.XHTML_MARKUP_IS_BROKEN_ERROR;
-	*/
-	
 	// "Bad" file validation time should be not greater than "Good" file validation time multiplied by 10  
 	protected static final double NOT_BAD_DIFF_PERCENTAGE = 1000.0;
 	
@@ -108,6 +91,12 @@ public class XHTMLDetectorAndValidatorTest extends AbstractResourceMarkerTest {
 				assertNotNull("No validation result is returned", result.getReporter(null));
 				List messages = result.getReporter(null).getMessages();
 				System.out.println("Total error messages reported by XHTML file [Source: " + source + "] validation: " + (messages == null ? 0 : messages.size()));
+				int i = 0;
+				for (Object m : messages) {
+					assertTrue("Wrong type of validation message is returned", (m instanceof Message));
+					Message message = (Message)m;
+					System.out.println("Message #" + (++i) + ": " + message.getText());
+				}
 			}
 		} finally {
 			removeTestFile(XHTML_FILE_NAME);
@@ -139,83 +128,6 @@ public class XHTMLDetectorAndValidatorTest extends AbstractResourceMarkerTest {
 		} finally {
 			removeTestFile(HTML_FILE_NAME);
 		}
-			
-			/*
-			
-			long start = System.currentTimeMillis();
-			ValidationResult result = validator.validate(file, IResourceDelta.CHANGED, state, new NullProgressMonitor());
-			long goodValidationTime = System.currentTimeMillis() - start;
-			System.out.println("XHTML file with good DOCTYPE declaration and no XHTML Syntax errors validation time: " + goodValidationTime + " ms");
-			assertTrue("XHTML file with good DOCTYPE declaration and no XHTML Syntax errors validation takes too much time (more than " + MAX_VALIDATION_TIME + " ms)", (goodValidationTime < MAX_VALIDATION_TIME));
-			assertNotNull("No validation result is returned", result);
-			assertNotNull("No validation result is returned", result.getReporter(null));
-			List messages = result.getReporter(null).getMessages();
-			assertEquals("Wrong number of error messages reported", 0, messages == null ? 0 : messages.size());
-			
-			// Validate file with bad DOCTYPE declaration and no XHTML Syntax errors 
-			file = createTestFile(XHTMLValidationTestMessages.XHTML_CONTENT_TEMPLATE, 
-					XHTMLValidationTestMessages.XHTML_WRONG_PUBLIC_ID, XHTMLValidationTestMessages.XHTML_WRONG_URI,
-					XHTMLValidationTestMessages.XHTML_GOOD_TAGNAME, XHTMLValidationTestMessages.XHTML_GOOD_TAGNAME);
-			start = System.currentTimeMillis();
-			result = validator.validate(file, IResourceDelta.CHANGED, state, new NullProgressMonitor());
-			long badValidationTime = System.currentTimeMillis() - start;
-			System.out.println("XHTML file with bad DOCTYPE declaration and no XHTML Syntax errors validation time: " + badValidationTime + " ms");
-			assertTrue("XHTML file with bad DOCTYPE declaration and no XHTML Syntax errors validation takes too much time (more than " + MAX_VALIDATION_TIME + " ms)", (badValidationTime < MAX_VALIDATION_TIME));
-			assertNotNull("No validation result is returned", result);
-			assertNotNull("No validation result is returned", result.getReporter(null));
-			messages = result.getReporter(null).getMessages();
-			assertEquals("Wrong number of error messages reported", 0, messages == null ? 0 : messages.size());
-	
-			// Check that the difference between good and bad files validation time is not greater that NOT_BAD_DIFF_PERCENTAGE (%) of a good value
-			double diff = 100*badValidationTime/goodValidationTime;
-			System.out.println("(With no errors) Validation time difference: " + diff + "%");
-			assertTrue("Validation time difference between good and wrong content is greater than " + NOT_BAD_DIFF_PERCENTAGE + "%", (diff < NOT_BAD_DIFF_PERCENTAGE));
-			
-			// Validate file with good DOCTYPE declaration and XHTML Syntax errors 
-			file = createTestFile(XHTMLValidationTestMessages.XHTML_CONTENT_TEMPLATE, 
-						XHTMLValidationTestMessages.XHTML_GOOD_PUBLIC_ID, XHTMLValidationTestMessages.XHTML_GOOD_URI,
-						XHTMLValidationTestMessages.XHTML_GOOD_TAGNAME, XHTMLValidationTestMessages.XHTML_WRONG_TAGNAME);
-			start = System.currentTimeMillis();
-			result = validator.validate(file, IResourceDelta.CHANGED, state, new NullProgressMonitor());
-			goodValidationTime = System.currentTimeMillis() - start;
-			System.out.println("XHTML file with good DOCTYPE declaration and XHTML Syntax errors validation time: " + goodValidationTime + " ms");
-			assertTrue("XHTML file with good DOCTYPE declaration and XHTML Syntax errors validation takes too much time (more than " + MAX_VALIDATION_TIME + " ms)", (goodValidationTime < MAX_VALIDATION_TIME));
-			assertNotNull("No validation result is returned", result);
-			assertNotNull("No validation result is returned", result.getReporter(null));
-			messages = result.getReporter(null).getMessages();
-			assertEquals("Wrong number of error messages reported", 2, messages == null ? 0 : messages.size());
-			for (Object m : messages) {
-				assertTrue("Wrong type of validation message is returned", (m instanceof Message));
-				Message message = (Message)m;
-				assertTrue("Unexpected error message found: " + message.getText(), LOCALIZED_ERROR_MESSAGES.contains(message.getText()));
-			}
-	
-			// Validate file with bad DOCTYPE declaration and XHTML Syntax errors 
-			file = createTestFile(XHTMLValidationTestMessages.XHTML_CONTENT_TEMPLATE, 
-					XHTMLValidationTestMessages.XHTML_WRONG_PUBLIC_ID, XHTMLValidationTestMessages.XHTML_WRONG_URI,
-					XHTMLValidationTestMessages.XHTML_GOOD_TAGNAME, XHTMLValidationTestMessages.XHTML_WRONG_TAGNAME);
-			start = System.currentTimeMillis();
-			result = validator.validate(file, IResourceDelta.CHANGED, state, new NullProgressMonitor());
-			badValidationTime = System.currentTimeMillis() - start;
-			System.out.println("XHTML file with bad DOCTYPE declaration and XHTML Syntax errors validation time: " + badValidationTime + " ms");
-			assertTrue("XHTML file with bad DOCTYPE declaration and XHTML Syntax errors validation takes too much time (more than " + MAX_VALIDATION_TIME + " ms)", (badValidationTime < MAX_VALIDATION_TIME));
-			assertNotNull("No validation result is returned", result);
-			assertNotNull("No validation result is returned", result.getReporter(null));
-			messages = result.getReporter(null).getMessages();
-			assertEquals("Wrong number of error messages reported", 2, messages == null ? 0 : messages.size());
-			for (Object m : messages) {
-				assertTrue("Wrong type of validation message is returned", (m instanceof Message));
-				Message message = (Message)m;
-				assertTrue("Unexpected error message found: " + message.getText(), LOCALIZED_ERROR_MESSAGES.contains(message.getText()));
-			}
-			// Check that the difference between good and bad files validation time is not greater that NOT_BAD_DIFF_PERCENTAGE (%) of a good value
-			diff = 100*badValidationTime/goodValidationTime;
-			System.out.println("(With errors) Validation time difference: " + diff + "%");
-			assertTrue("Validation time difference between good and wrong content is greater than " + NOT_BAD_DIFF_PERCENTAGE + "%", (diff < NOT_BAD_DIFF_PERCENTAGE));
-		} finally {
-			removeTestFile();
-		}
-		*/
 	}
 
 	private static final String SOURCE_FOLDER = "/resources/pages2validate";
