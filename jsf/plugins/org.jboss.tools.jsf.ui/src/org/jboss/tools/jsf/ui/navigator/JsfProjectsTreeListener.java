@@ -17,6 +17,7 @@ import org.jboss.tools.common.model.impl.XModelImpl;
 import org.jboss.tools.common.model.ui.navigator.TreeViewerModelListenerImpl;
 import org.jboss.tools.jsf.model.JSFConstants;
 import org.jboss.tools.jsf.model.pv.JSFProjectTagLibs;
+import org.jboss.tools.jsf.model.pv.JSFProjectTreeConstants;
 import org.jboss.tools.jsf.model.pv.JSFProjectsRoot;
 import org.jboss.tools.jst.web.model.pv.WebProjectNode;
 import org.jboss.tools.jst.web.tld.model.TLDUtil;
@@ -72,9 +73,9 @@ public class JsfProjectsTreeListener extends TreeViewerModelListenerImpl {
 			} else if(entity.startsWith(JSFConstants.ENT_FACESCONFIG)) {
 				invalidateConfig(source.getModel());
 			} else if("JSFManagedBean".equals(entity) || "JSFManagedBean20".equals(entity)) { //$NON-NLS-1$
-				invalidateFolder(source.getModel(), "Beans"); //$NON-NLS-1$
+				invalidateFolder(source.getModel(), JSFProjectTreeConstants.BEANS);
 			} else if("JSFReferencedBean".equals(entity)) { //$NON-NLS-1$
-				invalidateFolder(source.getModel(), "Beans"); //$NON-NLS-1$
+				invalidateFolder(source.getModel(), JSFProjectTreeConstants.BEANS);
 			} else if("FileTiles".equals(entity)) { //$NON-NLS-1$
 				invalidateFolder(source.getModel(), "Tiles"); //$NON-NLS-1$
 			} else if("FileFolder".equals(entity)) { //$NON-NLS-1$
@@ -90,9 +91,9 @@ public class JsfProjectsTreeListener extends TreeViewerModelListenerImpl {
 			} else if("FileSystems".equals(entity)) { //$NON-NLS-1$
 				invalidateTagLibs(source.getModel());
 			} else if("JSFManagedBeans".equals(entity) || "JSFManagedBeans20".equals(entity)) { //$NON-NLS-1$
-				invalidateFolder(source.getModel(), "Beans"); //$NON-NLS-1$
+				invalidateFolder(source.getModel(), JSFProjectTreeConstants.BEANS);
 			} else if("JSFReferencedBeans".equals(entity)) { //$NON-NLS-1$
-				invalidateFolder(source.getModel(), "Beans"); //$NON-NLS-1$
+				invalidateFolder(source.getModel(), JSFProjectTreeConstants.BEANS);
 			}
 		} else if(event.kind() == XModelTreeEvent.STRUCTURE_CHANGED) {
 			String entity = event.getModelObject().getModelEntity().getName();
@@ -104,16 +105,16 @@ public class JsfProjectsTreeListener extends TreeViewerModelListenerImpl {
 	}
 	
 	private void invalidateBundles(XModel model) {
-		invalidateFolder(model, "Resource Bundles"); //$NON-NLS-1$
+		invalidateFolder(model, JSFProjectTreeConstants.RESOURCE_BUNDLES);
 	}
 
 	private void invalidateTagLibs(XModel model) {
-		invalidateFolder(model, "Tag Libraries"); //$NON-NLS-1$
+		invalidateFolder(model, JSFProjectTreeConstants.TAG_LIBRARIES);
 	}
 
 	private void invalidateConfig(XModel model) {
-		invalidateFolder(model, "Configuration"); //$NON-NLS-1$
-		invalidateFolder(model, "Beans"); //$NON-NLS-1$
+		invalidateFolder(model, JSFProjectTreeConstants.CONFIGURATION);
+		invalidateFolder(model, JSFProjectTreeConstants.BEANS);
 	}
 	
 	private void invalidateFolder(XModel model, String name) {
