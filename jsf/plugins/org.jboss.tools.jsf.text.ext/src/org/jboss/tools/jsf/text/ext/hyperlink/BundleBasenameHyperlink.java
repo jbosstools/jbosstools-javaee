@@ -39,6 +39,7 @@ import org.jboss.tools.common.text.ext.hyperlink.xpl.Messages;
 import org.jboss.tools.common.text.ext.util.StructuredModelWrapper;
 import org.jboss.tools.common.text.ext.util.Utils;
 import org.jboss.tools.jsf.model.FileFacesConfigImpl;
+import org.jboss.tools.jsf.model.pv.JSFProjectTreeConstants;
 import org.jboss.tools.jsf.model.pv.JSFProjectsRoot;
 import org.jboss.tools.jsf.model.pv.JSFProjectsTree;
 import org.jboss.tools.jsf.text.ext.JSFExtensionsPlugin;
@@ -97,7 +98,7 @@ public class BundleBasenameHyperlink extends XModelBasedHyperlink {
 		if (jsfProjectsRoot == null)
 			return null;
 		
-		XModelObject rbObjects = jsfProjectsRoot.getChildByPath("Resource Bundles"); //$NON-NLS-1$
+		XModelObject rbObjects = jsfProjectsRoot.getChildByPath(JSFProjectTreeConstants.RESOURCE_BUNDLES);
 		if (!(rbObjects instanceof WebProjectNode))
 			return null;
 		
