@@ -67,11 +67,18 @@ public class ELVariableRefactoringTest extends AbstractRefactorTest {
 		change = new TestTextChange(601, NAME_LEN, NEW_NAME);
 		structure.addTextChange(change);
 		list.add(structure);
-		
+
+		sourceFile = project.getProject().getFile("/WebContent/pages/syntaxErrors.xhtml");
+		sourceFileContent = FileUtil.getContentFromEditorOrFile(sourceFile);
+		position = sourceFileContent.indexOf("user.name");
+		structure = new TestChangeStructure(project, "/WebContent/pages/syntaxErrors.xhtml");
+		change = new TestTextChange(position, NAME_LEN, NEW_NAME);
+		structure.addTextChange(change);
+		list.add(structure);
+
 		RenameELVariableProcessor processor = new RenameELVariableProcessor(sourceFile, "user");
 		processor.setNewName(NEW_NAME);
 
 		checkRename(processor, list);
 	}
-
 }

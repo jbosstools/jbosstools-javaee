@@ -253,7 +253,7 @@ public class ELValidatorTest extends AbstractResourceMarkerTest{
 	 * @throws ValidationException 
 	 */
 	public void testSyntaxErrors() throws CoreException, ValidationException {
-		IFile file = project.getFile("WebContent/pages/syntaxErrors.jsp");
+		IFile file = project.getFile("WebContent/pages/syntaxErrors.xhtml");
 
 		TestUtil.validate(file);
 
