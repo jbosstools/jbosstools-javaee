@@ -87,11 +87,18 @@ class XHTMLDetector extends TextScanner {
 						return false;
 					if (!hasOneOfTokens(docTypePublicId, VALID_DOCTYPE_DTD_DECLARATION_ONE_OF_TOKENS))
 						return false;
+					return true;
 				}
 			}
 			if (ELEMENT_TOKEN.equals(token.getType())) {
-				if (docTypeFound) {
-					if (elementName == null)
+				
+/*
+ * These checks are removed because of many pages (many of them I've found at www.oracle.com)
+ * which aren't define xmlns="http://www.w3.org/1999/xhtml" attribute, but normally parsed by browsers
+ * So, we'll just use doctype/root name check to see if it is the XHTML 
+ */
+  				if (docTypeFound) {
+ 					if (elementName == null)
 						return false;
 
 					String name = elementName.substring(elementName.indexOf(':') + 1); // Cut the prefix off
@@ -106,7 +113,7 @@ class XHTMLDetector extends TextScanner {
 					if (!VALID_ELEMENT_XMLNS_ATTRIBUTE_VALUE.equals(Utils.trimQuotes(value).toLowerCase()))
 						return false;
 					return true;
-				} else {
+/*			} else {
 					if (!elementAttributes.containsKey(VALID_ELEMENT_XMLNS_ATTRIBUTE))
 						continue;
 					
@@ -115,7 +122,9 @@ class XHTMLDetector extends TextScanner {
 					if (!VALID_ELEMENT_XMLNS_ATTRIBUTE_VALUE.equals(Utils.trimQuotes(value).toLowerCase()))
 						continue;
 					return true;
+*/
 				}
+  				return false;
 			}
 		}
 		return false;
@@ -124,7 +133,12 @@ class XHTMLDetector extends TextScanner {
 	private boolean hasAllTokens(String publicId, String[] reqiured) {
 		if (publicId == null) return false;
 		for (String r : reqiured) {
-			if (publicId.indexOf(r) == -1) 
+			int idx = publicId.indexOf(r);
+			if (idx == -1) 
+				return false;
+			if (publicId.length() < idx + r.length() + 1)
+				return false;
+			if (Character.isJavaIdentifierPart(publicId.charAt(idx + r.length())))
 				return false;
 		}
 		return true;
@@ -133,7 +147,13 @@ class XHTMLDetector extends TextScanner {
 		if (publicId == null) return false;
 		boolean found = false;
 		for (String r : oneOf) {
-			if (publicId.indexOf(r) != -1) {
+			int idx = publicId.indexOf(r);
+			if (idx != -1) {
+				if (publicId.length() >= idx + r.length() + 1) {
+					if (Character.isJavaIdentifierPart(publicId.charAt(idx + r.length())))
+						continue;
+				}
+
 				if (found) 
 					return false; // Contains more than one token
 				found = true;
@@ -142,25 +162,12 @@ class XHTMLDetector extends TextScanner {
 		return found;
 	}
 
-	private static final int STATE_START			= 0;
+	private static final int STATE_START	= 0;
 	private static final int STATE_ELEMENT	= 1;
-	private static final int STATE_ELEMENT_END		= 2;
-	
-	private static final int STATE_XML_DECL	= 3;
-	private static final int STATE_XML_DECL_END		= 4;
-			
-	private static final int STATE_DECL		= 5;
-	private static final int STATE_DECL_NAME		= 6;
-	private static final int STATE_DECL_ROOT		= 7;
-	private static final int STATE_DECL_PUBLIC		= 8;
-	private static final int STATE_DECL_SYSTEM		= 9;
-	private static final int STATE_DECL_PUBLIC_ID	= 10;
-	private static final int STATE_DECL_SYSTEM_ID 	= 11;
-	private static final int STATE_DECL_END			= 12;
-
-	private static final int STATE_COMMENT	= 13;
-	private static final int STATE_COMMENT_END		= 14;
-	private static final int STATE_END				= 15;
+	private static final int STATE_XML_DECL	= 2;
+	private static final int STATE_DECL		= 3;
+	private static final int STATE_COMMENT	= 4;
+	private static final int STATE_END		= 5;
 
 	private int state;
 	
