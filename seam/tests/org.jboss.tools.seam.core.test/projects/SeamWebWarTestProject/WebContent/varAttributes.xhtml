@@ -44,5 +44,9 @@
 		</h:dataTable>
 	</h:dataTable>
 
+		<h:dataTable value="#{tipos}" var="_a" border="#{_a.name}"/>
+		<h:dataTable value="#{testComponentForVars}" var="_a" border="#{_a.items}"/>
+		<h:dataTable value="#{tipos}" var="_a" border="#{_a.nonExistingBroken}"/>
+
 </ui:define>
 </ui:composition>
