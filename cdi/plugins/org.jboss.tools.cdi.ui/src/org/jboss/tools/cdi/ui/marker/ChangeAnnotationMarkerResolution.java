@@ -17,6 +17,7 @@ import org.eclipse.jdt.core.IAnnotation;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.core.refactoring.CompilationUnitChange;
+import org.eclipse.ltk.core.refactoring.TextChange;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.text.edits.MultiTextEdit;
@@ -27,6 +28,8 @@ import org.jboss.tools.cdi.core.CDIImages;
 import org.jboss.tools.cdi.internal.core.refactoring.CDIMarkerResolutionUtils;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
 import org.jboss.tools.cdi.ui.CDIUIPlugin;
+import org.jboss.tools.common.refactoring.MarkerResolutionUtils;
+import org.jboss.tools.common.ui.CommonUIPlugin;
 
 public class ChangeAnnotationMarkerResolution implements
 		IMarkerResolution2 {
@@ -38,6 +41,9 @@ public class ChangeAnnotationMarkerResolution implements
 	
 	private String[] qualifiedNames = new String[0];
 	
+	protected String label;
+	protected String description;
+	
 	public ChangeAnnotationMarkerResolution(IAnnotation annotation){
 		this.annotation = annotation;
 		
@@ -48,6 +54,9 @@ public class ChangeAnnotationMarkerResolution implements
 		} catch (JavaModelException e) {
 			CDIUIPlugin.getDefault().logError(e);
 		}
+		
+		label = NLS.bind(CDIUIMessages.CHANGE_ANNOTATION_MARKER_RESOLUTION_TITLE, sourceString, changeString);
+		description = getPreview();
 	}
 	
 	public ChangeAnnotationMarkerResolution(IAnnotation annotation, String parameter){
@@ -78,7 +87,7 @@ public class ChangeAnnotationMarkerResolution implements
 
 	@Override
 	public String getLabel() {
-		return NLS.bind(CDIUIMessages.CHANGE_ANNOTATION_MARKER_RESOLUTION_TITLE, sourceString, changeString);
+		return label;
 	}
 
 	@Override
@@ -87,22 +96,9 @@ public class ChangeAnnotationMarkerResolution implements
 			ICompilationUnit original = CDIMarkerResolutionUtils.getJavaMember(annotation).getCompilationUnit();
 			ICompilationUnit compilationUnit = original.getWorkingCopy(new NullProgressMonitor());
 
-			CompilationUnitChange change = new CompilationUnitChange("", compilationUnit);
+			CompilationUnitChange change = getChange(compilationUnit);
 			
-			MultiTextEdit edit = new MultiTextEdit();
-			
-			change.setEdit(edit);
-			
-			for(String qualifiedName : qualifiedNames){
-				CDIMarkerResolutionUtils.addImport(qualifiedName, compilationUnit, true, edit);
-			}
-			
-			IAnnotation workingCopyAnnotation = CDIMarkerResolutionUtils.findWorkingCopy(compilationUnit, annotation);
-			
-			TextEdit re = new ReplaceEdit(workingCopyAnnotation.getSourceRange().getOffset(), workingCopyAnnotation.getSourceRange().getLength(), changeString);
-			edit.addChild(re);
-			
-			if(edit.hasChildren()){
+			if(change.getEdit().hasChildren()){
 				change.perform(new NullProgressMonitor());
 				original.reconcile(ICompilationUnit.NO_AST, false, null, new NullProgressMonitor());
 			}
@@ -111,10 +107,51 @@ public class ChangeAnnotationMarkerResolution implements
 			CDIUIPlugin.getDefault().logError(ex);
 		}
 	}
-
+	
+	private CompilationUnitChange getChange(ICompilationUnit compilationUnit) throws JavaModelException{
+		CompilationUnitChange change = new CompilationUnitChange("", compilationUnit);
+		
+		MultiTextEdit edit = new MultiTextEdit();
+		
+		change.setEdit(edit);
+		
+		for(String qualifiedName : qualifiedNames){
+			CDIMarkerResolutionUtils.addImport(qualifiedName, compilationUnit, true, edit);
+		}
+		
+		IAnnotation workingCopyAnnotation = CDIMarkerResolutionUtils.findWorkingCopy(compilationUnit, annotation);
+		
+		TextEdit re = new ReplaceEdit(workingCopyAnnotation.getSourceRange().getOffset(), workingCopyAnnotation.getSourceRange().getLength(), changeString);
+		edit.addChild(re);
+		
+		return change;
+	}
+	
+	private CompilationUnitChange getPreviewChange(){
+		try{
+			ICompilationUnit original = CDIMarkerResolutionUtils.getJavaMember(annotation).getCompilationUnit();
+			
+			return getChange(original);
+		}catch(CoreException ex){
+			CDIUIPlugin.getDefault().logError(ex);
+		}
+		return null;
+	}
+	
+	protected String getPreview(){
+		TextChange previewChange = getPreviewChange();
+		
+		try {
+			return MarkerResolutionUtils.getPreview(previewChange);
+		} catch (CoreException e) {
+			CommonUIPlugin.getDefault().logError(e);
+		}
+		return label;
+	}
+	
 	@Override
 	public String getDescription() {
-		return NLS.bind(CDIUIMessages.CHANGE_ANNOTATION_MARKER_RESOLUTION_TITLE, sourceString, changeString);
+		return description;
 	}
 
 	@Override
