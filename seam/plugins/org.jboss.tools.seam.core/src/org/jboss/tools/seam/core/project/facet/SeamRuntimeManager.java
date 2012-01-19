@@ -116,7 +116,7 @@ public class SeamRuntimeManager {
 	 * then the default one will be returned.
 	 */
 	public SeamRuntime getLatestSeamRuntime() {
-		SeamVersion latestVersion = SeamVersion.SEAM_1_2;
+		SeamVersion latestVersion = SeamVersion.getLatestDefaultVersion();
 		for (SeamRuntime runtime : runtimes.values()) {
 			if(runtime.getVersion().compareTo(latestVersion)>=0) {
 				latestVersion = runtime.getVersion();

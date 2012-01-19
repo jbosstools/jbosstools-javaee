@@ -18,7 +18,6 @@ import org.jboss.tools.seam.core.SeamUtil;
  * 
  * @author eskimo
  */
-
 public enum SeamVersion {
 	/**
 	 * Seam versions 1.2.X
@@ -34,11 +33,17 @@ public enum SeamVersion {
 	 * Seam versions 2.1.X
 	 */
 	SEAM_2_1("2.1"),  //$NON-NLS-1$
+
 	/**
 	 * Seam versions 2.2.X
 	 */
-	SEAM_2_2("2.2");  //$NON-NLS-1$
-	
+	SEAM_2_2("2.2"),  //$NON-NLS-1$
+
+	/**
+	 * Seam versions 2.3.X
+	 */
+	SEAM_2_3("2.3");  //$NON-NLS-1$
+
 	String version = ""; //$NON-NLS-1$
 
 	SeamVersion(String version) {
@@ -55,7 +60,7 @@ public enum SeamVersion {
 		return version;
 	}
 
-	public static SeamVersion[] ALL_VERSIONS = new SeamVersion[]{SEAM_1_2, SEAM_2_0, SEAM_2_1, SEAM_2_2};
+	public static SeamVersion[] ALL_VERSIONS = new SeamVersion[]{SEAM_1_2, SEAM_2_0, SEAM_2_1, SEAM_2_2, SEAM_2_3};
 
 	/**
 	 * Get enumeration by string
@@ -75,9 +80,16 @@ public enum SeamVersion {
 			return SEAM_2_1;
 		} else if (SEAM_2_2.toString().equals(version)) {
 			return SEAM_2_2;
+		} else if (SEAM_2_3.toString().equals(version)) {
+			return SEAM_2_3;
 		}
+
 		throw new IllegalArgumentException(NLS.bind(
 				"Seam version ''{0}'' is not supported", version)); //$NON-NLS-1$ //$NON-NLS-2$
+	}
+
+	public static SeamVersion getLatestDefaultVersion() {
+		return SEAM_2_2;
 	}
 
 	/**
@@ -98,6 +110,8 @@ public enum SeamVersion {
 			return SEAM_2_1;
 		} else if (SEAM_2_2.toString().equals(version)) {
 			return SEAM_2_2;
+		} else if (SEAM_2_3.toString().equals(version)) {
+			return SEAM_2_3;
 		}
 		return null;
 	}
@@ -122,6 +136,9 @@ public enum SeamVersion {
 		}
 		if(SeamUtil.areSeamVersionsMatched(SeamVersion.SEAM_2_2.toString(), vs)) {
 			return SeamVersion.SEAM_2_2;
+		}
+		if(SeamUtil.areSeamVersionsMatched(SeamVersion.SEAM_2_3.toString(), vs)) {
+			return SeamVersion.SEAM_2_3;
 		}
 		return null;
 	}

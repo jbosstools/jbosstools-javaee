@@ -125,7 +125,8 @@ public class SeamGenerateEntitiesWizard extends SeamBaseWizard implements INewWi
 					wc.setAttribute(HibernateLaunchConstants.ATTR_AUTOMATIC_VERSIONING, true);
 
 					boolean seam21 = seamProject.getRuntime().getVersion().compareTo(SeamVersion.SEAM_2_1) >= 0  ||
-					seamProject.getRuntime().getVersion().compareTo(SeamVersion.SEAM_2_2) >= 0;
+					seamProject.getRuntime().getVersion().compareTo(SeamVersion.SEAM_2_2) >= 0 ||
+					seamProject.getRuntime().getVersion().compareTo(SeamVersion.SEAM_2_3) >= 0;
 					// Only Seam 2.1 does not break when generating from one-to-one
 					wc.setAttribute(HibernateLaunchConstants.ATTR_AUTOMATIC_ONE_TO_ONE, seam21);
 				}

@@ -139,6 +139,7 @@ public class SeamProjectWizard extends WebProjectWizard implements IExecutableEx
 	private static final String templateJstSeam2 = "template.jst.seam2"; //$NON-NLS-1$
 	private static final String templateJstSeam21 = "template.jst.seam21"; //$NON-NLS-1$
 	private static final String templateJstSeam22 = "template.jst.seam22"; //$NON-NLS-1$
+	private static final String templateJstSeam23 = "template.jst.seam23"; //$NON-NLS-1$
 
 	private static final Map<String, String> templates = new HashMap<String, String>();
 	static {
@@ -146,6 +147,7 @@ public class SeamProjectWizard extends WebProjectWizard implements IExecutableEx
 		templates.put("jst.seam2.preset", templateJstSeam2); //$NON-NLS-1$
 		templates.put("jst.seam21.preset", templateJstSeam21); //$NON-NLS-1$
 		templates.put("jst.seam22.preset", templateJstSeam22); //$NON-NLS-1$
+		templates.put("jst.seam23.preset", templateJstSeam23); //$NON-NLS-1$
 	}
 
 	private void setSeamConfigTemplate(String seamConfigTemplate) {
@@ -293,6 +295,11 @@ public class SeamProjectWizard extends WebProjectWizard implements IExecutableEx
 		return null;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.jst.servlet.ui.project.facet.WebProjectWizard#getTemplate()
+	 */
+	@Override
 	protected IFacetedProjectTemplate getTemplate() {
 		seamConfigTemplate = SeamCorePlugin.getDefault().getPluginPreferences().getString(SeamProjectPreferences.SEAM_CONFIG_TEMPLATE);
 		if(seamConfigTemplate==null || seamConfigTemplate.length()==0) {
@@ -304,6 +311,8 @@ public class SeamProjectWizard extends WebProjectWizard implements IExecutableEx
 					seamConfigTemplate = templateJstSeam2;
 				} else if(runtime.getVersion()==SeamVersion.SEAM_2_1) {
 					seamConfigTemplate = templateJstSeam21;
+				} else if(runtime.getVersion()==SeamVersion.SEAM_2_3) {
+					seamConfigTemplate = templateJstSeam23;
 				} else {
 					seamConfigTemplate = templateJstSeam22;
 				}
