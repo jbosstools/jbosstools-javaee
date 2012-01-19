@@ -21,6 +21,7 @@ import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.core.refactoring.CompilationUnitChange;
+import org.eclipse.ltk.core.refactoring.TextChange;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.text.edits.MultiTextEdit;
@@ -29,12 +30,15 @@ import org.jboss.tools.cdi.core.CDIImages;
 import org.jboss.tools.cdi.internal.core.refactoring.CDIMarkerResolutionUtils;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
 import org.jboss.tools.cdi.ui.CDIUIPlugin;
+import org.jboss.tools.common.refactoring.MarkerResolutionUtils;
+import org.jboss.tools.common.ui.CommonUIPlugin;
 
 public class AddAnnotationMarkerResolution implements
 		IMarkerResolution2 {
 	private IJavaElement element;
 	private String qualifiedName;
 	private String label;
+	private String description;
 	
 	public AddAnnotationMarkerResolution(IJavaElement element, String qualifiedName){
 		this.element = element;
@@ -63,6 +67,7 @@ public class AddAnnotationMarkerResolution implements
 		}
 			
 		label = NLS.bind(CDIUIMessages.ADD_ANNOTATION_MARKER_RESOLUTION_TITLE, new String[]{shortName, element.getElementName(), type});
+		description = getPreview();
 	}
 	
 	@Override
@@ -76,15 +81,9 @@ public class AddAnnotationMarkerResolution implements
 			ICompilationUnit original = CDIMarkerResolutionUtils.getJavaMember(element).getCompilationUnit();
 			ICompilationUnit compilationUnit = original.getWorkingCopy(new NullProgressMonitor());
 			
-			CompilationUnitChange change = new CompilationUnitChange("", compilationUnit);
+			CompilationUnitChange change = getChange(compilationUnit);
 			
-			MultiTextEdit edit = new MultiTextEdit();
-			
-			change.setEdit(edit);
-			
-			CDIMarkerResolutionUtils.addAnnotation(qualifiedName, compilationUnit, element, "", edit);
-			
-			if(edit.hasChildren()){
+			if(change.getEdit().hasChildren()){
 				change.perform(new NullProgressMonitor());
 				original.reconcile(ICompilationUnit.NO_AST, false, null, new NullProgressMonitor());
 			}
@@ -94,9 +93,43 @@ public class AddAnnotationMarkerResolution implements
 		}
 	}
 	
+	private CompilationUnitChange getChange(ICompilationUnit compilationUnit) throws JavaModelException{
+		CompilationUnitChange change = new CompilationUnitChange("", compilationUnit);
+		
+		MultiTextEdit edit = new MultiTextEdit();
+		
+		change.setEdit(edit);
+		
+		CDIMarkerResolutionUtils.addAnnotation(qualifiedName, compilationUnit, element, "", edit);
+		
+		return change;
+	}
+	
+	private CompilationUnitChange getPreviewChange(){
+		try{
+			ICompilationUnit original = CDIMarkerResolutionUtils.getJavaMember(element).getCompilationUnit();
+			
+			return getChange(original);
+		}catch(CoreException ex){
+			CDIUIPlugin.getDefault().logError(ex);
+		}
+		return null;
+	}
+	
+	private String getPreview(){
+		TextChange previewChange = getPreviewChange();
+		
+		try {
+			return MarkerResolutionUtils.getPreview(previewChange);
+		} catch (CoreException e) {
+			CommonUIPlugin.getDefault().logError(e);
+		}
+		return label;
+	}
+	
 	@Override
 	public String getDescription() {
-		return label;
+		return description;
 	}
 
 	@Override
