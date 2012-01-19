@@ -91,8 +91,9 @@ public class SeamUtil {
 		return getSeamVersionFromManifest(runtime);
 	}
 
-	private final static String seamJarName = "jboss-seam.jar";
-	private final static String seamVersionAttributeName = "Seam-Version";
+	private final static String SEAM_JAR_NAME = "jboss-seam.jar";
+	private final static String SEAM_VERSION_ATTRIBUTE_NAME = "Seam-Version";
+	private final static String IMPLEMENTATION_VERSION_ATTRIBUTE_NAME = "Implementation-Version";
 
 	/**
 	 * Returns Seam version from <Seam Runtime>/lib/jboss-seam.jar/META-INF/MANIFEST.MF
@@ -140,9 +141,9 @@ public class SeamUtil {
 	 * @return
 	 */
 	public static String getSeamVersionFromManifest(String seamHome) {
-		File jarFile = new File(seamHome, "lib/" + seamJarName);
+		File jarFile = new File(seamHome, "lib/" + SEAM_JAR_NAME);
 		if(!jarFile.isFile()) {
-			jarFile = new File(seamHome, seamJarName);
+			jarFile = new File(seamHome, SEAM_JAR_NAME);
 			if(!jarFile.isFile()) {
 				// Don't log this. See https://jira.jboss.org/browse/JBIDE-7038
 //				SeamCorePlugin.getPluginLog().logWarning(jarFile.getAbsolutePath() + " as well as " + new File(seamHome, "lib/" + seamJarName).getAbsolutePath() + " don't exist.");
@@ -152,9 +153,13 @@ public class SeamUtil {
 		try {
 			JarFile jar = new JarFile(jarFile);
 			Attributes attributes = jar.getManifest().getMainAttributes();
-			String version = attributes.getValue(seamVersionAttributeName);
+			String version = attributes.getValue(SEAM_VERSION_ATTRIBUTE_NAME);
 			if(version==null) {
 				SeamCorePlugin.getPluginLog().logWarning("Can't get Seam-Version from " + jar.getName() + " MANIFEST.");
+				version = attributes.getValue(IMPLEMENTATION_VERSION_ATTRIBUTE_NAME);
+				if(version==null) {
+					SeamCorePlugin.getPluginLog().logWarning("Can't get Implementation-Version from " + jar.getName() + " MANIFEST.");
+				}
 			}
 			return version;
 		} catch (IOException e) {
