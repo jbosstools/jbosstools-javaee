@@ -181,6 +181,10 @@ private static String[] EXCLUDE_PKGS = {
 
 	private void executeTemplate(Map<String,Object> parameters, String templatePath, String targetPath) {
 		ServiceDialog d = PreferenceModelUtilities.getPreferenceModel().getService();
+
+		ClassLoader c = Thread.currentThread().getContextClassLoader();
+		Thread.currentThread().setContextClassLoader(getClass().getClassLoader());
+
 		try {
 			VelocityContext context = new VelocityContext(parameters);
 			final Template template;
@@ -222,6 +226,8 @@ private static String[] EXCLUDE_PKGS = {
 			StrutsModelPlugin.getPluginLog().logError(e);
 			d.showDialog(StrutsUIMessages.ERROR, e.getMessage(), new String[]{StrutsUIMessages.OK}, null, ServiceDialog.ERROR);
 ///			ErrorDialog.openError(ModelPlugin.getDefault().getWorkbench().getActiveWorkbenchWindow().getShell(),e);
+		} finally {
+			Thread.currentThread().setContextClassLoader(c);
 		}
 	};
 
