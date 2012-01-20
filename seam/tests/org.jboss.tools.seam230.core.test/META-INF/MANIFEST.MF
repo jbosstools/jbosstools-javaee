@@ -14,4 +14,4 @@ Require-Bundle:
  org.eclipse.wst.common.frameworks,
  org.jboss.tools.seam.base.test
 Bundle-Localization: plugin
-Bundle-RequiredExecutionEnvironment: J2SE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
