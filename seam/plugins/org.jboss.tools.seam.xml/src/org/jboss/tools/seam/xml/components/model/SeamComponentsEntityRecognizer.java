@@ -62,12 +62,13 @@ public class SeamComponentsEntityRecognizer implements EntityRecognizer, SeamCom
     	//If in future releases differences are essential, this should be modified
     	int i20 = schemaLocation.indexOf("-2.0"); //$NON-NLS-1$
     	int i21 = schemaLocation.indexOf("-2.1"); //$NON-NLS-1$
-    	int i22 = schemaLocation.indexOf("-2."); //$NON-NLS-1$
-    	if(i21 < 0 && i20 < 0 && i22 < 0) {
+    	int i22 = schemaLocation.indexOf("-2.2"); //$NON-NLS-1$
+    	int i23 = schemaLocation.indexOf("-2."); //$NON-NLS-1$
+    	if(i21 < 0 && i20 < 0 && i22 < 0 && i23 < 0) {
     		//Try the latest known version anyway.
-    		i22 = 0;
+    		i23 = 0;
     	}
-    	if(i22 >= 0) {
+    	if(i23 >= 0) {
     		if(isSingleComponent) {
     			if(i20 >= 0) {
     				return ENT_SEAM_COMPONENT_FILE_20;
@@ -75,7 +76,10 @@ public class SeamComponentsEntityRecognizer implements EntityRecognizer, SeamCom
     			if(i21 >= 0) {
     				return ENT_SEAM_COMPONENT_FILE_21;
     			}
-    			return ENT_SEAM_COMPONENT_FILE_22;
+    			if(i22 >= 0) {
+    				return ENT_SEAM_COMPONENT_FILE_22;
+    			}
+    			return ENT_SEAM_COMPONENT_FILE_23;
     		}
     		if(isMultiComponent(body)) {
     			if(i20 >= 0) {
@@ -84,7 +88,10 @@ public class SeamComponentsEntityRecognizer implements EntityRecognizer, SeamCom
     			if(i21 >= 0) {
     				return ENT_SEAM_COMPONENTS_21;
     			}
-    			return ENT_SEAM_COMPONENTS_22;
+    			if(i22 >= 0) {
+    				return ENT_SEAM_COMPONENTS_22;
+    			}
+    			return ENT_SEAM_COMPONENTS_23;
     		}
     	}
     	

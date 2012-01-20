@@ -13,6 +13,7 @@
    <PAIR name="drools$20" value="http://jboss.com/products/seam/drools-2.0.xsd"/>
    <PAIR name="drools$21" value="http://jboss.com/products/seam/drools-2.1.xsd"/>
    <PAIR name="drools$22" value="http://jboss.com/products/seam/drools-2.2.xsd"/>
+   <PAIR name="drools$23" value="http://jboss.com/products/seam/drools-2.3.xsd"/>
   </MAPPING>
  </MAPPINGS>
  <ICONS>
@@ -570,6 +571,19 @@
       </EntityData>
      </XActionItem>
     </XActionItem>
+   </XActionItem>
+  </XActionItem>
+ </XEntityExtension>
+ <XEntityExtension name="FileSeamComponents23">
+  <XChildrenEntities>
+   <XChildEntity name="SeamDroolsManagedWorkingMemory22"/>
+   <XChildEntity name="SeamDroolsRuleBase22"/>
+   <XChildEntity name="SeamDroolsRuleAgent"/>
+  </XChildrenEntities>
+  <XActionItem kind="list">
+   <XActionItem ICON="action.empty" displayName="New" group="1"
+    kind="list" name="CreateActions">
+    <XActionItemReference entity="FileSeamComponents22" name="Drools" path="CreateActions.Drools"/>
    </XActionItem>
   </XActionItem>
  </XEntityExtension>

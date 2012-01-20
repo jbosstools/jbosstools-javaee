@@ -12,6 +12,7 @@
    <PAIR name="transaction$20" value="http://jboss.com/products/seam/transaction-2.0.xsd"/>
    <PAIR name="transaction$21" value="http://jboss.com/products/seam/transaction-2.1.xsd"/>
    <PAIR name="transaction$22" value="http://jboss.com/products/seam/transaction-2.2.xsd"/>
+   <PAIR name="transaction$23" value="http://jboss.com/products/seam/transaction-2.3.xsd"/>
   </MAPPING>
  </MAPPINGS>
  <ICONS>
@@ -320,6 +321,21 @@
   </XActionItem>
  </XEntityExtension>
  <XEntityExtension name="FileSeamComponents22">
+  <XChildrenEntities>
+   <XChildEntity name="SeamTransactionEjb"/>
+   <XChildEntity name="SeamTransactionEntity"/>
+   <XChildEntity name="SeamTransactionHibernate"/>
+   <XChildEntity name="SeamNoTransaction"/>
+  </XChildrenEntities>
+  <XActionItem kind="list">
+   <XActionItem ICON="action.empty" displayName="New" group="1"
+    kind="list" name="CreateActions">
+    <XActionItemReference entity="FileSeamComponents21"
+     name="Transaction" path="CreateActions.Transaction"/>
+   </XActionItem>
+  </XActionItem>
+ </XEntityExtension>
+ <XEntityExtension name="FileSeamComponents23">
   <XChildrenEntities>
    <XChildEntity name="SeamTransactionEjb"/>
    <XChildEntity name="SeamTransactionEntity"/>

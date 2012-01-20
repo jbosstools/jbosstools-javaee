@@ -13,6 +13,7 @@
    <PAIR name="remoting$20" value="http://jboss.com/products/seam/remoting-2.0.xsd"/>
    <PAIR name="remoting$21" value="http://jboss.com/products/seam/remoting-2.1.xsd"/>
    <PAIR name="remoting$22" value="http://jboss.com/products/seam/remoting-2.2.xsd"/>
+   <PAIR name="remoting$23" value="http://jboss.com/products/seam/remoting-2.3.xsd"/>
   </MAPPING>
  </MAPPINGS>
  <ICONS>
@@ -280,6 +281,17 @@
   </XActionItem>
  </XEntityExtension>
  <XEntityExtension name="FileSeamComponents22">
+  <XChildrenEntities>
+   <XChildEntity name="SeamRemoting21"/>
+  </XChildrenEntities>
+  <XActionItem kind="list">
+   <XActionItem ICON="action.empty" displayName="New" group="1"
+    kind="list" name="CreateActions">
+    <XActionItemReference entity="FileSeamComponents21" name="Remoting" path="CreateActions.Remoting"/>
+   </XActionItem>
+  </XActionItem>
+ </XEntityExtension>
+ <XEntityExtension name="FileSeamComponents23">
   <XChildrenEntities>
    <XChildEntity name="SeamRemoting21"/>
   </XChildrenEntities>

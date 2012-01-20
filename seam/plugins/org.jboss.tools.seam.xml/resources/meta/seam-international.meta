@@ -12,6 +12,7 @@
    <PAIR name="international$20" value="http://jboss.com/products/seam/international-2.0.xsd"/>
    <PAIR name="international$21" value="http://jboss.com/products/seam/international-2.1.xsd"/>
    <PAIR name="international$22" value="http://jboss.com/products/seam/international-2.2.xsd"/>
+   <PAIR name="international$23" value="http://jboss.com/products/seam/international-2.3.xsd"/>
   </MAPPING>
  </MAPPINGS>
  <ICONS>
@@ -292,6 +293,20 @@
   </XActionItem>
  </XEntityExtension>
  <XEntityExtension name="FileSeamComponents22">
+  <XChildrenEntities>
+   <XChildEntity name="SeamCoreLocaleSelector20"/>
+   <XChildEntity name="SeamCoreTimeZoneSelector20"/>
+   <XChildEntity name="SeamInternationalLocaleConfig"/>
+  </XChildrenEntities>
+  <XActionItem kind="list">
+   <XActionItem ICON="action.empty" displayName="New" group="1"
+    kind="list" name="CreateActions">
+    <XActionItemReference entity="FileSeamComponents21"
+     name="International" path="CreateActions.International"/>
+   </XActionItem>
+  </XActionItem>
+ </XEntityExtension>
+ <XEntityExtension name="FileSeamComponents23">
   <XChildrenEntities>
    <XChildEntity name="SeamCoreLocaleSelector20"/>
    <XChildEntity name="SeamCoreTimeZoneSelector20"/>
