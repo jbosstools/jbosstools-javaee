@@ -1,0 +1,90 @@
+<?xml version="1.0"?>
+<components xmlns="http://jboss.com/products/seam/components"
+ xmlns:async="http://jboss.com/products/seam/async"
+ xmlns:bpm="http://jboss.com/products/seam/bpm"
+ xmlns:core="http://jboss.com/products/seam/core"
+ xmlns:drools="http://jboss.com/products/seam/drools"
+ xmlns:framework="http://jboss.com/products/seam/framework"
+ xmlns:international="http://jboss.com/products/seam/international"
+ xmlns:jms="http://jboss.com/products/seam/jms"
+ xmlns:navigation="http://jboss.com/products/seam/navigation"
+ xmlns:pdf="http://jboss.com/products/seam/pdf"
+ xmlns:persistence="http://jboss.com/products/seam/persistence"
+ xmlns:remoting="http://jboss.com/products/seam/remoting"
+ xmlns:security="http://jboss.com/products/seam/security"
+ xmlns:theme="http://jboss.com/products/seam/theme"
+ xmlns:transaction="http://jboss.com/products/seam/transaction"
+ xmlns:ui="http://jboss.com/products/seam/ui"
+ xmlns:web="http://jboss.com/products/seam/web"
+ xmlns:wicket="http://jboss.com/products/seam/wicket"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jboss.com/products/seam/components http://jboss.com/products/seam/components-2.3.xsd http://jboss.com/products/seam/navigation http://jboss.com/products/seam/navigation-2.3.xsd http://jboss.com/products/seam/remoting http://jboss.com/products/seam/remoting-2.3.xsd http://jboss.com/products/seam/framework http://jboss.com/products/seam/framework-2.3.xsd http://jboss.com/products/seam/security http://jboss.com/products/seam/security-2.3.xsd http://jboss.com/products/seam/transaction http://jboss.com/products/seam/transaction-2.3.xsd http://jboss.com/products/seam/ui http://jboss.com/products/seam/ui-2.3.xsd http://jboss.com/products/seam/web http://jboss.com/products/seam/web-2.3.xsd http://jboss.com/products/seam/persistence http://jboss.com/products/seam/persistence-2.3.xsd http://jboss.com/products/seam/async http://jboss.com/products/seam/async-2.3.xsd http://jboss.com/products/seam/drools http://jboss.com/products/seam/drools-2.3.xsd http://jboss.com/products/seam/international http://jboss.com/products/seam/international-2.3.xsd http://jboss.com/products/seam/wicket http://jboss.com/products/seam/wicket-2.3.xsd http://jboss.com/products/seam/pdf http://jboss.com/products/seam/pdf-2.3.xsd http://jboss.com/products/seam/core http://jboss.com/products/seam/core-2.3.xsd http://jboss.com/products/seam/theme http://jboss.com/products/seam/theme-2.3.xsd http://jboss.com/products/seam/jms http://jboss.com/products/seam/jms-2.3.xsd http://jboss.com/products/seam/bpm http://jboss.com/products/seam/bpm-2.3.xsd">
+ <component class="org.MyClass" name="myComponent"/>
+ <factory name="myFactory" value="myFactory"/>
+ <event type="myType"/>
+ <import>org.mypackage</import>
+ <navigation:pages http-port="3" https-port="4" login-view-id="2" no-conversation-view-id="1"/>
+ <remoting:remoting debug="false" poll-interval="1" poll-timeout="2"/>
+ <framework:entity-query ejbql="abc" name="entityQuery"/>
+ <framework:hibernate-entity-query ejbql="abc" name="hibernateEntityQuery"/>
+ <framework:entity-home entity-class="org.MyEntityHome" name="entityHome"/>
+ <framework:hibernate-entity-home name="hibernateEntityHome"/>
+ <security:identity authenticate-method="#{m1}" remember-me="true"/>
+ <security:identity-manager identity-store="#{xyz}"/>
+ <security:jpa-identity-store entity-manager="myManager" user-class="org.MyStore"/>
+ <security:jpa-token-store entity-manager="myEntityManager" token-class="String"/>
+ <security:ldap-identity-store server-address="777" server-port="555"/>
+ <security:permission-manager permission-store="#{permissionStore}"/>
+ <security:jpa-permission-store entity-manager="myEntityManager" user-permission-class="org.MyPermissionClass"/>
+ <security:rule-based-permission-resolver security-rules="#{myRules}"/>
+ <security:persistent-permission-resolver permission-store="#{myPermissionStore}"/>
+ <security:remember-me cookie-max-age="101" mode="disabled"/>
+ <transaction:ejb-transaction jndi-name="abc"/>
+ <ui:jpa-entity-loader entity-manager="myEntityManager"/>
+ <ui:hibernate-entity-loader session="mySession"/>
+ <ui:entity-converter entity-loader="myEntityLoader"/>
+ <web:context-filter url-pattern="*"/>
+ <web:exception-filter url-pattern="*"/>
+ <web:multipart-filter url-pattern="*"/>
+ <web:ajax4jsf-filter/>
+ <web:authentication-filter/>
+ <web:cache-control-filter/>
+ <web:character-encoding-filter/>
+ <web:hot-deploy-filter/>
+ <web:identity-filter/>
+ <web:logging-filter/>
+ <web:redirect-filter/>
+ <web:rewrite-filter/>
+ <web:session/>
+ <web:wicket-filter application-class="myClass"
+  application-factory-class="myFactoryClass" detect-portlet-context="true"/>
+ <persistence:managed-persistence-context name="myPersistentContext" persistence-unit-jndi-name="myname"/>
+ <persistence:entity-manager-factory name="myManagerFactory" persistence-unit-name="myName"/>
+ <persistence:filter name="myFilter">
+  <persistence:name>myFilterName</persistence:name>
+ </persistence:filter>
+ <persistence:managed-hibernate-session name="mySession"
+  session-factory="mySessionFactory" session-factory-jndi-name="myName"/>
+ <persistence:hibernate-session-factory cfg-resource-name="rname" name="mySessionFactory">
+  <persistence:naming-strategy>#{mystrategy}</persistence:naming-strategy>
+ </persistence:hibernate-session-factory>
+ <async:timer-service-dispatcher scope="stateless"/>
+ <drools:managed-working-memory name="myManagedWorkingMemory" rule-base="#{bb}"/>
+ <drools:rule-base name="myRuleBase" rule-files="fff"/>
+ <drools:rule-agent configuration-file="fff" name="myRuleAgent"/>
+ <international:locale-selector locale-string="ss"/>
+ <international:time-zone-selector time-zone-id="22"/>
+ <international:locale-config default-locale="ru"/>
+ <wicket:web-application application-class="org.MyApplication"/>
+ <pdf:key-store-config key-store="keyStore" name="myKeyStore" key-alias="a" key-password="p" key-store-password="q"/>
+ <core:init jndi-pattern="pp" transaction-management-enabled="true" security-enabled="true" debug="true"/>
+ <core:manager conversation-timeout="1" concurrent-request-timeout="1" conversation-id-parameter="p" default-flush-mode="MANUAL" parent-conversation-id-parameter="q"/>
+ <core:pojo-cache cfg-resource-name="nnn"/>
+ <core:resource-loader bundle-names="n1,n2"/>
+ <theme:theme-selector name="mySelector" theme="x" available-themes="x,y" cookie-enabled="true" cookie-max-age="100"/>
+ <jms:queue-connection queue-connection-factory-jndi-name="myName"/>
+ <jms:topic-connection topic-connection-factory-jndi-name="factory"/>
+ <jms:managed-topic-publisher name="myTopicPublisher" topic-jndi-name="jjj"/>
+ <jms:managed-queue-sender name="mySender" queue-jndi-name="nn"/>
+ <bpm:actor group-actor-ids="1"/>
+ <bpm:jbpm/>
+</components>

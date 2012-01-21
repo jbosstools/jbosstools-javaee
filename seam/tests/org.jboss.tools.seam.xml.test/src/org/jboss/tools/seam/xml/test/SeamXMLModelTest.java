@@ -66,6 +66,12 @@ public class SeamXMLModelTest extends TestCase {
 		return EclipseResourceUtil.createObjectForResource(f);
 	}
 
+	protected XModelObject getComponents23Object() {
+		IFile f = project.getFile(new Path("components23.xml"));
+		assertTrue(f.exists());
+		return EclipseResourceUtil.createObjectForResource(f);
+	}
+
 	public void testNavigationPagesComponent() {
 		XModelObject fileObject = getComponents22Object();
 		assertNotNull("Cannot create XModel object for file components22.xml.", fileObject);
@@ -90,7 +96,7 @@ public class SeamXMLModelTest extends TestCase {
 		JobUtils.waitForIdle();
 		XMarkerManager.getInstance();
 		assertNotNull("Cannot create XModel object for file components22.xml.", fileObject);
-
+		
 		XModelObject coreInit0 = fileObject.getChildByPath("org.jboss.seam.core.init");
 		assertNotNull("Cannot find component org.jboss.seam.core.init.", coreInit0);
 		assertFalse("Validator found wrong errors in component org.jboss.seam.core.init", XMarkerManager.getInstance().hasErrors(coreInit0));
@@ -103,6 +109,19 @@ public class SeamXMLModelTest extends TestCase {
 		assertNotNull("Cannot find component org.jboss.seam.core.init2.", coreInit2);
 		assertFalse("Validator found wrong errors in component org.jboss.seam.core.init2", XMarkerManager.getInstance().hasErrors(coreInit2));
 
+	}
+
+	public void testXML23Model() {
+		IFile f = project.getFile(new Path("components23.xml"));
+		assertTrue("File components23.xml is not accessible in Test project.", f.isAccessible());
+
+		XModelObject fileObject = EclipseResourceUtil.createObjectForResource(f);
+		assertNotNull("Cannot create XModel object for file components22.xml.", fileObject);
+
+		String entity = fileObject.getModelEntity().getName();
+		assertEquals("File components23.xml is incorrectly parsed by XModel.", SeamComponentConstants.ENT_SEAM_COMPONENTS_23, entity);
+
+		//TODO continue test
 	}
 
 	protected void assertAttribute(XModelObject object, String name, String value) {
