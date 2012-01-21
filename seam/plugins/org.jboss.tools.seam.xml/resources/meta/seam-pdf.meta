@@ -92,8 +92,10 @@
    <XModelAttribute default="key store config" loader="ElementType" name="element type">
     <Editor name="Uneditable"/>
    </XModelAttribute>
+   <XModelAttribute PROPERTIES="id=true;category=general"
+    default="org.jboss.seam.pdf.pdfKeyStore" name="name" xmlname="name"/>
    <XModelAttributeReference
-    attributes="name,class,scope,precedence,installed,auto-create"
+    attributes="class,scope,precedence,installed,auto-create"
     entity="SeamComponent" name="component"/>
    <XModelAttribute PROPERTIES="category=general" name="key-store" xmlname="key-store"/>
    <XModelAttribute PROPERTIES="category=general"
@@ -218,7 +220,6 @@
  </XEntityExtension>
  <XEntityExtension name="FileSeamComponents21">
   <XChildrenEntities>
-   <XChildEntity name="SeamPdfDocumentStore"/>
    <XChildEntity name="SeamPdfKeyStoreConfig"/>
   </XChildrenEntities>
   <XActionItem kind="list">
@@ -226,14 +227,6 @@
     kind="list" name="CreateActions">
     <XActionItem ICON="action.empty" displayName="Pdf" group="1"
      kind="list" name="Pdf">
-     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
-      PROPERTIES="validator.add=true" WizardClassName="%Default%"
-      displayName="Document Store..." kind="action" name="AddDocumentStore">
-      <EntityData EntityName="SeamPdfDocumentStore">
-       <AttributeData AttributeName="name"/>
-       <AttributeData AttributeName="error-page" Mandatory="no"/>
-      </EntityData>
-     </XActionItem>
      <XActionItem HandlerClassName="%Create%" ICON="action.empty"
       PROPERTIES="validator.add=true" WizardClassName="%Default%"
       displayName="Key Store Config..." kind="action" name="AddKeyStoreConfig">
@@ -248,7 +241,6 @@
  </XEntityExtension>
  <XEntityExtension name="FileSeamComponents22">
   <XChildrenEntities>
-   <XChildEntity name="SeamPdfDocumentStore"/>
    <XChildEntity name="SeamPdfKeyStoreConfig"/>
   </XChildrenEntities>
   <XActionItem kind="list">
@@ -260,7 +252,6 @@
  </XEntityExtension>
  <XEntityExtension name="FileSeamComponents23">
   <XChildrenEntities>
-   <XChildEntity name="SeamPdfDocumentStore"/>
    <XChildEntity name="SeamPdfKeyStoreConfig"/>
   </XChildrenEntities>
   <XActionItem kind="list">

@@ -135,6 +135,46 @@
  </XModelEntity>
  <XModelEntity ImplementingClass="%Custom%"
   PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.core.SeamComponentsCoreFormLayoutData"
+  XMLSUBPATH="web:cache-control-filter" name="SeamWebCacheControlFilter23">
+  <XChildrenEntities/>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.seam.web.filter" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="cache control filter" loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="id=true;category=general"
+    default="org.jboss.seam.web.cacheControlFilter" name="name" xmlname="name"/>
+   <XModelAttributeReference
+    attributes="class,scope,precedence,installed,auto-create,startup"
+    entity="SeamComponent20" name="component"/>
+   <XModelAttributeReference
+    attributes="url-pattern,disabled,regex-url-pattern"
+    entity="SeamWebContextFilter20" name="filter"/>
+   <XModelAttribute PROPERTIES="category=advanced" name="value" xmlname="value"/>
+   <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions">
+    <XActionItemReference entity="SeamComponent" name="Rename" path="EditActions/Rename"/>
+   </XActionItem>
+   <XActionItemReference entity="SeamWebContextFilter"
+    name="CopyActions" path="CopyActions"/>
+   <XActionItemReference entity="SeamWebContextFilter"
+    name="DeleteActions" path="DeleteActions"/>
+   <XActionItemReference entity="SeamWebContextFilter" name="Properties" path="Properties"/>
+   <XActionItemReference entity="SeamWebContextFilter"
+    name="MoveActions" path="MoveActions"/>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity ImplementingClass="%Custom%"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.core.SeamComponentsCoreFormLayoutData"
   XMLSUBPATH="web:character-encoding-filter" name="SeamWebCharacterFilter20">
   <XChildrenEntities/>
   <XEntityRenderer>
@@ -245,7 +285,7 @@
     <Editor name="Uneditable"/>
    </XModelAttribute>
    <XModelAttribute PROPERTIES="id=true;category=general"
-    default="org.jboss.seam.servlet.contextFilter" name="name" xmlname="name"/>
+    default="org.jboss.seam.web.contextFilter" name="name" xmlname="name"/>
    <XModelAttributeReference
     attributes="class,scope,precedence,installed,auto-create"
     entity="SeamComponent" name="component"/>
@@ -329,7 +369,7 @@
     <Editor name="Uneditable"/>
    </XModelAttribute>
    <XModelAttribute PROPERTIES="id=true;category=general"
-    default="org.jboss.seam.servlet.exceptionFilter" name="name" xmlname="name"/>
+    default="org.jboss.seam.web.exceptionFilter" name="name" xmlname="name"/>
    <XModelAttributeReference
     attributes="class,scope,precedence,installed,auto-create,startup"
     entity="SeamComponent20" name="component"/>
@@ -535,7 +575,7 @@
     <Editor name="Uneditable"/>
    </XModelAttribute>
    <XModelAttribute PROPERTIES="id=true;category=general"
-    default="org.jboss.seam.servlet.multipartFilter" name="name" xmlname="name"/>
+    default="org.jboss.seam.web.multipartFilter" name="name" xmlname="name"/>
    <XModelAttributeReference
     attributes="class,scope,precedence,installed,auto-create,startup"
     entity="SeamComponent20" name="component"/>
@@ -624,7 +664,7 @@
     <Editor name="Uneditable"/>
    </XModelAttribute>
    <XModelAttribute PROPERTIES="id=true;category=general"
-    default="org.jboss.seam.servlet.redirectFilter" name="name" xmlname="name"/>
+    default="org.jboss.seam.web.redirectFilter" name="name" xmlname="name"/>
    <XModelAttributeReference
     attributes="class,scope,precedence,installed,auto-create,startup"
     entity="SeamComponent20" name="component"/>
@@ -743,7 +783,8 @@
    <XModelAttribute default="session" loader="ElementType" name="element type">
     <Editor name="Uneditable"/>
    </XModelAttribute>
-   <XModelAttribute PROPERTIES="id=true;category=general" name="name" xmlname="name"/>
+   <XModelAttribute PROPERTIES="id=true;category=general"
+    default="org.jboss.seam.web.session" name="name" xmlname="name"/>
    <XModelAttributeReference
     attributes="class,scope,precedence,installed,auto-create,startup,startupDepends"
     entity="SeamComponent21" name="component"/>
@@ -1181,12 +1222,13 @@
    <XChildEntity name="SeamWebWicketFilter21"/>
    <XChildEntity name="SeamWebHotDeployFilter21"/>
    <XChildEntity name="SeamWebRewriteFilter21"/>
+   <XChildEntity name="SeamWebCacheControlFilter23"/>
   </XChildrenEntities>
   <XActionItem kind="list">
    <XActionItem ICON="action.empty" displayName="New" group="1"
     kind="list" name="CreateActions">
     <XActionItem ICON="action.empty" displayName="Web" group="1"
-      kind="list" name="Web">
+     kind="list" name="Web">
      <XActionItemReference entity="FileSeamComponents21" name="AddContextFilter"/>
      <XActionItemReference entity="FileSeamComponents21" name="AddExceptionFilter"/>
      <XActionItemReference entity="FileSeamComponents21" name="AddMultipartFilter"/>
@@ -1200,6 +1242,14 @@
      <XActionItemReference entity="FileSeamComponents21" name="AddWicketFilter"/>
      <XActionItemReference entity="FileSeamComponents21" name="AddHotDeployFilter"/>
      <XActionItemReference entity="FileSeamComponents21" name="AddRewriteFilter"/>
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="Cache Control Filter..." kind="action" name="AddCacheControlFilter">
+      <EntityData EntityName="SeamWebCacheControlFilter23">
+       <AttributeData AttributeName="name"/>
+       <AttributeData AttributeName="value" Mandatory="no"/>
+      </EntityData>
+     </XActionItem>
     </XActionItem>
    </XActionItem>
   </XActionItem>
