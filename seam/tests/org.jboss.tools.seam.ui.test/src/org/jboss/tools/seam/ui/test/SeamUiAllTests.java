@@ -33,6 +33,7 @@ import org.jboss.tools.seam.ui.test.hyperlink.SeamViewHyperlinkPartitionerTest;
 import org.jboss.tools.seam.ui.test.jbide.JBide3989Test;
 import org.jboss.tools.seam.ui.test.marker.SeamMarkerResolutionTest;
 import org.jboss.tools.seam.ui.test.preferences.SeamPreferencesPageTest;
+import org.jboss.tools.seam.ui.test.preferences.SeamSettingsPreferencesPageTest;
 import org.jboss.tools.seam.ui.test.view.SeamComponentsViewAllTests;
 import org.jboss.tools.seam.ui.test.wizard.OpenSeamComponentDialogTest;
 import org.jboss.tools.seam.ui.test.wizard.PackageNamesTest;
@@ -105,7 +106,9 @@ public class SeamUiAllTests {
 				CASeamAddInfoInELMessagesTest.class), "org.jboss.tools.seam.ui.test", //$NON-NLS-1$
 				new String[] { "projects/TestSeamELContentAssist", }, //$NON-NLS-1$
 				new String[] { "TestSeamELContentAssist" })); //$NON-NLS-1$
-
+		
+		suite.addTestSuite(SeamSettingsPreferencesPageTest.class);
+		
 		return suite;
 	}
 }
