@@ -91,26 +91,10 @@ public class MakeBeanScopedDependentMarkerResolution implements IMarkerResolutio
 				
 				IBuffer buffer = compilationUnit.getBuffer();
 				
-				//buffer.replace(workingCopyAnnotation.getSourceRange().getOffset(), workingCopyAnnotation.getSourceRange().getLength(), CDIMarkerResolutionUtils.AT+shortName);
-				
-				//synchronized(compilationUnit) {
-				//	compilationUnit.reconcile(ICompilationUnit.NO_AST, true, null, null);
-				//}
-				
 				// delete import
 				String qualifiedName = getFullyQualifiedName();
 				if(qualifiedName != null){
-					IImportDeclaration importDeclaration = compilationUnit.getImport(qualifiedName);
-					IImportContainer importContainer = compilationUnit.getImportContainer();
-					if(importDeclaration != null && importContainer != null){
-						int importSize = importContainer.getSourceRange().getOffset()+importContainer.getSourceRange().getLength();
-						String text = buffer.getText(importSize, buffer.getLength()-importSize);
-						if(checkImport(text, originalAnnotation.getElementName())){
-							TextEdit de = new DeleteEdit(importDeclaration.getSourceRange().getOffset(), importDeclaration.getSourceRange().getLength());
-							edit.addChild(de);
-							//importDeclaration.delete(false, new NullProgressMonitor());
-						}
-					}
+					CDIMarkerResolutionUtils.deleteImportForAnnotation(qualifiedName, workingCopyAnnotation, compilationUnit, buffer, edit);
 				}
 			}
 			
@@ -125,12 +109,6 @@ public class MakeBeanScopedDependentMarkerResolution implements IMarkerResolutio
 
 	}
 	
-	private boolean checkImport(String text, String shortName){
-		Pattern p = Pattern.compile(".*\\W"+shortName+"\\W.*",Pattern.DOTALL); //$NON-NLS-1$ //$NON-NLS-2$
-		Matcher m = p.matcher(text);
-		return !m.matches();
-	}
-
 	
 	private IAnnotation getWorkingCopyAnnotation(IAnnotation annotation, ICompilationUnit compilationUnit){
 		IType type = compilationUnit.getType(bean.getBeanClass().getElementName());
