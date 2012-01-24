@@ -65,15 +65,9 @@ public class AddSerializableInterfaceMarkerResolution  implements IMarkerResolut
 			}
 			ICompilationUnit compilationUnit = original.getWorkingCopy(new NullProgressMonitor());
 			
-			CompilationUnitChange change = new CompilationUnitChange("", compilationUnit);
+			CompilationUnitChange change = getChange(compilationUnit);
 			
-			MultiTextEdit edit = new MultiTextEdit();
-			
-			change.setEdit(edit);
-			
-			CDIMarkerResolutionUtils.addInterfaceToClass(compilationUnit, type, SERIALIZABLE, edit);
-			
-			if(edit.hasChildren()){
+			if(change.getEdit().hasChildren()){
 				change.perform(new NullProgressMonitor());
 				original.reconcile(ICompilationUnit.NO_AST, false, null, new NullProgressMonitor());
 			}

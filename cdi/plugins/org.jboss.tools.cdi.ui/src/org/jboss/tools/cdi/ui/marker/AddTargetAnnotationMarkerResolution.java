@@ -59,18 +59,9 @@ public class AddTargetAnnotationMarkerResolution implements
 			ICompilationUnit original = type.getCompilationUnit();
 			ICompilationUnit compilationUnit = original.getWorkingCopy(new NullProgressMonitor());
 			
-			CompilationUnitChange change = new CompilationUnitChange("", compilationUnit);
+			CompilationUnitChange change = getChange(compilationUnit);
 			
-			MultiTextEdit edit = new MultiTextEdit();
-			
-			change.setEdit(edit);
-			for(String qualifiedName : qualifiedNames){
-				CDIMarkerResolutionUtils.addImport(qualifiedName, compilationUnit, true, edit);
-			}
-			
-			CDIMarkerResolutionUtils.addAnnotation(CDIConstants.TARGET_ANNOTATION_TYPE_NAME, compilationUnit, type, "("+totalList+")", edit);
-			
-			if(edit.hasChildren()){
+			if(change.getEdit().hasChildren()){
 				change.perform(new NullProgressMonitor());
 				original.reconcile(ICompilationUnit.NO_AST, false, null, new NullProgressMonitor());
 			}
