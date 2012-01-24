@@ -241,7 +241,7 @@ public class SeamConfigXmlCompletionProposalComputer extends AbstractXMLModelQue
 				try {
 					member = Util.resolveMember(contextType, sax);
 				} catch (JavaModelException e) {
-					CDISeamConfigUIPlugin.log(e);
+					CDISeamConfigUIPlugin.getDefault().logError(e);
 				}
 				if(member != null) {
 					//We are inside bean member. Suggest annotations and <value>.
@@ -274,7 +274,7 @@ public class SeamConfigXmlCompletionProposalComputer extends AbstractXMLModelQue
 			}
 			tagData.addAll(append);
 		} catch (JavaModelException e) {
-			CDISeamConfigUIPlugin.log(e);
+			CDISeamConfigUIPlugin.getDefault().logError(e);
 		}
 	}
 
@@ -366,7 +366,7 @@ public class SeamConfigXmlCompletionProposalComputer extends AbstractXMLModelQue
 						proposedInfo = JavadocContentAccess2.getHTMLContent(member, true);
 						if(proposedInfo == null) proposedInfo = "";
 					} catch (JavaModelException e) {
-						CDISeamConfigUIPlugin.log(e);
+						CDISeamConfigUIPlugin.getDefault().logError(e);
 					}
 				}
 				return proposedInfo;
@@ -431,7 +431,7 @@ public class SeamConfigXmlCompletionProposalComputer extends AbstractXMLModelQue
 					try {
 						packages = getAllPackages(javaProject);
 					} catch (JavaModelException e) {
-						CDISeamConfigUIPlugin.log(e);
+						CDISeamConfigUIPlugin.getDefault().logError(e);
 					}
 					packages.add(PACKAGE_EE);
 					for (String pkg: packages) {
@@ -605,7 +605,7 @@ public class SeamConfigXmlCompletionProposalComputer extends AbstractXMLModelQue
 				}
 			}
 		} catch (JavaModelException e) {
-			CDISeamConfigUIPlugin.log(e);
+			CDISeamConfigUIPlugin.getDefault().logError(e);
 		}
 		return result;
 	}

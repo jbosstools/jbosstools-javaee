@@ -26,7 +26,7 @@ public class CDISeamConfigUiImages {
 		try {
 			INSTANCE = new CDISeamConfigUiImages(new URL(CDISeamConfigUIPlugin.getDefault().getBundle().getEntry("/"), "icons/")); //$NON-NLS-1$ //$NON-NLS-2$
 		} catch (MalformedURLException e) {
-			CDISeamConfigUIPlugin.log(e);
+			CDISeamConfigUIPlugin.getDefault().logError(e);
 		}
 	}
 	
