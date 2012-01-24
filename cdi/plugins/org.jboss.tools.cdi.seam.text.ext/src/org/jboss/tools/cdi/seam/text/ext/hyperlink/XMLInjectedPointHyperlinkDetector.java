@@ -101,7 +101,7 @@ public class XMLInjectedPointHyperlinkDetector extends InjectedPointHyperlinkDet
 			try{
 				elementFile = (IFile)element.getUnderlyingResource();
 			}catch(JavaModelException ex){
-				CDISeamExtPlugin.log(ex);
+				CDISeamExtPlugin.getDefault().logError(ex);
 			}
 			
 		if(elementFile != null)

@@ -74,9 +74,9 @@ public class CDISeamResourceLoadingHyperlinkDetector extends AbstractHyperlinkDe
 				}
 			}
 		}catch(CoreException ex){
-			CDISeamExtPlugin.log(ex);
+			CDISeamExtPlugin.getDefault().logError(ex);
 		}catch(BadLocationException ex){
-			CDISeamExtPlugin.log(ex);
+			CDISeamExtPlugin.getDefault().logError(ex);
 		}
 	
 		return null;
