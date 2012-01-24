@@ -44,10 +44,18 @@
 		</h:dataTable>
 	</h:dataTable>
 
-		<h:dataTable value="#{tipos}" var="_a" border="#{_a.name}"/>
-		<h:dataTable value="#{testComponentForVars}" var="_a" border="#{_a.test}"/>
-		<h:dataTable value="#{tipos}" var="_a" border="#{_a.nonExistingBroken}"/>
-		<h:dataTable value="#{tipos.nonExistingBroken}"/>
+	<h:dataTable value="#{tipos}" var="_a" border="#{_a.name}"/>
+	<h:dataTable value="#{testComponentForVars}" var="_a" border="#{_a.test}"/>
+	<h:dataTable value="#{tipos}" var="_a" border="#{_a.nonExistingBroken}"/>
+	<h:dataTable value="#{tipos.nonExistingBroken}"/>
+
+	<h:dataTable value="#{setItems}" var="value">
+		<h:outputText value="#{value.nonExistingBroken}"/>
+	</h:dataTable>
+
+	<h:dataTable value="#{nonExistingBroken}" var="valueBroken">
+		<h:outputText value="#{valueBroken.name}"/>
+	</h:dataTable>
 
 </ui:define>
 </ui:composition>
