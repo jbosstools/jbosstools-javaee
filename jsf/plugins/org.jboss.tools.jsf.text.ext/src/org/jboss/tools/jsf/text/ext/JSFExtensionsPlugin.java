@@ -10,13 +10,6 @@
  ******************************************************************************/ 
 package org.jboss.tools.jsf.text.ext;
 
-import java.util.MissingResourceException;
-import java.util.ResourceBundle;
-
-import org.eclipse.core.resources.IWorkspace;
-import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Status;
 import org.jboss.tools.common.log.BaseUIPlugin;
 
 /**
