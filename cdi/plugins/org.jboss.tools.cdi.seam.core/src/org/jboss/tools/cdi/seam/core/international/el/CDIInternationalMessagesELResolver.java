@@ -25,6 +25,7 @@ import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.swt.graphics.Image;
+import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.CDIImages;
 import org.jboss.tools.cdi.seam.core.CDISeamCorePlugin;
@@ -159,7 +160,9 @@ public class CDIInternationalMessagesELResolver extends AbstractELCompletionEngi
 		if (project == null)
 			return null;
 
-		if (!CDICorePlugin.getCDI(project, true).getExtensionManager().isCDIExtensionAvailable(CDISeamCorePlugin.CDI_INTERNATIONAL_RUNTIME_EXTENTION))
+		CDICoreNature n = CDICorePlugin.getCDI(project, true);
+
+		if (n == null || !n.getExtensionManager().isCDIExtensionAvailable(CDISeamCorePlugin.CDI_INTERNATIONAL_RUNTIME_EXTENTION))
 			return null;
 
 		IBundleModel bundleModel = BundleModelFactory.getBundleModel(context.getResource().getProject());
