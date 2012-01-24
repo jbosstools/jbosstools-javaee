@@ -40,7 +40,7 @@ import org.jboss.tools.cdi.core.IClassBean;
 import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.core.IInjectionPointParameter;
 import org.jboss.tools.cdi.seam.solder.core.generic.GenericClassBean;
-import org.jboss.tools.cdi.text.ext.CDIExtensionsPlugin;
+import org.jboss.tools.cdi.seam.text.ext.CDISeamExtPlugin;
 
 public class GenericInjectedPointHyperlinkDetector extends AbstractHyperlinkDetector{
 	protected IRegion region;
@@ -105,7 +105,7 @@ public class GenericInjectedPointHyperlinkDetector extends AbstractHyperlinkDete
 				return (IHyperlink[])hyperlinks.toArray(new IHyperlink[hyperlinks.size()]);
 			}
 		} catch (JavaModelException jme) {
-			CDIExtensionsPlugin.log(jme);
+			CDISeamExtPlugin.getDefault().logError(jme);
 		}
 		return null;
 	}
