@@ -17,22 +17,25 @@ import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jdt.core.Flags;
-import org.eclipse.jdt.core.IAnnotation;
 import org.eclipse.jdt.core.IBuffer;
 import org.eclipse.jdt.core.ICompilationUnit;
-import org.eclipse.jdt.core.IImportDeclaration;
 import org.eclipse.jdt.core.IMethod;
-import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.core.Signature;
+import org.eclipse.jdt.core.refactoring.CompilationUnitChange;
+import org.eclipse.ltk.core.refactoring.TextChange;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.text.edits.InsertEdit;
+import org.eclipse.text.edits.MultiTextEdit;
+import org.eclipse.text.edits.ReplaceEdit;
 import org.eclipse.ui.IMarkerResolution2;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.CDIImages;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
 import org.jboss.tools.cdi.ui.CDIUIPlugin;
 import org.jboss.tools.common.EclipseUtil;
-import org.jboss.tools.common.model.util.EclipseJavaUtil;
+import org.jboss.tools.common.refactoring.MarkerResolutionUtils;
+import org.jboss.tools.common.ui.CommonUIPlugin;
 
 /**
  * @author Daniel Azarov
@@ -44,6 +47,7 @@ public class AddLocalBeanMarkerResolution implements IMarkerResolution2 {
 	private static final String SPACE = " ";  //$NON-NLS-1$
 	
 	private String label;
+	private String description;
 	private IMethod method;
 	private IFile file;
 	
@@ -51,6 +55,7 @@ public class AddLocalBeanMarkerResolution implements IMarkerResolution2 {
 		this.label = MessageFormat.format(CDIUIMessages.ADD_LOCAL_BEAN_MARKER_RESOLUTION_TITLE, new Object[]{method.getDeclaringType().getElementName()});
 		this.method = method;
 		this.file = file;
+		description = getPreview();
 	}
 
 	@Override
@@ -67,68 +72,81 @@ public class AddLocalBeanMarkerResolution implements IMarkerResolution2 {
 			}
 			ICompilationUnit compilationUnit = original.getWorkingCopy(new NullProgressMonitor());
 			
-			IBuffer buffer = compilationUnit.getBuffer();
+			CompilationUnitChange change = getChange(compilationUnit);
 			
-			int flag = method.getFlags();
-			
-			String text = buffer.getText(method.getSourceRange().getOffset(), method.getSourceRange().getLength());
-
-			// make method public
-			int position = method.getSourceRange().getOffset();
-			if((flag & Flags.AccPublic) != 0){
-				// do nothing
-			}else if((flag & Flags.AccPrivate) != 0){
-				position += text.indexOf(PRIVATE);
-				buffer.replace(position, PRIVATE.length(), PUBLIC);
-			}else if((flag & Flags.AccProtected) != 0){
-				position += text.indexOf(PROTECTED);
-				buffer.replace(position, PROTECTED.length(), PUBLIC);
-			}else{
-				String type = Signature.getSignatureSimpleName(method.getReturnType());
-				position += text.indexOf(type);
-				buffer.replace(position, 0, PUBLIC+SPACE);
+			if(change.getEdit().hasChildren()){
+				change.perform(new NullProgressMonitor());
+				original.reconcile(ICompilationUnit.NO_AST, false, null, new NullProgressMonitor());
 			}
-			
-			synchronized(compilationUnit) {
-				compilationUnit.reconcile(ICompilationUnit.NO_AST, true, null, null);
-			}
-			
-			// add @LocalBean annotation
-			IType type = compilationUnit.getType(method.getDeclaringType().getElementName());
-			
-			IAnnotation localAnnotation = EclipseJavaUtil.findAnnotation(type, type, CDIConstants.LOCAL_BEAN_ANNOTATION_TYPE_NAME);
-			if(localAnnotation == null){
-				addImport(CDIConstants.LOCAL_BEAN_ANNOTATION_TYPE_NAME, compilationUnit);
-				
-				final String lineDelim= compilationUnit.findRecommendedLineSeparator();
-				
-				buffer = compilationUnit.getBuffer();
-				
-				buffer.replace(type.getSourceRange().getOffset(), 0, "@"+CDIConstants.LOCAL_BEAN_SIMPLE_NAME+lineDelim);
-			}
-			
-			// add method to interface
-			
-			compilationUnit.commitWorkingCopy(false, new NullProgressMonitor());
 			compilationUnit.discardWorkingCopy();
 			
 		}catch(CoreException ex){
 			CDIUIPlugin.getDefault().logError(ex);
 		}
 	}
-	
-	private void addImport(String qualifiedName, ICompilationUnit compilationUnit) throws JavaModelException{
-		if(qualifiedName != null){
-			IImportDeclaration importDeclaration = compilationUnit.getImport(qualifiedName); 
-			if(importDeclaration == null || !importDeclaration.exists())
-				compilationUnit.createImport(qualifiedName, null, new NullProgressMonitor());
+
+	private CompilationUnitChange getChange(ICompilationUnit compilationUnit) throws JavaModelException{
+		CompilationUnitChange change = new CompilationUnitChange("", compilationUnit);
+		
+		MultiTextEdit edit = new MultiTextEdit();
+		
+		change.setEdit(edit);
+		
+		IBuffer buffer = compilationUnit.getBuffer();
+		
+		int flag = method.getFlags();
+		
+		String text = buffer.getText(method.getSourceRange().getOffset(), method.getSourceRange().getLength());
+
+		// make method public
+		int position = method.getSourceRange().getOffset();
+		
+		if((flag & Flags.AccPublic) == 0){
+			if((flag & Flags.AccPrivate) != 0){
+				position += text.indexOf(PRIVATE);
+				edit.addChild(new ReplaceEdit(position, PRIVATE.length(), PUBLIC));
+			}else if((flag & Flags.AccProtected) != 0){
+				position += text.indexOf(PROTECTED);
+				edit.addChild(new ReplaceEdit(position, PROTECTED.length(), PUBLIC));
+			}else{
+				String type = Signature.getSignatureSimpleName(method.getReturnType());
+				position += text.indexOf(type);
+				buffer.replace(position, 0, PUBLIC+SPACE);
+				edit.addChild(new InsertEdit(position, PUBLIC+SPACE));
+			}
 		}
 		
+		// add @LocalBean annotation
+		MarkerResolutionUtils.addAnnotation(CDIConstants.LOCAL_BEAN_ANNOTATION_TYPE_NAME, compilationUnit, method.getDeclaringType(), "", edit);
+		
+		return change;
 	}
-
+	
+	private CompilationUnitChange getPreviewChange(){
+		try{
+			ICompilationUnit original = EclipseUtil.getCompilationUnit(file);
+			
+			return getChange(original);
+		}catch(CoreException ex){
+			CDIUIPlugin.getDefault().logError(ex);
+		}
+		return null;
+	}
+	
+	private String getPreview(){
+		TextChange previewChange = getPreviewChange();
+		
+		try {
+			return MarkerResolutionUtils.getPreview(previewChange);
+		} catch (CoreException e) {
+			CommonUIPlugin.getDefault().logError(e);
+		}
+		return label;
+	}
+	
 	@Override
 	public String getDescription() {
-		return label;
+		return description;
 	}
 
 	@Override
