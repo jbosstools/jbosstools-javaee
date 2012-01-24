@@ -20,8 +20,10 @@ import org.eclipse.jdt.core.Flags;
 import org.eclipse.jdt.core.IBuffer;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IField;
+import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.core.refactoring.CompilationUnitChange;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.ltk.core.refactoring.TextChange;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.text.edits.MultiTextEdit;
@@ -33,6 +35,8 @@ import org.jboss.tools.cdi.core.CDIImages;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
 import org.jboss.tools.cdi.ui.CDIUIPlugin;
 import org.jboss.tools.common.EclipseUtil;
+import org.jboss.tools.common.refactoring.MarkerResolutionUtils;
+import org.jboss.tools.common.ui.CommonUIPlugin;
 
 /**
  * @author Daniel Azarov
@@ -44,11 +48,13 @@ public class MakeFieldProtectedMarkerResolution implements IMarkerResolution2, T
 	private String label;
 	private IField field;
 	private IFile file;
+	private String description;
 	
 	public MakeFieldProtectedMarkerResolution(IField field, IFile file){
 		this.label = MessageFormat.format(CDIUIMessages.MAKE_FIELD_PROTECTED_MARKER_RESOLUTION_TITLE, new Object[]{field.getElementName()});
 		this.field = field;
 		this.file = file;
+		description = getPreview();
 	}
 	
 	@Override
@@ -80,26 +86,9 @@ public class MakeFieldProtectedMarkerResolution implements IMarkerResolution2, T
 			}
 			ICompilationUnit compilationUnit = original.getWorkingCopy(new NullProgressMonitor());
 
-			CompilationUnitChange change = new CompilationUnitChange("", compilationUnit);
+			CompilationUnitChange change = getChange(compilationUnit);
 			
-			MultiTextEdit edit = new MultiTextEdit();
-			
-			change.setEdit(edit);
-			IBuffer buffer = compilationUnit.getBuffer();
-			
-			int flag = field.getFlags();
-			
-			String text = buffer.getText(field.getSourceRange().getOffset(), field.getSourceRange().getLength());
-
-			int position = field.getSourceRange().getOffset();
-			if((flag & Flags.AccPublic) != 0){
-				position += text.indexOf(PUBLIC);
-				TextEdit re = new ReplaceEdit(position, PUBLIC.length(), PROTECTED);
-				edit.addChild(re);
-				//buffer.replace(position, PUBLIC.length(), PROTECTED);
-			}
-			
-			if(edit.hasChildren()){
+			if(change.getEdit().hasChildren()){
 				change.perform(new NullProgressMonitor());
 				original.reconcile(ICompilationUnit.NO_AST, false, null, new NullProgressMonitor());
 			}
@@ -109,9 +98,53 @@ public class MakeFieldProtectedMarkerResolution implements IMarkerResolution2, T
 		}
 	}
 
+	private CompilationUnitChange getChange(ICompilationUnit compilationUnit) throws JavaModelException{
+		CompilationUnitChange change = new CompilationUnitChange("", compilationUnit);
+		
+		MultiTextEdit edit = new MultiTextEdit();
+		
+		change.setEdit(edit);
+		IBuffer buffer = compilationUnit.getBuffer();
+		
+		int flag = field.getFlags();
+		
+		String text = buffer.getText(field.getSourceRange().getOffset(), field.getSourceRange().getLength());
+
+		int position = field.getSourceRange().getOffset();
+		if((flag & Flags.AccPublic) != 0){
+			position += text.indexOf(PUBLIC);
+			TextEdit re = new ReplaceEdit(position, PUBLIC.length(), PROTECTED);
+			edit.addChild(re);
+		}
+		
+		return change;
+	}
+	
+	private CompilationUnitChange getPreviewChange(){
+		try{
+			ICompilationUnit original = EclipseUtil.getCompilationUnit(file);
+			
+			return getChange(original);
+		}catch(CoreException ex){
+			CDIUIPlugin.getDefault().logError(ex);
+		}
+		return null;
+	}
+	
+	private String getPreview(){
+		TextChange previewChange = getPreviewChange();
+		
+		try {
+			return MarkerResolutionUtils.getPreview(previewChange);
+		} catch (CoreException e) {
+			CommonUIPlugin.getDefault().logError(e);
+		}
+		return label;
+	}
+	
 	@Override
 	public String getDescription() {
-		return label;
+		return description;
 	}
 
 	@Override

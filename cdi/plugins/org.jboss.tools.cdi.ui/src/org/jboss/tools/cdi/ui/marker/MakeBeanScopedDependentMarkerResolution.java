@@ -13,8 +13,6 @@ package org.jboss.tools.cdi.ui.marker;
 import java.text.MessageFormat;
 import java.util.Iterator;
 import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
@@ -23,12 +21,11 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jdt.core.IAnnotation;
 import org.eclipse.jdt.core.IBuffer;
 import org.eclipse.jdt.core.ICompilationUnit;
-import org.eclipse.jdt.core.IImportContainer;
-import org.eclipse.jdt.core.IImportDeclaration;
 import org.eclipse.jdt.core.IType;
+import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.core.refactoring.CompilationUnitChange;
+import org.eclipse.ltk.core.refactoring.TextChange;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.text.edits.DeleteEdit;
 import org.eclipse.text.edits.MultiTextEdit;
 import org.eclipse.text.edits.ReplaceEdit;
 import org.eclipse.text.edits.TextEdit;
@@ -41,6 +38,8 @@ import org.jboss.tools.cdi.internal.core.refactoring.CDIMarkerResolutionUtils;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
 import org.jboss.tools.cdi.ui.CDIUIPlugin;
 import org.jboss.tools.common.EclipseUtil;
+import org.jboss.tools.common.refactoring.MarkerResolutionUtils;
+import org.jboss.tools.common.ui.CommonUIPlugin;
 
 /**
  * @author Daniel Azarov
@@ -49,11 +48,13 @@ public class MakeBeanScopedDependentMarkerResolution implements IMarkerResolutio
 	private String label;
 	private IBean bean;
 	private IFile file;
+	private String description;
 	
 	public MakeBeanScopedDependentMarkerResolution(IBean bean, IFile file){
 		this.label = MessageFormat.format(CDIUIMessages.MAKE_BEAN_SCOPED_DEPENDENT_MARKER_RESOLUTION_TITLE, new Object[]{bean.getElementName()});
 		this.bean = bean;
 		this.file = file;
+		description = getPreview();
 	}
 	
 	@Override
@@ -73,32 +74,9 @@ public class MakeBeanScopedDependentMarkerResolution implements IMarkerResolutio
 			}
 			ICompilationUnit compilationUnit = original.getWorkingCopy(new NullProgressMonitor());
 
-			CompilationUnitChange change = new CompilationUnitChange("", compilationUnit);
+			CompilationUnitChange change = getChange(originalAnnotation, compilationUnit);
 			
-			MultiTextEdit edit = new MultiTextEdit();
-			
-			change.setEdit(edit);
-			
-			CDIMarkerResolutionUtils.addImport(CDIConstants.DEPENDENT_ANNOTATION_TYPE_NAME, compilationUnit, edit);
-			
-			IAnnotation workingCopyAnnotation = getWorkingCopyAnnotation(originalAnnotation, compilationUnit);
-			
-			if(workingCopyAnnotation != null){
-				String shortName = CDIMarkerResolutionUtils.getShortName(CDIConstants.DEPENDENT_ANNOTATION_TYPE_NAME);
-				
-				TextEdit re = new ReplaceEdit(workingCopyAnnotation.getSourceRange().getOffset(), workingCopyAnnotation.getSourceRange().getLength(), CDIMarkerResolutionUtils.AT+shortName);
-				edit.addChild(re);
-				
-				IBuffer buffer = compilationUnit.getBuffer();
-				
-				// delete import
-				String qualifiedName = getFullyQualifiedName();
-				if(qualifiedName != null){
-					CDIMarkerResolutionUtils.deleteImportForAnnotation(qualifiedName, workingCopyAnnotation, compilationUnit, buffer, edit);
-				}
-			}
-			
-			if(edit.hasChildren()){
+			if(change.getEdit().hasChildren()){
 				change.perform(new NullProgressMonitor());
 				original.reconcile(ICompilationUnit.NO_AST, false, null, new NullProgressMonitor());
 			}
@@ -107,6 +85,69 @@ public class MakeBeanScopedDependentMarkerResolution implements IMarkerResolutio
 			CDIUIPlugin.getDefault().logError(ex);
 		}
 
+	}
+	
+	private CompilationUnitChange getChange(IAnnotation originalAnnotation, ICompilationUnit compilationUnit) throws JavaModelException{
+		CompilationUnitChange change = new CompilationUnitChange("", compilationUnit);
+		
+		MultiTextEdit edit = new MultiTextEdit();
+		
+		change.setEdit(edit);
+		
+		CDIMarkerResolutionUtils.addImport(CDIConstants.DEPENDENT_ANNOTATION_TYPE_NAME, compilationUnit, edit);
+		
+		IAnnotation workingCopyAnnotation = getWorkingCopyAnnotation(originalAnnotation, compilationUnit);
+		
+		if(workingCopyAnnotation != null){
+			String shortName = CDIMarkerResolutionUtils.getShortName(CDIConstants.DEPENDENT_ANNOTATION_TYPE_NAME);
+			
+			TextEdit re = new ReplaceEdit(workingCopyAnnotation.getSourceRange().getOffset(), workingCopyAnnotation.getSourceRange().getLength(), CDIMarkerResolutionUtils.AT+shortName);
+			edit.addChild(re);
+			
+			IBuffer buffer = compilationUnit.getBuffer();
+			
+			// delete import
+			String qualifiedName = getFullyQualifiedName();
+			if(qualifiedName != null){
+				CDIMarkerResolutionUtils.deleteImportForAnnotation(qualifiedName, workingCopyAnnotation, compilationUnit, buffer, edit);
+			}
+		}
+		
+		return change;
+	}
+	
+	private CompilationUnitChange getPreviewChange(){
+		IAnnotation originalAnnotation = getScopeAnnotation();
+		if(originalAnnotation == null)
+			return null;
+		try{
+			ICompilationUnit original = EclipseUtil.getCompilationUnit(file);
+			if(original == null) {
+				return null;
+			}
+			
+			return getChange(originalAnnotation, original);
+		}catch(CoreException ex){
+			CDIUIPlugin.getDefault().logError(ex);
+		}
+		return null;
+	}
+	
+	private String getPreview(){
+		TextChange previewChange = getPreviewChange();
+		if(previewChange != null){
+			try {
+				return MarkerResolutionUtils.getPreview(previewChange);
+			} catch (CoreException e) {
+				CommonUIPlugin.getDefault().logError(e);
+			}
+		}
+		return label;
+	}
+	
+	@Override
+	public String getDescription() {
+		return description;
 	}
 	
 	
@@ -139,11 +180,6 @@ public class MakeBeanScopedDependentMarkerResolution implements IMarkerResolutio
 		}
 		return null;
 
-	}
-
-	@Override
-	public String getDescription() {
-		return label;
 	}
 
 	@Override
