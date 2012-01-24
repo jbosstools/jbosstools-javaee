@@ -10,53 +10,25 @@
  ******************************************************************************/ 
 package org.jboss.tools.jsf.text.ext.facelets;
 
-import java.util.MissingResourceException;
-import java.util.ResourceBundle;
-
-import org.eclipse.ui.plugin.*;
-import org.eclipse.core.resources.IWorkspace;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.osgi.framework.BundleContext;
+import org.eclipse.ui.plugin.AbstractUIPlugin;
+import org.jboss.tools.common.log.BaseUIPlugin;
 
 /**
  * The main plugin class to be used in the desktop.
  */
-public class FaceletsExtensionsPlugin extends AbstractUIPlugin {
+public class FaceletsExtensionsPlugin extends BaseUIPlugin {
 
 	//The shared instance.
 	private static FaceletsExtensionsPlugin plugin;
-	//Resource bundle.
-	private ResourceBundle resourceBundle;
 	
 	public static final String PLUGIN_ID = "org.jboss.tools.jsf.text.ext.facelets"; //$NON-NLS-1$
-
 	
 	/**
 	 * The constructor.
 	 */
 	public FaceletsExtensionsPlugin() {
 		plugin = this;
-		try {
-			resourceBundle= ResourceBundle.getBundle("org.jboss.tools.jsf.text.ext.facelets.FaceletsExtensionsPlugin"); //$NON-NLS-1$
-		} catch (MissingResourceException x) {
-			resourceBundle = null;
-		}
-	}
-
-	/**
-	 * This method is called upon plug-in activation
-	 */
-	public void start(BundleContext context) throws Exception {
-		super.start(context);
-	}
-
-	/**
-	 * This method is called when the plug-in is stopped
-	 */
-	public void stop(BundleContext context) throws Exception {
-		super.stop(context);
-		plugin = null;
 	}
 
 	/**
@@ -77,31 +49,4 @@ public class FaceletsExtensionsPlugin extends AbstractUIPlugin {
 		return AbstractUIPlugin.imageDescriptorFromPlugin("org.jboss.tools.jsf.text.ext.facelets", path); //$NON-NLS-1$
 	}
 	
-	/**
-	 * Returns the workspace instance.
-	 */
-	public static IWorkspace getWorkspace() {
-		return ResourcesPlugin.getWorkspace();
-	}
-
-	/**
-	 * Returns the string from the plugin's resource bundle,
-	 * or 'key' if not found.
-	 */
-	public static String getResourceString(String key) {
-		ResourceBundle bundle= FaceletsExtensionsPlugin.getDefault().getResourceBundle();
-		try {
-			return bundle.getString(key);
-		} catch (MissingResourceException e) {
-			return key;
-		}
-	}
-
-	/**
-	 * Returns the plugin's resource bundle,
-	 */
-	public ResourceBundle getResourceBundle() {
-		return resourceBundle;
-	}
-
 }
