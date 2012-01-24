@@ -36,6 +36,15 @@ public class BeansXmlValidationProvider extends AbstractValidationProvider {
 		problems.add(new ValidationProblem(ProblemsType.ERRORS, ValidationType.ALTERNATIVE_STEREOTYPE_BEAN_XML,
 				"<stereotype> element must specify the name of an @Alternative stereotype annotation"));
 		
+		problems.add(new ValidationProblem(ProblemsType.ERRORS, ValidationType.SPECIFY_ALTERNATIVE,
+				"must specify the name of an alternative bean class"));
+		
+		problems.add(new ValidationProblem(ProblemsType.ERRORS, ValidationType.SPECIFY_DECORATOR,
+				"must specify the name of a decorator bean class"));
+		
+		problems.add(new ValidationProblem(ProblemsType.ERRORS, ValidationType.SPECIFY_INTERCEPTOR,
+				"must specify the name of an interceptor class"));
+		
 	}
 	
 }

@@ -13,7 +13,7 @@ package org.jboss.tools.cdi.bot.test.quickfix.injection;
 
 import org.jboss.tools.cdi.bot.test.annotations.CDIWizardType;
 import org.jboss.tools.cdi.bot.test.annotations.ValidationType;
-import org.jboss.tools.cdi.bot.test.quickfix.EligibleInjectionQuickFixTestBase;
+import org.jboss.tools.cdi.bot.test.quickfix.base.EligibleInjectionQuickFixTestBase;
 import org.junit.After;
 import org.junit.Test;
 

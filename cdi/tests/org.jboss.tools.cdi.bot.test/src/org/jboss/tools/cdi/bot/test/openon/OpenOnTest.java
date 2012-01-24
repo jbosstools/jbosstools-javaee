@@ -12,6 +12,7 @@
 package org.jboss.tools.cdi.bot.test.openon;
 
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTable;
+import org.jboss.tools.cdi.bot.test.CDIConstants;
 import org.jboss.tools.cdi.bot.test.annotations.CDIWizardType;
 import org.jboss.tools.ui.bot.ext.Timing;
 import org.junit.Test;
@@ -38,7 +39,7 @@ public class OpenOnTest extends OpenOnBase {
 		String injectOption = null;
 		for (int i = 1; i < 12; i++) {
 			String injectPoint = "myBean" + i;
-			injectOption = "Show All Assignable Beans...";			
+			injectOption = CDIConstants.SHOW_ALL_ASSIGNABLE;			
 			if (i > 8) injectOption = "Open @Inject Bean";			
 			checkInjectedPoint(injectPoint, injectOption);
 		}
@@ -49,7 +50,7 @@ public class OpenOnTest extends OpenOnBase {
 	@Test
 	public void testBeansXMLClassesOpenOn() {
 		
-		beansHelper.createClearBeansXML(getProjectName());
+		beansHelper.createEmptyBeansXML(getProjectName());
 				
 		assertTrue(checkBeanXMLDecoratorOpenOn(getProjectName(), "D1"));
 		

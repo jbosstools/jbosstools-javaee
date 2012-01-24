@@ -29,12 +29,12 @@ import org.junit.Test;
 
 public class NamedRefactoringTest extends JSFTestBase {
 
-	private static final String MANAGED_BEAN_1 = "ManagedBean1";
-	private static final String MANAGED_BEAN_2 = "ManagedBean2";
-	private static final String INDEX_XHTML_1= "index1.xhtml";
-	private static final String INDEX_XHTML_2= "index2.xhtml";
-	private static final String INDEX_XHTML_3= "index3.xhtml";
-	private static final String NEW_NAMED_PARAM = "bean2";		
+	private final String MANAGED_BEAN_1 = "ManagedBean1";
+	private final String MANAGED_BEAN_2 = "ManagedBean2";
+	private final String INDEX_XHTML_1= "index1.xhtml";
+	private final String INDEX_XHTML_2= "index2.xhtml";
+	private final String INDEX_XHTML_3= "index3.xhtml";
+	private final String NEW_NAMED_PARAM = "bean2";	
 	
 	@Override
 	public String getProjectName() {

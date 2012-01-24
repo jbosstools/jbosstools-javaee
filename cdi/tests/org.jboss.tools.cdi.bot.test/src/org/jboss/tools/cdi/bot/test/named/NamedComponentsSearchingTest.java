@@ -15,6 +15,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.jboss.tools.cdi.bot.test.CDIConstants;
 import org.jboss.tools.cdi.bot.test.CDITestBase;
 import org.jboss.tools.cdi.bot.test.annotations.CDIWizardType;
 import org.jboss.tools.cdi.bot.test.uiutils.wizards.CDIWizardBaseExt;
@@ -36,6 +37,8 @@ public class NamedComponentsSearchingTest extends CDITestBase {
 	private final String beanName = "Bean1";
 	private final String stereotypeName = "Stereotype1";
 	private static SearchNamedDialogWizard namedDialog = null;
+	private final String BEAN_STEREOTYPE_PATH = "/resources/named/BeanWithStereotype.java.cdi";
+	private final String BEAN_STEREOTYPE_NAMED_PATH = "/resources/named/BeanWithStereotypeAndNamed.java.cdi";
 	
 	@Override
 	public String getProjectName() {
@@ -164,7 +167,7 @@ public class NamedComponentsSearchingTest extends CDITestBase {
 				false, false, false).finish();
 		
 		wizard.createCDIComponentWithContent(CDIWizardType.BEAN, beanName, getPackageName(), 
-				null, "/resources/named/BeanWithStereotype.java.cdi");
+				null, BEAN_STEREOTYPE_PATH);
 		
 		namedDialog = openSearchNamedDialog().setNamedPrefix(beanName);		
 		assertTrue(namedDialog.matchingItems().size() == 1);
@@ -183,7 +186,7 @@ public class NamedComponentsSearchingTest extends CDITestBase {
 				false, false, false).finish();
 		
 		wizard.createCDIComponentWithContent(CDIWizardType.BEAN, beanName, getPackageName(), 
-				null, "/resources/named/BeanWithStereotypeAndNamed.java.cdi");
+				null, BEAN_STEREOTYPE_NAMED_PATH);
 		
 		namedDialog = openSearchNamedDialog().setNamedPrefix(beanName);		
 		assertTrue(namedDialog.matchingItems().size() == 0);
@@ -204,7 +207,7 @@ public class NamedComponentsSearchingTest extends CDITestBase {
 				false, false, false).finish();
 		
 		wizard.createCDIComponentWithContent(CDIWizardType.BEAN, beanName, getPackageName(), 
-				null, "/resources/named/BeanWithStereotypeAndNamed.java.cdi");
+				null, BEAN_STEREOTYPE_NAMED_PATH);
 		
 		namedDialog = openSearchNamedDialog().setNamedPrefix(beanName);		
 		assertTrue(namedDialog.matchingItems().size() == 0);
@@ -227,7 +230,7 @@ public class NamedComponentsSearchingTest extends CDITestBase {
 	
 	
 	private SearchNamedDialogWizard openSearchNamedDialog() {		
-		bot.menu("Navigate").menu("Open CDI Named Bean").click();
+		bot.menu(CDIConstants.NAVIGATE).menu(CDIConstants.OPEN_CDI_NAMED_BEANS).click();
 		bot.sleep(Timing.time500MS());
 		return new SearchNamedDialogWizard();
 	}

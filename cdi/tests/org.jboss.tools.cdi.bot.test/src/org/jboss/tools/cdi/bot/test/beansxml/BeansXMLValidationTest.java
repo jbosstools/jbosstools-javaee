@@ -11,9 +11,10 @@
 
 package org.jboss.tools.cdi.bot.test.beansxml;
 
-import org.jboss.tools.cdi.bot.test.CDITestBase;
-import org.jboss.tools.cdi.bot.test.annotations.BeansXMLValidationErrors;
+import org.jboss.tools.cdi.bot.test.CDIConstants;
 import org.jboss.tools.cdi.bot.test.annotations.CDIWizardType;
+import org.jboss.tools.cdi.bot.test.annotations.ValidationType;
+import org.jboss.tools.cdi.bot.test.quickfix.base.BeansXMLQuickFixTestBase;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -24,7 +25,7 @@ import org.junit.Test;
  * 
  */
 
-public class BeansXMLValidationTest extends CDITestBase {
+public class BeansXMLValidationTest extends BeansXMLQuickFixTestBase {
 
 	private final String someBean = "Bean1";
 	private final String nonExistingPackage = "somePackage";
@@ -40,12 +41,11 @@ public class BeansXMLValidationTest extends CDITestBase {
 	}
 	
 	@Test
-	public void testClearBeansXMLValidation() {
+	public void testEmptyBeansXMLValidation() {
 		
-		beansHelper.createClearBeansXML(getProjectName());		
+		beansHelper.createEmptyBeansXML(getProjectName());		
 			
-		assertTrue(beansHelper.getBeansXMLValidationErrors(
-				getProjectName()).length == 0);
+		assertTrue(isBeanXMLValidationErrorEmpty());
 		
 	}
 	
@@ -55,27 +55,24 @@ public class BeansXMLValidationTest extends CDITestBase {
 		String className = "I1";
 		
 		if (!projectExplorer.isFilePresent(getProjectName(),  
-				("Java Resources/src/" + getPackageName() + 
+				(CDIConstants.JAVA_RESOURCES_SRC_FOLDER + getPackageName() + 
 				"/" + someBean + ".java").split("/"))) {
 			wizard.createCDIComponent(CDIWizardType.BEAN, someBean, getPackageName(), null);
 		}
 		
 		wizard.createCDIComponent(CDIWizardType.INTERCEPTOR, className, getPackageName(), null);
 
-		assertTrue(beansHelper.checkInterceptorInBeansXML(getProjectName(), 
-				getPackageName(), className));
+		beansHelper.createBeansXMLWithInterceptor(getProjectName(), getPackageName(), className);
+		assertTrue(isBeanXMLValidationErrorEmpty());
 		
+		beansHelper.createBeansXMLWithInterceptor(getProjectName(), nonExistingPackage, className);
+		assertFalse(isBeanXMLValidationErrorEmpty());
+		assertNotNull(getProblem(ValidationType.NO_CLASS));
 		
-		assertFalse(beansHelper.checkInterceptorInBeansXML(getProjectName(), 
-				nonExistingPackage, className));		
-		assertTrue(beansHelper.checkValidationErrorInBeansXML(getProjectName(), 
-				BeansXMLValidationErrors.NO_SUCH_CLASS));
+		beansHelper.createBeansXMLWithInterceptor(getProjectName(), getPackageName(), someBean);
+		assertFalse(isBeanXMLValidationErrorEmpty());
+		assertNotNull(getProblem(ValidationType.SPECIFY_INTERCEPTOR));
 		
-		
-		assertFalse(beansHelper.checkInterceptorInBeansXML(getProjectName(), 
-				getPackageName(), someBean));		
-		assertTrue(beansHelper.checkValidationErrorInBeansXML(getProjectName(),
-				BeansXMLValidationErrors.INTERCEPTOR));
 	}
 	
 	@Test
@@ -84,28 +81,23 @@ public class BeansXMLValidationTest extends CDITestBase {
 		String className = "D1";
 		
 		if (!projectExplorer.isFilePresent(getProjectName(),  
-				("Java Resources/src/" + getPackageName() + 
+				(CDIConstants.JAVA_RESOURCES_SRC_FOLDER + getPackageName() + 
 				"/" + someBean + ".java").split("/"))) {
 			wizard.createCDIComponent(CDIWizardType.BEAN, someBean, getPackageName(), null);
 		}
 		
-		wizard.createCDIComponent(CDIWizardType.DECORATOR, className, 
-				getPackageName(), "java.util.Set");
+		wizard.createCDIComponent(CDIWizardType.DECORATOR, className, getPackageName(), "java.util.Set");
 
-		assertTrue(beansHelper.checkDecoratorInBeansXML(getProjectName(), 
-				getPackageName(), className));
+		beansHelper.createBeansXMLWithDecorator(getProjectName(), getPackageName(), className);
+		assertTrue(isBeanXMLValidationErrorEmpty());
 		
+		beansHelper.createBeansXMLWithDecorator(getProjectName(), nonExistingPackage, className);
+		assertFalse(isBeanXMLValidationErrorEmpty());
+		assertNotNull(getProblem(ValidationType.NO_CLASS));
 		
-		assertFalse(beansHelper.checkDecoratorInBeansXML(getProjectName(), 
-				nonExistingPackage, className));		
-		assertTrue(beansHelper.checkValidationErrorInBeansXML(getProjectName(),
-				BeansXMLValidationErrors.NO_SUCH_CLASS));
-
-		
-		assertFalse(beansHelper.checkDecoratorInBeansXML(getProjectName(), 
-				getPackageName(), someBean));		
-		assertTrue(beansHelper.checkValidationErrorInBeansXML(getProjectName(),
-				BeansXMLValidationErrors.DECORATOR));
+		beansHelper.createBeansXMLWithDecorator(getProjectName(), getPackageName(), someBean);
+		assertFalse(isBeanXMLValidationErrorEmpty());
+		assertNotNull(getProblem(ValidationType.SPECIFY_DECORATOR));
 	}
 	
 	@Test
@@ -114,28 +106,23 @@ public class BeansXMLValidationTest extends CDITestBase {
 		String className = "A1";
 		
 		if (!projectExplorer.isFilePresent(getProjectName(),  
-				("Java Resources/src/" + getPackageName() + 
+				(CDIConstants.JAVA_RESOURCES_SRC_FOLDER + getPackageName() + 
 				"/" + someBean + ".java").split("/"))) {
 			wizard.createCDIComponent(CDIWizardType.BEAN, someBean, getPackageName(), null);
 		}
 		
-		wizard.createCDIComponent(CDIWizardType.BEAN, className, 
-				getPackageName(), "alternative");
+		wizard.createCDIComponent(CDIWizardType.BEAN, className, getPackageName(), "alternative");
 
-		assertTrue(beansHelper.checkAlternativeInBeansXML(getProjectName(), 
-				getPackageName(), className));
+		beansHelper.createBeansXMLWithAlternative(getProjectName(), getPackageName(), className);
+		assertTrue(isBeanXMLValidationErrorEmpty());
 		
+		beansHelper.createBeansXMLWithAlternative(getProjectName(), nonExistingPackage, className);
+		assertFalse(isBeanXMLValidationErrorEmpty());
+		assertNotNull(getProblem(ValidationType.NO_CLASS));
 		
-		assertFalse(beansHelper.checkAlternativeInBeansXML(getProjectName(), 
-				nonExistingPackage, className));		
-		assertTrue(beansHelper.checkValidationErrorInBeansXML(getProjectName(),
-				BeansXMLValidationErrors.NO_SUCH_CLASS));
-		
-		
-		assertFalse(beansHelper.checkAlternativeInBeansXML(getProjectName(), 
-				getPackageName(), someBean));		
-		assertTrue(beansHelper.checkValidationErrorInBeansXML(getProjectName(),
-				BeansXMLValidationErrors.ALTERNATIVE));
+		beansHelper.createBeansXMLWithAlternative(getProjectName(), getPackageName(), someBean);
+		assertFalse(isBeanXMLValidationErrorEmpty());
+		assertNotNull(getProblem(ValidationType.SPECIFY_ALTERNATIVE));
 		
 	}
 	

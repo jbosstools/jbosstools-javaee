@@ -185,7 +185,7 @@ public class EditorResourceHelper extends CDIBase {
 		SWTBotTreeItem item = projectExplorer.selectTreeItem(folderName, path); 				
 		
 		NodeContextUtil.nodeContextMenu(tree, item, "Delete").click();
-		bot.sleep(Timing.time1S());
+		bot.sleep(Timing.time3S());
 		bot.shell("Confirm Delete").bot().button("OK").click();
 	}
 	
@@ -205,7 +205,7 @@ public class EditorResourceHelper extends CDIBase {
 		
 		bot.button("OK").click();
 		
-		bot.sleep(Timing.time2S());
+		bot.sleep(Timing.time3S());
 	}
 
 	/**

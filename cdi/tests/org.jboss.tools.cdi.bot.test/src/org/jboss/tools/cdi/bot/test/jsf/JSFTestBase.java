@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
+import org.jboss.tools.cdi.bot.test.CDIConstants;
 import org.jboss.tools.cdi.bot.test.CDITestBase;
 import org.jboss.tools.cdi.bot.test.annotations.JSFEnvironment;
 import org.jboss.tools.cdi.bot.test.annotations.JSFTemplate;
@@ -59,8 +60,8 @@ public class JSFTestBase extends CDITestBase {
 	 */
 	protected void createXHTMLPage(String pageName) {
 		XHTMLDialogWizard xhtmlWizard = new NewXHTMLFileWizard().run();
-		xhtmlWizard.setDestination(getProjectName() + "/WebContent/" + WEB_FOLDER).
-					setName(pageName).finish();
+		xhtmlWizard.setDestination(getProjectName() + "/" + CDIConstants.WEBCONTENT + 
+				"/" + WEB_FOLDER).setName(pageName).finish();
 		bot.sleep(Timing.time3S());
 		util.waitForNonIgnoredJobs();
 		setEd(bot.activeEditor().toTextEditor());
@@ -105,7 +106,7 @@ public class JSFTestBase extends CDITestBase {
 		try {
 			bot.editorByTitle(className + ".java");
 		} catch (WidgetNotFoundException exc) {
-			projectExplorer.openFile(getProjectName(), "Java Resources", "JavaSource", 
+			projectExplorer.openFile(getProjectName(), CDIConstants.JAVA_RESOURCES, CDIConstants.JAVA_SOURCE, 
 									 getPackageName(), className);
 		}
 		

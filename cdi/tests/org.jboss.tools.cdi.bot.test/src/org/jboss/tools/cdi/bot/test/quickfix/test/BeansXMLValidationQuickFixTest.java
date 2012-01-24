@@ -12,7 +12,7 @@
 package org.jboss.tools.cdi.bot.test.quickfix.test;
 
 import org.jboss.tools.cdi.bot.test.annotations.CDIWizardType;
-import org.jboss.tools.cdi.bot.test.quickfix.BeansXMLQuickFixTestBase;
+import org.jboss.tools.cdi.bot.test.quickfix.base.BeansXMLQuickFixTestBase;
 import org.junit.Test;
 
 /**
@@ -36,7 +36,7 @@ public class BeansXMLValidationQuickFixTest extends BeansXMLQuickFixTestBase {
 		
 		resolveAddNewAlternative(bean, getPackageName());
 		
-		assertTrue(isBeanXMLValidationProblemsEmpty());		
+		assertTrue(isBeanXMLValidationErrorEmpty());		
 	}
 	
 	@Test
@@ -47,7 +47,7 @@ public class BeansXMLValidationQuickFixTest extends BeansXMLQuickFixTestBase {
 		
 		resolveAddNewStereotype(stereotype, getPackageName());
 		
-		assertTrue(isBeanXMLValidationProblemsEmpty());		
+		assertTrue(isBeanXMLValidationErrorEmpty());		
 		
 	}
 	
@@ -62,7 +62,7 @@ public class BeansXMLValidationQuickFixTest extends BeansXMLQuickFixTestBase {
 		
 		resolveAddAlternativeToBean(bean);
 		
-		assertTrue(isBeanXMLValidationProblemsEmpty());	
+		assertTrue(isBeanXMLValidationErrorEmpty());	
 		
 	}
 	
@@ -77,7 +77,7 @@ public class BeansXMLValidationQuickFixTest extends BeansXMLQuickFixTestBase {
 		
 		resolveAddAlternativeToStereotype(stereotype);
 		
-		assertTrue(isBeanXMLValidationProblemsEmpty());	
+		assertTrue(isBeanXMLValidationErrorEmpty());	
 		
 	}
 	
@@ -90,7 +90,7 @@ public class BeansXMLValidationQuickFixTest extends BeansXMLQuickFixTestBase {
 		
 		resolveAddNewInterceptor(interceptor, getPackageName());
 		
-		assertTrue(isBeanXMLValidationProblemsEmpty());		
+		assertTrue(isBeanXMLValidationErrorEmpty());		
 		
 	}
 	
@@ -102,7 +102,7 @@ public class BeansXMLValidationQuickFixTest extends BeansXMLQuickFixTestBase {
 		
 		resolveAddNewDecorator(decorator, getPackageName());
 		
-		assertTrue(isBeanXMLValidationProblemsEmpty());		
+		assertTrue(isBeanXMLValidationErrorEmpty());		
 		
 	}
 	

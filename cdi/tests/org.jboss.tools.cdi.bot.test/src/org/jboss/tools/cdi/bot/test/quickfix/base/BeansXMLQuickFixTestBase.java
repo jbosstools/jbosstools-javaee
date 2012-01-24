@@ -9,7 +9,7 @@
  * Red Hat, Inc. - initial API and implementation
  ******************************************************************************/
 
-package org.jboss.tools.cdi.bot.test.quickfix;
+package org.jboss.tools.cdi.bot.test.quickfix.base;
 
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTreeItem;
 import org.jboss.tools.cdi.bot.test.annotations.CDIWizardType;
@@ -18,6 +18,7 @@ import org.jboss.tools.cdi.bot.test.quickfix.validators.BeansXmlValidationProvid
 import org.jboss.tools.cdi.bot.test.quickfix.validators.IValidationProvider;
 import org.jboss.tools.cdi.bot.test.uiutils.wizards.CDIWizardBase;
 import org.jboss.tools.cdi.bot.test.uiutils.wizards.QuickFixDialogWizard;
+import org.jboss.tools.ui.bot.ext.view.ProblemsView;
 
 public class BeansXMLQuickFixTestBase extends QuickFixTestBase {
 
@@ -48,13 +49,9 @@ public class BeansXMLQuickFixTestBase extends QuickFixTestBase {
 	 * Method checks if there is no beans.xml validation error
 	 * @return
 	 */
-	public boolean isBeanXMLValidationProblemsEmpty() {
-		for (ValidationType validationType: validationProvider().getAllValidationProblemsType()) {
-			if (getProblem(validationType) != null) {
-				return false;
-			}
-		}
-		return true;
+	public boolean isBeanXMLValidationErrorEmpty() {
+		return ProblemsView.getFilteredErrorsTreeItems(bot, null, "/" + getProjectName(), 
+				"beans.xml", "CDI Problem").length == 0;
 	}
 	
 	/**

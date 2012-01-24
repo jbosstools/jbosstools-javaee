@@ -23,6 +23,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.eclipse.swtbot.eclipse.finder.SWTWorkbenchBot;
 import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotEditor;
 import org.jboss.tools.cdi.bot.test.CDIAllBotTests;
+import org.jboss.tools.cdi.bot.test.CDIConstants;
 import org.jboss.tools.cdi.bot.test.CDISmokeBotTests;
 import org.jboss.tools.cdi.bot.test.CDITestBase;
 import org.jboss.tools.cdi.bot.test.editor.BeansEditor.Item;
@@ -56,7 +57,7 @@ version = "6.0", operator = ">="))
 @SuiteClasses({ CDIAllBotTests.class, CDISmokeBotTests.class })
 public class BeansEditorTest extends CDITestBase {
 
-	private static final String descPath = "WebContent/WEB-INF/beans.xml";
+	private static final String descPath = CDIConstants.WEB_INF_BEANS_XML_PATH;
 		
 	@BeforeClass
 	public static void setup() {

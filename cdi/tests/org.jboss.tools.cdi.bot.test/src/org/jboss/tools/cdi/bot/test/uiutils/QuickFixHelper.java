@@ -12,6 +12,7 @@ package org.jboss.tools.cdi.bot.test.uiutils;
 
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTreeItem;
 import org.jboss.tools.cdi.bot.test.CDIBase;
+import org.jboss.tools.cdi.bot.test.CDIConstants;
 import org.jboss.tools.cdi.bot.test.annotations.ProblemsType;
 import org.jboss.tools.ui.bot.ext.view.ProblemsView;
 
@@ -22,7 +23,7 @@ public class QuickFixHelper extends CDIBase {
 	 * @param item
 	 */
 	public void openQuickFix(SWTBotTreeItem item) {
-		NodeContextUtil.nodeContextMenu(bot.tree(), item, "Quick Fix").click();
+		NodeContextUtil.nodeContextMenu(bot.tree(), item, CDIConstants.QUICK_FIX).click();
 	}
 	
 	/**

@@ -12,7 +12,7 @@
 package org.jboss.tools.cdi.bot.test;
 
 import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotEclipseEditor;
-import org.jboss.tools.cdi.bot.test.uiutils.BeansXMLValidationHelper;
+import org.jboss.tools.cdi.bot.test.uiutils.BeansXMLHelper;
 import org.jboss.tools.cdi.bot.test.uiutils.CDIProjectHelper;
 import org.jboss.tools.cdi.bot.test.uiutils.CDIWizardHelper;
 import org.jboss.tools.cdi.bot.test.uiutils.EditorResourceHelper;
@@ -23,10 +23,10 @@ import org.jboss.tools.cdi.bot.test.uiutils.wizards.CDIWizardBaseExt;
 import org.jboss.tools.ui.bot.ext.SWTTestExt;
 
 public class CDIBase extends SWTTestExt {
-	
+
 	private static SWTBotEclipseEditor ed;
 	protected static CDIProjectHelper projectHelper = new CDIProjectHelper(); 
-	protected static BeansXMLValidationHelper beansHelper = new BeansXMLValidationHelper();
+	protected static BeansXMLHelper beansHelper = new BeansXMLHelper();
 	protected static CDIWizardHelper wizard = new CDIWizardHelper();
 	protected static CDIWizardBaseExt wizardExt = new CDIWizardBaseExt();
 	protected static OpenOnHelper openOnUtil = new OpenOnHelper();

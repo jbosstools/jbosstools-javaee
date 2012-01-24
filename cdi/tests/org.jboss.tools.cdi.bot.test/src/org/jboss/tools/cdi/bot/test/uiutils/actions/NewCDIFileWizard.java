@@ -11,6 +11,7 @@
 
 package org.jboss.tools.cdi.bot.test.uiutils.actions;
 
+import org.jboss.tools.cdi.bot.test.CDIConstants;
 import org.jboss.tools.cdi.bot.test.annotations.CDIWizardType;
 import org.jboss.tools.cdi.bot.test.uiutils.wizards.CDIWizardBase;
 import org.jboss.tools.cdi.bot.test.uiutils.wizards.Wizard;
@@ -27,7 +28,7 @@ public class NewCDIFileWizard extends NewFileWizardAction {
 	@Override
 	public CDIWizardBase run() {
 		Wizard w = super.run();
-		w.selectTemplate("CDI (Context and Dependency Injection)", type.getAnnotationType());
+		w.selectTemplate(CDIConstants.CDI_GROUP, type.getAnnotationType());
 		w.next();
 		return new CDIWizardBase(type);
 	}

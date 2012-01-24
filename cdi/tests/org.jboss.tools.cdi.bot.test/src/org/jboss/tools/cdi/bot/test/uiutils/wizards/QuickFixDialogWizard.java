@@ -15,10 +15,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.swtbot.swt.finder.SWTBot;
+import org.jboss.tools.cdi.bot.test.CDIConstants;
 
 public class QuickFixDialogWizard extends Wizard {
 
-	private static final String QUICK_FIX_TITLE = "Quick Fix";
+	private static final String QUICK_FIX_TITLE = CDIConstants.QUICK_FIX;
 	private List<String> availableFixes = null;
 	private List<String> resources = null;
 	

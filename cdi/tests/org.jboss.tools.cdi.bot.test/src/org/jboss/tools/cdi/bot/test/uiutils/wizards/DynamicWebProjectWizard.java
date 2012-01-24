@@ -16,16 +16,12 @@ import static org.junit.Assert.assertTrue;
 import org.eclipse.swtbot.swt.finder.SWTBot;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTree;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTreeItem;
+import org.jboss.tools.cdi.bot.test.CDIConstants;
 import org.jboss.tools.ui.bot.ext.Timing;
 
 public class DynamicWebProjectWizard extends Wizard {
 
 	private final String PROJECT_NAME = "Project name:";
-	private final String CDI_PRESET = "Dynamic Web Project " +
-			"with CDI (Context and Dependency Injection)";
-	private final String CDI_FACET = "CDI (Contexts and Dependency Injection)";
-	private final String CONFIGURATION = "Configuration";
-	private final String PROJECT_FACETS = "Project Facets";
 	
 	public DynamicWebProjectWizard() {
 		super(new SWTBot().activeShell().widget);
@@ -38,8 +34,8 @@ public class DynamicWebProjectWizard extends Wizard {
 	}
 	
 	public DynamicWebProjectWizard setCDIPreset() {
-		bot().comboBoxInGroup(CONFIGURATION, 0).
-			setSelection(CDI_PRESET);			
+		bot().comboBoxInGroup(CDIConstants.CONFIGURATION, 0).
+			setSelection(CDIConstants.CDI_PRESET);			
 		return this;
 	}
 	
@@ -51,11 +47,11 @@ public class DynamicWebProjectWizard extends Wizard {
 	}
 	
 	private void setCDIFacetInFacets(SWTBot bot) {
-		assertTrue(bot.activeShell().getText().equals(PROJECT_FACETS));
+		assertTrue(bot.activeShell().getText().equals(CDIConstants.PROJECT_FACETS));
 		SWTBot facetsBot = bot.activeShell().bot();
 		SWTBotTree tree= facetsBot.tree();
 		for (SWTBotTreeItem ti: tree.getAllItems())  {							
-			if (ti.cell(0).contains(CDI_FACET)) {				
+			if (ti.cell(0).contains(CDIConstants.CDI_FACET)) {				
 				ti.check();
 				break;
 			}

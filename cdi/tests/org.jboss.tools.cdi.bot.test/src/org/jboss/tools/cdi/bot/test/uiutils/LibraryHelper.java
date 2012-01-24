@@ -23,6 +23,7 @@ import org.eclipse.swtbot.swt.finder.widgets.SWTBotMenu;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotShell;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTree;
 import org.jboss.tools.cdi.bot.test.CDIBase;
+import org.jboss.tools.cdi.bot.test.CDIConstants;
 import org.jboss.tools.cdi.bot.test.PluginActivator;
 import org.jboss.tools.ui.bot.ext.SWTUtilExt;
 import org.jboss.tools.ui.bot.ext.Timing;
@@ -41,14 +42,14 @@ public class LibraryHelper extends CDIBase{
 		SWTBotTree tree = projectExplorer.bot().tree();
 			
 		ContextMenuHelper.prepareTreeItemForContextMenu(tree);
-	    new SWTBotMenu(ContextMenuHelper.getContextMenu(tree,"Refresh",false)).click();
+	    new SWTBotMenu(ContextMenuHelper.getContextMenu(tree,CDIConstants.REFRESH,false)).click();
 		
 		ContextMenuHelper.prepareTreeItemForContextMenu(tree);
-	    new SWTBotMenu(ContextMenuHelper.getContextMenu(tree,"Properties",false)).click();
+	    new SWTBotMenu(ContextMenuHelper.getContextMenu(tree,CDIConstants.PROPERTIES,false)).click();
 	    
-	    bot.tree().expandNode("Java Build Path").select();
-	    bot.tabItem("Libraries").activate();
-	    bot.button("Add JARs...").click();
+	    bot.tree().expandNode(CDIConstants.JAVA_BUILD_PATH).select();
+	    bot.tabItem(CDIConstants.LIBRARIES).activate();
+	    bot.button(CDIConstants.ADD_JARS).click();
 	    bot.sleep(Timing.time500MS());
 	    String file = libraryName;
 	    bot.tree().expandNode(projectName).expandNode(file).select();
@@ -97,14 +98,14 @@ public class LibraryHelper extends CDIBase{
 		SWTBotTree tree = projectExplorer.bot().tree();
 					
 		ContextMenuHelper.prepareTreeItemForContextMenu(tree);
-	    new SWTBotMenu(ContextMenuHelper.getContextMenu(tree,"Properties",false)).click();
+	    new SWTBotMenu(ContextMenuHelper.getContextMenu(tree, CDIConstants.PROPERTIES, false)).click();
 	    
 	    SWTBotShell shell = bot.shell("Properties for " + projectName);
 	    SWTBot bot = shell.bot();
 	    	   
-	    bot.tree().expandNode("Java Build Path").select();
+	    bot.tree().expandNode(CDIConstants.JAVA_BUILD_PATH).select();
 	   
-	    bot.tabItem("Libraries").activate();
+	    bot.tabItem(CDIConstants.LIBRARIES).activate();
 	    	
 	    boolean libraryInProject = false;
 	    for (int i = 0; i < bot.tree(1).rowCount(); i++) {

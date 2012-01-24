@@ -12,6 +12,7 @@ package org.jboss.tools.cdi.bot.test.uiutils;
 
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotCheckBox;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTreeItem;
+import org.jboss.tools.cdi.bot.test.CDIConstants;
 import org.jboss.tools.ui.bot.ext.SWTBotExt;
 import org.jboss.tools.ui.bot.ext.SWTEclipseExt;
 import org.jboss.tools.ui.bot.ext.SWTUtilExt;
@@ -43,8 +44,8 @@ public class SWTEclipseCDIExtUtil extends SWTEclipseExt {
 
 	private static void editFolding(SWTBotExt bot, SWTUtilExt util,
 			boolean select) {
-		bot.menu("Window").menu("Preferences").click();
-		bot.shell("Preferences").activate();
+		bot.menu(CDIConstants.WINDOW).menu(CDIConstants.PREFERENCES).click();
+		bot.shell(CDIConstants.PREFERENCES).activate();
 		SWTBotTreeItem item = bot.tree(0).expandNode("Java", "Editor");
 		item.select("Folding");
 		SWTBotCheckBox foldCheckBox = bot.checkBox("Enable folding");

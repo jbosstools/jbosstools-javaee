@@ -11,6 +11,7 @@
 
 package org.jboss.tools.cdi.bot.test.openon;
 
+import org.jboss.tools.cdi.bot.test.CDIConstants;
 import org.jboss.tools.cdi.bot.test.CDITestBase;
 import org.jboss.tools.cdi.bot.test.annotations.CDIWizardType;
 
@@ -49,9 +50,9 @@ public class OpenOnBase extends CDITestBase {
 	protected boolean checkBeanXMLDecoratorOpenOn(String packageName, String className) {
 		wizard.createCDIComponent(CDIWizardType.DECORATOR, className, packageName,
 				"java.util.Set");
-		bot.editorByTitle("beans.xml").show();
+		bot.editorByTitle(CDIConstants.BEANS_XML).show();
 		bot.cTabItem("Source").activate();
-		openOnUtil.openOnDirect(packageName + "." + className, "beans.xml");
+		openOnUtil.openOnDirect(packageName + "." + className, CDIConstants.BEANS_XML);
 		return getEd().getTitle().equals(className + ".java");
 	}
 	
@@ -67,9 +68,9 @@ public class OpenOnBase extends CDITestBase {
 	protected boolean checkBeanXMLInterceptorOpenOn(String packageName, String className) {
 		wizard.createCDIComponent(CDIWizardType.INTERCEPTOR, className, packageName,
 				null);
-		bot.editorByTitle("beans.xml").show();
+		bot.editorByTitle(CDIConstants.BEANS_XML).show();
 		bot.cTabItem("Source").activate();
-		openOnUtil.openOnDirect(packageName + "." + className, "beans.xml");
+		openOnUtil.openOnDirect(packageName + "." + className, CDIConstants.BEANS_XML);
 		return getEd().getTitle().equals(className + ".java");
 	}
 	
@@ -84,9 +85,9 @@ public class OpenOnBase extends CDITestBase {
 	protected boolean checkBeanXMLAlternativeOpenOn(String packageName, String className) {
 		wizard.createCDIComponent(CDIWizardType.BEAN, className, packageName,
 				"alternative+beansxml");
-		bot.editorByTitle("beans.xml").show();
+		bot.editorByTitle(CDIConstants.BEANS_XML).show();
 		bot.cTabItem("Source").activate();
-		openOnUtil.openOnDirect(packageName + "." + className, "beans.xml");
+		openOnUtil.openOnDirect(packageName + "." + className, CDIConstants.BEANS_XML);
 		return getEd().getTitle().equals(className + ".java");
 	}
 

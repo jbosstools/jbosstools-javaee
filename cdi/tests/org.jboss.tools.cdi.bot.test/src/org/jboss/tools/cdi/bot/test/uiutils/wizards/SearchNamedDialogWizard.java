@@ -15,16 +15,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.swtbot.swt.finder.SWTBot;
+import org.jboss.tools.cdi.bot.test.CDIConstants;
 import org.jboss.tools.ui.bot.ext.Timing;
 
 public class SearchNamedDialogWizard extends Wizard {
 
-	private static final String NAMED_SEARCH_TITLE = "Open CDI Named Bean";
 	private List<String> matchingItems = null;
 	
 	public SearchNamedDialogWizard() {
 		super(new SWTBot().activeShell().widget);
-		assert (NAMED_SEARCH_TITLE).equals(getText());	
+		assert (CDIConstants.OPEN_CDI_NAMED_BEANS).equals(getText());	
 		matchingItems = new ArrayList<String>();
 	}
 	

@@ -30,6 +30,7 @@ import org.jboss.tools.cdi.bot.test.seam3.Seam3ConfigValidationTest;
 import org.jboss.tools.cdi.bot.test.seam3.Seam3GenericOpenOnTest;
 import org.jboss.tools.cdi.bot.test.seam3.Seam3ResourceOpenOnTest;
 import org.jboss.tools.cdi.bot.test.wizard.CDISupportTest;
+import org.jboss.tools.cdi.bot.test.wizard.CDIWebProjectWizardTest;
 import org.jboss.tools.cdi.bot.test.wizard.ConfigurationPresetTest;
 import org.jboss.tools.cdi.bot.test.wizard.FacetTest;
 import org.jboss.tools.cdi.bot.test.wizard.WizardTest;
@@ -64,6 +65,7 @@ import org.junit.runners.Suite.SuiteClasses;
 	ConfigurationPresetTest.class,
 	FacetTest.class, 
 	CDISupportTest.class,
+	CDIWebProjectWizardTest.class,
 	WizardTest.class,
 	BeansEditorTest.class,
 	NamedRefactoringTest.class,

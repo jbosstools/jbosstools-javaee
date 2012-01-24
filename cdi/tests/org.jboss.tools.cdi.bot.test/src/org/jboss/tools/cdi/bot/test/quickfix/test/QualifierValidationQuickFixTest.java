@@ -14,7 +14,7 @@ package org.jboss.tools.cdi.bot.test.quickfix.test;
 
 import org.jboss.tools.cdi.bot.test.annotations.CDIWizardType;
 import org.jboss.tools.cdi.bot.test.annotations.ValidationType;
-import org.jboss.tools.cdi.bot.test.quickfix.QuickFixTestBase;
+import org.jboss.tools.cdi.bot.test.quickfix.base.QuickFixTestBase;
 import org.jboss.tools.cdi.bot.test.quickfix.validators.QualifierValidationProvider;
 import org.jboss.tools.cdi.bot.test.quickfix.validators.IValidationProvider;
 import org.junit.Test;
