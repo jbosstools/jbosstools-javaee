@@ -10,49 +10,18 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.xml.ui;
 
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Status;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.plugin.AbstractUIPlugin;
-import org.osgi.framework.BundleContext;
+import org.jboss.tools.common.log.BaseUIPlugin;
 
-public class CDIXMLUiPlugin extends AbstractUIPlugin {
+public class CDIXMLUiPlugin extends BaseUIPlugin {
 	public static String PLUGIN_ID = "org.jboss.tools.cdi.xml.ui"; //$NON-NLS-1$
-	static CDIXMLUiPlugin INSTANCE = null;
+	static CDIXMLUiPlugin plugin = null;
 
 	public CDIXMLUiPlugin() {
-		INSTANCE = this;
-	}
-	
-	public void start(BundleContext context) throws Exception {
-	    super.start(context);
+		plugin = this;
 	}
 	
 	public static CDIXMLUiPlugin getDefault() {
-		return INSTANCE;
+		return plugin;
 	}
 
-	public static boolean isDebugEnabled() {
-		return INSTANCE.isDebugging();
-	}
-	
-	public static void log(String msg) {
-		if(isDebugEnabled()) INSTANCE.getLog().log(new Status(Status.INFO, PLUGIN_ID, Status.OK, msg, null));		
-	}
-	
-	public static void log(IStatus status) {
-		if(isDebugEnabled() || !status.isOK()) INSTANCE.getLog().log(status);
-	}
-	
-	public static void log(String message, Throwable exception) {
-		INSTANCE.getLog().log(new Status(Status.ERROR, PLUGIN_ID, Status.OK, message, exception));		
-	}
-	
-	public static void log(Throwable ex) {
-		INSTANCE.getLog().log(new Status(Status.ERROR, PLUGIN_ID, Status.OK, CDIXMLUIMessages.CDI_XML_UI_PLUGIN_NO_MESSAGES, ex)); //$NON-NLS-1$
-	}
-
-	public static Shell getShell() {
-		return INSTANCE.getWorkbench().getActiveWorkbenchWindow().getShell();
-	}
 }
