@@ -107,7 +107,7 @@ public class AssignableBeanFilters {
 					FilterContributor f = (FilterContributor)c.createExecutableExtension("class");
 					s.add(f);
 				} catch (CoreException e) {
-					CDIExtensionsPlugin.getDefault().log(e);
+					CDIExtensionsPlugin.getDefault().logError(e);
 				}
 			}
 			contributors = s.toArray(new FilterContributor[s.size()]);

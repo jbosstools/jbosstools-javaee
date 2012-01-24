@@ -46,9 +46,9 @@ public class ObserverMethodHyperlink extends AbstractHyperlink implements IInfor
 			try{
 				part = JavaUI.openInEditor(observerMethod.getClassBean().getBeanClass());
 			}catch(JavaModelException ex){
-				CDIExtensionsPlugin.log(ex);
+				CDIExtensionsPlugin.getDefault().logError(ex);
 			}catch(PartInitException ex){
-				CDIExtensionsPlugin.log(ex);
+				CDIExtensionsPlugin.getDefault().logError(ex);
 			}
 			
 			IJavaElement element = observerMethod.getMethod();

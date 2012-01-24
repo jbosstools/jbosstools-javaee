@@ -118,7 +118,7 @@ public class ProducerDisposerHyperlinkDetector extends AbstractHyperlinkDetector
 				return (IHyperlink[])hyperlinks.toArray(new IHyperlink[hyperlinks.size()]);
 			}
 		} catch (JavaModelException jme) {
-			CDIExtensionsPlugin.log(jme);
+			CDIExtensionsPlugin.getDefault().logError(jme);
 		}
 		return null;
 	}

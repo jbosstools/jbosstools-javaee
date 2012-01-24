@@ -45,9 +45,9 @@ public class DisposerHyperlink extends AbstractHyperlink{
 			try{
 				part = JavaUI.openInEditor(method);
 			}catch(JavaModelException ex){
-				CDIExtensionsPlugin.log(ex);
+				CDIExtensionsPlugin.getDefault().logError(ex);
 			}catch(PartInitException ex){
-				CDIExtensionsPlugin.log(ex);
+				CDIExtensionsPlugin.getDefault().logError(ex);
 			}
 			
 			if (part != null) {

@@ -57,9 +57,9 @@ public class InjectedPointHyperlink extends AbstractHyperlink implements ITestab
 			try{
 				part = JavaUI.openInEditor(bean.getBeanClass());
 			}catch(JavaModelException ex){
-				CDIExtensionsPlugin.log(ex);
+				CDIExtensionsPlugin.getDefault().logError(ex);
 			}catch(PartInitException ex){
-				CDIExtensionsPlugin.log(ex);
+				CDIExtensionsPlugin.getDefault().logError(ex);
 			}
 			
 			IJavaElement element = getJavaElement();

@@ -50,9 +50,9 @@ public class EventHyperlink extends AbstractHyperlink implements ITestableCDIHyp
 			try{
 				part = JavaUI.openInEditor(event.getClassBean().getBeanClass());
 			}catch(JavaModelException ex){
-				CDIExtensionsPlugin.log(ex);
+				CDIExtensionsPlugin.getDefault().logError(ex);
 			}catch(PartInitException ex){
-				CDIExtensionsPlugin.log(ex);
+				CDIExtensionsPlugin.getDefault().logError(ex);
 			}
 			
 			IJavaElement element = event.getClassBean().getBeanClass();
