@@ -25,7 +25,7 @@ public class CDIXMLImages {
 		try {
 			INSTANCE = new CDIXMLImages(new URL(CDIXMLPlugin.getDefault().getBundle().getEntry("/"), "images/")); //$NON-NLS-1$ //$NON-NLS-2$
 		} catch (MalformedURLException e) {
-			CDIXMLPlugin.log(e);
+			CDIXMLPlugin.getDefault().logError(e);
 		}
 	}
 	

@@ -10,43 +10,22 @@
  ******************************************************************************/ 
 package org.jboss.tools.cdi.xml;
 
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Status;
-import org.eclipse.ui.plugin.AbstractUIPlugin;
+import org.jboss.tools.common.log.BaseUIPlugin;
 
 /**
  */
-public class CDIXMLPlugin extends AbstractUIPlugin {
+public class CDIXMLPlugin extends BaseUIPlugin {
 	public static final String PLUGIN_ID = "org.jboss.tools.cdi.xml"; //$NON-NLS-1$
+
+	private static CDIXMLPlugin plugin = null; 
 
 	public CDIXMLPlugin() {
 		super();
-		INSTANCE = this;
+		plugin = this;
 	}
 	
-	public static void log(String msg) {
-		if(isDebugEnabled()) INSTANCE.getLog().log(new Status(Status.INFO, PLUGIN_ID, Status.OK, msg, null));
-	}
-	
-	public static void log(IStatus status) {
-		if(isDebugEnabled() || !status.isOK()) INSTANCE.getLog().log(status);
-	}
-	
-	public static void log(String message, Throwable exception) {
-		INSTANCE.getLog().log(new Status(Status.ERROR, PLUGIN_ID, Status.OK, message, exception));		
-	}
-	
-	public static void log(Exception ex) {
-		INSTANCE.getLog().log(new Status(Status.ERROR, PLUGIN_ID, Status.OK, CDIXMLMessages.SEAM_XML_PLUGIN_NO_MESSAGE, ex)); 
-	}
-
-	public static boolean isDebugEnabled() {
-		return INSTANCE.isDebugging();
-	}
-
 	public static CDIXMLPlugin getDefault() {
-		return INSTANCE;
+		return plugin;
 	}
 	
-	static CDIXMLPlugin INSTANCE = null; 
 }
