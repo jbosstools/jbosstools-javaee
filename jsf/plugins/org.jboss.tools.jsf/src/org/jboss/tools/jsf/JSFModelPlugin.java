@@ -8,8 +8,6 @@ package org.jboss.tools.jsf;
 
 import java.util.Properties;
 
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Status;
 import org.jboss.tools.common.log.BaseUIPlugin;
 import org.jboss.tools.common.log.IPluginLog;
 import org.jboss.tools.common.model.XModel;
@@ -29,9 +27,11 @@ public class JSFModelPlugin extends BaseUIPlugin {
 	public static final String CA_JSF_EL_IMAGE_PATH = "images/ca/icons_JSF_EL.gif"; //$NON-NLS-1$
 	public static final String CA_JSF_MESSAGES_IMAGE_PATH = "images/ca/icons_Message_Bundles.gif"; //$NON-NLS-1$
 
+	private static JSFModelPlugin plugin = null;
+
 	public JSFModelPlugin() {
 		super();
-		INSTANCE = this;
+		plugin = this;
 	}
 
 	protected void initializeDefaultPluginPreferences()
@@ -60,27 +60,9 @@ public class JSFModelPlugin extends BaseUIPlugin {
 		}
 	}
 
-	public static void log(String msg) {
-		if(isDebugEnabled()) INSTANCE.getLog().log(new Status(Status.INFO, PLUGIN_ID, Status.OK, msg, null));		
-	}
-
-	public static void log(IStatus status) {
-		if(isDebugEnabled() || !status.isOK()) INSTANCE.getLog().log(status);
-	}
-
-	public static void log(String message, Throwable exception) {
-		INSTANCE.getLog().log(new Status(Status.ERROR, PLUGIN_ID, Status.OK, message, exception));		
-	}
-
-	public static boolean isDebugEnabled() {
-		return INSTANCE.isDebugging();
-	}
-
 	public static JSFModelPlugin getDefault() {
-		return INSTANCE;
+		return plugin;
 	}
-
-	static JSFModelPlugin INSTANCE = null;
 
 	/**
 	 * @return IPluginLog object

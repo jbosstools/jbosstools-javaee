@@ -246,7 +246,7 @@ public class JSFFuncsELCompletionEngine extends JSFELCompletionEngine {
 				currentType = TypeInfoCollector.getSuperclass(currentType);
 			}
 			} catch (JavaModelException e) {
-				JSFModelPlugin.log("An error occurred while retrieving methods for type '" + funcClass + "'", e);
+				JSFModelPlugin.getDefault().logError("An error occurred while retrieving methods for type '" + funcClass + "'", e);
 			}
 
 			return result;
