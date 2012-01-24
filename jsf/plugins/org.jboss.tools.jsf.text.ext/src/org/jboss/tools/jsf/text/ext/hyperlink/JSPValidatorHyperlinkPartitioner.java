@@ -108,7 +108,7 @@ public class JSPValidatorHyperlinkPartitioner extends AbstractHyperlinkPartition
 
 			return new Region(propStart,propLength);
 		} catch (BadLocationException x) {
-			JSFExtensionsPlugin.log(x);
+			JSFExtensionsPlugin.getDefault().logError(x);
 			return null;
 		} finally {
 			smw.dispose();
