@@ -14,6 +14,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
+import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IBeanMember;
 import org.jboss.tools.cdi.core.IInjectionPoint;
@@ -34,7 +35,7 @@ public class SolderDefaultBeanFilterContributor implements FilterContributor {
 
 	@Override
 	public void contribute(AssignableBeanFilters filters, IInjectionPoint injectionPoint) {
-		ICDIExtension ext = injectionPoint.getCDIProject().getNature().getExtensionManager().getExtensionByRuntime("org.jboss.solder.bean.defaultbean.DefaultBeanExtension");
+		ICDIExtension ext = CDISeamSolderDefaultBeanExtension.getExtension(injectionPoint.getCDIProject().getNature());
 		if(ext == null) {
 			return;
 		}
