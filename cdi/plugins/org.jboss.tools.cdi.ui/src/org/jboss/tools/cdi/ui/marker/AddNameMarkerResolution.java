@@ -20,7 +20,6 @@ public class AddNameMarkerResolution extends ChangeAnnotationMarkerResolution {
 	public AddNameMarkerResolution(IAnnotation annotation, String parameter) {
 		super(annotation, "\""+parameter+"\"");
 		label = NLS.bind(CDIUIMessages.ADD_NAME_MARKER_RESOLUTION_TITLE, parameter);
-		description = getPreview();
 	}
 	
 	@Override
