@@ -7,7 +7,6 @@
 <stringAttribute key="M2_PROFILES" value="-P smoke-bot-tests"/>
 <listAttribute key="M2_PROPERTIES">
 <listEntry value="swtbot.test.skip=false"/>
-<listEntry value="swtbot.properties=/home/jjankovi/swtbot.properties"/>
 </listAttribute>
 <stringAttribute key="M2_RUNTIME" value="EMBEDDED"/>
 <booleanAttribute key="M2_SKIP_TESTS" value="false"/>
