@@ -56,6 +56,7 @@ public class ChangeAnnotationMarkerResolution extends BaseMarkerResolution {
 		String shortName = CDIMarkerResolutionUtils.getShortName(parameter);
 		
 		changeString += "("+shortName+")";
+		label = NLS.bind(CDIUIMessages.CHANGE_ANNOTATION_MARKER_RESOLUTION_TITLE, sourceString, changeString);
 		init();
 	}
 	
@@ -69,12 +70,14 @@ public class ChangeAnnotationMarkerResolution extends BaseMarkerResolution {
 			totalList = CDIMarkerResolutionUtils.OPEN_BRACE+totalList+CDIMarkerResolutionUtils.CLOSE_BRACE;
 		
 		changeString += "("+totalList+")";
+		label = NLS.bind(CDIUIMessages.CHANGE_ANNOTATION_MARKER_RESOLUTION_TITLE, sourceString, changeString);
 		init();
 	}
 	
 	public ChangeAnnotationMarkerResolution(IAnnotation annotation, String[] typeNames, boolean useBraces){
 		this(annotation, typeNames);
 		this.useBraces = useBraces;
+		label = NLS.bind(CDIUIMessages.CHANGE_ANNOTATION_MARKER_RESOLUTION_TITLE, sourceString, changeString);
 		init();
 	}
 
