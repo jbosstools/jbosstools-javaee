@@ -95,7 +95,7 @@ public class AddViewSupport extends SpecialWizardSupport implements SeamPagesCon
 				templateString = buffer.getString();
 			}
 			catch (Exception e) {
-				SeamPagesXMLPlugin.log("Could not create template for new html", e); //$NON-NLS-1$
+				SeamPagesXMLPlugin.getDefault().logError("Could not create template for new html", e); //$NON-NLS-1$
 			}
 		}
 

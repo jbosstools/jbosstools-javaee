@@ -25,7 +25,7 @@ public class SeamPagesEntityRecognizer implements EntityRecognizer, SeamPagesCon
             Class<?> c = SeamPagesEntityRecognizer.class;
             XMLEntityResolver.registerPublicEntity(PUBLIC_ID_12, c, "/meta/pages-1.2.dtd"); //$NON-NLS-1$
         } catch (IOException e) {
-			SeamPagesXMLPlugin.log(e);
+			SeamPagesXMLPlugin.getDefault().logError(e);
         }
     }
     
