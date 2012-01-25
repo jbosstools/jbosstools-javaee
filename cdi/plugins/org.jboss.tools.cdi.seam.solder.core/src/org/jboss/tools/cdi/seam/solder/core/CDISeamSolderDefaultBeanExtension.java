@@ -24,6 +24,7 @@ import org.eclipse.jdt.core.IMemberValuePair;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.osgi.util.NLS;
 import org.jboss.tools.cdi.core.CDIConstants;
+import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.CDIUtil;
 import org.jboss.tools.cdi.core.IBean;
@@ -71,8 +72,21 @@ import org.jboss.tools.common.text.ITextSourceReference;
  *
  */
 public class CDISeamSolderDefaultBeanExtension implements ICDIExtension, IProcessAnnotatedTypeFeature, IAmbiguousBeanResolverFeature, IValidatorFeature, IBeanKeyProvider, IBeanStoreFeature {
+	private static String ID = "org.jboss.solder.bean.defaultbean.DefaultBeanExtension"; //$NON-NLS-1$
+	private static String ID_30 = "org.jboss.seam.solder.bean.defaultbean.DefaultBeanExtension"; //$NON-NLS-1$
 	
 	protected Map<String, Set<IBean>> defaultBeansByKey = new HashMap<String, Set<IBean>>();
+
+	public static CDISeamSolderDefaultBeanExtension getExtension(CDICoreNature project) {
+		ICDIExtension result = project.getExtensionManager().getExtensionByRuntime(ID);
+		if(result == null) {
+			result = project.getExtensionManager().getExtensionByRuntime(ID_30);
+		}
+		if(result instanceof CDISeamSolderDefaultBeanExtension) {
+			return (CDISeamSolderDefaultBeanExtension)result;
+		}
+		return null;
+	}
 
 	protected Version getVersion() {
 		return Version.instance;
