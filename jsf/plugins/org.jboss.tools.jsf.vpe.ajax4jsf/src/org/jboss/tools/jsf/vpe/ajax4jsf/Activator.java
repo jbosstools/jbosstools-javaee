@@ -17,7 +17,6 @@ import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.Bundle;
-import org.osgi.framework.BundleContext;
 
 /**
  * The activator class controls the plug-in life cycle
@@ -35,21 +34,6 @@ public class Activator extends AbstractUIPlugin {
 	 */
 	public Activator() {
 		plugin = this;
-	}
-
-	/**
-	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext)
-	 */
-	public void start(BundleContext context) throws Exception {
-		super.start(context);
-	}
-
-	/**
-	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext)
-	 */
-	public void stop(BundleContext context) throws Exception {
-		plugin = null;
-		super.stop(context);
 	}
 
 	/**
