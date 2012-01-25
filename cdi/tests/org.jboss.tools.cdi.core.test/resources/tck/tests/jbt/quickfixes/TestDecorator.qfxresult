@@ -1,6 +1,8 @@
 package org.jboss.jsr299.tck.tests.jbt.quickfixes;
 
 import javax.decorator.Decorator;
+
+
 @Decorator
 public class TestDecorator {
 	
