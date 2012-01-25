@@ -39,6 +39,8 @@ import org.jboss.tools.cdi.ui.marker.DeleteAllDisposerDuplicantMarkerResolution;
 import org.jboss.tools.cdi.ui.marker.DeleteAllInjectedConstructorsMarkerResolution;
 import org.jboss.tools.cdi.ui.marker.DeleteAllOtherAnnotationsFromParametersMarkerResolution;
 import org.jboss.tools.cdi.ui.marker.DeleteAnnotationMarkerResolution;
+import org.jboss.tools.cdi.ui.marker.MakeBeanScopedDependentMarkerResolution;
+import org.jboss.tools.cdi.ui.marker.MakeFieldProtectedMarkerResolution;
 import org.jboss.tools.cdi.ui.marker.MakeFieldStaticMarkerResolution;
 import org.jboss.tools.cdi.ui.marker.MakeMethodBusinessMarkerResolution;
 import org.jboss.tools.cdi.ui.marker.MakeMethodPublicMarkerResolution;
@@ -1049,4 +1051,27 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 				CDIValidationErrorManager.MULTIPLE_OBSERVING_PARAMETERS_ID,
 				DeleteAllOtherAnnotationsFromParametersMarkerResolution.class);
 	}
+	
+	public void testMakeFieldProtectedResolution() throws CoreException{
+		checkResolution(tckProject,
+				new String[]{
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Leopard_Broken.java"
+				},
+				CDICoreValidator.PROBLEM_TYPE,
+				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
+				CDIValidationErrorManager.ILLEGAL_SCOPE_FOR_MANAGED_BEAN_WITH_PUBLIC_FIELD_ID,
+				MakeFieldProtectedMarkerResolution.class);
+	}
+	
+	public void testMakeBeanScopedDependentResolution() throws CoreException{
+		checkResolution(tckProject,
+				new String[]{
+					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Leopard_Broken.java"
+				},
+				CDICoreValidator.PROBLEM_TYPE,
+				CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME,
+				CDIValidationErrorManager.ILLEGAL_SCOPE_FOR_MANAGED_BEAN_WITH_PUBLIC_FIELD_ID,
+				MakeBeanScopedDependentMarkerResolution.class);
+	}
+
 }
