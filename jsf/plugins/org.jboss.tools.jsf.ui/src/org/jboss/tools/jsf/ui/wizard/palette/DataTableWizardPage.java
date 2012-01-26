@@ -36,8 +36,8 @@ import org.jboss.tools.common.meta.action.XEntityData;
 import org.jboss.tools.common.meta.action.impl.XEntityDataImpl;
 
 import org.jboss.tools.common.model.XModel;
+import org.jboss.tools.common.model.XModelFactory;
 import org.jboss.tools.common.model.XModelObject;
-import org.jboss.tools.common.model.options.PreferenceModelUtilities;
 import org.jboss.tools.common.model.project.IModelNature;
 import org.jboss.tools.common.model.util.AbstractTableHelper;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
@@ -63,8 +63,7 @@ public class DataTableWizardPage extends TagAttributesWizardPage {
 
 	IDropWizardModel fWizardModel;
 
-	XModelObject propertyListObject = PreferenceModelUtilities
-			.getPreferenceModel().createModelObject("JSFDataTablePropertySet", //$NON-NLS-1$
+	XModelObject propertyListObject = XModelFactory.getDefaultInstance().createModelObject("JSFDataTablePropertySet", //$NON-NLS-1$
 					null);
 
 	XChildrenEditorImpl propertyListEditor = new XChildrenEditorImpl();
@@ -182,7 +181,7 @@ public class DataTableWizardPage extends TagAttributesWizardPage {
 		generalTabContent.setLayout(layout);
 
 		XModel model = getXModel();
-		if(model == null) model = PreferenceModelUtilities.getPreferenceModel();
+		if(model == null) model = XModelFactory.getDefaultInstance();
 		support.init(model.getRoot(), data);
 		Control c = support.createControl(generalTabContent);
 		pcl = new PCL();
