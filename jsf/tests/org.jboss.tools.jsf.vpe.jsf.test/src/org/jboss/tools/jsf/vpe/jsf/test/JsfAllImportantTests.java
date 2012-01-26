@@ -5,6 +5,7 @@ import junit.framework.TestSuite;
 
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.ChangeMessageBundleTest_JBIDE5818;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.ContextMenuDoubleInsertionTest_JBIDE3888;
+import org.jboss.tools.jsf.vpe.jsf.test.jbide.CustomRequestContextPathTest_JBIDE9025;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.EditFontFamilyTest_JBIDE5872;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.ExceptionInVPEComments_JBIDE5143;
 import org.jboss.tools.jsf.vpe.jsf.test.jbide.FacetProcessingTest;
@@ -101,6 +102,7 @@ public class JsfAllImportantTests {
 	public static Test suite() {
 		TestSuite suite = new TestSuite(JsfAllImportantTests.class.getName());
 		//$JUnit-BEGIN$
+		suite.addTestSuite(CustomRequestContextPathTest_JBIDE9025.class);
 		suite.addTestSuite(SourceDomUtilTest.class);
 		suite.addTestSuite(XulRunnerVpeUtilsTest.class);
 		suite.addTestSuite(UnclosedELExpressionTest.class);
