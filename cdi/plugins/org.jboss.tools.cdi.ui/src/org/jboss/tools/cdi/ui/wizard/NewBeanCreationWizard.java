@@ -24,11 +24,12 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jdt.ui.wizards.NewClassWizardPage;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
 import org.jboss.tools.cdi.ui.CDIUIPlugin;
+import org.jboss.tools.cdi.xml.beans.model.CDIBeansConstants;
 import org.jboss.tools.common.meta.action.XActionInvoker;
 import org.jboss.tools.common.meta.action.impl.handlers.DefaultCreateHandler;
+import org.jboss.tools.common.model.XModelFactory;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.filesystems.impl.FileAnyImpl;
-import org.jboss.tools.common.model.options.PreferenceModelUtilities;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 
 /**
@@ -73,7 +74,7 @@ public class NewBeanCreationWizard extends NewCDIElementWizard {
 		boolean res = super.performFinish();
 		if(res && ((NewBeanWizardPage)fPage).isToBeRegisteredInBeansXML()) {
 			IProject project = fPage.getCreatedType().getResource().getProject();
-			registerInBeansXML(project, fPage.getCreatedType().getFullyQualifiedName(), "Alternatives", "CDIClass", "class");
+			registerInBeansXML(project, fPage.getCreatedType().getFullyQualifiedName(), "Alternatives", CDIBeansConstants.ENT_CDI_CLASS, CDIBeansConstants.ATTR_CLASS); //$NON-NLS-1$
 		}
 		return res;
 	}
@@ -81,7 +82,7 @@ public class NewBeanCreationWizard extends NewCDIElementWizard {
 	public static void registerInBeansXML(IProject project, String typeName, String folderName, String entity, String attribute) {
 		IPath path = NewBeansXMLCreationWizard.getContainerForBeansXML(project);
 		if(path != null) {
-			path = path.append("beans.xml").removeFirstSegments(1);
+			path = path.append("beans.xml").removeFirstSegments(1); //$NON-NLS-1$
 			IFile beansxml = project.getFile(path);
 			if(!beansxml.exists()) {
 				try {
@@ -98,7 +99,7 @@ public class NewBeanCreationWizard extends NewCDIElementWizard {
 					c.setAttributeValue(attribute, typeName);
 					try {
 						DefaultCreateHandler.addCreatedObject(as, c, 0);
-						XActionInvoker.invoke("SaveActions.Save", o, new Properties());
+						XActionInvoker.invoke("SaveActions.Save", o, new Properties()); //$NON-NLS-1$
 					} catch (CoreException e) {
 						CDIUIPlugin.getDefault().logError(e);
 					}
@@ -117,7 +118,7 @@ public class NewBeanCreationWizard extends NewCDIElementWizard {
 	}
 
 	public static InputStream getBeansXMLInitialContents() {
-		FileAnyImpl file = (FileAnyImpl)PreferenceModelUtilities.getPreferenceModel().createModelObject("FileCDIBeans", new Properties());
+		FileAnyImpl file = (FileAnyImpl)XModelFactory.getDefaultInstance().createModelObject(CDIBeansConstants.ENT_CDI_BEANS, new Properties());
 		return new ByteArrayInputStream(file.getAsText().getBytes());
 	}
 
