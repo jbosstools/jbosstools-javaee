@@ -13,8 +13,8 @@ import org.jboss.tools.common.model.ui.navigator.*;
 import org.eclipse.jface.viewers.*;
 import org.eclipse.swt.widgets.*;
 import org.jboss.tools.common.meta.action.*;
+import org.jboss.tools.common.model.XModelFactory;
 import org.jboss.tools.common.model.XModelObject;
-import org.jboss.tools.common.model.options.PreferenceModelUtilities;
 import org.jboss.tools.common.model.ui.views.navigator.*;
 
 public class JsfProjectsNavigator extends NavigatorViewPart {
@@ -36,36 +36,12 @@ public class JsfProjectsNavigator extends NavigatorViewPart {
 	}
 	
 	protected void initContentProvider(TreeViewer viewer) {
-		if(true) {
-			c = new JsfProjectsContentProvider();
-			TreeViewerModelListenerImpl listener = new JsfProjectsTreeListener();
-			listener.setViewer(viewer);
-			c.setListener(listener);
-			contentProvider = c;
-			viewer.setContentProvider(contentProvider);
-		} else {
-			viewer.setContentProvider(
-				new ITreeContentProvider() {
-					public Object[] getChildren(Object parentElement) {
-						return new Object[]{};
-					}
-					public Object getParent(Object element) {
-						return null;	
-					}
-					public boolean hasChildren(Object element) {
-						return false;				
-					}
-					public Object[] getElements(Object o) {
-						return new Object[]{"no license"}; //$NON-NLS-1$
-					}
-					public void inputChanged(Viewer v, Object o1,Object o2) {
-					
-					}
-					public void dispose() {
-					}
-				}
-			);
-		}
+		c = new JsfProjectsContentProvider();
+		TreeViewerModelListenerImpl listener = new JsfProjectsTreeListener();
+		listener.setViewer(viewer);
+		c.setListener(listener);
+		contentProvider = c;
+		viewer.setContentProvider(contentProvider);
 	}
 
 	protected String[] getActionClasses() {
@@ -86,9 +62,12 @@ public class JsfProjectsNavigator extends NavigatorViewPart {
 }
 
 class JSFNavigatorMenuInvoker extends NavigatorMenuInvoker {
-	private static XModelObject jsfWorkspace = PreferenceModelUtilities.getPreferenceModel().createModelObject("JSFWorkspace", null); //$NON-NLS-1$
+	private static XModelObject jsfWorkspace;
 	
 	protected XModelObject getWorkspaceObject() {
+		if(jsfWorkspace == null) {
+			jsfWorkspace = XModelFactory.getDefaultInstance().createModelObject("JSFWorkspace", null); //$NON-NLS-1$
+		}
 		return jsfWorkspace;
 	}
 
