@@ -16,14 +16,14 @@ import java.util.List;
 import org.jboss.tools.common.meta.XChild;
 import org.jboss.tools.common.meta.XModelEntity;
 import org.jboss.tools.common.meta.XModelMetaData;
-import org.jboss.tools.common.model.options.PreferenceModelUtilities;
+import org.jboss.tools.common.meta.impl.XModelMetaDataImpl;
 import org.jboss.tools.common.model.ui.forms.*;
 import org.jboss.tools.seam.xml.components.model.SeamComponentConstants;
 
 public class SeamComponentsFileFormLayoutData implements SeamComponentConstants {
 
 	static IFormData createSeamComponentListDefinition(String parentEntity) {
-		XModelMetaData meta = PreferenceModelUtilities.getPreferenceModel().getMetaData();
+		XModelMetaData meta = XModelMetaDataImpl.getInstance();
 		XModelEntity entity = meta.getEntity(parentEntity);
 		List<String> childEntities = new ArrayList<String>();
 		if(entity != null) {
@@ -39,7 +39,7 @@ public class SeamComponentsFileFormLayoutData implements SeamComponentConstants 
 		IFormData result = new FormData(
 			"Components", //$NON-NLS-1$
 			SeamXMLFormLayoutData.EMPTY_DESCRIPTION,
-			new FormAttributeData[]{new FormAttributeData(ATTR_NAME, 40), new FormAttributeData(ATTR_CLASS, 60)}, //$NON-NLS-1$
+			new FormAttributeData[]{new FormAttributeData(ATTR_NAME, 40), new FormAttributeData(ATTR_CLASS, 60)},
 			childEntities.toArray(new String[0]),
 			FormLayoutDataUtil.createDefaultFormActionData("CreateActions.AddComponent") //$NON-NLS-1$
 		);
