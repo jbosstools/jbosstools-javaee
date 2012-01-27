@@ -264,9 +264,7 @@ public class JSF2ResourceUtil {
 			IContainer[] folders = WebUtils.getWebRootFolders(project);
 			if(folders == null || folders.length == 0)
 				return null;
-			IFolder webFolder = ResourcesPlugin.getWorkspace().getRoot()
-					.getFolder(folders[0].getFullPath());
-			IFolder resourcesFolder = webFolder.getFolder("resources"); //$NON-NLS-1$
+			IFolder resourcesFolder = folders[0].getFolder(new Path("resources")); //$NON-NLS-1$
 			NullProgressMonitor monitor = new NullProgressMonitor();
 			if (!resourcesFolder.exists()) {
 				resourcesFolder.create(true, true, monitor);
