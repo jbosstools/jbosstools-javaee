@@ -76,20 +76,19 @@ public class MakeMethodBusinessMarkerResolution implements IMarkerResolution2 {
 
 			// make method public
 			int position = method.getSourceRange().getOffset();
-			if((flag & Flags.AccPublic) != 0){
-				// do nothing
-			}else if((flag & Flags.AccPrivate) != 0){
-				position += text.indexOf(PRIVATE);
-				buffer.replace(position, PRIVATE.length(), PUBLIC);
-			}else if((flag & Flags.AccProtected) != 0){
-				position += text.indexOf(PROTECTED);
-				buffer.replace(position, PROTECTED.length(), PUBLIC);
-			}else{
-				String type = Signature.getSignatureSimpleName(method.getReturnType());
-				position += text.indexOf(type);
-				buffer.replace(position, 0, PUBLIC+SPACE);
+			if(!Flags.isPublic(flag)){
+				if(Flags.isPrivate(flag)){
+					position += text.indexOf(PRIVATE);
+					buffer.replace(position, PRIVATE.length(), PUBLIC);
+				}else if(Flags.isProtected(flag)){
+					position += text.indexOf(PROTECTED);
+					buffer.replace(position, PROTECTED.length(), PUBLIC);
+				}else{
+					String type = Signature.getSignatureSimpleName(method.getReturnType());
+					position += text.indexOf(type);
+					buffer.replace(position, 0, PUBLIC+SPACE);
+				}
 			}
-			
 			compilationUnit.commitWorkingCopy(false, new NullProgressMonitor());
 			compilationUnit.discardWorkingCopy();
 			

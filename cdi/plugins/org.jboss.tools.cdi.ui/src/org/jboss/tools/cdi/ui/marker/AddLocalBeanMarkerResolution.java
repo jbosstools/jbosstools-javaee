@@ -73,17 +73,16 @@ public class AddLocalBeanMarkerResolution extends BaseMarkerResolution {
 			// make method public
 			int position = method.getSourceRange().getOffset();
 			
-			if((flag & Flags.AccPublic) == 0){
-				if((flag & Flags.AccPrivate) != 0){
+			if(!Flags.isPublic(flag)){
+				if(Flags.isPrivate(flag)){
 					position += text.indexOf(PRIVATE);
 					edit.addChild(new ReplaceEdit(position, PRIVATE.length(), PUBLIC));
-				}else if((flag & Flags.AccProtected) != 0){
+				}else if(Flags.isProtected(flag)){
 					position += text.indexOf(PROTECTED);
 					edit.addChild(new ReplaceEdit(position, PROTECTED.length(), PUBLIC));
 				}else{
 					String type = Signature.getSignatureSimpleName(method.getReturnType());
 					position += text.indexOf(type);
-					buffer.replace(position, 0, PUBLIC+SPACE);
 					edit.addChild(new InsertEdit(position, PUBLIC+SPACE));
 				}
 			}

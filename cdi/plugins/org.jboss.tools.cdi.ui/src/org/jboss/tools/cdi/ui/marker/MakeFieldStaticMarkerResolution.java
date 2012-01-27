@@ -64,15 +64,15 @@ public class MakeFieldStaticMarkerResolution extends BaseMarkerResolution {
 			String text = buffer.getText(field.getSourceRange().getOffset(), field.getSourceRange().getLength());
 	
 			int position = field.getSourceRange().getOffset();
-			if((flag & Flags.AccPublic) != 0){
+			if(Flags.isPublic(flag)){
 				position += text.indexOf(CDIMarkerResolutionUtils.PUBLIC)+CDIMarkerResolutionUtils.PUBLIC.length();
 				InsertEdit ie = new InsertEdit(position, CDIMarkerResolutionUtils.SPACE+CDIMarkerResolutionUtils.STATIC);
 				edit.addChild(ie);
-			}else if((flag & Flags.AccPrivate) != 0){
+			}else if(Flags.isPrivate(flag)){
 				position += text.indexOf(CDIMarkerResolutionUtils.PRIVATE)+CDIMarkerResolutionUtils.PRIVATE.length();
 				InsertEdit ie = new InsertEdit(position, CDIMarkerResolutionUtils.SPACE+CDIMarkerResolutionUtils.STATIC);
 				edit.addChild(ie);
-			}else if((flag & Flags.AccProtected) != 0){
+			}else if(Flags.isProtected(flag)){
 				position += text.indexOf(CDIMarkerResolutionUtils.PROTECTED)+CDIMarkerResolutionUtils.PROTECTED.length();
 				InsertEdit ie = new InsertEdit(position, CDIMarkerResolutionUtils.SPACE+CDIMarkerResolutionUtils.STATIC);
 				edit.addChild(ie);

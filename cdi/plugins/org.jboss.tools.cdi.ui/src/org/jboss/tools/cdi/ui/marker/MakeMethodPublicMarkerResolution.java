@@ -69,12 +69,12 @@ public class MakeMethodPublicMarkerResolution extends BaseMarkerResolution {
 	
 				// make method public
 				int position = workingCopyMethod.getSourceRange().getOffset();
-				if((flag & Flags.AccPublic) == 0){
-					if((flag & Flags.AccPrivate) != 0){
+				if(!Flags.isPublic(flag)){
+					if(Flags.isPrivate(flag)){
 						position += text.indexOf(CDIMarkerResolutionUtils.PRIVATE);
 						ReplaceEdit re = new ReplaceEdit(position, CDIMarkerResolutionUtils.PRIVATE.length(), CDIMarkerResolutionUtils.PUBLIC);
 						edit.addChild(re);
-					}else if((flag & Flags.AccProtected) != 0){
+					}else if(Flags.isProtected(flag)){
 						position += text.indexOf(CDIMarkerResolutionUtils.PROTECTED);
 						ReplaceEdit re = new ReplaceEdit(position, CDIMarkerResolutionUtils.PROTECTED.length(), CDIMarkerResolutionUtils.PUBLIC);
 						edit.addChild(re);

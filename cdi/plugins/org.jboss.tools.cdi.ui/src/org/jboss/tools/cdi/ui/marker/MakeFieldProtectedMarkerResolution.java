@@ -111,7 +111,7 @@ public class MakeFieldProtectedMarkerResolution implements IMarkerResolution2, T
 		String text = buffer.getText(field.getSourceRange().getOffset(), field.getSourceRange().getLength());
 
 		int position = field.getSourceRange().getOffset();
-		if((flag & Flags.AccPublic) != 0){
+		if(Flags.isPublic(flag)){
 			position += text.indexOf(PUBLIC);
 			TextEdit re = new ReplaceEdit(position, PUBLIC.length(), PROTECTED);
 			edit.addChild(re);
