@@ -50,8 +50,8 @@ public class JBide3989Test extends TestCase {
 		TestProjectProvider provider = new TestProjectProvider(
 				"org.jboss.tools.seam.ui.test", null, PROJECT_NAME, makeCopy);
 		project = provider.getProject();
-//		ISeamProject seamProject = SeamCorePlugin.getSeamProject(project, true);
-//		seamProject.setRuntimeName("UNKNOWN");
+		ISeamProject seamProject = SeamCorePlugin.getSeamProject(project, true);
+		seamProject.setRuntimeName("UNKNOWN");
 		ValidatorManager.addProjectBuildValidationSupport(project);
 		// JBIDE-4832 - call SeamProjectPropertyValidator manually 
 		project.build(IncrementalProjectBuilder.FULL_BUILD,
