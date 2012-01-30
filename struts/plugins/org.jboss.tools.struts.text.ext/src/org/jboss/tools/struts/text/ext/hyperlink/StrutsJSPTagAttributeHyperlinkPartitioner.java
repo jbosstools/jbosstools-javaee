@@ -1,12 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2007 Exadel, Inc. and Red Hat, Inc.
+ * Copyright (c) 2007-2012 Red Hat, Inc.
  * Distributed under license by Red Hat, Inc. All rights reserved.
  * This program is made available under the terms of the
  * Eclipse Public License v1.0 which accompanies this distribution,
  * and is available at http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *     Exadel, Inc. and Red Hat, Inc. - initial API and implementation
+ *     Red Hat, Inc. - initial API and implementation
  ******************************************************************************/ 
 package org.jboss.tools.struts.text.ext.hyperlink;
 
@@ -42,7 +42,7 @@ public class StrutsJSPTagAttributeHyperlinkPartitioner extends AbstractHyperlink
 	/**
 	 * @see com.ibm.sse.editor.hyperlink.AbstractHyperlinkPartitioner#parse(org.eclipse.jface.text.IDocument, com.ibm.sse.editor.extensions.hyperlink.IHyperlinkRegion)
 	 */
-	protected IHyperlinkRegion parse(IDocument document, IHyperlinkRegion superRegion) {
+	protected IHyperlinkRegion parse(IDocument document, int offset, IHyperlinkRegion superRegion) {
 		if(document == null || superRegion == null) return null;
 		StructuredModelWrapper smw = new StructuredModelWrapper();
 		smw.init(document);
@@ -50,18 +50,14 @@ public class StrutsJSPTagAttributeHyperlinkPartitioner extends AbstractHyperlink
 			Document xmlDocument = smw.getDocument();
 			if (xmlDocument == null) return null;
 			
-				Utils.findNodeForOffset(xmlDocument, superRegion.getOffset());
-			IRegion r = getRegion(document, superRegion.getOffset());
+			IRegion r = getRegion(document, offset);
 			if (r == null) return null;
 			
 			String axis = getAxis(document, superRegion);
 			String contentType = superRegion.getContentType();
 			String type = STRUTS_JSP_TAG_ATTRIBUTE_PARTITION;
-			int length = r.getLength() - (superRegion.getOffset() - r.getOffset());
-			int offset = superRegion.getOffset();
 			
-			IHyperlinkRegion region = new HyperlinkRegion(offset, length, axis, contentType, type);
-			return region;
+			return new HyperlinkRegion(r.getOffset(), r.getLength(), axis, contentType, type);
 		} finally {
 			smw.dispose();
 		}
@@ -70,7 +66,7 @@ public class StrutsJSPTagAttributeHyperlinkPartitioner extends AbstractHyperlink
 	/**
 	 * @see com.ibm.sse.editor.extensions.hyperlink.IHyperlinkPartitionRecognizer#recognize(org.eclipse.jface.text.IDocument, com.ibm.sse.editor.extensions.hyperlink.IHyperlinkRegion)
 	 */
-	public boolean recognize(IDocument document, IHyperlinkRegion region) {
+	public boolean recognize(IDocument document, int offset, IHyperlinkRegion region) {
 		StructuredModelWrapper smw = new StructuredModelWrapper();
 		try {
 			smw.init(document);
@@ -172,5 +168,4 @@ public class StrutsJSPTagAttributeHyperlinkPartitioner extends AbstractHyperlink
 		}
 		return superRegion.getAxis();
 	}
-
 }

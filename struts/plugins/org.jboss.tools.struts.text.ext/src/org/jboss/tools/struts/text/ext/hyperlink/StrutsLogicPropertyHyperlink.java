@@ -1,12 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2007 Exadel, Inc. and Red Hat, Inc.
+ * Copyright (c) 2007-2012 Red Hat, Inc.
  * Distributed under license by Red Hat, Inc. All rights reserved.
  * This program is made available under the terms of the
  * Eclipse Public License v1.0 which accompanies this distribution,
  * and is available at http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *     Exadel, Inc. and Red Hat, Inc. - initial API and implementation
+ *     Red Hat, Inc. - initial API and implementation
  ******************************************************************************/ 
 package org.jboss.tools.struts.text.ext.hyperlink;
 
@@ -19,13 +19,14 @@ import java.util.Properties;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IRegion;
+import org.eclipse.jface.text.Region;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMElement;
 import org.jboss.tools.common.model.XModel;
 import org.jboss.tools.common.text.ext.hyperlink.AbstractHyperlink;
-import org.jboss.tools.jst.text.ext.hyperlink.jsp.JSPRootHyperlinkPartitioner;
 import org.jboss.tools.common.text.ext.hyperlink.xpl.Messages;
 import org.jboss.tools.common.text.ext.util.StructuredModelWrapper;
 import org.jboss.tools.common.text.ext.util.Utils;
+import org.jboss.tools.jst.text.ext.hyperlink.jsp.JSPRootHyperlinkPartitioner;
 import org.jboss.tools.jst.web.project.WebProject;
 import org.jboss.tools.jst.web.project.list.WebPromptingProvider;
 import org.jboss.tools.jst.web.tld.TaglibMapping;
@@ -35,7 +36,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.w3c.dom.Text;
 
 /**
  * @author Jeremy
@@ -159,28 +159,7 @@ public class StrutsLogicPropertyHyperlink extends AbstractHyperlink {
 			
 			final int offset = Utils.getValueStart(element);
 			final int length = ((IDOMElement)element).getStartStructuredDocumentRegion().getLength();
-			return new IRegion () {
-				public boolean equals(Object arg) {
-					if (!(arg instanceof IRegion)) return false;
-					IRegion region = (IRegion)arg;
-					
-					if (getOffset() != region.getOffset()) return false;
-					if (getLength() != region.getLength()) return false;
-					return true;
-				}
-
-				public int getLength() {
-					return length;
-				}
-
-				public int getOffset() {
-					return offset;
-				}
-
-				public String toString() {
-					return "IRegion [" + getOffset() +", " + getLength()+ "]";
-				}
-			};
+			return new Region (offset, length);
 		} finally {
 			smw.dispose();
 		}
@@ -255,86 +234,6 @@ public class StrutsLogicPropertyHyperlink extends AbstractHyperlink {
 		}
 	}
 	
-	IRegion fLastRegion = null;
-	/** 
-	 * @see com.ibm.sse.editor.AbstractHyperlink#doGetHyperlinkRegion(int)
-	 */
-	protected IRegion doGetHyperlinkRegion(int offset) {
-		fLastRegion = getRegion(offset);
-		return fLastRegion;
-	}
-
-	private IRegion getRegion(int offset) {
-		StructuredModelWrapper smw = new StructuredModelWrapper();
-		smw.init(getDocument());
-		try {
-			Document xmlDocument = smw.getDocument();
-			if (xmlDocument == null) return null;
-			
-			Node n = Utils.findNodeForOffset(xmlDocument, offset);
-
-			if (n == null || !(n instanceof Attr || n instanceof Text)) return null;
-			
-			int start = Utils.getValueStart(n);
-			int end = Utils.getValueEnd(n);
-
-			if (start > offset || end < offset) return null;
-
-			String text = getDocument().get(start, end - start);
-			StringBuffer sb = new StringBuffer(text);
-
-			//find start and end of path property
-			int bStart = 0;
-			int bEnd = text.length() - 1;
-
-			while (bStart < bEnd && (Character.isWhitespace(sb.charAt(bStart)) 
-					|| sb.charAt(bStart) == '\"' || sb.charAt(bStart) == '\"')) { 
-				bStart++;
-			}
-			while (bEnd > bStart && (Character.isWhitespace(sb.charAt(bEnd)) 
-					|| sb.charAt(bEnd) == '\"' || sb.charAt(bEnd) == '\"')) { 
-				bEnd--;
-			}
-			bEnd++;
-
-			final int propStart = bStart + start;
-			final int propLength = bEnd - bStart;
-			
-			if (propStart > offset || propStart + propLength < offset) return null;
-	
-			
-			IRegion region = new IRegion () {
-				public boolean equals(Object arg) {
-					if (!(arg instanceof IRegion)) return false;
-					IRegion region = (IRegion)arg;
-					
-					if (getOffset() != region.getOffset()) return false;
-					if (getLength() != region.getLength()) return false;
-					return true;
-				}
-
-				public int getLength() {
-					return propLength;
-				}
-
-				public int getOffset() {
-					return propStart;
-				}
-
-				public String toString() {
-					return "IRegion [" + getOffset() +", " + getLength()+ "]";
-				}
-			};
-			
-			return region;
-		} catch (BadLocationException x) {
-			StrutsExtensionsPlugin.getPluginLog().logError(x);
-			return null;
-		} finally {
-			smw.dispose();
-		}
-	}
-
 	private String getPrefix(IRegion region) {
 		if(region == null) return null;
 		StructuredModelWrapper smw = new StructuredModelWrapper();
@@ -362,11 +261,10 @@ public class StrutsLogicPropertyHyperlink extends AbstractHyperlink {
 	 * @see IHyperlink#getHyperlinkText()
 	 */
 	public String getHyperlinkText() {
-		String forId = getForId(fLastRegion);
+		String forId = getForId(getHyperlinkRegion());
 		if (forId == null)
 			return  MessageFormat.format(Messages.BrowseFor, Messages.BeanId);
 		
 		return MessageFormat.format(Messages.BrowseForBeanId, forId);
 	}
-
 }

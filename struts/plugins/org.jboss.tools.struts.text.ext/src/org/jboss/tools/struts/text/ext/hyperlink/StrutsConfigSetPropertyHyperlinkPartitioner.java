@@ -1,12 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2007 Exadel, Inc. and Red Hat, Inc.
+ * Copyright (c) 2007-2012 Red Hat, Inc.
  * Distributed under license by Red Hat, Inc. All rights reserved.
  * This program is made available under the terms of the
  * Eclipse Public License v1.0 which accompanies this distribution,
  * and is available at http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *     Exadel, Inc. and Red Hat, Inc. - initial API and implementation
+ *     Red Hat, Inc. - initial API and implementation
  ******************************************************************************/ 
 package org.jboss.tools.struts.text.ext.hyperlink;
 
@@ -68,10 +68,10 @@ public class StrutsConfigSetPropertyHyperlinkPartitioner extends XMLTagAttribute
 	/**
 	 * @see com.ibm.sse.editor.extensions.hyperlink.IHyperlinkPartitionRecognizer#recognize(org.eclipse.jface.text.IDocument, com.ibm.sse.editor.extensions.hyperlink.IHyperlinkRegion)
 	 */
-	public boolean recognize(IDocument document, IHyperlinkRegion region) {
+	public boolean recognize(IDocument document, int offset, IHyperlinkRegion region) {
 		if(document == null || region == null) return false;
 
-		if (!super.recognize(document, region)) 
+		if (!super.recognize(document, offset, region)) 
 			return false;
 		
 		if (!recognizeNature(document)) 
@@ -83,7 +83,7 @@ public class StrutsConfigSetPropertyHyperlinkPartitioner extends XMLTagAttribute
 			Document xmlDocument = smw.getDocument();
 			if (xmlDocument == null) return false;
 			
-			Node n = Utils.findNodeForOffset(xmlDocument, region.getOffset());
+			Node n = Utils.findNodeForOffset(xmlDocument, offset);
 
 			if (n == null || !(n instanceof Attr)) return false;
 			
@@ -108,5 +108,4 @@ public class StrutsConfigSetPropertyHyperlinkPartitioner extends XMLTagAttribute
 			return null;
 		}
 	}
-
 }

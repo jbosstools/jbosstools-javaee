@@ -1,26 +1,25 @@
 /*******************************************************************************
- * Copyright (c) 2007 Exadel, Inc. and Red Hat, Inc.
+ * Copyright (c) 2007-2012 Red Hat, Inc.
  * Distributed under license by Red Hat, Inc. All rights reserved.
  * This program is made available under the terms of the
  * Eclipse Public License v1.0 which accompanies this distribution,
  * and is available at http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *     Exadel, Inc. and Red Hat, Inc. - initial API and implementation
+ *     Red Hat, Inc. - initial API and implementation
  ******************************************************************************/ 
 package org.jboss.tools.struts.text.ext.hyperlink;
 
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
+import org.jboss.tools.common.text.ext.hyperlink.IHyperlinkRegion;
+import org.jboss.tools.common.text.ext.hyperlink.xml.XMLTagAttributeValueHyperlinkPartitioner;
+import org.jboss.tools.common.text.ext.util.StructuredModelWrapper;
+import org.jboss.tools.common.text.ext.util.Utils;
+import org.jboss.tools.struts.text.ext.StrutsExtensionsPlugin;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
-
-import org.jboss.tools.common.text.ext.hyperlink.IHyperlinkRegion;
-import org.jboss.tools.common.text.ext.util.StructuredModelWrapper;
-import org.jboss.tools.common.text.ext.util.Utils;
-import org.jboss.tools.common.text.ext.hyperlink.xml.XMLTagAttributeValueHyperlinkPartitioner;
-import org.jboss.tools.struts.text.ext.StrutsExtensionsPlugin;
 
 /**
  * @author Jeremy
@@ -43,8 +42,8 @@ public class StrutsValidationBundleKeyHyperlinkPartitioner extends XMLTagAttribu
 	/**
 	 * @see com.ibm.sse.editor.extensions.hyperlink.IHyperlinkPartitionRecognizer#recognize(org.eclipse.jface.text.IDocument, com.ibm.sse.editor.extensions.hyperlink.IHyperlinkRegion)
 	 */
-	public boolean recognize(IDocument document, IHyperlinkRegion region) {
-		if (!super.recognize(document, region)) 
+	public boolean recognize(IDocument document, int offset, IHyperlinkRegion region) {
+		if (!super.recognize(document, offset, region)) 
 			return false;
 		
 		StructuredModelWrapper smw = new StructuredModelWrapper();
@@ -53,7 +52,7 @@ public class StrutsValidationBundleKeyHyperlinkPartitioner extends XMLTagAttribu
 			Document xmlDocument = smw.getDocument();
 			if (xmlDocument == null) return false;
 			
-			Node n = Utils.findNodeForOffset(xmlDocument, region.getOffset());
+			Node n = Utils.findNodeForOffset(xmlDocument, offset);
 			if (!(n instanceof Attr)) return false;
 			Node parentNode = ((Attr)n).getOwnerElement();
 			
@@ -78,6 +77,4 @@ public class StrutsValidationBundleKeyHyperlinkPartitioner extends XMLTagAttribu
 			return null;
 		}
 	}
-
-
 }

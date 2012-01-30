@@ -1,12 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2007 Exadel, Inc. and Red Hat, Inc.
+ * Copyright (c) 2007-2012 Red Hat, Inc.
  * Distributed under license by Red Hat, Inc. All rights reserved.
  * This program is made available under the terms of the
  * Eclipse Public License v1.0 which accompanies this distribution,
  * and is available at http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *     Exadel, Inc. and Red Hat, Inc. - initial API and implementation
+ *     Red Hat, Inc. - initial API and implementation
  ******************************************************************************/ 
 package org.jboss.tools.struts.text.ext.hyperlink;
 
@@ -88,12 +88,11 @@ public class StrutsValidationPropertyHyperlink extends StrutsXModelBasedHyperlin
 	 * @see IHyperlink#getHyperlinkText()
 	 */
 	public String getHyperlinkText() {
-		String propertyName = getProperty(fLastRegion);
-		String formName = getFormName(fLastRegion);
+		String propertyName = getProperty(getHyperlinkRegion());
+		String formName = getFormName(getHyperlinkRegion());
 		if (propertyName == null || formName == null)
 			return  MessageFormat.format(Messages.OpenA, StrutsTextExtMessages.ValidationProperty);
 		
 		return MessageFormat.format(StrutsTextExtMessages.OpenValidationProperty, propertyName, formName);
 	}
-
 }
