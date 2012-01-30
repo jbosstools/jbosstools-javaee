@@ -1,3 +1,13 @@
+/*******************************************************************************
+ * Copyright (c) 2012 Red Hat, Inc.
+ * Distributed under license by Red Hat, Inc. All rights reserved.
+ * This program is made available under the terms of the
+ * Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Red Hat, Inc. - initial API and implementation
+ ******************************************************************************/ 
 package org.jboss.tools.seam.ui.test.hyperlink;
 
 import java.util.ArrayList;
@@ -111,20 +121,22 @@ public class SeamViewHyperlinkPartitionerTest  extends TestCase {
 			for (int i = 0; i < document.getLength(); i++) {
 				TestData testData = new TestData(document, i);
 				
-				String[] partitionTypes = detector.getPartitionTypes(document, i);
+				IHyperlinkRegion[] partitions = detector.getPartitions(document, i);
 	
 				boolean recognized = false;
 				
-				if (partitionTypes != null && partitionTypes.length > 0) {
-					recognized = ("org.jboss.tools.seam.text.ext.SEAM_VIEW_LINK".equals(partitionTypes[0]));
+				if (partitions != null && partitions.length > 0) {
+					recognized = ("org.jboss.tools.seam.text.ext.SEAM_VIEW_LINK".equals(partitions[0].getType()));
 				}
 	
 				if (recognized) {
-					recognized &= seamViewPartitioner.recognize(testData.document, testData.getHyperlinkRegion());
+					recognized &= seamViewPartitioner.recognize(testData.document, i, testData.getHyperlinkRegion());
 				}
 				
 				if (recognized) {
-					String childPartitionType = seamViewPartitioner.getChildPartitionType(testData.document, testData.getHyperlinkRegion());
+					IHyperlinkRegion childPartition = seamViewPartitioner.getChildPartitionRegion(testData.document, i, testData.getHyperlinkRegion());
+					String childPartitionType = childPartition == null ? null : childPartition.getType();
+					
 	//				if (childPartitionType != null)
 	//					System.out.println("position #" + i + " partitionType: " + childPartitionType);
 	
@@ -279,10 +291,10 @@ class TestHyperlinkDetector extends HyperlinkDetector {
 	 * @param document -
 	 *            assumes document is not null
 	 * @param offset
-	 * @return String partition types
+	 * @return IHyperlinkRegion partitions
 	 */
-	public String[] getPartitionTypes(IDocument document, int offset) {
-		return super.getPartitionTypes(document, offset);
+	public IHyperlinkRegion[] getPartitions(IDocument document, int offset) {
+		return super.getPartitions(document, offset);
 	}
 };
 
