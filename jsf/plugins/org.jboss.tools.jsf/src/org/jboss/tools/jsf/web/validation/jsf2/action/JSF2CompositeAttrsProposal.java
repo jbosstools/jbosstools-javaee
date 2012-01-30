@@ -69,7 +69,7 @@ public class JSF2CompositeAttrsProposal implements IMarkerResolution2 {
 				IDE.openEditor(PlatformUI.getWorkbench().getActiveWorkbenchWindow()
 						.getActivePage(), createdFile);
 			}
-		}catch(Exception ex){
+		}catch(CoreException ex){
 			JSFModelPlugin.getPluginLog().logError(ex);
 		}
 	}
