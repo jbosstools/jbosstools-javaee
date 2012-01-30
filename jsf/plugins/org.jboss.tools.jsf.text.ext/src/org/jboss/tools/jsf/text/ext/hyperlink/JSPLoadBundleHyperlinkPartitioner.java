@@ -1,31 +1,30 @@
 /*******************************************************************************
- * Copyright (c) 2007 Exadel, Inc. and Red Hat, Inc.
+ * Copyright (c) 2007-2012 Red Hat, Inc.
  * Distributed under license by Red Hat, Inc. All rights reserved.
  * This program is made available under the terms of the
  * Eclipse Public License v1.0 which accompanies this distribution,
  * and is available at http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *     Exadel, Inc. and Red Hat, Inc. - initial API and implementation
+ *     Red Hat, Inc. - initial API and implementation
  ******************************************************************************/ 
 package org.jboss.tools.jsf.text.ext.hyperlink;
 
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
-import org.w3c.dom.Attr;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-
 import org.jboss.tools.common.text.ext.hyperlink.AbstractHyperlinkPartitioner;
 import org.jboss.tools.common.text.ext.hyperlink.HyperlinkRegion;
 import org.jboss.tools.common.text.ext.hyperlink.IHyperlinkPartitionRecognizer;
 import org.jboss.tools.common.text.ext.hyperlink.IHyperlinkRegion;
 import org.jboss.tools.common.text.ext.util.StructuredModelWrapper;
-import org.jboss.tools.jst.text.ext.util.TaglibManagerWrapper;
 import org.jboss.tools.common.text.ext.util.Utils;
-import org.jboss.tools.jst.text.ext.hyperlink.jsp.JSPRootHyperlinkPartitioner;
 import org.jboss.tools.jsf.text.ext.JSFExtensionsPlugin;
+import org.jboss.tools.jst.text.ext.hyperlink.jsp.JSPRootHyperlinkPartitioner;
+import org.jboss.tools.jst.text.ext.util.TaglibManagerWrapper;
+import org.w3c.dom.Attr;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 
 /**
  * @author Jeremy
@@ -40,27 +39,22 @@ public class JSPLoadBundleHyperlinkPartitioner extends AbstractHyperlinkPartitio
 	/**
 	 * @see com.ibm.sse.editor.hyperlink.AbstractHyperlinkPartitioner#parse(org.eclipse.jface.text.IDocument, com.ibm.sse.editor.extensions.hyperlink.IHyperlinkRegion)
 	 */
-	protected IHyperlinkRegion parse(IDocument document, IHyperlinkRegion superRegion) {
+	protected IHyperlinkRegion parse(IDocument document, int offset, IHyperlinkRegion superRegion) {
 		StructuredModelWrapper smw = new StructuredModelWrapper();
 		smw.init(document);
 		try {
 			Document xmlDocument = smw.getDocument();
 			if (xmlDocument == null) return null;
 			
-			Utils.findNodeForOffset(xmlDocument, superRegion.getOffset());
-			
-			if (!recognize(document, superRegion)) return null;
-			IHyperlinkRegion r = getRegion(document, superRegion.getOffset());
+			if (!recognize(document, offset, superRegion)) return null;
+			IHyperlinkRegion r = getRegion(document, offset);
 			if (r == null) return null;
 			
 			String axis = getAxis(document, superRegion);
 			String contentType = superRegion.getContentType();
 			String type = getPartitionType();
-			int length = r.getLength() - (superRegion.getOffset() - r.getOffset());
-			int offset = superRegion.getOffset();
 			
-			IHyperlinkRegion region = new HyperlinkRegion(offset, length, axis, contentType, type);
-			return region;
+			return new HyperlinkRegion(r.getOffset(), r.getLength(), axis, contentType, type);
 		} finally {
 			smw.dispose();
 		}
@@ -124,23 +118,22 @@ public class JSPLoadBundleHyperlinkPartitioner extends AbstractHyperlinkPartitio
 		} finally {
 			smw.dispose();
 		}
-		
 	}
 
 	/**
 	 * @see com.ibm.sse.editor.extensions.hyperlink.IHyperlinkPartitionRecognizer#recognize(org.eclipse.jface.text.IDocument, com.ibm.sse.editor.extensions.hyperlink.IHyperlinkRegion)
 	 */
-	public boolean recognize(IDocument document, IHyperlinkRegion region) {
+	public boolean recognize(IDocument document, int offset, IHyperlinkRegion region) {
 		StructuredModelWrapper smw = new StructuredModelWrapper();
 		smw.init(document);
 		try {
 			Document xmlDocument = smw.getDocument();
 			if (xmlDocument == null) return false;
 			
-			Node n = Utils.findNodeForOffset(xmlDocument, region.getOffset());
+			Node n = Utils.findNodeForOffset(xmlDocument, offset);
 			if (!(n instanceof Attr)) return false;
 
-			IHyperlinkRegion r = getRegion(document, region.getOffset());
+			IHyperlinkRegion r = getRegion(document, offset);
 			if (r == null) return false;
 
 			Attr attr = (Attr)n;
@@ -154,7 +147,7 @@ public class JSPLoadBundleHyperlinkPartitioner extends AbstractHyperlinkPartitio
 			String usedPrefix = name.substring(0, column);
 			if (usedPrefix == null || usedPrefix.trim().length() == 0) return false;
 			
-			String[] prefixes = getLoadBundleTagPrefixes(document, region.getOffset());
+			String[] prefixes = getLoadBundleTagPrefixes(document, offset);
 			if (prefixes == null) return true; //xhtml
 
 			boolean prefixIsAbleToBeUsed = false;
@@ -188,5 +181,4 @@ public class JSPLoadBundleHyperlinkPartitioner extends AbstractHyperlinkPartitio
 		
 		return new String[] {tmw.getCorePrefix()};
 	}
-
 }

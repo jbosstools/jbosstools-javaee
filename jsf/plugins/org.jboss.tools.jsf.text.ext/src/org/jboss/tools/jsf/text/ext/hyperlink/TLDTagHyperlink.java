@@ -1,12 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2011 Exadel, Inc. and Red Hat, Inc.
+ * Copyright (c) 2011-2012 Red Hat, Inc.
  * Distributed under license by Red Hat, Inc. All rights reserved.
  * This program is made available under the terms of the
  * Eclipse Public License v1.0 which accompanies this distribution,
  * and is available at http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *     Exadel, Inc. and Red Hat, Inc. - initial API and implementation
+ *     Red Hat, Inc. - initial API and implementation
  ******************************************************************************/ 
 package org.jboss.tools.jsf.text.ext.hyperlink;
 
@@ -30,11 +30,10 @@ public class TLDTagHyperlink extends AbstractHyperlink {
 	protected XModelObject xmodelObject;
 	protected String xmodelObjectName = null;
 	protected IFile file = null;
-	protected IRegion region;
 	
 	public TLDTagHyperlink(AbstractComponent tag, IRegion region){
 		this.tag = tag;
-		this.region = region;
+		setRegion(region);
 		
 		file = getFile(tag);
 		
@@ -89,10 +88,6 @@ public class TLDTagHyperlink extends AbstractHyperlink {
 		return tag;
 	}
 	
-	protected IRegion doGetHyperlinkRegion(int offset) {
-		return region;
-	}
-
 	@Override
 	protected void doHyperlink(IRegion region) {
 		if(xmodelObjectName != null){
@@ -119,5 +114,4 @@ public class TLDTagHyperlink extends AbstractHyperlink {
 		else
 			return NLS.bind(JSFTextExtMessages.Open, "");
 	}
-
 }

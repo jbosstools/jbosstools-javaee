@@ -1,12 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2007 Exadel, Inc. and Red Hat, Inc.
+ * Copyright (c) 2007-2012 Red Hat, Inc.
  * Distributed under license by Red Hat, Inc. All rights reserved.
  * This program is made available under the terms of the
  * Eclipse Public License v1.0 which accompanies this distribution,
  * and is available at http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *     Exadel, Inc. and Red Hat, Inc. - initial API and implementation
+ *     Red Hat, Inc. - initial API and implementation
  ******************************************************************************/ 
 package org.jboss.tools.jsf.text.ext.hyperlink;
 
@@ -19,9 +19,9 @@ import org.eclipse.ui.IEditorPart;
 import org.jboss.tools.common.text.ext.hyperlink.XModelBasedHyperlink;
 import org.jboss.tools.common.text.ext.hyperlink.xpl.Messages;
 import org.jboss.tools.common.text.ext.util.StructuredModelWrapper;
-import org.jboss.tools.jst.text.ext.util.TaglibManagerWrapper;
 import org.jboss.tools.common.text.ext.util.Utils;
 import org.jboss.tools.jsf.text.ext.JSFExtensionsPlugin;
+import org.jboss.tools.jst.text.ext.util.TaglibManagerWrapper;
 import org.jboss.tools.jst.web.project.list.WebPromptingProvider;
 import org.jboss.tools.jst.web.tld.TaglibData;
 import org.jboss.tools.jst.web.tld.VpeTaglibManager;
@@ -129,7 +129,7 @@ public class LoadBundleHyperlink extends XModelBasedHyperlink {
 	 * @see IHyperlink#getHyperlinkText()
 	 */
 	public String getHyperlinkText() {
-		String baseName = getBundleBasename(fLastRegion);
+		String baseName = getBundleBasename(getHyperlinkRegion());
 		if (baseName == null)
 			return  MessageFormat.format(Messages.OpenA, Messages.Bundle);
 		
@@ -161,5 +161,4 @@ public class LoadBundleHyperlink extends XModelBasedHyperlink {
 		}
 		return null;
 	}
-
 }

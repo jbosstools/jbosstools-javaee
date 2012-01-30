@@ -1,12 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2007 Exadel, Inc. and Red Hat, Inc.
+ * Copyright (c) 2007-2012 Red Hat, Inc.
  * Distributed under license by Red Hat, Inc. All rights reserved.
  * This program is made available under the terms of the
  * Eclipse Public License v1.0 which accompanies this distribution,
  * and is available at http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *     Exadel, Inc. and Red Hat, Inc. - initial API and implementation
+ *     Red Hat, Inc. - initial API and implementation
  ******************************************************************************/ 
 package org.jboss.tools.jsf.text.ext.hyperlink;
 
@@ -14,7 +14,6 @@ import java.text.MessageFormat;
 import java.util.Properties;
 
 import org.eclipse.jface.text.IRegion;
-import org.eclipse.jface.text.Region;
 import org.jboss.tools.common.text.ext.hyperlink.XModelBasedHyperlink;
 import org.jboss.tools.common.text.ext.hyperlink.xpl.Messages;
 import org.jboss.tools.common.text.ext.util.StructuredModelWrapper;
@@ -69,44 +68,16 @@ public class JsfTaglibDirectiveHyperlink extends XModelBasedHyperlink {
 		return p;
 	}
 
-	protected IRegion getRegion(final int offset) {
-		StructuredModelWrapper smw = new StructuredModelWrapper();
-		smw.init(getDocument());
-		try {
-			Document xmlDocument = smw.getDocument();
-			if (xmlDocument == null) return null;
-			
-			Node n = Utils.findNodeForOffset(xmlDocument, offset);
-
-			if (n == null || !(n instanceof Attr || n instanceof Node)) return null;
-			
-			if (n instanceof Attr) n = ((Attr)n).getOwnerElement();
-			if ((n == null) || !(n instanceof Node)) return null;
-			
-			final int propStart = Utils.getValueStart(n);
-			if(propStart < 0) return null;
-			final int propLength = Utils.getValueEnd(n) - propStart;
-			
-			if (propStart > offset || propStart + propLength < offset) return null;
-			
-			return new Region(propStart,propLength);
-		} finally {
-			smw.dispose();
-		}
-		
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see IHyperlink#getHyperlinkText()
 	 */
 	public String getHyperlinkText() {
-		String uri = getTaglibUri(fLastRegion);
+		String uri = getTaglibUri(getHyperlinkRegion());
 		if (uri == null)
 			return  MessageFormat.format(Messages.OpenA, Messages.TagLibrary);
 		
 		return MessageFormat.format(Messages.OpenTagLibraryForUri, uri);
 	}
-
 }
