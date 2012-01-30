@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2011 Red Hat, Inc.
+ * Copyright (c) 2011-2012 Red Hat, Inc.
  * Distributed under license by Red Hat, Inc. All rights reserved.
  * This program is made available under the terms of the
  * Eclipse Public License v1.0 which accompanies this distribution,
@@ -28,14 +28,13 @@ import org.jboss.tools.common.text.ext.util.Utils;
 
 public class CDISeamResourceLoadingHyperlink extends AbstractHyperlink{
 	private final static String PROPERTIES = ".properties";
-	private IRegion region;
 	private String path;
 	private IFile file;
 	
 	public CDISeamResourceLoadingHyperlink(IFile file, IDocument document, IRegion region, String path){
 		super();
 		this.file = file;
-		this.region = region;
+		setRegion(region);
 		this.path = path;
 		setDocument(document);
 	}
@@ -44,11 +43,6 @@ public class CDISeamResourceLoadingHyperlink extends AbstractHyperlink{
 		return file;
 	}
 
-	@Override
-	protected IRegion doGetHyperlinkRegion(int offset) {
-		return region;
-	}
-	
 	@Override
 	public IFile getReadyToOpenFile(){
 		String fileName = path;
@@ -165,5 +159,4 @@ public class CDISeamResourceLoadingHyperlink extends AbstractHyperlink{
 	public String getHyperlinkText() {
 		return NLS.bind(CDISeamExtMessages.CDI_SEAM_RESOURCE_LOADING_HYPERLINK, path);
 	}
-
 }

@@ -1,12 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2007 Exadel, Inc. and Red Hat, Inc.
+ * Copyright (c) 2007-2012 Red Hat, Inc.
  * Distributed under license by Red Hat, Inc. All rights reserved.
  * This program is made available under the terms of the
  * Eclipse Public License v1.0 which accompanies this distribution,
  * and is available at http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *     Exadel, Inc. and Red Hat, Inc. - initial API and implementation
+ *     Red Hat, Inc. - initial API and implementation
  ******************************************************************************/ 
 package org.jboss.tools.cdi.seam.text.ext.hyperlink;
 
@@ -25,28 +25,24 @@ import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.ui.JavaUI;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
-import org.eclipse.jface.text.Region;
 import org.eclipse.ui.PartInitException;
-import org.eclipse.wst.xml.core.internal.provisional.document.IDOMAttr;
-import org.eclipse.wst.xml.core.internal.provisional.document.IDOMElement;
 import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.CDICorePlugin;
-import org.jboss.tools.cdi.seam.text.ext.CDISeamExtMessages;
-import org.jboss.tools.common.text.ext.hyperlink.AbstractHyperlink;
-import org.jboss.tools.jst.text.ext.hyperlink.jsp.JSPRootHyperlinkPartitioner;
-import org.jboss.tools.common.text.ext.util.StructuredModelWrapper;
-import org.jboss.tools.common.text.ext.util.Utils;
-import org.w3c.dom.Attr;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-
 import org.jboss.tools.cdi.seam.config.core.CDISeamConfigExtension;
 import org.jboss.tools.cdi.seam.config.core.definition.SeamBeansDefinition;
 import org.jboss.tools.cdi.seam.config.core.definition.SeamFieldDefinition;
 import org.jboss.tools.cdi.seam.config.core.definition.SeamMemberDefinition;
 import org.jboss.tools.cdi.seam.config.core.definition.SeamMethodDefinition;
 import org.jboss.tools.cdi.seam.config.core.util.Util;
+import org.jboss.tools.cdi.seam.text.ext.CDISeamExtMessages;
+import org.jboss.tools.common.text.ext.hyperlink.AbstractHyperlink;
+import org.jboss.tools.common.text.ext.util.StructuredModelWrapper;
+import org.jboss.tools.common.text.ext.util.Utils;
+import org.jboss.tools.jst.text.ext.hyperlink.jsp.JSPRootHyperlinkPartitioner;
+import org.w3c.dom.Attr;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 
 /**
  * @author Jeremy
@@ -189,62 +185,16 @@ public class SeamConfigTagNameHyperlink extends AbstractHyperlink {
 		}
 	}
 	
-	IRegion fLastRegion = null;
-	/**
-	 * @see com.ibm.sse.editor.AbstractHyperlink#doGetHyperlinkRegion(int)
-	 */
-	protected IRegion doGetHyperlinkRegion(int offset) {
-		fLastRegion = getRegion(offset);
-		return fLastRegion;
-	}
-	
-	protected IRegion getRegion (int offset) {
-		StructuredModelWrapper smw = new StructuredModelWrapper();
-		smw.init(getDocument());
-		try {
-			Document xmlDocument = smw.getDocument();
-			if (xmlDocument == null) return null;
-			
-			Node n = Utils.findNodeForOffset(xmlDocument, offset);
-
-			if (n == null) return null;
-			
-			int start, nameStart, nameEnd;
-			
-			if(n instanceof IDOMElement) {			
-				IDOMElement elem = (IDOMElement)n;
-				String tagName = elem.getTagName();
-				start = elem.getStartOffset();
-				nameStart = start + (elem.isEndTag() ? "</" : "<").length(); //$NON-NLS-1$ //$NON-NLS-2$
-				nameEnd = nameStart + tagName.length();
-			} else if (n instanceof IDOMAttr) {
-				String attrName = n.getNodeName();
-				start = ((IDOMAttr)n).getStartOffset();
-				nameStart = start;
-				nameEnd = start + attrName.length();
-			} else {
-				return null;
-			}
-
-			if (nameStart > offset || nameEnd <= offset) return null;
-			
-			return new Region(nameStart,nameEnd - nameStart);
-		} finally {
-			smw.dispose();
-		}
-	}
-	
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see IHyperlink#getHyperlinkText()
 	 */
 	public String getHyperlinkText() {
-		String tagName = getTagName(fLastRegion);
+		String tagName = getTagName(getHyperlinkRegion());
 		if (tagName == null)
 			return CDISeamExtMessages.CDI_SEAM_CONFIG_OPEN_TAG;
 		
 		return MessageFormat.format(CDISeamExtMessages.CDI_SEAM_CONFIG_OPEN_TAG, tagName);
 	}
-
 }

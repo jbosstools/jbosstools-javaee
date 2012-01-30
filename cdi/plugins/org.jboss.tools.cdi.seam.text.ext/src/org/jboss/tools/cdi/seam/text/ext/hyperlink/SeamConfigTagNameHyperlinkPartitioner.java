@@ -40,25 +40,21 @@ public class SeamConfigTagNameHyperlinkPartitioner extends AbstractHyperlinkPart
 	/**
 	 * @see com.ibm.sse.editor.hyperlink.AbstractHyperlinkPartitioner#parse(org.eclipse.jface.text.IDocument, com.ibm.sse.editor.extensions.hyperlink.IHyperlinkRegion)
 	 */
-	protected IHyperlinkRegion parse(IDocument document, IHyperlinkRegion superRegion) {
+	protected IHyperlinkRegion parse(IDocument document, int offset, IHyperlinkRegion superRegion) {
 		StructuredModelWrapper smw = new StructuredModelWrapper();
 		smw.init(document);
 		try {
 			Document xmlDocument = smw.getDocument();
 			if (xmlDocument == null) return null;
 			
-			Utils.findNodeForOffset(xmlDocument, superRegion.getOffset());
-			IRegion r = getRegion(document, superRegion.getOffset());
+			IRegion r = getRegion(document, offset);
 			if (r == null) return null;
 			
 			String axis = getAxis(document, superRegion);
 			String contentType = superRegion.getContentType();
 			String type = SEAM_CONFIG_TAG_NAME_PARTITION;
-			int length = r.getLength() - (superRegion.getOffset() - r.getOffset());
-			int offset = superRegion.getOffset();
 			
-			IHyperlinkRegion region = new HyperlinkRegion(offset, length, axis, contentType, type);
-			return region;
+			return new HyperlinkRegion(r.getOffset(), r.getLength(), axis, contentType, type);
 		} finally {
 			smw.dispose();
 		}
@@ -67,19 +63,13 @@ public class SeamConfigTagNameHyperlinkPartitioner extends AbstractHyperlinkPart
 	/**
 	 * @see com.ibm.sse.editor.extensions.hyperlink.IHyperlinkPartitionRecognizer#recognize(org.eclipse.jface.text.IDocument, com.ibm.sse.editor.extensions.hyperlink.IHyperlinkRegion)
 	 */
-	public boolean recognize(IDocument document, IHyperlinkRegion region) {
+	public boolean recognize(IDocument document, int offset, IHyperlinkRegion region) {
 		StructuredModelWrapper smw = new StructuredModelWrapper();
 		smw.init(document);
 		try {
 			IFile documentFile = smw.getFile();
-			if(documentFile==null) {
-				return false;
-			}
-			IProject project = documentFile.getProject();
-			if(project == null) {
-				return false;
-			}
-			return true;
+			if(documentFile==null) return false;
+			return (documentFile.getProject() != null);
 		} finally {
 			smw.dispose();
 		}
@@ -129,7 +119,6 @@ public class SeamConfigTagNameHyperlinkPartitioner extends AbstractHyperlinkPart
 		} finally {
 			smw.dispose();
 		}
-		
 	}
 
 	protected String getAxis(IDocument document, IHyperlinkRegion superRegion) {
@@ -138,5 +127,4 @@ public class SeamConfigTagNameHyperlinkPartitioner extends AbstractHyperlinkPart
 		}
 		return superRegion.getAxis();
 	}
-
 }
