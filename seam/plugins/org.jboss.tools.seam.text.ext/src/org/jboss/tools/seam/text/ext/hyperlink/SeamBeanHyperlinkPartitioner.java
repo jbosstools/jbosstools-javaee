@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2008-2011 Red Hat, Inc.
+ * Copyright (c) 2008-2012 Red Hat, Inc.
  * Distributed under license by Red Hat, Inc. All rights reserved.
  * This program is made available under the terms of the
  * Eclipse Public License v1.0 which accompanies this distribution,
@@ -20,14 +20,11 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
-import org.eclipse.jface.text.IRegion;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMNode;
 import org.jboss.tools.common.el.core.model.ELArgumentInvocation;
 import org.jboss.tools.common.el.core.model.ELExpression;
 import org.jboss.tools.common.el.core.model.ELInvocationExpression;
 import org.jboss.tools.common.el.core.model.ELPropertyInvocation;
-import org.jboss.tools.common.el.core.parser.ELParserFactory;
-import org.jboss.tools.common.el.core.parser.ELParserUtil;
 import org.jboss.tools.common.el.core.resolver.ElVarSearcher;
 import org.jboss.tools.common.el.core.resolver.Var;
 import org.jboss.tools.common.text.ext.hyperlink.AbstractHyperlinkPartitioner;
@@ -55,37 +52,30 @@ import org.w3c.dom.Text;
 public class SeamBeanHyperlinkPartitioner extends AbstractHyperlinkPartitioner implements IHyperlinkPartitionRecognizer, IHyperLinkPartitionPriority { 
 	public static final String SEAM_MESSAGES_BEAN_PARTITION = "org.jboss.tools.seam.text.ext.SEAM_MESSAGES_BEAN";
 
-	private ELParserFactory factory = ELParserUtil.getJbossFactory();
-
 	/**
 	 * @see com.ibm.sse.editor.hyperlink.AbstractHyperlinkPartitioner#parse(org.eclipse.jface.text.IDocument, com.ibm.sse.editor.extensions.hyperlink.IHyperlinkRegion)
 	 */
-	protected IHyperlinkRegion parse(IDocument document, IHyperlinkRegion superRegion) {
+	protected IHyperlinkRegion parse(IDocument document, int offset, IHyperlinkRegion superRegion) {
 		StructuredModelWrapper smw = new StructuredModelWrapper();
 		try {
 			smw.init(document);
 			Document xmlDocument = smw.getDocument();
 			if (xmlDocument == null) return null;
 			
-			Utils.findNodeForOffset(xmlDocument, superRegion.getOffset());
-			if (!recognize(document, superRegion)) return null;
-			IHyperlinkRegion r = getRegion(document, superRegion.getOffset());
+			if (!recognize(document, offset, superRegion)) return null;
+			IHyperlinkRegion r = getRegion(document, offset);
 			if (r == null) return null;
-			r = getWordRegion(document, superRegion.getOffset());
+			r = getWordRegion(document, offset);
 			if (r == null) return null;
 			
-			Map<String, ISeamMessages> messages = findMessagesComponents(document, superRegion);
+			Map<String, ISeamMessages> messages = findMessagesComponents(document, offset);
 
 			if (messages != null && !messages.isEmpty()) {
 				String axis = getAxis(document, superRegion);
 				String contentType = superRegion.getContentType();
 				String type = SEAM_MESSAGES_BEAN_PARTITION;
 				
-				int length = r.getLength() - (superRegion.getOffset() - r.getOffset());
-				int offset = superRegion.getOffset();
-				
-				IHyperlinkRegion region = new HyperlinkRegion(offset, length, axis, contentType, type);
-				return region;
+				return new HyperlinkRegion(r.getOffset(), r.getLength(), axis, contentType, type);
 			}
 			
 			return null;
@@ -93,8 +83,6 @@ public class SeamBeanHyperlinkPartitioner extends AbstractHyperlinkPartitioner i
 			smw.dispose();
 		}
 	}
-	
-	
 
 	protected String getAxis(IDocument document, IHyperlinkRegion superRegion) {
 		if (superRegion.getAxis() == null || superRegion.getAxis().length() == 0) {
@@ -193,11 +181,9 @@ public class SeamBeanHyperlinkPartitioner extends AbstractHyperlinkPartitioner i
 			
 			int propStart = bStart + start;
 			int propLength = bEnd - bStart;
-			
 			if (propStart > offset || propStart + propLength < offset) return null;
 			
-			IHyperlinkRegion region = new HyperlinkRegion(propStart, propLength, null, null, null);
-			return region;
+			return new HyperlinkRegion(propStart, propLength, null, null, null);
 		} catch (BadLocationException x) {
 			SeamExtPlugin.getPluginLog().logError(x);
 			return null;
@@ -205,6 +191,7 @@ public class SeamBeanHyperlinkPartitioner extends AbstractHyperlinkPartitioner i
 			smw.dispose();
 		}
 	}
+	
 	public static IHyperlinkRegion getRegion(IDocument document, final int offset) {
 		StructuredModelWrapper smw = new StructuredModelWrapper();
 		try {
@@ -244,21 +231,19 @@ public class SeamBeanHyperlinkPartitioner extends AbstractHyperlinkPartitioner i
 	/**
 	 * @see com.ibm.sse.editor.extensions.hyperlink.IHyperlinkPartitionRecognizer#recognize(org.eclipse.jface.text.IDocument, com.ibm.sse.editor.extensions.hyperlink.IHyperlinkRegion)
 	 */
-	public boolean recognize(IDocument document, IHyperlinkRegion region) {
+	public boolean recognize(IDocument document, int offset, IHyperlinkRegion region) {
 		StructuredModelWrapper smw = new StructuredModelWrapper();
 		try {
 			smw.init(document);
 			Document xmlDocument = smw.getDocument();
 			if (xmlDocument == null) return false;
 			
-			Utils.findNodeForOffset(xmlDocument, region.getOffset());
-
-			Map<String, ISeamMessages> messages = findMessagesComponents(document, region);
+			Map<String, ISeamMessages> messages = findMessagesComponents(document, offset);
 			if (messages != null && !messages.isEmpty()) {
 				return true;
 			}
 
-			List<IJavaElement> javaElements = findJavaElements(document, region);
+			List<IJavaElement> javaElements = findJavaElements(document, offset);
 			if (javaElements != null && !javaElements.isEmpty()) {
 				return true;
 			}
@@ -269,20 +254,17 @@ public class SeamBeanHyperlinkPartitioner extends AbstractHyperlinkPartitioner i
 		}
 	}
 
-	public static List<IJavaElement> findJavaElements(IDocument document, IRegion region) {
+	public static List<IJavaElement> findJavaElements(IDocument document, int offset) {
 		StructuredModelWrapper smw = new StructuredModelWrapper();
 		try {
 			smw.init(document);
 			Document xmlDocument = smw.getDocument();
 			if (xmlDocument == null) return null;
 			
-			IHyperlinkRegion r = getRegion(document, region.getOffset());
+			IHyperlinkRegion r = getRegion(document, offset);
 			if (r == null) return null;
 
-			
 			String propText = document.get(r.getOffset(), r.getLength());
-			
-			
 			IFile file = smw.getFile();
 			IProject project = (file == null ? null : file.getProject());
 
@@ -346,7 +328,7 @@ public class SeamBeanHyperlinkPartitioner extends AbstractHyperlinkPartitioner i
 				elText.append('.').append(app);
 				
 				javaElements = engine.getJavaElementsForExpression(
-						seamProject, file, elText.toString(), region.getOffset());
+						seamProject, file, elText.toString(), offset);
 			}
 			return javaElements;
 		} catch (BadLocationException x) {
@@ -357,14 +339,14 @@ public class SeamBeanHyperlinkPartitioner extends AbstractHyperlinkPartitioner i
 		}
 	}
 	
-	public static Map<String, ISeamMessages> findMessagesComponents(IDocument document, IRegion region) {
+	public static Map<String, ISeamMessages> findMessagesComponents(IDocument document, int offset) {
 		StructuredModelWrapper smw = new StructuredModelWrapper();
 		try {
 			smw.init(document);
 			Document xmlDocument = smw.getDocument();
 			if (xmlDocument == null) return null;
 			
-			IHyperlinkRegion r = getRegion(document, region.getOffset());
+			IHyperlinkRegion r = getRegion(document, offset);
 			if (r == null) return null;
 			
 			String propText = document.get(r.getOffset(), r.getLength());
@@ -514,5 +496,4 @@ public class SeamBeanHyperlinkPartitioner extends AbstractHyperlinkPartitioner i
 	public int getPriority() {
 		return 0; // to be first
 	}
-	
 }

@@ -1,12 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2009 Exadel, Inc. and Red Hat, Inc.
+ * Copyright (c) 2009-2012 Red Hat, Inc.
  * Distributed under license by Red Hat, Inc. All rights reserved.
  * This program is made available under the terms of the
  * Eclipse Public License v1.0 which accompanies this distribution,
  * and is available at http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *     Exadel, Inc. and Red Hat, Inc. - initial API and implementation
+ *     Red Hat, Inc. - initial API and implementation
  ******************************************************************************/
 
 package org.jboss.tools.seam.text.ext.hyperlink;
@@ -20,7 +20,6 @@ import org.jboss.tools.common.text.ext.util.StructuredModelWrapper;
 import org.jboss.tools.common.text.ext.util.Utils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
-
 
 public class ComponentsHyperlinkPartitioner extends
 		AbstractHyperlinkPartitioner {
@@ -92,24 +91,23 @@ public class ComponentsHyperlinkPartitioner extends
 	}
 
 	@Override
-	protected IHyperlinkRegion parse(IDocument document,
+	protected IHyperlinkRegion parse(IDocument document, int offset,
 			IHyperlinkRegion superRegion) {
-		Node node = getNode(document, superRegion.getOffset());
+		Node node = getNode(document, offset);
 		String type = getType(node);
 		if (type == null)
 			return null;
 
 		IndexedRegion text = (IndexedRegion) node;
 
-		int length = text.getLength();
-		int offset = text.getStartOffset();
+		int textLength = text.getLength();
+		int textOffset = text.getStartOffset();
 
 		String contentType = superRegion.getContentType();
 		String axis = getAxis(document, superRegion);
 
-		IHyperlinkRegion hyperRegion = new HyperlinkRegion(offset, length,
+		IHyperlinkRegion hyperRegion = new HyperlinkRegion(textOffset, textLength,
 				axis, contentType, type);
 		return hyperRegion;
 	}
-
 }
