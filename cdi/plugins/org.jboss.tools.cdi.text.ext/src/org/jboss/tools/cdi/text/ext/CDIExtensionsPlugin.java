@@ -17,6 +17,7 @@ public class CDIExtensionsPlugin extends BaseUIPlugin {
 	private static CDIExtensionsPlugin plugin;
 	
 	public static final String PLUGIN_ID = "org.jboss.tools.cdi.text.ext";  //$NON-NLS-1$
+
 	
 	/**
 	 * The constructor.

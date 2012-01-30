@@ -1,5 +1,5 @@
 /******************************************************************************* 
- * Copyright (c) 2010 Red Hat, Inc. 
+ * Copyright (c) 2010-2012 Red Hat, Inc. 
  * Distributed under license by Red Hat, Inc. All rights reserved. 
  * This program is made available under the terms of the 
  * Eclipse Public License v1.0 which accompanies this distribution, 
@@ -30,12 +30,11 @@ import org.jboss.tools.common.text.ext.hyperlink.AbstractHyperlink;
 
 public class InjectedPointHyperlink extends AbstractHyperlink implements ITestableCDIHyperlink, IInformationItem{
 	protected IBean bean;
-	IRegion region;
 	boolean first = false;
 	
 	public InjectedPointHyperlink(IRegion region, IBean bean, IDocument document){
 		this.bean = bean;
-		this.region = region;
+		setRegion(region);
 		setDocument(document);
 	}
 
@@ -44,12 +43,6 @@ public class InjectedPointHyperlink extends AbstractHyperlink implements ITestab
 		this.first = first;
 	}
 	
-
-	@Override
-	protected IRegion doGetHyperlinkRegion(int offset) {
-		return region;
-	}
-
 	public void doHyperlink(IRegion region) {
 		IEditorPart part = null;
 		

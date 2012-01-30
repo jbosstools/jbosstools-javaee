@@ -1,5 +1,5 @@
 /******************************************************************************* 
- * Copyright (c) 2010 Red Hat, Inc. 
+ * Copyright (c) 2010-2012 Red Hat, Inc. 
  * Distributed under license by Red Hat, Inc. All rights reserved. 
  * This program is made available under the terms of the 
  * Eclipse Public License v1.0 which accompanies this distribution, 
@@ -29,18 +29,11 @@ import org.jboss.tools.common.text.ext.hyperlink.AbstractHyperlink;
 
 public class EventHyperlink extends AbstractHyperlink implements ITestableCDIHyperlink, IInformationItem{
 	IInjectionPoint event;
-	IRegion region;
 	
 	public EventHyperlink(IRegion region, IInjectionPoint event, IDocument document){
 		this.event = event;
-		this.region = region;
+		setRegion(region);
 		setDocument(document);
-	}
-	
-
-	@Override
-	protected IRegion doGetHyperlinkRegion(int offset) {
-		return region;
 	}
 
 	protected void doHyperlink(IRegion region) {
@@ -73,7 +66,6 @@ public class EventHyperlink extends AbstractHyperlink implements ITestableCDIHyp
 	public String getHyperlinkText() {
 		return CDIExtensionsMessages.CDI_EVENT_HYPERLINK_OPEN_EVENT+" "+event.getElementName();
 	}
-
 
 	public ICDIElement getCDIElement() {
 		return event;

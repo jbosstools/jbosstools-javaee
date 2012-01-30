@@ -1,5 +1,5 @@
 /******************************************************************************* 
- * Copyright (c) 2010 Red Hat, Inc. 
+ * Copyright (c) 2010-2012 Red Hat, Inc. 
  * Distributed under license by Red Hat, Inc. All rights reserved. 
  * This program is made available under the terms of the 
  * Eclipse Public License v1.0 which accompanies this distribution, 
@@ -24,18 +24,12 @@ import org.jboss.tools.common.text.ext.hyperlink.AbstractHyperlink;
 public class ObserverMethodListHyperlink extends AbstractHyperlink implements ITestableCDIHyperlink{
 	private ITextViewer viewer;
 	private Set<IObserverMethod> observerMethods;
-	private IRegion region;
 	
 	public ObserverMethodListHyperlink(ITextViewer viewer, IRegion region, Set<IObserverMethod> observerMethods, IDocument document){
 		this.viewer = viewer;
 		this.observerMethods = observerMethods;
-		this.region = region;
+		setRegion(region);
 		setDocument(document);
-	}
-
-	@Override
-	protected IRegion doGetHyperlinkRegion(int offset) {
-		return region;
 	}
 
 	protected void doHyperlink(IRegion region) {
@@ -70,5 +64,4 @@ public class ObserverMethodListHyperlink extends AbstractHyperlink implements IT
 	public Set<? extends ICDIElement> getCDIElements() {
 		return observerMethods;
 	}
-
 }
