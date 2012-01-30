@@ -228,6 +228,7 @@ public class AddQualifiersToBeanComposite extends Composite {
 
 	public void refresh() {
 		Display.getDefault().syncExec(new Runnable() {
+			@Override
 			public void run() {
 				if (availableTableViewer == null || availableTableViewer.getControl().isDisposed())
 					return;
@@ -269,6 +270,7 @@ public class AddQualifiersToBeanComposite extends Composite {
 			fd[i].setStyle(SWT.ITALIC);
 		font = new Font(display, fd);
 		addDisposeListener(new DisposeListener() {
+			@Override
 			public void widgetDisposed(DisposeEvent e) {
 				font.dispose();
 			}
@@ -290,6 +292,7 @@ public class AddQualifiersToBeanComposite extends Composite {
 		data = new GridData(GridData.FILL_HORIZONTAL);
 		pattern.setLayoutData(data);
 		pattern.addModifyListener(new ModifyListener(){
+			@Override
 			public void modifyText(ModifyEvent e){
 				availableTableViewer.refresh();
 			}
@@ -323,6 +326,7 @@ public class AddQualifiersToBeanComposite extends Composite {
 		IContentProvider contentProvider = new QualifiersListContentProvider();
 		availableTableViewer.setContentProvider(contentProvider);
 		availableTableViewer.setComparator(new ViewerComparator() {
+			@Override
 			public int compare(Viewer viewer, Object o1, Object o2) {
 				if (o1 instanceof IQualifier && o2 instanceof IQualifier) {
 					IQualifier q1 = (IQualifier) o1;
@@ -336,11 +340,13 @@ public class AddQualifiersToBeanComposite extends Composite {
 		availableTableViewer.setInput(qualifiers);
 		
 		availableTableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
+			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
 				setEnablement();
 			}
 		});
 		availableTableViewer.addDoubleClickListener(new IDoubleClickListener() {
+			@Override
 			public void doubleClick(DoubleClickEvent event) {
 				setEnablement();
 				if (add.isEnabled())
@@ -364,6 +370,7 @@ public class AddQualifiersToBeanComposite extends Composite {
 		add.setText(CDIUIMessages.ADD_QUALIFIERS_TO_BEAN_WIZARD_ADD);
 		add.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		add.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent event) {
 				add(false);
 			}
@@ -373,6 +380,7 @@ public class AddQualifiersToBeanComposite extends Composite {
 		remove.setText(CDIUIMessages.ADD_QUALIFIERS_TO_BEAN_WIZARD_REMOVE);
 		remove.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		remove.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent event) {
 				remove(false);
 			}
@@ -385,6 +393,7 @@ public class AddQualifiersToBeanComposite extends Composite {
 		addAll.setText(CDIUIMessages.ADD_QUALIFIERS_TO_BEAN_WIZARD_ADD_ALL);
 		addAll.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		addAll.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent event) {
 				add(true);
 			}
@@ -394,6 +403,7 @@ public class AddQualifiersToBeanComposite extends Composite {
 		removeAll.setText(CDIUIMessages.ADD_QUALIFIERS_TO_BEAN_WIZARD_REMOVE_ALL);
 		removeAll.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		removeAll.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent event) {
 				remove(true);
 			}
@@ -408,6 +418,7 @@ public class AddQualifiersToBeanComposite extends Composite {
 		deployedTableViewer.setLabelProvider(labelProvider);
 		deployedTableViewer.setContentProvider(contentProvider);
 		deployedTableViewer.setComparator(new ViewerComparator() {
+		@Override
 		public int compare(Viewer viewer, Object o1, Object o2) {
 			if (o1 instanceof IQualifier && o2 instanceof IQualifier) {
 				IQualifier q1 = (IQualifier) o1;
@@ -421,11 +432,13 @@ public class AddQualifiersToBeanComposite extends Composite {
 		deployedTableViewer.setInput(originalQualifiers);
 		
 		deployedTableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
+			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
 				setEnablement();
 			}
 		});
 		deployedTableViewer.addDoubleClickListener(new IDoubleClickListener() {
+			@Override
 			public void doubleClick(DoubleClickEvent event) {
 				setEnablement();
 				if (remove.isEnabled())
@@ -437,11 +450,13 @@ public class AddQualifiersToBeanComposite extends Composite {
 		createQualifier.setText(CDIUIMessages.ADD_QUALIFIERS_TO_BEAN_WIZARD_CREATE_NEW_QUALIFIER);
 		
 		createQualifier.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent event) {
 				final IJobManager manager= Job.getJobManager();
 				// reload qualifiers
 				if (Display.getCurrent() != null) {
 					BusyIndicator.showWhile(Display.getCurrent(), new Runnable(){
+						@Override
 						public void run(){
 							NewQualifierCreationWizard wizard = new NewQualifierCreationWizard();
 							StructuredSelection selection = new StructuredSelection(new Object[]{bean.getBeanClass()});
@@ -474,6 +489,7 @@ public class AddQualifiersToBeanComposite extends Composite {
 		editQualifierValue.setText(CDIUIMessages.ADD_QUALIFIERS_TO_BEAN_WIZARD_EDIT_QUALIFIER_VALUE);
 		
 		editQualifierValue.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent event) {
 				ValuedQualifier[] vq = getDeployedSelection();
 				ValueDialog d = new ValueDialog(getShell(), vq[0].getValue());
@@ -612,9 +628,9 @@ public class AddQualifiersToBeanComposite extends Composite {
 				list.add(mods[i]);
 		}
 		
-		Iterator iterator = list.iterator();
+		Iterator<ValuedQualifier> iterator = list.iterator();
 		while (iterator.hasNext()) {
-			ValuedQualifier qualifier = (ValuedQualifier) iterator.next();
+			ValuedQualifier qualifier = iterator.next();
 			if (add2) {
 				qualifiers.remove(qualifier);
 				deployed.add(qualifier);
@@ -649,9 +665,9 @@ public class AddQualifiersToBeanComposite extends Composite {
 
 	public ArrayList<ValuedQualifier> getQualifiersToRemove() {
 		ArrayList<ValuedQualifier> list = new ArrayList<ValuedQualifier>();
-		Iterator iterator = originalQualifiers.iterator();
+		Iterator<ValuedQualifier> iterator = originalQualifiers.iterator();
 		while (iterator.hasNext()) {
-			ValuedQualifier qualifier = (ValuedQualifier) iterator.next();
+			ValuedQualifier qualifier = iterator.next();
 			if (!contains(deployed, qualifier))
 				list.add(qualifier);
 		}
@@ -660,9 +676,9 @@ public class AddQualifiersToBeanComposite extends Composite {
 
 	public ArrayList<ValuedQualifier> getQualifiersToAdd() {
 		ArrayList<ValuedQualifier> list = new ArrayList<ValuedQualifier>();
-		Iterator iterator = deployed.iterator();
+		Iterator<ValuedQualifier> iterator = deployed.iterator();
 		while (iterator.hasNext()) {
-			ValuedQualifier qualifier = (ValuedQualifier) iterator.next();
+			ValuedQualifier qualifier = iterator.next();
 			if (!contains(originalQualifiers, qualifier))
 				list.add(qualifier);
 		}
@@ -702,19 +718,24 @@ public class AddQualifiersToBeanComposite extends Composite {
 
 	class QualifiersListLabelProvider implements ILabelProvider, IColorProvider{
 
+		@Override
 		public void addListener(ILabelProviderListener listener) {
 		}
 
+		@Override
 		public void dispose() {
 		}
 
+		@Override
 		public boolean isLabelProperty(Object element, String property) {
 			return true;
 		}
 
+		@Override
 		public void removeListener(ILabelProviderListener listener) {
 		}
 
+		@Override
 		public Image getImage(Object element) {
 			if(element instanceof ValuedQualifier){
 				return CDIImages.getImageByElement(((ValuedQualifier) element).getQualifier());
@@ -722,6 +743,7 @@ public class AddQualifiersToBeanComposite extends Composite {
 			return null;
 		}
 
+		@Override
 		public String getText(Object element) {
 			if(element instanceof ValuedQualifier){
 				ValuedQualifier vq = (ValuedQualifier)element;
@@ -734,6 +756,7 @@ public class AddQualifiersToBeanComposite extends Composite {
 			return "";
 		}
 
+		@Override
 		public Color getForeground(Object element) {
 			if(element instanceof ValuedQualifier){
 				if(contains(originalQualifiers, (ValuedQualifier)element))
@@ -742,6 +765,7 @@ public class AddQualifiersToBeanComposite extends Composite {
 			return ColorConstants.black;
 		}
 
+		@Override
 		public Color getBackground(Object element) {
 			return null;
 		}
@@ -749,12 +773,15 @@ public class AddQualifiersToBeanComposite extends Composite {
 	
 	class QualifiersListContentProvider implements IStructuredContentProvider{
 
+		@Override
 		public void dispose() {
 		}
 
+		@Override
 		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 		}
 
+		@Override
 		public Object[] getElements(Object inputElement) {
 			if(inputElement instanceof ArrayList){
 				return ((ArrayList)inputElement).toArray();
@@ -770,6 +797,7 @@ public class AddQualifiersToBeanComposite extends Composite {
 			return true;
 		}
 
+		@Override
 		public boolean select(Viewer viewer, Object parentElement,
 	            Object element) {
 			
@@ -806,6 +834,7 @@ public class AddQualifiersToBeanComposite extends Composite {
 			this.value = value;
 		}
 
+		@Override
 		protected Control createCustomArea(Composite parent) {
 			Composite composite = new Composite(parent, 0);
 			GridLayout layout = new GridLayout();
@@ -825,6 +854,7 @@ public class AddQualifiersToBeanComposite extends Composite {
 			text.setLayoutData(data);
 			text.setText(value);
 			text.addModifyListener(new ModifyListener(){
+				@Override
 				public void modifyText(ModifyEvent e) {
 					value = text.getText();
 				}

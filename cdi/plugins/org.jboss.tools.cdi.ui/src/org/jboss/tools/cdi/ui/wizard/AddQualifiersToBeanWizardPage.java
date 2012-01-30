@@ -32,6 +32,7 @@ public class AddQualifiersToBeanWizardPage extends UserInputWizardPage{
 		setTitle(pageName);
 	}
 
+	@Override
 	public void createControl(Composite parent) {
 		composite = new AddQualifiersToBeanComposite(parent, this);
 		setControl(composite);

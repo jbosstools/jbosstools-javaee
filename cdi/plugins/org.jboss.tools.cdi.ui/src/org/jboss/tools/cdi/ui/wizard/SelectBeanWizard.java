@@ -21,6 +21,7 @@ import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerComparator;
@@ -48,7 +49,8 @@ import org.jboss.tools.cdi.ui.CDIUIMessages;
 import org.jboss.tools.common.model.ui.ModelUIImages;
 
 public class SelectBeanWizard extends AbstractModifyInjectionPointWizard{
-	private AddQualifiersToBeanWizardPage page;
+	private SelectBeanWizardPage selectBeanPage;
+	private AddQualifiersToBeanWizardPage addQualifiersPage;
 	private Text pattern;
 	
 	public SelectBeanWizard(ProcessorBasedRefactoring refactoring){
@@ -58,30 +60,32 @@ public class SelectBeanWizard extends AbstractModifyInjectionPointWizard{
 		setDefaultPageImageDescriptor(ModelUIImages.getImageDescriptor(ModelUIImages.WIZARD_DEFAULT));
 	}
 	
-    public void addUserInputPages() {
-    	addPage(new SelectBeanWizardPage(""));
-    	page = new AddQualifiersToBeanWizardPage("");
-    	addPage(page);
+    @Override
+	public void addUserInputPages() {
+    	selectBeanPage = new SelectBeanWizardPage("");
+    	addPage(selectBeanPage);
+    	addQualifiersPage = new AddQualifiersToBeanWizardPage("");
+    	addPage(addQualifiersPage);
     }
     
 	public java.util.List<ValuedQualifier> getDeployedQualifiers(){
-		return page.getDeployedQualifiers();
+		return addQualifiersPage.getDeployedQualifiers();
 	}
 	
 	public java.util.List<IQualifier> getAvailableQualifiers(){
-		return page.getAvailableQualifiers();
+		return addQualifiersPage.getAvailableQualifiers();
 	}
 	
 	public void init(IBean bean){
-		page.init(bean);
+		addQualifiersPage.init(bean);
 	}
 	
 	public void deploy(ValuedQualifier qualifier){
-		page.deploy(qualifier);
+		addQualifiersPage.deploy(qualifier);
 	}
 	
 	public boolean checkBeans(){
-		return page.checkBeans();
+		return addQualifiersPage.checkBeans();
 	}
 	
 	class SelectBeanWizardPage extends UserInputWizardPage{
@@ -92,6 +96,7 @@ public class SelectBeanWizard extends AbstractModifyInjectionPointWizard{
 			setPageComplete(false);
 		}
 
+		@Override
 		public void createControl(Composite parent) {
 			Composite composite = new Composite(parent, SWT.NONE);
 			GridLayout layout = new GridLayout();
@@ -108,6 +113,7 @@ public class SelectBeanWizard extends AbstractModifyInjectionPointWizard{
 			GridData data = new GridData(GridData.FILL_HORIZONTAL);
 			pattern.setLayoutData(data);
 			pattern.addModifyListener(new ModifyListener(){
+				@Override
 				public void modifyText(ModifyEvent e){
 					tableViewer.refresh();
 				}
@@ -123,16 +129,18 @@ public class SelectBeanWizard extends AbstractModifyInjectionPointWizard{
 			availableList.setLayoutData(data);
 			
 			tableViewer = new TableViewer(availableList);
-			ILabelProvider labelProvider = new BeanListLabelProvider();
+			final ILabelProvider labelProvider = new BeanListLabelProvider();
 			tableViewer.setLabelProvider(labelProvider);
 			IContentProvider contentProvider = new BeanListContentProvider();
 			tableViewer.setContentProvider(contentProvider);
 			tableViewer.setComparator(new ViewerComparator() {
+				@Override
 				public int compare(Viewer viewer, Object o1, Object o2) {
 					if (o1 instanceof IBean && o2 instanceof IBean) {
 						IBean b1 = (IBean) o1;
 						IBean b2 = (IBean) o2;
-						return (b1.getBeanClass().getElementName().compareToIgnoreCase(b2.getBeanClass().getElementName()));
+						
+						return labelProvider.getText(b1).compareToIgnoreCase(labelProvider.getText(b2));
 					}
 					
 					return super.compare(viewer, o1, o2);
@@ -141,26 +149,41 @@ public class SelectBeanWizard extends AbstractModifyInjectionPointWizard{
 			tableViewer.setInput(getBeans());
 			
 			tableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
+				@Override
 				public void selectionChanged(SelectionChangedEvent event) {
 					IBean bean = getSelection();
 					if(bean != null){
 						setPageComplete(true);
-						IWizardPage next = getNextPage();
-						if(next instanceof AddQualifiersToBeanWizardPage)
-							((AddQualifiersToBeanWizardPage)next).init(bean);
+						addQualifiersPage.init(bean);
 						setSelectedBean(bean);
-						page.setDeployedQualifiers(page.getDeployedQualifiers());
+						addQualifiersPage.setDeployedQualifiers(addQualifiersPage.getDeployedQualifiers());
 					}else
 						setPageComplete(false);
 				}
 			});
 			tableViewer.addDoubleClickListener(new IDoubleClickListener() {
+				@Override
 				public void doubleClick(DoubleClickEvent event) {
+					
 				}
 			});
 			tableViewer.addFilter(new BeanFilter());
 			
 			setControl(composite);
+		}
+		
+		public void setDefaultSelection(){
+			
+			if(getBeans().size() > 0){
+				IBean defaultBean = getBeans().get(0);
+				tableViewer.setSelection(new StructuredSelection(defaultBean));
+				tableViewer.getTable().select(0);
+				addQualifiersPage.init(defaultBean);
+				setSelectedBean(defaultBean);
+				addQualifiersPage.setDeployedQualifiers(addQualifiersPage.getDeployedQualifiers());
+				setPageComplete(true);
+			}
+			
 		}
 		
 		protected IBean getSelection() {
@@ -178,6 +201,7 @@ public class SelectBeanWizard extends AbstractModifyInjectionPointWizard{
 			return true;
 		}
 
+		@Override
 		public boolean select(Viewer viewer, Object parentElement,
 	            Object element) {
 			
@@ -205,19 +229,24 @@ public class SelectBeanWizard extends AbstractModifyInjectionPointWizard{
 	
 	class BeanListLabelProvider implements ILabelProvider{
 
+		@Override
 		public void addListener(ILabelProviderListener listener) {
 		}
 
+		@Override
 		public void dispose() {
 		}
 
+		@Override
 		public boolean isLabelProperty(Object element, String property) {
 			return false;
 		}
 
+		@Override
 		public void removeListener(ILabelProviderListener listener) {
 		}
 
+		@Override
 		public Image getImage(Object element) {
 			if(element instanceof IBean){
 				return CDIImages.getImageByElement((IBean)element);
@@ -225,6 +254,7 @@ public class SelectBeanWizard extends AbstractModifyInjectionPointWizard{
 			return null;
 		}
 
+		@Override
 		public String getText(Object element) {
 			if(element instanceof IBean){
 				IBean bean = (IBean)element;
@@ -241,12 +271,15 @@ public class SelectBeanWizard extends AbstractModifyInjectionPointWizard{
 	
 	class BeanListContentProvider implements IStructuredContentProvider{
 
+		@Override
 		public void dispose() {
 		}
 
+		@Override
 		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 		}
 
+		@Override
 		public Object[] getElements(Object inputElement) {
 			if(inputElement instanceof ArrayList){
 				return ((ArrayList)inputElement).toArray();
@@ -254,5 +287,11 @@ public class SelectBeanWizard extends AbstractModifyInjectionPointWizard{
 			return new Object[]{};
 		}
 		
+	}
+
+	@Override
+	public void createPageControls(Composite pageContainer) {
+		super.createPageControls(pageContainer);
+		selectBeanPage.setDefaultSelection();
 	}
 }
