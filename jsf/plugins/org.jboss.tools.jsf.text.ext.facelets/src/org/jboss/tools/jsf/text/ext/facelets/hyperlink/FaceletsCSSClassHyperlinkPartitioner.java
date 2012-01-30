@@ -1,12 +1,12 @@
 /*******************************************************************************
- * Copyright (c) 2009 Exadel, Inc. and Red Hat, Inc.
+ * Copyright (c) 2009-2012 Red Hat, Inc.
  * Distributed under license by Red Hat, Inc. All rights reserved.
  * This program is made available under the terms of the
  * Eclipse Public License v1.0 which accompanies this distribution,
  * and is available at http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *     Exadel, Inc. and Red Hat, Inc. - initial API and implementation
+ *     Red Hat, Inc. - initial API and implementation
  ******************************************************************************/
 
 package org.jboss.tools.jsf.text.ext.facelets.hyperlink;
@@ -23,9 +23,8 @@ import org.jboss.tools.jst.text.ext.hyperlink.CSSClassHyperlinkPartitioner;
 public class FaceletsCSSClassHyperlinkPartitioner extends CSSClassHyperlinkPartitioner {
 	public static final String FACELETS_CSS_CLASS_PARTITION = "org.jboss.tools.common.text.ext.FACELETS_CSS_CLASS"; //$NON-NLS-1$
 	
-
 	@Override
-	public boolean recognize(IDocument document, IHyperlinkRegion region) {
+	public boolean recognize(IDocument document, int offset, IHyperlinkRegion region) {
 		if (region.getAxis() != null){
 			return true;
 		}
@@ -36,5 +35,4 @@ public class FaceletsCSSClassHyperlinkPartitioner extends CSSClassHyperlinkParti
 	protected String getPartitionType(String axis) {
 		return FACELETS_CSS_CLASS_PARTITION;
 	}
-	
 }
