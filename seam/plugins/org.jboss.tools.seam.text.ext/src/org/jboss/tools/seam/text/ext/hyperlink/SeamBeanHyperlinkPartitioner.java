@@ -71,7 +71,7 @@ public class SeamBeanHyperlinkPartitioner extends AbstractHyperlinkPartitioner i
 			Map<String, ISeamMessages> messages = findMessagesComponents(document, offset);
 
 			if (messages != null && !messages.isEmpty()) {
-				String axis = getAxis(document, superRegion);
+				String axis = getAxis(document, offset);
 				String contentType = superRegion.getContentType();
 				String type = SEAM_MESSAGES_BEAN_PARTITION;
 				
@@ -84,11 +84,8 @@ public class SeamBeanHyperlinkPartitioner extends AbstractHyperlinkPartitioner i
 		}
 	}
 
-	protected String getAxis(IDocument document, IHyperlinkRegion superRegion) {
-		if (superRegion.getAxis() == null || superRegion.getAxis().length() == 0) {
-			return JSPRootHyperlinkPartitioner.computeAxis(document, superRegion.getOffset()) + "/";
-		}
-		return superRegion.getAxis();
+	protected String getAxis(IDocument document, int offset) {
+		return JSPRootHyperlinkPartitioner.computeAxis(document, offset) + "/";
 	}
 	
 	public static IHyperlinkRegion getWordRegion (IDocument document, final int offset) {

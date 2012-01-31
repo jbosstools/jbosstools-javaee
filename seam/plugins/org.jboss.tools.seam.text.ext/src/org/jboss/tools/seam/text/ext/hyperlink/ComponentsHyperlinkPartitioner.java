@@ -104,7 +104,7 @@ public class ComponentsHyperlinkPartitioner extends
 		int textOffset = text.getStartOffset();
 
 		String contentType = superRegion.getContentType();
-		String axis = getAxis(document, superRegion);
+		String axis = getAxis(document, offset);
 
 		IHyperlinkRegion hyperRegion = new HyperlinkRegion(textOffset, textLength,
 				axis, contentType, type);
