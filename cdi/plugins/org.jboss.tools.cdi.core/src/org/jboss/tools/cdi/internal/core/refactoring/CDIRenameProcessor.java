@@ -25,6 +25,7 @@ import org.eclipse.text.edits.MultiTextEdit;
 import org.eclipse.text.edits.ReplaceEdit;
 import org.eclipse.text.edits.TextEdit;
 import org.jboss.tools.cdi.core.CDICoreMessages;
+import org.jboss.tools.cdi.core.CDIUtil;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.common.el.core.model.ELInvocationExpression;
 import org.jboss.tools.common.el.core.model.ELPropertyInvocation;
@@ -125,7 +126,7 @@ public abstract class CDIRenameProcessor extends AbstractCDIProcessor {
 	
 	class CDISearcher extends RefactorSearcher{
 		public CDISearcher(IFile declarationFile, String oldName){
-			super(declarationFile, oldName, bean.getBeanClass());
+			super(declarationFile, oldName, CDIUtil.getJavaElement(bean));
 		}
 
 		@Override
