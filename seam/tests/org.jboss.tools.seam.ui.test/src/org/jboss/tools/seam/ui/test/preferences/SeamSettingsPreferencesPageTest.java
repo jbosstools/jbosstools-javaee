@@ -11,17 +11,13 @@
 package org.jboss.tools.seam.ui.test.preferences;
 
 import java.io.File;
-import java.io.IOException;
-import java.net.URL;
 import java.text.MessageFormat;
 
 import junit.framework.TestCase;
 
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.jface.preference.PreferenceDialog;
@@ -55,24 +51,23 @@ public class SeamSettingsPreferencesPageTest extends TestCase {
 
 	public static final String PROP_SEAM_1_2_HOME_PATH = "jbosstools.test.seam.1.2.1.eap.home";
 	public static final String SEAM_1_2_HOME_PATH;
-	
+
 	static {
 		SEAM_1_2_HOME_PATH = System.getProperty(PROP_SEAM_1_2_HOME_PATH);
 		if(SEAM_1_2_HOME_PATH == null) {
 			throw new IllegalArgumentException(MessageFormat.format(INIT_ERROR_MESSAGE, PROP_SEAM_1_2_HOME_PATH));
 		}
 	}
-	
+
 	public SeamSettingsPreferencesPageTest() {
 		super("Seam Settings Preferences Page Tests");
 	}
 
+	@Override
 	protected void setUp() throws Exception {
-		IResource project = ResourcesPlugin.getWorkspace().getRoot().findMember(PROJECT_NAME);
-		assertNotNull(PROJECT_NAME + " project is not imported.", project);
-		this.project = project.getProject();
+		this.project = ResourcesPlugin.getWorkspace().getRoot().getProject(PROJECT_NAME);
+		assertTrue(PROJECT_NAME + " project is not imported.", project.exists());
 		this.project.build(IncrementalProjectBuilder.FULL_BUILD, null);
-		JobUtils.waitForIdle();
 	}
 
 	public void testSettingsPage() throws Exception {
@@ -111,7 +106,7 @@ public class SeamSettingsPreferencesPageTest extends TestCase {
 
 		ISeamProject seamProject = SeamCorePlugin.getSeamProject(project, false);
 		assertNotNull("Can't load seam project. It seems seam nature was not added to rpoject by seam settings page.", seamProject);
-		
+
 		IEclipsePreferences pref = SeamCorePlugin.getSeamPreferences(project);
 		assertEquals("Seam settings version 1.1 property is not set", pref.get(ISeamFacetDataModelProperties.SEAM_SETTINGS_VERSION, ""), ISeamFacetDataModelProperties.SEAM_SETTINGS_VERSION_1_1);
 		assertEquals("Seam runtime property is not set", pref.get(ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME, ""), RUNTIME_NAME);
@@ -125,7 +120,7 @@ public class SeamSettingsPreferencesPageTest extends TestCase {
 		assertEquals("Test package name property is not set", TEST_PACKAGE_NAME, pref.get(ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_NAME, ""));
 		assertEquals("Test source folder property is not set", pref.get(ISeamFacetDataModelProperties.TEST_SOURCE_FOLDER, ""), "/" + PROJECT_NAME + "/src");
 		assertEquals("View folder property is not set", pref.get(ISeamFacetDataModelProperties.WEB_CONTENTS_FOLDER, ""), "/" + PROJECT_NAME);
-		
+
 		assertTrue("Seam Nature was not enabled for project \"" + project.getName() + "\"",project.hasNature(ISeamProject.NATURE_ID));
 	}
 }

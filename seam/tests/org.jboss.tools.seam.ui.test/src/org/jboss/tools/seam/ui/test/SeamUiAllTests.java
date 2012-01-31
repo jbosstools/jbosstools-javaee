@@ -106,9 +106,12 @@ public class SeamUiAllTests {
 				CASeamAddInfoInELMessagesTest.class), "org.jboss.tools.seam.ui.test", //$NON-NLS-1$
 				new String[] { "projects/TestSeamELContentAssist", }, //$NON-NLS-1$
 				new String[] { "TestSeamELContentAssist" })); //$NON-NLS-1$
-		
-		suite.addTestSuite(SeamSettingsPreferencesPageTest.class);
-		
+
+		suite.addTest(new ProjectImportTestSetup(new TestSuite(
+				SeamSettingsPreferencesPageTest.class), "org.jboss.tools.seam.ui.test", //$NON-NLS-1$
+				new String[] { "projects/TestSeamSettingsPreferencesPage", }, //$NON-NLS-1$
+				new String[] { "TestSeamSettingsPreferencesPage" })); //$NON-NLS-1$
+
 		return suite;
 	}
 }
