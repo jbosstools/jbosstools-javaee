@@ -21,9 +21,9 @@ import org.jboss.tools.common.text.ext.hyperlink.AbstractHyperlinkPartitioner;
 import org.jboss.tools.common.text.ext.hyperlink.HyperlinkRegion;
 import org.jboss.tools.common.text.ext.hyperlink.IHyperlinkPartitionRecognizer;
 import org.jboss.tools.common.text.ext.hyperlink.IHyperlinkRegion;
-import org.jboss.tools.jst.text.ext.hyperlink.jsp.JSPRootHyperlinkPartitioner;
 import org.jboss.tools.common.text.ext.util.StructuredModelWrapper;
 import org.jboss.tools.common.text.ext.util.Utils;
+import org.jboss.tools.jst.text.ext.hyperlink.jsp.JSPRootHyperlinkPartitioner;
 import org.jboss.tools.struts.StrutsProject;
 import org.jboss.tools.struts.text.ext.StrutsExtensionsPlugin;
 import org.w3c.dom.Attr;
@@ -53,7 +53,7 @@ public class StrutsJSPTagAttributeHyperlinkPartitioner extends AbstractHyperlink
 			IRegion r = getRegion(document, offset);
 			if (r == null) return null;
 			
-			String axis = getAxis(document, superRegion);
+			String axis = getAxis(document, offset);
 			String contentType = superRegion.getContentType();
 			String type = STRUTS_JSP_TAG_ATTRIBUTE_PARTITION;
 			
@@ -162,10 +162,7 @@ public class StrutsJSPTagAttributeHyperlinkPartitioner extends AbstractHyperlink
 		}
 	}
 
-	protected String getAxis(IDocument document, IHyperlinkRegion superRegion) {
-		if (superRegion.getAxis() == null || superRegion.getAxis().length() == 0) {
-			return JSPRootHyperlinkPartitioner.computeAxis(document, superRegion.getOffset()) + "/";
-		}
-		return superRegion.getAxis();
+	protected String getAxis(IDocument document, int offset) {
+		return JSPRootHyperlinkPartitioner.computeAxis(document, offset) + "/";
 	}
 }

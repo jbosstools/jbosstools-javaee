@@ -51,7 +51,7 @@ public class StrutsJSPTagNameHyperlinkPartitioner extends AbstractHyperlinkParti
 			IRegion r = getRegion(document, offset);
 			if (r == null) return null;
 			
-			String axis = getAxis(document, superRegion);
+			String axis = getAxis(document, offset);
 			String contentType = superRegion.getContentType();
 			String type = STRUTS_JSP_TAG_NAME_PARTITION;
 			
@@ -112,10 +112,7 @@ public class StrutsJSPTagNameHyperlinkPartitioner extends AbstractHyperlinkParti
 		
 	}
 
-	protected String getAxis(IDocument document, IHyperlinkRegion superRegion) {
-		if (superRegion.getAxis() == null || superRegion.getAxis().length() == 0) {
-			return JSPRootHyperlinkPartitioner.computeAxis(document, superRegion.getOffset()) + "/";
-		}
-		return superRegion.getAxis();
+	protected String getAxis(IDocument document, int offset) {
+		return JSPRootHyperlinkPartitioner.computeAxis(document, offset) + "/";
 	}
 }
