@@ -16,7 +16,7 @@
    <value>v2</value>
   </navigation:resources>
  </navigation:pages>
- <pdf:document-store name="mypdfStore"/>
+
  <core:init debug="#{debug}" jndi-pattern="i2"/>
  <core:init debug="@debug" name="org.jboss.seam.core.init1"/>
  <core:init debug="@debug@" name="org.jboss.seam.core.init2"/>
