@@ -1,35 +1,31 @@
 /*******************************************************************************
- * Copyright (c) 2007 Exadel, Inc. and Red Hat, Inc.
+ * Copyright (c) 2007-2012 Red Hat, Inc.
  * Distributed under license by Red Hat, Inc. All rights reserved.
  * This program is made available under the terms of the
  * Eclipse Public License v1.0 which accompanies this distribution,
  * and is available at http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *     Exadel, Inc. and Red Hat, Inc. - initial API and implementation
+ *     Red Hat, Inc. - initial API and implementation
  ******************************************************************************/ 
 package org.jboss.tools.cdi.seam.text.ext.hyperlink;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IProject;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.Region;
 import org.eclipse.wst.sse.core.internal.provisional.IndexedRegion;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMAttr;
 import org.eclipse.wst.xml.core.internal.provisional.document.IDOMElement;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-
+import org.jboss.tools.cdi.seam.config.core.util.Util;
 import org.jboss.tools.common.text.ext.hyperlink.AbstractHyperlinkPartitioner;
 import org.jboss.tools.common.text.ext.hyperlink.HyperlinkRegion;
 import org.jboss.tools.common.text.ext.hyperlink.IHyperlinkPartitionRecognizer;
 import org.jboss.tools.common.text.ext.hyperlink.IHyperlinkRegion;
 import org.jboss.tools.common.text.ext.util.StructuredModelWrapper;
 import org.jboss.tools.common.text.ext.util.Utils;
-import org.jboss.tools.jst.text.ext.hyperlink.jsp.JSPRootHyperlinkPartitioner;
-
-import org.jboss.tools.cdi.seam.config.core.util.Util;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
 
 /**
  * @author Jeremy
@@ -50,7 +46,7 @@ public class SeamConfigTagNameHyperlinkPartitioner extends AbstractHyperlinkPart
 			IRegion r = getRegion(document, offset);
 			if (r == null) return null;
 			
-			String axis = getAxis(document, superRegion);
+			String axis = getAxis(document, offset);
 			String contentType = superRegion.getContentType();
 			String type = SEAM_CONFIG_TAG_NAME_PARTITION;
 			
@@ -120,11 +116,12 @@ public class SeamConfigTagNameHyperlinkPartitioner extends AbstractHyperlinkPart
 			smw.dispose();
 		}
 	}
-
+/*
 	protected String getAxis(IDocument document, IHyperlinkRegion superRegion) {
 		if (superRegion.getAxis() == null || superRegion.getAxis().length() == 0) {
 			return JSPRootHyperlinkPartitioner.computeAxis(document, superRegion.getOffset()) + "/"; //$NON-NLS-1$
 		}
 		return superRegion.getAxis();
 	}
+*/	
 }
