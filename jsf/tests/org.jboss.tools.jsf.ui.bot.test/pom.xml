@@ -9,5 +9,51 @@
 	<groupId>org.jboss.tools.jsf.tests</groupId>
 	<artifactId>org.jboss.tools.jsf.ui.bot.test</artifactId> 
 	
-	<packaging>eclipse-plugin</packaging>
+	<packaging>eclipse-test-plugin</packaging>
+	<properties>
+                <jbosstools.test.jboss-as.home>${requirement.build.root}/jboss-5.1.0.GA</jbosstools.test.jboss-as.home>
+		<systemProperties>-Dswtbot.test.skip=false -Dtest.configurations.dir=resources/properties/ -Djbosstools.test.jboss-as.home=${jbosstools.test.jboss-as.home}</systemProperties>
+		<test.suite.class>org.jboss.tools.jsf.ui.bot.test.JSFAllBotTests</test.suite.class>
+	</properties>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-surefire-plugin</artifactId>
+				<configuration>
+                                        <testSuite>org.jboss.tools.jsf.ui.bot.test</testSuite>
+					<testClass>${test.suite.class}</testClass>
+					<useUIThread>false</useUIThread>
+					<skip>${swtbot.test.skip}</skip>
+					<dependencies combine.children="append">
+						<dependency>
+							<type>p2-installable-unit</type>
+							<artifactId>org.jboss.ide.eclipse.as.feature.feature.group</artifactId>
+							<version>0.0.0</version>
+						</dependency>
+						<dependency>
+							<type>p2-installable-unit</type>
+							<artifactId>org.jboss.tools.vpe.feature.feature.group</artifactId>
+							<version>0.0.0</version>
+						</dependency>
+						<dependency>
+							<type>p2-installable-unit</type>
+							<artifactId>org.jboss.tools.jsf.feature.feature.group</artifactId>
+							<version>0.0.0</version>
+						</dependency>
+						<dependency>
+							<type>p2-installable-unit</type>
+							<artifactId>org.eclipse.jst.enterprise_ui.feature.feature.group</artifactId>
+							<version>0.0.0</version>
+						</dependency>
+						<dependency>
+							<type>p2-installable-unit</type>
+							<artifactId>org.eclipse.jst.web_core.feature.feature.group</artifactId>
+							<version>0.0.0</version>
+						</dependency>
+					</dependencies>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 </project>
