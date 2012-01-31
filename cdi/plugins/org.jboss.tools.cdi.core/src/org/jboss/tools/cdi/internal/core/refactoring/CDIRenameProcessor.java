@@ -12,11 +12,9 @@ package org.jboss.tools.cdi.internal.core.refactoring;
 
 import java.util.ArrayList;
 
-import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.ltk.core.refactoring.RefactoringStatus;
@@ -29,7 +27,6 @@ import org.jboss.tools.cdi.core.CDIUtil;
 import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.common.el.core.model.ELInvocationExpression;
 import org.jboss.tools.common.el.core.model.ELPropertyInvocation;
-import org.jboss.tools.common.model.project.ProjectHome;
 import org.jboss.tools.common.refactoring.BaseFileChange;
 import org.jboss.tools.jst.web.kb.refactoring.RefactorSearcher;
 
