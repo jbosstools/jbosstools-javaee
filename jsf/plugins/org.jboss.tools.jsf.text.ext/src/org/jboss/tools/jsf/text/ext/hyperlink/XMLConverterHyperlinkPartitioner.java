@@ -41,7 +41,7 @@ public class XMLConverterHyperlinkPartitioner extends AbstractHyperlinkPartition
 			IHyperlinkRegion r = getRegion(document, offset);
 			if (r == null) return null;
 			
-			String axis = getAxis(document, superRegion);
+			String axis = getAxis(document, offset);
 			String contentType = superRegion.getContentType();
 			String type = XML_CONVERTER_PARTITION;
 			
@@ -51,14 +51,14 @@ public class XMLConverterHyperlinkPartitioner extends AbstractHyperlinkPartition
 		}
 	}
 
-	protected String getAxis(IDocument document, IHyperlinkRegion superRegion) {
+	protected String getAxis(IDocument document, int offset) {
 		StructuredModelWrapper smw = new StructuredModelWrapper();
 		smw.init(document);
 		try {
 			Document xmlDocument = smw.getDocument();
 			if (xmlDocument == null) return null;
 
-			Node n = Utils.findNodeForOffset(xmlDocument, superRegion.getOffset());
+			Node n = Utils.findNodeForOffset(xmlDocument, offset);
 			
 			return Utils.getParentAxisForNode(xmlDocument, n);
 		} finally {

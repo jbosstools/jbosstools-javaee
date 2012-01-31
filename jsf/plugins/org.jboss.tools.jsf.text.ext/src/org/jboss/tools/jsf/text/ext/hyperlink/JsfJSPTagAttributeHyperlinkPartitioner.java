@@ -56,7 +56,7 @@ public class JsfJSPTagAttributeHyperlinkPartitioner extends AbstractHyperlinkPar
 			IRegion r = getRegion(document, offset);
 			if (r == null) return null;
 			
-			String axis = getAxis(document, superRegion);
+			String axis = getAxis(document, offset);
 			String contentType = superRegion.getContentType();
 			String type = JSF_JSP_TAG_ATTRIBUTE_PARTITION;
 
@@ -144,10 +144,7 @@ public class JsfJSPTagAttributeHyperlinkPartitioner extends AbstractHyperlinkPar
 		}
 	}
 
-	protected String getAxis(IDocument document, IHyperlinkRegion superRegion) {
-		if (superRegion.getAxis() == null || superRegion.getAxis().length() == 0) {
-			return JSPRootHyperlinkPartitioner.computeAxis(document, superRegion.getOffset()) + "/"; //$NON-NLS-1$
-		}
-		return superRegion.getAxis();
+	protected String getAxis(IDocument document, int offset) {
+		return JSPRootHyperlinkPartitioner.computeAxis(document, offset) + "/"; //$NON-NLS-1$
 	}
 }
