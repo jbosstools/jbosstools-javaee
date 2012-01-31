@@ -14,21 +14,6 @@
 		<emma.instrument.bundles>org.jboss.tools.cdi.ui,org.jboss.tools.cdi.core,org.jboss.tools.cdi.xml</emma.instrument.bundles>
 	</properties>
 
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.eclipse.tycho</groupId>
-				<artifactId>tycho-surefire-plugin</artifactId>
-				<configuration>
-					<product>org.jboss.tools.tests.product</product>
-					<explodedBundles>
-						<bundle>org.jboss.tools.cdi.core.test</bundle>
-					</explodedBundles>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
-
 	<profiles>
 		<profile>
 			<id>profiler</id>

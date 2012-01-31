@@ -27,4 +27,4 @@ Require-Bundle: org.jboss.tools.cdi.seam.core,
  org.eclipse.wst.validation;bundle-version="1.2.300",
  org.jboss.tools.jst.jsp
 Export-Package: org.jboss.tools.cdi.seam.core.test
-
+Eclipse-BundleShape: dir

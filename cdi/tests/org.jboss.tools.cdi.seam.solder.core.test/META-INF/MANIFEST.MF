@@ -24,4 +24,4 @@ Require-Bundle: org.jboss.tools.tests,
  org.eclipse.wst.validation,
  org.jboss.tools.common.base.test
 Export-Package: org.jboss.tools.cdi.seam.solder.core.test
-
+Eclipse-BundleShape: dir

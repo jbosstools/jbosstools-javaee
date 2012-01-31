@@ -27,3 +27,4 @@ Export-Package: org.jboss.tools.cdi.core.test,
  org.jboss.tools.cdi.core.test.extension,
  org.jboss.tools.cdi.core.test.tck,
  org.jboss.tools.cdi.core.test.tck.validation
+Eclipse-BundleShape: dir

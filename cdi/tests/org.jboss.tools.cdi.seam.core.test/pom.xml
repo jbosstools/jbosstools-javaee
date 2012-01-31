@@ -12,17 +12,4 @@
 	<properties>
 		<emma.instrument.bundles>org.jboss.tools.cdi.seam.core,org.jboss.tools.cdi.core,org.jboss.tools.cdi.xml</emma.instrument.bundles>
 	</properties>
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.eclipse.tycho</groupId>
-				<artifactId>tycho-surefire-plugin</artifactId>
-				<configuration>
-					<explodedBundles>
-						<bundle>org.jboss.tools.cdi.seam.core.test</bundle>
-					</explodedBundles>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
 </project>
