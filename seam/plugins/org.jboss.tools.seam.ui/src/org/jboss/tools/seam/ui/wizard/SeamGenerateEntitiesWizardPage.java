@@ -16,13 +16,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.internal.ui.wizards.dialogfields.DialogField;
@@ -45,7 +43,6 @@ import org.hibernate.eclipse.console.utils.DialogSelectionHelper;
 import org.hibernate.eclipse.console.utils.ProjectUtils;
 import org.hibernate.eclipse.launch.HibernateLaunchConstants;
 import org.hibernate.eclipse.launch.PathHelper;
-import org.jboss.tools.common.ui.CommonUIMessages;
 import org.jboss.tools.common.ui.IValidator;
 import org.jboss.tools.common.ui.widget.editor.IFieldEditor;
 import org.jboss.tools.common.ui.widget.editor.INamedElement;
@@ -312,18 +309,6 @@ public class SeamGenerateEntitiesWizardPage extends WizardPage implements Proper
 			setErrorMessage(SeamUIMessages.GENERATE_SEAM_ENTITIES_WIZARD_HIBERNATE_CONFIGURATION_ERROR);
 			setPageComplete(false);
 			return;
-		}
-		
-		IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(projectName);
-		SeamProjectsSet seamProjectsSet = SeamProjectsSet.create(project);
-		IContainer viewsFolder = seamProjectsSet.getViewsFolder();
-		if (viewsFolder != null){
-			if (!viewsFolder.getFolder(new Path("layout")).exists()){//$NON-NLS-1$
-				setErrorMessage(CommonUIMessages.bind(CommonUIMessages.VALIDATOR_FACTORY_FOLDER_DOES_NOT_EXIST, 
-						viewsFolder.getName() + "/layout"));//$NON-NLS-1$
-				setPageComplete(false);
-				return;
-			}
 		}
 		
 		if ("reverse".equals(radios.getValue()) && existingReveng.isSelected() && reverseEngineeringSettings.getText().trim().length() == 0){

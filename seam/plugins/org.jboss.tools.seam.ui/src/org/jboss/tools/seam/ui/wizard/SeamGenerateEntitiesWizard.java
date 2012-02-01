@@ -18,6 +18,7 @@ import java.util.Map;
 
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.operations.IUndoableOperation;
+import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
@@ -25,6 +26,7 @@ import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.debug.core.DebugPlugin;
@@ -110,6 +112,11 @@ public class SeamGenerateEntitiesWizard extends SeamBaseWizard implements INewWi
 					params.get(ISeamParameter.HIBERNATE_CONFIGURATION_NAME).getValueAsString());
 
 				SeamProjectsSet seamProjectsSet = SeamProjectsSet.create(project);
+				
+				IFolder layoutFolder = seamProjectsSet.getViewsFolder().getFolder(new Path("layout")); 
+				if(!layoutFolder.exists()){
+					layoutFolder.create(true, true, monitor);
+				}
 
 				wc.setAttribute(HibernateLaunchConstants.ATTR_OUTPUT_DIR, 
 						seamProjectsSet.getModelFolder()==null?
