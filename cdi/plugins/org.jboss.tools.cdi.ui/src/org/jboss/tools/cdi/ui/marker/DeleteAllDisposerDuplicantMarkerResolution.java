@@ -58,7 +58,6 @@ public class DeleteAllDisposerDuplicantMarkerResolution implements IMarkerResolu
 		DeleteAllDisposerAnnotationsProcessor processor = new DeleteAllDisposerAnnotationsProcessor(file, method, label);
 		ProcessorBasedRefactoring refactoring = new ProcessorBasedRefactoring(processor);
 		DeletePreviewWizard wizard = new DeletePreviewWizard(refactoring);
-		//RefactoringWizardOpenOperation op = new RefactoringWizardOpenOperation(wizard);
 		wizard.showWizard();
 	}
 	

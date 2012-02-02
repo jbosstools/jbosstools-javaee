@@ -81,18 +81,6 @@ public abstract class AbstractSeamMarkerResolution implements
 		}
 	}
 	
-	private IType getType(IJavaElement element){
-		IJavaElement elem = element;
-		while(elem != null){
-			if(elem instanceof IType)
-				return (IType)elem;
-			elem = elem.getParent();
-		}
-		return null;
-	}
-	
-	
-	
 	protected boolean validateComponentName(String value){
 		ISeamProject seamProject = getSeamProject();
 		Map<String, IStatus> errors = SeamValidatorFactory.SEAM_COMPONENT_NAME_VALIDATOR.validate(value, seamProject);
