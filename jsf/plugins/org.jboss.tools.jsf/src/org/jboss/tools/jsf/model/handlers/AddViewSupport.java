@@ -18,6 +18,7 @@ import java.util.TreeMap;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.Document;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.templates.DocumentTemplateContext;
@@ -25,6 +26,7 @@ import org.eclipse.jface.text.templates.Template;
 import org.eclipse.jface.text.templates.TemplateBuffer;
 import org.eclipse.jface.text.templates.TemplateContext;
 import org.eclipse.jface.text.templates.TemplateContextType;
+import org.eclipse.jface.text.templates.TemplateException;
 import org.eclipse.jface.text.templates.persistence.TemplateStore;
 import org.eclipse.jst.jsp.ui.internal.JSPUIPlugin;
 import org.eclipse.jst.jsp.ui.internal.templates.TemplateContextTypeIdsJSP;
@@ -97,8 +99,9 @@ public class AddViewSupport extends SpecialWizardSupport implements JSFConstants
 			try {
 				TemplateBuffer buffer = context.evaluate(template);
 				templateString = buffer.getString();
-			}
-			catch (Exception e) {
+			} catch (BadLocationException e) {
+				JSFModelPlugin.getDefault().logWarning("Could not create template for new html", e); //$NON-NLS-1$
+			} catch (TemplateException e) {
 				JSFModelPlugin.getDefault().logWarning("Could not create template for new html", e); //$NON-NLS-1$
 			}
 		}
