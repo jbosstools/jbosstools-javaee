@@ -10,6 +10,7 @@
  ******************************************************************************/ 
 package org.jboss.tools.seam.ui.marker;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 import org.eclipse.core.resources.IFile;
@@ -17,9 +18,7 @@ import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.jdt.core.IBuffer;
 import org.eclipse.jdt.core.ICompilationUnit;
-import org.eclipse.jdt.core.IImportDeclaration;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IType;
@@ -164,33 +163,38 @@ public abstract class AbstractSeamMarkerResolution implements
 			}
 			ICompilationUnit compilationUnit = original.getWorkingCopy(new NullProgressMonitor());
 			
-			final String lineDelim= compilationUnit.findRecommendedLineSeparator();
-			
 			IType type = compilationUnit.findPrimaryType();
 			if(type != null){
-				IImportDeclaration importDeclaration = compilationUnit.getImport(qualifiedName); 
-				if(importDeclaration == null || !importDeclaration.exists())
-					compilationUnit.createImport(qualifiedName, null, new NullProgressMonitor());
 				
 				String annotation = MarkerResolutionUtils.getShortName(qualifiedName);
 				String methodName = annotation.toLowerCase();
 				
+				CompilationUnitChange change = new CompilationUnitChange("", compilationUnit);
+				
+				MultiTextEdit edit = new MultiTextEdit();
+				
+				change.setEdit(edit);
+				
 				IMethod oldMethod = type.getMethod(methodName, new String[]{});
 				if(oldMethod == null || !oldMethod.exists()){
-					StringBuffer buf= new StringBuffer();
 					
-					buf.append("@"+annotation); //$NON-NLS-1$
-					buf.append(lineDelim);
-					buf.append("public void "+methodName+"() {"); //$NON-NLS-1$ //$NON-NLS-2$
-					buf.append(lineDelim);
-					buf.append("}"); //$NON-NLS-1$
-					type.createMethod(buf.toString(), null, false, new NullProgressMonitor());
+					MarkerResolutionUtils.addImport(qualifiedName, compilationUnit, edit);
+					
+					ArrayList<String> lines = new ArrayList<String>();
+					
+					lines.add("@"+annotation); //$NON-NLS-1$
+					lines.add("public void "+methodName+"() {"); //$NON-NLS-1$ //$NON-NLS-2$
+					lines.add("}"); //$NON-NLS-1$
+					
+					MarkerResolutionUtils.addMethod(lines, compilationUnit, type, edit);
 				}else{
-					IBuffer buffer = compilationUnit.getBuffer();
-					buffer.replace(oldMethod.getSourceRange().getOffset(), 0, "@"+annotation+lineDelim);
+					MarkerResolutionUtils.addAnnotation(qualifiedName, compilationUnit, oldMethod, "", edit);
 				}
-
-				compilationUnit.commitWorkingCopy(false, new NullProgressMonitor());
+				
+				if(edit.hasChildren()){
+					change.perform(new NullProgressMonitor());
+					original.reconcile(ICompilationUnit.NO_AST, false, null, new NullProgressMonitor());
+				}
 				compilationUnit.discardWorkingCopy();
 			}
 		}catch(CoreException ex){
