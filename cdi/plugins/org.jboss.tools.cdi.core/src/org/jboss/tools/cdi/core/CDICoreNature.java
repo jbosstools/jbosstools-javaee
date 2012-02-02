@@ -618,11 +618,11 @@ public class CDICoreNature implements IProjectNature {
 	}
 
 	public void dispose() {
-		CDICoreNature[] ds = dependsOn.toArray(new CDICoreNature[0]);
+		CDICoreNature[] ds = dependsOn.toArray(new CDICoreNature[dependsOn.size()]);
 		for (CDICoreNature d: ds) {
 			removeCDIProject(d);
 		}
-		CDICoreNature[] us = usedBy.toArray(new CDICoreNature[0]);
+		CDICoreNature[] us = usedBy.toArray(new CDICoreNature[usedBy.size()]);
 		for (CDICoreNature u: us) {
 			u.removeCDIProject(this);
 		}

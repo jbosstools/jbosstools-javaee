@@ -551,7 +551,7 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 			Set<IFolder> sourceFolders = getSourceFoldersForProjectsSet();
 			for (IFolder source : sourceFolders) {
 				IResource beansXml = source.findMember(new Path("/META-INF/beans.xml")); //$NON-NLS-1$
-				if(beansXml!=null && beansXml instanceof IFile) {
+				if(beansXml instanceof IFile) {
 					allBeansXmls.add((IFile)beansXml);
 				}
 			}
@@ -1629,7 +1629,7 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 						try {
 							getValidationContext().addLinkedCoreResource(SHORT_ID, injection.getSourcePath().toOSString(), bean.getResource().getFullPath(), false);
 						} catch (NullPointerException e) {
-							throw new NullPointerException("bean exists=" + bean.getBeanClass().exists() + " resource= " + bean.getResource() + " injection= " + injection.getSourcePath());
+							throw new RuntimeException("bean exists=" + bean.getBeanClass().exists() + " resource= " + bean.getResource() + " injection= " + injection.getSourcePath(),e);
 						}
 					}
 				}

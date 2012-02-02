@@ -431,8 +431,8 @@ public class CDICoreBuilder extends IncrementalProjectBuilder {
 						}
 					} 
 				}
-				srcs = ps.toArray(new IPath[0]);
-				outs = os.toArray(new IPath[0]);
+				srcs = ps.toArray(new IPath[ps.size()]);
+				outs = os.toArray(new IPath[os.size()]);
 			} catch(CoreException ce) {
 				CDICorePlugin.getDefault().logError("Error while locating java source roots for " + project, ce);
 			}

@@ -790,7 +790,7 @@ public class CDIProblemMarkerResolutionGenerator implements
 	
 	private IMethod findMethod(IFile file, int start){
 		IJavaElement javaElement = findJavaElement(file, start);
-		if(javaElement != null && javaElement instanceof IMethod){
+		if(javaElement instanceof IMethod){
 			IMethod method = (IMethod)javaElement;
 			if(!method.isBinary())
 				return method;
@@ -800,7 +800,7 @@ public class CDIProblemMarkerResolutionGenerator implements
 
 	private IType findTypeWithNoSerializable(IFile file, int start) throws JavaModelException{
 		IJavaElement javaElement = findJavaElement(file, start);
-		if(javaElement != null && javaElement instanceof IType){
+		if(javaElement instanceof IType){
 			IType type = (IType)javaElement;
 			if(!type.isBinary()){
 				String shortName = CDIMarkerResolutionUtils.getShortName(AddSerializableInterfaceMarkerResolution.SERIALIZABLE);
@@ -831,7 +831,7 @@ public class CDIProblemMarkerResolutionGenerator implements
 	
 	private TypeAndAnnotation findTypeAndAnnotation(IFile file, int start, String annotationQualifiedName) throws JavaModelException{
 		IJavaElement javaElement = findJavaElement(file, start);
-		if(javaElement != null && javaElement instanceof IType){
+		if(javaElement instanceof IType){
 			IType type = (IType)javaElement;
 			if(!type.isBinary()){
 				IAnnotation annotation = getAnnotation(type, annotationQualifiedName);
@@ -908,7 +908,7 @@ public class CDIProblemMarkerResolutionGenerator implements
 		try{
 			IJavaElement javaElement = findJavaElement(file, start);
 			
-			if(javaElement != null && javaElement instanceof IField){
+			if(null && javaElement instanceof IField){
 				IField field = (IField)javaElement;
 				if(!Flags.isStatic(field.getFlags()) && !field.isBinary())
 					return field;
@@ -923,7 +923,7 @@ public class CDIProblemMarkerResolutionGenerator implements
 		try{
 			IJavaElement javaElement = findJavaElement(file, start);
 			
-			if(javaElement != null && javaElement instanceof IField){
+			if(javaElement instanceof IField){
 				IField field = (IField)javaElement;
 				if(Flags.isPublic(field.getFlags()) && !field.isBinary())
 					return field;

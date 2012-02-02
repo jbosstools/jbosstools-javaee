@@ -182,7 +182,7 @@ public class CDICorePlugin extends BaseUIPlugin {
 	public static void fire(CDIProjectChangeEvent event) {
 		ICDIProjectChangeListener[] ls = null;
 		synchronized(listeners) {
-			ls = listeners.toArray(new ICDIProjectChangeListener[0]);
+			ls = listeners.toArray(new ICDIProjectChangeListener[listeners.size()]);
 		}
 		for (ICDIProjectChangeListener l : ls) {
 			l.projectChanged(event);
