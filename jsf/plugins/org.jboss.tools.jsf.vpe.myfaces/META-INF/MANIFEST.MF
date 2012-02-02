@@ -18,3 +18,4 @@ Export-Package: org.jboss.tools.jsf.vpe.myfaces,
 Bundle-ClassPath: jsf-vpe-myfaces.jar
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Eclipse-BundleShape: dir
