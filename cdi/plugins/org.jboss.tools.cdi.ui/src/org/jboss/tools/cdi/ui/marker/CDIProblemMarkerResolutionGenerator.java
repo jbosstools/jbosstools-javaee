@@ -908,7 +908,7 @@ public class CDIProblemMarkerResolutionGenerator implements
 		try{
 			IJavaElement javaElement = findJavaElement(file, start);
 			
-			if(null && javaElement instanceof IField){
+			if(javaElement instanceof IField){
 				IField field = (IField)javaElement;
 				if(!Flags.isStatic(field.getFlags()) && !field.isBinary())
 					return field;
