@@ -661,6 +661,7 @@
             name="Find Seam References">
       </command>
    </extension>
+   
    <extension
          point="org.eclipse.ui.bindings">
       <key
@@ -761,51 +762,11 @@
        point="org.eclipse.ui.menus">
        <menuContribution
           locationURI="menu:navigate?after=open.ext2">
-            <command
-              commandId="org.jboss.tools.seam.ui.open.component"
-                 id="openComponent"
-              mnemonic="Z"
-     icon="$nl$/icons/open_seam_component.gif"
-              label="Open Seam Component"
-              tooltip="Open Seam Component" >
-				<visibleWhen
-                    checkEnabled="false">
-                 <with
-                       variable="activeContexts">
-                    <iterate
-                          operator="or">
-                       <equals
-                             value="org.jboss.tools.seam.ui.actionSet">
-                       </equals>
-                    </iterate>
-                 </with>
-              </visibleWhen>
-       </command> 
   </menuContribution>
   <menuContribution
                 locationURI="toolbar:org.eclipse.ui.main.toolbar?after=additions">
                 <toolbar
                       id="org.eclipse.search.searchActionSet">
-                <command
-                  commandId="org.jboss.tools.seam.ui.open.component"
-                  id="openComponent"
-                  mnemonic="Z"
-      icon="$nl$/icons/open_seam_component.gif"
-                  label="Open Seam Component"
-                  tooltip="Open Seam Component" >
-					<visibleWhen
-                    checkEnabled="false">
-                 <with
-                       variable="activeContexts">
-                    <iterate
-                          operator="or">
-                       <equals
-                             value="org.jboss.tools.seam.ui.actionSet">
-                       </equals>
-                    </iterate>
-                 </with>
-              </visibleWhen>
-           </command> 
          </toolbar>
   </menuContribution>
   <menuContribution
@@ -821,47 +782,6 @@
     <separator name="internalDialogGroup" visible="false"/>   <!-- not to be used by clients  -->
     <separator name="dialogGroup" visible="false"/>           <!-- to be used by clients      -->
            <separator name="seamSearchMenuActionsGroup"/> <!-- to be used by clients -->
-           <command
-                  commandId="org.jboss.tools.seam.ui.find.references"
-                  id="findReferences"
-                  mnemonic="G"
-      icon="$nl$/icons/find_seam_references.gif"
-                  label="Find Seam References"
-                  tooltip="Find Seam References" >
-					<visibleWhen
-                    checkEnabled="false">
-                 <with
-                       variable="activeContexts">
-                    <iterate
-                          operator="or">
-                       <equals
-                             value="org.jboss.tools.seam.ui.actionSet">
-                       </equals>
-                    </iterate>
-                 </with>
-              </visibleWhen>
-           </command> 
-           <command
-                  commandId="org.jboss.tools.seam.ui.find.declarations"
-                  id="findDeclarations"
-                  mnemonic="G"
-                  icon="$nl$/icons/open_seam_component.gif"
-                  label="Find Seam Declarations"
-                  tooltip="Find Seam Declarations" >
-					<visibleWhen
-                    checkEnabled="false">
-                 <with
-                       variable="activeContexts">
-                    <iterate
-                          operator="or">
-                       <equals
-                             value="org.jboss.tools.seam.ui.actionSet">
-                       </equals>
-                    </iterate>
-                 </with>
-              </visibleWhen>
-           </command> 
-                  
     <separator name="fileSearchContextMenuActionsGroup"/> <!-- to be used by clients      -->
            <separator name="contextMenuActionsGroup"/> <!-- to be used by clients -->
            <separator name="occurencesActionsGroup"/> <!-- to be used by clients -->
@@ -877,12 +797,43 @@
             id="org.jboss.tools.seam.ui.actionSet"
             label="%ActionSetSeamUILabel"
             visible="false">
+            <action id="openComponent" 
+	      		style="push"
+				label="Open Seam Component"
+                tooltip="Open Seam Component"
+                definitionId="org.jboss.tools.seam.ui.open.component"
+				toolbarPath="org.eclipse.search.searchActionSet/Search"
+				menubarPath="navigate/open.ext2"
+	      		icon="$nl$/icons/open_seam_component.gif"
+	      		disabledIcon="$nl$/icons/open_seam_component.gif"
+	      		class="org.jboss.tools.seam.ui.actions.OpenSeamComponentAction">
+			</action>
+            <action id="findReferences" 
+	      		style="push"
+				label="Find Seam References"
+                tooltip="Find Seam References"
+                definitionId="org.jboss.tools.seam.ui.find.references" 
+				menubarPath="org.eclipse.search.menu/seamSearchMenuActionsGroup"
+	      		icon="$nl$/icons/find_seam_references.gif"
+	      		disabledIcon="$nl$/icons/find_seam_references.gif"
+	      		class="org.jboss.tools.seam.ui.actions.FindSeamReferencesAction">
+            </action>
+            <action id="findDeclarations" 
+	      		style="push"
+				label="Find Seam Declarations"
+                tooltip="Find Seam Declarations"
+                definitionId="org.jboss.tools.seam.ui.find.references" 
+				menubarPath="org.eclipse.search.menu/seamSearchMenuActionsGroup"
+	      		icon="$nl$/icons/find_seam_declarations.gif"
+	      		disabledIcon="$nl$/icons/find_seam_declarations.gif"
+	      		class="org.jboss.tools.seam.ui.actions.FindSeamDeclarationsAction">
+            </action>
       </actionSet>
    </extension>
 
  <extension
        point="org.eclipse.ui.handlers">
-    <handler
+    <!-- handler
           class="org.jboss.tools.seam.ui.handlers.OpenSeamComponentHandler"
           commandId="org.jboss.tools.seam.ui.open.component">
     </handler>
@@ -893,7 +844,7 @@
     <handler
           class="org.jboss.tools.seam.ui.handlers.FindSeamDeclarationsHandler"
           commandId="org.jboss.tools.seam.ui.find.declarations">
-    </handler>
+    </handler -->
  </extension>
  
    <extension point="org.jboss.tools.common.model.classes">
