@@ -25,7 +25,8 @@
  <navigation:pages http-port="3" https-port="4" login-view-id="2" no-conversation-view-id="1"/>
  <remoting:remoting debug="false" poll-interval="1" poll-timeout="2"/>
  <framework:entity-query ejbql="abc" name="entityQuery"/>
- <framework:hibernate-entity-query ejbql="abc" name="hibernateEntityQuery"/>
+ <framework:hibernate-entity-query cache-region="sss" ejbql="abc"
+  fetch-size="3" name="hibernateEntityQuery" session="x"/>
  <framework:entity-home entity-class="org.MyEntityHome" name="entityHome"/>
  <framework:hibernate-entity-home name="hibernateEntityHome"/>
  <security:identity authenticate-method="#{m1}" remember-me="true"/>
