@@ -4,16 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IMethod;
-import org.eclipse.jdt.core.IType;
 import org.eclipse.ltk.core.refactoring.CompositeChange;
 import org.eclipse.ltk.core.refactoring.RefactoringStatus;
-import org.eclipse.ltk.core.refactoring.TextFileChange;
 import org.eclipse.text.edits.MultiTextEdit;
+import org.jboss.tools.common.refactoring.BaseFileChange;
 import org.jboss.tools.common.util.FileUtil;
 import org.jboss.tools.jsf.ui.el.refactoring.RenameMethodParticipant;
 import org.jboss.tools.test.util.JobUtils;
@@ -59,7 +57,7 @@ public class ELReferencesRenameTest extends ELRefactoringTest {
 		assertEquals("There is unexpected number of changes",changeList.size(), rootChange.getChildren().length);
 
 		for(int i = 0; i < rootChange.getChildren().length;i++){
-			TextFileChange fileChange = (TextFileChange)rootChange.getChildren()[i];
+			BaseFileChange fileChange = (BaseFileChange)rootChange.getChildren()[i];
 
 			MultiTextEdit edit = (MultiTextEdit)fileChange.getEdit();
 
