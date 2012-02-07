@@ -131,7 +131,7 @@ public class ValuedQualifier{
 				text += ", ";
 			}
 			if(!"value".equals(pair.name) || pairs.size() > 1){
-				text += pair.name+"=";
+				text += pair.name+" = ";
 			}
 			if("char".equals(pair.type)){
 				text += "\'"+pair.value+"\'";
