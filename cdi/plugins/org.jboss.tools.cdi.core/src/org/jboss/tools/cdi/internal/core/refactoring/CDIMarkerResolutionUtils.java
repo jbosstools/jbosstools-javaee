@@ -66,7 +66,7 @@ public class CDIMarkerResolutionUtils extends MarkerResolutionUtils{
 		String shortName = getShortName(qualifiedName);
 		
 		if(!value.isEmpty())
-			value = "(\""+value+"\")";
+			value = "("+value+")";
 		
 		if(duplicateShortName)
 			shortName = qualifiedName;
@@ -107,7 +107,7 @@ public class CDIMarkerResolutionUtils extends MarkerResolutionUtils{
 		String shortName = getShortName(qualifiedName);
 		
 		if(!value.isEmpty())
-			value = "(\""+value+"\")";
+			value = "("+value+")";
 		
 		if(duplicateShortName)
 			shortName = qualifiedName;
@@ -180,7 +180,7 @@ public class CDIMarkerResolutionUtils extends MarkerResolutionUtils{
 						String value = declaration.getValue();
 						
 						if(!value.isEmpty())
-							value = "(\""+value+"\")";
+							value = "("+value+")";
 						
 						if(!qualifierName.equals(CDIConstants.ANY_QUALIFIER_TYPE_NAME) && !qualifierName.equals(CDIConstants.DEFAULT_QUALIFIER_TYPE_NAME)){
 							boolean duplicant = duplicants.get(declaration.getQualifier()).booleanValue();
@@ -287,7 +287,7 @@ public class CDIMarkerResolutionUtils extends MarkerResolutionUtils{
 				String elName = getELName(bean);
 				
 				if(!value.isEmpty() && (!value.equals(elName) || !qualifierName.equals(CDIConstants.NAMED_QUALIFIER_TYPE_NAME))){
-					value = "(\""+value+"\")";
+					value = "("+value+")";
 				}else{
 					value = "";
 				}

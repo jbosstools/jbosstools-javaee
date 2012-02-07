@@ -24,7 +24,6 @@ import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.jdt.core.Flags;
 import org.eclipse.jdt.core.IJavaProject;
-import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IMessageProvider;
@@ -138,19 +137,20 @@ public class AddQualifiersToBeanComposite extends Composite {
 		originalQualifiers.clear();
 		deployed.clear();
 		for(IQualifier q : bean.getQualifiers()){
+			
 			IQualifierDeclaration declaration = CDIMarkerResolutionUtils.findQualifierDeclaration(bean, q);
 			if(declaration != null){
-				String value = CDIMarkerResolutionUtils.findQualifierValue(bean, declaration);
-				ValuedQualifier vq = new ValuedQualifier(q, value);
+				//String value = CDIMarkerResolutionUtils.findQualifierValue(bean, declaration);
+				ValuedQualifier vq = new ValuedQualifier(q, declaration);
 				deployed.add(vq);
 			}else{
-				originalQualifiers.add(new ValuedQualifier(q, ""));
+				originalQualifiers.add(new ValuedQualifier(q));
 			}
 		}
 		
 		defaultQualifier = new ValuedQualifier(bean.getCDIProject().getQualifier(CDIConstants.DEFAULT_QUALIFIER_TYPE_NAME));
 		namedQualifier = new ValuedQualifier(bean.getCDIProject().getQualifier(CDIConstants.NAMED_QUALIFIER_TYPE_NAME));
-		namedQualifier.setValue(beanName);
+		namedQualifier.setValue("value", beanName);
 		
 		for(ValuedQualifier q : originalQualifiers){
 			if(q.equals(defaultQualifier)){
@@ -203,7 +203,7 @@ public class AddQualifiersToBeanComposite extends Composite {
 					if((isPublic || (samePackage && injectionPointPackage.equals(qualifierPackage))) ){
 						if(beanJavaProject.findType(qualifierTypeName) != null && injectionPointJavaProject.findType(qualifierTypeName) != null){
 							if(q.getSourceType().getFullyQualifiedName().equals(CDIConstants.NAMED_QUALIFIER_TYPE_NAME))
-								vq.setValue(beanName);
+								vq.setValue("value", beanName);
 							qualifiers.add(vq);
 							availableTableViewer.add(vq);
 							lastQualifier = vq;
@@ -492,10 +492,10 @@ public class AddQualifiersToBeanComposite extends Composite {
 			@Override
 			public void widgetSelected(SelectionEvent event) {
 				ValuedQualifier[] vq = getDeployedSelection();
-				ValueDialog d = new ValueDialog(getShell(), vq[0].getValue());
+				ValueDialog d = new ValueDialog(getShell(), vq[0].getStringValue());
 				int result = d.open();
 				if(result == MessageDialog.OK){
-					vq[0].setValue(d.getValue());
+					vq[0].setValue("value", d.getValue());
 				}
 			}
 		});
@@ -566,7 +566,7 @@ public class AddQualifiersToBeanComposite extends Composite {
 			}
 			remove.setEnabled(enabled);
 			
-			if(enabled && ms.length == 1 && isEditEnabled(ms[0].getQualifier())){
+			if(enabled && ms.length == 1 && isEditEnabled(ms[0])){
 				editQualifierValue.setEnabled(true);
 			}else{
 				editQualifierValue.setEnabled(false);
@@ -584,18 +584,8 @@ public class AddQualifiersToBeanComposite extends Composite {
 		page.setPageComplete(isComplete);
 	}
 	
-	private boolean isEditEnabled(IQualifier qualifier){
-		IMethod method = qualifier.getSourceType().getMethod("value", new String[]{});
-		try{
-			if(method.exists()){
-				if(method.getReturnType().equals("Ljava.lang.String;"))
-					return true;
-			}
-		}catch(JavaModelException ex){
-			CDIUIPlugin.getDefault().logError(ex);
-		}
-		
-		return false;
+	private boolean isEditEnabled(ValuedQualifier valuedQualifier){
+		return valuedQualifier.isEditable();
 	}
 	
 	protected void add(boolean all) {
