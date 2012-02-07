@@ -347,7 +347,7 @@ public class CodeCompletionTest extends JSFAutoTestCase{
     editor.save();
     bot.sleep(Timing.time1S());
     Assertions.assertSourceEditorContains(editor.getText(), 
-      textToInsert + useCodeAssist + "}" + textToInsertAtEnd,
+      textToInsert + useCodeAssist + "}\"" + textToInsertAtEnd,
       FACELETS_TEST_PAGE);
   }
   /**

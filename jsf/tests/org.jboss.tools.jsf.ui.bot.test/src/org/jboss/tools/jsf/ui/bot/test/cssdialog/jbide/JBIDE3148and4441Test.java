@@ -20,11 +20,9 @@ public class JBIDE3148and4441Test extends JSFAutoTestCase{
 		SWTBot innerBot = bot.viewByTitle(WidgetVariables.PACKAGE_EXPLORER).bot();
 		SWTBotTree tree = innerBot.tree();
 		try {
-			tree.expandNode(JBT_TEST_PROJECT_NAME). //$NON-NLS-1$
-			getNode(CSS_FILE_NAME+".css").doubleClick(); //$NON-NLS-1$
-			bot.editorByTitle(CSS_FILE_NAME+".css").setFocus(); //$NON-NLS-1$
-			bot.menu("Edit").menu("Select All").click();  //$NON-NLS-1$//$NON-NLS-2$
-			bot.menu("Edit").menu("Delete").click(); //$NON-NLS-1$ //$NON-NLS-2$
+			tree.expandNode(JBT_TEST_PROJECT_NAME).expandNode("WebContent"). //$NON-NLS-1$
+			  getNode(CSS_FILE_NAME+".css").doubleClick(); //$NON-NLS-1$
+			bot.editorByTitle(CSS_FILE_NAME+".css").toTextEditor().setText("@CHARSET \"UTF-8\";");
 		} catch (WidgetNotFoundException e) {
 			tree.getTreeItem(JBT_TEST_PROJECT_NAME).select(); //$NON-NLS-1$
 			open.newObject(ActionItem.NewObject.WebCSS.LABEL);
@@ -41,7 +39,6 @@ public class JBIDE3148and4441Test extends JSFAutoTestCase{
 		eclipseEditor.save();
 		eclipseEditor.contextMenu("Open CSS Dialog").click(); //$NON-NLS-1$
 		//Test edit attrs of the first Class
-
 		bot.shell("CSS Class").activate(); //$NON-NLS-1$
 		bot.comboBoxWithLabel("Style class:").setSelection(CSS_CLASS_NAME); //$NON-NLS-1$
 		bot.tabItem("Text/Font").activate(); //$NON-NLS-1$

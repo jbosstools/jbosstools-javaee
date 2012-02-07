@@ -14,17 +14,14 @@ public class JBIDE4391Test extends JSFAutoTestCase{
 	private static String CSS_CLASS_NAME = "cssclass"; //$NON-NLS-1$
 	
 	public void testJBIDE4391(){
-		
 		//Test Create new CSS file
 		
 		SWTBot innerBot= bot.viewByTitle(WidgetVariables.PACKAGE_EXPLORER).bot();
 		SWTBotTree tree = innerBot.tree();
 		try {
-			tree.expandNode(JBT_TEST_PROJECT_NAME). //$NON-NLS-1$
-			getNode(CSS_FILE_NAME+".css").doubleClick(); //$NON-NLS-1$
-			bot.editorByTitle(CSS_FILE_NAME+".css").setFocus(); //$NON-NLS-1$
-			bot.menu("Edit").menu("Select All").click(); //$NON-NLS-1$ //$NON-NLS-2$
-			bot.menu("Edit").menu("Delete").click(); //$NON-NLS-1$ //$NON-NLS-2$
+			tree.expandNode(JBT_TEST_PROJECT_NAME).expandNode("WebContent"). //$NON-NLS-1$
+			  getNode(CSS_FILE_NAME+".css").doubleClick(); //$NON-NLS-1$
+			bot.editorByTitle(CSS_FILE_NAME+".css").toTextEditor().setText("@CHARSET \"UTF-8\";");
 		} catch (WidgetNotFoundException e) {
 			tree.getTreeItem(JBT_TEST_PROJECT_NAME).select(); //$NON-NLS-1$
 			open.newObject(ActionItem.NewObject.WebCSS.LABEL);; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
@@ -40,7 +37,6 @@ public class JBIDE4391Test extends JSFAutoTestCase{
 		eclipseEditor.contextMenu("Open CSS Dialog").click(); //$NON-NLS-1$
 		
 		//Test incorrect attribute
-
 		bot.shell("CSS Class").activate(); //$NON-NLS-1$
 		bot.comboBoxWithLabel("Style class:").setSelection(CSS_CLASS_NAME); //$NON-NLS-1$
 		bot.tabItem("Text/Font").activate(); //$NON-NLS-1$
@@ -50,7 +46,6 @@ public class JBIDE4391Test extends JSFAutoTestCase{
 		assertEquals(JSFAutoTestCase.stripCSSText("cssclass{\r\tcolor:red;\r\t" + "background-color:green;\r}@CHARSET \"UTF-8\";"),
 		    JSFAutoTestCase.stripCSSText(bot.editorByTitle(CSS_FILE_NAME+".css").toTextEditor().getText())); //$NON-NLS-1$ //$NON-NLS-2$
 		bot.editorByTitle(CSS_FILE_NAME+".css").close(); //$NON-NLS-1$
-		
 	}
 
 	@Override

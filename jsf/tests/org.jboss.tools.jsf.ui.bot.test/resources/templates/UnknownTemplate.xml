@@ -9,14 +9,14 @@
 <DIV title="f:view" >
 <H1 style="-moz-user-modify: read-write;" title="h1" >
 <SPAN class="vpe-text" title="h:outputText value: #{Message.header}" >
- Hello Demo Application
+Hello Demo Application
 </SPAN>
 </H1>
 <DIV style="-moz-user-modify: read-only; border: 1px solid green;" title="h:unknowntag" >
 <DIV class="__any__tag__caption" style="" title="h:unknowntag" >
 h:unknowntag
 </DIV>
-<BR style="font-style: italic; color: green; -moz-user-modify: read-only;" >
+<BR vpe:pseudo-element="yes" style="-moz-user-modify: read-only;" >
 </BR>
 </DIV>
 <UL style="color: red; -moz-user-modify: read-only;" title="h:messages style: color: red" >
@@ -43,6 +43,6 @@ Name:
 </TABLE>
 </DIV>
 </DIV>
-<IMG vpetemporarydndelement="true" id="dragIcon" src="file:////opt/jbdevstudio5.0.0.M3/studio/plugins/org.jboss.tools.vpe_3.3.0.v20110901-0136-H11-M3/ve/dragIcon.gif" style="position: absolute; cursor: move; left: 16px ! important; top: 17px ! important;" >
+<IMG vpetemporarydndelement="true" id="dragIcon" src="file:////opt/eclipse/eclipse/plugins/org.jboss.tools.vpe_3.3.0.v20120205-0530-H776-Beta1/ve/dragIcon.gif" style="position: absolute; cursor: move; left: 16px ! important; top: 17px ! important;" >
 </IMG>
 </BODY>
