@@ -61,7 +61,7 @@
 	</h:dataTable>
 
 	<h:dataTable value="#{searchTestComponent.users}" var="_r2">
-			<h:link value="#{_r.nonExistingBroken}"/>
+			<h:link value="#{_r2.nonExistingBroken}"/>
 			<h:link value="#{_r2.entityType.viewId.bytes}" outcome="#{_r2.entityType.superTest}">
 				<f:param name="oid" value="#{_r2.holder.entityType.viewId.bytes}" />
 			</h:link>
