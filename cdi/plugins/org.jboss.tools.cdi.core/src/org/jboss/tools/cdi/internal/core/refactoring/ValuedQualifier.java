@@ -165,6 +165,13 @@ public class ValuedQualifier{
 	@Override
 	public boolean equals(Object obj) {
 		if(obj instanceof ValuedQualifier && getQualifier().getSourceType().getFullyQualifiedName().equals(((ValuedQualifier)obj).getQualifier().getSourceType().getFullyQualifiedName())){
+			return true;
+		}
+		return false;
+	}
+
+	public boolean fullyEquals(Object obj) {
+		if(obj instanceof ValuedQualifier && getQualifier().getSourceType().getFullyQualifiedName().equals(((ValuedQualifier)obj).getQualifier().getSourceType().getFullyQualifiedName())){
 			for(Pair pair : ((ValuedQualifier)obj).getValuePairs()){
 				if(!pair.value.equals(getValue(pair.name)) || pair.value == null){
 					return false;

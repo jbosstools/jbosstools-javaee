@@ -26,7 +26,6 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerComparator;
 import org.eclipse.jface.viewers.ViewerFilter;
-import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.ltk.core.refactoring.participants.ProcessorBasedRefactoring;
 import org.eclipse.ltk.ui.refactoring.UserInputWizardPage;
 import org.eclipse.swt.SWT;
@@ -175,7 +174,7 @@ public class SelectBeanWizard extends AbstractModifyInjectionPointWizard{
 		public void setDefaultSelection(){
 			
 			if(getBeans().size() > 0){
-				IBean defaultBean = getBeans().get(0);
+				IBean defaultBean = (IBean)tableViewer.getTable().getItem(0).getData();
 				tableViewer.setSelection(new StructuredSelection(defaultBean));
 				tableViewer.getTable().select(0);
 				addQualifiersPage.init(defaultBean);

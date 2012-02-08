@@ -361,7 +361,7 @@ public class CDIMarkerResolutionUtils extends MarkerResolutionUtils{
 			}else{
 				vq = new ValuedQualifier(q);
 			}
-			if(vq.equals(valuedQualifier)){
+			if(vq.fullyEquals(valuedQualifier)){
 				return true;
 			}
 		}
