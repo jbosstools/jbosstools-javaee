@@ -25,7 +25,6 @@ import org.jboss.tools.cdi.bot.test.uiutils.actions.NewXHTMLFileWizard;
 import org.jboss.tools.cdi.bot.test.uiutils.wizards.CDIRefactorWizard;
 import org.jboss.tools.cdi.bot.test.uiutils.wizards.XHTMLDialogWizard;
 import org.jboss.tools.ui.bot.ext.SWTJBTExt;
-import org.jboss.tools.ui.bot.ext.Timing;
 import org.jboss.tools.ui.bot.ext.helper.ContextMenuHelper;
 import org.jboss.tools.ui.bot.ext.types.IDELabel;
 import org.junit.Before;
@@ -61,9 +60,7 @@ public class JSFTestBase extends CDITestBase {
 	protected void createXHTMLPage(String pageName) {
 		XHTMLDialogWizard xhtmlWizard = new NewXHTMLFileWizard().run();
 		xhtmlWizard.setDestination(getProjectName() + "/" + CDIConstants.WEBCONTENT + 
-				"/" + WEB_FOLDER).setName(pageName).finish();
-		bot.sleep(Timing.time3S());
-		util.waitForNonIgnoredJobs();
+				"/" + WEB_FOLDER).setName(pageName).finishWithWait();
 		setEd(bot.activeEditor().toTextEditor());
 	}
 	
@@ -94,7 +91,7 @@ public class JSFTestBase extends CDITestBase {
 					"' Named Bean ";
 		openContextMenuForTextInEditor(text, 
 				IDELabel.Menu.CDI_REFACTOR, renameContextMenuText);
-		bot.sleep(Timing.time3S());		
+		bot.waitForShell("Refactoring");	
 	}
 	
 	/**
