@@ -45,7 +45,6 @@ public class NamedRefactoringTest extends JSFTestBase {
 	public void waitForJobs() {
 		editResourceUtil.deletePackage(getProjectName(), getPackageName());
 		editResourceUtil.deleteWebFolder(getProjectName(), WEB_FOLDER);
-		util.waitForNonIgnoredJobs();
 	}
 	
 	@Test
