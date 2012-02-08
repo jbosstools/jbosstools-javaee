@@ -11,7 +11,8 @@
 	
 	<packaging>eclipse-test-plugin</packaging>
 	<properties>
-		<systemProperties>-Dswtbot.test.properties.file=${project.basedir}/properties/config_files/swtbot.properties</systemProperties>
+		<!-- <systemProperties>-Xdebug -Xrunjdwp:transport=dt_socket,address=8001,server=y,suspend=y -Dswtbot.test.properties.file=${project.basedir}/properties/config_files/swtbot.properties</systemProperties> -->
+		<systemProperties> -Dswtbot.test.properties.file=${project.basedir}/properties/config_files/swtbot.properties</systemProperties>
 		<test.suite.class>org.jboss.tools.cdi.bot.test.CDIAllBotTests</test.suite.class>
 	</properties>
 
@@ -46,19 +47,6 @@
 							<artifactId>org.jboss.tools.cdi.seam.feature.feature.group</artifactId>
 							<version>0.0.0</version>
 						</dependency>
-
-						<!--
-						<dependency>
-							<type>p2-installable-unit</type>
-							<artifactId>org.eclipse.jst.server_ui.feature.feature.group</artifactId>
-							<version>0.0.0</version>
-						</dependency>
-						<dependency>
-							<type>p2-installable-unit</type>
-							<artifactId>org.jboss.tools.richfaces.feature.feature.group</artifactId>
-							<version>0.0.0</version>
-						</dependency>
-						-->
 					</dependencies>
 				</configuration>
 			</plugin>
