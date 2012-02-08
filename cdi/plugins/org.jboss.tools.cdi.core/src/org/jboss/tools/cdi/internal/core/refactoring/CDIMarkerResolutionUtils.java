@@ -345,7 +345,7 @@ public class CDIMarkerResolutionUtils extends MarkerResolutionUtils{
 				return false;
 			}
 		}
-		if(bean.getQualifiers().size() == qualifiers.size())
+		if(bean.getQualifiers().size() == qualifiers.size() && bean.getQualifiers().size() != 0)
 			return true;
 		return false;
 	}
@@ -354,29 +354,18 @@ public class CDIMarkerResolutionUtils extends MarkerResolutionUtils{
 		 
 		Set<IQualifier> qualifiers = bean.getQualifiers();
 		for(IQualifier q : qualifiers){
-			if(q.getSourceType().getFullyQualifiedName().equals(valuedQualifier.getQualifier().getSourceType().getFullyQualifiedName()))
+			IQualifierDeclaration declaration = CDIMarkerResolutionUtils.findQualifierDeclaration(bean, q);
+			ValuedQualifier vq = null;
+			if(declaration != null){
+				vq = new ValuedQualifier(q, declaration);
+			}else{
+				vq = new ValuedQualifier(q);
+			}
+			if(vq.equals(valuedQualifier)){
 				return true;
+			}
 		}
 		return false;
-	}
-	
-	public static String findQualifierValue(IBean bean, IQualifier qualifier){
-		IQualifierDeclaration declaration = findQualifierDeclaration(bean, qualifier);
-		if(declaration == null)
-			return "";
-		
-		return findQualifierValue(bean, declaration);
-	}
-	
-	public static String findQualifierValue(IBean bean, IQualifierDeclaration declaration){
-		Object value = declaration.getMemberValue(null);
-		
-		String result =  value == null ? "" : value.toString();
-		
-		if("".equals(result) && declaration.getQualifier().getSourceType().getFullyQualifiedName().equals(CDIConstants.NAMED_QUALIFIER_TYPE_NAME))
-			result = getELName(bean);
-		
-		return result;
 	}
 	
 	public static IQualifierDeclaration findQualifierDeclaration(IBean bean, IQualifier qualifier){

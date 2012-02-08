@@ -114,6 +114,15 @@ public class ValuedQualifier{
 		return generateValue();
 	}
 	
+	public Object getValue(String name){
+		for(Pair pair : pairs){
+			if(pair.name.equals(name)){
+				return pair.value;
+			}
+		}
+		return null;
+	}
+	
 	public String getStringValue(){
 		for(Pair pair : pairs){
 			if(pair.name.equals("value") && pair.type.equals("String")){
@@ -155,8 +164,14 @@ public class ValuedQualifier{
 
 	@Override
 	public boolean equals(Object obj) {
-		if(obj instanceof ValuedQualifier)
-			return getQualifier().getSourceType().getFullyQualifiedName().equals(((ValuedQualifier)obj).getQualifier().getSourceType().getFullyQualifiedName());
+		if(obj instanceof ValuedQualifier && getQualifier().getSourceType().getFullyQualifiedName().equals(((ValuedQualifier)obj).getQualifier().getSourceType().getFullyQualifiedName())){
+			for(Pair pair : ((ValuedQualifier)obj).getValuePairs()){
+				if(!pair.value.equals(getValue(pair.name)) || pair.value == null){
+					return false;
+				}
+			}
+			return true;
+		}
 		return false;
 	}
 	
