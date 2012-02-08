@@ -23,11 +23,11 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotEclipseEditor;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTree;
-import org.eclipse.swtbot.swt.finder.widgets.SWTBotTreeItem;
 import org.jboss.tools.cdi.bot.test.CDIBase;
 import org.jboss.tools.cdi.bot.test.editor.BeansEditorTest;
 import org.jboss.tools.ui.bot.ext.Timing;
 import org.jboss.tools.ui.bot.ext.helper.TreeHelper;
+import org.jboss.tools.ui.bot.ext.types.IDELabel;
 
 public class EditorResourceHelper extends CDIBase {
 	
@@ -134,17 +134,16 @@ public class EditorResourceHelper extends CDIBase {
 	 */
 	public void moveFileInProjectExplorer(String file, String sourceFolder, String destFolder) {
 		SWTBotTree tree = projectExplorer.bot().tree();
-		SWTBotTreeItem item = projectExplorer.selectTreeItem(file, sourceFolder.split("/"));
+
+		bot.menu(IDELabel.Menu.FILE).menu(IDELabel.Menu.MOVE).click();
+		bot.waitForShell(IDELabel.Shell.MOVE_RESOURCES);
 		
-		NodeContextUtil.nodeContextMenu(tree, item, "Move...").click();
-		
-		bot.sleep(Timing.time2S());
 		tree = bot.tree();	
 		tree.collapseNode(destFolder.split("/")[0]);	
 		
 		TreeHelper.expandNode(bot, destFolder.split("/")).select();		
 		
-		bot.button("OK").click();		
+		bot.button(IDELabel.Button.OK).click();		
 	}
 	
 	/**
@@ -181,31 +180,11 @@ public class EditorResourceHelper extends CDIBase {
 	 */
 	public void deleteFolderInProjectExplorer(String folderName, String... path) {
 				
-		SWTBotTree tree = projectExplorer.bot().tree();
-		SWTBotTreeItem item = projectExplorer.selectTreeItem(folderName, path); 				
+		projectExplorer.selectTreeItem(folderName, path); 				
 		
-		NodeContextUtil.nodeContextMenu(tree, item, "Delete").click();
-		bot.sleep(Timing.time3S());
-		bot.shell("Confirm Delete").bot().button("OK").click();
-	}
-	
-	/**
-	 * Method removes the object which is located in "sourceFolder" 
-	 * is deleted 
-	 * @param object
-	 * @param sourceFolder
-	 */
-	public void removeObjectInProjectExplorer(String object, String sourceFolder) {
-		SWTBotTree tree = projectExplorer.bot().tree();
-		SWTBotTreeItem item = projectExplorer.selectTreeItem(object, sourceFolder.split("/"));
-		
-		NodeContextUtil.nodeContextMenu(tree, item, "Delete").click();
-		
-		assertTrue(bot.button("OK").isEnabled());
-		
-		bot.button("OK").click();
-		
-		bot.sleep(Timing.time3S());
+		bot.menu(IDELabel.Menu.EDIT).menu(IDELabel.Menu.DELETE).click();
+		bot.waitForShell(IDELabel.Shell.CONFIRM_DELETE);
+		bot.shell(IDELabel.Shell.CONFIRM_DELETE).bot().button(IDELabel.Button.OK).click();		
 	}
 
 	/**
