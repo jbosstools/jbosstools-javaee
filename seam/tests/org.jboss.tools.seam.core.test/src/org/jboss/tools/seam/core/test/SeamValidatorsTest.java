@@ -152,7 +152,7 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		}
 		sb.append("]"); //$NON-NLS-1$
 		System.out.println(sb.toString());
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, messagePattern, false, 49, 50, 53);
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, messagePattern, false, 49, 50, 53, 57, 64);
 	}
 
 	private List<IMarker> getMarkersByGroupName(IResource resource, String messageGroup) throws CoreException {

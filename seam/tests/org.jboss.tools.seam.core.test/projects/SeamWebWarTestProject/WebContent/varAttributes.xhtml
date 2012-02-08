@@ -52,5 +52,20 @@
 	<h:dataTable value="#{setItems}" var="value">
 		<h:outputText value="#{value.nonExistingBroken}"/>
 	</h:dataTable>
+
+	<h:dataTable value="#{searchTestComponent.results}" var="_r">
+	    	<h:link value="#{_r.nonExistingBroken}"/>
+			<h:link value="#{_r.searchResultName}" outcome="#{_r.entityType.viewId.bytes}">
+				<f:param name="oid" value="#{_r.entityId}" />
+			</h:link>
+	</h:dataTable>
+
+	<h:dataTable value="#{searchTestComponent.users}" var="_r2">
+			<h:link value="#{_r.nonExistingBroken}"/>
+			<h:link value="#{_r2.entityType.viewId.bytes}" outcome="#{_r2.entityType.superTest}">
+				<f:param name="oid" value="#{_r2.holder.entityType.viewId.bytes}" />
+			</h:link>
+	</h:dataTable>
+
 </ui:define>
 </ui:composition>
