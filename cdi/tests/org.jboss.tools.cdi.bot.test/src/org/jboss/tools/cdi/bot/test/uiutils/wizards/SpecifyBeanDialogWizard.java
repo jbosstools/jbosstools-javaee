@@ -16,14 +16,10 @@ import java.util.List;
 
 import org.eclipse.swtbot.swt.finder.SWTBot;
 import org.jboss.tools.cdi.bot.test.annotations.CDIWizardType;
+import org.jboss.tools.ui.bot.ext.types.IDELabel;
 
 public class SpecifyBeanDialogWizard extends Wizard {
 
-	private static final String ADD = "Add >";
-	private static final String ADD_ALL = "Add All >>";
-	private static final String REMOVE = "< Remove";
-	private static final String REMOVE_ALL = "<< Remove All";
-	private static final String EDIT_VALUE = "Edit Value...";
 	private static final String CREATE_NEW_QUALIFIER = "Create New Qualifier...";
 	private List<String> availableQualifiers = null;
 	private List<String> inBeanQualifiers = null;
@@ -36,27 +32,27 @@ public class SpecifyBeanDialogWizard extends Wizard {
 	}
 	
 	public SpecifyBeanDialogWizard add() {
-		clickButton(ADD);
+		clickButton(IDELabel.Button.ADD_WITH_ARROW);
 		return this;
 	}
 	
 	public SpecifyBeanDialogWizard addAll() {
-		clickButton(ADD_ALL);
+		clickButton(IDELabel.Button.ADD_ALL);
 		return this;
 	}
 	
 	public SpecifyBeanDialogWizard remove() {
-		clickButton(REMOVE);
+		clickButton(IDELabel.Button.REMOVE_WITH_ARROW);
 		return this;
 	}
 	
 	public SpecifyBeanDialogWizard removeAll() {
-		clickButton(REMOVE_ALL);
+		clickButton(IDELabel.Button.REMOVE_ALL);
 		return this;
 	}
 	
 	public SpecifyBeanDialogWizard edit() {
-		clickButton(EDIT_VALUE);
+		clickButton(IDELabel.Button.EDIT_VALUE_WITH_DOTS);
 		return this;
 	}
 	
@@ -66,27 +62,27 @@ public class SpecifyBeanDialogWizard extends Wizard {
 	}
 	
 	public boolean canAdd() {
-		return canClick(ADD);
+		return canClickButton(IDELabel.Button.ADD_WITH_ARROW);
 	}
 	
 	public boolean canAddAll() {
-		return canClick(ADD_ALL);
+		return canClickButton(IDELabel.Button.ADD_ALL);
 	}
 	
 	public boolean canRemove() {
-		return canClick(REMOVE);
+		return canClickButton(IDELabel.Button.REMOVE_WITH_ARROW);
 	}
 	
 	public boolean canRemoveAll() {
-		return canClick(REMOVE_ALL);
+		return canClickButton(IDELabel.Button.REMOVE_ALL);
 	}
 	
 	public boolean canEdit() {
-		return canClick(EDIT_VALUE);
+		return canClickButton(IDELabel.Button.EDIT_VALUE_WITH_DOTS);
 	}
 	
 	public boolean canCreateNewQualifier() {
-		return canClick(CREATE_NEW_QUALIFIER);
+		return canClickButton(CREATE_NEW_QUALIFIER);
 	}
 	
 	public List<String> getAvailableQualifiers() {
