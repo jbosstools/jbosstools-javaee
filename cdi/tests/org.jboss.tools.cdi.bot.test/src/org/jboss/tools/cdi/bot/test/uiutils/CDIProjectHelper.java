@@ -19,8 +19,10 @@ import org.jboss.tools.cdi.bot.test.CDIBase;
 import org.jboss.tools.cdi.bot.test.CDIConstants;
 import org.jboss.tools.cdi.bot.test.uiutils.actions.NewFileWizardAction;
 import org.jboss.tools.cdi.bot.test.uiutils.wizards.DynamicWebProjectWizard;
-import org.jboss.tools.ui.bot.ext.Timing;
+import org.jboss.tools.ui.bot.ext.condition.ProgressInformationShellIsActiveCondition;
+import org.jboss.tools.ui.bot.ext.condition.TaskDuration;
 import org.jboss.tools.ui.bot.ext.helper.ContextMenuHelper;
+import org.jboss.tools.ui.bot.ext.types.IDELabel;
 
 public class CDIProjectHelper extends CDIBase{
 	
@@ -32,10 +34,7 @@ public class CDIProjectHelper extends CDIBase{
 		
 		new NewFileWizardAction().run()
 			.selectTemplate(CDIConstants.CDI_GROUP, CDIConstants.CDI_WEB_PROJECT).next();
-		new DynamicWebProjectWizard().setProjectName(projectName).finish();		
-		bot.sleep(Timing.time5S());
-		util.waitForNonIgnoredJobs();
-		bot.sleep(Timing.time5S());
+		new DynamicWebProjectWizard().setProjectName(projectName).finishWithWait();		
 	}
 	
 	/**
@@ -55,8 +54,7 @@ public class CDIProjectHelper extends CDIBase{
 	public void createDynamicWebProjectWithCDIPreset(String projectName) {
 		new NewFileWizardAction().run()
 				.selectTemplate(CDIConstants.WEB_GROUP, CDIConstants.DYNAMIC_WEB_PROJECT).next();
-		new DynamicWebProjectWizard().setProjectName(projectName).setCDIPreset().finish();
-		util.waitForNonIgnoredJobs();		
+		new DynamicWebProjectWizard().setProjectName(projectName).setCDIPreset().finishWithWait();
 	}
 	
 	/**
@@ -66,9 +64,7 @@ public class CDIProjectHelper extends CDIBase{
 	public void createDynamicWebProjectWithCDIFacets(String projectName) {
 		new NewFileWizardAction().run()
 				.selectTemplate(CDIConstants.WEB_GROUP, CDIConstants.DYNAMIC_WEB_PROJECT).next();
-		new DynamicWebProjectWizard().setProjectName(projectName).setCDIFacet().finish();
-		bot.sleep(Timing.time5S());		
-		util.waitForNonIgnoredJobs();		
+		new DynamicWebProjectWizard().setProjectName(projectName).setCDIFacet().finishWithWait();
 	}
 	
 	/**
@@ -94,8 +90,7 @@ public class CDIProjectHelper extends CDIBase{
 	private void createDynamicWebProject(String projectName) {
 		new NewFileWizardAction().run()
 				.selectTemplate(CDIConstants.WEB_GROUP, CDIConstants.DYNAMIC_WEB_PROJECT).next();
-		new DynamicWebProjectWizard().setProjectName(projectName).finish();
-		util.waitForNonIgnoredJobs();		
+		new DynamicWebProjectWizard().setProjectName(projectName).finishWithWait();
 	}
 	
 	/**
@@ -109,9 +104,8 @@ public class CDIProjectHelper extends CDIBase{
 		item.expand();
 		NodeContextUtil.nodeContextMenu(tree, item, CDIConstants.CONFIGURE, 
 				CDIConstants.ADD_CDI_SUPPORT).click();
-		bot.activeShell().bot().button("OK").click();
-		bot.sleep(Timing.time2S());		
-		util.waitForNonIgnoredJobs();
+		bot.activeShell().bot().button(IDELabel.Button.OK).click();
+		bot.waitWhile(new ProgressInformationShellIsActiveCondition(), TaskDuration.LONG.getTimeout());
 	}
 	
 	/**
@@ -128,7 +122,7 @@ public class CDIProjectHelper extends CDIBase{
 	    
 	    bot.tree().expandNode(CDIConstants.CDI_PROPERTIES_SETTINGS).select();	    	    
 		boolean isCDISupported = bot.checkBox().isChecked();
-		bot.button("Cancel").click();
+		bot.button(IDELabel.Button.CANCEL).click();
 		return isCDISupported;
 	}
 	
