@@ -28,7 +28,7 @@ public class CDIQualifier implements IQualifier{
 	
 	public CDIQualifier(ICDIProject project, String qualifiedName){
 		this.project = project;
-		this.cdiClass = new Type(qualifiedName);
+		this.cdiClass = new AnnotationType(qualifiedName);
 	}
 
 	@Override

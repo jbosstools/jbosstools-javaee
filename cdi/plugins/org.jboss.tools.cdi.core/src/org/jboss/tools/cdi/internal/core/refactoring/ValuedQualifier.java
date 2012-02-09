@@ -22,13 +22,6 @@ import org.jboss.tools.cdi.core.IQualifier;
 import org.jboss.tools.cdi.core.IQualifierDeclaration;
 
 public class ValuedQualifier{
-	public static final int STATE_NONE = -1;
-	public static final int STATE_NEW_QUALIFIER = 0;
-	public static final int STATE_NEW_QUALIFIER_CHANGED_VALUE = 1;
-	public static final int STATE_BEAN_QUALIFIER = 2;
-	public static final int STATE_BEAN_QUALIFIER_CHANGED_VALUE = 3;
-	
-	private int state = STATE_NONE;
 	private IQualifier qualifier;
 	private List<Pair> pairs = new ArrayList<Pair>();
 	
@@ -55,10 +48,8 @@ public class ValuedQualifier{
 						pair.type = Signature.getSignatureSimpleName(method.getReturnType());
 						pair.name = method.getElementName();
 						if(mvp != null && mvp.getValue() != null){
-							pair.required = false;
 							pair.value = mvp.getValue();
 						}else{
-							pair.required = true;
 							if(pair.type.equals("boolean")){
 								pair.value = "false";
 							}else if(pair.type.equals("int") ||	pair.type.equals("short") || pair.type.equals("long")){
@@ -96,10 +87,6 @@ public class ValuedQualifier{
 			}
 		}
 		return false;
-	}
-	
-	public int getState(){
-		return state;
 	}
 	
 	public List<Pair> getValuePairs(){
@@ -182,8 +169,7 @@ public class ValuedQualifier{
 		return false;
 	}
 	
-	static class Pair{
-		public boolean required;
+	private static class Pair{
 		public String type="";
 		public String name="";
 		public Object value;
