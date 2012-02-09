@@ -29,8 +29,10 @@ import org.jboss.tools.jsf.project.JSFAutoLoad;
 import org.jboss.tools.jsf.project.JSFNature;
 import org.jboss.tools.jsf.web.JSFTemplate;
 import org.jboss.tools.jsf.web.helpers.context.AdoptJSFProjectFinisher;
+import org.jboss.tools.jst.web.WebModelPlugin;
 import org.jboss.tools.jst.web.context.IImportWebProjectContext;
 import org.jboss.tools.jst.web.kb.IKbProject;
+import org.jboss.tools.jst.web.kb.internal.KbBuilder;
 import org.jboss.tools.jst.web.ui.operation.WebProjectAdoptOperation;
 
 public class JSFProjectAdoptOperation extends WebProjectAdoptOperation {
@@ -102,7 +104,7 @@ public class JSFProjectAdoptOperation extends WebProjectAdoptOperation {
 			}
 		}
 		try {
-			EclipseResourceUtil.addNatureToProject(getProject(), IKbProject.NATURE_ID);
+			WebModelPlugin.addNatureToProjectWithValidationSupport(getProject(), KbBuilder.BUILDER_ID, IKbProject.NATURE_ID);
 		} catch (CoreException e) {
 			JSFModelPlugin.getPluginLog().logError(e);
 		}
