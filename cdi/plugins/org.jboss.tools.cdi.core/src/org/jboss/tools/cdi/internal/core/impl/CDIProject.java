@@ -626,7 +626,9 @@ public class CDIProject extends CDIElement implements ICDIProject {
 					if (p != null) {
 						n = p.getMemberName();
 						Object o = p.getValue();
-						if(!values.containsKey(n)) {
+						// Default value can be null since JDT does not computes complex values
+						// E.g. values (char)7 or (2 + 3) will be resolved to null.  
+						if(!values.containsKey(n) && o != null) {
 							values.put(n, o.toString());
 						}
 					}
