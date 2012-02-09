@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IMarker;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jdt.core.IJavaElement;
@@ -42,6 +44,8 @@ public class ELReferencesRenameTest extends ELRefactoringTest {
 
 	private void renameELReferences(IJavaElement element, String newName, List<TestChangeStructure> changeList) throws CoreException{
 		JobUtils.waitForIdle();
+		
+		int[] numberOfMarkers = new int[changeList.size()];
 
 		// Rename EL references
 		RenameMethodParticipant participant = new RenameMethodParticipant();
@@ -58,10 +62,13 @@ public class ELReferencesRenameTest extends ELRefactoringTest {
 
 		for(int i = 0; i < rootChange.getChildren().length;i++){
 			BaseFileChange fileChange = (BaseFileChange)rootChange.getChildren()[i];
+			IFile file = fileChange.getFile();
+			IMarker[] markers = file.findMarkers(null, true, IResource.DEPTH_INFINITE);
+			numberOfMarkers[i] = markers.length;
 
 			MultiTextEdit edit = (MultiTextEdit)fileChange.getEdit();
 
-			TestChangeStructure change = findChange(changeList, fileChange.getFile());
+			TestChangeStructure change = findChange(changeList, file);
 			if(change != null){
 				assertEquals(change.size(), edit.getChildrenSize());
 			}
@@ -71,6 +78,7 @@ public class ELReferencesRenameTest extends ELRefactoringTest {
 		JobUtils.waitForIdle();
 		// Test results
 
+		int index = 0;
 		for(TestChangeStructure changeStructure : changeList){
 			IFile file = changeStructure.getProject().getFile(changeStructure.getFileName());
 			String content = null;
@@ -84,6 +92,11 @@ public class ELReferencesRenameTest extends ELRefactoringTest {
 			for(TestTextChange change : changeStructure.getTextChanges()){
 				assertEquals("There is unexpected change in resource - "+file.getName(), newName, content.substring(change.getOffset(), change.getOffset()+newName.length()));
 			}
+			
+			IMarker[] markers = file.findMarkers(null, true, IResource.DEPTH_INFINITE);
+			assertTrue("Refactoring increased number of problems", markers.length <= numberOfMarkers[index]);
+			
+			index++;
 		}
 	}
 }
