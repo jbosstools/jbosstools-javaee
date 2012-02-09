@@ -44,6 +44,9 @@ public class CDIProject implements ICDIProject{
 	public static final String QUALIFIER4 = "org.test.Qualifier4";
 	public static final String QUALIFIER5 = "org.test.Qualifier5";
 	
+	public static final String COMPLICATED_QUALIFIER1 = "org.test.CompicatedQualifier";
+	public static final String COMPLICATED_QUALIFIER2 = "org.test.OtherComplicatedQualifier";
+	
 	private IQualifier defaultQualifier, namedQualifier, anyQualifier, newQualifier;
 	
 	private ArrayList<IQualifier> qualifiers = new ArrayList<IQualifier>();
@@ -61,6 +64,9 @@ public class CDIProject implements ICDIProject{
 		qualifiers.add(new CDIQualifier(this, QUALIFIER3));
 		qualifiers.add(new CDIQualifier(this, QUALIFIER4));
 		qualifiers.add(new CDIQualifier(this, QUALIFIER5));
+		
+		qualifiers.add(new CDIQualifier(this, COMPLICATED_QUALIFIER1));
+		qualifiers.add(new CDIQualifier(this, COMPLICATED_QUALIFIER2));
 	}
 
 	@Override

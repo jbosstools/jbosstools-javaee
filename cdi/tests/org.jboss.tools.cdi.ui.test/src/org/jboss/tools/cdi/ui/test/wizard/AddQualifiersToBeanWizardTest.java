@@ -34,6 +34,7 @@ import org.jboss.tools.cdi.internal.core.refactoring.ValuedQualifier;
 import org.jboss.tools.cdi.ui.test.testmodel.CDIBean;
 import org.jboss.tools.cdi.ui.test.testmodel.CDIInjectionPoint;
 import org.jboss.tools.cdi.ui.test.testmodel.CDIProject;
+import org.jboss.tools.cdi.ui.test.testmodel.CDIQualifierDeclaration;
 import org.jboss.tools.cdi.ui.wizard.AddQualifiersToBeanWizard;
 
 
@@ -67,6 +68,8 @@ public class AddQualifiersToBeanWizardTest extends TestCase{
 		availableCheck.add(new ValuedQualifier(project.getQualifier(CDIProject.QUALIFIER3)));
 		availableCheck.add(new ValuedQualifier(project.getQualifier(CDIProject.QUALIFIER4)));
 		availableCheck.add(new ValuedQualifier(project.getQualifier(CDIProject.QUALIFIER5)));
+		availableCheck.add(new ValuedQualifier(project.getQualifier(CDIProject.COMPLICATED_QUALIFIER1)));
+		availableCheck.add(new ValuedQualifier(project.getQualifier(CDIProject.COMPLICATED_QUALIFIER2)));
 		
 		deployedCheck = new ArrayList<ValuedQualifier>();
 		
@@ -217,5 +220,16 @@ public class AddQualifiersToBeanWizardTest extends TestCase{
 		
 		checkValuedQualifierLists(deployedCheck, deployed);
 	}
-
+	
+	public void testValuedQualifier(){
+		ValuedQualifier oneQualifier = new ValuedQualifier(project.getQualifier(CDIProject.COMPLICATED_QUALIFIER1));
+		String value = oneQualifier.getValue();
+		assertEquals("type = \"default\", name = \"User\", realChanky = false, unrealChanky = true, number = 0, size = 125, bTs = 0, bTs2 = 4, posibility = 0.0, posibility2 = 0.9999, ch = ' ', ch2 = 'T'", value);
+	}
+	
+	public void testValuedQualifierWithDeclaration(){
+		ValuedQualifier anotherQualifier = new ValuedQualifier(project.getQualifier(CDIProject.COMPLICATED_QUALIFIER2), new CDIQualifierDeclaration());
+		String value = anotherQualifier.getValue();
+		assertEquals("name = \"John\", size = 5, p = 0.5, ch = 'Q', b = 6", value);
+	}
 }

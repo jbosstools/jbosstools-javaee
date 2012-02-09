@@ -35,6 +35,8 @@ public class ValuedQualifier{
 				pair.value = mvp.getValue();
 				if(mvp.getValueKind() == IMemberValuePair.K_STRING){
 					pair.type = "String";
+				}else if(mvp.getValueKind() == IMemberValuePair.K_CHAR){
+					pair.type = "char";
 				}
 				pairs.add(pair);	
 			}

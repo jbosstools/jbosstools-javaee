@@ -25,7 +25,8 @@ public class CDIQualifierDeclaration implements IQualifierDeclaration {
 			new MemberValuePair("name", "John", IMemberValuePair.K_STRING),
 			new MemberValuePair("size", 5, IMemberValuePair.K_INT),
 			new MemberValuePair("p", 0.5, IMemberValuePair.K_DOUBLE),
-			new MemberValuePair("char", 'Q', IMemberValuePair.K_CHAR),
+			new MemberValuePair("ch", 'Q', IMemberValuePair.K_CHAR),
+			new MemberValuePair("b", (byte)6, IMemberValuePair.K_BYTE)
 	};
 	
 	public CDIQualifierDeclaration(){

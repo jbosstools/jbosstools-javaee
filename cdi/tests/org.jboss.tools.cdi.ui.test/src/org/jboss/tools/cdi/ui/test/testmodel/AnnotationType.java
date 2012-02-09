@@ -31,10 +31,18 @@ L fully-qualified-class ;	 		fully-qualified-class
 
 public class AnnotationType extends Type {
 	private static IMethod[] methods = new IMethod[]{
+		new Method("type", "LString;", null),
+		new Method("name", "LString;", new MemberValuePair("name", "User", IMemberValuePair.K_STRING)),
 		new Method("realChanky", "Z", null),
 		new Method("unrealChanky", "Z", new MemberValuePair("unrealChanky", true, IMemberValuePair.K_BOOLEAN)),
 		new Method("number", "I", null),
-		new Method("size", "I", new MemberValuePair("size", 125, IMemberValuePair.K_INT))
+		new Method("size", "I", new MemberValuePair("size", 125, IMemberValuePair.K_INT)),
+		new Method("bTs", "B", null),
+		new Method("bTs2", "B", new MemberValuePair("bTs2", (byte)4, IMemberValuePair.K_BYTE)),
+		new Method("posibility", "D", null),
+		new Method("posibility2", "D", new MemberValuePair("posibility2", 0.9999, IMemberValuePair.K_DOUBLE)),
+		new Method("ch", "C", null),
+		new Method("ch2", "C", new MemberValuePair("ch2", 'T', IMemberValuePair.K_CHAR))
 	};
 
 	public AnnotationType(String qualifiedName) {
