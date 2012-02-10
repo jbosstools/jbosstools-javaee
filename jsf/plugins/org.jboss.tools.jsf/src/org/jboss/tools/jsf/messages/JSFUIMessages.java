@@ -114,6 +114,7 @@ public class JSFUIMessages extends NLS {
 	public static String CreateFacesConfigSupport_WebXMLIncorrect;
 	public static String CreateFacesConfigSupport_WebXMLNotFound;
 	public static String CreateFacesConfigSupport_WebXMLReadOnly;
+	public static String CreateFacesConfigSupport_WebXMLCannotRegister;
 	public static String DELETE_JAVA_SOURCE;
 	public static String DeleteFacesConfigHandler_DeleteFacesConfig;
 	public static String DeleteFacesConfigHandler_DeleteReferenceFromWebXML;

@@ -100,7 +100,8 @@ public class CreateFacesConfigSupport extends CreateFileSupport implements JSFCo
 			result = "/" + o.getAttributeValue("name") + result; //$NON-NLS-1$ //$NON-NLS-2$
 			o = o.getParent();
 		}
-		if(o == null || !"WEB-ROOT".equals(o.getAttributeValue("name"))) { //$NON-NLS-1$ //$NON-NLS-2$
+		String name = o == null ? null : o.getAttributeValue("name"); //$NON-NLS-1$
+		if(o == null || (!"WEB-ROOT".equals(name) && !name.startsWith("WEB-ROOT-") )) {  //$NON-NLS-1$ //$NON-NLS-2$
 			result = "/WEB-INF" + result; //$NON-NLS-1$
 		}
 		return result;
@@ -114,7 +115,7 @@ public class CreateFacesConfigSupport extends CreateFileSupport implements JSFCo
 		public void validate(Properties data) {
 			super.validate(data);
 			if(message != null) return;
-			message = checkRegister(getTarget(), data.getProperty("register in web.xml")); //$NON-NLS-1$
+			message = checkRegister(getTargetFolder() == null ? getTarget() : getTargetFolder(), data.getProperty("register in web.xml")); //$NON-NLS-1$
 		}
 	}
 
@@ -130,6 +131,16 @@ public class CreateFacesConfigSupport extends CreateFileSupport implements JSFCo
 		}
 		if("yes".equals(webxml.get("isIncorrect"))) return JSFUIMessages.CreateFacesConfigSupport_WebXMLIncorrect; //$NON-NLS-1$ //$NON-NLS-2$
 		if(!webxml.isObjectEditable()) return JSFUIMessages.CreateFacesConfigSupport_WebXMLReadOnly;
+		
+		XModelObject fs = object;
+		while(fs != null && fs.getFileType() != XModelObject.SYSTEM) fs = fs.getParent();
+		if(fs != null) {
+			String fsn = fs.getAttributeValue(XModelObjectConstants.ATTR_NAME);
+			if(!fsn.equals("WEB-INF") && !fsn.equals("WEB-ROOT") && !fsn.startsWith("WEB-ROOT-")) {
+				return JSFUIMessages.CreateFacesConfigSupport_WebXMLCannotRegister; 
+			}
+		}
+		
 		return null;
 	}
 
