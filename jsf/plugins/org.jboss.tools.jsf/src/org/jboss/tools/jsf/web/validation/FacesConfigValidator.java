@@ -11,8 +11,10 @@
 package org.jboss.tools.jsf.web.validation;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.StringTokenizer;
@@ -36,6 +38,8 @@ import org.eclipse.wst.validation.internal.provisional.core.IReporter;
 import org.jboss.tools.common.EclipseUtil;
 import org.jboss.tools.common.model.XModel;
 import org.jboss.tools.common.model.XModelObject;
+import org.jboss.tools.common.model.XModelObjectConstants;
+import org.jboss.tools.common.model.filesystems.FileSystemsHelper;
 import org.jboss.tools.common.model.impl.XModelImpl;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.validation.ContextValidationHelper;
@@ -539,8 +543,15 @@ class CheckContextParam extends Check {
 		String value = object.getAttributeValue("param-value"); //$NON-NLS-1$
 		if(value == null || value.length() == 0) return;
 		XModel model = object.getModel();
-		XModelObject webRoot = model == null ? null : model.getByPath("FileSystems/WEB-ROOT"); //$NON-NLS-1$
-		if(webRoot == null) return;
+		List<XModelObject> webRoots = new ArrayList<XModelObject>();
+		XModelObject[] fss = FileSystemsHelper.getFileSystems(model).getChildren();
+		for (XModelObject s: fss) {
+			String n = s.getAttributeValue(XModelObjectConstants.ATTR_NAME);
+			if("WEB-ROOT".equals(n) || n.startsWith("WEB-ROOT-")) {
+				webRoots.add(s);
+			}
+		}
+		if(webRoots.isEmpty()) return;
 		StringTokenizer st = new StringTokenizer(value, ","); //$NON-NLS-1$
 		while(st.hasMoreTokens()) {
 			String path = st.nextToken().trim();
@@ -551,7 +562,11 @@ class CheckContextParam extends Check {
 				return;
 			}
 			String path2 = path.startsWith("/") ? path.substring(1) : path; //$NON-NLS-1$
-			XModelObject fc2 = webRoot.getChildByPath(path2);
+			XModelObject fc2 = null;
+			for (XModelObject s: webRoots) {
+				fc2 = s.getChildByPath(path2);
+				if(fc2 != null) break;
+			}
 			if(fc2 == null) {
 				fireMessage(object, NLS.bind(JSFValidationMessage.INVALID_FACES_CONFIG_REFERENCE, "param-value", path));
 				return;
