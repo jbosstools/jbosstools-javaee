@@ -10,6 +10,7 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.core.test.tck;
 
+import java.util.List;
 import java.util.Set;
 
 import org.jboss.tools.cdi.core.CDIUtil;
@@ -17,6 +18,8 @@ import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IClassBean;
 import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.core.IInjectionPointParameter;
+import org.jboss.tools.cdi.core.IQualifierDeclaration;
+import org.jboss.tools.common.java.IAnnotationDeclaration;
 import org.jboss.tools.common.java.IParametedType;
 
 /**
@@ -90,6 +93,13 @@ public class InjectionPointTest extends TCKTest {
 		injectionPoint = getInjectionPointParameter("JavaSource/org/jboss/jsr299/tck/tests/lookup/injection/NamedParameters.java", "setABC");
 		assertNotNull(injectionPoint);
 		resolved = cdiProject.getBeans(false, injectionPoint);
+		assertFalse(resolved.isEmpty());
+	}
+
+	public void testDefaultValuesInQualifierProperties() {
+		IInjectionPoint injectionPoint = getInjectionPointField("JavaSource/org/jboss/jsr299/tck/tests/jbt/lookup/qualifier/MyBean.java", "i");
+		assertNotNull(injectionPoint);
+		Set<IBean> resolved = cdiProject.getBeans(false, injectionPoint);
 		assertFalse(resolved.isEmpty());
 	}
 }
