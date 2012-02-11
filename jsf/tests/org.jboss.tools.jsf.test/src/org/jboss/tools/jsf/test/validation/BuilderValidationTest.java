@@ -33,7 +33,7 @@ public class BuilderValidationTest extends AbstractResourceMarkerTest {
 
 	/**
 	 * See https://issues.jboss.org/browse/JBIDE-10872
-	 * EL incremental validation doesn't work for complex ELs.
+	 * EL incremental validation doesnt work for complex ELs.
 	 * @throws Exception
 	 */
 	public void testFullBuildValidation() throws Exception {
@@ -50,25 +50,25 @@ public class BuilderValidationTest extends AbstractResourceMarkerTest {
 		 *  #{authenticator.broken}                 #11
 		 */
 		IFile file = project.getFile("WebContent/inputname.xhtml");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, "\"broken\" cannot be resolved'", 11);
-		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, "\"authenticator\" cannot be resolved'", 6);
-		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, "\"authenticator\" cannot be resolved'", 7);
-		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, "\"authenticator\" cannot be resolved'", 8);
-		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, "\"authenticator\" cannot be resolved'", 9);
-		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, "\"authenticate()\" cannot be resolved'", 7);
-		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, "\"test\" cannot be resolved'", 6);
-		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, "\"test\" cannot be resolved'", 8);
-		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, "\"test\" cannot be resolved'", 9);
-		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, "\"string\" cannot be resolved'", 6);
-		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, "\"string\" cannot be resolved'", 9);
-		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, "\"newString\" cannot be resolved'", 6);
-		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, "\"foo()\" cannot be resolved'", 8);
-		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, "\"foo()\" cannot be resolved'", 9);
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, "\"broken\" cannot be resolved", 11);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, "\"authenticator\" cannot be resolved", 6);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, "\"authenticator\" cannot be resolved", 7);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, "\"authenticator\" cannot be resolved", 8);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, "\"authenticator\" cannot be resolved", 9);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, "\"authenticate()\" cannot be resolved", 7);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, "\"test\" cannot be resolved", 6);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, "\"test\" cannot be resolved", 8);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, "\"test\" cannot be resolved", 9);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, "\"string\" cannot be resolved", 6);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, "\"string\" cannot be resolved", 9);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, "\"newString\" cannot be resolved", 6);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, "\"foo()\" cannot be resolved", 8);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, "\"foo()\" cannot be resolved", 9);
 	}
 
 	/**
 	 * See https://issues.jboss.org/browse/JBIDE-10872
-	 * EL incremental validation doesn't work for complex ELs.
+	 * EL incremental validation doesnt work for complex ELs.
 	 * @throws Exception
 	 */
 	public void testIncrementalBuildValidation() throws Exception {
@@ -83,19 +83,19 @@ public class BuilderValidationTest extends AbstractResourceMarkerTest {
 		TestUtil.validate(javaFile);
 
 		IFile file = project.getFile("WebContent/inputname.xhtml");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, "\"broken\" cannot be resolved'", 11);
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, "\"test\" cannot be resolved'", 6, 8, 9);
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, "\"broken\" cannot be resolved", 11);
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, "\"test\" cannot be resolved", 6, 8, 9);
 
-		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, "\"authenticator\" cannot be resolved'", 6);
-		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, "\"authenticator\" cannot be resolved'", 7);
-		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, "\"authenticator\" cannot be resolved'", 8);
-		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, "\"authenticator\" cannot be resolved'", 9);
-		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, "\"authenticate()\" cannot be resolved'", 7);
-		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, "\"string\" cannot be resolved'", 6);
-		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, "\"string\" cannot be resolved'", 9);
-		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, "\"newString\" cannot be resolved'", 6);
-		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, "\"foo()\" cannot be resolved'", 8);
-		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, "\"foo()\" cannot be resolved'", 9);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, "\"authenticator\" cannot be resolved", 6);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, "\"authenticator\" cannot be resolved", 7);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, "\"authenticator\" cannot be resolved", 8);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, "\"authenticator\" cannot be resolved", 9);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, "\"authenticate()\" cannot be resolved", 7);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, "\"string\" cannot be resolved", 6);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, "\"string\" cannot be resolved", 9);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, "\"newString\" cannot be resolved", 6);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, "\"foo()\" cannot be resolved", 8);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, "\"foo()\" cannot be resolved", 9);
 
 		javaFile.setContents(original.getContents(), IFile.FORCE, new NullProgressMonitor());
 
@@ -111,20 +111,20 @@ public class BuilderValidationTest extends AbstractResourceMarkerTest {
 
 		TestUtil.validate(javaFile);
 
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, "\"broken\" cannot be resolved'", 11);
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, "\"string\" cannot be resolved'", 6, 9);
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, "\"broken\" cannot be resolved", 11);
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, "\"string\" cannot be resolved", 6, 9);
 
-		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, "\"authenticator\" cannot be resolved'", 6);
-		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, "\"authenticator\" cannot be resolved'", 7);
-		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, "\"authenticator\" cannot be resolved'", 8);
-		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, "\"authenticator\" cannot be resolved'", 9);
-		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, "\"authenticate()\" cannot be resolved'", 7);
-		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, "\"test\" cannot be resolved'", 6);
-		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, "\"test\" cannot be resolved'", 8);
-		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, "\"test\" cannot be resolved'", 9);
-		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, "\"newString\" cannot be resolved'", 6);
-		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, "\"foo()\" cannot be resolved'", 8);
-		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, "\"foo()\" cannot be resolved'", 9);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, "\"authenticator\" cannot be resolved", 6);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, "\"authenticator\" cannot be resolved", 7);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, "\"authenticator\" cannot be resolved", 8);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, "\"authenticator\" cannot be resolved", 9);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, "\"authenticate()\" cannot be resolved", 7);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, "\"test\" cannot be resolved", 6);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, "\"test\" cannot be resolved", 8);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, "\"test\" cannot be resolved", 9);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, "\"newString\" cannot be resolved", 6);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, "\"foo()\" cannot be resolved", 8);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, "\"foo()\" cannot be resolved", 9);
 
 		javaFile.setContents(original.getContents(), IFile.FORCE, new NullProgressMonitor());
 
@@ -140,21 +140,21 @@ public class BuilderValidationTest extends AbstractResourceMarkerTest {
 
 		TestUtil.validate(javaFile);
 
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, "\"broken\" cannot be resolved'", 11);
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, "\"newString\" cannot be resolved'", 6);
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, "\"broken\" cannot be resolved", 11);
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, "\"newString\" cannot be resolved", 6);
 
-		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, "\"authenticator\" cannot be resolved'", 6);
-		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, "\"authenticator\" cannot be resolved'", 7);
-		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, "\"authenticator\" cannot be resolved'", 8);
-		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, "\"authenticator\" cannot be resolved'", 9);
-		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, "\"authenticate()\" cannot be resolved'", 7);
-		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, "\"test\" cannot be resolved'", 6);
-		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, "\"test\" cannot be resolved'", 8);
-		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, "\"test\" cannot be resolved'", 9);
-		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, "\"string\" cannot be resolved'", 6);
-		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, "\"string\" cannot be resolved'", 9);
-		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, "\"foo()\" cannot be resolved'", 8);
-		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, "\"foo()\" cannot be resolved'", 9);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, "\"authenticator\" cannot be resolved", 6);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, "\"authenticator\" cannot be resolved", 7);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, "\"authenticator\" cannot be resolved", 8);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, "\"authenticator\" cannot be resolved", 9);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, "\"authenticate()\" cannot be resolved", 7);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, "\"test\" cannot be resolved", 6);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, "\"test\" cannot be resolved", 8);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, "\"test\" cannot be resolved", 9);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, "\"string\" cannot be resolved", 6);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, "\"string\" cannot be resolved", 9);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, "\"foo()\" cannot be resolved", 8);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, "\"foo()\" cannot be resolved", 9);
 
 		javaFile.setContents(original.getContents(), IFile.FORCE, new NullProgressMonitor());
 
