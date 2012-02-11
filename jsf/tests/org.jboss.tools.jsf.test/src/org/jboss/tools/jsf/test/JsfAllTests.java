@@ -15,6 +15,7 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 
 import org.eclipse.jdt.internal.core.JavaModelManager;
+import org.jboss.tools.common.base.test.validation.ValidationExceptionTest;
 import org.jboss.tools.common.base.test.validation.ValidationProjectTestSetup;
 import org.jboss.tools.jsf.model.pv.test.JSFPromptingProviderTest;
 import org.jboss.tools.jsf.model.pv.test.JsfJbide7975Test;
@@ -23,6 +24,7 @@ import org.jboss.tools.jsf.test.refactoring.ELVariableRefactoringTest;
 import org.jboss.tools.jsf.test.refactoring.JSF2RefactoringTest;
 import org.jboss.tools.jsf.test.refactoring.MessagePropertyRefactoringTest;
 import org.jboss.tools.jsf.test.refactoring.MethodRefactoringTest;
+import org.jboss.tools.jsf.test.validation.BuilderValidationTest;
 import org.jboss.tools.jsf.test.validation.ELValidatorTest;
 import org.jboss.tools.jsf.test.validation.FacesConfigValidatorTest;
 import org.jboss.tools.jsf.test.validation.JSF2ComponentsInClassFolderTest;
@@ -30,13 +32,14 @@ import org.jboss.tools.jsf.test.validation.JSF2ComponentsValidatorTest;
 import org.jboss.tools.jsf.test.validation.WebContentTest;
 import org.jboss.tools.jsf.test.validation.XHTMLDetectorAndValidatorTest;
 import org.jboss.tools.jsf.test.validation.XHTMLValidatorTest;
-import org.jboss.tools.jsf.web.validation.XHTMLValidator;
 import org.jboss.tools.test.util.ProjectImportTestSetup;
 
 public class JsfAllTests {
 	// public static final String PLUGIN_ID = "org.jboss.tools.jsf";
 
 	public static Test suite() {
+		ValidationExceptionTest.initLogger();
+
 		TestSuite suite = new TestSuite("Test model loading for JSF projects"); //$NON-NLS-1$
 		suite.addTestSuite(JSFTemplateTest.class);
 		suite.addTestSuite(JSFFacetOnExistingProjectTest.class);
@@ -103,6 +106,9 @@ public class JsfAllTests {
 //				new String[] { "projects/i18nTestProject" }, //$NON-NLS-1$
 //				new String[] { "i18nTestProject" })); //$NON-NLS-1$
 		suite.addTest(new ValidationProjectTestSetup(new TestSuite(ELValidatorTest.class),"org.jboss.tools.jsf.test","projects/JSFKickStartOldFormat","JSFKickStartOldFormat"));
+		suite.addTest(new ValidationProjectTestSetup(new TestSuite(BuilderValidationTest.class),"org.jboss.tools.jsf.test","projects/jsf2pr","jsf2pr"));
+
+		suite.addTestSuite(ValidationExceptionTest.class); // This test should be added last!
 
 		return new DisableJavaIndexingSetup(suite);
 	}

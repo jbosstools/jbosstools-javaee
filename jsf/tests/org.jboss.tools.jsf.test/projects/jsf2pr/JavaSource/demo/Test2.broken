@@ -1,0 +1,12 @@
+package demo;
+
+public class Test2 {
+
+	public String getNewStringBroken() {
+		return null;
+	}
+
+	public String foo() {
+		return null;
+	}
+}
