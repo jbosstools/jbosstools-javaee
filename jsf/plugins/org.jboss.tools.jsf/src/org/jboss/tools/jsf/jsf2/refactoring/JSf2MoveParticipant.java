@@ -16,8 +16,8 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
@@ -42,7 +42,7 @@ public class JSf2MoveParticipant extends MoveParticipant {
 
 	private IProject project;
 	private Map<String, String> urisMap;
-	private static boolean isMoveFolder = true;
+	private static boolean isMoveContainer = true;
 
 	@Override
 	public RefactoringStatus checkConditions(IProgressMonitor pm,
@@ -66,27 +66,27 @@ public class JSf2MoveParticipant extends MoveParticipant {
 
 	@Override
 	protected boolean initialize(Object element) {
-		if(!(element instanceof IFolder) && !(element instanceof IFile))
+		if(!(element instanceof IContainer) && !(element instanceof IFile))
 			return false;
 		
-		IFolder folder = null;
-		isMoveFolder = true;
+		IContainer container = null;
+		isMoveContainer = true;
 		if(element instanceof IFile){
 			IFile file = (IFile)element;
 			
-			folder = (IFolder)file.getParent();
-			isMoveFolder = false;
+			container = file.getParent();
+			isMoveContainer = false;
 		}else
-			folder = (IFolder) element;
-		if (checkResourceFolderPath(folder.getFullPath())) {
+			container = (IContainer) element;
+		if (checkResourceContainerPath(container.getFullPath())) {
 			Object object = getArguments().getDestination();
-			if (object instanceof IFolder) {
-				if (folder.getProject() != ((IFolder) object).getProject()) {
+			if (object instanceof IContainer) {
+				if (container.getProject() != ((IContainer) object).getProject()) {
 					return false;
 				}
-				if (checkDistFolderPath(((IFolder) object).getFullPath())) {
-					project = folder.getProject();
-					urisMap = invokePossibleURIs(folder, (IFolder) object);
+				if (checkDistContainerPath(((IContainer) object).getFullPath())) {
+					project = container.getProject();
+					urisMap = invokePossibleURIs(container, (IContainer) object);
 					return true;
 				}
 			}
@@ -94,7 +94,7 @@ public class JSf2MoveParticipant extends MoveParticipant {
 		return false;
 	}
 
-	public static boolean checkDistFolderPath(IPath fullPath) {
+	public static boolean checkDistContainerPath(IPath fullPath) {
 		String[] segments = fullPath.segments();
 		if (segments.length > 2) {
 			if (segments[2].equals("resources")) { //$NON-NLS-1$
@@ -104,19 +104,19 @@ public class JSf2MoveParticipant extends MoveParticipant {
 		return false;
 	}
 	
-	public static Map<String, String> invokePossibleURIs(IFolder srcFolder, IFolder distFolder){
-		return invokePossibleURIs(srcFolder, distFolder.getFullPath(), isMoveFolder);
+	public static Map<String, String> invokePossibleURIs(IContainer srcContainer, IContainer distContainer){
+		return invokePossibleURIs(srcContainer, distContainer.getFullPath(), isMoveContainer);
 	}
 
-	public static Map<String, String> invokePossibleURIs(IFolder srcFolder, IPath distPath, boolean isMoveFolder) {
+	public static Map<String, String> invokePossibleURIs(IContainer srcContainer, IPath distPath, boolean isMoveContainer) {
 		Map<String, String> urisMap;
 		String newFirstURIPart = createJSF2URIFromPath(distPath);
-		String oldFirstURIPart = createJSF2URIFromPath(srcFolder.getFullPath());
-		if(isMoveFolder)
+		String oldFirstURIPart = createJSF2URIFromPath(srcContainer.getFullPath());
+		if(isMoveContainer)
 			oldFirstURIPart = oldFirstURIPart.substring(0, oldFirstURIPart
 				.lastIndexOf('/'));
 		Set<String> oldURIs = new HashSet<String>();
-		invokeOldPossibleURIs(srcFolder, oldURIs);
+		invokeOldPossibleURIs(srcContainer, oldURIs);
 		urisMap = new HashMap<String, String>();
 		for (String oldURI : oldURIs) {
 			urisMap.put(oldURI, newFirstURIPart
@@ -125,14 +125,14 @@ public class JSf2MoveParticipant extends MoveParticipant {
 		return urisMap;
 	}
 	
-	private static void invokeOldPossibleURIs(IFolder srcFolder, Set<String> uris) {
-		uris.add(createJSF2URIFromPath(srcFolder.getFullPath()));
+	private static void invokeOldPossibleURIs(IContainer srcContainer, Set<String> uris) {
+		uris.add(createJSF2URIFromPath(srcContainer.getFullPath()));
 		try {
-			IResource[] children = srcFolder.members();
+			IResource[] children = srcContainer.members();
 			if (children != null) {
 				for (int i = 0; i < children.length; i++) {
-					if (children[i] instanceof IFolder) {
-						invokeOldPossibleURIs((IFolder) children[i], uris);
+					if (children[i] instanceof IContainer) {
+						invokeOldPossibleURIs((IContainer) children[i], uris);
 					}
 				}
 			}
@@ -141,7 +141,7 @@ public class JSf2MoveParticipant extends MoveParticipant {
 		}
 	}
 
-	public static boolean checkResourceFolderPath(IPath path) {
+	public static boolean checkResourceContainerPath(IPath path) {
 		String[] segments = path.segments();
 		if (segments.length > 3) {
 			if (segments[2].equals("resources")) { //$NON-NLS-1$

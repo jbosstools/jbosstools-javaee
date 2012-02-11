@@ -58,7 +58,7 @@ public class JSF2RenameParticipant extends RenameParticipant {
 		if(element instanceof IFolder){
 			IFolder folder = (IFolder)element;
 			IPath newPath = folder.getFullPath().removeLastSegments(1).append(newFileName);
-			if (JSf2MoveParticipant.checkDistFolderPath(newPath)) {
+			if (JSf2MoveParticipant.checkDistContainerPath(newPath)) {
 				urisMap = JSf2MoveParticipant.invokePossibleURIs(folder, newPath, false);
 				return RefactoringChangesFactory.createRenameURIChanges(project, urisMap);
 			}
@@ -96,7 +96,7 @@ public class JSF2RenameParticipant extends RenameParticipant {
 			}
 		}else if(element instanceof IFolder){
 			IFolder folder = (IFolder) element;
-			if (JSf2MoveParticipant.checkResourceFolderPath(folder.getFullPath())) {
+			if (JSf2MoveParticipant.checkResourceContainerPath(folder.getFullPath())) {
 				project = folder.getProject();
 				oldFileName = folder.getName();
 				return true;
