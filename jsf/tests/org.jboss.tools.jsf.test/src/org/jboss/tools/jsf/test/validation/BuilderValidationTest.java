@@ -49,7 +49,7 @@ public class BuilderValidationTest extends AbstractResourceMarkerTest {
 		 *  
 		 *  #{authenticator.broken}                 #11
 		 */
-		IFile file = project.getFile("WebContent/inputname.xhtml");
+		IFile file = project.getFile("WebContent/test.xhtml");
 		AbstractResourceMarkerTest.assertMarkerIsCreated(file, "\"broken\" cannot be resolved", 11);
 		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, "\"authenticator\" cannot be resolved", 6);
 		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, "\"authenticator\" cannot be resolved", 7);
@@ -82,7 +82,7 @@ public class BuilderValidationTest extends AbstractResourceMarkerTest {
 
 		TestUtil.validate(javaFile);
 
-		IFile file = project.getFile("WebContent/inputname.xhtml");
+		IFile file = project.getFile("WebContent/test.xhtml");
 		AbstractResourceMarkerTest.assertMarkerIsCreated(file, "\"broken\" cannot be resolved", 11);
 		AbstractResourceMarkerTest.assertMarkerIsCreated(file, "\"test\" cannot be resolved", 6, 8, 9);
 
