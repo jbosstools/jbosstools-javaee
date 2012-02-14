@@ -97,6 +97,20 @@
          </selection>
       </wizard>
      
+      <wizard
+            name="New DS XML"
+            icon="$nl$/icons/seam16.png"
+            category="org.jboss.tools.seam.ui"
+            class="org.jboss.tools.seam.ui.wizard.SeamDSXMLWizard"
+            id="org.jboss.tools.seam.ui.wizard.SeamDSXMLWizard">
+         <description>
+            Creates New DS XML file
+         </description>
+         <selection
+               class="org.eclipse.core.resources.IResource">
+         </selection>
+      </wizard>
+
    </extension>
    <extension
          point="org.eclipse.wst.common.project.facet.ui.wizardPages">
