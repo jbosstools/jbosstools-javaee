@@ -51,7 +51,9 @@ public class ValuedQualifier{
 						pair.name = method.getElementName();
 						if(mvp != null && mvp.getValue() != null){
 							pair.value = mvp.getValue();
+							pair.required = false;
 						}else{
+							pair.required = true;
 							if(pair.type.equals("boolean")){
 								pair.value = "false";
 							}else if(pair.type.equals("int") ||	pair.type.equals("short") || pair.type.equals("long")){
@@ -125,6 +127,8 @@ public class ValuedQualifier{
 		String text = "";
 		boolean first = true;
 		for(Pair pair : pairs){
+			if(!pair.required)
+				continue;
 			if(!first){
 				text += ", ";
 			}
@@ -147,6 +151,7 @@ public class ValuedQualifier{
 		for(Pair pair : pairs){
 			if(pair.name.equals(name)){
 				pair.value = value;
+				pair.required = true;
 			}
 		}
 	}
@@ -172,6 +177,7 @@ public class ValuedQualifier{
 	}
 	
 	private static class Pair{
+		public boolean required = true;
 		public String type="";
 		public String name="";
 		public Object value;
