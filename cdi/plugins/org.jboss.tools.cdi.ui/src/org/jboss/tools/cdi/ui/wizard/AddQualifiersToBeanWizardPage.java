@@ -16,7 +16,6 @@ import org.eclipse.ltk.core.refactoring.participants.ProcessorBasedRefactoring;
 import org.eclipse.ltk.ui.refactoring.UserInputWizardPage;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.widgets.Composite;
-import org.jboss.tools.cdi.core.IBean;
 import org.jboss.tools.cdi.core.IQualifier;
 import org.jboss.tools.cdi.internal.core.refactoring.AddQualifiersToBeanProcessor;
 import org.jboss.tools.cdi.internal.core.refactoring.ValuedQualifier;
@@ -46,9 +45,9 @@ public class AddQualifiersToBeanWizardPage extends UserInputWizardPage{
 		return composite.getAvailableQualifiers();
 	}
 	
-	public void init(IBean bean){
-		composite.init(bean);
-		setTitle(NLS.bind(CDIUIMessages.ADD_QUALIFIERS_TO_BEAN_WIZARD_TITLE, bean.getElementName()));
+	public void init(){
+		composite.init();
+		setTitle(NLS.bind(CDIUIMessages.ADD_QUALIFIERS_TO_BEAN_WIZARD_TITLE, ((AddQualifiersToBeanProcessor)((ProcessorBasedRefactoring)getRefactoring()).getProcessor()).getSelectedBean().getElementName()));
 	}
 	
 	public void deploy(ValuedQualifier qualifier){

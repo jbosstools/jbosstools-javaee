@@ -87,7 +87,7 @@ import org.jboss.tools.cdi.ui.wizard.NewQualifierCreationWizard;
 public class AddQualifiersToBeanComposite extends Composite {
 	private static Font font;
 	private IInjectionPoint injectionPoint;
-	private IBean bean;
+	private IBean selectedBean;
 	private java.util.List<IBean> beans;
 	private AddQualifiersToBeanWizardPage page;
 	private Text pattern;
@@ -121,24 +121,24 @@ public class AddQualifiersToBeanComposite extends Composite {
 		super(parent, SWT.NONE);
 		this.page = page;
 		this.injectionPoint = ((AbstractModifyInjectionPointWizard)page.getWizard()).getInjectionPoint();
-		this.bean = ((AbstractModifyInjectionPointWizard)page.getWizard()).getSelectedBean();
+		this.selectedBean = ((AbstractModifyInjectionPointWizard)page.getWizard()).getSelectedBean();
 		this.beans = ((AbstractModifyInjectionPointWizard)page.getWizard()).getBeans();
 		
 		createControl();
-		if(bean != null)
-			init(bean);
+		if(selectedBean != null)
+			init();
 		
 		page.setDeployedQualifiers(getDeployedQualifiers());
 	}
 	
-	public void init(IBean bean){
-		this.bean = bean;
-		String beanName = CDIMarkerResolutionUtils.getELName(bean);
+	public void init(){
+		this.selectedBean = ((AbstractModifyInjectionPointWizard)page.getWizard()).getSelectedBean();
+		String beanName = CDIMarkerResolutionUtils.getELName(selectedBean);
 		originalQualifiers.clear();
 		deployed.clear();
-		for(IQualifier q : bean.getQualifiers()){
+		for(IQualifier q : selectedBean.getQualifiers()){
 			
-			IQualifierDeclaration declaration = CDIMarkerResolutionUtils.findQualifierDeclaration(bean, q);
+			IQualifierDeclaration declaration = CDIMarkerResolutionUtils.findQualifierDeclaration(selectedBean, q);
 			if(declaration != null){
 				//String value = CDIMarkerResolutionUtils.findQualifierValue(bean, declaration);
 				ValuedQualifier vq = new ValuedQualifier(q, declaration);
@@ -148,8 +148,8 @@ public class AddQualifiersToBeanComposite extends Composite {
 			}
 		}
 		
-		defaultQualifier = new ValuedQualifier(bean.getCDIProject().getQualifier(CDIConstants.DEFAULT_QUALIFIER_TYPE_NAME));
-		namedQualifier = new ValuedQualifier(bean.getCDIProject().getQualifier(CDIConstants.NAMED_QUALIFIER_TYPE_NAME));
+		defaultQualifier = new ValuedQualifier(selectedBean.getCDIProject().getQualifier(CDIConstants.DEFAULT_QUALIFIER_TYPE_NAME));
+		namedQualifier = new ValuedQualifier(selectedBean.getCDIProject().getQualifier(CDIConstants.NAMED_QUALIFIER_TYPE_NAME));
 		namedQualifier.setValue("value", beanName);
 		
 		for(ValuedQualifier q : originalQualifiers){
@@ -172,17 +172,17 @@ public class AddQualifiersToBeanComposite extends Composite {
 		availableTableViewer.setInput(qualifiers);
 		if(nLabel != null)
 			nLabel.setText(MessageFormat.format(CDIUIMessages.ADD_QUALIFIERS_TO_BEAN_WIZARD_MESSAGE,
-					new Object[]{bean.getElementName(), injectionPoint.getElementName()}));
+					new Object[]{selectedBean.getElementName(), injectionPoint.getElementName()}));
 		refresh();
 	}
 	
 	private ValuedQualifier loadAvailableQualifiers(){
-		String beanName = CDIMarkerResolutionUtils.getELName(bean);
+		String beanName = CDIMarkerResolutionUtils.getELName(selectedBean);
 		
 		ValuedQualifier lastQualifier = null;
-		String beanTypeName = bean.getBeanClass().getFullyQualifiedName();
+		String beanTypeName = selectedBean.getBeanClass().getFullyQualifiedName();
 		String beanPackage = beanTypeName.substring(0,beanTypeName.lastIndexOf(CDIMarkerResolutionUtils.DOT));
-		IJavaProject beanJavaProject = bean.getBeanClass().getJavaProject();
+		IJavaProject beanJavaProject = selectedBean.getBeanClass().getJavaProject();
 		
 		String injectionPointTypeName = injectionPoint.getClassBean().getBeanClass().getFullyQualifiedName();
 		String injectionPointPackage = injectionPointTypeName.substring(0,injectionPointTypeName.lastIndexOf(CDIMarkerResolutionUtils.DOT));
@@ -190,7 +190,7 @@ public class AddQualifiersToBeanComposite extends Composite {
 		
 		boolean samePackage = beanPackage.equals(injectionPointPackage);
 		
-		IQualifier[] qs = bean.getCDIProject().getQualifiers();
+		IQualifier[] qs = selectedBean.getCDIProject().getQualifiers();
 		
 		for(IQualifier q : qs){
 			ValuedQualifier vq = new ValuedQualifier(q);
@@ -246,9 +246,9 @@ public class AddQualifiersToBeanComposite extends Composite {
 		HashSet<ValuedQualifier> qfs = new HashSet<ValuedQualifier>(total);
 		
 		for(IBean b: beans){
-			if(b.equals(bean))
+			if(b.equals(selectedBean))
 				continue;
-			if(CDIMarkerResolutionUtils.checkValuedQualifiers(bean, b, qfs))
+			if(CDIMarkerResolutionUtils.checkValuedQualifiers(selectedBean, b, qfs))
 				return false;
 				
 		}
@@ -280,9 +280,9 @@ public class AddQualifiersToBeanComposite extends Composite {
 		GridData data = new GridData(GridData.FILL_HORIZONTAL | GridData.VERTICAL_ALIGN_BEGINNING);
 		data.horizontalSpan = 3;
 		nLabel.setLayoutData(data);
-		if(bean != null)
+		if(selectedBean != null)
 			nLabel.setText(MessageFormat.format(CDIUIMessages.ADD_QUALIFIERS_TO_BEAN_WIZARD_MESSAGE,
-				new Object[]{bean.getElementName(), injectionPoint.getElementName()}));
+				new Object[]{selectedBean.getElementName(), injectionPoint.getElementName()}));
 		
 		Label label = new Label(this, SWT.NONE);
 		label.setText(CDIUIMessages.ADD_QUALIFIERS_TO_BEAN_WIZARD_ENTER_QUALIFIER_NAME);
@@ -459,7 +459,7 @@ public class AddQualifiersToBeanComposite extends Composite {
 						@Override
 						public void run(){
 							NewQualifierCreationWizard wizard = new NewQualifierCreationWizard();
-							StructuredSelection selection = new StructuredSelection(new Object[]{bean.getBeanClass()});
+							StructuredSelection selection = new StructuredSelection(new Object[]{selectedBean.getBeanClass()});
 							
 							wizard.init(PlatformUI.getWorkbench(), selection);
 							WizardDialog dialog = new WizardDialog(getShell(), wizard);
@@ -499,8 +499,6 @@ public class AddQualifiersToBeanComposite extends Composite {
 				}
 			}
 		});
-		
-		setEnablement();
 		
 		Dialog.applyDialogFont(this);
 	}
@@ -579,7 +577,7 @@ public class AddQualifiersToBeanComposite extends Composite {
 		if(isComplete)
 			page.setMessage("");
 		else
-			page.setMessage(NLS.bind(CDIUIMessages.ADD_QUALIFIERS_TO_BEAN_WIZARD_SET_IS_NOT_UNIQUE, bean.getElementName(), injectionPoint.getElementName()), IMessageProvider.ERROR);
+			page.setMessage(NLS.bind(CDIUIMessages.ADD_QUALIFIERS_TO_BEAN_WIZARD_SET_IS_NOT_UNIQUE, selectedBean.getElementName(), injectionPoint.getElementName()), IMessageProvider.ERROR);
 		
 		page.setPageComplete(isComplete);
 	}

@@ -75,8 +75,8 @@ public class SelectBeanWizard extends AbstractModifyInjectionPointWizard{
 		return addQualifiersPage.getAvailableQualifiers();
 	}
 	
-	public void init(IBean bean){
-		addQualifiersPage.init(bean);
+	public void init(){
+		addQualifiersPage.init();
 	}
 	
 	public void deploy(ValuedQualifier qualifier){
@@ -152,10 +152,10 @@ public class SelectBeanWizard extends AbstractModifyInjectionPointWizard{
 				public void selectionChanged(SelectionChangedEvent event) {
 					IBean bean = getSelection();
 					if(bean != null){
-						setPageComplete(true);
-						addQualifiersPage.init(bean);
 						setSelectedBean(bean);
+						addQualifiersPage.init();
 						addQualifiersPage.setDeployedQualifiers(addQualifiersPage.getDeployedQualifiers());
+						setPageComplete(true);
 					}else
 						setPageComplete(false);
 				}
@@ -177,8 +177,8 @@ public class SelectBeanWizard extends AbstractModifyInjectionPointWizard{
 				IBean defaultBean = (IBean)tableViewer.getTable().getItem(0).getData();
 				tableViewer.setSelection(new StructuredSelection(defaultBean));
 				tableViewer.getTable().select(0);
-				addQualifiersPage.init(defaultBean);
 				setSelectedBean(defaultBean);
+				addQualifiersPage.init();
 				addQualifiersPage.setDeployedQualifiers(addQualifiersPage.getDeployedQualifiers());
 				setPageComplete(true);
 			}
