@@ -1,5 +1,6 @@
 package org.jboss.tools.seam.ui.wizard;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -70,27 +71,34 @@ public class SeamDSXMLWizard extends BasicNewResourceWizard {
 	}
 
 	class WizardNewDSXMLFileCreationPage extends WizardNewFileCreationPage {
+		private IFieldEditor connProfileSelEditor;
 
 		public WizardNewDSXMLFileCreationPage(String pageName, IStructuredSelection selection) {
 			super(pageName, selection);
 		}
 	
+		protected InputStream getInitialContents() {
+			Object connection = connProfileSelEditor.getValue();
+			//TODO generate text here
+
+			return null;
+		}
+
 		public void createControl(Composite parent) {
 			super.createControl(parent);
 
 			Composite topLevel = (Composite)getControl();
-			IFieldEditor editor = SeamWizardFactory.createConnectionProfileSelectionFieldEditor(getConnectionProfileDefaultValue(), new IValidator() {
+			connProfileSelEditor = SeamWizardFactory.createConnectionProfileSelectionFieldEditor(getConnectionProfileDefaultValue(), new IValidator() {
 				public Map<String, IStatus> validate(Object value, Object context) {
 					validatePage();
 					return SeamValidatorFactory.NO_ERRORS;
 				}
 			});
-//			sync.register(editor);
-
 			Composite q = new Composite(topLevel, 0);
 			GridLayout l = new GridLayout(4, false);
 			q.setLayout(l);
-			editor.doFillIntoGrid(q);
+			connProfileSelEditor.doFillIntoGrid(q);
+//			sync.register(connProfileSelEditor);
 			
 			validatePage();
 		}
