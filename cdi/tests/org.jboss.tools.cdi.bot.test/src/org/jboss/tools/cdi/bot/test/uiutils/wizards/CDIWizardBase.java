@@ -21,7 +21,9 @@ import org.eclipse.swtbot.swt.finder.widgets.SWTBotCombo;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotRadio;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotShell;
 import org.jboss.tools.cdi.bot.test.annotations.CDIWizardType;
-import org.jboss.tools.ui.bot.ext.Timing;
+import org.jboss.tools.cdi.bot.test.condition.NonEmptyTableCondition;
+import org.jboss.tools.ui.bot.ext.condition.TaskDuration;
+import org.jboss.tools.ui.bot.ext.types.IDELabel;
 
 public class CDIWizardBase extends Wizard {
 
@@ -227,10 +229,11 @@ public class CDIWizardBase extends Wizard {
 		case STEREOTYPE:
 		case INTERCEPTOR:
 			setFocus();
-			bot().button("Add", 0).click();
+			bot().button(IDELabel.Button.ADD_WITHOUT_DOTS, 0).click();
 			SWTBotShell sh = bot().activeShell();
 			sh.bot().text().setText(ib);
-			sh.bot().button("OK").click();
+			sh.bot().waitUntil(new NonEmptyTableCondition(sh.bot().table()), TaskDuration.NORMAL.getTimeout());
+			sh.bot().button(IDELabel.Button.OK).click();
 			setFocus();
 			break;
 		default:
@@ -312,12 +315,12 @@ public class CDIWizardBase extends Wizard {
 		case DECORATOR:
 		case BEAN:
 			setFocus();
-			bot().button("Add...", 0).click();
+			bot().button(IDELabel.Button.ADD, 0).click();
 			SWTBotShell sh = bot().activeShell();
 			sh.bot().text().setText(intf);
-			sh.bot().sleep(Timing.time3S());
+			sh.bot().waitUntil(new NonEmptyTableCondition(sh.bot().table()), TaskDuration.NORMAL.getTimeout());
 			sh.bot().table().getTableItem(0).select();
-			sh.bot().button("OK").click();
+			sh.bot().button(IDELabel.Button.OK).click();
 			setFocus();
 			break;
 		default:
@@ -340,7 +343,7 @@ public class CDIWizardBase extends Wizard {
 		}
 		SWTBotShell sh = bot().activeShell();
 		sh.bot().text().setText(qualifier);
-		sh.bot().sleep(Timing.time2S());
+		sh.bot().waitUntil(new NonEmptyTableCondition(sh.bot().table()), TaskDuration.SHORT.getTimeout());
 		sh.bot().table().getTableItem(0).select();
 		sh.bot().button("OK").click();
 		setFocus();
