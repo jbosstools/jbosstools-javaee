@@ -184,7 +184,8 @@ public class EditorResourceHelper extends CDIBase {
 		
 		bot.menu(IDELabel.Menu.EDIT).menu(IDELabel.Menu.DELETE).click();
 		bot.waitForShell(IDELabel.Shell.CONFIRM_DELETE);
-		bot.shell(IDELabel.Shell.CONFIRM_DELETE).bot().button(IDELabel.Button.OK).click();		
+		bot.shell(IDELabel.Shell.CONFIRM_DELETE).bot().button(IDELabel.Button.OK).click();
+		util.waitForNonIgnoredJobs();
 	}
 
 	/**
