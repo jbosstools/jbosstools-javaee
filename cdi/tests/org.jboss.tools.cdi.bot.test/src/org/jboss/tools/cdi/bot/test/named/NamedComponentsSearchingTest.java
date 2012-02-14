@@ -20,7 +20,6 @@ import org.jboss.tools.cdi.bot.test.CDITestBase;
 import org.jboss.tools.cdi.bot.test.annotations.CDIWizardType;
 import org.jboss.tools.cdi.bot.test.uiutils.wizards.CDIWizardBaseExt;
 import org.jboss.tools.cdi.bot.test.uiutils.wizards.SearchNamedDialogWizard;
-import org.jboss.tools.ui.bot.ext.Timing;
 import org.junit.After;
 import org.junit.Test;
 
@@ -48,14 +47,13 @@ public class NamedComponentsSearchingTest extends CDITestBase {
 	@After
 	public void waitForJobs() {
 		editResourceUtil.deletePackage(getProjectName(), getPackageName());
-		util.waitForNonIgnoredJobs();
 	}
 	
 	@Test
 	public void testSearchDefaultNamedBean() {
 		
 		wizardExt.bean(getPackageName(), beanName, true, false, false, 
-				false, false, false, "", null, null, null).finish();
+				false, false, false, "", null, null, null).finishWithWait();
 		
 		namedDialog = openSearchNamedDialog().setNamedPrefix(beanName);		
 		assertTrue(namedDialog.matchingItems().size() == 1);
@@ -71,7 +69,7 @@ public class NamedComponentsSearchingTest extends CDITestBase {
 		String namedParam = "someBean";
 		
 		wizardExt.bean(getPackageName(), beanName, true, false, false, 
-				false, false, false, namedParam, null, null, null).finish();
+				false, false, false, namedParam, null, null, null).finishWithWait();
 		
 		namedDialog = openSearchNamedDialog().setNamedPrefix(namedParam);		
 		assertTrue(namedDialog.matchingItems().size() == 1);
@@ -88,7 +86,7 @@ public class NamedComponentsSearchingTest extends CDITestBase {
 		String changedNamedParam = "someOtherBean";
 		
 		wizardExt.bean(getPackageName(), beanName, true, false, false, 
-				false, false, false, namedParam, null, null, null).finish();
+				false, false, false, namedParam, null, null, null).finishWithWait();
 		setEd(bot.activeEditor().toTextEditor());
 				
 		namedDialog = openSearchNamedDialog().setNamedPrefix(namedParam);		
@@ -116,9 +114,9 @@ public class NamedComponentsSearchingTest extends CDITestBase {
 		String namedParam = "someBean";
 		
 		wizardExt.bean(getPackageName(), beanName, true, false, false, 
-				false, false, false, namedParam, null, null, null).finish();
+				false, false, false, namedParam, null, null, null).finishWithWait();
 		wizardExt.bean(getPackageName(), beanName2, true, false, false, 
-				false, false, false, namedParam, null, null, null).finish();
+				false, false, false, namedParam, null, null, null).finishWithWait();
 		
 		namedDialog = openSearchNamedDialog().setNamedPrefix(namedParam);
 		List<String> matchingItems = namedDialog.matchingItems();
@@ -149,7 +147,7 @@ public class NamedComponentsSearchingTest extends CDITestBase {
 		
 		for (String beanName : beansNames) {
 			wizardExt.bean(getPackageName(), beanName, true, false, false, 
-					false, false, false, "", null, null, null).finish();
+					false, false, false, "", null, null, null).finishWithWait();
 		}
 		
 		for (String prefix : prefixesWithCount.keySet()) {
@@ -164,7 +162,7 @@ public class NamedComponentsSearchingTest extends CDITestBase {
 	public void testSearchBeanWithStereotype() {
 		
 		wizardExt.stereotype(getPackageName(), stereotypeName, null, null, false, true, 
-				false, false, false).finish();
+				false, false, false).finishWithWait();
 		
 		wizard.createCDIComponentWithContent(CDIWizardType.BEAN, beanName, getPackageName(), 
 				null, BEAN_STEREOTYPE_PATH);
@@ -183,7 +181,7 @@ public class NamedComponentsSearchingTest extends CDITestBase {
 		String namedParam = "someBean";
 		
 		wizardExt.stereotype(getPackageName(), stereotypeName, null, null, false, true, 
-				false, false, false).finish();
+				false, false, false).finishWithWait();
 		
 		wizard.createCDIComponentWithContent(CDIWizardType.BEAN, beanName, getPackageName(), 
 				null, BEAN_STEREOTYPE_NAMED_PATH);
@@ -204,7 +202,7 @@ public class NamedComponentsSearchingTest extends CDITestBase {
 		String changedNamedParam = "someOtherBean";
 		
 		wizardExt.stereotype(getPackageName(), stereotypeName, null, null, false, true, 
-				false, false, false).finish();
+				false, false, false).finishWithWait();
 		
 		wizard.createCDIComponentWithContent(CDIWizardType.BEAN, beanName, getPackageName(), 
 				null, BEAN_STEREOTYPE_NAMED_PATH);
@@ -231,7 +229,7 @@ public class NamedComponentsSearchingTest extends CDITestBase {
 	
 	private SearchNamedDialogWizard openSearchNamedDialog() {		
 		bot.menu(CDIConstants.NAVIGATE).menu(CDIConstants.OPEN_CDI_NAMED_BEANS).click();
-		bot.sleep(Timing.time500MS());
+		bot.waitForShell(CDIConstants.OPEN_CDI_NAMED_BEANS);
 		return new SearchNamedDialogWizard();
 	}
 
