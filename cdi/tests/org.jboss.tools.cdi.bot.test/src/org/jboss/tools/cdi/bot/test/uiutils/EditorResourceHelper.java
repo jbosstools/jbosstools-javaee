@@ -133,13 +133,14 @@ public class EditorResourceHelper extends CDIBase {
 	 * @param destFolder
 	 */
 	public void moveFileInProjectExplorer(String file, String sourceFolder, String destFolder) {
-		SWTBotTree tree = projectExplorer.bot().tree();
-
+		
+		projectExplorer.selectTreeItem(file, sourceFolder.split("/"));		
+		
 		bot.menu(IDELabel.Menu.FILE).menu(IDELabel.Menu.MOVE).click();
 		bot.waitForShell(IDELabel.Shell.MOVE_RESOURCES);
 		
-		tree = bot.tree();	
-		tree.collapseNode(destFolder.split("/")[0]);	
+		SWTBotTree tree = bot.tree();	
+		tree.collapseNode(sourceFolder.split("/")[0]);	
 		
 		TreeHelper.expandNode(bot, destFolder.split("/")).select();		
 		
