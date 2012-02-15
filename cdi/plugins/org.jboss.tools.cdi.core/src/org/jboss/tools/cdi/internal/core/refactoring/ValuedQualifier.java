@@ -37,6 +37,26 @@ public class ValuedQualifier{
 					pair.type = "String";
 				}else if(mvp.getValueKind() == IMemberValuePair.K_CHAR){
 					pair.type = "char";
+				}else if(mvp.getValueKind() == IMemberValuePair.K_CLASS){
+					pair.type = "Class";
+				}else if(mvp.getValueKind() == IMemberValuePair.K_BOOLEAN){
+					pair.type = "boolean";
+				}else if(mvp.getValueKind() == IMemberValuePair.K_BYTE){
+					pair.type = "byte";
+				}else if(mvp.getValueKind() == IMemberValuePair.K_DOUBLE){
+					pair.type = "double";
+				}else if(mvp.getValueKind() == IMemberValuePair.K_FLOAT){
+					pair.type = "float";
+				}else if(mvp.getValueKind() == IMemberValuePair.K_INT){
+					pair.type = "int";
+				}else if(mvp.getValueKind() == IMemberValuePair.K_LONG){
+					pair.type = "long";
+				}else if(mvp.getValueKind() == IMemberValuePair.K_QUALIFIED_NAME){
+					pair.type = "name";
+				}else if(mvp.getValueKind() == IMemberValuePair.K_SHORT){
+					pair.type = "short";
+				}else if(mvp.getValueKind() == IMemberValuePair.K_SIMPLE_NAME){
+					pair.type = "name";
 				}
 				pairs.add(pair);	
 			}
@@ -69,7 +89,7 @@ public class ValuedQualifier{
 							}else if(pair.type.equals("String")){
 								pair.value = "default";
 							}else{
-								pair.value = "String.class";
+								pair.value = "String";
 							}
 						}
 						pairs.add(pair);
@@ -141,6 +161,10 @@ public class ValuedQualifier{
 				text += "\""+pair.value+"\"";
 			}else{
 				text += pair.value;
+				if(!CDIMarkerResolutionUtils.primitives.contains(pair.type)){
+					text += ".class";
+				}
+				
 			}
 			first = false;
 		}
