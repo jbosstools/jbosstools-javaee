@@ -26,7 +26,6 @@ import org.jboss.tools.cdi.bot.test.CDIBase;
 import org.jboss.tools.cdi.bot.test.CDIConstants;
 import org.jboss.tools.cdi.bot.test.PluginActivator;
 import org.jboss.tools.ui.bot.ext.SWTUtilExt;
-import org.jboss.tools.ui.bot.ext.Timing;
 import org.jboss.tools.ui.bot.ext.helper.ContextMenuHelper;
 import org.jboss.tools.ui.bot.ext.types.IDELabel;
 
@@ -49,15 +48,17 @@ public class LibraryHelper extends CDIBase{
 	    
 	    bot.tree().expandNode(CDIConstants.JAVA_BUILD_PATH).select();
 	    bot.tabItem(CDIConstants.LIBRARIES).activate();
+	    
 	    bot.button(CDIConstants.ADD_JARS).click();
-	    bot.sleep(Timing.time500MS());
+	    bot.waitForShell(IDELabel.Shell.JAR_SELECTION);
+	    	    
 	    String file = libraryName;
 	    bot.tree().expandNode(projectName).expandNode(file).select();
 	    
 	    bot.button(IDELabel.Button.OK).click();
-	    bot.sleep(Timing.time1S());
+	    
 	    bot.button(IDELabel.Button.OK).click();
-	    bot.sleep(Timing.time1S());
+	    util.waitForNonIgnoredJobs();
 	}
 
 	/**
@@ -114,8 +115,7 @@ public class LibraryHelper extends CDIBase{
 	    		break;
 	    	}
 	    }
-	    bot.button(IDELabel.Button.CANCEL).click();	    
-	    bot.sleep(Timing.time1S());
+	    bot.button(IDELabel.Button.CANCEL).click();	    	    
 	    return libraryInProject;
 	}
 	
