@@ -52,11 +52,11 @@ public class OpenOnTest extends OpenOnBase {
 		
 		beansHelper.createEmptyBeansXML(getProjectName());
 				
-		assertTrue(checkBeanXMLDecoratorOpenOn(getProjectName(), "D1"));
+		assertTrue(checkBeanXMLDecoratorOpenOn(getPackageName(), "D1"));
 		
-		assertTrue(checkBeanXMLInterceptorOpenOn(getProjectName(), "I1"));
+		assertTrue(checkBeanXMLInterceptorOpenOn(getPackageName(), "I1"));
 		
-		assertTrue(checkBeanXMLAlternativeOpenOn(getProjectName(), "A1"));
+		assertTrue(checkBeanXMLAlternativeOpenOn(getPackageName(), "A1"));
 		
 	}
 	
@@ -70,6 +70,9 @@ public class OpenOnTest extends OpenOnBase {
 				getPackageName(), null, "/resources/openon/BeanWithDisposerAndProducer.java.cdi");
 		
 		editResourceUtil.replaceInEditor("BeanComponent", className);
+		
+		bot.sleep(Timing.time2S());
+		
 		openOnUtil.openOnByOption("disposeMethod", className + ".java", "Open Bound Producer");
 		assertTrue(getEd().toTextEditor().getSelection().equals("produceMethod"));
 		
