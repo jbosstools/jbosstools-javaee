@@ -55,7 +55,7 @@
 	<profiles>
 		<profile>
 			<activation>
-				<activeByDefault></activeByDefault>
+				<activeByDefault>true</activeByDefault>
 			</activation>
 			<id>all-bot-tests</id>
 			<properties>
