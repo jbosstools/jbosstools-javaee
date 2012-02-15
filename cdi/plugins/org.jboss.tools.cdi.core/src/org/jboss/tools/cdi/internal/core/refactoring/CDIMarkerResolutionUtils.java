@@ -284,7 +284,7 @@ public class CDIMarkerResolutionUtils extends MarkerResolutionUtils{
 			for(ValuedQualifier vq : deployed){
 				String qualifierName = vq.getQualifier().getSourceType().getFullyQualifiedName();
 				String value = vq.getValue();
-				String elName = getELName(bean);
+				String elName = "\""+getELName(bean)+"\"";
 				
 				if(!value.isEmpty() && (!value.equals(elName) || !qualifierName.equals(CDIConstants.NAMED_QUALIFIER_TYPE_NAME))){
 					value = "("+value+")";
