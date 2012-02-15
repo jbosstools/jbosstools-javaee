@@ -205,4 +205,14 @@ public class SeamProjectPropertyValidatorWrapper extends SeamProjectPropertyVali
 		support.add(marker);
 		return marker;
 	}
+
+	@Override
+	public void init(
+			IProject project,
+			ContextValidationHelper validationHelper,
+			IProjectValidationContext validationContext,
+			org.eclipse.wst.validation.internal.provisional.core.IValidator manager,
+			IReporter reporter, boolean asYouTypeValidation) {
+		this.init(project, validationHelper, validationContext, manager, reporter, false);
+	}
 }

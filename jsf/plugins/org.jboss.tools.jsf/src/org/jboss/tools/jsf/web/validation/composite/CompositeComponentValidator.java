@@ -379,8 +379,22 @@ public class CompositeComponentValidator extends WebValidator {
 		return false;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.common.validation.ValidationErrorManager#getPreferencePageId()
+	 */
 	@Override
 	protected String getPreferencePageId() {
 		return PREFERENCE_PAGE_ID;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.common.validation.TempMarkerManager#getMessageBundleName()
+	 */
+	@Override
+	protected String getMessageBundleName() {
+		// TODO
+		return null;
 	}
 }

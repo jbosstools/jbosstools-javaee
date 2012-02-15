@@ -33,7 +33,7 @@ public class BuilderValidationTest extends AbstractResourceMarkerTest {
 
 	/**
 	 * See https://issues.jboss.org/browse/JBIDE-10872
-	 * EL incremental validation doesnt work for complex ELs.
+	 * EL incremental validation doesn't work for complex ELs.
 	 * @throws Exception
 	 */
 	public void testFullBuildValidation() throws Exception {
