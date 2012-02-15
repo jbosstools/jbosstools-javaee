@@ -12,6 +12,7 @@
 package org.jboss.tools.cdi.bot.test.seam3;
 
 
+import org.jboss.tools.cdi.bot.test.CDIConstants;
 import org.jboss.tools.cdi.bot.test.annotations.CDIWizardType;
 import org.junit.Test;
 
@@ -36,29 +37,31 @@ public class Seam3ResourceOpenOnTest extends Seam3TestBase {
 			
 		String className = "Bean1";
 		
-		wizard.createCDIComponent(CDIWizardType.BEANS_XML, "beans.xml", getProjectName() + "/WebContent/WEB-INF", null);		
+		wizard.createCDIComponent(CDIWizardType.BEANS_XML, CDIConstants.BEANS_XML, 
+				getProjectName() + "/" + CDIConstants.WEBCONTENT + "/" + CDIConstants.WEB_INF, null);		
 		
 		wizard.createCDIComponentWithContent(CDIWizardType.BEAN, className, 
 				getPackageName(), null, "/resources/seam3/openon/BeanWithResourceAnnotation.java.cdi");
 		editResourceUtil.replaceInEditor("BeanComponent", className);		
 		
-		openOnUtil.openOnByOption("beansXml", className + ".java", "Open Resource");
+		openOnUtil.openOnByOption(CDIConstants.BEANS_XML, className + ".java", "Open Resource");
 		
 		String destinationFile = getEd().getTitle();		
 		assertTrue("ERROR: redirected to " + destinationFile,
-					destinationFile.equals("beans.xml"));
+					destinationFile.equals(CDIConstants.BEANS_XML));
 
-		editResourceUtil.moveFileInProjectExplorer("beans.xml", getProjectName() + "/WebContent/WEB-INF",
-								  getProjectName() + "/WebContent/META-INF");
+		editResourceUtil.moveFileInProjectExplorer(CDIConstants.BEANS_XML, 
+				getProjectName() + "/" + CDIConstants.WEBCONTENT + "/" + CDIConstants.WEB_INF,
+				getProjectName() + "/" + CDIConstants.WEBCONTENT + "/" + CDIConstants.META_INF);
 		LOGGER.info("bean.xml was moved to META-INF");
 		
 		setEd(bot.swtBotEditorExtByTitle(className + ".java"));
 		editResourceUtil.replaceInEditor("WEB", "META");
-		openOnUtil.openOnByOption("beansXml", className + ".java", "Open Resource");
+		openOnUtil.openOnByOption(CDIConstants.BEANS_XML, className + ".java", "Open Resource");
 		
 		destinationFile = getEd().getTitle();
 		assertTrue("ERROR: redirected to " + destinationFile,
-				   destinationFile.equals("beans.xml"));
+				   destinationFile.equals(CDIConstants.BEANS_XML));
 
 	}
 	
