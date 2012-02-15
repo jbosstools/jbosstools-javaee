@@ -224,7 +224,7 @@ public class AddQualifiersToBeanWizardTest extends TestCase{
 	public void testValuedQualifier(){
 		ValuedQualifier oneQualifier = new ValuedQualifier(project.getQualifier(CDIProject.COMPLICATED_QUALIFIER1));
 		String value = oneQualifier.getValue();
-		assertEquals("type = \"default\", name = \"User\", realChanky = false, unrealChanky = true, number = 0, size = 125, bTs = 0, bTs2 = 4, posibility = 0.0, posibility2 = 0.9999, ch = ' ', ch2 = 'T'", value);
+		assertEquals("type = \"default\", realChanky = false, number = 0, bTs = 0, posibility = 0.0, ch = ' '", value);
 	}
 	
 	public void testValuedQualifierWithDeclaration(){
