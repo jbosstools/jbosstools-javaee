@@ -11,7 +11,6 @@
 package org.jboss.tools.cdi.internal.core.refactoring;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -28,7 +27,6 @@ import org.eclipse.jdt.core.ISourceRange;
 import org.eclipse.jdt.core.ISourceReference;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
-import org.eclipse.jdt.core.Signature;
 import org.eclipse.text.edits.InsertEdit;
 import org.eclipse.text.edits.MultiTextEdit;
 import org.eclipse.text.edits.ReplaceEdit;
@@ -146,75 +144,6 @@ public class CDIMarkerResolutionUtils extends MarkerResolutionUtils{
 		return list;
 	}
 	
-	private static void addQualifiersToParameter(ICompilationUnit compilationUnit, IInjectionPoint injectionPoint, List<ValuedQualifier>  declarations, MultiTextEdit rootEdit){
-		HashMap<IQualifier, Boolean> duplicants = new HashMap<IQualifier, Boolean>();
-		if(!(injectionPoint instanceof IInjectionPointParameter))
-			return;
-		try{
-			for(ValuedQualifier declaration : declarations){
-				String qualifierName = declaration.getQualifier().getSourceType().getFullyQualifiedName();
-				boolean duplicant = false;
-				if(!qualifierName.equals(CDIConstants.ANY_QUALIFIER_TYPE_NAME) &&
-					!qualifierName.equals(CDIConstants.DEFAULT_QUALIFIER_TYPE_NAME)){
-						duplicant = addImport(qualifierName, compilationUnit, rootEdit);
-				}
-				duplicants.put(declaration.getQualifier(), new Boolean(duplicant));
-			}
-			
-			String paramName = ((IInjectionPointParameter)injectionPoint).getName();
-			IMethod method =  ((IInjectionPointParameter)injectionPoint).getBeanMethod().getMethod();
-			IType type = method.getDeclaringType();
-			IType t = compilationUnit.getType(type.getElementName());
-			IMethod m = t.getMethod(method.getElementName(), method.getParameterTypes());
-		
-			IBuffer buffer = compilationUnit.getBuffer();
-			
-			ILocalVariable[] parameters = m.getParameters();
-			for(int index = 0; index < parameters.length; index++){
-				if(parameters[index].getElementName().equals(paramName)){
-					StringBuffer b = new StringBuffer();
-					if(index > 0)
-						b.append(SPACE);
-					for(ValuedQualifier declaration : declarations){
-						String qualifierName = declaration.getQualifier().getSourceType().getFullyQualifiedName();
-						String value = declaration.getValue();
-						
-						if(!value.isEmpty())
-							value = "("+value+")";
-						
-						if(!qualifierName.equals(CDIConstants.ANY_QUALIFIER_TYPE_NAME) && !qualifierName.equals(CDIConstants.DEFAULT_QUALIFIER_TYPE_NAME)){
-							boolean duplicant = duplicants.get(declaration.getQualifier()).booleanValue();
-							String annotation = getShortName(qualifierName);
-							if(duplicant)
-								annotation = qualifierName;
-								b.append(AT+annotation+value+SPACE);
-						}
-					}
-					b.append(Signature.getSignatureSimpleName(parameters[index].getTypeSignature())+SPACE);
-					b.append(parameters[index].getElementName());
-					
-					String newValue = b.toString();
-					
-					if(!parameters[index].getSource().equals(newValue)){
-						if(rootEdit != null){
-							TextEdit edit = new ReplaceEdit(parameters[index].getSourceRange().getOffset(), parameters[index].getSourceRange().getLength(), b.toString());
-							rootEdit.addChild(edit);
-						}else{
-							buffer.replace(parameters[index].getSourceRange().getOffset(), parameters[index].getSourceRange().getLength(), b.toString());
-							
-							synchronized(compilationUnit) {
-								compilationUnit.reconcile(ICompilationUnit.NO_AST, true, null, null);
-							}
-						}
-					}
-				}
-			}
-			
-		}catch(JavaModelException ex){
-			CDICorePlugin.getDefault().logError(ex);
-		}
-	}
-	
 	public static ISourceRange getParameterRegion(IInjectionPointParameter injectionParameter){
 		try{
 			String paramName = injectionParameter.getName();
@@ -233,27 +162,23 @@ public class CDIMarkerResolutionUtils extends MarkerResolutionUtils{
 	
 	public static void addQualifiersToInjectionPoint(List<ValuedQualifier> deployed, IInjectionPoint injectionPoint, ICompilationUnit compilationUnit, MultiTextEdit edit){
 		try{
-			if(injectionPoint instanceof IInjectionPointParameter){
-				addQualifiersToParameter(compilationUnit, injectionPoint, deployed, edit);
-			}else{
-				IJavaElement element = getInjectedJavaElement(compilationUnit, injectionPoint);
-				if(element == null || !element.exists())
-					return;
-				
-				// delete unneeded qualifiers
-				List<IQualifier> toDelete = findQualifiersToDelete(injectionPoint, deployed);
-				
-				for(IQualifier qualifier : toDelete){
-						deleteAnnotation(qualifier.getSourceType().getFullyQualifiedName(), compilationUnit, element, edit);
-				}
-				
-				for(ValuedQualifier declaration : deployed){
-					String qualifierName = declaration.getQualifier().getSourceType().getFullyQualifiedName();
-					String value = declaration.getValue();
-					if(!qualifierName.equals(CDIConstants.ANY_QUALIFIER_TYPE_NAME) && !qualifierName.equals(CDIConstants.DEFAULT_QUALIFIER_TYPE_NAME)){
-						addQualifier(qualifierName, value, compilationUnit, element, edit);
-						updateQualifier(qualifierName, value, compilationUnit, element, edit);
-					}
+			IJavaElement element = getInjectedJavaElement(compilationUnit, injectionPoint);
+			if(element == null || !element.exists())
+				return;
+			
+			// delete unneeded qualifiers
+			List<IQualifier> toDelete = findQualifiersToDelete(injectionPoint, deployed);
+			
+			for(IQualifier qualifier : toDelete){
+					deleteAnnotation(qualifier.getSourceType().getFullyQualifiedName(), compilationUnit, element, edit);
+			}
+			
+			for(ValuedQualifier declaration : deployed){
+				String qualifierName = declaration.getQualifier().getSourceType().getFullyQualifiedName();
+				String value = declaration.getValue();
+				if(!qualifierName.equals(CDIConstants.ANY_QUALIFIER_TYPE_NAME) && !qualifierName.equals(CDIConstants.DEFAULT_QUALIFIER_TYPE_NAME)){
+					addQualifier(qualifierName, value, compilationUnit, element, edit);
+					updateQualifier(qualifierName, value, compilationUnit, element, edit);
 				}
 			}
 		}catch(CoreException ex){
@@ -312,7 +237,7 @@ public class CDIMarkerResolutionUtils extends MarkerResolutionUtils{
 		return false;
 	}
 	
-	private static IJavaElement getInjectedJavaElement(ICompilationUnit compilationUnit, IInjectionPoint injectionPoint){
+	private static IJavaElement getInjectedJavaElement(ICompilationUnit compilationUnit, IInjectionPoint injectionPoint) throws JavaModelException{
 		if(injectionPoint instanceof IInjectionPointField){
 			IField field = ((IInjectionPointField)injectionPoint).getField();
 			IType type = field.getDeclaringType();
@@ -325,8 +250,11 @@ public class CDIMarkerResolutionUtils extends MarkerResolutionUtils{
 			IType type = method.getDeclaringType();
 			IType t = compilationUnit.getType(type.getElementName());
 			IMethod m = t.getMethod(method.getElementName(), method.getParameterTypes());
-			// Why method? Why not Java element for parameter?
-			return m;
+			for(ILocalVariable parameter : m.getParameters()){
+				if(parameter.getElementName().equals(((IInjectionPointParameter) injectionPoint).getName())){
+					return parameter;
+				}
+			}
 		}
 		return null;
 	}
