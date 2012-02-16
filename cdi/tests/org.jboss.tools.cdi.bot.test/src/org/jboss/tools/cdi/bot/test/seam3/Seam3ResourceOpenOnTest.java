@@ -44,7 +44,7 @@ public class Seam3ResourceOpenOnTest extends Seam3TestBase {
 				getPackageName(), null, "/resources/seam3/openon/BeanWithResourceAnnotation.java.cdi");
 		editResourceUtil.replaceInEditor("BeanComponent", className);		
 		
-		openOnUtil.openOnByOption(CDIConstants.BEANS_XML, className + ".java", "Open Resource");
+		openOnUtil.openOnByOption(CDIConstants.RESOURCE_ANNOTATION, className + ".java", "Open Resource");
 		
 		String destinationFile = getEd().getTitle();		
 		assertTrue("ERROR: redirected to " + destinationFile,
@@ -57,7 +57,7 @@ public class Seam3ResourceOpenOnTest extends Seam3TestBase {
 		
 		setEd(bot.swtBotEditorExtByTitle(className + ".java"));
 		editResourceUtil.replaceInEditor("WEB", "META");
-		openOnUtil.openOnByOption(CDIConstants.BEANS_XML, className + ".java", "Open Resource");
+		openOnUtil.openOnByOption(CDIConstants.RESOURCE_ANNOTATION, className + ".java", "Open Resource");
 		
 		destinationFile = getEd().getTitle();
 		assertTrue("ERROR: redirected to " + destinationFile,

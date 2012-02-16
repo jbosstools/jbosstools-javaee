@@ -40,6 +40,7 @@ public class CDIConstants {
 	public static final String CDI_FACET = "CDI (Contexts and Dependency Injection)";
 	public static final String CONFIGURATION = "Configuration";
 	public static final String PROJECT_FACETS = "Project Facets";
+	public static final String RESOURCE_ANNOTATION = "@Resource";
 	public static String LINE_SEPARATOR = System.getProperty("line.separator");
 	
 }
