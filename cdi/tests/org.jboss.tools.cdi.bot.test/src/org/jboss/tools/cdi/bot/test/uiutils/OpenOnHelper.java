@@ -13,7 +13,6 @@ package org.jboss.tools.cdi.bot.test.uiutils;
 
 import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotEditor;
 import org.eclipse.swtbot.swt.finder.keyboard.Keystrokes;
-import org.eclipse.swtbot.swt.finder.widgets.SWTBotMenu;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTable;
 import org.jboss.tools.cdi.bot.test.CDIBase;
 import org.jboss.tools.cdi.bot.test.CDIConstants;
@@ -33,9 +32,7 @@ public class OpenOnHelper extends CDIBase{
 	 */
 	public void openOnByOption(String openOnString, String titleName, String chosenOption) {
 		selectTextForOpenOn(openOnString, titleName);
-		SWTBotMenu navigateMenu = bot.menu(CDIConstants.NAVIGATE);
-		bot.sleep(Timing.time500MS());
-		navigateMenu.menu(CDIConstants.OPEN_HYPERLINK).click();
+		bot.menu(CDIConstants.NAVIGATE).menu(CDIConstants.OPEN_HYPERLINK).click();			
 		bot.sleep(Timing.time500MS());
 		SWTBotTable table = bot.activeShell().bot().table(0);
 		for (int i = 0; i < table.rowCount(); i++) {
