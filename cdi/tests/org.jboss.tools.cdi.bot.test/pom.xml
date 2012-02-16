@@ -25,6 +25,8 @@
 					<testClass>${test.suite.class}</testClass>
 					<useUIThread>false</useUIThread>
 					<skip>${swtbot.test.skip}</skip>
+					<!-- Kill swt bot test take more than 90 minutes (5400 seconds) to finish -->
+					<forkedProcessTimeoutInSeconds>5400</forkedProcessTimeoutInSeconds>
 					<dependencies combine.children="append">
 						<dependency>
 							<type>p2-installable-unit</type>
