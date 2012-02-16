@@ -188,7 +188,7 @@ public class BeansXMLHelper extends CDIBase {
 		editResourceUtil.replaceClassContentByResource(OpenOnTest.class
 					.getResourceAsStream(path), 
 					false);
-		bot.sleep(Timing.time500MS());
+//		bot.sleep(Timing.time500MS());
 	}
 	
 }
