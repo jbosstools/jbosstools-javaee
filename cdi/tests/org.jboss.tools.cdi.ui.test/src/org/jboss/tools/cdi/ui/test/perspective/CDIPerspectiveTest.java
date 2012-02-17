@@ -58,11 +58,12 @@ public class CDIPerspectiveTest extends TestCase {
 		for (String shortcut : shortcuts) {
 			shortcutSet.add(shortcut);
 		}
+		assertTrue("Have not found org.jboss.tools.cdi.ui.wizard.NewCDIProjectWizard in org.eclipse.jst.j2ee.J2EEPerspective.", shortcutSet.contains("org.jboss.tools.cdi.ui.wizard.NewCDIProjectWizard"));
 		assertTrue("Have not found org.jboss.tools.cdi.ui.wizard.NewBeanCreationWizard in org.eclipse.jst.j2ee.J2EEPerspective.", shortcutSet.contains("org.jboss.tools.cdi.ui.wizard.NewBeanCreationWizard"));
-		assertTrue("Have not found org.jboss.tools.cdi.ui.wizard.NewQualifierCreationWizard in org.eclipse.jst.j2ee.J2EEPerspective.", shortcutSet.contains("org.jboss.tools.cdi.ui.wizard.NewQualifierCreationWizard"));
-		assertTrue("Have not found org.jboss.tools.cdi.ui.wizard.NewStereotypeCreationWizard in org.eclipse.jst.j2ee.J2EEPerspective.", shortcutSet.contains("org.jboss.tools.cdi.ui.wizard.NewStereotypeCreationWizard"));
-		assertTrue("Have not found org.jboss.tools.cdi.ui.wizard.NewScopeCreationWizard in org.eclipse.jst.j2ee.J2EEPerspective.", shortcutSet.contains("org.jboss.tools.cdi.ui.wizard.NewScopeCreationWizard"));
-		assertTrue("Have not found org.jboss.tools.cdi.ui.wizard.NewInterceptorBindingCreationWizard in org.eclipse.jst.j2ee.J2EEPerspective.", shortcutSet.contains("org.jboss.tools.cdi.ui.wizard.NewInterceptorBindingCreationWizard"));
+//		assertTrue("Have not found org.jboss.tools.cdi.ui.wizard.NewQualifierCreationWizard in org.eclipse.jst.j2ee.J2EEPerspective.", shortcutSet.contains("org.jboss.tools.cdi.ui.wizard.NewQualifierCreationWizard"));
+//		assertTrue("Have not found org.jboss.tools.cdi.ui.wizard.NewStereotypeCreationWizard in org.eclipse.jst.j2ee.J2EEPerspective.", shortcutSet.contains("org.jboss.tools.cdi.ui.wizard.NewStereotypeCreationWizard"));
+//		assertTrue("Have not found org.jboss.tools.cdi.ui.wizard.NewScopeCreationWizard in org.eclipse.jst.j2ee.J2EEPerspective.", shortcutSet.contains("org.jboss.tools.cdi.ui.wizard.NewScopeCreationWizard"));
+//		assertTrue("Have not found org.jboss.tools.cdi.ui.wizard.NewInterceptorBindingCreationWizard in org.eclipse.jst.j2ee.J2EEPerspective.", shortcutSet.contains("org.jboss.tools.cdi.ui.wizard.NewInterceptorBindingCreationWizard"));
 		assertTrue("Have not found org.jboss.tools.cdi.ui.wizard.NewInterceptorCreationWizard in org.eclipse.jst.j2ee.J2EEPerspective.", shortcutSet.contains("org.jboss.tools.cdi.ui.wizard.NewInterceptorCreationWizard"));
 		assertTrue("Have not found org.jboss.tools.cdi.ui.wizard.NewDecoratorCreationWizard in org.eclipse.jst.j2ee.J2EEPerspective.", shortcutSet.contains("org.jboss.tools.cdi.ui.wizard.NewDecoratorCreationWizard"));
 //		assertTrue("Have not found org.jboss.tools.cdi.ui.wizard.NewAnnotationLiteralCreationWizard in org.eclipse.jst.j2ee.J2EEPerspective.", shortcutSet.contains("org.jboss.tools.cdi.ui.wizard.NewAnnotationLiteralCreationWizard"));

@@ -372,7 +372,7 @@
          <newWizardShortcut
                id="org.jboss.tools.cdi.ui.wizard.NewBeanCreationWizard">
          </newWizardShortcut>
-         <newWizardShortcut
+         <!--newWizardShortcut
                id="org.jboss.tools.cdi.ui.wizard.NewQualifierCreationWizard">
          </newWizardShortcut>
          <newWizardShortcut
@@ -383,7 +383,7 @@
          </newWizardShortcut>
          <newWizardShortcut
                id="org.jboss.tools.cdi.ui.wizard.NewInterceptorBindingCreationWizard">
-         </newWizardShortcut>
+         </newWizardShortcut-->
          <newWizardShortcut
                id="org.jboss.tools.cdi.ui.wizard.NewInterceptorCreationWizard">
          </newWizardShortcut>
