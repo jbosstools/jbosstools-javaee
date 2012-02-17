@@ -97,7 +97,7 @@
          </selection>
       </wizard>
      
-      <wizard
+      <!--wizard
             name="New DS XML"
             icon="$nl$/icons/seam16.png"
             category="org.jboss.tools.seam.ui"
@@ -109,7 +109,7 @@
          <selection
                class="org.eclipse.core.resources.IResource">
          </selection>
-      </wizard>
+      </wizard-->
 
    </extension>
    <extension
