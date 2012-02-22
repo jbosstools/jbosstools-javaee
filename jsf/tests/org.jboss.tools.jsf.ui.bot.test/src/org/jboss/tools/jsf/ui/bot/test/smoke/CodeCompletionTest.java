@@ -14,6 +14,7 @@ import java.awt.event.KeyEvent;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.eclipse.swt.SWTException;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotShell;
 import org.jboss.tools.jsf.ui.bot.test.JSFAutoTestCase;
 import org.jboss.tools.ui.bot.ext.Assertions;
@@ -273,22 +274,6 @@ public class CodeCompletionTest extends JSFAutoTestCase{
     expectedProposals.add("msgs");
     expectedProposals.add("user : User");
     expectedProposals.add("\"#{user.name}\"");
-    expectedProposals.add("applicationScope");
-    expectedProposals.add("cc");
-    expectedProposals.add("component");
-    expectedProposals.add("cookie");
-    expectedProposals.add("facesContext");
-    expectedProposals.add("flash");
-    expectedProposals.add("header");
-    expectedProposals.add("headerValues");
-    expectedProposals.add("initParam");
-    expectedProposals.add("param");
-    expectedProposals.add("paramValues");
-    expectedProposals.add("requestScope");
-    expectedProposals.add("resource");
-    expectedProposals.add("sessionScope");
-    expectedProposals.add("view");
-    expectedProposals.add("viewScope");
     // Check content assist for #{ prefix
     ContentAssistHelper.checkContentAssistContent(SWTTestExt.bot, 
         JSF2_TEST_PAGE,
@@ -391,6 +376,7 @@ public class CodeCompletionTest extends JSFAutoTestCase{
 	  openPage(FACELETS_TEST_PAGE,FACELETS_TEST_PROJECT_NAME);
     editor = SWTTestExt.bot.swtBotEditorExtByTitle(FACELETS_TEST_PAGE);
     originalEditorText = editor.getText();
+    setProjectName(FACELETS_TEST_PROJECT_NAME);
 	}
 	
   /**
@@ -402,6 +388,7 @@ public class CodeCompletionTest extends JSFAutoTestCase{
     openPage(JSF2_TEST_PAGE, JSF2_TEST_PROJECT_NAME);
     compositeComponentContainerEditor = SWTTestExt.bot.swtBotEditorExtByTitle(FACELETS_TEST_PAGE);
     origCompositeComponentContainerEditorText = compositeComponentContainerEditor.getText();
+    setProjectName(JSF2_TEST_PROJECT_NAME);
   } 
 	/**
 	 * Returns list of expected Content Assist proposals for Input tag
@@ -528,15 +515,21 @@ public class CodeCompletionTest extends JSFAutoTestCase{
   public void tearDown() throws Exception {
     if (editor != null){
       editor.setText(originalEditorText);
-      editor.saveAndClose();
+      editor.save();
+      util.waitForNonIgnoredJobs();
+      editor.close();
     }
     if (compositeComponentDefEditor != null){
       compositeComponentDefEditor.setText(compositeComponentDefEditorText);
-      compositeComponentDefEditor.saveAndClose();
+      compositeComponentDefEditor.save();
+      util.waitForNonIgnoredJobs();
+      compositeComponentDefEditor.close();
     }
     if (compositeComponentContainerEditor != null){
       compositeComponentContainerEditor.setText(origCompositeComponentContainerEditorText);
-      compositeComponentContainerEditor.saveAndClose();
+      compositeComponentContainerEditor.save();
+      util.waitForNonIgnoredJobs();
+      compositeComponentContainerEditor.close();
     }
     util.waitForNonIgnoredJobs();
     removeRichFacesFromJSF2ProjectClassPath();
@@ -660,8 +653,14 @@ public class CodeCompletionTest extends JSFAutoTestCase{
    * Add RichFaces library to JSF2 project classpath
    */
   private void addRichFacesToJSF2ProjectClassPath(){
+    Throwable exceptionBeforeCall = getException();
     addedVariableRichfacesUiLocation = BuildPathHelper.addExternalJar(VPEAutoTestCase.RICH_FACES_UI_JAR_LOCATION, 
       JSF2_TEST_PROJECT_NAME);
+    if (exceptionBeforeCall == null 
+        && getException() != null
+        && getException() instanceof SWTException){
+      setException(null);
+    }
   }
   /**
    * Remove previously added RichFaces library from JSF2 project classpath
