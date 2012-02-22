@@ -48,5 +48,91 @@
 	  <para>
 		  A new window will launch, displaying the contents of the page you selected as it will appear on mobile devices. 
 	  </para>
+	  <para>
+		  You are able to select the type of mobile device to simulate the browser on by right-clicking on part of the theme and selecting from the context menu.
+	  </para>
+	  <figure>
+		  <title>Mobile web browser device selection</title> 
+		  <mediaobject>
+			  <imageobject>
+				  <imagedata fileref="images/browsers/mobile_browser_03.png"/>
+			  </imageobject>
+		  </mediaobject>
+	  </figure>
+	  <para>
+		  To open the <guilabel>BrowserSim</guilabel> without using a context menu, click on the <guibutton>BrowserSim</guibutton> button <inlinemediaobject>
+			  <imageobject>
+				  <imagedata fileref="images/browsers/mobile_browser_icon_01.png"/>
+			  </imageobject>
+			  <textobject>
+			  <phrase>BrowserSim toolbar icon</phrase>
+	  </textobject>
+</inlinemediaobject> in your toolbar. If the button is not in your toolbar you can add it by undertaking the following:
+	  </para>
+	  <itemizedlist>
+		<listitem>
+			<para>
+				Right-click on the toolbar at the top of your workspace and select <guilabel>Customize Perspective</guilabel> from the context menu.
+			</para>
+			<figure>
+				<title>Toolbar context menu</title> 
+				<mediaobject>
+					<imageobject>
+						<imagedata fileref="images/browsers/mobile_browser_04.png"/>
+					</imageobject>
+				</mediaobject>
+			</figure>
+		</listitem>
+		<listitem>
+			<para>
+				Click on the <guilabel>Command Groups Availability</guilabel> tab and ensure the <guilabel>BrowserSim</guilabel> command group is checked. 
+			</para>
+			<figure>
+				<title>Command Groups Availability tab</title> 
+				<mediaobject>
+					<imageobject>
+						<imagedata fileref="images/browsers/mobile_browser_05.png"/>
+					</imageobject>
+				</mediaobject>
+			</figure>
+		</listitem>
+		<listitem>
+			<para>
+				Click on the <guilabel>Tool Bar Visibility</guilabel> tab and select the <guilabel>BrowserSim</guilabel> toolbar items menu and click the <guibutton>OK</guibutton> button.
+			</para>
+			<figure>
+				<title>Tool Bar Visibility tab</title> 
+				<mediaobject>
+					<imageobject>
+						<imagedata fileref="images/browsers/mobile_browser_06.png"/>
+					</imageobject>
+				</mediaobject>
+			</figure>
+		</listitem>
+		<listitem>
+			<para>
+				The <guilabel>BrowserSim</guilabel> toolbar button will now be present in the toolbar for your current perspective.
+			</para>
+			<figure>
+				<title>Tool Bar Visibility tab</title> 
+				<mediaobject>
+					<imageobject>
+						<imagedata fileref="images/browsers/mobile_browser_07.png"/>
+					</imageobject>
+				</mediaobject>
+			</figure>
+		</listitem> 
+	  </itemizedlist>
+	  <para>
+		Launching <guilabel>BrowserSim</guilabel> from the toolbar will either present you with the simulator and a blank webpage or the webpage currently open in the <guilabel>Internal Web Browser</guilabel>.  
+	  </para>
+	  <figure>
+		  <title>Tool Bar Visibility tab</title> 
+		  <mediaobject>
+			  <imageobject>
+				  <imagedata fileref="images/browsers/mobile_browser_08.png"/>
+			  </imageobject>
+		  </mediaobject>
+	  </figure>
   </section>
 </chapter>
