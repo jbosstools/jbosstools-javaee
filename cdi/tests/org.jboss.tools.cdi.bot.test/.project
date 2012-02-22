@@ -42,11 +42,4 @@
 		<nature>org.jboss.tools.jst.web.kb.kbnature</nature>
 		<nature>org.jboss.tools.cdi.core.cdinature</nature>
 	</natures>
-	<linkedResources>
-		<link>
-			<name>lib-src</name>
-			<type>2</type>
-			<location>/home/jjankovi/Dokumenty/Trunk-svn/trunk/tests/plugins/org.jboss.tools.ui.bot.ext/src</location>
-		</link>
-	</linkedResources>
 </projectDescription>

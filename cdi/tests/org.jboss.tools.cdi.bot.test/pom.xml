@@ -11,8 +11,10 @@
 	
 	<packaging>eclipse-test-plugin</packaging>
 	<properties>
-		<!-- <systemProperties>-Xdebug -Xrunjdwp:transport=dt_socket,address=8001,server=y,suspend=y -Dswtbot.test.properties.file=${project.basedir}/properties/config_files/swtbot.properties</systemProperties> -->
-		<systemProperties> -Dswtbot.test.properties.file=${project.basedir}/properties/config_files/swtbot.properties</systemProperties>		
+		<!-- debug option -->
+		<!-- <systemProperties>-Xdebug -Xrunjdwp:transport=dt_socket,address=8001,server=y,suspend=y -Dswtbot.test.properties.file=${project.basedir}/properties/swtbot.properties</systemProperties> -->
+		
+		<systemProperties> -Dswtbot.test.properties.file=${project.basedir}/properties/swtbot.properties</systemProperties>		
 	</properties>
 
 	<build>
