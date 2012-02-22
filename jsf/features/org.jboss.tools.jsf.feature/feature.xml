@@ -22,6 +22,7 @@
       <import feature="org.jboss.tools.common.feature" version="3.3.0" match="greaterOrEqual"/>
       <import feature="org.jboss.tools.jst.feature" version="3.3.0" match="greaterOrEqual"/>
       <import feature="org.jboss.tools.vpe.feature" version="3.3.0" match="greaterOrEqual"/>
+      <import feature="org.eclipse.wst.web_ui.feature" version="3.3.2" match="greaterOrEqual"/>
    </requires>
 
    <plugin
