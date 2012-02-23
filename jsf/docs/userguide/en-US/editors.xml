@@ -1340,7 +1340,17 @@
       <para>
         One more way to toggle between the various states of the split pane is using the <keycombo><keycap>Shift</keycap><keycap>F6</keycap></keycombo> keyboard shortcut for maximizing or restoring the <guilabel>Source</guilabel> part and <keycombo><keycap>Shift</keycap><keycap>Alt</keycap><keycap>F6</keycap></keycombo> for maximizing or restoring the <guilabel>Visual</guilabel> part.
       </para>
-       
+	  <para>
+	  You can synchronize the scrolling between the source and visual panes by clicking the <guibutton>Synchronize scrolling between source and visual panes</guibutton>
+          (<inlinemediaobject>
+			  <imageobject>
+				  <imagedata fileref="images/visual_page/icon_4.png"/>
+			  </imageobject>
+			  <textobject>
+			  <phrase>Synchronize scrolling between source and visual panes</phrase>
+	  </textobject>
+</inlinemediaobject>) button in the toolbar of the Web Development perspective. This will ensure that scrolling in one window pane will automatically scroll the other pane to the same location.
+	  </para>
       <note>
         <title>Tip:</title> 
         <para>
@@ -1687,9 +1697,31 @@ two elements with equal id has been used, but should be used only one -->
       </section>
        
       <section id="external_stylesheets">
-        <title>External Stylesheets</title> 
+        <title>External Stylesheets (CSS)</title> 
         <para>
-          The pages you are working with in the Visual Page Editor can use external stylesheets. The Visual Page Editor allows you to create new style classes in existing stylesheets, as well as edit them. The <guilabel>Edit Style Class</guilabel> dialog is provided for this purposes.
+			The pages you are working with in the Visual Page Editor can use external stylesheets. 
+		</para>
+		<section>
+			<title>Importing a stylesheet</title>
+		<para>
+			You can import an existing stylesheet by using the <property>@import</property> annotation within your webpage file. The annotation for importing a file is structured as <property>@import "path/to/file.css";</property>. 
+	  </para>
+	  <para>
+		  An example of how it is used can be seen below:
+	  </para>
+	  <figure>
+		  <title>Importing a stylesheet</title> 
+		  <mediaobject>
+			  <imageobject>
+				  <imagedata fileref="images/visual_page/visual_page_css-import.png"/>
+			  </imageobject>
+		  </mediaobject>
+	  </figure>
+	  </section>
+	  <section>
+		  <title>Modifying an existing stylesheet</title>
+		<para>
+		  The Visual Page Editor allows you to create new style classes in existing stylesheets, as well as edit them. The <guilabel>Edit Style Class</guilabel> dialog is provided for this purposes.
         </para>
          
         <para>
@@ -1839,6 +1871,7 @@ two elements with equal id has been used, but should be used only one -->
         <para>
           Choose the appropriate <filename>CSS</filename> file and click on the <guibutton>OK</guibutton> button.
         </para>
+	</section>
       </section>
     </section>
      
