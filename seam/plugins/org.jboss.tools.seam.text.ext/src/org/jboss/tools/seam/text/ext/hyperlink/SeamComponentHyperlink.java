@@ -152,7 +152,7 @@ public class SeamComponentHyperlink implements IHyperlink {
 			} catch (PartInitException e) {
 				SeamExtPlugin.getPluginLog().logError(e);  
 			} catch (JavaModelException e) {
-				// Ignore. It is probably because of Java element is not found 
+				SeamExtPlugin.getPluginLog().logError(e); 
 			}	
 		}
 	}

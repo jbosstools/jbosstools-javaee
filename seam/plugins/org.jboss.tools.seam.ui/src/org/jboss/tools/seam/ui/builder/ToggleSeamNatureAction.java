@@ -23,6 +23,7 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
 import org.jboss.tools.seam.core.ISeamProject;
+import org.jboss.tools.seam.ui.SeamGuiPlugin;
 
 /**
  * Class for toggling the Seam Nature.
@@ -108,6 +109,7 @@ public class ToggleSeamNatureAction implements IObjectActionDelegate {
 			description.setNatureIds(newNatures);
 			project.setDescription(description, null);
 		} catch (CoreException e) {
+			SeamGuiPlugin.getDefault().logError(e);
 		}
 	}
 

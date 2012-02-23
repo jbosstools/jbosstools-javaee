@@ -310,12 +310,12 @@ public class Seam2ProjectCreator extends SeamProjectCreator {
 		try {
 			new FormatProcessorXML().formatFile((IFile) jbossAppXml);
 		} catch (IOException e) {
-			
+			SeamCorePlugin.getDefault().logError(e);
 		} catch (CoreException e) {
-			
+			SeamCorePlugin.getDefault().logError(e);
 		}
 	}
-	
+
 	private void setValue(Document document, Node node, String value) {
 		Text text = document.createTextNode(value);
 		node.appendChild(text);

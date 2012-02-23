@@ -1091,6 +1091,7 @@ public class SeamSearchVisitor {
 				}
 			}
 		} catch (IndexOutOfBoundsException e) {
+			SeamGuiPlugin.getDefault().logError(e);
 		}
 		return false;
 	}
@@ -1228,7 +1229,6 @@ public class SeamSearchVisitor {
 			SearchPlugin.log(e);
 		} catch (CoreException e) {
 			SearchPlugin.log(e);
-		} catch (StackOverflowError e) {
 		} 
 		return false;
 	}

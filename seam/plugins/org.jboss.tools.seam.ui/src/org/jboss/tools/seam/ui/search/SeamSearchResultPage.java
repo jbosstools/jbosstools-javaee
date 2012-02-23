@@ -72,6 +72,7 @@ import org.eclipse.ui.part.ResourceTransfer;
 import org.eclipse.ui.texteditor.ITextEditor;
 import org.jboss.tools.common.java.IJavaSourceReference;
 import org.jboss.tools.seam.core.IOpenableElement;
+import org.jboss.tools.seam.ui.SeamGuiPlugin;
 
 /**
  * Seam Search Result page
@@ -206,7 +207,7 @@ public class SeamSearchResultPage extends AbstractTextSearchViewPage implements 
 					JavaUI.revealInEditor(part, (IJavaElement)javaElement);
 				}
 			} catch (JavaModelException e) {
-				// Ignore. It is probably because of Java element is not found 
+				SeamGuiPlugin.getDefault().logError(e); 
 			}
 		} else if (match.getElement() instanceof IOpenableElement) {
 			((IOpenableElement)match.getElement()).open();
@@ -231,12 +232,11 @@ public class SeamSearchResultPage extends AbstractTextSearchViewPage implements 
 					JavaUI.revealInEditor(part, (IJavaElement)javaElement);
 				}
 			} catch (JavaModelException e) {
-				// Ignore. It is probably because of Java element is not found 
+				SeamGuiPlugin.getDefault().logError(e); 
 			}
-
 		}
 	}
-	
+
 	private void showWithMarker(IEditorPart editor, IFile file, int offset, int length) throws PartInitException {
 		IMarker marker= null;
 		try {
@@ -253,7 +253,7 @@ public class SeamSearchResultPage extends AbstractTextSearchViewPage implements 
 				try {
 					marker.delete();
 				} catch (CoreException e) {
-					// ignore
+					SeamGuiPlugin.getDefault().logError(e);
 				}
 		}
 	}

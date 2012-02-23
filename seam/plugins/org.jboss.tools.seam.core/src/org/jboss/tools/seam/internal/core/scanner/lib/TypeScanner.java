@@ -178,15 +178,15 @@ public class TypeScanner implements SeamAnnotations {
 			process(ms[i], component, ds);
 		}
 		
-		IBinaryField[] fs = null;
-		try {
-			fs = cls.getFields();
-		} catch (NoClassDefFoundError e) {
-			//ignore
-		}
-		if(fs != null) for (int i = 0; i < fs.length; i++) {
-			//TODO
-		}
+//		IBinaryField[] fs = null;
+//		try {
+//			fs = cls.getFields();
+//		} catch (NoClassDefFoundError e) {
+//			//ignore
+//		}
+//		if(fs != null) for (int i = 0; i < fs.length; i++) {
+//			//TODO
+//		}
 	}
 
 	private void process(IBinaryMethod m, SeamJavaComponentDeclaration component, LoadedDeclarations ds) {
@@ -314,7 +314,7 @@ public class TypeScanner implements SeamAnnotations {
 		try {
 			ms = type.getMethods();
 		} catch (JavaModelException e) {
-			//ignore
+			SeamCorePlugin.getDefault().logError(e);
 		}
 		if(ms != null) for (int i = 0; i < ms.length; i++) {
 			if(!ms[i].getElementName().equals(name)) continue;

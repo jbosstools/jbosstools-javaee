@@ -38,6 +38,7 @@ import org.jboss.tools.seam.core.BeanType;
 import org.jboss.tools.seam.core.BijectedAttributeType;
 import org.jboss.tools.seam.core.ISeamXmlComponentDeclaration;
 import org.jboss.tools.seam.core.SeamComponentMethodType;
+import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.internal.core.BijectedAttribute;
 import org.jboss.tools.seam.internal.core.DataModelSelectionAttribute;
 import org.jboss.tools.seam.internal.core.Role;
@@ -366,7 +367,7 @@ public class ComponentBuilder implements SeamAnnotations {
 		try {
 			ms = type.getMethods();
 		} catch (JavaModelException e) {
-			//ignore
+			SeamCorePlugin.getDefault().logError(e);
 		}
 		String name = m.getName().getIdentifier();
 		if(ms != null) for (int i = 0; i < ms.length; i++) {
@@ -396,7 +397,7 @@ public class ComponentBuilder implements SeamAnnotations {
 		try {
 			fs = type.getFields();
 		} catch (JavaModelException e1) {
-			// ignore
+			SeamCorePlugin.getDefault().logError(e1);
 		}
 
 		String name = getFieldName(f);

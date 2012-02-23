@@ -34,6 +34,7 @@ import org.eclipse.jdt.core.dom.SimpleName;
 import org.eclipse.jdt.core.dom.SingleMemberAnnotation;
 import org.eclipse.jdt.core.dom.TypeDeclaration;
 import org.jboss.tools.common.model.util.EclipseJavaUtil;
+import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.internal.core.scanner.Util;
 
 /**
@@ -174,7 +175,7 @@ public class ASTVisitorImpl extends ASTVisitor implements SeamAnnotations {
 			try {
 				ts = current.type.getTypes();
 			} catch (JavaModelException e) {
-				//ignore
+				SeamCorePlugin.getDefault().logError(e);
 			}
 			IType t = null;
 			if(ts != null) for (int i = 0; t == null && i < ts.length; i++) {

@@ -2,7 +2,6 @@ package org.jboss.tools.seam.ui.text.java.scanner;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -23,39 +22,23 @@ import org.eclipse.jdt.core.dom.AST;
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.ASTParser;
 import org.eclipse.jdt.core.dom.ASTRequestor;
-import org.eclipse.jdt.core.dom.ASTVisitor;
 import org.eclipse.jdt.core.dom.AbstractTypeDeclaration;
-import org.eclipse.jdt.core.dom.Annotation;
-import org.eclipse.jdt.core.dom.Block;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.FieldDeclaration;
-import org.eclipse.jdt.core.dom.MarkerAnnotation;
 import org.eclipse.jdt.core.dom.MemberValuePair;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
-import org.eclipse.jdt.core.dom.Name;
 import org.eclipse.jdt.core.dom.NormalAnnotation;
-import org.eclipse.jdt.core.dom.QualifiedName;
 import org.eclipse.jdt.core.dom.SimpleName;
 import org.eclipse.jdt.core.dom.SingleMemberAnnotation;
 import org.eclipse.jdt.core.dom.StringLiteral;
-import org.eclipse.jdt.core.dom.TypeDeclaration;
 import org.eclipse.jface.text.IRegion;
 import org.eclipse.jface.text.Region;
-import org.eclipse.osgi.util.NLS;
-import org.jboss.tools.common.model.util.EclipseJavaUtil;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
-import org.jboss.tools.common.util.FileUtil;
-import org.jboss.tools.seam.core.SeamCoreMessages;
-import org.jboss.tools.seam.internal.core.scanner.IFileScanner;
-import org.jboss.tools.seam.internal.core.scanner.LoadedDeclarations;
 import org.jboss.tools.seam.internal.core.scanner.ScannerException;
-import org.jboss.tools.seam.internal.core.scanner.Util;
 import org.jboss.tools.seam.internal.core.scanner.java.ASTVisitorImpl;
 import org.jboss.tools.seam.internal.core.scanner.java.AnnotatedASTNode;
-import org.jboss.tools.seam.internal.core.scanner.java.ComponentBuilder;
-import org.jboss.tools.seam.internal.core.scanner.java.JavaScanner;
 import org.jboss.tools.seam.internal.core.scanner.java.ResolvedAnnotation;
-import org.jboss.tools.seam.internal.core.scanner.java.SeamAnnotations;
+import org.jboss.tools.seam.ui.SeamGuiPlugin;
 
 public class JavaAnnotationScanner {
 	
@@ -171,7 +154,7 @@ public class JavaAnnotationScanner {
 			try {
 				ts = source.getTypes();
 			} catch (JavaModelException e) {
-				//ignore
+				SeamGuiPlugin.getDefault().logError(e);
 			}
 			if(ts == null || ts.length == 0) return;
 			for (int i = 0; i < ts.length; i++) {
@@ -386,7 +369,7 @@ public class JavaAnnotationScanner {
 				return (rs[0][0].length() == 0) ? rs[0][1] : rs[0][0] + "." + rs[0][1]; //$NON-NLS-1$
 			}
 		} catch (JavaModelException e) {
-			// ignore
+			SeamGuiPlugin.getDefault().logError(e);
 		}
 
 		return n;

@@ -11,7 +11,6 @@
 
 package org.jboss.tools.seam.ui.text.java;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -23,12 +22,7 @@ import org.eclipse.jdt.core.ISourceRange;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.core.dom.ASTNode;
-import org.eclipse.jdt.core.dom.MemberValuePair;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
-import org.eclipse.jdt.core.dom.NormalAnnotation;
-import org.eclipse.jdt.core.dom.SimpleName;
-import org.eclipse.jdt.core.dom.SingleMemberAnnotation;
-import org.eclipse.jdt.core.dom.StringLiteral;
 import org.eclipse.jdt.internal.ui.javaeditor.EditorUtility;
 import org.eclipse.jdt.internal.ui.javaeditor.JavaEditor;
 import org.eclipse.jdt.internal.ui.text.JavaWordFinder;
@@ -45,7 +39,6 @@ import org.jboss.tools.seam.core.IOpenableElement;
 import org.jboss.tools.seam.core.ISeamComponentDeclaration;
 import org.jboss.tools.seam.core.ISeamContextShortVariable;
 import org.jboss.tools.seam.core.ISeamContextVariable;
-import org.jboss.tools.seam.core.ISeamFactory;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.internal.core.BijectedAttribute;
@@ -177,7 +170,7 @@ public class JavaStringHyperlinkDetector extends AbstractHyperlinkDetector {
 		try {
 			ms = type.getMethods();
 		} catch (JavaModelException e) {
-			//ignore
+			SeamGuiPlugin.getDefault().logError(e);
 		}
 		String name = m.getName().getIdentifier();
 		if(ms != null) for (int i = 0; i < ms.length; i++) {
@@ -227,9 +220,9 @@ public class JavaStringHyperlinkDetector extends AbstractHyperlinkDetector {
 					JavaUI.revealInEditor(part, (IJavaElement)fMember);
 				}
 			} catch (PartInitException e) {
-//				SeamExtPlugin.getPluginLog().logError(e);  
+				SeamGuiPlugin.getDefault().logError(e);
 			} catch (JavaModelException e) {
-				// Ignore. It is probably because of Java element is not found 
+				SeamGuiPlugin.getDefault().logError(e); 
 			}
 		}
 	}

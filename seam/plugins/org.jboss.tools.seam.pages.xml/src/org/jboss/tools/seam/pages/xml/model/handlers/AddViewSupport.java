@@ -333,6 +333,7 @@ public class AddViewSupport extends SpecialWizardSupport implements SeamPagesCon
 		try {
 			ft.createNewFile();
 		} catch (IOException e) {
+			SeamPagesXMLPlugin.getDefault().logError(e);
 		}
 		if(templateString != null) {
 			FileUtil.writeFile(ft, templateString);

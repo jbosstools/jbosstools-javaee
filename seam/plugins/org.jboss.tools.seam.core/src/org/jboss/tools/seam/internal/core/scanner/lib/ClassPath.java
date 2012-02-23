@@ -188,7 +188,7 @@ public class ClassPath extends AbstractClassPathMonitor<SeamProject> implements 
 				
 				public void run() {
 					if(update()) {
-						System.out.println("Running " + getId());
+//						System.out.println("Running " + getId());
 						process();
 					}					
 				}

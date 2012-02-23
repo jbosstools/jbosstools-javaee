@@ -19,6 +19,7 @@ import org.jboss.tools.seam.core.ISeamContextVariable;
 import org.jboss.tools.seam.core.ISeamElement;
 import org.jboss.tools.seam.core.ISeamXmlComponentDeclaration;
 import org.jboss.tools.seam.core.ScopeType;
+import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.w3c.dom.Element;
 
 /**
@@ -49,7 +50,7 @@ public abstract class AbstractContextVariable extends AbstractSeamDeclaration im
 		try {
 			this.scopeType = scope == null || scope.length() == 0 ? ScopeType.UNSPECIFIED : ScopeType.valueOf(scope.toUpperCase());
 		} catch (IllegalArgumentException e) {
-			//ignore
+			SeamCorePlugin.getDefault().logError(e);
 		}
 	}
 
