@@ -231,8 +231,8 @@ public class CDIWizardBase extends Wizard {
 			setFocus();
 			bot().button(IDELabel.Button.ADD_WITHOUT_DOTS, 0).click();
 			SWTBotShell sh = bot().activeShell();
-			sh.bot().text().setText(ib);
-			sh.bot().waitUntil(new NonEmptyTableCondition(sh.bot().table()), TaskDuration.NORMAL.getTimeout());
+			sh.bot().text().typeText(ib);
+			sh.bot().waitUntil(new NonEmptyTableCondition(sh.bot().table()), TaskDuration.LONG.getTimeout());
 			sh.bot().button(IDELabel.Button.OK).click();
 			setFocus();
 			break;
@@ -317,8 +317,8 @@ public class CDIWizardBase extends Wizard {
 			setFocus();
 			bot().button(IDELabel.Button.ADD, 0).click();
 			SWTBotShell sh = bot().activeShell();
-			sh.bot().text().setText(intf);
-			sh.bot().waitUntil(new NonEmptyTableCondition(sh.bot().table()), TaskDuration.NORMAL.getTimeout());
+			sh.bot().text().typeText(intf);
+			sh.bot().waitUntil(new NonEmptyTableCondition(sh.bot().table()), TaskDuration.LONG.getTimeout());
 			sh.bot().table().getTableItem(0).select();
 			sh.bot().button(IDELabel.Button.OK).click();
 			setFocus();
