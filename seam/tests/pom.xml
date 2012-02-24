@@ -38,10 +38,8 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 		<module>org.jboss.tools.seam220CR1.ui.test</module>
 		<module>org.jboss.tools.seam220GA.core.test</module>
 		<module>org.jboss.tools.seam220GA.ui.test</module>
-		<module>org.jboss.tools.seam221CR1.core.test</module>
-		<module>org.jboss.tools.seam221CR1.ui.test</module>
-		<module>org.jboss.tools.seam221CR2.core.test</module>
-		<module>org.jboss.tools.seam221CR2.ui.test</module>
+		<module>org.jboss.tools.seam221GA.core.test</module>
+		<module>org.jboss.tools.seam221GA.ui.test</module>
 		<module>org.jboss.tools.seam230.core.test</module>
 		<module>org.jboss.tools.seam230.ui.test</module>
 

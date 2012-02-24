@@ -161,28 +161,14 @@
          unpack="false"/>
 
    <plugin
-         id="org.jboss.tools.seam221CR1.core.test"
+         id="org.jboss.tools.seam221GA.core.test"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.jboss.tools.seam221CR1.ui.test"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.jboss.tools.seam221CR2.core.test"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.jboss.tools.seam221CR2.ui.test"
+         id="org.jboss.tools.seam221GA.ui.test"
          download-size="0"
          install-size="0"
          version="0.0.0"
