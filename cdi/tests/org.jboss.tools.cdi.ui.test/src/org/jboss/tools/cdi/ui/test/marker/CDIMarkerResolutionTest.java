@@ -10,20 +10,7 @@
  ************************************************************************************/
 package org.jboss.tools.cdi.ui.test.marker;
 
-import java.io.IOException;
-import java.io.InputStream;
-
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IMarker;
-import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.ltk.core.refactoring.CompositeChange;
-import org.eclipse.ltk.core.refactoring.RefactoringStatus;
-import org.eclipse.ltk.core.refactoring.participants.RefactoringProcessor;
-import org.eclipse.ui.IMarkerResolution;
-import org.eclipse.ui.ide.IDE;
 import org.jboss.tools.cdi.core.test.tck.TCKTest;
 import org.jboss.tools.cdi.internal.core.validation.CDICoreValidator;
 import org.jboss.tools.cdi.internal.core.validation.CDIValidationErrorManager;
@@ -44,187 +31,16 @@ import org.jboss.tools.cdi.ui.marker.MakeFieldProtectedMarkerResolution;
 import org.jboss.tools.cdi.ui.marker.MakeFieldStaticMarkerResolution;
 import org.jboss.tools.cdi.ui.marker.MakeMethodBusinessMarkerResolution;
 import org.jboss.tools.cdi.ui.marker.MakeMethodPublicMarkerResolution;
-import org.jboss.tools.cdi.ui.marker.TestableResolutionWithDialog;
-import org.jboss.tools.cdi.ui.marker.TestableResolutionWithRefactoringProcessor;
-import org.jboss.tools.common.base.test.validation.TestUtil;
-import org.jboss.tools.common.ui.marker.AddSuppressWarningsMarkerResolution;
-import org.jboss.tools.common.ui.marker.ConfigureProblemSeverityMarkerResolution;
-import org.jboss.tools.common.util.FileUtil;
+import org.jboss.tools.common.base.test.MarkerResolutionTestUtil;
 
 /**
  * @author Daniel Azarov
  * 
  */
 public class CDIMarkerResolutionTest  extends TCKTest {
-	
-	private void checkForConfigureProblemSeverity(IMarkerResolution[] resolutions){
-		for(IMarkerResolution resolution : resolutions){
-			if(resolution.getClass().equals(ConfigureProblemSeverityMarkerResolution.class))
-				return;
-		}
-		fail("Configure Problem Severity marker resolution not found");
-	}
-
-	private void checkForAddSuppressWarnings(IFile file, IMarker marker, IMarkerResolution[] resolutions){
-		int severity = marker.getAttribute(IMarker.SEVERITY, 0);
-		if(file.getFileExtension().equals("java") && severity == IMarker.SEVERITY_WARNING){
-			for(IMarkerResolution resolution : resolutions){
-				if(resolution.getClass().equals(AddSuppressWarningsMarkerResolution.class))
-					return;
-			}
-			fail("Add @SuppressWarnings marker resolution not found");
-		}
-	}
-	
-	private void checkResolution(IProject project, String[] fileNames, String markerType, String idName, int id, Class<? extends IMarkerResolution> resolutionClass) throws CoreException {
-		checkResolution(project, fileNames, new String[]{}, markerType, idName, id, resolutionClass);
-	}
-	
-	private void checkResolution(IProject project, String[] fileNames, String[] results, String markerType, String idName, int id, Class<? extends IMarkerResolution> resolutionClass) throws CoreException {
-		IFile file = project.getFile(fileNames[0]);
-
-		assertTrue("File - "+file.getFullPath()+" must be exist",file.exists());
-
-		copyFiles(project, fileNames);
-		TestUtil.validate(file);
-
-		try{
-			file = project.getFile(fileNames[0]);
-			IMarker[] markers = file.findMarkers(markerType, true,	IResource.DEPTH_INFINITE);
-
-			for (int i = 0; i < markers.length; i++) {
-				IMarker marker = markers[i];
-				Integer attribute = ((Integer) marker
-						.getAttribute(CDIValidationErrorManager.MESSAGE_ID_ATTRIBUTE_NAME));
-				if (attribute != null){
-					int messageId = attribute.intValue();
-					if(messageId == id){
-						IMarkerResolution[] resolutions = IDE.getMarkerHelpRegistry()
-								.getResolutions(marker);
-						checkForConfigureProblemSeverity(resolutions);
-						checkForAddSuppressWarnings(file, marker, resolutions);
-						for (int j = 0; j < resolutions.length; j++) {
-							IMarkerResolution resolution = resolutions[j];
-							if (resolution.getClass().equals(resolutionClass)) {
-
-								if(resolution instanceof TestableResolutionWithRefactoringProcessor){
-									RefactoringProcessor processor = ((TestableResolutionWithRefactoringProcessor)resolution).getRefactoringProcessor();
-									
-									RefactoringStatus status = processor.checkInitialConditions(new NullProgressMonitor());
-									
-//									RefactoringStatusEntry[] entries = status.getEntries();
-//									for(RefactoringStatusEntry entry : entries){
-//										System.out.println("Refactor status - "+entry.getMessage());
-//									}
-
-									assertNull("Rename processor returns fatal error", status.getEntryMatchingSeverity(RefactoringStatus.FATAL));
-
-									status = processor.checkFinalConditions(new NullProgressMonitor(), null);
-
-//									entries = status.getEntries();
-//									for(RefactoringStatusEntry entry : entries){
-//										System.out.println("Refactor status - "+entry.getMessage());
-//									}
-
-									assertNull("Rename processor returns fatal error", status.getEntryMatchingSeverity(RefactoringStatus.FATAL));
-
-									CompositeChange rootChange = (CompositeChange)processor.createChange(new NullProgressMonitor());
-									
-//									for(Change fileChange : rootChange.getChildren()){
-//										if(fileChange instanceof JBDSFileChange){
-//											((JBDSFileChange)fileChange).setSaveMode(TextFileChange.FORCE_SAVE);
-//										}
-//									}
-									
-									rootChange.perform(new NullProgressMonitor());
-								} else if(resolution instanceof TestableResolutionWithDialog){
-									((TestableResolutionWithDialog) resolution).runForTest(marker);
-								} else {
-									resolution.run(marker);
-								}
-
-								TestUtil.validate(file);
-
-								file = project.getFile(fileNames[0]);
-								IMarker[] newMarkers = file.findMarkers(markerType, true,	IResource.DEPTH_INFINITE);
-
-								assertTrue("Marker resolution did not decrease number of problems. was: "+markers.length+" now: "+newMarkers.length, newMarkers.length < markers.length);
-
-								checkResults(project, fileNames, results);
-
-								return;
-							}
-						}
-						fail("Marker resolution: "+resolutionClass+" not found");
-					}
-				}
-			}
-			fail("Problem marker with id: "+id+" not found");
-		}finally{
-			restoreFiles(project, fileNames);
-			TestUtil.validate(file);
-		}
-	}
-
-	private void copyFiles(IProject project, String[] fileNames) throws CoreException{
-		for(String fileName : fileNames){
-			IFile file = project.getFile(fileName);
-			IFile copyFile = project.getFile(fileName+".copy");
-
-			if(copyFile.exists())
-				copyFile.delete(true, null);
-
-			InputStream is = null;
-			try{
-				is = file.getContents();
-				copyFile.create(is, true, null);
-			} finally {
-				if(is!=null) {
-					try {
-						is.close();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				}
-			}
-		}
-	}
-
-	private void restoreFiles(IProject project, String[] fileNames) throws CoreException {
-		for(String fileName : fileNames){
-			IFile file = project.getFile(fileName);
-			IFile copyFile = project.getFile(fileName+".copy");
-			InputStream is = null;
-			try{
-				is = copyFile.getContents();
-				file.setContents(is, true, false, null);
-			} finally {
-				if(is!=null) {
-					try {
-						is.close();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				}
-			}
-			copyFile.delete(true, null);
-		}
-	}
-
-	private void checkResults(IProject project, String[] fileNames, String[] results) throws CoreException{
-		for(int i = 0; i < results.length; i++){
-			IFile file = project.getFile(fileNames[i]);
-			IFile resultFile = project.getFile(results[i]);
-
-			String fileContent = FileUtil.readStream(file);
-			String resultContent = FileUtil.readStream(resultFile);
-			
-			assertEquals("Wrong result of resolution", resultContent, fileContent);
-		}
-	}
 
 	public void testMakeProducerFieldStaticResolution() throws CoreException {
-		checkResolution(tckProject, 
+		MarkerResolutionTestUtil.checkResolution(tckProject, 
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/NonStaticProducerOfSessionBeanBroken.java"
 				},
@@ -238,7 +54,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 	}
 
 	public void testMakeProducerMethodBusinessResolution() throws CoreException {
-		checkResolution(
+		MarkerResolutionTestUtil.checkResolution(
 				tckProject,
 				new String[]{
 						"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/FooProducer.java",
@@ -255,7 +71,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 	}
 
 	public void testAddLocalBeanResolution() throws CoreException {
-		checkResolution(
+		MarkerResolutionTestUtil.checkResolution(
 				tckProject,
 				new String[]{
 						"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/FooProducer.java"
@@ -270,7 +86,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 	}
 
 	public void testMakeProducerMethodPublicResolution() throws CoreException {
-		checkResolution(tckProject,
+		MarkerResolutionTestUtil.checkResolution(tckProject,
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/FooProducerNoInterface.java"
 				},
@@ -284,7 +100,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 	}
 	
 	public void testMakeObserverParamMethodBusinessResolution() throws CoreException {
-		checkResolution(tckProject,
+		MarkerResolutionTestUtil.checkResolution(tckProject,
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TibetanTerrier_Broken.java",
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Terrier.java"
@@ -300,7 +116,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 	}
 
 	public void testAddLocalBeanResolution2() throws CoreException {
-		checkResolution(tckProject,
+		MarkerResolutionTestUtil.checkResolution(tckProject,
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TibetanTerrier_Broken.java"
 				},
@@ -314,7 +130,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 	}
 
 	public void testMakeObserverParamMethodPublicResolution() throws CoreException {
-		checkResolution(tckProject,
+		MarkerResolutionTestUtil.checkResolution(tckProject,
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TibetanTerrier_BrokenNoInterface.java"
 				},
@@ -328,7 +144,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 	}
 
 	public void testMakeDisposerParamMethodBusinessResolution() throws CoreException {
-		checkResolution(tckProject,
+		MarkerResolutionTestUtil.checkResolution(tckProject,
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/NotBusinessMethod_Broken.java",
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/LocalInt.java"
@@ -344,7 +160,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 	}
 
 	public void testAddLocalBeanResolution3() throws CoreException {
-		checkResolution(tckProject,
+		MarkerResolutionTestUtil.checkResolution(tckProject,
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/NotBusinessMethod_Broken.java"
 				},
@@ -358,7 +174,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 	}
 
 	public void testMakeDisposerParamMethodPublicResolution() throws CoreException {
-		checkResolution(tckProject,
+		MarkerResolutionTestUtil.checkResolution(tckProject,
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/NotBusinessMethod_BrokenNoInterface.java"
 				},
@@ -372,7 +188,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 	}
 
 	public void testDeleteAllDisposerDuplicantsResolution() throws CoreException {
-		checkResolution(tckProject,
+		MarkerResolutionTestUtil.checkResolution(tckProject,
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TimestampLogger_Broken.java"
 				},
@@ -386,7 +202,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 	}
 
 	public void testDeleteAllInjectedConstructorsResolution() throws CoreException {
-		checkResolution(tckProject,
+		MarkerResolutionTestUtil.checkResolution(tckProject,
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Goose_Broken.java"
 				},
@@ -400,7 +216,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 	}
 	
 	public void testAddSerializableInterfaceResolution() throws CoreException{
-		checkResolution(tckProject,
+		MarkerResolutionTestUtil.checkResolution(tckProject,
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Hamina_Broken.java"
 				},
@@ -414,7 +230,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 	}
 
 	public void testAddSerializableInterfaceResolution2() throws CoreException{
-		checkResolution(tckProject,
+		MarkerResolutionTestUtil.checkResolution(tckProject,
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/SecondBean.java"
 				},
@@ -428,7 +244,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 	}
 
 	public void testAddRetentionToQualifierResolution() throws CoreException{
-		checkResolution(tckProject,
+		MarkerResolutionTestUtil.checkResolution(tckProject,
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TestQualifier1.java"
 				},
@@ -442,7 +258,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 	}
 
 	public void testChangeRetentionToQualifierResolution() throws CoreException{
-		checkResolution(tckProject,
+		MarkerResolutionTestUtil.checkResolution(tckProject,
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TestQualifier2.java"
 				},
@@ -456,7 +272,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 	}
 	
 	public void testAddRetentionToScopeResolution() throws CoreException{
-		checkResolution(tckProject,
+		MarkerResolutionTestUtil.checkResolution(tckProject,
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TestScope1.java"
 				},
@@ -470,7 +286,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 	}
 
 	public void testChangeRetentionToScopeResolution() throws CoreException{
-		checkResolution(tckProject,
+		MarkerResolutionTestUtil.checkResolution(tckProject,
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TestScope2.java"
 				},
@@ -484,7 +300,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 	}
 	
 	public void testAddRetentionToStereotypeResolution() throws CoreException{
-		checkResolution(tckProject,
+		MarkerResolutionTestUtil.checkResolution(tckProject,
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TestStereotype1.java"
 				},
@@ -498,7 +314,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 	}
 
 	public void testChangeRetentionToStereotypeResolution() throws CoreException{
-		checkResolution(tckProject,
+		MarkerResolutionTestUtil.checkResolution(tckProject,
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TestStereotype2.java"
 				},
@@ -512,7 +328,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 	}
 	
 	public void testAddTargetToStereotypeResolution() throws CoreException{
-		checkResolution(tckProject,
+		MarkerResolutionTestUtil.checkResolution(tckProject,
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TestStereotype3.java"
 				},
@@ -523,7 +339,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 	}
 
 	public void testTargetRetentionToStereotypeResolution() throws CoreException{
-		checkResolution(tckProject,
+		MarkerResolutionTestUtil.checkResolution(tckProject,
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TestStereotype4.java"
 				},
@@ -534,7 +350,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 	}
 	
 	public void testAddTargetToQualifierResolution() throws CoreException{
-		checkResolution(tckProject,
+		MarkerResolutionTestUtil.checkResolution(tckProject,
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TestQualifier3.java"
 				},
@@ -545,7 +361,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 	}
 
 	public void testChangeTargetToQualifierResolution() throws CoreException{
-		checkResolution(tckProject,
+		MarkerResolutionTestUtil.checkResolution(tckProject,
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TestQualifier4.java"
 				},
@@ -556,7 +372,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 	}
 	
 	public void testAddTargetToScopeResolution() throws CoreException{
-		checkResolution(tckProject,
+		MarkerResolutionTestUtil.checkResolution(tckProject,
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TestScope3.java"
 				},
@@ -570,7 +386,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 	}
 
 	public void testChangeTargetToScopeResolution() throws CoreException{
-		checkResolution(tckProject,
+		MarkerResolutionTestUtil.checkResolution(tckProject,
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TestScope4.java"
 				},
@@ -584,7 +400,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 	}
 	
 	public void testAddNonbindingToAnnotationMemberOfQualifierResolution() throws CoreException{
-		checkResolution(tckProject,
+		MarkerResolutionTestUtil.checkResolution(tckProject,
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TestQualifier5.java"
 				},
@@ -598,7 +414,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 	}
 
 	public void testAddNonbindingToArrayMemberOfQualifierResolution() throws CoreException{
-		checkResolution(tckProject,
+		MarkerResolutionTestUtil.checkResolution(tckProject,
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TestQualifier6.java"
 				},
@@ -612,7 +428,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 	}
 
 	public void testAddNonbindingToAnnotationMemberOfInterceptorResolution() throws CoreException{
-		checkResolution(tckProject,
+		MarkerResolutionTestUtil.checkResolution(tckProject,
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TestInterceptor1.java"
 				},
@@ -626,7 +442,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 	}
 
 	public void testAddNonbindingToArrayMemberOfInterceptorResolution() throws CoreException{
-		checkResolution(tckProject,
+		MarkerResolutionTestUtil.checkResolution(tckProject,
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TestInterceptor2.java"
 				},
@@ -640,7 +456,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 	}
 
 	public void testDeleteInjectFromProducerFieldResolution() throws CoreException{
-		checkResolution(tckProject,
+		MarkerResolutionTestUtil.checkResolution(tckProject,
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TestInjectProducerField.java"
 				},
@@ -651,7 +467,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 	}
 
 	public void testDeleteInjectFromProducerMethodResolution() throws CoreException{
-		checkResolution(tckProject,
+		MarkerResolutionTestUtil.checkResolution(tckProject,
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TestInjectProducerMethod.java"
 				},
@@ -662,7 +478,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 	}
 
 	public void testDeleteInjectFromObserverMethodResolution() throws CoreException{
-		checkResolution(tckProject,
+		MarkerResolutionTestUtil.checkResolution(tckProject,
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TestInjectObserverMethod.java"
 				},
@@ -673,7 +489,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 	}
 
 	public void testDeleteInjectFromDisposerMethodResolution() throws CoreException{
-		checkResolution(tckProject,
+		MarkerResolutionTestUtil.checkResolution(tckProject,
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TestInjectDisposerMethod.java"
 				},
@@ -684,7 +500,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 	}
 
 	public void testDeleteDisposesAnnotationFromParameterResolution() throws CoreException{
-		checkResolution(tckProject,
+		MarkerResolutionTestUtil.checkResolution(tckProject,
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TestDisposerConstructor.java"
 				},
@@ -698,7 +514,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 	}
 
 	public void testDeleteObservesAnnotationFromParameterResolution() throws CoreException{
-		checkResolution(tckProject,
+		MarkerResolutionTestUtil.checkResolution(tckProject,
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TestObserverConstructor.java"
 				},
@@ -712,7 +528,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 	}
 
 	public void testDeleteDisposerFromInterceptorResolution() throws CoreException{
-		checkResolution(tckProject,
+		MarkerResolutionTestUtil.checkResolution(tckProject,
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TestInterceptor3.java"
 				},
@@ -726,7 +542,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 	}
 
 	public void testDeleteDisposerFromDecoratorResolution() throws CoreException{
-		checkResolution(tckProject,
+		MarkerResolutionTestUtil.checkResolution(tckProject,
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TestDecorator.java"
 				},
@@ -740,7 +556,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 	}
 
 	public void testDeleteProducerFromInterceptorResolution() throws CoreException{
-		checkResolution(tckProject,
+		MarkerResolutionTestUtil.checkResolution(tckProject,
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TestInterceptor4.java"
 				},
@@ -754,7 +570,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 	}
 
 	public void testDeleteProducerFromDecoratorResolution() throws CoreException{
-		checkResolution(tckProject,
+		MarkerResolutionTestUtil.checkResolution(tckProject,
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TestDecorator2.java"
 				},
@@ -768,7 +584,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 	}
 
 	public void testNonEmptyNamedInStereotypeResolution() throws CoreException{
-		checkResolution(tckProject,
+		MarkerResolutionTestUtil.checkResolution(tckProject,
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TestStereotype5.java"
 				},
@@ -779,7 +595,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 	}
 
 	public void testNonEmptyNamedInStereotypeResolution2() throws CoreException{
-		checkResolution(tckProject,
+		MarkerResolutionTestUtil.checkResolution(tckProject,
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TestStereotype5.java"
 				},
@@ -790,7 +606,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 	}
 
 	public void testNamedInInterceptorResolution() throws CoreException{
-		checkResolution(tckProject,
+		MarkerResolutionTestUtil.checkResolution(tckProject,
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TestInterceptor5.java"
 				},
@@ -804,7 +620,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 	}
 
 	public void testNamedStereotypedInterceptorResolution() throws CoreException{
-		checkResolution(tckProject,
+		MarkerResolutionTestUtil.checkResolution(tckProject,
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/NamedStereotypedInterceptorBroken.java",
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/NamedStereotype.java"
@@ -816,7 +632,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 	}
 
 	public void testNamedInDecoratorResolution() throws CoreException{
-		checkResolution(tckProject,
+		MarkerResolutionTestUtil.checkResolution(tckProject,
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TestDecorator3.java"
 				},
@@ -830,7 +646,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 	}
 
 	public void testNamedStereotypedDecoratorResolution() throws CoreException{
-		checkResolution(tckProject,
+		MarkerResolutionTestUtil.checkResolution(tckProject,
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/NamedStereotypedDecoratorBroken.java",
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/NamedStereotype.java"
@@ -842,7 +658,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 	}
 	
 	public void testFullyQualifedNamedDecoratorResolution() throws CoreException{
-		checkResolution(tckProject,
+		MarkerResolutionTestUtil.checkResolution(tckProject,
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TD.java",
 				},
@@ -853,7 +669,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 	}
 
 	public void testTypedInStereotypeResolution() throws CoreException{
-		checkResolution(tckProject,
+		MarkerResolutionTestUtil.checkResolution(tckProject,
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TestStereotype6.java"
 				},
@@ -867,7 +683,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 	}
 	
 	public void testSpecializesInDecoratorResolution() throws CoreException{
-		checkResolution(tckProject,
+		MarkerResolutionTestUtil.checkResolution(tckProject,
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TestDecorator4.java"
 				},
@@ -881,7 +697,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 	}
 	
 	public void testSpecializesInInterceptorResolution() throws CoreException{
-		checkResolution(tckProject,
+		MarkerResolutionTestUtil.checkResolution(tckProject,
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TestInterceptor6.java"
 				},
@@ -895,7 +711,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 	}
 	
 	public void testDisposerInProducerResolution() throws CoreException{
-		checkResolution(tckProject,
+		MarkerResolutionTestUtil.checkResolution(tckProject,
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TestDisposerProducerMethod.java"
 				},
@@ -906,7 +722,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 	}
 
 	public void testObserverInProducerResolution() throws CoreException{
-		checkResolution(tckProject,
+		MarkerResolutionTestUtil.checkResolution(tckProject,
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/TestObserverProducerMethod.java"
 				},
@@ -917,7 +733,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 	}
 	
 	public void testDisposerInObserverResolution() throws CoreException{
-		checkResolution(tckProject,
+		MarkerResolutionTestUtil.checkResolution(tckProject,
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/DisposerInObserver.java"
 				},
@@ -928,7 +744,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 	}
 	
 	public void testObserverInDecoratorResolution() throws CoreException{
-		checkResolution(tckProject,
+		MarkerResolutionTestUtil.checkResolution(tckProject,
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/ObserverInDecorator.java"
 				},
@@ -942,7 +758,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 	}
 
 	public void testObserverInInterceptorResolution() throws CoreException{
-		checkResolution(tckProject,
+		MarkerResolutionTestUtil.checkResolution(tckProject,
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/ObserverInInterceptor.java"
 				},
@@ -956,7 +772,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 	}
 
 	public void testSessionBeanAnnotatedDecoratorResolution() throws CoreException{
-		checkResolution(tckProject,
+		MarkerResolutionTestUtil.checkResolution(tckProject,
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/SessionBeanAnnotatedDecoratorBroken.java"
 				},
@@ -970,7 +786,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 	}
 
 	public void testSessionBeanAnnotatedInterceptorBrokenResolution() throws CoreException{
-		checkResolution(tckProject,
+		MarkerResolutionTestUtil.checkResolution(tckProject,
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/SessionBeanAnnotatedInterceptorBroken.java"
 				},
@@ -984,7 +800,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 	}
 
 	public void testCreateBeanClassResolution() throws CoreException{
-		checkResolution(tckProject,
+		MarkerResolutionTestUtil.checkResolution(tckProject,
 				new String[]{
 					//"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/beans.xml"
 					"WebContent/WEB-INF/beans.xml"
@@ -996,7 +812,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 	}
 
 	public void testCreateStereotypeResolution() throws CoreException{
-		checkResolution(tckProject,
+		MarkerResolutionTestUtil.checkResolution(tckProject,
 				new String[]{
 					//"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/beans.xml"
 					"WebContent/WEB-INF/beans.xml"
@@ -1008,7 +824,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 	}
 
 	public void testCreateInterceptorResolution() throws CoreException{
-		checkResolution(tckProject,
+		MarkerResolutionTestUtil.checkResolution(tckProject,
 				new String[]{
 					//"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/beans.xml"
 					"WebContent/WEB-INF/beans.xml"
@@ -1020,7 +836,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 	}
 	
 	public void testAddNameResolution() throws CoreException{
-		checkResolution(tckProject,
+		MarkerResolutionTestUtil.checkResolution(tckProject,
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/NamedInjectionBroken.java"
 				},
@@ -1031,7 +847,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 	}
 
 	public void testDeleteAllOtherDisposerParametersResolution() throws CoreException{
-		checkResolution(tckProject,
+		MarkerResolutionTestUtil.checkResolution(tckProject,
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/MultipleDisposers.java"
 				},
@@ -1042,7 +858,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 	}
 
 	public void testDeleteAllOtherObserverParametersResolution() throws CoreException{
-		checkResolution(tckProject,
+		MarkerResolutionTestUtil.checkResolution(tckProject,
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/MultipleObservers.java"
 				},
@@ -1053,7 +869,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 	}
 	
 	public void testMakeFieldProtectedResolution() throws CoreException{
-		checkResolution(tckProject,
+		MarkerResolutionTestUtil.checkResolution(tckProject,
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Leopard_Broken.java"
 				},
@@ -1064,7 +880,7 @@ public class CDIMarkerResolutionTest  extends TCKTest {
 	}
 	
 	public void testMakeBeanScopedDependentResolution() throws CoreException{
-		checkResolution(tckProject,
+		MarkerResolutionTestUtil.checkResolution(tckProject,
 				new String[]{
 					"JavaSource/org/jboss/jsr299/tck/tests/jbt/quickfixes/Leopard_Broken.java"
 				},

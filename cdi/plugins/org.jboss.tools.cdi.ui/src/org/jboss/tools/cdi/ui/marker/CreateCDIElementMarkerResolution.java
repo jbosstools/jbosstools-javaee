@@ -28,6 +28,7 @@ import org.jboss.tools.cdi.ui.wizard.NewDecoratorCreationWizard;
 import org.jboss.tools.cdi.ui.wizard.NewInterceptorCreationWizard;
 import org.jboss.tools.cdi.ui.wizard.NewStereotypeCreationWizard;
 import org.jboss.tools.common.model.ui.wizards.NewTypeWizardAdapter;
+import org.jboss.tools.common.refactoring.TestableResolutionWithDialog;
 
 public class CreateCDIElementMarkerResolution implements IMarkerResolution2, TestableResolutionWithDialog{
 	private static final String OBJECT = "java.lang.Object";

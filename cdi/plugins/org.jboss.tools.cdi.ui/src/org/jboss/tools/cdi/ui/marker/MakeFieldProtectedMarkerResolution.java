@@ -36,6 +36,7 @@ import org.jboss.tools.cdi.ui.CDIUIMessages;
 import org.jboss.tools.cdi.ui.CDIUIPlugin;
 import org.jboss.tools.common.EclipseUtil;
 import org.jboss.tools.common.refactoring.MarkerResolutionUtils;
+import org.jboss.tools.common.refactoring.TestableResolutionWithDialog;
 import org.jboss.tools.common.ui.CommonUIPlugin;
 
 /**

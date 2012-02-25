@@ -22,6 +22,7 @@ import org.jboss.tools.cdi.core.IInjectionPoint;
 import org.jboss.tools.cdi.internal.core.refactoring.AddQualifiersToBeanProcessor;
 import org.jboss.tools.cdi.ui.CDIUIMessages;
 import org.jboss.tools.cdi.ui.wizard.SelectBeanWizard;
+import org.jboss.tools.common.refactoring.TestableResolutionWithDialog;
 
 /**
  * @author Daniel Azarov

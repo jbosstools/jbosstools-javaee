@@ -30,6 +30,7 @@ import org.jboss.tools.cdi.ui.CDIUIMessages;
 import org.jboss.tools.cdi.ui.CDIUIPlugin;
 import org.jboss.tools.cdi.ui.wizard.DeletePreviewWizard;
 import org.jboss.tools.common.refactoring.MarkerResolutionUtils;
+import org.jboss.tools.common.refactoring.TestableResolutionWithRefactoringProcessor;
 
 /**
  * @author Daniel Azarov
