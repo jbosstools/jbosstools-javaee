@@ -84,16 +84,16 @@ public class SeamMarkerResolutionTest extends TestCase {
 				DeleteAnnotationMarkerResolution.class);
 	}
 
-	public void testDuplicateDestroyAnnotationResolution2() throws CoreException {
-		MarkerResolutionTestUtil.checkResolution(project, 
-				new String[]{
-					"src/action/org/domain/SeamWebWarTestProject/session/StatelessClass.java"
-				},
-				SeamCoreValidator.PROBLEM_TYPE,
-				SeamCoreValidator.MESSAGE_ID_ATTRIBUTE_NAME,
-				SeamCoreValidator.DUPLICATE_DESTROY_MESSAGE_ID,
-				DeleteAnnotationMarkerResolution.class);
-	}
+//	public void testDuplicateDestroyAnnotationResolution2() throws CoreException {
+//		MarkerResolutionTestUtil.checkResolution(project, 
+//				new String[]{
+//					"src/action/org/domain/SeamWebWarTestProject/session/StatelessClass.java"
+//				},
+//				SeamCoreValidator.PROBLEM_TYPE,
+//				SeamCoreValidator.MESSAGE_ID_ATTRIBUTE_NAME,
+//				SeamCoreValidator.DUPLICATE_DESTROY_MESSAGE_ID,
+//				DeleteAnnotationMarkerResolution.class);
+//	}
 	
 	public void testDuplicateCreateAnnotationResolution() throws CoreException {
 		MarkerResolutionTestUtil.checkResolution(project, 
