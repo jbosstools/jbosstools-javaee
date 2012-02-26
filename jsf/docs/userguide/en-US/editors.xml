@@ -3110,6 +3110,19 @@ two elements with equal id has been used, but should be used only one -->
             </imageobject>
           </mediaobject>
         </figure>
+		
+		<para>
+			You can use the <guilabel>Servlet-Name</guilabel> drop-down field to select an XML element, and navigate to the location of the element within the <guilabel>Source</guilabel> of the XML file.
+		</para>
+		
+		<figure>
+			<title>Navigating to XML elements from the Properties Editor</title> 
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="images/more_editors/more_editors_11a.png"/>
+				</imageobject>
+			</mediaobject>
+		</figure>
       </section>
        
       <section id="SourceView2">
