@@ -26,6 +26,7 @@ import org.jboss.tools.seam.core.SeamPreferences;
 import org.jboss.tools.seam.internal.core.validation.SeamCoreValidator;
 import org.jboss.tools.seam.ui.marker.AddAnnotatedMethodMarkerResolution;
 import org.jboss.tools.seam.ui.marker.AddAnnotationMarkerResolution;
+import org.jboss.tools.seam.ui.marker.AddSetterMarkerResolution;
 import org.jboss.tools.seam.ui.marker.ChangeScopeMarkerResolution;
 import org.jboss.tools.seam.ui.marker.DeleteAnnotationMarkerResolution;
 import org.jboss.tools.seam.ui.marker.RenameAnnotationMarkerResolution;
@@ -46,8 +47,20 @@ public class SeamMarkerResolutionTest extends TestCase {
 		this.project = project.getProject();
 		
 		IPreferenceStore store = SeamCorePlugin.getDefault().getPreferenceStore();
-		store.putValue(SeamPreferences.STATEFUL_COMPONENT_DOES_NOT_CONTENT_REMOVE, SeamPreferences.ERROR);
-		store.putValue(SeamPreferences.STATEFUL_COMPONENT_DOES_NOT_CONTENT_DESTROY, SeamPreferences.ERROR);
+		
+		store.putValue(SeamPreferences.DUPLICATE_REMOVE, SeamPreferences.WARNING);
+		store.putValue(SeamPreferences.DUPLICATE_DESTROY, SeamPreferences.WARNING);
+		store.putValue(SeamPreferences.DUPLICATE_CREATE, SeamPreferences.WARNING);
+		store.putValue(SeamPreferences.DUPLICATE_UNWRAP, SeamPreferences.WARNING);
+		store.putValue(SeamPreferences.CREATE_DOESNT_BELONG_TO_COMPONENT, SeamPreferences.WARNING);
+		store.putValue(SeamPreferences.UNWRAP_DOESNT_BELONG_TO_COMPONENT, SeamPreferences.WARNING);
+		store.putValue(SeamPreferences.OBSERVER_DOESNT_BELONG_TO_COMPONENT, SeamPreferences.WARNING);
+		store.putValue(SeamPreferences.NONUNIQUE_COMPONENT_NAME, SeamPreferences.WARNING);
+		store.putValue(SeamPreferences.STATEFUL_COMPONENT_DOES_NOT_CONTENT_REMOVE, SeamPreferences.WARNING);
+		store.putValue(SeamPreferences.STATEFUL_COMPONENT_DOES_NOT_CONTENT_DESTROY, SeamPreferences.WARNING);
+		store.putValue(SeamPreferences.STATEFUL_COMPONENT_WRONG_SCOPE, SeamPreferences.WARNING);
+		store.putValue(SeamPreferences.ENTITY_COMPONENT_WRONG_SCOPE, SeamPreferences.WARNING);
+		store.putValue(SeamPreferences.UNKNOWN_COMPONENT_PROPERTY, SeamPreferences.WARNING);
 
 		if(store instanceof IPersistentPreferenceStore) {
 			try {
@@ -84,16 +97,16 @@ public class SeamMarkerResolutionTest extends TestCase {
 				DeleteAnnotationMarkerResolution.class);
 	}
 
-//	public void testDuplicateDestroyAnnotationResolution2() throws CoreException {
-//		MarkerResolutionTestUtil.checkResolution(project, 
-//				new String[]{
-//					"src/action/org/domain/SeamWebWarTestProject/session/StatelessClass.java"
-//				},
-//				SeamCoreValidator.PROBLEM_TYPE,
-//				SeamCoreValidator.MESSAGE_ID_ATTRIBUTE_NAME,
-//				SeamCoreValidator.DUPLICATE_DESTROY_MESSAGE_ID,
-//				DeleteAnnotationMarkerResolution.class);
-//	}
+	public void testDuplicateDestroyAnnotationResolution2() throws CoreException {
+		MarkerResolutionTestUtil.checkResolution(project, 
+				new String[]{
+					"src/action/org/domain/SeamWebWarTestProject/session/StatelessClass.java"
+				},
+				SeamCoreValidator.PROBLEM_TYPE,
+				SeamCoreValidator.MESSAGE_ID_ATTRIBUTE_NAME,
+				SeamCoreValidator.DUPLICATE_DESTROY_MESSAGE_ID,
+				DeleteAnnotationMarkerResolution.class);
+	}
 	
 	public void testDuplicateCreateAnnotationResolution() throws CoreException {
 		MarkerResolutionTestUtil.checkResolution(project, 
@@ -249,42 +262,14 @@ public class SeamMarkerResolutionTest extends TestCase {
 				ChangeScopeMarkerResolution.class);
 	}
 
-//	public void fixMeTestAddSetterForProperty() throws CoreException {
-//		String TARGET_FILE_NAME = "WebContent/WEB-INF/components.xml";
-//		copyContentsFile(TARGET_FILE_NAME, "WebContent/WEB-INF/components.3");
-//		
-//		project.build(IncrementalProjectBuilder.INCREMENTAL_BUILD, SeamCoreBuilder.BUILDER_ID, null, null);
-//		
-//		JobUtils.waitForIdle();
-//		
-//		IFile file = project.getFile(TARGET_FILE_NAME);
-//		
-//		assertTrue("File - "+TARGET_FILE_NAME+" must be exists",file.exists());
-//		
-//		IMarker[] markers = file.findMarkers(SeamCoreValidator.PROBLEM_TYPE, true,	IResource.DEPTH_INFINITE);
-//		
-//		assertTrue("Problem marker not found", markers.length > 0);
-//		
-//		boolean found = false;
-//		for (int i = 0; i < markers.length; i++) {
-//			IMarker marker = markers[i];
-//			IMarkerResolution[] resolutions = IDE.getMarkerHelpRegistry()
-//					.getResolutions(marker);
-//			//checkForConfigureProblemSeverity(resolutions);
-//			//checkForAddSuppressWarnings(file, marker, resolutions);
-//			for (int j = 0; j < resolutions.length; j++) {
-//				IMarkerResolution resolution = resolutions[j];
-//				if (resolution instanceof AddSetterMarkerResolution) {
-//					found = true;
-//					break;
-//				}
-//			}
-//			if (found) {
-//				break;
-//			}
-//		}
-//		assertTrue("The quickfix \"Add setter for 'abc' property in 'org.domain.SeamWebWarTestProject.session.StatefulComponentWithAbcField' class\" doesn't exist.", found);
-//	}
-	
-
+	public void testAddSetterForProperty() throws CoreException {
+		MarkerResolutionTestUtil.checkResolution(project, 
+				new String[]{
+				"WebContent/WEB-INF/components.xml"
+				},
+				SeamCoreValidator.PROBLEM_TYPE,
+				SeamCoreValidator.MESSAGE_ID_ATTRIBUTE_NAME,
+				SeamCoreValidator.UNKNOWN_COMPONENT_PROPERTY_ID,
+				AddSetterMarkerResolution.class);
+	}
 }

@@ -20,6 +20,7 @@ import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.wst.validation.internal.operations.ValidatorManager;
+import org.jboss.tools.common.base.test.validation.ValidationProjectTestSetup;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.ui.test.ca.CASeamAddInfoInELMessagesTest;
@@ -83,24 +84,7 @@ public class SeamUiAllTests {
 		suite.addTestSuite(Seam20XCreateTestProjectTest.class);		
 		suite.addTestSuite(SeamProjectNamesTest.class);
 		suite.addTestSuite(Seam20XProjectNamesTest.class);
-		suite.addTest(new ProjectImportTestSetup(new TestSuite(SeamMarkerResolutionTest.class),"org.jboss.tools.seam.base.test","projects/SeamWebWarTestProject","SeamWebWarTestProject") {
-			@Override
-			protected void setUp() throws Exception {
-				super.setUp();
-				IProject project = (IProject)ResourcesPlugin.getWorkspace().getRoot().findMember("SeamWebWarTestProject");
-				if (project == null)
-					return;
-				project.refreshLocal(IResource.DEPTH_INFINITE, null);
-				JobUtils.waitForIdle();
-				ISeamProject seamProject = SeamCorePlugin.getSeamProject(project, true);
-				seamProject.setRuntimeName("UNKNOWN");
-				ValidatorManager.addProjectBuildValidationSupport(project);
-				project.build(IncrementalProjectBuilder.FULL_BUILD,
-						new NullProgressMonitor());
-
-				JobUtils.waitForIdle();
-			}
-		} );
+		suite.addTest(new ValidationProjectTestSetup(new TestSuite(SeamMarkerResolutionTest.class),"org.jboss.tools.seam.base.test","projects/SeamWebWarTestProject","SeamWebWarTestProject"));
 		
 		suite.addTest(new ProjectImportTestSetup(new TestSuite(
 				CASeamAddInfoInELMessagesTest.class), "org.jboss.tools.seam.ui.test", //$NON-NLS-1$

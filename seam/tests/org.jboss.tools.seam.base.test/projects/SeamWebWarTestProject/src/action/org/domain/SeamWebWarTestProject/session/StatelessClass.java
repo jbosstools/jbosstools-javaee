@@ -25,6 +25,11 @@ public class StatelessClass {
 	public void destroyMethod(){
 		
 	}
+    
+    @Destroy
+	public void destroyMethod2(){
+		
+	}
 
 	public String getAbc() {
 		return abc;
