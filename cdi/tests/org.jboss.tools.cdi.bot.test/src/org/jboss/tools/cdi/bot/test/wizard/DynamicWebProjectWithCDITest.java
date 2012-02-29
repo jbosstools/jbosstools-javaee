@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2010 Red Hat, Inc.
+ * Copyright (c) 2011-2012 Red Hat, Inc.
  * Distributed under license by Red Hat, Inc. All rights reserved.
  * This program is made available under the terms of the
  * Eclipse Public License v1.0 which accompanies this distribution,
@@ -11,37 +11,33 @@
 
 package org.jboss.tools.cdi.bot.test.wizard;
 
-import org.jboss.tools.cdi.bot.test.CDIConstants;
 import org.jboss.tools.cdi.bot.test.CDITestBase;
 import org.junit.Test;
 
-public class CDIWebProjectWizardTest extends CDITestBase {
-
+public class DynamicWebProjectWithCDITest extends CDITestBase {
+	
 	@Override	
 	public void prepareWorkspace() {
 		if (!projectHelper.projectExists(getProjectName())) {
-			projectHelper.createCDIProjectWithCDIWizard(getProjectName());
+			projectHelper.createCDIProjectWithDynamicWizard(getProjectName());
 		}
 	}
 	
 	@Override
 	public String getProjectName() {
-		return "CDIWebProject";
+		return "CDIDynamicWebProject";
 	}
 	
 	@Test
-	public void testCDIWizard() {
+	public void testDynamicWebProjectWizard() {
 		if (projectHelper.projectExists(getProjectName())) {
 			LOGGER.info("CDI project was sucessfully created by CDI Web Project wizard");
 			assertTrue(projectHelper.checkCDISupport(getProjectName()));
-			LOGGER.info("Project has correctly set CDI support");		
-			assertTrue("Error: beans.xml should be created when using CDI Web Project wizard", 
-					packageExplorer.isFilePresent(getProjectName(),
-							CDIConstants.WEB_INF_BEANS_XML_PATH.split("/")));
+			LOGGER.info("Project has correctly set CDI support");					
 		} else {
-			fail("CDI project was not succesfully created by CDI Web Project wizard");
+			fail("CDI project was not succesfully created by CDI Dynamic Web Project wizard");
 		}
 		
 	}
-	
+
 }

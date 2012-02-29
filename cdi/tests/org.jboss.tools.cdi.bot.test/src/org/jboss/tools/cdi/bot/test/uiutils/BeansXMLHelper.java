@@ -15,7 +15,6 @@ import org.jboss.tools.cdi.bot.test.CDIBase;
 import org.jboss.tools.cdi.bot.test.CDIConstants;
 import org.jboss.tools.cdi.bot.test.annotations.CDIWizardType;
 import org.jboss.tools.cdi.bot.test.openon.OpenOnTest;
-import org.jboss.tools.ui.bot.ext.Timing;
 
 /**
  * Helper for beans.xml validation
@@ -157,9 +156,9 @@ public class BeansXMLHelper extends CDIBase {
 	 */
 	private void createBeansXML(String projectName) {
 		
-		if (!projectExplorer.isFilePresent(projectName, 
+		if (!packageExplorer.isFilePresent(projectName, 
 				CDIConstants.META_INF_BEANS_XML_PATH.split("/")) && 
-			!projectExplorer.isFilePresent(projectName, 
+			!packageExplorer.isFilePresent(projectName, 
 				CDIConstants.WEB_INF_BEANS_XML_PATH.split("/"))) {
 			
 			wizard.createCDIComponent(CDIWizardType.BEANS_XML, null, 
@@ -177,11 +176,11 @@ public class BeansXMLHelper extends CDIBase {
 	 */
 	private void replaceBeansXMLContent(String projectName, String path) {
 		
-		if (projectExplorer.isFilePresent(projectName, 
+		if (packageExplorer.isFilePresent(projectName, 
 				CDIConstants.WEB_INF_BEANS_XML_PATH.split("/"))) {
-			projectExplorer.openFile(projectName, CDIConstants.WEB_INF_BEANS_XML_PATH.split("/"));
+			packageExplorer.openFile(projectName, CDIConstants.WEB_INF_BEANS_XML_PATH.split("/"));
 		}else {
-			projectExplorer.openFile(projectName, CDIConstants.META_INF_BEANS_XML_PATH.split("/"));
+			packageExplorer.openFile(projectName, CDIConstants.META_INF_BEANS_XML_PATH.split("/"));
 		}
 		bot.cTabItem("Source").activate();
 		setEd(bot.activeEditor().toTextEditor());

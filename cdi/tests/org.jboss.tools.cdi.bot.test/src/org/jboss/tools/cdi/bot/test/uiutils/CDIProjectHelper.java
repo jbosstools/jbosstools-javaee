@@ -104,7 +104,7 @@ public class CDIProjectHelper extends CDIBase{
 		item.expand();
 		NodeContextUtil.nodeContextMenu(tree, item, CDIConstants.CONFIGURE, 
 				CDIConstants.ADD_CDI_SUPPORT).click();
-		bot.activeShell().bot().button(IDELabel.Button.OK).click();
+		bot.button(IDELabel.Button.OK).click();
 		bot.waitWhile(new ProgressInformationShellIsActiveCondition(), TaskDuration.LONG.getTimeout());
 	}
 	
