@@ -17,7 +17,6 @@ import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
-import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.Flags;
 import org.eclipse.jdt.core.IAnnotatable;
@@ -31,6 +30,7 @@ import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaModelException;
+import org.eclipse.jdt.internal.corext.util.JavaConventionsUtil;
 import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.ui.IMarkerResolution;
@@ -98,6 +98,8 @@ public class CDIProblemMarkerResolutionGenerator implements
 			return new IMarkerResolution[] {};
 
 		final IFile file = (IFile) marker.getResource();
+		
+		IJavaProject javaProject = EclipseUtil.getJavaProject(file.getProject());
 
 		Integer attribute = ((Integer) marker.getAttribute(IMarker.CHAR_START));
 		if (attribute == null)
@@ -521,44 +523,46 @@ public class CDIProblemMarkerResolutionGenerator implements
 				provider.disconnect(input);
 			}
 			
+			boolean correctTypeName = JavaConventionsUtil.validatePackageName(text, javaProject).isOK();
+			
 			if(messageId == CDIValidationErrorManager.UNKNOWN_ALTERNATIVE_BEAN_CLASS_NAME_ID){
-				IJavaElement element = findJavaElementByQualifiedName(file.getProject(), text);
-				if(element == null){
+				IJavaElement element = findJavaElementByQualifiedName(javaProject, text);
+				if(element == null && correctTypeName){
 					return new IMarkerResolution[] {
 						new CreateCDIElementMarkerResolution(file.getProject(), text, CreateCDIElementMarkerResolution.CREATE_BEAN_CLASS)
 					};
 				}
 			}else if(messageId == CDIValidationErrorManager.UNKNOWN_ALTERNATIVE_ANNOTATION_NAME_ID){
-				IJavaElement element = findJavaElementByQualifiedName(file.getProject(), text);
-				if(element == null){
+				IJavaElement element = findJavaElementByQualifiedName(javaProject, text);
+				if(element == null && correctTypeName){
 					return new IMarkerResolution[] {
 						new CreateCDIElementMarkerResolution(file.getProject(), text, CreateCDIElementMarkerResolution.CREATE_STEREOTYPE)
 					};
 				}
 			}else if(messageId == CDIValidationErrorManager.ILLEGAL_ALTERNATIVE_BEAN_CLASS_ID){
-				IJavaElement element = getTypeToAddAlternativeToBean(file.getProject(), text);
+				IJavaElement element = getTypeToAddAlternativeToBean(javaProject, text);
 				if(element != null){
 					return new IMarkerResolution[] {
 						new AddAnnotationMarkerResolution(element, CDIConstants.ALTERNATIVE_ANNOTATION_TYPE_NAME)
 					};
 				}
 			}else if(messageId == CDIValidationErrorManager.ILLEGAL_ALTERNATIVE_ANNOTATION_ID){
-				IJavaElement element = getTypeToAddAlternativeToStereotype(file.getProject(), text);
+				IJavaElement element = getTypeToAddAlternativeToStereotype(javaProject, text);
 				if(element != null){
 					return new IMarkerResolution[] {
 						new AddAnnotationMarkerResolution(element, CDIConstants.ALTERNATIVE_ANNOTATION_TYPE_NAME)
 					};
 				}
 			}else if(messageId == CDIValidationErrorManager.UNKNOWN_DECORATOR_BEAN_CLASS_NAME_ID){
-				IJavaElement element = findJavaElementByQualifiedName(file.getProject(), text);
-				if(element == null){
+				IJavaElement element = findJavaElementByQualifiedName(javaProject, text);
+				if(element == null && correctTypeName){
 					return new IMarkerResolution[] {
 						new CreateCDIElementMarkerResolution(file.getProject(), text, CreateCDIElementMarkerResolution.CREATE_DECORATOR)
 					};
 				}
 			}else if(messageId == CDIValidationErrorManager.UNKNOWN_INTERCEPTOR_CLASS_NAME_ID){
-				IJavaElement element = findJavaElementByQualifiedName(file.getProject(), text);
-				if(element == null){
+				IJavaElement element = findJavaElementByQualifiedName(javaProject, text);
+				if(element == null && correctTypeName){
 					return new IMarkerResolution[] {
 						new CreateCDIElementMarkerResolution(file.getProject(), text, CreateCDIElementMarkerResolution.CREATE_INTERCEPTOR)
 					};
@@ -609,8 +613,7 @@ public class CDIProblemMarkerResolutionGenerator implements
 		return resolutions;
 	}
 	
-	private IType getTypeToAddAlternativeToBean(IProject project, String qualifiedName){
-		IJavaProject javaProject = EclipseUtil.getJavaProject(project);
+	private IType getTypeToAddAlternativeToBean(IJavaProject javaProject, String qualifiedName){
 		IType type = null;
 		try {
 			type =  javaProject.findType(qualifiedName);
@@ -619,7 +622,7 @@ public class CDIProblemMarkerResolutionGenerator implements
 		}
 		
 		if(type != null){
-			CDICoreNature cdiNature = CDIUtil.getCDINatureWithProgress(project);
+			CDICoreNature cdiNature = CDIUtil.getCDINatureWithProgress(javaProject.getProject());
 			if(cdiNature != null){
 				ICDIProject cdiProject = cdiNature.getDelegate();
 				
@@ -634,8 +637,7 @@ public class CDIProblemMarkerResolutionGenerator implements
 		return null;
 	}
 
-	private IType getTypeToAddAlternativeToStereotype(IProject project, String qualifiedName){
-		IJavaProject javaProject = EclipseUtil.getJavaProject(project);
+	private IType getTypeToAddAlternativeToStereotype(IJavaProject javaProject, String qualifiedName){
 		IType type = null;
 		try {
 			type =  javaProject.findType(qualifiedName);
@@ -644,7 +646,7 @@ public class CDIProblemMarkerResolutionGenerator implements
 		}
 		
 		if(type != null){
-			CDICoreNature cdiNature = CDIUtil.getCDINatureWithProgress(project);
+			CDICoreNature cdiNature = CDIUtil.getCDINatureWithProgress(javaProject.getProject());
 			if(cdiNature != null){
 				ICDIProject cdiProject = cdiNature.getDelegate();
 				
@@ -659,8 +661,7 @@ public class CDIProblemMarkerResolutionGenerator implements
 		return null;
 	}
 	
-	private IJavaElement findJavaElementByQualifiedName(IProject project, String qualifiedName){
-		IJavaProject javaProject = EclipseUtil.getJavaProject(project);
+	private IJavaElement findJavaElementByQualifiedName(IJavaProject javaProject, String qualifiedName){
 		try {
 			return javaProject.findType(qualifiedName);
 		} catch (JavaModelException ex) {
