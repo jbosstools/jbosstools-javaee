@@ -14,6 +14,8 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
+import junit.framework.TestCase;
+
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Platform;
 import org.jboss.tools.seam.core.SeamUtil;
@@ -21,8 +23,6 @@ import org.jboss.tools.seam.core.project.facet.SeamRuntime;
 import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
 import org.jboss.tools.seam.core.project.facet.SeamVersion;
 import org.osgi.framework.Bundle;
-
-import junit.framework.TestCase;
 
 /**
  * @author eskimo
@@ -94,20 +94,6 @@ public class SeamRuntimeManagerTest extends TestCase {
 		assertTrue(SeamUtil.areSeamVersionsMatched("2", "2.0.0"));
 		assertFalse(SeamUtil.areSeamVersionsMatched("2.1", "2.0.0"));
 	}
-
-	/**
-	 * Test method for {@link org.jboss.tools.seam.core.project.facet.SeamRuntimeManager#removeRuntime(org.jboss.tools.seam.core.project.facet.SeamRuntime)}.
-	 */
-//	public void testRemoveRuntime() {
-//		fail("Not yet implemented");
-//	}
-
-	/**
-	 * Test method for {@link org.jboss.tools.seam.core.project.facet.SeamRuntimeManager#getRuntimeForProject(org.eclipse.core.resources.IProject)}.
-	 */
-//	public void testGetRuntimeForProject() {
-//		
-//	}
 
 	/**
 	 * Test method for {@link org.jboss.tools.seam.core.project.facet.SeamRuntimeManager#getDefaultRuntime()}.

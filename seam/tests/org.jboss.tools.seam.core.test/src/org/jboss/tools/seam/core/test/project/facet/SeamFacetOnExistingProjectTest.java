@@ -13,6 +13,7 @@ package org.jboss.tools.seam.core.test.project.facet;
 import junit.framework.TestCase;
 
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
 import org.eclipse.wst.common.project.facet.core.IFacetedProject;
@@ -25,7 +26,6 @@ import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.SeamProjectsSet;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
 import org.jboss.tools.seam.internal.core.project.facet.SeamFacetInstallDataModelProvider;
-import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.ResourcesUtils;
 
 /**
@@ -39,7 +39,7 @@ public class SeamFacetOnExistingProjectTest extends TestCase {
 	@Override
 	protected void setUp() throws Exception {
 		project = ResourcesUtils.importProject("org.jboss.tools.seam.core.test", "projects/jsf");
-		JobUtils.waitForIdle();
+		project.build(IncrementalProjectBuilder.FULL_BUILD, null);
 
 		IFacetedProject fproj = ProjectFacetsManager.create(project);
 
@@ -47,7 +47,7 @@ public class SeamFacetOnExistingProjectTest extends TestCase {
 		IProjectFacetVersion seamFacetVersion = seamFacet.getVersion("2.0");
 
 		fproj.installProjectFacet(seamFacetVersion, createSeamDataModel(), null);
-		JobUtils.waitForIdle();
+		project.build(IncrementalProjectBuilder.FULL_BUILD, null);
 
 		seamProject = SeamCorePlugin.getSeamProject(project, false);
 	}
@@ -55,7 +55,6 @@ public class SeamFacetOnExistingProjectTest extends TestCase {
 	@Override
 	protected void tearDown() throws Exception {
 		ResourcesUtils.deleteProject(project.getName());
-		JobUtils.waitForIdle();
 	}
 
 	// https://issues.jboss.org/browse/JBIDE-9183

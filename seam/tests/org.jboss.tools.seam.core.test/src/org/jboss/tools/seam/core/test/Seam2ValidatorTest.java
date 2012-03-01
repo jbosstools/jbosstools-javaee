@@ -17,9 +17,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.wst.validation.internal.core.ValidationException;
 import org.jboss.tools.seam.core.test.validation.SeamCoreValidatorWrapper;
 import org.jboss.tools.seam.internal.core.validation.SeamValidationMessages;
-import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.ProjectImportTestSetup;
-import org.jboss.tools.test.util.ResourcesUtils;
 import org.jboss.tools.tests.AbstractResourceMarkerTest;
 
 /**
@@ -29,7 +27,7 @@ public class Seam2ValidatorTest extends AbstractResourceMarkerTest {
 	IProject projectEAR = null;
 	IProject projectWAR = null;
 	IProject projectEJB = null;
-	
+
 	ProjectImportTestSetup setup;
 
 	@Override
@@ -39,9 +37,9 @@ public class Seam2ValidatorTest extends AbstractResourceMarkerTest {
 		projectEJB = projects[0];
 		projectEAR = projects[1];
 		projectWAR = projects[2];
+		projectEAR.build(IncrementalProjectBuilder.FULL_BUILD, null);
 		projectEJB.build(IncrementalProjectBuilder.FULL_BUILD, null);
 		projectWAR.build(IncrementalProjectBuilder.FULL_BUILD, null);
-		JobUtils.waitForIdle();
 		setProject(projectEJB);
 	}
 

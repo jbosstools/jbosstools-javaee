@@ -28,7 +28,6 @@ import org.eclipse.wst.server.core.internal.RuntimeWorkingCopy;
 import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
-import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.ProjectImportTestSetup;
 import org.jboss.tools.test.util.ResourcesUtils;
 
@@ -40,10 +39,10 @@ public class SeamEARTest extends TestCase {
 	IProject projectEAR = null;
 	IProject projectWAR = null;
 	IProject projectEJB = null;
-	
+
 	boolean makeCopy = true;
 	ProjectImportTestSetup setup;
-	
+
 	public SeamEARTest() {}
 
 	protected void setUp() throws Exception {
@@ -55,15 +54,15 @@ public class SeamEARTest extends TestCase {
 		projectEJB = projects[2];
 		projectWAR = projects[0];
 		ResourcesUtils.setBuildAutomatically(saveAutoBuild);
-		JobUtils.waitForIdle();
+		projectEAR.build(IncrementalProjectBuilder.FULL_BUILD, new NullProgressMonitor());
+		projectEJB.build(IncrementalProjectBuilder.FULL_BUILD, new NullProgressMonitor());
+		projectWAR.build(IncrementalProjectBuilder.FULL_BUILD, new NullProgressMonitor());
 	}
 
 	private ISeamProject getSeamProject(IProject project) throws CoreException {
-
 		project.build(IncrementalProjectBuilder.FULL_BUILD, new NullProgressMonitor());
-		JobUtils.waitForIdle();
 		ISeamProject seamProject = null;
-		
+
 		/*
 		 * SeamCorePlugin.getSeamProject(IProject project, boolean resolve);
 		 * is used to load Seam Project properly. 
@@ -76,16 +75,15 @@ public class SeamEARTest extends TestCase {
 		assertNotNull("Seam project is null", seamProject);
 		return seamProject;
 	}
-	
+
 	public void testEarProject() throws CoreException {
 		ISeamProject seamProject = getSeamProject(projectWAR);
 		ISeamComponent c = seamProject.getComponent("authenticator");
 
 		assertNotNull("War project must see component 'authenticator' declared in ejb project", c);
-		
+
 		c = seamProject.getComponent("org.jboss.seam.core.interpolator");
 		assertNotNull("War project must see component 'org.jboss.seam.core.interpolator' declared in ejb project", c);
-		
 	}
 
 	/**
@@ -99,31 +97,27 @@ public class SeamEARTest extends TestCase {
 		ISeamComponent c = seamProject.getComponent("authenticator");
 
 		assertNotNull("War project must see component 'authenticator' declared in ejb project", c);
-		
+
 		boolean saveAutoBuild = ResourcesUtils.setBuildAutomatically(false);
-		
-		JobUtils.waitForIdle();
 
 		projectWAR.build(IncrementalProjectBuilder.CLEAN_BUILD, new NullProgressMonitor());
-		JobUtils.waitForIdle();
-		
+
 		c = seamProject.getComponent("authenticator");
 		assertNull("War project must see component 'authenticator' declared in ejb project", c);
 
 		projectWAR.build(IncrementalProjectBuilder.FULL_BUILD, new NullProgressMonitor());
-		JobUtils.waitForIdle();
+
 		c = seamProject.getComponent("authenticator");
 		assertNotNull("War project must see component 'authenticator' declared in ejb project", c);
 
 		ResourcesUtils.setBuildAutomatically(saveAutoBuild);
-		
 	}
 
-	
+	@Override
 	protected void tearDown() throws Exception {
 		setup.deleteProjects();
 	}
-	
+
 	private static IRuntime createRuntime(String runtimeName) throws CoreException {
 		IRuntimeWorkingCopy runtime = null;
 		String type = null;

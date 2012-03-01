@@ -15,8 +15,10 @@ import junit.framework.TestSuite;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectNature;
+import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jdt.internal.core.JavaModelManager;
 import org.eclipse.jst.jsp.core.internal.java.search.JSPSearchSupport;
 import org.eclipse.wst.validation.ValidationFramework;
@@ -49,6 +51,7 @@ public class SeamValidatorsAllTests {
 					JUnitUtils.fail("Cannot configure seam nature.", e);
 				}
 				ResourcesUtils.setBuildAutomatically(false);
+				project.build(IncrementalProjectBuilder.FULL_BUILD, new NullProgressMonitor());
 			}
 			protected void tearDown() throws Exception {
 				ResourcesUtils.setBuildAutomatically(true);

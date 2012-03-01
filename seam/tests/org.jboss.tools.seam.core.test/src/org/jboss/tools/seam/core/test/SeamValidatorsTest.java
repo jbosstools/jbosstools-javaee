@@ -23,6 +23,7 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jface.preference.IPersistentPreferenceStore;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.wst.validation.internal.core.ValidationException;
@@ -44,7 +45,6 @@ import org.jboss.tools.seam.internal.core.SeamProject;
 import org.jboss.tools.seam.internal.core.validation.SeamValidationErrorManager;
 import org.jboss.tools.seam.internal.core.validation.SeamValidationMessages;
 import org.jboss.tools.test.util.JobUtils;
-import org.jboss.tools.test.util.ProjectImportTestSetup;
 import org.jboss.tools.tests.AbstractResourceMarkerTest;
 import org.jboss.tools.tests.IMarkerFilter;
 
@@ -66,24 +66,17 @@ public class SeamValidatorsTest extends AbstractResourceMarkerTest {
 		assertTrue(newContentFile.exists());
 		super.copyContentsFile(originalFile, newContentFile);
 		if("xml".equalsIgnoreCase(originalFile.getFileExtension())) {
-			// Workaroud for an issue in XModel. If we change a XML to fast then its timestamp may not be changed. So XModel may not load the changed file.
+			// Workaroud for an issue in XModel. If we change a XML too fast then its timestamp may not be changed. So XModel may not load the changed file.
 			originalFile.setLocalTimeStamp(originalFile.getModificationStamp() + 3000);
 		}
 		project.build(IncrementalProjectBuilder.INCREMENTAL_BUILD, null);
+		project.build(IncrementalProjectBuilder.FULL_BUILD, new NullProgressMonitor());
 	}
 
 	@Override
 	protected void setUp() throws Exception {
 		project = ResourcesPlugin.getWorkspace().getRoot().getProject("SeamWebWarTestProject");
-		if(!project.exists()) {
-			ProjectImportTestSetup setup = new ProjectImportTestSetup(
-					this,
-					"org.jboss.tools.seam.core.test",
-					"projects/SeamWebWarTestProject",
-					"SeamWebWarTestProject");
-			project = setup.importProject();
-		}
-		project.build(IncrementalProjectBuilder.INCREMENTAL_BUILD, null);
+		assertTrue(project.exists());
 	}
 
 	@Override

@@ -19,6 +19,7 @@ import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.jboss.tools.seam.core.ISeamProject;
+import org.jboss.tools.seam.core.SeamCoreBuilder;
 import org.jboss.tools.seam.internal.core.SeamProject;
 import org.jboss.tools.test.util.JUnitUtils;
 import org.jboss.tools.test.util.JobUtils;
@@ -36,36 +37,32 @@ public class ComponentsFromLibTest extends TestCase {
 	IProject project1;
 	TestProjectProvider provider1;
 
+	@Override
 	protected void setUp() throws Exception {
 		provider1 = new TestProjectProvider(BUNDLE,"/projects/SeamJava" , "SeamJava", true);
 		project1 = provider1.getProject();
 
 		boolean saveAutoBuild = ResourcesUtils.setBuildAutomatically(false);
-		JobUtils.waitForIdle();
-		
+
 		IFile source = project1.getFile(new Path("lib/jboss-seam.1"));
 		IFile target = project1.getFile(new Path("lib/jboss-seam.jar"));
 
 		target.create(source.getContents(), IResource.FORCE, new NullProgressMonitor());
 
-		//To ensure that the project is built.
-		project1.build(IncrementalProjectBuilder.CLEAN_BUILD, new NullProgressMonitor());
-		JobUtils.waitForIdle();
+		project1.build(IncrementalProjectBuilder.INCREMENTAL_BUILD, new NullProgressMonitor());
 
-		project1.build(IncrementalProjectBuilder.FULL_BUILD, new NullProgressMonitor());
+		project1.build(IncrementalProjectBuilder.FULL_BUILD, SeamCoreBuilder.BUILDER_ID, null, new NullProgressMonitor());
 		JobUtils.waitForIdle();
 
 		ResourcesUtils.setBuildAutomatically(saveAutoBuild);
 	}
-	
+
 	public void testComponentsFromLib() {
 		ISeamProject sp1 = getSeamProject1();
-		
+
 		String component = "org.jboss.seam.core.conversation";
 		assertNotNull("Bean " + component + " is not found in project CycleTest1", sp1.getComponent(component));
-
 	}
-
 
 	private ISeamProject getSeamProject1() {
 		ISeamProject seamProject = null;
@@ -77,15 +74,12 @@ public class ComponentsFromLibTest extends TestCase {
 		assertNotNull("Seam project is null", seamProject);
 		return seamProject;
 	}
-	
+
 	@Override
 	protected void tearDown() throws Exception {
 		ISeamProject sp1 = getSeamProject1();
 		SeamProject impl1 = (SeamProject)sp1;
 		if(impl1 != null) impl1.clearStorage();
-
-		JobUtils.waitForIdle();
 		provider1.dispose();
 	}
-
 }

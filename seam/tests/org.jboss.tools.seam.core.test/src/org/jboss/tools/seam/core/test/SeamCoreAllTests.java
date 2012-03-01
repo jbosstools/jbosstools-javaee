@@ -13,6 +13,7 @@ package org.jboss.tools.seam.core.test;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.internal.core.JavaModelManager;
 import org.eclipse.jst.jsp.core.internal.java.search.JSPSearchSupport;
 import org.jboss.tools.seam.core.SeamCorePlugin;
@@ -20,6 +21,7 @@ import org.jboss.tools.seam.core.test.project.facet.SeamFacetOnExistingProjectTe
 import org.jboss.tools.seam.core.test.project.facet.SeamRuntimeListConverterTest;
 import org.jboss.tools.seam.core.test.project.facet.SeamRuntimeManagerTest;
 import org.jboss.tools.test.util.ProjectImportTestSetup;
+import org.jboss.tools.test.util.ResourcesUtils;
 
 /**
  * @author V.Kabanovich
@@ -28,11 +30,12 @@ import org.jboss.tools.test.util.ProjectImportTestSetup;
 public class SeamCoreAllTests {
 	public static final String PLUGIN_ID = SeamCorePlugin.PLUGIN_ID;
 	//
-	public static Test suite() {
+	public static Test suite() throws CoreException {
 		// it can be done here because it is not needed to be enabled back
 		JavaModelManager.getIndexManager().disable();
 		JSPSearchSupport.getInstance().setCanceled(true);
-		
+		ResourcesUtils.setBuildAutomatically(false);
+
 		TestSuite suite = new TestSuite();
 		suite.setName("All tests for " + PLUGIN_ID);
 		suite.addTest(new ProjectImportTestSetup(new TestSuite(ScannerTest.class),"org.jboss.tools.seam.core.test","projects/TestScanner","TestScanner"));

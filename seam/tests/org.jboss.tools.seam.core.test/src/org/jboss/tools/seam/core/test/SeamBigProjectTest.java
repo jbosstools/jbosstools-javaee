@@ -55,6 +55,7 @@ public class SeamBigProjectTest extends TestCase {
 	IProject project;
 	TestProjectProvider provider;
 
+	@Override
 	protected void setUp() throws Exception {
 		provider = new TestProjectProvider(BUNDLE,"/projects/bigProject" , "bigProject", true);
 		project = provider.getProject();
@@ -62,7 +63,6 @@ public class SeamBigProjectTest extends TestCase {
 		File template = getTemplateFile();
 
 		boolean saveAutoBuild = ResourcesUtils.setBuildAutomatically(false);
-		JobUtils.waitForIdle();
 
 		SeamBigProjectGenerator g = new SeamBigProjectGenerator();
 		g.generate(folder, template);
@@ -72,7 +72,7 @@ public class SeamBigProjectTest extends TestCase {
 
 		ResourcesUtils.setBuildAutomatically(saveAutoBuild);
 	}
-	
+
 	private File getTemplateFile() {
 		Bundle bundle = Platform.getBundle(BUNDLE);
 		URL url = null;
@@ -84,7 +84,7 @@ public class SeamBigProjectTest extends TestCase {
 		String location = url.getFile();
 		return new File(location);
 	}
-	
+
 	public void testBigProject() throws IOException {
 		ISeamProject sp = getSeamProject();
 		ISeamComponent[] cs = sp.getComponents();
@@ -113,10 +113,9 @@ public class SeamBigProjectTest extends TestCase {
 				+ "of seam model loading than in the beginning.\n"
 				+ "That implies that time depends as N*N on the number of components N.");
 		}
-		
+
 		generateLongXHTML(cs);
 	}
-
 
 	private ISeamProject getSeamProject() {
 		ISeamProject seamProject = null;
@@ -128,19 +127,18 @@ public class SeamBigProjectTest extends TestCase {
 		assertNotNull("Seam project is null", seamProject);
 		return seamProject;
 	}
-	
+
 	@Override
 	protected void tearDown() throws Exception {
 		ISeamProject sp = getSeamProject();
 		SeamProject impl = (SeamProject)sp;
 		if(impl != null) impl.clearStorage();
-		JobUtils.waitForIdle();
 		provider.dispose();
 	}
 
 	private void generateLongXHTML(ISeamComponent[] cs) {
 		StringBuffer sb = new StringBuffer();
-		
+
 		IFolder webContent = project.getFolder("WebContent");
 		IFile tmpl = webContent.getFile("login.xhtml");
 		String s = FileUtil.readFile(tmpl.getLocation().toFile());
@@ -157,7 +155,7 @@ public class SeamBigProjectTest extends TestCase {
                 "value=\"#{" + n + ".value}\"/>\n";
 			sb.append(q);
 		}
-		
+
 		sb.append(s.substring(j));
 		IFile file = webContent.getFile("long.xhtml");
 		try {
@@ -168,7 +166,7 @@ public class SeamBigProjectTest extends TestCase {
 			JobUtils.waitForIdle();
 			long dt = System.currentTimeMillis() - time;
 			System.out.println("validated in " + dt);
-			
+
 //			ResourcesUtils.setBuildAutomatically(save);
 
 			assertTrue("Validator takes more than 5s (" + ((dt-500)/1000d) + ") for validating generated long.xhtml", ((dt-500)/1000d) < 5);
@@ -176,5 +174,4 @@ public class SeamBigProjectTest extends TestCase {
 			JUnitUtils.fail("", e);
 		}
 	}
-
 }

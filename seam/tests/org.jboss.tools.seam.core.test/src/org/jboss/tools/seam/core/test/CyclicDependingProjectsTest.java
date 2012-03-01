@@ -18,7 +18,6 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.internal.core.SeamProject;
 import org.jboss.tools.test.util.JUnitUtils;
-import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.ResourcesUtils;
 import org.jboss.tools.test.util.TestProjectProvider;
 
@@ -35,6 +34,7 @@ public class CyclicDependingProjectsTest extends TestCase {
 	IProject project2;
 	TestProjectProvider provider2;
 
+	@Override
 	protected void setUp() throws Exception {
 		provider1 = new TestProjectProvider(BUNDLE,"/projects/CycleTest1" , "CycleTest1", true);
 		project1 = provider1.getProject();
@@ -42,7 +42,6 @@ public class CyclicDependingProjectsTest extends TestCase {
 		project2 = provider2.getProject();
 
 		boolean saveAutoBuild = ResourcesUtils.setBuildAutomatically(false);
-		JobUtils.waitForIdle();
 
 		//To ensure that the project is built.
 		project1.build(IncrementalProjectBuilder.CLEAN_BUILD, new NullProgressMonitor());
@@ -56,7 +55,7 @@ public class CyclicDependingProjectsTest extends TestCase {
 	
 	public void testCyclicDependingProjects() {
 		ISeamProject sp1 = getSeamProject1();
-		
+
 		assertNotNull("Bean test.bean1 is not found in project CycleTest1", sp1.getComponent("test.bean1"));
 		assertNotNull("Bean test.bean2 is not found in project CycleTest1", sp1.getComponent("test.bean2"));
 
@@ -65,7 +64,6 @@ public class CyclicDependingProjectsTest extends TestCase {
 		assertNotNull("Bean test.bean1 is not found in project CycleTest2", sp2.getComponent("test.bean1"));
 		assertNotNull("Bean test.bean2 is not found in project CycleTest2", sp2.getComponent("test.bean2"));
 	}
-
 
 	private ISeamProject getSeamProject1() {
 		ISeamProject seamProject = null;
@@ -77,7 +75,7 @@ public class CyclicDependingProjectsTest extends TestCase {
 		assertNotNull("Seam project is null", seamProject);
 		return seamProject;
 	}
-	
+
 	private ISeamProject getSeamProject2() {
 		ISeamProject seamProject = null;
 		try {
@@ -88,7 +86,7 @@ public class CyclicDependingProjectsTest extends TestCase {
 		assertNotNull("Seam project is null", seamProject);
 		return seamProject;
 	}
-	
+
 	@Override
 	protected void tearDown() throws Exception {
 		ISeamProject sp1 = getSeamProject1();
@@ -99,9 +97,7 @@ public class CyclicDependingProjectsTest extends TestCase {
 		SeamProject impl2 = (SeamProject)sp2;
 		if(impl2 != null) impl2.clearStorage();
 
-		JobUtils.waitForIdle();
 		provider1.dispose();
 		provider2.dispose();
 	}
-
 }

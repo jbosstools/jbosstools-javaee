@@ -115,6 +115,10 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 	protected int modifications = 0;
 	protected boolean isBuilt = false;
 
+	private void inc() {
+		modifications++;
+	}
+
 	/**
 	 * 
 	 */
@@ -289,7 +293,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 	public void addSeamProject(SeamProject p) {
 		if(dependsOn.contains(p)) return;
 		dependsOn.add(p);
-		modifications++;
+		inc();;
 		p.addDependentSeamProject(this);
 		if(!p.isStorageResolved) {
 			p.resolve();
@@ -320,7 +324,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 	 * @param p
 	 */
 	public void addDependentSeamProject(SeamProject p) {
-		if(usedBy.add(p)) modifications++;
+		if(usedBy.add(p)) inc();;
 	}
 
 	public Map<String, Set<ISeamNamespace>> getNamespaces() {
@@ -335,7 +339,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		if(!dependsOn.contains(p)) return;
 		p.usedBy.remove(this);
 		dependsOn.remove(p);
-		modifications++;
+		inc();;
 		IPath[] ps = sourcePaths2.keySet().toArray(new IPath[0]);
 		for (int i = 0; i < ps.length; i++) {
 			IPath pth = ps[i];
@@ -522,32 +526,44 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		if(validationContext != null)
 			System.out.println("validationContext " + validationContext.getModificationsSinceLastStore());		
 	}
-	
+
+	private boolean storeDisabledForTesting; // Should be used for testing only!
+
+	/**
+	 * Should be used for testing only!
+	 * @param disable
+	 */
+	public void setStoreDisabledForTesting(boolean disable) {
+		this.storeDisabledForTesting = disable;
+	}
+
 	/**
 	 * Stores results of last build, so that on exit/enter Eclipse
 	 * load them without rebuilding project
 	 * @throws IOException 
 	 */
 	public void store() throws IOException {
-		File file = getStorageFile();
-		if(file != null) {
-			file.getParentFile().mkdirs();
-		
-			Element root = XMLUtilities.createDocumentElement("seam-project"); //$NON-NLS-1$
-			storeProjectDependencies(root);
-
-			storeNamespaces(root);
-//		storeSourcePaths(root);
-			storeSourcePaths2(root);
-		
-			if(validationContext != null) validationContext.store(root);
-		
-			XMLUtilities.serialize(root, file.getAbsolutePath());
-
-			modifications = 0;
-			namespaces.modifications = 0;
-			components.modifications = 0;
-			factories.modifications = 0;
+		if(!storeDisabledForTesting) {
+			File file = getStorageFile();
+			if(file != null) {
+				file.getParentFile().mkdirs();
+			
+				Element root = XMLUtilities.createDocumentElement("seam-project"); //$NON-NLS-1$
+				storeProjectDependencies(root);
+	
+				storeNamespaces(root);
+	//		storeSourcePaths(root);
+				storeSourcePaths2(root);
+			
+				if(validationContext != null) validationContext.store(root);
+			
+				XMLUtilities.serialize(root, file.getAbsolutePath());
+	
+				modifications = 0;
+				namespaces.modifications = 0;
+				components.modifications = 0;
+				factories.modifications = 0;
+			}
 		}
 	}
 
@@ -751,10 +767,10 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 			long t2 = System.currentTimeMillis();
 			if(statistics != null) {
 				statistics.add(new Long(t2 - t1));
-				if(t2 - t1 > 30) {
-					System.out.println("--->" + statistics.size() + " " + (t2 - t1));
-					System.out.println("stop");
-				}
+//				if(t2 - t1 > 30) {
+//					System.out.println("--->" + statistics.size() + " " + (t2 - t1));
+//					System.out.println("stop");
+//				}
 			}
 		}
 		postBuild();
@@ -1419,7 +1435,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 	
 	public void setImports(IPath source, List<SeamImport> paths) {
 		if(equalLists(imports.importsBySource.get(source), paths)) return;
-		modifications++;
+		inc();;
 		synchronized(variables) {
 			variables.allVariablesPlusShort = null;
 			variables.byName = null;
@@ -1438,7 +1454,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 
 	public void removeImports(IPath source) {
 		if(!imports.importsBySource.containsKey(source)) return;
-		modifications++;
+		inc();;
 		synchronized(variables) {
 			variables.allVariablesPlusShort = null;
 		}
@@ -1734,7 +1750,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 	 */
 	void fireChanges(List<Change> changes, boolean increaseModification) {
 		if(changes == null || changes.isEmpty()) return;
-		if(increaseModification) modifications++;
+		if(increaseModification) inc();;
 		if(postponedChanges != null) {
 			postponedChanges.addAll(changes);
 			return;
@@ -1962,7 +1978,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 		protected int modifications = 0;
 		
 		protected void increaseModification(IPath path) {
-			if(pathCheck.isThisProject(path)) modifications++;
+			if(pathCheck.isThisProject(path)) inc();;
 		}
 		
 	}
@@ -2323,7 +2339,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 			addVariable(f);
 			if(f instanceof SeamMessages && f != messages) {
 				messages = (SeamMessages)f;
-				modifications++;
+				inc();;
 			}
 		}
 		
@@ -2360,7 +2376,7 @@ public class SeamProject extends SeamObject implements ISeamProject, IProjectNat
 				removeVariable(f);
 				if(f == messages) {
 					messages = null;
-					modifications++;
+					inc();;
 				}
 			}
 			if(factoriesBySource.remove(path) != null) increaseModification(path);

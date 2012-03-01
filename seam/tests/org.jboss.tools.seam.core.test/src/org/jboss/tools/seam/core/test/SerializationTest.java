@@ -32,18 +32,20 @@ import org.w3c.dom.Element;
 public class SerializationTest extends TestCase {
 	IProject project = null;
 	boolean makeCopy = true;
-	
+
 	public SerializationTest() {
 		super("Seam Serialization test");
 	}
 
+	@Override
 	protected void setUp() throws Exception {
 		project = ResourcesUtils.importProject(
 				"org.jboss.tools.seam.core.test","/projects/TestScanner" , new NullProgressMonitor());
 		project.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
-		JobUtils.waitForIdle();
+		project.build(IncrementalProjectBuilder.FULL_BUILD, null);
 	}
 
+	@Override
 	protected void tearDown() throws Exception {
 		if(project != null && project.isAccessible()) {
 			project.delete(false, true, new NullProgressMonitor());
@@ -131,15 +133,12 @@ public class SerializationTest extends TestCase {
 		try {
 			boolean auto = ResourcesUtils.setBuildAutomatically(false);
 			sp.getProject().build(IncrementalProjectBuilder.FULL_BUILD, null);
-			JobUtils.waitForIdle();
 			int components_1 = sp.getComponents().length;
 			assertFalse(components_1 == 0);
 			sp.getProject().build(IncrementalProjectBuilder.CLEAN_BUILD, null);
-			JobUtils.waitForIdle();
 			int components_2 = sp.getComponents().length;
 			assertEquals(components_2, 0);
 			sp.getProject().build(IncrementalProjectBuilder.FULL_BUILD, null);
-			JobUtils.waitForIdle();
 			int components_3 = sp.getComponents().length;
 			assertEquals(components_1, components_3);
 
