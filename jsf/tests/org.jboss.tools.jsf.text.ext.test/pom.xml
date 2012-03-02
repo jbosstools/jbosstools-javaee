@@ -13,7 +13,7 @@
 	<packaging>eclipse-test-plugin</packaging>
 
 	<properties>
-		<emma.filter>org.jboss.tools.jsf.text.ext*</emma.filter>
+		<coverage.filter>org.jboss.tools.jsf.text.ext*</coverage.filter>
 		<emma.instrument.bundles>org.jboss.tools.jsf.text.ext,org.jboss.tools.jsf.text.ext.facelets,org.jboss.tools.jsf.text.ext.richfaces</emma.instrument.bundles>
 	</properties>
 </project>

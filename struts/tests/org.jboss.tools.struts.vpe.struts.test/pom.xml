@@ -11,7 +11,7 @@
 	
 	<packaging>eclipse-test-plugin</packaging>
 	<properties>
-		<emma.filter>org.jboss.tools*</emma.filter>
+		<coverage.filter>org.jboss.tools*</coverage.filter>
 		<emma.instrument.bundles>org.jboss.tools.struts,org.jboss.tools.struts.text.ext,org.jboss.tools.struts.vpe.struts</emma.instrument.bundles>
 	</properties>	
 	<build>

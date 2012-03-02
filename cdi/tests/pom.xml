@@ -10,7 +10,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 	<artifactId>tests</artifactId>
 	<name>cdi.tests</name>
 	<properties>
-		<emma.filter>org.jboss.tools.cdi*</emma.filter>
+		<coverage.filter>org.jboss.tools.cdi*</coverage.filter>
 	</properties>
 	<packaging>pom</packaging>
 	<profiles>

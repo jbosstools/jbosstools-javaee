@@ -13,7 +13,7 @@
 
 	<properties>
 		<systemProperties>-Djbosstools.test.seam.1.2.1.eap.home=${requirement.build.root}/jboss-eap-4.3/seam</systemProperties>
-		<emma.filter>org.jboss.tools.seam*</emma.filter>
+		<coverage.filter>org.jboss.tools.seam*</coverage.filter>
 		<emma.instrument.bundles>org.jboss.tools.seam.ui,org.jboss.tools.seam.core</emma.instrument.bundles>
 	</properties>
 
