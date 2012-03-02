@@ -4,7 +4,7 @@
 	<bookinfo id="book-CDI_Tools_Reference_Guide-CDI_Tools_Reference_Guide">
 		<title>CDI Tools Reference Guide</title> 
   <subtitle>
-	  Placeholder text
+	  Provides information relating to the CDI Tools module
   </subtitle>
    
   <productname>JBoss Developer Studio</productname>
@@ -13,11 +13,11 @@
    
   <edition>5.0.0</edition>
    
-  <pubsnumber>1</pubsnumber>
+  <pubsnumber>2</pubsnumber>
    
   <abstract>
     <para>
-      Placeholder text
+		The CDI Tools Reference Guide explains how to use the CDI Tools module to develop CDI applications. 
     </para>
   </abstract>
    

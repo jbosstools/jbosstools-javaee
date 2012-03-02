@@ -4,6 +4,7 @@
 
 [
 <!ENTITY Revision_History SYSTEM "Revision_History.xml">
+<!ENTITY Introduction SYSTEM "Introduction.xml">
 <!ENTITY CDI_Web_Project SYSTEM "Creating_a_CDI_Web_Project.xml">
 ]>
 
@@ -39,6 +40,7 @@
     
     <toc/> 
 	&CDI_Web_Project;
+	&Introduction;
     &Revision_History;
 
 </book> 
