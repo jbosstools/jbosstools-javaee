@@ -41,12 +41,12 @@ import org.jboss.tools.common.ui.widget.editor.IFieldEditor;
 import org.jboss.tools.common.ui.widget.editor.IFieldEditorFactory;
 import org.jboss.tools.common.ui.widget.editor.ITaggedFieldEditor;
 import org.jboss.tools.seam.core.SeamCorePlugin;
+import org.jboss.tools.seam.core.SeamCoreMessages;
 import org.jboss.tools.seam.core.project.facet.SeamRuntime;
 import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
 import org.jboss.tools.seam.core.project.facet.SeamVersion;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
-import org.jboss.tools.seam.ui.SeamUIMessages;
-import org.jboss.tools.seam.ui.internal.project.facet.SeamValidatorFactory;
+import org.jboss.tools.seam.internal.core.project.facet.SeamValidatorFactory;
 import org.jboss.tools.seam.ui.widget.editor.SeamRuntimeListFieldEditor.SeamRuntimeNewWizard;
 
 /**
@@ -91,7 +91,7 @@ public class SeamWizardFactory {
 	 */
 	public static IFieldEditor createSeamProjectSelectionFieldEditor(
 			String defaultSelection) {
-		return createSeamProjectSelectionFieldEditor(ISeamParameter.SEAM_PROJECT_NAME, SeamUIMessages.SEAM_WIZARD_FACTORY_SEAM_PROJECT, defaultSelection, false, true);
+		return createSeamProjectSelectionFieldEditor(ISeamParameter.SEAM_PROJECT_NAME, SeamCoreMessages.SEAM_WIZARD_FACTORY_SEAM_PROJECT, defaultSelection, false, true);
 	}
 
 	/**
@@ -99,7 +99,7 @@ public class SeamWizardFactory {
 	 */
 	public static IFieldEditor createSeamLocalInterfaceNameFieldEditor() {
 		return IFieldEditorFactory.INSTANCE.createTextEditor(
-				ISeamParameter.SEAM_LOCAL_INTERFACE_NAME, SeamUIMessages.SEAM_WIZARD_FACTORY_LOCAL_INTERFACE_NAME, ""); //$NON-NLS-1$
+				ISeamParameter.SEAM_LOCAL_INTERFACE_NAME, SeamCoreMessages.SEAM_WIZARD_FACTORY_LOCAL_INTERFACE_NAME, ""); //$NON-NLS-1$
 	}
 
 	/**
@@ -107,7 +107,7 @@ public class SeamWizardFactory {
 	 */
 	public static IFieldEditor createSeamBeanNameFieldEditor() {
 		return IFieldEditorFactory.INSTANCE.createTextEditor(
-				ISeamParameter.SEAM_BEAN_NAME, SeamUIMessages.SEAM_WIZARD_FACTORY_BEAN_NAME, ""); //$NON-NLS-1$
+				ISeamParameter.SEAM_BEAN_NAME, SeamCoreMessages.SEAM_WIZARD_FACTORY_BEAN_NAME, ""); //$NON-NLS-1$
 	}
 
 	/**
@@ -115,7 +115,7 @@ public class SeamWizardFactory {
 	 */
 	public static IFieldEditor createSeamMethodNameFieldEditor() {
 		return IFieldEditorFactory.INSTANCE.createTextEditor(
-				ISeamParameter.SEAM_METHOD_NAME, SeamUIMessages.SEAM_WIZARD_FACTORY_METHOD_NAME, ""); //$NON-NLS-1$
+				ISeamParameter.SEAM_METHOD_NAME, SeamCoreMessages.SEAM_WIZARD_FACTORY_METHOD_NAME, ""); //$NON-NLS-1$
 	}
 
 	/**
@@ -123,7 +123,7 @@ public class SeamWizardFactory {
 	 */
 	public static IFieldEditor createSeamPageNameFieldEditor() {
 		return IFieldEditorFactory.INSTANCE.createTextEditor(
-				ISeamParameter.SEAM_PAGE_NAME, SeamUIMessages.SEAM_WIZARD_FACTORY_PAGE_NAME, ""); //$NON-NLS-1$
+				ISeamParameter.SEAM_PAGE_NAME, SeamCoreMessages.SEAM_WIZARD_FACTORY_PAGE_NAME, ""); //$NON-NLS-1$
 	}
 	
 	/**
@@ -131,7 +131,7 @@ public class SeamWizardFactory {
 	 */
 	public static IFieldEditor createSeamMasterPageNameFieldEditor() {
 		return IFieldEditorFactory.INSTANCE.createTextEditor(
-				ISeamParameter.SEAM_MASTER_PAGE_NAME, SeamUIMessages.SEAM_WIZARD_FACTORY_MASTER_PAGE_NAME, ""); //$NON-NLS-1$
+				ISeamParameter.SEAM_MASTER_PAGE_NAME, SeamCoreMessages.SEAM_WIZARD_FACTORY_MASTER_PAGE_NAME, ""); //$NON-NLS-1$
 	}
 
 	/**
@@ -154,7 +154,7 @@ public class SeamWizardFactory {
 	 */
 	public static IFieldEditor createSeamJavaPackageSelectionFieldEditor(String defaultSelection) {
 		return IFieldEditorFactory.INSTANCE.createButtonFieldEditor(
-				ISeamParameter.SEAM_PACKAGE_NAME, SeamUIMessages.SEAM_WIZARD_FACTORY_PACKAGE_NAME, defaultSelection, 
+				ISeamParameter.SEAM_PACKAGE_NAME, SeamCoreMessages.SEAM_WIZARD_FACTORY_PACKAGE_NAME, defaultSelection, 
 				 new SelectJavaPackageAction(), SeamValidatorFactory.NO_ERRORS_VALIDATOR);
 	}
 
@@ -188,7 +188,7 @@ public class SeamWizardFactory {
 		}
 		IFieldEditor jBossSeamRuntimeEditor = IFieldEditorFactory.INSTANCE
 		.createComboWithButton(ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME,
-				SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_SEAM_RUNTIME, names, 
+				SeamCoreMessages.SEAM_INSTALL_WIZARD_PAGE_SEAM_RUNTIME, names, 
 				defaultValue, 
 				true, action, (IValidator)null);
 		return jBossSeamRuntimeEditor;
@@ -209,7 +209,7 @@ public class SeamWizardFactory {
 		}
 		IFieldEditor connProfileSelEditor = IFieldEditorFactory.INSTANCE.createComboWithTwoButtons(
 				ISeamFacetDataModelProperties.SEAM_CONNECTION_PROFILE,
-				SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_CONNECTION_PROFILE,
+				SeamCoreMessages.SEAM_INSTALL_WIZARD_PAGE_CONNECTION_PROFILE,
 				profiles,
 				defaultValue,
 				false, editAction,
@@ -280,7 +280,7 @@ public class SeamWizardFactory {
 		 * @param validator
 		 */
 		public EditConnectionProfileAction(IValidator validator) {
-			super(SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_EDIT);
+			super(SeamCoreMessages.SEAM_INSTALL_WIZARD_PAGE_EDIT);
 			this.validator = validator;
 		}
 
@@ -327,7 +327,7 @@ public class SeamWizardFactory {
 		private IFieldEditor connProfileSelEditor;
 
 		public NewConnectionProfileAction(IValidator validator) {
-			super(SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_NEW);
+			super(SeamCoreMessages.SEAM_INSTALL_WIZARD_PAGE_NEW);
 			this.validator = validator;
 		}
 
@@ -471,7 +471,7 @@ public class SeamWizardFactory {
 	public static abstract class NewSeamRuntimeAction extends ButtonFieldEditor.ButtonPressedAction {
 
 		public NewSeamRuntimeAction() {
-			super(SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_ADD);
+			super(SeamCoreMessages.SEAM_INSTALL_WIZARD_PAGE_ADD);
 		}
 
 		abstract protected SeamVersion[] getSeamVersions();
@@ -551,7 +551,7 @@ public class SeamWizardFactory {
 	 */
 	public static IFieldEditor createSeamComponentNameFieldEditor() {
 		return IFieldEditorFactory.INSTANCE.createTextEditor(
-				ISeamParameter.SEAM_COMPONENT_NAME, SeamUIMessages.SEAM_WIZARD_FACTORY_SEAM_COMPONENT_NAME, ""); //$NON-NLS-1$
+				ISeamParameter.SEAM_COMPONENT_NAME, SeamCoreMessages.SEAM_WIZARD_FACTORY_SEAM_COMPONENT_NAME, ""); //$NON-NLS-1$
 	}
 
 	/**
@@ -559,7 +559,7 @@ public class SeamWizardFactory {
 	 */
 	public static IFieldEditor createSeamEntityClasNameFieldEditor() {
 		return IFieldEditorFactory.INSTANCE.createTextEditor(
-				ISeamParameter.SEAM_ENTITY_CLASS_NAME, SeamUIMessages.SEAM_WIZARD_FACTORY_SEAM_ENTITY_CLASS_NAME, ""); //$NON-NLS-1$
+				ISeamParameter.SEAM_ENTITY_CLASS_NAME, SeamCoreMessages.SEAM_WIZARD_FACTORY_SEAM_ENTITY_CLASS_NAME, ""); //$NON-NLS-1$
 	}
 
 	/**
@@ -582,7 +582,7 @@ public class SeamWizardFactory {
 		}
 		IFieldEditor editor = IFieldEditorFactory.INSTANCE.createComboEditor(
 				ISeamParameter.HIBERNATE_CONFIGURATION_NAME, 
-				SeamUIMessages.GENERATE_SEAM_ENTITIES_WIZARD_HIBERNATE_CONFIGURATION_LABEL, 
+				SeamCoreMessages.GENERATE_SEAM_ENTITIES_WIZARD_HIBERNATE_CONFIGURATION_LABEL, 
 				configurationNames, defaultSelection);
 		return editor;
 	}
@@ -594,7 +594,7 @@ public class SeamWizardFactory {
 	public static IFieldEditor createViewFolderFieldEditor(String defaultSelection) {
 		IFieldEditor viewDirEditor = IFieldEditorFactory.INSTANCE.createBrowseWorkspaceFolderEditor(
 				ISeamFacetDataModelProperties.WEB_CONTENTS_FOLDER,
-				SeamUIMessages.VIEW_FOLDER_FILED_EDITOR,
+				SeamCoreMessages.VIEW_FOLDER_FILED_EDITOR,
 				defaultSelection); 
 		return viewDirEditor;
 	}

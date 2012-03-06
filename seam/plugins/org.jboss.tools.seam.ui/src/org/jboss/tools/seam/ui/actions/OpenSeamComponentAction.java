@@ -26,9 +26,9 @@ import org.eclipse.ui.IWorkbenchWindowActionDelegate;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.SelectionDialog;
 import org.jboss.tools.seam.core.ISeamComponentDeclaration;
+import org.jboss.tools.seam.core.SeamCoreMessages;
 import org.jboss.tools.seam.internal.core.SeamComponentDeclaration;
 import org.jboss.tools.seam.internal.core.SeamJavaComponentDeclaration;
-import org.jboss.tools.seam.ui.SeamUIMessages;
 import org.jboss.tools.seam.ui.wizard.OpenSeamComponentDialog;
 import org.jboss.tools.seam.ui.wizard.OpenSeamComponentDialog.SeamComponentWrapper;
 
@@ -40,9 +40,9 @@ public class OpenSeamComponentAction extends Action implements IWorkbenchWindowA
 
 	public OpenSeamComponentAction() {
 		super();
-		setText(SeamUIMessages.OPEN_SEAM_COMPONENT_ACTION_ACTION_NAME);
-		setDescription(SeamUIMessages.OPEN_SEAM_COMPONENT_ACTION_DESCRIPTION);
-		setToolTipText(SeamUIMessages.OPEN_SEAM_COMPONENT_ACTION_TOOL_TIP);
+		setText(SeamCoreMessages.OPEN_SEAM_COMPONENT_ACTION_ACTION_NAME);
+		setDescription(SeamCoreMessages.OPEN_SEAM_COMPONENT_ACTION_DESCRIPTION);
+		setToolTipText(SeamCoreMessages.OPEN_SEAM_COMPONENT_ACTION_TOOL_TIP);
 	}
 
 	public void run() {
@@ -55,8 +55,8 @@ public class OpenSeamComponentAction extends Action implements IWorkbenchWindowA
 		
 		dialog= new OpenSeamComponentDialog(parent);
 		
-		dialog.setTitle(SeamUIMessages.OPEN_SEAM_COMPONENT_ACTION_ACTION_NAME);
-		dialog.setMessage(SeamUIMessages.OPEN_SEAM_COMPONENT_ACTION_MESSAGE);
+		dialog.setTitle(SeamCoreMessages.OPEN_SEAM_COMPONENT_ACTION_ACTION_NAME);
+		dialog.setMessage(SeamCoreMessages.OPEN_SEAM_COMPONENT_ACTION_MESSAGE);
 
 		int result= dialog.open();
 		if (result != IDialogConstants.OK_ID)

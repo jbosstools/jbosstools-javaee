@@ -42,9 +42,9 @@ import org.jboss.tools.common.el.core.resolver.Var;
 import org.jboss.tools.seam.core.ISeamContextVariable;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
+import org.jboss.tools.seam.core.SeamCoreMessages;
 import org.jboss.tools.seam.internal.core.el.SeamELCompletionEngine;
 import org.jboss.tools.seam.ui.SeamGuiPlugin;
-import org.jboss.tools.seam.ui.SeamUIMessages;
 
 /**
  * A helper class used for search operations
@@ -373,7 +373,7 @@ public abstract class SeamSearchEngine {
 
         // constructor w/ java element
         public SeamJavaSearchJob(IJavaElement element, IJavaSearchScope scope, SearchRequestor requestor) {
-            super(SeamUIMessages.SeamSearch + element.getElementName());
+            super(SeamCoreMessages.SeamSearch + element.getElementName());
             this.fElement = element;
             this.fScope = scope;
             this.fRequestor = requestor;
@@ -381,7 +381,7 @@ public abstract class SeamSearchEngine {
 
         // constructor w/ search text
         public SeamJavaSearchJob(String searchText, IJavaSearchScope scope, int searchFor, int limitTo, int matchMode, boolean isCaseSensitive, SearchRequestor requestor) {
-            super(SeamUIMessages.SeamSearch + searchText);
+            super(SeamCoreMessages.SeamSearch + searchText);
             this.fSearchText = searchText;
             this.fScope = scope;
             this.fSearchFor = searchFor;

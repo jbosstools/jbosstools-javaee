@@ -17,6 +17,7 @@ import java.net.URL;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
+import org.jboss.tools.seam.core.SeamCoreMessages;
 
 public class SeamUiImages {
 
@@ -63,7 +64,7 @@ public class SeamUiImages {
 	
 	protected SeamUiImages(URL registryUrl, SeamUiImages parent){
 
-		if(registryUrl == null) throw new IllegalArgumentException(SeamUIMessages.SEAM_UI_IMAGESBASE_URL_FOR_IMAGE_REGISTRY_CANNOT_BE_NULL);
+		if(registryUrl == null) throw new IllegalArgumentException(SeamCoreMessages.SEAM_UI_IMAGESBASE_URL_FOR_IMAGE_REGISTRY_CANNOT_BE_NULL);
 		baseUrl = registryUrl;
 		parentRegistry = parent;
 	}
@@ -90,7 +91,7 @@ public class SeamUiImages {
 	}
 
 	private URL makeIconFileURL(String name) throws MalformedURLException {
-		if (name == null) throw new MalformedURLException(SeamUIMessages.SEAM_UI_IMAGESIMAGE_NAME_CANNOT_BE_NULL);
+		if (name == null) throw new MalformedURLException(SeamCoreMessages.SEAM_UI_IMAGESIMAGE_NAME_CANNOT_BE_NULL);
 		return new URL(baseUrl, name);
 	}	
 

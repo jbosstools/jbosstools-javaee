@@ -113,6 +113,7 @@ import org.jboss.tools.seam.core.ISeamDeclaration;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCoreMessages;
 import org.jboss.tools.seam.core.SeamCorePlugin;
+import org.jboss.tools.seam.core.SeamCoreMessages;
 import org.jboss.tools.seam.internal.core.AbstractSeamDeclaration;
 import org.jboss.tools.seam.internal.core.SeamComponent;
 import org.jboss.tools.seam.internal.core.el.SeamELCompletionEngine;
@@ -121,7 +122,6 @@ import org.jboss.tools.seam.internal.core.scanner.java.AnnotatedASTNode;
 import org.jboss.tools.seam.internal.core.scanner.java.ResolvedAnnotation;
 import org.jboss.tools.seam.internal.core.scanner.java.SeamAnnotations;
 import org.jboss.tools.seam.ui.SeamGuiPlugin;
-import org.jboss.tools.seam.ui.SeamUIMessages;
 import org.jboss.tools.seam.ui.text.java.scanner.JavaAnnotationScanner;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -966,7 +966,7 @@ public class SeamSearchVisitor {
 				if (seamProject != null) {
 					String seamProjectName= seamProject.getProject().getName();
 					Object[] args= { seamProjectName, new Integer(fNumberOfScannedFiles), new Integer(fNumberOfFilesToScan)};
-					fProgressMonitor.subTask(Messages.format(SeamUIMessages.SeamSearchVisitor_scanning, args));
+					fProgressMonitor.subTask(Messages.format(SeamCoreMessages.SeamSearchVisitor_scanning, args));
 					int steps= fNumberOfScannedFiles - fLastNumberOfScannedFiles;
 					fProgressMonitor.worked(steps);
 					fLastNumberOfScannedFiles += steps;

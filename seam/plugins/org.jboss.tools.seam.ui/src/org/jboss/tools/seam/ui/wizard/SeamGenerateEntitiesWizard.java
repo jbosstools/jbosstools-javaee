@@ -47,12 +47,12 @@ import org.jboss.tools.jst.web.WebUtils;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.SeamProjectsSet;
+import org.jboss.tools.seam.core.SeamCoreMessages;
 import org.jboss.tools.seam.core.project.facet.SeamRuntime;
 import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
 import org.jboss.tools.seam.core.project.facet.SeamVersion;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
 import org.jboss.tools.seam.ui.ISeamHelpContextIds;
-import org.jboss.tools.seam.ui.SeamUIMessages;
 
 /**
  * Seam Generate Entities Wizard.
@@ -70,7 +70,7 @@ public class SeamGenerateEntitiesWizard extends SeamBaseWizard implements INewWi
 
 	public SeamGenerateEntitiesWizard() {
 		super(GENERATE_SEAM_ENTITIES);
-		setWindowTitle(SeamUIMessages.GENERATE_SEAM_ENTITIES_WIZARD_TITLE);
+		setWindowTitle(SeamCoreMessages.GENERATE_SEAM_ENTITIES_WIZARD_TITLE);
 		setDefaultPageImageDescriptor(ImageDescriptor.createFromFile(SeamGenerateEntitiesWizard.class, "SeamWebProjectWizBan.png"));	
 		addPage(page1);
 		addPage(page2);
@@ -81,7 +81,7 @@ public class SeamGenerateEntitiesWizard extends SeamBaseWizard implements INewWi
 		return page1.isPageComplete();
 	}
 	
-	public static final IUndoableOperation GENERATE_SEAM_ENTITIES = new SeamBaseOperation(SeamUIMessages.SEAM_GENERATE_ENTITIES_WIZARD_ACTION_CREATING_OPERATION) {
+	public static final IUndoableOperation GENERATE_SEAM_ENTITIES = new SeamBaseOperation(SeamCoreMessages.SEAM_GENERATE_ENTITIES_WIZARD_ACTION_CREATING_OPERATION) {
 
 		/*
 		 * (non-Javadoc)
@@ -144,7 +144,7 @@ public class SeamGenerateEntitiesWizard extends SeamBaseWizard implements INewWi
 				}
 				if(seamRt == null) {
 					throw new CoreException(new Status(IStatus.ERROR, SeamCorePlugin.PLUGIN_ID, 
-							NLS.bind(SeamUIMessages.SEAM_GENERATE_ENTITIES_WIZARD_CAN_NOT_FIND_SEAM_RUNTIME, project.getName())));
+							NLS.bind(SeamCoreMessages.SEAM_GENERATE_ENTITIES_WIZARD_CAN_NOT_FIND_SEAM_RUNTIME, project.getName())));
 				}
 				String seamTemplatesRoot = seamRt.getTemplatesDir();
 
@@ -208,7 +208,7 @@ public class SeamGenerateEntitiesWizard extends SeamBaseWizard implements INewWi
 				hbmtemplateAttributes.put("template_name", "view/list.xhtml.ftl"); //$NON-NLS-1$ //$NON-NLS-2$
 				hbmtemplateAttributes.put("outputdir", seamProjectsSet.getViewsFolder().getFullPath().toString()); //$NON-NLS-1$
 				hbmtemplateAttributes.put("for_each", "entity");				 //$NON-NLS-1$ //$NON-NLS-2$
-				hbmtemplateAttributes.put("hibernatetool.util.toolclass",SeamUIMessages.SEAM_GENERATE_ENTITIES_WIZARD_54);	 //$NON-NLS-1$
+				hbmtemplateAttributes.put("hibernatetool.util.toolclass",SeamCoreMessages.SEAM_GENERATE_ENTITIES_WIZARD_54);	 //$NON-NLS-1$
 				wc.setAttribute(HibernateLaunchConstants.ATTR_EXPORTERS + ".hbmtemplate1.properties", hbmtemplateAttributes); //$NON-NLS-1$
 
 //				<hbmtemplate filepattern="{class-name}.xhtml"
@@ -352,7 +352,7 @@ public class SeamGenerateEntitiesWizard extends SeamBaseWizard implements INewWi
 
 				WebUtils.changeTimeStamp(project);
 			} catch (CoreException e) {
-				SeamCorePlugin.getDefault().showError(SeamUIMessages.SEAM_GENERATE_ENTITIES_WIZARD_CAN_NOT_GENERATE_SEAM_ENTITIES, e);
+				SeamCorePlugin.getDefault().showError(SeamCoreMessages.SEAM_GENERATE_ENTITIES_WIZARD_CAN_NOT_GENERATE_SEAM_ENTITIES, e);
 			}
 			return Status.OK_STATUS;
 		}
@@ -363,7 +363,7 @@ public class SeamGenerateEntitiesWizard extends SeamBaseWizard implements INewWi
 		 */
 		@Override
 		public List<FileMapping> getFileMappings(Map<String, Object> vars) {
-//			throw new UnsupportedOperationException(SeamUIMessages.SEAM_GENERATE_ENTITIES_WIZARD_THIS_METHOD_IS_NOT_RELEVANT_IN_GENERATING_SEAM_ENTITIES);
+//			throw new UnsupportedOperationException(SeamCoreMessages.SEAM_GENERATE_ENTITIES_WIZARD_THIS_METHOD_IS_NOT_RELEVANT_IN_GENERATING_SEAM_ENTITIES);
 			// Return empty list; 
 			return new ArrayList<FileMapping>();
 		}

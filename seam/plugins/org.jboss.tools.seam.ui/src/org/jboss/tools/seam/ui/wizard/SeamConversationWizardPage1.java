@@ -12,7 +12,7 @@
 package org.jboss.tools.seam.ui.wizard;
 
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.jboss.tools.seam.ui.SeamUIMessages;
+import org.jboss.tools.seam.core.SeamCoreMessages;
 
 /**
  * @author eskimo
@@ -21,7 +21,7 @@ import org.jboss.tools.seam.ui.SeamUIMessages;
 public class SeamConversationWizardPage1 extends SeamBaseWizardPage {
 
 	public SeamConversationWizardPage1(IStructuredSelection initialSelection) {
-		super("seam.new.conversation.page1",SeamUIMessages.SEAM_CONVERSATION_WIZARD_PAGE1_SEAM_CONVERSATION,null, initialSelection);
+		super("seam.new.conversation.page1",SeamCoreMessages.SEAM_CONVERSATION_WIZARD_PAGE1_SEAM_CONVERSATION,null, initialSelection);
 		setMessage(getDefaultMessageText());
 	}
 

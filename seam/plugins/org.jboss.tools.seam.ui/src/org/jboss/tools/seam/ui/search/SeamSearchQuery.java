@@ -36,8 +36,8 @@ import org.jboss.tools.common.java.IJavaSourceReference;
 import org.jboss.tools.seam.core.ISeamDeclaration;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
+import org.jboss.tools.seam.core.SeamCoreMessages;
 import org.jboss.tools.seam.internal.core.el.SeamELCompletionEngine;
-import org.jboss.tools.seam.ui.SeamUIMessages;
 
 /**
  * Seam search query implementation
@@ -308,7 +308,7 @@ public class SeamSearchQuery implements ISearchQuery {
 	 */
 	public String getLabel() {
 		Object[] args= { fScope.getLimitToDescription() };
-		return Messages.format(SeamUIMessages.SeamSearchQuery_label, args);
+		return Messages.format(SeamCoreMessages.SeamSearchQuery_label, args);
 	}
 
 	/**
@@ -345,10 +345,10 @@ public class SeamSearchQuery implements ISearchQuery {
 				// search is limited to declarations only
 				if (nMatches == 1) {
 					Object[] args= { searchString, fScope.getDescription(), fScope.getLimitToDescription() };
-					return Messages.format(SeamUIMessages.SeamSearchQuery_singularPatternWithLimitTo, args);
+					return Messages.format(SeamCoreMessages.SeamSearchQuery_singularPatternWithLimitTo, args);
 				}
 				Object[] args= { searchString, new Integer(nMatches), fScope.getDescription(), fScope.getLimitToDescription() };
-				return Messages.format(SeamUIMessages.SeamSearchQuery_pluralPatternWithLimitTo, args);
+				return Messages.format(SeamCoreMessages.SeamSearchQuery_pluralPatternWithLimitTo, args);
 			}
 			if (SeamSearchEngine.isSearchForReferences(fScope.getLimitTo())) {
 				// text search
@@ -356,10 +356,10 @@ public class SeamSearchQuery implements ISearchQuery {
 					// search all file extensions
 					if (nMatches == 1) {
 						Object[] args= { searchString, fScope.getDescription(), fScope.getLimitToDescription() };
-						return Messages.format(SeamUIMessages.SeamSearchQuery_singularLabel, args);
+						return Messages.format(SeamCoreMessages.SeamSearchQuery_singularLabel, args);
 					}
 					Object[] args= { searchString, new Integer(nMatches), fScope.getDescription(), fScope.getLimitToDescription() };
-					return Messages.format(SeamUIMessages.SeamSearchQuery_pluralPattern, args); 
+					return Messages.format(SeamCoreMessages.SeamSearchQuery_pluralPattern, args); 
 				}
 			}
 		}

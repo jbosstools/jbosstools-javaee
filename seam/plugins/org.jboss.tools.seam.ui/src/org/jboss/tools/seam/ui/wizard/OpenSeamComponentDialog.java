@@ -42,8 +42,8 @@ import org.eclipse.ui.dialogs.FilteredItemsSelectionDialog;
 import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
+import org.jboss.tools.seam.core.SeamCoreMessages;
 import org.jboss.tools.seam.ui.SeamGuiPlugin;
-import org.jboss.tools.seam.ui.SeamUIMessages;
 import org.jboss.tools.seam.ui.SeamUiImages;
 import org.jboss.tools.seam.ui.views.SeamReferencedFilter;
 
@@ -105,7 +105,7 @@ public class OpenSeamComponentDialog extends FilteredItemsSelectionDialog {
 			ItemsFilter itemsFilter, IProgressMonitor progressMonitor)
 			throws CoreException {
 		
-		progressMonitor.subTask(SeamUIMessages.OPEN_SEAM_COMPONENT_DIALOG_WAIT);
+		progressMonitor.subTask(SeamCoreMessages.OPEN_SEAM_COMPONENT_DIALOG_WAIT);
 		
 		try {
 			Job.getJobManager().join(ResourcesPlugin.FAMILY_AUTO_BUILD, null);
@@ -117,7 +117,7 @@ public class OpenSeamComponentDialog extends FilteredItemsSelectionDialog {
 				.getProjects();
 
 		progressMonitor.beginTask(
-				SeamUIMessages.OPEN_SEAM_COMPONENT_DIALOG_LOADING,
+				SeamCoreMessages.OPEN_SEAM_COMPONENT_DIALOG_LOADING,
 				projects.length);
 
 		for (int i = 0; i < projects.length; i++) {
@@ -189,7 +189,7 @@ public class OpenSeamComponentDialog extends FilteredItemsSelectionDialog {
 
 	protected IDialogSettings getDialogSettings() {
 		return new DialogSettings(
-				SeamUIMessages.OPEN_SEAM_COMPONENT_DIALOG_NAME);
+				SeamCoreMessages.OPEN_SEAM_COMPONENT_DIALOG_NAME);
 	}
 
 	public String getElementName(Object item) {

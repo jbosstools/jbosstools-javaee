@@ -26,7 +26,7 @@ import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.actions.ActionGroup;
 import org.eclipse.ui.navigator.IExtensionStateModel;
-import org.jboss.tools.seam.ui.SeamUIMessages;
+import org.jboss.tools.seam.core.SeamCoreMessages;
 import org.jboss.tools.seam.ui.views.ViewConstants;
 
 /**
@@ -91,13 +91,13 @@ public class SeamViewLayoutActionGroup extends ActionGroup implements ViewConsta
 			IMenuManager viewMenu = actionBars.getMenuManager();
 			// Create layout sub menu
 			if (layoutSubMenu == null) {
-				layoutSubMenu = new MenuManager(SeamUIMessages.SEAM_VIEW_LAYOUT_ACTION_GROUP_SEAM_PACKAGES, SeamUIMessages.SEAM_VIEW_LAYOUT_ACTION_GROUP_SEAM_PACKAGES);
+				layoutSubMenu = new MenuManager(SeamCoreMessages.SEAM_VIEW_LAYOUT_ACTION_GROUP_SEAM_PACKAGES, SeamCoreMessages.SEAM_VIEW_LAYOUT_ACTION_GROUP_SEAM_PACKAGES);
 				addLayoutActions(layoutSubMenu);
 				viewMenu.insertAfter(IWorkbenchActionConstants.MB_ADDITIONS, new Separator(LAYOUT_GROUP_NAME));
 			}
 			
 			if(scopeSubMenu == null) {
-				scopeSubMenu = new MenuManager(SeamUIMessages.SEAM_VIEW_LAYOUT_ACTION_GROUP_SCOPE_PRESENTATION, SeamUIMessages.SEAM_VIEW_LAYOUT_ACTION_GROUP_SCOPE_PRESENTATION);
+				scopeSubMenu = new MenuManager(SeamCoreMessages.SEAM_VIEW_LAYOUT_ACTION_GROUP_SCOPE_PRESENTATION, SeamCoreMessages.SEAM_VIEW_LAYOUT_ACTION_GROUP_SCOPE_PRESENTATION);
 				addScopeActions(scopeSubMenu);
 			}
 
@@ -162,7 +162,7 @@ public class SeamViewLayoutActionGroup extends ActionGroup implements ViewConsta
 				int style = SWT.RADIO;
 				MenuItem mi = new MenuItem(menu, style, index);
 				flatLayoutItem = mi;
-				mi.setText(SeamUIMessages.SEAM_VIEW_LAYOUT_ACTION_GROUP_FLAT);
+				mi.setText(SeamCoreMessages.SEAM_VIEW_LAYOUT_ACTION_GROUP_FLAT);
 				mi.setSelection(isFlatLayout);
 				mi.addSelectionListener(new SelectionAdapter() {
 					@Override
@@ -192,7 +192,7 @@ public class SeamViewLayoutActionGroup extends ActionGroup implements ViewConsta
 				int style = SWT.RADIO;
 				MenuItem mi = new MenuItem(menu, style, index);
 				hierarchicalLayoutItem = mi;
-				mi.setText(SeamUIMessages.SEAM_VIEW_LAYOUT_ACTION_GROUP_HIERARCHICAL);
+				mi.setText(SeamCoreMessages.SEAM_VIEW_LAYOUT_ACTION_GROUP_HIERARCHICAL);
 				mi.setSelection(!isFlatLayout);
 				mi.addSelectionListener(new SelectionAdapter() {
 					@Override
@@ -225,7 +225,7 @@ public class SeamViewLayoutActionGroup extends ActionGroup implements ViewConsta
 				int style = SWT.RADIO;
 				MenuItem mi = new MenuItem(menu, style, index);
 				labelScopeItem = mi;
-				mi.setText(SeamUIMessages.SEAM_VIEW_LAYOUT_ACTION_GROUP_LABEL);
+				mi.setText(SeamCoreMessages.SEAM_VIEW_LAYOUT_ACTION_GROUP_LABEL);
 				mi.setSelection(isScopeLable);
 				mi.addSelectionListener(new SelectionAdapter() {
 					@Override
@@ -255,7 +255,7 @@ public class SeamViewLayoutActionGroup extends ActionGroup implements ViewConsta
 				int style = SWT.RADIO;
 				MenuItem mi = new MenuItem(menu, style, index);
 				nodeScopeItem = mi;
-				mi.setText(SeamUIMessages.SEAM_VIEW_LAYOUT_ACTION_GROUP_NODE);
+				mi.setText(SeamCoreMessages.SEAM_VIEW_LAYOUT_ACTION_GROUP_NODE);
 				mi.setSelection(!isScopeLable);
 				mi.addSelectionListener(new SelectionAdapter() {
 					@Override

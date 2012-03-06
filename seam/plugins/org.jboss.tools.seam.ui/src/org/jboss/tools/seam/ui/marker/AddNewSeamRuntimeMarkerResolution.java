@@ -29,12 +29,12 @@ import org.eclipse.wst.common.project.facet.core.IProjectFacet;
 import org.eclipse.wst.common.project.facet.core.IProjectFacetVersion;
 import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
 import org.jboss.tools.seam.core.SeamCorePlugin;
+import org.jboss.tools.seam.core.SeamCoreMessages;
 import org.jboss.tools.seam.core.project.facet.SeamRuntime;
 import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
 import org.jboss.tools.seam.core.project.facet.SeamVersion;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
 import org.jboss.tools.seam.ui.SeamGuiPlugin;
-import org.jboss.tools.seam.ui.SeamUIMessages;
 import org.jboss.tools.seam.ui.preferences.SeamPreferencesMessages;
 import org.jboss.tools.seam.ui.widget.editor.SeamRuntimeListFieldEditor;
 
@@ -52,7 +52,7 @@ public class AddNewSeamRuntimeMarkerResolution implements IMarkerResolution2{
 		
 		IEclipsePreferences preferences = SeamCorePlugin.getSeamPreferences(project);
 		runtimeName = preferences.get(ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME,"");
-		this.label = MessageFormat.format(SeamUIMessages.ADD_NEW_SEAM_RUNTIME_MARKER_RESOLUTION_TITLE, new Object[]{runtimeName});
+		this.label = MessageFormat.format(SeamCoreMessages.ADD_NEW_SEAM_RUNTIME_MARKER_RESOLUTION_TITLE, new Object[]{runtimeName});
 	}
 
 	public String getLabel() {

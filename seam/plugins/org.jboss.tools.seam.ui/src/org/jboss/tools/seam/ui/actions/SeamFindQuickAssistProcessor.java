@@ -36,9 +36,9 @@ import org.eclipse.ui.part.FileEditorInput;
 import org.jboss.tools.common.el.core.model.ELInvocationExpression;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
+import org.jboss.tools.seam.core.SeamCoreMessages;
 import org.jboss.tools.seam.internal.core.el.SeamELCompletionEngine;
 import org.jboss.tools.seam.ui.SeamGuiPlugin;
-import org.jboss.tools.seam.ui.SeamUIMessages;
 import org.jboss.tools.seam.ui.SeamUiImages;
 import org.jboss.tools.seam.ui.handlers.FindSeamDeclarationsHandler;
 import org.jboss.tools.seam.ui.handlers.FindSeamReferencesHandler;
@@ -138,7 +138,7 @@ public class SeamFindQuickAssistProcessor implements IQuickAssistProcessor {
 					contents, 
 					SeamUiImages.getImage("find_seam_declarations.gif"), 
 					Messages.format(
-							SeamUIMessages.SeamQuickFixFindDeclarations, 
+							SeamCoreMessages.SeamQuickFixFindDeclarations, 
 							new Object[] {searchString}),
 					context) {
 				public void apply(IDocument target) {
@@ -153,7 +153,7 @@ public class SeamFindQuickAssistProcessor implements IQuickAssistProcessor {
 					contents, 
 					SeamUiImages.getImage("find_seam_references.gif"), 
 					Messages.format(
-							SeamUIMessages.SeamQuickFixFindReferences, 
+							SeamCoreMessages.SeamQuickFixFindReferences, 
 							new Object[] {searchString}),
 					context) {
 				public void apply(IDocument target) {

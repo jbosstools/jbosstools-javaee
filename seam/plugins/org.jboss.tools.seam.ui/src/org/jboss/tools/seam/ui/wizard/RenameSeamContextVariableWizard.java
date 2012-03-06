@@ -32,10 +32,10 @@ import org.jboss.tools.common.ui.widget.editor.IFieldEditor;
 import org.jboss.tools.common.ui.widget.editor.IFieldEditorFactory;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
+import org.jboss.tools.seam.core.SeamCoreMessages;
+import org.jboss.tools.seam.internal.core.project.facet.SeamValidatorFactory;
 import org.jboss.tools.seam.internal.core.refactoring.RenameSeamContextVariableProcessor;
 import org.jboss.tools.seam.internal.core.refactoring.SeamRenameProcessor;
-import org.jboss.tools.seam.ui.SeamUIMessages;
-import org.jboss.tools.seam.ui.internal.project.facet.SeamValidatorFactory;
 
 /**
  * @author Daniel Azarov
@@ -77,7 +77,7 @@ public class RenameSeamContextVariableWizard extends RefactoringWizard {
 	        layout.numColumns = 2;
 	        
 	        String defaultName = processor.getOldName();
-	        editor = IFieldEditorFactory.INSTANCE.createTextEditor(componentName, SeamUIMessages.SEAM_WIZARD_FACTORY_SEAM_COMPONENT_NAME, defaultName);
+	        editor = IFieldEditorFactory.INSTANCE.createTextEditor(componentName, SeamCoreMessages.SEAM_WIZARD_FACTORY_SEAM_COMPONENT_NAME, defaultName);
 	        editor.doFillIntoGrid(container);
 	        
 	        ((CompositeEditor)editor).addPropertyChangeListener(new PropertyChangeListener(){
@@ -92,7 +92,7 @@ public class RenameSeamContextVariableWizard extends RefactoringWizard {
 		protected final void validatePage() {
 			Map<String, IStatus> errors = SeamValidatorFactory.SEAM_COMPONENT_NAME_VALIDATOR.validate(editor.getValueAsString(), seamProject);
 			if(!errors.isEmpty()) {
-				setErrorMessage(NLS.bind(errors.get(IValidator.DEFAULT_ERROR).getMessage(),SeamUIMessages.SEAM_BASE_WIZARD_PAGE_SEAM_COMPONENTS));
+				setErrorMessage(NLS.bind(errors.get(IValidator.DEFAULT_ERROR).getMessage(),SeamCoreMessages.SEAM_BASE_WIZARD_PAGE_SEAM_COMPONENTS));
 				setPageComplete(false);
 				return;
 			}

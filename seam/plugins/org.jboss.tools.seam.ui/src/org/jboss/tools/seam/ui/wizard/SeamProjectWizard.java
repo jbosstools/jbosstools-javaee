@@ -79,6 +79,7 @@ import org.eclipse.wst.server.ui.ServerUIUtil;
 import org.jboss.ide.eclipse.as.core.server.internal.JBossServer;
 import org.jboss.tools.jst.web.server.RegistrationHelper;
 import org.jboss.tools.seam.core.SeamCorePlugin;
+import org.jboss.tools.seam.core.SeamCoreMessages;
 import org.jboss.tools.seam.core.project.facet.SeamProjectPreferences;
 import org.jboss.tools.seam.core.project.facet.SeamRuntime;
 import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
@@ -90,7 +91,6 @@ import org.jboss.tools.seam.internal.core.project.facet.SeamFacetInstallDelegate
 import org.jboss.tools.seam.internal.core.project.facet.SeamFacetProjectCreationDataModelProvider;
 import org.jboss.tools.seam.ui.ISeamHelpContextIds;
 import org.jboss.tools.seam.ui.SeamGuiPlugin;
-import org.jboss.tools.seam.ui.SeamUIMessages;
 import org.jboss.tools.seam.ui.internal.project.facet.SeamInstallWizardPage;
 
 /**
@@ -113,12 +113,12 @@ public class SeamProjectWizard extends WebProjectWizard implements IExecutableEx
 
 	public SeamProjectWizard() {
 		super();
-		setWindowTitle(SeamUIMessages.SEAM_PROJECT_WIZARD_NEW_SEAM_PROJECT);
+		setWindowTitle(SeamCoreMessages.SEAM_PROJECT_WIZARD_NEW_SEAM_PROJECT);
 	}
 
 	public SeamProjectWizard(IDataModel model) {
 		super(model);
-		setWindowTitle(SeamUIMessages.SEAM_PROJECT_WIZARD_NEW_SEAM_PROJECT);
+		setWindowTitle(SeamCoreMessages.SEAM_PROJECT_WIZARD_NEW_SEAM_PROJECT);
 	}
 
 	protected IDataModel createDataModel() {
@@ -130,8 +130,8 @@ public class SeamProjectWizard extends WebProjectWizard implements IExecutableEx
 		firstPage = new SeamWebProjectFirstPage(model, "first.page"); //$NON-NLS-1$
 
 		firstPage.setImageDescriptor(ImageDescriptor.createFromFile(SeamFormWizard.class, "SeamWebProjectWizBan.png"));  //$NON-NLS-1$
-		firstPage.setTitle(SeamUIMessages.SEAM_PROJECT_WIZARD_SEAM_WEB_PROJECT);
-		firstPage.setDescription(SeamUIMessages.SEAM_PROJECT_WIZARD_CREATE_STANDALONE_SEAM_WEB_PROJECT);
+		firstPage.setTitle(SeamCoreMessages.SEAM_PROJECT_WIZARD_SEAM_WEB_PROJECT);
+		firstPage.setDescription(SeamCoreMessages.SEAM_PROJECT_WIZARD_CREATE_STANDALONE_SEAM_WEB_PROJECT);
 		return firstPage;
 	}
 
@@ -189,7 +189,7 @@ public class SeamProjectWizard extends WebProjectWizard implements IExecutableEx
 				}
 			}
 		}, IFacetedProjectEvent.Type.PROJECT_NAME_CHANGED);
-		Control control = findGroupByText(getShell(), SeamUIMessages.SEAM_PROJECT_WIZARD_EAR_MEMBERSHIP);
+		Control control = findGroupByText(getShell(), SeamCoreMessages.SEAM_PROJECT_WIZARD_EAR_MEMBERSHIP);
 		if (control != null)
 			control.setVisible(false);
 		firstPage.isPageComplete();
@@ -328,7 +328,7 @@ public class SeamProjectWizard extends WebProjectWizard implements IExecutableEx
 	 */
 	@Override
 	public boolean performFinish() {
-		SeamInstallWizardPage page = (SeamInstallWizardPage)getPage(SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_SEAM_FACET);
+		SeamInstallWizardPage page = (SeamInstallWizardPage)getPage(SeamCoreMessages.SEAM_INSTALL_WIZARD_PAGE_SEAM_FACET);
 		page.finishPressed();
 		IDataModel model = page.getConfig();
 		model.setProperty(ISeamFacetDataModelProperties.CREATE_EAR_PROJECTS, Boolean.TRUE);		
@@ -360,7 +360,7 @@ public class SeamProjectWizard extends WebProjectWizard implements IExecutableEx
     	super.performFinish(monitor);
 
 		IProject warProject = this.getFacetedProject().getProject();
-		SeamInstallWizardPage page = (SeamInstallWizardPage)getPage(SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_SEAM_FACET);
+		SeamInstallWizardPage page = (SeamInstallWizardPage)getPage(SeamCoreMessages.SEAM_INSTALL_WIZARD_PAGE_SEAM_FACET);
 		IDataModel model = page.getConfig();
 
 		boolean deployAsEar = ISeamFacetDataModelProperties.DEPLOY_AS_EAR.equals(model.getProperty(ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS));
@@ -430,7 +430,7 @@ public class SeamProjectWizard extends WebProjectWizard implements IExecutableEx
 				String[] driverJars = (String[]) model.getProperty(ISeamFacetDataModelProperties.JDBC_DRIVER_JAR_PATH);
 				if(driverJars!=null) {
 					String configFolder = jbs.getConfigDirectory();
-					if(model.getStringProperty(ISeamFacetDataModelProperties.SEAM_LIBRARY_PROVIDER).equals(SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_COPY_LIBRARIES)){
+					if(model.getStringProperty(ISeamFacetDataModelProperties.SEAM_LIBRARY_PROVIDER).equals(SeamCoreMessages.SEAM_INSTALL_WIZARD_PAGE_COPY_LIBRARIES)){
 						AntCopyUtils.copyFiles(driverJars, new File(configFolder, "lib"), false);
 					}
 				}
@@ -524,14 +524,14 @@ public class SeamProjectWizard extends WebProjectWizard implements IExecutableEx
 
 		protected void createSeamServerTargetComposite(Composite parent) {
 	        Group group = new Group(parent, SWT.NONE);
-	        group.setText(SeamUIMessages.SEAM_TARGET_SERVER);
+	        group.setText(SeamCoreMessages.SEAM_TARGET_SERVER);
 	        group.setLayoutData(gdhfill());
 	        group.setLayout(new GridLayout(2, false));
 
 	        matchedServerTargetCombo = new Combo(group, SWT.BORDER | SWT.READ_ONLY);
 			matchedServerTargetCombo.setLayoutData(gdhfill());
 			Button newMatchedServerTargetButton = new Button(group, SWT.NONE);
-			newMatchedServerTargetButton.setText(SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_NEW);
+			newMatchedServerTargetButton.setText(SeamCoreMessages.SEAM_INSTALL_WIZARD_PAGE_NEW);
 			newMatchedServerTargetButton.addSelectionListener(new SelectionAdapter() {
 				public void widgetSelected(SelectionEvent e) {
 					if (!SeamWebProjectFirstPage.this.internalLaunchNewServerWizard(getShell(), model)) {
@@ -575,13 +575,13 @@ public class SeamProjectWizard extends WebProjectWizard implements IExecutableEx
 	        	IProjectFacetVersion seamFacet = fProject.getProjectFacetVersion(pFacet);
 	        	if(seamFacet==null) {
 	        		if(pageComplete) {
-		        		this.setErrorMessage(SeamUIMessages.SEAM_PROJECT_WIZARD_PAGE1_SEAM_FACET_MUST_BE_SPECIFIED);
+		        		this.setErrorMessage(SeamCoreMessages.SEAM_PROJECT_WIZARD_PAGE1_SEAM_FACET_MUST_BE_SPECIFIED);
 		        		return false;
 	        		}
 	        	} else {
 	        		if(pageComplete) {
 	        			this.setErrorMessage(null);
-	        		} else if(SeamUIMessages.SEAM_PROJECT_WIZARD_PAGE1_SEAM_FACET_MUST_BE_SPECIFIED.equals(getErrorMessage())) {
+	        		} else if(SeamCoreMessages.SEAM_PROJECT_WIZARD_PAGE1_SEAM_FACET_MUST_BE_SPECIFIED.equals(getErrorMessage())) {
 	        			this.setErrorMessage(null);
 	        		}
 	        	}

@@ -67,6 +67,7 @@ import org.jboss.tools.common.ui.widget.editor.IFieldEditor;
 import org.jboss.tools.common.ui.widget.editor.IFieldEditorFactory;
 import org.jboss.tools.common.ui.widget.editor.ITaggedFieldEditor;
 import org.jboss.tools.seam.core.SeamCorePlugin;
+import org.jboss.tools.seam.core.SeamCoreMessages;
 import org.jboss.tools.seam.core.SeamUtil;
 import org.jboss.tools.seam.core.project.facet.SeamProjectPreferences;
 import org.jboss.tools.seam.core.project.facet.SeamRuntime;
@@ -74,7 +75,7 @@ import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
 import org.jboss.tools.seam.core.project.facet.SeamVersion;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
 import org.jboss.tools.seam.internal.core.project.facet.SeamFacetInstallDataModelProvider;
-import org.jboss.tools.seam.ui.SeamUIMessages;
+import org.jboss.tools.seam.internal.core.project.facet.SeamValidatorFactory;
 import org.jboss.tools.seam.ui.wizard.SeamFormWizard;
 import org.jboss.tools.seam.ui.wizard.SeamWizardFactory;
 import org.jboss.tools.seam.ui.wizard.SeamWizardUtils;
@@ -87,7 +88,7 @@ import org.jboss.tools.seam.ui.wizard.SeamWizardUtils;
 public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 		IFacetWizardPage, IDataModelListener {
 
-	public static final String PAGE_DESCRIPTION = SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_CONFIGURE_SEAM_FACET_SETTINGS;
+	public static final String PAGE_DESCRIPTION = SeamCoreMessages.SEAM_INSTALL_WIZARD_PAGE_CONFIGURE_SEAM_FACET_SETTINGS;
 
 	private static final DriverClassHelpers HIBERNATE_HELPER = new DriverClassHelpers();
 
@@ -100,13 +101,13 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 	private IFieldEditor ejbProjectNameditor = IFieldEditorFactory.INSTANCE
 	.createTextEditor(
 			ISeamFacetDataModelProperties.SEAM_EJB_PROJECT,
-			SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_EJB_PROJECT_NAME,
+			SeamCoreMessages.SEAM_INSTALL_WIZARD_PAGE_EJB_PROJECT_NAME,
 			""); //$NON-NLS-1$
 
 	private IFieldEditor earProjectNameditor = IFieldEditorFactory.INSTANCE
 	.createTextEditor(
 			ISeamFacetDataModelProperties.SEAM_EAR_PROJECT,
-			SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_EAR_PROJECT_NAME,
+			SeamCoreMessages.SEAM_INSTALL_WIZARD_PAGE_EAR_PROJECT_NAME,
 			""); //$NON-NLS-1$
 	
 	private IFieldEditor libraryListEditor;
@@ -114,7 +115,7 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 	private IFieldEditor jBossAsDeployAsEditor = IFieldEditorFactory.INSTANCE
 			.createRadioEditor(
 					ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS,
-					SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_DEPLOY_AS, Arrays
+					SeamCoreMessages.SEAM_INSTALL_WIZARD_PAGE_DEPLOY_AS, Arrays
 							.asList(new String[] {
 									ISeamFacetDataModelProperties.DEPLOY_AS_WAR
 											.toUpperCase(),
@@ -141,31 +142,31 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 	private IFieldEditor sessionBeanPkgNameditor = IFieldEditorFactory.INSTANCE
 			.createTextEditor(
 					ISeamFacetDataModelProperties.SESSION_BEAN_PACKAGE_NAME,
-					SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_SESSION_BEAN_PACKAGE_NAME,
+					SeamCoreMessages.SEAM_INSTALL_WIZARD_PAGE_SESSION_BEAN_PACKAGE_NAME,
 					""); //$NON-NLS-1$
 
 	private IFieldEditor entityBeanPkgNameditor = IFieldEditorFactory.INSTANCE
 			.createTextEditor(
 					ISeamFacetDataModelProperties.ENTITY_BEAN_PACKAGE_NAME,
-					SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_ENTITY_BEAN_PACKAGE_NAME,
+					SeamCoreMessages.SEAM_INSTALL_WIZARD_PAGE_ENTITY_BEAN_PACKAGE_NAME,
 					""); //$NON-NLS-1$
 
 	private IFieldEditor createTestProjectCheckboxeditor = IFieldEditorFactory.INSTANCE
 	.createCheckboxEditor(
 			ISeamFacetDataModelProperties.TEST_PROJECT_CREATING,
-			SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_CREATE_TEST_PROJECT,
+			SeamCoreMessages.SEAM_INSTALL_WIZARD_PAGE_CREATE_TEST_PROJECT,
 			true);
 	
 	private IFieldEditor testProjectNameditor = IFieldEditorFactory.INSTANCE
 	.createTextEditor(
 			ISeamFacetDataModelProperties.SEAM_TEST_PROJECT,
-			SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_TEST_PROJECT_NAME,
+			SeamCoreMessages.SEAM_INSTALL_WIZARD_PAGE_TEST_PROJECT_NAME,
 			""); //$NON-NLS-1$
 
 	private IFieldEditor testsPkgNameditor = IFieldEditorFactory.INSTANCE
 			.createTextEditor(
 					ISeamFacetDataModelProperties.TEST_CASES_PACKAGE_NAME,
-					SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_TEST_PACKAGE_NAME,
+					SeamCoreMessages.SEAM_INSTALL_WIZARD_PAGE_TEST_PACKAGE_NAME,
 					""); //$NON-NLS-1$
 	
 	private Group databaseGroup;
@@ -174,8 +175,8 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 	 * 
 	 */
 	public SeamInstallWizardPage() {
-		super(SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_SEAM_FACET);
-		setTitle(SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_SEAM_FACET);
+		super(SeamCoreMessages.SEAM_INSTALL_WIZARD_PAGE_SEAM_FACET);
+		setTitle(SeamCoreMessages.SEAM_INSTALL_WIZARD_PAGE_SEAM_FACET);
 		setImageDescriptor(ImageDescriptor.createFromFile(SeamFormWizard.class,
 				"SeamWebProjectWizBan.png")); //$NON-NLS-1$
 		setDescription(PAGE_DESCRIPTION);
@@ -315,7 +316,7 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 		
 		model.setBooleanProperty(ISeamFacetDataModelProperties.SEAM_TEMPLATES_AND_LIBRARIES_COPYING, isNewProjectWizard());
 		
-		model.setBooleanProperty(ISeamFacetDataModelProperties.SEAM_RUNTIME_LIBRARIES_COPYING, libraryListEditor.getValueAsString().equals(SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_COPY_LIBRARIES) && isNewProjectWizard());
+		model.setBooleanProperty(ISeamFacetDataModelProperties.SEAM_RUNTIME_LIBRARIES_COPYING, libraryListEditor.getValueAsString().equals(SeamCoreMessages.SEAM_INSTALL_WIZARD_PAGE_COPY_LIBRARIES) && isNewProjectWizard());
 	}
 	
 	/*
@@ -404,7 +405,7 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 		root.setLayout(gridLayout);
 		Group generalGroup = new Group(root, SWT.NONE);
 		generalGroup.setLayoutData(gd);
-		generalGroup.setText(SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_GENERAL);
+		generalGroup.setText(SeamCoreMessages.SEAM_INSTALL_WIZARD_PAGE_GENERAL);
 		gridLayout = new GridLayout(3, false);
 
 		generalGroup.setLayout(gridLayout);
@@ -416,12 +417,12 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 		earProjectNameditor.setEnabled(getDeployAsDefaultValue().equals(ISeamFacetDataModelProperties.DEPLOY_AS_EAR));
 		
 		List<String> providers = new ArrayList<String>();
-		providers.add(SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_COPY_LIBRARIES);
-		providers.add(SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_CONFIGURE_LATER);
+		providers.add(SeamCoreMessages.SEAM_INSTALL_WIZARD_PAGE_COPY_LIBRARIES);
+		providers.add(SeamCoreMessages.SEAM_INSTALL_WIZARD_PAGE_CONFIGURE_LATER);
 		
 		libraryListEditor = IFieldEditorFactory.INSTANCE.createComboEditor(
 				ISeamFacetDataModelProperties.SEAM_LIBRARY_PROVIDER,
-				SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_LIBRARIES,
+				SeamCoreMessages.SEAM_INSTALL_WIZARD_PAGE_LIBRARIES,
 				providers,
 				providers.get(0));
 		
@@ -443,13 +444,13 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 
 		databaseGroup = new Group(root, SWT.NONE);
 		databaseGroup.setLayoutData(gd);
-		databaseGroup.setText(SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_DATABASE);
+		databaseGroup.setText(SeamCoreMessages.SEAM_INSTALL_WIZARD_PAGE_DATABASE);
 		gridLayout = new GridLayout(4, false);
 		databaseGroup.setLayout(gridLayout);
 		
 		jBossHibernateDbTypeEditor = IFieldEditorFactory.INSTANCE
 		.createComboEditor(ISeamFacetDataModelProperties.DB_TYPE,
-				SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_DATABASE_TYPE,
+				SeamCoreMessages.SEAM_INSTALL_WIZARD_PAGE_DATABASE_TYPE,
 				Arrays.asList(HIBERNATE_HELPER.getDialectNames()),
 				getDefaultDbType(), false);
 		registerEditor(jBossHibernateDbTypeEditor, databaseGroup, 4);
@@ -465,7 +466,7 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 
 		generationGroup.setLayoutData(gd);
 		generationGroup
-				.setText(SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_CODE_GENERATION);
+				.setText(SeamCoreMessages.SEAM_INSTALL_WIZARD_PAGE_CODE_GENERATION);
 		gridLayout = new GridLayout(3, false);
 		generationGroup.setLayout(gridLayout);
 		registerEditor(sessionBeanPkgNameditor, generationGroup, 3);
@@ -555,7 +556,7 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 		} else {
 			/*jBossHibernateDbTypeEditor = IFieldEditorFactory.INSTANCE
 			.createComboEditor(ISeamFacetDataModelProperties.DB_TYPE,
-					SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_DATABASE_TYPE,
+					SeamCoreMessages.SEAM_INSTALL_WIZARD_PAGE_DATABASE_TYPE,
 					Arrays.asList(HIBERNATE_HELPER.getDialectNames()),
 					getDefaultDbType(), false);*/
 			connProfileSelEditor = SeamWizardFactory
@@ -570,12 +571,12 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 			dbSchemaName = IFieldEditorFactory.INSTANCE
 				.createTextEditor(
 						ISeamFacetDataModelProperties.DB_DEFAULT_SCHEMA_NAME,
-						SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_DATABASE_SCHEMA_NAME,
+						SeamCoreMessages.SEAM_INSTALL_WIZARD_PAGE_DATABASE_SCHEMA_NAME,
 						""); //$NON-NLS-1$
 			dbCatalogName = IFieldEditorFactory.INSTANCE
 				.createTextEditor(
 						ISeamFacetDataModelProperties.DB_DEFAULT_CATALOG_NAME,
-						SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_DATABASE_CATALOG_NAME,
+						SeamCoreMessages.SEAM_INSTALL_WIZARD_PAGE_DATABASE_CATALOG_NAME,
 						"");	//$NON-NLS-1$
 			
 			jBossHibernateDbTypeEditor
@@ -596,12 +597,12 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 		dbTablesExists = IFieldEditorFactory.INSTANCE
 		.createCheckboxEditor(
 				ISeamFacetDataModelProperties.DB_ALREADY_EXISTS,
-				SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_DB_TABLES_ALREADY_EXISTS,
+				SeamCoreMessages.SEAM_INSTALL_WIZARD_PAGE_DB_TABLES_ALREADY_EXISTS,
 				false);
 		recreateTablesOnDeploy = IFieldEditorFactory.INSTANCE
 		.createCheckboxEditor(
 				ISeamFacetDataModelProperties.RECREATE_TABLES_AND_DATA_ON_DEPLOY,
-				SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_RECREATE_DATABASE_TABLES_AND_DATA_ON_DEPLOY,
+				SeamCoreMessages.SEAM_INSTALL_WIZARD_PAGE_RECREATE_DATABASE_TABLES_AND_DATA_ON_DEPLOY,
 				false);
 		registerEditor(dbTablesExists, databaseGroup, 4);
 		registerEditor(recreateTablesOnDeploy, databaseGroup, 4);
@@ -833,7 +834,7 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 			if (((IStatus.ERROR | IStatus.WARNING) & status.getSeverity() ) != 0 ){
 				return doPackStatus(status,
 					fieldName,
-					NLS.bind(SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_PACKAGE_NAME_NOT_VALID,
+					NLS.bind(SeamCoreMessages.SEAM_INSTALL_WIZARD_PAGE_PACKAGE_NAME_NOT_VALID,
 					targetName));
 			}
 			return SeamValidatorFactory.NO_ERRORS;
@@ -870,11 +871,11 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 					if("".equals(testProjectName.trim()))
 						return doPackStatus(status,
 								propertyName,
-								SeamUIMessages.VALIDATOR_FACTORY_TEST_PROJECT_CANNOT_BE_EMPTY);
+								SeamCoreMessages.VALIDATOR_FACTORY_TEST_PROJECT_CANNOT_BE_EMPTY);
 					
 					return doPackStatus(status,
 							propertyName,
-							NLS.bind(SeamUIMessages.VALIDATOR_FACTORY_TEST_PROJECT_ALREADY_EXISTS,
+							NLS.bind(SeamCoreMessages.VALIDATOR_FACTORY_TEST_PROJECT_ALREADY_EXISTS,
 									testProjectName));
 				}
 			}
@@ -888,11 +889,11 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 					if("".equals(earProjectName.trim()))
 						return doPackStatus(status,
 								propertyName,
-								SeamUIMessages.VALIDATOR_FACTORY_EAR_PROJECT_CANNOT_BE_EMPTY);
+								SeamCoreMessages.VALIDATOR_FACTORY_EAR_PROJECT_CANNOT_BE_EMPTY);
 					
 					return doPackStatus(status,
 							propertyName,
-							NLS.bind(SeamUIMessages.VALIDATOR_FACTORY_EAR_PROJECT_ALREADY_EXISTS,
+							NLS.bind(SeamCoreMessages.VALIDATOR_FACTORY_EAR_PROJECT_ALREADY_EXISTS,
 									earProjectName));
 				}
 
@@ -904,11 +905,11 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 					if("".equals(ejbProjectName.trim()))
 						return doPackStatus(status,
 								propertyName,
-								SeamUIMessages.VALIDATOR_FACTORY_EJB_PROJECT_CANNOT_BE_EMPTY);
+								SeamCoreMessages.VALIDATOR_FACTORY_EJB_PROJECT_CANNOT_BE_EMPTY);
 
 					return doPackStatus(status,
 							propertyName,
-							NLS.bind(SeamUIMessages.VALIDATOR_FACTORY_EJB_PROJECT_ALREADY_EXISTS,
+							NLS.bind(SeamCoreMessages.VALIDATOR_FACTORY_EJB_PROJECT_ALREADY_EXISTS,
 									ejbProjectName));
 				}
 			}
@@ -973,7 +974,7 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 											IStatus.ERROR,
 											SeamCorePlugin.PLUGIN_ID,
 											NLS.bind(
-													SeamUIMessages.SEAM_INSTALL_WIZARD_PAGE_CANNOT_USE_SELECTED_DEPLOYMENT6,
+													SeamCoreMessages.SEAM_INSTALL_WIZARD_PAGE_CANNOT_USE_SELECTED_DEPLOYMENT6,
 													new String[] {
 														deploymentType.toUpperCase(),
 														runtimeName.toString() })));

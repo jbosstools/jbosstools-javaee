@@ -22,9 +22,9 @@ import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.PlatformUI;
 import org.jboss.tools.common.ui.widget.editor.INamedElement;
 import org.jboss.tools.seam.core.SeamProjectsSet;
+import org.jboss.tools.seam.core.SeamCoreMessages;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
 import org.jboss.tools.seam.ui.ISeamHelpContextIds;
-import org.jboss.tools.seam.ui.SeamUIMessages;
 
 /**
  * @author eskimo
@@ -42,7 +42,7 @@ public class SeamEntityWizard extends SeamBaseWizard implements INewWizard {
 	 */
 	public SeamEntityWizard() {
 		super(CREATE_SEAM_ENTITY);
-		setWindowTitle(SeamUIMessages.SEAM_ENTITY_WIZARD_NEW_SEAM_ENTITY);
+		setWindowTitle(SeamCoreMessages.SEAM_ENTITY_WIZARD_NEW_SEAM_ENTITY);
 		setDefaultPageImageDescriptor(ImageDescriptor.createFromFile(SeamEntityWizard.class, "SeamWebProjectWizBan.png"));
 	}
 
@@ -75,7 +75,7 @@ public class SeamEntityWizard extends SeamBaseWizard implements INewWizard {
 			 * @param label
 			 */
 			public SeamEntityCreateOperation() {
-				super((SeamUIMessages.SEAM_ENTITY_WIZARD_ENTITY_CREATING_OPERATION));
+				super((SeamCoreMessages.SEAM_ENTITY_WIZARD_ENTITY_CREATING_OPERATION));
 			}
 
 			@Override

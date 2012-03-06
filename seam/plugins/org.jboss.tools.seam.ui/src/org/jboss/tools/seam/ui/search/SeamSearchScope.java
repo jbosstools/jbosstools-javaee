@@ -31,8 +31,8 @@ import org.eclipse.search.internal.ui.Messages;
 import org.eclipse.search.ui.text.FileTextSearchScope;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
+import org.jboss.tools.seam.core.SeamCoreMessages;
 import org.jboss.tools.seam.ui.SeamGuiPlugin;
-import org.jboss.tools.seam.ui.SeamUIMessages;
 
 /**
  * Seam Search Scope object
@@ -95,15 +95,15 @@ public class SeamSearchScope extends TextSearchScope implements IJavaSearchScope
 	private String getScopeDescription(IResource[] resources) {
 		String description;
 		if (resources.length == 0) {
-			description= SeamUIMessages.SeamSearchScope_scope_empty;
+			description= SeamCoreMessages.SeamSearchScope_scope_empty;
 		} else if (resources.length == 1) {
-			String label= SeamUIMessages.SeamSearchScope_scope_single;
+			String label= SeamCoreMessages.SeamSearchScope_scope_single;
 			description= Messages.format(label, resources[0].getName());
 		} else if (resources.length == 2) {
-			String label= SeamUIMessages.SeamSearchScope_scope_double;
+			String label= SeamCoreMessages.SeamSearchScope_scope_double;
 			description= Messages.format(label, new String[] { resources[0].getName(), resources[1].getName()});
 		} else {
-			String label= SeamUIMessages.SeamSearchScope_scope_multiple;
+			String label= SeamCoreMessages.SeamSearchScope_scope_multiple;
 			description= Messages.format(label, new String[] { resources[0].getName(), resources[1].getName()});
 		}
 		return description;
@@ -147,8 +147,8 @@ public class SeamSearchScope extends TextSearchScope implements IJavaSearchScope
 	 */
 	public String getLimitToDescription() {
 		return SeamSearchEngine.isSearchForDeclarations(getLimitTo()) ?
-			SeamUIMessages.SeamSearchScope_scope_LimitToDeclarations : 
-			SeamUIMessages.SeamSearchScope_scope_LimitToReferences;
+			SeamCoreMessages.SeamSearchScope_scope_LimitToDeclarations : 
+			SeamCoreMessages.SeamSearchScope_scope_LimitToReferences;
 	}
 
 	/**

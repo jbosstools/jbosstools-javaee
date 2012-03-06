@@ -22,8 +22,8 @@ import org.eclipse.ui.IWorkbenchWindowActionDelegate;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.internal.ide.IIDEHelpContextIds;
 import org.jboss.tools.common.model.ui.util.ExtensionPointUtils;
+import org.jboss.tools.seam.core.SeamCoreMessages;
 import org.jboss.tools.seam.ui.SeamGuiPlugin;
-import org.jboss.tools.seam.ui.SeamUIMessages;
 import org.jboss.tools.seam.ui.SeamUiImages;
 
 /**
@@ -45,8 +45,8 @@ public class CreateProjectAction extends Action implements
 	private static final int SIZING_WIZARD_HEIGHT = 500;
 
 	public CreateProjectAction() {
-		super(SeamUIMessages.CREATE_NEW_SEAM_PROJECT);
-		setToolTipText(SeamUIMessages.CREATE_NEW_SEAM_PROJECT);
+		super(SeamCoreMessages.CREATE_NEW_SEAM_PROJECT);
+		setToolTipText(SeamCoreMessages.CREATE_NEW_SEAM_PROJECT);
 		setImageDescriptor(SeamUiImages
 				.getImageDescriptor(SeamUiImages.SEAM_CREATE_PROJECT_ACTION));
 	}
@@ -72,7 +72,7 @@ public class CreateProjectAction extends Action implements
 			SeamGuiPlugin
 					.getPluginLog()
 					.logError(
-							NLS.bind(SeamUIMessages.CREATE_PROJECT_ACTION_UNABLE_TO_CREATE_WIZARD,
+							NLS.bind(SeamCoreMessages.CREATE_PROJECT_ACTION_UNABLE_TO_CREATE_WIZARD,
 									SEAM_CREATE_PROJECT_WIZARD_ID));
 
 		}

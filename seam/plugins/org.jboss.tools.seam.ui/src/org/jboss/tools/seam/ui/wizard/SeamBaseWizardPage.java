@@ -44,11 +44,11 @@ import org.jboss.tools.common.ui.widget.editor.IFieldEditor;
 import org.jboss.tools.common.ui.widget.editor.LabelFieldEditor;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.SeamProjectsSet;
+import org.jboss.tools.seam.core.SeamCoreMessages;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
+import org.jboss.tools.seam.internal.core.project.facet.SeamValidatorFactory;
 import org.jboss.tools.seam.internal.core.validation.SeamProjectPropertyValidator;
 import org.jboss.tools.seam.ui.SeamGuiPlugin;
-import org.jboss.tools.seam.ui.SeamUIMessages;
-import org.jboss.tools.seam.ui.internal.project.facet.SeamValidatorFactory;
 
 /**
  * @author eskimo
@@ -110,7 +110,7 @@ public abstract class SeamBaseWizardPage extends WizardPage implements IAdaptabl
 			} else if(isWar()) {
 				getEditor(ISeamParameter.SEAM_BEAN_NAME).setEnabled(false);	
 				LabelFieldEditor label = (LabelFieldEditor)((CompositeEditor)getEditor(ISeamParameter.SEAM_LOCAL_INTERFACE_NAME)).getEditors().get(0);
-				label.getLabelControl().setText(SeamUIMessages.SEAM_BASE_WIZARD_PAGE_POJO_CLASS_NAME);
+				label.getLabelControl().setText(SeamCoreMessages.SEAM_BASE_WIZARD_PAGE_POJO_CLASS_NAME);
 			} else {
 				getEditor(ISeamParameter.SEAM_BEAN_NAME).setEnabled(true);
 			}
@@ -231,13 +231,13 @@ public abstract class SeamBaseWizardPage extends WizardPage implements IAdaptabl
 		if(!isValidRuntimeConfigured(project)) return;
 
 		LabelFieldEditor label = (LabelFieldEditor)((CompositeEditor)getEditor(ISeamParameter.SEAM_LOCAL_INTERFACE_NAME)).getEditors().get(0);
-		label.getLabelControl().setText(isWar?SeamUIMessages.SEAM_BASE_WIZARD_PAGE_POJO_CLASS_NAME: SeamUIMessages.SEAM_BASE_WIZARD_PAGE_LOCAL_CLASS_NAME);
+		label.getLabelControl().setText(isWar?SeamCoreMessages.SEAM_BASE_WIZARD_PAGE_POJO_CLASS_NAME: SeamCoreMessages.SEAM_BASE_WIZARD_PAGE_LOCAL_CLASS_NAME);
 
 		Map<String, IStatus> errors = SeamValidatorFactory.SEAM_COMPONENT_NAME_VALIDATOR.validate(
 				editorRegistry.get(ISeamParameter.SEAM_COMPONENT_NAME).getValue(), null);
 
 		if(!errors.isEmpty()) {
-			setErrorMessage(NLS.bind(errors.get(IValidator.DEFAULT_ERROR).getMessage(),SeamUIMessages.SEAM_BASE_WIZARD_PAGE_SEAM_COMPONENTS));
+			setErrorMessage(NLS.bind(errors.get(IValidator.DEFAULT_ERROR).getMessage(),SeamCoreMessages.SEAM_BASE_WIZARD_PAGE_SEAM_COMPONENTS));
 			setPageComplete(false);
 			return;
 		}
@@ -246,7 +246,7 @@ public abstract class SeamBaseWizardPage extends WizardPage implements IAdaptabl
 				editorRegistry.get(ISeamParameter.SEAM_LOCAL_INTERFACE_NAME).getValue(), null);
 
 		if(!errors.isEmpty()) {
-			setErrorMessage(NLS.bind(errors.get(IValidator.DEFAULT_ERROR).getMessage(),SeamUIMessages.SEAM_BASE_WIZARD_PAGE_LOCAL_INTERFACE));
+			setErrorMessage(NLS.bind(errors.get(IValidator.DEFAULT_ERROR).getMessage(),SeamCoreMessages.SEAM_BASE_WIZARD_PAGE_LOCAL_INTERFACE));
 			setPageComplete(false);
 			return;
 		}
@@ -291,7 +291,7 @@ public abstract class SeamBaseWizardPage extends WizardPage implements IAdaptabl
 		}
 
 		errors = SeamValidatorFactory.SEAM_JAVA_INTEFACE_NAME_CONVENTION_VALIDATOR.validate(
-				editorRegistry.get(ISeamParameter.SEAM_LOCAL_INTERFACE_NAME).getValue(), new Object[]{SeamUIMessages.SEAM_BASE_WIZARD_PAGE_LOCAL_INTERFACE,project});
+				editorRegistry.get(ISeamParameter.SEAM_LOCAL_INTERFACE_NAME).getValue(), new Object[]{SeamCoreMessages.SEAM_BASE_WIZARD_PAGE_LOCAL_INTERFACE,project});
 
 		if(!errors.isEmpty()) {
 			setErrorMessage(null);
@@ -307,7 +307,7 @@ public abstract class SeamBaseWizardPage extends WizardPage implements IAdaptabl
 				IType component = javaProject.findType((String)editorRegistry.get(ISeamParameter.SEAM_PACKAGE_NAME).getValue()+"."+editorRegistry.get(ISeamParameter.SEAM_LOCAL_INTERFACE_NAME).getValue());
 				if(component != null){
 					setErrorMessage(null);
-					setMessage(SeamUIMessages.POJO_CLASS_ALREADY_EXISTS, IMessageProvider.WARNING);
+					setMessage(SeamCoreMessages.POJO_CLASS_ALREADY_EXISTS, IMessageProvider.WARNING);
 					setPageComplete(true);
 					return;
 				}
@@ -324,7 +324,7 @@ public abstract class SeamBaseWizardPage extends WizardPage implements IAdaptabl
 		IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(page);
 		if(file.exists()){
 			setErrorMessage(null);
-			setMessage(SeamUIMessages.PAGE_ALREADY_EXISTS, IMessageProvider.WARNING);
+			setMessage(SeamCoreMessages.PAGE_ALREADY_EXISTS, IMessageProvider.WARNING);
 			setPageComplete(true);
 			return;
 		}
@@ -367,7 +367,7 @@ public abstract class SeamBaseWizardPage extends WizardPage implements IAdaptabl
 
 		if(!errors.isEmpty() || !isProjectSettingsOk()) {
 			IStatus errorStatus = errors.get(IValidator.DEFAULT_ERROR);
-			String errorMessage = SeamUIMessages.VALIDATOR_INVALID_SETTINGS;
+			String errorMessage = SeamCoreMessages.VALIDATOR_INVALID_SETTINGS;
 			if(errorStatus!=null) {
 				errorMessage = errorStatus.getMessage();
 			}

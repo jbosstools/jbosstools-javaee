@@ -43,10 +43,10 @@ import org.jboss.tools.seam.core.ISeamPackage;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.ISeamScope;
 import org.jboss.tools.seam.core.SeamCorePlugin;
+import org.jboss.tools.seam.core.SeamCoreMessages;
 import org.jboss.tools.seam.core.event.ISeamProjectChangeListener;
 import org.jboss.tools.seam.core.event.SeamProjectChangeEvent;
 import org.jboss.tools.seam.ui.SeamGuiPlugin;
-import org.jboss.tools.seam.ui.SeamUIMessages;
 
 /**
  * Basic type for content providers that add seam components 
@@ -220,7 +220,7 @@ public abstract class AbstractSeamContentProvider implements ITreeContentProvide
 		if(o instanceof ISeamElement) {
 			refresh(o);
 		} else {
-			SeamGuiPlugin.getPluginLog().logError(SeamUIMessages.ABSTRACT_SEAM_CONTENT_PROVIDER_SEAM_PROJECT_CHANGE_EVENT_OCCURS_BUT_NO_SORCE_OF_PROJECT_PROVIDED);
+			SeamGuiPlugin.getPluginLog().logError(SeamCoreMessages.ABSTRACT_SEAM_CONTENT_PROVIDER_SEAM_PROJECT_CHANGE_EVENT_OCCURS_BUT_NO_SORCE_OF_PROJECT_PROVIDED);
 		}
 	}
 

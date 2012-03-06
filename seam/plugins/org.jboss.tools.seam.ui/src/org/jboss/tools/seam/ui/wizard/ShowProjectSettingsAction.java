@@ -12,14 +12,14 @@ import org.eclipse.ui.dialogs.PreferencesUtil;
 import org.jboss.tools.common.ui.widget.editor.ButtonFieldEditor;
 import org.jboss.tools.common.ui.widget.editor.CompositeEditor;
 import org.jboss.tools.common.ui.widget.editor.IFieldEditor;
-import org.jboss.tools.seam.ui.SeamUIMessages;
+import org.jboss.tools.seam.core.SeamCoreMessages;
 
 public class ShowProjectSettingsAction extends ButtonFieldEditor.ButtonPressedAction implements PropertyChangeListener {
 	IFieldEditor editor;
 	IFieldEditor button;
 
 	public ShowProjectSettingsAction() {
-		super(SeamUIMessages.SHOW_PROJECT_SETTINGS_ACTION);
+		super(SeamCoreMessages.SHOW_PROJECT_SETTINGS_ACTION);
 	}
 	
 	public void setEditor(IFieldEditor editor) {

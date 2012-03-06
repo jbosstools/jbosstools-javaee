@@ -49,10 +49,10 @@ import org.jboss.tools.common.ui.widget.editor.INamedElement;
 import org.jboss.tools.common.ui.widget.field.RadioField;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.SeamProjectsSet;
+import org.jboss.tools.seam.core.SeamCoreMessages;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
+import org.jboss.tools.seam.internal.core.project.facet.SeamValidatorFactory;
 import org.jboss.tools.seam.internal.core.validation.SeamProjectPropertyValidator;
-import org.jboss.tools.seam.ui.SeamUIMessages;
-import org.jboss.tools.seam.ui.internal.project.facet.SeamValidatorFactory;
 
 /**
  * @author Alexey Kazakov
@@ -68,8 +68,8 @@ public class SeamGenerateEntitiesWizardPage extends WizardPage implements Proper
 	IProject rootSeamProject;
 
 	public SeamGenerateEntitiesWizardPage() {
-		super("seam.generate.entities.page", SeamUIMessages.GENERATE_SEAM_ENTITIES_WIZARD_TITLE, null); //$NON-NLS-1$
-		setMessage(SeamUIMessages.GENERATE_SEAM_ENTITIES_WIZARD_PAGE_MESSAGE);
+		super("seam.generate.entities.page", SeamCoreMessages.GENERATE_SEAM_ENTITIES_WIZARD_TITLE, null); //$NON-NLS-1$
+		setMessage(SeamCoreMessages.GENERATE_SEAM_ENTITIES_WIZARD_PAGE_MESSAGE);
 	}
 
 	/* (non-Javadoc)
@@ -94,7 +94,7 @@ public class SeamGenerateEntitiesWizardPage extends WizardPage implements Proper
 				setMessage(null);
 			}
 		} else {
-			setMessage(SeamUIMessages.GENERATE_SEAM_ENTITIES_WIZARD_PAGE_MESSAGE);
+			setMessage(SeamCoreMessages.GENERATE_SEAM_ENTITIES_WIZARD_PAGE_MESSAGE);
 			setPageComplete(false);
 		}
 
@@ -111,13 +111,13 @@ public class SeamGenerateEntitiesWizardPage extends WizardPage implements Proper
 
 		String config = (String)configEditor.getValue();
 		if(config==null || config.length()==0) {
-			setMessage(SeamUIMessages.GENERATE_SEAM_ENTITIES_WIZARD_HIBERNATE_CONFIGURATION_MESSAGE);
+			setMessage(SeamCoreMessages.GENERATE_SEAM_ENTITIES_WIZARD_HIBERNATE_CONFIGURATION_MESSAGE);
 			setPageComplete(false);
 		}
 
 		Composite groupComposite = new GridLayoutComposite(top);
 		Group group = new Group(groupComposite, SWT.NONE);
-		group.setText(SeamUIMessages.GENERATE_SEAM_ENTITIES_WIZARD_GROUP_LABEL);
+		group.setText(SeamCoreMessages.GENERATE_SEAM_ENTITIES_WIZARD_GROUP_LABEL);
 		group.setLayout(new GridLayout(1, false));
 		group.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
@@ -126,8 +126,8 @@ public class SeamGenerateEntitiesWizardPage extends WizardPage implements Proper
 		values.add("existing"); //$NON-NLS-1$
 		values.add("reverse"); //$NON-NLS-1$		
 		ArrayList<String> labels = new ArrayList<String>();
-		labels.add(SeamUIMessages.GENERATE_SEAM_ENTITIES_WIZARD_EXISTING_ENTITIES_LABEL);
-		labels.add(SeamUIMessages.GENERATE_SEAM_ENTITIES_WIZARD_REVERSE_ENGINEER_LABEL);		
+		labels.add(SeamCoreMessages.GENERATE_SEAM_ENTITIES_WIZARD_EXISTING_ENTITIES_LABEL);
+		labels.add(SeamCoreMessages.GENERATE_SEAM_ENTITIES_WIZARD_REVERSE_ENGINEER_LABEL);		
 		radios = new RadioField(radioComposite, labels, values, null, true);
 		radios.addPropertyChangeListener(this);
 		
@@ -292,7 +292,7 @@ public class SeamGenerateEntitiesWizardPage extends WizardPage implements Proper
 		if(!errors.isEmpty() || !isProjectSettingsOk()) {
 			IStatus errorMessage = errors.get(IValidator.DEFAULT_ERROR);
 			if(errorMessage==null) {
-				setErrorMessage(SeamUIMessages.VALIDATOR_INVALID_SETTINGS);
+				setErrorMessage(SeamCoreMessages.VALIDATOR_INVALID_SETTINGS);
 				setPageComplete(false);
 			} else {
 				if(errorMessage.getSeverity()==IStatus.ERROR) {
@@ -306,7 +306,7 @@ public class SeamGenerateEntitiesWizardPage extends WizardPage implements Proper
 		}
 		String config = (String)configEditor.getValue();
 		if(config==null || config.length()==0) {
-			setErrorMessage(SeamUIMessages.GENERATE_SEAM_ENTITIES_WIZARD_HIBERNATE_CONFIGURATION_ERROR);
+			setErrorMessage(SeamCoreMessages.GENERATE_SEAM_ENTITIES_WIZARD_HIBERNATE_CONFIGURATION_ERROR);
 			setPageComplete(false);
 			return;
 		}

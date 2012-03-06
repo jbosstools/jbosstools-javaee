@@ -31,8 +31,8 @@ import org.jboss.tools.common.EclipseUtil;
 import org.jboss.tools.common.java.generation.JavaPropertyGenerator;
 import org.jboss.tools.seam.core.ISeamJavaComponentDeclaration;
 import org.jboss.tools.seam.core.ISeamProperty;
+import org.jboss.tools.seam.core.SeamCoreMessages;
 import org.jboss.tools.seam.ui.SeamGuiPlugin;
-import org.jboss.tools.seam.ui.SeamUIMessages;
 
 /**
  * @author Daniel Azarov
@@ -46,7 +46,7 @@ public class AddSetterMarkerResolution implements IMarkerResolution2{
 	public AddSetterMarkerResolution(ISeamProperty property, ISeamJavaComponentDeclaration javaDeclaration){
 		this.property = property;
 		this.javaDeclaration = javaDeclaration;
-		this.label = MessageFormat.format(SeamUIMessages.ADD_SETTER_MARKER_RESOLUTION_TITLE, new Object[]{property.getName(), javaDeclaration.getClassName()});
+		this.label = MessageFormat.format(SeamCoreMessages.ADD_SETTER_MARKER_RESOLUTION_TITLE, new Object[]{property.getName(), javaDeclaration.getClassName()});
 	}
 
 	public String getLabel() {

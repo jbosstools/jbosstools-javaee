@@ -25,11 +25,11 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.PlatformUI;
 import org.jboss.tools.common.ui.widget.editor.INamedElement;
+import org.jboss.tools.seam.core.SeamCoreMessages;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
 import org.jboss.tools.seam.internal.core.project.facet.SeamFacetInstallDataModelProvider;
 import org.jboss.tools.seam.ui.ISeamHelpContextIds;
 import org.jboss.tools.seam.ui.SeamGuiPlugin;
-import org.jboss.tools.seam.ui.SeamUIMessages;
 
 /**
  * 
@@ -53,7 +53,7 @@ public class SeamActionWizard extends SeamBaseWizard implements INewWizard {
 	 */
 	public SeamActionWizard() {
 		super(CREATE_SEAM_ACTION);
-		setWindowTitle(SeamUIMessages.SEAM_ACTION_WIZARD_NEW_SEAM_ACTION);
+		setWindowTitle(SeamCoreMessages.SEAM_ACTION_WIZARD_NEW_SEAM_ACTION);
 		setDefaultPageImageDescriptor(ImageDescriptor.createFromFile(SeamActionWizard.class, "SeamFormWizBan.png")); //$NON-NLS-1$
 	}
 
@@ -74,7 +74,7 @@ public class SeamActionWizard extends SeamBaseWizard implements INewWizard {
 		 * @param label
 		 */
 		public SeamActionCreateOperation() {
-			super((SeamUIMessages.SEAM_ACTION_WIZARD_ACTION_CREATING_OPERATION));
+			super((SeamCoreMessages.SEAM_ACTION_WIZARD_ACTION_CREATING_OPERATION));
 		}
 
 		@Override

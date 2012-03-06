@@ -64,13 +64,13 @@ import org.jboss.tools.common.ui.widget.editor.IFieldEditor;
 import org.jboss.tools.common.ui.widget.editor.IFieldEditorFactory;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
+import org.jboss.tools.seam.core.SeamCoreMessages;
 import org.jboss.tools.seam.core.SeamUtil;
 import org.jboss.tools.seam.core.project.facet.SeamRuntime;
 import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
 import org.jboss.tools.seam.core.project.facet.SeamVersion;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
-import org.jboss.tools.seam.ui.SeamUIMessages;
-import org.jboss.tools.seam.ui.internal.project.facet.SeamValidatorFactory;
+import org.jboss.tools.seam.internal.core.project.facet.SeamValidatorFactory;
 import org.jboss.tools.seam.ui.wizard.SeamFormWizard;
 
 /**
@@ -243,15 +243,15 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor {
 
 		TableColumn tc2 = new TableColumn(tableView.getTable(), SWT.LEFT);
 		tc2.setWidth(TC_NAME_WIDTH);
-		tc2.setText(SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_NAME);
+		tc2.setText(SeamCoreMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_NAME);
 
 		TableColumn tc3 = new TableColumn(tableView.getTable(), SWT.LEFT);
 		tc3.setWidth(TC_VERSION_WIDTH);
-		tc3.setText(SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_VERSION);
+		tc3.setText(SeamCoreMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_VERSION);
 
 		TableColumn tc4 = new TableColumn(tableView.getTable(), SWT.LEFT);
 		tc4.setWidth(TC_PATH_WIDTH);
-		tc4.setText(SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_PATH);
+		tc4.setText(SeamCoreMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_PATH);
 
 		tableView.setContentProvider(new IStructuredContentProvider() {
 
@@ -260,7 +260,7 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor {
 					return ((List<SeamRuntime>) inputElement).toArray();
 				} else {
 					throw new IllegalArgumentException(
-							SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_INPUTELEMENT_MUST_BE_LIST);
+							SeamCoreMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_INPUTELEMENT_MUST_BE_LIST);
 				}
 			}
 
@@ -423,11 +423,11 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor {
 		Assert
 				.isTrue(
 						parent instanceof Composite,
-						SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_PARENT_CONTROL_SHOULD_BE_COMPOSITE);
+						SeamCoreMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_PARENT_CONTROL_SHOULD_BE_COMPOSITE);
 		Assert
 				.isTrue(
 						((Composite) parent).getLayout() instanceof GridLayout,
-						SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_EDITOR_SUPPORTS_ONLY_GRID_LAYOUT);
+						SeamCoreMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_EDITOR_SUPPORTS_ONLY_GRID_LAYOUT);
 		Composite aComposite = (Composite) parent;
 		Control[] controls = (Control[]) getEditorControls(aComposite);
 		GridLayout gl = (GridLayout) ((Composite) parent).getLayout();
@@ -458,7 +458,7 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor {
 		List<SeamRuntime> value = null;
 
 		IFieldEditor name = IFieldEditorFactory.INSTANCE.createTextEditor(
-				SRT_NAME, SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_NAME2,
+				SRT_NAME, SeamCoreMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_NAME2,
 				""); //$NON-NLS-1$ 
 
 		IFieldEditor version = null;
@@ -466,7 +466,7 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor {
 		IFieldEditor homeDir = IFieldEditorFactory.INSTANCE
 				.createBrowseFolderEditor(
 						SRT_HOMEDIR,
-						SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_HOME_FOLDER,
+						SeamCoreMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_HOME_FOLDER,
 						""); //$NON-NLS-1$ 
 
 		SeamRuntime current = null;
@@ -495,11 +495,11 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor {
 		public SeamRuntimeWizardPage(List<SeamRuntime> editedList,
 				List<SeamVersion> validSeamVersions) {
 			super(
-					SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_NEW_SEAM_RUNTIME);
+					SeamCoreMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_NEW_SEAM_RUNTIME);
 			if (validSeamVersions == null) {
 				this.version = IFieldEditorFactory.INSTANCE.createComboEditor(
 						SRT_VERSION,
-						SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_VERSION2,
+						SeamCoreMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_VERSION2,
 						Arrays.asList(new String[] {
 								SeamVersion.SEAM_1_2.toString(),
 								SeamVersion.SEAM_2_0.toString(),
@@ -516,14 +516,14 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor {
 			} else {
 				this.version = IFieldEditorFactory.INSTANCE.createComboEditor(
 						SRT_VERSION,
-						SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_VERSION2,
+						SeamCoreMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_VERSION2,
 						validSeamVersions, SeamVersion.SEAM_1_2.toString(),
 						false);
 				this.validSeamVersions = validSeamVersions;
 			}
 
-			setMessage(SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_CREATE_A_SEAM_RUNTIME);
-			setTitle(SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_SEAM_RUNTIME);
+			setMessage(SeamCoreMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_CREATE_A_SEAM_RUNTIME);
+			setTitle(SeamCoreMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_SEAM_RUNTIME);
 			setImageDescriptor(ImageDescriptor.createFromFile(
 					SeamFormWizard.class, "SeamWebProjectWizBan.png")); //$NON-NLS-1$
 			value = editedList;
@@ -587,7 +587,7 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor {
 						|| "".equals(name.getValueAsString().trim())) { //$NON-NLS-1$
 					String seamVersion = SeamUtil.getSeamVersionFromManifest(homeDir.getValueAsString());
 					if (seamVersion == null) {
-						setErrorMessage(SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_CANNOT_FIND_JBOSS_SEAM_JAR);
+						setErrorMessage(SeamCoreMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_CANNOT_FIND_JBOSS_SEAM_JAR);
 						setPageComplete(false);
 						return;
 					} else {
@@ -611,14 +611,14 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor {
 
 			if (name.getValueAsString() == null || "".equals(//$NON-NLS-1$
 					name.getValueAsString().toString().trim())) {
-				setErrorMessage(SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_NAME_CANNOT_BE_EMPTY);
+				setErrorMessage(SeamCoreMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_NAME_CANNOT_BE_EMPTY);
 				setPageComplete(false);
 				return;
 			}
 
 			if (!name.getValueAsString().matches(
 					"[a-zA-Z_][a-zA-Z0-9_\\-\\. ]*")) { //$NON-NLS-1$
-				setErrorMessage(SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_RUNTIME_NAME_IS_NOT_CORRECT);
+				setErrorMessage(SeamCoreMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_RUNTIME_NAME_IS_NOT_CORRECT);
 				setPageComplete(false);
 				return;
 			}
@@ -627,7 +627,7 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor {
 					continue;
 				}
 				if (rt.getName().equals(name.getValueAsString())) {
-					setErrorMessage(NLS.bind(SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_RUNTIME_ALREADY_EXISTS,
+					setErrorMessage(NLS.bind(SeamCoreMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_RUNTIME_ALREADY_EXISTS,
 							name.getValueAsString()));
 					setPageComplete(false);
 					return;
@@ -647,18 +647,18 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor {
 
 			if (homeDir.getValueAsString() == null
 					|| "".equals(homeDir.getValueAsString().trim())) { //$NON-NLS-1$
-				setErrorMessage(SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_PATH_TO_SEAM_HOME_DIRECTORY_CANNOT_BE_EMPTY);
+				setErrorMessage(SeamCoreMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_PATH_TO_SEAM_HOME_DIRECTORY_CANNOT_BE_EMPTY);
 				setPageComplete(false);
 				return;
 			}
 
 			String seamVersion = SeamUtil.getSeamVersionFromManifest(homeDir.getValueAsString());
 			if (seamVersion == null) {
-				setErrorMessage(SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_CANNOT_FIND_JBOSS_SEAM_JAR);
+				setErrorMessage(SeamCoreMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_CANNOT_FIND_JBOSS_SEAM_JAR);
 				setPageComplete(false);
 				return;
 			} else if ("".equals(seamVersion)) { //$NON-NLS-1$
-				setMessage(SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_CANNOT_OBTAIN_SEAM_VERSION_NUMBER,
+				setMessage(SeamCoreMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_CANNOT_OBTAIN_SEAM_VERSION_NUMBER,
 						IMessageProvider.WARNING);
 				setPageComplete(true);
 				return;
@@ -666,10 +666,10 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor {
 				String trimmedVersion = SeamUtil.trimSeamVersion(version.getValueAsString(), 1);
 				String trimmedSeamVersion = SeamUtil.trimSeamVersion(seamVersion, 1);
 				if(SeamVersion.findMatchingVersion(seamVersion)==null && SeamUtil.areSeamVersionsMatched(trimmedVersion, trimmedSeamVersion)) {
-					setMessage(NLS.bind(SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_THE_SELECTED_SEAM_APPEARS_TO_BE_OF_INCOMATIBLE_VERSION,
+					setMessage(NLS.bind(SeamCoreMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_THE_SELECTED_SEAM_APPEARS_TO_BE_OF_INCOMATIBLE_VERSION,
 							seamVersion), IMessageProvider.WARNING);
 				} else {
-					setErrorMessage(NLS.bind(SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_THE_SELECTED_SEAM_APPEARS_TO_BE_OF_INCOMATIBLE_VERSION,
+					setErrorMessage(NLS.bind(SeamCoreMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_THE_SELECTED_SEAM_APPEARS_TO_BE_OF_INCOMATIBLE_VERSION,
 						seamVersion));
 					setPageComplete(false);
 					return;
@@ -737,7 +737,7 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor {
 		public SeamRuntimeNewWizard(List<SeamRuntime> exist,
 				List<SeamRuntime> added, List<SeamVersion> validSeamVersions) {
 			super();
-			setWindowTitle(SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_NEW_SEAM_RUNTIME);
+			setWindowTitle(SeamCoreMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_NEW_SEAM_RUNTIME);
 			page1 = new SeamRuntimeWizardPage(exist, validSeamVersions);
 			addPage(page1);
 			this.value = exist;
@@ -801,12 +801,12 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor {
 				SeamRuntime source, List<SeamRuntime> added,
 				Map<SeamRuntime, SeamRuntime> changed) {
 			super();
-			setWindowTitle(SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_EDIT_SEAM_RUNTIME);
+			setWindowTitle(SeamCoreMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_EDIT_SEAM_RUNTIME);
 			page1 = new SeamRuntimeWizardPage(existing);
 			page1
-					.setMessage(SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_MODIFY_SEAM_RUNTIME);
+					.setMessage(SeamCoreMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_MODIFY_SEAM_RUNTIME);
 			page1
-					.setTitle(SeamUIMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_EDIT_SEAM_RUNTIME);
+					.setTitle(SeamCoreMessages.SEAM_RUNTIME_LIST_FIELD_EDITOR_EDIT_SEAM_RUNTIME);
 			addPage(page1);
 			this.value = existing;
 			this.added = added;
@@ -1032,7 +1032,7 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor {
 		 * Constructior create Add action with default name
 		 */
 		public AddAction() {
-			super(SeamUIMessages.SeamRuntimeListFieldEditor_ActionAdd);
+			super(SeamCoreMessages.SeamRuntimeListFieldEditor_ActionAdd);
 			// This action is always available
 			setEnabled(true);
 		}
@@ -1093,7 +1093,7 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor {
 		 * @param text
 		 */
 		public EditAction() {
-			super(SeamUIMessages.SeamRuntimeListFieldEditor_ActionEdit);
+			super(SeamCoreMessages.SeamRuntimeListFieldEditor_ActionEdit);
 		}
 
 		/**
@@ -1151,7 +1151,7 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor {
 		 * Create DeleteAction action with default name
 		 */
 		public RemoveAction() {
-			super(SeamUIMessages.SeamRuntimeListFieldEditor_ActionRemove);
+			super(SeamCoreMessages.SeamRuntimeListFieldEditor_ActionRemove);
 		}
 
 		@Override
@@ -1176,10 +1176,10 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor {
 
 		private void removeRuntime(SeamRuntime r) {
 			boolean used = isRuntimeUsed(r.getName());
-			String title = SeamUIMessages.RUNTIME_DELETE_CONFIRM_TITLE;
+			String title = SeamCoreMessages.RUNTIME_DELETE_CONFIRM_TITLE;
 			String message = (used) ? NLS.bind(
-					SeamUIMessages.RUNTIME_DELETE_USED_CONFIRM, r.getName())
-					: NLS.bind(SeamUIMessages.RUNTIME_DELETE_NOT_USED_CONFIRM,
+					SeamCoreMessages.RUNTIME_DELETE_USED_CONFIRM, r.getName())
+					: NLS.bind(SeamCoreMessages.RUNTIME_DELETE_NOT_USED_CONFIRM,
 							r.getName());
 			boolean b = MessageDialog.openConfirm(tableView.getControl()
 					.getShell(), title, message);

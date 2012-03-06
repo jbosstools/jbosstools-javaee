@@ -34,8 +34,8 @@ import org.eclipse.wst.common.project.facet.core.IFacetedProject;
 import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
+import org.jboss.tools.seam.core.SeamCoreMessages;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
-import org.jboss.tools.seam.ui.SeamUIMessages;
 
 /**
  * @author eskimo
@@ -52,8 +52,8 @@ public class SeamProjectSelectionDialog extends ListDialog implements ISelection
 	public SeamProjectSelectionDialog(Shell parent, final boolean allowAllProjects) {
 		super(parent);
 		this.allowAllProjects = allowAllProjects;
-		setTitle(SeamUIMessages.SEAM_PROJECT_SELECTION_DIALOG_SEAM_WEB_PROJECT);
-		setMessage(SeamUIMessages.SEAM_PROJECT_SELECTION_DIALOG_SELECT_SEAM_WEB_PROJECT);
+		setTitle(SeamCoreMessages.SEAM_PROJECT_SELECTION_DIALOG_SEAM_WEB_PROJECT);
+		setMessage(SeamCoreMessages.SEAM_PROJECT_SELECTION_DIALOG_SELECT_SEAM_WEB_PROJECT);
 		setLabelProvider(new WorkbenchLabelProvider());
 		setInput(new Object());
 		setContentProvider(new IStructuredContentProvider() {
@@ -112,7 +112,7 @@ public class SeamProjectSelectionDialog extends ListDialog implements ISelection
     	Composite parent = (Composite) super.createDialogArea(container);
     	if(!allowAllProjects) {
     		check = new Button(parent, SWT.CHECK);
-    		check.setText(SeamUIMessages.SEAM_PROJECT_SELECTION_DIALOG_SHOW_ALL_PROJECTS);
+    		check.setText(SeamCoreMessages.SEAM_PROJECT_SELECTION_DIALOG_SHOW_ALL_PROJECTS);
     		check.setSelection(false);
     		check.addSelectionListener(new SelectionListener() {
 				public void widgetDefaultSelected(SelectionEvent e) {

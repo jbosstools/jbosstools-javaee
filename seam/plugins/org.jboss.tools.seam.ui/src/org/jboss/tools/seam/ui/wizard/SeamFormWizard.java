@@ -21,9 +21,9 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.PlatformUI;
 import org.jboss.tools.common.ui.widget.editor.INamedElement;
+import org.jboss.tools.seam.core.SeamCoreMessages;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
 import org.jboss.tools.seam.ui.ISeamHelpContextIds;
-import org.jboss.tools.seam.ui.SeamUIMessages;
 
 /**
  * 
@@ -42,7 +42,7 @@ public class SeamFormWizard extends SeamBaseWizard implements INewWizard {
 	 */
 	public SeamFormWizard() {
 		super(CREATE_SEAM_FORM);
-		setWindowTitle(SeamUIMessages.SEAM_FORM_WIZARD_NEW_SEAM_FORM);
+		setWindowTitle(SeamCoreMessages.SEAM_FORM_WIZARD_NEW_SEAM_FORM);
 		setDefaultPageImageDescriptor(ImageDescriptor.createFromFile(SeamActionWizard.class, "SeamFormWizBan.png")); //$NON-NLS-1$
 	}
 
@@ -60,7 +60,7 @@ public class SeamFormWizard extends SeamBaseWizard implements INewWizard {
 	public static class SeamFormCreateOperation extends SeamBaseOperation {
 
 		public SeamFormCreateOperation() {
-			super(SeamUIMessages.SEAM_FORM_WIZARD_FORM_CREATING_OPERATION);
+			super(SeamCoreMessages.SEAM_FORM_WIZARD_FORM_CREATING_OPERATION);
 		}
 
 		/*

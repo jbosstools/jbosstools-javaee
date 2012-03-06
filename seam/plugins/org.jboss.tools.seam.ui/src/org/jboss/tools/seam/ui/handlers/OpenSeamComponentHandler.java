@@ -20,9 +20,9 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.SelectionDialog;
 import org.jboss.tools.seam.core.ISeamComponentDeclaration;
+import org.jboss.tools.seam.core.SeamCoreMessages;
 import org.jboss.tools.seam.internal.core.SeamComponentDeclaration;
 import org.jboss.tools.seam.internal.core.SeamJavaComponentDeclaration;
-import org.jboss.tools.seam.ui.SeamUIMessages;
 import org.jboss.tools.seam.ui.wizard.OpenSeamComponentDialog;
 import org.jboss.tools.seam.ui.wizard.OpenSeamComponentDialog.SeamComponentWrapper;
 /**
@@ -37,8 +37,8 @@ public class OpenSeamComponentHandler extends AbstractHandler {
 		
 		dialog= new OpenSeamComponentDialog(parent);
 		
-		dialog.setTitle(SeamUIMessages.OPEN_SEAM_COMPONENT_ACTION_ACTION_NAME);
-		dialog.setMessage(SeamUIMessages.OPEN_SEAM_COMPONENT_ACTION_MESSAGE);
+		dialog.setTitle(SeamCoreMessages.OPEN_SEAM_COMPONENT_ACTION_ACTION_NAME);
+		dialog.setMessage(SeamCoreMessages.OPEN_SEAM_COMPONENT_ACTION_MESSAGE);
 
 		int result= dialog.open();
 		if (result != IDialogConstants.OK_ID)

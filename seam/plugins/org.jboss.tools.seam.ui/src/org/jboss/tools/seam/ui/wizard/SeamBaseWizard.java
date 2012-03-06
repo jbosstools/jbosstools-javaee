@@ -32,8 +32,8 @@ import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.eclipse.wst.common.project.facet.core.IFacetedProjectTemplate;
 import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
 import org.jboss.tools.seam.core.SeamCorePlugin;
+import org.jboss.tools.seam.core.SeamCoreMessages;
 import org.jboss.tools.seam.ui.SeamGuiPlugin;
-import org.jboss.tools.seam.ui.SeamUIMessages;
 
 /**
  * @author eskimo
@@ -103,7 +103,7 @@ public abstract class SeamBaseWizard extends Wizard {
 	 */
 	public IUndoableOperation getOperation() {
 		if(operation!=null) return operation;
-		throw new IllegalStateException(SeamUIMessages.SEAM_BASE_WIZARD_OPERATION_IS_NOT_DEFINED_FOR_WIZARD);
+		throw new IllegalStateException(SeamCoreMessages.SEAM_BASE_WIZARD_OPERATION_IS_NOT_DEFINED_FOR_WIZARD);
 	}
 	
 	/**

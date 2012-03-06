@@ -18,7 +18,7 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.widgets.Composite;
-import org.jboss.tools.seam.ui.internal.project.facet.SeamValidatorFactory;
+import org.jboss.tools.seam.internal.core.project.facet.SeamValidatorFactory;
 
 /**
  * @author Alexey Kazakov

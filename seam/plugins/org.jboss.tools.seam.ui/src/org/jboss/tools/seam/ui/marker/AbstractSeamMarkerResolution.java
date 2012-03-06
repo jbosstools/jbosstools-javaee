@@ -30,8 +30,8 @@ import org.jboss.tools.common.EclipseUtil;
 import org.jboss.tools.common.refactoring.MarkerResolutionUtils;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
+import org.jboss.tools.seam.internal.core.project.facet.SeamValidatorFactory;
 import org.jboss.tools.seam.ui.SeamGuiPlugin;
-import org.jboss.tools.seam.ui.internal.project.facet.SeamValidatorFactory;
 
 /**
  * @author Daniel Azarov

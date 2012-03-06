@@ -22,9 +22,9 @@ import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.ISeamXmlComponentDeclaration;
 import org.jboss.tools.seam.core.SeamCorePlugin;
+import org.jboss.tools.seam.core.SeamCoreMessages;
 import org.jboss.tools.seam.internal.core.SeamObject;
 import org.jboss.tools.seam.ui.SeamGuiPlugin;
-import org.jboss.tools.seam.ui.SeamUIMessages;
 import org.jboss.tools.seam.ui.refactoring.SeamRefactorContributionFactory;
 
 /**
@@ -38,7 +38,7 @@ public class RenameComponentAction extends Action implements SpecialWizard {
 	}
 
 	public RenameComponentAction(ISeamComponent component) {
-		setText(SeamUIMessages.RENAME_SEAM_COMPONENT);
+		setText(SeamCoreMessages.RENAME_SEAM_COMPONENT);
 		this.component = component;
 	}
 

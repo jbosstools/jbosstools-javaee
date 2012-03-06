@@ -23,6 +23,7 @@ import org.eclipse.wst.common.frameworks.datamodel.DataModelEvent;
 import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
 import org.eclipse.wst.common.frameworks.datamodel.IDataModelListener;
 import org.jboss.tools.common.ui.IValidator;
+import org.jboss.tools.seam.internal.core.project.facet.SeamValidatorFactory;
 
 /**
  * Delegate class used during validation process in wizard dialog. It contains 

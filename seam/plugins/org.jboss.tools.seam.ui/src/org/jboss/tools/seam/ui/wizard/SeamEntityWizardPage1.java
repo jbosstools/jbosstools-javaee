@@ -32,11 +32,11 @@ import org.jboss.tools.common.ui.IValidator;
 import org.jboss.tools.common.ui.widget.editor.IFieldEditor;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.SeamProjectsSet;
+import org.jboss.tools.seam.core.SeamCoreMessages;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
+import org.jboss.tools.seam.internal.core.project.facet.SeamValidatorFactory;
 import org.jboss.tools.seam.internal.core.validation.SeamProjectPropertyValidator;
 import org.jboss.tools.seam.ui.SeamGuiPlugin;
-import org.jboss.tools.seam.ui.SeamUIMessages;
-import org.jboss.tools.seam.ui.internal.project.facet.SeamValidatorFactory;
 
 /**
  * @author eskimo
@@ -147,7 +147,7 @@ public class SeamEntityWizardPage1 extends SeamBaseWizardPage {
 				editorRegistry.get(ISeamParameter.SEAM_ENTITY_CLASS_NAME).getValue(), null);
 
 		if(!errors.isEmpty()) {
-			setErrorMessage(NLS.bind(errors.get(IValidator.DEFAULT_ERROR).getMessage(),SeamUIMessages.SEAM_ENTITY_WIZARD_PAGE1_ENTITY_CLASS_NAME));
+			setErrorMessage(NLS.bind(errors.get(IValidator.DEFAULT_ERROR).getMessage(),SeamCoreMessages.SEAM_ENTITY_WIZARD_PAGE1_ENTITY_CLASS_NAME));
 			setPageComplete(false);
 			return;
 		}
@@ -163,7 +163,7 @@ public class SeamEntityWizardPage1 extends SeamBaseWizardPage {
 		}
 
 		errors = SeamValidatorFactory.FILE_NAME_VALIDATOR.validate(
-				editorRegistry.get(ISeamParameter.SEAM_MASTER_PAGE_NAME).getValue(), new Object[]{SeamUIMessages.SEAM_ENTITY_WIZARD_PAGE1_ENTITY_MASTER_PAGE,project,project});
+				editorRegistry.get(ISeamParameter.SEAM_MASTER_PAGE_NAME).getValue(), new Object[]{SeamCoreMessages.SEAM_ENTITY_WIZARD_PAGE1_ENTITY_MASTER_PAGE,project,project});
 
 		if(!errors.isEmpty()) {
 			setErrorMessage(errors.get(IValidator.DEFAULT_ERROR).getMessage());
@@ -172,7 +172,7 @@ public class SeamEntityWizardPage1 extends SeamBaseWizardPage {
 		}
 
 		errors = SeamValidatorFactory.FILE_NAME_VALIDATOR.validate(
-				editorRegistry.get(ISeamParameter.SEAM_PAGE_NAME).getValue(), new Object[]{SeamUIMessages.SEAM_ENTITY_WIZARD_PAGE1_PAGE,project});
+				editorRegistry.get(ISeamParameter.SEAM_PAGE_NAME).getValue(), new Object[]{SeamCoreMessages.SEAM_ENTITY_WIZARD_PAGE1_PAGE,project});
 
 		if(!errors.isEmpty()) {
 			setErrorMessage(errors.get(IValidator.DEFAULT_ERROR).getMessage());
@@ -187,7 +187,7 @@ public class SeamEntityWizardPage1 extends SeamBaseWizardPage {
 				IType component = javaProject.findType((String)editorRegistry.get(ISeamParameter.SEAM_PACKAGE_NAME).getValue()+"."+editorRegistry.get(ISeamParameter.SEAM_ENTITY_CLASS_NAME).getValue());
 				if(component != null){
 					setErrorMessage(null);
-					setMessage(SeamUIMessages.ENTITY_CLASS_ALREADY_EXISTS, IMessageProvider.WARNING);
+					setMessage(SeamCoreMessages.ENTITY_CLASS_ALREADY_EXISTS, IMessageProvider.WARNING);
 					setPageComplete(true);
 					return;
 				}
@@ -204,7 +204,7 @@ public class SeamEntityWizardPage1 extends SeamBaseWizardPage {
 		IFile masterPageFile = ResourcesPlugin.getWorkspace().getRoot().getFile(masterPage);
 		if(masterPageFile.exists()){
 			setErrorMessage(null);
-			setMessage(SeamUIMessages.MASTER_PAGE_ALREADY_EXISTS, IMessageProvider.WARNING);
+			setMessage(SeamCoreMessages.MASTER_PAGE_ALREADY_EXISTS, IMessageProvider.WARNING);
 			setPageComplete(true);
 			return;
 		}
@@ -214,7 +214,7 @@ public class SeamEntityWizardPage1 extends SeamBaseWizardPage {
 		IFile pageFile = ResourcesPlugin.getWorkspace().getRoot().getFile(page);
 		if(pageFile.exists()){
 			setErrorMessage(null);
-			setMessage(SeamUIMessages.PAGE_ALREADY_EXISTS, IMessageProvider.WARNING);
+			setMessage(SeamCoreMessages.PAGE_ALREADY_EXISTS, IMessageProvider.WARNING);
 			setPageComplete(true);
 			return;
 		}

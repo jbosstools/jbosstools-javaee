@@ -11,7 +11,7 @@
 package org.jboss.tools.seam.ui.wizard;
 
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.jboss.tools.seam.ui.SeamUIMessages;
+import org.jboss.tools.seam.core.SeamCoreMessages;
 
 /**
  * @author eskimo
@@ -25,7 +25,7 @@ public class SeamActionWizardPage1 extends SeamBaseWizardPage {
 	 * @param titleImage
 	 */
 	public SeamActionWizardPage1(IStructuredSelection is) {
-		super("seam.new.action.page1", SeamUIMessages.SEAM_ACTION_WIZARD_PAGE1_SEAM_ACTION, null, is); //$NON-NLS-1$
+		super("seam.new.action.page1", SeamCoreMessages.SEAM_ACTION_WIZARD_PAGE1_SEAM_ACTION, null, is); //$NON-NLS-1$
 		setMessage(getDefaultMessageText());
 	}
 

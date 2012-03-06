@@ -12,10 +12,12 @@ package org.jboss.tools.seam.internal.core.project.facet;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.wst.common.componentcore.datamodel.FacetInstallDataModelProvider;
 import org.eclipse.wst.common.componentcore.datamodel.properties.IFacetDataModelProperties;
@@ -204,6 +206,33 @@ public class SeamFacetInstallDataModelProvider extends
 		}
 		return super.propertySet(propertyName, propertyValue);
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.wst.common.frameworks.datamodel.AbstractDataModelProvider#validate(java.lang.String)
+	 */
+	@Override
+    public IStatus validate(String name) {
+		IStatus status = OK_STATUS;
+		Map<String, IStatus> errors = null;
+		if(name.equals(SEAM_RUNTIME_NAME)) {
+			String seamRuntimeName = getStringProperty(SEAM_RUNTIME_NAME);
+			errors = SeamValidatorFactory.SEAM_RUNTIME_NAME_VALIDATOR.validate(seamRuntimeName, null);
+		} else if(name.equals(SEAM_CONNECTION_PROFILE)) {
+			String connectionName = getStringProperty(SEAM_CONNECTION_PROFILE);
+			errors = SeamValidatorFactory.CONNECTION_PROFILE_VALIDATOR.validate(connectionName, null);
+		} else if(name.equals(ENTITY_BEAN_PACKAGE_NAME)) {
+			String packageName = getStringProperty(ENTITY_BEAN_PACKAGE_NAME);
+			errors = SeamValidatorFactory.PACKAGE_NAME_VALIDATOR.validate(packageName, null);
+		} else if(name.equals(SESSION_BEAN_PACKAGE_NAME)) {
+			String packageName = getStringProperty(SESSION_BEAN_PACKAGE_NAME);
+			errors = SeamValidatorFactory.PACKAGE_NAME_VALIDATOR.validate(packageName, null);
+		}
+		if(errors!=null && !errors.isEmpty()) {
+			status = errors.values().iterator().next();
+		}
+    	return status;
+    }
 
 	/*
 	 * (non-Javadoc)

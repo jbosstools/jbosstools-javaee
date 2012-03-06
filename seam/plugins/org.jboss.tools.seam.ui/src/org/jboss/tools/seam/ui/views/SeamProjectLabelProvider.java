@@ -11,7 +11,7 @@
 package org.jboss.tools.seam.ui.views;
 
 import org.jboss.tools.seam.core.ISeamProject;
-import org.jboss.tools.seam.ui.SeamUIMessages;
+import org.jboss.tools.seam.core.SeamCoreMessages;
 
 /**
  * This implementation is designed for standard Projects Explorer 
@@ -27,7 +27,7 @@ public class SeamProjectLabelProvider extends SeamLabelProvider {
 	@Override
 	public String getText(Object element) {
 		if(element instanceof ISeamProject) {
-			return SeamUIMessages.SEAM_PROJECT_LABEL_PROVIDER_SEAM_COMPONENTS;
+			return SeamCoreMessages.SEAM_PROJECT_LABEL_PROVIDER_SEAM_COMPONENTS;
 		}		
 		return super.getText(element);
 	}

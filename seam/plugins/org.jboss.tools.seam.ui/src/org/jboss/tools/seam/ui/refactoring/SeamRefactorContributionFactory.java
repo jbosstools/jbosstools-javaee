@@ -73,11 +73,11 @@ import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamJavaComponentDeclaration;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCorePlugin;
+import org.jboss.tools.seam.core.SeamCoreMessages;
 import org.jboss.tools.seam.internal.core.refactoring.RenameComponentProcessor;
 import org.jboss.tools.seam.internal.core.refactoring.RenameComponentRefactoring;
 import org.jboss.tools.seam.internal.core.refactoring.RenameSeamContextVariableProcessor;
 import org.jboss.tools.seam.ui.SeamGuiPlugin;
-import org.jboss.tools.seam.ui.SeamUIMessages;
 import org.jboss.tools.seam.ui.wizard.RenameComponentWizard;
 import org.jboss.tools.seam.ui.wizard.RenameSeamContextVariableWizard;
 import org.w3c.dom.Node;
@@ -139,7 +139,7 @@ public class SeamRefactorContributionFactory extends AbstractContributionFactory
 			if(seamProject == null)
 				return;
 			
-			MenuManager mm = new MenuManager(SeamUIMessages.SEAM_REFACTOR);
+			MenuManager mm = new MenuManager(SeamCoreMessages.SEAM_REFACTOR);
 			mm.setVisible(true);
 			
 			boolean separatorIsAdded = false;
@@ -427,7 +427,7 @@ public class SeamRefactorContributionFactory extends AbstractContributionFactory
 		RenameComponentWizard wizard = new RenameComponentWizard(refactoring, component);
 		RefactoringWizardOpenOperation op = new RefactoringWizardOpenOperation(wizard);
 		try {
-			String titleForFailedChecks = SeamUIMessages.SEAM_COMPONENT_RENAME_HANDLER_ERROR;
+			String titleForFailedChecks = SeamCoreMessages.SEAM_COMPONENT_RENAME_HANDLER_ERROR;
 			op.run(activeShell, titleForFailedChecks);
 		} catch (final InterruptedException irex) {
 			// operation was canceled
@@ -444,7 +444,7 @@ public class SeamRefactorContributionFactory extends AbstractContributionFactory
 		RenameSeamContextVariableWizard wizard = new RenameSeamContextVariableWizard(refactoring, editorFile);
 		RefactoringWizardOpenOperation op = new RefactoringWizardOpenOperation(wizard);
 		try {
-			String titleForFailedChecks = SeamUIMessages.SEAM_COMPONENT_RENAME_HANDLER_ERROR;
+			String titleForFailedChecks = SeamCoreMessages.SEAM_COMPONENT_RENAME_HANDLER_ERROR;
 			op.run(activeShell, titleForFailedChecks);
 		} catch (final InterruptedException irex) {
 			// operation was canceled
@@ -455,7 +455,7 @@ public class SeamRefactorContributionFactory extends AbstractContributionFactory
 	
 	class RenameSeamComponentAction extends Action{
 		public RenameSeamComponentAction(){
-			super(SeamUIMessages.RENAME_SEAM_COMPONENT);
+			super(SeamCoreMessages.RENAME_SEAM_COMPONENT);
 		}
 
 		public void run(){
@@ -468,7 +468,7 @@ public class SeamRefactorContributionFactory extends AbstractContributionFactory
 	
 	class RenameSeamContextVariableAction extends Action{
 		public RenameSeamContextVariableAction(){
-			super(SeamUIMessages.RENAME_SEAM_CONTEXT_VARIABLE);
+			super(SeamCoreMessages.RENAME_SEAM_CONTEXT_VARIABLE);
 		}
 		public void run(){
 			saveAndBuild();

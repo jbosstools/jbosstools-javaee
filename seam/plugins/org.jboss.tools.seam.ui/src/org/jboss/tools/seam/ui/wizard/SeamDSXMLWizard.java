@@ -45,7 +45,7 @@ import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelPrope
 import org.jboss.tools.seam.internal.core.project.facet.SeamFacetFilterSetFactory;
 import org.jboss.tools.seam.internal.core.project.facet.SeamFacetInstallDataModelProvider;
 import org.jboss.tools.seam.internal.core.project.facet.SeamFacetPreInstallDelegate;
-import org.jboss.tools.seam.ui.internal.project.facet.SeamValidatorFactory;
+import org.jboss.tools.seam.internal.core.project.facet.SeamValidatorFactory;
 
 public class SeamDSXMLWizard extends BasicNewResourceWizard {
 	public static final String WIZARD_ID = "org.jboss.tools.seam.ui.wizard.SeamDSXMLWizard"; //$NON-NLS-1$

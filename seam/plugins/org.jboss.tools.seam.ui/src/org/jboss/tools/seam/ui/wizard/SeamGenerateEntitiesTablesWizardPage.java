@@ -20,7 +20,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.hibernate.eclipse.console.model.IReverseEngineeringDefinition;
 import org.hibernate.eclipse.console.model.ITableFilter;
 import org.hibernate.eclipse.console.model.impl.ReverseEngineeringDefinitionImpl;
-import org.jboss.tools.seam.ui.SeamUIMessages;
+import org.jboss.tools.seam.core.SeamCoreMessages;
 import org.jboss.tools.seam.ui.views.DBTableFilterView;
 
 /**
@@ -36,7 +36,7 @@ public class SeamGenerateEntitiesTablesWizardPage extends WizardPage /*implement
 	private IReverseEngineeringDefinition model;
 
 	public SeamGenerateEntitiesTablesWizardPage() {
-		super(pageName, SeamUIMessages.GENERATE_SEAM_ENTITIES_WIZARD_TITLE, null);
+		super(pageName, SeamCoreMessages.GENERATE_SEAM_ENTITIES_WIZARD_TITLE, null);
 		setMessage("Select Tables");												//$NON-NLS-1$
 	}
 

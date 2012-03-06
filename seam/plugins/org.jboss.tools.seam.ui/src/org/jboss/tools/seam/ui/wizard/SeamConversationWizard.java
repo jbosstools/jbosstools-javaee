@@ -21,10 +21,10 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.PlatformUI;
 import org.jboss.tools.common.ui.widget.editor.INamedElement;
+import org.jboss.tools.seam.core.SeamCoreMessages;
 import org.jboss.tools.seam.core.SeamUtil;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
 import org.jboss.tools.seam.ui.ISeamHelpContextIds;
-import org.jboss.tools.seam.ui.SeamUIMessages;
 
 public class SeamConversationWizard extends SeamBaseWizard implements INewWizard {
 	
@@ -35,7 +35,7 @@ public class SeamConversationWizard extends SeamBaseWizard implements INewWizard
 	
 	public SeamConversationWizard() {
 		super(CREATE_SEAM_CONVERSATION);
-		setWindowTitle(SeamUIMessages.SEAM_CONVERSATION_WIZARD_CREATE_NEW_CONVERSATION);
+		setWindowTitle(SeamCoreMessages.SEAM_CONVERSATION_WIZARD_CREATE_NEW_CONVERSATION);
 		setDefaultPageImageDescriptor(ImageDescriptor.createFromFile(SeamConversationWizard.class, "SeamWebProjectWizBan.png"));		
 	}
 
@@ -56,7 +56,7 @@ public class SeamConversationWizard extends SeamBaseWizard implements INewWizard
 		 * @param label
 		 */
 		public SeamConversationCreateOperation() {
-			super((SeamUIMessages.SEAM_CONVERSATION_WIZARD_ENTITY_CREATING_OPERATION));
+			super((SeamCoreMessages.SEAM_CONVERSATION_WIZARD_ENTITY_CREATING_OPERATION));
 		}
 
 		private List<FileMapping> actionMapping;

@@ -8,7 +8,7 @@
  * Contributors:
  *     Red Hat, Inc. - initial API and implementation
  ******************************************************************************/
-package org.jboss.tools.seam.ui.internal.project.facet;
+package org.jboss.tools.seam.internal.core.project.facet;
 
 import java.io.File;
 import java.util.Map;
@@ -36,11 +36,10 @@ import org.jboss.tools.common.ui.IValidator;
 import org.jboss.tools.common.ui.ValidatorFactory;
 import org.jboss.tools.seam.core.ISeamComponent;
 import org.jboss.tools.seam.core.ISeamProject;
+import org.jboss.tools.seam.core.SeamCoreMessages;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.project.facet.SeamRuntime;
 import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
-import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
-import org.jboss.tools.seam.ui.SeamUIMessages;
 
 /**
  * 
@@ -60,7 +59,7 @@ public class SeamValidatorFactory extends ValidatorFactory {
 			if (!errors.isEmpty()) {
 				errors = createErrorMap();
 				errors.put(ISeamFacetDataModelProperties.JBOSS_SEAM_HOME, new Status(IStatus.ERROR, SeamCorePlugin.PLUGIN_ID,
-					SeamUIMessages.VALIDATOR_FACTORY_SEAM_HOME_FOLDER_DOES_NOT_EXISTS));
+					SeamCoreMessages.VALIDATOR_FACTORY_SEAM_HOME_FOLDER_DOES_NOT_EXISTS));
 				return errors;
 			}
 			String version = (String) context;
@@ -72,7 +71,7 @@ public class SeamValidatorFactory extends ValidatorFactory {
 					errors = createErrorMap();
 					errors.put(ISeamFacetDataModelProperties.JBOSS_SEAM_HOME,
 							new Status(IStatus.ERROR, SeamCorePlugin.PLUGIN_ID, 
-									SeamUIMessages.VALIDATOR_FACTORY_HOME_FOLDER_POINTS_TO_LOCATION_THAT_DOES_NOT_LOOK_LIKE_SEAM_HOME_FOLDER));
+									SeamCoreMessages.VALIDATOR_FACTORY_HOME_FOLDER_POINTS_TO_LOCATION_THAT_DOES_NOT_LOOK_LIKE_SEAM_HOME_FOLDER));
 				}
 			} else {
 				File seamJarFile = new File(value.toString(), "jboss-seam.jar"); //$NON-NLS-1$
@@ -80,7 +79,7 @@ public class SeamValidatorFactory extends ValidatorFactory {
 					errors = createErrorMap();
 					errors.put(ISeamFacetDataModelProperties.JBOSS_SEAM_HOME,
 							new Status(IStatus.ERROR, SeamCorePlugin.PLUGIN_ID, 
-									SeamUIMessages.VALIDATOR_FACTORY_HOME_FOLDER_POINTS_TO_LOCATION_THAT_DOES_NOT_LOOK_LIKE_SEAM_HOME_FOLDER));
+									SeamCoreMessages.VALIDATOR_FACTORY_HOME_FOLDER_POINTS_TO_LOCATION_THAT_DOES_NOT_LOOK_LIKE_SEAM_HOME_FOLDER));
 				}
 			}
 
@@ -99,13 +98,13 @@ public class SeamValidatorFactory extends ValidatorFactory {
 				errors = createErrorMap();
 				errors.put(ISeamFacetDataModelProperties.JBOSS_AS_HOME,
 						new Status(IStatus.ERROR, SeamCorePlugin.PLUGIN_ID,
-								SeamUIMessages.VALIDATOR_FACTORY_JBOSS_AS_HOME_FOLDER_DOES_NOT_EXIST));
+								SeamCoreMessages.VALIDATOR_FACTORY_JBOSS_AS_HOME_FOLDER_DOES_NOT_EXIST));
 				return errors;
 			}
 			if (!new File(value.toString(), "bin/twiddle.jar").isFile()) { //$NON-NLS-1$
 				errors.put(ISeamFacetDataModelProperties.JBOSS_AS_HOME,
 					new Status(IStatus.ERROR, SeamCorePlugin.PLUGIN_ID,
-						SeamUIMessages.VALIDATOR_FACTORY_JBOSS_AS_HOME_FOLDER_POINT_TO_LOCATION_THAT_DOES_NOT_LOOK_LIKE_JBOSS_AS_HOME_FOLDER));
+						SeamCoreMessages.VALIDATOR_FACTORY_JBOSS_AS_HOME_FOLDER_POINT_TO_LOCATION_THAT_DOES_NOT_LOOK_LIKE_JBOSS_AS_HOME_FOLDER));
 			}
 			return errors;
 		}
@@ -124,7 +123,7 @@ public class SeamValidatorFactory extends ValidatorFactory {
 			IProblem[] problems = compilationUnit.getProblems();
 			if (problems.length > 0) {
 				return createErrormessage(new Status(IStatus.ERROR, SeamCorePlugin.PLUGIN_ID,
-					Messages.format(SeamUIMessages.VALIDATOR_FACTORY_COMPONENT_NAME_IS_NOT_VALID,
+					Messages.format(SeamCoreMessages.VALIDATOR_FACTORY_COMPONENT_NAME_IS_NOT_VALID,
 						problems[0].getMessage())));
 			}
 			return SeamValidatorFactory.NO_ERRORS;
@@ -167,18 +166,18 @@ public class SeamValidatorFactory extends ValidatorFactory {
 				ISeamProject seamProject = (ISeamProject)context;
 				ISeamComponent component = seamProject.getComponent(name);
 				if(component != null)
-					return createErrormessage(new Status(IStatus.ERROR, SeamCorePlugin.PLUGIN_ID, NLS.bind(SeamUIMessages.VALIDATOR_FACTORY_COMPONENT_ALREADY_EXISTS, name)));
+					return createErrormessage(new Status(IStatus.ERROR, SeamCorePlugin.PLUGIN_ID, NLS.bind(SeamCoreMessages.VALIDATOR_FACTORY_COMPONENT_ALREADY_EXISTS, name)));
 			}
 			
 			String[] segs = name.split("\\.");//$NON-NLS-1$
 			for(String segm : segs){
 				if(!segm.trim().equals(segm))
-					return createErrormessage(new Status(IStatus.ERROR, SeamCorePlugin.PLUGIN_ID, SeamUIMessages.VALIDATOR_FACTORY_NAME_IS_NOT_VALID));
+					return createErrormessage(new Status(IStatus.ERROR, SeamCorePlugin.PLUGIN_ID, SeamCoreMessages.VALIDATOR_FACTORY_NAME_IS_NOT_VALID));
 				
 				IStatus status = JavaConventions.validateClassFileName(segm
 						+ ".class", DEFAULT_SOURCE_LEVEL, DEFAULT_COMPLIANCE_LEVEL); //$NON-NLS-1$
 				if (!status.isOK())
-					return createErrormessage(new Status(IStatus.ERROR, SeamCorePlugin.PLUGIN_ID, SeamUIMessages.VALIDATOR_FACTORY_NAME_IS_NOT_VALID));
+					return createErrormessage(new Status(IStatus.ERROR, SeamCorePlugin.PLUGIN_ID, SeamCoreMessages.VALIDATOR_FACTORY_NAME_IS_NOT_VALID));
 			}
 			return NO_ERRORS;
 		}
@@ -204,7 +203,7 @@ public class SeamValidatorFactory extends ValidatorFactory {
 			IStatus status = JavaConventions.validateJavaTypeName(value.toString(),
 					getCompilerSourceLevel(jProject), getCompilerComplianceLevel(jProject));			
 			if (((IStatus.ERROR | IStatus.WARNING) & status.getSeverity()) != 0) {
-				return createErrormessage(new Status(IStatus.ERROR, SeamCorePlugin.PLUGIN_ID, SeamUIMessages.VALIDATOR_FACTORY_LOCAL_INTERFACE_NAME_IS_NOT_VALID
+				return createErrormessage(new Status(IStatus.ERROR, SeamCorePlugin.PLUGIN_ID, SeamCoreMessages.VALIDATOR_FACTORY_LOCAL_INTERFACE_NAME_IS_NOT_VALID
 						+ status.getMessage()));
 			}
 			return NO_ERRORS;
@@ -229,7 +228,7 @@ public class SeamValidatorFactory extends ValidatorFactory {
 			
 			if (status.getSeverity() == IStatus.ERROR){
 				return createErrormessage(new Status(IStatus.ERROR, SeamCorePlugin.PLUGIN_ID,
-						NLS.bind(SeamUIMessages.VALIDATOR_FACTORY_NAME_IS_NOT_VALID, targetName)));
+						NLS.bind(SeamCoreMessages.VALIDATOR_FACTORY_NAME_IS_NOT_VALID, targetName)));
 			}
 
 			return NO_ERRORS;
@@ -251,7 +250,7 @@ public class SeamValidatorFactory extends ValidatorFactory {
 			if ("".equals(value) //$NON-NLS-1$
 					|| !project.getLocation().isValidSegment(value.toString()))
 				return createErrormessage(new Status(IStatus.ERROR, SeamCorePlugin.PLUGIN_ID,
-						NLS.bind(SeamUIMessages.VALIDATOR_FACTORY_NAME_IS_NOT_VALID, targetName)));
+						NLS.bind(SeamCoreMessages.VALIDATOR_FACTORY_NAME_IS_NOT_VALID, targetName)));
 
 			return NO_ERRORS;
 		}
@@ -261,7 +260,7 @@ public class SeamValidatorFactory extends ValidatorFactory {
 		public Map<String, IStatus> validate(Object value, Object context) {
 
 			if (value == null || "".equals(value)) { //$NON-NLS-1$
-				return createErrormessage(new Status(IStatus.ERROR, SeamCorePlugin.PLUGIN_ID, SeamUIMessages.VALIDATOR_FACTORY_PRJ_NOT_SELECTED));
+				return createErrormessage(new Status(IStatus.ERROR, SeamCorePlugin.PLUGIN_ID, SeamCoreMessages.VALIDATOR_FACTORY_PRJ_NOT_SELECTED));
 			}
 			IResource project = ResourcesPlugin.getWorkspace().getRoot()
 					.findMember(value.toString());
@@ -269,7 +268,7 @@ public class SeamValidatorFactory extends ValidatorFactory {
 			if (project == null || !(project instanceof IProject)
 					|| !project.exists()) {
 				return createErrormessage(new Status(IStatus.ERROR, SeamCorePlugin.PLUGIN_ID, 
-						NLS.bind(SeamUIMessages.VALIDATOR_FACTORY_PROJECT_DOES_NOT_EXIST,
+						NLS.bind(SeamCoreMessages.VALIDATOR_FACTORY_PROJECT_DOES_NOT_EXIST,
 						value)));
 			} else {
 				IProject selection = (IProject) project;
@@ -284,7 +283,7 @@ public class SeamValidatorFactory extends ValidatorFactory {
 							// .getProjectFacet("jst.web"))
 							|| ""	.equals(SeamCorePlugin.getSeamPreferences(selection).get(ISeamFacetDataModelProperties.JBOSS_AS_DEPLOY_AS, ""))) { //$NON-NLS-1$
 						return createErrormessage(new Status(IStatus.ERROR, SeamCorePlugin.PLUGIN_ID, 
-								NLS.bind(SeamUIMessages.VALIDATOR_FACTORY_SELECTED_PROJECT_IS_NOT_A_SEAM_WEB_PROJECT,
+								NLS.bind(SeamCoreMessages.VALIDATOR_FACTORY_SELECTED_PROJECT_IS_NOT_A_SEAM_WEB_PROJECT,
 								project.getName())));
 					} else {
 						// TODO validate project(s) structure
@@ -294,7 +293,7 @@ public class SeamValidatorFactory extends ValidatorFactory {
 					// name typed by hand
 					return createErrormessage(new Status(IStatus.ERROR, SeamCorePlugin.PLUGIN_ID, NLS
 							.bind(
-									SeamUIMessages.VALIDATOR_FACTORY_SELECTED_PRJ_IS_CLOSED,
+									SeamCoreMessages.VALIDATOR_FACTORY_SELECTED_PRJ_IS_CLOSED,
 									project.getName())));
 				}
 			}
@@ -314,7 +313,7 @@ public class SeamValidatorFactory extends ValidatorFactory {
 			if (!allowEmptyConnection && (value == null || "".equals(value.toString().trim()))) { //$NON-NLS-1$
 				return createErrormessage(
 						ISeamFacetDataModelProperties.SEAM_CONNECTION_PROFILE,
-						new Status(IStatus.ERROR, SeamCorePlugin.PLUGIN_ID, SeamUIMessages.VALIDATOR_FACTORY_CONNECTION_PROFILE_IS_NOT_SELECTED));
+						new Status(IStatus.ERROR, SeamCorePlugin.PLUGIN_ID, SeamCoreMessages.VALIDATOR_FACTORY_CONNECTION_PROFILE_IS_NOT_SELECTED));
 			} else {
 				IConnectionProfile connProfile = ProfileManager.getInstance()
 						.getProfileByName(value.toString());
@@ -326,7 +325,7 @@ public class SeamValidatorFactory extends ValidatorFactory {
 					return createErrormessage(
 							ISeamFacetDataModelProperties.SEAM_CONNECTION_PROFILE,
 							new Status(IStatus.ERROR, SeamCorePlugin.PLUGIN_ID, 
-									NLS.bind(SeamUIMessages.VALIDATOR_FACTORY_DRIVER_CLASS_PROPERTY_IS_EMPTY_FOR_SELECTED_CONNECTION_PROFILE,
+									NLS.bind(SeamCoreMessages.VALIDATOR_FACTORY_DRIVER_CLASS_PROPERTY_IS_EMPTY_FOR_SELECTED_CONNECTION_PROFILE,
 									value)));
 				}
 			}
@@ -345,7 +344,7 @@ public class SeamValidatorFactory extends ValidatorFactory {
 			if (value == null || "".equals(value.toString().trim())) { //$NON-NLS-1$
 				errors = createErrormessage(
 						ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME,
-						new Status(IStatus.ERROR, SeamCorePlugin.PLUGIN_ID, SeamUIMessages.VALIDATOR_FACTORY_SEAM_RUNTIME_IS_NOT_SELECTED));
+						new Status(IStatus.ERROR, SeamCorePlugin.PLUGIN_ID, SeamCoreMessages.VALIDATOR_FACTORY_SEAM_RUNTIME_IS_NOT_SELECTED));
 			} else {
 				SeamRuntime rt = SeamRuntimeManager.getInstance()
 						.findRuntimeByName(value.toString());
@@ -354,42 +353,42 @@ public class SeamValidatorFactory extends ValidatorFactory {
 							ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME,
 							new Status(IStatus.ERROR, SeamCorePlugin.PLUGIN_ID, NLS
 									.bind(
-											SeamUIMessages.VALIDATOR_FACTORY_CANNOT_FIND_SEAM_RUNTIME,
+											SeamCoreMessages.VALIDATOR_FACTORY_CANNOT_FIND_SEAM_RUNTIME,
 											value)));
 				} else if (!new File(rt.getHomeDir()).exists()) {
 					errors = createErrormessage(
 							ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME,
 							new Status(IStatus.ERROR, SeamCorePlugin.PLUGIN_ID, NLS
 									.bind(
-											SeamUIMessages.VALIDATOR_FACTORY_SEAM_RT_HOME_DIR_IS_MISSING,
+											SeamCoreMessages.VALIDATOR_FACTORY_SEAM_RT_HOME_DIR_IS_MISSING,
 											value)));
 				} else if (!new File(rt.getSeamGenDir()).exists()) {
 					errors = createErrormessage(
 							ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME,
 							new Status(IStatus.ERROR, SeamCorePlugin.PLUGIN_ID, NLS
 									.bind(
-											SeamUIMessages.VALIDATOR_FACTORY_SEAM_RT_TEMPLATES_DIR_IS_MISSING,
+											SeamCoreMessages.VALIDATOR_FACTORY_SEAM_RT_TEMPLATES_DIR_IS_MISSING,
 											value)));
 				} else if (!new File(rt.getSrcTemplatesDir()).exists()) {
 					errors = createErrormessage(
 							ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME,
 							new Status(IStatus.ERROR, SeamCorePlugin.PLUGIN_ID, NLS
 									.bind(
-											SeamUIMessages.VALIDATOR_FACTORY_SEAM_RT_SRC_DIR_IS_MISSING,
+											SeamCoreMessages.VALIDATOR_FACTORY_SEAM_RT_SRC_DIR_IS_MISSING,
 											value)));
 				} else if (!new File(rt.getViewTemplatesDir()).exists()) {
 					errors = createErrormessage(
 							ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME,
 							new Status(IStatus.ERROR, SeamCorePlugin.PLUGIN_ID, NLS
 									.bind(
-											SeamUIMessages.VALIDATOR_FACTORY_SEAM_RT_VIEW_DIR_IS_MISSING,
+											SeamCoreMessages.VALIDATOR_FACTORY_SEAM_RT_VIEW_DIR_IS_MISSING,
 											value)));
 				} else if (!new File(rt.getResourceTemplatesDir()).exists()) {
 					errors = createErrormessage(
 							ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME,
 							new Status(IStatus.ERROR, SeamCorePlugin.PLUGIN_ID, NLS
 									.bind(
-											SeamUIMessages.VALIDATOR_FACTORY_SEAM_RT_RESOURCES_DIR_IS_MISSING,
+											SeamCoreMessages.VALIDATOR_FACTORY_SEAM_RT_RESOURCES_DIR_IS_MISSING,
 											value)));
 				}
 			}
@@ -403,34 +402,34 @@ public class SeamValidatorFactory extends ValidatorFactory {
 			Map<String, IStatus> errors = NO_ERRORS;
 
 			if (value == null || "".equals(value)) { //$NON-NLS-1$
-				errors = createErrormessage(new Status(IStatus.ERROR, SeamCorePlugin.PLUGIN_ID, SeamUIMessages.VALIDATOR_FACTORY_SEAM_RT_NOT_CONFIGURED));
+				errors = createErrormessage(new Status(IStatus.ERROR, SeamCorePlugin.PLUGIN_ID, SeamCoreMessages.VALIDATOR_FACTORY_SEAM_RT_NOT_CONFIGURED));
 			} else {
 				SeamRuntime rt = SeamRuntimeManager.getInstance()
 						.findRuntimeByName(value.toString());
 				if (rt == null) {
 					errors = createErrormessage(new Status(IStatus.ERROR, SeamCorePlugin.PLUGIN_ID, NLS
 							.bind(
-									SeamUIMessages.VALIDATOR_FACTORY_SEAM_RT_CANNOT_BE_FOUND,
+									SeamCoreMessages.VALIDATOR_FACTORY_SEAM_RT_CANNOT_BE_FOUND,
 									value)));
 				} else if (!new File(rt.getHomeDir()).exists()) {
 					errors = createErrormessage(new Status(IStatus.ERROR, SeamCorePlugin.PLUGIN_ID, NLS
 							.bind(
-									SeamUIMessages.VALIDATOR_FACTORY_SEAM_RT_HOME_DIR_DOES_NOT_EXIST,
+									SeamCoreMessages.VALIDATOR_FACTORY_SEAM_RT_HOME_DIR_DOES_NOT_EXIST,
 									value)));
 				} else if (!new File(rt.getSeamGenDir()).exists()) {
 					errors = createErrormessage(new Status(IStatus.ERROR, SeamCorePlugin.PLUGIN_ID, NLS
 							.bind(
-									SeamUIMessages.VALIDATOR_FACTORY_SEAM_RT_TEMPLATES_DIR_DOES_NOT_EXIST,
+									SeamCoreMessages.VALIDATOR_FACTORY_SEAM_RT_TEMPLATES_DIR_DOES_NOT_EXIST,
 									value)));
 				} else if (!new File(rt.getSrcTemplatesDir()).exists()) {
 					errors = createErrormessage(new Status(IStatus.ERROR, SeamCorePlugin.PLUGIN_ID, NLS
 							.bind(
-									SeamUIMessages.VALIDATOR_FACTORY_SEAM_RT_SOURCE_TEMPLATES_DIR_DOES_NOT_EXIST,
+									SeamCoreMessages.VALIDATOR_FACTORY_SEAM_RT_SOURCE_TEMPLATES_DIR_DOES_NOT_EXIST,
 									value)));
 				} else if (!new File(rt.getViewTemplatesDir()).exists()) {
 					errors = createErrormessage(new Status(IStatus.ERROR, SeamCorePlugin.PLUGIN_ID, NLS
 							.bind(
-									SeamUIMessages.VALIDATOR_FACTORY_SEAM_RT_VIE_TEMPLATE_DIR_DOES_NOT_EXIST,
+									SeamCoreMessages.VALIDATOR_FACTORY_SEAM_RT_VIE_TEMPLATE_DIR_DOES_NOT_EXIST,
 									value)));
 					// } else if(!new
 					// File(rt.getResourceTemplatesDir()).exists()) {

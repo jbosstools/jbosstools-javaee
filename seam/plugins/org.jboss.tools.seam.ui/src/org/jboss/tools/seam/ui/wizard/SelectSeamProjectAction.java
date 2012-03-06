@@ -17,7 +17,7 @@ import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.dialogs.ListDialog;
 import org.jboss.tools.common.ui.widget.editor.ButtonFieldEditor;
-import org.jboss.tools.seam.ui.SeamUIMessages;
+import org.jboss.tools.seam.core.SeamCoreMessages;
 
 public class SelectSeamProjectAction extends ButtonFieldEditor.ButtonPressedAction {
 
@@ -27,7 +27,7 @@ public class SelectSeamProjectAction extends ButtonFieldEditor.ButtonPressedActi
 	 * @param allowAllProjects If "false" show only projects with seam nature.
 	 */
 	public SelectSeamProjectAction(boolean allowAllProjects) {
-		super(SeamUIMessages.SELECT_SEAM_PROJECT_ACTION_BROWSE);
+		super(SeamCoreMessages.SELECT_SEAM_PROJECT_ACTION_BROWSE);
 		this.allowAllProjects = allowAllProjects;
 	}
 
