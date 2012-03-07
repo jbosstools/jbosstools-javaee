@@ -21,6 +21,7 @@ import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
+import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
@@ -45,7 +46,10 @@ import org.jboss.tools.cdi.core.IDecorator;
 import org.jboss.tools.cdi.core.IInterceptor;
 import org.jboss.tools.cdi.core.IStereotype;
 import org.jboss.tools.cdi.core.preferences.CDIPreferences;
+import org.jboss.tools.cdi.xml.beans.model.CDIBeansConstants;
 import org.jboss.tools.common.EclipseUtil;
+import org.jboss.tools.common.model.XModelObject;
+import org.jboss.tools.common.model.impl.XModelObjectImpl;
 import org.jboss.tools.common.model.util.EclipseJavaUtil;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.w3c.dom.Element;
@@ -97,6 +101,9 @@ public class BeansXmlValidationDelegate extends CDICoreValidationDelegate {
 	}
 
 	public void validateBeansXml(CDICoreValidator.CDIValidationContext context, IFile beansXml) {
+		XModelObject f = EclipseResourceUtil.createObjectForResource(beansXml);
+		String xmodelpath = (f == null) ? "" : f.getPath();
+
 		IModelManager manager = StructuredModelManager.getModelManager();
 		if(manager == null) {
 			// this may happen if plug-in org.eclipse.wst.sse.core 
@@ -120,7 +127,7 @@ public class BeansXmlValidationDelegate extends CDICoreValidationDelegate {
 				 *  - If the same type is listed twice under the <alternatives> element, the container automatically detects the problem and
 				 *    treats it as a deployment problem.
 				 */
-				validateTypeBeanForBeansXml(context, getAlternativeClassValidator(), document, beansXml);
+				validateTypeBeanForBeansXml(context, getAlternativeClassValidator(), document, beansXml, xmodelpath + "/" + CDIBeansConstants.NODE_ALTERNATIVES); //$NON-NLS-1$
 
 				/*
 				 * 5.1.1. Declaring selected alternatives for a bean archive
@@ -130,7 +137,7 @@ public class BeansXmlValidationDelegate extends CDICoreValidationDelegate {
 				 *  - If the same type is listed twice under the <alternatives> element, the container automatically detects the problem and
 				 *    treats it as a deployment problem. 
 				 */
-				validateTypeBeanForBeansXml(context, getAlternativeStereotypeValidator(), document,	beansXml);
+				validateTypeBeanForBeansXml(context, getAlternativeStereotypeValidator(), document,	beansXml, xmodelpath + "/" + CDIBeansConstants.NODE_ALTERNATIVES); //$NON-NLS-1$
 
 				/*
 				 * 8.2. Decorator enablement and ordering
@@ -140,7 +147,7 @@ public class BeansXmlValidationDelegate extends CDICoreValidationDelegate {
 				 *  - If the same class is listed twice under the <decorators> element, the container automatically detects the problem and
 				 *    treats it as a deployment problem.
 				 */
-				validateTypeBeanForBeansXml(context, getDecoratorTypeValidator(), document, beansXml);
+				validateTypeBeanForBeansXml(context, getDecoratorTypeValidator(), document, beansXml, xmodelpath + "/" + CDIBeansConstants.NODE_DECORATORS); //$NON-NLS-1$
 
 				/*
 				 * 9.4. Interceptor enablement and ordering
@@ -150,7 +157,7 @@ public class BeansXmlValidationDelegate extends CDICoreValidationDelegate {
 				 *  - If the same class is listed twice under the <interceptors> element, the container automatically detects the problem and treats it as
 				 *    a deployment problem.
 				 */
-				validateTypeBeanForBeansXml(context, getInterceptorTypeValidator(), document, beansXml);
+				validateTypeBeanForBeansXml(context, getInterceptorTypeValidator(), document, beansXml, xmodelpath + "/" + CDIBeansConstants.NODE_INTERCEPTORS); //$NON-NLS-1$
 			}
 		} catch (CoreException e) {
 			CDICorePlugin.getDefault().logError(e);
@@ -163,7 +170,7 @@ public class BeansXmlValidationDelegate extends CDICoreValidationDelegate {
 		}
 	}
 
-	private void validateTypeBeanForBeansXml(CDICoreValidator.CDIValidationContext context, TypeValidator typeValidator, IDOMDocument document, IFile beansXml) {
+	private void validateTypeBeanForBeansXml(CDICoreValidator.CDIValidationContext context, TypeValidator typeValidator, IDOMDocument document, IFile beansXml, String xmodelpath) {
 		try {
 			NodeList parentNodeList = document.getElementsByTagName(typeValidator.getParrentElementname());
 			for (int i = 0; i < parentNodeList.getLength(); i++) {
@@ -172,7 +179,13 @@ public class BeansXmlValidationDelegate extends CDICoreValidationDelegate {
 					List<TypeNode> typeNodes = getTypeElements((Element)parentNode, typeValidator.getTypeElementName());
 					Map<String, TypeNode> uniqueTypes = new HashMap<String, TypeNode>();
 					for (TypeNode typeNode : typeNodes) {
-						IType type = getType(beansXml, typeNode, typeValidator.getUnknownTypeErrorMessage(), typeValidator.getUnknownTypeErrorMessageId());
+						String typepath = xmodelpath;
+						String attr = null;
+						if(typeNode.getTypeName().length() > 0) {
+							typepath = typepath + "/" + typeNode.getTypeName();
+							attr = typeValidator.getTypeElementName();
+						}
+						IType type = getType(beansXml, typeNode, typeValidator.getUnknownTypeErrorMessage(), typeValidator.getUnknownTypeErrorMessageId(), typepath, attr);
 						if(type!=null) {
 							if(!type.isBinary()) {
 								validator.getValidationContext().addLinkedCoreResource(CDICoreValidator.SHORT_ID, beansXml.getFullPath().toOSString(), type.getPath(), false);
@@ -186,29 +199,42 @@ public class BeansXmlValidationDelegate extends CDICoreValidationDelegate {
 								}
 							}
 							if(!typeValidator.validateKindOfType(type)) {
-								validator.addError(typeValidator.getIllegalTypeErrorMessage(), CDIPreferences.ILLEGAL_TYPE_NAME_IN_BEANS_XML,
+								IMarker marker = validator.addError(typeValidator.getIllegalTypeErrorMessage(), CDIPreferences.ILLEGAL_TYPE_NAME_IN_BEANS_XML,
 										new String[]{}, typeNode.getLength(), typeNode.getStartOffset(), beansXml, typeValidator.getIllegalTypeErrorMessageId());
+								if(marker != null) bindMarkerToModel(marker, typepath, typeValidator.getTypeElementName());
 							} else if(type.isBinary()) {
 								if(!typeValidator.validateBinaryType(type)) {
-									validator.addError(typeValidator.getIllegalTypeErrorMessage(), CDIPreferences.ILLEGAL_TYPE_NAME_IN_BEANS_XML,
+									IMarker marker = validator.addError(typeValidator.getIllegalTypeErrorMessage(), CDIPreferences.ILLEGAL_TYPE_NAME_IN_BEANS_XML,
 											new String[]{}, typeNode.getLength(), typeNode.getStartOffset(), beansXml, typeValidator.getIllegalTypeErrorMessageId());
+									if(marker != null) bindMarkerToModel(marker, typepath, typeValidator.getTypeElementName());
 								}
 								continue;
 							} else {
 								if(!typeValidator.validateSourceType(context, type)) {
-									validator.addError(typeValidator.getIllegalTypeErrorMessage(), CDIPreferences.ILLEGAL_TYPE_NAME_IN_BEANS_XML,
+									IMarker marker = validator.addError(typeValidator.getIllegalTypeErrorMessage(), CDIPreferences.ILLEGAL_TYPE_NAME_IN_BEANS_XML,
 											new String[]{}, typeNode.getLength(), typeNode.getStartOffset(), beansXml, typeValidator.getIllegalTypeErrorMessageId());
+									if(marker != null) bindMarkerToModel(marker, typepath, typeValidator.getTypeElementName());
 								}
 							}
 							TypeNode node = uniqueTypes.get(typeNode.getTypeName());
 							if(node!=null) {
 								if(!node.isMarkedAsDuplicated()) {
-									validator.addError(typeValidator.getDuplicateTypeErrorMessage(), CDIPreferences.DUPLICATE_TYPE_IN_BEANS_XML,
+									IMarker marker = validator.addError(typeValidator.getDuplicateTypeErrorMessage(), CDIPreferences.DUPLICATE_TYPE_IN_BEANS_XML,
 											new String[]{}, node.getLength(), node.getStartOffset(), beansXml);
+									if(marker != null) bindMarkerToModel(marker, typepath, typeValidator.getTypeElementName());
 								}
 								node.setMarkedAsDuplicated(true);
-								validator.addError(typeValidator.getDuplicateTypeErrorMessage(), CDIPreferences.DUPLICATE_TYPE_IN_BEANS_XML,
+								typeNode.setMarkedAsDuplicated(true);
+								typeNode.setDuplicationIndex(node.getDuplicationIndex() + 1);
+								IMarker marker = validator.addError(typeValidator.getDuplicateTypeErrorMessage(), CDIPreferences.DUPLICATE_TYPE_IN_BEANS_XML,
 										new String[]{}, typeNode.getLength(), typeNode.getStartOffset(), beansXml);
+								if(marker != null) {
+									int di = typeNode.getDuplicationIndex();
+									if(di > 0) {
+										typepath += XModelObjectImpl.DUPLICATE + di;
+									}
+									bindMarkerToModel(marker, typepath, typeValidator.getTypeElementName());
+								}
 							}
 							uniqueTypes.put(typeNode.getTypeName(), typeNode);
 						}
@@ -240,7 +266,7 @@ public class BeansXmlValidationDelegate extends CDICoreValidationDelegate {
 		return null;
 	}
 
-	private IType getType(IFile beansXml, TypeNode node, String errorMessage, int errorMessageId) {
+	private IType getType(IFile beansXml, TypeNode node, String errorMessage, int errorMessageId, String xmodelpath, String attr) {
 		IType type = null;
 		if(node.getTypeName()!=null) {
 			try {
@@ -255,10 +281,25 @@ public class BeansXmlValidationDelegate extends CDICoreValidationDelegate {
 		}
 		if(type==null) {
 			addLinkedResourcesForUnknownType(beansXml, node.getTypeName());
-			validator.addError(errorMessage, CDIPreferences.ILLEGAL_TYPE_NAME_IN_BEANS_XML,
+			IMarker marker = validator.addError(errorMessage, CDIPreferences.ILLEGAL_TYPE_NAME_IN_BEANS_XML,
 					new String[]{}, node.getLength(), node.getStartOffset(), beansXml, errorMessageId);
+			bindMarkerToModel(marker, xmodelpath, attr);
 		}
 		return type;
+	}
+
+	private void bindMarkerToModel(IMarker marker, String path, String attribute) {
+		try {
+			if(marker!=null) {
+				marker.setAttribute("path", path); //$NON-NLS-1$
+				if(attribute != null) {
+					marker.setAttribute("attribute", attribute); //$NON-NLS-1$
+				}
+			}
+		} catch(CoreException e) {
+			CDICorePlugin.getDefault().logError(e);
+		}
+		
 	}
 
 	private void addLinkedResourcesForUnknownType(IFile beansXml, String typeName) {
@@ -318,6 +359,7 @@ public class BeansXmlValidationDelegate extends CDICoreValidationDelegate {
 		private int length;
 		private String typeName;
 		private boolean markedAsDuplicated;
+		private int duplicationIndex = 0;
 
 		public TypeNode(int startOffset, int length, String typeName) {
 			this.startOffset = startOffset;
@@ -355,6 +397,14 @@ public class BeansXmlValidationDelegate extends CDICoreValidationDelegate {
 
 		public void setMarkedAsDuplicated(boolean markedAsDuplicated) {
 			this.markedAsDuplicated = markedAsDuplicated;
+		}
+	
+		public int getDuplicationIndex() {
+			return duplicationIndex;
+		}
+
+		public void setDuplicationIndex(int i) {
+			duplicationIndex = i;
 		}
 	}
 

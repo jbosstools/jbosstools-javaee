@@ -14,6 +14,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.eclipse.core.runtime.IPath;
+import org.jboss.tools.cdi.xml.beans.model.CDIBeansConstants;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.filesystems.impl.FileAnyImpl;
 import org.jboss.tools.common.model.filesystems.impl.FolderImpl;
@@ -24,12 +25,7 @@ import org.jboss.tools.common.text.INodeReference;
  * @author Viacheslav Kabanovich
  *
  */
-public class BeansXMLDefinition {
-	static String NODE_INTERCEPTORS = "Interceptors";
-	static String NODE_DECORATORS = "Decorators";
-	static String NODE_ALTERNATIVES = "Alternatives";
-	static String ATTR_CLASS = "class";
-	static String ATTR_STEREOTYPE = "stereotype";
+public class BeansXMLDefinition implements CDIBeansConstants {
 
 	private IPath path;
 	private Set<INodeReference> typeAlternatives = new HashSet<INodeReference>();
