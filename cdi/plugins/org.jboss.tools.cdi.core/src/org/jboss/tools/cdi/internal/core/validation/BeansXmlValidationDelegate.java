@@ -181,8 +181,8 @@ public class BeansXmlValidationDelegate extends CDICoreValidationDelegate {
 					for (TypeNode typeNode : typeNodes) {
 						String typepath = xmodelpath;
 						String attr = null;
-						if(typeNode.getTypeName().length() > 0) {
-							typepath = typepath + "/" + typeNode.getTypeName();
+						if(typeNode.getTypeName() != null) {
+							typepath = typepath + "/" + typeNode.getTypeName(); //$NON-NLS-1$
 							attr = typeValidator.getTypeElementName();
 						}
 						IType type = getType(beansXml, typeNode, typeValidator.getUnknownTypeErrorMessage(), typeValidator.getUnknownTypeErrorMessageId(), typepath, attr);
@@ -383,6 +383,10 @@ public class BeansXmlValidationDelegate extends CDICoreValidationDelegate {
 			this.length = length;
 		}
 
+		/**
+		 * Returns type name or null if value in XML is empty or whitespace.
+		 * @return
+		 */
 		public String getTypeName() {
 			return typeName;
 		}
