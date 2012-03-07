@@ -26,4 +26,7 @@ public interface CDIBeansConstants {
 	public String ATTR_CLASS = "class"; //$NON-NLS-1$
 	public String ATTR_STEREOTYPE = "stereotype"; //$NON-NLS-1$
 
+	public String NODE_INTERCEPTORS = "Interceptors"; //$NON-NLS-1$
+	public String NODE_DECORATORS = "Decorators"; //$NON-NLS-1$
+	public String NODE_ALTERNATIVES = "Alternatives"; //$NON-NLS-1$
 }
