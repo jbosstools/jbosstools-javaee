@@ -12,18 +12,24 @@ package org.jboss.tools.cdi.core.test.tck.validation;
 
 import java.util.List;
 
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.preference.IPersistentPreferenceStore;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.jboss.tools.cdi.core.CDICorePlugin;
+import org.jboss.tools.cdi.core.preferences.CDIPreferences;
 import org.jboss.tools.cdi.internal.core.validation.CDICoreValidator;
 import org.jboss.tools.cdi.internal.core.validation.CDIProjectTree;
+import org.jboss.tools.cdi.internal.core.validation.CDIValidationMessages;
 import org.jboss.tools.common.preferences.SeverityPreferences;
 import org.jboss.tools.common.validation.IValidator;
 import org.jboss.tools.common.validation.ValidationContext;
 import org.jboss.tools.common.validation.ValidatorManager;
 import org.jboss.tools.common.validation.internal.LinkCollection;
 import org.jboss.tools.common.validation.internal.ProjectValidationContext;
+import org.jboss.tools.tests.AbstractResourceMarkerTest;
 
 /**
  * @author Alexey Kazakov
@@ -79,6 +85,17 @@ public class CoreValidationTest extends ValidationTest {
 		assertFalse("Validation context for CDIproject is empty", collection.isEmpty());
 		collection = getCoreLinks(rootProject, "jboss.seam");
 		assertTrue("Validation context for CDIproject with wrong ID is not empty", collection.isEmpty());
+	}
+
+	/**
+	 * https://issues.jboss.org/browse/JBIDE-11198
+	 * @throws CoreException
+	 */
+	public void testMaximumProblemsPerFile() throws CoreException {
+		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/MaxNumberOfProblems.java");
+		int max = CDIPreferences.getMaxNumberOfProblemMarkersPerFile(tckProject);
+		IMarker[] markers = AbstractResourceMarkerTest.findMarkers(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS);
+		assertEquals(max, markers.length);
 	}
 
 	private LinkCollection getCoreLinks(IProject project) {
