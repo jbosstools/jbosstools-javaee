@@ -121,7 +121,7 @@ public class CDISettingsPreferencePage extends SettingsPage {
 	@Override
 	protected void performDefaults() {
 		getEditor(CDIPreferencesMessages.CDI_SETTINGS_PREFERENCE_PAGE_CDI_SUPPORT).setValue(isCDIEnabled(project));
-		getEditor(CDIUIMessages.CDI_GENERATE_BEANS_XML).setValue(true);
+//		getEditor(CDIUIMessages.CDI_GENERATE_BEANS_XML).setValue(true);
 		validate();
 	}
 
