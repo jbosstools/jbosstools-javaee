@@ -1,0 +1,191 @@
+<chapter id="db_programming">
+	<title>Database Programming</title>
+	<para>Now, it’s time to reverse engineer the workshop database into a fully functioning Seam
+		CRUD (Create Read Update Delete) application.</para>
+		<section id="reverse_engineer_crud">
+			<title>Reverse Engineer CRUD from a Running Database</title>
+			<para>In <property>JBoss Developer Studio</property>, switch to the <property>Seam
+			perspective</property>, and then right-click the project and select <menuchoice>
+				<guimenuitem>New</guimenuitem>
+				<guimenuitem>Seam Generate Entities</guimenuitem>
+			</menuchoice>.</para>
+			<para>The &quot;workshop&quot; project in the <property>Seam Generate Entities wizard</property>
+			will be selected automatically. There is no need to change something more, click the <guibutton>Next</guibutton> button to proceed to the next step.</para>
+			<figure>
+				<title>Generate Seam Entities</title>
+				<mediaobject>
+					<imageobject>
+						<imagedata fileref="images/first_seam/first_seam34.png"/>
+					</imageobject>
+				</mediaobject>
+			</figure>
+			<para>On the next page use the <guibutton>Refresh</guibutton> button to display the database, then click the <guibutton>Include</guibutton> button to include all the tables from the database, and finally click the <guibutton>Finish</guibutton> button.</para>
+			<figure>
+				<title>Selecting Tables</title>
+				<mediaobject>
+					<imageobject>
+						<imagedata fileref="images/first_seam/first_seam34a.png"/>
+					</imageobject>
+				</mediaobject>
+			</figure>
+			<para>After running the Generate Entities action, you will see new <emphasis>
+				<property>org.domain.workshop.entity</property>
+			</emphasis> classes. These classes represent insert/update/delete/query logic.</para>
+			<figure>
+				<title>org.domain.workshop.entity Classes</title>
+				<mediaobject>
+					<imageobject>
+						<imagedata fileref="images/first_seam/first_seam35.png" scale="90"/>
+					</imageobject>
+				</mediaobject>
+			</figure>
+			<para>There is also the <emphasis>
+				<property>org.domain.workshop.entity</property>
+			</emphasis> package that contains the JPA classes. These are the entity beans that are
+			mapped to database tables. Note that you can use Seam refactoring tools with Seam components.
+			Read more about it in <ulink
+			url="http://download.jboss.org/jbosstools/nightly-docs/en/seam/html_single/index.html#seam_refactoring"
+				>Seam refactoring tools chapter</ulink> of Seam Dev Tools Reference Guide.</para>
+				<para>Last, but not least, there are facelets for all of the CRUD screens. The best way to get
+					a feel for the generated code is to open a browser and play around with the application. Go
+						to <emphasis>
+							<property>http://localhost:8080/workshop</property>
+						</emphasis> and insert/update/delete/query a few records. There is quite a bit of AJAX in
+						this application, but we will explore that later on in the lab. For now, take note
+							of the page tabs, required field logic and data table sorting in the list pages. </para>
+							
+							<note>
+								<title>Tip</title>
+								<para>
+									If you see the error <code>java.lang.ClassNotFoundException: org.jboss.seam.servlet.SeamListener</code> in the console output from the Application Server, you may need to copy the <filename>jboss-seam.jar</filename> file from the <filename>lib</filename> subdirectory in the Seam library (which can be downloaded from <ulink url="http://seamframework.org/Seam2/Seam2DistributionDownloads">here</ulink>) into the <filename>/server/default/deploy/workshop.war/WEB-INF/lib/</filename> subdirectory in your Application Server (where "default" refers to the server profile that you are using).
+								</para>
+							</note>
+							<note>
+								<title>Tip</title>
+								<para>
+									If you see the error <code>Could not instantiate Seam component: org.jboss.seam.security.ruleBasedPermissionResolver</code>, copy the <filename>mvel2.jar</filename> file from the Seam library to the same destination directory mentioned in the tip above.
+								</para>
+							</note>
+							
+							<figure>
+								<title>CustomersList.xhtml in the Editor</title>
+								<mediaobject>
+									<imageobject>
+										<imagedata fileref="images/first_seam/first_seam36.png"/>
+									</imageobject>
+								</mediaobject>
+							</figure>
+							<para>Congratulations! You now have a fully functioning CRUD application that is AJAX enabled.</para>
+						</section>
+						<section id="use_hibernate_tools">
+							<title>Use Hibernate Tools to Query Data via JPA</title>
+							<para>Now, it&apos;s time to write some JPA queries using the Hibernate perspective in
+								<property>JBoss Developer Studio</property>.</para>
+								<para>In the upper right corner of the workbench there is a small icon (see the figure below),
+									click on it and select <guimenuitem>Hibernate</guimenuitem>.</para>
+									<figure>
+										<title>Hibernate Perspective</title>
+										<mediaobject>
+											<imageobject>
+												<imagedata fileref="images/first_seam/first_seam37.png"/>
+											</imageobject>
+										</mediaobject>
+									</figure>
+									<para>Look at the Hibernate Configurations view. In the &quot;workshop&quot; project, drill
+										down on the <property>Session Factory</property> and notice that the JPA entities/attributes
+											are listed in a nice tree view.</para>
+											<figure>
+												<title>Hibernate Configurations View</title>
+												<mediaobject>
+													<imageobject>
+														<imagedata fileref="images/first_seam/first_seam38.png"/>
+													</imageobject>
+												</mediaobject>
+											</figure>
+											<para>Right click on the <property>Session Factory</property> and select <guimenuitem>HQL
+												Editor</guimenuitem>. This will open a JPA query scratch pad window.</para>
+												<para>Write your query and click on the &quot;Hibernate Dynamic SQL Preview&quot; tab. You
+													should see the SQL that will be executed if this JPA query is run.</para>
+													<figure>
+														<title>JPA Query Editor</title>
+														<mediaobject>
+															<imageobject>
+																<imagedata fileref="images/first_seam/first_seam39.png"/>
+															</imageobject>
+														</mediaobject>
+													</figure>
+													<para>Run the query by clicking on the green run icon.</para>
+													<para>The results are listed in the &quot;Hibernate Query Result&quot; view. There is a
+														&quot;Properties&quot; tab in the workbench that can be used to see a specific JPA result.
+														These results represent the JPA objects because our query did not specify column
+															names.</para>
+															<figure>
+																<title>Hibernate Query Result View</title>
+																<mediaobject>
+																	<imageobject>
+																		<imagedata fileref="images/first_seam/first_seam40.png" scale="80"/>
+																	</imageobject>
+																</mediaobject>
+															</figure>
+															<para>The query can be refined, and take note that there is nice code completion in the JPA
+																query editor.</para>
+																<figure>
+																	<title>Code Completion</title>
+																	<mediaobject>
+																		<imageobject>
+																			<imagedata fileref="images/first_seam/first_seam41.png"/>
+																		</imageobject>
+																	</mediaobject>
+																</figure>
+																<para>A refined query will return results that are more ResultSet oriented. Notice the join
+																	logic that JPA supports.</para>
+																	<figure>
+																		<title>The Hibernate Query Result</title>
+																		<mediaobject>
+																			<imageobject>
+																				<imagedata fileref="images/first_seam/first_seam42.png"/>
+																			</imageobject>
+																		</mediaobject>
+																	</figure>
+																	<para>There was no need to specify an <property>Employees</property> table in the <property
+																		>from</property> part of the JPA query because JPA supports reference traversal via Java
+																		class attribute references. Not only are JPA and HQL queries fully supported, but Criteria
+																		based queries can also be written in the Criteria Editor. You should spend some time
+																		tinkering with different queries and possibly Criteria based queries, even though the
+																			instructions are not provided in this lab.</para>
+																			<figure>
+																				<title>Criteria Editor</title>
+																				<mediaobject>
+																					<imageobject>
+																						<imagedata fileref="images/first_seam/first_seam43.png"/>
+																					</imageobject>
+																				</mediaobject>
+																			</figure>
+																		</section>
+																		<section id="use_hibernate_to_vizualize">
+																			<title>Use Hibernate Tools to visualize the Data Model</title>
+																			<para>Now, it’s time to view the data model for the workshop database.</para>
+																			<para>In the Hibernate Configurations view, select &quot;workshop&quot; project and expand the
+																				<property>Configuration</property> node. Select the <property>Customers</property> entity,
+																					right click on it, choose <guimenuitem>Mapping Diagram</guimenuitem>.</para>
+																					<figure>
+																						<title>Mapping Diagram Opening</title>
+																						<mediaobject>
+																							<imageobject>
+																								<imagedata fileref="images/first_seam/first_seam44.png"/>
+																							</imageobject>
+																						</mediaobject>
+																					</figure>
+																					<para>You see a Diagram tab for the CUSTOMERS table and any tables that have FK references.
+																						This is a handy way to view the data model and JPA mappings. Now, you’ve got access to
+																							something that the Erwin Data Modeler can’t do.</para>
+																							<figure>
+																								<title>Diagram Tab</title>
+																								<mediaobject>
+																									<imageobject>
+																										<imagedata fileref="images/first_seam/first_seam45.png" scale="80"/>
+																									</imageobject>
+																								</mediaobject>
+      </figure>
+    </section>
+  </chapter>

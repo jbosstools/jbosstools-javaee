@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter id="create_seam_application">
+    <title>Create a Seam Application</title>
+    <para>In this section you will learn how to create a Seam project in JBoss Developer Studio, how to start the
+      server and what structure your project has after it is created.</para>
+    <section id="start_dev_db">
+      <title>Start Development Database</title>
+      <para>Before opening the JBoss Developer studio you need to download and start the <ulink
+          url="http://docs.jboss.org/tools/resources/GSG_database.zip">Workshop Database</ulink>
+        .</para>
+      <para>To start the database just run <filename>./runDBServer.sh</filename> or <filename>runDBServer.bat</filename> from the database directory.</para>
+      <para>The end result should be a console window that looks like:</para>
+      <figure>
+        <title>Starting the Database</title>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="images/first_seam/first_seam1.png"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+      <note>
+      	<title>Tip</title>
+      	<para>You may need to set the <filename>runDBServer.sh</filename> executable flag with the following command:</para>
+      	<screen>chmod +x runDBServer.sh</screen>
+      </note>
+    </section>
+<section id="create_deploy_seam">
+      <title>Create and deploy Seam Web Project</title>
+      <para>Minimize the terminal window and run <property>JBoss Developer Studio</property>
+        from Applications Menu or from the desktop icon.</para>
+      <para>First you will see the Workspace Launcher. Change the default workspace location if
+        it's needed. Click the <guibutton>OK</guibutton> button. </para>
+      <figure>
+        <title>Workspace Launcher Dialog</title>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="images/first_seam/first_seam2.png"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+      <para>After startup, you see the welcome page. Select <guibutton>Create
+          New...</guibutton> icon and then press on <guibutton>Create Seam Project</guibutton>
+        link.</para>
+      <para>The <property>New Seam Project wizard</property> is started. You need to enter a name
+        (e.g., &quot;workshop&quot;) and a location for your new project. The wizard has
+        an option for selecting the actual Server (and not just WTP runtime) that will be used for
+        the project. This allows the wizard to correctly identify where the destination folder for the required datasource and
+        driver libraries.</para>
+      <figure>
+        <title>New Seam Project Wizard</title>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="images/first_seam/first_seam3.png"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+      <para>All settings are already specified here, you can just modify the Configuration. Click on
+        the <guibutton>Modify...</guibutton> button to configure your custom facet options:</para>
+      <figure id="ProjectFacetsSpecifyingScreen">
+        <title>Project Facets Specifying</title>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="images/first_seam/first_seam4.png"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+      <para>On the whole the dialog allows to select the "features" you want to use in your project.
+        <property>JBoss Developer Studio</property> will then setup the appropriate tooling for
+        your project. Since JBoss Seam integrates all popular Java EE frameworks, you can select any
+        combination of technologies from the list. Here, for the default configuration, Dynamic Web
+        Module, Java, JavaServer Faces (JSF), and Seam Facet are already selected for a typical
+        database-driven web application. The default project facets should suffice.</para>
+      <para>In the <property>Project Facets</property> form you can also bring up server runtimes
+        panel by clicking <property> Runtimes</property> tab on the right corner. This panel shows
+        available server runtimes.</para>
+      <figure>
+        <title>Runtimes Selecting</title>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="images/first_seam/first_seam5.png"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+      <para>Click the <guibutton>OK</guibutton> and then the <guibutton>Next</guibutton> button to proceed to the next step.</para>
+      <para>A dynamic web application contains both web pages and <property>Java</property> code.
+        The next wizard will ask you where you want to store Java files.</para>
+      <figure>
+        <title>Java Build Path</title>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="images/first_seam/first_seam5a.png"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+      <para>Following page provides you <property>Web Module Settings</property> .You can just leave
+        the default values or choose another folder.</para>
+      <figure>
+        <title>Web Module Settings</title>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="images/first_seam/first_seam6.png"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+      <para>On the next form, you will be able to select where those library JARs come from. The
+        easiest is just to select the JARs provided by the JBoss AS runtime associated with this
+        project. That is why it is important to chose the right JBoss AS 4.2 runtime in the project
+        setup window.</para>
+      <itemizedlist>
+        <listitem>
+          <para>Select <emphasis>
+              <property>Library Provided by Target Runtime</property>
+            </emphasis> as <property>Type</property> of <property>JSF Implementation
+              Library</property>. We will use the JSF implementation that comes with JBoss
+            server.</para>
+        </listitem>
+        <listitem>
+          <para>Click the <guibutton>Next</guibutton> button</para>
+        </listitem>
+      </itemizedlist>
+      <figure>
+        <title>JSF Capabilities Adding</title>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="images/first_seam/first_seam7.png"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+      <para>Next wizard step needs more settings that previous. Let's start with <property
+          >General</property> section.</para>
+      <para>Leave the default Seam runtime and check a WAR deployment.</para>
+      <figure>
+        <title>Seam Facet Setting</title>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="images/first_seam/first_seam8.png"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+      <para>The <property>Database</property> section is a little tricky. The <property>Connection
+          Profile</property> needs to be edited so that the new project works properly with the
+        external HSQLDB server. By default the project wizard tries to use the JBoss embedded
+        HSQLDB, but the tutorial uses an external database to replicate a more real world
+        development scenario. Click on the <guibutton>Edit</guibutton> button to modify the Connection
+        Profile.</para>
+      <figure>
+        <title>DataBase Setting</title>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="images/first_seam/first_seam8_1.png"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+      <para>Select <property>HSQLDB Profile Properties</property>. Make sure the Database location
+        is set to <emphasis>
+          <property>hsql://localhost:1701</property>
+        </emphasis></para>
+      <figure>
+        <title>JDBC Connection Properties</title>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="images/first_seam/first_seam9.png"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+      <para>Click the <guibutton>Test Connection</guibutton> button. At this point it probably won’t work. This
+        happens if the HSQL JDBC driver is not exactly the same. This can be solved by
+        modifying the HSQLDB database driver settings. To modify the settings, click the <guibutton>Edit Driver Definition Driver</guibutton> button.
+      </para>
+      <figure>
+        <title>Driver Details</title>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="images/first_seam/first_seam9_1.png"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+      <para>The proper Driver JAR File should be listed under <property>Jar List</property>. Select
+        the <filename>hsqldb.jar</filename> file found in the <filename>jbdevstudio/jboss-eap/jboss-as/common/lib/</filename> directory and
+        click the <guibutton>OK</guibutton> button.</para>
+      <figure>
+        <title>Driver Details</title>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="images/first_seam/first_seam10.png"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+      <para>Now, the <guibutton>Test Connection</guibutton> should succeed. After testing the
+        connection, click the <guibutton>OK</guibutton> button.</para>
+      <figure>
+        <title>Connection Testing</title>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="images/first_seam/first_seam12.png"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+      <para>You can leave the <property>Code Generation</property> section as is. It refers to Java packages in which the generated code will be placed.</para>
+      
+      <figure>
+        <title>Code Generation Setting</title>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="images/first_seam/first_seam13.png"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+
+      <note>
+        <title>Tip:</title>
+        <para>If you want to name your web project "MyProject-war" note that the Test project name should not be "MyProject-war-test", 
+          it should be "MyProject-test".</para>
+      </note>
+      
+      <para>Click on <guibutton>Finish</guibutton> button. Now, there should be a new Seam project called “workshop” listed in the Package Explorer view.</para>
+      <figure>
+        <title>&quot;workshop&quot; Project in the Package Explorer</title>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="images/first_seam/first_seam14.png"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+    </section>
+    <section id="start_JBossAS">
+      <title>Start JBoss Application Server</title>
+      <para>Start the server by clicking on the Start the server icon (
+          <inlinemediaobject>
+          <imageobject>
+            <imagedata fileref="images/first_seam/first_seam15.png"/>
+          </imageobject>
+        </inlinemediaobject> ) in the <property>Servers</property> view.</para>
+      <para>Then run the project by selecting the project then selecting <menuchoice><guimenuitem>Run As...</guimenuitem><guimenuitem>Run on Server</guimenuitem></menuchoice>.</para>
+            
+      <figure>
+        <title>&quot;workshop&quot; Run As</title>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="images/first_seam/first_seam15a.png"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+      
+      <para>
+      	Select the server you want to run the project on, and click the <guibutton>Finish</guibutton> button.
+      </para>
+      
+      <figure>
+        <title>&quot;workshop&quot; Run On Server</title>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="images/first_seam/first_seam15b.png"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+      
+      <note>
+        <title>Note:</title>
+        <para>If the project does not show up, then you can use a normal browser and use <emphasis>
+            <property>http://localhost:8080/workshop/home.seam</property>
+          </emphasis> as the URL.</para>
+      </note>
+      <para>Your project looks like this:</para>
+      <figure>
+        <title>&quot;workshop&quot; Project Started</title>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="images/first_seam/first_seam16.png"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+    </section>
+    <section id="workshop_code_overview">
+      <title>Workshop Project Code Overview</title>
+      <para>Now let's examine the project and its structure. Go back to the Package Explorer view in
+        JBoss Developer Studio.</para>
+      <para>It seems like it&apos;s not much for a project but this shell application contains a login
+        screen with default login logic, a menu template that can be further modified, and other
+        layout templates.</para>
+      <para>It&apos;s important to note that the business logic will reside in the <filename>src/hot</filename> folder, by default. And, the package naming conventions that were used in <property>New Seam project wizard</property> could have been changed to something
+        different from <emphasis>
+          <property>org.domain.workshop.session</property>. </emphasis> Also, notice that there is a
+        default <filename>Authenticator.java</filename> file. This is where custom security logic
+        can be added. Seam has a nice declarative security model that we will explore in more
+        detail later on. The <filename>src/main</filename> folder is a model directory. It stores the project&apos;s JPA entity
+        beans.</para>
+      <figure>
+        <title>Project Structure</title>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="images/first_seam/first_seam17.png"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+      <para>The view tier of the application is also important. Seam uses facelets and there is a
+        built-in facelets GUI editor that includes nice WYSIWYG and component drag/drop
+        functionality. Try this out by opening <filename>home.xhtml</filename> from <filename>WebContent</filename> folder.</para>
+      <figure>
+        <title>Facelets GUI Editor</title>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="images/first_seam/first_seam18.png" scale="85"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+      <para>Notice that the templates reside in the <filename>WebContent/layout</filename> folder. There is a stylesheet in the <filename>WebContent/stylesheet</filename> folder. There is also a login and default error page. The Facelet editor will be
+        explored in more detail later in the lab.</para>
+      <para>The project already has a datasource that was created via the Seam project wizard
+        database settings. All of the Seam specific configuration files and JAR
+        dependencies are included and located in their proper locations. On last noteworthy line item
+        is related to the build script. There isn’t a build script because the Eclipse WTP (Web Tools
+        Project) plugin is used to publish web application changes. As you can see, JBoss Developer
+        Studio is removing a great deal of complexity from the enterprise Java project
+        setup and deployment process. The end result is the developer is writing code, not spending
+        time trying to figure out how to get a decent development environment and project
+        build process.</para>
+    </section>
+  </chapter>

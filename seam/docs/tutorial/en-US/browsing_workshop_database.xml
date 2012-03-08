@@ -1,0 +1,60 @@
+<chapter id="browsing_workshop_db">
+	<title>Browsing Workshop Database</title>
+	<para>In this section you get to know how to use the workshop database that was started at the
+		beginning of the lab.</para>
+		<section id="database_connectivity">
+			<title>Database Connectivity Setup</title>
+			<para>The workshop data can be browsed inside of JBoss Developer Studio.</para>
+			<para>To open the Data Source Explorer, click on <menuchoice>
+				<guimenuitem>Window</guimenuitem>
+				<guimenuitem>Open Perspective</guimenuitem>
+				<guimenuitem>Other</guimenuitem>
+				<guimenuitem>Database Development</guimenuitem>
+			</menuchoice>.</para>
+			<para>In the Data Source Explorer, expand the <property>Databases</property> node and select the
+				<property>Default</property> database. Right click on it, select <guimenuitem>Connect</guimenuitem> from the context menu.</para>
+				<figure>
+					<title>Data Source Explorer</title>
+					<mediaobject>
+						<imageobject>
+							<imagedata fileref="images/first_seam/first_seam31.png"/>
+						</imageobject>
+					</mediaobject>
+				</figure>
+			</section>
+			<section id="browsing_workshop_db2">
+				<title>Browse Workshop Database</title>
+				<para>Then in the current view, drill down to the <property>CUSTOMERS</property> table.</para>
+				<figure>
+					<title>&quot;CUSTOMERS&quot; Table</title>
+					<mediaobject>
+						<imageobject>
+							<imagedata fileref="images/first_seam/first_seam32.png"/>
+						</imageobject>
+					</mediaobject>
+				</figure>
+				<para>Right click on <property>CUSTOMERS</property>, select <menuchoice>
+					<guimenuitem>Data</guimenuitem>
+					<guimenuitem>Sample Contents</guimenuitem>
+				</menuchoice> to view the data in the table.</para>
+				<para>There should be a SQL Results view on the workbench, but it could be hidden. Click on
+					the <property>&quot;Result1&quot;</property> tab in the right side and you should see the
+						data in the CUSTOMERS table.</para>
+						<figure>
+							<title>SQL Results View</title>
+							<mediaobject>
+								<imageobject>
+									<imagedata fileref="images/first_seam/first_seam33.png" scale="92"/>
+								</imageobject>
+							</mediaobject>
+						</figure>
+						<note>
+							<title>Note:</title>
+        <para>
+        	If you can’t find the SQL Results view tab, click on <menuchoice><guimenuitem>Window</guimenuitem><guimenuitem>Show View</guimenuitem><guimenuitem>Other</guimenuitem><guimenuitem>SQL Development</guimenuitem><guimenuitem>SQL Results</guimenuitem></menuchoice>.
+        </para>
+      </note>
+      <para>Congratulations! You just connected to the workshop database and queried the content
+        using Database Explorer tools.</para>
+    </section>
+  </chapter>
