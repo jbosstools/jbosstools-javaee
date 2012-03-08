@@ -95,7 +95,7 @@ public class CoreValidationTest extends ValidationTest {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/MaxNumberOfProblems.java");
 		int max = CDIPreferences.getMaxNumberOfProblemMarkersPerFile(tckProject);
 		assertTrue("The maximum number of problems per file should be less than 30. Now it's " + max + " and it means that this test should be fixed.", max<30);
-		IMarker[] markers = AbstractResourceMarkerTest.findMarkers(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS);
+		IMarker[] markers = AbstractResourceMarkerTest.findMarkers(file, AbstractResourceMarkerTest.MARKER_TYPE, CDIValidationMessages.AMBIGUOUS_INJECTION_POINTS, false);
 		assertEquals(max, markers.length);
 	}
 
