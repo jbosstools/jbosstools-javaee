@@ -198,12 +198,18 @@ public class CDIConfigurationBlockDescriptionProvider {
 			}
 		}
 
-		SectionDescription extensions = new SectionDescription(CDIPreferencesMessages.CDIValidatorConfigurationBlock_section_extensions, exs.toArray(new SectionDescription[0]), new String[0][], CDICorePlugin.PLUGIN_ID);
-
-		ALL_SECTIONS = new SectionDescription[]{
-			SECTION_JSR_299,
-			extensions
-		};
+		SectionDescription[] excArray = exs.toArray(new SectionDescription[0]);
+		if(excArray.length > 0) {
+			SectionDescription extensions = new SectionDescription(CDIPreferencesMessages.CDIValidatorConfigurationBlock_section_extensions, excArray, new String[0][], CDICorePlugin.PLUGIN_ID);
+			ALL_SECTIONS = new SectionDescription[]{
+					SECTION_JSR_299,
+					extensions
+			};
+		} else {
+			ALL_SECTIONS = new SectionDescription[]{
+					SECTION_JSR_299,
+			};
+		}
 	}
 
 	public SectionDescription[] getSections() {
