@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='utf-8' ?>
+
+   <chapter id="chap-CDI_Tools_Reference_Guide-Introduction">
+	<title>Introduction to CDI tooling</title>
+	<para>
+		Context Dependency Injection (CDI) tooling allows you to easily add and work with the CDI programming model for your web-based applications. This guide demonstrates how to add CDI to existing projects and create new projects with the CDI wizard. For information on the specifics of CDI outside of the tooling, see <ulink url="http://jcp.org/en/jsr/detail?id=299">http://jcp.org/en/jsr/detail?id=299</ulink>.
+	</para>
+</chapter>
+
