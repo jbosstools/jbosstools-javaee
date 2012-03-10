@@ -57,7 +57,7 @@ public class NewBeansXMLCreationWizard extends BasicNewResourceWizard {
 	
     private WizardNewFileCreationPage mainPage;
 
-	private boolean fOpenEditorOnFinish;
+	private boolean fOpenEditorOnFinish = true;
 
     /**
      * Creates a wizard for creating a new file resource in the workspace.
