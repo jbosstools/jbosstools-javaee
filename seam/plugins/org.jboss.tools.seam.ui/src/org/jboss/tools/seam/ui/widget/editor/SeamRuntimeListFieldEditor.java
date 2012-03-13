@@ -985,6 +985,7 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor {
 	 * @author eskimo
 	 */
 	public abstract class BaseAction extends Action {
+		boolean busy;
 
 		SeamRuntime[] runtimes = new SeamRuntime[0];
 
@@ -1156,7 +1157,7 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor {
 
 		@Override
 		protected void updateEnablement() {
-			setEnabled(runtimes.length > 0);
+			setEnabled(runtimes.length > 0 && !busy);
 		}
 
 		/**
@@ -1166,12 +1167,16 @@ public class SeamRuntimeListFieldEditor extends BaseFieldEditor {
 		 */
 		@Override
 		public void run() {
+			busy = true;
+			updateEnablement();
 			for (SeamRuntime rt : runtimes) {
 				removeRuntime(rt);
 			}
 			tableView.refresh();
 			setDefaultRuntimes();
 			performApply();
+			busy = false;
+			updateEnablement();
 		}
 
 		private void removeRuntime(SeamRuntime r) {
