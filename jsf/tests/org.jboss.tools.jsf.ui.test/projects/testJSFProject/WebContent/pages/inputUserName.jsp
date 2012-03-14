@@ -24,5 +24,6 @@
 
     	</h:form>
 	</f:view>
+	<p onclick="#{}"></p>
     </body>
 </html>

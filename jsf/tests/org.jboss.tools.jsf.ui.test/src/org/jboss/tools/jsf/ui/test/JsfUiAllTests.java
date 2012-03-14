@@ -26,6 +26,7 @@ import org.jboss.tools.jsf.jsp.ca.test.CAForInputTagSrcAttributeSuggestsFilePath
 import org.jboss.tools.jsf.jsp.ca.test.CAForJSF2BeansInJavaTest;
 import org.jboss.tools.jsf.jsp.ca.test.CAForJSF2BeansTest;
 import org.jboss.tools.jsf.jsp.ca.test.CAForUnclosedELTest;
+import org.jboss.tools.jsf.jsp.ca.test.CAInEventAttributesTest;
 import org.jboss.tools.jsf.jsp.ca.test.CAJsfAddInfoInELMessagesTest;
 import org.jboss.tools.jsf.jsp.ca.test.CAJsfMessagesProposalsFilteringTest;
 import org.jboss.tools.jsf.jsp.ca.test.CAJsfMessagesProposalsTest;
@@ -74,6 +75,7 @@ public class JsfUiAllTests {
 		suite.addTestSuite(JsfJspJbide1704Test.class);
  		suite.addTestSuite(JsfJspJbide1717Test.class);
 		suite.addTestSuite(JsfJBide3845Test.class);
+		suite.addTestSuite(CAInEventAttributesTest.class);
 		
 		suite.addTest(
 				new ProjectImportTestSetup(JsfJspLongResourceBundlePropertyNamesTest.suite(),
