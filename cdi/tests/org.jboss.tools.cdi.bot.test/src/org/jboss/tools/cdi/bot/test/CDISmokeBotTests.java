@@ -10,7 +10,9 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.bot.test;
 
+import org.jboss.tools.cdi.bot.test.beansxml.BeansXMLValidationTest;
 import org.jboss.tools.cdi.bot.test.editor.BeansEditorTest;
+import org.jboss.tools.cdi.bot.test.quickfix.injection.ProblemEligibleInjectionTest;
 import org.jboss.tools.cdi.bot.test.wizard.CDISupportTest;
 import org.jboss.tools.cdi.bot.test.wizard.ConfigurationPresetTest;
 import org.jboss.tools.cdi.bot.test.wizard.FacetTest;
@@ -47,6 +49,8 @@ import org.junit.runners.Suite.SuiteClasses;
 	CDISupportTest.class,
 	WizardTest.class,	
 	BeansEditorTest.class,
+	ProblemEligibleInjectionTest.class,
+	BeansXMLValidationTest.class,
 	})
 public class CDISmokeBotTests extends AbstractTestSuite {
 	

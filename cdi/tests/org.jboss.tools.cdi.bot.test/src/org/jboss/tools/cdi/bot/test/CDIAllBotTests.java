@@ -85,9 +85,9 @@ import org.junit.runners.Suite.SuiteClasses;
 	IBindingValidationQuickFixTest.class,
 	OpenOnTest.class,
 	FindObserverForEventTest.class, 
-	Seam3ResourceOpenOnTest.class,
-	Seam3GenericOpenOnTest.class,
-	Seam3ConfigValidationTest.class,
+//	Seam3ResourceOpenOnTest.class,
+//	Seam3GenericOpenOnTest.class,
+//	Seam3ConfigValidationTest.class,
 })
 public class CDIAllBotTests extends AbstractTestSuite {
 		

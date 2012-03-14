@@ -41,7 +41,7 @@ public class CDIWizardHelper extends CDIBase{
 	public void createCDIComponent(CDIWizardType component, String name,
 			String packageName, String necessaryParam) {			
 		createComponent(component, name, packageName, necessaryParam);	
-		util.waitForNonIgnoredJobs();
+//		util.waitForNonIgnoredJobs();
 		/**
 		 * if beans.xml is created as first component in project,
 		 * it is not opened as default ==> there is no active editor

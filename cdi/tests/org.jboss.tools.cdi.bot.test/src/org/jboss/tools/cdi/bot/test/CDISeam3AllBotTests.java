@@ -11,7 +11,6 @@
 
 package org.jboss.tools.cdi.bot.test;
 
-import org.jboss.tools.cdi.bot.test.seam3.Seam3ConfigValidationTest;
 import org.jboss.tools.cdi.bot.test.seam3.Seam3GenericOpenOnTest;
 import org.jboss.tools.cdi.bot.test.seam3.Seam3ResourceOpenOnTest;
 import org.jboss.tools.ui.bot.ext.RequirementAwareSuite;
@@ -42,7 +41,7 @@ import org.junit.runners.Suite.SuiteClasses;
 @SuiteClasses({	
 	Seam3ResourceOpenOnTest.class,
 	Seam3GenericOpenOnTest.class,
-	Seam3ConfigValidationTest.class,
+//	Seam3ConfigValidationTest.class,
 	})
 public class CDISeam3AllBotTests extends AbstractTestSuite {
 	

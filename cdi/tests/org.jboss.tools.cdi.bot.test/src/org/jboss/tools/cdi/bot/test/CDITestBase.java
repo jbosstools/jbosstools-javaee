@@ -37,7 +37,7 @@ public class CDITestBase extends CDIBase {
 	@Before
 	public void prepareWorkspace() {
 		if (!projectHelper.projectExists(getProjectName())) {
-			projectHelper.createCDIProjectWithCDIWizard(getProjectName());
+			projectHelper.createCDIProjectWithDynamicWizard(getProjectName());
 		}
 	}
 	
