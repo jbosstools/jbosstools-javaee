@@ -52,7 +52,8 @@ import org.junit.runners.Suite.SuiteClasses;
 	AddRemoveStrutsCapabilities.class,
 	ImportStrutsProjectTest.class,
 	RenameStrutsConfigXmlFile.class,
-	RenameTldFile.class})
+	RenameTldFile.class
+	})
 public class StrutsAllBotTests {
 	public static final String STRUTS_PROJECT_NAME = "strutsTest";
 }

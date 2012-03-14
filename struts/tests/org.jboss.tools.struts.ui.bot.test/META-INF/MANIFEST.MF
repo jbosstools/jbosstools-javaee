@@ -23,3 +23,4 @@ Require-Bundle: org.apache.log4j;bundle-version="1.2.13",
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-Vendor: JBoss by Red Hat
+Import-Package: org.hamcrest

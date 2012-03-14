@@ -283,7 +283,7 @@ public class TutorialTest extends SWTTestExt {
         editor = bot.editorByTitle("inputname.jsp");
         editor.show();
         SWTBotJSPMultiPageEditor editorA = new SWTBotJSPMultiPageEditor(bot.editorByTitle("inputname.jsp").getReference(), new SWTWorkbenchBot());
-        editorA.selectTab("Source");
+//        editorA.selectTab("Source");
         SWTBotStyledText st = editorA.bot().styledText();
         st.selectRange(0, 0, st.getText().length());
         st.setText(readResource(TutorialTest.class.getResourceAsStream("resources/inputname.jsp.gf")));
@@ -309,7 +309,7 @@ public class TutorialTest extends SWTTestExt {
         editor = bot.editorByTitle("greeting.jsp");
         editor.show();
         editorA = new SWTBotJSPMultiPageEditor(bot.editorByTitle("greeting.jsp").getReference(), new SWTWorkbenchBot());
-        editorA.selectTab("Source");
+//        editorA.selectTab("Source");
         st = editorA.bot().styledText();
         st.selectRange(0, 0, st.getText().length());
         st.setText(readResource(TutorialTest.class.getResourceAsStream("resources/greeting.jsp.gf")));
@@ -323,7 +323,7 @@ public class TutorialTest extends SWTTestExt {
         editor = bot.editorByTitle("index.jsp");
         editor.show();
         editorA = new SWTBotJSPMultiPageEditor(bot.editorByTitle("index.jsp").getReference(), new SWTWorkbenchBot());
-        editorA.selectTab("Source");
+//        editorA.selectTab("Source");
         st = bot.styledText();
         st.selectRange(0, 0, st.getText().length());
         st.setText(readResource(TutorialTest.class.getResourceAsStream("resources/index.jsp.gf")));
@@ -428,7 +428,7 @@ public class TutorialTest extends SWTTestExt {
         nodeContextMenu(tree, ti, "Open").click();
 
         SWTBotJSPMultiPageEditor jspEditor = new SWTBotJSPMultiPageEditor(bot.editorByTitle("inputname.jsp").getReference(), new SWTWorkbenchBot());
-        jspEditor.selectTab("Source");
+//        jspEditor.selectTab("Source");
         SWTBotStyledText st = jspEditor.bot().styledText();
         st.selectRange(0, 0, st.getText().length());
         st.setText(readResource(TutorialTest.class.getResourceAsStream("resources/inputname63.jsp.gf")));
