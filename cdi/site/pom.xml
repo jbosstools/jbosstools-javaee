@@ -10,5 +10,5 @@
 	<artifactId>cdi.site</artifactId> 
 	<name>cdi.site</name>
 	
-	<packaging>eclipse-update-site</packaging>
+	<packaging>eclipse-repository</packaging>
 </project>

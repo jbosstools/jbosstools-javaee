@@ -10,5 +10,5 @@
 	<artifactId>seam.site</artifactId>
 	<name>seam.site</name>
 	
-	<packaging>eclipse-update-site</packaging>
+	<packaging>eclipse-repository</packaging>
 </project>
