@@ -15,6 +15,7 @@ import junit.framework.Test;
 
 import org.eclipse.core.resources.IProject;
 import org.jboss.tools.cdi.core.test.tck.TCKTest;
+import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.ResourcesUtils;
 
 /**
@@ -37,18 +38,5 @@ public class CDICoreTestSetup extends TestSetup {
 	protected void setUp() throws Exception {
 		projects = TCKTest.importPreparedProjects();
 		tckProject = projects[1];
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see junit.extensions.TestSetup#tearDown()
-	 */
-	@Override
-	protected void tearDown() throws Exception {
-		boolean saveAutoBuild = ResourcesUtils.setBuildAutomatically(false);
-		for (IProject project : projects) {
-			project.delete(true, true, null);
-		}
-		ResourcesUtils.setBuildAutomatically(saveAutoBuild);
 	}
 }
