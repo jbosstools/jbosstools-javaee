@@ -11,5 +11,11 @@
 	<feature url="features/org.jboss.tools.struts.test.feature_0.0.0.jar" id="org.jboss.tools.struts.test.feature" version="0.0.0">
 		<category name="JBoss Tools struts Nightly Build Update Site"/>
 	</feature>
-
+	<!-- Sources -->
+	<feature url="features/org.jboss.tools.struts.feature.source_0.0.0.jar" id="org.jboss.tools.struts.feature.source" version="0.0.0">
+		<category name="JBoss Tools struts Nightly Build Update Site"/>
+	</feature>
+	<feature url="features/org.jboss.tools.struts.test.feature.source_0.0.0.jar" id="org.jboss.tools.struts.test.feature.source" version="0.0.0">
+		<category name="JBoss Tools struts Nightly Build Update Site"/>
+	</feature>
 </site>

@@ -17,5 +17,18 @@
 	<feature url="features/org.jboss.tools.cdi.seam.test.feature_0.0.0.jar" id="org.jboss.tools.cdi.seam.test.feature" version="0.0.0">
 		<category name="JBoss Tools cdi Nightly Build Update Site"/>
 	</feature>
+	<!-- Sources -->
+	<feature url="features/org.jboss.tools.cdi.feature.source_0.0.0.jar" id="org.jboss.tools.cdi.feature.source" version="0.0.0">
+		<category name="JBoss Tools cdi Nightly Build Update Site"/>
+	</feature>
+	<feature url="features/org.jboss.tools.cdi.seam.feature.source_0.0.0.jar" id="org.jboss.tools.cdi.seam.feature.source" version="0.0.0">
+		<category name="JBoss Tools cdi Nightly Build Update Site"/>
+	</feature>
+	<feature url="features/org.jboss.tools.cdi.test.feature.source_0.0.0.jar" id="org.jboss.tools.cdi.test.feature.source" version="0.0.0">
+		<category name="JBoss Tools cdi Nightly Build Update Site"/>
+	</feature>
+	<feature url="features/org.jboss.tools.cdi.seam.test.feature.source_0.0.0.jar" id="org.jboss.tools.cdi.seam.test.feature.source" version="0.0.0">
+		<category name="JBoss Tools cdi Nightly Build Update Site"/>
+	</feature>
 
 </site>

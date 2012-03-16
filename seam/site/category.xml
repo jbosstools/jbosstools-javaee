@@ -11,5 +11,11 @@
 	<feature url="features/org.jboss.tools.seam.test.feature_0.0.0.jar" id="org.jboss.tools.seam.test.feature" version="0.0.0">
 		<category name="JBoss Tools seam Nightly Build Update Site"/>
 	</feature>
-
+	<!-- Sources -->
+	<feature url="features/org.jboss.tools.seam.feature.source_0.0.0.jar" id="org.jboss.tools.seam.feature.source" version="0.0.0">
+		<category name="JBoss Tools seam Nightly Build Update Site"/>
+	</feature>
+	<feature url="features/org.jboss.tools.seam.test.feature.source_0.0.0.jar" id="org.jboss.tools.seam.test.feature.source" version="0.0.0">
+		<category name="JBoss Tools seam Nightly Build Update Site"/>
+	</feature>
 </site>
