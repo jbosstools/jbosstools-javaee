@@ -18,6 +18,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.datatools.connectivity.IConnectionProfile;
 import org.eclipse.datatools.connectivity.ProfileManager;
+import org.eclipse.datatools.connectivity.drivers.DriverInstance;
 import org.eclipse.datatools.connectivity.drivers.DriverManager;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
@@ -95,13 +96,12 @@ public class SeamFacetPreInstallDelegate implements IDelegate {
 						? ""	: props.get("org.eclipse.datatools.connectivity.db.URL").toString()); //$NON-NLS-1$ //$NON-NLS-2$
 
 				if(props.get("org.eclipse.datatools.connectivity.driverDefinitionID")!=null) {
-					model.setProperty(
-							ISeamFacetDataModelProperties.JDBC_DRIVER_JAR_PATH,
-							DriverManager
-									.getInstance()
-									.getDriverInstanceByID(
-											props.get(
-													"org.eclipse.datatools.connectivity.driverDefinitionID").toString()).getJarListAsArray()); //$NON-NLS-1$
+					DriverInstance i = DriverManager.getInstance().getDriverInstanceByID(props.get(
+									"org.eclipse.datatools.connectivity.driverDefinitionID").toString()); //$NON-NLS-1$
+					if(i != null) {
+						model.setProperty(ISeamFacetDataModelProperties.JDBC_DRIVER_JAR_PATH,
+								i.getJarListAsArray());
+					}
 				}
 			}
 		}

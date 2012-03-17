@@ -22,6 +22,8 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.datatools.connectivity.IConnectionProfile;
 import org.eclipse.datatools.connectivity.ProfileManager;
+import org.eclipse.datatools.connectivity.drivers.DriverInstance;
+import org.eclipse.datatools.connectivity.drivers.DriverManager;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaConventions;
 import org.eclipse.jdt.core.JavaCore;
@@ -327,6 +329,17 @@ public class SeamValidatorFactory extends ValidatorFactory {
 							new Status(IStatus.ERROR, SeamCorePlugin.PLUGIN_ID, 
 									NLS.bind(SeamCoreMessages.VALIDATOR_FACTORY_DRIVER_CLASS_PROPERTY_IS_EMPTY_FOR_SELECTED_CONNECTION_PROFILE,
 									value)));
+				}
+				if(props.get("org.eclipse.datatools.connectivity.driverDefinitionID")!=null) {
+					DriverInstance i = DriverManager.getInstance().getDriverInstanceByID(props.get(
+									"org.eclipse.datatools.connectivity.driverDefinitionID").toString()); //$NON-NLS-1$
+					if(i == null) {
+						return createErrormessage(
+								ISeamFacetDataModelProperties.SEAM_CONNECTION_PROFILE,
+								new Status(IStatus.WARNING, SeamCorePlugin.PLUGIN_ID, 
+										NLS.bind(SeamCoreMessages.VALIDATOR_FACTORY_DRIVER_CLASS_PROPERTY_IS_NOT_FOUND_FOR_SELECTED_CONNECTION_PROFILE,
+										value)));
+					}
 				}
 			}
 			return NO_ERRORS;
