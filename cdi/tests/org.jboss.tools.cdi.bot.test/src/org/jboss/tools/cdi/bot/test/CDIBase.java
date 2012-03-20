@@ -16,7 +16,6 @@ import org.jboss.tools.cdi.bot.test.uiutils.BeansXMLHelper;
 import org.jboss.tools.cdi.bot.test.uiutils.CDIProjectHelper;
 import org.jboss.tools.cdi.bot.test.uiutils.CDIWizardHelper;
 import org.jboss.tools.cdi.bot.test.uiutils.EditorResourceHelper;
-import org.jboss.tools.cdi.bot.test.uiutils.LibraryHelper;
 import org.jboss.tools.cdi.bot.test.uiutils.OpenOnHelper;
 import org.jboss.tools.cdi.bot.test.uiutils.QuickFixHelper;
 import org.jboss.tools.cdi.bot.test.uiutils.wizards.CDIWizardBaseExt;
@@ -25,14 +24,13 @@ import org.jboss.tools.ui.bot.ext.SWTTestExt;
 public class CDIBase extends SWTTestExt {
 
 	private static SWTBotEclipseEditor ed;
-	protected static CDIProjectHelper projectHelper = new CDIProjectHelper(); 
-	protected static BeansXMLHelper beansHelper = new BeansXMLHelper();
-	protected static CDIWizardHelper wizard = new CDIWizardHelper();
-	protected static CDIWizardBaseExt wizardExt = new CDIWizardBaseExt();
-	protected static OpenOnHelper openOnUtil = new OpenOnHelper();
-	protected static LibraryHelper libraryUtil = new LibraryHelper();
-	protected static EditorResourceHelper editResourceUtil = new EditorResourceHelper();
-	protected static QuickFixHelper quickFixHelper = new QuickFixHelper();
+	public static final CDIProjectHelper projectHelper = new CDIProjectHelper(); 
+	public static final BeansXMLHelper beansHelper = new BeansXMLHelper();
+	public static final CDIWizardHelper wizard = new CDIWizardHelper();
+	public static final CDIWizardBaseExt wizardExt = new CDIWizardBaseExt();
+	public static final OpenOnHelper openOnUtil = new OpenOnHelper();
+	public static final EditorResourceHelper editResourceUtil = new EditorResourceHelper();
+	public static final QuickFixHelper quickFixHelper = new QuickFixHelper();
 	
 	
 	public SWTBotEclipseEditor getEd() {
