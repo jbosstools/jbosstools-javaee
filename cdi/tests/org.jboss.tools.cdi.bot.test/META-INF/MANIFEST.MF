@@ -3,7 +3,21 @@ Bundle-ManifestVersion: 2
 Bundle-Name: CDI SWTBot Test
 Bundle-SymbolicName: org.jboss.tools.cdi.bot.test
 Bundle-Version: 1.2.0.qualifier
-Bundle-Activator: org.jboss.tools.cdi.bot.test.Activator
+Bundle-Activator: org.jboss.tools.cdi.bot.test.PluginActivator
+Export-Package: 
+ org.jboss.tools.cdi.bot.test,
+ org.jboss.tools.cdi.bot.test.annotations,
+ org.jboss.tools.cdi.bot.test.beansxml,
+ org.jboss.tools.cdi.bot.test.condition,
+ org.jboss.tools.cdi.bot.test.decorator,
+ org.jboss.tools.cdi.bot.test.editor,
+ org.jboss.tools.cdi.bot.test.jsf,
+ org.jboss.tools.cdi.bot.test.named,
+ org.jboss.tools.cdi.bot.test.openon,
+ org.jboss.tools.cdi.bot.test.quickfix,
+ org.jboss.tools.cdi.bot.test.uiutils,
+ org.jboss.tools.cdi.bot.test.uiutils.wizards,
+ org.jboss.tools.cdi.bot.test.wizard
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.swtbot.eclipse.core;bundle-version="2.0.0",
  org.eclipse.swtbot.eclipse.finder;bundle-version="2.0.0",
@@ -17,3 +31,4 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.core.resources;bundle-version="3.6.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
+
