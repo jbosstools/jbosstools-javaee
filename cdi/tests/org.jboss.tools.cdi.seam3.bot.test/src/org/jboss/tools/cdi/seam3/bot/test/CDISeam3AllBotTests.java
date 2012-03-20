@@ -12,10 +12,12 @@
 package org.jboss.tools.cdi.seam3.bot.test;
 
 import org.jboss.tools.cdi.bot.test.AbstractTestSuite;
-import org.jboss.tools.cdi.seam3.bot.test.tests.ConfigValidationTest;
 import org.jboss.tools.cdi.seam3.bot.test.tests.DefaultBeansTest;
+import org.jboss.tools.cdi.seam3.bot.test.tests.ExactAnnotationTest;
 import org.jboss.tools.cdi.seam3.bot.test.tests.GenericOpenOnTest;
+import org.jboss.tools.cdi.seam3.bot.test.tests.RequiresAnnotationTest;
 import org.jboss.tools.cdi.seam3.bot.test.tests.ResourceOpenOnTest;
+import org.jboss.tools.cdi.seam3.bot.test.tests.VetoAnnotationTest;
 import org.jboss.tools.ui.bot.ext.RequirementAwareSuite;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite.SuiteClasses;
@@ -46,7 +48,9 @@ import org.junit.runners.Suite.SuiteClasses;
 	ResourceOpenOnTest.class,
 	GenericOpenOnTest.class,
 	DefaultBeansTest.class,
-	ConfigValidationTest.class,
+	VetoAnnotationTest.class,
+	RequiresAnnotationTest.class,
+	ExactAnnotationTest.class,
 	})
 public class CDISeam3AllBotTests extends AbstractTestSuite {
 	

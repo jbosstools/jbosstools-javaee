@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2010 Red Hat, Inc.
+ * Copyright (c) 2010-2012 Red Hat, Inc.
  * Distributed under license by Red Hat, Inc. All rights reserved.
  * This program is made available under the terms of the
  * Eclipse Public License v1.0 which accompanies this distribution,
@@ -14,16 +14,50 @@ package org.jboss.tools.cdi.seam3.bot.test.tests;
 import org.jboss.tools.cdi.seam3.bot.test.Seam3TestBase;
 import org.junit.Test;
 
+public class VetoAnnotationTest extends Seam3TestBase {
 
-public class ConfigValidationTest extends Seam3TestBase {
-	
 	@Override
 	public String getProjectName() {
-		return "Seam3ConfigValidation";
+		return "veto";
+	}
+	
+	@Override
+	public void waitForJobs() {
+		
+	} 
+	
+	@Test
+	public void testManagedBeans() {
+		
 	}
 	
 	@Test
-	public void testConfig() {
+	public void testDecorator() {
+		
+	}
+	
+	@Test
+	public void testInterceptor() {
+		
+	}
+	
+	@Test
+	public void testSessionBean() {
+		
+	}
+	
+	@Test
+	public void testProducerMethod() {
+		
+	}
+	
+	@Test
+	public void testProducerField() {
+		
+	}
+	
+	@Test
+	public void testObserverMethods() {
 		
 	}
 	
