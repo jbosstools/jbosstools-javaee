@@ -24,7 +24,7 @@
 				<artifactId>tycho-surefire-plugin</artifactId>
 				<configuration>
 					<testSuite>org.jboss.tools.cdi.seam3.bot.test</testSuite>
-					<testClass>${test.suite.class}</testClass>
+					<testClass>org.jboss.tools.cdi.seam3.bot.test.CDISeam3AllBotTests</testClass>
 					<useUIThread>false</useUIThread>
 					<skip>${swtbot.test.skip}</skip>
 					<!-- Kill swt bot test take more than 3 hours minutes (10800 seconds) to finish -->
@@ -55,14 +55,4 @@
 			</plugin>
 		</plugins>
 	</build>
-	<profiles>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
-			<id>seam3-bot-tests</id>			
-			<properties>
-				<test.suite.class>org.jboss.tools.cdi.seam3.bot.test.CDISeam3AllBotTests</test.suite.class>
-			</properties>
-		</profile>
-	</profiles>
 </project>
