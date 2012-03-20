@@ -26,9 +26,6 @@ import org.jboss.tools.cdi.bot.test.quickfix.test.InterceptorValidationQuickFixT
 import org.jboss.tools.cdi.bot.test.quickfix.test.QualifierValidationQuickFixTest;
 import org.jboss.tools.cdi.bot.test.quickfix.test.ScopeValidationQuickFixTest;
 import org.jboss.tools.cdi.bot.test.quickfix.test.StereotypeValidationQuickFixTest;
-import org.jboss.tools.cdi.bot.test.seam3.Seam3ConfigValidationTest;
-import org.jboss.tools.cdi.bot.test.seam3.Seam3GenericOpenOnTest;
-import org.jboss.tools.cdi.bot.test.seam3.Seam3ResourceOpenOnTest;
 import org.jboss.tools.cdi.bot.test.wizard.CDISupportTest;
 import org.jboss.tools.cdi.bot.test.wizard.CDIWebProjectWizardTest;
 import org.jboss.tools.cdi.bot.test.wizard.ConfigurationPresetTest;
@@ -84,10 +81,7 @@ import org.junit.runners.Suite.SuiteClasses;
 	DecoratorValidationQuickFixTest.class,
 	IBindingValidationQuickFixTest.class,
 	OpenOnTest.class,
-	FindObserverForEventTest.class, 
-//	Seam3ResourceOpenOnTest.class,
-//	Seam3GenericOpenOnTest.class,
-//	Seam3ConfigValidationTest.class,
+	FindObserverForEventTest.class
 })
 public class CDIAllBotTests extends AbstractTestSuite {
 		
