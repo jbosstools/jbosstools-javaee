@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.jboss.tools.cdi</groupId>
+		<artifactId>tests</artifactId>
+		<version>1.2.0-SNAPSHOT</version>
+	</parent>
+	<groupId>org.jboss.tools.cdi.tests</groupId>
+	<artifactId>org.jboss.tools.cdi.seam3.bot.test</artifactId>
+	
+	<packaging>eclipse-test-plugin</packaging>
+	<properties>
+		<!-- debug option -->
+		<!-- <systemProperties>-Xdebug -Xrunjdwp:transport=dt_socket,address=8001,server=y,suspend=y -Dswtbot.test.properties.file=${project.basedir}/properties/swtbot.properties</systemProperties> -->
+		
+		<systemProperties> -Dswtbot.test.properties.file=${project.basedir}/properties/swtbot.properties</systemProperties>		
+	</properties>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-surefire-plugin</artifactId>
+				<configuration>
+					<testSuite>org.jboss.tools.cdi.seam3.bot.test</testSuite>
+					<testClass>${test.suite.class}</testClass>
+					<useUIThread>false</useUIThread>
+					<skip>${swtbot.test.skip}</skip>
+					<!-- Kill swt bot test take more than 3 hours minutes (10800 seconds) to finish -->
+					<forkedProcessTimeoutInSeconds>10800</forkedProcessTimeoutInSeconds>
+					<dependencies combine.children="append">
+						<dependency>
+							<type>p2-installable-unit</type>
+							<artifactId>org.jboss.tools.cdi.feature.feature.group</artifactId>
+							<version>0.0.0</version>
+						</dependency>
+						<dependency>
+							<type>p2-installable-unit</type>
+							<artifactId>org.jboss.ide.eclipse.as.feature.feature.group</artifactId>
+							<version>0.0.0</version>
+						</dependency>
+                       <!--  <dependency>
+							<type>p2-installable-unit</type>
+							<artifactId>org.jboss.tools.jsf.feature.feature.group</artifactId>
+							<version>0.0.0</version>
+						</dependency> -->
+						<dependency>
+							<type>p2-installable-unit</type>
+							<artifactId>org.jboss.tools.cdi.seam.feature.feature.group</artifactId>
+							<version>0.0.0</version>
+						</dependency>
+					</dependencies>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+	<profiles>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<id>seam3-bot-tests</id>			
+			<properties>
+				<test.suite.class>org.jboss.tools.cdi.seam3.bot.test.CDISeam3AllBotTests</test.suite.class>
+			</properties>
+		</profile>
+	</profiles>
+</project>

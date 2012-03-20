@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="Seam3GenericOpenOn">
+        <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
+        <property name="context-root" value="Seam3GenericOpenOn"/>
+        <property name="java-output-path" value="/Seam3GenericOpenOn/build/classes"/>
+    </wb-module>
+</project-modules>
