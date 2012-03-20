@@ -1,0 +1,21 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: CDI Tests Launcher
+Bundle-SymbolicName: org.jboss.tools.cdi.test.launcher
+Bundle-Version: 1.2.0.qualifier
+Bundle-Activator: org.jboss.tools.cdi.test.launcher.Activator
+Require-Bundle: org.eclipse.core.runtime,
+ org.jboss.tools.cdi.bot.test;bundle-version="1.2.0";visibility:=reexport,
+ org.jboss.tools.cdi.core.test;bundle-version="1.2.0";visibility:=reexport,
+ org.jboss.tools.cdi.seam.config.core.test;bundle-version="1.2.0";visibility:=reexport,
+ org.jboss.tools.cdi.seam.config.ui.test;bundle-version="1.2.0";visibility:=reexport,
+ org.jboss.tools.cdi.seam.core.test;bundle-version="1.2.0";visibility:=reexport,
+ org.jboss.tools.cdi.seam.faces.core.test;bundle-version="1.2.0";visibility:=reexport,
+ org.jboss.tools.cdi.seam.solder.core.test;bundle-version="1.2.0";visibility:=reexport,
+ org.jboss.tools.cdi.seam.text.ext.test;bundle-version="1.2.0";visibility:=reexport,
+ org.jboss.tools.cdi.text.ext.test;bundle-version="1.2.0";visibility:=reexport,
+ org.jboss.tools.cdi.ui.test;bundle-version="1.2.0";visibility:=reexport,
+ org.junit
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Export-Package: org.jboss.tools.cdi.test.launcher
