@@ -16,8 +16,6 @@ import org.jboss.tools.cdi.bot.test.CDIConstants;
 import org.jboss.tools.cdi.bot.test.annotations.ProblemsType;
 import org.jboss.tools.cdi.seam3.bot.test.base.SolderTestBase;
 import org.jboss.tools.cdi.seam3.bot.test.util.SeamLibraries;
-import org.jboss.tools.ui.bot.ext.SWTEclipseExt;
-import org.jboss.tools.ui.bot.ext.types.ViewType;
 import org.junit.Test;
 
 public class ExactAnnotationTest extends SolderTestBase {
@@ -26,7 +24,6 @@ public class ExactAnnotationTest extends SolderTestBase {
 	
 	private final String EXACT_INTERFACE = "exact-interface";
 	private final String EXACT_BEANS = "exact-beans";
-	private final String MULTIPLE_BEANS = "Multiple beans are eligible for injection"; 
 	
 	@Override
 	public String getProjectName() {
@@ -63,9 +60,7 @@ public class ExactAnnotationTest extends SolderTestBase {
 		String peopleManager = "PeopleManager";
 		String otherManager = "OtherManager";
 		
-		projectImportHelper.importTestProject("/resources/projects/" + projectName, 
-				projectName);		
-		addAndCheckLibraryInProject(projectName, SeamLibraries.SOLDER);
+		importProjectWithLibrary(projectName, SeamLibraries.SOLDER);
 		
 		setEd(packageExplorer.openFile(projectName, CDIConstants.SRC, 
 				"cdi.seam", className).toTextEditor());
@@ -85,20 +80,18 @@ public class ExactAnnotationTest extends SolderTestBase {
 	
 	private void testExactImproperValue(String projectName) {
 		
-		SWTEclipseExt.showView(bot,ViewType.PROBLEMS);
 		SWTBotTreeItem[] validationProblems = quickFixHelper.getProblems(ProblemsType.WARNINGS, projectName);
 		assertTrue(validationProblems.length > 0);
 		assertTrue(validationProblems.length == 1);
-		assertContains(MULTIPLE_BEANS, validationProblems[0].getText());
+		assertContains(CDIConstants.MULTIPLE_BEANS, validationProblems[0].getText());
 		
 	}
 	
 	private void testExactProperValue(String projectName, String value) {
 		
-		SWTEclipseExt.showView(bot,ViewType.PROBLEMS);
 		SWTBotTreeItem[] validationProblems = quickFixHelper.getProblems(ProblemsType.WARNINGS, projectName);
 		assertTrue(validationProblems.length == 0);
-		assertTrue(openOnUtil.openOnByOption(value + ".class", className, "Open @Inject Bean"));
+		assertTrue(openOnUtil.openOnByOption(value + ".class", className, CDIConstants.OPEN_INJECT_BEAN));
 		assertTrue(getEd().getTitle().equals(value + ".java"));
 		
 	}

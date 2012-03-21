@@ -38,7 +38,7 @@ public class DefaultBeansTest extends SolderTestBase {
 				"cdi.seam", className);
 		
 		assertFalse(openOnUtil.openOnByOption("managerImpl", className, CDIConstants.SHOW_ALL_ASSIGNABLE));			
-		openOnUtil.openOnByOption("managerImpl", className, "Open @Inject Bean");
+		openOnUtil.openOnByOption("managerImpl", className, CDIConstants.OPEN_INJECT_BEAN);
 		String destinationFile = getEd().getTitle();		
 		assertTrue("ERROR: redirected to " + destinationFile,
 					destinationFile.equals("DefaultOne.java"));
@@ -68,7 +68,7 @@ public class DefaultBeansTest extends SolderTestBase {
 		assertTrue(allBeans.rowCount() == 1);
 		assertTrue(allBeans.getTableItem(0).getText().contains("DefaultOne"));
 		
-		openOnUtil.openOnByOption("managerImpl", className, "Open @Inject Bean");
+		openOnUtil.openOnByOption("managerImpl", className, CDIConstants.OPEN_INJECT_BEAN);
 		String destinationFile = getEd().getTitle();		
 		assertTrue("ERROR: redirected to " + destinationFile,
 					destinationFile.equals("DefaultOne.java"));
@@ -98,7 +98,7 @@ public class DefaultBeansTest extends SolderTestBase {
 		assertTrue(allBeans.rowCount() == 1);
 		assertTrue(allBeans.getTableItem(0).getText().contains("ManagerImpl"));
 		
-		openOnUtil.openOnByOption("managerImpl", className, "Open @Inject Bean");
+		openOnUtil.openOnByOption("managerImpl", className, CDIConstants.OPEN_INJECT_BEAN);
 		String destinationFile = getEd().getTitle();		
 		assertTrue("ERROR: redirected to " + destinationFile,
 					destinationFile.equals("ManagerImpl.java"));
@@ -131,7 +131,7 @@ public class DefaultBeansTest extends SolderTestBase {
 		assertTrue(allBeans.rowCount() == 1);
 		assertTrue(allBeans.getTableItem(0).getText().contains("ManagerImpl"));
 		
-		openOnUtil.openOnByOption("managerImpl", className, "Open @Inject Bean");
+		openOnUtil.openOnByOption("managerImpl", className, CDIConstants.OPEN_INJECT_BEAN);
 		String destinationFile = getEd().getTitle();		
 		assertTrue("ERROR: redirected to " + destinationFile,
 					destinationFile.equals("ManagerImpl.java"));

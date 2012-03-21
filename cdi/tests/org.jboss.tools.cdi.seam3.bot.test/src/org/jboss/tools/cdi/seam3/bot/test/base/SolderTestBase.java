@@ -6,8 +6,13 @@ public class SolderTestBase extends Seam3TestBase {
 
 	@Override
 	public void prepareWorkspace() {
-		projectImportHelper.importTestProject("/resources/projects/" + getProjectName(), getProjectName());
-		addAndCheckLibraryInProject(getProjectName(), SeamLibraries.SOLDER);
+		importProjectWithLibrary(getProjectName(), SeamLibraries.SOLDER);
+	}
+	
+	public void importProjectWithLibrary(String projectName, SeamLibraries library) {
+		projectImportHelper.importTestProject("/resources/projects/" + projectName, projectName);
+		addAndCheckLibraryInProject(projectName, library);
+		eclipse.cleanAllProjects();
 	}
 	
 }
