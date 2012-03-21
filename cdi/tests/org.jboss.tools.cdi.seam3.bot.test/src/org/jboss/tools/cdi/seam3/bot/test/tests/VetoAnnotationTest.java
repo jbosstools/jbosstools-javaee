@@ -16,7 +16,6 @@ import org.jboss.tools.cdi.bot.test.CDIConstants;
 import org.jboss.tools.cdi.bot.test.annotations.ProblemsType;
 import org.jboss.tools.cdi.seam3.bot.test.base.SolderTestBase;
 import org.jboss.tools.cdi.seam3.bot.test.util.SeamLibraries;
-import org.junit.Ignore;
 import org.junit.Test;
 
 public class VetoAnnotationTest extends SolderTestBase {
@@ -37,7 +36,6 @@ public class VetoAnnotationTest extends SolderTestBase {
 	public void prepareWorkspace() {
 		
 	}
-	
 	
 	@Test
 	public void testManagedBeans() {
@@ -130,23 +128,33 @@ public class VetoAnnotationTest extends SolderTestBase {
 				true, "manager");
 		
 	}
-	@Ignore
+	
 	@Test
 	public void testObserverMethods() {
 		
+		String vetoBean = "Bean";
+		String projectName = "veto5";
+		String eventAttribute = "eventAttribute";
 		
+		importProjectWithLibrary(projectName, SeamLibraries.SOLDER);
+		
+		setEd(packageExplorer.openFile(projectName, CDIConstants.SRC, 
+				"cdi.seam", APPLICATION_CLASS).toTextEditor());
+		
+		assertFalse(openOnUtil.openOnByOption(eventAttribute, APPLICATION_CLASS, 
+				CDIConstants.OPEN_CDI_OBSERVER_METHOD));
+		
+		setEd(packageExplorer.openFile(projectName, CDIConstants.SRC, 
+				"cdi.seam", vetoBean + ".java").toTextEditor());
+		editResourceUtil.replaceInEditor("@Veto", "");
+		editResourceUtil.replaceInEditor("import org.jboss.seam.solder.core.Veto;", "");
+		
+		assertTrue(openOnUtil.openOnByOption(eventAttribute, APPLICATION_CLASS, 
+				CDIConstants.OPEN_CDI_OBSERVER_METHOD));
+		assertTrue(getEd().getTitle().equals(vetoBean + ".java"));
+		assertTrue(getEd().getSelection().equals("method"));
 		
 	}
-	/*@Ignore
-	@Test
-	public void testDecorator() {
-		
-	}
-	@Ignore
-	@Test
-	public void testInterceptor() {
-		
-	}*/
 	
 	private void testVetoAnnotationImproperValue(String projectName) {
 		
