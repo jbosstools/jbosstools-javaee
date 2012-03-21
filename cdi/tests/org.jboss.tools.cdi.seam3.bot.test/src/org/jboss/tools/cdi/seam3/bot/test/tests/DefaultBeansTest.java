@@ -13,11 +13,11 @@ package org.jboss.tools.cdi.seam3.bot.test.tests;
 
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTable;
 import org.jboss.tools.cdi.bot.test.CDIConstants;
-import org.jboss.tools.cdi.seam3.bot.test.base.SolderTestBase;
+import org.jboss.tools.cdi.seam3.bot.test.base.SolderAnnotationTestBase;
 import org.jboss.tools.cdi.seam3.bot.test.uiutils.AssignableBeansDialog;
 import org.junit.Test;
 
-public class DefaultBeansTest extends SolderTestBase {
+public class DefaultBeansTest extends SolderAnnotationTestBase {
 
 	@Override
 	public String getProjectName() {
@@ -35,7 +35,7 @@ public class DefaultBeansTest extends SolderTestBase {
 	public void testProperAssign() {
 		
 		packageExplorer.openFile(getProjectName(), CDIConstants.SRC, 
-				"cdi.seam", className);
+				getPackageName(), className);
 		
 		assertFalse(openOnUtil.openOnByOption("managerImpl", className, CDIConstants.SHOW_ALL_ASSIGNABLE));			
 		openOnUtil.openOnByOption("managerImpl", className, CDIConstants.OPEN_INJECT_BEAN);
@@ -48,11 +48,11 @@ public class DefaultBeansTest extends SolderTestBase {
 	@Test
 	public void testProperAssignAlternativesDeactive() {
 		
-		wizardExt.bean("cdi.seam", "ManagerImpl", true, false, false, false, true, false, null,
+		wizardExt.bean(getPackageName(), "ManagerImpl", true, false, false, false, true, false, null,
 				"Manager", null, null).finish();
 		
 		packageExplorer.openFile(getProjectName(), CDIConstants.SRC, 
-				"cdi.seam", className);
+				getPackageName(), className);
 		
 		assertTrue(openOnUtil.openOnByOption("managerImpl", className, CDIConstants.SHOW_ALL_ASSIGNABLE));			
 		
@@ -78,11 +78,11 @@ public class DefaultBeansTest extends SolderTestBase {
 	@Test
 	public void testProperUnassign() {
 		
-		wizardExt.bean("cdi.seam", "ManagerImpl", true, false, false, false, false, false, null,
+		wizardExt.bean(getPackageName(), "ManagerImpl", true, false, false, false, false, false, null,
 				"Manager", null, null).finish();
 		
 		packageExplorer.openFile(getProjectName(), CDIConstants.SRC, 
-				"cdi.seam", className);
+				getPackageName(), className);
 		
 		assertTrue(openOnUtil.openOnByOption("managerImpl", className, CDIConstants.SHOW_ALL_ASSIGNABLE));			
 		
@@ -108,11 +108,11 @@ public class DefaultBeansTest extends SolderTestBase {
 	@Test
 	public void testProperUnassignAlternativesActive() {
 		
-		wizardExt.bean("cdi.seam", "ManagerImpl", true, false, false, false, true, true, null,
+		wizardExt.bean(getPackageName(), "ManagerImpl", true, false, false, false, true, true, null,
 				"Manager", null, null).finish();
 		
 		packageExplorer.openFile(getProjectName(), CDIConstants.SRC, 
-				"cdi.seam", className);
+				getPackageName(), className);
 		
 		assertTrue(openOnUtil.openOnByOption("managerImpl", className, CDIConstants.SHOW_ALL_ASSIGNABLE));			
 		

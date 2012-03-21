@@ -11,14 +11,12 @@
 
 package org.jboss.tools.cdi.seam3.bot.test.tests;
 
-import org.eclipse.swtbot.swt.finder.widgets.SWTBotTreeItem;
 import org.jboss.tools.cdi.bot.test.CDIConstants;
-import org.jboss.tools.cdi.bot.test.annotations.ProblemsType;
-import org.jboss.tools.cdi.seam3.bot.test.base.SolderTestBase;
+import org.jboss.tools.cdi.seam3.bot.test.base.SolderAnnotationTestBase;
 import org.jboss.tools.cdi.seam3.bot.test.util.SeamLibraries;
 import org.junit.Test;
 
-public class ExactAnnotationTest extends SolderTestBase {
+public class ExactAnnotationTest extends SolderAnnotationTestBase {
 
 	private String className = "Application.java";
 	
@@ -63,36 +61,19 @@ public class ExactAnnotationTest extends SolderTestBase {
 		importProjectWithLibrary(projectName, SeamLibraries.SOLDER);
 		
 		setEd(packageExplorer.openFile(projectName, CDIConstants.SRC, 
-				"cdi.seam", className).toTextEditor());
+				getPackageName(), className).toTextEditor());
 		
-		testExactImproperValue(projectName);
+		testAnnotationImproperValue(projectName, false);
 				
 		editResourceUtil.replaceInEditor(managerClass, peopleManager + ".class");
-		testExactProperValue(projectName, peopleManager);
+		testAnnotationProperValue(projectName, peopleManager + ".class", 
+				peopleManager, false, null);
 
-		
 		bot.editorByTitle(className).show();
 		
 		editResourceUtil.replaceInEditor(peopleManager + ".class", otherManager + ".class");
-		testExactProperValue(projectName, otherManager);
-		
-	}
-	
-	private void testExactImproperValue(String projectName) {
-		
-		SWTBotTreeItem[] validationProblems = quickFixHelper.getProblems(ProblemsType.WARNINGS, projectName);
-		assertTrue(validationProblems.length > 0);
-		assertTrue(validationProblems.length == 1);
-		assertContains(CDIConstants.MULTIPLE_BEANS, validationProblems[0].getText());
-		
-	}
-	
-	private void testExactProperValue(String projectName, String value) {
-		
-		SWTBotTreeItem[] validationProblems = quickFixHelper.getProblems(ProblemsType.WARNINGS, projectName);
-		assertTrue(validationProblems.length == 0);
-		assertTrue(openOnUtil.openOnByOption(value + ".class", className, CDIConstants.OPEN_INJECT_BEAN));
-		assertTrue(getEd().getTitle().equals(value + ".java"));
+		testAnnotationProperValue(projectName, otherManager + ".class", 
+				otherManager, false, null);
 		
 	}
 	

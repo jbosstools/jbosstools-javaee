@@ -11,17 +11,13 @@
 
 package org.jboss.tools.cdi.seam3.bot.test.tests;
 
-import org.eclipse.swtbot.swt.finder.widgets.SWTBotTreeItem;
 import org.jboss.tools.cdi.bot.test.CDIConstants;
-import org.jboss.tools.cdi.bot.test.annotations.ProblemsType;
-import org.jboss.tools.cdi.seam3.bot.test.base.SolderTestBase;
+import org.jboss.tools.cdi.seam3.bot.test.base.SolderAnnotationTestBase;
 import org.jboss.tools.cdi.seam3.bot.test.util.SeamLibraries;
 import org.junit.Test;
 
-public class VetoAnnotationTest extends SolderTestBase {
+public class VetoAnnotationTest extends SolderAnnotationTestBase {
 
-	private String APPLICATION_CLASS = "Application.java";
-	
 	@Override
 	public String getProjectName() {
 		return "veto1";
@@ -47,16 +43,16 @@ public class VetoAnnotationTest extends SolderTestBase {
 		importProjectWithLibrary(projectName, SeamLibraries.SOLDER);
 		
 		setEd(packageExplorer.openFile(projectName, CDIConstants.SRC, 
-				"cdi.seam", APPLICATION_CLASS).toTextEditor());
+				getPackageName(), APPLICATION_CLASS).toTextEditor());
 		
-		testVetoAnnotationImproperValue(projectName);
+		testAnnotationImproperValue(projectName, true);
 		
 		setEd(packageExplorer.openFile(projectName, CDIConstants.SRC, 
-				"cdi.seam", otherBean + ".java").toTextEditor());
+				getPackageName(), otherBean + ".java").toTextEditor());
 		editResourceUtil.replaceInEditor("public class " + otherBean,
 				"public class " + otherBean + " extends " + vetoBean);
 		
-		testVetoAnnotationProperValue(projectName, "bean", otherBean, false, null);
+		testAnnotationProperValue(projectName, "bean", otherBean, false, null);
 		
 	}
 	
@@ -70,16 +66,16 @@ public class VetoAnnotationTest extends SolderTestBase {
 		importProjectWithLibrary(projectName, SeamLibraries.SOLDER);
 		
 		setEd(packageExplorer.openFile(projectName, CDIConstants.SRC, 
-				"cdi.seam", APPLICATION_CLASS).toTextEditor());
+				getPackageName(), APPLICATION_CLASS).toTextEditor());
 		
-		testVetoAnnotationImproperValue(projectName);
+		testAnnotationImproperValue(projectName, true);
 		
 		setEd(packageExplorer.openFile(projectName, CDIConstants.SRC, 
-				"cdi.seam", otherBean + ".java").toTextEditor());
+				getPackageName(), otherBean + ".java").toTextEditor());
 		editResourceUtil.replaceInEditor("public class " + otherBean,
 				"public class " + otherBean + " extends " + vetoBean);
 		
-		testVetoAnnotationProperValue(projectName, "bean", otherBean, false, null);
+		testAnnotationProperValue(projectName, "bean", otherBean, false, null);
 		
 	}
 	
@@ -92,16 +88,16 @@ public class VetoAnnotationTest extends SolderTestBase {
 		importProjectWithLibrary(projectName, SeamLibraries.SOLDER);
 		
 		setEd(packageExplorer.openFile(projectName, CDIConstants.SRC, 
-				"cdi.seam", APPLICATION_CLASS).toTextEditor());
+				getPackageName(), APPLICATION_CLASS).toTextEditor());
 		
-		testVetoAnnotationImproperValue(projectName);
+		testAnnotationImproperValue(projectName, true);
 		
 		setEd(packageExplorer.openFile(projectName, CDIConstants.SRC, 
-				"cdi.seam", vetoBean + ".java").toTextEditor());
+				getPackageName(), vetoBean + ".java").toTextEditor());
 		editResourceUtil.replaceInEditor("@Veto", "");
 		editResourceUtil.replaceInEditor("import org.jboss.seam.solder.core.Veto;", "");
 		
-		testVetoAnnotationProperValue(projectName, "manager", vetoBean,
+		testAnnotationProperValue(projectName, "manager", vetoBean,
 				true, "getManager");
 		
 	}
@@ -115,16 +111,16 @@ public class VetoAnnotationTest extends SolderTestBase {
 		importProjectWithLibrary(projectName, SeamLibraries.SOLDER);
 		
 		setEd(packageExplorer.openFile(projectName, CDIConstants.SRC, 
-				"cdi.seam", APPLICATION_CLASS).toTextEditor());
+				getPackageName(), APPLICATION_CLASS).toTextEditor());
 		
-		testVetoAnnotationImproperValue(projectName);
+		testAnnotationImproperValue(projectName, true);
 		
 		setEd(packageExplorer.openFile(projectName, CDIConstants.SRC, 
-				"cdi.seam", vetoBean + ".java").toTextEditor());
+				getPackageName(), vetoBean + ".java").toTextEditor());
 		editResourceUtil.replaceInEditor("@Veto", "");
 		editResourceUtil.replaceInEditor("import org.jboss.seam.solder.core.Veto;", "");
 		
-		testVetoAnnotationProperValue(projectName, "manager", vetoBean,
+		testAnnotationProperValue(projectName, "manager", vetoBean,
 				true, "manager");
 		
 	}
@@ -139,13 +135,13 @@ public class VetoAnnotationTest extends SolderTestBase {
 		importProjectWithLibrary(projectName, SeamLibraries.SOLDER);
 		
 		setEd(packageExplorer.openFile(projectName, CDIConstants.SRC, 
-				"cdi.seam", APPLICATION_CLASS).toTextEditor());
+				getPackageName(), APPLICATION_CLASS).toTextEditor());
 		
 		assertFalse(openOnUtil.openOnByOption(eventAttribute, APPLICATION_CLASS, 
 				CDIConstants.OPEN_CDI_OBSERVER_METHOD));
 		
 		setEd(packageExplorer.openFile(projectName, CDIConstants.SRC, 
-				"cdi.seam", vetoBean + ".java").toTextEditor());
+				getPackageName(), vetoBean + ".java").toTextEditor());
 		editResourceUtil.replaceInEditor("@Veto", "");
 		editResourceUtil.replaceInEditor("import org.jboss.seam.solder.core.Veto;", "");
 		
@@ -154,28 +150,6 @@ public class VetoAnnotationTest extends SolderTestBase {
 		assertTrue(getEd().getTitle().equals(vetoBean + ".java"));
 		assertTrue(getEd().getSelection().equals("method"));
 		
-	}
-	
-	private void testVetoAnnotationImproperValue(String projectName) {
-		
-		SWTBotTreeItem[] validationProblems = quickFixHelper.getProblems(
-				ProblemsType.WARNINGS, projectName);
-		assertTrue(validationProblems.length > 0);
-		assertTrue(validationProblems.length == 1);
-		assertContains(CDIConstants.NO_BEAN_IS_ELIGIBLE, validationProblems[0].getText());
-		
-	}
-	
-	private void testVetoAnnotationProperValue(String projectName, String openOnString, String openedClass, 
-			boolean producer, String producerMethod) {
-		SWTBotTreeItem[] validationProblems = quickFixHelper.getProblems(
-				ProblemsType.WARNINGS, projectName);
-		assertTrue(validationProblems.length == 0);
-		assertTrue(openOnUtil.openOnByOption(openOnString, APPLICATION_CLASS, CDIConstants.OPEN_INJECT_BEAN));
-		assertTrue(getEd().getTitle().equals(openedClass + ".java"));
-		if (producer) {
-			assertTrue(getEd().getSelection().equals(producerMethod));
-		}
 	}
 	
 }
