@@ -21,6 +21,7 @@ public class CDIConstants {
 	public static final String OPEN_CDI_NAMED_BEANS = "Open CDI Named Bean";
 	public static final String SHOW_ALL_ASSIGNABLE = "Show All Assignable Beans...";
 	public static final String OPEN_INJECT_BEAN = "Open @Inject Bean";
+	public static final String OPEN_CDI_OBSERVER_METHOD= "Open CDI Observer Method";
 	public static final String CDI_WEB_PROJECT = "CDI Web Project";
 	public static final String MULTIPLE_BEANS = "Multiple beans are eligible for injection";
 	public static final String NO_BEAN_IS_ELIGIBLE = "No bean is eligible for injection to " +
