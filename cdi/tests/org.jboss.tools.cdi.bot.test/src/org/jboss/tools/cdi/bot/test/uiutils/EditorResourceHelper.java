@@ -104,6 +104,7 @@ public class EditorResourceHelper extends CDIBase {
 	 * @param replacement
 	 */
 	public void replaceInEditor(String target, String replacement) {
+		setEd(bot.activeEditor().toTextEditor());
 		getEd().selectRange(0, 0, getEd().getText().length());
 		getEd().setText(getEd().getText().replace(
 				target + (replacement.equals("") ? System
@@ -145,6 +146,7 @@ public class EditorResourceHelper extends CDIBase {
 		TreeHelper.expandNode(bot, destFolder.split("/")).select();		
 		
 		bot.button(IDELabel.Button.OK).click();		
+		util.waitForNonIgnoredJobs();
 	}
 	
 	/**
