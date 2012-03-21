@@ -20,7 +20,11 @@ public class CDIConstants {
 	public static final String REFRESH = "Refresh";
 	public static final String OPEN_CDI_NAMED_BEANS = "Open CDI Named Bean";
 	public static final String SHOW_ALL_ASSIGNABLE = "Show All Assignable Beans...";
+	public static final String OPEN_INJECT_BEAN = "Open @Inject Bean";
 	public static final String CDI_WEB_PROJECT = "CDI Web Project";
+	public static final String MULTIPLE_BEANS = "Multiple beans are eligible for injection";
+	public static final String NO_BEAN_IS_ELIGIBLE = "No bean is eligible for injection to " +
+			"the injection point";
 	public static final String CDI_GROUP = "CDI (Context and Dependency Injection)";
 	public static final String WEB_GROUP = "Web";
 	public static final String DYNAMIC_WEB_PROJECT = "Dynamic Web Project";
