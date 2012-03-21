@@ -13,6 +13,5 @@
 			<attribute name="owner.project.facets" value="java"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="seam-solder.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
