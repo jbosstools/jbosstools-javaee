@@ -6,6 +6,6 @@ import javax.inject.Inject;
 public class Application {
 
 	@Inject @Q1
-	Event<Bean> event;
+	Event<Bean> eventAttribute;
 	
 }
