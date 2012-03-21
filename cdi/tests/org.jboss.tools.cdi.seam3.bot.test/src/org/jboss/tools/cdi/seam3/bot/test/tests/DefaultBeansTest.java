@@ -13,11 +13,11 @@ package org.jboss.tools.cdi.seam3.bot.test.tests;
 
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTable;
 import org.jboss.tools.cdi.bot.test.CDIConstants;
-import org.jboss.tools.cdi.seam3.bot.test.Seam3TestBase;
+import org.jboss.tools.cdi.seam3.bot.test.base.SolderTestBase;
 import org.jboss.tools.cdi.seam3.bot.test.uiutils.AssignableBeansDialog;
 import org.junit.Test;
 
-public class DefaultBeansTest extends Seam3TestBase {
+public class DefaultBeansTest extends SolderTestBase {
 
 	@Override
 	public String getProjectName() {

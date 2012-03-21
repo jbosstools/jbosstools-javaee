@@ -13,7 +13,7 @@ package org.jboss.tools.cdi.seam3.bot.test.tests;
 
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTable;
 import org.jboss.tools.cdi.bot.test.CDIConstants;
-import org.jboss.tools.cdi.seam3.bot.test.Seam3TestBase;
+import org.jboss.tools.cdi.seam3.bot.test.base.SolderTestBase;
 import org.jboss.tools.ui.bot.ext.Timing;
 import org.junit.Test;
 
@@ -24,7 +24,7 @@ import org.junit.Test;
  *
  */
 
-public class GenericOpenOnTest extends Seam3TestBase {
+public class GenericOpenOnTest extends SolderTestBase {
 
 	private final String GENERIC_POINT_1 = "MyExtendedConfiguration ";	
 	private final String GENERIC_POINT_2 = "MyConfigurationProducer.getOneConfig()";	

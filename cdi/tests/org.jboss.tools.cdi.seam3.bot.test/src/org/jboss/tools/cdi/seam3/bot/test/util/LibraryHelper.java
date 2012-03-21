@@ -82,7 +82,7 @@ public class LibraryHelper extends CDIBase{
 		inChannel = new FileInputStream(in).getChannel();
 		outChannel = new FileOutputStream(out).getChannel();
 
-		inChannel.transferTo(0, inChannel.size(),	outChannel);
+		inChannel.transferTo(0, inChannel.size(), outChannel);
 						
 		if (inChannel != null) inChannel.close();
 		if (outChannel != null) outChannel.close();		 	    	   

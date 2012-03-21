@@ -48,9 +48,9 @@ import org.junit.runners.Suite.SuiteClasses;
 	ResourceOpenOnTest.class,
 	GenericOpenOnTest.class,
 	DefaultBeansTest.class,
+	ExactAnnotationTest.class,
 	VetoAnnotationTest.class,
 	RequiresAnnotationTest.class,
-	ExactAnnotationTest.class,
 	})
 public class CDISeam3AllBotTests extends AbstractTestSuite {
 	

@@ -11,10 +11,10 @@
 
 package org.jboss.tools.cdi.seam3.bot.test.tests;
 
-import org.jboss.tools.cdi.seam3.bot.test.Seam3TestBase;
+import org.jboss.tools.cdi.seam3.bot.test.base.SolderTestBase;
 import org.junit.Test;
 
-public class RequiresAnnotationTest extends Seam3TestBase {
+public class RequiresAnnotationTest extends SolderTestBase {
 
 	@Override
 	public String getProjectName() {
