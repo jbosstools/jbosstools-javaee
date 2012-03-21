@@ -15,6 +15,8 @@ Export-Package:
  org.jboss.tools.cdi.bot.test.named,
  org.jboss.tools.cdi.bot.test.openon,
  org.jboss.tools.cdi.bot.test.quickfix,
+ org.jboss.tools.cdi.bot.test.quickfix.base,
+ org.jboss.tools.cdi.bot.test.quickfix.validators,
  org.jboss.tools.cdi.bot.test.uiutils,
  org.jboss.tools.cdi.bot.test.uiutils.wizards,
  org.jboss.tools.cdi.bot.test.wizard
