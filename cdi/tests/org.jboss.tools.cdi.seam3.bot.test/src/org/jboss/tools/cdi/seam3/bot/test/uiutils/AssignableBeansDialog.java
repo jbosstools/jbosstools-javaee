@@ -21,6 +21,7 @@ public class AssignableBeansDialog {
 	
 	public AssignableBeansDialog(SWTBotShell shell) {
 		this.shell = shell;
+		showAmbiguousBeans().showDefaultBeans().showUnavailableBeans();
 	}
 	
 	public SWTBotTable getAllBeans() {
