@@ -14,6 +14,8 @@ import org.eclipse.swtbot.swt.finder.widgets.SWTBotTreeItem;
 import org.jboss.tools.cdi.bot.test.CDIBase;
 import org.jboss.tools.cdi.bot.test.CDIConstants;
 import org.jboss.tools.cdi.bot.test.annotations.ProblemsType;
+import org.jboss.tools.ui.bot.ext.SWTEclipseExt;
+import org.jboss.tools.ui.bot.ext.types.ViewType;
 import org.jboss.tools.ui.bot.ext.view.ProblemsView;
 
 public class QuickFixHelper extends CDIBase {
@@ -32,6 +34,7 @@ public class QuickFixHelper extends CDIBase {
 	 * @return array of problems of given type
 	 */
 	public SWTBotTreeItem[] getProblems(ProblemsType problemType, String projectName) {
+		SWTEclipseExt.showView(bot,ViewType.PROBLEMS);
 		SWTBotTreeItem[] problemsTree = null;
 		if (problemType == ProblemsType.WARNINGS) {
 			problemsTree = ProblemsView.getFilteredWarningsTreeItems(bot, null, "/"
