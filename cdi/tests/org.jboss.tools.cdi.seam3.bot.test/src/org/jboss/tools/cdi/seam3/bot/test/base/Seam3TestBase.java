@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2010 Red Hat, Inc.
+ * Copyright (c) 2010-2012 Red Hat, Inc.
  * Distributed under license by Red Hat, Inc. All rights reserved.
  * This program is made available under the terms of the
  * Eclipse Public License v1.0 which accompanies this distribution,
@@ -9,12 +9,13 @@
  * Red Hat, Inc. - initial API and implementation
  ******************************************************************************/
 
-package org.jboss.tools.cdi.seam3.bot.test;
+package org.jboss.tools.cdi.seam3.bot.test.base;
 
 import java.io.IOException;
 import java.util.logging.Level;
 
 import org.jboss.tools.cdi.bot.test.CDITestBase;
+import org.jboss.tools.cdi.seam3.bot.test.CDISeam3AllBotTests;
 import org.jboss.tools.cdi.seam3.bot.test.util.LibraryHelper;
 import org.jboss.tools.cdi.seam3.bot.test.util.ProjectImportHelper;
 import org.jboss.tools.cdi.seam3.bot.test.util.SeamLibraries;
@@ -48,28 +49,29 @@ public class Seam3TestBase extends CDITestBase {
 	
 	@Override
 	public void prepareWorkspace() {
-		projectImportHelper.importTestProject("/resources/projects/" + getProjectName());
+		projectImportHelper.importTestProject("/resources/projects/" + getProjectName(), projectName);		
 	}
 	
-	protected void addAndCheckLibrary(SeamLibraries library) {
-		addLibrary(library.getName());
-		checkLibrary(library.getName());
+	protected void addAndCheckLibraryInProject(String projectName, SeamLibraries library) {
+		addLibraryIntoProject(projectName, library.getName());
+		checkLibraryInProject(projectName, library.getName());
 	}
 	
-	private void addLibrary(String libraryName) {
+	private void addLibraryIntoProject(String projectName, String libraryName) {
 		try {
-			libraryHelper.addLibraryIntoProject(getProjectName(), libraryName);			
+			libraryHelper.addLibraryIntoProject(projectName, libraryName);			
 			LOGGER.info("Library: \"" + libraryName + "\" copied");
 			util.waitForNonIgnoredJobs();
-			libraryHelper.addLibraryToProjectsClassPath(getProjectName(), libraryName);
-			LOGGER.info("Library: \"" + libraryName + "\" on class path of project\"" + getProjectName() + "\"");
+			libraryHelper.addLibraryToProjectsClassPath(projectName, libraryName);
+			LOGGER.info("Library: \"" + libraryName + "\" on class path of project\"" + projectName + "\"");
 		} catch (IOException exc) {
 			LOGGER.log(Level.SEVERE, "Error while adding " + libraryName + " library into project");
+			LOGGER.log(Level.SEVERE, exc.getMessage());
 		}		
 	}
 	
-	private void checkLibrary(String libraryName) {
-		assertTrue(libraryHelper.isLibraryInProjectClassPath(getProjectName(), libraryName));		
+	private void checkLibraryInProject(String projectName, String libraryName) {
+		assertTrue(libraryHelper.isLibraryInProjectClassPath(projectName, libraryName));		
 	}
 	
 }
