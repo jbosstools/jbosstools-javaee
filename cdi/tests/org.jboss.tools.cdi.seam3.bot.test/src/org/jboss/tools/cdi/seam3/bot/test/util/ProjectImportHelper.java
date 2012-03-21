@@ -22,9 +22,9 @@ import org.jboss.tools.ui.bot.ext.helper.ResourceHelper;
 
 public class ProjectImportHelper extends CDIBase {
 
-	public void importTestProject(String dir) {
-		String rpath = ResourceHelper.getResourceAbsolutePath(Activator.PLUGIN_ID, dir);
-		String wpath = ResourceHelper.getWorkspaceAbsolutePath() + dir;
+	public void importTestProject(String projectLocation, String dir) {
+		String rpath = ResourceHelper.getResourceAbsolutePath(Activator.PLUGIN_ID, projectLocation);
+		String wpath = ResourceHelper.getWorkspaceAbsolutePath() + "/" + dir;
 		File rfile = new File(rpath);
 		File wfile = new File(wpath);
 		
@@ -35,7 +35,11 @@ public class ProjectImportHelper extends CDIBase {
 			fail("Unable to copy test project");
 		}
 		ImportHelper.importAllProjects(wpath);
-		util.waitForNonIgnoredJobs();		
+		util.waitForNonIgnoredJobs();	
+	}
+	
+	public void importTestProject(String projectLocation) {
+			importTestProject(projectLocation, projectLocation);
 	}
 	
 }
