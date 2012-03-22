@@ -17,12 +17,7 @@ import java.util.List;
 import org.jboss.tools.cdi.bot.test.CDIConstants;
 import org.jboss.tools.cdi.bot.test.CDITestBase;
 import org.jboss.tools.cdi.bot.test.annotations.CDIWizardType;
-import org.jboss.tools.ui.bot.ext.SWTJBTExt;
-import org.jboss.tools.ui.bot.ext.SWTTestExt;
-import org.jboss.tools.ui.bot.ext.Timing;
 import org.jboss.tools.ui.bot.ext.helper.ContentAssistHelper;
-import org.jboss.tools.ui.bot.ext.parts.ContentAssistBot;
-import org.jboss.tools.ui.bot.ext.parts.SWTBotEditorExt;
 import org.junit.Test;
 
 /**
@@ -69,7 +64,8 @@ public class BeansXMLCompletionTest extends CDITestBase {
 		beansHelper.createBeansXMLWithInterceptor(getProjectName(), getPackageName(), null);
 		LOGGER.info("Beans.xml with interceptors tag was created");
 				
-		List<String> proposalList = getProposalList(CDIConstants.BEANS_XML, CDIConstants.CLASS_END_TAG, 0, 0);
+		List<String> proposalList = editResourceUtil.getProposalList(
+				CDIConstants.BEANS_XML, CDIConstants.CLASS_END_TAG, 0, 0);
 		for (String interceptor : INTERCEPTOR_NAMES) {
 			assertTrue(proposalList.contains(interceptor + " - " + getPackageName()));
 		}
@@ -84,7 +80,7 @@ public class BeansXMLCompletionTest extends CDITestBase {
 		beansHelper.createBeansXMLWithDecorator(getProjectName(), getPackageName(), null);
 		LOGGER.info("Beans.xml with decorators tag was created");
 			
-		List<String> proposalList = getProposalList(CDIConstants.BEANS_XML, 
+		List<String> proposalList = editResourceUtil.getProposalList(CDIConstants.BEANS_XML, 
 				CDIConstants.CLASS_END_TAG, 0, 0);
 		for (String decorator : DECORATORS_NAMES) {
 			assertTrue(proposalList.contains(decorator + " - " + getPackageName()));
@@ -101,7 +97,7 @@ public class BeansXMLCompletionTest extends CDITestBase {
 		beansHelper.createBeansXMLWithStereotype(getProjectName(), getPackageName(), null);
 		LOGGER.info("Beans.xml with stereotype tag was created");
 			
-		List<String> proposalList = getProposalList(CDIConstants.BEANS_XML, 
+		List<String> proposalList = editResourceUtil.getProposalList(CDIConstants.BEANS_XML, 
 				CDIConstants.STEREOTYPE_END_TAG, 0, 0);
 		for (String stereotype : STEREOTYPES_NAMES) {
 			assertTrue(proposalList.contains(stereotype + " - " + getPackageName()));
@@ -118,7 +114,7 @@ public class BeansXMLCompletionTest extends CDITestBase {
 		beansHelper.createBeansXMLWithAlternative(getProjectName(), getPackageName(), null);
 		LOGGER.info("Beans.xml with alternative tag was created");
 		
-		List<String> proposalList = getProposalList(CDIConstants.BEANS_XML, 
+		List<String> proposalList = editResourceUtil.getProposalList(CDIConstants.BEANS_XML, 
 				CDIConstants.CLASS_END_TAG, 0, 0);
 		for (String alternative : ALTERNATIVES_NAMES) {
 			assertTrue(proposalList.contains(alternative + " - " + getPackageName()));
@@ -145,7 +141,8 @@ public class BeansXMLCompletionTest extends CDITestBase {
 		beansHelper.createBeansXMLWithEmptyTag(getProjectName());
 		LOGGER.info("Clear beans.xml with empty tag was created");
 		
-		List<String> proposalList = getProposalList(CDIConstants.BEANS_XML, "<>", 1, 0);
+		List<String> proposalList = editResourceUtil.getProposalList(
+				CDIConstants.BEANS_XML, "<>", 1, 0);
 		List<String> nonSupportedComponents = Arrays.asList(components);
 		
 		for (String nonSupportedComponent : nonSupportedComponents) {
@@ -177,26 +174,4 @@ public class BeansXMLCompletionTest extends CDITestBase {
 		editResourceUtil.replaceInEditor(text, "");
 	}
 	
-	/**
-	 * Method returns proposal list for given text on given position
-	 * @param editorTitle
-	 * @param textToSelect
-	 * @param selectionOffset
-	 * @param selectionLength
-	 * @return
-	 */
-	private List<String> getProposalList(String editorTitle, String textToSelect, int selectionOffset,
-			int selectionLength) {
-		SWTJBTExt.selectTextInSourcePane(bot,
-		        editorTitle, textToSelect, selectionOffset, selectionLength,
-		        0);
-
-		bot.sleep(Timing.time1S());
-		    
-		SWTBotEditorExt editor = SWTTestExt.bot.swtBotEditorExtByTitle(editorTitle);
-		ContentAssistBot contentAssist = editor.contentAssist();
-		List<String> currentProposalList = contentAssist.getProposalList();
-		return currentProposalList;
-	}
-
 }

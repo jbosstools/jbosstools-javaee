@@ -14,6 +14,7 @@ package org.jboss.tools.cdi.bot.test.uiutils;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.MessageFormat;
+import java.util.List;
 import java.util.Scanner;
 
 import org.eclipse.core.resources.IFile;
@@ -25,9 +26,14 @@ import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotEclipseEditor;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTree;
 import org.jboss.tools.cdi.bot.test.CDIBase;
 import org.jboss.tools.cdi.bot.test.editor.BeansEditorTest;
+import org.jboss.tools.ui.bot.ext.SWTJBTExt;
+import org.jboss.tools.ui.bot.ext.SWTTestExt;
 import org.jboss.tools.ui.bot.ext.Timing;
 import org.jboss.tools.ui.bot.ext.helper.TreeHelper;
+import org.jboss.tools.ui.bot.ext.parts.ContentAssistBot;
+import org.jboss.tools.ui.bot.ext.parts.SWTBotEditorExt;
 import org.jboss.tools.ui.bot.ext.types.IDELabel;
+import org.jboss.tools.ui.bot.ext.view.ExplorerBase;
 
 public class EditorResourceHelper extends CDIBase {
 	
@@ -127,15 +133,38 @@ public class EditorResourceHelper extends CDIBase {
 	}
 	
 	/**
-	 * in Project Explorer View, the file which is located in "sourceFolder" 
+	 * Method returns proposal list for given text on given position
+	 * @param editorTitle
+	 * @param textToSelect
+	 * @param selectionOffset
+	 * @param selectionLength
+	 * @return
+	 */
+	public List<String> getProposalList(String editorTitle, String textToSelect, int selectionOffset,
+			int selectionLength) {
+		SWTJBTExt.selectTextInSourcePane(bot,
+		        editorTitle, textToSelect, selectionOffset, selectionLength,
+		        0);
+
+		bot.sleep(Timing.time1S());
+		    
+		SWTBotEditorExt editor = SWTTestExt.bot.swtBotEditorExtByTitle(editorTitle);
+		ContentAssistBot contentAssist = editor.contentAssist();
+		List<String> currentProposalList = contentAssist.getProposalList();
+		return currentProposalList;
+	}
+	
+	/**
+	 * in explorer base View, the file which is located in "sourceFolder" 
 	 * is moved to location "destFolder" 
 	 * @param file
 	 * @param sourceFolder
 	 * @param destFolder
 	 */
-	public void moveFileInProjectExplorer(String file, String sourceFolder, String destFolder) {
+	public void moveFileInExplorerBase(ExplorerBase explorerBase, 
+			String file, String sourceFolder, String destFolder) {
 		
-		projectExplorer.selectTreeItem(file, sourceFolder.split("/"));		
+		explorerBase.selectTreeItem(file, sourceFolder.split("/"));		
 		
 		bot.menu(IDELabel.Menu.FILE).menu(IDELabel.Menu.MOVE).click();
 		bot.waitForShell(IDELabel.Shell.MOVE_RESOURCES);
@@ -147,6 +176,29 @@ public class EditorResourceHelper extends CDIBase {
 		
 		bot.button(IDELabel.Button.OK).click();		
 		util.waitForNonIgnoredJobs();
+	}
+	
+	/**
+	 * in explorer base View, the file which is located in "path" 
+	 * is renamed to newFileName value 
+	 * @param explorerBase
+	 * @param file
+	 * @param path
+	 * @param newFileName
+	 */
+	public void renameFileInExplorerBase(ExplorerBase explorerBase, 
+			String file, String path, String newFileName) {
+		
+		explorerBase.selectTreeItem(file, path.split("/"));		
+		
+		bot.menu(IDELabel.Menu.FILE).menu(IDELabel.Menu.RENAME_WITH_DOTS).click();
+		bot.waitForShell(IDELabel.Shell.RENAME_RESOURCE);
+		
+		bot.text().setText(newFileName);	
+		
+		bot.button(IDELabel.Button.OK).click();		
+		util.waitForNonIgnoredJobs();
+		
 	}
 	
 	/**
