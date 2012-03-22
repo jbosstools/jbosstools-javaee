@@ -46,7 +46,7 @@ public class ResourceOpenOnTest extends SolderTestBase {
 		assertTrue("ERROR: redirected to " + destinationFile,
 					destinationFile.equals(CDIConstants.BEANS_XML));
 
-		editResourceUtil.moveFileInProjectExplorer(CDIConstants.BEANS_XML, 
+		editResourceUtil.moveFileInExplorerBase(projectExplorer, CDIConstants.BEANS_XML, 
 				getProjectName() + "/" + CDIConstants.WEBCONTENT + "/" + CDIConstants.WEB_INF,
 				getProjectName() + "/" + CDIConstants.WEBCONTENT + "/" + CDIConstants.META_INF);
 		LOGGER.info("bean.xml was moved to META-INF");
