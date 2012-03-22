@@ -167,10 +167,10 @@ public class EditorResourceHelper extends CDIBase {
 		explorerBase.selectTreeItem(file, sourceFolder.split("/"));		
 		
 		bot.menu(IDELabel.Menu.FILE).menu(IDELabel.Menu.MOVE).click();
-		bot.waitForShell(IDELabel.Shell.MOVE_RESOURCES);
+		bot.waitForShell(IDELabel.Shell.MOVE);
 		
-		SWTBotTree tree = bot.tree();	
-		tree.collapseNode(sourceFolder.split("/")[0]);	
+		SWTBotTree tree = bot.activeShell().bot().tree();	
+		tree.collapseNode(destFolder.split("/")[0]);		
 		
 		TreeHelper.expandNode(bot, destFolder.split("/")).select();		
 		
