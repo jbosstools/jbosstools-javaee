@@ -46,6 +46,8 @@ public class LibraryHelper extends CDIBase{
 		ContextMenuHelper.prepareTreeItemForContextMenu(tree);
 	    new SWTBotMenu(ContextMenuHelper.getContextMenu(tree,CDIConstants.PROPERTIES,false)).click();
 	    
+	    bot.waitForShell(IDELabel.Shell.PROPERTIES_FOR + " " + projectName);
+	    
 	    bot.tree().expandNode(CDIConstants.JAVA_BUILD_PATH).select();
 	    bot.tabItem(CDIConstants.LIBRARIES).activate();
 	    
