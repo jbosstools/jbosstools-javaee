@@ -40,20 +40,22 @@ public class ResourceOpenOnTest extends SolderTestBase {
 		packageExplorer.openFile(getProjectName(), CDIConstants.SRC, 
 				"cdi.seam", className);
 
-		openOnUtil.openOnByOption(CDIConstants.RESOURCE_ANNOTATION, className, "Open Resource");
+		assertTrue(openOnUtil.openOnByOption(CDIConstants.RESOURCE_ANNOTATION, 
+				className, "Open Resource"));
 		
 		String destinationFile = getEd().getTitle();		
 		assertTrue("ERROR: redirected to " + destinationFile,
 					destinationFile.equals(CDIConstants.BEANS_XML));
 
-		editResourceUtil.moveFileInExplorerBase(projectExplorer, CDIConstants.BEANS_XML, 
+		editResourceUtil.moveFileInExplorerBase(packageExplorer, CDIConstants.BEANS_XML, 
 				getProjectName() + "/" + CDIConstants.WEBCONTENT + "/" + CDIConstants.WEB_INF,
 				getProjectName() + "/" + CDIConstants.WEBCONTENT + "/" + CDIConstants.META_INF);
 		LOGGER.info("bean.xml was moved to META-INF");
 		
 		setEd(bot.swtBotEditorExtByTitle(className));
 		editResourceUtil.replaceInEditor("WEB", "META");
-		openOnUtil.openOnByOption(CDIConstants.RESOURCE_ANNOTATION, className, "Open Resource");
+		assertTrue(openOnUtil.openOnByOption(CDIConstants.RESOURCE_ANNOTATION, 
+				className, "Open Resource"));
 		
 		destinationFile = getEd().getTitle();
 		assertTrue("ERROR: redirected to " + destinationFile,
