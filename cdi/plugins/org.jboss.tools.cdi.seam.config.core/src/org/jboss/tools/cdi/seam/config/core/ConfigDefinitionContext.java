@@ -146,10 +146,14 @@ public class ConfigDefinitionContext extends AbstractDefinitionContextExtension 
 	}
 
 	public void addAnnotation(String typeName, AnnotationDefinition def) {
-		IPath path = def.getResource().getFullPath();
 //		root.clean(typeName);
 		annotations.put(typeName, def);
-		((DefinitionContext)root).addType(path, typeName, def);
+		IPath path = def.getResource() != null ? def.getResource().getFullPath()
+					: def.getType() != null ? def.getType().getPath()
+					: null;
+		if(path != null) {
+			((DefinitionContext)root).addType(path, typeName, def);
+		}
 	}
 
 	public List<TypeDefinition> getTypeDefinitions() {
