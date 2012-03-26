@@ -12,6 +12,7 @@
 package org.jboss.tools.cdi.bot.test.uiutils;
 
 import java.util.Collection;
+import java.util.List;
 
 public class CollectionsUtil {
 
@@ -37,6 +38,33 @@ public class CollectionsUtil {
 			}
 		}
 		return expectedAffectedFiles.size() == counter;
+	}
+	
+	public static boolean checkNoMatch(List<String> proposalList, List<String> nonexpectedList) {
+		boolean noMatch = true;
+		for (String proposeValue : proposalList) {
+			for (String nonexpectedValue : nonexpectedList) {
+				if (proposeValue.equals(nonexpectedValue)) {
+					noMatch = false;
+					break;
+				}
+			}
+		}
+		return noMatch;
+	}
+	
+	public static boolean checkMatch(List<String> proposalList, List<String> expectedList) {
+		boolean match = false;
+		for (String expectedValue : expectedList) {
+			match = false;
+			for (String proposeValue : proposalList) {
+				if (expectedValue.equals(proposeValue)) {
+					match = true;
+				}
+			}
+			if (!match) return match;
+		}
+		return match;
 	}
 	
 }
