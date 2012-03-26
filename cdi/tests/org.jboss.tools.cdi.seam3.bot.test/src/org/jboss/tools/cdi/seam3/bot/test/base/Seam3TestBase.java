@@ -37,7 +37,8 @@ public class Seam3TestBase extends CDITestBase {
 	private String packageName = "cdi.seam";
 	
 	protected final LibraryHelper libraryHelper = new LibraryHelper();
-	protected final ProjectImportHelper projectImportHelper = new ProjectImportHelper(); 
+	protected final ProjectImportHelper projectImportHelper = new ProjectImportHelper();
+	
 	
 	protected String getProjectName() {
 		return projectName;
