@@ -15,6 +15,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.jboss.tools.cdi.bot.test.CDIConstants;
+import org.jboss.tools.cdi.bot.test.uiutils.CollectionsUtil;
 import org.jboss.tools.cdi.seam3.bot.test.base.SolderTestBase;
 import org.junit.Test;
 
@@ -48,7 +49,7 @@ public class NamedPackagesTest extends SolderTestBase {
 				MANAGER_JAVA, "\"#{}\"", 3, 0);
 		List<String> nonexpectedList = Arrays.asList("bean1 : Bean1", "bean2 : Bean2", 
 				"bean3 : Bean3", "bean4 : Bean4");
-		assertTrue(checkNoMatch(beansProposal, nonexpectedList));
+		assertTrue(CollectionsUtil.checkNoMatch(beansProposal, nonexpectedList));
 		
 	}
 	
@@ -65,9 +66,9 @@ public class NamedPackagesTest extends SolderTestBase {
 				MANAGER_JAVA, "\"#{}\"", 3, 0);
 		
 		List<String> nonExpectedList = Arrays.asList("bean3 : Bean3", "bean4 : Bean4");
-		assertTrue(checkNoMatch(beansProposal, nonExpectedList));
+		assertTrue(CollectionsUtil.checkNoMatch(beansProposal, nonExpectedList));
 		List<String> expectedList = Arrays.asList("bean1 : Bean1", "bean2 : Bean2");
-		assertTrue(checkMatch(beansProposal, expectedList));
+		assertTrue(CollectionsUtil.checkMatch(beansProposal, expectedList));
 		
 	}
 	
@@ -87,35 +88,8 @@ public class NamedPackagesTest extends SolderTestBase {
 		
 		List<String> expectedList = Arrays.asList("bean1 : Bean1", "bean2 : Bean2", 
 				"bean3 : Bean3", "bean4 : Bean4");
-		assertTrue(checkMatch(beansProposal, expectedList));
+		assertTrue(CollectionsUtil.checkMatch(beansProposal, expectedList));
 		
-	}
-	
-	private boolean checkNoMatch(List<String> proposalList, List<String> nonexpectedList) {
-		boolean noMatch = true;
-		for (String proposeValue : proposalList) {
-			for (String nonexpectedValue : nonexpectedList) {
-				if (proposeValue.equals(nonexpectedValue)) {
-					noMatch = false;
-					break;
-				}
-			}
-		}
-		return noMatch;
-	}
-	
-	private boolean checkMatch(List<String> proposalList, List<String> expectedList) {
-		boolean match = false;
-		for (String expectedValue : expectedList) {
-			match = false;
-			for (String proposeValue : proposalList) {
-				if (expectedValue.equals(proposeValue)) {
-					match = true;
-				}
-			}
-			if (!match) return match;
-		}
-		return match;
 	}
 	
 }
