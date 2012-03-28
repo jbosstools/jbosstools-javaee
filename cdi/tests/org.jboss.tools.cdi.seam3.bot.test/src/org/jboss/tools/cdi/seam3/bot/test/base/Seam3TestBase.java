@@ -15,9 +15,9 @@ import java.io.IOException;
 import java.util.logging.Level;
 
 import org.jboss.tools.cdi.bot.test.CDITestBase;
+import org.jboss.tools.cdi.seam3.bot.test.Activator;
 import org.jboss.tools.cdi.seam3.bot.test.CDISeam3AllBotTests;
 import org.jboss.tools.cdi.seam3.bot.test.util.LibraryHelper;
-import org.jboss.tools.cdi.seam3.bot.test.util.ProjectImportHelper;
 import org.jboss.tools.cdi.seam3.bot.test.util.SeamLibraries;
 import org.jboss.tools.ui.bot.ext.RequirementAwareSuite;
 import org.jboss.tools.ui.bot.ext.config.Annotations.Require;
@@ -37,8 +37,6 @@ public class Seam3TestBase extends CDITestBase {
 	private String packageName = "cdi.seam";
 	
 	protected final LibraryHelper libraryHelper = new LibraryHelper();
-	protected final ProjectImportHelper projectImportHelper = new ProjectImportHelper();
-	
 	
 	protected String getProjectName() {
 		return projectName;
@@ -50,12 +48,23 @@ public class Seam3TestBase extends CDITestBase {
 	
 	@Override
 	public void prepareWorkspace() {
-		projectImportHelper.importTestProject("/resources/projects/" + getProjectName(), projectName);		
+		importSeam3TestProject("/resources/projects/" + 
+				getProjectName(), projectName);
+	}
+	
+	protected void importSeam3TestProject(String projectLocation, String dir) {
+		projectImportHelper.importTestProject(projectLocation, dir, Activator.PLUGIN_ID);
 	}
 	
 	protected void addAndCheckLibraryInProject(String projectName, SeamLibraries library) {
 		addLibraryIntoProject(projectName, library.getName());
 		checkLibraryInProject(projectName, library.getName());
+	}
+	
+	protected void importProjectWithLibrary(String projectName, SeamLibraries library) {
+		importSeam3TestProject("/resources/projects/" + projectName, projectName);
+		addAndCheckLibraryInProject(projectName, library);
+		eclipse.cleanAllProjects();
 	}
 	
 	private void addLibraryIntoProject(String projectName, String libraryName) {
