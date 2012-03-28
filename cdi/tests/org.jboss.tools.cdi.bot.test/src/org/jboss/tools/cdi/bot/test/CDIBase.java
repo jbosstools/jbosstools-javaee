@@ -17,6 +17,7 @@ import org.jboss.tools.cdi.bot.test.uiutils.CDIProjectHelper;
 import org.jboss.tools.cdi.bot.test.uiutils.CDIWizardHelper;
 import org.jboss.tools.cdi.bot.test.uiutils.EditorResourceHelper;
 import org.jboss.tools.cdi.bot.test.uiutils.OpenOnHelper;
+import org.jboss.tools.cdi.bot.test.uiutils.ProjectImportHelper;
 import org.jboss.tools.cdi.bot.test.uiutils.QuickFixHelper;
 import org.jboss.tools.cdi.bot.test.uiutils.wizards.CDIWizardBaseExt;
 import org.jboss.tools.ui.bot.ext.SWTTestExt;
@@ -31,6 +32,7 @@ public class CDIBase extends SWTTestExt {
 	public static final OpenOnHelper openOnUtil = new OpenOnHelper();
 	public static final EditorResourceHelper editResourceUtil = new EditorResourceHelper();
 	public static final QuickFixHelper quickFixHelper = new QuickFixHelper();
+	public static final ProjectImportHelper projectImportHelper = new ProjectImportHelper();
 	
 	
 	public SWTBotEclipseEditor getEd() {
