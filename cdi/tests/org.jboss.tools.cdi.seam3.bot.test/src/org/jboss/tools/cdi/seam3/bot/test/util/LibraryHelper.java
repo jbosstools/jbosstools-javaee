@@ -22,15 +22,22 @@ import org.eclipse.swtbot.swt.finder.SWTBot;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotMenu;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotShell;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTree;
-import org.jboss.tools.cdi.bot.test.CDIBase;
 import org.jboss.tools.cdi.bot.test.CDIConstants;
 import org.jboss.tools.cdi.seam3.bot.test.Activator;
+import org.jboss.tools.ui.bot.ext.SWTBotExt;
 import org.jboss.tools.ui.bot.ext.SWTUtilExt;
 import org.jboss.tools.ui.bot.ext.helper.ContextMenuHelper;
 import org.jboss.tools.ui.bot.ext.types.IDELabel;
+import org.jboss.tools.ui.bot.ext.view.ProjectExplorer;
 
-public class LibraryHelper extends CDIBase{
+public class LibraryHelper {
 
+	private ProjectExplorer projectExplorer = new ProjectExplorer();
+	
+	private SWTBotExt bot = new SWTBotExt();
+	
+	private SWTUtilExt util = new SWTUtilExt(bot);
+	
 	/**
 	 * Method adds library named "libraryName" located in project folder
 	 * to project's classpath
