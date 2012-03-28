@@ -59,7 +59,9 @@ import org.junit.runners.Suite.SuiteClasses;
  */
 @RunWith(RequirementAwareSuite.class)
 @SuiteClasses({	
-//	PerspectiveTest.class,
+//	not included in JBDS anymore
+//	PerspectiveTest.class, 
+	
 	ConfigurationPresetTest.class,
 	FacetTest.class, 
 	CDISupportTest.class,
