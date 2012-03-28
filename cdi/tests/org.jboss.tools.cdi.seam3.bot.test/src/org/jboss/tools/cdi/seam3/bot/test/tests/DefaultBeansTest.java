@@ -14,7 +14,7 @@ package org.jboss.tools.cdi.seam3.bot.test.tests;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTable;
 import org.jboss.tools.cdi.bot.test.CDIConstants;
 import org.jboss.tools.cdi.seam3.bot.test.base.SolderAnnotationTestBase;
-import org.jboss.tools.cdi.seam3.bot.test.uiutils.AssignableBeansDialog;
+import org.jboss.tools.cdi.seam3.bot.test.uiutils.AssignableBeansDialogExt;
 import org.junit.Test;
 
 public class DefaultBeansTest extends SolderAnnotationTestBase {
@@ -56,7 +56,7 @@ public class DefaultBeansTest extends SolderAnnotationTestBase {
 		
 		assertTrue(openOnUtil.openOnByOption("managerImpl", className, CDIConstants.SHOW_ALL_ASSIGNABLE));			
 		
-		AssignableBeansDialog assignDialog = new AssignableBeansDialog(bot.shell("Assignable Beans"));
+		AssignableBeansDialogExt assignDialog = new AssignableBeansDialogExt(bot.shell("Assignable Beans"));
 		
 		SWTBotTable allBeans = assignDialog.getAllBeans();
 		assertTrue(allBeans.rowCount() == 2);
@@ -86,7 +86,7 @@ public class DefaultBeansTest extends SolderAnnotationTestBase {
 		
 		assertTrue(openOnUtil.openOnByOption("managerImpl", className, CDIConstants.SHOW_ALL_ASSIGNABLE));			
 		
-		AssignableBeansDialog assignDialog = new AssignableBeansDialog(bot.shell("Assignable Beans"));
+		AssignableBeansDialogExt assignDialog = new AssignableBeansDialogExt(bot.shell("Assignable Beans"));
 		
 		SWTBotTable allBeans = assignDialog.getAllBeans();
 		assertTrue(allBeans.rowCount() == 2);
@@ -116,7 +116,7 @@ public class DefaultBeansTest extends SolderAnnotationTestBase {
 		
 		assertTrue(openOnUtil.openOnByOption("managerImpl", className, CDIConstants.SHOW_ALL_ASSIGNABLE));			
 		
-		AssignableBeansDialog assignDialog = new AssignableBeansDialog(bot.shell("Assignable Beans"));
+		AssignableBeansDialogExt assignDialog = new AssignableBeansDialogExt(bot.shell("Assignable Beans"));
 		
 		SWTBotTable allBeans = assignDialog.getAllBeans();
 		assertTrue(allBeans.rowCount() == 2);
