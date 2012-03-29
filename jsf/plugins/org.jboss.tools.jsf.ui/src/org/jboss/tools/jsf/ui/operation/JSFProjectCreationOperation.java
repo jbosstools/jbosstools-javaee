@@ -22,12 +22,19 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.jst.common.project.facet.core.libprov.ILibraryProvider;
+import org.eclipse.jst.common.project.facet.core.libprov.LibraryInstallDelegate;
+import org.eclipse.jst.common.project.facet.core.libprov.LibraryProviderFramework;
+import org.eclipse.jst.jsf.core.internal.project.facet.IJSFFacetInstallDataModelProperties;
 import org.eclipse.jst.jsf.core.internal.project.facet.JSFFacetInstallDataModelProvider;
 import org.eclipse.wst.common.componentcore.datamodel.properties.IFacetDataModelProperties;
 import org.eclipse.wst.common.componentcore.datamodel.properties.IFacetProjectCreationDataModelProperties;
 import org.eclipse.wst.common.componentcore.datamodel.properties.IFacetProjectCreationDataModelProperties.FacetDataModelMap;
 import org.eclipse.wst.common.frameworks.datamodel.DataModelFactory;
 import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
+import org.eclipse.wst.common.project.facet.core.IFacetedProject;
+import org.eclipse.wst.common.project.facet.core.IProjectFacet;
+import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
 
 import org.jboss.tools.common.model.XModelConstants;
 import org.jboss.tools.common.model.filesystems.FileSystemsHelper;
@@ -81,9 +88,20 @@ public class JSFProjectCreationOperation extends WebProjectCreationOperation {
 			if(version != null) {
 				configJSF.setProperty(IFacetDataModelProperties.FACET_VERSION_STR, version);
 			}
+			IProjectFacet facet = ProjectFacetsManager.getProjectFacet("jst.jsf"); //$NON-NLS-1$
+			try {
+				IFacetedProject fproj = ProjectFacetsManager.create(getProject(), true, new NullProgressMonitor());
+				LibraryInstallDelegate libraryDelegate = new LibraryInstallDelegate(fproj, facet.getDefaultVersion());
+				ILibraryProvider provider = LibraryProviderFramework.getProvider("jsf-no-op-library-provider"); //$NON-NLS-1$
+				libraryDelegate.setLibraryProvider(provider);
+				configJSF.setProperty(IJSFFacetInstallDataModelProperties.LIBRARY_PROVIDER_DELEGATE, libraryDelegate);
+			} catch (CoreException e) {
+				e.printStackTrace();
+			}
 		}
 
 	}
+
 	protected IWebProjectTemplate createTemplate() {
 		return new JSFTemplate();
 	}
