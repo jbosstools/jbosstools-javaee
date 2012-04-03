@@ -58,7 +58,7 @@ public class ExactAnnotationTest extends SolderAnnotationTestBase {
 		String peopleManager = "PeopleManager";
 		String otherManager = "OtherManager";
 		
-		importProjectWithLibrary(projectName, SeamLibraries.SOLDER);
+		importSeam3ProjectWithLibrary(projectName, SeamLibraries.SOLDER);
 		
 		setEd(packageExplorer.openFile(projectName, CDIConstants.SRC, 
 				getPackageName(), className).toTextEditor());

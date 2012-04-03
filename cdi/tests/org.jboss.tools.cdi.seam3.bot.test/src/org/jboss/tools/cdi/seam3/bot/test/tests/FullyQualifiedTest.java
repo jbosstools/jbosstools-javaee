@@ -46,7 +46,7 @@ public class FullyQualifiedTest extends SolderTestBase {
 
 		String projectName = "fullyQualified1";
 		
-		importProjectWithLibrary(projectName, SeamLibraries.SOLDER);
+		importSeam3ProjectWithLibrary(projectName, SeamLibraries.SOLDER);
 		
 		setEd(packageExplorer.openFile(projectName, CDIConstants.SRC, 
 				getPackageName(), APPLICATION_CLASS).toTextEditor());
@@ -63,7 +63,7 @@ public class FullyQualifiedTest extends SolderTestBase {
 		
 		String projectName = "fullyQualified2";
 		
-		importProjectWithLibrary(projectName, SeamLibraries.SOLDER);
+		importSeam3ProjectWithLibrary(projectName, SeamLibraries.SOLDER);
 		
 		setEd(packageExplorer.openFile(projectName, CDIConstants.SRC, 
 				getPackageName(), APPLICATION_CLASS).toTextEditor());
@@ -89,7 +89,7 @@ public class FullyQualifiedTest extends SolderTestBase {
 		
 		String projectName = "fullyQualified3";
 		
-		importProjectWithLibrary(projectName, SeamLibraries.SOLDER);
+		importSeam3ProjectWithLibrary(projectName, SeamLibraries.SOLDER);
 		
 		setEd(packageExplorer.openFile(projectName, CDIConstants.SRC, 
 				getPackageName(), APPLICATION_CLASS).toTextEditor());
@@ -110,7 +110,7 @@ public class FullyQualifiedTest extends SolderTestBase {
 		String projectName = "fullyQualified4";
 		String myBean1 = "MyBean1.java";
 		
-		importProjectWithLibrary(projectName, SeamLibraries.SOLDER);
+		importSeam3ProjectWithLibrary(projectName, SeamLibraries.SOLDER);
 		
 		setEd(packageExplorer.openFile(projectName, CDIConstants.SRC, 
 				getPackageName(), myBean1).toTextEditor());
@@ -135,7 +135,7 @@ public class FullyQualifiedTest extends SolderTestBase {
 		
 		String projectName = "fullyQualified5";
 		
-		importProjectWithLibrary(projectName, SeamLibraries.SOLDER);
+		importSeam3ProjectWithLibrary(projectName, SeamLibraries.SOLDER);
 		
 		setEd(packageExplorer.openFile(projectName, CDIConstants.SRC, 
 				getPackageName(), APPLICATION_CLASS).toTextEditor());
@@ -172,7 +172,7 @@ public class FullyQualifiedTest extends SolderTestBase {
 		
 		String projectName = "fullyQualified6";
 		
-		importProjectWithLibrary(projectName, SeamLibraries.SOLDER);
+		importSeam3ProjectWithLibrary(projectName, SeamLibraries.SOLDER);
 		
 		setEd(packageExplorer.openFile(projectName, CDIConstants.SRC, 
 				getPackageName(), APPLICATION_CLASS).toTextEditor());
@@ -228,7 +228,7 @@ public class FullyQualifiedTest extends SolderTestBase {
 		
 		String projectName = "fullyQualified7";
 		
-		importProjectWithLibrary(projectName, SeamLibraries.SOLDER);
+		importSeam3ProjectWithLibrary(projectName, SeamLibraries.SOLDER);
 		
 		setEd(packageExplorer.openFile(projectName, CDIConstants.SRC, 
 				getPackageName(), APPLICATION_CLASS).toTextEditor());

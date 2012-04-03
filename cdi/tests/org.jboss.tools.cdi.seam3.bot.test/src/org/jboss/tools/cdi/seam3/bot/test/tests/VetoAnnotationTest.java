@@ -40,7 +40,7 @@ public class VetoAnnotationTest extends SolderAnnotationTestBase {
 		String otherBean = "OtherBean";
 		String projectName = "veto1";
 		
-		importProjectWithLibrary(projectName, SeamLibraries.SOLDER);
+		importSeam3ProjectWithLibrary(projectName, SeamLibraries.SOLDER);
 		
 		setEd(packageExplorer.openFile(projectName, CDIConstants.SRC, 
 				getPackageName(), APPLICATION_CLASS).toTextEditor());
@@ -63,7 +63,7 @@ public class VetoAnnotationTest extends SolderAnnotationTestBase {
 		String otherBean = "OtherBean";
 		String projectName = "veto2";
 		
-		importProjectWithLibrary(projectName, SeamLibraries.SOLDER);
+		importSeam3ProjectWithLibrary(projectName, SeamLibraries.SOLDER);
 		
 		setEd(packageExplorer.openFile(projectName, CDIConstants.SRC, 
 				getPackageName(), APPLICATION_CLASS).toTextEditor());
@@ -85,7 +85,7 @@ public class VetoAnnotationTest extends SolderAnnotationTestBase {
 		String vetoBean = "Bean";
 		String projectName = "veto3";
 		
-		importProjectWithLibrary(projectName, SeamLibraries.SOLDER);
+		importSeam3ProjectWithLibrary(projectName, SeamLibraries.SOLDER);
 		
 		setEd(packageExplorer.openFile(projectName, CDIConstants.SRC, 
 				getPackageName(), APPLICATION_CLASS).toTextEditor());
@@ -108,7 +108,7 @@ public class VetoAnnotationTest extends SolderAnnotationTestBase {
 		String vetoBean = "Bean";
 		String projectName = "veto4";
 		
-		importProjectWithLibrary(projectName, SeamLibraries.SOLDER);
+		importSeam3ProjectWithLibrary(projectName, SeamLibraries.SOLDER);
 		
 		setEd(packageExplorer.openFile(projectName, CDIConstants.SRC, 
 				getPackageName(), APPLICATION_CLASS).toTextEditor());
@@ -132,7 +132,7 @@ public class VetoAnnotationTest extends SolderAnnotationTestBase {
 		String projectName = "veto5";
 		String eventAttribute = "eventAttribute";
 		
-		importProjectWithLibrary(projectName, SeamLibraries.SOLDER);
+		importSeam3ProjectWithLibrary(projectName, SeamLibraries.SOLDER);
 		
 		setEd(packageExplorer.openFile(projectName, CDIConstants.SRC, 
 				getPackageName(), APPLICATION_CLASS).toTextEditor());

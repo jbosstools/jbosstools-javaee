@@ -40,7 +40,7 @@ public class RequiresAnnotationTest extends SolderAnnotationTestBase {
 		String manager = "Manager";
 		String projectName = "requires1";
 		
-		importProjectWithLibrary(projectName, SeamLibraries.SOLDER);
+		importSeam3ProjectWithLibrary(projectName, SeamLibraries.SOLDER);
 		
 		setEd(packageExplorer.openFile(projectName, CDIConstants.SRC, 
 				getPackageName(), APPLICATION_CLASS).toTextEditor());
@@ -63,7 +63,7 @@ public class RequiresAnnotationTest extends SolderAnnotationTestBase {
 		String manager = "Manager";
 		String projectName = "requires2";
 		
-		importProjectWithLibrary(projectName, SeamLibraries.SOLDER);
+		importSeam3ProjectWithLibrary(projectName, SeamLibraries.SOLDER);
 		
 		setEd(packageExplorer.openFile(projectName, CDIConstants.SRC, 
 				getPackageName(), APPLICATION_CLASS).toTextEditor());
@@ -86,7 +86,7 @@ public class RequiresAnnotationTest extends SolderAnnotationTestBase {
 		String manager = "Manager";
 		String projectName = "requires3";
 		
-		importProjectWithLibrary(projectName, SeamLibraries.SOLDER);
+		importSeam3ProjectWithLibrary(projectName, SeamLibraries.SOLDER);
 		
 		setEd(packageExplorer.openFile(projectName, CDIConstants.SRC, 
 				getPackageName(), APPLICATION_CLASS).toTextEditor());
@@ -110,7 +110,7 @@ public class RequiresAnnotationTest extends SolderAnnotationTestBase {
 		String manager = "Manager";
 		String projectName = "requires4";
 		
-		importProjectWithLibrary(projectName, SeamLibraries.SOLDER);
+		importSeam3ProjectWithLibrary(projectName, SeamLibraries.SOLDER);
 		
 		setEd(packageExplorer.openFile(projectName, CDIConstants.SRC, 
 				getPackageName(), APPLICATION_CLASS).toTextEditor());
@@ -135,7 +135,7 @@ public class RequiresAnnotationTest extends SolderAnnotationTestBase {
 		String projectName = "requires5";
 		String eventAttribute = "eventAttribute";
 		
-		importProjectWithLibrary(projectName, SeamLibraries.SOLDER);
+		importSeam3ProjectWithLibrary(projectName, SeamLibraries.SOLDER);
 		
 		setEd(packageExplorer.openFile(projectName, CDIConstants.SRC, 
 				getPackageName(), APPLICATION_CLASS).toTextEditor());
