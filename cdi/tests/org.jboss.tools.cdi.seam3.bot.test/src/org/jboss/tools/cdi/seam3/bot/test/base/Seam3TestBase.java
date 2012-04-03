@@ -48,8 +48,11 @@ public class Seam3TestBase extends CDITestBase {
 	
 	@Override
 	public void prepareWorkspace() {
-		importSeam3TestProject("/resources/projects/" + 
-				getProjectName(), projectName);
+		if (!projectHelper.projectExists(getProjectName())) {
+			importSeam3TestProject("/resources/projects/" + 
+					getProjectName(), getProjectName());
+		}
+		
 	}
 	
 	protected void importSeam3TestProject(String projectLocation, String dir) {
@@ -61,7 +64,7 @@ public class Seam3TestBase extends CDITestBase {
 		checkLibraryInProject(projectName, library.getName());
 	}
 	
-	protected void importProjectWithLibrary(String projectName, SeamLibraries library) {
+	protected void importSeam3ProjectWithLibrary(String projectName, SeamLibraries library) {
 		importSeam3TestProject("/resources/projects/" + projectName, projectName);
 		addAndCheckLibraryInProject(projectName, library);
 		eclipse.cleanAllProjects();
