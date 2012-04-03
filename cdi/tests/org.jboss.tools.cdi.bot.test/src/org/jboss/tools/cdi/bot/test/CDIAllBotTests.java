@@ -24,6 +24,7 @@ import org.jboss.tools.cdi.bot.test.quickfix.test.DecoratorValidationQuickFixTes
 import org.jboss.tools.cdi.bot.test.quickfix.test.IBindingValidationQuickFixTest;
 import org.jboss.tools.cdi.bot.test.quickfix.test.InterceptorValidationQuickFixTest;
 import org.jboss.tools.cdi.bot.test.quickfix.test.QualifierValidationQuickFixTest;
+import org.jboss.tools.cdi.bot.test.quickfix.test.QuickFixProposalsDescriptionTest;
 import org.jboss.tools.cdi.bot.test.quickfix.test.ScopeValidationQuickFixTest;
 import org.jboss.tools.cdi.bot.test.quickfix.test.StereotypeValidationQuickFixTest;
 import org.jboss.tools.cdi.bot.test.wizard.CDISupportTest;
@@ -59,8 +60,8 @@ import org.junit.runners.Suite.SuiteClasses;
  */
 @RunWith(RequirementAwareSuite.class)
 @SuiteClasses({	
-//	not included in JBDS anymore
-//	PerspectiveTest.class, 
+/*	not included in JBDS anymore  */
+/*	PerspectiveTest.class, */
 	
 	ConfigurationPresetTest.class,
 	FacetTest.class, 
@@ -74,6 +75,7 @@ import org.junit.runners.Suite.SuiteClasses;
 	BeansXMLValidationTest.class,
 	BeansXMLCompletionTest.class,
 	ProblemEligibleInjectionTest.class, 
+	QuickFixProposalsDescriptionTest.class,
 	BeansXMLValidationQuickFixTest.class, 
 	StereotypeValidationQuickFixTest.class,
 	QualifierValidationQuickFixTest.class,
