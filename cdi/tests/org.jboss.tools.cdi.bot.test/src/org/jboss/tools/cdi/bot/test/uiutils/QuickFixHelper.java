@@ -11,14 +11,34 @@
 package org.jboss.tools.cdi.bot.test.uiutils;
 
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTreeItem;
-import org.jboss.tools.cdi.bot.test.CDIBase;
 import org.jboss.tools.cdi.bot.test.CDIConstants;
+import org.jboss.tools.cdi.bot.test.CDITestBase;
 import org.jboss.tools.cdi.bot.test.annotations.ProblemsType;
+import org.jboss.tools.cdi.bot.test.uiutils.wizards.OpenOnOptionsDialog;
 import org.jboss.tools.ui.bot.ext.SWTEclipseExt;
+import org.jboss.tools.ui.bot.ext.SWTJBTExt;
+import org.jboss.tools.ui.bot.ext.Timing;
+import org.jboss.tools.ui.bot.ext.types.IDELabel;
 import org.jboss.tools.ui.bot.ext.types.ViewType;
 import org.jboss.tools.ui.bot.ext.view.ProblemsView;
 
-public class QuickFixHelper extends CDIBase {
+public class QuickFixHelper extends CDITestBase {
+	
+	/**
+	 * Method select openOnString and then open proposal dialog which
+	 * is returned as object
+	 * @param openOnString
+	 * @param titleName
+	 * @return
+	 */
+	public OpenOnOptionsDialog openOnDialog(String openOnString, String titleName) {
+		setEd(SWTJBTExt.selectTextInSourcePane(bot, titleName,
+				openOnString, 0, openOnString.length()));
+		bot.menu(IDELabel.Menu.EDIT).menu(IDELabel.Menu.QUICK_FIX).click();	
+		bot.sleep(Timing.time1S());
+		
+		return new OpenOnOptionsDialog(bot);
+	}
 	
 	/**
 	 * Method open context menu for given tree item and opens Quick Fix option

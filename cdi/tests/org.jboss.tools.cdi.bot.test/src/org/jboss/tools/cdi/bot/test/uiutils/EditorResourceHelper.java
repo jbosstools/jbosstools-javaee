@@ -24,7 +24,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotEclipseEditor;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTree;
-import org.jboss.tools.cdi.bot.test.CDIBase;
+import org.jboss.tools.cdi.bot.test.CDITestBase;
 import org.jboss.tools.cdi.bot.test.editor.BeansEditorTest;
 import org.jboss.tools.ui.bot.ext.SWTJBTExt;
 import org.jboss.tools.ui.bot.ext.SWTTestExt;
@@ -35,7 +35,7 @@ import org.jboss.tools.ui.bot.ext.parts.SWTBotEditorExt;
 import org.jboss.tools.ui.bot.ext.types.IDELabel;
 import org.jboss.tools.ui.bot.ext.view.ExplorerBase;
 
-public class EditorResourceHelper extends CDIBase {
+public class EditorResourceHelper extends CDITestBase {
 	
 	/**
 	 * method replaces whole content of class "classEdit" by inputstream resource

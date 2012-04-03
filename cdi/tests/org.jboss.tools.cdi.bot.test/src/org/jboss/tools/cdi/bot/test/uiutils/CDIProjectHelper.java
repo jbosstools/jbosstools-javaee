@@ -15,8 +15,8 @@ import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotMenu;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTree;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTreeItem;
-import org.jboss.tools.cdi.bot.test.CDIBase;
 import org.jboss.tools.cdi.bot.test.CDIConstants;
+import org.jboss.tools.cdi.bot.test.CDITestBase;
 import org.jboss.tools.cdi.bot.test.uiutils.actions.NewFileWizardAction;
 import org.jboss.tools.cdi.bot.test.uiutils.wizards.DynamicWebProjectWizard;
 import org.jboss.tools.ui.bot.ext.condition.ProgressInformationShellIsActiveCondition;
@@ -24,7 +24,7 @@ import org.jboss.tools.ui.bot.ext.condition.TaskDuration;
 import org.jboss.tools.ui.bot.ext.helper.ContextMenuHelper;
 import org.jboss.tools.ui.bot.ext.types.IDELabel;
 
-public class CDIProjectHelper extends CDIBase{
+public class CDIProjectHelper extends CDITestBase {
 	
 	/**
 	 * Method creates new CDI Project with CDI Web Project wizard

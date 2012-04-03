@@ -14,12 +14,12 @@ package org.jboss.tools.cdi.bot.test.uiutils;
 import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotEditor;
 import org.eclipse.swtbot.swt.finder.keyboard.Keystrokes;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTable;
-import org.jboss.tools.cdi.bot.test.CDIBase;
 import org.jboss.tools.cdi.bot.test.CDIConstants;
+import org.jboss.tools.cdi.bot.test.CDITestBase;
 import org.jboss.tools.ui.bot.ext.SWTJBTExt;
 import org.jboss.tools.ui.bot.ext.Timing;
 
-public class OpenOnHelper extends CDIBase{
+public class OpenOnHelper extends CDITestBase {
 	
 	/**
 	 * Method simulates "OpenOn" - press Ctrl, move mouse over selected string and

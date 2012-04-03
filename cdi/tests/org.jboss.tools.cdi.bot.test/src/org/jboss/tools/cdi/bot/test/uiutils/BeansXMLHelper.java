@@ -11,8 +11,8 @@
 
 package org.jboss.tools.cdi.bot.test.uiutils;
 
-import org.jboss.tools.cdi.bot.test.CDIBase;
 import org.jboss.tools.cdi.bot.test.CDIConstants;
+import org.jboss.tools.cdi.bot.test.CDITestBase;
 import org.jboss.tools.cdi.bot.test.annotations.CDIWizardType;
 import org.jboss.tools.cdi.bot.test.openon.OpenOnTest;
 
@@ -23,7 +23,7 @@ import org.jboss.tools.cdi.bot.test.openon.OpenOnTest;
  * 
  */
 
-public class BeansXMLHelper extends CDIBase {
+public class BeansXMLHelper extends CDITestBase {
 	
 	private static final String CLEAR_BEANS_XML = "/resources/beansXML/" +
 			"beans.xml.cdi"; 
