@@ -6,7 +6,9 @@ public class SolderTestBase extends Seam3TestBase {
 
 	@Override
 	public void prepareWorkspace() {
-		importProjectWithLibrary(getProjectName(), SeamLibraries.SOLDER);
+		if (!projectHelper.projectExists(getProjectName())) {
+			importSeam3ProjectWithLibrary(getProjectName(), SeamLibraries.SOLDER);
+		}
 	}
 	
 }
