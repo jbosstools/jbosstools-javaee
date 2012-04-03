@@ -13,7 +13,17 @@ package org.jboss.tools.cdi.bot.test;
 
 import java.util.logging.Logger;
 
+import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotEclipseEditor;
+import org.jboss.tools.cdi.bot.test.uiutils.BeansXMLHelper;
+import org.jboss.tools.cdi.bot.test.uiutils.CDIProjectHelper;
+import org.jboss.tools.cdi.bot.test.uiutils.CDIWizardHelper;
+import org.jboss.tools.cdi.bot.test.uiutils.EditorResourceHelper;
+import org.jboss.tools.cdi.bot.test.uiutils.OpenOnHelper;
+import org.jboss.tools.cdi.bot.test.uiutils.ProjectImportHelper;
+import org.jboss.tools.cdi.bot.test.uiutils.QuickFixHelper;
+import org.jboss.tools.cdi.bot.test.uiutils.wizards.CDIWizardBaseExt;
 import org.jboss.tools.ui.bot.ext.RequirementAwareSuite;
+import org.jboss.tools.ui.bot.ext.SWTTestExt;
 import org.jboss.tools.ui.bot.ext.config.Annotations.Require;
 import org.jboss.tools.ui.bot.ext.config.Annotations.Server;
 import org.jboss.tools.ui.bot.ext.config.Annotations.ServerState;
@@ -27,12 +37,30 @@ import org.junit.runners.Suite.SuiteClasses;
 		 version = "6.0", operator = ">="))
 		 @RunWith(RequirementAwareSuite.class)
 		 @SuiteClasses({ CDIAllBotTests.class })
-public class CDITestBase extends CDIBase {
+public class CDITestBase extends SWTTestExt {
 	
 	private String projectName = "CDIProject";
 	private String packageName = "cdi";
+	private static SWTBotEclipseEditor ed;
 	
 	protected static final Logger LOGGER = Logger.getLogger(CDITestBase.class.getName());
+	public static final CDIProjectHelper projectHelper = new CDIProjectHelper(); 
+	public static final BeansXMLHelper beansHelper = new BeansXMLHelper();
+	public static final CDIWizardHelper wizard = new CDIWizardHelper();
+	public static final CDIWizardBaseExt wizardExt = new CDIWizardBaseExt();
+	public static final OpenOnHelper openOnUtil = new OpenOnHelper();
+	public static final EditorResourceHelper editResourceUtil = new EditorResourceHelper();
+	public static final QuickFixHelper quickFixHelper = new QuickFixHelper();
+	public static final ProjectImportHelper projectImportHelper = new ProjectImportHelper();
+	
+	
+	public SWTBotEclipseEditor getEd() {
+		return ed;
+	}
+
+	public void setEd(SWTBotEclipseEditor ed) {
+		CDITestBase.ed = ed;
+	}
 	
 	@Before
 	public void prepareWorkspace() {
@@ -52,6 +80,10 @@ public class CDITestBase extends CDIBase {
 	
 	protected String getPackageName() {
 		return packageName;
+	}
+	
+	protected void importCDITestProject(String projectLocation, String dir) {
+		projectImportHelper.importTestProject(projectLocation, dir, PluginActivator.PLUGIN_ID);
 	}
 	
 }
