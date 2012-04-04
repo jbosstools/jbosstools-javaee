@@ -11,7 +11,8 @@
 
 package org.jboss.tools.cdi.seam3.bot.test.tests;
 
-import org.eclipse.swtbot.swt.finder.widgets.SWTBotTable;
+import java.util.List;
+
 import org.jboss.tools.cdi.bot.test.CDIConstants;
 import org.jboss.tools.cdi.seam3.bot.test.base.SolderAnnotationTestBase;
 import org.jboss.tools.cdi.seam3.bot.test.uiutils.AssignableBeansDialogExt;
@@ -58,15 +59,15 @@ public class DefaultBeansTest extends SolderAnnotationTestBase {
 		
 		AssignableBeansDialogExt assignDialog = new AssignableBeansDialogExt(bot.shell("Assignable Beans"));
 		
-		SWTBotTable allBeans = assignDialog.getAllBeans();
-		assertTrue(allBeans.rowCount() == 2);
+		List<String> allBeans = assignDialog.getAllBeans();
+		assertTrue(allBeans.size() == 2);
 		assignDialog.hideUnavailableBeans();
 		allBeans = assignDialog.getAllBeans();
-		assertTrue(allBeans.rowCount() == 1);
+		assertTrue(allBeans.size() == 1);
 		
 		allBeans = assignDialog.getAllBeans();
-		assertTrue(allBeans.rowCount() == 1);
-		assertTrue(allBeans.getTableItem(0).getText().contains("DefaultOne"));
+		assertTrue(allBeans.size() == 1);
+		assertTrue(allBeans.get(0).contains("DefaultOne"));
 		
 		openOnUtil.openOnByOption("managerImpl", className, CDIConstants.OPEN_INJECT_BEAN);
 		String destinationFile = getEd().getTitle();		
@@ -88,15 +89,15 @@ public class DefaultBeansTest extends SolderAnnotationTestBase {
 		
 		AssignableBeansDialogExt assignDialog = new AssignableBeansDialogExt(bot.shell("Assignable Beans"));
 		
-		SWTBotTable allBeans = assignDialog.getAllBeans();
-		assertTrue(allBeans.rowCount() == 2);
+		List<String> allBeans = assignDialog.getAllBeans();
+		assertTrue(allBeans.size() == 2);
 		assignDialog.hideDefaultBeans();
 		allBeans = assignDialog.getAllBeans();
-		assertTrue(allBeans.rowCount() == 1);
+		assertTrue(allBeans.size() == 1);
 		
 		allBeans = assignDialog.getAllBeans();
-		assertTrue(allBeans.rowCount() == 1);
-		assertTrue(allBeans.getTableItem(0).getText().contains("ManagerImpl"));
+		assertTrue(allBeans.size() == 1);
+		assertTrue(allBeans.get(0).contains("ManagerImpl"));
 		
 		openOnUtil.openOnByOption("managerImpl", className, CDIConstants.OPEN_INJECT_BEAN);
 		String destinationFile = getEd().getTitle();		
@@ -118,18 +119,18 @@ public class DefaultBeansTest extends SolderAnnotationTestBase {
 		
 		AssignableBeansDialogExt assignDialog = new AssignableBeansDialogExt(bot.shell("Assignable Beans"));
 		
-		SWTBotTable allBeans = assignDialog.getAllBeans();
-		assertTrue(allBeans.rowCount() == 2);
+		List<String> allBeans = assignDialog.getAllBeans();
+		assertTrue(allBeans.size() == 2);
 		assignDialog.hideDefaultBeans();
 		allBeans = assignDialog.getAllBeans();
-		assertTrue(allBeans.rowCount() == 1);
+		assertTrue(allBeans.size() == 1);
 		assignDialog.showDefaultBeans();
 		assignDialog.hideAmbiguousBeans();
-		assertTrue(allBeans.rowCount() == 1);
+		assertTrue(allBeans.size() == 1);
 		
 		allBeans = assignDialog.getAllBeans();
-		assertTrue(allBeans.rowCount() == 1);
-		assertTrue(allBeans.getTableItem(0).getText().contains("ManagerImpl"));
+		assertTrue(allBeans.size() == 1);
+		assertTrue(allBeans.get(0).contains("ManagerImpl"));
 		
 		openOnUtil.openOnByOption("managerImpl", className, CDIConstants.OPEN_INJECT_BEAN);
 		String destinationFile = getEd().getTitle();		
