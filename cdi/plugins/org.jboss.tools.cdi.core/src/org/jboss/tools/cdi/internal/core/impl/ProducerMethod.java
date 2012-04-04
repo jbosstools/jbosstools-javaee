@@ -116,7 +116,10 @@ public class ProducerMethod extends BeanMethod implements IProducerMethod {
 	public String getName() {
 		ProducerMethod specialized = getSpecializedBean();
 		if(specialized != null) {
-			return specialized.getName();
+			String name = specialized.getName();
+			if(name != null) {
+				return name;
+			}
 		}
 
 		AnnotationDeclaration named = findNamedAnnotation();

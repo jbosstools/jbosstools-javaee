@@ -371,7 +371,10 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 	public String getName() {
 		ClassBean specialized = getSpecializedBean();
 		if(specialized != null) {
-			return specialized.getName();
+			String name = specialized.getName();
+			if(name != null) {
+				return name;
+			}
 		}
 	
 		AnnotationDeclaration named = findNamedAnnotation();
