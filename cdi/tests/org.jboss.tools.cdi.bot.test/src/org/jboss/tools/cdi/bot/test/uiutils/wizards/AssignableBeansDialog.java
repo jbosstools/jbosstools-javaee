@@ -11,53 +11,119 @@
 
 package org.jboss.tools.cdi.bot.test.uiutils.wizards;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.eclipse.swtbot.swt.finder.SWTBot;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotShell;
-import org.eclipse.swtbot.swt.finder.widgets.SWTBotTable;
-import org.eclipse.swtbot.swt.finder.widgets.SWTBotTree;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTreeItem;
+import org.jboss.tools.ui.bot.ext.helper.TreeHelper;
 
 public class AssignableBeansDialog {
 
-	private SWTBotShell shell = null; 
+	private SWTBot bot = null;
 	
+	private final String UNAVAILABLE_BEANS = "Unavailable Beans";
+	
+	private final String DECORATOR = "@Decorator";
+	
+	private final String INTERCEPTOR = "@Interceptor";
+	
+	private final String ELIMINATED_AMBIGUOUS = "Eliminated ambiguous";
+	
+	private final String UNSELECTED_ALTERNATIVE = "Unselected @Alternative";
+	
+	private final String UNAVAILABLE_PRODUCER = "@Produces in unavailable bean"; 
+	
+	private final String SPECIALIZED_BEANS = "Specialized beans";
+			
 	public AssignableBeansDialog(SWTBotShell shell) {
-		this.shell = shell;
-		showAmbiguousBeans().showUnavailableBeans();
+		this.bot = shell.bot();
+		showAmbiguousBeans().showUnavailableBeans().
+		showDecorators().showInterceptors().showUnselectedAlternatives().
+		showUnavailableProducers().showSpecializedBeans();
 	}
 	
-	public SWTBotTable getAllBeans() {
-		return shell.bot().table();
+	public List<String> getAllBeans() {
+		List<String> allBeans = new ArrayList<String>();
+		for (int i = 0; i < bot.table().rowCount(); i++) {
+			allBeans.add(bot.table().getTableItem(i).getText());
+		}
+		return allBeans;
 	}
 	
 	public AssignableBeansDialog hideUnavailableBeans() {
-		getTreeItem("Unavailable Beans").uncheck();
+		getTreeItem(UNAVAILABLE_BEANS).uncheck();
 		return this;
 	}
 	
 	public AssignableBeansDialog showUnavailableBeans() {
-		getTreeItem("Unavailable Beans").check();
+		getTreeItem(UNAVAILABLE_BEANS).check();
+		return this;
+	}
+	
+	public AssignableBeansDialog hideDecorators() {
+		getTreeItem(UNAVAILABLE_BEANS, DECORATOR).uncheck();
+		return this;
+	}
+	
+	public AssignableBeansDialog showDecorators() {
+		getTreeItem(UNAVAILABLE_BEANS, DECORATOR).check();
+		return this;
+	}
+	
+	public AssignableBeansDialog hideInterceptors() {
+		getTreeItem(UNAVAILABLE_BEANS, INTERCEPTOR).uncheck();
+		return this;
+	}
+	
+	public AssignableBeansDialog showInterceptors() {
+		getTreeItem(UNAVAILABLE_BEANS, INTERCEPTOR).check();
+		return this;
+	}
+	
+	public AssignableBeansDialog hideUnselectedAlternatives() {
+		getTreeItem(UNAVAILABLE_BEANS, UNSELECTED_ALTERNATIVE).uncheck();
+		return this;
+	}
+	
+	public AssignableBeansDialog showUnselectedAlternatives() {
+		getTreeItem(UNAVAILABLE_BEANS, UNSELECTED_ALTERNATIVE).check();
+		return this;
+	}
+	
+	public AssignableBeansDialog hideUnavailableProducers() {
+		getTreeItem(UNAVAILABLE_BEANS, UNAVAILABLE_PRODUCER).uncheck();
+		return this;
+	}
+	
+	public AssignableBeansDialog showUnavailableProducers() {
+		getTreeItem(UNAVAILABLE_BEANS, UNAVAILABLE_PRODUCER).check();
+		return this;
+	}
+	
+	public AssignableBeansDialog hideSpecializedBeans() {
+		getTreeItem(UNAVAILABLE_BEANS, SPECIALIZED_BEANS).uncheck();
+		return this;
+	}
+	
+	public AssignableBeansDialog showSpecializedBeans() {
+		getTreeItem(UNAVAILABLE_BEANS, SPECIALIZED_BEANS).check();
 		return this;
 	}
 	
 	public AssignableBeansDialog hideAmbiguousBeans() {
-		getTreeItem("Eliminated ambiguous").uncheck();
+		getTreeItem(ELIMINATED_AMBIGUOUS).uncheck();
 		return this;
 	}
 	
 	public AssignableBeansDialog showAmbiguousBeans() {
-		getTreeItem("Eliminated ambiguous").check();
+		getTreeItem(ELIMINATED_AMBIGUOUS).check();
 		return this;
 	}
 	
-	private SWTBotTree getAllOptions() {
-		return shell.bot().tree();
-	}
-	
-	protected SWTBotTreeItem getTreeItem(String treeItemText) {
-		for (SWTBotTreeItem ti : getAllOptions().getAllItems()) {
-			if (ti.getText().contains(treeItemText)) return ti;
-		}
-		return null;
+	protected SWTBotTreeItem getTreeItem(String... path) {
+		return TreeHelper.expandNode(bot, path);
 	}
 	
 }
