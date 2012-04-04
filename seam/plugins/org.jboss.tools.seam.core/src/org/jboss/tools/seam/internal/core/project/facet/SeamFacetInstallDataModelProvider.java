@@ -98,6 +98,9 @@ public class SeamFacetInstallDataModelProvider extends
 		names.add(ISeamFacetDataModelProperties.SEAM_TEMPLATES_AND_LIBRARIES_COPYING);
 		names.add(ISeamFacetDataModelProperties.SEAM_LIBRARY_PROVIDER);
 		
+		//JBIDE-11176 We need to be able to distinguish facet installation between wizard and maven configurator
+		names.add(ISeamFacetDataModelProperties.PROJECT_ALREADY_EXISTS);
+		
 		return names;
 	}
 

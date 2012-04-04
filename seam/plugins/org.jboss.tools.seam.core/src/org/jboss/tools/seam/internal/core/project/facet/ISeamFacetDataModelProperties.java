@@ -346,5 +346,11 @@ public interface ISeamFacetDataModelProperties extends IActionConfigFactory {
 	String SEAM_TEMPLATES_AND_LIBRARIES_COPYING = "seam.templates.copying"; //$NON-NLS-1$
 
 	String SEAM_LIBRARY_PROVIDER = "seam.runtime.library.provider"; //$NON-NLS-1$
+
+	/**
+	 * This flag indicates a project already exists in the workspace. 
+	 * This is used to distinguish Facet installation from a Wizard vs from a Maven configurator. 
+	 */
+	String PROJECT_ALREADY_EXISTS = "seam.project.already.exists";
 	
 }
