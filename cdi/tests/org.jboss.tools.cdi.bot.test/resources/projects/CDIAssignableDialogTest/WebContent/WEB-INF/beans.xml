@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<beans xmlns="http://java.sun.com/xml/ns/javaee"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://jboss.org/schema/cdi/beans_1_0.xsd">
+ <decorators>
+  <class>cdi.D1</class>
+ </decorators>
+ <interceptors>
+  <class>cdi.I1</class>
+ </interceptors>
+ <alternatives>
+ 	<class>cdi.Manager1</class>
+ 	<class>cdi.Manager2</class>
+ </alternatives>
+</beans>
