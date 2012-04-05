@@ -52,6 +52,12 @@ public class AssignableBeansDialog {
 		return allBeans;
 	}
 	
+	public AssignableBeansDialog typeInFilter(String text) {
+		bot.text().setText(""); // clear filter textbox
+		bot.text().typeText(text);
+		return this;
+	}
+	
 	public AssignableBeansDialog hideUnavailableBeans() {
 		getTreeItem(UNAVAILABLE_BEANS).uncheck();
 		return this;
