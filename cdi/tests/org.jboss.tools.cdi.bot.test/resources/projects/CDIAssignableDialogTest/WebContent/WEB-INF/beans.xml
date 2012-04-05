@@ -9,6 +9,5 @@
  </interceptors>
  <alternatives>
  	<class>cdi.Manager1</class>
- 	<class>cdi.Manager2</class>
  </alternatives>
 </beans>
