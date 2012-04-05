@@ -40,4 +40,5 @@ public class Wizard extends SWTBotWizard {
 		}
 		return false;
 	}
+	
 }

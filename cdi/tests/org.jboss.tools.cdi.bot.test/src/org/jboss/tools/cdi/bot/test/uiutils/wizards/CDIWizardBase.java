@@ -11,6 +11,7 @@
 
 package org.jboss.tools.cdi.bot.test.uiutils.wizards;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -42,6 +43,14 @@ public class CDIWizardBase extends Wizard {
 			setText("Name:", name);
 		}
 		return this;
+	}
+	
+	public String getName() {
+		if (CDIWizardType.BEANS_XML == type) {
+			return getTextInTextBox("File name:");
+		} else {
+			return getTextInTextBox("Name:");			
+		}
 	}
 
 	public CDIWizardBase setPackage(String pkg) {
@@ -328,6 +337,14 @@ public class CDIWizardBase extends Wizard {
 		}
 		return this;
 	}
+	
+	public List<String> getDecoratedInterfaces() {
+		List<String> decoratedInterfaces = new ArrayList<String>();
+		for (int i = 0; i < bot().table().rowCount(); i++) {
+			decoratedInterfaces.add(bot().table().getTableItem(i).getText());
+		}
+		return decoratedInterfaces;
+	}
 
 	public CDIWizardBase addQualifier(String qualifier) {
 		setFocus();
@@ -428,5 +445,9 @@ public class CDIWizardBase extends Wizard {
 		SWTBotCombo c = bot().comboBoxWithLabel(label);
 		c.setSelection(value);
 	}
-
+	
+	private String getTextInTextBox(String textBox) {
+		return bot().textWithLabel(textBox).getText();
+	}
+	
 }
