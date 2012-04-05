@@ -46,14 +46,14 @@ public class AllAssignableDialogTest extends CDITestBase {
 		AssignableBeansDialog assignDialog = new AssignableBeansDialog(bot.shell("Assignable Beans"));
 		
 		assertTrue(assignDialog.getAllBeans().size() == 6);
-		assertTrue(assignDialog.getAllBeans().contains("" +
-				"@Decorator D1 - " + getPackageName() + " - /" 
+		assertTrue(assignDialog.getAllBeans().contains("@Decorator D1 - "
+				+ getPackageName() + " - /" 
 				+ getProjectName() + "/src"));
 		
 		assignDialog.hideDecorators();
 		assertTrue(assignDialog.getAllBeans().size() == 5);
-		assertFalse(assignDialog.getAllBeans().contains("" +
-				"@Decorator D1 - " + getPackageName() + " - /" 
+		assertFalse(assignDialog.getAllBeans().contains("@Decorator D1 - "
+				+ getPackageName() + " - /" 
 				+ getProjectName() + "/src"));
 		
 	}
@@ -69,13 +69,13 @@ public class AllAssignableDialogTest extends CDITestBase {
 		AssignableBeansDialog assignDialog = new AssignableBeansDialog(bot.shell("Assignable Beans"));
 		
 		assertTrue(assignDialog.getAllBeans().size() == 6);
-		assertTrue(assignDialog.getAllBeans().contains("" +
-				"@Interceptor I1 - " + getPackageName() + " - /" 
+		assertTrue(assignDialog.getAllBeans().contains("@Interceptor I1 - "
+				+ getPackageName() + " - /" 
 				+ getProjectName() + "/src"));
 		assignDialog.hideInterceptors();
 		assertTrue(assignDialog.getAllBeans().size() == 5);
-		assertFalse(assignDialog.getAllBeans().contains("" +
-				"@Interceptor I1 - " + getPackageName() + " - /" 
+		assertFalse(assignDialog.getAllBeans().contains("@Interceptor I1 - "
+				+ getPackageName() + " - /" 
 				+ getProjectName() + "/src"));
 		
 	}
@@ -91,13 +91,13 @@ public class AllAssignableDialogTest extends CDITestBase {
 		AssignableBeansDialog assignDialog = new AssignableBeansDialog(bot.shell("Assignable Beans"));
 		
 		assertTrue(assignDialog.getAllBeans().size() == 6);
-		assertTrue(assignDialog.getAllBeans().contains("" +
-				"@Alternative BasicManager - " + getPackageName() + " - /" 
+		assertTrue(assignDialog.getAllBeans().contains("@Alternative BasicManager - "
+				+ getPackageName() + " - /" 
 				+ getProjectName() + "/src"));
 		assignDialog.hideUnselectedAlternatives();
 		assertTrue(assignDialog.getAllBeans().size() == 5);
-		assertFalse(assignDialog.getAllBeans().contains("" +
-				"@Alternative BasicManager - " + getPackageName() + " - /" 
+		assertFalse(assignDialog.getAllBeans().contains("@Alternative BasicManager - " 
+				+ getPackageName() + " - /" 
 				+ getProjectName() + "/src"));
 		
 	}
@@ -113,13 +113,13 @@ public class AllAssignableDialogTest extends CDITestBase {
 		AssignableBeansDialog assignDialog = new AssignableBeansDialog(bot.shell("Assignable Beans"));
 		
 		assertTrue(assignDialog.getAllBeans().size() == 6);
-		assertTrue(assignDialog.getAllBeans().contains("" +
-				"@Produces BasicManager.getManager() - " + getPackageName() + " - /" 
+		assertTrue(assignDialog.getAllBeans().contains("@Produces BasicManager.getManager() - "
+				+ getPackageName() + " - /" 
 				+ getProjectName() + "/src"));
 		assignDialog.hideUnavailableProducers();
 		assertTrue(assignDialog.getAllBeans().size() == 5);
-		assertFalse(assignDialog.getAllBeans().contains("" +
-				"@Produces BasicManager.getManager() - " + getPackageName() + " - /" 
+		assertFalse(assignDialog.getAllBeans().contains("@Produces BasicManager.getManager() - "
+				+ getPackageName() + " - /" 
 				+ getProjectName() + "/src"));
 		
 	}
@@ -135,13 +135,13 @@ public class AllAssignableDialogTest extends CDITestBase {
 		AssignableBeansDialog assignDialog = new AssignableBeansDialog(bot.shell("Assignable Beans"));
 		
 		assertTrue(assignDialog.getAllBeans().size() == 6);
-		assertTrue(assignDialog.getAllBeans().contains("" +
-				"AbstractManager - " + getPackageName() + " - /" 
+		assertTrue(assignDialog.getAllBeans().contains("AbstractManager - "
+				+ getPackageName() + " - /" 
 				+ getProjectName() + "/src"));
 		assignDialog.hideSpecializedBeans();
 		assertTrue(assignDialog.getAllBeans().size() == 5);
-		assertFalse(assignDialog.getAllBeans().contains("" +
-				"AbstractManager - " + getPackageName() + " - /" 
+		assertFalse(assignDialog.getAllBeans().contains("AbstractManager - "
+				+ getPackageName() + " - /" 
 				+ getProjectName() + "/src"));
 		
 	}
@@ -159,25 +159,25 @@ public class AllAssignableDialogTest extends CDITestBase {
 				bot.shell("Assignable Beans"));
 		
 		assertTrue(assignDialog.getAllBeans().size() == 3);
-		assertTrue(assignDialog.getAllBeans().contains("" +
-				"@Alternative Manager1 - " + getPackageName() + " - /" 
+		assertTrue(assignDialog.getAllBeans().contains("@Alternative Manager1 - "
+				+ getPackageName() + " - /" 
 				+ getProjectName() + "/src"));
-		assertTrue(assignDialog.getAllBeans().contains("" +
-				"Manager2 - " + getPackageName() + " - /" 
+		assertTrue(assignDialog.getAllBeans().contains("Manager2 - " 
+				+ getPackageName() + " - /" 
 				+ getProjectName() + "/src"));
-		assertTrue(assignDialog.getAllBeans().contains("" +
-				"Manager3 - " + getPackageName() + " - /" 
+		assertTrue(assignDialog.getAllBeans().contains("Manager3 - "
+				+ getPackageName() + " - /" 
 				+ getProjectName() + "/src"));
 		assignDialog.hideAmbiguousBeans();
 		assertTrue(assignDialog.getAllBeans().size() == 1);
-		assertTrue(assignDialog.getAllBeans().contains("" +
-				"@Alternative Manager1 - " + getPackageName() + " - /" 
+		assertTrue(assignDialog.getAllBeans().contains("@Alternative Manager1 - "
+				+ getPackageName() + " - /" 
 				+ getProjectName() + "/src"));
-		assertFalse(assignDialog.getAllBeans().contains("" +
-				"Manager2 - " + getPackageName() + " - /" 
+		assertFalse(assignDialog.getAllBeans().contains("Manager2 - " 
+				+ getPackageName() + " - /" 
 				+ getProjectName() + "/src"));
-		assertFalse(assignDialog.getAllBeans().contains("" +
-				"Manager3 - " + getPackageName() + " - /" 
+		assertFalse(assignDialog.getAllBeans().contains("Manager3 - " 
+				+ getPackageName() + " - /" 
 				+ getProjectName() + "/src"));
 		
 	}
