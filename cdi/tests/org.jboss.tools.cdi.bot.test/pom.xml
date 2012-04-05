@@ -11,10 +11,8 @@
 	
 	<packaging>eclipse-test-plugin</packaging>
 	<properties>
-		<!-- debug option -->
-		<!-- <systemProperties>-Xdebug -Xrunjdwp:transport=dt_socket,address=8001,server=y,suspend=y -Dswtbot.test.properties.file=${project.basedir}/properties/swtbot.properties</systemProperties> -->
-		
-		<systemProperties> -Dswtbot.test.properties.file=${project.basedir}/properties/swtbot.properties</systemProperties>		
+		<additionalSystemProperties></additionalSystemProperties>
+		<systemProperties>${additionalSystemProperties} -Dswtbot.test.properties.file=${project.basedir}/properties/swtbot.properties</systemProperties>
 	</properties>
 
 	<build>
@@ -66,6 +64,12 @@
 			<properties>
 				<test.suite.class>org.jboss.tools.cdi.bot.test.CDISmokeBotTests</test.suite.class>
 			</properties>				
-		</profile>		
+		</profile>	
+		<profile>
+			<id>debug</id>
+			<properties>
+				<additionalSystemProperties>-Xdebug -Xrunjdwp:transport=dt_socket,address=8001,server=y,suspend=y</additionalSystemProperties>				
+			</properties>
+		</profile>	
 	</profiles>
 </project>
