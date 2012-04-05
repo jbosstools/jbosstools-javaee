@@ -29,7 +29,6 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IType;
-import org.eclipse.osgi.util.NLS;
 import org.eclipse.wst.common.project.facet.core.IFacetedProject;
 import org.eclipse.wst.common.project.facet.core.IProjectFacet;
 import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
@@ -444,7 +443,7 @@ class JSFCheckFromViewId extends Check {
 			return;
 		}
 		if(value != null && value.length() > 0 && !value.startsWith("*") && !value.startsWith("/")) {
-			fireMessage(object, NLS.bind(JSFValidationMessage.VIEW_ID_NO_SLASH, attr));
+			fireMessage(object, JSFValidationMessage.VIEW_ID_NO_SLASH, attr);
 		}
 	}
 }
@@ -461,11 +460,15 @@ class JSFCheckToViewId extends Check {
 			return;
 		}
 		if(value.length() == 0) {
-			fireMessage(object, NLS.bind(JSFValidationMessage.TO_VIEW_ID_EMPTY, attr));
-		} else if(!value.startsWith("/")) {
-			fireMessage(object, NLS.bind(JSFValidationMessage.VIEW_ID_NO_SLASH, attr));
+			fireMessage(object, JSFValidationMessage.TO_VIEW_ID_EMPTY, attr);
+		} else if(!value.startsWith("/")) { //$NON-NLS-1$
+			if(value.startsWith("#{")) { //$NON-NLS-1$
+				//Ignore EL.
+				return;
+			}
+			fireMessage(object, JSFValidationMessage.VIEW_ID_NO_SLASH, attr);
 		} else if(value.indexOf("*") >= 0) {
-			fireMessage(object, NLS.bind(JSFValidationMessage.TO_VIEW_ID_STAR, attr));
+			fireMessage(object, JSFValidationMessage.TO_VIEW_ID_STAR, attr);
 		} else {
 			checkEsists(object, value);
 		}
@@ -474,6 +477,10 @@ class JSFCheckToViewId extends Check {
 	void checkEsists(XModelObject object, String value) {
 		if(value.indexOf('?') >= 0) {
 			value = value.substring(0, value.indexOf('?'));
+		}
+		if(value.indexOf("#{") > 0) { //$NON-NLS-1$
+			//Ignore EL.
+			return;
 		}
 		XModel model = object.getModel();
 		XModelObject o = model.getByPath(value);
@@ -508,7 +515,7 @@ class JSFCheckToViewId extends Check {
 		} else if(checkTiles(model, value)) {
 			return;
 		}
-		fireMessage(object, NLS.bind(JSFValidationMessage.VIEW_NOT_EXISTS, attr, value));
+		fireMessage(object, JSFValidationMessage.VIEW_NOT_EXISTS, attr, value);
 	}
 	
 	private boolean checkTiles(XModel model, String path) {
@@ -558,7 +565,7 @@ class CheckContextParam extends Check {
 			if(path.length() == 0) continue;
 			XModelObject fc = XModelImpl.getByRelativePath(model, path);
 			if(fc == null) {
-				fireMessage(object, NLS.bind(JSFValidationMessage.INVALID_FACES_CONFIG_REFERENCE, "param-value", path));
+				fireMessage(object, JSFValidationMessage.INVALID_FACES_CONFIG_REFERENCE, "param-value", path);
 				return;
 			}
 			String path2 = path.startsWith("/") ? path.substring(1) : path; //$NON-NLS-1$
@@ -568,11 +575,11 @@ class CheckContextParam extends Check {
 				if(fc2 != null) break;
 			}
 			if(fc2 == null) {
-				fireMessage(object, NLS.bind(JSFValidationMessage.INVALID_FACES_CONFIG_REFERENCE, "param-value", path));
+				fireMessage(object, JSFValidationMessage.INVALID_FACES_CONFIG_REFERENCE, "param-value", path);
 				return;
 			}
 			if(!fc2.getModelEntity().getName().startsWith("FacesConfig")) { //$NON-NLS-1$
-				fireMessage(object, NLS.bind(JSFValidationMessage.INVALID_FACES_CONFIG_REFERENCE, "param-value", path));
+				fireMessage(object, JSFValidationMessage.INVALID_FACES_CONFIG_REFERENCE, "param-value", path);
 				return;
 			}
 		}		
