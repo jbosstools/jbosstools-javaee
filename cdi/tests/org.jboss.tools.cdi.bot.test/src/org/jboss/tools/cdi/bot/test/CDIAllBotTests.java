@@ -12,6 +12,7 @@ package org.jboss.tools.cdi.bot.test;
 
 import org.jboss.tools.cdi.bot.test.beansxml.BeansXMLCompletionTest;
 import org.jboss.tools.cdi.bot.test.beansxml.BeansXMLValidationTest;
+import org.jboss.tools.cdi.bot.test.decorator.DecoratorFromWebBeanTest;
 import org.jboss.tools.cdi.bot.test.editor.BeansEditorTest;
 import org.jboss.tools.cdi.bot.test.named.NamedComponentsSearchingTest;
 import org.jboss.tools.cdi.bot.test.named.NamedRefactoringTest;
@@ -76,6 +77,7 @@ import org.junit.runners.Suite.SuiteClasses;
 	NamedComponentsSearchingTest.class,
 	BeansXMLValidationTest.class,
 	BeansXMLCompletionTest.class,
+	DecoratorFromWebBeanTest.class,
 	ProblemEligibleInjectionTest.class, 
 	AllAssignableDialogTest.class,
 	AssignableDialogFilterTest.class,
