@@ -35,7 +35,7 @@ public class AllAssignableDialogTest extends CDITestBase {
 		}
 	}
 	
-	@Test //example exists
+	@Test
 	public void testDecorator() {
 		
 		setEd(packageExplorer.openFile(getProjectName(), CDIConstants.SRC, 
@@ -58,7 +58,7 @@ public class AllAssignableDialogTest extends CDITestBase {
 		
 	}
 	
-	@Test //example exists
+	@Test
 	public void testInterceptor() {
 		
 		setEd(packageExplorer.openFile(getProjectName(), CDIConstants.SRC, 
@@ -80,7 +80,7 @@ public class AllAssignableDialogTest extends CDITestBase {
 		
 	}
 	
-	@Test //example exists
+	@Test
 	public void testUnselectedAlternative() {
 		
 		setEd(packageExplorer.openFile(getProjectName(), CDIConstants.SRC, 
@@ -102,7 +102,7 @@ public class AllAssignableDialogTest extends CDITestBase {
 		
 	}
 	
-	@Test //example exists
+	@Test
 	public void testUnavailableProducer() {
 		
 		setEd(packageExplorer.openFile(getProjectName(), CDIConstants.SRC, 
@@ -124,7 +124,7 @@ public class AllAssignableDialogTest extends CDITestBase {
 		
 	}
 	
-	@Test //example exists
+	@Test
 	public void testSpecializedBeans() {
 		
 		setEd(packageExplorer.openFile(getProjectName(), CDIConstants.SRC, 
@@ -146,8 +146,39 @@ public class AllAssignableDialogTest extends CDITestBase {
 		
 	}
 	
-	@Test //example doesnt exist
+	@Test
 	public void testAmbiguousBeans() {
+		
+		setEd(packageExplorer.openFile(getProjectName(), CDIConstants.SRC, 
+				getPackageName(), appClass).toTextEditor());
+		
+		assertTrue(openOnUtil.openOnByOption("managerImpl", appClass, 
+				CDIConstants.SHOW_ALL_ASSIGNABLE));			
+		
+		AssignableBeansDialog assignDialog = new AssignableBeansDialog(
+				bot.shell("Assignable Beans"));
+		
+		assertTrue(assignDialog.getAllBeans().size() == 3);
+		assertTrue(assignDialog.getAllBeans().contains("" +
+				"@Alternative Manager1 - " + getPackageName() + " - /" 
+				+ getProjectName() + "/src"));
+		assertTrue(assignDialog.getAllBeans().contains("" +
+				"Manager2 - " + getPackageName() + " - /" 
+				+ getProjectName() + "/src"));
+		assertTrue(assignDialog.getAllBeans().contains("" +
+				"Manager3 - " + getPackageName() + " - /" 
+				+ getProjectName() + "/src"));
+		assignDialog.hideAmbiguousBeans();
+		assertTrue(assignDialog.getAllBeans().size() == 1);
+		assertTrue(assignDialog.getAllBeans().contains("" +
+				"@Alternative Manager1 - " + getPackageName() + " - /" 
+				+ getProjectName() + "/src"));
+		assertFalse(assignDialog.getAllBeans().contains("" +
+				"Manager2 - " + getPackageName() + " - /" 
+				+ getProjectName() + "/src"));
+		assertFalse(assignDialog.getAllBeans().contains("" +
+				"Manager3 - " + getPackageName() + " - /" 
+				+ getProjectName() + "/src"));
 		
 	}
 	
