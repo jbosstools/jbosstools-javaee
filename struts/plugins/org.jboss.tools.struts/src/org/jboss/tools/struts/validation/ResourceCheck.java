@@ -10,7 +10,6 @@
  ******************************************************************************/ 
 package org.jboss.tools.struts.validation;
 
-import org.eclipse.osgi.util.NLS;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.validation.ValidationErrorManager;
 import org.jboss.tools.struts.model.handlers.OpenMessageResourcesHandler;
@@ -19,14 +18,13 @@ public class ResourceCheck extends StrutsConfigControllerCheck {
 
 	public ResourceCheck(ValidationErrorManager manager, String preference) {
 		super(manager, preference);
-		attr = "parameter";
+		attr = "parameter"; //$NON-NLS-1$
 	}
 
 	public void check(XModelObject object) {
 		this.object = object;
 		if(!OpenMessageResourcesHandler.isReferencingResourceObject(object)) return;
 		if(OpenMessageResourcesHandler.getResourceObject(object) != null) return;
-		String message = NLS.bind(StrutsValidatorMessages.RESOURCE_EXISTS, object.getAttributeValue("parameter"));
-		fireMessage(object, message);
+		fireMessage(object, StrutsValidatorMessages.RESOURCE_EXISTS, object.getAttributeValue("parameter")); //$NON-NLS-1$
 	}
 }

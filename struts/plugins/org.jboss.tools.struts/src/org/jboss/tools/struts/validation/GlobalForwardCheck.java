@@ -10,7 +10,6 @@
  ******************************************************************************/
 package org.jboss.tools.struts.validation;
 
-import org.eclipse.osgi.util.NLS;
 import org.jboss.tools.common.meta.action.impl.handlers.DefaultCreateHandler;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.validation.ValidationErrorManager;
@@ -33,9 +32,8 @@ public class GlobalForwardCheck extends ActionForwardCheck {
 	protected void fire(String id, String attr, String info) {
 		this.attr = attr;
 		String oTitle = DefaultCreateHandler.title(object, true);
-		Object[] os = (info == null) ? new Object[] {oTitle}
-					: new Object[] {oTitle, info};
-		String message = NLS.bind(id, os);
-		fireMessage(object, message);
+		String[] os = (info == null) ? new String[] {oTitle}
+					: new String[] {oTitle, info};
+		fireMessage(object, id, os);
 	}
 }

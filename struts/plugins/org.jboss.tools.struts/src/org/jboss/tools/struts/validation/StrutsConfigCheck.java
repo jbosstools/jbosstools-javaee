@@ -10,7 +10,6 @@
  ******************************************************************************/
 package org.jboss.tools.struts.validation;
 
-import org.eclipse.osgi.util.NLS;
 import org.jboss.tools.common.meta.action.impl.handlers.DefaultCreateHandler;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.validation.ValidationErrorManager;
@@ -28,9 +27,8 @@ public class StrutsConfigCheck extends Check {
 		AbstractWebFileImpl f = (AbstractWebFileImpl)object;
         if(!f.isIncorrect()) return;
        	String oTitle = DefaultCreateHandler.title(object, true);
-        String errors = "\n" + f.get("errors");
-        String message = NLS.bind(StrutsValidatorMessages.CONFIG_VALID, oTitle, errors);
-        fireMessage(object, message);
+        String errors = "\n" + f.get("errors"); //$NON-NLS-1$ //$NON-NLS-2$
+        fireMessage(object, StrutsValidatorMessages.CONFIG_VALID, oTitle, errors);
     }
     
 }

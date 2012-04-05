@@ -10,7 +10,6 @@
  ******************************************************************************/
 package org.jboss.tools.struts.validation;
 
-import org.eclipse.osgi.util.NLS;
 import org.jboss.tools.common.meta.action.impl.handlers.DefaultCreateHandler;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.validation.ValidationErrorManager;
@@ -32,15 +31,13 @@ public class ActionNameCheck extends Check {
         if (name.length() == 0) {
             String valid = (String)object.getAttributeValue("validate");
             if ("yes".equals(valid) || "true".equals(valid)) {
-            	String message = NLS.bind(StrutsValidatorMessages.ACTION_NAME_EMPTY,  new Object[] {DefaultCreateHandler.title(object, true)});
-           		fireMessage(object, message);
+           		fireMessage(object, StrutsValidatorMessages.ACTION_NAME_EMPTY, DefaultCreateHandler.title(object, true));
             }
         } else {
             XModelObject bean = object.getParent().getParent()
                 .getChildByPath("form-beans").getChildByPath(name);
             if (bean == null) {
-            	String message = NLS.bind(StrutsValidatorMessages.ACTION_NAME_EXISTS,  new Object[] {DefaultCreateHandler.title(object, true), name});
-           		fireMessage(object, message);
+           		fireMessage(object, StrutsValidatorMessages.ACTION_NAME_EXISTS, DefaultCreateHandler.title(object, true), name);
             }
         }
     }

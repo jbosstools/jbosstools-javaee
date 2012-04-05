@@ -169,10 +169,9 @@ public class ActionForwardCheck extends Check {
     	this.attr = attr;
     	String oTitle = DefaultCreateHandler.title(object, true);
     	String pTitle = DefaultCreateHandler.title(object.getParent(), true);
-        Object[] os = (info == null) ? new Object[] {oTitle, pTitle}
-                      : new Object[] {oTitle, pTitle, info};
-        String message = NLS.bind(id, os);
-        fireMessage(object, message);
+        String[] os = (info == null) ? new String[] {oTitle, pTitle}
+                      : new String[] {oTitle, pTitle, info};
+        fireMessage(object, id, os);
     }
 
 }

@@ -12,7 +12,6 @@ package org.jboss.tools.struts.validation;
 
 import java.util.StringTokenizer;
 
-import org.eclipse.osgi.util.NLS;
 import org.jboss.tools.common.model.XModel;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.model.impl.XModelImpl;
@@ -46,17 +45,14 @@ public class CheckInitParam extends Check {
 			if(path.length() == 0) continue;
 			XModelObject fc = XModelImpl.getByRelativePath(model, path);
 			if(fc == null) {
-				String message = NLS.bind(StrutsValidatorMessages.RESOURCE_EXISTS, path);
-				fireMessage(object, message);
+				fireMessage(object, StrutsValidatorMessages.RESOURCE_EXISTS, path);
 			}
 			String path2 = path.startsWith("/") ? path.substring(1) : path;
 			XModelObject fc2 = webRoot.getChildByPath(path2);
 			if(fc2 == null) {
-				String message = NLS.bind(StrutsValidatorMessages.RESOURCE_EXISTS, path);
-				fireMessage(object, message);
+				fireMessage(object, StrutsValidatorMessages.RESOURCE_EXISTS, path);
 			} else if(!fc2.getModelEntity().getName().startsWith("StrutsConfig")) {
-				String message = NLS.bind(StrutsValidatorMessages.CONFIG_VALID, "param-value", path);
-				fireMessage(object, message);
+				fireMessage(object, StrutsValidatorMessages.CONFIG_VALID, "param-value", path);
 			}
 		}		
 	}

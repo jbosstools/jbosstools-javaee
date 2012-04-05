@@ -12,7 +12,6 @@ package org.jboss.tools.struts.validation;
 
 import java.util.*;
 
-import org.eclipse.osgi.util.NLS;
 import org.jboss.tools.common.validation.ValidationErrorManager;
 import org.jboss.tools.common.meta.action.impl.handlers.DefaultCreateHandler;
 import org.jboss.tools.common.model.*;
@@ -121,9 +120,7 @@ public class ActionRefsCheck extends Check {
 	}
 
 	protected void fire(String id, String attr, String value) {
-		Object[] os = new Object[] {DefaultCreateHandler.title(object, true), value};
-		String message = NLS.bind(id, os);
-		fireMessage(object, message);
+		fireMessage(object, id, DefaultCreateHandler.title(object, true), value);
 	}
 
 }

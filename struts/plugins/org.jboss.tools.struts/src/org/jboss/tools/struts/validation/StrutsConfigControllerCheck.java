@@ -10,7 +10,6 @@
  ******************************************************************************/
 package org.jboss.tools.struts.validation;
 
-import org.eclipse.osgi.util.NLS;
 import org.jboss.tools.common.meta.action.impl.handlers.DefaultCreateHandler;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.validation.ValidationErrorManager;
@@ -47,9 +46,7 @@ public class StrutsConfigControllerCheck extends Check {
     	this.attr = attr;    	
     	String oTitle = DefaultCreateHandler.title(object, true);
     	String pTitle = DefaultCreateHandler.title(object.getParent(), true);
-        Object[] os = new Object[] {oTitle, pTitle};
-        String message = NLS.bind(id, os);
-        fireMessage(object, message);
+        fireMessage(object, id, oTitle, pTitle);
     }
     
 }
