@@ -18,6 +18,7 @@ import org.jboss.tools.cdi.bot.test.named.NamedRefactoringTest;
 import org.jboss.tools.cdi.bot.test.openon.FindObserverForEventTest;
 import org.jboss.tools.cdi.bot.test.openon.OpenOnTest;
 import org.jboss.tools.cdi.bot.test.quickfix.dialog.AllAssignableDialogTest;
+import org.jboss.tools.cdi.bot.test.quickfix.dialog.AssignableDialogFilterTest;
 import org.jboss.tools.cdi.bot.test.quickfix.injection.ProblemEligibleInjectionTest;
 import org.jboss.tools.cdi.bot.test.quickfix.test.BeanValidationQuickFixTest;
 import org.jboss.tools.cdi.bot.test.quickfix.test.BeansXMLValidationQuickFixTest;
@@ -77,6 +78,7 @@ import org.junit.runners.Suite.SuiteClasses;
 	BeansXMLCompletionTest.class,
 	ProblemEligibleInjectionTest.class, 
 	AllAssignableDialogTest.class,
+	AssignableDialogFilterTest.class,
 	QuickFixProposalsDescriptionTest.class,
 	BeansXMLValidationQuickFixTest.class, 
 	StereotypeValidationQuickFixTest.class,
