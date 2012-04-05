@@ -23,6 +23,7 @@ import org.jboss.tools.ui.bot.ext.RequirementAwareSuite;
 import org.jboss.tools.ui.bot.ext.config.Annotations.Require;
 import org.jboss.tools.ui.bot.ext.config.Annotations.Server;
 import org.jboss.tools.ui.bot.ext.config.Annotations.ServerState;
+import org.jboss.tools.ui.bot.ext.helper.ImportHelper;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite.SuiteClasses;
 
@@ -56,7 +57,7 @@ public class Seam3TestBase extends CDITestBase {
 	}
 	
 	protected void importSeam3TestProject(String projectLocation, String dir) {
-		projectImportHelper.importTestProject(projectLocation, dir, Activator.PLUGIN_ID);
+		ImportHelper.importProject(projectLocation, dir, Activator.PLUGIN_ID);
 	}
 	
 	protected void addAndCheckLibraryInProject(String projectName, SeamLibraries library) {
