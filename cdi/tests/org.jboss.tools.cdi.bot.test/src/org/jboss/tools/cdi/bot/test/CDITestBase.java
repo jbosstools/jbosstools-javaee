@@ -19,7 +19,6 @@ import org.jboss.tools.cdi.bot.test.uiutils.CDIProjectHelper;
 import org.jboss.tools.cdi.bot.test.uiutils.CDIWizardHelper;
 import org.jboss.tools.cdi.bot.test.uiutils.EditorResourceHelper;
 import org.jboss.tools.cdi.bot.test.uiutils.OpenOnHelper;
-import org.jboss.tools.cdi.bot.test.uiutils.ProjectImportHelper;
 import org.jboss.tools.cdi.bot.test.uiutils.QuickFixHelper;
 import org.jboss.tools.cdi.bot.test.uiutils.wizards.CDIWizardBaseExt;
 import org.jboss.tools.ui.bot.ext.RequirementAwareSuite;
@@ -27,6 +26,7 @@ import org.jboss.tools.ui.bot.ext.SWTTestExt;
 import org.jboss.tools.ui.bot.ext.config.Annotations.Require;
 import org.jboss.tools.ui.bot.ext.config.Annotations.Server;
 import org.jboss.tools.ui.bot.ext.config.Annotations.ServerState;
+import org.jboss.tools.ui.bot.ext.helper.ImportHelper;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.runner.RunWith;
@@ -51,8 +51,6 @@ public class CDITestBase extends SWTTestExt {
 	public static final OpenOnHelper openOnUtil = new OpenOnHelper();
 	public static final EditorResourceHelper editResourceUtil = new EditorResourceHelper();
 	public static final QuickFixHelper quickFixHelper = new QuickFixHelper();
-	public static final ProjectImportHelper projectImportHelper = new ProjectImportHelper();
-	
 	
 	public SWTBotEclipseEditor getEd() {
 		return ed;
@@ -83,7 +81,7 @@ public class CDITestBase extends SWTTestExt {
 	}
 	
 	protected void importCDITestProject(String projectLocation, String dir) {
-		projectImportHelper.importTestProject(projectLocation, dir, PluginActivator.PLUGIN_ID);
+		ImportHelper.importProject(projectLocation, dir, PluginActivator.PLUGIN_ID);
 	}
 	
 }
