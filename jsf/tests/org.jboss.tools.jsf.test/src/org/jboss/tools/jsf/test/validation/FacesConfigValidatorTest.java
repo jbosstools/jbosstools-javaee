@@ -51,8 +51,9 @@ public class FacesConfigValidatorTest extends TestCase {
 		assertTrue(resource.exists());
 		AbstractResourceMarkerTest.assertMarkerIsCreated(resource, NLS.bind(JSFValidationMessage.VIEW_ID_NO_SLASH, JSFConstants.ATT_FROM_VIEW_ID), 23);
 		AbstractResourceMarkerTest.assertMarkerIsCreated(resource, NLS.bind(JSFValidationMessage.TO_VIEW_ID_STAR, JSFConstants.ATT_TO_VIEW_ID), 26);
-		AbstractResourceMarkerTest.assertMarkerIsCreated(resource, NLS.bind(JSFValidationMessage.VIEW_NOT_EXISTS, JSFConstants.ATT_TO_VIEW_ID, "/pages/greeting3.xhtml"), 30);
+		AbstractResourceMarkerTest.assertMarkerIsCreated(resource, NLS.bind(JSFValidationMessage.VIEW_NOT_EXISTS, JSFConstants.ATT_TO_VIEW_ID, "/pages/greeting3.xhtml"), 30, 42);
 		AbstractResourceMarkerTest.assertMarkerIsCreated(resource, NLS.bind(JSFValidationMessage.VIEW_ID_NO_SLASH, JSFConstants.ATT_TO_VIEW_ID), 34);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(resource, NLS.bind(JSFValidationMessage.VIEW_NOT_EXISTS, JSFConstants.ATT_TO_VIEW_ID, "/pages/#{aaa.bbb}"), 38);
 	}
 
 }
