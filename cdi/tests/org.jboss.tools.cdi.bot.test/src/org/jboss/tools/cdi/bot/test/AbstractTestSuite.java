@@ -10,13 +10,20 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.bot.test;
 
+import junit.framework.TestSuite;
+
 import org.jboss.tools.cdi.bot.test.uiutils.SWTEclipseCDIExtUtil;
-import org.jboss.tools.ui.bot.ext.SWTTestExt;
+import org.jboss.tools.ui.bot.ext.SWTBotExt;
+import org.jboss.tools.ui.bot.ext.SWTEclipseExt;
 import org.jboss.tools.ui.bot.ext.types.ViewType;
 import org.junit.BeforeClass;
 
-public abstract class AbstractTestSuite extends SWTTestExt {
-
+public abstract class AbstractTestSuite extends TestSuite {
+	
+	private static final SWTBotExt bot = new SWTBotExt();
+	
+	private static final SWTEclipseExt eclipse = new SWTEclipseExt(bot);
+	
 	/*
 	 * init method "setup()" shows a project explorer view as default, disable
 	 * folding (to easier source code editing)
@@ -24,7 +31,7 @@ public abstract class AbstractTestSuite extends SWTTestExt {
 	@BeforeClass
 	public static void setUpSuite() {
 		eclipse.showView(ViewType.PROJECT_EXPLORER);
-		SWTEclipseCDIExtUtil.disableFolding(bot, util);
+		SWTEclipseCDIExtUtil.disableFolding();
 	}
 
 }
