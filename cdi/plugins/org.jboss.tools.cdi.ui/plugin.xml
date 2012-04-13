@@ -446,74 +446,19 @@
            type="new"
            wizardId="org.jboss.tools.cdi.ui.wizard.NewBeanCreationWizard">
 				<enablement>
-			        <or>
-			           <instanceof value="org.eclipse.jdt.core.IPackageFragment"/>
-			           <instanceof value="org.eclipse.jdt.core.IPackageFragmentRoot"/>
-			           <instanceof value="org.eclipse.jdt.core.ICompilationUnit"/>
-			           <adapt type="org.eclipse.core.resources.IProject">
-			              <test property="org.eclipse.core.resources.projectNature" value="org.jboss.tools.cdi.core.cdinature"/>
-			           </adapt>
-			        </or>
-		         </enablement>
-	    </commonWizard>
-	    <commonWizard
-	       menuGroupId="org.jboss.tools.cdi.ui"
-           type="new"
-           wizardId="org.jboss.tools.cdi.ui.wizard.NewQualifierCreationWizard">
-				<enablement>
-			        <or>
-			           <instanceof value="org.eclipse.jdt.core.IPackageFragment"/>
-			           <instanceof value="org.eclipse.jdt.core.IPackageFragmentRoot"/>
-			           <instanceof value="org.eclipse.jdt.core.ICompilationUnit"/>
-			           <adapt type="org.eclipse.core.resources.IProject">
-			              <test property="org.eclipse.core.resources.projectNature" value="org.jboss.tools.cdi.core.cdinature"/>
-			           </adapt>
-			        </or>
-                </enablement>
-	    </commonWizard>
-	    <commonWizard
-	       menuGroupId="org.jboss.tools.cdi.ui"
-           type="new"
-           wizardId="org.jboss.tools.cdi.ui.wizard.NewStereotypeCreationWizard">
-				<enablement>
-			        <or>
-			           <instanceof value="org.eclipse.jdt.core.IPackageFragment"/>
-			           <instanceof value="org.eclipse.jdt.core.IPackageFragmentRoot"/>
-			           <instanceof value="org.eclipse.jdt.core.ICompilationUnit"/>
-			           <adapt type="org.eclipse.core.resources.IProject">
-			              <test property="org.eclipse.core.resources.projectNature" value="org.jboss.tools.cdi.core.cdinature"/>
-			           </adapt>
-			        </or>
-		         </enablement>
-	    </commonWizard>
-	    <commonWizard
-	       menuGroupId="org.jboss.tools.cdi.ui"
-           type="new"
-           wizardId="org.jboss.tools.cdi.ui.wizard.NewScopeCreationWizard">
-				<enablement>
-			        <or>
-			           <instanceof value="org.eclipse.jdt.core.IPackageFragment"/>
-			           <instanceof value="org.eclipse.jdt.core.IPackageFragmentRoot"/>
-			           <instanceof value="org.eclipse.jdt.core.ICompilationUnit"/>
-			           <adapt type="org.eclipse.core.resources.IProject">
-			              <test property="org.eclipse.core.resources.projectNature" value="org.jboss.tools.cdi.core.cdinature"/>
-			           </adapt>
-			        </or>
-		         </enablement>
-	    </commonWizard>
-	    <commonWizard
-	       menuGroupId="org.jboss.tools.cdi.ui"
-           type="new"
-           wizardId="org.jboss.tools.cdi.ui.wizard.NewInterceptorBindingCreationWizard">
-				<enablement>
-			        <or>
-			           <instanceof value="org.eclipse.jdt.core.IPackageFragment"/>
-			           <instanceof value="org.eclipse.jdt.core.IPackageFragmentRoot"/>
-			           <instanceof value="org.eclipse.jdt.core.ICompilationUnit"/>
-			           <adapt type="org.eclipse.core.resources.IProject">
-			              <test property="org.eclipse.core.resources.projectNature" value="org.jboss.tools.cdi.core.cdinature"/>
-			           </adapt>
-			        </or>
+					<and>
+						<or>
+					   		<instanceof value="org.eclipse.jdt.core.IPackageFragment"/>
+			           		<instanceof value="org.eclipse.jdt.core.IPackageFragmentRoot"/>
+			           		<instanceof value="org.eclipse.jdt.core.ICompilationUnit"/>
+			           		<adapt type="org.eclipse.core.resources.IProject">
+			              		<test property="org.eclipse.core.resources.projectNature" value="org.jboss.tools.cdi.core.cdinature"/>
+			           		</adapt>
+			           	</or>
+			           	<adapt type="org.eclipse.core.resources.IResource">
+			                <test property="org.eclipse.core.resources.projectNature" value="org.jboss.tools.cdi.core.cdinature"/>
+			            </adapt>
+					</and>
 		         </enablement>
 	    </commonWizard>
 	    <commonWizard
@@ -521,14 +466,19 @@
            type="new"
            wizardId="org.jboss.tools.cdi.ui.wizard.NewInterceptorCreationWizard">
 				<enablement>
-			        <or>
-			           <instanceof value="org.eclipse.jdt.core.IPackageFragment"/>
-			           <instanceof value="org.eclipse.jdt.core.IPackageFragmentRoot"/>
-			           <instanceof value="org.eclipse.jdt.core.ICompilationUnit"/>
-			           <adapt type="org.eclipse.core.resources.IProject">
-			              <test property="org.eclipse.core.resources.projectNature" value="org.jboss.tools.cdi.core.cdinature"/>
-			           </adapt>
-			        </or>
+					<and>
+						<or>
+					   		<instanceof value="org.eclipse.jdt.core.IPackageFragment"/>
+			           		<instanceof value="org.eclipse.jdt.core.IPackageFragmentRoot"/>
+			           		<instanceof value="org.eclipse.jdt.core.ICompilationUnit"/>
+			           		<adapt type="org.eclipse.core.resources.IProject">
+			              		<test property="org.eclipse.core.resources.projectNature" value="org.jboss.tools.cdi.core.cdinature"/>
+			           		</adapt>
+			           	</or>
+			           	<adapt type="org.eclipse.core.resources.IResource">
+			                <test property="org.eclipse.core.resources.projectNature" value="org.jboss.tools.cdi.core.cdinature"/>
+			            </adapt>
+					</and>
 		         </enablement>
 	    </commonWizard>
 	    <commonWizard
@@ -536,29 +486,19 @@
            type="new"
            wizardId="org.jboss.tools.cdi.ui.wizard.NewDecoratorCreationWizard">
 				<enablement>
-			        <or>
-			           <instanceof value="org.eclipse.jdt.core.IPackageFragment"/>
-			           <instanceof value="org.eclipse.jdt.core.IPackageFragmentRoot"/>
-			           <instanceof value="org.eclipse.jdt.core.ICompilationUnit"/>
-			           <adapt type="org.eclipse.core.resources.IProject">
-			              <test property="org.eclipse.core.resources.projectNature" value="org.jboss.tools.cdi.core.cdinature"/>
-			           </adapt>
-			        </or>
-		         </enablement>
-	    </commonWizard>
-	    <commonWizard
-	       menuGroupId="org.jboss.tools.cdi.ui"
-           type="new"
-           wizardId="org.jboss.tools.cdi.ui.wizard.NewAnnotationLiteralCreationWizard">
-				<enablement>
-			        <or>
-			           <instanceof value="org.eclipse.jdt.core.IPackageFragment"/>
-			           <instanceof value="org.eclipse.jdt.core.IPackageFragmentRoot"/>
-			           <instanceof value="org.eclipse.jdt.core.ICompilationUnit"/>
-			           <adapt type="org.eclipse.core.resources.IProject">
-			              <test property="org.eclipse.core.resources.projectNature" value="org.jboss.tools.cdi.core.cdinature"/>
-			           </adapt>
-			        </or>
+					<and>
+						<or>
+					   		<instanceof value="org.eclipse.jdt.core.IPackageFragment"/>
+			           		<instanceof value="org.eclipse.jdt.core.IPackageFragmentRoot"/>
+			           		<instanceof value="org.eclipse.jdt.core.ICompilationUnit"/>
+			           		<adapt type="org.eclipse.core.resources.IProject">
+			              		<test property="org.eclipse.core.resources.projectNature" value="org.jboss.tools.cdi.core.cdinature"/>
+			           		</adapt>
+			           	</or>
+			           	<adapt type="org.eclipse.core.resources.IResource">
+			                <test property="org.eclipse.core.resources.projectNature" value="org.jboss.tools.cdi.core.cdinature"/>
+			            </adapt>
+					</and>
 		         </enablement>
 	    </commonWizard>
 	    <commonWizard
@@ -566,11 +506,16 @@
            type="new"
            wizardId="org.jboss.tools.cdi.ui.wizard.NewBeansXMLCreationWizard">
 				<enablement>
-					<or>
-						<adapt type="org.eclipse.core.resources.IFolder" />
-	         			<adapt type="org.eclipse.core.resources.IProject" /> 
-	               		<adapt type="org.eclipse.core.resources.IWorkspaceRoot" />
-					</or>
+					<and>
+						<or>
+							<adapt type="org.eclipse.core.resources.IFolder" />
+		         			<adapt type="org.eclipse.core.resources.IProject" /> 
+	    	           		<adapt type="org.eclipse.core.resources.IWorkspaceRoot" />
+			           	</or>
+			           	<adapt type="org.eclipse.core.resources.IResource">
+			                <test property="org.eclipse.core.resources.projectNature" value="org.jboss.tools.cdi.core.cdinature"/>
+			            </adapt>
+					</and>
 		         </enablement>
 	    </commonWizard>
    </extension>
