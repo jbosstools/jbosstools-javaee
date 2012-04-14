@@ -81,4 +81,11 @@ public class BeanSpecializationTest extends TCKTest {
 		IBean bean = beans.iterator().next();
 		assertEquals("Incorrect bean name", "farmer", bean.getName());
 	}
+
+	public void testSimpleSpecializingBeanDefinesNameWhenSpecializedBeanIsNotNamed() throws JavaModelException {
+		Set<IBean> beans = cdiProject.getBeans(true, "org.jboss.jsr299.tck.tests.implementation.simple.lifecycle.TameLion", "org.jboss.jsr299.tck.tests.implementation.simple.lifecycle.Tame");
+		assertEquals("Wrong number of beans.", 1, beans.size());
+		IBean bean = beans.iterator().next();
+		assertEquals("Incorrect bean name", "tameLion", bean.getName());
+	}
 }
