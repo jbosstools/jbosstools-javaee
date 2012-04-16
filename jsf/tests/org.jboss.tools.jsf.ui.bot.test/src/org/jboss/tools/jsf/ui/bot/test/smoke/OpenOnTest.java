@@ -10,10 +10,15 @@
  ******************************************************************************/
 package org.jboss.tools.jsf.ui.bot.test.smoke;
 
+import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotEclipseEditor;
 import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotEditor;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTable;
+import org.eclipse.swtbot.swt.finder.widgets.SWTBotTreeItem;
 import org.jboss.tools.jsf.ui.bot.test.JSFAutoTestCase;
+import org.jboss.tools.ui.bot.ext.SWTBotExt;
+import org.jboss.tools.ui.bot.ext.SWTEclipseExt;
 import org.jboss.tools.ui.bot.ext.SWTTestExt;
+import org.jboss.tools.ui.bot.ext.gen.ActionItem;
 import org.jboss.tools.ui.bot.ext.helper.OpenOnHelper;
 import org.jboss.tools.ui.bot.ext.parts.SWTBotEditorExt;
 import org.jboss.tools.ui.bot.ext.types.IDELabel;
@@ -193,5 +198,73 @@ public class OpenOnTest extends JSFAutoTestCase{
         0, 0, expectedOpenedFileName);
     compositeComponentEditor.close();
   }
-  
+  /**
+   * Test Open On functionality for CSS file linked via <h:outputStyleSheet>
+   */
+  public void testOpenOnForHOutputStyleSheet() {
+    createJSF2Project(JSF2_TEST_PROJECT_NAME);
+    // create css file
+    SWTBotExt botExt = new SWTBotExt();
+    SWTBotTreeItem tiNode = SWTEclipseExt.selectPathInPackageExplorer(botExt, 
+        JSF2_TEST_PROJECT_NAME,
+        "WebContent",
+        "resources");
+    if (tiNode == null){
+      open.newObject(ActionItem.NewObject.GeneralFolder.LABEL);
+      bot.shell(IDELabel.Shell.NEW_FOLDER).activate(); //$NON-NLS-1$
+      bot.textWithLabel(IDELabel.NewFolderDialog.FOLDER_NAME).setText("resources"); //$NON-NLS-1$
+      bot.button(IDELabel.Button.FINISH).click();
+    }
+    tiNode = SWTEclipseExt.selectPathInPackageExplorer(botExt, 
+        JSF2_TEST_PROJECT_NAME,
+        "WebContent",
+        "resources",
+        "css");
+    if (tiNode == null){
+      open.newObject(ActionItem.NewObject.GeneralFolder.LABEL);
+      bot.shell(IDELabel.Shell.NEW_FOLDER).activate(); //$NON-NLS-1$
+      bot.textWithLabel(IDELabel.NewFolderDialog.FOLDER_NAME).setText("css"); //$NON-NLS-1$
+      bot.button(IDELabel.Button.FINISH).click();
+    }
+    final String cssFileName = "OpenOnTest.css";
+    tiNode = SWTEclipseExt.selectPathInPackageExplorer(botExt, 
+        JSF2_TEST_PROJECT_NAME,
+        "WebContent",
+        "resources",
+        "css",
+        cssFileName);
+    if (tiNode == null){
+      open.newObject(ActionItem.NewObject.WebCSS.LABEL);
+      bot.shell(IDELabel.Shell.NEW_CSS_FILE).activate();
+      bot.textWithLabel(IDELabel.NewCSSWizard.FILE_NAME).setText(cssFileName);
+      bot.button(IDELabel.Button.FINISH).click();
+    }
+    eclipse.closeAllEditors();
+    // create test page
+    final String testPageName = "OpenOnHOutpuStyle.xhtml";
+    createXhtmlPage(testPageName, JSF2_TEST_PROJECT_NAME,"WebContent","pages");
+    openPage(testPageName,JSF2_TEST_PROJECT_NAME);
+    SWTBotEclipseEditor xhtmlEditor = bot.editorByTitle(testPageName).toTextEditor();
+    xhtmlEditor.setText("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\n" +
+        "<html xmlns=\"http://www.w3.org/1999/xhtml\"\n" +
+        "      xmlns:ui=\"http://java.sun.com/jsf/facelets\"\n" +
+        "      xmlns:h=\"http://java.sun.com/jsf/html\">\n" +
+        "  <ui:composition>\n" +
+        "    <h:outputStylesheet library=\"css\" name=\"" + cssFileName + "\"/>" +
+        "  </ui:composition>\n" +
+        "</html>");
+    xhtmlEditor.save();
+    // check OpenOn
+    SWTBotEditor cssEditor = OpenOnHelper.checkOpenOnFileIsOpened(
+        SWTTestExt.bot, 
+        testPageName,
+        cssFileName,
+        2,
+        0,
+        0,
+        cssFileName);
+    cssEditor.close();
+    xhtmlEditor.close();
+    
+  }
 }
