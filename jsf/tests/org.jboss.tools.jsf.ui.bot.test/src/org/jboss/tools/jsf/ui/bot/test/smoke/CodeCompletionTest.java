@@ -274,6 +274,22 @@ public class CodeCompletionTest extends JSFAutoTestCase{
     expectedProposals.add("msgs");
     expectedProposals.add("user : User");
     expectedProposals.add("\"#{user.name}\"");
+    expectedProposals.add("applicationScope");
+    expectedProposals.add("cc");
+    expectedProposals.add("component");
+    expectedProposals.add("cookie");
+    expectedProposals.add("facesContext");
+    expectedProposals.add("flash");
+    expectedProposals.add("header");
+    expectedProposals.add("headerValues");
+    expectedProposals.add("initParam");
+    expectedProposals.add("param");
+    expectedProposals.add("paramValues");
+    expectedProposals.add("requestScope");
+    expectedProposals.add("resource");
+    expectedProposals.add("sessionScope");
+    expectedProposals.add("view");
+    expectedProposals.add("viewScope");
     // Check content assist for #{ prefix
     ContentAssistHelper.checkContentAssistContent(SWTTestExt.bot, 
         JSF2_TEST_PAGE,

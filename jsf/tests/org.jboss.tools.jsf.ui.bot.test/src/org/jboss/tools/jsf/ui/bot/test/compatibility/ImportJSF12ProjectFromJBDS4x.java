@@ -14,6 +14,7 @@ package org.jboss.tools.jsf.ui.bot.test.compatibility;
 import java.io.File;
 import java.io.IOException;
 
+import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotCheckBox;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTreeItem;
 import org.jboss.tools.jsf.ui.bot.test.JSFAutoTestCase;
@@ -58,9 +59,16 @@ public class ImportJSF12ProjectFromJBDS4x extends JSFAutoTestCase{
             + File.separator + "WEB-INF"
             + File.separator + "web.xml");
       bot.button(IDELabel.Button.NEXT).click();
-      SWTBotCheckBox chbServerRuntime = bot.checkBox(1);
-      if (chbServerRuntime.isChecked()){
-        chbServerRuntime.deselect();
+      // do not deploy to Server
+      try{
+        SWTBotCheckBox chbServerRuntime = bot.checkBox(1);
+        if (chbServerRuntime.isChecked()){
+          chbServerRuntime.deselect();
+        }
+      } catch (WidgetNotFoundException wnfe){
+        // do nothing
+      } catch (IndexOutOfBoundsException ioobe){
+        // do nothing
       }
       bot.button(IDELabel.Button.FINISH).click();
       util.waitForAll(Timing.time10S());
