@@ -1,5 +1,6 @@
 package org.jboss.tools.jsf.ui.bot.test;
 
+import org.jboss.tools.jsf.ui.bot.test.compatibility.ImportJSF12ProjectFromJBDS4x;
 import org.jboss.tools.jsf.ui.bot.test.cssdialog.jbide.CSSSelectorJBIDE3288;
 import org.jboss.tools.jsf.ui.bot.test.cssdialog.jbide.JBIDE3148and4441Test;
 import org.jboss.tools.jsf.ui.bot.test.cssdialog.jbide.JBIDE3577Test;
@@ -56,7 +57,8 @@ import org.junit.runners.Suite.SuiteClasses;
   WebXmlEditorTest.class,
   CreateNewTemplateFromJSFProject.class,
   PropertiesEditorTest.class,
-  CreateJSF2CompositeComponentMenuTest.class
+  CreateJSF2CompositeComponentMenuTest.class,
+  ImportJSF12ProjectFromJBDS4x.class
 })
 public class JSFAllBotTests{
 }
