@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2007-2011 Red Hat, Inc.
+ * Copyright (c) 2007-2012 Red Hat, Inc.
  * Distributed under license by Red Hat, Inc. All rights reserved.
  * This program is made available under the terms of the
  * Eclipse Public License v1.0 which accompanies this distribution,
@@ -17,6 +17,7 @@ import junit.framework.TestSuite;
 import org.eclipse.wst.validation.ValidationFramework;
 import org.jboss.tools.common.base.test.validation.ValidationProjectTestSetup;
 import org.jboss.tools.jsf.jsp.ca.test.CADefaultELStartingCharTest;
+import org.jboss.tools.jsf.jsp.ca.test.CAELApplyMethodProposalTest;
 import org.jboss.tools.jsf.jsp.ca.test.CAELInsideTagBodyInJspFileTest;
 import org.jboss.tools.jsf.jsp.ca.test.CAForCompositeComponentTest;
 import org.jboss.tools.jsf.jsp.ca.test.CAForELJavaAndJSTCompareTest;
@@ -147,6 +148,11 @@ public class JsfUiAllTests {
 
 		suite.addTest(new ProjectImportTestSetup(new TestSuite(
 				CAForELJavaAndJSTCompareTest.class), "org.jboss.tools.jsf.base.test", //$NON-NLS-1$
+				new String[] { "projects/JSF2KickStartWithoutLibs", }, //$NON-NLS-1$
+				new String[] { "JSF2KickStartWithoutLibs" })); //$NON-NLS-1$
+
+		suite.addTest(new ProjectImportTestSetup(new TestSuite(
+				CAELApplyMethodProposalTest.class), "org.jboss.tools.jsf.base.test", //$NON-NLS-1$
 				new String[] { "projects/JSF2KickStartWithoutLibs", }, //$NON-NLS-1$
 				new String[] { "JSF2KickStartWithoutLibs" })); //$NON-NLS-1$
 
