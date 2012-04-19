@@ -13,7 +13,7 @@
   <packaging>eclipse-test-plugin</packaging>
   <properties>
     <jbosstools.test.jboss-as.home>${requirement.build.root}/jboss-as-web-7.0.2.Final</jbosstools.test.jboss-as.home>
-    <systemProperties>-Dswtbot.test.skip=false -Dtest.configurations.dir=resources/properties/ -Djbosstools.test.jboss-as.home=${jbosstools.test.jboss-as.home} -Dorg.eclipse.swt.browser.XULRunnerPath=${project.build.outputDirectory}/../work/plugins/org.mozilla.xulrunner.gtk.linux.x86_1.9.2.16b/xulrunner</systemProperties>
+    <systemProperties>-Dswtbot.test.skip=false -Dtest.configurations.dir=resources/properties/ -Djbosstools.test.jboss-as.home=${jbosstools.test.jboss-as.home} -Dorg.eclipse.swt.browser.XULRunnerPath=${project.build.outputDirectory}/../work/plugins/${xulrunner.plugin.name}/xulrunner</systemProperties>
     <test.suite.class>org.jboss.tools.jsf.ui.bot.test.JSFAllBotTests</test.suite.class>
   </properties>
   <build>
