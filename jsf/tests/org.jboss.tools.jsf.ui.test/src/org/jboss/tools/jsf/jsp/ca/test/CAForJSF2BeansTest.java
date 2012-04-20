@@ -52,4 +52,11 @@ public class CAForJSF2BeansTest extends ContentAssistantTestCase {
 		checkProposals(PAGE_NAME, text, text.length(), beans, false);
 
 	}
+
+	public void testCAForPropertiesInBrakets() {
+		String[] properties = {"mybean2['100", "mybean2['101"};
+
+		String text = "#{mybean2['10']}";
+		checkProposals(PAGE_NAME, text, 13, properties, false);
+	}
 }
