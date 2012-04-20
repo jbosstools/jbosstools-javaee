@@ -14,7 +14,8 @@
   <properties>
     <jbosstools.test.jboss-as.home>${requirement.build.root}/jboss-as-web-7.0.2.Final</jbosstools.test.jboss-as.home>
     <xulrunner.plugin.name>org.mozilla.xulrunner.gtk.linux.x86_1.9.2.16b</xulrunner.plugin.name>
-    <systemProperties>-Dswtbot.test.skip=false -Dtest.configurations.dir=resources/properties/ -Djbosstools.test.jboss-as.home=${jbosstools.test.jboss-as.home} -Dorg.eclipse.swt.browser.XULRunnerPath=${project.build.outputDirectory}/../work/plugins/${xulrunner.plugin.name}/xulrunner</systemProperties>
+    <org.jboss.tools.vpe.ui.bot.test.richafaces.ui.jar.location>${requirement.build.root}//richfaces-4.2.1.Final/artifacts/ui/richfaces-components-ui-4.2.1.Final.jar</org.jboss.tools.vpe.ui.bot.test.richafaces.ui.jar.location>
+    <systemProperties>-Xdebug -Xrunjdwp:transport=dt_socket,address=8001,server=y,suspend=y -Dswtbot.test.skip=false -Dtest.configurations.dir=resources/properties/ -Djbosstools.test.jboss-as.home=${jbosstools.test.jboss-as.home} -Dorg.eclipse.swt.browser.XULRunnerPath=${project.build.outputDirectory}/../work/plugins/${xulrunner.plugin.name}/xulrunner -Dorg.jboss.tools.vpe.ui.bot.test.richafaces.ui.jar.location=${org.jboss.tools.vpe.ui.bot.test.richafaces.ui.jar.location}</systemProperties>
     <test.suite.class>org.jboss.tools.jsf.ui.bot.test.JSFAllBotTests</test.suite.class>
   </properties>
   <build>
