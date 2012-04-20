@@ -1,5 +1,8 @@
 package org.jboss.tools.jsf.ui.test;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.List;
 
 import org.eclipse.core.resources.IFile;
@@ -8,16 +11,17 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jst.jsp.ui.internal.validation.JSPContentSourceValidator;
 import org.eclipse.ui.IMarkerResolution;
-import org.eclipse.wst.html.internal.validation.HTMLValidator;
 import org.eclipse.wst.validation.ValidationResult;
 import org.eclipse.wst.validation.ValidationState;
 import org.eclipse.wst.validation.internal.MarkerManager;
 import org.eclipse.wst.validation.internal.core.Message;
 import org.eclipse.wst.validation.internal.provisional.core.IMessage;
 import org.eclipse.wst.validation.internal.provisional.core.IReporter;
+import org.jboss.tools.jsf.ui.JsfUiPlugin;
 import org.jboss.tools.jst.web.ui.action.JSPProblemMarkerResolutionGenerator;
 import org.jboss.tools.tests.AbstractResourceMarkerTest;
 
@@ -41,7 +45,7 @@ public class JSPProblemMarkerResolutionTest extends AbstractResourceMarkerTest{
 		project = ResourcesPlugin.getWorkspace().getRoot().getProject("test_jsf_project");
 	}
 	
-	private void validate(IFile file) throws CoreException{
+	private void validate(IFile file) throws CoreException, SecurityException, NoSuchMethodException, IllegalArgumentException, IllegalAccessException, InvocationTargetException, InstantiationException{
 		MarkerManager manager = MarkerManager.getDefault();
 		
 		if(JSP_EXT.equals(file.getFileExtension())){
@@ -70,11 +74,27 @@ public class JSPProblemMarkerResolutionTest extends AbstractResourceMarkerTest{
 			}
 		}else if(XHTML_EXT.equals(file.getFileExtension())){
 			file.deleteMarkers(XHTML_MARKER_TYPE, true, IResource.DEPTH_INFINITE);
-			
-			HTMLValidator validator = new HTMLValidator();
-			
-			ValidationResult result = validator.validate(file, 0, new ValidationState(), new NullProgressMonitor());
-			
+
+			// https://issues.jboss.org/browse/JBIDE-11596 compile failed in org.jboss.tools.jsf.ui.test when run against Juno TP
+			// org.eclipse.wst.html.internal.validation.HTMLValidator was moved to org.eclipse.wst.html.core.internal.validation.HTMLValidator
+			// We have to use reflection to be compilable in both Indigo and June.
+//			org.eclipse.wst.html.internal.validation.HTMLValidator validator = new org.eclipse.wst.html.internal.validation.HTMLValidator();
+//			ValidationResult result = validator.validate(file, 0, new ValidationState(), new NullProgressMonitor());
+			Class validatorClass = null;
+			try {
+				validatorClass = JsfUiPlugin.getDefault().getBundle().loadClass("org.eclipse.wst.html.internal.validation.HTMLValidator");
+			} catch (ClassNotFoundException e) {
+				try {
+					validatorClass = JsfUiPlugin.getDefault().getBundle().loadClass("org.eclipse.wst.html.core.internal.validation.HTMLValidator");
+				} catch (ClassNotFoundException e1) {
+					fail("Cannot load org.eclipse.wst.html.internal.validation.HTMLValidator (Eclipse Indigo) nor org.eclipse.wst.html.core.internal.validation.HTMLValidator (Eclipse Juno): ClassNotFoundException");
+				}
+			}
+			Constructor constructor = validatorClass.getConstructor();
+			Object validator = constructor.newInstance();
+			Method validate = validatorClass.getMethod("validate", IResource.class, int.class, ValidationState.class, IProgressMonitor.class);
+			ValidationResult result = (ValidationResult)validate.invoke(validator, file, 0, new ValidationState(), new NullProgressMonitor());
+
 			IReporter reporter = result.getReporter(new NullProgressMonitor());
 			List messages = reporter.getMessages();
 			for(Object m : messages){
@@ -96,7 +116,7 @@ public class JSPProblemMarkerResolutionTest extends AbstractResourceMarkerTest{
 		}
 	}
 	
-	public void testProblemMarkerResolutionInJSP() throws CoreException {
+	public void testProblemMarkerResolutionInJSP() throws CoreException, SecurityException, NoSuchMethodException, IllegalArgumentException, IllegalAccessException, InvocationTargetException, InstantiationException {
 		IFile jspFile = project.getFile("WebContent/pages/test_page1.jsp");
 		
 		assertTrue("File must be exists.",jspFile.exists());
@@ -124,7 +144,7 @@ public class JSPProblemMarkerResolutionTest extends AbstractResourceMarkerTest{
 		assertMarkerIsNotCreated(jspFile, JSP_MARKER_TYPE, "Unknown tag (h:commandButton).");
 	}
 
-	public void testProblemMarkerResolutionInXHTML() throws CoreException {
+	public void testProblemMarkerResolutionInXHTML() throws CoreException, SecurityException, NoSuchMethodException, IllegalArgumentException, IllegalAccessException, InvocationTargetException, InstantiationException {
 		IFile jspFile = project.getFile("WebContent/pages/test_page2.xhtml");
 		
 		assertTrue("File must be exists.",jspFile.exists());
