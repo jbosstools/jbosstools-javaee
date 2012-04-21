@@ -8,6 +8,7 @@
 	<body>
 		<f:view>
 			#{bean1.property1}
+			#{bean1['property1']}
 		</f:view>
 	</body>	
 </html>  

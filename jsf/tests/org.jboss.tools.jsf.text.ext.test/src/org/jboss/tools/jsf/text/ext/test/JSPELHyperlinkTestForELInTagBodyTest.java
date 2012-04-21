@@ -40,11 +40,11 @@ public class JSPELHyperlinkTestForELInTagBodyTest  extends TestCase {
 		PROJECT_NAME+"/WebContent/JBIDE-9930/anotherELInTagBody.jsp", 
 	};
 	private static final String[][] TEXT_TO_FIND = new String [][] {
-		{"bean1", "bean1.property1"},
+		{"bean1", "bean1.property1", "bean1['property1"},
 		{"msgs", "msgs.greeting"}
 	};
 	private static final String[][] RESULT_EDITORS = new String [][] {
-		{"Bean1.java", "Bean1.java"},
+		{"Bean1.java", "Bean1.java", "Bean1.java"},
 		{"resources.properties", "resources.properties"}
 	};
 	
@@ -74,7 +74,7 @@ public class JSPELHyperlinkTestForELInTagBodyTest  extends TestCase {
 	public void testJSPELHyperlinkTestForELInTagBody() throws PartInitException, BadLocationException {
 		try {
 			for (int i = 0; i < PAGE_NAMES.length; i++) {
-				for (int j = 0; j < TEXT_TO_FIND.length; j++) {
+				for (int j = 0; j < TEXT_TO_FIND[i].length; j++) {
 					doJSPELHyperlinkTestForELInTagBodyTest(PAGE_NAMES[i], TEXT_TO_FIND[i][j], RESULT_EDITORS[i][j]);
 				}
 			}
