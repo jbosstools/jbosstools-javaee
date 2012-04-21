@@ -16,6 +16,8 @@
     		</h:inputText>
 	 	<h:commandButton id="submit" action="greeting" value="Say Hello" />
     	</h:form>
+   		<h:outputText value="#{second['age']}"/>
+   		<h:outputText value="#{second['age1']}"/>
 	</f:view>
     </body>
 </HTML>  

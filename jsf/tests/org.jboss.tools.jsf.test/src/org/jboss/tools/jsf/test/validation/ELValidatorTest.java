@@ -44,6 +44,19 @@ public class ELValidatorTest extends AbstractResourceMarkerTest{
 //		JobUtils.waitForIdle();
 	}
 
+	public void testPropertyInBrackets() throws CoreException, ValidationException {
+		assertMarkerIsCreatedForLine(
+				"WebContent/pages/inputname.jsp",
+				ELValidationMessages.UNKNOWN_EL_VARIABLE_PROPERTY_NAME,
+				new Object[] {"'age1'"},
+				20);
+		assertMarkerIsNotCreatedForLine(
+				"WebContent/pages/inputname.jsp",
+				ELValidationMessages.UNKNOWN_EL_VARIABLE_PROPERTY_NAME,
+				new Object[] {"'age'"},
+				19);
+	}
+
 	public void testUnknownELVariable() throws CoreException, ValidationException {
 		IPreferenceStore store = WebKbPlugin.getDefault().getPreferenceStore();
 		store.setValue(ELSeverityPreferences.RE_VALIDATE_UNRESOLVED_EL, ELSeverityPreferences.ENABLE);
