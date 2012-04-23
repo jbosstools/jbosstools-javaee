@@ -56,7 +56,10 @@ public class CAForJSF2BeansTest extends ContentAssistantTestCase {
 	public void testCAForPropertiesInBrakets() {
 		String[] properties = {"mybean2['100", "mybean2['101"};
 
-		String text = "#{mybean2['10']}";
-		checkProposals(PAGE_NAME, text, 13, properties, false);
+		String text1 = "#{mybean2['10']}";
+		checkProposals(PAGE_NAME, text1, 13, properties, false);
+
+		String text2 = "#{mybean2[]}";
+		checkProposals(PAGE_NAME, text2, 10, properties, false);
 	}
 }
