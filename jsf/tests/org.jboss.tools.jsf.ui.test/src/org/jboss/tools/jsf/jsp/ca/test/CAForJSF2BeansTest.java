@@ -8,6 +8,7 @@ public class CAForJSF2BeansTest extends ContentAssistantTestCase {
 	boolean makeCopy = true;
 	private static final String PROJECT_NAME = "JSF2Beans";
 	private static final String PAGE_NAME = "/src/test/beans/inputname.xhtml";
+	private static final String JAVA_NAME = "/src/test/beans/Bean1.java";
 
 	public void setUp() throws Exception {
 		provider = new TestProjectProvider("org.jboss.tools.jsf.base.test",
@@ -61,5 +62,10 @@ public class CAForJSF2BeansTest extends ContentAssistantTestCase {
 
 		String text2 = "#{mybean2[]}";
 		checkProposals(PAGE_NAME, text2, 10, properties, false);
+
+		properties = new String[]{"mybean2['100'].charAt()"};
+		String text3 = "#{mybean2['100'].ch}";
+		checkProposals(PAGE_NAME, text3, 19, properties, false);
+		checkProposals(JAVA_NAME, text3, 19, properties, false);
 	}
 }
