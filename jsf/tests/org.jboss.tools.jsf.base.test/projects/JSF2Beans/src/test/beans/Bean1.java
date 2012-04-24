@@ -11,5 +11,6 @@ public class Bean1 {
 	String s1 = "#{ mybean1}";
 	String s2 = "#{ mybean1.  }";
 	String s3 = "#{ mybean1  }";
+	String s4 = "#{mybean2['100'].ch}";
 
 }
