@@ -145,7 +145,7 @@ public abstract class AbstractBeanElement extends CDIElement implements IAnnotat
 	}
 
 	public Set<IStereotypeDeclaration> getStereotypeDeclarations() {
-		return getStereotypeDeclarations(false);
+		return getStereotypeDeclarations(true);
 	}
 
 	public Set<IStereotypeDeclaration> getStereotypeDeclarations(boolean includeInherited) {
@@ -167,7 +167,7 @@ public abstract class AbstractBeanElement extends CDIElement implements IAnnotat
 					Set<IStereotypeDeclaration> ds = s.getStereotypeDeclarations();
 					for (IStereotypeDeclaration d1: ds) {
 						IStereotype s1 = d1.getStereotype();
-						if(s1 != null && s1.getInheritedDeclaration() != null) {
+						if(s1 != null/* && s1.getInheritedDeclaration() != null*/) {
 							if(!result.contains(d1) && !delta2.contains(d1)) delta2.add(d1);
 						}
 					}
@@ -203,10 +203,8 @@ public abstract class AbstractBeanElement extends CDIElement implements IAnnotat
 					result.add(d);
 				}
 			}
-			IAnnotationDeclaration d = findNamedAnnotation();
-			if(d instanceof IQualifierDeclaration && !result.contains(d)) {
-				result.add((IQualifierDeclaration)d);
-			}
+// JBIDE-11623 @Named in stereotype is not used as a bean qualifier.
+// Do not add it to the qualifier list.
 		}
 		return result;
 	}
