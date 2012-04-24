@@ -29,7 +29,8 @@ public class AllAssignableDialogTest extends CDITestBase {
 	@Before
 	public void prepareWorkspace() {
 		if (!projectHelper.projectExists(getProjectName())) {
-			importCDITestProject("/resources/projects/" + 
+			importCDITestProject(getProjectName(),
+					"/resources/projects/" + 
 					getProjectName(), getProjectName());
 			eclipse.cleanAllProjects();
 		}
