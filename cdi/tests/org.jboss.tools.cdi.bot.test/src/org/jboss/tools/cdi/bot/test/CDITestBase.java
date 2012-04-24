@@ -82,6 +82,10 @@ public class CDITestBase extends SWTTestExt {
 	
 	protected void importCDITestProject(String projectLocation, String dir) {
 		ImportHelper.importProject(projectLocation, dir, PluginActivator.PLUGIN_ID);
+		/** configure JDK and required runtime */
+		projectHelper.addDefaultJDKIntoProject(getProjectName());
+		projectHelper.addConfiguredRuntimeIntoProject(getProjectName(), 
+				configuredState.getServer().name);
 	}
 	
 }
