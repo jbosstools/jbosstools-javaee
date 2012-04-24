@@ -12,6 +12,7 @@ package org.jboss.tools.seam.ui.internal.project.facet;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -66,8 +67,8 @@ import org.jboss.tools.common.ui.widget.editor.CompositeEditor;
 import org.jboss.tools.common.ui.widget.editor.IFieldEditor;
 import org.jboss.tools.common.ui.widget.editor.IFieldEditorFactory;
 import org.jboss.tools.common.ui.widget.editor.ITaggedFieldEditor;
-import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.SeamCoreMessages;
+import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.SeamUtil;
 import org.jboss.tools.seam.core.project.facet.SeamProjectPreferences;
 import org.jboss.tools.seam.core.project.facet.SeamRuntime;
@@ -410,6 +411,14 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 
 		generalGroup.setLayout(gridLayout);
 		registerEditor(jBossSeamHomeEditor, generalGroup, 3);
+		jBossSeamHomeEditor.addPropertyChangeListener(new PropertyChangeListener(){
+			public void propertyChange(PropertyChangeEvent arg0) {
+				Boolean testProject = canTestProjectBeCreated();
+				createTestProjectCheckboxeditor.setValue(testProject);
+				createTestProjectCheckboxeditor.setEnabled(testProject);
+			}
+		});
+		
 		registerEditor(jBossAsDeployAsEditor, generalGroup, 3);
 		registerEditor(ejbProjectNameditor, generalGroup, 3);
 		ejbProjectNameditor.setEnabled(getDeployAsDefaultValue().equals(ISeamFacetDataModelProperties.DEPLOY_AS_EAR));
@@ -840,6 +849,18 @@ public class SeamInstallWizardPage extends AbstractFacetWizardPage implements
 			return SeamValidatorFactory.NO_ERRORS;
 		}
 		
+	}
+
+	private boolean canTestProjectBeCreated() {
+		String seamRuntimeName = jBossSeamHomeEditor.getValueAsString();
+		SeamRuntime seamRuntime = SeamRuntimeManager.getInstance().findRuntimeByName(seamRuntimeName);
+		if (seamRuntime != null) {
+			// bootstrap folder was removed in Seam 2.3.0.Beta1 from WFK 2.0 ER4
+			// See https://issues.jboss.org/browse/JBIDE-11611
+			File bootstrap = new File(seamRuntime.getHomeDir(), "bootstrap");
+			return bootstrap.exists();
+		}
+		return false;
 	}
 
 	class ProjectNamesDuplicationValidator implements IValidator {
