@@ -64,20 +64,20 @@ public class DeploymentProblemsValidationTests extends ValidationTest {
 		
 		IInjectionPointField p = getInjectionPointField(path, "s5");
 		Set<IBean> bs = cdiProject.getBeans(false, p);
-		assertEquals(4, bs.size());
+		assertEquals(3, bs.size());
 		
 		Set<String> keys = new HashSet<String>();
 		for(IBean b: bs) {
 			keys.add(b.getElementName());
 		}
-		assertTrue(keys.contains("TestNamed.foo4"));
+		assertTrue(!keys.contains("TestNamed.foo4"));
 		assertTrue(keys.contains("TestNamed.foo4()"));
 		assertTrue(keys.contains("TestNamed.foo5()"));
 		assertTrue(keys.contains("TestNamed.foo6()"));
 		
 		IInjectionPointParameter pp = getInjectionPointParameter(path, "doSmth");
 		Set<IBean> bs2 = cdiProject.getBeans(false, pp);
-		assertEquals(4, bs2.size());
+		assertEquals(3, bs2.size());
 		bs2.removeAll(bs);
 		assertTrue(bs2.isEmpty());
 	}
@@ -97,7 +97,7 @@ public class DeploymentProblemsValidationTests extends ValidationTest {
 
 	public void testUnsatisfiedDependencyWithNamed() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/lookup/duplicateName/TestNamed.java");
-		AbstractResourceMarkerTest.assertMarkerIsCreated(file, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS, 22, 23);
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS, 22, 23, 19, 20);
 		int[] lines = {10, 11, 13, 14, 16, 17};
 		for (int i: lines) {
 			AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, CDIValidationMessages.UNSATISFIED_INJECTION_POINTS, i);
