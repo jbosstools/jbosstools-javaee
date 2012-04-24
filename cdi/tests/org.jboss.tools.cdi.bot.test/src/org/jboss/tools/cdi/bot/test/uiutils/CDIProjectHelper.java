@@ -13,6 +13,8 @@ package org.jboss.tools.cdi.bot.test.uiutils;
 
 import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotMenu;
+import org.eclipse.swtbot.swt.finder.widgets.SWTBotShell;
+import org.eclipse.swtbot.swt.finder.widgets.SWTBotTable;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTree;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTreeItem;
 import org.jboss.tools.cdi.bot.test.CDIConstants;
@@ -20,6 +22,7 @@ import org.jboss.tools.cdi.bot.test.CDITestBase;
 import org.jboss.tools.cdi.bot.test.uiutils.actions.NewFileWizardAction;
 import org.jboss.tools.cdi.bot.test.uiutils.wizards.DynamicWebProjectWizard;
 import org.jboss.tools.ui.bot.ext.condition.ProgressInformationShellIsActiveCondition;
+import org.jboss.tools.ui.bot.ext.condition.ShellIsActiveCondition;
 import org.jboss.tools.ui.bot.ext.condition.TaskDuration;
 import org.jboss.tools.ui.bot.ext.helper.ContextMenuHelper;
 import org.jboss.tools.ui.bot.ext.types.IDELabel;
@@ -82,7 +85,88 @@ public class CDIProjectHelper extends CDITestBase {
 		}
 		return projectExists;
 	}
-
+	
+	/**
+	 * Add defined runtime into project as targeted runtime
+	 * @param project
+	 */
+	public void addConfiguredRuntimeIntoProject(String project, 
+			String configuredRuntime) {
+		projectExplorer.selectProject(project);
+		bot.menu(IDELabel.Menu.FILE).menu(
+				IDELabel.Menu.PROPERTIES).click();
+		bot.waitForShell(IDELabel.Shell.PROPERTIES_FOR + " " + project);
+		SWTBotShell propertiesShell = bot.shell(
+				IDELabel.Shell.PROPERTIES_FOR + " " + project);
+		propertiesShell.activate();
+		SWTBotTreeItem item = bot.tree().getTreeItem("Targeted Runtimes");
+		item.select();
+		SWTBotTable runtimes = bot.table(); 
+		for (int i = 0; i < runtimes.rowCount(); i++) {
+			runtimes.getTableItem(i).uncheck();
+		}
+		for (int i = 0; i < runtimes.rowCount(); i++) {
+			if (runtimes.getTableItem(i).getText().equals(configuredRuntime)) {
+				runtimes.getTableItem(i).check();
+			}
+		}
+		bot.button(IDELabel.Button.OK).click();
+		bot.waitWhile(new ShellIsActiveCondition(propertiesShell), 
+				TaskDuration.LONG.getTimeout());
+		
+	}
+	
+	/**
+	 * Set system default jdk in the project
+	 * @param projectName
+	 */
+	public void addDefaultJDKIntoProject(String projectName) {
+		
+		projectExplorer.selectProject(projectName);
+		bot.menu(IDELabel.Menu.FILE).menu(
+				IDELabel.Menu.PROPERTIES).click();
+		bot.waitForShell(IDELabel.Shell.PROPERTIES_FOR + " " + projectName);
+		SWTBotShell propertiesShell = bot.shell(
+				IDELabel.Shell.PROPERTIES_FOR + " " + projectName);
+		propertiesShell.activate();
+		SWTBotTreeItem item = bot.tree().getTreeItem(
+				IDELabel.JavaBuildPathPropertiesEditor.
+				JAVA_BUILD_PATH_TREE_ITEM_LABEL);
+		item.select();
+		bot.tabItem(IDELabel.JavaBuildPathPropertiesEditor.
+				LIBRARIES_TAB_LABEL).activate();
+		SWTBotTree librariesTree = bot.treeWithLabel(
+				"JARs and class folders on the build path:");
+		/** remove jdk currently configured on project */
+		for (int i = 0; i < librariesTree.rowCount(); i++) {
+			SWTBotTreeItem libraryItem = librariesTree.
+					getAllItems()[i];
+			if (libraryItem.getText().contains("JRE") || 
+				libraryItem.getText().contains("jdk")) {
+				libraryItem.select();
+				break;
+			}
+		}
+		bot.button(IDELabel.Button.REMOVE).click();
+		
+		/** add default jdk of system */
+		bot.button(IDELabel.Button.ADD_LIBRARY).click();
+		bot.waitForShell(IDELabel.Shell.ADD_LIBRARY);
+		SWTBotShell libraryShell = bot.shell(
+				IDELabel.Shell.ADD_LIBRARY);
+		libraryShell.activate();
+		bot.list().select("JRE System Library");
+		bot.button(IDELabel.Button.NEXT).click();
+		bot.radio(2).click();
+		bot.button(IDELabel.Button.FINISH).click();
+		bot.waitWhile(new ShellIsActiveCondition(libraryShell), 
+				TaskDuration.LONG.getTimeout());
+		bot.button(IDELabel.Button.OK).click();
+		bot.waitWhile(new ShellIsActiveCondition(propertiesShell), 
+				TaskDuration.LONG.getTimeout());
+		
+	}
+	
 	/**
 	 * Method creates new Dynamic Web Project
 	 * @param projectName
