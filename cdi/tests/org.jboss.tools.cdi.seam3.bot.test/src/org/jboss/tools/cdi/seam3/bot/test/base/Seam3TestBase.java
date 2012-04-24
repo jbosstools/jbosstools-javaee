@@ -50,23 +50,32 @@ public class Seam3TestBase extends CDITestBase {
 	@Override
 	public void prepareWorkspace() {
 		if (!projectHelper.projectExists(getProjectName())) {
-			importSeam3TestProject("/resources/projects/" + 
+			importSeam3TestProject(getProjectName(), "/resources/projects/" + 
 					getProjectName(), getProjectName());
 		}
 		
 	}
 	
-	protected void importSeam3TestProject(String projectLocation, String dir) {
+	protected void importSeam3TestProject(String projectName, 
+			String projectLocation, String dir) {
 		ImportHelper.importProject(projectLocation, dir, Activator.PLUGIN_ID);
+		
+		/** configure JDK and required runtime */
+		projectHelper.addDefaultJDKIntoProject(projectName);
+		projectHelper.addConfiguredRuntimeIntoProject(projectName, 
+				configuredState.getServer().name);
 	}
 	
-	protected void addAndCheckLibraryInProject(String projectName, SeamLibraries library) {
+	protected void addAndCheckLibraryInProject(String projectName, 
+			SeamLibraries library) {
 		addLibraryIntoProject(projectName, library.getName());
 		checkLibraryInProject(projectName, library.getName());
 	}
 	
-	protected void importSeam3ProjectWithLibrary(String projectName, SeamLibraries library) {
-		importSeam3TestProject("/resources/projects/" + projectName, projectName);
+	protected void importSeam3ProjectWithLibrary(String projectName, 
+			SeamLibraries library) {
+		importSeam3TestProject(projectName, 
+				"/resources/projects/" + projectName, projectName);
 		addAndCheckLibraryInProject(projectName, library);
 		eclipse.cleanAllProjects();
 	}
