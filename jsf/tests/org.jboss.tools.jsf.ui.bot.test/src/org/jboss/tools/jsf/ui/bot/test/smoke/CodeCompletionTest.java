@@ -338,7 +338,7 @@ public class CodeCompletionTest extends JSFAutoTestCase{
   /**
    * Test Code Completion functionality of src attribute for tags <link>, <h:link> and <a:loadStyle>
    */
-  public void testCodeCompletionOfSrcAttriubute(){
+  public void testCodeCompletionOfSrcAttribute(){
     initJSF2PageTest();
     addRichFacesToJSF2ProjectClassPath();
     SWTJBTExt.selectTextInSourcePane(SWTTestExt.bot, 
