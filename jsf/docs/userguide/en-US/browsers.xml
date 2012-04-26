@@ -34,6 +34,42 @@
 	  <para>
 		  <guilabel>BrowserSim</guilabel> simulates a mobile web browser so you can see how your web page or site will be viewable on mobile devices. 
 	  </para>
+	  <section>
+		  <title>System requirements</title>
+		  <para>
+				To run the mobile browser simulator you will require certain configurations depending on your operating system.
+		  </para>
+		  <para>
+			  Linux distributions:
+		  </para>
+		  <itemizedlist>
+			<listitem>
+				<para>
+					WebKitGTK 1.2.0 or newer must be installed and available within the library load path. This is setup by default on Red Hat Enterprise Linux and Ubuntu. For other distributions you may need to install the <filename>libwebkitgtk</filename> package.
+				</para>
+			</listitem>
+		  </itemizedlist>
+		  <para>
+			  Windows operating systems:
+		  </para>
+		  <itemizedlist>
+			  <listitem>
+				  <para>
+					  32-bit version of JBoss tooling.
+				  </para>
+			  </listitem>
+			  <listitem>
+				  <para>
+					  Apple Safari.
+				  </para>
+			  </listitem>
+		  </itemizedlist>
+		  <para>
+			  There are no specific requirements for Red Hat Enterprise Linux and Macintosh operating systems.
+		  </para>
+	  </section>
+	  <section>
+		  <title>Using BrowserSim</title>
 	  <para>
 		  To test your page or site using <guilabel>BrowserSim</guilabel>, right-click on your <filename>HTML</filename>, <filename>XHTML</filename> or other web page extention file and navigate through the context menu to <menuchoice><guimenuitem>Open With</guimenuitem><guimenuitem>BrowserSim</guimenuitem></menuchoice>.
 	  </para>
@@ -134,5 +170,6 @@
 			  </imageobject>
 		  </mediaobject>
 	  </figure>
+  </section>
   </section>
 </chapter>

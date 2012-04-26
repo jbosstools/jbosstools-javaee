@@ -5,9 +5,9 @@
 <title>Visual Web Tools Reference Guide</title>
 <subtitle>Provides information relating to the Visual Web Tools module.</subtitle>
 <productname>JBoss Developer Studio</productname>
-<productnumber>5.0</productnumber>
+<productnumber>5.0.Beta</productnumber>
 <edition>5.0.0</edition>
-<pubsnumber>9</pubsnumber>
+<pubsnumber>10</pubsnumber>
 <abstract>
 <para>The Visual Web Tools Reference Guide explains extensive collection of specialized wizards, editors and views that can be used in various scenarios while developing Web applications.</para>
 </abstract>
