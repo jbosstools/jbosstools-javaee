@@ -431,7 +431,7 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 			if(getCDIProject().isClassAlternativeActivated(getDefinition().getQualifiedName())) {
 				return true;
 			}
-			Set<IStereotypeDeclaration> ds = getStereotypeDeclarations();
+			Set<IStereotypeDeclaration> ds = getStereotypeDeclarations(true);
 			for (IStereotypeDeclaration d: ds) {
 				IStereotype s = d.getStereotype();
 				if(s != null && s.isAlternative() && !getCDIProject().getAlternatives(s.getSourceType().getFullyQualifiedName()).isEmpty()) {
@@ -569,7 +569,7 @@ public class ClassBean extends AbstractBeanElement implements IClassBean {
 		if(getDefinition().getAlternativeAnnotation() != null && getCDIProject().isTypeAlternative(getBeanClass().getFullyQualifiedName())) {
 			return true;
 		}
-		Set<IStereotypeDeclaration> ds = getStereotypeDeclarations();
+		Set<IStereotypeDeclaration> ds = getStereotypeDeclarations(true);
 		for (IStereotypeDeclaration d: ds) {
 			IStereotype s = d.getStereotype();
 			if(s != null && s.isAlternative() && 

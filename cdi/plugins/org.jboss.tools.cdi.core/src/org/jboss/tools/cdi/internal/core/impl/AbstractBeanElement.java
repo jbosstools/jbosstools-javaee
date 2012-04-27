@@ -145,40 +145,53 @@ public abstract class AbstractBeanElement extends CDIElement implements IAnnotat
 	}
 
 	public Set<IStereotypeDeclaration> getStereotypeDeclarations() {
-		return getStereotypeDeclarations(true);
+		return getStereotypeDeclarations(false);
 	}
 
 	public Set<IStereotypeDeclaration> getStereotypeDeclarations(boolean includeInherited) {
 		Set<IStereotypeDeclaration> result = new HashSet<IStereotypeDeclaration>();
+		Set<IStereotype> ss = new HashSet<IStereotype>();
 		for (IAnnotationDeclaration d: definition.getAnnotations()) {
 			if(d instanceof IStereotypeDeclaration) {
-				if(d instanceof IStereotypeDeclaration) {
-					result.add((IStereotypeDeclaration)d);
-				}
+				IStereotypeDeclaration sd = (IStereotypeDeclaration)d;
+				result.add(sd);
+				if(sd.getStereotype() != null) ss.add(sd.getStereotype());
 			}
 		}
-		if(includeInherited) {
-			Set<IStereotypeDeclaration> delta1 = result;
-			Set<IStereotypeDeclaration> delta2 = new HashSet<IStereotypeDeclaration>();
-			while(!delta1.isEmpty()) {
-				for (IStereotypeDeclaration d: delta1) {
-					IStereotype s = d.getStereotype();
-					if(s == null) continue;
-					Set<IStereotypeDeclaration> ds = s.getStereotypeDeclarations();
-					for (IStereotypeDeclaration d1: ds) {
-						IStereotype s1 = d1.getStereotype();
-						if(s1 != null/* && s1.getInheritedDeclaration() != null*/) {
-							if(!result.contains(d1) && !delta2.contains(d1)) delta2.add(d1);
-						}
+		Set<IStereotypeDeclaration> delta1 = result;
+		Set<IStereotypeDeclaration> delta2 = new HashSet<IStereotypeDeclaration>();
+		while(!delta1.isEmpty()) {
+			for (IStereotypeDeclaration d: delta1) {
+				IStereotype s = d.getStereotype();
+				if(s == null) continue;
+				Set<IStereotypeDeclaration> ds = s.getStereotypeDeclarations();
+				for (IStereotypeDeclaration d1: ds) {
+					if(d1.getStereotype() != null) {
+						if(!result.contains(d1) && !delta2.contains(d1)) delta2.add(d1);
 					}
 				}
-				if(delta2.isEmpty()) break;
-				result.addAll(delta2);
-				delta1 = delta2;
-				delta2 = new HashSet<IStereotypeDeclaration>();
+			}
+			if(delta2.isEmpty()) break;
+			for (IStereotypeDeclaration d: delta2) {
+				result.add(d);
+				if(d.getStereotype() != null) ss.add(d.getStereotype());
+			}
+			delta1 = delta2;
+			delta2 = new HashSet<IStereotypeDeclaration>();
+		}
+		if(includeInherited) {
+			Set<IStereotypeDeclaration> ds = getInheritedStereotypDeclarations();
+			for (IStereotypeDeclaration d : ds) {
+				if (d.getStereotype() != null && !ss.contains(d.getStereotype())) {
+					result.add(d);
+				}
 			}
 		}
 		return result;
+	}
+
+	public Set<IStereotypeDeclaration> getInheritedStereotypDeclarations() {
+		return Collections.emptySet();
 	}
 
 	public Set<IQualifierDeclaration> getQualifierDeclarations() {
