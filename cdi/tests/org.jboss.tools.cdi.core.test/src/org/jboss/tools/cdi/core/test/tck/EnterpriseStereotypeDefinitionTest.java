@@ -14,6 +14,7 @@ import java.util.Set;
 
 import org.eclipse.jdt.core.JavaModelException;
 import org.jboss.tools.cdi.core.IBean;
+import org.jboss.tools.cdi.core.IStereotypeDeclaration;
 
 /**
  * @author Alexey Kazakov
@@ -103,4 +104,12 @@ public class EnterpriseStereotypeDefinitionTest extends TCKTest {
 				"javax.enterprise.context.SessionScoped", bean.getScope()
 						.getSourceType().getFullyQualifiedName());
 	}
+
+	public void testAdditionalStereotype() throws JavaModelException {
+		Set<IBean> beans = getBeans("org.jboss.jsr299.tck.tests.definition.stereotype.defaultNamed.Sambar");
+		IBean bean = beans.iterator().next();
+		assertEquals("sambar", bean.getName());
+		Set<IStereotypeDeclaration> s = bean.getStereotypeDeclarations();
+		assertEquals(2, s.size());
+	}	
 }
