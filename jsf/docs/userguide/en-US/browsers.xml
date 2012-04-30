@@ -60,7 +60,7 @@
 			  </listitem>
 			  <listitem>
 				  <para>
-					  Apple Safari.
+					  Quicktime or iTunes. Each of these installs Apple Application Support in the folder BrowserSim assumes. Apple Application Support is necessary for BrowserSim to work correctly on Windows.
 				  </para>
 			  </listitem>
 		  </itemizedlist>
