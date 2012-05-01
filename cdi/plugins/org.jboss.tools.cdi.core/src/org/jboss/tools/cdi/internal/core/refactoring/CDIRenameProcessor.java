@@ -10,7 +10,8 @@
   ******************************************************************************/
 package org.jboss.tools.cdi.internal.core.refactoring;
 
-import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
@@ -105,7 +106,7 @@ public abstract class CDIRenameProcessor extends AbstractCDIProcessor {
 	
 	
 	
-	ArrayList<String> keys = new ArrayList<String>();
+	Set<String> keys = new HashSet<String>();
 	
 	protected void clearChanges(){
 		keys.clear();
