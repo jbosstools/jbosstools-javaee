@@ -13,6 +13,7 @@ package org.jboss.tools.cdi.bot.test.quickfix.test;
 
 import org.jboss.tools.cdi.bot.test.annotations.CDIWizardType;
 import org.jboss.tools.cdi.bot.test.quickfix.base.BeansXMLQuickFixTestBase;
+import org.jboss.tools.ui.bot.ext.Timing;
 import org.junit.Test;
 
 /**
@@ -33,6 +34,8 @@ public class BeansXMLValidationQuickFixTest extends BeansXMLQuickFixTestBase {
 
 		String bean = "A1";
 		beansHelper.createBeansXMLWithAlternative(getProjectName(), getPackageName(), bean);
+		
+		waitForCDIValidator();
 		
 		resolveAddNewAlternative(bean, getPackageName());
 		
@@ -104,6 +107,10 @@ public class BeansXMLValidationQuickFixTest extends BeansXMLQuickFixTestBase {
 		
 		assertTrue(isBeanXMLValidationErrorEmpty());		
 		
+	}
+	
+	private void waitForCDIValidator() {
+		bot.sleep(Timing.time3S());
 	}
 	
 }

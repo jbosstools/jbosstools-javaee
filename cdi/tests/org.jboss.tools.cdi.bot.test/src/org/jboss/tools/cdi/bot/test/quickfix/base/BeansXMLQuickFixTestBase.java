@@ -31,7 +31,7 @@ public class BeansXMLQuickFixTestBase extends QuickFixTestBase {
 	/**
 	 * Method firstly gets beans.xml validation problem. Then
 	 * it opens quick fix wizard, selects default value and
-	 * press finish button
+	 * press finishWithWait button
 	 */
 	private void openBeanXMLValidationProblem(ValidationType validationProblemType) {
 		
@@ -42,7 +42,7 @@ public class BeansXMLQuickFixTestBase extends QuickFixTestBase {
 		QuickFixDialogWizard qfWizard = new QuickFixDialogWizard();
 		qfWizard.setFix(qfWizard.getAvailableFixes().get(0));
 		qfWizard.setResource(qfWizard.getResources().get(0));
-		qfWizard.finish();
+		qfWizard.finishWithWait();
 	}
 	
 	/**
@@ -56,7 +56,7 @@ public class BeansXMLQuickFixTestBase extends QuickFixTestBase {
 	
 	/**
 	 * Method resolves validation error where there is no such Alternative as 
-	 * configured in beans.xml. It opens quick fix and through finish button
+	 * configured in beans.xml. It opens quick fix and through finishWithWait button
 	 * the Bean Wizard dialog is opened where both parameters are used to create
 	 * the new alternative bean
 	 * @param name
@@ -67,16 +67,16 @@ public class BeansXMLQuickFixTestBase extends QuickFixTestBase {
 		openBeanXMLValidationProblem(ValidationType.NO_CLASS);
 		CDIWizardBase cdiWizardBase = new CDIWizardBase(CDIWizardType.BEAN);
 		if (cdiWizardBase.isAlternative() && cdiWizardBase.canFinish()) {
-			cdiWizardBase.setName(name).setPackage(pkg).finish();
+			cdiWizardBase.setName(name).setPackage(pkg).finishWithWait();
 		}else {
-			fail("Dialog can't be finished");
+			fail("Dialog can't be finishWithWaited");
 		}
 		
 	}
 	
 	/**
 	 * Method resolves validation error where there is no such Stereotype as 
-	 * configured in beans.xml. It opens quick fix and through finish button
+	 * configured in beans.xml. It opens quick fix and through finishWithWait button
 	 * the Stereotype Wizard dialog is opened where both parameters are used to create
 	 * the new stereotype annotation
 	 * @param name
@@ -87,16 +87,16 @@ public class BeansXMLQuickFixTestBase extends QuickFixTestBase {
 		openBeanXMLValidationProblem(ValidationType.NO_ANNOTATION);
 		CDIWizardBase cdiWizardBase = new CDIWizardBase(CDIWizardType.STEREOTYPE);
 		if (cdiWizardBase.isAlternative() && cdiWizardBase.canFinish()) {
-			cdiWizardBase.setName(name).setPackage(pkg).finish();
+			cdiWizardBase.setName(name).setPackage(pkg).finishWithWait();
 		}else {
-			fail("Dialog can't be finished");
+			fail("Dialog can't be finishWithWaited");
 		}
 		
 	}
 	
 	/**
 	 * Method resolves validation error where there is no such decorator as 
-	 * configured in beans.xml. It opens quick fix and through finish button
+	 * configured in beans.xml. It opens quick fix and through finishWithWait button
 	 * the Decorator Wizard dialog is opened where both parameters are used to create
 	 * the new decorator. Interface "java.util.List" is automatically used. 
 	 * @param name
@@ -108,16 +108,16 @@ public class BeansXMLQuickFixTestBase extends QuickFixTestBase {
 		CDIWizardBase cdiWizardBase = new CDIWizardBase(CDIWizardType.DECORATOR);		
 		cdiWizardBase.addInterface("java.util.List");
 		if (cdiWizardBase.canFinish()) {
-			cdiWizardBase.setName(name).setPackage(pkg).finish();
+			cdiWizardBase.setName(name).setPackage(pkg).finishWithWait();
 		} else {
-			fail("Dialog can't be finished");
+			fail("Dialog can't be finishWithWaited");
 		}
 		
 	}
 	
 	/**
 	 * Method resolves validation error where there is no such Interceptor as 
-	 * configured in beans.xml. It opens quick fix and through finish button
+	 * configured in beans.xml. It opens quick fix and through finishWithWait button
 	 * the Interceptor Wizard dialog is opened where both parameters are used to create
 	 * the new Interceptor
 	 * @param name
@@ -128,9 +128,9 @@ public class BeansXMLQuickFixTestBase extends QuickFixTestBase {
 		openBeanXMLValidationProblem(ValidationType.NO_CLASS);
 		CDIWizardBase cdiWizardBase = new CDIWizardBase(CDIWizardType.INTERCEPTOR);
 		if (cdiWizardBase.canFinish()) {
-			cdiWizardBase.setName(name).setPackage(pkg).finish();
+			cdiWizardBase.setName(name).setPackage(pkg).finishWithWait();
 		}else {
-			fail("Dialog can't be finished");
+			fail("Dialog can't be finishWithWaited");
 		}
 		
 	}
