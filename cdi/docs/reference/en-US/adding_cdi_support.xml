@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='utf-8' ?>
+
+   <chapter id="chap-CDI_Tools_Reference_Guide-Adding_CDI_Support_to_a_Project">
+	<title>Adding CDI Support to a project</title>
+	<para>
+		CDI support can be added either to an existing project or during project creation. 
+	</para>
+	<para>
+		To add CDI support to an existing project, select the project, and right-click to bring up the context menu. From the menu select <menuchoice><guimenuitem>Configure</guimenuitem><guimenuitem>Add CDI support</guimenuitem></menuchoice>. The following preferences page will now display:
+	</para>
+	<figure id="adding_cdi_support_01">
+		<title>CDI project settings</title>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="images/Adding_CDI_Support/adding_cdi_support_01.png" format="PNG" />
+			</imageobject>
+			<textobject>
+				<phrase>
+					CDI project settings.
+				</phrase>
+			</textobject>
+		</mediaobject>
+	</figure>
+	<para>
+		You can also add CDI support to a project during project creation. To do so, click the <guibutton>Modify</guibutton> button beside the selected <guilabel>Configuration</guilabel> on the first screen of the project wizard.
+	</para>
+	<figure id="adding_cdi_support_02">
+		<title>Modifying project configuration</title>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="images/Adding_CDI_Support/adding_cdi_support_02.png" format="PNG" />
+			</imageobject>
+			<textobject>
+				<phrase>
+					Modifying project configuration.
+				</phrase>
+			</textobject>
+		</mediaobject>
+	</figure>
+	<para>
+		From the <guilabel>Project Facets</guilabel> screen, add CDI to the project by selecting the checkbox beside the facet <guimenuitem>CDI (Contexts and Dependency Injection) </guimenuitem>. Clcik the <guibutton>OK</guibutton> button to accept the configuration change and return to the project creation wizard.
+	</para>
+	<figure id="adding_cdi_support_03">
+		<title>Adding CDI facet support</title>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="images/Adding_CDI_Support/adding_cdi_support_03.png" format="PNG" />
+			</imageobject>
+			<textobject>
+				<phrase>
+					Adding CDI facet support.
+				</phrase>
+			</textobject>
+		</mediaobject>
+	</figure>
+</chapter>
+
