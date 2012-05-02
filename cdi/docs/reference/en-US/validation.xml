@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='utf-8' ?>
+
+   <chapter id="chap-CDI_Tools_Reference_Guide-Validation">
+	   <title>Validation</title>
+	   <para>
+		   CDI validation covers nearly all  of the rules declared in the JSR-299 specification. For every type of validation rule, you can set if it should be interpreted as an error, warning or just ignored. This is achieved by navigating to <menuchoice><guimenuitem>Window</guimenuitem><guimenuitem>Preferences</guimenuitem><guimenuitem>JBoss Tools</guimenuitem><guimenuitem>CDI</guimenuitem><guimenuitem>CDI Validator</guimenuitem></menuchoice>. 
+	   </para>
+	   <figure id="validation_01">
+		   <title>Validation settings</title>
+		   <mediaobject>
+			   <imageobject>
+				   <imagedata fileref="images/Validation/validation_01.png" format="PNG" />
+			   </imageobject>
+			   <textobject>
+				   <phrase>
+					   Validation settings.
+				   </phrase>
+			   </textobject>
+		   </mediaobject>
+	   </figure>
+	   <para>
+		   The CDI validator can check JSP, XHTML, beans.xml and java source files. Some validation issues can be fixed through the Quick Fixes menu (Ctrl+1).
+	   </para>
+	   <figure id="validation_02">
+		   <title>Quick Fixes</title>
+		   <mediaobject>
+			   <imageobject>
+				   <imagedata fileref="images/Validation/validation_02.png" format="PNG" />
+			   </imageobject>
+			   <textobject>
+				   <phrase>
+					   Quick Fixes.
+				   </phrase>
+			   </textobject>
+		   </mediaobject>
+	   </figure>
+   </chapter>
+   

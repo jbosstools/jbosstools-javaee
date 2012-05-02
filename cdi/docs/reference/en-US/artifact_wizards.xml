@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='utf-8' ?>
+
+   <chapter id="chap-CDI_Tools_Reference_Guide-Artifact_Wizards">
+	<title>Artifact wizards</title>
+	<para>
+		A set of wizards are available for creating a range of basic CDI artifacts. The wizards available are for the following types:
+	</para>
+	<itemizedlist>
+		<listitem>
+			<para>
+				Annotation Literal
+			</para>
+		</listitem>
+		<listitem>
+			<para>
+				Bean
+			</para>
+		</listitem>
+		<listitem>
+			<para>
+				Decorator
+			</para>
+		</listitem>
+		<listitem>
+			<para>
+				Interceptor
+			</para>
+		</listitem>
+		<listitem>
+			<para>
+				Interceptor Binding Annotation
+			</para>
+		</listitem>
+		<listitem>
+			<para>
+				Qualifier Annotation
+			</para>
+		</listitem>
+		<listitem>
+			<para>
+				Scope Annotation
+			</para>
+		</listitem>
+		<listitem>
+			<para>
+				Stereotype Annotation
+			</para>
+		</listitem>
+	</itemizedlist>
+	<figure id="artifact_wizards_01">
+		<title>Artifact wizard options</title>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="images/Artifact_Wizards/artifact_wizards_01.png" format="PNG" />
+			</imageobject>
+			<textobject>
+				<phrase>
+					Artifact wizard options.
+				</phrase>
+			</textobject>
+		</mediaobject>
+	</figure>
+</chapter>
+
