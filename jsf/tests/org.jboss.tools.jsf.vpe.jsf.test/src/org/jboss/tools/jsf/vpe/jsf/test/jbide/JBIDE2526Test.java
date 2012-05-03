@@ -86,9 +86,13 @@ public class JBIDE2526Test extends VpeTest {
 			nsISelection selection = controller.getVisualSelectionController()
 					.getSelection(nsISelectionController.SELECTION_NORMAL);
 
-			assertEquals(0, selection.getAnchorOffset());
-			assertEquals(TextUtil.visualPosition(child.getNodeValue(), child
-					.getNodeValue().length() - 1), selection.getFocusOffset());
+			System.out.println("delay");
+			TestUtil.delay(20000);
+			
+			assertEquals(3, selection.getAnchorOffset());
+			assertEquals(12, selection.getFocusOffset());
+			assertEquals(14, TextUtil.visualPosition(child.getNodeValue(), child
+					.getNodeValue().length() - 1));
 
 		}
 
