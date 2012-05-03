@@ -878,6 +878,7 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 			if (model.getProperty(ISeamFacetDataModelProperties.JDBC_DRIVER_JAR_PATH) != null) {
 				File driver = new File(((String[]) model.getProperty(ISeamFacetDataModelProperties.JDBC_DRIVER_JAR_PATH))[0]);
 				ejbFilterSet.addFilter("driverJar", " " + driver.getName() + "\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				viewFilterSetCollection.addFilterSet(getDriverFilterSet(model));
 			} else {
 				ejbFilterSet.addFilter("driverJar", ""); //$NON-NLS-1$ //$NON-NLS-2$
 			}
@@ -904,6 +905,16 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 		}
 
 		project.refreshLocal(IResource.DEPTH_INFINITE, monitor);
+	}
+
+	public static FilterSet getDriverFilterSet(IDataModel model) {
+		if (model.getProperty(ISeamFacetDataModelProperties.JDBC_DRIVER_JAR_PATH) != null) {
+			File driver = new File(((String[]) model.getProperty(ISeamFacetDataModelProperties.JDBC_DRIVER_JAR_PATH))[0]);
+			FilterSet dbTypeFilterSet = new FilterSet();
+			dbTypeFilterSet.addFilter("database.type", driver.getName());
+			return dbTypeFilterSet;
+		}
+		return null;
 	}
 
 	private void initDefaultModelValues(IDataModel model, boolean warProject) {

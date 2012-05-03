@@ -249,7 +249,7 @@
             type="install"
             version="2.3">
          <delegate
-               class="org.jboss.tools.seam.internal.core.project.facet.Seam2FacetInstallDelegate">
+               class="org.jboss.tools.seam.internal.core.project.facet.Seam23FacetInstallDelegate">
          </delegate>
          <config-factory
                class="org.jboss.tools.seam.internal.core.project.facet.SeamFacetInstallDataModelProvider">
