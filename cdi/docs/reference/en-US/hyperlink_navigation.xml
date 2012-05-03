@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='utf-8' ?>
+
+   <chapter id="chap-CDI_Tools_Reference_Guide-Hyperlink_Navigation">
+	   <title>Hyperlink navigation</title>
+	   <para>
+		   Hyperlinks (OpenOn integration) allows you to quickly navigate between source files. Pressing <keycombo><keysym>Ctrl</keysym><mousebutton>Left-Click</mousebutton></keycombo> or <keysym>F3</keysym> on any expression language (EL) declaration will navigate you to the corresponding java source.
+	   </para>
+	   <para>
+		   CDI Tools offers you a list of navigation alternatives for the bean that will be injected.
+	   </para>
+	   <figure id="hyperlink_01">
+		   <title>Example of navigation alternatives</title>
+		   <mediaobject>
+			   <imageobject>
+				   <imagedata fileref="images/Hyperlink_Navigation/hyperlink_01.png" format="PNG" />
+			   </imageobject>
+			   <textobject>
+				   <phrase>
+					   Example of navigation alternatives.
+				   </phrase>
+			   </textobject>
+		   </mediaobject>
+	   </figure>
+	   <para>
+		   If multiple eligible beans are detected for the injection, you will see the full list of available beans. If the list is incorrect, this can be rectified by executing a quick-fix. To execute a quick-fix press <keycombo><keysym>Ctrl</keysym><keysym>1</keysym></keycombo>.
+		</para>
+		<figure id="hyperlink_02">
+			<title>Multiple eligible beans</title>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="images/Hyperlink_Navigation/hyperlink_02.png" format="PNG" />
+				</imageobject>
+				<textobject>
+					<phrase>
+						Multiple eligible beans.
+					</phrase>
+				</textobject>
+			</mediaobject>
+		</figure>
+		<para>
+			Corresponding classes and interfaces that are mentioned in <filename>beans.xml</filename> can be opened through pressing <keycombo><keysym>Ctrl</keysym><mousebutton>Left-Click</mousebutton></keycombo> on the type name.
+		</para>
+		<para>
+			Observers and Events can be navigated to through the same method as well.
+		</para>
+		<figure id="hyperlink_03">
+			<title>Observers example</title>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="images/Hyperlink_Navigation/hyperlink_03.png" format="PNG" />
+				</imageobject>
+				<textobject>
+					<phrase>
+						Observers example.
+					</phrase>
+				</textobject>
+			</mediaobject>
+		</figure>
+		<figure id="hyperlink_04">
+			<title>Events example</title>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="images/Hyperlink_Navigation/hyperlink_04.png" format="PNG" />
+				</imageobject>
+				<textobject>
+					<phrase>
+						Events example.
+					</phrase>
+				</textobject>
+			</mediaobject>
+		</figure>
+		<para>
+			This is also true for Producer and Disposer methods.
+		</para>
+		<figure id="hyperlink_05">
+			<title>Producer example</title>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="images/Hyperlink_Navigation/hyperlink_05.png" format="PNG" />
+				</imageobject>
+				<textobject>
+					<phrase>
+						Producer example.
+					</phrase>
+				</textobject>
+			</mediaobject>
+		</figure>
+		<figure id="hyperlink_06">
+			<title>Disposer example</title>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="images/Hyperlink_Navigation/hyperlink_06.png" format="PNG" />
+				</imageobject>
+				<textobject>
+					<phrase>
+						Disposer example.
+					</phrase>
+				</textobject>
+			</mediaobject>
+		</figure>
+   </chapter>

@@ -9,6 +9,8 @@
 	<xi:include href="adding_cdi_support.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
 	<xi:include href="artifact_wizards.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
 	<xi:include href="validation.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+	<xi:include href="code_completion.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
+	<xi:include href="hyperlink_navigation.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
 	<xi:include href="Feedback.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
 	<xi:include href="Revision_History.xml" xmlns:xi="http://www.w3.org/2001/XInclude" />
 </book>

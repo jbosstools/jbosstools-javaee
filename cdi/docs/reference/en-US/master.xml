@@ -6,6 +6,11 @@
 <!ENTITY Revision_History SYSTEM "Revision_History.xml">
 <!ENTITY Introduction SYSTEM "Introduction.xml">
 <!ENTITY CDI_Web_Project SYSTEM "Creating_a_CDI_Web_Project.xml">
+<!ENTITY adding_cdi_support SYSTEM "adding_cdi_support.xml">
+<!ENTITY artifact_wizards SYSTEM "artifact_wizards.xml">
+<!ENTITY validation SYSTEM "validation.xml">
+<!ENTITY code_completiont SYSTEM "code_completion.xml">
+<!ENTITY hyperlink_navigation SYSTEM "hyperlink_navigation.xml">
 ]>
 
 <book>
@@ -39,8 +44,13 @@
     </bookinfo>
     
     <toc/> 
-	&CDI_Web_Project;
 	&Introduction;
+	&CDI_Web_Project;
+	&adding_cdi_support;
+	&artifact_wizards;
+	&validation;
+	&code_completion;
+	&hyperlink_navigation;
     &Revision_History;
 
 </book> 
