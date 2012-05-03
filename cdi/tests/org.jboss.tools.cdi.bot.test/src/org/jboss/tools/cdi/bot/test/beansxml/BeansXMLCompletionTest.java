@@ -170,7 +170,7 @@ public class BeansXMLCompletionTest extends CDITestBase {
 		getEd().navigateTo(row, column);
 		getEd().typeText(text);
 		ContentAssistHelper.checkContentAssistContent(bot, 
-				editorTitle, text, 1, 0, expectedProposalList);		
+				editorTitle, text, 1, 0, expectedProposalList, false);		
 		editResourceUtil.replaceInEditor(text, "");
 	}
 	
