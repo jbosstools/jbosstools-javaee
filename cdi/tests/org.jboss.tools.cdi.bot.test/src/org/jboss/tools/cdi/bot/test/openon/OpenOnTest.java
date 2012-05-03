@@ -121,6 +121,9 @@ public class OpenOnTest extends OpenOnBase {
 		wizard.createCDIComponentWithContent(CDIWizardType.BEAN, "MainBean", 
 				getPackageName(), null, "/resources/openon/InjectedPoints/MainBean.java.cdi");
 		
+		util.waitForNonIgnoredJobs();
+		eclipse.cleanAllProjects();
+		
 	}
 	
 	private void checkInjectedPoint(String injectedPoint, String option) {
