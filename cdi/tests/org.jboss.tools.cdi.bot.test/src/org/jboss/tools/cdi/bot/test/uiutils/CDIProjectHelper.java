@@ -113,6 +113,7 @@ public class CDIProjectHelper extends CDITestBase {
 		bot.button(IDELabel.Button.OK).click();
 		bot.waitWhile(new ShellIsActiveCondition(propertiesShell), 
 				TaskDuration.LONG.getTimeout());
+		util.waitForNonIgnoredJobs();
 		
 	}
 	
@@ -164,6 +165,7 @@ public class CDIProjectHelper extends CDITestBase {
 		bot.button(IDELabel.Button.OK).click();
 		bot.waitWhile(new ShellIsActiveCondition(propertiesShell), 
 				TaskDuration.LONG.getTimeout());
+		util.waitForNonIgnoredJobs();
 		
 	}
 	
