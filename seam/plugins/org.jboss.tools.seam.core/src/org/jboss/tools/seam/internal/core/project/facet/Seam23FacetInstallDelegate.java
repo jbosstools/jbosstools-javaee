@@ -30,6 +30,11 @@ import org.jboss.tools.seam.core.SeamCorePlugin;
  */
 public class Seam23FacetInstallDelegate extends Seam2FacetInstallDelegate {
 
+	public static AntCopyUtils.FileSet JBOOS_WAR_WEBINF_SET = new AntCopyUtils.FileSet()
+		.include("WEB-INF") //$NON-NLS-1$
+		.include("WEB-INF/pages\\.xml") //$NON-NLS-1$
+		.include("WEB-INF/componets\\.xml"); //$NON-NLS-1$
+
 	/*
 	 * (non-Javadoc)
 	 * @see org.jboss.tools.seam.internal.core.project.facet.Seam2FacetInstallDelegate#copyFilesToWarProject(org.eclipse.core.resources.IProject, org.eclipse.wst.common.project.facet.core.IProjectFacetVersion, org.eclipse.wst.common.frameworks.datamodel.IDataModel, org.eclipse.core.runtime.IProgressMonitor)
@@ -53,6 +58,15 @@ public class Seam23FacetInstallDelegate extends Seam2FacetInstallDelegate {
 	@Override
 	protected SeamProjectCreator getProjectCreator(IDataModel model, IProject project) {
 		return new Seam23ProjectCreator(model, project);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.seam.internal.core.project.facet.SeamFacetAbstractInstallDelegate#getJBossWarWebinfSet()
+	 */
+	@Override
+	protected AntCopyUtils.FileSet getJBossWarWebinfSet() {
+		return JBOOS_WAR_WEBINF_SET;
 	}
 
 	/**

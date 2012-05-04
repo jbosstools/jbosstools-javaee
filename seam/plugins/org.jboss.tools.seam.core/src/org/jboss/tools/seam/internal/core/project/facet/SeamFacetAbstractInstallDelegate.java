@@ -151,7 +151,7 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 		.exclude(".*/CVS") //$NON-NLS-1$
 		.exclude(".*/\\.svn"); //$NON-NLS-1$
 
-	public static AntCopyUtils.FileSet JBOOS_WAR_WEBINF_SET = new AntCopyUtils.FileSet()
+	public static AntCopyUtils.FileSet DEFAULT_JBOOS_WAR_WEBINF_SET = new AntCopyUtils.FileSet()
 		.include("WEB-INF") //$NON-NLS-1$
 		//.include("WEB-INF/web\\.xml") //$NON-NLS-1$
 		.include("WEB-INF/pages\\.xml") //$NON-NLS-1$
@@ -179,7 +179,11 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 			return ALL;
 		}	
 	};
-	
+
+	protected AntCopyUtils.FileSet getJBossWarWebinfSet() {
+		return DEFAULT_JBOOS_WAR_WEBINF_SET;
+	}
+
 	/* (non-Javadoc)
 	 * @see org.eclipse.wst.common.project.facet.core.IDelegate#execute(org.eclipse.core.resources.IProject, org.eclipse.wst.common.project.facet.core.IProjectFacetVersion, java.lang.Object, org.eclipse.core.runtime.IProgressMonitor)
 	 */
@@ -433,7 +437,7 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 		// *******************************************************************
 		// Copy manifest and configuration resources the same way as view
 		// *******************************************************************
-		AntCopyUtils.FileSet webInfSet = new AntCopyUtils.FileSet(JBOOS_WAR_WEBINF_SET).dir(seamGenResFolder);
+		AntCopyUtils.FileSet webInfSet = new AntCopyUtils.FileSet(getJBossWarWebinfSet()).dir(seamGenResFolder);
 
 		WebApp webApp = configureWebXml(project);
 
