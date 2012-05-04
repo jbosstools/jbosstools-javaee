@@ -78,15 +78,16 @@ import org.eclipse.wst.server.core.internal.ChainedJob;
 import org.eclipse.wst.server.ui.ServerUIUtil;
 import org.jboss.ide.eclipse.as.core.server.internal.JBossServer;
 import org.jboss.tools.jst.web.server.RegistrationHelper;
-import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.SeamCoreMessages;
+import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.project.facet.SeamProjectPreferences;
 import org.jboss.tools.seam.core.project.facet.SeamRuntime;
 import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
 import org.jboss.tools.seam.core.project.facet.SeamVersion;
 import org.jboss.tools.seam.internal.core.project.facet.AntCopyUtils;
-import org.jboss.tools.seam.internal.core.project.facet.DataSourceXmlDeployer;
+import org.jboss.tools.seam.internal.core.project.facet.ResourceDeployer;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
+import org.jboss.tools.seam.internal.core.project.facet.SeamFacetAbstractInstallDelegate;
 import org.jboss.tools.seam.internal.core.project.facet.SeamFacetInstallDelegate;
 import org.jboss.tools.seam.internal.core.project.facet.SeamFacetProjectCreationDataModelProvider;
 import org.jboss.tools.seam.ui.ISeamHelpContextIds;
@@ -411,19 +412,7 @@ public class SeamProjectWizard extends WebProjectWizard implements IExecutableEx
 		// register project on the selected server;
 		// deploy datasource xml file to the selected server;
 
-		Object serverObject = model.getProperty(ISeamFacetDataModelProperties.JBOSS_AS_TARGET_SERVER);
-		IServer server = null;
-		if(serverObject instanceof String) {
-			IServer[] servers = ServerCore.getServers();
-			for (IServer i : servers) {
-				if(serverObject.equals(i.getName())) {
-					server = i;
-					break;
-				}
-			}
-		} else if(serverObject instanceof IServer) {
-			server = (IServer)serverObject;
-		}
+		IServer server = SeamFacetAbstractInstallDelegate.getServer(model);
 		if (server != null) {
 			JBossServer jbs = (JBossServer) server.loadAdapter(JBossServer.class, new NullProgressMonitor());
 			if (jbs != null) {
@@ -435,19 +424,19 @@ public class SeamProjectWizard extends WebProjectWizard implements IExecutableEx
 					}
 				}
 			} 
-			
+
 			IPath filePath = new Path("resources").append(warProject.getName() + "-ds.xml");
 			ChainedJob dsJob = null;
 			if (deployAsEar) {
-				dsJob = new DataSourceXmlDeployer(earProject, server, filePath);
+				dsJob = new ResourceDeployer(earProject, server, filePath);
 			} else {
-				dsJob = new DataSourceXmlDeployer(warProject, server, filePath);
+				dsJob = new ResourceDeployer(warProject, server, filePath);
 			}
 			dsJob.setNextJob(RegistrationHelper.getRegisterInServerJob(warProject, new IServer[]{server}, null));
 			dsJob.schedule();
 		}
 	}
-    
+
     private void provideClassPath(List<IProject> projects, IProject ejbProject) throws CoreException {
     	if(ejbProject == null) return;
 		int k = 0;

@@ -29,20 +29,21 @@ import org.jboss.tools.seam.core.SeamCoreMessages;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 
 /**
- * This class is provided to deploy data source descriptor to JBoss AS for Seam
+ * This class is provided to deploy data source descriptor or any other resource to JBoss AS for Seam
  * Web Project in WAR and EAR deployment configurations.
  * 
  * @author eskimo
  * 
  */
-public class DataSourceXmlDeployer extends ChainedJob {
+public class ResourceDeployer extends ChainedJob {
 	IProject project = null;
 	IServer s = null;
 	IPath deploy = null;
-	public DataSourceXmlDeployer(IProject project, IServer s, IPath deploy) {
+
+	public ResourceDeployer(IProject project, IServer s, IPath deploy) {
 		super(SeamCoreMessages.DATA_SOURCE_XML_DEPLOYER_DEPLOYING_DATASOURCE_TO_SERVER, s);
 		this.project = project;
-		// is must be user since ds.xml has the same behaviour for EAR
+		// is must be user since ds.xml (or other resource which is being deployed) has the same behaviour for EAR
 		// deployment. It should run after ear project created and imported into 
 		// workspace
 		setUser(true);

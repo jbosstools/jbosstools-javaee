@@ -87,6 +87,9 @@ import org.eclipse.wst.common.project.facet.core.IDelegate;
 import org.eclipse.wst.common.project.facet.core.IFacetedProject;
 import org.eclipse.wst.common.project.facet.core.IProjectFacetVersion;
 import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
+import org.eclipse.wst.server.core.IServer;
+import org.eclipse.wst.server.core.ServerCore;
+import org.jboss.ide.eclipse.as.core.server.internal.JBossServer;
 import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.seam.core.ISeamProject;
 import org.jboss.tools.seam.core.SeamCoreMessages;
@@ -1322,5 +1325,43 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 
 	protected boolean shouldCopyLibraries(IDataModel model){
 		return model.getBooleanProperty(ISeamFacetDataModelProperties.SEAM_RUNTIME_LIBRARIES_COPYING);
+	}
+
+	/**
+	 * Returns the server defined in the model.
+	 * @param model
+	 * @return
+	 */
+	public static IServer getServer(IDataModel model) {
+		Object serverObject = model.getProperty(ISeamFacetDataModelProperties.JBOSS_AS_TARGET_SERVER);
+		IServer server = null;
+		if(serverObject instanceof String) {
+			IServer[] servers = ServerCore.getServers();
+			for (IServer i : servers) {
+				if(serverObject.equals(i.getName())) {
+					server = i;
+					break;
+				}
+			}
+		} else if(serverObject instanceof IServer) {
+			server = (IServer)serverObject;
+		}
+		return server;
+	}
+
+	/**
+	 * If the server defined in the model is a JBoss AS then return it.
+	 * @param model
+	 * @return
+	 */
+	public static JBossServer getJBossServer(IDataModel model) {
+		IServer server = getServer(model);
+		if(server!=null) {
+			JBossServer jbs = (JBossServer) server.loadAdapter(JBossServer.class, new NullProgressMonitor());
+			if (jbs != null) {
+				return jbs;
+			}
+		}
+		return null;
 	}
 }
