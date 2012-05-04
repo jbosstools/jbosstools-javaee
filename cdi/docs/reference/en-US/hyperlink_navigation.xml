@@ -86,7 +86,7 @@
 			</mediaobject>
 		</figure>
 		<para>
-			This is also true for Producer and Disposer methods.
+			Producer and Disposer methods, if available, will appear in the conext menu for an injection.
 		</para>
 		<figure id="hyperlink_05">
 			<title>Producer example</title>
