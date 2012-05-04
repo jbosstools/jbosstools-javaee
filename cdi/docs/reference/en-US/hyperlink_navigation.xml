@@ -22,8 +22,24 @@
 		   </mediaobject>
 	   </figure>
 	   <para>
-		   If multiple eligible beans are detected for the injection, you will see the full list of available beans. If the list is incorrect, this can be rectified by executing a quick-fix. To execute a quick-fix press <keycombo><keysym>Ctrl</keysym><keysym>1</keysym></keycombo>.
-		</para>
+		   If multiple eligible beans are detected for the injection, you will see an option to <guimenuitem>Show All Assignable Beans</guimenuitem>. 
+	   </para>
+	   <figure id="hyperlink_015">
+		   <title>Show All Assignable Beans</title>
+		   <mediaobject>
+			   <imageobject>
+				   <imagedata fileref="images/Hyperlink_Navigation/hyperlink_015.png" format="PNG" />
+			   </imageobject>
+			   <textobject>
+				   <phrase>
+					   Show All Assignable Beans.
+				   </phrase>
+			   </textobject>
+		   </mediaobject>
+	   </figure>
+	   <para>
+		   Selecting this option will display a dialog containing all eligible beans.		
+	    </para>
 		<figure id="hyperlink_02">
 			<title>Multiple eligible beans</title>
 			<mediaobject>
@@ -41,7 +57,7 @@
 			Corresponding classes and interfaces that are mentioned in <filename>beans.xml</filename> can be opened through pressing <keycombo><keysym>Ctrl</keysym><mousebutton>Left-Click</mousebutton></keycombo> on the type name.
 		</para>
 		<para>
-			Observers and Events can be navigated to through the same method as well.
+			Observers and Events can be navigated to through the same method as well; <guimenuitem>Show CDI Observer Methods</guimenuitem> and <guimenuitem>Show CDI Events</guimenuitem>.
 		</para>
 		<figure id="hyperlink_03">
 			<title>Observers example</title>
