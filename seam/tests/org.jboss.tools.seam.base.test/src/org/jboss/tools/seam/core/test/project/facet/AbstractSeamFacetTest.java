@@ -4,9 +4,7 @@ import java.io.File;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import junit.framework.TestCase;
 
@@ -30,9 +28,14 @@ import org.jboss.tools.seam.core.SeamProjectsSet;
 import org.jboss.tools.seam.core.project.facet.SeamRuntime;
 import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
 import org.jboss.tools.seam.core.project.facet.SeamVersion;
+import org.jboss.tools.seam.internal.core.project.facet.AntCopyUtils.FileSet;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
+import org.jboss.tools.seam.internal.core.project.facet.Seam23FacetInstallDelegate;
+import org.jboss.tools.seam.internal.core.project.facet.Seam23ProjectCreator;
+import org.jboss.tools.seam.internal.core.project.facet.Seam2FacetInstallDelegate;
 import org.jboss.tools.seam.internal.core.project.facet.Seam2ProjectCreator;
 import org.jboss.tools.seam.internal.core.project.facet.SeamFacetInstallDataModelProvider;
+import org.jboss.tools.seam.internal.core.project.facet.SeamLibFileSetProvider;
 import org.jboss.tools.seam.internal.core.project.facet.SeamProjectCreator;
 import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.test.util.ResourcesUtils;
@@ -243,12 +246,52 @@ public abstract class AbstractSeamFacetTest extends TestCase {
 				SeamVersion seamVersion = SeamVersion.parseFromString(seamVersionString);
 				SeamProjectCreator creator = null;
 				if(seamVersion == SeamVersion.SEAM_1_2) {
-					creator = new SeamProjectCreator(config, proj);
+					creator = new SeamProjectCreator(config, proj, new SeamLibFileSetProvider() {
+						@Override
+						public FileSet getEarLibFileSet() {
+							return null;
+						}
+						@Override
+						public FileSet getWarLibFileSet() {
+							return null;
+						}
+						@Override
+						public FileSet getWarLibFileSetForEar() {
+							return null;
+						}
+					});
 				} else if(seamVersion == SeamVersion.SEAM_2_0 ||
 						seamVersion == SeamVersion.SEAM_2_1 ||
-						seamVersion == SeamVersion.SEAM_2_2 ||
-						seamVersion == SeamVersion.SEAM_2_3) {
-					creator = new Seam2ProjectCreator(config, proj);
+						seamVersion == SeamVersion.SEAM_2_2) {
+					creator = new Seam2ProjectCreator(config, proj, new SeamLibFileSetProvider() {
+						@Override
+						public FileSet getEarLibFileSet() {
+							return Seam2FacetInstallDelegate.SEAM2_JBOSS_EAR_LIB;
+						}
+						@Override
+						public FileSet getWarLibFileSet() {
+							return Seam2FacetInstallDelegate.SEAM2_JBOSS_WAR_LIB_FILESET_WAR_CONFIG;
+						}
+						@Override
+						public FileSet getWarLibFileSetForEar() {
+							return Seam2FacetInstallDelegate.SEAM2_JBOSS_WAR_LIB_FILESET_WAR_CONFIG;
+						}
+					});
+				} else if(seamVersion == SeamVersion.SEAM_2_3) {
+					creator = new Seam23ProjectCreator(config, proj, new SeamLibFileSetProvider() {
+						@Override
+						public FileSet getEarLibFileSet() {
+							return Seam23FacetInstallDelegate.getEarLibFileSet(config);
+						}
+						@Override
+						public FileSet getWarLibFileSet() {
+							return Seam23FacetInstallDelegate.getWarLibFileSet(config);
+						}
+						@Override
+						public FileSet getWarLibFileSetForEar() {
+							return Seam23FacetInstallDelegate.getWarLibFileSetForEar(config);
+						}
+					});
 				} else {
 					throw new RuntimeException("Can't get seam version from seam facet model");
 				}

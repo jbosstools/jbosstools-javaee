@@ -77,8 +77,8 @@ public class Seam2ProjectCreator extends SeamProjectCreator {
 	 * @param model Seam facet data model
 	 * @param seamWebProject Seam web project
 	 */
-	public Seam2ProjectCreator(IDataModel model, IProject seamWebProject) {
-		super(model, seamWebProject);
+	public Seam2ProjectCreator(IDataModel model, IProject seamWebProject, SeamLibFileSetProvider seamLibFileSetProvider) {
+		super(model, seamWebProject, seamLibFileSetProvider);
 		viewFilterSetCollection.addFilterSet(SeamFacetFilterSetFactory.createHibernateDialectFilterSet(model));
 		droolsLibFolder = new File(seamHomePath, Seam2FacetInstallDelegate.DROOLS_LIB_SEAM_RELATED_PATH);
 	}
@@ -93,7 +93,7 @@ public class Seam2ProjectCreator extends SeamProjectCreator {
 		if (!SeamCorePlugin.getDefault().hasM2Facet(seamWebProject) && shouldCopyLibrariesAndTemplates(model) && shouldCopyLibraries(model)) {
 			File earContentsFolder = new File(earProjectFolder, "EarContent"); //$NON-NLS-1$
 			File earLibFolder = new File(earContentsFolder, "lib"); //$NON-NLS-1$
-			AntCopyUtils.copyFiles(seamLibFolder, earLibFolder, new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(Seam2FacetInstallDelegate.JBOSS_EAR_LIB).dir(seamLibFolder)));
+			AntCopyUtils.copyFiles(seamLibFolder, earLibFolder, new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(seamLibFileSetProvider.getEarLibFileSet()).dir(seamLibFolder)));
 		}
 	}
 

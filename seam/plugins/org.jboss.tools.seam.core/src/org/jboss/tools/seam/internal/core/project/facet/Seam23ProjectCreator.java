@@ -22,8 +22,8 @@ import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
  */
 public class Seam23ProjectCreator extends Seam2ProjectCreator {
 
-	public Seam23ProjectCreator(IDataModel model, IProject seamWebProject) {
-		super(model, seamWebProject);
+	public Seam23ProjectCreator(IDataModel model, IProject seamWebProject, SeamLibFileSetProvider seamLibFileSetProvider) {
+		super(model, seamWebProject, seamLibFileSetProvider);
 	}
 
 	/*

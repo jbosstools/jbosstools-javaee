@@ -85,6 +85,7 @@ public class SeamProjectCreator {
 
 	protected IDataModel model;
 	protected IProject seamWebProject;
+	protected SeamLibFileSetProvider seamLibFileSetProvider;
 	protected SeamRuntime seamRuntime;
 	protected String seamHomePath;
 	protected File seamHomeFolder;
@@ -141,9 +142,10 @@ public class SeamProjectCreator {
 	 * @param model Seam facet data model
 	 * @param seamWebProject Seam web project
 	 */
-	public SeamProjectCreator(IDataModel model, IProject seamWebProject) {
+	public SeamProjectCreator(IDataModel model, IProject seamWebProject, SeamLibFileSetProvider seamLibFileSetProvider) {
 		this.model = model;
 		this.seamWebProject = seamWebProject;
+		this.seamLibFileSetProvider = seamLibFileSetProvider;
 
 		earProjectName = model.getStringProperty(ISeamFacetDataModelProperties.SEAM_EAR_PROJECT);
 		ejbProjectName = model.getStringProperty(ISeamFacetDataModelProperties.SEAM_EJB_PROJECT);

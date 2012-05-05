@@ -44,13 +44,13 @@ public class WarFileSetProvider extends AbstractFileSetContentProvider {
 			if (SeamVersion.SEAM_1_2.equals(version)) {
 				return SeamFacetInstallDelegate.JBOSS_WAR_LIB_FILESET_WAR_CONFIG;
 			} else {
-				return Seam2FacetInstallDelegate.JBOSS_WAR_LIB_FILESET_WAR_CONFIG;
+				return Seam2FacetInstallDelegate.SEAM2_JBOSS_WAR_LIB_FILESET_WAR_CONFIG;
 			}
 		} else {
 			if (SeamVersion.SEAM_1_2.equals(version)) {
 				return SeamFacetInstallDelegate.JBOSS_WAR_LIB_FILESET_EAR_CONFIG;
 			} else {
-				return Seam2FacetInstallDelegate.JBOSS_WAR_LIB_FILESET_EAR_CONFIG;
+				return Seam2FacetInstallDelegate.SEAM2_JBOSS_WAR_LIB_FILESET_EAR_CONFIG;
 			}
 		}
 	}

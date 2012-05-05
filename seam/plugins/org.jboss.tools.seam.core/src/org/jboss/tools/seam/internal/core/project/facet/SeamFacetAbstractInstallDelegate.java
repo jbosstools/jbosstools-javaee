@@ -106,8 +106,7 @@ import org.osgi.service.prefs.Preferences;
  * @author eskimo
  *
  */
-public abstract class SeamFacetAbstractInstallDelegate implements ILogListener, 
-										IDelegate,ISeamFacetDataModelProperties {
+public abstract class SeamFacetAbstractInstallDelegate implements ILogListener, 	IDelegate, ISeamFacetDataModelProperties, SeamLibFileSetProvider {
 
 	public static final String MOJARRA_1_2 = "Mojarra-1.2"; //$NON-NLS-1$
 	public static final String ORG_JBOSS_JBOSSFACES_JSF_CONFIG_NAME = "org.jboss.jbossfaces.JSF_CONFIG_NAME"; //$NON-NLS-1$
@@ -129,6 +128,7 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 	public static String SEAM_LIB_RELATED_PATH = "lib"; //$NON-NLS-1$
 	public static final String DEV_WAR_PROFILE = "dev-war"; //$NON-NLS-1$
 	public static final String DEV_EAR_PROFILE = "dev";	 //$NON-NLS-1$
+	protected IDataModel facetModel;
 
 	public static AntCopyUtils.FileSet JBOOS_EJB_WEB_INF_CLASSES_SET = new AntCopyUtils.FileSet()
 		.include("import\\.sql") //$NON-NLS-1$
@@ -195,12 +195,13 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 			// untouched, this abstract class just listen to eclipse log and show an
 			// error dialog if there were records logged from seam.core plugin
 			startListening();
-			doExecute(project,fv,config,monitor);
 			IDataModel model = (IDataModel) config;
+			facetModel = model;
+			doExecute(project,fv,config,monitor);
 			boolean createEarProjects = model.getBooleanProperty(ISeamFacetDataModelProperties.CREATE_EAR_PROJECTS);
 			if (createEarProjects) {
 		    	// Create ear, ejb, test projects JBIDE-3782
-				getProjectCreator(model, project).execute(monitor);
+				getProjectCreator(model, project, this).execute(monitor);
 			}
 		} finally {
 			stopListening();
@@ -1321,7 +1322,7 @@ public abstract class SeamFacetAbstractInstallDelegate implements ILogListener,
 		return (WebApp)modelObject;
 	}
 	
-	protected abstract SeamProjectCreator getProjectCreator(IDataModel model, IProject project);
+	protected abstract SeamProjectCreator getProjectCreator(IDataModel model, IProject project, SeamFacetAbstractInstallDelegate seamFacetInstallDelegate);
 	
 	protected boolean shouldCopyLibrariesAndTemplates(IDataModel model){
 		return model.getBooleanProperty(ISeamFacetDataModelProperties.SEAM_TEMPLATES_AND_LIBRARIES_COPYING);

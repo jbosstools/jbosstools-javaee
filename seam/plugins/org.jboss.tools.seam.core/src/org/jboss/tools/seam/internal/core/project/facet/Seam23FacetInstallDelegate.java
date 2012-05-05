@@ -11,6 +11,11 @@
 package org.jboss.tools.seam.internal.core.project.facet;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Properties;
+import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
@@ -24,6 +29,8 @@ import org.eclipse.wst.server.core.internal.ChainedJob;
 import org.jboss.ide.eclipse.as.core.server.internal.JBossServer;
 import org.jboss.tools.jst.web.server.RegistrationHelper;
 import org.jboss.tools.seam.core.SeamCorePlugin;
+import org.jboss.tools.seam.core.project.facet.SeamRuntime;
+import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
 
 /**
  * @author Alexey Kazakov
@@ -56,8 +63,8 @@ public class Seam23FacetInstallDelegate extends Seam2FacetInstallDelegate {
 	 * @see org.jboss.tools.seam.internal.core.project.facet.Seam2FacetInstallDelegate#getProjectCreator(org.eclipse.wst.common.frameworks.datamodel.IDataModel, org.eclipse.core.resources.IProject)
 	 */
 	@Override
-	protected SeamProjectCreator getProjectCreator(IDataModel model, IProject project) {
-		return new Seam23ProjectCreator(model, project);
+	protected SeamProjectCreator getProjectCreator(IDataModel model, IProject project, SeamFacetAbstractInstallDelegate seamFacetInstallDelegate) {
+		return new Seam23ProjectCreator(model, project, seamFacetInstallDelegate);
 	}
 
 	/*
@@ -67,6 +74,88 @@ public class Seam23FacetInstallDelegate extends Seam2FacetInstallDelegate {
 	@Override
 	protected AntCopyUtils.FileSet getJBossWarWebinfSet() {
 		return JBOOS_WAR_WEBINF_SET;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.seam.internal.core.project.facet.Seam2FacetInstallDelegate#getEarLibFileSet()
+	 */
+	@Override
+	public AntCopyUtils.FileSet getEarLibFileSet() {
+		return getEarLibFileSet(facetModel);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.seam.internal.core.project.facet.Seam2FacetInstallDelegate#getWarLibFileSet()
+	 */
+	@Override
+	public AntCopyUtils.FileSet getWarLibFileSet() {
+		return getWarLibFileSet(facetModel);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.seam.internal.core.project.facet.Seam2FacetInstallDelegate#getWarLibFileSetForEar()
+	 */
+	@Override
+	public AntCopyUtils.FileSet getWarLibFileSetForEar() {
+		return getWarLibFileSetForEar(facetModel);
+	}
+
+	public static AntCopyUtils.FileSet getEarLibFileSet(IDataModel model) {
+		SeamRuntime runtime = getSeamRuntime(model);
+		String path = runtime.getDeployedJarsEarListFile();
+		return getFileSetOfJars(path);
+	}
+
+	public static AntCopyUtils.FileSet getWarLibFileSet(IDataModel model) {
+		SeamRuntime runtime = getSeamRuntime(model);
+		String path = runtime.getDeployedJarsWarListFile();
+		return getFileSetOfJars(path);
+	}
+
+	public static AntCopyUtils.FileSet getWarLibFileSetForEar(IDataModel model) {
+		SeamRuntime runtime = getSeamRuntime(model);
+		String path = runtime.getDeployedJarsEarWarListFile();
+		return getFileSetOfJars(path);
+	}
+
+	private static AntCopyUtils.FileSet getFileSetOfJars(String path) {
+		AntCopyUtils.FileSet fileSet = new AntCopyUtils.FileSet();
+		File listFile = new File(path);
+		if(listFile.exists()) {
+			FileInputStream fis = null;
+			try {
+				Properties list = new Properties();
+		        fis = new FileInputStream(listFile);
+		        list.load(fis);
+		        Set<String> jarList = list.stringPropertyNames();
+		        for (String jar : jarList) {
+					fileSet.include(jar);
+				}
+			} catch (FileNotFoundException e) {
+				SeamCorePlugin.getDefault().logError(e);
+			} catch (IOException e) {
+				SeamCorePlugin.getDefault().logError(e);
+			} finally {
+				if(fis!=null) {
+			        try {
+						fis.close();
+					} catch (IOException e) {
+					}
+				}
+			}
+		} else {
+			SeamCorePlugin.getDefault().logError(path + " doesn't exist. Can't get the list of the JARs to copy to the project.");
+		}
+		return fileSet;
+	}
+
+	private static SeamRuntime getSeamRuntime(IDataModel model) {
+		Object runtimeName = model.getProperty(ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME);
+		SeamRuntime runtime = SeamRuntimeManager.getInstance().findRuntimeByName(runtimeName.toString());
+		return runtime;
 	}
 
 	/**

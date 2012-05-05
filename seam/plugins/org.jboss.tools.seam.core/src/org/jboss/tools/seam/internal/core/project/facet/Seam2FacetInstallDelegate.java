@@ -36,12 +36,12 @@ import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.w3c.dom.Element;
 
 // TODO: why not just *one* global filter set to avoid any missing names ? (assert for it in our unittests!
-public class Seam2FacetInstallDelegate extends SeamFacetAbstractInstallDelegate{
+public class Seam2FacetInstallDelegate extends SeamFacetAbstractInstallDelegate {
 
 	public static final AntCopyUtils.FileSet JBOSS_EAR_CONTENT  = new AntCopyUtils.FileSet()
 		.include("jboss-seam.jar"); //$NON-NLS-1$
 
-	public static final AntCopyUtils.FileSet JBOSS_EAR_LIB  = new AntCopyUtils.FileSet()
+	public static final AntCopyUtils.FileSet SEAM2_JBOSS_EAR_LIB  = new AntCopyUtils.FileSet()
 		.include("antlr-runtime.jar") //$NON-NLS-1$
 		.include("commons-beanutils.*\\.jar") //$NON-NLS-1$
 		.include("drools-compiler.*\\.jar") //$NON-NLS-1$
@@ -53,7 +53,7 @@ public class Seam2FacetInstallDelegate extends SeamFacetAbstractInstallDelegate{
 		.include("jbpm-jpdl.*\\.jar") //$NON-NLS-1$
 		.include("richfaces-api.*\\.jar"); //$NON-NLS-1$
 
-	public static final AntCopyUtils.FileSet JBOSS_WAR_LIB_FILESET_WAR_CONFIG = new AntCopyUtils.FileSet()	
+	public static final AntCopyUtils.FileSet SEAM2_JBOSS_WAR_LIB_FILESET_WAR_CONFIG = new AntCopyUtils.FileSet()	
 		.include("ajax4jsf.*\\.jar") //$NON-NLS-1$
 		.include("richfaces.*\\.jar")
 		.include("antlr-runtime.*\\.jar") //$NON-NLS-1$		
@@ -86,7 +86,7 @@ public class Seam2FacetInstallDelegate extends SeamFacetAbstractInstallDelegate{
 		.include("jfreechart.*\\.jar") //$NON-NLS-1$
 		.include("jcommon.*\\.jar"); //$NON-NLS-1$
 
-	public static final AntCopyUtils.FileSet JBOSS_WAR_LIB_FILESET_EAR_CONFIG = new AntCopyUtils.FileSet() 
+	public static final AntCopyUtils.FileSet SEAM2_JBOSS_WAR_LIB_FILESET_EAR_CONFIG = new AntCopyUtils.FileSet() 
 		.include("richfaces-impl\\.jar") //$NON-NLS-1$
 		.include("richfaces-ui\\.jar") //$NON-NLS-1$
 		.include("commons-digester\\.jar") //$NON-NLS-1$
@@ -103,6 +103,33 @@ public class Seam2FacetInstallDelegate extends SeamFacetAbstractInstallDelegate{
 		.include("jsf-facelets\\.jar"); //$NON-NLS-1$
 
 	public static String DROOLS_LIB_SEAM_RELATED_PATH = "lib"; //$NON-NLS-1$
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.seam.internal.core.project.facet.SeamFacetAbstractInstallDelegate#getEarLibFileSet()
+	 */
+	@Override
+	public AntCopyUtils.FileSet getEarLibFileSet() {
+		return SEAM2_JBOSS_EAR_LIB;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.seam.internal.core.project.facet.SeamFacetAbstractInstallDelegate#getWarLibFileSet()
+	 */
+	@Override
+	public AntCopyUtils.FileSet getWarLibFileSet() {
+		return SEAM2_JBOSS_WAR_LIB_FILESET_WAR_CONFIG;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.seam.internal.core.project.facet.SeamFacetAbstractInstallDelegate#getWarLibFileSetForEar()
+	 */
+	@Override
+	public AntCopyUtils.FileSet getWarLibFileSetForEar() {
+		return SEAM2_JBOSS_WAR_LIB_FILESET_EAR_CONFIG;
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -133,20 +160,20 @@ public class Seam2FacetInstallDelegate extends SeamFacetAbstractInstallDelegate{
 		final File droolsLibFolder = new File(seamHomePath, DROOLS_LIB_SEAM_RELATED_PATH);
 		if(isWarConfiguration(model)) {
 			if (!SeamCorePlugin.getDefault().hasM2Facet(project) && shouldCopyLibraries(model)) {
-				AntCopyUtils.copyFiles(seamHomeFolder, webLibFolder, new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(JBOSS_WAR_LIB_FILESET_WAR_CONFIG).dir(seamHomeFolder)));
-				AntCopyUtils.copyFiles(seamLibFolder, webLibFolder, new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(JBOSS_WAR_LIB_FILESET_WAR_CONFIG).dir(seamLibFolder)));
+				AntCopyUtils.copyFiles(seamHomeFolder, webLibFolder, new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(getWarLibFileSet()).dir(seamHomeFolder)));
+				AntCopyUtils.copyFiles(seamLibFolder, webLibFolder, new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(getWarLibFileSet()).dir(seamLibFolder)));
 			}
 			final IContainer source = warActionSrcRootFolder.getUnderlyingFolder();
 			File actionsSrc = new File(project.getLocation().toFile(), source.getFullPath().removeFirstSegments(1).toString());
 			AntCopyUtils.copyFileToFolder(new File(seamGenResFolder, "seam.properties"), actionsSrc, true); //$NON-NLS-1$
 			if (!SeamCorePlugin.getDefault().hasM2Facet(project) && shouldCopyLibraries(model)) {
-				AntCopyUtils.copyFiles(droolsLibFolder, webLibFolder, new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(JBOSS_WAR_LIB_FILESET_WAR_CONFIG).dir(droolsLibFolder)));
+				AntCopyUtils.copyFiles(droolsLibFolder, webLibFolder, new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(getWarLibFileSet()).dir(droolsLibFolder)));
 			}
 		} else {
 			if (!SeamCorePlugin.getDefault().hasM2Facet(project) && shouldCopyLibraries(model)) {
-				AntCopyUtils.copyFiles(seamHomeFolder, webLibFolder, new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(JBOSS_WAR_LIB_FILESET_EAR_CONFIG).dir(seamHomeFolder)));
-				AntCopyUtils.copyFiles(seamLibFolder, webLibFolder, new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(JBOSS_WAR_LIB_FILESET_EAR_CONFIG).dir(seamLibFolder)));
-				AntCopyUtils.copyFiles(droolsLibFolder, webLibFolder, new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(JBOSS_WAR_LIB_FILESET_EAR_CONFIG).dir(droolsLibFolder)));
+				AntCopyUtils.copyFiles(seamHomeFolder, webLibFolder, new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(getWarLibFileSetForEar()).dir(seamHomeFolder)));
+				AntCopyUtils.copyFiles(seamLibFolder, webLibFolder, new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(getWarLibFileSetForEar()).dir(seamLibFolder)));
+				AntCopyUtils.copyFiles(droolsLibFolder, webLibFolder, new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(getWarLibFileSetForEar()).dir(droolsLibFolder)));
 			}
 		}
 	}
@@ -165,7 +192,7 @@ public class Seam2FacetInstallDelegate extends SeamFacetAbstractInstallDelegate{
 			AntCopyUtils.copyFiles(seamHomeFolder, earContentsFolder, new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(JBOSS_EAR_CONTENT).dir(seamHomeFolder)), false);
 			if(shouldCopyLibraries(model)){
 				AntCopyUtils.copyFiles(seamLibFolder, earContentsFolder, new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(JBOSS_EAR_CONTENT).dir(seamLibFolder)), false);
-				AntCopyUtils.copyFiles(seamLibFolder, earLibFolder, new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(JBOSS_EAR_LIB).dir(seamLibFolder)), false);
+				AntCopyUtils.copyFiles(seamLibFolder, earLibFolder, new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(getEarLibFileSet()).dir(seamLibFolder)), false);
 				AntCopyUtils.copyFiles(droolsLibFolder, earContentsFolder, new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(JBOSS_EAR_CONTENT).dir(droolsLibFolder)), false);
 			}
 			AntCopyUtils.copyFiles(seamGenResFolder, earContentsFolder, new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(JBOSS_EAR_CONTENT).dir(seamGenResFolder)), false);
@@ -302,10 +329,9 @@ public class Seam2FacetInstallDelegate extends SeamFacetAbstractInstallDelegate{
 		// Security
 		addSecurityConstraint(webApp);
 	}
-	
+
 	@Override
-	protected SeamProjectCreator getProjectCreator(IDataModel model,
-			IProject project) {
-		return new Seam2ProjectCreator(model,project);
+	protected SeamProjectCreator getProjectCreator(IDataModel model, IProject project, SeamFacetAbstractInstallDelegate seamFacetInstallDelegate) {
+		return new Seam2ProjectCreator(model,project, this);
 	}
 }

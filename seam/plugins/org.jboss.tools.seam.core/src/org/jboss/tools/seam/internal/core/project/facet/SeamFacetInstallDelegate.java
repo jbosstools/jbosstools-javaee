@@ -31,6 +31,7 @@ import org.eclipse.jst.jsf.facesconfig.emf.PhaseListenerType;
 import org.eclipse.jst.jsf.facesconfig.util.FacesConfigArtifactEdit;
 import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
 import org.eclipse.wst.common.project.facet.core.IProjectFacetVersion;
+import org.jboss.tools.seam.internal.core.project.facet.AntCopyUtils.FileSet;
 
 /**
  * Install delegate for seam facet version 1.2
@@ -311,8 +312,22 @@ public class SeamFacetInstallDelegate extends SeamFacetAbstractInstallDelegate {
 	}
 
 	@Override
-	protected SeamProjectCreator getProjectCreator(IDataModel model,
-			IProject project) {
-		return new SeamProjectCreator(model,project);
+	protected SeamProjectCreator getProjectCreator(IDataModel model, IProject project, SeamFacetAbstractInstallDelegate seamFacetInstallDelegate) {
+		return new SeamProjectCreator(model, project, seamFacetInstallDelegate);
+	}
+
+	@Override
+	public FileSet getEarLibFileSet() {
+		return JBOSS_EAR_CONTENT;
+	}
+
+	@Override
+	public FileSet getWarLibFileSet() {
+		return JBOSS_WAR_LIB_FILESET_WAR_CONFIG;
+	}
+
+	@Override
+	public FileSet getWarLibFileSetForEar() {
+		return JBOSS_WAR_LIB_FILESET_EAR_CONFIG;
 	}
 }

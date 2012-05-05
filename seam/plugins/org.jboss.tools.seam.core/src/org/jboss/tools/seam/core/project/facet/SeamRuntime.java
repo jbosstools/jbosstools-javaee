@@ -133,6 +133,27 @@ public class SeamRuntime {
 	}
 
 	/**
+	 * Calculate path to seam-gen/build-scripts
+	 * 
+	 * @return absolute path to seam-gen/build-scripts folder
+	 */
+	public String getBuildScriptsDir() {
+		return getSeamGenDir() + "/build-scripts"; //$NON-NLS-1$
+	}
+
+	public String getDeployedJarsEarListFile() {
+		return getBuildScriptsDir() + "/deployed-jars-ear.list"; //$NON-NLS-1$
+	}
+
+	public String getDeployedJarsEarWarListFile() {
+		return getBuildScriptsDir() + "/deployed-jars-ear-war.list"; //$NON-NLS-1$
+	}
+
+	public String getDeployedJarsWarListFile() {
+		return getBuildScriptsDir() + "/deployed-jars-war.list"; //$NON-NLS-1$
+	}
+
+	/**
 	 * Calculate path to lib folder
 	 * 
 	 * @return absolute path to lib folder
