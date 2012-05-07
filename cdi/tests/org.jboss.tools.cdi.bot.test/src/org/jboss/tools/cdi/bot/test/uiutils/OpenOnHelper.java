@@ -33,7 +33,7 @@ public class OpenOnHelper extends CDITestBase {
 	public boolean openOnByOption(String openOnString, String titleName, String chosenOption) {
 		selectTextForOpenOn(openOnString, titleName);
 		bot.menu(CDIConstants.NAVIGATE).menu(CDIConstants.OPEN_HYPERLINK).click();			
-		bot.sleep(Timing.time500MS());
+		bot.sleep(Timing.time3S());
 		SWTBotTable table = bot.activeShell().bot().table(0);
 		
 		boolean optionFound = false;
