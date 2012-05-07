@@ -71,7 +71,7 @@ public class BeansXMLValidationTest extends BeansXMLQuickFixTestBase {
 		
 		beansHelper.createBeansXMLWithInterceptor(getProjectName(), getPackageName(), someBean);
 		assertFalse(isBeanXMLValidationErrorEmpty());
-		assertNotNull(getProblem(ValidationType.SPECIFY_INTERCEPTOR));
+		assertNotNull(getProblem(ValidationType.NO_INTERCEPTOR));
 		
 	}
 	
@@ -97,7 +97,7 @@ public class BeansXMLValidationTest extends BeansXMLQuickFixTestBase {
 		
 		beansHelper.createBeansXMLWithDecorator(getProjectName(), getPackageName(), someBean);
 		assertFalse(isBeanXMLValidationErrorEmpty());
-		assertNotNull(getProblem(ValidationType.SPECIFY_DECORATOR));
+		assertNotNull(getProblem(ValidationType.NO_DECORATOR));
 	}
 	
 	@Test
@@ -122,7 +122,7 @@ public class BeansXMLValidationTest extends BeansXMLQuickFixTestBase {
 		
 		beansHelper.createBeansXMLWithAlternative(getProjectName(), getPackageName(), someBean);
 		assertFalse(isBeanXMLValidationErrorEmpty());
-		assertNotNull(getProblem(ValidationType.SPECIFY_ALTERNATIVE));
+		assertNotNull(getProblem(ValidationType.NO_ALTERNATIVE));
 		
 	}
 	

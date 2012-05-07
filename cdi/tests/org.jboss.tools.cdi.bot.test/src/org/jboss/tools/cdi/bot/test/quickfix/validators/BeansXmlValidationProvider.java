@@ -25,25 +25,22 @@ public class BeansXmlValidationProvider extends AbstractValidationProvider {
 	void init() {
 		
 		problems.add(new ValidationProblem(ProblemsType.ERRORS, ValidationType.NO_CLASS, 
-				"There is no class with the specified name"));
+				"There is no class"));
 		
 		problems.add(new ValidationProblem(ProblemsType.ERRORS, ValidationType.NO_ANNOTATION,
-				"There is no annotation with the specified name"));
+				"There is no annotation"));
 		
-		problems.add(new ValidationProblem(ProblemsType.ERRORS, ValidationType.ALTERNATIVE_BEAN_XML,
-				"<class> element must specify the name of an alternative bean class"));
+		problems.add(new ValidationProblem(ProblemsType.ERRORS, ValidationType.NO_ALTERNATIVE_STEREOTYPE,
+				"is not @Alternative stereotype annotation"));
 		
-		problems.add(new ValidationProblem(ProblemsType.ERRORS, ValidationType.ALTERNATIVE_STEREOTYPE_BEAN_XML,
-				"<stereotype> element must specify the name of an @Alternative stereotype annotation"));
+		problems.add(new ValidationProblem(ProblemsType.ERRORS, ValidationType.NO_ALTERNATIVE,
+				"is not an alternative bean class"));
 		
-		problems.add(new ValidationProblem(ProblemsType.ERRORS, ValidationType.SPECIFY_ALTERNATIVE,
-				"must specify the name of an alternative bean class"));
+		problems.add(new ValidationProblem(ProblemsType.ERRORS, ValidationType.NO_DECORATOR,
+				"is not a decorator bean class"));
 		
-		problems.add(new ValidationProblem(ProblemsType.ERRORS, ValidationType.SPECIFY_DECORATOR,
-				"must specify the name of a decorator bean class"));
-		
-		problems.add(new ValidationProblem(ProblemsType.ERRORS, ValidationType.SPECIFY_INTERCEPTOR,
-				"must specify the name of an interceptor class"));
+		problems.add(new ValidationProblem(ProblemsType.ERRORS, ValidationType.NO_INTERCEPTOR,
+				"is not an interceptor class"));
 		
 	}
 	

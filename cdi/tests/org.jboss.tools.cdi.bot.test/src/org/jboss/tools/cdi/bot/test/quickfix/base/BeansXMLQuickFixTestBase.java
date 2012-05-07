@@ -143,7 +143,7 @@ public class BeansXMLQuickFixTestBase extends QuickFixTestBase {
 	 */
 	public void resolveAddAlternativeToBean(String name) {
 		
-		openBeanXMLValidationProblem(ValidationType.ALTERNATIVE_BEAN_XML);
+		openBeanXMLValidationProblem(ValidationType.NO_ALTERNATIVE);
 		String content = bot.editorByTitle(name + ".java").toTextEditor().getText();
 		assertTrue(content.contains("@Alternative"));
 		
@@ -157,7 +157,7 @@ public class BeansXMLQuickFixTestBase extends QuickFixTestBase {
 	 */
 	public void resolveAddAlternativeToStereotype(String name) {
 		
-		openBeanXMLValidationProblem(ValidationType.ALTERNATIVE_STEREOTYPE_BEAN_XML);
+		openBeanXMLValidationProblem(ValidationType.NO_ALTERNATIVE_STEREOTYPE);
 		String content = bot.editorByTitle(name + ".java").toTextEditor().getText();
 		assertTrue(content.contains("@Alternative"));
 		
