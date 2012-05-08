@@ -1,7 +1,9 @@
 <?xml version='1.0' encoding='utf-8' ?>
 
-   <chapter id="chap-CDI_Tools_Reference_Guide-Artifact_Wizards">
-	<title>Artifact wizards</title>
+   <chapter id="chap-CDI_Tools_Reference_Guide-Wizards_and_Dialogs">
+	<title>Wizards and Dialogs</title>
+	<section>
+		<title>Wizards</title>
 	<para>
 		A set of wizards are available for creating a range of basic CDI artifacts. The wizards available are for the following types:
 	</para>
@@ -60,5 +62,44 @@
 			</textobject>
 		</mediaobject>
 	</figure>
+</section>
+<section>
+	<title>Dialogs</title>
+	<section>
+		<title>Open CDI Named Bean</title>
+		<para>
+			The <guilabel>Open CDI Named Bean</guilabel> dialog allows you to open the resource which declares a specified expression language (EL) bean name.
+		</para>
+		<figure id="dialogs_01">
+			<title>Open CDI Named Bean dialog</title>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="images/Dialogs/dialogs_01.png" format="PNG" />
+				</imageobject>
+				<textobject>
+					<phrase>
+						Open CDI Named Bean dialog.
+					</phrase>
+				</textobject>
+			</mediaobject>
+		</figure>
+		<para>
+			This dialog is available from the Java EE perspective's tool bar.
+		</para>
+		<figure id="dialogs_02">
+			<title>Toolbar icon</title>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="images/Dialogs/dialogs_02.png" format="PNG" />
+				</imageobject>
+				<textobject>
+					<phrase>
+						Toolbar icon.
+					</phrase>
+				</textobject>
+			</mediaobject>
+		</figure>
+	</section>
+</section>
 </chapter>
 

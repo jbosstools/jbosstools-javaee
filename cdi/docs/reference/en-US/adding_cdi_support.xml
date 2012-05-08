@@ -38,7 +38,7 @@
 		</mediaobject>
 	</figure>
 	<para>
-		From the <guilabel>Project Facets</guilabel> screen, add CDI to the project by selecting the checkbox beside the facet <guimenuitem>CDI (Contexts and Dependency Injection) </guimenuitem>. Clcik the <guibutton>OK</guibutton> button to accept the configuration change and return to the project creation wizard.
+		From the <guilabel>Project Facets</guilabel> screen, add CDI to the project by selecting the checkbox beside the facet <guimenuitem>CDI (Contexts and Dependency Injection) </guimenuitem>. Click the <guibutton>OK</guibutton> button to accept the configuration change and return to the project creation wizard.
 	</para>
 	<figure id="adding_cdi_support_03">
 		<title>Adding CDI facet support</title>

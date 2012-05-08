@@ -175,11 +175,11 @@
 					</row>
 					<row>
 						<entry>JavaServer Faces v2.0 Project</entry>
-						<entry>Configures a project to use JSF v2.0. You will need to manually add CDI support to this configuration through th <guibutton>Modify</guibutton> button. </entry>
+						<entry>Configures a project to use JSF v2.0. You will need to manually add CDI support to this configuration through the <guibutton>Modify</guibutton> button. </entry>
 					</row>
 					<row>
 						<entry>Minimal Configuration</entry>
-						<entry>The minimum required facets are installed. You will need to manually add CDI support to this configuration through th <guibutton>Modify</guibutton> button.</entry>
+						<entry>The minimum required facets are installed. You will need to manually add CDI support to this configuration through the <guibutton>Modify</guibutton> button.</entry>
 					</row>
 					<row>
 						<entry>&lt;custom&gt;</entry>
