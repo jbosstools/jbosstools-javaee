@@ -620,14 +620,7 @@ public class SeamProjectCreator {
 		return lm.generateUniqueLaunchConfigurationNameFrom(baseName);
 	}
 
-	protected void createEarProject() {
-		if(!shouldCopyLibrariesAndTemplates(model))
-			return;
-		
-		earProjectFolder.mkdir();
-
-		File earContentsFolder = new File(earProjectFolder, "EarContent"); //$NON-NLS-1$
-
+	protected void copyJBossApp() {
 		FilterSet earFilterSet =  new FilterSet();
 		earFilterSet.addFilter("projectName", earProjectFolder.getName() + ".ear"); //$NON-NLS-1$ //$NON-NLS-2$
 		earFilterSet.addFilter("earProjectName", earProjectName); //$NON-NLS-1$
@@ -638,6 +631,17 @@ public class SeamProjectCreator {
 			new File(seamGenResFolder, "META-INF/jboss-app.xml"), //$NON-NLS-1$
 			new File(earContentsFolder, "META-INF"), //$NON-NLS-1$
 			new FilterSetCollection(earFilterSet), true);
+	}
+
+	protected void createEarProject() {
+		if(!shouldCopyLibrariesAndTemplates(model))
+			return;
+		
+		earProjectFolder.mkdir();
+
+		File earContentsFolder = new File(earProjectFolder, "EarContent"); //$NON-NLS-1$
+
+		copyJBossApp();
 
 		// Copy configuration files from template
 		try {

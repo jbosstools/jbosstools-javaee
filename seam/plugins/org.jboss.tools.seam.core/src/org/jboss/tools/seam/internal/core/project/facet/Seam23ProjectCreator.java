@@ -12,6 +12,8 @@ package org.jboss.tools.seam.internal.core.project.facet;
 
 import java.io.File;
 
+import org.apache.tools.ant.types.FilterSet;
+import org.apache.tools.ant.types.FilterSetCollection;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -24,6 +26,22 @@ public class Seam23ProjectCreator extends Seam2ProjectCreator {
 
 	public Seam23ProjectCreator(IDataModel model, IProject seamWebProject, SeamLibFileSetProvider seamLibFileSetProvider) {
 		super(model, seamWebProject, seamLibFileSetProvider);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.seam.internal.core.project.facet.Seam2ProjectCreator#configureJBossAppXml()
+	 */
+	@Override
+	protected void configureJBossAppXml() {
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.seam.internal.core.project.facet.SeamProjectCreator#copyJBossApp()
+	 */
+	@Override
+	protected void copyJBossApp() {
 	}
 
 	/*
