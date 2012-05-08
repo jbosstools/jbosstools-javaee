@@ -24,9 +24,11 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
 import org.eclipse.wst.common.project.facet.core.IProjectFacetVersion;
+import org.eclipse.wst.server.core.IRuntimeType;
 import org.eclipse.wst.server.core.IServer;
+import org.eclipse.wst.server.core.ServerUtil;
 import org.eclipse.wst.server.core.internal.ChainedJob;
-import org.jboss.ide.eclipse.as.core.server.internal.JBossServer;
+import org.jboss.ide.eclipse.as.core.modules.SingleDeployableFactory;
 import org.jboss.tools.jst.web.server.RegistrationHelper;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 import org.jboss.tools.seam.core.project.facet.SeamRuntime;
@@ -187,15 +189,25 @@ public class Seam23FacetInstallDelegate extends Seam2FacetInstallDelegate {
 						} catch (CoreException e) {
 							SeamCorePlugin.getDefault().logError(e);
 						}
-						JBossServer server = getJBossServer(model);
-						if (server != null) {
-							ChainedJob dsJob = new ResourceDeployer(project, server.getServer(), resource.getFullPath().removeFirstSegments(1));
-							dsJob.setNextJob(RegistrationHelper.getRegisterInServerJob(project, new IServer[]{server.getServer()}, null));
+						
+						IServer server = getServer(model);
+						if (serverSupportsSingleFileModule(server)) {
+							ChainedJob dsJob = new ResourceDeployer(project, server, resource.getFullPath().removeFirstSegments(1));
+							dsJob.setNextJob(RegistrationHelper.getRegisterInServerJob(project, new IServer[]{server}, null));
 							dsJob.schedule();
 						}
 					}
 				}
 			}
 		}
+	}
+	
+	private static boolean serverSupportsSingleFileModule(IServer s) {
+		IRuntimeType rt = s.getServerType().getRuntimeType();
+		if (ServerUtil.isSupportedModule(rt.getModuleTypes(),
+				SingleDeployableFactory.MODULE_TYPE, SingleDeployableFactory.VERSION)) {
+			return true;
+		}
+		return false;
 	}
 }

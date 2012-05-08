@@ -76,7 +76,7 @@ import org.eclipse.wst.server.core.IServerLifecycleListener;
 import org.eclipse.wst.server.core.ServerCore;
 import org.eclipse.wst.server.core.internal.ChainedJob;
 import org.eclipse.wst.server.ui.ServerUIUtil;
-import org.jboss.ide.eclipse.as.core.server.internal.JBossServer;
+import org.jboss.ide.eclipse.as.core.server.IDeployableServer;
 import org.jboss.tools.jst.web.server.RegistrationHelper;
 import org.jboss.tools.seam.core.SeamCoreMessages;
 import org.jboss.tools.seam.core.SeamCorePlugin;
@@ -85,8 +85,8 @@ import org.jboss.tools.seam.core.project.facet.SeamRuntime;
 import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
 import org.jboss.tools.seam.core.project.facet.SeamVersion;
 import org.jboss.tools.seam.internal.core.project.facet.AntCopyUtils;
-import org.jboss.tools.seam.internal.core.project.facet.ResourceDeployer;
 import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
+import org.jboss.tools.seam.internal.core.project.facet.ResourceDeployer;
 import org.jboss.tools.seam.internal.core.project.facet.SeamFacetAbstractInstallDelegate;
 import org.jboss.tools.seam.internal.core.project.facet.SeamFacetInstallDelegate;
 import org.jboss.tools.seam.internal.core.project.facet.SeamFacetProjectCreationDataModelProvider;
@@ -414,7 +414,7 @@ public class SeamProjectWizard extends WebProjectWizard implements IExecutableEx
 
 		IServer server = SeamFacetAbstractInstallDelegate.getServer(model);
 		if (server != null) {
-			JBossServer jbs = (JBossServer) server.loadAdapter(JBossServer.class, new NullProgressMonitor());
+			IDeployableServer jbs = (IDeployableServer) server.loadAdapter(IDeployableServer.class, new NullProgressMonitor());
 			if (jbs != null) {
 				String[] driverJars = (String[]) model.getProperty(ISeamFacetDataModelProperties.JDBC_DRIVER_JAR_PATH);
 				if(driverJars!=null) {

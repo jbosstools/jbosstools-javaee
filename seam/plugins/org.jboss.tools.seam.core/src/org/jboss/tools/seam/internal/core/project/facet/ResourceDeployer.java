@@ -20,11 +20,12 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.wst.server.core.IModule;
+import org.eclipse.wst.server.core.IRuntimeType;
 import org.eclipse.wst.server.core.IServer;
 import org.eclipse.wst.server.core.IServerWorkingCopy;
+import org.eclipse.wst.server.core.ServerUtil;
 import org.eclipse.wst.server.core.internal.ChainedJob;
 import org.jboss.ide.eclipse.as.core.modules.SingleDeployableFactory;
-import org.jboss.ide.eclipse.as.core.server.internal.DeployableServerBehavior;
 import org.jboss.tools.seam.core.SeamCoreMessages;
 import org.jboss.tools.seam.core.SeamCorePlugin;
 
@@ -59,12 +60,9 @@ public class ResourceDeployer extends ChainedJob {
 			return new Status(Status.WARNING, SeamCorePlugin.PLUGIN_ID,
 					SeamCoreMessages.DATA_SOURCE_XML_DEPLOYER_NO_SERVER_SELECTED_TO_DEPLOY_DATASOURCE_TO);
 		}
-		// convert it to a DeployableServer instance
-		DeployableServerBehavior deployer = (DeployableServerBehavior) s
-				.loadAdapter(DeployableServerBehavior.class, null);
-
-		// if its not null, the adaptation worked.
-		if (deployer == null) {
+		IRuntimeType rt = s.getServerType().getRuntimeType();
+		if (!ServerUtil.isSupportedModule(rt.getModuleTypes(),
+				SingleDeployableFactory.MODULE_TYPE, SingleDeployableFactory.VERSION)) {
 			return new Status(Status.WARNING, SeamCorePlugin.PLUGIN_ID,
 					SeamCoreMessages.DATA_SOURCE_XML_DEPLOYER_SERVER_DID_NOT_SUPPORT_DEPLOY_OF_DATASOURCE);
 		}
