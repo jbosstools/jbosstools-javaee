@@ -73,6 +73,8 @@ public class NewCDIWizardTest extends TestCase {
 	static String SCOPE_NAME = "MyScope";
 	static String INTERCEPTOR_BINDING_NAME = "MyInterceptorBinding";
 	static String INTERCEPTOR_BINDING2_NAME = "MyInterceptorBinding2";
+	static String EXISTING_PACK_NAME = "org.jboss.jsr299.tck.tests.jbt.validation.target";
+	static String EXISTING_INTERCEPTOR_BINDING_NAME = "InterceptorBindingWTypeTarget";  // @Inherited @Target({TYPE})
 	static String INTERCEPTOR_NAME = "MyInterceptor";
 	static String DECORATOR_NAME = "MapDecorator<K,V>";
 	static String BEAN_NAME = "MyBean";
@@ -311,6 +313,15 @@ public class NewCDIWizardTest extends TestCase {
 		}
 	}
 
+	/**
+	 * Existing interceptor binding, taken from TCK, is annotated @Inherited @Target({TYPE})
+	 * If this test fails, first check that the existing interceptor binding has not been 
+	 * moved or modified.
+	 * In the previous version, the result of testNewInterceptorBindingWizard() was used, 
+	 * but that turned to be not safe, since the order of tests is not guaranteed.
+	 * 
+	 * @throws CoreException
+	 */
 	public void testNewInterceptorBindingWizardWithBinding() throws CoreException {
 		IProject tck = ResourcesPlugin.getWorkspace().getRoot().getProject("tck");
 		tck.build(IncrementalProjectBuilder.FULL_BUILD, new NullProgressMonitor());
@@ -323,7 +334,7 @@ public class NewCDIWizardTest extends TestCase {
 		try {
 			NewInterceptorBindingWizardPage page = (NewInterceptorBindingWizardPage)context.page;
 			ICDIProject cdi = CDICorePlugin.getCDIProject(context.tck, true);
-			IInterceptorBinding s = cdi.getInterceptorBinding(PACK_NAME + "." + INTERCEPTOR_BINDING_NAME);
+			IInterceptorBinding s = cdi.getInterceptorBinding(EXISTING_PACK_NAME + "." + EXISTING_INTERCEPTOR_BINDING_NAME);
 			assertNotNull(s);
 			
 			page.addInterceptorBinding(s);
@@ -348,13 +359,23 @@ public class NewCDIWizardTest extends TestCase {
 		}
 	}
 
+	/**
+	 * Existing interceptor binding, taken from TCK, is annotated @Inherited @Target({TYPE})
+	 * If this test fails, first check that the existing interceptor binding has not been 
+	 * moved or modified.
+	 * In the previous version, the result of testNewInterceptorBindingWizard() was used, 
+	 * but that turned to be not safe, since the order of tests is not guaranteed.
+	 * 
+	 * @throws CoreException
+	 */
 	public void testNewInterceptorWizard() {
 		WizardContext context = new WizardContext();
 		context.init("org.jboss.tools.cdi.ui.wizard.NewInterceptorCreationWizard",
 				PACK_NAME, INTERCEPTOR_NAME);
 
 		ICDIProject cdi = CDICorePlugin.getCDIProject(context.tck, true);
-		ICDIAnnotation a = cdi.getInterceptorBinding(PACK_NAME + "." + INTERCEPTOR_BINDING_NAME);
+		ICDIAnnotation a = cdi.getInterceptorBinding(EXISTING_PACK_NAME + "." + EXISTING_INTERCEPTOR_BINDING_NAME);
+		assertNotNull(a);
 		
 		try {
 			NewInterceptorWizardPage page = (NewInterceptorWizardPage)context.page;
@@ -366,7 +387,7 @@ public class NewCDIWizardTest extends TestCase {
 			String text = context.getNewTypeContent();
 			
 			assertTrue(text.contains("@Interceptor"));
-			assertTrue(text.contains("@" + INTERCEPTOR_BINDING_NAME));
+			assertTrue(text.contains("@" + EXISTING_INTERCEPTOR_BINDING_NAME));
 			
 
 			IProject tck = ResourcesPlugin.getWorkspace().getRoot().getProject("tck");
