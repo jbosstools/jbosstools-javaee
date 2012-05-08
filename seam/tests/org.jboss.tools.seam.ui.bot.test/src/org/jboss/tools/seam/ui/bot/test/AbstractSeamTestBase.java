@@ -17,7 +17,7 @@ import org.jboss.tools.ui.bot.ext.helper.ContextMenuHelper;
 		server=@Server(),
 		seam=@Seam(),
 		db=@DB(),
-		perspective="Seam 2",
+		perspective="Seam",
 		clearProjects=false)
 public abstract class AbstractSeamTestBase extends SWTTestExt {
 	
@@ -37,7 +37,7 @@ public abstract class AbstractSeamTestBase extends SWTTestExt {
 
 	/**Creates any Seam Action, Form etc.	*/
 	public void createSeamUnit(String unitType, String type){
-		bot.menu("File").menu("New").menu("Seam 2 " +unitType).click();
+		bot.menu("File").menu("New").menu("Seam " +unitType).click();
 		SWTBotShell shell = bot.activeShell();
 		bot.textWithLabel("Seam Project:").setText(testProjectName + type);
 		if ("Entity".equals(unitType)) {

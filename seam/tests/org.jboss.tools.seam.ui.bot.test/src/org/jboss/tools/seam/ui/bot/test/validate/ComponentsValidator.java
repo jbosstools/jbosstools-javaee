@@ -1,10 +1,6 @@
 package org.jboss.tools.seam.ui.bot.test.validate;
 
-import java.util.Properties;
-
 import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotEclipseEditor;
-import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotEditor;
-import org.eclipse.swtbot.eclipse.finder.widgets.SWTBotView;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTreeItem;
 import org.jboss.tools.seam.ui.bot.test.AbstractSeamTestBase;
 import org.jboss.tools.seam.ui.bot.test.EARTests;
@@ -55,8 +51,8 @@ public class ComponentsValidator extends AbstractSeamTestBase {
 		SWTTestExt.util.waitForNonIgnoredJobs(60000);	
 		
 		// check that Seam Problem exists		
-		SWTBotView pBotView = problems.show();
-		SWTBotTreeItem[] sProblems = problems.getFilteredErrorsTreeItems(bot, "does not have a setter or a field", 
+		problems.show();
+		SWTBotTreeItem[] sProblems = ProblemsView.getFilteredErrorsTreeItems(bot, "does not have a setter or a field", 
 				"/" + testProjectName, "components.xml", "Seam Problem");
 		assertTrue("No Seam problem found.", ( (sProblems != null) && (sProblems.length > 0) )); 
 		assertTrue("More than one Seam problem found.", sProblems.length <= 1);
@@ -65,11 +61,11 @@ public class ComponentsValidator extends AbstractSeamTestBase {
 		
 		SWTBotEclipseEditor aEditor;
 		if (type == TestControl.TYPE_EAR)		
-			aEditor = projectExplorer.openFile(testProjectName + type + "-ejb", 
+			aEditor = packageExplorer.openFile(testProjectName + type + "-ejb", 
 					"ejbModule", "org.domain.seamprjear.session", "Authenticator.java").toTextEditor();
 		else
-			aEditor = projectExplorer.openFile(testProjectName + type, 
-					"src", "hot", "org", "domain", "seamprjwar", "session", "Authenticator.java").toTextEditor();
+			aEditor = packageExplorer.openFile(testProjectName + type, 
+					"src/hot", "org.domain.seamprjwar.session", "Authenticator.java").toTextEditor();
 			
 		idx = 0;
 		for(String line : aEditor.getLines()) {
@@ -84,7 +80,7 @@ public class ComponentsValidator extends AbstractSeamTestBase {
 
 		// check that Seam Problem disappeared		
 		problems.show();
-		sProblems = problems.getFilteredErrorsTreeItems(bot, "does not have a setter or a field", 
+		sProblems = ProblemsView.getFilteredErrorsTreeItems(bot, "does not have a setter or a field", 
 				"/" + testProjectName, "components.xml", "Seam Problem");
 		assertTrue("Seam problem still exists.", sProblems == null || sProblems.length == 0);
 		

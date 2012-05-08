@@ -8,7 +8,6 @@ import org.jboss.tools.seam.ui.bot.test.AbstractSeamTestBase;
 import org.jboss.tools.seam.ui.bot.test.EARTests;
 import org.jboss.tools.seam.ui.bot.test.TestControl;
 import org.jboss.tools.seam.ui.bot.test.WARTests;
-import org.jboss.tools.ui.bot.ext.SWTJBTExt;
 import org.jboss.tools.ui.bot.ext.SWTTestExt;
 import org.jboss.tools.ui.bot.ext.Timing;
 import org.jboss.tools.ui.bot.ext.gen.ActionItem;
@@ -29,52 +28,38 @@ public class CreateSeamProjects extends AbstractSeamTestBase {
 		
   public CreateSeamProjects() {
 	}
-
-    private SWTJBTExt swtJbtExt = new SWTJBTExt(bot);
-	
-    @Test
+  @Test
 	@Category(WARTests.class)
 	public void testCreateSeamProjectWar(){
 		createSeamProject(TestControl.TYPE_WAR);
-		util.waitForNonIgnoredJobs();
+		util.waitForNonIgnoredJobs(Timing.time100S());
+    bot.sleep(Timing.time3S());
+    // checkSeamProject(TestControl.TYPE_WAR);
 	}
-    
-    @Test
-	@Category(WARTests.class)
-	public void testCheckSeamProjectWar(){
-      bot.sleep(Timing.time3S());
-    	checkSeamProject(TestControl.TYPE_WAR);
-    }
-	
-    @Test
+  @Test
 	@Category(EARTests.class)
 	public void testCreateSeamProjectEar(){
 		createSeamProject(TestControl.TYPE_EAR);
-		util.waitForNonIgnoredJobs();
+		util.waitForNonIgnoredJobs(Timing.time100S());
+    bot.sleep(Timing.time3S());
+    // checkSeamProject(TestControl.TYPE_EAR);
 	}
-
-    @Test
-	@Category(EARTests.class)
-    public void testCheckSeamProjectEar(){
-      bot.sleep(Timing.time3S());
-    	checkSeamProject(TestControl.TYPE_EAR);
-    }
-    
 	
 	protected void createSeamProject(String type) {
 		SWTJBTBot bot = new SWTJBTBot();
-		bot.menu("File").menu("New").menu("Seam 2 Web Project").click();
+		bot.menu("File").menu("New").menu("Seam Web Project").click();
 		bot.textWithLabel("Project name:").setText(AbstractSeamTestBase.testProjectName + type);
 		bot.comboBoxInGroup("Target runtime").setSelection(SWTTestExt.configuredState.getServer().name);
 		bot.comboBoxInGroup("Target Server").setSelection(SWTTestExt.configuredState.getServer().name);
 		bot.comboBoxInGroup("Configuration").setSelection(
 				AbstractSeamTestBase.seamConfigPrefix +
-				SWTTestExt.configuredState.getSeam().version);				
+				SWTTestExt.configuredState.getSeam().version + 
+				(SWTTestExt.configuredState.getSeam().version.equals("2.3") ? " (Technical Preview)" : ""));				
 		bot.button("Next >").click();
 		bot.button("Next >").click();
 		bot.button("Next >").click();
 		bot.button("Next >").click();
-		bot.comboBoxWithLabel("Seam 2 Runtime:").setSelection(SWTTestExt.configuredState.getSeam().name);
+		bot.comboBoxWithLabel("Seam Runtime:").setSelection(SWTTestExt.configuredState.getSeam().name);
 		new SWTBotRadioExt(bot.radio(type).widget).clickWithoutDeselectionEvent();
 		bot.comboBoxWithLabel("Connection profile:").setSelection(SWTTestExt.configuredState.getDB().name);
 		

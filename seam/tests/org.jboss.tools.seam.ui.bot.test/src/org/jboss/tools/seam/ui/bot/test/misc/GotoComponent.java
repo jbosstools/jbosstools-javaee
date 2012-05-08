@@ -27,7 +27,7 @@ public class GotoComponent extends AbstractSeamTestBase {
     
 	private void testGotoComponent(String type) {
 		SWTJBTBot bot = new SWTJBTBot();
-		bot.menu("Navigate").menu("Open Seam 2 Component").click();
+		bot.menu("Navigate").menu("Open Seam Component").click();
 		bot.text().setText("authenticator");
 		SWTBotTableItem tabItem = bot.table().getTableItem("authenticator - " + AbstractSeamTestBase.testProjectName + type + 
 				((type == TestControl.TYPE_EAR) ? "-ejb" : ""));
