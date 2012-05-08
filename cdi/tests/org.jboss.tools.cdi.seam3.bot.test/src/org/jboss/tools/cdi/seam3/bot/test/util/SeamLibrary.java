@@ -11,16 +11,22 @@
 
 package org.jboss.tools.cdi.seam3.bot.test.util;
 
-public enum SeamLibraries {
+/**
+ * 
+ * @author jjankovi
+ *
+ */
+public enum SeamLibrary {
 
-	SOLDER, INTERNATIONAL;
+	SOLDER, INTERNATIONAL, UNKNOWN;
 	
 	public String getName() {
 		switch (this) {
 		case SOLDER:
 			return "seam-solder.jar";			
 		case INTERNATIONAL:
-			return "seam-international.jar";					
+			return "seam-international.jar";
+		case UNKNOWN:
 		default:
 			throw new AssertionError("Unknown libraries");
 		}

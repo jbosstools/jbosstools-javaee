@@ -13,16 +13,16 @@ package org.jboss.tools.cdi.seam3.bot.test.tests;
 
 import org.jboss.tools.cdi.bot.test.CDIConstants;
 import org.jboss.tools.cdi.seam3.bot.test.base.SolderAnnotationTestBase;
-import org.jboss.tools.cdi.seam3.bot.test.util.SeamLibraries;
+import org.jboss.tools.cdi.seam3.bot.test.util.SeamLibrary;
 import org.junit.Test;
 
+/**
+ * 
+ * @author jjankovi
+ *
+ */
 public class VetoAnnotationTest extends SolderAnnotationTestBase {
 
-	@Override
-	public String getProjectName() {
-		return "veto1";
-	}
-	
 	@Override
 	public void waitForJobs() {
 		projectExplorer.deleteAllProjects();		
@@ -40,19 +40,19 @@ public class VetoAnnotationTest extends SolderAnnotationTestBase {
 		String otherBean = "OtherBean";
 		String projectName = "veto1";
 		
-		importSeam3ProjectWithLibrary(projectName, SeamLibraries.SOLDER);
+		importSeam3ProjectWithLibrary(projectName, SeamLibrary.SOLDER);
 		
 		setEd(packageExplorer.openFile(projectName, CDIConstants.SRC, 
 				getPackageName(), APPLICATION_CLASS).toTextEditor());
 		
-		testAnnotationImproperValue(projectName, true);
+		testNoBeanValidationProblemExists(projectName);
 		
 		setEd(packageExplorer.openFile(projectName, CDIConstants.SRC, 
 				getPackageName(), otherBean + ".java").toTextEditor());
 		editResourceUtil.replaceInEditor("public class " + otherBean,
 				"public class " + otherBean + " extends " + vetoBean);
 		
-		testAnnotationProperValue(projectName, "bean", otherBean, false, null);
+		testProperInjectBean(projectName, "bean", otherBean);
 		
 	}
 	
@@ -63,19 +63,19 @@ public class VetoAnnotationTest extends SolderAnnotationTestBase {
 		String otherBean = "OtherBean";
 		String projectName = "veto2";
 		
-		importSeam3ProjectWithLibrary(projectName, SeamLibraries.SOLDER);
+		importSeam3ProjectWithLibrary(projectName, SeamLibrary.SOLDER);
 		
 		setEd(packageExplorer.openFile(projectName, CDIConstants.SRC, 
 				getPackageName(), APPLICATION_CLASS).toTextEditor());
 		
-		testAnnotationImproperValue(projectName, true);
+		testNoBeanValidationProblemExists(projectName);
 		
 		setEd(packageExplorer.openFile(projectName, CDIConstants.SRC, 
 				getPackageName(), otherBean + ".java").toTextEditor());
 		editResourceUtil.replaceInEditor("public class " + otherBean,
 				"public class " + otherBean + " extends " + vetoBean);
 		
-		testAnnotationProperValue(projectName, "bean", otherBean, false, null);
+		testProperInjectBean(projectName, "bean", otherBean);
 		
 	}
 	
@@ -85,20 +85,19 @@ public class VetoAnnotationTest extends SolderAnnotationTestBase {
 		String vetoBean = "Bean";
 		String projectName = "veto3";
 		
-		importSeam3ProjectWithLibrary(projectName, SeamLibraries.SOLDER);
+		importSeam3ProjectWithLibrary(projectName, SeamLibrary.SOLDER);
 		
 		setEd(packageExplorer.openFile(projectName, CDIConstants.SRC, 
 				getPackageName(), APPLICATION_CLASS).toTextEditor());
 		
-		testAnnotationImproperValue(projectName, true);
+		testNoBeanValidationProblemExists(projectName);
 		
 		setEd(packageExplorer.openFile(projectName, CDIConstants.SRC, 
 				getPackageName(), vetoBean + ".java").toTextEditor());
 		editResourceUtil.replaceInEditor("@Veto", "");
 		editResourceUtil.replaceInEditor("import org.jboss.seam.solder.core.Veto;", "");
 		
-		testAnnotationProperValue(projectName, "manager", vetoBean,
-				true, "getManager");
+		testProperInjectProducer(projectName, "manager", vetoBean, "getManager");
 		
 	}
 	
@@ -108,20 +107,19 @@ public class VetoAnnotationTest extends SolderAnnotationTestBase {
 		String vetoBean = "Bean";
 		String projectName = "veto4";
 		
-		importSeam3ProjectWithLibrary(projectName, SeamLibraries.SOLDER);
+		importSeam3ProjectWithLibrary(projectName, SeamLibrary.SOLDER);
 		
 		setEd(packageExplorer.openFile(projectName, CDIConstants.SRC, 
 				getPackageName(), APPLICATION_CLASS).toTextEditor());
 		
-		testAnnotationImproperValue(projectName, true);
+		testNoBeanValidationProblemExists(projectName);
 		
 		setEd(packageExplorer.openFile(projectName, CDIConstants.SRC, 
 				getPackageName(), vetoBean + ".java").toTextEditor());
 		editResourceUtil.replaceInEditor("@Veto", "");
 		editResourceUtil.replaceInEditor("import org.jboss.seam.solder.core.Veto;", "");
 		
-		testAnnotationProperValue(projectName, "manager", vetoBean,
-				true, "manager");
+		testProperInjectProducer(projectName, "manager", vetoBean,  "manager");
 		
 	}
 	
@@ -132,7 +130,7 @@ public class VetoAnnotationTest extends SolderAnnotationTestBase {
 		String projectName = "veto5";
 		String eventAttribute = "eventAttribute";
 		
-		importSeam3ProjectWithLibrary(projectName, SeamLibraries.SOLDER);
+		importSeam3ProjectWithLibrary(projectName, SeamLibrary.SOLDER);
 		
 		setEd(packageExplorer.openFile(projectName, CDIConstants.SRC, 
 				getPackageName(), APPLICATION_CLASS).toTextEditor());

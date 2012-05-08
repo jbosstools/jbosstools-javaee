@@ -25,16 +25,22 @@ import org.eclipse.swtbot.swt.finder.widgets.SWTBotTree;
 import org.jboss.tools.cdi.bot.test.CDIConstants;
 import org.jboss.tools.cdi.seam3.bot.test.Activator;
 import org.jboss.tools.ui.bot.ext.SWTBotExt;
+import org.jboss.tools.ui.bot.ext.SWTBotFactory;
 import org.jboss.tools.ui.bot.ext.SWTUtilExt;
 import org.jboss.tools.ui.bot.ext.helper.ContextMenuHelper;
 import org.jboss.tools.ui.bot.ext.types.IDELabel;
 import org.jboss.tools.ui.bot.ext.view.ProjectExplorer;
 
+/**
+ * 
+ * @author jjankovi
+ *
+ */
 public class LibraryHelper {
 
-	private ProjectExplorer projectExplorer = new ProjectExplorer();
+	private ProjectExplorer projectExplorer = SWTBotFactory.getProjectexplorer();
 	
-	private SWTBotExt bot = new SWTBotExt();
+	private SWTBotExt bot = SWTBotFactory.getBot();
 	
 	private SWTUtilExt util = new SWTUtilExt(bot);
 	

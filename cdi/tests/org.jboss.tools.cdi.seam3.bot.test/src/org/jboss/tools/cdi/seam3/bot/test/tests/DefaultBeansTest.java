@@ -18,6 +18,11 @@ import org.jboss.tools.cdi.seam3.bot.test.base.SolderAnnotationTestBase;
 import org.jboss.tools.cdi.seam3.bot.test.uiutils.AssignableBeansDialogExt;
 import org.junit.Test;
 
+/**
+ * 
+ * @author jjankovi
+ *
+ */
 public class DefaultBeansTest extends SolderAnnotationTestBase {
 
 	@Override
@@ -30,16 +35,14 @@ public class DefaultBeansTest extends SolderAnnotationTestBase {
 		projectExplorer.deleteProject(getProjectName(), true);		
 	} 
 	
-	private String className = "Application.java";
-	
 	@Test
 	public void testProperAssign() {
 		
 		packageExplorer.openFile(getProjectName(), CDIConstants.SRC, 
-				getPackageName(), className);
+				getPackageName(), APPLICATION_CLASS);
 		
-		assertFalse(openOnUtil.openOnByOption("managerImpl", className, CDIConstants.SHOW_ALL_ASSIGNABLE));			
-		openOnUtil.openOnByOption("managerImpl", className, CDIConstants.OPEN_INJECT_BEAN);
+		assertFalse(openOnUtil.openOnByOption("managerImpl", APPLICATION_CLASS, CDIConstants.SHOW_ALL_ASSIGNABLE));			
+		openOnUtil.openOnByOption("managerImpl", APPLICATION_CLASS, CDIConstants.OPEN_INJECT_BEAN);
 		String destinationFile = getEd().getTitle();		
 		assertTrue("ERROR: redirected to " + destinationFile,
 					destinationFile.equals("DefaultOne.java"));
@@ -53,9 +56,9 @@ public class DefaultBeansTest extends SolderAnnotationTestBase {
 				"Manager", null, null).finish();
 		
 		packageExplorer.openFile(getProjectName(), CDIConstants.SRC, 
-				getPackageName(), className);
+				getPackageName(), APPLICATION_CLASS);
 		
-		assertTrue(openOnUtil.openOnByOption("managerImpl", className, CDIConstants.SHOW_ALL_ASSIGNABLE));			
+		assertTrue(openOnUtil.openOnByOption("managerImpl", APPLICATION_CLASS, CDIConstants.SHOW_ALL_ASSIGNABLE));			
 		
 		AssignableBeansDialogExt assignDialog = new AssignableBeansDialogExt(bot.shell("Assignable Beans"));
 		
@@ -69,7 +72,7 @@ public class DefaultBeansTest extends SolderAnnotationTestBase {
 		assertTrue(allBeans.size() == 1);
 		assertTrue(allBeans.get(0).contains("DefaultOne"));
 		
-		openOnUtil.openOnByOption("managerImpl", className, CDIConstants.OPEN_INJECT_BEAN);
+		openOnUtil.openOnByOption("managerImpl", APPLICATION_CLASS, CDIConstants.OPEN_INJECT_BEAN);
 		String destinationFile = getEd().getTitle();		
 		assertTrue("ERROR: redirected to " + destinationFile,
 					destinationFile.equals("DefaultOne.java"));
@@ -83,9 +86,9 @@ public class DefaultBeansTest extends SolderAnnotationTestBase {
 				"Manager", null, null).finish();
 		
 		packageExplorer.openFile(getProjectName(), CDIConstants.SRC, 
-				getPackageName(), className);
+				getPackageName(), APPLICATION_CLASS);
 		
-		assertTrue(openOnUtil.openOnByOption("managerImpl", className, CDIConstants.SHOW_ALL_ASSIGNABLE));			
+		assertTrue(openOnUtil.openOnByOption("managerImpl", APPLICATION_CLASS, CDIConstants.SHOW_ALL_ASSIGNABLE));			
 		
 		AssignableBeansDialogExt assignDialog = new AssignableBeansDialogExt(bot.shell("Assignable Beans"));
 		
@@ -99,7 +102,7 @@ public class DefaultBeansTest extends SolderAnnotationTestBase {
 		assertTrue(allBeans.size() == 1);
 		assertTrue(allBeans.get(0).contains("ManagerImpl"));
 		
-		openOnUtil.openOnByOption("managerImpl", className, CDIConstants.OPEN_INJECT_BEAN);
+		openOnUtil.openOnByOption("managerImpl", APPLICATION_CLASS, CDIConstants.OPEN_INJECT_BEAN);
 		String destinationFile = getEd().getTitle();		
 		assertTrue("ERROR: redirected to " + destinationFile,
 					destinationFile.equals("ManagerImpl.java"));
@@ -113,9 +116,9 @@ public class DefaultBeansTest extends SolderAnnotationTestBase {
 				"Manager", null, null).finish();
 		
 		packageExplorer.openFile(getProjectName(), CDIConstants.SRC, 
-				getPackageName(), className);
+				getPackageName(), APPLICATION_CLASS);
 		
-		assertTrue(openOnUtil.openOnByOption("managerImpl", className, CDIConstants.SHOW_ALL_ASSIGNABLE));			
+		assertTrue(openOnUtil.openOnByOption("managerImpl", APPLICATION_CLASS, CDIConstants.SHOW_ALL_ASSIGNABLE));			
 		
 		AssignableBeansDialogExt assignDialog = new AssignableBeansDialogExt(bot.shell("Assignable Beans"));
 		
@@ -132,7 +135,7 @@ public class DefaultBeansTest extends SolderAnnotationTestBase {
 		assertTrue(allBeans.size() == 1);
 		assertTrue(allBeans.get(0).contains("ManagerImpl"));
 		
-		openOnUtil.openOnByOption("managerImpl", className, CDIConstants.OPEN_INJECT_BEAN);
+		openOnUtil.openOnByOption("managerImpl", APPLICATION_CLASS, CDIConstants.OPEN_INJECT_BEAN);
 		String destinationFile = getEd().getTitle();		
 		assertTrue("ERROR: redirected to " + destinationFile,
 					destinationFile.equals("ManagerImpl.java"));

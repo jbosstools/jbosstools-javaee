@@ -19,6 +19,11 @@ import org.jboss.tools.cdi.bot.test.uiutils.CollectionsUtil;
 import org.jboss.tools.cdi.seam3.bot.test.base.SolderTestBase;
 import org.junit.Test;
 
+/**
+ * 
+ * @author jjankovi
+ *
+ */
 public class NamedPackagesTest extends SolderTestBase {
 
 	private final String CDI_SEAM_PACKAGE = "cdi.seam";

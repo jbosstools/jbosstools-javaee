@@ -18,7 +18,7 @@ import org.jboss.tools.cdi.bot.test.CDITestBase;
 import org.jboss.tools.cdi.seam3.bot.test.Activator;
 import org.jboss.tools.cdi.seam3.bot.test.CDISeam3AllBotTests;
 import org.jboss.tools.cdi.seam3.bot.test.util.LibraryHelper;
-import org.jboss.tools.cdi.seam3.bot.test.util.SeamLibraries;
+import org.jboss.tools.cdi.seam3.bot.test.util.SeamLibrary;
 import org.jboss.tools.ui.bot.ext.RequirementAwareSuite;
 import org.jboss.tools.ui.bot.ext.config.Annotations.Require;
 import org.jboss.tools.ui.bot.ext.config.Annotations.Server;
@@ -32,6 +32,11 @@ import org.junit.runners.Suite.SuiteClasses;
 		version = "6.0", operator = ">="))
 @RunWith(RequirementAwareSuite.class)
 @SuiteClasses({ CDISeam3AllBotTests.class })
+/**
+ * 
+ * @author jjankovi
+ *
+ */
 public class Seam3TestBase extends CDITestBase {
 
 	private String projectName = "CDISeam3Project";
@@ -47,15 +52,24 @@ public class Seam3TestBase extends CDITestBase {
 		return packageName;
 	}
 	
+	protected SeamLibrary getSeamLibrary() {
+		return SeamLibrary.UNKNOWN;
+	}
+
 	@Override
 	public void prepareWorkspace() {
 		if (!projectHelper.projectExists(getProjectName())) {
-			importSeam3TestProject(getProjectName(), "/resources/projects/" + 
-					getProjectName(), getProjectName());
+			importSeam3ProjectWithLibrary(getProjectName());
 		}
 		
 	}
 	
+	/**
+	 * 
+	 * @param projectName
+	 * @param projectLocation
+	 * @param dir
+	 */
 	protected void importSeam3TestProject(String projectName, 
 			String projectLocation, String dir) {
 		ImportHelper.importProject(projectLocation, dir, Activator.PLUGIN_ID);
@@ -66,20 +80,43 @@ public class Seam3TestBase extends CDITestBase {
 				configuredState.getServer().name);
 	}
 	
-	protected void addAndCheckLibraryInProject(String projectName, 
-			SeamLibraries library) {
-		addLibraryIntoProject(projectName, library.getName());
-		checkLibraryInProject(projectName, library.getName());
+	/**
+	 * 
+	 * @param projectName
+	 */
+	protected void importSeam3ProjectWithLibrary(String projectName) {
+		importSeam3ProjectWithLibrary(projectName, getSeamLibrary());
 	}
 	
+	/**
+	 * 
+	 * @param projectName
+	 * @param library
+	 */
 	protected void importSeam3ProjectWithLibrary(String projectName, 
-			SeamLibraries library) {
+			SeamLibrary library) {
 		importSeam3TestProject(projectName, 
 				"/resources/projects/" + projectName, projectName);
 		addAndCheckLibraryInProject(projectName, library);
 		eclipse.cleanAllProjects();
 	}
 	
+	/**
+	 * 
+	 * @param projectName
+	 * @param library
+	 */
+	protected void addAndCheckLibraryInProject(String projectName, 
+			SeamLibrary library) {
+		addLibraryIntoProject(projectName, library.getName());
+		checkLibraryInProject(projectName, library.getName());
+	}
+	
+	/**
+	 * 
+	 * @param projectName
+	 * @param libraryName
+	 */
 	private void addLibraryIntoProject(String projectName, String libraryName) {
 		try {
 			libraryHelper.addLibraryIntoProject(projectName, libraryName);			
@@ -93,6 +130,11 @@ public class Seam3TestBase extends CDITestBase {
 		}		
 	}
 	
+	/**
+	 * 
+	 * @param projectName
+	 * @param libraryName
+	 */
 	private void checkLibraryInProject(String projectName, String libraryName) {
 		assertTrue(libraryHelper.isLibraryInProjectClassPath(projectName, libraryName));		
 	}

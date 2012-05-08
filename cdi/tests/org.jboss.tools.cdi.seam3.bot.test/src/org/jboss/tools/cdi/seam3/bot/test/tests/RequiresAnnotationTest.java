@@ -13,16 +13,16 @@ package org.jboss.tools.cdi.seam3.bot.test.tests;
 
 import org.jboss.tools.cdi.bot.test.CDIConstants;
 import org.jboss.tools.cdi.seam3.bot.test.base.SolderAnnotationTestBase;
-import org.jboss.tools.cdi.seam3.bot.test.util.SeamLibraries;
+import org.jboss.tools.cdi.seam3.bot.test.util.SeamLibrary;
 import org.junit.Test;
 
+/**
+ * 
+ * @author jjankovi
+ *
+ */
 public class RequiresAnnotationTest extends SolderAnnotationTestBase {
 
-	@Override
-	public String getProjectName() {
-		return "requires1";
-	}
-	
 	@Override
 	public void waitForJobs() {
 		projectExplorer.deleteAllProjects();		
@@ -40,19 +40,19 @@ public class RequiresAnnotationTest extends SolderAnnotationTestBase {
 		String manager = "Manager";
 		String projectName = "requires1";
 		
-		importSeam3ProjectWithLibrary(projectName, SeamLibraries.SOLDER);
+		importSeam3ProjectWithLibrary(projectName, SeamLibrary.SOLDER);
 		
 		setEd(packageExplorer.openFile(projectName, CDIConstants.SRC, 
 				getPackageName(), APPLICATION_CLASS).toTextEditor());
 		
-		testAnnotationImproperValue(projectName, true);
+		testNoBeanValidationProblemExists(projectName);
 		
 		setEd(packageExplorer.openFile(projectName, CDIConstants.SRC, 
 				getPackageName(), managerProducer + ".java").toTextEditor());
 		editResourceUtil.replaceInEditor("@Requires(\"cdi.test." + manager + "\")",
 				"@Requires(\"" + getPackageName() + "." + manager + "\")");
 		
-		testAnnotationProperValue(projectName, "managerProducer", managerProducer, false, null);
+		testProperInjectBean(projectName, "managerProducer", managerProducer);
 		
 	}
 	
@@ -63,19 +63,19 @@ public class RequiresAnnotationTest extends SolderAnnotationTestBase {
 		String manager = "Manager";
 		String projectName = "requires2";
 		
-		importSeam3ProjectWithLibrary(projectName, SeamLibraries.SOLDER);
+		importSeam3ProjectWithLibrary(projectName, SeamLibrary.SOLDER);
 		
 		setEd(packageExplorer.openFile(projectName, CDIConstants.SRC, 
 				getPackageName(), APPLICATION_CLASS).toTextEditor());
 		
-		testAnnotationImproperValue(projectName, true);
+		testNoBeanValidationProblemExists(projectName);
 		
 		setEd(packageExplorer.openFile(projectName, CDIConstants.SRC, 
 				getPackageName(), managerProducer + ".java").toTextEditor());
 		editResourceUtil.replaceInEditor("@Requires(\"cdi.test." + manager + "\")",
 				"@Requires(\"" + getPackageName() + "." + manager + "\")");
 		
-		testAnnotationProperValue(projectName, "managerProducer", managerProducer, false, null);
+		testProperInjectBean(projectName, "managerProducer", managerProducer);
 		
 	}
 	
@@ -86,20 +86,20 @@ public class RequiresAnnotationTest extends SolderAnnotationTestBase {
 		String manager = "Manager";
 		String projectName = "requires3";
 		
-		importSeam3ProjectWithLibrary(projectName, SeamLibraries.SOLDER);
+		importSeam3ProjectWithLibrary(projectName, SeamLibrary.SOLDER);
 		
 		setEd(packageExplorer.openFile(projectName, CDIConstants.SRC, 
 				getPackageName(), APPLICATION_CLASS).toTextEditor());
 		
-		testAnnotationImproperValue(projectName, true);
+		testNoBeanValidationProblemExists(projectName);
 		
 		setEd(packageExplorer.openFile(projectName, CDIConstants.SRC, 
 				getPackageName(), managerProducer + ".java").toTextEditor());
 		editResourceUtil.replaceInEditor("@Requires(\"cdi.test." + manager + "\")",
 				"@Requires(\"" + getPackageName() + "." + manager + "\")");
 		
-		testAnnotationProperValue(projectName, "managerProducer", 
-				managerProducer, true, "getManagerProducer");
+		testProperInjectProducer(projectName, "managerProducer", 
+				managerProducer, "getManagerProducer");
 		
 	}
 	
@@ -110,20 +110,20 @@ public class RequiresAnnotationTest extends SolderAnnotationTestBase {
 		String manager = "Manager";
 		String projectName = "requires4";
 		
-		importSeam3ProjectWithLibrary(projectName, SeamLibraries.SOLDER);
+		importSeam3ProjectWithLibrary(projectName, SeamLibrary.SOLDER);
 		
 		setEd(packageExplorer.openFile(projectName, CDIConstants.SRC, 
 				getPackageName(), APPLICATION_CLASS).toTextEditor());
 		
-		testAnnotationImproperValue(projectName, true);
+		testNoBeanValidationProblemExists(projectName);
 		
 		setEd(packageExplorer.openFile(projectName, CDIConstants.SRC, 
 				getPackageName(), managerProducer + ".java").toTextEditor());
 		editResourceUtil.replaceInEditor("@Requires(\"cdi.test." + manager + "\")",
 				"@Requires(\"" + getPackageName() + "." + manager + "\")");
 		
-		testAnnotationProperValue(projectName, "managerProducer", 
-				managerProducer, true, "managerProducer");
+		testProperInjectProducer(projectName, "managerProducer", 
+				managerProducer, "managerProducer");
 		
 	}
 	
@@ -135,7 +135,7 @@ public class RequiresAnnotationTest extends SolderAnnotationTestBase {
 		String projectName = "requires5";
 		String eventAttribute = "eventAttribute";
 		
-		importSeam3ProjectWithLibrary(projectName, SeamLibraries.SOLDER);
+		importSeam3ProjectWithLibrary(projectName, SeamLibrary.SOLDER);
 		
 		setEd(packageExplorer.openFile(projectName, CDIConstants.SRC, 
 				getPackageName(), APPLICATION_CLASS).toTextEditor());

@@ -13,20 +13,18 @@ package org.jboss.tools.cdi.seam3.bot.test.tests;
 
 import org.jboss.tools.cdi.bot.test.CDIConstants;
 import org.jboss.tools.cdi.seam3.bot.test.base.SolderAnnotationTestBase;
-import org.jboss.tools.cdi.seam3.bot.test.util.SeamLibraries;
+import org.jboss.tools.cdi.seam3.bot.test.util.SeamLibrary;
 import org.junit.Test;
 
+/**
+ * 
+ * @author jjankovi
+ *
+ */
 public class ExactAnnotationTest extends SolderAnnotationTestBase {
 
-	private String className = "Application.java";
-	
 	private final String EXACT_INTERFACE = "exact-interface";
 	private final String EXACT_BEANS = "exact-beans";
-	
-	@Override
-	public String getProjectName() {
-		return "exact-interface";
-	}
 	
 	@Override
 	public void prepareWorkspace() {
@@ -58,22 +56,22 @@ public class ExactAnnotationTest extends SolderAnnotationTestBase {
 		String peopleManager = "PeopleManager";
 		String otherManager = "OtherManager";
 		
-		importSeam3ProjectWithLibrary(projectName, SeamLibraries.SOLDER);
+		importSeam3ProjectWithLibrary(projectName, SeamLibrary.SOLDER);
 		
 		setEd(packageExplorer.openFile(projectName, CDIConstants.SRC, 
-				getPackageName(), className).toTextEditor());
+				getPackageName(), APPLICATION_CLASS).toTextEditor());
 		
-		testAnnotationImproperValue(projectName, false);
+		testMultipleBeansValidationProblemExists(projectName);
 				
 		editResourceUtil.replaceInEditor(managerClass, peopleManager + ".class");
-		testAnnotationProperValue(projectName, peopleManager + ".class", 
-				peopleManager, false, null);
+		testProperInjectBean(projectName, peopleManager + ".class", 
+				peopleManager);
 
-		bot.editorByTitle(className).show();
+		bot.editorByTitle(APPLICATION_CLASS).show();
 		
 		editResourceUtil.replaceInEditor(peopleManager + ".class", otherManager + ".class");
-		testAnnotationProperValue(projectName, otherManager + ".class", 
-				otherManager, false, null);
+		testProperInjectBean(projectName, otherManager + ".class", 
+				otherManager);
 		
 	}
 	

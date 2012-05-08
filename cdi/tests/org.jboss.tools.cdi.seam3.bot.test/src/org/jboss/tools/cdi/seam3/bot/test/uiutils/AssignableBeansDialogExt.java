@@ -13,21 +13,27 @@ package org.jboss.tools.cdi.seam3.bot.test.uiutils;
 
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotShell;
 import org.jboss.tools.cdi.bot.test.uiutils.wizards.AssignableBeansDialog;
-
+/**
+ * 
+ * @author jjankovi
+ *
+ */
 public class AssignableBeansDialogExt extends AssignableBeansDialog {
 
+	private final String ELIMINATED_DEFAULT_BEAN = "Eliminated @DefaultBean";
+	
 	public AssignableBeansDialogExt(SWTBotShell shell) {
 		super(shell);	
 		showDefaultBeans();
 	}
 	
 	public AssignableBeansDialog hideDefaultBeans() {
-		getTreeItem("Eliminated @DefaultBean").uncheck();
+		getTreeItem(ELIMINATED_DEFAULT_BEAN).uncheck();
 		return this;
 	}
 	
 	public AssignableBeansDialog showDefaultBeans() {
-		getTreeItem("Eliminated @DefaultBean").check();
+		getTreeItem(ELIMINATED_DEFAULT_BEAN).check();
 		return this;
 	}
 	
