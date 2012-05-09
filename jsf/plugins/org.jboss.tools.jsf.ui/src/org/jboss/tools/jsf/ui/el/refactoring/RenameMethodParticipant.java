@@ -67,7 +67,7 @@ public class RenameMethodParticipant extends RenameParticipant implements IShara
 						status.addWarning(JsfUIMessages.RENAME_METHOD_PARTICIPANT_SETTER_WARNING);
 				}
 				
-				searcher.findELReferences();
+				searcher.findELReferences(pm);
 			}
 		}
 		
