@@ -58,7 +58,7 @@ public class RenameNamedBeanProcessor extends CDIRenameProcessor {
 		
 		pm.worked(1);
 		
-		getSearcher().findELReferences();
+		getSearcher().findELReferences(pm);
 		
 		pm.done();
 	}
