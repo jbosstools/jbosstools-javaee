@@ -138,7 +138,7 @@ public class RenameELVariableProcessor extends ELRenameProcessor {
 		if(managedBean != null){
 			Change managedBeanChange = RenameModelObjectChange.createChange(new XModelObject[]{managedBean}, getNewName(), MANAGED_BEAN_NAME_ATTRIBUTE);
 			rootChange.add(managedBeanChange);
-			getSearcher().findELReferences();
+			getSearcher().findELReferences(pm);
 		}
 	}
 	

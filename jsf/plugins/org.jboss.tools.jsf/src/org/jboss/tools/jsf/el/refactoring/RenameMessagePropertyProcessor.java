@@ -166,7 +166,7 @@ public class RenameMessagePropertyProcessor extends ELRenameProcessor {
 		TextFileChange change = getChange((IFile)segment.getMessageBundleResource());
 		TextEdit edit = new ReplaceEdit(segment.getMessagePropertySourceReference().getStartPosition(), segment.getMessagePropertySourceReference().getLength(), getNewName());
 		change.addEdit(edit);
-		getSearcher().findELReferences();
+		getSearcher().findELReferences(pm);
 	}
 	
 	class MessagePropertySearcher extends ELSearcher{
