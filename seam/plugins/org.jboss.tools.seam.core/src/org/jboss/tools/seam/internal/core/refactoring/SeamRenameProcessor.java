@@ -391,7 +391,7 @@ public abstract class SeamRenameProcessor extends RenameProcessor {
 		
 		pm.worked(1);
 		
-		getSearcher().findELReferences();
+		getSearcher().findELReferences(pm);
 		
 		pm.done();
 	}
@@ -410,7 +410,7 @@ public abstract class SeamRenameProcessor extends RenameProcessor {
 		
 		pm.worked(1);
 		
-		getSearcher().findELReferences();
+		getSearcher().findELReferences(pm);
 		
 		pm.done();
 	}
