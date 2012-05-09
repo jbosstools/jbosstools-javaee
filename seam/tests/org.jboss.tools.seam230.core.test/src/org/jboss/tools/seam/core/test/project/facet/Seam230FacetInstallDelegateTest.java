@@ -10,33 +10,87 @@
  ******************************************************************************/
 package org.jboss.tools.seam.core.test.project.facet;
 
+import java.io.File;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.regex.Pattern;
+
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
+import org.eclipse.wst.validation.ValidationFramework;
+import org.eclipse.wst.validation.internal.EventManager;
+import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
+import org.jboss.tools.seam.core.project.facet.SeamVersion;
+import org.jboss.tools.seam.internal.core.project.facet.AntCopyUtils;
+import org.jboss.tools.seam.internal.core.project.facet.Seam23FacetInstallDelegate;
 
 /**
  * @author Alexey Kazakov
  */
-public class Seam230FacetInstallDelegateTest extends Seam220CR1FacetInstallDelegateTest {
+public class Seam230FacetInstallDelegateTest extends AbstractSeam2FacetInstallDelegateTest {
+
+	protected static final String SEAM_2_2_3 = "Seam 2.2.3";
 
 	public Seam230FacetInstallDelegateTest(String name) {
 		super(name);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.jboss.tools.seam.core.test.project.facet.Seam2FacetInstallDelegateTest#getTestLibs()
-	 */
 	@Override
-	protected Set<String> getTestLibs() {
-		Set<String> libs = new HashSet<String>();
+	protected void setUp() throws Exception {
+		suspendAllValidation = ValidationFramework.getDefault().isSuspended();
+		ValidationFramework.getDefault().suspendAllValidation(true);
 
-		libs.add("testng-jdk15.jar");
-		libs.add("hibernate-all.jar");
-		libs.add("jboss-embedded-all.jar");
-		libs.add("thirdparty-all.jar");
-		libs.add("jboss-embedded-api.jar");
-		libs.add("core.jar");
+		ResourcesPlugin.getWorkspace().removeResourceChangeListener(EventManager.getManager());
+		// commented to run tests on wtp 3.0.4 build
+		// ws.removeResourceChangeListener( ValManager.getDefault() );
+		// EventManager.getManager().shutdown();
 
-		return libs;
+		assertSeamHomeAvailable();
+
+		seam2Facet = ProjectFacetsManager.getProjectFacet("jst.seam");
+		seam2FacetVersion = seam2Facet.getVersion("2.3");
+
+		File folder = getSeamHomeFolder();
+
+		SeamRuntimeManager.getInstance().addRuntime(SEAM_2_2_3,	folder.getAbsolutePath(), SeamVersion.SEAM_2_3, true);
+		seamRuntime = SeamRuntimeManager.getInstance().findRuntimeByName(SEAM_2_2_3);
+		IProject war = (IProject) ResourcesPlugin.getWorkspace().getRoot().findMember("warprj");
+		warProject = (war != null ? ProjectFacetsManager.create(war, false, null) : createSeamWarProject("warprj"));
+		IProject ear = (IProject) ResourcesPlugin.getWorkspace().getRoot().findMember("earprj");
+		earProject = (ear != null ? ProjectFacetsManager.create(ear, false, null) : createSeamEarProject("earprj"));
+	}
+
+	private static Set<String> convertToStrings(AntCopyUtils.FileSet fileSet) {
+		Set<String> seamgenlibs = new HashSet<String>();
+		List<Pattern> list = fileSet.getIncluded();
+		for (Pattern pattern : list) {
+			seamgenlibs.add(pattern.pattern());
+		}
+		return seamgenlibs;
+	}
+
+	@Override
+	protected Set<String> getWarLibs() {
+		AntCopyUtils.FileSet fileSet = Seam23FacetInstallDelegate.getWarLibFileSet(seamRuntime);
+		return convertToStrings(fileSet);
+	}
+
+	@Override
+	protected Set<String> getEarLibs() {
+		AntCopyUtils.FileSet fileSet = Seam23FacetInstallDelegate.getEarLibFileSet(seamRuntime);
+		return convertToStrings(fileSet);
+	}
+
+	@Override
+	protected Set<String> getEarWarLibs() {
+		AntCopyUtils.FileSet fileSet = Seam23FacetInstallDelegate.getWarLibFileSetForEar(seamRuntime);
+		return convertToStrings(fileSet);
+	}
+
+	@Override
+	protected boolean shouldCheckJBossAppXML() {
+		return false;
 	}
 }

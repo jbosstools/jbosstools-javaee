@@ -51,7 +51,7 @@ public abstract class AbstractSeamFacetTest extends TestCase {
 	
 	protected static final IWorkspace ws = ResourcesPlugin.getWorkspace();
 	
-	private SeamRuntime seamRuntime;
+	protected SeamRuntime seamRuntime;
 	
 	protected static final String SEAM_1_2_0 = "Seam 1.2.0";
 	protected static final String SEAM_2_0_0 = "Seam 2.0.0";

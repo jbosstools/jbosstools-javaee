@@ -107,18 +107,30 @@ public class Seam23FacetInstallDelegate extends Seam2FacetInstallDelegate {
 
 	public static AntCopyUtils.FileSet getEarLibFileSet(IDataModel model) {
 		SeamRuntime runtime = getSeamRuntime(model);
-		String path = runtime.getDeployedJarsEarListFile();
-		return getFileSetOfJars(path);
+		return getEarLibFileSet(runtime);
 	}
 
 	public static AntCopyUtils.FileSet getWarLibFileSet(IDataModel model) {
 		SeamRuntime runtime = getSeamRuntime(model);
-		String path = runtime.getDeployedJarsWarListFile();
-		return getFileSetOfJars(path);
+		return getWarLibFileSet(runtime);
 	}
 
 	public static AntCopyUtils.FileSet getWarLibFileSetForEar(IDataModel model) {
 		SeamRuntime runtime = getSeamRuntime(model);
+		return getWarLibFileSetForEar(runtime);
+	}
+
+	public static AntCopyUtils.FileSet getEarLibFileSet(SeamRuntime runtime) {
+		String path = runtime.getDeployedJarsEarListFile();
+		return getFileSetOfJars(path);
+	}
+
+	public static AntCopyUtils.FileSet getWarLibFileSet(SeamRuntime runtime) {
+		String path = runtime.getDeployedJarsWarListFile();
+		return getFileSetOfJars(path);
+	}
+
+	public static AntCopyUtils.FileSet getWarLibFileSetForEar(SeamRuntime runtime) {
 		String path = runtime.getDeployedJarsEarWarListFile();
 		return getFileSetOfJars(path);
 	}
