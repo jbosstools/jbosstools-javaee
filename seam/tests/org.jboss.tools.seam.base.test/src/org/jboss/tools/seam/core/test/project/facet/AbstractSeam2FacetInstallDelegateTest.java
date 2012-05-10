@@ -41,8 +41,8 @@ import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelPrope
 public abstract class AbstractSeam2FacetInstallDelegateTest extends AbstractSeamFacetTest {
 
 	protected static final String SEAM_2_0_0 = "Seam 2.0.0";
-	IFacetedProject warProject;
-	IFacetedProject earProject;
+	protected IFacetedProject warProject;
+	protected IFacetedProject earProject;
 
 	protected IProjectFacet seam2Facet;
 	protected IProjectFacetVersion seam2FacetVersion;
