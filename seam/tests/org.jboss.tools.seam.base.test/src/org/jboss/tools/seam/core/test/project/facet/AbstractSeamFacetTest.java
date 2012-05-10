@@ -60,9 +60,9 @@ public abstract class AbstractSeamFacetTest extends TestCase {
 	protected static final String SEAM_2_0_HOME = "jbosstools.test.seam.2.0.1.GA.home";
 	
 	protected static final IProjectFacetVersion seamFacetVersion;
-	protected static final IProjectFacetVersion dynamicWebVersion;
-	protected static final IProjectFacetVersion javaVersion;
-	protected static final IProjectFacetVersion javaFacesVersion;
+	protected static IProjectFacetVersion dynamicWebVersion;
+	protected static IProjectFacetVersion javaVersion;
+	protected static IProjectFacetVersion javaFacesVersion;
 	
 	private static final IProjectFacet seamFacet;
 	
