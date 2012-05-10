@@ -419,6 +419,9 @@ public class DependentProjectTest extends TestCase {
 		ResourcesUtils.setBuildAutomatically(true);
 		assertBeanIsPresent(cdi2, "cdi.test.MyBean", true);
 
+		ResourcesUtils.setBuildAutomatically(false);
+		cdi2.getNature().getProject().build(IncrementalProjectBuilder.FULL_BUILD, new NullProgressMonitor());
+
 		ResourcesUtils.setBuildAutomatically(saveAutoBuild);
 	}
 	public static IInjectionPointField getInjectionPointField(ICDIProject cdi, String beanClassFilePath, String fieldName) {
