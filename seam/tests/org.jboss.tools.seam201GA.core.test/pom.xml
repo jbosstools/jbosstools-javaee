@@ -29,7 +29,7 @@
 					</explodedBundles>
 					<product>org.jboss.tools.tests</product>
 					<includes>
-						<include>org/jboss/tools/seam/core/test/project/facet/Seam20XFacetTestSuite201GA.class</include>
+						<include>org/jboss/tools/seam/core/test/project/facet/Seam2FacetTestSuite201GA.class</include>
 					</includes>
 				</configuration>
 			</plugin>
