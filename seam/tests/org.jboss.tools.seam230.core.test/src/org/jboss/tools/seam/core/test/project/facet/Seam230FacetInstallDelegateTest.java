@@ -19,12 +19,14 @@ import java.util.regex.Pattern;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.jst.common.project.facet.core.JavaFacet;
+import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
 import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
 import org.eclipse.wst.validation.ValidationFramework;
 import org.eclipse.wst.validation.internal.EventManager;
 import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
 import org.jboss.tools.seam.core.project.facet.SeamVersion;
 import org.jboss.tools.seam.internal.core.project.facet.AntCopyUtils;
+import org.jboss.tools.seam.internal.core.project.facet.ISeamFacetDataModelProperties;
 import org.jboss.tools.seam.internal.core.project.facet.Seam23FacetInstallDelegate;
 
 /**
@@ -65,6 +67,16 @@ public class Seam230FacetInstallDelegateTest extends AbstractSeam2FacetInstallDe
 		warProject = (war != null ? ProjectFacetsManager.create(war, false, null) : createSeamWarProject("warprj"));
 		IProject ear = (IProject) ResourcesPlugin.getWorkspace().getRoot().findMember("earprj");
 		earProject = (ear != null ? ProjectFacetsManager.create(ear, false, null) : createSeamEarProject("earprj"));
+	}
+
+	@Override
+	protected IDataModel createSeamDataModel(String deployType) {
+		IDataModel dataModel = super.createSeamDataModel(deployType);
+		dataModel.setStringProperty(
+				ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME, SEAM_2_2_3);
+		dataModel.setBooleanProperty(ISeamFacetDataModelProperties.SEAM_RUNTIME_LIBRARIES_COPYING, true);
+
+		return dataModel;
 	}
 
 	private static Set<String> convertToStrings(AntCopyUtils.FileSet fileSet) {
