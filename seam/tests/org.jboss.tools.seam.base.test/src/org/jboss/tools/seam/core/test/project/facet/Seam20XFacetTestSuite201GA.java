@@ -16,18 +16,18 @@ import junit.framework.TestSuite;
 
 import org.jboss.tools.test.util.JobUtils;
 
-
 /**
  * @author eskimo
  *
  */
 public class Seam20XFacetTestSuite201GA {
+
 	public static Test suite() {
 		TestSuite suite = new TestSuite("Seam 2.0.X tests");
-		suite.addTest(new Seam2FacetInstallDelegateTestSetup(new TestSuite(AbstractSeam2FacetInstallDelegateTest.class)));
+		suite.addTest(new Seam2FacetInstallDelegateTestSetup(new TestSuite(Seam2FacetInstallDelegateTest.class)));
 		return suite;
 	}
-	
+
 	public static class Seam2FacetInstallDelegateTestSetup extends TestSetup {
 
 		AbstractSeam2FacetInstallDelegateTest delegate = new Seam2FacetInstallDelegateTest("Delegate");
@@ -48,6 +48,5 @@ public class Seam20XFacetTestSuite201GA {
 		public Seam2FacetInstallDelegateTestSetup(Test test) {
 			super(test);
 		}
-
 	}
 }
