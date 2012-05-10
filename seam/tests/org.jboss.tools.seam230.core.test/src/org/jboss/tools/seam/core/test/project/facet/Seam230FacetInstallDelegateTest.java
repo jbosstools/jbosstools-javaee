@@ -18,6 +18,7 @@ import java.util.regex.Pattern;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.jst.common.project.facet.core.JavaFacet;
 import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
 import org.eclipse.wst.validation.ValidationFramework;
 import org.eclipse.wst.validation.internal.EventManager;
@@ -51,6 +52,10 @@ public class Seam230FacetInstallDelegateTest extends AbstractSeam2FacetInstallDe
 
 		seam2Facet = ProjectFacetsManager.getProjectFacet("jst.seam");
 		seam2FacetVersion = seam2Facet.getVersion("2.3");
+
+		javaVersion = JavaFacet.VERSION_1_6;
+		dynamicWebVersion = ProjectFacetsManager.getProjectFacet("jst.web").getVersion("3.0");
+		javaFacesVersion = ProjectFacetsManager.getProjectFacet("jst.jsf").getVersion("2.0");
 
 		File folder = getSeamHomeFolder();
 
