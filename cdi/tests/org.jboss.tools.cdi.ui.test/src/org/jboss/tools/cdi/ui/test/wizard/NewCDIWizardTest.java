@@ -68,6 +68,8 @@ public class NewCDIWizardTest extends TestCase {
 	
 	static String PACK_NAME = "test";
 	static String QUALIFIER_NAME = "MyQualifier";
+	static String HAIRY_PACK_NAME = "org.jboss.jsr299.tck.tests.definition.qualifier";
+	static String HAIRY_QUALIFIER = "Hairy";
 	static String STEREOTYPE_NAME = "MyStereotype";
 	static String STEREOTYPE2_NAME = "MyStereotype2";
 	static String SCOPE_NAME = "MyScope";
@@ -225,10 +227,8 @@ public class NewCDIWizardTest extends TestCase {
 			context.close();
 		}
 
-	}
-
-	public void testNewStereotypeWizardWithStereotype() {
-		WizardContext context = new WizardContext();
+		// testNewStereotypeWizardWithStereotype()
+		context = new WizardContext();
 		context.init("org.jboss.tools.cdi.ui.wizard.NewStereotypeCreationWizard",
 				PACK_NAME, STEREOTYPE2_NAME);
 		try {
@@ -469,21 +469,21 @@ public class NewCDIWizardTest extends TestCase {
 	public void testNewAnnotationLiteralWizard() {
 		WizardContext context = new WizardContext();
 		context.init("org.jboss.tools.cdi.ui.wizard.NewAnnotationLiteralCreationWizard",
-				PACK_NAME, QUALIFIER_NAME + "Literal");
+				PACK_NAME, HAIRY_QUALIFIER + "Literal");
 
 		ICDIProject cdi = CDICorePlugin.getCDIProject(context.tck, true);
 		
 		try {
 			NewAnnotationLiteralWizardPage page = (NewAnnotationLiteralWizardPage)context.page;
 
-			page.setQualifier(PACK_NAME + "." + QUALIFIER_NAME);
+			page.setQualifier(HAIRY_PACK_NAME + "." + HAIRY_QUALIFIER);
 			
 			context.wizard.performFinish();
 			
 			String text = context.getNewTypeContent();
 //			System.out.println(text);
 			
-			assertTrue(text.contains("AnnotationLiteral<" + QUALIFIER_NAME + ">"));
+			assertTrue(text.contains("AnnotationLiteral<" + HAIRY_QUALIFIER + ">"));
 		} finally {
 			context.close();
 		}
