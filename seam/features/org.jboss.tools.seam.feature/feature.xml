@@ -21,6 +21,9 @@
 		<import feature="org.jboss.tools.jsf.feature" version="3.3.0" match="greaterOrEqual" />
 		<import feature="org.eclipse.datatools.connectivity.feature" version="1.6.1" match="greaterOrEqual" />
 		<import feature="org.eclipse.datatools.enablement.jdbc.feature" version="1.6.1" match="greaterOrEqual" />
+
+   		<!-- JBIDE-11844 - include AS feature when installing Seam -->
+		<import feature="org.jboss.ide.eclipse.as.feature" version="2.3.0.qualifier" match="greaterOrEqual"/>
 	</requires>
 
 	<plugin id="org.jboss.tools.seam.core" download-size="0" install-size="0" version="0.0.0" unpack="false" />
