@@ -30,7 +30,7 @@ public class Seam20XFacetTestSuite230 extends Seam20XFacetTestSuite201GA {
 
 	public static class Seam23FacetInstallDelegateTestSetup extends TestSetup {
 
-		AbstractSeam2FacetInstallDelegateTest delegate = new Seam230FacetInstallDelegateTest("Delegate");
+		Seam230FacetInstallDelegateTest delegate = new Seam230FacetInstallDelegateTest("Delegate");
 		@Override
 		protected void setUp() throws Exception {
 			delegate.setUp();

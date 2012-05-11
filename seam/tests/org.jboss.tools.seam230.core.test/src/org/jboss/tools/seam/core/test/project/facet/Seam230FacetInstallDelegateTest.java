@@ -70,6 +70,11 @@ public class Seam230FacetInstallDelegateTest extends AbstractSeam2FacetInstallDe
 	}
 
 	@Override
+	protected void tearDown() throws Exception {
+		super.tearDown();
+	}
+
+	@Override
 	protected IDataModel createSeamDataModel(String deployType) {
 		IDataModel dataModel = super.createSeamDataModel(deployType);
 		dataModel.setStringProperty(
