@@ -76,7 +76,7 @@ public class Seam230FacetInstallDelegateTest extends AbstractSeam2FacetInstallDe
 
 	@Override
 	protected boolean shouldCheckTestProject() {
-		return true;
+		return false;
 	}
 
 	@Override
