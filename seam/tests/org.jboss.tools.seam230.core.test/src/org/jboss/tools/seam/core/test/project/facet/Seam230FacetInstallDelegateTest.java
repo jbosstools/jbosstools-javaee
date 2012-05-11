@@ -75,6 +75,11 @@ public class Seam230FacetInstallDelegateTest extends AbstractSeam2FacetInstallDe
 	}
 
 	@Override
+	protected boolean shouldCheckTestProject() {
+		return true;
+	}
+
+	@Override
 	protected IDataModel createSeamDataModel(String deployType) {
 		IDataModel dataModel = super.createSeamDataModel(deployType);
 		dataModel.setStringProperty(
