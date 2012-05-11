@@ -262,6 +262,10 @@ public abstract class AbstractSeam2FacetInstallDelegateTest extends AbstractSeam
 		return true;
 	}
 
+	protected boolean checkTestProject() {
+		return true;
+	}
+
 	protected void checkEarLibrariesInSeamProject(int caseNumber, String earName) throws CoreException{
 		IDataModel earModel = createSeamDataModel("ear");
 		
@@ -291,7 +295,7 @@ public abstract class AbstractSeam2FacetInstallDelegateTest extends AbstractSeam
 		SeamProjectsSet seamProjectsSet = new SeamProjectsSet(war);
 		
 		assertTrue(seamProjectsSet.getWarProject().exists());
-		assertTrue(seamProjectsSet.getTestProject().exists());
+		assertTrue(!checkTestProject() || seamProjectsSet.getTestProject().exists());
 		assertTrue(seamProjectsSet.getEjbProject().exists());
 		assertTrue(seamProjectsSet.getEarProject().exists());
 
@@ -350,8 +354,10 @@ public abstract class AbstractSeam2FacetInstallDelegateTest extends AbstractSeam
 			assertOnlyContainsTheseFiles(onlyInEar, earLibs);
 
 			assertOnlyContainsTheseFiles(onlyInWar, warLibs);
-			
-			assertOnlyContainsTheseFiles(onlyInTest, testLibs);
+
+			if(checkTestProject()) {
+				assertOnlyContainsTheseFiles(onlyInTest, testLibs);
+			}
 		}else{
 			assertContainsNoneOfTheseFiles(onlyInEjbSrc, ejbSrc);
 			
@@ -362,8 +368,10 @@ public abstract class AbstractSeam2FacetInstallDelegateTest extends AbstractSeam
 			assertContainsNoneOfTheseFiles(onlyInEar, earLibs);
 
 			assertContainsNoneOfTheseFiles(onlyInWar, warLibs);
-			
-			assertContainsNoneOfTheseFiles(onlyInTest, testLibs);
+
+			if(checkTestProject()) {
+				assertContainsNoneOfTheseFiles(onlyInTest, testLibs);
+			}
 		}
 	}
 
