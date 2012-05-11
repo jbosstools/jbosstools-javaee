@@ -521,7 +521,9 @@ public abstract class AbstractSeam2FacetInstallDelegateTest extends AbstractSeam
 			public boolean visit(IResourceProxy proxy) throws CoreException {
 				if (dir.getName().equals(proxy.getName()))
 					return true;
-				foundFiles.add(proxy.getName());
+				if(proxy.isAccessible()) {
+					foundFiles.add(proxy.getName());
+				}
 				return false;
 			}
 
