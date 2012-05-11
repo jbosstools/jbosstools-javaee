@@ -79,11 +79,20 @@ public class Seam230FacetInstallDelegateTest extends AbstractSeam2FacetInstallDe
 		return dataModel;
 	}
 
-	private static Set<String> convertToStrings(AntCopyUtils.FileSet fileSet) {
+	private Set<String> convertToStrings(AntCopyUtils.FileSet fileSet) {
 		Set<String> seamgenlibs = new HashSet<String>();
+		String libDir = seamRuntime.getLibDir();
+		File libDirFile = new File(libDir);
+		assertTrue(libDirFile.exists());
 		List<Pattern> list = fileSet.getIncluded();
 		for (Pattern pattern : list) {
-			seamgenlibs.add(pattern.pattern());
+			String jarName = pattern.pattern();
+			File jarFile = new File(libDirFile, jarName);
+			if(jarFile.exists()) {
+				seamgenlibs.add(jarName);
+			} else {
+				System.out.println("WARNING: " + jarName + " jar is mentioned in deploy-*.list file but does not exist in " + libDir);
+			}
 		}
 		return seamgenlibs;
 	}
