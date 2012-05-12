@@ -16,9 +16,11 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.SortedSet;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
@@ -71,6 +73,9 @@ import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
 import org.eclipse.wst.common.project.facet.core.events.IFacetedProjectEvent;
 import org.eclipse.wst.common.project.facet.core.events.IFacetedProjectListener;
 import org.eclipse.wst.common.project.facet.core.runtime.IRuntime;
+import org.eclipse.wst.common.project.facet.core.runtime.IRuntimeComponent;
+import org.eclipse.wst.common.project.facet.core.runtime.RuntimeManager;
+import org.eclipse.wst.common.project.facet.core.runtime.internal.BridgedRuntime;
 import org.eclipse.wst.server.core.IServer;
 import org.eclipse.wst.server.core.IServerLifecycleListener;
 import org.eclipse.wst.server.core.ServerCore;
@@ -511,6 +516,27 @@ public class SeamProjectWizard extends WebProjectWizard implements IExecutableEx
 	        return top;
 		}
 
+		@Override
+		protected void updatePrimaryVersions() {
+			IFacetedProjectWorkingCopy fpjwc = (IFacetedProjectWorkingCopy) this.model.getProperty( FACETED_PROJECT_WORKING_COPY );
+			IProjectFacetVersion selectedVersion = fpjwc.getProjectFacetVersion(primaryProjectFacet);
+			SortedSet<IProjectFacetVersion> initialVersions = fpjwc.getAvailableVersions(primaryProjectFacet);
+	        String [] items = new String[initialVersions.size()];
+	        int i=0;
+	        int selectedVersionIndex = -1;
+	        for(Iterator <IProjectFacetVersion> iterator = initialVersions.iterator(); iterator.hasNext(); i++){
+	        	items[i] = iterator.next().getVersionString();
+	        	if(selectedVersionIndex == -1 && items[i].equals(selectedVersion.getVersionString())){
+	        		selectedVersionIndex = i;
+	        	}
+	        }
+	        primaryVersionCombo.clearSelection();
+	        primaryVersionCombo.setItems(items);
+			if(!setWebModuleVersion()) {
+		        primaryVersionCombo.select(selectedVersionIndex);
+			}
+		}
+
 		protected void createSeamServerTargetComposite(Composite parent) {
 	        Group group = new Group(parent, SWT.NONE);
 	        group.setText(SeamCoreMessages.SEAM_TARGET_SERVER);
@@ -533,6 +559,7 @@ public class SeamProjectWizard extends WebProjectWizard implements IExecutableEx
 			synchHelper.synchCombo(matchedServerTargetCombo, ISeamFacetDataModelProperties.JBOSS_AS_TARGET_SERVER, dependentServerControls);
 			if (matchedServerTargetCombo.getSelectionIndex() == -1 && matchedServerTargetCombo.getVisibleItemCount() != 0)  
 				matchedServerTargetCombo.select(0);
+	        setWebModuleVersion();
 		}
 
 		protected String[] getValidationPropertyNames() {
@@ -548,6 +575,33 @@ public class SeamProjectWizard extends WebProjectWizard implements IExecutableEx
 
 		public boolean launchNewServerWizard(Shell shell, IDataModel model) {
 			return launchNewServerWizard(shell, model, null);
+		}
+
+		private boolean setWebModuleVersion() {
+			String runtimeName = serverRuntimeTargetCombo.getText();
+			if(RuntimeManager.isRuntimeDefined(runtimeName)) {
+				IRuntime targetRuntime = RuntimeManager.getRuntime(runtimeName);
+				if(targetRuntime instanceof BridgedRuntime) {
+					List<IRuntimeComponent> components = ((BridgedRuntime)targetRuntime).getRuntimeComponents();
+					for (IRuntimeComponent component : components) {
+						String typeId = component.getProperty("type-id");
+						if(typeId!=null && typeId.startsWith("org.jboss.ide.eclipse.as.runtime.7")) {
+							if(primaryVersionCombo.getItemCount()>0) {
+//								System.out.println(primaryVersionCombo.getItem(primaryVersionCombo.getItemCount()-1));
+								primaryVersionCombo.select(primaryVersionCombo.getItemCount()-1);
+								return true;
+							}
+							break;
+						}
+					}
+				}
+			}
+			return false;
+		}
+
+		@Override
+		public IProjectFacetVersion getPrimaryFacetVersion() {
+	        return super.getPrimaryFacetVersion();
 		}
 
 		/*
