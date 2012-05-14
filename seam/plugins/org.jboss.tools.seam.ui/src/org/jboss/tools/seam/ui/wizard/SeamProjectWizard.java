@@ -141,11 +141,11 @@ public class SeamProjectWizard extends WebProjectWizard implements IExecutableEx
 		return firstPage;
 	}
 
-	private static final String templateJstSeam1 = "template.jst.seam"; //$NON-NLS-1$
-	private static final String templateJstSeam2 = "template.jst.seam2"; //$NON-NLS-1$
-	private static final String templateJstSeam21 = "template.jst.seam21"; //$NON-NLS-1$
-	private static final String templateJstSeam22 = "template.jst.seam22"; //$NON-NLS-1$
-	private static final String templateJstSeam23 = "template.jst.seam23"; //$NON-NLS-1$
+	static final String templateJstSeam1 = "template.jst.seam"; //$NON-NLS-1$
+	static final String templateJstSeam2 = "template.jst.seam2"; //$NON-NLS-1$
+	static final String templateJstSeam21 = "template.jst.seam21"; //$NON-NLS-1$
+	static final String templateJstSeam22 = "template.jst.seam22"; //$NON-NLS-1$
+	static final String templateJstSeam23 = "template.jst.seam23"; //$NON-NLS-1$
 
 	private static final Map<String, String> templates = new HashMap<String, String>();
 	static {
@@ -577,7 +577,7 @@ public class SeamProjectWizard extends WebProjectWizard implements IExecutableEx
 			return launchNewServerWizard(shell, model, null);
 		}
 
-		private boolean setWebModuleVersion() {
+		public boolean isAs7Selected() {
 			String runtimeName = serverRuntimeTargetCombo.getText();
 			if(RuntimeManager.isRuntimeDefined(runtimeName)) {
 				IRuntime targetRuntime = RuntimeManager.getRuntime(runtimeName);
@@ -586,15 +586,25 @@ public class SeamProjectWizard extends WebProjectWizard implements IExecutableEx
 					for (IRuntimeComponent component : components) {
 						String typeId = component.getProperty("type-id");
 						if(typeId!=null && typeId.startsWith("org.jboss.ide.eclipse.as.runtime.7")) {
-							if(primaryVersionCombo.getItemCount()>0) {
-//								System.out.println(primaryVersionCombo.getItem(primaryVersionCombo.getItemCount()-1));
-								primaryVersionCombo.select(primaryVersionCombo.getItemCount()-1);
-								return true;
-							}
-							break;
+							return true;
 						}
 					}
 				}
+			}
+			return false;
+		}
+
+		public boolean setWebModuleVersion() {
+			if(isAs7Selected() && primaryVersionCombo.getItemCount()>0) {
+				primaryVersionCombo.select(primaryVersionCombo.getItemCount()-1);
+				seamConfigTemplate = templateJstSeam23;
+				SeamProjectWizard.this.template = ProjectFacetsManager.getTemplate(seamConfigTemplate);
+				getFacetedProjectWorkingCopy().setFixedProjectFacets(SeamProjectWizard.this.template.getFixedProjectFacets());
+
+				final IPreset preset = SeamProjectWizard.this.template.getInitialPreset();
+				getFacetedProjectWorkingCopy().setSelectedPreset(preset.getId());
+
+				return true;
 			}
 			return false;
 		}
