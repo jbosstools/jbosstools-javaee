@@ -76,12 +76,15 @@ public class SeamFacetPreferenceInitializer extends
 		seamGenBuildPath = getSeamGenBuildPath(SEAM_2_0_HOME);
 		seamFolder = new File(seamGenBuildPath);
 		if(seamFolder.exists() && seamFolder.isDirectory()) {
-			SeamRuntime rt = new SeamRuntime();
-			rt.setHomeDir(seamGenBuildPath);
-			rt.setName("Seam " + SeamVersion.SEAM_2_1); //$NON-NLS-1$ //$NON-NLS-2$
-			rt.setDefault(true);
-			rt.setVersion(SeamVersion.SEAM_2_1);
-			map.put(rt.getName(), rt);
+			File seamGen = new File(seamFolder, "/seam-gen");
+			if(seamGen.exists() && seamGen.isDirectory()) {
+				SeamRuntime rt = new SeamRuntime();
+				rt.setHomeDir(seamGenBuildPath);
+				rt.setName("Seam " + SeamVersion.SEAM_2_1); //$NON-NLS-1$ //$NON-NLS-2$
+				rt.setDefault(true);
+				rt.setVersion(SeamVersion.SEAM_2_1);
+				map.put(rt.getName(), rt);
+			}
 		}
 		node.put(SeamProjectPreferences.RUNTIME_LIST, new SeamRuntimeListConverter().getString(map));
 		try {
