@@ -569,7 +569,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 	}
 
 	public static boolean areMatchingEventQualifiers(Set<IQualifierDeclaration> eventQualifiers, Set<IQualifierDeclaration> paramQualifiers) throws CoreException {
-		if(!eventQualifiers.isEmpty() || paramQualifiers.isEmpty()) {
+		if(!paramQualifiers.isEmpty()) {
 
 			TreeSet<String> paramKeys = new TreeSet<String>();
 			for (IQualifierDeclaration d: paramQualifiers) {
