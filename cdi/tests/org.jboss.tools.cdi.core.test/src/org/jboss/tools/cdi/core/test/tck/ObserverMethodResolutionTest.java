@@ -35,6 +35,28 @@ public class ObserverMethodResolutionTest extends TCKTest {
 		assertTrue(observers.isEmpty());
 	}
 
+	/**
+	 * Event injection point has no qualifiers.
+	 */
+	public void testObserverMethodResolution0() {
+		IInjectionPointField generalEvent =  getInjectionPointField("JavaSource/org/jboss/jsr299/tck/tests/event/fires/DogWhisperer.java", "generalEvent");
+		assertNotNull(generalEvent);
+
+		Set<IObserverMethod> observers = generalEvent.getCDIProject().resolveObserverMethods(generalEvent);
+		IObserverMethod tamedObserver = null;
+		IObserverMethod recognizedFriendObserver = null;
+		for (IObserverMethod m: observers) {
+			IMethod jm = m.getMethod();
+			if("tamed".equals(jm.getElementName())) {
+				tamedObserver = m;
+			} else if("recognizedFriend".equals(jm.getElementName())) {
+				recognizedFriendObserver = m;
+			}
+		}
+		assertNull(tamedObserver);
+		assertNull(recognizedFriendObserver);
+	}
+
 	public void testObserverMethodResolution() {
 		IInjectionPointField tamingEvent =  getInjectionPointField("JavaSource/org/jboss/jsr299/tck/tests/event/fires/DogWhisperer.java", "tamingEvent");
 		assertNotNull(tamingEvent);
