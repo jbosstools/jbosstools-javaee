@@ -23,7 +23,8 @@
 		<import plugin="org.eclipse.debug.core" version="3.2.0" match="compatible" />
 		<import feature="org.jboss.tools.cdi.test.feature" version="1.0.0" match="compatible" />
 	</requires>
-
+	
+	<plugin id="org.jboss.tools.cdi.seam3.bot.test" download-size="0" install-size="0" version="0.0.0" />
 	<plugin id="org.jboss.tools.cdi.seam.config.core.test" download-size="0" install-size="0" version="0.0.0" />
 	<plugin id="org.jboss.tools.cdi.seam.config.ui.test" download-size="0" install-size="0" version="0.0.0" />
 	<plugin id="org.jboss.tools.cdi.seam.core.test" download-size="0" install-size="0" version="0.0.0" />
