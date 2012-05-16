@@ -37,6 +37,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 			<modules>
 				<module>org.jboss.tools.cdi.bot.test</module>
 				<module>org.jboss.tools.cdi.core.test</module>
+				<module>org.jboss.tools.cdi.seam3.bot.test</module>
 				<module>org.jboss.tools.cdi.seam.config.core.test</module>
 				<module>org.jboss.tools.cdi.seam.config.ui.test</module>
 				<module>org.jboss.tools.cdi.seam.core.test</module>
