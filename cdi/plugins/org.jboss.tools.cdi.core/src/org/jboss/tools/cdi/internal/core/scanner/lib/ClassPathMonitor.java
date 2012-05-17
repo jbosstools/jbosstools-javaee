@@ -258,9 +258,10 @@ public class ClassPathMonitor extends AbstractClassPathMonitor<CDICoreNature>{
 		Set<String> result = new HashSet<String>();
 		String text = ((FileAnyImpl)o).getAsText();
 		if(text == null || text.length() == 0) return EMPTY_RUNTIMES;
-		StringTokenizer st = new StringTokenizer(text, " \r\n\t");
+		StringTokenizer st = new StringTokenizer(text, "\r\n\t"); //$NON-NLS-1$
 		while(st.hasMoreTokens()) {
 			String t = st.nextToken().trim();
+			if(t.length() == 0 || t.startsWith("#")) continue;
 			if(t.length() > 0) result.add(t);
 		}
 		return result;
