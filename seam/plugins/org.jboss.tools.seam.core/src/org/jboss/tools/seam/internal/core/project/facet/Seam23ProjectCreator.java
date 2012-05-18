@@ -42,6 +42,16 @@ public class Seam23ProjectCreator extends Seam2ProjectCreator {
 	 */
 	@Override
 	protected void copyJBossApp() {
+		FilterSet earFilterSet =  new FilterSet();
+		earFilterSet.addFilter("projectName", earProjectFolder.getName() + ".ear"); //$NON-NLS-1$ //$NON-NLS-2$
+		earFilterSet.addFilter("earProjectName", earProjectName); //$NON-NLS-1$
+		earFilterSet.addFilter("ejbProjectName", ejbProjectName); //$NON-NLS-1$
+		earFilterSet.addFilter("testProjectName", testProjectName); //$NON-NLS-1$
+
+		AntCopyUtils.copyFileToFolder(
+			new File(seamGenResFolder, "META-INF/jboss-deployment-structure.xml"), //$NON-NLS-1$
+			new File(earContentsFolder, "META-INF"), //$NON-NLS-1$
+			new FilterSetCollection(earFilterSet), true);
 	}
 
 	/*

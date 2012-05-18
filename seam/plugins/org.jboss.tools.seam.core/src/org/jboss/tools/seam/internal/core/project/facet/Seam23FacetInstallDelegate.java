@@ -42,7 +42,8 @@ public class Seam23FacetInstallDelegate extends Seam2FacetInstallDelegate {
 	public static AntCopyUtils.FileSet JBOOS_WAR_WEBINF_SET = new AntCopyUtils.FileSet()
 		.include("WEB-INF") //$NON-NLS-1$
 		.include("WEB-INF/pages\\.xml") //$NON-NLS-1$
-		.include("WEB-INF/componets\\.xml"); //$NON-NLS-1$
+		.include("WEB-INF/componets\\.xml") //$NON-NLS-1$
+		.include("WEB-INF/jboss-deployment-structure\\.xml"); //$NON-NLS-1$
 
 	/*
 	 * (non-Javadoc)
