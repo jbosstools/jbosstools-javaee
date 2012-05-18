@@ -15,6 +15,7 @@ import org.jboss.tools.cdi.internal.core.impl.AnnotationDeclaration;
 
 public class BeanMemberDefinition extends AbstractMemberDefinition {
 	AbstractTypeDefinition typeDefinition;
+	boolean isCDIAnnotated;
 
 	public BeanMemberDefinition() {}
 
@@ -28,7 +29,15 @@ public class BeanMemberDefinition extends AbstractMemberDefinition {
 	}
 
 	public boolean isCDIAnnotated() {
-		return getInjectAnnotation() != null || getProducesAnnotation() != null;
+		return isCDIAnnotated || getInjectAnnotation() != null || getProducesAnnotation() != null;
+	}
+
+	/**
+	 * Called by extensions that detect relevant annotations.
+	 * @param b
+	 */
+	public void setCDIAnnotated(boolean b) {
+		isCDIAnnotated = b;
 	}
 
 	public AnnotationDeclaration getProducesAnnotation() {
