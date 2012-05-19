@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+
+	<extension
+	      point="org.jboss.tools.cdi.core.cdiextensions">
+	    <cdiextension
+	          class="org.jboss.tools.cdi.deltaspike.core.DeltaspikeConfigPropertyExtension"
+	          runtime="org.apache.deltaspike.core.impl.config.injectable.extension.ConfigPropertyExtension">
+	    </cdiextension>
+	    <cdiextension
+	          class="org.jboss.tools.cdi.deltaspike.core.DeltaspikeExceptionExtension"
+	          runtime="org.apache.deltaspike.core.impl.exception.control.extension.ExceptionControlExtension">
+	    </cdiextension>
+	    <cdiextension
+	          class="org.jboss.tools.cdi.deltaspike.core.DeltaspikeExcludeExtension"
+	          runtime="org.apache.deltaspike.core.impl.exclude.extension.ExcludeExtension">
+	    </cdiextension>
+	    <cdiextension
+	          class="org.jboss.tools.cdi.deltaspike.core.DeltaspikeMessageBundleExtension"
+	          runtime="org.apache.deltaspike.core.impl.message.MessageBundleExtension">
+	    </cdiextension>
+	    <cdiextension
+	          class="org.jboss.tools.cdi.deltaspike.core.DeltaspikeSecurityExtension"
+	          runtime="org.apache.deltaspike.security.impl.authorization.SecurityExtension">
+	    </cdiextension>
+	</extension>
+
+</plugin>

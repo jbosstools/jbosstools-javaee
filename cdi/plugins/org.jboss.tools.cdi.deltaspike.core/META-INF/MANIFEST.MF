@@ -1,0 +1,20 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Seam Faces Core
+Bundle-SymbolicName: org.jboss.tools.cdi.deltaspike.core;singleton:=true
+Bundle-Version: 1.2.0.qualifier
+Bundle-Activator: org.jboss.tools.cdi.deltaspike.core.DeltaspikeCorePlugin
+Bundle-Localization: plugin
+Require-Bundle: org.eclipse.ui;bundle-version="3.7.0",
+ org.eclipse.core.runtime;bundle-version="3.7.0",
+ org.jboss.tools.common,
+ org.jboss.tools.common.el.core,
+ org.jboss.tools.common.validation,
+ org.jboss.tools.jst.web.kb,
+ org.jboss.tools.cdi.core,
+ org.jboss.tools.cdi.seam.solder.core,
+ org.eclipse.jdt.core;bundle-version="3.7.0"
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Export-Package: org.jboss.tools.cdi.deltaspike.core
+Bundle-Vendor: JBoss by Red Hat
