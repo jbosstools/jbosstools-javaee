@@ -14,7 +14,6 @@ package org.jboss.tools.cdi.bot.test.uiutils;
 import org.eclipse.swtbot.swt.finder.exceptions.WidgetNotFoundException;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotMenu;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotShell;
-import org.eclipse.swtbot.swt.finder.widgets.SWTBotTable;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTree;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTreeItem;
 import org.jboss.tools.cdi.bot.test.CDIConstants;
@@ -84,37 +83,6 @@ public class CDIProjectHelper extends CDITestBase {
 		}catch (WidgetNotFoundException exc) {
 		}
 		return projectExists;
-	}
-	
-	/**
-	 * Add defined runtime into project as targeted runtime
-	 * @param project
-	 */
-	public void addConfiguredRuntimeIntoProject(String project, 
-			String configuredRuntime) {
-		projectExplorer.selectProject(project);
-		bot.menu(IDELabel.Menu.FILE).menu(
-				IDELabel.Menu.PROPERTIES).click();
-		bot.waitForShell(IDELabel.Shell.PROPERTIES_FOR + " " + project);
-		SWTBotShell propertiesShell = bot.shell(
-				IDELabel.Shell.PROPERTIES_FOR + " " + project);
-		propertiesShell.activate();
-		SWTBotTreeItem item = bot.tree().getTreeItem("Targeted Runtimes");
-		item.select();
-		SWTBotTable runtimes = bot.table(); 
-		for (int i = 0; i < runtimes.rowCount(); i++) {
-			runtimes.getTableItem(i).uncheck();
-		}
-		for (int i = 0; i < runtimes.rowCount(); i++) {
-			if (runtimes.getTableItem(i).getText().equals(configuredRuntime)) {
-				runtimes.getTableItem(i).check();
-			}
-		}
-		bot.button(IDELabel.Button.OK).click();
-		bot.waitWhile(new ShellIsActiveCondition(propertiesShell), 
-				TaskDuration.LONG.getTimeout());
-		util.waitForNonIgnoredJobs();
-		
 	}
 	
 	/**
