@@ -74,9 +74,7 @@ public class Seam3TestBase extends CDITestBase {
 			String projectLocation, String dir) {
 		ImportHelper.importProject(projectLocation, dir, Activator.PLUGIN_ID);
 		
-		/** configure JDK and required runtime */
-		projectHelper.addDefaultJDKIntoProject(projectName);
-		projectHelper.addConfiguredRuntimeIntoProject(projectName, 
+		eclipse.addConfiguredRuntimeIntoProject(projectName, 
 				configuredState.getServer().name);
 	}
 	
