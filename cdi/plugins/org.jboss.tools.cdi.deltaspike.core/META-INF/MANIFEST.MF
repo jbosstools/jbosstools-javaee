@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Seam Faces Core
+Bundle-Name: Deltaspike Core
 Bundle-SymbolicName: org.jboss.tools.cdi.deltaspike.core;singleton:=true
 Bundle-Version: 1.2.0.qualifier
 Bundle-Activator: org.jboss.tools.cdi.deltaspike.core.DeltaspikeCorePlugin
