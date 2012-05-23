@@ -10,6 +10,11 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.deltaspike.core;
 
+/**
+ * 
+ * @author Viacheslav Kabanovich
+ *
+ */
 public interface DeltaspikeConstants {
 
 	public String CONFIG_PROPERTY_ANNOTATION_TYPE_NAME = "org.apache.deltaspike.core.api.config.annotation.ConfigProperty"; //$NON-NLS-1$
@@ -30,6 +35,8 @@ public interface DeltaspikeConstants {
 	public String SECURITY_BINDING_ANNOTATION_TYPE_NAME = "org.apache.deltaspike.security.api.authorization.annotation.SecurityBindingType"; //$NON-NLS-1$
 	public String SECURITY_PARAM_BINDING_ANNOTATION_TYPE_NAME = "org.apache.deltaspike.security.api.authorization.annotation.SecurityParameterBinding"; //$NON-NLS-1$
 
-	public String MESSAGE_BUNDLE_ANNOTATION_KIND = "messageBundleAnnotation";
+	public String MESSAGE_BUNDLE_ANNOTATION_KIND = "messageBundleAnnotation"; //$NON-NLS-1$
+	public String SECURITY_BINDING_ANNOTATION_KIND = "securityBindingAnnotation"; //$NON-NLS-1$
+	public String SECURES_ANNOTATION_KIND = "securesAnnotation"; //$NON-NLS-1$
 
 }

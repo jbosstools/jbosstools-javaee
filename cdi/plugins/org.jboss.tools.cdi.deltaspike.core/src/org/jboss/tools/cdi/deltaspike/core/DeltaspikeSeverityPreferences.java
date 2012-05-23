@@ -27,6 +27,9 @@ public class DeltaspikeSeverityPreferences extends ValidationSeverityPreferences
 	public static final Set<String> SEVERITY_OPTION_NAMES = new HashSet<String>();
 
 	public static final String WARNING_GROUP_ID = "deltaspike"; //$NON-NLS-1$
+	public static final String AMBIGUOUS_AUTHORIZER = INSTANCE.createSeverityOption("ambiguousAuthorizer", "ambiguous-authorizer"); //$NON-NLS-1$ //$NON-NLS-2$
+	public static final String UNRESOLVED_AUTHORIZER = INSTANCE.createSeverityOption("unresolvedAuthorizer", "unresolved-authorizer"); //$NON-NLS-1$ //$NON-NLS-2$
+	public static final String INVALID_AUTHORIZER = INSTANCE.createSeverityOption("invalidAuthorizer", "invalid-authorizer"); //$NON-NLS-1$ //$NON-NLS-2$
 
 	public static DeltaspikeSeverityPreferences getInstance() {
 		return INSTANCE;
