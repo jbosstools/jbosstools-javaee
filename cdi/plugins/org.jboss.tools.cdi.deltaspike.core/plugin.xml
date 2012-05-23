@@ -30,4 +30,21 @@
       <initializer class="org.jboss.tools.cdi.deltaspike.core.DeltaspikeSeverityPreferenceInitializer"/>
    </extension>
 
+   <extension
+   		 id="DeltaspikeWarnings"
+         point="org.jboss.tools.common.validation.warnings">
+         <map
+               class="org.jboss.tools.cdi.deltaspike.core.validation.DeltaspikeSuppressWarningsMap"
+               warningGroupID="deltaspike"
+               preferenceGroupID="org.jboss.tools.cdi.deltaspike.core.validator.problem">
+         </map>
+   </extension>
+
+   <extension
+      point="org.jboss.tools.cdi.ui.configBlockDescriptionProvider">
+   <provider
+         class="org.jboss.tools.cdi.deltaspike.ui.preferences.DeltaspikeConfigBlockDescriptionProvider">
+   </provider>
+</extension>
+
 </plugin>

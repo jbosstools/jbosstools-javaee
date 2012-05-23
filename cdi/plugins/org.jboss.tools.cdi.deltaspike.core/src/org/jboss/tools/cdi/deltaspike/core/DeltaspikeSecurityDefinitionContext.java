@@ -61,6 +61,8 @@ public class DeltaspikeSecurityDefinitionContext extends AbstractDefinitionConte
 	public void computeAnnotationKind(AnnotationDefinition annotation) {
 		if(SECURES_ANNOTATION_TYPE_NAME.equals(annotation.getType().getFullyQualifiedName())) {
 			annotation.setExtendedKind(SECURES_ANNOTATION_KIND);
+		} else if(SECURED_ANNOTATION_TYPE_NAME.equals(annotation.getType().getFullyQualifiedName())) {
+			annotation.setExtendedKind(SECURES_ANNOTATION_KIND);
 		} else if(annotation.isAnnotationPresent(SECURITY_BINDING_ANNOTATION_TYPE_NAME)) {
 			annotation.setExtendedKind(SECURITY_BINDING_ANNOTATION_KIND);
 			String qn = annotation.getType().getFullyQualifiedName();

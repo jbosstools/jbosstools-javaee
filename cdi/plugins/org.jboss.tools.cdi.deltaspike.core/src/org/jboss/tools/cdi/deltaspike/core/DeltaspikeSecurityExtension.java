@@ -84,8 +84,9 @@ public class DeltaspikeSecurityExtension implements ICDIExtension, IBuildPartici
 			MethodDefinition method = (MethodDefinition)memberDefinition;
 			method.setCDIAnnotated(true);
 			DeltaspikeAuthorityMethod authorizer = new DeltaspikeAuthorityMethod(method);
-			((DeltaspikeSecurityDefinitionContext)this.context.getWorkingCopy()).allAuthorizerMethods.getAuthorizerMembers().add(authorizer);
-			List<IAnnotationDeclaration> ds = findAnnotationAnnotatedWithSecurityBindingType(memberDefinition);
+			DeltaspikeSecurityDefinitionContext contextCopy = ((DeltaspikeSecurityDefinitionContext)this.context.getWorkingCopy());
+			contextCopy.allAuthorizerMethods.getAuthorizerMembers().add(authorizer);
+			List<IAnnotationDeclaration> ds = findAnnotationAnnotatedWithSecurityBindingType(memberDefinition, contextCopy.getRootContext());
 			for (IAnnotationDeclaration d: ds) {
 				DeltaspikeSecurityBindingConfiguration c = ((DeltaspikeSecurityDefinitionContext)this.context.getWorkingCopy()).getConfiguration(d.getTypeName());
 				authorizer.addBinding(d, c);
@@ -104,7 +105,7 @@ public class DeltaspikeSecurityExtension implements ICDIExtension, IBuildPartici
 	}
 
 	private void addSecurityMember(AbstractMemberDefinition def, IRootDefinitionContext context) {
-		List<IAnnotationDeclaration> ds = findAnnotationAnnotatedWithSecurityBindingType(def);
+		List<IAnnotationDeclaration> ds = findAnnotationAnnotatedWithSecurityBindingType(def, context);
 		for (IAnnotationDeclaration d: ds) {
 			addBoundMember(def, d, context);
 		}
@@ -138,12 +139,13 @@ public class DeltaspikeSecurityExtension implements ICDIExtension, IBuildPartici
 
 	static List<IAnnotationDeclaration> EMPTY = Collections.<IAnnotationDeclaration>emptyList();
 
-	private List<IAnnotationDeclaration> findAnnotationAnnotatedWithSecurityBindingType(AbstractMemberDefinition m) {
+	private List<IAnnotationDeclaration> findAnnotationAnnotatedWithSecurityBindingType(AbstractMemberDefinition m, IRootDefinitionContext context) {
 		List<IAnnotationDeclaration> result = null;
 		List<IAnnotationDeclaration> ds = m.getAnnotations();
 		for (IAnnotationDeclaration d: ds) {
 			if(d.getTypeName() != null) {
-				AnnotationDefinition a = context.getRootContext().getAnnotation(d.getTypeName());
+//				context.getAnnotationKind(d.getType());
+				AnnotationDefinition a = context.getAnnotation(d.getTypeName());
 				if(a != null && a.isAnnotationPresent(SECURITY_BINDING_ANNOTATION_TYPE_NAME)) {
 					if(result == null) {
 						result = new ArrayList<IAnnotationDeclaration>();

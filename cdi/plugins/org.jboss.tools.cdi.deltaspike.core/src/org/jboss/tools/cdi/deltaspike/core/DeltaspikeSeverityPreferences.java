@@ -13,6 +13,7 @@ package org.jboss.tools.cdi.deltaspike.core;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.preferences.CDIPreferences;
 import org.jboss.tools.common.validation.ValidationSeverityPreferences;
 

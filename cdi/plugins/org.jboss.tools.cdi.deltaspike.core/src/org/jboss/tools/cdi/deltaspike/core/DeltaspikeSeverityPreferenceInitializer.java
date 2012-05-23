@@ -13,7 +13,7 @@ package org.jboss.tools.cdi.deltaspike.core;
 import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
 import org.eclipse.core.runtime.preferences.DefaultScope;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
-import org.eclipse.core.runtime.preferences.IScopeContext;
+import org.jboss.tools.cdi.core.preferences.CDIPreferences;
 import org.jboss.tools.common.preferences.SeverityPreferences;
 
 /**
@@ -26,9 +26,10 @@ public class DeltaspikeSeverityPreferenceInitializer extends AbstractPreferenceI
 	 */
 	@Override
 	public void initializeDefaultPreferences() {
-		IEclipsePreferences defaultPreferences = ((IScopeContext) new DefaultScope()).getNode(DeltaspikeCorePlugin.PLUGIN_ID);
+		IEclipsePreferences defaultPreferences = DefaultScope.INSTANCE.getNode(DeltaspikeCorePlugin.PLUGIN_ID);
 		for (String name : DeltaspikeSeverityPreferences.SEVERITY_OPTION_NAMES) {
 			defaultPreferences.put(name, SeverityPreferences.WARNING);
 		}
+		defaultPreferences.put(DeltaspikeSeverityPreferences.INVALID_AUTHORIZER, CDIPreferences.ERROR);
 	}
 }
