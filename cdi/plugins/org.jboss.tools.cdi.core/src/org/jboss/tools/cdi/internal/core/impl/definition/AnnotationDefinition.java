@@ -82,7 +82,7 @@ public class AnnotationDefinition extends AbstractTypeDefinition {
 	}
 
 	public void revalidateKind(IRootDefinitionContext context) {
-		boolean hasMembers = (kind & QUALIFIER) > 0 || (kind & INTERCEPTOR_BINDING) > 0;
+		boolean hasMembers = (kind & QUALIFIER) > 0 || (kind & INTERCEPTOR_BINDING) > 0 || kind == EXTENDED;
 		kind = NON_RELEVANT;
 		
 		Map<String, AnnotationDeclaration> ds = new HashMap<String, AnnotationDeclaration>();
@@ -123,7 +123,7 @@ public class AnnotationDefinition extends AbstractTypeDefinition {
 			}
 		}
 
-		boolean newHasMembers = (kind & QUALIFIER) > 0 || (kind & INTERCEPTOR_BINDING) > 0;
+		boolean newHasMembers = (kind & QUALIFIER) > 0 || (kind & INTERCEPTOR_BINDING) > 0 || kind == EXTENDED;
 		if(newHasMembers != hasMembers) {
 			methods.clear();
 			try {

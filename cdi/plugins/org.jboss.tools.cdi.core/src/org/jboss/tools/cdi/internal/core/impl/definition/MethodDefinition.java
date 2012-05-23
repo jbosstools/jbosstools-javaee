@@ -25,6 +25,7 @@ import org.jboss.tools.cdi.core.IInterceptorBinding;
 import org.jboss.tools.cdi.core.IInterceptorBindingDeclaration;
 import org.jboss.tools.cdi.core.IRootDefinitionContext;
 import org.jboss.tools.cdi.core.IStereotypeDeclaration;
+import org.jboss.tools.cdi.core.extension.feature.IProcessAnnotatedMemberFeature;
 import org.jboss.tools.cdi.internal.core.impl.AnnotationDeclaration;
 import org.jboss.tools.cdi.internal.core.impl.ClassBean;
 import org.jboss.tools.common.java.IAnnotationDeclaration;
@@ -76,12 +77,17 @@ public class MethodDefinition extends BeanMemberDefinition {
 		if(ps.length == 0) return;
 		if(contextType == null) return;
 
+		Set<IProcessAnnotatedMemberFeature> extensions = context.getProject().getExtensionManager().getProcessAnnotatedMemberFeatures();
+
 		ParameterDefinition[] ds = new ParameterDefinition[ps.length];
 		for (int i = 0; i < ps.length; i++) {
 			ParameterDefinition pd = new ParameterDefinition();
 			pd.setMethodDefinition(this);
 			pd.index = i;
 			pd.setLocalVariable(ps[i], context, flags);		
+			for (IProcessAnnotatedMemberFeature e: extensions) {
+				e.processAnnotatedMember(pd, context);
+			}
 			if(pd.isAnnotationPresent(CDIConstants.OBSERVERS_ANNOTATION_TYPE_NAME)
 				|| pd.isAnnotationPresent(CDIConstants.DISPOSES_ANNOTATION_TYPE_NAME)) {
 				parametersAreInjectionPoints = true;

@@ -11,6 +11,8 @@
 package org.jboss.tools.cdi.internal.core.impl;
 
 import org.jboss.tools.cdi.core.CDICoreNature;
+import org.jboss.tools.cdi.internal.core.impl.definition.AnnotationDefinition;
+import org.jboss.tools.common.java.IAnnotationType;
 
 /**
  * 
@@ -33,6 +35,18 @@ public class AnnotationDeclaration extends org.jboss.tools.common.java.impl.Anno
 
 	public void setProject(CDICoreNature project) {
 		this.project = project;
+	}
+
+	public IAnnotationType getAnnotation() {
+		AnnotationDefinition def = project.getDefinitions().getAnnotation(getTypeName());
+		if(def != null && def.getKind() == AnnotationDefinition.EXTENDED) {
+			CDIAnnotationElement result = new CDIAnnotationElement();
+			result.setParent((CDIElement)project.getDelegate());
+			result.setDefinition(def);
+			result.setSourcePath(def.getType().getPath());
+			return result;
+		}
+		return null;
 	}
 
 }
