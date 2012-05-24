@@ -47,4 +47,14 @@
    </provider>
 </extension>
 
+	<extension
+         point="org.eclipse.ui.workbench.texteditor.hyperlinkDetectors">
+      <hyperlinkDetector
+            class="org.jboss.tools.cdi.deltaspike.text.ext.AuthorizerHyperlinkDetector"
+            id="org.jboss.tools.cdi.deltaspike.text.ext.AuthorizerHyperlinkDetector"
+            name="%AuthorizerHyperlinkDetector"
+            targetId="org.eclipse.jdt.ui.javaCode">
+      </hyperlinkDetector>
+
+    </extension>
 </plugin>

@@ -17,7 +17,7 @@ public class DeltaspikeSecurityBindingConfiguration {
 	String securityBindingTypeName;
 	AnnotationDefinition securityBindingType;
 	
-	Map<AbstractMemberDefinition, IAnnotationDeclaration> boundMembers = new HashMap<AbstractMemberDefinition, IAnnotationDeclaration>();
+	Map<AbstractMemberDefinition, SecurityBindingDeclaration> boundMembers = new HashMap<AbstractMemberDefinition, SecurityBindingDeclaration>();
 	Set<DeltaspikeAuthorityMethod> authorizerMembers = new HashSet<DeltaspikeAuthorityMethod>();
 
 	Set<IPath> involvedResources = new HashSet<IPath>();
@@ -49,11 +49,11 @@ public class DeltaspikeSecurityBindingConfiguration {
 		}
 	}
 
-	Map<AbstractMemberDefinition, IAnnotationDeclaration> getBoundMembers() {
+	public Map<AbstractMemberDefinition, SecurityBindingDeclaration> getBoundMembers() {
 		return boundMembers;
 	}
 
-	Set<DeltaspikeAuthorityMethod> getAuthorizerMembers() {
+	public Set<DeltaspikeAuthorityMethod> getAuthorizerMembers() {
 		return authorizerMembers;
 	}
 

@@ -30,7 +30,7 @@ public class DeltaspikeAuthorityMethod {
 	IPath path;
 	String declaringTypeName;
 
-	Map<IAnnotationDeclaration, DeltaspikeSecurityBindingConfiguration> bindings = new HashMap<IAnnotationDeclaration, DeltaspikeSecurityBindingConfiguration>();
+	Map<SecurityBindingDeclaration, DeltaspikeSecurityBindingConfiguration> bindings = new HashMap<SecurityBindingDeclaration, DeltaspikeSecurityBindingConfiguration>();
 
 	public DeltaspikeAuthorityMethod(MethodDefinition method) {
 		this.method = method;
@@ -53,11 +53,11 @@ public class DeltaspikeAuthorityMethod {
 		return declaringTypeName;
 	}
 
-	public void addBinding(IAnnotationDeclaration d, DeltaspikeSecurityBindingConfiguration c) {
+	public void addBinding(SecurityBindingDeclaration d, DeltaspikeSecurityBindingConfiguration c) {
 		bindings.put(d, c);
 	}
 
-	public Map<IAnnotationDeclaration, DeltaspikeSecurityBindingConfiguration> getBindings() {
+	public Map<SecurityBindingDeclaration, DeltaspikeSecurityBindingConfiguration> getBindings() {
 		return bindings;
 	}
 
@@ -66,9 +66,9 @@ public class DeltaspikeAuthorityMethod {
 			return false;
 		}
 		String key = CDIProject.getAnnotationDeclarationKey(d);
-		for (IAnnotationDeclaration d2: bindings.keySet()) {
-			if(d2.getTypeName().equals(d.getTypeName())) {
-				if(key.equals(CDIProject.getAnnotationDeclarationKey(d2))) {
+		for (SecurityBindingDeclaration d2: bindings.keySet()) {
+			if(d2.getBinding().getTypeName().equals(d.getTypeName())) {
+				if(key.equals(CDIProject.getAnnotationDeclarationKey(d2.getBinding()))) {
 					return true;
 				}
 			}

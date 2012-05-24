@@ -22,7 +22,9 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.JavaModelException;
+import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.IRootDefinitionContext;
+import org.jboss.tools.cdi.core.IStereotypeDeclaration;
 import org.jboss.tools.cdi.core.extension.ICDIExtension;
 import org.jboss.tools.cdi.core.extension.IDefinitionContextExtension;
 import org.jboss.tools.cdi.core.extension.feature.IBuildParticipantFeature;
@@ -38,6 +40,7 @@ import org.jboss.tools.cdi.internal.core.impl.definition.MethodDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.TypeDefinition;
 import org.jboss.tools.cdi.internal.core.scanner.FileSet;
 import org.jboss.tools.cdi.internal.core.validation.CDICoreValidator;
+import org.jboss.tools.common.java.IAnnotated;
 import org.jboss.tools.common.java.IAnnotationDeclaration;
 import org.jboss.tools.common.model.XModelObject;
 import org.jboss.tools.common.preferences.SeverityPreferences;
@@ -49,7 +52,12 @@ import org.jboss.tools.common.preferences.SeverityPreferences;
  * @author Viacheslav Kabanovich
  */
 public class DeltaspikeSecurityExtension implements ICDIExtension, IBuildParticipantFeature, IProcessAnnotatedTypeFeature, IProcessAnnotatedMemberFeature, IValidatorFeature, DeltaspikeConstants {
+	public static String ID = "org.apache.deltaspike.security.impl.authorization.SecurityExtension"; //$NON-NLS-1$
 	DeltaspikeSecurityDefinitionContext context = new DeltaspikeSecurityDefinitionContext();
+
+	public static DeltaspikeSecurityExtension getExtension(CDICoreNature project) {
+		return (DeltaspikeSecurityExtension)project.getExtensionManager().getExtensionByRuntime(ID);
+	}
 
 	@Override
 	public IDefinitionContextExtension getContext() {
@@ -86,9 +94,9 @@ public class DeltaspikeSecurityExtension implements ICDIExtension, IBuildPartici
 			DeltaspikeAuthorityMethod authorizer = new DeltaspikeAuthorityMethod(method);
 			DeltaspikeSecurityDefinitionContext contextCopy = ((DeltaspikeSecurityDefinitionContext)this.context.getWorkingCopy());
 			contextCopy.allAuthorizerMethods.getAuthorizerMembers().add(authorizer);
-			List<IAnnotationDeclaration> ds = findAnnotationAnnotatedWithSecurityBindingType(memberDefinition, contextCopy.getRootContext());
-			for (IAnnotationDeclaration d: ds) {
-				DeltaspikeSecurityBindingConfiguration c = ((DeltaspikeSecurityDefinitionContext)this.context.getWorkingCopy()).getConfiguration(d.getTypeName());
+			List<SecurityBindingDeclaration> ds = findAnnotationAnnotatedWithSecurityBindingType(memberDefinition, contextCopy.getRootContext());
+			for (SecurityBindingDeclaration d: ds) {
+				DeltaspikeSecurityBindingConfiguration c = ((DeltaspikeSecurityDefinitionContext)this.context.getWorkingCopy()).getConfiguration(d.getBinding().getTypeName());
 				authorizer.addBinding(d, c);
 				c.getAuthorizerMembers().add(authorizer);
 				addToDependencies(c, authorizer.getMethod(), context);
@@ -105,14 +113,14 @@ public class DeltaspikeSecurityExtension implements ICDIExtension, IBuildPartici
 	}
 
 	private void addSecurityMember(AbstractMemberDefinition def, IRootDefinitionContext context) {
-		List<IAnnotationDeclaration> ds = findAnnotationAnnotatedWithSecurityBindingType(def, context);
-		for (IAnnotationDeclaration d: ds) {
+		List<SecurityBindingDeclaration> ds = findAnnotationAnnotatedWithSecurityBindingType(def, context);
+		for (SecurityBindingDeclaration d: ds) {
 			addBoundMember(def, d, context);
 		}
 	}
 
-	private void addBoundMember(AbstractMemberDefinition def, IAnnotationDeclaration d, IRootDefinitionContext context) {
-		String securityBindingType = d.getTypeName();
+	private void addBoundMember(AbstractMemberDefinition def, SecurityBindingDeclaration d, IRootDefinitionContext context) {
+		String securityBindingType = d.getBinding().getTypeName();
 		if(def instanceof MethodDefinition) {
 			((MethodDefinition)def).setCDIAnnotated(true);
 		}
@@ -137,24 +145,67 @@ public class DeltaspikeSecurityExtension implements ICDIExtension, IBuildPartici
 		}
 	}
 
-	static List<IAnnotationDeclaration> EMPTY = Collections.<IAnnotationDeclaration>emptyList();
+	static List<SecurityBindingDeclaration> EMPTY = Collections.<SecurityBindingDeclaration>emptyList();
 
-	private List<IAnnotationDeclaration> findAnnotationAnnotatedWithSecurityBindingType(AbstractMemberDefinition m, IRootDefinitionContext context) {
-		List<IAnnotationDeclaration> result = null;
+	private List<SecurityBindingDeclaration> findAnnotationAnnotatedWithSecurityBindingType(AbstractMemberDefinition m, IRootDefinitionContext context) {
+		List<SecurityBindingDeclaration> result = null;
 		List<IAnnotationDeclaration> ds = m.getAnnotations();
 		for (IAnnotationDeclaration d: ds) {
+			if(d instanceof IStereotypeDeclaration) {
+				AnnotationDefinition t = context.getAnnotation(d.getTypeName());
+				if(t != null) {
+					List<IAnnotationDeclaration> ds1 = findSecurityBindingAnnotations(t, null, context);
+					if(ds1 != null) {
+						for (IAnnotationDeclaration d1: ds1) {
+							result.add(new SecurityBindingDeclaration(d, d1));
+						}
+					}
+				}
+			} else if(d.getTypeName() != null) {
+				AnnotationDefinition a = context.getAnnotation(d.getTypeName());
+				if(a != null && a.isAnnotationPresent(SECURITY_BINDING_ANNOTATION_TYPE_NAME)) {
+					if(result == null) {
+						result = new ArrayList<SecurityBindingDeclaration>();
+					}
+					result.add(new SecurityBindingDeclaration(d, d));
+				} else if(a != null && d instanceof IStereotypeDeclaration) {
+					List<IAnnotationDeclaration> ds1 = findSecurityBindingAnnotations(a, null, context);
+					if(ds1 != null) {
+						if(result == null) {
+							result = new ArrayList<SecurityBindingDeclaration>();
+						}
+						for (IAnnotationDeclaration d1: ds1) {
+							result.add(new SecurityBindingDeclaration(d, d1));
+						}
+					}
+				}
+			}
+		}
+		return result == null ? EMPTY : result;
+	}
+
+	private List<IAnnotationDeclaration> findSecurityBindingAnnotations(IAnnotated s, List<IAnnotationDeclaration> result, IRootDefinitionContext context) {
+		List<IAnnotationDeclaration> ds = s.getAnnotations();
+		for (IAnnotationDeclaration d: ds) {
 			if(d.getTypeName() != null) {
-//				context.getAnnotationKind(d.getType());
 				AnnotationDefinition a = context.getAnnotation(d.getTypeName());
 				if(a != null && a.isAnnotationPresent(SECURITY_BINDING_ANNOTATION_TYPE_NAME)) {
 					if(result == null) {
 						result = new ArrayList<IAnnotationDeclaration>();
 					}
 					result.add(d);
+				} else if(a != null && d instanceof IStereotypeDeclaration) {
+					List<IAnnotationDeclaration> ds1 = findSecurityBindingAnnotations(a, null, context);
+					if(ds1 != null) {
+						if(result == null) {
+							result = new ArrayList<IAnnotationDeclaration>();
+						}
+						result.addAll(ds1);
+					}
 				}
 			}
-		}
-		return result == null ? EMPTY : result;
+		}		
+		return result;
 	}
 
 	@Override
@@ -191,16 +242,16 @@ public class DeltaspikeSecurityExtension implements ICDIExtension, IBuildPartici
 		for (DeltaspikeSecurityBindingConfiguration c: context.getConfigurations().values()) {
 			if(c.getInvolvedTypes().contains(file.getFullPath())) {
 				Set<DeltaspikeAuthorityMethod> authorizers2 = c.getAuthorizerMembers();
-				Map<AbstractMemberDefinition, IAnnotationDeclaration> bound = c.getBoundMembers();
+				Map<AbstractMemberDefinition, SecurityBindingDeclaration> bound = c.getBoundMembers();
 				for (AbstractMemberDefinition d: bound.keySet()) {
 					String name = d instanceof MethodDefinition ? ((MethodDefinition)d).getMethod().getElementName()
 							: d instanceof TypeDefinition ? ((TypeDefinition)d).getQualifiedName() : "";
 					if(file.getFullPath().equals(d.getTypeDefinition().getType().getPath())) {
-						IAnnotationDeclaration dc = bound.get(d);
+						SecurityBindingDeclaration dc = bound.get(d);
 						int k = 0;
 						for (DeltaspikeAuthorityMethod a: authorizers2) {
 							try {
-								if(a.isMatching(dc)) k++;
+								if(a.isMatching(dc.getBinding())) k++;
 							} catch (CoreException e) {
 								DeltaspikeCorePlugin.getDefault().logError(e);
 							}
@@ -208,13 +259,13 @@ public class DeltaspikeSecurityExtension implements ICDIExtension, IBuildPartici
 						if(k == 0) {
 							validator.addError(DeltaspikeValidationMessages.UNRESOLVED_AUTHORIZER, 
 									DeltaspikeSeverityPreferences.UNRESOLVED_AUTHORIZER,  
-									new String[]{dc.getTypeName(), name}, 
-									dc, file);
+									new String[]{dc.getBinding().getTypeName(), name}, 
+									dc.getDeclaration(), file);
 						} else if(k > 1) {
 							validator.addError(DeltaspikeValidationMessages.AMBIGUOUS_AUTHORIZER, 
 									DeltaspikeSeverityPreferences.AMBIGUOUS_AUTHORIZER,  
-									new String[]{dc.getTypeName(), name}, 
-									dc, file);
+									new String[]{dc.getBinding().getTypeName(), name}, 
+									dc.getDeclaration(), file);
 						}
 							
 					}
