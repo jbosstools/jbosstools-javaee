@@ -28,7 +28,7 @@ public class DeltaspikeCoreTestSetup extends TestSetup {
 	public static final String PROJECT_NAME = "DeltaspikeCoreTest";
 	public static final String PROJECT_PATH = "/projects/DeltaspikeCoreTest";
 	public static final String ROOT_PROJECT_NAME = "DeltaspikeCoreRootTest";
-	public static final String ROOT_PROJECT_PATH = "/projects/DeltaspikeRootTest";
+	public static final String ROOT_PROJECT_PATH = "/projects/DeltaspikeCoreRootTest";
 
 	protected IProject project;
 	protected IProject rootProject;
