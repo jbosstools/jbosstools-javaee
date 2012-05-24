@@ -23,6 +23,8 @@ public class DeltaspikeConfigBlockDescriptionProvider implements IConfigurationB
 	private static SectionDescription SECTION_DELTASPIKE = new SectionDescription(
 		DeltaspikePreferencesMessages.CDIValidatorConfigurationBlock_section_deltaspike,
 		new String[][]{
+			{DeltaspikeSeverityPreferences.NOT_A_HANDLER_BEAN, DeltaspikePreferencesMessages.CDIValidatorConfigurationBlock_pb_notAHandlerBean_label},
+			{DeltaspikeSeverityPreferences.INVALID_HANDLER_TYPE, DeltaspikePreferencesMessages.CDIValidatorConfigurationBlock_pb_invalidHandlerType_label},
 			{DeltaspikeSeverityPreferences.AMBIGUOUS_AUTHORIZER, DeltaspikePreferencesMessages.CDIValidatorConfigurationBlock_pb_ambiguousAuthorizer_label},
 			{DeltaspikeSeverityPreferences.UNRESOLVED_AUTHORIZER, DeltaspikePreferencesMessages.CDIValidatorConfigurationBlock_pb_unresolvedAuthorizer_label},
 			{DeltaspikeSeverityPreferences.INVALID_AUTHORIZER, DeltaspikePreferencesMessages.CDIValidatorConfigurationBlock_pb_invalidAuthorizer_label},

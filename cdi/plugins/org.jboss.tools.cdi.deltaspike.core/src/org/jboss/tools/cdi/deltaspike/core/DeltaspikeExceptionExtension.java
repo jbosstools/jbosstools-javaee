@@ -27,6 +27,7 @@ import org.jboss.tools.cdi.core.IRootDefinitionContext;
 import org.jboss.tools.cdi.core.extension.ICDIExtension;
 import org.jboss.tools.cdi.core.extension.feature.IProcessAnnotatedMemberFeature;
 import org.jboss.tools.cdi.core.extension.feature.IValidatorFeature;
+import org.jboss.tools.cdi.deltaspike.core.validation.DeltaspikeValidationMessages;
 import org.jboss.tools.cdi.internal.core.impl.definition.AbstractMemberDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.BeanMemberDefinition;
 import org.jboss.tools.cdi.internal.core.impl.definition.ParameterDefinition;
@@ -34,6 +35,7 @@ import org.jboss.tools.cdi.internal.core.validation.CDICoreValidator;
 import org.jboss.tools.common.java.IAnnotated;
 import org.jboss.tools.common.java.IAnnotationDeclaration;
 import org.jboss.tools.common.java.IJavaAnnotation;
+import org.jboss.tools.common.java.IJavaSourceReference;
 import org.jboss.tools.common.java.impl.AnnotationLiteral;
 import org.jboss.tools.common.preferences.SeverityPreferences;
 
@@ -70,16 +72,26 @@ public class DeltaspikeExceptionExtension implements ICDIExtension, IProcessAnno
 		for (IBean b: beans) {
 			if(b instanceof IClassBean) {
 				IClassBean cb = (IClassBean)b;
-				if(cb.getAnnotation(EXCEPTION_HANDLER_ANNOTATION_TYPE_NAME) != null) {
-					Set<IBeanMethod> ms = cb.getAllMethods();
-					for (IBeanMethod m: ms) {
-						for (IParameter p: m.getParameters()) {
-							if(isHandler(p)) {
-								IType t = p.getType().getType();
-								if(t != null && !EXCEPTION_EVENT_TYPE_NAME.equals(t.getFullyQualifiedName())) {
-									//TODO add error marker
-									System.out.println("wrong handler");
-								}
+				boolean isExceptionHandler = cb.isAnnotationPresent(EXCEPTION_HANDLER_ANNOTATION_TYPE_NAME);
+				Set<IBeanMethod> ms = cb.getAllMethods();
+				for (IBeanMethod m: ms) {
+					for (IParameter p: m.getParameters()) {
+						if(isHandler(p)) {
+							if(!isExceptionHandler) {
+								IJavaSourceReference s = p.getAnnotation(HANDLES_ANNOTATION_TYPE_NAME);
+								if(s == null) s = p.getAnnotation(BEFORE_HANDLES_ANNOTATION_TYPE_NAME);
+								if(s == null) s = p;
+								validator.addError(DeltaspikeValidationMessages.NOT_A_HANDLER_BEAN,
+										DeltaspikeSeverityPreferences.NOT_A_HANDLER_BEAN,  
+										new String[]{}, 
+										s, file);
+							}
+							IType t = p.getType().getType();
+							if(t != null && !EXCEPTION_EVENT_TYPE_NAME.equals(t.getFullyQualifiedName())) {
+								validator.addError(DeltaspikeValidationMessages.INVALID_HANDLER_TYPE,
+										DeltaspikeSeverityPreferences.INVALID_HANDLER_TYPE,  
+										new String[]{}, 
+										p, file);
 							}
 						}
 					}
@@ -111,10 +123,9 @@ public class DeltaspikeExceptionExtension implements ICDIExtension, IProcessAnno
 		}
 		return result;
 	}
+
 	@Override
 	public SeverityPreferences getSeverityPreferences() {
-		// TODO Auto-generated method stub
-		return null;
+		return DeltaspikeSeverityPreferences.getInstance();
 	}
-
 }

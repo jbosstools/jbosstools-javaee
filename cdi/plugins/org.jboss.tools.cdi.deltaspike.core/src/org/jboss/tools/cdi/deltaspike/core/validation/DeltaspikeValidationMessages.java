@@ -20,6 +20,9 @@ import org.eclipse.osgi.util.NLS;
 public class DeltaspikeValidationMessages extends NLS {
 	private static final String BUNDLE_NAME = DeltaspikeValidationMessages.class.getPackage().getName() + ".messages"; //$NON-NLS-1$
 
+	public static String NOT_A_HANDLER_BEAN;
+	public static String INVALID_HANDLER_TYPE;
+
 	public static String AMBIGUOUS_AUTHORIZER;
 	public static String UNRESOLVED_AUTHORIZER;
 	public static String INVALID_AUTHORIZER_MULTIPLE_BINDINGS;

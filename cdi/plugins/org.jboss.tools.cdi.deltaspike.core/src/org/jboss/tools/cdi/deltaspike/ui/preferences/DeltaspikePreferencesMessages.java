@@ -20,6 +20,8 @@ public class DeltaspikePreferencesMessages extends NLS {
 
 	//Section Deltaspike
 	public static String CDIValidatorConfigurationBlock_section_deltaspike;
+	public static String CDIValidatorConfigurationBlock_pb_notAHandlerBean_label;
+	public static String CDIValidatorConfigurationBlock_pb_invalidHandlerType_label;
 	public static String CDIValidatorConfigurationBlock_pb_ambiguousAuthorizer_label;
 	public static String CDIValidatorConfigurationBlock_pb_unresolvedAuthorizer_label;
 	public static String CDIValidatorConfigurationBlock_pb_invalidAuthorizer_label;
