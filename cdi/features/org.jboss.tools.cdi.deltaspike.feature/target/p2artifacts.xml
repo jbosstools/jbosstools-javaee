@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<?artifactRepository version='1.1.0'?>
+<artifacts size='2'>
+  <artifact classifier='org.eclipse.update.feature' id='org.jboss.tools.cdi.deltaspike.feature' version='1.2.0.v20120524-2353-CR1'>
+    <properties size='6'>
+      <property name='artifact.size' value='3664'/>
+      <property name='download.size' value='3664'/>
+      <property name='maven-groupId' value='org.jboss.tools.cdi.features'/>
+      <property name='maven-artifactId' value='org.jboss.tools.cdi.deltaspike.feature'/>
+      <property name='maven-version' value='1.2.0-SNAPSHOT'/>
+      <property name='download.contentType' value='application/zip'/>
+    </properties>
+  </artifact>
+  <artifact classifier='org.eclipse.update.feature' id='org.jboss.tools.cdi.deltaspike.feature.source' version='1.2.0.v20120524-2353-CR1'>
+    <properties size='7'>
+      <property name='artifact.size' value='2307'/>
+      <property name='download.size' value='2307'/>
+      <property name='maven-groupId' value='org.jboss.tools.cdi.features'/>
+      <property name='maven-artifactId' value='org.jboss.tools.cdi.deltaspike.feature'/>
+      <property name='maven-version' value='1.2.0-SNAPSHOT'/>
+      <property name='maven-classifier' value='sources-feature'/>
+      <property name='download.contentType' value='application/zip'/>
+    </properties>
+  </artifact>
+</artifacts>

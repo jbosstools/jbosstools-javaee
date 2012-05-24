@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature id="org.jboss.tools.cdi.deltaspike.feature" label="%featureName" version="1.2.0.v20120524-2353-CR1" provider-name="%featureProvider">
+
+	<description>
+      %description
+   </description>
+
+	<copyright>
+      %copyright
+   </copyright>
+
+	<license url="%licenseURL">
+      %license
+   </license>
+
+	<requires>
+		<import feature="org.jboss.tools.cdi.feature" version="1.2.0" match="greaterOrEqual"/>
+		<import feature="org.jboss.tools.common.feature" version="3.3.0" match="greaterOrEqual" />
+		<import feature="org.jboss.tools.jst.feature" version="3.3.0" match="greaterOrEqual" />
+	</requires>
+
+	<plugin id="org.jboss.tools.cdi.deltaspike.core" download-size="38" install-size="79" version="1.2.0.v20120524-2353-CR1" unpack="false" />
+</feature>
