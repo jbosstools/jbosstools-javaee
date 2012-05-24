@@ -17,6 +17,12 @@
 	<feature url="features/org.jboss.tools.cdi.seam.test.feature_0.0.0.jar" id="org.jboss.tools.cdi.seam.test.feature" version="0.0.0">
 		<category name="JBoss Tools cdi Nightly Build Update Site"/>
 	</feature>
+	<feature url="features/org.jboss.tools.cdi.deltaspike.feature_0.0.0.jar" id="org.jboss.tools.cdi.deltaspike.feature" version="0.0.0">
+		<catagory name="JBoss Tools cdi Nightly Build Update Sete"/>
+	</feature>
+	<feature url="features/org.jboss.tools.cdi.deltaspike.test.feature_0.0.0.jar" id="org.jboss.tools.cdi.deltaspike.test.feature" version="0.0.0">
+		<catagory name="JBoss Tools cdi Nightly Build Update Sete"/>
+	</feature>
 	<!-- Sources -->
 	<feature url="features/org.jboss.tools.cdi.feature.source_0.0.0.jar" id="org.jboss.tools.cdi.feature.source" version="0.0.0">
 		<category name="JBoss Tools cdi Nightly Build Update Site"/>
@@ -28,6 +34,12 @@
 		<category name="JBoss Tools cdi Nightly Build Update Site"/>
 	</feature>
 	<feature url="features/org.jboss.tools.cdi.seam.test.feature.source_0.0.0.jar" id="org.jboss.tools.cdi.seam.test.feature.source" version="0.0.0">
+		<category name="JBoss Tools cdi Nightly Build Update Site"/>
+	</feature>
+	<feature url="features/org.jboss.tools.cdi.deltaspike.feature.source_0.0.0.jar" id="org.jboss.tools.cdi.deltaspike.feature.source" version="0.0.0">
+		<category name="JBoss Tools cdi Nightly Build Update Site"/>
+	</feature>
+	<feature url="features/org.jboss.tools.cdi.deltaspike.test.feature.source_0.0.0.jar" id="org.jboss.tools.cdi.deltaspike.test.feature.source" version="0.0.0">
 		<category name="JBoss Tools cdi Nightly Build Update Site"/>
 	</feature>
 
