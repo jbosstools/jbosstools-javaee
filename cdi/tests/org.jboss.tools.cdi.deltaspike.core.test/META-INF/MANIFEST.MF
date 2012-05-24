@@ -1,0 +1,30 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Deltaspike Core Test
+Bundle-SymbolicName: org.jboss.tools.cdi.deltaspike.core.test;singleton:=true
+Bundle-Version: 1.2.0.qualifier
+Bundle-Vendor: JBoss by Red Hat
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Require-Bundle: org.jboss.tools.cdi.seam.core,
+ org.eclipse.jdt.core,
+ org.junit,
+ org.jboss.tools.jst.web.kb,
+ org.eclipse.core.resources;bundle-version="3.7.100",
+ org.jboss.tools.tests,
+ org.eclipse.core.runtime;bundle-version="3.7.0",
+ org.jboss.tools.cdi.core,
+ org.jboss.tools.jst.jsp.base.test,
+ org.jboss.tools.cdi.core.test,
+ org.jboss.tools.common,
+ org.eclipse.ui;bundle-version="3.7.0",
+ org.jboss.tools.common.base.test,
+ org.eclipse.jface.text;bundle-version="3.7.0",
+ org.jboss.tools.common.el.core,
+ org.jboss.tools.common.text.ext,
+ org.jboss.tools.jst.text.ext,
+ org.jboss.tools.jst.text.ext.test,
+ org.jboss.tools.cdi.seam.solder.core.test,
+ org.eclipse.wst.validation;bundle-version="1.2.300",
+ org.jboss.tools.jst.jsp
+Export-Package: org.jboss.tools.cdi.deltaspike.core.test
+Eclipse-BundleShape: dir
