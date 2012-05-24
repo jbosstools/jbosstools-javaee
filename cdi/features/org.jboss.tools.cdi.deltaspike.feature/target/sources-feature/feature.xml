@@ -1,1 +1,0 @@
-<feature id="org.jboss.tools.cdi.deltaspike.feature.source" version="1.2.0.v20120524-2353-CR1"><includes id="org.jboss.tools.cdi.deltaspike.feature" version="1.2.0.v20120524-2353-CR1"/><plugin id="org.jboss.tools.cdi.deltaspike.core.source" version="1.2.0.v20120524-2353-CR1" download-size="0" install-size="0" unpack="false"/></feature>
