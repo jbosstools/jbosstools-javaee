@@ -27,7 +27,6 @@ import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.IRootDefinitionContext;
 import org.jboss.tools.cdi.core.IStereotypeDeclaration;
 import org.jboss.tools.cdi.core.extension.ICDIExtension;
-import org.jboss.tools.cdi.core.extension.IDefinitionContextExtension;
 import org.jboss.tools.cdi.core.extension.feature.IBuildParticipantFeature;
 import org.jboss.tools.cdi.core.extension.feature.IProcessAnnotatedMemberFeature;
 import org.jboss.tools.cdi.core.extension.feature.IProcessAnnotatedTypeFeature;
@@ -61,7 +60,7 @@ public class DeltaspikeSecurityExtension implements ICDIExtension, IBuildPartici
 	}
 
 	@Override
-	public IDefinitionContextExtension getContext() {
+	public DeltaspikeSecurityDefinitionContext getContext() {
 		return context;
 	}
 
@@ -97,7 +96,7 @@ public class DeltaspikeSecurityExtension implements ICDIExtension, IBuildPartici
 			contextCopy.allAuthorizerMethods.getAuthorizerMembers().add(authorizer);
 			List<SecurityBindingDeclaration> ds = findAnnotationAnnotatedWithSecurityBindingType(memberDefinition, contextCopy.getRootContext());
 			for (SecurityBindingDeclaration d: ds) {
-				DeltaspikeSecurityBindingConfiguration c = ((DeltaspikeSecurityDefinitionContext)this.context.getWorkingCopy()).getConfiguration(d.getBinding().getTypeName());
+				DeltaspikeSecurityBindingConfiguration c = contextCopy.getConfiguration(d.getBinding().getTypeName());
 				authorizer.addBinding(d, c);
 				c.getAuthorizerMembers().add(authorizer);
 				addToDependencies(c, authorizer.getMethod(), context);
@@ -300,8 +299,7 @@ public class DeltaspikeSecurityExtension implements ICDIExtension, IBuildPartici
 	public static Set<DeltaspikeAuthorityMethod> collectAuthorizerMethods(Set<DeltaspikeSecurityExtension> parents, String securityBindingTypeName) {
 		Set<DeltaspikeAuthorityMethod> result = new HashSet<DeltaspikeAuthorityMethod>();
 		for (DeltaspikeSecurityExtension ext: parents) {
-			DeltaspikeSecurityDefinitionContext context = (DeltaspikeSecurityDefinitionContext)ext.getContext();
-			DeltaspikeSecurityBindingConfiguration c = context.getConfiguration(securityBindingTypeName);
+			DeltaspikeSecurityBindingConfiguration c = ext.getContext().getConfiguration(securityBindingTypeName);
 			if(c != null) {
 				result.addAll(c.getAuthorizerMembers());
 			}
