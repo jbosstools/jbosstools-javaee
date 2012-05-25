@@ -96,6 +96,9 @@
 		  </mediaobject>
 	  </figure>
 	  <para>
+		  A <guimenuitem>View page source</guimenuitem> is also available from the contexzt menu. This can be helpful when wishing to view the HTML code of an Internet site.
+	  </para>
+	  <para>
 		  To open the <guilabel>BrowserSim</guilabel> without using a context menu, click on the <guibutton>BrowserSim</guibutton> button <inlinemediaobject>
 			  <imageobject>
 				  <imagedata fileref="images/browsers/mobile_browser_icon_01.png"/>
