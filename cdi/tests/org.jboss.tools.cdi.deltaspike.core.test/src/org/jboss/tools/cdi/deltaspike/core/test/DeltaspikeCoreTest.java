@@ -23,4 +23,5 @@ public class DeltaspikeCoreTest extends TestCase {
 	protected IProject getTestProject() throws Exception {
 		return ResourcesPlugin.getWorkspace().getRoot().getProject(DeltaspikeCoreTestSetup.PROJECT_NAME);
 	}
+
 }

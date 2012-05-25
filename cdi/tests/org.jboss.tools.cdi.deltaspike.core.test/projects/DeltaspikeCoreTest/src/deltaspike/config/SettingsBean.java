@@ -13,4 +13,7 @@ public class SettingsBean {
     @Property2 
     Long property2;
 
+    @Inject
+    Long property3;
+
 }

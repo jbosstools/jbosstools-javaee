@@ -34,6 +34,7 @@ public class DeltaspikeCoreAllTests {
 		TestSuite suiteAll = new TestSuite("Deltasipke Core Tests");
 
 		TestSuite suite = new TestSuite("Deltaspike Core Project Tests");
+		suite.addTestSuite(DeltaspikeBeansTest.class);
 		suite.addTestSuite(DeltaspikeValidationTest.class);
 
 		suiteAll.addTest(new DeltaspikeCoreTestSetup(suite));
