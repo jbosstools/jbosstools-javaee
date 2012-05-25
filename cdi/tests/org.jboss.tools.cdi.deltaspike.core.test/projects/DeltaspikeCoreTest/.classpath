@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry exported="true" kind="lib" path="lib/cdi-api.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/javax.inject.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jboss-ejb3-api-3.1.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/deltaspike-core-api-0.2-incubating.jar" sourcepath="/home/slava/.m2/repository/org/apache/deltaspike/core/deltaspike-core-api/0.2-incubating/deltaspike-core-api-0.2-incubating-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/deltaspike-core-impl-0.2-incubating.jar" sourcepath="/home/slava/.m2/repository/org/apache/deltaspike/core/deltaspike-core-impl/0.2-incubating/deltaspike-core-impl-0.2-incubating-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/deltaspike-security-module-api-0.3-incubating-20120521.003520-10.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/deltaspike-security-module-impl-0.3-incubating-20120521.003526-10.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
