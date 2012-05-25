@@ -10,8 +10,12 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.deltaspike.core;
 
+import java.util.Set;
+
 import org.eclipse.jdt.core.IType;
 import org.jboss.tools.cdi.core.IInjectionPoint;
+import org.jboss.tools.cdi.core.IQualifier;
+import org.jboss.tools.cdi.core.IQualifierDeclaration;
 import org.jboss.tools.cdi.core.extension.ICDIExtension;
 import org.jboss.tools.cdi.core.extension.feature.IInjectionPointValidatorFeature;
 
@@ -26,8 +30,15 @@ public class DeltaspikeConfigPropertyExtension implements ICDIExtension, IInject
 	@Override
 	public boolean shouldIgnoreInjection(IType typeOfInjectionPoint,
 			IInjectionPoint injection) {
-		if(injection.getAnnotation(CONFIG_PROPERTY_ANNOTATION_TYPE_NAME) != null) {
+		if(injection.isAnnotationPresent(CONFIG_PROPERTY_ANNOTATION_TYPE_NAME)) {
 			return true;
+		}
+		Set<IQualifierDeclaration> qs = injection.getQualifierDeclarations();
+		for (IQualifierDeclaration d: qs) {
+			IQualifier q = d.getQualifier();
+			if(q.isAnnotationPresent(CONFIG_PROPERTY_ANNOTATION_TYPE_NAME)) {
+				return true;
+			}
 		}
 		return false;
 	}

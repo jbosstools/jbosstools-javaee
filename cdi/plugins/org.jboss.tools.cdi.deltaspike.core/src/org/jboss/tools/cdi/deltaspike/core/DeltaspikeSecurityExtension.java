@@ -12,6 +12,7 @@ package org.jboss.tools.cdi.deltaspike.core;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -238,10 +239,16 @@ public class DeltaspikeSecurityExtension implements ICDIExtension, IBuildPartici
 			}
 			
 		}
+	
+		Set<DeltaspikeSecurityExtension> parents = null;
 		
 		for (DeltaspikeSecurityBindingConfiguration c: context.getConfigurations().values()) {
 			if(c.getInvolvedTypes().contains(file.getFullPath())) {
-				Set<DeltaspikeAuthorityMethod> authorizers2 = c.getAuthorizerMembers();
+				if(parents == null) {
+					parents = getParents(getContext().getRootContext().getProject());
+				}
+				Set<DeltaspikeAuthorityMethod> authorizers2 = collectAuthorizerMethods(parents, c.getSecurityBindingTypeName());
+				authorizers2.addAll(c.getAuthorizerMembers());
 				Map<AbstractMemberDefinition, SecurityBindingDeclaration> bound = c.getBoundMembers();
 				for (AbstractMemberDefinition d: bound.keySet()) {
 					String name = d instanceof MethodDefinition ? ((MethodDefinition)d).getMethod().getElementName()
@@ -278,6 +285,28 @@ public class DeltaspikeSecurityExtension implements ICDIExtension, IBuildPartici
 	@Override
 	public SeverityPreferences getSeverityPreferences() {
 		return DeltaspikeSeverityPreferences.getInstance();
+	}
+
+	public static Set<DeltaspikeSecurityExtension> getParents(CDICoreNature nature) {
+		Set<CDICoreNature> ps = nature.getCDIProjects(true);
+		Set<DeltaspikeSecurityExtension> parents = new HashSet<DeltaspikeSecurityExtension>();
+		for (CDICoreNature p: ps) {
+			DeltaspikeSecurityExtension ext = DeltaspikeSecurityExtension.getExtension(p);
+			if(ext != null) parents.add(ext);
+		}
+		return parents;		
+	}
+
+	public static Set<DeltaspikeAuthorityMethod> collectAuthorizerMethods(Set<DeltaspikeSecurityExtension> parents, String securityBindingTypeName) {
+		Set<DeltaspikeAuthorityMethod> result = new HashSet<DeltaspikeAuthorityMethod>();
+		for (DeltaspikeSecurityExtension ext: parents) {
+			DeltaspikeSecurityDefinitionContext context = (DeltaspikeSecurityDefinitionContext)ext.getContext();
+			DeltaspikeSecurityBindingConfiguration c = context.getConfiguration(securityBindingTypeName);
+			if(c != null) {
+				result.addAll(c.getAuthorizerMembers());
+			}
+		}
+		return result;
 	}
 
 }

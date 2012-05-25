@@ -127,13 +127,15 @@ public class AuthorizerHyperlinkDetector extends AbstractHyperlinkDetector{
 		DeltaspikeSecurityExtension extension = DeltaspikeSecurityExtension.getExtension(nature);
 		if(extension == null) return;
 
+		Set<DeltaspikeSecurityExtension> parents = DeltaspikeSecurityExtension.getParents(nature);
+
 		DeltaspikeSecurityDefinitionContext context = (DeltaspikeSecurityDefinitionContext)extension.getContext();
 		
 		Map<String, DeltaspikeSecurityBindingConfiguration> cs = context.getConfigurations();
-
 		for (DeltaspikeSecurityBindingConfiguration c: cs.values()) {
 			Map<AbstractMemberDefinition, SecurityBindingDeclaration> ms = c.getBoundMembers();
-			Set<DeltaspikeAuthorityMethod> as = c.getAuthorizerMembers();
+			Set<DeltaspikeAuthorityMethod> as = DeltaspikeSecurityExtension.collectAuthorizerMethods(parents, c.getSecurityBindingTypeName());
+			as.addAll(c.getAuthorizerMembers());
 			Set<String> authorityMethods = new HashSet<String>();
 			for (AbstractMemberDefinition m: ms.keySet()) {
 				if(element.equals(m.getMember())) {
@@ -146,10 +148,11 @@ public class AuthorizerHyperlinkDetector extends AbstractHyperlinkDetector{
 							}
 							if(a.isMatching(b)) {
 								IMethod method = a.getMethod().getMethod();
-								if(authorityMethods.contains(method.getSignature())) {
+								String k = "" + method.getElementName() + method.getSignature();
+								if(authorityMethods.contains(k)) {
 									continue;
 								}
-								authorityMethods.add(method.getSignature());
+								authorityMethods.add(k);
 								JavaElementHyperlink h = new JavaElementHyperlink(region, method, document);
 								hyperlinks.add(h);
 							}

@@ -16,6 +16,7 @@ import java.util.Map;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.IType;
+import org.eclipse.jdt.core.JavaModelException;
 import org.jboss.tools.cdi.internal.core.impl.CDIProject;
 import org.jboss.tools.cdi.internal.core.impl.definition.MethodDefinition;
 import org.jboss.tools.common.java.IAnnotationDeclaration;
@@ -74,5 +75,31 @@ public class DeltaspikeAuthorityMethod {
 			}
 		}
 		return false;
+	}
+
+	public boolean equals(Object o) {
+		if(!(o instanceof DeltaspikeAuthorityMethod)) {
+			return false;
+		}
+		DeltaspikeAuthorityMethod other = (DeltaspikeAuthorityMethod)o;
+		if(!other.declaringTypeName.equals(declaringTypeName)) {
+			return false;
+		}
+		if(!other.path.equals(path)) {
+			return false;
+		}
+		if(!method.getMethod().getElementName().equals(other.getMethod().getMethod().getElementName())) {
+			return false;
+		}
+		try {
+			String kThis = method.getMethod().getSignature();
+			String kThat = other.method.getMethod().getSignature();
+			if(!kThis.equals(kThat)) {
+				return false;
+			}
+		} catch (JavaModelException e) {
+			DeltaspikeCorePlugin.getDefault().logError(e);
+		}
+		return true;
 	}
 }
