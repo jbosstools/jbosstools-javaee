@@ -22,7 +22,7 @@ import org.jboss.tools.common.base.test.validation.ValidationExceptionTest;
  * @author Alexey Kazakov
  */
 public class DeltaspikeCoreAllTests {
-	public static String PLUGIN_ID = "org.jboss.tools.cdi.deltaspike.core.test";
+	public static String PLUGIN_ID = "org.jboss.tools.cdi.deltaspike.core.test"; //$NON-NLS-1$
 
 	public static Test suite() {
 		JavaModelManager.getIndexManager().disable();
@@ -31,9 +31,9 @@ public class DeltaspikeCoreAllTests {
 
 		ValidationExceptionTest.initLogger();
 
-		TestSuite suiteAll = new TestSuite("Deltasipke Core Tests");
+		TestSuite suiteAll = new TestSuite("Deltasipke Core Tests"); //$NON-NLS-1$
 
-		TestSuite suite = new TestSuite("Deltaspike Core Project Tests");
+		TestSuite suite = new TestSuite("Deltaspike Core Project Tests"); //$NON-NLS-1$
 		suite.addTestSuite(DeltaspikeBeansTest.class);
 		suite.addTestSuite(DeltaspikeValidationTest.class);
 

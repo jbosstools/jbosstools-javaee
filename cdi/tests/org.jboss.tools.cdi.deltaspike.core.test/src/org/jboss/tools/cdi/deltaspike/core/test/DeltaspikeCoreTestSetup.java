@@ -24,11 +24,11 @@ import org.jboss.tools.test.util.ResourcesUtils;
  */
 public class DeltaspikeCoreTestSetup extends TestSetup {
 
-	public static final String PLUGIN_ID = "org.jboss.tools.cdi.deltaspike.core.test";
-	public static final String PROJECT_NAME = "DeltaspikeCoreTest";
-	public static final String PROJECT_PATH = "/projects/DeltaspikeCoreTest";
-	public static final String ROOT_PROJECT_NAME = "DeltaspikeCoreRootTest";
-	public static final String ROOT_PROJECT_PATH = "/projects/DeltaspikeCoreRootTest";
+	public static final String PLUGIN_ID = "org.jboss.tools.cdi.deltaspike.core.test"; //$NON-NLS-1$
+	public static final String PROJECT_NAME = "DeltaspikeCoreTest"; //$NON-NLS-1$
+	public static final String PROJECT_PATH = "/projects/DeltaspikeCoreTest"; //$NON-NLS-1$
+	public static final String ROOT_PROJECT_NAME = "DeltaspikeCoreRootTest"; //$NON-NLS-1$
+	public static final String ROOT_PROJECT_PATH = "/projects/DeltaspikeCoreRootTest"; //$NON-NLS-1$
 
 	protected IProject project;
 	protected IProject rootProject;
