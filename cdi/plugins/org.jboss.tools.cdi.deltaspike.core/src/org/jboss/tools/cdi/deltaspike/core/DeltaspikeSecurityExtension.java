@@ -13,6 +13,7 @@ package org.jboss.tools.cdi.deltaspike.core;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -248,6 +249,17 @@ public class DeltaspikeSecurityExtension implements ICDIExtension, IBuildPartici
 				}
 				Set<DeltaspikeAuthorityMethod> authorizers2 = collectAuthorizerMethods(parents, c.getSecurityBindingTypeName());
 				authorizers2.addAll(c.getAuthorizerMembers());
+				Set<String> x = new HashSet<String>();
+				Iterator<DeltaspikeAuthorityMethod> it = authorizers2.iterator();
+				while(it.hasNext()) {
+					DeltaspikeAuthorityMethod a = it.next();
+					String key = a.getKey();
+					if(x.contains(key)) {
+						it.remove();
+					} else {
+						x.add(key);
+					}
+				}
 				Map<AbstractMemberDefinition, SecurityBindingDeclaration> bound = c.getBoundMembers();
 				for (AbstractMemberDefinition d: bound.keySet()) {
 					String name = d instanceof MethodDefinition ? ((MethodDefinition)d).getMethod().getElementName()

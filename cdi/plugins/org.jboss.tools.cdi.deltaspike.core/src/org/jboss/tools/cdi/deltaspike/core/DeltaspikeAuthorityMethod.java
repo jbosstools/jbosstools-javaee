@@ -77,29 +77,22 @@ public class DeltaspikeAuthorityMethod {
 		return false;
 	}
 
+	public String getKey() {
+		String separator = ":"; //$NON-NLS-1$
+		String result = declaringTypeName + separator + method.getMethod().getElementName();
+		try {
+			result += separator + method.getMethod().getSignature();
+		} catch (JavaModelException e) {
+			DeltaspikeCorePlugin.getDefault().logError(e);
+		}
+		return result;
+	}
+
 	public boolean equals(Object o) {
 		if(!(o instanceof DeltaspikeAuthorityMethod)) {
 			return false;
 		}
 		DeltaspikeAuthorityMethod other = (DeltaspikeAuthorityMethod)o;
-		if(!other.declaringTypeName.equals(declaringTypeName)) {
-			return false;
-		}
-		if(!other.path.equals(path)) {
-			return false;
-		}
-		if(!method.getMethod().getElementName().equals(other.getMethod().getMethod().getElementName())) {
-			return false;
-		}
-		try {
-			String kThis = method.getMethod().getSignature();
-			String kThat = other.method.getMethod().getSignature();
-			if(!kThis.equals(kThat)) {
-				return false;
-			}
-		} catch (JavaModelException e) {
-			DeltaspikeCorePlugin.getDefault().logError(e);
-		}
-		return true;
+		return getKey().equals(other.getKey());
 	}
 }
