@@ -585,7 +585,7 @@ public class SeamProjectWizard extends WebProjectWizard implements IExecutableEx
 					List<IRuntimeComponent> components = ((BridgedRuntime)targetRuntime).getRuntimeComponents();
 					for (IRuntimeComponent component : components) {
 						String typeId = component.getProperty("type-id");
-						if(typeId!=null && typeId.startsWith("org.jboss.ide.eclipse.as.runtime.7")) {
+						if(typeId!=null && (typeId.startsWith("org.jboss.ide.eclipse.as.runtime.7") || typeId.startsWith("org.jboss.ide.eclipse.as.runtime.eap.6"))) {
 							return true;
 						}
 					}
@@ -594,19 +594,41 @@ public class SeamProjectWizard extends WebProjectWizard implements IExecutableEx
 			return false;
 		}
 
+		private String lastWeb25Template;
+		private int lastWeb25ComboIndex;
+
 		public boolean setWebModuleVersion() {
+			if(seamConfigTemplate!=templateJstSeam23 && seamConfigTemplate!=null && !seamConfigTemplate.isEmpty()) {
+				lastWeb25Template = seamConfigTemplate;
+			} else {
+				lastWeb25Template = templateJstSeam22;
+			}
+			lastWeb25ComboIndex = primaryVersionCombo.getSelectionIndex();
+			String [] items = primaryVersionCombo.getItems();
+			for (int i = 0; i < items.length; i++) {
+				if("2.5".equals(items[0])) {
+					lastWeb25ComboIndex = i;
+					break;
+				}
+			}
 			if(isAs7Selected() && primaryVersionCombo.getItemCount()>0) {
-				primaryVersionCombo.select(primaryVersionCombo.getItemCount()-1);
-				seamConfigTemplate = templateJstSeam23;
-				SeamProjectWizard.this.template = ProjectFacetsManager.getTemplate(seamConfigTemplate);
-				getFacetedProjectWorkingCopy().setFixedProjectFacets(SeamProjectWizard.this.template.getFixedProjectFacets());
-
-				final IPreset preset = SeamProjectWizard.this.template.getInitialPreset();
-				getFacetedProjectWorkingCopy().setSelectedPreset(preset.getId());
-
+				setTemplate(templateJstSeam23, primaryVersionCombo.getItemCount()-1);
+				return true;
+			} else if(lastWeb25Template!=null && !lastWeb25Template.equals(seamConfigTemplate)) {
+				setTemplate(lastWeb25Template, lastWeb25ComboIndex);
 				return true;
 			}
 			return false;
+		}
+
+		private void setTemplate(String newTemplate, int primaryVersionComboIndex) {
+			primaryVersionCombo.select(primaryVersionComboIndex);
+			seamConfigTemplate = newTemplate;
+			SeamProjectWizard.this.template = ProjectFacetsManager.getTemplate(seamConfigTemplate);
+			getFacetedProjectWorkingCopy().setFixedProjectFacets(SeamProjectWizard.this.template.getFixedProjectFacets());
+
+			final IPreset preset = SeamProjectWizard.this.template.getInitialPreset();
+			getFacetedProjectWorkingCopy().setSelectedPreset(preset.getId());
 		}
 
 		@Override
