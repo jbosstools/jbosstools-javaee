@@ -12,21 +12,8 @@
   </chapterinfo>
    <title>Maven Integration for Seam Projects</title> 
   <para>
-    Starting from 3.1 M2 version <property>JBoss Tools</property> includes new Jboss Maven Integration plug-in which for now allows to create mavenized Seam projects and enable Seam tools support for imported Maven projects.
+    Maven integration is included by default, allowing you to create mavenized Seam projects and use Seam tools with imported Maven projects.
   </para>
-   
-  <para>
-    The Jboss Maven Integration requires <ulink url="http://m2eclipse.sonatype.org/"
-			>m2eclipse</ulink> to be installed.
-  </para>
-   
-  <note>
-    <title>Note:</title> 
-    <para>
-      For M2 release of <property>Jboss Tools</property> it is important to use m2eclipse <ulink url="http://m2eclipse.sonatype.org/update/">stable updatesite</ulink> or the <ulink url="http://m2eclipse.sonatype.org/releases/0.9.9.200906081351">latest integration build</ulink> that M2 was developed against. If you want to use the latest development release of m2eclipse you need to use the <ulink
-				url="http://download.jboss.org/jbosstools/updates/nightly/trunk/">nightly builds</ulink> of <property>JBoss Tools</property>.
-    </para>
-  </note>
    
   <section id="create_mavenized_project">
     <title>Creating Maven ready Seam project</title> 
@@ -41,7 +28,7 @@
     <itemizedlist>
       <listitem>
         <para>
-          Navigate to <menuchoice><guimenuitem>File</guimenuitem><guimenuitem>New Seam Project.</guimenuitem></menuchoice> Give the project a meaningful name, specify a target runtime and server and select the proper configuration for your Seam project:
+			Navigate to <menuchoice><guimenuitem>File</guimenuitem><guimenuitem>New</guimenuitem><guimenuitem>Seam Project</guimenuitem></menuchoice>. Give the project a meaningful name, specify a target runtime and server and select the proper configuration for your Seam project:
         </para>
          
         <figure>
@@ -91,7 +78,7 @@
        
       <listitem>
         <para>
-          On the <property>JSF Capabilities</property> page you can choose Maven as libraries provider. This is possible when you use Maven JSF 1.2 Libraries as type of JSF Implementing Library. Also it gives you capability to edit Dependencies and Exclusions for the mavenized Seam project directly from the wizard.
+          On the <property>JSF Capabilities</property> page you can choose Maven as libraries provider. This is possible when you use Seam version compatible Maven JSF Libraries as a type of JSF Implementing Library. Also it gives you capability to edit Dependencies and Exclusions for the mavenized Seam project directly from the wizard.
         </para>
          
         <figure>

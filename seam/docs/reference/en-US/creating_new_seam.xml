@@ -16,20 +16,11 @@
   </para>
    
   <para>
-    At first, we suggest to set the specific Seam perspective that combines a number of different views and editors needed for work with resources concerned. For that select <menuchoice><guimenuitem>Window</guimenuitem><guimenuitem>Open Perspective</guimenuitem><guimenuitem>Other</guimenuitem><guimenuitem>Seam</guimenuitem></menuchoice> or you can also access it through the button in the right top corner.
+    It is suggested that you use the specific Seam perspective that combines a number of different views and editors needed for work with resources concerned. For that select <menuchoice><guimenuitem>Window</guimenuitem><guimenuitem>Open Perspective</guimenuitem><guimenuitem>Other</guimenuitem><guimenuitem>Seam</guimenuitem></menuchoice>.
   </para>
    
-  <figure>
-    <title>Seam Perspective Icon</title> 
-    <mediaobject>
-      <imageobject>
-        <imagedata fileref="images/create_new_seam/create_seam_0.png"/>
-      </imageobject>
-    </mediaobject>
-  </figure>
-   
   <para>
-    Also the <emphasis> <property>Open Web Browser</property></emphasis> action is directly available in the <property>Seam perspective</property>.
+    The <emphasis> <property>Open Web Browser</property></emphasis> action is directly available in the <property>Seam perspective</property>.
   </para>
    
   <figure>
@@ -230,7 +221,7 @@
       </para>
        
       <para>
-        Then you should press <property>Next</property> and may leave the default value on <property>Java application building</property> page and <property>Web Module Settings</property> page.
+        Then press <property>Next</property> and you can use the default value on the <property>Java application building</property> page
       </para>
        
       <para>
@@ -256,7 +247,11 @@
                     url="http://help.eclipse.org/galileo/index.jsp?topic=/org.eclipse.jpt.doc.user/ref_jpa_facet.htm"
                     >Eclipse documentation</ulink>.
       </para>
-       
+      
+	  <para>
+		  The next page concerns <property>Web Module Settings</property>. Accept the default values and press the <guibutton>Next</guibutton> button.
+	  </para>
+  
       <para>
         On the next step you will see <property>JSF Capabilities</property> and <property>Seam facet</property> pages, which are mostly the same as in general Seam project.
       </para>
@@ -282,7 +277,7 @@
   <section id="configureWebModule">
     <title>How to Configure Web Module Settings</title> 
     <para>
-      As we deal with a Dynamic Web Application, we should at first specify the top level directory of our application for deploying it to a server afterwards. You know, this kind of application contains Web resources. Thus, it's important to indicate the content directory. The wizard will put all those values itself, so you can leave everything as is.
+      As we deal with a Dynamic Web Application, we should at first specify the top level directory of our application for deploying it to a server afterwards. This kind of application contains Web resources, so it is important to indicate the content directory. The wizard will put all those values itself, so you can leave everything as is.
     </para>
      
     <figure>
@@ -319,7 +314,7 @@
     </figure>
      
     <para>
-      In case if you prefer to use your custom JSF implementation, choose <property>User Library</property> Item from Library Type list. In User Library list you can check required library.
+      If you prefer to use your custom JSF implementation, choose <property>User Library</property> Item from Library Type list. In User Library list you can check required library.
     </para>
      
     <figure>
@@ -464,12 +459,15 @@
     </itemizedlist>
      
     <note>
-      <title>Tip:</title> 
       <para>
         If you want to name your web project "MyProject-war" note that the EJB project should not be "MyProject-war-ejb", it should be "MyProject-ejb". The same for EAR and Test projects' names. They should be respectively "MyProject-ear" and "MyProject-test".
       </para>
     </note>
-     
+    
+	<para>
+		The next block of settings in the Seam Facet wizard are describing a Database and a connection to it.
+	</para>
+	
     <itemizedlist>
       <listitem>
         <para>
@@ -529,10 +527,6 @@
         </imageobject>
       </mediaobject>
     </figure>
-     
-    <para>
-      The next block of settings in the Seam Facet wizard are describing a Database and a connection to it.
-    </para>
      
     <para>
       In the <property>Code Generation</property> section the wizard has already provided the names for your <property>Session Bean</property>, <property>Entity Bean</property> and <property>Test</property> packages generation (optional). Of course, you can change them on others of your choice.

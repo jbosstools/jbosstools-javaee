@@ -114,34 +114,5 @@
                 
             </tgroup>
         </table>
-        
-        
-
-
-
-
-
-
 </section>
-
-    <section> 
-        <title>Installation into Eclipse</title>
-
-        <para>Here, we are going to explain how to install Seam plugin into Eclipse.</para>
-
-        <para>Seam is a one module of JBoss Tools project. Since Seam has a dependence on other JBoss Tools modules we recommend you to install
-            a bundle of all <ulink url="http://labs.jboss.com/tools/download.html">JBoss Tools plug-ins</ulink>. Installation instruction you can find on JBoss Wiki in <ulink url="http://labs.jboss.com/wiki/InstallingJBossTools">InstallingJBossTools</ulink> section.</para>
-        
-    </section>
-
-    <section>
-        <title>Other relevant resources on the topic</title>
-
-        <para>The <ulink url="http://seamframework.org/">Seam Framework</ulink> - Next generation enterprise Java development.</para>
-        <para>All JBoss Developer Studio/JBoss Tools release documentation you can find at <ulink url="http://docs.jboss.org/tools/">http://docs.jboss.org/tools</ulink> in the corresponding release directory.</para>
-        <para>There is some extra information on <ulink url="http://www.jboss.org/community/wiki/JBossSeam">JBoss Wiki. </ulink></para>
-        <para>The latest documentation builds are available at <ulink url="http://download.jboss.org/jbosstools/nightly-docs/">http://download.jboss.org/jbosstools/nightly-docs</ulink>.</para>
-    	<para>You can find a set of screencasts on how to search/find references and use Seam refactoring tools in the following Max Andersen&apos;s 
-    		<ulink url="http://in.relation.to/12524.lace">blog post</ulink>.</para>
-    </section>
 </chapter>
