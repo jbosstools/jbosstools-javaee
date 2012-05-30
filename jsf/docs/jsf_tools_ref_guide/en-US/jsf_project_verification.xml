@@ -18,7 +18,15 @@
         of.</para>
     <!-- JBoss Developer Studio checks for many different rules for a JSF project -->
     <para>
-    	Many different rules are checked for a JSF project that can be configured by selecting <menuchoice><guimenuitem>Window</guimenuitem><guimenuitem>Preferences</guimenuitem></menuchoice> from the menu bar, selecting <menuchoice><guimenuitem>JBoss Tools</guimenuitem><guimenuitem>Web</guimenuitem><guimenuitem>Verification</guimenuitem></menuchoice> from the Preferences dialog box and then expanding the JSF Rules node.
+	Many different rules are checked for a JSF project that can be configured by selecting <menuchoice>
+            <guimenuitem>Window</guimenuitem>
+            <guimenuitem>Preferences</guimenuitem>
+        </menuchoice> from the menu bar, selecting <menuchoice>
+            <guimenuitem>JBoss Tools</guimenuitem>
+            <guimenuitem>Web</guimenuitem>
+            <guimenuitem>JSF</guimenuitem>
+            <guimenuitem>Validation</guimenuitem>
+        </menuchoice>.
     </para>
     <figure>
         <title>JSF Rules</title>
@@ -81,25 +89,8 @@
             </imageobject>
         </mediaobject>
     </figure>
-    <para>You can always call up verification explicitly by right-clicking any element in the tree
-        and selecting Verify from the context menu. This works from both the Tree and Diagram
-        viewers for the JSF configuration file editor. You can also invoke verification from the Web
-        Projects view. Below we are checking all of the elements in the configuration file.</para>
-    <figure>
-        <title>Verify Command</title>
-        <mediaobject>
-            <imageobject>
-                <imagedata fileref="images/verif_valid/verif_valid_7.png"/>
-            </imageobject>
-        </mediaobject>
-    </figure>
-
     <para>In summary, this document highlights all the JSF-specific features of <property>JBoss Tools</property>
         meant for enhancing the development of rich Web applications based on JSF technology. The
         reference introduces you to wizards for creating and importing JSF projects, JSF
         Configuration File editor features, functionality for enabling JSF capabilities and etc.</para>
-    
-    <para>If you have questions or good suggestions, please refer to <ulink
-            url="http://www.jboss.com/index.html?module=bb&amp;op=viewforum&amp;f=201">JBoss
-            Tools Forum</ulink>.</para>
 </chapter>
