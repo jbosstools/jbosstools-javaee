@@ -20,7 +20,7 @@
   </para>
    
   <para>
-    The <emphasis> <property>Open Web Browser</property></emphasis> action is directly available in the <property>Seam perspective</property>.
+  The <guibutton>Open Web Browser</guibutton> action is directly available in the <property>Seam perspective</property>.
   </para>
    
   <figure>
@@ -39,7 +39,7 @@
     </para>
      
     <para>
-      Thus, you should select <menuchoice><guimenuitem>File</guimenuitem><guimenuitem>New</guimenuitem><guimenuitem>Seam Web Project</guimenuitem></menuchoice> to run the <property>New Seam Project</property> wizard. The wizard form allows you to create runtime and server instances in order to get started creating, running, and debugging J2EE (only) applications.
+		Thus, you should select <menuchoice><guimenuitem>File</guimenuitem><guimenuitem>New</guimenuitem><guimenuitem>Other</guimenuitem><guimenuitem>Seam</guimenuitem><guimenuitem>Seam Web Project</guimenuitem></menuchoice> to run the <property>New Seam Project</property> wizard. The wizard form allows you to create runtime and server instances in order to get started creating, running, and debugging J2EE (only) applications.
     </para>
      
     <para>
@@ -64,7 +64,7 @@
     </para>
      
     <para>
-      If you need to create a new runtime, click on the <emphasis> <property>New...</property> </emphasis> button in the <property>Target Runtime</property> section. It brings up the wizard where you can specify a new JBoss Server Runtime environment or the other type of runtime appropriate for your project configuration. Let's create one more JBoss 4.2 Runtime. Hence, after choosing it click on <emphasis> <property>Next</property> </emphasis> button.
+	If you need to create a new runtime, click on the <guibutton>New</guibutton> button in the <property>Target Runtime</property> section. It brings up the wizard where you can specify a new JBoss Server Runtime environment or the other type of runtime appropriate for your project configuration. Let's create one more JBoss Enterprise Application Platform 6.0 Runtime. Hence, after choosing it click on <guibutton>Next</guibutton> button.
     </para>
      
     <figure>
@@ -77,7 +77,8 @@
     </figure>
      
     <para>
-      All what you need here is to name runtime, type the path to its install directory or locate it by using <emphasis> <property>Browse</property> </emphasis> button, select a Java Runtime Environment, and select which configuration you want.
+	All what you need here is to name runtime, type the path to its install directory or locate it by using
+		<guibutton>Browse</guibutton> button, select a Java Runtime Environment, and select which configuration you want.
     </para>
      
     <figure>
@@ -90,15 +91,15 @@
     </figure>
      
     <para>
-      Clicking on <emphasis> <property>Finish</property> </emphasis> returns you to the <xref linkend="figure_create_seam1"/>.
+	Clicking on <guibutton>Finish</guibutton> returns you to the <xref linkend="figure_create_seam1"/>.
     </para>
      
     <para>
-      The next step is to define a Server by clicking on <emphasis> <property>New...</property> </emphasis> button in the <property>Target Server</property> section. In appeared <property>New Server dialog</property> the last server which matches the runtime will be selected.
+		The next step is to define a Server by clicking on <guibutton>New</guibutton> button in the <property>Target Server</property> section. In appeared <property>New Server dialog</property> the last server which matches the runtime will be selected.
     </para>
      
     <para>
-      All declared runtimes are listed in the combobox under the servers view. Here, you can indicate a server runtime that you need. Click <emphasis> <property>Add</property> </emphasis> if you want to add a new Server Runtime.
+	All declared runtimes are listed in the combobox under the servers view. Here, you can indicate a server runtime that you need. Click <guibutton>Add</guibutton> if you want to add a new Server Runtime.
     </para>
      
     <figure>
@@ -111,7 +112,7 @@
     </figure>
      
     <para>
-      Next page allows you to verify the information for a chosen server. Leave everything as it is and click on <emphasis> <property>Next</property> </emphasis>.
+	Next page allows you to verify the information for a chosen server. Leave everything as it is and click on <guibutton>Next</guibutton>.
     </para>
      
     <figure>
@@ -137,13 +138,12 @@
     </figure>
      
     <para>
-      Once you have the Target Server defined click on <emphasis> <property>Finish</property> </emphasis> button to return to the first page of the <property>New Seam Project wizard</property>.
+	Once you have the Target Server defined click on <guibutton>Finish</guibutton> button to return to the first page of the <property>New Seam Project wizard</property>.
     </para>
      
     <note>
-      <title>Tip:</title> 
       <para>
-        We suggest that you look through the Application Server Manager Guide to find out more about runtimes and servers.
+        Refer to the Application Server Manager Guide to find out more about runtimes and servers.
       </para>
     </note>
      
@@ -157,7 +157,7 @@
     </figure>
      
     <para>
-      The last section on this wizard step is <property>Configuration</property>. Here, you can select one of the predefined project configurations either associated with Seam 1.2, Seam 2.0 or with Seam 2.1. Furthermore, you can create your own configuration by pressing the <guibutton>Modify...</guibutton> button. It will open the dialog which allows to configure your own set of facets for adding extra functionality to your project.
+      The last section on this wizard step is <property>Configuration</property>. Here, you can select one of the predefined project configurations either associated with Seam 1.2, Seam 2.0 or with Seam 2.1. Furthermore, you can create your own configuration by pressing the <guibutton>Modify</guibutton> button. It will open the dialog which allows to configure your own set of facets for adding extra functionality to your project.
     </para>
      
     <para>
@@ -185,7 +185,7 @@
     </figure>
      
     <para>
-      Moreover, here you can specify your own preset of selected facets by checking needed ones in project facets window and clicking on <emphasis> <property>Save</property> </emphasis> button.
+      Moreover, here you can specify your own preset of selected facets by checking needed ones in project facets window and clicking on the <guibutton>Save as</guibutton> button.
     </para>
      
     <figure>
@@ -198,7 +198,7 @@
     </figure>
      
     <para>
-      To see all available Server runtimes click on <property>Runtimes</property> tab on the left. You can create a new one using the <emphasis> <property>New</property> </emphasis> button. If more than one runtime is checked here, the <emphasis> <property>Make Primary</property> </emphasis> button won&apos;t be dimmed yet. Thus, you can make use of it to mark primary runtime.
+		To see all available Server runtimes click on <property>Runtimes</property> tab on the left. You can create a new one using the <guibutton>New</guibutton> button. If more than one runtime is checked here, the <guibutton>Make Primary</guibutton> button will not be dimmed yet. Thus, you can make use of it to mark primary runtime.
     </para>
      
     <figure>
@@ -211,13 +211,13 @@
     </figure>
      
     <para>
-      Clicking the <guibutton>OT</guibutton> button will bring you to the <property>Web Module</property> wizard form again.
+      Clicking the <guibutton>OK</guibutton> button will bring you to the <property>Web Module</property> wizard form again.
     </para>
      
-    <section id="seamWithJPA">
+<!--    <section id="seamWithJPA">
       <title>Seam project with JPA facets</title> 
       <para>
-        For creating Seam project with JPA support you need to select<property> Java Persistent</property> facet on <property>Project Facets</property> page and click <property>OK</property>.
+		  For creating Seam project with JPA support you need to select<property> Java Persistent</property> facet on <property>Project Facets</property> page and click <guibutton>OK</guibutton>.
       </para>
        
       <para>
@@ -255,13 +255,13 @@
       <para>
         On the next step you will see <property>JSF Capabilities</property> and <property>Seam facet</property> pages, which are mostly the same as in general Seam project.
       </para>
-    </section>
-  </section>
+  </section> -->
+</section> 
    
   <section id="configureJava">
     <title>Java application building configuration</title> 
     <para>
-      With this wizard you can define Java source directories which will be generated on build path. Also you can specify a default output folder. If you are agree with default values, press <property>Next</property>
+		With this wizard you can define Java source directories which will be generated on build path. Also you can specify a default output folder. If you are agree with default values, press <guibutton>Next</guibutton>
     </para>
      
     <figure>
@@ -290,7 +290,7 @@
     </figure>
      
     <para>
-      Choose <emphasis> <property>Next</property> </emphasis> to switch to the next wizard form.
+	Choose <guibutton>Next</guibutton> to switch to the next wizard form.
     </para>
   </section>
    
@@ -432,7 +432,7 @@
     </itemizedlist>
      
     <para>
-      For that click on <emphasis> <property>Add</property> </emphasis> button in the <property>General</property> section. Note, in the wizard shown below you can create a Seam runtime only for the version that was selected in the <xref linkend="projectFacets"/> wizard (version 1.2 in our case).
+	For that click on <guibutton>Add</guibutton> button in the <property>General</property> section. Note, in the wizard shown below you can create a Seam runtime only for the version that was selected in the <xref linkend="projectFacets"/> wizard.
     </para>
      
     <figure>
@@ -460,10 +460,10 @@
      
     <note>
       <para>
-        If you want to name your web project "MyProject-war" note that the EJB project should not be "MyProject-war-ejb", it should be "MyProject-ejb". The same for EAR and Test projects' names. They should be respectively "MyProject-ear" and "MyProject-test".
+        If you want to name your web project "MyProject-war" the EJB project should not be "MyProject-war-ejb", it should be "MyProject-ejb". The same for EAR and Test projects' names. They should be respectively "MyProject-ear" and "MyProject-test".
       </para>
     </note>
-    
+<!--    
 	<para>
 		The next block of settings in the Seam Facet wizard are describing a Database and a connection to it.
 	</para>
@@ -527,7 +527,7 @@
         </imageobject>
       </mediaobject>
     </figure>
-     
+	-->
     <para>
       In the <property>Code Generation</property> section the wizard has already provided the names for your <property>Session Bean</property>, <property>Entity Bean</property> and <property>Test</property> packages generation (optional). Of course, you can change them on others of your choice.
     </para>
@@ -542,7 +542,7 @@
     </figure>
      
     <para>
-      Click on <emphasis> <property>Finish</property> </emphasis> to generate a project.
+	Click on <guibutton>Finish</guibutton> to generate a project.
     </para>
      
     <para/>
