@@ -302,7 +302,7 @@
       <section>
         <title>Seam Pages Diagram Preferences</title> 
         <para>
-          In order to customize the layout of Diagram you can go to <menuchoice><guimenuitem>Window</guimenuitem><guimenuitem>Preferences</guimenuitem><guimenuitem>JBoss Tools</guimenuitem><guimenuitem>Web</guimenuitem><guimenuitem>Seam</guimenuitem><guimenuitem>Editors</guimenuitem><guimenuitem>Seam Pages Diagram</guimenuitem></menuchoice>.
+          In order to customize the layout of Diagram you can go to <menuchoice><guimenuitem>Window</guimenuitem><guimenuitem>Preferences</guimenuitem><guimenuitem>JBoss Tools</guimenuitem><guimenuitem>Web</guimenuitem><guimenuitem>Editors</guimenuitem><guimenuitem>Seam Pages Diagram</guimenuitem></menuchoice>.
         </para>
          
         <figure>
@@ -583,9 +583,8 @@
       </itemizedlist>
        
       <note>
-        <title>Note:</title> 
         <para>
-          In this section were described only use cases special for Seam applications.For general information please read <ulink url="http://download.jboss.org/jbosstools/nightly-docs/en/jsf/html/editors.html#OpenOnSelection4Hyperlinknavigation">OpenOn section in Visual Web Tools Reference Guide</ulink>.
+          For more information on OpenOn, see the Visual Web Tools Reference Guide.
         </para>
       </note>
 	  <formalpara id="xhtmlFiles">
@@ -623,7 +622,7 @@
 		<formalpara id="xmlFiles">
 			<title>OpenOn in XML files</title>
 			<para>
-				OpenOn is also supported in Page Descriptors (<property>.page.xml</property> and <property>pages.xml</property>). OpenOn allows you to navigate to Java beans as well as to view pages. You can <property>Ctrl + left click</property> on a bean or on view page file (e.g. XTML file) to navigate to the file you clicked on.
+				OpenOn is also supported in Page Descriptors (<property>.page.xml</property> and <property>pages.xml</property>). OpenOn allows you to navigate to Java beans as well as to view pages. You can <property>Ctrl + left click</property> on a bean or on view page file (for example, a XHTML file) to navigate to the file you clicked on.
 			</para>
 		</formalpara>     
           <figure>

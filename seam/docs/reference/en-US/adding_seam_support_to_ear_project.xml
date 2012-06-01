@@ -31,7 +31,13 @@
             </imageobject>
         </mediaobject>
     </figure>
-        
+	<para>
+		To enable Seam support for an existing EAR, WAR or EJB project, right-click on the project in the <guilabel>Project Explorer</guilabel> to bring up the context menu and navigate to <menuchoice><guimenuitem>Configure</guimenuitem><guimenuitem>Enable Seam Support</guimenuitem></menuchoice>.
+	</para>
+	<para>
+		Copy required JAR files manually into the project. For EAR projects specifically, copy library folders into the projects <filename>/lib</filename> folder and they will be automatically detected.
+	</para>
+<!--        
     <para>Make sure EJB and WAR are included in EAR as modules (Properties for <menuchoice><guimenuitem>seamproject-ear</guimenuitem><guimenuitem>Java EE Module Dependencies</guimenuitem></menuchoice>)</para>
     
     <figure>
@@ -120,5 +126,5 @@
             </imageobject>
         </mediaobject>
     </figure>
-    
+	-->
 </chapter>

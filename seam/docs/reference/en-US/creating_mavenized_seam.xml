@@ -179,10 +179,10 @@
     </figure>
   </section>
    
-  <section>
+<!--  <section>
     <title>Relevant Resources Links</title> 
     <para>
       In the <ulink url="http://in.relation.to/Bloggers/UsingMavenWithJBossTools">Using Maven with JBoss Tools</ulink> article written by Max Andersen you&apos;ll find references to the screencasts on how to use the examples of mavenized Seam projects provided by <property>JBoss Tools</property>.
     </para>
-  </section>
+</section> -->
 </chapter>

@@ -77,7 +77,7 @@
           </imageobject>
         </mediaobject>
       </figure>
-       
+       <!--
       <para>
         Notice, that in the <emphasis> <property>Expression language</property> </emphasis> section there is now a preference for setting severity of EL Syntax. You can select whether the Seam validator displays an error, a warning or just ignore the EL Syntax error.
       </para>
@@ -100,7 +100,7 @@
       <para>
         The <emphasis> <property>Revalidate unresolved ELs automatically</property></emphasis> option is enabled by default. If necessary, you can uncheck it. It may increase a performance for big complex projects.
       </para>
-       
+	  -->
       <para>
         In the upper right corner of the Seam Validator preferences page there is a <emphasis><property>Configure Project Specific Settings</property></emphasis> link. Clicking on it you get the form where you can choose a project for specific setting. Project specific configuration allows you to have different validator settings for each project. Check the <emphasis><property>Show only projects with project specific settings</property></emphasis> if you want to see the projects that have been already set. Click on <property>Ok</property>.
       </para>
@@ -222,7 +222,7 @@
     </para>
      
     <para>
-      To enable it, you should call the context menu for a Seam project and select <menuchoice><guimenuitem>JBoss Tools</guimenuitem><guimenuitem>Add Custom Capabilities.</guimenuitem></menuchoice> Then check the needed modules and press <emphasis><property>Finish</property>.</emphasis>
+      To enable it, you should call the context menu for a Seam project and select <menuchoice><guimenuitem>Configure</guimenuitem><guimenuitem>Add Custom Capabilities.</guimenuitem></menuchoice> Then check the needed modules and press <emphasis><property>Finish</property>.</emphasis>
     </para>
      
     <figure>

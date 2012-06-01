@@ -12,11 +12,11 @@
   </chapterinfo>
    <title>Seam Refactoring Tools</title> 
   <para>
-    The goal of Seam components refactoring is to make system-wide code changes without affecting the behavior of the program. The Seam module of <property>JBoss Tools</property> provides assistance in easily code refactoring.
+    The goal of Seam components refactoring is to make system-wide code changes without affecting the behavior of the program. Seam Tools provides assistance with code refactoring.
   </para>
    
   <para>
-    Starting from Jboss Tools M4 refactoring functionality became also available for managed beans, method and properties used in ELs. Thus now Seam refactoring tools include the next refactoring operations:
+    Seam refactoring tools includes the following refactoring operations:
   </para>
    
   <itemizedlist>
@@ -34,7 +34,7 @@
   </itemizedlist>
    
   <para>
-    Refactoring commands are available from the context menus of several views and editors and use a standard Eclipse refactoring wizard. For details, see <xref linkend="RefactornigWizard"/> later in this chapter.
+	  Refactoring commands are available from the context menus of several views and editors; for details, see <xref linkend="RefactornigWizard"/>.
   </para>
    
   <note>
@@ -180,9 +180,9 @@
         </mediaobject>
       </figure>
        
-      <para>
+ <!--     <para>
         For details, see also the movie, <ulink url="http://docs.jboss.org/tools/movies/demos/rename_seam_components_java/rename_seam_components_java.htm">&quot;Renaming a Seam component in the Java Editor&quot;</ulink>.
-      </para>
+	</para> -->
     </section>
      
     <section id="SeamComponents">
@@ -200,9 +200,9 @@
         </mediaobject>
       </figure>
        
-      <para>
+ <!--     <para>
         For details, see also the movie, <ulink url="http://docs.jboss.org/tools/movies/demos/rename_seam_components_comp_view/rename_seam_components_comp_view.htm">&quot;Renaming a Seam component in the Seam Components view&quot;</ulink>.
-      </para>
+	</para> -->
     </section>
      
     <section id="components_xml_editor">
@@ -219,10 +219,10 @@
           </imageobject>
         </mediaobject>
       </figure>
-       
+ <!--      
       <para>
         For details, see also the movie, <ulink url="http://docs.jboss.org/tools/movies/demos/rename_seam_components_comp_xml/rename_seam_components_comp_xml.htm">&quot;Renaming a Seam component in the components.xml file&quot;</ulink>.
-      </para>
+	</para> -->
     </section>
   </section>
    
@@ -258,7 +258,7 @@
         </imageobject>
       </mediaobject>
     </figure>
-     
+    <!-- 
     <para>
       For details, see also a set of movies about renaming Seam context variables in EL in different locations:
     </para>
@@ -287,6 +287,6 @@
           <ulink url="http://docs.jboss.org/tools/movies/demos/rename_context_variables_vpe/rename_context_variables_vpe.htm">In the Visual Page Editor</ulink>
         </para>
       </listitem>
-    </itemizedlist>
+  </itemizedlist> -->
   </section>
 </chapter>

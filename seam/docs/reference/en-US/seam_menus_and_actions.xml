@@ -42,7 +42,7 @@
   <section id="file_menu">
     <title>File Menu Actions</title> 
     <para>
-      In a Seam perspective, by default there are the following actions in <menuchoice><guimenuitem>File</guimenuitem><guimenuitem>New</guimenuitem></menuchoice> submenu
+      The following actions are in the Seam Perspective by default: <menuchoice><guimenuitem>File</guimenuitem><guimenuitem>New</guimenuitem></menuchoice> submenu
     </para>
      
     <table>
@@ -166,7 +166,17 @@
     <section id="find_seam_ref_decl">
       <title>Find Seam References/Declarations</title> 
       <para>
-        To find EL expressions both in <emphasis> <property>.java</property> </emphasis> and <emphasis> <property>.xhtml</property> </emphasis> files use Find Seam References/Declarations actions. For that, in the main menu bar click on <menuchoice><guimenuitem>Search</guimenuitem><guimenuitem>Find Seam References</guimenuitem></menuchoice> or <emphasis><property>Find Seam Declarations</property>.</emphasis>
+	  To find EL expressions both in <emphasis>
+              <property>.java</property>
+          </emphasis> and <emphasis>
+              <property>.xhtml</property>
+          </emphasis> files use Find Seam References and Declarations actions. For that, in the main menu bar click on <menuchoice>
+              <guimenuitem>Search</guimenuitem>
+              <guimenuitem>Find Seam References</guimenuitem>
+          </menuchoice> or <menuchoice>
+              <guimenuitem>Search</guimenuitem>
+			  <guimenuitem>Find Seam Declarations</guimenuitem>
+          </menuchoice>.
       </para>
        
       <para>

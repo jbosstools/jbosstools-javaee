@@ -108,7 +108,7 @@
             
         <para>Select the <emphasis><property>Seam Components from Libraries</property></emphasis> under the Filters tab. 
             This will make the view ignore components defined in jars. This will hide the many built-in Seam components and leave only those that are actually defined in the project or have been actively configured via components.xml. Therefore, deselecting the filter will show you all available components.</para>
-        <para>Selecting the <emphasis><property>Seam Components from Referenced Projects</property></emphasis> will hide the components that dependent on other project.</para>
+        <para>Selecting the <emphasis><property>Seam Components from Referenced Projects</property></emphasis> will hide the components that depend on other projects.</para>
         
         <figure>
             <title>Available Seam Component View Customizations</title>

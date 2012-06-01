@@ -143,14 +143,17 @@
         </imageobject>
       </mediaobject>
     </figure>
+	<para>
+	Click on <guimenuitem>actionMethod</guimenuitem> in the internal browser and add a form in your project using the <guilabel>New Seam Form</guilabel> wizard <menuchoice>
+		<guimenuitem>File</guimenuitem>
+            <guimenuitem>New</guimenuitem>
+            <guimenuitem>Seam Form</guimenuitem>
+        </menuchoice>.
+    </para>
   </section>
    
   <section id="seam_form">
-    <title>New Seam Form</title> 
-    <para>
-      Click on <property>actionMethod</property> in the internal browser and add a form in your project using the New Seam Form wizard <menuchoice><guimenuitem>File</guimenuitem><guimenuitem>New</guimenuitem><guimenuitem>Seam Form</guimenuitem></menuchoice>.
-    </para>
-     
+    <title>New Seam Form</title>      
     <para>
       Select a necessary project, type a name for <property>Seam component</property>, <property>POJO class</property>, <property>Method</property>, <property>Page</property> and select a <property>Package</property> using <emphasis> <property>Browse</property> </emphasis> button.
     </para>
@@ -206,14 +209,13 @@
     <para>
       Form component was hot-deployed.
     </para>
+	<para>
+		Enter some value in the text field (for example, <property>value1</property>) and click on <guibutton>formMethod</guibutton>.
+	</para>
   </section>
    
   <section id="seam_conversation">
     <title>New Seam Conversation</title> 
-    <para>
-      Enter some value in the text field (e.g. <property>value1</property>) and click on <property>formMethod</property>.
-    </para>
-     
     <para>
       Add a conversation using the New Seam Conversation wizard <menuchoice><guimenuitem>File</guimenuitem><guimenuitem>New</guimenuitem><guimenuitem>Seam Form.</guimenuitem></menuchoice>
     </para>
