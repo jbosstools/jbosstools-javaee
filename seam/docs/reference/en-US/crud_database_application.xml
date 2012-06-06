@@ -32,7 +32,11 @@
       <listitem>
         <para>
           First, you should <ulink url="http://docs.jboss.org/tools/resources/"
-                        >download</ulink> a database and start it by running <emphasis> <property>./runDBServer.sh</property> </emphasis> or <emphasis> <property>runDBServer.bat</property> </emphasis> from the database directory.
+			  >download</ulink> the <filename>employee-hsqlb</filename> database, extract the <filename>employee-hsqldb.zip</filename> and start it by running <emphasis>
+                  <property>./runDBServer.sh</property>
+              </emphasis> or <emphasis>
+                  <property>runDBServer.bat</property>
+              </emphasis> from the database directory.
         </para>
       </listitem>
        
@@ -159,7 +163,7 @@
     <itemizedlist>
       <listitem>
         <para>
-          You may notice the note on the previous figure. It prompts that you should specify the driver of the type you pointed. Set the location of the driver by switching to the next tab and press <emphasis> <property>Add JAR/Zip</property> </emphasis> button.
+			You may notice the note on the previous figure. It prompts that you should specify the driver of the type you pointed. Set the location of the driver by selecting <filename>hsqldb.jar</filename> from the list and clicking the <guibutton>Edit JAR/ZIP</guibutton> button.
         </para>
       </listitem>
     </itemizedlist>
@@ -178,7 +182,7 @@
     <itemizedlist>
       <listitem>
         <para>
-          On the <property>Properties</property> tab set the <emphasis><property>Connection URL</property>,</emphasis> <emphasis> <property>Database Name</property> </emphasis> and <emphasis> <property>User ID</property> </emphasis> and click <emphasis> <property>OK</property>. </emphasis>
+			On the <guilabel>Properties</guilabel> tab set the <guilabel>Connection URL</guilabel> to <emphasis>jdbc:hsqldb:hsql://localhost:1701</emphasis>, <guilabel>Database Name</guilabel> to <emphasis>employee</emphasis> and <guilabel>User ID</guilabel> to <emphasis>sa</emphasis> and click <guibutton>OK</guibutton>.
         </para>
       </listitem>
     </itemizedlist>
@@ -273,7 +277,7 @@
     <itemizedlist>
       <listitem>
         <para>
-          Have a look at the created projects. You can expand <property>WEB_CONTENT</property> folder and open <property>home.xhtml</property> or <property>login.xhtml</property> with <property>JBoss Visual Editor</property>.
+          You can expand the <property>WEB_CONTENT</property> folder of the application and open <property>home.xhtml</property> or <property>login.xhtml</property> with <property>JBoss Visual Editor</property>.
         </para>
       </listitem>
     </itemizedlist>
@@ -292,7 +296,7 @@
     <itemizedlist>
       <listitem>
         <para>
-          Switch to <property>Database Development</property> perspective with <menuchoice><guimenuitem>Window</guimenuitem><guimenuitem>Open Perspective</guimenuitem><guimenuitem>Other...</guimenuitem></menuchoice> and connect to the <emphasis> <property>cruddb</property> </emphasis> database.
+          Connect to the <emphasis> <property>cruddb</property> </emphasis> database if not already connected to it.
         </para>
       </listitem>
     </itemizedlist>
@@ -330,7 +334,7 @@
     <itemizedlist>
       <listitem>
         <para>
-          Switch back to the <property>Seam</property> perspective. From the toolbar select <menuchoice><guimenuitem>New</guimenuitem><guimenuitem>Seam Generate Entities</guimenuitem></menuchoice> to create a set of <property>CRUD</property> Seam components and web pages based on existing tables in the database. On the first page of <emphasis> <property>Generate Seam Entities</property> </emphasis> wizard keep everything by default and press <emphasis> <property>Next</property>. </emphasis>
+          Switch back to the <property>Seam</property> perspective. From the toolbar select <menuchoice><guimenuitem>New</guimenuitem><guimenuitem>Seam Generate Entities</guimenuitem></menuchoice> to create a set of <property>CRUD</property> Seam components and web pages based on existing tables in the database. On the first page of <emphasis> <property>Generate Seam Entities</property> </emphasis> wizard, select <guilabel>Reverse engineer from database</guilabel> click press <guibutton>Next</guibutton>.
         </para>
       </listitem>
     </itemizedlist>
@@ -368,7 +372,7 @@
     <itemizedlist>
       <listitem>
         <para>
-          Now you can filter the tables. Use the <emphasis> <property>Include</property> </emphasis> button to include only necessary ones.
+          Now you can filter the tables. Use the <guibutton>Include</guibutton> button to include those that are necessary and click <guibutton>Finish</guibutton>.
         </para>
       </listitem>
     </itemizedlist>

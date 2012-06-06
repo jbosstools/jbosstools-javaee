@@ -79,7 +79,7 @@
     </figure>
      
     <para>
-      After that you can use CRUD application with <property>&quot;employee&quot;</property> database.
+      After that you can use the CRUD application with the <emphasis>employee</emphasis> database.
     </para>
      
     <para>
@@ -88,11 +88,11 @@
     </para>
      
     <para>
-      Click on the <emphasis> <property>Employees List</property> </emphasis> link and observe that data from <emphasis> <property>employee</property> </emphasis> database is displayed.
+		Hover the mouse over <guibutton>Browse</guilabel> in the very top menu and select <guimenuitem>Employees List</guimenuitem> from the expanded list. Observe that data from the <emphasis> <property>employee</property> </emphasis> database is displayed.
     </para>
      
     <figure>
-      <title>Employees List Page</title> 
+      <title>Displayed employee data</title> 
       <mediaobject>
         <imageobject>
           <imagedata
@@ -107,7 +107,7 @@
     </para>
      
     <para>
-      Press <property>Select</property> opposite one of employees.
+		Click the <guibutton>View</guibutton> button in the <guilabel>Action</guilabel> column of one of the employees.
     </para>
      
     <figure>
@@ -126,7 +126,7 @@
     </para>
      
     <para>
-      Enter <emphasis> <property>Login</property> </emphasis> and <emphasis> <property>Password</property> </emphasis> to login. (Use <emphasis>&quot;crudapp-user&quot;/&quot;secret&quot;</emphasis> for example)
+      Enter <emphasis> <property>Login</property> </emphasis> and <emphasis> <property>Password</property> </emphasis> to login (for example, admin as the login and leaving the password field blank).
     </para>
      
     <figure>

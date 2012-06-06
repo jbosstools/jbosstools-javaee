@@ -54,16 +54,5 @@
     <para>
       You should right-click the project, select <menuchoice><guimenuitem>Properties</guimenuitem><guimenuitem>Java Build Path,</guimenuitem></menuchoice> then switch to the <emphasis> <property>Source tab</property>,</emphasis> select the output folder for <emphasis> <property>src/hot</property></emphasis> (<emphasis> <property>src/main</property>)</emphasis> and click <emphasis> <property>Edit</property></emphasis> to change their output location.
     </para>
-     
-    <para>
-      In conclusion, the main goal of this document is to get you know with a full feature set that <property>JBoss Tools</property> provides to support Seam development. Thus if you have some questions, comments or suggestions on the topic, please fell free to ask in the <ulink
-                url="http://www.jboss.com/index.html?module=bb&amp;op=viewforum&amp;f=201">JBoss Tools Forum</ulink>. You can also influence on how you want to see JBoss Tools docs in future leaving your vote on the article <ulink
-                url="http://wiki.jboss.org/wiki/JBossToolsDocsFuture"
-                >Overview of the improvements required by JBossTools/JBDS Docs users</ulink>.
-    </para>
-     
-    <para>
-      A set of movies on Seam tooling is available on <ulink url="http://docs.jboss.org/tools/movies">Seam movies page</ulink>.
-    </para>
   </section>
 </chapter>

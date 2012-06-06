@@ -10,12 +10,6 @@
       <keyword>testNG</keyword>
     </keywordset>
   </chapterinfo>
-   <title>Using TestNG project</title> 
-  <para>
-    With the help this chapter you will get to know with TestNG.
-  </para>
-   
-  <section>
     <title>What is TestNG?</title> 
     <para>
       <property>TestNG</property> (&quot;Testing, the Next Generation&quot;) is a Java unit testing framework that aims to overcome many limitations of JUnit. TestNG introduces some new functionalities that make it more powerful and easier to use, such as:
@@ -82,14 +76,7 @@
         </para>
       </listitem>
     </itemizedlist>
-     
-    <para>
-      More information can be found on home page: <ulink url="http://testng.org"
-                >www.testng.org</ulink>
-    </para>
-  </section>
-   
-  <section id="OtherRelevantResourcesOnTheTopic5">
+<!--  <section id="OtherRelevantResourcesOnTheTopic5">
 <?dbhtml filename="OtherRelevantResourcesOnTheTopic5.html"?>
     <title>Other relevant resources on the topic</title> 
     <para>
@@ -111,7 +98,7 @@
     <para>
       <ulink url="http://www-128.ibm.com/developerworks/java/library/j-cq08296/index.html">In pursuit of code quality: JUnit 4 vs. TestNG</ulink>
     </para>
-  </section>
+</section> -->
    
   <section>
     <title>How to use the generated Seam-test project to run Seam tests?</title> 
