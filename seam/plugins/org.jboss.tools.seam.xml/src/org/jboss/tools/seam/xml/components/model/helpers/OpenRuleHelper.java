@@ -55,20 +55,21 @@ public class OpenRuleHelper {
 		if(webinf == null) return null;
 		XModelObject pagesXML = webinf.getChildByPath("pages.xml"); //$NON-NLS-1$
 		if(pagesXML == null) return null;
-		XModelObject pagesFolder = pagesXML.getChildByPath("Pages");
+		XModelObject pagesFolder = pagesXML.getChildByPath("Pages"); //$NON-NLS-1$
+		if(pagesFolder == null) return null; //happens when pages.xml is broken
 		XModelObject[] ps = pagesFolder.getChildren();
 		
 		for (int i = 0; i < ps.length; i++) {
-			String viewId = ps[i].getAttributeValue("view id");
+			String viewId = ps[i].getAttributeValue("view id"); //$NON-NLS-1$
 			if(!isPatternMatches(viewId, viewPath)) continue;
 			XModelObject[] ns = ps[i].getChildren();
 			for (int j = 0; j < ns.length; j++) {
 				String entity = ns[j].getModelEntity().getName();
-				if(!entity.startsWith("SeamPageNavigation")) continue;
+				if(!entity.startsWith("SeamPageNavigation")) continue; //$NON-NLS-1$
 				if(entity.startsWith("SeamPageNavigationRule")) continue;
 				XModelObject[] rs = ns[j].getChildren();
 				for (int k = 0; k < rs.length; k++) {
-					String a = rs[k].getAttributeValue("if outcome");
+					String a = rs[k].getAttributeValue("if outcome"); //$NON-NLS-1$
 					if(a != null && a.equals(action)) {
 						//TODO compare match length
 						return rs[k];
