@@ -73,7 +73,7 @@ public class BeansEditor extends SWTBotMultiPageEditor {
 	}
 	
 	private BeansEditor modify(Item item, String name, String actionLabel, DialogHandler h) {
-		SWTBotTree tree = bot.tree(1);		
+		SWTBotTree tree = bot.tree(2);
 		for (SWTBotTreeItem ti:tree.getAllItems()) {
 			log.setLevel(Level.FATAL);
 			log.fatal(ti.getText());
