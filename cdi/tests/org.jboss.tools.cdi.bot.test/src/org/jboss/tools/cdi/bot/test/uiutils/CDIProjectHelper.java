@@ -156,8 +156,11 @@ public class CDIProjectHelper extends CDITestBase {
 		SWTBotTree tree = projectExplorer.bot().tree();
 		SWTBotTreeItem item = tree.getTreeItem(projectName);
 		item.expand();
-		NodeContextUtil.nodeContextMenu(tree, item, CDIConstants.CONFIGURE, 
-				CDIConstants.ADD_CDI_SUPPORT).click();
+		ContextMenuHelper.prepareTreeItemForContextMenu(tree, item);
+		SWTBotMenu menu = new SWTBotMenu(
+				ContextMenuHelper.getContextMenu(
+				tree, IDELabel.Menu.PACKAGE_EXPLORER_CONFIGURE, false));
+		menu.menu(CDIConstants.ADD_CDI_SUPPORT).click();
 		bot.button(IDELabel.Button.OK).click();
 		bot.waitWhile(new ProgressInformationShellIsActiveCondition(), TaskDuration.LONG.getTimeout());
 	}

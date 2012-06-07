@@ -13,14 +13,16 @@ package org.jboss.tools.cdi.bot.test.wizard;
 
 
 import org.eclipse.swt.SWTException;
+import org.eclipse.swtbot.swt.finder.widgets.SWTBotMenu;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTree;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTreeItem;
 import org.jboss.tools.cdi.bot.test.CDIAllBotTests;
 import org.jboss.tools.cdi.bot.test.CDISmokeBotTests;
 import org.jboss.tools.cdi.bot.test.CDITestBase;
 import org.jboss.tools.cdi.bot.test.annotations.CDIWizardType;
-import org.jboss.tools.cdi.bot.test.uiutils.NodeContextUtil;
 import org.jboss.tools.ui.bot.ext.Timing;
+import org.jboss.tools.ui.bot.ext.helper.ContextMenuHelper;
+import org.jboss.tools.ui.bot.ext.types.IDELabel;
 import org.jboss.tools.ui.bot.ext.types.PerspectiveType;
 import org.junit.Test;
 import org.junit.runners.Suite.SuiteClasses;
@@ -98,9 +100,13 @@ public class PerspectiveTest extends CDITestBase {
 		item.expand();
 		boolean artifactWizardExists = true;
 		try {
-			NodeContextUtil.nodeContextMenu(tree, item, "New", wizardType.getAnnotationType()).click();
+			ContextMenuHelper.prepareTreeItemForContextMenu(tree, item);
+			SWTBotMenu menu = new SWTBotMenu(
+					ContextMenuHelper.getContextMenu(
+					tree, IDELabel.Menu.NEW, false));
+			menu.menu(wizardType.getAnnotationType()).click();
 			bot.sleep(Timing.time500MS());
-			bot.activeShell().bot().button("Cancel").click();
+			bot.activeShell().bot().button(IDELabel.Button.CANCEL).click();
 	
 		} catch (SWTException exc) {			
 			artifactWizardExists = false;

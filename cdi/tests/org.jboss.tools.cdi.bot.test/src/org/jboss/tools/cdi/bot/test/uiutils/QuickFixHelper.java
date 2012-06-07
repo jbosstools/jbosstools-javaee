@@ -10,6 +10,8 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.bot.test.uiutils;
 
+import org.eclipse.swtbot.swt.finder.widgets.SWTBotMenu;
+import org.eclipse.swtbot.swt.finder.widgets.SWTBotTree;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTreeItem;
 import org.jboss.tools.cdi.bot.test.CDIConstants;
 import org.jboss.tools.cdi.bot.test.CDITestBase;
@@ -18,6 +20,7 @@ import org.jboss.tools.cdi.bot.test.uiutils.wizards.OpenOnOptionsDialog;
 import org.jboss.tools.ui.bot.ext.SWTEclipseExt;
 import org.jboss.tools.ui.bot.ext.SWTJBTExt;
 import org.jboss.tools.ui.bot.ext.Timing;
+import org.jboss.tools.ui.bot.ext.helper.ContextMenuHelper;
 import org.jboss.tools.ui.bot.ext.types.IDELabel;
 import org.jboss.tools.ui.bot.ext.types.ViewType;
 import org.jboss.tools.ui.bot.ext.view.ProblemsView;
@@ -45,7 +48,12 @@ public class QuickFixHelper extends CDITestBase {
 	 * @param item
 	 */
 	public void openQuickFix(SWTBotTreeItem item) {
-		NodeContextUtil.nodeContextMenu(bot.tree(), item, CDIConstants.QUICK_FIX).click();
+		SWTBotTree problemsTree = bot.viewByTitle(
+				ViewType.PROBLEMS.getViewLabel()).bot().tree();
+		ContextMenuHelper.prepareTreeItemForContextMenu(
+				problemsTree, item);
+		new SWTBotMenu(ContextMenuHelper.getContextMenu(problemsTree, 
+				CDIConstants.QUICK_FIX, false)).click();
 	}
 	
 	/**
