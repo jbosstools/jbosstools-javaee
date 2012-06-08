@@ -8,12 +8,18 @@
   <MAPPING name="SeamNamespaces">
    <PAIR name="security" value="http://jboss.com/products/seam/security"/>
   </MAPPING>
+  <MAPPING name="SeamNamespacesOrg">
+   <PAIR name="security" value="http://jboss.org/schema/seam/security"/>
+  </MAPPING>
   <MAPPING name="SeamSchemas">
    <PAIR name="security" value="http://jboss.com/products/seam/security-1.2.xsd"/>
    <PAIR name="security$20" value="http://jboss.com/products/seam/security-2.0.xsd"/>
    <PAIR name="security$21" value="http://jboss.com/products/seam/security-2.1.xsd"/>
    <PAIR name="security$22" value="http://jboss.com/products/seam/security-2.2.xsd"/>
    <PAIR name="security$23" value="http://jboss.com/products/seam/security-2.3.xsd"/>
+  </MAPPING>
+  <MAPPING name="SeamSchemasOrg">
+   <PAIR name="security$230" value="http://jboss.org/schema/seam/security-2.3.xsd"/>
   </MAPPING>
  </MAPPINGS>
  <ICONS>
@@ -1022,6 +1028,27 @@
   </XActionItem>
  </XEntityExtension>
  <XEntityExtension name="FileSeamComponents23">
+  <XChildrenEntities>
+   <XChildEntity name="SeamSecurityIdentity21"/>
+   <XChildEntity name="SeamFacesSecurityEvents20"/>
+   <XChildEntity name="SeamSecurityIdentityManager21"/>
+   <XChildEntity name="SeamSecurityJPAIdentityStore21"/>
+   <XChildEntity name="SeamSecurityJPATokenStore22"/>
+   <XChildEntity name="SeamSecurityLDAPIdentityStore21"/>
+   <XChildEntity name="SeamSecurityPermissionManager21"/>
+   <XChildEntity name="SeamSecurityJPAPermissionStore21"/>
+   <XChildEntity name="SeamSecurityRuleBasedPermissionResolver21"/>
+   <XChildEntity name="SeamSecurityPersistentPermissionResolver21"/>
+   <XChildEntity name="SeamSecurityRememberMe22"/>
+  </XChildrenEntities>
+  <XActionItem kind="list">
+   <XActionItem ICON="action.empty" displayName="New" group="1"
+    kind="list" name="CreateActions">
+    <XActionItemReference entity="FileSeamComponents22" name="Security" path="CreateActions.Security"/>
+   </XActionItem>
+  </XActionItem>
+ </XEntityExtension>
+ <XEntityExtension name="FileSeamComponents230">
   <XChildrenEntities>
    <XChildEntity name="SeamSecurityIdentity21"/>
    <XChildEntity name="SeamFacesSecurityEvents20"/>

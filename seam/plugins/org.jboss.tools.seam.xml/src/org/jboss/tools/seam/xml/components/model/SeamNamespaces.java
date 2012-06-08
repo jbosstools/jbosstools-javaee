@@ -41,7 +41,8 @@ public class SeamNamespaces {
 	private Map<String, String> namespaceToSchema = new HashMap<String, String>();
 	
 	private SeamNamespaces(XModelMetaData meta, String versionSuffix) {
-		XMapping m = meta.getMapping("SeamNamespaces"); //$NON-NLS-1$
+		String namespacesMapping = "$230".equals(versionSuffix) ? "SeamNamespacesOrg" : "SeamNamespaces"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		XMapping m = meta.getMapping(namespacesMapping);
 		if(m == null) return;
 		this.versionSuffix = versionSuffix;
 		String[] keys = m.getKeys();
@@ -50,7 +51,8 @@ public class SeamNamespaces {
 			namespaceToURI.put(keys[i], v);
 			uriToNamespace.put(v, keys[i]);
 		}
-		m = meta.getMapping("SeamSchemas"); //$NON-NLS-1$
+		String schemasMapping = "$230".equals(versionSuffix) ? "SeamSchemasOrg" : "SeamSchemas"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		m = meta.getMapping(schemasMapping);
 		if(m == null) return;
 		keys = m.getKeys();
 		for (int i = 0; i < keys.length; i++) {
