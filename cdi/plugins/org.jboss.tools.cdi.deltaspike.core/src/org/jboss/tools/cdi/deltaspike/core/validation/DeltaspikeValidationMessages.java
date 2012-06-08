@@ -29,8 +29,6 @@ public class DeltaspikeValidationMessages extends NLS {
 	public static String INVALID_AUTHORIZER_NO_BINDINGS;
 	public static String INVALID_AUTHORIZER_NOT_BOOLEAN;
 	
-	public static String INVALID_AUTHORIZER;
-
 	static {
 		NLS.initializeMessages(BUNDLE_NAME, DeltaspikeValidationMessages.class);
 	}
