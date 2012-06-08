@@ -47,6 +47,8 @@ public class SeamPagesEntityRecognizer implements EntityRecognizer, SeamPagesCon
 	        Parser p = new Parser(body);
 	        if(!p.recognized) {
 	        	return null;
+	        } else if(p.isOrg) {
+	        	return p.isSingle ? ENT_FILE_SEAM_PAGE_23 : ENT_FILE_SEAM_PAGES_23;
 	        } else if(p.is20) {
 	        	return p.isSingle ? ENT_FILE_SEAM_PAGE_20 : ENT_FILE_SEAM_PAGES_20;
 	        } else if(p.is21) {
@@ -62,6 +64,7 @@ public class SeamPagesEntityRecognizer implements EntityRecognizer, SeamPagesCon
     	boolean isSingle = false;
     	boolean is20 = false;
     	boolean is21 = false;
+    	boolean isOrg = false;
 
     	Parser(String body) {
     		int i = body.indexOf("<page"); //$NON-NLS-1$
@@ -73,7 +76,9 @@ public class SeamPagesEntityRecognizer implements EntityRecognizer, SeamPagesCon
     	    int j = body.indexOf(">", i); //$NON-NLS-1$
     	    if(j < 0) return;
     	    String s = body.substring(i, j);
-    	    if(s.indexOf("\"http://jboss.com/products/seam/pages\"") < 0) { //$NON-NLS-1$
+    	    if(s.indexOf("\"http://jboss.org/schema/seam/pages\"") >= 0) { //$NON-NLS-1$
+    	    	isOrg = true;
+    	    } else if(s.indexOf("\"http://jboss.com/products/seam/pages\"") < 0) { //$NON-NLS-1$
     	    	return;
     	    }
     	    if(s.indexOf("2.0") >= 0) is20 = true;
