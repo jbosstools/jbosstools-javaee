@@ -8,10 +8,16 @@
   <MAPPING name="SeamNamespaces">
    <PAIR name="ui" value="http://jboss.com/products/seam/ui"/>
   </MAPPING>
+  <MAPPING name="SeamNamespacesOrg">
+   <PAIR name="ui" value="http://jboss.org/schema/seam/ui"/>
+  </MAPPING>
   <MAPPING name="SeamSchemas">
    <PAIR name="ui$21" value="http://jboss.com/products/seam/ui-2.1.xsd"/>
    <PAIR name="ui$22" value="http://jboss.com/products/seam/ui-2.2.xsd"/>
    <PAIR name="ui$23" value="http://jboss.com/products/seam/ui-2.3.xsd"/>
+  </MAPPING>
+  <MAPPING name="SeamSchemasOrg">
+   <PAIR name="ui$230" value="http://jboss.org/schema/seam/ui-2.3.xsd"/>
   </MAPPING>
  </MAPPINGS>
  <ICONS>
@@ -195,6 +201,19 @@
   </XActionItem>
  </XEntityExtension>
  <XEntityExtension name="FileSeamComponents23">
+  <XChildrenEntities>
+   <XChildEntity name="SeamUIJPA21"/>
+   <XChildEntity name="SeamUIHibernate21"/>
+   <XChildEntity name="SeamUIEntityConverter21"/>
+  </XChildrenEntities>
+  <XActionItem kind="list">
+   <XActionItem ICON="action.empty" displayName="New" group="1"
+    kind="list" name="CreateActions">
+    <XActionItemReference entity="FileSeamComponents21" name="UI" path="CreateActions.UI"/>
+   </XActionItem>
+  </XActionItem>
+ </XEntityExtension>
+ <XEntityExtension name="FileSeamComponents230">
   <XChildrenEntities>
    <XChildEntity name="SeamUIJPA21"/>
    <XChildEntity name="SeamUIHibernate21"/>

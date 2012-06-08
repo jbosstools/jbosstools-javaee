@@ -8,11 +8,17 @@
   <MAPPING name="SeamNamespaces">
    <PAIR name="jms" value="http://jboss.com/products/seam/jms"/>
   </MAPPING>
+  <MAPPING name="SeamNamespacesOrg">
+   <PAIR name="jms" value="http://jboss.org/schema/seam/jms"/>
+  </MAPPING>
   <MAPPING name="SeamSchemas">
    <PAIR name="jms" value="http://jboss.com/products/seam/jms-1.2.xsd"/>
    <PAIR name="jms$20" value="http://jboss.com/products/seam/jms-2.0.xsd"/>
    <PAIR name="jms$21" value="http://jboss.com/products/seam/jms-2.1.xsd"/>
    <PAIR name="jms$23" value="http://jboss.com/products/seam/jms-2.3.xsd"/>
+  </MAPPING>
+  <MAPPING name="SeamSchemasOrg">
+   <PAIR name="jms$230" value="http://jboss.org/schema/seam/jms-2.3.xsd"/>
   </MAPPING>
  </MAPPINGS>
  <ICONS>
@@ -423,6 +429,19 @@
   </XActionItem>
  </XEntityExtension>
  <XEntityExtension name="FileSeamComponents23">
+  <XChildrenEntities>
+   <XChildEntity name="SeamJmsQueueConnection"/>
+   <XChildEntity name="SeamJmsTopicConnection"/>
+   <XChildEntity name="SeamJmsTopicPublisher"/>
+   <XChildEntity name="SeamJmsQueueSender"/>
+  </XChildrenEntities>
+  <XActionItem kind="list">
+   <XActionItem ICON="action.empty" displayName="New" kind="list" name="CreateActions">
+    <XActionItemReference entity="FileSeamComponents21" name="JMS" path="CreateActions.JMS"/>
+   </XActionItem>
+  </XActionItem>
+ </XEntityExtension>
+ <XEntityExtension name="FileSeamComponents230">
   <XChildrenEntities>
    <XChildEntity name="SeamJmsQueueConnection"/>
    <XChildEntity name="SeamJmsTopicConnection"/>

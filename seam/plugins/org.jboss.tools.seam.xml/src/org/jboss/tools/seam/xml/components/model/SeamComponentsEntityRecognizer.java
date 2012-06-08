@@ -40,10 +40,11 @@ public class SeamComponentsEntityRecognizer implements EntityRecognizer, SeamCom
 			if(PUBLIC_ID_11.equals(publicId)) return ENT_SEAM_COMPONENTS_11;
 			return null;
 		}
-    	boolean isSingleComponent = isSingleComponent(body);
-    	if(!isComponentsSchema(body) && !isSingleComponent) {
+    	int isSingleComponent = isSingleComponent(body);
+    	if(isComponentsSchema(body) == NONE && isSingleComponent == NONE) {
     		return null;
     	}
+    	int isMultiComponent = isMultiComponent(body);
     	
     	int i = body.indexOf("xsi:schemaLocation"); //$NON-NLS-1$
     	if(i < 0) return null;
@@ -55,8 +56,9 @@ public class SeamComponentsEntityRecognizer implements EntityRecognizer, SeamCom
     	
     	int i12 = schemaLocation.indexOf("1.2"); //$NON-NLS-1$
     	if(i12 >= 0) {
-    		if(isSingleComponent) return ENT_SEAM_COMPONENT_12;
-    		if(isMultiComponent(body)) return ENT_SEAM_COMPONENTS_12;
+    		if(isSingleComponent == COM) return ENT_SEAM_COMPONENT_12;
+    		if(isMultiComponent == COM) return ENT_SEAM_COMPONENTS_12;
+    		return null;
     	}
     	//Let it work now for all 2.x versions
     	//If in future releases differences are essential, this should be modified
@@ -69,7 +71,7 @@ public class SeamComponentsEntityRecognizer implements EntityRecognizer, SeamCom
     		i23 = 0;
     	}
     	if(i23 >= 0) {
-    		if(isSingleComponent) {
+    		if(isSingleComponent == COM) {
     			if(i20 >= 0) {
     				return ENT_SEAM_COMPONENT_FILE_20;
     			}
@@ -81,7 +83,7 @@ public class SeamComponentsEntityRecognizer implements EntityRecognizer, SeamCom
     			}
     			return ENT_SEAM_COMPONENT_FILE_23;
     		}
-    		if(isMultiComponent(body)) {
+    		if(isMultiComponent == COM) {
     			if(i20 >= 0) {
     				return ENT_SEAM_COMPONENTS_20;
     			}
@@ -93,36 +95,49 @@ public class SeamComponentsEntityRecognizer implements EntityRecognizer, SeamCom
     			}
     			return ENT_SEAM_COMPONENTS_23;
     		}
+    		if(isSingleComponent == ORG && i23 >= 0) {
+    			return ENT_SEAM_COMPONENT_FILE_230;
+    		}
+    		if(isMultiComponent == ORG && i23 >= 0) {
+    			return ENT_SEAM_COMPONENTS_230;
+    		}
     	}
     	
         return null;
     }
+
+    static int NONE = 0;
+    static int COM = 1;
+    static int ORG = 2;
+
+    static String COM_SCHEMA = "\"http://jboss.com/products/seam/components\""; //$NON-NLS-1$
+    static String ORG_SCHEMA = "\"http://jboss.org/schema/seam/components\""; //$NON-NLS-1$
     
-    private boolean isComponentsSchema(String body) {
+    private int isComponentsSchema(String body) {
     	int i = body.indexOf("<components"); //$NON-NLS-1$
-    	if(i < 0) return false;
+    	if(i < 0) return NONE;
     	int j = body.indexOf(">", i); //$NON-NLS-1$
-    	if(j < 0) return false;
+    	if(j < 0) return NONE;
     	String s = body.substring(i, j);
-    	return s.indexOf("\"http://jboss.com/products/seam/components\"") > 0; //$NON-NLS-1$
+    	return s.indexOf(COM_SCHEMA) > 0 ? COM : s.indexOf(ORG_SCHEMA) > 0 ? ORG : NONE;
     }
     
-    private boolean isMultiComponent(String body) {
+    private int isMultiComponent(String body) {
     	int i = body.indexOf("<components"); //$NON-NLS-1$
-    	if(i < 0) return false;
+    	if(i < 0) return NONE;
     	int j = body.indexOf(">", i); //$NON-NLS-1$
-    	if(j < 0) return false;
+    	if(j < 0) return NONE;
     	String s = body.substring(i, j);
-    	return s.indexOf("\"http://jboss.com/products/seam/components\"") > 0; //$NON-NLS-1$
+    	return s.indexOf(COM_SCHEMA) > 0 ? COM : s.indexOf(ORG_SCHEMA) > 0 ? ORG : NONE;
     }
 
-    private boolean isSingleComponent(String body) {
+    private int isSingleComponent(String body) {
     	int i = body.indexOf("<component"); //$NON-NLS-1$
     	int is = body.indexOf("<components"); //$NON-NLS-1$
-    	if(i < 0 || is >= 0) return false;
+    	if(i < 0 || is >= 0) return NONE;
     	int j = body.indexOf(">", i); //$NON-NLS-1$
-    	if(j < 0) return false;
+    	if(j < 0) return NONE;
     	String s = body.substring(i, j);
-    	return s.indexOf("\"http://jboss.com/products/seam/components\"") > 0; //$NON-NLS-1$
+    	return s.indexOf(COM_SCHEMA) > 0 ? COM : s.indexOf(ORG_SCHEMA) > 0 ? ORG : NONE;
     }
 }

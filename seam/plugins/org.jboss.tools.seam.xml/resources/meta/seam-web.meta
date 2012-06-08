@@ -8,11 +8,17 @@
   <MAPPING name="SeamNamespaces">
    <PAIR name="web" value="http://jboss.com/products/seam/web"/>
   </MAPPING>
+  <MAPPING name="SeamNamespacesOrg">
+   <PAIR name="web" value="http://jboss.org/schema/seam/web"/>
+  </MAPPING>
   <MAPPING name="SeamSchemas">
    <PAIR name="web" value="http://jboss.com/products/seam/web-1.2.xsd"/>
    <PAIR name="web$20" value="http://jboss.com/products/seam/web-2.0.xsd"/>
    <PAIR name="web$21" value="http://jboss.com/products/seam/web-2.1.xsd"/>
    <PAIR name="web$23" value="http://jboss.com/products/seam/web-2.3.xsd"/>
+  </MAPPING>
+  <MAPPING name="SeamSchemasOrg">
+   <PAIR name="web$230" value="http://jboss.org/schema/seam/web-2.3.xsd"/>
   </MAPPING>
  </MAPPINGS>
  <ICONS>
@@ -1208,6 +1214,53 @@
   </XActionItem>
  </XEntityExtension>
  <XEntityExtension name="FileSeamComponents23">
+  <XChildrenEntities>
+   <XChildEntity name="SeamWebContextFilter20"/>
+   <XChildEntity name="SeamWebExceptionFilter20"/>
+   <XChildEntity name="SeamWebMultipartFilter20"/>
+   <XChildEntity name="SeamWebRedirectFilter20"/>
+   <XChildEntity name="SeamWebAuthenticationFilter20"/>
+   <XChildEntity name="SeamWebCharacterFilter20"/>
+   <XChildEntity name="SeamWebAjaxFilter20"/>
+   <XChildEntity name="SeamWebLoggingFilter20"/>
+   <XChildEntity name="SeamWebSession21"/>
+   <XChildEntity name="SeamWebIdentityFilter21"/>
+   <XChildEntity name="SeamWebWicketFilter21"/>
+   <XChildEntity name="SeamWebHotDeployFilter21"/>
+   <XChildEntity name="SeamWebRewriteFilter21"/>
+   <XChildEntity name="SeamWebCacheControlFilter23"/>
+  </XChildrenEntities>
+  <XActionItem kind="list">
+   <XActionItem ICON="action.empty" displayName="New" group="1"
+    kind="list" name="CreateActions">
+    <XActionItem ICON="action.empty" displayName="Web" group="1"
+     kind="list" name="Web">
+     <XActionItemReference entity="FileSeamComponents21" name="AddContextFilter"/>
+     <XActionItemReference entity="FileSeamComponents21" name="AddExceptionFilter"/>
+     <XActionItemReference entity="FileSeamComponents21" name="AddMultipartFilter"/>
+     <XActionItemReference entity="FileSeamComponents21" name="AddRedirectFilter"/>
+     <XActionItemReference entity="FileSeamComponents21" name="AddAuthenticationFilter"/>
+     <XActionItemReference entity="FileSeamComponents21" name="AddCharacterFilter"/>
+     <XActionItemReference entity="FileSeamComponents21" name="AddAjaxFilter"/>
+     <XActionItemReference entity="FileSeamComponents21" name="AddLoggingFilter"/>
+     <XActionItemReference entity="FileSeamComponents21" name="AddSession"/>
+     <XActionItemReference entity="FileSeamComponents21" name="AddIdentityFilter"/>
+     <XActionItemReference entity="FileSeamComponents21" name="AddWicketFilter"/>
+     <XActionItemReference entity="FileSeamComponents21" name="AddHotDeployFilter"/>
+     <XActionItemReference entity="FileSeamComponents21" name="AddRewriteFilter"/>
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="Cache Control Filter..." kind="action" name="AddCacheControlFilter">
+      <EntityData EntityName="SeamWebCacheControlFilter23">
+       <AttributeData AttributeName="name"/>
+       <AttributeData AttributeName="value" Mandatory="no"/>
+      </EntityData>
+     </XActionItem>
+    </XActionItem>
+   </XActionItem>
+  </XActionItem>
+ </XEntityExtension>
+ <XEntityExtension name="FileSeamComponents230">
   <XChildrenEntities>
    <XChildEntity name="SeamWebContextFilter20"/>
    <XChildEntity name="SeamWebExceptionFilter20"/>

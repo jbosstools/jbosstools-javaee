@@ -8,12 +8,18 @@
   <MAPPING name="SeamNamespaces">
    <PAIR name="pdf" value="http://jboss.com/products/seam/pdf"/>
   </MAPPING>
+  <MAPPING name="SeamNamespacesOrg">
+   <PAIR name="pdf" value="http://jboss.org/schema/seam/pdf"/>
+  </MAPPING>
   <MAPPING name="SeamSchemas">
    <PAIR name="pdf" value="http://jboss.com/products/seam/pdf-1.2.xsd"/>
    <PAIR name="pdf$20" value="http://jboss.com/products/seam/pdf-2.0.xsd"/>
    <PAIR name="pdf$21" value="http://jboss.com/products/seam/pdf-2.1.xsd"/>
    <PAIR name="pdf$22" value="http://jboss.com/products/seam/pdf-2.2.xsd"/>
    <PAIR name="pdf$23" value="http://jboss.com/products/seam/pdf-2.3.xsd"/>
+  </MAPPING>
+  <MAPPING name="SeamSchemasOrg">
+   <PAIR name="pdf$230" value="http://jboss.org/schema/seam/pdf-2.3.xsd"/>
   </MAPPING>
  </MAPPINGS>
  <ICONS>
@@ -251,6 +257,17 @@
   </XActionItem>
  </XEntityExtension>
  <XEntityExtension name="FileSeamComponents23">
+  <XChildrenEntities>
+   <XChildEntity name="SeamPdfKeyStoreConfig"/>
+  </XChildrenEntities>
+  <XActionItem kind="list">
+   <XActionItem ICON="action.empty" displayName="New" group="1"
+    kind="list" name="CreateActions">
+    <XActionItemReference entity="FileSeamComponents21" name="Pdf" path="CreateActions.Pdf"/>
+   </XActionItem>
+  </XActionItem>
+ </XEntityExtension>
+ <XEntityExtension name="FileSeamComponents230">
   <XChildrenEntities>
    <XChildEntity name="SeamPdfKeyStoreConfig"/>
   </XChildrenEntities>

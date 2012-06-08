@@ -8,11 +8,17 @@
   <MAPPING name="SeamNamespaces">
    <PAIR name="persistence" value="http://jboss.com/products/seam/persistence"/>
   </MAPPING>
+  <MAPPING name="SeamNamespacesOrg">
+   <PAIR name="persistence" value="http://jboss.org/schema/seam/persistence"/>
+  </MAPPING>
   <MAPPING name="SeamSchemas">
    <PAIR name="persistence$20" value="http://jboss.com/products/seam/persistence-2.0.xsd"/>
    <PAIR name="persistence$21" value="http://jboss.com/products/seam/persistence-2.1.xsd"/>
    <PAIR name="persistence$22" value="http://jboss.com/products/seam/persistence-2.2.xsd"/>
    <PAIR name="persistence$23" value="http://jboss.com/products/seam/persistence-2.3.xsd"/>
+  </MAPPING>
+  <MAPPING name="SeamSchemasOrg">
+   <PAIR name="persistence$230" value="http://jboss.org/schema/seam/persistence-2.3.xsd"/>
   </MAPPING>
  </MAPPINGS>
  <ICONS>
@@ -1002,6 +1008,22 @@
   </XActionItem>
  </XEntityExtension>
  <XEntityExtension name="FileSeamComponents23">
+  <XChildrenEntities>
+   <XChildEntity name="SeamPersistenceManagedContext"/>
+   <XChildEntity name="SeamPersistenceEntityManagerFactory"/>
+   <XChildEntity name="SeamPersistenceFilter"/>
+   <XChildEntity name="SeamPersistenceManagedHibernateSession"/>
+   <XChildEntity name="SeamPersistenceHibernateSessionFactory21"/>
+  </XChildrenEntities>
+  <XActionItem kind="list">
+   <XActionItem ICON="action.empty" displayName="New" group="1"
+    kind="list" name="CreateActions">
+    <XActionItemReference entity="FileSeamComponents21"
+     name="Persistence" path="CreateActions.Persistence"/>
+   </XActionItem>
+  </XActionItem>
+ </XEntityExtension>
+ <XEntityExtension name="FileSeamComponents230">
   <XChildrenEntities>
    <XChildEntity name="SeamPersistenceManagedContext"/>
    <XChildEntity name="SeamPersistenceEntityManagerFactory"/>

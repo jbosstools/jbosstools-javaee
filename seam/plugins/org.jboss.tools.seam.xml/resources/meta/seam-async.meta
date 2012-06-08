@@ -8,11 +8,17 @@
   <MAPPING name="SeamNamespaces">
    <PAIR name="async" value="http://jboss.com/products/seam/async"/>
   </MAPPING>
+  <MAPPING name="SeamNamespacesOrg">
+   <PAIR name="async" value="http://jboss.org/schema/seam/async"/>
+  </MAPPING>
   <MAPPING name="SeamSchemas">
    <PAIR name="async$20" value="http://jboss.com/products/seam/async-2.0.xsd"/>
    <PAIR name="async$21" value="http://jboss.com/products/seam/async-2.1.xsd"/>
    <PAIR name="async$22" value="http://jboss.com/products/seam/async-2.2.xsd"/>
    <PAIR name="async$23" value="http://jboss.com/products/seam/async-2.3.xsd"/>
+  </MAPPING>
+  <MAPPING name="SeamSchemasOrg">
+   <PAIR name="async$230" value="http://jboss.org/schema/seam/async-2.3.xsd"/>
   </MAPPING>
  </MAPPINGS>
  <ICONS>
@@ -272,6 +278,19 @@
   </XActionItem>
  </XEntityExtension>
  <XEntityExtension name="FileSeamComponents23">
+  <XChildrenEntities>
+   <XChildEntity name="SeamAsyncPool"/>
+   <XChildEntity name="SeamAsyncQuartz"/>
+   <XChildEntity name="SeamAsyncTimer"/>
+  </XChildrenEntities>
+  <XActionItem kind="list">
+   <XActionItem ICON="action.empty" displayName="New" group="1"
+    kind="list" name="CreateActions">
+    <XActionItemReference entity="FileSeamComponents21" name="Async" path="CreateActions.Async"/>
+   </XActionItem>
+  </XActionItem>
+ </XEntityExtension>
+ <XEntityExtension name="FileSeamComponents230">
   <XChildrenEntities>
    <XChildEntity name="SeamAsyncPool"/>
    <XChildEntity name="SeamAsyncQuartz"/>

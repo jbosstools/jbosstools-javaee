@@ -8,10 +8,16 @@
   <MAPPING name="SeamNamespaces">
    <PAIR name="wicket" value="http://jboss.com/products/seam/wicket"/>
   </MAPPING>
+  <MAPPING name="SeamNamespacesOrg">
+   <PAIR name="wicket" value="http://jboss.org/schema/seam/wicket"/>
+  </MAPPING>
   <MAPPING name="SeamSchemas">
    <PAIR name="wicket$21" value="http://jboss.com/products/seam/wicket-2.1.xsd"/>
    <PAIR name="wicket$22" value="http://jboss.com/products/seam/wicket-2.2.xsd"/>
    <PAIR name="wicket$23" value="http://jboss.com/products/seam/wicket-2.3.xsd"/>
+  </MAPPING>
+  <MAPPING name="SeamSchemasOrg">
+   <PAIR name="wicket$230" value="http://jboss.org/schema/seam/wicket-2.3.xsd"/>
   </MAPPING>
  </MAPPINGS>
  <ICONS>
@@ -103,6 +109,17 @@
   </XActionItem>
  </XEntityExtension>
  <XEntityExtension name="FileSeamComponents23">
+  <XChildrenEntities>
+   <XChildEntity name="SeamWicketWebApp21"/>
+  </XChildrenEntities>
+  <XActionItem kind="list">
+   <XActionItem ICON="action.empty" displayName="New" group="1"
+    kind="list" name="CreateActions">
+    <XActionItemReference entity="FileSeamComponents21" name="Wicket" path="CreateActions.Wicket"/>
+   </XActionItem>
+  </XActionItem>
+ </XEntityExtension>
+ <XEntityExtension name="FileSeamComponents230">
   <XChildrenEntities>
    <XChildEntity name="SeamWicketWebApp21"/>
   </XChildrenEntities>

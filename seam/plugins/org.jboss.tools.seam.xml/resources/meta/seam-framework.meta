@@ -8,12 +8,18 @@
   <MAPPING name="SeamNamespaces">
    <PAIR name="framework" value="http://jboss.com/products/seam/framework"/>
   </MAPPING>
+  <MAPPING name="SeamNamespacesOrg">
+   <PAIR name="framework" value="http://jboss.org/schema/seam/framework"/>
+  </MAPPING>
   <MAPPING name="SeamSchemas">
    <PAIR name="framework" value="http://jboss.com/products/seam/framework-1.2.xsd"/>
    <PAIR name="framework$20" value="http://jboss.com/products/seam/framework-2.0.xsd"/>
    <PAIR name="framework$21" value="http://jboss.com/products/seam/framework-2.1.xsd"/>
    <PAIR name="framework$22" value="http://jboss.com/products/seam/framework-2.2.xsd"/>
    <PAIR name="framework$23" value="http://jboss.com/products/seam/framework-2.3.xsd"/>
+  </MAPPING>
+  <MAPPING name="SeamSchemasOrg">
+   <PAIR name="framework$230" value="http://jboss.org/schema/seam/framework-2.3.xsd"/>
   </MAPPING>
  </MAPPINGS>
  <ICONS>
@@ -812,6 +818,20 @@
   </XActionItem>
  </XEntityExtension>
  <XEntityExtension name="FileSeamComponents23">
+  <XChildrenEntities>
+   <XChildEntity name="SeamFrameworkEntityQuery21"/>
+   <XChildEntity name="SeamFrameworkHibernateEntityQuery21"/>
+   <XChildEntity name="SeamFrameworkEntityHome"/>
+   <XChildEntity name="SeamFrameworkHibernateEntityHome"/>
+  </XChildrenEntities>
+  <XActionItem kind="list">
+   <XActionItem ICON="action.empty" displayName="New" group="1"
+    kind="list" name="CreateActions">
+    <XActionItemReference entity="FileSeamComponents21" name="Framework" path="CreateActions.Framework"/>
+   </XActionItem>
+  </XActionItem>
+ </XEntityExtension>
+ <XEntityExtension name="FileSeamComponents230">
   <XChildrenEntities>
    <XChildEntity name="SeamFrameworkEntityQuery21"/>
    <XChildEntity name="SeamFrameworkHibernateEntityQuery21"/>
