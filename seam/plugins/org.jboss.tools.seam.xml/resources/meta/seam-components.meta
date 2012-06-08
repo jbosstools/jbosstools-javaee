@@ -2810,6 +2810,8 @@
    <XChildEntity name="FileSeamComponent22"/>
    <XChildEntity name="FileSeamComponents23"/>
    <XChildEntity name="FileSeamComponent23"/>
+   <XChildEntity name="FileSeamComponents230"/>
+   <XChildEntity name="FileSeamComponent230"/>
   </XChildrenEntities>
   <XActionItem kind="list">
    <XActionItem ICON="action.empty" displayName="New" group="1"
@@ -2850,6 +2852,8 @@
    <XChildEntity name="FileSeamComponent22"/>
    <XChildEntity name="FileSeamComponents23"/>
    <XChildEntity name="FileSeamComponent23"/>
+   <XChildEntity name="FileSeamComponents230"/>
+   <XChildEntity name="FileSeamComponent230"/>
   </XChildrenEntities>
   <XActionItem kind="list"/>
  </XEntityExtension>
@@ -2866,6 +2870,8 @@
    <XChildEntity name="FileSeamComponent22"/>
    <XChildEntity name="FileSeamComponents23"/>
    <XChildEntity name="FileSeamComponent23"/>
+   <XChildEntity name="FileSeamComponents230"/>
+   <XChildEntity name="FileSeamComponent230"/>
   </XChildrenEntities>
   <XActionItem kind="list"/>
  </XEntityExtension>

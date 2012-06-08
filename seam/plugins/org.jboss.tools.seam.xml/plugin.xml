@@ -5,6 +5,7 @@
    <extension point="org.jboss.tools.common.model.meta">
       <meta path="meta/seam-components.meta"/>
       <meta path="meta/seam-async.meta"/>
+      <meta path="meta/seam-cache.meta"/>
       <meta path="meta/seam-core.meta"/>
       <meta path="meta/seam-drools.meta"/>
       <meta path="meta/seam-framework.meta"/>

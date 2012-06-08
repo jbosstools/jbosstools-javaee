@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE XModelEntityGroup PUBLIC "-//Red Hat, Inc.//DTD Meta 1.0//EN"
+                                   "meta.dtd">
+<XModelEntityGroup>
+ <VERSION DEPENDS="Model:1.0" MODULE="Seam" VERSION="1.0"/>
+ <MAPPINGS>
+  <MAPPING name="Handlers"/>
+  <MAPPING name="SeamNamespaces">
+   <PAIR name="cache" value="http://jboss.com/products/seam/cache"/>
+  </MAPPING>
+  <MAPPING name="SeamNamespacesOrg">
+   <PAIR name="cache" value="http://jboss.org/schema/seam/cache"/>
+  </MAPPING>
+  <MAPPING name="SeamSchemas">
+   <PAIR name="cache$21" value="http://jboss.com/products/seam/cache-2.1.xsd"/>
+   <PAIR name="cache$22" value="http://jboss.com/products/seam/cache-2.2.xsd"/>
+   <PAIR name="cache$23" value="http://jboss.com/products/seam/cache-2.3.xsd"/>
+  </MAPPING>
+  <MAPPING name="SeamSchemasOrg">
+   <PAIR name="cache$230" value="http://jboss.org/schema/seam/cache-2.3.xsd"/>
+  </MAPPING>
+ </MAPPINGS>
+ <ICONS>
+  <GROUP name="action">
+   <GROUP name="new">
+    <GROUP name="cache"/>
+   </GROUP>
+  </GROUP>
+  <GROUP name="main">
+   <GROUP name="seam">
+    <GROUP name="cache"/>
+   </GROUP>
+  </GROUP>
+ </ICONS>
+ <GlobalActions kind="list"/>
+ <XModelEntity ImplementingClass="%Custom%"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.core.SeamComponentsCoreFormLayoutData"
+  XMLSUBPATH="cache:eh-cache-provider" name="SeamCacheEhProvider">
+  <XChildrenEntities/>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.seam.pdf.store" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="eh cache provider" loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="id=true;category=general"
+    default="org.jboss.seam.cache.ehCacheProvider" name="name" xmlname="name"/>
+   <XModelAttributeReference
+    attributes="class,scope,precedence,installed,auto-create"
+    entity="SeamComponent" name="component"/>
+   <XModelAttribute PROPERTIES="category=general" name="default-region" xmlname="default-region"/>
+   <XModelAttribute PROPERTIES="category=general" name="configuration" xmlname="configuration"/>
+   <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem kind="list" name="CreateActions"/>
+   <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions">
+    <XActionItemReference entity="SeamComponent" name="Rename" path="EditActions/Rename"/>
+   </XActionItem>
+   <XActionItem ICON="action.copy" displayName="Copy" kind="list" name="CopyActions">
+    <XActionItem BaseActionName="Copy" HandlerClassName="%Copy%"
+     ICON="action.copy" displayName="Copy" kind="action" name="Copy"/>
+    <XActionItem BaseActionName="Cut" HandlerClassName="%Cut%"
+     ICON="action.cut" displayName="Cut" kind="action" name="Cut"/>
+   </XActionItem>
+   <XActionItem ICON="action.delete" displayName="Delete" kind="list" name="DeleteActions">
+    <XActionItem BaseActionName="Delete" HandlerClassName="%Delete%"
+     ICON="action.delete" displayName="Delete" kind="action" name="Delete"/>
+   </XActionItem>
+   <XActionItem ICON="action.empty" kind="list" name="Properties">
+    <XActionItem HandlerClassName="%Properties%" ICON="action.empty"
+     displayName="Properties..." kind="action" name="Properties"/>
+   </XActionItem>
+   <XActionItem displayName="move" kind="list" name="MoveActions">
+    <XActionItem HIDE="always" HandlerClassName="%Move%"
+     ICON="action.move" displayName="Move" kind="action" name="Move"/>
+   </XActionItem>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity ImplementingClass="%Custom%"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.core.SeamComponentsCoreFormLayoutData"
+  XMLSUBPATH="cache:infinispan-cache-provider" name="SeamCacheInfinispanProvider">
+  <XChildrenEntities/>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.seam.pdf.store" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="infinispan cache provider"
+    loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="id=true;category=general"
+    default="org.jboss.seam.cache.infinispanCacheProvider" name="name" xmlname="name"/>
+   <XModelAttributeReference
+    attributes="class,scope,precedence,installed,auto-create"
+    entity="SeamComponent" name="component"/>
+   <XModelAttributeReference attributes="default-region,configuration"
+    entity="SeamCacheEhProvider" name="cache"/>
+   <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem kind="list" name="CreateActions"/>
+   <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions">
+    <XActionItemReference entity="SeamComponent" name="Rename" path="EditActions/Rename"/>
+   </XActionItem>
+   <XActionItemReference entity="SeamCacheEhProvider" name="CopyActions"/>
+   <XActionItemReference entity="SeamCacheEhProvider" name="DeleteActions"/>
+   <XActionItemReference entity="SeamCacheEhProvider" name="Properties"/>
+   <XActionItemReference entity="SeamCacheEhProvider" name="MoveActions"/>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity ImplementingClass="%Custom%"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.core.SeamComponentsCoreFormLayoutData"
+  XMLSUBPATH="cache:jboss-cache2-provider" name="SeamCacheJboss2Provider">
+  <XChildrenEntities/>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.seam.pdf.store" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="jboss cache 2 provider"
+    loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="id=true;category=general"
+    default="org.jboss.seam.cache.jbossCache2Provider" name="name" xmlname="name"/>
+   <XModelAttributeReference
+    attributes="class,scope,precedence,installed,auto-create"
+    entity="SeamComponent" name="component"/>
+   <XModelAttributeReference attributes="default-region,configuration"
+    entity="SeamCacheEhProvider" name="cache"/>
+   <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem kind="list" name="CreateActions"/>
+   <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions">
+    <XActionItemReference entity="SeamComponent" name="Rename" path="EditActions/Rename"/>
+   </XActionItem>
+   <XActionItemReference entity="SeamCacheEhProvider" name="CopyActions"/>
+   <XActionItemReference entity="SeamCacheEhProvider" name="DeleteActions"/>
+   <XActionItemReference entity="SeamCacheEhProvider" name="Properties"/>
+   <XActionItemReference entity="SeamCacheEhProvider" name="MoveActions"/>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity ImplementingClass="%Custom%"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.core.SeamComponentsCoreFormLayoutData"
+  XMLSUBPATH="cache:jboss-cache-provider" name="SeamCacheJbossProvider">
+  <XChildrenEntities/>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.seam.pdf.store" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="jboss cache provider" loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="id=true;category=general"
+    default="org.jboss.seam.cache.jbossCacheProvider" name="name" xmlname="name"/>
+   <XModelAttributeReference
+    attributes="class,scope,precedence,installed,auto-create"
+    entity="SeamComponent" name="component"/>
+   <XModelAttributeReference attributes="default-region,configuration"
+    entity="SeamCacheEhProvider" name="cache"/>
+   <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem kind="list" name="CreateActions"/>
+   <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions">
+    <XActionItemReference entity="SeamComponent" name="Rename" path="EditActions/Rename"/>
+   </XActionItem>
+   <XActionItemReference entity="SeamCacheEhProvider" name="CopyActions"/>
+   <XActionItemReference entity="SeamCacheEhProvider" name="DeleteActions"/>
+   <XActionItemReference entity="SeamCacheEhProvider" name="Properties"/>
+   <XActionItemReference entity="SeamCacheEhProvider" name="MoveActions"/>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XModelEntity ImplementingClass="%Custom%"
+  PROPERTIES="formFactory=%Default%;formLayout=org.jboss.tools.seam.xml.ui.editor.form.core.SeamComponentsCoreFormLayoutData"
+  XMLSUBPATH="cache:jboss-pojo-cache-provider" name="SeamCachePojoProvider">
+  <XChildrenEntities/>
+  <XEntityRenderer>
+   <ICONS>
+    <ICON info="main.seam.pdf.store" type="main"/>
+   </ICONS>
+  </XEntityRenderer>
+  <XModelAttributes>
+   <XModelAttribute default="jboss pojo cache provider"
+    loader="ElementType" name="element type">
+    <Editor name="Uneditable"/>
+   </XModelAttribute>
+   <XModelAttribute PROPERTIES="id=true;category=general"
+    default="org.jboss.seam.cache.jbossPojoCacheProvider" name="name" xmlname="name"/>
+   <XModelAttributeReference
+    attributes="class,scope,precedence,installed,auto-create"
+    entity="SeamComponent" name="component"/>
+   <XModelAttributeReference attributes="default-region,configuration"
+    entity="SeamCacheEhProvider" name="cache"/>
+   <XModelAttribute TRIM="no" name="comment" visibility="false" xmlname="#comment">
+    <Editor name="Note"/>
+   </XModelAttribute>
+  </XModelAttributes>
+  <XActionItem kind="list">
+   <XActionItem kind="list" name="CreateActions"/>
+   <XActionItem ICON="action.empty" displayName="Create" kind="list" name="EditActions">
+    <XActionItemReference entity="SeamComponent" name="Rename" path="EditActions/Rename"/>
+   </XActionItem>
+   <XActionItemReference entity="SeamCacheEhProvider" name="CopyActions"/>
+   <XActionItemReference entity="SeamCacheEhProvider" name="DeleteActions"/>
+   <XActionItemReference entity="SeamCacheEhProvider" name="Properties"/>
+   <XActionItemReference entity="SeamCacheEhProvider" name="MoveActions"/>
+  </XActionItem>
+  <XDependencies/>
+ </XModelEntity>
+ <XEntityExtension name="FileSeamComponents21">
+  <XChildrenEntities>
+   <XChildEntity name="SeamCacheEhProvider"/>
+   <XChildEntity name="SeamCacheJbossProvider"/>
+   <XChildEntity name="SeamCacheJboss2Provider"/>
+   <XChildEntity name="SeamCachePojoProvider"/>
+   <XChildEntity name="SeamCacheInfinispanProvider"/>
+  </XChildrenEntities>
+  <XActionItem kind="list">
+   <XActionItem ICON="action.empty" displayName="New" group="1"
+    kind="list" name="CreateActions">
+    <XActionItem ICON="action.empty" displayName="Cache" group="1"
+     kind="list" name="Cache">
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="Eh Cache Provider..." kind="action" name="AddCacheEhProvider">
+      <EntityData EntityName="SeamCacheEhProvider">
+       <AttributeData AttributeName="name"/>
+       <AttributeData AttributeName="default-region" Mandatory="no"/>
+       <AttributeData AttributeName="configuration" Mandatory="no"/>
+      </EntityData>
+     </XActionItem>
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="JBoss Cache Provider..." kind="action" name="AddCacheJbossProvider">
+      <EntityData EntityName="SeamCacheJbossProvider">
+       <AttributeData AttributeName="name"/>
+       <AttributeData AttributeName="default-region" Mandatory="no"/>
+       <AttributeData AttributeName="configuration" Mandatory="no"/>
+      </EntityData>
+     </XActionItem>
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="JBoss Cache 2 Provider..." kind="action" name="AddCacheJboss2Provider">
+      <EntityData EntityName="SeamCacheJboss2Provider">
+       <AttributeData AttributeName="name"/>
+       <AttributeData AttributeName="default-region" Mandatory="no"/>
+       <AttributeData AttributeName="configuration" Mandatory="no"/>
+      </EntityData>
+     </XActionItem>
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="JBoss Pojo Cache Provider..." kind="action" name="AddCachePojoProvider">
+      <EntityData EntityName="SeamCachePojoProvider">
+       <AttributeData AttributeName="name"/>
+       <AttributeData AttributeName="default-region" Mandatory="no"/>
+       <AttributeData AttributeName="configuration" Mandatory="no"/>
+      </EntityData>
+     </XActionItem>
+     <XActionItem HandlerClassName="%Create%" ICON="action.empty"
+      PROPERTIES="validator.add=true" WizardClassName="%Default%"
+      displayName="Infinispan Cache Provider..." kind="action" name="AddCacheInfinispanProvider">
+      <EntityData EntityName="SeamCacheInfinispanProvider">
+       <AttributeData AttributeName="name"/>
+       <AttributeData AttributeName="default-region" Mandatory="no"/>
+       <AttributeData AttributeName="configuration" Mandatory="no"/>
+      </EntityData>
+     </XActionItem>
+    </XActionItem>
+   </XActionItem>
+  </XActionItem>
+ </XEntityExtension>
+ <XEntityExtension name="FileSeamComponents22">
+  <XChildrenEntities>
+   <XChildEntity name="SeamCacheEhProvider"/>
+   <XChildEntity name="SeamCacheJbossProvider"/>
+   <XChildEntity name="SeamCacheJboss2Provider"/>
+   <XChildEntity name="SeamCachePojoProvider"/>
+   <XChildEntity name="SeamCacheInfinispanProvider"/>
+  </XChildrenEntities>
+  <XActionItem kind="list">
+   <XActionItem ICON="action.empty" displayName="New" group="1"
+    kind="list" name="CreateActions">
+    <XActionItemReference entity="FileSeamComponents21" name="Cache" path="CreateActions.Cache"/>
+   </XActionItem>
+  </XActionItem>
+ </XEntityExtension>
+ <XEntityExtension name="FileSeamComponents23">
+  <XChildrenEntities>
+   <XChildEntity name="SeamCacheEhProvider"/>
+   <XChildEntity name="SeamCacheJbossProvider"/>
+   <XChildEntity name="SeamCacheJboss2Provider"/>
+   <XChildEntity name="SeamCachePojoProvider"/>
+   <XChildEntity name="SeamCacheInfinispanProvider"/>
+  </XChildrenEntities>
+  <XActionItem kind="list">
+   <XActionItem ICON="action.empty" displayName="New" group="1"
+    kind="list" name="CreateActions">
+    <XActionItemReference entity="FileSeamComponents21" name="Cache" path="CreateActions.Cache"/>
+   </XActionItem>
+  </XActionItem>
+ </XEntityExtension>
+ <XEntityExtension name="FileSeamComponents230">
+  <XChildrenEntities>
+   <XChildEntity name="SeamCacheEhProvider"/>
+   <XChildEntity name="SeamCacheJbossProvider"/>
+   <XChildEntity name="SeamCacheJboss2Provider"/>
+   <XChildEntity name="SeamCachePojoProvider"/>
+   <XChildEntity name="SeamCacheInfinispanProvider"/>
+  </XChildrenEntities>
+  <XActionItem kind="list">
+   <XActionItem ICON="action.empty" displayName="New" group="1"
+    kind="list" name="CreateActions">
+    <XActionItemReference entity="FileSeamComponents21" name="Cache" path="CreateActions.Cache"/>
+   </XActionItem>
+  </XActionItem>
+ </XEntityExtension>
+</XModelEntityGroup>
