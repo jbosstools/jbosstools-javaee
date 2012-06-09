@@ -55,7 +55,6 @@ public class JsfUiAllTests {
 		TestSuite suite = new TestSuite("JSF UI tests"); //$NON-NLS-1$
 
 		ValidationFramework.getDefault().suspendAllValidation(true);
-/*
 		suite.addTestSuite(JBossPerspectiveTest.class);
 		suite.addTestSuite(NewJSFProjectTest.class);
 		suite.addTestSuite(CAForUnclosedELTest.class);
@@ -171,7 +170,7 @@ public class JsfUiAllTests {
 				CAJsfResourceBundlePropertyApplyTest.class), "org.jboss.tools.jsf.base.test", //$NON-NLS-1$
 				new String[] { "projects/JSF2KickStartWithoutLibs", }, //$NON-NLS-1$
 				new String[] { "JSF2KickStartWithoutLibs" })); //$NON-NLS-1$
-*/
+
 		suite.addTest(new ProjectImportTestSetup(new TestSuite(
 				JSFAsYouTypeInJavaValidationTest.class), "org.jboss.tools.jsf.base.test", //$NON-NLS-1$
 				new String[] { "projects/JSF2KickStartWithoutLibs", }, //$NON-NLS-1$
