@@ -24,6 +24,7 @@ import org.jboss.tools.cdi.ui.test.search.CDISearchParticipantTest;
 import org.jboss.tools.cdi.ui.test.search.ELReferencesQueryParticipantTest;
 import org.jboss.tools.cdi.ui.test.search.FiveDependentProjectsSearchParticipantTest;
 import org.jboss.tools.cdi.ui.test.search.FiveDependentProjectsTestSetup;
+import org.jboss.tools.cdi.ui.test.validation.java.CDIAsYouTypeInJavaValidationTest;
 import org.jboss.tools.cdi.ui.test.wizard.AddQualifiersToBeanWizardTest;
 import org.jboss.tools.cdi.ui.test.wizard.NewCDIClassWizardFactoryTest;
 import org.jboss.tools.cdi.ui.test.wizard.NewCDIWebProjectWizardTest;
@@ -61,13 +62,14 @@ public class CDIUIAllTests {
 		suite.addTestSuite(ELReferencesQueryParticipantTest.class);
 		suite.addTestSuite(CATest.class);
 		suite.addTestSuite(OpenCDINamedBeanDialogTest.class);
+		suite.addTestSuite(CDIAsYouTypeInJavaValidationTest.class);
 
 		suiteAll.addTest(new CDICoreTestSetup(suite));
 
 		suiteAll.addTestSuite(AddQualifiersToBeanWizardTest.class);
 
 		suiteAll.addTestSuite(CDIRefactoringTest.class);
-		
+
 		TestSuite dependentSuite = new TestSuite("Dependent Projects Tests");
 		dependentSuite.addTestSuite(FiveDependentProjectsSearchParticipantTest.class);
 		FiveDependentProjectsTestSetup dependent = new FiveDependentProjectsTestSetup(dependentSuite);
