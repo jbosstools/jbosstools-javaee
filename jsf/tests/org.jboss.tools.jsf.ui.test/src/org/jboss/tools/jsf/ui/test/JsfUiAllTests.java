@@ -46,6 +46,7 @@ import org.jboss.tools.jsf.jsp.ca.test.JspElFunctionsTest;
 import org.jboss.tools.jsf.jsp.ca.test.WebContentAssistProviderTest;
 import org.jboss.tools.jsf.jsp.hover.ELTooltipTest;
 import org.jboss.tools.jsf.ui.test.refactoring.ELReferencesRenameTest;
+import org.jboss.tools.jsf.ui.test.validation.java.JSFAsYouTypeInJavaValidationTest;
 import org.jboss.tools.test.util.ProjectImportTestSetup;
 
 public class JsfUiAllTests {
@@ -54,7 +55,7 @@ public class JsfUiAllTests {
 		TestSuite suite = new TestSuite("JSF UI tests"); //$NON-NLS-1$
 
 		ValidationFramework.getDefault().suspendAllValidation(true);
-
+/*
 		suite.addTestSuite(JBossPerspectiveTest.class);
 		suite.addTestSuite(NewJSFProjectTest.class);
 		suite.addTestSuite(CAForUnclosedELTest.class);
@@ -168,6 +169,11 @@ public class JsfUiAllTests {
 
 		suite.addTest(new ProjectImportTestSetup(new TestSuite(
 				CAJsfResourceBundlePropertyApplyTest.class), "org.jboss.tools.jsf.base.test", //$NON-NLS-1$
+				new String[] { "projects/JSF2KickStartWithoutLibs", }, //$NON-NLS-1$
+				new String[] { "JSF2KickStartWithoutLibs" })); //$NON-NLS-1$
+*/
+		suite.addTest(new ProjectImportTestSetup(new TestSuite(
+				JSFAsYouTypeInJavaValidationTest.class), "org.jboss.tools.jsf.base.test", //$NON-NLS-1$
 				new String[] { "projects/JSF2KickStartWithoutLibs", }, //$NON-NLS-1$
 				new String[] { "JSF2KickStartWithoutLibs" })); //$NON-NLS-1$
 
