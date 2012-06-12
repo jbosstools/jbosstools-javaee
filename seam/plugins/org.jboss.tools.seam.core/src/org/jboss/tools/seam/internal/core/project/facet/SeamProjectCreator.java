@@ -126,7 +126,7 @@ public class SeamProjectCreator {
 	private String jbossSeamPath;
 
 	private static final Map<String,String> COMPILER_LEVEL_TO_EXEC_ENV = new HashMap<String,String>();
-    
+
     static
     {
         COMPILER_LEVEL_TO_EXEC_ENV.put( JavaCore.VERSION_1_3, "J2SE-1.3" ); //$NON-NLS-1$
@@ -150,7 +150,7 @@ public class SeamProjectCreator {
 		earProjectName = model.getStringProperty(ISeamFacetDataModelProperties.SEAM_EAR_PROJECT);
 		ejbProjectName = model.getStringProperty(ISeamFacetDataModelProperties.SEAM_EJB_PROJECT);
 		testProjectName = model.getStringProperty(ISeamFacetDataModelProperties.SEAM_TEST_PROJECT);
-		
+
 		seamRuntime = SeamRuntimeManager.getInstance().findRuntimeByName(model.getProperty(ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME).toString());
 		if(seamRuntime==null) {
 			throw new RuntimeException("Can't get seam runtime " + model.getProperty(ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME).toString());
@@ -163,7 +163,7 @@ public class SeamProjectCreator {
 		filtersFilterSet =  SeamFacetFilterSetFactory.createFiltersFilterSet(model);
 		seamGenResFolder = new File(seamGenHomeFolder, "resources"); //$NON-NLS-1$
 		persistenceFile = new File(seamGenResFolder, "META-INF/persistence-" + (SeamFacetAbstractInstallDelegate.isWarConfiguration(model) ? DEV_WAR_PROFILE : DEV_EAR_PROFILE) + ".xml"); //$NON-NLS-1$ //$NON-NLS-2$
-		
+
 		try {
 			hibernateConsoleLaunchFile = new File(SeamFacetInstallDataModelProvider.getTemplatesFolder(), "hibernatetools/hibernate-console.launch");
 		} catch (IOException e) {
@@ -274,7 +274,7 @@ public class SeamProjectCreator {
 				});
 				StringBuffer earJarsStrWar = new StringBuffer();
 				StringBuffer earJarsStrEjb = new StringBuffer();
-				
+
 				if(earJars != null){
 					for (File file : earJars) {
 						earJarsStrWar.append(" ").append(file.getName()).append(" \n");
@@ -293,7 +293,7 @@ public class SeamProjectCreator {
 				FilterSet manifestFilterWar = new FilterSet();
 				manifestFilterWar.addFilter("earLibs", earJarsStrWar.toString()); //$NON-NLS-1$
 				manifestFilterColWar.addFilterSet(manifestFilterWar);
-				
+
 				if(shouldCopyLibrariesAndTemplates(model))
 					AntCopyUtils.copyFileToFolder(new File(SeamFacetInstallDataModelProvider.getTemplatesFolder(), "war/META-INF/MANIFEST.MF"), webMetaInf, manifestFilterColWar, true); //$NON-NLS-1$
 
@@ -301,7 +301,7 @@ public class SeamProjectCreator {
 				FilterSet manifestFilterEjb = new FilterSet();
 				manifestFilterEjb.addFilter("earClasspath", earJarsStrEjb.toString()); //$NON-NLS-1$
 				manifestFilterColEjb.addFilterSet(manifestFilterEjb);
-				
+
 				if(shouldCopyLibrariesAndTemplates(model))
 					AntCopyUtils.copyFileToFolder(new File(SeamFacetInstallDataModelProvider.getTemplatesFolder(), "ejb/ejbModule/META-INF/MANIFEST.MF"), ejbMetaInf, manifestFilterColEjb, true); //$NON-NLS-1$
 			} catch (IOException e) {
@@ -559,7 +559,7 @@ public class SeamProjectCreator {
 	protected void createEjbProject() {
 		if(!shouldCopyLibrariesAndTemplates(model))
 			return;
-		
+
 		ejbProjectFolder.mkdir();
 
 		AntCopyUtils.copyFilesAndFolders(
@@ -579,7 +579,7 @@ public class SeamProjectCreator {
 			new File(ejbProjectFolder, "ejbModule/META-INF/persistence.xml"), //$NON-NLS-1$
 			viewFilterSetCollection, true);
 
-		SeamFacetAbstractInstallDelegate.createComponentsProperties(new File(ejbProjectFolder, "ejbModule"), earProjectName, false); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		createComponentsProperties();
 
 		AntCopyUtils.FileSet ejbSrcResourcesSet = new AntCopyUtils.FileSet(SeamFacetAbstractInstallDelegate.JBOOS_EJB_WEB_INF_CLASSES_SET).dir(seamGenResFolder);
 		AntCopyUtils.copyFilesAndFolders(
@@ -603,7 +603,6 @@ public class SeamProjectCreator {
 
 		ejbFilterSet.addFilter("connectionProfile", model.getStringProperty(ISeamFacetDataModelProperties.SEAM_CONNECTION_PROFILE));//$NON-NLS-1$
 
-		
 		AntCopyUtils.copyFileToFile(
 				hibernateConsoleLaunchFile,
 				new File(ejbProjectFolder, getLaunchCfgName(ejbProjectFolder.getName()) + ".launch"),  //$NON-NLS-1$
@@ -614,7 +613,11 @@ public class SeamProjectCreator {
 			ejbProjectFolder,
 			hibernateDialectFilterSet, true);
 	}
-	
+
+	protected void createComponentsProperties() {
+		SeamFacetAbstractInstallDelegate.createComponentsProperties(new File(ejbProjectFolder, "ejbModule"), earProjectName, false); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+	}
+
 	protected String getLaunchCfgName(String baseName){
 		ILaunchManager lm = DebugPlugin.getDefault().getLaunchManager();
 		return lm.generateUniqueLaunchConfigurationNameFrom(baseName);
@@ -636,7 +639,7 @@ public class SeamProjectCreator {
 	protected void createEarProject() {
 		if(!shouldCopyLibrariesAndTemplates(model))
 			return;
-		
+
 		earProjectFolder.mkdir();
 
 		File earContentsFolder = new File(earProjectFolder, "EarContent"); //$NON-NLS-1$
@@ -652,7 +655,7 @@ public class SeamProjectCreator {
 		} catch (IOException e) {
 			SeamCorePlugin.getPluginLog().logError(e);
 		}
-	
+
 		// Fill ear contents
 		AntCopyUtils.copyFiles(seamHomeFolder, earContentsFolder, new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(getJbossEarContent()).dir(seamHomeFolder)));
 		if (!SeamCorePlugin.getDefault().hasM2Facet(seamWebProject) && shouldCopyLibraries(model)) {
@@ -712,11 +715,11 @@ public class SeamProjectCreator {
 			SeamCorePlugin.getPluginLog().logError(e);
 		}
 	}
-	
+
 	protected void configureJBossAppXml() {
 		// Do nothing special for Seam 1.2
 	}
-	
+
 	protected boolean shouldCopyLibrariesAndTemplates(IDataModel model){
 		return model.getBooleanProperty(ISeamFacetDataModelProperties.SEAM_TEMPLATES_AND_LIBRARIES_COPYING);
 	}
