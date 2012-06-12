@@ -39,6 +39,8 @@ import org.jboss.tools.seam.core.project.facet.SeamRuntimeManager;
  */
 public class Seam23FacetInstallDelegate extends Seam2FacetInstallDelegate {
 
+	private static String RICHFACES_SKIN = "org.richfaces.skin"; //$NON-NLS-1$
+
 	public static AntCopyUtils.FileSet JBOOS_WAR_WEBINF_SET = new AntCopyUtils.FileSet()
 		.include("WEB-INF") //$NON-NLS-1$
 		.include("WEB-INF/pages\\.xml") //$NON-NLS-1$
@@ -167,6 +169,15 @@ public class Seam23FacetInstallDelegate extends Seam2FacetInstallDelegate {
 		return fileSet;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.jboss.tools.seam.internal.core.project.facet.Seam2FacetInstallDelegate#getSkinParamName()
+	 */
+	@Override
+	protected String getSkinParamName() {
+		return RICHFACES_SKIN;
+	}
+
 	private static SeamRuntime getSeamRuntime(IDataModel model) {
 		Object runtimeName = model.getProperty(ISeamFacetDataModelProperties.SEAM_RUNTIME_NAME);
 		SeamRuntime runtime = SeamRuntimeManager.getInstance().findRuntimeByName(runtimeName.toString());
@@ -202,7 +213,7 @@ public class Seam23FacetInstallDelegate extends Seam2FacetInstallDelegate {
 						} catch (CoreException e) {
 							SeamCorePlugin.getDefault().logError(e);
 						}
-						
+
 						IServer server = getServer(model);
 						if (serverSupportsSingleFileModule(server)) {
 							ChainedJob dsJob = new ResourceDeployer(project, server, resource.getFullPath().removeFirstSegments(1));
@@ -214,7 +225,7 @@ public class Seam23FacetInstallDelegate extends Seam2FacetInstallDelegate {
 			}
 		}
 	}
-	
+
 	private static boolean serverSupportsSingleFileModule(IServer s) {
 		IRuntimeType rt = s.getServerType().getRuntimeType();
 		if (ServerUtil.isSupportedModule(rt.getModuleTypes(),
