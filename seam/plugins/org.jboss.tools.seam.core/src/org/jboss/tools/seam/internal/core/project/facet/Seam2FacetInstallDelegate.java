@@ -155,7 +155,7 @@ public class Seam2FacetInstallDelegate extends SeamFacetAbstractInstallDelegate 
 			IDataModel model, IProgressMonitor monitor) throws CoreException {
 		if(!shouldCopyLibrariesAndTemplates(model))
 			return;
-		
+
 		super.copyFilesToWarProject(project, fv, model, monitor);
 		final File droolsLibFolder = new File(seamHomePath, DROOLS_LIB_SEAM_RELATED_PATH);
 		if(isWarConfiguration(model)) {
@@ -186,7 +186,7 @@ public class Seam2FacetInstallDelegate extends SeamFacetAbstractInstallDelegate 
 	protected void fillEarContents(IProject project, IDataModel model) {
 		if(!shouldCopyLibrariesAndTemplates(model))
 			return;
-		
+
 		if (!SeamCorePlugin.getDefault().hasM2Facet(project)) {
 			final File droolsLibFolder = new File(seamHomePath, DROOLS_LIB_SEAM_RELATED_PATH);
 			AntCopyUtils.copyFiles(seamHomeFolder, earContentsFolder, new AntCopyUtils.FileSetFileFilter(new AntCopyUtils.FileSet(JBOSS_EAR_CONTENT).dir(seamHomeFolder)), false);
@@ -289,6 +289,10 @@ public class Seam2FacetInstallDelegate extends SeamFacetAbstractInstallDelegate 
 		}
 	}
 
+	protected String getSkinParamName() {
+		return ORG_RICHFACES_SKIN;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * @see org.jboss.tools.seam.internal.core.project.facet.SeamFacetAbstractInstallDelegate#configure(org.eclipse.jst.javaee.web.WebApp)
@@ -296,13 +300,13 @@ public class Seam2FacetInstallDelegate extends SeamFacetAbstractInstallDelegate 
 	@Override
 	protected void configure(WebApp webApp, IProject project) {
 		JSFVersion jsfVersion = JSFVersion.valueOfProject(project);
-		
+
 		if (JSFVersion.V2_0.compareTo(jsfVersion) > 0) {
 			createOrUpdateContextParam(webApp, ORG_JBOSS_JBOSSFACES_JSF_CONFIG_NAME,
 					MOJARRA_1_2);
 		}
 		// Ajax4jsf
-		createOrUpdateContextParam(webApp, ORG_RICHFACES_SKIN,
+		createOrUpdateContextParam(webApp, getSkinParamName(),
 				ORG_RICHFACES_SKIN_VALUE);
 		// Seam
 		createOrUpdateListener(webApp,
