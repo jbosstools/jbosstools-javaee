@@ -47,21 +47,18 @@ public class DecoratorFromWebBeanTest extends CDITestBase {
 	
 	@Before
 	public void prepareWorkspace() {
-		if (!projectHelper.projectExists(getProjectName())) {
-			importCDITestProject(getProjectName(), 
-					"/resources/projects/" + 
-					getProjectName(), getProjectName());
-			eclipse.cleanAllProjects();
-		}
+		
 	}
 	
 	@After
-	public void waitForJobs() {
-		projectExplorer.deleteProject(getProjectName(), true);
+	public void cleanUp() {
+		projectExplorer.deleteAllProjects();
 	}
 	
 	@Test
 	public void testCreatingDecoratorWithMenu() {
+		
+		importCDITestProject(getProjectName());
 		
 		String[] path = (getProjectName() + "/" + CDIConstants.SRC
 				+ "/" + getPackageName()).split("/");
@@ -110,6 +107,8 @@ public class DecoratorFromWebBeanTest extends CDITestBase {
 	
 	@Test
 	public void testCreatingDecoratorWithWizard() {
+		
+		importCDITestProject(getProjectName());
 		
 		CDIWizardBase decoratorWizard = new NewCDIFileWizard(
 				CDIWizardType.DECORATOR).run();

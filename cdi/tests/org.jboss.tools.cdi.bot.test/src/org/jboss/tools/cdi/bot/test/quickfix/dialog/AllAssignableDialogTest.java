@@ -14,7 +14,7 @@ package org.jboss.tools.cdi.bot.test.quickfix.dialog;
 import org.jboss.tools.cdi.bot.test.CDIConstants;
 import org.jboss.tools.cdi.bot.test.CDITestBase;
 import org.jboss.tools.cdi.bot.test.uiutils.wizards.AssignableBeansDialog;
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class AllAssignableDialogTest extends CDITestBase {
@@ -26,14 +26,9 @@ public class AllAssignableDialogTest extends CDITestBase {
 		return "CDIAssignableDialogTest";
 	}
 	
-	@Before
-	public void prepareWorkspace() {
-		if (!projectHelper.projectExists(getProjectName())) {
-			importCDITestProject(getProjectName(),
-					"/resources/projects/" + 
-					getProjectName(), getProjectName());
-			eclipse.cleanAllProjects();
-		}
+	@BeforeClass
+	public static void prepareWS() {
+		importCDITestProject("CDIAssignableDialogTest");
 	}
 	
 	@Test

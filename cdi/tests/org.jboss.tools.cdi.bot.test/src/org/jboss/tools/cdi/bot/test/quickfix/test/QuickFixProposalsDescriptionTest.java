@@ -18,7 +18,7 @@ import org.eclipse.swtbot.swt.finder.widgets.SWTBotTableItem;
 import org.jboss.tools.cdi.bot.test.CDIConstants;
 import org.jboss.tools.cdi.bot.test.CDITestBase;
 import org.jboss.tools.cdi.bot.test.uiutils.wizards.OpenOnOptionsDialog;
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class QuickFixProposalsDescriptionTest extends CDITestBase {
@@ -28,14 +28,9 @@ public class QuickFixProposalsDescriptionTest extends CDITestBase {
 		return "CDIQuickFixProposals";
 	}
 	
-	@Before
-	public void prepareWorkspace() {
-		if (!projectHelper.projectExists(getProjectName())) {
-			importCDITestProject(getProjectName(),
-					"/resources/projects/" + 
-					getProjectName(), getProjectName());
-			eclipse.cleanAllProjects();
-		}
+	@BeforeClass
+	public static void prepareWS() {
+		importCDITestProject("CDIQuickFixProposals");
 	}
 	
 	@Test

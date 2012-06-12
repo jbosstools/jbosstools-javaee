@@ -80,13 +80,19 @@ public class CDITestBase extends SWTTestExt {
 		return packageName;
 	}
 	
-	protected void importCDITestProject(String projectName, 
+	protected static void importCDITestProject(String projectName) {
+		String location = "/resources/projects/" + projectName;
+		importCDITestProject(projectName, location, projectName);
+	}
+	
+	protected static void importCDITestProject(String projectName, 
 			String projectLocation, String dir) {
 		
 		ImportHelper.importProject(projectLocation, dir, PluginActivator.PLUGIN_ID);
 				
 		eclipse.addConfiguredRuntimeIntoProject(projectName, 
 				configuredState.getServer().name);
+		eclipse.cleanAllProjects();
 	}
 	
 }
