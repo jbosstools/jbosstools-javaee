@@ -13,8 +13,10 @@ package org.jboss.tools.cdi.seam3.bot.test.tests;
 
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTable;
 import org.jboss.tools.cdi.bot.test.CDIConstants;
-import org.jboss.tools.cdi.seam3.bot.test.base.SolderTestBase;
+import org.jboss.tools.cdi.seam3.bot.test.base.Seam3TestBase;
+import org.jboss.tools.cdi.seam3.bot.test.util.SeamLibrary;
 import org.jboss.tools.ui.bot.ext.Timing;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
@@ -24,15 +26,17 @@ import org.junit.Test;
  *
  */
 
-public class GenericOpenOnTest extends SolderTestBase {
+public class GenericOpenOnTest extends Seam3TestBase {
 
 	private final String GENERIC_POINT_1 = "MyExtendedConfiguration ";	
 	private final String GENERIC_POINT_2 = "MyConfigurationProducer.getOneConfig()";	
 	private final String GENERIC_POINT_3 = "MyConfigurationProducer.getSecondConfig()";
 	
-	@Override
-	public String getProjectName() {
-		return "generic";
+	private static String projectName = "generic";
+	
+	@BeforeClass
+	public static void setup() {
+		importSeam3ProjectWithLibrary(projectName, SeamLibrary.SOLDER);
 	}
 	
 	/**
@@ -41,7 +45,7 @@ public class GenericOpenOnTest extends SolderTestBase {
 	@Test
 	public void testGenericOpenOn() {
 
-		packageExplorer.openFile(getProjectName(), CDIConstants.SRC, 
+		packageExplorer.openFile(projectName, CDIConstants.SRC, 
 				"cdi.seam", "MyBeanInjections.java");
 		
 		checkFirstOpenOnAndGeneric();				

@@ -14,6 +14,7 @@ package org.jboss.tools.cdi.seam3.bot.test.tests;
 import org.jboss.tools.cdi.bot.test.CDIConstants;
 import org.jboss.tools.cdi.seam3.bot.test.base.SolderAnnotationTestBase;
 import org.jboss.tools.cdi.seam3.bot.test.util.SeamLibrary;
+import org.junit.After;
 import org.junit.Test;
 
 /**
@@ -23,15 +24,10 @@ import org.junit.Test;
  */
 public class RequiresAnnotationTest extends SolderAnnotationTestBase {
 
-	@Override
+	@After
 	public void waitForJobs() {
 		projectExplorer.deleteAllProjects();		
 	} 
-	
-	@Override
-	public void prepareWorkspace() {
-		
-	}
 	
 	@Test
 	public void testManagedBeans() {

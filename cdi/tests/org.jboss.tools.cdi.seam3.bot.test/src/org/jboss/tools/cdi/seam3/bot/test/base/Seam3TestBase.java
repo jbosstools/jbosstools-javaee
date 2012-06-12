@@ -39,30 +39,26 @@ import org.junit.runners.Suite.SuiteClasses;
  */
 public class Seam3TestBase extends CDITestBase {
 
-	private String projectName = "CDISeam3Project";
+	protected static String projectName = "CDISeam3Project";
 	private String packageName = "cdi.seam";
 	
-	protected final LibraryHelper libraryHelper = new LibraryHelper();
+	protected final static LibraryHelper libraryHelper = new LibraryHelper();
 	
-	protected String getProjectName() {
-		return projectName;
-	}
-	
-	protected String getPackageName() {
+	@Override
+	public String getPackageName() {
 		return packageName;
 	}
 	
-	protected SeamLibrary getSeamLibrary() {
-		return SeamLibrary.UNKNOWN;
-	}
-
 	@Override
 	public void prepareWorkspace() {
-		if (!projectHelper.projectExists(getProjectName())) {
-			importSeam3ProjectWithLibrary(getProjectName());
-		}
 		
 	}
+	
+	@Override
+	public void waitForJobs() {
+		
+	}
+	
 	
 	/**
 	 * 
@@ -70,7 +66,7 @@ public class Seam3TestBase extends CDITestBase {
 	 * @param projectLocation
 	 * @param dir
 	 */
-	protected void importSeam3TestProject(String projectName, 
+	protected static void importSeam3TestProject(String projectName, 
 			String projectLocation, String dir) {
 		ImportHelper.importProject(projectLocation, dir, Activator.PLUGIN_ID);
 		
@@ -81,17 +77,9 @@ public class Seam3TestBase extends CDITestBase {
 	/**
 	 * 
 	 * @param projectName
-	 */
-	protected void importSeam3ProjectWithLibrary(String projectName) {
-		importSeam3ProjectWithLibrary(projectName, getSeamLibrary());
-	}
-	
-	/**
-	 * 
-	 * @param projectName
 	 * @param library
 	 */
-	protected void importSeam3ProjectWithLibrary(String projectName, 
+	protected static void importSeam3ProjectWithLibrary(String projectName, 
 			SeamLibrary library) {
 		importSeam3TestProject(projectName, 
 				"/resources/projects/" + projectName, projectName);
@@ -104,7 +92,7 @@ public class Seam3TestBase extends CDITestBase {
 	 * @param projectName
 	 * @param library
 	 */
-	protected void addAndCheckLibraryInProject(String projectName, 
+	protected static void addAndCheckLibraryInProject(String projectName, 
 			SeamLibrary library) {
 		addLibraryIntoProject(projectName, library.getName());
 		checkLibraryInProject(projectName, library.getName());
@@ -115,7 +103,7 @@ public class Seam3TestBase extends CDITestBase {
 	 * @param projectName
 	 * @param libraryName
 	 */
-	private void addLibraryIntoProject(String projectName, String libraryName) {
+	private static void addLibraryIntoProject(String projectName, String libraryName) {
 		try {
 			libraryHelper.addLibraryIntoProject(projectName, libraryName);			
 			LOGGER.info("Library: \"" + libraryName + "\" copied");
@@ -133,7 +121,7 @@ public class Seam3TestBase extends CDITestBase {
 	 * @param projectName
 	 * @param libraryName
 	 */
-	private void checkLibraryInProject(String projectName, String libraryName) {
+	private static void checkLibraryInProject(String projectName, String libraryName) {
 		assertTrue(libraryHelper.isLibraryInProjectClassPath(projectName, libraryName));		
 	}
 	

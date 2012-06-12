@@ -38,7 +38,7 @@ import org.junit.runners.Suite.SuiteClasses;
 	VetoAnnotationTest.class,
 	RequiresAnnotationTest.class,
 	NamedPackagesTest.class,
-	FullyQualifiedTest.class
+	FullyQualifiedTest.class,
 	})
 public class CDISeam3AllBotTests extends AbstractTestSuite {
 	

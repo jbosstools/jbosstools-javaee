@@ -20,6 +20,7 @@ import org.jboss.tools.cdi.bot.test.annotations.ProblemsType;
 import org.jboss.tools.cdi.bot.test.uiutils.CollectionsUtil;
 import org.jboss.tools.cdi.seam3.bot.test.base.SolderAnnotationTestBase;
 import org.jboss.tools.cdi.seam3.bot.test.util.SeamLibrary;
+import org.junit.After;
 import org.junit.Test;
 
 /**
@@ -29,15 +30,10 @@ import org.junit.Test;
  */
 public class FullyQualifiedTest extends SolderAnnotationTestBase {
 
-	@Override
+	@After
 	public void waitForJobs() {
 		projectExplorer.deleteAllProjects();		
 	} 
-	
-	@Override
-	public void prepareWorkspace() {
-		
-	}
 	
 	@Test
 	public void testNonNamedBean() {

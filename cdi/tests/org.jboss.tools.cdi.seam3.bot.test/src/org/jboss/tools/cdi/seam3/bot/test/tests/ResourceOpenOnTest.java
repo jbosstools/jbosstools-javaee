@@ -13,7 +13,9 @@ package org.jboss.tools.cdi.seam3.bot.test.tests;
 
 
 import org.jboss.tools.cdi.bot.test.CDIConstants;
-import org.jboss.tools.cdi.seam3.bot.test.base.SolderTestBase;
+import org.jboss.tools.cdi.seam3.bot.test.base.Seam3TestBase;
+import org.jboss.tools.cdi.seam3.bot.test.util.SeamLibrary;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
@@ -22,11 +24,13 @@ import org.junit.Test;
  * @author Jaroslav Jankovic
  */
 
-public class ResourceOpenOnTest extends SolderTestBase {
+public class ResourceOpenOnTest extends Seam3TestBase {
 
-	@Override
-	public String getProjectName() {
-		return "resource";
+	private static String projectName = "resource";
+	
+	@BeforeClass
+	public static void setup() {
+		importSeam3ProjectWithLibrary(projectName, SeamLibrary.SOLDER);
 	}
 
 	/**
@@ -37,7 +41,7 @@ public class ResourceOpenOnTest extends SolderTestBase {
 			
 		String className = "MyBean.java";
 		
-		packageExplorer.openFile(getProjectName(), CDIConstants.SRC, 
+		packageExplorer.openFile(projectName, CDIConstants.SRC, 
 				"cdi.seam", className);
 
 		assertTrue(openOnUtil.openOnByOption(CDIConstants.RESOURCE_ANNOTATION, 
@@ -48,8 +52,8 @@ public class ResourceOpenOnTest extends SolderTestBase {
 					destinationFile.equals(CDIConstants.BEANS_XML));
 
 		editResourceUtil.moveFileInExplorerBase(packageExplorer, CDIConstants.BEANS_XML, 
-				getProjectName() + "/" + CDIConstants.WEBCONTENT + "/" + CDIConstants.WEB_INF,
-				getProjectName() + "/" + CDIConstants.WEBCONTENT + "/" + CDIConstants.META_INF);
+				projectName + "/" + CDIConstants.WEBCONTENT + "/" + CDIConstants.WEB_INF,
+				projectName + "/" + CDIConstants.WEBCONTENT + "/" + CDIConstants.META_INF);
 		LOGGER.info("bean.xml was moved to META-INF");
 		
 		setEd(bot.swtBotEditorExtByTitle(className));

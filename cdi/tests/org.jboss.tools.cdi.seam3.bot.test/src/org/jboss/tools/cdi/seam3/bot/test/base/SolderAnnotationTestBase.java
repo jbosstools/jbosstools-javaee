@@ -20,7 +20,7 @@ import org.jboss.tools.cdi.bot.test.annotations.ProblemsType;
  * @author jjankovi
  *
  */
-public class SolderAnnotationTestBase extends SolderTestBase {
+public class SolderAnnotationTestBase extends Seam3TestBase {
 	
 	protected String APPLICATION_CLASS = "Application.java";
 	

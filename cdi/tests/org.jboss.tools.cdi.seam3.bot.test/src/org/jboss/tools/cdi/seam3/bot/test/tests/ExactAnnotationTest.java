@@ -14,6 +14,7 @@ package org.jboss.tools.cdi.seam3.bot.test.tests;
 import org.jboss.tools.cdi.bot.test.CDIConstants;
 import org.jboss.tools.cdi.seam3.bot.test.base.SolderAnnotationTestBase;
 import org.jboss.tools.cdi.seam3.bot.test.util.SeamLibrary;
+import org.junit.After;
 import org.junit.Test;
 
 /**
@@ -26,12 +27,7 @@ public class ExactAnnotationTest extends SolderAnnotationTestBase {
 	private final String EXACT_INTERFACE = "exact-interface";
 	private final String EXACT_BEANS = "exact-beans";
 	
-	@Override
-	public void prepareWorkspace() {
-		
-	}
-	
-	@Override
+	@After
 	public void waitForJobs() {
 		projectExplorer.deleteAllProjects();
 	} 
