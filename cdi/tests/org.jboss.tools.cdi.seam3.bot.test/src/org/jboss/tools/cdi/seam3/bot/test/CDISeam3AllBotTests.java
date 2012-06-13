@@ -16,6 +16,7 @@ import org.jboss.tools.cdi.seam3.bot.test.tests.DefaultBeansTest;
 import org.jboss.tools.cdi.seam3.bot.test.tests.ExactAnnotationTest;
 import org.jboss.tools.cdi.seam3.bot.test.tests.FullyQualifiedTest;
 import org.jboss.tools.cdi.seam3.bot.test.tests.GenericOpenOnTest;
+import org.jboss.tools.cdi.seam3.bot.test.tests.LoggerSupportTest;
 import org.jboss.tools.cdi.seam3.bot.test.tests.NamedPackagesTest;
 import org.jboss.tools.cdi.seam3.bot.test.tests.RequiresAnnotationTest;
 import org.jboss.tools.cdi.seam3.bot.test.tests.ResourceOpenOnTest;
@@ -39,6 +40,7 @@ import org.junit.runners.Suite.SuiteClasses;
 	RequiresAnnotationTest.class,
 	NamedPackagesTest.class,
 	FullyQualifiedTest.class,
+	LoggerSupportTest.class,
 	})
 public class CDISeam3AllBotTests extends AbstractTestSuite {
 	
