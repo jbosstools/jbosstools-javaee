@@ -24,10 +24,17 @@ import org.jboss.tools.cdi.text.ext.test.CDIHyperlinkTestUtil.TestHyperlink;
 import org.jboss.tools.cdi.text.ext.test.CDIHyperlinkTestUtil.TestRegion;
 
 public class CDISeamResourceLoadingHyperlinkDetectorTest extends TCKTest{
-	private static final String FILENAME = "JavaSource/org/jboss/jsr299/tck/tests/jbt/openon/ResourceLoader.java";
 	
-	public void testCDISeamResourceLoadingHyperlinkDetector() throws Exception {
-		IFile file = tckProject.getFile(FILENAME);
+	public void testCDISeamResourceLoadingHyperlinkDetector_Solder30() throws Exception {
+		checkFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/openon/ResourceLoader30.java");
+	}
+
+	public void testCDISeamResourceLoadingHyperlinkDetector_Solder31() throws Exception {
+		checkFile("JavaSource/org/jboss/jsr299/tck/tests/jbt/openon/ResourceLoader31.java");
+	}
+	
+	private void checkFile(String fileName) throws Exception{
+		IFile file = tckProject.getFile(fileName);
 		String text = FileUtil.readStream(file);
 		
 		
@@ -69,7 +76,7 @@ public class CDISeamResourceLoadingHyperlinkDetectorTest extends TCKTest{
 							"JavaSource/org/jboss/jsr299/tck/tests/jbt/openon/test.properties"))}));
 		}
 		 
-		CDIHyperlinkTestUtil.checkRegions(tckProject, FILENAME, regionList, new CDISeamResourceLoadingHyperlinkDetector());
+		CDIHyperlinkTestUtil.checkRegions(tckProject, fileName, regionList, new CDISeamResourceLoadingHyperlinkDetector());
 	}
 
 }

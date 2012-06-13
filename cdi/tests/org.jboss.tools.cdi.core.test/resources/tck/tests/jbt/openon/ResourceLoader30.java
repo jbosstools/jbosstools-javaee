@@ -6,7 +6,7 @@ import javax.inject.Inject;
 
 import org.jboss.seam.solder.resourceLoader.Resource;
 
-public class ResourceLoader
+public class ResourceLoader30
 {
    @Inject
    @Resource("WEB-INF/beans.xml")

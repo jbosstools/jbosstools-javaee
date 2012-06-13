@@ -34,7 +34,8 @@ import org.jboss.tools.cdi.internal.core.refactoring.CDIMarkerResolutionUtils;
 import org.jboss.tools.cdi.seam.text.ext.CDISeamExtPlugin;
 
 public class CDISeamResourceLoadingHyperlinkDetector extends AbstractHyperlinkDetector{
-	public static final String RESOURCE_ANNOTATION = "org.jboss.seam.solder.resourceLoader.Resource";
+	public static final String RESOURCE_ANNOTATION_30 = "org.jboss.seam.solder.resourceLoader.Resource";
+	public static final String RESOURCE_ANNOTATION_31 = "org.jboss.solder.resourceLoader.Resource";
 	public static final String VALUE = "value";
 
 	@Override
@@ -63,7 +64,10 @@ public class CDISeamResourceLoadingHyperlinkDetector extends AbstractHyperlinkDe
 			IJavaElement element = input.getElementAt(offset);
 			if(element != null){
 				if(element instanceof IField){
-					IAnnotation annotation = CDIMarkerResolutionUtils.findAnnotation(element, RESOURCE_ANNOTATION);
+					IAnnotation annotation = CDIMarkerResolutionUtils.findAnnotation(element, RESOURCE_ANNOTATION_30);
+					if(annotation == null || !annotation.exists()){
+						annotation = CDIMarkerResolutionUtils.findAnnotation(element, RESOURCE_ANNOTATION_31);
+					}
 					if(annotation != null && annotation.exists()){
 						IRegion annotationRegion = getAnnotationRegion(document, annotation);
 						String text = getValue(annotation);
