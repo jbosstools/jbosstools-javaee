@@ -12,6 +12,7 @@
 package org.jboss.tools.cdi.bot.test.quickfix.base;
 
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTreeItem;
+import org.jboss.tools.cdi.bot.test.CDITestBase;
 import org.jboss.tools.cdi.bot.test.annotations.CDIWizardType;
 import org.jboss.tools.cdi.bot.test.annotations.ValidationType;
 import org.jboss.tools.cdi.bot.test.quickfix.validators.BeansXmlValidationProvider;
@@ -20,29 +21,12 @@ import org.jboss.tools.cdi.bot.test.uiutils.wizards.CDIWizardBase;
 import org.jboss.tools.cdi.bot.test.uiutils.wizards.QuickFixDialogWizard;
 import org.jboss.tools.ui.bot.ext.view.ProblemsView;
 
-public class BeansXMLQuickFixTestBase extends QuickFixTestBase {
+public class BeansXMLQuickFixTestBase extends CDITestBase {
 
-	private static IValidationProvider validationProvider = new BeansXmlValidationProvider();
+	private IValidationProvider validationProvider = new BeansXmlValidationProvider();
 	
-	public IValidationProvider validationProvider() {
+	public IValidationProvider getValidationProvider() {
 		return validationProvider;
-	}
-	
-	/**
-	 * Method firstly gets beans.xml validation problem. Then
-	 * it opens quick fix wizard, selects default value and
-	 * press finishWithWait button
-	 */
-	private void openBeanXMLValidationProblem(ValidationType validationProblemType) {
-		
-		SWTBotTreeItem validationProblem = getProblem(validationProblemType);		
-		assertNotNull(validationProblem);
-		
-		quickFixHelper.openQuickFix(validationProblem);	
-		QuickFixDialogWizard qfWizard = new QuickFixDialogWizard();
-		qfWizard.setFix(qfWizard.getAvailableFixes().get(0));
-		qfWizard.setResource(qfWizard.getResources().get(0));
-		qfWizard.finishWithWait();
 	}
 	
 	/**
@@ -64,7 +48,7 @@ public class BeansXMLQuickFixTestBase extends QuickFixTestBase {
 	 */
 	public void resolveAddNewAlternative(String name, String pkg) {
 		
-		openBeanXMLValidationProblem(ValidationType.NO_CLASS);
+		openBeanXMLValidationProblem(ValidationType.NO_CLASS, getProjectName());
 		CDIWizardBase cdiWizardBase = new CDIWizardBase(CDIWizardType.BEAN);
 		if (cdiWizardBase.isAlternative() && cdiWizardBase.canFinish()) {
 			cdiWizardBase.setName(name).setPackage(pkg).finishWithWait();
@@ -84,7 +68,7 @@ public class BeansXMLQuickFixTestBase extends QuickFixTestBase {
 	 */
 	public void resolveAddNewStereotype(String name, String pkg) {
 		
-		openBeanXMLValidationProblem(ValidationType.NO_ANNOTATION);
+		openBeanXMLValidationProblem(ValidationType.NO_ANNOTATION, getProjectName());
 		CDIWizardBase cdiWizardBase = new CDIWizardBase(CDIWizardType.STEREOTYPE);
 		if (cdiWizardBase.isAlternative() && cdiWizardBase.canFinish()) {
 			cdiWizardBase.setName(name).setPackage(pkg).finishWithWait();
@@ -104,7 +88,7 @@ public class BeansXMLQuickFixTestBase extends QuickFixTestBase {
 	 */
 	public void resolveAddNewDecorator(String name, String pkg) {
 		
-		openBeanXMLValidationProblem(ValidationType.NO_CLASS);
+		openBeanXMLValidationProblem(ValidationType.NO_CLASS, getProjectName());
 		CDIWizardBase cdiWizardBase = new CDIWizardBase(CDIWizardType.DECORATOR);		
 		cdiWizardBase.addInterface("java.util.List");
 		if (cdiWizardBase.canFinish()) {
@@ -125,7 +109,7 @@ public class BeansXMLQuickFixTestBase extends QuickFixTestBase {
 	 */
 	public void resolveAddNewInterceptor(String name, String pkg) {
 		
-		openBeanXMLValidationProblem(ValidationType.NO_CLASS);
+		openBeanXMLValidationProblem(ValidationType.NO_CLASS, getProjectName());
 		CDIWizardBase cdiWizardBase = new CDIWizardBase(CDIWizardType.INTERCEPTOR);
 		if (cdiWizardBase.canFinish()) {
 			cdiWizardBase.setName(name).setPackage(pkg).finishWithWait();
@@ -143,7 +127,7 @@ public class BeansXMLQuickFixTestBase extends QuickFixTestBase {
 	 */
 	public void resolveAddAlternativeToBean(String name) {
 		
-		openBeanXMLValidationProblem(ValidationType.NO_ALTERNATIVE);
+		openBeanXMLValidationProblem(ValidationType.NO_ALTERNATIVE, getProjectName());
 		String content = bot.editorByTitle(name + ".java").toTextEditor().getText();
 		assertTrue(content.contains("@Alternative"));
 		
@@ -157,10 +141,28 @@ public class BeansXMLQuickFixTestBase extends QuickFixTestBase {
 	 */
 	public void resolveAddAlternativeToStereotype(String name) {
 		
-		openBeanXMLValidationProblem(ValidationType.NO_ALTERNATIVE_STEREOTYPE);
+		openBeanXMLValidationProblem(ValidationType.NO_ALTERNATIVE_STEREOTYPE, getProjectName());
 		String content = bot.editorByTitle(name + ".java").toTextEditor().getText();
 		assertTrue(content.contains("@Alternative"));
 		
+	}
+	
+	/**
+	 * Method firstly gets beans.xml validation problem. Then
+	 * it opens quick fix wizard, selects default value and
+	 * press finishWithWait button
+	 */
+	private void openBeanXMLValidationProblem(ValidationType validationProblemType, String projectName) {
+		
+		SWTBotTreeItem validationProblem = quickFixHelper.getProblem(validationProblemType, 
+				projectName, validationProvider);		
+		assertNotNull(validationProblem);
+		
+		quickFixHelper.openQuickFix(validationProblem);	
+		QuickFixDialogWizard qfWizard = new QuickFixDialogWizard();
+		qfWizard.setFix(qfWizard.getAvailableFixes().get(0));
+		qfWizard.setResource(qfWizard.getResources().get(0));
+		qfWizard.finishWithWait();
 	}
 	
 }

@@ -46,13 +46,14 @@ public class OpenOnOptionsDialog {
 	}
 	
 	public String setProposalOption(SWTBotTableItem ti) {
-		String styledText = getProposalText(ti).getText();
+		ti.select();
+		String styledText = getProposalText().getText();
+		ti.setFocus();
 		ti.pressShortcut(Keystrokes.LF);
 		return styledText;
 	}
 	
-	public SWTBotStyledText getProposalText(SWTBotTableItem proposalItem) {
-		proposalItem.select();
+	public SWTBotStyledText getProposalText() {
 		return getShellWithOnlyStyledText().bot().styledText();
 	}
 	

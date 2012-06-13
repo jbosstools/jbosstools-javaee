@@ -12,11 +12,11 @@
 package org.jboss.tools.cdi.bot.test.quickfix.test;
 
 
+import org.jboss.tools.cdi.bot.test.CDITestBase;
 import org.jboss.tools.cdi.bot.test.annotations.CDIWizardType;
 import org.jboss.tools.cdi.bot.test.annotations.ValidationType;
-import org.jboss.tools.cdi.bot.test.quickfix.base.QuickFixTestBase;
-import org.jboss.tools.cdi.bot.test.quickfix.validators.ScopeValidationProvider;
 import org.jboss.tools.cdi.bot.test.quickfix.validators.IValidationProvider;
+import org.jboss.tools.cdi.bot.test.quickfix.validators.ScopeValidationProvider;
 import org.junit.Test;
 
 /**
@@ -25,7 +25,7 @@ import org.junit.Test;
  * @author Jaroslav Jankovic
  */
 
-public class ScopeValidationQuickFixTest extends QuickFixTestBase {
+public class ScopeValidationQuickFixTest extends CDITestBase {
 	
 	private static IValidationProvider validationProvider = new ScopeValidationProvider();
 	
@@ -49,11 +49,11 @@ public class ScopeValidationQuickFixTest extends QuickFixTestBase {
 		editResourceUtil.replaceInEditor("@Target({ TYPE, METHOD, FIELD })", 
 				"@Target({ TYPE, FIELD })");
 		
-		checkQuickFix(ValidationType.TARGET);
+		quickFixHelper.checkQuickFix(ValidationType.TARGET, getProjectName(), validationProvider());
 		
 		editResourceUtil.replaceInEditor("@Target({TYPE, METHOD, FIELD})", "");
 		
-		checkQuickFix(ValidationType.TARGET);
+		quickFixHelper.checkQuickFix(ValidationType.TARGET, getProjectName(), validationProvider());
 	}
 	
 	// https://issues.jboss.org/browse/JBIDE-7631
@@ -66,11 +66,11 @@ public class ScopeValidationQuickFixTest extends QuickFixTestBase {
 				
 		editResourceUtil.replaceInEditor("@Retention(RUNTIME)", "@Retention(CLASS)");
 		
-		checkQuickFix(ValidationType.RETENTION);
+		quickFixHelper.checkQuickFix(ValidationType.RETENTION, getProjectName(), validationProvider());
 		
 		editResourceUtil.replaceInEditor("@Retention(RUNTIME)", "");
 		
-		checkQuickFix(ValidationType.RETENTION);
+		quickFixHelper.checkQuickFix(ValidationType.RETENTION, getProjectName(), validationProvider());
 		
 	}
 	

@@ -12,11 +12,11 @@
 package org.jboss.tools.cdi.bot.test.quickfix.test;
 
 
+import org.jboss.tools.cdi.bot.test.CDITestBase;
 import org.jboss.tools.cdi.bot.test.annotations.CDIWizardType;
 import org.jboss.tools.cdi.bot.test.annotations.ValidationType;
-import org.jboss.tools.cdi.bot.test.quickfix.base.QuickFixTestBase;
-import org.jboss.tools.cdi.bot.test.quickfix.validators.QualifierValidationProvider;
 import org.jboss.tools.cdi.bot.test.quickfix.validators.IValidationProvider;
+import org.jboss.tools.cdi.bot.test.quickfix.validators.QualifierValidationProvider;
 import org.junit.Test;
 
 /**
@@ -25,7 +25,7 @@ import org.junit.Test;
  * @author Jaroslav Jankovic
  */
 
-public class QualifierValidationQuickFixTest extends QuickFixTestBase {
+public class QualifierValidationQuickFixTest extends CDITestBase {
 	
 	private static IValidationProvider validationProvider = new QualifierValidationProvider();
 	
@@ -49,11 +49,11 @@ public class QualifierValidationQuickFixTest extends QuickFixTestBase {
 		editResourceUtil.replaceInEditor("@Target({ TYPE, METHOD, PARAMETER, FIELD })", 
 				"@Target({ TYPE, FIELD })");
 		
-		checkQuickFix(ValidationType.TARGET);
+		quickFixHelper.checkQuickFix(ValidationType.TARGET, getProjectName(), validationProvider());
 		
 		editResourceUtil.replaceInEditor("@Target({TYPE, METHOD, FIELD, PARAMETER})", "");
 		
-		checkQuickFix(ValidationType.TARGET);
+		quickFixHelper.checkQuickFix(ValidationType.TARGET, getProjectName(), validationProvider());
 	}
 	
 	// https://issues.jboss.org/browse/JBIDE-7631
@@ -66,11 +66,11 @@ public class QualifierValidationQuickFixTest extends QuickFixTestBase {
 				
 		editResourceUtil.replaceInEditor("@Retention(RUNTIME)", "@Retention(CLASS)");
 		
-		checkQuickFix(ValidationType.RETENTION);
+		quickFixHelper.checkQuickFix(ValidationType.RETENTION, getProjectName(), validationProvider());
 		
 		editResourceUtil.replaceInEditor("@Retention(RUNTIME)", "");
 		
-		checkQuickFix(ValidationType.RETENTION);
+		quickFixHelper.checkQuickFix(ValidationType.RETENTION, getProjectName(), validationProvider());
 		
 	}
 	
@@ -87,12 +87,12 @@ public class QualifierValidationQuickFixTest extends QuickFixTestBase {
 	
 		editResourceUtil.replaceInEditor("QualifierComponent", className);
 	
-		checkQuickFix(ValidationType.NONBINDING);
+		quickFixHelper.checkQuickFix(ValidationType.NONBINDING, getProjectName(), validationProvider());
 				
-		editResourceUtil.replaceClassContentByResource(QuickFixTestBase.class
+		editResourceUtil.replaceClassContentByResource(QualifierValidationQuickFixTest.class
 				.getResourceAsStream("/resources/quickfix/qualifier/QualifierWithStringArray.java.cdi"), false);
 		editResourceUtil.replaceInEditor("QualifierComponent", className);
 		
-		checkQuickFix(ValidationType.NONBINDING);
+		quickFixHelper.checkQuickFix(ValidationType.NONBINDING, getProjectName(), validationProvider());
 	}
 }

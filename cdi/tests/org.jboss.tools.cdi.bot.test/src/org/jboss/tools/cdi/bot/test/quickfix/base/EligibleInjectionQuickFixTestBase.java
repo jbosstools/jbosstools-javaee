@@ -12,6 +12,7 @@
 package org.jboss.tools.cdi.bot.test.quickfix.base;
 
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTreeItem;
+import org.jboss.tools.cdi.bot.test.CDITestBase;
 import org.jboss.tools.cdi.bot.test.annotations.ValidationType;
 import org.jboss.tools.cdi.bot.test.quickfix.injection.QualifierOperation;
 import org.jboss.tools.cdi.bot.test.quickfix.validators.BeanValidationProvider;
@@ -20,7 +21,7 @@ import org.jboss.tools.cdi.bot.test.uiutils.wizards.QuickFixDialogWizard;
 import org.jboss.tools.cdi.bot.test.uiutils.wizards.SpecifyBeanDialogWizard;
 import org.jboss.tools.ui.bot.ext.Timing;
 
-public class EligibleInjectionQuickFixTestBase extends QuickFixTestBase{
+public class EligibleInjectionQuickFixTestBase extends CDITestBase {
 	
 	private static IValidationProvider validationProvider = new BeanValidationProvider();
 	
@@ -39,7 +40,8 @@ public class EligibleInjectionQuickFixTestBase extends QuickFixTestBase{
 	public void resolveMultipleBeans(ValidationType validationType, String classToQualify, 
 			String qualifier, QualifierOperation operation) {
 		
-		SWTBotTreeItem validationProblem = getProblem(validationType);		
+		SWTBotTreeItem validationProblem = quickFixHelper.getProblem(
+				validationType, getProjectName(), validationProvider());		
 		assertNotNull(validationProblem);
 		
 		quickFixHelper.openQuickFix(validationProblem);

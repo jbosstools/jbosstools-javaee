@@ -67,11 +67,13 @@ public class BeansXMLValidationTest extends BeansXMLQuickFixTestBase {
 		
 		beansHelper.createBeansXMLWithInterceptor(getProjectName(), nonExistingPackage, className);
 		assertFalse(isBeanXMLValidationErrorEmpty());
-		assertNotNull(getProblem(ValidationType.NO_CLASS));
+		assertNotNull(quickFixHelper.getProblem(ValidationType.NO_CLASS, 
+				getProjectName(), getValidationProvider()));
 		
 		beansHelper.createBeansXMLWithInterceptor(getProjectName(), getPackageName(), someBean);
 		assertFalse(isBeanXMLValidationErrorEmpty());
-		assertNotNull(getProblem(ValidationType.NO_INTERCEPTOR));
+		assertNotNull(quickFixHelper.getProblem(ValidationType.NO_INTERCEPTOR, 
+				getProjectName(), getValidationProvider()));
 		
 	}
 	
@@ -93,11 +95,13 @@ public class BeansXMLValidationTest extends BeansXMLQuickFixTestBase {
 		
 		beansHelper.createBeansXMLWithDecorator(getProjectName(), nonExistingPackage, className);
 		assertFalse(isBeanXMLValidationErrorEmpty());
-		assertNotNull(getProblem(ValidationType.NO_CLASS));
+		assertNotNull(quickFixHelper.getProblem(ValidationType.NO_CLASS, 
+				getProjectName(), getValidationProvider()));
 		
 		beansHelper.createBeansXMLWithDecorator(getProjectName(), getPackageName(), someBean);
 		assertFalse(isBeanXMLValidationErrorEmpty());
-		assertNotNull(getProblem(ValidationType.NO_DECORATOR));
+		assertNotNull(quickFixHelper.getProblem(ValidationType.NO_DECORATOR, 
+				getProjectName(), getValidationProvider()));
 	}
 	
 	@Test
@@ -118,11 +122,13 @@ public class BeansXMLValidationTest extends BeansXMLQuickFixTestBase {
 		
 		beansHelper.createBeansXMLWithAlternative(getProjectName(), nonExistingPackage, className);
 		assertFalse(isBeanXMLValidationErrorEmpty());
-		assertNotNull(getProblem(ValidationType.NO_CLASS));
+		assertNotNull(quickFixHelper.getProblem(ValidationType.NO_CLASS, 
+				getProjectName(), getValidationProvider()));
 		
 		beansHelper.createBeansXMLWithAlternative(getProjectName(), getPackageName(), someBean);
 		assertFalse(isBeanXMLValidationErrorEmpty());
-		assertNotNull(getProblem(ValidationType.NO_ALTERNATIVE));
+		assertNotNull(quickFixHelper.getProblem(ValidationType.NO_ALTERNATIVE, 
+				getProjectName(), getValidationProvider()));
 		
 	}
 	

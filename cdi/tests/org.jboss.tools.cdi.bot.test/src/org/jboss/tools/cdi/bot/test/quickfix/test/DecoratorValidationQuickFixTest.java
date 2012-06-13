@@ -12,9 +12,9 @@
 package org.jboss.tools.cdi.bot.test.quickfix.test;
 
 
+import org.jboss.tools.cdi.bot.test.CDITestBase;
 import org.jboss.tools.cdi.bot.test.annotations.CDIWizardType;
 import org.jboss.tools.cdi.bot.test.annotations.ValidationType;
-import org.jboss.tools.cdi.bot.test.quickfix.base.QuickFixTestBase;
 import org.jboss.tools.cdi.bot.test.quickfix.validators.DecoratorValidationProvider;
 import org.jboss.tools.cdi.bot.test.quickfix.validators.IValidationProvider;
 import org.junit.Test;
@@ -25,7 +25,7 @@ import org.junit.Test;
  * @author Jaroslav Jankovic
  */
 
-public class DecoratorValidationQuickFixTest extends QuickFixTestBase {
+public class DecoratorValidationQuickFixTest extends CDITestBase {
 	
 	private static IValidationProvider validationProvider = new DecoratorValidationProvider();
 
@@ -51,7 +51,7 @@ public class DecoratorValidationQuickFixTest extends QuickFixTestBase {
 		
 		editResourceUtil.replaceInEditor("DecoratorComponent", className);
 		
-		checkQuickFix(ValidationType.STATELESS);
+		quickFixHelper.checkQuickFix(ValidationType.STATELESS, getProjectName(), validationProvider());
 			
 	}
 	
@@ -67,7 +67,7 @@ public class DecoratorValidationQuickFixTest extends QuickFixTestBase {
 	
 		editResourceUtil.replaceInEditor("DecoratorComponent", className);
 		
-		checkQuickFix(ValidationType.NAMED);
+		quickFixHelper.checkQuickFix(ValidationType.NAMED, getProjectName(), validationProvider());
 		
 	}
 	
@@ -83,7 +83,7 @@ public class DecoratorValidationQuickFixTest extends QuickFixTestBase {
 		
 		editResourceUtil.replaceInEditor("DecoratorComponent", className);
 		
-		checkQuickFix(ValidationType.PRODUCES);
+		quickFixHelper.checkQuickFix(ValidationType.PRODUCES, getProjectName(), validationProvider());
 		
 	}
 	
@@ -99,7 +99,7 @@ public class DecoratorValidationQuickFixTest extends QuickFixTestBase {
 		
 		editResourceUtil.replaceInEditor("DecoratorComponent", className);
 		
-		checkQuickFix(ValidationType.DISPOSES);
+		quickFixHelper.checkQuickFix(ValidationType.DISPOSES, getProjectName(), validationProvider());
 		
 	}
 	
@@ -118,7 +118,7 @@ public class DecoratorValidationQuickFixTest extends QuickFixTestBase {
 		editResourceUtil.replaceInEditor("@Disposes", "@Observes");
 		editResourceUtil.replaceInEditor("DecoratorComponent", className);
 		
-		checkQuickFix(ValidationType.OBSERVES);
+		quickFixHelper.checkQuickFix(ValidationType.OBSERVES, getProjectName(), validationProvider());
 			
 	}
 	
@@ -134,7 +134,7 @@ public class DecoratorValidationQuickFixTest extends QuickFixTestBase {
 		
 		editResourceUtil.replaceInEditor("DecoratorComponent", className);
 		
-		checkQuickFix(ValidationType.SPECIALIZES);
+		quickFixHelper.checkQuickFix(ValidationType.SPECIALIZES, getProjectName(), validationProvider());
 			
 	}
 	

@@ -10,22 +10,103 @@
  ******************************************************************************/
 package org.jboss.tools.cdi.bot.test.uiutils;
 
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+
+import java.util.List;
+
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotMenu;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTree;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTreeItem;
 import org.jboss.tools.cdi.bot.test.CDIConstants;
-import org.jboss.tools.cdi.bot.test.CDITestBase;
 import org.jboss.tools.cdi.bot.test.annotations.ProblemsType;
+import org.jboss.tools.cdi.bot.test.annotations.ValidationType;
+import org.jboss.tools.cdi.bot.test.quickfix.validators.IValidationProvider;
 import org.jboss.tools.cdi.bot.test.uiutils.wizards.OpenOnOptionsDialog;
+import org.jboss.tools.cdi.bot.test.uiutils.wizards.QuickFixDialogWizard;
+import org.jboss.tools.ui.bot.ext.SWTBotExt;
+import org.jboss.tools.ui.bot.ext.SWTBotFactory;
 import org.jboss.tools.ui.bot.ext.SWTEclipseExt;
 import org.jboss.tools.ui.bot.ext.SWTJBTExt;
+import org.jboss.tools.ui.bot.ext.SWTUtilExt;
 import org.jboss.tools.ui.bot.ext.Timing;
 import org.jboss.tools.ui.bot.ext.helper.ContextMenuHelper;
 import org.jboss.tools.ui.bot.ext.types.IDELabel;
 import org.jboss.tools.ui.bot.ext.types.ViewType;
 import org.jboss.tools.ui.bot.ext.view.ProblemsView;
 
-public class QuickFixHelper extends CDITestBase {
+public class QuickFixHelper {
+	
+	private SWTUtilExt util = SWTBotFactory.getUtil();
+	private SWTBotExt bot = SWTBotFactory.getBot();
+	
+	/**
+	 * checkQuickFix is the most important method in this class. It
+	 * gets validation error prior to component type and annotation type,
+	 * then it resolve validation error through quick fix
+	 * wizard and finally check if validation errors was fixed through
+	 * this wizard
+	 * @param validationType
+	 * @param compType
+	 */
+	public void checkQuickFix(ValidationType validationType, String projectName,
+			IValidationProvider validationProvider) {
+		SWTBotTreeItem validationProblem = getProblem(
+				validationType, projectName, validationProvider);		
+		assertNotNull(validationProblem);
+		resolveQuickFix(validationProblem);
+		validationProblem = getProblem(
+				validationType, projectName, validationProvider);		
+		assertNull(validationProblem);
+	}
+	
+	/**
+	 * Methods gets the particular validation problem located in Problems View by
+	 * using specific ValidationErrorsProvider
+	 * @param validationType
+	 * @param compType
+	 * @return
+	 */
+	public SWTBotTreeItem getProblem(ValidationType validationType, String projectName,
+			IValidationProvider validationProvider) {		
+		IValidationProvider validationErrorsProvider = validationProvider;
+		List<String> validationProblems = null;
+		SWTBotTreeItem[] problemsInProblemsView = null;
+		if (validationErrorsProvider.getAllWarningsAnnotation().contains(validationType)) {
+			validationProblems = validationErrorsProvider.getAllWarningForAnnotationType(validationType);
+			problemsInProblemsView = getProblems(ProblemsType.WARNINGS, projectName);
+		} else {
+			validationProblems = validationErrorsProvider.getAllErrorsForAnnotationType(validationType);
+			problemsInProblemsView = getProblems(ProblemsType.ERRORS, projectName);
+		}
+		for (SWTBotTreeItem ti: problemsInProblemsView) {
+			for (String validationProblem: validationProblems) {					
+				if (ti.getText().contains(validationProblem)) {										
+					return ti;
+				}
+			}
+		}
+		return null;
+	}
+	
+	/**
+	 * Method resolves particular validation problem (parameter ti).
+	 * It simply open context menu for param "ti", open menu "Quick Fix" and
+	 * chooses first option and confirms it (resolve it)
+	 * @param ti
+	 */
+	private void resolveQuickFix(SWTBotTreeItem ti) {
+		openQuickFix(ti);
+		
+		QuickFixDialogWizard qfWizard = new QuickFixDialogWizard();
+		
+		String firstFix = qfWizard.getAvailableFixes().get(0);				
+		String firstResource = qfWizard.getResources().get(0);
+		
+		qfWizard.setFix(firstFix).setResource(firstResource).finish();
+		
+		util.waitForNonIgnoredJobs();
+	}
 	
 	/**
 	 * Method select openOnString and then open proposal dialog which
@@ -35,8 +116,8 @@ public class QuickFixHelper extends CDITestBase {
 	 * @return
 	 */
 	public OpenOnOptionsDialog openOnDialog(String openOnString, String titleName) {
-		setEd(SWTJBTExt.selectTextInSourcePane(bot, titleName,
-				openOnString, 0, openOnString.length()));
+		SWTJBTExt.selectTextInSourcePane(bot, titleName,
+				openOnString, 0, openOnString.length());
 		bot.menu(IDELabel.Menu.EDIT).menu(IDELabel.Menu.QUICK_FIX).click();	
 		bot.sleep(Timing.time1S());
 		

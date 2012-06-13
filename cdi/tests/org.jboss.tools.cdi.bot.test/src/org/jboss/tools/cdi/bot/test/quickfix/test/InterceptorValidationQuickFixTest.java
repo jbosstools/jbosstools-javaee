@@ -12,9 +12,9 @@
 package org.jboss.tools.cdi.bot.test.quickfix.test;
 
 
+import org.jboss.tools.cdi.bot.test.CDITestBase;
 import org.jboss.tools.cdi.bot.test.annotations.CDIWizardType;
 import org.jboss.tools.cdi.bot.test.annotations.ValidationType;
-import org.jboss.tools.cdi.bot.test.quickfix.base.QuickFixTestBase;
 import org.jboss.tools.cdi.bot.test.quickfix.validators.IValidationProvider;
 import org.jboss.tools.cdi.bot.test.quickfix.validators.InterceptorValidationProvider;
 import org.junit.Test;
@@ -25,7 +25,7 @@ import org.junit.Test;
  * @author Jaroslav Jankovic
  */
 
-public class InterceptorValidationQuickFixTest extends QuickFixTestBase {
+public class InterceptorValidationQuickFixTest extends CDITestBase {
 	
 	private static IValidationProvider validationProvider = new InterceptorValidationProvider();
 	
@@ -50,7 +50,7 @@ public class InterceptorValidationQuickFixTest extends QuickFixTestBase {
 
 		editResourceUtil.replaceInEditor("InterceptorComponent", className);
 		
-		checkQuickFix(ValidationType.STATELESS);
+		quickFixHelper.checkQuickFix(ValidationType.STATELESS, getProjectName(), validationProvider());
 			
 	}
 	
@@ -66,7 +66,7 @@ public class InterceptorValidationQuickFixTest extends QuickFixTestBase {
 
 		editResourceUtil.replaceInEditor("InterceptorComponent", className);
 		
-		checkQuickFix(ValidationType.NAMED);
+		quickFixHelper.checkQuickFix(ValidationType.NAMED, getProjectName(), validationProvider());
 		
 	}
 	
@@ -82,7 +82,7 @@ public class InterceptorValidationQuickFixTest extends QuickFixTestBase {
 
 		editResourceUtil.replaceInEditor("InterceptorComponent", className);
 		
-		checkQuickFix(ValidationType.PRODUCES);
+		quickFixHelper.checkQuickFix(ValidationType.PRODUCES, getProjectName(), validationProvider());
 		
 	}
 	
@@ -98,7 +98,7 @@ public class InterceptorValidationQuickFixTest extends QuickFixTestBase {
 
 		editResourceUtil.replaceInEditor("InterceptorComponent", className);
 		
-		checkQuickFix(ValidationType.DISPOSES);
+		quickFixHelper.checkQuickFix(ValidationType.DISPOSES, getProjectName(), validationProvider());
 		
 	}
 	
@@ -117,7 +117,7 @@ public class InterceptorValidationQuickFixTest extends QuickFixTestBase {
 		editResourceUtil.replaceInEditor("@Disposes", "@Observes");
 		editResourceUtil.replaceInEditor("InterceptorComponent", className);
 		
-		checkQuickFix(ValidationType.OBSERVES);
+		quickFixHelper.checkQuickFix(ValidationType.OBSERVES, getProjectName(), validationProvider());
 			
 	}
 	
@@ -133,7 +133,7 @@ public class InterceptorValidationQuickFixTest extends QuickFixTestBase {
 
 		editResourceUtil.replaceInEditor("InterceptorComponent", className);
 		
-		checkQuickFix(ValidationType.SPECIALIZES);
+		quickFixHelper.checkQuickFix(ValidationType.SPECIALIZES, getProjectName(), validationProvider());
 			
 	}
 	
