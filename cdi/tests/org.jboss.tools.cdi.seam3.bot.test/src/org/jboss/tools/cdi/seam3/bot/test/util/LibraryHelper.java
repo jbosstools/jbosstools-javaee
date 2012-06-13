@@ -18,9 +18,7 @@ import java.io.IOException;
 import java.nio.channels.FileChannel;
 
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.swtbot.swt.finder.SWTBot;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotMenu;
-import org.eclipse.swtbot.swt.finder.widgets.SWTBotShell;
 import org.eclipse.swtbot.swt.finder.widgets.SWTBotTree;
 import org.jboss.tools.cdi.bot.test.CDIConstants;
 import org.jboss.tools.cdi.seam3.bot.test.Activator;
@@ -83,7 +81,7 @@ public class LibraryHelper {
 	 * @param libraryName
 	 * @throws IOException
 	 */
-	public void addLibraryIntoProject(String projectName, String libraryName) throws IOException {
+	public void addLibraryIntoProjectFolder(String projectName, String libraryName) throws IOException {
 		File in = null;
 		FileChannel inChannel = null;
 		FileChannel outChannel = null;
@@ -101,37 +99,6 @@ public class LibraryHelper {
 						
 		if (inChannel != null) inChannel.close();
 		if (outChannel != null) outChannel.close();		 	    	   
-	}
-	
-	/**
-	 * Method checks if library named "libraryName" is set on classpath 
-	 * of project named "projectName"
-	 * @param projectName
-	 * @param libraryName
-	 * @return boolean - represents fact if library is/isn't set on project classpath
-	 */
-	public boolean isLibraryInProjectClassPath(String projectName, String libraryName) {
-		SWTBotTree tree = projectExplorer.bot().tree();
-					
-		ContextMenuHelper.prepareTreeItemForContextMenu(tree);
-	    new SWTBotMenu(ContextMenuHelper.getContextMenu(tree, CDIConstants.PROPERTIES, false)).click();
-	    
-	    SWTBotShell shell = bot.shell("Properties for " + projectName);
-	    SWTBot bot = shell.bot();
-	    	   
-	    bot.tree().expandNode(CDIConstants.JAVA_BUILD_PATH).select();
-	   
-	    bot.tabItem(CDIConstants.LIBRARIES).activate();
-	    	
-	    boolean libraryInProject = false;
-	    for (int i = 0; i < bot.tree(1).rowCount(); i++) {
-	    	if (bot.tree(1).getAllItems()[i].getText().contains(libraryName)) {
-	    		libraryInProject = true;
-	    		break;
-	    	}
-	    }
-	    bot.button(IDELabel.Button.CANCEL).click();	    	    
-	    return libraryInProject;
 	}
 	
 }

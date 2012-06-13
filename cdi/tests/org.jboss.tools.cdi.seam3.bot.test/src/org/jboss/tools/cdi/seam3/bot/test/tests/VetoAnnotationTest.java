@@ -36,7 +36,7 @@ public class VetoAnnotationTest extends SolderAnnotationTestBase {
 		String otherBean = "OtherBean";
 		String projectName = "veto1";
 		
-		importSeam3ProjectWithLibrary(projectName, SeamLibrary.SOLDER);
+		importSeam3ProjectWithLibrary(projectName, SeamLibrary.SOLDER_3);
 		
 		setEd(packageExplorer.openFile(projectName, CDIConstants.SRC, 
 				getPackageName(), APPLICATION_CLASS).toTextEditor());
@@ -59,7 +59,7 @@ public class VetoAnnotationTest extends SolderAnnotationTestBase {
 		String otherBean = "OtherBean";
 		String projectName = "veto2";
 		
-		importSeam3ProjectWithLibrary(projectName, SeamLibrary.SOLDER);
+		importSeam3ProjectWithLibrary(projectName, SeamLibrary.SOLDER_3);
 		
 		setEd(packageExplorer.openFile(projectName, CDIConstants.SRC, 
 				getPackageName(), APPLICATION_CLASS).toTextEditor());
@@ -81,7 +81,7 @@ public class VetoAnnotationTest extends SolderAnnotationTestBase {
 		String vetoBean = "Bean";
 		String projectName = "veto3";
 		
-		importSeam3ProjectWithLibrary(projectName, SeamLibrary.SOLDER);
+		importSeam3ProjectWithLibrary(projectName, SeamLibrary.SOLDER_3);
 		
 		setEd(packageExplorer.openFile(projectName, CDIConstants.SRC, 
 				getPackageName(), APPLICATION_CLASS).toTextEditor());
@@ -103,7 +103,7 @@ public class VetoAnnotationTest extends SolderAnnotationTestBase {
 		String vetoBean = "Bean";
 		String projectName = "veto4";
 		
-		importSeam3ProjectWithLibrary(projectName, SeamLibrary.SOLDER);
+		importSeam3ProjectWithLibrary(projectName, SeamLibrary.SOLDER_3);
 		
 		setEd(packageExplorer.openFile(projectName, CDIConstants.SRC, 
 				getPackageName(), APPLICATION_CLASS).toTextEditor());
@@ -126,7 +126,7 @@ public class VetoAnnotationTest extends SolderAnnotationTestBase {
 		String projectName = "veto5";
 		String eventAttribute = "eventAttribute";
 		
-		importSeam3ProjectWithLibrary(projectName, SeamLibrary.SOLDER);
+		importSeam3ProjectWithLibrary(projectName, SeamLibrary.SOLDER_3);
 		
 		setEd(packageExplorer.openFile(projectName, CDIConstants.SRC, 
 				getPackageName(), APPLICATION_CLASS).toTextEditor());

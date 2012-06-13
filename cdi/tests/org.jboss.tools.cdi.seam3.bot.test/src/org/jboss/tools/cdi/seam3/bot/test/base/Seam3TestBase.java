@@ -12,6 +12,8 @@
 package org.jboss.tools.cdi.seam3.bot.test.base;
 
 import java.io.IOException;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.logging.Level;
 
 import org.jboss.tools.cdi.bot.test.CDITestBase;
@@ -59,7 +61,6 @@ public class Seam3TestBase extends CDITestBase {
 		
 	}
 	
-	
 	/**
 	 * 
 	 * @param projectName
@@ -94,8 +95,7 @@ public class Seam3TestBase extends CDITestBase {
 	 */
 	protected static void addAndCheckLibraryInProject(String projectName, 
 			SeamLibrary library) {
-		addLibraryIntoProject(projectName, library.getName());
-		checkLibraryInProject(projectName, library.getName());
+		addLibraryIntoProject(projectName, library.getLibrariesNames());
 	}
 	
 	/**
@@ -103,26 +103,21 @@ public class Seam3TestBase extends CDITestBase {
 	 * @param projectName
 	 * @param libraryName
 	 */
-	private static void addLibraryIntoProject(String projectName, String libraryName) {
+	private static void addLibraryIntoProject(String projectName, Collection<String> libraryName) {
 		try {
-			libraryHelper.addLibraryIntoProject(projectName, libraryName);			
-			LOGGER.info("Library: \"" + libraryName + "\" copied");
-			util.waitForNonIgnoredJobs();
-			libraryHelper.addLibraryToProjectsClassPath(projectName, libraryName);
-			LOGGER.info("Library: \"" + libraryName + "\" on class path of project\"" + projectName + "\"");
+			Iterator<String> iter = libraryName.iterator();
+			while (iter.hasNext()) {
+				String temp = iter.next();
+				libraryHelper.addLibraryIntoProjectFolder(projectName, temp);
+				LOGGER.info("Library: \"" + libraryName + "\" copied");
+				util.waitForNonIgnoredJobs();
+				libraryHelper.addLibraryToProjectsClassPath(projectName, temp);
+				LOGGER.info("Library: \"" + libraryName + "\" on class path of project\"" + projectName + "\"");
+			}
 		} catch (IOException exc) {
 			LOGGER.log(Level.SEVERE, "Error while adding " + libraryName + " library into project");
 			LOGGER.log(Level.SEVERE, exc.getMessage());
 		}		
-	}
-	
-	/**
-	 * 
-	 * @param projectName
-	 * @param libraryName
-	 */
-	private static void checkLibraryInProject(String projectName, String libraryName) {
-		assertTrue(libraryHelper.isLibraryInProjectClassPath(projectName, libraryName));		
 	}
 	
 }

@@ -46,7 +46,7 @@ public class NamedPackagesTest extends Seam3TestBase {
 	@Test
 	public void testNoNamedPackaged() {
 		
-		importSeam3ProjectWithLibrary(projectName, SeamLibrary.SOLDER);
+		importSeam3ProjectWithLibrary(projectName, SeamLibrary.SOLDER_3);
 		
 		setEd(packageExplorer.openFile(projectName, CDIConstants.SRC, 
 				ORG_JBOSS_PACKAGE, MANAGER_JAVA).toTextEditor());
@@ -61,7 +61,7 @@ public class NamedPackagesTest extends Seam3TestBase {
 	@Test
 	public void testOneNamedPackage() {
 		
-		importSeam3ProjectWithLibrary(projectName, SeamLibrary.SOLDER);
+		importSeam3ProjectWithLibrary(projectName, SeamLibrary.SOLDER_3);
 		
 		editResourceUtil.renameFileInExplorerBase(packageExplorer, PACKAGE_INFO_JAVA_CDI, 
 				projectName + "/" + CDIConstants.SRC + "/" + CDI_SEAM_PACKAGE, PACKAGE_INFO_JAVA);
@@ -82,7 +82,7 @@ public class NamedPackagesTest extends Seam3TestBase {
 	@Test
 	public void testBothNamedPackages() {
 		
-		importSeam3ProjectWithLibrary(projectName, SeamLibrary.SOLDER);
+		importSeam3ProjectWithLibrary(projectName, SeamLibrary.SOLDER_3);
 		
 		editResourceUtil.renameFileInExplorerBase(packageExplorer, PACKAGE_INFO_JAVA_CDI, 
 				projectName + "/" + CDIConstants.SRC + "/" + CDI_SEAM_PACKAGE, PACKAGE_INFO_JAVA);

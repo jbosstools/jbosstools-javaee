@@ -37,7 +37,7 @@ public class DefaultBeansTest extends SolderAnnotationTestBase {
 	@Test
 	public void testProperAssign() {
 		
-		importSeam3ProjectWithLibrary(projectName, SeamLibrary.SOLDER);
+		importSeam3ProjectWithLibrary(projectName, SeamLibrary.SOLDER_3);
 		
 		packageExplorer.openFile(projectName, CDIConstants.SRC, 
 				getPackageName(), APPLICATION_CLASS);
@@ -53,7 +53,7 @@ public class DefaultBeansTest extends SolderAnnotationTestBase {
 	@Test
 	public void testProperAssignAlternativesDeactive() {
 
-		importSeam3ProjectWithLibrary(projectName, SeamLibrary.SOLDER);
+		importSeam3ProjectWithLibrary(projectName, SeamLibrary.SOLDER_3);
 		
 		wizardExt.bean(getPackageName(), "ManagerImpl", true, false, false, false, true, false, null,
 				"Manager", null, null).finish();
@@ -85,7 +85,7 @@ public class DefaultBeansTest extends SolderAnnotationTestBase {
 	@Test
 	public void testProperUnassign() {
 
-		importSeam3ProjectWithLibrary(projectName, SeamLibrary.SOLDER);
+		importSeam3ProjectWithLibrary(projectName, SeamLibrary.SOLDER_3);
 		
 		wizardExt.bean(getPackageName(), "ManagerImpl", true, false, false, false, false, false, null,
 				"Manager", null, null).finish();
@@ -117,7 +117,7 @@ public class DefaultBeansTest extends SolderAnnotationTestBase {
 	@Test
 	public void testProperUnassignAlternativesActive() {
 
-		importSeam3ProjectWithLibrary(projectName, SeamLibrary.SOLDER);
+		importSeam3ProjectWithLibrary(projectName, SeamLibrary.SOLDER_3);
 		
 		wizardExt.bean(getPackageName(), "ManagerImpl", true, false, false, false, true, true, null,
 				"Manager", null, null).finish();
