@@ -31,6 +31,7 @@ import org.jboss.tools.jsf.jsp.ca.test.CAInEventAttributesTest;
 import org.jboss.tools.jsf.jsp.ca.test.CAJsfAddInfoInELMessagesTest;
 import org.jboss.tools.jsf.jsp.ca.test.CAJsfMessagesProposalsFilteringTest;
 import org.jboss.tools.jsf.jsp.ca.test.CAJsfMessagesProposalsTest;
+import org.jboss.tools.jsf.jsp.ca.test.CAJsfPredictiveTagNameProposalsTest;
 import org.jboss.tools.jsf.jsp.ca.test.CAJsfResourceBundlePropertyApplyTest;
 import org.jboss.tools.jsf.jsp.ca.test.CANotEmptyWhenThereIsNoSpaceBetweenInvertedCommandsInAttributeJBIDE1759Test;
 import org.jboss.tools.jsf.jsp.ca.test.CASuggestsNotOnlyELProposalsJBIDE2437Test;
@@ -173,6 +174,11 @@ public class JsfUiAllTests {
 
 		suite.addTest(new ProjectImportTestSetup(new TestSuite(
 				JSFAsYouTypeInJavaValidationTest.class), "org.jboss.tools.jsf.base.test", //$NON-NLS-1$
+				new String[] { "projects/JSF2KickStartWithoutLibs", }, //$NON-NLS-1$
+				new String[] { "JSF2KickStartWithoutLibs" })); //$NON-NLS-1$
+
+		suite.addTest(new ProjectImportTestSetup(new TestSuite(
+				CAJsfPredictiveTagNameProposalsTest.class), "org.jboss.tools.jsf.base.test", //$NON-NLS-1$
 				new String[] { "projects/JSF2KickStartWithoutLibs", }, //$NON-NLS-1$
 				new String[] { "JSF2KickStartWithoutLibs" })); //$NON-NLS-1$
 
