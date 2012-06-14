@@ -36,7 +36,7 @@ public class RequiresAnnotationTest extends SolderAnnotationTestBase {
 		String manager = "Manager";
 		String projectName = "requires1";
 		
-		importSeam3ProjectWithLibrary(projectName, SeamLibrary.SOLDER_3);
+		importSeam3ProjectWithLibrary(projectName, SeamLibrary.SOLDER_3_1);
 		
 		setEd(packageExplorer.openFile(projectName, CDIConstants.SRC, 
 				getPackageName(), APPLICATION_CLASS).toTextEditor());
@@ -59,7 +59,7 @@ public class RequiresAnnotationTest extends SolderAnnotationTestBase {
 		String manager = "Manager";
 		String projectName = "requires2";
 		
-		importSeam3ProjectWithLibrary(projectName, SeamLibrary.SOLDER_3);
+		importSeam3ProjectWithLibrary(projectName, SeamLibrary.SOLDER_3_1);
 		
 		setEd(packageExplorer.openFile(projectName, CDIConstants.SRC, 
 				getPackageName(), APPLICATION_CLASS).toTextEditor());
@@ -82,7 +82,7 @@ public class RequiresAnnotationTest extends SolderAnnotationTestBase {
 		String manager = "Manager";
 		String projectName = "requires3";
 		
-		importSeam3ProjectWithLibrary(projectName, SeamLibrary.SOLDER_3);
+		importSeam3ProjectWithLibrary(projectName, SeamLibrary.SOLDER_3_1);
 		
 		setEd(packageExplorer.openFile(projectName, CDIConstants.SRC, 
 				getPackageName(), APPLICATION_CLASS).toTextEditor());
@@ -106,7 +106,7 @@ public class RequiresAnnotationTest extends SolderAnnotationTestBase {
 		String manager = "Manager";
 		String projectName = "requires4";
 		
-		importSeam3ProjectWithLibrary(projectName, SeamLibrary.SOLDER_3);
+		importSeam3ProjectWithLibrary(projectName, SeamLibrary.SOLDER_3_1);
 		
 		setEd(packageExplorer.openFile(projectName, CDIConstants.SRC, 
 				getPackageName(), APPLICATION_CLASS).toTextEditor());
@@ -131,7 +131,7 @@ public class RequiresAnnotationTest extends SolderAnnotationTestBase {
 		String projectName = "requires5";
 		String eventAttribute = "eventAttribute";
 		
-		importSeam3ProjectWithLibrary(projectName, SeamLibrary.SOLDER_3);
+		importSeam3ProjectWithLibrary(projectName, SeamLibrary.SOLDER_3_1);
 		
 		setEd(packageExplorer.openFile(projectName, CDIConstants.SRC, 
 				getPackageName(), APPLICATION_CLASS).toTextEditor());

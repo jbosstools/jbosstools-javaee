@@ -2,7 +2,7 @@ package cdi.seam;
 
 import javax.enterprise.context.SessionScoped;
 
-import org.jboss.seam.solder.core.Requires;
+import org.jboss.solder.core.Requires;
 import java.io.Serializable;
 
 @SessionScoped
