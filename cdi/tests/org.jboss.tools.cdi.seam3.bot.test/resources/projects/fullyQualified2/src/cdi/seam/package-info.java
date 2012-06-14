@@ -1,2 +1,2 @@
-@org.jboss.seam.solder.core.FullyQualified
+@org.jboss.solder.core.FullyQualified
 package cdi.seam;

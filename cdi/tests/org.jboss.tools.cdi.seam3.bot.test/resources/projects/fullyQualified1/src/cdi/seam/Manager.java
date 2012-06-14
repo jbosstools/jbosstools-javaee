@@ -1,6 +1,6 @@
 package cdi.seam;
 
-import org.jboss.seam.solder.core.FullyQualified;
+import org.jboss.solder.core.FullyQualified;
 
 @FullyQualified
 public class Manager {
