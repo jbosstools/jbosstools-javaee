@@ -2,7 +2,7 @@ package cdi.seam;
 
 import javax.inject.Inject;
 
-import org.jboss.seam.solder.core.Exact;
+import org.jboss.solder.core.Exact;
 
 public class Application {
 
