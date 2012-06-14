@@ -36,7 +36,7 @@ public class GenericOpenOnTest extends Seam3TestBase {
 	
 	@BeforeClass
 	public static void setup() {
-		importSeam3ProjectWithLibrary(projectName, SeamLibrary.SOLDER_3);
+		importSeam3ProjectWithLibrary(projectName, SeamLibrary.SOLDER_3_1);
 	}
 	
 	/**
