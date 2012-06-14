@@ -2,7 +2,7 @@ package cdi.seam;
 
 import javax.enterprise.inject.Produces;
 
-import org.jboss.seam.solder.core.Veto;
+import org.jboss.solder.core.Veto;
 
 @Veto
 public class Bean {
