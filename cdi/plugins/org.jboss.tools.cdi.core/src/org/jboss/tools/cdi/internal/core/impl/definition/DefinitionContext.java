@@ -68,6 +68,10 @@ public class DefinitionContext implements IRootDefinitionContext {
 		return extensions;
 	}
 
+	public DefinitionContext getCleanCopy() {
+		return copy(true);
+	}
+
 	private DefinitionContext copy(boolean clean) {
 		DefinitionContext copy = new DefinitionContext();
 		copy.project = project;

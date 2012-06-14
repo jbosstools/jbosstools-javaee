@@ -1,0 +1,488 @@
+/******************************************************************************* 
+ * Copyright (c) 2012 Red Hat, Inc. 
+ * Distributed under license by Red Hat, Inc. All rights reserved. 
+ * This program is made available under the terms of the 
+ * Eclipse Public License v1.0 which accompanies this distribution, 
+ * and is available at http://www.eclipse.org/legal/epl-v10.html 
+ * 
+ * Contributors: 
+ * Red Hat, Inc. - initial API and implementation 
+ ******************************************************************************/
+package org.jboss.tools.cdi.internal.core.impl;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.jdt.core.ICompilationUnit;
+import org.eclipse.jdt.core.IJavaElement;
+import org.eclipse.jdt.core.IMember;
+import org.eclipse.jdt.core.IPackageDeclaration;
+import org.eclipse.jdt.core.IType;
+import org.jboss.tools.cdi.core.CDICoreNature;
+import org.jboss.tools.cdi.core.CDICorePlugin;
+import org.jboss.tools.cdi.core.IBean;
+import org.jboss.tools.cdi.core.IBeanMethod;
+import org.jboss.tools.cdi.core.ICDIProject;
+import org.jboss.tools.cdi.core.IClassBean;
+import org.jboss.tools.cdi.core.IDecorator;
+import org.jboss.tools.cdi.core.IInjectionPoint;
+import org.jboss.tools.cdi.core.IInterceptor;
+import org.jboss.tools.cdi.core.IInterceptorBinding;
+import org.jboss.tools.cdi.core.IObserverMethod;
+import org.jboss.tools.cdi.core.IParameter;
+import org.jboss.tools.cdi.core.IProducer;
+import org.jboss.tools.cdi.core.IProducerMethod;
+import org.jboss.tools.cdi.core.IQualifier;
+import org.jboss.tools.cdi.core.IQualifierDeclaration;
+import org.jboss.tools.cdi.core.IScope;
+import org.jboss.tools.cdi.core.IStereotype;
+import org.jboss.tools.cdi.internal.core.impl.definition.AnnotationDefinition;
+import org.jboss.tools.cdi.internal.core.impl.definition.DefinitionContext;
+import org.jboss.tools.cdi.internal.core.impl.definition.TypeDefinition;
+import org.jboss.tools.cdi.internal.core.scanner.CDIBuilderDelegate;
+import org.jboss.tools.cdi.internal.core.scanner.FileSet;
+import org.jboss.tools.cdi.internal.core.scanner.ImplementationCollector;
+import org.jboss.tools.common.EclipseUtil;
+import org.jboss.tools.common.java.IJavaReference;
+import org.jboss.tools.common.java.IParametedType;
+import org.jboss.tools.common.text.INodeReference;
+
+/**
+ * 
+ * @author Viacheslav Kabanovich 
+ *
+ */
+public class CDIProjectAsYouType implements ICDIProject {
+	ICDIProject project;
+	IFile file;
+
+	Set<IBean> beans = new HashSet<IBean>();
+	StereotypeElement stereotype;
+	QualifierElement qualifier;
+	ScopeElement scope;
+	IInterceptorBinding interceptorBinding;
+
+	public CDIProjectAsYouType(ICDIProject project, IFile file) {
+		this.project = project;
+		this.file = file;
+		try {
+			build();
+		} catch (CoreException e) {
+			CDICorePlugin.getDefault().logError(e);
+		}
+	}
+
+	private void build() throws CoreException {
+		DefinitionContext context = project.getNature().getDefinitions().getCleanCopy();
+		FileSet fileSet = new FileSet();
+		if(file.getName().endsWith(".java")) {
+			ICompilationUnit unit = EclipseUtil.getCompilationUnit(file);
+			if(unit!=null) {
+				if(file.getName().equals("package-info.java")) {
+					IPackageDeclaration[] pkg = unit.getPackageDeclarations();
+					if(pkg != null && pkg.length > 0) {
+						fileSet.add(file.getFullPath(), pkg[0]);
+//						if(incremental) {
+//							IResource[] ms = file.getParent().members();
+//							for (IResource m: ms) {
+//								if(m instanceof IFile && !m.getName().equals("package-info.java")) {
+//									visit(m);
+//								}
+//							}
+//						}
+					}
+				} else {
+					IType[] ts = unit.getTypes();
+					fileSet.add(file.getFullPath(), ts);
+				}
+			}
+		}
+		CDIBuilderDelegate builder = new CDIBuilderDelegate();
+		builder.build(fileSet, context);
+
+		rebuildAnnotationTypes(context.getAllAnnotations());
+		rebuildBeans(context.getTypeDefinitions());
+
+	}
+
+	synchronized void rebuildAnnotationTypes(List<AnnotationDefinition> ds) {
+		for (AnnotationDefinition d: ds) {
+			if(d.getResource() == null || !d.getResource().getFullPath().equals(file.getFullPath())) {
+				continue;
+			}
+			System.out.println("Annotation " + d.getQualifiedName());
+			if((d.getKind() & AnnotationDefinition.STEREOTYPE) > 0) {
+				StereotypeElement s = new StereotypeElement();
+				initAnnotationElement(s, d);
+				stereotype = s;
+			}
+			if((d.getKind() & AnnotationDefinition.INTERCEPTOR_BINDING) > 0) {
+				InterceptorBindingElement s = new InterceptorBindingElement();
+				initAnnotationElement(s, d);
+				interceptorBinding = s;
+			}
+			if((d.getKind() & AnnotationDefinition.QUALIFIER) > 0) {
+				QualifierElement s = new QualifierElement();
+				initAnnotationElement(s, d);
+				qualifier = s;
+			}
+			if((d.getKind() & AnnotationDefinition.SCOPE) > 0) {
+				ScopeElement s = new ScopeElement();
+				initAnnotationElement(s, d);
+				scope = s;
+			}
+		}
+	}
+
+	private void initAnnotationElement(CDIAnnotationElement s, AnnotationDefinition d) {
+		s.setDefinition(d);
+		s.setParent((CDIElement)project);
+		IPath r = d.getType().getPath();
+		if(r != null) {
+			s.setSourcePath(r);
+		}
+	}
+	
+	void rebuildBeans(List<TypeDefinition> typeDefinitions) {
+//		Set<String> vetoedTypes = n.getAllVetoedTypes();
+		List<IBean> beans = new ArrayList<IBean>();
+
+		Set<IType> newAllTypes = new HashSet<IType>();
+		for (TypeDefinition d: typeDefinitions) {
+			newAllTypes.add(d.getType());
+		}
+		Map<TypeDefinition, ClassBean> newDefinitionToClassbeans = new HashMap<TypeDefinition, ClassBean>();
+		Map<IType, IClassBean> newClassBeans = new HashMap<IType, IClassBean>();
+		
+		ImplementationCollector ic = new ImplementationCollector(typeDefinitions);
+
+		for (TypeDefinition typeDefinition : typeDefinitions) {
+			ClassBean bean = null;
+			if(typeDefinition.getInterceptorAnnotation() != null || ic.isInterceptor(typeDefinition.getType())) {
+				bean = new InterceptorBean();
+			} else if(typeDefinition.getDecoratorAnnotation() != null || ic.isDecorator(typeDefinition.getType())) {
+				bean = new DecoratorBean();
+			} else if(typeDefinition.getStatefulAnnotation() != null || typeDefinition.getStatelessAnnotation() != null || typeDefinition.getSingletonAnnotation() != null) {
+				bean = new SessionBean();
+			} else {
+				bean = new ClassBean();
+			}
+			bean.setParent((CDIElement)project);
+			bean.setDefinition(typeDefinition);
+			
+			newDefinitionToClassbeans.put(typeDefinition, bean);
+
+			String typeName = typeDefinition.getType().getFullyQualifiedName();
+			if(!typeDefinition.isVetoed() 
+					    //Type is defined in another project and modified/replaced in config in this (dependent) project
+					    //We should reject type definition based on type, but we have to accept 
+					&& (/*!vetoedTypes.contains(typeName) &&*/ getNature().getDefinitions().getTypeDefinition(typeName) == null && typeDefinition.getOriginalDefinition() == null)) {
+				if(typeDefinition.hasBeanConstructor()) {
+					beans.add(bean);
+					newClassBeans.put(typeDefinition.getType(), bean);
+				} else {
+					beans.add(bean);
+				}
+
+				Set<IProducer> ps = bean.getProducers();
+				for (IProducer producer: ps) {
+					beans.add(producer);
+				}
+			}
+		}
+	
+		for (IClassBean bean: newClassBeans.values()) {
+			IParametedType s = ((ClassBean)bean).getSuperType();
+			if(s != null && s.getType() != null) {
+				IClassBean superClassBean = newClassBeans.get(s.getType());
+				if(superClassBean == null) superClassBean = project.getBeanClass(s.getType());
+				if(bean instanceof ClassBean) {
+					((ClassBean)bean).setSuperClassBean(superClassBean);
+				}
+			}
+		}	
+
+		for (IBean bean: beans) {
+			addBean(bean);
+		}
+	
+	}
+
+	public void addBean(IBean bean) {
+		beans.add(bean);
+		//TODO
+	}
+
+	@Override
+	public IBean[] getBeans() {
+		return project.getBeans();
+	}
+
+	@Override
+	public Set<IBean> getNamedBeans(boolean attemptToResolveAmbiguousNames) {
+		return project.getNamedBeans(attemptToResolveAmbiguousNames);
+	}
+
+	@Override
+	public Set<IBean> getBeans(String name,
+			boolean attemptToResolveAmbiguousNames) {
+		return project.getBeans(name, attemptToResolveAmbiguousNames);
+	}
+
+	@Override
+	public Set<IBean> getBeans(boolean attemptToResolveAmbiguousDependency,
+			IParametedType beanType, IQualifierDeclaration... qualifiers) {
+		return project.getBeans(attemptToResolveAmbiguousDependency, beanType, qualifiers);
+	}
+
+	@Override
+	public Set<IBean> getBeans(boolean attemptToResolveAmbiguousDependency,
+			IParametedType beanType, IType... qualifiers) {
+		return project.getBeans(attemptToResolveAmbiguousDependency, beanType, qualifiers);
+	}
+
+	@Override
+	public Set<IBean> getBeans(boolean attemptToResolveAmbiguousDependency,
+			String fullyQualifiedBeanType,
+			String... fullyQualifiedQualifiersTypes) {
+		return project.getBeans(attemptToResolveAmbiguousDependency, fullyQualifiedBeanType, fullyQualifiedQualifiersTypes);
+	}
+
+	@Override
+	public Set<IBean> getBeans(boolean attemptToResolveAmbiguousDependency,
+			IInjectionPoint injectionPoint) {
+		return project.getBeans(attemptToResolveAmbiguousDependency, injectionPoint);
+	}
+
+	@Override
+	public IClassBean getBeanClass(IType type) {
+		return project.getBeanClass(type);
+	}
+
+	@Override
+	public Set<IBean> getBeans(IPath path) {
+		if(path.equals(file.getFullPath())) {
+			return beans;
+		}
+		return project.getBeans(path);
+	}
+
+	@Override
+	public Set<IBean> getBeans(IJavaElement element) {
+		if(element.getResource() != null && element.getResource().getFullPath().equals(file.getFullPath())) {
+			Set<IBean> result = new HashSet<IBean>();
+			for (IBean bean: beans) {
+				if(bean instanceof IJavaReference) {
+					IMember m = ((IJavaReference)bean).getSourceMember();
+					if(((IJavaReference)bean).getSourceMember().equals(element)) {
+						result.add(bean);
+					}
+				}
+			}
+			return result;
+		}
+		return project.getBeans(element);
+	}
+
+	@Override
+	public IQualifier[] getQualifiers() {
+		return project.getQualifiers();
+	}
+
+	@Override
+	public IStereotype[] getStereotypes() {
+		return project.getStereotypes();
+	}
+
+	@Override
+	public IBean[] getAlternatives() {
+		return project.getAlternatives();
+	}
+
+	@Override
+	public IDecorator[] getDecorators() {
+		return project.getDecorators();
+	}
+
+	@Override
+	public IInterceptor[] getInterceptors() {
+		return project.getInterceptors();
+	}
+
+	@Override
+	public IStereotype getStereotype(String qualifiedName) {
+		return project.getStereotype(qualifiedName);
+	}
+
+	@Override
+	public IStereotype getStereotype(IPath path) {
+		if(path.equals(file.getFullPath())) {
+			return stereotype;
+		}
+		return project.getStereotype(path);
+	}
+
+	@Override
+	public IStereotype getStereotype(IType type) {
+		return getStereotype(type.getPath());
+	}
+
+	@Override
+	public IInterceptorBinding[] getInterceptorBindings() {
+		return project.getInterceptorBindings();
+	}
+
+	@Override
+	public IInterceptorBinding getInterceptorBinding(String qualifiedName) {
+		return project.getInterceptorBinding(qualifiedName);
+	}
+
+	@Override
+	public IInterceptorBinding getInterceptorBinding(IPath path) {
+		if(path.equals(file.getFullPath())) {
+			return interceptorBinding;
+		}
+		return project.getInterceptorBinding(path);
+	}
+
+	@Override
+	public IQualifier getQualifier(String qualifiedName) {
+		return project.getQualifier(qualifiedName);
+	}
+
+	@Override
+	public IQualifier getQualifier(IPath path) {
+		if(path.equals(file.getFullPath())) {
+			return qualifier;
+		}
+		return project.getQualifier(path);
+	}
+
+	@Override
+	public Set<String> getScopeNames() {
+		return project.getScopeNames();
+	}
+
+	@Override
+	public IScope getScope(String qualifiedName) {
+		return project.getScope(qualifiedName);
+	}
+
+	@Override
+	public IScope getScope(IPath path) {
+		if(path.equals(file.getFullPath())) {
+			return scope;
+		}
+		return project.getScope(path);
+	}
+
+	@Override
+	public Set<IObserverMethod> resolveObserverMethods(IInjectionPoint injectionPoint) {
+		// TODO resolve in file
+		return project.resolveObserverMethods(injectionPoint);
+	}
+
+	@Override
+	public Set<IInjectionPoint> findObservedEvents(IParameter observedEventParameter) {
+		// TODO find in file
+		return project.findObservedEvents(observedEventParameter);
+	}
+
+	@Override
+	public Set<IBean> resolve(Set<IBean> beans) {
+		return project.resolve(beans);
+	}
+
+	@Override
+	public Set<IBeanMethod> resolveDisposers(IProducerMethod producer) {
+		return project.resolveDisposers(producer);
+	}
+
+	@Override
+	public boolean isScope(IType annotationType) {
+		return project.isScope(annotationType);
+	}
+
+	@Override
+	public boolean isNormalScope(IType annotationType) {
+		return project.isNormalScope(annotationType);
+	}
+
+	@Override
+	public boolean isPassivatingScope(IType annotationType) {
+		return project.isPassivatingScope(annotationType);
+	}
+
+	@Override
+	public boolean isQualifier(IType annotationType) {
+		return project.isQualifier(annotationType);
+	}
+
+	@Override
+	public boolean isStereotype(IType annotationType) {
+		return project.isStereotype(annotationType);
+	}
+
+	@Override
+	public List<INodeReference> getAlternativeClasses() {
+		return project.getAlternativeClasses();
+	}
+
+	@Override
+	public List<INodeReference> getAlternativeStereotypes() {
+		return project.getAlternativeStereotypes();
+	}
+
+	@Override
+	public List<INodeReference> getAlternatives(String fullyQualifiedTypeName) {
+		return  project.getAlternatives(fullyQualifiedTypeName);
+	}
+
+	@Override
+	public List<INodeReference> getDecoratorClasses() {
+		return project.getDecoratorClasses();
+	}
+
+	@Override
+	public List<INodeReference> getDecoratorClasses(String fullyQualifiedTypeName) {
+		return project.getDecoratorClasses(fullyQualifiedTypeName);
+	}
+
+	@Override
+	public List<INodeReference> getInterceptorClasses() {
+		return project.getInterceptorClasses();
+	}
+
+	@Override
+	public List<INodeReference> getInterceptorClasses(String fullyQualifiedTypeName) {
+		return project.getInterceptorClasses(fullyQualifiedTypeName);
+	}
+
+	@Override
+	public Set<IInjectionPoint> getInjections(String fullyQualifiedTypeName) {
+		return project.getInjections(fullyQualifiedTypeName);
+	}
+
+	@Override
+	public CDICoreNature getNature() {
+		return project.getNature();
+	}
+
+	@Override
+	public void setNature(CDICoreNature n) {
+		//nothing
+	}
+
+	@Override
+	public void update(boolean updateDependent) {
+		//nothing
+	}
+
+}

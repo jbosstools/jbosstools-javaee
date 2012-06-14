@@ -44,6 +44,10 @@ public class CDIBuilderDelegate implements ICDIBuilderDelegate {
 
 	public void build(FileSet fileSet, CDICoreNature projectNature) {
 		DefinitionContext context = projectNature.getDefinitions().getWorkingCopy();
+		build(fileSet, context);
+	}
+
+	public void build(FileSet fileSet, DefinitionContext context) {
 		Set<IPath> ps = fileSet.getAllPaths();
 		for (IPath p: ps) context.clean(p);
 		Map<IPath, Set<IType>> as = fileSet.getAnnotations();

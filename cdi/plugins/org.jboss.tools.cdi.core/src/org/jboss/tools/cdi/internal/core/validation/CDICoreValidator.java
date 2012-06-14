@@ -43,6 +43,7 @@ import org.eclipse.jdt.core.JavaConventions;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.core.Signature;
 import org.eclipse.jdt.internal.compiler.impl.CompilerOptions;
+import org.eclipse.jface.text.IRegion;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.wst.common.componentcore.ComponentCore;
 import org.eclipse.wst.common.componentcore.resources.IVirtualComponent;
@@ -50,6 +51,8 @@ import org.eclipse.wst.common.componentcore.resources.IVirtualFile;
 import org.eclipse.wst.validation.internal.core.ValidationException;
 import org.eclipse.wst.validation.internal.operations.WorkbenchReporter;
 import org.eclipse.wst.validation.internal.provisional.core.IReporter;
+import org.eclipse.wst.validation.internal.provisional.core.IValidationContext;
+import org.eclipse.wst.validation.internal.provisional.core.IValidator;
 import org.jboss.tools.cdi.core.CDIConstants;
 import org.jboss.tools.cdi.core.CDICoreBuilder;
 import org.jboss.tools.cdi.core.CDICoreNature;
@@ -86,8 +89,11 @@ import org.jboss.tools.cdi.core.extension.feature.IInjectionPointValidatorFeatur
 import org.jboss.tools.cdi.core.extension.feature.IValidatorFeature;
 import org.jboss.tools.cdi.core.preferences.CDIPreferences;
 import org.jboss.tools.cdi.internal.core.impl.CDIProject;
+import org.jboss.tools.cdi.internal.core.impl.CDIProjectAsYouType;
 import org.jboss.tools.cdi.internal.core.impl.SessionBean;
 import org.jboss.tools.cdi.internal.core.impl.definition.Dependencies;
+import org.jboss.tools.common.el.core.ELReference;
+import org.jboss.tools.common.el.core.resolver.ELContext;
 import org.jboss.tools.common.java.IAnnotationDeclaration;
 import org.jboss.tools.common.java.IJavaReference;
 import org.jboss.tools.common.java.IParametedType;
@@ -98,17 +104,20 @@ import org.jboss.tools.common.model.util.EclipseResourceUtil;
 import org.jboss.tools.common.text.INodeReference;
 import org.jboss.tools.common.text.ITextSourceReference;
 import org.jboss.tools.common.validation.ContextValidationHelper;
+import org.jboss.tools.common.validation.EditorValidationContext;
+import org.jboss.tools.common.validation.IAsYouTypeValidator;
 import org.jboss.tools.common.validation.IProjectValidationContext;
 import org.jboss.tools.common.validation.IValidatingProjectSet;
 import org.jboss.tools.common.validation.IValidatingProjectTree;
 import org.jboss.tools.common.validation.ValidationUtil;
 import org.jboss.tools.common.validation.ValidatorManager;
+import org.jboss.tools.jst.web.kb.PageContextFactory;
 import org.jboss.tools.jst.web.kb.internal.validation.KBValidator;
 
 /**
  * @author Alexey Kazakov
  */
-public class CDICoreValidator extends CDIValidationErrorManager {
+public class CDICoreValidator extends CDIValidationErrorManager implements IAsYouTypeValidator {
 	public static final String ID = "org.jboss.tools.cdi.core.CoreValidator"; //$NON-NLS-1$
 	public static final String PROBLEM_TYPE = "org.jboss.tools.cdi.core.cdiproblem"; //$NON-NLS-1$
 	public static final String PREFERENCE_PAGE_ID = "org.jboss.tools.cdi.ui.preferences.CDIValidatorPreferencePage"; //$NON-NLS-1$
@@ -468,7 +477,30 @@ public class CDICoreValidator extends CDIValidationErrorManager {
 	public static void cleanProject(IProject project) {
 		WorkbenchReporter.removeAllMessages(project, new String[]{CDICoreValidator.class.getName()}, null);
 	}
-	
+
+	@Override
+	public void validate(IValidator validatorManager, IProject rootProject, IRegion dirtyRegion, IValidationContext helper, IReporter reporter, EditorValidationContext validationContext, IProjectValidationContext projectContext, IFile file) {
+//		init(rootProject, null, projectContext, validatorManager, reporter);
+//TODO init properly
+
+		setReporter(reporter);
+		setValidationManager(validatorManager);
+		setValidationContext(projectContext);
+		ContextValidationHelper helper1 = new ContextValidationHelper();
+		helper1.setProject(rootProject);
+		setCoreHelper(helper1);
+		setMessageIdQuickFixAttributeName(MESSAGE_ID_ATTRIBUTE_NAME);
+		CDICoreNature nature = CDICorePlugin.getCDI(rootProject, true);
+		rootCdiProject = nature.getDelegate();
+		this.document = validationContext.getDocument();
+		rootCdiProject = new CDIProjectAsYouType(rootCdiProject, file);
+
+//TODO do not remove markers, disable
+//		removeAllMessagesFromResource(file);
+//		validateResource(file);
+	}
+
+
 	/**
 	 * Validates a resource.
 	 * 
