@@ -1,9 +1,9 @@
 <tests>
 	<test id="selectItems1">
-		<SPAN STYLE="-moz-user-modify: read-write;">
+		<DIV>
 			<INPUT TYPE="checkbox"/>
 			<LABEL>someValue</LABEL>
-		</SPAN>
+		</DIV>
 	</test>
 	<test id="selectItems2">
 		<OPTION>someValue</OPTION>

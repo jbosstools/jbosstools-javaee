@@ -1,10 +1,10 @@
 <tests>
 	<test id="selectItem1">
-		<SPAN>
+		<DIV>
 			<INPUT TYPE="checkbox" />
 
 			<LABEL CLASS="myClass1">check1</LABEL>
-		</SPAN>
+		</DIV>
 	</test>
 	<test id="selectItem2">
 		<OPTION> value1</OPTION>
@@ -58,9 +58,9 @@
 		</DIV>
 	</test>
 	<test id="selectItem4">
-		<SPAN >
+		<DIV>
 			<INPUT TYPE="checkbox" DIR="ltr" />
 			<LABEL CLASS="myClass">check1</LABEL>
-		</SPAN>
+		</DIV>
 	</test>
 </tests>
