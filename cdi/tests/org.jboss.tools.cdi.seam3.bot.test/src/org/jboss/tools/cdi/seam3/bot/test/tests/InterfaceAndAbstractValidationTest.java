@@ -48,7 +48,7 @@ public class InterfaceAndAbstractValidationTest extends Seam3TestBase {
 		
 		/* assert message contains expected value */
 		assertMessageContainsExpectedValue(MarkerHelper.getMarkerMessage(markers[0]), 
-				"Interface ", "cannot be configured as a bean");
+				"Abstract type", "cannot be configured as a bean");
 		
 	}
 	
