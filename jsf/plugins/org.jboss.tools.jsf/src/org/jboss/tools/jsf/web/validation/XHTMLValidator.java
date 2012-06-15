@@ -226,7 +226,7 @@ public class XHTMLValidator extends Validator {
 	}
 
 	private void displaySubtask(String message, Object... arguments) {
-		displaySubtask(monitor, MessageFormat.format(message, arguments));
+		displaySubtask(monitor, message, arguments);
 	}
 
 	private void displaySubtask(IProgressMonitor monitor, String message, Object... arguments) {
