@@ -14,6 +14,7 @@ import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jface.preference.IPreferenceStore;
+import org.eclipse.jface.text.BadLocationException;
 import org.jboss.tools.common.base.test.validation.java.BaseAsYouTypeInJavaValidationTest;
 import org.jboss.tools.common.preferences.SeverityPreferences;
 import org.jboss.tools.jst.web.kb.WebKbPlugin;
@@ -41,7 +42,7 @@ public class JSFAsYouTypeInJavaValidationTest extends BaseAsYouTypeInJavaValidat
 		project.build(IncrementalProjectBuilder.FULL_BUILD, new NullProgressMonitor());
 	}
 
-	public void testAsYouTypeInJavaValidation() throws JavaModelException {
+	public void testAsYouTypeInJavaValidation() throws JavaModelException, BadLocationException {
 		assertNotNull("Test project '" + PROJECT_NAME + "' is not prepared", project);
 		openEditor(PAGE_NAME);
 		IPreferenceStore store = WebKbPlugin.getDefault().getPreferenceStore();
