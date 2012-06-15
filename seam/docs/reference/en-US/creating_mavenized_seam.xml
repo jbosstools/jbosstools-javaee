@@ -28,7 +28,12 @@
     <itemizedlist>
       <listitem>
         <para>
-			Navigate to <menuchoice><guimenuitem>File</guimenuitem><guimenuitem>New</guimenuitem><guimenuitem>Seam Project</guimenuitem></menuchoice>. Give the project a meaningful name, specify a target runtime and server and select the proper configuration for your Seam project:
+		Navigate to <menuchoice>
+                <guimenuitem>File</guimenuitem>
+                <guimenuitem>New</guimenuitem>
+                <guimenuitem>Other</guimenuitem>
+                <guimenuitem>Seam Web Project</guimenuitem>
+            </menuchoice>. Give the project a meaningful name, specify a target runtime and server and select the proper configuration for your Seam project:
         </para>
          
         <figure>

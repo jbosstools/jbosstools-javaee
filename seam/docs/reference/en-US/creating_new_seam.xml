@@ -214,10 +214,10 @@
       Clicking the <guibutton>OK</guibutton> button will bring you to the <property>Web Module</property> wizard form again.
     </para>
      
-<!--    <section id="seamWithJPA">
+    <section id="seamWithJPA">
       <title>Seam project with JPA facets</title> 
       <para>
-		  For creating Seam project with JPA support you need to select<property> Java Persistent</property> facet on <property>Project Facets</property> page and click <guibutton>OK</guibutton>.
+		  For creating a Seam project with JPA support you need to select<property> Java Persistent</property> facet on <property>Project Facets</property> page and click <guibutton>OK</guibutton>.
       </para>
        
       <para>
@@ -241,12 +241,6 @@
         On this page you can choose <property>Platform</property> (vendor-specific JPA implementation) for your project, type of JPA Implementation, and configure the <property>Connection</property> to database in the <property
                     >Connection</property> area.
       </para>
-       
-      <para>
-        More about <property>JPA facet</property> page you can read in <ulink
-                    url="http://help.eclipse.org/galileo/index.jsp?topic=/org.eclipse.jpt.doc.user/ref_jpa_facet.htm"
-                    >Eclipse documentation</ulink>.
-      </para>
       
 	  <para>
 		  The next page concerns <property>Web Module Settings</property>. Accept the default values and press the <guibutton>Next</guibutton> button.
@@ -255,7 +249,7 @@
       <para>
         On the next step you will see <property>JSF Capabilities</property> and <property>Seam facet</property> pages, which are mostly the same as in general Seam project.
       </para>
-  </section> -->
+  </section>
 </section> 
    
   <section id="configureJava">

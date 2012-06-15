@@ -277,7 +277,7 @@
     <itemizedlist>
       <listitem>
         <para>
-          You can expand the <property>WEB_CONTENT</property> folder of the application and open <property>home.xhtml</property> or <property>login.xhtml</property> with <property>JBoss Visual Editor</property>.
+			You can expand the <property>WebContent</property> folder of the crudapp project in the <guilabel>Project Explorer</guilabel> and open <property>home.xhtml</property> or <property>login.xhtml</property> with <property>JBoss Visual Editor</property>.
         </para>
       </listitem>
     </itemizedlist>
@@ -296,8 +296,13 @@
     <itemizedlist>
       <listitem>
         <para>
-          Connect to the <emphasis> <property>cruddb</property> </emphasis> database if not already connected to it.
+			Switch to <guilabel>Database Development</guilabel> perspective with <menuchoice><guimenuitem>Window</guimenuitem><guimenuitem>Open Perspective</guimenuitem><guimenuitem>Other</guimenuitem></menuchoice>.
         </para>
+		<para>
+			Connect to the <emphasis>
+				<property>cruddb</property>
+			</emphasis> database if not already connected to it.
+		</para>
       </listitem>
     </itemizedlist>
      

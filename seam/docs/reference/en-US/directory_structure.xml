@@ -51,7 +51,10 @@
     </note>
      
     <para>
-      Furthermore the Seam Project wizard generates a test project that is setup to run <xref linkend="testNG"/> directly against the proper libraries and server runtime libraries. You can run tests via <menuchoice><guimenuitem>Run As</guimenuitem><guimenuitem>TestNG Test.</guimenuitem></menuchoice>
+	Furthermore the Seam Project wizard generates a test project that is setup to run directly against the proper libraries and server runtime libraries. You can run tests via <menuchoice>
+            <guimenuitem>Run As</guimenuitem>
+            <guimenuitem>TestNG Test.</guimenuitem>
+        </menuchoice>:  <xref linkend="testNG"/>.
     </para>
      
     <para>
