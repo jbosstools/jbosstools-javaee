@@ -14,13 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.jboss.jsr299.tck.tests.lookup.clientProxy.unproxyable.privateConstructor;
+package org.jboss.jsr299.tck.tests.lookup.clientProxy.unproxyable.finalMethod;
 
 import javax.enterprise.context.RequestScoped;
 
 @RequestScoped
-class Unproxyable_Broken implements IUnproxyable
+punlic interface Tuna
 {
-   private Unproxyable_Broken()  {}
-   
 }

@@ -20,5 +20,7 @@ import javax.inject.Inject;
 
 class InjectionPointBean
 {
-   @Inject Unproxyable_Broken foo;
+   @Inject Unproxyable_Broken foo; //error
+
+   @Inject IUnproxyable foo2; //ok
 }

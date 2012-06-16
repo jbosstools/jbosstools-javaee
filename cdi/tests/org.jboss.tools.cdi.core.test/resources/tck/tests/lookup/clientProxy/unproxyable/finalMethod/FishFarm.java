@@ -20,5 +20,7 @@ import javax.inject.Inject;
 
 class FishFarm
 {
-   @Inject Tuna_Broken tuna;
+   @Inject Tuna_Broken tuna; //error
+
+   @Inject Tuna tuna2; //ok
 }

@@ -16,12 +16,21 @@
  */
 package org.jboss.jsr299.tck.tests.lookup.clientProxy.unproxyable.finalClass;
 
+import javax.enterprise.context.RequestScoped;
+import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
+import javax.inject.Named;
 
-class FishFarm
-{
+public class Opportunity {
 
-   @Inject Tuna_Broken tuna; //error
-   
-   @Inject Tuna tuna2; //ok
+	@Inject
+	@Named("iiOpportunity")
+	String s;
+	
+	@Produces
+	@Named("iiOpportunity")
+	@RequestScoped
+	String t;
+	
+	
 }

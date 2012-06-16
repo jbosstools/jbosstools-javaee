@@ -199,6 +199,7 @@ public class DeploymentProblemsValidationTests extends ValidationTest {
 	public void testClassWithPrivateConstructor() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/lookup/clientProxy/unproxyable/privateConstructor/InjectionPointBean.java");
 		AbstractResourceMarkerTest.assertMarkerIsCreated(file, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_TYPE_WITH_NPC, "Unproxyable_Broken", "Unproxyable_Broken"), 23);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, CDIValidationMessages.UNPROXYABLE_BEAN_TYPE_WITH_NPC.substring(0, 0), 25);
 	}
 
 	/**
@@ -221,6 +222,10 @@ public class DeploymentProblemsValidationTests extends ValidationTest {
 	public void testInjectionPointWhichResolvesToNormalScopedFinalBean() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/lookup/clientProxy/unproxyable/finalClass/FishFarm.java");
 		AbstractResourceMarkerTest.assertMarkerIsCreated(file, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_FINAL_TYPE, "Tuna_Broken", "Tuna_Broken"), 24);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, CDIValidationMessages.UNPROXYABLE_BEAN_FINAL_TYPE.substring(0, 0) + ".*", 26);
+
+		file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/lookup/clientProxy/unproxyable/finalClass/Opportunity.java");
+		AbstractResourceMarkerTest.assertMarkerIsCreated(file, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_FINAL_TYPE, "String", "Opportunity.t"), 26);
 	}
 
 	/**
@@ -234,6 +239,7 @@ public class DeploymentProblemsValidationTests extends ValidationTest {
 	public void testClassWithFinalMethodCannotBeProxied() throws Exception {
 		IFile file = tckProject.getFile("JavaSource/org/jboss/jsr299/tck/tests/lookup/clientProxy/unproxyable/finalMethod/FishFarm.java");
 		AbstractResourceMarkerTest.assertMarkerIsCreated(file, MessageFormat.format(CDIValidationMessages.UNPROXYABLE_BEAN_TYPE_WITH_FM, "Tuna_Broken", "Tuna_Broken"), 23);
+		AbstractResourceMarkerTest.assertMarkerIsNotCreated(file, CDIValidationMessages.UNPROXYABLE_BEAN_TYPE_WITH_FM.substring(0, 0) + ".*", 25);
 	}
 
 	/**

@@ -18,9 +18,7 @@ package org.jboss.jsr299.tck.tests.lookup.clientProxy.unproxyable.privateConstru
 
 import javax.enterprise.context.RequestScoped;
 
-@RequestScoped
-class Unproxyable_Broken implements IUnproxyable
+public interface IUnproxyable
 {
-   private Unproxyable_Broken()  {}
    
 }
