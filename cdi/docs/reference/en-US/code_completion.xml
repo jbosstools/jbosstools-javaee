@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='utf-8' ?>
+
+<chapter id="chap-CDI_Tools_Reference_Guide-Code_Completion">
+	<title>Code completion</title>
+	<para>
+	   Code completion is available for <property>@Named</property> beans and relevant types and annotations that exist in <filename>beans.xml</filename>. 
+	</para>
+   <figure id="ccompletion_01">
+	   <title>@Named beans code completion</title>
+	   <mediaobject>
+		   <imageobject>
+			   <imagedata fileref="images/Code_Completion/ccompletion_01.png" format="PNG" />
+		   </imageobject>
+		   <textobject>
+			   <phrase>
+				   @Named beans code completion.
+			   </phrase>
+		   </textobject>
+	   </mediaobject>
+   </figure>
+   <figure id="ccompletion_02">
+	   <title>beans.xml code completion</title>
+	   <mediaobject>
+		   <imageobject>
+			   <imagedata fileref="images/Code_Completion/ccompletion_02.png" format="PNG" />
+		   </imageobject>
+		   <textobject>
+			   <phrase>
+				   beans.xml code completion.
+			   </phrase>
+		   </textobject>
+	   </mediaobject>
+   </figure>
+</chapter>
