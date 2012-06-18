@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter id="adding_managed_bean">
+	<?dbhtml filename="adding_managed_bean.html"?>
+	<chapterinfo>
+		<keywordset>
+			<keyword>JBoss Developer Studio</keyword>
+			<keyword>JSF application</keyword>
+			<keyword>Java</keyword>
+		</keywordset>
+	</chapterinfo>
+
+	<title>Adding a Managed Bean to the Application</title>
+	<para>To store data in the application, we will use a managed bean.</para>
+	<itemizedlist>
+		<listitem>
+			<para>Click on the <guilabel>Tree</guilabel> tab at the bottom of the editing window.</para>
+		</listitem>
+		<listitem>
+			<para>Select the <guilabel>Managed Beans</guilabel> node and then click the <guibutton>Add...</guibutton> button displayed along the right side of the editor window.</para>
+		</listitem>
+		<listitem>
+			<para>Type in <guilabel>jsfHello.PersonBean</guilabel> for Class and <guilabel>personBean</guilabel> for Name. Leave the <guilabel>Scope</guilabel> selection as is and leave the <guilabel>Generate Source Code</guilabel> checkbox checked.</para>
+		</listitem>
+		<listitem>
+			<para>Click the <guibutton>Finish</guibutton> button.</para>
+		</listitem>
+		<listitem>
+			<para>personBean will now be selected and three sections of information: <guilabel>Managed Bean</guilabel>, <guilabel>Properties</guilabel>, and <guilabel>Advanced</guilabel> will be displayed about it. Under the <guilabel>Properties</guilabel> section, click the <guibutton>Add...</guibutton> button.</para>
+		</listitem>
+		<listitem>
+			<para>Type in <guilabel>name</guilabel> for <guilabel>Property-Name</guilabel>. Leave everything else as is. (When <guilabel>Property-Class</guilabel> is not filled in, String is the assumed type.)</para>
+		</listitem>
+		<listitem>
+			<para>Click the <guibutton>Finish</guibutton> button.</para>
+		</listitem>
+		<listitem>
+			<para>Select the <guilabel>personBean</guilabel> node in the tree.</para>
+		</listitem>
+	</itemizedlist>
+	<para>You should see this now:</para>
+	<figure>
+		<title>Tree View in Config Editor</title>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="images/jsf_application/jsf_application_5.png"/>
+			</imageobject>
+		</mediaobject>
+	</figure>
+	<itemizedlist>
+		<listitem>
+			<para>Select <menuchoice><guimenuitem>File</guimenuitem>
+					<guimenuitem>Save</guimenuitem>
+				</menuchoice> from the menu bar.</para>
+		</listitem>
+	</itemizedlist>
+	<para>
+  		You have now registered the <emphasis><property>managed bean</property></emphasis> and created a <emphasis><property>stub-coded class</property></emphasis> file for it.
+  </para>
+
+</chapter>
