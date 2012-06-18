@@ -3,6 +3,7 @@ package org.jboss.tools.jsf.ui.test;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.core.resources.IFile;
@@ -13,16 +14,33 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.jface.text.BadLocationException;
+import org.eclipse.jface.text.IDocument;
+import org.eclipse.jface.text.IRegion;
+import org.eclipse.jface.text.Position;
+import org.eclipse.jface.text.contentassist.ICompletionProposal;
+import org.eclipse.jface.text.source.IAnnotationModel;
 import org.eclipse.jst.jsp.ui.internal.validation.JSPContentSourceValidator;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IMarkerResolution;
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.part.FileEditorInput;
+import org.eclipse.wst.sse.ui.internal.reconcile.TemporaryAnnotation;
+import org.eclipse.wst.validation.ValidationFramework;
 import org.eclipse.wst.validation.ValidationResult;
 import org.eclipse.wst.validation.ValidationState;
 import org.eclipse.wst.validation.internal.MarkerManager;
 import org.eclipse.wst.validation.internal.core.Message;
 import org.eclipse.wst.validation.internal.provisional.core.IMessage;
 import org.eclipse.wst.validation.internal.provisional.core.IReporter;
+import org.jboss.tools.common.text.xml.quickfix.QuickFixManager;
 import org.jboss.tools.jsf.ui.JsfUiPlugin;
+import org.jboss.tools.jst.jsp.jspeditor.JSPMultiPageEditor;
 import org.jboss.tools.jst.web.ui.action.JSPProblemMarkerResolutionGenerator;
+import org.jboss.tools.test.util.JobUtils;
 import org.jboss.tools.tests.AbstractResourceMarkerTest;
 
 public class JSPProblemMarkerResolutionTest extends AbstractResourceMarkerTest{
@@ -31,6 +49,10 @@ public class JSPProblemMarkerResolutionTest extends AbstractResourceMarkerTest{
 	private static final String XHTML_MARKER_TYPE = "org.eclipse.wst.html.core.validationMarker";
 	private static final String JSP_EXT = "jsp";
 	private static final String XHTML_EXT = "xhtml";
+	
+	private static final int MAX_SECONDS_TO_WAIT = 10;
+	
+	protected final static String EDITOR_ID = "org.jboss.tools.jst.jsp.jspeditor.JSPTextEditor"; //$NON-NLS-1$
 
 	public JSPProblemMarkerResolutionTest() {
 		super("JSP Problem Marker Resolution Tests");
@@ -39,10 +61,18 @@ public class JSPProblemMarkerResolutionTest extends AbstractResourceMarkerTest{
 	public JSPProblemMarkerResolutionTest(String name) {
 		super(name);
 	}
+	
+	private static boolean isSuspendedValidationDefaultValue;
 
 	@Override
 	protected void setUp() throws Exception {
 		project = ResourcesPlugin.getWorkspace().getRoot().getProject("test_jsf_project");
+		isSuspendedValidationDefaultValue = ValidationFramework.getDefault().isSuspended();
+		ValidationFramework.getDefault().suspendAllValidation(false);
+	}
+	
+	public void tearDown() throws Exception {
+		ValidationFramework.getDefault().suspendAllValidation(isSuspendedValidationDefaultValue);
 	}
 	
 	private void validate(IFile file) throws CoreException, SecurityException, NoSuchMethodException, IllegalArgumentException, IllegalAccessException, InvocationTargetException, InstantiationException{
@@ -170,5 +200,93 @@ public class JSPProblemMarkerResolutionTest extends AbstractResourceMarkerTest{
 		validate(jspFile);
 
 		assertMarkerIsNotCreated(jspFile, XHTML_MARKER_TYPE, "Unknown tag (ui:insert).");
+	}
+	
+	public void testQuickFixesForTemporaryAnnotationInJSP() throws PartInitException, BadLocationException{
+		checkQuickFixForTemporaryAnnotation("WebContent/pages/test_page3.jsp", 1);
+	}
+	
+	public void testQuickFixesForTemporaryAnnotationInXHTML() throws PartInitException, BadLocationException{
+		checkQuickFixForTemporaryAnnotation("WebContent/pages/test_page3.xhtml", 5);
+	}
+	
+	private void checkQuickFixForTemporaryAnnotation(String fileName, int lineToDelete) throws PartInitException, BadLocationException{
+		IFile jspFile = project.getFile(fileName);
+		
+		assertTrue("File not found",jspFile.exists());
+		
+		IEditorInput input = new FileEditorInput(jspFile);
+
+		IEditorPart editor = PlatformUI.getWorkbench()
+				.getActiveWorkbenchWindow().getActivePage().openEditor(input,
+						EDITOR_ID, true);
+		
+		if(editor instanceof JSPMultiPageEditor){
+			JSPMultiPageEditor jspEditor = (JSPMultiPageEditor)editor;
+			IAnnotationModel aModel = jspEditor.getJspEditor().getTextViewer().getAnnotationModel();
+			
+			// change file
+			IDocument document = jspEditor.getJspEditor().getTextViewer().getDocument();
+			IRegion region = document.getLineInformation(lineToDelete);
+			document.replace(region.getOffset(), region.getLength(), "");
+			
+			// Find annotation
+			TemporaryAnnotation problemAnnotation = waitForProblemAnnotationAppearance(
+					aModel, MAX_SECONDS_TO_WAIT);
+			assertNotNull("No ProblemAnnotation found for Marker Type: "
+					+ MARKER_TYPE, problemAnnotation);
+			
+			if(problemAnnotation != null){
+				problemAnnotation.setAdditionalFixInfo(document);
+				// get all relevant quick fixes for this annotation
+				if(QuickFixManager.getInstance().hasProposals(problemAnnotation)){
+					List<ICompletionProposal> proposals = QuickFixManager.getInstance().getProposals(problemAnnotation);
+					assertNotSame("Quick fix not found", 0, proposals.size());
+				}else{
+					fail("Quick fix not found");
+				}
+			}else{
+				fail("Annotation not found");
+			}
+		}else{
+			fail("Editor must be instance of JSPMultiPageEditor, was - "+editor.getClass());
+		}
+	}
+	
+	private TemporaryAnnotation waitForProblemAnnotationAppearance(
+			final IAnnotationModel annotationModel, final int seconds) {
+		final TemporaryAnnotation[] result = new TemporaryAnnotation[] { null };
+
+		Display.getDefault().syncExec(new Runnable() {
+			public void run() {
+				int secondsLeft = seconds;
+				while (secondsLeft-- > 0) {
+					JobUtils.delay(1000);
+
+					// clean deffered events
+					while (Display.getCurrent().readAndDispatch())
+						;
+
+					//boolean found = false;
+					Iterator it = annotationModel.getAnnotationIterator();
+					while (it.hasNext()) {
+						Object o = it.next();
+
+						if (!(o instanceof TemporaryAnnotation))
+							continue;
+
+						TemporaryAnnotation temporaryAnnotation = (TemporaryAnnotation) o;
+						Position position = annotationModel
+								.getPosition(temporaryAnnotation);
+
+
+						result[0] = temporaryAnnotation;
+						return;
+					}
+				}
+			}
+		});
+
+		return result[0];
 	}
 }
