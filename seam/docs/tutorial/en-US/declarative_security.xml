@@ -1,0 +1,80 @@
+<chapter id="declarative_security">
+    <title>Declarative Security</title>
+    <para>In this section you will see how easy it is to secure the facelets and facelet components
+      in Seam. Let’s go ahead and secure the action button, then we will secure the entire
+      page.</para>
+    <section id="edit_login">
+      <title>Edit Login Authentication Logic</title>
+      <para>There is a class called <filename>Authenticator.java</filename>. The login page will
+        execute the <property>Authenticator.authenticate()</property> method by default, so we’ll
+        start by viewing the authentication logic.</para>
+      <para>Open <filename>Authenticator.java</filename> in JBoss Developer Studio and you will see that it contains the
+          <property>authenticate()</property> method with this code:</para>
+      <programlisting><![CDATA[public boolean authenticate()
+    {
+        log.info("authenticating {0}", credentials.getUsername());
+        //write your authentication logic here,
+        //return true if the authentication was
+        //successful, false otherwise
+        if ("admin".equals(credentials.getUsername()))
+        {
+            identity.addRole("admin");
+            return true;
+        }
+        return false;
+    }]]></programlisting>
+    </section>
+    <section id="secure_seam_page">
+      <title>Secure Seam Page Component</title>
+      <para>Open <filename>myAction.xhtml</filename> and add a new secured command button:</para>
+      <programlisting><![CDATA[<h:commandButton id="myActionSecured"
+value="Secured Action Button"
+action="#{myAction.myAction}"
+rendered="#{s:hasRole('admin')}"/>]]></programlisting>
+      <para>Refresh <emphasis>
+          <property>http://localhost:8080/workshop/myAction.seam</property>
+        </emphasis> If you are not logged in you will only see one button. If you are logged in,
+        there will be two buttons.</para>
+      <figure>
+        <title>One Button on a Page</title>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="images/first_seam/first_seam28.png"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+      <para>The secured button is not visible because the user isn’t logged in as <property
+          >&quot;admin&quot;</property>.</para>
+      <figure>
+        <title>Secured Button is Visible</title>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="images/first_seam/first_seam29.png"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+      <para>The user is logged in as <property>&quot;admin&quot;</property>. Securing components is
+        easy but securing pages is pretty simple as well. </para>
+      <para>Open <emphasis>
+          <filename>WebContent/WEB-INF/pages.xml</filename>
+        </emphasis>. Then add this markup directly underneath the &lt;pages&gt; element:</para>
+      <programlisting><![CDATA[<page view-id="/myAction.xhtml" login-required="true"/>]]></programlisting>
+      <para>Refresh <emphasis>
+          <property>http://localhost:8080/workshop/myAction.seam</property>
+        </emphasis> If you are not logged in you will get bounced back to the login page.</para>
+      <figure>
+        <title>Login Page</title>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="images/first_seam/first_seam30.png"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+      <para>Thus, if you enter login credentials for the <property>&quot;admin&quot;</property>
+        user, you will be re-directed to the secured page and secured component. If you enter
+        different login credentials, page access will be granted, but the secured component will not
+        be displayed.</para>
+      <para>Congratulations! You have secured your new action both at the facelet component and page
+        level. You also added custom authentication logic to the login action.</para>
+    </section>
+  </chapter>

@@ -1,0 +1,55 @@
+<chapter id="rich_components">
+	<title>Rich Components</title>
+	<para>This lab will conclude with one last AJAX twist. In this section we add a RichFaces
+		<property>inputNumberSlider</property> to the Order Details edit screen.</para>
+		<section id="add_richfaces">
+			<title>Add a Richfaces component to the CRUD Application</title>
+			<para>Switch to Seam perspective, and open <filename>WebContent/OrderdetailsEdit.xhtml</filename> in JBoss Developer Studio.</para>
+			<para>Change the form field values using the visual editor. Seam has generated the form field
+				names that match the database column names. This is not ideal for business users.</para>
+				<figure>
+					<title>Form Fields Editing</title>
+					<mediaobject>
+						<imageobject>
+							<imagedata fileref="images/first_seam/first_seam46.png"/>
+						</imageobject>
+					</mediaobject>
+				</figure>
+				<para>Also, replace the QTY Ordered input field with a <property>inputNumberSlider</property>.
+				You can use the JBoss Developer Studio palette or right click on the form and insert the
+					RichFaces component.</para>
+					<figure>
+						<title>Insert RichFaces Component from Context Menu</title>
+						<mediaobject>
+							<imageobject>
+								<imagedata fileref="images/first_seam/first_seam47.png" scale="85"/>
+							</imageobject>
+						</mediaobject>
+					</figure>
+					<para>One the last option is to use the source view and manually copy the inputNumberSlider
+						markup listed below:</para>
+						<programlisting>
+							<![CDATA[<rich:inputNumberSlider id="quantityOrdered" required="true"
+							value="#{orderdetailsHome.instance.quantityordered}"/>]]>
+						</programlisting>
+						<figure>
+							<title>Manually copying Source Code</title>
+							<mediaobject>
+								<imageobject>
+									<imagedata fileref="images/first_seam/first_seam48.png"/>
+								</imageobject>
+							</mediaobject>
+						</figure>
+						<para>The end result is an edit page that has better form labels and a new RichFaces
+							control.</para>
+							<figure>
+								<title>The Result Page</title>
+								<mediaobject>
+									<imageobject>
+										<imagedata fileref="images/first_seam/first_seam49.png" scale="85"/>
+									</imageobject>
+								</mediaobject>
+							</figure>
+							<para>Congratulations! You have completed the JBoss Developer Studio lab.</para>
+    </section>
+  </chapter>

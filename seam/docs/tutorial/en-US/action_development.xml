@@ -1,0 +1,150 @@
+<chapter id="seam_action_dev">
+	<title>Seam Action Development</title>
+	<para>Now it’s time to write some code. The good news is that JBoss Developer Studio can also
+		help out in this respect. In this section, we will create a new Seam Action POJO and facelet
+			with some custom business logic and some GUI changes.</para>
+			<section id="create_seam_action">
+				<title>Create a New Seam Action</title>
+				<para>Go to main menu bar and click on <menuchoice>
+					<guimenuitem>File</guimenuitem>
+					<guimenuitem>New</guimenuitem>
+					<guimenuitem>New Seam Action</guimenuitem>
+				</menuchoice> to start the New Seam Action wizard.</para>
+				<para>Specify a <property>Seam component name</property> (e.g., &quot;myAction&quot;). The
+				other properties will be auto-completed for you so there is no need to change them. Click on
+					the <guibutton>Finish</guibutton> button.</para>
+					<figure>
+						<title>New Seam Action Wizard</title>
+						<mediaobject>
+							<imageobject>
+								<imagedata fileref="images/first_seam/first_seam19.png"/>
+							</imageobject>
+						</mediaobject>
+					</figure>
+					<para>Now, open the <filename>MyAction.java</filename> file and replace the
+						&quot;myAction&quot; method with this logic:</para>
+						<programlisting>
+							<![CDATA[public void myAction() {
+							Calendar cal = Calendar.getInstance();
+							log.info("myAction.myAction() action called");
+							statusMessages.add("MyAction Executed on:" + cal.getTime());
+							}]]>
+						</programlisting>
+						<para>You also need to import the <property>java.util.Calendar</property> class by clicking
+						<keycombo>
+							<keycap>CTRL</keycap>
+							<keycap>Shift</keycap>
+							<keycap>O</keycap>
+						</keycombo>.</para>
+					</section>
+					<section id="test_seam_action">
+						<title>Test Seam Action</title>
+						<para>The new action can be tested by browsing the workshop-test project. JBoss Developer
+							Studio has already created a TestNG test case for you.</para>
+							<figure>
+								<title>&quot;workshop-test&quot; Project</title>
+								<mediaobject>
+									<imageobject>
+										<imagedata fileref="images/first_seam/first_seam20.png" scale="85"/>
+									</imageobject>
+								</mediaobject>
+							</figure>
+							
+							<note>
+								<title>Tip</title>
+								<para>You may have to refresh the project to see the new files.</para>
+							</note>
+							
+							<para>The test case simulates a Seam method execution for the <property>MyAction.myAction()</property> logic.</para>
+							<para>To run the test case, right click on <filename>MyActionTest.xml</filename> and click <menuchoice>
+								<guimenuitem>Run As</guimenuitem>
+								<guimenuitem>TestNG Suite</guimenuitem>
+							</menuchoice> or use the <guibutton>Run As...</guibutton> toolbar shortcut as shown below.</para>
+							<figure>
+								<title>TestNG Running</title>
+								<mediaobject>
+									<imageobject>
+										<imagedata fileref="images/first_seam/first_seam21.png"/>
+									</imageobject>
+								</mediaobject>
+							</figure>
+							<para>With any luck, the test case will pass. Look at the TestNG view.</para>
+							<figure>
+								<title>TestNG Results</title>
+								<mediaobject>
+									<imageobject>
+										<imagedata fileref="images/first_seam/first_seam22.png"/>
+									</imageobject>
+								</mediaobject>
+							</figure>
+							<para>Now, it’s safe to test the new Seam Action in a web browser. The fastest way to do that
+							is to right click on <filename>myAction.xhtml</filename> and use <menuchoice>
+								<guimenuitem>Run As...</guimenuitem>
+								<guimenuitem>Run On Server</guimenuitem>
+							</menuchoice> which will show the appropriate URL in the browser. Alternatively you can
+								manually enter <emphasis>
+									<property>http://localhost:8080/workshop/myAction.seam</property>
+								</emphasis> into a browser.</para>
+								<figure>
+									<title>Seam Action in a Web Browser</title>
+									<mediaobject>
+										<imageobject>
+											<imagedata fileref="images/first_seam/first_seam23.png" scale="90"/>
+										</imageobject>
+									</mediaobject>
+								</figure>
+							</section>
+							<section id="modify_seam_action">
+								<title>Modify Seam Action User Interface</title>
+								<para>Browse to <emphasis>
+									<property>http://localhost:8080/workshop/myAction.seam</property>
+								</emphasis> and click on the <guibutton>myAction</guibutton> button. This executes the “myAction” method.
+									This looks pretty good, but we could make this page look a little better.</para>
+									<para>Open <emphasis>
+										<filename>WebContent/myAction.xhtml</filename>
+									</emphasis> in JBoss Developer Studio to use the nice facelets editor.</para>
+									<figure>
+										<title>Open Seam Action with Editor </title>
+										<mediaobject>
+											<imageobject>
+												<imagedata fileref="images/first_seam/first_seam24.png"/>
+											</imageobject>
+										</mediaobject>
+									</figure>
+									<para>Right click on the &quot;myAction!&quot; button in the visual part of editor and select
+										<property>&lt;h:commandButton&gt; Attributes</property>.</para>
+										<figure>
+											<title>Seam Action Editing</title>
+											<mediaobject>
+												<imageobject>
+													<imagedata fileref="images/first_seam/first_seam25.png"/>
+												</imageobject>
+											</mediaobject>
+										</figure>
+										<para>Change the <property>value</property> of the button to something different. If desired,
+										you can change any other text on the page. Then, type <keycombo>
+											<keycap>CTRL</keycap>
+											<keycap>S</keycap>
+										</keycombo> to save the facelet.</para>
+										<figure>
+											<title>Attributes Dialog</title>
+											<mediaobject>
+          <imageobject>
+            <imagedata fileref="images/first_seam/first_seam26.png"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+      <para>Refresh <emphasis>
+          <property>http://localhost:8080/workshop/myAction.seam</property>
+        </emphasis> and now you should see your changes.</para>
+      <para>Notice that you did not have to publish the application. JBoss Developer Studio auto-published it for you.</para>
+      <figure>
+        <title>Seam Action Is Modified</title>
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="images/first_seam/first_seam27.png"/>
+          </imageobject>
+        </mediaobject>
+      </figure>
+    </section>
+  </chapter>
