@@ -1,25 +1,35 @@
+/*******************************************************************************
+ * Copyright (c) 2012 Red Hat, Inc.
+ * Distributed under license by Red Hat, Inc. All rights reserved.
+ * This program is made available under the terms of the
+ * Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributor:
+ *     Red Hat, Inc. - initial API and implementation
+ ******************************************************************************/
 package org.jboss.tools.cdi.ui.test.validation.java;
 
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IncrementalProjectBuilder;
-import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.text.BadLocationException;
-import org.jboss.tools.cdi.core.ICDIProject;
 import org.jboss.tools.cdi.core.test.tck.TCKTest;
 import org.jboss.tools.common.base.test.validation.java.BaseAsYouTypeInJavaValidationTest;
 import org.jboss.tools.common.preferences.SeverityPreferences;
 import org.jboss.tools.jst.web.kb.WebKbPlugin;
 import org.jboss.tools.jst.web.kb.preferences.ELSeverityPreferences;
-import org.jboss.tools.test.util.ProjectImportTestSetup;
 
+/**
+ * 
+ * @author Victor V. Rubezhny
+ *
+ */
 public class CDIAsYouTypeInJavaValidationTest extends TCKTest {
 	private static final String PAGE_NAME = "JavaSource/org/jboss/jsr299/tck/tests/jbt/validation/el/TestBean.java";
 
 	private BaseAsYouTypeInJavaValidationTest baseTest = null;
 	protected IProject project;
-
 	
 	private static final String [][] EL2VALIDATE = 
 		{ 
@@ -59,5 +69,4 @@ public class CDIAsYouTypeInJavaValidationTest extends TCKTest {
 		}
  */
 	}
-
 }
