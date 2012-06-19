@@ -12,13 +12,33 @@
 	<packaging>eclipse-test-plugin</packaging>
 
 	<properties>
-		<systemProperties>-Djbosstools.test.seam.2.0.1.GA.home=${requirement.build.root}/jboss-seam-2.2.1.Final</systemProperties>
+		<systemProperties>-Djbosstools.test.seam.2.0.1.GA.home=${project.build.directory}/jboss-seam-2.2.1.Final</systemProperties>
 		<coverage.filter>org.jboss.tools.seam*</coverage.filter>
 		<emma.instrument.bundles>org.jboss.tools.seam.core</emma.instrument.bundles>
 	</properties>
 
 	<build>
 		<plugins>
+			<plugin>
+				<groupId>com.googlecode.maven-download-plugin</groupId>
+				<artifactId>maven-download-plugin</artifactId>
+				<version>0.2-SNAPSHOT</version>
+				<executions>
+					<execution>
+						<id>install-seam</id>
+						<phase>pre-integration-test</phase>
+						<goals>
+							<goal>wget</goal>
+						</goals>
+						<configuration>
+							<url>http://downloads.sourceforge.net/project/jboss/JBoss%20Seam/2.2.1.Final/jboss-seam-2.2.1.Final.zip</url>
+							<unpack>true</unpack>
+							<outputDirectory>${project.build.directory}</outputDirectory>
+							<md5>b490d794e805aef78cb9fee510073850</md5>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 			<plugin>
 				<groupId>org.eclipse.tycho</groupId>
 				<artifactId>tycho-surefire-plugin</artifactId>
