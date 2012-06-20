@@ -25,6 +25,18 @@ import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IMember;
 import org.eclipse.jdt.core.IPackageDeclaration;
 import org.eclipse.jdt.core.IType;
+import org.eclipse.jdt.core.JavaModelException;
+import org.eclipse.jdt.internal.corext.util.JavaModelUtil;
+import org.eclipse.jdt.internal.ui.javaeditor.CompilationUnitEditor;
+import org.eclipse.jdt.ui.IWorkingCopyManager;
+import org.eclipse.jdt.ui.JavaUI;
+import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IEditorReference;
+import org.eclipse.ui.IFileEditorInput;
+import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchWindow;
 import org.jboss.tools.cdi.core.CDICoreNature;
 import org.jboss.tools.cdi.core.CDICorePlugin;
 import org.jboss.tools.cdi.core.IBean;
@@ -49,6 +61,7 @@ import org.jboss.tools.cdi.internal.core.impl.definition.TypeDefinition;
 import org.jboss.tools.cdi.internal.core.scanner.CDIBuilderDelegate;
 import org.jboss.tools.cdi.internal.core.scanner.FileSet;
 import org.jboss.tools.cdi.internal.core.scanner.ImplementationCollector;
+import org.jboss.tools.common.CommonPlugin;
 import org.jboss.tools.common.EclipseUtil;
 import org.jboss.tools.common.java.IJavaReference;
 import org.jboss.tools.common.java.IParametedType;
@@ -77,13 +90,17 @@ public class CDIProjectAsYouType implements ICDIProject {
 		} catch (CoreException e) {
 			CDICorePlugin.getDefault().logError(e);
 		}
+		CDIProject p = ((CDIProject)project).getModifiedCopy(file, beans);
+		if(p != null) {
+			this.project = p;
+		}
 	}
 
 	private void build() throws CoreException {
 		DefinitionContext context = project.getNature().getDefinitions().getCleanCopy();
 		FileSet fileSet = new FileSet();
 		if(file.getName().endsWith(".java")) {
-			ICompilationUnit unit = EclipseUtil.getCompilationUnit(file);
+			ICompilationUnit unit = findCompilationUnit();// EclipseUtil.getCompilationUnit(file);
 			if(unit!=null) {
 				if(file.getName().equals("package-info.java")) {
 					IPackageDeclaration[] pkg = unit.getPackageDeclarations();
@@ -110,6 +127,48 @@ public class CDIProjectAsYouType implements ICDIProject {
 		rebuildAnnotationTypes(context.getAllAnnotations());
 		rebuildBeans(context.getTypeDefinitions());
 
+	}
+
+	private ICompilationUnit findCompilationUnit() {
+		IWorkbench workbench = CommonPlugin.getDefault().getWorkbench();
+		if(workbench != null) {
+			IWorkbenchWindow[] windows = workbench.getWorkbenchWindows();
+			for (IWorkbenchWindow window: windows) {
+				if(window.getShell() != null) {
+					IWorkbenchPage[] pages = window.getPages();
+					for (IWorkbenchPage page: pages) {
+						IEditorReference[] rs = page.getEditorReferences();
+						for (IEditorReference r: rs) {
+							IEditorPart part = r.getEditor(false);
+							if(part != null) {
+								IFile file = getFile(part);
+								if(file != null && file.equals(this.file) && part instanceof CompilationUnitEditor) {
+									IWorkingCopyManager manager= JavaUI.getWorkingCopyManager();
+									ICompilationUnit unit= manager.getWorkingCopy(part.getEditorInput());
+									if(unit != null) {
+										try {
+											unit.reconcile(ICompilationUnit.NO_AST,
+													false /* don't force problem detection */,
+													null /* use primary owner */,
+													null /* no progress monitor */);
+										} catch (JavaModelException e) {
+											CDICorePlugin.getDefault().logError(e);
+										}
+										return unit;
+									}
+								}
+							}							
+						}
+					}
+				}
+			}
+		}
+		return null;
+	}
+
+	private IFile getFile(IEditorPart part) {
+		IEditorInput input = part.getEditorInput();
+		return (input instanceof IFileEditorInput) ? ((IFileEditorInput)input).getFile() : null;
 	}
 
 	synchronized void rebuildAnnotationTypes(List<AnnotationDefinition> ds) {
@@ -183,7 +242,7 @@ public class CDIProjectAsYouType implements ICDIProject {
 			if(!typeDefinition.isVetoed() 
 					    //Type is defined in another project and modified/replaced in config in this (dependent) project
 					    //We should reject type definition based on type, but we have to accept 
-					&& (/*!vetoedTypes.contains(typeName) &&*/ getNature().getDefinitions().getTypeDefinition(typeName) == null && typeDefinition.getOriginalDefinition() == null)) {
+					&& !(/*vetoedTypes.contains(typeName)*/false && getNature().getDefinitions().getTypeDefinition(typeName) == null && typeDefinition.getOriginalDefinition() == null)) {
 				if(typeDefinition.hasBeanConstructor()) {
 					beans.add(bean);
 					newClassBeans.put(typeDefinition.getType(), bean);

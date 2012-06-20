@@ -82,8 +82,9 @@ import org.jboss.tools.common.text.INodeReference;
  * @author Viacheslav Kabanovich
  *
  */
-public class CDIProject extends CDIElement implements ICDIProject {
+public class CDIProject extends CDIElement implements ICDIProject, Cloneable {
 	CDICoreNature n;
+	private ICDIProject declaringProject = this;
 
 	private Map<String, StereotypeElement> stereotypes = new HashMap<String, StereotypeElement>();
 	private Map<IPath, StereotypeElement> stereotypesByPath = new HashMap<IPath, StereotypeElement>();
@@ -113,6 +114,25 @@ public class CDIProject extends CDIElement implements ICDIProject {
 	BeansXMLData projectBeansXMLData = new BeansXMLData();
 
 	public CDIProject() {}
+
+	public CDIProject getModifiedCopy(IFile file, Set<IBean> beans) {
+		CDIProject p = null;
+		try {
+			p = (CDIProject)clone();
+		} catch (CloneNotSupportedException e) {
+			e.printStackTrace();
+			return null;
+		}
+		p.declaringProject = this;
+		p.allBeans = new HashSet<IBean>();
+		synchronized(this) {
+			p.allBeans.addAll(allBeans);
+		}
+		p.allBeans.removeAll(getBeans(file.getFullPath()));
+		p.allBeans.addAll(beans);
+		
+		return p;
+	}
 
 	@Override
 	public CDICoreNature getNature() {
@@ -316,7 +336,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 	 * @see org.jboss.tools.cdi.core.IBeanManager#getBeans(boolean, org.jboss.tools.cdi.core.IInjectionPoint)
 	 */
 	public Set<IBean> getBeans(boolean attemptToResolveAmbiguousDependency, IInjectionPoint injectionPoint) {
-		if(injectionPoint.getDeclaringProject() != this) {
+		if(injectionPoint.getDeclaringProject() != getDeclaringProject()) {
 			return injectionPoint.getDeclaringProject().getBeans(attemptToResolveAmbiguousDependency, injectionPoint);
 		}
 		Set<IBean> result = new HashSet<IBean>();
@@ -1028,7 +1048,7 @@ public class CDIProject extends CDIElement implements ICDIProject {
 
 	@Override
 	public ICDIProject getDeclaringProject() {
-		return this;
+		return declaringProject;
 	}
 
 	@Override
